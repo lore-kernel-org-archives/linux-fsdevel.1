@@ -1,105 +1,149 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553D42E06E4;
-	Tue, 25 Aug 2026 13:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1377148094F;
+	Tue, 25 Aug 2026 13:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787665367; cv=none; b=dHgHroqwG8gvRh8yVPCBfKJjqHQ+Rki+cMUJxXB1UdRGLx0Wmnc1P0ReLBp3Xn3dOVTDvpZIpLvSikgFdvpOOvq3IZgJzL/EU8fUu5mGE+3TgPHfOURD5/84SLDcPUm33NzVEsVcK+FUxqom5dNhRnPHGbhtKWd0Sub9V6j4xLc=
+	t=1787665412; cv=none; b=jttrgasRDDoY/xA/TeIbOZElOLeiolcwv7Owut6kbV98AjDpEuC/ekwv3D+5QkXF6S/g03z5N5dk/IhTq2pLQl3yUgqvX77Z95QskA09GoM0+sGHmKujs/9OiSQeBgp1qWBN3ni2u8iD4jPC4glLlPwl5h/lHaPiJ8c3piaLVfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787665367; c=relaxed/simple;
-	bh=RAeO6nyzsto4THOPII8Lhn2KD/5f7sb4XDD8FP4is4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i5pRYa0DkwsnHNM50l31T6iyRAZaQqWATCe7kvFZh6RFxh7NvZchRUDb+vPehB9JhbYumvH0c07CTcETfIVUOHxVv7cES1+J+rb6NIeKEBYhzlaYLRuSljuNk86V1jn83mY/isRXSSFLBdJR35JBx5Kbj83TQL/r+H+OEZt/UTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GhBex4Nf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787665412; c=relaxed/simple;
+	bh=U5Yi9mjH/C5027DAriD3cS4tVRGGXDxJQw5fYNEo0ek=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fIOALbUCGngE3gz0M++ioNEKXaiYpOD/fQLq4P3K9l4MZxxJxI4JZHz7R2EgIXHpX+nZ+XmtzypVvIebgEvKQCIJOjYOkF3MjlizJgZW28ufzwGVOZ+dqaQeUgeYgwQwYfTPfTqafp8UKcRVTHcDBrRAEuVYkMdO+19Kk9CrNhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2A/wCbuZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GhBex4Nf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D931F00A3D;
-	Tue, 25 Aug 2026 13:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787665366;
-	bh=RAeO6nyzsto4THOPII8Lhn2KD/5f7sb4XDD8FP4is4I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GhBex4NfYPWHAIis5wTwo0tQjKG0lEFiWWqT4AQg20VnPw65oPAP/ZjSBF87ydOy2
-	 Dj5OuprDFDH9S2asvTA9JHcSPvk0+8xggfaitkr3FK2GGKPGPl5xETSIR0dVpWvAfC
-	 cXQWCNYrMYu/fgRgUR5Zwg91ussB2GAA8VT7l1VZgOatlF0HnMgp+XrUnGGSYJYzOO
-	 Ckv9lrJOtp389yjaUjC80xmQDUkR/SqEJd1GkGSkqmgmPzC12z0nNoHBt6esAy6l9Z
-	 CiXZuotZstCJD+E81JYGtDcC/6JESfGN+93090PCKU9OCWimw/uqBIYF+n9m7Re59L
-	 RwiIpFdanGSRQ==
-Date: Tue, 25 Aug 2026 14:42:38 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Jann Horn <jannh@google.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jeff Xu <jeffxu@google.com>, =?utf-8?B?VGhpw6liYXVk?= Weksteen <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org
-Subject: Re: [PATCH 2/3] proc: query LSMs for introspective mem access (if
- PROC_MEM_FORCE_ALWAYS)
-Message-ID: <ao2a33Xf3U0kQmM_@gremlin>
-References: <20260818-selinux-pokemem-v1-0-90cd2357ee05@google.com>
- <20260818-selinux-pokemem-v1-2-90cd2357ee05@google.com>
- <741a833d-6889-4ee6-9322-d6a3a8b95893@kernel.org>
- <CAG48ez2Ngo3=VtyykXY6ynVzGwA8px-p4zV3V6U=YfgV-Hy4BA@mail.gmail.com>
- <dd8c34a9-0e09-453b-88e1-0a5511816627@kernel.org>
- <CAG48ez2bZEV+3ww2x9XV_5vRPZ_3jU_zg6+h=BDKQ94Xrd3Tqg@mail.gmail.com>
- <aoibvf6CY99IXynk@gremlin>
- <CAG48ez0CX-PT5Yk5gYJuB6wPe26j0gHHXQqYoNtTA=iHe_5Wdw@mail.gmail.com>
- <aox7tVIQBMuz-xFO@gremlin>
- <CAG48ez2-8UjzOp=St5eTPyG_yd2iBmPF6y7qVBTNaPNJgoX=BA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2A/wCbuZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 736321F000E9;
+	Tue, 25 Aug 2026 13:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1787665411;
+	bh=rmJtCMVBjay2n/U0dxbsYTKZJ0f4XUSNvJQ5PRNR1XQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=2A/wCbuZgyhu833XfxLJKVD2y30NKHcg5Ox0fFnE+UmVez0uZp+xjWi9ZfGsgKIHP
+	 36lSt/UV73XpCAcbc6AeIn+YvioTFbusftWkwAOP7uEm9HPbwbFhhuNDx7JzGghX3G
+	 kTIcRgLuIUhpAo4TxvjMve34N85eXKfnOqvuGCss=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	netfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	Shishkin Aleksey <demonaxsh@gmail.com>
+Subject: [PATCH 6.12 08/77] netfs: Fix potential UAF in netfs_unlock_abandoned_read_pages()
+Date: Tue, 25 Aug 2026 15:25:30 +0200
+Message-ID: <20260825132541.880648723@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260825132541.580275153@linuxfoundation.org>
+References: <20260825132541.580275153@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG48ez2-8UjzOp=St5eTPyG_yd2iBmPF6y7qVBTNaPNJgoX=BA@mail.gmail.com>
 
-On Mon, Aug 24, 2026 at 07:43:02PM +0200, Jann Horn wrote:
-> On Mon, Aug 24, 2026 at 7:33 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> > On Mon, Aug 24, 2026 at 07:06:04PM +0200, Jann Horn wrote:
-> > > On Fri, Aug 21, 2026 at 8:52 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> > > > The sharing a /proc/mem fd seems like that's a pretty dumb thing to do in
-> > > > general :) but I guess you have to protect against that.
-> > >
-> > > Yeah, it's a kinda weird thing to do...
-> >
-> > Yup :)) but I guess we have to account for people doing weird stuff...
-> >
-> > In this case (I do mention it in a reply elsewhere I think) it does seem
-> > like perhaps you should separately check for current->mm != mm of (what was
-> > originally /proc/self/mm)?
->
-> I wouldn't want to do it for this access check, since that could lead
-> to "confused deputy" problems.
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
-I guess if it got the decision wrong somehow that'd be a problem? Or wrongly
-OK'd it on one level but then that led to the fd being passed on assumption it
-was OK to do it or something?
+------------------
 
->
-> > Or at least it seems like a crazy thing to be able to get full access to
-> > another process's memory (that it... gave you though).
-> >
-> > Anyway perhaps overthinking it :)
->
-> Hm, yes, though I guess that is kind of orthogonal.
->
-> For what it's worth, SELinux can prevent such things happening across
-> domain boundaries - it enforces that, in the SELinux ruleset, the
-> process calling read()/write() on an FD is granted FILE__READ /
-> FILE__WRITE permission to the file's inode.
+From: David Howells <dhowells@redhat.com>
 
-Ah OK that's good that it's at least possible to check for this class of problem
-so the rest is moot then :)
+commit dbe556972100fabb8e5a1b3d2163831ff07b1e8e upstream.
+
+netfs_unlock_abandoned_read_pages(rreq) accesses the index of the folios it
+is wanting to unlock and compares that to rreq->no_unlock_folio so that it
+doesn't unlock a folio being read for netfs_perform_write() or
+netfs_write_begin().
+
+However, given that netfs_unlock_abandoned_read_pages() is called _after_
+NETFS_RREQ_IN_PROGRESS is cleared, the one folio that it's not allowed to
+dereference is the one specified by ->no_unlock_folio as ownership
+immediately reverts to the caller.
+
+Fix this by storing the folio pointer instead and using that rather than
+the index.  Also fix netfs_unlock_read_folio() where the same applies.
+
+Fixes: ee4cdf7ba857 ("netfs: Speed up buffered reading")
+Closes: https://sashiko.dev/#/patchset/20260414082004.3756080-1-dhowells%40redhat.com
+Signed-off-by: David Howells <dhowells@redhat.com>
+Link: https://patch.msgid.link/20260512123404.719402-20-dhowells@redhat.com
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+cc: Matthew Wilcox <willy@infradead.org>
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Shishkin Aleksey <demonaxsh@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ fs/netfs/buffered_read.c |    4 ++--
+ fs/netfs/read_collect.c  |    2 +-
+ fs/netfs/read_retry.c    |    2 +-
+ include/linux/netfs.h    |    2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+--- a/fs/netfs/buffered_read.c
++++ b/fs/netfs/buffered_read.c
+@@ -734,7 +734,7 @@ retry:
+ 		ret = PTR_ERR(rreq);
+ 		goto error;
+ 	}
+-	rreq->no_unlock_folio	= folio->index;
++	rreq->no_unlock_folio	= folio;
+ 	__set_bit(NETFS_RREQ_NO_UNLOCK_FOLIO, &rreq->flags);
+ 
+ 	ret = netfs_begin_cache_read(rreq, ctx);
+@@ -800,7 +800,7 @@ int netfs_prefetch_for_write(struct file
+ 		goto error;
+ 	}
+ 
+-	rreq->no_unlock_folio = folio->index;
++	rreq->no_unlock_folio = folio;
+ 	__set_bit(NETFS_RREQ_NO_UNLOCK_FOLIO, &rreq->flags);
+ 	ret = netfs_begin_cache_read(rreq, ctx);
+ 	if (ret == -ENOMEM || ret == -EINTR || ret == -ERESTARTSYS)
+--- a/fs/netfs/read_collect.c
++++ b/fs/netfs/read_collect.c
+@@ -73,7 +73,7 @@ static void netfs_unlock_read_folio(stru
+ 	}
+ 
+ 	if (!test_bit(NETFS_RREQ_DONT_UNLOCK_FOLIOS, &rreq->flags)) {
+-		if (folio->index == rreq->no_unlock_folio &&
++		if (folio == rreq->no_unlock_folio &&
+ 		    test_bit(NETFS_RREQ_NO_UNLOCK_FOLIO, &rreq->flags)) {
+ 			_debug("no unlock");
+ 		} else {
+--- a/fs/netfs/read_retry.c
++++ b/fs/netfs/read_retry.c
+@@ -249,7 +249,7 @@ void netfs_unlock_abandoned_read_pages(s
+ 			struct folio *folio = folioq_folio(p, slot);
+ 
+ 			if (folio && !folioq_is_marked2(p, slot)) {
+-				if (folio->index == rreq->no_unlock_folio &&
++				if (folio == rreq->no_unlock_folio &&
+ 				    test_bit(NETFS_RREQ_NO_UNLOCK_FOLIO,
+ 					     &rreq->flags)) {
+ 					_debug("no unlock");
+--- a/include/linux/netfs.h
++++ b/include/linux/netfs.h
+@@ -266,7 +266,7 @@ struct netfs_io_request {
+ 	atomic64_t		issued_to;	/* Write issuer folio cursor */
+ 	unsigned long long	collected_to;	/* Point we've collected to */
+ 	unsigned long long	cleaned_to;	/* Position we've cleaned folios to */
+-	pgoff_t			no_unlock_folio; /* Don't unlock this folio after read */
++	const struct folio	*no_unlock_folio; /* Don't unlock this folio after read */
+ 	size_t			prev_donated;	/* Fallback for subreq->prev_donated */
+ 	refcount_t		ref;
+ 	unsigned long		flags;
 
 
---
-Cheers, Lorenzo
