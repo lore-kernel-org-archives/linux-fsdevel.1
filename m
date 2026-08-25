@@ -1,205 +1,258 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E13A2BE644;
-	Tue, 25 Aug 2026 06:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787638826; cv=none; b=fvEIY1IDE9iuwHH4U42bwXyBMf+GxCQ47frOnRqXI1rX88motyMfyLdGC8ND9f0frtwNocl/2l+an78oFHlkc9IcWcaydKPh1ldbLbzm3sfOaERaD/Xi7/ldgFSfho5Bcy3xKTBag+UMi2RyVvnRAyh/IEgFPl9Ir5oSqrkNOPE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787638826; c=relaxed/simple;
-	bh=UwAVE8feyzEEVa7B3YVGRwg0taJTQAUkktooec9JQes=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cxkW82iHLXaskLxyO6uG3WtZYSnIQsfL6XmcQmcBghhOqGX4sekkA5l0Em7ngxlybEYBw2RtSNg6tlei7KxCLUG2SPOLHT2gngKndlmeurjUymBjugP2xE00btwjE/IWeJIj78LgDQC1YjOi6jzafvS0fktmtUi/Pkh94URTHZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=b0B4lFod; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C733BAD88
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 06:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787640233; cv=pass; b=VocjIyBxcqdcJ3NkxkfyrhYRv7KLAv0YrdCusoiVdD8crK11mt8/i0TS8DBGZkXM7OElUHJEniTyD+7pAb3Xnqgetvw88CBmQZvwg7Tb6XINhvEfW1KfWgopz/H4/a7WXhecZOdQVOq8clsyfdi2sFKgJR+2Y46DH4KfKsx7oqE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787640233; c=relaxed/simple;
+	bh=w7CvR+LFMAh5RyewUsu4APqwxK1gMuLsaW6KayNAcNE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=De2rFkl19YTH/gQc2qafquh9MNQ0nWGvs/7wVBXl8TxYcYOrQlV++7VttcroJunrcHZozNVcNJecFaVSEFfA+Ees/nIKQoK4LIXhHZBYzJSIoq+0iIVI4kYP9CmGG6DtVqNpyg79UAYbVG5TpAkPVmJyQCd2ixqeeOzNtAOb8Tc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z38Mxb2t; arc=pass smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="b0B4lFod"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ocLSwSEGwFnmhH+Iqzhe0daYm5t7ZVnHocyZcda2cao=; b=b0B4lFodYJY+K2zHiZL5uOLfuO
-	fh0h3Mw4Gc1G8fNJpzblMX0AfnnfJwmXMNJO1cFoHrJ5pfKsz0kXrdoiCQuFD79QYpyXABYcYzKVK
-	NpUr9Nf/4tBmamhCaS9EhjLtjjkomhwHw/9cWtlfcyxlyUcVs65bKcsVFvoeybbTETiBDBKDNkG1Z
-	uqPE99JqqU2W9MajQGyX3ub2osOCJamEtj7LJ7S3pveUaFMgOAP+edmjUBTWQv7691Bd9kqIv2bMD
-	I8bTsbTuWbMQXrxzyIv8aFna4pHy0vsWjbAlcoX00RWn5NiyALwCUqVnn0pfeUsKNRje+KBOINntj
-	S6JWMUgw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wykWG-00000000Dlq-2s2p;
-	Tue, 25 Aug 2026 06:20:24 +0000
-Date: Mon, 24 Aug 2026 23:20:24 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-	Ameer Hamza <ameer.hamza@truenas.com>,
-	Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH v1] splice: emit a single fsnotify access event per NFSD
- READ
-Message-ID: <ao00KJYNtQqHQGhl@infradead.org>
-References: <20260824161021.245575-1-cel@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z38Mxb2t"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aeb8c19017so6085919e87.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 24 Aug 2026 23:43:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787640228; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kF89shu1iwsiXhdDCx3I52SIMKFBrIFeGMkMFn1wOga/DN6sWaQ9SpKCY+vnqFQwAd
+         A+WtZNEdckQq+MaFGqUeflFQAL8mffNJYK1D858pk8WSHIu3TxTHYmgFq4OavSQzwgzk
+         wDKy6EiRHVqTp1Xt2z1LZZY6QZGpKJz2QnoU1DGEvOHnhGdZmi9MebYQABfDv5uaGe0b
+         DFbSfUT3WGQOAlCIbRD5j+dN78jukNC+mdQDXkzNrva4rf33f93yz4ldk5B+HdHRmSCn
+         JS2UeqGjXKai8+/kw5Hmm0vtFFv0kVF0kFdITrdBBPgjRjY7J0qOAZaZAFYu9surptEQ
+         Nx3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YFFnhjcWX2esFqzTXKdNV82QT3BiE47cZiKBya4IY2Y=;
+        fh=qzrujVm4RFVbTSspNeRLg0jgT5J4LX6GTGNPjGyukJs=;
+        b=JnWVbFr5Jl9/7ypjcylgspLoT34S9yb3nUI3CUdhccC2zBIlIqim4jTJjjEAM8bSsP
+         Vm1lCDYPzLm645uf51V5XlPOMxwGJYCbT83mVN50HDAo5Eo8dGZ0MkYxGj/DwCzHw8jV
+         FGNH7V1cGVYGHQAQWTPsL/0lGhK/Qdf1tgy8ifRUVaSbJXHa3pP5KWxmgsL1X72YDsIK
+         UgZQ6BLqyuzGQwJTO6bEntkjb4GRsS6ajhXwos+f5uFI8+ZMnbBZn+mmXCaGyG/e5Gvo
+         96KgVKX8g/BR2zSDQ8p5/0z40j2EvqbInfWIZycrVRf6DbEZpVRERSAPbXmuwe1YzVx2
+         +VbQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787640228; x=1788245028; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YFFnhjcWX2esFqzTXKdNV82QT3BiE47cZiKBya4IY2Y=;
+        b=Z38Mxb2tYmHyfn0R8OOmPQPiitbP9qs6sFDRtIJdg92rLXuGDCLvyYhy9/NFQ1LQ7x
+         +v+RPPDnDhxC8H1qiHIaEOtIzY0mJmvv08jyx4q7lNQqmEzmtnkJJiqI4Sl0mOIZ6AyR
+         RnNPhc0z0U/DdRzRf+blpC9+yz5f//KmS6OW+fkF7A6jJpdx/Op5ms73w2Nf7W0uiBdF
+         RoZwWPAW2Q+QMHooUc3zrWGLLBrmPIiel52zl3NmvWp9X7KDGqWUp8tRzlqIdpkZouVa
+         HF180k1o/ekp5dyFxwCuP0xr8axbzteYlyIVyTZbJEZcb21QO2yDmsVnSX9qnQMsgabc
+         CYxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787640228; x=1788245028;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YFFnhjcWX2esFqzTXKdNV82QT3BiE47cZiKBya4IY2Y=;
+        b=U/O+VpyQj6Fd3X+nWXvl0+nHQXamwaQaNFswyEPOsRs5VnQcoFsm17aDv1YQ8SOqon
+         y+TccwuoMA5UVbQ6x9IJJM5ilO+Drak8OK17fMwHGosn386jG/dElmSHm6cIs4tJ0Ov5
+         WfditvVq7dLX9ZFqkMuwAXiQ6Q1Ob41GFeMnEoWE9VZS/umS58KRnMRU7HRyziKobm3B
+         ZgEYilDNw72IO3ZgDIjsaprYaeoAH5cMhOoSToLVKJMdWb9MkHWWL6oXJ4mhjl3AtWsv
+         UQto9A28lwt43ohLoTKk097eHsPASoiq4OE20c3ppStmjzGKgh5Ty9PYhlmnlaKLZExl
+         42DA==
+X-Forwarded-Encrypted: i=1; AHgh+Rrr2vGJSDB/eAIX9vSR58r7GpOGT55lw6KVB65mp0sEpvilqVv4GZvYnmZIR07bGRAa4DTW4gt8pjvK2qbm@vger.kernel.org
+X-Gm-Message-State: AFuF++lGPtTbvWBHnuWNG22DGbgo7USOrSIp8Orv4WQzvmw8DyrGyJZW
+	qZ3pTR8syxw69WU8Xw930b8PLyCsBCTkU4viWE9mkXkM7zikFic9+q1AJwhQS9Zp00yarj4/LUG
+	iW974jg7crXQAttKBQaUeW9kk3az7xJ0=
+X-Gm-Gg: AR+sD12zJyR0Mp4vqsx1wu0TTte5TffKJnFnifaeHqq9ERlNKSiETMCGp6+RP2WssEj
+	YIPoYGEdqVYKNQwHi1tx/gqoMiNfP3Mn6RdaND9KN2+AqaGyAcpNkeLJvLLmf6NOeYreLsMATDQ
+	ngto2WPfY5D5oExwsPYwFMUPPdb5gDOvR6Tx+B23EdpII//GX2Q+GiKJhZb4AaA+eae58uhpqgc
+	J5AUEfl4/ip3WsTobNsIIAUoBC3eNmWwQyT7SJNE5aUwur3o0cGtAwxdGHAdL6dUptG4AkQ7C64
+	oSOWTLL6Fm4poQYMAmT7hLhdWt66vi9dGepqbFJzb0XiNg==
+X-Received: by 2002:a05:6512:8349:b0:5b0:113d:8ad9 with SMTP id
+ 2adb3069b0e04-5b48422248bmr7654211e87.12.1787640227948; Mon, 24 Aug 2026
+ 23:43:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260824161021.245575-1-cel@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20260820071438.695893-1-qiwenjie@xiaomi.com> <cover.1787564706.git.qiwenjie@xiaomi.com>
+ <ef06bf67db77a009d5fc2932069c2b3366d972c4.1787564706.git.qiwenjie@xiaomi.com> <ao0stlR57iUgrY2Y@infradead.org>
+In-Reply-To: <ao0stlR57iUgrY2Y@infradead.org>
+From: Wenjie Qi <qwjhust@gmail.com>
+Date: Tue, 25 Aug 2026 14:43:36 +0800
+X-Gm-Features: AcwNN1XlfhuMbQQSog0MnhYGpEbeFP_-um6bcH3M-yGPRIQpgDsdeDCHwg1wJxU
+Message-ID: <CAGFpFsQmT47aXkRb=6csbTTeTzaG4jGoyFwHJY_TiNEouKeKuw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] f2fs: complete dropbehind write bios in safe task context
+To: Christoph Hellwig <hch@infradead.org>
+Cc: jaegeuk@kernel.org, chao@kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org, 
+	qiwenjie@xiaomi.com, Jens Axboe <axboe@kernel.dk>, Tal Zussman <tz2294@columbia.edu>, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 24, 2026 at 12:10:21PM -0400, Chuck Lever wrote:
-> nfsd_finish_read() calls fsnotify_access() on both NFSD read paths,
-> because splice_direct_to_actor() does not emit the event itself. The
-> iterator path reaches nfsd_finish_read() from vfs_iocb_iter_read(),
-> which has already emitted one. A READ served without splice therefore
-> emits two access events.
-> 
-> NFSD does not use splice for the GSS integrity and privacy services, so
-> a READ on a sec=krb5i or sec=krb5p mount takes the iterator. An inotify
-> watch on that file sees the READ twice.
-> 
-> Reported-by: Ameer Hamza <ameer.hamza@truenas.com>
-> Closes: https://lore.kernel.org/linux-nfs/20260818225715.572140-1-ameer.hamza@truenas.com/
-> Suggested-by: Amir Goldstein <amir73il@gmail.com>
-> Link: https://lore.kernel.org/linux-nfs/CAOQ4uxgUOqFv6pVmdT_+4DjA0KQoQDCzN2Xz=xm1FyumewHZXg@mail.gmail.com/
-> Signed-off-by: Chuck Lever <cel@kernel.org>
-> ---
->  fs/nfsd/vfs.c          |  7 ++----
->  fs/splice.c            | 56 +++++++++++++++++++++++++++++++-----------
->  include/linux/splice.h |  4 +--
->  3 files changed, 45 insertions(+), 22 deletions(-)
-> 
-> diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
-> index f9131827d391..c134064a1c79 100644
-> --- a/fs/nfsd/vfs.c
-> +++ b/fs/nfsd/vfs.c
-> @@ -1046,7 +1046,6 @@ static __be32 nfsd_finish_read(struct svc_rqst *rqstp, struct svc_fh *fhp,
->  		nfsd_stats_io_read_add(nn, fhp->fh_export, host_err);
->  		*eof = nfsd_eof_on_read(file, offset, host_err, *count);
->  		*count = host_err;
-> -		fsnotify_access(file);
->  		trace_nfsd_read_io_done(rqstp, fhp, offset, *count);
->  		return 0;
->  	} else {
-> @@ -1080,10 +1079,8 @@ __be32 nfsd_splice_read(struct svc_rqst *rqstp, struct svc_fh *fhp,
->  	ssize_t host_err;
->  
->  	trace_nfsd_read_splice(rqstp, fhp, offset, *count);
-> -	host_err = rw_verify_area(READ, file, &offset, *count);
-> -	if (!host_err)
-> -		host_err = splice_direct_to_actor(file, &sd,
-> -						  nfsd_direct_splice_actor);
-> +	host_err = vfs_splice_direct_to_actor(file, &sd,
-> +					      nfsd_direct_splice_actor);
->  	return nfsd_finish_read(rqstp, fhp, file, offset, count, eof, host_err);
->  }
->  
-> diff --git a/fs/splice.c b/fs/splice.c
-> index 9d8f63e2fd1a..42ad712a0f4d 100644
-> --- a/fs/splice.c
-> +++ b/fs/splice.c
-> @@ -1009,21 +1009,14 @@ ssize_t vfs_splice_read(struct file *in, loff_t *ppos,
->  }
->  EXPORT_SYMBOL_GPL(vfs_splice_read);
->  
-> -/**
-> - * splice_direct_to_actor - splices data directly between two non-pipes
-> - * @in:		file to splice from
-> - * @sd:		actor information on where to splice to
-> - * @actor:	handles the data splicing
-> - *
-> - * Description:
-> - *    This is a special case helper to splice directly between two
-> - *    points, without requiring an explicit pipe. Internally an allocated
-> - *    pipe is cached in the process, and reused during the lifetime of
-> - *    that process.
-> - *
-> +/*
-> + * This is a special case helper to splice directly between two
-> + * points, without requiring an explicit pipe. Internally an allocated
-> + * pipe is cached in the process, and reused during the lifetime of
-> + * that process.
->   */
-> -ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
-> -			       splice_direct_actor *actor)
-> +static ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
-> +				      splice_direct_actor *actor)
->  {
->  	struct pipe_inode_info *pipe;
->  	ssize_t ret, bytes;
-> @@ -1147,7 +1140,40 @@ ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
->  
->  	goto done;
->  }
-> -EXPORT_SYMBOL(splice_direct_to_actor);
-> +
-> +/**
-> + * vfs_splice_direct_to_actor - splice from a file through a caller's actor
+  Thanks, I missed that these helpers had landed for 7.3.
 
-Can we use this to start retiring the really weird direct terminology
-here that is confusing?  I.e. name this vfs_splice_to_actor?
-With that we'll only need to fix up do_splice_direct (which is an event
-worse name) to fix the public API.
+  I'll rebase the next revision and use BIO_COMPLETE_IN_TASK for dropbehind
+  write bios, removing the F2FS-local context check and dropbehind-specific
+  workqueue deferral. I'll also Cc the people and lists involved with the
+  common code.
 
-> + * @in:		file to splice from; must be seekable (FMODE_LSEEK)
-> + * @sd:		splice parameters. The caller sets @sd->pos and
-> + *		@sd->total_len. @sd->pos advances as data is consumed,
-> + *		and @sd->total_len is overwritten with the length of
-> + *		each read.
-> + * @actor:	consumes each pipe-full and returns the number of
-> + *		bytes taken
-
-The @ line should just have a short description of the parameter and
-not explain all the details.
-
-> + *
-> + * Description:
-
-And this Description is accepted by te parset, but redundant.
-
-I'd rework the kerneldoc as:
-
-/**
- * vfs_splice_to_actor - call an actor on data read from a file
- * @in:		file to read from
- * @sd:		splice parameter descriptor
- * @actor:	callback to process a pipes worth of data
- *
- * Read up to @sd->total_len worth of data from @in, and call @actor when the
- * hidden pipe used to buffer the data is full. The caller must set @sd->pos and
- * @sd->total_len. @sd->pos advances as data is consumed, and @sd->total_len is
- * overwritten with the length of data read.
- *
- * Ensures the read is allowed using rw_verify_area() and emits fsnotify access
- * events. @in must be seekable (FMODE_LSEEK).
- *
- * Return: The number of bytes spliced, or a negative errno.
- */
-
-And, looking at the weird semantics of the splice_desc, maybe an even
-better idea is to build that inside of vfs_splice_direct_to_actor
-and pass in pos, len, and private_data instead?
-
-I.e.:
-
-/**
- * vfs_splice_to_actor - call an actor on data read from a file
- * @in:		file to read from
- * @pos:	file offset
- * @count:	maximum number of bytes to read
- * @actor:	callback to process a pipes worth of data
- * @private:	private data passed to @actor
- *
- * Read up to @count worth of data from @in at @pos, and call @actor when the
- * hidden pipe used to buffer the data is full.
- *
- * Ensures the read is allowed using rw_verify_area() and emits fsnotify access
- * events. @in must be seekable (FMODE_LSEEK).
- *
- * Return: The number of bytes spliced, or a negative errno.
- */
+On Tue, Aug 25, 2026 at 1:48=E2=80=AFPM Christoph Hellwig <hch@infradead.or=
+g> wrote:
+>
+> On Mon, Aug 24, 2026 at 06:33:46PM +0800, Wenjie Qi wrote:
+> > Buffered RWF_DONTCACHE writes invalidate dropbehind folios from writeba=
+ck
+> > completion. Keep normal and dropbehind folios in separate write bios, a=
+nd
+> > defer dropbehind bios to sbi->wq unless completion runs in preemptible =
+task
+> > context.
+> >
+> > Use an F2FS-local context check for this decision. Task context alone i=
+s
+> > not sufficient: preemption may still be disabled, or completion may run=
+ in
+> > a preemptible RCU read-side critical section.
+> >
+> > Keep the existing large-ATC deferral unchanged.
+>
+> Please reuse all the helpers added in common code in 7.3 for deferring
+> bios and tsting if that that is neeeded instead of badly reinventing
+> the logic.  It also is really helpful to Cc people involved with the
+> code and the relevant mailing lists.
+>
+> >
+> > Signed-off-by: Wenjie Qi <qiwenjie@xiaomi.com>
+> > ---
+> >  fs/f2fs/data.c | 50 ++++++++++++++++++++++++++++++++++++++++++--------
+> >  1 file changed, 42 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
+> > index 6ae0eb37d20..774a3e2d8e3 100644
+> > --- a/fs/f2fs/data.c
+> > +++ b/fs/f2fs/data.c
+> > @@ -21,6 +21,7 @@
+> >  #include <linux/fiemap.h>
+> >  #include <linux/iomap.h>
+> >  #include <linux/fserror.h>
+> > +#include <linux/rcupdate.h>
+> >
+> >  #include "f2fs.h"
+> >  #include "node.h"
+> > @@ -43,9 +44,29 @@ struct f2fs_folio_state {
+> >
+> >  struct f2fs_bio {
+> >       struct work_struct work;
+> > +     bool dropbehind;
+> >       struct bio bio;
+> >  };
+> >
+> > +static struct f2fs_bio *to_f2fs_bio(struct bio *bio)
+> > +{
+> > +     return container_of(bio, struct f2fs_bio, bio);
+> > +}
+> > +
+> > +/* Keep in sync with the proposed block-layer bio_in_atomic(). */
+> > +static bool f2fs_bio_in_atomic(void)
+> > +{
+> > +#ifdef CONFIG_PREEMPTION
+> > +     if (rcu_preempt_depth())
+> > +             return true;
+> > +#endif
+> > +#ifndef CONFIG_PREEMPT_COUNT
+> > +     return true;
+> > +#else
+> > +     return !preemptible();
+> > +#endif
+> > +}
+> > +
+> >  #define      F2FS_BIO_POOL_SIZE      NR_CURSEG_TYPE
+> >
+> >  int __init f2fs_init_bioset(void)
+> > @@ -426,12 +447,13 @@ static void f2fs_write_end_io(struct bio *bio)
+> >
+> >       sbi =3D bio->bi_private;
+> >
+> > -     if (in_atomic() && bio->bi_iter.bi_size > sbi->max_atc_write_bio_=
+size) {
+> > -             struct work_struct *w;
+> > +     if ((to_f2fs_bio(bio)->dropbehind && f2fs_bio_in_atomic()) ||
+> > +         (in_atomic() &&
+> > +          bio->bi_iter.bi_size > sbi->max_atc_write_bio_size)) {
+> > +             struct work_struct *work =3D &to_f2fs_bio(bio)->work;
+> >
+> > -             w =3D &container_of(bio, struct f2fs_bio, bio)->work;
+> > -             INIT_WORK(w, f2fs_write_end_io_work);
+> > -             queue_work(sbi->wq, w);
+> > +             INIT_WORK(work, f2fs_write_end_io_work);
+> > +             queue_work(sbi->wq, work);
+> >       } else {
+> >               f2fs_write_end_bio(bio);
+> >       }
+> > @@ -530,6 +552,8 @@ static struct bio *__bio_alloc(struct f2fs_io_info =
+*fio, int npages)
+> >       bio =3D bio_alloc_bioset(bdev, npages,
+> >                               fio->op | fio->op_flags | f2fs_io_flags(f=
+io),
+> >                               GFP_NOIO, &f2fs_bioset);
+> > +     to_f2fs_bio(bio)->dropbehind =3D
+> > +                     !is_read_io(fio->op) && folio_test_dropbehind(fio=
+->folio);
+> >       bio->bi_iter.bi_sector =3D sector;
+> >       if (is_read_io(fio->op)) {
+> >               bio->bi_end_io =3D f2fs_read_end_io;
+> > @@ -825,6 +849,13 @@ static bool page_is_mergeable(struct f2fs_sb_info =
+*sbi, struct bio *bio,
+> >       return bio->bi_bdev =3D=3D f2fs_target_device(sbi, cur_blkaddr, N=
+ULL);
+> >  }
+> >
+> > +static bool f2fs_bio_dropbehind_mergeable(struct bio *bio,
+> > +                                       struct f2fs_io_info *fio)
+> > +{
+> > +     return to_f2fs_bio(bio)->dropbehind =3D=3D
+> > +             folio_test_dropbehind(fio->folio);
+> > +}
+> > +
+> >  static bool io_type_is_mergeable(struct f2fs_bio_info *io,
+> >                                               struct f2fs_io_info *fio)
+> >  {
+> > @@ -1017,8 +1048,10 @@ int f2fs_merge_page_bio(struct f2fs_io_info *fio=
+)
+> >
+> >       trace_f2fs_submit_folio_bio(data_folio, fio);
+> >
+> > -     if (bio && !page_is_mergeable(fio->sbi, bio, *fio->last_block,
+> > -                                             fio->new_blkaddr))
+> > +     if (bio &&
+> > +         (!page_is_mergeable(fio->sbi, bio, *fio->last_block,
+> > +                             fio->new_blkaddr) ||
+> > +          !f2fs_bio_dropbehind_mergeable(bio, fio)))
+> >               f2fs_submit_merged_ipu_write(fio->sbi, &bio, NULL);
+> >  alloc_new:
+> >       if (!bio) {
+> > @@ -1118,7 +1151,8 @@ void f2fs_submit_page_write(struct f2fs_io_info *=
+fio)
+> >           (!io_is_mergeable(sbi, io->bio, io, fio, io->last_block_in_bi=
+o,
+> >                             fio->new_blkaddr) ||
+> >            !f2fs_crypt_mergeable_bio(io->bio, fio_inode(fio),
+> > -                             bio_folio->index, fio)))
+> > +                             bio_folio->index, fio) ||
+> > +          !f2fs_bio_dropbehind_mergeable(io->bio, fio)))
+> >               __submit_merged_bio(io);
+> >  alloc_new:
+> >       if (io->bio =3D=3D NULL) {
+> > --
+> > 2.43.0
+> >
+> ---end quoted text---
