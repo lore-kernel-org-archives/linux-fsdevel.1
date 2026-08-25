@@ -1,160 +1,120 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5194A36194A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 18:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6C9349CD6
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 18:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787683177; cv=none; b=IlohbJnKGi+Kv+cSpeJrD3/oV3k7piiRjRv1/Rj5Fva2VajtQU+Pu7rUtpqFWw/Ud8y8snAaeTkkf5FbY2FklK+gLtr/ypNTsc85urNZoTpUpYxb9qfBgopKL7+M6YJe85qOiQN1+0HAfAI5DqpGZfHeRQksZa4lUPx5yNtd494=
+	t=1787683306; cv=none; b=ZKTeZ2f6o7jeHKTWJyzy5QP4KGPDR0mJuY+r34T6EJaNtiE0xHMlSFyKTpRA5EoV01U6ZXlou31zJ+bwigm5IXW8ovmDZPBOMGOfFdaL2QTLn/wjq9sh1tFz5XQf6WXniuzpySGGeIZG/LbjRiJbI/SyyHUmlh7s5UbhxjPRBRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787683177; c=relaxed/simple;
-	bh=Ns+udTpi8SWKloYkKMw8Din2oarGSCfqpMuFm48xRLo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jd02+WOowcu6XX5fNMJORv775Y8OSoWgwln5bAOvGWf/cYEC/yB5UgB2fM+bj4SrXnxgEdLEqrbFcKFYXUFX8wN2amMh6Qf2XIUvF8YuRKkPtcf6QJ1+a9jqW0q/oQEh/LZPlxBjnT8UvPSBCMRzL1QlW2eLab5Cmql5oB3IYGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FIny9rHC; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1787683306; c=relaxed/simple;
+	bh=yp9fDNuc/TYw1U9yV7rwSzQiV19dyM8RMWrZRAssEc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=orxDppQ8qxZsNItqEc9nB9AX62DWS9FbOWrLPgHuVvYqwZwHnwW+/bFSiHKk84J7SRqckHg5ylSnTbQjLCrbvr6UFvg5ZcqOXjdIkwNMFrVDWy28Rt9K+LZW8Ua4ejl1OF2URjJeQpFFk7YqhfDj7rOGve6mrCIdqNuL/RXaq9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SACRvU2i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FIny9rHC"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a17c7c3c6eso1735a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 11:39:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787683175; x=1788287975; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RPvPgg8WrBS502z3EqfWF3DM7etFQasO/Hjw3jKjTbY=;
-        b=FIny9rHCeTlRYb6dB/mMb0NboZ3DLg3scK8a+v7Rcfl+NY1ePYlW1uEqPbBNzc/XMZ
-         W0JSO8Y9/MZ132kcuz0zr98QgSR295AU3jXrz0TJsshFdpx2j2K/Ht246ttPwpQzksRZ
-         7KghSep0qNAxzRCJxpxSag7Dm8mPhNsY+yK3G6GDANRlNFUWhHoFxLujrQQ4nX222SP2
-         q6G2aYlrxCuFaA8l8VvtpXbt4Gcenq4FBIN33yFhCY57UnlS/psHhke+HgjMB/iF2og0
-         r0scXN6bA5mWRjkBIs5LjfD6PfvUoSc8LMzCPj7HHGbXxIIqExWo5FyDlBDbz/yOyCEX
-         NjfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787683175; x=1788287975;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RPvPgg8WrBS502z3EqfWF3DM7etFQasO/Hjw3jKjTbY=;
-        b=LWxf4+sFkfuxYR/TPDNDeGtiiXOh1UDEzna4ZcoygjGbbyhFXNYtfmXH7O3Zl29X78
-         7OYxr7iAODZ3eiVgkrurppd1dlEMRaDCo0kiiBHTiCOaWSojVI5drIs1eYgYx74EyKuB
-         vY45vzFEGPUZT9OL/cQKO4xb4wBJEWKSVDsWyeqk3jIkqXEOHQXOJ+W05/Ja0FJyciW3
-         SppF9D0pl+41OaceNZW05GVHYLajEdbSsoOlZF12mfo5FV+hKYK4j5o0j3uGcxkiJnm5
-         dp/JWDD5LXhq9yBP+ZaOk2Bjnu9adpxTJwBbWHeQX+9ef+7Y7jc0ARa80aoTHcnJ3AQ4
-         oO4w==
-X-Forwarded-Encrypted: i=1; AHgh+RotWTw79M4NNbwoaUar6N6prUE3aY6NmocnbHpgnPxUrUknWZQydwmRi0MB5Zv43qpYmym23//cp/V3sDHJ@vger.kernel.org
-X-Gm-Message-State: AFuF++kc/DuZxnWMrUJO1z2eFFoZTQ2+yM3ANhiGlhC0214QO0/wEMF3
-	u8aXzcBJ9v40POHRopQuSA/neOeP0EeQ5Z08RtHaQrbKfXidONTdJ7QZ5ad/FHhg6g==
-X-Gm-Gg: AR+sD11gORjky8n17gYhxT5/9nCxfudio4DSnbSQ3f13UBFxtFo5X3ZjPXu5uOJrO/J
-	yxZIMpl6F03d2kKM7r6ddstY9qRcKN2AFU7zZt5SQv7Vb3XSgnZxFKwabG9LpNXtA44fleiTimj
-	A8t4S10ppxw99H3FXGBYO+ym1EunGfzqPJWoIbZykqtDNu+JGslPtwT6r1swMk2XxmmLliKUFBP
-	y7Y0VtcAwJyvDcv3QsxsHhtDE6aKxQ6Ckrdlp5dqd3lmGbnZi5gXkN7Dvz8tn9iJWe00m4D2HEG
-	v0YdDgf+gUSGyMsRqugzc0tMkKXv/mi68VreIoYQ8T6+ZM3DUnd7gaweIAytdR5LqmuKTO9jvcL
-	dDCxsitG26NIuXZ1JzntU3uR9uhfuYl51axASkvNFpC7JqJtAmo3o/i+Dl0mN5jUU6M/x979xSR
-	lTFPu8qwVx3ggo4RzETbglc7kJGJagO7Y6GcpY8BdFdQXqzpSEQ2mL8WuMPwrRA4mJ7uh0PWpc5
-	ZHGVVzUv/XggCXFndGdiGARHQbhgZuTMnKKdYogpJ26ons=
-X-Received: by 2002:a05:6402:2023:b0:67b:7d05:60b8 with SMTP id 4fb4d7f45d1cf-6a5c4a423a0mr72402a12.10.1787683174081;
-        Tue, 25 Aug 2026 11:39:34 -0700 (PDT)
-Received: from localhost ([2a00:79e0:288a:8:980a:b43:2df6:51f2])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c250a702c7asm82067566b.19.2026.08.25.11.39.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 11:39:33 -0700 (PDT)
-From: Jann Horn <jannh@google.com>
-Date: Tue, 25 Aug 2026 20:39:19 +0200
-Subject: [PATCH v2 3/3] selinux: require PROCESS__PTRACE for FOLL_FORCE
- introspection
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SACRvU2i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52D91F000E9;
+	Tue, 25 Aug 2026 18:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787683304;
+	bh=Um2k/rJZLaKctBC+KuTYnxljcdBue3L/awQhVOIlKBw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=SACRvU2iZwAeBWEhmET+qgKae5pZ6XvIaq422QioR6Y5Y7/qLM1i/sl+lqpd46Za0
+	 7LokzhUdWJ+wmSHCibNb00he8OLKOavBOvhKkS1Dcr87ZLIsTmPV9FXn/M3t9voQmz
+	 y6TygHZLaAb6eYRTj3f8EuULRCEKtH8qH3rDLekGQbwubzpxFngIwE03Xe+6s1ehDe
+	 uO2QGfMkSayjyzi3/zLYg4dilOtu6inuuvPvW1jsj0hV1TPWRTDUTkOdxxnCJ4LIpW
+	 W1X1NTr8lCcmDyn2CAKkGR5Qmip3fhDBVJGwBXCMu55WvSA95QbMrXIsw8VHikxMZO
+	 1l4jnPdmbLFlA==
+Message-ID: <2e22677c-82a3-4894-9b05-2748cd617047@kernel.org>
+Date: Tue, 25 Aug 2026 20:41:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 05/15] guest_memfd: Use folio_has_hwpoisoned_page()
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jane Chu
+ <jane.chu@oracle.com>, linux-mm@kvack.org,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
+ <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, Christian Brauner <christian@brauner.io>,
+ Jiaqi Yan <jiaqiyan@google.com>, Sean Christopherson <seanjc@google.com>,
+ Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>
+References: <20260805210557.1118966-1-willy@infradead.org>
+ <20260805210557.1118966-6-willy@infradead.org>
+ <32873b50-c900-4fe5-9dc1-cb086bba77e7@kernel.org>
+ <an2vhg4Uvdo52WPX@casper.infradead.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <an2vhg4Uvdo52WPX@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260825-selinux-pokemem-v2-3-b46bc64916d8@google.com>
-References: <20260825-selinux-pokemem-v2-0-b46bc64916d8@google.com>
-In-Reply-To: <20260825-selinux-pokemem-v2-0-b46bc64916d8@google.com>
-To: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Jeff Xu <jeffxu@google.com>, 
- =?utf-8?q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
- Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
- Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, 
- Jann Horn <jannh@google.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787683164; l=2509;
- i=jannh@google.com; s=20240730; h=from:subject:message-id;
- bh=Ns+udTpi8SWKloYkKMw8Din2oarGSCfqpMuFm48xRLo=;
- b=zeD7wBrHYoqhVh6HblaO+73EuAz1CQeVXst7AZwlAE/ssLvvQw8Ia6UL9q7TkXPnVftUvkutA
- EZh2GLrwyjZCNMAdQM0EcaCQZx1Tr+oTA0Tv+2dWEkEGth/XbX8l9/W
-X-Developer-Key: i=jannh@google.com; a=ed25519;
- pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
 
-On systems configured with PROC_MEM_FORCE_ALWAYS, ensure that a process can
-only create anonymous executable memory via /proc/self/mem if it has
-PROCESS__PTRACE (like when using /proc/$pid/mem of another process).
+On 8/13/26 13:50, Matthew Wilcox wrote:
+> On Thu, Aug 13, 2026 at 09:20:54AM +0200, David Hildenbrand (Arm) wrote:
+>> On 8/5/26 23:05, Matthew Wilcox (Oracle) wrote:
+>>> folio_test_hwpoison() only works on hugetlb folios today and will give
+>>> the wrong answer for other large folios.  folio_has_hwpoisoned_page()
+>>> works on both.
+>>
+>> guest_memfd only uses small folios, so it doesn't really matter.
+> 
+> Well ...
+> 
+> virt/kvm/guest_memfd.c: /* TODO: Support huge pages. */
 
-This closes a hole in code integrity enforcement that Project Zero has used
-in a remote Android exploit chain:
-It was possible to use a memory corruption bug in a service without
-EXECMEM/EXECMOD/PTRACE permission to overwrite executable code via
-/proc/self/mem, which made it possible to load and run shellcode containing
-a kernel exploit.
-
-Signed-off-by: Jann Horn <jannh@google.com>
----
- security/selinux/hooks.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 18dd28b2bb13..2c2c60e9e0fe 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -2157,6 +2157,27 @@ static int selinux_ptrace_traceme(struct task_struct *parent)
- 			    SECCLASS_PROCESS, PROCESS__PTRACE, NULL);
- }
- 
-+/*
-+ * Decide whether it should be possible to read non-readable VMAs and write
-+ * non-writable VMAs via /proc/self/mem.
-+ * This only applies to systems configured with PROC_MEM_FORCE_ALWAYS, and only
-+ * triggers on accesses that are not visible to selinux_ptrace_access_check()
-+ * because of the introspection exceptions in may_access_mm() and
-+ * __ptrace_may_access().
-+ *
-+ * This allows a process to overwrite read-only code in its own address space.
-+ *
-+ * Creating an audit record on denial doesn't make sense here, since we can't
-+ * tell whether FOLL_FORCE matters for the accessed VMAs.
-+ */
-+static int selinux_mem_foll_force_opened_by_owner(const struct cred *subject)
-+{
-+	struct av_decision avd;
-+	u32 sid = cred_sid(subject);
-+
-+	return avc_has_perm_noaudit(sid, sid, SECCLASS_PROCESS, PROCESS__PTRACE, 0, &avd);
-+}
-+
- static int selinux_capget(const struct task_struct *target, kernel_cap_t *effective,
- 			  kernel_cap_t *inheritable, kernel_cap_t *permitted)
- {
-@@ -7558,6 +7579,7 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
- 
- 	LSM_HOOK_INIT(ptrace_access_check, selinux_ptrace_access_check),
- 	LSM_HOOK_INIT(ptrace_traceme, selinux_ptrace_traceme),
-+	LSM_HOOK_INIT(mem_foll_force_opened_by_owner, selinux_mem_foll_force_opened_by_owner),
- 	LSM_HOOK_INIT(capget, selinux_capget),
- 	LSM_HOOK_INIT(capset, selinux_capset),
- 	LSM_HOOK_INIT(capable, selinux_capable),
+Yeah, that was wishful thinking :)
 
 -- 
-2.55.0.860.g4b6b3295ed-goog
+Cheers,
 
+David
