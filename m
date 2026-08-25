@@ -1,111 +1,145 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2BE44E055;
-	Tue, 25 Aug 2026 15:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E7D44838A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 15:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787670873; cv=none; b=dPqbeCy3LQKKbedg4JDd77uRx6gPHIYslcZpQWzx2ZcLzNfsESXd1weksq54B0xlc6KGXEYQ617UC/RitPuntxyS7dH5B0+0NXEiDBS81QOOSFdWVA/A3tKACJ/d0Jng8b7sWXaP/aHnZQjSkhEO2bO+GxWYC8JpL3c4Mf/YHoc=
+	t=1787673111; cv=none; b=a9/Ng11Cgnzl3Mm4F4Y/zSL/BZXOKNU28jxQC3cICCmqLiGfZqo5bMcAkbzYVcjA/w4lI+sIbk5tVe7BeDzZW9LuwqA6VN3v7gZip3WLmJLPuZur4UbnbN9d7g3apV1uYN97t/NLiZ8H9n25BXl4qXI2EF5GPgM8d5hHIgdUn9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787670873; c=relaxed/simple;
-	bh=3RZDchxNIKlMF+YZZY5dokjhg564AFEZHqUtAa9+kZA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CDDVNhKl6nx4dckeW0I8Z55sBgVsnKM+TCSFZnIapOYvhOShSwlEil9ENL034RIfUb4XP5V2dQGnByspbMCffje6ojV5vd3FvVFq4vJvqq/YPol1nY/nFNGLEVQYth0FEQ31zfVjGYCLSpY4E2ff43hJesFVvEHV4REjWk/WA/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 67PFDXrN052354;
-	Wed, 26 Aug 2026 00:13:33 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.6] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 67PFDX2t052350
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 26 Aug 2026 00:13:33 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <c41e9198-86a8-4bcd-a608-6f457b24f345@I-love.SAKURA.ne.jp>
-Date: Wed, 26 Aug 2026 00:13:31 +0900
+	s=arc-20240116; t=1787673111; c=relaxed/simple;
+	bh=PvFnf4Z6JVgjgh0VHZQGFaS4YqE/P/cMJ279n6GuDVU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YO2uRnVbVSw6WnP2eAzTLU8s2aIWKCqI8hZ1HeUAzGslcobS/Tznoj3fVh9q5u62cyYjL87tUHE/E2anIkWPiCiSr+gKUuh6ce7XhNhaiWlSHEcke9czWkeuH3FI23azQFYLxLL31Vlp5QP+VoqWxEephjGN9PApfGf4PVBGtUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FNI3GGF1; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FNI3GGF1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D9A61F00A3D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 15:51:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787673110;
+	bh=kPtaLcz8oyqb6Dhnt8ZxpZ7m467rVFXuKSe5zifAGbI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=FNI3GGF122n8Ouo1BdnWVvOVLXIfgPKuMj24d3XuOq0X6YPaYmfBIfHCkE9Ycj7XR
+	 PXx+f16gRbKpX3HXReGVlVEKmNKe26KbRJppXsHS9PzJIJ49NYSKXin0zl8zlhcH9w
+	 FyOuAXFNP7AQTddzt1tyq/Px7Y8fnWM1xqwuvS9StNL9ONOAubutZaahfvL3Gym7go
+	 CczlWMp4zg/PTvblLMth82n7xyn94trwKSBGQ435QAWLGnjKH1LhFxSVE8ISJd5FNt
+	 O8RvWMgvNTwsZvqGJ3ntvKthl0A4OxaF+1/LSdXMT9ZuWWIOPD3EM75EX8x+lh6x7a
+	 B6TJUCRRZb2ZA==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6a0de062db5so8677349a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 08:51:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqOZbh8I1JWU4iJQCImhjw3M9ESKE5MQh2hI+2lVsOUrxhmJtKzttB3SB9+eNSPjnj0aolXQPkEkBeyzWAG@vger.kernel.org
+X-Gm-Message-State: AFuF++kuBKxLfvQG0Y6OkH2uzqjifPev9JqNSydymiYuXYQBep1Yiw+/
+	zgYpd9uOJw5nTuoSSKQa2PImiosaqgpZd7KDHnAzGmqCcAsug8cZzqOLGbu9S9PCLGejqIrRrtf
+	11jSA/dszfOmhGkS1yx2toGki9c1mloE=
+X-Received: by 2002:a17:907:5c6:b0:c21:96e8:578d with SMTP id
+ a640c23a62f3a-c24e5fd3199mr1048498266b.15.1787673109022; Tue, 25 Aug 2026
+ 08:51:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] loop: Fix NULL pointer dereference in lo_rw_aio()
-To: Bart Van Assche <bvanassche@acm.org>,
-        Markus Elfring <Markus.Elfring@web.de>, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, lkp@intel.com,
-        oe-lkp@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
-        Christoph Hellwig <hch@infradead.org>, Christoph Hellwig <hch@lst.de>,
-        Hillf Danton <hdanton@sina.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mark Brown <broonie@kernel.org>, Oliver Sang <oliver.sang@intel.com>,
-        linux-btrfs@vger.kernel.org
-References: <8dedfc40-9cae-44ff-9960-e0eb1825e963@I-love.SAKURA.ne.jp>
- <550ff0b4-df39-46d2-9781-c8688df10c93@web.de>
- <38ad64c1-edc7-431d-8f52-fba572ebf3eb@I-love.SAKURA.ne.jp>
- <372ca5f6-81a0-4f6c-8f55-ebeeada9f955@acm.org>
- <27bcb147-bead-4432-8cd0-981489f36228@acm.org>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <27bcb147-bead-4432-8cd0-981489f36228@acm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Anti-Virus-Server: fsav412.rs.sakura.ne.jp
-X-Virus-Status: clean
+References: <20260825135209.3135169-1-alex@ghiti.fr> <20260825135209.3135169-4-alex@ghiti.fr>
+In-Reply-To: <20260825135209.3135169-4-alex@ghiti.fr>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Tue, 25 Aug 2026 08:51:37 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zPsQ9J_mL-eYiNEZNu1LdxoVXL-mQ+=QMUvcT_71cf7cw@mail.gmail.com>
+X-Gm-Features: AcwNN1VMT11QiZ3TZSju0-KhHsl-_5A2hhHloThY4_24fIsp40qg5IR7wyqhkq0
+Message-ID: <CAO9r8zPsQ9J_mL-eYiNEZNu1LdxoVXL-mQ+=QMUvcT_71cf7cw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kairui Song <ryncsn@gmail.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Wei Xu <weixugc@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Kunwu Chan <kunwu.chan@gmail.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026/08/25 7:53, Bart Van Assche wrote:
-> On 8/24/26 3:06 PM, Tetsuo Handa wrote:
->> but sashiko found problems with Bart's series ( https://sashiko.dev/
->> #/patchset/8330ca0e-b4d9-451a-bc0d-a50178194ea8@I-love.SAKURA.ne.jp
->> and https://sashiko.dev/#/patchset/2efb1032-34b9-4c31-
->> b6fc-4aa9b1d60895@I-love.SAKURA.ne.jp ).
-> 
-> Thanks, I had not yet seen this feedback from Sashiko. My conclusion is
-> that two of the three Sashiko findings are wrong. I will fix the third
-> one - the finding about the potential wait-die deadlock.
-> 
+On Tue, Aug 25, 2026 at 6:55=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> wro=
+te:
+>
+> zswap writeback decompresses an entry into a fresh swap cache folio and
+> writes it back. The folio is cold by construction, yet it is left on the
+> LRU for reclaim to find and free later, wasting a reclaim scan and keepin=
+g
+> cold memory resident longer than necessary.
+>
+> Allocate the folio off the LRU and mark it PG_dropbehind so the swap
+> dropbehind path frees it from the swap cache once writeback completes.
+>
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+> ---
+>  mm/zswap.c | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
+>
+> diff --git a/mm/zswap.c b/mm/zswap.c
+> index 8163e6c5f76c..d16822a516e8 100644
+> --- a/mm/zswap.c
+> +++ b/mm/zswap.c
+> @@ -1013,7 +1013,6 @@ static int zswap_writeback_entry(struct zswap_entry=
+ *entry,
+>          */
+>         if (IS_ERR(folio))
+>                 return PTR_ERR(folio);
+> -       folio_add_lru(folio);
+>
+>         /*
+>          * folio is locked, and the swapcache is now secured against
+> @@ -1046,12 +1045,26 @@ static int zswap_writeback_entry(struct zswap_ent=
+ry *entry,
+>         /* folio is up to date */
+>         folio_mark_uptodate(folio);
+>
+> -       /* move it to the tail of the inactive list after end_writeback *=
+/
+> -       folio_set_reclaim(folio);
+> +       folio_set_dropbehind(folio);
+> +
+> +       /*
+> +        * Drop our reference before starting writeback so the swap cache=
+ holds
+> +        * the only one: the drop in folio_end_writeback() needs that for
+> +        * remove_mapping_reclaim() to succeed, otherwise the folio is ha=
+nded
+> +        * back to reclaim instead.
+> +        *
+> +        * Nothing can free the folio in the meantime: we hold the folio =
+lock
+> +        * until writeback starts, PG_writeback then blocks swap cache re=
+moval,
+> +        * and folio_end_writeback() takes its own reference before clear=
+ing
+> +        * PG_writeback and donates it to the drop.
+> +        */
+> +       folio_put(folio);
+>
+>         /* start writeback */
+>         __swap_writepage(folio, NULL);
+>
+> +       return 0;
+> +
+>  out:
+>         if (ret) {
 
-As of commit fe4c990e6a30 ("loop: Add __guarded_by() annotations") in block-loop branch,
+This check is now unneeded as ret should always be non-zero here, right?
 
-  modprobe loop
-  losetup /dev/loop0 testfile.img; losetup /dev/loop1 /dev/loop0; losetup -D
-  sleep 1
-  losetup /dev/loop1 testfile.img; losetup /dev/loop0 /dev/loop1; losetup -D
+We should probably also rename the label to indicate that it's only
+the error path. Maybe "error" or "fail"?
 
-causes lockdep warning. This is a false positive, but we need to avoid it anyway.
-
->> I still cannot catch why Bart's approach can become safe without
->> synchronize_rcu() and drain_workqueue().
-> 
-> Agreed that drain_workqueue() or flush_workqueue() is necessary. I do
-> not agree that an explicit synchronize_rcu() call is required. Waiting
-> until the request queue is frozen includes this call implicitly.
-> See also __percpu_ref_switch_to_atomic().
-
-OK. You recognized that we need drain_workqueue() or flush_workqueue(), and
-
-On 2026/08/25 8:24, Bart Van Assche wrote:
-> On 8/24/26 3:53 PM, Bart Van Assche wrote:
->> On 8/24/26 3:06 PM, Tetsuo Handa wrote:
->>> I still cannot catch why Bart's approach can become safe without
->>> synchronize_rcu() and drain_workqueue().
->>
->> Agreed that drain_workqueue() or flush_workqueue() is necessary. I do
->> not agree that an explicit synchronize_rcu() call is required. Waiting
->> until the request queue is frozen includes this call implicitly.
->> See also __percpu_ref_switch_to_atomic().
-> 
-> A correction: it is not safe to call drain_workqueue() nor to freeze the
-> request queue in __loop_clr_fd(). I'm considering to modify the comment
-> in that function as follows:
-
-you also recognized that we can't call drain_workqueue() or flush_workqueue().
-
-Therefore, I chose to temporarily drop lo->lo_disk->open_mutex in order to
-make it possible to safely perform drain_workqueue().
+>                 swap_cache_del_folio(folio);
+> --
+> 2.53.0-Meta
+>
+>
