@@ -1,104 +1,134 @@
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401D838DC77
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 17:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F193B37B010;
+	Tue, 25 Aug 2026 18:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787680476; cv=none; b=q/5rc8OtaUE49RyIMkkuFTfpkJ9hcqMlLPDw/TjKDOaBAbvDji50M9Co4yAORW9JuZatJXsg0aHc4ftmM2gkxiiDAJxxT7149FIybw24PkhVZGpLs1SCRkPwbrcF1FS1f4HZPGJXiYXL3UEX/82eZ5l6na29KyUR8yK0Rk8WngQ=
+	t=1787682932; cv=none; b=DNHFKGiIC9yoVpkzWfPxDHr8ozehUToEReA6GzpV2rKk9Pdwi7653mMavu+VDp2nV+a5o2ZXEqtzeTs7EDHQH/1FMdhGID7vjIXEv3o+AXd0emGwZFc3/NZyhgwzvA5TjczTFK5DU7va7icMXkKZC5Lq+TsAIyMoHSrIFL5NLa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787680476; c=relaxed/simple;
-	bh=KunFI4u3eP0mN2tR2vXuilYiFM0NZ8HdLfTaTjEW5IY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=c9cKJ7r6UGrJVeX8aRe987p45U1nidHRGlbsVnVSuAXZMv27F0lhs6UG0N0ngJM164B+AYAOAF/ddn3V3gz8eovS9XmeDeh02ePlSYTGEDnWjLpDpB1xFGSbRdbEKwwiyig945ReIzis3000kEU3f4AOxlYJuvmk9MhDkREgmYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--psalian.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NCgli3FT; arc=none smtp.client-ip=209.85.214.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--psalian.bounces.google.com
+	s=arc-20240116; t=1787682932; c=relaxed/simple;
+	bh=pZ4mfsgKRGFTaaqzSNMXArPfYaaJEFy2hCV2prTkb3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sZ1seROyURGXuIWeySt4JbRo8ZkBWR+iWjyW5/zZTcoEBELW57p+Pvpx66PmbyrZaznmIZeSMrsDM5PpIqO1jraQx0Ra2jd1c1QpepUSCzWFBw2cObd8J2fQJt8OCUQ1Cwxm82snlW8lcxLZLKrQYr+D8bRt+nRW/Rs85fLaMtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LXRyEqv3; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NCgli3FT"
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2cec4226c70so1571615ad.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 10:54:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787680474; x=1788285274; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=N59DgKOPss+GkqdGuEiTBLRkcriWzSRmCcb9Y3QV98c=;
-        b=NCgli3FTJRCN7ZYOCZr8DyxjxmyJuSQcj8OfTy8BwCvi4B+zBAfUJo3VbYfN4qcfCk
-         2BSqBH+mRXcGNwjpRG2kEj99WOpyhFBwkJ9Ib4BuLN4IO8UIlKVLAgKCpy/LWzfMLTcU
-         Eo0cJWoC1d/PmlvydBBzmValAM6Ez0bVS40TEtjtPB63+UUtSSY/y+v9OGyGUXCE1KDS
-         ioxXnbGc5s5YWVOZVGO+2cyBEe6KaA3di7H3VmRCuE4plT/XxN7B5k/wiaAYvn3DO7CX
-         fpPIyiOKloLzdExUW7oY1SHpFWQhB95nz9Sdxo3uKrIhcrVlXe6KeVU2fW5jKLLzumcP
-         NBKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787680474; x=1788285274;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=N59DgKOPss+GkqdGuEiTBLRkcriWzSRmCcb9Y3QV98c=;
-        b=aG4YWI5VBkemcRRwDN6166OTpsv5s3RCFBNw+BRjsdRKkzGq+f0f8LUQvxtZfoGK2r
-         N5+ZvoMbKoUifmAfK/HuiFYg9a0WD8G5bP9Gs58MZfLmxvSVZFXkziokYGklADAhGe1u
-         gkmThXLXmCvgRcJbNHrxk15YSvt98Wdzz3xSh4vEA3vA3Ta4R9JKoKAOVM5+KSrvl7yV
-         Nvb6+MuF46i6+PpKfkwWSAg7wdHs3Svwj1EbaUeJOiACFk+ueYtLToNlXf0Sw+nh4Lcf
-         XVB7outWHrtGQanqEowScDO7DaHserd5I5e8D0j6xtfeTNbll5v0pHBg/4Xmhjl5VQ76
-         19zA==
-X-Forwarded-Encrypted: i=1; AHgh+RqG4EaykGRPDPPKSpjhRIyAANHPDVHE7YlqxixLaxJiNL0IHokQO9rBI9E0lYBXSs3KPxbw3+EC65eN7IMU@vger.kernel.org
-X-Gm-Message-State: AFuF++kMWt8lyfokf/QrtSU2Tqd3+Dohq1QI7aFZN0paeRsJz81R/ucY
-	XPcTMNjmW55QfaxQuzXjAgJFuE03rjYw6UMeTWPAF2IY0gryV5DiREy/5Fm7yl0lY3oIMmUuT50
-	4OdGbgD3TUw==
-X-Received: from plbjw24.prod.google.com ([2002:a17:903:2798:b0:2cc:8741:f340])
- (user=psalian job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:cf41:b0:2d0:401c:2ebb
- with SMTP id d9443c01a7336-2d7079df723mr271545ad.4.1787680474357; Tue, 25 Aug
- 2026 10:54:34 -0700 (PDT)
-Date: Tue, 25 Aug 2026 17:54:33 +0000
-In-Reply-To: <20260727210718.125872-1-psalian@google.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LXRyEqv3"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=NzdQdDzy9an+ad2ujHM4K87j7IVbsCNSw+/FSI8vDqQ=; b=LXRyEqv3luyRGaNhx9QcZkACii
+	0DKvqLDdWONegOg3YmykHdEwYxNA9R2kquCB42nIt6EHrA52otHoe1WjbQaoNFK2aqqtusT/gQeXJ
+	JFYkgLHg/zad0zJTzOD3lPUyJ/0d610qpC4N7p+Cca9zrtE0GoEpBhjIy8mxRyWc7WCMe3atU/7aL
+	J+ijmZJBfx98iQhq+I1AnO1TilXv/52BDJqbhElR8iF9vCIUpYc4rH2jhdxbgIeCHeuP7o17REHnW
+	soR2dy9Jws0Ymq/BznZz1WeI/jfpgBbeA8Qhyx/qceFGgSJybEJf75RNf9waPdG7MwxL/Zokf2XRc
+	QvpQTY/A==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wyvzR-00000009XHS-2xcn;
+	Tue, 25 Aug 2026 18:35:17 +0000
+Date: Tue, 25 Aug 2026 19:35:17 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Jann Horn <jannh@google.com>,
+	David Howells <dhowells@redhat.com>,
+	John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>,
+	Rik van Riel <riel@surriel.com>, Qu Wenruo <wqu@suse.com>,
+	"Darrick J. Wong" <djwong@kernel.org>, linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-xfs@vger.kernel.org
+Subject: Re: Removing ->dirty_folio
+Message-ID: <ao3gZRa7HOEg209P@casper.infradead.org>
+References: <aoyWln-Gt-yvZQkE@casper.infradead.org>
+ <ao1Lo6TKhPcqV42B@pedro-suse>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260727210718.125872-1-psalian@google.com>
-X-Mailer: git-send-email 2.55.0.887.g758fc8c411-goog
-Message-ID: <20260825175433.2588528-1-psalian@google.com>
-Subject: [PATCH v2] fuse: mark DAX VMA page protections as decrypted
-From: Punit Salian <psalian@google.com>
-To: miklos@szeredi.hu
-Cc: pankaj.gupta@amd.com, michael.roth@amd.com, thomas.lendacky@amd.com, 
-	stefanha@redhat.com, vgoyal@redhat.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev, x86@kernel.org, 
-	Punit Salian <psalian@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ao1Lo6TKhPcqV42B@pedro-suse>
 
-In confidential computing guest environments (such as AMD SEV-SNP or
-Intel TDX), direct memory access (DAX) mappings between the guest kernel
-and host-backed FUSE/virtiofs shared memory regions must be accessed
-using shared (decrypted) page protections.
+On Tue, Aug 25, 2026 at 09:25:53AM +0100, Pedro Falcato wrote:
+> On Mon, Aug 24, 2026 at 08:08:06PM +0100, Matthew Wilcox wrote:
+> > I think it's time to remove folio_mark_dirty(), ->dirty_folio() and so on.
+> > 
+> > This is not how filesystems want to be informed of folio dirtying.
+> > It was fine for ext2, but anything that's journalled or COW has work
+> > to do before the folio is made dirty, and it's hard to do that work
+> > under the page table spinlock (not all callers hold that lock, but the
+> > filesystem has to be able to handle the cases where it is.
+> > 
+> > Filesystems want the page_mkwrite() entry point to be how they find out
+> > about a folio being dirtied -- and that works great!  Except that we
+> > can writeback the folio for a number of reasons.  If it's been dirtied
+> > due to a shared writable mmap, that's fine; we map the folio read-only
+> > and any subsequent writes will re-enter the page_mkwrite path.
+> > 
+> > The problem is GUP.  We have no way to force the GUP caller to go
+> > through page_mkwrite again.  So instead we make the GUP caller call
+> > folio_mark_dirty_lock() which many just don't, and generally we get away
+> > with it.  But it's a bug, and a bad interface.
+> > 
+> > There's also the problem that GUP users bypass the folio_wait_stable()
+> > mechanism.  If a page is written to while somebody is creating a
+> > checksum over that page, the checksum will be corrupted.  If we want
+> > to fix this, we have to bounce-buffer the page.  There's no way to
+> > prevent or delay a GUP user from writing to the page.  Enjoy your RAID.
+> > 
+> > My proposal is this:
+> > 
+> >  - Fileystems take note of folio_maybe_dma_pinned() during writeback.
+> >    If it's true, do the writeback, but retain/recreate whatever data
+> >    structures you need in order to write the folio again; behave as if
+> >    ->page_mkdirty() had been called again for each page in the folio is
+> 
+> I don't think you can do this for stable writes. It's probably ok for
+> !stable writes filesystem stacks, as long as the filesystem & writeback
+> can handle making no progress at all. But since stable writes' writeback
+> can't race with "writes", I don't think you can Just Do It as long as the
+> folio is DMA pinned.
 
-Modify fuse_dax_mmap() to apply pgprot_decrypted() to vma->vm_page_prot
-when establishing FUSE DAX memory mappings. This ensures guest page
-table entries for shared DAX buffers are explicitly marked as decrypted,
-preventing memory encryption faults when accessing host-shared DAX memory.
+Ah, yes, I forgot to specify that.  For mappings which need stable pages,
+we have to bounce buffer them.  I wonder if that's something we should
+do inside the VFS or if each filesystem should try to do it itself?
 
-Signed-off-by: Punit Salian <psalian@google.com>
-Acked-by: Pankaj Gupta <pankaj.gupta@amd.com>
----
-v1 -> v2:
-- Added Acked-by tag from Pankaj Gupta.
----
- fs/fuse/dax.c | 1 +
- 1 file changed, 1 insertion(+)
+> Perhaps we should give up trying to writeback these folios, and start
+> writeback right after they're unpinned? at least on the stable case.
 
-diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
-index a15c464c8d19..00e316a7f805 100644
---- a/fs/fuse/dax.c
-+++ b/fs/fuse/dax.c
-@@ -826,6 +826,7 @@ int fuse_dax_mmap(struct file *file, struct vm_area_struct *vma)
- 	file_accessed(file);
- 	vma->vm_ops = &fuse_dax_vm_ops;
- 	vm_flags_set(vma, VM_MIXEDMAP | VM_HUGEPAGE);
-+	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
- 
- 	return 0;
- }
--- 
+The thing is, what do we do for somebody calling fsync()?  I don't
+think that "Oh, sorry, someone gave its address to an RDMA device
+so we just didn't bother" is acceptable as an answer.
+
+> >    marked as dirty.
+> >  - The MM behaves similarly; we do not clear the writeback flag for
+> >    folio_maybe_dma_pinned().
+> 
+> This sounds like a problem. You don't want users expecting writeback to make
+> progress to suddenly stall on e.g folio_wait_writeback() indefinitely.
+
+I should have written "the dirty flag" there.  I do not propose to keep
+the writeback flag set indefinitely; it should be cleared after I/O has
+completed, as it is now.
+
+> I don't quite understand what your plan for getting rid of dirty_folio,
+> et al is. page_mkwrite has the fatal flaw of being directly tied to VM
+> page faults; I don't think it's the ideal interface for notifying filesystems.
+> It's also the case that page_mkwrite can trivially sleep, and GUP calls it under
+> the PTE lock. So how can we replace that? Would callers need to manually dirty
+> folios after GUP, in process context?
+
+GUP doesn't call page_mkwrite() under the PTL.  See my reply to John,
+or just look at do_page_mkwrite():
+
+ * We do this without the lock held, so that it can sleep if it needs to.
+ */
+static vm_fault_t do_page_mkwrite(struct vm_fault *vmf, struct folio *folio)
+
+folio_mark_dirty() is called under the PTE lock.  My point is that (with
+the proposed changes) we won't need to call it in zap_present_folio_ptes()
+because the filesystem will already know that this page is dirty.
