@@ -1,105 +1,214 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B664A37F33A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 09:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787648926; cv=none; b=hA2FRg1dB4sT5M9pRsgdWI8zHlrSRZeEnOyr7K8lao7wqo2YollaUiJegqSBdBrcLKInIJtW/ANgssmJR7X31EkvBKF7AnxrJ1hc31wqZFNhyPMCAf8j6BpKmhJ10dzCJUy4PsmWTKcsefRgGYlvRePfTFLW0PuuMPmVd2SWHDY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787648926; c=relaxed/simple;
-	bh=GmL6uYTyqVpHWhqeQHdsU9G6vcZFB8HJbWZWZuDYhJA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d1SvBn+yhzPKdVmwUzvedfz/SRB8Q9hxJ72hwXHO4/huJQCOSIom+qIrtA/ZE7+rrQwCDyEokPlZxCW/LFuPkuBx8IiGG1XJ8UseTvM7BFLTtXB5h8YFU/vi4HbhH0d+yzzq7khMRf06aJO/a64yXvmrk2zFLKdTrXY8DD0iQ1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VygE6DQQ; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675153921C3
+	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 09:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787650857; cv=pass; b=iktVFLrIEkX/Gfu/S5e7bini2FMU7KGuCMZtmFbQ+hlxMCByCsofVocM27M9u7KxeOILhbE792pIe1lfXqW6NnzEC9ZRzGPyJ2u0k9ebCYkGJeIiAMo/Bk11wW2iFN0OmzY4FaxiSoRe/7s7ssewt44dWaQQbyQt7aGn2FJUshM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787650857; c=relaxed/simple;
+	bh=mXiMtyLOOYxxVMQ8MUK/K08ApFUpRcECz0ksD1wsMDE=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=uf7lfIeC74Kr4IbORFF8Rr/2paVzJJF7+83zMmfkmWWxZV4XQM/6WIktgp/siXiO0r32xzcklvJLTgB20hdavMTwTo6AJ0i5rt/+Lg4B7UknUhXuD3WvMsDq4Jnfiz/fpvI7BHHLkl1+NkhSli7Tvd3kbfHQgWTh1XobeqDILAs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=UJQyDiFx; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VygE6DQQ"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c214321dc32so874264366b.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 02:08:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="UJQyDiFx"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-526f963372aso32247781cf.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 02:40:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787650852; cv=none;
+        d=google.com; s=arc-20260327;
+        b=g/0vu0QaIXyW2OL52QacAWF7TSVe0yfJigQXF+Z9y9J51Ahh3RTeiNs8P+ijLM3MO7
+         PL/+pkOMx0LmcXE5r4KLT+ggeqJIG/DOt3oXDtmKUHIcIqLN4iW5AKm/ERYeZ2Fu1Vmf
+         S5myhnYUCQC1b4RCvxqGjN3mMkkCPCZVoLPX5Oe1Cyd0dqBn67guLjSNKWZArdufO7Jx
+         PXr2rpd8D2UZPclZPLaxwHonmJIKC81BdfDDICaeuNhQbbPOSsbEv4eUu805GLGI2TRu
+         fjNJW/RDy6gpoOXqeBgnO/C6ZD9u5mJIJeRo8/Y0IrdLLngCW/M3vw84pYi9da7tBrV3
+         Hhkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=5+zCHFKCNOCONPbwIiY32D/ElA6N423eilIEaRYhv2E=;
+        fh=hOGuD80wO0yS+iUkbbCj9dbmg+6pGU7AqRAALSIstSI=;
+        b=DYi07ZODf80RRbHi6I76qXMKe9dBwyqJTt9pNVcRYm+DIhhEimBA51I0xFyLRo8MaS
+         /rpaeHPrMtDjpLR4m6bjxKkWD6XLgTCUAy4CIv8DEuCgi9V6UYpMyTWrZchC2yAbUUJP
+         ncqewdQgo6RZ7FZ4vTRKYTmM5S8jyiEimXZNHpAaCjNfgB5QAiTh/ApwO/xbO+GFS/sz
+         HWxmrlHQf4QZEFiWdxU/KgnMMBsImbjWAuqmnzUdGmG3dS56yBwLqadBBfrfi0Lcmio7
+         L6IeabXkkcfwXEN1OltyWXSNT/kB38ado3Lef2qq+DdCjHGisg7RI9QTOIdqTTppO+Fl
+         6RIA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787648923; x=1788253723; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GmL6uYTyqVpHWhqeQHdsU9G6vcZFB8HJbWZWZuDYhJA=;
-        b=VygE6DQQ9HhaANCBSOycBdWktAe735FJyD+F5MiDqzlbLXo4rJxV6q2IGnTyH5zBvg
-         7rIBDyJgh8t3alhAzxP05a/QCksiG2sr+WJbYQxZW2qTwEll62eD8gMtTNWlSGo6Iyg4
-         BjFO2hGC42YJKvXIUiqGO9HlO5h0MrHfdyvyRHce3iFtfOXx+JSsKJrs4G6q2K2pnrd7
-         PVDjxv7eFbm26M0Qjwj0+qDJ7xqhPiLYmQWVcJATRwLWkYA8QaQfRcvelK+nc5HEWESx
-         38uvWVU6uMl2mzo9O6fnRYpzF/tqKgjIXjz06l/k05aiwgYI56SO2LESCGoAi/TLt544
-         jw0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787648923; x=1788253723;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=szeredi.hu; s=google; t=1787650852; x=1788255652; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GmL6uYTyqVpHWhqeQHdsU9G6vcZFB8HJbWZWZuDYhJA=;
-        b=BPefhiViWXli64jK3tTddVmXkiCTmiu0Z9jl0gtidzQKHCNBDN/neNcG6fCEQcVKV1
-         HLY1pxHBLAWyCRI207eTTVAzwlneQOVhSdNiBr7WCHS9EusMdXSlBtky7sPKEnXF4f6E
-         +S79ZepYYbiGopYG2jQIZKKBonNhwgZNOzfbwMmU+LgRIAOuXQkFkDb3S8sD+gfUyPLa
-         1lhtRCrvaSz7Bh30PFQ9IHvSJFsPcldsmmEwiJeKlO6cP1iSOE7wjm/8dz5gnxn2KZYj
-         D9gEB8cb/FJ/rY0tL+nSnEFHVasJJwl/P79pvt1utz59M+WT+v1ra6BQHVvSJWKm4uc4
-         O5Bg==
-X-Forwarded-Encrypted: i=1; AHgh+RpktkfUzs01cryIOCDWYZzjzp24n4F6D3L9AOdcV5VxJYAyZ6ml+yW1ZXrVnOGkWhBY3VX1Pjpvw/F2Jwwb@vger.kernel.org
-X-Gm-Message-State: AFuF++kdKzwFNrlcj7thyCgSazlx72wohhtlqp6a5WKRqkheEtulkhjD
-	Mpnwg91T+oun1FLmiVcCABCAU78TeyE5ZmV70BMlLbVhyyv+I9r3UIw8
-X-Gm-Gg: AR+sD125wb8dFgVZwgd+GrllntYbdyCWPhpssf5zGijCbUfD5fWKta9iU336wRZkSPx
-	dvK06DZvo3aky8RqbJlKrzzQapWiySjFHChbakySfz183RXer3nvNzttGS/hMBNnSj8cDgSt6A0
-	pP6wGUzM6Ajx4o+/XYHoLo6kR9h/y+CgLq2qkwpe0rzMHeCvfnciJk+7HfWepoUxB5wu72tFTgp
-	7tk/uHYlqrDdTndL+Y5w/LSBU5ym3jIOaa+g6M4H0GkTAsPJQ+twC3hL0VZlcs/9R1zRXrF+6Vj
-	+lUCMFjGZ1cZiYd94CqnIZd0oVKWoXhEIdhWlChMCWij+I9rwD5eH0kWJ1Xbgw+Sauw5zxxAu1X
-	7uh/F9MsTQg5H2b3MXm/up0bGg9JXpz/ReKYELLvpjdNph6bI4wo1zBE4Z+R6GdmlfY1/h7ok/A
-	0OkeyNuQGpsjitkX++2Givw3vYSbdGnNXJXiDZrvRN1DuC7PsqMTzcmPvca5w2I6Dh2Phd4rAYE
-	1fxVCM3ptBqMWLaahgqhzTPcJtpWEmc6MI9BWbp2RIodoHzTgSk
-X-Received: by 2002:a17:907:3e16:b0:c16:3074:657f with SMTP id a640c23a62f3a-c246a4ce3b8mr3646590466b.9.1787648922702;
-        Tue, 25 Aug 2026 02:08:42 -0700 (PDT)
-Received: from localhost.localdomain (46-138-191-2.dynamic.spd-mgts.ru. [46.138.191.2])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a59dd550bcsm13565742a12.0.2026.08.25.02.08.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 02:08:42 -0700 (PDT)
-From: Artem Lytkin <iprintercanon@gmail.com>
-To: David Hildenbrand <david@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: Ackerley Tng <ackerleytng@google.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/4] Extend xas_split* to support splitting arbitrarily large entries
-Date: Tue, 25 Aug 2026 12:08:27 +0300
-Message-ID: <20260825090827.64550-1-iprintercanon@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <b682a12f-ac03-4032-851a-f4f7ced4ffa0@kernel.org>
-References: <20251117224701.1279139-1-ackerleytng@google.com> <20260824194755.216000-1-iprintercanon@gmail.com> <aoyqIBz1EoY0R8qw@casper.infradead.org> <b682a12f-ac03-4032-851a-f4f7ced4ffa0@kernel.org>
+        bh=5+zCHFKCNOCONPbwIiY32D/ElA6N423eilIEaRYhv2E=;
+        b=UJQyDiFx4O6vTvwoXmkWaqllwM1utOvzyZJM9KSAR1emNgI6dzCHoRGdaadKVsLqUy
+         8fOcRTr1DacA+wY4MtwhHQKC5hv0nIP4xh/CaAZBs3vQLpK1msy2vBjG7aZqolzweO48
+         ywwLR6QfAN9kRPBkQcgUnJp1JUwB9CQy3ZI9w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787650852; x=1788255652;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5+zCHFKCNOCONPbwIiY32D/ElA6N423eilIEaRYhv2E=;
+        b=mwXGKsIbZX+sW3cox1UoDBGPM9IUQwUyxpnbPEPD0D64QI4GYkSv/5tO0fdY6lxeUA
+         6BxFPysEq135AkjTbkPRWBO8G4IhHFNxQWWobD10PiunIGF7GTQokiU3yGofM7JeTNEq
+         0oCVMsUQXv/9AP6YKm/VVfFfiDvfvkhcHS5iM77aZIog0gAS4C1Ws92ShUcevqEFxpJ9
+         WEPkj0SOqaAZn6Cf4mqXHv+pAhKbpIiuj0DsipU0WAy8AqwpuuhTML6hB55ip44gOqms
+         EbiXYoiSW4bw22MdzWEZT9nR1ks+S8gfdieqSgNEXcqXN/PpD+M+ys6398G+QzKWjrS+
+         URGQ==
+X-Gm-Message-State: AFuF++kv/uEiATFQ2W1ea8jPar18SsowTjC3PGfZXV7SQF29Rj6Y86M6
+	9LKbnIkt2hK4d6eGe4YvvVA3WIbPrhZ4A+IRhHhKdVzg4DMU7FRbbbIWmPhJSug0IDiaFsmJn7P
+	uitJkiRQSk1eKMSd8YfJSl2UsfmZCARtY2gB2xTBkUW5nozd7Iz/pvvuuEQ==
+X-Gm-Gg: AR+sD13tFmE0zKNDhxtYROa8jSXohwlhM/xGBe2zUfby6+UIvSnkjwlgDjVJR1a4vfQ
+	EhRhigvnWXbDNX59DmVbuIfUAURTyuz5cOKRxmgS6SaNUAGeiZfYBv68ZPVcO0lUBk0iuqcLwKW
+	PyDnLUdHvsLFcaJ1bjq36KyVNYypDjUlxBUwIMh0Yqk+nM4q+DxLI3aEMt5+n1p9jxtQHDCBdYF
+	jzBxVUepV33n3l2TQpPnsDHv/NXyQ2ZfAWAJZetaisvCyRkBvyB7HTppA3jWLKFFJ5Kzhx3SFV+
+	pRJGPoh/NgrC4D8EygfWrfA+5iHbzvGqT6k1Jq+GGzw8b9bW2xCfaaqhfyKdwj0JlRui2CPqx4u
+	+Ds8JUVMT7t1Z5w==
+X-Received: by 2002:a05:622a:2b09:b0:51b:fc67:c73c with SMTP id
+ d75a77b69052e-52e09bb401amr277343041cf.16.1787650852351; Tue, 25 Aug 2026
+ 02:40:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 25 Aug 2026 11:40:40 +0200
+X-Gm-Features: AcwNN1X_1gdCMa4DF67VXGoGPqzeSAs-aOF2k1OnofG-LbfJv4e1RDFSRaIrsoo
+Message-ID: <CAJfpegu_5Sfbbi36ss3_4k_3Va+RSbnHxRbCUxWoTRcraQ07cw@mail.gmail.com>
+Subject: [GIT PULL] fuse update for 7.3
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 25, 2026 at 10:31:34AM +0200, David Hildenbrand (Arm) wrote:
-> > IOW is this driven by a real need, or just some completionist thing?
->
-> I heard some use cases using 512M THPs on arm64 to back VMs, but it's mostly
-> anon pages, and not really ordinary pagecache.
+Hi Linus,
 
-No real need on my side. I took the pagemap.h comment and the selftest
-skips as an invitation, and the one 64K user I can find on the list
-(Meta, in Kiryl's collapse RFC) says mTHP is what they want. Dropping
-the arm64 angle.
+Please pull from:
 
-> But a buddy-like split is clearly preferable. (or avoiding splitting in the
-> first place :) )
+git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
+tags/fuse-update-7.3
 
-That path exists as xas_try_split(). What's left is the uniform split to
-order 0 that __folio_split() still does through xas_split_alloc(), and
-the only one asking for it past order 11 is guest_memfd. That's
-Ackerley's call; if he wants the rebase I'll do the mechanical part.
+- Improve performance of the io-uring transport by introducing buffer
+pools and zero-copy (Joanne)
 
-Artem
+- Fix lots of bugs (Baokun Li)
+
+- Fix io-uring initialization issues (Joanne, Bernd)
+
+- More prep work for large folios (Joanne)
+
+- Don't limit buffered read to 128k (Jim Harris)
+
+- Fix zeroing of page end (dirtied with mmap) on file size extension
+(Jimmy Zuber)
+
+- Improve performance in certain cases with wake_up_sync() when
+queuing request (Xuewen Yan)
+
+- Misc fixes and cleanups (Xuewen Yan)
+
+Note: some commits touch io-uring source files, these have been in the
+io-uring tree and have Jens' SoB.
+
+Thanks,
+Miklos
+
+---
+Baokun Li (7):
+      fuse: fix invalidate lock leak on setattr writeback failure
+      fuse: fix invalidate lock leak on open O_TRUNC DAX failure
+      cuse: wait for pending RCU callbacks on module exit
+      fuse: reject a duplicate fd= mount option
+      fuse: check for NULL root inode in fuse_fill_super_submount
+      fuse: wake one waiter per freed slot when raising max_background
+      fuse: invalidate the correct range after O_APPEND direct write
+
+Ben Dooks (1):
+      fuse: make dentry_tree_work static
+
+Bernd Schubert (1):
+      fuse: Fix the condition to enable over-io-uring
+
+Jim Harris (1):
+      fuse: allow larger read requests by setting bdi->io_pages
+
+Jimmy Zuber (2):
+      selftests/fuse: test post-EOF page zeroing when a file is extended
+      fuse: zero the partial EOF page when extending a file
+
+Joanne Koong (16):
+      fuse: don't clear folio uptodate on writethrough errors
+      iomap: add helper to mark folio uptodate
+      fuse: use iomap helper to mark folio uptodate
+      fuse: fix missing barrier when checking io-uring readiness
+      fuse: use release/acquire for fch->initialized
+      fuse: publish io-uring queues with release semantics
+      io_uring/rsrc: rename
+io_buffer_register_bvec()/io_buffer_unregister_bvec()
+      io_uring/rsrc: split io_buffer_register_request() logic
+      io_uring/rsrc: add io_buffer_register_bvec()
+      io_uring/rsrc: rename and export IO_IMU_DEST / IO_IMU_SOURCE
+      fuse: decouple fuse_ring creation from ent registration
+      fuse: add FUSE_IO_URING_CMD_ADD_QUEUE
+      fuse: add io-uring buffer pools
+      fuse: support registered buffer pools in io-uring
+      fuse: add zero-copy over io-uring
+      docs: fuse: document io-uring buffer pool and zero-copy uapi
+
+Mark Brown (1):
+      io_uring: Add missing include for ITER_SOURCE and ITER_DEST
+
+Miklos Szeredi (2):
+      fuse: move "epoch" from dentry.d_time to fuse_dentry.epoch
+      fuse: fix race between interrupt and resend
+
+Rochan Avlur (1):
+      fuse: wait for FR_FINISHED on abort_on_kill to prevent use-after-free
+
+Sang-Heon Jeon (1):
+      fuse: use min_not_zero() in fuse_init_server_timeout()
+
+Xiang Mei (1):
+      fuse: copy request headers via a stack buffer for io-uring
+
+Xuewen Yan (1):
+      fuse: give wakeup hints to the scheduler for synchronous requests
+
+---
+ Documentation/block/ublk.rst                       |  14 +-
+ Documentation/filesystems/fuse/fuse-io-uring.rst   |  36 +-
+ Documentation/filesystems/fuse/index.rst           |   1 +
+ .../filesystems/fuse/uapi/fuse-uapi-io-uring.rst   | 126 ++++
+ drivers/block/ublk_drv.c                           |  22 +-
+ fs/fuse/args.h                                     |   2 +
+ fs/fuse/cuse.c                                     |   8 +-
+ fs/fuse/dev.c                                      | 104 ++--
+ fs/fuse/dev.h                                      |   2 +-
+ fs/fuse/dev_uring.c                                | 633 ++++++++++++++++++---
+ fs/fuse/dev_uring_i.h                              |  56 +-
+ fs/fuse/dir.c                                      |  37 +-
+ fs/fuse/file.c                                     |  40 +-
+ fs/fuse/fuse_dev_i.h                               |   5 +
+ fs/fuse/fuse_i.h                                   |   2 +
+ fs/fuse/inode.c                                    |  16 +-
+ fs/fuse/notify.c                                   |   4 +-
+ fs/fuse/readdir.c                                  |   2 +-
+ fs/fuse/req_timeout.c                              |  12 +-
+ fs/iomap/buffered-io.c                             |   6 +
+ include/linux/io_uring/cmd.h                       |  38 +-
+ include/linux/io_uring_types.h                     |   6 +
+ include/linux/iomap.h                              |   1 +
+ include/uapi/linux/fuse.h                          |  63 +-
+ io_uring/io_uring.c                                |   2 +-
+ io_uring/rsrc.c                                    | 127 +++--
+ io_uring/rsrc.h                                    |   5 -
+ .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/fuse/Makefile  |   3 +
+ .../filesystems/fuse/write_extend_eof_test.c       | 368 ++++++++++++
+ 30 files changed, 1487 insertions(+), 255 deletions(-)
+ create mode 100644 Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst
+ create mode 100644
+tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c
