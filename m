@@ -1,268 +1,247 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BBA3E7145
-	for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 21:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787693246; cv=pass; b=QMfQPUAk9mITrMo4nYkWbzjwj9qheKVqRSVdlYn/A+AQUUcNwOfL+TTE9Eis/fcHYJaeP/RJsdGMIl0TpKFbyF/NCtTnV8dT3WIOnvWx/QulgBkqn4ZqTYjnT85O4gjlBR+Erml1UcfKYspr6EYSu2S7IvbsbeuD7qYdVJ5lRS0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787693246; c=relaxed/simple;
-	bh=9HjdICmhLtTz6k7OlzAvVfsYT+6y6EVDVq4rDGeTyx4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SIbJFGEnXpZkfBTvkNRg3rVOWueeBhEgCW8Tzl1Lquutk3UE/Aj+7AvdwhodpqmVDvleNO4uI07kVAHjmJcrI6ZrNDBx5qQ6dfWroLgpeHZul5rZluZtJTxNYZQMNjBGpXNyXYSmJY3G30IGRwOgo+Ns6cDIa9UN2ZGi5y1r3ls=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s1KvuAPs; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726F3231C91;
+	Tue, 25 Aug 2026 21:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787694987; cv=none; b=PyfPwjmUlPnF2qkJnCXbt7dVD/QBXe3v7oEcK1KqtvKrIxy/zivlYNlOoRiKQn79FK4ZrImrPDwCervAg8NSKy9kFe6QlGOe+N1RECU7vvA4RqZ6smQlRq3EThhjBz54LX49B7/5unN9RE9g8rDA+7eLUBb2jahWRazABuzHZrY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787694987; c=relaxed/simple;
+	bh=dm0QyT7++VWdHaVpCIpFW9MRS1FV5qyVd8f9Z3zLu0I=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=iTIn24QOCqA326IhFFsSxQTHg0e01NdBTM3V8mkq4JULwM2Tpur6LU/lf2DJ89jy+zcjY2RC1VCenlI7BtduZ9snwTwWxAFEm5tORmqyKojit5aHUwKftaoz2TbwFlbgaGcoBz+T9Hy/Jq6KsWFuxMp4FQ0xoWOQVlYSNqJxpeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=W1zOJXtT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=F6ZZ5DJl; arc=none smtp.client-ip=202.12.124.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s1KvuAPs"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6a422090b2fso356771a12.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 14:27:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787693242; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VpQ/FlbbuQuX/RovFjp6z2MPHz4/37+HFLmsV3BrMMBBNwUPQSy4ENt6wDhaJmEeUk
-         lfFlD8/f2IOz1jTZo2RUEBXM80BmXMxuubMDD7/cPES0YJtzRz5pA8RDgYY34PKcVRTp
-         AaFlbE0M4RmoMyVts2bVQLrgyF8yCEogCW/3x8TKJYe/l0D/2pwa1Tk8l7H9GmBggpoO
-         cMRNerpfjzCfYuCdx9L+U/fmxwHpB4G9bubepSTlYFq06KTcuzd8OMLmKXlmjlEPnvg/
-         hAdPQKHay21QHrB3JxArDYVR9VUrYcGemnbsVpJsGSMbcRiV/mubj0ijzpTXKRzFNPfL
-         Chhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bE5lTVE/l+hmDFQxUEo/OmNLEGESlTEML0H1de8/2cY=;
-        fh=xoJIfR1wtwMG7GDvXDL8XokCTIM04m3nUOuJYNC0vJc=;
-        b=Wmh3hrB5DsJaKZpHhaASK06YNeKfeejh7hFg1niwetkHyOKPQA8O+ppd6pig8dF0Ld
-         uY0EjP19bKwcAwa40UYNG1ubFdRjrj21e4SKouL+mib1bGbWiNrJlLh7Hj8xm02kNlPf
-         qyoAj0UHKITb1NyTAlPn70VN8HikB2n+A4sgc9WIhJgjR+0UfoJRtGB8dBGh2wBW7xnl
-         ohF/8CM2g08r0MO7hza65sjvWTIItylatSOmWNczWTpVD8Lttc84dMBulcYGDp70MLS2
-         p8+0z41KtXmZh2F4TRu0yFYwU9FMd5ZMuSSgBGSqzMPWJwJprH6NMWMugi0eZMeG9sC3
-         bVIw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787693242; x=1788298042; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bE5lTVE/l+hmDFQxUEo/OmNLEGESlTEML0H1de8/2cY=;
-        b=s1KvuAPsIex4dmM++B7O1fMeB7/FwCP64Z8UVBSNIatQmnSxhCm1aXQ+DQFAQAQZP7
-         /lZyQirMBHwvCO3kkufwE+jhr+s7cV6xq6V33fjI1T/VrK08v+KHuB9CQ2rVoVvDhVhk
-         71qhyoVs9EIx5rJB1S0LqoBjlIFUfa5HRwZmwvco+m60zzGGh1iHnFiMAJL5NtcPadZY
-         96WElsSRfahwNMx0o57zdFVk21AMh0PfHuBQhSnaWKCW9D83lQk6KUymMlBoF2GB2SI0
-         Cbg1wxYeaP1RwG1xG39Ps4m04QzddW4cU8mwIROFbtmr3H4VuvhH3B+Uq9u63gLPq9Za
-         ifnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787693242; x=1788298042;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bE5lTVE/l+hmDFQxUEo/OmNLEGESlTEML0H1de8/2cY=;
-        b=PIhnJUCRQIMjKgAA0ROSxA98xbf8j0y/5IfRAqk9TAqIRuzfzv3nyThNR9SwLPRcEA
-         rNNxViFueJABFuaSivWSVNhMi1VcNvRcRC/7mSwGd/9uQQ8TxPctz5pMPUy3NEi/10SU
-         ND4gP/PGZfb3CWxNBk06LszKCnJG447IxsOaR3/3W0wqzq8USI6y2GFiYL7OAOk8DU8N
-         fR6jFjibDdZA1zgXcTzC+y2AhPSySGEGgStAMAgiWWF4A/HQpvlqCKjNme9UU4zXmCTA
-         0SDaQpmwXCHzRMirc9QQgw/XshdcCB2JtRLNKzXFHInJZO/TnPIyWegAlSI9yxBWzMjx
-         Cfnw==
-X-Forwarded-Encrypted: i=1; AHgh+RqVj5Vzc5gNP3w0TWrNQM948ptnI8CQuBLj1Rvt60mexxiXWcX93Ea2RC3Iie/aAmEwidPa0jA8v4cxoiSM@vger.kernel.org
-X-Gm-Message-State: AFuF++lxQyqxUFM2oj0EQQKaTI9/gvsFyQi8P8pniY8TR7uMGPG4jRGW
-	z9Uhk6gbQUP8zZHjC1oKQ/01umbTPloxuCBC/wdtE00D3rPmOmM7LlCF1EyaHFphRJtiwucDio9
-	HeE+wtU5ZSZ5iZUqdIoGFCN33TFPyHwQ=
-X-Gm-Gg: AR+sD12An8r7AOrR7wMxVKDoaGmwaiMfzrCUeioznBliukOOXjGpM8QD0aY1vrxdLhj
-	akQ/Mkw4qtIrxwB4yasFSDwvXs6hjPxdktehxHkN7/W3wXDqMRFmLp2igSAVqWUNkStot/8WUKe
-	2YyaR6C2Ic9zltR1QTMC6K9Nt+7aojU8/DLFb53VDkWuYSVxmhC63b+D3cuPVmgn2KVsVwLUHzt
-	FpYjrEJ2QEL0GjDqWz5ZXrbZB7OD8sJ/yyyXwo4WEA45C49TxwPImmGY2jSzoM6r7hAShkdTyQS
-	Zqd9g5MvblCLMALgNAGcpBBeYDu/WbcJFyDsTtRxQoUYa9evV9F3iw2Wq+v7lNagX2lk7wgC2RB
-	yLwPBQbwX6m4=
-X-Received: by 2002:a05:6402:21cc:b0:6a5:d58a:9640 with SMTP id
- 4fb4d7f45d1cf-6a5df61b209mr2046699a12.9.1787693242034; Tue, 25 Aug 2026
- 14:27:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="W1zOJXtT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="F6ZZ5DJl"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.stl.internal (Postfix) with ESMTP id C451913002CE;
+	Tue, 25 Aug 2026 17:56:23 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Tue, 25 Aug 2026 17:56:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1787694983; x=1787702183; bh=K05G7A12ZirkV0S62vCINyB8k2uIdpaSt2c
+	/l5Svrv0=; b=W1zOJXtTY7krqUbI/e2926xA2AI0aonKJm93t8Efmm3sTv4C/55
+	Xlh0fnezDWIjnFiWDsI5KehWguDiDPvz24PomDV6c0NxVOuFjEi7DeJwPqkm1sdU
+	wESvCwK90Is87jd8TJknWHlz9D67gS7ovqI22ibngAABV5+ZXqhsOobu/Od4l2C9
+	OKHgTaFh/ouDlqrlUDzzgtEosWgI9MF3+t10kC83kerjkwEVmMxZWA5f8sVxyiHa
+	BcqPO/XxblPiXDiV5O4V7V5LeiRVYQudbW+85Pt4Sf+NO32s28RIC/XH9+7KAVDc
+	DzfVbZOp1u4yloVE7vfG9SUZ/lzztqTocWw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787694983; x=
+	1787702183; bh=K05G7A12ZirkV0S62vCINyB8k2uIdpaSt2c/l5Svrv0=; b=F
+	6ZZ5DJl4wrVIGsuat3al6SyTvH3msQ3BCM9jddMk0KsQI7NB2roPOzeyYPEIe8Hf
+	jDIBVTrPqTsVuKwZ7mGq8zeLH0Mj06EtFNS2DFkqtpQfc0gcHkHh3lrvK0NPNSlx
+	TOhuUzE0UT4roBtnrngh+RFxjyIiqY2M13+28jErxmrIqhDUZ51D/h+3Pg7JW7Le
+	yX0wrSbsyI7wDuu9MaMkpGX+HJWPY07KCgsgYVB0Cm1B4623SLA5TwQHou2rBZtS
+	T8vJzKN4gwmq00/PC6XdPghRI/zVegG9MknPqbU1TOimsDFPA/vWHOI6UTsOe6/s
+	X1rmchbkL0elUvZyDLUog==
+X-ME-Sender: <xms:hg-Oam7wzMJUAHNHVmS3kaNBFaCfuHPtUMsyZw21EnOHipVe_AZm_w>
+    <xme:hg-OaoGFdekNRuJqe6y_VfQI7BzoD4yhwwqkeMslmaZTq7JQZ8J9rSPgNzlBnDN5z
+    319Un-MfJPjIT9I3vuNi3CEVD4R142ZMqRKYI9N-RWqei0hiw>
+X-ME-Received: <xmr:hg-OaszPMO38XBb9bOiFudtkeX90c-XU8Hutb5_SqVQG6jRqXJVKADYlzEku_0s73wq752YmdN8gpwO5S-sbToIA03BvXFw>
+X-ME-Proxy-Cause: dmFkZTEinfM2rX6LCiisMyfFt6nycDgH63ScsQwlmXkpkDSM52GqJt93CfJAFgJHAs8+0d
+    YVonLtc/8GUWKH+1AqRTJMeyvQC01F9hFs5SPWJnCnyj38ZpPlB87JP8Y/NZJIPumB7Th5
+    XBNUzkKkK91KeAd2GzBFSUi7z3seDx1P3Vii8PN8s8Z6BMei2iIXjmfJdTVcYdLS79IEIT
+    Cw3VX6P02LXMKO4gRAZUuH6UmBx9aIuViCOWHYgk0fd/RafbHOJLPEzuukpNUD61HJGNhr
+    setVMgw9EzoDFIcT0227/8DIP+AvONFUKeIuMRfMgjYsaqxmdUqsol8Qj1yAguLwwrvNM9
+    9yV/8A6sPKRFqWMEF6fFHNSKYNW+tIOl+6Guhmts0E3A0jF+27ZNJ0NIW7KehybzykK4bb
+    hdeLdKpwVTbvEcLzZn3/KXLa9e0jFLfNli8I+AcoQf7bbkz8Sdkwgs/RVovVHfg0N7P9LJ
+    2V3YIir6Z88Tvm1EkjmQYJ7DOg/vOwaHSFD6XGsEdZWUl14viQUPWcpDylDH4DuaYT9C6i
+    BmfBmlAI2/HTWjSq3i+ch8uDc9JdNk/1YHEzPsku1rJKcfO4iHT7hhkFDY+pOT2L6SfOhw
+    MciJOHiSvlmllnGy3G5MhYpkdwQgaag4obfbyPF5+tbkNzwIoASU7QgxNaVg
+X-ME-Proxy: <xmx:hg-Oag3oeqAdMvo4kL_VpxUf31WN5V3OGquTQ1q1q__0QGJ7g5IdYQ>
+    <xmx:hg-OanOqbkvAVCBKAb0NleNuqMDQ4N2Ck6MEQwjdGrWdreXhxING5Q>
+    <xmx:hg-OaksxkI-BOW8yZuRcrpqE8yFm3DpOVJiKyNdOZddSqOTY4Vby0w>
+    <xmx:hg-OajL6Lrtjz4k8Rq-wTkznr36PQiG7SdA-ovLNqZiiq_fyUxmkog>
+    <xmx:hw-OahS4kme2FlPtj7lTXPgXETDY-0mEaw-zcfQPIdM9nJxHdUJzDJI3>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Aug 2026 17:56:16 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1784204592.git.me@linux.beauty> <anJE8SfBLtkh6QSa@zenbox> <1a01795b07a.1f456216580426.3401229391386650127@linux.beauty>
-In-Reply-To: <1a01795b07a.1f456216580426.3401229391386650127@linux.beauty>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Tue, 25 Aug 2026 23:27:09 +0200
-X-Gm-Features: AcwNN1VIk99DyxEcpdaJ9t08bm4LFPXj5Yk5ztu7oKocV4saiMTQcrI1RCnhRcA
-Message-ID: <CAGudoHGoOr8rvhSQK+HQp7LmNyE9vP=xTok9eA1ZbV7uaVnMEg@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/24] pidfd: add a minimal process spawn builder
-To: Li Chen <me@linux.beauty>
-Cc: Justin Suess <utilityemal77@gmail.com>, Christian Brauner <brauner@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Gabriel Krisman Bertazi <krisman@kernel.org>, 
-	Josh Triplett <josh@joshtriplett.org>, Andy Lutomirski <luto@kernel.org>, 
-	John Ericson <mail@johnericson.me>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, 
-	Eric Paris <eparis@redhat.com>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	linux-api <linux-api@vger.kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-kselftest <linux-kselftest@vger.kernel.org>, linux-doc <linux-doc@vger.kernel.org>, 
-	audit <audit@vger.kernel.org>, 
-	linux-security-module <linux-security-module@vger.kernel.org>, 
-	linux-arch <linux-arch@vger.kernel.org>, linux-mm <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@ownmail.net>
+To: "Chuck Lever" <cel@kernel.org>
+Cc: "Ian Kent" <raven@themaw.net>, "Jake Edge" <jake@lwn.net>,
+ "Ilya Dryomov" <idryomov@gmail.com>, "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
+ coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Miklos Szeredi" <mszeredi@redhat.com>, autofs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v2 13/18] VFS: don't move dentries in d_sib list when they
+ have the same parent
+In-reply-to: <c3cc4175-1ca3-467d-849b-22462a7514fc@app.fastmail.com>
+References: <20260815042707.2535717-1-neilb@ownmail.net>
+  <20260815042707.2535717-14-neilb@ownmail.net>
+  <c3cc4175-1ca3-467d-849b-22462a7514fc@app.fastmail.com>
+Date: Wed, 26 Aug 2026 07:56:12 +1000
+Message-id: <178769497289.3510150.1755559233711012616@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-Whoa, this is older than I thought.
+On Thu, 20 Aug 2026, Chuck Lever wrote:
+> 
+> On Sat, Aug 15, 2026, at 12:21 AM, NeilBrown wrote:
+> > From: NeilBrown <neil@brown.name>
+> >
+> > When __d_move() moves or exchanges dentries it currently always moves
+> > both dentries to the head of the ->d_children list of the respective
+> > parents.
+> >
+> > When they have the same parent, this simply moves them from where they
+> > are to the start in the same list.  So it achieves nothing useful.
+> >
+> > A future patch will allow d_for_each_positive_child() to drop and retake
+> > the parent's d_lock during the iteration.  With the current __d_move
+> > behaviour this would allow a dentry to be moved to the front and so
+> > missed, even though it is still in the same directory.  This might be
+> > unexpected.
+> >
+> > With this change the only dentries that d_for_each_positive_child()
+> > might miss are those moved out of the directory, or those moved in after
+> > the iteration started.  These are unavoidable and should not be
+> > unexpected.
+> >
+> > Signed-off-by: NeilBrown <neil@brown.name>
+> > ---
+> >  fs/dcache.c | 20 ++++++++++++++------
+> >  1 file changed, 14 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/fs/dcache.c b/fs/dcache.c
+> > index ae726f3ff0cb..50fbbcceca01 100644
+> > --- a/fs/dcache.c
+> > +++ b/fs/dcache.c
+> > @@ -3052,6 +3052,9 @@ static void copy_name(struct dentry *dentry, 
+> > struct dentry *target)
+> >   * entries should not be moved in this way. Caller must hold 
+> > rename_lock, the
+> >   * i_rwsem of the source and target directories (exclusively), and the 
+> > sb->
+> >   * s_vfs_rename_mutex if they differ. See lock_rename().
+> > + *
+> > + * If @dentry and @target have the same parent, then neither is
+> > + * moved in the d_sib list.
+> >   */
+> >  static void __d_move(struct dentry *dentry, struct dentry *target,
+> >  		     bool exchange)
+> > @@ -3119,15 +3122,20 @@ static void __d_move(struct dentry *dentry, 
+> > struct dentry *target,
+> >  	} else {
+> >  		target->d_parent = old_parent;
+> >  		swap_names(dentry, target);
+> > -		if (!hlist_unhashed(&target->d_sib))
+> > -			__hlist_del(&target->d_sib);
+> > -		hlist_add_head(&target->d_sib, &target->d_parent->d_children);
+> > +		if (target->d_parent != dentry->d_parent) {
+> > +			if (!hlist_unhashed(&target->d_sib))
+> > +				__hlist_del(&target->d_sib);
+> > +			hlist_add_head(&target->d_sib,
+> > +				       &target->d_parent->d_children);
+> > +		}
+> >  		__d_rehash(target);
+> >  		fsnotify_update_flags(target);
+> >  	}
+> > -	if (!hlist_unhashed(&dentry->d_sib))
+> > -		__hlist_del(&dentry->d_sib);
+> > -	hlist_add_head(&dentry->d_sib, &dentry->d_parent->d_children);
+> > +	if (dentry->d_parent != old_parent) {
+> > +		if (!hlist_unhashed(&dentry->d_sib))
+> > +			__hlist_del(&dentry->d_sib);
+> > +		hlist_add_head(&dentry->d_sib, &dentry->d_parent->d_children);
+> > +	}
+> > 
+> >  	/*
+> >  	 * Adjust parent refcounts if either d_children ended up empty.
+> > -- 
+> > 2.50.0.107.gf914562f5916.dirty
+> 
+> Both new guards are correct. In the exchange branch target->d_parent has
+> already been set to old_parent, so testing it against dentry->d_parent
+> asks whether the two dentries started in the same directory. In the
+> common branch dentry->d_parent has been set to target's parent, so
+> testing it against old_parent asks the same question. IS_ROOT()
+> still takes the move, which it needs to because a root dentry has an
+> unhashed d_sib, and the BUG_ON(p) above guarantees target->d_parent
+> is not dentry.
+> 
+> The opening sentence needs a qualifier. For an ordinary move only
+> dentry->d_sib is relocated. target->d_sib is touched only on the
+> exchange path, so "both dentries" describes just that case.
 
-First and a foremost apologies for radio silence, I got really busy
-with other stuff.
+Thanks, I'll adjust that.
 
-I did not have the time yet to go through the patchset, but I have
-some time to respond to this bit.
+> 
+> This patch also does more for libfs than the patch description claims.
+> I would like the description to say so, because it makes the patch
+> worth applying on its own.
+> 
+> offset_readdir() resolves a stale cookie with mas_find_rev() and then
+> walks d_children from the dentry it lands on. That is correct only
+> while offset order is the reverse of d_children order. d_alloc()
+> inserts at the head and mtree_alloc_cyclic() hands out increasing
+> offsets, so the two agree in a directory that is only created into.
+> 
+> A rename within one directory breaks the agreement today.
+> simple_offset_rename() gives the surviving dentry the offset of the
+> entry it replaced, and d_move() then sends that dentry to the head of
+> d_children. Create a, b and c in that order and the offsets are 3, 4
+> and 5, with d_children holding c, b, a. After rename("a", "b") the
+> dentry for a carries offset 4 and sits at the head, so d_children
+> holds a, c while offset order still says c, a. Stop a readdir with a
+> reported and c pending, remove c, and the next call resolves the
+> cookie to a and reports a a second time.
+> 
+> With this patch a stays where it is, d_children holds c, a, and the
+> two orders agree again. Thus this is a fix for tmpfs readdir, not
+> just preparation for 14/18.
 
-On Wed, Aug 19, 2026 at 3:15=E2=80=AFAM Li Chen <me@linux.beauty> wrote:
->
-> Hi Justin,
->
->  ---- On Wed, 05 Aug 2026 04:25:25 +0800  Justin Suess <utilityemal77@gma=
-il.com> wrote ---
->  > On Thu, Jul 16, 2026 at 10:31:26PM +0800, Li Chen wrote:
->  > > Hi,
->  > >
->  > > This RFC follows feedback on my earlier spawn_template RFC [1]. That
->  > > proposal made caching the primary interface; this one starts with ge=
-neral
->  > > process construction. Christian suggested a pidfd/pidfs exec builder
->  > > modeled after fsconfig(), with enough semantics for userspace to imp=
-lement
->  > > posix_spawn() [2], and Kees agreed [3].
->  > >
->  > > This RFC is based on linux-next next-20260710 and depends on two pid=
-fs
->  > > fixes that I sent separately:
->  > >
->  > >   * pidfs: preserve thread pidfds reopened by file handle
->  > >     https://lore.kernel.org/all/20260716052726.1032092-1-me@linux.be=
-auty/
->  > >   * pidfs: handle FS_IOC32_GETVERSION in compat ioctl
->  > >     https://lore.kernel.org/all/20260716052822.1034228-1-me@linux.be=
-auty/
->  > >
->  > > The initial implementation is source-based. The executable path can =
-be
->  > > provided with the final run request:
->  > >
->  > >     struct pidfd_spawn_run_args run =3D {
->  > >         .path =3D (unsigned long)"/usr/bin/rg",
->  > This should probably be an FD for the path.
->  >
->  > This way it prevents race conditions over multiple configuration steps=
-.
->
-> Thanks, that makes sense. Using an fd avoids the pathname race and pins
-> the executable we actually want to run.
->
+Thanks for the review, but I think the above is a false hope.
+In that particular case my patch helps, but in a different case it
+doesn't.
+Suppose instead of rename("a", "b"), I did rename("a", "c").
+Before the renames d_children holds (name,offset) pairs of
 
-I don't understand what race is supposed to be addressed either as
-none of the setup depends on the content binary.
+ ("c", 5), ("b",4"), ("a",3)
 
-Regardless I don't think this is going to fly as it directly shafts
-NUMA setups. What's needed is a path to the binary + the PATH
-envifornment variable or a collection of paths to try out.
+after the rename which with my patch doesn't move dentries but does
+still copy the name and offset from "c" to "a", and unhashes the
+original "c" - which we can show with [] - we have
 
-Here is how it harms NUMA: In the most extreme case suppose there is a
-container bound to a specific node and you want to exec something into
-it. Further suppose none of the relevant data is in RAM yet. And
-finally the process doing all the work is running a different node.
+ ["c", -], ("b",4), ("c", 5)
 
-Say you are going to spawn ${container}/usr/bin/coolprog.
+which has the wrong ordering.
 
-At minimum this will allocate a dentry and an inode for usr, bin and
-coolprog itself.
+Thanks,
+NeilBrown
 
-Afterwards any path lookup going through usr in that that container
-will have to fetch memory from a non-local node to traverse it, same
-thing for the bin subdirectory.
 
-This is a self-induced problem when using a fd.
+> 
+> Reviewed-by: Chuck Lever <cel@kernel.org>
+> 
+> 
+> -- 
+> Chuck Lever
+> 
+> 
 
-In the real world userspace notoriously performs failed execs as it
-makes its way through dirs in provided in PATH, and while you can
-patch select programs all you want, the mechanism will have to account
-for it.
-
-This is where the next NUMA issue lies its ugly head. Suppose you have
-a box with multiple nodes, but don't use anything to maintain affinity
-(as in, processes run where the scheduler sees fit).
-
-A well-known exec-heavy workload where this is fine is compilation.
-Any big project will do, to give you one trivial example, make -j
-$BIGNUM modules in the Linux kernel directory.
-
-Say you have a box with 4 domains and 32 threads per each. make -j 128
-will end up spilling on the entirety of the machine and there will be
-some loss of locality when spawning gcc and whatnot. Even then, a
-sensibly behaving scheduler will not migrate processes between nodes
-without needing to do it. Meaning after the process gets to run, you
-can assume it stays on the given node. The stock kernel with the fork
-+ exec machinery is doing a shitty job here, but the new mechanism can
-assure process-specific allocation to come form the target node as
-long as the scheduler does not mess up.
-
-To that end, the final form of the machinery needs to be in position
-to do the following:
-
-1. copy in whatever data it needs from userspace
-2. if no affinity is specified, ask the scheduler: assuming something
-forks now, where is it going to run? the answer would be speculative
-ofc
-3. to the minimum allocations needed (task_struct etc.) while passing
-the node number from above
-4. have the newly spawned task handle everything else
-
-This in particular means that a failed exec would be very expensive,
-as it would go through task creation and teardown. Meaning the child
-needs to be able to figure out where to binary to execute is. And
-user-visible part has to account for it from the get-go.
-
-I'm going to write more after I go through the patchset, should be next wee=
-k.
-
->  > >         .argv =3D (unsigned long)argv,
->  > >         .envp =3D (unsigned long)envp,
->  > >     };
->  > >
->  > >     fd =3D pidfd_open(0, PIDFD_EMPTY);
->  > >     pidfd_spawn_run(fd, &run, sizeof(run));
->  > >
->  > > Alternatively, the path can be staged before the final run step:
->  > >
->  > >     struct pidfd_spawn_run_args run =3D {
->  > >         .argv =3D (unsigned long)argv,
->  > >         .envp =3D (unsigned long)envp,
->  > >     };
->  > >
->  > >     fd =3D pidfd_open(0, PIDFD_EMPTY);
->  > >     pidfd_config(fd, PIDFD_CONFIG_SET_STRING,
->  > >                  PIDFD_CONFIG_KEY_PATH, "/usr/bin/rg", 0);
->  > Same here. Should probably be an FD to the binary instead.
->  >
->  > >     pidfd_spawn_run(fd, &run, sizeof(run));
->  > I'm worried this pidfd_spawn_run just adds another varient to the exis=
-ting
->  > myriad of exec* syscalls we already have. Would it be better to just h=
-ave this
->  > work through execveat(fd, "", argv, envp, AT_EMPTY_PATH) instead?
->  >
->  > (i.e have execveat take a pidfd directly).
->  >
->  > Then you can get rid of pidfd_spawn_run which looks almost structurall=
-y
->  > identical to execveat (with the argv and envp collapsed).
->
-> Thanks, but I'm less sure about using execveat() as the run operation, si=
-nce it
-> normally replaces the caller while the builder creates a new child and
-> returns. A separate run operation still seems clearer to me.
->
-> Regards,
-> Li
->
->
