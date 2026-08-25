@@ -1,35 +1,96 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65431345CCA;
-	Wed, 26 Aug 2026 08:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6FE3B059C;
+	Wed, 26 Aug 2026 08:01:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787731273; cv=none; b=DzQRcPQ6T7Y9o9sQDaIgDYsBBKKj/iS/aj+APTJBAfPbzByHsCdp7txUqiBZTBslJW54tie5b6W0DPurXKiNUZwe6XDF8E0Vb/j4/nIupAzqWW1JslcwXYWMWijPbYdMt7jtbL7wKNhMOrprFZ5ShnSeb4kxw4bZLQ9EkCVW5QI=
+	t=1787731300; cv=none; b=ShOG4bYlXjJAQFFpI73eqw/OmWvY2LvGf3tiPmtgjLgftKYPSBe6NtL/Mg82hRdxr9T4qXTXIysY9TOCGtec9ShNMQEXPA0IcMAewUUjNGR7Yow8srPzkU6CJQBAFdbT2bFr9oYmSki6izwf8UUXIftlJXhKKuS3KBF+ROR/HfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787731273; c=relaxed/simple;
-	bh=vXBz3FNO6JY23vjI834Qvs3ZsQvSpP/wBQGWVm7vG3E=;
+	s=arc-20240116; t=1787731300; c=relaxed/simple;
+	bh=IxiVrrpTHyFhji7IHn86HtWkolVGPiN0U/NpaF18ngg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQ7VcID5nzWYUPG0PTgaWAWqmMgZJ0arHOJwrbHflY0iSbUiryDeJRzYQWXUin4juWs8V25PW9KJFmIU5/aq22kacFn6XQBz+6itFVv5zdoJAFVY/3WRem6FAbUsBU9dgh9i9jf5kcaYoJDNLwHZX5V9VWTUMrbhUGatqxCpeXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8F0F068B05; Wed, 26 Aug 2026 10:01:04 +0200 (CEST)
-Date: Wed, 26 Aug 2026 10:01:03 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Qu Wenruo <quwenruo.btrfs@gmx.com>, Pedro Falcato <pfalcato@suse.de>,
-	Christoph Hellwig <hch@lst.de>, Jann Horn <jannh@google.com>,
-	David Howells <dhowells@redhat.com>,
-	John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>,
-	Rik van Riel <riel@surriel.com>, Qu Wenruo <wqu@suse.com>,
-	"Darrick J. Wong" <djwong@kernel.org>, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-xfs@vger.kernel.org
-Subject: Re: Removing ->dirty_folio
-Message-ID: <20260826080103.GC19050@lst.de>
-References: <aoyWln-Gt-yvZQkE@casper.infradead.org> <a1f8902b-72a5-40fd-a36b-89b6ea271cdd@gmx.com> <ao3sgEET8GuY7Rw2@casper.infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=R3S44H3PzbZEwx6VcckAdpuyjG1HWns+d+TVZsydBZZhGuxY+lOw6mldatvJEJXuGV+Q1gNHB1MPj4suvEhZWVdkCB75PQV75mhNkrFgOws+Uefh2quBEPRAYl/gulVjbtkw3R8c+WfNkr4gkMLzfHnoHlyKppo/k04GSPSD79E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DTkged1j; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=dehLYe7D; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=A7qEACt2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nKHPNW0a; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DTkged1j";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="dehLYe7D";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="A7qEACt2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nKHPNW0a"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 91D501F808;
+	Wed, 26 Aug 2026 07:50:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787730607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CdvxYmU0If9qcyse2xh45WeoUF9Da1mUHHyMpdwfLk0=;
+	b=DTkged1j0ey7mAbRXOpBdE3MmSJt4QNgySnq7AIKVbvl6fxx6hA0bkmfmcW+EgjZfN7PTm
+	KXTYGHC0PHlIqEH1lAwcMPGBAprxH/cz3SvWgxL+RkxmS5Xs6ssVkdPxVLYCMs4fqjo3VF
+	mNmOWif/NmKz2P5F9X86r9I6ydIVzsw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787730607;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CdvxYmU0If9qcyse2xh45WeoUF9Da1mUHHyMpdwfLk0=;
+	b=dehLYe7D1TAURXfljQb88H/rMUJW/4tqZwDDQUYrfSGQVJpI2cKAezBprWMJyiEXtsJtZt
+	c0vil8ms9Z9kW1CA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787730603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CdvxYmU0If9qcyse2xh45WeoUF9Da1mUHHyMpdwfLk0=;
+	b=A7qEACt2canZGIqO6me6VbBwwhs31JR+Ku58kUdhSFhcrNemBst9nR9kB0YVPA/wlpdsWf
+	Qn4dOMKBdciwOMvv40KJYEHzHZP0qQs6pbdkvczkRE/Cw6e22R1XAPIFZhtwJtsyJIxuXx
+	gsz1iTWjiDNAgvBiNbSUtmgxmVLxOJQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787730603;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CdvxYmU0If9qcyse2xh45WeoUF9Da1mUHHyMpdwfLk0=;
+	b=nKHPNW0a3IhvWDm2ZUsj7uSp0QIcgDFVj0zlhkmXL7F3wtI2pL1nGo4D+4s9EeQR371lG7
+	FXxlpw4xwSMsHjBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A30061368C;
+	Wed, 26 Aug 2026 07:49:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6RnHJ6OajmoPDAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 26 Aug 2026 07:49:55 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id E19B5A13BB; Tue, 25 Aug 2026 19:18:14 +0200 (CEST)
+Date: Tue, 25 Aug 2026 19:18:14 +0200
+From: Jan Kara <jack@suse.cz>
+To: Chao Shi <coshi036@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Matthew Wilcox <willy@infradead.org>, 
+	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, 
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
+	Zhang Yi <yi.zhang@huawei.com>, Zhang Yi <yi.zhang@huaweicloud.com>, 
+	Bob Copeland <me@bobcopeland.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
+	linux-ext4@vger.kernel.org, ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Weidong Zhu <weizhu@fiu.edu>
+Subject: Re: [PATCH v2 18/21] jbd2: say what jbd2_freeze_jh_data()'s
+ assertion is actually checking
+Message-ID: <bnzktcjzpxbnmxmvljg7nnxulvuz3vyqd5p2xrn6orf66kirea@nw2m66x3khvm>
+References: <cover.1785951556.git.coshi036@gmail.com>
+ <713ffb9c0cdfe55499b3cdd2c06a59a2c152c46c.1785951556.git.coshi036@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,55 +99,81 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ao3sgEET8GuY7Rw2@casper.infradead.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <713ffb9c0cdfe55499b3cdd2c06a59a2c152c46c.1785951556.git.coshi036@gmail.com>
+X-Spam-Score: -2.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	URIBL_BLOCKED(0.00)[suse.com:email,suse.cz:email,fiu.edu:email,imap1.dmz-prg2.suse.org:helo];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	TAGGED_RCPT(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	R_RATELIMIT(0.00)[to_ip_from(RLhn4jw3wthgom179184pqozfe)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,kernel.org,zeniv.linux.org.uk,infradead.org,vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,huawei.com,huaweicloud.com,bobcopeland.com,samsung.com,sony.com,mail.parknet.co.jp,fasheh.com,evilplan.org,redhat.com,lists.linux.dev,fiu.edu];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
 
-On Tue, Aug 25, 2026 at 08:26:56PM +0100, Matthew Wilcox wrote:
-> > >     ->page_mkdirty() had been called again for each page in the folio is
-> > >     marked as dirty.
-> > 
-> > This may make COW more complex.
+On Thu 06-08-26 12:58:41, Chao Shi wrote:
+> The assertion that the buffer about to be copied out is up to date is
+> correct and stays, but its message - "Possible IO failure" - describes what
+> a buffer that is not up to date used to mean rather than what is being
+> checked.
 > 
-> It's probably wise to be explicit when talking about COW.  Anyone from
-> the MM side of the house is probably thinking "but this is only relevant
-> for shared writable mmap and we don't do a COW".  You're talking about
-> filesystems doing a COW of the on-disc data, not about the MM COWing the
-> pagecache page into an anonymous page.
-
-Heh.  There's way too many COWs around (says that one on vacation
-all around lower case cows).
-
-> > I'm not sure if we will have a good timing for re-reserving space inside
-> > btrfs.
+> Once this series stops clearing BH_Uptodate on write error, that reading is
+> wrong twice over.  A failed write no longer makes a buffer not up to date,
+> and a buffer that does carry BH_Write_EIO is fine here: it still holds
+> valid data and the journal will write it again.  What the assertion is
+> really guarding is that there is something valid to copy at all.
 > 
-> Why is it hard to do it immediately at writeback time?  I think you're
-> in an even less restrictive locking environment than page_mkwrite is
-> called in because you're not under any MM locks.  According to
-> Documentation/filesystems/locking.rst, ->writepages is called with
-> absolutely no locks held.
-
-Re-reserving can fail.  So if we want to be fail-safe we need to do
-it ahead of time.  Then again as per my other mail we might only
-have to do it for long-term pins where the place of dirtying is
-explicitly controlled.
-
+> Say that instead.
 > 
-> > Would it be possible for MM/VFS layer to trigger page_mkdirty() instead?
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Acked-by: Weidong Zhu <weizhu@fiu.edu>
+> Signed-off-by: Chao Shi <coshi036@gmail.com>
+
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/jbd2/transaction.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Actually ... no, because the VFS no longer knows which pages in the
-> folio are dirty.  That's information the MM had, and communicated to
-> the FS which (if it cares) has stored in its folio->private.  But the
-> VFS no longer has access to that information.
-
-All of this is quite a mess.  We'd need to allocate it a head of time
-to be safe, but for that the file system would have to manage
-multiple overlapping reservations for the same region of the file.
-Which I don't think anyone does right now.
-
-For RDMA/HMM we might be able to tell the file system ahead of
-time with some rework, but none of these good ideas are going to
-work for vmsplice.  So the only option is to grab space from
-a reserved pool covering the max writeback size, which can be
-refilled when freeing them.  Assuming we can actually free them
-an no one took a snapshot permanently pinning the old blocks in
-the meantime.
+> diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
+> index 5cc7d097b2ac..85d84d909f78 100644
+> --- a/fs/jbd2/transaction.c
+> +++ b/fs/jbd2/transaction.c
+> @@ -920,7 +920,7 @@ static void jbd2_freeze_jh_data(struct journal_head *jh)
+>  	char *source;
+>  	struct buffer_head *bh = jh2bh(jh);
+>  
+> -	J_EXPECT_JH(jh, buffer_uptodate(bh), "Possible IO failure.\n");
+> +	J_EXPECT_JH(jh, buffer_uptodate(bh), "Buffer not uptodate!\n");
+>  	source = kmap_local_folio(bh->b_folio, bh_offset(bh));
+>  	/* Fire data frozen trigger just before we copy the data */
+>  	jbd2_buffer_frozen_trigger(jh, source, jh->b_triggers);
+> -- 
+> 2.43.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
