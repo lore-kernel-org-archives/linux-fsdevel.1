@@ -1,63 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91D03D1AB5;
-	Tue, 25 Aug 2026 19:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEA13CCFCC;
+	Tue, 25 Aug 2026 19:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787687473; cv=none; b=khhi9MjYmRwuytvy92UQhdPvBcC0s2+aGtDFkx1hVreq0VyQAATHJbWfYgGmWL/5bCYsAnpf44GaGBSI/yfO1s/sp0Bab5YU3pulQO+ySv9rv9DplOS7YePcc34cSPNEFVypTOsJwuwBqtyF8Ah6gERaTomi1pwwwOxKRBb0a/I=
+	t=1787687675; cv=none; b=hdVd1N9l/xNL1pzd1g6VA+M9R1YSeg5a3TgDEq/n4M9WZWym/cjKk/dqii37+x3D4gKvahn99ZUEy5tO9svagUZNUUcq02rZetiO37OeZZ5gVtAMvzJjSqUGAR4agFKEyyJuNvTyIEZqFeOAG38kkhlFYHHzhNrL7QfnKihRS/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787687473; c=relaxed/simple;
-	bh=1po/+kNei+i/8rW3nNDhJqQz47FxTgMbnYrsxWLSJfQ=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=PmU5CrjtCU+hhKSgK7hqIcN8cADJksMIc73tWiKVjIkylrWgfmT20ed7fZ6WtLNPxuMschxfrEaedU4vgBINCnvAWALlDR8nkgwc1k8kgV6ClfBkxBJ97Y55HK3e3F7svIW7cAlkr9OdJrHW9J9YFO06UP/foe90p6W/76vGGm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OKczK+6L; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787687675; c=relaxed/simple;
+	bh=P77EoaPsWzVp08iF7mAqw/bsYKPi/NQKnTDilvmOF7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RWQs20XzOuGbXrkTvddgRpCIaAe14TDGhMDOuOamz66qITKah5+4P1AJl0Hbk8SR7yHEmR+sSlTShTTkxzGswt0lZhpb58qZtlcifl9IYbskAzex6WZkVinpA0ByUA65Myetcl+xBZ5b9rkJhjDBVjHaplWc6TE8uU74RLmAbio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YTvUAr3l; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OKczK+6L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B571F00ACF;
-	Tue, 25 Aug 2026 19:51:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787687464;
-	bh=9wcoQ2o5iE9tULrEpCjrK0LQ8wDDSvEASDtgVeFGU8I=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=OKczK+6LH+Tv5KEQ3GdmW8egTHV0Xnr3RjsrUH/HGFT5g1izkefw6EzJPLSfUCF6V
-	 NozRx6MmNH2I/7CWtoWz3vtos8ktvK5fJ5Sv9zkq4YgixaizHd3mjhBGMI3AUIr7JL
-	 fvChR/JsIsLqIrT5HrGGLiVcu/pluA0n4L0AoxsYq5+3Ux5a/oSDnnZcsP8JprWp7J
-	 KsC7quvEyKW8VLv/7DMDKrON6gqMRdwJkdEm/sNupx8C7M4wGbpUKUS6avlbPoERjT
-	 VS8MP9QQ9WLsqqcMUJya4CNg1bXeSRjYu7tYWL9tfYfm0HaP2MZ9bZQzbwrLan0rAF
-	 Eou55G8bDfojA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 9394539253CD;
-	Tue, 25 Aug 2026 19:50:12 +0000 (UTC)
-Subject: Re: [GIT PULL] fuse update for 7.3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAJfpegu_5Sfbbi36ss3_4k_3Va+RSbnHxRbCUxWoTRcraQ07cw@mail.gmail.com>
-References: <CAJfpegu_5Sfbbi36ss3_4k_3Va+RSbnHxRbCUxWoTRcraQ07cw@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAJfpegu_5Sfbbi36ss3_4k_3Va+RSbnHxRbCUxWoTRcraQ07cw@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git tags/fuse-update-7.3
-X-PR-Tracked-Commit-Id: 34b5c4a6e4fb9dbb3f9d87f3b0fb0372105c8302
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 9cebfe6504488198b012e746bc6b313f88b95439
-Message-Id: <178768741134.4034242.688092249380170922.pr-tracker-bot@kernel.org>
-Date: Tue, 25 Aug 2026 19:50:11 +0000
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org, fuse-devel <fuse-devel@lists.linux.dev>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YTvUAr3l"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=smFQZ2IeQKu0B72lsW5UQQWmYpl1k+vdLVb/izh96cI=; b=YTvUAr3lwCk+v4NG+erMHF4nhw
+	uSFjwylmYF2u8k3IoHoSxAUwyixjRMkt2tMEKGRgQYPo8zjoklPghvFWLBmVgLyz61jWpI/yVM3p/
+	4PXokLDYhj/SKZWhgbenfzKExQZ6dUC/kNvWQRdbjAeqW0I3PdzDCq9DvIz960cCJDPEEdhslq3Wk
+	fOuPkUcQ/MFTk47Rjemehr1joS7Uy9w584AHCiaRqPk/fdmBQ+IVSmwAuVzNDXlbruWzeHJ4DHaK0
+	VuKdf6TxBxg4lWTzC0IP7nJ2JkzU5910QTXpuFDeerQq5WFDaaqLu+giBUbV8coeS0ycSUfeE9BSJ
+	YQv9z9mA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wyxE1-00000009dFV-3BJr;
+	Tue, 25 Aug 2026 19:54:25 +0000
+Date: Tue, 25 Aug 2026 20:54:25 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Jann Horn <jannh@google.com>
+Cc: Pedro Falcato <pfalcato@suse.de>, Christoph Hellwig <hch@lst.de>,
+	David Howells <dhowells@redhat.com>,
+	John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>,
+	Rik van Riel <riel@surriel.com>, Qu Wenruo <wqu@suse.com>,
+	"Darrick J. Wong" <djwong@kernel.org>, linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-xfs@vger.kernel.org
+Subject: Re: Removing ->dirty_folio
+Message-ID: <ao3y8TtEGjniZ_4f@casper.infradead.org>
+References: <aoyWln-Gt-yvZQkE@casper.infradead.org>
+ <CAG48ez0vXVUu9j4rYUeCqgwyHKAiN_6fL--D90WvX9q7B41V-A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez0vXVUu9j4rYUeCqgwyHKAiN_6fL--D90WvX9q7B41V-A@mail.gmail.com>
 
-The pull request you sent on Tue, 25 Aug 2026 11:40:40 +0200:
+On Tue, Aug 25, 2026 at 09:35:57PM +0200, Jann Horn wrote:
+> > The problem is GUP.  We have no way to force the GUP caller to go
+> > through page_mkwrite again.  So instead we make the GUP caller call
+> > folio_mark_dirty_lock() which many just don't, and generally we get away
+> > with it.  But it's a bug, and a bad interface.
+> 
+> We currently have get_user_pages*() and pin_user_pages*(), where only
+> the pin_*() version is properly usable for write access, right? And
+> dropping such pins should always go through unpin_*() helpers?
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git tags/fuse-update-7.3
+Right.  I'm stuffing cheese into my ears and pretending that people
+aren't calling get_user_pages() to do write accesses.  We should be
+able to use this work to flush out the last remaining ones -- we
+can put in various assertions that folios should still be dirty where
+we currently have folio_mark_dirty() calls.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/9cebfe6504488198b012e746bc6b313f88b95439
+> Could we strictly ban using get_user_pages*() for write access, and
+> use the unpin_*() helpers to somehow enforce that folios are always
+> dirtied on unpin? I guess the problem with that is that we have no
+> state that tracks whether the pin was read-only, and finding free bits
+> in struct page to keep track of this is hard?
 
-Thank you!
+We'd need a count, not just a bit or two.  A pincount for all folios
+is on its way (eventually) but I wans't planning on tracking writable vs
+read-only pins.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> > My proposal is this:
+> >
+> >  - Fileystems take note of folio_maybe_dma_pinned() during writeback.
+> >    If it's true, do the writeback, but retain/recreate whatever data
+> >    structures you need in order to write the folio again; behave as if
+> >    ->page_mkdirty() had been called again for each page in the folio is
+> >    marked as dirty.
+> 
+> I don't understand this part of the MM/VFS machinery well - would this
+> mean that a long-term pin of a dirty pagecache folio could cause an
+> unbounded number of disk writes in regular intervals, even if nothing
+> actually writes into the folio? I'm guessing that could be bad for
+> cheap flash storage, but maybe this is in the category of "yes that
+> would be bad but it would be userspace's fault".
+
+Yes.  I think the only alternative would be storing a checksum of the
+contents of the folio and seeing if it changed since the last write.
+As you say, this is userspace doing something incredibly odd (I really
+don't think people make a habit of mmap()ing files shared writable and
+then giving RDMA longterm write accesses to them.  Not on machines with
+poor quality flash storage anyway).
+
+Or we could say "these pages only get written back on requested fsync()
+rather than periodically".
