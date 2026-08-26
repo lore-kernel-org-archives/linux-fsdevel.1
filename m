@@ -1,241 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE69629BDBF
-	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 01:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919A92F6577;
+	Wed, 26 Aug 2026 03:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787708729; cv=none; b=k6RuMyPJmGOKoQi4sg1Y7T/FarrtjDj14ty9FuW+sKcv0Ry0SF6Di0x4OTG3fw/ZaovRKC46TQGXypO0J5uTA2sFqQC0DCl4KytsUotu3YaUdFC3qmhnGtNhKq72wOBl7iV7R5t1HOo8WtqaI8JmOadWrQqczj0ffrws+hLNQSc=
+	t=1787715202; cv=none; b=OxNkYmtRKJnkcxrK/sf9HEChYB4f/VMTUs5nv+HbtIcsRAx/vK7ZoVKPBKV128NKFq6qA5CSHoUYO0Qe5jq7xJm2au31479YHUtTkvuE7yvo3iR+XiQvDWRIxBsccbqe4Ollu7y9t0vdnPtMwp1lhqme67pNZjpXTdfA8eD9ehE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787708729; c=relaxed/simple;
-	bh=k78afwVXWljxmfWyY62nNAbWlVUIilUIUP1+NWqxF7o=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=K+h00kYjAJdpUC5CC9XrunhF2mOsEFMz0Iaf0D/CrotMa7FB2AJe0cvCPZsI7/p1JICBXjHTs/bVZ3ZlKH4W+H32Fox1eoUy5kBZqs1a69YZUA3zM5YEkI21jNQkmX1hyYh+7pjKMmFtFybm1NQl3iiwja9uWoo4YgMpL3V/VgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fNF9JeWc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787715202; c=relaxed/simple;
+	bh=k04VxeuqmKHRw01aSZ5Ko2c//yuRZs33EBX9KXGKLIk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=h0eEdhdBIJJzlOQavX6h7qrs5G/KhGkivSpKOMGBtdXKxh8IH3cdxgAVW9FSdEbsXJrNNUkCTmm3l+Qr8MKUelaM+CDXEriJZubohuxudWnJy/leoGpS+3RxfuhrIpUPdDfD8oFWaqJQB7076tXelYFMkaSJ0SHQLhkaMC0OQes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=6G+x+Kts; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fNF9JeWc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE50B1F000E9;
-	Wed, 26 Aug 2026 01:45:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787708727;
-	bh=2vy5h8IRL/9drb7aiod0XEpXAp/FkZKCcWuNQsPmc2U=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=fNF9JeWcX657yjv1NgSGAUda0cHEUF2IYVcG+NEg3pCEIoqy6IQ6uXvDdWwjAw9YG
-	 8K+HK04YFfIt0nQEmvzquKSCe02Wi9JRAO6VsQtQNAzE+Hf03VCCLMbMSaaO7iLPmS
-	 +VPnO1R7hmHeKHL/mil/6QxG/GMYMNLDgMqp214TZwgP8sLi/MhuzLtXrZ7zzjNtwq
-	 IocDdKHst/JMenRNl+nYaze8Y/BYV8F0GurWC0iUJSRU3G8rmtjE8stMpDgm4r2MsX
-	 PZvaMB54kcGlc5SU1D5+NEk3dNK8adNKWEgL0fwfPGoUc2X7DPU8dvT2ZwuRT+tS8u
-	 IadlAZtDCwuug==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 1EABFF40066;
-	Tue, 25 Aug 2026 21:45:26 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Tue, 25 Aug 2026 21:45:26 -0400
-X-ME-Sender: <xms:NkWOajMb-sus_H7aNy1nvOdmGMnSgkvpAXAk8KCtZ8kBZpMtZ6qxtQ>
-    <xme:NkWOaow6gLYwADX9_oCk2s5iRt0-3PrXfMj074JolwrvzQnFkPTI2ucJAFlBQK_Bh
-    tPq-wXGPR_j9QrWrrSTXKjE8drQiadoYcn_fCxgZBjxoOjYiPfQ>
-X-ME-Proxy-Cause: dmFkZTEVoTDRoSHmD44CVmkhH4Y8ASOktCIL50roejKVJZIr3nwD95sLhpGfQ38COMrkbe
-    erGvCZ+L8qjD+2qplldoIelzYSPmdxHb60bWxf4iOyRmAZnwour7YvCdd7JbOsFCXpCje1
-    5cVs3VIcdVitDvfZcG18HRLpiqJ4Hk0siGcGJloYyFT4AdorQ6HykIJ7AHgXO54+O6CrrX
-    dXrTzVUDmku/D1RwZx60Eo9R/UtRPPn9xLzIp01H/n5gR+9VunuFXB5fhqxXJYmk01ttNy
-    Eu/QMfPiQLQ3nGLDg9GjAaEVbyxlg2KtdOU17zP0FK8JhyauBcH2JOrlNBZ8klc3d7fIYl
-    sUrSSF3D5LrInRkjt8qSUxEvLu6Y2xvHBvF3tE1ZsSmWUuNkmFPMuec82RBP1paPVmJIC0
-    JHLjWlyR+8ZezBcBjb7exkrfDA64vCcEljnyFqwJhWY0bPh5dGV/OqppRGdPX6ciOMvy4x
-    ghEUJHccYb+70u12RzGT3nN3yJgX/R8leneuu1h2VygsIcM69mLjTCa4ZHQy09mQf8nTjZ
-    oH4yvhZuSIFNxCK8M0kZ0wZsWKyyHJ0gy66T4FrMIixhxzeBvEPAFWg4ilhqk0V+r/OtEk
-    rI8EXRfF8C99amS/cZQoMvN9A0/bgwmv5ZSjtt+dbJiLFn/Fcnf0asce9JDw
-X-ME-Proxy: <xmx:NkWOapAjKKiUkbmo9K8Vi8l8m30UzO9OwilVwLvYEyrmX6sJRmLxDA>
-    <xmx:NkWOaoGqu6GJtIhi3Wm8T8ysw-GjdPjZRE56D7NJ9gye19sIm9MFDQ>
-    <xmx:NkWOatetpd38kT_eQJif1y7rvWXGpybLbhGfEWa3J-8Ryt9TtrZ65Q>
-    <xmx:NkWOat96OBaF718IM3ivVUDtR_Kxjx7-gvKCLLyG3gM83tFLmkhgmA>
-    <xmx:NkWOajZGYW8ukeLt5Zsy4LxY1hin93DTC8A2Ocb-04ql6znKiG2bVBny>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id E9AEB7811F0; Tue, 25 Aug 2026 21:45:25 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="6G+x+Kts"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=8aqZqDkznQ0wdG8yLp1nP/iwo/O0lbMvmv5Vz2oLzCQ=;
+	b=6G+x+Ktscb6tbQNtT73i+vwYSFFIno4cZBJLhuPDOw7hAezUV0n+Iq/sVgFjm9j4LBh048buZ
+	95poXpIgo7e/ybRpDL4rsCwIuqkIle6d3jkohcZ2p5+j3k2eio5Ei9lMKOyBms+aeySH212rdNR
+	cBN/suKfRGaylbzFmlefqYA=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4hV91r3gY1z1cyPY;
+	Wed, 26 Aug 2026 11:22:24 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 52BEA40572;
+	Wed, 26 Aug 2026 11:33:09 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 26 Aug 2026 11:33:06 +0800
+Message-ID: <bc9a3081-a567-4e2a-8847-c60fd0e3dc89@huawei.com>
+Date: Wed, 26 Aug 2026 11:33:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 25 Aug 2026 21:45:03 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: NeilBrown <neil@brown.name>
-Cc: "Ian Kent" <raven@themaw.net>, "Jake Edge" <jake@lwn.net>,
- "Ilya Dryomov" <idryomov@gmail.com>, "Alex Markuze" <amarkuze@redhat.com>,
- "Viacheslav Dubeyko" <slava@dubeyko.com>, "Jan Harkes" <jaharkes@cs.cmu.edu>,
- coda@cs.cmu.edu, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Miklos Szeredi" <mszeredi@redhat.com>, autofs@vger.kernel.org,
- linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
- codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org
-Message-Id: <0c46ce23-5a78-40af-8acd-3fcc4504242d@app.fastmail.com>
-In-Reply-To: <178769497289.3510150.1755559233711012616@noble.neil.brown.name>
-References: <20260815042707.2535717-1-neilb@ownmail.net>
- <20260815042707.2535717-14-neilb@ownmail.net>
- <c3cc4175-1ca3-467d-849b-22462a7514fc@app.fastmail.com>
- <178769497289.3510150.1755559233711012616@noble.neil.brown.name>
-Subject: Re: [PATCH v2 13/18] VFS: don't move dentries in d_sib list when they have the
- same parent
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/11] can: isotp: publish tx.state with
+ smp_store_release()
+To: Oliver Hartkopp <socketcan@hartkopp.net>, <viro@zeniv.linux.org.uk>,
+	<brauner@kernel.org>, <jack@suse.cz>, <bcrl@kvack.org>, <tytso@mit.edu>,
+	<adilger.kernel@dilger.ca>, <libaokun@linux.alibaba.com>,
+	<ojaswin@linux.ibm.com>, <ritesh.list@gmail.com>, <yi.zhang@huawei.com>,
+	<pmladek@suse.com>, <rostedt@goodmis.org>,
+	<andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
+	<senozhatsky@chromium.org>, <akpm@linux-foundation.org>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <horms@kernel.org>, <mkl@pengutronix.de>,
+	<kuniyu@google.com>, <willemb@google.com>, <jhs@mojatatu.com>,
+	<jiri@resnulli.us>, <kees@kernel.org>, <cyphar@cyphar.com>,
+	<tglx@kernel.org>, <liuhangbin@gmail.com>, <sdf@fomichev.me>,
+	<nb@tipi-net.de>, <linux-fsdevel@vger.kernel.org>, <linux-aio@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-can@vger.kernel.org>
+References: <20260825095422.3166067-1-ruanjinjie@huawei.com>
+ <20260825095422.3166067-12-ruanjinjie@huawei.com>
+ <d23aaeb2-1ed4-4b83-befb-996c569da27f@hartkopp.net>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <d23aaeb2-1ed4-4b83-befb-996c569da27f@hartkopp.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
 
 
-On Tue, Aug 25, 2026, at 5:56 PM, NeilBrown wrote:
-> On Thu, 20 Aug 2026, Chuck Lever wrote:
->> 
->> On Sat, Aug 15, 2026, at 12:21 AM, NeilBrown wrote:
->> > From: NeilBrown <neil@brown.name>
->> >
->> > When __d_move() moves or exchanges dentries it currently always moves
->> > both dentries to the head of the ->d_children list of the respective
->> > parents.
->> >
->> > When they have the same parent, this simply moves them from where they
->> > are to the start in the same list.  So it achieves nothing useful.
->> >
->> > A future patch will allow d_for_each_positive_child() to drop and retake
->> > the parent's d_lock during the iteration.  With the current __d_move
->> > behaviour this would allow a dentry to be moved to the front and so
->> > missed, even though it is still in the same directory.  This might be
->> > unexpected.
->> >
->> > With this change the only dentries that d_for_each_positive_child()
->> > might miss are those moved out of the directory, or those moved in after
->> > the iteration started.  These are unavoidable and should not be
->> > unexpected.
->> >
->> > Signed-off-by: NeilBrown <neil@brown.name>
->> > ---
->> >  fs/dcache.c | 20 ++++++++++++++------
->> >  1 file changed, 14 insertions(+), 6 deletions(-)
->> >
->> > diff --git a/fs/dcache.c b/fs/dcache.c
->> > index ae726f3ff0cb..50fbbcceca01 100644
->> > --- a/fs/dcache.c
->> > +++ b/fs/dcache.c
->> > @@ -3052,6 +3052,9 @@ static void copy_name(struct dentry *dentry, 
->> > struct dentry *target)
->> >   * entries should not be moved in this way. Caller must hold 
->> > rename_lock, the
->> >   * i_rwsem of the source and target directories (exclusively), and the 
->> > sb->
->> >   * s_vfs_rename_mutex if they differ. See lock_rename().
->> > + *
->> > + * If @dentry and @target have the same parent, then neither is
->> > + * moved in the d_sib list.
->> >   */
->> >  static void __d_move(struct dentry *dentry, struct dentry *target,
->> >  		     bool exchange)
->> > @@ -3119,15 +3122,20 @@ static void __d_move(struct dentry *dentry, 
->> > struct dentry *target,
->> >  	} else {
->> >  		target->d_parent = old_parent;
->> >  		swap_names(dentry, target);
->> > -		if (!hlist_unhashed(&target->d_sib))
->> > -			__hlist_del(&target->d_sib);
->> > -		hlist_add_head(&target->d_sib, &target->d_parent->d_children);
->> > +		if (target->d_parent != dentry->d_parent) {
->> > +			if (!hlist_unhashed(&target->d_sib))
->> > +				__hlist_del(&target->d_sib);
->> > +			hlist_add_head(&target->d_sib,
->> > +				       &target->d_parent->d_children);
->> > +		}
->> >  		__d_rehash(target);
->> >  		fsnotify_update_flags(target);
->> >  	}
->> > -	if (!hlist_unhashed(&dentry->d_sib))
->> > -		__hlist_del(&dentry->d_sib);
->> > -	hlist_add_head(&dentry->d_sib, &dentry->d_parent->d_children);
->> > +	if (dentry->d_parent != old_parent) {
->> > +		if (!hlist_unhashed(&dentry->d_sib))
->> > +			__hlist_del(&dentry->d_sib);
->> > +		hlist_add_head(&dentry->d_sib, &dentry->d_parent->d_children);
->> > +	}
->> > 
->> >  	/*
->> >  	 * Adjust parent refcounts if either d_children ended up empty.
->> > -- 
->> > 2.50.0.107.gf914562f5916.dirty
->> 
->> Both new guards are correct. In the exchange branch target->d_parent has
->> already been set to old_parent, so testing it against dentry->d_parent
->> asks whether the two dentries started in the same directory. In the
->> common branch dentry->d_parent has been set to target's parent, so
->> testing it against old_parent asks the same question. IS_ROOT()
->> still takes the move, which it needs to because a root dentry has an
->> unhashed d_sib, and the BUG_ON(p) above guarantees target->d_parent
->> is not dentry.
->> 
->> The opening sentence needs a qualifier. For an ordinary move only
->> dentry->d_sib is relocated. target->d_sib is touched only on the
->> exchange path, so "both dentries" describes just that case.
->
-> Thanks, I'll adjust that.
->
->> 
->> This patch also does more for libfs than the patch description claims.
->> I would like the description to say so, because it makes the patch
->> worth applying on its own.
->> 
->> offset_readdir() resolves a stale cookie with mas_find_rev() and then
->> walks d_children from the dentry it lands on. That is correct only
->> while offset order is the reverse of d_children order. d_alloc()
->> inserts at the head and mtree_alloc_cyclic() hands out increasing
->> offsets, so the two agree in a directory that is only created into.
->> 
->> A rename within one directory breaks the agreement today.
->> simple_offset_rename() gives the surviving dentry the offset of the
->> entry it replaced, and d_move() then sends that dentry to the head of
->> d_children. Create a, b and c in that order and the offsets are 3, 4
->> and 5, with d_children holding c, b, a. After rename("a", "b") the
->> dentry for a carries offset 4 and sits at the head, so d_children
->> holds a, c while offset order still says c, a. Stop a readdir with a
->> reported and c pending, remove c, and the next call resolves the
->> cookie to a and reports a a second time.
->> 
->> With this patch a stays where it is, d_children holds c, a, and the
->> two orders agree again. Thus this is a fix for tmpfs readdir, not
->> just preparation for 14/18.
->
-> Thanks for the review, but I think the above is a false hope.
-> In that particular case my patch helps, but in a different case it
-> doesn't.
-> Suppose instead of rename("a", "b"), I did rename("a", "c").
-> Before the renames d_children holds (name,offset) pairs of
->
->  ("c", 5), ("b",4"), ("a",3)
->
-> after the rename which with my patch doesn't move dentries but does
-> still copy the name and offset from "c" to "a", and unhashes the
-> original "c" - which we can show with [] - we have
->
->  ["c", -], ("b",4), ("c", 5)
->
-> which has the wrong ordering.
-
-I have a fix for that, I believe, that applies on top of this one.
-I can post it if interested.
-
-
-> Thanks,
-> NeilBrown
->
->
->> 
->> Reviewed-by: Chuck Lever <cel@kernel.org>
->> 
->> 
->> -- 
->> Chuck Lever
->> 
+在 2026/8/25 19:46, Oliver Hartkopp 写道:
+> 
+> 
+> On 25.08.26 11:54, Jinjie Ruan wrote:
+>> The writer already pairs with the smp_load_acquire() readers
+>> in isotp_tx_timeout()/isotp_tx_gen_done(); convert
+>> the smp_wmb() + WRITE_ONCE() into a release store.
 >>
+>> Assisted-by: DeepSeek:DeepSeek-V3
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> ---
+>>   net/can/isotp.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/net/can/isotp.c b/net/can/isotp.c
+>> index 155530aedce2..11b653ba7c10 100644
+>> --- a/net/can/isotp.c
+>> +++ b/net/can/isotp.c
+>> @@ -1156,8 +1156,8 @@ static int isotp_sendmsg(struct socket *sock,
+>> struct msghdr *msg, size_t size)
+>>       my_gen = isotp_inc_tx_gen(READ_ONCE(so->tx_gen));
+>>       isotp_set_tx_result(so, my_gen, ECOMM); /* prevent stale slot
+>> matching */
+>>       WRITE_ONCE(so->tx_gen, my_gen);
+>> -    smp_wmb(); /* see smp_load_acquire() in isotp_tx_[timeout|
+>> gen_done] */
+>> -    WRITE_ONCE(so->tx.state, ISOTP_SENDING);
+>> +    /* Pairs with smp_load_acquire() in isotp_tx_[timeout|gen_done] */
+>> +    smp_store_release(&so->tx.state, ISOTP_SENDING);
+>>       WRITE_ONCE(so->cfecho, 0);
+>>       spin_unlock_bh(&so->rx_lock);
+>>   
+> 
+> Hi Jinjie,
+> 
 
--- 
-Chuck Lever
+Hi Oliver,
+
+> thank you for the patch, but I think this breaks the barrier logic.
+> The original smp_wmb() ensures that so->tx_gen is visible before both
+> subsequent writes (so->tx.state and so->cfecho).
+
+Right!
+
+> 
+> By converting only the first write into smp_store_release(), the
+> WRITE_ONCE(so->cfecho, 0) is no longer protected. The compiler or CPU
+> could reorder and execute the cfecho write before the release store of
+
+Indeed, that's true.
+
+> so->tx.state, introducing a race condition with the concurrent readers.
+
+My rough understanding is as follows:
+
+All lock-free readers fall into two disjoint sets:
+
+- `isotp_tx_timeout()` and `isotp_tx_gen_done()`: read only `tx.state`
+(acquire) and `tx_gen`
+
+- `isotp_txfr_timer_handler()` the timer path of `isotp_send_cframe()`,
+and the post-claim path of `isotp_sendmsg()` touch `cfecho` but never
+`tx_gen`.
+
+So no lock-free reader observes both `tx_gen` and `cfecho`.
+
+`isotp_rcv_echo()` is the only function reading both, and it runs under
+`so->rx_lock`, which serializes it with the claim.
+
+So the ordering the `smp_wmb()` provided on top of the new release store
+`tx_gen` before `cfecho` — is unobservable to every reader.
+
+Moreover, `tx.state` and `cfecho` were never ordered against each other
+by the original barrier: both followed the `smp_wmb()`, so the `(state,
+cfecho)` visibility seen by the lock-free timer readers is bit-for-bit
+identical before and after this change.
+
+So the release store preserves the one ordering that matters: a reader
+observing `ISOTP_SENDING` sees the new `tx_gen`.
+
+Best regards,
+Jinjie
+
+> 
+> Best regards,
+> Oliver
+> 
+> 
+
