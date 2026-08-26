@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F23479885;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C13480960;
 	Wed, 26 Aug 2026 19:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773478; cv=none; b=W+vDYaV2xhqCX7fcPjwT/3Dg+AO6mSyRfQWyRqhUFJRPYPWSbCYUbq416PKBXQzu9UCcr8JA9HiEIXEZ1gl6uh4xIGHT/cOA3CaL8ZsEdDDp4VcABTQtDDvgbmLKxuhpwPqD39swFdTDSQhRCwqESNwa3ZvS0IEkyDBJaaqe860=
+	t=1787773480; cv=none; b=lslmwM6qFkNkSjgtz5AkPpRr8zgvdwi/DzCJqlPgiHNpkd/VycZrL133Ype9vjyR2W95AcApHW0/MFiPNqWofEsOuUD/wYD8sFVC83Opwf8Wr9P1IUlp9G83MlsNF5jDRi/mHqj2rK6xa06yl5D2yG0Dzx+9vTyfsIk9owF7T8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773478; c=relaxed/simple;
-	bh=oBiBYjq5I1RlxUHn4ia6SBi8QQ75UswGKKYMU60eD/A=;
+	s=arc-20240116; t=1787773480; c=relaxed/simple;
+	bh=1uO7R8vQ4NXChie3cI9o7w5dyXnQ6FdEw8W8/ZvKBKI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LhxUJ4xLDSZhb8JOZqL5nbQSs7iSM6y25V594CQg5JaUbbYrmKTxoJWXpAKSfVsRVgDGlaS4Jaj1Rx3mjdPeRW5542+2zyqKaF3pfniV+pKZAO7lOPSE1vCRVHDDH89V+4vpkKUOXbS5DFglTWh7x7t+GSrgKhcBpZHieT6d/FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bD33z0/f; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=EYsB9eQyq5Fo6ZgCHxptD1PonudDHQwgYoW8on9Xchcx3N4GYgzdyonC+HJxMKQqjN/5AvKAXUKzaHVJYKjCGK/26XG6EUVeF5BznS9hiUtycVyYJ1SGgaAw7hGF4mdcqGzOu9chFa1OQKVs/XBQOVt1ET/icrmDPT+XNyLeArI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fyaE0LD4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bD33z0/f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12AA1F00A3F;
-	Wed, 26 Aug 2026 19:44:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fyaE0LD4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6497E1F00A3D;
+	Wed, 26 Aug 2026 19:44:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787773450;
-	bh=TSQw9PZ3dz8TfucbU7kdJA8Zf+4EZtMyb+ChpOGjEe0=;
+	s=k20260515; t=1787773453;
+	bh=sz2i8Jxz+uYgq/eqQx8893HCcIiUPIUWQomhwjuhu5M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bD33z0/fOfJqwrh5pikQnBX9FIwr+jPJn6bMis7oJeOiRsWD/xt8d8yEe8k3MnP6H
-	 V2XBelmt2nAko144U2z8go7FrZl2APR0oIqvp7K3N9Rd8OkBjyOR8ABUFhA7He05d1
-	 B/3OOhr5BBkJ21tcFrJeKlz5YTEWdDsgH72Vg8r+92LZxFCMGhth8OPTJj649LJFIt
-	 KbVWFzrF0QNAZuvA3Q7PrqY7ntJnkkIbfuL1hmkZNlY3bQW2M7tLPpBDXNBaNIY3Xu
-	 cK9MEUvvHGNQnpuHZswCIrvvZqELHtkAxxxOL8TkWujtPqaCU7Dl+2sQB/KhhGzUKM
-	 NGDGde5/pH/6w==
+	b=fyaE0LD45L+AAzYvb5wH6fj+2OLSgzjzwbCCJ4jPLLff4SVtYoNPwamvLRXWEsJO6
+	 cmjf7zy7hjTCum/wGk1MHjTkL1BBhPzZoet0GnK2Ha/78qS1G8SFiyN7P6c28Qw57B
+	 xaRCwEshVHlQwieZWICWD9QRAYuy1Ika5lBdXrcvHQmOXC/RHPqB/sTexUvxk7IqnT
+	 glvmZLWGNgvG0dyuxKSfgvrwIIDdo+ETlMnKN9vc5iMsFxkMPUJEedTE2lKQRax66j
+	 L9nCMd3ENqPtmOQOjEG2835aGPyvcB+i7bkhFPH4mgd8O/Rty/4iydqbvVK4NaTGg3
+	 gACoDjnRUeyyg==
 From: Alexey Gladkov <legion@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
 	"Eric W . Biederman" <ebiederm@xmission.com>,
@@ -33,9 +33,9 @@ To: Linus Torvalds <torvalds@linux-foundation.org>,
 	Joel Granados <joel.granados@kernel.org>
 Cc: LKML <linux-kernel@vger.kernel.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [RFC PATCH v1 29/30] sysctl: net: use sysctl_field in neighbour sysctls
-Date: Wed, 26 Aug 2026 21:42:33 +0200
-Message-ID: <1bea46e9d7b9f895de1414100576ede002b65362.1787771905.git.legion@kernel.org>
+Subject: [RFC PATCH v1 30/30] sysctl: parport: use sysctl_field for dynamic sysctls
+Date: Wed, 26 Aug 2026 21:42:34 +0200
+Message-ID: <f121c4391e022fb9c11cecede06dbf187e86264c.1787771905.git.legion@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1787771905.git.legion@kernel.org>
 References: <cover.1787771905.git.legion@kernel.org>
@@ -47,428 +47,526 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Neighbour sysctl registration clones the template table so it can
-rewrite data pointers, attach the net device and neigh_parms through
-extra1 and extra2, and override a few IPv6 NDISC handlers.
+parport builds per-port and per-device sysctl tables by cloning template
+ctl_table arrays and then patching the data and extra pointers at fixed
+indexes. That keeps the static table definitions writable in practice
+and makes the registration path depend on the exact order of the table
+entries.
 
-Use sysctl_field with a neigh_parms registration context instead. The
-sysctl descriptors can stay static and const, while accessors provide
-the same data, extra1 and extra2 values to the existing handlers.
-
-Keep the NDISC handler selection local to neighbour sysctls by storing
-the optional handler in neigh_parms and using fixed wrapper handlers for
-the affected entries. This avoids cloning the sysctl table while
-preserving the old IPv6 notification behavior.
+Use sysctl_field for those tables instead. The per-object state is
+supplied through the registration context, so the table layout can stay
+static and the data pointers are resolved when proc_sysctl builds the
+effective ctl_table. This removes the need to duplicate the tables for
+every parport object and keeps the per-entry state binding next to the
+entry definition.
 
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
 ---
- include/net/neighbour.h |   1 +
- net/core/neighbour.c    | 329 ++++++++++++++++++++++++----------------
- 2 files changed, 202 insertions(+), 128 deletions(-)
+ drivers/parport/procfs.c | 317 ++++++++++++++++++---------------------
+ fs/proc/proc_sysctl.c    |  11 ++
+ include/linux/parport.h  |   6 +-
+ include/linux/sysctl.h   |  12 ++
+ 4 files changed, 171 insertions(+), 175 deletions(-)
 
-diff --git a/include/net/neighbour.h b/include/net/neighbour.h
-index 8860cc2175fc..73b6c7017264 100644
---- a/include/net/neighbour.h
-+++ b/include/net/neighbour.h
-@@ -78,6 +78,7 @@ struct neigh_parms {
- 	struct neigh_table *tbl;
- 
- 	void	*sysctl_table;
-+	proc_handler *sysctl_handler;
- 
- 	int dead;
- 	refcount_t refcnt;
-diff --git a/net/core/neighbour.c b/net/core/neighbour.c
-index 5d9216016507..6eb74b0d59b2 100644
---- a/net/core/neighbour.c
-+++ b/net/core/neighbour.c
-@@ -1779,6 +1779,7 @@ struct neigh_parms *neigh_parms_alloc(struct net_device *dev,
- 		p->dev = dev;
- 		write_pnet(&p->net, net);
- 		p->sysctl_table = NULL;
-+		p->sysctl_handler = NULL;
- 
- 		if (ops->ndo_neigh_setup && ops->ndo_neigh_setup(dev, p)) {
- 			netdev_put(dev, &p->dev_tracker);
-@@ -3762,148 +3763,220 @@ static int neigh_proc_base_reachable_time(const struct ctl_table *ctl, int write
- 	return ret;
+diff --git a/drivers/parport/procfs.c b/drivers/parport/procfs.c
+index 3880460e67f2..6348d1342069 100644
+--- a/drivers/parport/procfs.c
++++ b/drivers/parport/procfs.c
+@@ -236,147 +236,134 @@ do {									\
+ 	return 0;
  }
  
--#define NEIGH_PARMS_DATA_OFFSET(index)	\
--	(&((struct neigh_parms *) 0)->data[index])
-+struct neigh_ctl_context {
+-static const unsigned long parport_min_timeslice_value =
++static unsigned long parport_min_timeslice_value =
+ PARPORT_MIN_TIMESLICE_VALUE;
+ 
+-static const unsigned long parport_max_timeslice_value =
++static unsigned long parport_max_timeslice_value =
+ PARPORT_MAX_TIMESLICE_VALUE;
+ 
+-static const  int parport_min_spintime_value =
++static int parport_min_spintime_value =
+ PARPORT_MIN_SPINTIME_VALUE;
+ 
+-static const int parport_max_spintime_value =
++static int parport_max_spintime_value =
+ PARPORT_MAX_SPINTIME_VALUE;
+ 
++struct parport_ctl_context {
 +	struct sysctl_context context;
-+	struct neigh_parms *parms;
++	struct parport *port;
 +};
-+
-+#define NEIGH_PARMS_DATA(attr, data_attr)				\
-+static void *neigh_ ## attr ## _data(const struct sysctl_context *ctx)	\
-+{									\
-+	const struct neigh_ctl_context *neigh_ctx =			\
-+		container_of(ctx, struct neigh_ctl_context, context);	\
-+	return &neigh_ctx->parms->data[NEIGH_VAR_ ## data_attr];	\
-+}
-+
-+#define NEIGH_TABLE_DATA(type, attr, field)				\
-+static type *neigh_ ## attr ## _data(const struct sysctl_context *ctx)	\
-+{									\
-+	const struct neigh_ctl_context *neigh_ctx =			\
-+		container_of(ctx, struct neigh_ctl_context, context);	\
-+	return &neigh_ctx->parms->tbl->field;				\
-+}
-+
-+static void *neigh_dev_data(const struct sysctl_context *ctx)
-+{
-+	const struct neigh_ctl_context *neigh_ctx =
-+		container_of(ctx, struct neigh_ctl_context, context);
-+
-+	return neigh_ctx->parms->dev;
-+}
-+
-+static void *neigh_parms_data(const struct sysctl_context *ctx)
-+{
-+	const struct neigh_ctl_context *neigh_ctx =
-+		container_of(ctx, struct neigh_ctl_context, context);
-+
-+	return neigh_ctx->parms;
-+}
-+
-+static void *neigh_handler_data(const struct sysctl_context *ctx)
-+{
-+	const struct neigh_ctl_context *neigh_ctx =
-+		container_of(ctx, struct neigh_ctl_context, context);
-+
-+	return neigh_ctx->parms->sysctl_handler;
-+}
-+
-+static int neigh_proc_call_handler(const struct ctl_table *ctl, int write,
-+				   void *buffer, size_t *lenp, loff_t *ppos,
-+				   proc_handler *fallback)
-+{
-+	proc_handler *handler = ctl->extra1;
-+
-+	if (handler) {
-+		struct neigh_parms *p = ctl->extra2;
-+		struct ctl_table tmp = *ctl;
-+
-+		tmp.extra1 = p->dev;
-+		tmp.extra2 = p;
-+		return handler(&tmp, write, buffer, lenp, ppos);
-+	}
-+
-+	return fallback(ctl, write, buffer, lenp, ppos);
-+}
  
--#define NEIGH_SYSCTL_ENTRY(attr, data_attr, name, mval, proc) \
--	[NEIGH_VAR_ ## attr] = { \
--		.procname	= name, \
--		.data		= NEIGH_PARMS_DATA_OFFSET(NEIGH_VAR_ ## data_attr), \
--		.maxlen		= sizeof(int), \
--		.mode		= mval, \
--		.proc_handler	= proc, \
-+static int neigh_proc_retrans_time(const struct ctl_table *ctl, int write,
-+				   void *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	return neigh_proc_call_handler(ctl, write, buffer, lenp, ppos,
-+				       neigh_proc_dointvec_userhz_jiffies);
-+}
-+
-+static int neigh_proc_retrans_time_ms(const struct ctl_table *ctl, int write,
-+				      void *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	return neigh_proc_call_handler(ctl, write, buffer, lenp, ppos,
-+				       neigh_proc_dointvec_ms_jiffies);
-+}
-+
-+static int neigh_proc_base_reachable_time_handler(const struct ctl_table *ctl,
-+						  int write, void *buffer,
-+						  size_t *lenp, loff_t *ppos)
-+{
-+	return neigh_proc_call_handler(ctl, write, buffer, lenp, ppos,
-+				       neigh_proc_base_reachable_time);
-+}
-+
-+#define NEIGH_SYSCTL_ENTRY(attr, name, proc)				\
-+	[NEIGH_VAR_ ## attr] = {					\
-+		.procname	= name,					\
-+		.mode		= 0644,					\
-+		.type		= SYSCTL_FIELD_CUSTOM,			\
-+		.ctl_custom	= {					\
-+			.proc_handler	= proc,				\
-+			.data		= neigh_ ## attr ## _data,	\
-+			.extra1		= neigh_dev_data,		\
-+			.extra2		= neigh_parms_data,		\
-+			.maxlen		= sizeof(int),			\
-+		},							\
-+	}
-+
-+#define NEIGH_SYSCTL_HANDLER_ENTRY(attr, name, proc)			\
-+	[NEIGH_VAR_ ## attr] = {					\
-+		.procname	= name,					\
-+		.mode		= 0644,					\
-+		.type		= SYSCTL_FIELD_CUSTOM,			\
-+		.ctl_custom	= {					\
-+			.proc_handler	= proc,				\
-+			.data		= neigh_ ## attr ## _data,	\
-+			.extra1		= neigh_handler_data,		\
-+			.extra2		= neigh_parms_data,		\
-+			.maxlen		= sizeof(int),			\
-+		},							\
- 	}
- 
- #define NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(attr, name) \
--	NEIGH_SYSCTL_ENTRY(attr, attr, name, 0644, neigh_proc_dointvec_zero_intmax)
-+	NEIGH_SYSCTL_ENTRY(attr, name, neigh_proc_dointvec_zero_intmax)
- 
- #define NEIGH_SYSCTL_JIFFIES_ENTRY(attr, name) \
--	NEIGH_SYSCTL_ENTRY(attr, attr, name, 0644, neigh_proc_dointvec_jiffies)
-+	NEIGH_SYSCTL_ENTRY(attr, name, neigh_proc_dointvec_jiffies)
- 
- #define NEIGH_SYSCTL_USERHZ_JIFFIES_ENTRY(attr, name) \
--	NEIGH_SYSCTL_ENTRY(attr, attr, name, 0644, neigh_proc_dointvec_userhz_jiffies)
-+	NEIGH_SYSCTL_ENTRY(attr, name, neigh_proc_dointvec_userhz_jiffies)
- 
- #define NEIGH_SYSCTL_MS_JIFFIES_POSITIVE_ENTRY(attr, name) \
--	NEIGH_SYSCTL_ENTRY(attr, attr, name, 0644, neigh_proc_dointvec_ms_jiffies_positive)
--
--#define NEIGH_SYSCTL_MS_JIFFIES_REUSED_ENTRY(attr, data_attr, name) \
--	NEIGH_SYSCTL_ENTRY(attr, data_attr, name, 0644, neigh_proc_dointvec_ms_jiffies)
--
--#define NEIGH_SYSCTL_UNRES_QLEN_REUSED_ENTRY(attr, data_attr, name) \
--	NEIGH_SYSCTL_ENTRY(attr, data_attr, name, 0644, neigh_proc_dointvec_unres_qlen)
--
--static struct neigh_sysctl_table {
--	struct ctl_table_header *sysctl_header;
--	struct ctl_table neigh_vars[NEIGH_VAR_MAX];
--} neigh_sysctl_template __read_mostly = {
--	.neigh_vars = {
--		NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(MCAST_PROBES, "mcast_solicit"),
--		NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(UCAST_PROBES, "ucast_solicit"),
--		NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(APP_PROBES, "app_solicit"),
--		NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(MCAST_REPROBES, "mcast_resolicit"),
--		NEIGH_SYSCTL_USERHZ_JIFFIES_ENTRY(RETRANS_TIME, "retrans_time"),
--		NEIGH_SYSCTL_JIFFIES_ENTRY(BASE_REACHABLE_TIME, "base_reachable_time"),
--		NEIGH_SYSCTL_JIFFIES_ENTRY(DELAY_PROBE_TIME, "delay_first_probe_time"),
--		NEIGH_SYSCTL_MS_JIFFIES_POSITIVE_ENTRY(INTERVAL_PROBE_TIME_MS,
--						       "interval_probe_time_ms"),
--		NEIGH_SYSCTL_JIFFIES_ENTRY(GC_STALETIME, "gc_stale_time"),
--		NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(QUEUE_LEN_BYTES, "unres_qlen_bytes"),
--		NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(PROXY_QLEN, "proxy_qlen"),
--		NEIGH_SYSCTL_USERHZ_JIFFIES_ENTRY(ANYCAST_DELAY, "anycast_delay"),
--		NEIGH_SYSCTL_USERHZ_JIFFIES_ENTRY(PROXY_DELAY, "proxy_delay"),
--		NEIGH_SYSCTL_USERHZ_JIFFIES_ENTRY(LOCKTIME, "locktime"),
--		NEIGH_SYSCTL_UNRES_QLEN_REUSED_ENTRY(QUEUE_LEN, QUEUE_LEN_BYTES, "unres_qlen"),
--		NEIGH_SYSCTL_MS_JIFFIES_REUSED_ENTRY(RETRANS_TIME_MS, RETRANS_TIME, "retrans_time_ms"),
--		NEIGH_SYSCTL_MS_JIFFIES_REUSED_ENTRY(BASE_REACHABLE_TIME_MS, BASE_REACHABLE_TIME, "base_reachable_time_ms"),
--		[NEIGH_VAR_GC_INTERVAL] = {
--			.procname	= "gc_interval",
--			.maxlen		= sizeof(int),
--			.mode		= 0644,
--			.proc_handler	= proc_dointvec_jiffies,
--		},
--		[NEIGH_VAR_GC_THRESH1] = {
--			.procname	= "gc_thresh1",
--			.maxlen		= sizeof(int),
--			.mode		= 0644,
--			.extra1		= SYSCTL_ZERO,
--			.extra2		= SYSCTL_INT_MAX,
--			.proc_handler	= proc_dointvec_minmax,
--		},
--		[NEIGH_VAR_GC_THRESH2] = {
--			.procname	= "gc_thresh2",
--			.maxlen		= sizeof(int),
--			.mode		= 0644,
--			.extra1		= SYSCTL_ZERO,
--			.extra2		= SYSCTL_INT_MAX,
--			.proc_handler	= proc_dointvec_minmax,
--		},
--		[NEIGH_VAR_GC_THRESH3] = {
--			.procname	= "gc_thresh3",
--			.maxlen		= sizeof(int),
--			.mode		= 0644,
--			.extra1		= SYSCTL_ZERO,
--			.extra2		= SYSCTL_INT_MAX,
--			.proc_handler	= proc_dointvec_minmax,
--		},
--	},
-+	NEIGH_SYSCTL_ENTRY(attr, name, neigh_proc_dointvec_ms_jiffies_positive)
-+
-+#define NEIGH_SYSCTL_MS_JIFFIES_ENTRY(attr, name) \
-+	NEIGH_SYSCTL_ENTRY(attr, name, neigh_proc_dointvec_ms_jiffies)
-+
-+#define NEIGH_SYSCTL_UNRES_QLEN_ENTRY(attr, name) \
-+	NEIGH_SYSCTL_ENTRY(attr, name, neigh_proc_dointvec_unres_qlen)
-+
-+NEIGH_PARMS_DATA(MCAST_PROBES, MCAST_PROBES)
-+NEIGH_PARMS_DATA(UCAST_PROBES, UCAST_PROBES)
-+NEIGH_PARMS_DATA(APP_PROBES, APP_PROBES)
-+NEIGH_PARMS_DATA(MCAST_REPROBES, MCAST_REPROBES)
-+NEIGH_PARMS_DATA(RETRANS_TIME, RETRANS_TIME)
-+NEIGH_PARMS_DATA(BASE_REACHABLE_TIME, BASE_REACHABLE_TIME)
-+NEIGH_PARMS_DATA(DELAY_PROBE_TIME, DELAY_PROBE_TIME)
-+NEIGH_PARMS_DATA(INTERVAL_PROBE_TIME_MS, INTERVAL_PROBE_TIME_MS)
-+NEIGH_PARMS_DATA(GC_STALETIME, GC_STALETIME)
-+NEIGH_PARMS_DATA(QUEUE_LEN_BYTES, QUEUE_LEN_BYTES)
-+NEIGH_PARMS_DATA(PROXY_QLEN, PROXY_QLEN)
-+NEIGH_PARMS_DATA(ANYCAST_DELAY, ANYCAST_DELAY)
-+NEIGH_PARMS_DATA(PROXY_DELAY, PROXY_DELAY)
-+NEIGH_PARMS_DATA(LOCKTIME, LOCKTIME)
-+NEIGH_PARMS_DATA(QUEUE_LEN, QUEUE_LEN_BYTES)
-+NEIGH_PARMS_DATA(RETRANS_TIME_MS, RETRANS_TIME)
-+NEIGH_PARMS_DATA(BASE_REACHABLE_TIME_MS, BASE_REACHABLE_TIME)
-+NEIGH_TABLE_DATA(void, GC_INTERVAL, gc_interval)
-+NEIGH_TABLE_DATA(int, GC_THRESH1, gc_thresh1)
-+NEIGH_TABLE_DATA(int, GC_THRESH2, gc_thresh2)
-+NEIGH_TABLE_DATA(int, GC_THRESH3, gc_thresh3)
-+
-+static const struct sysctl_field neigh_sysctl_table[] = {
-+	NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(MCAST_PROBES, "mcast_solicit"),
-+	NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(UCAST_PROBES, "ucast_solicit"),
-+	NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(APP_PROBES, "app_solicit"),
-+	NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(MCAST_REPROBES, "mcast_resolicit"),
-+	NEIGH_SYSCTL_HANDLER_ENTRY(RETRANS_TIME, "retrans_time",
-+				   neigh_proc_retrans_time),
-+	NEIGH_SYSCTL_HANDLER_ENTRY(BASE_REACHABLE_TIME, "base_reachable_time",
-+				   neigh_proc_base_reachable_time_handler),
-+	NEIGH_SYSCTL_JIFFIES_ENTRY(DELAY_PROBE_TIME, "delay_first_probe_time"),
-+	NEIGH_SYSCTL_MS_JIFFIES_POSITIVE_ENTRY(INTERVAL_PROBE_TIME_MS,
-+					       "interval_probe_time_ms"),
-+	NEIGH_SYSCTL_JIFFIES_ENTRY(GC_STALETIME, "gc_stale_time"),
-+	NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(QUEUE_LEN_BYTES, "unres_qlen_bytes"),
-+	NEIGH_SYSCTL_ZERO_INTMAX_ENTRY(PROXY_QLEN, "proxy_qlen"),
-+	NEIGH_SYSCTL_USERHZ_JIFFIES_ENTRY(ANYCAST_DELAY, "anycast_delay"),
-+	NEIGH_SYSCTL_USERHZ_JIFFIES_ENTRY(PROXY_DELAY, "proxy_delay"),
-+	NEIGH_SYSCTL_USERHZ_JIFFIES_ENTRY(LOCKTIME, "locktime"),
-+	NEIGH_SYSCTL_UNRES_QLEN_ENTRY(QUEUE_LEN, "unres_qlen"),
-+	NEIGH_SYSCTL_HANDLER_ENTRY(RETRANS_TIME_MS, "retrans_time_ms",
-+				   neigh_proc_retrans_time_ms),
-+	NEIGH_SYSCTL_HANDLER_ENTRY(BASE_REACHABLE_TIME_MS,
-+				   "base_reachable_time_ms",
-+				   neigh_proc_base_reachable_time_handler),
-+	SYSCTL_FIELD_CUSTOM("gc_interval", 0644, sizeof(int),
-+			 neigh_GC_INTERVAL_data, proc_dointvec_jiffies),
-+	SYSCTL_FIELD_STATIC_INT_MINMAX("gc_thresh1", 0644,
-+				    neigh_GC_THRESH1_data,
-+				    SYSCTL_ZERO, SYSCTL_INT_MAX),
-+	SYSCTL_FIELD_STATIC_INT_MINMAX("gc_thresh2", 0644,
-+				    neigh_GC_THRESH2_data,
-+				    SYSCTL_ZERO, SYSCTL_INT_MAX),
-+	SYSCTL_FIELD_STATIC_INT_MINMAX("gc_thresh3", 0644,
-+				    neigh_GC_THRESH3_data,
-+				    SYSCTL_ZERO, SYSCTL_INT_MAX),
+-struct parport_sysctl_table {
+-	struct ctl_table_header *port_header;
+-	struct ctl_table_header *devices_header;
+-#ifdef CONFIG_PARPORT_1284
+-	struct ctl_table vars[10];
+-#else
+-	struct ctl_table vars[5];
+-#endif /* IEEE 1284 support */
+-	struct ctl_table device_dir[1];
++struct pardevice_ctl_context {
++	struct sysctl_context context;
++	struct pardevice *device;
  };
  
-+#define NEIGH_SYSCTL_DEFAULT_COUNT	4
+-static const struct parport_sysctl_table parport_sysctl_template = {
+-	.port_header = NULL,
+-	.devices_header = NULL,
+-	{
+-		{
+-			.procname	= "spintime",
+-			.data		= NULL,
+-			.maxlen		= sizeof(int),
+-			.mode		= 0644,
+-			.proc_handler	= proc_dointvec_minmax,
+-			.extra1		= (void*) &parport_min_spintime_value,
+-			.extra2		= (void*) &parport_max_spintime_value
+-		},
+-		{
+-			.procname	= "base-addr",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_hardware_base_addr
+-		},
+-		{
+-			.procname	= "irq",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_hardware_irq
+-		},
+-		{
+-			.procname	= "dma",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_hardware_dma
+-		},
+-		{
+-			.procname	= "modes",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_hardware_modes
+-		},
++static int *parport_spintime_data(const struct sysctl_context *ctx)
++{
++	const struct parport_ctl_context *parport_ctx =
++		container_of(ctx, struct parport_ctl_context, context);
 +
- int neigh_sysctl_register(struct net_device *dev, struct neigh_parms *p,
- 			  proc_handler *handler)
++	return &parport_ctx->port->spintime;
++}
++
++static void *pardevice_timeslice_data(const struct sysctl_context *ctx)
++{
++	const struct pardevice_ctl_context *pardevice_ctx =
++		container_of(ctx, struct pardevice_ctl_context, context);
++
++	return &pardevice_ctx->device->timeslice;
++}
++
++static void *parport_data(const struct sysctl_context *ctx)
++{
++	const struct parport_ctl_context *parport_ctx =
++		container_of(ctx, struct parport_ctl_context, context);
++
++	return parport_ctx->port;
++}
++
++static void *parport_min_timeslice_data(const struct sysctl_context *ctx)
++{
++	return &parport_min_timeslice_value;
++}
++
++static void *parport_max_timeslice_data(const struct sysctl_context *ctx)
++{
++	return &parport_max_timeslice_value;
++}
++
+ #ifdef CONFIG_PARPORT_1284
+-		{
+-			.procname	= "autoprobe",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_autoprobe
+-		},
+-		{
+-			.procname	= "autoprobe0",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_autoprobe
+-		},
+-		{
+-			.procname	= "autoprobe1",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_autoprobe
+-		},
+-		{
+-			.procname	= "autoprobe2",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_autoprobe
+-		},
+-		{
+-			.procname	= "autoprobe3",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_autoprobe
+-		},
+-#endif /* IEEE 1284 support */
+-	},
+-	{
+-		{
+-			.procname	= "active",
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0444,
+-			.proc_handler	= do_active_device
+-		},
+-	},
++#define PARPORT_PROBE_DATA(index)							\
++static void *parport_probe_info_ ## index ## _data(const struct sysctl_context *ctx)	\
++{											\
++	const struct parport_ctl_context *parport_ctx =					\
++		container_of(ctx, struct parport_ctl_context, context);			\
++	return &parport_ctx->port->probe_info[index];					\
++}
++
++PARPORT_PROBE_DATA(0)
++PARPORT_PROBE_DATA(1)
++PARPORT_PROBE_DATA(2)
++PARPORT_PROBE_DATA(3)
++PARPORT_PROBE_DATA(4)
++#endif
++
++#define PARPORT_PORT_ENTRY(name, proc)					\
++	{								\
++		.procname	= name,					\
++		.mode		= 0444,					\
++		.type		= SYSCTL_FIELD_CUSTOM,			\
++		.ctl_custom	= {					\
++			.proc_handler	= proc,				\
++			.extra1		= parport_data,			\
++			.maxlen		= 0,				\
++		},							\
++	}
++
++#define PARPORT_PROBE_ENTRY(name, index)				\
++	{								\
++		.procname	= name,					\
++		.mode		= 0444,					\
++		.type		= SYSCTL_FIELD_CUSTOM,			\
++		.ctl_custom	= {					\
++			.proc_handler	= do_autoprobe,			\
++			.extra2		= parport_probe_info_ ## index ## _data, \
++			.maxlen		= 0,				\
++		},							\
++	}
++
++static const struct sysctl_field parport_sysctl_table[] = {
++	SYSCTL_FIELD_STATIC_INT_MINMAX("spintime", 0644, parport_spintime_data,
++				       &parport_min_spintime_value,
++				       &parport_max_spintime_value),
++	PARPORT_PORT_ENTRY("base-addr", do_hardware_base_addr),
++	PARPORT_PORT_ENTRY("irq", do_hardware_irq),
++	PARPORT_PORT_ENTRY("dma", do_hardware_dma),
++	PARPORT_PORT_ENTRY("modes", do_hardware_modes),
++#ifdef CONFIG_PARPORT_1284
++	PARPORT_PROBE_ENTRY("autoprobe", 0),
++	PARPORT_PROBE_ENTRY("autoprobe0", 1),
++	PARPORT_PROBE_ENTRY("autoprobe1", 2),
++	PARPORT_PROBE_ENTRY("autoprobe2", 3),
++	PARPORT_PROBE_ENTRY("autoprobe3", 4),
++#endif
+ };
+ 
+-struct parport_device_sysctl_table
+-{
+-	struct ctl_table_header *sysctl_header;
+-	struct ctl_table vars[1];
+-	struct ctl_table device_dir[1];
++static const struct sysctl_field parport_device_dir_table[] = {
++	PARPORT_PORT_ENTRY("active", do_active_device),
+ };
+ 
+-static const struct parport_device_sysctl_table
+-parport_device_sysctl_template = {
+-	.sysctl_header = NULL,
++static const struct sysctl_field parport_device_sysctl_table[] = {
+ 	{
+-		{
+-			.procname 	= "timeslice",
+-			.data		= NULL,
+-			.maxlen		= sizeof(unsigned long),
+-			.mode		= 0644,
++		.procname	= "timeslice",
++		.mode		= 0644,
++		.type		= SYSCTL_FIELD_CUSTOM,
++		.ctl_custom	= {
+ 			.proc_handler	= proc_doulongvec_ms_jiffies_minmax,
+-			.extra1		= (void*) &parport_min_timeslice_value,
+-			.extra2		= (void*) &parport_max_timeslice_value
+-		},
+-	},
+-	{
+-		{
+-			.procname	= NULL,
+-			.data		= NULL,
+-			.maxlen		= 0,
+-			.mode		= 0555,
++			.data		= pardevice_timeslice_data,
++			.extra1		= parport_min_timeslice_data,
++			.extra2		= parport_max_timeslice_data,
++			.maxlen		= sizeof(unsigned long),
+ 		},
+ 	}
+ };
+@@ -414,35 +401,27 @@ parport_default_sysctl_table = {
+ 
+ int parport_proc_register(struct parport *port)
  {
--	int i;
--	struct neigh_sysctl_table *t;
-+	struct ctl_table_header *hdr;
-+	struct net *net = neigh_parms_net(p);
-+	struct neigh_ctl_context ctx = {
-+		.context.ns.net_ns = net,
-+		.parms = p,
+-	struct parport_sysctl_table *t;
++	struct parport_ctl_context ctx = {
++		.port = port,
 +	};
- 	const char *dev_name_source;
- 	char neigh_path[ sizeof("net//neigh/") + IFNAMSIZ + IFNAMSIZ ];
- 	char *p_name;
- 	size_t neigh_vars_size;
- 
--	t = kmemdup(&neigh_sysctl_template, sizeof(*t), GFP_KERNEL_ACCOUNT);
--	if (!t)
--		goto err;
++	struct ctl_table_header *hdr;
+ 	char *tmp_dir_path;
+-	int i, err = 0;
 -
--	for (i = 0; i < NEIGH_VAR_GC_INTERVAL; i++) {
--		t->neigh_vars[i].data += (long) p;
--		t->neigh_vars[i].extra1 = dev;
--		t->neigh_vars[i].extra2 = p;
--	}
-+	p->sysctl_handler = handler;
- 
--	neigh_vars_size = ARRAY_SIZE(t->neigh_vars);
-+	neigh_vars_size = ARRAY_SIZE(neigh_sysctl_table);
- 	if (dev) {
- 		dev_name_source = dev->name;
--		/* Terminate the table early */
--		neigh_vars_size = NEIGH_VAR_BASE_REACHABLE_TIME_MS + 1;
-+		neigh_vars_size -= NEIGH_SYSCTL_DEFAULT_COUNT;
- 	} else {
--		struct neigh_table *tbl = p->tbl;
- 		dev_name_source = "default";
--		t->neigh_vars[NEIGH_VAR_GC_INTERVAL].data = &tbl->gc_interval;
--		t->neigh_vars[NEIGH_VAR_GC_THRESH1].data = &tbl->gc_thresh1;
--		t->neigh_vars[NEIGH_VAR_GC_THRESH2].data = &tbl->gc_thresh2;
--		t->neigh_vars[NEIGH_VAR_GC_THRESH3].data = &tbl->gc_thresh3;
--	}
+-	t = kmemdup(&parport_sysctl_template, sizeof(*t), GFP_KERNEL);
+-	if (t == NULL)
+-		return -ENOMEM;
 -
--	if (handler) {
--		/* RetransTime */
--		t->neigh_vars[NEIGH_VAR_RETRANS_TIME].proc_handler = handler;
--		/* ReachableTime */
--		t->neigh_vars[NEIGH_VAR_BASE_REACHABLE_TIME].proc_handler = handler;
--		/* RetransTime (in milliseconds)*/
--		t->neigh_vars[NEIGH_VAR_RETRANS_TIME_MS].proc_handler = handler;
--		/* ReachableTime (in milliseconds) */
--		t->neigh_vars[NEIGH_VAR_BASE_REACHABLE_TIME_MS].proc_handler = handler;
--	} else {
--		/* Those handlers will update p->reachable_time after
--		 * base_reachable_time(_ms) is set to ensure the new timer starts being
--		 * applied after the next neighbour update instead of waiting for
--		 * neigh_periodic_work to update its value (can be multiple minutes)
--		 * So any handler that replaces them should do this as well
--		 */
--		/* ReachableTime */
--		t->neigh_vars[NEIGH_VAR_BASE_REACHABLE_TIME].proc_handler =
--			neigh_proc_base_reachable_time;
--		/* ReachableTime (in milliseconds) */
--		t->neigh_vars[NEIGH_VAR_BASE_REACHABLE_TIME_MS].proc_handler =
--			neigh_proc_base_reachable_time;
+-	t->device_dir[0].extra1 = port;
+-
+-	t->vars[0].data = &port->spintime;
+-	for (i = 0; i < 5; i++) {
+-		t->vars[i].extra1 = port;
+-#ifdef CONFIG_PARPORT_1284
+-		t->vars[5 + i].extra2 = &port->probe_info[i];
+-#endif /* IEEE 1284 support */
+-	}
++	int err = 0;
+ 
+ 	tmp_dir_path = kasprintf(GFP_KERNEL, "dev/parport/%s/devices", port->name);
+ 	if (!tmp_dir_path) {
+ 		err = -ENOMEM;
+-		goto exit_free_t;
++		goto out;
  	}
  
- 	switch (neigh_parms_family(p)) {
-@@ -3919,18 +3992,17 @@ int neigh_sysctl_register(struct net_device *dev, struct neigh_parms *p,
+-	t->devices_header = register_sysctl(tmp_dir_path, t->device_dir);
+-	if (t->devices_header == NULL) {
++	hdr = register_sysctl_fields_sz(tmp_dir_path, parport_device_dir_table,
++					ARRAY_SIZE(parport_device_dir_table),
++					&ctx.context, sizeof(ctx));
++	if (hdr == NULL) {
+ 		err = -ENOENT;
+ 		goto  exit_free_tmp_dir_path;
+ 	}
++	port->sysctl_devices_header = hdr;
  
- 	snprintf(neigh_path, sizeof(neigh_path), "net/%s/neigh/%s",
- 		p_name, dev_name_source);
--	t->sysctl_header = register_net_sysctl_sz(neigh_parms_net(p),
--						  neigh_path, t->neigh_vars,
--						  neigh_vars_size);
--	if (!t->sysctl_header)
--		goto free;
-+	hdr = __register_sysctl_fields(&net->sysctls, neigh_path,
-+				       neigh_sysctl_table, neigh_vars_size,
-+				       &ctx.context, sizeof(ctx));
-+	if (!hdr)
-+		goto err;
+ 	kfree(tmp_dir_path);
  
--	p->sysctl_table = t;
-+	p->sysctl_table = hdr;
+@@ -452,83 +431,75 @@ int parport_proc_register(struct parport *port)
+ 		goto unregister_devices_h;
+ 	}
+ 
+-	t->port_header = register_sysctl(tmp_dir_path, t->vars);
+-	if (t->port_header == NULL) {
++	hdr = register_sysctl_fields_sz(tmp_dir_path, parport_sysctl_table,
++					ARRAY_SIZE(parport_sysctl_table),
++					&ctx.context, sizeof(ctx));
++	if (hdr == NULL) {
+ 		err = -ENOENT;
+ 		goto unregister_devices_h;
+ 	}
+-
+-	port->sysctl_table = t;
++	port->sysctl_table = hdr;
+ 
+ 	kfree(tmp_dir_path);
  	return 0;
  
--free:
+ unregister_devices_h:
+-	unregister_sysctl_table(t->devices_header);
++	unregister_sysctl_table(port->sysctl_devices_header);
++	port->sysctl_devices_header = NULL;
+ 
+ exit_free_tmp_dir_path:
+ 	kfree(tmp_dir_path);
+ 
+-exit_free_t:
 -	kfree(t);
- err:
-+	p->sysctl_handler = NULL;
- 	return -ENOBUFS;
++out:
+ 	return err;
  }
- EXPORT_SYMBOL(neigh_sysctl_register);
-@@ -3938,10 +4010,11 @@ EXPORT_SYMBOL(neigh_sysctl_register);
- void neigh_sysctl_unregister(struct neigh_parms *p)
+ 
+ int parport_proc_unregister(struct parport *port)
  {
- 	if (p->sysctl_table) {
--		struct neigh_sysctl_table *t = p->sysctl_table;
-+		struct ctl_table_header *hdr = p->sysctl_table;
-+
- 		p->sysctl_table = NULL;
--		unregister_net_sysctl_table(t->sysctl_header);
++	if (port->sysctl_devices_header) {
++		unregister_sysctl_table(port->sysctl_devices_header);
++		port->sysctl_devices_header = NULL;
++	}
+ 	if (port->sysctl_table) {
+-		struct parport_sysctl_table *t = port->sysctl_table;
++		unregister_sysctl_table(port->sysctl_table);
+ 		port->sysctl_table = NULL;
+-		unregister_sysctl_table(t->devices_header);
+-		unregister_sysctl_table(t->port_header);
 -		kfree(t);
-+		p->sysctl_handler = NULL;
-+		unregister_net_sysctl_table(hdr);
  	}
+ 	return 0;
  }
- EXPORT_SYMBOL(neigh_sysctl_unregister);
+ 
+ int parport_device_proc_register(struct pardevice *device)
+ {
+-	struct parport_device_sysctl_table *t;
++	struct pardevice_ctl_context ctx = {
++		.device = device,
++	};
+ 	struct parport * port = device->port;
+ 	char *tmp_dir_path;
+ 	int err = 0;
+-	
+-	t = kmemdup(&parport_device_sysctl_template, sizeof(*t), GFP_KERNEL);
+-	if (t == NULL)
+-		return -ENOMEM;
+ 
+ 	/* Allocate a buffer for two paths: dev/parport/PORT/devices/DEVICE. */
+ 	tmp_dir_path = kasprintf(GFP_KERNEL, "dev/parport/%s/devices/%s", port->name, device->name);
+ 	if (!tmp_dir_path) {
+ 		err = -ENOMEM;
+-		goto exit_free_t;
++		goto out;
+ 	}
+ 
+-	t->vars[0].data = &device->timeslice;
+-
+-	t->sysctl_header = register_sysctl(tmp_dir_path, t->vars);
+-	if (t->sysctl_header == NULL) {
+-		kfree(t);
+-		t = NULL;
+-	}
+-	device->sysctl_table = t;
++	device->sysctl_table =
++		register_sysctl_fields_sz(tmp_dir_path, parport_device_sysctl_table,
++				       ARRAY_SIZE(parport_device_sysctl_table),
++				       &ctx.context, sizeof(ctx));
+ 
+ 	kfree(tmp_dir_path);
+ 	return 0;
+ 
+-exit_free_t:
+-	kfree(t);
+-
++out:
+ 	return err;
+ }
+ 
+ int parport_device_proc_unregister(struct pardevice *device)
+ {
+ 	if (device->sysctl_table) {
+-		struct parport_device_sysctl_table *t = device->sysctl_table;
++		unregister_sysctl_table(device->sysctl_table);
+ 		device->sysctl_table = NULL;
+-		unregister_sysctl_table(t->sysctl_header);
+-		kfree(t);
+ 	}
+ 	return 0;
+ }
+diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+index 88d3cc79fc33..c715f625a410 100644
+--- a/fs/proc/proc_sysctl.c
++++ b/fs/proc/proc_sysctl.c
+@@ -1714,6 +1714,17 @@ struct ctl_table_header *register_sysctl_sz(const char *path, const struct ctl_t
+ }
+ EXPORT_SYMBOL(register_sysctl_sz);
+ 
++struct ctl_table_header *register_sysctl_fields_sz(const char *path,
++						   const struct sysctl_field *fields,
++						   size_t field_count,
++						   const struct sysctl_context *ctx,
++						   size_t ctx_size)
++{
++	return __register_sysctl_fields(&sysctl_table_root.default_set, path,
++					fields, field_count, ctx, ctx_size);
++}
++EXPORT_SYMBOL(register_sysctl_fields_sz);
++
+ /**
+  * __register_sysctl_init() - register sysctl table to path
+  * @path: path name for sysctl base. If that path doesn't exist we will create
+diff --git a/include/linux/parport.h b/include/linux/parport.h
+index 464c2ad28039..ea3dd405ea3c 100644
+--- a/include/linux/parport.h
++++ b/include/linux/parport.h
+@@ -20,6 +20,7 @@
+ /* Define this later. */
+ struct parport;
+ struct pardevice;
++struct ctl_table_header;
+ 
+ struct pc_parport_state {
+ 	unsigned int ctr;
+@@ -151,7 +152,7 @@ struct pardevice {
+ 	unsigned long waiting;		 /* long req'd for set_bit --RR */
+ 	struct pardevice *waitprev;
+ 	struct pardevice *waitnext;
+-	void * sysctl_table;
++	struct ctl_table_header *sysctl_table;
+ };
+ 
+ #define to_pardevice(n) container_of(n, struct pardevice, dev)
+@@ -223,7 +224,8 @@ struct parport {
+ 	struct timer_list timer;
+ 	unsigned int flags;
+ 
+-	void *sysctl_table;
++	struct ctl_table_header *sysctl_table;
++	struct ctl_table_header *sysctl_devices_header;
+ 	struct parport_device_info probe_info[5]; /* 0-3 + non-IEEE1284.3 */
+ 	struct ieee1284_info ieee1284;
+ 
+diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
+index 6cf2ef4f13e8..b98f1ee94df2 100644
+--- a/include/linux/sysctl.h
++++ b/include/linux/sysctl.h
+@@ -506,6 +506,10 @@ struct ctl_table_header *
+ __register_sysctl_fields(struct ctl_table_set *set, const char *path,
+ 			 const struct sysctl_field *fields, size_t field_count,
+ 			 const struct sysctl_context *ctx, size_t ctx_size);
++struct ctl_table_header *
++register_sysctl_fields_sz(const char *path,
++			  const struct sysctl_field *fields, size_t field_count,
++			  const struct sysctl_context *ctx, size_t ctx_size);
+ struct ctl_table_header *register_sysctl_sz(const char *path, const struct ctl_table *table,
+ 					    size_t table_size);
+ void unregister_sysctl_table(struct ctl_table_header * table);
+@@ -541,6 +545,14 @@ static inline struct ctl_table_header *register_sysctl_sz(const char *path,
+ 	return NULL;
+ }
+ 
++static inline struct ctl_table_header *
++register_sysctl_fields_sz(const char *path,
++			  const struct ctl_field *fields, size_t field_count,
++			  const struct ctl_context *ctx, size_t ctx_size)
++{
++	return NULL;
++}
++
+ static inline struct ctl_table_header *
+ __register_sysctl_fields(struct ctl_table_set *set, const char *path,
+ 			 const struct sysctl_field *fields, size_t field_count,
 -- 
 2.55.0
 
