@@ -1,222 +1,142 @@
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B68399CF0;
-	Wed, 26 Aug 2026 08:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8BC3B71AD
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 08:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787731473; cv=pass; b=LESUOGzPPkHVJisJ03yiWw0z6xB7HKexBgoUznamQMeBk6kkhgU9r0Fke8SiV0FBtjrXJoZNMfeTF3PUPnLZ7+TMfkvw1Bl39EJ6xZxe4oTzwDOpQNAacWFMO98HixhY/I8k3jdbJDEWMQSCoB7LO6RT5EKnNFUuMR1/HLlokbk=
+	t=1787733536; cv=pass; b=kSiqMthgBoYrpthSDMujoqrd25fyzd1GY97Jt1SziLXOe2SHcchmvbGLP+ll/BjkhCqtGmQKDdBqOgNJgiKCOdB0M4NZA+of1xWP/1SXpmlnmepUUK6R+oy2DxpcL7Xu5AS+sRrAQrT9F/5D8odP5RLT3IoATO/bXPft/A6ZmU8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787731473; c=relaxed/simple;
-	bh=1K93Sxi+Nu8YpEXEss+ZLBJqNNXd5/5fYQ5WylzwLcU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=oJzGdiMFx9uomXb9lMu3x9aej+YIllaeXXxPODIgx6YxrEEwpCAY9QQZMQq/U1F7Hzv32fFxPQG30Kao2RVJFQF0ua5TsHjrn0Ra36L6unQ81HIH/mQHjYvlkrjb5/7n7idq+k2R62K0dMkWKNT94lU1Ogc1z3QUN4mL4AE7rk0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net; spf=fail smtp.mailfrom=hartkopp.net; dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=qey9xxMF; dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=cKH0DRkc; arc=pass smtp.client-ip=85.215.255.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hartkopp.net
+	s=arc-20240116; t=1787733536; c=relaxed/simple;
+	bh=PffqEXtX/Q5bx+GiyoNLY4Jcj3ZCebkcg6urzE9I48E=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=tjdNwB9ATF95tDeOajgpKE24R7YSuJEoxjbUo3nOiLhLL0VMlMsDbvs7Ps29lERc8MPChxWcUU/Ewj/jqfk9zaXW+4I0JeLhKa61takY/tjeVnD89/c0qY4mCNkWgcCh90Fhgqa2k7xqoD8wUwL0EIStyzSAxgxf1UEmOKxxJFk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WyLqoill; arc=pass smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="qey9xxMF";
-	dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="cKH0DRkc"
-ARC-Seal: i=1; a=rsa-sha256; t=1787731461; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=fza5aW/LkTT+ZR4Yee/r1zq7z3v/8hnWyRf7Z2mvdxpfaw35UFCSc3aNlfQPWDmy6l
-    8eX+aJedFP7bPt0wsTpcMx0IGajUOBL9vNzJz6MArJbDvxRMM/5Q8FzDPb3khFTG9SBw
-    u399Nhe6uvt3wfrtxCxipkTEKk4aJo8Zt6PmTVdIP3TgPzUr54V27Y/1FR/O5xRectdy
-    RdohmERzUqZ3yT7DpI0uaDg6zmRlmkS+P5igdCONnXYhrcIQqtF1U//daUOcc2VQQ0SS
-    h5DyEQJRvM4Uy/X2c/gzopZvPPXUuMIEGLOD9C+p0aQZhDGBoJVSoPYNcqxRbUMS79ps
-    N6BQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1787731461;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:From:References:To:Subject:Date:Message-ID:Cc:Date:From:
-    Subject:Sender;
-    bh=MoaHxjYunFWGgumpgqoG7Dx2f70N2p1lTEGDqO83liY=;
-    b=GjrF79ReFOat+GLc1v3FQk+r+zKwQUCsj7DyRi7eHxeCiG7mNerQ9TMycN5mQznUWC
-    oB70eq+waoTdftF3dbtQNn5ZI/njNSz+QFRKIp9WExu6QOaq6PbPycf7CKLCEwOqrkmt
-    chpbT6JvOxNEqfcwL8d0xOSnC5Xu0G6W5w85xptLA0SysquV4vINh7Bp4E+prwtEMHHo
-    l65TyU2PAnJJ5FvjFW2OmhrWbM1dZBTwXtPJgN6b1m/eWJRgX87eltltosSTc1RZXfRT
-    Eto3sLhu9RiAHRsPX5SGP9tpQRnE8F94TFXkfNs3h/oiBT2WAfWjjdY6N+MNKEitvfi+
-    B8xg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1787731461;
-    s=strato-dkim-0002; d=hartkopp.net;
-    h=In-Reply-To:From:References:To:Subject:Date:Message-ID:Cc:Date:From:
-    Subject:Sender;
-    bh=MoaHxjYunFWGgumpgqoG7Dx2f70N2p1lTEGDqO83liY=;
-    b=qey9xxMF6PS4QpkNRo9GAC+EZgCPkNfEq6f/0R41cdVE2QuRMpVDUfOxuXQ4vDO1tA
-    zPYyPyvgIHPOuvL6W9lWkfc94ecXk8UQPjGZwc5GEhEnodbO+mpaHOJBkDV/qRIi6U5A
-    OSfG/8PgPC0+umDZ8jlzwlN5d/ONj+BGLbwejiyjmxocnfsnoNEdEX0yQuBF+NDPr//M
-    ndiY1IlaF5DBc9yZPg6DGgA1mMNGs4XGfC+4nnp9r44Eh8GCam82MlqDf7pk/97qOHKB
-    tLtxadFWBEdGWbtHFAm80iRmYvG+ypgmpsLh9hdFmKarpLeHIcgryPlQW1ZyK8uFje0h
-    vNaA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1787731461;
-    s=strato-dkim-0003; d=hartkopp.net;
-    h=In-Reply-To:From:References:To:Subject:Date:Message-ID:Cc:Date:From:
-    Subject:Sender;
-    bh=MoaHxjYunFWGgumpgqoG7Dx2f70N2p1lTEGDqO83liY=;
-    b=cKH0DRkcLkVr9gpkvfpXbhKDYWy93vb1/J3uFsLwDk4+z+YNTQRKJIDMRSuaQeCSsO
-    BUE1aF5Bb23HwrR9acCQ==
-X-RZG-AUTH: ":P2MHfkW8eP4Mre39l357AZT/I7AY/7nT2yrDxb8mjH4JKvMdQv2tTUsMrZpkO3Mw3lZ/t54cFxeEQ7s8bDup0Q=="
-Received: from [IPV6:2a00:6020:4a38:6810::989]
-    by smtp.strato.de (RZmta 55.6.2 AUTH)
-    with ESMTPSA id K171b727Q84Goo6
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Wed, 26 Aug 2026 10:04:16 +0200 (CEST)
-Message-ID: <871b0e00-1ca0-40b7-9dad-35b3b7943f4a@hartkopp.net>
-Date: Wed, 26 Aug 2026 10:04:05 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WyLqoill"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38e7109321dso596758a91.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 01:38:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787733534; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dS4iz8LkIY7P7Qm7sUFHbbf26vkKs+OQ72o3AZQ2hs1CoVloocUw2ONWYju/wWeQta
+         IaIeJF1IgvhYANntqGfvr+GUO19OQJNqYZEnbIcfDc9czAsoY6CNEyqAKGVseqBZg4jQ
+         3C2GrHnE/fH3VBwrAqEBmiVgnmQEW7qhtZR4wsur+W/xbGR7kD/olNfUSvt36Wc9L+gV
+         pVnIXL/97W/NNtfgAwa0E1PVVIY2+m5i5BHgrodykMiZwwsBqdA4wuiztrHDJYzprDgO
+         yFU+ViOKvnvkLhHGlXOdyR/sYkBh4R3uXkM1gz4dh8olKkHoM1Nt9U2ryv0EqAMzXIA4
+         4BVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=PffqEXtX/Q5bx+GiyoNLY4Jcj3ZCebkcg6urzE9I48E=;
+        fh=N++zANdhlq7CjToIEOqSZvqPQ2JTDjUzaDi3h6Zfoy4=;
+        b=iHGl/EPRMCcUhucf8x2yOiyhhTYkbXfo4w+u1VTFpECuiK3nEf6Mff3yu9tmaYc4vE
+         47KoEzh5z9z4Zxc4WDRduDBe0z4gCJvVw3M/eDRk64F3B3j8sCQJVzP+erG+XUWEAZYz
+         BBW+3AZdLPffz/9DiTDLQfMeZc5t97ZJOs3mcVZFwPZqP3Ve8rIJlYGu2mwoU0TULcxS
+         bltYt9kF9j3XDQOBSENSTbdvpNyP2UhyZzdVp7Vu3yT4WBRoDtdjtkMlXEfzIzmbQpMi
+         be2q6CHqfvA7m+0+gD8LdXPdyrk8+CVlLfdEEQIP9OdYIIbwKw4Mq6xzge9KnOBwIa+w
+         OE8Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787733534; x=1788338334; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PffqEXtX/Q5bx+GiyoNLY4Jcj3ZCebkcg6urzE9I48E=;
+        b=WyLqoill5/hnz/3v1/2lJo/dRSirWihZmBlZ+2rSLxDeFNG0PGC0h+EsrAAi4bynzl
+         Yo4SfbgYdPPcslMguGmP4f4kbKxLgh6k46YEzQhjXnBdwjymRrVZmcBUEld6n4h3Ezze
+         lEivBwPgkOA5TsjPbu58DxLduo3YNlmMd76BQVl89itcIi3yNLRphyqtdoMexnfYjyl2
+         BDqu09sYQAVYRFZjo+S/NXHrfmE+i8Y22zpF5ADBsU5A7kmBYEvdGYeoqSUlodkKVPgL
+         1c23yNG7u8Fshpg3n6aaWqCBqLggD7LfavOEcvSEr73BzJwYOwUbc07SnNAAGtSBz+Lz
+         MtaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787733534; x=1788338334;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=PffqEXtX/Q5bx+GiyoNLY4Jcj3ZCebkcg6urzE9I48E=;
+        b=h36S7V15Dq6sRMgH5ocfbiS/7sHQfYxrGR8bqEMs81HiNe4o0pjQW1xXCc6sxWbk6j
+         eHUJzKaanagOG1JO5eX4ZHcCCEAI3pEEMag/N7c4Q+GeXFDVOml0GG3vIw1YQ4mFWzju
+         wX+nx28b5YTmFE6X3wJYReu8I3Bojd0RpcvUocIq5dHyFR875eSE5h5FFAmzsPUmC1DM
+         ckw0X00FK3jYI9W/zw4NB2QPD/rNsEuehJ07tyuU2e/+5+i2pOv938yV8pdAWuQDhcWw
+         GJF0Ea5gzU1R4BjsRoUquGbt+bFpDZBOeNgP9jTZafVfjmgi2m41VqpIlu4HuT+LMQcc
+         5l4g==
+X-Forwarded-Encrypted: i=1; AHgh+Rp++FHV088m8Kxl3HAS2udSmOEanCNC/WLuA70nrrQeIZeOcgloftUlPP+ga5UXCsXR1fAzXUF6/8MU7046@vger.kernel.org
+X-Gm-Message-State: AFuF++mLERz5nMKlLtq4z9k0dnzpgEIVqm5ibIe9onqaILfisttOQ+/I
+	aO+BFCmwyPw6b0WOozL6kr0Mf7xYI8aAxhEPxV6pwBOvYxgIzp3PUeSlxY7Sz41s+n5EJOHg7hy
+	0tZ4v25NwTmBFELJ7YLQt1szNsEqmU+o=
+X-Gm-Gg: AR+sD12e2zcPf2NSpPJaMCx+Sh56U47Oa9KtPGFcuYhsJIRkuZsuluvzg+QPYhSodh9
+	CIi0Pn5zlYYUq8lbyJ4upQSDYOUtzqGzdR/VAmULC7AbPfJZ8whzKCqq6x5h3aKDiZRKhD+fe5G
+	IT+X7N97nJ0bn9TCppURzsKNE8NZh7pjjFLP+Xv/EHwJi5VRNgKewwnduwIe7KpuSw7xVUBIKIZ
+	dlZox4ZcYFTAQoTaUroRTvz2KrWQmA2cZAIIFOMbycTIUEtrb7bq5Ci9vqulO07ltu5gyqG4UYx
+	9w3E9lHQff70BiOw0kh7AnN4vUc9Fktj4bf5DoniCynGGjAYlEyGHtUaSTNGJ/5VtO4nxnBSC2b
+	Xag==
+X-Received: by 2002:a17:90a:d2c6:b0:38e:5c6:4db9 with SMTP id
+ 98e67ed59e1d1-3966d3dafb9mr11691795a91.11.1787733533907; Wed, 26 Aug 2026
+ 01:38:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/11] can: isotp: publish tx.state with
- smp_store_release()
-To: Jinjie Ruan <ruanjinjie@huawei.com>, viro@zeniv.linux.org.uk,
- brauner@kernel.org, jack@suse.cz, bcrl@kvack.org, tytso@mit.edu,
- adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, ojaswin@linux.ibm.com,
- ritesh.list@gmail.com, yi.zhang@huawei.com, pmladek@suse.com,
- rostedt@goodmis.org, andriy.shevchenko@linux.intel.com,
- linux@rasmusvillemoes.dk, senozhatsky@chromium.org,
- akpm@linux-foundation.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, mkl@pengutronix.de,
- kuniyu@google.com, willemb@google.com, jhs@mojatatu.com, jiri@resnulli.us,
- kees@kernel.org, cyphar@cyphar.com, tglx@kernel.org, liuhangbin@gmail.com,
- sdf@fomichev.me, nb@tipi-net.de, linux-fsdevel@vger.kernel.org,
- linux-aio@kvack.org, linux-kernel@vger.kernel.org,
- linux-ext4@vger.kernel.org, netdev@vger.kernel.org, linux-can@vger.kernel.org
-References: <20260825095422.3166067-1-ruanjinjie@huawei.com>
- <20260825095422.3166067-12-ruanjinjie@huawei.com>
- <d23aaeb2-1ed4-4b83-befb-996c569da27f@hartkopp.net>
- <bc9a3081-a567-4e2a-8847-c60fd0e3dc89@huawei.com>
-Content-Language: en-US
-From: Oliver Hartkopp <socketcan@hartkopp.net>
-In-Reply-To: <bc9a3081-a567-4e2a-8847-c60fd0e3dc89@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Zw Tang <shicenci@gmail.com>
+Date: Wed, 26 Aug 2026 16:38:42 +0800
+X-Gm-Features: AcwNN1Wjw1VYF3BsVfww81J7HSWGrU9A5HlOr8346QSUBLudJj3Gk64Vhr4wqII
+Message-ID: <CAPHJ_VLLXVUEvOwibDOvHKpVWFkZ+xE8DiLxxnWTwJ-kzs-gkA@mail.gmail.com>
+Subject: [BUG] udf: kernel page fault in udf_add_fid_counter during unlink on
+ crafted UDF image
+To: Jan Kara <jack@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
+I am reporting a kernel page fault triggered by a syzkaller reproducer on
+Linux 7.2.0-rc3.
 
-On 26.08.26 05:33, Jinjie Ruan wrote:
-> 
-> 
-> 在 2026/8/25 19:46, Oliver Hartkopp 写道:
->>
->>
->> On 25.08.26 11:54, Jinjie Ruan wrote:
->>> The writer already pairs with the smp_load_acquire() readers
->>> in isotp_tx_timeout()/isotp_tx_gen_done(); convert
->>> the smp_wmb() + WRITE_ONCE() into a release store.
->>>
->>> Assisted-by: DeepSeek:DeepSeek-V3
->>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->>> ---
->>>    net/can/isotp.c | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/net/can/isotp.c b/net/can/isotp.c
->>> index 155530aedce2..11b653ba7c10 100644
->>> --- a/net/can/isotp.c
->>> +++ b/net/can/isotp.c
->>> @@ -1156,8 +1156,8 @@ static int isotp_sendmsg(struct socket *sock,
->>> struct msghdr *msg, size_t size)
->>>        my_gen = isotp_inc_tx_gen(READ_ONCE(so->tx_gen));
->>>        isotp_set_tx_result(so, my_gen, ECOMM); /* prevent stale slot
->>> matching */
->>>        WRITE_ONCE(so->tx_gen, my_gen);
->>> -    smp_wmb(); /* see smp_load_acquire() in isotp_tx_[timeout|
->>> gen_done] */
->>> -    WRITE_ONCE(so->tx.state, ISOTP_SENDING);
->>> +    /* Pairs with smp_load_acquire() in isotp_tx_[timeout|gen_done] */
->>> +    smp_store_release(&so->tx.state, ISOTP_SENDING);
->>>        WRITE_ONCE(so->cfecho, 0);
->>>        spin_unlock_bh(&so->rx_lock);
->>>    
->>
->> Hi Jinjie,
->>
-> 
-> Hi Oliver,
-> 
->> thank you for the patch, but I think this breaks the barrier logic.
->> The original smp_wmb() ensures that so->tx_gen is visible before both
->> subsequent writes (so->tx.state and so->cfecho).
-> 
-> Right!
-> 
->>
->> By converting only the first write into smp_store_release(), the
->> WRITE_ONCE(so->cfecho, 0) is no longer protected. The compiler or CPU
->> could reorder and execute the cfecho write before the release store of
-> 
-> Indeed, that's true.
-> 
->> so->tx.state, introducing a race condition with the concurrent readers.
-> 
-> My rough understanding is as follows:
-> 
-> All lock-free readers fall into two disjoint sets:
-> 
-> - `isotp_tx_timeout()` and `isotp_tx_gen_done()`: read only `tx.state`
-> (acquire) and `tx_gen`
-> 
-> - `isotp_txfr_timer_handler()` the timer path of `isotp_send_cframe()`,
-> and the post-claim path of `isotp_sendmsg()` touch `cfecho` but never
-> `tx_gen`.
-> 
-> So no lock-free reader observes both `tx_gen` and `cfecho`.
-> 
-> `isotp_rcv_echo()` is the only function reading both, and it runs under
-> `so->rx_lock`, which serializes it with the claim.
-> 
-> So the ordering the `smp_wmb()` provided on top of the new release store
-> `tx_gen` before `cfecho` — is unobservable to every reader.
-> 
-> Moreover, `tx.state` and `cfecho` were never ordered against each other
-> by the original barrier: both followed the `smp_wmb()`, so the `(state,
-> cfecho)` visibility seen by the lock-free timer readers is bit-for-bit
-> identical before and after this change.
-> 
-> So the release store preserves the one ordering that matters: a reader
-> observing `ISOTP_SENDING` sees the new `tx_gen`.
-> 
-> Best regards,
-> Jinjie
+The reproducer mounts a crafted UDF filesystem image and later exercises
+the unlink path. During unlink, UDF reaches udf_unlink(), deletes the file
+identifier entry, and then calls udf_add_fid_counter() to update the UDF
+FID counters. At this point the kernel faults while reading from an invalid
+address and panics.
 
-Thanks for your explanation, but this assumption is too narrow and 
-misses how so->cfecho interacts with the rest of the ISO-TP state 
-machine, especially under concurrent TX and RX traffic.
+This looks like a UDF metadata validation / corruption handling issue in
+the unlink path. A corrupted UDF image appears to leave the filesystem in a
+state where udf_unlink() still proceeds to update the FID counter, while
+udf_add_fid_counter() can dereference invalid UDF superblock/private state.
 
-Even if isotp_tx_timeout() and isotp_tx_gen_done() don't read cfecho, 
-other functions do. For example, cfecho is heavily involved in the RX 
-path—such as in isotp_rcv_cf()—where incoming Consecutive Frames are 
-validated against the current transmission state.
+Reproducer:
 
-By converting the code to smp_store_release(), you only guarantee that 
-the write to so->tx_gen happens before so->tx.state. However, you 
-completely lose the ordering guarantee for WRITE_ONCE(so->cfecho, 0). 
-The compiler or CPU is now free to reorder and execute the cfecho clear 
-before the smp_store_release().
+syz reproducer: https://pastebin.com/raw/MKi2B5eM
+console output: https://pastebin.com/raw/z6SbDFgb
+kernel config: https://pastebin.com/raw/AC6Cwmzt
 
-If a concurrent CAN frame arrives and triggers the RX path exactly at 
-this microsecond, it could see an updated, cleared cfecho value while 
-tx.state is still in its old state, or vice versa. This breaks the 
-atomicity of the state transition in isotp_sendmsg().
+Kernel:
 
-The original smp_wmb() acts as a clear fence: it ensures that both 
-subsequent writes (tx.state and cfecho) become visible to all concurrent 
-readers strictly after the new tx_gen generation is visible.
-We cannot weaken this guarantee. It makes the lockless design extremely 
-fragile and prone to hard-to-debug race conditions.
+HEAD commit: 1137d8b5df06137fb49513cc923b3b24d94cb809
+git tree: torvalds/linux
+kernel version: 7.2.0-rc3 #1 PREEMPT(full) (QEMU Ubuntu 24.10)
 
-Therefore:
+BUG: unable to handle page fault for address: ffffed1020a13763
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+Oops: Oops: 0000 [#1] SMP KASAN NOPTI
 
-Nacked-by: Oliver Hartkopp socketcan@hartkopp.net
+CPU: 0 UID: 0 PID: 10381 Comm: syz-executor Not tainted 7.2.0-rc3 #1
+PREEMPT(full)
+Hardware name: QEMU Ubuntu 24.10 PC (i440FX + PIIX, 1996)
 
-Best regards,
-Oliver
+RIP: 0010:udf_add_fid_counter+0x22b/0x2d0
 
+Call Trace:
+ <TASK>
+ udf_unlink+0x2e3/0x4a0
+ vfs_unlink+0x2fc/0xc10
+ filename_unlinkat+0x3b6/0x560
+ __x64_sys_unlink+0x46/0x70
+ do_syscall_64+0xc4/0x7a0
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+ </TASK>
+
+CR2: ffffed1020a13763
+Kernel panic - not syncing: Fatal exception
