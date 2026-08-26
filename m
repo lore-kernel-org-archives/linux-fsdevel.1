@@ -1,35 +1,71 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00DB255F2D;
-	Wed, 26 Aug 2026 05:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F15A2EACF9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 05:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787720861; cv=none; b=PPb/ibxywmQT6r82BxefEY3CT15NjegnvGIm6Kwu7j0zE00w4xuk/vHoI/+6YrYnVjGkzksAvKhvjvZDmzQxaQeOPEQev9/wDv53fvaaoqEJKYjXfTJh4n3xFcIvUvs/wNf+6dQI957ujSKFP+u3De8uYnTT4W2pA1Rwey0lI68=
+	t=1787720980; cv=none; b=XYeNAEaDL4ajqNcsHCkx+AjVB6aLXTmRgPRqP62I1fbu2cPUXbQWnzMsmvSVlA5fXikd6rODDfh1Wnlsl+JWoh6qJ/VH7kXa9ttYmcf/qwGLfSMbNWMoIur4cF9sy/MJX4c+D7TzQtP0eD+yj8P9WIS1qJGQJqFMUod3ll5w6jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787720861; c=relaxed/simple;
-	bh=tX+4BRduGnZbM+fbB2tkRfbXOFlva6+6kC8z/KSf3jE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jdC/QAC6WvpLhjCLoIIlFdCFEClUjmEUBUzUwvycPwl9CehdaLjxEaBnc0JNSGWIkNYgjOngGQ1dcxUqAPFU2/yf2nUiUgt9D/6KLFZBnWf55+MNzuO6OJjzwHrgjrbRvXncoR5th8Jv2XipcqXQ1u9YflpYMIx72pMJAudVfO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 21E1A68BFE; Wed, 26 Aug 2026 07:07:34 +0200 (CEST)
-Date: Wed, 26 Aug 2026 07:07:33 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-	Christoph Hellwig <hch@lst.de>, David Howells <dhowells@redhat.com>,
-	John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>,
-	Rik van Riel <riel@surriel.com>, Qu Wenruo <wqu@suse.com>,
-	"Darrick J. Wong" <djwong@kernel.org>, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-xfs@vger.kernel.org, linux-rdma@vger.kernel.org,
-	Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: Removing ->dirty_folio
-Message-ID: <20260826050733.GB15122@lst.de>
-References: <aoyWln-Gt-yvZQkE@casper.infradead.org> <CAG48ez0vXVUu9j4rYUeCqgwyHKAiN_6fL--D90WvX9q7B41V-A@mail.gmail.com> <ao3y8TtEGjniZ_4f@casper.infradead.org>
+	s=arc-20240116; t=1787720980; c=relaxed/simple;
+	bh=UxZbuizH0HeiOPp8+t3h6jM8AIqH03vW6UKn1VICBYo=;
+	h=Message-ID:Date:From:To:Cc:Subject:MIME-Version:Content-Type:
+	 Content-Disposition; b=fqeLmcJcbhvJiZ5+ore8jfqOC+oLuHUfXArpRn8V53b244Lvx6eRCajsVbKX+QW+v4FMILNDKlO7DM2Gr/U6vnGhDbgImvA94ejsX5hU3zKeqWScb4GoHjAi9+vrUMBRveIssJ6vfeXEQ9zKCY0qRrTleRCVNMsEdTFQ1k9Bucw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=evcnExV4; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="evcnExV4"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2d01663d816so5358485ad.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 22:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787720978; x=1788325778; darn=vger.kernel.org;
+        h=content-disposition:content-type:mime-version:subject:cc:to:from
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0tfmhvTOsxdSxw8g7YExrn/7pyH78KUdAhaRwKC1CMg=;
+        b=evcnExV48EDciJJmxwOIbVKcZVVQkcX1F4ycjRCGN4GOG1QrGr5O0o0ywgasCmTHxj
+         glgMtEkzQ/vlhFjT2GeCsUBH6GoEBKQktGI8Ay7ffTIbNRgCypJpokLUCgecv0d0Fk8o
+         k9wRRF7+/90YQ6oTLE7ax/5Ni1f0C784jPa2c6QmtpBJmZ025nkrakDKnyzS3n4F7Vth
+         h9t4rwYfJMvvYKVLffhm1l0/TjeNGJ8F2vq9ZHCNzXdvXCOH3V70VZ8vGrqFIEEyFenD
+         p65FdMCKU8rDH8EBjut/cgQ86pi2uBen68HlqNlhWR17sWNzMaQkBcvH+8TWVE81VaTc
+         PJtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787720978; x=1788325778;
+        h=content-disposition:content-type:mime-version:subject:cc:to:from
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0tfmhvTOsxdSxw8g7YExrn/7pyH78KUdAhaRwKC1CMg=;
+        b=WFqLgVvkG94TAehvNp/iURXsKEB5kJjv/qTGKy+V9c4yRSM66+Eae3ddUEV5Hxs4HJ
+         NTSXsqOl3X2XNAcZ5+gcuUtr81MM6IfAupwb8153CJMa8TODRJPTHkOHOG+gbibL/ln6
+         ZFvK+Lcyw8xPWGbiKdW/u3cXT4N6au/bEf/9jteP8S7/yLYAjuYcIWq2HpBKTTrWgu+F
+         B+IbI32rrq3noZe6wohRzfru6aasF9majVykg3qH+PnAxwTBuM7fC6bYOs8+0OLVvvGi
+         8mYsY2YwXeqNQRmDdb+D+Czq7yJn7pC+03rkJZUmgsVcxGLhG4nkhCQg31nCL6iERLrn
+         3fhQ==
+X-Gm-Message-State: AFuF++lSM//ME8yYWRieKEe9AkMkJYNE/57axIAK27mhk7SUbOVGEDbt
+	ZmVjJh2n5Wu40jW8/nAyXdYZ8KWKvXCY2eBvtRD4nfpBlDwbqK3XbUoyOMdBrA==
+X-Gm-Gg: AR+sD125S1X3h2iemxM4RuI2zdomT6mo4vkc8dJIC3eV146dzt3N5eAjWGdaJ4nutzU
+	4BlFCSqWvdOzY/MupUvImXv2oobJbUUH4D3NL8BzXCk3E2JOL8VFCL2aBnMOp1Snj43fafv9Arg
+	7mc8bKbXrpRx7cDkkrymfWpB8u5pqtE1AH8fvjHkbylU4+HJhO6aSlIqWonCYt68NJViltpFF0a
+	lLUUkJ57lXjihJf/rDvl7y4gWRbqASm/3VZpCj71B88grgqlj7pEVL4fhOZ3t851hQQB9u7FdXb
+	lmhrkpAISFvyoXrRNCvTglEgfr7V/VGp6iV8zCN3DXTFAllsvJ2ToQ6UZ1MEOhB1mGDKZHMtX23
+	unNSJV2Uy81Hc5f/jnHBp7kQr6pgl2R0UH8ue3UMmVCAd6S7HfvW6iZkDdIWr9xDxsU62Fau+k2
+	JlnpWtbDj90aEn4nO4bEm32XhnjziiqbYZSRgl9G/PjExzjtwcrh1M5Bnt4vhDaYgqe1LJID83D
+	M4ZInJUN4ucWsWkM6QhhRkbxd9EEeQu3X46ZtjO6beY+Q==
+X-Received: by 2002:a17:903:3d06:b0:2d6:e4ff:9cad with SMTP id d9443c01a7336-2d707a5d171mr67324455ad.3.1787720978472;
+        Tue, 25 Aug 2026 22:09:38 -0700 (PDT)
+Received: from localhost (75-172-73-38.tukw.qwest.net. [75.172.73.38])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d7049b953dsm4174855ad.37.2026.08.25.22.09.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 22:09:37 -0700 (PDT)
+Message-ID: <6a8e7511.9e2d85f8.1d4e3b.c404@mx.google.com>
+X-Google-Original-Message-ID: <ao51DgJnzbKc4voE@DESKTOP-HH660AU.>
+Date: Tue, 25 Aug 2026 22:09:34 -0700
+From: Dennis Tighe <dennis.tighe@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ntfs: reject invalid sectors_per_cluster in the boot
+ sector
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,74 +74,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ao3y8TtEGjniZ_4f@casper.infradead.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 
-[adding rdma/hmm folks]
+is_boot_sector_ntfs() checks the boot sector's sectors_per_cluster field
+with a range test that rejects 0x81..0xf3 but accepts 0 and other
+non-power-of-two counts. A zero value reaches parse_ntfs_boot_sector():
 
-On Tue, Aug 25, 2026 at 08:54:25PM +0100, Matthew Wilcox wrote:
-> On Tue, Aug 25, 2026 at 09:35:57PM +0200, Jann Horn wrote:
-> > > The problem is GUP.  We have no way to force the GUP caller to go
-> > > through page_mkwrite again.  So instead we make the GUP caller call
-> > > folio_mark_dirty_lock() which many just don't, and generally we get away
-> > > with it.  But it's a bug, and a bad interface.
-> > 
-> > We currently have get_user_pages*() and pin_user_pages*(), where only
-> > the pin_*() version is properly usable for write access, right? And
-> > dropping such pins should always go through unpin_*() helpers?
-> 
-> Right.  I'm stuffing cheese into my ears and pretending that people
-> aren't calling get_user_pages() to do write accesses.  We should be
-> able to use this work to flush out the last remaining ones -- we
-> can put in various assertions that folios should still be dirty where
-> we currently have folio_mark_dirty() calls.
+	sectors_per_cluster_bits = ffs(sectors_per_cluster) - 1;
+	...
+	vol->cluster_size = vol->sector_size << sectors_per_cluster_bits;
 
-Last time I checked quite a few places still did.  Including various
-network file system O_DIRECT implementations (some got fixed, and
-for NFS a series is outstanding) and some really odd looking networking
-code.
+ffs(0) is 0, so sectors_per_cluster_bits becomes (unsigned)-1 and the
+shift is undefined:
 
-I wish we could somehow force them to stop doing that, but I can't
-think of any. 
+  UBSAN: shift-out-of-bounds in fs/ntfs/super.c:673:39
+  shift exponent 4294967295 is too large for 32-bit type 'int'
 
-> Yes.  I think the only alternative would be storing a checksum of the
-> contents of the folio and seeing if it changed since the last write.
-> As you say, this is userspace doing something incredibly odd (I really
-> don't think people make a habit of mmap()ing files shared writable and
-> then giving RDMA longterm write accesses to them.  Not on machines with
-> poor quality flash storage anyway).
-> 
-> Or we could say "these pages only get written back on requested fsync()
-> rather than periodically".
+This change rejects any non-power-of-two value, since it feeds the 
+aforementioned shift via ffs() - 1, which only yields the correct shift for a
+power of two.
 
-Take one step back.  For regular pins we should be able to just wait for
-them given that they are by definition short lived, where short lived
-is defined by typical I/O latency for a wide range of "typical".
-We'll need the right helpers from the MM for that, and make sure
-we have a good way to debug file system hangs caused by incorrect
-use of the pinning, but all that is a solvable problem.
-Splitting read vs write pincounts would be really helpful to reduce
-the overhead of that.
+Fixes: 6251f0b0de7d ("ntfs: update super block operations")
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Dennis Tighe <dennis.tighe@gmail.com>
+---
+Changes in v2:
+ - Check that sectors_per_cluster is a power of two rather than only
+   rejecting zero, per Hyunchul Lee's review. 
 
-The interesting case is FOLL_LONGTERM, as it can pin I/O for a much
-longer time.  And that also means IFF the user of FOLL_LONGTERM actually
-wants to be able to persist data on a shared mmap, it has to manually
-dirty folios one or more times during the FOLL_LONGTERM pin, because
-otherwise the file system would never know there is dirty data.
-The set_page_dirty call in ib_umem_odp_unmap_dma_pages is an example
-for that.
+is_boot_sector_ntfs() is where the driver decides an image is NTFS, so
+rejecting a bad geometry there stops it before parse_ntfs_boot_sector()
+computes ffs() - 1. Reached by mounting the image.
 
-So what we'll need is:
+Built ntfs-next with KASAN+UBSAN and tested: sectors_per_cluster = 0 and a
+non-power-of-two value (e.g. 3) are both rejected with no UBSAN, and a valid
+volume still mounts (create/write/mkdir/rename/unlink smoke passes).
 
- - a way for the file system to know if a dma pin on a folio is for a
-   short-term writable pin vs everything else.
- - for the short term writable pin wait for it for data integrity syncs,
-   or otherwise just skip it.
- - for FOLL_LONGTERM users we need an interface to (re-dirty) folios
-   while the long term pin persists.  This also needs a way for the
-   file system to reserve space.  Either as a rolling / bank switched
-   reservation for the whole life time of the mapping (although for
-   large mappings this might use up a lot of space), or to do that
-   ahead of whatever triggers the dirtying.
-   And maybe a way for file systems (or vm ops) to reject long
-   term writable pins if they don't want to deal with all this.
+A reproducer is available on request.
+
+ fs/ntfs/super.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+index 2fd7db672..76f62dac2 100644
+--- a/fs/ntfs/super.c
++++ b/fs/ntfs/super.c
+@@ -557,8 +557,8 @@ static bool is_boot_sector_ntfs(const struct super_block *sb,
+ 	 * Check sectors per cluster value is valid and the cluster size
+ 	 * is not above the maximum (2MB).
+ 	 */
+-	if (b->bpb.sectors_per_cluster > 0x80 &&
+-	    b->bpb.sectors_per_cluster < 0xf4)
++	if (b->bpb.sectors_per_cluster < 0xf4 &&
++	    !is_power_of_2(b->bpb.sectors_per_cluster))
+ 		goto not_ntfs;
+ 
+ 	/* Check reserved/unused fields are really zero. */
