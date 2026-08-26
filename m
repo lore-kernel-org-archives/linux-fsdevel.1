@@ -1,183 +1,139 @@
-Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57BFF9C0
-	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 20:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4E72BEFE8
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 20:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787776229; cv=none; b=PkQctG/4tjho5gk2xCsc5I+9bNPNMAveMZ0xd4lM26/lNucfC6uSsrMB64IBDimIDWxI/1KtUw4A9BMIjv8VZvEKQFSDExKKufm01xaXOlqiYweLEc1eqqL6UYNuwyS918sGtJNYfQXWG2zFTrvCUD8mLTZkbTSdbC28CiJSUIY=
+	t=1787777204; cv=none; b=fEM45lAgQszpzNAUi1/PgJX0mEWsQvT5VhU6zIPDcHrI11NmQTYWkdHm7LX8eevyYAVbUylkMKyKJfDRb7bKmhNy+BGHsPiAiPEKQQ0Rsz5ryEkHWal3A5SqjFVHx+30KhvuFifpKaRYZlmhMNi//o4XAmv0dF5wmhWrng/a4Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787776229; c=relaxed/simple;
-	bh=RB9TzG0Q1eRtmVhwIJQ6ZaQRLJ+sLLM+rx40gMOiRKg=;
-	h=Subject:Message-ID:Date:From:To:Cc:MIME-Version:Content-Type; b=PVJiUHgLTPFK3sYBDGpX2OQJSdXaOhjDbs4xJI8Kd0UCThhqIkwSQ5BgJeCN0Sj69zwqrBr3U9aZFlan3CQYVKxl7jpBGOeUxfrDXjtF9u+IhG7Doz/6OqOY+WjlizgTFv99GBq1IEDvM8sFxC1t6ULKvkTJZphjJAdUL6OU6I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ikmail.com; spf=pass smtp.mailfrom=ikmail.com; dkim=pass (1024-bit key) header.d=ikmail.com header.i=@ikmail.com header.b=aNrCOEne; arc=none smtp.client-ip=185.125.25.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ikmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ikmail.com
+	s=arc-20240116; t=1787777204; c=relaxed/simple;
+	bh=XBdVrMHjTyolReC0N1fxKCCDSR8DwSAH1sCPMJHVaL8=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=SiJsG+UT7gBkpsdwW189sNpLDUXwjFGgu9bxYTGMhwHPSvT9HRwPFz7wEvrPEE/vhYJibqRhtFaoRn7Id9Jo/HYHWtRBsJnYHFnMfVXSlRHM+sxb5/tvIOD1DJ47JYmacOfs9v+AlYryXBeHJ1RWLMVAVMlE4Err88lnPK+3j0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SbByjYTX; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ikmail.com header.i=@ikmail.com header.b="aNrCOEne"
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hVbgx2KJlzKQK;
-	Wed, 26 Aug 2026 22:23:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ikmail.com;
-	s=20210927; t=1787775805;
-	bh=RB9TzG0Q1eRtmVhwIJQ6ZaQRLJ+sLLM+rx40gMOiRKg=;
-	h=Subject:Date:From:To:Cc:Reply-To:From;
-	b=aNrCOEnemcvGX4jYAAzyMN9TrGs2RaJ6IhsCB+Bg2iPDIZLXd6qTKnrutv2Q9viIT
-	 MyeEyIsTXzsDhi5IIvWc9LNAxnAJd9ptgAHW8wVSQ5e69r0kvYYV95tLiLdtEIjWyk
-	 x8xcKzTl/RJn74AZLUyiMdzXARSMHGUWElsP4DHw=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4hVbgw69kMzT8t;
-	Wed, 26 Aug 2026 22:23:24 +0200 (CEST)
-Subject: [RFC] statx: Define a generic OFFLINE file attribute
-Message-ID: <e06bdbf8-3727-425c-9a82-150848613a6b@mail.infomaniak.com>
-Date: Wed, 26 Aug 2026 22:23:24 +0200
-From: Lukas Mathis <lukas.mathis@ikmail.com>
-To: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Cc: "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Reply-To: Lukas Mathis <lukas.mathis@ikmail.com>
-X-WS-Location: eJxzKUpMKykGAAfpAmU-
-X-Mailer: Infomaniak Workspace (1.3.1341)
-X-WS-User-Origin: eyJpdiI6ImJ5Q1M4RDNzU1FtY25vRFE1R08xK3c9PSIsInZhbHVlIjoiTDFjN1NYWGZBZTJVQjViSHovYmtFdz09IiwibWFjIjoiZjliNDk2ODEyZTNiMzc4MDMzMzY0MzBiZDljNGJmZmQyMzAyNDRkODI3MDJiNjFjMDRiMDhmOTBjYzk2MjMyOSIsInRhZyI6IiJ9
-X-WS-User-Mbox: eyJpdiI6InpxQWd4dVB4Wkk1U0o5ZFpMSkpCa3c9PSIsInZhbHVlIjoiNmF3N0JrbW9XVGgxK2RIQ3F6ajhWQT09IiwibWFjIjoiOTQ2OWI3MWZjYjcwMWM3YzgzMTVmNzhmYzM5YzA4NDQ3YjFkMGU4M2Y2ZTI2MDBjZjhmNjRkY2E0ODdlMTI2MCIsInRhZyI6IiJ9
-X-WS-LOCALE: de_DE
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SbByjYTX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787777201;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/jP0UKtPxmEhy6HDyIj1plfhDhBBfaCkZLlo/sEgyzw=;
+	b=SbByjYTXQNjuZiTgWZd32QQfVmxvqpEtfNxwSSPS3pgkjvwhTfvZdazx0rB1wfBCKVKa4V
+	8+ZEV+J9Vmspc0EmddHVU94IQgJfGyqZ/g7szcd8ngTR1d2Y1clVHuoBXU2/Um62gMLQv2
+	KkXak+Ri+CortIuVuXqWxZK3V68D2LE=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-412-xNS7lx1SPmKIlckEKETYBg-1; Wed,
+ 26 Aug 2026 16:46:38 -0400
+X-MC-Unique: xNS7lx1SPmKIlckEKETYBg-1
+X-Mimecast-MFC-AGG-ID: xNS7lx1SPmKIlckEKETYBg_1787777196
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 696B41955BDD;
+	Wed, 26 Aug 2026 20:46:36 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.22.88.47])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DC8681955F0B;
+	Wed, 26 Aug 2026 20:46:33 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <1819786.1787768317@warthog.procyon.org.uk>
+References: <1819786.1787768317@warthog.procyon.org.uk>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: dhowells@redhat.com, Keith Busch <kbusch@kernel.org>,
+    Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+    Alexander Viro <viro@zeniv.linux.org.uk>,
+    Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: [PATCH v2] block: Fix start and length check added to iov_iter_extract_bvecs()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1895549.1787777192.1@warthog.procyon.org.uk>
 Content-Transfer-Encoding: quoted-printable
-Feedback-ID: :925ebc4067698a7:ham:e9714dfc98c1edc
-X-Infomaniak-Routing: alpha
+Date: Wed, 26 Aug 2026 21:46:32 +0100
+Message-ID: <1895550.1787777192@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Background:
-During the 2024 discussion on additional statx() attributes, the introducti=
-on of a generic STATX_ATTR_OFFLINE attribute was proposed and discussed as =
-a potentially useful cross-filesystem property. The discussion highlighted =
-use cases in HSM systems, network filesystems, and userspace tools that nee=
-d to distinguish fully available files from files whose content is not imme=
-diately accessible.
+Commit 14b007e17881 added an address check using iter_iov_addr() and a
+length check using iter_iov_len() to iov_iter_extract_bvecs(), but these
+cannot be used so and are unsafe in this circumstance as the functions hav=
+e
+hardwired assumptions about the iterator type.  They should only be used
+with ITER_UBUF or ITER_IOVEC-type iterators and work with ITER_KVEC; they
+should not be used with ITER_BVEC, ITER_FOLIOQ, ITER_XARRAY or ITER_DISCAR=
+D
+iterators.
 
-Since then, Linux has gained support for pre-content access notifications t=
-hrough FAN_PRE_ACCESS, which provides a mechanism for userspace to supply f=
-ile data before read access proceeds. This addresses a significant part of =
-the data access path for content that is not immediately available locally.
+This change proved to be a problem for cachefiles as an iterator of type
+ITER_FOLIOQ is passed and iter_iov_addr() and iter_iov_len() both
+malfunction because iter->__iov in iter_iov() is not pointing to an iovec
+array.
 
-However, userspace still lacks a standardized way to determine whether a fi=
-le's contents are currently available without triggering access.
+Fix this by using iov_iter_alignment() instead for anything other than
+ITER_UBUF, ITER_IOVEC or ITER_KVEC.
 
-This RFC revisits the earlier discussion and proposes a minimal and filesys=
-tem-agnostic solution.
+Fixes: 14b007e17881 ("block: validate user space vectors during extraction=
+")
+Suggested-by: Keith Busch <kbusch@kernel.org>
+cc: Keith Busch <kbusch@kernel.org>
+cc: Jens Axboe <axboe@kernel.dk>
+cc: Hannes Reinecke <hare@kernel.org>
+cc: Christoph Hellwig <hch@lst.de>
+cc: Alexander Viro <viro@zeniv.linux.org.uk>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: netfs@lists.linux.dev
+cc: linux-block@vger.kernel.org
+cc: linux-fsdevel@vger.kernel.org
+---
+ lib/iov_iter.c |   11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Problem Statement:
-Today, userspace applications can determine many file properties through st=
-atx(), but there is no generic mechanism to discover whether file content i=
-s immediately available.
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 6665372ecf71..c489569a5815 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1921,15 +1921,22 @@ ssize_t iov_iter_extract_bvecs(struct iov_iter *it=
+er, struct bio_vec *bv,
+ 		unsigned short max_vecs, unsigned mem_align_mask,
+ 		iov_iter_extraction_t extraction_flags)
+ {
+-	unsigned long start =3D (unsigned long)iter_iov_addr(iter);
+ 	unsigned short entries_left =3D max_vecs - *nr_vecs;
+ 	unsigned short nr_pages, i =3D 0;
+ 	size_t left, offset, len;
+ 	struct page **pages;
+ 	ssize_t size;
+ =
 
-As a result:
-General-purpose tools cannot distinguish between available and unavailable =
-file content.
-Filesystems may implement similar semantics differently.
-Userspace software lacks a common API for querying content availability.
-The recently introduced pre-content access infrastructure can hydrate conte=
-nt when accessed, but applications cannot discover the state beforehand.
-Proposal
+-	if ((start | iter_iov_len(iter)) & mem_align_mask)
++	if (likely(iter_is_ubuf(iter) ||
++		   iter_is_iovec(iter) ||
++		   iov_iter_is_kvec(iter))) {
++		unsigned long start =3D (unsigned long)iter_iov_addr(iter);
++
++		if ((start | iter_iov_len(iter)) & mem_align_mask)
++			return -EINVAL;
++	} else if (iov_iter_alignment(iter) & mem_align_mask) {
+ 		return -EINVAL;
++	}
+ =
 
-Introduce a new statx() attribute:
-STATX_ATTR_OFFLINE
+ 	/*
+ 	 * Move page array up in the allocated memory for the bio vecs as far as
 
-Semantic definition
-A file marked with STATX_ATTR_OFFLINE satisfies the following condition:
-
-The file's metadata is available, but the file's content is not currently g=
-uaranteed to be immediately accessible without additional retrieval, restor=
-ation, hydration, or staging work.
-
-This definition intentionally avoids any assumptions regarding:
-- storage technology
-- retrieval mechanism
-- userspace implementation
-- caching policy
-- filesystem type
-
-The attribute describes the current availability of file content and nothin=
-g more.
-
-Intended Usage:
-Examples of applications that may benefit from a standardized OFFLINE attri=
-bute include:
-
-- search tools
-- backup software
-- indexing services
-- archiving software
-- HSM implementations
-- filesystem management utilities
-
-Example:
-statx file.dat
-
-could return:
-Attributes OFFLINE
-
-allowing userspace applications to make informed decisions before opening t=
-he file.
-
-Non-Goals:
-This proposal does not attempt to standardize:
-- synchronization status
-- upload status
-- conflict states
-- caching policies
-- retention policies
-- provider-specific metadata
-- graphical user interface behavior
-
-In particular, this RFC intentionally does not propose attributes such as:
-- PINNED
-- SYNC_PENDING
-- ERROR
-
-as these describe userspace policy decisions rather than generic filesystem=
- content availability.
-
-The proposed attribute only answers one question:
-
-Is the file content currently offline?
-
-Filesystem Support
-
-Filesystems may expose STATX_ATTR_OFFLINE if they can reliably determine th=
-at file data is not immediately available.
-
-Implementation details remain filesystem specific.
-
-A filesystem may map the attribute to:
-
-- persistent inode flags
-- internal metadata
-- remote state information
-- HSM state information
-
-The RFC intentionally does not mandate how the state is stored.
-
-Relationship to Existing Work
-
-This proposal is intended as a direct continuation of the 2024 STATX_ATTR_O=
-FFLINE discussion and follows the same general direction suggested there. T=
-he goal is not to introduce a new subsystem but to define a common userspac=
-e-visible semantic that can be implemented across filesystems and consumed =
-by generic tools.
-
-The proposal is complementary to the recently introduced pre-content access=
- infrastructure (FAN_PRE_ACCESS). While FAN_PRE_ACCESS addresses content re=
-trieval before access, STATX_ATTR_OFFLINE provides a mechanism for userspac=
-e to determine content availability before attempting access.
-
-Request for Feedback
-
-Is the proposed semantic definition sufficiently generic?
-
-This RFC intentionally focuses on a single, narrowly scoped semantic proper=
-ty in order to maximize reuse across filesystems and userspace tools while =
-minimizing policy decisions in the kernel.
