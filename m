@@ -1,131 +1,113 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F15A2EACF9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 05:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B611B142D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 05:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787720980; cv=none; b=XYeNAEaDL4ajqNcsHCkx+AjVB6aLXTmRgPRqP62I1fbu2cPUXbQWnzMsmvSVlA5fXikd6rODDfh1Wnlsl+JWoh6qJ/VH7kXa9ttYmcf/qwGLfSMbNWMoIur4cF9sy/MJX4c+D7TzQtP0eD+yj8P9WIS1qJGQJqFMUod3ll5w6jI=
+	t=1787721673; cv=none; b=TNqvTxdIMsvKVtwzGSnQVV8MjL2Dh3jSYhxFVwHdQP8rNiAFvl8KYJ/zU746A0cPUKt8CNmIks9qw6/+LevgPdHA9gYeFjiP/nar6T+BzH48mCNKhAHowo2VFO+osXgwPDgo0xsJGSzJkMAldCpb678CSUSQrxOvBfWU/xdEzCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787720980; c=relaxed/simple;
-	bh=UxZbuizH0HeiOPp8+t3h6jM8AIqH03vW6UKn1VICBYo=;
-	h=Message-ID:Date:From:To:Cc:Subject:MIME-Version:Content-Type:
-	 Content-Disposition; b=fqeLmcJcbhvJiZ5+ore8jfqOC+oLuHUfXArpRn8V53b244Lvx6eRCajsVbKX+QW+v4FMILNDKlO7DM2Gr/U6vnGhDbgImvA94ejsX5hU3zKeqWScb4GoHjAi9+vrUMBRveIssJ6vfeXEQ9zKCY0qRrTleRCVNMsEdTFQ1k9Bucw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=evcnExV4; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1787721673; c=relaxed/simple;
+	bh=w5KSPtKV0YgCLci4joYya/6i/uT9GHt+Vm6dHfbUJgM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VqwM/cSkV9wzUz3D21HnFbz0Ej6EjQGsCdP7FtPjZtk+fPfP8lfBPRr3xx2/XvKDVBZ09zfM/hEbV5UktXSNuLhWJLqLZXDDO0HZHeOT0SXmbOoBugApd6OiXkDgxsiw3QBhumdiP6k7i2wonKu0uqMk6j9Br4YGoBNoQ2mf/+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dxh0xi1e; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="evcnExV4"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2d01663d816so5358485ad.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 22:09:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dxh0xi1e"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8541875f596so3566b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 25 Aug 2026 22:21:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787720978; x=1788325778; darn=vger.kernel.org;
-        h=content-disposition:content-type:mime-version:subject:cc:to:from
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0tfmhvTOsxdSxw8g7YExrn/7pyH78KUdAhaRwKC1CMg=;
-        b=evcnExV48EDciJJmxwOIbVKcZVVQkcX1F4ycjRCGN4GOG1QrGr5O0o0ywgasCmTHxj
-         glgMtEkzQ/vlhFjT2GeCsUBH6GoEBKQktGI8Ay7ffTIbNRgCypJpokLUCgecv0d0Fk8o
-         k9wRRF7+/90YQ6oTLE7ax/5Ni1f0C784jPa2c6QmtpBJmZ025nkrakDKnyzS3n4F7Vth
-         h9t4rwYfJMvvYKVLffhm1l0/TjeNGJ8F2vq9ZHCNzXdvXCOH3V70VZ8vGrqFIEEyFenD
-         p65FdMCKU8rDH8EBjut/cgQ86pi2uBen68HlqNlhWR17sWNzMaQkBcvH+8TWVE81VaTc
-         PJtQ==
+        d=gmail.com; s=20251104; t=1787721671; x=1788326471; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zNJ3kg/OSSC9Faib6mXlgA6wYEseQ+hAgHk+fzn3jtA=;
+        b=Dxh0xi1eFGUDIzk6T0bCdhE7cHJB20gfbFVAF4pljQfix3uc4XktLI2W7Uh6jqyC1l
+         mjLDub0fdbwN7Q0E1M6h3d4YUse9K1k3l1fu7npPcs++tcNJcskdBovSQmbrtNJpcNkg
+         dzQQDjJWcVEcvviGThLVm84IuGh84bwr1ArLAOSBs84iCRabLxv74e5M9VVxnmxsYCQs
+         VkCXH9iN0WsgKIVL/dQ6r9XMxM5JFfuDhctE066hgmzOSGbUJXUigZ4OoyAmSaplo9Ds
+         dcG3y6eHWOhlxyfrVcTrJf1VziGm++1gSMb09tioWDtmiJxbl/44qqfwdv9U4Jn2zucq
+         Sxpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787720978; x=1788325778;
-        h=content-disposition:content-type:mime-version:subject:cc:to:from
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1787721671; x=1788326471;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0tfmhvTOsxdSxw8g7YExrn/7pyH78KUdAhaRwKC1CMg=;
-        b=WFqLgVvkG94TAehvNp/iURXsKEB5kJjv/qTGKy+V9c4yRSM66+Eae3ddUEV5Hxs4HJ
-         NTSXsqOl3X2XNAcZ5+gcuUtr81MM6IfAupwb8153CJMa8TODRJPTHkOHOG+gbibL/ln6
-         ZFvK+Lcyw8xPWGbiKdW/u3cXT4N6au/bEf/9jteP8S7/yLYAjuYcIWq2HpBKTTrWgu+F
-         B+IbI32rrq3noZe6wohRzfru6aasF9majVykg3qH+PnAxwTBuM7fC6bYOs8+0OLVvvGi
-         8mYsY2YwXeqNQRmDdb+D+Czq7yJn7pC+03rkJZUmgsVcxGLhG4nkhCQg31nCL6iERLrn
-         3fhQ==
-X-Gm-Message-State: AFuF++lSM//ME8yYWRieKEe9AkMkJYNE/57axIAK27mhk7SUbOVGEDbt
-	ZmVjJh2n5Wu40jW8/nAyXdYZ8KWKvXCY2eBvtRD4nfpBlDwbqK3XbUoyOMdBrA==
-X-Gm-Gg: AR+sD125S1X3h2iemxM4RuI2zdomT6mo4vkc8dJIC3eV146dzt3N5eAjWGdaJ4nutzU
-	4BlFCSqWvdOzY/MupUvImXv2oobJbUUH4D3NL8BzXCk3E2JOL8VFCL2aBnMOp1Snj43fafv9Arg
-	7mc8bKbXrpRx7cDkkrymfWpB8u5pqtE1AH8fvjHkbylU4+HJhO6aSlIqWonCYt68NJViltpFF0a
-	lLUUkJ57lXjihJf/rDvl7y4gWRbqASm/3VZpCj71B88grgqlj7pEVL4fhOZ3t851hQQB9u7FdXb
-	lmhrkpAISFvyoXrRNCvTglEgfr7V/VGp6iV8zCN3DXTFAllsvJ2ToQ6UZ1MEOhB1mGDKZHMtX23
-	unNSJV2Uy81Hc5f/jnHBp7kQr6pgl2R0UH8ue3UMmVCAd6S7HfvW6iZkDdIWr9xDxsU62Fau+k2
-	JlnpWtbDj90aEn4nO4bEm32XhnjziiqbYZSRgl9G/PjExzjtwcrh1M5Bnt4vhDaYgqe1LJID83D
-	M4ZInJUN4ucWsWkM6QhhRkbxd9EEeQu3X46ZtjO6beY+Q==
-X-Received: by 2002:a17:903:3d06:b0:2d6:e4ff:9cad with SMTP id d9443c01a7336-2d707a5d171mr67324455ad.3.1787720978472;
-        Tue, 25 Aug 2026 22:09:38 -0700 (PDT)
-Received: from localhost (75-172-73-38.tukw.qwest.net. [75.172.73.38])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d7049b953dsm4174855ad.37.2026.08.25.22.09.37
+        bh=zNJ3kg/OSSC9Faib6mXlgA6wYEseQ+hAgHk+fzn3jtA=;
+        b=MTV/XrkPCtr0SMYw/NXa90tpf+jH79qHCse/m5//N5SYsz91VkdvdxIes/XIzM0cde
+         RAQuA67KbgKyYYLBklFJvk0Hz7h4H+DiFlcPvbUyP5LcF+XrAXJXDNwQ7Dik3UI5TpKS
+         NJOsUInxe6nUc/y8a6T+GvWpNNrIcsM02Qvbsw0Bpt3lJqtH2UQI1oLUNOdh6iri0k5Q
+         9Bh9TrWsgKpMihQmZdpTQn/CCmT5Tbr9LVuDCv8U0g4+NHfa6QIu5KBW3mNiWBSBK2MN
+         IieZ5I2BvtBgMLRTxC/137zcbG21STs/J8OAwjcJ9BI2kIGk61YzeNQBBAp49pdatgI/
+         7jrA==
+X-Gm-Message-State: AFuF++k9hGs2WN5oMDIQ3w1tUm1Npyloikqw3ED15U6eh6oNf9X6m6/F
+	GlhxW4VI4qKsgHzYkGzdYLfSg75mbOks/fZgwZDOTUgv5Gfhie9wcwAe
+X-Gm-Gg: AR+sD130PJsPa+NM2ztChyLK4IGwaQrC8O8ackKdUk4O7vTwKv8Nd1ZPVA9nlQacq+D
+	Cm4lsf20t9o1wum/dKCntRCRQ35NjdmijoGALtqCza41lDs7InTEMICfKYK8mE40QUAAHXyKhFZ
+	URCqiNblh7UrtnBx1Youdg/MhDLXC6fipsu7gCz/eDFiAY2I+hkZRf7VbbX3JMzip6TmL1MFX5o
+	W1pfDGgD63jyRvC3/K+809+GpedI3566qmXIYHHJ4EEeI4nhkybO8FIQrhS6P7iq6fN48hJtxrL
+	lgaU8ZEv77CevqrSOHUAq1A6MxTsLZ12xHtArCteLjEn4DjDxBm+kBjFwHqQyroUzgX5zJrc+l8
+	IwB8rvLXucnAjz5P+ThbfWjQOnW/vAJf6djPhX1DgVFPZ2Mf5vsoe1p8ndYp3T+2N5f4bhIPHUX
+	OrRMVRKCRQ8nREC/Zw3a/F+zteLZ6YcgzOs8PikbkCS5hB5Eb5yqAZGOn2YfHfvHGLB8fLdo6+6
+	of0UzWYRsRppiwTE3fjuedOVC9H2nJfOFw5Ush00UIBPej7AK61zTFsL8ZqY0LTBqw2Kin8wwT9
+	meyKxOUeKx11eN4=
+X-Received: by 2002:a05:6a00:6c8a:b0:835:6388:655d with SMTP id d2e1a72fcca58-853752c58eemr7806183b3a.14.1787721671319;
+        Tue, 25 Aug 2026 22:21:11 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8535d344602sm521443b3a.58.2026.08.25.22.21.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 22:09:37 -0700 (PDT)
-Message-ID: <6a8e7511.9e2d85f8.1d4e3b.c404@mx.google.com>
-X-Google-Original-Message-ID: <ao51DgJnzbKc4voE@DESKTOP-HH660AU.>
-Date: Tue, 25 Aug 2026 22:09:34 -0700
-From: Dennis Tighe <dennis.tighe@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ntfs: reject invalid sectors_per_cluster in the boot
- sector
+        Tue, 25 Aug 2026 22:21:10 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] chardev: check return value of kobject_set_name() in __register_chrdev()
+Date: Wed, 26 Aug 2026 12:20:55 +0700
+Message-ID: <20260826052055.19201-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-is_boot_sector_ntfs() checks the boot sector's sectors_per_cluster field
-with a range test that rejects 0x81..0xf3 but accepts 0 and other
-non-power-of-two counts. A zero value reaches parse_ntfs_boot_sector():
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-	sectors_per_cluster_bits = ffs(sectors_per_cluster) - 1;
-	...
-	vol->cluster_size = vol->sector_size << sectors_per_cluster_bits;
+The kobject_set_name() function can fail and return -ENOMEM if memory
+allocation fails.
 
-ffs(0) is 0, so sectors_per_cluster_bits becomes (unsigned)-1 and the
-shift is undefined:
+While all other functions called inside __register_chrdev() are properly
+checked for errors, kobject_set_name() was missing this check. Add the
+error check for kobject_set_name() and jump to the 'out' label on failure
+to maintain consistency and ensure proper error handling.
 
-  UBSAN: shift-out-of-bounds in fs/ntfs/super.c:673:39
-  shift exponent 4294967295 is too large for 32-bit type 'int'
+Found by manual code inspection.
 
-This change rejects any non-power-of-two value, since it feeds the 
-aforementioned shift via ffs() - 1, which only yields the correct shift for a
-power of two.
-
-Fixes: 6251f0b0de7d ("ntfs: update super block operations")
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Dennis Tighe <dennis.tighe@gmail.com>
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
-Changes in v2:
- - Check that sectors_per_cluster is a power of two rather than only
-   rejecting zero, per Hyunchul Lee's review. 
+ fs/char_dev.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-is_boot_sector_ntfs() is where the driver decides an image is NTFS, so
-rejecting a bad geometry there stops it before parse_ntfs_boot_sector()
-computes ffs() - 1. Reached by mounting the image.
-
-Built ntfs-next with KASAN+UBSAN and tested: sectors_per_cluster = 0 and a
-non-power-of-two value (e.g. 3) are both rejected with no UBSAN, and a valid
-volume still mounts (create/write/mkdir/rename/unlink smoke passes).
-
-A reproducer is available on request.
-
- fs/ntfs/super.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-index 2fd7db672..76f62dac2 100644
---- a/fs/ntfs/super.c
-+++ b/fs/ntfs/super.c
-@@ -557,8 +557,8 @@ static bool is_boot_sector_ntfs(const struct super_block *sb,
- 	 * Check sectors per cluster value is valid and the cluster size
- 	 * is not above the maximum (2MB).
- 	 */
--	if (b->bpb.sectors_per_cluster > 0x80 &&
--	    b->bpb.sectors_per_cluster < 0xf4)
-+	if (b->bpb.sectors_per_cluster < 0xf4 &&
-+	    !is_power_of_2(b->bpb.sectors_per_cluster))
- 		goto not_ntfs;
+diff --git a/fs/char_dev.c b/fs/char_dev.c
+index 00229e25c10f..5ce5423f6c99 100644
+--- a/fs/char_dev.c
++++ b/fs/char_dev.c
+@@ -280,7 +280,9 @@ int __register_chrdev(unsigned int major, unsigned int baseminor,
  
- 	/* Check reserved/unused fields are really zero. */
+ 	cdev->owner = fops->owner;
+ 	cdev->ops = fops;
+-	kobject_set_name(&cdev->kobj, "%s", name);
++	err = kobject_set_name(&cdev->kobj, "%s", name);
++	if (err)
++		goto out;
+ 
+ 	err = cdev_add(cdev, MKDEV(cd->major, baseminor), count);
+ 	if (err)
+-- 
+2.43.0
+
