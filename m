@@ -1,181 +1,265 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa2-f11.google.com (mail-oa2-f11.google.com [74.125.231.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F32243BDD6;
-	Wed, 26 Aug 2026 13:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA86F43B6D3
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 14:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787752737; cv=none; b=VmD4Rt7kXarianV4QQB1wVtl+JxZ5WSj99axf9UsO7syzMhVHKpZGGqocDpKM35rF40of3Ze2Y2CFDwAoCcGHasCOmlPjAYFXaVqBjxEqIgAEvduoXou6i6J6FHjkhUYHZklFr1U9YWbb5MVi++cidNPKZn5V3s30oU10nn6sh4=
+	t=1787756081; cv=none; b=hIKnOEwg4Rxe+Vobs5CPD0TAzHVMcDIL1TpCVAgAKy28kM5+ldIqN4ghYOb8uJseLXhMjVfntuGKZytywwetjEO0C7rFx6ZLYmVFbOq1lOJOa/2eneXywwY8L6k6wBTEBi0kSfjoNaeZdHoSCSJ7Wg6Z2lgMcEKlLzzzebfwOEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787752737; c=relaxed/simple;
-	bh=0t7XCa8WPyE/QxBh7C/eInKBl6WqTO7dDcUNcyjT21Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FlEyeSj7j4WcKFQTK+Pgk8XPqayFT+/Vc6NmM+pOb99QMu24Ollz3csIjSS7cQTRT7QdYX8eo/7nalLthEtWRZ54uln3Fmb+5jk7XfAdM5HyxipZR/3621MnXYXaVaNXC7hXA7TVlG0UUj+JGYUbFbestOQiycr2Qon4TlhGOgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=YsU0NAN8; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="YsU0NAN8"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67QCWEOD3894025;
-	Wed, 26 Aug 2026 13:57:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=2LiKUN
-	UJ1OiL3bYqU+s9DlRnAseVi3cKYOI6b9crRyc=; b=YsU0NAN8ubXRkP699Yyag+
-	++z/zJObPD2qbkgKdy/Y+NMGzk+v3l3MAQ53dM6POe5oMAxpiSCu/gErd+Ono45z
-	YCNS03vUkwrd7NOf3Oyym8vkP02mExnkwnVi6GvKIMQpZtyb+X/qs1FxX692cgoZ
-	dJvyRH7nE0AIP5mCbsdRrkD73Q37dcR6BO1DW1TeFZdqyhuzpaiqNf29TZlcgNDf
-	5gWpxcP0owI5YAQFvUfHBsNGZLN0UCQCWWa8nDB0zp9CxssVYgGdxrhYT5aCMfZA
-	A4DskgeC7F4VNjUM3aQzIQ4d0kGJPhXy4obYgW0mwgsNL3piwyoBXi6pizrCiFTQ
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g716hy57w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Aug 2026 13:57:28 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67QDfImv014111;
-	Wed, 26 Aug 2026 13:57:27 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4g7qkha6v9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Aug 2026 13:57:27 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67QDvPxn36307332
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 26 Aug 2026 13:57:25 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7176120043;
-	Wed, 26 Aug 2026 13:57:25 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E4CB620040;
-	Wed, 26 Aug 2026 13:57:24 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.224.75.30])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Wed, 26 Aug 2026 13:57:24 +0000 (GMT)
-Date: Wed, 26 Aug 2026 15:57:22 +0200
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: Hugh Dickins <hughd@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Ackerley Tng
- <ackerleytng@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Baolin
- Wang <baolin.wang@linux.alibaba.com>,
-        Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>,
-        Christian Brauner
- <brauner@kernel.org>,
-        Christoph Hellwig <hch@lst.de>, Christoph Lameter
- <cl@gentwo.org>,
-        David Hildenbrand <david@kernel.org>, JP Kobryn
- <jp.kobryn@linux.dev>,
-        Jan Kara <jack@suse.cz>, Jens Axboe
- <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>, Kairui Song
- <ryncsn@gmail.com>,
-        Kiryl Shutsemau <kas@kernel.org>, Lance Yang
- <lance.yang@linux.dev>,
-        Leonardo Bras <leobras.c@gmail.com>, Lorenzo
- Stoakes <ljs@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Matthew
- Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>,
-        Minchan
- Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-        Oscar
- Salvador <osalvador@suse.de>,
-        Peter Zijlstra <peterz@infradead.org>, Qi
- Zheng <qi.zheng@linux.dev>,
-        Rik van Riel <riel@surriel.com>,
-        Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>,
-        Shakeel Butt
- <shakeel.butt@linux.dev>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil
- Babka <vbabka@kernel.org>,
-        Yang Shi <yang@os.amperecomputing.com>, Yu Zhao
- <yuzhao@google.com>,
-        "Zach O'Keefe" <zokeefe@google.com>, Zi Yan
- <ziy@nvidia.com>,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 20/25] s390/fbatch: no lru_add_drain_all() in
- s390_wiggle_split_folio()
-Message-ID: <20260826155722.0198d3ce@p-imbrenda>
-In-Reply-To: <7bf68e7b-f88c-6ca9-39ab-e9fedab0c8be@google.com>
-References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
-	<7bf68e7b-f88c-6ca9-39ab-e9fedab0c8be@google.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1787756081; c=relaxed/simple;
+	bh=h81Wf+JN2r7zw2xpnWCN10iX/UkrmlCDQtNHhSI6x0Q=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=gpmT2oPIoTW5SthWCkXisbdnTc4Llo7TD7KW7SCoeAO/gQkE+wHWJGW3VTLucruDksLxYzvLn2QimSqDkMvyeDqxIzH9bE8Dz8Mf8xgXd0BGcTnyC4l90RtONHykgur30qCOE+9vnvWMErDIXgiidCJ233qW02bHmGdn/WCHKg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa2-f11.google.com with SMTP id 586e51a60fabf-45e2c1e33e1so513303fac.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 07:54:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787756079; x=1788360879;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fhc5akPL+e5xaAqcDZhj/uzCSZOI1Tcd3kQrpi5gMfg=;
+        b=W7wJZd+T9eyz9/X5bUlZWjQXYOcdfqTlf2hIQQHRel+L5NGmgZMEpprlkOvXX/QxAB
+         T5qsafjmmHUIfQM5moOKpdzLMDExV7peaYuge5LzXQnQ0R165yUYBQYYiMK2HsH4CVYF
+         f2oJqqSkgP4HFXKtMxGlF/QLrS1uI18CGlcyLb5cQm/CNktvaAnXNwuATkdO7pmQ4xFM
+         ZMZM1AyLGgMb7ULbKMHPokvL1Zim+o0Y1ViNI+AoSBLrfs9uua6NIxMa2BNl0wCyG0tn
+         5M6V/Kx3AfOY/Vkvm6ujtI8PAu/tLwaJm0obG0yyEsRlV0Z68DmwSjlOnA6kFq5sDZ5s
+         Uetg==
+X-Forwarded-Encrypted: i=1; AHgh+Rrz6f6REGTdGSm2XAn9IB2dSWaKxue45s5RYflAvxrFMrv6TGMQLxuYHAZ7BeiKwKyO1ypaoP5aXjSp+8fm@vger.kernel.org
+X-Gm-Message-State: AFuF++kB7IwI/n5zXEG1YNcGUIQwpuoBR7X9FHcImFuRQ3KyGkg1WBVM
+	gsemUecLzEWD7mUBH39XnWD4c+8pWkhk7ZJct1a7jG3+R25wGccvWouYgLIOlC3o8m11my3kwvS
+	fEYB7rb0FqbV/3ZxNAx9D41Ttx7R9wm0HsI/Ybzt328O2YjH6pFSrtnW+6jM=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI2MDExMiBTYWx0ZWRfX6oBMoAXUz9b+
- R2tF2RTZdZcuqOBhxLba2axaGWhWg2Kl07rlyQKuFHwjSqkOxhSrWknwqzByANHgzXMIgsDlaEU
- Idl+30dokbx5c7aGM1azQMrbbL2NzlU=
-X-Proofpoint-GUID: ic4DR_A9PttbjD9aBnZ6wMO72ql0cvfP
-X-Proofpoint-ORIG-GUID: CtVKpmKXa-6fjrMbMK0sces9C8ZO455o
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI2MDExMiBTYWx0ZWRfX7/j9vZ3raXyB
- Me/IVg+MC4rfQk452IoupMj8YDfCrRb2aDsOD5v2ra95DbPAkxcv7e6jEP0qwG0PZO4yv1Dhl8A
- MDor97CDbv2jWwZubFtFo71f50APNaOXyPErDM8wuF9ANlsKg4R8mN1ETfKeEs7LY/eu1rcSswR
- ujmCkelqB5shvDHGHK7KQOqUTjGxr+/PE2dnk7Tzh0Q9LtWA/LNTZI2nOT5w+ACGn+182t/6tXK
- bPa8WHzBebLfwFyGylResRBGUAtgIcfqoeAZhfcwRefUAXVTJ8Ojiq7mZr55C0JybbHa7HV8jvi
- 8uJw1ELRQYwi4ziuvlfXVFScGfFjx3IZg7prbBCfBy1ZK0LLB7Ui/X3wJ8bY09SA4c4pI3mYqwv
- qNrzli/jLZlc8rSiWLGU7lnDa8/sZ5pE5EOrVG5HVnBjdZ3HWdNB9DZb6M4ma79dfwpc/F0B57l
- J4jca6EyH0POQCLZBWQ==
-X-Authority-Analysis: v=2.4 cv=H7brBeYi c=1 sm=1 tr=0 ts=6a8ef0c9 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=1XWaLZrsAAAA:8
- a=67rAruxoP-Qw-q3ESxAA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-26_03,2026-08-26_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 clxscore=1011 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608260112
+X-Received: by 2002:a05:6820:709b:10b0:6aa:e13e:ba26 with SMTP id
+ 006d021491bc7-6b1a052dbfamr5198298eaf.33.1787756078998; Wed, 26 Aug 2026
+ 07:54:38 -0700 (PDT)
+Date: Wed, 26 Aug 2026 07:54:38 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8efe2e.1d9ded08.62e62.00b2.GAE@google.com>
+Subject: [syzbot] [fs?] memory leak in path_openat (4)
+From: syzbot <syzbot+7666ed2c3d42196bf7e3@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 24 Aug 2026 07:39:12 -0700 (PDT)
-Hugh Dickins <hughd@google.com> wrote:
+Hello,
 
-> s390_wiggle_split_folio() has no good reason to lru_add_drain_all(),
-> now that the per-cpu fbatch references are gone.
-> 
-> Signed-off-by: Hugh Dickins <hughd@google.com>
-> ---
->  arch/s390/kernel/uv.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/s390/kernel/uv.c b/arch/s390/kernel/uv.c
-> index dc14ebc0105b..120a467026a5 100644
-> --- a/arch/s390/kernel/uv.c
-> +++ b/arch/s390/kernel/uv.c
-> @@ -364,7 +364,6 @@ int s390_wiggle_split_folio(struct mm_struct *mm, struct folio *folio)
->  
->  	lockdep_assert_not_held(&mm->mmap_lock);
->  	folio_wait_writeback(folio);
-> -	lru_add_drain_all();
->  
->  	if (!folio_test_large(folio))
->  		return 0;
+syzbot found the following issue on:
 
-This is black magic for me, I am not sure I fully understand all the
-details, but what's the new purpose of lru_add_drain_all() ?
+HEAD commit:    26260251022f Merge tag 'livepatching-for-7.3' of git://git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1196a179580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6c1b5958b2d1207f
+dashboard link: https://syzkaller.appspot.com/bug?extid=7666ed2c3d42196bf7e3
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=139f7179580000
 
-will we have a guarantee that no stray references to mapped folios will
-ever remain?
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/0f75e7622b1f/disk-26260251.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/2bbff9fd7b60/vmlinux-26260251.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/95d733004907/bzImage-26260251.xz
 
-Any unexpected reference (i.e. not due to mappings, see
-expected_folio_refs()) will cause a protected guest to hang.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7666ed2c3d42196bf7e3@syzkaller.appspotmail.com
+
+2026/08/22 14:47:52 executed programs: 26
+2026/08/22 14:47:59 executed programs: 40
+2026/08/22 14:48:07 executed programs: 54
+2026/08/22 14:48:14 executed programs: 68
+BUG: memory leak
+unreferenced object 0xffff88812811f9c0 (size 176):
+  comm "syz.0.25", pid 6047, jiffies 4294943865
+  hex dump (first 32 bytes):
+    00 00 00 00 19 00 08 04 40 fc a8 85 ff ff ff ff  ........@.......
+    00 02 38 03 81 88 ff ff 80 cd 61 11 81 88 ff ff  ..8.......a.....
+  backtrace (crc 1214ee3a):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4599 [inline]
+    slab_alloc_node mm/slub.c:4919 [inline]
+    kmem_cache_alloc_noprof+0x352/0x440 mm/slub.c:4933
+    alloc_empty_file+0x57/0x180 fs/file_table.c:262
+    path_openat+0x44/0x11f0 fs/namei.c:4986
+    do_file_open+0x121/0x200 fs/namei.c:5029
+    do_sys_openat2+0xa7/0x150 fs/open.c:1417
+    do_sys_open fs/open.c:1423 [inline]
+    __do_sys_openat fs/open.c:1439 [inline]
+    __se_sys_openat fs/open.c:1434 [inline]
+    __x64_sys_openat+0x82/0xf0 fs/open.c:1434
+    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff8881280ec188 (size 56):
+  comm "syz.0.25", pid 6047, jiffies 4294943865
+  hex dump (first 32 bytes):
+    ff ff 01 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 2672a0c6):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4599 [inline]
+    slab_alloc_node mm/slub.c:4919 [inline]
+    kmem_cache_alloc_noprof+0x352/0x440 mm/slub.c:4933
+    lsm_file_alloc security/security.c:171 [inline]
+    security_file_alloc+0x30/0x250 security/security.c:2406
+    init_file+0x3e/0x160 fs/file_table.c:184
+    alloc_empty_file+0x75/0x180 fs/file_table.c:266
+    path_openat+0x44/0x11f0 fs/namei.c:4986
+    do_file_open+0x121/0x200 fs/namei.c:5029
+    do_sys_openat2+0xa7/0x150 fs/open.c:1417
+    do_sys_open fs/open.c:1423 [inline]
+    __do_sys_openat fs/open.c:1439 [inline]
+    __se_sys_openat fs/open.c:1434 [inline]
+    __x64_sys_openat+0x82/0xf0 fs/open.c:1434
+    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff88811161cd80 (size 192):
+  comm "syz.0.25", pid 6047, jiffies 4294943865
+  hex dump (first 32 bytes):
+    c0 f9 11 28 81 88 ff ff 00 00 00 00 2c 00 00 01  ...(........,...
+    b2 6d b2 0e 81 88 ff ff 00 00 00 00 00 00 00 00  .m..............
+  backtrace (crc 6cdefeb4):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4599 [inline]
+    slab_alloc_node mm/slub.c:4919 [inline]
+    __kmalloc_cache_noprof+0x359/0x440 mm/slub.c:5480
+    _kmalloc_noprof include/linux/slab.h:988 [inline]
+    _kzalloc_noprof include/linux/slab.h:1309 [inline]
+    iommufd_fops_open+0x24/0xe0 drivers/iommu/iommufd/main.c:319
+    misc_open+0x12a/0x1f0 drivers/char/misc.c:163
+    chrdev_open+0x108/0x310 fs/char_dev.c:411
+    do_dentry_open+0x1fc/0x850 fs/open.c:996
+    vfs_open+0x3d/0x1b0 fs/open.c:1101
+    do_open fs/namei.c:4837 [inline]
+    path_openat+0xde7/0x11f0 fs/namei.c:5000
+    do_file_open+0x121/0x200 fs/namei.c:5029
+    do_sys_openat2+0xa7/0x150 fs/open.c:1417
+    do_sys_open fs/open.c:1423 [inline]
+    __do_sys_openat fs/open.c:1439 [inline]
+    __se_sys_openat fs/open.c:1434 [inline]
+    __x64_sys_openat+0x82/0xf0 fs/open.c:1434
+    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff888127dd4000 (size 256):
+  comm "syz.0.25", pid 6047, jiffies 4294943865
+  hex dump (first 32 bytes):
+    01 00 00 00 01 00 00 00 04 00 00 00 01 00 00 00  ................
+    00 00 00 00 00 00 00 00 01 48 cf 0a 81 88 ff ff  .........H......
+  backtrace (crc 98731819):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4599 [inline]
+    slab_alloc_node mm/slub.c:4919 [inline]
+    __do_kmalloc_node mm/slub.c:5336 [inline]
+    __kmalloc_noprof+0x3c2/0x560 mm/slub.c:5362
+    _kmalloc_noprof include/linux/slab.h:992 [inline]
+    _kzalloc_noprof include/linux/slab.h:1309 [inline]
+    _iommufd_object_alloc+0x24/0x100 drivers/iommu/iommufd/main.c:41
+    iommufd_ioas_alloc drivers/iommu/iommufd/ioas.c:28 [inline]
+    iommufd_ioas_alloc_ioctl+0x46/0x160 drivers/iommu/iommufd/ioas.c:47
+    iommufd_fops_ioctl+0x1ed/0x370 drivers/iommu/iommufd/main.c:556
+    vfs_ioctl fs/ioctl.c:51 [inline]
+    __do_sys_ioctl fs/ioctl.c:597 [inline]
+    __se_sys_ioctl fs/ioctl.c:583 [inline]
+    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
+    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff88810eb26db0 (size 576):
+  comm "syz.0.25", pid 6047, jiffies 4294943865
+  hex dump (first 32 bytes):
+    00 17 02 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    88 cd 61 11 81 88 ff ff c8 6d b2 0e 81 88 ff ff  ..a......m......
+  backtrace (crc f41786a5):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4599 [inline]
+    slab_alloc_node mm/slub.c:4919 [inline]
+    kmem_cache_alloc_lru_noprof+0x350/0x440 mm/slub.c:4952
+    xas_alloc+0xf1/0x110 lib/xarray.c:378
+    xas_expand lib/xarray.c:590 [inline]
+    xas_create+0x105/0x8a0 lib/xarray.c:661
+    xas_store+0x7a/0xb20 lib/xarray.c:795
+    __xa_alloc+0xec/0x200 lib/xarray.c:2005
+    xa_alloc include/linux/xarray.h:878 [inline]
+    _iommufd_object_alloc+0x9d/0x100 drivers/iommu/iommufd/main.c:56
+    iommufd_ioas_alloc drivers/iommu/iommufd/ioas.c:28 [inline]
+    iommufd_ioas_alloc_ioctl+0x46/0x160 drivers/iommu/iommufd/ioas.c:47
+    iommufd_fops_ioctl+0x1ed/0x370 drivers/iommu/iommufd/main.c:556
+    vfs_ioctl fs/ioctl.c:51 [inline]
+    __do_sys_ioctl fs/ioctl.c:597 [inline]
+    __se_sys_ioctl fs/ioctl.c:583 [inline]
+    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
+    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff88811161ccc0 (size 192):
+  comm "syz.0.25", pid 6047, jiffies 4294943865
+  hex dump (first 32 bytes):
+    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 21b0f99b):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4599 [inline]
+    slab_alloc_node mm/slub.c:4919 [inline]
+    __kmalloc_cache_noprof+0x359/0x440 mm/slub.c:5480
+    _kmalloc_noprof include/linux/slab.h:988 [inline]
+    _kzalloc_noprof include/linux/slab.h:1309 [inline]
+    iopt_alloc_pages.part.0+0x2b/0x210 drivers/iommu/iommufd/pages.c:1375
+    iopt_alloc_pages drivers/iommu/iommufd/pages.c:1432 [inline]
+    iopt_alloc_file_pages+0x7c/0xf0 drivers/iommu/iommufd/pages.c:1425
+    iopt_map_file_pages+0x184/0x1e0 drivers/iommu/iommufd/io_pagetable.c:518
+    iommufd_ioas_map_file+0x152/0x2f0 drivers/iommu/iommufd/ioas.c:231
+    iommufd_fops_ioctl+0x1ed/0x370 drivers/iommu/iommufd/main.c:556
+    vfs_ioctl fs/ioctl.c:51 [inline]
+    __do_sys_ioctl fs/ioctl.c:597 [inline]
+    __se_sys_ioctl fs/ioctl.c:583 [inline]
+    __x64_sys_ioctl+0xf4/0x140 fs/ioctl.c:583
+    do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+    do_syscall_64+0xe9/0x530 arch/x86/entry/syscall_64.c:84
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: read tcp 127.0.0.1:41845->127.0.0.1:36772: read: connection reset by peer
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
