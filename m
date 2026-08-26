@@ -1,74 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19193B19CF;
-	Wed, 26 Aug 2026 18:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B952D3B3BE5;
+	Wed, 26 Aug 2026 18:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787769274; cv=none; b=HjncrzSwAACXqnfJWuoLHqvLj89g0O+TIQwCEAEtV8YkAufoqFEVIXtUUzKhWOp3OH4+eZQZWhmoznYubJNNPVr4DOSCZZfHqU94EdGeqZuiD2WSL+eDFLlWkem23WGY1VLZXqgl3Qe29xNwoB0y/SlZEVMh8GSAVhdY3RFjb2k=
+	t=1787770132; cv=none; b=WAGkTzPnukujFRnUBdWe5hV22/eSvB6S9TLm2+T04oyerCMIsr8KtjeK6Sm1ow8YeiYNvB2buZ+F/1N1M3+cnWmUZN3U2YH8yuq+OUYwEXbGZxlMnZ6XxvFTp8a7Ee1z5fOIUICYWXTH0xj3rhY3V0PQNuEboErbsJ2jCThxw+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787769274; c=relaxed/simple;
-	bh=WoKEstAxHN2E8coeOmacYjFPwFjlhZ4GC5UqV0xV+ec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=adXW2CZGU/d5Fr+VOlP+WmHtgKhx/32jDwlmMzTH0PJBu4aWkTc0FnorAYbvrqMcijPQmarddG/sSK9wCBUWM/snMtMmzBvuBlIRnlp16DaPrr1YUXqs5D7JXsHxMPZeJO+WIF0m/buGQScsnaI7d0T9uEPVVQzzbD92Kht9MZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkUTzNSF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787770132; c=relaxed/simple;
+	bh=csYV35gfNnZy1wVtgRrBVTAE//ewButmIKYDtBRh/pY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=GspfIliHap7/rXkLq+SpGSNt9Nq6egBVZJTKc9BTsjE1hub5JMt9xQywR1TBVT1wvpy1O2BdB0J3LrzRs4qJXE1ywauNn6qzqD3EBOHZBVLtf9LgSIxfdOVzdqpCXIKDkIwtgDmcdxxk66USNlUTjF/8KieWSeRad4PxW+YFphc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=IhVrX5yT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hRmcu/I7; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkUTzNSF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05F381F00A3D;
-	Wed, 26 Aug 2026 18:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787769258;
-	bh=hMvR2B7tAETH9ilflu7XXJD3qyRuNdLa73zRpfKhV1k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KkUTzNSFhAoWXKwQXA6M4TTtSaBpxTjpepIYzOXcRqCXxrjBXhmQ3VlBTQR1NYZur
-	 pLHslNH6g/a3iZ6Qi4YmBJgi50O55x+Eah1L6a9Mx/0vV942vnx4X9td8LglXlxlLt
-	 uAxJQ6hX1M+OUhcgfBEiHj2GIHaz2Tp5+9pJU8YWvO1MbcM79oOeK3BNRV96fQueCU
-	 puU17gPiypEbLjmBn57hUwJjE4JAyOSF8gCvEi5JwT9BmgCts/LC1X1MHL06+k2v1v
-	 HOzqBNYJkBDtQd6msCNejJK5gfZdp6A5RU5R2ExhYRe5/LE5HgxheX/U0lJMJNr79i
-	 HcajBbbvtKWqQ==
-Date: Wed, 26 Aug 2026 12:34:16 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: David Howells <dhowells@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Hannes Reinecke <hare@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
-	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] block: Fix start and length check added to
- iov_iter_extract_bvecs()
-Message-ID: <ao8xqMXoCfj4AWUw@kbusch-mbp>
-References: <1819786.1787768317@warthog.procyon.org.uk>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="IhVrX5yT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hRmcu/I7"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfout.phl.internal (Postfix) with ESMTP id 2D8CCEC0201;
+	Wed, 26 Aug 2026 14:48:32 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Wed, 26 Aug 2026 14:48:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1787770111;
+	 x=1787856511; bh=f4zU9c/JNdk5KJC+Sd8nuCSHq/+ymmDGSesrVV8zzl8=; b=
+	IhVrX5yTPt8Xnhzy/yUIwFjv+jVH4XuIrxY9SfvWNmpw1wW9FEt8cwMlEznP/f1d
+	xxOcnqxcTRWu8VQSXNeRDIjJobmvJQG068Lnyn7Qrazy/1ui5/4Qb8obE6lv0/09
+	k+AxjIPqhHjpqqZkKOkR93McV3gonWbbmV80D6S1zheqTht+/o3ic9BjkuTZZOPq
+	dGBcunqrKVBsbBS5vFicSnOh0Z8knC5u/X5rqvFbnOop7VhDe+v+idG3ns68Dj6W
+	RJDSK3YSLJeT1jNyALPDM87VOmuBZRMfihtmmpmOQ/XcaUevF6mo6LmDsFD3XZjs
+	P5irH8Ki/PIEoImd5ZKJ2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787770111; x=
+	1787856511; bh=f4zU9c/JNdk5KJC+Sd8nuCSHq/+ymmDGSesrVV8zzl8=; b=h
+	Rmcu/I7pLUKE/vxGJDdCqzNcwYS5BrWQ3XaYWeuGxJTvo/7ZE9wKNDfmofR5+oRz
+	WNBHv7zl4qU0LI+ypEYVRxmZQ7Da7fopLHmEMQ0C8RkDaBnKEGiODxsqB2/gKLQ3
+	1mq+8IOYQH/n/FUNZ5litlyjumTCYKtOlsbpz2VWFcArklef20fGp0xCtHK5By+j
+	7YDrTvO6gWXgfFV+qNrHyRRvEdGdYI59z9dzXp40WsUvEJEiXVEcVS5/RVQRhlAN
+	Dfzk5f2aR74xhlvKig5hPY675SOhW2787Jbf3e3vACy00f2FBQWPXBZlUI0oU8fU
+	JdUzRQu7Yz65mwxTsBZow==
+X-ME-Sender: <xms:9zSPajgupCG8BY4ZyIMGUe_bkjrCt5qybhm0IqtRiFptc1StepAveQ>
+    <xme:9zSPaq3RnNtNDc2dr_2ZCNjAqqjHIhTHJP5Pni7KDB8vRUJFOkHbKf4XdSwCGbDFe
+    irtWZ_FO9wsngl6dbmqzDBU-T4yO7LP2RePW6coMqtU1rX3lPKoKT0>
+X-ME-Proxy-Cause: dmFkZTEpJFbkILkdbnjJPhhmIqMU7frV80/nt9hFZsQu4PZ9qgJjoHJyPUWOrwrcASJLCi
+    abBYNRANM9ymUYLu4eDv6nLUvz3u+yuAbvEC800+m2hdGgGEDc9Q5Kn4vPfteqbrTFlH9u
+    IiI2rNBGoS4iM8Up8wSEqKfxSF60yTHji+aKM680VRZkwna5Sd7/qZXalPIoE2NrQDP9g5
+    azVWcv5jzsjf0M/3+Mq361J+OOHmuHQB0kx0ps2KHxXXbhAPlPQyZEO+PuqUmWE4P1ZmY3
+    9Pl93zfQ5JvJpAxAU73uHu4r7yTAwEMig1jH0pqBZIX9BUGFqPrfJjXgFnk9+yofRnGWJ4
+    a7Kp7JQCrM8mNfMODBVDAvhmfX4nMrhdnbRlpL7bKUc3eHzFP6/PWYVzwAKBsRJlL0zeM6
+    3dkKSs0EAISwGAqfeV11ajXrj6JxloHFs6bXR9qcpJ5Fk8yxWBFhSZg0KdZ/950y+ZsnlM
+    snrhuXa2E7YR4/XqwcZTUXqNXo4ILdyKyj1vccPJvzA6BVQ3k15S/GSgUwQxJEPVnI0yo7
+    yEbG5nhte6DRa+U5nufffKmXyP5iEWJuP6dOk2gAxHMZ0eJcd7aJMCRhf928g6k4ut+CXn
+    0GCtyN2e8TdoHrVjTsB7TpS02zk4ojw1CbCLQBXhGFqpl+uJOMFFa3fvHt/g
+X-ME-Proxy: <xmx:-jSPavw-Z6GFgrl-O215TTEgOmon29324qhtnwq77LVYoVcOXt3y6w>
+    <xmx:-jSPahpOEZvHqHBsoM0u1LaUtCrTwLSMUL9sCVsRgX4ytDqKGpBiLg>
+    <xmx:-jSPavc8SMvZagtYUGWzdqX3SqRBKgVL3bg3GOLmG5p5kHHLeHEAPw>
+    <xmx:-jSPakoDo_Xe_EHu5zD7CYC-Y5PtxRT9GOeN9eDvdYyxsECDUxgePw>
+    <xmx:_zSPakqSMyvGK_Wf9cZPt0W3GU45cUc1tUt6hb7oLSuolHLWWxHELk4u>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id E2A3E32A007C; Wed, 26 Aug 2026 14:48:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1819786.1787768317@warthog.procyon.org.uk>
+X-ThreadId: A-UguAUR6dUN
+Date: Wed, 26 Aug 2026 20:47:42 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>
+Cc: "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Christophe Leroy" <chleroy@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Jan Kara" <jack@suse.cz>, "Geoff Levand" <geoff@infradead.org>
+Message-Id: <8ddf7d95-05b1-4758-9b5b-9360db77f904@app.fastmail.com>
+In-Reply-To: <20260826-work-spufs-coredump-v1-0-579e72a7ab66@kernel.org>
+References: <20260826-work-spufs-coredump-v1-0-579e72a7ab66@kernel.org>
+Subject: Re: [PATCH 0/2] powerpc: remove spufs coredump support
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 26, 2026 at 07:18:37PM +0100, David Howells wrote:
-> @@ -1921,15 +1921,19 @@ ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv,
->  		unsigned short max_vecs, unsigned mem_align_mask,
->  		iov_iter_extraction_t extraction_flags)
->  {
-> -	unsigned long start = (unsigned long)iter_iov_addr(iter);
->  	unsigned short entries_left = max_vecs - *nr_vecs;
->  	unsigned short nr_pages, i = 0;
->  	size_t left, offset, len;
->  	struct page **pages;
->  	ssize_t size;
->  
-> -	if ((start | iter_iov_len(iter)) & mem_align_mask)
-> +	if (iov_iter_alignment(iter) & mem_align_mask) {
-> +		pr_warn("%u %zx %x\n",
-> +			iter->iter_type,
-> +			iov_iter_alignment(iter),
-> +			mem_align_mask);
->  		return -EINVAL;
-> +	}
+On Wed, Aug 26, 2026, at 18:06, Christian Brauner wrote:
+> Note that the IBM Cell blades that shipped the Cell processor were
+> removed in commit 05bf59fbeef3 ("powerpc/cell: Remove support for IBM
+> Cell Blades"). The PlayStation 3 is the only platform left and nothing
+> there produces or reads these notes.
 
-iov_iter_alignment loops over all the vectors when we only need to
-examine the current one here.
+I don't see how you concluded the PS3 does not produce these
+notes: as far as I can tell, spufs on PS3 should still be able to do
+this if a process using an SPU crashes, and old gdb binaries should
+still be able to read them.
+
+Whether anyone is still developing SPU programs on new kernels and
+would benefit from the information in the dump I don't know.
+
+> So remove it.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+
+With clarifications in the changelog:
+
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+
+I have no objection to removing the spufs coredump. If anyone still
+cares, Geoff Levand would know, so I've added him to Cc.
+
+       Arnd
