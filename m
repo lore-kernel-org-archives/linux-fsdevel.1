@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DE0481679;
-	Wed, 26 Aug 2026 19:43:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A14647FB1A;
+	Wed, 26 Aug 2026 19:44:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773452; cv=none; b=N8i5S8TLaRQLOs4gAMLu/3fjSf2PCnbPOa4fbx0owwud7BlMi+Yp3GkuBMbNahZZrmi/KMijDaKa/wmo0+oYefCPEqoY7M/sUwqYbkjtRR6iS82wNHR8iBp7gSIpEDadHJK038ZAhDDR2RbuRtgj+ZpSg1qbzeiI06ysecNRFBI=
+	t=1787773459; cv=none; b=lzs7cOhqkRRdB4n8ueAp/YJ7I1uO3WMCyQZ5nXhtoaquyrJEGnObhJ22/CLp45D5wmv6t78bVrnvwGbfMISfBHUSG1rZE5Jz1/zYTvlMg6NfVZIs1ODSd/ZPS++eQ/7ktp2w1z0LkA89w8SlnNHnWWoWVV+ZDo+2sPHKuR2ihYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773452; c=relaxed/simple;
-	bh=Ro3w3EDfRH1jNshK9lxK2IGwzcNz2IdIqzYK2yUpFoI=;
+	s=arc-20240116; t=1787773459; c=relaxed/simple;
+	bh=8nALYO+CR6FmkF08x+EV0iTBcAYc/NqrKS6OJYcgsUg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jFB7q+T7mTLUGWMZmwvgQQjYiRebvmZLdQxZwsonS7dzRFzIQOsL9dZCb2xXwVanR12LdN0Q0ERoN+q2/5MYXaEses7dm5h7kgCuX2h6/QM8YR5qP2L+g9hergJoIrOjX/y1CsdpUgAqUl3hq0GJDg1Hppr/AzCwLvxH9aTiMAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iBKwhZ/u; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=mYQTtyDe/96m6/KvVn1W0UR+EVLdwt03OpVwPDH/cizWguTw03uLL5FrhsiCooD330NZZKQJEj0z/GscBCiGudoK//TQJHwaEBguts6HHBjfjutydvGdbYxuqZWgazzGri01UWQc5U9F5uQqHNZHI4Km2QQ6mtoatMp5KeWi2cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lZPyONVf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iBKwhZ/u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED7971F00ADE;
-	Wed, 26 Aug 2026 19:43:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lZPyONVf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9ECD1F00A3A;
+	Wed, 26 Aug 2026 19:43:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787773432;
-	bh=xloEoEd/0DOxxxwVFZlmFnNBDux5+ivipajIt/kl0Y0=;
+	s=k20260515; t=1787773438;
+	bh=5sX4EYF1jy9uIro8ioqvIBp0Bk/FrWD4EdLjKf0RI64=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=iBKwhZ/uJrTXGFH6tjtoP7K/FuWQg9poloHeS1gWgFhhA/Q594OL9UYSuSWD3TeYm
-	 R3PbdX5qysnvaRkQNUFjtpT3orWGtwq0DCtkPED2LCXBoyBI+ISCXfDL48zn5125Wn
-	 UauleMVCxbEI57oFs7hNdiWqn/QhkA/T9vwYEsi3B6vYDaCroD1btc8hsbKXws62EC
-	 OyE+fj+YVLTSCEEGZprf6YB41OMP5Bs5hipW4x/CDzB820JZeS4zYwvNWbPAk1OjeH
-	 cZKC57IMMG0/99Mk9vO9tyqgqV/P8RIi+R+89jrXRE0AdF69VbCzkQEaojCjBFcH+S
-	 8ysGo3JCcj/kQ==
+	b=lZPyONVfFnPUdry7zgorA2h5U72J6V8Aa0JFZ9UZvFv59tshCH+fn7cs4Bxpr5wNF
+	 +TnPk/NTGEubcTJtWF+ueXTjAYlCELQ+gXpn/RFjYaL0p+gqQeo10GBqvQrt+r7ZK+
+	 q1OfGvsl1Cqyx5+vV2ROpC9FfryKSZz+6JYCDOZW2QU4j3fhOJnVdZhs17uSQ21AXj
+	 x9oTqRUGbBKwzZpfjHom5rvSZzvVM68EmUUi1vVYmnQTcnWUPWYNevZHfUEbM2h+bS
+	 RhixfMP4x4/gVUedAQ4u3r0Iohdl64CY6+qixxkYiRg7wLdNbcErbtTdS3RdKEAMa0
+	 /cmTs3L57hUWw==
 From: Alexey Gladkov <legion@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
 	"Eric W . Biederman" <ebiederm@xmission.com>,
@@ -33,9 +33,9 @@ To: Linus Torvalds <torvalds@linux-foundation.org>,
 	Joel Granados <joel.granados@kernel.org>
 Cc: LKML <linux-kernel@vger.kernel.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [RFC PATCH v1 22/30] sysctl: net: use sysctl_field in RDS sysctls
-Date: Wed, 26 Aug 2026 21:42:26 +0200
-Message-ID: <18251f7eac243d91180462539e3b68391059b7ff.1787771905.git.legion@kernel.org>
+Subject: [RFC PATCH v1 25/30] sysctl: bridge: use sysctl_field for br_netfilter sysctls
+Date: Wed, 26 Aug 2026 21:42:29 +0200
+Message-ID: <79750a1c9bc5b1bcdd86925800d4e668fde43112.1787771905.git.legion@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1787771905.git.legion@kernel.org>
 References: <cover.1787771905.git.legion@kernel.org>
@@ -47,243 +47,151 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-RDS TCP clones its sysctl table for every non-init network namespace so
-that the per-net buffer limits can be patched into the ctl_table
-entries. The handlers also rely on the ctl_table data pointer to
-recover the owning RDS per-net state.
+br_netfilter clones its sysctl table for each non-init network namespace
+so the registration path can patch in namespace-local data pointers. The
+copied table then has to be kept alive until namespace teardown only so
+it can be freed after unregistering the sysctls.
 
-Use sysctl_field descriptors instead and resolve the per-net data from
-the sysctl context at registration time. This keeps the RDS TCP sysctl
-layout static, removes the per-net table allocation, and avoids binding
-the code to fixed ctl_table indexes.
-
-Pass the per-entry minimum and the RDS per-net state through the custom
-field callbacks so both buffer sysctls can share one handler.
+Use sysctl_field to derive the br_netfilter per-net data from the
+registration context instead. This keeps the sysctl descriptors static
+and const, and removes the per-net table copy and unregister-time free.
 
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
 ---
- net/rds/tcp.c | 129 ++++++++++++++++++++++++--------------------------
- net/rds/tcp.h |   1 -
- 2 files changed, 63 insertions(+), 67 deletions(-)
+ net/bridge/br_netfilter_hooks.c | 99 ++++++++++++---------------------
+ 1 file changed, 37 insertions(+), 62 deletions(-)
 
-diff --git a/net/rds/tcp.c b/net/rds/tcp.c
-index 5830b31a1f37..2504221ec592 100644
---- a/net/rds/tcp.c
-+++ b/net/rds/tcp.c
-@@ -34,6 +34,7 @@
- #include <linux/slab.h>
- #include <linux/in.h>
- #include <linux/module.h>
-+#include <linux/sysctl.h>
- #include <net/tcp.h>
- #include <net/net_namespace.h>
- #include <net/netns/generic.h>
-@@ -61,33 +62,60 @@ static atomic_t rds_tcp_unloading = ATOMIC_INIT(0);
+diff --git a/net/bridge/br_netfilter_hooks.c b/net/bridge/br_netfilter_hooks.c
+index 0a394e5f4391..18eccde39885 100644
+--- a/net/bridge/br_netfilter_hooks.c
++++ b/net/bridge/br_netfilter_hooks.c
+@@ -1181,43 +1181,37 @@ int brnf_sysctl_call_tables(const struct ctl_table *ctl, int write,
+ 	return ret;
+ }
  
- static struct kmem_cache *rds_tcp_conn_slab;
- 
--static int rds_tcp_sndbuf_handler(const struct ctl_table *ctl, int write,
--				  void *buffer, size_t *lenp, loff_t *fpos);
--static int rds_tcp_rcvbuf_handler(const struct ctl_table *ctl, int write,
--				  void *buffer, size_t *lenp, loff_t *fpos);
-+static int rds_tcp_skbuf_handler(const struct ctl_table *ctl, int write,
-+				 void *buffer, size_t *lenp, loff_t *fpos);
- 
- static int rds_tcp_min_sndbuf = SOCK_MIN_SNDBUF;
- static int rds_tcp_min_rcvbuf = SOCK_MIN_RCVBUF;
- 
--static struct ctl_table rds_tcp_sysctl_table[] = {
--#define	RDS_TCP_SNDBUF	0
+-static struct ctl_table brnf_table[] = {
 -	{
--		.procname       = "rds_tcp_sndbuf",
--		/* data is per-net pointer */
--		.maxlen         = sizeof(int),
--		.mode           = 0644,
--		.proc_handler   = rds_tcp_sndbuf_handler,
--		.extra1		= &rds_tcp_min_sndbuf,
+-		.procname	= "bridge-nf-call-arptables",
+-		.maxlen		= sizeof(int),
+-		.mode		= 0644,
+-		.proc_handler	= brnf_sysctl_call_tables,
 -	},
--#define	RDS_TCP_RCVBUF	1
 -	{
--		.procname       = "rds_tcp_rcvbuf",
--		/* data is per-net pointer */
--		.maxlen         = sizeof(int),
--		.mode           = 0644,
--		.proc_handler   = rds_tcp_rcvbuf_handler,
--		.extra1		= &rds_tcp_min_rcvbuf,
+-		.procname	= "bridge-nf-call-iptables",
+-		.maxlen		= sizeof(int),
+-		.mode		= 0644,
+-		.proc_handler	= brnf_sysctl_call_tables,
 -	},
-+static void *rds_tcp_sndbuf_data(const struct sysctl_context *ctx)
-+{
-+	struct rds_tcp_net *rtn = net_generic(ctx->ns.net_ns, rds_tcp_netid);
-+
-+	return &rtn->sndbuf_size;
+-	{
+-		.procname	= "bridge-nf-call-ip6tables",
+-		.maxlen		= sizeof(int),
+-		.mode		= 0644,
+-		.proc_handler	= brnf_sysctl_call_tables,
+-	},
+-	{
+-		.procname	= "bridge-nf-filter-vlan-tagged",
+-		.maxlen		= sizeof(int),
+-		.mode		= 0644,
+-		.proc_handler	= brnf_sysctl_call_tables,
+-	},
+-	{
+-		.procname	= "bridge-nf-filter-pppoe-tagged",
+-		.maxlen		= sizeof(int),
+-		.mode		= 0644,
+-		.proc_handler	= brnf_sysctl_call_tables,
+-	},
+-	{
+-		.procname	= "bridge-nf-pass-vlan-input-dev",
+-		.maxlen		= sizeof(int),
+-		.mode		= 0644,
+-		.proc_handler	= brnf_sysctl_call_tables,
+-	},
++#define BRNF_DATA(field)						\
++static void *brnf_ ## field ## _data(const struct sysctl_context *ctx)	\
++{									\
++	struct brnf_net *brnet = net_generic(ctx->ns.net_ns, brnf_net_id); \
++									\
++	return &brnet->field;						\
 +}
 +
-+static void *rds_tcp_rcvbuf_data(const struct sysctl_context *ctx)
-+{
-+	struct rds_tcp_net *rtn = net_generic(ctx->ns.net_ns, rds_tcp_netid);
++BRNF_DATA(call_arptables)
++BRNF_DATA(call_iptables)
++BRNF_DATA(call_ip6tables)
++BRNF_DATA(filter_vlan_tagged)
++BRNF_DATA(filter_pppoe_tagged)
++BRNF_DATA(pass_vlan_indev)
++#undef BRNF_DATA
 +
-+	return &rtn->rcvbuf_size;
-+}
-+
-+static void *rds_tcp_net_data(const struct sysctl_context *ctx)
-+{
-+	return net_generic(ctx->ns.net_ns, rds_tcp_netid);
-+}
-+
-+static void *rds_tcp_min_sndbuf_data(const struct sysctl_context *ctx)
-+{
-+	return &rds_tcp_min_sndbuf;
-+}
-+
-+static void *rds_tcp_min_rcvbuf_data(const struct sysctl_context *ctx)
-+{
-+	return &rds_tcp_min_rcvbuf;
-+}
-+
-+#define RDS_TCP_SKBUF_ENTRY(_name, _data, _min)				\
-+	{								\
-+		.procname	= (_name),				\
-+		.mode		= 0644,					\
-+		.type		= SYSCTL_FIELD_CUSTOM,			\
-+		.ctl_custom	= {					\
-+			.proc_handler	= rds_tcp_skbuf_handler,	\
-+			.data		= (_data),			\
-+			.extra1		= (_min),			\
-+			.extra2		= rds_tcp_net_data,		\
-+			.maxlen		= sizeof(int),			\
-+		},							\
-+	}
-+
-+static const struct sysctl_field rds_tcp_sysctl_table[] = {
-+	RDS_TCP_SKBUF_ENTRY("rds_tcp_sndbuf", rds_tcp_sndbuf_data,
-+			    rds_tcp_min_sndbuf_data),
-+	RDS_TCP_SKBUF_ENTRY("rds_tcp_rcvbuf", rds_tcp_rcvbuf_data,
-+			    rds_tcp_min_rcvbuf_data),
++static const struct sysctl_field brnf_table[] = {
++	SYSCTL_FIELD_CUSTOM("bridge-nf-call-arptables", 0644, sizeof(int),
++			 brnf_call_arptables_data, brnf_sysctl_call_tables),
++	SYSCTL_FIELD_CUSTOM("bridge-nf-call-iptables", 0644, sizeof(int),
++			 brnf_call_iptables_data, brnf_sysctl_call_tables),
++	SYSCTL_FIELD_CUSTOM("bridge-nf-call-ip6tables", 0644, sizeof(int),
++			 brnf_call_ip6tables_data, brnf_sysctl_call_tables),
++	SYSCTL_FIELD_CUSTOM("bridge-nf-filter-vlan-tagged", 0644, sizeof(int),
++			 brnf_filter_vlan_tagged_data,
++			 brnf_sysctl_call_tables),
++	SYSCTL_FIELD_CUSTOM("bridge-nf-filter-pppoe-tagged", 0644, sizeof(int),
++			 brnf_filter_pppoe_tagged_data,
++			 brnf_sysctl_call_tables),
++	SYSCTL_FIELD_CUSTOM("bridge-nf-pass-vlan-input-dev", 0644, sizeof(int),
++			 brnf_pass_vlan_indev_data, brnf_sysctl_call_tables),
  };
  
- u32 rds_tcp_write_seq(struct rds_tcp_connection *tc)
-@@ -542,36 +570,28 @@ void rds_tcp_accept_work(struct rds_tcp_net *rtn)
- static __net_init int rds_tcp_init_net(struct net *net)
+ static inline void br_netfilter_sysctl_default(struct brnf_net *brnf)
+@@ -1232,33 +1226,18 @@ static inline void br_netfilter_sysctl_default(struct brnf_net *brnf)
+ 
+ static int br_netfilter_sysctl_init_net(struct net *net)
  {
- 	struct rds_tcp_net *rtn = net_generic(net, rds_tcp_netid);
--	struct ctl_table *tbl;
- 	int err = 0;
- 
- 	memset(rtn, 0, sizeof(*rtn));
- 
- 	mutex_init(&rtn->rds_tcp_accept_lock);
- 
-+#if IS_ENABLED(CONFIG_SYSCTL)
+-	struct ctl_table *table = brnf_table;
 +	struct sysctl_context ctx = {
 +		.ns.net_ns = net,
 +	};
-+
- 	/* {snd, rcv}buf_size default to 0, which implies we let the
- 	 * stack pick the value, and permit auto-tuning of buffer size.
- 	 */
--	if (net == &init_net) {
--		tbl = rds_tcp_sysctl_table;
--	} else {
--		tbl = kmemdup(rds_tcp_sysctl_table,
--			      sizeof(rds_tcp_sysctl_table), GFP_KERNEL);
--		if (!tbl) {
--			pr_warn("could not set allocate sysctl table\n");
+ 	struct brnf_net *brnet;
+ 
+-	if (!net_eq(net, &init_net)) {
+-		table = kmemdup(table, sizeof(brnf_table), GFP_KERNEL);
+-		if (!table)
 -			return -ENOMEM;
--		}
--		rtn->ctl_table = tbl;
 -	}
--	tbl[RDS_TCP_SNDBUF].data = &rtn->sndbuf_size;
--	tbl[RDS_TCP_RCVBUF].data = &rtn->rcvbuf_size;
--	rtn->rds_tcp_sysctl = register_net_sysctl_sz(net, "net/rds/tcp", tbl,
--						     ARRAY_SIZE(rds_tcp_sysctl_table));
-+	rtn->rds_tcp_sysctl = register_sysctl_fields(&net->sysctls, "net/rds/tcp",
-+						     rds_tcp_sysctl_table, &ctx);
- 	if (!rtn->rds_tcp_sysctl) {
- 		pr_warn("could not register sysctl\n");
- 		err = -ENOMEM;
- 		goto fail;
- 	}
-+#endif
- 
- #if IS_ENABLED(CONFIG_IPV6)
- 	rtn->rds_tcp_listen_sock = rds_tcp_listen_init(net, true);
-@@ -598,8 +618,6 @@ static __net_init int rds_tcp_init_net(struct net *net)
- 	return 0;
- 
- fail:
--	if (net != &init_net)
--		kfree(tbl);
- 	return err;
- }
- 
-@@ -640,9 +658,6 @@ static void __net_exit rds_tcp_exit_net(struct net *net)
- 
- 	if (rtn->rds_tcp_sysctl)
- 		unregister_net_sysctl_table(rtn->rds_tcp_sysctl);
 -
--	if (net != &init_net)
--		kfree(rtn->ctl_table);
- }
+ 	brnet = net_generic(net, brnf_net_id);
+-	table[0].data = &brnet->call_arptables;
+-	table[1].data = &brnet->call_iptables;
+-	table[2].data = &brnet->call_ip6tables;
+-	table[3].data = &brnet->filter_vlan_tagged;
+-	table[4].data = &brnet->filter_pppoe_tagged;
+-	table[5].data = &brnet->pass_vlan_indev;
+-
+ 	br_netfilter_sysctl_default(brnet);
  
- static struct pernet_operations rds_tcp_net_ops = {
-@@ -685,16 +700,16 @@ static void rds_tcp_sysctl_reset(struct net *net)
- 	spin_unlock_irq(&rds_tcp_conn_lock);
- }
+-	brnet->ctl_hdr = register_net_sysctl_sz(net, "net/bridge", table,
+-						ARRAY_SIZE(brnf_table));
+-	if (!brnet->ctl_hdr) {
+-		if (!net_eq(net, &init_net))
+-			kfree(table);
+-
++	brnet->ctl_hdr = register_sysctl_fields(&net->sysctls, "net/bridge",
++						brnf_table, &ctx);
++	if (!brnet->ctl_hdr)
+ 		return -ENOMEM;
+-	}
  
--static int rds_tcp_skbuf_handler(struct rds_tcp_net *rtn,
--				 const struct ctl_table *ctl, int write,
-+static int rds_tcp_skbuf_handler(const struct ctl_table *ctl, int write,
- 				 void *buffer, size_t *lenp, loff_t *fpos)
- {
-+	struct rds_tcp_net *rtn = ctl->extra2;
-+	int *min = ctl->extra1;
- 	int err;
- 
- 	err = proc_dointvec_minmax(ctl, write, buffer, lenp, fpos);
- 	if (err < 0) {
--		pr_warn("Invalid input. Must be >= %d\n",
--			*(int *)(ctl->extra1));
-+		pr_warn("Invalid input. Must be >= %d\n", *min);
- 		return err;
- 	}
- 
-@@ -707,24 +722,6 @@ static int rds_tcp_skbuf_handler(struct rds_tcp_net *rtn,
  	return 0;
  }
- 
--static int rds_tcp_sndbuf_handler(const struct ctl_table *ctl, int write,
--				  void *buffer, size_t *lenp, loff_t *fpos)
--{
--	struct rds_tcp_net *rtn = container_of(ctl->data, struct rds_tcp_net,
--					       sndbuf_size);
--
--	return rds_tcp_skbuf_handler(rtn, ctl, write, buffer, lenp, fpos);
--}
--
--static int rds_tcp_rcvbuf_handler(const struct ctl_table *ctl, int write,
--				  void *buffer, size_t *lenp, loff_t *fpos)
--{
--	struct rds_tcp_net *rtn = container_of(ctl->data, struct rds_tcp_net,
--					       rcvbuf_size);
--
--	return rds_tcp_skbuf_handler(rtn, ctl, write, buffer, lenp, fpos);
--}
--
- static void rds_tcp_exit(void)
+@@ -1266,11 +1245,7 @@ static int br_netfilter_sysctl_init_net(struct net *net)
+ static void br_netfilter_sysctl_exit_net(struct net *net,
+ 					 struct brnf_net *brnet)
  {
- 	rds_tcp_set_unloading();
-diff --git a/net/rds/tcp.h b/net/rds/tcp.h
-index 39c86347188c..266e1d765fd5 100644
---- a/net/rds/tcp.h
-+++ b/net/rds/tcp.h
-@@ -14,7 +14,6 @@ struct rds_tcp_net {
- 	struct socket		*rds_tcp_accepted_sock;
- 	struct work_struct	rds_tcp_accept_w;
- 	struct ctl_table_header	*rds_tcp_sysctl;
--	const struct ctl_table	*ctl_table;
- 	int			sndbuf_size;
- 	int			rcvbuf_size;
- };
+-	const struct ctl_table *table = brnet->ctl_hdr->ctl_table_arg;
+-
+ 	unregister_net_sysctl_table(brnet->ctl_hdr);
+-	if (!net_eq(net, &init_net))
+-		kfree(table);
+ }
+ 
+ static int __net_init brnf_init_net(struct net *net)
 -- 
 2.55.0
 
