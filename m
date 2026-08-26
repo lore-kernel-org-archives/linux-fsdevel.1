@@ -1,38 +1,38 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F973E1232;
-	Wed, 26 Aug 2026 09:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29413E8C65;
+	Wed, 26 Aug 2026 09:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787736341; cv=none; b=inWDjVON68H+NhFVwXY3aoEI57qh06e8E61gH4QAnnSag5AgfUMv4XfVPM2CIUhOxtVU5qXh1C9BQjT+v7ZuVtUjcdaJD4wPhSkVN4ZLlEITCehb+M1zV5EsAjFRupvhTRrjPZxdifWyBvePc8UoAOerjVpczWHsN7mZr9n9IOU=
+	t=1787736344; cv=none; b=DORpn6V1KnQKqTdpt5GFU1Op9mCO4Sm7ckCUgX+OP2g2+/t/wxwx0rpDoUOyPwNOTXwCw5HFfTM6Rr4A3a0KoXtsMsCAInJ10/O3HY4PpPXvl6BAld7tacwTosAOG+YA0ohDPoldY6gqO4FdBTOb85lqvlEI73kLxN1/K8G7SUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787736341; c=relaxed/simple;
-	bh=KIduKjWG/Jw+fuabu45aCN9A79gkp85fMH3esbGjIv4=;
+	s=arc-20240116; t=1787736344; c=relaxed/simple;
+	bh=0mAik/i9N56JtyuHFVuPGWREFimlRQb3aDwMWBlPxeI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oRULZ+1hGA4nnT7Ygh7BfQO5SoGO7aGhp9UM5BBtFRyOA6PO5Gv2LTjwvVaE6jcXfwbuZIwXOQVa4s40sQP938BcrD6S7Q39sA+CDVVeneV0jp4DLMJ1Bxm2mrnjwfjVy1aIgYVn6UenoPvRQoc6fp9iF3pFNooS/1zppUO93Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=GB6QEE65; arc=none smtp.client-ip=113.46.200.218
+	 MIME-Version:Content-Type; b=hAHOw5n2BbnvHpH2hq/qb6rUdy3g4p81pv8vbqXmP3yaMzHY3OleL4pECs/E2OUe0CXnJN2Hy+yEE9nNWtiOYxjT9CjCFKUvaYvgQql+37rKhfAQ87e7p6UqGJQcItSOYEqdvuC4PdQGxQBbQGJh5hNbU+qCZfScygUGSiVxgyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=4/tAT6Kh; arc=none smtp.client-ip=113.46.200.219
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="GB6QEE65"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="4/tAT6Kh"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=AjFAkRrhVUTBFTsQMyUNsvLp/GHcd37S7PEMXZOcAZ4=;
-	b=GB6QEE65ILKvCbQpXecQEb/ua/x3iezR7nE2mn7WyYvYlY4SUXxQ83iR38qyJiKIbAgDODNlH
-	MU8cWojiXPCrCQ5dhsBQrS1ENBNRxVIcl10fi/R92xWzffLm8zRiqYcpNm7ebeVpN3c6nk/FktV
-	hqwqWG9q2cn4HV8W9tiTxUc=
+	bh=OsSkMIhsameVeQcyubflsAKjqyDPzlK/Dltq516R/Cc=;
+	b=4/tAT6KhStANNCVtYQC+DB5wYYXDiC3tT34fBpKlCqPTh2I1YSkgN/f/nRnKQCczgulZrLa5x
+	SMtVukw+4IMcbUBzz4us12yj4rcnLybfHqc3ah2t+jgK2r5itK8c4c82rj9Gk9VcSKgK+3/ji5n
+	r0Yl4uQkkWaI+TBCQprUFWY=
 Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4hVJr24p4czpTHV;
-	Wed, 26 Aug 2026 17:14:26 +0800 (CST)
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4hVJrX05jqz1prQB;
+	Wed, 26 Aug 2026 17:14:52 +0800 (CST)
 Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0D1434056D;
-	Wed, 26 Aug 2026 17:25:35 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 8733E4056D;
+	Wed, 26 Aug 2026 17:25:39 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
  (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 26 Aug
- 2026 17:25:32 +0800
+ 2026 17:25:37 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
 	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <maddy@linux.ibm.com>,
@@ -55,9 +55,9 @@ To: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
 	<kexec@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
 	<linux-mm@kvack.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v3 11/17] crash: Introduce crash_extra_elfcorehdr_size() helper
-Date: Wed, 26 Aug 2026 17:25:35 +0800
-Message-ID: <20260826092541.3905933-12-ruanjinjie@huawei.com>
+Subject: [PATCH v3 13/17] crash: Improve elfcorehdr segment identification
+Date: Wed, 26 Aug 2026 17:25:37 +0800
+Message-ID: <20260826092541.3905933-14-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260826092541.3905933-1-ruanjinjie@huawei.com>
 References: <20260826092541.3905933-1-ruanjinjie@huawei.com>
@@ -72,104 +72,41 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
  dggpemf500011.china.huawei.com (7.185.36.131)
 
-Extract the elfcorehdr extra space calculation from powerpc into a
-generic helper crash_extra_elfcorehdr_size() for use by other
-architectures.
+Only checking ELFMAG is insufficient, as other segments like the
+kernel image or an ELF initrd may also start with \x7fELF, leading
+to misidentification. This is especially problematic when elfcorehdr
+is not the last segment, such as:
 
-The helper includes compile-time and runtime checks, it also checks
-whether the total number of program headers (including fixed headers for
-kernel_map, VMCOREINFO, and CPU notes) exceeds PN_XNUM, and provides a
-stub when crash/memory hotplug is disabled.
+	kexec -d --t bzImage -p bzImage --initrd=/bin/true
 
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Baoquan He <baoquan.he@linux.dev>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>
-Cc: Dave Young <ruirui.yang@linux.dev>
-Cc: Sourabh Jain <sourabhjain@linux.ibm.com>
+Add an "e_type == ET_CORE" check to ensure the correct segment is
+identified, and break early after finding it.
+
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- arch/powerpc/kexec/file_load_64.c | 19 +------------------
- include/linux/crash_core.h        | 26 ++++++++++++++++++++++++++
- 2 files changed, 27 insertions(+), 18 deletions(-)
+ kernel/crash_core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/arch/powerpc/kexec/file_load_64.c b/arch/powerpc/kexec/file_load_64.c
-index 6075b1c88511..2b0325e4a628 100644
---- a/arch/powerpc/kexec/file_load_64.c
-+++ b/arch/powerpc/kexec/file_load_64.c
-@@ -374,23 +374,6 @@ static int load_backup_segment(struct kimage *image, struct kexec_buf *kbuf)
- 	return 0;
- }
- 
--static unsigned int kdump_extra_elfcorehdr_size(struct crash_mem *cmem)
--{
--#if defined(CONFIG_CRASH_HOTPLUG) && defined(CONFIG_MEMORY_HOTPLUG)
--	unsigned int extra_sz = 0;
--
--	if (CONFIG_CRASH_MAX_MEMORY_RANGES > (unsigned int)PN_XNUM)
--		pr_warn("Number of Phdrs %u exceeds max\n", CONFIG_CRASH_MAX_MEMORY_RANGES);
--	else if (cmem->nr_ranges >= CONFIG_CRASH_MAX_MEMORY_RANGES)
--		pr_warn("Configured crash mem ranges may not be enough\n");
--	else
--		extra_sz = (CONFIG_CRASH_MAX_MEMORY_RANGES - cmem->nr_ranges) * sizeof(Elf64_Phdr);
--
--	return extra_sz;
--#endif
--	return 0;
--}
--
- /**
-  * load_elfcorehdr_segment - Setup crash memory ranges and initialize elfcorehdr
-  *                           segment needed to load kdump kernel.
-@@ -428,7 +411,7 @@ static int load_elfcorehdr_segment(struct kimage *image, struct kexec_buf *kbuf)
- 	 * Account for extra space required to accommodate additional memory
- 	 * ranges in elfcorehdr due to memory hotplug events.
- 	 */
--	kbuf->memsz = headers_sz + kdump_extra_elfcorehdr_size(cmem);
-+	kbuf->memsz = headers_sz + crash_extra_elfcorehdr_size(cmem->nr_ranges);
- 	kbuf->top_down = false;
- 
- 	ret = kexec_add_buffer(kbuf);
-diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
-index 6789ff0af39e..d5981008a812 100644
---- a/include/linux/crash_core.h
-+++ b/include/linux/crash_core.h
-@@ -106,4 +106,30 @@ ssize_t dm_crypt_keys_read(char *buf, size_t count, u64 *ppos);
- static inline int crash_load_dm_crypt_keys(struct kimage *image) {return 0; }
- #endif
- 
-+#if defined(CONFIG_CRASH_HOTPLUG) && defined(CONFIG_MEMORY_HOTPLUG)
-+static inline unsigned int crash_extra_elfcorehdr_size(unsigned int nr_mem_ranges)
-+{
-+	unsigned int total_phdrs = 2 + num_possible_cpus() + CONFIG_CRASH_MAX_MEMORY_RANGES;
+diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+index bd3f82b62751..0730c4ea8054 100644
+--- a/kernel/crash_core.c
++++ b/kernel/crash_core.c
+@@ -737,9 +737,14 @@ static void crash_handle_hotplug_event(unsigned int hp_action, unsigned int cpu,
+ 			mem = image->segment[n].mem;
+ 			ptr = kmap_local_page(pfn_to_page(mem >> PAGE_SHIFT));
+ 			if (ptr) {
++				Elf64_Ehdr *ehdr = (Elf64_Ehdr *)ptr;
 +
-+	BUILD_BUG_ON(CONFIG_CRASH_MAX_MEMORY_RANGES > (unsigned int)PN_XNUM);
-+
-+	if (nr_mem_ranges >= CONFIG_CRASH_MAX_MEMORY_RANGES) {
-+		pr_warn_once("Configured crash mem ranges may not be enough\n");
-+		return 0;
-+	}
-+
-+	if (total_phdrs >= (unsigned int)PN_XNUM) {
-+		pr_warn_once("number of Phdrs %u exceeds max\n", total_phdrs);
-+		return 0;
-+	}
-+
-+	return (CONFIG_CRASH_MAX_MEMORY_RANGES - nr_mem_ranges) * sizeof(Elf64_Phdr);
-+}
-+#else
-+static inline unsigned int crash_extra_elfcorehdr_size(unsigned int nr_mem_ranges)
-+{
-+	return 0;
-+}
-+#endif
-+
- #endif /* LINUX_CRASH_CORE_H */
+ 				/* The segment containing elfcorehdr */
+-				if (memcmp(ptr, ELFMAG, SELFMAG) == 0)
++				if (memcmp(ptr, ELFMAG, SELFMAG) == 0 && ehdr->e_type == ET_CORE) {
+ 					image->elfcorehdr_index = (int)n;
++					kunmap_local(ptr);
++					break;
++				}
+ 				kunmap_local(ptr);
+ 			}
+ 		}
 -- 
 2.34.1
 
