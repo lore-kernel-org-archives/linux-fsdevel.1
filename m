@@ -1,194 +1,104 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5383E3D86;
-	Wed, 26 Aug 2026 10:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787741272; cv=none; b=AiWrcEGM0ge59b2hOiPfZPyOWaW7zBuTOwCEVcpI4OtL7TG2K0vw5pNLNOkslil7r8zho/LyUKSjrJNcqB4kWUGWAr7dy3cw3PLlILnnHPynRt1Nl8g0KmisQ8tRytz66HhXYZtqg6XXzlPrtY6sSg47wWsFQAXFNit2XuF3wMA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787741272; c=relaxed/simple;
-	bh=GkzTfTFbLQND+U+cNyP76kQ59TA5pINipegGDM2lRpg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FJhU/uL8jZpbnDxLeXcXZXYRr84goHnhslyXwAE6HH8D5tA6JwrdJrfzAHnx7bG0qK64E+k3yAM67Om+OYzcyF9NSApwrieBihW4sL0bmCKxP0ogEu2lypv26c2vRBwtc8BwAPDs893oQ3cgb+YgApmJ0UxHRI2M4mZ+Y80YOVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=PAFkpgUv; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061BF3E5588
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 10:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787741538; cv=pass; b=rOWcqh5yeZTDw240tfBwLaaA87QaonqIt2TTAt4Ke5Yom5s7E+ZbXCIeFVudXGM+SWhd62Z8tepTOzAI7/RSTN5rG2spGOcw9+MNztjZCmw4Wg5PoUJKhiixBVNbiUfqxjik4l6NEtGfzLUuTngamwkqpMfwqDT4l7ohL3Ra7HY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787741538; c=relaxed/simple;
+	bh=W+E2yob3VC1nC5T5vDlsuCeEoBLkoFNoqRZ0DeBs89U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Dc8+YVaXYrb6FSvGrcbSw653u/ejzkibTdaPCZ5Q1+8PuCMeB2ZAX0BIpAbXD4Gp1tHV9whsD586WATzgQpW0ZE9Z/dvOApG6z+k+YZ/3Q7Twa5UykUt592ONHcT71vc5lCgGpIQ+P4lki9oLc7R7CVxeBsgdsTT2bqk2JLb+qw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Yy4F1GcO; arc=pass smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="PAFkpgUv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=tT85b5NbK6bRM9en6qm/KfwNm49d+ZHKHssrA665pMw=; b=PAFkpgUvM2CGE9ZPFA6++L8Bya
-	kk6kKe9YHglCuXt+97yD8XJFgU4t1D6YIKh79ld5NZ2egxvmdMp5BH1hUCrxN0u/S7CSbPaXUjbo7
-	uRBwAo9rmVVj1uXKiGVLr0uymSlK/eNsOb+CZAYQz722xvG27Fh8J/ztjHpNZ/GBb655gPPE7COwK
-	lm00kf6VQF2kpsKcA5czzrSQ+jDIujgS/2qZKPjyNdO4jv0+tKGiyjvdaOTSfT+trvuuT5uGWJqrI
-	yql7/DRoIZU2zDIe98S51h9CtYc190vO/MwSGNLgA9wDgfd+VUIkVNpEKMl/ug5flbn/VL734YzK8
-	j6CEom+Q==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wzBAM-00FA1G-36;
-	Wed, 26 Aug 2026 10:47:35 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Wed, 26 Aug 2026 03:47:05 -0700
-Subject: [PATCH 4/4] selftests/configfs: race symlink against rmdir of the
- target
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Yy4F1GcO"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5218927884fso8155311cf.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 03:52:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787741521; cv=none;
+        d=google.com; s=arc-20260327;
+        b=juOTQJzp/DEww3JWEg36hIrALv0Y0G2t9OCxgyqnsPnKhqgbljPIJhAjMGCqKAx6T/
+         QHqaV0KLWNMkNIFsXWsoG9vF97YigQKCwWgTujbcttgo/42B1UDzsGOL2lCHSgIQxGCr
+         w6n+qlbf+i+3sin5CW0728s3i8Z/rlJ6FjZB02ds4AHvuF4yuXpuukgnRukqTdXKmLjZ
+         0+Hp9fKmZzzIYIbdxLJnoUYhqT/nlhmkqu+pKRl040VGiyOcMma8+X9d1q5yiLb+MT1Z
+         Bfku+n5I1oHrSGWhKI1hpYbKwxwChx9t8rhCRwHJOH9+kt8wrC0W8dV2pCN56GCDPliU
+         PNJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=W+E2yob3VC1nC5T5vDlsuCeEoBLkoFNoqRZ0DeBs89U=;
+        fh=kuzN2xdpOoi108lU+SzONpdT+LcxKOxpGTnQNCsIQJE=;
+        b=V5b39VCBFC5IIyT682DsVr+idLEh2vxmUeeuDbOWa+01qA1+fpMktjYjr6qsTXSOtg
+         JGMKV2DPpXN7OnN9+UMzbxP5kcE/5/7Q8OjW/1ljWSMPvr1ZsOawprVCaPxVXgJwB8HH
+         LOTdlBzX2ZKRgziKIpt/MeXLjc17+Ox1bexvLK+BvYAr3gSqx58Ew12soL4uTK8mLb5g
+         qeNNTU1s3SN5Vory6jN8d0oqmg8k9tsOdn3uvHsOe04G/2a844UjEW9TF8RQrbVKke+9
+         E+iMvpJ8DdA7lq18Al8YskQYV75rn0Hd1ZtCFVInc9RuyP6TS1xu1sfNQQwzk1/6PYDL
+         IArw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1787741521; x=1788346321; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=W+E2yob3VC1nC5T5vDlsuCeEoBLkoFNoqRZ0DeBs89U=;
+        b=Yy4F1GcO/2WJXkbDkIeFkCEiyyq3oLKQfdoBqsvyox2X+Sdr0Ybisjs5uMexaYH3Z1
+         8cfRav8nYhXP7DxhfBkI3n+ThUPvUlfORl62kh/YLRgJccYLVaHeqXbT1bAinJb1fRGc
+         aTTTDW7LpUd/P9hZ5Rodvo4sVoK31EkyUNLw8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787741521; x=1788346321;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=W+E2yob3VC1nC5T5vDlsuCeEoBLkoFNoqRZ0DeBs89U=;
+        b=XlYJ+PLQGD/M9JZewKybfGzxLR3OKD2qFR4VR6z8LqCalLZ6JrxxQlJZv1WGp/zpfH
+         h1uk0H68LreoEUPoKSyBSUP9lAJfD1IA8V6pKT0qmbv6hpQ7xOeSQaUoNwFOdoFo4E3G
+         h5IHS3Zs5L0qwbX0zWJ83qlK6dcMaNKlLi9to+Kt2MzftFK+oPszbTuHyGGDD7SX4iSN
+         LV9KAj70yWkkNl+6sSueqJcMdXuPkZQSIW4bYcGVwR+oEE+x9qOVI28pTVpx3CHrdrGs
+         7yTrAHaanFz1hnjXG4VCzwUrks2YefaHowoEK2p69c0Ww5HnV1Wp6Pfayeb+gbNmqnCF
+         aKLg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp6dIUoP5aZKVeulft42/+hbvakBjlwbOXuHYdN2g3OOgu7T+Q2Hibv3u1bXJaQaT01NoOWo5JXrt4rwyFg@vger.kernel.org
+X-Gm-Message-State: AFuF++m8Wsfi5/EL2TIIrgkRHa5+/rCSqJOdGWPrc7SM13YCbbK6rJWV
+	i0iJZS//4jtNAFDiJJrWYudUHaeM/pvCJd2/5m+sBNgJORJJWlFqDgvOxu0bkrV2AXqR+iT5Twz
+	9exSWzJ5rP7I8aU271lwXcTt2y94zlunUG9KQyG0hIA==
+X-Gm-Gg: AR+sD11JDy7Bqb0cMjWvP5exeruss2TSu1oN8SbGocsHEUfxVnM7cygyBtqPKOawxcw
+	7618sMFXphen3c3XYN25UnA8d0S613fDfKDPoRZ8wRjQfCEoTKxkwKOgAOIZqdC/9Hzdh38x0k/
+	qN6J3DWTDcVEbZ8R5ZUcPT7hQe2CADtO8h5WAR6hJh9xC5Tb8bHtNUlCaeE+h/hn7fRVhD+o7rd
+	9LzK245HOwSvyk0fvEKCQ+HcS7S4N1xno3fFG04BL7fgAQDuaHaBTKe6o6+LxGTm6GYeRDlH3TJ
+	xRnTQc8BucJHFsCrR+2q+be9hY0Sn6URAYHXrso8IfuW32R6nEELIhYm5IUc7lAw5d1aN8j8Y7F
+	a+G0=
+X-Received: by 2002:a05:622a:1192:b0:52b:6543:d8a with SMTP id
+ d75a77b69052e-52e423205a4mr50624011cf.26.1787741515931; Wed, 26 Aug 2026
+ 03:51:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260826-config_selftest-v1-4-e364b07e91ac@debian.org>
-References: <20260826-config_selftest-v1-0-e364b07e91ac@debian.org>
-In-Reply-To: <20260826-config_selftest-v1-0-e364b07e91ac@debian.org>
-To: Shuah Khan <shuah@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- gustavold@gmail.com, linux-fsdevel@vger.kernel.org, 
- Breno Leitao <leitao@debian.org>, kernel-team@meta.com, 
- vasilisalmpanis@gmail.com
-X-Mailer: b4 0.16-dev-f8e9d
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3688; i=leitao@debian.org;
- h=from:subject:message-id; bh=GkzTfTFbLQND+U+cNyP76kQ59TA5pINipegGDM2lRpg=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqjsQzVqC+PwufOkmq+yuSfBUzFxuQ3bTp68IE2
- ma7cvb7mBqJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCao7EMwAKCRA1o5Of/Hh3
- bTuXD/0bIXrSL3l1F9U1heqW28ABmDwM8hA2nAqvTtYDSPxpvjAQVRqva6hA9B433BcqvzQ10jT
- 9yrpeSbithEsFY1kengjlhrGjg08yMqtYBpw5dEF+BJ5fcuNwFM1Kq2At2urYBaWYv8sIiBhy4U
- 7VAUnbuLRuW4A62nzw5Dkn7Afa6e/SzuDH6cCiXIS8k2bQoA2oW4BqUyYMBwUssd9HCmLHwK1yr
- 6RVpW6GX+d5x6GFWYDuZcx0tYgUtFqXUNkfXLucbnBFXU5xl6EzzJy+hYw+GqF+5qWTXkQwqYnM
- ILi0Qy3lPOMp7S7u9AAc0nLXYYigm9oUu4eCoPgoyymsUEChIe3/F/43mNNhsx+IU8Hk3v2/giH
- xRthjFt4/hZsYwGwfJKytpISrOu1oPyd9d0pB06NuQEair9mi/ZspDvDZScOdg/D4vzMKUFDx8w
- 9oof2KEnzfTgAsj7aZF6+jZGWGrzMSg8cthBRORqvWx/ANPviYX5itpyUB+Oo/PKErqqoUxewAx
- WSlbDNkfluRp8IbNJjZ8vBsFgoPRU5pXj0vRpoghIQ0FrDfMKzPx0jVixoKlnxPOtOql4N07cDm
- SPpWDHP3fQMBGYP8i+orYHs1/JHrK0GXObbAGrddWEwS6v9+w9u7FYDnZbSEUuS/iiLqGfGIuGN
- dF7R8x3peBbOApg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+References: <20260727210718.125872-1-psalian@google.com> <20260825175433.2588528-1-psalian@google.com>
+In-Reply-To: <20260825175433.2588528-1-psalian@google.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 26 Aug 2026 12:51:44 +0200
+X-Gm-Features: AcwNN1XetyIdhiAra5tdw_37A5FJQ5bKzyZQIMDhheeFgB1hN6l2gVmfLAojSAg
+Message-ID: <CAJfpegsP62ZEddEY2Oh+SqOLngyztYkNEEK3W4rrvHRBXMFkyw@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: mark DAX VMA page protections as decrypted
+To: Punit Salian <psalian@google.com>
+Cc: pankaj.gupta@amd.com, michael.roth@amd.com, thomas.lendacky@amd.com, 
+	stefanha@redhat.com, vgoyal@redhat.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-configfs_rmdir() drops the last reference to an item while its dentry is
-still hashed, so a symlink(2) resolving that target takes a reference on
-freed memory.  syzbot reported it [1].
+On Tue, 25 Aug 2026 at 19:54, Punit Salian <psalian@google.com> wrote:
 
-Race mkdir/rmdir of a target against symlink/unlink of a link to it,
-watching /sys/kernel/warn_count.
+> Modify fuse_dax_mmap() to apply pgprot_decrypted() to vma->vm_page_prot
+> when establishing FUSE DAX memory mappings. This ensures guest page
+> table entries for shared DAX buffers are explicitly marked as decrypted,
+> preventing memory encryption faults when accessing host-shared DAX memory.
 
-Fails until the fix [2] lands.
+Applied, thanks.
 
-Link: https://syzkaller.appspot.com/bug?extid=6b16e3d085833cbf3e25 [1]
-Link: https://lore.kernel.org/all/20260730093435.195441-1-vasilisalmpanis@gmail.com/ [2]
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- .../selftests/filesystems/configfs/Makefile        |  2 +-
- .../selftests/filesystems/configfs/configfs_test.c | 62 ++++++++++++++++++++++
- 2 files changed, 63 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/filesystems/configfs/Makefile b/tools/testing/selftests/filesystems/configfs/Makefile
-index 359296356c831..40a91ed788ed2 100644
---- a/tools/testing/selftests/filesystems/configfs/Makefile
-+++ b/tools/testing/selftests/filesystems/configfs/Makefile
-@@ -2,7 +2,7 @@
- # Copyright (c) 2026 Meta Platforms, Inc. and affiliates
- # Copyright (c) 2026 Breno Leitao <leitao@debian.org>
- 
--CFLAGS += -Wall -Werror
-+CFLAGS += -Wall -Werror -pthread
- TEST_GEN_PROGS := configfs_test
- 
- include ../../lib.mk
-diff --git a/tools/testing/selftests/filesystems/configfs/configfs_test.c b/tools/testing/selftests/filesystems/configfs/configfs_test.c
-index 9b15e1fd69e5b..c6a1049e5852e 100644
---- a/tools/testing/selftests/filesystems/configfs/configfs_test.c
-+++ b/tools/testing/selftests/filesystems/configfs/configfs_test.c
-@@ -11,6 +11,7 @@
- #include <errno.h>
- #include <fcntl.h>
- #include <limits.h>
-+#include <pthread.h>
- #include <sched.h>
- #include <stdbool.h>
- #include <stdio.h>
-@@ -41,6 +42,8 @@
- #define LINK_SRC		SYMLINKS "/kselftest-src"
- #define LINK			LINK_SRC "/kselftest-link"
- 
-+#define RACE_ITERATIONS		20000
-+
- static const char * const test_links[] = {
- 	LINK,
- };
-@@ -405,6 +408,65 @@ TEST_F(configfs, symlink_target_is_an_attribute)
- 	EXPECT_EQ(errno, ENOTDIR);
- }
- 
-+static volatile int race_stop;
-+
-+static void *rmdir_target(void *arg)
-+{
-+	while (!race_stop) {
-+		if (mkdir(ITEM_A, 0755) == 0 || errno == EEXIST)
-+			rmdir(ITEM_A);
-+	}
-+
-+	return NULL;
-+}
-+
-+/* -1 if the kernel does not export a warning counter. */
-+static long warn_count(void)
-+{
-+	char buf[32];
-+
-+	if (read_attr("/sys/kernel/warn_count", buf, sizeof(buf)) < 0)
-+		return -1;
-+
-+	return strtol(buf, NULL, 10);
-+}
-+
-+TEST_F(configfs, symlink_races_with_target_rmdir)
-+{
-+	pthread_t thread;
-+	long warns;
-+	int i;
-+
-+	warns = warn_count();
-+	if (warns < 0)
-+		SKIP(return, "no /sys/kernel/warn_count to watch");
-+
-+	ASSERT_EQ(mkdir(LINK_SRC, 0755), 0);
-+	ASSERT_EQ(pthread_create(&thread, NULL, rmdir_target, NULL), 0);
-+
-+	/*
-+	 * configfs_rmdir() drops the last reference to the item while its
-+	 * dentry is still hashed, and get_target() takes a hashed dentry as
-+	 * proof that the item behind it is alive.  The symlink then walks
-+	 * ->ci_dentry into a released dirent, which configfs_get() warns
-+	 * about.  KASAN sees the freed item itself.
-+	 */
-+	for (i = 0; i < RACE_ITERATIONS; i++) {
-+		if (symlink(ITEM_A, LINK) == 0)
-+			unlink(LINK);
-+
-+		/* Give up on the first splat rather than flood the log. */
-+		if (!(i % 128) && warn_count() != warns)
-+			break;
-+	}
-+
-+	race_stop = 1;
-+	ASSERT_EQ(pthread_join(thread, NULL), 0);
-+
-+	EXPECT_EQ(warn_count(), warns)
-+		TH_LOG("kernel warned after %d iterations", i);
-+}
-+
- TEST_F(configfs, module_pinned_by_item)
- {
- 	ASSERT_EQ(mkdir(ITEM_A, 0755), 0);
-
--- 
-2.53.0-Meta
-
+Miklos
