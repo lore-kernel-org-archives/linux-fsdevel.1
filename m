@@ -1,104 +1,74 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061BF3E5588
-	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 10:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787741538; cv=pass; b=rOWcqh5yeZTDw240tfBwLaaA87QaonqIt2TTAt4Ke5Yom5s7E+ZbXCIeFVudXGM+SWhd62Z8tepTOzAI7/RSTN5rG2spGOcw9+MNztjZCmw4Wg5PoUJKhiixBVNbiUfqxjik4l6NEtGfzLUuTngamwkqpMfwqDT4l7ohL3Ra7HY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787741538; c=relaxed/simple;
-	bh=W+E2yob3VC1nC5T5vDlsuCeEoBLkoFNoqRZ0DeBs89U=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F203101A0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 11:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787743768; cv=none; b=fifwIj07r+mg02xIHWaIDk1LgKb5r5YNvF2oRkaik6CP2VQYDUKzwk86UiaPO5DXomlKvJ6zWV6dsCYkO85kxdz6dkV+/TFzMGHTbraUMR2EjTag7GkPFR6A2Hf+gYR4G2JWCwwOm6m7ZSYSp/3Io2oLuBgyqyBlVnt2BUhU6PE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787743768; c=relaxed/simple;
+	bh=3+O3SOPkhmcuHAkuexZD4cGe1Nktd41KvZzfxI9Hgho=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dc8+YVaXYrb6FSvGrcbSw653u/ejzkibTdaPCZ5Q1+8PuCMeB2ZAX0BIpAbXD4Gp1tHV9whsD586WATzgQpW0ZE9Z/dvOApG6z+k+YZ/3Q7Twa5UykUt592ONHcT71vc5lCgGpIQ+P4lki9oLc7R7CVxeBsgdsTT2bqk2JLb+qw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Yy4F1GcO; arc=pass smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	 To:Cc:Content-Type; b=MSNF+J5lIAfYd/FN5geeBQhZ2ac/NtGinY7pckWZiNwo8FiqjyWdMs20NH2fMwMrAEq7gj64EA+dGbtQayv2WjrfW3ulYmyOhVo9T1zThbAuNHfQgpbLNG0/aQ3S50qxWEFcOLdl+IW+CoxOC2qU7Z/nfrhh5WgfyPE8zAqc4HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wt8PUOOQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Yy4F1GcO"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5218927884fso8155311cf.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 03:52:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787741521; cv=none;
-        d=google.com; s=arc-20260327;
-        b=juOTQJzp/DEww3JWEg36hIrALv0Y0G2t9OCxgyqnsPnKhqgbljPIJhAjMGCqKAx6T/
-         QHqaV0KLWNMkNIFsXWsoG9vF97YigQKCwWgTujbcttgo/42B1UDzsGOL2lCHSgIQxGCr
-         w6n+qlbf+i+3sin5CW0728s3i8Z/rlJ6FjZB02ds4AHvuF4yuXpuukgnRukqTdXKmLjZ
-         0+Hp9fKmZzzIYIbdxLJnoUYhqT/nlhmkqu+pKRl040VGiyOcMma8+X9d1q5yiLb+MT1Z
-         Bfku+n5I1oHrSGWhKI1hpYbKwxwChx9t8rhCRwHJOH9+kt8wrC0W8dV2pCN56GCDPliU
-         PNJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=W+E2yob3VC1nC5T5vDlsuCeEoBLkoFNoqRZ0DeBs89U=;
-        fh=kuzN2xdpOoi108lU+SzONpdT+LcxKOxpGTnQNCsIQJE=;
-        b=V5b39VCBFC5IIyT682DsVr+idLEh2vxmUeeuDbOWa+01qA1+fpMktjYjr6qsTXSOtg
-         JGMKV2DPpXN7OnN9+UMzbxP5kcE/5/7Q8OjW/1ljWSMPvr1ZsOawprVCaPxVXgJwB8HH
-         LOTdlBzX2ZKRgziKIpt/MeXLjc17+Ox1bexvLK+BvYAr3gSqx58Ew12soL4uTK8mLb5g
-         qeNNTU1s3SN5Vory6jN8d0oqmg8k9tsOdn3uvHsOe04G/2a844UjEW9TF8RQrbVKke+9
-         E+iMvpJ8DdA7lq18Al8YskQYV75rn0Hd1ZtCFVInc9RuyP6TS1xu1sfNQQwzk1/6PYDL
-         IArw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787741521; x=1788346321; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=W+E2yob3VC1nC5T5vDlsuCeEoBLkoFNoqRZ0DeBs89U=;
-        b=Yy4F1GcO/2WJXkbDkIeFkCEiyyq3oLKQfdoBqsvyox2X+Sdr0Ybisjs5uMexaYH3Z1
-         8cfRav8nYhXP7DxhfBkI3n+ThUPvUlfORl62kh/YLRgJccYLVaHeqXbT1bAinJb1fRGc
-         aTTTDW7LpUd/P9hZ5Rodvo4sVoK31EkyUNLw8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787741521; x=1788346321;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=W+E2yob3VC1nC5T5vDlsuCeEoBLkoFNoqRZ0DeBs89U=;
-        b=XlYJ+PLQGD/M9JZewKybfGzxLR3OKD2qFR4VR6z8LqCalLZ6JrxxQlJZv1WGp/zpfH
-         h1uk0H68LreoEUPoKSyBSUP9lAJfD1IA8V6pKT0qmbv6hpQ7xOeSQaUoNwFOdoFo4E3G
-         h5IHS3Zs5L0qwbX0zWJ83qlK6dcMaNKlLi9to+Kt2MzftFK+oPszbTuHyGGDD7SX4iSN
-         LV9KAj70yWkkNl+6sSueqJcMdXuPkZQSIW4bYcGVwR+oEE+x9qOVI28pTVpx3CHrdrGs
-         7yTrAHaanFz1hnjXG4VCzwUrks2YefaHowoEK2p69c0Ww5HnV1Wp6Pfayeb+gbNmqnCF
-         aKLg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp6dIUoP5aZKVeulft42/+hbvakBjlwbOXuHYdN2g3OOgu7T+Q2Hibv3u1bXJaQaT01NoOWo5JXrt4rwyFg@vger.kernel.org
-X-Gm-Message-State: AFuF++m8Wsfi5/EL2TIIrgkRHa5+/rCSqJOdGWPrc7SM13YCbbK6rJWV
-	i0iJZS//4jtNAFDiJJrWYudUHaeM/pvCJd2/5m+sBNgJORJJWlFqDgvOxu0bkrV2AXqR+iT5Twz
-	9exSWzJ5rP7I8aU271lwXcTt2y94zlunUG9KQyG0hIA==
-X-Gm-Gg: AR+sD11JDy7Bqb0cMjWvP5exeruss2TSu1oN8SbGocsHEUfxVnM7cygyBtqPKOawxcw
-	7618sMFXphen3c3XYN25UnA8d0S613fDfKDPoRZ8wRjQfCEoTKxkwKOgAOIZqdC/9Hzdh38x0k/
-	qN6J3DWTDcVEbZ8R5ZUcPT7hQe2CADtO8h5WAR6hJh9xC5Tb8bHtNUlCaeE+h/hn7fRVhD+o7rd
-	9LzK245HOwSvyk0fvEKCQ+HcS7S4N1xno3fFG04BL7fgAQDuaHaBTKe6o6+LxGTm6GYeRDlH3TJ
-	xRnTQc8BucJHFsCrR+2q+be9hY0Sn6URAYHXrso8IfuW32R6nEELIhYm5IUc7lAw5d1aN8j8Y7F
-	a+G0=
-X-Received: by 2002:a05:622a:1192:b0:52b:6543:d8a with SMTP id
- d75a77b69052e-52e423205a4mr50624011cf.26.1787741515931; Wed, 26 Aug 2026
- 03:51:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wt8PUOOQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95FD21F00A3E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 11:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787743767;
+	bh=iVPA/Rb76X5mSRKvP/690rlPa9al3VVPJ9WMoWejkL4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Wt8PUOOQuVcGUj7hJUxKw5UDqCwfhB90up1R7EOkfXxxkV594Ef5jwXbZ+WU0nrLA
+	 XYyoG8Hiw4tI6Qj16Mj5Zio4V6p8W5DE4Q7AQsDrhX+ipr23VchKaErOS12lzCPl5w
+	 P0G+MFbrMugfhw/fIcVoyLe2RxE258soJmbFiIGMVsOVV2JZPaP1srhl77dDeDlHU2
+	 ekz1OjVuPmkHn2ls9h+RdHA3SBCLDuF1LdSDT6zaKLzV7vSdLuR5IDhqxmyNJ1pYCj
+	 IUWiTPQ4g/ELQjBgCAfFWnLFAFs83VouewAElVmh0iDmPR5HkBL7z/FUgwDswq+A/q
+	 FJu8RwHuvQI+g==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6a5e866bca0so826705a12.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 04:29:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoQtvyj7GxHu2x1VoWIGZLMMR1NVe86zVdgX6m9Gce1YmunmF/6qJbYWhZqo1HrU5r93hhFqMLLXiJFMzHC@vger.kernel.org
+X-Gm-Message-State: AFuF++n2OhunSmhoyJtxiEsLMqRwIQjEDnaWqSzrHHk1STSDpFpqNgfW
+	05HLJ6nAQoTVESNVWdHiUedvz8hgan5BjvXyeYfT6xa9ObBss6K6/qnvddPWNokoPpC87SO1gQk
+	89peKbO6nY6gLr5bHCqVrcjta2v6rn6c=
+X-Received: by 2002:a05:6402:5cb:b0:6a3:f74d:6a20 with SMTP id
+ 4fb4d7f45d1cf-6a5df5d73abmr6706129a12.4.1787743766206; Wed, 26 Aug 2026
+ 04:29:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260727210718.125872-1-psalian@google.com> <20260825175433.2588528-1-psalian@google.com>
-In-Reply-To: <20260825175433.2588528-1-psalian@google.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 26 Aug 2026 12:51:44 +0200
-X-Gm-Features: AcwNN1XetyIdhiAra5tdw_37A5FJQ5bKzyZQIMDhheeFgB1hN6l2gVmfLAojSAg
-Message-ID: <CAJfpegsP62ZEddEY2Oh+SqOLngyztYkNEEK3W4rrvHRBXMFkyw@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: mark DAX VMA page protections as decrypted
-To: Punit Salian <psalian@google.com>
-Cc: pankaj.gupta@amd.com, michael.roth@amd.com, thomas.lendacky@amd.com, 
-	stefanha@redhat.com, vgoyal@redhat.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev, x86@kernel.org
+References: <20260825054659.3967694-1-guanwentao@uniontech.com>
+In-Reply-To: <20260825054659.3967694-1-guanwentao@uniontech.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 26 Aug 2026 20:29:13 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_FgeM9ka7HsCkqQb6az0rfVtNYe+E1qVSvz14ZQEJ0oQ@mail.gmail.com>
+X-Gm-Features: AcwNN1WX78HcIneBScOv_ZCW0KJycvqaicApyEqZIEwrVfWeFZvR4zbb-gXS-gg
+Message-ID: <CAKYAXd_FgeM9ka7HsCkqQb6az0rfVtNYe+E1qVSvz14ZQEJ0oQ@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: treat any nonzero dio zero-range return as an error
+To: Wentao Guan <guanwentao@uniontech.com>
+Cc: hyc.lee@gmail.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 25 Aug 2026 at 19:54, Punit Salian <psalian@google.com> wrote:
-
-> Modify fuse_dax_mmap() to apply pgprot_decrypted() to vma->vm_page_prot
-> when establishing FUSE DAX memory mappings. This ensures guest page
-> table entries for shared DAX buffers are explicitly marked as decrypted,
-> preventing memory encryption faults when accessing host-shared DAX memory.
-
-Applied, thanks.
-
-Miklos
+On Tue, Aug 25, 2026 at 2:47=E2=80=AFPM Wentao Guan <guanwentao@uniontech.c=
+om> wrote:
+>
+> ntfs_dio_zero_range() returns either 0 or a negative errno from
+> blkdev_issue_zeroout(); it never returns a positive value.  The
+> zeroing failure check in ntfs_attr_fallocate() therefore never fired,
+> so a failed zeroing operation was silently ignored: the loop kept
+> going, the newly allocated clusters were folded into initialized_size
+> and the write could succeed leaving stale on-disk data.
+>
+> Treat any nonzero return as an error and abort the allocation.
+>
+> Fixes: 495e90fa33482 ("ntfs: update attrib operations")
+> Assisted-by: atomcode:deepseek-v4-flash
+> Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+Applied it to #ntfs-next.
+Thanks!
