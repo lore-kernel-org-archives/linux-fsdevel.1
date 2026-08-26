@@ -1,116 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE393112BD;
-	Wed, 26 Aug 2026 16:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787760415; cv=none; b=Axvj/6xe5PJpvL26TS0jb8xWVrDu0aml8LiZxE23GLcBjnUWZ77xDtOUdzjFX+CjFdBGA+2T4PB4pBRykEtoHk7h5b+lNbEu9yg1J+7yJy/ixELw1CUqQYKkbZrgJZbJJf/zGeT5W9TQ92oct0FLESM7d8gZrmiJnqhFdptqHok=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787760415; c=relaxed/simple;
-	bh=K84TbfxfceCW8PndmuLZov84ig4iyficrU4Ck6RdOao=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sDi45gsdutRQBDgH2EUFBaVfog9T6WupzAvP6Pg7HGAqngsLq4Yx5VtrZq+j8BvMtM9cROhKg9WQQy4gGhAIjsoai3FkUX1WCDCAzYDPd4T7feCMYKjQzIqW4JcvmlaaeP/NmC5sAMtl32uSTdj1ebVK6mRIE7oca3lxW8glI2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XgnOTYOn; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E1F313547
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 16:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787761069; cv=pass; b=TQtk/FwpnCH2t6BNDeBvWwwOoZOZU6DERbtlYdqonJH8/75HHSfifybqSLkFbicwcNe7w7pYPC7x15p2HCXp9lyBYD4jBi3/7q/YMSObMCEbYaF2FGA0g64DcM84tkSGCZ4tIItrhtVaYsYntKxHOcxNKSYIEXQMdHdb5IBCFn4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787761069; c=relaxed/simple;
+	bh=wS8Isqy8j1V26xF5Dw7K3OrDRfOCKejghaID5rQbMsc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lAjqBncCKCul+1eB0YFNlsQJG5dA+5YkdRBLYJX+hozqo55PmPwhH37BNsIrkzsjtcIIpAqqMX62L1slAlBYHrwxYcEINlH5ICu7HWlfeI2SId1qysxF707AOyxkn2NeeVpjmgPQHueRr05gxxC7gqy9814iL1RhEGQjdw7Z8QY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a4QhHqXc; arc=pass smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XgnOTYOn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C192B1F000E9;
-	Wed, 26 Aug 2026 16:06:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787760413;
-	bh=cmJCLhannwpQfe0H8AhecB4RfP76TbhEicx9QpJ/hJc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XgnOTYOnVRzH0wZzLVRnQR05xwQjWrrl7AVdNnViIQ4Bcyw/EPxZmS4FinZ70OsWY
-	 NI+H1W/ghgVhv+9tjU/qcry166sRrHtZkaCW+UlpLBnVQ9SHnm06izP3gjYaDqI94Z
-	 EWnE5w1MOosmHr5SwiFYZNNuJWlbDdHMIjbvnM49ihiBoyuxgr7I0yd4RPDerv3xi8
-	 WwFtIZw5piEN/tTVQJpaSXNx6u6g0do/u4YPtzlQ/TpNVAlq17aUNDbfKlLQyDVKx1
-	 QMU6IIYc96dtY/44sPJtZpWLeY1J176+tOKx+Uhglz3h5Tc/OSbh08iP+PJAPMTp00
-	 8Yps6dr390Osg==
-From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 26 Aug 2026 18:06:41 +0200
-Subject: [PATCH 2/2] coredump: stop unsharing the file descriptor table
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a4QhHqXc"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cede6375caso143905ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 09:17:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787761067; cv=none;
+        d=google.com; s=arc-20260327;
+        b=T95dZPK/Wgz4634nvvyR3rS+swDGNV1aSVPqdyY+42lv8/CWPj6xF+ZZ5UU9E8lZUY
+         q6VYiXDAhqft6r12pUhc/66xXhpIs7BlfgrG3Wa3hmAMJeDhVmk2WEBglsouisgNoQ2J
+         NbASOAS7aSADRMu1yeu/XnFVv6hcy2WMglicxkThf3qtyk00O2HQSfBEm5b0lZ3ViqQ0
+         gBrUg0Q2546T3f400Q6JEaLTig4sAHEaXZDJKArZJtzH7E7xz10MbYGKCo0zlvwX+Yst
+         XH89OCRNaM0Z3sxidHOdvdvn4EELLBRa8RdNArh4VQX0FenhZney4O9S2Sx8VxmJQZlc
+         gS7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wS8Isqy8j1V26xF5Dw7K3OrDRfOCKejghaID5rQbMsc=;
+        fh=Zk2g12dM17P04ejrV8Qz6BePEEIZUmx1LjLeYtvBgkk=;
+        b=UG9zHbAD7HF1kvCABGBjzP6w8j5dhyQnwZUwD0Wu00whw2voqJp1ZTh0DI5pAkRmRF
+         HENQYiqBRRX2cl1OTMHwG4JbMHzOOoqqH1a9v9OKGIxoWuGLE5wEoW7uKj0p/CjrRMg3
+         UI48yacxsKW5HsmCyZCj9jPYSm2qcIbcDyb62QnT+1iAPX+L5/D/m/Qe1WPZEgXFVuMv
+         30pDxaS0Mlsq4PBEpdHoI6QvvN6OwRs3z7LK1QNFHkI4ClEVL5vFxsSYWxtds3lfA+FQ
+         tK3k6u+F/+RTf3SXcDxjYy/0zQ+zDOwf4AxSQO1m8rW8grXglCzR5UA+zxRroBHCjzJA
+         Ngog==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787761067; x=1788365867; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wS8Isqy8j1V26xF5Dw7K3OrDRfOCKejghaID5rQbMsc=;
+        b=a4QhHqXct0MduGzVvbw1MsWUUPpJFSF/I8Ms5YisVYGeSN9NfyA8AtB89KL4nhOoZj
+         x/Uo8PTJ1pwKE5XHih44zVuP9NPAbjo6iQjan9/tq7zLQSUjSaQKBfzyerxUdFyFbVCv
+         furBmExqjQkZNJYqx18G2+HvJixKoRKLG/ttfW+T+WyJ7gGoc7yR8EhfhMHKmc1K1GV0
+         QWaEyY2m+ie898e/TtQ6mDD8E4I9CLXdFiLEYVHuJ/2ECB/xAKM0Kesw1FQmKnQUJBBR
+         RtuLM2mxblQGWognI6/k8wF3kCdlvn2LDCo6pFLLq1/0wobE2KjgUhJnC5GvaOw37NAa
+         2tig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787761067; x=1788365867;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wS8Isqy8j1V26xF5Dw7K3OrDRfOCKejghaID5rQbMsc=;
+        b=D+Eku+C/IFbbjddVmYlOIijNqjO2JxCH+JEBrEhSOPWSdIjckPrgwi94Q1nSS7hLk1
+         2qHMv3gc7xw1+1FDfu46kQ4z8Qx+kbJC8GZdCcb8ptlfMhdUPTaGQYfwbCZS1ciRLeXO
+         DhaSPBkOOh8HnlaoHTTRC8tMXCOH6pzI5eiCdo8XMRdKB4Bgj7ps578eUHh81FGP6uE/
+         px8KQJFSS/Yp5xhq81L8yVyd3TKQe/usa7rLZJn1uX8P0LaCUuV/GSzKDsQF80n8C5YJ
+         pHBrILajvmXqE41olDn8lwacrFw37CeJheSg5VNbbJ9cG1XJwTVthLSmR9P/Vnw9bgr5
+         Vj7A==
+X-Forwarded-Encrypted: i=1; AHgh+RqolJvVUNVC4GqDhCBcFIlJL4zSXj/ZdT4PuFYme0OYU33A4yCi/qKvvGNqDGoMkrfzTt/wfik8rl4A02AD@vger.kernel.org
+X-Gm-Message-State: AFuF++lzB+fJWDvtTb8DnLgK2btuFJ+/w316amzuv5mlFqPvXojm05Lg
+	vBUo1JW7b/ntxloSYp1jJ/RKtPexa2jvfXPkzKftlRV43NhJa404crv/KqKb+KftsdS6+cRJjdE
+	5qOhiyEzMGe5FTPvJEixE3OuoHwImg0m9jEHrFpSo
+X-Gm-Gg: AR+sD12T+i/iQv/iVGmxZW4VJ45g3lbCZs3S+q9JfSn/L2L4Rl7HW/8G+7QJLJkkn77
+	v2skvlylq21ma0E0zTsZMe7JWwPWKaBz8fjhR9djjbM2mG2HQfZB4KJ4xMi0dSGX3cZabjKm7PP
+	2TMYSl7OvQgWGw9lmJ0YC3kUMAhKUmxxFfQLrcHU2uofsYTabTrx6MN5KZykAD17br6G14VEQWG
+	9I8YNRhsVTRsqhtAxcm6vj1fqAiecZ4NFCnJQ2266Ab05KK6Z2hthexHP/bpWGsaQ5wDjtweoui
+	6HJYJUBPv+PKDpR1hhms8fDOfViMg8rp6sCF2gIgobYDaZNIJBuaAdXN69x+LMx9UtCFOdKJzcj
+	3RtexnyqDhCEg8aGlxniu5uz64jV8DA==
+X-Received: by 2002:a17:903:1a2f:b0:2d0:1aaf:daec with SMTP id
+ d9443c01a7336-2d7105043bfmr5843385ad.9.1787761066499; Wed, 26 Aug 2026
+ 09:17:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260826-work-spufs-coredump-v1-2-579e72a7ab66@kernel.org>
-References: <20260826-work-spufs-coredump-v1-0-579e72a7ab66@kernel.org>
-In-Reply-To: <20260826-work-spufs-coredump-v1-0-579e72a7ab66@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Kees Cook <kees@kernel.org>, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1819; i=brauner@kernel.org;
- h=from:subject:message-id; bh=K84TbfxfceCW8PndmuLZov84ig4iyficrU4Ck6RdOao=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT18wvf21CYzVAq/4Ndf77FU/EJZkmX07z5U1Rnd//95
- xASP/1VRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwETuBjP8j7/41PjNiR/Frurs
- CzhO/9/V9aSg15/f/2bdrLU317tf+c7wz4x3AXuNAZvI2n6HIMaZ/zJKDCqnq/EwxRxdfvVP0mZ
- PJgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <20260818-selinux-pokemem-v1-0-90cd2357ee05@google.com>
+ <20260818-selinux-pokemem-v1-2-90cd2357ee05@google.com> <20260825-unweigerlich-biotechnologie-abnormal-accff844337f@brauner>
+ <CAG48ez14F42BgHm5dKeP4g8D_6CNhnAfF7BXdcBwa4NdtFiaiw@mail.gmail.com>
+ <20260826-juror-energetisch-hackordnung-83810c82adcf@brauner> <20260826-rotor-heterogen-wollust-2091c20f5e30@brauner>
+In-Reply-To: <20260826-rotor-heterogen-wollust-2091c20f5e30@brauner>
+From: Jann Horn <jannh@google.com>
+Date: Wed, 26 Aug 2026 18:17:06 +0200
+X-Gm-Features: AcwNN1XyOejgP8xhG53At4w9H1ZIts9vwM506J2nZcs81pxFYrfApeUAbMczaOg
+Message-ID: <CAG48ez1s-=GB62T6k5NFjkgsLYJN_eYhDwT2U9UXeTTCZBV_UQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] proc: query LSMs for introspective mem access (if PROC_MEM_FORCE_ALWAYS)
+To: Christian Brauner <brauner@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jeff Xu <jeffxu@google.com>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Ondrej Mosnacek <omosnace@redhat.com>, 
+	selinux@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We currently unshare the file descriptor table before we write the
-coredump. The only code that ever looked at the file descriptor table
-was the cell spufs coredump support. It walked all file descriptors to
-find the spufs contexts it would have to dump as extra elf notes.
+On Wed, Aug 26, 2026 at 3:01=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+> On Wed, Aug 26, 2026 at 12:29:14PM +0200, Christian Brauner wrote:
+> > It seems odd to just call a hook when it's introspection denied.
+> > And if that's the case why not also have a general hook in
+> > ptrace_may_access() itself in the introspection branch?
+> >
+> > I would actually have use-cases for this btw.
+>
+> To be clear: I have no quarrels with this going in as is. I'm just
+> interested in how policy decision such as this can be made more
+> meaningful in general. If you have thoughts around this you want to
+> share, please do.
 
-Now that we killed spufs coredumping stop doing that and update the
-comments referencing spufs as they ave become stale.
-
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/binfmt_elf.c | 4 ++--
- fs/coredump.c   | 5 -----
- 2 files changed, 2 insertions(+), 7 deletions(-)
-
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index 06d0df105382..db32bb40a867 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -2029,7 +2029,7 @@ static int elf_core_dump(struct coredump_params *cprm)
- 	{
- 		size_t sz = info.size;
- 
--		/* For cell spufs and x86 xstate */
-+		/* For x86 xstate */
- 		sz += elf_coredump_extra_notes_size();
- 
- 		phdr4note = kmalloc_obj(*phdr4note);
-@@ -2093,7 +2093,7 @@ static int elf_core_dump(struct coredump_params *cprm)
- 	if (!write_note_info(&info, cprm))
- 		goto end_coredump;
- 
--	/* For cell spufs and x86 xstate */
-+	/* For x86 xstate */
- 	if (elf_coredump_extra_notes_write(cprm))
- 		goto end_coredump;
- 
-diff --git a/fs/coredump.c b/fs/coredump.c
-index ac3cd74808c6..a49f2fd6be28 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -1118,11 +1118,6 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
- 	if (cn->mask & COREDUMP_REJECT)
- 		return;
- 
--	/* get us an unshared descriptor table; almost always a no-op */
--	/* The cell spufs coredump code reads the file descriptor tables */
--	if (unshare_files())
--		return;
--
- 	if ((cn->mask & COREDUMP_KERNEL) && !coredump_write(cn, cprm, binfmt))
- 		return;
- 
-
--- 
-2.53.0
-
+A distinction that might be useful in my opinion would be to
+distinguish between read access to memory/registers (like for
+collecting information after a crash) and write access to process
+state like memory/registers (which would only be needed for actual
+debugging or fault injection). However, ptrace() makes it hard to draw
+such a clean distinction because resuming a stopped task can inject
+signals with arbitrary signal numbers...
