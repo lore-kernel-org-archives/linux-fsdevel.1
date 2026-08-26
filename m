@@ -1,120 +1,79 @@
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B952D3B3BE5;
-	Wed, 26 Aug 2026 18:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC8D3CC7FF
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 19:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787770132; cv=none; b=WAGkTzPnukujFRnUBdWe5hV22/eSvB6S9TLm2+T04oyerCMIsr8KtjeK6Sm1ow8YeiYNvB2buZ+F/1N1M3+cnWmUZN3U2YH8yuq+OUYwEXbGZxlMnZ6XxvFTp8a7Ee1z5fOIUICYWXTH0xj3rhY3V0PQNuEboErbsJ2jCThxw+o=
+	t=1787772292; cv=none; b=RYROt2z65p+LkYSRNiux2f3cp8TmcVJStvwrfPPc+sBa95lt9iuibaTo+JWTHj1vc5t/5nf58qA6CGrkMseR3vQWi71GaRyJ9If1Jtrm+5UNkzw8PCnAXpvsHie3p5R4e2GGQPiZ7jTXzzL1y9NhXlvrMNrbYWVjF1trSbZsQpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787770132; c=relaxed/simple;
-	bh=csYV35gfNnZy1wVtgRrBVTAE//ewButmIKYDtBRh/pY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=GspfIliHap7/rXkLq+SpGSNt9Nq6egBVZJTKc9BTsjE1hub5JMt9xQywR1TBVT1wvpy1O2BdB0J3LrzRs4qJXE1ywauNn6qzqD3EBOHZBVLtf9LgSIxfdOVzdqpCXIKDkIwtgDmcdxxk66USNlUTjF/8KieWSeRad4PxW+YFphc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=IhVrX5yT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hRmcu/I7; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1787772292; c=relaxed/simple;
+	bh=eXs30EaAj61t5ZJxILJrQN/NFWqQlBBnHy3/xelc8b0=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=MTp9GCXpQqVZjqRx233dhols/aoRYDDz0lDL0EMwm1gGdLa2YzXItu+QZYPbyGIweAwbAtKghVgagHjV3Uhb+8wtGzTfBSgOLexVumhynJBvp7l0OX5ajlmmuA8c0sK5nFeWQoruiQDppxg2X58h3hNzFQUc4uy323+cNKp5NWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dusmBeAl; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="IhVrX5yT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hRmcu/I7"
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfout.phl.internal (Postfix) with ESMTP id 2D8CCEC0201;
-	Wed, 26 Aug 2026 14:48:32 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Wed, 26 Aug 2026 14:48:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1787770111;
-	 x=1787856511; bh=f4zU9c/JNdk5KJC+Sd8nuCSHq/+ymmDGSesrVV8zzl8=; b=
-	IhVrX5yTPt8Xnhzy/yUIwFjv+jVH4XuIrxY9SfvWNmpw1wW9FEt8cwMlEznP/f1d
-	xxOcnqxcTRWu8VQSXNeRDIjJobmvJQG068Lnyn7Qrazy/1ui5/4Qb8obE6lv0/09
-	k+AxjIPqhHjpqqZkKOkR93McV3gonWbbmV80D6S1zheqTht+/o3ic9BjkuTZZOPq
-	dGBcunqrKVBsbBS5vFicSnOh0Z8knC5u/X5rqvFbnOop7VhDe+v+idG3ns68Dj6W
-	RJDSK3YSLJeT1jNyALPDM87VOmuBZRMfihtmmpmOQ/XcaUevF6mo6LmDsFD3XZjs
-	P5irH8Ki/PIEoImd5ZKJ2g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787770111; x=
-	1787856511; bh=f4zU9c/JNdk5KJC+Sd8nuCSHq/+ymmDGSesrVV8zzl8=; b=h
-	Rmcu/I7pLUKE/vxGJDdCqzNcwYS5BrWQ3XaYWeuGxJTvo/7ZE9wKNDfmofR5+oRz
-	WNBHv7zl4qU0LI+ypEYVRxmZQ7Da7fopLHmEMQ0C8RkDaBnKEGiODxsqB2/gKLQ3
-	1mq+8IOYQH/n/FUNZ5litlyjumTCYKtOlsbpz2VWFcArklef20fGp0xCtHK5By+j
-	7YDrTvO6gWXgfFV+qNrHyRRvEdGdYI59z9dzXp40WsUvEJEiXVEcVS5/RVQRhlAN
-	Dfzk5f2aR74xhlvKig5hPY675SOhW2787Jbf3e3vACy00f2FBQWPXBZlUI0oU8fU
-	JdUzRQu7Yz65mwxTsBZow==
-X-ME-Sender: <xms:9zSPajgupCG8BY4ZyIMGUe_bkjrCt5qybhm0IqtRiFptc1StepAveQ>
-    <xme:9zSPaq3RnNtNDc2dr_2ZCNjAqqjHIhTHJP5Pni7KDB8vRUJFOkHbKf4XdSwCGbDFe
-    irtWZ_FO9wsngl6dbmqzDBU-T4yO7LP2RePW6coMqtU1rX3lPKoKT0>
-X-ME-Proxy-Cause: dmFkZTEpJFbkILkdbnjJPhhmIqMU7frV80/nt9hFZsQu4PZ9qgJjoHJyPUWOrwrcASJLCi
-    abBYNRANM9ymUYLu4eDv6nLUvz3u+yuAbvEC800+m2hdGgGEDc9Q5Kn4vPfteqbrTFlH9u
-    IiI2rNBGoS4iM8Up8wSEqKfxSF60yTHji+aKM680VRZkwna5Sd7/qZXalPIoE2NrQDP9g5
-    azVWcv5jzsjf0M/3+Mq361J+OOHmuHQB0kx0ps2KHxXXbhAPlPQyZEO+PuqUmWE4P1ZmY3
-    9Pl93zfQ5JvJpAxAU73uHu4r7yTAwEMig1jH0pqBZIX9BUGFqPrfJjXgFnk9+yofRnGWJ4
-    a7Kp7JQCrM8mNfMODBVDAvhmfX4nMrhdnbRlpL7bKUc3eHzFP6/PWYVzwAKBsRJlL0zeM6
-    3dkKSs0EAISwGAqfeV11ajXrj6JxloHFs6bXR9qcpJ5Fk8yxWBFhSZg0KdZ/950y+ZsnlM
-    snrhuXa2E7YR4/XqwcZTUXqNXo4ILdyKyj1vccPJvzA6BVQ3k15S/GSgUwQxJEPVnI0yo7
-    yEbG5nhte6DRa+U5nufffKmXyP5iEWJuP6dOk2gAxHMZ0eJcd7aJMCRhf928g6k4ut+CXn
-    0GCtyN2e8TdoHrVjTsB7TpS02zk4ojw1CbCLQBXhGFqpl+uJOMFFa3fvHt/g
-X-ME-Proxy: <xmx:-jSPavw-Z6GFgrl-O215TTEgOmon29324qhtnwq77LVYoVcOXt3y6w>
-    <xmx:-jSPahpOEZvHqHBsoM0u1LaUtCrTwLSMUL9sCVsRgX4ytDqKGpBiLg>
-    <xmx:-jSPavc8SMvZagtYUGWzdqX3SqRBKgVL3bg3GOLmG5p5kHHLeHEAPw>
-    <xmx:-jSPakoDo_Xe_EHu5zD7CYC-Y5PtxRT9GOeN9eDvdYyxsECDUxgePw>
-    <xmx:_zSPakqSMyvGK_Wf9cZPt0W3GU45cUc1tUt6hb7oLSuolHLWWxHELk4u>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id E2A3E32A007C; Wed, 26 Aug 2026 14:48:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dusmBeAl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787772280;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eXs30EaAj61t5ZJxILJrQN/NFWqQlBBnHy3/xelc8b0=;
+	b=dusmBeAlh4mWpZwFOsEdjpuHBaDT/DzP41++ysvziRenZghhiXVqUocRVU+a9efvdRxVVp
+	opuvC7O0HcGrbgBS1sHPjUYx5TQXWS/UJrMTFnROPbKTifI40nhide5K57XZImsTgw853Y
+	uGGR1ioXwK9Aur/ZghTfxTakE1r926I=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-113-yh7AEuykO8aHpuCPGpYKFw-1; Wed,
+ 26 Aug 2026 15:24:35 -0400
+X-MC-Unique: yh7AEuykO8aHpuCPGpYKFw-1
+X-Mimecast-MFC-AGG-ID: yh7AEuykO8aHpuCPGpYKFw_1787772273
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 93C8D1934486;
+	Wed, 26 Aug 2026 19:24:32 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.22.88.47])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 789047C5;
+	Wed, 26 Aug 2026 19:24:06 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <ao8xqMXoCfj4AWUw@kbusch-mbp>
+References: <ao8xqMXoCfj4AWUw@kbusch-mbp> <1819786.1787768317@warthog.procyon.org.uk>
+To: Keith Busch <kbusch@kernel.org>
+Cc: dhowells@redhat.com, Jens Axboe <axboe@kernel.dk>,
+    Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+    Alexander Viro <viro@zeniv.linux.org.uk>,
+    Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] block: Fix start and length check added to iov_iter_extract_bvecs()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: A-UguAUR6dUN
-Date: Wed, 26 Aug 2026 20:47:42 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- "Michael Ellerman" <mpe@ellerman.id.au>,
- "Nicholas Piggin" <npiggin@gmail.com>
-Cc: "Madhavan Srinivasan" <maddy@linux.ibm.com>,
- "Christophe Leroy" <chleroy@kernel.org>, "Kees Cook" <kees@kernel.org>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Jan Kara" <jack@suse.cz>, "Geoff Levand" <geoff@infradead.org>
-Message-Id: <8ddf7d95-05b1-4758-9b5b-9360db77f904@app.fastmail.com>
-In-Reply-To: <20260826-work-spufs-coredump-v1-0-579e72a7ab66@kernel.org>
-References: <20260826-work-spufs-coredump-v1-0-579e72a7ab66@kernel.org>
-Subject: Re: [PATCH 0/2] powerpc: remove spufs coredump support
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1853651.1787772245.1@warthog.procyon.org.uk>
+Date: Wed, 26 Aug 2026 20:24:05 +0100
+Message-ID: <1853652.1787772245@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-On Wed, Aug 26, 2026, at 18:06, Christian Brauner wrote:
-> Note that the IBM Cell blades that shipped the Cell processor were
-> removed in commit 05bf59fbeef3 ("powerpc/cell: Remove support for IBM
-> Cell Blades"). The PlayStation 3 is the only platform left and nothing
-> there produces or reads these notes.
+Keith Busch <kbusch@kernel.org> wrote:
 
-I don't see how you concluded the PS3 does not produce these
-notes: as far as I can tell, spufs on PS3 should still be able to do
-this if a process using an SPU crashes, and old gdb binaries should
-still be able to read them.
+> iov_iter_alignment loops over all the vectors when we only need to
+> examine the current one here.
 
-Whether anyone is still developing SPU programs on new kernels and
-would benefit from the information in the dump I don't know.
+Can the check be done earlier, then?
 
-> So remove it.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+David
 
-With clarifications in the changelog:
-
-Acked-by: Arnd Bergmann <arnd@arndb.de>
-
-I have no objection to removing the spufs coredump. If anyone still
-cares, Geoff Levand would know, so I've added him to Cc.
-
-       Arnd
