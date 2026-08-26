@@ -1,103 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073E53BE14D;
-	Wed, 26 Aug 2026 09:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E660A348883;
+	Wed, 26 Aug 2026 09:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787736574; cv=none; b=OoF7QMGtk4VpdApYl8e0S4QfZexxcOgxycKVL1qoIv/ECKz2Aqyi4kAe+7Mig9K9eBUPYuIMU8zE8tjGHgrzIXOlqshPACqcFWKRr5pbT3GRgGcncT7/cs2txanmCy8NvMM0p+6sHijpn/VAR9wSUtpTv6t04DQpBvRHko2fCNo=
+	t=1787737111; cv=none; b=Ty0FsbIcLR3YaIElKKNG5HH0W2XbIXCT4GmzHcrcYWov87cnrwggVgwkAI8YwoWvbA2vj4tEWk40vhaQdrX/o70cpn2vOwf7WDlaLFP/wnFCUBaOEHNfvWAr9RSG9oXw6HPRxxx2lIUti6On/dIPbJG0qMHxaRfzVlxcqq/NvII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787736574; c=relaxed/simple;
-	bh=vE0DFncUbEa7WUezDlJbcmjpQbbiEpMqeMkCvD7YDbU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XdYzgQmyKcGKmTl9mfPSgAq4opPLv6a+T/ALUBX8538mFeyhckPLL+E+och0kv9TUnkPQ9sW4h8897Ex6tdN9+pu4//DvxwSo3tN4FQgL6SJU3ov0oce54QxRsdCyTiyGSFD4OGXJBXJIxY58oHQYObo+WzDN+w+TblrRNolAKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GMLbpbtV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787737111; c=relaxed/simple;
+	bh=6bVOqBdl49sdHDmCOJe4ZmIN7iErvpvzosx4LgLVZzg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jsvMOijSjq/rPT9mwf7/Lt6+if4oBf1J4n7+zaYAOF0+xGou6otMP5eqJS+R+S86Zg6FEhtexEJQwHvwqAAqNmm9e/G3AdGO0YzV5on1DsZjXp3EWmnmwD098smOJUYAE3abi5dHZ0iEc1J/d1WnVFoCi9zXxv0aGcHEknhj/a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=O/anL7e/; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GMLbpbtV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9931F01561;
-	Wed, 26 Aug 2026 09:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787736572;
-	bh=vE0DFncUbEa7WUezDlJbcmjpQbbiEpMqeMkCvD7YDbU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=GMLbpbtV6XRD4w6KN91RH1oCiVx72uKzWQqLkbfx2kIDN9D9Eag0gzkEbhDAl0gWt
-	 P1YCkvBlGTSdwRH3cp7KuiATo/uaSTYejkU3Vxpztm9iu3uFxILV1ojmRaKWYlikRY
-	 Ggw4d12WTNh1bcjG7gDKhj2+I6mDhrKTue5CuHtVBbtjdSc5JxIGzd18mhpGbu9Yql
-	 CcB/55rMLKstOxN38hkC+/m6VAXbVIPr7Ta8HzW2B+7BxGx5BXD678vW+tpQrbQfJh
-	 g9tTDJTf0faFwf4/6U0eVGbrjKFJOeooMnCeoyi93Y+sF616btPc7GrV1O9Sww9y70
-	 JGj0Mli2sglfQ==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda
- <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
- <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno
- Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
- Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>,
- Lyude Paul
- <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve
- =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, Todd Kjos
- <tkjos@android.com>, Christian
- Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, "Rafael
- J. Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>,
- Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
- Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Krzysztof
- =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Pavel Tikhomirov
- <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>,
- Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, driver-core@lists.linux.dev,
- linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, Oliver Mangold
- <oliver.mangold@pm.me>
-Subject: Re: [PATCH v20 6/8] rust: Add missing SAFETY documentation for
- `ARef` example
-In-Reply-To: <CANiq72mPLrKQMzb37ow2969m5r3Z2Kh_4LHERUun6ALw3ea6tg@mail.gmail.com>
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-6-490735672187@kernel.org>
- <CANiq72mPLrKQMzb37ow2969m5r3Z2Kh_4LHERUun6ALw3ea6tg@mail.gmail.com>
-Date: Wed, 26 Aug 2026 11:29:08 +0200
-Message-ID: <87y0dt1b8b.fsf@t14s.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="O/anL7e/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:Content-Type
+	:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:To:From:
+	Reply-To:Content-ID:Content-Description;
+	bh=qXvejcODAxGSNWT+P7/G06X5KWDVt+HmEtzp2DOPF+0=; b=O/anL7e/bbzLYbpOxMk6f3ZVWa
+	PAIEn1EBjxVM3BmomzTcZ8UDWrR+RsM5FcjQ/xt0q92cSF1H9ybzRSGDibLQLV0fPtSK6CLexBHDx
+	11xCw+Ad/UJkE7fP6bcvcgG1pnq0hX6B5LodxmM+hz/u/goGz4RLOiBCihLHA+rTCpfBQFq8RAPHq
+	UDiblsOFDF9Z5jNJ26EduF48gJfmYMsECUQRZ39oPyGv4wemTUl6jRiBicRJ/oaE6AzIfN2WI4ngh
+	nPDvk8peMjT7a2kMs5I+PKUQj+YyWEen3PtFmJjloEsStIigsTxsOKKdSOVLFCmarRBLrytM5QXGA
+	K9eaoDUQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wzA5S-00F7Wu-1o;
+	Wed, 26 Aug 2026 09:38:27 +0000
+From: Breno Leitao <leitao@debian.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>, 
+ Vasileios Almpanis <vasilisalmpanis@gmail.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ syzbot+6b16e3d085833cbf3e25@syzkaller.appspotmail.com
+In-Reply-To: <20260730093435.195441-1-vasilisalmpanis@gmail.com>
+References: <20260730093435.195441-1-vasilisalmpanis@gmail.com>
+Subject: Re: [PATCH 0/2] configfs: fix use-after-free of symlink target
+ racing with rmdir
+Message-Id: <178773710279.2438647.7515532463548402150.b4-ty@b4>
+Date: Wed, 26 Aug 2026 02:38:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-f8e9d
+X-Debian-User: leitao
 
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> writes:
 
-> On Mon, Aug 24, 2026 at 1:19=E2=80=AFPM Andreas Hindborg <a.hindborg@kern=
-el.org> wrote:
->>
->> From: Oliver Mangold <oliver.mangold@pm.me>
->>
->> SAFETY comment in rustdoc example was just 'TODO'. Fixed.
->>
->> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
->> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
->> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
->> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
->
-> Please see/link https://github.com/Rust-for-Linux/linux/issues/351.
+On Thu, 30 Jul 2026 11:30:23 +0200, Vasileios Almpanis wrote:
+> syzkaller reported a slab-use-after-free in config_item_get() when
+> symlink(2) races with rmdir(2) of the symlink target:
+> 
+>   BUG: KASAN: slab-use-after-free in config_item_get+0x26/0x90
+>    configfs_get_config_item fs/configfs/configfs_internal.h:127 [inline]
+>    get_target fs/configfs/symlink.c:128 [inline]
+>    configfs_symlink+0x4ab/0x1030 fs/configfs/symlink.c:185
+> 
+> [...]
 
-Do you want a link to this issue with a regular `Link:` tag?
+Applied, thanks!
 
+[1/2] configfs: pin the symlink target's dirent instead of chasing ->ci_dentry
+      https://git.kernel.org/pub/scm/linux/kernel/git/leitao/linux.git/commit/?id=1507d5b57e40
+[2/2] configfs: unhash the dentry before dropping the item in rmdir
+      https://git.kernel.org/pub/scm/linux/kernel/git/leitao/linux.git/commit/?id=2251d0ed97c2
 
 Best regards,
-Andreas Hindborg
-
-
+-- 
+Breno Leitao <leitao@debian.org>
 
