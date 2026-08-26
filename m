@@ -1,129 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF4F3783B5
-	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 07:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8341937F8DA;
+	Wed, 26 Aug 2026 07:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787727767; cv=none; b=njCE8LC0/p7JxSyZCbfk9Z7QLD7EIBEUtcolQcPxkFOAB31Bj8S7ybRhJIP5AtV+32m7RlUF8P1wiAY4nEFBebVxvjt7Mj8B4sh8dl6CYroW3yM7nOvt2j82teprZxg+KORrRh074VEuttrhBK/I4h622MCC+FRUH4pQXFMMZEM=
+	t=1787728891; cv=none; b=jfxC0njuygI32s6B85z4FBkoOTNj/SIxLo5yMLs5/RlNmLCcEO6cXGJ5n8tbdJiJxaW0+FRLC8/qJYXRPPNWrTN5jAw/TJV4BT4GsvDzP8IlNZwkLjijaE3eS9SfecP+3Cq8fSBgK6BeS/e9yk82N/EAeJDETU9XuwvGTDdhakI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787727767; c=relaxed/simple;
-	bh=0Tfg4sFTUO+lpjC84zmdj92j/sIno9gUBkKCgE111hQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ny9uu8zLRdU9yfSNqu2StKzFYq9LhopNITXdocyZu33uJM5VCLYVKooe0/2dPpTqTvUhR5ymbMp5NHN5K3PmRvq2O3LflSDg94EqNPE2MADXSmLjQpjNJ42ibnSSBgk435vNGyh1vdbmQPqZ7Y4X5MOXNynysI98BcdrnzyOrp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uxgh9BI/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787728891; c=relaxed/simple;
+	bh=7f8AliVFuzVWZrcc3oSQ6Wa30G5vBDD85rUnKfrIdTQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=vEPvBZoRsfFc53UZ7Hs6NOU9IXlj86GQ7fTZGVJnuYVYtbxKF4EASO5BARCONVs3aMPx+FYO9qX2iZjTroe2QHjds783PX+L+tRZMeQsHnFDYSJYuBTClEd4kzevlxy14CZBrfaS4LRNfs5z6rN4x2Yx0V+K8lQ4VZ3ss7yR8sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=5He4etHk; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=SRhBPmtj; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uxgh9BI/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 433C41F000E9;
-	Wed, 26 Aug 2026 07:02:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787727765;
-	bh=hzZTyB7yGKO/sWKlh7vz090KEZwWOL2eLxo2ZRvAPRQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Uxgh9BI/McP60AqYTwZ7q3jaZ7S/jIS+cUrTsWwN2XeY6maerFu6sdpFX+Aep+9Sj
-	 5jwMT1KIikJml9KdKyACEXHmJ8ccx1DeAlOi8UIceeek8hNkTT7SpELNwVK//cIpXw
-	 U0yl5i4+p0ZTymyH2M2LfZeE68ScHW4UyeXjUvUIdFgVvgIQ4iJ2EI3EhNhR/T8ZN0
-	 qtIXaBl8p3Z9Hv/bpYlNz93/SiTwqfb5xyL5NLnH56JnYfdd4Vbt/vk+IABNJQj+5q
-	 WLE8A4r++6ufx6Gxz4opQ2vhebiKuYFCGS8bojgfyIdTBR4Ge3mZnpxwkB9uEoI3lK
-	 fqekOygyIVJww==
-Date: Wed, 26 Aug 2026 09:02:40 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
-	linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Xin Zhao <jackzxcui1989@163.com>, 
-	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH RFC 0/7] coredump, files: exit files on request
-Message-ID: <20260826-stauen-liedtexte-gesell-b88d4d43f352@brauner>
-References: <20260824-work-coredump-unlock-self-v1-0-48fd1cca7eda@kernel.org>
- <CAGudoHEsGP1P+sAWaw_tbh1NesJhSeww8869uzmaqtgk8F43=Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="5He4etHk";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="SRhBPmtj"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id A40DF2096798;
+	Wed, 26 Aug 2026 16:21:24 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1787728884;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dLQU4f5ng+QHPRbC9N2jlxMSgXathc2ApvwvxDPJLn8=;
+	b=5He4etHkMT5L2EzmO8n4CbYi+TDPHYm3DCg9Brbfuq5lzhLkrj46SjFbR2IK0X96uZEYCl
+	kqpSYmpgAb7ytBqSLgb0LpZPbQBNIsJiMRN++kjypANr/upql0VCKxtxcoLMnjjhO7ZgJz
+	KoI5htWaXWZ8m5S/4NTwLMIaa+l8SO4LsRLTniknbpu2/7jr7kODimQBZIEfqmbUbgEv/I
+	zQHesNwY+9b3mMSk7G0tHNmAq5f9lnYZSa/EhjKkXxsuKv6gM2sq1O5/20hxC1/HnKHTNJ
+	wtsvXV+l0BkD4O23pi/g48p+FLJImsyaeesjDMua/tUvAG7NUdqFw8+4mIfxsA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1787728884;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dLQU4f5ng+QHPRbC9N2jlxMSgXathc2ApvwvxDPJLn8=;
+	b=SRhBPmtjuPSrkuRl8E5V+pP+OnYif061DvH/adUP4lH5zKiQHhZJrUWYvbWJ4N2AURbH8o
+	rG5LYy6cIQdTWCDA==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 2D28CE0006B;
+	Wed, 26 Aug 2026 16:21:24 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 24ACF22000F0; Wed, 26 Aug 2026 16:21:24 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: David Timber <dxdt@dev.snart.me>
+Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH] fat: add noflush mount option
+In-Reply-To: <b451b5af-adf4-4b2b-9056-641ae26158c9@dev.snart.me>
+References: <20260822173732.10230-1-dxdt@dev.snart.me>
+	<871pbn6edz.fsf@mail.parknet.co.jp>
+	<787aea79-beb0-4f29-bb67-ee57f6c654c4@dev.snart.me>
+	<87ecfmrfb9.fsf@mail.parknet.co.jp>
+	<b451b5af-adf4-4b2b-9056-641ae26158c9@dev.snart.me>
+Date: Wed, 26 Aug 2026 16:21:24 +0900
+Message-ID: <875x0xpcsr.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHEsGP1P+sAWaw_tbh1NesJhSeww8869uzmaqtgk8F43=Q@mail.gmail.com>
+Content-Type: text/plain
 
-On Tue, Aug 25, 2026 at 10:54:44PM +0200, Mateusz Guzik wrote:
-> On Mon, Aug 24, 2026 at 5:28 PM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > We've had quite a few proposal for exiting files before generating the
-> > coredump (see [1]-[8]). The various proposed solution were quite
-> > unacceptable. So I took some time to look what a _remotely_ acceptable
-> > version of this could look like. Here it is.
-> >
-> > The first patch is somewhat unrelated but without it the code would have
-> > to become so ugly to the point of being unacceptable so it's a stylistic
-> > prerequisite imho.
-> >
-> > In the first patch we make exit_files() synchronous and stop shunting
-> > all files onto task work only to run task work right after. For tasks
-> > exiting with a very large file descriptor table this means getting rid
-> > of _a lot_ of cmpxchg()s and hammering on task->pi_lock. The cost of
-> > this was mentioned in various threads over the years. I found at least
-> > recent comments by Oleg and Neil.
-> >
-> > So let close_files() close right away. No locks are held, the path
-> > already sleeps, close() does the same thing already. Kernel threads can
-> > just keep deferring. ->flush() and ->release() now run before exit_fs()
-> > and disassociate_ctty() which should be fine.
-> 
-> I think close on exec handling could use the same treatment.
-> 
-> >
-> > The other half is adding support for coredumps to switch to an empty
-> > file descriptor table before generating the coredump. That requires a
-> > bit of synchronization but I think I got the basics down.
-> >
-> > A new COREDUMP_CLOSE_FILES extension that allows a coredump server to
-> > request that the thread-group close all files before generating the
-> > coredump.
-> >
-> > The coredumping thread allocates a new empty file descriptor table. It
-> > then wakes all threads in the thread-group and tells them to switch to
-> > the empty file descriptor table and get rid of the old one. They report
-> > back once they're done.
-> >
-> > So that handles most cases where locks would be held for an unreasonable
-> > time until the coredump is generated but since files can be shared
-> > between completely unrelated processes that's not a guarantee and we
-> > can't give one. But it solves the reported issue without resorting to
-> > even grosser hacks.
-> >
-> 
-> I find this rather unsatisfactory. What if a coredumper *wants* fd
-> info and does not want to stall userspace on file locks? Sooner or
-> later someone is going to show up complaining about it.
-> 
-> I proposed merely dropping all the locks early, which on its own
-> should be easy to implement. I have not checked how fd reporting is
-> implemented, it might be there is no way to convey what locks were
-> held in a backwards-compatible manner in which case plain early unlock
-> might be a no-go.
+David Timber <dxdt@dev.snart.me> writes:
 
-I don't understand how it would even remotely be safe to drop locks
-before we've called into ->flush() and ->release(). The only locks that
-satisfy this requirement right away are posix file locks. Not even all
-of them, just a limited subset.
+> On 8/25/26 13:31, OGAWA Hirofumi wrote:
+>> Well, with a your patch, just remounting without "flush" option doesn't
+>> remove flush?
+> fat_parse_param() doesn't behave like other fs. The current
+> implementation only accepts rw and ro for reconfig. So the option cannot
+> be flipped up and down at will.
 
-So then we introduce a concept of "drop some locks" which might grow
-over time. I really fail to see how this is attractive at all.
-
-For a bunch of locks they will only be dropable in ->release(). So then
-we need to annotate locks that are droppable prior to exit_files() and
-locks that are droppable after it. Why would we place that analytical
-burden on anyone? Coredumps alone cannot justify it. They can hardly
-justify what I'm doing. The only saving grace is that I think having
-exit_files() run synchronously makes sense given how it hammers on task
-work. And then the coredump thing can fall out of it as a side-effect.
-
-So I don't understand what early lock release buys at all other than
-complexity. Without clear proof that early-lock release is elegant and
-non-invasive I don't see why we would do it.
-
-Exiting files early can be done cooperatively on the other hand and
-it'll satisfy most use-cases just fine.
+I meant with your patch. With your patch, it updates flush to current
+option set, right? And default flush=false, I may missing something
+though.
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
