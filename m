@@ -1,179 +1,183 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A740336F8E5
-	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 20:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57BFF9C0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 20:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787776162; cv=none; b=Uvu4vNxLq5rZ7grfjJULO2XUf7GAgv5a/p6MvhU16bHNDwbdq93tR3OwTal+PpF4Y4u4nFkNoh1PJsj0vA6/DkubKpYt6Pa4chlaSGbsSw6fsS90E/SV1hRtNiFsUt28Q64PKVvcjirNge9j9t8hXV/ZtmY6UCxeQzxflOfis1I=
+	t=1787776229; cv=none; b=PkQctG/4tjho5gk2xCsc5I+9bNPNMAveMZ0xd4lM26/lNucfC6uSsrMB64IBDimIDWxI/1KtUw4A9BMIjv8VZvEKQFSDExKKufm01xaXOlqiYweLEc1eqqL6UYNuwyS918sGtJNYfQXWG2zFTrvCUD8mLTZkbTSdbC28CiJSUIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787776162; c=relaxed/simple;
-	bh=KNNL043sFJIhJVevrl/1cPd/oSJb3CTthjzkxiuE9uk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KIvWbxaxmh7o6jtkrdI3PBYD2D0FSB6AZC/yc6xMeDUHYwDsrNCPVWHSI/DUhJIgdMzTCuYJE3QnmRCBwAqO2+DiBahYX0FSIaaxDvYxq3wYSigwrywP5/lQf3bSZjcw6EL+N7ygO7OzjFyaMKraZDuk7sOMmF/R3k6wi9DFNNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=asSmEdBA; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1787776229; c=relaxed/simple;
+	bh=RB9TzG0Q1eRtmVhwIJQ6ZaQRLJ+sLLM+rx40gMOiRKg=;
+	h=Subject:Message-ID:Date:From:To:Cc:MIME-Version:Content-Type; b=PVJiUHgLTPFK3sYBDGpX2OQJSdXaOhjDbs4xJI8Kd0UCThhqIkwSQ5BgJeCN0Sj69zwqrBr3U9aZFlan3CQYVKxl7jpBGOeUxfrDXjtF9u+IhG7Doz/6OqOY+WjlizgTFv99GBq1IEDvM8sFxC1t6ULKvkTJZphjJAdUL6OU6I4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ikmail.com; spf=pass smtp.mailfrom=ikmail.com; dkim=pass (1024-bit key) header.d=ikmail.com header.i=@ikmail.com header.b=aNrCOEne; arc=none smtp.client-ip=185.125.25.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ikmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ikmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="asSmEdBA"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c2533d83e3bso90492166b.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 13:29:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1787776159; x=1788380959; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=o8BDYxr7MU+K6rWH04B/BEOyLEHvu1ocR7jiCJ0maho=;
-        b=asSmEdBA1QOWUm0ekjCDHGSWgXU3TwVZ2vxIurwtrTqRNv2Rgj4MRIsAzvkMLXC/I4
-         WqAgMajLd1wc3AjDburnnSoqcG2NG5KWB0XQfz3MpJN554rh/Eqb5Ov5DuRauQnbSYP2
-         yeDNz1PgYMIg0ABP3M4tTq3233y5UuGj9a51k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787776159; x=1788380959;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=o8BDYxr7MU+K6rWH04B/BEOyLEHvu1ocR7jiCJ0maho=;
-        b=XwEuL8dlDLO5y3xsiLz1+T4C9FXyvtXwX7QEk1fXeye0Mdf5mYYmrOVSCpZ5M0oUcV
-         nR8CnKoUqkXRRZHGRsdqBTZPcFn/zP2jTWUGZRRA2oh9Zn5nP1vONsE2al5TnQiippgZ
-         yzDcD68ynK6RQYSflCb/pssoQM8jrmTamPK+w2Tp16U3cbXIJeRgT/dXDaf0Se7V9mOY
-         ESf8ehjwgstdiqvmt0CGhoKhC0KQlwo/NCEsjUAyC/CmRYc8hODpRHUHlarfURQXlnXF
-         7AkcoMFKSD/wiOxuBfnqpoHH/Wm/+hNdPwFZsDOdCvoreEaKPaG6WEAx5pDdy/ek/5IR
-         iaqg==
-X-Forwarded-Encrypted: i=1; AHgh+RrYdcjhNciWEiGNlQLciPFRew4uFU8hYIaPEW9w4Qu8vfvB3lQqMIRysctJ+Oacmp5cKTLlhuFP+lKV/K2k@vger.kernel.org
-X-Gm-Message-State: AFuF++lflLMYNwtM4MH0tjWRA4olEA1qN0FfwqTPE4Hw4rJuhTgnkyS+
-	BJWPY59yavZ4pY5BwEry+GS2jGXs+PkUhuXqEOmH5+9YXL0fGRvrgpUxqNzPfvElwrj3H9BQpX4
-	zOOWvjxk=
-X-Gm-Gg: AR+sD126zEQHewHrAXaGejIMrI7VeKu3cpUzwgznkjQWeF3X13FoplaiahJ6qOpPN0n
-	xKdB7b2iPdN15wUYJlMoTlal+cRu/v7f3xGzDhaf2dllMx/hawp8VlB9+7YaZ5g5ZYlQrmh0vFe
-	4LY372YOhKmwUAB2MjVJXM5P9g5sx5MwQOi0gshW4mbOnfZWxhWLSAt07YXa38L7RZoxpXD0laX
-	EpHPCLS+JeC+oIBEnjBzyV5+m2C3ENsN1A6+xBd/LUMInMLp5KXetQ0T3pTDyNUiWyQS/ahi6Fy
-	pRzveoqDv4P8feE+RcShBF4cFi33YHXgOOj+VME+WGSr7299yHNdcUCv9HEsWmc8vmkvb1hlAiH
-	0LfeERNLO2dUJV/qmIHklDET3fJtxmnjYfgIGhboDbFQiBUZklNUAb9vf8yhlwQ2hlJegP+4nrG
-	4RDH/KRJ8XcpHtsvC/zOPS6IithD4piCXk5czj7YiR3VQnn4CrlV9fkGCtgIYArkT3BGTnO+5xl
-	gjlmXoOn+YndpiiPHU6aSqiXezecNbM/rxLVwrtW2wukQso
-X-Received: by 2002:a17:907:9802:b0:c25:2f1a:b396 with SMTP id a640c23a62f3a-c252f1abfbemr509351066b.13.1787776158725;
-        Wed, 26 Aug 2026 13:29:18 -0700 (PDT)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c250a704e55sm608973966b.21.2026.08.26.13.29.17
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Aug 2026 13:29:17 -0700 (PDT)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a051904222so1530122a12.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 13:29:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrdyHGS0r0U0k/Uaxjxulf0VE5Y0UTstI153yLoXgz+7+YWVDuJFTH+yvTQ3xqLpLEJTa2yQv/gJBcShT5e@vger.kernel.org
-X-Received: by 2002:a05:6402:1f0d:b0:6a1:23f3:26b7 with SMTP id
- 4fb4d7f45d1cf-6a5df67453fmr13320660a12.14.1787776157462; Wed, 26 Aug 2026
- 13:29:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ikmail.com header.i=@ikmail.com header.b="aNrCOEne"
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hVbgx2KJlzKQK;
+	Wed, 26 Aug 2026 22:23:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ikmail.com;
+	s=20210927; t=1787775805;
+	bh=RB9TzG0Q1eRtmVhwIJQ6ZaQRLJ+sLLM+rx40gMOiRKg=;
+	h=Subject:Date:From:To:Cc:Reply-To:From;
+	b=aNrCOEnemcvGX4jYAAzyMN9TrGs2RaJ6IhsCB+Bg2iPDIZLXd6qTKnrutv2Q9viIT
+	 MyeEyIsTXzsDhi5IIvWc9LNAxnAJd9ptgAHW8wVSQ5e69r0kvYYV95tLiLdtEIjWyk
+	 x8xcKzTl/RJn74AZLUyiMdzXARSMHGUWElsP4DHw=
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4hVbgw69kMzT8t;
+	Wed, 26 Aug 2026 22:23:24 +0200 (CEST)
+Subject: [RFC] statx: Define a generic OFFLINE file attribute
+Message-ID: <e06bdbf8-3727-425c-9a82-150848613a6b@mail.infomaniak.com>
+Date: Wed, 26 Aug 2026 22:23:24 +0200
+From: Lukas Mathis <lukas.mathis@ikmail.com>
+To: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Cc: "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Reply-To: Lukas Mathis <lukas.mathis@ikmail.com>
+X-WS-Location: eJxzKUpMKykGAAfpAmU-
+X-Mailer: Infomaniak Workspace (1.3.1341)
+X-WS-User-Origin: eyJpdiI6ImJ5Q1M4RDNzU1FtY25vRFE1R08xK3c9PSIsInZhbHVlIjoiTDFjN1NYWGZBZTJVQjViSHovYmtFdz09IiwibWFjIjoiZjliNDk2ODEyZTNiMzc4MDMzMzY0MzBiZDljNGJmZmQyMzAyNDRkODI3MDJiNjFjMDRiMDhmOTBjYzk2MjMyOSIsInRhZyI6IiJ9
+X-WS-User-Mbox: eyJpdiI6InpxQWd4dVB4Wkk1U0o5ZFpMSkpCa3c9PSIsInZhbHVlIjoiNmF3N0JrbW9XVGgxK2RIQ3F6ajhWQT09IiwibWFjIjoiOTQ2OWI3MWZjYjcwMWM3YzgzMTVmNzhmYzM5YzA4NDQ3YjFkMGU4M2Y2ZTI2MDBjZjhmNjRkY2E0ODdlMTI2MCIsInRhZyI6IiJ9
+X-WS-LOCALE: de_DE
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1787771905.git.legion@kernel.org> <2391afcdd59dc43e287c3992a54541a23a35c1c0.1787771905.git.legion@kernel.org>
-In-Reply-To: <2391afcdd59dc43e287c3992a54541a23a35c1c0.1787771905.git.legion@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 26 Aug 2026 13:29:00 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjUmLrJd4KM4xvJHUN4P0r8oSu5LyvG4JipnhxizBrE9Q@mail.gmail.com>
-X-Gm-Features: AcwNN1XvhSctqXF2bRaymY6qFwfBHebjYnLpgQy7KbTN3LhMyoxevh72gjlYPMg
-Message-ID: <CAHk-=wjUmLrJd4KM4xvJHUN4P0r8oSu5LyvG4JipnhxizBrE9Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 17/30] sysctl: net: use sysctl_field in SCTP sysctls
-To: Alexey Gladkov <legion@kernel.org>
-Cc: "Eric W . Biederman" <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Joel Granados <joel.granados@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Feedback-ID: :925ebc4067698a7:ham:e9714dfc98c1edc
+X-Infomaniak-Routing: alpha
 
-I detest this series.
+Background:
+During the 2024 discussion on additional statx() attributes, the introducti=
+on of a generic STATX_ATTR_OFFLINE attribute was proposed and discussed as =
+a potentially useful cross-filesystem property. The discussion highlighted =
+use cases in HSM systems, network filesystems, and userspace tools that nee=
+d to distinguish fully available files from files whose content is not imme=
+diately accessible.
 
-Maybe it makes technical sense, but as long as it makes no human
-visual sense, I'm NAK'ing it as being garbage.
+Since then, Linux has gained support for pre-content access notifications t=
+hrough FAN_PRE_ACCESS, which provides a mechanism for userspace to supply f=
+ile data before read access proceeds. This addresses a significant part of =
+the data access path for content that is not immediately available locally.
 
-On Wed, 26 Aug 2026 at 12:43, Alexey Gladkov <legion@kernel.org> wrote:
->
- [..]
+However, userspace still lacks a standardized way to determine whether a fi=
+le's contents are currently available without triggering access.
 
-The whole series is full of complete illegible noise like this:
+This RFC revisits the earlier discussion and proposes a minimal and filesys=
+tem-agnostic solution.
 
-> +static const struct sysctl_field sctp_net_table[] = {
-> +       SYSCTL_FIELD_CUSTOM("rto_min", 0644, sizeof(unsigned int),
-> +                        sctp_rto_min_data, proc_sctp_do_rto_min),
-> +       SYSCTL_FIELD_CUSTOM("rto_max", 0644, sizeof(unsigned int),
-> +                        sctp_rto_max_data, proc_sctp_do_rto_max),
-> +       SYSCTL_FIELD_INT_MINMAX("pf_retrans", 0644, sctp_pf_retrans_data,
-> +                            SYSCTL_ZERO, sctp_ps_retrans_data),
-> +       SYSCTL_FIELD_INT_MINMAX("ps_retrans", 0644, sctp_ps_retrans_data,
-> +                            sctp_pf_retrans_data, sctp_ps_retrans_max_data),
-> +       SYSCTL_FIELD_STATIC_UINT_MINMAX("rto_initial", 0644,
-> +                                    sctp_rto_initial_data,
-> +                                    SYSCTL_UINT_ONE, &timer_max),
-[...]
+Problem Statement:
+Today, userspace applications can determine many file properties through st=
+atx(), but there is no generic mechanism to discover whether file content i=
+s immediately available.
 
-where apparently the indentation has been decided by a rodent on crack
-who was given an Ouija board and instructed to ask his dead ancestors
-what indentation to use.
+As a result:
+General-purpose tools cannot distinguish between available and unavailable =
+file content.
+Filesystems may implement similar semantics differently.
+Userspace software lacks a common API for querying content availability.
+The recently introduced pre-content access infrastructure can hydrate conte=
+nt when accessed, but applications cannot discover the state beforehand.
+Proposal
 
-So no.
+Introduce a new statx() attribute:
+STATX_ATTR_OFFLINE
 
-That kind of complete random code is simply not acceptable.
+Semantic definition
+A file marked with STATX_ATTR_OFFLINE satisfies the following condition:
 
-I don't know what the correct answer is, but it is *not* this series.
-It needs to be consistent and visually parseable by humans *without*
-asking your dead ancestors for help.
+The file's metadata is available, but the file's content is not currently g=
+uaranteed to be immediately accessible without additional retrieval, restor=
+ation, hydration, or staging work.
 
-And it's not just the indentation. That SYSCTL_FIELD_CUSTOM() thing
-needs to be usable and able to do some minimal type checking - not
-just passed a random sizeof() in a random argumentt. I'd suggest
-passing the actual type, and then checking that the type *matches* the
-data pointer it is passed too.
+This definition intentionally avoids any assumptions regarding:
+- storage technology
+- retrieval mechanism
+- userspace implementation
+- caching policy
+- filesystem type
 
-The old code may be ugly too, and have various other warts, but at
-least it had somewhat legible and understandable initializers:
+The attribute describes the current availability of file content and nothin=
+g more.
 
-        {
-                .procname       = "prsctp_enable",
-                .data           = &init_net.sctp.prsctp_enable,
-                .maxlen         = sizeof(int),
-                .mode           = 0644,
-                .proc_handler   = proc_dointvec,
-        },
+Intended Usage:
+Examples of applications that may benefit from a standardized OFFLINE attri=
+bute include:
 
-is at least something that can be read by a human and those things had
-consistent whitespace rather than some quantum randomness.
+- search tools
+- backup software
+- indexing services
+- archiving software
+- HSM implementations
+- filesystem management utilities
 
-And this is also just complete line noise that only makes the code worse:
+Example:
+statx file.dat
 
-    +#define SCTP_DATA(type, field)                                         \
-    +static type *sctp_ ## field ## _data(const struct sysctl_context *ctx) \
-    +{                                                                      \
-    +       return &ctx->ns.net_ns->sctp.field;                             \
-    +}
-    +
-    +#define SCTP_CUSTOM_DATA(field)
-             \
-    +static void *sctp_ ## field ## _data(const struct sysctl_context *ctx) \
-    +{                                                                      \
-    +       return &ctx->ns.net_ns->sctp.field;                             \
-    +}
-    +
-    +SCTP_CUSTOM_DATA(rto_min)
-    +SCTP_CUSTOM_DATA(rto_max)
-    +SCTP_DATA(int, pf_retrans)
-    +SCTP_DATA(int, ps_retrans)
-    +SCTP_DATA(unsigned int, rto_initial)
-    [...]
+could return:
+Attributes OFFLINE
 
-If we're doing these kinds of changes, the end result has to look
-*BETTER* than the thing it replaces, not worse.
+allowing userspace applications to make informed decisions before opening t=
+he file.
 
-Yes, a few of the patches did look better. But the majority of them
-only looked worse. Some of it should be easy to fix: use consistent
-whitespace, and use sane argument ordering.
+Non-Goals:
+This proposal does not attempt to standardize:
+- synchronization status
+- upload status
+- conflict states
+- caching policies
+- retention policies
+- provider-specific metadata
+- graphical user interface behavior
 
-But honestly, the old setup didn't *rely* on argument ordering, and
-used named initializers to make things more legible and robust.
+In particular, this RFC intentionally does not propose attributes such as:
+- PINNED
+- SYNC_PENDING
+- ERROR
 
-So I suspect that should be what you should aim for in the new setup
-too, and that probably means "completely different approach".
+as these describe userspace policy decisions rather than generic filesystem=
+ content availability.
 
-               Linus
+The proposed attribute only answers one question:
+
+Is the file content currently offline?
+
+Filesystem Support
+
+Filesystems may expose STATX_ATTR_OFFLINE if they can reliably determine th=
+at file data is not immediately available.
+
+Implementation details remain filesystem specific.
+
+A filesystem may map the attribute to:
+
+- persistent inode flags
+- internal metadata
+- remote state information
+- HSM state information
+
+The RFC intentionally does not mandate how the state is stored.
+
+Relationship to Existing Work
+
+This proposal is intended as a direct continuation of the 2024 STATX_ATTR_O=
+FFLINE discussion and follows the same general direction suggested there. T=
+he goal is not to introduce a new subsystem but to define a common userspac=
+e-visible semantic that can be implemented across filesystems and consumed =
+by generic tools.
+
+The proposal is complementary to the recently introduced pre-content access=
+ infrastructure (FAN_PRE_ACCESS). While FAN_PRE_ACCESS addresses content re=
+trieval before access, STATX_ATTR_OFFLINE provides a mechanism for userspac=
+e to determine content availability before attempting access.
+
+Request for Feedback
+
+Is the proposed semantic definition sufficiently generic?
+
+This RFC intentionally focuses on a single, narrowly scoped semantic proper=
+ty in order to maximize reuse across filesystems and userspace tools while =
+minimizing policy decisions in the kernel.
