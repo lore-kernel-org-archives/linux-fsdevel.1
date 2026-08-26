@@ -1,62 +1,62 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286D748987C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 21:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54B748A8A3
+	for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 21:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787780526; cv=none; b=I6NIsXuvcHZSMtlZv1Fcu4PvapMEEnXVacOWRhnAq4QFzU7K9NrptAS2jUv/mq55q6a14xyTubvDhRLxyKSvCp9+lNslCKKznK/hAHC6vdC7CuOMPqCalMjChmp3Y8aGhwpSS5Z/OWxMI12fj9wIOikckQ3BtJqOX0CMikqa7yQ=
+	t=1787780527; cv=none; b=Xs4jMCxaRBlvCZc7fMRWPNtcKau8pbbI1aOVGkbOKOqWwnOHrSuQvj8XaS3jnWI82tXyfpLM8siaEMjQ6Itz0n9mE1RYRvH7VhMnx6VT0BsVmTjOGpl0cUb65XezdII+zjzv1TKxx0QJC7+dw179bmzSvJHT3mlZA0nF8XSuNi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787780526; c=relaxed/simple;
-	bh=ov0ZxImQEsYJcJvX8xdhNnzUus7UhmOk1kD3vKbinrE=;
+	s=arc-20240116; t=1787780527; c=relaxed/simple;
+	bh=ZBTCYxg/g/1YoU4wXmnf1kFuJEma80I5r1HtT2UZx1E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J0B6jbHJmIrwlZB/1ALOBuA1gEK08KvoCsIi0X8MWtNH/tNqvuaGpF4+dyZWI982rRxAuLuix/ppeiKjK+8ViQEWEYpOC6ejmt+2OQVQFQAezarjaTAk7lCOrALDg6n4U0KOS8lXAPb4jVe1Vx8EuafTkz4uF1K6FzWpnRpqZuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eElqbU+y; arc=none smtp.client-ip=209.85.216.48
+	 MIME-Version; b=g9j+ZFCPo1jlK8nZg6fjNfk1dXzrDksXXiEIXxBfbMlFWK7fhl+8mNBCeKWx4oXW4BaK731erJ1PYZ06Qsc+xkoZw2SGOfGtNZWp7iK/saBJPEUzh+roPC7mUsdedR2yTFggpGck3zu5zcABOXcDmr7XzuqpGiV1a3bhClXQxPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dWRYp3/r; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eElqbU+y"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38dfe910e9dso1192769a91.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 14:42:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dWRYp3/r"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3968e063f84so696708a91.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 14:42:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787780524; x=1788385324; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787780525; x=1788385325; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Kv3c9GC/khtykDvIth2imKR6x9vvbRKSQGnD75nijyQ=;
-        b=eElqbU+yJC6UGX0OMP80ODLsjdxq25NdFB8V5krsRrqGHnuI2MvagBsVxfx0lPcoKC
-         KDwin3e4OPP9H31wuvKRnhAGXa+ORRAySRTlMwW9OoyW/9U4LI8OMluyHYxjf5uPj3Lj
-         8W3osyi+JgbVpaGupBnxGatYc79fxgKA1r9TxT7zDjZSS7hN20ASygjEcXu0BlQR6lpx
-         MhOX9YSl5fEnm7MsFQtC/WNoPM6BSP3qlnPwqhamr7lf9fd8IX2soCneFzKLZN7Y1MSB
-         D5tvwdfz4Zbxt8X7Clwyc1T1mya8QKb4pBhzXcKttxhuVGouQ20VyYgHXKgRUednuUfS
-         QSVQ==
+        bh=Gg73ZkRLNpj1F3eKZcoeBv1OHmS+aB70wYPXjLHVKFg=;
+        b=dWRYp3/rCgHPGIAN4VpVLLXFkrIGOt7D9rswWAEMkSQ33wx7FrgDOW7cvXffPCLAt+
+         nusN3wva+FS/Odln2skapHEUEX5h/zVBeJrq6VzBUD1MXO4cVDQN5h/OsguM0MEIn30h
+         gZNK8oTgsyaB15wrGhB/JgSgQCMZMqf29xt3rqzwtmqoWeia/SiOF66H72InGuVhaW9u
+         Yn+r/r8EQ7G9QLeyiRml+nSgxLK6r/JvqmEPjVEaGU48luUdIzUuypYTb85PR80MEoIh
+         dkAjYPJuV4tzw166rdycVvy+Fp11+nOmSs1ToDA/OIg2DBmBkpsxej9buPMP9kx3fi+I
+         +Nwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787780524; x=1788385324;
+        d=1e100.net; s=20251104; t=1787780525; x=1788385325;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Kv3c9GC/khtykDvIth2imKR6x9vvbRKSQGnD75nijyQ=;
-        b=aB7TgU9hgEeXqz10oYZsSA8lCwfnZo/U6U/Eypfim441/8P1KE2W/dK7ssnCOCTax4
-         2cesZ1aJdDlArekIdudICraHtOwVpii/jCVAC7NbQbW4fHDE7QbgewhS+36w4dm6/Dvc
-         r60+jwNFymiyUDE6u36K8NsxYuMi2DskccV2pGPPApjtxPQiSi9Pyb+yUtaEL9u0qtZu
-         hYTjVl/5kI6Nlvf/ogdBcHZNl5Bh8NR5RVZ+/TvTE5fg+fQLhbKRTphyzZOmBr2o7XwS
-         t54VHVCvO6l+q2ftCdr+C1UCgPE8p0CgYVIXoKbGxOH+QHefSdx8p4jRBLYaf+MdzvO/
-         WjzA==
-X-Gm-Message-State: AFuF++lsP11Uk9LR5UoedfM0nt6XGMr/otfI4vjcpCZHKBQg8z22AXXb
-	3pQFTERQFU28BkUAa4/m/zpmxAtLbPlX0ESU+og77zeswihIh0NnG+YraRIfI+50
-X-Gm-Gg: AR+sD12nxLwZE5goiL8pL0HSvBcVcwUy/XhAHvt9RL57fpCuWcQBV97PowrvtA5A7j9
-	tP+WiX7lr/ZUHsGf54OqtkM1Y3+bL7V1baV60aFSLqwX77+pwLskAKcfDJbehhvMum2RjYkUOvQ
-	zwLZ0tLnlJO7s68MxBQ1CopQJoNQ50RMH14VWzo8oGPLwExd30X8pJmH5SyOi7WD/OumqaYQodv
-	6yy+9coVV4q/FcggFzspjt1D+lAhgZDsAqsDw3Udp6Uk42jX/ERD1sfT+a8iQARAiTGzMJQe4Ln
-	gEaismv/AuvhFiFwDLvtM/FIGfcmfA2ryKVymwfqQIpz9RrsE5vpmu+EPO4j5H571u+QTtE/bAG
-	95zKvZLydmOALtlDPpxZqLmE4tqJNXqvi6K6wvFMkjmWQYEqC7uGpybe3guJBYl3i5N2Ek0EnMy
-	YG836ZFLw0wycSzSXf6lNQwfP3ldG3fY5G6do=
-X-Received: by 2002:a17:90b:3d4f:b0:396:635a:9b12 with SMTP id 98e67ed59e1d1-3966d48beb5mr20657270a91.12.1787780523937;
-        Wed, 26 Aug 2026 14:42:03 -0700 (PDT)
+        bh=Gg73ZkRLNpj1F3eKZcoeBv1OHmS+aB70wYPXjLHVKFg=;
+        b=pvBbyZ/4urTuS3zyS5Fr4p0JkrlfmY9pz1OrzP4xkJXr+kq6YCOxs/hOHwX6LLdpQk
+         BLwzfJ/F1EgEmvhHInEVE4KHyNjFd5h/kERYs8xgxlfX7RDELJ4Wzg5hJYLV5CW/IJum
+         dAA31tpTmo+Z0ud9+YSpOyD6ekxvSyEhFtPGoa6oajcXUDwpnzCB3YphSrmvqEvoswd2
+         GWTUM1HCY8FL772EzToRuaOnktXNpZPEF3Mhc6lQHEabd1NkbisgqgYDwlteSr068lEE
+         4esJNSEnwIeLc1PMZmLQ51nzt1ZC28yEWcZy6m/GbgRuu70fAFKU1CxkObLofRsyCmD/
+         0uPQ==
+X-Gm-Message-State: AFuF++nfFRAu08VMct2pnulO0nR86AcB3DKX8snaej1WvZWdzxEe0HhC
+	tge90wLrOyuDiJTjhHrh7Y09U8QtGmzTMDQufKxVwAVj3RJVdMWab7XODZl+IovZ
+X-Gm-Gg: AR+sD13YnkU/T8Aqocf6fXlyOc022nWtOhATgQKwDVJeYtWPAG7AcTD9eIH/FAmrsMd
+	2YezwCKW3zkd4B3FxY/aegKimas1PA5/LOTZI+J6QPsy4qf7yuiBGouRKm7vfb2n4RuuAE+fCDn
+	RpmbsqJVKJtorYGJXqAP6uuPdLeXtrwiUk8B274LKoF6ytY1/XDIH8KG+W/DsbYg8Y0GsZV4T+4
+	Nc9lEssogRPbeYvLOhbkB3zizuXZwJxy7Bm1Tb5DHqyq7DcEnSdqwDZAJEccFHNZXdu6U762tCH
+	1Qa7AIhBqTCy3AeCIU1fSJbJAJjDge9prEwX9v1ZeVU2S/EERjMlNSpk/JpN+lb00a2cpWhqHoM
+	Pusqmf8fCHxv1DXL4IwPCFSCNaSG5ctsHij5AD3X1XvWtJtu7T8TMX4/tt8NBYQ5XxqslFsBvL1
+	DJYX3uZRHfDKR4S5OMimpQL2gOxJqfMSutPEk=
+X-Received: by 2002:a17:90b:3a05:b0:37f:fd1f:d30f with SMTP id 98e67ed59e1d1-3966d44312fmr21131048a91.12.1787780525021;
+        Wed, 26 Aug 2026 14:42:05 -0700 (PDT)
 Received: from nineveh.sos.local ([131.191.24.68])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396689f1419sm5628673a91.9.2026.08.26.14.42.03
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396689f1419sm5628673a91.9.2026.08.26.14.42.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 14:42:03 -0700 (PDT)
+        Wed, 26 Aug 2026 14:42:04 -0700 (PDT)
 From: Jeremy Bingham <jbingham@gmail.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -67,9 +67,9 @@ Cc: linux-kernel@vger.kernel.org,
 	viro@zeniv.linux.org.uk,
 	hch@infradead.org,
 	Jeremy Bingham <jbingham@gmail.com>
-Subject: [PATCH v4 2/3] minix: add iomap functions and definitions
-Date: Wed, 26 Aug 2026 14:41:56 -0700
-Message-ID: <e7ab836149f814b04017905dca2e07a4c94078db.1787770110.git.jbingham@gmail.com>
+Subject: [PATCH v4 3/3] minix: finish wiring in iomap functions
+Date: Wed, 26 Aug 2026 14:41:57 -0700
+Message-ID: <668bd5f317e3bf8eaee0254ca79e595395b6e332.1787770110.git.jbingham@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787770110.git.jbingham@gmail.com>
 References: <cover.1787770110.git.jbingham@gmail.com>
@@ -81,300 +81,306 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds a new file, iomap.c, to fs/minix. This provides minix_iomap_begin,
-which is the iomap-based version of get_block in itree_common.c. It also
-provides minix_iomap_end, which is a no-op function required by the
-iomap_ops struct. The minix_iomap_begin function also uses helper
-functions to undo the nest of gotos inherited from get_block.
+Wire in the new iomap functionality in one pass. Per Christoph Hellwig's
+feedback, there are no longer direct I/O operations. Without that, only
+write_iter in minix_file_operations needs a custom function. That and
+exporting minix_setattr for minix_symlink_inode_operations are the only
+changes in file.c.
 
-This patch also wires iomap.c into itree_v1.c and itree_v2.c, similarly
-to how itree_common.c is included in those files, and exports version
-specific versions of minix_iomap_begin and iomap_ops.
+There are two main additions in inode.c. First, minix_writeback_range
+and minix_writeback_ops are newly added. Secondly, the old
+minix_writepages and minix_read_folio functions were renamed to
+minix_block_writepages and minix_block_read_folio respectively while new
+functions with those names were created that use iomap. Because
+directory operations need to stay using buffer heads, a new set of
+address space operations just for directory operations was created while
+other file types use the new iomap based address space operations. The
+minix_symlink_inode_operations also have setattr set to minix_setattr
+now. Support for bmap has been dropped entirely, per Darrick J. Wong's
+suggestion.
 
-Also updates 'unsigned' to 'unsigned int' a few places that got picked
-up by checkpatch.pl.
+In itree_common.c, truncate() is updated to use different functions
+depending on whether the inode being truncated is a directory or not.
+This is because of the changes above where directory operations still
+use buffer heads and have their own address operations.
+
+This patch also updates minix_symlink to use the new iomap_symlink_write
+function, which brings symlinks under iomap and removes the need to
+bypass it with a private custom function. This was suggested by Darrick
+J. Wong in an earlier version of this patch series.
+
 
 Suggested-by: Darrick J. Wong <djwong@kernel.org>
+Suggested-by: Christoph Hellwig <hch@infradead.org>
 
 Signed-off-by: Jeremy Bingham <jbingham@gmail.com>
 ---
- fs/minix/iomap.c    | 122 ++++++++++++++++++++++++++++++++++++++++++++
- fs/minix/itree_v1.c |  25 ++++++++-
- fs/minix/itree_v2.c |  17 +++++-
- fs/minix/minix.h    |  21 +++++++-
- 4 files changed, 181 insertions(+), 4 deletions(-)
- create mode 100644 fs/minix/iomap.c
+ fs/minix/file.c         | 30 ++++++++++++++-
+ fs/minix/inode.c        | 85 +++++++++++++++++++++++++++++++++++------
+ fs/minix/itree_common.c | 10 ++++-
+ fs/minix/minix.h        |  2 +
+ fs/minix/namei.c        |  7 +++-
+ 5 files changed, 118 insertions(+), 16 deletions(-)
 
-diff --git a/fs/minix/iomap.c b/fs/minix/iomap.c
-new file mode 100644
-index 000000000000..90e016aaa01e
---- /dev/null
-+++ b/fs/minix/iomap.c
-@@ -0,0 +1,122 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * iomap functions for minix.
-+ */
-+
-+static inline void minix_chain_cleanup(Indirect *chain, Indirect *partial)
+diff --git a/fs/minix/file.c b/fs/minix/file.c
+index 02aabbdb5dea..6765f571bd3f 100644
+--- a/fs/minix/file.c
++++ b/fs/minix/file.c
+@@ -10,6 +10,32 @@
+ #include <linux/buffer_head.h>
+ #include "minix.h"
+ 
++static ssize_t minix_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
 +{
-+	while (partial > chain) {
-+		brelse(partial->bh);
-+		partial--;
-+	}
++	struct inode *inode = iocb->ki_filp->f_mapping->host;
++	ssize_t ret;
++	const struct iomap_ops *ops = minix_iomap_ops_ver(inode);
++
++	inode_lock(inode);
++	ret = generic_write_checks(iocb, from);
++	if (ret <= 0)
++		goto unlock;
++
++	ret = file_modified(iocb->ki_filp);
++	if (ret)
++		goto unlock;
++
++	ret = iomap_file_buffered_write(iocb, from, ops,
++			NULL, NULL);
++
++	if (ret > 0)
++		ret = generic_write_sync(iocb, ret);
++
++unlock:
++	inode_unlock(inode);
++	return ret;
 +}
 +
-+static inline void minix_iomap_set_mapped(struct iomap *iomap, sector_t phys,
-+		unsigned int blkbits, sector_t iblock)
+ /*
+  * We have mostly NULLs here: the current defaults are OK for
+  * the minix filesystem.
+@@ -17,13 +43,13 @@
+ const struct file_operations minix_file_operations = {
+ 	.llseek		= generic_file_llseek,
+ 	.read_iter	= generic_file_read_iter,
+-	.write_iter	= generic_file_write_iter,
++	.write_iter	= minix_file_write_iter,
+ 	.mmap_prepare	= generic_file_mmap_prepare,
+ 	.fsync		= simple_fsync,
+ 	.splice_read	= filemap_splice_read,
+ };
+ 
+-static int minix_setattr(struct mnt_idmap *idmap,
++int minix_setattr(struct mnt_idmap *idmap,
+ 			 struct dentry *dentry, struct iattr *attr)
+ {
+ 	struct inode *inode = d_inode(dentry);
+diff --git a/fs/minix/inode.c b/fs/minix/inode.c
+index daf83e4ff25c..2bf5ea92360a 100644
+--- a/fs/minix/inode.c
++++ b/fs/minix/inode.c
+@@ -439,6 +439,31 @@ static int minix_statfs(struct dentry *dentry, struct kstatfs *buf)
+ 	return 0;
+ }
+ 
++static ssize_t minix_writeback_range(struct iomap_writepage_ctx *wpc,
++	struct folio *folio, u64 pos, unsigned int len, u64 end_pos)
 +{
-+	iomap->type = IOMAP_MAPPED;
-+	iomap->addr = (u64)phys << blkbits;
-+	iomap->length = 1 << blkbits;
-+	iomap->offset = (u64)iblock << blkbits;
++	int error;
++
++	if (pos < wpc->iomap.offset ||
++			pos >= wpc->iomap.offset + wpc->iomap.length) {
++		if (INODE_VERSION(wpc->inode) == MINIX_V1)
++			error = V1_minix_iomap_begin(wpc->inode, pos, len, IOMAP_WRITE,
++				&wpc->iomap, NULL);
++		else
++			error = V2_minix_iomap_begin(wpc->inode, pos, len, IOMAP_WRITE,
++				&wpc->iomap, NULL);
++		if (error)
++			return error;
++	}
++
++	return iomap_add_to_ioend(wpc, folio, pos, end_pos, len);
 +}
 +
-+static inline void minix_iomap_set_hole(struct iomap *iomap,
-+		unsigned int blkbits, sector_t iblock)
++static const struct iomap_writeback_ops minix_writeback_ops = {
++	.writeback_range = minix_writeback_range,
++	.writeback_submit = iomap_ioend_writeback_submit,
++};
++
+ static int minix_get_block(struct inode *inode, sector_t block,
+ 		    struct buffer_head *bh_result, int create)
+ {
+@@ -448,17 +473,45 @@ static int minix_get_block(struct inode *inode, sector_t block,
+ 		return V2_minix_get_block(inode, block, bh_result, create);
+ }
+ 
+-static int minix_writepages(struct address_space *mapping,
++/* The old minix_writepages, preserved for directory operations. */
++static int minix_block_writepages(struct address_space *mapping,
+ 		struct writeback_control *wbc)
+ {
+ 	return mpage_writepages(mapping, wbc, minix_get_block);
+ }
+ 
++static int minix_writepages(struct address_space *mapping,
++		struct writeback_control *wbc)
 +{
-+	iomap->type = IOMAP_HOLE;
-+	iomap->addr = IOMAP_NULL_ADDR;
-+	iomap->length = 1 << blkbits;
-+	iomap->offset = (u64)iblock << blkbits;
++	struct iomap_writepage_ctx wpc = {
++		.inode = mapping->host,
++		.wbc = wbc,
++		.ops = &minix_writeback_ops,
++	};
++	return iomap_writepages(&wpc);
 +}
 +
-+/*
-+ * minix_iomap_begin - map a file range to disk blocks. It acts as a replacement
-+ * for get_block in itree_common.c, at least in the important ways, and is
-+ * adapted from it, but it uses iomap instead of buffer_head.
-+ */
-+static int minix_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
-+	unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
+ static int minix_read_folio(struct file *file, struct folio *folio)
 +{
-+	struct super_block *sb = inode->i_sb;
-+	unsigned int blkbits = sb->s_blocksize_bits;
-+	sector_t iblock = offset >> blkbits;
-+	int create = flags & IOMAP_WRITE;
++	const struct iomap_ops *ops = minix_iomap_ops_ver(folio->mapping->host);
 +
-+	int offsets[DEPTH];
-+	Indirect chain[DEPTH];
-+	Indirect *partial;
-+	int depth = block_to_path(inode, iblock, offsets);
-+	int left;
-+	int err = -EIO;
-+
-+	sector_t phys;
-+
-+	/* block is beyond max file size */
-+	if (depth == 0)
-+		return -EINVAL;
-+
-+	iomap->bdev = inode->i_sb->s_bdev;
-+
-+reread:
-+	partial = get_branch(inode, depth, offsets, chain, &err);
-+
-+	/* Simplest case - block found, no allocation needed */
-+	if (!partial) {
-+		iomap->flags = 0;
-+		phys = block_to_cpu(chain[depth - 1].key);
-+		partial = chain+depth-1;
-+		minix_iomap_set_mapped(iomap, phys, blkbits, iblock);
-+		minix_chain_cleanup(chain, partial);
-+		return err;
-+	}
-+
-+	/* Next simple case - plain lookup or failed read of indirect block */
-+	if (!create || err == -EIO) {
-+		minix_iomap_set_hole(iomap, blkbits, iblock);
-+		minix_chain_cleanup(chain, partial);
-+		return err;
-+	}
-+
-+	/*
-+	 * This is held over from the original get_block logic, where it
-+	 * acted as a guard in case truncate() deleted blocks from under that
-+	 * function. There should not be a race with iomap operations, but
-+	 * we're retaining the defensive coding here to be extra safe just in
-+	 * case.
-+	 */
-+	if (err == -EAGAIN) {
-+		minix_chain_cleanup(chain, partial);
-+		goto reread;
-+	}
-+
-+	left = (chain + depth) - partial;
-+	err = alloc_branch(inode, left, offsets + (partial - chain), partial);
-+	if (err) {
-+		minix_chain_cleanup(chain, partial);
-+		return err;
-+	}
-+
-+	if (splice_branch(inode, chain, partial, left) < 0) {
-+		minix_chain_cleanup(chain, partial);
-+		goto reread;
-+	}
-+
-+	/* Successful allocation, mapping it. */
-+	iomap->flags = IOMAP_F_NEW;
-+	phys = block_to_cpu(chain[depth - 1].key);
-+	minix_iomap_set_mapped(iomap, phys, blkbits, iblock);
-+	minix_chain_cleanup(chain, partial);
-+
-+	return err;
-+}
-+
-+/*
-+ * minix_iomap_end ends up being a nop; since minix doesn't have any extents or
-+ * transactions to worry about, there isn't anything to update here. The on-disk
-+ * indirect blocks get dirtied in minix_iomap_begin.
-+ */
-+static int minix_iomap_end(struct inode *inode, loff_t offset, loff_t length,
-+	ssize_t written, unsigned int flags, struct iomap *iomap)
-+{
++	iomap_bio_read_folio(folio, ops);
 +	return 0;
 +}
-diff --git a/fs/minix/itree_v1.c b/fs/minix/itree_v1.c
-index 1fed906042aa..58c29f4443d3 100644
---- a/fs/minix/itree_v1.c
-+++ b/fs/minix/itree_v1.c
-@@ -49,6 +49,18 @@ static int block_to_path(struct inode * inode, long block, int offsets[DEPTH])
- }
- 
- #include "itree_common.c"
-+/* NOTA BENE:
-+ *
-+ * This is icky to me, but at the same time having it be a standalone C file
-+ * that's compiled to object form and linked separately like it is in xiafs is
-+ * much nastier in minix because of the different versions of the minix fs that
-+ * have some very, very different aspects, like the size of block_t. I don't
-+ * like it, but since minix already has this pattern where a common itree file
-+ * is included in the itree_v1 and itree_v2(and v3) files, I'm including iomap.c
-+ * in these files as well. It does at least avoid exporting some currently
-+ * static functions that aren't needed anywhere but itree_common.c and iomap.c.
-+ */
-+#include "iomap.c"
- 
- int V1_minix_get_block(struct inode * inode, long block,
- 			struct buffer_head *bh_result, int create)
-@@ -61,7 +73,18 @@ void V1_minix_truncate(struct inode * inode)
- 	truncate(inode);
- }
- 
--unsigned V1_minix_blocks(loff_t size, struct super_block *sb)
-+unsigned int V1_minix_blocks(loff_t size, struct super_block *sb)
- {
- 	return nblocks(size, sb);
- }
 +
-+int V1_minix_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
-+	unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
++/* The old minix_read_folio, preserved for directory operations. */
++static int minix_block_read_folio(struct file *file, struct folio *folio)
+ {
+ 	return block_read_full_folio(folio, minix_get_block);
+ }
+ 
++static void minix_readahead(struct readahead_control *rac)
 +{
-+	return minix_iomap_begin(inode, offset, length, flags, iomap, srcmap);
++	const struct iomap_ops *ops = minix_iomap_ops_ver(rac->mapping->host);
++
++	iomap_bio_readahead(rac, ops);
 +}
 +
-+const struct iomap_ops V1_minix_iomap_ops = {
-+	.iomap_begin = V1_minix_iomap_begin,
-+	.iomap_end   = minix_iomap_end,
-+};
-diff --git a/fs/minix/itree_v2.c b/fs/minix/itree_v2.c
-index 9d00f31a2d9d..fc7a5ae8fa1c 100644
---- a/fs/minix/itree_v2.c
-+++ b/fs/minix/itree_v2.c
-@@ -57,6 +57,10 @@ static int block_to_path(struct inode * inode, long block, int offsets[DEPTH])
- }
- 
- #include "itree_common.c"
-+/* See the note in itree_v1 in a comment that starts "NOTA BENE" for an
-+ * explanation for why iomap.c is included here.
-+ */
-+#include "iomap.c"
- 
- int V2_minix_get_block(struct inode * inode, long block,
- 			struct buffer_head *bh_result, int create)
-@@ -69,7 +73,18 @@ void V2_minix_truncate(struct inode * inode)
- 	truncate(inode);
- }
- 
--unsigned V2_minix_blocks(loff_t size, struct super_block *sb)
-+unsigned int V2_minix_blocks(loff_t size, struct super_block *sb)
+ int minix_prepare_chunk(struct folio *folio, loff_t pos, unsigned len)
  {
- 	return nblocks(size, sb);
+ 	return __block_write_begin(folio, pos, len, minix_get_block);
+@@ -488,26 +541,35 @@ static int minix_write_begin(const struct kiocb *iocb,
+ 	return ret;
  }
-+
-+int V2_minix_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
-+	unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
-+{
-+	return minix_iomap_begin(inode, offset, length, flags, iomap, srcmap);
-+}
-+
-+const struct iomap_ops V2_minix_iomap_ops = {
-+	.iomap_begin = V2_minix_iomap_begin,
-+	.iomap_end   = minix_iomap_end,
+ 
+-static sector_t minix_bmap(struct address_space *mapping, sector_t block)
+-{
+-	return generic_block_bmap(mapping,block,minix_get_block);
+-}
+-
+ static const struct address_space_operations minix_aops = {
+-	.dirty_folio	= block_dirty_folio,
+-	.invalidate_folio = block_invalidate_folio,
++	.dirty_folio	= iomap_dirty_folio,
++	.invalidate_folio = iomap_invalidate_folio,
+ 	.read_folio = minix_read_folio,
++	.readahead = minix_readahead,
+ 	.writepages = minix_writepages,
++	.migrate_folio = filemap_migrate_folio,
++	.is_partially_uptodate = iomap_is_partially_uptodate,
++	.release_folio = iomap_release_folio,
++	.error_remove_folio = generic_error_remove_folio,
 +};
++
++/* A special aops for directories that keeps using the buffer head chunks, at
++ * least for the time being.
++ */
++static const struct address_space_operations minix_dir_aops = {
++	.dirty_folio = block_dirty_folio,
++	.invalidate_folio = block_invalidate_folio,
++	.read_folio = minix_block_read_folio,
+ 	.write_begin = minix_write_begin,
+ 	.write_end = generic_write_end,
+ 	.migrate_folio = buffer_migrate_folio,
+-	.bmap = minix_bmap,
+-	.direct_IO = noop_direct_IO
++	.writepages = minix_block_writepages,
+ };
+ 
+ static const struct inode_operations minix_symlink_inode_operations = {
+ 	.get_link	= page_get_link,
+ 	.getattr	= minix_getattr,
++	.setattr	= minix_setattr,
+ };
+ 
+ void minix_set_inode(struct inode *inode, dev_t rdev)
+@@ -519,7 +581,7 @@ void minix_set_inode(struct inode *inode, dev_t rdev)
+ 	} else if (S_ISDIR(inode->i_mode)) {
+ 		inode->i_op = &minix_dir_inode_operations;
+ 		inode->i_fop = &minix_dir_operations;
+-		inode->i_mapping->a_ops = &minix_aops;
++		inode->i_mapping->a_ops = &minix_dir_aops;
+ 	} else if (S_ISLNK(inode->i_mode)) {
+ 		inode->i_op = &minix_symlink_inode_operations;
+ 		inode_nohighmem(inode);
+@@ -786,4 +848,3 @@ module_init(init_minix_fs)
+ module_exit(exit_minix_fs)
+ MODULE_DESCRIPTION("Minix file system");
+ MODULE_LICENSE("GPL");
+-
+diff --git a/fs/minix/itree_common.c b/fs/minix/itree_common.c
+index c3cd2c75af9c..d73ab1caacfe 100644
+--- a/fs/minix/itree_common.c
++++ b/fs/minix/itree_common.c
+@@ -311,7 +311,15 @@ static inline void truncate (struct inode * inode)
+ 	long iblock;
+ 
+ 	iblock = (inode->i_size + sb->s_blocksize -1) >> sb->s_blocksize_bits;
+-	block_truncate_page(inode->i_mapping, inode->i_size, get_block);
++
++	/* Depending on whether the inode being truncated is a directory or not,
++	 * we need to either call iomap_truncate_page or block_truncate_page.
++	 */
++	if (S_ISDIR(inode->i_mode))
++		block_truncate_page(inode->i_mapping, inode->i_size, get_block);
++	else
++		iomap_truncate_page(inode, inode->i_size, NULL,
++			minix_iomap_ops_ver(inode), NULL, NULL);
+ 
+ 	n = block_to_path(inode, iblock, offsets);
+ 	if (!n)
 diff --git a/fs/minix/minix.h b/fs/minix/minix.h
-index 78722ce22e1e..f1141d36e3d5 100644
+index f1141d36e3d5..9035604c68ca 100644
 --- a/fs/minix/minix.h
 +++ b/fs/minix/minix.h
-@@ -5,6 +5,7 @@
- #include <linux/fs.h>
- #include <linux/pagemap.h>
- #include <linux/minix_fs.h>
-+#include <linux/iomap.h>
+@@ -58,6 +58,8 @@ void minix_free_block(struct inode *inode, unsigned long block);
+ unsigned long minix_count_free_blocks(struct super_block *sb);
+ int minix_getattr(struct mnt_idmap *, const struct path *,
+ 		struct kstat *, u32, unsigned int);
++int minix_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
++	struct iattr *attr);
+ int minix_prepare_chunk(struct folio *folio, loff_t pos, unsigned len);
+ struct mapping_metadata_bhs *minix_get_metadata_bhs(struct inode *inode);
  
- #define INODE_VERSION(inode)	minix_sb(inode->i_sb)->s_version
- #define MINIX_V1		0x0001		/* original minix fs */
-@@ -76,13 +77,23 @@ int minix_make_empty(struct inode*, struct inode*);
- int minix_empty_dir(struct inode*);
- int minix_set_link(struct minix_dir_entry *de, struct folio *folio,
- 		struct inode *inode);
-+
- struct minix_dir_entry *minix_dotdot(struct inode*, struct folio **);
- ino_t minix_inode_by_name(struct dentry*);
- 
-+int V1_minix_iomap_begin(struct inode *inode, loff_t offset,
-+	loff_t length, unsigned int flags, struct iomap *iomap,
-+	struct iomap *srcmap);
-+int V2_minix_iomap_begin(struct inode *inode, loff_t offset,
-+	loff_t length, unsigned int flags, struct iomap *iomap,
-+	struct iomap *srcmap);
-+
- extern const struct inode_operations minix_file_inode_operations;
- extern const struct inode_operations minix_dir_inode_operations;
- extern const struct file_operations minix_file_operations;
- extern const struct file_operations minix_dir_operations;
-+extern const struct iomap_ops V1_minix_iomap_ops;
-+extern const struct iomap_ops V2_minix_iomap_ops;
- 
- static inline struct minix_sb_info *minix_sb(struct super_block *sb)
- {
-@@ -94,11 +105,17 @@ static inline struct minix_inode_info *minix_i(struct inode *inode)
- 	return container_of(inode, struct minix_inode_info, vfs_inode);
- }
- 
--static inline unsigned minix_blocks_needed(unsigned bits, unsigned blocksize)
-+static inline unsigned int minix_blocks_needed(unsigned int bits, unsigned int blocksize)
- {
- 	return DIV_ROUND_UP_POW2(bits, blocksize * 8);
- }
- 
-+static inline const struct iomap_ops *minix_iomap_ops_ver(struct inode *inode)
-+{
-+	return (INODE_VERSION(inode) == MINIX_V1) ?
-+		&V1_minix_iomap_ops : &V2_minix_iomap_ops;
-+}
-+
- #if defined(CONFIG_MINIX_FS_NATIVE_ENDIAN) && \
- 	defined(CONFIG_MINIX_FS_BIG_ENDIAN_16BIT_INDEXED)
- 
-@@ -128,7 +145,7 @@ static inline unsigned minix_blocks_needed(unsigned bits, unsigned blocksize)
-  * big-endian 16bit indexed bitmaps
+diff --git a/fs/minix/namei.c b/fs/minix/namei.c
+index 5525ba367ed7..52e115013abf 100644
+--- a/fs/minix/namei.c
++++ b/fs/minix/namei.c
+@@ -6,6 +6,7 @@
   */
  
--static inline int minix_find_first_zero_bit(const void *vaddr, unsigned size)
-+static inline int minix_find_first_zero_bit(const void *vaddr, unsigned int size)
+ #include "minix.h"
++#include <linux/iomap.h>
+ 
+ static int add_nondir(struct dentry *dentry, struct inode *inode)
  {
- 	const unsigned short *p = vaddr, *addr = vaddr;
- 	unsigned short num;
+@@ -84,12 +85,16 @@ static int minix_symlink(struct mnt_idmap *idmap, struct inode *dir,
+ 		return PTR_ERR(inode);
+ 
+ 	minix_set_inode(inode, 0);
+-	err = page_symlink(inode, symname, i);
++	err = iomap_symlink_write(inode, symname, i, minix_iomap_ops_ver(inode), NULL, NULL);
++
+ 	if (unlikely(err)) {
+ 		inode_dec_link_count(inode);
+ 		iput(inode);
+ 		return err;
+ 	}
++
++	i_size_write(inode, i - 1);
++
+ 	return add_nondir(dentry, inode);
+ }
+ 
 -- 
 2.47.3
 
