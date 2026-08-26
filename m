@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CED33CFF6F;
-	Wed, 26 Aug 2026 19:43:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A50747D92D;
+	Wed, 26 Aug 2026 19:43:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773429; cv=none; b=Tm8rsKLAdg+Wv3R34k4okgM1VX094vShyZejvQ1Y50nw9S/97esY2I5Yqwvl9CXVcK3egavCTydocgprNmq0Ng14WMb3R5xUcp+4Otkk8bfN/fJ97K2149jkPGq2MubB2qbW0ztT6DBqhJdyWUueCMhKr3WpvaiaitmtVQZDShY=
+	t=1787773436; cv=none; b=BogAkaOPREfaX7/o1+NQwh8PILKGF+51JqVERyGY/st/96gZ+BX7nIasZrw+u8zVabvWHUoScx/IuCx66g1SyOGl6wpZ0rhL3/EIm0TspmgXC/+8Y3I6Onc3j80q7yQytbmsYX3AkfUiICMB63xX3JRG3om5kZ1ZB44QpE1T3KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773429; c=relaxed/simple;
-	bh=2jm1PEbvrnCrvXvoHCMaogtCzXn9d/mF8w7nvFMKAMM=;
+	s=arc-20240116; t=1787773436; c=relaxed/simple;
+	bh=DoHlu0xutMxVPK6LoL6tUPhLRL4Cw+eeRcZo1duk+RY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aYGt+ALwO9ffZkAlZ57xtYVXjK0NA2GwsW1E/w/MFJhym7/5YbajcTZvH2w3+or37Sx2DlaMpOGhL7x3/Si2jesiS/UmONPIuoDAN+8iOqf4LGD73GrdkXwbCl7nTKvdNGkQ5GgWSvj2KJL9Zt4Ras3gBMGmoOon+qlWQZcEjrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oQR4gLqe; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=dv5tCSN1h6rkCAZBjlJELzve3h5fL6N4VAMEKZp4QPo1CGORV/JLsW65ZeD2lVkB9vtgElWSbRWMllNFP/aIJIEDk+FmRmjUoWo3+/V4lJjbNvusyuV4j0Q3DkqEkyiApwiB8+eEIa/NHVnhc9DQdd2DJbZA76g/i+UY89rYHC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GlUr9Pti; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oQR4gLqe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2E8C1F00A3E;
-	Wed, 26 Aug 2026 19:43:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GlUr9Pti"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C5091F00A3D;
+	Wed, 26 Aug 2026 19:43:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787773391;
-	bh=K2MbEjefMsVRnvZfgwxn042KKn+4gqz3aOEVdFT/NN8=;
+	s=k20260515; t=1787773419;
+	bh=4gz+97P0/XuukTP+p4wNJbzrSZtAHNytbTFlb2BPGuI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=oQR4gLqeFxJ1r9CmHQ1jsHUgp6A2fCFGEp+sNZNEi5VO3fwm00ZsH0odZdVIG4dzU
-	 H38GOYfszmxJ9hxX8rkYrmVRZzJ2hG/yTyKSpE2qXX3jeEaqdYDOWHviFE/FymbUuL
-	 hm+R0MjE2EYUwCeZ+VzKQ2hqTKa22H/S3ICG13wCIrUfb8p+jJ8jng4P9onSmo2hv8
-	 g90frZM+ZW4DuLlBttMGIW+OT6RZ8SPG+zE337Zz14S/JfpL5Q8O+RB4ifzn1zGsMZ
-	 C0VUaypFXJUqG1OnOFvQq15cX1BIRwiy7tTJGrtpxKkmCP6XNg3aiUDaADOiSs+V1/
-	 tLZT8hQZU4mKg==
+	b=GlUr9PtisGPlibimv+WZ1HLFryukjg+sGbS0UHVPzEj2ThQ0Rd1H4GwWpyahUZ7nv
+	 dBul2C9LdYwla8MHr9LKARoU65BoR+3vwdnSIZg8U9yuOgbh5rvZnHqv0yu4uoFPlT
+	 axcUuOls1/tzTX6XkiFMxkHi9RcJh4hHp/rC4ufgXvilZD/XY4VFcZdSK3ijbTrrlp
+	 hSfN0VSAT47vo+ob23AfAwyZ+oVnlTMrNFq2T802iAcorvyLLMvyzZoKwHelF53gyZ
+	 27xLqbgssMoQGILaeH7u46gm7BfH+mFvnvAmq2ehOYbxr2UMMZoPloY3jST4xgPhsE
+	 alIsE8JA3yN3w==
 From: Alexey Gladkov <legion@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
 	"Eric W . Biederman" <ebiederm@xmission.com>,
@@ -33,9 +33,9 @@ To: Linus Torvalds <torvalds@linux-foundation.org>,
 	Joel Granados <joel.granados@kernel.org>
 Cc: LKML <linux-kernel@vger.kernel.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [RFC PATCH v1 06/30] sysctl: ipc: use sysctl_field in ipc_sysctl
-Date: Wed, 26 Aug 2026 21:42:10 +0200
-Message-ID: <0cb8a970a3a832c58ae3f250f007ffa479310a33.1787771905.git.legion@kernel.org>
+Subject: [RFC PATCH v1 16/30] sysctl: net: use sysctl_field in MPTCP sysctls
+Date: Wed, 26 Aug 2026 21:42:20 +0200
+Message-ID: <51ceb37be6b9ce95858f64117920922e0af7b39b.1787771905.git.legion@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1787771905.git.legion@kernel.org>
 References: <cover.1787771905.git.legion@kernel.org>
@@ -47,330 +47,281 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-IPC clones its sysctl table for each namespace so registration can
-rewrite data pointers from init_ipc_ns to the target namespace. The
-cloned table then has to stay alive until namespace teardown only so it
-can be freed after unregistering the sysctls.
+The MPTCP sysctl table is cloned for every non-init network namespace
+only to bind the entries to that namespace's pernet state. The cloned
+table is then patched by index, which makes the registration path depend
+on the table layout staying in sync with the data pointer assignments.
 
-Use sysctl_field to derive IPC namespace data from the registration
-context instead. This keeps the sysctl descriptors static and const, and
-removes the per-namespace table copy and unregister-time free.
+Use sysctl_field descriptors so the data pointers are derived from the
+registration context. Keep the special min/max handling inside the
+custom handlers that need it, and leave read-only informational entries
+without data pointers.
 
-Keep the IPC-specific handlers responsible for their own min/max bounds
-so the conversion does not need to extend the generic custom field
-interface.
+This keeps the table const and removes the per-net allocation, pointer
+patching, and free path.
 
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
 ---
- ipc/ipc_sysctl.c | 256 ++++++++++++++++++-----------------------------
- 1 file changed, 98 insertions(+), 158 deletions(-)
+ net/mptcp/ctrl.c | 205 ++++++++++++++++++-----------------------------
+ 1 file changed, 76 insertions(+), 129 deletions(-)
 
-diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
-index 9b087ebeb643..7b85b0f5ef82 100644
---- a/ipc/ipc_sysctl.c
-+++ b/ipc/ipc_sysctl.c
-@@ -13,7 +13,6 @@
- #include <linux/capability.h>
- #include <linux/ipc_namespace.h>
- #include <linux/msg.h>
--#include <linux/slab.h>
- #include <linux/cred.h>
- #include "util.h"
+diff --git a/net/mptcp/ctrl.c b/net/mptcp/ctrl.c
+index d96130e49942..31bde3e2eb28 100644
+--- a/net/mptcp/ctrl.c
++++ b/net/mptcp/ctrl.c
+@@ -19,7 +19,7 @@
+ static int mptcp_pernet_id;
  
-@@ -48,6 +47,10 @@ static int proc_ipc_auto_msgmni(const struct ctl_table *table, int write,
- 	return proc_dointvec_minmax(&ipc_table, write, buffer, lenp, ppos);
- }
+ #ifdef CONFIG_SYSCTL
+-static int mptcp_pm_type_max = __MPTCP_PM_TYPE_MAX;
++static unsigned int mptcp_pm_type_max = __MPTCP_PM_TYPE_MAX;
+ #endif
  
-+int ipc_mni = IPCMNI;
-+int ipc_mni_shift = IPCMNI_SHIFT;
-+int ipc_min_cycle = RADIX_TREE_MAP_SIZE;
+ struct mptcp_pernet {
+@@ -172,9 +172,12 @@ static int proc_blackhole_detect_timeout(const struct ctl_table *table,
+ 	struct mptcp_pernet *pernet = container_of(table->data,
+ 						   struct mptcp_pernet,
+ 						   blackhole_timeout);
++	struct ctl_table tmp = *table;
+ 	int ret;
+ 
+-	ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
++	tmp.extra1 = SYSCTL_ZERO;
 +
- static int proc_ipc_sem_dointvec(const struct ctl_table *table, int write,
- 	void *buffer, size_t *lenp, loff_t *ppos)
- {
-@@ -69,117 +72,100 @@ static int proc_ipc_sem_dointvec(const struct ctl_table *table, int write,
++	ret = proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
+ 	if (write && ret == 0)
+ 		atomic_set(&pernet->active_disable_times, 0);
+ 
+@@ -236,9 +239,13 @@ static int proc_pm_type(const struct ctl_table *ctl, int write,
+ 	struct mptcp_pernet *pernet = container_of(ctl->data,
+ 						   struct mptcp_pernet,
+ 						   pm_type);
++	struct ctl_table tmp = *ctl;
+ 	int ret;
+ 
+-	ret = proc_dou8vec_minmax(ctl, write, buffer, lenp, ppos);
++	tmp.extra1 = SYSCTL_UINT_ZERO;
++	tmp.extra2 = &mptcp_pm_type_max;
++
++	ret = proc_dou8vec_minmax(&tmp, write, buffer, lenp, ppos);
+ 	if (write && ret == 0) {
+ 		u8 pm_type = READ_ONCE(*(u8 *)ctl->data);
+ 		char *pm_name = "";
+@@ -271,148 +278,88 @@ static int proc_available_path_managers(const struct ctl_table *ctl,
  	return ret;
  }
  
--int ipc_mni = IPCMNI;
--int ipc_mni_shift = IPCMNI_SHIFT;
--int ipc_min_cycle = RADIX_TREE_MAP_SIZE;
-+#define IPC_DATA(type, field)						\
-+static type *ipc_ ## field ## _data(const struct sysctl_context *ctx)	\
+-static struct ctl_table mptcp_sysctl_table[] = {
+-	{
+-		.procname = "enabled",
+-		.maxlen = sizeof(u8),
+-		.mode = 0644,
+-		/* users with CAP_NET_ADMIN or root (not and) can change this
+-		 * value, same as other sysctl or the 'net' tree.
+-		 */
+-		.proc_handler = proc_dou8vec_minmax,
+-		.extra1       = SYSCTL_ZERO,
+-		.extra2       = SYSCTL_ONE
+-	},
+-	{
+-		.procname = "add_addr_timeout",
+-		.maxlen = sizeof(unsigned int),
+-		.mode = 0644,
+-		.proc_handler = proc_dointvec_jiffies,
+-	},
+-	{
+-		.procname = "checksum_enabled",
+-		.maxlen = sizeof(u8),
+-		.mode = 0644,
+-		.proc_handler = proc_dou8vec_minmax,
+-		.extra1       = SYSCTL_ZERO,
+-		.extra2       = SYSCTL_ONE
+-	},
+-	{
+-		.procname = "allow_join_initial_addr_port",
+-		.maxlen = sizeof(u8),
+-		.mode = 0644,
+-		.proc_handler = proc_dou8vec_minmax,
+-		.extra1       = SYSCTL_ZERO,
+-		.extra2       = SYSCTL_ONE
+-	},
+-	{
+-		.procname = "stale_loss_cnt",
+-		.maxlen = sizeof(unsigned int),
+-		.mode = 0644,
+-		.proc_handler = proc_douintvec_minmax,
+-	},
+-	{
+-		.procname = "pm_type",
+-		.maxlen = sizeof(u8),
+-		.mode = 0644,
+-		.proc_handler = proc_pm_type,
+-		.extra1       = SYSCTL_ZERO,
+-		.extra2       = &mptcp_pm_type_max
+-	},
+-	{
+-		.procname = "scheduler",
+-		.maxlen	= MPTCP_SCHED_NAME_MAX,
+-		.mode = 0644,
+-		.proc_handler = proc_scheduler,
+-	},
+-	{
+-		.procname = "available_schedulers",
+-		.maxlen	= MPTCP_SCHED_BUF_MAX,
+-		.mode = 0444,
+-		.proc_handler = proc_available_schedulers,
+-	},
+-	{
+-		.procname = "close_timeout",
+-		.maxlen = sizeof(unsigned int),
+-		.mode = 0644,
+-		.proc_handler = proc_dointvec_jiffies,
+-	},
+-	{
+-		.procname = "blackhole_timeout",
+-		.maxlen = sizeof(unsigned int),
+-		.mode = 0644,
+-		.proc_handler = proc_blackhole_detect_timeout,
+-		.extra1 = SYSCTL_ZERO,
+-	},
+-	{
+-		.procname = "syn_retrans_before_tcp_fallback",
+-		.maxlen = sizeof(u8),
+-		.mode = 0644,
+-		.proc_handler = proc_dou8vec_minmax,
+-	},
+-	{
+-		.procname = "path_manager",
+-		.maxlen	= MPTCP_PM_NAME_MAX,
+-		.mode = 0644,
+-		.proc_handler = proc_path_manager,
+-	},
+-	{
+-		.procname = "available_path_managers",
+-		.maxlen	= MPTCP_PM_BUF_MAX,
+-		.mode = 0444,
+-		.proc_handler = proc_available_path_managers,
+-	},
++#define MPTCP_DATA(type, field)						\
++static type *mptcp_ ## field ## _data(const struct sysctl_context *ctx)	\
 +{									\
-+	return &ctx->ns.ipc_ns->field;					\
++	return &mptcp_get_pernet(ctx->ns.net_ns)->field;		\
 +}
 +
-+IPC_DATA(void, shm_ctlmax)
-+IPC_DATA(void, shm_ctlall)
-+IPC_DATA(int, shm_ctlmni)
-+IPC_DATA(void, shm_rmid_forced)
-+IPC_DATA(void, msg_ctlmax)
-+IPC_DATA(void, msg_ctlmni)
-+IPC_DATA(void, msg_ctlmnb)
-+IPC_DATA(void, sem_ctls)
-+
-+#define IPC_LIMIT(name, value)						\
-+static void *ipc_ ## name ## _limit(const struct sysctl_context *ctx)	\
++#define MPTCP_CUSTOM_DATA(field)					\
++static void *mptcp_ ## field ## _data(const struct sysctl_context *ctx)	\
 +{									\
-+	return value;							\
++	return &mptcp_get_pernet(ctx->ns.net_ns)->field;		\
 +}
 +
-+IPC_LIMIT(zero, SYSCTL_ZERO)
-+IPC_LIMIT(one, SYSCTL_ONE)
-+IPC_LIMIT(int_max, SYSCTL_INT_MAX)
-+IPC_LIMIT(mni, &ipc_mni)
-+
-+#define IPC_FIELD_CUSTOM_MINMAX(_procname, _len, _data, _handler, _min, _max) \
-+	{								\
-+		.procname = (_procname),				\
-+		.mode = 0644,						\
-+		.type = SYSCTL_FIELD_CUSTOM,				\
-+		.ctl_custom = {						\
-+			.proc_handler = (_handler),			\
-+			.maxlen = (_len),				\
-+			.data = (_data),				\
-+			.extra1 = (_min),				\
-+			.extra2 = (_max),				\
-+		},							\
-+	}
- 
--static const struct ctl_table ipc_sysctls[] = {
--	{
--		.procname	= "shmmax",
--		.data		= &init_ipc_ns.shm_ctlmax,
--		.maxlen		= sizeof(init_ipc_ns.shm_ctlmax),
--		.mode		= 0644,
--		.proc_handler	= proc_doulongvec_minmax,
--	},
--	{
--		.procname	= "shmall",
--		.data		= &init_ipc_ns.shm_ctlall,
--		.maxlen		= sizeof(init_ipc_ns.shm_ctlall),
--		.mode		= 0644,
--		.proc_handler	= proc_doulongvec_minmax,
--	},
--	{
--		.procname	= "shmmni",
--		.data		= &init_ipc_ns.shm_ctlmni,
--		.maxlen		= sizeof(init_ipc_ns.shm_ctlmni),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= &ipc_mni,
--	},
--	{
--		.procname	= "shm_rmid_forced",
--		.data		= &init_ipc_ns.shm_rmid_forced,
--		.maxlen		= sizeof(init_ipc_ns.shm_rmid_forced),
--		.mode		= 0644,
--		.proc_handler	= proc_ipc_dointvec_minmax_orphans,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
--	},
--	{
--		.procname	= "msgmax",
--		.data		= &init_ipc_ns.msg_ctlmax,
--		.maxlen		= sizeof(init_ipc_ns.msg_ctlmax),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_INT_MAX,
--	},
--	{
--		.procname	= "msgmni",
--		.data		= &init_ipc_ns.msg_ctlmni,
--		.maxlen		= sizeof(init_ipc_ns.msg_ctlmni),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= &ipc_mni,
--	},
--	{
--		.procname	= "auto_msgmni",
--		.data		= NULL,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_ipc_auto_msgmni,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
--	},
--	{
--		.procname	=  "msgmnb",
--		.data		= &init_ipc_ns.msg_ctlmnb,
--		.maxlen		= sizeof(init_ipc_ns.msg_ctlmnb),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_INT_MAX,
--	},
--	{
--		.procname	= "sem",
--		.data		= &init_ipc_ns.sem_ctls,
--		.maxlen		= 4*sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_ipc_sem_dointvec,
--	},
- #ifdef CONFIG_CHECKPOINT_RESTORE
--	{
--		.procname	= "sem_next_id",
--		.data		= &init_ipc_ns.ids[IPC_SEM_IDS].next_id,
--		.maxlen		= sizeof(init_ipc_ns.ids[IPC_SEM_IDS].next_id),
--		.mode		= 0444,
--		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_INT_MAX,
--	},
--	{
--		.procname	= "msg_next_id",
--		.data		= &init_ipc_ns.ids[IPC_MSG_IDS].next_id,
--		.maxlen		= sizeof(init_ipc_ns.ids[IPC_MSG_IDS].next_id),
--		.mode		= 0444,
--		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_INT_MAX,
--	},
--	{
--		.procname	= "shm_next_id",
--		.data		= &init_ipc_ns.ids[IPC_SHM_IDS].next_id,
--		.maxlen		= sizeof(init_ipc_ns.ids[IPC_SHM_IDS].next_id),
--		.mode		= 0444,
--		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_INT_MAX,
--	},
-+#define IPC_ID_NEXT_DATA(name, id)					\
-+static int *ipc_ ## name ## _data(const struct sysctl_context *ctx)	\
-+{									\
-+	return &ctx->ns.ipc_ns->ids[id].next_id;			\
++static u8 *mptcp_enabled_data(const struct sysctl_context *ctx)
++{
++	return &mptcp_get_pernet(ctx->ns.net_ns)->mptcp_enabled;
 +}
 +
-+IPC_ID_NEXT_DATA(sem_next_id, IPC_SEM_IDS)
-+IPC_ID_NEXT_DATA(msg_next_id, IPC_MSG_IDS)
-+IPC_ID_NEXT_DATA(shm_next_id, IPC_SHM_IDS)
-+#endif
++MPTCP_CUSTOM_DATA(add_addr_timeout)
++MPTCP_DATA(u8, checksum_enabled)
++MPTCP_DATA(u8, allow_join_initial_addr_port)
++MPTCP_DATA(unsigned int, stale_loss_cnt)
++MPTCP_CUSTOM_DATA(pm_type)
++MPTCP_CUSTOM_DATA(scheduler)
++MPTCP_CUSTOM_DATA(close_timeout)
++MPTCP_CUSTOM_DATA(blackhole_timeout)
++MPTCP_DATA(u8, syn_retrans_before_tcp_fallback)
++MPTCP_CUSTOM_DATA(path_manager)
 +
-+static const struct sysctl_field ipc_sysctls[] = {
-+	SYSCTL_FIELD_CUSTOM("shmmax", 0644, sizeof(init_ipc_ns.shm_ctlmax),
-+			 ipc_shm_ctlmax_data, proc_doulongvec_minmax),
-+	SYSCTL_FIELD_CUSTOM("shmall", 0644, sizeof(init_ipc_ns.shm_ctlall),
-+			 ipc_shm_ctlall_data, proc_doulongvec_minmax),
-+	SYSCTL_FIELD_STATIC_INT_MINMAX("shmmni", 0644, ipc_shm_ctlmni_data,
-+				    SYSCTL_ZERO, &ipc_mni),
-+	IPC_FIELD_CUSTOM_MINMAX("shm_rmid_forced",
-+				sizeof(init_ipc_ns.shm_rmid_forced),
-+				ipc_shm_rmid_forced_data,
-+				proc_ipc_dointvec_minmax_orphans,
-+				ipc_zero_limit, ipc_one_limit),
-+	IPC_FIELD_CUSTOM_MINMAX("msgmax", sizeof(init_ipc_ns.msg_ctlmax),
-+				ipc_msg_ctlmax_data, proc_dointvec_minmax,
-+				ipc_zero_limit, ipc_int_max_limit),
-+	IPC_FIELD_CUSTOM_MINMAX("msgmni", sizeof(init_ipc_ns.msg_ctlmni),
-+				ipc_msg_ctlmni_data, proc_dointvec_minmax,
-+				ipc_zero_limit, ipc_mni_limit),
-+	IPC_FIELD_CUSTOM_MINMAX("auto_msgmni", sizeof(int), NULL,
-+				proc_ipc_auto_msgmni,
-+				ipc_zero_limit, ipc_one_limit),
-+	IPC_FIELD_CUSTOM_MINMAX("msgmnb", sizeof(init_ipc_ns.msg_ctlmnb),
-+				ipc_msg_ctlmnb_data, proc_dointvec_minmax,
-+				ipc_zero_limit, ipc_int_max_limit),
-+	SYSCTL_FIELD_CUSTOM("sem", 0644, 4 * sizeof(int), ipc_sem_ctls_data,
-+			 proc_ipc_sem_dointvec),
-+#ifdef CONFIG_CHECKPOINT_RESTORE
-+	SYSCTL_FIELD_STATIC_INT_MINMAX("sem_next_id", 0444,
-+				    ipc_sem_next_id_data, SYSCTL_ZERO,
-+				    SYSCTL_INT_MAX),
-+	SYSCTL_FIELD_STATIC_INT_MINMAX("msg_next_id", 0444,
-+				    ipc_msg_next_id_data, SYSCTL_ZERO,
-+				    SYSCTL_INT_MAX),
-+	SYSCTL_FIELD_STATIC_INT_MINMAX("shm_next_id", 0444,
-+				    ipc_shm_next_id_data, SYSCTL_ZERO,
-+				    SYSCTL_INT_MAX),
- #endif
++static const struct sysctl_field mptcp_sysctl_table[] = {
++	/* users with CAP_NET_ADMIN or root (not and) can change this
++	 * value, same as other sysctl or the 'net' tree.
++	 */
++	SYSCTL_FIELD_STATIC_U8_MINMAX("enabled", 0644, mptcp_enabled_data,
++				   SYSCTL_UINT_ZERO, SYSCTL_UINT_ONE),
++	SYSCTL_FIELD_CUSTOM("add_addr_timeout", 0644, sizeof(unsigned int),
++			 mptcp_add_addr_timeout_data, proc_dointvec_jiffies),
++	SYSCTL_FIELD_STATIC_U8_MINMAX("checksum_enabled", 0644,
++				   mptcp_checksum_enabled_data,
++				   SYSCTL_UINT_ZERO, SYSCTL_UINT_ONE),
++	SYSCTL_FIELD_STATIC_U8_MINMAX("allow_join_initial_addr_port", 0644,
++				   mptcp_allow_join_initial_addr_port_data,
++				   SYSCTL_UINT_ZERO, SYSCTL_UINT_ONE),
++	SYSCTL_FIELD_UINT("stale_loss_cnt", 0644, mptcp_stale_loss_cnt_data),
++	SYSCTL_FIELD_CUSTOM("pm_type", 0644, sizeof(u8),
++			 mptcp_pm_type_data, proc_pm_type),
++	SYSCTL_FIELD_CUSTOM("scheduler", 0644, MPTCP_SCHED_NAME_MAX,
++			 mptcp_scheduler_data, proc_scheduler),
++	SYSCTL_FIELD_CUSTOM("available_schedulers", 0444, MPTCP_SCHED_BUF_MAX,
++			 NULL, proc_available_schedulers),
++	SYSCTL_FIELD_CUSTOM("close_timeout", 0644, sizeof(unsigned int),
++			 mptcp_close_timeout_data, proc_dointvec_jiffies),
++	SYSCTL_FIELD_CUSTOM("blackhole_timeout", 0644, sizeof(unsigned int),
++			 mptcp_blackhole_timeout_data,
++			 proc_blackhole_detect_timeout),
++	SYSCTL_FIELD_U8("syn_retrans_before_tcp_fallback", 0644,
++		     mptcp_syn_retrans_before_tcp_fallback_data),
++	SYSCTL_FIELD_CUSTOM("path_manager", 0644, MPTCP_PM_NAME_MAX,
++			 mptcp_path_manager_data, proc_path_manager),
++	SYSCTL_FIELD_CUSTOM("available_path_managers", 0444, MPTCP_PM_BUF_MAX,
++			 NULL, proc_available_path_managers),
  };
  
-+#undef IPC_FIELD_CUSTOM_MINMAX
-+#undef IPC_LIMIT
-+
- static struct ctl_table_set *set_lookup(struct ctl_table_root *root)
+ static int mptcp_pernet_new_table(struct net *net, struct mptcp_pernet *pernet)
  {
- 	return &current->nsproxy->ipc_ns->ipc_set;
-@@ -244,57 +230,15 @@ static struct ctl_table_root set_root = {
- 
- bool setup_ipc_sysctls(struct ipc_namespace *ns)
- {
--	struct ctl_table *tbl;
 +	struct sysctl_context ctx = {
-+		.ns.ipc_ns = ns,
++		.ns.net_ns = net,
 +	};
- 
- 	setup_sysctl_set(&ns->ipc_set, &set_root, set_is_seen);
- 
--	tbl = kmemdup(ipc_sysctls, sizeof(ipc_sysctls), GFP_KERNEL);
--	if (tbl) {
--		int i;
+ 	struct ctl_table_header *hdr;
+-	struct ctl_table *table;
 -
--		for (i = 0; i < ARRAY_SIZE(ipc_sysctls); i++) {
--			if (tbl[i].data == &init_ipc_ns.shm_ctlmax)
--				tbl[i].data = &ns->shm_ctlmax;
--
--			else if (tbl[i].data == &init_ipc_ns.shm_ctlall)
--				tbl[i].data = &ns->shm_ctlall;
--
--			else if (tbl[i].data == &init_ipc_ns.shm_ctlmni)
--				tbl[i].data = &ns->shm_ctlmni;
--
--			else if (tbl[i].data == &init_ipc_ns.shm_rmid_forced)
--				tbl[i].data = &ns->shm_rmid_forced;
--
--			else if (tbl[i].data == &init_ipc_ns.msg_ctlmax)
--				tbl[i].data = &ns->msg_ctlmax;
--
--			else if (tbl[i].data == &init_ipc_ns.msg_ctlmni)
--				tbl[i].data = &ns->msg_ctlmni;
--
--			else if (tbl[i].data == &init_ipc_ns.msg_ctlmnb)
--				tbl[i].data = &ns->msg_ctlmnb;
--
--			else if (tbl[i].data == &init_ipc_ns.sem_ctls)
--				tbl[i].data = &ns->sem_ctls;
--#ifdef CONFIG_CHECKPOINT_RESTORE
--			else if (tbl[i].data == &init_ipc_ns.ids[IPC_SEM_IDS].next_id)
--				tbl[i].data = &ns->ids[IPC_SEM_IDS].next_id;
--
--			else if (tbl[i].data == &init_ipc_ns.ids[IPC_MSG_IDS].next_id)
--				tbl[i].data = &ns->ids[IPC_MSG_IDS].next_id;
--
--			else if (tbl[i].data == &init_ipc_ns.ids[IPC_SHM_IDS].next_id)
--				tbl[i].data = &ns->ids[IPC_SHM_IDS].next_id;
--#endif
--			else
--				tbl[i].data = NULL;
--		}
--
--		ns->ipc_sysctls = __register_sysctl_table(&ns->ipc_set, "kernel", tbl,
--							  ARRAY_SIZE(ipc_sysctls));
+-	table = mptcp_sysctl_table;
+-	if (!net_eq(net, &init_net)) {
+-		table = kmemdup(table, sizeof(mptcp_sysctl_table), GFP_KERNEL);
+-		if (!table)
+-			goto err_alloc;
 -	}
-+	ns->ipc_sysctls = register_sysctl_fields(&ns->ipc_set, "kernel",
-+						 ipc_sysctls, &ctx);
- 	if (!ns->ipc_sysctls) {
--		kfree(tbl);
- 		retire_sysctl_set(&ns->ipc_set);
- 		return false;
- 	}
-@@ -304,12 +248,8 @@ bool setup_ipc_sysctls(struct ipc_namespace *ns)
  
- void retire_ipc_sysctls(struct ipc_namespace *ns)
- {
--	const struct ctl_table *tbl;
+-	table[0].data = &pernet->mptcp_enabled;
+-	table[1].data = &pernet->add_addr_timeout;
+-	table[2].data = &pernet->checksum_enabled;
+-	table[3].data = &pernet->allow_join_initial_addr_port;
+-	table[4].data = &pernet->stale_loss_cnt;
+-	table[5].data = &pernet->pm_type;
+-	table[6].data = &pernet->scheduler;
+-	/* table[7] is for available_schedulers which is read-only info */
+-	table[8].data = &pernet->close_timeout;
+-	table[9].data = &pernet->blackhole_timeout;
+-	table[10].data = &pernet->syn_retrans_before_tcp_fallback;
+-	table[11].data = &pernet->path_manager;
+-	/* table[12] is for available_path_managers which is read-only info */
 -
--	tbl = ns->ipc_sysctls->ctl_table_arg;
- 	unregister_sysctl_table(ns->ipc_sysctls);
- 	retire_sysctl_set(&ns->ipc_set);
--	kfree(tbl);
+-	hdr = register_net_sysctl_sz(net, MPTCP_SYSCTL_PATH, table,
+-				     ARRAY_SIZE(mptcp_sysctl_table));
++	hdr = register_sysctl_fields(&net->sysctls, MPTCP_SYSCTL_PATH,
++				     mptcp_sysctl_table, &ctx);
+ 	if (!hdr)
+-		goto err_reg;
++		return -ENOMEM;
+ 
+ 	pernet->ctl_table_hdr = hdr;
+ 
+ 	return 0;
+-
+-err_reg:
+-	if (!net_eq(net, &init_net))
+-		kfree(table);
+-err_alloc:
+-	return -ENOMEM;
  }
  
- static int __init ipc_sysctl_init(void)
+ static void mptcp_pernet_del_table(struct mptcp_pernet *pernet)
+ {
+-	const struct ctl_table *table = pernet->ctl_table_hdr->ctl_table_arg;
+-
+ 	unregister_net_sysctl_table(pernet->ctl_table_hdr);
+-
+-	kfree(table);
+ }
+ 
+ #else
 -- 
 2.55.0
 
