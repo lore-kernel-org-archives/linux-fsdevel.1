@@ -1,37 +1,37 @@
 Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCE535DA41;
-	Wed, 26 Aug 2026 04:13:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48D926B95B;
+	Wed, 26 Aug 2026 04:22:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787717622; cv=none; b=BXaP7NXtR3QjaVp7keln4R6vKdVB2MrvoLj9+gaY0KVsxfeIwD/gNpc5NSPhzzkj5fFIr+yazHRIo1GDq6WVYXIyce1BnyA5XP8MMpeP/psePjyks8+sSfwloHeas3fylb7fCdVAuJoJFtEUFDhXEGMA4g1sRS4toaj1AE3cmq8=
+	t=1787718157; cv=none; b=d0YO6JTcN52iT5oV6txseyoBbRPcGsQo5LJSBYUSZ8wsi4Io77ox6RIucIYELwXSFICUPyN+nOWLf8teS9u0CnVGzXaXQubwsEOdpfnlN0GSvkE9jp6jyl0GDf68Jb4Ybn3H8wxXPmMpmWHI3xA1zOo3n1EVr+wDd0nYSIhjEPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787717622; c=relaxed/simple;
-	bh=83nyYQ/MYSRw34D2ayj4CVHpjasvvdcL2gEFKQYctcY=;
+	s=arc-20240116; t=1787718157; c=relaxed/simple;
+	bh=SD7hhQDUH2wCoa/LN1T16MWWMsxv+imzJE63fWqfgPY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QQpZ/EeyXvV2adcfxtbFDaT5tbqoR5xDpi/wq+HVUbPiePgEIAHL+f/DgiW9auPfCBGzklG49FS4aCW3qDF3d4iF9wDKj9j/7n2ohvqV9fERN941eIHuvmW2/bxVESCylSCLxWHs+317NEKekvx5AsqBcFbV4bo258c7MiHiomk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=dc03A3aE; arc=none smtp.client-ip=54.252.183.203
+	 In-Reply-To:Content-Type; b=RfrruF8vdfMgDciOzpYKbQoWfJ/dmFqa3ot8UqabjGZIpJoQxVXiLSs1YLMUGsDK3HilDmxfZqHhD0G06yVwJpN+KuPyqgJMx8WhTjZxN36B7SfdXS+xOMxiSQy97yiMrn1nyY2Bp8X/+fQjr3SCYOOuG4zwdoe/PQAnpMH97Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=QNy3bSx0; arc=none smtp.client-ip=54.252.183.203
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="dc03A3aE"
+	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="QNy3bSx0"
 Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id DC3E11D472;
-	Wed, 26 Aug 2026 04:13:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me DC3E11D472
+	by embla.dev.snart.me (Postfix) with ESMTP id 877BD1D472;
+	Wed, 26 Aug 2026 04:22:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me 877BD1D472
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
-	t=1787717613; bh=83nyYQ/MYSRw34D2ayj4CVHpjasvvdcL2gEFKQYctcY=;
+	t=1787718154; bh=SD7hhQDUH2wCoa/LN1T16MWWMsxv+imzJE63fWqfgPY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dc03A3aEbN9gQ8OnXepSiohTIvtzeBDmd2KB9nwLAooiC3EZwo0m3dT7f4WNOVfSJ
-	 YQruoh79VQZqEvRczwu7PMYUYAl+Ayalwtw/RTvesPLOK60oyB8RrQJ+NScJAcU2x9
-	 yb702VfGDxfVgH1Xs9fRJ2SertMcTNVeNamAKUt8=
+	b=QNy3bSx05dHTD6IbxysM87Ipp0OQs6sFdhXKCaSfHBfb7wjHWP+d+ZHxnUvfv50xL
+	 Ibk0PvpUoPwI0Q5Z9lY4FwfX+oXVVzK/YD8z29ncAGfhKvJjRDzmnI+rg1ESaixwws
+	 fAStD2OUOS8i8/zjOrqvjjbGgchGSyJ15WKeuyHA=
 Received: from [192.168.1.18] ([182.226.25.243])
 	by embla.dev.snart.me with ESMTPSA
-	id bqL9IuxnjmqK9QEA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Wed, 26 Aug 2026 04:13:32 +0000
-Message-ID: <aa36b1de-70d9-4234-a240-770fe66aa19b@dev.snart.me>
-Date: Wed, 26 Aug 2026 13:13:29 +0900
+	id MKAODglqjmoZ9gEA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Wed, 26 Aug 2026 04:22:33 +0000
+Message-ID: <b451b5af-adf4-4b2b-9056-641ae26158c9@dev.snart.me>
+Date: Wed, 26 Aug 2026 13:22:32 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -40,11 +40,12 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH] fat: add noflush mount option
-To: Christoph Hellwig <hch@infradead.org>
-Cc: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 References: <20260822173732.10230-1-dxdt@dev.snart.me>
- <ao0tUKyhsm1wNYCx@infradead.org>
+ <871pbn6edz.fsf@mail.parknet.co.jp>
+ <787aea79-beb0-4f29-bb67-ee57f6c654c4@dev.snart.me>
+ <87ecfmrfb9.fsf@mail.parknet.co.jp>
 From: David Timber <dxdt@dev.snart.me>
 Content-Language: en-US, ko
 Autocrypt: addr=dxdt@dev.snart.me; keydata=
@@ -56,37 +57,20 @@ Autocrypt: addr=dxdt@dev.snart.me; keydata=
  EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
  VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
  Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
-In-Reply-To: <ao0tUKyhsm1wNYCx@infradead.org>
+In-Reply-To: <87ecfmrfb9.fsf@mail.parknet.co.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/25/26 14:51, Christoph Hellwig wrote:
-> On Sun, Aug 23, 2026 at 02:37:32AM +0900, David Timber wrote:
->> On most distros, udisks manages users' removable volume mount requests.
->> Udisks is configured to always mount FAT volumes with the 'flush' mount
->> option. This is largely okay for populating directory in small sizes,
-> No, it's not.  It is an amaingly stupid idea that leads to horrible
-> performance and flash wearout.  I'm not objecting to your patch, but
-It probably had something to do with DOS and/or Windows implementation,
-maybe a "monkey see, monkey do" situation. I think this is why FAT on
-Windows is quite slow to this day(again, I might be wrong so don't quote
-me on this).
+On 8/25/26 13:31, OGAWA Hirofumi wrote:
+> Well, with a your patch, just remounting without "flush" option doesn't
+> remove flush?
+fat_parse_param() doesn't behave like other fs. The current
+implementation only accepts rw and ro for reconfig. So the option cannot
+be flipped up and down at will.
 
-Whoever first came up with the idea was probably worried too much about
-users(who are not familiar with UNIX systems) unplugging removable
-devices without giving the OS an opportunity to sync. I have to say
-that, compared to Windows' default behaviour, the default 5 seconds of
-vm.dirty_writeback is quite aggressive and that's why we have the flush
-option in the first place...
-
-But I still think being able to flip the option on the fly should come
-in really handy in embedded systems that just can't afford to do
-explicit sync. I think this is the main use case of the flush mount
-option. For storing small metadata, it's really not that bad of an idea,
-even in terms of hardware degradation.
-
-> if you care about the usability of FAT volumes in this scenario, the
-> more important thing is to fix this default.
-I'll go to udisks devs to ask why they did this.
+> And this is a user visible change more or less, so if
+> there is an objection from users, then it will be dropped.
+No worries at all. I'll just sit on the patch for now and see if anyone
+comes to say they have a problem with it.
 
 Davo
