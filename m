@@ -1,81 +1,55 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8341937F8DA;
-	Wed, 26 Aug 2026 07:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E7637DE8A;
+	Wed, 26 Aug 2026 07:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787728891; cv=none; b=jfxC0njuygI32s6B85z4FBkoOTNj/SIxLo5yMLs5/RlNmLCcEO6cXGJ5n8tbdJiJxaW0+FRLC8/qJYXRPPNWrTN5jAw/TJV4BT4GsvDzP8IlNZwkLjijaE3eS9SfecP+3Cq8fSBgK6BeS/e9yk82N/EAeJDETU9XuwvGTDdhakI=
+	t=1787730149; cv=none; b=a1yH+2uiK34dLh4VEHKU8kM7N4SSx9ABCr1Vb8gKp4wOuIof9dVfM+PeRgtQXFlLTyCtOceiFLWDCnfcGCzaj5QkX2iMBlqAveuI/1P9A4Z6YJ0vRbmTkiwNaP6dZM6VY2ghShGSxcwGFwCejMUPOWRZ0yhshZgjx4oWAwAMfNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787728891; c=relaxed/simple;
-	bh=7f8AliVFuzVWZrcc3oSQ6Wa30G5vBDD85rUnKfrIdTQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=vEPvBZoRsfFc53UZ7Hs6NOU9IXlj86GQ7fTZGVJnuYVYtbxKF4EASO5BARCONVs3aMPx+FYO9qX2iZjTroe2QHjds783PX+L+tRZMeQsHnFDYSJYuBTClEd4kzevlxy14CZBrfaS4LRNfs5z6rN4x2Yx0V+K8lQ4VZ3ss7yR8sI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=5He4etHk; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=SRhBPmtj; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="5He4etHk";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="SRhBPmtj"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id A40DF2096798;
-	Wed, 26 Aug 2026 16:21:24 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1787728884;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dLQU4f5ng+QHPRbC9N2jlxMSgXathc2ApvwvxDPJLn8=;
-	b=5He4etHkMT5L2EzmO8n4CbYi+TDPHYm3DCg9Brbfuq5lzhLkrj46SjFbR2IK0X96uZEYCl
-	kqpSYmpgAb7ytBqSLgb0LpZPbQBNIsJiMRN++kjypANr/upql0VCKxtxcoLMnjjhO7ZgJz
-	KoI5htWaXWZ8m5S/4NTwLMIaa+l8SO4LsRLTniknbpu2/7jr7kODimQBZIEfqmbUbgEv/I
-	zQHesNwY+9b3mMSk7G0tHNmAq5f9lnYZSa/EhjKkXxsuKv6gM2sq1O5/20hxC1/HnKHTNJ
-	wtsvXV+l0BkD4O23pi/g48p+FLJImsyaeesjDMua/tUvAG7NUdqFw8+4mIfxsA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1787728884;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dLQU4f5ng+QHPRbC9N2jlxMSgXathc2ApvwvxDPJLn8=;
-	b=SRhBPmtjuPSrkuRl8E5V+pP+OnYif061DvH/adUP4lH5zKiQHhZJrUWYvbWJ4N2AURbH8o
-	rG5LYy6cIQdTWCDA==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 2D28CE0006B;
-	Wed, 26 Aug 2026 16:21:24 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 24ACF22000F0; Wed, 26 Aug 2026 16:21:24 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: David Timber <dxdt@dev.snart.me>
-Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH] fat: add noflush mount option
-In-Reply-To: <b451b5af-adf4-4b2b-9056-641ae26158c9@dev.snart.me>
-References: <20260822173732.10230-1-dxdt@dev.snart.me>
-	<871pbn6edz.fsf@mail.parknet.co.jp>
-	<787aea79-beb0-4f29-bb67-ee57f6c654c4@dev.snart.me>
-	<87ecfmrfb9.fsf@mail.parknet.co.jp>
-	<b451b5af-adf4-4b2b-9056-641ae26158c9@dev.snart.me>
-Date: Wed, 26 Aug 2026 16:21:24 +0900
-Message-ID: <875x0xpcsr.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1787730149; c=relaxed/simple;
+	bh=PBev44xSzJ2M1MJAmdYELWXheO/ojhCA+pH10s+URWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oPlIBgAEboftFOjjQbDS9L3HxsnaCKD58EoRufJ5NmQvPS0MdFBPIU4KFZEEG2AFxjxC+V05CmjnY1W/R6u9P6ZN2046h8oD/FetBDV+7dOH8IPsjg2IcQtpA8Cdzf+h6nN+3LQZS0oJc6Y0tKr4RQnPf9SBPYnruVDNgDZKSbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id AB4F268B05; Wed, 26 Aug 2026 09:42:15 +0200 (CEST)
+Date: Wed, 26 Aug 2026 09:42:15 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+	Christoph Hellwig <hch@lst.de>, David Howells <dhowells@redhat.com>,
+	John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>,
+	Rik van Riel <riel@surriel.com>, Qu Wenruo <wqu@suse.com>,
+	"Darrick J. Wong" <djwong@kernel.org>, linux-btrfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-xfs@vger.kernel.org, linux-rdma@vger.kernel.org,
+	Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: Removing ->dirty_folio
+Message-ID: <20260826074215.GA18668@lst.de>
+References: <aoyWln-Gt-yvZQkE@casper.infradead.org> <CAG48ez0vXVUu9j4rYUeCqgwyHKAiN_6fL--D90WvX9q7B41V-A@mail.gmail.com> <ao3y8TtEGjniZ_4f@casper.infradead.org> <20260826050733.GB15122@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260826050733.GB15122@lst.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-David Timber <dxdt@dev.snart.me> writes:
+On Wed, Aug 26, 2026 at 07:07:33AM +0200, Christoph Hellwig wrote:
+> The interesting case is FOLL_LONGTERM, as it can pin I/O for a much
+> longer time.  And that also means IFF the user of FOLL_LONGTERM actually
+> wants to be able to persist data on a shared mmap, it has to manually
+> dirty folios one or more times during the FOLL_LONGTERM pin, because
+> otherwise the file system would never know there is dirty data.
+> The set_page_dirty call in ib_umem_odp_unmap_dma_pages is an example
+> for that.
 
-> On 8/25/26 13:31, OGAWA Hirofumi wrote:
->> Well, with a your patch, just remounting without "flush" option doesn't
->> remove flush?
-> fat_parse_param() doesn't behave like other fs. The current
-> implementation only accepts rw and ro for reconfig. So the option cannot
-> be flipped up and down at will.
+... not to forget the epic boss of this genre: vmsplice, which is also
+still using get_user_pages_fast/FOLL_GET through iov_iter_get_pages2.
 
-I meant with your patch. With your patch, it updates flush to current
-option set, right? And default flush=false, I may missing something
-though.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
