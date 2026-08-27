@@ -1,221 +1,150 @@
-Received: from smtp-bc0b.mail.infomaniak.ch (smtp-bc0b.mail.infomaniak.ch [45.157.188.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122E13CB548
-	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 19:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF1B30E0FE
+	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 19:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787858985; cv=none; b=lA9jiFL7LOQv5dq7T531Gj1Az+isBnvhguANMtYw1qb8ls0i5SOXFFVW9wYK3QWl9sKStyzaBnPj0hCA/ElJIQFOv6yxB6QRpeTLTlnwkVJaeRhUVvITaH0UQhE0TYg6rmeybCLTcsz/Lf7CTHZxTWQ8/1fLbhHRKDMNEM4cFFA=
+	t=1787859348; cv=none; b=mUdn2ffW+epMuuK7IaVvMu+iXPJr0lGX8ziZTZoCL3cgyL53RtGFEhgQQU35q80RgRXA4EbGw1YKYD21dErs/rkvpkv/LREhaF6pXY8Pm6MbuK3iQA98y5kHcixrAKwhyxuPScWfFbsJSKNtG67UldInQ5nOzLOl9DlhnXj/RZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787858985; c=relaxed/simple;
-	bh=vlCs3hU/o3QQXNUI1tu9r/P/DX3U2Ia4HzfbgWLpMak=;
-	h=Subject:Message-ID:Date:From:To:Cc:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=uFmoonedUR53DMAY9OaknZBN6XRR/GQxieanpudlXmKF9ZoaT4N/WS4ph/5UXylyQFst1ZbiJ3KJJLMSkC1KRXok4Y1g8KN9DbKDWHkuDBqigeOYZuF+1XT/tnumja4MPhAABc4XjnuyH6Oy5Zwvj738cPzY8rPQhYyKDKCmYKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ikmail.com; spf=pass smtp.mailfrom=ikmail.com; dkim=pass (1024-bit key) header.d=ikmail.com header.i=@ikmail.com header.b=dWg7CUSD; arc=none smtp.client-ip=45.157.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ikmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ikmail.com
+	s=arc-20240116; t=1787859348; c=relaxed/simple;
+	bh=FVwPN8Sg+S95IgThEhLAyOBX0B3MnGJOPG0Ej4wIdak=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OXNIVtzg5kOE7b43u/oG1YbahPqe/57m+upJK4BvO+OkOmYtKdanxaVEpwZq7cu1DjHR9swlo/kEaoVfnqwDye2zhi5KH2kGNXYReHi81E3DfolSBzDpdVFb4qxz9QkJAAlci0B7Rd2t2QuZFXysGBfF+7G5oYWc+uFUcmwke94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oVpcSOr3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uQuSEzBD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kYD+cp4f; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Nogfd0Va; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ikmail.com header.i=@ikmail.com header.b="dWg7CUSD"
-Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hWBRT1jbRznCf
-	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 21:29:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ikmail.com;
-	s=20210927; t=1787858981;
-	bh=u6UA2DFmMQiOkWQPPREWb5PeHwV9Yw25wuUksgK97Ds=;
-	h=Subject:Date:From:To:Cc:Reply-To:References:In-Reply-To:From;
-	b=dWg7CUSDagomi/nFTSxcatYq0dkmLjefVubVo7roJ6c6c8P66sOyJrpgEAUh0mepR
-	 k7znoWB8u1NqEjuvf/xJrQZuNpQDpLbDCE3oFITiFIEvYnmrwQPWbaZhplzH2KDjIU
-	 /hA9Fv/VOwXL2c4NDGi4LF5AGSyYp1yQI4ESY/mQ=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4hWBRS5pDtzK5W;
-	Thu, 27 Aug 2026 21:29:40 +0200 (CEST)
-Subject: Re: [RFC] statx: Define a generic OFFLINE file attribute
-Message-ID: <29c3a22e-9cf0-4b08-ac22-ccb75f372334@mail.infomaniak.com>
-Date: Thu, 27 Aug 2026 21:29:40 +0200
-From: Lukas Mathis <lukas.mathis@ikmail.com>
-To: Andreas Dilger <adilger@dilger.ca>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Reply-To: Lukas Mathis <lukas.mathis@ikmail.com>
-X-WS-Location: eJxzKUpMKykGAAfpAmU-
-References: <e06bdbf8-3727-425c-9a82-150848613a6b@mail.infomaniak.com>
- <3F6C9003-B8DE-4CE4-A158-702D29E6CB37@dilger.ca>
-In-Reply-To: <3F6C9003-B8DE-4CE4-A158-702D29E6CB37@dilger.ca>
-X-Mailer: Infomaniak Workspace (1.3.1342)
-X-WS-User-Origin: eyJpdiI6InF0Vy9YN2lCS1hKQTF2UXE5WWVuRHc9PSIsInZhbHVlIjoiYjdENUdES1RCdjlweGQ4TkhwZ3BPQT09IiwibWFjIjoiODk1MjU3MTkyYmJmMTIyMTFmNDdkMzM4NDQxODUyMWI5NzU2ZDkxODlmYTg1ZmE2YzhjZDMwOTA1NGNjZWE3MyIsInRhZyI6IiJ9
-X-WS-User-Mbox: eyJpdiI6IlByUlZqM2hsVTNmaXJmdjFweHFKZGc9PSIsInZhbHVlIjoiNjBSZzlWMFNvdStwY3lJRDB3UGZMZz09IiwibWFjIjoiMzg1ZGQ3NDlkODQ4OWI2MzE5N2M5NzYyMDAyZTllMmUyOGEyZDAwYjI0NGM0OWZlOWNiMTIyOWFhMmFmZWEwOSIsInRhZyI6IiJ9
-X-WS-LOCALE: de_DE
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oVpcSOr3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uQuSEzBD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kYD+cp4f";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Nogfd0Va"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B5D51F790;
+	Thu, 27 Aug 2026 19:35:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787859340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JXx+9P8swJ39okusGIO4hdANV8c+U4eCVnyoHi7iSGE=;
+	b=oVpcSOr3lRJn+XlluOosp4kqMxTd5DgRvCXhz7WNc75DrG/ScCkJmCsN6YHko/kUvEDJ+z
+	6pv8/j08CEDYRSFlQHGzPQSRBLHUVgAF52tO9MYfAy7Ip69X3Ec9RZNNNKYB6xCGb45GWO
+	XHt3rrTNvInfsLBww/Z5XY6dapMYuCE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787859340;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JXx+9P8swJ39okusGIO4hdANV8c+U4eCVnyoHi7iSGE=;
+	b=uQuSEzBDq5oKYLeYQdu8tyxlyc/HSVL9oXEsNe5Et+ID8ocSZXG00BGCnShz+jmS6/vXEw
+	zWe/l5H6zQ83yiDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787859336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JXx+9P8swJ39okusGIO4hdANV8c+U4eCVnyoHi7iSGE=;
+	b=kYD+cp4fS7GG1ZgIB4xsVVuM0/5BQkADmEgIqc6cVcuOi7LDgvjo9Iu5PEQc1qWHBFGuqa
+	n/vfBbARs4whbGx1onmj+AphYaFHu1JeMtguDwzvjNtk7uKjeksvPiNnrBOc0e3VioBx0l
+	vH5Wm39QJldd+h+bejzcQz/ifmTjvvg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787859336;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JXx+9P8swJ39okusGIO4hdANV8c+U4eCVnyoHi7iSGE=;
+	b=Nogfd0VaW4/xVj13upltp4cV6K4edIcNxgvNOHXxzYf7XU6QvzRENp/LaGe5ZqL4jOCFVt
+	KqpUnEEdYPjS6CDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 06C8E1352D;
+	Thu, 27 Aug 2026 19:35:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Yw60OYeRkGr/WQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Thu, 27 Aug 2026 19:35:35 +0000
+Date: Thu, 27 Aug 2026 20:35:34 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: Matthew Wilcox <willy@infradead.org>, glaubitz@physik.fu-berlin.de, 
+	frank.li@vivo.com, hch@lst.de, linux-fsdevel@vger.kernel.org, 
+	vdubeyko@coreweave.com
+Subject: Re: [PATCH v2 0/7] hfsplus: convert regular file I/O to iomap-based
+ operations
+Message-ID: <apCQPaalWMaB5D-p@pedro-suse.lan>
+References: <20260826225614.486112-1-slava@dubeyko.com>
+ <ao9_az3JPNhHooMl@casper.infradead.org>
+ <e865789c62b799baf43a2afd67c67302e3eaea25.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Feedback-ID: :58a4a607548b4ca:ham:e9714dfc98c1edc
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e865789c62b799baf43a2afd67c67302e3eaea25.camel@dubeyko.com>
+X-Spam-Level: 
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-First, I had to figure out exactly what FIEMAP_EXTENT_UNKNOWN is and what i=
-t=E2=80=99s intended for. As I understand it, I share the view that the inf=
-ormation should always be the same. We=E2=80=99re operating on different le=
-vels here, depending on where the information is located. For Sync Services=
-, however, it makes sense not to read the explicit blocks every time. It wo=
-uld be a clean architectural abstraction.
+On Thu, Aug 27, 2026 at 11:35:12AM -0700, Viacheslav Dubeyko wrote:
+> On Thu, 2026-08-27 at 01:06 +0100, Matthew Wilcox wrote:
+> > On Wed, Aug 26, 2026 at 03:56:07PM -0700, Viacheslav Dubeyko wrote:
+> > > Christoph Hellwig has detected that taking the page lock around
+> > > the kmap/modify/kunmap section is not enough on its own:
+> > > writeback drops the page lock before the write actually completes,
+> > > so a mutator that only waits on the lock can still start rewriting
+> > > a page whose old contents are still in flight to the device.
+> > > Mark the allocation file's mapping with mapping_set_stable_writes()
+> > > and call folio_wait_stable() right after taking the page lock in
+> > > both functions, so a mutator also waits out any writeback that was
+> > > already in progress when it acquired the lock.
+> > 
+> > Why would you indirect through the stable mechanism rather than just
+> > calling folio_wait_writeback() directly?
+> 
+> The HFS+ allocation file (block bitmap) is represented by sbi-
+> >alloc_file inode and mapping represents the block bitmap space. If one
+> thread is calling hfsplus_block_allocate() or hfsplus_block_free(),
+> then it tries to modify the content of folios/pages in this mapping.
+> But writeback could happen in the background in another thread. It
+> sounds like "folio's contents to stay unchanged while writeback is in
+> progress". This is why folio_wait_stable() was suggested. Do you mean
+> that it is not exactly correct approach? Do you think that
 
-Cheers, Lukas
+Why do you want to do this? It's definitely unusual for filesystems (AFAIK)?
+It sounds like you're trying to guarantee some sort of consistency in your
+writes, without journaling, but I can't tell exactly why.
 
-On Aug 26, 2026, at 14:23, Lukas Mathis <lukas.mathis@ikmail.com> wrote:
+(FWIW, if you're trying to do this for metadata consistency reasons, I
+really don't think this works, because not only do you not know if data
+hits the disk, but you also don't know if other writes (e.g inodes) hit
+the disk, etc)
 
->   =20
->  Background:
->  During the 2024 discussion on additional statx() attributes, the introdu=
-ction of a generic STATX_ATTR_OFFLINE attribute was proposed and discussed =
-as a potentially useful cross-filesystem property. The discussion highlight=
-ed use cases in HSM systems, network filesystems, and userspace tools that =
-need to distinguish fully available files from files whose content is not i=
-mmediately accessible.
-=20
-FYI, there is already `FIEMAP_EXTENT_UNKNOWN` which indicates the same info=
-rmation,
-namely that the file data is inaccessible and cannot be mapped to blocks.
-
-Having a statx() flag pass on the same information seems useful, since it s=
-hould be
-much lighter weight than calling fiemap to get a single bit of information.=
-  However,
-it makes sense that if `STATX_ATTR_OFFLINE` is returned for a file then fie=
-map
-should also consistently return `FIEMAP_EXTENT_UNKNOWN` for that file.
-
-Cheers, Andreas
-
-
->    Since then, Linux has gained support for pre-content access notificati=
-ons through FAN_PRE_ACCESS, which provides a mechanism for userspace to sup=
-ply file data before read access proceeds. This addresses a significant par=
-t of the data access path for content that is not immediately available loc=
-ally.
-> =20
->  However, userspace still lacks a standardized way to determine whether a=
- file's contents are currently available without triggering access.
-> =20
->  This RFC revisits the earlier discussion and proposes a minimal and file=
-system-agnostic solution.
-> =20
->  Problem Statement:
->  Today, userspace applications can determine many file properties through=
- statx(), but there is no generic mechanism to discover whether file conten=
-t is immediately available.
-> =20
->  As a result:
->  General-purpose tools cannot distinguish between available and unavailab=
-le file content.
->  Filesystems may implement similar semantics differently.
->  Userspace software lacks a common API for querying content availability.
->  The recently introduced pre-content access infrastructure can hydrate co=
-ntent when accessed, but applications cannot discover the state beforehand.
->  Proposal
-> =20
->  Introduce a new statx() attribute:
->  STATX_ATTR_OFFLINE
-> =20
->  Semantic definition
->  A file marked with STATX_ATTR_OFFLINE satisfies the following condition:
-> =20
->  The file's metadata is available, but the file's content is not currentl=
-y guaranteed to be immediately accessible without additional retrieval, res=
-toration, hydration, or staging work.
-> =20
->  This definition intentionally avoids any assumptions regarding:
->  - storage technology
->  - retrieval mechanism
->  - userspace implementation
->  - caching policy
->  - filesystem type
-> =20
->  The attribute describes the current availability of file content and not=
-hing more.
-> =20
->  Intended Usage:
->  Examples of applications that may benefit from a standardized OFFLINE at=
-tribute include:
-> =20
->  - search tools
->  - backup software
->  - indexing services
->  - archiving software
->  - HSM implementations
->  - filesystem management utilities
-> =20
->  Example:
->  statx file.dat
-> =20
->  could return:
->  Attributes OFFLINE
-> =20
->  allowing userspace applications to make informed decisions before openin=
-g the file.
-> =20
->  Non-Goals:
->  This proposal does not attempt to standardize:
->  - synchronization status
->  - upload status
->  - conflict states
->  - caching policies
->  - retention policies
->  - provider-specific metadata
->  - graphical user interface behavior
-> =20
->  In particular, this RFC intentionally does not propose attributes such a=
-s:
->  - PINNED
->  - SYNC_PENDING
->  - ERROR
-> =20
->  as these describe userspace policy decisions rather than generic filesys=
-tem content availability.
-> =20
->  The proposed attribute only answers one question:
-> =20
->  Is the file content currently offline?
-> =20
->  Filesystem Support
-> =20
->  Filesystems may expose STATX_ATTR_OFFLINE if they can reliably determine=
- that file data is not immediately available.
-> =20
->  Implementation details remain filesystem specific.
-> =20
->  A filesystem may map the attribute to:
-> =20
->  - persistent inode flags
->  - internal metadata
->  - remote state information
->  - HSM state information
-> =20
->  The RFC intentionally does not mandate how the state is stored.
-> =20
->  Relationship to Existing Work
-> =20
->  This proposal is intended as a direct continuation of the 2024 STATX_ATT=
-R_OFFLINE discussion and follows the same general direction suggested there=
-. The goal is not to introduce a new subsystem but to define a common users=
-pace-visible semantic that can be implemented across filesystems and consum=
-ed by generic tools.
-> =20
->  The proposal is complementary to the recently introduced pre-content acc=
-ess infrastructure (FAN_PRE_ACCESS). While FAN_PRE_ACCESS addresses content=
- retrieval before access, STATX_ATTR_OFFLINE provides a mechanism for users=
-pace to determine content availability before attempting access.
-> =20
->  Request for Feedback
-> =20
->  Is the proposed semantic definition sufficiently generic?
-> =20
->  This RFC intentionally focuses on a single, narrowly scoped semantic pro=
-perty in order to maximize reuse across filesystems and userspace tools whi=
-le minimizing policy decisions in the kernel.
-> =20
-=20
-
-Cheers, Andreas
+-- 
+Pedro
