@@ -1,172 +1,556 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACCA3FBB4D
-	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 08:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8998D40E8D3;
+	Thu, 27 Aug 2026 09:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787820574; cv=none; b=lvKopYBoBbH24eMTDwPgiMiUXki05cZzyxWIVUeVOTsDS/VMIh0hQMsbm6VAzYsha2fkGk20XvEq/NeeURBEU6dfAWX1I19nLrHhs0YqOgSqj3qmdnrECjB0qFG1CuDclgZhA4G7/t2zTI9FsvoeA6OUeK2b9GwyppQaOJupcpM=
+	t=1787821410; cv=none; b=Lb/vLffDOVf3HJrS8/rjWCZTQWvg+wJh3zLoLbEPZKklucxeEQ7g8hqNCgKsdxj936xeAvhhv+mRu0AEhwKOSVCC0IpMn19goO/BBR9Ssq8ynCLGSIpFcD6FUaeY+qRfj1vRZVuftwNQnd/MqH4RVF3nAxZFdezFt5PjwSJY8Rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787820574; c=relaxed/simple;
-	bh=xOo52WEwM9OcvK3XM7gppK9P45+gQdtp6SHuVaRQ8xQ=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=uJ/LpAXBYR6M8dusEDVax9uv5j6e6RuVxGhRF8uw7HcjNbmc281auoEs858cK6wptqXIbxRIuLFadI1AN28tOG4JnwvH89hURUTs6CR3NVmpT/LGOoUWhDJ/EVX9mpOsPDG+3KzEuqnIQbFt6BhIUqvw0imYJNCxOaoWCM7G7Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TLK/unnv; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1787821410; c=relaxed/simple;
+	bh=+/RMpT/fZW0LKYOtd1iYJFaVb9ljlaC5MeoIp3gVpfg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iopkomz9f1VKTh8XIjpqj9HC7ww88YYDSa44VqhUfjQJ0157JuDVEMIp8zfwMueRPRzKh1qHX+KTN3CUSM7alLrsqxtHCJY3hJFrSOrSda0nlrX8r5bwveLzqlsuz4qet/gB9kVix+Lhp6n3+iVA9IlWlFUTQkPL0mHhpBmK/L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pp8yzr/u; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TLK/unnv"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-85845398586so23701427b3.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 01:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787820572; x=1788425372; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=r1qjuH7DPdLHxaMJrgal+nSqcPVjkvrEhw9rBC64WAk=;
-        b=TLK/unnvDueiRDw0p19YY9LJInr+bAz6RJn/uhc2MjNoONapzkLRyqgMoEOEX68sKj
-         V1wShyCVWvpQl1vJWbA69ZAa8rzZEeFoR/GamjLhCEsDw4Wrez1Zr/vDfLZp5OUp6wnN
-         oWgtEMEV9sBRzENHNAHW/VWom9M/MVqnQ2C6Ypo3HdgRfpGZBKbZSeO2a/fKMV9XykYk
-         xggeaYbtnJos9DzAWoe1zE9UTwd6F+xm5xF63NFUnoxdXsPqL5RQqAyc3ewIxhZhiBh9
-         UeZ/Tbl/Xr+XjEZCIY3HVRm+kVkkVGaI09NU3p4tK6MT/dJOy4ja997IpVrtw4aERwRO
-         UWwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787820572; x=1788425372;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=r1qjuH7DPdLHxaMJrgal+nSqcPVjkvrEhw9rBC64WAk=;
-        b=Mx0gLo4dzgkO9Fontji0/QcB6076lHbBvmpmROOl9PnkPDjum3mp2b7wi02tINGPCP
-         a5w62j0gXu8rV3aM2W3lMtPHOz7Th4IJ+KfNxi8l8goJ2hON/M3w+x8k1B/WoTXrGxu6
-         UiygbJXwn4zpYQoIzOHW8jJ8ndIrzKUjMHlA0QYILM31H10InK1J4hgv70RKsTpxH7uX
-         eFn7/JuwOmPkkMpWmnlRye+tFyoZY3KsCQYQqApa0e1f/jMWWjEuAReMSNOXqNQckgjq
-         AEJ4OAABB6Fq91FTRqkHeZ0GScIK7aMtRxdFDC14IDqlvLPs620hSLZA6GoJ9LglvXNq
-         QuNw==
-X-Forwarded-Encrypted: i=1; AHgh+RoPng/ucwx713ITJNJ8QLUkg0FAG3rCAfS0a1D7l9QjCZpTk2waSqYZn7atvc93ipyAHBCiWp8V7BSoBObW@vger.kernel.org
-X-Gm-Message-State: AFuF++kjk2FSDLdm2gkIQsflAfhJ4zQ5DULzCQrzp3pdiMZDUYaVszJV
-	QSzLfZJVfuvuRkOsY6vZAq87lpzyi8kVZQ6PWZ7iPnxuhwBGtRbG1PhRCgzfJDFnuA==
-X-Gm-Gg: AR+sD12SsndDx9WXL8CH/8MhLlD59LUxhdhyr/GjAg/0F1qEC7iwPaZsR5ODmR2pQq6
-	aL2WgGvZG/5ngcequuXTAB501WC95Xg36h2C1B3WJqbsJqsm/PHQqhK2NjNcsaJRbuPvisJEJQt
-	7pXnuns5u+LQRRBi+5cxOnqXAe5dS+kCdbLzi7O5Uo4AgqMUH2hVUWkt6vgpE9SMujdeWcX7qgL
-	V92qIRwIRw6Yx1d+dPgw/DXTL755qpaKwyhB9gTAhFrWhwU93rab50QBUNyrsGVDLNzoRtFx+4H
-	WADR5IYyVeDiX+dNK2e03dez7LWvj8YvXgD1yIIwmrKoIGQ4HB1TWCUtyj4Er9g0S2jZn7g0iJh
-	k2qWnWwjwEL3XsG+jIWrL+D3Ihuf3Isu+vWC3ZRtE7qFn2c+FVClsrOaLvtx/g7vI3sqDTKI5kT
-	tWP6o3dLC1aNPmbnR6U/jhOqELX9XA1WU/p6BaDhrIePhKcJzfOfFu6EFSxJu2uMwGKRdmlXQTe
-	T4TJ/sm2XywuPvUUBiKuduxBP8I0m7Tbdygpgg4WGqn1gY0
-X-Received: by 2002:a05:690c:ec9:b0:85b:35f6:bc5d with SMTP id 00721157ae682-85b35f6bdb2mr18592327b3.13.1787820571154;
-        Thu, 27 Aug 2026 01:49:31 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-85b5cccdd31sm6315477b3.18.2026.08.27.01.49.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 01:49:29 -0700 (PDT)
-Date: Thu, 27 Aug 2026 01:49:12 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>
-cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-    Ackerley Tng <ackerleytng@google.com>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, 
-    Baolin Wang <baolin.wang@linux.alibaba.com>, 
-    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
-    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-    Christoph Lameter <cl@gentwo.org>, David Hildenbrand <david@kernel.org>, 
-    JP Kobryn <jp.kobryn@linux.dev>, Jan Kara <jack@suse.cz>, 
-    Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>, 
-    Kairui Song <ryncsn@gmail.com>, Kiryl Shutsemau <kas@kernel.org>, 
-    Lance Yang <lance.yang@linux.dev>, Leonardo Bras <leobras.c@gmail.com>, 
-    Lorenzo Stoakes <ljs@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>, 
-    Matthew Wilcox <willy@infradead.org>, 
-    Mel Gorman <mgorman@techsingularity.net>, 
-    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
-    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
-    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Shakeel Butt <shakeel.butt@linux.dev>, 
-    Suren Baghdasaryan <surenb@google.com>, 
-    Vlastimil Babka <vbabka@kernel.org>, 
-    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
-    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
-    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 20/25] s390/fbatch: no lru_add_drain_all() in
- s390_wiggle_split_folio()
-In-Reply-To: <20260826155722.0198d3ce@p-imbrenda>
-Message-ID: <2319f670-fe0b-f032-c0dc-486cbec0f3e1@google.com>
-References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com> <7bf68e7b-f88c-6ca9-39ab-e9fedab0c8be@google.com> <20260826155722.0198d3ce@p-imbrenda>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pp8yzr/u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E6301F000E9;
+	Thu, 27 Aug 2026 09:03:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787821398;
+	bh=ifyHjNlMzRF1wYqRSirYEsndPUqHoZ1TXUWfdm0Bmy0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Pp8yzr/ucd0AnkCYUTtxR5jm1AD8TbGvvaPaRgTfQjwHY+77IU89JmlCN/hxAsBY3
+	 7hzNCEpjVeu0JllDmVuQSAzrABdbm8IPs+QfyKVQ9RTuSMuBythqqxk1xZwESZwpbw
+	 5l+Zy6DS5veTNJ539zR/vhYJNmamnFdNL06akr0wyMX42ikUYkCJ+Xuu/mQ7EqL3aB
+	 oVC+R5/NoNuSgPfoAWrKgNwwbucUXE6ZKWxJzygergpOCq2pQ58ubeZbxNH1vrP4v0
+	 qJb9thCwqJgdpoDmgf18IB+5fFtgkYVTUePRBsvbiDOpnLI82Td/RnieK0iu+FJi2r
+	 lVZpvlwMCICew==
+Date: Thu, 27 Aug 2026 12:03:03 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
+	Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nico Pache <nico.pache@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Usama Arif <usama.arif@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP}
+ into single VM_UFFD
+Message-ID: <ao_9R3CbjYFipFu7@kernel.org>
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
+ <ao16VxNvaYzlt2WG@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ao16VxNvaYzlt2WG@gremlin>
 
-On Wed, 26 Aug 2026, Claudio Imbrenda wrote:
-> On Mon, 24 Aug 2026 07:39:12 -0700 (PDT)
-> Hugh Dickins <hughd@google.com> wrote:
+On Tue, Aug 25, 2026 at 01:44:23PM +0100, Lorenzo Stoakes (ARM) wrote:
+> I don't love referring to the legacy flags in the subject but I gues you
+> have limited space...
 > 
-> > s390_wiggle_split_folio() has no good reason to lru_add_drain_all(),
-> > now that the per-cpu fbatch references are gone.
-> > 
-> > Signed-off-by: Hugh Dickins <hughd@google.com>
-> > ---
-> >  arch/s390/kernel/uv.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/arch/s390/kernel/uv.c b/arch/s390/kernel/uv.c
-> > index dc14ebc0105b..120a467026a5 100644
-> > --- a/arch/s390/kernel/uv.c
-> > +++ b/arch/s390/kernel/uv.c
-> > @@ -364,7 +364,6 @@ int s390_wiggle_split_folio(struct mm_struct *mm, struct folio *folio)
-> >  
-> >  	lockdep_assert_not_held(&mm->mmap_lock);
-> >  	folio_wait_writeback(folio);
-> > -	lru_add_drain_all();
-> >  
-> >  	if (!folio_test_large(folio))
-> >  		return 0;
+> On Sun, Aug 23, 2026 at 03:17:43PM +0300, Mike Rapoport (Microsoft) wrote:
+> > Add 'mode' field to struct vm_uffd_state and define UFFD_MODE_ flags.
 > 
-> This is black magic for me, I am not sure I fully understand all the
-> details, but what's the new purpose of lru_add_drain_all() ?
+> Can you mention that you're increasing the size of the VMA by 4 bytes
+> please? (8 bytes if __HAVE_PFNMAP_TRACKING I believe too).
+
+With CONFIG_PER_VMA_LOCK I'm decreasing the headroom by 4 bytes, I'll add a
+few sentences in the changelog.
+
+> > Use this field to differentiate VMA registration with userfaultfd
+> > instead of relying on VM_UFFD_* flags.
 > 
-> will we have a guarantee that no stray references to mapped folios will
-> ever remain?
+> Here you should reference non-legacy VMA flag names.
+ 
+Ok.
+
+> > A VMA registered with userfaultfd will have a single VM_UFFD flag set
+> > and its registration mode (MISSING, MINOR, WP, RWP) is determined by
+> > vm_uffd_state.mode.
+> >
+> > This frees three vm_flags bits (12, 41, 43).
 > 
-> Any unexpected reference (i.e. not due to mappings, see
-> expected_folio_refs()) will cause a protected guest to hang.
+> Is the primary motivation here to eliminate these flags? We're paying a
+> cost in VMA bloat here so I think you need to argue for it. I wouldn't say
+> freeing up VMA flags justifies adding 4 or 8 bytes per VMA.
 
-I most certanly don't know s390 or that code well enough to guarantee
-you that no stray references to mapped folios can remain there. What I
-can guarantee is that no references, of the kind which lru_add_drain_all()
-used to be needed to remove, can exist there: so there will no longer
-be any point in s390 (or others) calling it for that reason, to help
-split_folio() to succeed.
+The motivation is to first disambiguate fault reason and VMA registration
+mode and second create a per-VMA state for uffd for future use.
+AFAIR Sean mentioned during guest_memfd discussions that a few status bits
+would have been useful there.
+ 
+> We've put a lot of effort into reducing VMA size so I think any size
+> increase in standard shipped 64-bit kernels has to be justified.
 
-You wonder then, what lru_add_drain_all()'s new purpose is, why it
-still exists at all? I did hope to remove it completely, but found
-two usages that I could not argue against: one is in user-forced page
-reclaim (two memcg interfaces and a sysfs interface), where it's
-still desirable to push folios on to the immediately reclaimable LRUs,
-rather than leave any on the per-cpu fbatches preceding those LRUs;
-the other is in memory hotremove, where it will be necessary to erase
-stray addresses, through which a subsequent folio_try_get() might have
-accessed a struct folio which (I imagine) might have been freed.
+Standard shipped kernels have CONFIG_PER_VMA_LOCK=y which makes VMAs padded
+to the next cacheline so adding a field there only decreases padding.
 
-Yes, your split_folio() may still occasionally fail, because of
-transient references and folio_try_get()s on that folio; but that's
-so before and after the changes. And there is (in my mind anyway) an
-open question of whether "folio_try_get() blips" will be visible a
-little more than before.
+I can also move vm_uffd_state after pfnmap_track_ctx to keep it in the end
+so there won't be 4 bytes hole.
 
-Hmm, looking again at s390_wiggle_split_folio(), it seems rather
-odd that it was doing an lru_add_drain_all() at all: because any
-large (hence splittable) folios have themselves been immediately
-flushed from the per-cpu fbatches, not left queued up there. Maybe
-there was an earlier time when mm did not enforce that; and Barry
-is currently looking to relax that, so the limitation intended for
-pmd-sized folios is no longer forced on the smallest large folios.
+If/when we run out of space, we can allocate uffd state separately, but
+it's more involved so I don't think it's necessary at this point.
+ 
+> Also there's weirdness around the flag behaviour with WP. As I recall
+> there's strange situations where you have to examine state of the
+> destination VMA when doing a UFFDIO_MOVE or something like that and there's
+> just strange edge cases.
+> 
+> I'm guessing the change is just independent of this and in both cases
+> you're checking for state just in different please?
 
-If Barry's relaxation goes in before my drainage changes, then
-there is value in that s390 lru_add_drain_all() in the interim.
+The check is explicit in vma_needs_copy().  
 
-Hugh
+> > Update the relevant code to use UFFD_MODE_* instead of VM_UFFD_* flags.
+> 
+> USERFAULT_, UF_, UFFD_... Can we settle on one?
+
+As I replied to David, 'USERFAULT' means the type of the fault.
+For modes, or flags, UFFD_ is the "subsystem" namespace.
+
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index 4daf9cd6ae8e..416de7663951 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -303,7 +303,7 @@ enum {
+> >  	DECLARE_VMA_BIT(MAYSHARE, 7),
+> >  	DECLARE_VMA_BIT(GROWSDOWN, 8),	/* general info on the segment */
+> >  #ifdef CONFIG_MMU
+> > -	DECLARE_VMA_BIT(UFFD_MISSING, 9),/* missing pages tracking */
+> > +	DECLARE_VMA_BIT(UFFD, 9),	/* userfaultfd registered */
+> 
+> Since we're getting rid of other flags, can we just have UFFD occupy a flag
+> that isn't conditional on CONFIG_MMU? Maybe bit 12 instead?
+
+Sure, can do.
+ 
+> Presumably nommu will never set/use VMA_UFFD_BIT (CONFIG_USERFAULTFD won't
+> be set) and it'll make everything easier this way.
+> 
+> > -#define VM_COPY_ON_FORK (VM_PFNMAP | VM_MIXEDMAP | VM_UFFD_WP | VM_UFFD_RWP | \
+> > -			 VM_MAYBE_GUARD)
+> > +#define VM_COPY_ON_FORK (VM_PFNMAP | VM_MIXEDMAP | VM_MAYBE_GUARD)
+> 
+> Really this should be converted to the new VMA flags model, but I guess
+> it's outside of the scope of this change.
+
+It is, yes.
+ 
+> >
+> >  /*
+> >   * mapping from the currently active vm_flags protection bits (the
+> > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> > index d6deb655d82e..8354d1c18b29 100644
+> > --- a/include/linux/mm_types.h
+> > +++ b/include/linux/mm_types.h
+> > @@ -723,6 +723,7 @@ struct vm_region {
+> >  #define NULL_VM_UFFD_STATE ((struct vm_uffd_state) { NULL, })
+> >  struct vm_uffd_state {
+> >  	struct userfaultfd_ctx *ctx;
+> > +	unsigned int mode;
+> >  };
+> 
+> Hmm this is adding 4 bytes at least to every VMA is that OK?
+
+See above.
+ 
+> I was going to say this adds a cache line but no it shouldn't as it's right
+> at the end.
+> 
+> VMA size scaling is a real issue though and this increases every VMA by 4
+> bytes, can't it be put in userfaultfd_ctx? I guess not as it's a per-VMA
+> thing.
+
+It can't be in userfaultfd_ctx. It's essentially the backpointer to the
+file descriptor context.
+ 
+> And does all of the NULL stuff now actually still work?
+
+Yes.
+ 
+> > +/* Per-VMA uffd modes */
+> > +#define UFFD_MODE_MISSING	BIT(0)
+> > +#define UFFD_MODE_MINOR		BIT(1)
+> > +#define UFFD_MODE_RWP		BIT(2)
+> > +#define UFFD_MODE_WP		BIT(3)
+> > +#define UFFD_MODE_ALL		(UFFD_MODE_MISSING | UFFD_MODE_MINOR | \
+> > +				 UFFD_MODE_RWP | UFFD_MODE_WP)
+> 
+> An entirely new set of duplicative flags?
+
+I'll make these BIT(31) - BIT(28) ;-)
+ 
+> And now we're flitting from USERFAULT_ to UFFD_ for some reason...
+
+See above.
+ 
+> Mode also seems to me to imply a specific setting not a set of flags.
+> 
+> So you probably want to put the word 'flag' in there somewhere... Or say
+> 'mode_s_'. Since multiple can be set right?
+
+I'll see how to improve the naming.
+ 
+> And weird/inconsistent to declare the USERFAULT_xxx as an enum and #define's
+> here as well as the naming?
+
+Since the field lives in mm_types.h it'd require "include userfaultfd_k.h"
+to make this an enum.
+
+> >  static inline bool is_mergeable_vm_uffd_state(struct vm_area_struct *vma,
+> >  					struct vm_uffd_state vm_ctx)
+> >  {
+> > -	return vma->vm_uffd_state.ctx == vm_ctx.ctx;
+> > +	return vma->vm_uffd_state.ctx == vm_ctx.ctx &&
+> > +	       uffd_mode(vma) == vm_ctx.mode;
+> 
+> You see it's things like this that make the naming problematic, now it
+> seems that mode (whose very name implies a singular state) is being checked
+> against another which can either be in one mode or another but actually
+> you're doing a flags check...
+ 
+I see your point, will rename to some *flags*.
+
+> >  }
+> >
+> >  static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
+> >  {
+> > -	return vma_test_any_mask(vma, VMA_UFFD_MISSING);
+> > +	return vma_test(vma, VMA_UFFD_BIT) &&
+> > +	       (uffd_mode(vma) & UFFD_MODE_MISSING);
+> 
+> This is broken assuming this can be executed in a context where VMA_UFFD can be
+> VMA_NONE.
+
+No, it isn't. This is under #ifdef CONFIG_USERFAULTFD that depends on
+CONFIG_MMU so VMA_UFFD is defined.
+ 
+> You should use vma_test_single_mask(). Or preferably, as above, just always
+> provide VMA_UFFD_BIT.
+
+It's an interesting API engineering, where the most obvious API does not
+always work and one needs to verify the bit definitions to understand what
+exact API variant to use.
+ 
+> The problem is with bits we can't express a VM_NONE equivalent, which is
+> why VMA_UFFD is defined.
+> 
+> It seems the only places that's used are ones where you could, or already
+> do, gate on uffd being enabled:
+> 
+> include/linux/mm.h: * vma_flags_t flags = mk_vma_flags_from_masks(VMA_UFFD_WP, VMA_UFFD_MINOR);
+> 
+> (This is a comment that needs updating see my comment at the end of review).
+ 
+See my comment there.
+
+> mm/userfaultfd.c:	vma_flags_clear_mask(&new_vma_flags, VMA_UFFD);
+> mm/userfaultfd.c:		vma_flags_set_mask(&new_vma_flags, VMA_UFFD);
+> 
+> >  }
+> >
+> >  static inline bool userfaultfd_wp(const struct vm_area_struct *vma)
+> >  {
+> > -	return vma_test_any_mask(vma, VMA_UFFD_WP);
+> > +	return vma_test(vma, VMA_UFFD_BIT) &&
+> > +	       (uffd_mode(vma) & UFFD_MODE_WP);
+> 
+> Same comment as above this seems broken.
+
+See above.
+ 
+> >  }
+> >
+> >  static inline bool userfaultfd_minor(const struct vm_area_struct *vma)
+> >  {
+> > -	return vma_test_any_mask(vma, VMA_UFFD_MINOR);
+> > +	return vma_test(vma, VMA_UFFD_BIT) &&
+> > +	       (uffd_mode(vma) & UFFD_MODE_MINOR);
+> 
+> Same comment as above this seems broken.
+
+See above.
+ 
+> >  }
+> >
+> >  static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
+> > @@ -203,7 +213,8 @@ static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
+> >  	 */
+> >  	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_PROTNONE))
+> >  		return false;
+> > -	return vma_test_single_mask(vma, VMA_UFFD_RWP);
+> > +	return vma_test(vma, VMA_UFFD_BIT) &&
+> > +	       (uffd_mode(vma) & UFFD_MODE_RWP);
+> 
+> Same comment as above this seems broken.
+
+See above.
+ 
+> Obviously I don't love the &&, & but that seems a moot point.
+
+We agreed to disagree, didn't we? :)
+
+> >  }
+> >
+> >  static inline bool userfaultfd_protected(const struct vm_area_struct *vma)
+> > @@ -271,7 +282,7 @@ static inline bool userfaultfd_huge_pmd_rwp(struct vm_area_struct *vma,
+> >
+> >  static inline bool userfaultfd_armed(struct vm_area_struct *vma)
+> >  {
+> > -	return vma_test_any_mask(vma, __VMA_UFFD_FLAGS);
+> > +	return vma_test(vma, VMA_UFFD_BIT);
+> 
+> Same comment as above.
+
+See above.
+ 
+> >  }
+> >
+> > -IF_HAVE_UFFD_RWP(VM_UFFD_RWP,		"uffd_rwp"	)		\
+> >  	{VM_LOCKED,			"locked"	},		\
+> >  	{VM_IO,				"io"		},		\
+> >  	{VM_SEQ_READ,			"seqread"	},		\
+> 
+> Shouldn't you update the tracing logic to obtain these from uffd
+> modes/flags?
+
+Yep, will do.
+ 
+> >  	/*
+> >  	 * If WP is the only mode enabled and context is wp async, allow any
+> >  	 * memory type.
+> >  	 */
+> > -	if (wp_async && (vm_flags == VM_UFFD_WP))
+> > +	if (wp_async && (mode == UFFD_MODE_WP))
+> 
+> Yeah again this is so so confusing and the naming really doesn't help.
+> 
+> I wonder if helpers similar to the vma flag helpers could come in handly.
+> 
+> I know you claim that kind of thing is overengineering but you're
+> open-coding checks all over the place, then doing a subtle variation like
+> this which is really really easy to miss.
+> 
+> Something like userfault_test() would be nice.
+
+I don't see how it'll be clearer. How
+
+	userfault_test_single_mask(mode, UFFD_MODE_WP_BIT)
+
+is better than a plain == comparison?
+ 
+> At any rate 'modes' or 'flags' or something would be clearer here.
+
+I'll rethink the naming.
+ 
+> >  		new_vma_flags = vma->flags;
+> > -		vma_flags_clear_mask(&new_vma_flags, __VMA_UFFD_FLAGS);
+> > -		vma_flags_set_mask(&new_vma_flags, vma_flags);
+> > +		vma_flags_set_mask(&new_vma_flags, VMA_UFFD);
+> 
+> This is oddly arbitrarily using VMA_UFFD inconsistent from all uses of
+> VMA_UFFD_BIT.
+
+Can't say I follow you here.
+ 
+> > @@ -3814,11 +3817,11 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+> >  		cond_resched();
+> >
+> >  		VM_WARN_ON_ONCE(!!cur->vm_uffd_state.ctx ^
+> > -				!!(cur->vm_flags & __VM_UFFD_FLAGS));
+> > +				vma_test(cur, VMA_UFFD_BIT));
+> 
+> Same comments as elsewhere re vma_test() on VMA_UFFD_BIT.
+
+See above.
+ 
+> > @@ -3857,7 +3860,8 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+> >  			if (end & (vma_hpagesize - 1))
+> >  				goto out_unlock;
+> >  		}
+> > -		if ((vm_flags & VM_UFFD_WP) && !(cur->vm_flags & VM_MAYWRITE))
+> > +		if ((mode & UFFD_MODE_WP) &&
+> > +		    !vma_test(cur, VMA_MAYWRITE_BIT))
+> 
+> Really weird indentation and I think on one line it's 80 chars anyway?
+
+Indeed.
+ 
+> Thanks for switching to new VMA flags model though!
+ 
+Welcome :)
+
+> >  			goto out_unlock;
+> >
+> >  		/*
+> > @@ -3872,13 +3876,13 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+> >  			goto out_unlock;
+> >
+> >  		/*
+> > -		 * Mode switches that drop VM_UFFD_WP or VM_UFFD_RWP would
+> > -		 * leave PTE markers without the flag that describes them;
+> > +		 * Mode switches that drop WP or RWP would leave PTE markers
+> > +		 * without the mode that describes them;
+> >  		 * subsequent mprotect() would then promote stale markers
+> >  		 * into the other mode. Require an unregister first.
+> >  		 */
+> >  		if (cur->vm_uffd_state.ctx == ctx &&
+> > -		    cur->vm_flags & (VM_UFFD_WP | VM_UFFD_RWP) & ~vm_flags)
+> > +		    uffd_mode(cur) & (UFFD_MODE_WP | UFFD_MODE_RWP) & ~mode)
+> 
+> I mean this is just horrible beyond words aesthetically (and was before
+> tbf). But you've already rejected this kind of feedback so I guess, yeah I
+> object. Using bits or wrappers would make this potentially nicer.
+
+Very much doubt it.
+ 
+> Same objection to the use of the word 'mode'. You really need to say flags
+> here somehow.
+> 
+> >  			goto out_unlock;
+> >
+> >  		/*
+> > @@ -3891,7 +3895,7 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+> >  	} for_each_vma_range(vmi, cur, end);
+> >  	VM_WARN_ON_ONCE(!found);
+> >
+> > -	ret = userfaultfd_register_range(ctx, vma, vm_flags, start, end,
+> > +	ret = userfaultfd_register_range(ctx, vma, mode, start, end,
+> >  					 wp_async);
+> >
+> >  out_unlock:
+> > @@ -3986,7 +3990,7 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
+> >  		cond_resched();
+> >
+> >  		VM_WARN_ON_ONCE(!!cur->vm_uffd_state.ctx ^
+> > -				!!(cur->vm_flags & __VM_UFFD_FLAGS));
+> > +				vma_test(cur, VMA_UFFD_BIT));
+> 
+> Again you should use vma_test_single_mask(). I'm not sure why you dropped
+> one for the other unless provably all of these paths are CONFIG_MMU.
+
+This one as well inside #ifdef CONFIG_USERFAULTFD
+ 
+> But it'd make life a lot easier to just use a bit number that isn't
+> predicated on CONFIG_MMU.
+
+It would have been easier if vma_test() could deal with that ;-P
+ 
+> >
+> >  		/*
+> >  		 * Prevent unregistering through a different userfaultfd than
+> > @@ -4003,7 +4007,7 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
+> >  		 * provides for more strict behavior to notice
+> >  		 * unregistration errors.
+> >  		 */
+> > -		if (!vma_can_userfault(cur, cur->vm_flags, wp_async))
+> > +		if (!vma_can_userfault(cur, uffd_mode(cur), wp_async))
+> >  			goto out_unlock;
+> >
+> >  		found = true;
+> > @@ -4024,7 +4028,8 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
+> >  			goto skip;
+> >
+> >  		VM_WARN_ON_ONCE(vma->vm_uffd_state.ctx != ctx);
+> > -		VM_WARN_ON_ONCE(!vma_can_userfault(vma, vma->vm_flags, wp_async));
+> > +		VM_WARN_ON_ONCE(!vma_can_userfault(vma, uffd_mode(vma),
+> > +						   wp_async));
+> 
+> Nit but pretty horrible alignment. Gues it can 't be helped
+
+Would run out of 80 chars :(
+
+But I'm thinking now to add one more patch to get rid from passing wp_async
+to vma_can_userfault().
+ 
+> Also, in the mk_vma_flags_from_masks() macro, there's a comment that
+> explicitly references VMA_UFFD_MINOR:
+> 
+> /*
+>  * Combine pre-computed vma_flags_t masks into one value, e.g.:
+>  *
+>  * vma_flags_t flags = mk_vma_flags_from_masks(VMA_UFFD_WP, VMA_UFFD_MINOR);
+>  *
+>  * Unlike mk_vma_flags(), which takes bit numbers, this takes whole masks --
+>  * each of which may be EMPTY_VMA_FLAGS when its feature is unavailable -- so a
+>  * bit that does not exist on the current build is never materialised.
+>  */
+> #define mk_vma_flags_from_masks(...)					\
+> 
+> You should change that... 
+
+That was used only by uffd, do you want to keep the macro still?
+
+> Could even be with placeholder flag names potentially.
+
+Like VMA_FLAG_A, VMA_FLAG_B?
+ 
+> On the engineering of this - this is one quite big, fiddly patch, if you
+> abstracted some of the tests into another you could do the change and the
+> abstraction separately.
+> 
+> Overall I like what you're doing _in general_ but we have to:
+> 
+> a. Figure out whether we want to pay the memory price for this (and the
+>    case has to be made in the commit message.
+
+I'll update the commit message.
+ 
+> b. Fix the VMA_UFFD_BIT stuff ideally with a bit that's just always set not
+>    predicated on CONFIG_MMU.
+
+Yeah, I'll make it bit 12. Really curious why that one wasn't #ifdefed on
+something.
+ 
+> c. Improve the engineering so this stuff actually makes the code clearer
+>    rather than just reimplementing the same old confusing uffd mess.
+
+I don't agree that replacing plain bit operations with long multiword
+predicates makes the code clearer.
+
+Userfault is a complex beast and using, say,
+userfault_test_mode_bit_set(mode, UFFD_MODE_MISSING_BIT) instead of 
+mode & UFFD_MODE_MISSING won't make it any less complex.
+ 
+> d. Fix the naming... modes, flags, uffd, userfault, uf, etc. let's stick
+>    with one and be consistent.
+
+flags could work, yes.
+ 
+uffd and userfault have different semantic meaning in the context of this
+series, userfault is a type of the page fault forwarded to user space, uffd
+is the namespace of userfault subsystem. 
+
+> IMO before it can move forwards.
+> 
+> --
+> Cheers, Lorenzo
+
+-- 
+Sincerely yours,
+Mike.
