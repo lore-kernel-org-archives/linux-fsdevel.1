@@ -1,146 +1,145 @@
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07C13101A9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 07:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652403624A8;
+	Thu, 27 Aug 2026 07:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787814465; cv=none; b=BuxXcPYnNw8wCtry8YsOoPlL/Air9LZAE1uObhUFQ+UIm4n6sgQCji8KtOtbGAKFTIwwiFUYjATgHiqg25UBO55IkljOtzWOhJdCy8AJCrMdf/QcbYYPVImyMPL7InxJ5wMGME8ZZExE1EciL16WWD7h1IrsTsp/m35FL1X2iKQ=
+	t=1787814865; cv=none; b=kmOmFTJ9CxWXCjpKXHnz07kLpkFJdWCKrUQtwX18WAwvJfht2bL7sm5YCtmWNEe+HLiF6LzA1/BnTEdB4Dj8RJC/OlGvP2IqWWr7DJBZ6E24NfKYMYChWkPSX6JWJSiptJ/xJlNUKRn5dFV0iSOirEAdR3ber7RWmJzMgKjTurM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787814465; c=relaxed/simple;
-	bh=QbPCyScwELYSWUK6XKQmMzPXKoPS3fzZJrTF3UqRp6I=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=qlQoDolM7JAfEuDIbTbvPdCMc/2cOl2V6joOVzAqbOM8xWJcPU6n8F37WBSPt9fW57SthzJzytPV3zGcV0G/0vwOihxs1Fo8UrC3N7ReA/ZuXLrcLRcKhLYDd2cOPTXtNkOvjiEgRFgBm1YIZ7082pDNcncZ6qOyZkGpEVtAujA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-448d51840c4so1697989fac.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 00:07:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787814463; x=1788419263;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=qIYbJ/Nh4+sGVmd8cf4dzYU/ojdee6wKOrg3W1+Wsd4=;
-        b=cW4fXKmR/j+QaF1rpUW+eQ3r1hq8IoDoQ1/1coW9hCRWq+1l4YRCDbrph+MYCwUmLj
-         cIKjwGfFqfyEQGsJAhMFSCGXTqOvHFqxKhw3cz2kqU/g23W0vm8kgVw4F3BZw83fyZFW
-         D+ivR1KFrt5k8iQ0SX7zJkenKyoacb/UfUyCy21UkHGbkY2DhNjenN9A58dWftcJHDj0
-         YEvta8Ox9ToZXihmBJjcAQ2GM5vHrUcYUwPZ3gF1rsQtdmuGylaiB7QgOVVWW9JSQWVl
-         6r/LHUJu8A89Jkp/0QwlP1Br4NgW8nX8w9o5EDoHzqh4SXAzzMnKjcL5jAsAWpkREq2P
-         JHQQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpaRbIAtQyYSuPoQRPM5srvlxbavg+rzRdO9SOIkIDySdgS0e1ai6sSI4wQyQ0yXs7o33sXNntt2jUm25qH@vger.kernel.org
-X-Gm-Message-State: AFuF++krOwu0CPo0YzVKaSWKppSwCYZSfkGF8CjDZsYMUs1LIgYX+L0+
-	O+7sRzRs/tghLCO+nCjuDv4bmZR/JEP+CPqdQs87GNoIoHJryNXF41quEaBsY3KMbFgV3t8s2+i
-	K5IZ0Ze7LrmcX6HaY44fFCT6NY362WXo32e8gMBoyyDOaYDPw3LilLpA1t7E=
+	s=arc-20240116; t=1787814865; c=relaxed/simple;
+	bh=3D8ff5zW/vZMlEclUlwi+ylibdKBP+Y7SVtfjULZPJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xw5yVi07178dXqF0JPXsA8oExX6zrcQB8w/id5d8UiRYoqepf67Vl+gg+C1jW1pks5C26uRweoFJowUgzt+AYSz9NhdTFeve1l3cxJdBCKlqG/IM4irW9GPY4+WvS81x6x1dcMG4XAeZxcNckRFJyrT5ycUDPGF2pXsZfgVmXQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fNddaP5u; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fNddaP5u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 037CF1F000E9;
+	Thu, 27 Aug 2026 07:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787814863;
+	bh=Raso+76RSPHx/Ucjk+/qBSNVKh7+vQJnbwdEuNJBG/U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fNddaP5u4ClF4IxDP5h5xr3XP6tMYYeqDdj9zpbu5LHBY7nbpaoRRntLYSgV7jemr
+	 b9eLgRPTDx55zngs9LXGmNbvEDH/S2ZXviXqTGjqmMO18aqmlUKhwWsgR1XWSi+/0G
+	 rwQSwYcLJ6CvN57sswjLw5O5CfbNZF6CvrJ9z/3LjnO/hU7zrUdVLmkjQvW7ym603+
+	 shF9ZXkrNBWluvZrGvfEWxHokaZVaa8X2HYN57n2H4s2ocnLV2KnlrBBib7zNEk8i4
+	 1AlkgpTeTZgRm5MwacXLRcAE1gc8MYWCCVB+RwCd2LHQ7Em+lyzBK1JY1/n1207Nyi
+	 X3uuqMYW2BQCQ==
+Date: Thu, 27 Aug 2026 10:14:12 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
+	Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nico Pache <nico.pache@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Usama Arif <usama.arif@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/6] userfaultfd: use userfaultfd_*() helpers instead of
+ open coded flag tests
+Message-ID: <ao_jxMovVtj8UWeP@kernel.org>
+References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
+ <20260823-uffd-vm-flags-v1-v1-3-3086981b33cf@kernel.org>
+ <aoxdWWMEeQbcG5Pq@gremlin>
+ <ao16WPoLpdIdU3ID@kernel.org>
+ <ao17rY2r-01wJxy6@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:8590:20b0:6b1:464d:4d1d with SMTP id
- 006d021491bc7-6b1a03c6c50mr9814220eaf.11.1787814462856; Thu, 27 Aug 2026
- 00:07:42 -0700 (PDT)
-Date: Thu, 27 Aug 2026 00:07:42 -0700
-In-Reply-To: <20260826225614.486112-1-slava@dubeyko.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8fe23e.50659fcc.60cd.000f.GAE@google.com>
-Subject: [syzbot ci] Re: hfsplus: convert regular file I/O to iomap-based operations
-From: syzbot ci <syzbot+ci21077433d711a695@syzkaller.appspotmail.com>
-To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, hch@lst.de, 
-	linux-fsdevel@vger.kernel.org, slava@dubeyko.com, vdubeyko@coreweave.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ao17rY2r-01wJxy6@gremlin>
 
-syzbot ci has tested the following series
+On Tue, Aug 25, 2026 at 12:26:39PM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Tue, Aug 25, 2026 at 02:19:52PM +0300, Mike Rapoport wrote:
+> > > > +/*
+> > > > + * Don't do fault around for WP, RWP or MINOR registered uffd range.  For
+> > > > + * MINOR registered range, fault around will be a total disaster and ptes can
+> > > > + * be installed without notifications; for WP it should mostly be fine as long
+> > > > + * as the fault around checks for pte_none() before the installation, however
+> > > > + * to be super safe we just forbid it; for RWP, pre-faulted neighbours would
+> > > > + * be indistinguishable from accessed pages in PAGEMAP_SCAN (PAGE_IS_ACCESSED)
+> > > > + * and pollute the tracked working set, so each page must be populated by its
+> > > > + * own fault.
+> > > > + */
+> > > > +static inline bool uffd_disable_fault_around(struct vm_area_struct *vma)
+> > > > +{
+> > > > +	return userfaultfd_minor(vma) || userfaultfd_wp(vma) ||
+> > > > +	       userfaultfd_rwp(vma);
+> > >
+> > > This is changing the logic.
+> > >
+> > > Before we were testing only the flags, now we have:
+> > >
+> > > static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
+> > > {
+> > > 	/*
+> > > 	 * Callers gate PAGE_NONE usage on this; PAGE_NONE is a BUILD_BUG()
+> > > 	 * without CONFIG_ARCH_HAS_PTE_PROTNONE, so fold to false.
+> > > 	 */
+> > > 	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_PROTNONE))
+> > > 		return false;
+> > > 	return vma_test_single_mask(vma, VMA_UFFD_RWP);
+> > > }
+> > >
+> > > I.e. adding in a CONFIG_ARCH_HAS_PTE_PROTNONE check.
+> >
+> > Without CONFIG_ARCH_HAS_PTE_PROTNONE VMA_UFFD_RWP is hardwired to VM_NONE
+> > so it's functionally the same ;-)
+> 
+> Well then you're explicitly removing logic and not mentioning it anywhere
+> with a NFC commit.
+> 
+> So please say so in the commit message.
 
-[v2] hfsplus: convert regular file I/O to iomap-based operations
-https://lore.kernel.org/all/20260826225614.486112-1-slava@dubeyko.com
-* [PATCH v2 1/7] hfs/hfsplus: exchange hardcoded number of extents on named constants
-* [PATCH v2 2/7] hfsplus: rework hfsplus_get_block() logic
-* [PATCH v2 3/7] hfsplus: take the bitmap page lock for allocate/free
-* [PATCH v2 4/7] hfsplus: add iomap operations for regular file data
-* [PATCH v2 5/7] hfsplus: move file related operations to file.c
-* [PATCH v2 6/7] hfsplus: introduce iomap-based file_operations
-* [PATCH v2 7/7] hfsplus: switch address_space_operations on iomap-based support
+Ok 
 
-and found the following issue:
-WARNING in iomap_iter
+> > > BTW side-note these:
+> > >
+> > > static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
+> > > {
+> > > 	return vma_test_any_mask(vma, VMA_UFFD_MISSING);
+> > > }
+> > >
+> > > static inline bool userfaultfd_wp(const struct vm_area_struct *vma)
+> > > {
+> > > 	return vma_test_any_mask(vma, VMA_UFFD_WP);
+> > > }
+> > >
+> > > static inline bool userfaultfd_minor(const struct vm_area_struct *vma)
+> > > {
+> > > 	return vma_test_any_mask(vma, VMA_UFFD_MINOR);
+> > > }
+> > >
+> > > Should all use vma_test_single_mask() really :)
+> >
+> > These are changed anyway in a later patch.
+> 
+> Yup, but you (potentially) break one of them. Will comment there.
+ 
+Nope, nothing is broken, will comment there.
 
-Full report is available here:
-https://ci.syzbot.org/series/21631741-87b3-4cdc-90a9-ac84e2b3d36c
-
-***
-
-WARNING in iomap_iter
-
-tree:      vfs
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
-base:      5870ce43c013ad564b3b83bae330b160e056df67
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/c6a44359-3e63-48aa-be4b-563b7e0cf103/config
-syz repro: https://ci.syzbot.org/findings/eadf0b2b-9eed-4d75-809d-bfcd1608c785/syz_repro
-
-------------[ cut here ]------------
-iter->iomap.offset + iter->iomap.length <= iter->pos
-WARNING: fs/iomap/iter.c:32 at iomap_iter_done fs/iomap/iter.c:32 [inline], CPU#1: syz.1.18/5854
-WARNING: fs/iomap/iter.c:32 at iomap_iter+0x976/0xf80 fs/iomap/iter.c:114, CPU#1: syz.1.18/5854
-Modules linked in:
-CPU: 1 UID: 0 PID: 5854 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:iomap_iter_done fs/iomap/iter.c:32 [inline]
-RIP: 0010:iomap_iter+0x976/0xf80 fs/iomap/iter.c:114
-Code: ff ff ff e9 86 fa ff ff e8 57 d4 5b ff 90 0f 0b 90 e9 09 fd ff ff e8 49 d4 5b ff 90 0f 0b 90 e9 3a fd ff ff e8 3b d4 5b ff 90 <0f> 0b 90 e9 95 fd ff ff e8 2d d4 5b ff 90 0f 0b 90 e9 c5 fd ff ff
-RSP: 0018:ffffc900036ff7e8 EFLAGS: 00010293
-RAX: ffffffff826b2d75 RBX: ffffc900036ff940 RCX: ffff88810a7ebb80
-RDX: 0000000000000000 RSI: 0000000000005405 RDI: 0000000000005400
-RBP: ffffc900036ff948 R08: ffffc900036ff770 R09: 0000000000000000
-R10: dffffc0000000000 R11: ffffffff82b1d450 R12: 0000000000005405
-R13: 1ffff920006dff28 R14: 1ffff920006dff29 R15: 0000000000005400
-FS:  00007f9b7a8b06c0(0000) GS:ffff8882a8f52000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fe0db470000 CR3: 000000010d3a2000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- iomap_file_buffered_write+0x262/0xbb0 fs/iomap/buffered-io.c:1308
- hfsplus_file_write_iter+0x717/0xa90 fs/hfsplus/file.c:236
- do_iter_readv_writev+0x612/0x8c0 fs/read_write.c:-1
- vfs_writev+0x343/0x990 fs/read_write.c:1058
- do_pwritev fs/read_write.c:1154 [inline]
- __do_sys_pwritev2 fs/read_write.c:1212 [inline]
- __se_sys_pwritev2+0x177/0x2a0 fs/read_write.c:1203
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f9b7999e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f9b7a8b0028 EFLAGS: 00000246 ORIG_RAX: 0000000000000148
-RAX: ffffffffffffffda RBX: 00007f9b79c25fa0 RCX: 00007f9b7999e0d9
-RDX: 0000000000000001 RSI: 0000200000000100 RDI: 0000000000000004
-RBP: 00007f9b79a35024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000005405 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f9b79c26038 R14: 00007f9b79c25fa0 R15: 00007ffff695e668
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
-
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
+-- 
+Sincerely yours,
+Mike.
