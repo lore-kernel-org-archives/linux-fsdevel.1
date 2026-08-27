@@ -1,145 +1,244 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652403624A8;
-	Thu, 27 Aug 2026 07:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2F5313E21
+	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 07:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787814865; cv=none; b=kmOmFTJ9CxWXCjpKXHnz07kLpkFJdWCKrUQtwX18WAwvJfht2bL7sm5YCtmWNEe+HLiF6LzA1/BnTEdB4Dj8RJC/OlGvP2IqWWr7DJBZ6E24NfKYMYChWkPSX6JWJSiptJ/xJlNUKRn5dFV0iSOirEAdR3ber7RWmJzMgKjTurM=
+	t=1787814937; cv=none; b=oXgavr6qqu7jMNKOIYJ+KRYcXzjLCGtY3vdb7f/F/UYfmVWE3PSl1jlHhwuAs8XTQWIw93631SN/GzxoVcj//CpfOsM0+ojVMpC6heVUw25VDDEMPsjVsK//u1yxOi+YtaXqVV+NR51unsB9PImbvrrEeFMfcvIJFPnQa2rB8rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787814865; c=relaxed/simple;
-	bh=3D8ff5zW/vZMlEclUlwi+ylibdKBP+Y7SVtfjULZPJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xw5yVi07178dXqF0JPXsA8oExX6zrcQB8w/id5d8UiRYoqepf67Vl+gg+C1jW1pks5C26uRweoFJowUgzt+AYSz9NhdTFeve1l3cxJdBCKlqG/IM4irW9GPY4+WvS81x6x1dcMG4XAeZxcNckRFJyrT5ycUDPGF2pXsZfgVmXQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fNddaP5u; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787814937; c=relaxed/simple;
+	bh=eEbvmBA+VqV7d+OycmMNi2e9upqto8mUTrACjRl71h0=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=tlT6FgtcWmxnG6CfYGCCW8aN6tcQ4kMTRC8NJ/mM0/2NGVz0wzLqGTw+EbkWSvW/BZiQPDdToba+jnIyRo3DhhRr8FrrjlBHrj6W7uIqxO3YcewzNBmm9pEdUXRuMezK9n87495HaJRRC+0rMzK6RS7yH1HN1yK5ofVxqARq/VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b=KypGqpUq; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fNddaP5u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 037CF1F000E9;
-	Thu, 27 Aug 2026 07:14:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787814863;
-	bh=Raso+76RSPHx/Ucjk+/qBSNVKh7+vQJnbwdEuNJBG/U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fNddaP5u4ClF4IxDP5h5xr3XP6tMYYeqDdj9zpbu5LHBY7nbpaoRRntLYSgV7jemr
-	 b9eLgRPTDx55zngs9LXGmNbvEDH/S2ZXviXqTGjqmMO18aqmlUKhwWsgR1XWSi+/0G
-	 rwQSwYcLJ6CvN57sswjLw5O5CfbNZF6CvrJ9z/3LjnO/hU7zrUdVLmkjQvW7ym603+
-	 shF9ZXkrNBWluvZrGvfEWxHokaZVaa8X2HYN57n2H4s2ocnLV2KnlrBBib7zNEk8i4
-	 1AlkgpTeTZgRm5MwacXLRcAE1gc8MYWCCVB+RwCd2LHQ7Em+lyzBK1JY1/n1207Nyi
-	 X3uuqMYW2BQCQ==
-Date: Thu, 27 Aug 2026 10:14:12 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
-	Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	Nico Pache <nico.pache@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Usama Arif <usama.arif@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] userfaultfd: use userfaultfd_*() helpers instead of
- open coded flag tests
-Message-ID: <ao_jxMovVtj8UWeP@kernel.org>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-3-3086981b33cf@kernel.org>
- <aoxdWWMEeQbcG5Pq@gremlin>
- <ao16WPoLpdIdU3ID@kernel.org>
- <ao17rY2r-01wJxy6@gremlin>
+	dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b="KypGqpUq"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2d71d1cc8b2so9492895ad.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 00:15:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dilger-ca.20251104.gappssmtp.com; s=20251104; t=1787814931; x=1788419731; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1zCh3657l86P60/ccD6dgvUaOyv0ZIzzK7+ahPLSOkY=;
+        b=KypGqpUq2WGZEEAr+wiCzMbr2qQjppa5uXB52tbvpBhOeasDYEKKhSzOWsI+kSP9Bw
+         652g42hUVP6Rb0DRIRS8uNlQ7izeiQC9eis6jQiTacSsNEQM5j0Ns1ZQ+TCCn1MVWoUp
+         77A5+T+xD9Ymkc4hycOYRO4JLgOoXNRJYNYP+bb0eqD6ug1m6uwaTADTp+aQhWznmOyt
+         M9QsyDsCdLcuyjkcI/ouIg6Gbr5fdF+1A8Yc1ZIeas1fdC0Agde2Ddj3RZMbLzZd+hby
+         mYyN3OZLJpNCzyCk/86lVQUQqWeZfWLkA3g2Oqs9VCgZmgipLoUw1fHRJ84tt6ofCfQp
+         Fk6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787814931; x=1788419731;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1zCh3657l86P60/ccD6dgvUaOyv0ZIzzK7+ahPLSOkY=;
+        b=qgCRFPiL4m3WD8Oszpt9fbz+4UIEpjh8MnOsBAVUOcEFRpkajJfLiivfOOoYWi7o9h
+         5YuFSPJoMIDZk951UrZR/s3Gn7yyUgoyjR9H99OtW6+s6CBlVVzmjF9RswD5jeqR865v
+         KhU/Xs2I5ynqywXalSLO+q59oFN5H36V+jWjaQ5jMESTJHgMjlzEkxmy+4IL3pxs9aF1
+         +p9kogu0C9MjsW24MZ9BI9BYRsObbnE/Kvx6OYAE49gdWaGcGdtaC9vwbKDpUlg/mZ5k
+         u9by/Kixz5v237kXX7L4m35Eh3ktUfTHw7f2qOfA6a522k3POp73haFJig8iPHMF/p29
+         uQXg==
+X-Gm-Message-State: AFuF++l3XsuzL0qeSHhIoBzAaf8R9lyhIBw9g2dBs29BMZKkrfpqmf50
+	0dhLcuInf2wQ9HF3fEEwGzyKXxNLBOerWGWhWOdwbLn5bsgeNT6saNG6ZkEpuwDT8ek=
+X-Gm-Gg: AR+sD13VwQw4eWV5GZ2wJikO1ZRlGt6BV5SqNUVNXUV5+tYnppxWXRM5EmiHfSz8RqN
+	RShIPblVEFnqAeeS84XOmLHIxSFth7ej9sO7qTUYFpinis5k6OzHDFerSuDGaIoEYdiptzXiVBC
+	SCP8a7Rncav902RrnxEsPRg6yh0braXwTbYyqF0o2YgXbEndmNWRcqi5dKrEAVN+r5J+fMZKei7
+	Qy5wwIpKW751/qyK9ibUmSpCqwSs+ImeJJiAjUfma5mPj4NL2Skr9cGbED31oOlvJzJfbsdlNfF
+	fJZVIZ4I2/Qkr2SGz7vNpXEjCsVBTpgewB9QbpLw3yZjBss7Zz4XR5dRt2GnHtKBgGMoRn2qk+m
+	SDCUQBSxo+lETi7+XWCreVXJv7xO1SRVCOe6j6TKiSU3OYjVMHAsFZH04s47I3/8rzh9YagG7h8
+	BVJngmr39cjdICHIhasYyvL/cp2Tt/Qe6NkvYaZkcojQhg7a4Rj3urnDgOBhneMbOxJZuCPYBLb
+	LYswkwyGveOdAuzEQ8=
+X-Received: by 2002:a17:90a:fc47:b0:38e:9045:bac0 with SMTP id 98e67ed59e1d1-3966d1b1f18mr27681280a91.5.1787814931510;
+        Thu, 27 Aug 2026 00:15:31 -0700 (PDT)
+Received: from smtpclient.apple ([2604:3d09:3a84:1700:519f:762d:ed84:5e92])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b1992e05sm1553252a91.15.2026.08.27.00.15.30
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 27 Aug 2026 00:15:30 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ao17rY2r-01wJxy6@gremlin>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
+Subject: Re: [RFC] statx: Define a generic OFFLINE file attribute
+From: Andreas Dilger <adilger@dilger.ca>
+In-Reply-To: <e06bdbf8-3727-425c-9a82-150848613a6b@mail.infomaniak.com>
+Date: Thu, 27 Aug 2026 01:15:19 -0600
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3F6C9003-B8DE-4CE4-A158-702D29E6CB37@dilger.ca>
+References: <e06bdbf8-3727-425c-9a82-150848613a6b@mail.infomaniak.com>
+To: Lukas Mathis <lukas.mathis@ikmail.com>
+X-Mailer: Apple Mail (2.3864.100.1.1.5)
 
-On Tue, Aug 25, 2026 at 12:26:39PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Tue, Aug 25, 2026 at 02:19:52PM +0300, Mike Rapoport wrote:
-> > > > +/*
-> > > > + * Don't do fault around for WP, RWP or MINOR registered uffd range.  For
-> > > > + * MINOR registered range, fault around will be a total disaster and ptes can
-> > > > + * be installed without notifications; for WP it should mostly be fine as long
-> > > > + * as the fault around checks for pte_none() before the installation, however
-> > > > + * to be super safe we just forbid it; for RWP, pre-faulted neighbours would
-> > > > + * be indistinguishable from accessed pages in PAGEMAP_SCAN (PAGE_IS_ACCESSED)
-> > > > + * and pollute the tracked working set, so each page must be populated by its
-> > > > + * own fault.
-> > > > + */
-> > > > +static inline bool uffd_disable_fault_around(struct vm_area_struct *vma)
-> > > > +{
-> > > > +	return userfaultfd_minor(vma) || userfaultfd_wp(vma) ||
-> > > > +	       userfaultfd_rwp(vma);
-> > >
-> > > This is changing the logic.
-> > >
-> > > Before we were testing only the flags, now we have:
-> > >
-> > > static inline bool userfaultfd_rwp(const struct vm_area_struct *vma)
-> > > {
-> > > 	/*
-> > > 	 * Callers gate PAGE_NONE usage on this; PAGE_NONE is a BUILD_BUG()
-> > > 	 * without CONFIG_ARCH_HAS_PTE_PROTNONE, so fold to false.
-> > > 	 */
-> > > 	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_PROTNONE))
-> > > 		return false;
-> > > 	return vma_test_single_mask(vma, VMA_UFFD_RWP);
-> > > }
-> > >
-> > > I.e. adding in a CONFIG_ARCH_HAS_PTE_PROTNONE check.
-> >
-> > Without CONFIG_ARCH_HAS_PTE_PROTNONE VMA_UFFD_RWP is hardwired to VM_NONE
-> > so it's functionally the same ;-)
-> 
-> Well then you're explicitly removing logic and not mentioning it anywhere
-> with a NFC commit.
-> 
-> So please say so in the commit message.
+On Aug 26, 2026, at 14:23, Lukas Mathis <lukas.mathis@ikmail.com> wrote:
+>=20
+> Background:
+> During the 2024 discussion on additional statx() attributes, the =
+introduction of a generic STATX_ATTR_OFFLINE attribute was proposed and =
+discussed as a potentially useful cross-filesystem property. The =
+discussion highlighted use cases in HSM systems, network filesystems, =
+and userspace tools that need to distinguish fully available files from =
+files whose content is not immediately accessible.
 
-Ok 
+FYI, there is already `FIEMAP_EXTENT_UNKNOWN` which indicates the same =
+information,
+namely that the file data is inaccessible and cannot be mapped to =
+blocks.
 
-> > > BTW side-note these:
-> > >
-> > > static inline bool userfaultfd_missing(const struct vm_area_struct *vma)
-> > > {
-> > > 	return vma_test_any_mask(vma, VMA_UFFD_MISSING);
-> > > }
-> > >
-> > > static inline bool userfaultfd_wp(const struct vm_area_struct *vma)
-> > > {
-> > > 	return vma_test_any_mask(vma, VMA_UFFD_WP);
-> > > }
-> > >
-> > > static inline bool userfaultfd_minor(const struct vm_area_struct *vma)
-> > > {
-> > > 	return vma_test_any_mask(vma, VMA_UFFD_MINOR);
-> > > }
-> > >
-> > > Should all use vma_test_single_mask() really :)
-> >
-> > These are changed anyway in a later patch.
-> 
-> Yup, but you (potentially) break one of them. Will comment there.
- 
-Nope, nothing is broken, will comment there.
+Having a statx() flag pass on the same information seems useful, since =
+it should be
+much lighter weight than calling fiemap to get a single bit of =
+information.  However,
+it makes sense that if `STATX_ATTR_OFFLINE` is returned for a file then =
+fiemap
+should also consistently return `FIEMAP_EXTENT_UNKNOWN` for that file.
 
--- 
-Sincerely yours,
-Mike.
+Cheers, Andreas
+
+> Since then, Linux has gained support for pre-content access =
+notifications through FAN_PRE_ACCESS, which provides a mechanism for =
+userspace to supply file data before read access proceeds. This =
+addresses a significant part of the data access path for content that is =
+not immediately available locally.
+>=20
+> However, userspace still lacks a standardized way to determine whether =
+a file's contents are currently available without triggering access.
+>=20
+> This RFC revisits the earlier discussion and proposes a minimal and =
+filesystem-agnostic solution.
+>=20
+> Problem Statement:
+> Today, userspace applications can determine many file properties =
+through statx(), but there is no generic mechanism to discover whether =
+file content is immediately available.
+>=20
+> As a result:
+> General-purpose tools cannot distinguish between available and =
+unavailable file content.
+> Filesystems may implement similar semantics differently.
+> Userspace software lacks a common API for querying content =
+availability.
+> The recently introduced pre-content access infrastructure can hydrate =
+content when accessed, but applications cannot discover the state =
+beforehand.
+> Proposal
+>=20
+> Introduce a new statx() attribute:
+> STATX_ATTR_OFFLINE
+>=20
+> Semantic definition
+> A file marked with STATX_ATTR_OFFLINE satisfies the following =
+condition:
+>=20
+> The file's metadata is available, but the file's content is not =
+currently guaranteed to be immediately accessible without additional =
+retrieval, restoration, hydration, or staging work.
+>=20
+> This definition intentionally avoids any assumptions regarding:
+> - storage technology
+> - retrieval mechanism
+> - userspace implementation
+> - caching policy
+> - filesystem type
+>=20
+> The attribute describes the current availability of file content and =
+nothing more.
+>=20
+> Intended Usage:
+> Examples of applications that may benefit from a standardized OFFLINE =
+attribute include:
+>=20
+> - search tools
+> - backup software
+> - indexing services
+> - archiving software
+> - HSM implementations
+> - filesystem management utilities
+>=20
+> Example:
+> statx file.dat
+>=20
+> could return:
+> Attributes OFFLINE
+>=20
+> allowing userspace applications to make informed decisions before =
+opening the file.
+>=20
+> Non-Goals:
+> This proposal does not attempt to standardize:
+> - synchronization status
+> - upload status
+> - conflict states
+> - caching policies
+> - retention policies
+> - provider-specific metadata
+> - graphical user interface behavior
+>=20
+> In particular, this RFC intentionally does not propose attributes such =
+as:
+> - PINNED
+> - SYNC_PENDING
+> - ERROR
+>=20
+> as these describe userspace policy decisions rather than generic =
+filesystem content availability.
+>=20
+> The proposed attribute only answers one question:
+>=20
+> Is the file content currently offline?
+>=20
+> Filesystem Support
+>=20
+> Filesystems may expose STATX_ATTR_OFFLINE if they can reliably =
+determine that file data is not immediately available.
+>=20
+> Implementation details remain filesystem specific.
+>=20
+> A filesystem may map the attribute to:
+>=20
+> - persistent inode flags
+> - internal metadata
+> - remote state information
+> - HSM state information
+>=20
+> The RFC intentionally does not mandate how the state is stored.
+>=20
+> Relationship to Existing Work
+>=20
+> This proposal is intended as a direct continuation of the 2024 =
+STATX_ATTR_OFFLINE discussion and follows the same general direction =
+suggested there. The goal is not to introduce a new subsystem but to =
+define a common userspace-visible semantic that can be implemented =
+across filesystems and consumed by generic tools.
+>=20
+> The proposal is complementary to the recently introduced pre-content =
+access infrastructure (FAN_PRE_ACCESS). While FAN_PRE_ACCESS addresses =
+content retrieval before access, STATX_ATTR_OFFLINE provides a mechanism =
+for userspace to determine content availability before attempting =
+access.
+>=20
+> Request for Feedback
+>=20
+> Is the proposed semantic definition sufficiently generic?
+>=20
+> This RFC intentionally focuses on a single, narrowly scoped semantic =
+property in order to maximize reuse across filesystems and userspace =
+tools while minimizing policy decisions in the kernel.
+>=20
+
+
+Cheers, Andreas
+
+
+
+
+
