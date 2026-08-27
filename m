@@ -1,206 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF1837CD32;
-	Thu, 27 Aug 2026 16:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A3F345731;
+	Thu, 27 Aug 2026 16:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787848244; cv=none; b=Vr77E0YQt+QQBb1FgiBdY0rwEqALGDCtrh4TC5bI88V0e84ctgPDW40Ty7NWXB4WZe9IMaf/JlJ2utHR+GkkzphQ1bG5BiQ+7Mezn1R7gpLxZigZcVmBRWEnPIGn2wGAtFJSyx2xtyBK5aLPzWpBZhRVbf4KyAa+hdp7g1H+Bw0=
+	t=1787849964; cv=none; b=D89qfJQ9NpElmNOASWOlAotRGmxiS8hTk4A6amta/+Mhg5bDPLq1HvtojaKwA3E1VFOhJM1RV3o0DkXJiGmkHddKSkbjFtZxS6x9aCTAcUE1tQp+5r+tgJBNQlNTVz0dAV6upfyFMXz6esN7lNUDvuyohPNqMlhdtMr8Ic72Srs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787848244; c=relaxed/simple;
-	bh=uU3MShrf7vIGXaSHpzqQistr9vSdlLVHYIeZFH6OOVc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qSPj37DdfQeeYwYKRPAHOZ+8QmmaP44ne+E/R9Kn5GN32FaR2RFpwv+Wuhmn4RIoCOSh5ABVi5tpQaYCCXLwRH4v4VqNAlKdNlIH3pqtYDdwsiMPk36fOoWJxkJ1jBNzoBjTHDY2Nz30NKpfuRCBn27IYbkS6/bS2trjie3nPv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lXSGBpro; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gRTA9UhZ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Jgd3Q9WD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pWfaT/iP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1787849964; c=relaxed/simple;
+	bh=TxEfyqqmoPY+ZQuPtt6HQFbU1aY8IGJdJad3EJz16aY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kXzB2WFjMwz01TgNHVj+UyLmxHIWAizFq8AttP8ZfsqmwtlGwgE7NnqaK5OQuclbSZTBu25ERN4ak27ioz6rk34qI752mhWnh38FBB1qtpomT5pCcfARfhlmXAn0jc66O500woEGHGTWsRntJNFk+7jUGDS5pvrooQF70FAFBgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nd3nAdMM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lXSGBpro";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gRTA9UhZ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Jgd3Q9WD";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pWfaT/iP"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 22A2021971;
-	Thu, 27 Aug 2026 16:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787848237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I4qayCPNGl34g2mn5/ScRPGLzWTQaFo4U/WhwlU3vTU=;
-	b=lXSGBproWskHSLMOiEgnyv+cgoFiJuI5ZQrLZEVN/TbLtFP5gcL1oUBx1ic+H+rI28AuGB
-	VjjMVQSU+Trj/QVCKS9JQ6yebfF55GIdpVdZI1TVVXt03h9AGiwql4cHSggMM6J41sDaaK
-	yep3urLox3Obj7U9PGURHBqkVlXjSkI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787848237;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I4qayCPNGl34g2mn5/ScRPGLzWTQaFo4U/WhwlU3vTU=;
-	b=gRTA9UhZzJwtTPkq9oj+2AS6VINhmXBxfGJGALav+ql5FnLdmrbPJtFOHVLVMpcZ4idGdN
-	R1DPFxNhs0PrZhCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Jgd3Q9WD;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="pWfaT/iP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787848233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I4qayCPNGl34g2mn5/ScRPGLzWTQaFo4U/WhwlU3vTU=;
-	b=Jgd3Q9WDCK+UASQHkubofzM9fx3ECK5/fFvZCROq8Kh/qmEQYq1BL8g8Q3yAnwy5DdOAKK
-	bhp7IEdQ/OY8VVUMpA1NVz+olDy/136k9+gbo+Z2vhLliGDyg8wY9BcunVOjlhaWDe3Ldh
-	rJG7+SrN6GO5Ts9eKxuayBaMjFAbKwA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787848233;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I4qayCPNGl34g2mn5/ScRPGLzWTQaFo4U/WhwlU3vTU=;
-	b=pWfaT/iPSphk/ibRJHE+HVw+fzNJ9+TvFP2db0i+zAc1uO3GmdoNuesz4mwav28v3VQphW
-	WTNfD1cuvlpkZXDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B61C1352C;
-	Thu, 27 Aug 2026 16:30:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id j1paAilmkGrPJAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 27 Aug 2026 16:30:33 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 54BB2A1324; Thu, 27 Aug 2026 18:30:28 +0200 (CEST)
-Date: Thu, 27 Aug 2026 18:30:28 +0200
-From: Jan Kara <jack@suse.cz>
-To: Daehyeon Ko <4ncienth@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] fanotify: destroy/add race leaves a mark on a detached
- connector
-Message-ID: <yjfqzckumtd32dgqidi5sndvth2t67mjwah4kt4jiahlx2a5uf@if55sinfv5o7>
-References: <20260827045007.3831259-1-4ncienth@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nd3nAdMM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212F31F00A3F;
+	Thu, 27 Aug 2026 16:59:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787849963;
+	bh=h2fPqhbW52jOXFQOb2OokwPKsft5CxEe/wxpe9v4C+0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=nd3nAdMMTWYEbBrAJwomzGYSh7ao8MyAXx57oXymtv0pVBZ5x0jyRzWm2CxtrIWbH
+	 bOQa0cR81UCOd2A6cBl15Y/DkRE6NYc1Ed/8zkbqndKX2NCq2UdZZ2YWoHB2Vu/Art
+	 t7yGuMgaGacr5cupOIB3W0dF4zNJIGTBGfy9HwhiUx5ceof2pwd9ls165joTWUSqE5
+	 W2teb2UiPjjWD3YHtuiPCHX1BeBRZ2GBX7vNgqOWmjgiMvOm1yWHDCzQiReF+ct/dd
+	 3RsBDYfAMdxCd5fP1NADp1dw2cjnMsqjzLFk/0yoDDz+MmwLqbpc7YoaJZMNZQ8aL4
+	 7zgmchNnudAHQ==
+Message-ID: <c063a592-19c7-4915-8a71-1aa87130fdd8@kernel.org>
+Date: Thu, 27 Aug 2026 18:59:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260827045007.3831259-1-4ncienth@gmail.com>
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: 22A2021971
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,redhat.com,vger.kernel.org];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] proc: query LSMs for introspective mem access (if
+ PROC_MEM_FORCE_ALWAYS)
+To: Jann Horn <jannh@google.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, Jeff Xu
+ <jeffxu@google.com>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ linux-mm@kvack.org
+References: <20260825-selinux-pokemem-v2-0-b46bc64916d8@google.com>
+ <20260825-selinux-pokemem-v2-2-b46bc64916d8@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260825-selinux-pokemem-v2-2-b46bc64916d8@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello!
+On 8/25/26 20:39, Jann Horn wrote:
+> If the system is running with PROC_MEM_FORCE_ALWAYS, LSMs currently have no
+> good opportunity to block a process from overwriting read-only code in its
+> own address space through FOLL_FORCE writes via /proc/self/mem.
+> The security_ptrace_access_check() LSM hook is bypassed when a process
+> opens /proc/self/mem because this is considered "introspection".
+> 
+> This causes a hole in SELinux EXECMEM enforcement, which tries to ensure
+> that a process cannot create executable anonymous pages.
+> 
+> PROC_MEM_FORCE_PTRACE prevents that and ensures that such FOLL_FORCE
+> accesses are only possible when the LSM allows ptrace() attachment; but it
+> is unclear how quickly PROC_MEM_FORCE_PTRACE can be deployed in
+> environments running lots of third-party code, such as Android.
+> 
+> So, introduce a new LSM hook that can forbid FOLL_FORCE specifically for
+> such "introspective" accesses.
+> 
+> Signed-off-by: Jann Horn <jannh@google.com>
+> ---
 
-On Thu 27-08-26 13:50:04, Daehyeon Ko wrote:
-> I found an unprivileged race in fsnotify_destroy_marks() that can leave an
-> attached fanotify mark on a detached connector. On unmodified Linux v7.2 and
-> v6.12.105 source builds, it naturally reaches the fsnotify_conn_mask()
-> warning from fanotify_mark(). On unmodified builds, the only observed
-> system-wide failure was a v7.2 panic when panic_on_warn=1; no memory
-> corruption or privilege escalation was observed.
-> 
-> Tested and source-inspected versions:
-> 
->   - Linux v7.2, commit
->     8d3ae59288f1e7d58d76558a6ee96d533bc5019f: reproduced.
->   - Linux v6.12.105, commit
->     14c37ff05f22da2fa7076d10f6a07c7ede330c83: reproduced.
->   - Torvalds master at
->     73e3f0710014fe6d4ed98cfc02292f6121db7558: the relevant destroy
->     iterator and fdinfo consumer remain present. Commit e422777fdd47
->     changed mark-mask updates and can mask the immediate warning, but it
->     did not change this iterator or the detached-connector state.
-> 
-> The unconditional connector detachment involved in the race appears to
-> originate in commit 6b3f05d24d35 ("fsnotify: Detach mark from object list
-> when last reference is dropped"), released in v4.12-rc1. My unprivileged
-> runtime results are limited to the two versions listed above. The limited
-> unprivileged fanotify functionality used by this reproducer was introduced
-> by 7cea2a3c505e ("fanotify: support limited functionality for unprivileged
-> users"), released in v5.13-rc1; I am not asserting ordinary-user
-> reachability before that change.
-> 
-> Root cause:
-> 
-> fsnotify_destroy_marks() holds a reference to the current mark, drops
-> conn->lock, destroys that mark, and then continues the hlist walk. While the
-> lock is dropped, an equal-priority mark can be inserted immediately before
-> the current entry. The walk resumes from the current entry's next pointer,
-> so it never visits the new predecessor, but it still detaches the connector
-> from the object after the walk.
-> 
-> The skipped mark remains ALIVE|ATTACHED and remains on both its group list
-> and the connector list. At the same time, the object no longer points to the
-> connector, conn->obj is NULL, and conn->type is DETACHED.
-> 
-> Representative v6.12.105 output is:
-> 
->   WARNING: CPU: 1 PID: 163 at fs/notify/mark.c:128
->   fsnotify_conn_mask+0x113/0x150
->   CPU: 1 UID: 65534 PID: 163 Comm: fanotify_destro
->   ...
->   do_fanotify_mark
->   __x64_sys_fanotify_mark
-> 
-> The source reproducer ran on ext4 as UID/GID 65534 with CapEff=0 and
-> NoNewPrivs=1. It uses ordinary FAN_REPORT_FID groups and races final unlink
-> against fd-based mark insertion.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Thanks for the detailed report. Before discussing possible solutions I'd
-like to better understand how the race happens because so far that's
-unclear to me. You mention you are racing final unlink with fd-based mark
-insertion - so I presume we are speaking about inode marks here. Fair.
-
-Now for "final unlink" to reach fsnotify_destroy_marks() it has to go
-through:
-  d_delete() -> dentry_unlink_inode() -> fsnotify_inoderemove()
-
-But to go through this path, d_delete() has to validate that
-dentry->d_lockref.count == 1 which should not be possible if the inode is
-still open (and thus the file->f_path holds the dentry reference). What am
-I missing here? Which two calls are exactly racing?
-
-FWIW my current suspicion is that calling fanotify_inode_delete() from
-fsnotify_inoderemove() is actually too early and we should always leave it
-to __destroy_inode() time which would also avoid any races with mark
-addition. But the fact that the above race can happen at all makes me
-nervous we can be missing some other cornercases...
-
-								Honza
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Cheers,
+
+David
