@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A3F345731;
-	Thu, 27 Aug 2026 16:59:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3769837F32F;
+	Thu, 27 Aug 2026 17:17:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787849964; cv=none; b=D89qfJQ9NpElmNOASWOlAotRGmxiS8hTk4A6amta/+Mhg5bDPLq1HvtojaKwA3E1VFOhJM1RV3o0DkXJiGmkHddKSkbjFtZxS6x9aCTAcUE1tQp+5r+tgJBNQlNTVz0dAV6upfyFMXz6esN7lNUDvuyohPNqMlhdtMr8Ic72Srs=
+	t=1787851021; cv=none; b=AWqpYfQ95KsPtfjAp264dSbxhKbiwVOumO1lbdLYEF7zGScYtAel+SN2S3Q4By00hercwK4goRNIy7tIXVS+vJTKMK9dxJt1lgpzPhqv7m5d/ZK260cHRnh7GHg9g4SB/d38YPR3GUFssfKYPZ3fCHD4VMI7dlfiwsEnYy78fwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787849964; c=relaxed/simple;
-	bh=TxEfyqqmoPY+ZQuPtt6HQFbU1aY8IGJdJad3EJz16aY=;
+	s=arc-20240116; t=1787851021; c=relaxed/simple;
+	bh=Nc83ONEDUXZJgXQtDlkuMA7k0Sbew6WY/be9VPAWEAQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kXzB2WFjMwz01TgNHVj+UyLmxHIWAizFq8AttP8ZfsqmwtlGwgE7NnqaK5OQuclbSZTBu25ERN4ak27ioz6rk34qI752mhWnh38FBB1qtpomT5pCcfARfhlmXAn0jc66O500woEGHGTWsRntJNFk+7jUGDS5pvrooQF70FAFBgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nd3nAdMM; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=BgFZuHXVf3EOtn36T9An0DUn2/BpMYWCv9rqRxqGyFPTpUdLSLr3Kut4L7LxshUYqUm/mHHPGjGRrcfkyrbUxlvICgppNhWELKJtdkKZ8iBJQtedaE6/uK6YP6OR/cvvTMIQrESyAF2bwbfONtxZyFivr/4dQGIUiarwgxWIaVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HIAzlg3E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nd3nAdMM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212F31F00A3F;
-	Thu, 27 Aug 2026 16:59:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HIAzlg3E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63DD21F00A3D;
+	Thu, 27 Aug 2026 17:16:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787849963;
-	bh=h2fPqhbW52jOXFQOb2OokwPKsft5CxEe/wxpe9v4C+0=;
+	s=k20260515; t=1787851020;
+	bh=9FMyam65/eD/ZbqglAxkrA726lGv09BnDgz9N86rBL4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=nd3nAdMMTWYEbBrAJwomzGYSh7ao8MyAXx57oXymtv0pVBZ5x0jyRzWm2CxtrIWbH
-	 bOQa0cR81UCOd2A6cBl15Y/DkRE6NYc1Ed/8zkbqndKX2NCq2UdZZ2YWoHB2Vu/Art
-	 t7yGuMgaGacr5cupOIB3W0dF4zNJIGTBGfy9HwhiUx5ceof2pwd9ls165joTWUSqE5
-	 W2teb2UiPjjWD3YHtuiPCHX1BeBRZ2GBX7vNgqOWmjgiMvOm1yWHDCzQiReF+ct/dd
-	 3RsBDYfAMdxCd5fP1NADp1dw2cjnMsqjzLFk/0yoDDz+MmwLqbpc7YoaJZMNZQ8aL4
-	 7zgmchNnudAHQ==
-Message-ID: <c063a592-19c7-4915-8a71-1aa87130fdd8@kernel.org>
-Date: Thu, 27 Aug 2026 18:59:16 +0200
+	b=HIAzlg3ECKZVs6xzOsrw5gyORuG5PWOTZHEB/bfgLKhzYVMoKRXCKO/pDpo8BAjZ3
+	 Jp/0FlG3B69eOYDMVYrFZhj0Xvnagdl4uAFY0sSQRP/HoPgTa6q7anNJ3838q5pfvr
+	 jTopbnKKC5OJAtegtZwE+IB3ZvpKWgFP3y/q8fRl2IJXMPRhIGjmwwfZ4Fo4rxdbS+
+	 vLhKFCtF5jTT7DEZLlviC3hnT42AxRe8vaExvYi8G94FZKTdUI2VLBNrN615wfUw76
+	 o9hNxiWzIBfNXXWFSCIgEzxAWh74QdhyAivKRm6HrVgQg0rSlLTbjuQmBqajzzVrel
+	 B41emjGw5sOzg==
+Message-ID: <f1e51e11-3a0a-41e8-ad5f-817a4a26bc73@kernel.org>
+Date: Thu, 27 Aug 2026 19:16:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,22 +35,33 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] proc: query LSMs for introspective mem access (if
- PROC_MEM_FORCE_ALWAYS)
-To: Jann Horn <jannh@google.com>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, Jeff Xu
- <jeffxu@google.com>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
- Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
- linux-mm@kvack.org
-References: <20260825-selinux-pokemem-v2-0-b46bc64916d8@google.com>
- <20260825-selinux-pokemem-v2-2-b46bc64916d8@google.com>
+Subject: Re: [PATCH 00/25] mm/fbatch: drain lru_add_drain() and _all()
+To: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Ackerley Tng <ackerleytng@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
+ Binbin Wu <binbin.wu@linux.intel.com>, Christian Brauner
+ <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Christoph Lameter <cl@gentwo.org>, Claudio Imbrenda
+ <imbrenda@linux.ibm.com>, JP Kobryn <jp.kobryn@linux.dev>,
+ Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>,
+ Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Mel Gorman <mgorman@techsingularity.net>, Miaohe Lin <linmiaohe@huawei.com>,
+ Michal Hocko <mhocko@suse.com>, Minchan Kim <minchan@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Rik van Riel <riel@surriel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Suren Baghdasaryan
+ <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>,
+ Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -97,32 +108,56 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260825-selinux-pokemem-v2-2-b46bc64916d8@google.com>
+In-Reply-To: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/25/26 20:39, Jann Horn wrote:
-> If the system is running with PROC_MEM_FORCE_ALWAYS, LSMs currently have no
-> good opportunity to block a process from overwriting read-only code in its
-> own address space through FOLL_FORCE writes via /proc/self/mem.
-> The security_ptrace_access_check() LSM hook is bypassed when a process
-> opens /proc/self/mem because this is considered "introspection".
+On 8/24/26 15:49, Hugh Dickins wrote:
+> This series was prompted by lru_add_drain_all() appearing in watchdog
+> backtraces: not to blame, but blocked on an unresponsive CPU to run
+> its workqueue. lru_add_drain_all() is a heavyweight operation, which
+> we often hope to avoid by a much lighter lru_add_drain(); but even
+> those local drains can aggravate the lruvec lock contention which
+> per-cpu fbatches are intended to ease.
 > 
-> This causes a hole in SELinux EXECMEM enforcement, which tries to ensure
-> that a process cannot create executable anonymous pages.
+> Now let the folios on the lru_add and other per-cpu fbatches remain
+> there, isolatable, with PG_lru set and refcount unraised, just like
+> when on an actual LRU. Then many calls to lru_add_drain() and _all()
+> can be removed.
 > 
-> PROC_MEM_FORCE_PTRACE prevents that and ensures that such FOLL_FORCE
-> accesses are only possible when the LSM allows ptrace() attachment; but it
-> is unclear how quickly PROC_MEM_FORCE_PTRACE can be deployed in
-> environments running lots of third-party code, such as Android.
+> It's something I've wanted to do for years, tried several times, but
+> only hit on a good way to do it a few weeks ago: now it's uncomfortable
+> to watch others wrestling with the drainage, while I'm sitting on this.
 > 
-> So, introduce a new LSM hook that can forbid FOLL_FORCE specifically for
-> such "introspective" accesses.
+> The key idea came from the "if (!folio_test_clear_lru(folio)) continue;".
+> If we don't mind missing to take an action on rare occasions, then maybe
+> we won't mind taking an action on the wrong folio on rare occasions, so
+> long as it is a folio consenting to PG_lru rules.
 > 
-> Signed-off-by: Jann Horn <jannh@google.com>
-> ---
+> No new locking, but relies on folio_try_get() and  folio_test_clear_lru()
+> even on the lru_add fbatch; with use of bits not set in aligned pointers,
+> and some try_cmpxchg()ing.  Speculative references to folios are already
+> accepted: this adds another source of them.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Sounds very interesting. Thanks for looking into that, LRU caches are a big pain.
+
+> 
+> Performance? You (and the bots) tell me. I'm considering this as a
+> cleanup, to make life easier for developers. I expect that some loads
+> will show improvement, but also expect some disappointments (perhaps
+> I go too far against lru_cache_disable()? or not far enough).
+> 
+> The timing is not so good: middle of a merge window is not a great
+> time to present new work; but I hope to be taking three weeks off in
+> two weeks time, so best to get this out in the open early, while I can
+> respond.
+
+I'll be out myself next week. And I'm sure my inbox will be even more of a mess
+than it is right now when I return.
+
+> If it's welcome in principle for 7.4, but too many changes
+> are demanded, maybe someone else can step up to shepherd it through.
+I'm certainly interested, my workload is the limiting factor ;)
 
 -- 
 Cheers,
