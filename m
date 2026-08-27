@@ -1,165 +1,155 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF09A432BCD
-	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 19:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B3037F33D;
+	Thu, 27 Aug 2026 20:27:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787859555; cv=none; b=tAj7wkqe3KtI1YEzFJqgt4i0D1rGJHZ/+uJGaXQbIu6PoMw1W3p967CCi4ueTe3Vz19EpOBal0clSR6p/nPLuM3jzuw5cg+tgIr02jBhj9yL+NxFbO736FCs3YT0KXU9kQvWh4EC8L/c8hHAgOmlgVQ6BcCJ8RcZbkUHX9L5fjY=
+	t=1787862434; cv=none; b=JQmLfkyPdLWUnwocI6x/yt/4tU1pfsRZ/eAToiQ9QfL/i9/ppoksseOZDorQoIRhsuEStsu1Iq1D5N1iQZTOXc6K8eSUAfj4NGPfd60eU+l0dPnZwxyD+FDIWrYlQ9ToW8BQZ8gALiHLH9WwafFbAnjGgcU6rlW3oRHqPIpdD/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787859555; c=relaxed/simple;
-	bh=iPf7ChaqIsVoGcvfLFkYqgjfgPL7ty9oLZe40l5pQ94=;
-	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=kq47uOcuar0HY1l1xbH4eT7huPSfCbOFM16T8BgSrLxDe7SF9+i+pYBUh+BWrL+Gz6xkDYyD1XS7me0Ab+k//HKIkQ5fpkA5WPIWVa3cXv8H7bOXH/YEbeDC3kGmJz7zZFzjTqTcrt3pNXYoBfDb/3t7NA9oAoT7ggo/a4QlIEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=HpOZ5ZZW; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1787862434; c=relaxed/simple;
+	bh=8JERRk4eycKxps6u6lqA4pRwfLdjT0fCroEkw4dtSAQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iXNKZefza4OYsphdEWbT2CZBB6nMHovLJVcwEgLelSR+sZx2a2aZFjWrxgZRhIFj+rn9NXHli+muzBr6vEttBJKJb8S6JwW9R3HST1BIAQosdoED7+F5XZpJNPTOd/QJHMYwxc8IpeKiqkcusG90dWZ9tnWVz2Yj84fNkIHOycQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mCbG6wIr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="HpOZ5ZZW"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-90cc372d6b2so846746d6.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 12:39:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1787859552; x=1788464352; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :content-type:mime-version:message-id:date:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mtXig1FMjrSYmMbsrTikOQfn2mLp1bwY+1B2vUa6dN4=;
-        b=HpOZ5ZZW8h78vYnfkwrPzKV8DX0KqSCR//l4g862xZTEXiKVVxyIcR2zzsem301V5o
-         P/4fPlMtdSMoYxb3tqRXMVZnPeaLd4uWE713kzq1d3jwoxdnDwKE5FuOY3gZXTJblRak
-         QQkjj5JncGdZ3w3Dq4iveA73hPubX69bFD3/I2G82ECysx4QaH/2KgUtdEPDvEFenTUZ
-         jYRhuLyJ4KzX9ZoAcjQsDbqtuBA+6TRMr+uxDibVsiMXe118kJGre5+Ic8Hx+0fusc5z
-         T/YZ+lgB4Ojagsb3774ECWnXt5iNCShHu3rzfaJJAIEAqIXHvT20aofkChCffRUTrvk/
-         fmtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787859552; x=1788464352;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :content-type:mime-version:message-id:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mtXig1FMjrSYmMbsrTikOQfn2mLp1bwY+1B2vUa6dN4=;
-        b=Z3EPeTCbWWAzqA0yn+zYGfucPQqzRA/SxCGIO3cWilsxDgNZV9GCKlk8mp+LVHJdox
-         A8fJYYFF0GOxe7tG3EqCwLJCD3/2Qx851xDqISur4sbh31dVpAZ42ceJHyYapn/XcRyr
-         sJxVa2Sz8aOH2vFsxcBCgT7W5LoXAgofSK+NViRQY6MsiQ3LlgKjI2meERRxrhQ3cNie
-         ARBCy/4rhv1HFcuPvDuYQ+GgO1AJOZl8roJGlnjNVwur/P/rh4Yq3KBFoZFcL6p0W6sZ
-         7mu7oG1hRPumb0x23LwRvP4gjf+FeS7R7Et6dZV+q0rCSiPAv4tHblpkNYfd2mLamgSF
-         Qw4g==
-X-Forwarded-Encrypted: i=1; AHgh+RpkldLw9rBYmvhuhGqqb8TJJ9r71FVH/ke2uS9iTivBCU4biiaYOtLbJq0g7yNoELe6U6Rgrem0Xoxdu+M+@vger.kernel.org
-X-Gm-Message-State: AFuF++mfWYBVaa5c9VjdFSRUGueVF+pyIVSrW0bJEezzpLNZswJF0QU8
-	SwJPXbR+gjxajtVX9lqxahNE7eipe0h6nWfG3QEoAKFDIt7E0+8YaSjtOoHGHezmfA==
-X-Gm-Gg: AR+sD13TAhrLgkKjuNFNAfLUvHBNlIh8Smk70z5RVu65cnrtXhRU4bPkhSOUDQyzpsj
-	bLwh/KSundWgk0+Yh6zYp4xr7wXkddgau8fPdgm9fMiv6sucWY7faugnDcDc62tYaFk57pTFo6X
-	i2hB0rrr6bBcax1Ukp5FlXLOTsnRwQLPu6oppVxEFwTnej0k77ZlZZ0EsV3Yuiay3pvttaGV0rc
-	u/SU2UJ1fAn+yGeObaEqgQWjmaGf8wQg96bRk3d9Pi/Ujetp7RV3ThMoe2qXWlcAy4bKAgZ8537
-	1QEFgaEEOBSZsx4382OlpjHctpZPBxrTK5ftYhTZ/3vQrixWx2Jx6meIlQ4hxjY3RUPFi4gK4lS
-	wuQWU7352KRYwP3RJstrjiWohd41HSOmsiVxhu2rivlLcNPNZp+MylF1pmRN9n2ZUUhYeBc3JP0
-	9VigMbUexbZOTEpXKyChwJcLT90qsnAx96TOZsY4jedCOKyYh8Fv+fbQZDpERl5/2LjRcPujMt6
-	oWawdhcCkF9U6STb6DWMh3bg1y6y6Uv+vns2UZFWWWX
-X-Received: by 2002:a05:6214:e43:b0:908:9fd5:ed42 with SMTP id 6a1803df08f44-90ce0f06bdbmr20681366d6.28.1787859551742;
-        Thu, 27 Aug 2026 12:39:11 -0700 (PDT)
-Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90cd73fc28dsm24026946d6.34.2026.08.27.12.39.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 12:39:10 -0700 (PDT)
-Date: Thu, 27 Aug 2026 15:39:10 -0400
-Message-ID: <5fa5ef078f41cd57d0e52ab2ab023094@paul-moore.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mCbG6wIr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 544C81F000E9;
+	Thu, 27 Aug 2026 20:27:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787862430;
+	bh=1L3yxEZbWCvg5LUmRwP8ZDavWBk+Bf+rg5djBphl/1s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mCbG6wIrrG+wf+wFiK8+ak/XJFOgf02RCcuYCcZpXC3tCVV+oMUfKaZuB+PLZA+/Q
+	 bBqvFU/RlaUmb8rzrh233tGbgtj+5cZ0lX0cLf5Szk2Ley1p8mI+hxkXzKjsOrDc0w
+	 Qoy1yiXqTErnp5LLKhzzzEFdKekHfvujE350xJ3hULVdozTJkJOKwmJXxy2A1oe7sS
+	 g/j3UNZG2GmeAmc5QUephEnpY08momDvCUPbcEfTBieqPovU8lMhrtt0w11NopdCLg
+	 ztNGnkpYFo4vTWWTk4/hmYbyKYy05qkqR/VDmAd6iHbVWogmnkqC0QWHFftwsTlb2q
+	 5YntX49ZLP4pA==
+Message-ID: <443ab5b5-2d47-4ffe-bfa2-15e47ff7469c@kernel.org>
+Date: Thu, 27 Aug 2026 22:26:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=UTF-8 
-Content-Transfer-Encoding: 8bit 
-X-Mailer: pstg-pwork:20260827_1122/pstg-lib:20260827_1501/pstg-pwork:20260827_1122
-From: Paul Moore <paul@paul-moore.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>, selinux@vger.kernel.org
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] selinux: preserve user SID across nested backing files
-References: <20260820175832.44512-1-kmehltretter@gmail.com>
-In-Reply-To: <20260820175832.44512-1-kmehltretter@gmail.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 20/25] s390/fbatch: no lru_add_drain_all() in
+ s390_wiggle_split_folio()
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>, Hugh Dickins <hughd@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Ackerley Tng <ackerleytng@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
+ Binbin Wu <binbin.wu@linux.intel.com>, Christian Brauner
+ <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Christoph Lameter <cl@gentwo.org>, JP Kobryn <jp.kobryn@linux.dev>,
+ Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>,
+ Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Mel Gorman <mgorman@techsingularity.net>, Miaohe Lin <linmiaohe@huawei.com>,
+ Michal Hocko <mhocko@suse.com>, Minchan Kim <minchan@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Rik van Riel <riel@surriel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Suren Baghdasaryan
+ <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>,
+ Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
+ <7bf68e7b-f88c-6ca9-39ab-e9fedab0c8be@google.com>
+ <20260826155722.0198d3ce@p-imbrenda>
+ <2319f670-fe0b-f032-c0dc-486cbec0f3e1@google.com>
+ <20260827145502.2fb4505b@p-imbrenda>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260827145502.2fb4505b@p-imbrenda>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Aug 20, 2026 Karl Mehltretter <kmehltretter@gmail.com> wrote:
+
+>> I most certanly don't know s390 or that code well enough to guarantee
+>> you that no stray references to mapped folios can remain there. What I
+>> can guarantee is that no references, of the kind which lru_add_drain_all()
+>> used to be needed to remove, can exist there: so there will no longer
+>> be any point in s390 (or others) calling it for that reason, to help
+>> split_folio() to succeed.
 > 
-> SELinux saves the user file SID in a backing-file security blob so it
-> remains available after mmap() replaces vma->vm_file with a backing file.
+> we are not using it to help split_folio() succeed (although that's a
+> pleasant side effect). We need it even for small pages, to guarantee
+> that no extra reference from LRU is present on the page.
+
+Just to clarify: the LRU cache might have references (IOW a pointer) to the
+folio BUT the refcount of the folio is not increased.
+
+And that's what s390x cares about.
+
+[...]
+
 > 
-> For nested backing files (overlayfs over overlayfs, or FUSE passthrough
-> backed by overlayfs), user_file may itself be a backing file.  Its
-> fsec->sid is the SID of the mounter that opened it, rather than the user
-> that opened the top-level file.  mprotect() then checks fd { use } against
-> the mounter SID.  This can incorrectly deny access without a domain
-> transition, or check the wrong target SID after one.
-> 
-> Copy the saved user SID when user_file is a backing file.  Keep using the
-> regular file SID for the first backing layer.
-> 
-> With two nested overlayfs mounts and SELinux enforcing,
-> mprotect(PROT_READ) returns EACCES with an fd { use } denial against the
-> mounter SID.  With this change, mprotect() succeeds.
-> 
-> Fixes: 82544d36b172 ("selinux: fix overlayfs mmap() and mprotect() access checks")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5.6-sol
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> ---
-> Changes in v2:
-> - Add selinux_file_user_sid() helper instead of open-coding the lookup
->   (Amir).
-> 
-> Tested on arm64 QEMU at fd6e2388a3ea with SELinux enforcing and two
-> nested overlayfs mounts. The policy omitted only
-> base_t -> mounter_t:fd { use } among the relevant cross-domain allows:
-> 
->   baseline: mprotect(PROT_READ) returned EACCES with that denial
->   patched:  mprotect(PROT_READ) succeeded; test exited 0
+>> there was an earlier time when mm did not enforce that; and Barry
+>> is currently looking to relax that, so the limitation intended for
+>> pmd-sized folios is no longer forced on the smallest large folios.
+>>
+>> If Barry's relaxation goes in before my drainage changes, then
+>> there is value in that s390 lru_add_drain_all() in the interim.
 
-If you could share the distro and some more details on the testing
-methodology that would be helpful.
+I think we should get lru cache references sorted before we consider using them
+for (m)THP.
 
-> This patch fixes SID propagation only. backing_file_user_path() still
-> resolves to the middle layer for a nested mapping, so the audit path and
-> inode do not correspond to uf_sid, and that layer's mounter is not
-> re-checked. Preserving the full user path likely needs a VFS-side change,
-> such as having backing_file_open() store file_user_path(user_file).
+If we realize that this series here cannot land any time soon, we can reconsider.
 
-Additional comments below, and while this patch is useful in fixing some
-of the problems (thank you!), we obviously need to fix the others as
-well.  Is this something you think you will be able to work on?
+-- 
+Cheers,
 
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 1ead2eee1944..171b90412ff1 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -3843,13 +3843,20 @@ static int selinux_file_alloc_security(struct file *file)
->  	return 0;
->  }
->  
-> +static inline u32 selinux_file_user_sid(const struct file *file)
-> +{
-> +	if (unlikely(file->f_mode & FMODE_BACKING))
-> +		return selinux_backing_file(file)->uf_sid;
-> +	return selinux_file(file)->sid;
-> +}
-
-I'm a little concerned that this only works for one additional level of
-filesystem stacking.  Yes, I know that OVL_MAX_NESTING and
-FILESYSTEM_MAX_STACK_DEPTH are currently set at "2", but it's not an
-unreasonable concern that at some point in the future that number will
-increase without proper notification or testing and we will once again
-have a problem.
-
-At the absolute minimum we should have a BUILD_BUG_ON() for the stacking
-depth.  It would be good if we could watch both the overlayfs and vfs
-constants, but the overlayfs constant isn't available outside
-fs/overlayfs/inode.c (thankfully it is currently set to the vfs limit).
-
-  BUIILD_BUG_ON(FILESYSTEM_MAX_STACK_DEPTH > 2);
-
-Ideally, the code would be written to keep diving down the stack until
-it hit the true backing file.  No one likes to see recursion, but at the
-point where this function is called there should already be a reasonable
-bound on the stacking depth and the work involved.
-
---
-paul-moore.com
+David
