@@ -1,108 +1,163 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C442F747A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 04:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787805683; cv=pass; b=Vxn+mfxx4ly6OYFSBnIiuaOuk80Ryooa9MV3VuaCiALjgAAamwPK5IcC4RumlmY7jN9keaMSHgCsbdMNBOwQg/0CWvXL6yVZufHwo4rCINAuWJ7FCh9pEnIhYhRDlnIEVjb9/kmrybG/zM3OAeIzW7zDkn1nEHGiXUCG7LfasFA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787805683; c=relaxed/simple;
-	bh=wmJwsWhJWgGzixLWY98cQ4oV4zc1Rfe63lrHepreMXA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YyVcoxcPUi2slXdL43UwEWEuILAQJsS6sr+0EqBGVeB2h7cANMbxxEYubOu2BlTZcq+iHIllE1/z2XJBCgWTRuDVlV51IOWBHLjlmq9Mnw/fHZurCObyCePlbk2NvelkXGGx+NLv8EAdtc1HA7CRzcmmoop8J25is2MmIdUaiLQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PxRKqIAL; arc=pass smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9482D249B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 04:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787806227; cv=none; b=F3JM8bP0JwIuNhoqAs1atPFXsI33eFpNMiLHyuxXgakjYaFET2SCistfi1mgzNiXNwR5jIXV1VtBlOf9aAEj6fCFbU+TAFNXUvH0OXPD8LOyJgBzdbW9AXHGfgm60VmAAuhOuR6eBfNJHJEGycVdUkjgjaa042GIVpfGjAz83Z0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787806227; c=relaxed/simple;
+	bh=tMAdPF5LtoelHEGmvxcAEdHKDhIRTlFKh4yWr6CohTk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ON1D0PJKhLu0ZO3CKGYa8vAzccZ2PkpDWxT04Laho8/cV9mD5ygXTHbR0wPK0oaebylvNWmK/3pk+4KbhBCkRS0hJ5nOLoJ8Z3aYWn3VWdbGTHPaJiqseW/EX2XqT/sNOeCr6SoZXGq6cBIt0onHl6kTChAFAvuv7zIYLyBP3SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=okC1/v3k; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PxRKqIAL"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38511175ad3so325362a91.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 21:41:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787805681; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QA2pIjrD2nJOMDT2jrIAne4ZScCYZHmkYSKJ5+m8pplvhXOdxDxUyy6Fw7izCWyngn
-         TINyuGN/Vm1/Flg0vseI7EPnWyS1Sv0qE5fDLpfTJGY12+DMRa3lSdD8gQFUWHJX+IoS
-         U+oyGXhQb9T2DLoHM+BpW81+WWpBPg4keSGonRONmFV2ebvmZ6+1ibNCgCnvxNEPgC/Y
-         FuGXsplxQwFTtQoKbUcldjONY7OyAokdVQG9fxQiVaMYrXtKdtYWCzxTxpuyGbjcRc4b
-         Sv15ir1iHoy6Xuv5l38tbXLaXx8HsmImxJYJsqsWR74Qn6I6LGwSyl1h52mNorU3fsuv
-         LuDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=wmJwsWhJWgGzixLWY98cQ4oV4zc1Rfe63lrHepreMXA=;
-        fh=CFABQvtmZV8QHPtMy9hbTgIhOfLAem68eren7vqxcZk=;
-        b=aYaMB92TLCB8JAcqzfrUk4YHBMr0DBepFCc8Z4XBvhF0X4UJ+fOM2HVmvSidsMYIwa
-         4OYCjJ7i5GtqNzohSMMNVq13aT7GwGl4dEk56sOoToVC6KTu0LuvvufHSG8HwwsIIcEf
-         JayQiSAFTK2d+odNCjWIQ5EUBFisSrymcK4y5KmG/lmrx8Aaldb5tMs0XkTpDrle9cLm
-         733Db9WWCvCQ/ViucjRME9MN7owjbhjGvxYzbpSM65GIbv+RspoJJ3u8Pb8hF7kpsXqU
-         4plUO/BeJ+t6cHe3G3HP4rcfnl8WqXpDZ6xCAOyi5VANkGpI4GkWsnc8n3swk9vz3kpH
-         0cNA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="okC1/v3k"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38dc69c74b8so2125829a91.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 26 Aug 2026 21:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787805681; x=1788410481; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wmJwsWhJWgGzixLWY98cQ4oV4zc1Rfe63lrHepreMXA=;
-        b=PxRKqIALGDu1X5boEPBCMxLqob8BmVlSTuUfVUnhYJQLeuk3ACkAZV0XI+DQLk/BcQ
-         V/MR3dtnaRyKvYWqa8PYw1luNTySzRvWMAweSszL8fnhtk7FsSeWnHAXQOBUbpJDDLD9
-         U0lDUGWVFDKky90lHVFrvJiwmfEiD+zdLnwhRaPJMSoqhEGhVDy0V1ipew+9aCMwjqpy
-         Ea8YaICxbSzDz6veNAnqb8vZh6AbNC0/9XESvh/p25Ducrjv9q3M70Ja+am8AIO7alRd
-         gL/IMnSPLjvsSaGVZNa4d0KsVOVOt2xWpoBUtQB3D0KktNmuqCZI/eBsFOouL8Xkln81
-         AgCQ==
+        d=gmail.com; s=20251104; t=1787806225; x=1788411025; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DWvwvcyUlBuNouA22nARMdoaOdKzUDmVy7DPNf2S7cE=;
+        b=okC1/v3kgrH89NrYr4drtUAbxEa43LSevkgVftwfceFM5BIjpA1foaaijvZpkxi/uO
+         YdZNkPqOXfCebTdG7u5Wm49b6X+e1hXqawCBrAJEdEIF53JUpoWQgizKEKpQlF6WmmqJ
+         dDNVaRaeHOgnApl+JtDZw9O7EoVNHv/LmGNvM9hBrC8xQkLzW7SjcQpLMLcVf8zPxkbF
+         ny/MGboYAeVSbSH2bdAH4vXjoSrfpCCpsISgHNe2aM0oj+X807r39Dd4wjYNalvc9PKt
+         KpT6P+atWeowgO/yC1VWUO1e2eEQf685drxxVJEqZLArN0Hk+mrnT8o4AO9ogqRVP98Z
+         xSEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787805681; x=1788410481;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=wmJwsWhJWgGzixLWY98cQ4oV4zc1Rfe63lrHepreMXA=;
-        b=mZCglOMklmmA9FwrHaflrmPbXOUDwaov6rYBFSM14HsY5d3O2GK8yyCxFz7BnG5P5l
-         DfpFg1HRS4kzmfAsiPLyWcG38MUbSixZrQJsZRKVnnYokEzbkSyiXYwlWoQYsnrp8TcL
-         H7SHgn9b/DQHAJI8C680F2hn5KDZ671YfNdAVwtWSypEyIVg15lHj0CiPPByAzWnHhQk
-         vAYAoETou9qy+00S3x1tH8ddAxh7QS1PAsyFff4Bbip42bLm21rWwVt8t/JcJ3kZ2ctb
-         su/TKMxSxu1uHDQaaP7zTu+oFNOa86Q3ij/TsQl3Gu3wzfULDBWk2xHabJ72Qqn4IgTc
-         fmxg==
-X-Forwarded-Encrypted: i=1; AHgh+RoV8u8/e7kbuzZ9krAcdRZuicfiOHzdaekLLrNbALzKY3zd6W2gCM6QFUoBt5EAe9Zn7vK0Jb0l+pEfO7DW@vger.kernel.org
-X-Gm-Message-State: AFuF++mwaee/uX73m/RLI4wsYkuUdq18qlWGesP9fU+159M5nKcznefi
-	QTKhJRdt35Ao88LTygBKq0DiKlqDDRxNcFzMFmgKvC8QeLhhbmtDeAPhK4CPTauq9GfKuzkMBB2
-	MzXYoyjAEKcg2eqoVG2wBMFXrP4H6jXk=
-X-Gm-Gg: AR+sD10RlxMQhJLkJo6CfnsmbicP6dHqzcd36Bg+3r4tU3ntOZCqNbZujXBCBuhKD5n
-	Nd1E0AOLUwrcfRIRumpSzfj9b+aNwyu0v9jZRwsi/GiQvDf53l9XNQoIOlqHoggQm0RjEi2S8RP
-	9vSUh7gbU1NRxm/G9QcNekEvso4ZQ+IqhzIlV6jy1VnJhPIhAJXwVYWH6rZH/1REYf5bmH/9NV+
-	S3WSqdx1axRP9tyyF4imtfEgCBZ2+e1MAjrwVrEldIx7Ztic9OsH5OjisdyPNK37LUCc+GpjDdB
-	shtnbL5mN2HZDNe22f/mgDL294pa4zHGEkmBYzOt1+IcZEh5DQ1L6l+TGIl5R5Uj+hd65C6p2lq
-	+TEl7iq6VG+9kxRF6dbcwLOk7Y9N1MMZlxSVgeUb4s7RScZUqhGOYfKPV
-X-Received: by 2002:a17:90b:384e:b0:38e:57a3:f218 with SMTP id
- 98e67ed59e1d1-3966d4232fcmr23112080a91.13.1787805681332; Wed, 26 Aug 2026
- 21:41:21 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787806225; x=1788411025;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DWvwvcyUlBuNouA22nARMdoaOdKzUDmVy7DPNf2S7cE=;
+        b=lLrKpQMvUJ4XeIE3rSZmEnkqvW0HsowfxhfFqf8ADVS2uBkZFYP3Yie8Hm/lbkZqye
+         KydMoeNsbFikUSYJa3777Rr3tp9u4mFEBTOJU483T0+V8RnE2Fj0hAAlmuoS2L50BIJW
+         xYIVG+rq1ikR0T0YASCpe8N4Tjpmh7lQDjyzuW1LkymhS9FVcYRTJGtvkX+pTBsY0EUO
+         mwYV7/o22XsTmETXPZ0ud7yr1GCnPLsv0s61mkBLkn//Aieu3fd4C4RgHhABxB/UffKe
+         ucqPu9sCXrXvi6CNWRIlc9dp/Df2XqWTfwWoH9kM/SmfkzIXBSChUtHI+68/JVNwfr09
+         cB/Q==
+X-Forwarded-Encrypted: i=1; AHgh+Ro2b7I2tf0hZrr20UIX2UZoMT8fQIZL002mCkVy9tH02Cj1RyYSrq38gx8hIrcagucPYTM3asgKZA/Nz0bf@vger.kernel.org
+X-Gm-Message-State: AFuF++nwXRx8Xq9zT36pWpYLazfXsJTinjyIDudwyy8X6HNIb2TidA0o
+	7W8Xvup/NkUilst4hQCeAgDOdLWaBIG/insbS9DTYCk7iO5UWP5uOwIMF09ndv+1
+X-Gm-Gg: AR+sD12yV+1I169X4KSBg+ZglZZrwCtVKW9LYy3h+dq8AzQPGpNaS0ePwqC21SCvSZw
+	y9vwp0iV/7Lb8NFDtdR01QkTM7FCLjH+DxD+BmFVMCZY8WFpqpka9r8KxkhoJaSj4hROiEnPBpR
+	IVD7f7LxhgqgUDyYSYFTJ7VWQyHzy0szOxWz6Uclqj5m5vSQ6zXt7rIfK6PnXkK6lx2estEbG/D
+	vPPqR7B66f9VhxKZJVjTfAyKrz1H3r2VnSaxRtV2w3kVHQTcqZPno4JDmYsX2lM4dQEsl11BKeg
+	tIEey2KjFQ0gFnERQ7bY50TGvzDfNsDJ4CZvsurT1kKUDz+jdvaOawfHMMR8jm/YBtMq3z8yRBz
+	8BIGwcp4n67jC+Mr7QM9VnsyigTllsMpaXQdwTAwnxIzQp9U+lf+UPQ26qBawH+/k7XHCyqXniM
+	myEvyhsJX1lWIeYJi6qx9ASEedQKECEtQ4ENIqXgUUE9aaBNjHJvAcSgy4KRtK/jxhUifNKEuC
+X-Received: by 2002:a17:90b:524a:b0:380:540:d499 with SMTP id 98e67ed59e1d1-3966d1ba7bbmr26160762a91.6.1787806225328;
+        Wed, 26 Aug 2026 21:50:25 -0700 (PDT)
+Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b0fd5edbsm1066131a91.11.2026.08.26.21.50.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2026 21:50:24 -0700 (PDT)
+From: Daehyeon Ko <4ncienth@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Amir Goldstein <amir73il@gmail.com>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [BUG] fanotify: destroy/add race leaves a mark on a detached connector
+Date: Thu, 27 Aug 2026 13:50:04 +0900
+Message-ID: <20260827045007.3831259-1-4ncienth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260826052055.19201-1-phucduc.bui@gmail.com> <r2rpiqlkgw33igh262cieoyoeqdv7vd3vh3swjasdf4vdjgyss@e2rrpfe24oub>
-In-Reply-To: <r2rpiqlkgw33igh262cieoyoeqdv7vd3vh3swjasdf4vdjgyss@e2rrpfe24oub>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Thu, 27 Aug 2026 11:41:10 +0700
-X-Gm-Features: AcwNN1WK9q1v3aiUsd6wEufY4owd9gQ2pQjo_-u6uW05Cc3kPxSZrk-cTDoPriU
-Message-ID: <CAABR9nHVePW3YdYy-6j_pSPR3-V4t80vXYVx6S=K7dC_iNR_xQ@mail.gmail.com>
-Subject: Re: [PATCH] chardev: check return value of kobject_set_name() in __register_chrdev()
-To: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Jan,
+Hello,
 
-Thank you for your review.
+I found an unprivileged race in fsnotify_destroy_marks() that can leave an
+attached fanotify mark on a detached connector. On unmodified Linux v7.2 and
+v6.12.105 source builds, it naturally reaches the fsnotify_conn_mask()
+warning from fanotify_mark(). On unmodified builds, the only observed
+system-wide failure was a v7.2 panic when panic_on_warn=1; no memory
+corruption or privilege escalation was observed.
 
->
-> Looks good. Feel free to add:
->
-> Reviewed-by: Jan Kara <jack@suse.cz>
->
+Tested and source-inspected versions:
 
-Best regards,
-Phuc
+  - Linux v7.2, commit
+    8d3ae59288f1e7d58d76558a6ee96d533bc5019f: reproduced.
+  - Linux v6.12.105, commit
+    14c37ff05f22da2fa7076d10f6a07c7ede330c83: reproduced.
+  - Torvalds master at
+    73e3f0710014fe6d4ed98cfc02292f6121db7558: the relevant destroy
+    iterator and fdinfo consumer remain present. Commit e422777fdd47
+    changed mark-mask updates and can mask the immediate warning, but it
+    did not change this iterator or the detached-connector state.
+
+The unconditional connector detachment involved in the race appears to
+originate in commit 6b3f05d24d35 ("fsnotify: Detach mark from object list
+when last reference is dropped"), released in v4.12-rc1. My unprivileged
+runtime results are limited to the two versions listed above. The limited
+unprivileged fanotify functionality used by this reproducer was introduced
+by 7cea2a3c505e ("fanotify: support limited functionality for unprivileged
+users"), released in v5.13-rc1; I am not asserting ordinary-user
+reachability before that change.
+
+Root cause:
+
+fsnotify_destroy_marks() holds a reference to the current mark, drops
+conn->lock, destroys that mark, and then continues the hlist walk. While the
+lock is dropped, an equal-priority mark can be inserted immediately before
+the current entry. The walk resumes from the current entry's next pointer,
+so it never visits the new predecessor, but it still detaches the connector
+from the object after the walk.
+
+The skipped mark remains ALIVE|ATTACHED and remains on both its group list
+and the connector list. At the same time, the object no longer points to the
+connector, conn->obj is NULL, and conn->type is DETACHED.
+
+Representative v6.12.105 output is:
+
+  WARNING: CPU: 1 PID: 163 at fs/notify/mark.c:128
+  fsnotify_conn_mask+0x113/0x150
+  CPU: 1 UID: 65534 PID: 163 Comm: fanotify_destro
+  ...
+  do_fanotify_mark
+  __x64_sys_fanotify_mark
+
+The source reproducer ran on ext4 as UID/GID 65534 with CapEff=0 and
+NoNewPrivs=1. It uses ordinary FAN_REPORT_FID groups and races final unlink
+against fd-based mark insertion. Both builds used a KASAN-enabled research
+configuration, but neither positive was a KASAN report.
+
+With panic_on_warn=0 and panic_on_oops=0, the unmodified v7.2 run emitted the
+warning and then completed 10,000 iterations and powered off cleanly. A
+separate fresh v7.2 run with panic_on_warn=1 reached the same warning and
+panicked through check_panic_on_warn(). The v6.12.105 run emitted seven
+warnings and reached its 10,000-iteration progress line; it later timed out
+during post-loop teardown, for which I am not assigning a kernel cause.
+
+A timing-only diagnostic kernel also demonstrated that fdinfo can combine
+the old INODE type with the detached NULL object and reach
+fanotify_show_fdinfo() -> igrab(NULL). I have not reproduced that Oops on an
+unmodified kernel, so it is not part of the impact claim. The skipped mark's
+group-list reference keeps the connector allocated; I have no evidence of a
+connector UAF, arbitrary read or write, information disclosure, or LPE.
+
+I do not have a submission-ready patch. During fix development I rejected a
+survivor-preservation prototype because it introduced a mask race, a
+drain/restart prototype because additions could starve cleanup, and a bounded
+retry prototype because review found an unresolved lock-order/deadlock risk
+when generic callers hold external locks needed by cleanup. I am reporting
+the root cause rather than sending an unsafe fix.
+
+A tested source reproducer, full serial logs, configs, and diagnostic details
+are available privately to the maintainers on request. AI-assisted tooling
+was used during discovery and analysis; I reviewed the source and the literal
+runtime evidence above and am reporting publicly without the reproducer as
+required by Documentation/process/security-bugs.rst.
+
+Assisted-by: LLM
+
+Thanks,
+Daehyeon Ko
