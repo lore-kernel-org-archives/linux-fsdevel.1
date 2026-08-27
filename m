@@ -1,124 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from wata.am-1.org (wata.am-1.org [46.235.224.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805B85733E;
-	Thu, 27 Aug 2026 17:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DB248AE0D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 18:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.224.96
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787852805; cv=none; b=ZafL3cqfPgY02O1ZyAWziNetOJrH+gPhQrXijv9vHqQzl5h05IDua5Rc38GGryaCBlKw9CehrNJTC38MALEtfd3lx9GSXAJQSo80KEU3M5Eqabw+V0uQsZJ9sbc7iZNneWuEg9gqL4YYzovhDgEghZaL0KmDNAKUdS56eJVnXyY=
+	t=1787854843; cv=none; b=diFFzkz6h/N/2g6N+nOjRFRni9/qAuewoCQ5tDqFyEPZjE+2TobVk/XXT7naEP5Qv0wuQ4kVTdgqO5YyXYp8sT/9OqOP6CU9w5m0UVsT4QukN9DFLPt3exavnLCBoMQQBJaCMFWqCk2qdhUglAscHuvBg4nBHlLqdd2yV8r/GjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787852805; c=relaxed/simple;
-	bh=ptA/xWbq8+SD+2Ch3QmBRQyO4sclv1PA/gFeSLbI0WU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RwxyBbolcMr+avm5jXYlWooUuBEC9mb4dNv/1l+KICCuVhFTmVFkyKpSQoxyy2HtPeNn3+qSD5nashGHkxg9fA2ljf5qK//M0HzVC/s/T60YvDLERXwKacWfMCURfZA6V8142hBwLzL2fp2FHkXW741jmg0Vp2rP1OaU5cpK5kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CP+igfjs; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787854843; c=relaxed/simple;
+	bh=4/PschOL1yodg1donUFdRfJeugAZhgumFe+IXZDA3gQ=;
+	h=From:Subject:Date:To:Message-Id; b=lXpezhy1cG8tmTtD4FXZsRIa2qt9RtylB6ILCIt9nqFigON0fp/ZdtedIYfwpjOaNLb9C90wZRMG2teBuZIyo6NLUkPL7vmVgoDjQ2xbeHGRML28o8Fnb2g/eWev2pMldjxrpMo+a/g065hI0RysW8z1mXNUn5MNrPVA2HcuD1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=siamics.net; spf=pass smtp.mailfrom=siamics.net; dkim=pass (2048-bit key) header.d=siamics.net header.i=@siamics.net header.b=ZiRI58fb; arc=none smtp.client-ip=46.235.224.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=siamics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siamics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CP+igfjs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06371F000E9;
-	Thu, 27 Aug 2026 17:46:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787852804;
-	bh=kiHY7Snf377oa7VYd1mbKOFtc64xcuOE4VHGz2nzZeM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CP+igfjszNlZbIUl7rnHGKc5raqEHjwLHnJe417BWX3yWF9HaM6DN85AdSyFdpafR
-	 Vs4wm/WpPGSXKAbNEA/53AhUN6oEC7hN4jHHCkhXbAMRBor1W42XhpsHhsVCbuN3sq
-	 pVqH7VlFQru3zOkJ+Ppn3rsCpseAJ9UL5iXp0XKdaag17hYjN16BifGsha9HFLe5yi
-	 BZgX0MQ4oBHg+iEv49WYDHIpSXDfDsIAYSmVkrrbaIS/k4FGHHw2vz/m2uDgtQS4P7
-	 H99s1MB3vgV9u2lVYfJL53d4tk59HUNmhpJDyasvRkRSVFKdr5TL1fJCmbDtuBesoW
-	 G4dI2uPeb2enQ==
-Date: Thu, 27 Aug 2026 18:46:37 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Jann Horn <jannh@google.com>
-Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jeff Xu <jeffxu@google.com>, =?utf-8?B?VGhpw6liYXVk?= Weksteen <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
-Subject: Re: [PATCH v2 3/3] selinux: require PROCESS__PTRACE for FOLL_FORCE
- introspection
-Message-ID: <apB32VUayqL37wyf@gremlin>
-References: <20260825-selinux-pokemem-v2-0-b46bc64916d8@google.com>
- <20260825-selinux-pokemem-v2-3-b46bc64916d8@google.com>
+	dkim=pass (2048-bit key) header.d=siamics.net header.i=@siamics.net header.b="ZiRI58fb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=siamics.net
+	; s=a2021230; h=License:Message-Id:To:Date:Subject:From:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:In-Reply-To:References:
+	Reply-To:Cc:Content-ID:Content-Description;
+	bh=k4pl7AWoIMy3edfKh50VwNvnPhHRGGOuEKWfXmB8iUE=; b=ZiRI58fb+fpBMuj5lV3mKIUsLa
+	3QaDbIl8sIU2FTlXa3/rkNzAH0hPKF85FQtBhddlNk0IXjtaQGwlBqssdNj7/fzuzMsjxtvejqqoo
+	kgKZLde65v5ZR3LsEHtJtCpgHbENUuwAdgxrUo0PxeNYjZ+Pmi59g0E9J5AXwK0+sFhfm3Kjo9J7K
+	XRplTvelpcoDCIRV548ReFhIL3TOqai13rWmnwMDwhhObReV8OGz+5mwXRryNE2vUxRFSKGrZh7D2
+	nYtS+fQBRhiZNmj9I1npvQyR3kdmohUqK+qLMpfvkQrHFBpKp5fgN6z9YeKlHbklmYncanf7nz6fA
+	70qkhdBA==;
+Received: from violet.siamics.net ([2001:470:1f13:1eb::1:1d])
+	by wata.am-1.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ivan@siamics.net>)
+	id 1wzeJy-00018O-Ed
+	for linux-fsdevel@vger.kernel.org; Thu, 27 Aug 2026 17:55:27 +0000
+Received: from ivan by violet.siamics.net with local (Exim 4.98.2)
+	(envelope-from <ivan@siamics.net>)
+	id 1wzeJv-000000004BC-2BYx
+	for linux-fsdevel@vger.kernel.org;
+	Thu, 27 Aug 2026 17:55:23 +0000
+From: Ivan Shmakov <ivan@siamics.net>
+Subject: fs/isofs/rock.c hardening change fails to account for multi-session 
+Date: Thu, 27 Aug 2026 17:50:15 +0000
+To: linux-fsdevel@vger.kernel.org
+Mail-Followup-To: linux-fsdevel@vger.kernel.org
+Message-Id: <2q5do282ZtqTkEmosKhhr3-1PfHslV8i@violet.siamics.net>
+License: CC0-1.0 (original contributions only)
+Organization: Dbus-free station.
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260825-selinux-pokemem-v2-3-b46bc64916d8@google.com>
 
-On Tue, Aug 25, 2026 at 08:39:19PM +0200, Jann Horn wrote:
-> On systems configured with PROC_MEM_FORCE_ALWAYS, ensure that a process can
-> only create anonymous executable memory via /proc/self/mem if it has
-> PROCESS__PTRACE (like when using /proc/$pid/mem of another process).
->
-> This closes a hole in code integrity enforcement that Project Zero has used
-> in a remote Android exploit chain:
-> It was possible to use a memory corruption bug in a service without
-> EXECMEM/EXECMOD/PTRACE permission to overwrite executable code via
-> /proc/self/mem, which made it possible to load and run shellcode containing
-> a kernel exploit.
->
-> Signed-off-by: Jann Horn <jannh@google.com>
+	I believe the check added to fs/isofs/rock.c back in April [1]
+	is incorrect when the session other than the first is mounted:
 
-Not really my area but in general looks reasonable so:
+[1] http://lore.kernel.org/linux-fsdevel/20260419212155.2169382-2-michael.bommarito@gmail.com/raw
 
-Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+--- a/fs/isofs/rock.c
++++ b/fs/isofs/rock.c
+@@ -101,6 +101,15 @@ static int rock_continue(struct rock_state *rs)
+ 		goto out;
+ 	}
+ 
++	if ((unsigned)rs->cont_extent >= ISOFS_SB(rs->inode->i_sb)->s_nzones) {
++		printk(KERN_NOTICE "rock: corrupted directory entry. "
++			"extent=%u out of volume (nzones=%lu)\n",
++			(unsigned)rs->cont_extent,
++			ISOFS_SB(rs->inode->i_sb)->s_nzones);
++		ret = -EIO;
++		goto out;
++	}
++
+ 	if (rs->cont_extent) {
+ 		struct buffer_head *bh;
 
-> ---
->  security/selinux/hooks.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 18dd28b2bb13..2c2c60e9e0fe 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -2157,6 +2157,27 @@ static int selinux_ptrace_traceme(struct task_struct *parent)
->  			    SECCLASS_PROCESS, PROCESS__PTRACE, NULL);
->  }
->
-> +/*
-> + * Decide whether it should be possible to read non-readable VMAs and write
-> + * non-writable VMAs via /proc/self/mem.
-> + * This only applies to systems configured with PROC_MEM_FORCE_ALWAYS, and only
-> + * triggers on accesses that are not visible to selinux_ptrace_access_check()
-> + * because of the introspection exceptions in may_access_mm() and
-> + * __ptrace_may_access().
-> + *
-> + * This allows a process to overwrite read-only code in its own address space.
-> + *
-> + * Creating an audit record on denial doesn't make sense here, since we can't
-> + * tell whether FOLL_FORCE matters for the accessed VMAs.
-> + */
-> +static int selinux_mem_foll_force_opened_by_owner(const struct cred *subject)
-> +{
-> +	struct av_decision avd;
-> +	u32 sid = cred_sid(subject);
-> +
-> +	return avc_has_perm_noaudit(sid, sid, SECCLASS_PROCESS, PROCESS__PTRACE, 0, &avd);
-> +}
-> +
->  static int selinux_capget(const struct task_struct *target, kernel_cap_t *effective,
->  			  kernel_cap_t *inheritable, kernel_cap_t *permitted)
->  {
-> @@ -7558,6 +7579,7 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
->
->  	LSM_HOOK_INIT(ptrace_access_check, selinux_ptrace_access_check),
->  	LSM_HOOK_INIT(ptrace_traceme, selinux_ptrace_traceme),
-> +	LSM_HOOK_INIT(mem_foll_force_opened_by_owner, selinux_mem_foll_force_opened_by_owner),
->  	LSM_HOOK_INIT(capget, selinux_capget),
->  	LSM_HOOK_INIT(capset, selinux_capset),
->  	LSM_HOOK_INIT(capable, selinux_capable),
->
-> --
-> 2.55.0.860.g4b6b3295ed-goog
->
+	My understanding is that here, ->cont_extent, an offset relative
+	to the start of the medium, is compared to ->s_nzones, which is
+	the size of the mounted session, relative to the start of that
+	same session (either ->sb_sector or ->sb_sector - 16, I guess.)
 
---
-Cheers, Lorenzo
+	Consider, for example, that a DVD+R has two sessions: the first
+	starting at LBA 0 comprising 1234560 LBs, and the second
+	starting at LBA 1236584 comprising 1058200 LBs.
+
+	When the second session is mounted, ->sb_sector would be
+	1236600, all the Rock Ridge records would have ->cont_extent
+	> 1236600, and yet ->s_nzones would be 1058200.  The condition
+	hence will always be true.
+
+	As an aside, I often have several ECMA 119 / ISO 9660 filesystems
+	mounted at the same time.  Were the message above and the others
+	under isofs/ to mention a block device or a mount point, they
+	would've been way more helpful for figuring out which specific
+	FS might have a problem.
+
+	TYC.
