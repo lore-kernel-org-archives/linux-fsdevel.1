@@ -1,150 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com [34.218.115.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBF912F585;
-	Thu, 27 Aug 2026 09:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766EE12F585;
+	Thu, 27 Aug 2026 09:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.218.115.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787822442; cv=none; b=mY2tR4HBh9bCEeCd/90dGOiHaB8tvMbuyxSBBN+vDJ6tqLqWIdpMm3mTdVrSjQzQ5AIBjsqNsTwfN4StC61WmSza4HCoe2vaZ2UWKcVB9+7/pfk6dDzz/MWN28uIRU4KCWWVyQu0bPwKS7hIYh2y8NdoI4o8akor8GHXfDnDYUI=
+	t=1787822492; cv=none; b=kHiwzDbXtV40kQAhAq3nMPTp/zkc4HlLDoZJOLkYpRT6HWvM4yDqf5cLhcMrZpxtOmkDQ++h1JN6bavtZBWNiiJdiT5A30rM3EycJNJmtS9PRioqnIn1J9N+GuhICv9BwCeLXLZIqZT35/ym/W050B68DfZxS/soidmESVS7Ga0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787822442; c=relaxed/simple;
-	bh=F1snZgwjWPb8+c/6wzwH4Q06qio/CD1Sw2VhCuKX5DQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qgMuxyd1bGHp6S/lqwQny0JEt+D1cbqpBwlOpaIPTpkKvs78CnQnrkY7WEGclT5u39CpHu996PLfDuKENYpT0Ivf2DjRPpCsdV2BLcC+AqbHhaxW7oxIR6B7mDCQb4bk7eNos0TD8TWHBmzLVA5NSZiCI3wPjZsmpPoqT+KahA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AewH8qVo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787822492; c=relaxed/simple;
+	bh=4IzhJh3lBWAOHfE4wJbpsM9iGrvkz87YVBb3Imb3jJM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Lh+hDmD+TsidZ2uDP6VFSuODTkee2CzB0nYi2iNAIwelXDaKk7l3QveOdrSkXegFMoBUrryRejGIx1GvMrWy/bzrPyo7zdn7SHXpn9HHYDoWvDgyp167K7+RB5lhz9dy4L1x25s1r69rcpRhcg+cPUtZR2l3pjMwft6KTs84T0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=dPRMr4HX; arc=none smtp.client-ip=34.218.115.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AewH8qVo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2ED11F000E9;
-	Thu, 27 Aug 2026 09:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787822441;
-	bh=MQ5yrSer67OLzLd9lz4RUmRIM3BfwQlVemrGrqjo/J0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=AewH8qVoW428CLvXuvn03nnnNNP+TgdWg5uRUNFsxqCL+qVKeAjZDW+Tmxv3tAVdc
-	 7UIVsQWQbyBgUKhK2nFQti2iPxw0BTpPo1vq8iLuV88Lgd4H/PB1EF6MYmiaihBni6
-	 G5F6gOD/c/IuPNuv7PXCBiTHbx44v1IRNf32u/Vb0ErvNQVonwYUp8zYU+tDAzZUdx
-	 wy/6HEE8/4+JjE3saEFPne1x2ZAx9PbQZVIk5BRuTTtwzFXfGeJJJXlXU5XunauPqm
-	 Sxc89Jf7AuhJN9ZCDiVpmwkcHiZr7L6Sjj+HRwJWxkrQ4nRUqxV3uAdsRHdH+ppbBk
-	 YaSl01yghZ8oQ==
-Message-ID: <1dc8f7d5-c923-410a-a262-dc21c9e65420@kernel.org>
-Date: Thu, 27 Aug 2026 11:20:28 +0200
+	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="dPRMr4HX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
+  t=1787822490; x=1819358490;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=x7TNb3PzZ5LF/z0aOAcLHf9VQM7UzSXd9dJnzyzxr1A=;
+  b=dPRMr4HX8uEBgzbwATOM8D755h7xcAGuGer1Z80qt+JWXoCvDZb1q/da
+   e2ExPLrLGjutSQyNMXGGMJPVahdXT+LjoCDrl83eYn8GyBBZNRTRLMBrD
+   LxfbpH357Ez6KueLWxSaLHUeFSAVc9/Fj3TCZ1RhVj1zOSxQWffxbjD39
+   GdVaOrPnIBbC2u0pTmpAs3IklouK69/8g5t2WVujyzgD9JcnxWJeBaDk0
+   EN+82sqJEhzZwfYTFuflFwFckTVtJcHefBXZw7+BWdtvdEdzF0zKtQczA
+   If8BaTRJ9GYKXxNZPAc+cBgPqbimbHy212DRj37pZB1xEiBebLRzAFK1d
+   A==;
+X-CSE-ConnectionGUID: TIVzVIwxQRGxNhHQ7zupIg==
+X-CSE-MsgGUID: HUlh8tT+SpuI9Eceq6oHvA==
+X-IronPort-AV: E=Sophos;i="6.25,246,1779148800"; 
+   d="scan'208";a="26899945"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 09:21:28 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.51:31814]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.0.244:2525] with esmtp (Farcaster)
+ id 3d6197ce-b226-432b-8cc0-0137c0d8e6d7; Thu, 27 Aug 2026 09:21:27 +0000 (UTC)
+X-Farcaster-Flow-ID: 3d6197ce-b226-432b-8cc0-0137c0d8e6d7
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Thu, 27 Aug 2026 09:21:27 +0000
+Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
+ (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46; Thu, 27 Aug 2026
+ 09:21:24 +0000
+From: Salvatore Dipietro <dipiets@amazon.it>
+To: <vbabka@kernel.org>, <hannes@cmpxchg.org>, <willy@infradead.org>
+CC: <abuehaze@amazon.com>, <akpm@linux-foundation.org>, <alisaidi@amazon.com>,
+	<blakgeof@amazon.com>, <rvvandan@amazon.com>, <brauner@kernel.org>,
+	<dgc@kernel.org>, <dipietro.salvatore@gmail.com>, <dipiets@amazon.it>,
+	<djwong@kernel.org>, <hch@infradead.org>, <jackmanb@google.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-xfs@vger.kernel.org>, <mhocko@suse.com>,
+	<ritesh.list@gmail.com>, <stable@vger.kernel.org>, <surenb@google.com>,
+	<ziy@nvidia.com>
+Subject: Re: [PATCH v3] mm/page_alloc: avoid direct compaction for costly __GFP_NORETRY allocations
+Date: Thu, 27 Aug 2026 09:21:00 +0000
+Message-ID: <20260827092100.3988386-1-dipiets@amazon.it>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <7ddb704c-76a9-4071-8969-06fa1403eb07@kernel.org>
+References: <7ddb704c-76a9-4071-8969-06fa1403eb07@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH alt 13/25] mm/fbatch: no lru_add_drain() to
- collect_longterm_unpinnable_folios()
-To: Hugh Dickins <hughd@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Ackerley Tng <ackerleytng@google.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
- Binbin Wu <binbin.wu@linux.intel.com>, Christian Brauner
- <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Christoph Lameter <cl@gentwo.org>, Claudio Imbrenda
- <imbrenda@linux.ibm.com>, JP Kobryn <jp.kobryn@linux.dev>,
- Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>,
- Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, Matthew Wilcox <willy@infradead.org>,
- Mel Gorman <mgorman@techsingularity.net>, Miaohe Lin <linmiaohe@huawei.com>,
- Michal Hocko <mhocko@suse.com>, Minchan Kim <minchan@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
- Rik van Riel <riel@surriel.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Shakeel Butt <shakeel.butt@linux.dev>, Suren Baghdasaryan
- <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
- Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>,
- Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
- <fbf3fa74-c646-8855-17e4-e8b35dfd9c14@google.com>
- <333bb765-a36d-e07e-d3c4-5ea2f1cadfcb@google.com>
- <5d42fbfa-1cc3-4161-8ba0-7318267576a1@kernel.org>
- <e10bc806-f995-e48d-a24e-8872f0a71689@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <e10bc806-f995-e48d-a24e-8872f0a71689@google.com>
-Content-Type: text/plain; charset=UTF-8
+X-ClientProxiedBy: EX19D040UWA003.ant.amazon.com (10.13.139.6) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On 8/27/26 11:16, Hugh Dickins wrote:
-> On Mon, 24 Aug 2026, David Hildenbrand (Arm) wrote:
->> On 8/24/26 16:55, Hugh Dickins wrote:
->>> collect_longterm_unpinnable_folios() has no use for lru_add_drain() nor
->>> lru_add_drain_all(), now that the per-cpu fbatch references are gone.
->>> So remove the recently added lru_cache_drain_for_folio().
->>>
->>> Signed-off-by: Hugh Dickins <hughd@google.com>
->>> ---
->>> Alternate version for use once David Hildenbrand's two commits
->>> here have been pulled from mm.git into linux.git for 7.3-rc1.
->>
->> For 7.4 we expect another user of the helper in KVM guest_memfd code (the
->> primary reason why we introduce the helper), so depending on when this series is
->> ready it will just remove that user as well, or we'll need some coordination
->> between trees.
-> 
-> Yes, I could supply an alternate alternate version, providing an empty
-> stub for lru_cache_drain_for_folio(), so Ackerley's and my series can
-> proceed (or not) independently. Later. But at present your patch or
-> patches seem to be in both mm.git and Ackerley's series (17/46),
-> but not yet in Linus's tree.
 
-They are in mm-stable, so they should go upstream this week. Anyhow, that's all
-stuff that's easily resolved later.
+On Wed, Jul 22, 2026 at 02:35:00PM +0200, Vlastimil Babka (SUSE) wrote:
+> AFAICS both your v3 and the implemented Johannes' suggestion effectively
+> make all the compact_first logic dead code - at least for the intended THP
+> use case based on costly_order. It will only continue to do something for
+> the non-movable order>0  case. So that's a significant change which will not
+> show up in your results, but might affect other workloads (I'd expect mainly
+> by having fewer THPs).
 
--- 
-Cheers,
+Right - the change above modifies THP allocation requests as well. So instead
+of applying it to every costly __GFP_NORETRY allocation, I restrict it to
+callers that do not ask for __GFP_THISNODE. That leaves the local-node THP
+attempt untouched: the same bit pair is already tested further down the function 
+to bail out of the compact_first block (page_alloc.c:4899), and alloc_pages_mpol()
+sets both flags on the local-node-first attempt (mempolicy.c:2476-2478).
 
-David
+I tested this with my PostgreSQL workload on kernel v7.2-rc7 and results look good:
+
+Baseline:       70,735 tps
+This version:  144,670 tps  (145,280 / 144,037 / 144,694)  +104.5%
+
+
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index ee902a468c2f..1e4b0c1e7296 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -4725,10 +4725,10 @@ static inline struct page *
+ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+ 						struct alloc_context *ac)
+ {
+-	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
+-	bool can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
+-	bool nofail = gfp_mask & __GFP_NOFAIL;
+ 	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
++	bool can_direct_reclaim;
++	bool can_compact;
++	bool nofail;
+ 	struct page *page = NULL;
+ 	unsigned int alloc_flags;
+ 	unsigned long did_some_progress;
+@@ -4743,6 +4743,18 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+ 	bool can_retry_reserves = true;
+ 	unsigned long alloc_start_time = jiffies;
+
++	/*
++	 * Costly __GFP_NORETRY callers have a cheap fallback, so don't stall
++	 * them in reclaim or compaction. __GFP_THISNODE callers are exempt.
++	 */
++	if (costly_order && (gfp_mask & __GFP_NORETRY) &&
++	    !(gfp_mask & __GFP_THISNODE))
++		gfp_mask &= ~__GFP_DIRECT_RECLAIM;
++
++	can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
++	can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
++	nofail = gfp_mask & __GFP_NOFAIL;
++
+ 	if (unlikely(nofail)) {
+ 		/*
+ 		 * Also we don't support __GFP_NOFAIL without __GFP_DIRECT_RECLAIM,
+
+
+
+AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
+
+
+
