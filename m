@@ -1,160 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF5E3DB303;
-	Thu, 27 Aug 2026 09:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD48F41D22B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 09:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787821768; cv=none; b=NYh2pJaA7EcCVIljUfqk1CwIs0INS1KhcRQTBAojMhy/ReULMdAiEk3q9lFk1vmle2695uJXLwONmuNu8mYyBdXEtg5gRHFFCAgv5D2fFtraYtzj3zSsLqLrB7LCkutOz0vNtDesrtuUiQS3cDrrxfxjvHxC5QpbCFsDstczhXE=
+	t=1787822225; cv=none; b=th7mz4L18cgX17xlNV0PHT8o9GtBwaR+Qe00oLRTyA1KvBK66Y3E7Jjm8x0JbbpHpu12xfdTNvuUDCNIyUSOoUSCRxk0vjgDhavsaS36kuJf7Nn5BzslP7QXvrCy8rxVlECd4CLJr7bjyQ8Oa9e89bcVyuDlaHQN9zSFncshvjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787821768; c=relaxed/simple;
-	bh=nj08DtLLOo31GmcfAdM92lCdx6IL9ddHq0eaPzUjsRI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i4VhZsMiuVyCid2xcsyOS1hSaL6nGUZyUkR4s4w/E7bZ4W/qVm8X+xhsiCVoZQUT5wne9vEgwInlytdf+m2x3O3kCrUmslrVJgq2t09ie7xzP1cZWRprqgE8/eXEnyWdnHj8S2jWcxbTu0Ip7sBpAnsff+lZoW95VMDisC0KTFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZFiuJ2aK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787822225; c=relaxed/simple;
+	bh=5VfrgZkKynHJykbnugTUAuRm/lIC9QY5cTmsrhtNC2k=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=VtPwLrpgC1pKUGwV8SAm67lyrY81ipda0uDIFJqvBVS3cbfK/FsumD23DZ59EMp/98axhtz+MHDQTeFzYpwBPhOgHKamEj6XNcMeYt5qFYvhEQ2INdFBye3u7lteT8oBppqHTTcKx9DVozTuSmV/nW/NjUk3Yzw1HvIWsTjXRSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fSk8urBN; arc=none smtp.client-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZFiuJ2aK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F71A1F000E9;
-	Thu, 27 Aug 2026 09:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787821767;
-	bh=RpGiMBMHM5Gzcxil2Rgh4TexxSKnGvufNkrztx+joGU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZFiuJ2aKTkIPolcpnhdNN4ZOC0buG+VC/7mPcURAZVx/F9rT2gBbpwQJJXMWr4Nlm
-	 1dgzM4NJthTfp3ZG7NLeYjCPkvVydK8hJGR/4IK8wGTlJzncBIIYNfAQLG/51lIvXC
-	 WMPvsWYMUx4LbdLfjkLSrm0Mg7lcmXd/3bno4cSpOVcUV3xFXnsrjcBpI/S3A/Pk5T
-	 DEI6NaSXhOUwM2JtYiy92dwxr9GQ0NxWs4OWexmA6ILGV6dkBoG25PiEh1voDngCNg
-	 vcrw2JJZ9sFm7WbCEXq2CW/pdL8ShXEkZpNx2fo17ugyLZqOTIj21OCni6H+Xf2fb/
-	 h1pUsqwaSmLFw==
-Date: Thu, 27 Aug 2026 12:09:13 +0300
-From: Mike Rapoport <rppt@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fSk8urBN"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-66c70f69d3fso2534327d50.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 02:16:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787822200; x=1788427000; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/wURAAqpmYnRm70wHLRDHhfOf5KYKWGXPLGAT3tMJ/w=;
+        b=fSk8urBNEAkuiCBeBo8SyIw8Z9Njl+3rvjRUdLpXZytpltL9YV+ApmncSKJhsSTULG
+         awxP4kNb1tC0v/GgHEJ8NHFcrKguTgEpwcSQIDOVDuObeIeYKLKUi8XJIwexy8hpI2gK
+         Kat4E4FaIkNe/iXENpa31GKKX7YlYUcZETZ6ee4B6yKAUxtYXsewyisIQt+g19oRS8JE
+         TZBLa0XEmUzKL0Zf7vr86YlY1fiVpj5inj1R03NWQbH6SRB9QMoa7+/xNyLNr3ed+B72
+         zraFmfINVpNZyj6K4SgVd0fTzSaucr6SvAA/OEBfxcbMchrzTSvR/4VNgW98MotRcspY
+         PgxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787822200; x=1788427000;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/wURAAqpmYnRm70wHLRDHhfOf5KYKWGXPLGAT3tMJ/w=;
+        b=nkFw18iYMd3BPFHR0P4wkKWhtt7DtRdmxAJWi/RcPQy4LTcCmIDwGpTCW4BfSkRFhr
+         9DurP+Ptk6ouSvJ1XgWlEt3AH9JB7eFh88HJ/b53PJ02xoBVYyHQWXZyLL8Fjz5mj8dU
+         78n99cMuy1ItRVQfKpzZUBOSQmNJCR03gzu5UtE4saZjJMYZlXZ3iW+f0SticBgdULjg
+         fV6838EbamaV04WQOlmzlRI2S+dmU7EmOi50fIYEj64JsVhblFM66PTcV9i0FAk1H0Ng
+         s21UtBU0jOTBrhunWtyXv4CWJWYhOvq8DvNBiSBbrhTSnPPXsidMPwJGv+zJ6SfoAd9b
+         9Jbw==
+X-Forwarded-Encrypted: i=1; AHgh+RozNRMtlo41fd85rr6+TG+7GALTEFybFk2JkUyYbALZEZ0XkKVRRwKF2Ic84+BmQbUUbixqTD5/PeFZPMHq@vger.kernel.org
+X-Gm-Message-State: AFuF++nJgdtgv08g2EVvlxVxEABO/spIauRxECMbtsO6ZcsGVzCBgRNY
+	wrjFTqsO+PjZRzyph+JzAI4epNsrjJcQZrHdALzPlXD3FXsj64fXzm8t9DGMt/qr0g==
+X-Gm-Gg: AR+sD12vmGHyF/O5Ix/7qKxOGmBBkcs0l2OBV+lpuOHPjO0iYRzJ5aNkkNMSfI0834c
+	Recy0we0e7q3CmGhRlCL7TNXDgnieTyfAHEkiI5ETqpxptcQEgaAe8Y80GA1IGzaTgqARyuXt82
+	8bN420gQ/pB8CbZiEUUcz8wyOiD8TnTEk/FfIW8bURw6HR9zXMrPUSKH0aaVsFIxsDZyXc1OGRe
+	zNSIrzjKNlMoJ6ekKSMmKTHZUktPcHQze4c4dnofbW8+8AlHJHiqkenkjk8x5J/Uwmv/XO03WZG
+	7gHIA3xvtJSOpZtMs6Uabx0eueR/+Tjveio8aMZI65HJKCBWvJuvxFFhrteymqrNDnGFkDM0A+X
+	bzJxerPH3vBv6UAojFJcfYKql6iGjB5FzkWfLLRvAPxR14iSfrAWvPtiUTYQbDDduo9padlTU45
+	xeP/QZkOTzfn2K/wdGHCXIo+S4DuW4fr0LaqTVfqjxTeChQryBBrYAkRWFinTvdVt4J13ukon5N
+	ba9zMfyt276jh0va/IugsWVr4vmcsOHlp+/YGbRZMH+6dL3
+X-Received: by 2002:a05:690e:150b:b0:668:568e:8618 with SMTP id 956f58d0204a3-66d256571a7mr4352551d50.1.1787822199153;
+        Thu, 27 Aug 2026 02:16:39 -0700 (PDT)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66d24721e47sm2631290d50.13.2026.08.27.02.16.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 02:16:38 -0700 (PDT)
+Date: Thu, 27 Aug 2026 02:16:25 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
-	Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	Nico Pache <nico.pache@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Usama Arif <usama.arif@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
-Message-ID: <ao_-uZrrsVX9lzbz@kernel.org>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
- <5bb86e34-6196-4b50-b553-be2ff7c1fa32@kernel.org>
- <ao_sCh5zP0IC9H2S@kernel.org>
- <e8aaddde-0a07-4197-9874-5ca0ea8af43f@kernel.org>
+cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+    Ackerley Tng <ackerleytng@google.com>, 
+    Alexander Viro <viro@zeniv.linux.org.uk>, 
+    Baolin Wang <baolin.wang@linux.alibaba.com>, 
+    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
+    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+    Christoph Lameter <cl@gentwo.org>, 
+    Claudio Imbrenda <imbrenda@linux.ibm.com>, JP Kobryn <jp.kobryn@linux.dev>, 
+    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
+    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+    Marcelo Tosatti <mtosatti@redhat.com>, 
+    Matthew Wilcox <willy@infradead.org>, 
+    Mel Gorman <mgorman@techsingularity.net>, 
+    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
+    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
+    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Shakeel Butt <shakeel.butt@linux.dev>, 
+    Suren Baghdasaryan <surenb@google.com>, 
+    Vlastimil Babka <vbabka@kernel.org>, 
+    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
+    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH alt 13/25] mm/fbatch: no lru_add_drain() to
+ collect_longterm_unpinnable_folios()
+In-Reply-To: <5d42fbfa-1cc3-4161-8ba0-7318267576a1@kernel.org>
+Message-ID: <e10bc806-f995-e48d-a24e-8872f0a71689@google.com>
+References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com> <fbf3fa74-c646-8855-17e4-e8b35dfd9c14@google.com> <333bb765-a36d-e07e-d3c4-5ea2f1cadfcb@google.com> <5d42fbfa-1cc3-4161-8ba0-7318267576a1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e8aaddde-0a07-4197-9874-5ca0ea8af43f@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Aug 27, 2026 at 10:10:24AM +0200, David Hildenbrand (Arm) wrote:
-> On 8/27/26 09:49, Mike Rapoport wrote:
-> > On Mon, Aug 24, 2026 at 04:46:14PM +0200, David Hildenbrand (Arm) wrote:
-> >> On 8/23/26 14:17, Mike Rapoport (Microsoft) wrote:
-> >>> Introduce enum uffd_reason to define reasons for user faults rather than
-> >>> overload VM_UFFD_* VMA flags for that.
-> >>>
-> >>> Using a dedicated enum makes the code clearer and decoupling the fault
-> >>> reason from VMA flags clears the way for moving the uffd mode bits out
-> >>> of VMA namespace.
-> >>>
-> >>> No functional change.
-> >>>
-> >>> Assisted-by: copilot:claude-opus-4.6
-> >>> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> >>> ---
-> >>>  include/linux/userfaultfd_k.h    | 16 ++++++++++++++--
-> >>>  include/uapi/linux/userfaultfd.h |  6 +++---
-> >>>  mm/huge_memory.c                 |  6 +++---
-> >>>  mm/hugetlb.c                     | 10 +++++-----
-> >>>  mm/memory.c                      | 10 +++++-----
-> >>>  mm/shmem.c                       |  4 ++--
-> >>>  mm/userfaultfd.c                 | 30 +++++++++++++++---------------
-> >>>  7 files changed, 47 insertions(+), 35 deletions(-)
-> >>>
-> >>> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> >>> index 45355bdb4ec7..f401623f315d 100644
-> >>> --- a/include/linux/userfaultfd_k.h
-> >>> +++ b/include/linux/userfaultfd_k.h
-> >>> @@ -9,6 +9,18 @@
-> >>>  #ifndef _LINUX_USERFAULTFD_K_H
-> >>>  #define _LINUX_USERFAULTFD_K_H
-> >>>  
-> >>> +#include <linux/bits.h>
-> >>> +
-> >>> +/* Fault reason #PF handler passes to handle_userfault() */
-> >>> +enum uf_reason {
-> >>
-> >> Can we just call this "userfault_reason" or "uffd_reason" ? Maybe the latter is
-> >> actually what we want?
+On Mon, 24 Aug 2026, David Hildenbrand (Arm) wrote:
+> On 8/24/26 16:55, Hugh Dickins wrote:
+> > collect_longterm_unpinnable_folios() has no use for lru_add_drain() nor
+> > lru_add_drain_all(), now that the per-cpu fbatch references are gone.
+> > So remove the recently added lru_cache_drain_for_folio().
 > > 
-> > userfault_reason sounds better to me.
-> > 
-> > It describes what kind of user fault we are handling and the 'fd' part has
-> > nothing to do with it. 
-> > We do use uffd as a short name for the subsystem, but still most if not all
-> > userfaultfd "external" APIs use userfault_ prefix.
-> > 
-> > uf_ was an attempt to make it wee shorter :)
+> > Signed-off-by: Hugh Dickins <hughd@google.com>
+> > ---
+> > Alternate version for use once David Hildenbrand's two commits
+> > here have been pulled from mm.git into linux.git for 7.3-rc1.
 > 
-> Yeah, I got that; while uffd is a known acronym, the uf_ not so much (and also I
-> wouldn't suggest it to become a thing, lol :) )
-> 
-> I've been wondering for a while whether it really should be called
-> 
-> 	handle_userfault()
-> 
-> And not instead
-> 
-> 	handle_userfaultfd()
+> For 7.4 we expect another user of the helper in KVM guest_memfd code (the
+> primary reason why we introduce the helper), so depending on when this series is
+> ready it will just remove that user as well, or we'll need some coordination
+> between trees.
 
-The 'fd' part here sounds really weird :)
- 
-> Or maybe even better
-> 
-> 	handle_uffd_fault()
+Yes, I could supply an alternate alternate version, providing an empty
+stub for lru_cache_drain_for_folio(), so Ackerley's and my series can
+proceed (or not) independently. Later. But at present your patch or
+patches seem to be in both mm.git and Ackerley's series (17/46),
+but not yet in Linus's tree.
 
-That's somehow tautological, but maybe using uffd_ as prefix would make it
-a "subsystem namespace", so tautology won't be as blunt:
-
-	uffd_handle_fault()
- 
-> And then have
-> 
-> 	uffd_fault_reason
-
-Could work, yes. No strong feelings between this one and userfault_reason.
- 
-> ... but just a thought.
-> 
-> -- 
-> Cheers,
-> 
-> David
-
--- 
-Sincerely yours,
-Mike.
+Hugh
