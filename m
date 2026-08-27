@@ -1,73 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35CE3B27FA;
-	Thu, 27 Aug 2026 09:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80612424D74
+	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 09:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787822502; cv=none; b=N8OZbgWlVpmrylthuQzBTFvzfqVn6jfKhOvut2TbDzTmm06IYAcmj+m727m8zQgxKZvtqK64G5h/bvVEnJXeoJSStDsVOc7NdIGhYUYOIzYb31RsM8E5QkiGtIBKVaaQT4ZjwGN9/0yG5/WunLETG4ij1oRjbA8m90VwpyR43ME=
+	t=1787823535; cv=none; b=oGUleJEOTNTQLf/tTgW5UDUDdY0NtNN1qbl3HwqfoO5q/WTZXiQdQ2umCgMyNLOxyePHwwf+w85T0TZBmc3Vu2RtYf2nTJ06nNCCIz8PIYAHmJXMSkhD6tXk3n1oo4pDxzVwnjlnmm66dL6WJZOZncMWgwiMfbuBWJNKJHniXhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787822502; c=relaxed/simple;
-	bh=n4z9h38OfpEH2Q8HujaPpay0A2etD00gYp/7BjEfmXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RoLWNwNikTDhysPSQ4lU20jyDTpL/RyJ3oniGOt24qZbDu2zkxay0rq9NpW9XNp01qjRH8nMsQO2lzlktQBVF9XxkjcNb67cnsvnPIW7B7J9aLKQWh9X00HuiftsJ5zafQ4yEyJ9P9FygCFiRp47bp1tF032d71YVhW7X7yKGPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jpAIlQkz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787823535; c=relaxed/simple;
+	bh=xjb5979/QIug4PmWxujJWqtP1uK1jBCSYMrRh2EIv5s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=radHrdvSazwK/R7zalwKClHRVgWkrOU4sNTIJBohEImc2yDOrxn2u/4G7upZu+S4pMFz+h2YByjdyrwn1nl60DrildxPg8kXMN071qhLg1SCgw4YiO48HjKC7DHEPnAXjNj82ea2EE423gAA7n7h/MD99j+jOZoRCSynDeMjLC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bjqvFqka; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpAIlQkz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA07E1F000E9;
-	Thu, 27 Aug 2026 09:21:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787822500;
-	bh=n4z9h38OfpEH2Q8HujaPpay0A2etD00gYp/7BjEfmXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jpAIlQkz8SPDBEHr/++so/yIfXSgHbjIgfwBjM0AnESqfPxYYIyw7mOcf1VeWz7H7
-	 dWc4G8Vcvna7EtYgW14PuMnBFfwaPSUMhDnXDNvcmrutWQ7/KBlDuNTWG6SGTzAs1f
-	 bgtSdTc44WUrqbLs4fbf5ciNiUUewPvph2b9Jd+E2+wDZbdX5GUlbjgb1jL5QIYFBu
-	 cdgtM2FcQ73fbrZ0kcJCIslqpAVgKKMSGrnLPhHpzWPpatzuBD1YjPnbvVMgQVgEc+
-	 csnfU7xXh4lo7wlNL/iEsZ9D+OX4gQBBv/Z/FxAM1NFJ19iVi9bi9ALqP+KcOBEFB7
-	 4CHak9EewcvJQ==
-Date: Thu, 27 Aug 2026 10:21:31 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>, 
-	Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
-Message-ID: <apABifdLFy3ct2IN@gremlin>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
- <5bb86e34-6196-4b50-b553-be2ff7c1fa32@kernel.org>
- <ao_sCh5zP0IC9H2S@kernel.org>
- <e8aaddde-0a07-4197-9874-5ca0ea8af43f@kernel.org>
- <ao_-uZrrsVX9lzbz@kernel.org>
- <01aae5b4-ee10-4601-8ddd-c9428e11d651@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bjqvFqka"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787823529;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kULfUyQq7EqkKb8DB+KYwFU87ezqhr1+/Exo1PKTlDQ=;
+	b=bjqvFqkaoA1RcFvyWxDvAC9+w9q7aTdR+w0zWXeb/bu3ufeQWaylvMIClh52fGtE/glzt9
+	T3xeKSgbMLuOIpnYMsIKQEqugAKh6VjrWrlHqMyNKRwwXNsZ4gtEKRi27tEyLHGD8zq3zT
+	3vP+E0zchxOhDuS8UjhDLYv4FZ6xCcU=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-556-Jlguz078NyalceJlyShADQ-1; Thu,
+ 27 Aug 2026 05:38:43 -0400
+X-MC-Unique: Jlguz078NyalceJlyShADQ-1
+X-Mimecast-MFC-AGG-ID: Jlguz078NyalceJlyShADQ_1787823521
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9C3561801344;
+	Thu, 27 Aug 2026 09:38:41 +0000 (UTC)
+Received: from warthog.com (unknown [10.22.88.47])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 92B661955F04;
+	Thu, 27 Aug 2026 09:38:38 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/10] netfs, cachefiles: Miscellaneous fixes
+Date: Thu, 27 Aug 2026 10:38:15 +0100
+Message-ID: <20260827093828.1956211-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <01aae5b4-ee10-4601-8ddd-c9428e11d651@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Thu, Aug 27, 2026 at 11:19:01AM +0200, David Hildenbrand (Arm) wrote:
-> I lean towards just calling stuff uffd consistently might be cleanest.
+Hi Christian,
 
-Agreed. Let's use the same naming everywhere please.
+Here are some miscellaneous fixes for netfslib and one for cachefiles, if
+you could pick them up?
 
---
-Cheers, Lorenzo
+The first six are all in unbuffered/DIO write:
+
+ (1) Fix an uninitialised return value from netfs_unbuffered_write().
+
+ (2) Fix the normal error return, preferring partial transfer size over
+     request error over immediate error (e.g. EINTR).
+
+ (3) Fix the async error return, preferring partial transfer size over
+     error.
+
+ (4) Fix the update of i_size on partial transfer ending in an error.
+
+ (5) Fix a subrequest leak in an error path.
+
+ (6) Fix the code to handle subrequest allocation failure.
+
+Then there's:
+
+ (7) Fix synchronisation issues with using a progressive rolling buffer for
+     readahead by fetching everything into it upfront so that the issues
+     don't arise.  Dropping the refs so acquired is deferred until after
+     I/O is begun.
+
+ (8) Change the marking of folios to be copied to the cache to be done
+     whilst subreqs are being issued rather than at the time they're
+     collected.  Whilst this is not strictly a fix, it means that the
+     collector thread doesn't need to try and keep track of that, which
+     means that delayed progress reporting will not be a problem in patch
+     (9).
+
+ (9) Fix read progress reporting to avoid 64-bit tearing on a 32-bit
+     machine.  This has been modified from the previous submission as part
+     of a different series to take account of a sashiko reported issue[1].
+
+(10) Fix a potential UAF/KASAN warning reported by sashiko[1] in cachefiles
+     in which the coherency data buffer is cast to a __be64* and
+     dereferenced in a tracepoint - even though it might not be at least
+     that large (or aligned).
+
+The patches can also be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=netfs-fixes
+
+Thanks,
+David
+
+Changes
+=======
+ver #3)
+- Fixed a number of issues reported by Sashiko[3]:
+  - Fixed netfs_unbuffered_write() to return -ENOMEM to async writes too.
+  - Added a patch to preload the entire readahead folio collection up front
+    to avoid producer-consumer synchronisation issues.
+  - Added a patch to premark buffered read folios with whether or not
+    they're going to require caching so that the read-progress fix works
+    correctly.
+
+ver #2)
+- Imported a patch to add subreq alloc failure handling in unbuffered/DIO
+  write.
+- Fixed a number of issues reported by Sashiko[2]:
+  - Added four patches to fix bugs in unbuffered/DIO write.
+  - Added a patch to fix readahead rolling buffer issues.
+  - Fixed the cachefiles xattr stuff to use max() not min() when
+    allocating.
+  - Fixed the cachefiles trace comment with regard to alignment.
+  - Fixed netfs_read_set_unlock_at() to use folioq_count(), not
+    folio_nr_slots().
+
+[1] https://sashiko.dev/#/patchset/20260810144746.574036-1-dhowells%40redhat.com
+[2] https://sashiko.dev/#/patchset/20260824120224.504575-1-dhowells%40redhat.com
+[3] https://sashiko.dev/#/patchset/20260825132045.1000787-1-dhowells%40redhat.com
+
+David Howells (8):
+  netfs: Fix unbuffered/DIO write partial transfer error return
+  netfs: Fix error vs transferred passed to ->ki_complete()
+  netfs: Fix i_size update for partial transfer
+  netfs: Fix subreq ref leak
+  netfs: Fix readahead synchronisation issues by loading all folios
+    upfront
+  netfs: Mark folios with COPY_TO_CACHE whilst issuing subreqs
+  netfs: Fix read progress reporting
+  cachefiles: Fix potential UAF/KASAN warning
+
+Edward Adam Davis (1):
+  netfs: break unbuffered write when netfs_alloc_subrequest() fails
+
+Karl Mehltretter (1):
+  netfs: Fix uninitialized return value in netfs_unbuffered_write()
+
+ fs/cachefiles/xattr.c             |  16 +--
+ fs/netfs/buffered_read.c          | 165 ++++++++++++++++++++++--------
+ fs/netfs/direct_write.c           |  31 ++++--
+ fs/netfs/internal.h               |   2 +
+ fs/netfs/misc.c                   |  19 ++++
+ fs/netfs/objects.c                |  32 +++---
+ fs/netfs/read_collect.c           | 103 ++++++++++++-------
+ fs/netfs/read_pgpriv2.c           |  13 ++-
+ fs/netfs/read_retry.c             |   7 ++
+ fs/netfs/read_single.c            |   2 +
+ fs/netfs/rolling_buffer.c         |  81 +++++++++------
+ fs/netfs/write_issue.c            |   2 +
+ include/linux/netfs.h             |   5 +-
+ include/linux/rolling_buffer.h    |   6 +-
+ include/trace/events/cachefiles.h |  19 +++-
+ include/trace/events/netfs.h      |  30 +++++-
+ 16 files changed, 381 insertions(+), 152 deletions(-)
+
