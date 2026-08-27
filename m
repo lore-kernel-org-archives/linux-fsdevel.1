@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7068E4279F9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 09:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6D9427FAC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 09:38:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787823538; cv=none; b=M8Gx9oMdMmEqnIXVGiP14S9hJTZ0gQDLDI4JFfjWWb4RihotCOPi6kkDZzeI0JCVtmswsTcm72DzC6Q+jT3wKaPLOwjOsv9yUJxbMtf46zi70qv0/t79e+mbfVfZGiAqeZSmnGWfeJHEKYAe34v6Og5yPgzJueFCh8hcL55t2X4=
+	t=1787823541; cv=none; b=keAs7PaQBJWKEq2URxAE/Lghf0dBJ59oxim0zn41/W7EcC8i53E1UQTmebO/v+/plSVr0NHl8JG4C04C84y22wZTD8be3GsLpDQzoQ6stTOdoVKfjUutW+1ZLtXzlvVE2vn1j703ebdtuwyr9KAlyw+uQMucgDVxKlVDXpWG8xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787823538; c=relaxed/simple;
-	bh=gZJj56dXZ3m5mpuWg5Y32mLuivOuA0n2jQSSKK4Lf/g=;
+	s=arc-20240116; t=1787823541; c=relaxed/simple;
+	bh=txJCVMXbXZvWlCXPrv6gBGpM1BgXhBKNdFGr0ZEG6w0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=arQ1Nv4A3ga26XQQmXSYJYEzhjPAo/7IG1mX8pVMFKy5vhnjsTYcoLO3lX3iS++Ap/dhFzvJc9Xqsmfz2kgN+Ljirj0ybHH+IhqEHx4/Zd0sYRSXqS3pNREJUTMKR/4P33KYII9GyAuGguVKK/9eddh7aaiJ046VR6psqUR+NZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QBiBGFAP; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=SSMiezcANnzmXCIDWa7WIbZzeiSnfkt0PzWLNmHll/3syRQIY6bP8t1LMmKMhKrk2KcW3MPcZQpegfRWXTYjGJi6T1mKGywPoJD0C3SZk3NAMFpXHfQbh9SITA/UcQkMWpfFemmSIacTSO1Eo20qGD1X6VipPFuHJuieezBIzQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GNwyJiNr; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QBiBGFAP"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GNwyJiNr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787823532;
+	s=mimecast20190719; t=1787823535;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=b4i/vAlF7TVRLwxgQcCoqCNsYOQic8KZ0Txwd6Khtt8=;
-	b=QBiBGFAPVercVlbmAVZh8BBXjYAk6ZSD/GE+DRlMWHDRh3udpG3NjR+ce9ic0VfxSnu63J
-	+ZbKji0O/FMaOc5jh6UyITRjSVPlHS7YVPSPn2em77ADMSfxCPoo0Rvn01PgWlp+QArfkB
-	VAIhntwZLp6pesWQM0iNKmiK8wBoHuQ=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+	bh=0CGY+glbrnxXmLvEdK2C6tXXpmZuhxXjkwnlUGFD0SY=;
+	b=GNwyJiNrvIpFwb/Za0p+OuOowgGvIUaswasoE+XASFAWBd9dLKSwye0liGgHgKrg+rutnP
+	MqcvgZWE14mOpQ994m+dB/KoKDigPVsLU6zMut5tHDy5NUCaguuKpdPxeXjd6GeBEEUAiz
+	dGQcu0WYaWIvUez1LTzFNJuDV8/z004=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-99-29C6pAf6M6KyBp40UdNyVQ-1; Thu,
- 27 Aug 2026 05:38:49 -0400
-X-MC-Unique: 29C6pAf6M6KyBp40UdNyVQ-1
-X-Mimecast-MFC-AGG-ID: 29C6pAf6M6KyBp40UdNyVQ_1787823526
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-297-XCKAzDz8OzWc03-SyXxUDw-1; Thu,
+ 27 Aug 2026 05:38:51 -0400
+X-MC-Unique: XCKAzDz8OzWc03-SyXxUDw-1
+X-Mimecast-MFC-AGG-ID: XCKAzDz8OzWc03-SyXxUDw_1787823530
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1F6D2195423A;
-	Thu, 27 Aug 2026 09:38:46 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 399271956046;
+	Thu, 27 Aug 2026 09:38:50 +0000 (UTC)
 Received: from warthog.com (unknown [10.22.88.47])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3072E423;
-	Thu, 27 Aug 2026 09:38:42 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 742DE434;
+	Thu, 27 Aug 2026 09:38:47 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: Christian Brauner <christian@brauner.io>
 Cc: David Howells <dhowells@redhat.com>,
@@ -51,12 +51,10 @@ Cc: David Howells <dhowells@redhat.com>,
 	linux-cifs@vger.kernel.org,
 	ceph-devel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 01/10] netfs: Fix uninitialized return value in netfs_unbuffered_write()
-Date: Thu, 27 Aug 2026 10:38:16 +0100
-Message-ID: <20260827093828.1956211-2-dhowells@redhat.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 02/10] netfs: Fix unbuffered/DIO write partial transfer error return
+Date: Thu, 27 Aug 2026 10:38:17 +0100
+Message-ID: <20260827093828.1956211-3-dhowells@redhat.com>
 In-Reply-To: <20260827093828.1956211-1-dhowells@redhat.com>
 References: <20260827093828.1956211-1-dhowells@redhat.com>
 Precedence: bulk
@@ -68,42 +66,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-From: Karl Mehltretter <kmehltretter@gmail.com>
-
-If preparation of the first subrequest fails,
-netfs_unbuffered_write() exits its loop before ret is initialized. The
-empty-iterator check can do the same.
-
-For synchronous writes, netfs_unbuffered_write_iter_locked() may then
-return an unrelated error instead of wreq->error. This is reachable
-through CIFS if cifs_prepare_write() fails to reopen the file or obtain
-credits.
-
-Initialize ret to 0 so the caller returns wreq->error if no data was
-written, or the number of bytes already written otherwise.
-
-Found with Clang's -Wconditional-uninitialized.
+Fix unbuffered/DIO write to return the amount of data transferred in
+preference to an error if a partial transfer has been achieved, and to
+prefer an error stashed in the request over the one returned by
+netfs_unbuffered_write() (likely -EINTR or -ERESTARTSYS).
 
 Fixes: a0b4c7a49137e ("netfs: Fix unbuffered/DIO writes to dispatch subrequests in strict sequence")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-fable-5
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Link: https://sashiko.dev/#/patchset/20260824120224.504575-1-dhowells%40redhat.com
 Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
 ---
- fs/netfs/direct_write.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/netfs/direct_write.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
-index c16fbad286a1..b04019097ab8 100644
+index b04019097ab8..544a4243fc59 100644
 --- a/fs/netfs/direct_write.c
 +++ b/fs/netfs/direct_write.c
-@@ -95,7 +95,7 @@ static int netfs_unbuffered_write(struct netfs_io_request *wreq)
- {
- 	struct netfs_io_subrequest *subreq = NULL;
- 	struct netfs_io_stream *stream = &wreq->io_streams[0];
--	int ret;
-+	int ret = 0;
+@@ -139,13 +139,11 @@ static int netfs_unbuffered_write(struct netfs_io_request *wreq)
+ 		if (test_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags)) {
+ 			retry = true;
+ 		} else if (test_bit(NETFS_SREQ_FAILED, &subreq->flags)) {
+-			ret = subreq->error;
+-			wreq->error = ret;
++			wreq->error = subreq->error;
+ 			netfs_see_subrequest(subreq, netfs_sreq_trace_see_failed);
+ 			subreq = NULL;
+ 			break;
+ 		}
+-		ret = 0;
  
- 	_enter("%llx", wreq->len);
+ 		if (!retry) {
+ 			netfs_unbuffered_write_collect(wreq, stream, subreq);
+@@ -288,11 +286,11 @@ ssize_t netfs_unbuffered_write_iter_locked(struct kiocb *iocb, struct iov_iter *
+ 		ret = -EIOCBQUEUED;
+ 	} else {
+ 		ret = netfs_unbuffered_write(wreq);
+-		if (ret < 0) {
+-			_debug("begin = %zd", ret);
+-		} else {
++		if (wreq->transferred) {
+ 			iocb->ki_pos += wreq->transferred;
+-			ret = wreq->transferred ?: wreq->error;
++			ret = wreq->transferred;
++		} else if (wreq->error) {
++			ret = wreq->error;
+ 		}
  
+ 		netfs_put_request(wreq, netfs_rreq_trace_put_complete);
 
