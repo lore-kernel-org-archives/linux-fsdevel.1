@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1423B5306;
-	Thu, 27 Aug 2026 09:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBF912F585;
+	Thu, 27 Aug 2026 09:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787822362; cv=none; b=ThlU6w0Pej9wOB66Lgd2IWqf8DDCgzXT5Z9XOPMcO04m3GQivCts49c1kE62AIWde1w0zd6iVb0sMEnJxhiPyRGTe5yn+c1JjwbiLbpa/yE+SAtxjjKTDdohO9uHwUBsjfHWJPQdxJVPUY/J75QBtF8X4QsVge7Eef2F9kWFFmU=
+	t=1787822442; cv=none; b=mY2tR4HBh9bCEeCd/90dGOiHaB8tvMbuyxSBBN+vDJ6tqLqWIdpMm3mTdVrSjQzQ5AIBjsqNsTwfN4StC61WmSza4HCoe2vaZ2UWKcVB9+7/pfk6dDzz/MWN28uIRU4KCWWVyQu0bPwKS7hIYh2y8NdoI4o8akor8GHXfDnDYUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787822362; c=relaxed/simple;
-	bh=GZgjz691JEwzZ24ifGrOQsEBb8+Oj2FcJbmXmiLXp6Q=;
+	s=arc-20240116; t=1787822442; c=relaxed/simple;
+	bh=F1snZgwjWPb8+c/6wzwH4Q06qio/CD1Sw2VhCuKX5DQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bPdanaOvigeF+tOcC3FhRR9acWtVLXRbQBHEVwbllRllLdJwth8mejomIt8KBqGaz1rm90nRzYLyx/nReQqeq5skqJRR4GPHWlmkuPc/8a8kmYtY6DAa3G2heoi8QTm3fDxTLPaz/K4MBVMgjNOkLBBHSngUVBpt7Ikv7tLW+C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bS7SQdIu; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=qgMuxyd1bGHp6S/lqwQny0JEt+D1cbqpBwlOpaIPTpkKvs78CnQnrkY7WEGclT5u39CpHu996PLfDuKENYpT0Ivf2DjRPpCsdV2BLcC+AqbHhaxW7oxIR6B7mDCQb4bk7eNos0TD8TWHBmzLVA5NSZiCI3wPjZsmpPoqT+KahA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AewH8qVo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bS7SQdIu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 559941F000E9;
-	Thu, 27 Aug 2026 09:19:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AewH8qVo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2ED11F000E9;
+	Thu, 27 Aug 2026 09:20:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787822352;
-	bh=LixIDSU3TdZaT9dJGoqjplgLV7aXH03HF3B7mcClcig=;
+	s=k20260515; t=1787822441;
+	bh=MQ5yrSer67OLzLd9lz4RUmRIM3BfwQlVemrGrqjo/J0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bS7SQdIuYyCMsB7a9rjTxHKZatdkuSikajfF/3NBtzQYqfjLjUeDr9272DHcot0XA
-	 W7uu5XJ8joem5jK0LM2pMGVV2U9pFfsmTYUq/Zurfkm7vLcOExivNA7SqfKg0OadbZ
-	 cmxCW6KRH09DsS9o6GS9zVE2pyPEFhPwG3ZwAXNwJe+4WNhIKsjMhvLUTUHHASXRrX
-	 GtDv7Tn1kx3Ha1nn3H41pIqLPjr+eE0fBZeSeJ6TdGZSn19iB50n3DFLosXwKECNnb
-	 fEETV8/HwlZn+PTIOsAF+Q6pTt/OKDXUSEUlE7fEiGchsqitgVBm426TwMvR2f5Ahu
-	 GjjQpnnms7Yzg==
-Message-ID: <01aae5b4-ee10-4601-8ddd-c9428e11d651@kernel.org>
-Date: Thu, 27 Aug 2026 11:19:01 +0200
+	b=AewH8qVoW428CLvXuvn03nnnNNP+TgdWg5uRUNFsxqCL+qVKeAjZDW+Tmxv3tAVdc
+	 7UIVsQWQbyBgUKhK2nFQti2iPxw0BTpPo1vq8iLuV88Lgd4H/PB1EF6MYmiaihBni6
+	 G5F6gOD/c/IuPNuv7PXCBiTHbx44v1IRNf32u/Vb0ErvNQVonwYUp8zYU+tDAzZUdx
+	 wy/6HEE8/4+JjE3saEFPne1x2ZAx9PbQZVIk5BRuTTtwzFXfGeJJJXlXU5XunauPqm
+	 Sxc89Jf7AuhJN9ZCDiVpmwkcHiZr7L6Sjj+HRwJWxkrQ4nRUqxV3uAdsRHdH+ppbBk
+	 YaSl01yghZ8oQ==
+Message-ID: <1dc8f7d5-c923-410a-a262-dc21c9e65420@kernel.org>
+Date: Thu, 27 Aug 2026 11:20:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,32 +35,39 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] userfaultfd: decouple fault reason from VMA flags
-To: Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH alt 13/25] mm/fbatch: no lru_add_drain() to
+ collect_longterm_unpinnable_folios()
+To: Hugh Dickins <hughd@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Ackerley Tng <ackerleytng@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
  Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
- Dev Jain <dev.jain@arm.com>, Hugh Dickins <hughd@google.com>,
- Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Shuah Khan <skhan@linuxfoundation.org>, Steven Rostedt
- <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>,
- Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
- Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-5-3086981b33cf@kernel.org>
- <5bb86e34-6196-4b50-b553-be2ff7c1fa32@kernel.org>
- <ao_sCh5zP0IC9H2S@kernel.org>
- <e8aaddde-0a07-4197-9874-5ca0ea8af43f@kernel.org>
- <ao_-uZrrsVX9lzbz@kernel.org>
+ Binbin Wu <binbin.wu@linux.intel.com>, Christian Brauner
+ <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Christoph Lameter <cl@gentwo.org>, Claudio Imbrenda
+ <imbrenda@linux.ibm.com>, JP Kobryn <jp.kobryn@linux.dev>,
+ Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>,
+ Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Mel Gorman <mgorman@techsingularity.net>, Miaohe Lin <linmiaohe@huawei.com>,
+ Michal Hocko <mhocko@suse.com>, Minchan Kim <minchan@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Rik van Riel <riel@surriel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Suren Baghdasaryan
+ <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>,
+ Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
+ <fbf3fa74-c646-8855-17e4-e8b35dfd9c14@google.com>
+ <333bb765-a36d-e07e-d3c4-5ea2f1cadfcb@google.com>
+ <5d42fbfa-1cc3-4161-8ba0-7318267576a1@kernel.org>
+ <e10bc806-f995-e48d-a24e-8872f0a71689@google.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -107,52 +114,35 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <ao_-uZrrsVX9lzbz@kernel.org>
+In-Reply-To: <e10bc806-f995-e48d-a24e-8872f0a71689@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/27/26 11:09, Mike Rapoport wrote:
-> On Thu, Aug 27, 2026 at 10:10:24AM +0200, David Hildenbrand (Arm) wrote:
->> On 8/27/26 09:49, Mike Rapoport wrote:
+On 8/27/26 11:16, Hugh Dickins wrote:
+> On Mon, 24 Aug 2026, David Hildenbrand (Arm) wrote:
+>> On 8/24/26 16:55, Hugh Dickins wrote:
+>>> collect_longterm_unpinnable_folios() has no use for lru_add_drain() nor
+>>> lru_add_drain_all(), now that the per-cpu fbatch references are gone.
+>>> So remove the recently added lru_cache_drain_for_folio().
 >>>
->>> userfault_reason sounds better to me.
->>>
->>> It describes what kind of user fault we are handling and the 'fd' part has
->>> nothing to do with it. 
->>> We do use uffd as a short name for the subsystem, but still most if not all
->>> userfaultfd "external" APIs use userfault_ prefix.
->>>
->>> uf_ was an attempt to make it wee shorter :)
+>>> Signed-off-by: Hugh Dickins <hughd@google.com>
+>>> ---
+>>> Alternate version for use once David Hildenbrand's two commits
+>>> here have been pulled from mm.git into linux.git for 7.3-rc1.
 >>
->> Yeah, I got that; while uffd is a known acronym, the uf_ not so much (and also I
->> wouldn't suggest it to become a thing, lol :) )
->>
->> I've been wondering for a while whether it really should be called
->>
->> 	handle_userfault()
->>
->> And not instead
->>
->> 	handle_userfaultfd()
+>> For 7.4 we expect another user of the helper in KVM guest_memfd code (the
+>> primary reason why we introduce the helper), so depending on when this series is
+>> ready it will just remove that user as well, or we'll need some coordination
+>> between trees.
 > 
-> The 'fd' part here sounds really weird :)
->  
->> Or maybe even better
->>
->> 	handle_uffd_fault()
-> 
-> That's somehow tautological, but maybe using uffd_ as prefix would make it
-> a "subsystem namespace", so tautology won't be as blunt:
-> 
-> 	uffd_handle_fault()
->  
->> And then have
->>
->> 	uffd_fault_reason
-> 
-> Could work, yes. No strong feelings between this one and userfault_reason.
+> Yes, I could supply an alternate alternate version, providing an empty
+> stub for lru_cache_drain_for_folio(), so Ackerley's and my series can
+> proceed (or not) independently. Later. But at present your patch or
+> patches seem to be in both mm.git and Ackerley's series (17/46),
+> but not yet in Linus's tree.
 
-I lean towards just calling stuff uffd consistently might be cleanest.
+They are in mm-stable, so they should go upstream this week. Anyhow, that's all
+stuff that's easily resolved later.
 
 -- 
 Cheers,
