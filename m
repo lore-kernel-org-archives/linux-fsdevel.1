@@ -1,124 +1,140 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92E43890F8
-	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 23:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787872134; cv=pass; b=uA+bd0oTtLtr+cq3yWrjmK+m/LLQyYjFmVrrZEOzH/CZUGghiWXPq2AwnAn8S0OpNa6VYI5sdELYoZHuPmnOXzNcI2GVRYvuP1Ks4sYrHQefZWGxd36W8gj0CC0K4PXMbdRkySjeNbtBOvLnEdfN9R0CRCFPamD1qX9ddA1XwFQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787872134; c=relaxed/simple;
-	bh=QE5r8Hefclm76uVhId1kbMmsj7Fs1WnSDJQ72lFByhs=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=DqNIkppfVi2lZGJV35md5nI/2nPpB6mmVKpgbor+SOf0+ymh3h3ehBrYIi/ZdLxRxdvbCblWS57lXFC7YbZX4ORARGmXyZxEtccSUhfsoYLxvni2VUm4NaNPzqEjYfC7XeMJSWaeUcGh1FaWvKf2IBQ1MVPv4CH+R/26OtcT230=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=MzrwqrSM; arc=pass smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824A6331237
+	for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 23:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.29
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787873859; cv=none; b=M4a8odEM1Mys9LmF1o/BQHXEyj/xMRfHm7OklhXCQyAyp6ucVzk5ZlnxyPQs+anz16qCV2MPPbNL4vRihhRkH/E9an1E9Zm1pu/eXLkD0sTcI9EdnmAhUOhTFT2DiU7J7CaiAR2lYhh9kJOLxItaTzR7tsMX09cClchLsvRAamI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787873859; c=relaxed/simple;
+	bh=roJWN4cAkw3lsWVT+3PPpbj8f+Kp9XmLq5Rgq241830=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=pJywi+sO1jyH92T8x7tyzRFqPNzmYhMDQwe+23Ym8x0nC3LmdtS8rAhdEWC6pFud9C9CeasslP+n+u+cS6+coPUNvqfwCR2a7H8x9OZccOFjYts8QjaToEwHynuidMzdDLgCWPGZ9uuIpQGASMCUHE4aZ/FgzxgszTBHuFrCMIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=TfA53l96; arc=none smtp.client-ip=79.135.106.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="MzrwqrSM"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2d71a50caa9so5035145ad.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 16:08:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787872132; cv=none;
-        d=google.com; s=arc-20260327;
-        b=madwuuwVzgK0Mp91z/TGj5cl7UgvGH7aVX4cUS76Vhnx2zO5tHgMZIaCizHYwByz4a
-         jzYFcr+TjNOcxqkUTTtA7lnHFrk10xIoMKdC2XxZQqBVoOmvR7FWgzF30u0LsGEP9g/J
-         WRCl2Ukmn8X7du1Qqt1nwY2aikrvsiCTwfUFgN8VUHkbwK1J6Xdos+HwX0o+3oIyokBk
-         cmWRtI5QVcm2JNixq0XQYFgz1HbacJvso5f+vHLmfmWqKsv4+s277YlO0Mi8ByOUuVM+
-         6igE/Rvq9v0xv3cWxllmM6qKeAjcovNwRLOxKBL+beHRtigf6SJ6Lol9Vf0WMkKYrhoX
-         XJSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
-        bh=JdtPX2uer4IOAQhgeqeDxfMKbOSrBGipE39HlDMAV7Y=;
-        fh=F8x0QnSZaNBHnm9ieWc7C+1SQol1JPhGL4daFbNR88c=;
-        b=VpI9473lq5HNVx+MvUlxAmJfgtRtWTjSFU4TQe8PHfz8iTfkDlsRlw8++nx4NsrVHB
-         Xuu1bwzqPOJYrIu/boEUeei5VEmu11gw0wtkoePHPvtH9CRtLdCuKJpQgUajlyYgKVR0
-         /GDy+vE9aTXWzFp+XGsNylF/gbBJwIx5fDOLYBA04odV1ZwBKAjyniPhRM7nJLJKy/3I
-         hxGxVTBl7pzRk0EB3C+QZ2cia/iVyN5X5saiRRA9+OmIqGx0eRseUB6Fqio3wFqz3yIm
-         O+k7Vmw01QYTDbxHcaSEADMfJ+S6cH1uvOhUe3dvb+8eTWXrb1hLOnsP3E5jDWsc+NTw
-         Kq9Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=berkeley.edu; s=google; t=1787872132; x=1788476932; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JdtPX2uer4IOAQhgeqeDxfMKbOSrBGipE39HlDMAV7Y=;
-        b=MzrwqrSMJuh1MCLtMwBFoLtEj8HIT2tiVoE4pFY5qBN/YJW+qjRRpA3WDjqyrFc+wc
-         uZUGzc8k+VHe/SA7RE2JfnKPh66Zg8N9SPLJrkb8Gi1gpvscxjMZ6K1E0hBvtsEmlp7n
-         +NBoWrjFREqpUAixvJOHJpVXz+8/8sh6CIWiPiVQEEk7XGezwJTzqmHullWeEL2UpMQR
-         YDlD70oq+N+ZDrU9E+0XlZ3018QL0nOPrO3TBYP7etEp4l1cOO9ldkSltDUWh3RVXWhZ
-         8EMQGmNeR0Ya0Ma5fivmIpPZdClK/audSCbdY/v3tLXJ8UDm1dpVsvhKuJJJ6Gumkc3Z
-         1dlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787872132; x=1788476932;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=JdtPX2uer4IOAQhgeqeDxfMKbOSrBGipE39HlDMAV7Y=;
-        b=KkQ2eJcR8hWEX5pHwPeo3Nag+CSzrkXDnPugNS8opHbahBUpu6tSKUs69VUzCSUxKu
-         gLjMx2rZpmfFCaeiG3GCuQL89RoavFPql+AFcDeQx5YtSu1uIK+o3844pROBz+6L/NyC
-         u55jv7D7HbLuPclSf2pLl1H4EmRTQ4U4ZXaHxoZYUPkPSehq6zYOKa202NEpxbvLROUn
-         NS1XC3qW37vneAj3eSp4W/EN5uIIXZWhJZy3KA9Zj+hMx+NMr4hOC9MhtYlYZRihOsGd
-         V/l45++rmzQtFYXCzVhil3qB/0Afp3gJ4dy0w4yoxdixUAc/CiUq0PrERERWjHqnDnuB
-         rz3Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrkdMeu1FUkCqXl0bxKHClq4iDsxAJflOejHITPV66N3DOQ7MVWQfhYBczSQNc9iU/5fieDG6PFmUn/D0Ry@vger.kernel.org
-X-Gm-Message-State: AFuF++kORjV01KSViKUkwpzt6WoIiaenWifwTaOWfw1MvdgCA9bdfkwm
-	hmvrasDopllDJpdnVaD0QqZFljTmMUN4el55AY4kN0gC78yCAAz2kiIrZmmEUaKx487mdoGtPEl
-	TrBCHfKJIZ08gBfouebtpPIPrOSiC+Ri1jRXgWLZq
-X-Gm-Gg: AR+sD12vxLeWn74YsXnVvlrbYx2btxCbDRAPhjg1rkV76Bnqvwb9j02xojpLV8SYfIF
-	Uw61wseQ78Xnpv7+FXeLB456BFFYankhxZOSvsZbk9sW1p5JVtpTuZ0/pCnUppyglTXx0bVNd9E
-	cjvhMPY0W8jPpPkNdk8H5O5/12rH8XEfjDf5uMyWGwftACSkO3qljS+6A2BeVa3AlLJY71VAN/x
-	vAo5eEhSvFiEycqVhfTvPxhFhqwVQ42XgWhmcRWfOZhmZyVkWc8QrwNYdYranqDg/iGA9zrg06i
-	nNxY2vvnf0BDl8Kvg5V+FjB/KB2fGWeJeklOTMQxKEYF65spQnbIoiavMXORQ7bOHLKB4zQZyjo
-	WIsX9kgpux90K/cW23YUE7OX89BSOQlVe
-X-Received: by 2002:a17:90b:39ac:b0:38e:6f90:eabd with SMTP id
- 98e67ed59e1d1-396d0ea5451mr3577011a91.5.1787872131206; Thu, 27 Aug 2026
- 16:08:51 -0700 (PDT)
-Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 23:08:50 +0000
-Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 23:08:50 +0000
-From: Farhad Alemi <farhad.alemi@berkeley.edu>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="TfA53l96"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1787873849; x=1788133049;
+	bh=yVSYTNeXd6hS3RLPYC9rT3aHpFbl1zbVD5TY6q52Up4=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=TfA53l96Uh5Xp1XxlEEPe16GU/IynCmD/J07QmuPjhKrHP0/D5VG3QgnS6qxToTga
+	 s97bSTpQ8oMj/BdUXtS9DJxen0ErYa5enL1zGExXxFezRybIXgPJDoTT1WDjU0ETZ3
+	 QLf6Wiv2L5FWQFvvTMy1NN2YXfTcJs/XShcQ7+Zcc9l6VI1V0dGNS42TGNRCDMUBAV
+	 UCidsR8lxMQvJBtS6ItGXiUPkuR9qRY1i79rCUb7jDihsE4zAWdukz3VSvMMjHuXqB
+	 5TBteDqUqH4f1mqdeoFX0UeKLhNxKhnP8v8BsQ/doMFQtxc/yCdekD0TDWRfXnCijb
+	 /A3D4sFcVqU2A==
+Date: Thu, 27 Aug 2026 23:37:24 +0000
+To: Miklos Szeredi <miklos@szeredi.hu>, Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, German Maglione <gmaglione@redhat.com>, Shuah Khan <shuah@kernel.org>
+From: Aaron Paterson <apaterson@pm.me>
+Cc: =?utf-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, Aaron Paterson <apaterson@pm.me>
+Subject: [PATCH 0/5] fuse: report a request refused for a live nodeid as stale
+Message-ID: <cover.1787873791.git.apaterson@pm.me>
+Feedback-ID: 6356313:user:proton
+X-Pm-Message-ID: 4f6b556ef2198c8aff6e9b8b3a4ea46157b46f15
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 27 Aug 2026 23:08:50 +0000
-X-Gm-Features: AcwNN1VbtQ_TKORfhlFpdsm_n8MBcq9xHZjdMpqeltBevAURlMvwXQR-2yvryik
-Message-ID: <CA+0ovCjUB=g+56ZCrT4MPfWjqBJX_CO=vfp12JLOrh7B53uVWQ@mail.gmail.com>
-Subject: [BUG] ksmbd: use-after-free on iface_list from the netdev notifier
-To: Namjae Jeon <linkinjeon@kernel.org>, Namjae Jeon <linkinjeon@samba.org>, 
-	Steve French <smfrench@gmail.com>, Steve French <sfrench@samba.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
-Cc: falemi@asu.edu, linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello Namjae Jeon, Namjae Jeon,
+A FUSE request that names a nodeid and nothing else is only sent for an
+inode the client has looked up and holds a reference to, and the server
+owes the client that inode until it is sent FUSE_FORGET. When a server
+answers such a request with ENOENT it is describing a handle it was
+obliged to honour, not a file that has gone away, and the client passes
+that ENOENT to the caller unchanged: a file that never stopped existing
+is reported missing.
 
-While fuzzing Linux 7.1-rc5 with syzkaller, as part of research at ASU's
-SEFCOM lab, we hit the crash below. Crash reports can be found here:
+This series reports that case as stale instead, so the VFS retries the
+lookup rather than handing a spurious ENOENT to userspace. The path
+opens say EOPENSTALE, which is what an open says when the cached
+information it started from has gone stale and which path_openat()
+resolves into ECHILD under LOOKUP_RCU or ESTALE otherwise; everything
+else says ESTALE, which retry_estale() answers by repeating the lookup
+once under LOOKUP_REVAL. NFS reports its own stale opens the same way.
 
-  https://github.com/farhad-alemi/public_bug_reports/tree/main/117-ksmbd-unlocked-iface_list-uaf-netdev-event/
+The conversion is written twice, once in fs/fuse for any transport and
+once in fs/fuse/virtio_fs.c at reply completion, and each one fixes the
+symptom without the other. They are sent together because they were
+found together; if only one is wanted, patch 3 is the general one and
+patch 5 is the virtio-specific one, and either can be dropped.
 
-  refcount_t: addition on 0; use-after-free.
-  WARNING: lib/refcount.c:25 at refcount_warn_saturate+0x9f/0x110
-lib/refcount.c:25, CPU#1: kworker/u8:3/9983
-  Modules linked in:
-  CPU: 1 UID: 0 PID: 9983 Comm: kworker/u8:3 Not tainted 7.1.0-rc5 #1
-PREEMPT(full)
-  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
-1.16.3-debian-1.16.3-2 04/01/2014
-  Workqueue: netns cleanup_net
-  RIP: 0010:refcount_warn_saturate+0x9f/0x110 lib/refcount.c:25
-  Code: eb 66 85 db 74 3e 83 fb 01 75 4c e8 db 45 27 fd 48 8d 3d 04 03
-1a 0b 67 48 0f b9 3a eb 4a e8 c8 45 27 fd 48 8d 3d 01 03 1a 0b <67> 48
-0f b9 3a eb 37 e8 b5 45 27 fd 48 8d 3d fe 02 1a 0b 67 48 0f
+Why it matters, and how it was found: a server that releases an inode
+as soon as a rename displaces the name it was looked up by will refuse
+opens for inodes the client still holds. On such a server, roughly one
+open in eight during a rename race is refused while stat continues to
+describe the file. That reaches real programs. git's t5318 fails 52 to
+53 subtests per round against such a mount and 0 against local disk on
+the same machine in the same alternating run, and the mechanism is
+visible underneath it: .git/index opens ending ENOENT are 49 of 116 on
+the affected mount against 9 of 157 on local disk, where those 9 are
+the legitimate ones a fresh repository makes before an index exists.
+The user-visible failure is a destroyed git index.
 
-Our reproducer.c is available upon request.
+Measurements. All four arms are one kernel source, 6.18.5, with one
+config, built from trees that differ only in whether these patches are
+applied, run against the same server with the same probe for the same
+duration:
 
-Happy to test a patch if that would help.
+  arm  fs/fuse  virtio_fs  opens    refused
+   A   stock    stock      323076   45201 (14.0%)
+   B   stock    patched     54378   0
+   C   patched  stock      323776   0
+   D   patched  patched    315114   0
 
-Regards,
+Every refusal on arm A is the contradiction: open said ENOENT while
+stat on the same path still described the file. Arms C and A carry
+almost identical open counts against the same server, so the pair
+differing only in fs/fuse is 45201 refusals against none. Arms B and C
+are why the two conversions are sent together but either can be
+dropped: each removes the symptom without the other.
+
+For the record, the same fault measured 12.9% on a 6.8 distro kernel
+three weeks earlier, so nothing between 6.8 and 6.18 addressed it, which
+is consistent with these patches applying to current mainline with only
+hunk-offset movement.
+
+The first two patches are selftest housekeeping that patch 4 needs: a
+build artifact that was not ignored, and a rename of the libfuse3
+pkg-config variables so a second test can share the same guard. Patch 4
+is the test itself, which mounts a libfuse3 server that refuses one
+request for a live nodeid and asserts the caller does not see ENOENT.
+It skips where libfuse3 or fusermount3 is unavailable.
+
+checkpatch is clean apart from two warnings I believe are false
+positives, and I would rather name them than leave them to be
+rediscovered: MAINTAINERS already carries
+F: tools/testing/selftests/filesystems/fuse/ under FUSE FILESYSTEM
+[CORE], so the new selftest needs no MAINTAINERS change; and the
+char *fuse_argv[] in the test cannot be static const, because
+struct fuse_args carries a plain char **argv that libfuse may modify.
+
+Aaron Paterson (5):
+  selftests/fuse: ignore the built acl cache test
+  selftests/fuse: name the libfuse3 flags for the library
+  fuse: report a request refused for a live nodeid as stale
+  selftests/fuse: cover a request refused for a live nodeid
+  virtiofs: report a request refused for a live nodeid as stale
+
+ fs/fuse/dir.c                                 |  10 +
+ fs/fuse/file.c                                |  11 +
+ fs/fuse/fuse_i.h                              |  19 +
+ fs/fuse/inode.c                               |   2 +-
+ fs/fuse/virtio_fs.c                           |  62 +++
+ .../selftests/filesystems/fuse/.gitignore     |   2 +
+ .../selftests/filesystems/fuse/Makefile       |  16 +-
+ .../filesystems/fuse/fuse_estale_test.c       | 450 ++++++++++++++++++
+ 8 files changed, 565 insertions(+), 7 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_estale_te=
+st.c
+
+--=20
+2.55.0.553.g4ad8c266be
+
+
