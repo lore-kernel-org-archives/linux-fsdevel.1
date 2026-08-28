@@ -1,757 +1,415 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137AE340A6B;
-	Thu, 27 Aug 2026 23:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787874494; cv=none; b=nS5ZlgVZbm6REpAuGN8FwDEQjLwyPnKKLSSgcKyKdQS7uYpst0BnAQq60A/4OgtpA/dk1KZ68bq5lXYM1RKZEKmC4YUHEnR3LL+HzLYEGGlQ2hI0iBgT8TAiaOyVMnALROSMR0FYzRqf554dEOXvwo93tidSjeLC7vzrmrMGEPU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787874494; c=relaxed/simple;
-	bh=YK8G+iPRIjxc3aKSenayB4ic16Oi6d9sbaaKAK/A+Sk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nX5qA76JHyc2b7apw/A3shOXbo/DxjaEDfWbitZym4dzM4FgYI5ylWFdwr6Mm0RWAL3XII9fOFe5r9+eAZKYiZBeZTxRZrXfLeDCEBKnfxePsUUZq9U/m65kOu05EoAK8FUDDtNsHwOyLmEpMONCo5vmB4Q293BfE3jgBqovISw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ORbim67d; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fGMBBHz0; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496A649620
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 00:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787878289; cv=pass; b=qsLoRyOk1CYKHyvLnkTSqpQrM2iZOUk0YSXJ8fOKSxtDfbv7MUc+/Jm6PDk7f2dxGcmOks+2WsO9/DUsawPCX58w5SbYr2549OcWcYHieSXcLfDFC47AkjjAgRemefRSTBhvT0JkR2f9/kYDuKZsaj89hNyTuKQyWabj313zAng=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787878289; c=relaxed/simple;
+	bh=GvJsJ/eFudJf0eI/X49HSY8V2nlAY10M2MDmFs2ksyI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GuSsMzXkxP5JW2Ca6TQHvJ6Dlw8ZCwq0QKYB6hJNPtFC/FtFNqsECVuO8+AZuex93aCqlzWfV6TBuL7zxSFV/M+4lXdEA/vphJ/JQIGP5zak6v5R4QBswYVjKSDWVfSrKADBpWSgW2C9Kge4BExeS5aw2RajJ06CfyRojXEIa/A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f30/ysUb; arc=pass smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ORbim67d";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fGMBBHz0"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 1928B14000F7;
-	Thu, 27 Aug 2026 19:48:11 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 27 Aug 2026 19:48:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm3; t=1787874491;
-	 x=1787960891; bh=FbS8vj4e5oP2of7Lygv3Xgqfm+mysZL27AEue1Z0Z8s=; b=
-	ORbim67dh1Ni5spIMZfwsbuM94L1JJORwYPQeHdyzTVsoUQSqzaAY6By1/XhXRWk
-	2ITNs+8bOVIqqSHXPEROXOfayd+WAmjzp279WRYLr5bbebU930E+Kb3hnfxiKpj4
-	yxL0B25p2hBTYCi9GX9aW+A8gKZPbSSLaIp7paTWxTput+J1To+i1xeOWRZvOdQ+
-	vuE8J6qrzSZTnWMDulmYQt3BLlOrvQnKuRdF8WZah8zF5viFQU9W4YWCSiVWtcz+
-	Mw9MLAfXAb/u627sVujXCpGFST9nAgwRM0YHQ2GuNIW//512WiV/UvOE+HBGmElT
-	ptup36m/rG6UjEP5pgjkzA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1787874491; x=1787960891; bh=F
-	bS8vj4e5oP2of7Lygv3Xgqfm+mysZL27AEue1Z0Z8s=; b=fGMBBHz0+dfAYTc7M
-	8F9FPdYqnEWG98fXAMrAj787a2PL8jrv6oiuk6qznwQ8tCUYpqJLzs1jUXvBJZsp
-	LlTBBhKn69rexqWXUIwopH1YiD13X2AIbd/m0Gg4/OYRC/kLyaRsodzgO9eEOjY3
-	ojFQJIU2gRQZ/YxeX1ca7HMSUJLheSxdK1oxwld3VyR+R7zFofNu1aCjnFk4khvv
-	AoBo65OZFzOsgOqfrmt2rIfY2qNwE5S2icYRnNpD6ovb4NopnM2PEXsRSPmOGaNQ
-	mXou+ze5c/GrsiNMBl96vILUmLX5pT46qj+iRf1oQoWTNu7ZTMWQhRcQoDjRCpQy
-	Yqyzg==
-X-ME-Sender: <xms:usyQaqbRw4kAbrnG6DdbESe-_N4bDVeZTTwYh3TMuWHrl5h-0l0_aQ>
-    <xme:usyQalLrjbgc6Sksd49ouz6cd9lIe9blF0LTImEOLzJLGmxG0G19Zzd-FHUWv9mD2
-    nv2KBLjPDn5jP9WGP4eV7GrDKlGYrg4dSfdQRbrys5MrZSFofg>
-X-ME-Received: <xmr:usyQaoBZ0oseDCyoL_98cysch9cXVGGFHOpXFRt6IQkSLlB2PRCnBCfN6na_DMLIYp5LsNaT0zbvcnSjrUPZyYdQjRM1jQY>
-X-ME-Proxy-Cause: dmFkZTFR4qw4Szh/FpHxKaZOGEoM9ktTWm9UbFBSxTHYiLAF8VaTUSU2F2FZMKWE/LxG7p
-    k/Zw/JGs6kNPTrQ/ht82vt5+G8cyKcn/QYvosRPnWwVHn1i8sU4edaNHygInObg5P6/9vl
-    9/H9zSm7yK/hW51yULsUSi4y5RTBrIWFr2F/FiE67MxAo1QlP8Ad9iHie/mPq2omnhMrVh
-    8tgtBCHFFVx4Fzm8sKNpAJRwXJA8O7fwTcumBJVc/9+Go/QNGccOdEhXlvi0jTAC2YCFCT
-    H85EXQTHxdCvMlfZotZxLUfqUWvgrfSUNbKuDocQMhO7GFxM2/9Z4I0WtZM/XXwesdmtRo
-    0vS1uxBCUx4GOzRe+97jl0MIFwOHeNQqjK5fdh8NuoiXnyzoyzXncHSqo4z7n8QAsujKGD
-    UFx8VCwdyjrDoo1g7F+PxipaUI1yh9BAF/Hp0D0PmymXhC8W0RHysrabyoRFA53soylXfq
-    5pClxP0dyaA9iVOaZsxSrkK6tvN4s7Ac77IVGlmUYbk00GT40UfB3whCktIn2e2o89NfGu
-    5Xo1YdZ19u0Du6gx4HOA4wHksI3ShjmmV5yClUDj0Ja+fuCvbuuKSGAK+ETjzwXWkZAXRO
-    eHF+HcjmID8iQMEPPn1bUSSPZIabx1MhQqQkDZFLGWE8NhnpXeOGm+dD/1FQ
-X-ME-Proxy: <xmx:usyQaqqcihFX4mWXLu9UBjGNzXgnWh1ruN5IpTeIYt5NxApVWFtHzQ>
-    <xmx:u8yQajh6UEcqmmR1wqS1x033uYSJ_llhB77Ft624T_BRryiIXL7pzQ>
-    <xmx:u8yQanAa4UnkOtgj__TrlHGmXV92jGKL45s--iVt3M4-u7zycbrWlA>
-    <xmx:u8yQaoHvwp_RIESQByvd2VzA-JfSle-o0Gg7s7Ltj5yz9_X_-UfxYw>
-    <xmx:u8yQar7dLLL6bMRjV3r03RBuxHzXnC1fI0BJwF1ZcwbsJMr-buX0TlrO>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Aug 2026 19:48:09 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: fstests@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	Chuck Lever <cel@kernel.org>
-Subject: [PATCH] fstests: generic: Add test of seek in directories
-Date: Fri, 28 Aug 2026 09:36:10 +1000
-Message-ID: <20260827234743.2389778-2-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260827234743.2389778-1-neilb@ownmail.net>
-References: <20260827234743.2389778-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f30/ysUb"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49557167508so3743585e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 17:51:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787878285; cv=none;
+        d=google.com; s=arc-20260327;
+        b=tAnx4gLwPa4Gf9xr2q8AWBARWHa7y3UzIyMUxigUOFd+5elGGVnzkbSjNjG3VgNp4Y
+         IeTiUOYSQnV1OPLL2c2cyUpUTL5GVMAUpldMEXAlo6RU/S9pCEFU8aPaMfYMqLXDwEYm
+         4g4goECv+sa5xoiItflS2QQpug/GG5uHl/hOYJnJUPuIQz2AZr7O162dkizXRvFjAjXC
+         crtJPHzKEw0/xH6tPPf+crBOt3ugCC8Z/FvfpZMqHo3dREO1pLGP7Q+Eo0ODSZM7ZvLp
+         h4OltFJmiB9sOjCHnxbLndPioqN1+7sdk7n6m/ANSEAdlP0wz5RRuDChTEbCt6gKywGp
+         84cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=qU4cMApGQ1ZW0Ii9xuVCvK7JsWk6E/GnsI5UAJcS9yg=;
+        fh=RFJjLfmz+/Dv/fhHFVfokJEAGDGTrs3cF1StELfD3aw=;
+        b=bzH+GtO2EON6nmbbGg1YC9Bwoese1721HzL9cR4Hu1KL9KCH+mihhzyV8ysfCH+LAl
+         zdkbRHayXt9jnIJ+Vzex8HGKH560ZsHlglu2w4iyNpLX21wPP4F2u/mQPt66if6HUf2a
+         41FFRY8SCMRTdnFBYhtfBnawnps6srQYE9P/X7k+qT2lcEmHy1HGCOa7xIzwd1UEv/H0
+         zK84wbHerRu240lA+ZKemtlVTlkmkRWPOMynNy83VnbNw1492KN3mRJVR87ldaENpQ4J
+         O764/Rgk6EAh8FYD/6trOnbx5Yd/kmzrh6m472tmcfGXnJNw4bvHXvWkhX2czPAem0Sx
+         39YA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787878285; x=1788483085; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=qU4cMApGQ1ZW0Ii9xuVCvK7JsWk6E/GnsI5UAJcS9yg=;
+        b=f30/ysUbAs7AUpw35wll3BQI43omDMTy7tpmkJXD1kTS1+97eWpwM0B/T4bfmYxyx5
+         /G/qi8HBPUnfcAL5FMj58qddRlQIoNcUN4jOVy4DI2LKh1Q2brgd5JLoLFN+e7P+4yKE
+         8iNYVR3X2J/vjeqXOTEhACp0y/q2LmktEikSnv4B21H9Hrilu2Zkh1JlBJD6mI5Q4gwv
+         IbbAaZL23KP/rF1fZHzx5Qv/H0CXZ5M0T85PW9WoSohUCo+j/6oKPxnuN5Ax/BeEe14o
+         KHioM8jdNg3ND5bCRlYaZXh3CYNdFtLSszN00vqbejv1SEb4NntgHTYNGMOdw2xVe/jZ
+         rhmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787878285; x=1788483085;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qU4cMApGQ1ZW0Ii9xuVCvK7JsWk6E/GnsI5UAJcS9yg=;
+        b=Z09Nbfx5J2fUpLelp5hfpK0iEwigah52y48yjX/ApZt6SC8a0AuVlgac+m3Dvjzdo9
+         4BsMmUukRFQUjYM/b5TXsQo3f49nHMzq5yifP/5p7E4MhhvmyNIoHbY8keqUkDmJRteu
+         o9Yg2drEw5RYNuvsKf8vMDwHQ41SpLbHFHMuVVOflaryRy5gD8HxR2MWoXAaDGBPuscx
+         Kbs2sINzd8MFyI/5lfawj6s7xjdwOGra+P6qBRZYr4mZYwNSZhyJt4LPKO0bmWd3YGJw
+         ufc6OrVIB4xGw+vzvNseXlhn4w+ZSvsnL3JWEhCaWX2M+FZbMOvw7y9TFp4aaaK+FXum
+         YbBw==
+X-Forwarded-Encrypted: i=1; AHgh+RovL8GcnAqQS6iHKuYqf42rN70bed1oCKMnDx6Zf+3MDgPYAPiyEUHrU+KLDjiLBos0l7CCr2dwy3wsaLJU@vger.kernel.org
+X-Gm-Message-State: AFuF++k3hXzFZiJLG3nf2Zqdyh3V3p+LD9MBrntM0YPtITI/S7ubAzdJ
+	yoCmT2rgydfOvM+vEef3WEOMMivQVhtc8G77GStZonKELM4RTwkfUJR26OpqMXPS7eUC11YYuzN
+	BO9eg7XFpbcWlmSpWZveZIKIn9fUNPoI=
+X-Gm-Gg: AR+sD12Zcqscfs2eoIYZv92Truf/YQh5rt66tcjAZwOciY8yLx2DPGLWB5MWE20WHzL
+	w8Ict+BGQSQFmI9D9QunQH0WwrHeY2u3Ny9MMoVzNyntUCmZBuIwmqUU45V8b7AaYkYfQi1IHY/
+	KfuY1Y6EP5QYx4I5x7PJdPN8ZC2WIyoJEI9XMccW0+mWczGaI8Zl5ocay6iSUUid+pIVLCDqLSE
+	jHA+6xn9Jo5dIyVRfpODAXDUNXPTW7rH61MaaXXZSS8lUaanexvsIp4UQoshdZrfhBga+jRoNaC
+	zuBHGoZjjqmX2XEH6r1of+niGQwISax6AO8EjKM3iN30GgLbN2clp9ROg2+rdVGmF0EMSI973Ok
+	HhdljrRmUkYniil9S0lNaEn4sMkSazDFVqffMLQ==
+X-Received: by 2002:a05:600c:4594:b0:49b:4d64:bbc4 with SMTP id
+ 5b1f17b1804b1-49b91c2f990mr34163415e9.8.1787878285359; Thu, 27 Aug 2026
+ 17:51:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+ <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
+ <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+ <anpsLy_pCanocgS1@google.com> <CAJnrk1b5asARJ_g176DsoNCvf+iFqzPbOtVveeuPxTPZDmnuKw@mail.gmail.com>
+ <CAO9r8zOeh1fFsY5CG1C8CDCJH25eiioY-otRv6Krn1=S21PeaA@mail.gmail.com>
+In-Reply-To: <CAO9r8zOeh1fFsY5CG1C8CDCJH25eiioY-otRv6Krn1=S21PeaA@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 27 Aug 2026 17:51:12 -0700
+X-Gm-Features: AcwNN1U84_r1ZsaRjTsQYeTnIouvwcCd5NXWhuiWrqoKKgqvoIXZeqezPE43G0Y
+Message-ID: <CAJnrk1YO5E6ETxn9RmM-LWRQSRxwF9iEakAPz6veMPjaKMAEOQ@mail.gmail.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: NeilBrown <neil@brown.name>
+On Wed, Aug 26, 2026 at 11:31=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wro=
+te:
+>
+> On Wed, Aug 26, 2026 at 5:29=E2=80=AFPM Joanne Koong <joannelkoong@gmail.=
+com> wrote:
+> >
+> > On Mon, Aug 10, 2026 at 5:48=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> =
+wrote:
+> > >
+> > > On Mon, Aug 10, 2026 at 09:49:31AM -0700, Joanne Koong wrote:
+> > > > On Thu, Aug 6, 2026 at 2:31=E2=80=AFPM Yosry Ahmed <yosry@kernel.or=
+g> wrote:
+> > > >
+> > > > For updating the stat on each parent and having the flush path only
+> > > > accumulate CPU counters, I think this means we would have to
+> > > > unconditionally walk the ancestors + update its counters on every
+> > > > update, as we wouldn't be able to early break if the flushable
+> > > > threshold was already exceeded. I don't think we could replace the
+> > > > stats_update update, as it seems like readers still need some way o=
+f
+> > > > knowing when to flush. It seems like this could be a nontrivial
+> > > > performance hit, but maybe it's a non-factor in reality. If you thi=
+nk
+> > > > this would be useful to get benchmark numbers on, I can run some
+> > > > experiments on this too.
+> > >
+> > > I think we need to experiment with how much work we can shift around
+> > > between the update and reader sides.
+> > >
+> > > Right now, on the update side, we call __css_rstat_updated(), which
+> > > iterates the parents and puts them on the per-CPU rstat tree, then we
+> > > iterate the parents again in memcg_rstat_updated() and:
+> > > - Check if flushing threshold is already met.
+> > > - Update per-CPU counter for stats_updates.
+> > > - If per-CPU update exceeds (another) threshold, we update an atomic =
+for
+> > >   stats_updates.
+> > >
+> > > The flush side checks the flushing threshold and does an rstat flush,
+> > > which will walk the update trees on all CPUs and iterates all child
+> > > cgroups on it. Pretty expensive when the threshold is met.
+> > >
+> > > I think we discussed two different options:
+> > >
+> > > (a) On stats updates, iterate the parents and update the per-CPU
+> > > counters of the stat directly.
+> > >
+> > > In this case, we can't keep using rstat, as we would still need to ad=
+d
+> > > the cgroup and all its ancestors to the update tree anyway and the fl=
+ush
+> > > cost will remain similar. So on the flush path we'll need to iterate =
+all
+> > > CPUs and add the counters. We can explore if use a cpumask can help
+> > > here, but perhaps not since we'll need to update it atomically on all
+> > > stat updates.
+> > >
+> > > I imagine that if we do this we'll drop the stats_updates optimizatio=
+n
+> > > to avoid adding more cost to the update side. We'll be replacing pare=
+nt
+> > > stats_updates modification with parent stat counter modification. But
+> > > maybe it's feasible to keep both to limit the cost of flusing.
+> > >
+> > > This only works if the cost of iterate the CPUs on the flush side end=
+s
+> > > up being cheaper than the current flush. I imagine the average cost w=
+ill
+> > > be higher but the cost should be much more consistent vs the current
+> > > flush, so the tail should be better.
+> > >
+> > > (b) On stats updates, iterate the parents and update the per-CPU
+> > > counters of the stat directly AND update a global atomic if the per-C=
+PU
+> > > counter exceeds a threshold. I think updates may get too expensive as=
+ we
+> > > may need to update multiple atomics, especially when updating the roo=
+t
+> > > counter as it will be contended by all cgroups.
+> > >
+> > > The flush side becomes an atomic read, so should be very cheap, and w=
+e
+> > > can drop other heuristics and optimizations.
+> > >
+> > > ---
+> > >
+> > > I think ultimately we need to experiment with these approachs (and
+> > > perhaps others) to check what actually works in practice. You'll
+> > > probably want some benchmarks or synthetic tests with many cgroups to
+> > > exercise the worst case scenarios.
+> > >
+> >
+> > These are the results I'm seeing from the benchmarks. I'm comparing
+> > non-ratelimited rstat vs (a) vs (b). I'm comparing non-ratelimited
+> > rstat instead of ratelimited rstat, because ratelimited rstat relies
+> > on the 2s flusher and doesn't incur any additional flushing when
+> > called.
+> >
+> > ~On the update side~
+> > ns per update (measured by having a kthread pinned to each CPU and all
+> > threads updating the same cgroup for a 200ms window, run on 80 CPUs,
+> > computed as total CPU time / # updates)
+> > depth      rstat      (a)         (b)
+> >     1        22.34       32.49      60.10
+> >     8        22.46       47.12      140.72
+> >     16      22.49       70.96      206.39
+> >     32      22.51       139.16    305.40
+>
+> There goes my dream if an rstat-free world :')
+>
+> I am very surprised though that you care about hierarchies this deep.
+> I don't think we have anything close to even 8 at Google, and in all
+> my previous testing I usually test up to 4 or 5 levels. I suspect at
 
-Add a test for consistency of readdir (getdents64) results.
-The expectation is that name which exist before a readdir starts, and
-still exist when the readdir completes, and which have not been removed
-or renamed away and re-created, should appear exactly once.
-Also if the fd on the file is closed in the middle of a readdir and
-re-opened with a seek to some offset previously reported, the same
-sequence should be reported as if the file was kept open with no
-seeking.  This last is important for nfsd.
+At Meta, we often see depths 8 to 16.
 
-Names which are the target of a rename have not been removed or renamed
-away, and so they should be stable too.
+> that level the difference might be acceptable. But aren't other
+> operations also really expensive at that depth? I imagine the charging
+> path is really slow if it has to do atomic updates for 32 parents. Is
 
-The test involves creating a large number of names and designating
-half as "stable".  Those which aren't "stable" may be removed,
-recreated, or renamed to something else.  Names which are stable
-might be the target of a rename, but will always exist.
+I agree. This aligns with what I saw when running the page counter
+approach for zwap on depth 32. For the writeback path though, the
+dirtying / writeback folio lifecycle is just stat updates. There's a
+charge, but that happens only once, when the folio enters the page
+cache.
 
-The test then reads the directory to find the order of the stable name,
-which should never change. It also find the "d_off" of all names.
-These d_off should be usable as a "seek" offset to find at least all
-the stable names that came after that point in the original listing.
+> the update path really a problem given everything else?
+>
+> Given the constant cost of rstat updates, it also seems like
+> memcg_vmstats_needs_flush() is mostly evaluating to true and skipping
+> the parent walk. I wonder how much this remains true in practice, I
+> think Shakeel mentioned that it does help in production.
 
-After creating the names and finding the order, a loop which repeatly:
-  - makes random changes to unstable names
-  - checks the complete order of stable names in a new readdir
-  - checks what appears after a seek() to a randomly chosen offet
+I think for the writeback path, this is probably often encountered in
+practice, since the threshold is 64 * nr_cpus and any sustained write
+would cross that quickly. It would matter most with order-0 folios
+since there's 4 updates incurred per folio independent of folio size.
 
-In Linux 7.2 this test always passes for xfs and ext4 but fails
-for btrfs unless we suppress renames with a "stable" name as target.
-It also fails for tmpfs.
+>
+> >
+> > (a) and (b) perform worse on higher memcg depths, whereas rstat is
+> > unaffected by depth level, which makes sense given that (a) and (b)
+> > can't break early if the flushable threshold has already been
+> > exceeded.
+> >
+> > ~On the flush side~
+> > ns per flush call (measured at leaf of memcg chain, ie best scenario
+> > for rstat, # CPUs on the system is 80)
+> >   rstat                      10165.60 ns   (min 9924)
+> >     (a)                       734.10 ns
+> >     (b)                        4.79 ns
+> >
+> > (a) is around 14x cheaper than an rstat flush, which I think is
+> > because the rstat flush goes through every stat, even ones that are
+> > not directly relevant.
+>
+> I think that's only part of the story. rstat iterates all children
+> cgroups as well. I think reading multiple contiguous stats may
+> actually be really cheap since they are likely in the same cacheline.
 
-To support NFS it is possible to suppress RENAME_EXCHANGE tests.
+In that benchmark, the flush cost was measured at the leaf of the
+memcg chain, so I don't think there were any children to iterate here.
+Maybe some of it is attributed to the rstat locking? I'm not too sure.
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
- .gitignore            |   1 +
- src/Makefile          |   2 +-
- src/t_dir_seek.c      | 545 ++++++++++++++++++++++++++++++++++++++++++
- tests/generic/799     |  25 ++
- tests/generic/799.out |   3 +
- 5 files changed, 575 insertions(+), 1 deletion(-)
- create mode 100644 src/t_dir_seek.c
- create mode 100755 tests/generic/799
- create mode 100644 tests/generic/799.out
+>
+> >
+> > Using some napkin math, I think the breakeven point for (a) is around:
+> >                       updates per read
+> > depth 1             ~900
+> > depth 8             ~380
+> > depth 32           ~80
+> >
+> > eg for depth 1:  (10165.60 - 734.10) / (32.49 -  22.34)
+> >
+> > This is assuming one read per flush, which is what (a) and (b) would
+> > necessarily have to pay, whereas rstat only needs to flush when the #
+> > of stats updates exceeds the MEMCG_CHARGE_BATCH * nr_cpus threshold,
+> > so the updates per read numbers above are in reality lower.
+> >
+> > Running a fio write job and using tracepoints to count # of stat
+> > updates, # of reads of those stats, and how many of those reads flush,
+> > I'm seeing:
+> >                      updates/s              reads/s
+> > flushes/s         updates per read
+> > bs=3D1M            643                           119                 45
+> >                        5
+> > bs=3D4k            156,415                     123                 58
+> >                      1267
+> >
+> > For larger folio sizes, (a) is cheaper for writeback (since there are
+> > 4 update events *per folio* in the dirtying/writeback lifecycle) but
+> > for smaller folio sizes (eg order 0 folios), (a) is worse, as a lot
+> > more updates are incurred, and the performance is worse the deeper the
+> > memcg is nested.
+>
+> Hmm interesting analysis, but I actually think a more interesting one
+> is the effect of the update latency in respective update paths. For
+> example, in the zswap_store() case you analyzed earlier, it ends up
+> being in the noise. I would check what the hottest update paths are
+> (probably networking?) and check what the update paths are, to check
+> if they are really sensitive to the increased update cost. It could be
+> the case that at least stats that are used by in-kernel flushers do
+> not really care about the extra update cost.
 
-diff --git a/.gitignore b/.gitignore
-index 0b6b94529892..8645520cbe85 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -144,6 +144,7 @@ tags
- /src/t_create_short_dirs
- /src/t_dir_offset
- /src/t_dir_offset2
-+/src/t_dir_seek
- /src/t_dir_type
- /src/t_encrypted_d_revalidate
- /src/t_enospc
-diff --git a/src/Makefile b/src/Makefile
-index 76cf50c3e169..17e7f1560033 100644
---- a/src/Makefile
-+++ b/src/Makefile
-@@ -36,7 +36,7 @@ LINUX_TARGETS = xfsctl bstat t_mtab getdevicesize preallo_rw_pattern_reader \
- 	fscrypt-crypt-util bulkstat_null_ocount splice-test chprojid_fail \
- 	detached_mounts_propagation ext4_resize t_readdir_3 splice2pipe \
- 	uuid_ioctl t_snapshot_deleted_subvolume fiemap-fault min_dio_alignment \
--	rw_hint fs-monitor btrfs_ioctl
-+	rw_hint fs-monitor btrfs_ioctl t_dir_seek
- 
- EXTRA_EXECS = dmerror fill2attr fill2fs fill2fs_check scaleread.sh \
- 	      btrfs_crc32c_forged_name.py popdir.pl popattr.py \
-diff --git a/src/t_dir_seek.c b/src/t_dir_seek.c
-new file mode 100644
-index 000000000000..3b05c7eb900a
---- /dev/null
-+++ b/src/t_dir_seek.c
-@@ -0,0 +1,545 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+// Copyright (c) 2026 NeilBrown <neil@brown.name>
-+/*
-+ * This test aims to verify that seekdir (or lseek() on a directory)
-+ * is reliable, including after closing and re-openning the directory.
-+ * This is important for nfsd operation, among other things.
-+ *
-+ * The expected behaviour is that a sequence of getdents64 calls
-+ * which start at a seek offset of "0" and continue until EOF
-+ * is reported (getdents64 returns 0) will report all "stable" names
-+ * precisely once and if that process is repeated then the order
-+ * of "stable" name will stay the same.
-+ * Further, if the process starts at some other seek offset which was
-+ * returned in a getdents() together with a particular "stable" name,
-+ * then scanning with getdents64 to the end will return all "stable" names
-+ * that appear after the particular name in the known order, and none of the
-+ * "stable" names which appears at or before the particular name in that order.
-+ *
-+ * Here a name is "stable" over a period of time if it exists at the
-+ * start of the period and at the end of the period and was not unlinked
-+ * or renamed during that period.  If a stable name is the target of a
-+ * rename of the source of a RENAME_EXCHANGE rename, then it remains stable.
-+ *
-+ * The behavour of the test is to create some number (5000 by default) of names
-+ * in a directory and to designate half of them as stable.
-+ * Then to read the directory and establish the order and reported d_off lseek
-+ * offsets.
-+ * Then to repeatedly:
-+ *  - randomly modify unstable names including:
-+ *        + unlink existing name
-+ *        + create file an non-exising name
-+ *        + rename existing name to non-existing name
-+ *        + RENAME_EXCHANGE two existing names
-+ *        + rename existing unstable name to a stable name
-+ *        + RENAME_EXCHANGE two stable names
-+ *  - scan the directory from the start and validate the order of stable name
-+ *  - scan the directory from some random stable name to the end and
-+ *    verify the order.
-+ *  This repeats 100 times by default
-+ *
-+ * Each name used is 12 chars long consisting of 6 random alphabetics,
-+ * a hyphen, and 5 digits. which spell a sequence number of 00000 upwards.
-+ */
-+
-+#include <unistd.h>
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <stdint.h>
-+#include <stdbool.h>
-+#include <fcntl.h>
-+#include <string.h>
-+#include <time.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
-+
-+#define BUF_SIZE 4096
-+struct linux_dirent64 {
-+	uint64_t	d_ino;
-+	uint64_t	d_off;
-+	unsigned short	d_reclen;
-+	unsigned char	d_type;
-+	char		d_name[0];
-+};
-+
-+typedef char fname[6+1+5+1];
-+
-+fname *names;
-+struct flist {
-+	int num;
-+	int *list;
-+} stable, unstable, unused;
-+
-+struct fstatus {
-+	bool stable;
-+	int index;
-+	uint64_t pos;
-+} *status;
-+
-+int num_names = 5000;
-+int num_loops = 100;
-+int num_ops = 10;
-+bool trace = false;
-+
-+int homefd;
-+char *dir = "testdir";
-+
-+enum {
-+	op_unlink,
-+	op_create,
-+	op_rename, // rename to unused name
-+	op_replace, // rename to unstable name
-+	op_exchange,
-+	op_replace_stable,
-+	op_exchange_stable,
-+	NUM_OPS
-+};
-+
-+#define OP_STABLE ((1 << op_replace_stable) | (1 << op_exchange_stable))
-+#define OP_EXCH ((1 << op_exchange) | (1 << op_exchange_stable))
-+int disabled_ops = 0;
-+
-+static char nchars[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-+
-+static void make_name(fname name, int num)
-+{
-+
-+	for (int i = 0; i < 6; i++)
-+		name[i] = nchars[random()%(sizeof(nchars)-1)];
-+	name[6] = '-';
-+	sprintf(name+7, "%05d", num);
-+}
-+
-+static int num_of(char *name)
-+{
-+	char *ep = NULL;
-+	int num;
-+
-+	if (strlen(name) != 7+5)
-+		return -1;
-+	num = strtoul(name + 7, &ep, 10);
-+	if (ep && *ep == '\0')
-+		return num;
-+	return -1;
-+}
-+
-+static void make_names(void)
-+{
-+	names = calloc(num_names, sizeof(*names));
-+	for (int i = 0; i <num_names; i++)
-+		make_name(names[i], i);
-+}
-+
-+static void alloc_flist(struct flist *list)
-+{
-+	list->num = 0;
-+	list->list = calloc(num_names, sizeof(list->list[0]));
-+}
-+
-+static void alloc_status(void)
-+{
-+	status = calloc(num_names, sizeof(*status));
-+}
-+
-+static int get_file(struct flist *list)
-+{
-+	int i;
-+	int ret;
-+
-+	if (list->num <= 0)
-+		return -1;
-+	i = random() % list->num;
-+	ret = list->list[i];
-+	list->list[i] = list->list[list->num-1];
-+	list->num -= 1;
-+	return ret;
-+}
-+
-+static void put_file(struct flist *list, int f)
-+{
-+	list->list[list->num] = f;
-+	list->num += 1;
-+}
-+
-+static void clean_files(void)
-+{
-+	int n;
-+
-+	while ( (n = get_file(&unstable)) >= 0)
-+		unlink(names[n]);
-+	while ( (n = get_file(&stable)) >= 0)
-+		unlink(names[n]);
-+
-+	fchdir(homefd);
-+	if (rmdir(dir))
-+		perror(dir);
-+}
-+
-+static void fail(char *op, char *name)
-+{
-+	fprintf(stderr, "FATAL: %s failed on %s\n", op, name);
-+	clean_files();
-+	exit(3);
-+}
-+
-+static int getdents(int fd, char *buf, int bufsize)
-+{
-+	return syscall(SYS_getdents64, fd, buf, bufsize);
-+}
-+
-+static void get_order(void)
-+{
-+	char buf[BUF_SIZE];
-+	int index = 0;
-+	int fd;
-+	int n;
-+
-+	fd = open(".", O_RDONLY | O_DIRECTORY);
-+	if (fd < 0)
-+		fail("open", ".");
-+
-+	lseek(fd, 0, SEEK_SET);
-+	for (int i = 0; i < num_names; i++)
-+		status[i].index = -1;
-+	while ((n = getdents(fd, buf, BUF_SIZE)) > 0) {
-+		int pos = 0;
-+		while (pos < n) {
-+			struct linux_dirent64 *d = (void*)buf + pos;
-+			int i = num_of(d->d_name);
-+
-+			if (i >= 0) {
-+				if (status[i].stable)
-+					index++;
-+				status[i].index = index;
-+				status[i].pos = d->d_off;
-+				if (trace)
-+					printf("get_order %s %sstable index %d pos %lu\n",
-+					       d->d_name, status[i].stable ?"":"un",
-+					       status[i].index, d->d_off);
-+			}
-+			pos += d->d_reclen;
-+		}
-+	}
-+	close(fd);
-+}
-+
-+static bool check_order(int seen, uint64_t off)
-+{
-+	char buf[BUF_SIZE];
-+	int fd = open(".", O_RDONLY | O_DIRECTORY);
-+	int n;
-+
-+	if (fd < 0)
-+		fail("open", ".");
-+
-+	if (trace)
-+		printf("check order at offset %lu expecting index %d\n",
-+		       off, seen+1);
-+	lseek(fd, off, SEEK_SET);
-+	while ((n = getdents(fd, buf, BUF_SIZE)) > 0) {
-+		int pos = 0;
-+		while (pos < n) {
-+			struct linux_dirent64 *d = (void*)buf + pos;
-+			int i = num_of(d->d_name);
-+
-+			if (i >= 0 && status[i].stable) {
-+				if (status[i].index != seen + 1) {
-+					fprintf(stderr, "order wrong at %s: expected index %d got %d\n",
-+						d->d_name, seen+1, status[i].index);
-+					close(fd);
-+					return false;
-+				}
-+				seen += 1;
-+			}
-+			pos += d->d_reclen;
-+		}
-+	}
-+	close(fd);
-+	if (seen != num_names / 2) {
-+		fprintf(stderr, "last stable name seen was %d, not %d\n", seen,
-+			num_names/2);
-+		return false;
-+	}
-+	return true;
-+}
-+
-+static void create_files(void)
-+{
-+	for (int i = 0; i < num_names; i++) {
-+		if (mknod(names[i], S_IFREG | 0600, 0) < 0)
-+			fail("create", names[i]);
-+
-+		if (i & 1) {
-+			put_file(&stable, i);
-+			status[i].stable = true;
-+		} else {
-+			put_file(&unstable, i);
-+			status[i].stable = false;
-+		}
-+	}
-+}
-+
-+static void run_ops(int num)
-+{
-+	for (int i = 0; i < num;) {
-+		int n, n2;
-+		int op = random() % NUM_OPS;
-+
-+		if (disabled_ops & (1<<op))
-+			continue;
-+
-+		switch (op) {
-+		case op_unlink:
-+			n = get_file(&unstable);
-+			if (n >= 0) {
-+				if (unlink(names[n]) == 0)
-+					put_file(&unused, n);
-+				else
-+					fail("unlink", names[n]);
-+				i++;
-+				if (trace)
-+					printf("unlink unstable %s\n", names[n]);
-+			}
-+			break;
-+		case op_create:
-+			n = get_file(&unused);
-+			if (n > 0) {
-+				if (mknod(names[n], S_IFREG | 0600, 0) == 0)
-+					put_file(&unstable, n);
-+				else
-+					fail("create", names[n]);
-+				i++;
-+				if (trace)
-+					printf("create unstable %s\n", names[n]);
-+			}
-+			break;
-+		case op_rename:
-+			n = get_file(&unstable);
-+			if (n < 0)
-+				break;
-+			n2 = get_file(&unused);
-+			if (n2 < 0) {
-+				put_file(&unstable, n);
-+				break;
-+			}
-+			if (rename(names[n], names[n2]) == 0) {
-+				put_file(&unused, n);
-+				put_file(&unstable, n2);
-+				i++;
-+			} else
-+				fail("rename-to", names[n2]);
-+			if (trace)
-+				printf("rename unstable %s to unused %s\n",
-+				       names[n], names[n2]);
-+			break;
-+		case op_replace:
-+			n = get_file(&unstable);
-+			if (n < 0)
-+				break;
-+			n2 = get_file(&unstable);
-+			if (n2 < 0) {
-+				put_file(&unstable, n);
-+				break;
-+			}
-+			if (rename(names[n], names[n2]) == 0) {
-+				put_file(&unused, n);
-+				put_file(&unstable, n2);
-+				i++;
-+			} else
-+				fail("replace", names[n2]);
-+			if (trace)
-+				printf("rename unstable %s to unstable %s\n",
-+				       names[n], names[n2]);
-+			break;
-+		case op_exchange:
-+			n = get_file(&unstable);
-+			if (n < 0)
-+				break;
-+			n2 = get_file(&unstable);
-+			if (n2 < 0) {
-+				put_file(&unstable, n);
-+				break;
-+			}
-+			if (renameat2(AT_FDCWD, names[n],
-+				      AT_FDCWD, names[n2],
-+				      RENAME_EXCHANGE) == 0) {
-+				put_file(&unstable, n);
-+				put_file(&unstable, n2);
-+				i++;
-+			} else
-+				fail("exchange", names[n]);
-+			if (trace)
-+				printf("exchange unstable %s with unstable %s\n",
-+				       names[n], names[n2]);
-+			break;
-+		case op_replace_stable:
-+			n = get_file(&unstable);
-+			if (n < 0)
-+				break;
-+			n2 = get_file(&stable);
-+			if (n2 < 0) {
-+				put_file(&unstable, n);
-+				break;
-+			}
-+			if (rename(names[n], names[n2]) == 0) {
-+				put_file(&unused, n);
-+				put_file(&stable, n2);
-+				i++;
-+			} else
-+				fail("replace", names[n2]);
-+			if (trace)
-+				printf("rename unstable %s to stable %s\n",
-+				       names[n], names[n2]);
-+			break;
-+		case op_exchange_stable:
-+			n = get_file(&stable);
-+			if (n < 0)
-+				break;
-+			n2 = get_file(&stable);
-+			if (n2 < 0) {
-+				put_file(&stable, n);
-+				break;
-+			}
-+			if (renameat2(AT_FDCWD, names[n],
-+				      AT_FDCWD, names[n2],
-+				      RENAME_EXCHANGE) == 0) {
-+				put_file(&stable, n);
-+				put_file(&stable, n2);
-+				i++;
-+			} else
-+				fail("exchange", names[n2]);
-+			if (trace)
-+				printf("exchange stable %s with stable %s\n",
-+				       names[n], names[n2]);
-+			break;
-+		}
-+	}
-+}
-+
-+static void usage(void)
-+{
-+	fprintf(stderr, "Usage: t_dir_seek -n numfiles -l numloops -o numops\n");
-+	fprintf(stderr, "                  -p working-path -d temp-dir -S randomseed\n");
-+	fprintf(stderr, "                  -T -O ops\n");
-+	fprintf(stderr, " -T enables tracing\n");
-+	fprintf(stderr, " -O disables ops. Currently:\n");
-+	fprintf(stderr, "           \"nostable\" - disables ops affecting stable names\n");
-+	fprintf(stderr, "           \"noexchange\" - disables RENAME_EXCHANGE\n");
-+	fprintf(stderr, " random seed default to seconds since epoch\n");
-+	fprintf(stderr, " temp-dir default to \"testdir\" and is removed on completion\n");
-+	fprintf(stderr, " other defaults: -n 5000 -l 100 -p 10\n");
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	int opt;
-+	int loop;
-+	unsigned int seed = time(NULL);
-+
-+	while ( (opt = getopt(argc, argv, "n:l:o:p:d:S:TO:")) > 0) {
-+		switch (opt) {
-+		case 'n': /* number of names */
-+			num_names = atoi(optarg);
-+			if (num_names < 10 || num_names > 100000) {
-+				fprintf(stderr, "-N: number of names must be 10..100000\n");
-+				exit(2);
-+			}
-+			break;
-+		case 'l': /* number of loops */
-+			num_loops = atoi(optarg);
-+			if (num_loops < 1 || num_loops > 10000) {
-+				fprintf(stderr, "-l: number of loops must be 1..10000\n");
-+				exit(2);
-+			}
-+			break;
-+		case 'o': /* number of ops per loop */
-+			num_ops = atoi(optarg);
-+			if (num_ops < 1 || num_ops > 100) {
-+				fprintf(stderr, "-l: number of ops must be 1..100\n");
-+				exit(2);
-+			}
-+			break;
-+		case 'p': /* name of dir to work in */
-+			if (chdir(optarg) != 0) {
-+				perror(optarg);
-+				exit(2);
-+			}
-+			break;
-+		case 'd': /* Directory to create and use */
-+			if (strlen(optarg) == 0 ||
-+			    strchr(optarg, '/') != NULL ||
-+			    optarg[0] == '.') {
-+				fprintf(stderr, "illegal directory name \"%s\"\n",
-+					optarg);
-+				exit(2);
-+			}
-+			dir = optarg;
-+			break;
-+		case 'S':
-+			seed = atoi(optarg);
-+			break;
-+		case 'T':
-+			trace = true;
-+			break;
-+		case 'O':
-+			if (strcmp(optarg, "nostable") == 0)
-+				disabled_ops |= OP_STABLE;
-+			else if (strcmp(optarg, "noexchange") == 0)
-+				disabled_ops |= OP_EXCH;
-+			else {
-+				fprintf(stderr, "-O %s - not recognised\n", optarg);
-+				exit(2);
-+			}
-+			break;
-+		case '?':
-+		default:
-+			usage();
-+			exit(2);
-+		}
-+	}
-+
-+	if (optind < argc) {
-+		fprintf(stderr, "Unrecognised argument: %s\n", argv[optind]);
-+		usage();
-+		exit(2);
-+	}
-+
-+	homefd = open(".", O_RDONLY | O_DIRECTORY);
-+	if (homefd < 0)
-+		fail("open", ".");
-+	if (mkdir(dir, 0755)) {
-+		perror(dir);
-+		exit(1);
-+	}
-+	chdir(dir);
-+	srandom(seed);
-+	make_names();
-+	alloc_flist(&stable);
-+	alloc_flist(&unstable);
-+	alloc_flist(&unused);
-+	alloc_status();
-+
-+	create_files();
-+	get_order();
-+	for (loop = 0; loop < num_loops; loop++) {
-+		int n;
-+
-+		run_ops(num_ops);
-+		if (!check_order(0, 0))
-+			break;
-+
-+		n = random() % num_names;
-+		if (!check_order(status[n].index, status[n].pos))
-+			break;
-+	}
-+	clean_files();
-+	if (loop == num_loops) {
-+		printf("Passed all %d loops with seed %u\n", loop, seed);
-+		exit(0);
-+	} else {
-+		printf("Failed on loop %d of %d with seed %u\n", loop,
-+		       num_loops, seed);
-+		exit(1);
-+	}
-+}
-diff --git a/tests/generic/799 b/tests/generic/799
-new file mode 100755
-index 000000000000..07279394ef43
---- /dev/null
-+++ b/tests/generic/799
-@@ -0,0 +1,25 @@
-+#! /bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (c) 2025 NeilBrown
-+#
-+# Check dir list and offsets are stable in the fast of churn.
-+# Name that are not unlinks or renamed should rename in-order w.r.t
-+# each other and any seek positions reported.
-+
-+. ./common/preamble
-+_begin_fstest auto dir quick
-+
-+_require_test
-+_require_test_program "t_dir_seek"
-+
-+extra=""
-+if [ "$FSTYP" == "nfs" ]; then
-+    extra="-O noexchange"
-+fi
-+
-+# provide a seed as it is reported in the output
-+$here/src/t_dir_seek -p $TEST_DIR -S 1234567 $extra
-+
-+# success, all done
-+echo "*** done"
-+status=0
-diff --git a/tests/generic/799.out b/tests/generic/799.out
-new file mode 100644
-index 000000000000..3acd51a1847b
---- /dev/null
-+++ b/tests/generic/799.out
-@@ -0,0 +1,3 @@
-+QA output created by 799
-+Passed all 100 loops with seed 1234567
-+*** done
+Extrapolating a bit from the synthetic benchmarks, at depth 8, I think
+the extra overhead incurred on an update comes out to roughly around
+25ns, and at depth 16, around 48ns. I haven't looked at the networking
+path, but the lru path (__update_lru_size()) looks concerning, as it
+would have that extra overhead while holding the lru lock, which "is
+already a heavy contention point on memory-heavy workloads" [1]. As I
+understand it, reclaim, compaction, and the page cache path all
+serialize on that lock.
 
-base-commit: 56c410ad0f69da5b13c5807bc47b4876dcfa02b2
--- 
-2.50.0.107.gf914562f5916.dirty
+If we were to move all the callers off rstat, I think this also would
+unfortunately make the walk more expensive. As I understand it, each
+stat would be a per-cpu counter which would be added to the
+memcg_vmstats_percpu struct, and that would have to spill onto
+multiple cachelines. Or maybe I'm missing something here and there
+would be a better way to do it.
 
+>
+> >
+> >
+> > I also ran some experiments with Jan's suggestion of scaling the flush
+> > threshold to the memcg's limit rather than to the number of cpus. It
+> > helps the overshoot we saw and slightly outperforms doing a plain
+> > non-ratelimited flush (100% of dirty limit vs 101% on a 1G memcg, 103%
+> > vs 107% on a 256M memcg) but led to ~2.4x more flushes.
+> >
+> > The initial reason we switched to the ratelimited version of the flush
+> > was because flushing was expensive, but I'm not sure if flushing is as
+> > expensive as it used to be. Testing the non-ratelimited version, the
+> > flushes account for about 0.9% of the system CPU the write path
+> > already spends, and I didn't see any throughput difference between the
+> > two (249-252 MB/s either way), on a 32G memcg. With the
+> > non-ratelimited version, it's also not a flush per read - it's still
+> > "ratelimited" by number of updates that have elapsed since the last
+> > flush (only flushing if stats_updates >=3D MEMCG_CHARGE_BATCH * nr_cpus=
+)
+> > which means concurrent writers writing back at the same time will
+> > "share" flushes rather than triggering their own.
+>
+> Yup, this is exactly what I mean. This is a good analysis for the cost
+> of the flush: how much it matters end-to-end. Even though the full
+> flush is 14x more expensive according to your numbers, it seems like
+> it ultimately doesn't affect performance much. I would do the same for
+> the update paths, see if the extra cost really matters. WDYT?
+
+imo ideally it would be great to minimize any overhead we can where if
+we don't need the precision for a certain stat, then it would be
+preferable to not incur any extra overhead for it on updates if the
+overhead saved on reads doesn't justify it. In the grand scheme of
+things though, I think in most cases, the extra overhead/latency isn't
+really discernible except at high depths and except for the lock
+contention issue mentioned above.
+
+I don't really have an issue with rstat for cases like writeback where
+we're not doing a lot of reads compared to updates, but I think we do
+need to get rid of the rstat rate-limiting, as it seems so arbitrary
+to rely on two seconds for stats being updated. Bounding it by time
+and not stats_updates feels wrong. Even in the cases where precision
+doesn't matter, it seems better to give those callers a higher stats
+updates threshold depending on how much error they can tolerate, than
+to rely on a blanket 2 seconds.
+
+>
+> >
+> > In light of the above, imo it seems to make the most sense to just do
+> > the plain non-ratelimited flush for mem_cgroup_wb_stats() and make the
+> > flushing magnitude bound again, wh ich also aligns with what the
+> > global non-memcg domain does. The question is whether the extra flush
+> > cost is acceptable, but the numbers above make me think it is.
+>
+> If we can eat the cost of the flush here that's great, but I think we
+> can't say the same for the vmscan and zswap paths (at least)? :/
+
+I haven't tried out the vmscan repro or run any benchmarks on that
+path, but the logic in vmscan seems weird to me, as it will always
+conclude that there were no refaults whenever reclaim scans faster
+than the refaults counter advances (which I think would be most of the
+time under memory pressure). I'm thinking maybe we could do something
+similar to what Usama did in [1] where we fold the refault delta into
+a per-lruvec accumulator and let it decay. I'm planning to look more
+into this and will follow up then.
+
+For the zswap path, it's still a bit unclear to me whether exactness
+is necessary or whether the 64 * nr_cpus error tolerance is
+acceptable. If that error tolerance is acceptable, I think it makes
+sense to use the non-ratelimited version of rstat with no forced
+flushing, given that reads are supposed to be rare since rarely
+anybody (from what I understand) in practice sets zswap.max. Quick
+benchmarks at depth=3D4 with zswap.max set at every level, 20 workers on
+80 cpus:  rstat forced =3D ~7,600 stores/s, rstat unforced =3D ~300k
+stores/s, and hierarchical per-cpu counters =3D ~440k stores/s. The
+hierarchical per-cpu counters outperforms rstat unforced on the stores
+given that it removes the flush, but we already see massive
+improvements from using rstat unforced over rstat forced.
+
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/linux-mm/20260727162550.2032-4-usama.arif@linux=
+.dev/
+
+>
+> >
+> > Thanks,
+> > Joanne
