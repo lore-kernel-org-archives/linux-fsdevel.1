@@ -1,127 +1,97 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C759938AC6A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 03:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787887319; cv=pass; b=lxGjL98XM6ReyQosGUdaAhORRXv2Z2NUOodpuJVE2THz8l/EWuaPklAFGGOkilMPe1NYb2GG22M9NaV4X9luxCjD+tNtBJW7pvy/y+SYNQIhxWHMEnMQwCu95dAEmO/Mo51+761apqAoMzAg1RwcRlqJTSc7APei6M02JZl/x0g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787887319; c=relaxed/simple;
-	bh=PV74xrzDSBRTke/cHvAJ9HlN5yJIVvwoG/IxBDWTvkc=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=CblIvnNFWNMC6nQZhsCnKvr3Ffbtuo0BFB7aV2Kvk2wa75eLO30XnYbLJit19zEDrHMCnp6P/2Qr5dcfQyJB0dV0lf3x/puQBd6nX7RQjIkNClTACKQjQi88cTYg/IO0lF5h0/BUdiAD7QjN7NoQk3njx5I7C5uHFqFN4M+UpYA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=ffZq1M0a; arc=pass smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3D43AAF60
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 03:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787889058; cv=none; b=qmv5JP5bi85BR47k3njYzcYv2nIl345jB0QfaU2OzrPq9WEDQ1vDfh2k23eUEDJxvR4//FTzr+i1sJksvtVXyRIunada7QMtmSkgAB05u8/vkV35cJ4kDuLM/eDmCn9qMhPKdbK2XqQBKYlA8UDoEAT1Xnj9eajTpZSRRn01NZM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787889058; c=relaxed/simple;
+	bh=qxXuDSETb1QGvICRb6JF6QpQpSR+Hex0aJPS9wGqpCo=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=fM8PKyQpdOQcnDCQGZjnibeE6n9JHfVhDIVQwPBzKkOgwjE+kJbzfhG4GKVpmr1G6Lu8CCUfESdJjli2hvNuxXXYx7tSdv7p8fUHvqjEySZXkkSMt9o5JU2Z5jgrta+qHuvWH6/guNotW3yfw6qZNK17tRGtH6M2n7a9eFy+0o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iu0MssnI; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="ffZq1M0a"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cacb8416a1so5414305ad.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 20:21:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787887315; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qN0phctbcQdLaGbqNOKMz7BV4lIeSfaLwgy31iMZggnhz2mpkAH80DrHaqMaongsBJ
-         XgywhS1BxuYihdotN86UowDGbZkGObdXcdZF44dJbiJ3g/nEtykW7cpzjKEE/c/WhZB6
-         lffQzfv1JdBoDJdEpDJ/latce7652WdfW5Bmajx9YkrcdiKjdNhuryqeWu1ItbyTIv1y
-         Y9s2U5slcFn69B5uK+YxmF/oaUNC63hCG6NdhZ8+7u5FqWZc2IclMkGwCa6xqIM0Baw4
-         I4KD+imJTy0bt1V+D4NkwrEH8fQBnbGGfx2XdhI+ikNd8J/oiNfP/engvkGvPUOWtEzH
-         1tcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
-        bh=Uee4CaKhfoQ1WGVh8aDxMhw0p8MYNhqtIxucP0xeS34=;
-        fh=Hc3U1fIpggGPkozZryX9ivuKMsIR9G4dPQY/jrgug24=;
-        b=jH18msFTpy87MPrc/PUxRnrO2NacjMr2UGNqSM6iG0qspDBRMQKtyb9Q9S4m1DuE3w
-         gmv5VjsdPqSTHJJ7jvPmMsFUA0lVpbnVJPZ9S7S47Os+gHryOw8Q0+O6wkVxkELpJtmZ
-         qev1JNereAF82sEODeX39U/Rg5THDYjKuOAh6ITbutxKUoM2XASZgnTE6jb6D69/tQlq
-         oAEk3M6TWpC5uD5mM+oMs9fQVoXNauhQMeGMGoAsCnRsLcXRfOUZmAaqkJVywnpX0fTd
-         gyNjKPFeiK/Ugcz2aDuIEXgXQVfh4Fch5PaTgpLzG9no5Ya4z+Wf4jLlvl3ld1KWP+x9
-         TUhA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iu0MssnI"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-cc147d86bebso638467a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 20:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=berkeley.edu; s=google; t=1787887315; x=1788492115; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Uee4CaKhfoQ1WGVh8aDxMhw0p8MYNhqtIxucP0xeS34=;
-        b=ffZq1M0aHNvGSLq2qKqHYliIRl0lTJBc9XouJxJAqzd07LgbUPnlUXmJX77rs/W1v9
-         7DiiFpghKGY1xaN+8i0zPlF38H4W/yh4X0I6IWj0JkNMopp2vDOWdCBWQgMNrQ3yzGyJ
-         f4A4a/bBxxAcl3xB8mRMw2oU4WHgi5pRpA6Z1YK0gPljoZn+lbG6rvBeibYR+6jIV3Ps
-         edrozim8XPl+vmNQ2R3SIvwfcklKku9by1C4erBurrTHCibuDiuwcLtYGsF4H5bqWYlo
-         qRle7iuuBLhFie5VC/QgL6P750B1olWrNmvGdWzmFEGTTpBH8GZQIwusImgey10WK4s+
-         cxQQ==
+        d=gmail.com; s=20251104; t=1787889053; x=1788493853; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=x4Wo3AFVWJoN6NjZ+CjXyOXScjwk81QQP/wB9zVSLpE=;
+        b=Iu0MssnIdYs5oBK61RGMgLHv6pbQmm0G6nj+OX53oQc2QIqBIWgKGMStsPhVAIZXCZ
+         6KIXJtU1ggJmTlrObkqAuCwZn5yEFW5irkp2NNYE2E3fib97Y+lIbq35w47CbNm9LQNH
+         1Pplh4AsO8hmM6kJsbIPymf1lYDt+de/jqC+BFGVjCAnzWzped3LlncDTU27kLDQSRqT
+         6189Df9kTOUSqqMjLd3TU9N7vd8l5YdhqVTr/qJQ5EPDza1KH1h/GBp++7QTeUrcSBhS
+         TVgjBixy9VNwEKh5VZ/5DOayOPA26D8vPLHLIBqZoH4yolHFkjNhhuuJqAk2P7qJumAo
+         zfRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787887315; x=1788492115;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Uee4CaKhfoQ1WGVh8aDxMhw0p8MYNhqtIxucP0xeS34=;
-        b=n2Guq5tfml7O0/ORJIyM553h07U7iNurxOp2t0SphVRuLBoBIkxCwM37CuCaUQQm8z
-         +nqz+fcrZlvwPToh6lQ1WmM2uzddp5t3KQZF3jX9f7GtuyDnCuevM3RkAYOx6yHnIpcj
-         jBJlixZo1vI5TogK4d5HEEvGQQkBjGaUwK6xF8+LVWvkICjtfEOEj1owRjsbvER9mSpy
-         PjZEjUiHDfDxHZA4oEDRKWnkOVAY9kRowwxjtb01FlPYUGBLnhAKiIsYC/4YCVCuR8WU
-         k8FFSdirY/a7vgdCEoOaJctC9maAU/cOHI+aa0LDmhUZE6vIeNnTUYTxhW27BBgjG19U
-         iigA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp+GxwP30YHBYYlrI+nk14N6A16QC3LTi4uyTtMT4/4gMMsSPEs3QypgW9TLiNHifIXz1sUSd8hYTg5lSVF@vger.kernel.org
-X-Gm-Message-State: AFuF++lH/TLJC4fBaiYPQkwmZRxXNro8zixbGtc0LdS7tyYAQN+hDZ+C
-	Y1NRmleWTBQ8AUa91kJKnn0s0QqMCN6kBZX105yTFbmQpLC3rqzOzCl/aNcc9E7DdR75Wx1muyP
-	d3a3iI2XWO7uFVgxEPnG72sIWUVbRYTkE0Mi+nUjUY0F4yMvPX2azEw==
-X-Gm-Gg: AR+sD10Csn+A9C7lWTvoSuV+PRN4QuLjQz3wev91X6VJVYzezaOSqcvj+t77K+HJGMS
-	SdLztHCamu9jLd0Kj6Lrhi2FaewgcM9TqCJzwyeM+5NjmozX5ZGdH0D2BelTyH1aGFv+2ttgQxo
-	PYctjIxXc9qDm6VxY+mu1mmse8gLQz84bcn8nRpcZqiK7naneWMd0y8CPOMsW4VT2BrChMbGG7z
-	/73866R9l2mIbH/FFrqJFDfGfUAe0gwCvfxh29gWZ1bR0kr+M/v0h5Fw1S8YGp/rNfcat/kqWzp
-	M3UiTe+p3en5IHn3vgjnArFhjB6fC8shW1Te20ZSwCugIlHgXS3LZLxR1YhRA8UIHAP0whX+FK0
-	+eLO+iFoBcoXGeCVCjCUE6BqYfHtH0p6U
-X-Received: by 2002:a17:903:2f8b:b0:2d3:160b:c01f with SMTP id
- d9443c01a7336-2d74ddd684cmr64429595ad.6.1787887313715; Thu, 27 Aug 2026
- 20:21:53 -0700 (PDT)
-Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 20:21:52 -0700
-Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 20:21:52 -0700
-From: Farhad Alemi <farhad.alemi@berkeley.edu>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1787889053; x=1788493853;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=x4Wo3AFVWJoN6NjZ+CjXyOXScjwk81QQP/wB9zVSLpE=;
+        b=FEMeNu8bxJpFkHts6ujmWKjSlVN1HMY+gQaxqE7iK6z7TQrJPCyo3uPzOCgnFNvxR1
+         WOL3SshEPFFZWtYPKb7PFbEbRz1QDBVbr1wZ201gjH72edYn241PSHMgfMxqv/aM7iIC
+         ZdF7f6x5Abc+kRFsCX7X9nMeww5+I5Rvce9wooMwi53BkXqShA4927eGxBz1rPAhvITi
+         cjnwfBCyv4QqAWlYBEXwfbptJjprHTrcuM0dZYdrNGebMqkkoTDduQinJqF/1wAUiOuY
+         QnlwgOnNrezcLD5BoEhOExBKmevSHhYfU6ZDxqACsnKUknPWwGe97LuP18q9xP/ZrZW5
+         X5jg==
+X-Gm-Message-State: AFuF++l/XLdzq4/xKDzJn7hd1FKY2A2V7QNkk3hj0bYCcnNDxZtPRrtE
+	G193GBFA+PzqMZBadJ2sTqPkonqAadgYHR+AkyC2M7o7POOhIan3Dx38
+X-Gm-Gg: AR+sD13esjX+NthKa6a9BqxLofhxNxL2CkA35VTHHLlHNPx17So9IacBPJ8JGo0YOui
+	RkdKUXEofuLeMZ/MxEXfZ5Dnb6N8jrOjpXGp4emojgf7q9KFAVdHT3ccNzWfIYOwQJHbNPz+8M5
+	bHXPXRhqvSDA4uL4HPX86ek0iqvrWCEk2ctRuz4Rq1cMLkf2FrrsJypSAjCZX2X6zaOccUgdJaz
+	jizXdJkb5kIjSCOwcCYmiCgGkfSjXnx2RB+yOXwZedcQBDRAYEKOtOIYNpZSpc7wGWvcFEux367
+	9U4nT3fsl8idZwbKsIk0hHKe2ydJREgUP44E2wcMPMKlAzpUvzrB9sFxPhy90KEQ9+dZlocNj+Y
+	McnhbUt1yLGL8JO0+c+3/DXzfMPEzcgtnyEIETwJJ6jHkcAX2lNWq/eWHMKmCA9vMky0F30HqHW
+	yoAkJQlHjSf2DT96pzx9X/gn7zTOpNstls8XX2GpMnczDjq0wTfqaZFfFEIGbbvBiLNg==
+X-Received: by 2002:a17:90b:5484:b0:36b:de66:92c3 with SMTP id 98e67ed59e1d1-3969bc0223emr15330087a91.10.1787889053319;
+        Thu, 27 Aug 2026 20:50:53 -0700 (PDT)
+Received: from [127.0.0.2] ([73.222.46.22])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-142e0e0e67dsm1659184c88.15.2026.08.27.20.50.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 20:50:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 27 Aug 2026 20:21:52 -0700
-X-Gm-Features: AcwNN1UXSzbvMguu57VTO6I3Vg6s4xk8FB-MSfUF9MZz6nJ3LiZ8NA7RHl_Tt34
-Message-ID: <CA+0ovCi3Ng3vsi3ZWWMxKNA7Wk91iGUu6j+x9Lof5EGsm8W6zA@mail.gmail.com>
-Subject: [BUG] afs_done_fs_inline_bulk_status -- KASAN null-ptr-deref on
- call->server when a fileserver aborts FS.InlineBulkStatus
-To: David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
-Cc: falemi@asu.edu, linux-afs@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 0/3] binfmt_misc: only let punctuation delimit a
+ register string
+From: Farid Zakaria <farid.m.zakaria@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, Kees Cook <kees@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Farid Zakaria <farid.m.zakaria@gmail.com>
+In-Reply-To: <20260826-work-binfmt_misc-delim-v1-0-43618adf8599@kernel.org>
+References: <20260826-work-binfmt_misc-delim-v1-0-43618adf8599@kernel.org>
+Date: Thu, 27 Aug 2026 20:50:28 -0700
+Message-Id: <178788902858.3236768.15019506644956689303.b4-review@b4>
+X-Mailer: b4 0.15.2
 
-Hello,
+On Wed, 26 Aug 2026 17:55:45 +0200, Christian Brauner <brauner@kernel.org> wrote:
+> [...]
+>  tools/testing/selftests/exec/Makefile            |   4 +
+>  tools/testing/selftests/exec/binfmt_misc_delim.c | 127 +++++++++++++++++++++++
+>  4 files changed, 143 insertions(+), 3 deletions(-)
+> ---
+> base-commit: 66498c75b4f8017f62d720d9b59675bdf3abce91
+> change-id: 20260810-work-binfmt_misc-delim-83f62cbcfe23
 
-As part of the kernel research at ASU's SEFCOM
-lab, we hit the crash below. Crash reports can be found here:
+Makes sense.
+I think it's still pretty accepting when you consider all the
+punctuation characeters even allowed :)
 
-  https://github.com/farhad-alemi/public_bug_reports/tree/main/134-afs-null-call-server-inline-bulk-status/
-
-  BUG: KASAN: null-ptr-deref in afs_done_fs_inline_bulk_status+0xb4/0x180
-  Write of size 8 at addr 00000000000001a8 by task repro/9497
-  Call Trace:
-   afs_done_fs_inline_bulk_status+0xb4/0x180
-   afs_deliver_to_call+0xbf6/0xfc0
-   afs_wait_for_call_to_complete+0x2de/0xb00
-   afs_wait_for_operation+0x244/0x8d0
-   afs_lookup+0x1245/0x1700
-   __lookup_slow+0x1fb/0x2f0
-   lookup_slow+0x53/0x70
-   path_lookupat+0x3f5/0x8c0
-   filename_lookup+0x256/0x5d0
-   vfs_statx+0xfc/0x200
-   vfs_fstatat+0x11b/0x170
-   __x64_sys_newfstatat+0x151/0x200
-  Kernel panic - not syncing: KASAN: panic_on_warn set ...
-
-Our reproducer.c is available upon request.
-
-Happy to test a patch if that would help.
-
-Regards,
+-- 
+Farid Zakaria <farid.m.zakaria@gmail.com>
