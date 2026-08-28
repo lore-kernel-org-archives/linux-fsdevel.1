@@ -1,82 +1,82 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE83439C631
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 03:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C728287E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 03:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787887107; cv=pass; b=J3tTNA3IwieRmqvGOyr+awIBSOsiN/sWr60niddkoBtQbBF1wvVdq1rAuM9NSAnUWphFr8sawr5I04aeTybwuQ34hcKdym2W1GgsTGkmsXHGPrUjnHX/Yl0/MHhO5a+UwZyWEVDo9/1qmF5wsiijgmWksSxPJb1AzimTBTt/99s=
+	t=1787887254; cv=pass; b=RznVsPtrL38LRJ5PYifs1q/Ptu2M+mz3f1SxIrN0fnX1SwqsKRaTRCsO8NwNCxtbouN9aG3wHy1pQ76CH7uQZa5k7opTnALN8Opt4VpbXBHyghzeAPr2QGOd4opVutHOL9R2pkDpd+OCmpwthxmoUdulPNK8pbyYJ4e9cnCiPP8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787887107; c=relaxed/simple;
-	bh=HQ0WnQR17PYv7KRSkhcEskYCEIEvo6me8U9g6cEGAd4=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=G6OVPJ0bvb5/tpas9vabWcq0uNbC9gAba+rWiF0TmnTdVF044FCziSpHRc9X83EMinYAYwGahJuYP4mgD16MvtMoSgWD0J1ThOBotE++sxsUGfjEejrq46XL2TlPjgKYoQjHGvNjXBazYHAN5LwiFuXSkJnYDtA0YMSrJKlq2Ec=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=VFH70jzd; arc=pass smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1787887254; c=relaxed/simple;
+	bh=icOa9EGbmc1WLBk+PWgRJ2bum2ltIyAV3u5EU1L6H7Y=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=KjbpZ8evG0yc0Q4xuTpsYQyXbkH3duERTRM/2MpK0IUd14o+PFh1brJk0MwD9hE1vSeEyr4UsRdC90PJjE8gTIlU7DuHJUfQPX7BCxSBY0p8py8Lth2MSBa8l54jUU/42zl9rskPSwouCohqJtXfSt7heRu8xbpjR5uu37Ymims=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=Nte0+RrT; arc=pass smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="VFH70jzd"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2d6e954afbdso4060935ad.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 20:18:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787887093; cv=none;
+	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="Nte0+RrT"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2d6d28aa26cso4332805ad.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 20:20:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787887252; cv=none;
         d=google.com; s=arc-20260327;
-        b=c9gUTDHzOncM2edWFoRHKqFAiV8HyqYoZwlHM+H3BT4N5hTesy78YTBcuM1dwJpCJD
-         X+8D7Y6Kx20tXPxrP+VOJTaKqZhbZUAMoQuB2sWVjuBmyG5qUvPdQ2rxoQExTlFfkKie
-         czxM6WSG0QszWsN4ttNqDBeKXnuut9KwT2S2G92bkdk/c+a1M3EVubrXXk8YaWTVWtX5
-         AWOvGFzpCd4sko9PHriisSRyhmmRNE/2ODU8ZaCpn4BkMN6xI+xpoGUQl8JdskAKzCt4
-         tpXJnveu59sF+ZRZftwiiv4gZpe3JzC9MUwaEvHqI/ZWM2T7n9WBy3vDZ8liJ0kj6OQw
-         a3WQ==
+        b=BP89R0Uzz5SXNStlv+a/8TFWiAl+kh6nyFe1aZ9yxmTglOI3NlAQ1UGXy9YAqCnseN
+         0BuJlQr/a6tjb+Nu7VidfOBymE6XCnO4wHFOQ1WBrPj8SyZmgKwR8dTTwt0dNNjh72vK
+         5hOO+oTP5BcuL0ct2atzhdca4sq59oHgooYAxOsLRPEzMa7wTwH8h/zPVFevJDVZ1LDL
+         y+wsuDXrwN6BaogFib4Xx3LCNrTmGY+6tC8QEnaHFq9DMpcmAfj2EqTFuGdoA+idV6eU
+         aR5SbT/XymF+8OjsHNHmR+Ke2bUJF4X4y488Z0v9uRqJufj11q9vSQF4PhpC2QoRiQ3K
+         rOOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
-        bh=M+pcBwoGootdTMgC9yQZBi4o63OAS0ou1pi32Jt08/8=;
-        fh=W/EVirO5954p+TJH6ZcPSPkaCt8aP8RFbpxgu999grw=;
-        b=Z6SD9coxjl4tX1gSIv94P8kk444AqN6bRBwetnWducq879gjmXnHbxwFrYq0Lw3aRJ
-         oyESvHQX8S/THew2JT+rdJeEgiKDy9sIcyugIY6ilJM/HM+6D29rDQrkT+El6qfmtQ7s
-         5FxjzbPzCKt8C7Dtki9LNvy4P9/ElusIQQSdYPNuHYNKFBIk5hpumY7YQ11f553Rq++v
-         ud6EAcEFivqRrLVWh2pswrHARJQmlkICV6SApa4QOMr1vEzatQf7MbNJu0vUf2oE1UPt
-         p+kLxCXUuGbyJs0xu1V5J4gizUGH1MGBeF+XjX2W2M5SEbGZXDvwZb25x3YGmoBZbAaW
-         piVA==;
+        bh=1E6Kcf/lHHF0i15AP4vDC8gxkj17C5jINRJ/Q9+RblM=;
+        fh=iDppnTXJKNXGcYqHR1hkBRB479yLsrV9TrDQmsbkqtc=;
+        b=sJvfzUfRxy2NXy4oyf46nRKDk3p0RYZ3nAm9pWRtw3rZKCPf09/SbXV06GIu+IW/rR
+         ZKsFwdgQxpELLWhdAVWVX5WP53Ng7CAyriMrYziBkvI6eRbo3wcteQdOM9y70VErYg2S
+         PuXsGGk11uxo9TJ4/C4AWgBi9XlEAEMFp8lfGSw42MUVmJ5l2TsoXmWU8HEPYrPNeov2
+         m/FA63nkey/1f7hj2hRT7/MSMQt1lqMFqEYNCzlIxMOqS+AfnWK4ySeHQEJ/aI/5hkm/
+         3tKkC0DQHgNAwt84lqtQ9XSd7tXFP+ggxAT6H2FFNpqH+Fn4uTR6UwXSfR2WfzIKeJde
+         kQ2w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=berkeley.edu; s=google; t=1787887093; x=1788491893; darn=vger.kernel.org;
+        d=berkeley.edu; s=google; t=1787887252; x=1788492052; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:mime-version:from:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=M+pcBwoGootdTMgC9yQZBi4o63OAS0ou1pi32Jt08/8=;
-        b=VFH70jzdqS8zgGI3gE+SQbNwQrRlaT6XDnWXTDnjVih2Yes3iYu0591m2QMX7ypFbx
-         fkEynZIAK98WDQXwEP9eAULpnrOYuddPOuzOvUc7HbdbJXoP0mjN56Ct/Po0dVS1kCSu
-         cQLf4GJ2Z1EDplwj6fU/SUN1dGTwRC9PNatRN7iyXwaEEz83o3sS0eqIyqEtB/dJRY5P
-         ss9Q/c+HygNlfNb9hygwuoTCZcwqWzwWz7xEAgAf8f46Q2nHtCXsL43hEeKG49XAVxtn
-         RulZNEg776bCrxlH0O+L5EB59YHxm/QIwPc8w7f5m8lu6eEgz1STCp0v+z3a6Ab62YBb
-         PVKA==
+        bh=1E6Kcf/lHHF0i15AP4vDC8gxkj17C5jINRJ/Q9+RblM=;
+        b=Nte0+RrTpxt6YhEz3ZkGt3H44asyhuUXj5bn+3bkB3f4LRyJ15MfsGihHYAxFNUQPD
+         gweNazc3xBslCkvqHXyrm0QcdkhYGvjUoBhR1NdCDAoum9sI7+7VdhrnhyhhR3ugF1e9
+         BPTeZ2bBeOSVNUgw6mjhMFqOlZWxi2xvAh+0VZBDXcw7PLAHs+/XEIiqbY2YfnIVUmDX
+         jkPR7jYAHDom+Aq7CvsORHmBItqbOjQPAu9XUN8M60ykLHRc1jElZmPtHHdz6H7bMGGb
+         lOvJwZ3oFhZ3Is6/o+DnwFmxese5C6gdECZzre8mBaIJJSe+5US65MQ4kNEklk6e/KaU
+         b5sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787887093; x=1788491893;
+        d=1e100.net; s=20251104; t=1787887252; x=1788492052;
         h=content-type:cc:to:subject:message-id:date:mime-version:from
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=M+pcBwoGootdTMgC9yQZBi4o63OAS0ou1pi32Jt08/8=;
-        b=mB3DcEzf8N2bsf7/s9vKbldxFT/sKRwSBK92QTrhussw5Kj/HdfcBeWMlFDpOzDoLX
-         lt1jqddJW3j7yv/OwUlkK0f9Gh/mGS+fVRO+t4ZmxO+am02hBM7ajhV1fJndA+fZLxB5
-         v3FYVHzEzmTtcW0NO/jSX4Y9/VUHzt2OCacllUYK6UfJK16NrBnRYZDjC7JcRxlHehcm
-         z85yX1r1lUSwb3xB2nEDeJ+C05By3sU5+wG4IDBaYjWtvJ9UeV1gRSfvHenY4aX8+E5s
-         DN+7wuRqsSphgL4R3XVtVy0yj5CKLV80iS6nnLwaqVN4l8M3zZl2dNfaXRL4ufdqcGTV
-         p6aw==
-X-Forwarded-Encrypted: i=1; AHgh+RqM4CxsQ2tlgq3W6+V9x7gn2QO0QxMwwYgT+Uw2jVWm+sFlus0IScpOfaRsXEywwlyVKqe8MD4YubIi3c4J@vger.kernel.org
-X-Gm-Message-State: AFuF++kGYsDCLOir7o9OdzBYtfyDLZ2i+XOu68MAZ82Q5AhXFW4DJfIx
-	aJuTOBeEIAq39sNQ+fCRnaJs1tOmfOYo5b3YNv6cvx5SIS9HThfcrPasZtZq4Q/apvI5X5kWsd2
-	JAa69o2vc12rrciBB8NCgqHsEHEBugNc3KDd7KXat
-X-Gm-Gg: AR+sD13dUHuihx4M3qqorMJOlEwxbS/Rz/3sp4VGKiNtBT15z+rGne9RhpdkE0A3HHq
-	D18QFe4KnpnCC1XokDgho3v4Vp5fgFlmRbuOONjZvMdbm48fbofhX0I3tPsYGmHKEDuCcl+DFBj
-	ltaKjyLZLERMgxB/fIu5Y4HBb8LNOa+YGr6RYyv/MNe/XG5NbDhFEP0CrtkXkQsKTcnfhZ/BueY
-	JxDH2EBQwIk1iOFjMqV4v6KtOP1nmobmqQdl9mPXIjetm8TwcSAi7kKA8fhfP4/Uy4Ou1hGRgnW
-	hjISxj7GkoQYYtptIk0MeUUS1U/I4uyes1PeHlBdXayGzfpCNaMJrHAjUG2/aNAaOIXdr0O0ydZ
-	ggONiGsptV9400sUvb7t3EjruWnNEeFSG
-X-Received: by 2002:a17:903:1a2b:b0:2d7:11d2:1455 with SMTP id
- d9443c01a7336-2d74ddbe12dmr74674295ad.4.1787887092175; Thu, 27 Aug 2026
- 20:18:12 -0700 (PDT)
+        bh=1E6Kcf/lHHF0i15AP4vDC8gxkj17C5jINRJ/Q9+RblM=;
+        b=dJ5wRaDtNeQHE4XESPP4/QzzxNrDOfFaZC7zvQqvYQvVv0IqWrkDo8lUEZ971Qpl/U
+         ldi1/xC8+lfe4GgfwxINRxcXPl7oJfux4Oq0Tt++uEyuB4dWqnntTe3sMn+eg3llzawc
+         1pfVWrGCtNJAPxUClPoco7GY2ZOVyUAr2Em8muq1uIBPsbqu1vuFj+vMlEtm1Yh/XZ+j
+         CBjgl298Y8IRm5qCohRZJc6HeYQM5G+N+IyU3bsIbfqEbpoWNykXcRG1y4Ur+ZOUVKiu
+         9XuJVqcp8cnS2U3JVRY42NMfaG82Ru/0a+CHQX8IMDXcXwXhJApxPvjNDmO+vBVkaAZs
+         HUzA==
+X-Forwarded-Encrypted: i=1; AHgh+RqZqesPiVnsf19KPrXcq4mFozpVNnoOzBBcbElDS2QdXlppKDRn2R3UJyMZXDCT/bfJ9XNTgC145a3HARJ0@vger.kernel.org
+X-Gm-Message-State: AFuF++nncR/IUuBfkHczh47mQV60ESkshEOEq0SaBUB/PI1+H2XEApHW
+	iqAO7q7bimn3/d9G3ZEE7t9Xcj/Q9ldtVzPorwhiMLMaqRM6j3I6/mdGCgdZMNh8ybwmfRbE6qx
+	lyOgIq/62vUj70I1m9sL/e7FsK6/9wDJO537xxs9E
+X-Gm-Gg: AR+sD1318HMoBRFZDzZ8HzzDLFCXBtA/C3axqmiSm52sG4S9y+JSwPNinogU7ebfCbs
+	3ayiWru/Q86TVf2kG56zNlZps5R6FcH08kJaXUEFI3DidNNPWtZt0NyFrBHcNSTzz7Lzv0vZUHT
+	VfedPQzsZmEpEvpfi8AVkpAKw7Rje6G6COacrpT80ZdyGpeRBBipxYtXgI2yh5qQvlLPIUR9YnM
+	fBQWaSiJJdQWjbBeNFPm4JSJyZgOZehbTURwoakQ6y0q+CXJz9Za8hVc/oT18E7dwm2ul4wwcRi
+	ZB37axFz7Wl3Ldncx8EvAHFUsLnA/s1B0WgjcY/HKBwbYqX394zyOsRtX4oZi37xYELmj3ZZPrn
+	dvxAW4OnL0s3yrTNIHbKEodXdIWA6zUgeTrSnm3sbKOE=
+X-Received: by 2002:a17:903:234d:b0:2ca:660:b1d with SMTP id
+ d9443c01a7336-2d74ddc6daemr57509085ad.11.1787887249023; Thu, 27 Aug 2026
+ 20:20:49 -0700 (PDT)
 Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 20:18:11 -0700
+ HTTPREST; Fri, 28 Aug 2026 03:20:47 +0000
 Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Aug 2026 20:18:11 -0700
+ HTTPREST; Fri, 28 Aug 2026 03:20:47 +0000
 From: Farhad Alemi <farhad.alemi@berkeley.edu>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
@@ -85,14 +85,14 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 27 Aug 2026 20:18:11 -0700
-X-Gm-Features: AcwNN1VRnFOVAUc9Rv-gIKBNA-JVvlf1956tLSNytGprkbdWOWJLg0Y8x5Gg6po
-Message-ID: <CA+0ovCgYP920GT68hAJK6Trjyv1kGv2dZAuem4LEunycQ=POww@mail.gmail.com>
-Subject: [BUG] ecryptfs leaks an inode on lookup failure -> kernel BUG in generic_shutdown_super()
-To: Tyler Hicks <code@tyhicks.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>
-Cc: falemi@asu.edu, ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Fri, 28 Aug 2026 03:20:47 +0000
+X-Gm-Features: AcwNN1X0Png3mCiFpg0qr8t12Kvqb0UYEZhWDaRDZfSHDZploBz1NogzadCsAoc
+Message-ID: <CA+0ovCj6dDADF1Q+qYyFCk+X1ZeJDaBrz0FzTqMbnsH8OnCeYQ@mail.gmail.com>
+Subject: [BUG] afs_deliver_to_call -- ASSERTCMP when a server returns zero capabilities
+To: David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
+Cc: falemi@asu.edu, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
@@ -100,21 +100,20 @@ Hello,
 As part of the kernel research at ASU's SEFCOM
 lab, we hit the crash below. Crash reports can be found here:
 
-  https://github.com/farhad-alemi/public_bug_reports/tree/main/128-ecryptfs-i_new-inode-leak-lookup-failure/
+  https://github.com/farhad-alemi/public_bug_reports/tree/main/131-afs-assertcmp-zero-capabilities/
 
-  ecryptfs_i_size_read: Error attempting to initialize the lower file
-for the dentry with name [victim]; rc = [-26]
-  VFS: Busy inodes after unmount of ecryptfs (ecryptfs)
-  kernel BUG at fs/super.c:779!
+  AFS: Assertion failed
+  1 > 2 is false
+  0x1 > 0x2 is false
+  kernel BUG at fs/afs/rxrpc.c:572!
   Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+  Workqueue: kafsd afs_process_async_call
   Call Trace:
-   kill_anon_super+0x3b/0x70
-   ecryptfs_kill_block_super+0x44/0xa0
-   deactivate_locked_super+0xbc/0x110
-   cleanup_mnt+0x437/0x4d0
-   task_work_run+0x1d9/0x270
-   exit_to_user_mode_loop+0x14e/0x540
-   do_syscall_64+0x317/0x510
+   afs_process_async_call+0x82/0xe0
+   process_scheduled_works+0xc99/0x1900
+   worker_thread+0xa53/0xfc0
+   kthread+0x38b/0x480
+   ret_from_fork+0x514/0xb70
   Kernel panic - not syncing: Fatal exception
 
 Our reproducer.c is available upon request.
