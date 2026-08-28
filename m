@@ -1,79 +1,81 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428963F104A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 21:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A9538C433
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 21:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787952418; cv=none; b=A6sZIfEA9L793woFOrSHHHjVJJ1zLoDMooCx1FFLyuE5H3vIsUxOqjhlV+hOK4YxH0xxnuzyYG4grqtzTSVXiloKkOKDKq0/cXnpGAwlUtyKMcBdR/AZ6bMuHZr1PVNp+93s/AJDCIURg/J+kAVsg74avGJwJ1oeNgW2D3FP1ho=
+	t=1787953948; cv=none; b=sbym9p2K22UqHv5jXnXUJ0YGlDFE55UAFIFUMSDHb7VLTjqdLbScwouyfoN5O1ZQQYbZKgsITdnH4c1DMWp8lqwQGCL6c9FbAAUQulLct6MClPxtYieA+bBfkdweM9BAMeSovvuWHVHxEOWMdw0xykMDDgjFIGzwgRrcY3mJA5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787952418; c=relaxed/simple;
-	bh=r8Hw/hzQ3g5aeDMuGAe22xiYasWZJTBmV8QyBNdQbfw=;
+	s=arc-20240116; t=1787953948; c=relaxed/simple;
+	bh=DRefc24OVjT9scvG+5DWXa483jmtKY+huRR4cZlwGak=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=D1JPYuSopMjWDt2ivJyY5dVnYbHVLx28JFz1UuTYawaTFzQnHu9rSWAEgDPbHxtIHaGKoLqhX/hsfgCgZ9MjCsjzVomYJTVdeSoI/fD1tPwsB02+gWzWBbgdafzZk9Yi4/jZ33eO3qOFk34JM8eLwdumTQTpa69jpmKKDSbCHTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=SaXsQae7; arc=none smtp.client-ip=209.85.128.181
+	 Content-Type:MIME-Version; b=WYLc/EKEjbnulHPYzu+PIRbpiJYRt8tj1XDvwjwYUO7KYf7nIuxf/uDZ92mVCGU1rZ/YC/1qQhV/7Mh4KqwT60fwo+YJ1S3ErTeQJ/yHlCn/MWLGAHc4ADH+oIUBFdzlT84t14s0JDnFKHCWIliw9N5ZSZd3AcpOlMqKj/xPKwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=lA8KnRZx; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="SaXsQae7"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-81f3b227a4aso26106057b3.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 14:26:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="lA8KnRZx"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-836cbcd0a48so24286957b3.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 14:52:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1787952415; x=1788557215; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1787953946; x=1788558746; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=r8Hw/hzQ3g5aeDMuGAe22xiYasWZJTBmV8QyBNdQbfw=;
-        b=SaXsQae7dbWzd/ejYUsMS9lCzsXiYIGy3JrSZeANcGcRPq3pvdZNPsRJpmqaxSc4Kf
-         NUX60mBaHSCo/wMpXC+GYSX+7Hrsiqa0conaxoNrm7CWfgEoT0URDpJatb5ixuusPMIr
-         uhv+HXMmX7CJjplhd0H9oBQ7lAjsnEwO/Hgr8lh5NSY03kXcRIR2oSdljp1xlODY9h32
-         zRlfQgC5bpgWDhUhhJWs4BQSkjucAtxB4q4+HBlpDMHKf+etDG3MT6N5wkk6ueW6wP11
-         m3p0R3nvV4DOp9AFq1LZIDFbJxrFwjMvcyEhf4xxWvxSMGcWqgHphvJ6TPCQ7m7RJM3E
-         NWoA==
+        bh=BgN/bcwu5IYN+qVbFqEsPvEYgULI4u6VMTKJBMG3cjM=;
+        b=lA8KnRZxz0euSd+GUGn1MNFWrBMPbTGSQdmplr/izQLEK/8nYf/p24JrFf616Pe61V
+         JicFLP7+PHb5VVq98TTHVjYymholHfQXd+wS7fQY/XWwHQgkp1CPYiFpPDRrzTrJ9TyT
+         SUVK0JLwAPXchhz8NG40rZacHr6N0+8wqzlItU3QR97Q+SjBS+lruL2dNZEDvvQwk8ir
+         nYySiLoOExEKb5XIkqr9Ri7cPEO12VsdtWSeWjzE46yuArADW8aYgbFhprB81T940dan
+         9WOcowq8BDhtxYVfP3Odz2mcbe1ItdOzySOY5bzKrjXF4lvFG6QtyLDX028PRehohjY4
+         G9Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787952415; x=1788557215;
+        d=1e100.net; s=20251104; t=1787953946; x=1788558746;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=r8Hw/hzQ3g5aeDMuGAe22xiYasWZJTBmV8QyBNdQbfw=;
-        b=piCN6sKFJFPHaL28ay6kTneBeAwBa3+W6Dz4lqbVqrzNHt+61maRsYyTBXu/gi7mRA
-         5fFAZWZTB9AjFINnLl2MGCoA/DqRWYYUkwmzf0N2EcoubrNjw3b/QUIykARihfwo3pc+
-         /tAdo9CLGkbKMtbhJWVw6Dbq5/+RjzAzqHZaIELiu0rAMUsn/YWkN1I7754+L5U5cPlf
-         CJTXJdJm7RfeU03IiN/sqL+bRXxhXIFeqt2iTzJJxtmWIq7gfHgOffrV3l3MCS+C6eEp
-         VuRnCTWieazJtjnmdWAhYTZI3vTSRcABM9yUDfrPPp9d4l2RaBpv3aUWQhyzkuIA2XGZ
-         1HQw==
-X-Forwarded-Encrypted: i=1; AKwUvByRx8wyrSjmnR9QZs1wQAbtjQIaQQgi0dFIOUP4aftLWUsryc9xvEBO16dPxwzgFaZO6wuyC85fTvmysGLe@vger.kernel.org
-X-Gm-Message-State: AFuF++lxFwPqMHJ+0HIkxjf73coIUYnppMyPU5YfaiFJ+SIVzKniYv6j
-	A0ZBs9YQuLIFevy1Bu3fiVyY5PWLwXdeaJ5qKiywbC3zgioYDJt7nAytRgc5yNLYkMA=
-X-Gm-Gg: AYBFou36mBpsTqoXTkBHknWQanlJkk/VaApqlrhyGIIy6jb1cb3BP2qxTpbFxDz9nkd
-	HC8khC00cN/SzbUWM4qwb3UOlAkCmhX6No0qzSBkadc4zlpY+Kz7IkJvADxNsjHwtvHhstBPgAQ
-	CKvETrTw+OwFZUMMldxwIJatrbHZXtJFAiPP/iHVhcKFDbunx1LLnxLM0JsIW2RQVXF/xwoVl/D
-	aukGAftPFLu+N2Y95jhgSiM1N1mQGy/KetP/XScGnx2zot0FJHjxNb6GpetImwpJeKQ7XKeRQaX
-	YYsatsER1MAI5/kcoeTbH6B6OuXcwzxka4gI+apY8bJojr6UHjsNnHCohHk/n1QqjFo7EVVzwhC
-	NyBugb37ODRIKSj0pF1tbgPY+VfHCKh5imWR0w/uCUqvbJmTYvhitnihQNsj4q0eVfmrn0bQcrK
-	R5VlMWBdrJDHbElwttgPJs++zwsYkt9LzWYs+SmKPp0vbuyBkWq+NrwkT18qYyW2TGXdoE3AlZc
-	QPM93ZwjvYgoznZCC3+G4VKzu2SN5nNv/c8bnINyopjX8s2lgTcpgRqUvDrGk/MD1ttJDCMGKFB
-	aq72TxJixR/jOL20RYA=
-X-Received: by 2002:a05:690c:e1cc:20b0:84c:3564:fe95 with SMTP id 00721157ae682-85d688a1aabmr32598877b3.1.1787952415180;
-        Fri, 28 Aug 2026 14:26:55 -0700 (PDT)
+        bh=BgN/bcwu5IYN+qVbFqEsPvEYgULI4u6VMTKJBMG3cjM=;
+        b=ljB2DioWmIL+xSneu+wTamsiqm7XirkPaBQyR7WNswgOm0ESWEMXjrQqR4ricWKlcr
+         YWGfjw/s6DYapd4XkbNiJhSA1DHa7DSuBS+IyURK00WFsJs34Fy4Auw79TaxonkWci47
+         emfWKci71KqdVjW1SDLzLQ40jq74A30IVEyevD37yWvx8NN2c6xeLqmRxRN3R5TRunsM
+         lLVRLQVlD+X/sNa6OWzKkdqtCWtIaHMXATbLtJ2EicwuYanb275z29trJA0wL5AE8kYy
+         Wu7MT+eOHg91hn5I8FX0bktR/Wql3N9shMCZXp+fr2j97szGKpq/rnzm1pnVP4cqvK3E
+         3Xww==
+X-Forwarded-Encrypted: i=1; AKwUvBx3tnAq9q7XYScT11/YuiyqTZvahHwhyAHYHM5PjFOeYHKUo6ExDtRknbnSf+YTUi7Oq90V00r3ZdS4B7yC@vger.kernel.org
+X-Gm-Message-State: AFuF++mTz4wGIk7Ic8mKM2qh2/Y+XPjn7Jw9/4RBRVct2uZOFFV2ynb+
+	OgIwt1jrHjWjqjHzcP0JTB+xdlq5RVzg7m0vQYd6MPTr4lcMC8zPlKpO0MCaFwR3Fi/Vt5E4kQq
+	XrXCT
+X-Gm-Gg: AYBFou3X0PPcq3fLe2ZpHIQEg/F5DsN0oZmf8xECAD9UfaaP1M4pXg6QohYn9ZRCVxK
+	g+VBgnbtdWtjFHjth6XXUO05rMiXW6swdqzjJlsT08Ov3GmLGoZWsPx2K7u3lPnQMXSUkGDHIro
+	+ct+d0W4Cy2S/DNmak3fWLiB6p80BpejGEh1X0yEFt1Y4ZujH8sJA0SPTcd2HBoM6fz58u7vPwD
+	37eMKVQ8vaTjHXmDFIC8/66KOdLD3SS1XZeoN9N+ZWfqvZELxUvGgtpyV0lW5vLR9mJFBV6b+zh
+	VO4S3rnzbIL/13b5N5maiNZhn5MHxSHdCtNKnpJ+oJN8tcYhV7Au0y07SQMAFTJLvrfs5HGKp3I
+	o6O+ueZxXKyxCrve0rEpUGi/3ew3nfiKqeZLvHx7X16Dp3c/XXsAnFBRwRLZnEI3rJphtCSYt8P
+	xHVJLkimmFB2xg9XnNJTUjmXKAar+gHrCripgNRIvQyEjyp+IKIx8vPzmVR4J4TLffHKal7UNEY
+	5mzoVWwT8mBopOqdNDBIJv2+WgTvFH0eroIXHRT6HsD4LeT8dhSDV0R/9hhDKMxxETDqVPhZzAW
+	frFiCWGwPdCD9QHEwQ==
+X-Received: by 2002:a05:690c:d8c:b0:820:a55:3ca3 with SMTP id 00721157ae682-85d6c5026a2mr45234407b3.33.1787953945797;
+        Fri, 28 Aug 2026 14:52:25 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:ea83:524e:5ab7:94d1])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-85e5f4f3b6csm12922747b3.20.2026.08.28.14.26.53
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-85e68ae126bsm13159077b3.9.2026.08.28.14.52.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 14:26:54 -0700 (PDT)
-Message-ID: <a6dbd396202053ec96e8af9144b81f6964634e78.camel@dubeyko.com>
+        Fri, 28 Aug 2026 14:52:25 -0700 (PDT)
+Message-ID: <a7b30d5e625da9cbb4a888e31a81df03d37ce91e.camel@dubeyko.com>
 Subject: Re: [PATCH v2 0/7] hfsplus: convert regular file I/O to iomap-based
  operations
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, hch@lst.de, 
-	linux-fsdevel@vger.kernel.org, vdubeyko@coreweave.com
-Date: Fri, 28 Aug 2026 14:26:52 -0700
-In-Reply-To: <apHzv2PKif3n8rWq@casper.infradead.org>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: Matthew Wilcox <willy@infradead.org>, glaubitz@physik.fu-berlin.de, 
+	frank.li@vivo.com, hch@lst.de, linux-fsdevel@vger.kernel.org, 
+	vdubeyko@coreweave.com
+Date: Fri, 28 Aug 2026 14:52:22 -0700
+In-Reply-To: <apCQPaalWMaB5D-p@pedro-suse.lan>
 References: <20260826225614.486112-1-slava@dubeyko.com>
 	 <ao9_az3JPNhHooMl@casper.infradead.org>
 	 <e865789c62b799baf43a2afd67c67302e3eaea25.camel@dubeyko.com>
-	 <apHzv2PKif3n8rWq@casper.infradead.org>
+	 <apCQPaalWMaB5D-p@pedro-suse.lan>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -128,7 +130,7 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Fri, 2026-08-28 at 21:46 +0100, Matthew Wilcox wrote:
+On Thu, 2026-08-27 at 20:35 +0100, Pedro Falcato wrote:
 > On Thu, Aug 27, 2026 at 11:35:12AM -0700, Viacheslav Dubeyko wrote:
 > > On Thu, 2026-08-27 at 01:06 +0100, Matthew Wilcox wrote:
 > > > On Wed, Aug 26, 2026 at 03:56:07PM -0700, Viacheslav Dubeyko
@@ -164,16 +166,55 @@ On Fri, 2026-08-28 at 21:46 +0100, Matthew Wilcox wrote:
 > > progress". This is why folio_wait_stable() was suggested. Do you
 > > mean
 > > that it is not exactly correct approach? Do you think that
-> > folio_wait_writeback() is better approach?
 >=20
-> I haven't looked at this in detail, but folio_wait_stable() is "if
-> the
-> mapping needs stable pages, thn wait".=C2=A0 You know that you need stabl=
-e
-> pages, so you can just call folio_wait_writeback() directly.
+> Why do you want to do this? It's definitely unusual for filesystems
+> (AFAIK)?
+> It sounds like you're trying to guarantee some sort of consistency in
+> your
+> writes, without journaling, but I can't tell exactly why.
+>=20
+> (FWIW, if you're trying to do this for metadata consistency reasons,
+> I
+> really don't think this works, because not only do you not know if
+> data
+> hits the disk, but you also don't know if other writes (e.g inodes)
+> hit
+> the disk, etc)
 
-OK. I see. So, finally, I have no objection of switching on
-folio_wait_writeback(). :) I'll rework it in v3.
+The sbi->alloc_file [1] is not regular inode. It is embedded into a
+superblock structure the special inode for representing metadata:
+
+struct hfsplus_sb_info {
+<skipped>
+	struct inode *alloc_file;
+<skipped>
+};
+
+This inode participates in metadata operations only:
+hfsplus_block_allocate(), hfsplus_block_free(). If this inode is marked
+as dirty, then hfsplus_file_fsync() [2], hfsplus_sync_fs() [3] can
+call:
+
+ filemap_write_and_wait(sbi->alloc_file->i_mapping)
+
+And this call could take place concurrently with
+hfsplus_block_allocate(), hfsplus_block_free(). The main goal of
+folio_wait_stable() or folio_wait_writeback() is to prevent the
+allocate or free methods from accessing memory page until it under
+writeback. It is not about to guarantee some sort of consistency in
+writes.
+
+But if you believe that the whole approach of managing Allocation File
+is implemented in wrong way many years ago, then you are welcomed top
+implement it in right way. :)
 
 Thanks,
 Slava.
+
+[1]
+https://elixir.bootlin.com/linux/v7.2/source/fs/hfsplus/hfsplus_fs.h#L120
+[2]
+https://elixir.bootlin.com/linux/v7.2/source/fs/hfsplus/inode.c#L415
+[3]
+https://elixir.bootlin.com/linux/v7.2/source/fs/hfsplus/super.c#L272
+
