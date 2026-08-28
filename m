@@ -1,147 +1,321 @@
 Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BFE3002CF
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 17:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE09364058
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 17:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787939762; cv=pass; b=CxnCRPnhgRH4yOH4L3kkAWwy5HgugdkSBPguaBLb2iK2SFrIbK+S7rqWYCo7FE+bRuyBhXod/rJQhhBJm0xgOA80kTtTuugvuOowfVl7HkyIAehVzsQAzXO1Af9KUfEk+OGglBvfF9pgRstktLsSS7T9j/hSjb3abSXbL0i9o+E=
+	t=1787939810; cv=pass; b=Ce9+xg0JdKR626Wp5XiutN8ijSeEcu/eyTNBou8qcFCh8AtPtxtLbelZEwP88EOFQQj2ExuApIWiOc6Z/pKanXmnrR2GuqjmJ1aIZz0MY6Mw8jfjKXhFMsAa1miAK67tQa7xO+oetXJYZXjZ7Ye8U3ueCGfj5ZcLpUHp3FoMFQc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787939762; c=relaxed/simple;
-	bh=+R2Iee7WfzAZH73lmLu87FjjElzRcXq4EwlT3ulxP+4=;
+	s=arc-20240116; t=1787939810; c=relaxed/simple;
+	bh=ICqqDvyGEpfs6xaL7LEARpobE8FjqdmW+8cG+j4iELk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dectvfi37AankRuzzF801TvDd+NI3SlSaPci7BuRj45oboo2TIQEjyevYkL8Z1N2fjbkBYYnOQ1LbQmUF8y+nOWypdCsJyHzuKSdEXcVmRquJoa/GqXnHtf8jPcexKrcO/85yBo1IJknBSGt+0dSawL8cL3P5t2EYqm+4TavSKU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NqX0oiHE; arc=pass smtp.client-ip=209.85.208.45
+	 To:Cc:Content-Type; b=K/+nT6evTlMWFivNTgtzhnBnw1KPloQ4M6lWmtCwQ4ee5nhyR3b80OqiiFyOmrTJ+NcNYh+JgDIRQsLTdODfPLXDWV1kddJiJa4CM6jTHl6gAEAcWGT+AQNHqC2Xg52cZ5ruOSV1XLbuQaml3s+qBbiHNSeW9xwU2FiQoMgmjG8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bHz3U2no; arc=pass smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NqX0oiHE"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a5f1d0af69so2036003a12.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:56:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787939759; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bHz3U2no"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a5e329c0f2so1612035a12.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:56:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787939807; cv=none;
         d=google.com; s=arc-20260327;
-        b=QF2QmQBaZXmTe0ij1OayafgjnSimIOSsKHYAoCMEV9wcodwDa3BxUdNgu+UX6hILUc
-         zZ0pPsrygZ+AYzpeaakgkbz583u2bJMJRc2YaQ/+WEsxzaKe8RnK8Ry4T+DK855OTMCu
-         vF8eHV3kgrtu+kLDlyV+4aucXCSSqNxR8C46i1jIBgP+sFRy0cRjSci0LaaqXVplxrFb
-         V9nfrCCajAs4os6b4gJkuV3jnj6+SAmdAuUiUVXbx/di0VZ88rvFoPUuZSyGOHqYgk4a
-         idW3wizCVTv01XGxB9A6fYznSHyHKu2+CzDUMtN0NjfbdfV96ksMY4jg83YuaBFX39q8
-         tKJg==
+        b=bUG5ThOw8z5n+sRqXQ7DQdDQRoIMgqF6Gfouvq4FqIuCv7nduivq43hflGYmywKl4X
+         fJT+GGog1aGLLSjpiLblTlS7kfGS8cM7TwCO+rFlWMbud4GkBsIBNfu4j4W0kkK9p1J/
+         UdyHR18FwWghXXmMmtHRHpRsognn3C995VwasB06UXasAH2UkTnJWCpXQpPPAFIAPWMr
+         h5sVvylAMrFaGjqBdghuyOvtYVvMwTzFjN4yZQU5JnvXWiqoUPUkGMndkRLXClsIJaIe
+         MAJb+ttTM/mpuGah8f1abYqpSiwpAkrnXezpLDQN2BWIDCPwIi/qko0fSNAE8FOx9P2l
+         osBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+R2Iee7WfzAZH73lmLu87FjjElzRcXq4EwlT3ulxP+4=;
-        fh=6O4gX31Em5Q/bdGSD9s0Sbfh9rdSOiPCN0k7tH/mVKE=;
-        b=K7EATHXIJNDMaR7H94WlTH6wg36Fgqz/MrQhzaE60q/tviy78sp4YZ0V92qbycrjZP
-         pSCX1u3VnFPeonul+bEwIglwq2pvcn809lgiDflByiUJethuxBNjPZJMGzS7TLF3ZnUJ
-         4fVDAJ6/N+BmjwrYWlvwTrCNhf8vzRY68xtsn5ptogUUfvzXSp8x4gFb9Q4mFzxr8R+C
-         jb/FpeoMQItm0uu586jDFhpz/xvKaqi8wn/jRFIgKZgDCDUIjLVJgaeRLLjIHSwxS69m
-         45CGJSfW7CdrFevFlKT3ViFFlrY0eeKNn/imN7Avv3iHvqbmBP0bzGrMJnhIHFIjCvgE
-         cIyQ==;
+        bh=C4g2HsKIGS/dtUBl5Hgz5rVIhORADLJiU0SI1ip2ThE=;
+        fh=L/WRj/HBE3+p6UiQ+uQEDiXXydFDUkZkZPM1njwsvLw=;
+        b=Ba5SKS/9vkpGXNfcBm/LZ3rv2Rmcw3x2/a2gw2ouACFqvbShPITniVCaZabcb3oSyw
+         xPuCCRCQVW6qD7tTVrxSzV/TVfwI+NtLQ7ecKsTP+9tEfazVjjlolIQFkplS/DsUcsCQ
+         Eumf4bPqnxBG6ER//HBSpuNq18eO8rFaC4LcH9uVm3XYbP12F3SDp4JcpcWoInYS33UQ
+         hga4vZi87p5mipOjy3aS/tag1htVYt9WI77HqvfM/saWYqq9SK23io5W5yW8s5BW5r1G
+         qHvVRrwE7fjYayN3+2BX6inYAIdNCXGXwckXj6TzJaWKS0HVujcSfuealtqN2YRCM7zw
+         xgiA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787939759; x=1788544559; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787939807; x=1788544607; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=+R2Iee7WfzAZH73lmLu87FjjElzRcXq4EwlT3ulxP+4=;
-        b=NqX0oiHEkOddZmDMoGs8gTJDkjMZhq9bDJP0Q/J1ML06JKbvscyIEvBsVUe8FdVDzz
-         2HogW+z4EREGLekWswsweKC7Bbjl4QJ4cG+bGZXBmdwRan3TodHXyTqv4aiNc2tgn+tt
-         AXp8wZ+JAZBp6qMBIPZDZxlj2yR3AkAot4pAofyx+M6rKF0FEWOLEe7936HeeD15FKAx
-         q9eM74czu6Ll/c/t0Rto65AgCNCT5mYyDMkz3iudj0jurQw84N27dNS90t9imYDS1dLO
-         57bzUdvqt9z2Tl2PeWPhCTkt5Re9D20YewUvmLOX6G6uaS8E2ak3I4N0R99TpIOUHkI9
-         juqg==
+        bh=C4g2HsKIGS/dtUBl5Hgz5rVIhORADLJiU0SI1ip2ThE=;
+        b=bHz3U2nonr828MKfxEBox61A/jPclQKNTv39wM20EaHLZflzakCpbJH2U19aoz7X/2
+         nQold+tF1Du9Zul1zxMftXKYdaiJPKfqXTb9EK9ek82yrQmWq5PbJ8ti4CEduz9vRK3A
+         GGvDliW6N04evLo761uHXW/ETasbao+FS3hkNG/aATuywVEW7HANLgoOyV6GDAOKeaIq
+         m+pm6DpGnsP0CMz/ktmedjWqCVDetLSy5wIVbN5lM/OxQAkwAtfrXPkhYX59erGkSb/u
+         FAuPE/g0Zto+rSc+oFwM/QBiMmP6DCONQGfBHpJH/CBDNromTPo3m+vkV3YfSB7bsizC
+         smqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787939759; x=1788544559;
+        d=1e100.net; s=20251104; t=1787939807; x=1788544607;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+R2Iee7WfzAZH73lmLu87FjjElzRcXq4EwlT3ulxP+4=;
-        b=MtTTHUCgV2T42zeHyIzK7EoeutV+OQap+iAITzO5OrELLEGkLBsi0nSDiZ7nSKeTIt
-         50yTcX+CHXFKvQ9iwsrEptU5mMUZKxsL7hAVR0gftXJCawp3cpWb+BpiqJgOeKWdbXH+
-         G/E+Zkm+2hh0ZaBgGxqyLlx/0WjoQMSFQ1cq0utN/ugDsUJbvxWxPV7E7jHi4Ha90JnF
-         8jWG5YjdoP5feKoNXtnD+uW0/fyCNIpegdmJD4fNpGhVl+6CcvKI3urTzEvOKnBA8JJQ
-         Dj1m5ZJO0zZnHejiVgE5LxXU9tqT1PVwkE5Ut6r7cv4WHP7M4U6E65s/6tAGOanl5oZq
-         DnyQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpq9DlrjA8njNRHqz1v2CjE7Lt16Uz4e8TJ22+HgfDqLym/70xNT5IAH7KjQdRUHp4Fr5cFkcz0hmiETi8s@vger.kernel.org
-X-Gm-Message-State: AFuF++kDzA2Kt1PyE2Kr3ouxaOpdoBcz3igGxynyiv74+tzVoTCkEWtD
-	u8oj1ni68+7IdAH5xooEKbA5vpoJ1+/eRQE7b03jLM4BHJI+j64fEUyNwSxLhzx7UltQcyXEc38
-	Po45nBMZbIhqLdYe8WOi0vDt8hvRHUJw=
-X-Gm-Gg: AR+sD10eyIYGe/4b01Or8Rp7lILJrh5esCl0HabMfaaJgiECRWey9DSqGfqTmw3BcBV
-	YNDfsj/sPNmZFlkuL1oA+YBM9HRWANEBUfSIE5+l/RbWajH9kBzKFy5MepvbdSNAa6za0E0X8UR
-	uWN8hIXVC5xq3imJN+dDy6UZkCttW3523my+C4eKFubh9Nxo4VAAhHjvc+kkwGA64Trqsh310ii
-	+VcsAdOjiB6HM9L2jHK1kOLWDuTdwRWkw+9If8H+LhPTEvkNillvpoBBMoLISo0Igu6tpxOfVuo
-	b4x43pufZKdohWHlxo/E/6vmuGHL+n6DIsIkdmd9UBKwVYsaIdsasjOYRJQXMu0Qy0cSozrICo5
-	a
-X-Received: by 2002:a05:6402:e84:b0:6a3:f63a:4997 with SMTP id
- 4fb4d7f45d1cf-6a60d2efafdmr5894148a12.3.1787939758555; Fri, 28 Aug 2026
- 10:55:58 -0700 (PDT)
+        bh=C4g2HsKIGS/dtUBl5Hgz5rVIhORADLJiU0SI1ip2ThE=;
+        b=D6EHn/hneZBg9jMKrhy5V4C2HtpLrM7Ck9ZCHVpiTAC+T1TSE6SqM3umHpV7LSTpqn
+         BBaWh8iiOlcTetKytOpQPuEqeZRXIttvAz5DAYmXXv9JXeKdFy7280nFRrzDDcG2B9qr
+         V/V4oFellUhOlLf2DlJ65ekPZxyKKkDQnXV6+EYEyLtChq6MOp8MOwrHHv/TphZvKb2R
+         KFJmQi2uSYCp7B1PhVnnpQU3FAM7gwILpOS+wUiZibOHqC5SBl0dItxoPIgU5l0j6cwH
+         1iL8RmFHD7c4LPjXPUrSWafwMAiq2PXrg++KKyObsWL4lREsKKZhsqsBx9lJgRHSckW/
+         cXww==
+X-Forwarded-Encrypted: i=1; AHgh+RrEbByQO7WuZadICK+/R4YRXJcOQ0iZcC9A7GdEHdImG8dqfJU0765A7eyA4K90CCOBRFZU7qCa5mJP0MQ4@vger.kernel.org
+X-Gm-Message-State: AFuF++k1IAlEp+nOTJp9WznLnlPyyt06pYEfM1cS5zOKErThuzX77vr+
+	OFQhb7u8MGu4hdthrwg+XP7eRra6xF6VypkuiIj1nakycZNmqhd7S56eKxJEBhm9e4oUMIx6WGz
+	YOjeHUUe/pP4Nodk3gWYFgukZ2FTdDAw=
+X-Gm-Gg: AR+sD10yhABOzS2y58pTPzcTt8sigUvA+AdWGt7ZmWQlQqUNZkgj8Ir5cqHsRObNCqX
+	SuoadzXlmpf1kT3teqGfKbtQR33InOI5gHFWrYD2BfHUvCDXgQ3mImPdAVXdSXCykds46ksjKsh
+	RdEtG+3ayv7JVHGHd8NTkcN1lMkt9UKGlcCuoaDbusoGDXCU+gAiY8/MHU0HykyNNtXBMBi3pGY
+	+X1+OnF6u28PBwj13AhWzWt26pQV3+W/EYdK6OU9dWnX8QM21sWRuUgePk29G0pCggBvB68qymP
+	P4OQa0TktU6jiv2srFgxlFBKJ/DRRceOktV62OIEPi32WKYsmpemBgYDgYT+iafyTgLzANp0hjP
+	/
+X-Received: by 2002:a05:6402:2088:b0:6a5:fbc6:cad1 with SMTP id
+ 4fb4d7f45d1cf-6a60d334d1cmr5875728a12.7.1787939806479; Fri, 28 Aug 2026
+ 10:56:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260824-work-coredump-unlock-self-v1-0-48fd1cca7eda@kernel.org>
- <CAGudoHEsGP1P+sAWaw_tbh1NesJhSeww8869uzmaqtgk8F43=Q@mail.gmail.com> <20260826-gastdirigent-nostalgie-matschen-af4915e3d9c9@brauner>
-In-Reply-To: <20260826-gastdirigent-nostalgie-matschen-af4915e3d9c9@brauner>
+References: <20260803125138.1937674-1-mjguzik@gmail.com>
+In-Reply-To: <20260803125138.1937674-1-mjguzik@gmail.com>
 From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Fri, 28 Aug 2026 19:55:45 +0200
-X-Gm-Features: AcwNN1Ug64jD753ap8K6ZnSKkQx9z27npgyt6ruOcyTaS-rrfufv5xCaoRY6iCc
-Message-ID: <CAGudoHGRvxd-EwwDasqoVhk5VbEvhtjjM7kCXBfFyQ8ykeC9CQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/7] coredump, files: exit files on request
-To: Christian Brauner <brauner@kernel.org>
-Cc: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Xin Zhao <jackzxcui1989@163.com>, 
-	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Date: Fri, 28 Aug 2026 19:56:33 +0200
+X-Gm-Features: AcwNN1Xc89jOY26XnM7VSbYzHf8zhXSzLDxdDgRseL6RwITE5J33Vd4MONdnAVw
+Message-ID: <CAGudoHH7RrKW27Gmrvb-njqAKLB_v3NQB4Jgd9Siyf3JhkmQ_Q@mail.gmail.com>
+Subject: Re: [PATCH v5] fs: avoid spurious dentry ref/unref cycle on open
+To: brauner@kernel.org
+Cc: viro@zeniv.linux.org.uk, jack@suse.cz, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 26, 2026 at 2:15=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Tue, Aug 25, 2026 at 10:54:44PM +0200, Mateusz Guzik wrote:
-> > On Mon, Aug 24, 2026 at 5:28=E2=80=AFPM Christian Brauner <brauner@kern=
-el.org> wrote:
-> > >
-> > > We've had quite a few proposal for exiting files before generating th=
-e
-> > > coredump (see [1]-[8]). The various proposed solution were quite
-> > > unacceptable. So I took some time to look what a _remotely_ acceptabl=
-e
-> > > version of this could look like. Here it is.
-> > >
-> > > The first patch is somewhat unrelated but without it the code would h=
-ave
-> > > to become so ugly to the point of being unacceptable so it's a stylis=
-tic
-> > > prerequisite imho.
-> > >
-> > > In the first patch we make exit_files() synchronous and stop shunting
-> > > all files onto task work only to run task work right after. For tasks
-> > > exiting with a very large file descriptor table this means getting ri=
-d
-> > > of _a lot_ of cmpxchg()s and hammering on task->pi_lock. The cost of
-> > > this was mentioned in various threads over the years. I found at leas=
-t
-> > > recent comments by Oleg and Neil.
-> > >
-> > > So let close_files() close right away. No locks are held, the path
-> > > already sleeps, close() does the same thing already. Kernel threads c=
-an
-> > > just keep deferring. ->flush() and ->release() now run before exit_fs=
-()
-> > > and disassociate_ctty() which should be fine.
-> >
-> > I think close on exec handling could use the same treatment.
->
-> do_close_on_exec() runs under cred_guard_mutex and would introduce new
-> lock ordering. So dropping should move out from under that mutex which
-> introduces additional complexity.
+any flames on this? it is ridiculous the problem remains imo
 
-This bit should be easy to address from conceptual standpoint, I don't
-know about resulting churn. Even if fd table processing can't move,
-the linkage in struct file can be used for a local non-atomic list and
-which would be drained after the lock is dropped. This would bring
-almost all of the benefit.
+On Mon, Aug 3, 2026 at 2:51=E2=80=AFPM Mateusz Guzik <mjguzik@gmail.com> wr=
+ote:
+>
+> Opening a file grabs a reference on the terminal dentry in
+> __legitimize_path(), then another one in do_dentry_open() and finally
+> drops the initial reference in terminate_walk().
+>
+> That's 2 modifications which don't need to be there -- do_dentry_open()
+> can consume the already held reference instead.
+>
+> When benchmarking on a 20-core vm using will-it-scale to open the same
+> file read-only, the results are (ops/s):
+> before: 4043375
+> after:  5629378 (+39%)
+>
+> Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
+> ---
+>
+> The spurious ref cycle remains an issue and it is trivially avoidable,
+> for the most common case anyway.
+>
+> Al Viro had a more involved patchset which got stalled, see:
+> https://lore.kernel.org/linux-fsdevel/20240822003359.GO504335@ZenIV/
+>
+> I already pointed this out over a year ago when sending v3.
+>
+> Given lack of traffic on the more involved variant, the nice win from my
+> simple patch and its overall triviality, I think it should go in. Worst
+> case, if the more involved work ever gets off the ground it can be
+> trivially reverted later.
+>
+> bench is:
+> $ cat tests/openro3.c
+>
+> #include <stdlib.h>
+> #include <unistd.h>
+> #include <sys/types.h>
+> #include <sys/stat.h>
+> #include <fcntl.h>
+> #include <assert.h>
+>
+> static char tmpfile[] =3D "/tmp/willitscale.XXXXXX";
+>
+> char *testcase_description =3D "Same file open/close read-only";
+>
+> void testcase_prepare(unsigned long nr_tasks)
+> {
+>         int fd =3D mkstemp(tmpfile);
+>
+>         assert(fd >=3D 0);
+>         close(fd);
+> }
+>
+> void testcase(unsigned long long *iterations, unsigned long nr)
+> {
+>         while (1) {
+>                 int fd =3D open(tmpfile, O_RDONLY);
+>                 assert(fd >=3D 0);
+>                 close(fd);
+>
+>                 (*iterations)++;
+>         }
+> }
+>
+> void testcase_cleanup(void)
+> {
+>         unlink(tmpfile);
+> }
+>
+> v5:
+> - the extra ref is of course needed, i blame the heatwave for thinking
+>   it is not this time around
+>
+> v4:
+> - rebase
+> - don't grab the extra ref on mnt for truncate
+> - bench opening things r/o. note perf improved from last year thanks to
+>   other changes
+>
+>
+>  fs/internal.h |  1 +
+>  fs/namei.c    | 15 ++++++++++++---
+>  fs/open.c     | 27 ++++++++++++++++++++++++++-
+>  3 files changed, 39 insertions(+), 4 deletions(-)
+>
+> diff --git a/fs/internal.h b/fs/internal.h
+> index c658c8a5ebd5..9632239036ac 100644
+> --- a/fs/internal.h
+> +++ b/fs/internal.h
+> @@ -205,6 +205,7 @@ int do_fchownat(int dfd, const char __user *filename,=
+ uid_t user, gid_t group,
+>                 int flag);
+>  int chown_common(const struct path *path, uid_t user, gid_t group);
+>  extern int vfs_open(const struct path *, struct file *);
+> +int vfs_open_consume(struct path *, struct file *);
+>
+>  /*
+>   * inode.c
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 3f9bf103ba12..f71481b9bf8f 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4789,6 +4789,7 @@ static const char *open_last_lookups(struct nameida=
+ta *nd,
+>  static int do_open(struct nameidata *nd,
+>                    struct file *file, const struct open_flags *op)
+>  {
+> +       struct vfsmount *mnt;
+>         struct mnt_idmap *idmap;
+>         int open_flag =3D op->open_flag;
+>         bool do_truncate;
+> @@ -4830,11 +4831,17 @@ static int do_open(struct nameidata *nd,
+>                 error =3D mnt_want_write(nd->path.mnt);
+>                 if (error)
+>                         return error;
+> +               /*
+> +                * A dedicated reference is needed because after the call=
+ to
+> +                * vfs_open_consume() we no longer own the reference in n=
+d->path.mnt
+> +                * while we need to undo write acess below.
+> +                */
+> +               mnt =3D mntget(nd->path.mnt);
+>                 do_truncate =3D true;
+>         }
+>         error =3D may_open(idmap, &nd->path, acc_mode, open_flag);
+>         if (!error && !(file->f_mode & FMODE_OPENED))
+> -               error =3D vfs_open(&nd->path, file);
+> +               error =3D vfs_open_consume(&nd->path, file);
+>         if (!error)
+>                 error =3D security_file_post_open(file, op->acc_mode);
+>         if (!error && do_truncate)
+> @@ -4843,8 +4850,10 @@ static int do_open(struct nameidata *nd,
+>                 WARN_ON(1);
+>                 error =3D -EINVAL;
+>         }
+> -       if (do_truncate)
+> -               mnt_drop_write(nd->path.mnt);
+> +       if (do_truncate) {
+> +               mnt_drop_write(mnt);
+> +               mntput(mnt);
+> +       }
+>         return error;
+>  }
+>
+> diff --git a/fs/open.c b/fs/open.c
+> index 6b1c14e684a9..2a7697cee00b 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -931,6 +931,11 @@ static inline int file_get_write_access(struct file =
+*f)
+>         return error;
+>  }
+>
+> +/*
+> + * Populate struct file
+> + *
+> + * NOTE: it assumes f_path is populated and consumes the caller's refere=
+nce.
+> + */
+>  static int do_dentry_open(struct file *f,
+>                           int (*open)(struct inode *, struct file *))
+>  {
+> @@ -938,7 +943,6 @@ static int do_dentry_open(struct file *f,
+>         struct inode *inode =3D f->f_path.dentry->d_inode;
+>         int error;
+>
+> -       path_get(&f->f_path);
+>         f->f_inode =3D inode;
+>         f->f_mapping =3D inode->i_mapping;
+>         f->f_wb_err =3D filemap_sample_wb_err(f->f_mapping);
+> @@ -1055,6 +1059,7 @@ int finish_open(struct file *file, struct dentry *d=
+entry,
+>         BUG_ON(file->f_mode & FMODE_OPENED); /* once it's opened, it's op=
+ened */
+>
+>         file->__f_path.dentry =3D dentry;
+> +       path_get(&file->f_path);
+>         return do_dentry_open(file, open);
+>  }
+>  EXPORT_SYMBOL(finish_open);
+> @@ -1098,6 +1103,7 @@ int vfs_open(const struct path *path, struct file *=
+file)
+>         int ret;
+>
+>         file->__f_path =3D *path;
+> +       path_get(&file->f_path);
+>         ret =3D do_dentry_open(file, NULL);
+>         if (!ret) {
+>                 /*
+> @@ -1110,6 +1116,25 @@ int vfs_open(const struct path *path, struct file =
+*file)
+>         return ret;
+>  }
+>
+> +/**
+> + * vfs_open_consume - open the file at the given path and consume the re=
+ference
+> + * @path: path to open
+> + * @file: newly allocated file with f_flag initialized
+> + */
+> +int vfs_open_consume(struct path *path, struct file *file)
+> +{
+> +       int ret;
+> +
+> +       file->__f_path =3D *path;
+> +       path->mnt =3D NULL;
+> +       path->dentry =3D NULL;
+> +       ret =3D do_dentry_open(file, NULL);
+> +       if (!ret) {
+> +               fsnotify_open(file);
+> +       }
+> +       return ret;
+> +}
+> +
+>  struct file *dentry_open(const struct path *path, int flags,
+>                          const struct cred *cred)
+>  {
+> --
+> 2.53.0
+>
