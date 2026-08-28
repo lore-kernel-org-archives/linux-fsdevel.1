@@ -1,82 +1,82 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36A1395D8E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 17:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BFE3002CF
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 17:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787939639; cv=pass; b=u0K+aZS0aaSH2NBddev0UWXtYtwYtfzFsylbtlnCeYgRczQKEb5Bjz5Q64EkJq/kHyuePeunBJDmwepZ7zAm3GX046yY5I4+BBaVG6YTCoFU7qdGxJmyPb42JZauCABXDdWOm2jLK2g2T7D8n6t/2/Zct+iEv0uQkRx/QseKfk0=
+	t=1787939762; cv=pass; b=CxnCRPnhgRH4yOH4L3kkAWwy5HgugdkSBPguaBLb2iK2SFrIbK+S7rqWYCo7FE+bRuyBhXod/rJQhhBJm0xgOA80kTtTuugvuOowfVl7HkyIAehVzsQAzXO1Af9KUfEk+OGglBvfF9pgRstktLsSS7T9j/hSjb3abSXbL0i9o+E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787939639; c=relaxed/simple;
-	bh=nyFfkTBzK12fhUoJcyE8okzZBEr70euiIjvPyeMf/eY=;
+	s=arc-20240116; t=1787939762; c=relaxed/simple;
+	bh=+R2Iee7WfzAZH73lmLu87FjjElzRcXq4EwlT3ulxP+4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p8EPoJw3zX5ZptzcKvzTZDb+zHIBGIzEXHM/nrjfze74V8zE3Ug/HMQ92R7+6iv6ivJXxh3U49O9dGfjzOM4ssjYU4Bj7zywDyXZGa7TZfCbQk2nFwFtZamCpVL3ECrwMC/0j7UvQ9rDqoaoN+bXUiZ+IrxFlw27CSXDOpddo7k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFD+bqjU; arc=pass smtp.client-ip=209.85.218.54
+	 To:Cc:Content-Type; b=dectvfi37AankRuzzF801TvDd+NI3SlSaPci7BuRj45oboo2TIQEjyevYkL8Z1N2fjbkBYYnOQ1LbQmUF8y+nOWypdCsJyHzuKSdEXcVmRquJoa/GqXnHtf8jPcexKrcO/85yBo1IJknBSGt+0dSawL8cL3P5t2EYqm+4TavSKU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NqX0oiHE; arc=pass smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFD+bqjU"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c253425b253so220867266b.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:53:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787939636; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NqX0oiHE"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a5f1d0af69so2036003a12.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:56:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787939759; cv=none;
         d=google.com; s=arc-20260327;
-        b=clD7GH42G+1jFu/3CNDPif7O6quIFwqVTEYZNAz4ZqQa9E58qX31LdWxczyp8KTf3g
-         DORa/WHHDy/BfR1iftO0nWtVtq9dsh9aFQpT+JxtDp+DSg04dPSiC0gHMtxHUmO670Pk
-         NXlp6ISuKC3RKLQpysOAHIDDthgRTneaTjnWHktwzCS37UFRrrptFGLfEvIZV/4sCv4m
-         1r1pNICFLTQ+X00tlCQdWnPNFcq4dHClgXuFFTbSQzlqCyrCoLfWyD0SpwXmQM8B7y+g
-         UjPyWQvEHRTlmRdSCIHKEMjJ8cTqZeXwBYPVfZ6ZCbs2rMr0qYdCJhIYX9+GgCWhhPY2
-         +08A==
+        b=QF2QmQBaZXmTe0ij1OayafgjnSimIOSsKHYAoCMEV9wcodwDa3BxUdNgu+UX6hILUc
+         zZ0pPsrygZ+AYzpeaakgkbz583u2bJMJRc2YaQ/+WEsxzaKe8RnK8Ry4T+DK855OTMCu
+         vF8eHV3kgrtu+kLDlyV+4aucXCSSqNxR8C46i1jIBgP+sFRy0cRjSci0LaaqXVplxrFb
+         V9nfrCCajAs4os6b4gJkuV3jnj6+SAmdAuUiUVXbx/di0VZ88rvFoPUuZSyGOHqYgk4a
+         idW3wizCVTv01XGxB9A6fYznSHyHKu2+CzDUMtN0NjfbdfV96ksMY4jg83YuaBFX39q8
+         tKJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=nyFfkTBzK12fhUoJcyE8okzZBEr70euiIjvPyeMf/eY=;
-        fh=DmJaokyaZwpS38/4yoLhi/p1ZyuHiarCF30QbH31Tx0=;
-        b=oWPy+v0KfQpZN/VRPpdUoY2qfmg5bVgkiPvt0XlIWKjkf3zMWzJ/8RxdaLlDpVyZ9i
-         nmFKsaEEPlwbfK9YsV/kBgcuJl6rC9ao8wrOwpK/dfTmXqSRnuzQTaHjY0tewYwlP58n
-         aZxmlfwaIVaU15W0fOChdpSpHhoSnTLRy8DodXwZyJcgwRDVOTd+8fe8ZetKF6WEI3l0
-         KNlsndEo82TwgVtK+9bcxdwaYcj285w80VYpxwF/U0O6MybsuxDgQ7kUrEdrlCPPgVu6
-         1UaMKMJKDyc+VYceVTDN3YsIk4XvS+cfaViwg3P8mcz4T7NtqBxhOWgtB3QYmdoQpBnA
-         QEhQ==;
+        bh=+R2Iee7WfzAZH73lmLu87FjjElzRcXq4EwlT3ulxP+4=;
+        fh=6O4gX31Em5Q/bdGSD9s0Sbfh9rdSOiPCN0k7tH/mVKE=;
+        b=K7EATHXIJNDMaR7H94WlTH6wg36Fgqz/MrQhzaE60q/tviy78sp4YZ0V92qbycrjZP
+         pSCX1u3VnFPeonul+bEwIglwq2pvcn809lgiDflByiUJethuxBNjPZJMGzS7TLF3ZnUJ
+         4fVDAJ6/N+BmjwrYWlvwTrCNhf8vzRY68xtsn5ptogUUfvzXSp8x4gFb9Q4mFzxr8R+C
+         jb/FpeoMQItm0uu586jDFhpz/xvKaqi8wn/jRFIgKZgDCDUIjLVJgaeRLLjIHSwxS69m
+         45CGJSfW7CdrFevFlKT3ViFFlrY0eeKNn/imN7Avv3iHvqbmBP0bzGrMJnhIHFIjCvgE
+         cIyQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787939636; x=1788544436; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787939759; x=1788544559; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=nyFfkTBzK12fhUoJcyE8okzZBEr70euiIjvPyeMf/eY=;
-        b=lFD+bqjU6qOG2vik7oa0O13yhya2vj0Vafm3uFr4PRPu4mtM3jhoffRvW/im1HdkXk
-         lCirJx93uXJ0fc4jm14b0kVcGAGe4iqxzaEZI/+6ngr4UxzWSuKEN1eXamuzk3ngPLd4
-         ZTZmxLD8N6PoEqW+tN/fS0kIzxuso1QklX8cLoRfMfx8JN9h0JzNSDlP9+VoHwDV2mv1
-         g2Kt/ZFj+RgJyAYbo7TrpOzClJL9DhXJtKrVGrCN5T8wGBPb0DGiKUp7zRG0sfvdC2eJ
-         vPTxn+ePIc7gggUslrgGlfV3J0x+RUg3QnGOUWNZKr6gwPLMTtdtuiy6ZReVd4v7nH7B
-         kjVQ==
+        bh=+R2Iee7WfzAZH73lmLu87FjjElzRcXq4EwlT3ulxP+4=;
+        b=NqX0oiHEkOddZmDMoGs8gTJDkjMZhq9bDJP0Q/J1ML06JKbvscyIEvBsVUe8FdVDzz
+         2HogW+z4EREGLekWswsweKC7Bbjl4QJ4cG+bGZXBmdwRan3TodHXyTqv4aiNc2tgn+tt
+         AXp8wZ+JAZBp6qMBIPZDZxlj2yR3AkAot4pAofyx+M6rKF0FEWOLEe7936HeeD15FKAx
+         q9eM74czu6Ll/c/t0Rto65AgCNCT5mYyDMkz3iudj0jurQw84N27dNS90t9imYDS1dLO
+         57bzUdvqt9z2Tl2PeWPhCTkt5Re9D20YewUvmLOX6G6uaS8E2ak3I4N0R99TpIOUHkI9
+         juqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787939636; x=1788544436;
+        d=1e100.net; s=20251104; t=1787939759; x=1788544559;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=nyFfkTBzK12fhUoJcyE8okzZBEr70euiIjvPyeMf/eY=;
-        b=mK40xa+mEb3qKI/HrpNyyx91laefIxXSaXW0iwAE/IV/9HlVI4oS4B/mzsSVEf+sKx
-         PHo0dwH7Kt3aN5sisss6LcpSLq6oGW7j3S2y35ZLJ4eQUBoFAJnz6PM4CCtqYGLu49RG
-         zrECJXCaaFf25GENsDtgXHuP6aaDwzvwcBMqdvoiQIOKXPDhnM0A1n7UBMO0gRaxbbPn
-         LGL0iZl/h4oH4t8P3GHjCXRHvrFvxtDtE1UVWkf2F4B8BucCC4+r6zGzMVWphaB/8VLK
-         IcToxXvPCxpJmpSUOwfVnpZ3YwxqDYU6JBA0jUJM2EPcEZb/GaHuWEeW1jc6mahscp7f
-         EvVw==
-X-Forwarded-Encrypted: i=1; AHgh+RpgrYvs54Vfy0Df/po9W9yXPLulzG5OyiYKz+vm0oH92fbHZRXO+WjAP7S6UgRfs7cEPrHhRSBoysp16VGc@vger.kernel.org
-X-Gm-Message-State: AFuF++nEpgKmwbGnFNwXaSZzVJrg1MydbVXoS8s0dk5t5kmi7TLHcmX0
-	5N1zctgB7dPk7uPx3OLuMzwHudvsEB2ylpAfyGwpVIciBtWlkh7mnYXZhFvl9+IfpGjwLzx64FJ
-	M94RqTear4lQSEsHDBn9ko9PJCHzRFn8=
-X-Gm-Gg: AR+sD12iETAVzu1aBqqEgfSEQrrv/eNJpgN/rwi99mqqlClJ772pZAFQEv3ebh+5HcW
-	it/k418PbKIGfkQxTa44xff8WtFFbKCHH4Te/rmtfRdTAkWmNMqDeKJV1dCq6Kebxdo8NRqsct0
-	t8Wx6B7/SAZ4UGeqxc1IBJPa+uqB4vjKV34XI62pNGOrK+PVzs+8Rrx7A8sHgGEkTQlt9R1BaCr
-	8VX90vBq7Z5NHUCzQ3WCJ7tEvMVxfRZu2Oa1slEOjTqDYwuW+8Rr6FPcjhC7hKmEHN7LaNgkFSu
-	amgIVZvSTokncx//BpNbx9vv9AKFQG426XCXbSv13gfG7kmGYopwAsbnVSPzzDcTFdr8c/+CTrE
-	6
-X-Received: by 2002:a17:907:3ccc:b0:c15:f26a:3438 with SMTP id
- a640c23a62f3a-c255741f461mr608012566b.24.1787939635556; Fri, 28 Aug 2026
- 10:53:55 -0700 (PDT)
+        bh=+R2Iee7WfzAZH73lmLu87FjjElzRcXq4EwlT3ulxP+4=;
+        b=MtTTHUCgV2T42zeHyIzK7EoeutV+OQap+iAITzO5OrELLEGkLBsi0nSDiZ7nSKeTIt
+         50yTcX+CHXFKvQ9iwsrEptU5mMUZKxsL7hAVR0gftXJCawp3cpWb+BpiqJgOeKWdbXH+
+         G/E+Zkm+2hh0ZaBgGxqyLlx/0WjoQMSFQ1cq0utN/ugDsUJbvxWxPV7E7jHi4Ha90JnF
+         8jWG5YjdoP5feKoNXtnD+uW0/fyCNIpegdmJD4fNpGhVl+6CcvKI3urTzEvOKnBA8JJQ
+         Dj1m5ZJO0zZnHejiVgE5LxXU9tqT1PVwkE5Ut6r7cv4WHP7M4U6E65s/6tAGOanl5oZq
+         DnyQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rpq9DlrjA8njNRHqz1v2CjE7Lt16Uz4e8TJ22+HgfDqLym/70xNT5IAH7KjQdRUHp4Fr5cFkcz0hmiETi8s@vger.kernel.org
+X-Gm-Message-State: AFuF++kDzA2Kt1PyE2Kr3ouxaOpdoBcz3igGxynyiv74+tzVoTCkEWtD
+	u8oj1ni68+7IdAH5xooEKbA5vpoJ1+/eRQE7b03jLM4BHJI+j64fEUyNwSxLhzx7UltQcyXEc38
+	Po45nBMZbIhqLdYe8WOi0vDt8hvRHUJw=
+X-Gm-Gg: AR+sD10eyIYGe/4b01Or8Rp7lILJrh5esCl0HabMfaaJgiECRWey9DSqGfqTmw3BcBV
+	YNDfsj/sPNmZFlkuL1oA+YBM9HRWANEBUfSIE5+l/RbWajH9kBzKFy5MepvbdSNAa6za0E0X8UR
+	uWN8hIXVC5xq3imJN+dDy6UZkCttW3523my+C4eKFubh9Nxo4VAAhHjvc+kkwGA64Trqsh310ii
+	+VcsAdOjiB6HM9L2jHK1kOLWDuTdwRWkw+9If8H+LhPTEvkNillvpoBBMoLISo0Igu6tpxOfVuo
+	b4x43pufZKdohWHlxo/E/6vmuGHL+n6DIsIkdmd9UBKwVYsaIdsasjOYRJQXMu0Qy0cSozrICo5
+	a
+X-Received: by 2002:a05:6402:e84:b0:6a3:f63a:4997 with SMTP id
+ 4fb4d7f45d1cf-6a60d2efafdmr5894148a12.3.1787939758555; Fri, 28 Aug 2026
+ 10:55:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,12 +84,12 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260824-work-coredump-unlock-self-v1-0-48fd1cca7eda@kernel.org>
- <CAGudoHEsGP1P+sAWaw_tbh1NesJhSeww8869uzmaqtgk8F43=Q@mail.gmail.com> <20260826-stauen-liedtexte-gesell-b88d4d43f352@brauner>
-In-Reply-To: <20260826-stauen-liedtexte-gesell-b88d4d43f352@brauner>
+ <CAGudoHEsGP1P+sAWaw_tbh1NesJhSeww8869uzmaqtgk8F43=Q@mail.gmail.com> <20260826-gastdirigent-nostalgie-matschen-af4915e3d9c9@brauner>
+In-Reply-To: <20260826-gastdirigent-nostalgie-matschen-af4915e3d9c9@brauner>
 From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Fri, 28 Aug 2026 19:53:42 +0200
-X-Gm-Features: AcwNN1VUT-gKVh0gSwoQ6cH9gcK9IUJEaB5E3sV0YVS_YFYBeyfeM0_QjBX9s6M
-Message-ID: <CAGudoHF17-aoMHFj+HMRfZmuHWfrGrZnxQCXvGVcG04rv-3L4g@mail.gmail.com>
+Date: Fri, 28 Aug 2026 19:55:45 +0200
+X-Gm-Features: AcwNN1Ug64jD753ap8K6ZnSKkQx9z27npgyt6ruOcyTaS-rrfufv5xCaoRY6iCc
+Message-ID: <CAGudoHGRvxd-EwwDasqoVhk5VbEvhtjjM7kCXBfFyQ8ykeC9CQ@mail.gmail.com>
 Subject: Re: [PATCH RFC 0/7] coredump, files: exit files on request
 To: Christian Brauner <brauner@kernel.org>
 Cc: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, linux-fsdevel@vger.kernel.org, 
@@ -98,7 +98,7 @@ Cc: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, linux-fsdevel@
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 26, 2026 at 9:02=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+On Wed, Aug 26, 2026 at 2:15=E2=80=AFPM Christian Brauner <brauner@kernel.o=
 rg> wrote:
 >
 > On Tue, Aug 25, 2026 at 10:54:44PM +0200, Mateusz Guzik wrote:
@@ -135,68 +135,13 @@ an
 > > > and disassociate_ctty() which should be fine.
 > >
 > > I think close on exec handling could use the same treatment.
-> >
-> > >
-> > > The other half is adding support for coredumps to switch to an empty
-> > > file descriptor table before generating the coredump. That requires a
-> > > bit of synchronization but I think I got the basics down.
-> > >
-> > > A new COREDUMP_CLOSE_FILES extension that allows a coredump server to
-> > > request that the thread-group close all files before generating the
-> > > coredump.
-> > >
-> > > The coredumping thread allocates a new empty file descriptor table. I=
-t
-> > > then wakes all threads in the thread-group and tells them to switch t=
-o
-> > > the empty file descriptor table and get rid of the old one. They repo=
-rt
-> > > back once they're done.
-> > >
-> > > So that handles most cases where locks would be held for an unreasona=
-ble
-> > > time until the coredump is generated but since files can be shared
-> > > between completely unrelated processes that's not a guarantee and we
-> > > can't give one. But it solves the reported issue without resorting to
-> > > even grosser hacks.
-> > >
-> >
-> > I find this rather unsatisfactory. What if a coredumper *wants* fd
-> > info and does not want to stall userspace on file locks? Sooner or
-> > later someone is going to show up complaining about it.
-> >
-> > I proposed merely dropping all the locks early, which on its own
-> > should be easy to implement. I have not checked how fd reporting is
-> > implemented, it might be there is no way to convey what locks were
-> > held in a backwards-compatible manner in which case plain early unlock
-> > might be a no-go.
 >
-> I don't understand how it would even remotely be safe to drop locks
-> before we've called into ->flush() and ->release(). The only locks that
-> satisfy this requirement right away are posix file locks. Not even all
-> of them, just a limited subset.
->
+> do_close_on_exec() runs under cred_guard_mutex and would introduce new
+> lock ordering. So dropping should move out from under that mutex which
+> introduces additional complexity.
 
-That's my bad, I was somehow convinced locks get dropped before any
-other work and did not even bother to check. Apologies. :>
-
-Fortunately for me this is not my problem and I'm free to bugger off
-this subject, which is what I'm thereby doing.
-
-> So then we introduce a concept of "drop some locks" which might grow
-> over time. I really fail to see how this is attractive at all.
->
-> For a bunch of locks they will only be dropable in ->release(). So then
-> we need to annotate locks that are droppable prior to exit_files() and
-> locks that are droppable after it. Why would we place that analytical
-> burden on anyone? Coredumps alone cannot justify it. They can hardly
-> justify what I'm doing. The only saving grace is that I think having
-> exit_files() run synchronously makes sense given how it hammers on task
-> work. And then the coredump thing can fall out of it as a side-effect.
->
-> So I don't understand what early lock release buys at all other than
-> complexity. Without clear proof that early-lock release is elegant and
-> non-invasive I don't see why we would do it.
->
-> Exiting files early can be done cooperatively on the other hand and
-> it'll satisfy most use-cases just fine.
+This bit should be easy to address from conceptual standpoint, I don't
+know about resulting churn. Even if fd table processing can't move,
+the linkage in struct file can be used for a local non-atomic list and
+which would be drained after the lock is dropped. This would bring
+almost all of the benefit.
