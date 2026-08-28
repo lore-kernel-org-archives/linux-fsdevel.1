@@ -1,154 +1,117 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00AD3E1D13
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 13:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787923278; cv=pass; b=rwOImt1JUuBp1hZXkpBQIX19+3yFoid2Hm3jJ/AE+BnOfVzilcgWpeMtQRosFInOAvkhrNTcLChDzeWVsOPt118eudjJ/OuVm0hf2pAdVEJQmq7b46QxSkDhltf4MPyvXeubYWqN3Tx5qrK+rodbvTKGwmWhpTD6xvqVrUEyhMQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787923278; c=relaxed/simple;
-	bh=5BzWTvTEODadIF56TEz3lyokV3iJPu75tta+h2QbYzA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kksQJBfXRmdLUzfwKOFS74lq2CWel3n7PC2OzwZtI0C4ZKj1yFUMu3sw2cp++eSr2CWFDmuAAK9ThrT8nENMYpMeSmHYkUCQ31AnpnSGTYkOiRc3cEe7q9Zk18GxzsR+qz6PKOQuLc6zah1hdaG3lNTE/p8/dWQ12pjs8jI7LYk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=t40N7rN8; arc=pass smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E93B3F9277;
+	Fri, 28 Aug 2026 13:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787924300; cv=none; b=uPDbdoGBvDeR9CYNtND8YD2u1bgUbSzKUTewTo6YxWaQtHImkvgjpghQXKiG3Ue7AafWW8kAto3xlDMKuW89k8KCV7cyKWJMNTwUVdR1tX7jOGTrIZ/EswbxngQS81BdVpzC9lLMpuqpTb0U7Gz+AHJL+C+sFHRiQf/8l2roHGw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787924300; c=relaxed/simple;
+	bh=MQT+qv5zJz0DYDSrgzZkqbQrlrmqspGBn5E42xfDKnE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ccGyOUTpJLQMpsCW4WUkDf7tBtmJzeZU4tpSyv12bgTfKWrGmemilIm/NkcbLg0j+MOIlB9WDwlACBO2PuWfKGXnfLmRAVCKTjSECprY4c+s2jKAYMUupgYXTc1J/93P6JXm/FhDEw7oPsgOaSlKI3kzLb16wKef3glVOoy2eW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZj3uAyL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t40N7rN8"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cede6375caso116815ad.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 06:21:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787923276; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EtXI4D4q47NFLSMhmHws+zXINWldY52vrwdp7sx8Tpfi/UJH7DdLx8c7vFoCQkfTTe
-         RGvezdJvh1DSA5+ij3ODrzOzl5qbUyKYBAYPoAltw2zWPGajhbLvepSYEdJmCA/Zx25H
-         jbxc20P87VJ0ifGaIlkuF3MAb+kAJSizZsANzFBqcSiN/Z974Axefh5Nte+yfr7xmfuS
-         ymY2FAjPc56LyqFKKwOXiBW5jZ0yy01dsStqEwTsP9hFpZpXa7bKip0VYZ23Ax7ZZocM
-         OTnnCCkMAjbbxd3326WIoW74o/ww8+i2O3flQLCb7u53fVOsC8kBejTQE60GHnj/dWaF
-         NpMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TmuJ8XeoPh26H2sa3OfduzNJbG5iPyqGukTAzRwDvaw=;
-        fh=3i1TewWJ1SOvMJ/UU6YvEqOXxncOnU+3Eu7ueb+JoNE=;
-        b=fAHGwCDoeGWPAqOvkAgkVx5VHYh8/KvlSq7/d5M9mmJnNpnusxTSFDY9KbS604qbZa
-         r7DzANfhaaEpX4dNJ+6vukGTVMHtWx9wWjTw2CvrvM+9Mtl12zHNRpB9GHworvCEjhvL
-         IUWIyBplRgeHSHRNcNPB6Xdh+Op1BfJxo7vzxEitWjy3dHBIk+k1ipQ5D6P3kXD59PYl
-         UH14JwXS5K+LJNIKXE1/EcVNpVdTBqwVYU+kx7eIXRI+h2SmvgYw05GeGZuHrjihGwZb
-         8mSnse/jKGK8pe7Nv46rBGp3vSYZFuEknq3AE7Nk4pSbGJtJI1CRO8u9dTJYPs4orpvF
-         qP4A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787923276; x=1788528076; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TmuJ8XeoPh26H2sa3OfduzNJbG5iPyqGukTAzRwDvaw=;
-        b=t40N7rN8XJSRScvkqe0e98xgccDBcGcUWgc7Cj4HBKEL44sPdsOFqJ8qPbUkP4/uo9
-         IsyLSVx8mkN8ChMd0M72M6PfFDkEVBkD82/+Pfmv/auq7qjv8GNk1MR5K8DGE8bd7hoh
-         JH48/8IQL8oUHvDiWs3q2tNzIHo50KblaVvpaXZ/0eew8cl8d8c85FOH3fOu8qgfFvaV
-         4IBzLUxYnnY9cq46Y++W5GnuR+FxFD8MYtKN0T8EDRJAgaz9jTD7wWRljOutCRpjkj+v
-         2D6X8x1F4WujtWCnuCaYXotHT+mSGXlbiLdvEtakky7KzJH+9OcLatIAo1qEGacnAOdi
-         kJaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787923276; x=1788528076;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TmuJ8XeoPh26H2sa3OfduzNJbG5iPyqGukTAzRwDvaw=;
-        b=V6KbLitcbpZdjh2gBd8djAy7ULYKnsYWZ7zKuJ7hBN/xJf6H+9wAarsYRU7TamPfdl
-         OY1378rla/j3+tbRCI/KWseyRtW0d0nMCQ1+PxAE2/Ig70dpIZ1jbwsVunV81Z/oVYOS
-         bhxALrwRAZQgCe6OSorjSMaIQwHUc3jwHST3PWoG4eUclntbPxem0gDG4vHvIP+bSXTJ
-         UHUHVzungnH6twBNmNRKPENhfIcisnrUsi7jdm7/LbskPq/u8kX6aDOVY2adk15YbdWq
-         e1pYI+H4VYrUkQjpppon7MIiUJEbDs8ut8P+fJ/LJQM1rbYXaSPpqJMFh8nhbN4f4jtf
-         YEIg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5frTDHWP1UU76DkQHXCB4jHfcYddaSmlCudqOECX5BCtEgd0LyB04g8VmQY3QoJRsbamMVEkKG1WJQRMm@vger.kernel.org
-X-Gm-Message-State: AFuF++lNUrKJf3J3/sxIF+SCVlSuIKdtRAVOQ8GWEIVPjsXxfnkO0cH4
-	2IWtyrHzeASXd6NaDG44R8gCkLmWyzFBsnijrY2LZZlZg90GZzifvJT8TABe1x3IZJ3y0MVb3AQ
-	QMzSRLRJ+qV3hisWfq+6QpARmP6Cr9Am/T+cpQltn
-X-Gm-Gg: AR+sD13NyJqb9CX00sq5GE9up9Di1iClP+rkT9rMHDJwRJwFB/e5xYu1cqyn7QoNLw7
-	1BZ6FYBnJiFiUR9ke154w/6DXO7gBJnaP9cYZfCPiLB0ReXYQm2usPEI5u7ze4q4U+TDIJZeimc
-	v+b0lJ0mXLDJ/MkX1WR66bTaX7RAimLaw9ZPV9l0cmjnLAB8rsjtD7AABUvYkMPt0FavFg+enyb
-	uXMN2MfmOvdQnu5LFDDokAbnBdeqtGlCT0g1nufwEy961uRtjEyDp6I7qmJFUu0Z5hL0sLZCBVD
-	caSFjnhA6aBt01ZuJbkSlt0ws61rBL6vv1xHiP5jZe1vStCHNEE6pRlVCL4dO7PyMVHtLOeDPbH
-	FJUem1Z/9UF1ASE69RvV7AH8CefHuZA==
-X-Received: by 2002:a17:903:b48:b0:2c9:bd54:cf with SMTP id
- d9443c01a7336-2d74f403213mr6682285ad.4.1787923275276; Fri, 28 Aug 2026
- 06:21:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZj3uAyL"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B254DC19425;
+	Fri, 28 Aug 2026 13:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787924299;
+	bh=MQT+qv5zJz0DYDSrgzZkqbQrlrmqspGBn5E42xfDKnE=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=gZj3uAyLmHh/sWcwUQ5gnPpBAEjDXl+oROa4+N8MSN5DNbViiXDFvjJm37A+tO4fe
+	 PaoMGm0CR8pFroz3q3hZg5xvH7t1wpOJbLtC9q3Gx1oO3CfeJMDz2qIx4vx+bhIUqj
+	 1js116suo+ELj5k8BiYRW239sdFU9sb4P522r6rh5DOtU9AziBiTu4GUF3AjqoqIFa
+	 cIu4OmqSctAmj5+91jFeeRur5SuUjkqyHz0R9LLLtL6zLQx9T/xGAXsakFRbrG6TLk
+	 rSU9m1XRHtrspmCFPH2XB+q0+wkzM3cq+/rDNSRuf03CYlYgBtjZK2hVusSnCoUBtY
+	 xDtd9gLsxiClg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D922C61DCB;
+	Fri, 28 Aug 2026 13:38:19 +0000 (UTC)
+From: Maurycy Pawlowski-Wieronski via B4 Relay <devnull+maurycy.maurycy.com@kernel.org>
+Date: Fri, 28 Aug 2026 15:38:18 +0200
+Subject: [PATCH] hfsplus: fix truncated xattr names in listxattr()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260825-selinux-pokemem-v2-2-b46bc64916d8@google.com>
- <82929c994076d95f99560ecc67f6cfce@paul-moore.com> <CAG48ez1rd3cFhmGn7mWkaVvGqYg+cDiGUhuhH6r51dUm-QBXUA@mail.gmail.com>
-In-Reply-To: <CAG48ez1rd3cFhmGn7mWkaVvGqYg+cDiGUhuhH6r51dUm-QBXUA@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 28 Aug 2026 15:20:37 +0200
-X-Gm-Features: AcwNN1X1_-cZAxs-C_zVg9dDOHf5DCa4yCAEiND1xrtOkQ0sGqfzpyFhp0b8haE
-Message-ID: <CAG48ez2jgJHewZYK1SVccJmBa=bjoMW80SPNcbgW2XCtZaWhjg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] proc: query LSMs for introspective mem access (if PROC_MEM_FORCE_ALWAYS)
-To: Paul Moore <paul@paul-moore.com>
-Cc: James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jeff Xu <jeffxu@google.com>, 
-	=?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260828-hfsplus-copy_name-fix-v1-1-75ed9f0f378c@maurycy.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMUQrCMBCE4auUfXYhhlqCVxGRNU7tiqYh24pSe
+ nejPn4D8y9kKAqjfbNQwVNNx1Sx3TQUB0lXsF6qyTvfueADD73l+2wcx/w+JXmAe32xdPDipG3
+ DDlS/uaDOv+7h+LfN5xvi9I3Run4AK56TeXkAAAA=
+X-Change-ID: 20260828-hfsplus-copy_name-fix-a6e2a0a4485e
+To: Viacheslav Dubeyko <slava@dubeyko.com>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ Yangtao Li <frank.li@vivo.com>, Kees Cook <kees@kernel.org>, 
+ Justin Stitt <justinstitt@google.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Maurycy Pawlowski-Wieronski <maurycy@maurycy.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787924298; l=1797;
+ i=maurycy@maurycy.com; s=20260828; h=from:subject:message-id;
+ bh=IQcRwEprbEp3pKKBaOEYBUQJiRxQaoTwOUPdhNAlj1I=;
+ b=KcE8oNk53vD38NezIG497FfmNiyzCJPCYtuzI0dy2SFvEjiWNpAhZl283vPZfwo6yGp39RBOD
+ X3kCNlZskQ1DEEROGsjwU3ev4JIDLn460WlxnqGa+gmEQw9eLaGwy9p
+X-Developer-Key: i=maurycy@maurycy.com; a=ed25519;
+ pk=cK6zOi8RCOCUTWtJDER0YR5jWodFabZ1wH57I+KmldA=
+X-Endpoint-Received: by B4 Relay for maurycy@maurycy.com/20260828 with
+ auth_id=983
+X-Original-From: Maurycy Pawlowski-Wieronski <maurycy@maurycy.com>
+Reply-To: maurycy@maurycy.com
 
-On Fri, Aug 28, 2026 at 3:03=E2=80=AFPM Jann Horn <jannh@google.com> wrote:
-> On Fri, Aug 28, 2026 at 3:10=E2=80=AFAM Paul Moore <paul@paul-moore.com> =
-wrote:
-> > Beyond that, we really try to avoid making LSM hook calls conditional. =
- It
-> > can limit what an LSM can enforce, it tends to be a bit more fragile, a=
-nd
-> > it adds some unnecessary work in the case where CONFIG_SECURITY is
-> > disabled.  I would suggest passing 'opened_by_owner' flag as a second
-> > parameter to the LSM hook and calling the hook unconditionally in the
-> > default switch case as a replacement for the 'return true;' statement. =
- I
-> > understand it may seem a bit odd, but we try to make the LSM interface =
-as
-> > generic as possible with respect to different models and this is one wa=
-y
->
-> I guess I can do that, but then the question becomes, what other modes
-> of using the LSM hook that don't currently exist in the kernel should
-> I be supporting with this? I can make this a parameter, but any LSM
-> policy that actually uses the parameter in a different way would
-> probably be buggy/inconsistent, unless other new LSM hooks are added.
->
-> If your intent is to make the hook work for any /proc/$pid/mem access,
-> including when the caller is ptrace-attached, then I guess I have to
-> move around the security hook call in proc_mem_foll_force() a little
-> bit. I guess I'll do that in v3, though I really don't like trying to
-> come up with a reasonable in-kernel API contract for a scenario that
-> currently has zero users.
+From: Maurycy Pawlowski-Wieronski <maurycy@maurycy.com>
 
-I started thinking about how to implement this, and an annoying aspect
-about this is:
+Commit 7dcbf17e3f91 ("hfsplus: refactor copy_name to not use strncpy")
+changed copy_name() to build names in the osx. namespace with
+scnprintf().
 
-Currently, I only have to look at the credentials of the opener of the
-file - that is both the subject and object of the access. But if I
-want to provide a hook that works for any /proc/$pid/mem access, and
-want the hook to know what the object of the access is, and do it
-race-free, then I would need to grab the creds of the target task in
-mm_access(), bubble them up into proc_mem_open() and mem_open() (which
-will require touching all the callers of mm_access() and
-proc_mem_open()), store them into mem_private there, then let
-proc_mem_foll_force() extract the creds from there. All that would be
-unused code.
+The supplied buffer size includes room for the prefix and the name, but
+not for the terminating NUL:
 
-Do you think I should just not provide credentials for the target, and
-document "if opened_by_owner is true, the subject credentials are also
-the object credentials; if opened_by_owner is false, you don't get to
-know what the object is"?
+  $ python3 -c "import os; print(os.listxattr('/mnt/tm/.DS_Store'))"
+  ['osx.com.apple.FinderInf']
+
+The truncated names cannot be passed back to getxattr(), so getfattr -d,
+rsync -X, cp --preserve=xattr and tar --xattrs etc. seem to lose all
+Apple attributes on hfsplus volumes.
+
+Names in other namespaces go through the strscpy() branch, which already
+sizes the buffer correctly. That's `why xfstests generic/377 does not
+catch it.
+
+Fixes: 7dcbf17e3f91 ("hfsplus: refactor copy_name to not use strncpy")
+Cc: stable@vger.kernel.org # v6.10+
+Signed-off-by: Maurycy Pawlowski-Wieronski <maurycy@maurycy.com>
+---
+ fs/hfsplus/xattr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+index 21a1c196c71f..4a3c97373682 100644
+--- a/fs/hfsplus/xattr.c
++++ b/fs/hfsplus/xattr.c
+@@ -515,8 +515,8 @@ static ssize_t copy_name(char *buffer, const char *xattr_name, size_t name_len)
+ 	memset(buffer, 0, name_len);
+ 
+ 	if (!is_known_namespace(xattr_name)) {
+-		len = scnprintf(buffer, name_len + XATTR_MAC_OSX_PREFIX_LEN,
+-				 "%s%s", XATTR_MAC_OSX_PREFIX, xattr_name);
++		len = scnprintf(buffer, name_len + XATTR_MAC_OSX_PREFIX_LEN + 1,
++				"%s%s", XATTR_MAC_OSX_PREFIX, xattr_name);
+ 	} else {
+ 		len = strscpy(buffer, xattr_name, name_len + 1);
+ 		if (len < 0) {
+
+---
+base-commit: 1b78070aaef63512688aebfbc82365ef9d6660f1
+change-id: 20260828-hfsplus-copy_name-fix-a6e2a0a4485e
+
+Best regards,
+--  
+Maurycy Pawlowski-Wieronski <maurycy@maurycy.com>
+
+
