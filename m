@@ -1,217 +1,264 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FA046A603;
-	Fri, 28 Aug 2026 15:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBED36DA03;
+	Fri, 28 Aug 2026 15:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787929729; cv=none; b=NaSGZCyxI0dQJggxIVE6k1er/RmIylXN/RfrIOfegN4ing8Qu0pHSocf7rmgrUXadhD02H7UNrKj6NbN4RF8ILvt6mndLRvgPVHPTFUQJmgNPD7u0Lrxt27qQgsAWcn9OiMgnBJsbJyuxi83lyEySzxKKDqpQklzCSBRBbDGrpU=
+	t=1787932510; cv=none; b=IUEIsr2HvRnMrYVx6vKYDsSGzHIvJBAaHopcumVopBrLwb46XswZ5kCVhwXw1jRvTT9yCloow15MhC8KTdzTUZvitZVsI0ia3n5dEcC5FIR79cMVAmGptj4FfRTCB6gadBrQaDlOdQjZcFNmks2xS8GYZMwJOUcz/UcJNUCJSsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787929729; c=relaxed/simple;
-	bh=VdL5Ez1TP9OEdhEYgAp4psPvS1MFoZ44aSZbnIms9RU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hq2HPOiTdX/85GAOBHlnM58NUiXxykgJGuFzRNuCsLv6O5OEJXNukCDw6wJbY9HP1/9sXUJFxgliWx0NPvOhSezK24IeJVKqe78schVXCt76MmSn4lz/mfHiv+q0zG3Kuf17aHAzz+OQJDIZ8iyCRsiTSc/eApQiNpSl+hcux08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=cVQ6kEee; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="cVQ6kEee"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67SDVgsu2186259;
-	Fri, 28 Aug 2026 15:02:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=R2ReIf
-	cU6q09mU3umuATDMJX0HzmPeiVXkiDg/a3WZ0=; b=cVQ6kEeeIOBZIof5NJlQup
-	ylyV/I1zq0HtB5g6HlEIjL3uqD0k1SbkZ2e4sqztn2MOZqxPYrDZRqlsqF+aHzIt
-	k/FfJkqgrkyYNvpM6+23MBXi7QfwidYK0jynJxvuMQCv9vMMeFnJH+hYoq0b2CS/
-	3HZO63xQNFrF9UiE+le8kygr//DrJGZN5QszhHZ9lu0eOwz4+MIKwgDR/cImP2g6
-	FFcLF+UKgAz/DfwcqxC9jKw+pme/G3Kx03KAbHCmgS8EKBEmd9yvnGttbR45TjrF
-	umlVhg6AdVlHo96/zr40P3V65wc7z65Q8113Zx5GaX8HZiAl6wPOqnQAXEJM+pOw
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4g73dxvpvv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Aug 2026 15:02:22 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67SEuQUI021766;
-	Fri, 28 Aug 2026 15:02:21 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4g7p3qq5xb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Aug 2026 15:02:21 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67SF2J3G32899538
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 28 Aug 2026 15:02:19 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A081620043;
-	Fri, 28 Aug 2026 15:02:19 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 15F3520040;
-	Fri, 28 Aug 2026 15:02:19 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.224.75.30])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Fri, 28 Aug 2026 15:02:19 +0000 (GMT)
-Date: Fri, 28 Aug 2026 17:02:17 +0200
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: Hugh Dickins <hughd@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Ackerley Tng
- <ackerleytng@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Baolin
- Wang <baolin.wang@linux.alibaba.com>,
-        Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>,
-        Christian Brauner
- <brauner@kernel.org>,
-        Christoph Hellwig <hch@lst.de>, Christoph Lameter
- <cl@gentwo.org>,
-        David Hildenbrand <david@kernel.org>, JP Kobryn
- <jp.kobryn@linux.dev>,
-        Jan Kara <jack@suse.cz>, Jens Axboe
- <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>, Kairui Song
- <ryncsn@gmail.com>,
-        Kiryl Shutsemau <kas@kernel.org>, Lance Yang
- <lance.yang@linux.dev>,
-        Leonardo Bras <leobras.c@gmail.com>, Lorenzo
- Stoakes <ljs@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Matthew
- Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>,
-        Minchan
- Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-        Oscar
- Salvador <osalvador@suse.de>,
-        Peter Zijlstra <peterz@infradead.org>, Qi
- Zheng <qi.zheng@linux.dev>,
-        Rik van Riel <riel@surriel.com>,
-        Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>,
-        Shakeel Butt
- <shakeel.butt@linux.dev>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil
- Babka <vbabka@kernel.org>,
-        Yang Shi <yang@os.amperecomputing.com>, Yu Zhao
- <yuzhao@google.com>,
-        "Zach O'Keefe" <zokeefe@google.com>, Zi Yan
- <ziy@nvidia.com>,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 20/25] s390/fbatch: no lru_add_drain_all() in
- s390_wiggle_split_folio()
-Message-ID: <20260828170217.324c3445@p-imbrenda>
-In-Reply-To: <cdbaa4ff-d2b3-34bf-dd41-01fdc65edebe@google.com>
-References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
-	<7bf68e7b-f88c-6ca9-39ab-e9fedab0c8be@google.com>
-	<20260826155722.0198d3ce@p-imbrenda>
-	<2319f670-fe0b-f032-c0dc-486cbec0f3e1@google.com>
-	<20260827145502.2fb4505b@p-imbrenda>
-	<cdbaa4ff-d2b3-34bf-dd41-01fdc65edebe@google.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1787932510; c=relaxed/simple;
+	bh=ZcSK2mAYZl3IMagc62KZX5sRKxxq0rXQcp8BH4eVzJI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=abRQA3WQO97kHROZsH045gxVjeFlB7IYI5s4rTyFiRqJFxqYK1f3oKY9SqQXR8cb7zkn1ua92Tawg6qEleyvHH5pjKEyeWJmPSQBn8A9p272nvsjBgeE8c8OOeQa7GP6w359f1h+nIMNweilvIYZII/OfEU7puday150vKTFK/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 67SFrbxs012449;
+	Sat, 29 Aug 2026 00:53:37 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.6] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 67SFrbrI012436
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 29 Aug 2026 00:53:37 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <c2ab2547-63b3-48cf-87c1-fc53219e360a@I-love.SAKURA.ne.jp>
+Date: Sat, 29 Aug 2026 00:53:36 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH v7] loop: Fix NULL pointer dereference in lo_rw_aio()
+To: Bart Van Assche <bvanassche@acm.org>,
+        Markus Elfring <Markus.Elfring@web.de>, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, lkp@intel.com,
+        oe-lkp@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>, Christoph Hellwig <hch@lst.de>,
+        Hillf Danton <hdanton@sina.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mark Brown <broonie@kernel.org>, Oliver Sang <oliver.sang@intel.com>,
+        linux-btrfs@vger.kernel.org
+References: <8dedfc40-9cae-44ff-9960-e0eb1825e963@I-love.SAKURA.ne.jp>
+ <550ff0b4-df39-46d2-9781-c8688df10c93@web.de>
+ <38ad64c1-edc7-431d-8f52-fba572ebf3eb@I-love.SAKURA.ne.jp>
+ <372ca5f6-81a0-4f6c-8f55-ebeeada9f955@acm.org>
+ <27bcb147-bead-4432-8cd0-981489f36228@acm.org>
+ <c41e9198-86a8-4bcd-a608-6f457b24f345@I-love.SAKURA.ne.jp>
+ <7e51bca8-218a-40b8-8ff8-fc59671f5add@acm.org>
+ <3bb080d0-4421-4012-8a62-6a2bf165cbd9@I-love.SAKURA.ne.jp>
+ <d2f387b9-031a-4306-9323-56f98a8241b7@acm.org>
+ <e5518546-701e-4d3c-a077-18e34aa8c188@I-love.SAKURA.ne.jp>
+ <c0df5f39-d103-4e36-9807-df0ae0247772@acm.org>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <c0df5f39-d103-4e36-9807-df0ae0247772@acm.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI4MDEzMCBTYWx0ZWRfXxHuti5Dj527N
- FiuJvw5RRjbYYN3JC15bUZTx+KDTxKTF+YzVq/ezrl4g++dGepSXXGaZVPkOm4cymppJdcuSX9P
- xHXurASEMTrGs5t4EgR5ewb+tDvOJx0=
-X-Authority-Analysis: v=2.4 cv=AYuB2XXG c=1 sm=1 tr=0 ts=6a91a2ff cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=1XWaLZrsAAAA:8
- a=fg8ePjUzgZY9LUZ9XEsA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: FQUAcCuNRcSdPaHF-8xMvR4ns_OVsTxc
-X-Proofpoint-GUID: tqGOyE4oqLz6WkdSLX2ygEk1_1IVTp04
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI4MDEzMCBTYWx0ZWRfXxRCLSM+4Biti
- Tjs1pSPmVVcJoKO+z3p0Dt1SG8YQgEPKpDMcG/eaCrZOoFaJ9AFvVCkax+818IAsE8Uegm/xMgc
- 0/cwTHHY1YoT+gHc2fQNCwnZjlqu8AMiNWqlapdmKpzZAI7HmUo9CZmuCr4hKdlqp73EVEnoMQy
- pNu+pSs1Oh5o5El/K5kbtrI3W1AkYZed0rHnRnt0tO0sNPiWOCoAByfFwGIAsvi7TeogT7IPnrz
- rEK5ADmyOmerpw33FysddOMskKC+kTa4RWJPGyi68ppeQBBFXXcl18hqGrkc6lRFa6ihlHhCE4q
- 7IxqQuA/dq4h5+4ff08OmadKB3LkyhDSwC/7Tn9F+zXd6tMPaZiCnf6QPDmTqZeiYwun+8DLvlg
- fVFgNWQR+c2vPwMIpleETyofoCHhb4yzDx9NL7ik/gqTM/j2gQVlp7eELE7d2jk5a3NuP1eA1X7
- H+giiQLr8LQcrtD41UA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-28_04,2026-08-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 clxscore=1015 adultscore=0 bulkscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608280130
+X-Anti-Virus-Server: fsav213.rs.sakura.ne.jp
+X-Virus-Status: clean
 
-On Fri, 28 Aug 2026 01:57:25 -0700 (PDT)
-Hugh Dickins <hughd@google.com> wrote:
+syzbot is reporting NULL pointer dereference in lo_rw_aio() [1][2].
+An analysis by the Gemini AI collaborator [3] considers that this problem
+is caused by a timing shift primarily exposed by commit 65565ca5f99b
+("block: unify the synchronous bi_end_io callbacks"), along with helper
+refactorings like commit 92c3737a2473 ("block: add a bio_submit_or_kill
+helper").
 
-> On Thu, 27 Aug 2026, Claudio Imbrenda wrote:
-> > On Thu, 27 Aug 2026 01:49:12 -0700 (PDT)
-> > Hugh Dickins <hughd@google.com> wrote:  
-> ...
-> > > 
-> > > I most certanly don't know s390 or that code well enough to guarantee
-> > > you that no stray references to mapped folios can remain there. What I
-> > > can guarantee is that no references, of the kind which lru_add_drain_all()
-> > > used to be needed to remove, can exist there: so there will no longer
-> > > be any point in s390 (or others) calling it for that reason, to help
-> > > split_folio() to succeed.  
-> > 
-> > we are not using it to help split_folio() succeed (although that's a
-> > pleasant side effect). We need it even for small pages, to guarantee
-> > that no extra reference from LRU is present on the page.  
-> 
-> Ah, thanks for explaining, that all makes more sense to me now.
-> I remember from when working on memfd write sealing years ago, it too
+But due to difficulty of reproducing this race, discussion about what is
+happening and how to fix this problem is stalling. Also, we haven't
+identified how many filesystems are subjected to this problem.
 
-yep, we use it to make sure no I/O is happening on the page while it's
-transitioning
+Therefore, introduce a grace period for flushing pending I/O requests
+(which should be a good thing from the perspective of defensive
+programming) so that we won't hit NULL pointer dereference problem.
 
-> had to be able to account for every page reference before proceeding,
-> and resorted to lru_add_drain() and lru_add_drain_all() to help -
-> those now removed in 14/25 of this series.
+However, calling drain_workqueue() from __loop_clr_fd() with
+disk->open_mutex held causes lockdep warnings. We need to flush pending
+I/O requests without disk->open_mutex held. Therefore, defer
+__loop_clr_fd() to WQ context, like commit 322c4293ecc5 ("loop: make
+autoclear operation asynchronous") did.
 
-I see, then I guess we're good (see below)
+The past attempt was reverted by commit bf23747ee053 ("loop: revert "make
+autoclear operation asynchronous"") for two reasons:
 
-> 
-> ...
-> > > If Barry's relaxation goes in before my drainage changes, then
-> > > there is value in that s390 lru_add_drain_all() in the interim.  
-> > 
-> > hmmm so, should it stay for now, then?  
-> 
-> The s390 lru_add_drain_all() should go whenever the rest of this
-> series goes in. It's not essential for the callers to be removed
-> immediately, no correctness requirement; but nicer if we can get
-> rid of most of them. I'm hoping this patch can just go in along
-> with the rest via the mm tree - and I'm sure you can trust David
-> Hildenbrand to understand and protect s390's interests.
+  (1) Userspace might be expecting that fput() on the backing file is
+      processed before lo_release() from close() returns to user mode.
+      But a debug patch [4] suggested me that this teardown operation is
+      racy regardless of whether disk->open_mutex is temporarily released
+      or not, and therefore the xfs/259 breakage should be addressed on
+      the xfstests side.
 
-so if I understand correctly, with this series the LRU caches
-will never hold extra references (as in refcount) on pages anymore,
-therefore calling lru_add_drain_all() will never decrease the refcount
-on any of the pages that are in any of the LRU caches
+  (2) Lockdep reported circular locking dependency caused by flushing
+      system-wide WQs. But we no longer need to worry that dependency
+      because all in-tree users no longer flush system-wide WQs.
 
-in that case the lru drain can indeed go
+Therefore, let's retry deferring __loop_clr_fd() to WQ context again.
 
-> 
-> > 
-> > also: I'm working on completely reworking how the transition from
-> > non-secure to secure is handled, with the explicit goal of getting rid
-> > of that kludge we are currently using. That will also get rid of the
-> > lru drain. But it will take some time (I hope to have something by the
-> > end of the year)  
-> 
-> Good luck!
-> Hugh
+Link: https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28 [1]
+Link: https://syzkaller.appspot.com/bug?extid=bc273027d5643e48e5b3 [2]
+Link: https://lkml.kernel.org/r/fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp [3]
+Link: https://lkml.kernel.org/r/9f8b5ab0-efbc-4cf3-a1f8-b43377416946@I-love.SAKURA.ne.jp [4]
+Fixes: 65565ca5f99b ("block: unify the synchronous bi_end_io callbacks")
+Assisted-by: Gemini-Pro
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+Sashiko reviewed this patch, and did not find problems
+( https://sashiko.dev/#/patchset/5803da44-97c7-440e-a06b-d3cf4afff3c8%40I-love.SAKURA.ne.jp ).
+Can we try this approach?
 
+
+ drivers/block/loop.c | 74 +++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 59 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 6f12976035b0..e2703f0ee75d 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -75,6 +75,7 @@ struct loop_device {
+ 	struct gendisk		*lo_disk;
+ 	struct mutex		lo_mutex;
+ 	bool			idr_visible;
++	struct work_struct	lo_clr_work;
+ };
+ 
+ struct loop_cmd {
+@@ -1134,13 +1135,35 @@ static int loop_configure(struct loop_device *lo, blk_mode_t mode,
+ 	return error;
+ }
+ 
+-static void __loop_clr_fd(struct loop_device *lo)
++static void __loop_clr_fd(struct work_struct *work)
+ {
++	struct loop_device *lo = container_of(work, struct loop_device, lo_clr_work);
++	struct gendisk *disk = lo->lo_disk;
+ 	struct queue_limits lim;
+ 	struct file *filp;
+ 	gfp_t gfp = lo->old_gfp_mask;
+ 	int err;
+ 
++	/* Step 1: Flush all outstanding I/O, without open_mutex held. */
++	/*
++	 * Now that loop_queue_rq() sees lo->lo_state != Lo_bound,
++	 * wait for already started loop_queue_rq() to complete.
++	 */
++	synchronize_rcu();
++	/*
++	 * Now that no more works are scheduled by loop_queue_rq(),
++	 * wait for already scheduled works to complete.
++	 */
++	drain_workqueue(lo->workqueue);
++	/*
++	 * Now that no more AIO requests are scheduled by lo_rw_aio(),
++	 * wait for already started AIO to complete.
++	 */
++	blk_mq_unfreeze_queue(lo->lo_queue, blk_mq_freeze_queue(lo->lo_queue));
++
++	/* Step 2: Perform remaining cleanup, with open_mutex held. */
++	mutex_lock(&disk->open_mutex);
++
+ 	spin_lock_irq(&lo->lo_lock);
+ 	filp = lo->lo_backing_file;
+ 	lo->lo_backing_file = NULL;
+@@ -1151,12 +1174,7 @@ static void __loop_clr_fd(struct loop_device *lo)
+ 	lo->lo_sizelimit = 0;
+ 	memset(lo->lo_file_name, 0, LO_NAME_SIZE);
+ 
+-	/*
+-	 * Reset the block size to the default.
+-	 *
+-	 * No queue freezing needed because this is called from the final
+-	 * ->release call only, so there can't be any outstanding I/O.
+-	 */
++	/* Reset the block size to the default. */
+ 	lim = queue_limits_start_update(lo->lo_queue);
+ 	lim.logical_block_size = SECTOR_SIZE;
+ 	lim.physical_block_size = SECTOR_SIZE;
+@@ -1168,8 +1186,6 @@ static void __loop_clr_fd(struct loop_device *lo)
+ 	/* let user-space know about this change */
+ 	kobject_uevent(&disk_to_dev(lo->lo_disk)->kobj, KOBJ_CHANGE);
+ 	mapping_set_gfp_mask(filp->f_mapping, gfp);
+-	/* This is safe: open() is still holding a reference. */
+-	module_put(THIS_MODULE);
+ 
+ 	disk_force_media_change(lo->lo_disk);
+ 
+@@ -1199,12 +1215,24 @@ static void __loop_clr_fd(struct loop_device *lo)
+ 	WRITE_ONCE(lo->lo_state, Lo_unbound);
+ 	mutex_unlock(&lo->lo_mutex);
+ 
++	/* Step 3: Drop refcounts, without open_mutex held. */
++	mutex_unlock(&disk->open_mutex);
++
++	fput(filp);
++
+ 	/*
+-	 * Need not hold lo_mutex to fput backing file. Calling fput holding
+-	 * lo_mutex triggers a circular lock dependency possibility warning as
+-	 * fput can take open_mutex which is usually taken before lo_mutex.
++	 * Drop all references that would have been dropped as soon as
++	 * returning from lo_release() and releasing disk->open_mutex.
+ 	 */
+-	fput(filp);
++	module_put(disk->fops->owner);
++	put_device(disk_to_dev(disk));
++
++	/*
++	 * This is safe: flush_work() from loop_remove() from loop_exit() waits
++	 * until this function returns; effectively dropping the final module
++	 * references synchronously.
++	 */
++	module_put(THIS_MODULE);
+ }
+ 
+ static int loop_clr_fd(struct loop_device *lo)
+@@ -1769,8 +1797,20 @@ static void lo_release(struct gendisk *disk)
+ 	need_clear = (lo->lo_state == Lo_rundown);
+ 	mutex_unlock(&lo->lo_mutex);
+ 
+-	if (need_clear)
+-		__loop_clr_fd(lo);
++	/*
++	 * In order to flush pending I/O requests before clearing the backing
++	 * device, defer __loop_clr_fd() to WQ context. The Lo_rundown state
++	 * guarantees that lo_open() will fail with -ENXIO.
++	 */
++	if (need_clear) {
++		/*
++		 * Grab all references that will be dropped as soon as
++		 * returning from lo_release() and releasing disk->open_mutex.
++		 */
++		get_device(disk_to_dev(disk));
++		__module_get(disk->fops->owner);
++		queue_work(system_long_wq, &lo->lo_clr_work);
++	}
+ }
+ 
+ static void lo_free_disk(struct gendisk *disk)
+@@ -2034,6 +2074,7 @@ static int loop_add(int i)
+ 	lo = kzalloc_obj(*lo);
+ 	if (!lo)
+ 		goto out;
++	INIT_WORK(&lo->lo_clr_work, __loop_clr_fd);
+ 	lo->worker_tree = RB_ROOT;
+ 	INIT_LIST_HEAD(&lo->idle_worker_list);
+ 	timer_setup(&lo->timer, loop_free_idle_workers_timer, TIMER_DEFERRABLE);
+@@ -2138,6 +2179,9 @@ static int loop_add(int i)
+ 
+ static void loop_remove(struct loop_device *lo)
+ {
++	/* Wait for __loop_clr_fd() to complete. */
++	flush_work(&lo->lo_clr_work);
++
+ 	/* Make this loop device unreachable from pathname. */
+ 	del_gendisk(lo->lo_disk);
+ 	blk_mq_free_tag_set(&lo->tag_set);
+-- 
+2.55.0
