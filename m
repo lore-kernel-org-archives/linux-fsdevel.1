@@ -1,176 +1,264 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5CD36E48C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 22:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787954721; cv=pass; b=UV2Jw819cL49IGhEqTy2Gd9qnkVVBY9EXiOQQB3+aivCLzcyw80FfM9aoItxyuS3KttfXuOxQjk0KcEyw6ij99Qh6k6+gkxX1uckjwe+uaoRUlEvhxeqDu2B234IIlvFPeIGnmfmm8e3oLGj/wwT6uFYHiVyELB8AM/LJiIzfAc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787954721; c=relaxed/simple;
-	bh=ywb1KJ1Y2s6u3tEahxyzMtIqPZn9+T2wYc+dlk5oD7o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Br2iBVPT/DMoailmdYipf2U5YM4ro3EGEjUXu5QM0bPKyeDAp/7QElOliMBHDRiaeTRhJOsIjhu31wl2m9EPHZ4p4TuId2oVUK7TEDr0qxUGQa2ZWL+0MUmv7R2t4HJwVZeN6dM3o5ynDZeyDtnTdLY8qNFfTf1BYtPV6/3SdFo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=PX+Q3V/7; arc=pass smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0E93A7F51
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 22:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787955621; cv=none; b=qeFvhvOQ/jDjh182xumMl+IwnuSFAsxQCrbGcuCcagD6O8e2uY3tuKkVwQpsh1Vdxbui+npfv9XGLEoXDdMRgn7EJ30n9PXWb5LO1edI9lDyuqb6da9uGHf+TP90Cr2ygP/ZAGXuO2YyLop9quwYdlERL55cpfRaJAi1hFY75YM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787955621; c=relaxed/simple;
+	bh=G+MobNW6sFYY1PlV2jcL6Xl7xdSNiLeQQpY4jB5oAx8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=JTBCC3Pux4KaV6kk/lUbaeT1Texh9DXHmHpuJ8/p4xgbTXiOZQcqPvm0MhOS/OIOjqCsSKfT6wyqwwmkEuRjW4lULvOP7yFP8XuqyqyoCQ1chtlq8iXDMDef1OoXun/RRCPVNbzGApSPPt+E97qkpSkn+n2dD9zaydZGtCwHGCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z0pHZO5u; arc=none smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="PX+Q3V/7"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-853c947bfefso1290402b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 15:05:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787954719; cv=none;
-        d=google.com; s=arc-20260327;
-        b=r1ieCpgmBrQPgyeEhYeSDa4fN2zNPM744rVxi9av4hhgS2mBIE0hSJOryqAlQLX8YY
-         Gdgq8dPzTiN2jJ9gc0rX5JbTCSMkpivtBx7aSH5aEOoMRSGDOI4sLaWiwXR4xN3RryzZ
-         yAkIMYH5zi8EriSW9/Bgpp+6Nv3VdERv9NO3aemSHDmy5eD5p3kaGcWaeW/RJxt61CgD
-         cHwkGoVX/0kiMvhG3K/SHC3xCCO4JYWQ3gz4rxVGzDwJn6TIjJ3Xfh1MlWPME8BqGwAO
-         ibo4vJS/pKaLSFQ6koz0hGGs7/UxGOzfJwWeJ7021xwsBapUUB9L8NHAJhcpLnNtjt5O
-         Az5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4JU/PBBK6zKmaR3Ao9o2l7RAKkP3IvAVlF4SOyruE94=;
-        fh=Mt6dHd9LRKPbhIveTBit7xmAv9gFYgECv5bhC+bV/vY=;
-        b=adVc/Evg7aYT3SBtXKpeTvP4CjK6Cj2QzKsNOR3Sg+g9FNywPdti9rvFBHfb2TC5xT
-         fKxDFp6bp1UyD3ZHY8GLR337z1nhafs0apLjjwPAxppfCXQeVGkUeNjUFscco5BYOYH9
-         RAPRP2tnLMLpqWClmAhNoSNyFAF+Pm4mk5XcqqgKOQWusp6Fl3NRT0KzBXOvavUbDuhC
-         beU3BAzBttLgaMQjPCmJQubq88n/QeReoI5gwzRgwBYSyOMONuOfBa/hajxg6wIJR89a
-         BDuezT6E5A8+Eqwd2NIb+Io985e7stm6BTz5nRDT5cCM5+/d1iF5sXyLVxmQMEgyXhpJ
-         TMlg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z0pHZO5u"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-66ceaade3f1so1472006d50.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 15:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1787954719; x=1788559519; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4JU/PBBK6zKmaR3Ao9o2l7RAKkP3IvAVlF4SOyruE94=;
-        b=PX+Q3V/7J+jTHe5kPXf0pCwDFcvh8oFYK8FD46DS9WljLL9w5lQtDNbO+dYEv/MlCn
-         VYHR/+0xTCOePqIiCP0K/ubFqheBkfHe3LFHFgF3MEQkSdooG0OCjmPVtBlPNpXFfiq1
-         J496SkaZt3AOalbUBTgLysrVqZM/W9jftrOHy658bqwx2X0izBS1fBWlU/eSx9enPQnW
-         mtz/eooPLcSgm1GV9qBNoFKcuMRVOiZmLxfbahNmX889zGT6s6LOvWDPceNiFXW716rN
-         UcDyFd2RDL4x3R0QrOqNQQf/G2X6Ftcelx3lY+HQzwY1BEX2v/1y5k70Qru+oLYSh2cs
-         G9Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787954719; x=1788559519;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1787955619; x=1788560419; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4JU/PBBK6zKmaR3Ao9o2l7RAKkP3IvAVlF4SOyruE94=;
-        b=kRAvQEKCIdY9vzLvSjADAnnmgwOFhOzCbMpgjzK82iBdv1EFFi76FYo4P28C35P4FW
-         d8BPvJGI0E9z/jyHeXGYvl9R2ls+40ibWfjC1prZUB6a19ELLHWVvnZltoPLffe/x1zJ
-         t65vilGJcwFPv9GpPxWYaUZKruv8JFSMuF+puxfkNuPaaVDDSr0m1iRTL3s4a4BfumZZ
-         YRS2gJOD7aBsTySqrpPxNaBtIs6xu9iStl9p5TEjJ/D9yL+C7O6WlOpboTgiO1yPRPFm
-         H7+fMyaOGoguFy7bMWov0ZutTeVi4dGxcubxOMp1bpkAKKxuhAR5L8+346vTS7x+Rp9Z
-         nlPQ==
-X-Forwarded-Encrypted: i=1; AHgh+RriyxlI9eLvOEaT12XxDOpgWieVP7PjASY/2LBUq7nlavMRb5BPsVr0TriRFO75Lccmzfte7QaJNIb13CXw@vger.kernel.org
-X-Gm-Message-State: AFuF++l2vfYjWO8EEA6NNK5tNzgWfFOr1aQM6gqsyv4FYNMF7hCsH7em
-	P9NaBjugF8ZrWglWTidZgp15vio8PbmJriQX0eMeB562fW6WJrZQtsf4Pf2Zkt1moYH/mzjfTlt
-	cK0bgw4ci+pBYOw2bXqiH59J/Y3WBv8Med4moW8Vo
-X-Gm-Gg: AR+sD11GZ35jmmGdCyOEQWg5BLIl5VLjs99qlQTQV2wD5R9/B26l2iao/UaIDOkT3Lt
-	mkGACW/nvum4esWTcAF5oHMd7u2C0MdTRk315dWWgOwrCic7Z1w1LjBDf3c3fiSdY8sSCOQc6/k
-	yr945HjWLugftGvFcsTE7MFWYl/OlLhlOlzqILvAhCFAEJA0SNUxPQYepde7QtsWGQTUDKHjl6w
-	J7LnQtjSIcR+oxl4W1qx7hvypPOLZIWMSd0rB4Lu/1EzYLnONTnWxlwSmWjAfi8WgNE6pMczhwh
-	GOeXMFJCVYTLugOY1c3vvFlG0H54Z017wHpZargEozh9
-X-Received: by 2002:a05:6a00:8012:b0:84e:242:4bb2 with SMTP id
- d2e1a72fcca58-8576e187183mr2599254b3a.4.1787954718985; Fri, 28 Aug 2026
- 15:05:18 -0700 (PDT)
+        bh=b4S/8Koo0tWCwmsJIfU4dprBEqIORdY9GwO+Ne2fREg=;
+        b=Z0pHZO5uyz3gNWc6CLrTlSYffxHV4O9ZEMublJZJ4K22Bb1LD7C07IzS4Ty7PsyPCU
+         S5hdhb33vBKFVNoXLlZ/dcpeiqR0kfpvp3QodhUc9t9A3ZVG0J0fEoXHS/QsrJMI4NtE
+         oSqZPOixx4pcaxLwoHctjznGifPayML1mWF/Du8Rd4Bd46zmJhelPm1AecWjOihBBdSm
+         RQYk6LbK4s8Ul1L3srfTWgaoT7OXcSriVYvWpyFe5RjN7YGMrUXfMC51lyPoWkJX8O9f
+         Ki/fNXvmUDomrVQiZ2ShflufF4cEsWuCHR1I/yZbwPYEEe3+NitcoV7mZF0fIyqQmvNm
+         oUzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787955619; x=1788560419;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=b4S/8Koo0tWCwmsJIfU4dprBEqIORdY9GwO+Ne2fREg=;
+        b=grhBGHLz1dSc8QwdK1uAyxjyUoezBZfhTPG7IFll/mwE4pGGBDWy+Got3JoAvujDAs
+         jsEv/fQZUmJBRrldwmNyPPYGfqiXEjZSUtGTEcUmfXsOk/9CltN44hZ1N0kbYmWBzSPn
+         yA3CfJFlUY5hbCVOXO0tzG3UAL5VYK6uZw8gU2OI66CTo01eSF4kPAIGWhUULPNiwqLS
+         NdlNIcRbUHqRcfmHPmTbl7YoYxPbEVHKoi6iN7WkP5QhAy6eIsleFr7d6gxm+HYK+YrW
+         C1gQk476g8XrT4q1yTPOxHovFxtRsNccvw6KH1DqO8NwP/heafhCak1jKMX82Y1udsoy
+         5woA==
+X-Forwarded-Encrypted: i=1; AKwUvBzh1Jdjdsxzxav7wSHidkzeE9O0WXYH4sbblJj1qKww22UjzM1PkoUsWnnF+qVHVP2SGSCm7ht9vgSicTau@vger.kernel.org
+X-Gm-Message-State: AFuF++lPI2TJl9FHp8WHHBxZTOMJwoXA8lHPTplCIXsQ0XOUpD5Gkmpq
+	pIbsd5pvr4zq58A6B15gHKJSRpLKxtxvY3Nmdx+M9RbdoGZHTryK8MUKmJAkGE+fHQ==
+X-Gm-Gg: AYBFou1S0puqWuMlvDTCHSrphPetDjm2ch1voo2Jg+txy6+fSf6haWqL29sqr6KDVts
+	surAZ/9PIYLMOdvGqo1IrlGyU4jbFizzEz2ayak5TbOnU/WgqmDRGiwAHMVYN2/otTdWGGWwOZL
+	rCQqRUoGc2wgo+G7NGqY0hNpWRenmNPt+tR5crsJPtjrcSUj3ROy8rdd3UoyoKHkC3lXxA6TuTW
+	IK8pCz50o80zDzFiVrnjXNAWVgZRzi2fzcbzCUQsLoNnjq9QRwca2aV53I3TYvR/XUaGstX1fwl
+	qUtCErRENzKlKkIs8hbQdd7sYDGP3WSJzfnyGh05Fie9Dj75C075ykp/ySJtHFgKl6g2/KB48oX
+	xKjhzY4u8cmCEX4LnUf0r/MRQHEmY/K6HpH7pdoOH0PBjF4LSDctvBh/FFH7R0LmvJYp9O17Qpf
+	RKRMY0KbcK82mgG36GRyHS8W/4NjUFSb2Y8/X5tHSyrMjJZ/NkQZT1BXohYjtCihuGPgarmxk2E
+	ifO0g2kXJOcQXKHhvpNER0kmuWmHP+h3v1/S7TeqWIuHIh+1e9tDX63/Qk=
+X-Received: by 2002:a53:e884:0:b0:66d:2e51:5690 with SMTP id 956f58d0204a3-66e4c6242d9mr2552474d50.11.1787955617852;
+        Fri, 28 Aug 2026 15:20:17 -0700 (PDT)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66e4ed2c78esm1613351d50.19.2026.08.28.15.20.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Aug 2026 15:20:16 -0700 (PDT)
+Date: Fri, 28 Aug 2026 15:20:11 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: Matthew Wilcox <willy@infradead.org>
+cc: Hugh Dickins <hughd@google.com>, Kiryl Shutsemau <kas@kernel.org>, 
+    Andrew Morton <akpm@linux-foundation.org>, 
+    Ackerley Tng <ackerleytng@google.com>, 
+    Alexander Viro <viro@zeniv.linux.org.uk>, 
+    Baolin Wang <baolin.wang@linux.alibaba.com>, 
+    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
+    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+    Christoph Lameter <cl@gentwo.org>, 
+    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
+    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
+    Lance Yang <lance.yang@linux.dev>, Leonardo Bras <leobras.c@gmail.com>, 
+    Lorenzo Stoakes <ljs@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>, 
+    Mel Gorman <mgorman@techsingularity.net>, 
+    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
+    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
+    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Shakeel Butt <shakeel.butt@linux.dev>, 
+    Suren Baghdasaryan <surenb@google.com>, 
+    Vlastimil Babka <vbabka@kernel.org>, 
+    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
+    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 04/25] mm/fbatch: lru bit set, no extra ref, while folio
+ on per-cpu fbatch
+In-Reply-To: <apGd6T84Zs1RgTVg@casper.infradead.org>
+Message-ID: <d8834642-140a-0bc6-0b3b-abcfbb8ada6f@google.com>
+References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com> <e0887417-85a7-453e-e733-561dc11db08f@google.com> <apAaWsWPV9QEeVwn@thinkstation> <3b8d9cc4-d6f9-6bd6-f774-34cfca9c48c9@google.com> <apGd6T84Zs1RgTVg@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260820175832.44512-1-kmehltretter@gmail.com>
- <5fa5ef078f41cd57d0e52ab2ab023094@paul-moore.com> <CAOQ4uxjn3sWjkrV8KbA-V+eno3E4OskTnCznNBex6FOstEbJ-A@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjn3sWjkrV8KbA-V+eno3E4OskTnCznNBex6FOstEbJ-A@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 28 Aug 2026 18:05:06 -0400
-X-Gm-Features: AcwNN1XzAxZAeZ9YbWbmD6gATJOUq2kxB8OX1cUcN_SgCoVZnhreW3OY7Y6Acvs
-Message-ID: <CAHC9VhQ5oQWL7bj745U5UzSWm2OfyKMjHVeaEYXZvzO0Em0iZA@mail.gmail.com>
-Subject: Re: [PATCH v2] selinux: preserve user SID across nested backing files
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, selinux@vger.kernel.org, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 
-On Fri, Aug 28, 2026 at 5:05=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
-> On Thu, Aug 27, 2026 at 9:39=E2=80=AFPM Paul Moore <paul@paul-moore.com> =
-wrote:
-> > On Aug 20, 2026 Karl Mehltretter <kmehltretter@gmail.com> wrote:
+On Fri, 28 Aug 2026, Matthew Wilcox wrote:
+> On Fri, Aug 28, 2026 at 01:04:34AM -0700, Hugh Dickins wrote:
+> > On Thu, 27 Aug 2026, Kiryl Shutsemau wrote:
+> > > On Mon, Aug 24, 2026 at 07:01:20AM -0700, Hugh Dickins wrote:
+> > > > Treat folios on a per-cpu fbatch as if they were already on the lruvec:
+> > > > with PG_lru set, without holding an extra reference. This will enable
+> > > > the removal of most lru_add_drain() and lru_add_drain_all() calls soon.
+> > > > 
+> > > > Recognize such a folio by 0x02 set in the folio->lru.next pointer by
+> > > > folio_add_lru().
+> > > 
+> > > Hm. pfmemalloc (__GFP_MEMALLOC) thingy already claims the bit. Is it
+> > > safe because such memory is never on LRU?
+> > > 
+> > > Are pfmemalloc and PG_lru mutually exclusive?
+> > > 
+> > > Do we want to be explicit about this? Like, folio/page_is_pfmemalloc()
+> > > shouldn't return true for PG_lru folios/pages or something.
+> > 
+> > Gosh, thanks so much for pointing that out: I was completely ignorant
+> > of the the pfmemalloc use, and a bit (bit 1!) shocked to learn of it
+> > (why wouldn't they just reuse a pageflag, I wonder? but doesn't matter).
+> 
+> The idea is that it is used temporarily to communicate from the
+> page allocator to the caller "This only succeeded because of
+> PF_MEMALLOC".  Making it a page flag would require all callers be
+> aware of it -- most simply do not care.  PF_MEMALLOC was set on
+> their behalf and there is nothing they can usefully do with this
+> information.
+> 
+> So we want to communicate it in a way that allows the unaware caller to
+> discard the information, and I chose bit 1 of page->lru.next.  We
+> used to use page->index == -1UL (which was also naturally overwritten by
+> the unaware caller), but we needed to have it be part of PP_SIGNATURE
+> and that needed to be not part of page->index ...
+> 
+> Commit dc8cf7550a70 if you want to read more about it.
 
-...
+Thanks for explaining, I had looked at some of the other commits
+implicated, but not that one.
 
-> > > diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> > > index 1ead2eee1944..171b90412ff1 100644
-> > > --- a/security/selinux/hooks.c
-> > > +++ b/security/selinux/hooks.c
-> > > @@ -3843,13 +3843,20 @@ static int selinux_file_alloc_security(struct=
- file *file)
-> > >       return 0;
-> > >  }
-> > >
-> > > +static inline u32 selinux_file_user_sid(const struct file *file)
-> > > +{
-> > > +     if (unlikely(file->f_mode & FMODE_BACKING))
-> > > +             return selinux_backing_file(file)->uf_sid;
-> > > +     return selinux_file(file)->sid;
-> > > +}
-> >
-> > I'm a little concerned that this only works for one additional level of
-> > filesystem stacking.  Yes, I know that OVL_MAX_NESTING and
-> > FILESYSTEM_MAX_STACK_DEPTH are currently set at "2", but it's not an
-> > unreasonable concern that at some point in the future that number will
-> > increase without proper notification or testing and we will once again
-> > have a problem.
-> >
-> > At the absolute minimum we should have a BUILD_BUG_ON() for the stackin=
-g
-> > depth.  It would be good if we could watch both the overlayfs and vfs
-> > constants, but the overlayfs constant isn't available outside
-> > fs/overlayfs/inode.c (thankfully it is currently set to the vfs limit).
-> >
-> >   BUIILD_BUG_ON(FILESYSTEM_MAX_STACK_DEPTH > 2);
-> >
-> > Ideally, the code would be written to keep diving down the stack until
-> > it hit the true backing file.  No one likes to see recursion, but at th=
-e
-> > point where this function is called there should already be a reasonabl=
-e
-> > bound on the stacking depth and the work involved.
->
-> Unless I am missing something, stack depth should not matter.
-> file_user_path() should hold the user visible path, for all the backing f=
-iles
-> in all the depths of the backing files stack.
->
-> This is the issue that was fixed with commit
-> f2381b546e7e6 fs: fix user path of nested backing files
->
-> This patch makes uf_sid behave the same way and also documents this:
->
-> struct backing_file_security_struct {
-> -       u32 uf_sid; /* associated user file fsec->sid */
-> +       u32 uf_sid; /* top-level user file fsec->sid */
->  };
+So, it's a special snowflake which can melt away before it interferes
+with anyone not interested (which a page flag would not): yes, that
+makes some sense.
 
-Perhaps I'm not understanding your comment correctly (it's the end of
-a long week), but selinux_backing_file_alloc() and the newly created
-selinux_file_user_sid() functions don't operate on the
-file_user_path() path struct.  In fact the path which is resolved in
-backing_file_open() isn't even passed into the
-security_backing_file_alloc() LSM hook.
+> 
+> We do use a page flag in slab; we check the pfmalloc bit and move it
+> into a page flag (SL_pfmemalloc).  But we don't use it for folios.
+> 
+> While there is a folio_is_pfmemalloc(), I think that was a mistake
+> and it should now be deleted.  It hasn't been used since slab was
+> converted away from folios last November.
+> 
+> > Anyway, as you've rightly guessed, it's not a problem at all: these
+> > mm/folio.c and mm/mlock.c per-cpu fbatches are entirely for folios;
+> > and if any pfmemalloced page ever get used for a folio (dunno) and
+> > put on an fbatch for LRU, then of course its use of lru.next is
+> > immediately overwritten (first by what this patch writes in lru_next,
+> > then later by the lru.next pointer for whatever LRU it goes on to -
+> > just as before this patch).
+> > 
+> > If you were to tell me that some subsystem uses PG_lru for some
+> > other purpose, then I would have to get more worried; but we can
+> > be fairly sure that's not so, since mm/compaction.c for one relies
+> > on konwing it's free to  play with PG_lru folios.
+> > 
+> > Whether a folio is ever allocated with __GFP_MEMALLOC, I'm not
+> > certain (haven't looked), but there is no need to exclude that:
+> > it simply would not retain that page_is_pfmemalloc() info across
+> > folio_add_lru().
+> 
+> That's the correct thinking.
+> 
+> How about this patch?
 
-Are you trying to explain that the way the backing files are allocated
-in a stacked filesystem, regardless of the number of layers, is that
-they will be allocated from the top down in such a way that the uf_sid
-will trickle down to the bottommost backing file?
+Oh, when I said "This certainly deserves a comment somewhere",
+I meant an acknowledgement somewhere in my series, not a complaint
+that it had not been already commented.
 
---=20
-paul-moore.com
+Once Kiryl pointed me, I found the comment in page_is_pfmemalloc()
+good enough: the problem is not the wording of the comment, but
+knowing where and when to look for such a comment. We have many
+header files, and understandably no registry of low bits in pointers.
+Wherever you put a good comment, I'd have missed it.
+
+So, I was okay with the original, but your longer explanation below
+looks fine, and the removal of folio_is_pfmemalloc() good, but best of
+all is the comment line (nit: wants a full stop) you add in mm_types.h.
+
+Thanks,
+Hugh
+
+> 
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index dd09c438fa23..fcefffb52d3e 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3122,36 +3122,25 @@ static inline void *folio_address(const struct folio *folio)
+>  	return page_address(&folio->page);
+>  }
+>  
+> -/*
+> - * Return true only if the page has been allocated with
+> - * ALLOC_NO_WATERMARKS and the low watermark was not
+> - * met implying that the system is under some pressure.
+> +/**
+> + * page_is_pfmemalloc - Page allocation should have failed
+> + * @page: The just-allocated page
+> + *
+> + * Usually the page allocator keeps some memory in reserve.  If
+> + * __GFP_MEMALLOC is used, the page allocator can dip into those
+> + * reserves.  The caller can find out if the allocation came from
+> + * the reservers by calling this function.
+> + *
+> + * If the caller does not care, it can simply use the page as
+> + * normal.  The field that the information is stored in is usually
+> + * overwritten by most uses of a page.  Nobody should call this for
+> + * a page they did not allocate as it can easily have false positives.
+>   */
+>  static inline bool page_is_pfmemalloc(const struct page *page)
+>  {
+> -	/*
+> -	 * lru.next has bit 1 set if the page is allocated from the
+> -	 * pfmemalloc reserves.  Callers may simply overwrite it if
+> -	 * they do not need to preserve that information.
+> -	 */
+>  	return (uintptr_t)page->lru.next & BIT(1);
+>  }
+>  
+> -/*
+> - * Return true only if the folio has been allocated with
+> - * ALLOC_NO_WATERMARKS and the low watermark was not
+> - * met implying that the system is under some pressure.
+> - */
+> -static inline bool folio_is_pfmemalloc(const struct folio *folio)
+> -{
+> -	/*
+> -	 * lru.next has bit 1 set if the page is allocated from the
+> -	 * pfmemalloc reserves.  Callers may simply overwrite it if
+> -	 * they do not need to preserve that information.
+> -	 */
+> -	return (uintptr_t)folio->lru.next & BIT(1);
+> -}
+> -
+>  /*
+>   * Only to be called by the page allocator on a freshly allocated
+>   * page.
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 09cb1e18bc16..9bcfc4213b91 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -85,6 +85,7 @@ struct page {
+>  	 * WARNING: bit 0 of the first word is used for PageTail(). That
+>  	 * means the other users of this union MUST NOT use the bit to
+>  	 * avoid collision and false-positive PageTail().
+> +	 * Bit 1 of the first word is used by page_is_pfmemalloc()
+>  	 */
+>  	union {
+>  		struct {	/* Page cache and anonymous pages */
