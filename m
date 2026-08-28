@@ -1,118 +1,141 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF18336D4E1
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 09:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DC5396D14;
+	Fri, 28 Aug 2026 09:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787909275; cv=none; b=lVb3V7iRM987eF3YnHhSzZsWfUBv+4TU87l+eSMYkxRzGfbUoINd2ZuPHbEd0Fo3bD+6n1SUaEYuHTTK64JxGUl7XxZlLgsKCLOgxNEQefbN1gIV5ivpy+SBhpqdcBmO9ebOujrAf4ZBLV888vIOUNX559rqCQ7ddvCCc46L+zo=
+	t=1787909576; cv=none; b=fZzjC92LG0orYMZCj5PnN883LFWcS042HoD5z4aa6q/InNRsi2gndVFFrNFPnYO9pjHXHNOoQFO3Kk0MDyVXkVRQUkq9EZFx+PfWIK3OsOTT79KT6SvOqAILherGF6f0aDDFbvnLZ0gAXKE26lM54G3NH2xfJ2GUBMvjVySykKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787909275; c=relaxed/simple;
-	bh=I/vYuKgJLTZRgDTqGS1seT20mT5U0t8GT3h0wImZ8Vw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G+QYZyH9ioI3iPSv1qIBXE9E1jT+EO9AKYxdUsuENvQoCE5+F+L8GW2oesgxYIAh8jMXg9iqIfa6a3rnE563tg62cS722ieAtz7svyrZ8o516zInR+uiIalekRhuWyNrNxjHEj97YEKUWuLhsl07A16rDsx8ARIroNO0uPIaG0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=niShYthy; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787909576; c=relaxed/simple;
+	bh=0kUc8X7NvZ5JZR4hpBmXEUZ2SaHI+d8Erve9Taga4xA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pXFH3dqmcPZ8Cz3Datcszess3Y/nMw9KCPji33ijXzyB+7GhhCD+0wTd7Vvk3+ykDFWVSb7zaxEjb4cSQe07tySBTrAv691K7s6X6s4l1wU7/yas3gW9eLVgwXOmBG03g/bmVBcfSXSJ5P+s66Hr1u2xcVNGB5vu+i/owKBjMdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PniMmFJv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8sVJ1KjS; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kTSiorrN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VTaz6Xjw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="niShYthy"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2d58efc7356so7262135ad.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 02:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787909273; x=1788514073; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jQoHUJcgX1iG4XupJx9j5w4PxH5rLx3k8eXCcQlCBrE=;
-        b=niShYthyCBpeuzWOcV5jTJI7CpqqtPBUndsHPDmZM+xPVKfFpcVxtTe1k9XeOk7zSo
-         29t06f7g8dVgZn313/mzZcXp+/MKEnlNcEqK2VTJNrUIRWzVBekPmb92bkuw4789QtX3
-         A0fr+K05/BUYTasQ0HECDQebdbN9znZMfUBTQ6THhJnYQOU4zlRkl8P4gVGy39TN/p1m
-         gE0LGGl5xw1BFbATrhBuOn2gcsGCB1FYxXLFsAV+KePrbMnX2DeQuRlo6u3qLOq1+f2o
-         mA8V3FIJMSvrRLrL6GO5+Tsy77iDD9Qm8dbqLE5voOjPDKdeyY74DWeBEVrX8cUT4cDl
-         v5Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787909273; x=1788514073;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jQoHUJcgX1iG4XupJx9j5w4PxH5rLx3k8eXCcQlCBrE=;
-        b=M0s+bSPiP1UmlRSS5oQ9t88pzOcvDSvIf7av2UmTGk4dUmcrwjRmba8ey2ZyyqwmyT
-         a+g+HIXKZ2Nu3ExNhjJs/jqIphsV5Cc9UjqYUAva4LE9h0lWHxNCk0Q3rYfxHmkCgNql
-         TPRJB7+GuRAr8AxxOp3LLr55MjF3YD2TKRS9WkFP6qBRtOpc5XvSmBEOY2fKh0tfaLPP
-         Q6GHCdDeVYwP+UlOHQQ8KhYf/kFFMOW8NP2/3kfonY6Nnob8AJ5zvsRKGWWQqrzexFt3
-         tpVpv/0LodbOhKc7IEVy/mBJ69fSly43ScQQtzltBOhTaDI6BHtLvFA2UB2JvlN7Cygu
-         Ym7Q==
-X-Gm-Message-State: AFuF++maXlMlIVfHMSoTa9hBPPbyunqSZ8g3nlG2aPVq04alhssZ/PQr
-	Ozdoun3qF0WFzQR9a5Wo1RfBJ7dcNmnpf6g0guX9U1GKI03Gg3LOCOWT
-X-Gm-Gg: AR+sD13npLWQtt+0I2Z5QA11ywnYJMcvKIxbQ5kj3yCy6IxZkM1gJO3hBuUPCtWIh7T
-	7WzEUIZoybMTPzbfsIAjUnQsnJwIHlegI3w0ff0aHubA2gqPru9PI+31V7QLkyJf8QI3ABF+ug1
-	b4itypbxbcFl8qz3VGGhdHc9eeYzpoL6OZrKu42TFLL1gRF18YEq9OGhMozWHHXpw4yn9A+TQ4f
-	w2VppEmE3/rEmbGmRVWksDAZnauZBbRTgrE2NEnLg35MbdS+4Al8pwG3MTnVHbIEecaFLoG3Ui7
-	amYHmXyedFuthYDFdXzjtGryh/SLYhokPOiEDqWe5sjr98SkWV0eiBwiDxC+i/zKCjcjZm01Yor
-	2GxYjjIbAOjEvkZubCy3Zq4sbqk7Fx8IErxk3DlvJqL/fdJw6qBoZnmwv7WMKPtbyDhqVXpcxPO
-	ZVn5XRpVQbz9weDcsNki/2Xmvl3gPtyCAETUXYWzqMbo3cpAAgABC1b+lEov3TuweH/ESxWBAJH
-	BUqgDceF5Pn7tlkeBKHilLSdsMbJIx3a8gW9Y7n1wT3BQ6nTOU+1WFu25OcbZdw0uOwnKjHr6qg
-	h9dzPJ2MXKTHD/Y=
-X-Received: by 2002:a17:902:cf4b:b0:2d7:71e:575d with SMTP id d9443c01a7336-2d74df04c8amr111140945ad.9.1787909272886;
-        Fri, 28 Aug 2026 02:27:52 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d75988b68esm3680355ad.58.2026.08.28.02.27.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 02:27:52 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2] chardev: check return value of kobject_set_name() in __register_chrdev()
-Date: Fri, 28 Aug 2026 16:27:34 +0700
-Message-ID: <20260828092734.600911-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PniMmFJv";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8sVJ1KjS";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kTSiorrN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VTaz6Xjw"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5D08221A1D;
+	Fri, 28 Aug 2026 09:32:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787909565; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KgD4uvRdDUFrpJt2ev8YwoEx5lfmYjGKQqm35w/+pZc=;
+	b=PniMmFJvbBWMOSUzyIu74H5LwfS4SoBfjqrmWYCEkoTQL1lpMY/7KDceWmMaN8VztZwMsv
+	79XH1+c8v0As/6msTEgnHK46PxaPgaZDcbdxhcLMXoTwn8RZEy0710RnpEDSavJ4vegqy4
+	PTYJeSudP99cvU5cMMbrNe1dCGgnemI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787909565;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KgD4uvRdDUFrpJt2ev8YwoEx5lfmYjGKQqm35w/+pZc=;
+	b=8sVJ1KjS824fh2nDBL6d4F9d5Zmkf4UsSiMG1U9Xk/Hi3wzpquHttw88DC3NsiUsT3wNGh
+	5NvM9xj/3ecJHcCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1787909561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KgD4uvRdDUFrpJt2ev8YwoEx5lfmYjGKQqm35w/+pZc=;
+	b=kTSiorrNolSn9CdCRNBBzqCEw3NqscL2CL5g8yMtN+xFntmYy6OPg4mX9yfvynKiDyD9Qv
+	KQshuvx12joi5khK73EJN1rpGqBhl97b/IZrL8qPQwwyS3Klt8WpSoxO9Bb+Mn/AnF+rrV
+	pms6jDfUqS9Jp1O9q+yLrdNMAVP7rI0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1787909561;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KgD4uvRdDUFrpJt2ev8YwoEx5lfmYjGKQqm35w/+pZc=;
+	b=VTaz6Xjwb1tAgmUGp1INxPxHF4fam0Z0QZgjAQ3ImSkcSFj5x+cRBYSm96KWw1vDP+LsMG
+	4BRnLzWFUoD7jRAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C82913515;
+	Fri, 28 Aug 2026 09:32:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1K6+DrlVkWp/fAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 28 Aug 2026 09:32:41 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id C6330A1324; Fri, 28 Aug 2026 11:32:36 +0200 (CEST)
+Date: Fri, 28 Aug 2026 11:32:36 +0200
+From: Jan Kara <jack@suse.cz>
+To: Farhad Alemi <farhad.alemi@berkeley.edu>
+Cc: Jan Kara <jack@suse.com>, falemi@asu.edu, 
+	Christian Brauner <brauner@kernel.org>, Hugh Dickins <hughd@google.com>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [BUG] quota: NULL function pointer call in dquot_acquire() with
+ QFMT_SHMEM
+Message-ID: <mdwzyxkmqvtf2ogc3uenosrtbyw72eyqvtg4ik6oiolqit4gku@3bjag4lb73g3>
+References: <CA+0ovChCRKkAga2sWaNCZms8Hv=2+5gSpQfkaN0eePs7eWPXrg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+0ovChCRKkAga2sWaNCZms8Hv=2+5gSpQfkaN0eePs7eWPXrg@mail.gmail.com>
+X-Spam-Level: 
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Hello!
 
-The kobject_set_name() function can fail and return -ENOMEM if memory
-allocation fails.
+On Thu 27-08-26 15:35:52, Farhad Alemi wrote:
+> While fuzzing Linux 7.1-rc5 with syzkaller, as part of research at ASU's
+> SEFCOM lab, we hit the crash below. Crash reports can be found here:
+> 
+>   https://github.com/farhad-alemi/public_bug_reports/tree/main/103-quota-null-func-ptr-dquot_acquire/
+> 
+>   BUG: kernel NULL pointer dereference, address: 0000000000000000
+>   #PF: supervisor instruction fetch in kernel mode
+>   RIP: 0010:0x0
+>   dquot_acquire+0x175/0x610 fs/quota/dquot.c:489
+>   dqget+0x795/0xed0 fs/quota/dquot.c:1002
+>   __dquot_initialize+0x3ba/0xc60 fs/quota/dquot.c:1530
+>   add_dquot_ref+0x2ca/0x3a0 fs/quota/dquot.c:1073
+>   dquot_load_quota_sb+0x873/0xb40 fs/quota/dquot.c:2496
+>   jfs_quota_on+0x2a/0x110 fs/jfs/super.c:803
 
-While all other functions called inside __register_chrdev() are properly
-checked for errors, kobject_set_name() was missing this check. Add the
-error check for kobject_set_name() and jump to the 'out' label on failure
-to maintain consistency and ensure proper error handling.
+Can you send me the reproducer please? I suspect I know what's going on and
+it should be obvious from it.
 
-Found by manual code inspection.
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
-
-Changes in v2:
- - Add Reviewed-by tag from Jan Kara.
-
- fs/char_dev.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/fs/char_dev.c b/fs/char_dev.c
-index 00229e25c10f..5ce5423f6c99 100644
---- a/fs/char_dev.c
-+++ b/fs/char_dev.c
-@@ -280,7 +280,9 @@ int __register_chrdev(unsigned int major, unsigned int baseminor,
- 
- 	cdev->owner = fops->owner;
- 	cdev->ops = fops;
--	kobject_set_name(&cdev->kobj, "%s", name);
-+	err = kobject_set_name(&cdev->kobj, "%s", name);
-+	if (err)
-+		goto out;
- 
- 	err = cdev_add(cdev, MKDEV(cd->major, baseminor), count);
- 	if (err)
+								Honza
 -- 
-2.43.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
