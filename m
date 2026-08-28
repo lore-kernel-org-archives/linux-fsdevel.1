@@ -1,115 +1,124 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99218387378
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 04:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787891074; cv=none; b=US1MclNIVQIleP0u7SnQ8THWZRpR1kAVpKwPvDXIZ67JI4uzvJhpyadtHc8Vk80JfvF8mJA3vxSBKvszazEwBdC6hJY21mMzDeNKP7Bmz9vP/XAgz2y81BWuItaDJ9SVPfTTf1sePP1h2f+jTcq3uRi0L+rdXaxbYOXRmkFOR18=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787891074; c=relaxed/simple;
-	bh=0Mh1jC/QJ/MzZmhoBgK71nmVa9X9R/cosBlVbeWXYl8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RvtTQez6JjeyZF+gXF0Kr7V02frP3nXBgG8+iE7eZJOt+Bms+VBNe9NtixLRxqgrqlYJm+KgKDXOvs5i2hLZDGse3JbKLI/VLVBzSovIWTmiM59XpEkUSuXQt5ySl2ZyQdWN5hQRHiMdf0Ud8cDYfWE5WFjQmF+WPxwdncj22c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=modMriXD; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E6838D018
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 05:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787895895; cv=pass; b=sHtzMdFtNdWaz2p+gg0Y2XdLaOSVLVrhOfVmeDHOaxookNGYwz1oJ0z25+uv8eZm7RNnFNMSOcag9vzj2EDlf2qSGwAbxJkE+LC8PhiEQ/Euu2ozogEvdDDsNMy9uhN17H0NSK2SyOkU2lxnqP9RmkcIBDJlQL3gh3VANSDDZh0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787895895; c=relaxed/simple;
+	bh=TyNvMMqIrDrrdQrNSTAkjwcw9uAfd2HiNJdpFGlLXMw=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=DMy1NUgSbo8L+C3GOEfaeFJ3HvdlvbZeqlPslo2YMl06UtT/YMtXIBGVecEqc/bHaM2bJb0aTk3jl7SsHltK8wCBJRnaS6/HUnKL1vQSh1OqgU3iFCxSb4FbKwRF+oX/ItNDsA991mfP89qUzGK9m1lUV1w69q/kvcKG56Sri9w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=nZewbbOn; arc=pass smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="modMriXD"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-84e04df8c46so862137b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 21:24:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="nZewbbOn"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ccf2360620so6087425ad.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 22:44:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787895894; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Xya1MC6zA6gAEXDy1of+DoxRNI5LWDnx6kpSl69t2Qlgp9XdvEHWV6KgA6JLJm23kd
+         qaysjWOuyRXB9838oI1d1ySFV4jWZPn5ZAqFg7RsX+51RAHWTUnaW4gLCs8ytG0hH/li
+         vYQP8XpDOdA39E3Urg4obWB0BDZ3tDrzjFqULN1tujXGYxwvxf/2TqDEuRc2afYT24ZZ
+         uAgB4TiFNJJj0RJaPWGSJgbFtOyap+nfEb4QC5ZU4nYtS8cZKIfeUVSaZfNx6DLk3v8j
+         glwVJK8t42nfC4ElHnoOweAblLqxxUTzUwFV6x5fpqjgPPB+zX3oKfwqWLEtvj4UZ4GO
+         bimw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
+        bh=GlVbWj9nJs4r3HvjeZeXaQSMdk8WIjeCxs6FsayvhQ8=;
+        fh=jliu7snrQw/baseMrH0Zl6OTq8iPxG7W/nBF6tvHs04=;
+        b=P+iq6faOoUn0t3s6JhDbRXrTF7hbxXxqahFqqtUTF92ytBvCNanJSVebNrQQFwwAiV
+         Khx5SpVuNXYbpdkkDdnXjTkvT9LrGUlHox+5sj4dkXpVIz6PmyWZGuDKplRe+RP46dUt
+         DDxJ5I6nUXLpzBX9+rAI45iz5kyttq+t/cQZncXTp4ixYC0KM2Io4JsqmaS5uBs9NN/A
+         InCj2Kqhm1u1uRPcQi5cLykfYyG/f5+vWyXhpezF5RHe776XdkBBCcf7W6aMYQFHJ6nB
+         DyR2hkdGrJ/qbbXfNZkYfh3yuPXmgdln8h7Ut/LtMcqj6I+lUOvAb5TK0B4H/RsASIlV
+         iuog==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787891073; x=1788495873; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ADeDExzR1gAOijbYmVBsEH6+zMDPtRZUnlmbbAacMz0=;
-        b=modMriXDUWQDrgFAcz9ZmlyGsEOiS9wO9qVT3mEpuxQv1sLthB4YBuw+Jb6EcXi03L
-         zyoQKLIBeAR7RldWE43C7mpgil+ThplPfGI90BULQtgcNSn+91TkRuaO3xp5doFP3wys
-         uIhr7LXeP/kQ+aaUnJhzwSND9wSVxHwhIxBhMreOejPtDi4+sDiOCJlPULZ14fpTmKZ2
-         wwhzOSMifBjZL0zdaZ7DLH3ojFGJyAUj7jPYzeVKvfn7Ejv2CHwCM47PRaQjg0+b0+tJ
-         wQQeDzVcIw/ORtvz5TaiqpcHvZcwXGi0PR3GOhKZwWq8JGct9eSjWmGxvGDdwEbj0W3v
-         N5TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787891073; x=1788495873;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=berkeley.edu; s=google; t=1787895894; x=1788500694; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ADeDExzR1gAOijbYmVBsEH6+zMDPtRZUnlmbbAacMz0=;
-        b=JDR4lWARdb2mdGJDAYubOg30pOzYIC6qDSVDqPMD892ZHEoH4ldutz8r7a+mMTNpP8
-         yMbq8c9O1KDnFAet4QrzNwT3l6Sb6FrSgz5Hz1WT6ZXwD6aYsNiK4syGzXagb+a2ZCkh
-         GyNXWA0Vj0tcK6MT+1sHZLP2/FfygIzmxn/9yDyqfsoNQt/C0UKCc+RApooz1U/9f7WY
-         cgvHRVESgSSGC5WmP5JzUP+V1eG/yn82gby9KnCJZ9QU+M8EU1w/71ePuVX/60TLeMh7
-         JDl6Q7nDqVWL2XEx4SsAazpIg9W/dIjg1E29YsNFjzrDub8Nu07+4OhIeQYUQK5O80QS
-         iuGw==
-X-Forwarded-Encrypted: i=1; AHgh+RrjqwSJIiG0q9TChO+UxjjAvoL50RnLli7Cyd4GuggeGGrO3k+O65QBORmpW7RqffL3C6Zw6VSHdUOAl/H6@vger.kernel.org
-X-Gm-Message-State: AFuF++mNN0c7jCfLgoqC+J+LxeHiCZPLAC9cf8NSdbFD1I5fLp7VwPhB
-	8tbubJLdFv1F7U25QrifOEKTJ3RCdVaJ8vzEoYeBNQqY90dFRP5FkgW4pbP+uw==
-X-Gm-Gg: AR+sD13Kmhl9oPb+ih8JMHb/ROaxfl7ldDTOSQ3t76yI8smddDxAxi2L/EgvYrw6YRs
-	J1elBR9cd+sTzSEypKp11yxduor1eAL+kimP0w8OrG1jlivR7qeeoWJuQ84sjuccvSLorQqUufC
-	DnbIGuPFH44M7oVdeBer1IfrQCxJr8a34iVkZGb0ZSfyzidfh5n9dZ7JpaM1EmWhzloAYkqsok5
-	WhsfSM3Puwsa7QaxWAWjPWi5bkqpzqBB8sMyLfX1OPebHOT5g6MTU/lrOxD6C0xohpHcXzy30rV
-	2U4av7A5VuqYl8eKj9gGTcGR3xoa+oRzV17DYVER72jlAzICsD6WqBwY2EFvtPqQvPsz5MfRHGZ
-	9ZFOnosrNhdwxKYqhhSJWFCxm4O/z4jA4aFdinpcPdUlXIDQemjOzUl0v3/gPirMy1HHE+Qp/c6
-	f1RpGuQ3uM2HsxDeeqXxNBMqSFrj4a3UIX3GRZb+/+WEZLMDACc0XnCI5uMAJDuH+3IhW13iAs
-X-Received: by 2002:a05:6a00:909e:b0:848:467d:293b with SMTP id d2e1a72fcca58-85629f0a1f8mr9011536b3a.11.1787891072818;
-        Thu, 27 Aug 2026 21:24:32 -0700 (PDT)
-Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8569f49ed7asm190642b3a.8.2026.08.27.21.24.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 21:24:32 -0700 (PDT)
-From: Daehyeon Ko <4ncienth@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] fanotify: destroy/add race leaves a mark on a detached connector
-Date: Fri, 28 Aug 2026 13:24:19 +0900
-Message-ID: <20260828042421.964822-1-4ncienth@gmail.com>
-In-Reply-To: <yjfqzckumtd32dgqidi5sndvth2t67mjwah4kt4jiahlx2a5uf@if55sinfv5o7>
-References: <20260827045007.3831259-1-4ncienth@gmail.com> <yjfqzckumtd32dgqidi5sndvth2t67mjwah4kt4jiahlx2a5uf@if55sinfv5o7>
+        bh=GlVbWj9nJs4r3HvjeZeXaQSMdk8WIjeCxs6FsayvhQ8=;
+        b=nZewbbOn14tQBRrQuiwSJTZ08OlAxVu/MDYknSVUwuOVFpZwJR/OyArHF0NZfnskn2
+         OFVwxnxrWUjsqgDy8WVX1YGuYb54IcYDpQksoyJSLX14QiIHYmgplQiS0ub7k0z4Xh8f
+         xAHFG4J4pcee3+sFqNMgTaIMtVMkN8HQ5UMxA3ohjLxAIR+ZIIIOdWvi8sAGjtUZKAT7
+         4zUk1MfgW3/ADkp4iiuAatVsk19EhqxT6i7G+lu2hd7NsGApUsWQFGDJ6GDZD5ivwXvQ
+         7MkH28H/prhSeuTrCPlNBumEgF5HC40HacH7iC7Z/PAJG4lrRm5YylBbzpm5prmyVhXl
+         RsTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787895894; x=1788500694;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=GlVbWj9nJs4r3HvjeZeXaQSMdk8WIjeCxs6FsayvhQ8=;
+        b=TzLlm7wBZDA/w3naM165GY7WGrqkl2q03W+Z1Ou2fozG3mN68cxQIEh2sHEjrPPYBb
+         Wm/W4ii6ZiP54KamopUg95uHiz4hxMpiyZC0+/1vvujkFSKxq592j7WI7Bxc8vQyxIRr
+         mAXYzSp/yNUWNZYBfys+zflyu1uPwxz5uu3xQdtybUL+g+9N+eJYRIu/PMmhvViqpsuw
+         fku5vmpMidIsZ0KTX1XQKsBvvk7G2L2c4LJ/s6cK0/x23Er1td1dfW448VcIYkY1ICnL
+         OngCECR4omd+bDUC0Z+AAJMTzdbhNwtTYskpJN+UAScf5I+oKhZJte+2skja2QM5jdfG
+         RjlQ==
+X-Forwarded-Encrypted: i=1; AHgh+RruB62DPoc9kVmTt65ee1mn3roWC/9PuBwrSAhbYCApq1U5q/bHkiz1dN37Ebp3mbwMIxQYMPlFYqO2shbm@vger.kernel.org
+X-Gm-Message-State: AFuF++mPUatSkptCeSCQdbwPxp4wrVBBMlQRtVRiGxzZnEs6oSkXQ7Qc
+	hsCwqkhMygbl3prgl5uGk9NYl7uKnh4qkKNZehlbEyyqsoFcJGZ8GK/4AHNDdcZ8kxDri6cy/6D
+	KZ5zMRMFLKba2pvYzfitAB7hX67fXQrTItT1VWxrjT1WyihRE8S0aNw==
+X-Gm-Gg: AR+sD11Uf3/JMBZnPXjEiCb71vjjviFFGQ7SPHv9yX65ayrOO53VB8DTZvzmzY9CR0B
+	3Uuk/9S8D46LFd9X0JU9u2fRJ9gACN/SMCiQ2qA2IWFluACBMiATfF70T+OvmUV2Xl9otK3rXii
+	Ph/iwKTut1mLa1GdHLTnFfV89nXjcuXfGNPHYHr6/TkazA5RL4hnA+xK5xuu5WtpMakeBK857L3
+	j0s0Mb4hkiK1U/1Q+M4cUELog1YL0JfdXthrFrQFRe7bCtoxGdDBAq9byRYRQCAJDhTs/XyovWa
+	NaJCUrGGGaVep7eSbSYQz/Ap80O3CzYR4oT7y9FBTju1+S4uZp8UVFz6/7YDU0/RfM01wsUIoYT
+	Jcnq1D9Uy9znJ9YGJVwsLNboybzn8YMcI
+X-Received: by 2002:a17:902:e74f:b0:2d7:5ebe:a588 with SMTP id
+ d9443c01a7336-2d75ebeabbbmr24264815ad.13.1787895892791; Thu, 27 Aug 2026
+ 22:44:52 -0700 (PDT)
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 27 Aug 2026 22:44:52 -0700
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 27 Aug 2026 22:44:52 -0700
+From: Farhad Alemi <farhad.alemi@berkeley.edu>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Thu, 27 Aug 2026 22:44:52 -0700
+X-Gm-Features: AcwNN1X8SEHOkHuj9cQDgmFe2kkXov2vM2emNM_BCi0ltZI-VSEqYIh1j3pwqxU
+Message-ID: <CA+0ovCjLWPoUdo=W93DQ4vKj-A+Xo0AQkjzcM+SQ35ph0VzukA@mail.gmail.com>
+Subject: [BUG] WARNING in ceph_fill_trace
+To: Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>
+Cc: falemi@asu.edu, ceph-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Honza,
+Hello,
 
-You are right that an fd-held dentry cannot satisfy the count == 1 check. I
-was imprecise in the report: the fd and the final unlink refer to two
-different hard-link dentries for the same inode.
+As part of the kernel research at ASU's SEFCOM
+lab, we hit the crash below. Crash reports can be found here:
 
-The setup is:
+  https://github.com/farhad-alemi/public_bug_reports/tree/main/171-warning-in-ceph-fill-trace/
 
-  1. create A/x and link it as B/y;
-  2. open B/y, add the old-group inode mark through that fd, then unlink
-     B/y, leaving i_nlink == 1 while the fd retains the B/y dentry;
-  3. race these two calls:
+  WARNING: fs/ceph/inode.c:1632 at ceph_fill_trace+0x493/0x3a80
+fs/ceph/inode.c:1632, CPU#1: kworker/1:5/11236
+  Workqueue: ceph-msgr ceph_con_workfn
+  RIP: 0010:ceph_fill_trace+0x493/0x3a80 fs/ceph/inode.c:1632
+  Call Trace:
+   ceph_fill_trace+0x493/0x3a80 fs/ceph/inode.c:1632
+   handle_reply fs/ceph/mds_client.c:4050 [inline]
+   mds_dispatch+0x4753/0x77d0 fs/ceph/mds_client.c:6384
+   ceph_con_process_message+0x14f/0x530 net/ceph/messenger.c:1425
+   ceph_con_v1_try_read+0x2f40/0x6f20 net/ceph/messenger_v1.c:1430
+   ceph_con_workfn+0x1f5/0x1440 net/ceph/messenger.c:1577
+   process_scheduled_works+0x881/0x1170 kernel/workqueue.c:3397
+   worker_thread+0x988/0xde0 kernel/workqueue.c:3478
 
-       unlink("A/x")
+Our reproducer.c is available upon request.
 
-       fanotify_mark(racer_group, FAN_MARK_ADD, FAN_MODIFY,
-                     victim_fd, NULL)
+Happy to test a patch if that would help.
 
-     where victim_fd still refers to the already unlinked B/y dentry.
-
-So the A/x dentry checked by d_delete() is not held by the fd and can have
-d_lockref.count == 1. Its unlink drops the inode's last link and reaches
-dentry_unlink_inode() -> fsnotify_inoderemove(). At the same time,
-fanotify_find_path() gets the same inode through the fd-held B/y dentry and
-adds the racer mark.
-
-Your suspicion matches this topology: __fsnotify_inode_delete() from
-fsnotify_inoderemove() is running while the inode is still live and reachable
-through the other, fd-held dentry. Deferring mark cleanup until
-__destroy_inode() would avoid this particular add-versus-cleanup race. I have
-not audited the broader consequences of that change yet.
-
-I can send the exact reproducer privately if that would be useful.
-
-Thanks,
-Daehyeon
+Regards,
