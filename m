@@ -1,118 +1,202 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B903769E7
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 17:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787938969; cv=none; b=XafrgBlljb+IWLpJ8+o+AB7y/0Q6+tFVmG4/UUMXQ0+sJ1EacURrEruA4Oc2JGW+3I+C9k++g8xJ2khAe3pIuCBvQxy73IWeesSZ3QKd9SUWQvRaX36GMiCTEA3vIn0YtUswYmh8iNaMMFox8fXaP6Q7RL/+AjD+c5ON7Fbi8z4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787938969; c=relaxed/simple;
-	bh=tuUokZoCnlLmufKUH8WZZk0WHZlIYiI6h1Ayh5pJbpQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36A1395D8E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 17:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787939639; cv=pass; b=u0K+aZS0aaSH2NBddev0UWXtYtwYtfzFsylbtlnCeYgRczQKEb5Bjz5Q64EkJq/kHyuePeunBJDmwepZ7zAm3GX046yY5I4+BBaVG6YTCoFU7qdGxJmyPb42JZauCABXDdWOm2jLK2g2T7D8n6t/2/Zct+iEv0uQkRx/QseKfk0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787939639; c=relaxed/simple;
+	bh=nyFfkTBzK12fhUoJcyE8okzZBEr70euiIjvPyeMf/eY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h0DTH4unoTKLanNt2NPTdULtuN8nnF67GaW5okiJ1TA62CjxK040X2fxJXomC1hB+snpSKX8PNn6MekM+uA4zWFeA2LhlQpO0iTum4Xhv342q3ETWOen3oV7VTW3PDcYYpfXh00veuCzCFdt6n83kCsl2B52wPtIde+Bdaril1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=TG37nN4V; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	 To:Cc:Content-Type; b=p8EPoJw3zX5ZptzcKvzTZDb+zHIBGIzEXHM/nrjfze74V8zE3Ug/HMQ92R7+6iv6ivJXxh3U49O9dGfjzOM4ssjYU4Bj7zywDyXZGa7TZfCbQk2nFwFtZamCpVL3ECrwMC/0j7UvQ9rDqoaoN+bXUiZ+IrxFlw27CSXDOpddo7k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFD+bqjU; arc=pass smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TG37nN4V"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c2055573c8cso153984566b.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:42:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFD+bqjU"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c253425b253so220867266b.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:53:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787939636; cv=none;
+        d=google.com; s=arc-20260327;
+        b=clD7GH42G+1jFu/3CNDPif7O6quIFwqVTEYZNAz4ZqQa9E58qX31LdWxczyp8KTf3g
+         DORa/WHHDy/BfR1iftO0nWtVtq9dsh9aFQpT+JxtDp+DSg04dPSiC0gHMtxHUmO670Pk
+         NXlp6ISuKC3RKLQpysOAHIDDthgRTneaTjnWHktwzCS37UFRrrptFGLfEvIZV/4sCv4m
+         1r1pNICFLTQ+X00tlCQdWnPNFcq4dHClgXuFFTbSQzlqCyrCoLfWyD0SpwXmQM8B7y+g
+         UjPyWQvEHRTlmRdSCIHKEMjJ8cTqZeXwBYPVfZ6ZCbs2rMr0qYdCJhIYX9+GgCWhhPY2
+         +08A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nyFfkTBzK12fhUoJcyE8okzZBEr70euiIjvPyeMf/eY=;
+        fh=DmJaokyaZwpS38/4yoLhi/p1ZyuHiarCF30QbH31Tx0=;
+        b=oWPy+v0KfQpZN/VRPpdUoY2qfmg5bVgkiPvt0XlIWKjkf3zMWzJ/8RxdaLlDpVyZ9i
+         nmFKsaEEPlwbfK9YsV/kBgcuJl6rC9ao8wrOwpK/dfTmXqSRnuzQTaHjY0tewYwlP58n
+         aZxmlfwaIVaU15W0fOChdpSpHhoSnTLRy8DodXwZyJcgwRDVOTd+8fe8ZetKF6WEI3l0
+         KNlsndEo82TwgVtK+9bcxdwaYcj285w80VYpxwF/U0O6MybsuxDgQ7kUrEdrlCPPgVu6
+         1UaMKMJKDyc+VYceVTDN3YsIk4XvS+cfaViwg3P8mcz4T7NtqBxhOWgtB3QYmdoQpBnA
+         QEhQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1787938965; x=1788543765; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GL2lsY2q6lh+Mh9KUYPYp0RjapCsGo7cY5qRZTg2oBA=;
-        b=TG37nN4Vkl5LNdvnnkAG0/MUrcvKdKPXMZ2a9jVjhxGUX7XP4Zc85h2F0+VgnA4GBL
-         3PNU6qsFAsuOmGvM3S5X4D2RtYLBCyTQfHZwGppPtsweS/5qe74FpgarmEmYKLmGaXkg
-         AI1Dv9fMoCqMEzFKy6uLN1jp9iNXhZI9M92yw=
+        d=gmail.com; s=20251104; t=1787939636; x=1788544436; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nyFfkTBzK12fhUoJcyE8okzZBEr70euiIjvPyeMf/eY=;
+        b=lFD+bqjU6qOG2vik7oa0O13yhya2vj0Vafm3uFr4PRPu4mtM3jhoffRvW/im1HdkXk
+         lCirJx93uXJ0fc4jm14b0kVcGAGe4iqxzaEZI/+6ngr4UxzWSuKEN1eXamuzk3ngPLd4
+         ZTZmxLD8N6PoEqW+tN/fS0kIzxuso1QklX8cLoRfMfx8JN9h0JzNSDlP9+VoHwDV2mv1
+         g2Kt/ZFj+RgJyAYbo7TrpOzClJL9DhXJtKrVGrCN5T8wGBPb0DGiKUp7zRG0sfvdC2eJ
+         vPTxn+ePIc7gggUslrgGlfV3J0x+RUg3QnGOUWNZKr6gwPLMTtdtuiy6ZReVd4v7nH7B
+         kjVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787938965; x=1788543765;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GL2lsY2q6lh+Mh9KUYPYp0RjapCsGo7cY5qRZTg2oBA=;
-        b=cLCfC7XB6VPzXERvJZsId8ncYFDYXdHzwunf2BhlHW8xEYJNd8rqrs1pJdFkhh6jWm
-         b5j7NRNsgasBxUJgLIQoN9OVhwOos3B6c0mlfRHonWhTPxo3fx74dklVuZZrGmK8SGw4
-         HCJfqFQGtv2KZaG3XAolyivZcvH6RDYXZuFWyIKcNOz0ZqIjFb4sEZpIY5vWxPwSFirS
-         yycRobuW/eP8WEXMkDJ4WY3PJ/n4kYTT4RNNOKGqEZcN2A4yhZX3Rlvy5+/d1Pd8pcJ8
-         Kz++vY2XA28DuSeuIo1uTi1vza9n/UVhp698Y1BpxDx+3oyw0O0k8Lut6mJrHVah8C1I
-         ENMQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrniKbbEgvw97O9TIts0gmRjZqy5HrttGQotbxXn/RgNEL1/dLXWbzbRXPn8Qfr/1w/eIhERmSygWCwwvoG@vger.kernel.org
-X-Gm-Message-State: AFuF++ns+AlNIOuE8FnS6JnVIm4qFdYvXKM6y2WWxc3FVN6YK0qouyDd
-	2di/KKL0IiUzDSW6xMuxtKiXlGRfg52f2xnnOFI5dIJmr+AQZ+frQPq8mIfp/O6uJcXP8VGvCJZ
-	/JJJLpoQ=
-X-Gm-Gg: AR+sD107tBhUo+sG5l2Rp0aGTIouXOHkhEFQ07pHyfYLs8HSkIfdg/LVii1/3BHK9jE
-	dDgnm0iJD90RhqpnxcC3B177gqVOh6hAKX49/8p6kS/nHraa4XItOTQ56UpJYibVi4e1MLnG/xZ
-	l0ga6upF7h4YkzAkyJ8abxRazwf9JPvw5Yni1QnuMnN/EzQNERNpRw85VGmDrplHGvhdBgJEdKL
-	2N0J+EW5iXbZOJU9R5DFlw8OxWdBIfFTy1bRV7hgYojM9tcxAqdhX7PN1ZeTS2rMIoKDz/OWiyt
-	PGCOFEdeLvbKNwSGWtdKSiDa0Dt0VrVELzKMDqa44xzRzLjtey7g9nUDkMyqX7SBCPf/aWJsA0s
-	g5hjv+SZqEgVJAGUBLeK5a3SePBiz6UxYwDnleQhe78Qc4+CUPpO/M4IubpTCf473oOV8GXy7pU
-	ZsAvQCuMxNn4tDHJV98w92zo1H2FrXLm1uZHp0fxYKv31opYYyB//CplCewou844h/UItRArEfz
-	yCMbnwuK3RN/u2FtVjjK9EzmNNdLRCVdPXFFw==
-X-Received: by 2002:a17:906:478c:b0:c24:6390:decf with SMTP id a640c23a62f3a-c25571630ecmr603551266b.16.1787938964634;
-        Fri, 28 Aug 2026 10:42:44 -0700 (PDT)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c255ee27b19sm111012966b.19.2026.08.28.10.42.44
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Aug 2026 10:42:44 -0700 (PDT)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c2055573c8cso153981666b.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:42:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrsAHoZQ+OIJJcFfXb4Ix9SvMRTaR/5WSlbi4xmS0FOFO+Bx0y3Hxy5OdHja5p7kdZoHDitO7A2tojwK9Fl@vger.kernel.org
-X-Received: by 2002:a17:906:7947:b0:c25:4ba1:5953 with SMTP id
- a640c23a62f3a-c255702dfb5mr645433766b.11.1787938963933; Fri, 28 Aug 2026
- 10:42:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787939636; x=1788544436;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nyFfkTBzK12fhUoJcyE8okzZBEr70euiIjvPyeMf/eY=;
+        b=mK40xa+mEb3qKI/HrpNyyx91laefIxXSaXW0iwAE/IV/9HlVI4oS4B/mzsSVEf+sKx
+         PHo0dwH7Kt3aN5sisss6LcpSLq6oGW7j3S2y35ZLJ4eQUBoFAJnz6PM4CCtqYGLu49RG
+         zrECJXCaaFf25GENsDtgXHuP6aaDwzvwcBMqdvoiQIOKXPDhnM0A1n7UBMO0gRaxbbPn
+         LGL0iZl/h4oH4t8P3GHjCXRHvrFvxtDtE1UVWkf2F4B8BucCC4+r6zGzMVWphaB/8VLK
+         IcToxXvPCxpJmpSUOwfVnpZ3YwxqDYU6JBA0jUJM2EPcEZb/GaHuWEeW1jc6mahscp7f
+         EvVw==
+X-Forwarded-Encrypted: i=1; AHgh+RpgrYvs54Vfy0Df/po9W9yXPLulzG5OyiYKz+vm0oH92fbHZRXO+WjAP7S6UgRfs7cEPrHhRSBoysp16VGc@vger.kernel.org
+X-Gm-Message-State: AFuF++nEpgKmwbGnFNwXaSZzVJrg1MydbVXoS8s0dk5t5kmi7TLHcmX0
+	5N1zctgB7dPk7uPx3OLuMzwHudvsEB2ylpAfyGwpVIciBtWlkh7mnYXZhFvl9+IfpGjwLzx64FJ
+	M94RqTear4lQSEsHDBn9ko9PJCHzRFn8=
+X-Gm-Gg: AR+sD12iETAVzu1aBqqEgfSEQrrv/eNJpgN/rwi99mqqlClJ772pZAFQEv3ebh+5HcW
+	it/k418PbKIGfkQxTa44xff8WtFFbKCHH4Te/rmtfRdTAkWmNMqDeKJV1dCq6Kebxdo8NRqsct0
+	t8Wx6B7/SAZ4UGeqxc1IBJPa+uqB4vjKV34XI62pNGOrK+PVzs+8Rrx7A8sHgGEkTQlt9R1BaCr
+	8VX90vBq7Z5NHUCzQ3WCJ7tEvMVxfRZu2Oa1slEOjTqDYwuW+8Rr6FPcjhC7hKmEHN7LaNgkFSu
+	amgIVZvSTokncx//BpNbx9vv9AKFQG426XCXbSv13gfG7kmGYopwAsbnVSPzzDcTFdr8c/+CTrE
+	6
+X-Received: by 2002:a17:907:3ccc:b0:c15:f26a:3438 with SMTP id
+ a640c23a62f3a-c255741f461mr608012566b.24.1787939635556; Fri, 28 Aug 2026
+ 10:53:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <apG8g-5krNRUFUuD@casper.infradead.org> <CAHk-=wiY22BnQkAMMc8-h6xaRksvVAbASpg=pj+=kVaXXQYo6w@mail.gmail.com>
- <apHC_mHJ3wsJPEgy@casper.infradead.org> <CAHk-=wimz+APb9hGEry+vHDLB5D7WZvNGWU89HjGw7wH15KGHg@mail.gmail.com>
- <apHGdfwY67YZ4sEr@casper.infradead.org>
-In-Reply-To: <apHGdfwY67YZ4sEr@casper.infradead.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 28 Aug 2026 10:42:27 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgrY29fKgVkjjs1TfpR3y-TNCF4hZ9zqsbBGSMc9BvHYw@mail.gmail.com>
-X-Gm-Features: AcwNN1XMk0tn5kToNoPohLIAPg_QHNiusV8BkGpX280Il2RW44EB8ONqq3geRJ4
-Message-ID: <CAHk-=wgrY29fKgVkjjs1TfpR3y-TNCF4hZ9zqsbBGSMc9BvHYw@mail.gmail.com>
-Subject: Re: [GIT PULL] Remove dependencies on pagemap.h
-To: Matthew Wilcox <willy@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org
+References: <20260824-work-coredump-unlock-self-v1-0-48fd1cca7eda@kernel.org>
+ <CAGudoHEsGP1P+sAWaw_tbh1NesJhSeww8869uzmaqtgk8F43=Q@mail.gmail.com> <20260826-stauen-liedtexte-gesell-b88d4d43f352@brauner>
+In-Reply-To: <20260826-stauen-liedtexte-gesell-b88d4d43f352@brauner>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Fri, 28 Aug 2026 19:53:42 +0200
+X-Gm-Features: AcwNN1VUT-gKVh0gSwoQ6cH9gcK9IUJEaB5E3sV0YVS_YFYBeyfeM0_QjBX9s6M
+Message-ID: <CAGudoHF17-aoMHFj+HMRfZmuHWfrGrZnxQCXvGVcG04rv-3L4g@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/7] coredump, files: exit files on request
+To: Christian Brauner <brauner@kernel.org>
+Cc: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Xin Zhao <jackzxcui1989@163.com>, 
+	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 28 Aug 2026 at 10:33, Matthew Wilcox <willy@infradead.org> wrote:
+On Wed, Aug 26, 2026 at 9:02=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
-> How far in advance do you want to know about it?  Because I did send you
-> email about it a few days ago; must've got lost.  It has been in
-> linux-next for a few days (would have been longer, but the Intel test
-> robot kept finding random drivers and configs that had build problems).
-> It's already generating conflicts with other header file changes, and
-> that's just going to be amplified throughout a whole development cycle.
+> On Tue, Aug 25, 2026 at 10:54:44PM +0200, Mateusz Guzik wrote:
+> > On Mon, Aug 24, 2026 at 5:28=E2=80=AFPM Christian Brauner <brauner@kern=
+el.org> wrote:
+> > >
+> > > We've had quite a few proposal for exiting files before generating th=
+e
+> > > coredump (see [1]-[8]). The various proposed solution were quite
+> > > unacceptable. So I took some time to look what a _remotely_ acceptabl=
+e
+> > > version of this could look like. Here it is.
+> > >
+> > > The first patch is somewhat unrelated but without it the code would h=
+ave
+> > > to become so ugly to the point of being unacceptable so it's a stylis=
+tic
+> > > prerequisite imho.
+> > >
+> > > In the first patch we make exit_files() synchronous and stop shunting
+> > > all files onto task work only to run task work right after. For tasks
+> > > exiting with a very large file descriptor table this means getting ri=
+d
+> > > of _a lot_ of cmpxchg()s and hammering on task->pi_lock. The cost of
+> > > this was mentioned in various threads over the years. I found at leas=
+t
+> > > recent comments by Oleg and Neil.
+> > >
+> > > So let close_files() close right away. No locks are held, the path
+> > > already sleeps, close() does the same thing already. Kernel threads c=
+an
+> > > just keep deferring. ->flush() and ->release() now run before exit_fs=
+()
+> > > and disassociate_ctty() which should be fine.
+> >
+> > I think close on exec handling could use the same treatment.
+> >
+> > >
+> > > The other half is adding support for coredumps to switch to an empty
+> > > file descriptor table before generating the coredump. That requires a
+> > > bit of synchronization but I think I got the basics down.
+> > >
+> > > A new COREDUMP_CLOSE_FILES extension that allows a coredump server to
+> > > request that the thread-group close all files before generating the
+> > > coredump.
+> > >
+> > > The coredumping thread allocates a new empty file descriptor table. I=
+t
+> > > then wakes all threads in the thread-group and tells them to switch t=
+o
+> > > the empty file descriptor table and get rid of the old one. They repo=
+rt
+> > > back once they're done.
+> > >
+> > > So that handles most cases where locks would be held for an unreasona=
+ble
+> > > time until the coredump is generated but since files can be shared
+> > > between completely unrelated processes that's not a guarantee and we
+> > > can't give one. But it solves the reported issue without resorting to
+> > > even grosser hacks.
+> > >
+> >
+> > I find this rather unsatisfactory. What if a coredumper *wants* fd
+> > info and does not want to stall userspace on file locks? Sooner or
+> > later someone is going to show up complaining about it.
+> >
+> > I proposed merely dropping all the locks early, which on its own
+> > should be easy to implement. I have not checked how fd reporting is
+> > implemented, it might be there is no way to convey what locks were
+> > held in a backwards-compatible manner in which case plain early unlock
+> > might be a no-go.
+>
+> I don't understand how it would even remotely be safe to drop locks
+> before we've called into ->flush() and ->release(). The only locks that
+> satisfy this requirement right away are posix file locks. Not even all
+> of them, just a limited subset.
+>
 
-So basically things like this need to be ready before the merge window.
+That's my bad, I was somehow convinced locks get dropped before any
+other work and did not even bother to check. Apologies. :>
 
-During the merge window, I basically only read pull requests. Sure, I
-read other emails, but it's a back seat operation at that point.
+Fortunately for me this is not my problem and I'm free to bugger off
+this subject, which is what I'm thereby doing.
 
-And I fetch linux-next the first week of the merge window. Anything
-that isn't there at that point doesn't count as having been in
-linux-next to me.
-
-In fact, I should fetch linux-next *before* the merge window even
-starts, but typically I never actually remember to do that, so I only
-fetch it the first time I go "has this been in linux-next".
-
-And honestly, none of the patches I saw actually seem to merit any
-kind of special treatment. "Generates conflicts" is not a huge issue -
-not for me, and not for linux-next - when it's trivial one-liners and
-no actual code involved.
-
-So put it in linux-next. Use a signed tag. Make a proper pull request
-next time around.
-
-             Linus
+> So then we introduce a concept of "drop some locks" which might grow
+> over time. I really fail to see how this is attractive at all.
+>
+> For a bunch of locks they will only be dropable in ->release(). So then
+> we need to annotate locks that are droppable prior to exit_files() and
+> locks that are droppable after it. Why would we place that analytical
+> burden on anyone? Coredumps alone cannot justify it. They can hardly
+> justify what I'm doing. The only saving grace is that I think having
+> exit_files() run synchronously makes sense given how it hammers on task
+> work. And then the coredump thing can fall out of it as a side-effect.
+>
+> So I don't understand what early lock release buys at all other than
+> complexity. Without clear proof that early-lock release is elegant and
+> non-invasive I don't see why we would do it.
+>
+> Exiting files early can be done cooperatively on the other hand and
+> it'll satisfy most use-cases just fine.
