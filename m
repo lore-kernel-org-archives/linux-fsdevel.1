@@ -1,113 +1,79 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9745223708
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 01:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378E531B823
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 02:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787881998; cv=none; b=ehYNByFAjc5mJ1/dY6R0o8x92dOhsXWhS6Js5xZJP9asW/WuOMJKsF3M7Owmw6s/1z1QDF9cmesMq6bTEf1og4IGPb33DEFLtUGU78CROYxqtoRsmLKw/O0mYrj+HQXg3fPaenToaDNQ2n2dm6pXiZpEX0lzzEW26h+HVzJ4zWA=
+	t=1787882577; cv=none; b=SKoxUmI+w7fyhmH7TrGhPq03TJOX9jutvywwmDkkhiVH1XTZd4yyhY9PCBfngTgT2YcrcL//YoHPxIUnvLF1eWYWh1+SYR3OeGbGcKPishd5TxwiAoX4fBMGGklKw1hpeH3IoYcYLacidBTOemPtvY0SQ+C760ziqNfu/6FYYIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787881998; c=relaxed/simple;
-	bh=a879juwz7YnXRSU0aj4H9oqy8QG+UQ6p/1llyGoW7h8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F0jmR2e285UEmYhqoa/HZRp+yeAeXKEHexZchUgWL7tJpI/05A/rCTVW84YUYfVtSjEqg//An24SYqSxMDlmZY7ow0xP2bguXxYoXviDLaBPp3mOxKw3B+wO+2uS5CrpluQkj4X/N4kGNfR3UanVn8hRm7ZStsbLw71NDcP9q2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WVVx8yuW; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787882577; c=relaxed/simple;
+	bh=JqtT4/1VNaufIEE32rrynp2orypDkdMbFcv921TFbm8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qn/Y16b/IDDPxDkVB7gpJzP1jfNlIBFU4M7Kxs0Vdzznjf7+iY/ojX3KnQYkdG0U0qjfvpVvQwcuzbP9e7HlZxYq8u3mtSRuBjV38gzUDewfM2HuLmJl6Fx/5SB18k1OZ102jjcwtRn0SQ8mV4fdZBZe5iYMPlcGnRXCM/FITyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=DuIHYT8X; arc=none smtp.client-ip=79.135.106.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WVVx8yuW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787881994;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cVa9ltN/AYxfIIR3vFfpODM3T6RUi+J6FBmrLKMnXUo=;
-	b=WVVx8yuWYNA/RpazYoy0OlBrJeywhsXR9UBA42YDnaIEGPsIIHvDtOW5AhL0x/3WrWW8C0
-	HOY2SVWsh+LNmR3v2CbF6Y9rtD/g7LpEgyfpWDO32osxk9pEV8vgqLudznNqDoTx22vYjl
-	lS/dQrz3etbbNmRRbZByA43kckibaYs=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-256-jo8oXn_8Ne6Y4KKQywx0iw-1; Thu,
- 27 Aug 2026 21:53:09 -0400
-X-MC-Unique: jo8oXn_8Ne6Y4KKQywx0iw-1
-X-Mimecast-MFC-AGG-ID: jo8oXn_8Ne6Y4KKQywx0iw_1787881988
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6056219539AE;
-	Fri, 28 Aug 2026 01:53:07 +0000 (UTC)
-Received: from madcap2.tricolour.ca (unknown [10.22.76.4])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B4CB5180059E;
-	Fri, 28 Aug 2026 01:53:04 +0000 (UTC)
-Date: Thu, 27 Aug 2026 21:53:02 -0400
-From: Richard Guy Briggs <rgb@redhat.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Linux-Audit Mailing List <linux-audit@lists.linux-audit.osci.io>,
-	LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
-	Linux Kernel Audit Mailing List <audit@vger.kernel.org>,
-	Eric Paris <eparis@parisplace.org>, Steve Grubb <sgrubb@redhat.com>,
-	Roman Dolgikh <rmd4work@mail.ru>,
-	Ricardo Robaina <rrobaina@redhat.com>
-Subject: Re: [PATCH v3] audit: free proctitle in context so it can be re-set
- by  fork on exec_binprm
-Message-ID: <apDp/lou9KwOz7M/@madcap2.tricolour.ca>
-References: <ef5bf18a4b3805ec0fe5fb638963ccbdfc01d6fe.1787077711.git.rgb@redhat.com>
- <65425b98ae226a9d19f89bd66a1defbe@paul-moore.com>
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="DuIHYT8X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1787882572; x=1788141772;
+	bh=UKxbeAn47/2NNFP5SzE1kHmFcRG4Vr0q6jvXkTYz15s=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=DuIHYT8XzozvBrkOFrWMwRiTkyM+4AeCSj7qRP11OYKoeEYtcIr5xXne/ZWMcm6r1
+	 Ju+3fcWOO6Jr2zEqibwWM/LSytA5xszV7BR/RbE3hYg6CBrSbi/5K0fQwF06yI447y
+	 0M3KBhXiBekBHx7oiu6Vz7Q8+HjmcryE2ArRIYGq1buz+YaSEUNz5wLp61ymJPIYrU
+	 aTFCfAJAiVJXC6cWEJRTDO5snDtIfCWHnZt6qVFh9wd0Cw782hUpqbj3ubvKceGo/5
+	 D5kTfit3IrMLDEdasoarS/nE7NQO73r3WQQ/ukeucxwycm93cCQgDCSzXYGoJxWZXU
+	 CTqfk8uuQ13SQ==
+Date: Fri, 28 Aug 2026 02:02:48 +0000
+To: Miklos Szeredi <miklos@szeredi.hu>, Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, German Maglione <gmaglione@redhat.com>, Shuah Khan <shuah@kernel.org>
+From: Aaron Paterson <apaterson@pm.me>
+Cc: =?utf-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] fuse: report a request refused for a live nodeid
+Message-ID: <20260828020241.92045-1-apaterson@pm.me>
+In-Reply-To: <cover.1787873791.git.apaterson@pm.me>
+References: <cover.1787873791.git.apaterson@pm.me>
+Feedback-ID: 6356313:user:proton
+X-Pm-Message-ID: 223b030157c78b545fc11495bdfa4d1567a6665d
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <65425b98ae226a9d19f89bd66a1defbe@paul-moore.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-08-24 18:07, Paul Moore wrote:
-> On Aug 18, 2026 Richard Guy Briggs <rgb@redhat.com> wrote:
-> > 
-> > Between the actual process startup (fork systemd) and the executable file
-> > replacement (exec), systemd sets a temporary file name (executable file
-> > name in parentheses). If an auditable system call occurs at this point,
-> > the audit context will latch the temporary process name into the cache.
-> > This name will not change again. The patch clears proctitle into the
-> > audit cache when the exec call is made, allowing the new process name to
-> > be latched.
-> > 
-> > Suggested-by: Roman Dolgikh <rmd4work@mail.ru>
-> > Link: https://github.com/user-attachments/files/20751461/fix_audit_proctitle.txt
-> 
-> I did drop the link above from the commit as it is contained within the
-> link below.
-> 
-> > Link: https://github.com/linux-audit/audit-kernel/issues/170
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > Reviewed-by: Ricardo Robaina <rrobaina@redhat.com>
-> > Reviewed-by: Bradley Morgan <include@grrlz.net>
-> > ---
-> > Changelog:
-> > v3: use previously assigned context
-> > v2: simplified to call single use directly before need in audit_bimprm
-> > ---
-> >  kernel/auditsc.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> 
-> Merged into audit/dev-staging since we're currently in the middle of the
-> merge window, this will got to audit/dev once the window closes.
+The measurements in the cover letter were taken on 6.18.5. I have now run
+the same comparison on current mainline, so the numbers sit on the tree
+the series is posted against: v7.2-15794-g1b78070aaef6, inside the 7.3
+merge window.
 
-Thank you!
+Both kernels come from the mainline git tree directly rather than from
+applying the patches at build time. The unpatched arm is that commit as
+it stands; the patched arm is the same commit with these five applied.
+So the only difference between the two kernels is the series as posted.
 
-> paul-moore.com
+  arm  fs/fuse  virtio_fs  opens    refused
+   A   stock    stock      315076   22646 (7.2%)
+   D   patched  patched    407169   0
 
-- RGB
+Every refusal on arm A is the contradiction the probe exists to report:
+open answered ENOENT while stat on the same path a moment later still
+described the file. On arm D there are none.
 
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-Upstream IRC: SunRaycer
-Voice: +1.613.860 2354 SMS: +1.613.518.6570
+The refusal rate is lower here than the 14.0% the cover letter reports
+for 6.18.5. It is a race, so the rate moves with load and with how fast
+the guest gets through its loop, and the arms above were taken while the
+host was busy building the other kernel. What does not move is which
+side of zero each arm lands on.
+
+The probe is the one described in the cover letter: one process replaces
+a file by rename while another opens the same name as fast as it can.
+The server is Apple's Virtualization virtio-fs, which releases an inode
+as soon as a rename displaces the name it was looked up by, and is what
+makes the refusal observable at all.
 
