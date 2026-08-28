@@ -1,166 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78B6339714
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 02:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787884787; cv=none; b=G0VQq8iBvup/XvYXFJ4BFHDmJr4u8q6uXvv1ZCo4Mz/zlZZGonM02jwV078Yiu8pd0AY7uJ41n7UUjhlncJpou8sYY8wwa3ivq3fbJauiFKT+SXZo28l3CEcpv0zXWVVExG92yJ+4cC3OvVN4JQQETYBVL5D/UESf1blmvQBgI4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787884787; c=relaxed/simple;
-	bh=clrm+UB2pAIOoHISv2GMOdStzYiwVebiOlFekPJmh1E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lIcK1nHNjhiagcG7yLHKvTn4boFeORvG9G6snduwzAVoUfq0dJXVrP7nOfMqTYFe4fV8Eerr7d2C0KLxQs0EKOh+0RoyEndfcE63FHBya8SH7+pNHZ2jsp7o4cXCWL5UY/VeTw6jaBqE8wpwLduMX3H9VpOb1G1YHZsmMfvtnBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5y+h3UJ; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE83439C631
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 03:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787887107; cv=pass; b=J3tTNA3IwieRmqvGOyr+awIBSOsiN/sWr60niddkoBtQbBF1wvVdq1rAuM9NSAnUWphFr8sawr5I04aeTybwuQ34hcKdym2W1GgsTGkmsXHGPrUjnHX/Yl0/MHhO5a+UwZyWEVDo9/1qmF5wsiijgmWksSxPJb1AzimTBTt/99s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787887107; c=relaxed/simple;
+	bh=HQ0WnQR17PYv7KRSkhcEskYCEIEvo6me8U9g6cEGAd4=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=G6OVPJ0bvb5/tpas9vabWcq0uNbC9gAba+rWiF0TmnTdVF044FCziSpHRc9X83EMinYAYwGahJuYP4mgD16MvtMoSgWD0J1ThOBotE++sxsUGfjEejrq46XL2TlPjgKYoQjHGvNjXBazYHAN5LwiFuXSkJnYDtA0YMSrJKlq2Ec=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=VFH70jzd; arc=pass smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5y+h3UJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 921941F00ACA
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 02:39:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787884785;
-	bh=pWLL30NNWs4Aa57GYS6yD9hVeDty/ol1mACnY3CTkkg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Q5y+h3UJ0jR/muEiRXvN2CTVdzs/sK7JcgdoSiqli3VVhCCzNtYtEMf8nnB1+86ep
-	 4c9sVlJtZZH2v95rcC8hdFAGkf6s2mESuc41WQc9o10p5XMWbXNhS6TC0Wz1BHk7bm
-	 Q2Rk8NhaJVzb6TSEB7vVm/duPCzf76V3DgRqPnhLhcSy75n0rNvtzrQuucmPYevZLO
-	 jxdBmeZ2bubcI6tSO7WWmOtqNI9wvnTsc/7vltqdowixFi15ZUupYHNk23n2BfuchW
-	 QA1Qg5kZF0l04Pym7WCLEL/g7fPFk58taaDqRb5gmdS9Od45TL1V0LJp/EEG6oco0c
-	 xHGtdNwXx1Asw==
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-66c9995ca60so2978318d50.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 19:39:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RorC+BuoFQgBD797K9NEPJycpmrmCUW+5RMEAWq4alBJ3norMDSrlp8b5G4kiBZNms4RBqRfMXgpY5xI2Fg@vger.kernel.org
-X-Gm-Message-State: AFuF++m3eIrFkWJL4rcchiD/9m9bfwyTPjLjJpEv5JGwncz/jmsdZ4Ng
-	OX1A7egAAU21fibvud1AEbUMtW6HlMQsAR2RnfS+dQsAvEgrAm9t4aja3V/JLcnqQv2tLrQ8o8Y
-	zLp8QIhFjrrwMG0n9nmPq5vxWulAYHFQ=
-X-Received: by 2002:a05:690e:120d:b0:667:82d6:eb47 with SMTP id
- 956f58d0204a3-66e1185c136mr4491664d50.17.1787884784849; Thu, 27 Aug 2026
- 19:39:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="VFH70jzd"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2d6e954afbdso4060935ad.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 20:18:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787887093; cv=none;
+        d=google.com; s=arc-20260327;
+        b=c9gUTDHzOncM2edWFoRHKqFAiV8HyqYoZwlHM+H3BT4N5hTesy78YTBcuM1dwJpCJD
+         X+8D7Y6Kx20tXPxrP+VOJTaKqZhbZUAMoQuB2sWVjuBmyG5qUvPdQ2rxoQExTlFfkKie
+         czxM6WSG0QszWsN4ttNqDBeKXnuut9KwT2S2G92bkdk/c+a1M3EVubrXXk8YaWTVWtX5
+         AWOvGFzpCd4sko9PHriisSRyhmmRNE/2ODU8ZaCpn4BkMN6xI+xpoGUQl8JdskAKzCt4
+         tpXJnveu59sF+ZRZftwiiv4gZpe3JzC9MUwaEvHqI/ZWM2T7n9WBy3vDZ8liJ0kj6OQw
+         a3WQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
+        bh=M+pcBwoGootdTMgC9yQZBi4o63OAS0ou1pi32Jt08/8=;
+        fh=W/EVirO5954p+TJH6ZcPSPkaCt8aP8RFbpxgu999grw=;
+        b=Z6SD9coxjl4tX1gSIv94P8kk444AqN6bRBwetnWducq879gjmXnHbxwFrYq0Lw3aRJ
+         oyESvHQX8S/THew2JT+rdJeEgiKDy9sIcyugIY6ilJM/HM+6D29rDQrkT+El6qfmtQ7s
+         5FxjzbPzCKt8C7Dtki9LNvy4P9/ElusIQQSdYPNuHYNKFBIk5hpumY7YQ11f553Rq++v
+         ud6EAcEFivqRrLVWh2pswrHARJQmlkICV6SApa4QOMr1vEzatQf7MbNJu0vUf2oE1UPt
+         p+kLxCXUuGbyJs0xu1V5J4gizUGH1MGBeF+XjX2W2M5SEbGZXDvwZb25x3YGmoBZbAaW
+         piVA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=berkeley.edu; s=google; t=1787887093; x=1788491893; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=M+pcBwoGootdTMgC9yQZBi4o63OAS0ou1pi32Jt08/8=;
+        b=VFH70jzdqS8zgGI3gE+SQbNwQrRlaT6XDnWXTDnjVih2Yes3iYu0591m2QMX7ypFbx
+         fkEynZIAK98WDQXwEP9eAULpnrOYuddPOuzOvUc7HbdbJXoP0mjN56Ct/Po0dVS1kCSu
+         cQLf4GJ2Z1EDplwj6fU/SUN1dGTwRC9PNatRN7iyXwaEEz83o3sS0eqIyqEtB/dJRY5P
+         ss9Q/c+HygNlfNb9hygwuoTCZcwqWzwWz7xEAgAf8f46Q2nHtCXsL43hEeKG49XAVxtn
+         RulZNEg776bCrxlH0O+L5EB59YHxm/QIwPc8w7f5m8lu6eEgz1STCp0v+z3a6Ab62YBb
+         PVKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787887093; x=1788491893;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=M+pcBwoGootdTMgC9yQZBi4o63OAS0ou1pi32Jt08/8=;
+        b=mB3DcEzf8N2bsf7/s9vKbldxFT/sKRwSBK92QTrhussw5Kj/HdfcBeWMlFDpOzDoLX
+         lt1jqddJW3j7yv/OwUlkK0f9Gh/mGS+fVRO+t4ZmxO+am02hBM7ajhV1fJndA+fZLxB5
+         v3FYVHzEzmTtcW0NO/jSX4Y9/VUHzt2OCacllUYK6UfJK16NrBnRYZDjC7JcRxlHehcm
+         z85yX1r1lUSwb3xB2nEDeJ+C05By3sU5+wG4IDBaYjWtvJ9UeV1gRSfvHenY4aX8+E5s
+         DN+7wuRqsSphgL4R3XVtVy0yj5CKLV80iS6nnLwaqVN4l8M3zZl2dNfaXRL4ufdqcGTV
+         p6aw==
+X-Forwarded-Encrypted: i=1; AHgh+RqM4CxsQ2tlgq3W6+V9x7gn2QO0QxMwwYgT+Uw2jVWm+sFlus0IScpOfaRsXEywwlyVKqe8MD4YubIi3c4J@vger.kernel.org
+X-Gm-Message-State: AFuF++kGYsDCLOir7o9OdzBYtfyDLZ2i+XOu68MAZ82Q5AhXFW4DJfIx
+	aJuTOBeEIAq39sNQ+fCRnaJs1tOmfOYo5b3YNv6cvx5SIS9HThfcrPasZtZq4Q/apvI5X5kWsd2
+	JAa69o2vc12rrciBB8NCgqHsEHEBugNc3KDd7KXat
+X-Gm-Gg: AR+sD13dUHuihx4M3qqorMJOlEwxbS/Rz/3sp4VGKiNtBT15z+rGne9RhpdkE0A3HHq
+	D18QFe4KnpnCC1XokDgho3v4Vp5fgFlmRbuOONjZvMdbm48fbofhX0I3tPsYGmHKEDuCcl+DFBj
+	ltaKjyLZLERMgxB/fIu5Y4HBb8LNOa+YGr6RYyv/MNe/XG5NbDhFEP0CrtkXkQsKTcnfhZ/BueY
+	JxDH2EBQwIk1iOFjMqV4v6KtOP1nmobmqQdl9mPXIjetm8TwcSAi7kKA8fhfP4/Uy4Ou1hGRgnW
+	hjISxj7GkoQYYtptIk0MeUUS1U/I4uyes1PeHlBdXayGzfpCNaMJrHAjUG2/aNAaOIXdr0O0ydZ
+	ggONiGsptV9400sUvb7t3EjruWnNEeFSG
+X-Received: by 2002:a17:903:1a2b:b0:2d7:11d2:1455 with SMTP id
+ d9443c01a7336-2d74ddbe12dmr74674295ad.4.1787887092175; Thu, 27 Aug 2026
+ 20:18:12 -0700 (PDT)
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 27 Aug 2026 20:18:11 -0700
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 27 Aug 2026 20:18:11 -0700
+From: Farhad Alemi <farhad.alemi@berkeley.edu>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CA+0ovCjUB=g+56ZCrT4MPfWjqBJX_CO=vfp12JLOrh7B53uVWQ@mail.gmail.com>
-In-Reply-To: <CA+0ovCjUB=g+56ZCrT4MPfWjqBJX_CO=vfp12JLOrh7B53uVWQ@mail.gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 28 Aug 2026 11:39:30 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-+bctZycpVKNkQTifthktnWdfOHsKdsNBzL2droo_yHQ@mail.gmail.com>
-X-Gm-Features: AcwNN1WcC01hhCfvQHHjtzAoo8ruIVL9eEzBaRrW1sNfSt2CQLnk01_H3hWkzWg
-Message-ID: <CAKYAXd-+bctZycpVKNkQTifthktnWdfOHsKdsNBzL2droo_yHQ@mail.gmail.com>
-Subject: Re: [BUG] ksmbd: use-after-free on iface_list from the netdev notifier
-To: Farhad Alemi <farhad.alemi@berkeley.edu>
-Cc: Namjae Jeon <linkinjeon@samba.org>, Steve French <smfrench@gmail.com>, 
-	Steve French <sfrench@samba.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, falemi@asu.edu, linux-cifs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="00000000000080702e065a125de1"
-
---00000000000080702e065a125de1
+Date: Thu, 27 Aug 2026 20:18:11 -0700
+X-Gm-Features: AcwNN1VRnFOVAUc9Rv-gIKBNA-JVvlf1956tLSNytGprkbdWOWJLg0Y8x5Gg6po
+Message-ID: <CA+0ovCgYP920GT68hAJK6Trjyv1kGv2dZAuem4LEunycQ=POww@mail.gmail.com>
+Subject: [BUG] ecryptfs leaks an inode on lookup failure -> kernel BUG in generic_shutdown_super()
+To: Tyler Hicks <code@tyhicks.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>
+Cc: falemi@asu.edu, ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 28, 2026 at 8:08=E2=80=AFAM Farhad Alemi <farhad.alemi@berkeley=
-.edu> wrote:
->
-> Hello Namjae Jeon, Namjae Jeon,
->
-> While fuzzing Linux 7.1-rc5 with syzkaller, as part of research at ASU's
-> SEFCOM lab, we hit the crash below. Crash reports can be found here:
->
->   https://github.com/farhad-alemi/public_bug_reports/tree/main/117-ksmbd-=
-unlocked-iface_list-uaf-netdev-event/
->
->   refcount_t: addition on 0; use-after-free.
->   WARNING: lib/refcount.c:25 at refcount_warn_saturate+0x9f/0x110
-> lib/refcount.c:25, CPU#1: kworker/u8:3/9983
->   Modules linked in:
->   CPU: 1 UID: 0 PID: 9983 Comm: kworker/u8:3 Not tainted 7.1.0-rc5 #1
-> PREEMPT(full)
->   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
-> 1.16.3-debian-1.16.3-2 04/01/2014
->   Workqueue: netns cleanup_net
->   RIP: 0010:refcount_warn_saturate+0x9f/0x110 lib/refcount.c:25
->   Code: eb 66 85 db 74 3e 83 fb 01 75 4c e8 db 45 27 fd 48 8d 3d 04 03
-> 1a 0b 67 48 0f b9 3a eb 4a e8 c8 45 27 fd 48 8d 3d 01 03 1a 0b <67> 48
-> 0f b9 3a eb 37 e8 b5 45 27 fd 48 8d 3d fe 02 1a 0b 67 48 0f
->
-> Our reproducer.c is available upon request.
->
-> Happy to test a patch if that would help.
-Can you test if the attached patch fixes this issue?
+Hello,
 
-Thanks.
+As part of the kernel research at ASU's SEFCOM
+lab, we hit the crash below. Crash reports can be found here:
 
---00000000000080702e065a125de1
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0002-ksmbd-fix-listener-task-lifetime-on-netdev-events.patch"
-Content-Disposition: attachment; 
-	filename="0002-ksmbd-fix-listener-task-lifetime-on-netdev-events.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mtccep9i0>
-X-Attachment-Id: f_mtccep9i0
+  https://github.com/farhad-alemi/public_bug_reports/tree/main/128-ecryptfs-i_new-inode-leak-lookup-failure/
 
-RnJvbSBhN2NkMGVlZjg4MjliNzAzNzhmNjFjY2U0MjIwZjdlMTUwNGE4MTRhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBOYW1qYWUgSmVvbiA8bGlua2luamVvbkBrZXJuZWwub3JnPgpE
-YXRlOiBGcmksIDI4IEF1ZyAyMDI2IDA5OjI0OjQ5ICswOTAwClN1YmplY3Q6IFtQQVRDSCAyLzJd
-IGtzbWJkOiBmaXggbGlzdGVuZXIgdGFzayBsaWZldGltZSBvbiBuZXRkZXYgZXZlbnRzCgpUaGUg
-bGlzdGVuZXIgdGhyZWFkIGV4aXRzIHdoZW4gaXRzIGxpc3RlbmluZyBzb2NrZXQgaXMgc2h1dGRv
-d24uIFRoZQpuZXRkZXZpY2Ugbm90aWZpZXIgc2h1dHMgZG93biB0aGUgc29ja2V0IGJlZm9yZSBj
-YWxsaW5nIGt0aHJlYWRfc3RvcCgpLCBzbwp0aGUgdGFza19zdHJ1Y3QgY2FuIGJlIGZyZWVkIGJl
-Zm9yZSBrdGhyZWFkX3N0b3AoKSBnZXRzIGl0cyByZWZlcmVuY2UuCgpDcmVhdGUgdGhlIGxpc3Rl
-bmVyIGluIGEgc3RvcHBlZCBzdGF0ZSBhbmQgaG9sZCBhbiBleHRyYSB0YXNrX3N0cnVjdApyZWZl
-cmVuY2UgdW50aWwga3RocmVhZF9zdG9wX3B1dCgpIGNvbXBsZXRlcy4gQWxzbyBzdG9wIGFuZCBy
-ZWxlYXNlCmxpc3RlbmVycyBiZWZvcmUgZnJlZWluZyB0aGVpciBpbnRlcmZhY2UgcmVjb3JkcyBk
-dXJpbmcgVENQIHRlYXJkb3duLgoKRml4ZXM6IDMzMTZhOGZjODQwZCAoImtzbWJkOiBzZXJ2ZXI6
-IGF2b2lkIGJ1c3kgcG9sbGluZyBpbiBhY2NlcHQgbG9vcCIpClNpZ25lZC1vZmYtYnk6IE5hbWph
-ZSBKZW9uIDxsaW5raW5qZW9uQGtlcm5lbC5vcmc+Ci0tLQogZnMvc21iL3NlcnZlci90cmFuc3Bv
-cnRfdGNwLmMgfCAzNiArKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLQogMSBmaWxl
-IGNoYW5nZWQsIDI3IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
-ZnMvc21iL3NlcnZlci90cmFuc3BvcnRfdGNwLmMgYi9mcy9zbWIvc2VydmVyL3RyYW5zcG9ydF90
-Y3AuYwppbmRleCA4MzJlOTMwODQ2MDUuLmExYmYwNDBiYTU2MSAxMDA2NDQKLS0tIGEvZnMvc21i
-L3NlcnZlci90cmFuc3BvcnRfdGNwLmMKKysrIGIvZnMvc21iL3NlcnZlci90cmFuc3BvcnRfdGNw
-LmMKQEAgLTM5LDYgKzM5LDcgQEAgc3RydWN0IHRjcF90cmFuc3BvcnQgewogc3RhdGljIGNvbnN0
-IHN0cnVjdCBrc21iZF90cmFuc3BvcnRfb3BzIGtzbWJkX3RjcF90cmFuc3BvcnRfb3BzOwogCiBz
-dGF0aWMgdm9pZCB0Y3Bfc3RvcF9rdGhyZWFkKHN0cnVjdCB0YXNrX3N0cnVjdCAqa3RocmVhZCk7
-CitzdGF0aWMgdm9pZCBrc21iZF90Y3Bfc3RvcF9saXN0ZW5lcihzdHJ1Y3QgaW50ZXJmYWNlICpp
-ZmFjZSk7CiBzdGF0aWMgc3RydWN0IGludGVyZmFjZSAqYWxsb2NfaWZhY2UoY2hhciAqaWZuYW1l
-KTsKIHN0YXRpYyB2b2lkIGtzbWJkX3RjcF9kaXNjb25uZWN0KHN0cnVjdCBrc21iZF90cmFuc3Bv
-cnQgKnQpOwogCkBAIC0zMjEsMTMgKzMyMiwyMCBAQCBzdGF0aWMgaW50IGtzbWJkX3RjcF9ydW5f
-a3RocmVhZChzdHJ1Y3QgaW50ZXJmYWNlICppZmFjZSkKIAlpbnQgcmM7CiAJc3RydWN0IHRhc2tf
-c3RydWN0ICprdGhyZWFkOwogCi0Ja3RocmVhZCA9IGt0aHJlYWRfcnVuKGtzbWJkX2t0aHJlYWRf
-Zm4sICh2b2lkICopaWZhY2UsICJrc21iZC0lcyIsCi0JCQkgICAgICBpZmFjZS0+bmFtZSk7CisJ
-a3RocmVhZCA9IGt0aHJlYWRfY3JlYXRlKGtzbWJkX2t0aHJlYWRfZm4sICh2b2lkICopaWZhY2Us
-ICJrc21iZC0lcyIsCisJCQkJIGlmYWNlLT5uYW1lKTsKIAlpZiAoSVNfRVJSKGt0aHJlYWQpKSB7
-CiAJCXJjID0gUFRSX0VSUihrdGhyZWFkKTsKIAkJcmV0dXJuIHJjOwogCX0KKworCS8qCisJICog
-VGhlIGxpc3RlbmVyIGNhbiBleGl0IGFmdGVyIGl0cyBzb2NrZXQgaXMgc2h1dGRvd24sIHNvIGtl
-ZXAgdGhlCisJICogdGFza19zdHJ1Y3QgYWxpdmUgdW50aWwgdGhlIGNhbGxlciBoYXMgc3RvcHBl
-ZCBpdC4KKwkgKi8KKwlnZXRfdGFza19zdHJ1Y3Qoa3RocmVhZCk7CiAJaWZhY2UtPmtzbWJkX2t0
-aHJlYWQgPSBrdGhyZWFkOworCXdha2VfdXBfcHJvY2VzcyhrdGhyZWFkKTsKIAogCXJldHVybiAw
-OwogfQpAQCAtNTk4LDEyICs2MDYsNyBAQCBzdGF0aWMgaW50IGtzbWJkX25ldGRldl9ldmVudChz
-dHJ1Y3Qgbm90aWZpZXJfYmxvY2sgKm5iLCB1bnNpZ25lZCBsb25nIGV2ZW50LAogCQlpZiAoaWZh
-Y2UgJiYgaWZhY2UtPnN0YXRlID09IElGQUNFX1NUQVRFX0NPTkZJR1VSRUQpIHsKIAkJCWtzbWJk
-X2RlYnVnKENPTk4sICJuZXRkZXYtZG93biBldmVudDogbmV0ZGV2KCVzKSBpcyBnb2luZyBkb3du
-XG4iLAogCQkJCQlpZmFjZS0+bmFtZSk7Ci0JCQlrZXJuZWxfc29ja19zaHV0ZG93bihpZmFjZS0+
-a3NtYmRfc29ja2V0LCBTSFVUX1JEV1IpOwotCQkJdGNwX3N0b3Bfa3RocmVhZChpZmFjZS0+a3Nt
-YmRfa3RocmVhZCk7Ci0JCQlpZmFjZS0+a3NtYmRfa3RocmVhZCA9IE5VTEw7Ci0JCQlzb2NrX3Jl
-bGVhc2UoaWZhY2UtPmtzbWJkX3NvY2tldCk7Ci0JCQlpZmFjZS0+a3NtYmRfc29ja2V0ID0gTlVM
-TDsKLQorCQkJa3NtYmRfdGNwX3N0b3BfbGlzdGVuZXIoaWZhY2UpOwogCQkJaWZhY2UtPnN0YXRl
-ID0gSUZBQ0VfU1RBVEVfRE9XTjsKIAkJCWJyZWFrOwogCQl9CkBAIC02MzEsMTEgKzYzNCwyNSBA
-QCBzdGF0aWMgdm9pZCB0Y3Bfc3RvcF9rdGhyZWFkKHN0cnVjdCB0YXNrX3N0cnVjdCAqa3RocmVh
-ZCkKIAlpZiAoIWt0aHJlYWQpCiAJCXJldHVybjsKIAotCXJldCA9IGt0aHJlYWRfc3RvcChrdGhy
-ZWFkKTsKKwlyZXQgPSBrdGhyZWFkX3N0b3BfcHV0KGt0aHJlYWQpOwogCWlmIChyZXQpCiAJCXBy
-X2VycigiZmFpbGVkIHRvIHN0b3AgZm9ya2VyIHRocmVhZFxuIik7CiB9CiAKK3N0YXRpYyB2b2lk
-IGtzbWJkX3RjcF9zdG9wX2xpc3RlbmVyKHN0cnVjdCBpbnRlcmZhY2UgKmlmYWNlKQoreworCWlm
-IChpZmFjZS0+a3NtYmRfc29ja2V0KQorCQlrZXJuZWxfc29ja19zaHV0ZG93bihpZmFjZS0+a3Nt
-YmRfc29ja2V0LCBTSFVUX1JEV1IpOworCisJdGNwX3N0b3Bfa3RocmVhZChpZmFjZS0+a3NtYmRf
-a3RocmVhZCk7CisJaWZhY2UtPmtzbWJkX2t0aHJlYWQgPSBOVUxMOworCisJaWYgKGlmYWNlLT5r
-c21iZF9zb2NrZXQpIHsKKwkJc29ja19yZWxlYXNlKGlmYWNlLT5rc21iZF9zb2NrZXQpOworCQlp
-ZmFjZS0+a3NtYmRfc29ja2V0ID0gTlVMTDsKKwl9Cit9CisKIHZvaWQga3NtYmRfdGNwX2Rlc3Ry
-b3kodm9pZCkKIHsKIAlzdHJ1Y3QgaW50ZXJmYWNlICppZmFjZSwgKnRtcDsKQEAgLTY0Myw2ICs2
-NjAsNyBAQCB2b2lkIGtzbWJkX3RjcF9kZXN0cm95KHZvaWQpCiAJdW5yZWdpc3Rlcl9uZXRkZXZp
-Y2Vfbm90aWZpZXIoJmtzbWJkX25ldGRldl9ub3RpZmllcik7CiAKIAlsaXN0X2Zvcl9lYWNoX2Vu
-dHJ5X3NhZmUoaWZhY2UsIHRtcCwgJmlmYWNlX2xpc3QsIGVudHJ5KSB7CisJCWtzbWJkX3RjcF9z
-dG9wX2xpc3RlbmVyKGlmYWNlKTsKIAkJbGlzdF9kZWwoJmlmYWNlLT5lbnRyeSk7CiAJCWtmcmVl
-KGlmYWNlLT5uYW1lKTsKIAkJa2ZyZWUoaWZhY2UpOwotLSAKMi4zNC4xCgo=
---00000000000080702e065a125de1--
+  ecryptfs_i_size_read: Error attempting to initialize the lower file
+for the dentry with name [victim]; rc = [-26]
+  VFS: Busy inodes after unmount of ecryptfs (ecryptfs)
+  kernel BUG at fs/super.c:779!
+  Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+  Call Trace:
+   kill_anon_super+0x3b/0x70
+   ecryptfs_kill_block_super+0x44/0xa0
+   deactivate_locked_super+0xbc/0x110
+   cleanup_mnt+0x437/0x4d0
+   task_work_run+0x1d9/0x270
+   exit_to_user_mode_loop+0x14e/0x540
+   do_syscall_64+0x317/0x510
+  Kernel panic - not syncing: Fatal exception
+
+Our reproducer.c is available upon request.
+
+Happy to test a patch if that would help.
+
+Regards,
