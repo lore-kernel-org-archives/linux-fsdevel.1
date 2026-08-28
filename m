@@ -1,114 +1,326 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A3136923F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 13:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787922318; cv=pass; b=SlZAopn8d7CPt/CjpcoMw4GRWfPfsmtJnhGSCnmoF8zFVOOgPvSrG09voDDgal29Ik0oFwPsWmWaxVyvBwLZDHm+KYBRdSpv4Bg4F1jKpSjWF/yplyQOwTzO72VxllUyAM2r/MytV8UvkDYdXMDnFyjIWYDOeW8IKV5zr0NXaDs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787922318; c=relaxed/simple;
-	bh=pajnVni3fs8345lKRDE3FBdUZGFKUMVeC0hP96aTX6U=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7A23D47B5
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 13:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787923045; cv=none; b=FikkIoIGryHV4iUwcNC5fNMmNkxeGWBLTNo4AYMW2zCOackp+WjZ/K3wiCPMBym9ksXKcM5CKaj/LgVJPmc8GQT5kAPP+1M/SBQnaLfdDIR0IQzCXbPC0KV3+9G7L6C8Fe+1oHObK3MdiMfKsZZP8/KhuggaqNh0BiCTNB72lQg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787923045; c=relaxed/simple;
+	bh=mvGL/Z6C0Re6DrFrYesxk/Q4uufXmrCFIKM47XXYy2M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NMyKimPduGceG45ba8uV65NcYCgtRynaRiK/6fNxjiNtaP1juUWzqxYajqe6Su4zV2n5fGQcsA/16PUBVnWhb5yuA0N0ltXqgY+s4Yo3XHiz0NwgZ/JSMV7ircD+E0QFZ/ONJU3lu7HYilsE5Okh1cjvNPVeYHShYL6XfwQt4eQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s9xMtPrb; arc=pass smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=ZYU4KziyFm3J77DNQvg129bO6hlva6eHA+kUT6AzLStRs62VjT6qimklaOovoeBvMetkUiOBJV84gYXDlV3f8YdY+tKZVAgvpzrb2TPWl9Q6OGN498yV3nlhqIXFyQkwz3A/xv2fgL5ZGg40KjbNm7yR6UH4DukT6qd56RSksIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UyvuhnKP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s9xMtPrb"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2d3b440b97aso105955ad.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 06:05:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787922317; cv=none;
-        d=google.com; s=arc-20260327;
-        b=J4XAcX/2uNXAhKqxkQDu/Bb+wI2tuHjbnPDM4ppkuNsVQmENcjGz0wP2Tl0VFIlsrx
-         9HMfQVCkTBJyTydU9GhJgaQFGjDAUVYIHzud59Z7Njc5KzI6F6OfaBjDiKOTUG/+VkSR
-         SBasGhgBY30ZlxF1ZAf8UbDeu/T5BlflmK1ybZnOVzgnvf7vo3n7Akh72ZlfIQyLQutQ
-         W2ZA2ydJ8ObmQlaTMLJA1uCVBFk+wjTV7juYAqWRw1wfIbYR+thaKgbk9HcHdLC5zMQg
-         VnDYU/qqGKGJpMPSnzrCBZEPxaOsYUfAMpLjc4kmw4VkeCUstf+bP6MMHBTmdgL5JLlk
-         cxMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XyY15gZ/uyotBCsU5YViQYJjvIkD9znAZ6y7wL3wuFw=;
-        fh=7zd+MId25ICbLNnfuQfSJ8Ca3kqjO0x4n2z7aVFFKdk=;
-        b=Z7U808LLXdXBu/sFrMOwRfbttWlLmQ7Pvev9mbr0vn6ZDJVL1a36KMCd2r6f9qh+Vt
-         1yeB08bCX48lJ92Le2wEl0sBb1u3foXOORvLwnXbw62YQStZFNdjat/dc6kjw0kBhMwK
-         YV0QN38h3hay0E5mJdYS02nYPKjBBaMgJoIdV+mGsu3Bpo9WjK6yhhldH7H00PWhr8sg
-         xfIay9ywEvodvW213lYRlTjjJ9l8rKmVDuUkr9EcoGDxT4I6/R9FQ2Xrf5V03tGi7Mvh
-         gE1dE8AuQ+72G28gbYQEQtu4wyZU5UMnIjV9GPA+W0pRuwgBlcvpwjlcSCggfMJSlHI4
-         IXnA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787922317; x=1788527117; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XyY15gZ/uyotBCsU5YViQYJjvIkD9znAZ6y7wL3wuFw=;
-        b=s9xMtPrbI2x8d4KzdhJwQ75f7SuKGJFJduQsbl43byIuGIM+LumG6m7kK017wSxnsj
-         5ephCSET2uQRpKk2fTa/VeI4zaQRGe+mqr4BJ9N587Em3ZPJFVxHuxi+kstCvGWO7ZI1
-         Umk9Sh7dMT3DhbdU6yCbJTnCNOFlV/HvSdzxIhOB0JRJoOXIS1GfzZiTcNhepGp4FReT
-         uygpTFo3O2Zm28B3M6FxJho8mLGv6iMg2nbAi/bfG8jXRQqTYuqv1BWavat6gYrgmKwf
-         kHoxOrGmo2vFPk82zKAal7NBlRBC3DRJwhRAw0O/QJgs7vJprFtoso5TBzZcexaMFlfb
-         WxXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787922317; x=1788527117;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XyY15gZ/uyotBCsU5YViQYJjvIkD9znAZ6y7wL3wuFw=;
-        b=ALBcGAo/WZLS9Zf+W/0qzvTES+1xp8rng/6FBaGBLHeV6yuHDbQPKiLZQpJNYnkRfO
-         MS4O5zApdpabURB1JumpwDHFE4mI4uj99I3OTvJBrluBn3+4jIboWouXjvrQLXuLe4Mk
-         MMXfpkqDvOje4l7kJtfQDJjb62mZs7mFCNi9JHD3oY3Qnbi4JDSmlVap8a9C8IfYkJhU
-         B5PiduhZhp2yUX0SwJCVhM4l/DUMOuoLpKPGnLrxyQzSelvPb8jbyOV0pji9RkVR1/o2
-         r1xxB3+vv72oHrb0qKmDJEFWiRe/C2lpDgkR1+zlHkn2sCdtH/DRsbt5CUFK7a+tKkMF
-         ARBw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqo1uGew+ZZneElwnpWNvb3UqwSRfO2GlEZnGXjX9vCWZsS41aOSLnYirPsz2fx0cNDDvqDi2uaGKvb4Xcb@vger.kernel.org
-X-Gm-Message-State: AFuF++kFhAQsUTASNjmkZMzsbz0irWy52IYgBuHmdRyloUUM6Oxw8wZ5
-	TXkoPzmrymGU4i8PfXNeoBR3bBZ6PXVIDrRT9OB8FQlVKnuewwGjhHqAOIhxwZ0pw78hUzNYRq0
-	YolhwNL/yLCYHPdKruEABHTqiSxkOW49utdPkALzs
-X-Gm-Gg: AR+sD12ap7VWGIUPDBouoH4eOvSMCGCw6D9U6VbVQoq/FLz3pQ3UhgVky83A+tzTpDU
-	1jLuRKrpCOPPx+t6gMzSQ8wspoAX9QOtdgZuHdnEU4StPh2PvdPAfP5wq6d62p0aF/NgeeyGJHs
-	x1JJzYY9HmhbErxnmBrba4aJOJyCRIVZN7Pe81rrzmmlqKyH8A+hmmNnno9aM6RaBnu+Y1isZ3g
-	b4HaCnwXeK+IPWudGUy6d5Sy57ouWosWoz8PZ52kjx5J2O3GEFOsP5eQ3I2dcECnijNRTKP4hBd
-	LsURQaA9pJjwEUqkZrcmfTeVN/IQcRqoaoNGFHdpHbjFoTG8kCbSDhL0AFeGpwHu9dQKKWCT//H
-	kjjSk02cmGQNrpUYI7GSKBNLP1eMkm9E=
-X-Received: by 2002:a17:903:987:b0:2c7:b1e7:501e with SMTP id
- d9443c01a7336-2d75482c43emr5737145ad.3.1787922316046; Fri, 28 Aug 2026
- 06:05:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UyvuhnKP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148EA1F00ADF
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 13:17:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787923042;
+	bh=LXWsySxCAhI2eKubAnh1Qok8EJGkZG2y63EPSSYhj5I=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=UyvuhnKPSnuQrqsbE0ARAQuwBiMkIN3fyqBNebM7kEVUZIU+wqErq/AqQZfMk8SzO
+	 m4MqzXjL80cjVyZgIrb2uo3znrd3Mg6bYTMnTr2vzEvoA+6cJeBS6qL6ZJ03i8u7zc
+	 g6H5KCKAlmiqdPt8gsGB/01eFfOHrbctWP6cB+0YZzV7uYwD9lMBTJMm/nI2ui2B1X
+	 F+sUj8UzR+Hv+Th48BEHmpe+NccUbhoinPDmu3EMYkqmGHKkTZfDPPfzUf9nWYsZOm
+	 PrummRw8x6PeVhNHqxEvZsOUS8R0NDAVMziEKWNneSuSjpNV0dM0sTRGYhMMtLAugh
+	 kEl9ZyrXNW3iQ==
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c197e7e4e94so126115866b.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 06:17:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoPzmVM50nq3Ajdv3E82Fssu1DB23fwW/7Km4iAy33nYazJ/a/1CORw63xhCV55Qb8t9GY6hqE5AHxahjXS@vger.kernel.org
+X-Gm-Message-State: AFuF++kNuhBF2jXbQ6LdaVW09EWHZVwpOwBIaHH4GtEH6HYbwXUUAJSi
+	dldD1jxO8MqdskqEhvi9UEl6qYi7nmOl4evu5pO28QXszuGlD98QFmaD6qPOizD23rj6ccaO+6i
+	wc+U0eIrBx105YZq9hpEQaqjvQp3MM+c=
+X-Received: by 2002:a17:907:9813:b0:c24:e1e9:69c with SMTP id
+ a640c23a62f3a-c255667b63dmr416435066b.0.1787923040778; Fri, 28 Aug 2026
+ 06:17:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260825-selinux-pokemem-v2-3-b46bc64916d8@google.com> <de5f1c2fb1ccbb92beda6906e23ac457@paul-moore.com>
-In-Reply-To: <de5f1c2fb1ccbb92beda6906e23ac457@paul-moore.com>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 28 Aug 2026 15:04:38 +0200
-X-Gm-Features: AcwNN1VyfOvZNu7ELf4xzHHJ3BQoTm58QSMty2PAZc7oNVjQteiUlR74XB89qaw
-Message-ID: <CAG48ez1NsUqpZmr66RaeFXMicpZT2FjMfwqTJwcQva50XN6cGw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] selinux: require PROCESS__PTRACE for FOLL_FORCE introspection
-To: Paul Moore <paul@paul-moore.com>
-Cc: James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jeff Xu <jeffxu@google.com>, 
-	=?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
+References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+ <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
+ <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+ <anpsLy_pCanocgS1@google.com> <CAJnrk1b5asARJ_g176DsoNCvf+iFqzPbOtVveeuPxTPZDmnuKw@mail.gmail.com>
+ <CAO9r8zOeh1fFsY5CG1C8CDCJH25eiioY-otRv6Krn1=S21PeaA@mail.gmail.com> <CAJnrk1YO5E6ETxn9RmM-LWRQSRxwF9iEakAPz6veMPjaKMAEOQ@mail.gmail.com>
+In-Reply-To: <CAJnrk1YO5E6ETxn9RmM-LWRQSRxwF9iEakAPz6veMPjaKMAEOQ@mail.gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Fri, 28 Aug 2026 06:17:09 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zPErbULcVTzk8GGS8w=6d-Qn10rLSkSOEzrO++Vhx7+Dw@mail.gmail.com>
+X-Gm-Features: AcwNN1VqPOz4jQ794_KmrH9eGNa1-pCCTewSGBGtIJmecacOEyoNdreux6MHngs
+Message-ID: <CAO9r8zPErbULcVTzk8GGS8w=6d-Qn10rLSkSOEzrO++Vhx7+Dw@mail.gmail.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 28, 2026 at 3:10=E2=80=AFAM Paul Moore <paul@paul-moore.com> wr=
-ote:
-> On Aug 25, 2026 Jann Horn <jannh@google.com> wrote:
-> I realize not all of the SELinux hook callbacks use proper kdoc comments,
-> but I'm trying to fix that.  If you could make this a kdoc function heade=
-r
-> comment I would appreciate it.
+> > > These are the results I'm seeing from the benchmarks. I'm comparing
+> > > non-ratelimited rstat vs (a) vs (b). I'm comparing non-ratelimited
+> > > rstat instead of ratelimited rstat, because ratelimited rstat relies
+> > > on the 2s flusher and doesn't incur any additional flushing when
+> > > called.
+> > >
+> > > ~On the update side~
+> > > ns per update (measured by having a kthread pinned to each CPU and all
+> > > threads updating the same cgroup for a 200ms window, run on 80 CPUs,
+> > > computed as total CPU time / # updates)
+> > > depth      rstat      (a)         (b)
+> > >     1        22.34       32.49      60.10
+> > >     8        22.46       47.12      140.72
+> > >     16      22.49       70.96      206.39
+> > >     32      22.51       139.16    305.40
+> >
+> > There goes my dream if an rstat-free world :')
+> >
+> > I am very surprised though that you care about hierarchies this deep.
+> > I don't think we have anything close to even 8 at Google, and in all
+> > my previous testing I usually test up to 4 or 5 levels. I suspect at
+>
+> At Meta, we often see depths 8 to 16.
 
-Ack, will do.
+Interesting :)
+
+> > that level the difference might be acceptable. But aren't other
+> > operations also really expensive at that depth? I imagine the charging
+> > path is really slow if it has to do atomic updates for 32 parents. Is
+>
+> I agree. This aligns with what I saw when running the page counter
+> approach for zwap on depth 32. For the writeback path though, the
+> dirtying / writeback folio lifecycle is just stat updates. There's a
+> charge, but that happens only once, when the folio enters the page
+> cache.
+
+FWIW, when I added the per-memcg thresholding for flush (i.e.
+stats_updates), there were some regressions in some microbenchmarks on
+the update side due to the parent iteration in deep hierarchies.
+However, we decided the regressions were acceptable because they were
+of low significance compared to the extra of charging/uncharging in
+those deep hierarchies. As you said, charges are not 1:1 to stat
+updates, but it was considered a general indicator of acceptable
+performance for the workload at that depth. That is all obviously very
+hand wavy :)
+
+> > the update path really a problem given everything else?
+> >
+> > Given the constant cost of rstat updates, it also seems like
+> > memcg_vmstats_needs_flush() is mostly evaluating to true and skipping
+> > the parent walk. I wonder how much this remains true in practice, I
+> > think Shakeel mentioned that it does help in production.
+>
+> I think for the writeback path, this is probably often encountered in
+> practice, since the threshold is 64 * nr_cpus and any sustained write
+> would cross that quickly. It would matter most with order-0 folios
+> since there's 4 updates incurred per folio independent of folio size.
+
+Makes sense.
+
+> > > (a) and (b) perform worse on higher memcg depths, whereas rstat is
+> > > unaffected by depth level, which makes sense given that (a) and (b)
+> > > can't break early if the flushable threshold has already been
+> > > exceeded.
+> > >
+> > > ~On the flush side~
+> > > ns per flush call (measured at leaf of memcg chain, ie best scenario
+> > > for rstat, # CPUs on the system is 80)
+> > >   rstat                      10165.60 ns   (min 9924)
+> > >     (a)                       734.10 ns
+> > >     (b)                        4.79 ns
+> > >
+> > > (a) is around 14x cheaper than an rstat flush, which I think is
+> > > because the rstat flush goes through every stat, even ones that are
+> > > not directly relevant.
+> >
+> > I think that's only part of the story. rstat iterates all children
+> > cgroups as well. I think reading multiple contiguous stats may
+> > actually be really cheap since they are likely in the same cacheline.
+>
+> In that benchmark, the flush cost was measured at the leaf of the
+> memcg chain, so I don't think there were any children to iterate here.
+> Maybe some of it is attributed to the rstat locking? I'm not too sure.
+>
+> >
+> > >
+> > > Using some napkin math, I think the breakeven point for (a) is around:
+> > >                       updates per read
+> > > depth 1             ~900
+> > > depth 8             ~380
+> > > depth 32           ~80
+> > >
+> > > eg for depth 1:  (10165.60 - 734.10) / (32.49 -  22.34)
+> > >
+> > > This is assuming one read per flush, which is what (a) and (b) would
+> > > necessarily have to pay, whereas rstat only needs to flush when the #
+> > > of stats updates exceeds the MEMCG_CHARGE_BATCH * nr_cpus threshold,
+> > > so the updates per read numbers above are in reality lower.
+> > >
+> > > Running a fio write job and using tracepoints to count # of stat
+> > > updates, # of reads of those stats, and how many of those reads flush,
+> > > I'm seeing:
+> > >                      updates/s              reads/s
+> > > flushes/s         updates per read
+> > > bs=1M            643                           119                 45
+> > >                        5
+> > > bs=4k            156,415                     123                 58
+> > >                      1267
+> > >
+> > > For larger folio sizes, (a) is cheaper for writeback (since there are
+> > > 4 update events *per folio* in the dirtying/writeback lifecycle) but
+> > > for smaller folio sizes (eg order 0 folios), (a) is worse, as a lot
+> > > more updates are incurred, and the performance is worse the deeper the
+> > > memcg is nested.
+> >
+> > Hmm interesting analysis, but I actually think a more interesting one
+> > is the effect of the update latency in respective update paths. For
+> > example, in the zswap_store() case you analyzed earlier, it ends up
+> > being in the noise. I would check what the hottest update paths are
+> > (probably networking?) and check what the update paths are, to check
+> > if they are really sensitive to the increased update cost. It could be
+> > the case that at least stats that are used by in-kernel flushers do
+> > not really care about the extra update cost.
+>
+> Extrapolating a bit from the synthetic benchmarks, at depth 8, I think
+> the extra overhead incurred on an update comes out to roughly around
+> 25ns, and at depth 16, around 48ns. I haven't looked at the networking
+> path, but the lru path (__update_lru_size()) looks concerning, as it
+> would have that extra overhead while holding the lru lock, which "is
+> already a heavy contention point on memory-heavy workloads" [1]. As I
+> understand it, reclaim, compaction, and the page cache path all
+> serialize on that lock.
+
+Yeah it could be a problem, but I think we won't know for sure until
+we run a reclaim-heavy workload (e.g. build the kernel in a constraint
+cgroup) and check for actual regressions. I am often surprised by what
+actually shows up (or doesn't) in higher-level workloads.
+
+>
+> If we were to move all the callers off rstat, I think this also would
+> unfortunately make the walk more expensive. As I understand it, each
+> stat would be a per-cpu counter which would be added to the
+> memcg_vmstats_percpu struct, and that would have to spill onto
+> multiple cachelines. Or maybe I'm missing something here and there
+> would be a better way to do it.
+
+Yeah. I count 54 stats, with 8 bytes per counter that's ~7 cachelines
+(on x86_64). I can see that being really expensive, but I can also see
+it disappear into the noise if the stats updated together live in
+close cachelines and the CPU prefetches surrounding cachelines.
+
+> > > I also ran some experiments with Jan's suggestion of scaling the flush
+> > > threshold to the memcg's limit rather than to the number of cpus. It
+> > > helps the overshoot we saw and slightly outperforms doing a plain
+> > > non-ratelimited flush (100% of dirty limit vs 101% on a 1G memcg, 103%
+> > > vs 107% on a 256M memcg) but led to ~2.4x more flushes.
+> > >
+> > > The initial reason we switched to the ratelimited version of the flush
+> > > was because flushing was expensive, but I'm not sure if flushing is as
+> > > expensive as it used to be. Testing the non-ratelimited version, the
+> > > flushes account for about 0.9% of the system CPU the write path
+> > > already spends, and I didn't see any throughput difference between the
+> > > two (249-252 MB/s either way), on a 32G memcg. With the
+> > > non-ratelimited version, it's also not a flush per read - it's still
+> > > "ratelimited" by number of updates that have elapsed since the last
+> > > flush (only flushing if stats_updates >= MEMCG_CHARGE_BATCH * nr_cpus)
+> > > which means concurrent writers writing back at the same time will
+> > > "share" flushes rather than triggering their own.
+> >
+> > Yup, this is exactly what I mean. This is a good analysis for the cost
+> > of the flush: how much it matters end-to-end. Even though the full
+> > flush is 14x more expensive according to your numbers, it seems like
+> > it ultimately doesn't affect performance much. I would do the same for
+> > the update paths, see if the extra cost really matters. WDYT?
+>
+> imo ideally it would be great to minimize any overhead we can where if
+> we don't need the precision for a certain stat, then it would be
+> preferable to not incur any extra overhead for it on updates if the
+> overhead saved on reads doesn't justify it. In the grand scheme of
+> things though, I think in most cases, the extra overhead/latency isn't
+> really discernible except at high depths and except for the lock
+> contention issue mentioned above.
+
+Right. I am just trying to avoid the complexity of having two update
+schemes if we can help it. If we can move everything to a new "better"
+scheme, that would be great. But it might be the case that we have to
+have a different scheme just for stats where the current update/read
+tradeoff doesn't make sense.
+
+> I don't really have an issue with rstat for cases like writeback where
+> we're not doing a lot of reads compared to updates,
+
+I don't remember why ratelimiting was added, but I suspect for cases
+with large trees, high number of CPUs, and/or high cgroup lock
+contention -- the cost of a normal flush could get really high. Back
+in the day when we used to always flush the entire tree (before
+per-memcg thresholding), we ran into hard lockups for flushes taking
+>10s with irqs off (we had atomic flushing back then).
+
+>  but I think we do
+> need to get rid of the rstat rate-limiting, as it seems so arbitrary
+> to rely on two seconds for stats being updated. Bounding it by time
+> and not stats_updates feels wrong. Even in the cases where precision
+> doesn't matter, it seems better to give those callers a higher stats
+> updates threshold depending on how much error they can tolerate, than
+> to rely on a blanket 2 seconds.
+
+100% agreed. I never liked the ratelimited flush tbh. I think we
+practically end up just not flushing in most cases (but I never really
+checked), so it's just a way to feel good about skipping a flush :P
+
+> > > In light of the above, imo it seems to make the most sense to just do
+> > > the plain non-ratelimited flush for mem_cgroup_wb_stats() and make the
+> > > flushing magnitude bound again, wh ich also aligns with what the
+> > > global non-memcg domain does. The question is whether the extra flush
+> > > cost is acceptable, but the numbers above make me think it is.
+> >
+> > If we can eat the cost of the flush here that's great, but I think we
+> > can't say the same for the vmscan and zswap paths (at least)? :/
+>
+> I haven't tried out the vmscan repro or run any benchmarks on that
+> path, but the logic in vmscan seems weird to me, as it will always
+> conclude that there were no refaults whenever reclaim scans faster
+> than the refaults counter advances (which I think would be most of the
+> time under memory pressure). I'm thinking maybe we could do something
+> similar to what Usama did in [1] where we fold the refault delta into
+> a per-lruvec accumulator and let it decay. I'm planning to look more
+> into this and will follow up then.
+
+Looking forward to it.
+
+> For the zswap path, it's still a bit unclear to me whether exactness
+> is necessary or whether the 64 * nr_cpus error tolerance is
+> acceptable. If that error tolerance is acceptable, I think it makes
+> sense to use the non-ratelimited version of rstat with no forced
+> flushing, given that reads are supposed to be rare since rarely
+> anybody (from what I understand) in practice sets zswap.max. Quick
+> benchmarks at depth=4 with zswap.max set at every level, 20 workers on
+> 80 cpus:  rstat forced = ~7,600 stores/s, rstat unforced = ~300k
+> stores/s, and hierarchical per-cpu counters = ~440k stores/s. The
+> hierarchical per-cpu counters outperforms rstat unforced on the stores
+> given that it removes the flush, but we already see massive
+> improvements from using rstat unforced over rstat forced.
+
+I would like to avoid the ratelimited flush for the limit checking for
+the same reasons discussed above. I think we were all under the
+assumption that the limit is rarely set in practice (other than 0 or
+max), until we saw [*].
+
+[*]https://lore.kernel.org/linux-mm/20260817131843.45121-1-husong@kylinos.cn/.
+
+>
+> Thanks,
+> Joanne
+>
+> [1] https://lore.kernel.org/linux-mm/20260727162550.2032-4-usama.arif@linux.dev/
+>
+> >
+> > >
+> > > Thanks,
+> > > Joanne
