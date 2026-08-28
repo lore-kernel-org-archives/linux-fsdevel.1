@@ -1,142 +1,118 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3E037A843;
-	Fri, 28 Aug 2026 17:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B903769E7
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 17:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787938822; cv=none; b=ua968UGRXG6rn2m4mkE82kQV21o0aspcpgcThx0vlpQv9u8Bc2YG1Se7tfD1pzc3XK7YQg6oRB/hQwcQZvDPiPs5YN8JFQ9LbW32kgbxQuVHb/sJdzx74AB/Hgz+QZkNstglZL3z5bMmK5FiA8rxpV/8pbyBXtuXVx00dB9DiWI=
+	t=1787938969; cv=none; b=XafrgBlljb+IWLpJ8+o+AB7y/0Q6+tFVmG4/UUMXQ0+sJ1EacURrEruA4Oc2JGW+3I+C9k++g8xJ2khAe3pIuCBvQxy73IWeesSZ3QKd9SUWQvRaX36GMiCTEA3vIn0YtUswYmh8iNaMMFox8fXaP6Q7RL/+AjD+c5ON7Fbi8z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787938822; c=relaxed/simple;
-	bh=a6XZSYNaxo8FvCxsKJebyhBvC+GqhRrIxNJ4JBsbVbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BqY9f4aGSyDFa3C0K8S3SKpnNQI/nxYx+Q0MDDHT+OEAyvB0cfqDlRM5YJV5dGQnzZo2IJuZeFO8JOpes1gpB1ona/kkvIKdbehKoETosVRCkb+XFNWToWh2wbSgKQ1UlJ+ixhXiQ2D+/+CStu4EWf4GDI880LkwZDUOjYVz/yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 37BF01A04F8;
-	Fri, 28 Aug 2026 17:40:14 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf11.hostedemail.com (Postfix) with ESMTPA id 8C67B2002A;
-	Fri, 28 Aug 2026 17:39:57 +0000 (UTC)
-Date: Fri, 28 Aug 2026 12:39:56 -0500
-From: John Groves <john@groves.net>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	"John Groves (jgroves)" <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
-Message-ID: <apHCzGheqgqjgILT@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022828.75776-1-john@jagalactic.com>
- <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
- <20260806043712.GB3560084@frogsfrogsfrogs>
- <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
- <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
- <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
- <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
- <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
- <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
+	s=arc-20240116; t=1787938969; c=relaxed/simple;
+	bh=tuUokZoCnlLmufKUH8WZZk0WHZlIYiI6h1Ayh5pJbpQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h0DTH4unoTKLanNt2NPTdULtuN8nnF67GaW5okiJ1TA62CjxK040X2fxJXomC1hB+snpSKX8PNn6MekM+uA4zWFeA2LhlQpO0iTum4Xhv342q3ETWOen3oV7VTW3PDcYYpfXh00veuCzCFdt6n83kCsl2B52wPtIde+Bdaril1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=TG37nN4V; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TG37nN4V"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c2055573c8cso153984566b.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1787938965; x=1788543765; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GL2lsY2q6lh+Mh9KUYPYp0RjapCsGo7cY5qRZTg2oBA=;
+        b=TG37nN4Vkl5LNdvnnkAG0/MUrcvKdKPXMZ2a9jVjhxGUX7XP4Zc85h2F0+VgnA4GBL
+         3PNU6qsFAsuOmGvM3S5X4D2RtYLBCyTQfHZwGppPtsweS/5qe74FpgarmEmYKLmGaXkg
+         AI1Dv9fMoCqMEzFKy6uLN1jp9iNXhZI9M92yw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787938965; x=1788543765;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GL2lsY2q6lh+Mh9KUYPYp0RjapCsGo7cY5qRZTg2oBA=;
+        b=cLCfC7XB6VPzXERvJZsId8ncYFDYXdHzwunf2BhlHW8xEYJNd8rqrs1pJdFkhh6jWm
+         b5j7NRNsgasBxUJgLIQoN9OVhwOos3B6c0mlfRHonWhTPxo3fx74dklVuZZrGmK8SGw4
+         HCJfqFQGtv2KZaG3XAolyivZcvH6RDYXZuFWyIKcNOz0ZqIjFb4sEZpIY5vWxPwSFirS
+         yycRobuW/eP8WEXMkDJ4WY3PJ/n4kYTT4RNNOKGqEZcN2A4yhZX3Rlvy5+/d1Pd8pcJ8
+         Kz++vY2XA28DuSeuIo1uTi1vza9n/UVhp698Y1BpxDx+3oyw0O0k8Lut6mJrHVah8C1I
+         ENMQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrniKbbEgvw97O9TIts0gmRjZqy5HrttGQotbxXn/RgNEL1/dLXWbzbRXPn8Qfr/1w/eIhERmSygWCwwvoG@vger.kernel.org
+X-Gm-Message-State: AFuF++ns+AlNIOuE8FnS6JnVIm4qFdYvXKM6y2WWxc3FVN6YK0qouyDd
+	2di/KKL0IiUzDSW6xMuxtKiXlGRfg52f2xnnOFI5dIJmr+AQZ+frQPq8mIfp/O6uJcXP8VGvCJZ
+	/JJJLpoQ=
+X-Gm-Gg: AR+sD107tBhUo+sG5l2Rp0aGTIouXOHkhEFQ07pHyfYLs8HSkIfdg/LVii1/3BHK9jE
+	dDgnm0iJD90RhqpnxcC3B177gqVOh6hAKX49/8p6kS/nHraa4XItOTQ56UpJYibVi4e1MLnG/xZ
+	l0ga6upF7h4YkzAkyJ8abxRazwf9JPvw5Yni1QnuMnN/EzQNERNpRw85VGmDrplHGvhdBgJEdKL
+	2N0J+EW5iXbZOJU9R5DFlw8OxWdBIfFTy1bRV7hgYojM9tcxAqdhX7PN1ZeTS2rMIoKDz/OWiyt
+	PGCOFEdeLvbKNwSGWtdKSiDa0Dt0VrVELzKMDqa44xzRzLjtey7g9nUDkMyqX7SBCPf/aWJsA0s
+	g5hjv+SZqEgVJAGUBLeK5a3SePBiz6UxYwDnleQhe78Qc4+CUPpO/M4IubpTCf473oOV8GXy7pU
+	ZsAvQCuMxNn4tDHJV98w92zo1H2FrXLm1uZHp0fxYKv31opYYyB//CplCewou844h/UItRArEfz
+	yCMbnwuK3RN/u2FtVjjK9EzmNNdLRCVdPXFFw==
+X-Received: by 2002:a17:906:478c:b0:c24:6390:decf with SMTP id a640c23a62f3a-c25571630ecmr603551266b.16.1787938964634;
+        Fri, 28 Aug 2026 10:42:44 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c255ee27b19sm111012966b.19.2026.08.28.10.42.44
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Aug 2026 10:42:44 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c2055573c8cso153981666b.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:42:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrsAHoZQ+OIJJcFfXb4Ix9SvMRTaR/5WSlbi4xmS0FOFO+Bx0y3Hxy5OdHja5p7kdZoHDitO7A2tojwK9Fl@vger.kernel.org
+X-Received: by 2002:a17:906:7947:b0:c25:4ba1:5953 with SMTP id
+ a640c23a62f3a-c255702dfb5mr645433766b.11.1787938963933; Fri, 28 Aug 2026
+ 10:42:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
-X-Rspamd-Queue-Id: 8C67B2002A
-X-Stat-Signature: to9ea9gectc5dcsz8unohh9rdicjnar6
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1/yikPLksdokF4Uqf19N14BEsQ4Pk/vaGI=
-X-HE-Tag: 1787938797-959519
-X-HE-Meta: U2FsdGVkX1/thqv1X8QxTl8kJ3H1mNoX7R1l9oU4DnHS95JpgBLHEUur4QgjaQ9W2gxZ0jE/GhGGDX126ps0cD2eFNmAnw+yw0IJBwaffQc36yTNPhuBA/f/fwdW3/aSKNr9H2b80K6ta0zaWh2p2Tsj0mD2qM2bWVXcHuinFwSmNA3Tqr0Z61K1XfNZnJ6zHxqgEVraj5Zte9Ert8l6y48kB0FGX53iRlUoY+V0M4JSHJdhKqW64/5FsN2m1LNrUQwm3yCC1n8KfMAKG8/eYD60zjLRYDpvLG/+M3IuhcGiZq9Gj8ciCf1plIl+HjbxcxWO4z6R86PS3PJGjFsqUHd4yoYDiiOwhNDsbP2sHpqwVQNMZh4WorQoTzSi9Gny
+References: <apG8g-5krNRUFUuD@casper.infradead.org> <CAHk-=wiY22BnQkAMMc8-h6xaRksvVAbASpg=pj+=kVaXXQYo6w@mail.gmail.com>
+ <apHC_mHJ3wsJPEgy@casper.infradead.org> <CAHk-=wimz+APb9hGEry+vHDLB5D7WZvNGWU89HjGw7wH15KGHg@mail.gmail.com>
+ <apHGdfwY67YZ4sEr@casper.infradead.org>
+In-Reply-To: <apHGdfwY67YZ4sEr@casper.infradead.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 28 Aug 2026 10:42:27 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgrY29fKgVkjjs1TfpR3y-TNCF4hZ9zqsbBGSMc9BvHYw@mail.gmail.com>
+X-Gm-Features: AcwNN1XMk0tn5kToNoPohLIAPg_QHNiusV8BkGpX280Il2RW44EB8ONqq3geRJ4
+Message-ID: <CAHk-=wgrY29fKgVkjjs1TfpR3y-TNCF4hZ9zqsbBGSMc9BvHYw@mail.gmail.com>
+Subject: Re: [GIT PULL] Remove dependencies on pagemap.h
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 26/08/24 09:41AM, Miklos Szeredi wrote:
-> On Sat, 22 Aug 2026 at 23:55, John Groves <john@groves.net> wrote:
-> 
-> > Famfs does work in fuse, but some of the asks are things that I don't see
-> > how I can agree to. I think Miklos and I should discuss those 1:1, to figure
-> > out if there is a way forward.
-> >
-> > I think the virtual backing-dev thing is a non-starter,
-> 
-> The virtual backing-dev is an abstraction.
-> 
-> Is it sufficient for you if I promise that this is going to do the
-> same thing as the standalone famfs at the same performance level?
-> 
-> >  and I think that the famfs
-> > portion of the fuse ABI basically can't live without extents that are
-> > (daxdev, offset, length).
-> 
-> Sigh.  My proposal was (backing-id, offset, length).  Again this is an
-> abstraction.  A backing ID can be a daxdev, a striped logical device
-> or it can be a block dev or even a plain file.
-> 
-> > Also, I'm curious: if you don't know of a use case for the striping code outside
-> > of famfs, why ask famfs to completely rewrite that?  (and I agree, other
-> > than the eventual remote possibility of competing 'famfs-ng' fuse servers,
-> > I don't see much likelihood that this piece will be shared.)
-> 
-> Because the striping feature fits much better into a virtual device
-> API than the extent mapping API.  This is how striping has worked in
-> linux for the last 30 years.
-> 
-> > Miklos, I trust that you are a good faith actor, although you seem to be
-> > spread pretty thin. Can you commit to a series of 1:1 conversations with
-> > me to try to work through the disconnects?
-> 
-> Fine, let's find a time.
-> 
-> Thanks,
-> Miklos
+On Fri, 28 Aug 2026 at 10:33, Matthew Wilcox <willy@infradead.org> wrote:
+>
+> How far in advance do you want to know about it?  Because I did send you
+> email about it a few days ago; must've got lost.  It has been in
+> linux-next for a few days (would have been longer, but the Intel test
+> robot kept finding random drivers and configs that had build problems).
+> It's already generating conflicts with other header file changes, and
+> that's just going to be amplified throughout a whole development cycle.
 
-Miklos and I met yesterday and I think we found workable path forward.
-We will be collaborating on some changes to the famfs metadata transport,
-likely mostly via me trying to make it easy for Miklos to bring up a
-famfs testbed VM, and Miklos doing some re-work on famfs to make it
-more consonant with fuse (fuse-onic? ;).
+So basically things like this need to be ready before the merge window.
 
-Meanwhile, the most recent standalone famfs series (v13) had some very 
-helpful review comments - many of which apply to both the fuse and
-standalone implementations. I plan to publish a v14 standalone branch
-with those improvements, and also cross-port the appropriate portions
-to the fuse series, which will probably be called v15.
+During the merge window, I basically only read pull requests. Sure, I
+read other emails, but it's a back seat operation at that point.
 
-That updated fuse series should be the foundation for Miklos' rework - 
-and I'll get it ready as fast as I can.
+And I fetch linux-next the first week of the merge window. Anything
+that isn't there at that point doesn't count as having been in
+linux-next to me.
 
-Miklos, thank you for working with me on this. I think this was one of
-those cases where there is no good substitute for face-to-face
-collaboration.
+In fact, I should fetch linux-next *before* the merge window even
+starts, but typically I never actually remember to do that, so I only
+fetch it the first time I go "has this been in linux-next".
 
-Regards,
-John
- 
+And honestly, none of the patches I saw actually seem to merit any
+kind of special treatment. "Generates conflicts" is not a huge issue -
+not for me, and not for linux-next - when it's trivial one-liners and
+no actual code involved.
 
+So put it in linux-next. Use a signed tag. Make a proper pull request
+next time around.
+
+             Linus
