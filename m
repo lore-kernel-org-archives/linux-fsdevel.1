@@ -1,196 +1,176 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB363E123F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 10:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787912348; cv=pass; b=kncg8g7ixangphQu3i8ZHcBcPir97sfRUcgYfDfZ1SBhMYUhSiHRA5uVEpxUP3hqRFX2Iz89cy8wDTI6H+1EUJeW9gRoL7V8v7eGmgJBp3SloJqeTRMvWcXIInIxEBiOHujgsWU6xo1MYrkGVsDxeDCuqQQnxBk2Y5ccKt/BLhg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787912348; c=relaxed/simple;
-	bh=xPSovF27zR1ygx9YQZCEuX/Hht8b3O0ju3f9ZTUK1G4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=istk5cF+artIDlS7UhtTO+mtXcrOhbo0CzQ9o69W5t9MpoBoR2S2lANZad8w8kdA/oodnapXNtFdel7aGx3RywOmmbC4sYIT5wpGh6+5VaIUvR/xQBJaB6B54MtFm350+QN3yIQPSevp/gadohYLGkrxE5Q78z9e5UnzhIwPkYo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pppTIpyL; arc=pass smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923553CB8E6;
+	Fri, 28 Aug 2026 11:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787915569; cv=none; b=ZIswn4L37nlsYtE3s8p21kMvmxX4LAMU/DKouJFOF+mhEuevoTLQbxl7xajpqIw8cL94nHpNfe05CylL76hajL6r2Ke6PqXfH6WmtrgjLYs4dAbSEk6LYQOE7C/6AbsvpLERN+UlylUuCcAbC0ZmtUZdE+uqHY0NENIPUNCMRQU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787915569; c=relaxed/simple;
+	bh=ZQJPaBG5y3MKHtQkLbGNu7EJQPKoq+D8lq+I91ksITo=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=ghWA0mtE5z4BdsIWPcTL8DkksQgNJfTHnXGJ+rJFy8qTnmcnBHWaNEaIXGczHDeH1FztQgyfoGMvWpdTfx8nKwaUwwHjEq8grdTR3DH2qf5kwlIB8zfs5Z76yKNI+xFxzeEJc8zDXxDB/Y/Rtbnqtv37Cj24nSxB+dP2J+hyh4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=QSS5pJsu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AysqNg9r; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pppTIpyL"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6a61910369bso173702a12.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 03:19:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787912345; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fzsqPCQB7Xc3pVEqorzcULAnHBrFBrNZVZrXlMtyVdcNzjBeqxgEkP4w5Jn9kZZB56
-         qEcZ4jhn7p5QCS5m4kteIzDj9NByWIx4RNyLXLE8ixuEPrDsBY+TrGG12lyZyvOCRZI5
-         0HBq8wihuwEWhZ/w7HaHg3wRPLj/x1sjx9mzuzPiQrmWg45+XXN3hX6x4sSghnXP69Vs
-         LOnAj1bNdnqAn9XKGXph859rq4Yp2etF/LSLea79lIjYyvamYMtSYr3sk5158Y/Tmtme
-         DCqj250lsWtlrQOA8MBDxiQhiOHdDVWi+Qb0RUIas566dfknLqiuey5YWPU9jZ0b3le3
-         gqCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=G94/g0rpxrLTiPX43qTFT7KbB2uJFdvGtG9HayUlus0=;
-        fh=z4lT8J+vWio1wGmjD+py3YiICF4lzweD09E+PByry8c=;
-        b=GKnYZ8Yh+UFXkt92kGw8k4WUoSbo/lf8RlyvUNswH9rKwfrBo7F8Dd+HTrGomvYsHD
-         XWJ/4jz9iyjKCgXL5bHbFtiTlWa/vdPGuASwMgyZbf56EjoNCpodc8t/pkLAhVTTzzHK
-         M5O0x4T2zzhMcPSiyaIowwDdXVEHw5yb7SLty08VXyxxgsyCwgxLvLkoV7D4YArRn79M
-         KKvkOq6f0SVZ/0xKG/Z67qvs3yd8SyV4b2NveTZYscs/2UqnFUsRSNxBeiF+TJAE18cl
-         nlWIcgnIQTBhs10iT5r7zRKDSNVLFY1kPXqBdQdCSaSYOP8VHZPFKTCRPdJ1QgWMASax
-         susg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787912345; x=1788517145; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=G94/g0rpxrLTiPX43qTFT7KbB2uJFdvGtG9HayUlus0=;
-        b=pppTIpyL19ki0ekal1ycwimN1FzZpAFQgD/wPg6MjPrvKOLrYUqRlDH1zSk14oA6Vt
-         +kxBMmRUNCnuyIH1HVLtxl+UJpEu5pm+RNRceC8++SLhvzKl0L6ccq4Z4lvMv5JbwPBV
-         66eblMAjpEMMSOv2BWz7ZzYyDiajSS6puXLbnwH1oe2cC+GjVcIm5arFg8YjJJf8kCkD
-         fZkkK4vtk3psmVpXgCmM9DWXw6EE31Dz+jxNaQru1BsTs/0k3GywfspMGMBR9OxBK8ee
-         Oc2TuMUNrSFGluU6o2dzaMhtrgLj1wkX/WYNsTcX6RB2qmSavCJOdU8CubPxNtFd877b
-         ijnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787912345; x=1788517145;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=G94/g0rpxrLTiPX43qTFT7KbB2uJFdvGtG9HayUlus0=;
-        b=f3Pl40PfJjYSTR56F4qxpXLrEZNj4/sNX8bnsLNP875ILddEIt73cVDO7ImehnyFnp
-         41RyMCiN3Ii64UeKNipp4kd955GC7OB7KLxZyvJP3nzusYW9pfCnNZp93pDCcxg44X8U
-         UAVIowxRjVRNqu6NdG4SE4o6TIBxIgiDaPzqGLjPhQYib5560V20rjUBpH56VXHdy87n
-         UsVONkVfCkj55TfZ4A6DMxyJ5LiSbNp0Dft3S5wIOX+SBSP5P0fr+yfn21tBdaxDZFnS
-         OCiUB6fnfkax/WUd/SytCXzkSn1H+pqMdTfHgEShpXK7CZdeTM31oTf8mGSNHjGKz3LJ
-         FStw==
-X-Forwarded-Encrypted: i=1; AHgh+RpOxb/5MTZo6z2TWC3fJL77Sy/yqs2R7uEGEaF/O24fMc7vjX/q+bbv5GkE4zyEYQoOFKzBu+lL55ANzSSZ@vger.kernel.org
-X-Gm-Message-State: AFuF++kZb+4XvbTk6d9JEFNOhdXSMm0Zs1CKCZtQlBvbRaIS1XxYIzr6
-	JaByuGmzZ187DF+R1cNrbQfyLX/vAbzteg8+OWbFFaLZ7c2IfVz9ZlzfsX3fVKDBNlSRV2z2Nmf
-	Vl3msx328Ion6iTkmyePikBJxYUwsDld7YAK4GmA=
-X-Gm-Gg: AR+sD1053YnOWhMXkec03jjhqGQP7UbyFn1F32AT9yxEQV5m6aSzKJa5c9KjV5CEzs7
-	ACqto/1A+CPJdECWlWyUQfDkfdUAI6C/RfrdVizNOgXQvTwzYyVcvb/lvjmr8S+b/tXTx2Yrw0O
-	6Vaw1cyy1moIr0M62z+P/Jf7RZWNV0ZSohJK0hwa+pVTjWDZm3EkE2Ao4tYu7FIeUg5YFxhuCdl
-	mFMEGEVdIqQ+hA+P3RPN9IvNoFh3f06YPZtXpN27hfEvIaM9P3uto8wGolDlC/j8vdqlRjLClD7
-	ITf0f2CrAoViKKGwgeiHbM3CY2OMN7El3+dXf8ovsLG0cA==
-X-Received: by 2002:a05:6402:a214:20b0:6a6:1c0b:72cd with SMTP id
- 4fb4d7f45d1cf-6a61c0b73b1mr124271a12.13.1787912345042; Fri, 28 Aug 2026
- 03:19:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="QSS5pJsu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AysqNg9r"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id B854A1D000EC;
+	Fri, 28 Aug 2026 07:12:46 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Fri, 28 Aug 2026 07:12:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1787915566; x=1788001966; bh=LskiHz1h292IUODVBCAEDjmHPu55Af+JJqk
+	YibvLudo=; b=QSS5pJsuVOSk0TaGFjHQLYEh3CkjWuJoC64hXqiQCrB4QQPC2V7
+	UxYwmjE6pLend4ZfBhFHB3Xf5q5LOIQhnBNVNnaSkkJHc+D9ALcXfpsE+oVgZzY8
+	AnL9wgNH9IeBAxnZcqnGJloV3LG22RTcyb5epujU7fnbq8KNQHaDnWZdKaC5gI1j
+	4cP2u0XAPt39PXSjaf3Qwk7Z0bDSOAAo57eZMqoUdT3TOYC+AYdv0C4gL914oyfG
+	Pj3ZVcw5lEehAioPSPNmPrKJanfmDzwPY6rWTENpSnOJn61JCgbSoho7koorwqTK
+	CqeV+GYL1KIr2OlDMqJeAltbQUCa/gSsnOg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787915566; x=
+	1788001966; bh=LskiHz1h292IUODVBCAEDjmHPu55Af+JJqkYibvLudo=; b=A
+	ysqNg9rzvp/3jPhk9bgEml3DxKC7ZYXYWBps/mVpiOw6gS6qoy/Zi1mYUa45hHhk
+	WZ2oi9K1uD33mxnoIH7T5ldsNmII+8ArBOEzUONDYSo+R9DUnnZPIi4mJHQJOwVH
+	rh4rUS3iGSY0cwoaS5a/p9FotZeVXuGMGeyUXlwTfeJVuT3tOOMHQZ7RTyi0sh68
+	bIG0eh1oyaklqajM8Nght1h8GHHarisHhwehPwyERYWTYyNBtOzRjjRSUZrYb1kw
+	wiVgU7ixHASkVrSuykhTc/cOawo5inocvg0YEr+kkDPMfXInG1IMuR2Pe39+SWTY
+	UfJ62ANebRhy/OqETz7LA==
+X-ME-Sender: <xms:Lm2RajYsh_miA0O6JhLelX3oTRjMfmCI7rwGqcWMCf7qNEYgwzQ3Jg>
+    <xme:Lm2RagNlLh8u3UvnB_twBDURMbi7KAA2RGB13VljVD2tRfzdk0nWV9X3_eUljr1wH
+    7CO6icdtYdjA3aKxcZ070AHqXL7wEy3GXLyPV8IK8XomyuQ-ns>
+X-ME-Received: <xmr:Lm2RagbqhlvqZdyheNsZbotV_Ju6eb_z7SgilyMFeKFWNI_42BQpheS2hv5k2HRe0g>
+X-ME-Proxy-Cause: dmFkZTGNQzwU/BJDdO8A9I7c8Ub9+j0LIvU55nGFpuWwAx/C1/cR3EB1RcGc05nZ3EjZOV
+    97sDoVbheSFqaBthnXw8SJPIj2Yjo1Xo2VSPLPEjIZxE9UBA79UKJ1+obdWFSQ2SU51IFL
+    DfrE1ARWZ8V1HEEn4LvfIELcedsaGiVmVYrDxLLhvTCZ7iAVzeAZmjUs7DSGmR2I5Y8PIF
+    hVk0m97uH/uHyQQKhum9w4/wXMMSsacfYlvuVmUDdpRZnoYOeJ0ffhl2laW2G39e8f54ye
+    m6UkDTmn50oYYkjJdIe7VkxYWJfBeJXhcYEuPirCj0xfWNhKUuvAxQsZOYzlxnWGUIFvmk
+    kEa83upsVjuVmaT6kuh5nyMV7Ze28TMgeuPwsR/YeGZxw+L/ERNHYeQ4Hexpe+QJ1coRJk
+    525p34HPsVbqwjJIOyqnShKjIZWDGzY6RX8izkuisJkrDWk5kkYhXBr9MBQO/ojPAVBjpd
+    5XBx2ZqSnIZTerNkPAGr1vvUjVJ7g8KPxRG8VqMpa3fewivc2Kbj4UfBIm+3psW4wXOl+H
+    L6NoaZf/MrAnE5htVpOO5JLRMb+Hrqr+TF6UDlula+xXEbahokCaJ5vZg9PDOSBCFUCwnE
+    fpJotZE9gGsuXV9QqIVm/GfKvSLP0m3K75NgqU4FiNLoqsZkrkQDWy5sBr6A
+X-ME-Proxy: <xmx:Lm2Ram1W0W5I4wIkMIfOzQz2hq6B34m1WWl-h84aEEwvRtB6_9M5PQ>
+    <xmx:Lm2RaufNLv20ouhK1twuTwLvctbUEvppMRmAHWU8jPgP3apVaqjF5w>
+    <xmx:Lm2RavEbDBiTPWKgORhRt2-nMRNPW2cjmFIvh9pJ4Vb3n5ij2YONFg>
+    <xmx:Lm2Ran3-gIF_bIktHgW_CNgR2S3Iew4z9RwNveuNdEhDZ81U-2ZjIw>
+    <xmx:Lm2RargO3yUvLKNOFOGqpWBOL-9cBNu_l4Mnol3OWo7M1-99sKW0Ojjc>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 28 Aug 2026 07:12:44 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260827045007.3831259-1-4ncienth@gmail.com> <yjfqzckumtd32dgqidi5sndvth2t67mjwah4kt4jiahlx2a5uf@if55sinfv5o7>
- <20260828042421.964822-1-4ncienth@gmail.com> <ptco7s5x7tjzp42dzlsitibdigpwucl2whwrq37tknjpo7x2lc@b7q27ldlorak>
-In-Reply-To: <ptco7s5x7tjzp42dzlsitibdigpwucl2whwrq37tknjpo7x2lc@b7q27ldlorak>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 28 Aug 2026 12:18:52 +0200
-X-Gm-Features: AcwNN1Wswmvr4jf3jw-aoY5R0HAHlqDLIpRVY4i-uiy8R8EZM3DFgLb4bzUry_k
-Message-ID: <CAOQ4uxgB9anyJcWem04w65VCJdxbbb2cQDZ_u8qMusw3xpB9Gw@mail.gmail.com>
-Subject: Re: [BUG] fanotify: destroy/add race leaves a mark on a detached connector
-To: Jan Kara <jack@suse.cz>
-Cc: Daehyeon Ko <4ncienth@gmail.com>, Miklos Szeredi <mszeredi@redhat.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@ownmail.net>
+To: "Matthew Wilcox" <willy@infradead.org>
+Cc: fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ "Chuck Lever" <cel@kernel.org>
+Subject: Re: [PATCH] fstests: generic: Add test of seek in directories
+In-reply-to: <apEK5uirjyLZUfmA@casper.infradead.org>
+References: <20260827234743.2389778-1-neilb@ownmail.net>
+  <20260827234743.2389778-2-neilb@ownmail.net>
+  <apEK5uirjyLZUfmA@casper.infradead.org>
+Date: Fri, 28 Aug 2026 21:12:41 +1000
+Message-id: <178791556100.3510150.18132687067056760170@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Fri, Aug 28, 2026 at 11:05=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
->
-> Hi!
->
-> On Fri 28-08-26 13:24:19, Daehyeon Ko wrote:
-> > You are right that an fd-held dentry cannot satisfy the count =3D=3D 1 =
-check. I
-> > was imprecise in the report: the fd and the final unlink refer to two
-> > different hard-link dentries for the same inode.
-> >
-> > The setup is:
-> >
-> >   1. create A/x and link it as B/y;
-> >   2. open B/y, add the old-group inode mark through that fd, then unlin=
-k
-> >      B/y, leaving i_nlink =3D=3D 1 while the fd retains the B/y dentry;
-> >   3. race these two calls:
-> >
-> >        unlink("A/x")
-> >
-> >        fanotify_mark(racer_group, FAN_MARK_ADD, FAN_MODIFY,
-> >                      victim_fd, NULL)
-> >
-> >      where victim_fd still refers to the already unlinked B/y dentry.
-> >
-> > So the A/x dentry checked by d_delete() is not held by the fd and can h=
-ave
-> > d_lockref.count =3D=3D 1. Its unlink drops the inode's last link and re=
-aches
-> > dentry_unlink_inode() -> fsnotify_inoderemove(). At the same time,
-> > fanotify_find_path() gets the same inode through the fd-held B/y dentry=
- and
-> > adds the racer mark.
->
-> Thanks for explanation of the reproducer. Now it makes sense. The
-> conclusion from this is that fsnotify_inoderemove() can indeed be called
-> for still fully alive open inodes which should be (think of permission /
-> pre-content events) still generating events. That could be actually
-> breaking some assumptions of userspace although I don't think it's a
-> serious issue in practice because users of permission / pre-content watch=
-es
-> tend to use filesystem / mount watches.
->
-> Also I think we could generate FS_DELETE_SELF twice for the inode - once =
-it
-> will we generated as a result of d_delete("A/x"), and finish_dput() ->
-> dentry_kill() -> dentry_unlink_inode() will generate it for the second ti=
-me
-> on the last close of the open through "B/y". That should be mostly harmle=
-ss
-> but still it's an oddity to keep in mind and preferably avoid if we can.
->
+On Fri, 28 Aug 2026, Matthew Wilcox wrote:
+> On Fri, Aug 28, 2026 at 09:36:10AM +1000, NeilBrown wrote:
+> > Add a test for consistency of readdir (getdents64) results.
+> > The expectation is that name which exist before a readdir starts, and
+> > still exist when the readdir completes, and which have not been removed
+> > or renamed away and re-created, should appear exactly once.
+> > Also if the fd on the file is closed in the middle of a readdir and
+> > re-opened with a seek to some offset previously reported, the same
+> > sequence should be reported as if the file was kept open with no
+> > seeking.  This last is important for nfsd.
+>=20
+> I'm not sure it's required by POSIX:
+>=20
+> 	The behavior is unspecified if lseek() is used to set the file
+> 	offset to a value other than zero or a value returned by a
+> 	previous call to lseek() on the same open file description."
+>=20
+> https://pubs.opengroup.org/onlinepubs/9799919799/functions/posix_getdents.h=
+tml
 
-I don't know. This sounds like a fundamental behavior change.
-In current upstream FAN_DELETE_SELF is a dying breath of an
-inode and no more events on this inode are expected IIUC.
+If you happened to know the sizes of the all the names in the directory,
+you could make a sequence of getdents calls which each return precisely
+1 entry,  You could then use lseek to determine the seek offset at every
+point.
+Linux getdents64 makes this a bit simpler by returning exactly that same
+number (the seek offset to the next name) in the d_off field.
 
-Applications could be relying on this.
-In fact I have an application that almost relies on this, but IIRC
-it does one last open_by_handle_at() to make sure before calling
-the inode dead. Other applications could be less strict.
+So posix certainly allows, indirectly, seeking to each d_off.
 
-Changing behavior so events could happen after FAN_DELETE_SELF
-sounds risky.
+Posix refers to one directory entry "immediately following" another
+which clearly implies a well defined sequence (if you exclude names
+added and removed during the read).
 
-> Now there's the question about the best fix for the problem. I've realize=
-d
-> we cannot just remove the call to fsnotify_inode_delete() from the place
-> where fsnotify_inoderemove() is called (and rely on the call from
-> __destroy_inode()) because the connector holds inode reference and so
-> __destroy_inode() would never get called. Hrm, this is a hairy issue and =
-so
-> far I don't see a good place to reliably trigger detaching of connector
-> from the inode. One reliable place would be iput() but that's really ugly
-> and would slow down every iput() user. The cleanest solution I can
-> currently see is to stop holding inode reference from a connector as I've
-> proposed in the past. Then we can reliably perform the cleanup in
-> __destroy_inode(). But that will be a rather non-trivial undertaking. Ami=
-r,
-> do you see some other option?
->
+Also glibc currently expects exactly this behaviour for implementing
+telldir/seekdir.
 
-What about the option I proposed to live with the orphan marks
-Is it so bad? I mean it's confusing and removing the assertion could
-hide real bugs/races, but maybe it's worth not complicating the code
-until we move forward to re-attachable marks.
+>=20
+> We can of course require stronger semantics from Linux filesystems
+> than POSIX requires,  We should discuss the benefits & costs of doing so
+> (and I have no idea what the costs to btrfs or tmpfs might be).
+>=20
 
-One way to think about it is that if we do the re-attachable marks,
-we would need to store ino/st_dev and maybe fid in the mark and
-then show_fdinfo wont need to get the inode reference at all.
+I think a strong argument for Linux needing something is that NFS needs
+working directory offsets to be able to support READDIR, because there
+is no "OPEN" request for directories.
 
-So in a way, allowing an orphan mark on the connector is a step in
-the direction of allowing re-attachable marks on the connector.
+I agree it would be good to discuss this and hear other perspectives,
+but I cannot see a lot of flexibility if we want a system that works
+consistently.
 
-Maybe...
+Fixing tmpfs is easy.  I have a patch which makes it work much better
+with less code.  Chuck quite reasonably wanted some objective measure of
+"better" and suggested I write some test code for fstests.  Hence this
+patch.
 
-Thanks,
-Amir.
+I know less about btrfs.  It appears to always add new names to the end
+of the directory listing.  When you rename over an existing name, that
+existing name is relocated to the end.  I can only guess why it might do
+that.  I have no idea if it "needs" to do that.
+
+Fun fact: This behaviour of btrfs (which I think is perfectly defensible
+for new names) resulted in generic/736 (which I think is an unreasonable
+test to impose) which btrfs "fixed" with a mechanism that doesn't work
+over NFS.  i.e.  it doesn't work if you close and re-open the file for
+each getdents call.
+If I mount a btrfs filesystem over nfs with rsize=3D4096, then generic/736
+fails.
+
+
+The link you provided says:
+  If a sequence of calls to posix_getdents() is made that reads from
+  offset zero to end-of-file and a file is removed from or added to the
+  directory between the first and last of those calls, whether the
+  sequence of calls returns an entry for that file is unspecified.=20
+
+which unfortunately doesn't cover what happens when a file is renamed.
+When renamed to a non-existing name, it might be reasonable to describe
+this as "removed from" and "added to" so its appearance could be
+unspecified.
+When renamed to an existing name, I don't think it reasonable to
+describe the target name a being either "removed from" or "added to" the
+directory.
+
+Thanks for taking an interest,
+NeilBrown
