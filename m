@@ -1,135 +1,113 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3501A38F9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 01:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9745223708
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 01:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787879454; cv=none; b=JzdasFw0SZXjLPm2DTlms5I/mwxuYr+1nguOZxXXepR9giss1wYFEtsIxzdRwsbEaqgkaOpRJtrJGGHurNYGKDobEzHOVNMGqSAK4vb/S95JENV78KinkM4E3qb7jf7LOJAX36zVDoyG/6A0t2pgF90P7C78/QH/901gJgZH178=
+	t=1787881998; cv=none; b=ehYNByFAjc5mJ1/dY6R0o8x92dOhsXWhS6Js5xZJP9asW/WuOMJKsF3M7Owmw6s/1z1QDF9cmesMq6bTEf1og4IGPb33DEFLtUGU78CROYxqtoRsmLKw/O0mYrj+HQXg3fPaenToaDNQ2n2dm6pXiZpEX0lzzEW26h+HVzJ4zWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787879454; c=relaxed/simple;
-	bh=NFG1n41lVJCrqXWncd4MldYqy9CGGkGjSMKD/ApclJM=;
-	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=tD15StsIVs56VaAAqoAHY+D+l6+Tey7Q4s/705mWVlkdwF2HjQvPNoypsicSe/xbXtPO9bxRs992smlmHDX8ziTYiZqMYHNAb/Cyh+jlvSwOexXrn81s++YBgJKVBSN8pMy3Ov4TjQGPPRKXdzivbHQQfps9xzYfPzwcNMYdvjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=DiexHerO; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1787881998; c=relaxed/simple;
+	bh=a879juwz7YnXRSU0aj4H9oqy8QG+UQ6p/1llyGoW7h8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F0jmR2e285UEmYhqoa/HZRp+yeAeXKEHexZchUgWL7tJpI/05A/rCTVW84YUYfVtSjEqg//An24SYqSxMDlmZY7ow0xP2bguXxYoXviDLaBPp3mOxKw3B+wO+2uS5CrpluQkj4X/N4kGNfR3UanVn8hRm7ZStsbLw71NDcP9q2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WVVx8yuW; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="DiexHerO"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-9390a2c8909so26091585a.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 27 Aug 2026 18:10:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1787879449; x=1788484249; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :content-type:mime-version:message-id:date:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DqRGrR0heNmSPrtTW9+v9FKZZ7RwzxehXvY0MCzvxnw=;
-        b=DiexHerO6+IFexSx6JA9an3k0XR2yhU62zhjz0PIvuFDUeoTTa7PZx2vVbdtp+2Z+z
-         fc4/yiZkz88x+eA0bilvSLbQdQxku2hqt4Ux3oQ5feErrmumPEYW3wmV/eQBfe9H9pes
-         eqhf0xDOkQR1MnNJEiEcdmlv+jiEkVtHG559KcdmkmqYb+5BIMgRvvc/FFNAE35xFpbJ
-         xq5Xu7O3xZCNR+cu3iAw5LM66zHF0LGlOrjrNQ8ibx0WvKtE7KwaQFE8LCd4Xe+f8M8b
-         Sr0Mx40iQRVtzFiLMhx9gxctNXDlX6yCP+vfYVWHbxjsSNA2WdBvVLLv5AcMBCBp31rk
-         PZOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787879449; x=1788484249;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :content-type:mime-version:message-id:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DqRGrR0heNmSPrtTW9+v9FKZZ7RwzxehXvY0MCzvxnw=;
-        b=fPytubYynUYLGBissObBixhOJrTAsjs/O0LRdfCzsxt8CYeIa2LRVlINK2zwBzX6WD
-         TMP28H/DPMwDZyPTUw5Nei2OfFtNY2KB1ZxuREjgzJiYHWFwFCjMJ548xU3BreB9FYdp
-         QGTyJWPJJjnMK6F29PbbsIMYCnCmqNqS4s13yPcB1e4s3PlHmibeCXzs9jkKnVN6eY91
-         76ZsGlzfuuM8gqCjToIJCovbRacRpg3B1Ibj+WpYeM4LkOWWinfIuhHcQyWCT622F4F0
-         HhRdGmonXKNqjJC65z9rOdUjDhf0PeL7xoAN2S9NqhaLi+xc5MPBeOOR3ROtBf/1cgZl
-         6URA==
-X-Forwarded-Encrypted: i=1; AHgh+RpznSC5OYv5xGgEYAb47c40QO9RtaJRLYBzTP7CbfvaRM3h4I+gCXMUFd626SSdoMINZJhEz6F1tSdpIEpi@vger.kernel.org
-X-Gm-Message-State: AFuF++k9yp4nBnIGjeB1O086peJda524FGYXzAQf0Kag816JoQc0Cq5N
-	tAAKxu65CgBv1G8iTpIiGQF8ARe49YV1+6CnzqO2DJ8Vz/W17vZbCPsO0X8385dRFQ==
-X-Gm-Gg: AR+sD10IYk7wL9Tp8xA419546TslfQW2IVTJcwE9HxulaySbc9OYWIGP8Gf9wKTXx1P
-	srFsmc25khojcMJjZkRyk+h3QnXjwH7ZhpVLNrZwdElVGu35CLFhq8CxspqK8TwrPZWd0T300R5
-	hbYkYPkBKALJiP+jTqwVo5bBe/v+K9qSc20Ue9d8NTx/nekLSp3LSdGNPYL8au9+aKGqB6yld4O
-	a37AayhX6rt38xPH55QtRzScq6qPReomHKIziQkoZiE9oEnqcyUipMKmJZgp7YUg+e+c3Ji7WzQ
-	BwsKKeJbQUrtl7HBRI2xzHuhDCVy2fu7ElKlzlJO9/HHnFRFs4zfH7r3VKvkaXkM7PM+2MuADyt
-	X2VauWXDzxprCNdA4J6qTyXFTucEj3KB9ROB56jefVBcongkJCV3K9hWNvnx8yNYk1KhLm1DX0x
-	wlpFUuXcrJ13R/i4C+Ejf0WkCj4+BVp2GwVgXJV9dUxDY38durMBkRjk1IcQlpUvT7aq9HYHrcX
-	olkueJD3sxMmBcScJW6cubXM3ke/j5orMwl1kABsBlf
-X-Received: by 2002:a05:620a:290a:b0:934:9524:2e89 with SMTP id af79cd13be357-93913809957mr300256985a.13.1787879448634;
-        Thu, 27 Aug 2026 18:10:48 -0700 (PDT)
-Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9391725670dsm34787285a.19.2026.08.27.18.10.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 18:10:47 -0700 (PDT)
-Date: Thu, 27 Aug 2026 21:10:46 -0400
-Message-ID: <de5f1c2fb1ccbb92beda6906e23ac457@paul-moore.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WVVx8yuW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787881994;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cVa9ltN/AYxfIIR3vFfpODM3T6RUi+J6FBmrLKMnXUo=;
+	b=WVVx8yuWYNA/RpazYoy0OlBrJeywhsXR9UBA42YDnaIEGPsIIHvDtOW5AhL0x/3WrWW8C0
+	HOY2SVWsh+LNmR3v2CbF6Y9rtD/g7LpEgyfpWDO32osxk9pEV8vgqLudznNqDoTx22vYjl
+	lS/dQrz3etbbNmRRbZByA43kckibaYs=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-256-jo8oXn_8Ne6Y4KKQywx0iw-1; Thu,
+ 27 Aug 2026 21:53:09 -0400
+X-MC-Unique: jo8oXn_8Ne6Y4KKQywx0iw-1
+X-Mimecast-MFC-AGG-ID: jo8oXn_8Ne6Y4KKQywx0iw_1787881988
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6056219539AE;
+	Fri, 28 Aug 2026 01:53:07 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.22.76.4])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B4CB5180059E;
+	Fri, 28 Aug 2026 01:53:04 +0000 (UTC)
+Date: Thu, 27 Aug 2026 21:53:02 -0400
+From: Richard Guy Briggs <rgb@redhat.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Linux-Audit Mailing List <linux-audit@lists.linux-audit.osci.io>,
+	LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+	Linux Kernel Audit Mailing List <audit@vger.kernel.org>,
+	Eric Paris <eparis@parisplace.org>, Steve Grubb <sgrubb@redhat.com>,
+	Roman Dolgikh <rmd4work@mail.ru>,
+	Ricardo Robaina <rrobaina@redhat.com>
+Subject: Re: [PATCH v3] audit: free proctitle in context so it can be re-set
+ by  fork on exec_binprm
+Message-ID: <apDp/lou9KwOz7M/@madcap2.tricolour.ca>
+References: <ef5bf18a4b3805ec0fe5fb638963ccbdfc01d6fe.1787077711.git.rgb@redhat.com>
+ <65425b98ae226a9d19f89bd66a1defbe@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=UTF-8 
-Content-Transfer-Encoding: 8bit 
-X-Mailer: pstg-pwork:20260827_1122/pstg-lib:20260827_1501/pstg-pwork:20260827_1122
-From: Paul Moore <paul@paul-moore.com>
-To: Jann Horn <jannh@google.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, Jeff Xu <jeffxu@google.com>, =?utf-8?q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH v2 3/3] selinux: require PROCESS__PTRACE for FOLL_FORCE  introspection
-References: <20260825-selinux-pokemem-v2-3-b46bc64916d8@google.com>
-In-Reply-To: <20260825-selinux-pokemem-v2-3-b46bc64916d8@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <65425b98ae226a9d19f89bd66a1defbe@paul-moore.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Aug 25, 2026 Jann Horn <jannh@google.com> wrote:
+On 2026-08-24 18:07, Paul Moore wrote:
+> On Aug 18, 2026 Richard Guy Briggs <rgb@redhat.com> wrote:
+> > 
+> > Between the actual process startup (fork systemd) and the executable file
+> > replacement (exec), systemd sets a temporary file name (executable file
+> > name in parentheses). If an auditable system call occurs at this point,
+> > the audit context will latch the temporary process name into the cache.
+> > This name will not change again. The patch clears proctitle into the
+> > audit cache when the exec call is made, allowing the new process name to
+> > be latched.
+> > 
+> > Suggested-by: Roman Dolgikh <rmd4work@mail.ru>
+> > Link: https://github.com/user-attachments/files/20751461/fix_audit_proctitle.txt
 > 
-> On systems configured with PROC_MEM_FORCE_ALWAYS, ensure that a process can
-> only create anonymous executable memory via /proc/self/mem if it has
-> PROCESS__PTRACE (like when using /proc/$pid/mem of another process).
+> I did drop the link above from the commit as it is contained within the
+> link below.
 > 
-> This closes a hole in code integrity enforcement that Project Zero has used
-> in a remote Android exploit chain:
-> It was possible to use a memory corruption bug in a service without
-> EXECMEM/EXECMOD/PTRACE permission to overwrite executable code via
-> /proc/self/mem, which made it possible to load and run shellcode containing
-> a kernel exploit.
+> > Link: https://github.com/linux-audit/audit-kernel/issues/170
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > Reviewed-by: Ricardo Robaina <rrobaina@redhat.com>
+> > Reviewed-by: Bradley Morgan <include@grrlz.net>
+> > ---
+> > Changelog:
+> > v3: use previously assigned context
+> > v2: simplified to call single use directly before need in audit_bimprm
+> > ---
+> >  kernel/auditsc.c | 2 ++
+> >  1 file changed, 2 insertions(+)
 > 
-> Signed-off-by: Jann Horn <jannh@google.com>
-> Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  security/selinux/hooks.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 18dd28b2bb13..2c2c60e9e0fe 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -2157,6 +2157,27 @@ static int selinux_ptrace_traceme(struct task_struct *parent)
->  			    SECCLASS_PROCESS, PROCESS__PTRACE, NULL);
->  }
->  
-> +/*
-> + * Decide whether it should be possible to read non-readable VMAs and write
-> + * non-writable VMAs via /proc/self/mem.
-> + * This only applies to systems configured with PROC_MEM_FORCE_ALWAYS, and only
-> + * triggers on accesses that are not visible to selinux_ptrace_access_check()
-> + * because of the introspection exceptions in may_access_mm() and
-> + * __ptrace_may_access().
-> + *
-> + * This allows a process to overwrite read-only code in its own address space.
-> + *
-> + * Creating an audit record on denial doesn't make sense here, since we can't
-> + * tell whether FOLL_FORCE matters for the accessed VMAs.
-> + */
-> +static int selinux_mem_foll_force_opened_by_owner(const struct cred *subject)
-> +{
-> +	struct av_decision avd;
-> +	u32 sid = cred_sid(subject);
-> +
-> +	return avc_has_perm_noaudit(sid, sid, SECCLASS_PROCESS, PROCESS__PTRACE, 0, &avd);
-> +}
+> Merged into audit/dev-staging since we're currently in the middle of the
+> merge window, this will got to audit/dev once the window closes.
 
-I realize not all of the SELinux hook callbacks use proper kdoc comments,
-but I'm trying to fix that.  If you could make this a kdoc function header
-comment I would appreciate it.
+Thank you!
+
+> paul-moore.com
+
+- RGB
 
 --
-paul-moore.com
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+Upstream IRC: SunRaycer
+Voice: +1.613.860 2354 SMS: +1.613.518.6570
+
