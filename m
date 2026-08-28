@@ -1,176 +1,129 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923553CB8E6;
-	Fri, 28 Aug 2026 11:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390233CE0B4
+	for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 11:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787915569; cv=none; b=ZIswn4L37nlsYtE3s8p21kMvmxX4LAMU/DKouJFOF+mhEuevoTLQbxl7xajpqIw8cL94nHpNfe05CylL76hajL6r2Ke6PqXfH6WmtrgjLYs4dAbSEk6LYQOE7C/6AbsvpLERN+UlylUuCcAbC0ZmtUZdE+uqHY0NENIPUNCMRQU=
+	t=1787916449; cv=none; b=iL9Wb/DzYTpZWEKhlIzETRASXv42DQwOnEK2i9Yg3K5PSR8RdOhg5sJNsg62P35l3xITiy+2DTJIzf+dyDwydgfatKJvquS/lYwJ+hCTl/olPYMJpCyR0LSVfHCuq/OPSquJen/0M4SUy+AiQGhOxG52MzocFCkhRFFALhxj/ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787915569; c=relaxed/simple;
-	bh=ZQJPaBG5y3MKHtQkLbGNu7EJQPKoq+D8lq+I91ksITo=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=ghWA0mtE5z4BdsIWPcTL8DkksQgNJfTHnXGJ+rJFy8qTnmcnBHWaNEaIXGczHDeH1FztQgyfoGMvWpdTfx8nKwaUwwHjEq8grdTR3DH2qf5kwlIB8zfs5Z76yKNI+xFxzeEJc8zDXxDB/Y/Rtbnqtv37Cj24nSxB+dP2J+hyh4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=QSS5pJsu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AysqNg9r; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="QSS5pJsu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AysqNg9r"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id B854A1D000EC;
-	Fri, 28 Aug 2026 07:12:46 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Fri, 28 Aug 2026 07:12:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1787915566; x=1788001966; bh=LskiHz1h292IUODVBCAEDjmHPu55Af+JJqk
-	YibvLudo=; b=QSS5pJsuVOSk0TaGFjHQLYEh3CkjWuJoC64hXqiQCrB4QQPC2V7
-	UxYwmjE6pLend4ZfBhFHB3Xf5q5LOIQhnBNVNnaSkkJHc+D9ALcXfpsE+oVgZzY8
-	AnL9wgNH9IeBAxnZcqnGJloV3LG22RTcyb5epujU7fnbq8KNQHaDnWZdKaC5gI1j
-	4cP2u0XAPt39PXSjaf3Qwk7Z0bDSOAAo57eZMqoUdT3TOYC+AYdv0C4gL914oyfG
-	Pj3ZVcw5lEehAioPSPNmPrKJanfmDzwPY6rWTENpSnOJn61JCgbSoho7koorwqTK
-	CqeV+GYL1KIr2OlDMqJeAltbQUCa/gSsnOg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787915566; x=
-	1788001966; bh=LskiHz1h292IUODVBCAEDjmHPu55Af+JJqkYibvLudo=; b=A
-	ysqNg9rzvp/3jPhk9bgEml3DxKC7ZYXYWBps/mVpiOw6gS6qoy/Zi1mYUa45hHhk
-	WZ2oi9K1uD33mxnoIH7T5ldsNmII+8ArBOEzUONDYSo+R9DUnnZPIi4mJHQJOwVH
-	rh4rUS3iGSY0cwoaS5a/p9FotZeVXuGMGeyUXlwTfeJVuT3tOOMHQZ7RTyi0sh68
-	bIG0eh1oyaklqajM8Nght1h8GHHarisHhwehPwyERYWTYyNBtOzRjjRSUZrYb1kw
-	wiVgU7ixHASkVrSuykhTc/cOawo5inocvg0YEr+kkDPMfXInG1IMuR2Pe39+SWTY
-	UfJ62ANebRhy/OqETz7LA==
-X-ME-Sender: <xms:Lm2RajYsh_miA0O6JhLelX3oTRjMfmCI7rwGqcWMCf7qNEYgwzQ3Jg>
-    <xme:Lm2RagNlLh8u3UvnB_twBDURMbi7KAA2RGB13VljVD2tRfzdk0nWV9X3_eUljr1wH
-    7CO6icdtYdjA3aKxcZ070AHqXL7wEy3GXLyPV8IK8XomyuQ-ns>
-X-ME-Received: <xmr:Lm2RagbqhlvqZdyheNsZbotV_Ju6eb_z7SgilyMFeKFWNI_42BQpheS2hv5k2HRe0g>
-X-ME-Proxy-Cause: dmFkZTGNQzwU/BJDdO8A9I7c8Ub9+j0LIvU55nGFpuWwAx/C1/cR3EB1RcGc05nZ3EjZOV
-    97sDoVbheSFqaBthnXw8SJPIj2Yjo1Xo2VSPLPEjIZxE9UBA79UKJ1+obdWFSQ2SU51IFL
-    DfrE1ARWZ8V1HEEn4LvfIELcedsaGiVmVYrDxLLhvTCZ7iAVzeAZmjUs7DSGmR2I5Y8PIF
-    hVk0m97uH/uHyQQKhum9w4/wXMMSsacfYlvuVmUDdpRZnoYOeJ0ffhl2laW2G39e8f54ye
-    m6UkDTmn50oYYkjJdIe7VkxYWJfBeJXhcYEuPirCj0xfWNhKUuvAxQsZOYzlxnWGUIFvmk
-    kEa83upsVjuVmaT6kuh5nyMV7Ze28TMgeuPwsR/YeGZxw+L/ERNHYeQ4Hexpe+QJ1coRJk
-    525p34HPsVbqwjJIOyqnShKjIZWDGzY6RX8izkuisJkrDWk5kkYhXBr9MBQO/ojPAVBjpd
-    5XBx2ZqSnIZTerNkPAGr1vvUjVJ7g8KPxRG8VqMpa3fewivc2Kbj4UfBIm+3psW4wXOl+H
-    L6NoaZf/MrAnE5htVpOO5JLRMb+Hrqr+TF6UDlula+xXEbahokCaJ5vZg9PDOSBCFUCwnE
-    fpJotZE9gGsuXV9QqIVm/GfKvSLP0m3K75NgqU4FiNLoqsZkrkQDWy5sBr6A
-X-ME-Proxy: <xmx:Lm2Ram1W0W5I4wIkMIfOzQz2hq6B34m1WWl-h84aEEwvRtB6_9M5PQ>
-    <xmx:Lm2RaufNLv20ouhK1twuTwLvctbUEvppMRmAHWU8jPgP3apVaqjF5w>
-    <xmx:Lm2RavEbDBiTPWKgORhRt2-nMRNPW2cjmFIvh9pJ4Vb3n5ij2YONFg>
-    <xmx:Lm2Ran3-gIF_bIktHgW_CNgR2S3Iew4z9RwNveuNdEhDZ81U-2ZjIw>
-    <xmx:Lm2RargO3yUvLKNOFOGqpWBOL-9cBNu_l4Mnol3OWo7M1-99sKW0Ojjc>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 28 Aug 2026 07:12:44 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1787916449; c=relaxed/simple;
+	bh=5xtlgA5vHCXpabX1E6ApXm9OLw17V/cAeGETIc9pLmU=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=WD+IxN7OtQD4Zsd2eFobbZpuOMebqplztv4zf8wEYtsRUNTYgc+F32fXJ9VARAwN3GTDqn+CgCUVQxn5RbpnAQpeL+pxrmYit+7Qd0RZhQsVjLOALqvU87xJ/8VqTS+WKxRPIlYxFb1CEsxrz72IXryHwtrUKa95KDNX/8y0FQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4b38ea4c6acso590202b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 28 Aug 2026 04:27:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787916447; x=1788521247;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=AkRz50F5kxQk8r1w8lTDqf7Ji8sdF1ZuHE2PMMhiBaA=;
+        b=IR8vkA8nycA4XwLlRojfvcUYzdISnUvee7ToSbwLws5QTkROPf0Kvt1uj9eCdEOvUU
+         QmQtUnAAxKycj2GBPPZC2/Oo+CTf6dFbIwMMIIYdm3FHAmN+lhNBqHEtNODIvxuAuKrf
+         2lXOhPFKbOWQ3V1GllJmkC6fQEM1dBa2Gyj9S/lXexKy6zXz0jneKhI7cU4kV5ISwQfn
+         oiYkmmSBs7qceoLUe81WB6uEcK+yoDPhHCM48esM/JIHMnjohyQU809wbpO0rTiZ8yG0
+         lIVJuHNFmSZACE9XztMGxtWnpBb+c5P+evGhVV04mIh7m/ZxBEA1QUgABw+KGlk9ucuI
+         ycWg==
+X-Forwarded-Encrypted: i=1; AHgh+RqwDoT7uQxkBmxbDkL+VHcdHbLPztOAfya0dLrbNJDJd46VCHuYn0MDEwynqKljxsZEHLdtrurDiVyQ4q2b@vger.kernel.org
+X-Gm-Message-State: AFuF++lLjNUtgVvCXrkBbBe2h6v45I+cIc1wnywpEKW2gx5yBKsiLkIC
+	zOpXd0l4A2SVA12+E0EcTTA0MyUevwkBmt836WwYvxaMJivHvoK2C+QtbhuqDCZG0lkej5O0+9D
+	2Q031Nv5oyChYEbTT10VL3Vm7cuEcQTmh5shyEN02grGFLfheYSFH6UcI7PI=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Matthew Wilcox" <willy@infradead.org>
-Cc: fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- "Chuck Lever" <cel@kernel.org>
-Subject: Re: [PATCH] fstests: generic: Add test of seek in directories
-In-reply-to: <apEK5uirjyLZUfmA@casper.infradead.org>
-References: <20260827234743.2389778-1-neilb@ownmail.net>
-  <20260827234743.2389778-2-neilb@ownmail.net>
-  <apEK5uirjyLZUfmA@casper.infradead.org>
-Date: Fri, 28 Aug 2026 21:12:41 +1000
-Message-id: <178791556100.3510150.18132687067056760170@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+X-Received: by 2002:a05:6808:f0b:b0:4ab:318c:6b38 with SMTP id
+ 5614622812f47-4b397f71712mr6006346b6e.1.1787916447328; Fri, 28 Aug 2026
+ 04:27:27 -0700 (PDT)
+Date: Fri, 28 Aug 2026 04:27:27 -0700
+In-Reply-To: <6a8c13ee.91706f20.16b6e3.02d5.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a91709f.4d659fcc.734b4.001c.GAE@google.com>
+Subject: Re: [syzbot] [fs?] [trace?] WARNING in eventfs_create_events_dir
+From: syzbot <syzbot+3ef80b4ed02226d04a06@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, kartikey406@gmail.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, mark.rutland@arm.com, 
+	mathieu.desnoyers@efficios.com, mhiramat@kernel.org, rostedt@goodmis.org, 
+	rostedt@kernel.org, sh_def@163.com, stable@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, vdonnefort@google.com, vulab@iscas.ac.cn
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 28 Aug 2026, Matthew Wilcox wrote:
-> On Fri, Aug 28, 2026 at 09:36:10AM +1000, NeilBrown wrote:
-> > Add a test for consistency of readdir (getdents64) results.
-> > The expectation is that name which exist before a readdir starts, and
-> > still exist when the readdir completes, and which have not been removed
-> > or renamed away and re-created, should appear exactly once.
-> > Also if the fd on the file is closed in the middle of a readdir and
-> > re-opened with a seek to some offset previously reported, the same
-> > sequence should be reported as if the file was kept open with no
-> > seeking.  This last is important for nfsd.
->=20
-> I'm not sure it's required by POSIX:
->=20
-> 	The behavior is unspecified if lseek() is used to set the file
-> 	offset to a value other than zero or a value returned by a
-> 	previous call to lseek() on the same open file description."
->=20
-> https://pubs.opengroup.org/onlinepubs/9799919799/functions/posix_getdents.h=
-tml
+syzbot has found a reproducer for the following issue on:
 
-If you happened to know the sizes of the all the names in the directory,
-you could make a sequence of getdents calls which each return precisely
-1 entry,  You could then use lseek to determine the seek offset at every
-point.
-Linux getdents64 makes this a bit simpler by returning exactly that same
-number (the seek offset to the next name) in the d_off field.
+HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=16eddd49580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
+dashboard link: https://syzkaller.appspot.com/bug?extid=3ef80b4ed02226d04a06
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17986d79580000
 
-So posix certainly allows, indirectly, seeking to each d_off.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3ef80b4ed02226d04a06@syzkaller.appspotmail.com
 
-Posix refers to one directory entry "immediately following" another
-which clearly implies a well defined sequence (if you exclude names
-added and removed during the read).
-
-Also glibc currently expects exactly this behaviour for implementing
-telldir/seekdir.
-
->=20
-> We can of course require stronger semantics from Linux filesystems
-> than POSIX requires,  We should discuss the benefits & costs of doing so
-> (and I have no idea what the costs to btrfs or tmpfs might be).
->=20
-
-I think a strong argument for Linux needing something is that NFS needs
-working directory offsets to be able to support READDIR, because there
-is no "OPEN" request for directories.
-
-I agree it would be good to discuss this and hear other perspectives,
-but I cannot see a lot of flexibility if we want a system that works
-consistently.
-
-Fixing tmpfs is easy.  I have a patch which makes it work much better
-with less code.  Chuck quite reasonably wanted some objective measure of
-"better" and suggested I write some test code for fstests.  Hence this
-patch.
-
-I know less about btrfs.  It appears to always add new names to the end
-of the directory listing.  When you rename over an existing name, that
-existing name is relocated to the end.  I can only guess why it might do
-that.  I have no idea if it "needs" to do that.
-
-Fun fact: This behaviour of btrfs (which I think is perfectly defensible
-for new names) resulted in generic/736 (which I think is an unreasonable
-test to impose) which btrfs "fixed" with a mechanism that doesn't work
-over NFS.  i.e.  it doesn't work if you close and re-open the file for
-each getdents call.
-If I mount a btrfs filesystem over nfs with rsize=3D4096, then generic/736
-fails.
+R10: 0000000000000000 R11: 0000000000000202 R12: 00007fae2ca35a9f
+R13: 00007fae2ca35adb R14: 00007fae2ca5ccc0 R15: 0000000000000002
+ </TASK>
+------------[ cut here ]------------
+!list_empty(&ei->children)
+WARNING: fs/tracefs/event_inode.c:128 at free_ei fs/tracefs/event_inode.c:128 [inline], CPU#0: syz-executor340/6037
+WARNING: fs/tracefs/event_inode.c:128 at cleanup_ei fs/tracefs/event_inode.c:150 [inline], CPU#0: syz-executor340/6037
+WARNING: fs/tracefs/event_inode.c:128 at cleanup_ei fs/tracefs/event_inode.c:145 [inline], CPU#0: syz-executor340/6037
+WARNING: fs/tracefs/event_inode.c:128 at eventfs_create_events_dir+0xa3d/0xbe0 fs/tracefs/event_inode.c:838, CPU#0: syz-executor340/6037
+Modules linked in:
+CPU: 0 UID: 0 PID: 6037 Comm: syz-executor340 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:free_ei fs/tracefs/event_inode.c:128 [inline]
+RIP: 0010:cleanup_ei fs/tracefs/event_inode.c:150 [inline]
+RIP: 0010:cleanup_ei fs/tracefs/event_inode.c:145 [inline]
+RIP: 0010:eventfs_create_events_dir+0xa3d/0xbe0 fs/tracefs/event_inode.c:838
+Code: 00 e8 e7 82 fa 00 e9 ab fb ff ff e8 1d 4e e1 fd 48 8b 7c 24 10 be 03 00 00 00 e8 ce 82 fa 00 e9 c2 fd ff ff e8 04 4e e1 fd 90 <0f> 0b 90 e9 59 fe ff ff e8 e6 21 54 fe e9 4b f7 ff ff 48 89 44 24
+RSP: 0018:ffffc90005867b88 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888045883028 RCX: 0000000000000000
+RDX: ffff88802ecd2580 RSI: ffffffff8429b3cc RDI: ffffffff8e69c920
+RBP: ffff888030052f10 R08: 00000000ffffffff R09: fffffbfff1dff612
+R10: ffffffff8effb093 R11: 0000000000000001 R12: ffff888030052f50
+R13: 0000000000000003 R14: ffff888030052f4c R15: ffff888030052f00
+FS:  000055555739d400(0000) GS:ffff8880d5ba2000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055c8902f3204 CR3: 0000000022b49000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ create_event_toplevel_files+0x12d/0x1a0 kernel/trace/trace_events.c:4709
+ event_trace_add_tracer+0x72/0x260 kernel/trace/trace_events.c:4740
+ trace_array_create_dir+0x8e/0x210 kernel/trace/trace.c:8550
+ trace_array_create_systems+0x8b3/0xc30 kernel/trace/trace.c:8641
+ trace_array_create kernel/trace/trace.c:8668 [inline]
+ instance_mkdir+0xca/0x140 kernel/trace/trace.c:8683
+ tracefs_syscall_mkdir+0x10e/0x180 fs/tracefs/inode.c:121
+ vfs_mkdir+0x364/0x850 fs/namei.c:5410
+ filename_mkdirat+0x48b/0x5e0 fs/namei.c:5443
+ __do_sys_mkdir fs/namei.c:5470 [inline]
+ __se_sys_mkdir fs/namei.c:5467 [inline]
+ __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5467
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fae2c9d8ec7
+Code: 77 01 c3 48 c7 c2 d8 ff ff ff f7 d8 64 89 02 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 b8 53 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 01 c3 48 c7 c2 d8 ff ff ff f7 d8 64 89 02 b8
+RSP: 002b:00007ffcc38a20c8 EFLAGS: 00000202 ORIG_RAX: 0000000000000053
+RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007fae2c9d8ec7
+RDX: 0000000000000000 RSI: 00000000000001ed RDI: 00007ffcc38a2160
+RBP: 00007ffcc38a2160 R08: 0000000000000001 R09: 00000000ffffffff
+R10: 0000000000000000 R11: 0000000000000202 R12: 00007fae2ca35a9f
+R13: 00007fae2ca35adb R14: 00007fae2ca5ccc0 R15: 0000000000000002
+ </TASK>
 
 
-The link you provided says:
-  If a sequence of calls to posix_getdents() is made that reads from
-  offset zero to end-of-file and a file is removed from or added to the
-  directory between the first and last of those calls, whether the
-  sequence of calls returns an entry for that file is unspecified.=20
-
-which unfortunately doesn't cover what happens when a file is renamed.
-When renamed to a non-existing name, it might be reasonable to describe
-this as "removed from" and "added to" so its appearance could be
-unspecified.
-When renamed to an existing name, I don't think it reasonable to
-describe the target name a being either "removed from" or "added to" the
-directory.
-
-Thanks for taking an interest,
-NeilBrown
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
