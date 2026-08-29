@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F112FA0C6;
-	Sat, 29 Aug 2026 04:41:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0929E33C1B7;
+	Sat, 29 Aug 2026 04:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787978469; cv=none; b=IozDo+XY71HQPVkGxiZhwG38O2ZjxkpUXcJaEzXUhXwbryE+g3F+hfJWdmbFaw+wIf6IysfTq5mAERw03QpbiLuxurrpmrnP6nD7U8wnSJ2+jIWZKsNlRmgQmFhOYPP+4y1uu20vKJudy1LbypR95wExawbDOiqxaTFb0knGIE8=
+	t=1787978474; cv=none; b=PAOuEiUMhOgeIedTWIjbThSUb+ygOrknJmyR4WyhwcQPqAddmmQUsLpvkWVT2PN/IUSnvOtJzb4wMTz4ZN34s7aO8yp4vQwwFuHMRU8slC/Qg4Ul/sLIbq0a4no9nI/xTryjx0ynUvjc2LFNW1/rgjiGW+WrMhQH/ms+WCVIL+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787978469; c=relaxed/simple;
-	bh=2II95OXJXOkKiEoXYBuOZjT5qcX4TdXv1W0z3wcoh3Y=;
+	s=arc-20240116; t=1787978474; c=relaxed/simple;
+	bh=2JGqXWCbZ5rvViDhEt7kOXZr99HBUzTG6/6Uyla+htg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ejQ3EijgxiWJVYjRRuVc3XM1P+5zeq10hK8hbJ28fLvA+nXlYSwJXCYCZ8O4t36cU9XwGnb5dj7Dq5SdnsvCfhXE4WoxdwTAhNPSjNITQccgZrFZH6aceNuj+1Z4qaubq7z6RD5UvLu9qw/BanEHE/ogTM0+i4T88SrDGdfB7P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVG5OWwz; arc=none smtp.client-ip=198.175.65.16
+	 MIME-Version; b=Cj5aGmloHmN/6PU8aJZ17hyVkrSKM65z1N6E+hKJftlJniZ72m/aoJCA+SUpFX+2jKLI05TNKycQXDJiNWUzjBlUwfezRTVaYlpUhHydPezHABwwxlvZFypmdgmWMBhrPQFpYAOk2+vC5kkIqvrJhdAORF45kYQqju6M2i1d22s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LZMX4/ra; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVG5OWwz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LZMX4/ra"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787978468; x=1819514468;
+  t=1787978471; x=1819514471;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=2II95OXJXOkKiEoXYBuOZjT5qcX4TdXv1W0z3wcoh3Y=;
-  b=kVG5OWwzii6jHnaSCWS14n7gFw5YiQ9cNBY5jfiMbDWsvLWHiVu6Olem
-   xXwnX0hHKxiBYp9+C6tb9T8os9FJidu5s0LL50xtkWFhC1AMXJeABRPk1
-   d73np/1BgJjKgHWYqp04KuZ1syEdRBl86Q369Fd3AOCiDPyIvlEToIcQx
-   h1IZCvQ9ZFn6Xj6qJJDVsbJWFNiiLdxGgazvyf07LMCr/ej5FFJgzdVQT
-   iJ2kLFFDOrxo0k82b2od0NKcjhD0Al9IfIPL7uv8nUBGrycV48HghIuRy
-   DcEiDs4XDcXYcevm0iRkRd5Q5jvpKpULAuzGPfXKkizkU5iXMy88DpzIY
+  bh=2JGqXWCbZ5rvViDhEt7kOXZr99HBUzTG6/6Uyla+htg=;
+  b=LZMX4/ra7zlIiDTXvUL8EDBB1AIVNmrYjSB4zuupJf1N0cHTv4ueokJ9
+   ENKAi10cuNhhgFy1MxxKLQlnx1dry03gQDjrPXwpw3v0OTTufcdAdIUv5
+   NsMmbAFo9erEw0sJFBgD7o14YGPMDUBlbDlyrzbG4Rcseq6iW8xAtDs4Z
+   WmmIcusmvF9pOvGDorNv9jkQHmm9rn5wy9mKVbyq47eTXTDRprqMbSndX
+   eUn31+eUirC4/pRfhmrmWlzf+nGj92z8z+IoOz6RcDMA6fYQmDUk7g3+N
+   sq+U6HlKiEF5LJahCfKVaaRtguswYCJOxPRPfwjyvyvO7mZpG7+k/2Tb1
    g==;
-X-CSE-ConnectionGUID: /I6n95BeR02a57Dl6rLA/g==
-X-CSE-MsgGUID: 2v+7rYWGQym/591BgLjfYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11889"; a="88683917"
+X-CSE-ConnectionGUID: ciAfApalQ3ikRsELkbHFqQ==
+X-CSE-MsgGUID: X4XMPynRQPa9ZQ/DCjtQFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11889"; a="88683935"
 X-IronPort-AV: E=Sophos;i="6.25,249,1779174000"; 
-   d="scan'208";a="88683917"
+   d="scan'208";a="88683935"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 21:41:08 -0700
-X-CSE-ConnectionGUID: cQD99vGjTMO70sDaQBOW0g==
-X-CSE-MsgGUID: 46PDy14TRb23Kckm0tcnRw==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 21:41:11 -0700
+X-CSE-ConnectionGUID: PVdNb1TbTG6lMhgtjoogew==
+X-CSE-MsgGUID: MsJFC2WfSh6fGBC2zTN5zQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,249,1779174000"; 
-   d="scan'208";a="266533030"
+   d="scan'208";a="266533038"
 Received: from pankris-x299-ud4-pro.bj.intel.com ([10.238.152.122])
-  by orviesa006.jf.intel.com with ESMTP; 28 Aug 2026 21:41:05 -0700
+  by orviesa006.jf.intel.com with ESMTP; 28 Aug 2026 21:41:08 -0700
 From: Kris Pan <kris.pan@intel.com>
 To: gregkh@linuxfoundation.org
 Cc: akpm@linux-foundation.org,
@@ -55,9 +55,9 @@ Cc: akpm@linux-foundation.org,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Kris Pan <kris.pan@intel.com>
-Subject: [PATCH v2 1/2] fs: move splice_zeropage_into_pipe() and zero_pipe_buf_ops to fs/splice.c
-Date: Sat, 29 Aug 2026 12:37:45 +0800
-Message-ID: <20260829043746.2929210-2-kris.pan@intel.com>
+Subject: [PATCH v2 2/2] drivers/char/mem: splice the zero page for /dev/zero and /dev/full
+Date: Sat, 29 Aug 2026 12:37:46 +0800
+Message-ID: <20260829043746.2929210-3-kris.pan@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260829043746.2929210-1-kris.pan@intel.com>
 References: <20260829043746.2929210-1-kris.pan@intel.com>
@@ -69,164 +69,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The zero-page splice logic in mm/shmem.c (zero_pipe_buf_ops and
-splice_zeropage_into_pipe()) is generally useful for any file that wants
-to splice zero pages into a pipe, such as /dev/zero and /dev/full.
+Implement a splice_read handler for /dev/zero and /dev/full that pushes
+references to the global zero page into the pipe, instead of allocating
+and zeroing a fresh page for every pipe buffer.
 
-Move them to fs/splice.c next to the other pipe buffer operations and
-declare them in include/linux/splice.h so they can be shared by other
-callers without duplicating the boilerplate.
+This is much faster than copy_splice_read() for splicing zeroes, since it
+avoids the page allocation and zeroing on every pipe buffer.
 
-No functional change.
+Use the shared splice_zeropage_into_pipe() helper from fs/splice.c.
 
 Signed-off-by: Kris Pan <kris.pan@intel.com>
+Reviewed-by: Max Kellermann <max.kellermann@ionos.com>
 ---
- fs/splice.c            | 62 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/splice.h |  3 ++
- mm/shmem.c             | 45 ------------------------------
- 3 files changed, 65 insertions(+), 45 deletions(-)
+ drivers/char/mem.c | 29 +++++++++++++++++++++++++++--
+ 1 file changed, 27 insertions(+), 2 deletions(-)
 
-diff --git a/fs/splice.c b/fs/splice.c
-index 9d8f63e2fd1ab..b6ea98cc62fd5 100644
---- a/fs/splice.c
-+++ b/fs/splice.c
-@@ -398,6 +398,68 @@ ssize_t copy_splice_read(struct file *in, loff_t *ppos,
+diff --git a/drivers/char/mem.c b/drivers/char/mem.c
+index 63253d1de5d70..6d3ef359b2d7b 100644
+--- a/drivers/char/mem.c
++++ b/drivers/char/mem.c
+@@ -471,6 +471,31 @@ static ssize_t read_iter_zero(struct kiocb *iocb, struct iov_iter *iter)
+ 	return written;
  }
- EXPORT_SYMBOL(copy_splice_read);
  
-+/*
-+ * Pipe buffer operations for splicing zero pages into a pipe, used to
-+ * optimize reads from sparse holes in files and from zero devices such as
-+ * /dev/zero and /dev/full.
-+ */
-+static bool zero_pipe_buf_get(struct pipe_inode_info *pipe,
-+			      struct pipe_buffer *buf)
++static ssize_t splice_read_zero(struct file *in, loff_t *ppos,
++				struct pipe_inode_info *pipe, size_t len,
++				unsigned int flags)
 +{
-+	return true;
-+}
++	size_t total = 0;
++	loff_t pos = 0;
++	size_t used, npages;
 +
-+static void zero_pipe_buf_release(struct pipe_inode_info *pipe,
-+				  struct pipe_buffer *buf)
-+{
-+}
++	used = pipe_buf_usage(pipe);
++	if (used >= pipe->max_usage)
++		return -EAGAIN;
++	npages = pipe->max_usage - used;
++	len = min_t(size_t, len, npages * PAGE_SIZE);
 +
-+static bool zero_pipe_buf_try_steal(struct pipe_inode_info *pipe,
-+				    struct pipe_buffer *buf)
-+{
-+	return false;
-+}
++	while (len) {
++		size_t n = splice_zeropage_into_pipe(pipe, pos, len);
 +
-+const struct pipe_buf_operations zero_pipe_buf_ops = {
-+	.release	= zero_pipe_buf_release,
-+	.try_steal	= zero_pipe_buf_try_steal,
-+	.get		= zero_pipe_buf_get,
-+};
-+
-+/**
-+ * splice_zeropage_into_pipe - splice a zero page into a pipe
-+ * @pipe: pipe to splice into
-+ * @fpos: file position
-+ * @size: number of bytes to splice
-+ *
-+ * Splice at most one page of zeroes into the pipe.  The zero page is not
-+ * refcounted, so @zero_pipe_buf_ops must be used to avoid taking a
-+ * reference on it.
-+ *
-+ * Return: the number of bytes spliced.
-+ */
-+size_t splice_zeropage_into_pipe(struct pipe_inode_info *pipe,
-+				 loff_t fpos, size_t size)
-+{
-+	size_t offset = fpos & ~PAGE_MASK;
-+
-+	size = min_t(size_t, size, PAGE_SIZE - offset);
-+
-+	if (!pipe_is_full(pipe)) {
-+		struct pipe_buffer *buf = pipe_head_buf(pipe);
-+
-+		*buf = (struct pipe_buffer) {
-+			.ops	= &zero_pipe_buf_ops,
-+			.page	= ZERO_PAGE(0),
-+			.offset	= offset,
-+			.len	= size,
-+		};
-+		pipe->head++;
++		pos += n;
++		total += n;
++		len -= n;
 +	}
 +
-+	return size;
++	return total;
 +}
 +
- const struct pipe_buf_operations default_pipe_buf_ops = {
- 	.release	= generic_pipe_buf_release,
- 	.try_steal	= generic_pipe_buf_try_steal,
-diff --git a/include/linux/splice.h b/include/linux/splice.h
-index 9dec4861d09f6..f1d4aefa4ec2c 100644
---- a/include/linux/splice.h
-+++ b/include/linux/splice.h
-@@ -108,4 +108,7 @@ extern void splice_shrink_spd(struct splice_pipe_desc *);
+ static ssize_t read_zero(struct file *file, char __user *buf,
+ 			 size_t count, loff_t *ppos)
+ {
+@@ -669,7 +694,7 @@ static const struct file_operations zero_fops = {
+ 	.read_iter	= read_iter_zero,
+ 	.read		= read_zero,
+ 	.write_iter	= write_iter_zero,
+-	.splice_read	= copy_splice_read,
++	.splice_read	= splice_read_zero,
+ 	.splice_write	= splice_write_zero,
+ 	.mmap_prepare	= mmap_zero_prepare,
+ 	.get_unmapped_area = get_unmapped_area_zero,
+@@ -682,7 +707,7 @@ static const struct file_operations full_fops = {
+ 	.llseek		= full_lseek,
+ 	.read_iter	= read_iter_zero,
+ 	.write		= write_full,
+-	.splice_read	= copy_splice_read,
++	.splice_read	= splice_read_zero,
+ };
  
- extern const struct pipe_buf_operations page_cache_pipe_buf_ops;
- extern const struct pipe_buf_operations default_pipe_buf_ops;
-+extern const struct pipe_buf_operations zero_pipe_buf_ops;
-+size_t splice_zeropage_into_pipe(struct pipe_inode_info *pipe, loff_t fpos,
-+				 size_t size);
- #endif
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 9001aaf3b7b94..39d8dfefbe9f5 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -3427,51 +3427,6 @@ static ssize_t shmem_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	return ret;
- }
- 
--static bool zero_pipe_buf_get(struct pipe_inode_info *pipe,
--			      struct pipe_buffer *buf)
--{
--	return true;
--}
--
--static void zero_pipe_buf_release(struct pipe_inode_info *pipe,
--				  struct pipe_buffer *buf)
--{
--}
--
--static bool zero_pipe_buf_try_steal(struct pipe_inode_info *pipe,
--				    struct pipe_buffer *buf)
--{
--	return false;
--}
--
--static const struct pipe_buf_operations zero_pipe_buf_ops = {
--	.release	= zero_pipe_buf_release,
--	.try_steal	= zero_pipe_buf_try_steal,
--	.get		= zero_pipe_buf_get,
--};
--
--static size_t splice_zeropage_into_pipe(struct pipe_inode_info *pipe,
--					loff_t fpos, size_t size)
--{
--	size_t offset = fpos & ~PAGE_MASK;
--
--	size = min_t(size_t, size, PAGE_SIZE - offset);
--
--	if (!pipe_is_full(pipe)) {
--		struct pipe_buffer *buf = pipe_head_buf(pipe);
--
--		*buf = (struct pipe_buffer) {
--			.ops	= &zero_pipe_buf_ops,
--			.page	= ZERO_PAGE(0),
--			.offset	= offset,
--			.len	= size,
--		};
--		pipe->head++;
--	}
--
--	return size;
--}
--
- static ssize_t shmem_file_splice_read(struct file *in, loff_t *ppos,
- 				      struct pipe_inode_info *pipe,
- 				      size_t len, unsigned int flags)
+ static const struct memdev {
 -- 
 2.43.0
 
