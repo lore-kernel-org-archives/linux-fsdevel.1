@@ -1,239 +1,215 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38BD346FAE
-	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 15:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788015874; cv=pass; b=HhZ3ye8ASTsch6UuNoG+895LU2a+XZt47Z9+4d6ZT0FF1TofwTtHF0pRjVILK06ZetALvYlGbgkJuwYnFM0ILTblz+Wgsr6Jr0jka6VkCabJByMfbyLeyLDxtpisXBZdCWvMfGMIiHgmcECE3TPrNtu5141iiuTDLZXZUp2VeH4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788015874; c=relaxed/simple;
-	bh=UWm3xjClObIPYMOSfGgY93JerFiRNkq2N+PP8m2Jo2M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sRA+SbLIiYJ3+f6qjYYd6ZY7jdB6d1AJvXDwQI7h40nzD8SKDx+QWyDD2kPvh4iXJqQjaNLIRwAPjUamESnsYHa5FXBkRYGaEMeVEL5T2O0by15BKi8Vo1UlBxLY/y/pTpx+r3g+v2ui8G/7VL4zPMtq21IB0D2WvFSirv8JibM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8/3maGJ; arc=pass smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2508E1FF5E3
+	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 15:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788018441; cv=none; b=L2DYnpeQDGKwZ+QG0wZhoK1RZ3VUjbvR3ch6hDee8f7POKNlrlFmwE3ZbVrDfNSasjzI7YcRdhNKH0iFpGJHDuf0Z56H8zidN4z4B3FwgTXGplaAatIQFn4yvaqzXkcN8n1uhz8ZG1jruUABtrhZP4G5n9/Wyzo6B0WSz/29moY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788018441; c=relaxed/simple;
+	bh=xxpR0ksxkA/ONSsugSlrSih0kyNuN6ltaN0MKPNAGsA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uXUv0liM3UAlv3931aN2i1dnDKgkU5yieeA64jvkOy1eEgcAzxxQY7ld1uhtKlkkCIOQ8To5+Ml0Id9ASYF/bjtspelr12hlo7DppIYg0F4DJKSEWKBZSzvBJ2cg2a6Wrf/lMBvO7MVNGwHygs38HZWk78IQlGGoTZXfE55YqNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=Gu2zFIuG; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=yULeJS8f; arc=none smtp.client-ip=148.163.135.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8/3maGJ"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a0a4aa99bdso2532006a12.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 08:04:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788015871; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EsHH/g7UWALJXIHyUje8ERl1wBkQXobWdHUu+Rt3pLfaIQmO07gAWxFTRfzf3XGqEW
-         3aTAAsb/NzPbq/Fakem5kewrchcMiASJmKrfYB5Cs34hbKO3sbFWSdoxz8cCJ9SLkSKP
-         kOEQixGOZ7vTMaXsp2LX0Fh1sNgvNt4TJf4WvuLMNtcU93TBNWe6CvmwOyvOBp9tjFYb
-         +l4yaAJmncXxiY84vp036ffRWn7ah15Nwe9GObH4JEYevvEbb5ENwTICwsOaLwL2ORhL
-         i80jNYIAv1GhORd/8nyn1WPe+robltkQf0bH43GjgR5anNTXUzLdcUC7Bs+AwyhjmCMC
-         AU0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=I7Zg7yhRSkpOkqt7qHxPhqcB4HapJZSFJdwwt7yRRVE=;
-        fh=1RgBchr9ZOZu6jhEN0Ha51bPS0Nwq/TKkbIy0VTsDAE=;
-        b=dhvOYG8DYottQYxC8bFjxo0v6qyQAvp01wxpddg5/T/AxLIL9IeUrlmNCYq2ZloOJ/
-         GJua2jB+zi3ZxkNBXS4NWQb5nR1RtqD/csQa3/hSbUcUlni0OTJ4KQ5o7BPlxVAY/7D/
-         1hr7I0EzaYA2jqJD4T8Qmm1bGcX7twdN2QXWquxTzDAqZ0/BfHVm7fo6mJrdmfIqMO6F
-         L+EYLewMbvqg1+pdh4XNSsUrSxpUWZHRaN2dzhg+cuenVhXJ8fi+7pJy1mFxQxyt9tCW
-         HjknaIuPjwHDE2k+ZrV9GDuCuiSze6IhPiW2CkweRYOanFPcFSnJu9SsijQeHcYQA2aq
-         qR8g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="Gu2zFIuG";
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="yULeJS8f"
+Received: from pps.filterd (m0499199.ppops.net [127.0.0.1])
+	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67TEesqW855754
+	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 11:25:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=TFVW
+	lDwfNWxgPSj86otvED5lH0a6QKBTMoQ7ChKGCcU=; b=Gu2zFIuGUDCk+rJ2VDBk
+	70a9GXKIRmd3CKMeiyckWv/D5MP7Zgaj/CA+sovdSkrETK1IrJb2qFnGnQEaNT3S
+	N9KtoDtS2aWLMgdaZS8EG79pcfDMQu06yKTxqcmPhJVJAftER9ykGtp1pbja1UeX
+	kUFeO1YwKQdpDr1sZdsz5l4M5OOqmQkrZTmdrHduJ4FxpamhWS1IQq9E37/oh+3q
+	nZtzyUcZ5SRVAnnPNjuAJxQT4FXqYOGakyKLjlrLX5KwZ+Imu1kdoq89hPFZ5bjm
+	jEkOlYV+J6fGeVEAdtwq+7wZe5VJJ9mAqHAPx4qs90lyy6hcLcj/IAjQH5/0tLN2
+	0w==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4gbqxha9ds-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 11:25:58 -0400 (EDT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-90cd2cadc62so21861346d6.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 08:25:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788015871; x=1788620671; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=I7Zg7yhRSkpOkqt7qHxPhqcB4HapJZSFJdwwt7yRRVE=;
-        b=d8/3maGJ8iByZ5JbIW/1FKrEsvlyfss3qrM4PGpSI5v/LvIStwW25Dm6EUOofawQwq
-         bNDaOUn6K0eaYcsWQ00FxtBoz2zV9jlVNoXjDuho424tzBe8+b1rC1ClaSy0pxVaMsUa
-         HQpbpTpDFzupPqATQCcopFrxlodm2Zv74mh4GhXcRHg7nFTKeOMagzmTffIDcqSx8mI5
-         MfV27HmwbKH4Twnc7T2+/pvMKKHZisZp80giCKV+jrZ4LY+4yD3ovRBQbfnsqO7X++hn
-         glREbL/hZsg0fmogQN+cQrdJgdEvl1EkUeM/hloj+kN7HFcquDFppjV3gG6czctKtgZ4
-         E6sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788015871; x=1788620671;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=columbia.edu; s=lionmail; t=1788017158; x=1788621958; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=I7Zg7yhRSkpOkqt7qHxPhqcB4HapJZSFJdwwt7yRRVE=;
-        b=lYBC6LIIzNRlEpim68ugSkrr7zmv8PvxUV1rQW1xW92jnqhttx+jZEiqvtqK2VMnh2
-         r6+9fadfz3x1kT928sMfgE3e1pE6+FHUv7vGN9llmnHGKExDlQCJYI21/xLZd+30u0yo
-         syoSxzQX6iPMGr5jxcRl3G7dFvDyn3B/vnbcFualOSAjSZzqAmOfsNTTl3Zs3mlgyHQu
-         8E50BucUQ6naO1XEb7HPJVNb//JWTqachszYLqur7DPLIAkZZ5aXx8zYKRAwQ5DE/E3l
-         yYTuM8WDkCmYWrnfA8AURlbgB4z60fsWJSyx2etY7GwDSzumJApQ88ovcSUBL4qH276Q
-         JL1w==
-X-Forwarded-Encrypted: i=1; AKwUvBxAYlJV8Y7wNik6wDcf+x0R5d+YM4vjgNDAv+tqx466Fz6zQMJn3zBTUP4iWkZNF909A+qEI3h80PFYkn23@vger.kernel.org
-X-Gm-Message-State: AFuF++l0a2mJ7p5TL6HQmeg48MirmSLvOGAPOd8gaMBt7lgVRV1Vmyux
-	/a7Y9ZtAB6IqgHm2IamHX6cwDA9c9H03cW9H5J2DyO0Eo3Rsg9VrKeRoJqeuaGbfieQwDTHocUz
-	8GvactixULZnm5ubniNxcjrIEtRhMUm0=
-X-Gm-Gg: AYBFou27CFJywLNr2cR1AjZ65vhHHISx86DmuJ3uolVIrW/3ORmTOzXBZkynLxwyfRR
-	e45fbAER8tabdACQw26vdwkRpS/8Kde9HpVsw7V4AUga/lCdKJgMZWeafUC1JxBaMH5otXyGlSu
-	p2Aha32P0yOu9kVNVvnotS1IVdhVq/8vUhVkyhV7i/8W6oyTs72BujIWg5tHlT2QoRmrLY6wOb+
-	kEKqZPmGW1whwM3TfyWf0TmPM11Khl65nfRdaUklh0YlHV0ldinxohBVhLQUWo444bYL/n+Dw9l
-	qzjdJdssXKWintS6pa+dB2OAzpHJNbRRSxUFFmhMtXh5jw==
-X-Received: by 2002:a05:6402:20d5:20b0:6a6:1bfa:90f5 with SMTP id
- 4fb4d7f45d1cf-6a61bfa9284mr4898179a12.4.1788015870965; Sat, 29 Aug 2026
- 08:04:30 -0700 (PDT)
+        bh=TFVWlDwfNWxgPSj86otvED5lH0a6QKBTMoQ7ChKGCcU=;
+        b=yULeJS8fL6KgifqlmoIf/kgtzS3n1Sf2tAu/n0+TJqBq24CBHNegLJrwOAeJggMHkC
+         MIW7LyzyjN/rpSO3TUjsRN+PebrGwyJ6YhC7dlk/Nsp9CUNYUYDKAuJe64bSMFsO2JH2
+         l+Zzkixl48qyKz/QJeN6HOsorZ+4RoDA5X5nIfZB46tg7Pux14ql+UDp8EBhQ86RxElY
+         x7k7tP27Hbpd7+Zydx8vMyyfOgb4WZGpgCK/7VeuoK0bX2ysfD8KIuJLNKfsLVlmUd0l
+         YkNo/sy/ocRZAw9O2hGGKz34FhMovgDypqQj+W9DOWduxz+noNAXhqolaxcmLGoL0bLV
+         RDQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788017158; x=1788621958;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TFVWlDwfNWxgPSj86otvED5lH0a6QKBTMoQ7ChKGCcU=;
+        b=bpvGPZXyvsg6Jv9iFgJ+C2bD29oQcqP7PsrAUa+m0aSW8SQJ1EM9crlJ53uZrSOPND
+         KnT3ou656INNpfFggN9EatumOXGk1xL2I798Uyu00VYw28TYrxCVjEWcn6M21I2lBUhk
+         T3Aqr1KXsfatPqgbtBpy6Mto+0+EkYVDeBxDnYLPhNO7cnVNlvIuIcP22E8AwZMEhzJn
+         xBHZyMg0oziUCtdN/scx181IoyeVa61qcwf6PBFmaStCi+JDEsAEKxq4M+CewZsL6//I
+         qFz2C9aNBEdosaRIVSBQH1QPejZslAXhXJCLgwctLajEaQ3VLWSNbsi8GZ7PSuExAF9X
+         TPKQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq1p0w26lS1ZsTlli69olJQLvP+hJ26pOQvfmYmN24XiSLXuIiq4oOiJd/F1DqLDU3/plW5fh2zRHItgDPi@vger.kernel.org
+X-Gm-Message-State: AFuF++n01eBK1dkKNr3gF4Ci6OflCU61Jswcjp8rAaoWgZCmQjSxB5d0
+	zfdSfu/YEWdPT4ghdZpSP5I+LqfU1eLSQO9IVSb2qfOJqynlB37/RE5oH3VziGWIF/6w3/K95R3
+	j1UVCOR4gA5a1odSUURo1U06iPFBXC17HtvcmQ+ZtBe5GvPh1K25k5/IlcT9ONOc=
+X-Gm-Gg: AR+sD11L4Hwa3c5UedyWXkbSX9ngtEUduyMQD+Ru5RREjHaF5fw/Q6AFZ6tOtqIH4M6
+	wyAG+YPWTdiVJU20aOiWN2bAjjXXAeHn+/P/nmfDUvrA1Iv03QWdp61oG9laujqusSmprI5VB6L
+	7p8FyEyI9a75ah8m+UxiajKhmZOQ05C8iAidB5ajNCThviLTYSHUWOgRoRvOEWd4D50tCCaKnPH
+	CGP7Yk6Y9/YHaZGyc+hKByC5eNoyES3u6Z89NWi4Fsff42PynHGjacV6Yj/3H9HGicA7lKbRTWI
+	P8hgTGDGK+wegfYZ/Kai3ecM4LwdR4MVLv8DGKIAP5LBBCxHm550DN9MSYXxko6vlePNR9e8nyH
+	/epnVQDnnBQdFunDZDV973AeftQU+tX0ryxB8fxEnuXIDslM=
+X-Received: by 2002:a05:622a:95:b0:519:8998:661b with SMTP id d75a77b69052e-52fb9640d64mr173116431cf.20.1788017157654;
+        Sat, 29 Aug 2026 08:25:57 -0700 (PDT)
+X-Received: by 2002:a05:622a:95:b0:519:8998:661b with SMTP id d75a77b69052e-52fb9640d64mr173115921cf.20.1788017157157;
+        Sat, 29 Aug 2026 08:25:57 -0700 (PDT)
+Received: from [192.168.0.175] (bzq-79-179-7-133.red.bezeqint.net. [79.179.7.133])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cca1ed292sm84339685e9.8.2026.08.29.08.25.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 29 Aug 2026 08:25:56 -0700 (PDT)
+Message-ID: <6672b30b-427f-45ed-a172-4c47a63d2c7c@columbia.edu>
+Date: Sat, 29 Aug 2026 18:25:53 +0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260827045007.3831259-1-4ncienth@gmail.com> <yjfqzckumtd32dgqidi5sndvth2t67mjwah4kt4jiahlx2a5uf@if55sinfv5o7>
- <20260828042421.964822-1-4ncienth@gmail.com> <ptco7s5x7tjzp42dzlsitibdigpwucl2whwrq37tknjpo7x2lc@b7q27ldlorak>
- <CAOQ4uxgB9anyJcWem04w65VCJdxbbb2cQDZ_u8qMusw3xpB9Gw@mail.gmail.com> <63aj7jbfaoamdmcurlge2c2kqpliaifgq4vbythrrxpfyr5vtm@z64myom426zd>
-In-Reply-To: <63aj7jbfaoamdmcurlge2c2kqpliaifgq4vbythrrxpfyr5vtm@z64myom426zd>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 29 Aug 2026 17:04:19 +0200
-X-Gm-Features: AcwNN1URiFh1xX88KrhxjDd0GnRbkhAoFiuICMBldX0tePYCcvFHRr6K3D5713Y
-Message-ID: <CAOQ4uxh-NZ76hEFoNNGjyhodr9U=dvZuGVmYHVPGZ_=jRxCAsA@mail.gmail.com>
-Subject: Re: [BUG] fanotify: destroy/add race leaves a mark on a detached connector
-To: Jan Kara <jack@suse.cz>
-Cc: Daehyeon Ko <4ncienth@gmail.com>, Miklos Szeredi <mszeredi@redhat.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/5] block: add task-context bio completion
+ infrastructure
+To: Barry Song <baohua@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "Darrick J. Wong"
+ <djwong@kernel.org>,
+        Carlos Maiolino <cem@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+        Christoph Hellwig <hch@infradead.org>, Gao Xiang <xiang@kernel.org>,
+        Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+        Jeffle Xu <jefflexu@linux.alibaba.com>,
+        Sandeep Dhavale
+ <dhavale@google.com>,
+        Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
+        Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-erofs@lists.ozlabs.org
+References: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
+ <20260730-blk-dontcache-v7-2-3e8e6850068d@columbia.edu>
+ <CAGsJ_4wUvLoKGafR3U-ji1kUUaz6K_QdN6QxMT-apSaO5tXp0A@mail.gmail.com>
+Content-Language: en-US
+From: Tal Zussman <tz2294@columbia.edu>
+In-Reply-To: <CAGsJ_4wUvLoKGafR3U-ji1kUUaz6K_QdN6QxMT-apSaO5tXp0A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI5MDEzMyBTYWx0ZWRfX98QDMyaGtg+r
+ I4KZDfSIyqna7D2HHPZJ9Vpmwz3DwBi+VOiDUuizYVZcaXO4Nb/hLH1nCb7x8jhx8HLdFs0Lmb/
+ hHbbUQTPgk3N6w0S5mXZ4emafAv7xumfWtCWxd5jvVdFll0lclcS
+X-Proofpoint-ORIG-GUID: cs858SKfwQxcXZMIcQxhqTqVYPpH42sA
+X-Proofpoint-GUID: cs858SKfwQxcXZMIcQxhqTqVYPpH42sA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI5MDEzMyBTYWx0ZWRfX49c1ISTyLTwr
+ gKYzHrlKOGsSKgSbrfa6nYi7VL4992UjL4gyXj+KYI7HY4w924oENdjkrTIvPIwImUEthW5OTxd
+ qeiSIUEjGidWrsbmZ37tLr8LmxzzWQTv2MEsqcn3yfr3mUYdTzz/652s6smKuks1gohxUUrVjzR
+ HsiC5Coa/E5t2ggB/DRaRhZk0dbdmHq4VCh6smzCMbTB2rckTcyNYNmQP8IeasBbVjjyxYlssv4
+ 3CAoC0V6k0ElYt0UtnmUedimwqkMSLjz761Ny82jWriZu/BvvYy0THUowfAIMnQ//Sxot25soG5
+ SAdE6K73ddX9znCcVbkv/4gh6gbywP+h0OLjyC+F0evj7QISqeX3rzavJZZaV0dzbWa5kZp4emO
+ U1yMNhdYPiknYVKy4PNcU7BvPs2zy1CTgtGbMcSSzbdtkh/A7EiSgg5+hDXUiEhCsfs/9hCIeAt
+ Ba1f3MiYTVOSo4/dzsg==
+X-Authority-Analysis: v=2.4 cv=MJpQXsZl c=1 sm=1 tr=0 ts=6a92fa06 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=LRATYcvZeiQrLRB5MfbBvg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=G--0XuH5328wxK7v7Suf:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=bN2RZfqcuyHWyQBaeeoA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11890
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=10 bulkscore=10 adultscore=0
+ impostorscore=10 spamscore=0 suspectscore=0 clxscore=1015 phishscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608290133
 
-On Fri, Aug 28, 2026 at 7:36=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> On Fri 28-08-26 12:18:52, Amir Goldstein wrote:
-> > On Fri, Aug 28, 2026 at 11:05=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
-> > > On Fri 28-08-26 13:24:19, Daehyeon Ko wrote:
-> > > > You are right that an fd-held dentry cannot satisfy the count =3D=
-=3D 1 check. I
-> > > > was imprecise in the report: the fd and the final unlink refer to t=
-wo
-> > > > different hard-link dentries for the same inode.
-> > > >
-> > > > The setup is:
-> > > >
-> > > >   1. create A/x and link it as B/y;
-> > > >   2. open B/y, add the old-group inode mark through that fd, then u=
-nlink
-> > > >      B/y, leaving i_nlink =3D=3D 1 while the fd retains the B/y den=
-try;
-> > > >   3. race these two calls:
-> > > >
-> > > >        unlink("A/x")
-> > > >
-> > > >        fanotify_mark(racer_group, FAN_MARK_ADD, FAN_MODIFY,
-> > > >                      victim_fd, NULL)
-> > > >
-> > > >      where victim_fd still refers to the already unlinked B/y dentr=
-y.
-> > > >
-> > > > So the A/x dentry checked by d_delete() is not held by the fd and c=
-an have
-> > > > d_lockref.count =3D=3D 1. Its unlink drops the inode's last link an=
-d reaches
-> > > > dentry_unlink_inode() -> fsnotify_inoderemove(). At the same time,
-> > > > fanotify_find_path() gets the same inode through the fd-held B/y de=
-ntry and
-> > > > adds the racer mark.
-> > >
-> > > Thanks for explanation of the reproducer. Now it makes sense. The
-> > > conclusion from this is that fsnotify_inoderemove() can indeed be cal=
-led
-> > > for still fully alive open inodes which should be (think of permissio=
-n /
-> > > pre-content events) still generating events. That could be actually
-> > > breaking some assumptions of userspace although I don't think it's a
-> > > serious issue in practice because users of permission / pre-content w=
-atches
-> > > tend to use filesystem / mount watches.
-> > >
-> > > Also I think we could generate FS_DELETE_SELF twice for the inode - o=
-nce it
-> > > will we generated as a result of d_delete("A/x"), and finish_dput() -=
->
-> > > dentry_kill() -> dentry_unlink_inode() will generate it for the secon=
-d time
-> > > on the last close of the open through "B/y". That should be mostly ha=
-rmless
-> > > but still it's an oddity to keep in mind and preferably avoid if we c=
-an.
-> >
-> > I don't know. This sounds like a fundamental behavior change.
-> > In current upstream FAN_DELETE_SELF is a dying breath of an
-> > inode and no more events on this inode are expected IIUC.
-> >
-> > Applications could be relying on this.
-> > In fact I have an application that almost relies on this, but IIRC
-> > it does one last open_by_handle_at() to make sure before calling
-> > the inode dead. Other applications could be less strict.
-> >
-> > Changing behavior so events could happen after FAN_DELETE_SELF
-> > sounds risky.
->
-> I was probably imprecise with my wording. What I meant is that *currently=
-*
-> when you have a hardlinked inode, you open and unlink through B/y and the=
-n
-> the unlink though A/x races with close of the B/y file, then you could ge=
-t
-> two FAN_DELETE_SELF events if the race works out right. The only change o=
-f
-> behavior I was planning was avoiding this race if possible :).
->
+On 8/16/26 7:11 AM, Barry Song wrote:
+> Hi Tal,
+> 
+> Thanks very much for the patch. I’m just a bit confused that
+> folio_end_dropbehind() only requires in_task(), and nothing more.
+> 
+> void folio_end_dropbehind(struct folio *folio)
+> {
+>          if (!folio_test_dropbehind(folio))
+>                  return;
+> 
+>          /*
+>           * Hitting !in_task() should not happen off RWF_DONTCACHE writeback,
+>           * but can happen if normal writeback just happens to find dirty folios
+>           * that were created as part of uncached writeback, and that writeback
+>           * would otherwise not need non-IRQ handling. Just skip the
+>           * invalidation in that case.
+>           */
+>          if (in_task() && folio_trylock(folio)) {
+>                  filemap_end_dropbehind(folio);
+>                  folio_unlock(folio);
+>          }
+> }
+> 
+> But we’re applying a much stricter check with bio_in_atomic():
+> 
+> +static inline bool bio_in_atomic(void)
+> +{
+> +     if (IS_ENABLED(CONFIG_PREEMPTION) && rcu_preempt_depth())
+> +           return true;
+> +     if (!IS_ENABLED(CONFIG_PREEMPT_COUNT))
+> +           return true;
+> +      return !preemptible();
+> +}
+> 
+> I feel like something may be missing either in
+> folio_end_dropbehind() itself or somewhere in the
+> filesystem/block-device path.
+> 
+> Do you know why they don’t match each other?
+> 
+> Best Regards
+> Barry
+> 
 
-Sorry I misread.
+Hi Barry,
 
-> > > Now there's the question about the best fix for the problem. I've rea=
-lized
-> > > we cannot just remove the call to fsnotify_inode_delete() from the pl=
-ace
-> > > where fsnotify_inoderemove() is called (and rely on the call from
-> > > __destroy_inode()) because the connector holds inode reference and so
-> > > __destroy_inode() would never get called. Hrm, this is a hairy issue =
-and so
-> > > far I don't see a good place to reliably trigger detaching of connect=
-or
-> > > from the inode. One reliable place would be iput() but that's really =
-ugly
-> > > and would slow down every iput() user. The cleanest solution I can
-> > > currently see is to stop holding inode reference from a connector as =
-I've
-> > > proposed in the past. Then we can reliably perform the cleanup in
-> > > __destroy_inode(). But that will be a rather non-trivial undertaking.=
- Amir,
-> > > do you see some other option?
-> >
-> > What about the option I proposed to live with the orphan marks
-> > Is it so bad? I mean it's confusing and removing the assertion could
-> > hide real bugs/races, but maybe it's worth not complicating the code
-> > until we move forward to re-attachable marks.
->
-> I'm not so much worried about the case when placing of the mark races wit=
-h
-> unlink. There I agree we can somehow paper over the problem for now. What
-> I'm more worried about is the case where someone places a precontent /
-> permission mark on the inode and a malicious user does hardlink + open +
-> unlink trick and after unlinking the original link to the inode, he has a=
-n
-> open fd to the inode stripped of any notification marks which I'd say
-> violates the promise of precontent / permission marks.
+Apologies for the delay.
 
-I see. so we need a point where there are no more hardlinks and no more
-dentry aliases to the inode.
+As far as I can tell, the in_task() in folio_end_dropbehind() wasn't meant
+to be a generic test for if it's safe to sleep, but rather filtered out the
+known unsafe case of buffer_head writeback completing from IRQ context.
+In contrast, the bio_in_atomic() check needs to be stricter since the bi_end_io()
+callbacks could sleep or the callers could be holding locks, RCU, etc.
 
-How about we check for this condition?
+I see there's some more discussion about this at [1], but I suspect there are
+other instances that are (incorrectly) using in_task() as a proxy for being able
+to sleep (like f2fs_read_end_io(), but I haven't looked too closely at it).
 
-Am I missing something?
+Additionally, it probably only makes sense to use bio_in_atomic() when there's
+some deferral path, since with CONFIG_PREEMPT_COUNT=n, it'll always return true.
 
 Thanks,
-Amir.
+Tal
 
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -471,7 +471,7 @@ static void dentry_unlink_inode(struct dentry * dentry)
-        raw_write_seqcount_end(&dentry->d_seq);
-        spin_unlock(&dentry->d_lock);
-        spin_unlock(&inode->i_lock);
--       if (!inode->i_nlink)
-+       if (!inode->i_nlink && hlist_empty(&inode->i_dentry))
-                fsnotify_inoderemove(inode);
-        if (dentry->d_op && dentry->d_op->d_iput)
-                dentry->d_op->d_iput(dentry, inode);
+[1]: https://lore.kernel.org/linux-fsdevel/20260829121335.3491374-1-qwjhust@gmail.com/T/
