@@ -1,236 +1,181 @@
-Received: from mail-oi2-f4.google.com (mail-oi2-f4.google.com [74.125.231.196])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C5D7082D
-	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 09:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D980D332917
+	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 10:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787996741; cv=none; b=tCXPJJnDaESD2ZBarWrbZtWxc7kVbekrWn5NzlepYkD3YD2qGUDJ6P5RBWzcNk5ioKU9WSzNnCtcplvUTMvcCS8rF8vL2eZcSDFsApr+wy+L6yDOeOl6qzj1rBLyijvQwJYTPuP7rA+mPjKG9WA9mfU9xfyy6PFLmFr94cjSRQI=
+	t=1787998761; cv=none; b=h/FF+oHaufWr/aM6MYc7iO4qWckS5zX+v0akPVX1NpNr8qHFKOo38kuEHn0r0HJ1YAwBXhfX4UPykRudF3eXcaVAU2aiNegAR6DxaVX0m2SJzvSyw+2plpbXUyk2hE+3+iY1lQYwCTATToxo/6+q8989IIyihU4bAL+6iyvFYSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787996741; c=relaxed/simple;
-	bh=mdjEtmYNt6m0PH+g5Pl1yWCdrS33hSY1MaQVZQgn4T8=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=T33keDL7/H8df2IyalofpTyiGL6LjebfhY/2acwYSyD4m8lNDBDf/C+koe/Za042wWtq7Ueqj6x5U6F9d56RhCrN/MhAS7ulccqPoJLAt3V5C4WHnAuPN3/aSHGZAJ1egG17M+C4xOSjgO/aOePXoEraQOlELap8LeW7RGKjHZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f4.google.com with SMTP id 5614622812f47-4b3880be385so811821b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 02:45:39 -0700 (PDT)
+	s=arc-20240116; t=1787998761; c=relaxed/simple;
+	bh=uWiCJRfkz+8wlvQiwRpUOg5mVsQG8h4166rBb5yTUcU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vBHvmgZtrzjprFLBfOrulvhrKKXm2YzUOfVQpb2tYeEoohfrSw+0orb2ifsVKxFIOF37zik4SiMbuMt0wt/mC6jJjOa5X17OWokIFqxFYfDW2B9prsZRf+wdq/9+WIq6YSFS/W3Uev+XrR5Ku6T74fl4LUvjLwma8N8XC8pnRzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kTNsY1op; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kTNsY1op"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-852c481415fso2051245b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 03:19:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787998759; x=1788603559; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=e6pLNBZrAnN+v62n4ihU9SPJ7Z60nyT7aNzFPAXTs2g=;
+        b=kTNsY1opugBXS0J9NXT+tHBE1bSmgMhe0YhV/IpnUB8lC/YpkXEPKameU9A4D7oBxK
+         hE0TairZI0jUW+il7F5m1Jg2+U+kyNGQjca85CIDE6LTrhpdrPyIJKIAw8jYRC1v7YoO
+         fJfDcb5FIDeCDA5P9eAbmKXfZYy4tgvI3gRjauJLxqEXjZe9N4jCZN0X73ZB8jklE0Zj
+         7TdpU2jpzIHi10gqZ24Zlwsh8dQTbUUQTmUQkRaPax67UII6CdlBKlztneTm6V1JFabM
+         ZygKMCFWi2V53rwNtHojaZS2lAI7imsQeDv0PGgx7t3mhE1HP0j+aj3n1AfzXHpnzQaj
+         yNfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787996738; x=1788601538;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=qfen64N2iwo0bEIW3peyN+gV06ebUNeOYObnSGw4AG0=;
-        b=o4GWGZEiiVFnYBr5l1QowItGI7IEnTah9xrDZ5ZD6tKh1NHOYVtpNDjq/r1UQpIxhj
-         FgD+PMhn13m90RVmhLUAdt7viy7glM+Y5iDm8hPvs0XeGKOTTnUzbRDjJuZIcS9jr64J
-         1A+FO5fuZbRNgQvHFB/HbzhIdgCrtLM3NWEWEhBYmqa0ag4OxCzMWv9DUmlGG5jFAgK5
-         Z6igauncPz3DwyawToSM+9DgDJudkwBZV4OUKrfLqjgpdTKe3T5etoPmd0flmyPrk0I7
-         pNkhaRSrfq6T3w3GjOhXnsbxySW79EUcC6izz/xbvOAeGPsg7r9xf9BkCsDmGPSPpLJf
-         57dg==
-X-Forwarded-Encrypted: i=1; AHgh+RrmiHwSl1gYdbPPya6GjYweILzsObpLzS6dQ3easLpdgM1zS8jcyj/CPrQzxlweytzddEkLlmLtMkHevMyT@vger.kernel.org
-X-Gm-Message-State: AFuF++nYCnVZhdrSLDt8zKq3U+cPjiMtQxtEWtV1DqeIZSs69gbHj0fd
-	HJETUAReriXZ+fPreCfsAzxNTfdnU1GrQb7olf4a5PDvgnpRZjB4ulqce6REFr7LvmOgiBQfN8I
-	yL9bcH61rQHfZpQXcPxc5Gwz2O9bYrYePI8JRYEfq+pEMoLDAHOeeO+mlAKk=
+        d=1e100.net; s=20251104; t=1787998759; x=1788603559;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=e6pLNBZrAnN+v62n4ihU9SPJ7Z60nyT7aNzFPAXTs2g=;
+        b=QJ0nm5fhmC/n7K4oQDpJFWm6g79LAe7GiDgdcr9FC30W39Lc6aXGThUqfv501RLHig
+         Pg3HXeAjxO/Y2uTNejSBdQEJzKPxnYK1bdzoCtYEI3mk9wV5Am20pA5WA9smSbJIKBof
+         9GnO4Hi2g55IXCDZ/3ITFME86khsamZUafA5sEJHDjrJaRMyK+R9Rgv4q99RIa7Bt39b
+         an4UzmIIJSwHQC6RRFkyw4EdzxH+tpp0ZlcjXCKflz5w/fsbcStNIsAwFwvjsNu3LO3O
+         iS7+O2CkdySNsEmG3H16EOOz54JkkzrpYXRHt59X7wSUSfwWVvmlFF/CzQ9ZNCNQLo40
+         W0Fw==
+X-Forwarded-Encrypted: i=1; AHgh+RqyPSALJ77Y0RNw7LOmHECJyVWCqam+CKgk7dtdZGRK9I++KRn9WVKLwZp/x4MUTPatKlcShFBWJ4FKeMXk@vger.kernel.org
+X-Gm-Message-State: AFuF++kRror7uUbvWYtxGISVmM3Q1BQ9VmvWy4fQQPVYuMq7vqldI+kK
+	ZbHLQmAD/rtM5WLmp8E7Qk8YrdI/zpgm5TehzM8oht+a0kfEMFPjh0Xn
+X-Gm-Gg: AR+sD11fg3bK9J35DZtYleGsX5Ogw3B4tSbJfv338L6jZoTv3fhjcDVsRAqE+Bhawf+
+	efAdrj/v7ME8mSZne2VQFiuuDtKg8+x08IYksyLORec2PBMqYIjFSojbM8dGCvKc6AmWPO5WPfT
+	TTdK/W2GXdCC9C4S78gi822kzUngxmCAWYip/dJvbvCuiT+V0wNwDlpkn6Igu5wgHTJlwVmpBHu
+	9rbV4xJX6CSZZ8xhYV7cWAUMglxg7ZbN0icDpcaBzU6/TGXf8KTa8OlGQzU/L0EcAsnudXelVli
+	CXPfDkYfgpQYS2f13ThkIDcL5z7cFPKuV65sotp7Th6XGBKtixDUREcfO3iOQezsVPCnNgTN4FM
+	1hetqO1AeJ+NEKiW9j5KWeWdCQ/4qxjy2P/ywEGojgH3/XLDDV74UMQGMrnFfXs/XFIL/y/oZT6
+	OcVr8EdqQjDw4YeuY3+P+Zc/xYpNiVwl/CsXADlAtkgfBIZZOHNzXgPKIhT9WMhKn+ek764z0BD
+	A==
+X-Received: by 2002:a05:6a00:a221:b0:857:7337:5db9 with SMTP id d2e1a72fcca58-85773375f9cmr7598086b3a.23.1787998759043;
+        Sat, 29 Aug 2026 03:19:19 -0700 (PDT)
+Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8569f49ed7asm1445775b3a.8.2026.08.29.03.19.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Aug 2026 03:19:18 -0700 (PDT)
+From: Daehyeon Ko <4ncienth@gmail.com>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Mateusz Guzik <mjguzik@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	syzbot+0aee5e8066eddbbe7397@syzkaller.appspotmail.com,
+	syzbot+e8b3520b53e78e90034e@syzkaller.appspotmail.com
+Subject: [PATCH] exit: hold a reference to thread_pid across proc_flush_pid
+Date: Sat, 29 Aug 2026 19:19:05 +0900
+Message-ID: <20260829101905.4163730-1-4ncienth@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:190f:b0:4b3:74d0:6ef7 with SMTP id
- 5614622812f47-4b398037cdamr12522980b6e.4.1787996738186; Sat, 29 Aug 2026
- 02:45:38 -0700 (PDT)
-Date: Sat, 29 Aug 2026 02:45:38 -0700
-In-Reply-To: <6a8ce445.dbb3a75c.7844.0016.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a92aa42.08e933ee.dbf97.0088.GAE@google.com>
-Subject: Re: [syzbot] [fs?] KASAN: slab-use-after-free Write in do_bad_area
-From: syzbot <syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com>
-To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot has found a reproducer for the following issue on:
+release_task() keeps a task's thread_pid across the point where it
+drops tasklist_lock and calls proc_flush_pid().  The commit named in Fixes
+removed the PID reference.  It assumed that the PID cannot go away before
+this release_task() invocation calls free_pids().
 
-HEAD commit:    45c13f3f9e3b Merge tag 'hwlock-v7.3' of git://git.kernel.o..
-git tree:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux master
-console output: https://syzkaller.appspot.com/x/log.txt?x=16a01d79580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9c4b7daf40ce2cde
-dashboard link: https://syzkaller.appspot.com/bug?extid=7bf725ed337e37307001
-compiler:       aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15e5bd49580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11a01d79580000
+That assumption does not cover references represented only by PIDTYPE
+links.  Process B can still use exiting process A's PID as its session and
+process group ID.  A is reaped with wait4(-1); PID-specific waits take
+their own PID reference and mask the bug.  After A's reaper drops
+tasklist_lock, B can call setsid(), remove the final PIDTYPE links, and
+queue the PID from B's own free_pids() call.  The RCU callback can then
+free the object before the reaper dereferences pid->inodes and pid->lock in
+proc_flush_pid().
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/fa3fbcfdac58/non_bootable_disk-45c13f3f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e9902fa4027d/vmlinux-45c13f3f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/b6ce3ac93fda/Image-45c13f3f.gz.xz
+A timing-only diagnostic forced this legal ordering on final v7.2.  It only
+gated the real setsid(), RCU callback, and proc_flush_pid() operations; it
+did not change PID links or reference counts.  Three of three fresh KASAN
+boots reported:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7bf725ed337e37307001@syzkaller.appspotmail.com
+    BUG: KASAN: slab-use-after-free in
+    proc_invalidate_siblings_dcache+0x3e2/0x3f0
+    Read of size 8 by task h7_pid_reaper/1921
+    CPU: 0 UID: 65534 PID: 1921 Comm: h7_pid_reaper
 
-==================================================================
-BUG: KASAN: slab-use-after-free in __lse__cmpxchg_case_acq_64 arch/arm64/include/asm/atomic_lse.h:272 [inline]
-BUG: KASAN: slab-use-after-free in __cmpxchg_case_acq_64 arch/arm64/include/asm/cmpxchg.h:122 [inline]
-BUG: KASAN: slab-use-after-free in __cmpxchg_acq arch/arm64/include/asm/cmpxchg.h:170 [inline]
-BUG: KASAN: slab-use-after-free in raw_atomic64_cmpxchg_acquire include/linux/atomic/atomic-arch-fallback.h:4181 [inline]
-BUG: KASAN: slab-use-after-free in raw_atomic64_try_cmpxchg_acquire include/linux/atomic/atomic-arch-fallback.h:4299 [inline]
-BUG: KASAN: slab-use-after-free in raw_atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-long.h:1482 [inline]
-BUG: KASAN: slab-use-after-free in atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-instrumented.h:4458 [inline]
-BUG: KASAN: slab-use-after-free in __mutex_trylock_fast kernel/locking/mutex.c:161 [inline]
-BUG: KASAN: slab-use-after-free in mutex_lock_interruptible+0x10/0x70 kernel/locking/mutex.c:1109
-Write at addr faf0000016813780 by task syz.3.150/3858
-Pointer tag: [fa], memory tag: [fe]
+    Call Trace:
+     proc_invalidate_siblings_dcache
+     release_task
+     wait_consider_task
+     __do_wait
+     do_wait
+     kernel_wait4
 
-CPU: 0 UID: 0 PID: 3858 Comm: syz.3.150 Tainted: G        W           syzkaller #0 PREEMPT 
-Tainted: [W]=WARN
-Hardware name: linux,dummy-virt (DT)
-Call trace:
- dump_backtrace arch/arm64/kernel/stacktrace.c:498 [inline] (C)
- show_stack+0x18/0x24 arch/arm64/kernel/stacktrace.c:499 (C)
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x60/0x80 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x1c4/0x4b0 mm/kasan/report.c:482
- kasan_report+0x84/0xac mm/kasan/report.c:595
- report_tag_fault arch/arm64/mm/fault.c:368 [inline]
- do_tag_recovery arch/arm64/mm/fault.c:380 [inline]
- __do_kernel_fault+0x1b4/0x220 arch/arm64/mm/fault.c:424
- do_bad_area+0x68/0x80 arch/arm64/mm/fault.c:529
- do_tag_check_fault+0x34/0x44 arch/arm64/mm/fault.c:909
- do_mem_abort+0x40/0x90 arch/arm64/mm/fault.c:985
- el1_abort+0x44/0x64 arch/arm64/kernel/entry-common.c:342
- el1h_64_sync_handler+0x50/0xac arch/arm64/kernel/entry-common.c:469
- el1h_64_sync+0x6c/0x70 arch/arm64/kernel/entry.S:585
- __lse__cmpxchg_case_acq_64 arch/arm64/include/asm/atomic_lse.h:272 [inline] (P)
- __cmpxchg_case_acq_64 arch/arm64/include/asm/cmpxchg.h:122 [inline] (P)
- __cmpxchg_acq arch/arm64/include/asm/cmpxchg.h:170 [inline] (P)
- raw_atomic64_cmpxchg_acquire include/linux/atomic/atomic-arch-fallback.h:4181 [inline] (P)
- raw_atomic64_try_cmpxchg_acquire include/linux/atomic/atomic-arch-fallback.h:4299 [inline] (P)
- raw_atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-long.h:1482 [inline] (P)
- atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-instrumented.h:4458 [inline] (P)
- __mutex_trylock_fast kernel/locking/mutex.c:161 [inline] (P)
- mutex_lock_interruptible+0x10/0x70 kernel/locking/mutex.c:1109 (P)
- do_dentry_open+0x128/0x4fc fs/open.c:996
- vfs_open+0x2c/0xe8 fs/open.c:1101
- do_open fs/namei.c:4837 [inline]
- path_openat+0x5b4/0x960 fs/namei.c:5000
- do_file_open+0xb0/0x168 fs/namei.c:5029
- do_sys_openat2+0x84/0x104 fs/open.c:1417
- do_sys_open fs/open.c:1423 [inline]
- __do_sys_openat fs/open.c:1439 [inline]
- __se_sys_openat fs/open.c:1434 [inline]
- __arm64_sys_openat+0x64/0xc0 fs/open.c:1434
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x54/0x10c arch/arm64/kernel/syscall.c:49
- el0_svc_common.constprop.0+0x40/0xe0 arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x1c/0x34 arch/arm64/kernel/syscall.c:140
- el0_svc+0x38/0x1fc arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0xa0/0xe4 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x1a4/0x1a8 arch/arm64/kernel/entry.S:590
+    Freed by task 0:
+     kmem_cache_free
+     put_pid
+     delayed_put_pid
+     rcu_core
 
-Allocated by task 3857:
- kasan_save_stack+0x3c/0x64 mm/kasan/common.c:57
- save_stack_info+0x40/0x160 mm/kasan/tags.c:106
- kasan_save_alloc_info+0x14/0x20 mm/kasan/tags.c:142
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- poison_kmalloc_redzone mm/kasan/common.c:371 [inline]
- __kasan_kmalloc+0xf8/0x120 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x1d0/0x470 mm/slub.c:5563
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- activate_ep_files drivers/usb/gadget/legacy/inode.c:1610 [inline]
- gadgetfs_bind+0xd0/0x3c0 drivers/usb/gadget/legacy/inode.c:1701
- gadget_bind_driver+0x90/0x284 drivers/usb/gadget/udc/core.c:1662
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0xbc/0x2bc drivers/base/dd.c:706
- __driver_probe_device+0x11c/0x184 drivers/base/dd.c:868
- driver_probe_device+0x3c/0x114 drivers/base/dd.c:898
- __driver_attach+0x90/0x180 drivers/base/dd.c:1292
- bus_for_each_dev+0x7c/0xdc drivers/base/bus.c:383
- driver_attach+0x24/0x30 drivers/base/dd.c:1310
- bus_add_driver+0xe4/0x208 drivers/base/bus.c:763
- driver_register+0x68/0x130 drivers/base/driver.c:174
- usb_gadget_register_driver_owner+0x54/0xfc drivers/usb/gadget/udc/core.c:1752
- dev_config+0x214/0x484 drivers/usb/gadget/legacy/inode.c:1892
- vfs_write+0xd4/0x36c fs/read_write.c:685
- ksys_write+0x70/0x108 fs/read_write.c:739
- __do_sys_write fs/read_write.c:750 [inline]
- __se_sys_write fs/read_write.c:747 [inline]
- __arm64_sys_write+0x18/0x24 fs/read_write.c:747
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x54/0x10c arch/arm64/kernel/syscall.c:49
- el0_svc_common.constprop.0+0x40/0xe0 arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x1c/0x34 arch/arm64/kernel/syscall.c:140
- el0_svc+0x38/0x1fc arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0xa0/0xe4 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x1a4/0x1a8 arch/arm64/kernel/entry.S:590
+    Last potentially related work creation:
+     __call_rcu_common
+     free_pids
+     ksys_setsid
 
-Freed by task 3857:
- kasan_save_stack+0x3c/0x64 mm/kasan/common.c:57
- save_stack_info+0x40/0x160 mm/kasan/tags.c:106
- kasan_save_free_info+0x18/0x40 mm/kasan/tags.c:147
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0xe8/0x160 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2748 [inline]
- slab_free mm/slub.c:6499 [inline]
- kfree+0x150/0x420 mm/slub.c:6792
- put_ep.part.0+0x44/0x60 drivers/usb/gadget/legacy/inode.c:225
- put_ep include/linux/refcount.h:396 [inline]
- destroy_ep_files+0x104/0x170 drivers/usb/gadget/legacy/inode.c:1591
- gadgetfs_unbind+0x7c/0xc0 drivers/usb/gadget/legacy/inode.c:1664
- gadget_unbind_driver+0x7c/0x118 drivers/usb/gadget/udc/core.c:1724
- device_remove+0x4c/0x80 drivers/base/dd.c:616
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x1cc/0x224 drivers/base/dd.c:1372
- driver_detach+0x4c/0xb0 drivers/base/dd.c:1435
- bus_remove_driver+0x6c/0xbc drivers/base/bus.c:832
- driver_unregister+0x30/0x60 drivers/base/driver.c:202
- usb_gadget_unregister_driver+0x20/0x40 drivers/usb/gadget/udc/core.c:1784
- dev_release+0x68/0x80 drivers/usb/gadget/legacy/inode.c:1207
- __fput+0xcc/0x2f8 fs/file_table.c:512
- ____fput+0x14/0x20 fs/file_table.c:540
- task_work_run+0x70/0xe0 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
- exit_to_user_mode_loop+0x168/0x19c kernel/entry/common.c:101
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- arm64_syscall_exit_to_user_mode arch/arm64/kernel/entry-common.c:108 [inline]
- el0_svc+0x1f0/0x1fc arch/arm64/kernel/entry-common.c:759
- el0t_64_sync_handler+0xa0/0xe4 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x1a4/0x1a8 arch/arm64/kernel/entry.S:590
+KASAN identified a 144-byte object from the pid cache and located the bad
+read 80 bytes into the freed object, matching pid->inodes.  Restoring the
+balanced PID reference completed without a KASAN report on three of three
+fresh boots: the concurrent RCU callback reduced the count from two to one,
+proc_flush_pid() completed, and the balancing put_pid() performed the final
+free.
 
-The buggy address belongs to the object at fff0000016813780
- which belongs to the cache kmalloc-192 of size 192
-The buggy address is located 0 bytes inside of
- 192-byte region [fff0000016813780, fff0000016813840)
+Public syzbot reports have independently observed proc_flush_pid() reading
+a freed pid-cache object, including a last reference released by a proc
+inode callback.  Pin thread_pid explicitly so every last-reference path is
+excluded until proc_flush_pid() completes.
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x56813
-flags: 0x1ffc00000000000(node=0|zone=0|lastcpupid=0x7ff|kasantag=0x0)
-page_type: f5(slab)
-raw: 01ffc00000000000 f0f0000003401300 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000000150015 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
+A tested source reproducer is available privately on request.  No
+controlled read or write, information leak, or privilege escalation is
+claimed.  The mainline patch applies directly to v6.19.y and newer;
+v6.16.y through v6.18.y need a context-adjusted backport.
 
-Memory state around the buggy address:
- fff0000016813500: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
- fff0000016813600: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
->fff0000016813700: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
-                                           ^
- fff0000016813800: fe fe fe fe f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 fe
- fff0000016813900: fb fb fb fb fb fb fb fb fb fb fb fe fe fe fe fe
-==================================================================
-
-
+Fixes: 0a36bad01731 ("release_task: kill the no longer needed get/put_pid(thread_pid)")
+Reported-by: syzbot+0aee5e8066eddbbe7397@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0aee5e8066eddbbe7397
+Reported-by: syzbot+e8b3520b53e78e90034e@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=e8b3520b53e78e90034e
+Cc: <stable@vger.kernel.org> # see patch description, needs adjustments for 6.16.y-6.18.y
+Assisted-by: LLM
+Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+ kernel/exit.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 97686af895013b..461e2834fcb45f 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -261,8 +261,8 @@ void release_task(struct task_struct *p)
+ 	pidfs_exit(p);
+ 	cgroup_task_release(p);
+ 
+-	/* Retrieve @thread_pid before __unhash_process() may set it to NULL. */
+-	thread_pid = task_pid(p);
++	/* Pin @thread_pid before __unhash_process() may set it to NULL. */
++	thread_pid = get_pid(task_pid(p));
+ 
+ 	write_lock_irq(&tasklist_lock);
+ 	ptrace_release_task(p);
+@@ -291,8 +291,8 @@ void release_task(struct task_struct *p)
+ 	}
+ 
+ 	write_unlock_irq(&tasklist_lock);
+-	/* @thread_pid can't go away until free_pids() below */
+ 	proc_flush_pid(thread_pid);
++	put_pid(thread_pid);
+ 	exit_cred_namespaces(p);
+ 	add_device_randomness(&p->se.sum_exec_runtime,
+ 			      sizeof(p->se.sum_exec_runtime));
+
+base-commit: cf72cbb39da84b6f02f90c07f33b102fc10b16f0
+-- 
+2.54.0
+
