@@ -1,210 +1,124 @@
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C609240B379
-	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 18:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7726B392C3C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 19:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788028982; cv=none; b=GdJCfYLxT5Bxd5o2e9Qw8GCNad+Q0y35ajHg0PqsCI2BDG2KtnzadVeHxJhxQv02+pw+PcPLDZpRItghr+8c+3ex7LMbLklg62JR0uqGWquvb883gk0E1L17vUvThQjH4rpxENGJfmZRSgDlp7cwhrgIQrwMXd7o8crvnx/x51g=
+	t=1788032381; cv=none; b=Mwp21AMKXyZtBBpE/IWAJQvpWQf4DVcZoyR0YSAmTrWcOQdbLTgwiza4pFINmmmnC6XJWqvitk/TDjZ/XGVF5WLsZjLh7WcEK+DiVE6S2CR461KI529xElB7xbv+N/v86itrDCxLfkjV5iEHTPKLZT/O5cpZU2EZOGWO3/xNVQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788028982; c=relaxed/simple;
-	bh=8Gj2G76gEDUSTrJh9wyKhjlV0WDG+1riVaR0UmTV1c4=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=pLkHNXCM+OF5/Vxk8c6ojAHSwAS+eIJmhRvhzv5L0EyN7ktOkSMdxqsYMtFYxEupD5evRWQ56bPcaizujTB+W3EkwPj5pohu1XQ8qD9yGtOFbaYqIGo9G17r75rmyAivgCNVqGdoWUegsnpqsYUQawAFF4FbA1keFHaSJEkOcWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=YaJycs+P; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=xJMFBU7G; arc=none smtp.client-ip=148.163.139.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	s=arc-20240116; t=1788032381; c=relaxed/simple;
+	bh=gkO1W3ObxBr6XereedmZqfdrV9UxNONJJ28AxekcxPM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FoSVRY8HnWVk7SN73qy2oCPyJuv0ajGHGrmhMrtE15FMEZP3juIdWE/1oeEv+pOZEY8EVsoKdJs6HjsfAzL/WQDSsSx2N04Zm46J0PziVAHW+kKw0dotYciQ9byYyHPhXETWp5H39OPH50P9JCwLu17bniKhG0DKFrldG6gjOPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=juz1vDmN; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="YaJycs+P";
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="xJMFBU7G"
-Received: from pps.filterd (m0499198.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67TIZWoA1920303
-	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 14:42:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=0bd5
-	PAmYpGy8JaYT1BKzRh2l/HCvYP+lW1f+KIURCm8=; b=YaJycs+PgkXAxiEmTQzc
-	x40/bpBx1OYZh241szBo3lKKjWsHNNTm/SUNCPAfRi3n/VvGgS3pPmiT6vJfeTeE
-	GiYqlQAcB9LxnBFHNoESzb5esOccev9qrcQWHm0gEHQGot5RZ3TlnUHgTh1mlvDz
-	d9N5rHFvicpTxBVJ1Kc7qEh1Y27NhJ6xXj8g377SAqIe5++so+krlfoZAvQs/gIU
-	kCMT6z/E5NYAilPWjvHEyj6ymy4uPe3Gtsnyao6hjzXSseIMYastb0rZJFYPC+xh
-	8rKV341s6RpP56zWTz8d8V831a4RBpe5IcA1BvubzOBoLFQUXRg3oy5g0dCR/q6W
-	2A==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4gbqy7b0u3-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 14:42:59 -0400 (EDT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93915f50a5cso381309985a.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 11:42:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="juz1vDmN"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4957eefd361so16957095e9.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 12:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1788028979; x=1788633779; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=0bd5PAmYpGy8JaYT1BKzRh2l/HCvYP+lW1f+KIURCm8=;
-        b=xJMFBU7GQCayIbfE/cZMP8mwh0IfylQylrPhUpZBxmpVYi2RVGAjfDyeBsDEwx9xzd
-         TfrpRpffrA/wJ6xl9pQYcSVBhmEKp9cDktrlyJojPzwSDh4OA40bIIK/lPQYNv4qiejL
-         Ui4/zvXdVV1fseG53Y3bbx05exgxDw/IqliY8WXjDbo65O8jB2hu4kgVxZV9V+4phyKk
-         1KyvFBv7Q8Oj9PIPcEy99NQJ6X0Y9HpYMDP1lDnhiAQc4uLTX1Y6+HABwvmdTv/BthEj
-         quQK3NYVN5hBoiMWWqQpwMP+iIedprzIMuUaz/g9KiNUtGdZnLUjB709S9MnDJCQyu9H
-         q9ig==
+        d=gmail.com; s=20251104; t=1788032377; x=1788637177; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UShLfcgJlf7RvYRGLM1vPTMOukbxlvSi4Y6K8vtIScI=;
+        b=juz1vDmNRZ/FuXlg+SAfayAh8fNIjTZKoo79cMpuBMQncphksc+mpu31FZGP3sm7j4
+         0uJ6OXOmylD0XGLpKh65vpAJINtNxwXIlRHSedIJ55bqzOMQfkGW0F/V1WHAdfe6IxNe
+         0nLw6y6xwqdqZZSm7m1zn9FLTXe6GzGs447BAOdpyUbOiSDhVxYSC5I2QR1QMtTeZYJ/
+         uSLtEKZ4LOcpGaptnyIPUCO43lgGCd63sbIUwIt0AZVmg1Ij3rGNPIapRHY1KLzIPPqO
+         MP+zYnuPXoGI991fj9kYgF1zvYP51iRL3TuwU3wIL8TEHq2UY8GrMBnCRYv0iFoV5BdQ
+         yXtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788028979; x=1788633779;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1788032377; x=1788637177;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0bd5PAmYpGy8JaYT1BKzRh2l/HCvYP+lW1f+KIURCm8=;
-        b=qlQzkgaMXV1e0GvnbMKBciJ0W+BYMiV5iZoHGka6oPm4ox5jmUbmrWRxUYkWKiC4J6
-         LjvAZ46JZGSgLsZbX24I3Qi5B6yLGOsZRgctlFl70gC9dbc7NNpgKnrkhpfyU58mdD2U
-         mMvqduBFsps7ARgcwkW1m0DoF6WPmLGnznRfR6w+ryuX4Eh3a2mUA7eq4XLUT3DzDTix
-         d7TndhAkg/zEwh1ZFU1OnZLkq+8MqtXQ61au/o8A0PZhO6ISht/yQvXln5g/PmSSPXMK
-         0MR4/fKTxpYtUO7+cl8CLHeQbVZ/YLySxTHoPqw1RTxSN1IW2FstjDKhPyhls/GDikWJ
-         FosQ==
-X-Forwarded-Encrypted: i=1; AHgh+RriRSBerEUgENr9pvQXASaqbJPisF/Qz0fnVUMA/PcD+g9aH7thBApjA+SJc3A2ZOQSBUmmYjE8pj5I3iJ9@vger.kernel.org
-X-Gm-Message-State: AFuF++mHKmD6+2jQg7lz4QhRk9Gqd0VSZd8kD2oAF1+SJ0YWb8XlDEIa
-	ZndtSBLZpqbhx5tG5Z0J5C8a9bSNGgBuQd7K9+ukOftE+nw/SJd4Fi8o5h27aGGFHwFAnNaqVS5
-	LidLImZ+7RpUJYmheFtkG6xsFosHfFUBg6OcW2YXaY+xngb2iXnyhABc2CHhv0wY=
-X-Gm-Gg: AR+sD11UBlcv2qGdVKBnehf0A/lLyb/qDwY7Ixj2rH3JpG9srlB2syCPhBmm4+hoD1L
-	ocQYRmWqmvPf9szkW6Wsl7mtB5AJ3G/RIuNvCcbxOlj5yHpYx0vB5YWwP/b8EuQyQmVEEPdtRgE
-	x8tgs2sFNpYEjfoqPi78XBqgRcTSBAQ7vV0h8cBp7k5+ABR+4lj0eXp5+nsivY0SHaU/eXKiVTZ
-	dFrhz6iWm35OB0qdufepPSsLi999613/TJJeZhs8hlbcWkpZBfUFZF86qFDw1shoFnSY8pwkR+9
-	93Dgi78nmi8V94o2TEQiw+07VtXp/InMNMxqy9q/b3bnm7HUbSQmXtX64hTHaIQYsEBrG1q0QIO
-	6BdpydYguNu0Gr1Hlo97qtBtJ7xFdJAkUSNCaEkRAShEe3yw=
-X-Received: by 2002:a05:622a:1910:b0:52e:4982:22cc with SMTP id d75a77b69052e-52fa1a4aab2mr249923051cf.5.1788028979070;
-        Sat, 29 Aug 2026 11:42:59 -0700 (PDT)
-X-Received: by 2002:a05:622a:1910:b0:52e:4982:22cc with SMTP id d75a77b69052e-52fa1a4aab2mr249922571cf.5.1788028978606;
-        Sat, 29 Aug 2026 11:42:58 -0700 (PDT)
-Received: from [127.0.1.1] (bzq-79-179-7-133.red.bezeqint.net. [79.179.7.133])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbb32d30sm12171637f8f.34.2026.08.29.11.42.54
+        bh=UShLfcgJlf7RvYRGLM1vPTMOukbxlvSi4Y6K8vtIScI=;
+        b=ktmek00vywOqaslGOSIXOUWgSI1ZwdzvgL4dMPQ2fDmvjfOXQY8CIqOxn4kHOfNlgf
+         WLe+zb6/mG29o4URW5gkY4X3N9W3aTZ+wUX34Rfifb0q+gcztED4Hbq9t9GCs1K0++jy
+         2Qwl/I92IjveD61C9DuPciYrNH3tfFh30fSBmy3N/GflsNFDKXAE+GAHiOtLxj9BxMnq
+         lMER1SKXqUvXJwl/hZfV9giRs9pWw6Mko4RGyv0YekGvco7uBG771sYW7K1wOE4LMejB
+         0HcRG6N7G72FHCW+3onxmeNjWrLekQoYlhx2Hhf4vM35+iuCrnNXW8uMCrzU2c17yXiq
+         6NoA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqbg0I3Ts8RwkxMGu/cvUWIwpzZno6OmxJJ97UXOTp4+NhdW6+r1n3Xlj6LBHS006Ir4SZLprKNEiNuiLTP@vger.kernel.org
+X-Gm-Message-State: AFuF++mD2eecEnFv3HXEPxQmVZoo9Tgjt+gBWV1BXFuiRCBMd1txAKRT
+	JX1y44PepXsdSS5YB21hOpivd9DMAw/TgEbQuPXDWpaU/tCtAymPZVcF8L86ca3t
+X-Gm-Gg: AR+sD13VjnNDCOu4DS4/6PzajptWVLIy3498W+8fk8eSzl2ym/niS07yGk+lxLozRtW
+	qJfG8uFTl6HHsDi8ip5yPcejWfNKn1P5q2LbQpQKlf31r3VC5hIpA3avGvx4w27HPNmKR56xmBj
+	adrOBy37ewdJB0mp17CSgohe8AoiKgAiVGs3qc4CvVos8Ui67AV1axsawuEsKhhmDB50JDb881N
+	ViLdEo/p+Qq/5izftKDLoEP2aUPPFWIYDeAq1GBe2ESqotdC6RxVVvq2MtVprxzoFe7gHv9fTRE
+	wckUnCAbI9z1/jA/d+5VXKGvS6lfTblUg0zXH6tnDzs59nGdv9LUm+MrdLGOeE1TkDwx1Cjmc4z
+	TMc4WOj51UuQluUx5NrqU3XIv/yKjZUL5iFqhRQfhiZdROeWSGSHC2GBwg5abMJ5mCASI0mQXzA
+	PpL+Mo1/5vXRo9qafuOe+WGOR48ESHi7JniUWX83nrm9IV9KdXCfBSCTuBvdUglqeWfGY7qK+Tl
+	TcQeckD7X4hP4btDqlAixVfDWFxHJcbkVFdKeM0wirLV0osDHqmjRqF/udL9lsc6SL9F0hEn36U
+	apYXOIDN3IdLLDITjAiF7fRTDR6AbjNF1ikyDQJENLNdM0I2Qu5u/pp0rNc9mg22eQ==
+X-Received: by 2002:a05:600c:6215:b0:499:5a50:b022 with SMTP id 5b1f17b1804b1-49b91c1bb18mr241886805e9.3.1788032377274;
+        Sat, 29 Aug 2026 12:39:37 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-ae86-1b01-80e2-8851-4221-68d8.310.pool.telefonica.de. [2a02:3100:ae86:1b01:80e2:8851:4221:68d8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b95013ce4sm132840095e9.14.2026.08.29.12.39.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2026 11:42:57 -0700 (PDT)
+        Sat, 29 Aug 2026 12:39:36 -0700 (PDT)
+Date: Sat, 29 Aug 2026 21:39:33 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: selinux@vger.kernel.org, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] selinux: preserve user SID across nested backing files
+Message-ID: <apM0QvxDHBuH1hXd@gmail.com>
+References: <20260820175832.44512-1-kmehltretter@gmail.com>
+ <5fa5ef078f41cd57d0e52ab2ab023094@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 6/6] userfaultfd: collapse
- VM_UFFD_{MISSING,WP,MINOR,RWP} into single VM_UFFD
-From: Tal Zussman <tz2294@columbia.edu>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-        "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
-        Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-        Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>,
-        Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Shakeel Butt <shakeel.butt@linux.dev>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
-        Zi Yan <ziy@nvidia.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
-In-Reply-To: <apK7s4xSgA_GmY7d@kernel.org>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
- <ao16VxNvaYzlt2WG@gremlin> <ao_9R3CbjYFipFu7@kernel.org>
- <apAB9GSnHNyNoSc1@gremlin> <apAcweThjiD-iIBF@gremlin>
- <37f6af95-950e-4457-886e-6548d4719f0d@kernel.org>
- <apK7s4xSgA_GmY7d@kernel.org>
-Date: Sat, 29 Aug 2026 14:42:52 -0400
-Message-Id: <178802897277.671075.10362065249796431311.b4-reply@b4>
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788028972; l=1768;
- i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=8Gj2G76gEDUSTrJh9wyKhjlV0WDG+1riVaR0UmTV1c4=;
- b=cMv3WyS297uSy6OhyEPKL7TFiV6NgPyRlli6/52vFPU3U+wxk43IDrwyt65mNyPQi/updU28Q
- fXkQOPOdareAvP+hQQ2rgHqvMZY30DpDTGX/m0/lnTSj2MdkKXGNeAi
-X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
- pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI5MDE2MCBTYWx0ZWRfX0TG+imPgITSK
- 0ICMjk2WH+Ypz/4PxHxsdRj2dHGUUO6+ieqCeSg0wt5uoNwq74IGIT6Opu6rIGGeJKit42uJMkP
- ggrY3UmvLGnFFuF+8PW8OUkGYjIiBAhFb1aihjW6SJr9qDwOha/w
-X-Authority-Analysis: v=2.4 cv=e+I2j6p/ c=1 sm=1 tr=0 ts=6a932833 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=LRATYcvZeiQrLRB5MfbBvg==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=BpGzv1V74M3SfeTrGa8v:22
- a=kX8B4L1VaituP6mSkuYA:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: ONVZyXB6sl2fEKbPhTpQag-oCJsG5VqH
-X-Proofpoint-GUID: ONVZyXB6sl2fEKbPhTpQag-oCJsG5VqH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI5MDE2MCBTYWx0ZWRfX+3X9znLA8IhI
- 6UaBpe8MiObqIumYlQrr8ZSJb3sJ0uNSVpSjFtwRO2PZhNXF3lHdX0l/2+KDpsi9lBqMO/NPxIM
- tDyez8fB/mhqcwgvW0mXTfsxj4myo7jiXYPYAmEj9IQsr3pA3UR1X1p7AAKUdZxAbE7XDcca0PN
- VIoDfkKGCAx5bEBbTNnJb1RDo9USMGxd9NE9UWN4exkEGUxdYP0Fo8884HVpJmU3xLuAnU16oCu
- CSgHao6lMrmktOINOgClOHZiyAB4jzx7DnmKSTdEHa/IfNbjhr5tjijFmu3wg/OV01ey0zLvFs6
- hOhljubAadpGOOEYenXXpo1AfZDy0CCqfNWSQLMbqo2Evg+egGiM/Sl9C/z1YgYzZikfeIH/rdN
- wpjsKJ4Veen2OKo0LQm0Uu3MB4nB7ropBlwSXm+aGQIioXgfM0/88DS5NjmUwlskLaRb9GT2jm4
- 44g+XwGOpV4ITVT7oLQ==
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11890
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=10 bulkscore=10 phishscore=0 priorityscore=1501 suspectscore=0
- spamscore=0 clxscore=1015 adultscore=0 lowpriorityscore=10 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608290160
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5fa5ef078f41cd57d0e52ab2ab023094@paul-moore.com>
 
-On 2026-08-29 14:00 +0300, Mike Rapoport wrote:
-> On Thu, Aug 27, 2026 at 05:19:30PM +0200, David Hildenbrand (Arm) wrote:
-> > On 8/27/26 13:18, Lorenzo Stoakes (ARM) wrote:
-> > > On Thu, Aug 27, 2026 at 12:16:32PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > >> So actually you're increasing by a cacheline and increasing the VMA size by
-> > >> 64 bytes, i.e. 1/3, which is unacceptable obviously.
-> > >>
-> > >> Maybe there's something that can be done with:
-> > >>
-> > >> 		/* forced alignments: 1 */
-> > >>
-> > >> Perhaps? But that looks potentially ugly.
-> > >>
-> > > 
-> > > I say elsewhere (or think I do) but to highlight - I think probably we could fix
-> > > this by putting the flags in the low bits of vm_uffd_state.ctx?
-> > 
-> > if that's possible that would be clearly preferable memory-wise.
-> 
-> This gives only 4 bits and makes this completely not extendable.
+On Thu, Aug 27, 2026 at 03:39:10PM +0100, Paul Moore wrote:
+> If you could share the distro and some more details on the testing
+> methodology that would be helpful.
 
-Wouldn't it be 6 bits? struct userfaultfd_ctx is allocated with
-kmem_cache_create() and SLAB_HWCACHE_ALIGN, and most of the flags are
-only available on 64 bit, so it should be 64-byte aligned in the
-relevant cases.
+The original test used a small BusyBox initramfs.
 
-(Not that 6 is that much better than 4... but it's a little more wiggle
-room.)
+I repeated it on arm64 QEMU with kernel v7.2-rc1-9-gfd6e2388a3ea, using
+both BusyBox and Fedora Cloud Base 44 userspace. Both gave the same result
+with SELinux enforcing:
 
-It could in theory also be bumped up to 7 by setting align in
-kmem_cache_create(). userfaultfd_ctx already takes 192 bytes due to
-existing alignment. Aligning it to 128 bytes would make it 256 bytes,
-adding 64 bytes to each uffd rather than each VMA. But this sounds like
-more pain for little gain :)
+  unpatched: mprotect(PROT_READ) failed with EACCES and the expected
+             base_t -> mounter_t:fd { use } denial
+  patched:   mprotect(PROT_READ) succeeded
 
-> So I think I'll drop this for now and wait until VMA grows another cache
-> line or until having per-VMA uffd state rather than a pointer to per-fd
-> context is a must.
->  
-> > -- 
-> > Cheers,
-> > 
-> > David
-> 
-> -- 
-> Sincerely yours,
-> Mike.
-> 
-> 
+The test mounted two nested overlays as mounter_t, changed back to base_t,
+mapped the outer file, then called mprotect(). Both guests used the same
+purpose-built policy, not the Fedora stock policy.
 
+> Additional comments below, and while this patch is useful in fixing some
+> of the problems (thank you!), we obviously need to fix the others as
+> well.  Is this something you think you will be able to work on?
 
+I also tested current mainline commit cf72cbb39da84, which contains
+f2381b546e7e ("fs: fix user path of nested backing files"). That fixes the
+top path and inode, but exposed the remaining intermediate-mounter issue:
+
+direct mmap(PROT_EXEC) was denied against middle_file_t, while
+mmap(PROT_NONE) followed by mprotect(PROT_EXEC) succeeded.
+
+I implemented a second patch which preserves and rechecks each intermediate
+path, mounter SID, and file-description SID. With both patches, direct mmap
+and deferred mprotect are denied against middle_file_t, and the original SID
+propagation test still passes.
+
+Together with f2381b546e7e, this covers the remaining issues. I will send v3
+as a two-patch series.
+
+Thanks,
+Karl
