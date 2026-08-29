@@ -1,190 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D56412C12;
-	Sat, 29 Aug 2026 16:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788020127; cv=none; b=Qfp1NJaudvs6pAMWHUfQer4W4h0huUrQ6FTO97mG0+dMY/F//q8454+tDmRlKKnAM6iUD7Fn6aMPm/WgdjRPnc1Ug2M4oFq9bmc1YUVETfWXIoYtxET/G0LXbSQ4eLW8dGNutxWRR8t4Hn7djpcwFz5qCwPM0Iyl5sBDzI9xuFA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788020127; c=relaxed/simple;
-	bh=mVIZpsFJaT6rvVjXfohwRj/jQyIilfMgqQotNJAsrbY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eliNSZv8cQEOISv1P0jFoA6QHoroZkTODTcEHF+AgyewNXoxvO1P0xt6x3OrqusmtLG7G9GpI2PYFhEU1yuHh1qBiS7g+calEmABlBf2Ms3F/J/kzzluCugF5MHS/dUUXNG4arGfLBC00kuSxo49hiXRQToRsjPsFsZjnd5Yn4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HihRQpYj; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069B23DA7C8
+	for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 16:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788021764; cv=pass; b=Qr4jB92+Gs62PxJ/i3QusJwseBmuX+M3mHCRAZ+771XF87b5ol540vKGJa3yCXkRZmfU0jCUt24/m3b1p0fpkLHl+Z327785KgfKG6ClN6wFJKrnK6ElL4+NiP/EGDCibXE3Doq7NMsohdEVR2ap+KdpyHkyPT53ZnsKmni42qM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788021764; c=relaxed/simple;
+	bh=gVZFIq7E6DUEA7UcHTTV0g77Ncrm6ajPHymyOnK3Cyw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u94WwTtvb+o3n8NpNyan1yiJUyIlOuYsHLbVSkvrQqy+KUr7pjuf88X816iu6hiASdFA41NZ4ZDQjtlH052deLjJZ2qDg/qWODDhqpYrnrBIZBDwproCby9i1Aw2QHmqiwdgR9nxS88YYga9aJ8Od6UdDg04NbyjSWmZZIH3cKs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OTetC3FY; arc=pass smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HihRQpYj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B64FA1F00AC4;
-	Sat, 29 Aug 2026 16:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788020122;
-	bh=jY2Y2UsgI9FyRNkJHUiF014TX0cvic1HZjkjK+wNcgQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HihRQpYjDCNYXc8PVX0wvGF8yDD9vM0G6HmNjlCtQv1PcpAl0II8d5DhIrwiQizxn
-	 j54BZyn945q5YbYay3NTdM5rjlCWasibX5sQX1VqCeQIu5+ikSvv6gW3EnjGXvgJGa
-	 5ap+RtjYp5UbRZxah3vwIMcz/+UISdnlmI56IsLk1MfWObjyqPtW4D5kIlr9xQOK//
-	 yJewbhH6HZL6yn92xo9I1yzkPHAGaAgkRSnl+9WWTRmmXC6daIxcARxOJvxys+fIjV
-	 L3jEyS24g70oVyGqGYM+iZ8hAob0hpwwqyJdALviP4iGXA55q5OFZvnB4eal0+86E5
-	 RzOz6VzhO3LIQ==
-From: Alexey Gladkov <legion@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Eric W . Biederman" <ebiederm@xmission.com>,
-	Kees Cook <kees@kernel.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: [RFC PATCH 4/4] mpls: use typed fields for per-device sysctls
-Date: Sat, 29 Aug 2026 18:14:47 +0200
-Message-ID: <6d770bbaf1897da04973019cf201f0d872261599.1788018958.git.legion@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1788018958.git.legion@kernel.org>
-References: <cover.1788018958.git.legion@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OTetC3FY"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c253425b253so328567466b.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 29 Aug 2026 09:42:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788021761; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VNhgTb6FS3RF49jDmn/Gnd+RPQTQ8KGDH44btvxzJc6gEm54iHMe2mlhP4B/yTgIgx
+         W/jG9M5J5FH7qRnwJPf0MJBaD0aJBpbeSE7v4GNqLyGCPMCghBkcPqMNRAxUcCmpG67m
+         NNpGNqI16vBmFRxIpUkniU01cquyz9zM0rCmiARhthNvhV8U8SkKmf4xC6eGyVCiWcY1
+         VTklHlmg5xPlZktplT16UZaNSMjuduFp/2VO0ZklxJRHHiyEiE28RuuolCzgX6ZO2DVj
+         HGk8ldv5z5lejVhkwzHURT4FOmNquqPD5KEmEs21fIORDYRzOinAOlPtYkzX5+Hjs6iI
+         E6JQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cDbJApH470Nb27U1ofVrGiRQ548vKaC8I4YjQ8kLrVI=;
+        fh=oDZoPwoTZ8yv3Hdisx2E4QaZcpnMntfyVjd/Q1ZshTo=;
+        b=raACB3QqBALONp3VJfp9LNgHG7iDj0FEgEwl0VSgT8LtimMjqdJDfEz9KljNcn25S7
+         g2TZYQhmMrWQlisKzAZE3kGqdT1u4kmr+Ch5kOkZmfXXmmkwWmv3arNS5EkylT58D18K
+         E6nALuU8dKD1ZB+zFOeb6eHMDCPvegW4e3YSxiBFr6/VAAg9EA3ucTQxnVV+KgizfoN1
+         3EFiC9YOQ9EM5Wrk3IN5fX1vjKcgYgqAd7BgoGUq7AjewiQlE5CIq4SDx9mDdYoybOv0
+         ki0vmBM4f38LMliMH9XGr/mijHUVsXKIJf/iYy6aLuhcfXMovfegyCfCvxxDYm/eCkT5
+         PpTA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788021761; x=1788626561; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cDbJApH470Nb27U1ofVrGiRQ548vKaC8I4YjQ8kLrVI=;
+        b=OTetC3FY9YR2dT91pmq0tWTCBVQw98A+ro76zO0jrdRuA8IZtsnSh7UkqJxyoJsput
+         QYkwqUcp//atCTeq9nNabFfVtR3cltA4BnJlSN/uar5m/kgT+3MEs42eO0e02wospduc
+         rd7a0zJaN5uoUP6GJRavB4PZ8F3hyZZHH4PEbtX9YmOgSbCfGFN/PElptV+PHQz0J9vf
+         Bkx0xSdvVwNswH+ipIw1CNfsIk4PAx0dQAqh41NWWhrjuJmVCLhS+IToYESJMrG28Xbz
+         dtUzdafCWjb87kTs+7MK86BNNaSyY3rkhvgNFqCPfd9b+Pbk5DgfsG4pW4torbn/l2sa
+         A84w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788021761; x=1788626561;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cDbJApH470Nb27U1ofVrGiRQ548vKaC8I4YjQ8kLrVI=;
+        b=WSbDlhLLlSYHTe/XT3mGyEOgSMCsZEktBwBi/MSSsIluiCrrnH2paAQmEdFn4QpXn4
+         WrvptnKqx4GJIV4Ppr9iSuGsWwwe7AoJ7vDuh/UUJC1mUb5Xd5SRiOpqrCSskPB8bj+9
+         42whb4AdtOyX3jF+MYadQjK8LJAGdfe0oFLiENIcOhUv85OYeBsEkBMyLsJ8P62Yuih4
+         TyVXNv4fZkOmOPJhGpR8V5pyoJ8+seomszLzdc36IdNlMBuaw6+zp6uI/4OYdnCZLdDn
+         1dB6MhOQs9lVWouEIY4wfSDMI8m+JvKK1oagR4dAJT9kVpH7oCJ54aYyHtgCL2Xk02mN
+         VRbg==
+X-Forwarded-Encrypted: i=1; AHgh+RoKFmDu2hpHUoAYdHImop9yn7ockkAVcIcLB71MH9q3G+RjRdQoBuQdV19yMU26p+96Wed0o2v3JxdjWMJy@vger.kernel.org
+X-Gm-Message-State: AFuF++mqnX+svl31sNnfmVolswcxiO3Ftg06u+L/gHEr2qnl0mqTLB3I
+	pCVX0ffPKTF+/NNrKtfvRRj1k8biwlzz/qzxicaGqJWjhTW7GTuHq/apCyaCPyEmEcQk1KgvzRT
+	Ov3BPlXlFOee3gQ4hgLT9pZ5QGRdw3PE=
+X-Gm-Gg: AR+sD12Eht7HlZ/L5A+0v6Lv0ZoQh3whypOkk2q2CPZEkvgmuC9rEpxS7EiOWKouZPE
+	nI5eGP7ucHa2iPJHv1Qad4RcLOuQAZXmnjKBARbLWr9Wyxqs3FCG61j/dxkTEw9208a5EZDfUB7
+	nIVlZV93xyHfnUVCZBAVYiRQVotqYd+esowH5Lk8yDOgJXcWuN6OHeuACayt9g+jtbWnBN6fn52
+	JIVGLH8LTUxrJINyk/7b0hPQHQXClRphfifVgvkGQqJ83qJA1mV91kqykPdWyIVyau33QaF27CA
+	STPrLo3gJ9P5Xwwxa0qd034wX2v8OL69M54N4HzhRqLldQ==
+X-Received: by 2002:a17:907:3ccc:b0:c15:f26a:3438 with SMTP id
+ a640c23a62f3a-c255741f461mr1048868466b.24.1788021760941; Sat, 29 Aug 2026
+ 09:42:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260820175832.44512-1-kmehltretter@gmail.com>
+ <5fa5ef078f41cd57d0e52ab2ab023094@paul-moore.com> <CAOQ4uxjn3sWjkrV8KbA-V+eno3E4OskTnCznNBex6FOstEbJ-A@mail.gmail.com>
+ <CAHC9VhQ5oQWL7bj745U5UzSWm2OfyKMjHVeaEYXZvzO0Em0iZA@mail.gmail.com>
+In-Reply-To: <CAHC9VhQ5oQWL7bj745U5UzSWm2OfyKMjHVeaEYXZvzO0Em0iZA@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sat, 29 Aug 2026 18:42:28 +0200
+X-Gm-Features: AcwNN1VZx95EdI2tjlNCAWiVqqkY5zejH9GYUNhl8FvdsMNeGPTwmtuy5Ph3m7k
+Message-ID: <CAOQ4uxioiwVPntt1=QeXXftehoPPb5LFZHuctfJzkNJzrNq9Ng@mail.gmail.com>
+Subject: Re: [PATCH v2] selinux: preserve user SID across nested backing files
+To: Paul Moore <paul@paul-moore.com>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>, selinux@vger.kernel.org, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-MPLS clones its device sysctl table and converts relative data pointers
-into mpls_dev addresses at registration time. It also stores the device
-and network namespace in extra1 and extra2 for the handler.
+On Sat, Aug 29, 2026 at 12:05=E2=80=AFAM Paul Moore <paul@paul-moore.com> w=
+rote:
+>
+> On Fri, Aug 28, 2026 at 5:05=E2=80=AFAM Amir Goldstein <amir73il@gmail.co=
+m> wrote:
+> > On Thu, Aug 27, 2026 at 9:39=E2=80=AFPM Paul Moore <paul@paul-moore.com=
+> wrote:
+> > > On Aug 20, 2026 Karl Mehltretter <kmehltretter@gmail.com> wrote:
+>
+> ...
+>
+> > > > diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+> > > > index 1ead2eee1944..171b90412ff1 100644
+> > > > --- a/security/selinux/hooks.c
+> > > > +++ b/security/selinux/hooks.c
+> > > > @@ -3843,13 +3843,20 @@ static int selinux_file_alloc_security(stru=
+ct file *file)
+> > > >       return 0;
+> > > >  }
+> > > >
+> > > > +static inline u32 selinux_file_user_sid(const struct file *file)
+> > > > +{
+> > > > +     if (unlikely(file->f_mode & FMODE_BACKING))
+> > > > +             return selinux_backing_file(file)->uf_sid;
+> > > > +     return selinux_file(file)->sid;
+> > > > +}
+> > >
+> > > I'm a little concerned that this only works for one additional level =
+of
+> > > filesystem stacking.  Yes, I know that OVL_MAX_NESTING and
+> > > FILESYSTEM_MAX_STACK_DEPTH are currently set at "2", but it's not an
+> > > unreasonable concern that at some point in the future that number wil=
+l
+> > > increase without proper notification or testing and we will once agai=
+n
+> > > have a problem.
+> > >
+> > > At the absolute minimum we should have a BUILD_BUG_ON() for the stack=
+ing
+> > > depth.  It would be good if we could watch both the overlayfs and vfs
+> > > constants, but the overlayfs constant isn't available outside
+> > > fs/overlayfs/inode.c (thankfully it is currently set to the vfs limit=
+).
+> > >
+> > >   BUIILD_BUG_ON(FILESYSTEM_MAX_STACK_DEPTH > 2);
+> > >
+> > > Ideally, the code would be written to keep diving down the stack unti=
+l
+> > > it hit the true backing file.  No one likes to see recursion, but at =
+the
+> > > point where this function is called there should already be a reasona=
+ble
+> > > bound on the stacking depth and the work involved.
+> >
+> > Unless I am missing something, stack depth should not matter.
+> > file_user_path() should hold the user visible path, for all the backing=
+ files
+> > in all the depths of the backing files stack.
+> >
+> > This is the issue that was fixed with commit
+> > f2381b546e7e6 fs: fix user path of nested backing files
+> >
+> > This patch makes uf_sid behave the same way and also documents this:
+> >
+> > struct backing_file_security_struct {
+> > -       u32 uf_sid; /* associated user file fsec->sid */
+> > +       u32 uf_sid; /* top-level user file fsec->sid */
+> >  };
+>
+> Perhaps I'm not understanding your comment correctly (it's the end of
+> a long week), but selinux_backing_file_alloc() and the newly created
+> selinux_file_user_sid() functions don't operate on the
+> file_user_path() path struct.  In fact the path which is resolved in
+> backing_file_open() isn't even passed into the
+> security_backing_file_alloc() LSM hook.
 
-Use a context wrapper to retain both objects and select mpls_dev as the
-backing object for typed field offsets. The static field table can then
-be shared by all devices without allocating and rewriting a ctl_table
-array.
+Right.
+But the file that is passed into the hook has the top-level uf_sid
+in selinux_file_user_sid().
 
-Signed-off-by: Alexey Gladkov <legion@kernel.org>
----
- net/mpls/af_mpls.c | 66 ++++++++++++++++++++++------------------------
- 1 file changed, 31 insertions(+), 35 deletions(-)
+>
+> Are you trying to explain that the way the backing files are allocated
+> in a stacked filesystem, regardless of the number of layers, is that
+> they will be allocated from the top down in such a way that the uf_sid
+> will trickle down to the bottommost backing file?
 
-diff --git a/net/mpls/af_mpls.c b/net/mpls/af_mpls.c
-index 26340a7306b5..725df199cf1d 100644
---- a/net/mpls/af_mpls.c
-+++ b/net/mpls/af_mpls.c
-@@ -1387,8 +1387,18 @@ static int mpls_netconf_dump_devconf(struct sk_buff *skb,
- 	return err;
- }
- 
--#define MPLS_PERDEV_SYSCTL_OFFSET(field)	\
--	(&((struct mpls_dev *)0)->field)
-+struct mpls_dev_sysctl_context {
-+	struct sysctl_context context;
-+	struct mpls_dev *mdev;
-+};
-+
-+static void *mpls_dev_sysctl_object(const struct sysctl_context *ctx)
-+{
-+	const struct mpls_dev_sysctl_context *mpls_ctx;
-+
-+	mpls_ctx = container_of(ctx, struct mpls_dev_sysctl_context, context);
-+	return mpls_ctx->mdev;
-+}
- 
- static int mpls_conf_proc(const struct ctl_table *ctl, int write,
- 			  void *buffer, size_t *lenp, loff_t *ppos)
-@@ -1397,14 +1407,12 @@ static int mpls_conf_proc(const struct ctl_table *ctl, int write,
- 	int ret = proc_dointvec(ctl, write, buffer, lenp, ppos);
- 
- 	if (write) {
--		struct mpls_dev *mdev = ctl->extra1;
--		int i = (int *)ctl->data - (int *)mdev;
--		struct net *net = ctl->extra2;
-+		struct mpls_dev *mdev;
- 		int val = *(int *)ctl->data;
- 
--		if (i == offsetof(struct mpls_dev, input_enabled) &&
--		    val != oval) {
--			mpls_netconf_notify_devconf(net, RTM_NEWNETCONF,
-+		mdev = container_of(ctl->data, struct mpls_dev, input_enabled);
-+		if (val != oval) {
-+			mpls_netconf_notify_devconf(dev_net(mdev->dev), RTM_NEWNETCONF,
- 						    NETCONFA_INPUT, mdev);
- 		}
- 	}
-@@ -1412,13 +1420,13 @@ static int mpls_conf_proc(const struct ctl_table *ctl, int write,
- 	return ret;
- }
- 
--static const struct ctl_table mpls_dev_table[] = {
-+static const struct sysctl_field mpls_dev_table[] = {
- 	{
- 		.procname	= "input",
--		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.type		= SYSCTL_FIELD_INT,
- 		.proc_handler	= mpls_conf_proc,
--		.data		= MPLS_PERDEV_SYSCTL_OFFSET(input_enabled),
-+		.data_offset	= SYSCTL_FIELD_INT_OFFSET(struct mpls_dev, input_enabled),
- 	},
- };
- 
-@@ -1426,35 +1434,27 @@ static int mpls_dev_sysctl_register(struct net_device *dev,
- 				    struct mpls_dev *mdev)
- {
- 	char path[sizeof("net/mpls/conf/") + IFNAMSIZ];
--	size_t table_size = ARRAY_SIZE(mpls_dev_table);
- 	struct net *net = dev_net(dev);
--	struct ctl_table *table;
--	int i;
--
--	table = kmemdup(&mpls_dev_table, sizeof(mpls_dev_table), GFP_KERNEL);
--	if (!table)
--		goto out;
--
--	/* Table data contains only offsets relative to the base of
--	 * the mdev at this point, so make them absolute.
--	 */
--	for (i = 0; i < table_size; i++) {
--		table[i].data = (char *)mdev + (uintptr_t)table[i].data;
--		table[i].extra1 = mdev;
--		table[i].extra2 = net;
--	}
-+	struct mpls_dev_sysctl_context ctx = {
-+		.context = {
-+			.object_size = sizeof(*mdev),
-+			.object = mpls_dev_sysctl_object,
-+		},
-+		.mdev = mdev,
-+	};
- 
- 	snprintf(path, sizeof(path), "net/mpls/conf/%s", dev->name);
- 
--	mdev->sysctl = register_net_sysctl_sz(net, path, table, table_size);
-+	mdev->sysctl =
-+		__register_sysctl_fields(&net->sysctls, path, mpls_dev_table,
-+					 ARRAY_SIZE(mpls_dev_table), &ctx.context,
-+					 sizeof(ctx));
- 	if (!mdev->sysctl)
--		goto free;
-+		goto out;
- 
- 	mpls_netconf_notify_devconf(net, RTM_NEWNETCONF, NETCONFA_ALL, mdev);
- 	return 0;
- 
--free:
--	kfree(table);
- out:
- 	mdev->sysctl = NULL;
- 	return -ENOBUFS;
-@@ -1464,14 +1464,10 @@ static void mpls_dev_sysctl_unregister(struct net_device *dev,
- 				       struct mpls_dev *mdev)
- {
- 	struct net *net = dev_net(dev);
--	const struct ctl_table *table;
--
- 	if (!mdev->sysctl)
- 		return;
- 
--	table = mdev->sysctl->ctl_table_arg;
- 	unregister_net_sysctl_table(mdev->sysctl);
--	kfree(table);
- 
- 	mpls_netconf_notify_devconf(net, RTM_DELNETCONF, 0, mdev);
- }
--- 
-2.55.0
+Yes, both selinux_file_user_sid() and file_user_path() should follow
+the same pattern independently - they always stash the top-most user visibl=
+e
+path/creds.
 
+Thanks,
+Amir.
