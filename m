@@ -1,37 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B491397;
-	Fri, 28 Aug 2026 23:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEE920E023;
+	Sat, 29 Aug 2026 01:10:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787960249; cv=none; b=WvdAI83YS+0PXxmrqKenRlQN/d1RsU8hdxNc1SOpZzir/BbwmAZnooWkxg8rwqqRVNhNZ0z1rKC6DpVk2/m2qpj7PwnawF1+1qvIjx6/QLoqmnMIGnDrAmwNjJSNvilTcoJ1Ku7gLX8gFoaET7oKqje7eramHvJCZl/l8qV2GcY=
+	t=1787965839; cv=none; b=mEAmkmu25PnxhAIqJAdbHYBPIFaB6/Y8TjBEzg3B4KviMWFYSb4Hvzx6mwfy4EWvRG6bOqoiOOH+i/D2ZFQmBCu8DMHmgxbUO1zLOGMateRgO30Zewa3MrqJF4x9PQDwNGavEyCN1E/5sFli+484HC2tXAdzrIp6aXbJOw6eZF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787960249; c=relaxed/simple;
-	bh=ZnmkW+RgD0OU9oJfaYp7vHJ/SZPbNHl0/ZpS5/VXN3s=;
+	s=arc-20240116; t=1787965839; c=relaxed/simple;
+	bh=BupOGK9+QOpwSryuht8rxbz+vV3pbsF2UGZ3/fwuyVw=;
 	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=djjNEAj2vl4P3BxCG87hiieHjui+du3v6gv8LSzrNb6Tytfe2L8LT+mzi7il73/SAn2p7104pbtdytMzpklh34w98pMWHiAKkWU0xA380me29+VgO1aoe/K8qUsXMFQfDvf2Cnn2ba9BzskHKAlhakCmKbA6c8Y07QZokyA3QmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=WtMGDD7R; arc=none smtp.client-ip=100.103.45.18
+	 Mime-Version:Content-Type; b=RrlkK+yqTdoWKQ4utEvNVV+uPiw8yPT4DSyhDPQ5ciQ5HFU/TTrBS/IoHx85LXUBXfsLYvbD6RF5kUW09Y8taAghcMmI+j5j5TQxkWm6WVBriaxmXGU5Mlpmy83LO7HFWh+4bdc+YIvhAqwXhjH/tToZ/zKDpRBIMkVZ027xZtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=B8E/sx0Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="WtMGDD7R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B5A1F000E9;
-	Fri, 28 Aug 2026 23:37:27 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="B8E/sx0Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E73E31F000E9;
+	Sat, 29 Aug 2026 01:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1787960247;
-	bh=O991VjvH7uZlraIXABzGMwBQxEqiEiD6+/CXOmqauVc=;
+	d=linux-foundation.org; s=korg; t=1787965836;
+	bh=O81DWSElEdPe9SxBy2pFNHAg83+44YOp6jW+Y/wLfUE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=WtMGDD7R5+HuwLBWHNuiKVmTEwKuGdqE7xYNCvsdKfkb0D4adYX/RIp1TpxDH4lex
-	 sQD9MvOb3xbp85bYgCFCe6AUh7WMh7SRG6QnfvsyUCEmd4634h49DYiNACt3ilQwvt
-	 mJujqkg+MtRd9K1a7zv4F0cxLnSqtu/4PArxYI7c=
-Date: Fri, 28 Aug 2026 16:37:27 -0700
+	b=B8E/sx0QdZDERSseGfwloHK3EaU9ArsAkSsTdjuCrjUQJzvzf3fKgT3y6lyHSCJwY
+	 IliF8AaxY5b9HRN7StKjWYIlzN90SFpsZi6cMSvfj4aTO0Kyg75LfuybwlbFfHyoEn
+	 9tKVarnSkWIhi0gbNndJSFawV8J/QZdHLPISL+B0=
+Date: Fri, 28 Aug 2026 18:10:35 -0700
 From: Andrew Morton <akpm@linux-foundation.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Phillip Lougher <phillip@squashfs.org.uk>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] squashfs: harden fragment index table sizing
-Message-Id: <20260828163727.748343f2c87610ac6cd89dfb@linux-foundation.org>
-In-Reply-To: <20260822143328.68867-1-kmehltretter@gmail.com>
-References: <20260822143328.68867-1-kmehltretter@gmail.com>
+To: Wenjie Qi <qwjhust@gmail.com>
+Cc: willy@infradead.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, baohua@kernel.org, Wenjie
+ Qi <qiwenjie@xiaomi.com>
+Subject: Re: [PATCH] mm: filemap: tighten dropbehind completion context
+ check
+Message-Id: <20260828181035.ce6e23970d37e38b64818f10@linux-foundation.org>
+In-Reply-To: <20260820142956.1414337-1-qiwenjie@xiaomi.com>
+References: <20260820142956.1414337-1-qiwenjie@xiaomi.com>
 X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -42,48 +44,33 @@ Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 22 Aug 2026 16:33:26 +0200 Karl Mehltretter <kmehltretter@gmail.com> wrote:
+On Thu, 20 Aug 2026 22:29:56 +0800 Wenjie Qi <qwjhust@gmail.com> wrote:
 
-> Two integer overflows undermine fragment index table handling.  One is
-> in the original fragment sizing macros.  The other is in a bounds check
-> added by commit 1cac63cc9b2f ("Squashfs: add sanity checks to fragment
-> reading at mount time").
+> folio_end_dropbehind() uses in_task() to keep folio invalidation out of
+> interrupt context. Task context alone is not sufficient: preemption can
+> still be disabled, or the task can be in a preemptible RCU read-side
+> critical section, while filemap_end_dropbehind() may reach
+> folio_unmap_invalidate() and sleep.
 > 
-> Patch 1: the fragment byte count wraps on 32-bit, so the index table
-> is allocated too small and squashfs_frag_lookup() reads out of bounds.
-> A crafted image triggers a KASAN out-of-bounds read on a 32-bit build.
-> With the fix the same image fails cleanly at mount.
+> Use the established conservative three-part atomic-context test: reject
+> preemptible RCU read-side sections, reject configurations without
+> PREEMPT_COUNT, and otherwise require a preemptible context. Unsafe
+> completions retain the existing best-effort behavior and skip invalidation.
 > 
-> Patch 2: the check that the table fits before the next one adds two u64
-> values controlled by the filesystem image and can wrap.
-> 
-> Built W=1 with gcc (x86_64, i386) and clang (x86_64).  Strict
-> checkpatch is clean.
+> ...
+>
+> +static bool folio_dropbehind_in_atomic(void)
+> +{
+> +	if (IS_ENABLED(CONFIG_PREEMPTION) && rcu_preempt_depth())
+> +		return true;
+> +	if (!IS_ENABLED(CONFIG_PREEMPT_COUNT))
+> +		return true;
+> +	return !preemptible();
+> +}
 
-Thanks.
+Cripes.
 
-When fixing bugs, please always include a clear and succinct
-description of the userspace-visible runtime effects of the bug. 
-Especially when proposing a -stable backport.  It should be easy to add
-this to Claude's prompts!
-
-I expect that Claude could also generate reproducers for such issues. 
-Although it may not be trivial in this case, as a corrupted fs image
-will need to be created.  If you are able to generate the reproducers
-then please document this in the changelogging in an appropriate
-fashion.
-
-
-Sashiko review of this series claims to have found a whole bunch of
-similar issues which you may choose to address:
-
-	https://sashiko.dev/#/patchset/20260822143328.68867-1-kmehltretter@gmail.com
-
-I don't know how useful this report will be - the first part seems
-wrong in lots of ways, as if Sashiko was using an ancient copy of the
-code.  But the things it claims aren't there have been present since
-2018.
-
-
-Anyway, let me get these fixes queued for testing while we await
-additional reviewer input.
+There's nothing mm-specific about this function.  If we have a use-case
+for such a thing then surely the function should be kernel-wide, it
+should live at the sched/rcu/etc layer and it should be elaborately
+documented?
