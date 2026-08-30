@@ -1,159 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7B53806DD
-	for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 08:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5E93806DD
+	for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 09:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788080252; cv=none; b=d7R15Xrd+U/7g72qDfgpwVDRc4utIWJTauoJbepzd6nIa6lxgkwdCQJYpgeKHMEgNUeChuYtc6GYxcl1oVycRkSMj8UhX3rTjwiwcEPNiMldD+r6jD5plwBQYK6YskcC56sz7G+s4kOf2kkiALXMzAkc7tzmgRs+IH8AlhFczZ0=
+	t=1788081232; cv=none; b=lOJDu73QkVQ4kCmA/8D+esZ3d2nPAT7/qDP6xDEA8PTkxUxXwZjFLXwwnz9537wISjAs3J2uQp/Moo6rZfyA55THdBpLJYMNQ3V4Ombrb0AytokrLHMYHBE7rBrFjtLJ7IxIlP/xfn33SDaP+r/Ip9ns25wtmJlwgqdcHc2Len8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788080252; c=relaxed/simple;
-	bh=E8nmShe8kC7jCCQNYbIRUwo3OQACoeUixu9mDApoJtQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z8iU6kx8cDA9/yAck6Q37AgLzato19YuKYtQ5YDsv5WmEEI3fXZH4xUKwiwuHMya7GY6HqWh9x3WnkY9ERjKFdVFf1KRZoAjGIcR7kjJmupdfcXKMJkinV5mXCIo3YkrhU+Lgf9DCWTONJW0Wd1BJbQuvaaZ0A71EOREnNfoNsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oqxJpBEt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788081232; c=relaxed/simple;
+	bh=YeEwfeyHKK6gIeEWh/rVLFOhOsvD3Jt7Q0LgN6+iTPg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gFanu+dcELjChy7dz4ZuizKwyNRbSgaheJU4wArHaA8GUdxKX5rz8QdNNI5sujCJKBnP2mJE+X9pkq6BQOx5Tybz7eqP/jLhIPGmGD6LSoRKtulcH+76n6rABoRIrWoOclPxf1FU0XIoFvrJ3iCasoYCZ58NaAOX3CDRXcIsbsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mlx6S+eO; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oqxJpBEt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E52C1F0155D
-	for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 08:57:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788080251;
-	bh=029+faS5ZzWsov4hpcUm5x/4rseKLpq/BvplkVhE40Q=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=oqxJpBEt3n/PrGLolRfZZ7q7RTLGVwOKqEZrxdigyJmNaxBaixGYhIkZxi2c5aHwD
-	 zunXvrJiXLvdfJs1+0b3rPl0Y12AJ6soo/nCjQKUUc1BAfJfxfp9TUJdt6hnaVQ5Xv
-	 EOylIyrS38eh5Fzk+dcH48n0ojGUMd2gnf020FT3U/1Gcnp3OqcRsb6YSMxUiPJQDF
-	 8CefjlqcToWNeNbAvueJxf/Hsb0MyCeMlYp437F6XPwy4Crs8HHWbPfdJdUMQclMCk
-	 CPhTPBIGDk+KRETf7XulrJk+h2d4YVk2vmGBwsCXP8eRAnUKt7aRL6YxuvwEqPA/JQ
-	 9/X7BSHxiyo4g==
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9384cb251fbso114143485a.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 01:57:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rrla56RgoiYfm3Ex2tezYCmPpq9wK2M+2k5lH717VGSunUvYQXDqcH7VqOLOsYc7Sx+Dk9azl2AlKjUrY16@vger.kernel.org
-X-Gm-Message-State: AFuF++mjSi8EQQkJHegh7++qYpp4SVRR95m51P47SntQXz8P7+iPvwoI
-	riKtbFhDhtG7aWrPX2GttQtwk7GUHCpiTD9UNHMG+ndJwDwObNH+3Xip78qcChwHdRdVmpiXrMa
-	BaGuUu/o8QCXakCWGI6qL9jHx/Ztfhyc=
-X-Received: by 2002:a05:620a:5d83:b0:92f:279:5953 with SMTP id
- af79cd13be357-939138ae01emr1707149385a.27.1788080250323; Sun, 30 Aug 2026
- 01:57:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mlx6S+eO"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so2802188a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 02:13:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788081230; x=1788686030; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4mZMnam9PuFjLpm1vuMO2JXE5Y2qa9SZWkY6IJ6iwGk=;
+        b=Mlx6S+eO76CyiF4syZE6PzjFBqLUbW+MZG283x4kPIF0e3A1TaFKhijWBr5vye/atN
+         ypYsiiuWhHSUBW7PDDTopIdYU8ccIkGdmtpvF/Lg8dPeCvuEvi2+Ycqox2lWgaK5pjMr
+         Ezwpkv/9vAUdhoWGEd5Q3fJzm0y9aWijfUBFEvvhwypZlwvv09UQvSEyuFzt3mYssmp0
+         /EjMKdn6bxVpIfiGsEFN0P9tZU4z6FVmGGR5ELXTy1OJsTYFvSBzWg7+opnoDdoOW5oC
+         wZARTsl+SNJfco914ANaeDFYDLy+57nTtFtRjyWBm4Vubre/syIJ+Mtfe4oURiF60Bi0
+         CgXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788081230; x=1788686030;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4mZMnam9PuFjLpm1vuMO2JXE5Y2qa9SZWkY6IJ6iwGk=;
+        b=iIZhqjwO3oE2g2/vlUaNC/ktYPyfZmYkh6RZf74wMgfZ7S84Zzy7HhzlNALDySSRbh
+         n35q2YkW2PGEAedEPtiF/NRHxavx8HSD9XcoJsrsbJ4BSZhNXfO7Sxju+c7GVV4n4VS8
+         dcjoZqnNnBd0O+EWyjohg1RCoWIgpj7sz2ZThcRw3vGmJLT0Q6fk2LTmJWIeleKtMLb3
+         JcdhE8iusk2tYt+QneEZ3GswrwHlCZ7SrK0I1idBn6p/9DNqhRwBDsbegp6kTNfu0W3d
+         bx+nROJ5K4RgtW3AZPUdt6sg9mZU1Nuv69ErB2uV4afzPe/XvXzn0lKFG/vTaMaBDi+S
+         Ru5w==
+X-Forwarded-Encrypted: i=1; AKwUvBwVAPhhR6V3P5mu/VrnTx7KiMfmODISky02F431S/niuUE9eS3DCyZ2JIen14KGBZLnBgfDOIm75U+5hfPa@vger.kernel.org
+X-Gm-Message-State: AFuF++lzhOmelF5O3ZzaNJ2WbG1DLSS2luK48a2OYrJP4IEjbiaTPj0D
+	oN5E4Jf7E4aDlcMicoL0hEZ+DAqfySJzpThtUhmU5XoFmSJofo0bmF8p
+X-Gm-Gg: AYBFou0+vIZ9XFilYu6ibBKfp3zvT50tHgtabVXztbIbRzFkdteC4p0Zj5dhK6sN/2N
+	wwPH0a4apXHTNjPQ0cm40mtYft+ZkTW50PMulX2tzYZ25V23x2ruSc7pS/PryEYEZ/kEyXJ/wxn
+	rzj1LdjMZKAU+nDkmHrLE2yaC2gw3CIXA2mpD7q5+oBRTK+IIQxwyhe10HbQ7lbgae+m68WkM7e
+	DnNJprjRAXysvhIGuRepGSzPxVXQf8OCZqrQOMyFrBVsqovFqSAJG+E1+49JAsvjDvyu4mj/F2q
+	/NQ2c6FnP2Xpnb8E40xY8MsI9HBm7HjhsA4O4TpbhhTKViMQSlu7wnVLSGkalLBLghiDevbwtUr
+	r0QtH3Ha0uBqc+vMA7AvYoDVLEHzSGhiZoFmo94MjNWj1hObqPpSJuBSLOiypnpQ0wlRRR/7EvL
+	9vAaaAwQHV64Qt5TQ5qZ4ci//mEU1enEKisy/cnS30UStjWADqzP1ey5qdWyT+iAHKf1WVgv78e
+	MnbwA538wP3FCnejCdMeg==
+X-Received: by 2002:a17:90b:2642:b0:398:9be8:ea64 with SMTP id 98e67ed59e1d1-3989be8eaefmr17172526a91.17.1788081230369;
+        Sun, 30 Aug 2026 02:13:50 -0700 (PDT)
+Received: from qiwenjie-ThinkCentre-M760t.mioffice.cn ([43.224.245.241])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b0ea80a2sm15459428a91.3.2026.08.30.02.13.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2026 02:13:49 -0700 (PDT)
+From: Wenjie Qi <qwjhust@gmail.com>
+To: baohua@kernel.org
+Cc: willy@infradead.org,
+	jack@suse.cz,
+	akpm@linux-foundation.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	axboe@kernel.dk,
+	trond.myklebust@hammerspace.com,
+	tz2294@columbia.edu,
+	jaegeuk@kernel.org,
+	chao@kernel.org,
+	qiwenjie@xiaomi.com,
+	qwjhust@gmail.com
+Subject: Re: [PATCH v4] mm: filemap: retain mapped dropbehind folios
+Date: Sun, 30 Aug 2026 17:13:43 +0800
+Message-ID: <20260830165401.1788080041-1-qwjhust@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CAGsJ_4wpUBOXKd8aGNz76U+87bwDUXZZFSW2UhNcq4qpjVvggQ@mail.gmail.com>
+References: <20260820142956.1414337-1-qiwenjie@xiaomi.com> <3fa43eaca792bc0bbde4b82a6c1fcdd3f528b398.1787999152.git.qiwenjie@xiaomi.com> <4aba05e1a2c3b61cb337d373eb9b7a8db4ddd822.1788024049.git.qiwenjie@xiaomi.com> <20260829111621.41ed2bc9a0e99e3367eb96c3@linux-foundation.org> <ef160933595c365f2c47597b260bc7ecd98ed7ce.1788029516.git.qiwenjie@xiaomi.com> <CAGsJ_4wpUBOXKd8aGNz76U+87bwDUXZZFSW2UhNcq4qpjVvggQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260730-blk-dontcache-v7-0-3e8e6850068d@columbia.edu>
- <20260730-blk-dontcache-v7-2-3e8e6850068d@columbia.edu> <CAGsJ_4wUvLoKGafR3U-ji1kUUaz6K_QdN6QxMT-apSaO5tXp0A@mail.gmail.com>
- <6672b30b-427f-45ed-a172-4c47a63d2c7c@columbia.edu>
-In-Reply-To: <6672b30b-427f-45ed-a172-4c47a63d2c7c@columbia.edu>
-From: Barry Song <baohua@kernel.org>
-Date: Sun, 30 Aug 2026 16:57:18 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4y8tAh8A8pfi5TJEtPq-JMPjrLX4gCLvesmPNYuZdWCCA@mail.gmail.com>
-X-Gm-Features: AcwNN1UV9cGDBED4rxscU4sOzbiEGy-p9iJ4uD11AMCMxh60PQMZXIFRTunlV-4
-Message-ID: <CAGsJ_4y8tAh8A8pfi5TJEtPq-JMPjrLX4gCLvesmPNYuZdWCCA@mail.gmail.com>
-Subject: Re: [PATCH v7 2/5] block: add task-context bio completion infrastructure
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: Jens Axboe <axboe@kernel.dk>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Christoph Hellwig <hch@infradead.org>, Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
-	Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, 
-	Chunhai Guo <guochunhai@vivo.com>, Dave Chinner <dgc@kernel.org>, 
-	Bart Van Assche <bvanassche@acm.org>, Hillf Danton <hdanton@sina.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-erofs@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Aug 29, 2026 at 11:26=E2=80=AFPM Tal Zussman <tz2294@columbia.edu> =
-wrote:
->
-> On 8/16/26 7:11 AM, Barry Song wrote:
-> > Hi Tal,
-> >
-> > Thanks very much for the patch. I=E2=80=99m just a bit confused that
-> > folio_end_dropbehind() only requires in_task(), and nothing more.
-> >
-> > void folio_end_dropbehind(struct folio *folio)
-> > {
-> >          if (!folio_test_dropbehind(folio))
-> >                  return;
-> >
-> >          /*
-> >           * Hitting !in_task() should not happen off RWF_DONTCACHE writ=
-eback,
-> >           * but can happen if normal writeback just happens to find dir=
-ty folios
-> >           * that were created as part of uncached writeback, and that w=
-riteback
-> >           * would otherwise not need non-IRQ handling. Just skip the
-> >           * invalidation in that case.
-> >           */
-> >          if (in_task() && folio_trylock(folio)) {
-> >                  filemap_end_dropbehind(folio);
-> >                  folio_unlock(folio);
-> >          }
-> > }
-> >
-> > But we=E2=80=99re applying a much stricter check with bio_in_atomic():
-> >
-> > +static inline bool bio_in_atomic(void)
-> > +{
-> > +     if (IS_ENABLED(CONFIG_PREEMPTION) && rcu_preempt_depth())
-> > +           return true;
-> > +     if (!IS_ENABLED(CONFIG_PREEMPT_COUNT))
-> > +           return true;
-> > +      return !preemptible();
-> > +}
-> >
-> > I feel like something may be missing either in
-> > folio_end_dropbehind() itself or somewhere in the
-> > filesystem/block-device path.
-> >
-> > Do you know why they don=E2=80=99t match each other?
-> >
-> > Best Regards
-> > Barry
-> >
->
-> Hi Barry,
->
-> Apologies for the delay.
->
-> As far as I can tell, the in_task() in folio_end_dropbehind() wasn't mean=
-t
-> to be a generic test for if it's safe to sleep, but rather filtered out t=
-he
-> known unsafe case of buffer_head writeback completing from IRQ context.
-> In contrast, the bio_in_atomic() check needs to be stricter since the bi_=
-end_io()
-> callbacks could sleep or the callers could be holding locks, RCU, etc.
->
-> I see there's some more discussion about this at [1], but I suspect there=
- are
-> other instances that are (incorrectly) using in_task() as a proxy for bei=
-ng able
-> to sleep (like f2fs_read_end_io(), but I haven't looked too closely at it=
-).
->
-> Additionally, it probably only makes sense to use bio_in_atomic() when th=
-ere's
-> some deferral path, since with CONFIG_PREEMPT_COUNT=3Dn, it'll always ret=
-urn true.
+Yes.  The current path removes the folio from the page cache, so a later
+mmap access can incur both another fault and I/O.  I should have stated
+that explicitly.
 
-Tal, thanks very much for your reply and the kind clarification. It
-seems you're right, and I think we should also use `bio_in_atomic()` in
-`folio_end_dropbehind()`.
+For fault-around neighbors, folio_mapped() cannot distinguish the faulting
+page from a speculative neighbor.  This patch takes the conservative policy
+that an installed PTE represents a competing cache user and wins over the
+writer's RWF_DONTCACHE hint.  It can therefore retain a speculative neighbor
+which is never accessed.  Distinguishing those cases seems to require
+fault-around to preserve the faulting folio while not mapping, or later
+dropping, dropbehind neighbors.  I think that should be considered as a
+separate follow-up.
 
-On the other hand, as I mentioned in another thread[1], I really feel that
-`bio_in_atomic()` has nothing to do with `bio` at all; it's really a
-scheduler thing. We may want to move it to the scheduler layer and
-discuss it there.
-
-[1] https://lore.kernel.org/linux-mm/CAGsJ_4xxDpeaPv9Uh_1qsuXsMLkx+J0X=3D2V=
-6342idLFO5jkTBw@mail.gmail.com/
-
-Best Regards
-Barry
+For folio_launder(), filemap_end_dropbehind() holds the folio lock and returns
+if the folio is dirty or under writeback before calling
+folio_unmap_invalidate().  folio_launder() also immediately returns for a
+clean folio.  I do not see how nfs_launder_folio() is reached from this
+completion path unless the locked, unmapped folio can become dirty between
+those checks.  Is there a path I am missing?
