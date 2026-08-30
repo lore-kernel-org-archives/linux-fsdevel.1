@@ -1,139 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1974525785D;
-	Sun, 30 Aug 2026 05:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941E91E1A3D;
+	Sun, 30 Aug 2026 06:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788068178; cv=none; b=W8tA7+8lDyuqCBnokRVIAdy7iJ0XuIpvAhyrI1bIxi9gAxE7s0lF4AB51/Pf+eK5Jt6Llgiq9lUPK+DKWYvD0WvVZRje59B1ijzpofBCF7ogp/izZrT9VKm/Y1IrGBdjgyF0Ttyczg6bymuUu6g1OcxvSbK3RTQJQlTm6R9JYhw=
+	t=1788069684; cv=none; b=qR0JZlawg0AwAYKWw3KAAvFop1CgIa7XQdgaVzOYTFPi4JfNIKZLLjk4SsLO8CDFfuuYWICA8d3QnzgcjunIE3DYRoK0i8gYPIS1yU1I4dandOXERgofa/5xjTiZEb2RvZk86B4ZZzBNPWsLOPbZwNvLTtDp9wuhCkHGg9467EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788068178; c=relaxed/simple;
-	bh=ppANgCqYjbrHGJPNi8JX7qDzvfAij53sX9+QybYQSlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RaDsuKmUL6jHrGL+pnnD5SfZkn3nPRs2VRk+QhYsCm3zfoOuPIRowjgo7mbxz3H9ydG3amYGDnmgn7hXLXMMJ4PoJIKKPkjK4xTXb3zHgOnDhUwrZd+NdH82BikAamYaJuiPQ2W4KLecAtLM7nEN1xRACDsQpC+bVTuhQETZiCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F5e3f3zr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788069684; c=relaxed/simple;
+	bh=uiuHoBiI3dOR32RrWGas832qL6Ggqy0VHyUxE9ZCQVY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=SqWRUuwkCMZ0jHlGNKe5OMOWAZ0xBC8zNVgRXXOiIuCuqNCjWWs9RqrIjvcPTYXhUSe/0wfJ3mB1c7wyCocCXlgrHarNCTH1Ta07Js/0hH8aSDzjisl9YvlPpd0NAh1KHDXATH7ANKYjJnGUDuv1lWAn1SPhXLsVAKt4SXcL6+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=cSkACYyB; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5e3f3zr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9AFA1F000E9;
-	Sun, 30 Aug 2026 05:36:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788068176;
-	bh=dbu7Q3qcydpbduK5d5xuw3bm+6kDkYu6ps7F3h/cYC4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F5e3f3zrh6K28tm/qQp6Oue55tKOTLOm01Yu0X0OpWd11buxJM+oaQZgRaPgAlviw
-	 orfhumU4zI6rXgZbcTbz0VyTxjMqyrqmt1yX+dwx/pPQKPoDwxaZymNkiEKL37jeMy
-	 m8iwifd6CBos3sCjQc12VSH5HxST5TNAz8sS8HWLLTXtD53zgpGszWjYd1Udf6YqOi
-	 RItioxeawc68IRB5v4ZTiIT2/t0l07vAMlA5MEkxNFTdL0oaOKmRwu/l+811BFK+ra
-	 hPrKDWDpFPIFCqHB2QRZ5eP+KTGkOQHlKN9AYVVTraJss062/hlCVu+RUurmS761IA
-	 JU6btVfCDBo7Q==
-Date: Sun, 30 Aug 2026 08:36:01 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Barry Song <baohua@kernel.org>, Dev Jain <dev.jain@arm.com>,
-	Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Lance Yang <lance.yang@linux.dev>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	Nico Pache <nico.pache@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Usama Arif <usama.arif@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] userfaultfd: collapse VM_UFFD_{MISSING,WP,MINOR,RWP}
- into single VM_UFFD
-Message-ID: <apPBQQ-850DwlCVA@kernel.org>
-References: <20260823-uffd-vm-flags-v1-v1-0-3086981b33cf@kernel.org>
- <20260823-uffd-vm-flags-v1-v1-6-3086981b33cf@kernel.org>
- <ao16VxNvaYzlt2WG@gremlin>
- <ao_9R3CbjYFipFu7@kernel.org>
- <apAB9GSnHNyNoSc1@gremlin>
- <apAcweThjiD-iIBF@gremlin>
- <37f6af95-950e-4457-886e-6548d4719f0d@kernel.org>
- <apK7s4xSgA_GmY7d@kernel.org>
- <178802897277.671075.10362065249796431311.b4-reply@b4>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="cSkACYyB"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67U2WDXN2400791;
+	Sun, 30 Aug 2026 06:00:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=cUId8m
+	VD0q8ArFhphi7F2d/4HgLaI29h9tmyckBAMNM=; b=cSkACYyBJLDRRx9opzknY4
+	y+yIFBl4Nutn5BApIR7IwEsytvC10dMjY8NV5y/ohqDUV6vHmeT+qDmM8kq5cVDQ
+	eaS8CiIyguiYz5y+NrqvStAVHykS0iHR4fg7m1iSTHhlif64lSPcRZVCFQGSaNJG
+	VPglpDjFY1/Y1/N4HKuHLw0HubPtnIyYDYkBNDp6tXJ6te62NnXIaTh8gbJ2qhTT
+	X2dsKTwQnuibJjWbek/LpedmeCY7IEb2oAkagEKbx6SPgppsqvcxPm8FqQTYbMKJ
+	ndy9jM34L7Vhnl8jR4KrtTMeNuoj4cRF4dCiNGMiQ2A9cW6RfNGYf9WjOErNZzRw
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gbpx53ptv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 30 Aug 2026 06:00:15 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67U5vr4O029036;
+	Sun, 30 Aug 2026 06:00:13 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gca4vrmb6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 30 Aug 2026 06:00:13 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67U609Hq45679074
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 30 Aug 2026 06:00:09 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7C18A20065;
+	Sun, 30 Aug 2026 06:00:09 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F1B972004F;
+	Sun, 30 Aug 2026 05:59:45 +0000 (GMT)
+Received: from [9.67.21.115] (unknown [9.67.21.115])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Sun, 30 Aug 2026 05:59:45 +0000 (GMT)
+Message-ID: <87186b8a-f68c-400b-97cf-8ea6129eba69@linux.ibm.com>
+Date: Sun, 30 Aug 2026 11:29:43 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178802897277.671075.10362065249796431311.b4-reply@b4>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/17] crash_dump: Fix potential double-free of
+ keys_header
+To: Jinjie Ruan <ruanjinjie@huawei.com>, catalin.marinas@arm.com,
+        will@kernel.org, mark.rutland@arm.com, chenhuacai@kernel.org,
+        kernel@xen0n.name, maddy@linux.ibm.com, mpe@ellerman.id.au,
+        npiggin@gmail.com, chleroy@kernel.org, tglx@kernel.org,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        hpa@zytor.com, akpm@linux-foundation.org, baoquan.he@linux.dev,
+        rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org,
+        ruirui.yang@linux.dev, kees@kernel.org, thuth@redhat.com,
+        gshan@redhat.com, jic23@kernel.org, james.morse@arm.com,
+        ardb@kernel.org, leitao@debian.org, yeoreum.yun@arm.com,
+        coxu@redhat.com, tangyouling@kylinos.cn, hbathini@linux.ibm.com,
+        adityag@linux.ibm.com, ionut.nechita@windriver.com,
+        liaoyuanhong@vivo.com, seanjc@google.com, fuqiang.wang@easystack.cn,
+        makb@juniper.net, piliu@redhat.com, ebiggers@kernel.org,
+        jbouron@amazon.com, mclapinski@google.com, me@linux.beauty,
+        graf@amazon.com, bgwin@google.com, robh@kernel.org,
+        takahiro.akashi@linaro.org, palmer@rivosinc.com, x86@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, Coiby Xu <coiby.xu@gmail.com>
+References: <20260826092541.3905933-1-ruanjinjie@huawei.com>
+ <20260826092541.3905933-8-ruanjinjie@huawei.com>
+Content-Language: en-US
+From: Sourabh Jain <sourabhjain@linux.ibm.com>
+In-Reply-To: <20260826092541.3905933-8-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=PPc/P/qC c=1 sm=1 tr=0 ts=6a93c6ef cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
+ a=pGLkceISAAAA:8 a=Z4Rwk6OoAAAA:8 a=20KFwNOVAAAA:8 a=7ipKWUHlAAAA:8
+ a=i0EeH86SAAAA:8 a=701CVkoOzhNhLSDMr48A:9 a=QEXdDO2ut3YA:10
+ a=HkZW87K1Qel5hWWM3VKY:22 a=gpc5p9EgBqZVLdJeV_V1:22
+X-Proofpoint-GUID: VgyuYv1qmRcG1RUhv8Elbl7B939Neyl3
+X-Proofpoint-ORIG-GUID: Ipd0BTF3q-Kx16yAzRST5lJIyZJ6aY6-
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODMwMDA0NCBTYWx0ZWRfX6WdQnaMjbzZO
+ +vsf9opR0Aw4vftuFjHoTgPv0tiqXKxTJoFqX/mna1HUV5/x/Hd8t1lraC+Wap35uQc7BqfgpfX
+ 79DNFHmQwQFUUnTnv04xySvmAwYH+eg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODMwMDA0NCBTYWx0ZWRfXxCR2SgGnG2ln
+ 0DIs1D4pJzx1bLvPEbmQWlt9WYJ4EN6ORjTdDAtj9FVMwsbLY1mJAqY9wFeXbjVx0Guu/PXN8mH
+ r5aVchZXCCYmviAw1t05jDAPTP/BmPnt49C9bHbNS0HDcMl9KnEA8ASaD2Az6SBMeEczNVWMC7w
+ VMUbxScqll0iizrX6hQWyJEADnxG9t1HKC1P0aZeS8Q+SRn+bl1j66HjK4LbhQSOX8QBkpvsVy7
+ nLT4NuZf6YNHJ4LeU5DSfpIVmsyIMgiTuONGAp0ogscqfbBpgW7Nc1nOMsmz2e/joUHX3cgP0Ib
+ WCotoOpIk1dhEEOCBBkAUW3xYD1FgeX1VScKe47iEGlbTYzCRup4JQLSmtLuH/Vmxhi3LgNcpT+
+ EBIBgNUelP8Vody5Fi6uDVQjdHb8h5thhRxPTn/W13iQlsx4Ywi/yOwFmWTDjlCOsKYrwU6ZOye
+ JxbVCJGpMDVq3dGCsBQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-30_01,2026-08-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 phishscore=0 adultscore=0 suspectscore=0 bulkscore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608300044
 
-On Sat, Aug 29, 2026 at 02:42:52PM -0400, Tal Zussman wrote:
-> On 2026-08-29 14:00 +0300, Mike Rapoport wrote:
-> > On Thu, Aug 27, 2026 at 05:19:30PM +0200, David Hildenbrand (Arm) wrote:
-> > > On 8/27/26 13:18, Lorenzo Stoakes (ARM) wrote:
-> > > > On Thu, Aug 27, 2026 at 12:16:32PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > >> So actually you're increasing by a cacheline and increasing the VMA size by
-> > > >> 64 bytes, i.e. 1/3, which is unacceptable obviously.
-> > > >>
-> > > >> Maybe there's something that can be done with:
-> > > >>
-> > > >> 		/* forced alignments: 1 */
-> > > >>
-> > > >> Perhaps? But that looks potentially ugly.
-> > > >>
-> > > > 
-> > > > I say elsewhere (or think I do) but to highlight - I think probably we could fix
-> > > > this by putting the flags in the low bits of vm_uffd_state.ctx?
-> > > 
-> > > if that's possible that would be clearly preferable memory-wise.
-> > 
-> > This gives only 4 bits and makes this completely not extendable.
-> 
-> Wouldn't it be 6 bits? struct userfaultfd_ctx is allocated with
-> kmem_cache_create() and SLAB_HWCACHE_ALIGN, and most of the flags are
-> only available on 64 bit, so it should be 64-byte aligned in the
-> relevant cases.
-> 
-> (Not that 6 is that much better than 4... but it's a little more wiggle
-> room.)
+Hello Jinjie,
 
-I did remember that SLAB_HWCACHE_ALIGN could be as small as 16 bytes, but I
-didn't verify it for architectures that support fancy uffd modes.
- 
-> It could in theory also be bumped up to 7 by setting align in
-> kmem_cache_create(). userfaultfd_ctx already takes 192 bytes due to
-> existing alignment. Aligning it to 128 bytes would make it 256 bytes,
-> adding 64 bytes to each uffd rather than each VMA. But this sounds like
-> more pain for little gain :)
+Coiby is handling this issue in the below patch series:
+https://lore.kernel.org/all/20260828084900.1496839-2-coiby.xu@gmail.com/
 
-Yeah, even with as plenty as 7 bits :)
- 
-> > So I think I'll drop this for now and wait until VMA grows another cache
-> > line or until having per-VMA uffd state rather than a pointer to per-fd
-> > context is a must.
-> >  
-> > > -- 
-> > > Cheers,
-> > > 
-> > > David
-> > 
-> > -- 
-> > Sincerely yours,
-> > Mike.
-> > 
-> > 
-> 
-> 
+Since the above patch series is all about crash_load_dm_crypt_keys, 
+could you
+please consider dropping this patch from your series and reviewing his patch
+instead?
 
--- 
-Sincerely yours,
-Mike.
+Thanks,
+Sourabh Jain
+
+On 26/08/26 14:55, Jinjie Ruan wrote:
+> `keys_header` was freed in `build_keys_header()` without being reset
+> to NULL, and the error path in `crash_load_dm_crypt_keys()` freed it
+> unconditionally even when reused, leading to double-free or
+> use-after-free.
+>
+> Add `free_keys_header()` to centralize freeing and NULL-setting.
+> Use it in `build_keys_header()` and only free in the error path when
+> the header was newly built (`!is_dm_key_reused`).
+>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Baoquan He <bhe@redhat.com>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Cc: Pratyush Yadav <pratyush@kernel.org>
+> Cc: Dave Young <ruirui.yang@linux.dev>
+> Cc: stable@vger.kernel.org
+> Fixes: e3a84be1ec2f ("arm64,ppc64le/kdump: pass dm-crypt keys to kdump kernel")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+>   kernel/crash_dump_dm_crypt.c | 15 +++++++++++----
+>   1 file changed, 11 insertions(+), 4 deletions(-)
+>
+> diff --git a/kernel/crash_dump_dm_crypt.c b/kernel/crash_dump_dm_crypt.c
+> index c685497cd470..ed0960ff0987 100644
+> --- a/kernel/crash_dump_dm_crypt.c
+> +++ b/kernel/crash_dump_dm_crypt.c
+> @@ -363,15 +363,21 @@ static struct configfs_subsystem config_keys_subsys = {
+>   	},
+>   };
+>   
+> +static void free_keys_header(void)
+> +{
+> +	if (keys_header) {
+> +		kvfree(keys_header);
+> +		keys_header = NULL;
+> +	}
+> +}
+> +
+>   static int build_keys_header(void)
+>   {
+>   	struct config_item *item = NULL;
+>   	struct config_key *key;
+>   	int i, r;
+>   
+> -	if (keys_header != NULL)
+> -		kvfree(keys_header);
+> -
+> +	free_keys_header();
+>   	keys_header = kzalloc(get_keys_header_size(key_count), GFP_KERNEL);
+>   	if (!keys_header)
+>   		return -ENOMEM;
+> @@ -441,7 +447,8 @@ int crash_load_dm_crypt_keys(struct kimage *image)
+>   	r = kexec_add_buffer(&kbuf);
+>   	if (r) {
+>   		pr_err("Failed to call kexec_add_buffer, ret=%d\n", r);
+> -		kvfree((void *)kbuf.buffer);
+> +		if (!is_dm_key_reused)
+> +			free_keys_header();
+>   		return r;
+>   	}
+>   	image->dm_crypt_keys_addr = kbuf.mem;
+
