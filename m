@@ -1,103 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A663632F749
-	for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 09:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290CF318BA8
+	for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 11:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788082320; cv=none; b=n9nl1EIvUVS/XdcAngjAyQQkYVKpvDgJSWxnGJaPLu+FigrwjUvw0Uc2aQwyF1YpyUuuHIV7xQUt3+6N74fx/iDJ6e2sdjjoGpREo7rn/S5wG8q9AhENW8ypDlTLkhSe7zh8SMoh+JaBNb0a4yQWoDlceJre/VN+wSV649BeJTM=
+	t=1788090533; cv=none; b=X8U6vQEj89HVMY9wingSUVFydvwcJ1no4jmvRPR3SZm+q5/zvs3koLe7tx8Vvu18WclRIGchEkEOGrk9klB1nDVo6nK2/CTTx2nAG6MW/6FIObSXRSJ8uuRmYwbdIyXosKAbqnhnSakp+aM9G7ihuiCu6S54PuDp2iwY3AANobk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788082320; c=relaxed/simple;
-	bh=IJcwjYHj17joDlAXtYdSP6DsUc3ZUsKn5ItYemxd9U8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CYidVrh+vjHSRpKQJVcmnpFgdyTdUGkb+c2gePvnIV5udqF5/Y6eyHIcdytJ2Dr/iTePXy7dyqzqESdyPvHgnhP6N17tdCn/PiKgxVCiQMutSZprzAHZzE0BAyOW4TVyfkvuLGtY5TSt2gExevxiWMVtpcZ4ekYK3AoYsaw9F58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fCCv+HHW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788090533; c=relaxed/simple;
+	bh=gF1P2TPTeg0X/fs1Hsa7kd6AlUHV704xkybKWIIDC0I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=shiDkNvrMGPTE8H3ZZhXB6IMnCb4ORiALk8q00G9RAW5hzCuS2EaxNYz2YREbESTEw2bqKg2KjcsZdckdvaQKh2MIKev7cPD755/Ixurpx0ZSG+f3m7NemN68V7e1GVxjhVekkG75tahfXXsNO4kJabetMcHkBq3fTsTbZeCzyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MoCxldkY; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCCv+HHW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 541D71F00ADB
-	for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 09:31:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788082319;
-	bh=nvYs9KqQQiDFu9j18mNGTYlbSQTfBbCYWUQ8jg0y0r4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=fCCv+HHWayBekTpcF1F3IRCa/NlTMeI0SHFmDk3sJXRVzb5NYiI4k+PAr1AcvyU6Q
-	 3YAt1YQIi1PVpovVNd5xSEfN6Hs3lLmAnILDBFG5GfLK7l/7AH5vEjydVEs9gN3H31
-	 inOHTmiBDKTyLT3qhRXAt5kJNuny/gM6XkeiTagk8BjJdhm9tnLLBxD113isvnQKnr
-	 lJmAWlzKCyuw2jt93bpkuOqmOV3rk3qfIzegw6Vc6J3/XmJ4m856w8qfFeuCWX5a7i
-	 M1gX0nk57QVgeyHMTgrl45j5cgRXvMxYPyGVxp9DNHb+JnWzBuBHppIvWBNsfYGxFa
-	 BNw2amaBlp1yg==
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-9391e3b21fbso115160085a.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 02:31:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpSmLvV/s6QM3NpLKKVGGz8NEVCXdiEhejTJ/2VOP7UpZRaUpbbOD123LDA8j7Q3yTrPkR+FFk4jvEiPYtU@vger.kernel.org
-X-Gm-Message-State: AFuF++mgH81aBJjqTVyeceqFQvz92O83eGiTIyTaNI6/sTOnq/O2cp8j
-	pp1lMX3pmbMVciXAGSamErttII7JsFdmOPozV1ine9TxodJuQH8ag3S7Ng0raTARRft+HpxJsRk
-	JZl7LCXpdGQypKe82rtmIQ2PeQeJhXoo=
-X-Received: by 2002:a05:620a:f04:b0:92e:6a33:7118 with SMTP id
- af79cd13be357-939138df202mr1911249285a.30.1788082318676; Sun, 30 Aug 2026
- 02:31:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MoCxldkY"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-39647184c73so3337000a91.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 04:48:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788090531; x=1788695331; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=F6dWzVftJmVxxbOmYyIM0bVDs+vsg5QWyjKFPq8DPDo=;
+        b=MoCxldkYJf/kqMufIGRjvA9x+uhrcsukHj/p+yfmgDPll7Mj+ZB4cNrU42qFo8kmdc
+         VR+qjnByl8RyA1KTa8jIvkcwZTm3Cq4CV7C2APhUNSoFpG1+Zj9aHnUKTkXZ65/1pBf0
+         lGz92DwyQRwlcwuo2Steko8U+9OrZPeiji4UfcvfpIZzs4xdtlLdRuvOuT3PJTFwGIhY
+         lqV+TvZoaV9ywuTv6u0u6rdBBrfvUIqZftDiyuLSyemPASVyhoHnt1DkhJTBeWYmDOp9
+         kkbRZnrB26wDpAtneQWAeuFWnicvqFZX0AMGZbnA0zS77HCk2JfryYcZLRTVi1fq8Ohm
+         G4sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788090531; x=1788695331;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=F6dWzVftJmVxxbOmYyIM0bVDs+vsg5QWyjKFPq8DPDo=;
+        b=G9XQMfBmVk3XQUkCf3MWC7vNalpYxHTcQ4aP4BqQD57SXDlbVPngz9s3fLq00fZzJf
+         zZCfK0SH88gy3bk5k7jvIafJqRv11eIn/9Dk91uV4qmh2ii9RILW91sHRPnUgbcMa9of
+         34r7HojpA/q4IO4liw0LkS68QEI77KLKGY49evz4Vk2/yp7ZgOennEbRUERm1JUtsZpy
+         LAJSEL8mwz7d3ekNTbqz/GHmnrRnSPMz0BTUu4+0sCwM0k4HmGOTbWWkvVoqzQiKDJ5m
+         MuOBYPGU7pz56GDpaonZzEOd1OvMXKcPmHUgnQn5Nkzxbln4hNmZp19nTsSNJnXr9MFU
+         CqXg==
+X-Gm-Message-State: AFuF++no2YoQNW2AwHnjSBTXv0d3zj8R0X3wSNVhkAf5bDiMiYEsnWsV
+	p900ojm7wy7l47A5k9PW6pgHnknXjBLH+Vu1zRdzd6UNoA/xZwJPb/Cx
+X-Gm-Gg: AYBFou1uSI20ExTKoFXWgQLS6RujftAj1t1CyUitKTnPv8qRqzJ+3jAjVd9P+xjL2Ab
+	ULylv8oxMg1QFmKSy/L/JPUMTvt0XXnDc5cXtariGaezYeIL5DQuoFpkaXdrwNpAvWJw+Y1JL2W
+	+5F0UhFmC9SMZp61WTDkAcTE411gR1FVWEVlVUofS/EyCweM0/8K0jcDPV+oslwufeevFg4fKIn
+	RcjnAIY89xJVJzpwXNER/qC/tAIDupmhKlpH2hAG8mPauoqxkvQzyXdnRpMpjbrFsSTC/h6LpUv
+	1BOagY0CxIkWBjwN2tpVYkdRP0gQKByw+9lItCpc1LscpqhabNWcPLOuqGnO/rVQqU4bNu54yvJ
+	oO//+/LHMhnsQVdAHHVoR96c+SQGrWMPU8PCWKRuf2yy7a7M7+b/nX2v0/s5Lhw35zb0iGMxySV
+	wzZ5KpIA8j+e0KoWglKCkPJmbYLIVqszL5D4F7PsWmfkDFzJVs6PhCtrVSjM6bMKAMwST8vnnOD
+	SA89LJzDmhACGvhlIEzvA==
+X-Received: by 2002:a17:90b:48cf:b0:38f:de94:bf34 with SMTP id 98e67ed59e1d1-398da6f3e41mr1421458a91.10.1788090531274;
+        Sun, 30 Aug 2026 04:48:51 -0700 (PDT)
+Received: from qiwenjie-ThinkCentre-M760t.mioffice.cn ([43.224.245.241])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b0ea7fa9sm16269311a91.4.2026.08.30.04.48.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2026 04:48:50 -0700 (PDT)
+From: Wenjie Qi <qwjhust@gmail.com>
+To: willy@infradead.org,
+	jack@suse.cz,
+	akpm@linux-foundation.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	baohua@kernel.org,
+	axboe@kernel.dk,
+	trond.myklebust@hammerspace.com,
+	tz2294@columbia.edu,
+	chao@kernel.org,
+	qiwenjie@xiaomi.com,
+	qwjhust@gmail.com
+Subject: [PATCH] mm: filemap: skip dropbehind folios during fault-around
+Date: Sun, 30 Aug 2026 19:48:45 +0800
+Message-ID: <4a4ac0b4accb50641f504f205663435047c4b26e.1788086386.git.qiwenjie@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260820142956.1414337-1-qiwenjie@xiaomi.com> <3fa43eaca792bc0bbde4b82a6c1fcdd3f528b398.1787999152.git.qiwenjie@xiaomi.com>
- <4aba05e1a2c3b61cb337d373eb9b7a8db4ddd822.1788024049.git.qiwenjie@xiaomi.com>
- <20260829111621.41ed2bc9a0e99e3367eb96c3@linux-foundation.org>
- <ef160933595c365f2c47597b260bc7ecd98ed7ce.1788029516.git.qiwenjie@xiaomi.com>
- <CAGsJ_4wpUBOXKd8aGNz76U+87bwDUXZZFSW2UhNcq4qpjVvggQ@mail.gmail.com> <20260830165401.1788080041-1-qwjhust@gmail.com>
-In-Reply-To: <20260830165401.1788080041-1-qwjhust@gmail.com>
-From: Barry Song <baohua@kernel.org>
-Date: Sun, 30 Aug 2026 17:31:46 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4zGN9rqqxoFU66G_PbXqTiDaeV_tUiyr8vbfxFWEJg62Q@mail.gmail.com>
-X-Gm-Features: AcwNN1XZPfiog3RD9yg8B0eXNaoAai7OPxYRVCjEpqabBekjMlLKWknwxqjTMg0
-Message-ID: <CAGsJ_4zGN9rqqxoFU66G_PbXqTiDaeV_tUiyr8vbfxFWEJg62Q@mail.gmail.com>
-Subject: Re: [PATCH v4] mm: filemap: retain mapped dropbehind folios
-To: Wenjie Qi <qwjhust@gmail.com>
-Cc: willy@infradead.org, jack@suse.cz, akpm@linux-foundation.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, axboe@kernel.dk, 
-	trond.myklebust@hammerspace.com, tz2294@columbia.edu, jaegeuk@kernel.org, 
-	chao@kernel.org, qiwenjie@xiaomi.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 30, 2026 at 5:13=E2=80=AFPM Wenjie Qi <qwjhust@gmail.com> wrote=
-:
->
-> Yes.  The current path removes the folio from the page cache, so a later
-> mmap access can incur both another fault and I/O.  I should have stated
-> that explicitly.
->
-> For fault-around neighbors, folio_mapped() cannot distinguish the faultin=
-g
-> page from a speculative neighbor.  This patch takes the conservative poli=
-cy
-> that an installed PTE represents a competing cache user and wins over the
-> writer's RWF_DONTCACHE hint.  It can therefore retain a speculative neigh=
-bor
-> which is never accessed.  Distinguishing those cases seems to require
-> fault-around to preserve the faulting folio while not mapping, or later
-> dropping, dropbehind neighbors.  I think that should be considered as a
-> separate follow-up.
+From: Wenjie Qi <qiwenjie@xiaomi.com>
 
-Yes. Maybe we can skip mapping neighbors with the dropbehind flag in
-fault-around.
+filemap_map_pages() maps uptodate folios speculatively without going
+through the normal filemap lookup that clears dropbehind. As a result,
+a neighboring dropbehind folio can acquire a PTE and the mapped-folio
+completion guard will retain it even if that PTE is never accessed.
 
->
-> For folio_launder(), filemap_end_dropbehind() holds the folio lock and re=
-turns
-> if the folio is dirty or under writeback before calling
-> folio_unmap_invalidate().  folio_launder() also immediately returns for a
-> clean folio.  I do not see how nfs_launder_folio() is reached from this
-> completion path unless the locked, unmapped folio can become dirty betwee=
-n
-> those checks.  Is there a path I am missing?
+Skip still-dropbehind folios in next_uptodate_folio(). If the skipped
+folio covers the fault address, do_read_fault() falls back to
+filemap_fault(), where the normal lookup clears dropbehind and updates
+WB_DONTCACHE_DIRTY accounting before mapping it. Speculative neighbors
+remain unmapped and can be discarded when I/O completes. Normal folios
+continue to use fault-around.
 
-You are probably right. I was referring to the bit wait in
-nfs_launder_folio(), though I'm not quite sure whether this can
-actually happen:
-folio_wait_private_2(folio); /* [DEPRECATED] */
+Dropbehind is folio-wide, so a fault into any subpage retains the whole
+large folio through the normal fault path.
 
-I assume we won't wait for `private_2` while the folio is clean. If so,
-it should be fine.
+Signed-off-by: Wenjie Qi <qiwenjie@xiaomi.com>
+---
+Tested on XFS over a 5-second dm-delay target in QEMU:
+- neighbor-dontcache: the target remained unmapped and was evicted.
+- target-dontcache: the directly faulted target was mapped and retained.
+- neighbor-normal: the target was fault-around mapped and retained.
+- unmapped-dontcache: the target remained unmapped and was evicted.
+All cases completed writeback, validated data, and kept dmesg clean.
+
+ mm/filemap.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 00fd89cf6f550..c123de583b3e1 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3769,6 +3769,8 @@ static struct folio *next_uptodate_folio(struct xa_state *xas,
+ 			goto unlock;
+ 		if (!folio_test_uptodate(folio))
+ 			goto unlock;
++		if (folio_test_dropbehind(folio))
++			goto unlock;
+ 		max_idx = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE);
+ 		if (xas->xa_index >= max_idx)
+ 			goto unlock;
+-- 
+2.43.0
