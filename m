@@ -1,294 +1,157 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.170])
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3619B184540
-	for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 22:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14521E22E9;
+	Sun, 30 Aug 2026 22:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788127630; cv=none; b=B+e0MYbqDaRXcMHKO+WfP0q2WRnHugJJtxTR4vwT/gUpFV7Mf8SXfpMhGk1Qx5HHOdhTcl6sg5SILr4clqnO3HTX6caEhUZd+OSN8VU5M8rBsohP5EuISe78qJ7FyFuVCP0DBhTM1HOyMv3QeTnDqw1clfyQkXg+Dg4LLHiQGD0=
+	t=1788128531; cv=none; b=HOOoPD5CHY79qWWigA/q9UcDmQEPD3qdgg3oqSFfwN0CHQyFi4ZEKVQKp+3k54TGejKgnozFivzQLP6nHd3SYf41HpBmxLy8UngsSiXY4qjzXH+buxpBjEoKZ3sF5QilSez6tCc4QXOsqtxUSi5PKSkt9l1wiiIL6Z7bDhMzuZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788127630; c=relaxed/simple;
-	bh=57Mu784D4x6t4ZDIjBG5ypdqnipOtlVWOJ5KFZhhrEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LfEjsXa+5cXTivDAZJzMT+jKv6ZUwWd3wKqeXgzqHXOD76cXFTJNqYV5uYEFIKV8RNlyQd76AZ5QhItceISPsVTv2VRIO54LEeXFSfSz5YvLFAnjkiI0EBSUfWKhhFrIOJNYMJfvZi4dUDUPbgK3IbatDt2CD0mwlq51u83gBz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=msX4qP8E; arc=none smtp.client-ip=195.121.94.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1788128531; c=relaxed/simple;
+	bh=soVu8A2+dtr0lFAXUPb94WfSsoHS1/zzs4k/bk6DsRk=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=QzCSPNq+vCndopGsVpnDrKaLnLlrzTDiDf4u1usQEROwOWpw3mdoZT5dWqZBA2wQOoEm6yiiuBRSF60jyjchynd0+/RLTbjxq15SR5ZOjsNfAD6RkL+I+1pgvMotuIO5p+0qVmRKRIBVy3JQKyQCo2hXOLZuLTZ0i8LyZPcjS/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=f0KsRvXa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KkNGu1N6; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="msX4qP8E"
-X-KPN-MessageId: f80c69e3-a4be-11f1-83b4-005056ab378f
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id f80c69e3-a4be-11f1-83b4-005056ab378f;
-	Mon, 31 Aug 2026 00:05:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=Lsf5NsFzPaorS/9woplqtN+XphdrOiDRUsyY2lkrT5g=;
-	b=msX4qP8Edkft2tfgAAQ1kGnOVQrbcndc5/UfBABVFORBJLNHsXv+M3tHAesujoV0+QkfF3RDx5gzY
-	 fXHf2Msrd9pMOvgenCyxK6N5opRJXNVKs6QofR72wYblGMmYrsUYeSlwumg5mLGnbq/0G5M1ibGILy
-	 JSKGEBPjDkwDj/7pe1EdTmdi5V9opMc10AtTbf6SOCHoZoPPHNsjh70gd3fYKIerLyIY6XPtAkodKL
-	 +aGWOvOzXkiTnFVfO/xCEGmvFN63Epc/UMd2lnvPdSNnkhuAqtpsjT1toqgy9oo75jgN+1tfixnmZc
-	 CdyBdGF1G2ITkQgODTzDpWT3Y0xEGJw==
-X-KPN-MID: 33|Jv2/0rIq33NJNxEeypGaM1uyj44B33/L6yCGdo1JkLgZTJj7uk72kNflk5YzjyZ
- SDUl8xM+AP5fU/cwJcwaboinDWAq06YRJhJtqGyNJ6ks=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|x8nYVI/1Nv6lAVyMCIP6tj1z+q0wWe6QzKvKsbvRpibkBbMp+L/XTdM5AJ2uIc3
- F9FdqkoCLtCBC//z4eBlyHw==
-Received: from localhost (unknown [178.226.150.234])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id f74c8911-a4be-11f1-927f-005056ab1411;
-	Mon, 31 Aug 2026 00:05:53 +0200 (CEST)
-Date: Mon, 31 Aug 2026 00:05:45 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5] fs: avoid spurious dentry ref/unref cycle on open
-Message-ID: <apSkPymcTBsKOjCV@lt-jori.localdomain>
-References: <20260803125138.1937674-1-mjguzik@gmail.com>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="f0KsRvXa";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KkNGu1N6"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 8F4381D00073;
+	Sun, 30 Aug 2026 18:22:07 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Sun, 30 Aug 2026 18:22:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1788128527; x=1788214927; bh=A0WLpSR6ggG5QIfAzGiPLAdjLpbDYZ5h1XM
+	la0jr4sc=; b=f0KsRvXa4ifcByDr0Dlh7y77K8gCPdbA1X63UOEkaH8vGOdfDJs
+	R8EdOih1wmjafFtIteutadZozpBgq2VceiRrEM8Zm9wVA9S5l8wU3OhdAMcClOEo
+	NxDvPjMHnjm2XFAz3+Mid1QDULGHGoDI3dQcLc8uHgpwxJfkTUD3i8DhrGnM72CQ
+	Wvr670JfDBIrjOfR0DhTCEtoFDFbJ4fKz2FJQ3MPVjXRNHSPmcbO4NF0p3GQHHKJ
+	o543P6yoR6IS4QGqx6uv7Dc+5Xj0FyJzvZA8JVnKf0NlPak6JFVodVj4fWQuqkLL
+	MdgZZhw+qOxvVbewABx6g1DRxZciGIERr7w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1788128527; x=
+	1788214927; bh=A0WLpSR6ggG5QIfAzGiPLAdjLpbDYZ5h1XMla0jr4sc=; b=K
+	kNGu1N6CqcImdNtM9T8u3Bxvk+OtKeDEr5hcMogT/ssZHtHum3t+qf1030zlJsEr
+	MGWY8QmUmDcHMFKfgywgfyYMqeN8XNJoyfMxIp19+gY+s2YlFm4YayaIcRXyPG+T
+	G9oVfphvIrIZo35/mbLbVyJX28SeRjkLkhs4k25O8ThaxXJE+BrlIbAluPiAbtAZ
+	p38RXTKUpxvqlejOdWRb0SurYA6KK519hWFB1+iIAe8No/oOHRviiAGsg+QHtzxE
+	PaGOYptSnFwqyNiILGXWn4qGPzrdb+m6669Qt2a6tPQSzT08IFt6gs4/fuQ+6KdU
+	eRLMRRg/Mn7SyxIah1Exw==
+X-ME-Sender: <xms:Dq2Uahb0IJWtlQajr0ewmeITL8NNllmofUpe4xE27kUPYCI1bN-reQ>
+    <xme:Dq2Uap7bPLj_RlVF-MgNSEaurq-HnwbefyE9klQsW-fYH1Zf1laofE-alfEEB7equ
+    FnZimL-EYXYDny5rgwTVl4BXOiQy7w-ts4EvTyLzQDO3S5vwsk>
+X-ME-Received: <xmr:Dq2UakAz982WTOKLn6JbiTOCUyl_xNK_j5fWckV7PNpXrYmlxaUF2Mg6uLw80X1bwyPItyzdtND78YYTH-UOcBdEOjdUGGw>
+X-ME-Proxy-Cause: dmFkZTFDQRCcvuiFfAbHC/f7FsdtJkQMpNCjEJFLGuNbTyhFRjvt1LX2xEwJONLAGU862f
+    Uwk4XVz+7YR5bgdMjgyRMZ7hjGdyLd1OPnHO4nmhl2ritpBnExEhufK5W1b9hAWsRbqms7
+    f/YFKI7YGnU8S0Tds44rCQ4HhWGrW/c14nbvZ1KHG3lhIue1h/g+zWgXpdoKDSMIX5GAn+
+    7AY3AyRlbhALSA9VWzuIpXEBHi+IZYic3PUr0tN/NjB9BbBozYxIu8wndXDKqPUNGTHav2
+    UVxcdPfFyWp9LWRAW/i5NBUsd5RGtS0ZPjxIGCoYuOb4+C1F0D/+cpA8aHXW7v5+dmS/pj
+    BLneJrnjnUmgWD9/6vpon92TeM37/mRtjEkzqgWTbTDJZ2/RWz1R5JTjCGOaC2F9lo/Ws7
+    CmvjMVbTGCawa1yDK/aTUC7yKHxUOgER7p0CfFb2qCUp9AHyVKr//XOluWL8yhvkdn+5tg
+    86l2IGy1u4DB01jVEbXQloaHqmekoCLYuOzVBPoS3Pi6qURYGeP5bxgz+JwinnbE/8vBxQ
+    TYkBzWYAZpkx9+bRKcqvGzrrh1SncPzH9QAuVmkAFixaqferviSSSNYxBLO6frLyu4EfvZ
+    +nwvY58oMtV0q5pshWxkvWW8MTuq3z1nX1V0A+4pRWO9QgcQnLWKC8sZKUmA
+X-ME-Proxy: <xmx:Dq2UaverSI0zQl5IGrfG_I_TIQjHHyBXSb5tyIRvjWjx-sHLfzUVoQ>
+    <xmx:Dq2UajJqXoJQUdAzpDhHlK4CgWdgQQUX_gn8S2THhd0cN7OHYNu4Cw>
+    <xmx:Dq2Uaq1kJY-xEkE9PWSUrIqVjvXxx_mqXOe0_MSC2pJJMA2R8J-s5w>
+    <xmx:Dq2UalimnqkK5n4p6YAQ5XeDHAPMxquR3_OyOomV8r9HeFVGirfY8w>
+    <xmx:D62Uav8wjmk6fwDw24uIQ9Z4WYQj7Q3txP7REN8NKxHWGr991M0zAysq>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 30 Aug 2026 18:22:04 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260803125138.1937674-1-mjguzik@gmail.com>
+From: NeilBrown <neilb@ownmail.net>
+To: "Theodore Tso" <tytso@mit.edu>
+Cc: "Matthew Wilcox" <willy@infradead.org>, fstests@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, "Chuck Lever" <cel@kernel.org>
+Subject: Re: [PATCH] fstests: generic: Add test of seek in directories
+In-reply-to: <apGfAFkNdD5mrASi@mit.edu>
+References: <20260827234743.2389778-1-neilb@ownmail.net>
+  <20260827234743.2389778-2-neilb@ownmail.net>
+  <apEK5uirjyLZUfmA@casper.infradead.org>
+  <178791556100.3510150.18132687067056760170@noble.neil.brown.name>
+  <apGfAFkNdD5mrASi@mit.edu>
+Date: Mon, 31 Aug 2026 08:22:01 +1000
+Message-id: <178812852153.3510150.11411436066299613954@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Mon, Aug 03, 2026 at 02:51:38PM +0200, Mateusz Guzik wrote:
-> Opening a file grabs a reference on the terminal dentry in
-> __legitimize_path(), then another one in do_dentry_open() and finally
-> drops the initial reference in terminate_walk().
+On Sat, 29 Aug 2026, Theodore Tso wrote:
+> The key requirements come from readdir() and seekdir().  To quote from
+> readdir() specification:
 > 
-> That's 2 modifications which don't need to be there -- do_dentry_open()
-> can consume the already held reference instead.
+>    If a file is removed from or added to the directory after the most
+>    recent call to opendir() or rewinddir(), whether a subsequent call
+>    to readdir() returns an entry for that file is unspecified.
 > 
-> When benchmarking on a 20-core vm using will-it-scale to open the same
-> file read-only, the results are (ops/s):
-> before:	4043375
-> after:	5629378 (+39%)
+> And then from seekdir():
 > 
-> Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
+>    The seekdir() function shall set the position of the next readdir()
+>    operation on the directory stream specified by dirp to the position
+>    specified by loc. The value of loc should have been returned from
+>    an earlier call to telldir(). The new position reverts to the one
+>    associated with the directory stream when telldir() was performed.
+> 
+>    If the value of loc was not obtained from an earlier call to
+>    telldir(), or if a call to rewinddir() occurred between the call to
+>    telldir() and the call to seekdir(), the results of subsequent
+>    calls to readdir() are unspecified.
+> 
+> Telldir() is specified to return a "cookie".  It does not have to be a
+> offset, and the DIR * returned by opendir() and consumed by
+> readdir() does not have to be backed by a file descriptor.
+> 
+> Historically, jfs implemented an whole an extra on-disk btree in order
+> to implement the insane POSIX seekdir()/telldir() semantics.  (Meaning
+> every single directory insert or deletion required at least one extra
+> disk seek.)  Ext4 returns directory entries in a very sub-optimal hash
+> tree order, requiring lots of extra disk seeks, in order to provide
+> this guarantee.  This is also something that historically has been
+> enforced by Posix Compliance Test Suites (PCTS) for those people who
+> believed that Posix compliance was relevant.
+> 
+> And, yes we also go through all of this pain and performance hit not
+> just because of Posix compliance, but also because NFS requires it.
+> Personally, supporting NFS is *way* more important than Posix
+> compliance, but people of good will can have different priorities.  :-)
 
-So, the legitimize path stuff grabs a ref to the nd path which is
-balanced at terminate_walk(), and you're saying that in the regular open
-path (not O_TMPFILE or O_PATH), since vfs_open() also grabs a ref, why
-not reuse that one. Is that what you are saying?
+Given that the requirements predates the htree design, isn't this "pain
+and performance hit" a deliberate design choice?  Or maybe an
+unfortunate design omission?  Such things can be fixed.
 
-It seems then that this issue also plagues do_o_path():
+Presumably as well as the "extra disk seeks" the current design prevents
+read-ahead from being effective.
 
-static int do_o_path(struct nameidata *nd, unsigned flags, struct file *file)
-{
-	struct path path;
-	int error = path_lookupat(nd, flags, &path);
-	if (!error) {
-		audit_inode(nd->name, path.dentry, 0);
-		error = vfs_open(&path, file);
-		path_put(&path);			// Not needed?
-	}
-	return error;
-}
+ext4 already has two indexing schemes - indirect and extent-based.  How
+hard would it be to add a third that effectively moved the current
+directory index blocks out of the "file" and into the "file-index"?
+Obviously the 32 block address in dx_entry would need to become a 48 bit
+device address etc, and there are bound to be details I've glossed over,
+but this approach would amortise all metadata access of a lot data
+access, and would allow read-ahead.
 
-> ---
-> 
-> The spurious ref cycle remains an issue and it is trivially avoidable,
-> for the most common case anyway.
-> 
-> Al Viro had a more involved patchset which got stalled, see:
-> https://lore.kernel.org/linux-fsdevel/20240822003359.GO504335@ZenIV/
-> 
-> I already pointed this out over a year ago when sending v3.
-> 
-> Given lack of traffic on the more involved variant, the nice win from my
-> simple patch and its overall triviality, I think it should go in. Worst
-> case, if the more involved work ever gets off the ground it can be
-> trivially reverted later.
-> 
-> bench is:
-> $ cat tests/openro3.c
-> 
-> #include <stdlib.h>
-> #include <unistd.h>
-> #include <sys/types.h>
-> #include <sys/stat.h>
-> #include <fcntl.h>
-> #include <assert.h>
-> 
-> static char tmpfile[] = "/tmp/willitscale.XXXXXX";
-> 
-> char *testcase_description = "Same file open/close read-only";
-> 
-> void testcase_prepare(unsigned long nr_tasks)
-> {
-> 	int fd = mkstemp(tmpfile);
-> 
-> 	assert(fd >= 0);
-> 	close(fd);
-> }
-> 
-> void testcase(unsigned long long *iterations, unsigned long nr)
-> {
-> 	while (1) {
-> 		int fd = open(tmpfile, O_RDONLY);
-> 		assert(fd >= 0);
-> 		close(fd);
-> 
-> 		(*iterations)++;
-> 	}
-> }
-> 
-> void testcase_cleanup(void)
-> {
-> 	unlink(tmpfile);
-> }
-> 
-> v5:
-> - the extra ref is of course needed, i blame the heatwave for thinking
->   it is not this time around
-> 
-> v4:
-> - rebase
-> - don't grab the extra ref on mnt for truncate
-> - bench opening things r/o. note perf improved from last year thanks to
->   other changes
-> 
-> 
->  fs/internal.h |  1 +
->  fs/namei.c    | 15 ++++++++++++---
->  fs/open.c     | 27 ++++++++++++++++++++++++++-
->  3 files changed, 39 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/internal.h b/fs/internal.h
-> index c658c8a5ebd5..9632239036ac 100644
-> --- a/fs/internal.h
-> +++ b/fs/internal.h
-> @@ -205,6 +205,7 @@ int do_fchownat(int dfd, const char __user *filename, uid_t user, gid_t group,
->  		int flag);
->  int chown_common(const struct path *path, uid_t user, gid_t group);
->  extern int vfs_open(const struct path *, struct file *);
-> +int vfs_open_consume(struct path *, struct file *);
->  
->  /*
->   * inode.c
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 3f9bf103ba12..f71481b9bf8f 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4789,6 +4789,7 @@ static const char *open_last_lookups(struct nameidata *nd,
->  static int do_open(struct nameidata *nd,
->  		   struct file *file, const struct open_flags *op)
->  {
-> +	struct vfsmount *mnt;
->  	struct mnt_idmap *idmap;
->  	int open_flag = op->open_flag;
->  	bool do_truncate;
-> @@ -4830,11 +4831,17 @@ static int do_open(struct nameidata *nd,
->  		error = mnt_want_write(nd->path.mnt);
->  		if (error)
->  			return error;
-> +		/*
-> +		 * A dedicated reference is needed because after the call to
-> +		 * vfs_open_consume() we no longer own the reference in nd->path.mnt
-> +		 * while we need to undo write acess below.
-> +		 */
-> +		mnt = mntget(nd->path.mnt);
+So if there is really a problem, I'm sure it can be fixed.
 
-Is this needed? The file cannot be closed until after open(2) is done,
-so how can that ref be lost before reaching mnt_drop_write below?
-
->  		do_truncate = true;
->  	}
->  	error = may_open(idmap, &nd->path, acc_mode, open_flag);
->  	if (!error && !(file->f_mode & FMODE_OPENED))
-> -		error = vfs_open(&nd->path, file);
-> +		error = vfs_open_consume(&nd->path, file);
->  	if (!error)
->  		error = security_file_post_open(file, op->acc_mode);
->  	if (!error && do_truncate)
-> @@ -4843,8 +4850,10 @@ static int do_open(struct nameidata *nd,
->  		WARN_ON(1);
->  		error = -EINVAL;
->  	}
-> -	if (do_truncate)
-> -		mnt_drop_write(nd->path.mnt);
-> +	if (do_truncate) {
-> +		mnt_drop_write(mnt);
-> +		mntput(mnt);
-> +	}
->  	return error;
->  }
->  
-> diff --git a/fs/open.c b/fs/open.c
-> index 6b1c14e684a9..2a7697cee00b 100644
-> --- a/fs/open.c
-> +++ b/fs/open.c
-> @@ -931,6 +931,11 @@ static inline int file_get_write_access(struct file *f)
->  	return error;
->  }
->  
-> +/*
-> + * Populate struct file
-> + *
-> + * NOTE: it assumes f_path is populated and consumes the caller's reference.
-> + */
->  static int do_dentry_open(struct file *f,
->  			  int (*open)(struct inode *, struct file *))
->  {
-> @@ -938,7 +943,6 @@ static int do_dentry_open(struct file *f,
->  	struct inode *inode = f->f_path.dentry->d_inode;
->  	int error;
->  
-> -	path_get(&f->f_path);
->  	f->f_inode = inode;
->  	f->f_mapping = inode->i_mapping;
->  	f->f_wb_err = filemap_sample_wb_err(f->f_mapping);
-> @@ -1055,6 +1059,7 @@ int finish_open(struct file *file, struct dentry *dentry,
->  	BUG_ON(file->f_mode & FMODE_OPENED); /* once it's opened, it's opened */
->  
->  	file->__f_path.dentry = dentry;
-> +	path_get(&file->f_path);
->  	return do_dentry_open(file, open);
->  }
->  EXPORT_SYMBOL(finish_open);
-> @@ -1098,6 +1103,7 @@ int vfs_open(const struct path *path, struct file *file)
->  	int ret;
->  
->  	file->__f_path = *path;
-> +	path_get(&file->f_path);
->  	ret = do_dentry_open(file, NULL);
->  	if (!ret) {
->  		/*
-> @@ -1110,6 +1116,25 @@ int vfs_open(const struct path *path, struct file *file)
->  	return ret;
->  }
->  
-> +/**
-> + * vfs_open_consume - open the file at the given path and consume the reference
-> + * @path: path to open
-> + * @file: newly allocated file with f_flag initialized
-> + */
-> +int vfs_open_consume(struct path *path, struct file *file)
-> +{
-> +	int ret;
-> +
-> +	file->__f_path = *path;
-> +	path->mnt = NULL;
-> +	path->dentry = NULL;
-> +	ret = do_dentry_open(file, NULL);
-> +	if (!ret) {
-> +		fsnotify_open(file);
-> +	}
-> +	return ret;
-> +}
-> +
->  struct file *dentry_open(const struct path *path, int flags,
->  			 const struct cred *cred)
->  {
-> -- 
-> 2.53.0
 > 
+> For this reason, I would support having a test to provide the
+> gaurantee needed for Posix and NFS compatibility.  Not for Posix's
+> sake, but for NFS's.
 
-Thanks,
-Jori.
+Thanks for the support.
+
+NeilBrown
