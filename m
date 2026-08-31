@@ -1,263 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA68C377AAD;
-	Mon, 31 Aug 2026 20:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788207910; cv=none; b=lETL+ya1jHiXezhI69k2SBADVSC9rp8060Bwj8oVIxbN0oycBwK/bW5aOMPtr/lmgp/0V3a3Mfq6WJG/K6MMUkKuu/XWcfRiNOjG0Pswf/B/YE+Rqghx0q2yekphRpS9NWMycL+9uXHFB95jToajHsYC90D6niKa3b92rP5GldY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788207910; c=relaxed/simple;
-	bh=1u5m0X4pQbLUl1Wtl8F8Vk/mWL0JZi4iPgSmQ+Ldy6g=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=H3qeS2ro9u9mYCUT4gwWogb/qQxwpGTIh2d3kKY0SdgeC4tQGoDxEn3/WLgOwqQPAMKlQeEP10iibtfEQh+S0GJRuuirvaVxIQaxSWG6PpMa1csVRXO0QBfdaoCswTfh86Z4Z4HITgC00Z1aFKJkS1Nz5gkPlSzqXeYmSk4L6uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWqhP6vN; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C206739524B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 21:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788211594; cv=pass; b=GWQ1sFiAJ/jOO2NgUUjb0gzt3P9WuS9Ml37tBcRXq8rWJtWvSFBGLg/sJzWX+kHXW93C974dwqBQ9UTDgmrsF3UI9PU+WryCjd7SjDWNqHbpB3o9v6V1VLqYRoo9YunE1FtRD/LVDr2M2pD98wSFd1XnQIdD/zOnUnBtr04KgiE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788211594; c=relaxed/simple;
+	bh=SNlsz2MPRq4levA4MX+yohL5QexaYB539yJgxQLixV8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CL8lr2k5pdXjZIo1NMVK4q9CnnZzzlVcdLL43uzGOwClSIKCuMJx8Mxl2v3Qv0FhqetneIRXOYL1DoOhbAcpStb07wx/DCzH0+Ch4J0nOgDKhlAbeu99tBOET0AKqCGd65AKfYcrQjlNYImrZDLmKLzae7onNKkXLzkEIH5pG5M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=PQIMo9RI; arc=pass smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWqhP6vN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788207908; x=1819743908;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=1u5m0X4pQbLUl1Wtl8F8Vk/mWL0JZi4iPgSmQ+Ldy6g=;
-  b=kWqhP6vN/bXopADc6BX3xtJl+svga5HUmo26a5AVbI4xqftWxOH5S9FY
-   B+h5EZw9iu2d7VyDiP+ZySnoQoHV35L8BkxghEV69JBZZLtH6JNaPbwgj
-   4tYWfcoMP+CoJCsdd4603bA2MqeA/h9rgmNYM47lk8cLoQwsKI0mCZ+YJ
-   F3XHklcMh5qLVCp9B4VhCpjd5Ia0AO/NHqQmm2C/t0hTkk289e8kHXrtw
-   ITjVmwUtr+rXtUtSjaKNMBBJSJckahb2+sqVO71BFDaFMsfY+f2TTXoZv
-   F08r4b9qJr3aPj/c0cRP8XhDpMu2njEfPDqs6U673IbpO1ZMe4UFnvX+x
-   A==;
-X-CSE-ConnectionGUID: gQuOx6F1TomQdD2lTcZWmw==
-X-CSE-MsgGUID: 79enw1/YTyKYZKEF1R4CuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="99286364"
-X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="99286364"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 13:25:06 -0700
-X-CSE-ConnectionGUID: 5GrD7GWkTAu7hCsazB5v/w==
-X-CSE-MsgGUID: 2lEplv7pSEys9hOBZWssVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="273080572"
-Received: from unknown (HELO [10.241.243.185]) ([10.241.243.185])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 13:25:06 -0700
-Message-ID: <a1a0bc24108e68656041dc17824d6b88b4120058.camel@linux.intel.com>
-Subject: Re: [PATCH] sched/cache: Fix use-after-free of the mm replaced by
- exec
-From: Tim Chen <tim.c.chen@linux.intel.com>
-To: Hyunwoo Kim <imv4bel@gmail.com>, "Chen, Yu C" <yu.c.chen@intel.com>
-Cc: Kees Cook <kees@kernel.org>, Christian Brauner <brauner@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Juri
- Lelli <juri.lelli@redhat.com>, Vincent Guittot
- <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt	 <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel
- Gorman	 <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, K
- Prateek Nayak	 <kprateek.nayak@amd.com>, Shrikanth Hegde
- <sshegde@linux.ibm.com>, Qais Yousef	 <qyousef@layalina.io>, Aaron Lu
- <ziqianlu@bytedance.com>, Srikar Dronamraju	 <srikar@linux.ibm.com>,
- Vineeth Remanan Pillai <vineethr@linux.ibm.com>, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org,  Ingo Molnar <mingo@redhat.com>, Peter
- Zijlstra <peterz@infradead.org>, "chen.yu@linux.dev"	 <chen.yu@linux.dev>
-Date: Mon, 31 Aug 2026 13:25:06 -0700
-In-Reply-To: <apXV6t-7drLDf-lL@v4bel>
-References: <apPb-Dr4nPYuHQOK@v4bel>
-	 <825d9dcc-b052-4367-a9c7-15efc4b354f8@intel.com> <apXV6t-7drLDf-lL@v4bel>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="PQIMo9RI"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8535a9be75eso3043218b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 14:26:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788211592; cv=none;
+        d=google.com; s=arc-20260327;
+        b=pEQxA83yv40URvaq02I1g+itpxqfJbwYcYG1nzlKwjNtIoMCyNDU9qSyeIHh5G6O9/
+         W7X1JEC2ukYGSedKaRxmDFGateeEH64AzASvIsPtN7nnW4CpmdSkonS9x0Kzd6yEtO4D
+         +5bUa+FgiVk3AkCDgTGMJINVBdqj2X9X1octQU19nba/PBsZJb3ZeCniA3t3Jt4kzXLk
+         JXkDu/6+kd75+xuCZgVYjpF1ZrLB+YKzMHUcIzG5Zyl2/56jG5kqoscZqRvdsQtn7fpk
+         m/6gi88yVUeF1wrF0LxDeB+ikr7K7w6UaAabQjcjwopZGZtwEgsfURsHtp65zPxawRHy
+         zJbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=B0t0GoOAIGAPmJB6jitdBOXKLd7x+wtGWWpKwR8Li5c=;
+        fh=bS19Edu1MaRe7rcpVV9ChpaDy0kkbXGsjhnmYukWCvs=;
+        b=OzMMHFRuPx0Fuzo7gftLQtwN4dkyKB9hw10ATOHOoIq2XfF6d5+Vk5WpRwqGMRCuKW
+         yfETNnPXJF3iKam92V7LV0K1rOVMKTlsy1S6feOLpl40PSR4UYkVr7PK7H2RBcZQC14g
+         ks3J4Yw1LgGT1Sbz8Ch3AA4hVue9mfknl+ZprkC8Y38JzkkagTzNjtSpd3FA9UbuWwtC
+         0odUNlSzQHS/F38t8EJ0HqV1F6TyY9yNjyItXjJtuG2fSafX+3YAuUZslVRXg+37avPV
+         8HEzQDrj98PwOBVVLgKuLCCGPL8X9ILmhtdAXENqzhNXGbFDPsu57bPLXd1WWc4MF0F2
+         ehwg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1788211592; x=1788816392; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=B0t0GoOAIGAPmJB6jitdBOXKLd7x+wtGWWpKwR8Li5c=;
+        b=PQIMo9RIZT6w7HmQKV2ItxMWnQ7jJyw4LDw3Sxt1Fq1/4DVLN4pgtpgAvRvhz211bU
+         VtUJrxLCUImzY8K22youYRZ9bk6Nm7/vW4fFHUnZKcGluCpZ7aubtE3U4Wfm+/FjntTu
+         z/6V+7VDf4SX6e5HWf2GnV73XK/HpkYoauBpjntBsyCzEe98qCEvMXE0T04Fjzp+uIqr
+         NP7VE2I18KgJEnAOlaxy1kTaJoDjqkjzc4ZJlPlVyp+sfH0OZiSEBnIEY1UqMzyxCIQ+
+         IyNCIsKsFVEzVH+jz5prz8x4Ga138WHh9chWvYOO7xHD3+OomyDnNBDb7Gsf/iU9LFu2
+         GW5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788211592; x=1788816392;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=B0t0GoOAIGAPmJB6jitdBOXKLd7x+wtGWWpKwR8Li5c=;
+        b=TdJqA5WyXOO80j90yw4JiimPMW2qROzabr43AqEjFj/YbNmYV2P3HwAq19WH2bd6Vd
+         x4qKPYlXjGY4zkKJHyO4w4l7A8JVG7hRDKnOuJqWiIxpyx5mFJZxM29NnqjustEpUFvE
+         dKf7u61kJsxi/MVcb+rzJwu2GfjIhE5y+QwqndKRYUsEakk3ys4dqI4p0GzSXl00Rcxd
+         vG8HKGK8e758Aljt47xJt6umLcu+UVAGeQPbIpg3M50lVc4L5CAdvhx8sAXyTRXg95OL
+         PB/2RCJhzjmi4GmGN8YPlvwBScRUs8ciAY5wmdPyAm5eMAyOzGjbNl6dSodlSucBabdk
+         L9ZA==
+X-Forwarded-Encrypted: i=1; AHgh+RqNDfGzllMdebjLgKXs04kWvVdblu8gTTwwGnwZJ1WtxOfDRfWd/ScNqB4awKpWN9SFXwAD7nASkrkG4hcF@vger.kernel.org
+X-Gm-Message-State: AFuF++kXBTEVhvNh4wgYec7JCjn/+SaWfwLMOgZKdfM3jVJu3mbTHJ0F
+	NUIWhFBUGQRftmrBlIuV/BR/ZMvSVc85lv7XbMfaX8nSqw1OH3nnFSTZ7HiWnZHVm6QTZwNKAu2
+	RN1hLJwzeD2Bs4zqTEkTd8deLKyXwGJMq8E2enmEp
+X-Gm-Gg: AR+sD10ED7uoMJG7LeHinYVfTtZZBDdLi4Q5Hra+ZVAfeWXNI/lNv67MfsU6FKhAeZp
+	WRPxBpOd+MkVMlUKgA+0u9lLWbiBdDSaWK6QS1CzqjEBVWFqlnuNHmEpnUJla2uqDgSzfQIkGDT
+	n8eS0C6FZQdLrk6SLebKa+fap6Hwjr5Ut3NjixbYw7Ddg8WCw1g4f+RrxeazJRtgQvRAnZe2q7+
+	ZoTxeLQXELojTTc+bzP6znqrD9JUT6hWrow5b4+NJSNekEQ4Hz3WKCwmXPLJauyRcnzVEU4lSb2
+	qjJmXeNnhJhpyNzJkPMyPp0LCgzt4YBgDWUFn2o3q5jv0g==
+X-Received: by 2002:a05:6a00:2da7:b0:851:bf92:34c9 with SMTP id
+ d2e1a72fcca58-8562a8d2cdfmr43570322b3a.9.1788211591833; Mon, 31 Aug 2026
+ 14:26:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260726161400.3010511-4-mic@digikod.net> <5cabf9b33a20f130cedcc423b8b2d151@paul-moore.com>
+In-Reply-To: <5cabf9b33a20f130cedcc423b8b2d151@paul-moore.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 31 Aug 2026 17:26:20 -0400
+X-Gm-Features: AcwNN1VcoP3dcmF-y7p30PIUoPvKVk5sVz3Ko6oQrIqfztGFDqzJ9T0P3PiRYsc
+Message-ID: <CAHC9VhS_WP-bLgMGiFAfE1MT76iKvVJ-OV5r7xju-KMdrfjssQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/12] security: Add LSM_AUDIT_DATA_NS for namespace
+ audit records
+To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	Christian Brauner <brauner@kernel.org>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	"Serge E . Hallyn" <serge@hallyn.com>
+Cc: Daniel Durning <danieldurning.work@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-09-01 at 04:28 +0900, Hyunwoo Kim wrote:
-> On Mon, Aug 31, 2026 at 12:22:45PM +0800, Chen, Yu C wrote:
-> > Hi Hyunwoo,
-> >=20
-> > On 8/30/2026 3:30 PM, Hyunwoo Kim wrote:
-> > > When the waker cannot use the wakelist, ttwu_queue() takes the target=
- rq
-> > > lock and goes down into update_curr(). If the target rq belongs to an=
-other
-> > > CPU, the task handed to account_mm_sched() is the one running on that=
- CPU,
-> > > not the task being woken.
-> > >=20
-> > > account_mm_sched() reads p->mm and updates mm->sc_stat. Nothing keeps=
- that
-> > > mm alive. The rq lock and rq->cpu_epoch_lock it holds have nothing to=
- do
-> > > with the lifetime of the mm.
-> > >=20
-> > > If that task happens to be in execve(), exec_mmap() points tsk->mm an=
-d
-> > > tsk->active_mm at the new mm, and exec_mm_put_old() from setup_new_ex=
-ec()
-> > > drops the old one. free_bprm() does the same when exec fails. On the =
-way
-> > > from mmput() down to __mmdrop(), mm_destroy_sched() calls free_percpu=
-() on
-> > > sc_stat.pcpu_sched and free_mm() returns the mm_struct.
-> > >=20
-> > > Whoever already read the old pointer keeps using it. It adds to runti=
-me in
-> > > the freed per-cpu area and reads sc_stat in the freed mm_struct. Depe=
-nding
-> > > on the condition it also writes sc_stat.cpu. That is a use-after-free=
-.
-> > >=20
-> > > Commit 9f23469401b0 ("sched/cache: Fix potential NULL mm pointer acce=
-ss")
-> > > changed the remaining p->mm dereference to the local variable, and sa=
-id the
-> > > active_mm reference keeps the structure allocated. That holds for the=
- other
-> > > paths that detach an mm, since they take an mmgrab_lazy_tlb() referen=
-ce.
-> > > exec reassigns active_mm to the new mm as well, so that reference is =
-gone.
-> > > What is left is the mm_users reference in bprm->old_mm, and dropping =
-it is
-> > > the free.
-> > >=20
-> > >               CPU0                                CPU1
-> > >=20
-> > >                                        write(pipe)
-> > >                                        try_to_wake_up()
-> > >                                          ttwu_queue()      // takes r=
-q0 lock
-> > >                                            enqueue_task_fair()
-> > >                                              update_curr()
-> > >                                                update_se()
-> > >                                                  account_mm_sched()
-> > >                                                    mm =3D rq0->curr->=
-mm
-> > >                                                          // old mm
-> > >    execve()
-> > >      exec_mmap()                       // tsk->mm =3D new mm
-> > >      setup_new_exec()
-> > >        exec_mm_put_old()
-> > >          mmput() -> ... -> __mmdrop()
-> > >            mm_destroy_sched()          // free_percpu()
-> > >            free_mm()
-> > >                                                    read mm->sc_stat.e=
-poch
-> > >                                                          // use-after=
--free
-> > >=20
-> >=20
-> > Ah, thanks for catching this.
-> >=20
-> > > ---
-> > >   fs/exec.c             |  1 +
-> > >   include/linux/sched.h |  4 ++++
-> > >   kernel/events/core.c  |  2 ++
-> > >   kernel/sched/fair.c   | 16 ++++++++++++++++
-> > >   4 files changed, 23 insertions(+)
-> > >=20
-> > > diff --git a/fs/exec.c b/fs/exec.c
-> > > index 745f6eb5279e6..6194c38807980 100644
-> > > --- a/fs/exec.c
-> > > +++ b/fs/exec.c
-> > > @@ -916,6 +916,7 @@ static void exec_mm_put_old(struct mm_struct *old=
-_mm)
-> > >   {
-> > >   	setmax_mm_hiwater_rss(&current->signal->maxrss, old_mm);
-> > >   	mm_update_next_owner(old_mm);
-> > > +	sched_cache_exec_done();
-> > >   	mmput(old_mm);
-> > >   }
-> > > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > > index 8b3d47a325cca..6ae31bffe049e 100644
-> > > --- a/include/linux/sched.h
-> > > +++ b/include/linux/sched.h
-> > > @@ -2415,10 +2415,14 @@ struct sched_cache_stat {
-> > >   	int cpu;
-> > >   } ____cacheline_aligned_in_smp;
-> > > +void sched_cache_exec_done(void);
-> > > +
-> > >   #else
-> > >   struct sched_cache_stat { };
-> > > +static inline void sched_cache_exec_done(void) { }
-> > > +
-> > >   #endif
-> > >   #ifndef MODULE
-> > > diff --git a/kernel/events/core.c b/kernel/events/core.c
-> > > index a6c8e38a31104..2f29cbccf03f1 100644
-> > > --- a/kernel/events/core.c
-> > > +++ b/kernel/events/core.c
-> > > @@ -5427,6 +5427,8 @@ attach_task_ctx_data(struct task_struct *task, =
-struct kmem_cache *ctx_cache,
-> > >   	if (!cd)
-> > >   		return -ENOMEM;
-> > > +	/* @old, loaded by the try_cmpxchg() below, is only stable under RC=
-U. */
-> > > +	guard(rcu)();
-> >=20
-> > Is this change related to this UAF issue?
->=20
-> Duh.. that one is unrelated. My mistake.
->=20
-> >=20
-> > > +/* exec() has switched to the new mm and is about to drop the old on=
-e. */
-> > > +void sched_cache_exec_done(void)
-> > > +{
-> > > +	struct rq_flags rf;
-> > > +	struct rq *rq;
-> > > +
-> > > +	/*
-> > > +	 * account_mm_sched() dereferences rq->curr->mm under this rq's loc=
-k,
-> > > +	 * so a remote CPU can still be using the old mm. The lock cycle wa=
-its
-> > > +	 * for it, and the store to tsk->mm cannot be reordered past the
-> > > +	 * release, so later acquirers see the new mm.
-> > > +	 */
-> > > +	rq =3D this_rq_lock_irq(&rf);
-> >=20
-> > A smart fix, learnt! It behaves like a synchronize_rcu() to protect aga=
-inst
-> > the read in account_mm_sched(). Small open: since the context of invoki=
-ng
-> > account_mm_sched() is preemption-disabled, I wonder if we can simply us=
-e
-> > synchronize_rcu() directly instead of this_rq_lock_irq() - just to avoi=
-d
-> > contention for rq-lock in heavy system?
+On Tue, Aug 11, 2026 at 4:16=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+> On Jul 26, 2026 =3D?UTF-8?q?Micka=3DC3=3DABl=3D20Sala=3DC3=3DBCn?=3D <mic=
+@digikod.net> wrote:
+> >
+> > Add a new LSM audit data type LSM_AUDIT_DATA_NS that logs namespace
+> > information in audit records.  Two fields are provided:
+> >
+> > - ns_type: the CLONE_NEW* flag identifying the namespace type, logged
+> >   in hexadecimal.
+> >
+> > - ns_id: the unique 64-bit namespace identifier, retrievable from
+> >   userspace via NS_GET_ID or listns(2).  Unlike the proc inode number
+> >   (inum), ns_id is never recycled.  For namespace creation denials,
+> >   ns_id is 0 because the namespace does not exist yet.
+>
+> Based on the code in this patch, "ns_type" should be "namespace_type"
+> and a similar change needs to be done for "ns_id".  Regardless, the
+> first three patches look fine to me (I can fixup the above during a
+> merge).
+>
+> As mentioned previously, I want to merge at least the first three
+> patches via the LSM tree since we have multiple LSMs which depend on
+> these new hooks.  I'm happy to also merge the remaining Landlock
+> patches in this patchset via the LSM tree, or you can manage those
+> separately; let me know how you would like to proceed with that.
+>
+> Since we are at -rc7, this is obviously something for after the
+> upcoming merge window so I'm going to merge the first three patches
+> into the lsm/dev-staging branch now with the understanding that they
+> will move over to the lsm/dev branch after the upcoming merge window
+> is finished.  If you want me to merge the Landlock patches too, just
+> let me know.
 
-Thanks to Kyunwoo to show this potential use-after-free problem.
+The first three patches are now in lsm/dev, thanks everyone.
 
-While synchronize_rcu() avoids rq lock, it could introduce a long delay
-of a full grace period that will be undesirable.
+Micka=C3=ABl, if you would like me to merge the remaining patches in this
+patchset into the lsm/dev branch just let me know.
 
-
-I think a better fix is to decouple sc_stat from mm and make it its own str=
-ucture.
-Then we can do proper refcounting and rcu management on sc_stat itself.
-We will let task points to sc_stat with proper ref count and change the acc=
-ess
-as task->sc_stat directly nstead of via task->mm->sc_stat.
-
-Then we will know sc_stat exists in account_mm_sched() execution
-as long as a task points to it and do not have to worry that sc_stat is
-released due to the mm life cycle.
-
-In the first 2 patches of the prctl control series for cache aware scheduli=
-ng
-we posted, we introduced the change I described above and should=C2=A0
-fix this issue without additional rq locking or synchronize_rcu() overhead.
- https://lore.kernel.org/lkml/cover.1787955777.git.tim.c.chen@linux.intel.c=
-om/
-
-We should probably prioritize to merge the first couple of patches from
-that series now in light of this issue.  It will make maintenance and futur=
-e
-modification of the cache aware scheduling code easier.
-
-Tim
+--=20
+paul-moore.com
