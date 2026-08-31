@@ -1,142 +1,317 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE1138D019
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 02:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E52835C68C;
+	Mon, 31 Aug 2026 02:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788143343; cv=none; b=RZ3eWsxPDEMylIaZD5oN1yO2zx1u9Y8fMV3V8IdGYSUBzxGn83+rWGq9R7NczAg9iR/Myw4thMLq6AruQ+9fln7Og2BzhKvhF5ZZHFg74FvphlbOn6k3LdDMKTZNYUNyxfMKCT/BciMTK6Scq6LvR152RNZp26qHL75PjAK6ih4=
+	t=1788145152; cv=none; b=fmiFtByHiuwHrd8FtR5q5yfcGCix1eSTHwyNpcTiGaj7W/18KNJgCGEI+fgjSOFH+DoHBS4UzM1xp7Sj8kVSaRDcjbYEcc0eSihQoH22I9vu6kCtnlN0E7v1ucSIUJpdIKH2lXCzmD2la1FSydws+QAHEgbM+9rwrhrpN/i9Ye8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788143343; c=relaxed/simple;
-	bh=kmlBwvRehw3VKz9c8309cNc1KVpQR1VloFEEvq8gjC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NprxKur0Kks03LGIhz4E35z3/N4fRg7w5ntByHh/FLz3/nnSg5SsRf3W5qtup7u7v1vAAjvnuieACbGCvjeHTqWzBHI8pEQdU0zTQog9DnWVL8WvfwtMdBwBAvANdWfGw/Nmh2Sf0KyG/LzFruaVBEdlT97O9SPZ+wo/BmYaS0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZA/L6l2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788145152; c=relaxed/simple;
+	bh=diMrWF/LmTzet43A7eKj6E3amyHbnnDa/tpKXigKzZw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jD6SdLe+MDOJ2oVvij/3QBObBFNJZHBYLao1p5ExYoyq43hO8apegc4Jofnb/6G1Gm6sHix5Xl5KK7xgv8bRNt7vvtsqjmp9+smTD4g6BsWGvzMHf/Sz0vo1+qB1z9pFTzFGiZLlnrlWxBtq0Hse64TcyyVUn/y1yyGXYQt3MSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L55ZscrO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZA/L6l2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C981F00A3D;
-	Mon, 31 Aug 2026 02:28:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788143333;
-	bh=YwqNfmhuWrZGj3kuSG9MxCjuM4AM56GhnZE26FcBYfc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JZA/L6l2dx8QC3w5n/yLK8cpOJabBWORuQR4vbqopQwuN6VXI4pZRAfs4n5KbHiFl
-	 J8P1fRCHdch6tvgjHhqzOWtQdPei1DFyIIy5h6aEc9Vc0wuuaGQoK+Toeg5L5YKRpo
-	 DAQsTsXBN9nBJvoDMqUVkY2mMw4/sY1J2gR2ariZi7LA4XkYAAAO2sw24U18yNTVFb
-	 6E8nu/w2hvIYgY9+ZGn6QMQBWvGPhcr8fgmKG7e0bK+oMCt8JnebCJxK30tRwzNgAT
-	 xKHpNXvy7ybM3Eh0fI4Q041VUSqpEXAuCnU9LqtH9W/BN62sGiRwA2Y4TdFlpP5lJj
-	 n2Pb3eeYfcuZg==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 1507F1980050;
-	Sun, 30 Aug 2026 22:28:43 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sun, 30 Aug 2026 22:28:50 -0400
-X-ME-Sender: <xms:2-aUam1Zghk7jsPTVkI4JM-RbrLDPOo6LaJH_47P0CgAHje4-hPbdQ>
-    <xme:2-aUas1oIhQroj2LB2S-TBBc6Qs3Lp9H3K1WV3sKPcIXQrsSEuuXk3_hM_4Lsv4on
-    amZeEAeyRxKj9vblePiRHYWuGsL5ajvuctLS8eTOV6klYcXY9Ws4Q>
-X-ME-Received: <xmr:2-aUauq5ObrCNd3kePUb32QFERp0If9mquNAna5UBSRHkusqMRXCcpY2y5E>
-X-ME-Proxy-Cause: dmFkZTGikeL7Ca+TmNEFzc0vH4jlwT722XVdXtOou1v3igBDEncFGj77NsHPEuBojySN8T
-    oeVj2weYrB7KZMakVoVRJUPY80SNG0ySMJsIFhtHzgdy+bSF3uopPrr5hWqYy4PkJ6m2nf
-    pwcb4EGSm5KTlkaImH9Awl16Ph6U0QciZ9hMWbDvOx2H146Eyvho7+8mPIuoEq5bRN6MKI
-    E/ksYGeF6/W/xKluaF51v3+7WGq0uzd/3CmXvCDFovpLXjrV4gEXi+NAgkUpnMeEQCEbR5
-    QJmxIsRD+d1gcCwwfNdaE9dK0hFulFNDH8T+zCSx13N3x2ouJ/jP8UviWjZD7C2DjDNoT4
-    +ms3fM5gUKRSnswAQ/qeL0hAcDLz2QO5l0pHOFMin3wotE3xEj9F7/iAViZWIb2GTkyqar
-    fzfGmIvro0IWJUMESur9u8YFA4GBxsqTesEeZyqhu2bXGSeKgT4D7JyolLaLb0fkai11af
-    +KVIIGjaVpbKFdAcVQnDRnM+YVw8iKzJ8AF4qboZxMulCFJhyXtXofC2esia8N6FZmcjU+
-    WWC2AHzrMP4DeAACwH6856+j/kCABE7HOW/s6TpLzSa1A+kkGxtlx22K8reu4dGQY/58MS
-    tYgJU8M4/EBvfNAjl846FVOW+brqAmI1OnITyK44vYU7Q4KiPKWTRMvnuiOA
-X-ME-Proxy: <xmx:2-aUanJ7XxmVtIIXxjCOEJNH8PBsOX_M9t5zX6dDW_BK3sdUuBsyDg>
-    <xmx:2-aUageco-eD9TfWakNkdmaGQ_bc9SmHk56ZNonQAPGlcfedPq0lrg>
-    <xmx:2-aUavnJxex1loLDFXFzofNmYj0_jPxOz1qLo7zbIFw8cS9pIpD_-g>
-    <xmx:2-aUagYBeyhZz_7hzzu4DeoNo1Me1hYxJLsHK4ERA7b6Q7gddU7khw>
-    <xmx:2-aUavLkZ3xi8RZQNC9Htrl4RqMZkkqmgPzS3Sw-YO2LHYfzKensXXQi>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 30 Aug 2026 22:28:42 -0400 (EDT)
-Date: Mon, 31 Aug 2026 03:28:41 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Hugh Dickins <hughd@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- 	Ackerley Tng <ackerleytng@google.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- 	Baolin Wang <baolin.wang@linux.alibaba.com>,
- Barry Song <baohua@kernel.org>, 	Binbin Wu <binbin.wu@linux.intel.com>,
- Christian Brauner <brauner@kernel.org>, 	Christoph Hellwig <hch@lst.de>,
- Christoph Lameter <cl@gentwo.org>,
- 	Claudio Imbrenda <imbrenda@linux.ibm.com>,
- David Hildenbrand <david@kernel.org>, 	JP Kobryn <jp.kobryn@linux.dev>,
- Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
- 	Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>,
- 	Lance Yang <lance.yang@linux.dev>, Leonardo Bras <leobras.c@gmail.com>,
- 	Lorenzo Stoakes <ljs@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>,
- 	Matthew Wilcox <willy@infradead.org>,
- Mel Gorman <mgorman@techsingularity.net>,
- 	Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>,
- Minchan Kim <minchan@kernel.org>, 	Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>,
- 	Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
- Rik van Riel <riel@surriel.com>,
- 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- 	Suren Baghdasaryan <surenb@google.com>,
- Vlastimil Babka <vbabka@kernel.org>,
- 	Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>,
- Zach O'Keefe <zokeefe@google.com>, 	Zi Yan <ziy@nvidia.com>,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 07/25] mm/fbatch: LRU_NEXT_ACTIVATE bit to optimize
- folio_activate()
-Message-ID: <apThx6sWOQ-aZcN7@thinkstation>
-References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
- <16b39f43-d91e-7b23-900e-90cec13837ff@google.com>
- <apAllneItXmyjRPo@thinkstation>
- <7b30ca86-dca6-83b7-a632-180e35ed2a0c@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L55ZscrO"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AE156C2BCFA;
+	Mon, 31 Aug 2026 02:59:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788145151;
+	bh=diMrWF/LmTzet43A7eKj6E3amyHbnnDa/tpKXigKzZw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=L55ZscrO3tXErkI5OAaHQVqcs+LwX/H1nDJu7RNNoaonWreSTOJeIxhfRUMc9raZ8
+	 L/PX7lVCOgCq68xuX66DqYeLbi6YLPS2tWM7VcZhnlAPqwhR6MhjNr4NI2W+4q1PMx
+	 sdQ6xn6BuBR7vTcYkh1klhUD1B7+IvPEYov/KGm8eadQPWQ1du6NcX8Zls9jI02YRv
+	 zt99AkHvdmb3V/bY3eKcEA/MifNIDgFBV3gqhbwVZV4UF4XBOTv0Tk71jK8+lxDnLU
+	 fa/F0CAd1Dhwy+GsD35dZ9VPiSMq9K24OeeGOZYz1jwDmqPOB+wBkZuDIAvbRq1UYg
+	 WsniX3MNb8dDw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0DCC61DE2;
+	Mon, 31 Aug 2026 02:59:11 +0000 (UTC)
+From: Chen Linxuan via B4 Relay <devnull+me.black-desk.cn@kernel.org>
+Date: Mon, 31 Aug 2026 10:59:06 +0800
+Subject: [PATCH v2 1/3] fs: Introduce task path helpers
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7b30ca86-dca6-83b7-a632-180e35ed2a0c@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260831-pidfd-get-paths-v2-1-c59ea6a21b72@black-desk.cn>
+References: <20260831-pidfd-get-paths-v2-0-c59ea6a21b72@black-desk.cn>
+In-Reply-To: <20260831-pidfd-get-paths-v2-0-c59ea6a21b72@black-desk.cn>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ John Johansen <john.johansen@canonical.com>, 
+ Georgia Garcia <georgia.garcia@canonical.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+ Chen Linxuan <me@black-desk.cn>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6540; i=me@black-desk.cn;
+ s=20260831; h=from:subject:message-id;
+ bh=5So2OP5xtxhWElec19b9ZT6vFlwvdbmJSxLeLau4rVo=;
+ b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBqlO38hlMmWYrfhNP7tNxvYyk/trBioVtyxuO0L
+ 54fL84jSkCJAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCapTt/AAKCRB2HuYUOZmu
+ i/oQD/9roMaaNnUmCilRvUZYD8kg+6YObUuwkSY9d99SWki86zWmjnaICnVR+Zb2W8WBtOvGZKB
+ 6jJRoML7cvLT2hBpblOSeMCQNQK0aC6E3aAWlPdUCDesQdi77+V2pW7TEnve0oy2yGy2VI4Oehd
+ h6cf2M5RlpdB2Qk2wd/ASa7xGgcF0UUx0Je/e6Z8kqyWrqaPGGcEr2kJiyDgQ5TnGcyS7etamrO
+ wgif/QpDRx+2UYqUbGnAQh1eHfQFMlfKvI36EjtFBqaUCC5y2MC/AadKqtBcDaq6oJQCf7oS0/k
+ dY8MXF5nEsqRAGoex3WZV2FMuRg6b8qo4ytELiFKlNsBY/a59YynuRiMzBqI0MsbAsGFYQznNa5
+ 88UDWMfpUTMB/7fS7xwyV1Sc8rI2fR3Vg7bfoRteDU1zUgrnfalv0MZSa+398Y3IBu0q0JRaVp5
+ ECbyOznGF4D8gbD0IiXzV6XnInvJTX7UrfKEdzI4XU2UUWFEOyq/uXoTTZ/IOgDK+AR0tPjMbBr
+ 0We4F21C4pk/F5ZEhucZ8qdPYzCNRfCNkYt5zk8XXbd7biq9LJoDBPt3zFtDEAmohqdbzTfPeed
+ zIt2DrJbd3/iU1BtXbZ1aP04uRnh1E2a+ha+noDPZQ/5tmZQ3OioxmWNeAtrv03A6onDNUibqlZ
+ QAHLvTlgoussE/Q==
+X-Developer-Key: i=me@black-desk.cn; a=openpgp;
+ fpr=D818ACDD385CAE92D4BAC01A6269794D24791D21
+X-Endpoint-Received: by B4 Relay for me@black-desk.cn/20260831 with
+ auth_id=991
+X-Original-From: Chen Linxuan <me@black-desk.cn>
+Reply-To: me@black-desk.cn
 
-On Fri, Aug 28, 2026 at 01:40:51AM -0700, Hugh Dickins wrote:
-> Do you have a head for smp_mb__ barriers? I'm more anxious that
-> I might be missing one or two of those.
+From: Chen Linxuan <me@black-desk.cn>
 
-I think the release side of PG_lru is missing.
+Introduce helpers that acquire a referenced struct path for a task's
+executable, root, and working directory. Reuse them for procfs task
+links and AppArmor executable-path handling instead of duplicating file
+and path reference handling at each call site.
 
-You effectively turn PG_lru into a lock over folio->lru.next.
+Assisted-by: LLM
+Signed-off-by: Chen Linxuan <me@black-desk.cn>
+---
+ fs/fs_struct.c            | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ fs/proc/base.c            | 34 ++--------------------------------
+ include/linux/fs_struct.h |  3 +++
+ include/linux/mm.h        |  1 +
+ kernel/fork.c             | 21 +++++++++++++++++++++
+ security/apparmor/task.c  | 12 +++---------
+ 6 files changed, 74 insertions(+), 41 deletions(-)
 
-The acquire side works: test_and_clear_bit() has a return value, so it
-is fully ordered.
-
-But there's a problem with release. set_bit() is unordered. You
-correctly placed a fence in __folio_add_lru(), but every other
-folio_set_lru() is problematic.
-
-For instance:
-
-	CPU0 				CPU1
-folio_batch_move_lru()		folio_batch_move_lru()
-  lru_add_del_folio()
-    lru.next = LIST_POISON1
-  lruvec lock
-    list_add()
-  /* no barrier */
-  set_bit(PG_lru)
-				  folio_try_get() == true
-				  folio_test_clear_lru() == true
-				  lru_next == stale BATCHED ???
-  lruvec unlock
-
-If CPU1 sees a stale BATCHED, lru_add_del_folio() returns true without
-doing the list_del() or the NR_LRU_BASE accounting, and CPU1 then goes
-on to lruvec_add_folio() a folio that is already on a list.
-
-I think we need to have a helper that would set PG_lru and enforce
-release semantics.
+diff --git a/fs/fs_struct.c b/fs/fs_struct.c
+index 34699f3b6f88..5c772896260a 100644
+--- a/fs/fs_struct.c
++++ b/fs/fs_struct.c
+@@ -10,6 +10,50 @@
+ #include "internal.h"
+ #include "mount.h"
+ 
++/**
++ * get_task_root - acquire a reference to the task's root path
++ * @task: The task.
++ * @root: The task's root path.
++ *
++ * Returns 0 if the task has a root path, or -ENOENT if it does not. The
++ * caller must release the path through path_put() on success.
++ */
++int get_task_root(struct task_struct *task, struct path *root)
++{
++	int ret = -ENOENT;
++
++	task_lock(task);
++	if (task->real_fs) {
++		get_fs_root(task->real_fs, root);
++		ret = 0;
++	}
++	task_unlock(task);
++
++	return ret;
++}
++
++/**
++ * get_task_pwd - acquire a reference to the task's working directory
++ * @task: The task.
++ * @pwd: The task's working directory.
++ *
++ * Returns 0 if the task has a working directory, or -ENOENT if it does not.
++ * The caller must release the path through path_put() on success.
++ */
++int get_task_pwd(struct task_struct *task, struct path *pwd)
++{
++	int ret = -ENOENT;
++
++	task_lock(task);
++	if (task->real_fs) {
++		get_fs_pwd(task->real_fs, pwd);
++		ret = 0;
++	}
++	task_unlock(task);
++
++	return ret;
++}
++
+ /*
+  * Replace the fs->{rootmnt,root} with {mnt,dentry}. Put the old values.
+  * It can block.
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 6a39de424f62..7e2c0538323c 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -206,31 +206,10 @@ static unsigned int __init pid_entry_nlink(const struct pid_entry *entries,
+ 	return count;
+ }
+ 
+-static int get_task_root(struct task_struct *task, struct path *root)
+-{
+-	int result = -ENOENT;
+-
+-	task_lock(task);
+-	if (task->real_fs) {
+-		get_fs_root(task->real_fs, root);
+-		result = 0;
+-	}
+-	task_unlock(task);
+-	return result;
+-}
+-
+ static int proc_cwd_link(struct dentry *dentry, struct path *path,
+ 			 struct task_struct *task)
+ {
+-	int result = -ENOENT;
+-
+-	task_lock(task);
+-	if (task->real_fs) {
+-		get_fs_pwd(task->real_fs, path);
+-		result = 0;
+-	}
+-	task_unlock(task);
+-	return result;
++	return get_task_pwd(task, path);
+ }
+ 
+ static int proc_root_link(struct dentry *dentry, struct path *path,
+@@ -1761,16 +1740,7 @@ static const struct file_operations proc_pid_set_comm_operations = {
+ static int proc_exe_link(struct dentry *dentry, struct path *exe_path,
+ 			 struct task_struct *task)
+ {
+-	struct file *exe_file;
+-
+-	exe_file = get_task_exe_file(task);
+-	if (exe_file) {
+-		*exe_path = exe_file->f_path;
+-		path_get(&exe_file->f_path);
+-		fput(exe_file);
+-		return 0;
+-	} else
+-		return -ENOENT;
++	return get_task_exe_path(task, exe_path);
+ }
+ 
+ static int call_proc_get_link(struct dentry *dentry, struct inode *inode, struct path *path_out)
+diff --git a/include/linux/fs_struct.h b/include/linux/fs_struct.h
+index 97eef8d3863d..fb725707754d 100644
+--- a/include/linux/fs_struct.h
++++ b/include/linux/fs_struct.h
+@@ -42,6 +42,9 @@ static inline void get_fs_pwd(struct fs_struct *fs, struct path *pwd)
+ 	read_sequnlock_excl(&fs->seq);
+ }
+ 
++int get_task_root(struct task_struct *task, struct path *root);
++int get_task_pwd(struct task_struct *task, struct path *pwd);
++
+ struct fs_struct *switch_fs_struct(struct fs_struct *new_fs);
+ 
+ extern bool current_chrooted(void);
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index dd09c438fa23..a65f24b2e65b 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -4239,6 +4239,7 @@ extern int set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
+ extern int replace_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
+ extern struct file *get_mm_exe_file(struct mm_struct *mm);
+ extern struct file *get_task_exe_file(struct task_struct *task);
++int get_task_exe_path(struct task_struct *task, struct path *exe_path);
+ 
+ extern void vm_stat_account(struct mm_struct *, vm_flags_t, long npages);
+ 
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 416758c8a3d4..a493de3ae5c2 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1371,6 +1371,27 @@ struct file *get_task_exe_file(struct task_struct *task)
+ 	return exe_file;
+ }
+ 
++/**
++ * get_task_exe_path - acquire a reference to the task's executable path
++ * @task: The task.
++ * @exe_path: The task's executable path.
++ *
++ * Returns 0 if the task has an executable path, or -ENOENT if it does not.
++ * The caller must release the path through path_put() on success.
++ */
++int get_task_exe_path(struct task_struct *task, struct path *exe_path)
++{
++	struct file *exe_file = get_task_exe_file(task);
++
++	if (!exe_file)
++		return -ENOENT;
++
++	*exe_path = exe_file->f_path;
++	path_get(exe_path);
++	fput(exe_file);
++	return 0;
++}
++
+ /**
+  * get_task_mm - acquire a reference to the task's mm
+  * @task: The task.
+diff --git a/security/apparmor/task.c b/security/apparmor/task.c
+index e16ff4130bc2..05cba261dd34 100644
+--- a/security/apparmor/task.c
++++ b/security/apparmor/task.c
+@@ -13,6 +13,7 @@
+  */
+ 
+ #include <linux/gfp.h>
++#include <linux/mm.h>
+ #include <linux/ptrace.h>
+ #include <linux/task_work.h>
+ 
+@@ -330,22 +331,15 @@ int aa_may_ptrace(const struct cred *tracer_cred, struct aa_label *tracer,
+ 
+ static const char *get_current_exe_path(char *buffer, int buffer_size)
+ {
+-	struct file *exe_file;
+-	struct path p;
++	struct path p __free(path_put) = {};
+ 	const char *path_str;
+ 
+-	exe_file = get_task_exe_file(current);
+-	if (!exe_file)
++	if (get_task_exe_path(current, &p))
+ 		return ERR_PTR(-ENOENT);
+-	p = exe_file->f_path;
+-	path_get(&p);
+ 
+ 	if (aa_path_name(&p, FLAG_VIEW_SUBNS, buffer, &path_str, NULL, NULL))
+ 		path_str = ERR_PTR(-ENOMEM);
+ 
+-	fput(exe_file);
+-	path_put(&p);
+-
+ 	return path_str;
+ }
+ 
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.53.0
+
+
