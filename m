@@ -1,191 +1,152 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64606282F1E;
-	Mon, 31 Aug 2026 10:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76642D781B;
+	Mon, 31 Aug 2026 10:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788172356; cv=none; b=ePnRM14f7cSUtnRJFvdI/iofXwcnUMkY674I+PQaKSnerW9IspSNoSHmWvOzLGzdEMYrojE/8AyJ8PuAp+yKut9HVDIvlUbrdQXX6FUqtPzt9v/NAyUxKExo3q9okembH1hhoXsEES2rL/WJpH7mkThV5mRfbLPVW1+l2X/MD/s=
+	t=1788172997; cv=none; b=D0yaDZxsieOIrmdIcnEo0nFmY4dCacyAGiiO4tQxR0lOUz5B9soAf81sVMfpGataNz5mlEQUWAIgcpSGkpQojU5soAjTKYF+o2EnXm0Wx7BafT4p6RECt4bRWMzV3EqaLYxRdNg3lO1w1atk2YOStpaRwRPmAWARpMmhNyjRwTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788172356; c=relaxed/simple;
-	bh=GczyA7v0iKnbEXrVLW+F6aZQQ7fSZMX272ybm/ztJXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hkqv9mmFmTQfJDc6w17784GW2krNKcbFHPrXmhDc8LlrxgqZidyCcmQmUak1/DicBjjv8IdWsS32Ug4gz3JfXxvq7Ix1farc+smoFj9CctbnRgZtwBIY6VHwVrOxlbFg/o4KV7bQKwR5mJs31u7d7H+9Trcw6gqVAR//nv/6Df0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=njJY3XjG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cSzdxqYU; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PNgBLCTP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rIW5owKI; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788172997; c=relaxed/simple;
+	bh=lW+liWO8qmv4ZSh1ff1E2l311S9sZ5fYoySavkW1RJo=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=pXsbquLXk5TT8HQIbPaxsS53bSH9wI7YdPc4KhVdIkRYx+iImmaWm6JCPwpw6ghMjpu6Vctl+k0lTBuANzUS68wXEPGxDBj0hPQqidZV5P1sxnD+EX5J8EAzGfXytlwpHOd/aJDrXnlD+xN2ayyCaOX8r+pyGJUxHxIOb3OrFPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9qx3Oy+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="njJY3XjG";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cSzdxqYU";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PNgBLCTP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rIW5owKI"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 57D0E1FB59;
-	Mon, 31 Aug 2026 10:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788172278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XRNex3+qBCItCxn6F7Fzem4nZKhsLA2RzviX5fQd4ZQ=;
-	b=njJY3XjGU3Bz14vXgqoqn+NsNq6Nz/gLb3gqWLr/UyPP2aQHnC6Nf3hRErE4sUf8+eLeHd
-	0dt0T3P3YkJGASgW4vtpErxStvJYm+HLPh7W7a8cfVilQxeCR/56N0VHKd0mIkLt4d4zwh
-	PoHoa1V+p8bjdbuiIn8zanZAMYWqCUs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788172278;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XRNex3+qBCItCxn6F7Fzem4nZKhsLA2RzviX5fQd4ZQ=;
-	b=cSzdxqYUS8jTeCgx5/rgOrNm7chcvB0FovGN1z9Cvn7IshDthADEHZkkzBRSLB+J92thq0
-	qZc6NSnAqL6t2WBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788172274; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XRNex3+qBCItCxn6F7Fzem4nZKhsLA2RzviX5fQd4ZQ=;
-	b=PNgBLCTP9hoIXVm3KTEa4zcBGRTAEqk0QfXKwsLmt3mrt/kecez4SeLUnPWleHUYYXbmUZ
-	pOAn+6Ti5ilSpGny4eQHpeNuOxkiI1ihgzGMFc8p8nfzOs3Qv2QciUlY8v8/tntApMC+o/
-	I+vEf3pt1/X0ceQ0tgAapWpREoEeEKc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788172274;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XRNex3+qBCItCxn6F7Fzem4nZKhsLA2RzviX5fQd4ZQ=;
-	b=rIW5owKIexNKRTaz7DMNWlgO9rj/wwxZGa6KeXY0aIV25cvNH+NfEFf93wgoDFz6XAM5q5
-	1/BDqV1KJ+ExBmCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 362B113515;
-	Mon, 31 Aug 2026 10:31:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 15QfDfJXlWpcEQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 31 Aug 2026 10:31:14 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id BE79DA13B5; Mon, 31 Aug 2026 12:31:09 +0200 (CEST)
-Date: Mon, 31 Aug 2026 12:31:09 +0200
-From: Jan Kara <jack@suse.cz>
-To: ZW Tang <tangzw515@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Subject: Re: [BUG] fanotify: WARNING in fanotify_handle_event with crafted
- msdos image and long path
-Message-ID: <3kzvlb3wpzbg6k6ttzp6rh2cfmz3hmmmlisgxjn5u4xmaaqibm@qkre7flkhejl>
-References: <CAA2SOT5mWrS_KN38TRCu_KfTjpG6fyaytqZbOb25Pb0kfqZ3gQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9qx3Oy+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D7AF1F000E9;
+	Mon, 31 Aug 2026 10:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788172995;
+	bh=1zRiZoEe+cziUvxkvj8KRKsW5kQ9BPFWyKQ48V5U48c=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=g9qx3Oy+sEirhBlaPWlATBQb6Wt+QnUbSr1uatSFzBcPbN+Hzm5139c6BIVUd405B
+	 hQgDp6gBYQzjJPyxjPW6yEQLBcgIwAI9BY3Dp8HDsSgg9aG/aeiiqzvqU6dgypNN0v
+	 +0qsyKBQb5pkem5mHcAPoDc3q0UlDA6jVm92NA5HUjdPbbzcZrvA5oANPXIsfpP18o
+	 fRW99ndcB67wuop3tQ+nicsSUvSQxjPUVMk5Ba07fL3XD+iyGVelFq3vA4NJxBEasn
+	 Y41838p1p4M4dXkpTI2b+G2zVHOpawy4qFAOrvvqtK8oUFmfeYnLWbU0/6TDjwhKnZ
+	 aHrG2wtbCUAwQ==
+Content-Type: multipart/mixed; boundary="===============6575441848940488516=="
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA2SOT5mWrS_KN38TRCu_KfTjpG6fyaytqZbOb25Pb0kfqZ3gQ@mail.gmail.com>
-X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org,mail.parknet.co.jp];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+Message-Id: <2163fb3e4198f7feac29b37aa7c659535eb5d11248f681bb25c3bc97838aa1b0@mail.kernel.org>
+In-Reply-To: <20260831092305.42062-7-tasos.papagiannnis@gmail.com>
+References: <20260831092305.42062-7-tasos.papagiannnis@gmail.com>
+Subject: Re: [PATCH bpf-next v3 6/7] bpf: Mark linux_binprm->mm as trusted-or-null
+From: bot+bpf-ci@kernel.org
+To: tasos.papagiannnis@gmail.com,bpf@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,linux-mm@kvack.org,linux-fsdevel@vger.kernel.org,viro@zeniv.linux.org.uk,brauner@kernel.org,akpm@linux-foundation.org,david@kernel.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,kpsingh@kernel.org,matt@bobrowski.net,song@kernel.org,utilityemal77@gmail.com,tasos.papagiannnis@gmail.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
+Date: Mon, 31 Aug 2026 10:43:14 +0000 (UTC)
 
-Hello,
+--===============6575441848940488516==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-On Mon 31-08-26 12:32:57, ZW Tang wrote:
-> I am reporting a warning triggered by a syzkaller reproducer on
-> Linux 7.2.0-rc3. A similar issue appears to have been reported upstream
-> before, but I can still reproduce it on Linux 7.2.0-rc3 with HEAD commit
-> 1137d8b5df06137fb49513cc923b3b24d94cb809.
-> 
-> The reproducer mounts a crafted msdos filesystem image, creates a very
-> long pathname, installs a fanotify mark, and then calls execve() on the
-> long path. During execve(), the file open path triggers fsnotify, which
-> then calls fanotify_handle_event(). While fanotify is constructing the
-> event, it hits a warning in fs/notify/fanotify/fanotify.h.
-> 
-> This looks like a fanotify name-event encoding robustness issue. A crafted
-> filesystem image together with a very long pathname appears to trigger an
-> unexpected name/fid event layout, and fanotify_info_copy_name() reaches a
-> WARN_ON_ONCE() path. The kernel should probably reject or truncate the
-> event cleanly instead of triggering a warning, because panic_on_warn turns
-> this into a kernel panic.
+> bpf: Mark linux_binprm->mm as trusted-or-null
+>
+> Mark linux_binprm->mm as a trusted-or-null nested pointer so BPF programs
+> can pass it to kfuncs after a NULL check. The linux_binprm owns this mm
+> throughout the bprm_check_security hook and clears the pointer only after
+> exec_mmap() installs the new address space.
 
-fanotify complains that the name length is greater than NAME_MAX.  If I can
-guess, the problem likely is that the msdos filesystem (vfat?) allows a
-file name that is longer than NAME_MAX. Which would be a bug in the
-filesystem driver, not a problem in fanotify... Ogawa, care to have a look?
+Is the changelog's description of when bprm->mm is cleared accurate?
 
-								Honza
+Enumerating every write to bprm->mm in the tree shows three places where
+the pointer is cleared, not just "after exec_mmap()":
 
-> 
-> Reproducer:
-> 
-> syz reproducer: https://pastebin.com/raw/JqBwvgbH
-> console output: https://pastebin.com/raw/2jnY4jzL
-> kernel config: https://pastebin.com/raw/RgvQ5DPY
-> 
-> Kernel:
-> 
-> HEAD commit: 1137d8b5df06137fb49513cc923b3b24d94cb809
-> git tree: torvalds/linux
-> kernel version: 7.2.0-rc3 #1 PREEMPT(full) (QEMU Ubuntu 24.10)
-> 
-> Relevant log:
-> 
-> loop0: detected capacity change from 0 to 128
-> 
-> ------------[ cut here ]------------
-> WARNING: fs/notify/fanotify/fanotify.h:217 at
-> fanotify_handle_event+0x3e93/0x4800, CPU#1: syz.0.17/10761
-> 
-> CPU: 1 UID: 0 PID: 10761 Comm: syz.0.17 Not tainted 7.2.0-rc3 #1 PREEMPT(full)
-> Hardware name: QEMU Ubuntu 24.10 PC (i440FX + PIIX, 1996)
-> 
-> RIP: 0010+0x3e93/0x4800
-> 
-> Call Trace:
-> <TASK>
-> fsnotify+0x1105/0x1be0
-> __fsnotify_parent+0x6b6/0xd40
-> vfs_open+0x2e6/0x3f0
-> path_openat+0x29a2/0x3e20
-> do_file_open+0x216/0x310
-> do_open_execat+0xe8/0x430
-> alloc_bprm+0x2b/0x900
-> do_execveat_common.isra.0+0x1a8/0x5d0
-> __x64_sys_execve+0x93/0xd0
-> do_syscall_64+0xc4/0x7a0
-> entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> </TASK>
-> 
-> Kernel panic - not syncing: kernel: panic_on_warn set ...
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+  fs/exec.c:bprm_mm_init()
+      bprm->mm = mm = mm_alloc();          /* assign */
+      ...
+      bprm->mm = NULL;                     /* error path, before mmdrop */
+
+  fs/exec.c:begin_new_exec()
+      bprm->mm = NULL;                     /* after successful exec_mmap() */
+
+  fs/exec.c:free_bprm()
+      bprm->mm = NULL;                     /* before mmput() */
+
+Two of these three are not accounted for by the changelog. The
+bprm_mm_init() error path clears the pointer before mmdrop(), and
+free_bprm() clears it before mmput(). The free_bprm() case is actually
+load-bearing: it's what commit d3633d366b08f ("exec: Clear bprm->mm
+before dropping its reference") in this same series was added for, and
+that commit's changelog says it's "required for eBPF kfuncs where
+bprm->mm is either NULL or points to a live mm_struct."
+
+The real invariant this verifier change depends on is "bprm->mm is
+always either NULL or a live mm," established across all of fs/exec.c.
+The changelog instead asserts a narrower property that doesn't hold.
+
+This matters because the marking isn't scoped to bprm_check_security.
+Any BPF program with a trusted linux_binprm pointer (all five bprm_*
+LSM hooks in include/linux/lsm_hook_defs.h, plus fentry/fexit/tp_btf on
+any kernel function taking a linux_binprm) now gets a trusted mm.
+Justifying it from one hook leaves a reviewer unable to check the other
+attach points.
+
+Could the changelog drop "only" and state the actual invariant, perhaps
+something like: "bprm->mm is either NULL or points to a live mm_struct
+at every point a BPF program can observe a linux_binprm: exec_mmap()
+transfers ownership and begin_new_exec() then clears the field, and
+free_bprm() clears it before dropping the reference (see the preceding
+patch)"?
+
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 386401fe051d4..584c79326b9c7 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+
+[ ... ]
+
+> @@ -6012,6 +6016,7 @@ static bool type_is_trusted_or_null(struct bpf_verifier_env *env,
+>  {
+>  	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED_OR_NULL(struct socket));
+>  	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED_OR_NULL(struct dentry));
+> +	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED_OR_NULL(struct linux_binprm));
+                 ^^^^
+>  	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED_OR_NULL(struct vm_area_struct));
+>
+>  	return btf_nested_type_is_trusted(&env->log, reg, field_name, btf_id,
+
+Does the patch ordering break bisect here?
+
+The preceding commit in the series, 146a2bd992c3d ("selftests/bpf: Cover
+trusted-or-null BTF pointer reads"), adds a test in
+tools/testing/selftests/bpf/progs/verifier_lsm.c that expects this
+marking to exist:
+
+  SEC("lsm.s/bprm_check_security")
+  __description("store through trusted-or-null bprm->mm is rejected")
+  __failure
+  __msg("R{{[0-9]+}} invalid mem access 'trusted_ptr_or_null_'")
+  int BPF_PROG(store_through_trusted_or_null_bprm_mm,
+               struct linux_binprm *bprm)
+  {
+          bprm->mm->task_size = 0;
+          return 0;
+  }
+
+At commit 146a2bd992c3d, walking bprm->mm in a sleepable LSM program
+takes the final else arm of check_ptr_to_btf_access() (flag =
+PTR_UNTRUSTED) because in_rcu_cs() is false. The subsequent store fails
+at the 'if (atype != BPF_READ && bpf_may_fault_on_deref(reg->type))'
+check with "only read is supported" rather than "invalid mem access
+'trusted_ptr_or_null_'". The __msg() assertion doesn't match and
+'test_progs -t verifier_lsm' fails at that intermediate commit.
+
+Swapping the order makes every commit in the series independently
+testable. The ordering issue is present in the posted series as well
+(lore message-ids 20260831092305.42062-6 and -7).
+
+
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/33379004067
+--===============6575441848940488516==--
