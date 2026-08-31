@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158D73C81B9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 08:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C3C3BBA1A;
+	Mon, 31 Aug 2026 08:02:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788163325; cv=none; b=NgjH4SY2meuyjquiI6LYt+dRIka+BX2Z+qxlvZrcJNh3HwV20AseROB738bD6LzKwn5ZIFJDXL0CXajXbKxBuDcFWqwYA5dzH5hVMvDGkQYfwSlivv1bfBTvk4RGcgpY3EmmLsGwJGht6w2dEV4h8OH0AjkfTbIqMnrY3pmQeso=
+	t=1788163375; cv=none; b=Osq3TLVY5IE0nWu/Mt9u8LToAsPVvH3inaewJmblhJanlI9fwiLnpjXhakTWxCIxDTEa0WZP2EKMckeYTFbt0h4ACzwmHV5PlieFTVkw+Y2ysgbeJ9kN43zgzkCN8dPK1go59V4PjegxTKakLi2r+8xOHuGutcwinrBIUprvawc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788163325; c=relaxed/simple;
-	bh=n8RtS83wPJaqfk3MTmOaK3Tbh8DFBcB/qeF8hc/jM2o=;
+	s=arc-20240116; t=1788163375; c=relaxed/simple;
+	bh=mNJ6TtybuemdnjfJ+xTQ38IRvVsMmZTIi52GSp67/TM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WwygpQc1PgLTylk82zF2jS97+GxmWnIran6y+cawB5Ahbw/bOcP+deM7XJkN8C2vAweexqifXgd6vovGEbU2xNpUAToVFVVyZTmwCw+P1Gg63s9Q/qZuyXi96GVFROZMfXlv6mxv+DiEo7kAA+iwgLFls80OqIVy9F8464rIjhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fb2stanz; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=ox/qqKHzXzfPyrDQvnjI+jaVEP5bldsE4yWB6QAYZFOXW3DhtvAF+NMI37axDOXorvWIoauEFL7R4/gCfrap3H+pnxJkuNR9FGG92jjTICu75HK50+NmXSGoqsOyFKiBxflfFRivMuPLXPchG0thS+5zgAbLyTYtKEDI5UTkThg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRFf2RWn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fb2stanz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799F81F000E9;
-	Mon, 31 Aug 2026 08:02:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRFf2RWn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EF3B1F000E9;
+	Mon, 31 Aug 2026 08:02:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788163323;
-	bh=vX5WHaaM0oPCvzWMESCV1kE+YZXtsV8CVMZTrMCCrf8=;
+	s=k20260515; t=1788163374;
+	bh=Ye99NQfdXi7OZKG0raTZd4ewb9mN+Asa1Yy9ESWHvFE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=fb2stanzsud4ErYh+i9f90ru+YaxVGZUkQ4EUs13uC02mlCQLT7XDBDabdc7OY1m+
-	 dBVHZnEgazjqHt4iv5Mdik5I3qpx51QE/ICS6kgaJl+yucBXrcI/kARBcIphrF8SCK
-	 28aULiHIDEjJFr1LBQQa4wErfK7qJnFw93MFO6kYhrDX5tooBrXah6Uy5Mg1rdixXW
-	 XJVeLrnxY358JC8ANeNuK2i7LS98NHjK5iY9Vy5AaFNcOQE2dq+/TKm4cULg5bzfXC
-	 KdtE4kPImZpCdwArVKq4MPQWoI/ydvz0f0VuyOVISg/gv+k9BL/A/+eKA0teg8Aycj
-	 Bwo5KC29jny6A==
+	b=NRFf2RWnx8dsoP6gUfrwmIcALgAsK/bxcT4SbZ0luqJeUo3VMUoNbFvgq4WAHrCss
+	 uOG+kkt0MW/2t3pVffnIF1n8jWcipMJXpU0Q7w5HpOxo5GPqSr69fm0CCT/+ezENHm
+	 KQ33E5k1cbgOh44w4qBlyojTYRlUI08Ku3zMYp8s7nhnjIKo9iel7o1ewHz21ueR0F
+	 bfPSrdFPd5Wd7UQ2Lfw/4u8Y69jnQNQQ3g3fiBNO7rsho8GC0wpzQveqlnAPagHrcg
+	 Ii1msK1JTPdq69jNTR45rnx97kUZVMPLs/WKEl0lidgYIvbCnIFCrT7dBOca+qLcmH
+	 rN42vN57oyfjg==
 From: Christian Brauner <brauner@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Manush Prajwal <manushprajwal555@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
-In-Reply-To: <20260813093404.1278-1-manushprajwal555@gmail.com>
-References: <20260813093404.1278-1-manushprajwal555@gmail.com>
-Subject: Re: [PATCH] fs: fix comment typo in bpf_fs_kfuncs.c
-Message-Id: <20260831-kauft-sparziel-benannt-783e78f11572@brauner>
-Date: Mon, 31 Aug 2026 10:01:56 +0200
+To: shuah@kernel.org, Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260819161738.3517-1-mahad.ibrahim.dev@gmail.com>
+References: <20260819161738.3517-1-mahad.ibrahim.dev@gmail.com>
+Subject: Re: [PATCH] selftests/filesystems: Add .gitignore for
+ fscontext_ns_test
+Message-Id: <20260831-pfosten-geoutet-knicken-8c8a740962a3@brauner>
+Date: Mon, 31 Aug 2026 10:02:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,17 +45,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=865; i=brauner@kernel.org;
- h=from:subject:message-id; bh=n8RtS83wPJaqfk3MTmOaK3Tbh8DFBcB/qeF8hc/jM2o=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRNNfl1vSonRnCrQqe0btRU9psn1+8++Gpy5zoDmztBm
- jU2ylPCO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACayvYDhf2mQ8F452SitWxwT
- 9rxaVMz0ocA8UGP+zKurWFwbFge1yjEyPCw7f9VFz7xtI0N9pMhVgaXTNkc8X5jNGjlj4ivx+Z5
- fuAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=904; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=mNJ6TtybuemdnjfJ+xTQ38IRvVsMmZTIi52GSp67/TM=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRNNdVR4C1nq5spUcQ6aeL6BZVFhfkLOwtzTm5s/HbgS
+ f5ni4YXHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPp3sTwh+f7PcFnBcf2xUyu
+ P2AnHq4zsUmg7lP0hOx5Aq3z3JS+yjAyTGC6YF17Z8Yn7RDZNyfPRB/j5jnV4Spxb93j+X+W2t7
+ axQgA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, 13 Aug 2026 15:04:04 +0530, Manush Prajwal wrote:
-> fs: fix comment typo in bpf_fs_kfuncs.c
+On Wed, 19 Aug 2026 16:17:38 +0000, Mahad Ibrahim wrote:
+> selftests/filesystems: Add .gitignore for fscontext_ns_test
 
 Applied to the vfs-7.4.misc branch of the vfs/vfs.git tree.
 Patches in the vfs-7.4.misc branch should appear in linux-next soon.
@@ -71,6 +72,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs-7.4.misc
 
-[1/1] fs: fix comment typo in bpf_fs_kfuncs.c
-      https://git.kernel.org/vfs/vfs/c/42c9faf2d868
+[1/1] selftests/filesystems: Add .gitignore for fscontext_ns_test
+      https://git.kernel.org/vfs/vfs/c/b653a9e55173
 
