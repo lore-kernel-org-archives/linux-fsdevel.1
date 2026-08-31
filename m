@@ -1,54 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F103DCD9B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 23:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACE83D6CD5
+	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 23:34:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788219132; cv=none; b=sZYcn4gBbVE5Id1FejYJ7Mwxm2Xy97E0gBzAHpSx7QOiOUpEyosmFUbuzgzLgu3udkU6zSr2iLKsFffj1mcin9fN7U9X1XpzjEohPVRDWEx950eW7OPq//sEkj9GuayDwbLblG4rskCOW2Qp20cXdJMrgxO/J2/DkNRr4LeSSkg=
+	t=1788219270; cv=none; b=JCi7l7/qh5u3qFJDH9z4WnkxMw0a5owBNactROu54X9e85x1CV+o+sBvuynlA+dT5TV5GdJ9LFY8Ub8moNi89/jxSF1TTreqr8DPDr393Q2mRmb4cogSNjn8qxHkkejGvax3y9V7UeAttZ5KkR5rxTNkXweebljTjuKfDPAkeaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788219132; c=relaxed/simple;
-	bh=O3dUzn3dGkaVAPpDFFLsE7z9koWPVrcO2nnd3UtUTRA=;
+	s=arc-20240116; t=1788219270; c=relaxed/simple;
+	bh=ma4zCwL1MJKOlGUTSok9zDIiwoRxL065nQAXZ6pA1bA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q0joYCqN4RFGCuAR7De2HDsZivoRuMNBiIYN1T+iQrVdipK74NnA8XT71VnJ8JKIMMEpi14+75CzyrLB3t1VPKSgAj4R8mV0c7zZQy52DZs5Ryu0qrj0KpM6u6hbZoTCgz9PHXokY8pHRaWV96XP9FI7IQzQUiTwqxbTgAZf07s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hM9ggej7; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=ek1jxm2sHyXuvWfwcrEW/7+0EtnM1AOHF6gfSto4pBUqLWAf0G7XaOsR0hTfgLD3jvIYS4ucMIHnptFoqxgs3+uA7wFDAeD7ars2Dt1Tg+tzzWvFGQwHNOYDa3/PCw1HPVTXwy70LOeNpSVvmL9GGCnXl+Wc/98qhKFQIufKbZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BqwSL8Y9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hM9ggej7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DC6F1F01559
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 23:32:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BqwSL8Y9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E94F91F0155A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 23:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788219131;
-	bh=HqSnM2Sf1MnAraFVDX5f+6TBqIzKd36nKm4xtyvhybM=;
+	s=k20260515; t=1788219268;
+	bh=tAVWsBwACx+IpWMY6PFdTt/YVw93rBRGG3Ku2i4nYdQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=hM9ggej7PlPuTMCDzgOh3zYet3jaCTTtvglzC/zYWOZL6KGj0BcKod4DB2KHZmpuk
-	 9Xr8E5fI7omKEWAg8npO64Q4oxaIsgjG+ROJho52pGDM0t6/3xak1DlwmCvfeLGEq2
-	 QgA1Yt5/MRFPTMRaDIUjwW5YGSiC2DurJZI45p7kp3NGtY4Qjnfuwky7WXn7o9f4Z8
-	 wC4Ds6R9vHRh9IGZpDif5s6pgETlC/Wre846fOo21aTGBy8Pvwtz0uK2tMm6Oadwv/
-	 53QRlUMvhrjqA91WlLKbIal6dENP3blXPeG/7/rBm3eOLTTcQXLTrHKYGeIJ/eD/kO
-	 gZhLRtPK2lJyg==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6a6108734d5so6035335a12.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 16:32:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxhj0HBYrhaiNAK0vFiABg6Lu9Kxi2K79htlZORMnqSq9h7Nr8OykL4G62zxuqMlDxH0zwhluO4ilu1nRwY@vger.kernel.org
-X-Gm-Message-State: AFuF++lfP7iqf9tJ7A/2Qz+gof864AfVG0iAd6sBvVA8QyKXSobAO0ta
-	AGctlTLL0/+txPrkNvBv0qFcUM1ta0e0AYRlhKn2kk39mElaXxquiH8V4+k9hPrHsjhHRs7IxH6
-	abarQlk0i3jIoq8ddKdNjqE7GIjTxY5U=
-X-Received: by 2002:a05:6402:1e90:b0:6a6:32f5:90b3 with SMTP id
- 4fb4d7f45d1cf-6a663b24942mr2593080a12.21.1788219129658; Mon, 31 Aug 2026
- 16:32:09 -0700 (PDT)
+	b=BqwSL8Y9QvsoIybchgXr6SUjZcK550Ma89hPYKjDRnI//v8B9t8VdKlxGUVEtuWtM
+	 GPSHMzHRkbFLT5aippmi3DoORpBtyvMWkGdzuLX2TkN1RkYr1Y18ecpsxP0a3/dDGQ
+	 E1qzzU55vAzNYtD19sGVLpbM1a/td1Akzm1xvtet9cmIQC6bOFLDtKH1WJl8knIVkK
+	 sgwGb3huydDXsJWPKxPYNkRFY1ebxs31WQSmIgMCkVUPuH0pcM9Bm5lNGgJUyXm2Fx
+	 0xS1iqKPSwQYqow7xHjb6LPbCTsHSOXakH4+bQAHcAQHEUpD+rZX0TzZQQnguaZKFn
+	 9Ry8kyeZLUGFg==
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6a6108734d5so6037560a12.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 16:34:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwJRcvhFncZPVbtwLz0egAspErVZu5+FFqpQGLb60zjVQoAXZXJWehaCK6v75JnkAzBcgqGhDMzn72Xj9I2@vger.kernel.org
+X-Gm-Message-State: AFuF++le8exCdNpm6qbY64tzSBRL+BJlteDegBf61NqamaETK33+DKSv
+	T/7AS7gHOnyU7mLpGQcJ6IEkje4tc4lre3cq0uiH3hgsW4TpMY9WrDwqihaGrwrJjINd86Wic0v
+	3tXcavh7nTOVSKMdeK4dmyTZ7i5D8ecQ=
+X-Received: by 2002:a05:6402:3245:b0:6a5:f44e:a009 with SMTP id
+ 4fb4d7f45d1cf-6a663a4a9dfmr2170192a12.7.1788219267560; Mon, 31 Aug 2026
+ 16:34:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260830041901.2668-1-willy@infradead.org> <20260830041901.2668-7-willy@infradead.org>
-In-Reply-To: <20260830041901.2668-7-willy@infradead.org>
+References: <20260830041901.2668-1-willy@infradead.org> <20260830041901.2668-6-willy@infradead.org>
+In-Reply-To: <20260830041901.2668-6-willy@infradead.org>
 From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 1 Sep 2026 08:31:57 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_zarKuogwNS=ZNDuyR4w_iB7yui+h+CqGvjZvzxPFpzw@mail.gmail.com>
-X-Gm-Features: AcwNN1UvF-7AQZoHjsPGrrmMkPeyVFXaEcU2n-gcV41YpQO_AYBnZepzQZ06-b8
-Message-ID: <CAKYAXd_zarKuogwNS=ZNDuyR4w_iB7yui+h+CqGvjZvzxPFpzw@mail.gmail.com>
-Subject: Re: [PATCH 6/9] ntfs: Remove redundant FGP_NOFS from ntfs_wof_collect_dest()
+Date: Tue, 1 Sep 2026 08:34:14 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8qgCe0Kt_Pmpd+228LP+hCtF2shmVqftazX1+xrSCkFQ@mail.gmail.com>
+X-Gm-Features: AcwNN1WHItk-3z0F1xUEgtAcqL_7gSvlVk8E7QxJwHtI0RZzvTtB9qGbIwZCYNg
+Message-ID: <CAKYAXd8qgCe0Kt_Pmpd+228LP+hCtF2shmVqftazX1+xrSCkFQ@mail.gmail.com>
+Subject: Re: [PATCH 5/9] ntfs: Remove FGP_NOFS from __ntfs_inode_resident_attr_pwrite()
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 Cc: Christian Brauner <christian@brauner.io>, Jan Kara <jack@suse.cz>, Gao Xiang <xiang@kernel.org>, 
 	Chao Yu <chao@kernel.org>, Theodore Tso <tytso@mit.edu>, Trond Myklebust <trondmy@kernel.org>, 
@@ -63,9 +63,13 @@ Content-Transfer-Encoding: quoted-printable
 On Sun, Aug 30, 2026 at 1:19=E2=80=AFPM Matthew Wilcox (Oracle)
 <willy@infradead.org> wrote:
 >
-> The flags already include FGP_NOWAIT which prohibits all reclaim, not
-> just reclaiming from the filesystem.  Use mapping_gfp_mask() instead of
-> GFP_NOFS as this will preserve flags like GFP_MOVABLE.
+> I do not believe that FGP_NOFS is needed here.  This function is called
+> from one place (ntfs_inode_attr_pwrite) which calls either this function
+> or __ntfs_inode_non_resident_attr_pwrite().  The latter function does not
+> use FGP_NOFS in its calls to allocate pagecaache memory, so it should not
+> be needed here either.  If it turns out to be needed by both functions,
+> then we should use memalloc_nofs_save at a higher level to protect both
+> of them.
 >
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 Reviewed-by: Namjae Jeon <linkinjeon@kernel.org>
