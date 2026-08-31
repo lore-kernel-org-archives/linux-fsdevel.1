@@ -1,78 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64153AF66E;
-	Mon, 31 Aug 2026 07:36:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE46A3BED7B;
+	Mon, 31 Aug 2026 07:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788161797; cv=none; b=Ch/UOEfI/gwcOlTqmbwrxE10kuyInfvh7xuyG22O5bjba9PQYZV7Oalf68EfvrNLQXqB6QVez2oIkKdis1eI/+WM0jKtnob48WtMtWabKaiHuNw58Gmo0DO3bJ6YdZxatYm1XbJcfm4IpMCx1cJZIKpwfVr5kWP5M6inMwemnJc=
+	t=1788161834; cv=none; b=jivWJsmf1K4QQhwnD5rWOBbeeURwIBsX/4bs9048SF/DmbHJjwEDM8DDnSlc1vVYrIS4rfk5rVSmaWmk2SY3XHJreeuQ5jlkISHYfwtZ2gnN6stMEyakMQHVnDENDx88OGP3RPtTymkuN9N7YlKES/MmpDzsUeXNMeZPNq8zCv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788161797; c=relaxed/simple;
-	bh=ElbhF3tyJA/Enm0JNhga0W5TLXrr9ilFgoBos/Jslc0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SHrj42g9eJVqKjmT+8klU//pPMMMKUlSRn5CxNS4MVgjjTOOlQFWXSw2OYzKxbeF++64JAwNqNyL2PwtxfHpTqaAbqOLBoKAo9NVN17qLN9F3kj2ckhCAwn7Hzn15LOsAyjE9bh7E4aZ/8x3LdwglCGK+TszlpxpS275olQGIHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HEkb69+k; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788161834; c=relaxed/simple;
+	bh=LB0C0brdyfnftVgvL1iqZUXGLUMFGwAHJqIPC8DcX4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T8aTJZRIqUdlO3NasExV2KKQs0iOZH/D/7tTG2UYzmuo1lkOy2X3mL8e6NnApVbb/lak1z6kph9EmbJPbvhhpUrTQHhUSOtA+hcZW0argv3w8GC4Nkt1nZAHTn1oO5kPRMNnCo6wX/ZFwUN9V7pcK5kZl5pNGhTJoLXvOjr8+us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SVQLYAuK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HEkb69+k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0F001F000E9;
-	Mon, 31 Aug 2026 07:36:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SVQLYAuK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4B171F000E9;
+	Mon, 31 Aug 2026 07:37:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788161796;
-	bh=vZDPoYaB8Oy7udBGcU3iIcudfXYybo8D1KGNiQgyBRc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=HEkb69+kgI52+rZUeaQkwkAGVOZb4ndF0Hge8dUGGj6BIAAEqKGnNQnkxYtBud3X2
-	 k09H0oVKqSm2nwSI4QFX/L4iXUsIX0mJnWThwjBchRWhakW+pQgQ0rxJKLvpWz9YPf
-	 RDMXZRvoCwvOlIA1mNPHuJ3gWSjgcdfd+APwKleBA2WuIQt3BBnj9CN6C8mqnGJSBJ
-	 FiP4J2PTYH856T0mggpdxvswRhnd/AACuZd6PHAEyRlwbGu+/JPtJsV8kBfG2elu6n
-	 K+Aevmh1aWpwaEgqwACZrv7IoeBN5OM+oVgS53NsDlVzujgU/Jc2o9mihLJFPQgtPn
-	 QOSB4/Zfk/uMg==
+	s=k20260515; t=1788161833;
+	bh=icIhn3Lxi6zoLKWYZDJZ7RgVfwGTSGo1Ir7IxXgMSIo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SVQLYAuKQkzbz49pHfPShD4N9CYVVzp9fPEJD7G8c10Aj3L6+RKrVq3H0IJg+GEzk
+	 Dl1aIHATZnnJeJP2W3gObOF/ha6+tf9UjpVQPpmR7fXHxfdsKvGIsqos5kBGW5iiNU
+	 3/6ul4pO3/zn8/3mOPTmub3E/pk6v8b6PF2f6S9sEZ5bFZswgwJwyEncUBRSCCFj6Y
+	 YPGYVQr11K+xCWmQN3ELcch0QcUQQovjJL55YIBGEJUvL/YckWVXIK5mlL+Ux4vdmN
+	 O+GcWs/24yljwhnuHt/zPofko/q4GOBi4Dx6cJmGD7bWiW0gghmn/jiReumtXudf1Y
+	 +mUnqsmG7M+Nw==
+Date: Mon, 31 Aug 2026 09:37:09 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: akpm@linux-foundation.org, Ahmet Eray Karadag <eraykrdg1@gmail.com>
-Cc: viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, skhan@linuxfoundation.org, 
- david.hunter.linux@gmail.com, 
- syzbot+1c70732df5fd4f0e4fbb@syzkaller.appspotmail.com
-In-Reply-To: <20251215031433.182205-2-eraykrdg1@gmail.com>
-References: <20251215031433.182205-2-eraykrdg1@gmail.com>
-Subject: Re: [PATCH v3] adfs: fix memory leak in sb->s_fs_info
-Message-Id: <20260831-entmachten-erfanden-sausen-b80dd3f2e2d3@brauner>
-Date: Mon, 31 Aug 2026 09:36:30 +0200
+To: hanzhijian <hanzhijian1991@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+1c70732df5fd4f0e4fbb@syzkaller.appspotmail.com
+Subject: Re: [PATCH] fs: fix s_fs_info leak when setup_bdev_super() fails
+Message-ID: <20260831-chinchilla-zugzwang-havarie-7ee3e8639da9@brauner>
+References: <20260822023918.2498361-1-hanzhijian1991@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=858; i=brauner@kernel.org;
- h=from:subject:message-id; bh=ElbhF3tyJA/Enm0JNhga0W5TLXrr9ilFgoBos/Jslc0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRN1Wfy+fHySXaNUm51w1IlSW2L+b2hPtmsjEuyHK9FK
- R6/L/qxo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCIVtxgZZj+aYR2hUbhseUaT
- gfpdpgArqXVB71hqz35g3TqtzCc5jZHh7obrR5uesPsINi/yZ7oj/KZ655zsgBLhmN7as/2Or4U
- 4AA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260822023918.2498361-1-hanzhijian1991@gmail.com>
 
-On Mon, 15 Dec 2025 06:14:34 +0300, Ahmet Eray Karadag wrote:
-> adfs: fix memory leak in sb->s_fs_info
+On Sat, Aug 22, 2026 at 10:39:18AM +0800, hanzhijian wrote:
+> get_tree_bdev_flags() hands fc->s_fs_info to the newly allocated
+> super block in sget_fc() and clears fc->s_fs_info.  If
+> setup_bdev_super() then fails (the block device cannot be opened, is
+> read-only, or is frozen), fill_super() is never called and sb->s_root
+> stays NULL.  The cleanup path calls deactivate_locked_super(), whose
+> generic_shutdown_super() skips the whole sb->s_root block -- including
+> the put_super() callback that would otherwise release s_fs_info --
+> leaking the allocation made by the filesystem's init_fs_context().
+> 
+> Hand s_fs_info back to the fs_context when setup_bdev_super() fails so
+> that put_fs_context() releases it through the filesystem's free()
+> callback.
+> 
+> Reported-by: syzbot+1c70732df5fd4f0e4fbb@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=1c70732df5fd4f0e4fbb
+> Signed-off-by: hanzhijian <hanzhijian1991@gmail.com>
+> ---
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] adfs: fix memory leak in sb->s_fs_info
-      https://git.kernel.org/vfs/vfs/c/b12e20c6ac15
-
+There's a fix for this in vfs.fixes. This is the wrong layer.
