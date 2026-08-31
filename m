@@ -1,543 +1,218 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDF2370AC6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 14:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788187704; cv=none; b=iZsUs5ut0F+ZPCn7IeZZ7I7mA3gdVvRCJ0U9oK1UEBvOB9jgIYeC52uICmv5yW3mgf8VCgtiCm5F24rZLkWZU78LQPhKh0hFcFTqPvF4BdviuDlMuwhMbR2L87cTds1tTCqzETWPS9vJeYDDVdJsi1CzVQtAg1412UFN/AwXkRs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788187704; c=relaxed/simple;
-	bh=79tKLagZL4/zQ9MvWhNJPMy5XQ0bzE9Y6V/g8GFOjbg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pD/zrNii3hzMOpUIVxQ/kWRN97aJohtCIPPVGWAVgpWcj8JtVNdBVTbpZMS8A0LwFabVmyJtw7hyVr/2rMbtOsnRld1FO801ma/L9qdUIGG2ak3khJF/fYiaZCWpXV/EHF7Xak+Zpx8CIdEd68i2tKsGDs4zdi6Y9W34fL4Pkn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nt0kFf0L; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AC939D6E9
+	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 14:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788188111; cv=pass; b=iQG7NhML0T0rI7eAXN5xrT6Mkz4+EcRuG7uVeDss/h0AdzVDfEmiis1TND1FAu+9ho9Fp64qcUw40m4MU+x3QDfqtZLp536Qi6aeLiRjNISLjXa9VESFo9mKsoOkbn08wvUAmceFek8CH2Co1mZjADcrvXZqD4x1+SQlOeBY3b4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788188111; c=relaxed/simple;
+	bh=xY7PzJAuFl926gP7M2esENWf67rjFL/VYhM4pp0oYZg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OC3ED9qjfh5i8b69kK0Ae4wwCjdPG/0AypNZZppYE1vWX5IDgQhrFdXwHgGc2TVBJgFD9H/UECXGQbprODlhXGKimzo+d9IaCM/42cv/11DkSwH6Ypd7TrrMvUk3p0mmUYbuWPPkwPyXbISVc/a8t1VWacuelBu6Mg0FIk38PxI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M3qLFVy4; arc=pass smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nt0kFf0L"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-398b3c37877so2227369a91.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 07:48:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M3qLFVy4"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a60f0dbeccso4662860a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 07:55:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788188107; cv=none;
+        d=google.com; s=arc-20260327;
+        b=r4T5hi9N+fPniyCzNl3kMjKUQyCECikXfpQnpJrOOvgXd6Q7YLiRS0xNAsUf0xieGp
+         f//SWKsyTHUIhcTn1ljmyHAkcZtaEdVAAvVVnEromrEAGeh0dZ65OYTy8RO3/RKdZP4p
+         htp2l98+zbaa06wXzV6Z1iyiC6Op8ZMzSM1ZDTs7nGZsVJ4VLUkHP51AjCETZVSUv1lX
+         d8nN5JbUWyJ8EJ5d0X7Bx0xfVHTidkx/yuXXOWmPD3DMN3uz3VqFr0zvnqsnFYqNjGsK
+         MpXqwMSQjH0PvXJuowptXScvCedT1gIRfHRNC0YFneYJSR438j7KANva+JaLBjW1Ql0e
+         GdKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=o8pw78oMi9uY1RnWmqztihIod3VWCHkHOIfZPGYQtiA=;
+        fh=8yx//o75+l+vFP+VcL59QYpcqaPndffO48Os8OM6Q9k=;
+        b=rsoWpSg3rLqhjiQPfZKcd4MkZLbNujIzttcAOAe63dDsJpVEnn7xg8L4FI7ufwFdoy
+         lkybL68CHVGVc3Ua+ItZAd+bhvO1GO5q54AdrpIBMLtOmDEaFlOtJvx54C1/kTmvGQeU
+         DQxTAPb7B9dpXLXnAa4oyBdzRAd2gY407LczVYnwwzYPgHQiYYW7Gor87pOawuHX6nhF
+         yiMMO5TNl8PgujcywCxJ0M3SuyE7NsjKNvzHSjWibRL/2i7nH1n++TX/cmXocYk0wmYg
+         3a98dBP9kj1ObCz9iOY+8k0o6/E9tdK/mV+dIXn01J0dgelEOmaKAdAteKVwjdOuVtnh
+         Nr4Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788187701; x=1788792501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nLBFaOw5rBPEXGIynLprIaDxxGVdejZOMUhGd6mXZSU=;
-        b=Nt0kFf0LxyxxFA/qBM71TgTafYDMZRFEC0m6uSW6yVxWpeoEK7Yj0Dk7osnP5Xw8sI
-         FBEThmGSx9cUIqs+IFB+ILTSpR2v+203Y96LlOPTxEnOc7dm8y0qAqJ5PsSXvZHrDlT7
-         r9oOqgQL+KM8pA3VsyRLPdSQvPmgKPdqz4W/+MUJLWWfmmNxMfFkcEJS74eE2Twv9OcK
-         /jnEzzu9yuTs15jN0KuCVemx11f/sE8tDgpvQilbPFEQ6mACq5nalMUwY5OLlThnCllY
-         Tu1DOaVOfA17iqcLIsZoQvlCov2OFc94kuzHEnxfFz7EB96o6m7rhD91L/1AmmYHhZvi
-         IWbQ==
+        d=gmail.com; s=20251104; t=1788188107; x=1788792907; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=o8pw78oMi9uY1RnWmqztihIod3VWCHkHOIfZPGYQtiA=;
+        b=M3qLFVy4uPXuP55qv4JPXLBrGKvUHbq3bqWz+SC9PY+jbA4k08d/DfMLOEOjqotBOk
+         v844+/fS8Ln1x8XiJYtqHtTgnCJ7kCeaAG6Kns+hm0lwkWiNFRVEXTRQBPMQXAGMLGDP
+         qbFymvrWMRuXRnkvrt0nkxxYIXUvabBhfuR88bMDCHoV+4Cj9bRURtxzapkGaGBrZxK/
+         xafe8WUvyKWw0XnBNzlnCbB0N+S0r3gKPp+PvotPKeKJogFCmCkhCdKeEqUCyIFbEVL3
+         ObgK3xrzKWX38sPp/Hk243YZuJnqofUOcP/h9smsEMOaarrEUKxQGIDRSrA/KM7b99XX
+         k4Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788187701; x=1788792501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nLBFaOw5rBPEXGIynLprIaDxxGVdejZOMUhGd6mXZSU=;
-        b=DJXv9VPFp02XuCAYmvuZyEj/OUfYgvTO1KETqtsSAokTVV8ee/TY+JFYbKkjLTRJZ/
-         /f4EMlD3r+o4YBcR5nRperL3VLMzlo+DFBckEdULLCHHauGFzAEg7QUJCCIebRYhr4nE
-         dKRNY+Z9znhW0qEYmyAg05XOGZ8kixdf1SyEUEwPHzpqwe85sOSTWp3kP5S+jtHc61Ut
-         0pjI0EIAE5jFXQhYKtrnP20N+4XTniieAGpqTdl0uBNjprREXoCWLh8iU6t6TarFYUDS
-         Fnuxm0L9RDX/Dv9vJqTv9XKlmXk38+MNrRVxgw/ib0oQpHBDO1VZV7OHzU0EpeBt63dJ
-         sJQg==
-X-Gm-Message-State: AFuF++l9EM14SbMFz8DJYrZ1FcQ8R3OOFrcpamu9sMS3N3YXjFZUlEgo
-	03GWan9R+cexVgUY36F+S/n5X7VsAjTKsf1KmgUSteA3r+Sj05Vz7qJs
-X-Gm-Gg: AYBFou2LICe+nJlfD9fnzWTKsF+odxTF/jxVB/IkmXIZhTXc6CUNtLQBXjaSoeQQB9y
-	8uifdWvhjWee7en1NeOM/iwS+kkUXroqS2fo+50/JmeD6vQIam7SPou+bxRL/l5x4VEWWo2HMzW
-	/mbA867pK9h+CtQRoGEYtmSVggYxUgRwdGNxMF8cujMXAdM3DstMakMYFA7L5OyzoJym7Olg96B
-	mhiLUrVy63rmrs6uik68X+LD2KffuLD39eZWoZbL2Qv7eZQFhGkSNHgG65oi1+yM58W8EunKTjY
-	MjH/sT7yYg0ya70Q2uvJjr0CFXrjXDTkM/mCraGZ1Ia/phG9mMVgCTtUSc0Wq4O252oi6IrYqGQ
-	C70I5Ld7u3dYh+MnUPjWdCuCUBDtRFEAy45+tsLtQAV8k2li1il/0ETy9gBQyf48XCLCO3s1acv
-	nkFm7MGulHvzxrbWGtdInd7xb51Ny01dBnUGWb69eeuIERSgkEseOulUXaDtSZSrQEdAjU9YQ=
-X-Received: by 2002:a17:90b:4b05:b0:381:cef1:11ac with SMTP id 98e67ed59e1d1-396d0fe2140mr40318589a91.10.1788187701005;
-        Mon, 31 Aug 2026 07:48:21 -0700 (PDT)
-Received: from thefless.. ([2405:4802:f7aa:a4d0:1ef4:f6f7:1076:de13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396d29af238sm5319976a91.1.2026.08.31.07.48.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 07:48:20 -0700 (PDT)
-From: Vu Nguyen Anh Khoa <khoavna.tin.2225@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	shuah@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vu Nguyen Anh Khoa <khoavna.tin.2225@gmail.com>
-Subject: [PATCH] signalfd: wake shared signalfd waiters after mask updates
-Date: Mon, 31 Aug 2026 21:44:52 +0700
-Message-ID: <20260831144452.116915-1-khoavna.tin.2225@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1788188107; x=1788792907;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=o8pw78oMi9uY1RnWmqztihIod3VWCHkHOIfZPGYQtiA=;
+        b=B83wpE6487/PwZLPHI7RWO2ITRyOhODdfl4JD4OXTGN+QYHzU4+9cskujzszqYhiuH
+         dCy46Y5K2WJ8/DeflHmMpUYm2SB29oW4rueKvrnUF5EMpzcv+oesafrELvP9103jh1D0
+         Sm73cYOk1k9RtlI5YTry5R++MgiQFr55d6TZuNP5gwSEfTbGEMwo2pp0SqhxvDsOr2CF
+         mMtAjgeGGGwThJh45K99oUlRFVn0rDPgxiVHNOPsp6d+FmQ76lOFCnhhEhzwdb5xY45w
+         Vjm5I9VtlUjyu9Mxqhflm3WajddNdoLkX8v57gGJ3xhKb/v3W3f41dE68vD8uG204ZvJ
+         XDcQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx7NufFwsKsGRuG14OKd1FVk3s9MbPnqwXhEQgiT/8HzO0hvMZlMhvKNCIx2RkSfTdH+Cp01DrlZgRNPmSr@vger.kernel.org
+X-Gm-Message-State: AFuF++mnqnbpTd2I2/wiyJ/EVS/dKUe5lTRgzdvrEEy5f8zu7bd8+bqA
+	OH5Rj7pxVp8u2rXW/BP78jYBcrQfRXKeYh7F8RnGt9aSMsG5XB+5KR+IRUE0wVD74AC3bD4u5C9
+	kr0Xsvefy87wup5RSDXZWmBthpIGIUYY=
+X-Gm-Gg: AYBFou0IYJ065j1+t7q+zR7+FDys6soDjajvBxcsHzSKMmCcyGgOt8lNOWzd1YRn1fc
+	L4r3FXclV1R2SeA+LxP4F+Sa9D+jadL8351Sk+rECMxQQOVIKTkScqa6Evi3WyjkxbOMh+1SL2L
+	0HOmHVnIG400kKwX11nuRifaydMWs2pcZkSCTxV+oYRrej0EafCWASdGQ5Q/XG6huvWDhOEemnG
+	F1zSxnloqQ73IB0LchuUpwSSkACK7+BiMikf4BGBpwKULTjLvT5HTl5xVvJ2kUfM3x8R155JG49
+	uH6RGdVg/g61r8hbJnU8E+8J7/QvSAQ9dhDCTvqp07dmiNkA+jFzTgoG
+X-Received: by 2002:a05:6402:4586:b0:6a5:d907:7703 with SMTP id
+ 4fb4d7f45d1cf-6a60d3d5a52mr16807888a12.14.1788188107151; Mon, 31 Aug 2026
+ 07:55:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260827045007.3831259-1-4ncienth@gmail.com> <yjfqzckumtd32dgqidi5sndvth2t67mjwah4kt4jiahlx2a5uf@if55sinfv5o7>
+ <20260828042421.964822-1-4ncienth@gmail.com> <ptco7s5x7tjzp42dzlsitibdigpwucl2whwrq37tknjpo7x2lc@b7q27ldlorak>
+ <CAOQ4uxgB9anyJcWem04w65VCJdxbbb2cQDZ_u8qMusw3xpB9Gw@mail.gmail.com>
+ <63aj7jbfaoamdmcurlge2c2kqpliaifgq4vbythrrxpfyr5vtm@z64myom426zd>
+ <CAOQ4uxh-NZ76hEFoNNGjyhodr9U=dvZuGVmYHVPGZ_=jRxCAsA@mail.gmail.com> <67hq7zqnvp6onwwjp24axucgxbzsko2dphielupdfzmfyk6x57@bdeef7fjkqfa>
+In-Reply-To: <67hq7zqnvp6onwwjp24axucgxbzsko2dphielupdfzmfyk6x57@bdeef7fjkqfa>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 31 Aug 2026 16:54:55 +0200
+X-Gm-Features: AcwNN1VUPugjGbqI4B0wT9HaChvwtiMplXNGta4vMaUOc8DwPfjODDDmdmwDO_I
+Message-ID: <CAOQ4uxiQF4M_YSBMW3h8VCKR15GV6g_K5nf=2odtYetEwKHm9A@mail.gmail.com>
+Subject: Re: [BUG] fanotify: destroy/add race leaves a mark on a detached connector
+To: Jan Kara <jack@suse.cz>
+Cc: Daehyeon Ko <4ncienth@gmail.com>, Miklos Szeredi <mszeredi@redhat.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-signalfd stores its mask in the shared signalfd_ctx attached to the
-open file description, but do_signalfd4() only wakes the caller's
-signalfd_wqh after updating that shared mask.
+On Mon, Aug 31, 2026 at 1:39=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+>
+> On Sat 29-08-26 17:04:19, Amir Goldstein wrote:
+> > On Fri, Aug 28, 2026 at 7:36=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+> > > > > Now there's the question about the best fix for the problem. I've=
+ realized
+> > > > > we cannot just remove the call to fsnotify_inode_delete() from th=
+e place
+> > > > > where fsnotify_inoderemove() is called (and rely on the call from
+> > > > > __destroy_inode()) because the connector holds inode reference an=
+d so
+> > > > > __destroy_inode() would never get called. Hrm, this is a hairy is=
+sue and so
+> > > > > far I don't see a good place to reliably trigger detaching of con=
+nector
+> > > > > from the inode. One reliable place would be iput() but that's rea=
+lly ugly
+> > > > > and would slow down every iput() user. The cleanest solution I ca=
+n
+> > > > > currently see is to stop holding inode reference from a connector=
+ as I've
+> > > > > proposed in the past. Then we can reliably perform the cleanup in
+> > > > > __destroy_inode(). But that will be a rather non-trivial undertak=
+ing. Amir,
+> > > > > do you see some other option?
+> > > >
+> > > > What about the option I proposed to live with the orphan marks
+> > > > Is it so bad? I mean it's confusing and removing the assertion coul=
+d
+> > > > hide real bugs/races, but maybe it's worth not complicating the cod=
+e
+> > > > until we move forward to re-attachable marks.
+> > >
+> > > I'm not so much worried about the case when placing of the mark races=
+ with
+> > > unlink. There I agree we can somehow paper over the problem for now. =
+What
+> > > I'm more worried about is the case where someone places a precontent =
+/
+> > > permission mark on the inode and a malicious user does hardlink + ope=
+n +
+> > > unlink trick and after unlinking the original link to the inode, he h=
+as an
+> > > open fd to the inode stripped of any notification marks which I'd say
+> > > violates the promise of precontent / permission marks.
+> >
+> > I see. so we need a point where there are no more hardlinks and no more
+> > dentry aliases to the inode.
+> >
+> > How about we check for this condition?
+> >
+> > --- a/fs/dcache.c
+> > +++ b/fs/dcache.c
+> > @@ -471,7 +471,7 @@ static void dentry_unlink_inode(struct dentry * den=
+try)
+> >         raw_write_seqcount_end(&dentry->d_seq);
+> >         spin_unlock(&dentry->d_lock);
+> >         spin_unlock(&inode->i_lock);
+> > -       if (!inode->i_nlink)
+> > +       if (!inode->i_nlink && hlist_empty(&inode->i_dentry))
+> >                 fsnotify_inoderemove(inode);
+>
+> This looks like an intriguing idea. But I think it still has a hole. Unti=
+l
+> the last inode reference is put, open_by_handle() can still get you a new
+> dentry and an open file pointing to that inode.
 
-If a signalfd file description is shared across fork(), another task
-can block in read() or poll() with an old mask while a signal that does
-not match that old mask is already pending. When the parent later
-reconfigures the shared signalfd to a new mask that does match the
-pending signal, the child can remain asleep indefinitely because the
-reconfiguration never wakes the child's waitqueue.
+Maybe we can close this hole, because whether open_by_handle()
+should or should not succeed in this case is not well defined,
+We can make it defined.
+Something like this?
+NFS should have a sillyrenamed link to avoid undefined behavior
+around unlinked open files.
 
-At the same time, ctx->sigmask is shared file state, but it is read and
-written under per-task sighand locks, which does not serialize
-cross-process access to the shared file description.
+Thanks,
+Amir.
 
-Restore file-scoped synchronization for file-scoped state by adding a
-lock and waitqueue to signalfd_ctx. Make readers and pollers wait on the
-file-local waitqueue for mask updates while continuing to use the local
-signalfd_wqh for signal delivery. Protect ctx->sigmask with the
-file-local lock and wake the file-local waitqueue after reconfiguration.
-
-Add a selftest which reproduces the missed wakeup with a shared
-signalfd inherited across fork().
-
-Fixes: b8fceee17a31 ("signalfd simplification")
-Assisted-by: LLM (Codex, GPT-5)
-Signed-off-by: Vu Nguyen Anh Khoa <khoavna.tin.2225@gmail.com>
----
- fs/signalfd.c                                 |  45 ++-
- tools/testing/selftests/signal/.gitignore     |   1 +
- tools/testing/selftests/signal/Makefile       |   2 +-
- .../selftests/signal/signalfd_mask_wake.c     | 266 ++++++++++++++++++
- 4 files changed, 302 insertions(+), 12 deletions(-)
- create mode 100644 tools/testing/selftests/signal/signalfd_mask_wake.c
-
-diff --git a/fs/signalfd.c b/fs/signalfd.c
-index dff53745e352..523c3a6dc565 100644
---- a/fs/signalfd.c
-+++ b/fs/signalfd.c
-@@ -27,6 +27,7 @@
- #include <linux/kernel.h>
- #include <linux/signal.h>
- #include <linux/list.h>
-+#include <linux/rcupdate.h>
- #include <linux/anon_inodes.h>
- #include <linux/signalfd.h>
- #include <linux/syscalls.h>
-@@ -39,12 +40,19 @@ void signalfd_cleanup(struct sighand_struct *sighand)
- }
- 
- struct signalfd_ctx {
-+	/* Serializes shared mask updates with file-local waiter wakeups. */
-+	spinlock_t lock;
-+	wait_queue_head_t wqh;
-+	struct rcu_head rcu;
- 	sigset_t sigmask;
- };
- 
- static int signalfd_release(struct inode *inode, struct file *file)
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -459,6 +459,7 @@ static void dentry_unlink_inode(struct dentry * dentry)
+        __releases(dentry->d_inode->i_lock)
  {
--	kfree(file->private_data);
-+	struct signalfd_ctx *ctx = file->private_data;
-+
-+	wake_up_pollfree(&ctx->wqh);
-+	kfree_rcu(ctx, rcu);
- 	return 0;
- }
- 
-@@ -53,14 +61,17 @@ static __poll_t signalfd_poll(struct file *file, poll_table *wait)
- 	struct signalfd_ctx *ctx = file->private_data;
- 	__poll_t events = 0;
- 
-+	poll_wait(file, &ctx->wqh, wait);
- 	poll_wait(file, &current->sighand->signalfd_wqh, wait);
- 
--	spin_lock_irq(&current->sighand->siglock);
-+	spin_lock_irq(&ctx->lock);
-+	spin_lock(&current->sighand->siglock);
- 	if (next_signal(&current->pending, &ctx->sigmask) ||
- 	    next_signal(&current->signal->shared_pending,
- 			&ctx->sigmask))
- 		events |= EPOLLIN;
--	spin_unlock_irq(&current->sighand->siglock);
-+	spin_unlock(&current->sighand->siglock);
-+	spin_unlock_irq(&ctx->lock);
- 
- 	return events;
- }
-@@ -157,8 +168,10 @@ static ssize_t signalfd_dequeue(struct signalfd_ctx *ctx, kernel_siginfo_t *info
- 	enum pid_type type;
- 	ssize_t ret;
- 	DECLARE_WAITQUEUE(wait, current);
-+	DECLARE_WAITQUEUE(ctx_wait, current);
- 
--	spin_lock_irq(&current->sighand->siglock);
-+	spin_lock_irq(&ctx->lock);
-+	spin_lock(&current->sighand->siglock);
- 	ret = dequeue_signal(&ctx->sigmask, info, &type);
- 	switch (ret) {
- 	case 0:
-@@ -167,10 +180,12 @@ static ssize_t signalfd_dequeue(struct signalfd_ctx *ctx, kernel_siginfo_t *info
- 		ret = -EAGAIN;
- 		fallthrough;
- 	default:
--		spin_unlock_irq(&current->sighand->siglock);
-+		spin_unlock(&current->sighand->siglock);
-+		spin_unlock_irq(&ctx->lock);
- 		return ret;
- 	}
- 
-+	add_wait_queue(&ctx->wqh, &ctx_wait);
- 	add_wait_queue(&current->sighand->signalfd_wqh, &wait);
- 	for (;;) {
- 		set_current_state(TASK_INTERRUPTIBLE);
-@@ -181,13 +196,17 @@ static ssize_t signalfd_dequeue(struct signalfd_ctx *ctx, kernel_siginfo_t *info
- 			ret = -ERESTARTSYS;
- 			break;
- 		}
--		spin_unlock_irq(&current->sighand->siglock);
-+		spin_unlock(&current->sighand->siglock);
-+		spin_unlock_irq(&ctx->lock);
- 		schedule();
--		spin_lock_irq(&current->sighand->siglock);
-+		spin_lock_irq(&ctx->lock);
-+		spin_lock(&current->sighand->siglock);
- 	}
--	spin_unlock_irq(&current->sighand->siglock);
-+	spin_unlock(&current->sighand->siglock);
-+	spin_unlock_irq(&ctx->lock);
- 
- 	remove_wait_queue(&current->sighand->signalfd_wqh, &wait);
-+	remove_wait_queue(&ctx->wqh, &ctx_wait);
- 	__set_current_state(TASK_RUNNING);
- 
- 	return ret;
-@@ -232,7 +251,9 @@ static void signalfd_show_fdinfo(struct seq_file *m, struct file *f)
- 	struct signalfd_ctx *ctx = f->private_data;
- 	sigset_t sigmask;
- 
-+	spin_lock_irq(&ctx->lock);
- 	sigmask = ctx->sigmask;
-+	spin_unlock_irq(&ctx->lock);
- 	signotset(&sigmask);
- 	render_sigset_t(m, "sigmask:\t", &sigmask);
- }
-@@ -268,6 +289,8 @@ static int do_signalfd4(int ufd, sigset_t *mask, int flags)
- 		if (!ctx)
- 			return -ENOMEM;
- 
-+		spin_lock_init(&ctx->lock);
-+		init_waitqueue_head(&ctx->wqh);
- 		ctx->sigmask = *mask;
- 
- 		fd = FD_ADD(flags & O_CLOEXEC,
-@@ -286,11 +309,11 @@ static int do_signalfd4(int ufd, sigset_t *mask, int flags)
- 		ctx = fd_file(f)->private_data;
- 		if (fd_file(f)->f_op != &signalfd_fops)
- 			return -EINVAL;
--		spin_lock_irq(&current->sighand->siglock);
-+		spin_lock_irq(&ctx->lock);
- 		ctx->sigmask = *mask;
--		spin_unlock_irq(&current->sighand->siglock);
-+		spin_unlock_irq(&ctx->lock);
- 
--		wake_up(&current->sighand->signalfd_wqh);
-+		wake_up(&ctx->wqh);
- 	}
- 
- 	return ufd;
-diff --git a/tools/testing/selftests/signal/.gitignore b/tools/testing/selftests/signal/.gitignore
-index 3f339865a3b6..5cac532d49ae 100644
---- a/tools/testing/selftests/signal/.gitignore
-+++ b/tools/testing/selftests/signal/.gitignore
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- mangle_uc_sigmask
- sas
-+signalfd_mask_wake
-diff --git a/tools/testing/selftests/signal/Makefile b/tools/testing/selftests/signal/Makefile
-index e0bf7058d19c..00f1e96c92c4 100644
---- a/tools/testing/selftests/signal/Makefile
-+++ b/tools/testing/selftests/signal/Makefile
-@@ -2,6 +2,6 @@
- CFLAGS = -Wall
- TEST_GEN_PROGS = mangle_uc_sigmask
- TEST_GEN_PROGS += sas
-+TEST_GEN_PROGS += signalfd_mask_wake
- 
- include ../lib.mk
--
-diff --git a/tools/testing/selftests/signal/signalfd_mask_wake.c b/tools/testing/selftests/signal/signalfd_mask_wake.c
-new file mode 100644
-index 000000000000..3e60424b9ec9
---- /dev/null
-+++ b/tools/testing/selftests/signal/signalfd_mask_wake.c
-@@ -0,0 +1,266 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#define _GNU_SOURCE
-+
-+#include <errno.h>
-+#include <poll.h>
-+#include <signal.h>
-+#include <stdbool.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/signalfd.h>
-+#include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+
-+#include "kselftest.h"
-+
-+static int write_all(int fd, const void *buf, size_t len)
-+{
-+	const char *ptr = buf;
-+
-+	while (len) {
-+		ssize_t ret = write(fd, ptr, len);
-+
-+		if (ret < 0) {
-+			if (errno == EINTR)
-+				continue;
-+			return -1;
-+		}
-+
-+		ptr += ret;
-+		len -= ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int read_all(int fd, void *buf, size_t len)
-+{
-+	char *ptr = buf;
-+
-+	while (len) {
-+		ssize_t ret = read(fd, ptr, len);
-+
-+		if (ret < 0) {
-+			if (errno == EINTR)
-+				continue;
-+			return -1;
-+		}
-+		if (ret == 0)
-+			return -1;
-+
-+		ptr += ret;
-+		len -= ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void kill_and_reap(pid_t pid)
-+{
-+	int status;
-+
-+	if (pid <= 0)
-+		return;
-+
-+	kill(pid, SIGKILL);
-+	waitpid(pid, &status, 0);
-+}
-+
-+static int wait_result(int fd, int timeout_ms)
-+{
-+	struct pollfd pfd = {
-+		.fd = fd,
-+		.events = POLLIN,
-+	};
-+	int ret;
-+
-+	do {
-+		ret = poll(&pfd, 1, timeout_ms);
-+	} while (ret < 0 && errno == EINTR);
-+
-+	return ret;
-+}
-+
-+static int child_in_signalfd_read(pid_t pid, int sfd)
-+{
-+	char path[64];
-+	char buf[256];
-+	long nr;
-+	unsigned long arg0;
-+	FILE *fp;
-+	int in_read = 0;
-+
-+	snprintf(path, sizeof(path), "/proc/%d/syscall", pid);
-+	fp = fopen(path, "r");
-+	if (!fp) {
-+		if (errno == ENOENT)
-+			return -1;
-+		return 0;
-+	}
-+
-+	if (fgets(buf, sizeof(buf), fp) &&
-+	    sscanf(buf, "%ld %lx", &nr, &arg0) == 2 &&
-+	    nr == __NR_read && arg0 == (unsigned long)sfd)
-+		in_read = 1;
-+
-+	fclose(fp);
-+	return in_read;
-+}
-+
-+static int wait_for_child_block(pid_t pid, int sfd, int timeout_ms)
-+{
-+	int waited_ms = 0;
-+	int ret;
-+
-+	while (waited_ms < timeout_ms) {
-+		ret = child_in_signalfd_read(pid, sfd);
-+		if (ret < 0)
-+			return ret;
-+		if (ret > 0) {
-+			usleep(10000);
-+			return 0;
-+		}
-+
-+		usleep(1000);
-+		waited_ms++;
-+	}
-+
-+	return -1;
-+}
-+
-+int main(void)
-+{
-+	struct signalfd_siginfo fdsi;
-+	sigset_t blocked, initial_mask, updated_mask;
-+	int ready_pipe[2], start_pipe[2], result_pipe[2];
-+	int sfd, signo, status;
-+	pid_t child;
-+	char ready, start;
-+
-+	ksft_print_header();
-+	ksft_set_plan(1);
-+
-+	sigemptyset(&blocked);
-+	sigaddset(&blocked, SIGUSR1);
-+	sigaddset(&blocked, SIGUSR2);
-+	if (sigprocmask(SIG_BLOCK, &blocked, NULL))
-+		ksft_exit_fail_perror("sigprocmask");
-+
-+	sigemptyset(&initial_mask);
-+	sigaddset(&initial_mask, SIGUSR1);
-+	sfd = signalfd(-1, &initial_mask, 0);
-+	if (sfd < 0)
-+		ksft_exit_fail_perror("signalfd");
-+
-+	if (pipe(ready_pipe))
-+		ksft_exit_fail_perror("pipe(ready)");
-+	if (pipe(start_pipe))
-+		ksft_exit_fail_perror("pipe(start)");
-+	if (pipe(result_pipe))
-+		ksft_exit_fail_perror("pipe(result)");
-+
-+	child = fork();
-+	if (child < 0)
-+		ksft_exit_fail_perror("fork");
-+
-+	if (child == 0) {
-+		close(ready_pipe[0]);
-+		close(start_pipe[1]);
-+		close(result_pipe[0]);
-+
-+		ready = 'R';
-+		if (write_all(ready_pipe[1], &ready, sizeof(ready)))
-+			_exit(EXIT_FAILURE);
-+
-+		if (read_all(start_pipe[0], &start, sizeof(start)))
-+			_exit(EXIT_FAILURE);
-+
-+		memset(&fdsi, 0, sizeof(fdsi));
-+		if (read_all(sfd, &fdsi, sizeof(fdsi)))
-+			_exit(EXIT_FAILURE);
-+
-+		signo = fdsi.ssi_signo;
-+		if (write_all(result_pipe[1], &signo, sizeof(signo)))
-+			_exit(EXIT_FAILURE);
-+
-+		_exit(EXIT_SUCCESS);
-+	}
-+
-+	close(ready_pipe[1]);
-+	close(start_pipe[0]);
-+	close(result_pipe[1]);
-+
-+	if (read_all(ready_pipe[0], &ready, sizeof(ready))) {
-+		kill_and_reap(child);
-+		ksft_exit_fail_msg("child did not reach blocking read\n");
-+	}
-+
-+	if (kill(child, SIGUSR2)) {
-+		kill_and_reap(child);
-+		ksft_exit_fail_perror("kill(SIGUSR2)");
-+	}
-+
-+	start = 'S';
-+	if (write_all(start_pipe[1], &start, sizeof(start))) {
-+		kill_and_reap(child);
-+		ksft_exit_fail_msg("could not release child into signalfd read\n");
-+	}
-+
-+	status = wait_for_child_block(child, sfd, 1000);
-+	if (status < 0) {
-+		kill_and_reap(child);
-+		if (status == -1)
-+			ksft_exit_skip("/proc/<pid>/syscall is unavailable\n");
-+		ksft_exit_fail_msg("child did not block in signalfd read\n");
-+	}
-+
-+	sigemptyset(&updated_mask);
-+	sigaddset(&updated_mask, SIGUSR2);
-+	if (signalfd(sfd, &updated_mask, 0) < 0) {
-+		kill_and_reap(child);
-+		ksft_exit_fail_perror("signalfd(reconfigure)");
-+	}
-+
-+	if (wait_result(result_pipe[0], 1000) == 1) {
-+		if (read_all(result_pipe[0], &signo, sizeof(signo))) {
-+			kill_and_reap(child);
-+			ksft_exit_fail_msg("child wakeup did not carry a signal\n");
-+		}
-+
-+		if (waitpid(child, &status, 0) != child) {
-+			kill_and_reap(child);
-+			ksft_exit_fail_perror("waitpid");
-+		}
-+		ksft_test_result(signo == SIGUSR2 && WIFEXITED(status) &&
-+				 WEXITSTATUS(status) == 0,
-+				 "shared signalfd wakeup after mask update\n");
-+		ksft_exit_pass();
-+	}
-+
-+	/*
-+	 * Buggy kernels leave the child asleep until an unrelated signal hits
-+	 * the child's signalfd waitqueue. SIGUSR1 does not match the updated
-+	 * signalfd mask, so a successful read of SIGUSR2 after this nudge
-+	 * demonstrates the missed wakeup.
-+	 */
-+	if (kill(child, SIGUSR1)) {
-+		kill_and_reap(child);
-+		ksft_exit_fail_perror("kill(SIGUSR1)");
-+	}
-+
-+	if (wait_result(result_pipe[0], 1000) == 1 &&
-+	    !read_all(result_pipe[0], &signo, sizeof(signo)) &&
-+	    waitpid(child, &status, 0) == child &&
-+	    signo == SIGUSR2 && WIFEXITED(status) && WEXITSTATUS(status) == 0) {
-+		ksft_test_result_fail("mask update missed a shared signalfd waiter\n");
-+		ksft_print_msg("child woke only after an unrelated SIGUSR1\n");
-+		ksft_exit_fail();
-+	}
-+
-+	kill_and_reap(child);
-+	ksft_exit_fail_msg("child remained blocked after signalfd reconfiguration\n");
-+}
--- 
-2.43.0
+        struct inode *inode =3D dentry->d_inode;
++       bool dead;
 
+        raw_write_seqcount_begin(&dentry->d_seq);
+        __d_clear_type_and_inode(dentry);
+@@ -469,9 +470,12 @@ static void dentry_unlink_inode(struct dentry * dentry=
+)
+         */
+        dentry->waiters =3D NULL;
+        raw_write_seqcount_end(&dentry->d_seq);
++       dead =3D !inode->i_nlink && hlist_empty(&inode->i_dentry);
++       if (dead)
++               inode->i_state |=3D I_ZOMBIE;
+        spin_unlock(&dentry->d_lock);
+        spin_unlock(&inode->i_lock);
+-       if (!inode->i_nlink)
++       if (dead)
+                fsnotify_inoderemove(inode);
+        if (dentry->d_op && dentry->d_op->d_iput)
+                dentry->d_op->d_iput(dentry, inode);
+@@ -2244,6 +2248,12 @@ static struct dentry *__d_obtain_alias(struct
+inode *inode, bool disconnected)
+
+        security_d_instantiate(new, inode);
+        spin_lock(&inode->i_lock);
++       if (inode->i_state & I_ZOMBIE) {
++               spin_unlock(&inode->i_lock);
++               dput(new);
++               iput(inode);
++               return ERR_PTR(-ESTALE);
++       }
+        res =3D __d_find_any_alias(inode); /* recheck under lock */
+        if (likely(!res)) { /* still no alias, attach a disconnected dentry=
+ */
+                unsigned add_flags =3D d_flags_for_inode(inode);
