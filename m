@@ -1,239 +1,263 @@
-Received: from mail-oi2-f3.google.com (mail-oi2-f3.google.com [74.125.231.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D15337CD5A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 19:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA68C377AAD;
+	Mon, 31 Aug 2026 20:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788205353; cv=none; b=aI8gCe8dyozKq7C6VbQY2CGow+d4c5ktP2ZYBE7rAZdYiFL01f8R0JzbFrjgXSfvrFafUzyA9Kwjc1KU0R6eBh3iYKjrBcdmBZ2HidgOeV5kIWmYAgVgTQL3STSR0Op1FlxsVUSosWAWJGIaYeWIqzQgK2vMXft60yZNGtTmnZA=
+	t=1788207910; cv=none; b=lETL+ya1jHiXezhI69k2SBADVSC9rp8060Bwj8oVIxbN0oycBwK/bW5aOMPtr/lmgp/0V3a3Mfq6WJG/K6MMUkKuu/XWcfRiNOjG0Pswf/B/YE+Rqghx0q2yekphRpS9NWMycL+9uXHFB95jToajHsYC90D6niKa3b92rP5GldY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788205353; c=relaxed/simple;
-	bh=6FPriQiQSelGQ46tFScol6zEgsWejLFkDOyWUJTnayk=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=IicwYb9eDTAZ6D1AjSN74iYmnVvT1TEtuYgcriO2u5J7ehWrOdkz9qLw6OYIryrh2qbdg0Drc2nquN9/zUuLvC17X3rHrZnsbc3XsSZuG9PgL0WwxXkDjBcNIc1zwHfc/4xez+qj2yFiCiY3FdQa5ifnTNqjaG6No+zHedqjF00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f3.google.com with SMTP id 5614622812f47-4b38a6e8c79so16458b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 12:42:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788205350; x=1788810150;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=hxHGJxiIx5AyktYPZsvFWBjPT3vrtzKHUb5kOBDWm28=;
-        b=jgoUFsOrv9j6YC5wqDL2tM9K/HrC0OdDjKPo2SgUyQkK82okpiAE00tcd7nzQYIgRs
-         nw49Dh0SB8pAWGyuHwn7k5Nng+RuZbNS8Sg39hFtQWFVsPJXWMwqHGUrMPaqRiFmJchQ
-         uvHjaPRu/ygAeEsyCR7kunrQXRAYHP+nmdifV90jBqMRa7yS39oVUfzPkTI9cQuvlvMy
-         1hjexAPtm22W1p5MrdA8ufOLBHngVxenrrq9NY4aPn00atsowU3hTgIySInHhElgZjwU
-         Nb7RS0WNMTLCkJoaaw4TnX0XFcLYYT3P76SGaS3AkOmvDy1OXQk6C7zrlQybxkl26T4V
-         Pxyw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr0CvC2GPPYQ3y+Qod0kkVx1divIhfK6EFKxwzW2Q+MVA+QweaY//0JWUFNEn9hCWD2Tr4MgAQ8MgxaQV4A@vger.kernel.org
-X-Gm-Message-State: AFuF++mvql/N9o3shd/2h9v7h00j1v1UDTKJBpjkJ4eLfDfHQHbm1ySp
-	mQHw1f7qmw+oD7VPZVkjPPeTA0XcRIZH5i6YydDwDuic1JS7/DD5CL1K8MMjjdx/QsyF8ksMPne
-	1AbJMvGrvf8z+h9KW4iiQOsvVagD10xBvHgJVVZGZSz34g+tC+irgRYzKdiA=
+	s=arc-20240116; t=1788207910; c=relaxed/simple;
+	bh=1u5m0X4pQbLUl1Wtl8F8Vk/mWL0JZi4iPgSmQ+Ldy6g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=H3qeS2ro9u9mYCUT4gwWogb/qQxwpGTIh2d3kKY0SdgeC4tQGoDxEn3/WLgOwqQPAMKlQeEP10iibtfEQh+S0GJRuuirvaVxIQaxSWG6PpMa1csVRXO0QBfdaoCswTfh86Z4Z4HITgC00Z1aFKJkS1Nz5gkPlSzqXeYmSk4L6uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWqhP6vN; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWqhP6vN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788207908; x=1819743908;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=1u5m0X4pQbLUl1Wtl8F8Vk/mWL0JZi4iPgSmQ+Ldy6g=;
+  b=kWqhP6vN/bXopADc6BX3xtJl+svga5HUmo26a5AVbI4xqftWxOH5S9FY
+   B+h5EZw9iu2d7VyDiP+ZySnoQoHV35L8BkxghEV69JBZZLtH6JNaPbwgj
+   4tYWfcoMP+CoJCsdd4603bA2MqeA/h9rgmNYM47lk8cLoQwsKI0mCZ+YJ
+   F3XHklcMh5qLVCp9B4VhCpjd5Ia0AO/NHqQmm2C/t0hTkk289e8kHXrtw
+   ITjVmwUtr+rXtUtSjaKNMBBJSJckahb2+sqVO71BFDaFMsfY+f2TTXoZv
+   F08r4b9qJr3aPj/c0cRP8XhDpMu2njEfPDqs6U673IbpO1ZMe4UFnvX+x
+   A==;
+X-CSE-ConnectionGUID: gQuOx6F1TomQdD2lTcZWmw==
+X-CSE-MsgGUID: 79enw1/YTyKYZKEF1R4CuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="99286364"
+X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
+   d="scan'208";a="99286364"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 13:25:06 -0700
+X-CSE-ConnectionGUID: 5GrD7GWkTAu7hCsazB5v/w==
+X-CSE-MsgGUID: 2lEplv7pSEys9hOBZWssVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
+   d="scan'208";a="273080572"
+Received: from unknown (HELO [10.241.243.185]) ([10.241.243.185])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 13:25:06 -0700
+Message-ID: <a1a0bc24108e68656041dc17824d6b88b4120058.camel@linux.intel.com>
+Subject: Re: [PATCH] sched/cache: Fix use-after-free of the mm replaced by
+ exec
+From: Tim Chen <tim.c.chen@linux.intel.com>
+To: Hyunwoo Kim <imv4bel@gmail.com>, "Chen, Yu C" <yu.c.chen@intel.com>
+Cc: Kees Cook <kees@kernel.org>, Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Juri
+ Lelli <juri.lelli@redhat.com>, Vincent Guittot
+ <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt	 <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel
+ Gorman	 <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, K
+ Prateek Nayak	 <kprateek.nayak@amd.com>, Shrikanth Hegde
+ <sshegde@linux.ibm.com>, Qais Yousef	 <qyousef@layalina.io>, Aaron Lu
+ <ziqianlu@bytedance.com>, Srikar Dronamraju	 <srikar@linux.ibm.com>,
+ Vineeth Remanan Pillai <vineethr@linux.ibm.com>, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org,  Ingo Molnar <mingo@redhat.com>, Peter
+ Zijlstra <peterz@infradead.org>, "chen.yu@linux.dev"	 <chen.yu@linux.dev>
+Date: Mon, 31 Aug 2026 13:25:06 -0700
+In-Reply-To: <apXV6t-7drLDf-lL@v4bel>
+References: <apPb-Dr4nPYuHQOK@v4bel>
+	 <825d9dcc-b052-4367-a9c7-15efc4b354f8@intel.com> <apXV6t-7drLDf-lL@v4bel>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:17a9:b0:4b3:79b0:8481 with SMTP id
- 5614622812f47-4b3983537c2mr32626608b6e.19.1788205350164; Mon, 31 Aug 2026
- 12:42:30 -0700 (PDT)
-Date: Mon, 31 Aug 2026 12:42:30 -0700
-In-Reply-To: <6a74a76d.ec7c9571.3ac9bb.0056.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a95d926.99925153.16bd3d.0005.GAE@google.com>
-Subject: Re: [syzbot] [fs?] KASAN: slab-use-after-free Read in sysfs_emit
-From: syzbot <syzbot+302b9b575a06733ff60c@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+On Tue, 2026-09-01 at 04:28 +0900, Hyunwoo Kim wrote:
+> On Mon, Aug 31, 2026 at 12:22:45PM +0800, Chen, Yu C wrote:
+> > Hi Hyunwoo,
+> >=20
+> > On 8/30/2026 3:30 PM, Hyunwoo Kim wrote:
+> > > When the waker cannot use the wakelist, ttwu_queue() takes the target=
+ rq
+> > > lock and goes down into update_curr(). If the target rq belongs to an=
+other
+> > > CPU, the task handed to account_mm_sched() is the one running on that=
+ CPU,
+> > > not the task being woken.
+> > >=20
+> > > account_mm_sched() reads p->mm and updates mm->sc_stat. Nothing keeps=
+ that
+> > > mm alive. The rq lock and rq->cpu_epoch_lock it holds have nothing to=
+ do
+> > > with the lifetime of the mm.
+> > >=20
+> > > If that task happens to be in execve(), exec_mmap() points tsk->mm an=
+d
+> > > tsk->active_mm at the new mm, and exec_mm_put_old() from setup_new_ex=
+ec()
+> > > drops the old one. free_bprm() does the same when exec fails. On the =
+way
+> > > from mmput() down to __mmdrop(), mm_destroy_sched() calls free_percpu=
+() on
+> > > sc_stat.pcpu_sched and free_mm() returns the mm_struct.
+> > >=20
+> > > Whoever already read the old pointer keeps using it. It adds to runti=
+me in
+> > > the freed per-cpu area and reads sc_stat in the freed mm_struct. Depe=
+nding
+> > > on the condition it also writes sc_stat.cpu. That is a use-after-free=
+.
+> > >=20
+> > > Commit 9f23469401b0 ("sched/cache: Fix potential NULL mm pointer acce=
+ss")
+> > > changed the remaining p->mm dereference to the local variable, and sa=
+id the
+> > > active_mm reference keeps the structure allocated. That holds for the=
+ other
+> > > paths that detach an mm, since they take an mmgrab_lazy_tlb() referen=
+ce.
+> > > exec reassigns active_mm to the new mm as well, so that reference is =
+gone.
+> > > What is left is the mm_users reference in bprm->old_mm, and dropping =
+it is
+> > > the free.
+> > >=20
+> > >               CPU0                                CPU1
+> > >=20
+> > >                                        write(pipe)
+> > >                                        try_to_wake_up()
+> > >                                          ttwu_queue()      // takes r=
+q0 lock
+> > >                                            enqueue_task_fair()
+> > >                                              update_curr()
+> > >                                                update_se()
+> > >                                                  account_mm_sched()
+> > >                                                    mm =3D rq0->curr->=
+mm
+> > >                                                          // old mm
+> > >    execve()
+> > >      exec_mmap()                       // tsk->mm =3D new mm
+> > >      setup_new_exec()
+> > >        exec_mm_put_old()
+> > >          mmput() -> ... -> __mmdrop()
+> > >            mm_destroy_sched()          // free_percpu()
+> > >            free_mm()
+> > >                                                    read mm->sc_stat.e=
+poch
+> > >                                                          // use-after=
+-free
+> > >=20
+> >=20
+> > Ah, thanks for catching this.
+> >=20
+> > > ---
+> > >   fs/exec.c             |  1 +
+> > >   include/linux/sched.h |  4 ++++
+> > >   kernel/events/core.c  |  2 ++
+> > >   kernel/sched/fair.c   | 16 ++++++++++++++++
+> > >   4 files changed, 23 insertions(+)
+> > >=20
+> > > diff --git a/fs/exec.c b/fs/exec.c
+> > > index 745f6eb5279e6..6194c38807980 100644
+> > > --- a/fs/exec.c
+> > > +++ b/fs/exec.c
+> > > @@ -916,6 +916,7 @@ static void exec_mm_put_old(struct mm_struct *old=
+_mm)
+> > >   {
+> > >   	setmax_mm_hiwater_rss(&current->signal->maxrss, old_mm);
+> > >   	mm_update_next_owner(old_mm);
+> > > +	sched_cache_exec_done();
+> > >   	mmput(old_mm);
+> > >   }
+> > > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > > index 8b3d47a325cca..6ae31bffe049e 100644
+> > > --- a/include/linux/sched.h
+> > > +++ b/include/linux/sched.h
+> > > @@ -2415,10 +2415,14 @@ struct sched_cache_stat {
+> > >   	int cpu;
+> > >   } ____cacheline_aligned_in_smp;
+> > > +void sched_cache_exec_done(void);
+> > > +
+> > >   #else
+> > >   struct sched_cache_stat { };
+> > > +static inline void sched_cache_exec_done(void) { }
+> > > +
+> > >   #endif
+> > >   #ifndef MODULE
+> > > diff --git a/kernel/events/core.c b/kernel/events/core.c
+> > > index a6c8e38a31104..2f29cbccf03f1 100644
+> > > --- a/kernel/events/core.c
+> > > +++ b/kernel/events/core.c
+> > > @@ -5427,6 +5427,8 @@ attach_task_ctx_data(struct task_struct *task, =
+struct kmem_cache *ctx_cache,
+> > >   	if (!cd)
+> > >   		return -ENOMEM;
+> > > +	/* @old, loaded by the try_cmpxchg() below, is only stable under RC=
+U. */
+> > > +	guard(rcu)();
+> >=20
+> > Is this change related to this UAF issue?
+>=20
+> Duh.. that one is unrelated. My mistake.
+>=20
+> >=20
+> > > +/* exec() has switched to the new mm and is about to drop the old on=
+e. */
+> > > +void sched_cache_exec_done(void)
+> > > +{
+> > > +	struct rq_flags rf;
+> > > +	struct rq *rq;
+> > > +
+> > > +	/*
+> > > +	 * account_mm_sched() dereferences rq->curr->mm under this rq's loc=
+k,
+> > > +	 * so a remote CPU can still be using the old mm. The lock cycle wa=
+its
+> > > +	 * for it, and the store to tsk->mm cannot be reordered past the
+> > > +	 * release, so later acquirers see the new mm.
+> > > +	 */
+> > > +	rq =3D this_rq_lock_irq(&rf);
+> >=20
+> > A smart fix, learnt! It behaves like a synchronize_rcu() to protect aga=
+inst
+> > the read in account_mm_sched(). Small open: since the context of invoki=
+ng
+> > account_mm_sched() is preemption-disabled, I wonder if we can simply us=
+e
+> > synchronize_rcu() directly instead of this_rq_lock_irq() - just to avoi=
+d
+> > contention for rq-lock in heavy system?
 
-HEAD commit:    f1b8fa82cab7 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=13ca3379580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d1128bc53f2ef7f3
-dashboard link: https://syzkaller.appspot.com/bug?extid=302b9b575a06733ff60c
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13caad9e580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=136de379580000
+Thanks to Kyunwoo to show this potential use-after-free problem.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/932d85a2bda2/disk-f1b8fa82.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5b6b8fb76e8d/vmlinux-f1b8fa82.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c246b61ee396/Image-f1b8fa82.gz.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+302b9b575a06733ff60c@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in string_nocheck+0xd8/0x140 lib/vsprintf.c:648
-Read of size 1 at addr ffff0000d4016758 by task udevd/4787
-
-CPU: 0 UID: 0 PID: 4787 Comm: udevd Not tainted syzkaller #0 PREEMPT 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/07/2026
-Call trace:
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:499 (C)
- __dump_stack+0x30/0x40 lib/dump_stack.c:94
- dump_stack_lvl+0xd8/0x12c lib/dump_stack.c:120
- print_address_description+0xb0/0x238 mm/kasan/report.c:378
- print_report+0x68/0x84 mm/kasan/report.c:482
- kasan_report+0x8c/0xc4 mm/kasan/report.c:595
- __asan_report_load1_noabort+0x20/0x2c mm/kasan/report_generic.c:378
- string_nocheck+0xd8/0x140 lib/vsprintf.c:648
- string+0x8c/0xc8 lib/vsprintf.c:730
- vsnprintf+0x880/0xd10 lib/vsprintf.c:2945
- vscnprintf+0x6c/0xd4 lib/vsprintf.c:3014
- sysfs_emit+0x110/0x184 fs/sysfs/file.c:761
- input_dev_show_name+0x60/0x74 drivers/input/input.c:1282
- dev_attr_show+0x60/0xd0 drivers/base/core.c:2487
- sysfs_kf_seq_show+0x1e0/0x2fc fs/sysfs/file.c:65
- kernfs_seq_show+0xf0/0x130 fs/kernfs/file.c:216
- seq_read_iter+0x39c/0xbe8 fs/seq_file.c:231
- kernfs_fop_read_iter+0x13c/0x414 fs/kernfs/file.c:290
- new_sync_read fs/read_write.c:493 [inline]
- vfs_read+0x498/0x8c8 fs/read_write.c:574
- ksys_read+0x12c/0x228 fs/read_write.c:716
- __do_sys_read fs/read_write.c:725 [inline]
- __se_sys_read fs/read_write.c:723 [inline]
- __arm64_sys_read+0x84/0x98 fs/read_write.c:723
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:590
-
-Allocated by task 4754:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x40/0x78 mm/kasan/common.c:78
- kasan_save_alloc_info+0x40/0x50 mm/kasan/generic.c:570
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x9c/0xb4 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x2e8/0x5ec mm/slub.c:5489
- _kmalloc_noprof include/linux/slab.h:988 [inline]
- _kzalloc_noprof include/linux/slab.h:1309 [inline]
- redrat3_dev_probe+0x3a4/0x1e90 drivers/media/rc/redrat3.c:1023
- usb_probe_interface+0x308/0x788 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x29c/0x800 drivers/base/dd.c:706
- __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
- driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
- __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
- bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
- __device_attach+0x248/0x390 drivers/base/dd.c:1098
- device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
- bus_probe_device+0x58/0x120 drivers/base/bus.c:620
- device_add+0x6cc/0x9e0 drivers/base/core.c:3772
- usb_set_configuration+0x1184/0x158c drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0x8c/0x148 drivers/usb/core/generic.c:250
- usb_probe_device+0x114/0x2b0 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x29c/0x800 drivers/base/dd.c:706
- __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
- driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
- __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
- bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
- __device_attach+0x248/0x390 drivers/base/dd.c:1098
- device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
- bus_probe_device+0x58/0x120 drivers/base/bus.c:620
- device_add+0x6cc/0x9e0 drivers/base/core.c:3772
- usb_new_device+0x9c4/0x11f8 drivers/usb/core/hub.c:2703
- hub_port_connect drivers/usb/core/hub.c:5575 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
- port_event drivers/usb/core/hub.c:5879 [inline]
- hub_event+0x1ef0/0x39fc drivers/usb/core/hub.c:5961
- process_one_work kernel/workqueue.c:3322 [inline]
- process_scheduled_works+0x788/0x10b8 kernel/workqueue.c:3405
- worker_thread+0x798/0xbd0 kernel/workqueue.c:3486
- kthread+0x304/0x3d4 kernel/kthread.c:436
- ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:838
-
-Freed by task 4754:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x40/0x78 mm/kasan/common.c:78
- kasan_save_free_info+0x54/0x6c mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x74/0xa4 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2677 [inline]
- slab_free mm/slub.c:6377 [inline]
- kfree+0x188/0x690 mm/slub.c:6692
- redrat3_delete drivers/media/rc/redrat3.c:466 [inline]
- redrat3_dev_probe+0x1008/0x1e90 drivers/media/rc/redrat3.c:1124
- usb_probe_interface+0x308/0x788 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x29c/0x800 drivers/base/dd.c:706
- __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
- driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
- __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
- bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
- __device_attach+0x248/0x390 drivers/base/dd.c:1098
- device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
- bus_probe_device+0x58/0x120 drivers/base/bus.c:620
- device_add+0x6cc/0x9e0 drivers/base/core.c:3772
- usb_set_configuration+0x1184/0x158c drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0x8c/0x148 drivers/usb/core/generic.c:250
- usb_probe_device+0x114/0x2b0 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x29c/0x800 drivers/base/dd.c:706
- __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
- driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
- __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
- bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
- __device_attach+0x248/0x390 drivers/base/dd.c:1098
- device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
- bus_probe_device+0x58/0x120 drivers/base/bus.c:620
- device_add+0x6cc/0x9e0 drivers/base/core.c:3772
- usb_new_device+0x9c4/0x11f8 drivers/usb/core/hub.c:2703
- hub_port_connect drivers/usb/core/hub.c:5575 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5715 [inline]
- port_event drivers/usb/core/hub.c:5879 [inline]
- hub_event+0x1ef0/0x39fc drivers/usb/core/hub.c:5961
- process_one_work kernel/workqueue.c:3322 [inline]
- process_scheduled_works+0x788/0x10b8 kernel/workqueue.c:3405
- worker_thread+0x798/0xbd0 kernel/workqueue.c:3486
- kthread+0x304/0x3d4 kernel/kthread.c:436
- ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:838
-
-The buggy address belongs to the object at ffff0000d4016000
- which belongs to the cache kmalloc-2k of size 2048
-The buggy address is located 1880 bytes inside of
- freed 2048-byte region [ffff0000d4016000, ffff0000d4016800)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff0000d4011000 pfn:0x114010
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0x5ffc00000000240(workingset|head|node=0|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 05ffc00000000240 ffff0000c0002000 fffffdffc3830c10 fffffdffc3bffc10
-raw: ffff0000d4011000 0000000800080005 00000000f5000000 0000000000000000
-head: 05ffc00000000240 ffff0000c0002000 fffffdffc3830c10 fffffdffc3bffc10
-head: ffff0000d4011000 0000000800080005 00000000f5000000 0000000000000000
-head: 05ffc00000000003 fffffdffc3500401 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff0000d4016600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff0000d4016680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff0000d4016700: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                    ^
- ffff0000d4016780: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff0000d4016800: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
+While synchronize_rcu() avoids rq lock, it could introduce a long delay
+of a full grace period that will be undesirable.
 
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+I think a better fix is to decouple sc_stat from mm and make it its own str=
+ucture.
+Then we can do proper refcounting and rcu management on sc_stat itself.
+We will let task points to sc_stat with proper ref count and change the acc=
+ess
+as task->sc_stat directly nstead of via task->mm->sc_stat.
+
+Then we will know sc_stat exists in account_mm_sched() execution
+as long as a task points to it and do not have to worry that sc_stat is
+released due to the mm life cycle.
+
+In the first 2 patches of the prctl control series for cache aware scheduli=
+ng
+we posted, we introduced the change I described above and should=C2=A0
+fix this issue without additional rq locking or synchronize_rcu() overhead.
+ https://lore.kernel.org/lkml/cover.1787955777.git.tim.c.chen@linux.intel.c=
+om/
+
+We should probably prioritize to merge the first couple of patches from
+that series now in light of this issue.  It will make maintenance and futur=
+e
+modification of the cache aware scheduling code easier.
+
+Tim
