@@ -1,153 +1,95 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6704F38A71E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 04:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788150791; cv=pass; b=ILOT/4/EMbkxwDc0H52K7DhfDO5sLyJUMddMucI4V1SfK87LsdAVolc0r2rAp2dMnPTHzHmBh8GkiUHjl79p1rTZ3rspXa3O8am4O6qTjFNYYKRO2TgUbirQmia+tyhzp8rhmra5owybTrYDLaN7sMttRCPrvDAk9Ztxv0g4gMQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788150791; c=relaxed/simple;
-	bh=OWYeD8HWhxln6GiCQV1UnjBgc7MJ92h/DJUq8qWLZ/E=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=MvGuQXV8bHSlbyBzDa+7l6rE990RwoLe3YoLAru0/mB3rHAbybma0deJ7TQPMpcx0cPzNSMuS+qDzDzinCOvV+8rFH7cM2oe03DDLzmUUfAwXYm9SX2uXe87Ky3orvKRU8RNL4g1Jy42ojbuxiQOOSvMzmajSMDQUc2rtMnKOR8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1275YqM; arc=pass smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423EB3ADBA2;
+	Mon, 31 Aug 2026 06:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788158427; cv=none; b=Hc6bwD6JZ7IWN7lJn3WzfSDQMlyw4flwy1mmYCSIPcuq3FMr7Abr4SyAxCSIpnKPUMLAb89sEoMEMX0vKzVb/GT+/MkltmxapCvDvKb7JhIivVeeQH/kpYl7sa78Yunq2OKVjL/l4fy26qX7lV9QsjBG9QNFERlSUavhTlMMlIY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788158427; c=relaxed/simple;
+	bh=khvyDwrxmguwUdvH8t87d3fMdkvfcS84MF3e9wxpffo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pjxoL0c3csiL8UlmcmPd3uV7jymIBKmatcwlBEyovJZctPxDghWBJv5aojIrNmxlFIOhlno+cxBU61wbWlUyt4rQcLk4nQ0WxXb1g0tO9kqgOlr0JRkCFd829ZExVpzwNGTpGnMF5k03A2612ILqEsI+zDOvgTiiSqAB0lYqL4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wl3oaBK4; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1275YqM"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-52f9e79ed93so29863851cf.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 21:33:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788150789; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AcHYb378VhIqAzHJ6T1lGIsdAQhkN3t363tE7+wvYUHjBy1td+3ufLfARlvj67oiIK
-         6IO9obXj8UQPFZNwNR2+egZ0YbKtmLOmZyjmLD/7n93Wr4pMcMAyGTXckRw1IwQrFqUg
-         IO6ha9MvylCOewAOVoARhJhYYUs7v+58SgSKqrqC9zYKDl1qNMezbtJWlazVjuHVL85I
-         Sf4ApICe1TuZnu7rf67CB0NOmrCGFyPUnqXI0supP+ZGPP/8LFQsdp0Z3A/8fEDxDF0t
-         Bdclvqp+4VUBG95cdAGFf+e99l7TfrMleLbdD91Z8z45Xa/28Qo6lBz9wC0TdR1RLWsZ
-         S6Zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=OWYeD8HWhxln6GiCQV1UnjBgc7MJ92h/DJUq8qWLZ/E=;
-        fh=ub95YhOpEDy1hhRq/42175ekLrEDqz+zG2jhVKVPx+o=;
-        b=Q/2UkJk6VlkNp3pM1lfx4JcU0PNVB+tkS3zXwmzXaJqXWUwTkz2//n8/w6xn91VbKt
-         8Nwg92q7YcaNm1QmvIjW1trK0erqZPrI6ISSIcSKLgLBzgdLJVfcTSX74hUSSiUhjAcH
-         nMaiVd1bhqXTXLDqKV3R2CsakT4ohU7RfFio+Q/hWtevyZ5t74VK+wSOq+dYw7FFhfjw
-         Y6KduvT7J9bVyA3JjSLd35YuLGyTMa/SYl6wGth10BLxP7J097mGksRV8GsEPQH1VVrJ
-         +MUosfBsF2TpKwc74FvAqraXyVg/cnjZCjEweEKUg0zLRzpDOaFYf6mBjghLZab1dXBO
-         CLrw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788150789; x=1788755589; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OWYeD8HWhxln6GiCQV1UnjBgc7MJ92h/DJUq8qWLZ/E=;
-        b=P1275YqMm7w+31RNxDq9HMJSVd2sCBBdugVvvIR59DXpDHpsTRFVFxA4g8LPlboQeB
-         JysjfEhmCPj0Mi8VB1THHlg1PPamUQqP11K7baoLMmVEBzrVAXZeBLAuJEPVXMzNIkbb
-         FOWrN7GoZNZf50SRAsCxuOMdKnDwo4f/N89eQw4Qyjl0bxHdSr0HYkFz70qSdyUf1mgH
-         8oHPWG18aLhaAGQuMd/He1hNWSWLlQrwU+77NmmH5GXof13WOmh69XzH0ZarGtpy1gEp
-         trvjQRJnC1AAtMtZaNLUixhxA5MdZsBHG27bH2MXmpa930hX0GdNpl50WNsueahOGVFi
-         vhjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788150789; x=1788755589;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=OWYeD8HWhxln6GiCQV1UnjBgc7MJ92h/DJUq8qWLZ/E=;
-        b=lGHav84LZt19QDpoNWWJzSwEnxF5pC5lLPCgGBDlB0tLGoYd1YgO0cefztx9YehlMb
-         tWQk3A5kYNWsjMzP0OnFIQj9jjQcfq9xNFiGt4UHiazRLJPvuIdqxfbwZp/uKTLGHsLI
-         Wh4bAji2pnmJQy07pgwBSHHdhICXtIJV0eD7MGxDCxn189/VVl/B/Y8DUfWA4OnustJq
-         kb6TrrIwkB1gADnielNBpvEZo/Gry7yU1qloEuhC/RLCk1z8lp1AU6c8fFVeBrQyrNfc
-         GFE1DEQe7LOeIy2qnkmIFL1/5HknIupz2xMz4apZtsBMp0Lge+p6h2/fjAm/99aHLaZ8
-         c5zA==
-X-Forwarded-Encrypted: i=1; AHgh+RqYxvm5gW5UtGCiNDDPD+cvjcZxl+8gNgyjsk9+4ihcGNlkAeBhkSlhiH9JdjbC2gLmd1M6NY3i72aJL3+0@vger.kernel.org
-X-Gm-Message-State: AFuF++m4j397M/7GY4XzBr2ysmY4AmRTx2MuZHj+44BX5rXfwq6uPDuG
-	MeoOmO7Nw/6VYvuT9FyvqUQggxpruagu9SqxuX//kCfwWvt0O/TJgXSEYc8msurjsg9Tohma1Xq
-	jVBJOnS9Pqm/gRKrDUw7/G7LIlUkmd/Y=
-X-Gm-Gg: AR+sD127UPnTjL/SNZCCcuweueeiz9aWWvBl5OZCa280xQJFc7NCDZ92ENHbmvMD9nt
-	GJ/MbKTLQtkZYVcdtJb9zhi6AUq0Q/dbAhSnO8mzJlMm3yxCBMxtAjMv6L5ydsPeRSOtK2uLOjg
-	7XtLKv2Ao/djfnKbmmmn65aiRP8O5e+bADaAtrem4DdYonlQygQ8rDDRfGr7fafgzLOsAa0E+Xf
-	9FP+2m8gDJl0Y+drQr71glqGdRMA/ouJd5VJGq4BbaGPSlMKMtM4PURyWQSRLHdmK+Bjqqn7u7j
-	miHbhAQC+RQPqiTX365Tv1dq1RZXKjD35QSCBrdd2yUFB3IMH/LqauZVzJPqETHhGHFTF/sK24D
-	fszCdFlPaTUHkdWIBYqj9FZ5vNfpParemKnZH90ZH69wjVUEM
-X-Received: by 2002:ac8:5e51:0:b0:52d:ea18:a8f with SMTP id
- d75a77b69052e-52fb9624e53mr273957141cf.29.1788150789045; Sun, 30 Aug 2026
- 21:33:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wl3oaBK4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=BEs0+VEayJBZdJhNvVB+4R2X5XA5wGb/x6k8Eq0o4JQ=; b=wl3oaBK4XuJeamTGSjgQfskZuE
+	A5kxZQ2nZU+vyqI8fJZCiSpEv9/dGnQ72dqrOUyWfURnZ3U9XQ2/LJMcKGzOgWE0pnGoBeOZUbF7s
+	aNYN5kZS1xXYvonrnbRAK+QvT7qRLmta+Uu+3UQBQPkjv2yOFqv8XvrZ1xkn1MPvp+TbJF+gmcgUc
+	N9bGIk9Y9U5DMg1wWAEsUFVW6yYvmKQmbCxurlAhEtjNLZqneIeOjliwGyWKAwGIzHZx0oxlUzkJu
+	Fg6Nt9R2cQnmVvH1IpvQwTP3GbOYd6PFKwMeCP8nJOlSQxCE3zxpVTYrdNi130M7eM6MaQ3gmrjtm
+	SWirfuQQ==;
+Received: from [2001:4bb8:2f9:3a59:1608:d03f:db12:ee92] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x0vgm-00000008crH-2UVp;
+	Mon, 31 Aug 2026 06:40:17 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>
+Cc: Tal Zussman <tz2294@columbia.edu>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: lazy bounce buffering for checksummed reads V2
+Date: Mon, 31 Aug 2026 09:39:48 +0300
+Message-ID: <20260831064010.2574896-1-hch@lst.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: ZW Tang <tangzw515@gmail.com>
-Date: Mon, 31 Aug 2026 12:32:57 +0800
-X-Gm-Features: AcwNN1ULFgkJPJxRmSd92mMdodsL9Jz9781aLnZmGa6ZIMx2OfnHHfzbs0ChRPc
-Message-ID: <CAA2SOT5mWrS_KN38TRCu_KfTjpG6fyaytqZbOb25Pb0kfqZ3gQ@mail.gmail.com>
-Subject: [BUG] fanotify: WARNING in fanotify_handle_event with crafted msdos
- image and long path
-To: Jan Kara <jack@suse.cz>
-Cc: Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi,
+Hi all,
 
-I am reporting a warning triggered by a syzkaller reproducer on
-Linux 7.2.0-rc3. A similar issue appears to have been reported upstream
-before, but I can still reproduce it on Linux 7.2.0-rc3 with HEAD commit
-1137d8b5df06137fb49513cc923b3b24d94cb809.
+this series improves performance and resource usage for reads from
+devices that require stable pages due to checksumming on XFS.
 
-The reproducer mounts a crafted msdos filesystem image, creates a very
-long pathname, installs a fanotify mark, and then calls execve() on the
-long path. During execve(), the file open path triggers fsnotify, which
-then calls fanotify_handle_event(). While fanotify is constructing the
-event, it hits a warning in fs/notify/fanotify/fanotify.h.
+Currently XFS unconditionally bounce buffers reads on such devices to
+prevent user modifications to the buffer from corrupting the data,
+leading to checksum failures.
 
-This looks like a fanotify name-event encoding robustness issue. A crafted
-filesystem image together with a very long pathname appears to trigger an
-unexpected name/fid event layout, and fanotify_info_copy_name() reaches a
-WARN_ON_ONCE() path. The kernel should probably reject or truncate the
-event cleanly instead of triggering a warning, because panic_on_warn turns
-this into a kernel panic.
+This uses DRAM bandwidth and CPU cycles for copies that are not needed
+most of the time, and due to the use of a bio_vec for the bounce
+buffer to smaller than wanted and unaligned I/O sizes when using 4k
+user pages (i.e. 1MB-4k I/O).
 
-Reproducer:
+This series addresses this by reading without the bounce buffer first,
+and then only allocating a buffer and reading into that again on an
+initial checksum failure.  To accommodate for rare (or hypothetical?)
+applications that have legitimate needs to frequently modify in-flight
+buffers, a sysfs know is provided to revert to the old behavior.
 
-syz reproducer: https://pastebin.com/raw/JqBwvgbH
-console output: https://pastebin.com/raw/2jnY4jzL
-kernel config: https://pastebin.com/raw/RgvQ5DPY
+The baseline of this series is the xfs for-next branch that Carlos
+just a pull request for.  The patches are split over 3 subsystems,
+and I'd love to hear from the maintainers what a good test strategy
+is.
 
-Kernel:
+A git tree is available to help with the review here:
 
-HEAD commit: 1137d8b5df06137fb49513cc923b3b24d94cb809
-git tree: torvalds/linux
-kernel version: 7.2.0-rc3 #1 PREEMPT(full) (QEMU Ubuntu 24.10)
+    git://git.infradead.org/users/hch/misc.git lazy-bounce
 
-Relevant log:
+Gitweb:
 
-loop0: detected capacity change from 0 to 128
+    https://git.infradead.org/?p=users/hch/misc.git;a=shortlog;h=refs/heads/lazy-bounce
 
-------------[ cut here ]------------
-WARNING: fs/notify/fanotify/fanotify.h:217 at
-fanotify_handle_event+0x3e93/0x4800, CPU#1: syz.0.17/10761
-
-CPU: 1 UID: 0 PID: 10761 Comm: syz.0.17 Not tainted 7.2.0-rc3 #1 PREEMPT(full)
-Hardware name: QEMU Ubuntu 24.10 PC (i440FX + PIIX, 1996)
-
-RIP: 0010+0x3e93/0x4800
-
-Call Trace:
-<TASK>
-fsnotify+0x1105/0x1be0
-__fsnotify_parent+0x6b6/0xd40
-vfs_open+0x2e6/0x3f0
-path_openat+0x29a2/0x3e20
-do_file_open+0x216/0x310
-do_open_execat+0xe8/0x430
-alloc_bprm+0x2b/0x900
-do_execveat_common.isra.0+0x1a8/0x5d0
-__x64_sys_execve+0x93/0xd0
-do_syscall_64+0xc4/0x7a0
-entry_SYSCALL_64_after_hwframe+0x76/0x7e
-</TASK>
-
-Kernel panic - not syncing: kernel: panic_on_warn set ...
+Changes since v1:
+ - rebase on 7.3rc-1 and xfs for-next, which has the bio complete in
+   task support merged
+ - remove the now unused IOMAP_DIO_BOUNCE support for reads
+ - fix compilation with integrity disabled
+ - make I/O size limitation actually work
+ - clear REQ_POLLED when bounce buffering
+ - use sysfs string match helpers to allow non -n echo
