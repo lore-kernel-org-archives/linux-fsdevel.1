@@ -1,48 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A7C3876CE;
-	Mon, 31 Aug 2026 21:29:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938F038E8A8;
+	Mon, 31 Aug 2026 21:29:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788211745; cv=none; b=hD4XVc4NJY7b5NMVZx9nzj2xlJ7t0c8mvCyz53LDcmwE9iDHhs/MwD7qeNKhqedmlbQ5Pn9c3ZIzZ8NTvBXJa1WhUjYoubUZVTazEcWSlP1tx8LRZ9aJj1s+9DEb0jwmeJES9qIBqmFHwGH1L52pJBtF1xZ7Kf/yK0EeLiThFs4=
+	t=1788211795; cv=none; b=YNNuluE093A+dx3XleA57AR6C4DcV5B9d2elrNcjJP3zEyNn6hDDmHyUnoqnk9BVf9lgU1x1G1cHAqf6dRYrIWl+C7U/4wu2fE3HtZ6yqTzskF1hsZix1euJKRclWHHmZfzfrFEPDH7FvmMMgVj/yranqzI7lahcHJ/1sW4UyNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788211745; c=relaxed/simple;
-	bh=PCN9UfOzO3Mn7Sfx5XGmo5b2BoiX67PMH8e30uJgX4E=;
+	s=arc-20240116; t=1788211795; c=relaxed/simple;
+	bh=16hbalVy5uoIF15ObN+g/sIvUi//FZA33LiovHjZBOA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dTsrenN2YkfxqwRq6gDIMSAFDddI8LChIDxMpapcsniBUZEoKQThzrBuwmcuhGFg0N4NFjacGTnmnRgzddE5haR/osGUTrUSaV1V694goSmahtF4jwyZ1lur55spgpf4/aqRHFjUQoz355ktLzOoVOgimGDJXrNiOYDHACl+IEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=TRs4nC3t; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=sd6XdBqVaDp+/MTVQJXx2ppW2DINOfhmU+sNIpGmDi3RxB3rEuvnGgEZH4hJAJE4UcVvXKxgvjbdYvVZIQEOvKYQ+kt3mI1H9Lu84GOqKGv1LWpzevmSVK7nuGhVn/oPFFT/fGvIkL8SPQww7vzqlLxte1mjcjxc3uSnUTm29ZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kJeI+ul1; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TRs4nC3t"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 98B97408DB
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kJeI+ul1"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 505D6408DB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788211735; bh=1iZnCYqMD/YORvHC+qRafaC4pSWVVewj4ABJOj6lxlQ=;
+	t=1788211792; bh=rv1SKUb4sWsIeu5cUgNjrE2nPRcoJ2CH6rXxJt+O24U=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TRs4nC3trGNVRCCRIF3aIvQOiRWhEnhUNHzF7hlQTH8pPamL98eSipPqFHWc/I0F9
-	 kFJ/hmq0+beMJmX6cXDsyZDdz1ClEqO4kSEyHtJpRlbUdN0N9RgOWRvtYkJPdQUp8a
-	 /tkX2afr+xnbN9G+d+yn6RgnYUPQ9/TonQ5WPRkTP+gP5eiDgsO2x2Ku+AdrAgvX/R
-	 iRurCswgkMdHuMBZR8JtAK+3PsxQ3cKYrPgdPsBjrukXMa+1Z1c0GAGU+z/kO8kGYj
-	 iO8tT1oCqckVWkaSWhi9AIeqTC8sh2xwztbMq7hJ/tvgI9rVIDddtMJALzUPiq1Xf/
-	 MDkic9vAnui8g==
+	b=kJeI+ul1XaGH9zP2YiYS0RJPWVMbxcNrryo7mE/TZlYCgLrOnXq4TvB+r+EinrpuG
+	 6H+fvnkg3JZoWVLrTzOnnSFbgWYU99UzZROphDykv9gp5b7jDtCx0Rg9ncHuZisYxv
+	 LwkxeXZxu1lobIPZPJjt/XAT67qeUrwlVRb0cr5MXSrSit8kdYV7xRuF5N5TZkxyyZ
+	 qcJpi/KDwXwdukxV7XsqcraEg/clZfRRv6+zplc+h/HQ9eO0hu7kWU8+cGV+MQEW2K
+	 MuwXr4f4o0/LxaSFGAe9eeWNhbrq1ks+q5Cd6SHPnJoLR6FpVu7c8Rntj6w7rXyuPu
+	 8sP8Bra6fZ34g==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 98B97408DB;
-	Mon, 31 Aug 2026 21:28:55 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 505D6408DB;
+	Mon, 31 Aug 2026 21:29:52 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-Cc: skhan@linuxfoundation.org, rdunlap@infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Drif Abdelmalek Mohamed Said
- <drifabdelmalekmohamedsaid@gmail.com>
-Subject: Re: [PATCH] docs: filesystems: proc: fix typos
-In-Reply-To: <20260818214604.20349-1-drifabdelmalekmohamedsaid@gmail.com>
-References: <20260818214604.20349-1-drifabdelmalekmohamedsaid@gmail.com>
-Date: Mon, 31 Aug 2026 15:28:54 -0600
-Message-ID: <87mru2gesp.fsf@trenco.lwn.net>
+To: Christoph Hellwig <hch@lst.de>, willy@infradead.org
+Cc: skhan@linuxfoundation.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] XArray: document that tags persist after storing new
+ elements
+In-Reply-To: <20260819065714.1358822-1-hch@lst.de>
+References: <20260819065714.1358822-1-hch@lst.de>
+Date: Mon, 31 Aug 2026 15:29:50 -0600
+Message-ID: <87ik4qger5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,16 +50,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-writes:
+Christoph Hellwig <hch@lst.de> writes:
 
-> Fix five typographical errors in the /proc filesystem documentation.
+> This is a very useful feature, document it.
 >
-> Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  Documentation/filesystems/proc.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-
+>  Documentation/core-api/xarray.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
+> index c6c91cbd0c3c..9a0d930a8c79 100644
+> --- a/Documentation/core-api/xarray.rst
+> +++ b/Documentation/core-api/xarray.rst
+> @@ -127,6 +127,8 @@ by using xa_set_mark() and remove the mark from an entry by calling
+>  xa_clear_mark().  You can ask whether any entry in the XArray has a
+>  particular mark set by calling xa_marked().  Erasing an entry from the
+>  XArray causes all marks associated with that entry to be cleared.
+> +Storing a new entry that replaces an existing entry keeps the marks
+> +associated with the index intact.
+>  
 Applied, thanks.
 
 jon
