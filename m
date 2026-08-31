@@ -1,85 +1,77 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6EA3D1CBE
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 08:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D393DAABD
+	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 09:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788166390; cv=none; b=hePd9mFKKmJi8YnGZuH5x0rmvZuDCEfDhKPftfhYvacvTToFrpzYt6g6z7fwA2zhhYoBg21R8XEj8FYmSsNgEtzIgqqyOCSgw2PZvwkqU4bjJXB88WugGYIkaxu5n9BaaR/xjdLbjicGp9LiKVYgSgFZGDn1DPdXxVX2Tdtcrfw=
+	t=1788167385; cv=none; b=blMl7VyuNpB0BZv4xsLswwbG7XM6GDssM73NvUohBBcKm8Jt8NmTVD3W/EqiIqQ9+rmYyeuhjlgM/HXtB31vVsWIgV7cVKwkJiz+LAoa7IJdaTBDmji0s5Pr8qwhQXpF92cClDZJrK/gnVpeo4qlbfoPcMHSYO0Kbxaf6J1bFwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788166390; c=relaxed/simple;
-	bh=Zqq9qbFv5M+FszmPP8yoR4xQaUqEcKrJ7JQu6CVAL4M=;
+	s=arc-20240116; t=1788167385; c=relaxed/simple;
+	bh=NQzxN3RdeSfNNKapYyGm/IPsR5F7fvtch0RxWaHdydM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NJh8ZPwuoFHgWLdTfrM1B2qHbdSN0sE5eF6jqDq6Ek2UQeOfhL2OCrBuympJvGurShA1J9Sp+/RKOvVD2HUb4dT5e60guQqs63rDHzJjq0WmPo+LUF9FX9fOQ1JuLzDbSanb5XBfn9LjHKdoU0xwg1jhKniKoCIu2TU5tz+FfCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jtLJ/fg5; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xSV2K70G; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YFyC1I+U; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fLkXvgyz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=dlkwrzreXi/VmVjbSWgzsHQlj3l8JNhrXHfdF/gEgDv6poII9yiHNpvHdmvWAoE5H8cKghu6zCmqnhofjNJ/ilH/BvdEdUxRQyybV1u49S7XvWynCzT0svr5D2K/D8/H/yCuEhzHmywvZyyACSSWHp2KM6NWeSqRS5kZqJ+4VqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=WmMpEtxz; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jtLJ/fg5";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xSV2K70G";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YFyC1I+U";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fLkXvgyz"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8CEF4221B8;
-	Mon, 31 Aug 2026 08:52:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788166382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uox9wyt7bGtCbcnqQOYrZzQnYkQzNlSlge+IE5qfqgI=;
-	b=jtLJ/fg5eecxRPMIA6tpe//fjjD05epkjfbFE2GCPindnKWdFNMKab0ybhHjOC3yDmPss0
-	ajg2LtNChf3hAY0tdxqEfOyRzRSL9zhLZpYZLf/2XAkSTsNYfq341MnG/79hXvxP2X9+i1
-	XAv5EP2Cc4DAO8HNVmlZnoBfWDuACsA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788166382;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uox9wyt7bGtCbcnqQOYrZzQnYkQzNlSlge+IE5qfqgI=;
-	b=xSV2K70GXZuSRs4pDpY4g2plTOIGhEZ5iDR6D5RIXszN3EKlP/20xhD2Nx/A9AWqFU8emE
-	Al57hCGg1rn+tJAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788166378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uox9wyt7bGtCbcnqQOYrZzQnYkQzNlSlge+IE5qfqgI=;
-	b=YFyC1I+UgVPKENTT0f8LeGTOONi4GAGlMtd+R7YI7UBt1RAbg/JTKGgQJfwdkoTzYDvB9a
-	59Q8j08FCmOJapfC/9TV7FhGNjeybw5Q4epUQQxnBOBzFs7osm8OrISZFojpoz+5n1k9H1
-	2DjVXw43NQ8hyAdVGFKthkdPABvMwgg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788166378;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uox9wyt7bGtCbcnqQOYrZzQnYkQzNlSlge+IE5qfqgI=;
-	b=fLkXvgyzDC96I47wSls0z7y3la4h5YE1pv4uYKdRguMsXBjiYM3CCIBYsk2cDWzUAooNVa
-	27KcFEAeVqezzcDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6D91C13694;
-	Mon, 31 Aug 2026 08:52:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GL66GupAlWopLgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 31 Aug 2026 08:52:58 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1003EA13B5; Mon, 31 Aug 2026 10:52:54 +0200 (CEST)
-Date: Mon, 31 Aug 2026 10:52:54 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 6/6] buffer: Rename label
-Message-ID: <3qeii2sawy5um2nrg34yr5u56fhcezdwxuebpzm4zy7s55bgnn@ogz2l4oqf4be>
-References: <20260828205429.3678204-1-willy@infradead.org>
- <20260828205429.3678204-7-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="WmMpEtxz"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-482f9309813so2117846f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 02:09:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1788167382; x=1788772182; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aoEjE8TELGQjXx5xs4Igsq3G0G5VVqVmGoWAazModw8=;
+        b=WmMpEtxzhZHxRnsH8+ngDbHTxGffgJFMISul3O+BJgXd+uORanf0Y2OuOYK1AYgMuR
+         0HD5hiduf+8BPeh5Ley7RbcNMR52BrsMv4DcNXtDHoTtx9TQEJR7BdIjeTcC0pNtZ3Wp
+         I+xaqjTIvWFCjTvjl6/FocrNcrmxzDu4PkV1e3jobP311xAW3NZxF9UOZrosJhw/inRV
+         DsxB16WauJUD93wGsB6AUYmzivm0fgHg2Mv6MxLFmCJPcoMkXyRHTd5gC8xN6sNiKRu3
+         gU8Ie3N/0EmZbOtODKDH8wVGRONSHF3EE8thFqkjXNcRqIfzEhi/4d6GTbwbCm2PW1qm
+         gF+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788167382; x=1788772182;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aoEjE8TELGQjXx5xs4Igsq3G0G5VVqVmGoWAazModw8=;
+        b=RggSwfnhbhbwQf384YnFsZg+cXuKipVaFLokqjMf8xlP9Jn4pqcgiEBYvABBgUStEm
+         frJNtftC8lVZcYj+AI8U3KQEi5LK1Ljeop10iLEJwe7mC08oyRWF+Sn+ZZSXlvCRMmj9
+         +nRwF3SnyQJ8FVc9mqdZ15h67JIavbAdSvph2LOQzlqHrh4B0rkjLxFyZWcuDUuT/I80
+         9wTRx+vPnlJfW4WrPATIxd8hjsfmEjeeyc6k9mBp6T4G5sTULFQey2zrmMCm6Xl5FMFl
+         S0UtGFOoBF7YuLLKkRn1IqSkO2b5qDPIfTxY9UcmEz8af4FS7da9fXKveSlGKzZVi7NH
+         1BdQ==
+X-Forwarded-Encrypted: i=1; AKwUvBynGY2M83/WpcHDXJ3YDWg8yMwQ6e3RjaSojb2My6eWUhh1352mrckN6EujdVj8JPWdYFWX9qCln5Ftzejs@vger.kernel.org
+X-Gm-Message-State: AFuF++kfVDn5lsKBygkKg7fMqIBD+7xU61X1NSCADFgwHOHxh4tuE43A
+	rjtpklty3fmXsOqpXxqKadsHY//TTvLX1MNE3FLHCPiRfFmeiX5ju2ypP23NDgICdnI=
+X-Gm-Gg: AYBFou0PR4zUm6ikqstnj7FH91f+ar3+ZchwZm6fCpUiFHOs8tFhtdJ1wTMkrbUpGpN
+	O5hzVE3WdPPTLOw3NNSuxtIS3ovNG2S2shziSG+zCqQY6SafNl3c4T5kVIiXife9MD2jUze5dWQ
+	WUtrdbHtBlHP2Wb/IP3tHKXTt8Y7WJNMZGqL4Zi+ZpdS/PmQjYNQPo41eXj8GlGhhrMgmW2hk7L
+	wIMCPvnDsgPzSz/sKYJRDVm1YYmUQE7vXy5v6vjwxBYqyz2Qim1t+5FlMpMcM8XN3QFPK3Jdeig
+	9Yi54LQvlNUEt3B+cc8DbZsGWaSbIwKqTMkj2ks47WQiNigVgN/iavzzZkhOmIwW/V4VciU7XWK
+	L4MO3WS/tT8tM98MgVr/exPUxAN/xURz5v5d0xyT/tXa4oqi83+QKLXan9dxObXsnmtpzHUSZo2
+	0nLVFiodIMiFF15Yj2PiMtPquQB1m2nVyp1PJwgInc4dIoGVHJBtPN0T83zFqDVzO2puIQVGSQy
+	T5r+5rFrlK+
+X-Received: by 2002:a05:6000:288c:b0:484:3bb9:25ca with SMTP id ffacd0b85a97d-4843bb92758mr8741566f8f.12.1788167381881;
+        Mon, 31 Aug 2026 02:09:41 -0700 (PDT)
+Received: from localhost (109-81-17-247.rct.o2.cz. [109.81.17.247])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbb28492sm20835619f8f.31.2026.08.31.02.09.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 02:09:41 -0700 (PDT)
+Date: Mon, 31 Aug 2026 11:09:40 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ye Liu <ye.liu@linux.dev>, Ye Liu <liuye@kylinos.cn>,
+	David Rientjes <rientjes@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] mm/oom_kill, proc: replace magic number 1000 with
+ OOM_SCORE_ADJ_MAX
+Message-ID: <apVE1A1pI4Ad6Ts5@tiehlicka>
+References: <20260811033609.3992348-1-ye.liu@linux.dev>
+ <20260829201310.648ed330984b91b1c135d8a3@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -88,70 +80,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260828205429.3678204-7-willy@infradead.org>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,infradead.org:email,suse.com:email]
-X-Spam-Flag: NO
+In-Reply-To: <20260829201310.648ed330984b91b1c135d8a3@linux-foundation.org>
 
-On Fri 28-08-26 21:54:26, Matthew Wilcox (Oracle) wrote:
-> We now unlock the folio, not the page.
+On Sat 29-08-26 20:13:10, Andrew Morton wrote:
+> On Tue, 11 Aug 2026 11:36:08 +0800 Ye Liu <ye.liu@linux.dev> wrote:
 > 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/buffer.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> > From: Ye Liu <liuye@kylinos.cn>
+> > 
+> > In oom_badness() and proc_oom_score(), the oom_score_adj normalization
+> > uses a hardcoded 1000, which is the value of OOM_SCORE_ADJ_MAX defined
+> > in include/uapi/linux/oom.h.  Other code in the kernel (e.g.
+> > fs/proc/base.c oom_adj handling) already uses OOM_SCORE_ADJ_MAX for
+> > the same purpose.
+> > 
+> > Replace the magic number with the macro for consistency and
+> > readability.  No functional change.
+> > 
+> > ...
+> >
+> > --- a/fs/proc/base.c
+> > +++ b/fs/proc/base.c
+> > @@ -594,7 +594,8 @@ static int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+> >  	 * exporting for a long time so userspace might depend on it.
+> >  	 */
+> >  	if (badness != LONG_MIN)
+> > -		points = (1000 + badness * 1000 / (long)totalpages) * 2 / 3;
+> > +		points = (OOM_SCORE_ADJ_MAX +
+> > +			  badness * OOM_SCORE_ADJ_MAX / (long)totalpages) * 2 / 3;
+> >  
+> >  	seq_printf(m, "%lu\n", points);
+> >  
+> > diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+> > index 5f372f6e26fa..08bff7a55db8 100644
+> > --- a/mm/oom_kill.c
+> > +++ b/mm/oom_kill.c
+> > @@ -230,7 +230,7 @@ long oom_badness(struct task_struct *p, unsigned long totalpages)
+> >  	task_unlock(p);
+> >  
+> >  	/* Normalize to oom_score_adj units */
+> > -	adj *= totalpages / 1000;
+> > +	adj *= totalpages / OOM_SCORE_ADJ_MAX;
+> >  	points += adj;
+> >  
+> >  	return points;
 > 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index 9b4e462903a1..c9342aeb8cdf 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -1654,7 +1654,7 @@ void clean_bdev_aliases(struct block_device *bdev, sector_t block, sector_t len)
->  			/* Recheck when the folio is locked which pins bhs */
->  			head = folio_buffers(folio);
->  			if (!head)
-> -				goto unlock_page;
-> +				goto unlock_folio;
->  			bh = head;
->  			do {
->  				if (!buffer_mapped(bh) || (bh->b_blocknr < block))
-> @@ -1667,7 +1667,7 @@ void clean_bdev_aliases(struct block_device *bdev, sector_t block, sector_t len)
->  next:
->  				bh = bh->b_this_page;
->  			} while (bh != head);
-> -unlock_page:
-> +unlock_folio:
->  			folio_unlock(folio);
->  		}
->  		folio_batch_release(&fbatch);
-> -- 
-> 2.47.3
+> AI review suggests that this is a misinterpretation of "1000"?
 > 
+> 	https://sashiko.dev/#/patchset/20260811033609.3992348-1-ye.liu@linux.dev
+
+Sashiko is trying to be clever and it is simply wrong here. The scaling
+fact is indeed the same as the OOM_SCORE_ADJ_MAX.
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Michal Hocko
+SUSE Labs
