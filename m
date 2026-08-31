@@ -1,144 +1,95 @@
-Received: from mta1.migadu.com (out-51.mta1.migadu.com [95.215.58.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8164D2EDD
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 14:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366B5442360;
+	Mon, 31 Aug 2026 14:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788185528; cv=none; b=LAAX4cDPVqzoOvcWi6tCvMMR26tcIuB7GNqde/q40ERMx6X4fXFRZcvc7GqqIfiB+FvOgAhepJdSSM1oPKZwrqyGTYdUBayZsHKWXY2sjDTgUVM6N63Mi4lfxbeMoJWAobJ/PfFkULcxk3kd8fkQLZUFL/RVopREi1StDop33ZA=
+	t=1788186333; cv=none; b=Nn65YNAi6Onky5tdkOWN+EZleUK2zAqo41wk74+rPge3HqgHML2UegFKL+hoLcdZnW2iowNc1TRw+2EX7ENtOVtVP64zgd20QDl4cIRySrzZN4JDhXMsbhYP2wVFrlig+uJbPIq+IdFQXw6y9McFVqxYlga2WhxBIcjZFAGCBcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788185528; c=relaxed/simple;
-	bh=qeMdGEKedWl1FPeoapg8nysRoTiyOSWg/nAFOX53SYI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=upW9dmai1CZqd96xmevvhvY8Y+NpTOMM4JEePw/bFnI7jORGlYWIquIvV3nkY87aGNsfly91zJyY8d6Qmthk4vi84y4sR/7zY8o5nGjOj9DYyBsyWC5uKJIz4UYT2nqCRVL6oG6Wn9AvXiqj+WjnNrmBHlwV1pvCFGPuQQK7RVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UpySgTxB; arc=none smtp.client-ip=95.215.58.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788186333; c=relaxed/simple;
+	bh=FOWmjPwhcPnfsgfybQqGkKOTxzWrKcgQBsXz1d3DW9U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cH/7duMqEhogpNRGdN8O92BfSrtuq2n4BXIviDjJMvxDuEb1LlkN7dhoFSfydXfTlhG9hCGBlRkSLIMZCUPWJW0h3f/iRsNwCXSpchy/U5MwouN+RrrbDrqsa14KcWj+sIgGbCX++e9ha02TumTYty8E+zCukLZ5vsN3B22Vj1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=2XNVH0TS; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=yRNdWvHU; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UpySgTxB"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=qeMdGEKedWl1FPeoapg8nysRoTiyOSWg/nAFOX53SYI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788185524; v=1; x=1788790324;
- b=UpySgTxB7rkxUGIyTpQnQIDRnAUoPGeDYZFzZECpxJvXHmpZxm3bwcfx5EYnMnsVdYEBOYwa
- iu01b13XW9kL8gEQd9HmWD5Y8i8so2ASmXRCDFz73mNWh9S7xSpbLxxHF4uc9GXR/ezP/Q+SGPU
- 7WbKYyaxgv7iBNoEUydmSMWs=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 0c74ffbab702f936;
-	Mon, 31 Aug 2026 14:11:54 +0000
-X-Mizu-Trace-ID: 0c74ffbab702f936
-X-Migadu-Flow: FLOW_OUT
-From: Tao Cui <cui.tao@linux.dev>
-To: penguin-kernel@i-love.sakura.ne.jp,
-	brauner@kernel.org
-Cc: Markus.Elfring@web.de,
-	axboe@kernel.dk,
-	broonie@kernel.org,
-	bvanassche@acm.org,
-	dlemoal@kernel.org,
-	hch@infradead.org,
-	hch@lst.de,
-	hdanton@sina.com,
-	linux-block@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-next@vger.kernel.org,
-	lkp@intel.com,
-	oe-lkp@lists.linux.dev,
-	oliver.sang@intel.com,
-	torvalds@linux-foundation.org,
-	viro@zeniv.linux.org.uk,
-	cui.tao@linux.dev,
-	Tao Cui <cuitao@kylinos.cn>
-Subject: Re: [PATCH v7] loop: Fix NULL pointer dereference in lo_rw_aio()
-Date: Mon, 31 Aug 2026 22:11:43 +0800
-Message-ID: <20260831141143.704821-1-cui.tao@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6a770a9c-2642-4392-9b9c-609836693f36@I-love.SAKURA.ne.jp>
-References: <6a770a9c-2642-4392-9b9c-609836693f36@I-love.SAKURA.ne.jp>
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="2XNVH0TS";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="yRNdWvHU"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id CB9A526F7696;
+	Mon, 31 Aug 2026 23:25:21 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1788186322;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kAoMtYbkNNUiOE+S3UoOomnsFSBHMhruboJztWKQtRk=;
+	b=2XNVH0TSwxbuOqnO7Qc9NgluT0PlhsHRR02nJvBatSWeIhTW10czwY9an1PVCu90WnXyAK
+	Klwv7RWnRJaC9XIC+K53X9+UM2FCWt7Zpji/ULnWaCFacjbl/HswvfeB7ZNmW+Ey2dq2jg
+	yuTtPowRNOYsHDUmFeIAk4jD5X8XkFQZ0BKYhxOOV7NKEfspxbuMADnXNGMZnHOD+6bDpI
+	qoI0Bmz+ZE3QSYR8nsZaS7StDUUnrHLITrYUiemqfGv3XFRhqQ9Gp8prBgRmCQAAF8f8+8
+	Cv0ntJZrQLm+sf99XXSznHAqL5TzrvhadaQYWrCzOo12wiovhfCjRZYk6NfF8w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1788186322;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kAoMtYbkNNUiOE+S3UoOomnsFSBHMhruboJztWKQtRk=;
+	b=yRNdWvHUn8XJbByLZNn6klCcVnWASFsOsxSmkNAb3IizEdGRK34dSCpR4Ci2tpMUKuKQpj
+	B85RtEgYcydBKOAw==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 579B3E00161;
+	Mon, 31 Aug 2026 23:25:21 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 47DDC2200164; Mon, 31 Aug 2026 23:25:21 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Jan Kara <jack@suse.cz>
+Cc: ZW Tang <tangzw515@gmail.com>,  Amir Goldstein <amir73il@gmail.com>,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [BUG] fanotify: WARNING in fanotify_handle_event with crafted
+ msdos image and long path
+In-Reply-To: <3kzvlb3wpzbg6k6ttzp6rh2cfmz3hmmmlisgxjn5u4xmaaqibm@qkre7flkhejl>
+References: <CAA2SOT5mWrS_KN38TRCu_KfTjpG6fyaytqZbOb25Pb0kfqZ3gQ@mail.gmail.com>
+	<3kzvlb3wpzbg6k6ttzp6rh2cfmz3hmmmlisgxjn5u4xmaaqibm@qkre7flkhejl>
+Date: Mon, 31 Aug 2026 23:25:21 +0900
+Message-ID: <8733vuweni.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-From: Tao Cui <cuitao@kylinos.cn>=0D
+Jan Kara <jack@suse.cz> writes:
 
-Hi Tetsuo, Bart,=0D
-=0D
-> +	/* Step 1: Flush all outstanding I/O, without open_mutex held. */=0D
-> +	/*=0D
-> +	 * Now that loop_queue_rq() sees lo->lo_state !=3D Lo_bound,=0D
-> +	 * wait for already started loop_queue_rq() to complete.=0D
-> +	 */=0D
-> +	synchronize_rcu();=0D
-=0D
-Your reply to Bart says loop_queue_rq() is called with RCU read=0D
-lock, but I don't see one.  The two call sites of ->queue_rq() are=0D
-blk_mq_dispatch_rq_list() and __blk_mq_issue_directly(), and=0D
-neither is wrapped in rcu_read_lock().  Direct issue from=0D
-blk_mq_submit_bio() runs in process context with no RCU read-side=0D
-critical section, so synchronize_rcu() does not wait for a=0D
-loop_queue_rq() that is already running there.  Only the softirq=0D
-dispatch path is an implicit RCU reader.=0D
-=0D
-The window is still closed by the steps below, so this is not a=0D
-correctness bug, but the synchronize_rcu() is not doing what the=0D
-comment claims.  blk_mq_quiesce_queue() +=0D
-blk_mq_wait_quiesce_done(), as Bart suggested, would express the=0D
-intent directly.=0D
-=0D
-> +	/*=0D
-> +	 * Now that no more AIO requests are scheduled by lo_rw_aio(),=0D
-> +	 * wait for already started AIO to complete.=0D
-> +	 */=0D
-> +	blk_mq_unfreeze_queue(lo->lo_queue, blk_mq_freeze_queue(lo->lo_queue));=
-=0D
-=0D
-About this step, in your follow-up you wrote:=0D
-=0D
->   (1) since we are in lo_release() with disk_openers(disk) =3D=3D 0, the =
-activity of=0D
->       incrementing/decrementing q_usage_counter (incremented before loop_=
-queue_rq()=0D
->       is called, and decremented after loop_queue_rq() returned BLK_STS_I=
-OERR)) will=0D
->       cease shortly=0D
-=0D
-The decrement timing here is only true for the error path.  For=0D
-BLK_STS_OK the reference is held until the request is freed, which=0D
-is what makes blk_mq_freeze_queue() wait for requests that already=0D
-passed the state check, including the loop workqueue worker that=0D
-completes them.  That is the property step 1 relies on, and it is=0D
-worth stating in the comment.=0D
-=0D
-What is still open is Bart's question about io_uring fixed files:=0D
-if submissions can continue after the last close, "cease shortly"=0D
-does not hold, and it is the freeze wait that actually drains them.=0D
-=0D
-> +	if (need_clear) {=0D
-> +		/*=0D
-> +		 * Grab all references that will be dropped as soon as=0D
-> +		 * returning from lo_release() and releasing disk->open_mutex.=0D
-> +		 */=0D
-> +		get_device(disk_to_dev(disk));=0D
-> +		__module_get(disk->fops->owner);=0D
-> +		queue_work(system_long_wq, &lo->lo_clr_work);=0D
-> +	}=0D
-=0D
-With teardown now asynchronous, between the last close()=0D
-returning and the work item finishing, lo_open() and=0D
-LOOP_CONFIGURE return -ENXIO.  That is the same behavior change=0D
-that led to the revert of the earlier attempt (bf23747ee053,=0D
-xfs/259).  Moving the xfstests side to the tests is one thing, but=0D
-userspace that closes a loop device and immediately reconfigures=0D
-it now needs to handle a transient -ENXIO.  Is that acceptable, or=0D
-should the retry happen in the kernel?=0D
-=0D
-Thanks,=0D
-Tao=0D
+> On Mon 31-08-26 12:32:57, ZW Tang wrote:
+>> I am reporting a warning triggered by a syzkaller reproducer on
+>> Linux 7.2.0-rc3. A similar issue appears to have been reported upstream
+>> before, but I can still reproduce it on Linux 7.2.0-rc3 with HEAD commit
+>> 1137d8b5df06137fb49513cc923b3b24d94cb809.
+>> 
+>> The reproducer mounts a crafted msdos filesystem image, creates a very
+>> long pathname, installs a fanotify mark, and then calls execve() on the
+>> long path. During execve(), the file open path triggers fsnotify, which
+>> then calls fanotify_handle_event(). While fanotify is constructing the
+>> event, it hits a warning in fs/notify/fanotify/fanotify.h.
+>> 
+>> This looks like a fanotify name-event encoding robustness issue. A crafted
+>> filesystem image together with a very long pathname appears to trigger an
+>> unexpected name/fid event layout, and fanotify_info_copy_name() reaches a
+>> WARN_ON_ONCE() path. The kernel should probably reject or truncate the
+>> event cleanly instead of triggering a warning, because panic_on_warn turns
+>> this into a kernel panic.
+>
+> fanotify complains that the name length is greater than NAME_MAX.  If I can
+> guess, the problem likely is that the msdos filesystem (vfat?) allows a
+> file name that is longer than NAME_MAX. Which would be a bug in the
+> filesystem driver, not a problem in fanotify... Ogawa, care to have a look?
+
+A patch looks like be applied to v7.3.
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
