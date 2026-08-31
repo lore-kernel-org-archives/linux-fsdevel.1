@@ -1,145 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C511922F5
-	for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 23:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306FB29408
+	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 00:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788131656; cv=none; b=qWT//Rruzp5tlYz+iemBI/71V/OioV142FUiUE7MBNYulNf3VjLCP6YH2MGJDfMRd9qsVNDRjjhfY5YQ/ZiUprxKTC29LD40PxN2oAl2tYICqO6zelm8c1220uQ4LF/WK/1zzFX0KJcra2oH7pNjMHt0JU2LpFjHrHF6pR5SpDc=
+	t=1788135158; cv=none; b=Iju43YWZBBNNouGqHF74iHJjLbezs6hh9mZQGFlNu+6Yh7726YmATuhRuokOjtbrU+DZJ6Lrk8ri64fboYNvZJw4vMawiesJ+1VRt+E1A4qg9sJEkYAJSJRWugeSpxLGhS+Cu7kBswnGORqYkKlFiFic/zvczzRpjUJ2wVnZ+Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788131656; c=relaxed/simple;
-	bh=sWvWi63qnqXkLg50mfl2yCmFZbSL0c2QQUd+d3IJwsg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=SiysYfINXqW9OgWiQ8PdUJ1Siw3dA/0nxq17Te09Wrc6hZmbMNtAD/WwreyCYhBy1s8OE8zneTPAcSRUdHRk+bDKnCt6YIRnV9g2T9OILwajqttL8ymjZpnGql5wv36SHxDLUVAxfnAict5nbdDplWr0BFB4hmeO+EWPhGb0Ww0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T6KRi7rP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788135158; c=relaxed/simple;
+	bh=kNrbOsCEPY0M5OftSW2I5EzAkoMiQPi8tHEFlCA/ZTk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nYx4N8wpg2pvngsGoya9JvpERBK3GP5Uv9B8UsCbNLrlKbMDcP9YNlB6xG5+l+xoka0LDu2s5iYygymbUHEJbNXrR7LgcSK7B6jqY3Ng0B9psShVDhZYCH/O7MeCHzfC4DSOrQdoVw/e8WR7qFY3KIdXHr4HfY6R8tRnY84ytIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a3iiqS6b; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T6KRi7rP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A891D1F000E9;
-	Sun, 30 Aug 2026 23:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788131654;
-	bh=5iHkvC7WHRmbVtiMjSDUBc8+v7BhLkSXGXSdVc+gbls=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=T6KRi7rPp1hLp1Gy5KYtBdz03pqZrdrXumOTfw/BVUkS5iFfzh2+F6V8T6UKeHfxt
-	 nm0rmCLWzK4v0pvNrbkiO/Fyij6S8uZSyVcDIFeiLhgyqC5d3gaLgewGViAe9OcfLo
-	 Jn9CM2IXmXM1ZRtPHme0ybwMPFCvRlsx80pcDpSR1mV/eS8WW9sQ2IJ7BSInXiyyoS
-	 yPjD5FZq202gNU7GVYnD0QLr/yYKtnekConOEqqcfGTGboxCLZoolSvOd8RFMqE5h+
-	 u1joSpIhagn3UVhjqD3HZNQ//1WYGRjHWp6ruW3KZGLpKNmp44RG7/bAkrJGqgcRbL
-	 WpMBcZ8j0RwWw==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id B6CB1F40066;
-	Sun, 30 Aug 2026 19:14:13 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Sun, 30 Aug 2026 19:14:13 -0400
-X-ME-Sender: <xms:RbmUalX3kqybJy2eNJtg4Imn8wJIfEG5443PSHqSI5TAPXLq4Rw9TQ>
-    <xme:RbmUagaBtBgrXCOroZLCzcK1O6hKoGZumaOyY7eHo1la4qSoPKVwiyHNKO13-g2cE
-    NDkCIK7XOM86M8Owww0ACO0Kl4QpX5q5AYIJkR1OCDPB5t4q9YYN9GU>
-X-ME-Proxy-Cause: dmFkZTGaOChUc6KWp7f+rm4x3fk8MUoGXRUsVZwFOddJL4G2SGkk57/+6CZGb/HaUzkBph
-    194BxJatuO0SqZ3CE1cPBoPkGPayKct12Tvz4eZF0iHLLrto6H39wJmymOh5IgiXj1jbBa
-    UoCFjDcQy6XpBm2S/hQXAZX+NJRlWgF/dpHQEso1yOImHY6v15irNMPjVOYfl3DiojvQev
-    XccDqwd08dllRYeDECQPgeor5yVIgFgwRvJ02o/9GkflazUYCzHVeGpRpjc3pAgk9eEj0T
-    OhwKSxdGPxO57T/KK4QwM/Cd4J8ob5sSolx0a6epul4WnhwGCLRTURarGSm38h27as9jdC
-    hEISh7+gqmBAdv5Jjl/AhEUjhGNoQgkdXOStkKYC8qTu2xKmtjKdUZiCSywnODyXgE0S9F
-    IKE+EJe3eI9Sbr1mwLX3FRru/BUaNMmncWlCwafuDrXt8XRownpAlLuDBbKgMIlPBkumop
-    UcWj44L6ub3F+VnoXcPwfLUQHUgI6vaXqvDhW/fC9jducK5JACmNZrjPnA1SIX0mj0FeSN
-    QNam/eDP9areeJWBno4EDr04Jj4RqDCVIymjGezbgdoG1Z9fwsp0wsxsveL1fsq9uNuX9K
-    DJLUyXxpEO4T6L5kAEAJetx67YOSZgCxB+pRZCvsZLWP/xJU4R8FTWRMm8cQ
-X-ME-Proxy: <xmx:RbmUak7ziDj4SJiJ3ANK3tNSkHvhjpav6TCba1pyG785wgIV7nzHEQ>
-    <xmx:RbmUamAtYRdSgKTE8d8Ovg2FwjDbktdv1KfFMQ3R8IqsakFCInL4Rw>
-    <xmx:RbmUarabd8WTKOnX9KPRwUYiQQmD7feOGxI8umBSVp3vUQODmC4Yhg>
-    <xmx:RbmUahaRyUwGcJXQn3sVOBlWapfndjpmFereh6j3-v5zK9ajVx7IYA>
-    <xmx:RbmUai-YXgyDRzDHs9eCwckqBXehkKreSoSZAub6m3Y02lFKmhqyHgwl>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 8A9B77811F0; Sun, 30 Aug 2026 19:14:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a3iiqS6b"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-84e0688b7e8so1954084b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 30 Aug 2026 17:12:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788135156; x=1788739956; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TS9zFXHclAz7UpENmLtE6ii1ULHUCqAUDk+wz8SniSw=;
+        b=a3iiqS6btElZV109O5NNgr6Eh3R4zh+u/7VG6/lyaH5GMdL7rW1V7rzl8xxZ1Q0kwe
+         gsPnYBLQdCSFoH4GMfhccYDKeqKSIUcXa3rptlB9oxgEPjjLCo+Mlzufr5SlZUz+Ct+P
+         XyFMKvV2gaRq1zuvWX7+bvxuJ1PSx45Wxs/CCk4DBB1GSObn1It6LVz6FmsirhDImDZx
+         O1zxGbUX8xjJxyhHaZI2E9cNxxqJ0F66Q3McKFYJd/5aumOk4IKLNHyOR9oBHRsGNFPG
+         lSE79CPY47fjxM6HqiAj/JliOtJZHYMxSOOxOeQJaTFAeDML+ioQtPXhZJ1z5l4I+AQz
+         QGqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788135156; x=1788739956;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TS9zFXHclAz7UpENmLtE6ii1ULHUCqAUDk+wz8SniSw=;
+        b=bGN1DZgdYhcfYFoE2l+1NaawkC92SbSfaM+V4jvaskBFN3L55Go9wxglpDw6Oe07US
+         NCRONgeIU8dO0kOa+xWQsZKeLz7Rch3ZwqkB7Mdn9p1eaKnLmEBCerSRw6kfR+dbuRHw
+         BVqVyvsjQKkBcBeITBye+tHxqR9aaKCEIMeSuesEH3HZPpXpx/lyhWhLcqhfGNqaylRM
+         Pqt/rwsA2YAVqoeVlAu+vCtxfLFLabZEptPDVC6uQG+ZAOsR/dg3vyIP6MPBJMVDzKwv
+         dAry9OZIud4W8bUEHnQLRZyGy+U8mPsDf+CHFO9Oyv31NxGyJL7MXo9+Ren8QwVC3p3O
+         qq0A==
+X-Forwarded-Encrypted: i=1; AHgh+Roaj1WqvksV7DWrBhUQh+UkLeb8uAGgS6Hg093qs7PGAZbxYwvWPXHD2JbSNBvNlxr2c3YlgDFdaC9OHFdk@vger.kernel.org
+X-Gm-Message-State: AFuF++kwQ5F0A6+x11+87WOzG0aKbpfFuVvtZsDbpk05kPK2ltjY4sij
+	kTGIQLyuzO8eO1/gQIxy4b0a3UrENNB2AtDYf3kSS+/gK37jDdsg/DRf
+X-Gm-Gg: AR+sD105Y5qE5eBBkJ1xker5MMN8oTxIpT9EjEXi4Xx3sW77Th5KPtaFbC0qLxGTOLk
+	V+LAFydR/W4hjfKLEy/c0xNE+JCT9pdEQGk4iNmSCYy5IwatxAcWK45uO8SdJnafJ4JCVRiMlsK
+	SW3RfTmVyZpBGE+u9iXNKiRj/trL5C0CBeDnC0l9geZY/KiQ6DIh2ZEYbq9WqrPItcKYKi1KGbM
+	hTBCDc0X909/tANaQs2wfHi/3AsyTbdwNzjf8qzlYrTJJFvwqVGCD3GsVP9jbkgrneiQtY1/gng
+	bbQ3ZvRPNOnXHS5VJPjES/y+8kNZxL7xTlAD0JYHJUE+bBM+i05Z4K0KKP+OEsiq7+bROZTcueA
+	NDKgZg0YrkGGW/zJYRdHKzykZHXCZ59uzS07sS2bGkNF4PwzLSU2eN3Il7CIXfAaVbHxSwlB0N2
+	cuYZPIYc3D+F9m/WKF+pvRgvQSAh5p35DUzbRrhrUrsu1EAl1G8NEh4BplpbYIrmqbA45fY4gd
+X-Received: by 2002:a05:6a00:909e:b0:83e:b443:965e with SMTP id d2e1a72fcca58-85628893892mr39231859b3a.3.1788135156299;
+        Sun, 30 Aug 2026 17:12:36 -0700 (PDT)
+Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8569ff73a9asm2700400b3a.27.2026.08.30.17.12.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2026 17:12:35 -0700 (PDT)
+From: Daehyeon Ko <4ncienth@gmail.com>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Mateusz Guzik <mjguzik@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	syzbot+0aee5e8066eddbbe7397@syzkaller.appspotmail.com,
+	syzbot+e8b3520b53e78e90034e@syzkaller.appspotmail.com
+Subject: [PATCH v2] exit: hold a reference to thread_pid across proc_flush_pid
+Date: Mon, 31 Aug 2026 09:12:21 +0900
+Message-ID: <20260831001221.3755948-1-4ncienth@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AflgjeobGf1w
-Date: Sun, 30 Aug 2026 19:13:56 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: NeilBrown <neil@brown.name>, fstests@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Message-Id: <114f727b-86bc-40b8-8487-35bccf101d2c@app.fastmail.com>
-In-Reply-To: <20260827234743.2389778-2-neilb@ownmail.net>
-References: <20260827234743.2389778-1-neilb@ownmail.net>
- <20260827234743.2389778-2-neilb@ownmail.net>
-Subject: Re: [PATCH] fstests: generic: Add test of seek in directories
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Commit 0a36bad01731 ("release_task: kill the no longer needed
+get/put_pid(thread_pid)") removed the reference around proc_flush_pid().
+It assumed that free_pids(post.pids) at the end of release_task() would
+keep thread_pid alive until then.
 
-On Thu, Aug 27, 2026, at 7:36 PM, NeilBrown wrote:
-> Add a test for consistency of readdir (getdents64) results.
+That assumption is wrong.  __change_pid() only records a detached PID in
+post.pids when pid_has_task() is false for every PIDTYPE.  If another task
+still uses the exiting task's PID as its process group or session ID,
+__unhash_process() removes the exiting task's PIDTYPE_PID link but leaves
+the PID out of post.pids.  release_task() therefore holds no reference to
+it after dropping tasklist_lock.
 
-Thanks for writing this!
+The other task can then remove the remaining PIDTYPE links.  Its
+free_pids() call schedules delayed_put_pid(), and the RCU callback can free
+the PID before the first release_task() reaches proc_flush_pid().
 
-Note that it asserts more than exactly-once: the relative order of
-every stable name must hold for the life of the directory, across
-independent opens. That is the right property needed for NFS. Either
-the internal documentation or the commit message should say that,
-and explain why: between two READDIRs there is no open state, so the
-server can be handed any cookie against any later state of the
-directory. POSIX does not require this, certainly, but NFS does. 
+An unprivileged reproducer races wait4(-1) against setsid() to trigger this
+ordering.  Three of three fresh v7.2 KASAN boots reported:
 
-The seek check picks n from all names, including unstable ones
-unlinked many loops earlier, using the d_off from the first scan.
-That is the "rm -rf over NFS" case and the most valuable check here,
-but it reads like an oversight. Can you add a comment saying it is
-deliberate?
+    BUG: KASAN: slab-use-after-free in
+    proc_invalidate_siblings_dcache+0x3e2/0x3f0
+    Read of size 8 by task h7_pid_reaper/1921
 
-The seven op classes run mixed in one invocation, so a failure says
-"loop 37 with seed 1234567" and not which *semantic* broke. btrfs
-fails only on renames onto a stable name, and nobody can tell that
-from the output without rerunning with -T. It might be nicer to have
-the wrapper invoke the binary once per class, or at least once each
-for churn, rename onto an existing name, and RENAME_EXCHANGE. Then
-put exchange in its own test gated by _require_renameat2 exchange,
-which replaces the FSTYP == nfs check and _notruns everywhere the
-flag is unsupported.
+    Call Trace:
+     proc_invalidate_siblings_dcache
+     release_task
+     wait_consider_task
+     __do_wait
+     do_wait
+     kernel_wait4
 
-> +_begin_fstest auto dir quick
+    Freed by task 0:
+     kmem_cache_free
+     put_pid
+     delayed_put_pid
+     rcu_core
 
-Add rename, perhaps?
+    Last potentially related work creation:
+     __call_rcu_common
+     free_pids
+     ksys_setsid
 
-> +$here/src/t_dir_seek -p $TEST_DIR -S 1234567 $extra
+KASAN identified a 144-byte object from the pid cache and located the bad
+read 80 bytes into the freed object, matching pid->inodes.  With an
+explicit reference, three of three fresh boots completed without a KASAN
+report.  The concurrent RCU callback dropped its reference while
+proc_flush_pid() was protected, and the balancing put_pid() performed the
+final free afterward.
 
-$TEST_DIR/testdir is not scoped to $seq and there is no _cleanup().
-A run interrupted before clean_files() makes the next one fail in
-mkdir with exit status 1. Use $TEST_DIR/$seq-dir and rm -rf it before
-the run and in _cleanup().
+Take a reference before __unhash_process() clears p->thread_pid and release
+it after proc_flush_pid() completes.
 
-> +		case op_create:
-> +			n = get_file(&unused);
-> +			if (n > 0) {
+A tested source reproducer is available privately on request.  No
+controlled read or write, information leak, or privilege escalation is
+claimed.  The mainline patch applies directly to v6.19.y and newer;
+v6.16.y through v6.18.y need a context-adjusted backport.
 
-n >= 0. Name 0 is a valid index. Drawn here it is removed from unused
-and never put back anywhere.
+Fixes: 0a36bad01731 ("release_task: kill the no longer needed get/put_pid(thread_pid)")
+Reported-by: syzbot+0aee5e8066eddbbe7397@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0aee5e8066eddbbe7397
+Reported-by: syzbot+e8b3520b53e78e90034e@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=e8b3520b53e78e90034e
+Cc: <stable@vger.kernel.org> # see patch description, needs adjustments for 6.16.y-6.18.y
+Assisted-by: LLM
+Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
+---
+Changes in v2:
+- Rewrite the root-cause explanation around __change_pid(), pid_has_task(),
+  and the last PIDTYPE detach, as requested by Oleg.
+- Explain in the source comment why thread_pid needs an explicit reference.
+- Rebase onto current Torvalds master cee9395acd80.
 
-> +	lseek(fd, off, SEEK_SET);
+ kernel/exit.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-For both get_order() and check_order(), a rejected cookie should fail
-with the errno, not proceed from 0 and report bad order.
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 97686af89501..4e028f157597 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -261,8 +261,11 @@ void release_task(struct task_struct *p)
+ 	pidfs_exit(p);
+ 	cgroup_task_release(p);
+ 
+-	/* Retrieve @thread_pid before __unhash_process() may set it to NULL. */
+-	thread_pid = task_pid(p);
++	/*
++	 * Pin @thread_pid before __unhash_process() clears it. The last
++	 * PIDTYPE detach can otherwise free it before proc_flush_pid().
++	 */
++	thread_pid = get_pid(task_pid(p));
+ 
+ 	write_lock_irq(&tasklist_lock);
+ 	ptrace_release_task(p);
+@@ -291,8 +294,8 @@ void release_task(struct task_struct *p)
+ 	}
+ 
+ 	write_unlock_irq(&tasklist_lock);
+-	/* @thread_pid can't go away until free_pids() below */
+ 	proc_flush_pid(thread_pid);
++	put_pid(thread_pid);
+ 	exit_cred_namespaces(p);
+ 	add_device_randomness(&p->se.sum_exec_runtime,
+ 			      sizeof(p->se.sum_exec_runtime));
 
-Nits: copyright 2025 vs 2026; typos in both header comments; %lu for
-uint64_t; usage says "-p 10" for -o; the -n and -o range errors name
-the wrong flags; d_name[] rather than d_name[0].
-
-With the wrapper and op_create fixes:
-
-Reviewed-by: Chuck Lever <cel@kernel.org>
-
-I will also note that, despite the new failures, users of NFS-
-exported tmpfs and btrfs filesystems have not observed or reported
-problems. So the severity of these failures is not high, IMO, but it
-would still be good to correct them. It's great to see more of the
-specific NFS requirements for directories materialized in a set of
-unit tests.
-
-
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
 -- 
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
+2.55.0
