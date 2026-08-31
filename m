@@ -1,179 +1,245 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C1C3E00A9;
-	Mon, 31 Aug 2026 11:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3963B14CE;
+	Mon, 31 Aug 2026 11:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788176455; cv=none; b=NE+ptW+DZTdkC2Qwae2d4Slqbw7CXuoEcwIUOkWzuVMlBiwospdDjx5aqJEPQIIt0aPLrHiIFq06b7xZ83G4nsWwCL0kMMsA5/P+g5NkTeMpjEc8wQfubAMY3AV86wZgyPK7boPzxQHK20K/EKXxjHvWdwAF63bQlu9e/pIzRSU=
+	t=1788177246; cv=none; b=enm5e1RHwOGxe96L8cWtplFntuWd0MfA9gXRxprfm/xb5vXJ7mtv5TgMfGtatDKtmP4yJQrIhku9J1Wmi56qYJOnHKgd8Z9N/0ecUP6Q0NWFr76/AJ3GYUu0s5xm38ieH1QNHWzN2VL/zaEJF3ZyC8AyCrn0qLVuQc8/IjTvM5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788176455; c=relaxed/simple;
-	bh=xIcDWx7qO76O+94qcOZ2275IwdS+NOLM1XEiNpBKL5A=;
+	s=arc-20240116; t=1788177246; c=relaxed/simple;
+	bh=+O8q1PFFVuZ04wk0IQ4Bd37i7S8NTmE+vIVAH0LPoo8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oh4dq1f6EQQlbq/izoGgFx0rFdqum/jZNQZsFznxk7wvWyzDwyQEpm6hiEbExxb28niU1eLekvs+bMaeP68IiYXLWNtbEGxRN/ho1FKm0G3lx4mnehLC+/KoUCzix0ksC3TmoUIDwgu1EX5yi2Hd1eFGJVMUQPACd/jYUsjbhZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FbiVWpKD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0E7J6h1A; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bXjoDg+7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=U1hZ1tBV; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=tK6yjzrOxSIvH1Zg86WuEjenDPFPhHJ0z6xQQV/78OpFPo53dR53Cg2mTKYGf+FC4nQ3A1EMj9lQ7+5tRmCXWnDRi1aWU2x8/UPpKPiLYKZTCvYAUoqd8oKk2dFiPGr1Z6pTI2YAchnNnJcXGXHe4BACUvsm7Nr0L9dsojZDLeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IMdQX0Rk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vtUsLCXv; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=195sPZLp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=k20UFPZ9; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FbiVWpKD";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0E7J6h1A";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bXjoDg+7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="U1hZ1tBV"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IMdQX0Rk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vtUsLCXv";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="195sPZLp";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="k20UFPZ9"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D21081FD12;
-	Mon, 31 Aug 2026 11:39:34 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4FDC0224D0;
+	Mon, 31 Aug 2026 11:53:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788176378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788177238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DTRty398GXlcqWISPVlAJ3GmdmLdx7245mBr8r7j8pA=;
-	b=FbiVWpKDfjKCbDbU90n6NKF44haSISnMDWJ/Edx0mZgWsg/BEs5+cgro3Xf02eBbkSuYqX
-	7v+hDkLbz2vJ8HfYXg5pcoRQz93zCDdBeiFRufZNTVqpSoka99kzPlss7r5HqgazqLanNS
-	hGTkRUPa0tmi1lLqo0ym+7Yj6svVwFY=
+	bh=+RKXp8acbmEZB92DNdU3vfC31X8afmpyUT6QYHPcLNU=;
+	b=IMdQX0Rknx81REbKQMLryWJUlv3le8cvNfq2jsljR3lyYozvKOMjLRhAco4Ho+eVnD/Y0I
+	2UhPtxTTF9QOveY9vAjfmoCV9GGK72D6PCtHLmdfNNk7QxT7TJbfqHhOC5+7wL8dx6069b
+	eVhrm147WdcP1E6Peqf9t8wtxHFy7X0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788176378;
+	s=susede2_ed25519; t=1788177238;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DTRty398GXlcqWISPVlAJ3GmdmLdx7245mBr8r7j8pA=;
-	b=0E7J6h1AJiGopyyG4PmSx2V20IOhavGhLNV1ixOEukqT9bakDOWuhfzV0DUK/8X2hDqW/C
-	rE3H6CEfxLZhFUBw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=+RKXp8acbmEZB92DNdU3vfC31X8afmpyUT6QYHPcLNU=;
+	b=vtUsLCXv9zDoJW9hr/GXW1I1h3Mjpa53UNOz8J+8lpsTEjad3KmGdaJkNXRYEgURPFrTBZ
+	oAI+6OQ0YOsA/cCw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788176374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788177234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DTRty398GXlcqWISPVlAJ3GmdmLdx7245mBr8r7j8pA=;
-	b=bXjoDg+72I+Kiy+NZMLGvnqq8pUP0wnvXBo7qMHpwOPX05X0FD734fqSjHwt5uz2kbdQKA
-	sbzcGpaIMHL4CoF4+uPGfHZO/EfnfTg/snBGHiTZa6vYrA1smrOmYZf5phQegEGFUBZEZN
-	2xyUbUxxg4G5AP2t6zh/ZuHOt89j4Go=
+	bh=+RKXp8acbmEZB92DNdU3vfC31X8afmpyUT6QYHPcLNU=;
+	b=195sPZLp5vxtLk6MPAl7ckwEWrkhoI+V8HAAma0AzFU3PLQZGSDKhWfvB0xWB2L6KPziW6
+	7l6nkMzvBCrVzSVEV1kblZv3jIdTbmWs4LX9Sa/xoHxOoiJbbAzaaYzqRekkAN4SiXQ0U6
+	n7M4ARNqAqSFFFf5RfET2yNjZSdJdW8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788176374;
+	s=susede2_ed25519; t=1788177234;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DTRty398GXlcqWISPVlAJ3GmdmLdx7245mBr8r7j8pA=;
-	b=U1hZ1tBV6VRSmYx1K2Li4UA7+XWAnxIxFz2867dPilUHo2Ashq4E/y5SvFf7DjY5ypBsRg
-	7I2M4h/wz00mn3CQ==
+	bh=+RKXp8acbmEZB92DNdU3vfC31X8afmpyUT6QYHPcLNU=;
+	b=k20UFPZ928t7n4ASR8ntGEhWHQ/ljeHXihrjD0QxYUxk/WN0cZdApli1WA7oHjrEE35vXQ
+	p997v4OwWz1hR9DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B130013694;
-	Mon, 31 Aug 2026 11:39:34 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A42FD13515;
+	Mon, 31 Aug 2026 11:53:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mcYqK/ZnlWogVAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 31 Aug 2026 11:39:34 +0000
+	id me8PKFFrlWrEYgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 31 Aug 2026 11:53:53 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3A8D8A13B5; Mon, 31 Aug 2026 13:39:30 +0200 (CEST)
-Date: Mon, 31 Aug 2026 13:39:30 +0200
+	id EC102A13B5; Mon, 31 Aug 2026 13:53:52 +0200 (CEST)
+Date: Mon, 31 Aug 2026 13:53:52 +0200
 From: Jan Kara <jack@suse.cz>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Daehyeon Ko <4ncienth@gmail.com>, 
-	Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] fanotify: destroy/add race leaves a mark on a detached
- connector
-Message-ID: <67hq7zqnvp6onwwjp24axucgxbzsko2dphielupdfzmfyk6x57@bdeef7fjkqfa>
-References: <20260827045007.3831259-1-4ncienth@gmail.com>
- <yjfqzckumtd32dgqidi5sndvth2t67mjwah4kt4jiahlx2a5uf@if55sinfv5o7>
- <20260828042421.964822-1-4ncienth@gmail.com>
- <ptco7s5x7tjzp42dzlsitibdigpwucl2whwrq37tknjpo7x2lc@b7q27ldlorak>
- <CAOQ4uxgB9anyJcWem04w65VCJdxbbb2cQDZ_u8qMusw3xpB9Gw@mail.gmail.com>
- <63aj7jbfaoamdmcurlge2c2kqpliaifgq4vbythrrxpfyr5vtm@z64myom426zd>
- <CAOQ4uxh-NZ76hEFoNNGjyhodr9U=dvZuGVmYHVPGZ_=jRxCAsA@mail.gmail.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	bcrl@kvack.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
+	yi.zhang@huawei.com, pmladek@suse.com, rostedt@goodmis.org, 
+	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk, senozhatsky@chromium.org, 
+	akpm@linux-foundation.org, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, socketcan@hartkopp.net, mkl@pengutronix.de, 
+	kuniyu@google.com, willemb@google.com, jhs@mojatatu.com, jiri@resnulli.us, 
+	kees@kernel.org, cyphar@cyphar.com, tglx@kernel.org, liuhangbin@gmail.com, 
+	sdf@fomichev.me, nb@tipi-net.de, linux-fsdevel@vger.kernel.org, 
+	linux-aio@kvack.org, linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-can@vger.kernel.org
+Subject: Re: [PATCH 07/11] ext4: Convert group-count barrier protocol to
+ acquire/release
+Message-ID: <vzwmgjfapapzrbwdo6nangrihpk4prlj7rlm3tipmmiumb3l7j@cffw5odvv6g5>
+References: <20260825095422.3166067-1-ruanjinjie@huawei.com>
+ <20260825095422.3166067-8-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxh-NZ76hEFoNNGjyhodr9U=dvZuGVmYHVPGZ_=jRxCAsA@mail.gmail.com>
-X-Spam-Score: -3.80
+In-Reply-To: <20260825095422.3166067-8-ruanjinjie@huawei.com>
+X-Spam-Score: -2.30
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
+X-Spamd-Result: default: False [-2.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[40];
+	TAGGED_RCPT(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	R_RATELIMIT(0.00)[to_ip_from(RLmzfjx67n53eyz9asjm8u3pcw)];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,redhat.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,kvack.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,huawei.com,suse.com,goodmis.org,linux.intel.com,rasmusvillemoes.dk,chromium.org,linux-foundation.org,davemloft.net,google.com,redhat.com,hartkopp.net,pengutronix.de,mojatatu.com,resnulli.us,cyphar.com,fomichev.me,tipi-net.de,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
 X-Spam-Flag: NO
 
-On Sat 29-08-26 17:04:19, Amir Goldstein wrote:
-> On Fri, Aug 28, 2026 at 7:36 PM Jan Kara <jack@suse.cz> wrote:
-> > > > Now there's the question about the best fix for the problem. I've realized
-> > > > we cannot just remove the call to fsnotify_inode_delete() from the place
-> > > > where fsnotify_inoderemove() is called (and rely on the call from
-> > > > __destroy_inode()) because the connector holds inode reference and so
-> > > > __destroy_inode() would never get called. Hrm, this is a hairy issue and so
-> > > > far I don't see a good place to reliably trigger detaching of connector
-> > > > from the inode. One reliable place would be iput() but that's really ugly
-> > > > and would slow down every iput() user. The cleanest solution I can
-> > > > currently see is to stop holding inode reference from a connector as I've
-> > > > proposed in the past. Then we can reliably perform the cleanup in
-> > > > __destroy_inode(). But that will be a rather non-trivial undertaking. Amir,
-> > > > do you see some other option?
-> > >
-> > > What about the option I proposed to live with the orphan marks
-> > > Is it so bad? I mean it's confusing and removing the assertion could
-> > > hide real bugs/races, but maybe it's worth not complicating the code
-> > > until we move forward to re-attachable marks.
-> >
-> > I'm not so much worried about the case when placing of the mark races with
-> > unlink. There I agree we can somehow paper over the problem for now. What
-> > I'm more worried about is the case where someone places a precontent /
-> > permission mark on the inode and a malicious user does hardlink + open +
-> > unlink trick and after unlinking the original link to the inode, he has an
-> > open fd to the inode stripped of any notification marks which I'd say
-> > violates the promise of precontent / permission marks.
+On Tue 25-08-26 17:54:18, Jinjie Ruan wrote:
+> During an online resize, reading s_groups_count and s_blockfile_groups
+> requires strict ordering against subsequent initialized block group
+> metadata.
 > 
-> I see. so we need a point where there are no more hardlinks and no more
-> dentry aliases to the inode.
+> Replace the historical smp_wmb()/smp_rmb() pairs with smp_store_release()
+> and smp_load_acquire(). This formalizes the publish-subscribe pattern
+> and allows weakly-ordered architectures (e.g., arm64) to utilize native
+> STLR/LDAR instructions instead of full DMB fences.
 > 
-> How about we check for this condition?
->
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -471,7 +471,7 @@ static void dentry_unlink_inode(struct dentry * dentry)
->         raw_write_seqcount_end(&dentry->d_seq);
->         spin_unlock(&dentry->d_lock);
->         spin_unlock(&inode->i_lock);
-> -       if (!inode->i_nlink)
-> +       if (!inode->i_nlink && hlist_empty(&inode->i_dentry))
->                 fsnotify_inoderemove(inode);
+> Update the documentation in resize.c and ext4.h accordingly.
+> 
+> Assisted-by: Gemini:Gemini-3.1
+> Assisted-by: DeepSeek:DeepSeek-V3
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-This looks like an intriguing idea. But I think it still has a hole. Until
-the last inode reference is put, open_by_handle() can still get you a new
-dentry and an open file pointing to that inode.
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
+
+> ---
+>  fs/ext4/ext4.h    | 10 +++-------
+>  fs/ext4/mballoc.c |  6 ++----
+>  fs/ext4/resize.c  | 19 +++++++++++--------
+>  3 files changed, 16 insertions(+), 19 deletions(-)
+> 
+> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+> index 724a27e8be61..d70b9cb09155 100644
+> --- a/fs/ext4/ext4.h
+> +++ b/fs/ext4/ext4.h
+> @@ -3542,16 +3542,12 @@ static inline void ext4_isize_set(struct ext4_inode *raw_inode, loff_t i_size)
+>  }
+>  
+>  /*
+> - * Reading s_groups_count requires using smp_rmb() afterwards.  See
+> - * the locking protocol documented in the comments of ext4_group_add()
+> - * in resize.c
+> + * Reading s_groups_count uses acquire semantics.
+>   */
+>  static inline ext4_group_t ext4_get_groups_count(struct super_block *sb)
+>  {
+> -	ext4_group_t	ngroups = EXT4_SB(sb)->s_groups_count;
+> -
+> -	smp_rmb();
+> -	return ngroups;
+> +	/* Pairs with smp_store_release() in ext4_update_super() */
+> +	return smp_load_acquire(&EXT4_SB(sb)->s_groups_count);
+>  }
+>  
+>  static inline ext4_group_t ext4_flex_group(struct ext4_sb_info *sbi,
+> diff --git a/fs/ext4/mballoc.c b/fs/ext4/mballoc.c
+> index 06171a11db12..a15285224cdf 100644
+> --- a/fs/ext4/mballoc.c
+> +++ b/fs/ext4/mballoc.c
+> @@ -899,10 +899,8 @@ static ext4_group_t ext4_get_allocation_groups_count(
+>  
+>  	/* non-extent files are limited to low blocks/groups */
+>  	if (!(ext4_test_inode_flag(ac->ac_inode, EXT4_INODE_EXTENTS)))
+> -		ngroups = EXT4_SB(ac->ac_sb)->s_blockfile_groups;
+> -
+> -	/* Pairs with smp_wmb() in ext4_update_super() */
+> -	smp_rmb();
+> +		/* Pairs with smp_store_release() in ext4_update_super() */
+> +		ngroups = smp_load_acquire(&EXT4_SB(ac->ac_sb)->s_blockfile_groups);
+>  
+>  	return ngroups;
+>  }
+> diff --git a/fs/ext4/resize.c b/fs/ext4/resize.c
+> index 2c5b851c552a..5e3ad8393cf8 100644
+> --- a/fs/ext4/resize.c
+> +++ b/fs/ext4/resize.c
+> @@ -1462,11 +1462,11 @@ static void ext4_update_super(struct super_block *sb,
+>  	 *
+>  	 * The precise rules we use are:
+>  	 *
+> -	 * * Writers must perform a smp_wmb() after updating all
+> -	 *   dependent data and before modifying the groups count
+> +	 * * Writers must use a release store when updating the groups count
+> +	 *   after all dependent data has been updated
+>  	 *
+> -	 * * Readers must perform an smp_rmb() after reading the groups
+> -	 *   count and before reading any dependent data.
+> +	 * * Readers must use an acquire load when reading the groups
+> +	 *   count before reading any dependent data.
+>  	 *
+>  	 * NB. These rules can be relaxed when checking the group count
+>  	 * while freeing data, as we can only allocate from a block
+> @@ -1474,12 +1474,15 @@ static void ext4_update_super(struct super_block *sb,
+>  	 * only then free after serialising in turn against that
+>  	 * allocation.
+>  	 */
+> -	smp_wmb();
+>  
+>  	/* Update the global fs size fields */
+> -	sbi->s_groups_count += flex_gd->count;
+> -	sbi->s_blockfile_groups = min(sbi->s_groups_count,
+> -			(EXT4_MAX_BLOCK_FILE_PHYS / EXT4_BLOCKS_PER_GROUP(sb)));
+> +	/* Pairs with smp_load_acquire() in ext4_get_groups_count() */
+> +	smp_store_release(&sbi->s_groups_count,
+> +			  sbi->s_groups_count + flex_gd->count);
+> +	/* Pairs with smp_load_acquire() in ext4_get_allocation_groups_count() */
+> +	smp_store_release(&sbi->s_blockfile_groups,
+> +			  min(sbi->s_groups_count,
+> +			      (EXT4_MAX_BLOCK_FILE_PHYS / EXT4_BLOCKS_PER_GROUP(sb))));
+>  
+>  	/* Update the reserved block counts only once the new group is
+>  	 * active. */
+> -- 
+> 2.34.1
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
