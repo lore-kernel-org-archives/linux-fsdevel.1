@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9D53E49C9;
-	Mon, 31 Aug 2026 11:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700D83EFFA9;
+	Mon, 31 Aug 2026 11:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788175318; cv=none; b=DOOQhjJc0tLCxuUc4+XrhujuS9UfmSgf0dDJMqazhPd4UIIu2hlNt+aSTmiKcqJGw2D7MdWBQWq8idrwTcDrMV2lssEqgP1IOcZevK7NUa1vf8F79uoSLBr9VXIfpDKp4xrfVtdFsT9twyVvEeLNu/yF5MIlK1Eh80UbLwYISds=
+	t=1788175321; cv=none; b=QYh/FTb1Zo0XndWmapHrafl5UNkoDzZYEhQhDUY/MZY+Q3xuO33kWjjgmII5O4v6olL455G/ffjNXfRjXfMemgdRkmFuS6q5lzo7EtO0Pqq81EV3llw2Dhs1gzEzvAvthEYUMW/Yzr7PCUgtzjwB44J7HYJAoZhO2FO3QNPHR7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788175318; c=relaxed/simple;
-	bh=93dvwazGQmyhpLGOG6YC1oHD3PgppRUiN9FyAp69QeA=;
+	s=arc-20240116; t=1788175321; c=relaxed/simple;
+	bh=VLssKX8GIOxfbHmQLMsVyfJ1wjYRa6l1ALugNjTkGP4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gBplB78XQnTrECFDynNFoEhDOPEYBGdTH4iNZjhxmAQD0mQloEqXaoopPbd1FaSjpdJTPeLmGkiuWnqjgQl0BoYdInvEZbYzf9zk53aBswajn0r+AJ+c+jEhDb1DNZ1l6HJ5sITJWupqUU1OkEk3Vt8ju3PKycok0xQAfM7UyzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ekNDTPCQ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=kFh32TwNKm9utzSmLq8fT8Ssz33klt1EbyBUw0zZwHYCBBMCzr8wMw5y9UJXdKyIkKi+K6ruTcYODDpL4UEOLw9UAuXRq8x/0K2kWHOQFFZEhGCMgXfp/EswmEeImVKs2Z7SICIqFeMZ+lg8z8dmvPu+kOWbgIIL6MTAEccrdjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wm+Gtv/M; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ekNDTPCQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A6941F00ACA;
-	Mon, 31 Aug 2026 11:21:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wm+Gtv/M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C6A1F00A3D;
+	Mon, 31 Aug 2026 11:21:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788175316;
-	bh=vvhqs/opFW1MtRaaw0rgUb+gCmDOYHPkin1TdpYv3Uk=;
+	s=k20260515; t=1788175320;
+	bh=6ELI+s/2g2iPQPGx3WRbVPVNLhrYyFGbu19t3cCh+FA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ekNDTPCQdWkEoSfNIbvVZXs2NUYC7fLMmBBvnOWaxsvJ+6lft/Go7ZNrqrufS1qxm
-	 B/VlzNwrEvTVOkN3FUr/fExTnqUjI1TYzfZQwzoqdnRDFLOdkmVUc7Rk8PPJXghIeU
-	 jfD0ZWDxJRtk4qXnrz3tCqfOWs51QLVCTLX9ZOOD5D24jN+sl6d/YxT92SYHRtkzJg
-	 QGOtq6RrHZaOyZixmn6MQgedIHjzJmjDVsZ+GbcWmdmvhdSPCo39AkbsUPSTTtDhz2
-	 atGEsETzjwvTlPN44XbjHHrUWdr5TIMv+4GJIAeL9Aqm6lx0bygWRqz1TzOcw3av4j
-	 E2yXCEvPCmMGA==
+	b=Wm+Gtv/MPvueJtqbljoCLIXCcW1ukR1bhLUz4uIJtVbZurSMQOGeYKw6V750lZJoe
+	 rv4NokgI+vj1urVOmSIDwTnexdZkm6ilevHzhH0qPs4+IjB8M/hY9IHYSqBI9Ifoho
+	 CU0y1TpuOty5IZrUQXvapC58baZvqYYYfePWgfNdAzvAfyjX5WMpcYxYuW+Y8ke/xw
+	 m3nXCrCAEn0rnEjvYcnD3ISNQpQBlIrCKxBRahAnZWSxjXO21x9cOUGXd1Kz5acbKb
+	 23dgR42xBXL5rcsmh576zdFNEkvcsnVFdFevFukPilNxElT9+KQEvgMNmMWm5YYrvO
+	 8DUh186wtk5Mw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 31 Aug 2026 13:21:20 +0200
-Subject: [PATCH 08/10] selftests/net: SO_PEERPIDFD_THREAD
+Date: Mon, 31 Aug 2026 13:21:21 +0200
+Subject: [PATCH 09/10] pidfs: record the coredump on the dumping thread's
+ pid too
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260831-work-unix-passpidfd-v1-8-70cbfda0c7ba@kernel.org>
+Message-Id: <20260831-work-unix-passpidfd-v1-9-70cbfda0c7ba@kernel.org>
 References: <20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org>
 In-Reply-To: <20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org>
 To: Jakub Kicinski <kuba@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
@@ -51,135 +52,146 @@ Cc: "David S. Miller" <davem@davemloft.net>,
  Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3150; i=brauner@kernel.org;
- h=from:subject:message-id; bh=93dvwazGQmyhpLGOG6YC1oHD3PgppRUiN9FyAp69QeA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRNTd6omPdr8tFpGT13mZcY/On+Kp+0qWTDZ6azhmIPd
- iS2u0e/7yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjImTZGhjlsX2+sdVq45P8j
- A59dVk/c7yX4KQdpc8tPteIrrDA362RkWOX34H+w2slS65fuTxLsOa7/Kzrfmix8863Ya+Nnq5b
- qMAMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4565; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=VLssKX8GIOxfbHmQLMsVyfJ1wjYRa6l1ALugNjTkGP4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRNTd648tabbNXT9c8l5tp/P/6venOwQF/Ukwe3BU6ff
+ 3mf7ZxNRUcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEuHkZ/tkfuCixa3L/ea7Z
+ Fr9XrMw1WF5gXzM1MWrOxvksEu3Ml78yMuy78OCRKhdzlU1+ZuRMu3AHrbV2pofZtLQ2xH10v1L
+ iwgUA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Add tests for SO_PEERPIDFD_THREAD.
+If a thread-group coredumps only the thread-group leader pidfd will
+return coredump information. A pidfd for the thread that took the fatal
+signal cannot be used to retrieve it.
+
+Record both the thread-group leader and the specific thread that took
+the signal and register both in pidfs. Mark both the thread-group leader
+and the specific thread with the coredump information so retrieval works
+for both pidfds.
+
+Now that both SO_PEERPIDFD and SO_PEERPIDFD_THREAD are available it's
+easy to get the coredump information for the specific thread.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- tools/testing/selftests/net/af_unix/scm_pidfd.c | 97 +++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
+ fs/coredump.c            | 22 +++++++++++++---------
+ fs/pidfs.c               | 11 +++++++++--
+ include/linux/coredump.h |  4 +++-
+ 3 files changed, 25 insertions(+), 12 deletions(-)
 
-diff --git a/tools/testing/selftests/net/af_unix/scm_pidfd.c b/tools/testing/selftests/net/af_unix/scm_pidfd.c
-index 019c48e1cdcd..bbbd5e7b4fa7 100644
---- a/tools/testing/selftests/net/af_unix/scm_pidfd.c
-+++ b/tools/testing/selftests/net/af_unix/scm_pidfd.c
-@@ -32,6 +32,10 @@
- #define SO_PASSPIDFD_THREAD 86
- #endif
+diff --git a/fs/coredump.c b/fs/coredump.c
+index 71a0093ada1b..b5ff4b3e1831 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -454,7 +454,7 @@ static bool coredump_parse(struct core_name *cn, struct coredump_params *cprm,
+ 				 * leader we know that the thread-group leader
+ 				 * cannot be reaped until @current has exited.
+ 				 */
+-				cprm->pid = task_tgid(current);
++				task_pids(cprm->pid, current);
+ 				err = cn_printf(cn, "%d", COREDUMP_PIDFD_NUMBER);
+ 				break;
+ 			}
+@@ -626,13 +626,17 @@ static int umh_coredump_setup(struct subprocess_info *info, struct cred *new)
+ 	struct coredump_params *cp = (struct coredump_params *)info->data;
+ 	int err;
  
-+#ifndef SO_PEERPIDFD_THREAD
-+#define SO_PEERPIDFD_THREAD 87
-+#endif
+-	if (cp->pid) {
++	if (cp->pid[PIDTYPE_TGID]) {
+ 		struct file *pidfs_file __free(fput) = NULL;
+ 
+-		pidfs_file = pidfs_alloc_file(cp->pid, 0);
++		pidfs_file = pidfs_alloc_file(cp->pid[PIDTYPE_TGID], 0);
+ 		if (IS_ERR(pidfs_file))
+ 			return PTR_ERR(pidfs_file);
+ 
++		err = pidfs_register_pids(cp->pid);
++		if (err)
++			return err;
 +
- #define CHILD_EXIT_CODE_OK 123
+ 		pidfs_coredump(cp);
  
- static void child_die()
-@@ -822,4 +826,97 @@ TEST(scm_pidfd_thread_creds)
- 	EXPECT_EQ(ids.pid, info.tgid);
+ 		/*
+@@ -695,12 +699,12 @@ static bool coredump_sock_connect(struct core_name *cn, struct coredump_params *
+ 		return false;
+ 
+ 	/*
+-	 * Set the thread-group leader pid which is used for the peer
+-	 * credentials during connect() below. Then immediately register
+-	 * it in pidfs...
++	 * Set the pids of the dumping thread and its thread-group leader
++	 * which are used for the peer credentials during connect() below.
++	 * Then immediately register them in pidfs...
+ 	 */
+-	cprm->pid = task_tgid(current);
+-	retval = pidfs_register_pid(cprm->pid);
++	task_pids(cprm->pid, current);
++	retval = pidfs_register_pids(cprm->pid);
+ 	if (retval)
+ 		return false;
+ 
+@@ -722,7 +726,7 @@ static bool coredump_sock_connect(struct core_name *cn, struct coredump_params *
+ 	}
+ 
+ 	/* ... and validate that @sk_peer_pid matches @cprm.pid. */
+-	if (WARN_ON_ONCE(unix_peer(socket->sk)->sk_peer_pid[PIDTYPE_TGID] != cprm->pid))
++	if (WARN_ON_ONCE(!pids_equal(unix_peer(socket->sk)->sk_peer_pid, cprm->pid)))
+ 		return false;
+ 
+ 	cprm->limit = RLIM_INFINITY;
+diff --git a/fs/pidfs.c b/fs/pidfs.c
+index 586af2e5811c..29299b2c7ca7 100644
+--- a/fs/pidfs.c
++++ b/fs/pidfs.c
+@@ -793,9 +793,9 @@ void pidfs_exit(struct task_struct *tsk)
  }
  
-+static void *peer_connect_thread(void *arg)
+ #ifdef CONFIG_COREDUMP
+-void pidfs_coredump(const struct coredump_params *cprm)
++static void pidfs_coredump_pid(struct pid *pid,
++			       const struct coredump_params *cprm)
+ {
+-	struct pid *pid = cprm->pid;
+ 	struct pidfs_attr *attr;
+ 
+ 	attr = READ_ONCE(pid->attr);
+@@ -814,6 +814,13 @@ void pidfs_coredump(const struct coredump_params *cprm)
+ 	smp_wmb();
+ 	set_bit(PIDFS_ATTR_BIT_COREDUMP, &attr->attr_mask);
+ }
++
++void pidfs_coredump(const struct coredump_params *cprm)
 +{
-+	struct sock_addr *sa = arg;
-+	struct thread_ids ids = {
-+		.pid = getpid(),
-+		.tid = gettid(),
-+	};
-+	int fd;
-+	char sync;
-+
-+	fd = socket(AF_UNIX, SOCK_STREAM, 0);
-+	if (fd < 0)
-+		return (void *)1;
-+
-+	if (connect(fd, (struct sockaddr *)&sa->listen_addr, sa->addrlen))
-+		return (void *)1;
-+
-+	if (send(fd, &ids, sizeof(ids), 0) != sizeof(ids))
-+		return (void *)1;
-+
-+	/* stay alive until the server has looked at our pidfd */
-+	if (read(fd, &sync, 1) != 1)
-+		return (void *)1;
-+
-+	close(fd);
-+	return NULL;
++	/* The dumping thread's pidfd reports the coredump as well. */
++	for (enum pid_type type = PIDTYPE_PID; type <= pids_last(cprm->pid); type++)
++		pidfs_coredump_pid(cprm->pid[type], cprm);
 +}
-+
-+static int peer_pidfd_info(int fd, int optname, struct pidfd_info *info)
-+{
-+	int pidfd;
-+	socklen_t len = sizeof(pidfd);
-+
-+	if (getsockopt(fd, SOL_SOCKET, optname, &pidfd, &len)) {
-+		log_err("getsockopt(SO_PEERPIDFD*)");
-+		return -1;
-+	}
-+
-+	info->mask = PIDFD_INFO_PID;
-+	if (ioctl(pidfd, PIDFD_GET_INFO, info)) {
-+		log_err("ioctl(PIDFD_GET_INFO)");
-+		close(pidfd);
-+		return -1;
-+	}
-+
-+	close(pidfd);
-+	return 0;
-+}
-+
-+/* SO_PEERPIDFD_THREAD returns a pidfd for the peer's connecting thread. */
-+TEST(so_peerpidfd_thread)
-+{
-+	struct sock_addr sa;
-+	struct thread_ids ids;
-+	struct pidfd_info info;
-+	pthread_t thread;
-+	void *tret;
-+	int server, cfd;
-+
-+	server = socket(AF_UNIX, SOCK_STREAM, 0);
-+	ASSERT_LE(0, server);
-+
-+	fill_sockaddr(&sa, true);
-+	ASSERT_EQ(0, bind(server, (struct sockaddr *)&sa.listen_addr, sa.addrlen));
-+	ASSERT_EQ(0, listen(server, 1));
-+
-+	ASSERT_EQ(0, pthread_create(&thread, NULL, peer_connect_thread, &sa));
-+
-+	cfd = accept(server, NULL, NULL);
-+	ASSERT_LE(0, cfd);
-+
-+	ASSERT_EQ(sizeof(ids), recv(cfd, &ids, sizeof(ids), MSG_WAITALL));
-+	ASSERT_NE(ids.pid, ids.tid);
-+
-+	/* SO_PEERPIDFD refers to the peer's thread-group. */
-+	ASSERT_EQ(0, peer_pidfd_info(cfd, SO_PEERPIDFD, &info));
-+	EXPECT_EQ(ids.pid, info.pid);
-+	EXPECT_EQ(ids.pid, info.tgid);
-+
-+	/* SO_PEERPIDFD_THREAD refers to the connecting thread. */
-+	ASSERT_EQ(0, peer_pidfd_info(cfd, SO_PEERPIDFD_THREAD, &info));
-+	EXPECT_EQ(ids.tid, info.pid);
-+	EXPECT_EQ(ids.pid, info.tgid);
-+
-+	/* release the connecting thread */
-+	ASSERT_EQ(1, write(cfd, "x", 1));
-+	ASSERT_EQ(0, pthread_join(thread, &tret));
-+	ASSERT_EQ(NULL, tret);
-+
-+	close(cfd);
-+	close(server);
-+}
-+
- TEST_HARNESS_MAIN
+ #endif
+ 
+ static struct vfsmount *pidfs_mnt __ro_after_init;
+diff --git a/include/linux/coredump.h b/include/linux/coredump.h
+index 7b38ee2e7913..0bbb7de6a402 100644
+--- a/include/linux/coredump.h
++++ b/include/linux/coredump.h
+@@ -5,6 +5,7 @@
+ #include <linux/types.h>
+ #include <linux/mm.h>
+ #include <linux/fs.h>
++#include <linux/pid_types.h>
+ #include <linux/sched/coredump.h>
+ #include <asm/siginfo.h>
+ 
+@@ -32,7 +33,8 @@ struct coredump_params {
+ 	int vma_count;
+ 	size_t vma_data_size;
+ 	struct core_vma_metadata *vma_meta;
+-	struct pid *pid;
++	/* Dumping thread and its thread-group leader by pid type. */
++	DECLARE_PIDS(pid, PIDTYPE_TGID);
+ };
+ 
+ extern unsigned int core_file_note_size_limit;
 
 -- 
 2.53.0
