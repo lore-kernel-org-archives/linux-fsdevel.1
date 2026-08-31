@@ -1,307 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466AB3B14C0;
-	Mon, 31 Aug 2026 22:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C63839EF0A;
+	Mon, 31 Aug 2026 22:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788214256; cv=none; b=MRVSxka0ymcvaqb1cC/3feRXH9QRTLfbiXsCMokMii34sx/ZtKuOeWmIZwB2sPRaSD2fdYcZFehBtFyJLlr4BljoRM7IWI4Qlx+70xIcusSU82cZuCx/pODR8lG2BWnvj6H/c+XF6j/8sngreXPNGLKq4WU2xABKJDgmNGagzts=
+	t=1788216488; cv=none; b=IKsUloDfErANVXIRfvmfWsitNl5A6P5ouWzw45A2C37aVaJYHy38H8UnTu+reI+ny2hABF90564/Pq94rHBINlnL0fBEp9Axsa/3UF6YOT0wM8ECVnaXxKfcWVt9hfZVuMuhHxRXt9ORZ6ZE2LOntcTIX0dp2mnEcZ9o99oklMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788214256; c=relaxed/simple;
-	bh=74uWWSroKtUahBYD0O1rtruEN1eXOPLWBDX0MXkOELo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LZvH1BmjN4JzOp+VZVbTJJ2RAqfctvxsSL5jmO+8nzCFVXEOlY5c+2mPu03gwg/UjznrmtA3X+InzrMlGlg3ETyuMLxmCTns2bb48x1yQlIE0cZCMzBuPUgcX3wEwQHKRm3dRJheVD3Lj3rE/W91qbrm+h8fglIC4DF9pWqy7TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ULZXCIg4; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788216488; c=relaxed/simple;
+	bh=uLHglZLNnriFy98FkYTVFUzawqLjZu2w1dX7Yspiz20=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=LBc5VugQxNKbjP7HkPTozZ0Avop1pdnJFE8ODV52gptaur0kHPOOvkKYX0nQbPADHxi8mwo1UH7si/jda9R8CI8rZdApJ1z7PvB4e1x/f5FM2uFbTCSUi2daXhXqfHrtdSIH5gUusCiPT2wgdp4yhDT7AKhio2s1GqO4rK/+ses=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=GEf/wxIv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jn62l5lw; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ULZXCIg4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788214245; x=1819750245;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=74uWWSroKtUahBYD0O1rtruEN1eXOPLWBDX0MXkOELo=;
-  b=ULZXCIg4vli+YwfKZvNMpjYeYgWST9ge9NlmXUNKMiDdq2noFNv6E3sW
-   3R/mIjFBiKK97CWywgRPBRmiVwuW/ENKluotIX+g9l42cITria5XAUV1f
-   aMoyHEd1ETrh1WoGbYax0e4/3lsMCb+orQgQqmuhbCj3Ph1s8BTOsKZ7p
-   b11s45ylnKmfhu2xbI9AdQVl1OPDsFQEwXhFKxF5rrI+53TSh1iAXgxO1
-   iEemSLbt+UbQE2wfEQ/WDHNx7eWevlMn+sc6HUdyHCEevrqPFhjpdmUGD
-   8MZGO3sO0Uj6/OsloMyhIqSZIV83wO6/8ApvdcrU4rvsW4MDLt8ttqVRM
-   w==;
-X-CSE-ConnectionGUID: UAuvuKc8QFGYbG2jLUiVxw==
-X-CSE-MsgGUID: ZzD3CRRWT1K7JJOLupMnYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="88655867"
-X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="88655867"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 15:10:42 -0700
-X-CSE-ConnectionGUID: oOmRa3boQGqtiDT+CE1A1Q==
-X-CSE-MsgGUID: o0d0SNirTICSHrrEFg7Vog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="264622730"
-Received: from unknown (HELO [10.241.243.185]) ([10.241.243.185])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 15:10:40 -0700
-Message-ID: <db2436d91e2e04a8a1063553ce64acc74b533f5c.camel@linux.intel.com>
-Subject: Re: [PATCH] sched/cache: Fix use-after-free of the mm replaced by
- exec
-From: Tim Chen <tim.c.chen@linux.intel.com>
-To: Hyunwoo Kim <imv4bel@gmail.com>
-Cc: "Chen, Yu C" <yu.c.chen@intel.com>, Kees Cook <kees@kernel.org>, 
- Christian Brauner	 <brauner@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Jan Kara	 <jack@suse.cz>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot	 <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,  Steven Rostedt
- <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman
- <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, K Prateek
- Nayak <kprateek.nayak@amd.com>, Shrikanth Hegde	 <sshegde@linux.ibm.com>,
- Qais Yousef <qyousef@layalina.io>, Aaron Lu	 <ziqianlu@bytedance.com>,
- Srikar Dronamraju <srikar@linux.ibm.com>, Vineeth Remanan Pillai
- <vineethr@linux.ibm.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- 	linux-fsdevel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>, Peter
- Zijlstra	 <peterz@infradead.org>, "chen.yu@linux.dev" <chen.yu@linux.dev>
-Date: Mon, 31 Aug 2026 15:10:40 -0700
-In-Reply-To: <apX1ufR1reYZ9LBc@v4bel>
-References: <apPb-Dr4nPYuHQOK@v4bel>
-	 <825d9dcc-b052-4367-a9c7-15efc4b354f8@intel.com> <apXV6t-7drLDf-lL@v4bel>
-	 <a1a0bc24108e68656041dc17824d6b88b4120058.camel@linux.intel.com>
-	 <apX1ufR1reYZ9LBc@v4bel>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="GEf/wxIv";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jn62l5lw"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 4ECCD7A0172;
+	Mon, 31 Aug 2026 18:48:05 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Mon, 31 Aug 2026 18:48:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1788216485; x=1788302885; bh=+VhNKuFMalEnZumYxKzwX1twJM9G1Su8XVF
+	rWyfCT8o=; b=GEf/wxIvrfd61DREs0gT37jMTXz2FK2LJPR++0AZLVn4jGeQvhy
+	qgG8lB47LL65HM9DIs4DFFCFtkAPoEVSKDyj9a1Od80D2tUkviNTKZ2uiak7gAVU
+	Kzof1jvz2HN5S00OXztXOChyphaXvoZF+oKU7lspofs+FcRalCqYrvqi2SKRxRld
+	MKQ5LUa0u/DP9Q+hps9J4pC+nGW5jiX71zGLfncCW+yXesa2F37dpD+etQII2JRM
+	F906FRV+A1X8B/qqjlMi5Zvkg8NYb4AjIzRAyvvgekSFPPqIKGeCm2Q+vxyDNV8J
+	2DrS8D8BwVNPHaRy989UY7KbPbQ9d0dVdsQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1788216485; x=
+	1788302885; bh=+VhNKuFMalEnZumYxKzwX1twJM9G1Su8XVFrWyfCT8o=; b=j
+	n62l5lw62QF16Bx7DO7VyrR1yu+7TghtVZIQFbxtbZ3bo+TH+tF/Czu4ZIYlFncD
+	S5xEUH9Ivj7Jx7sDFEb9lo4dzla6FMpMijNrdMyxeh136PMxMl8mVX5agFyGXF7u
+	cCxemRISS4dtrbgTYSL6pDTcIeT0674IDb53NKo+UHoMaTafxl9ys05Vy6cULPU1
+	XwB8dZXGjHU6jJdIPOsrSWo2ZFIuZQKGwt/0vwKkG7i7nX2h36c4rKFEARfCPgqi
+	qDHs8dokJcvwfYJglRFEYBEQEt85+asSnVNfF39vxOQgAKDzS2RD7P/UQhvobobM
+	mLiRncJduxUVXHDxoSG+g==
+X-ME-Sender: <xms:pQSWam30iccz3IcnQSxNX8k-wP_w8kXaEqaMbl7m4GJaVFxQnG8dYw>
+    <xme:pQSWaiBaz8VC-KKJKZ3sgmbDzp3qaqoDWbvsrV2B93e8_yK5rNe_cwvhQRKADYIzQ
+    wKvpl9w_JMimljqxphLvZY5l3Tccx6wEGsEwFrGXwNephkDUk0>
+X-ME-Received: <xmr:pQSWaqdn-6_eAjvA2kirJb9HakCrzFiknjsfavxcel7CYIh2x6da95v4lUkshaonX6GxxKfCKNzjGAe268q1L6nqOCpJi_k>
+X-ME-Proxy-Cause: dmFkZTFmivc/wJOUNTciG2iu8+Rtx2+CjLSj/FuxQl+aBzbcecalevRMv1c/BT7x1u2BBa
+    US+N268rjjgeAlds2GsxSBcz9m432amQUEPk9lWBMJeJggPack9UqFo55Zm1hoTNDUOlAS
+    nz2VUwgttneRryElKNKcqgQEPIU2UOZxIhptMm1mciEgD+GjyDuR8FgCnjNludEHWhjoFg
+    TvWrz5djcOnh8PuZ4/cLDE061qrQmVUN6So7HrP8YE5ZhMLUm+dUl38SoOqIWz86NkMBQ2
+    lYUlkyIG/JeW0Bo5mrvFvKoZgIWpbJ5LlXOvAXVNXJM73rXMYAQHpV1iJAXTAvmaTPdmk/
+    jrAUGRuaACYZBhiQhUSsG7Tc7mW6sFLPLU0FApoZ8A2r4AflFM9ce1dBvCNYkZu7gZnZVI
+    QhE7q6NouxwR4l8IE9CnImMasuOHoUaR3O0y+qxrmgMx4jCuQBKsz7uiX8HdP9hzekNJye
+    GLC836bIZX10+vJMQeq3F6nwMQ3lF6uERCkW2N7JRuOCDzC1y/u54S4aY9yJY1mQlBITP6
+    SaHeT8RjRJZePOKNMfLrBaGBAXsRyChVzrwLjrG4pO1J09zudCQfk4UU0VXsfbUamfLuap
+    4VEIm/l87WrAgmyVj5tUBGq7rA8fv4SlyZ4el3oTrLulrwUQqPUG95IuH2pw
+X-ME-Proxy: <xmx:pQSWan5tkCTW_Er4ODdsRjsbQAiJPxW7LJDWbjvRTkWE4pHx1w1sHQ>
+    <xmx:pQSWalUtydAJu0SEa5urCnadYgJEY50O-rNpeLlHuDGwS9pSDfZBpg>
+    <xmx:pQSWau4arAgoX4ZwS5m04ZoxTUgeccjGXXz7G56DsZ5pZc4aCszSIA>
+    <xmx:pQSWaooaV-98G732Gc7r4Ai2f96T4VppE0QiKi6AH2cXE4wdHe_-ng>
+    <xmx:pQSWaoR8ZdxDDu1YnDeRn3Df9Yb0HyC7d5gXFw-lHXds6OPhalwcvZz4>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 31 Aug 2026 18:48:03 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+From: NeilBrown <neilb@ownmail.net>
+To: "Christoph Hellwig" <hch@infradead.org>
+Cc: fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ "Chuck Lever" <cel@kernel.org>, linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH] fstests: generic: Add test of seek in directories
+In-reply-to: <apV6seOac1Ynq19a@infradead.org>
+References: <20260827234743.2389778-1-neilb@ownmail.net>
+  <20260827234743.2389778-2-neilb@ownmail.net>
+  <apV6seOac1Ynq19a@infradead.org>
+Date: Tue, 01 Sep 2026 08:47:58 +1000
+Message-id: <178821647879.3510150.13369288580807708176@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Tue, 2026-09-01 at 06:44 +0900, Hyunwoo Kim wrote:
-> On Mon, Aug 31, 2026 at 01:25:06PM -0700, Tim Chen wrote:
-> > On Tue, 2026-09-01 at 04:28 +0900, Hyunwoo Kim wrote:
-> > > On Mon, Aug 31, 2026 at 12:22:45PM +0800, Chen, Yu C wrote:
-> > > > Hi Hyunwoo,
-> > > >=20
-> > > > On 8/30/2026 3:30 PM, Hyunwoo Kim wrote:
-> > > > > When the waker cannot use the wakelist, ttwu_queue() takes the ta=
-rget rq
-> > > > > lock and goes down into update_curr(). If the target rq belongs t=
-o another
-> > > > > CPU, the task handed to account_mm_sched() is the one running on =
-that CPU,
-> > > > > not the task being woken.
-> > > > >=20
-> > > > > account_mm_sched() reads p->mm and updates mm->sc_stat. Nothing k=
-eeps that
-> > > > > mm alive. The rq lock and rq->cpu_epoch_lock it holds have nothin=
-g to do
-> > > > > with the lifetime of the mm.
-> > > > >=20
-> > > > > If that task happens to be in execve(), exec_mmap() points tsk->m=
-m and
-> > > > > tsk->active_mm at the new mm, and exec_mm_put_old() from setup_ne=
-w_exec()
-> > > > > drops the old one. free_bprm() does the same when exec fails. On =
-the way
-> > > > > from mmput() down to __mmdrop(), mm_destroy_sched() calls free_pe=
-rcpu() on
-> > > > > sc_stat.pcpu_sched and free_mm() returns the mm_struct.
-> > > > >=20
-> > > > > Whoever already read the old pointer keeps using it. It adds to r=
-untime in
-> > > > > the freed per-cpu area and reads sc_stat in the freed mm_struct. =
-Depending
-> > > > > on the condition it also writes sc_stat.cpu. That is a use-after-=
-free.
-> > > > >=20
-> > > > > Commit 9f23469401b0 ("sched/cache: Fix potential NULL mm pointer =
-access")
-> > > > > changed the remaining p->mm dereference to the local variable, an=
-d said the
-> > > > > active_mm reference keeps the structure allocated. That holds for=
- the other
-> > > > > paths that detach an mm, since they take an mmgrab_lazy_tlb() ref=
-erence.
-> > > > > exec reassigns active_mm to the new mm as well, so that reference=
- is gone.
-> > > > > What is left is the mm_users reference in bprm->old_mm, and dropp=
-ing it is
-> > > > > the free.
-> > > > >=20
-> > > > >               CPU0                                CPU1
-> > > > >=20
-> > > > >                                        write(pipe)
-> > > > >                                        try_to_wake_up()
-> > > > >                                          ttwu_queue()      // tak=
-es rq0 lock
-> > > > >                                            enqueue_task_fair()
-> > > > >                                              update_curr()
-> > > > >                                                update_se()
-> > > > >                                                  account_mm_sched=
-()
-> > > > >                                                    mm =3D rq0->cu=
-rr->mm
-> > > > >                                                          // old m=
-m
-> > > > >    execve()
-> > > > >      exec_mmap()                       // tsk->mm =3D new mm
-> > > > >      setup_new_exec()
-> > > > >        exec_mm_put_old()
-> > > > >          mmput() -> ... -> __mmdrop()
-> > > > >            mm_destroy_sched()          // free_percpu()
-> > > > >            free_mm()
-> > > > >                                                    read mm->sc_st=
-at.epoch
-> > > > >                                                          // use-a=
-fter-free
-> > > > >=20
-> > > >=20
-> > > > Ah, thanks for catching this.
-> > > >=20
-> > > > > ---
-> > > > >   fs/exec.c             |  1 +
-> > > > >   include/linux/sched.h |  4 ++++
-> > > > >   kernel/events/core.c  |  2 ++
-> > > > >   kernel/sched/fair.c   | 16 ++++++++++++++++
-> > > > >   4 files changed, 23 insertions(+)
-> > > > >=20
-> > > > > diff --git a/fs/exec.c b/fs/exec.c
-> > > > > index 745f6eb5279e6..6194c38807980 100644
-> > > > > --- a/fs/exec.c
-> > > > > +++ b/fs/exec.c
-> > > > > @@ -916,6 +916,7 @@ static void exec_mm_put_old(struct mm_struct =
-*old_mm)
-> > > > >   {
-> > > > >   	setmax_mm_hiwater_rss(&current->signal->maxrss, old_mm);
-> > > > >   	mm_update_next_owner(old_mm);
-> > > > > +	sched_cache_exec_done();
-> > > > >   	mmput(old_mm);
-> > > > >   }
-> > > > > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > > > > index 8b3d47a325cca..6ae31bffe049e 100644
-> > > > > --- a/include/linux/sched.h
-> > > > > +++ b/include/linux/sched.h
-> > > > > @@ -2415,10 +2415,14 @@ struct sched_cache_stat {
-> > > > >   	int cpu;
-> > > > >   } ____cacheline_aligned_in_smp;
-> > > > > +void sched_cache_exec_done(void);
-> > > > > +
-> > > > >   #else
-> > > > >   struct sched_cache_stat { };
-> > > > > +static inline void sched_cache_exec_done(void) { }
-> > > > > +
-> > > > >   #endif
-> > > > >   #ifndef MODULE
-> > > > > diff --git a/kernel/events/core.c b/kernel/events/core.c
-> > > > > index a6c8e38a31104..2f29cbccf03f1 100644
-> > > > > --- a/kernel/events/core.c
-> > > > > +++ b/kernel/events/core.c
-> > > > > @@ -5427,6 +5427,8 @@ attach_task_ctx_data(struct task_struct *ta=
-sk, struct kmem_cache *ctx_cache,
-> > > > >   	if (!cd)
-> > > > >   		return -ENOMEM;
-> > > > > +	/* @old, loaded by the try_cmpxchg() below, is only stable unde=
-r RCU. */
-> > > > > +	guard(rcu)();
-> > > >=20
-> > > > Is this change related to this UAF issue?
-> > >=20
-> > > Duh.. that one is unrelated. My mistake.
-> > >=20
-> > > >=20
-> > > > > +/* exec() has switched to the new mm and is about to drop the ol=
-d one. */
-> > > > > +void sched_cache_exec_done(void)
-> > > > > +{
-> > > > > +	struct rq_flags rf;
-> > > > > +	struct rq *rq;
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * account_mm_sched() dereferences rq->curr->mm under this rq's=
- lock,
-> > > > > +	 * so a remote CPU can still be using the old mm. The lock cycl=
-e waits
-> > > > > +	 * for it, and the store to tsk->mm cannot be reordered past th=
-e
-> > > > > +	 * release, so later acquirers see the new mm.
-> > > > > +	 */
-> > > > > +	rq =3D this_rq_lock_irq(&rf);
-> > > >=20
-> > > > A smart fix, learnt! It behaves like a synchronize_rcu() to protect=
- against
-> > > > the read in account_mm_sched(). Small open: since the context of in=
-voking
-> > > > account_mm_sched() is preemption-disabled, I wonder if we can simpl=
-y use
-> > > > synchronize_rcu() directly instead of this_rq_lock_irq() - just to =
-avoid
-> > > > contention for rq-lock in heavy system?
-> >=20
-> > Thanks to Kyunwoo to show this potential use-after-free problem.
->=20
-> It is a real, triggerable issue.
->=20
-
-Appreciate if you can check whether the first 2 patches in=20
-https://lore.kernel.org/lkml/cover.1787955777.git.tim.c.chen@linux.intel.co=
-m/
-fixes this issue.
-
-> >=20
-> > While synchronize_rcu() avoids rq lock, it could introduce a long delay
-> > of a full grace period that will be undesirable.
-> >=20
-> >=20
-> > I think a better fix is to decouple sc_stat from mm and make it its own=
- structure.
-> > Then we can do proper refcounting and rcu management on sc_stat itself.
-> > We will let task points to sc_stat with proper ref count and change the=
- access
-> > as task->sc_stat directly nstead of via task->mm->sc_stat.
-> >=20
-> > Then we will know sc_stat exists in account_mm_sched() execution
-> > as long as a task points to it and do not have to worry that sc_stat is
-> > released due to the mm life cycle.
-> >=20
-> > In the first 2 patches of the prctl control series for cache aware sche=
-duling
-> > we posted, we introduced the change I described above and should=C2=A0
-> > fix this issue without additional rq locking or synchronize_rcu() overh=
-ead.
-> >  https://lore.kernel.org/lkml/cover.1787955777.git.tim.c.chen@linux.int=
-el.com/
-> >=20
-> > We should probably prioritize to merge the first couple of patches from
-> > that series now in light of this issue.  It will make maintenance and f=
-uture
-> > modification of the cache aware scheduling code easier.
->=20
-> That is a fairly large change.=20
-
-However adding rcu synchronization will slow down the launch of a new proce=
-ss
-too much.  The rq lock solution has less latency in my opinion.  But I
-think decoupling sc_stat is the best solution without adding latency in the
-exec path.
-
-Wonder what is Peter's opinion?
-
->=20
-> If you add a Reported-by: tag for this UAF to the patch, I am fine with=
-=20
-> handling it that way.
-
-I'll be happy to do that. If you let us know if those two patches from prct=
-l series fixes
-the bug you found in KASAN log, I can also add a Tested-by tag in addition =
-to Reported-by.
+On Mon, 31 Aug 2026, Christoph Hellwig wrote:
+> Please include the mainling list for the file system you think is
+> buggy or at least odd.  Done now.
 
 Thanks.
 
-Tim
+> 
+> On Fri, Aug 28, 2026 at 09:36:10AM +1000, NeilBrown wrote:
+> > The test then reads the directory to find the order of the stable name,
+> > which should never change. It also find the "d_off" of all names.
+> > These d_off should be usable as a "seek" offset to find at least all
+> > the stable names that came after that point in the original listing.
+> > 
+> > After creating the names and finding the order, a loop which repeatly:
+> >   - makes random changes to unstable names
+> >   - checks the complete order of stable names in a new readdir
+> >   - checks what appears after a seek() to a randomly chosen offet
+> > 
+> > In Linux 7.2 this test always passes for xfs and ext4 but fails
+> > for btrfs unless we suppress renames with a "stable" name as target.
+> > It also fails for tmpfs.
+> 
+> There is no requirement where the entry for a renamed entry is placed.
+> Posix requires telldir/seekdir to provide a stable cookie, but how
+> that cookie behaves when the directory is modified is completely
+> undefined.  The same is true for NFS which requires basically the
+> same, but more stateless than local telldir/seekdir.
+> 
+> 
 
->=20
->=20
-> Best regards,
-> Hyunwoo Kim
+I don't think the behaviour is "completely" undefined in the face of
+change.
+
+https://pubs.opengroup.org/onlinepubs/007908799/xsh/readdir.html
+
+says the directory stream represents "all the directory entries in a
+particular directory" and makes exceptions:
+
+  If a file is removed from or added to the directory after the most
+  recent call to opendir() or rewinddir(), whether a subsequent call to
+  readdir() returns an entry for that file is unspecified. 
+
+so "all" doesn't need to includes things that were added or removed.
+Does a rename over an existing file "add" or "remove"?
+It depends on how you understand "file".
+
+We are told "Directory entries represent files" so we need to understand
+"files" in that context.
+If we considered "file" to mean "filesystem object", then the above
+would allow readdir to ignore multiple hard-links to a file reporting
+only one of them.  Hopefully we all agree that would be wrong.
+
+So I think "file" in this context must mean "name" (that is the main
+part of a "directory entry").
+
+So, when we rename over an existing name, is that name added or removed?
+I think not. It is critical to rename(2) that the replacement is atomic.
+
+With btrfs at present, if a name is the target of a rename while a
+readdir is happening, that name might not be reported.  This is because
+btrfs iterate_shared deliberately skips any names that are "new" since
+the start of the readdir, and it considers a name replaced in a rename
+as "new".  I think this is incorrect behaviour and could be harmful.
+
+Prior to 
+Commit: 9b378f6ad48c ("btrfs: fix infinite directory reads")
+
+btrfs could report the target of a rename twice in a readdir listing
+(but always at least once).
+While I think the duplication is unnecessary it is harder to criticise.
+
+NeilBrown
