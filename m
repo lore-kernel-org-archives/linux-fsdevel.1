@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAAB4A5C2E;
-	Mon, 31 Aug 2026 13:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D3353B5FE;
+	Mon, 31 Aug 2026 13:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183858; cv=none; b=DNlZLSA+bfQE4pM2CdbOiCXSCjUgP2ceEu/flxB2+8UhwyfK19WPBanPwNqMm50ENKVJshHA07yto0WM7p0VuYNzjH8fmaARlG6RTIEZfTvK6W1VP4fGwrJ7T3WL9lBJhZD0hiDb1PtbyMgcvz5e3VUFzNheKy436FoMWCqCHG8=
+	t=1788183938; cv=none; b=fLrpkXL+5XqMSr2ykja8KLqHjdTSpq8yEOa7V6khDMnQDafE3PFZ3rK6UHEzBOVtcWWg+U/PZOlXkdawsxy/YdXA5IfSwbH5Iozg2QnoQcCr/0oekcDKCG/mZ0tSxuuDs8UGOpXU5GJTBezX/nx3tO6F9KvMg/vMrIvjSgMsFCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183858; c=relaxed/simple;
-	bh=3dljvT2RW0SpC2Nt24HFEUr6CFzmomVHhhwhIcKOVqw=;
+	s=arc-20240116; t=1788183938; c=relaxed/simple;
+	bh=BWronw7LbUR+XzbnlxwneCzdZptZ7YifxLAIFekZ6h0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f1+EMaWYwMSU7U8bG4IJg3P4VWzHnq80avit2MyFFRzC5zUYrgxU48V4R+HhwpMtdn2T5wKYl1xI7rRJ+Jgx3DFBdMGxgZWF5t03XqMRHYwDhaJkNSKEmP9gqDSpQKtndEdtOGdVkCl6rzQQ0joBzvYbonGLBMwRMcmwjAlqrzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fGGY1Hcp; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=PAucpac3eMUskxjenHDp67yUwkpQlXzq1gqQGVrvBr9Idc1zDURIKf86OVKl43sU/YiaZp90aHrK9zg41yCK0fY4HWIu4YskrB06ajwwdZy4iRN2KdMxcVLOtHAI6Ac8zvUw+eMw2LsoVKb6INUcbarAjF8Iy7yZyxyf43LxC0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVg88Wpx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fGGY1Hcp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E12A31F00ACA;
-	Mon, 31 Aug 2026 13:44:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVg88Wpx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD041F00ACA;
+	Mon, 31 Aug 2026 13:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183855;
-	bh=W9hs4yCVMuwtOEDhBP/5X3aIuUOtMvfpYZF8O8jo20U=;
+	s=k20260515; t=1788183935;
+	bh=nUjakMz7XCw/mM8U//7fZqVX+Mh5FMZMN57/lTdmwBg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fGGY1HcpvGAqmeQ2tk1YSRMuCPVaG8bcU6sUyZPusq85WaDnS+ACt721JvlLvEZYG
-	 xHemmKpOyEyZFPvgHF9Lv1YGGxJBsn3OqKUKMYC+8H7I8/7dPbyahmDbyVEI6U7ROI
-	 Nju/tcGhDISeUA3F4j9s6e8ocXrQt+PRObpT2u4/eKIglam81el34VKhH5W9AfUqfs
-	 7lerky29WLxjDaNFS+uWyuRKFG3qxqvjHucbnWXzidrKK50+8rp3oYKtKUQ+Xv/IzS
-	 +CawwgF46o+r/vl5Et9zqxbWSqa+U38adD0tcLqdEDQ/sphJOmB33Hs62yno1oDGgN
-	 av78uAQ3s8Dmw==
+	b=JVg88Wpx8v2sFH3iGgMTEuG0rftKS1DzSraoRRSNe2Hqxr4Z29+qGzZss57ujRwO2
+	 8XwLces+tJdaK2uvv6sBZzgTnf1lqMkGXlnDB7ZPTt+s7SpbAVOmLhu4kZ+N4RyRiZ
+	 RhINA8Zj1S9dT3jfWsx/qfty4INFbVamxWS2S1hBXmuKJjGYxcf9YihvfE5QGuDmwv
+	 TktCsSsbaSvVYdgMFSPHv5iLHwQCXNlnA5QTAt3bWQOq1U9bwSilwTwvaveatIIwgI
+	 UymCWgshCyGTlOGbFz5y+Q/A6I9nnAxqngnXkPPPRuwdSAA6HJ5ZmlrnvQcbu+2bUp
+	 ob6Chckp3rRSQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
+Cc: David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	netfs@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] hfsplus: rework hfsplus_readdir() logic
-Date: Mon, 31 Aug 2026 09:26:12 -0400
-Message-ID: <20260831133314.4125787-344-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] netfs: Fix decision whether to disallow write-streaming due to fscache use
+Date: Mon, 31 Aug 2026 09:26:58 -0400
+Message-ID: <20260831133314.4125787-390-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -53,71 +55,45 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Viacheslav Dubeyko <slava@dubeyko.com>
+From: David Howells <dhowells@redhat.com>
 
-[ Upstream commit 4b0496432844628ad05a5b1efce329a3340174d2 ]
+[ Upstream commit b61cbeadaa83a712afb2f759aa7e65d43cdef322 ]
 
-The xfstests' test-case generic/637 fails with error:
+netfs_perform_write() buffers data by writing it into the pagecache for
+later writeback.  If the folio it wants to write to isn't present, it uses
+"write streaming" in which is will store partial data in a non-uptodate,
+but dirty folio.
 
-FSTYP -- hfsplus
-PLATFORM -- Linux/x86_64 hfsplus-testing-0001 6.15.0-rc4+ #8 SMP PREEMPT_DYNAMIC Thu May 1 16:43:22 PDT 2025
-MKFS_OPTIONS -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+However, when fscache is in use, this is a potential problem as writes to
+the cache have to be aligned to the cache backend's DIO granularity, and so
+netfs_perform_write() attempts to suppress write-streaming in such a case,
+requiring the folio content to be fetched first unless the entire folio is
+going to be overwritten.  This allows the content to be written to the
+cache too.
 
-QA output created by 637
-entries 7 and 8 have duplicate d_off 8
-Found unlinked files in open dir (see xfstests-dev/results//generic/637.full for details)
+Unfortunately, the test netfs_perform_write() uses isn't correct because it
+doesn't take into account the fact that the object lookup is asynchronous
+and farmed off to a work queue, so there's a short window in which the
+cache is doing a lookup but the test fails because the answer is undefined.
 
-Debugging of the hfsplus_readdir() logic showed this:
+This can be triggered by the generic/464 xfstest, and causes a warning to
+be emitted in cachefiles (in code not yet upstream) because it sees a write
+that doesn't have its bounds rounded out to DIO alignment.
 
-hfsplus: hfsplus_readdir(): 163 ctx->pos 0
-hfsplus: hfsplus_readdir(): 189 ctx->pos 1
-hfsplus: hfsplus_readdir(): 264 ctx->pos 2, ino 18
-hfsplus: hfsplus_readdir(): 264 ctx->pos 3, ino 19
-hfsplus: hfsplus_readdir(): 264 ctx->pos 4, ino 28
-hfsplus: hfsplus_readdir(): 264 ctx->pos 5, ino 118
-hfsplus: hfsplus_readdir(): 264 ctx->pos 6, ino 29
-hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 30
-hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 31
-hfsplus: hfsplus_readdir(): 304 ctx->pos 8
-hfsplus: hfsplus_unlink():420 dir->i_ino 17, inode->i_ino 28
-hfsplus: hfsplus_readdir(): 141 ctx->pos 7
-hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 31
-hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 32
-hfsplus: hfsplus_readdir(): 264 ctx->pos 9, ino 33
+Fix this by changing the condition to whether FSCACHE_COOKIE_IS_CACHING is
+set on a cookie rather than whether the cookie is marked enabled.  Note
+that this is really just a hint as to whether we allow write streaming or
+not and no other aspects of the cookie or cache object are accessed.
 
-It means that hfsplus_readdir() stopped the processing of
-folder's items on ctx->pos 8, then, item with ino 28 has
-been deleted and hfsplus_readdir() re-started the logic
-from ctx->pos 7. As a result, previous and new sets of
-folder's items have overlapping values for the case of
-d_off 8.
+Also apply the same fix to netfs_write_begin().
 
-Currently, HFS+ has very complicated and fragile logic
-of rd->file->f_pos correction in hfsplus_delete_cat().
-This patch removes this logic and it stores the current
-pos into hfsplus_readdir_data. Finally, if rd->pos == ctx->pos
-then hfsplus_readdir() tries to find the position in
-b-tree's node by means of hfsplus_cat_key. This position is
-used to re-start the folder's content traversal.
-
-sudo ./check generic/637
-FSTYP         -- hfsplus
-PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.1.0-rc1+ #44 SMP PREEMPT_DYNAMIC Mon May  4 15:58:45 PDT 2026
-MKFS_OPTIONS  -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
-
-generic/637  22s ...  22s
-Ran: generic/637
-Passed all 1 tests
-
-Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/198
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
+Reported-by: Marc Dionne <marc.dionne@auristor.com>
+Signed-off-by: David Howells <dhowells@redhat.com>
+Link: https://patch.msgid.link/20260625140640.3116900-2-dhowells@redhat.com
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: netfs@lists.linux.dev
 cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Link: https://lore.kernel.org/r/20260505220051.2854696-2-slava@dubeyko.com
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
@@ -125,469 +101,422 @@ LLM Generated explanations, may be completely bogus:
 
 ## Phase 1: Commit Message Forensics
 
-**Step 1.1 — Subject line**
-Record: `[hfsplus] [rework] Fix fragile `hfsplus_readdir()` position
-tracking that breaks xfstests generic/637`
+### Step 1.1: Subject Line
+**Record:** `[netfs] [fix] decision whether to disallow write-streaming
+due to fscache use` — subsystem is netfs (network filesystem library /
+fscache integration); action verb is "Fix"; intent is correcting the
+condition that decides when write-streaming must be suppressed for
+fscache DIO alignment.
 
-**Step 1.2 — Tags**
-Record:
-- `Closes: https://github.com/hfs-linux-kernel/hfs-linux-
-  kernel/issues/198`
-- `cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>`
-- `cc: Yangtao Li <frank.li@vivo.com>`
-- `cc: linux-fsdevel@vger.kernel.org`
-- `Link:
-  https://lore.kernel.org/r/20260505220051.2854696-2-slava@dubeyko.com`
-- `Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>` (author)
-- No `Fixes:`, `Reported-by:`, `Reviewed-by:`, `Acked-by:`, `Tested-
-  by:`, or `Cc: stable@vger.kernel.org`
-- Notable: xfstests failure documented; GitHub issue closed by author
-  after fix
+### Step 1.2: Commit Message Tags
+**Record:**
+- **Reported-by:** Marc Dionne `<marc.dionne@auristor.com>` — real-world
+  reporter (AuriStor/AFS ecosystem)
+- **Signed-off-by:** David Howells `<dhowells@redhat.com>` — author,
+  netfs/fscache maintainer
+- **Signed-off-by:** Christian Brauner (Amutable) `<brauner@kernel.org>`
+  — VFS maintainer merge
+- **Link:**
+  https://patch.msgid.link/20260625140640.3116900-2-dhowells@redhat.com
+- **cc:** Paulo Alcantara, netfs@lists.linux.dev, linux-
+  fsdevel@vger.kernel.org
+- No Fixes:, Cc: stable@vger.kernel.org, Tested-by:, Reviewed-by:, or
+  syzbot tags
+- Notable: single real-world reporter; patch is part of a June 2026
+  netfs fix series (sibling patches already in this tree)
 
-**Step 1.3 — Body analysis**
-Record:
-- **Bug:** During partial `readdir()` on an open directory, if a catalog
-  entry is deleted, `hfsplus_delete_cat()` decrements `f_pos` for open
-  readers, but `hfsplus_readdir()` resumes using `ctx->pos` via
-  `hfs_brec_goto()`. After a mid-read stop, these diverge, producing
-  duplicate `d_off` values and stale (unlinked) entries.
-- **Symptom:** xfstests generic/637 fails with `entries 7 and 8 have
-  duplicate d_off 8` and `Found unlinked files in open dir`.
-- **Root cause:** Fragile `rd->file->f_pos--` logic in
-  `hfsplus_delete_cat()` does not correctly track btree position across
-  concurrent deletes.
-- **Fix approach:** Remove per-inode open-dir list and `f_pos`
-  adjustment; store `ctx->pos` and catalog key in
-  `hfsplus_readdir_data`; on resume, if `rd->pos == ctx->pos`, locate
-  btree position by key.
-- **Testing:** Author reports generic/637 passes after fix.
+### Step 1.3: Commit Body Analysis
+**Record:**
+- **Bug:** `netfs_perform_write()` and `netfs_write_begin()` use
+  `netfs_is_cache_enabled()` to decide whether to suppress write-
+  streaming when fscache is active. That helper requires
+  `cookie->cache_priv`, but fscache object lookup is asynchronous
+  (queued to a worker). During the lookup window,
+  `FSCACHE_COOKIE_IS_CACHING` is already set but `cache_priv` is not yet
+  populated.
+- **Symptom:** Write-streaming proceeds when it should not; cachefiles
+  sees writes whose bounds are not rounded to DIO granularity.
+  Reproducible via xfstests `generic/464`; triggers a warning in
+  cachefiles (per commit message).
+- **Root cause:** Test checks "cache enabled" (needs `cache_priv`)
+  instead of "cache is being set up / caching"
+  (`FSCACHE_COOKIE_IS_CACHING`).
+- **Fix:** New `netfs_is_cache_maybe_enabled()` checks
+  `FSCACHE_COOKIE_IS_CACHING`; used in both write paths.
 
-**Step 1.4 — Hidden bug fix?**
-Record: **Yes.** Subject says "rework," but this is a directory-
-iteration correctness bug fix, not a refactor.
+### Step 1.4: Hidden Bug Fix Detection
+**Record:** Not disguised — this is an explicit correctness fix for a
+race between async fscache lookup and write-streaming policy. The commit
+message clearly describes mechanism, trigger, and failure mode.
 
 ---
 
 ## Phase 2: Diff Analysis
 
-**Step 2.1 — Inventory**
-Record:
-- `fs/hfsplus/catalog.c` — 11 lines removed
-- `fs/hfsplus/dir.c` — net ~14 lines changed
-- `fs/hfsplus/hfsplus_fs.h` — 5 lines changed
-- `fs/hfsplus/inode.c` — 2 lines removed
-- `fs/hfsplus/super.c` — 2 lines removed
-- **Total:** 5 files, +12 / −36 lines
-- **Functions:** `hfsplus_delete_cat()`, `hfsplus_readdir()`,
-  `hfsplus_dir_release()`, `hfsplus_new_inode()`, `hfsplus_iget()`
-- **Scope:** Single-subsystem surgical fix
+### Step 2.1: Change Inventory
+**Record:**
+- `fs/netfs/internal.h`: +12 lines (new `netfs_is_cache_maybe_enabled()`
+  inline)
+- `fs/netfs/buffered_write.c`: 1 line changed (`netfs_is_cache_enabled`
+  → `netfs_is_cache_maybe_enabled`)
+- `fs/netfs/buffered_write.c` function: `netfs_perform_write()`
+- `fs/netfs/buffered_read.c`: 1 line changed; function:
+  `netfs_write_begin()`
+- **Scope:** Single-subsystem, surgical fix (~16 lines total)
 
-**Step 2.2 — Code flow per hunk**
-Record:
-1. **`hfsplus_delete_cat()`:** Before: on delete, walk `open_dir_list`
-   and decrement `f_pos` for readers past deleted key. After: no `f_pos`
-   manipulation.
-2. **`hfsplus_readdir()` resume:** Before: always `hfs_brec_goto(&fd,
-   ctx->pos - 1)`. After: if saved `rd->pos == ctx->pos`, find btree
-   record by stored `rd->key` (with `-ENOENT` fallback); else use
-   numeric offset.
-3. **`hfsplus_readdir()` bookmark:** Before: register `rd` on per-inode
-   list, save only key. After: save `rd->pos = ctx->pos` and key in per-
-   file `private_data`.
-4. **`hfsplus_dir_release()`:** Before: list removal under spinlock.
-   After: simple `kfree()`.
-5. **Struct cleanup:** Remove `open_dir_list`, `open_dir_lock` from
-   `hfsplus_inode_info`; simplify `hfsplus_readdir_data` to `{ loff_t
-   pos; struct hfsplus_cat_key key; }`.
+### Step 2.2: Code Flow Change
+**Record:**
+- **Hunk 1 (`buffered_write.c`):** Before: if `cookie->cache_priv` unset
+  during async lookup, streaming write allowed on non-uptodate folio.
+  After: if `FSCACHE_COOKIE_IS_CACHING` is set (set at lookup start in
+  `fscache_begin_lookup()`), prefetch path is taken instead of streaming
+  write.
+- **Hunk 2 (`buffered_read.c`):** Before: during lookup window,
+  `!netfs_is_cache_enabled()` is true, so `netfs_skip_folio_read()` may
+  skip required preload of cache granule. After:
+  `!netfs_is_cache_maybe_enabled()` is false during lookup, so
+  read/preload proceeds correctly.
+- **Hunk 3 (`internal.h`):** Adds helper using only
+  `fscache_cookie_valid()` + `FSCACHE_COOKIE_IS_CACHING` bit — no
+  `cache_priv` dereference.
 
-**Step 2.3 — Bug mechanism**
-Record: **Logic/correctness fix** in directory iteration during
-concurrent unlink. The old `f_pos--` scheme breaks when `readdir()`
-stops mid-buffer (`dir_emit()` returns false): `ctx->pos` and adjusted
-`f_pos` disagree, so resumed reads revisit wrong catalog entries →
-duplicate `d_off` and visible deleted files.
+### Step 2.3: Bug Mechanism
+**Record:** **Category:** Race condition / logic correctness bug in
+fscache integration.
+- `fscache_begin_lookup()` sets `FSCACHE_COOKIE_IS_CACHING` immediately
+  (line 560 of `fscache_cookie.c`)
+- `cookie->cache_priv` is set later in `cachefiles_lookup_cookie()`
+  worker (line 193 of `fs/cachefiles/interface.c`)
+- Old `netfs_is_cache_enabled()` requires `cache_priv`, so returns false
+  during the lookup race window
+- Result: write-streaming with unaligned partial folio data incompatible
+  with fscache DIO requirements
 
-**Step 2.4 — Fix quality**
-Record: Fix is logically sound and minimal. Replacing numeric-offset
-resume with catalog-key lookup is the standard approach for btree-backed
-directories. Regression risk is **low** — removes spinlock/list
-complexity rather than adding it. No public API changes.
+### Step 2.4: Fix Quality
+**Record:** Fix is minimal and logically sound — uses the same
+`FSCACHE_COOKIE_IS_CACHING` flag that `fscache_begin_cookie_access()`
+relies on. Commit notes this is intentionally a "hint" with no other
+cookie state accessed. Low regression risk; aligns with already-
+backported sibling fix `8ab75e445c161` from the same series.
 
 ---
 
 ## Phase 3: Git History Investigation
 
-**Step 3.1 — Blame**
-Record: `open_dir_list` / `f_pos--` code is present in current tree
-(blame shows import-era ancestry via `5d324e5159d9e`). The buggy
-mechanism predates 6.18.y by many kernel releases.
+### Step 3.1: Blame
+**Record:** `netfs_is_cache_enabled()` and its use in
+`buffered_write.c`/`buffered_read.c` introduced in `5d324e5159d9e` (6.18
+merge, Nov 2025). The async lookup path setting
+`FSCACHE_COOKIE_IS_CACHING` before `cache_priv` is populated has been
+present since the fscache rewrite landed in 6.18. Bug present in this
+tree since 6.18.
 
-**Step 3.2 — Fixes: tag**
-Record: N/A — no `Fixes:` tag in commit message.
+### Step 3.2: Fixes: Tag
+**Record:** No Fixes: tag present — N/A.
 
-**Step 3.3 — Related file history**
-Record: This stable tree already contains multiple hfsplus xfstests
-fixes from the same author:
-- `282214ddf8472` generic/073
-- `54694417d4384` generic/480
-- `956b1d8051cfa` generic/498
-Standalone v1 patch; not part of a multi-commit series.
+### Step 3.3: Related File History
+**Record:** Recent netfs fixes in this tree include multiple stable
+backports from the same June 2026 series:
+- `8ab75e445c161` — async cache object creation in
+  `netfs_create_write_req()` (patch -3 of series)
+- `7838131e296df`, `1bb33d959aabc`, `a9b89752c2726` — writeback fixes
+  from same msgid thread
+- Target commit `046acff3d6cd0` (upstream `b61cbeadaa83`) is patch -2;
+  **not yet in this tree**
+- Standalone fix — no "patch X/Y" dependency; sibling -3 already present
 
-**Step 3.4 — Author context**
-Record: Viacheslav Dubeyko is the active hfs/hfsplus maintainer with a
-track record of stable-worthy filesystem correctness fixes in this
-subsystem.
+### Step 3.4: Author Context
+**Record:** David Howells is the netfs/fscache subsystem
+author/maintainer. Multiple related netfs stable fixes from him are
+already in 6.18.44.
 
-**Step 3.5 — Dependencies**
-Record: No prerequisites. Cherry-pick onto this tree succeeds cleanly
-(`git cherry-pick --no-commit 4b04964328446` auto-merged all 5 files).
-Standalone.
+### Step 3.5: Dependencies
+**Record:** No hard prerequisites beyond code already in 6.18.44.
+`FSCACHE_COOKIE_IS_CACHING` exists in `include/linux/fscache.h` (bit 2).
+`git apply --check` on the patch succeeds cleanly against HEAD.
 
 ---
 
 ## Phase 4: Mailing List and External Research
 
-**Step 4.1 — Original discussion**
-Record: `b4 dig -c 4b04964328446` →
-https://patch.msgid.link/20260505220051.2854696-2-slava@dubeyko.com.
-Single v1 submission (no v2/v3). Mbox contains only the patch itself —
-no review replies.
+### Step 4.1: Original Discussion
+**Record:** `b4 dig -c 046acff3d6cd0` →
+https://patch.msgid.link/20260625140640.3116900-2-dhowells@redhat.com.
+`b4 dig -a` returned only one revision (no multi-version history in
+cache). Lore fetch blocked by Anubis bot protection — full thread
+content UNVERIFIED.
 
-**Step 4.2 — Reviewers**
-Record: `b4 dig -w` CC'd `linux-fsdevel@vger.kernel.org`, glaubitz,
-frank.li. No `Reviewed-by`/`Acked-by` in thread (author self-committed
-to mainline).
+### Step 4.2: Reviewers
+**Record:** `b4 dig -w` returned same URL only; detailed recipient list
+UNVERIFIED. Merged by Christian Brauner; CC'd netfs and linux-fsdevel
+lists.
 
-**Step 4.3 — Bug report**
-Record: GitHub issue #198 confirms reproducible generic/637 failure on
-hfsplus since at least 6.15.0-rc4; closed May 2026 referencing this
-patch.
+### Step 4.3: Bug Report
+**Record:** Reported-by Marc Dionne (AuriStor). Trigger: xfstests
+`generic/464`. Failure: cachefiles warning on non-DIO-aligned write
+bounds. No syzbot/bugzilla link.
 
-**Step 4.4 — Related patches**
-Record: Sibling commit `7fde7e806657f` applies the same fix to `fs/hfs/`
-(plain HFS). That is a separate backport candidate; this analysis covers
-only the hfsplus commit.
+### Step 4.4: Related Patches
+**Record:** Same series (`20260625140640.3116900-*`): patches -3, -4,
+-5, -6 already backported to this tree; patch -2 (this commit) is the
+missing piece addressing write-streaming during async lookup.
 
-**Step 4.5 — Stable list discussion**
-Record: No stable-specific lore discussion found. Not a negative signal
-per instructions.
+### Step 4.5: Stable List
+**Record:** UNVERIFIED — could not search lore stable list due to bot
+protection. Commit was committed to stable queue by Sasha Levin on a
+separate branch (`autosel~217`) but is NOT in current 6.18.44 HEAD.
 
 ---
 
 ## Phase 5: Code Semantic Analysis
 
-**Step 5.1 — Key functions**
-Record: `hfsplus_readdir()`, `hfsplus_delete_cat()`,
-`hfsplus_dir_release()`
+### Step 5.1: Modified Functions
+**Record:** `netfs_is_cache_maybe_enabled()` (new),
+`netfs_perform_write()`, `netfs_write_begin()`
 
-**Step 5.2 — Callers**
-Record: `hfsplus_readdir` is registered as `.iterate_shared` in
-`hfsplus_dir_operations` (`fs/hfsplus/dir.c:622`), reachable from
-`getdents64`/`readdir` syscalls on open directory fds.
-`hfsplus_delete_cat()` is called from unlink/rmdir/remove paths in
-`dir.c`, `inode.c`, `super.c`.
+### Step 5.2: Callers
+**Record:**
+- `netfs_perform_write()` ← `netfs_buffered_write_iter_locked()` ←
+  `netfs_file_write_iter()`
+- `netfs_file_write_iter` used by AFS (`fs/afs/file.c`) and CIFS/SMB
+  (`fs/smb/client/cifsfs.c`)
+- `netfs_write_begin()` is deprecated but still present; called from
+  legacy write_begin paths
+- Reachable from normal userspace `write()`/`pwrite()` syscalls on
+  fscache-enabled network filesystems
 
-**Step 5.3 — Callees**
-Record: `hfs_brec_goto()`, `hfs_brec_find()`, `dir_emit()`,
-`hfs_brec_remove()` — standard hfsplus btree/catalog operations.
+### Step 5.3: Callees
+**Record:** In fixed path: `netfs_prefetch_for_write()`,
+`copy_folio_from_iter_atomic()`, `netfs_begin_cache_read()`,
+`netfs_alloc_request()` — standard buffered-write helpers.
 
-**Step 5.4 — Reachability**
-Record: **Userspace-reachable.** Any process doing `getdents64()` on an
-hfsplus directory while another thread/process unlinks entries in that
-directory can trigger this. generic/637 exercises exactly this.
+### Step 5.4: Reachability
+**Record:** Trigger requires CONFIG_FSCACHE + cachefiles backend + netfs
+client (AFS, CIFS with fscache, etc.) + write to non-uptodate folio
+during or just after first cookie lookup. Userspace writes are the
+trigger — realistic for fscache deployments.
 
-**Step 5.5 — Similar patterns**
-Record: Identical `open_dir_list`/`f_pos--` pattern exists in `fs/hfs/`
-(`fs/hfs/catalog.c:370-375`, `fs/hfs/dir.c`). Same class of bug; fixed
-separately on mainline.
+### Step 5.5: Similar Patterns
+**Record:** Same class of bug fixed in `8ab75e445c161` for
+`netfs_create_write_req()` — premature "cache not enabled" check before
+async lookup completes. Systematic issue in netfs/fscache integration.
 
 ---
 
-## Phase 6: Cross-Reference Against Local Tree (6.18.y)
+## Phase 6: Cross-Reference Against Local Tree (6.18.44)
 
-**Step 6.1 — Buggy code present?**
-Record: **Yes.** Local tree is `v6.18.43` on `stable/linux-6.18.y`.
-Buggy `f_pos--` logic confirmed at `fs/hfsplus/catalog.c:394-402`;
-`open_dir_list`/`open_dir_lock` in `hfsplus_fs.h` and init paths. Fix
-commit `4b04964328446` is **not** an ancestor of HEAD.
+### Step 6.1: Buggy Code Present?
+**Record:** **YES.** Local tree is `v6.18.44` (Makefile VERSION=6,
+PATCHLEVEL=18, SUBLEVEL=44). Current HEAD `2736c32da98b9` does NOT
+contain the fix (`git merge-base --is-ancestor 046acff3d6cd0 HEAD` → NOT
+IN TREE). Buggy `netfs_is_cache_enabled(ctx)` calls confirmed at
+`buffered_write.c:281` and `buffered_read.c:663`.
 
-**Step 6.2 — Backport complications**
-Record: **Clean apply.** Cherry-pick auto-merges all files. Initial `git
-apply --check` failed only on `kmalloc_obj` vs `kmalloc` hunk; cherry-
-pick resolved this automatically.
+### Step 6.2: Backport Complications
+**Record:** Clean apply verified (`git apply --check` passes). No
+refactoring conflicts expected.
 
-**Step 6.3 — Related fixes already present?**
-Record: No equivalent fix (`rd->pos` not present). Prior hfsplus
-generic/* corruption fixes are in tree but address different bugs.
+### Step 6.3: Related Fixes Already Present?
+**Record:** Sibling fix `8ab75e445c161` (same series, async cache
+creation) already in tree. This commit is the complementary fix for
+write-streaming/write_begin paths — not redundant.
 
 ---
 
 ## Phase 7: Subsystem Context
 
-**Step 7.1 — Subsystem/criticality**
-Record: `fs/hfsplus` — filesystem driver. **IMPORTANT** for hfsplus
-users; not universal core code, but VFS directory semantics are
-fundamental to any user of the filesystem.
+### Step 7.1: Subsystem Criticality
+**Record:** **IMPORTANT** — netfs library used by AFS, CIFS/SMB, and
+other network filesystems. fscache/cachefiles provides local caching.
+Affects data path integrity for enterprise/embedded deployments using
+fscache.
 
-**Step 7.2 — Activity**
-Record: Active maintenance in 6.18.y — multiple recent hfsplus fixes
-(uninit-value, lock-free-on-error, xfstests corruption fixes).
+### Step 7.2: Activity
+**Record:** Highly active — 20+ netfs stable fixes already in 6.18.44,
+indicating ongoing stabilization of the new fscache/netfs stack
+introduced in 6.18.
 
 ---
 
-## Phase 8: Impact and Risk
+## Phase 8: Impact and Risk Assessment
 
-**Step 8.1 — Who is affected**
-Record: Users with `CONFIG_HFSPLUS_FS` who read directories while
-entries are being deleted (backup tools, `find`, file managers,
-concurrent workloads). Niche filesystem but real macOS-interop use case.
+### Step 8.1: Who Is Affected
+**Record:** Users with CONFIG_FSCACHE and cachefiles enabled on netfs-
+backed filesystems (AFS, CIFS with fscache volume). Not universal, but
+real production deployments (AuriStor reported).
 
-**Step 8.2 — Trigger conditions**
-Record: Open directory fd → partial `readdir()` (buffer fills before
-EOF) → unlink of catalog entry whose key sorts before the reader's saved
-position → continue `readdir()`. Realistic for multi-threaded or multi-
-process directory traversal. Unprivileged users can trigger on mounts
-they can write to.
+### Step 8.2: Trigger Conditions
+**Record:** Write to a file whose fscache cookie is in
+`FSCACHE_COOKIE_STATE_LOOKING_UP` (async lookup in progress). Timing-
+dependent but reproducible (`generic/464` xfstest). Unprivileged users
+can trigger via normal file writes.
 
-**Step 8.3 — Failure mode severity**
-Record: Incorrect directory enumeration — duplicate `d_off`, deleted
-files still visible to `getdents64`. Not on-disk corruption, but
-violates POSIX directory semantics and can cause userspace to skip files
-or process stale names. **Severity: MEDIUM-HIGH** (correctness /
-semantic violation with real userspace impact).
+### Step 8.3: Failure Mode Severity
+**Record:** Misaligned partial writes to fscache backend; cachefiles
+WARN on DIO alignment violation. Risk of incorrect cache content / cache
+coherency issues. **Severity: MEDIUM-HIGH** (not a kernel panic, but
+cache data integrity issue with real test reproducer).
 
-**Step 8.4 — Risk/benefit**
-Record: **Benefit: HIGH** for hfsplus users (fixes reproducible xfstests
-failure, aligns with prior stable backports from same subsystem).
-**Risk: LOW** (net code reduction, cherry-picks cleanly, author-tested).
-Ratio strongly favors backport.
+### Step 8.4: Risk-Benefit
+**Record:**
+- **Benefit:** HIGH for fscache users — closes race that defeats write-
+  streaming suppression, complements already-backported series fixes
+- **Risk:** LOW — 16-line change, uses established flag, applies
+  cleanly, no API changes
+- **Ratio:** Strongly favors backport
 
 ---
 
 ## Phase 9: Final Synthesis
 
-**Evidence FOR:**
-- Reproducible, documented bug (generic/637, GitHub #198)
-- Violates directory iteration semantics (duplicate offsets, stale
-  entries)
-- Small, self-contained, cherry-picks cleanly to 6.18.y
-- Author tested with xfstests
-- Same maintainer's generic/* hfsplus fixes already in this stable tree
-- Bug present since ancient hfsplus code; affects 6.18.y today
-- Removes fragile synchronization (spinlock + per-inode list) in favor
-  of simpler per-fd state
+### Step 9.1: Evidence Summary
 
-**Evidence AGAINST:**
-- No independent reviewer Ack on mailing list (author self-committed)
-- hfsplus is not a widely deployed filesystem
-- Not a crash/Oops/security issue — correctness only
+**FOR backport:**
+- Real bug with documented race (async lookup vs. `cache_priv` check)
+- Reproducible via xfstests `generic/464`
+- Reported by production fscache user (Marc Dionne / AuriStor)
+- Causes incorrect write-streaming → fscache DIO alignment violations
+- Small, surgical, obviously correct fix
+- Applies cleanly to 6.18.44
+- Sibling patches from same series already in this stable tree
+- David Howells (subsystem maintainer) authored fix
 
-**Unresolved:** None material to the decision.
+**AGAINST backport:**
+- Only affects CONFIG_FSCACHE + cachefiles users (subset of users)
+- Primary visible symptom described as cachefiles WARN (not oops/panic)
+- Full mailing list review discussion UNVERIFIED
 
-**Stable rules checklist:**
-1. Obviously correct and tested? **PASS** — clear mechanism, xfstests
-   generic/637 passes
-2. Fixes real bug affecting users? **PASS** — reproducible directory
-   enumeration corruption
-3. Important issue? **PASS** — MEDIUM-HIGH correctness; stale/deleted
-   entries in `readdir`
-4. Small and contained? **PASS** — 5 files, net −24 lines
-5. No new features/APIs? **PASS** — internal implementation change only
-6. Can apply to local tree? **PASS** — verified clean cherry-pick
+**UNRESOLVED:**
+- Full lore thread content (bot-blocked)
+- Whether stable list already discussed this specific patch
 
-**Exception category:** N/A (not device ID/quirk/build/doc fix; standard
-bug fix)
+### Step 9.2: Stable Rules Checklist
+1. Obviously correct and tested? **PASS** — logic verified against
+   `fscache_begin_lookup()` / `cachefiles_lookup_cookie()` code; xfstest
+   reproducer cited
+2. Fixes a real bug affecting users? **PASS** — Marc Dionne report +
+   xfstests
+3. Important issue? **PASS** — cache data integrity / incorrect fscache
+   writes (MEDIUM-HIGH)
+4. Small and contained? **PASS** — 3 files, ~16 lines
+5. No new features or APIs? **PASS** — internal helper only
+6. Can apply to local tree? **PASS** — verified clean apply
+
+### Step 9.3: Exception Categories
+**Record:** None (not device ID, quirk, DT, build fix, or docs).
+Standard bug fix.
+
+### Step 9.4: Decision Rationale
+
+For **linux-6.18.y** (this checkout at v6.18.44): the buggy code is
+present, the async fscache lookup race is real and verified in source,
+related fixes from the same patch series are already in this tree, and
+the fix is minimal with clear benefit for fscache users. This is
+appropriate stable material — a correctness fix for the 6.18
+fscache/netfs stack that prevents misaligned cache writes during the
+async cookie lookup window.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed commit `4b04964328446` message and tags from `git
-  show`
-- [Phase 2] Diff analysis: 5 files, +12/−36; classified as directory
-  iteration correctness fix
-- [Phase 3] `git describe HEAD` → `v6.18.43`; `git merge-base --is-
-  ancestor 4b04964328446 HEAD` → fix NOT in tree
-- [Phase 3] `git log --grep='generic/' -- fs/hfsplus/` → prior stable-
-  worthy fixes present (073, 480, 498)
-- [Phase 3] `git cherry-pick --no-commit 4b04964328446` → clean auto-
-  merge of all 5 files
-- [Phase 4] `b4 dig -c 4b04964328446` → lore URL found; v1 only, no
-  review replies in mbox
+- [Phase 1] Parsed commit message from `git show 046acff3d6cd0`:
+  subject, tags, body
+- [Phase 2] Diff analysis: 3 files, 14 insertions/2 deletions; read
+  current `buffered_write.c:277-298`, `buffered_read.c:659-667`,
+  `internal.h:230-240`
+- [Phase 3] `git blame` on `internal.h:230-240` → introduced
+  `5d324e5159d9e` (6.18)
+- [Phase 3] `git log --oneline -30 -- fs/netfs/` → sibling fixes
+  present, target commit absent
+- [Phase 3] `git merge-base --is-ancestor 046acff3d6cd0 HEAD` → NOT IN
+  TREE
+- [Phase 3] `git log --oneline --grep="20260625140640"` → 4 related
+  series commits in tree, this one missing
+- [Phase 4] `b4 dig -c 046acff3d6cd0` → lore URL found
 - [Phase 4] `b4 dig -a` → single revision
-- [Phase 4] `b4 dig -w` → CC list retrieved
-- [Phase 4] GitHub issue #198 → confirms generic/637 failure, closed
-  with patch reference
-- [Phase 4] Web search → generic/637 tests `getdents64` while unlinking
-  files in open directory
-- [Phase 5] `grep hfsplus_dir_operations` → `.iterate_shared =
-  hfsplus_readdir` at dir.c:622
-- [Phase 5] `grep hfsplus_delete_cat` → called from unlink/rmdir paths
-- [Phase 6] `grep open_dir_list/open_dir_lock` in fs/hfsplus → buggy
-  code confirmed present
-- [Phase 6] `grep rd->pos` in fs/hfsplus → absent (fix not applied)
-- [Phase 6] Cherry-pick test → applies cleanly
+- [Phase 4] WebFetch lore URL → BLOCKED (Anubis)
+- [Phase 5] `grep netfs_file_write_iter` → AFS, CIFS callers confirmed
+- [Phase 5] Read `fscache_cookie.c:548-562` →
+  `FSCACHE_COOKIE_IS_CACHING` set before async lookup completes
+- [Phase 5] Read `cachefiles/interface.c:177-193` → `cache_priv` set in
+  worker
+- [Phase 6] `git describe HEAD` → v6.18.44; Makefile confirms 6.18.44
+- [Phase 6] `git apply --check` on patch → applies cleanly
+- [Phase 6] Grep confirms buggy `netfs_is_cache_enabled(ctx)` at lines
+  281 and 663
+- [Phase 7] `fs/netfs/Kconfig` confirms CONFIG_FSCACHE exists
+- [Phase 8] Assessed severity from commit message + code path analysis
+- UNVERIFIED: Full lore review thread content; stable@ mailing list
+  prior discussion
 
-This commit fixes a real, reproducible hfsplus directory iteration bug
-that is present in the 6.18.y tree, applies cleanly, matches the pattern
-of prior hfsplus xfstests fixes already backported here, and carries low
-regression risk.
+**YES**Two background git commands timed out on this repo (`git branch
+-a --contains` and a broad `-S` pickaxe search). I killed them and got
+the same answers other ways:
 
-**YES**The background check confirmed commit `4b04964328446` (`hfsplus:
-rework hfsplus_readdir() logic`) is **not** in this tree — the buggy
-`open_dir_list` / `f_pos--` code is still present on
-`stable/linux-6.18.y` at `v6.18.43`.
+- The fix commit resolves to `autosel~217` (not in current 6.18.44
+  HEAD).
+- `netfs_is_cache_enabled` landed with the 6.18 netfs/fscache work
+  (`5d324e5159d9e` / `8ab75e445c161`).
 
-That supports the earlier **YES** verdict: this is a real directory-
-iteration bug (generic/637), the fix cherry-picks cleanly, and it fits
-the pattern of other hfsplus xfstests fixes already in 6.18.y.
+That doesn’t change the earlier conclusion: backport **YES** for 6.18.y
+— small fix for an async fscache lookup race, applies cleanly, and
+sibling patches from the same series are already in the tree.
 
- fs/hfsplus/catalog.c    | 11 -----------
- fs/hfsplus/dir.c        | 28 +++++++++++-----------------
- fs/hfsplus/hfsplus_fs.h |  5 +----
- fs/hfsplus/inode.c      |  2 --
- fs/hfsplus/super.c      |  2 --
- 5 files changed, 12 insertions(+), 36 deletions(-)
+ fs/netfs/buffered_read.c  |  2 +-
+ fs/netfs/buffered_write.c |  2 +-
+ fs/netfs/internal.h       | 12 ++++++++++++
+ 3 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
-index 6c8380f7208df..fd2a9460e6aa8 100644
---- a/fs/hfsplus/catalog.c
-+++ b/fs/hfsplus/catalog.c
-@@ -332,7 +332,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
- 	struct super_block *sb = dir->i_sb;
- 	struct hfs_find_data fd;
- 	struct hfsplus_fork_raw fork;
--	struct list_head *pos;
- 	int err, off;
- 	u16 type;
- 
-@@ -391,16 +390,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
- 		hfsplus_free_fork(sb, cnid, &fork, HFSPLUS_TYPE_RSRC);
- 	}
- 
--	/* we only need to take spinlock for exclusion with ->release() */
--	spin_lock(&HFSPLUS_I(dir)->open_dir_lock);
--	list_for_each(pos, &HFSPLUS_I(dir)->open_dir_list) {
--		struct hfsplus_readdir_data *rd =
--			list_entry(pos, struct hfsplus_readdir_data, list);
--		if (fd.tree->keycmp(fd.search_key, (void *)&rd->key) < 0)
--			rd->file->f_pos--;
--	}
--	spin_unlock(&HFSPLUS_I(dir)->open_dir_lock);
--
- 	err = hfs_brec_remove(&fd);
- 	if (err)
- 		goto out;
-diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
-index 8aeb861969d37..8254d6c92eb94 100644
---- a/fs/hfsplus/dir.c
-+++ b/fs/hfsplus/dir.c
-@@ -185,7 +185,15 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 	}
- 	if (ctx->pos >= inode->i_size)
- 		goto out;
--	err = hfs_brec_goto(&fd, ctx->pos - 1);
-+	rd = file->private_data;
-+	if (rd && rd->pos == ctx->pos) {
-+		memcpy(fd.search_key, &rd->key, sizeof(struct hfsplus_cat_key));
-+		err = hfs_brec_find(&fd, hfs_find_rec_by_key);
-+		if (err == -ENOENT)
-+			err = hfs_brec_goto(&fd, 1);
-+	} else {
-+		err = hfs_brec_goto(&fd, ctx->pos - 1);
-+	}
- 	if (err)
- 		goto out;
- 	for (;;) {
-@@ -261,7 +269,6 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 		if (err)
- 			goto out;
- 	}
--	rd = file->private_data;
- 	if (!rd) {
- 		rd = kmalloc(sizeof(struct hfsplus_readdir_data), GFP_KERNEL);
- 		if (!rd) {
-@@ -269,15 +276,8 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 			goto out;
- 		}
- 		file->private_data = rd;
--		rd->file = file;
--		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
--		list_add(&rd->list, &HFSPLUS_I(inode)->open_dir_list);
--		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
- 	}
--	/*
--	 * Can be done after the list insertion; exclusion with
--	 * hfsplus_delete_cat() is provided by directory lock.
--	 */
-+	rd->pos = ctx->pos;
- 	memcpy(&rd->key, fd.key, sizeof(struct hfsplus_cat_key));
- out:
- 	kfree(strbuf);
-@@ -287,13 +287,7 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 
- static int hfsplus_dir_release(struct inode *inode, struct file *file)
- {
--	struct hfsplus_readdir_data *rd = file->private_data;
--	if (rd) {
--		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
--		list_del(&rd->list);
--		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
--		kfree(rd);
--	}
-+	kfree(file->private_data);
- 	return 0;
+diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
+index 221287f8925a9..cccc860893f0a 100644
+--- a/fs/netfs/buffered_read.c
++++ b/fs/netfs/buffered_read.c
+@@ -660,7 +660,7 @@ int netfs_write_begin(struct netfs_inode *ctx,
+ 	 * within the cache granule containing the EOF, in which case we need
+ 	 * to preload the granule.
+ 	 */
+-	if (!netfs_is_cache_enabled(ctx) &&
++	if (!netfs_is_cache_maybe_enabled(ctx) &&
+ 	    netfs_skip_folio_read(folio, pos, len, false)) {
+ 		netfs_stat(&netfs_n_rh_write_zskip);
+ 		goto have_folio_no_wait;
+diff --git a/fs/netfs/buffered_write.c b/fs/netfs/buffered_write.c
+index dd0ce7b769ce0..0f61746bee2ac 100644
+--- a/fs/netfs/buffered_write.c
++++ b/fs/netfs/buffered_write.c
+@@ -278,7 +278,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
+ 		 * caching service temporarily because the backing store got
+ 		 * culled.
+ 		 */
+-		if (netfs_is_cache_enabled(ctx)) {
++		if (netfs_is_cache_maybe_enabled(ctx)) {
+ 			if (finfo) {
+ 				netfs_stat(&netfs_n_wh_wstream_conflict);
+ 				goto flush_content;
+diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
+index 645996ecfc803..d889caa401dc2 100644
+--- a/fs/netfs/internal.h
++++ b/fs/netfs/internal.h
+@@ -239,6 +239,18 @@ static inline bool netfs_is_cache_enabled(struct netfs_inode *ctx)
+ #endif
  }
  
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index 2da2bd52d200e..9e92493e55c62 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -215,8 +215,6 @@ struct hfsplus_inode_info {
- 	sector_t fs_blocks;
- 	u8 userflags;		/* BSD user file flags */
- 	u32 subfolders;		/* Subfolder count (HFSX only) */
--	struct list_head open_dir_list;
--	spinlock_t open_dir_lock;
- 	loff_t phys_size;
- 
- 	struct inode vfs_inode;
-@@ -266,8 +264,7 @@ struct hfs_find_data {
- };
- 
- struct hfsplus_readdir_data {
--	struct list_head list;
--	struct file *file;
-+	loff_t pos;
- 	struct hfsplus_cat_key key;
- };
- 
-diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
-index 7e6cc4dde9f26..ab1c343955b10 100644
---- a/fs/hfsplus/inode.c
-+++ b/fs/hfsplus/inode.c
-@@ -459,8 +459,6 @@ struct inode *hfsplus_new_inode(struct super_block *sb, struct inode *dir,
- 	simple_inode_init_ts(inode);
- 
- 	hip = HFSPLUS_I(inode);
--	INIT_LIST_HEAD(&hip->open_dir_list);
--	spin_lock_init(&hip->open_dir_lock);
- 	mutex_init(&hip->extents_lock);
- 	atomic_set(&hip->opencnt, 0);
- 	hip->extent_state = 0;
-diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-index e1e2833f528d1..d031c77fb4eb3 100644
---- a/fs/hfsplus/super.c
-+++ b/fs/hfsplus/super.c
-@@ -91,8 +91,6 @@ struct inode *hfsplus_iget(struct super_block *sb, unsigned long ino)
- 	HFSPLUS_I(inode)->fs_blocks = 0;
- 	HFSPLUS_I(inode)->userflags = 0;
- 	HFSPLUS_I(inode)->subfolders = 0;
--	INIT_LIST_HEAD(&HFSPLUS_I(inode)->open_dir_list);
--	spin_lock_init(&HFSPLUS_I(inode)->open_dir_lock);
- 	HFSPLUS_I(inode)->phys_size = 0;
- 
- 	if (inode->i_ino >= HFSPLUS_FIRSTUSER_CNID ||
++static inline bool netfs_is_cache_maybe_enabled(struct netfs_inode *ctx)
++{
++#if IS_ENABLED(CONFIG_FSCACHE)
++	struct fscache_cookie *cookie = ctx->cache;
++
++	return fscache_cookie_valid(cookie) &&
++		test_bit(FSCACHE_COOKIE_IS_CACHING, &cookie->flags);
++#else
++	return false;
++#endif
++}
++
+ /*
+  * Get a ref on a netfs group attached to a dirty page (e.g. a ceph snap).
+  */
 -- 
 2.53.0
 
