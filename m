@@ -1,155 +1,109 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C13C3BB109
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 08:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A7731A065;
+	Mon, 31 Aug 2026 08:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788166035; cv=none; b=nW3yHHtP4okLFzaODuFhnam+el6lhzUFwSzJSljBLcu8okOWFPzDKyxJJ9lrZTu9BkaKR1xJ+aIWri4nqo5mrKVU1rHXC0+8TKVtlAsnRnPLVsBw4mYV4p/YpI+GvYIHNiKzPmK3UZKdeZmBnMfDxzpvmmlSkksa4lcJTksTJjM=
+	t=1788166189; cv=none; b=c124OFjY/H1BOWGphpjkFfxQSbN4yRsIRA6nQYpk9Ivu6LndO5F/qtp+CiQhLsskqwRBrNJmWAK58bDjHAExXOeA8TJe8vZ2VzfIXdZQX4HxVDfaOkVFoywDON9QynNDLnBEGjCFpulkjm6ZBIOtMTtji4wGk0qWYkBugnARwAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788166035; c=relaxed/simple;
-	bh=+vsodl7jqbt8XPX71KOtb7WQopUl1dESdfLcEEXU/AE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l6h98IcbswmowKJE4J9/uEQkHWIm6MZdYm28rTb6c0hKUAQoX1BFt+l1q16ZlgiitpdxtRDZkpi746X+cAOPk/JvCDrNKrgLOBuoAImNMwsXQhEspuJGdgpTba1WlK+cPTVnEB8C7ZHOY2sJBZhSrkdtOqnUy24pNCYAQOWE5Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TAvtYGrb; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7bIn+P3b; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m71U3MpG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cVnKSTFe; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788166189; c=relaxed/simple;
+	bh=RZsKRXUZ5MHkySOQ0pr1OGOzLW4PFVPPjI5FsfQV+lQ=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=kzWprTAXAfw7fxUh/q2FdFldHWXZ8hqhveOFjEvVLGbvdT/9lybsLb+QLsiBuSVVdiGwT0U3gdmC435hZTGFWb4R1YMpzuaLjimGi8+a1ufn0sMI3BfUju1Ks2v8R5R3cmfTZKSEk2WeiBPDqIkA+ZX4iJ1ke5nI/7VAF2QxY0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FaZekYeZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TAvtYGrb";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7bIn+P3b";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m71U3MpG";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cVnKSTFe"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 592311F7EB;
-	Mon, 31 Aug 2026 08:47:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788166027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQ4g5f2UCyiP5+Sq9D+uc5meWtEC0MnpX90k3AI4m0E=;
-	b=TAvtYGrbxMH5gN6tGziArah6Qi2T5VN1hBR+G2cpIbF+s+jPx0Vl5+mUV0ePYiCTrPmxQt
-	XQGi60nFdAt6RQKiloHv+AZohnFcQ5Yi3Q5LaqJqUTaYttW4LoheH160A++bF5nlY91j8E
-	2cwM+jX00fBiNVDtEDE4Zj5OxZL66oI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788166027;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQ4g5f2UCyiP5+Sq9D+uc5meWtEC0MnpX90k3AI4m0E=;
-	b=7bIn+P3bZzZLlzgpeXCvIL7tRTA7kDkgxDwRs8WgLV0QqguSUvzBmHjVXLZq8mlgG+RM9E
-	DXtmg6g3CuWhcDBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788166023; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQ4g5f2UCyiP5+Sq9D+uc5meWtEC0MnpX90k3AI4m0E=;
-	b=m71U3MpGptEvXC3QBtDniPWXyWE3M/E+i7ymQVN0NkKIlXBoKAQWABkpupGJeMfRf+Yy5f
-	RCiQfTwtLWoY1bXwziXsGm04i/tt9Eoto4puNXbglp26eQica9eOGCOubK5CTZqKt7g67I
-	HrCGMgKf35e8ViQIWoc4x60CG7I9adA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788166023;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQ4g5f2UCyiP5+Sq9D+uc5meWtEC0MnpX90k3AI4m0E=;
-	b=cVnKSTFe3FVwkl3c1KmHbu3i/SVkfN9MT/m6dp+Mrgiw/gt1Dqmb4WVXsCsMqmYJq0O+XL
-	5IVo9pi+tCjaQFCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B163136B2;
-	Mon, 31 Aug 2026 08:47:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4AZsDoc/lWpYKAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 31 Aug 2026 08:47:03 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id DF0ADA13B5; Mon, 31 Aug 2026 10:46:58 +0200 (CEST)
-Date: Mon, 31 Aug 2026 10:46:58 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 4/6] buffer: Document mmb_mark_buffer_dirty()
-Message-ID: <gfrycblpc3vwovubp4lsqbpodqvdf5ablqmgenh4uf2j6oxz3r@omhiynx7u5oe>
-References: <20260828205429.3678204-1-willy@infradead.org>
- <20260828205429.3678204-5-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FaZekYeZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8873A1F000E9;
+	Mon, 31 Aug 2026 08:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788166188;
+	bh=U0RHUkeCK2+wI7g+xlveFyXCiygTgGH8M2YKQRICDbA=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=FaZekYeZ0wFn0PLi2UeXQLR+DZ7Ga92WjP0iO0y3hPuhr7su7CkEDkn33bWwnytSy
+	 bqfIgL6Rvjq0S5SBAEUGLQx7m56Qtzy1v1x0BCgLs8JTn59a05Qv/61kCQttaR5FwC
+	 YK8Ew7IZDm5mKZIZOXrACM/O3Hd4VPjUO0iNW/CrvH3+p84aniky+0n76MgfvfEi2x
+	 Zbsd+LfZzInCbDD3bgwwXSgCnoyLUGMWS0X87UtMiUPqI/6dGX4yKUDx6YF6soUTOE
+	 luXbDuWAdjKCDJnaCAzS4n8PEKm7feSkY70ckwlXke+xvNMjIPhfKeAH6WuZjRBYoK
+	 pT1ZRHj5evrxw==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260828205429.3678204-5-willy@infradead.org>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.com:email,infradead.org:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,infradead.org:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 0/3] pidfd: add task path ioctls
+From: Christian Brauner <brauner@kernel.org>
+To: Chen Linxuan <me@black-desk.cn>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ John Johansen <john.johansen@canonical.com>, 
+ Georgia Garcia <georgia.garcia@canonical.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
+In-Reply-To: <20260831-pidfd-get-paths-v2-0-c59ea6a21b72@black-desk.cn>
+References: <20260831-pidfd-get-paths-v2-0-c59ea6a21b72@black-desk.cn>
+Date: Mon, 31 Aug 2026 10:49:39 +0200
+Message-Id: <20260831-tauwetter-werkbank-dramen-b37eb4025283@brauner>
+X-Mailer: b4 0.17-dev-362b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1813; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=RZsKRXUZ5MHkySOQ0pr1OGOzLW4PFVPPjI5FsfQV+lQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRNdVCtzLdnsxG4xVH55O6X/3MWT28u6stlL3/36Y9nz
+ sMr/3++7yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIBTsjw+0H/otM9kquFjxX
+ qq2ymFcwSzPDN64tZGXTnGtv3k+b8ZDhf4ZlH8PR9v3Ja9p6IlIU38x3dXzKfuFz2+O+CwxaSzy
+ WcwIA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Fri 28-08-26 21:54:24, Matthew Wilcox (Oracle) wrote:
-> Add kernel-doc for mmb_mark_buffer_dirty().
+On 2026-08-31 10:59 +0800, Chen Linxuan wrote:
+> Obtaining a target task's executable, working directory, or root
+> currently requires walking procfs symlinks such as /proc/<pid>/exe,
+> /proc/<pid>/cwd, and /proc/<pid>/root.  That makes the operation depend
+> on procfs being mounted and visible to the caller, even when it already
+> holds a pidfd for the target.
 > 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+> This series adds PIDFD_GET_EXE, PIDFD_GET_CWD, and PIDFD_GET_ROOT. Each
+> ioctl takes no argument and returns a close-on-exec O_PATH file
+> descriptor referencing the corresponding task path.  The new ioctls use
+> the same ptrace permission check and nonzero-argument rejection as the
+> existing pidfd namespace ioctls.
+> 
+> The target task is sampled while holding its exec_update_lock. This
+> keeps the access decision and the task-state read in the same exec
+> critical section, preventing a concurrent execve() from changing the
+> credentials or target state between the check and the use.
+> 
+> The first patch factors out helpers for acquiring referenced task paths
+> and reuses them in procfs and AppArmor.  The second patch introduces
+> scoped cleanup for privileged pidfd task access and separates namespace
+> lookup from namespace fd creation.  The final patch uses these pieces to
+> implement the three new ioctls.
+> 
+> Signed-off-by: Chen Linxuan <me@black-desk.cn>
 > ---
->  fs/buffer.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index daf851ea9824..96bccff5688c 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -618,6 +618,14 @@ void write_boundary_block(struct block_device *bdev,
->  	}
->  }
->  
-> +/**
-> + * mmb_mark_buffer_dirty - Mark a metadata buffer dirty.
-> + * @bh: The buffer to mark dirty.
-> + * @mmb: The list of buffers to add the buffer to.
-> + *
-> + * Mark the buffer dirty and add it to the list if it is not already on
-> + * a list.
-> + */
->  void mmb_mark_buffer_dirty(struct buffer_head *bh,
->  			   struct mapping_metadata_bhs *mmb)
->  {
-> -- 
-> 2.47.3
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
+I really have difficulties forming an opinion on this. So this sounds
+very useful but it has implications.
+
+Right now, pidfd ioctls are available even in situations where the task
+in question would not be accessible via procfs, e.g., when procfs is
+mounted with "hidepid" options or similar. So this would expand the
+surface of operations you could potentially do.
+
+But again, I do think it is actually useful. Adding Jann.
+
