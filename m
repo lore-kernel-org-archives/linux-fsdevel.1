@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2954A8FCD;
-	Mon, 31 Aug 2026 13:45:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83E25476D2;
+	Mon, 31 Aug 2026 13:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183955; cv=none; b=ei6Pp/HbvDhPBVdDv6yvTC4kUCgqsea/la/ffUpAlfltAQ1SZnMMGZIJm9yL/lo2iKGgodSUbjUv2AeC8n3Gg257Qx6ny0RyPngbv8dHPIiTMUtBiDzg2e/VxX4z2PCTq1XCgrvLk9N3jCmve4TcMulT45iqljftDWPJAAQZ49w=
+	t=1788184011; cv=none; b=o2rZhf2POXnA0V6MNtv/UaWBBLcmh9fJszGw/AHqBmTJnBsJrAtgp+0oQ2jQMuw78wKbQfEii6PIYWYe0ueWjyvt1MhDp+pzt1YLN/f1m6e9nO6CDW2UKQ+H7x4BKFXf39Q9x5WK4emTYISxYNoFspv2D+L5cA0rDTy5evpEtF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183955; c=relaxed/simple;
-	bh=ZXzjaZE46lFi/jNrqCMZePIsIT/j8TA4E4nD29S2KS0=;
+	s=arc-20240116; t=1788184011; c=relaxed/simple;
+	bh=3iU8+o/dKiI98fssKGUtxOGzI2MdKQLjANy3PJQKy2M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UqieR6hpabLsQfGjjnZb9y5nDfCPb5gSz8RPXbQMIIrw6VPsXlfExQneMcAz5lYe/komRXdLmsCbW/JtiqyrDvxyMHcSsVGp2tzkQPJT2D8Z3TRqYdWAp/old8k8WmqH/UohQX324rqnsi4+e41gaxMFGa9s/OtcusUazd7tr+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z/akwbGk; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=dy7zBKyxWdpLK7jIysqIisocHRhp5LZodxMhdE/j48uU5BJc88jr0bNfMoPRPwenY8R6IGkMKsNUm1UP3wZe+ZgFK/LxjBQinrxtKXI+54FLBJ9zTa5XEBWbyeaIyUE2FFnOHF3EQEydUy5mds6jHeFNNJX/yiKmnfM3+NqdyCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzaMApTG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z/akwbGk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBA491F00A3F;
-	Mon, 31 Aug 2026 13:45:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzaMApTG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 595BA1F00A3F;
+	Mon, 31 Aug 2026 13:46:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183953;
-	bh=wC9cdW9mQNJEVes6ak1jpSMwduyDH0bcPNJB2MnXJQc=;
+	s=k20260515; t=1788184005;
+	bh=bVA8K2oEooFlo55mJn3JSpEOJpVxPN88TTHKqRPmoYE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Z/akwbGka0/YELRWHunI7sdYO52I19mww0r+K6XFGC6J7dOljl/kdkq9H/icG9ujI
-	 GH/gWYOOVy4UhhTz1HX1ZSpWz0ozBkRuMWoNnsWtA60yXJr1c/HBo5FQVO+R3UuwhA
-	 sKZ5m+AgnmG/GgkUHMhYgjc3fdwBsN0w97lLrMwFs5OmSxntX9hJjJuFblHfe4oG4E
-	 XSGI3pWyCoLcl6Y2qTJOfayO0QcycaXXYg531UYOXwPF9mgAe5TBi/31NLfEzbZr/d
-	 YDl1ZtmVbaHEw1VFn8No8+oxqdN6XtrdkvYj8KG5G7fd+vtC790PoCMyHI6++1So4X
-	 Gog0/6rZniBLw==
+	b=HzaMApTG3POshJKe6+fl/gwdrfhl2Dxjf91Pr1GJ3YPsGctSynsJ40o92luZ8zeQs
+	 nJ7Bexgwkfh/gz5WVo9SvXK1pt2BGmHpKDvhxwhDFe2Ljr8MuHDgGj2Fxohi7qGakN
+	 8hT91u5LWfRm+vkS1knXbZbz0OSJMMDgJYKRBfEX3goYp9e7+OHZ5VwuhRCAVccao+
+	 N6O1CGgKdE+6j9tv6beMyuQbcE2ORg/7/qI+onoSK9MSI0bU/CWsP842wpjkk4wfLh
+	 e0M/FYgllxEgDb4CWBJVXScrLpsPgTz/vc4p8MJoJzD57YsaA+O+Ey2oVIcOzNYwJF
+	 Du2nplq+/LuQg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
+Cc: Zhang Yi <yi.zhang@huawei.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
 	"Christian Brauner (Amutable)" <brauner@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] cachefiles: Fix double fput
-Date: Mon, 31 Aug 2026 09:27:09 -0400
-Message-ID: <20260831133314.4125787-401-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] iomap: prevent ioend merge when io_private differs
+Date: Mon, 31 Aug 2026 09:27:41 -0400
+Message-ID: <20260831133314.4125787-433-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -54,358 +55,400 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: David Howells <dhowells@redhat.com>
+From: Zhang Yi <yi.zhang@huawei.com>
 
-[ Upstream commit af6830cc12dfe86c832dccc9c9878a93aaa22f83 ]
+[ Upstream commit c97cd6f447d8727af3d457bca3a9283a77dd70f8 ]
 
-Fix a double fput() in error handling in cachefiles_create_tmpfile().
+Different io_private values indicate distinct completion contexts that
+must not be merged together, as this could leak or corrupt the private
+data associated with each ioend.
 
-Link: https://sashiko.dev/#/patchset/20260608145432.681865-1-dhowells%40redhat.com
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://patch.msgid.link/20260625140640.3116900-4-dhowells@redhat.com
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Link: https://patch.msgid.link/20260713074206.1768006-1-yi.zhang@huaweicloud.com
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
+# Stable Backport Analysis: `iomap: prevent ioend merge when io_private
+differs`
 
-### Step 1.1: Subject line
-**Record:** `[cachefiles] [fix] Fix double fput` — explicit bug fix in
-the cachefiles filesystem caching backend.
-
-### Step 1.2: Tags
-**Record:**
-- **Link:** https://sashiko.dev/#/patchset/20260608145432.681865-1-
-  dhowells%40redhat.com (patchset reference)
-- **Signed-off-by:** David Howells `<dhowells@redhat.com>` (author)
-- **Link:**
-  https://patch.msgid.link/20260625140640.3116900-4-dhowells@redhat.com
-  (mailing list submission)
-- **cc:** Paulo Alcantara, netfs@lists.linux.dev, linux-
-  fsdevel@vger.kernel.org
-- **Signed-off-by:** Christian Brauner (Amutable) `<brauner@kernel.org>`
-  (merge sign-off)
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, or Cc: stable tags
-  (expected for manual review)
-- Part of **[PATCH v3 03/15]** series (standalone one-line fix within a
-  larger series)
-
-### Step 1.3: Body analysis
-**Record:**
-- **Bug:** Double `fput()` on the error path in
-  `cachefiles_create_tmpfile()` when the backing cache filesystem lacks
-  `read_iter`/`write_iter`.
-- **Symptom:** Reference count dropped twice on the same `struct file
-  *`; second `fput()` can trigger refcount underflow warnings,
-  `WARN_ON`, or use-after-free.
-- **Root cause:** Extra `fput(file)` before `goto err_unuse`, but
-  `err_unuse` already calls `fput(file)`.
-
-### Step 1.4: Hidden bug fix?
-**Record:** No — this is an explicit, straightforward double-
-free/refcount bug fix, not disguised cleanup.
+**Local tree:** `v6.18.44` (Makefile: 6.18.44)
 
 ---
 
-## Phase 2: Diff Analysis
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 2.1: Inventory
+### Step 1.1: PARSE THE SUBJECT LINE
+**Record:** `[iomap] [prevent] prevent ioend merge when io_private
+differs` — blocks incorrect merging of adjacent `iomap_ioend` structures
+when their per-ioend private completion contexts differ.
+
+### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 **Record:**
-- **File:** `fs/cachefiles/namei.c` — 1 line removed, 0 added
-- **Function:** `cachefiles_create_tmpfile()`
-- **Scope:** Single-file, surgical one-line fix
+| Tag | Value |
+|-----|-------|
+| Signed-off-by | Zhang Yi `<yi.zhang@huawei.com>` (author) |
+| Link | https://patch.msgid.link/20260713074206.1768006-1-
+yi.zhang@huaweicloud.com |
+| Reviewed-by | Christoph Hellwig `<hch@lst.de>` (iomap/XFS maintainer)
+|
+| Reviewed-by | Ojaswin Mujoo `<ojaswin@linux.ibm.com>` |
+| Signed-off-by | Christian Brauner `<brauner@kernel.org>` (VFS
+maintainer) |
 
-### Step 2.2: Code flow change
+**Notable patterns:** Two subsystem maintainers/reviewers (Hellwig,
+Brauner). No `Reported-by:`, no syzbot, no `Fixes:` tag (expected for
+manual review). No `Cc: stable` in the commit message.
+
+### Step 1.3: ANALYZE THE COMMIT BODY TEXT
 **Record:**
-- **Before:** On `read_iter`/`write_iter` check failure → `fput(file)` →
-  `goto err_unuse` → `cachefiles_do_unmark_inode_in_use()` →
-  `fput(file)` again.
-- **After:** On failure → `goto err_unuse` → single `fput(file)` via the
-  shared cleanup label.
-- **Path affected:** Error path only, after successful tmpfile creation
-  but before capability validation.
+- **Bug:** `iomap_ioend_can_merge()` allows merging adjacent ioends even
+  when `io_private` differs.
+- **Symptom:** Leak or corruption of filesystem-private completion data.
+- **Root cause (author):** Different `io_private` values mean distinct
+  completion contexts that must stay separate.
+- **Version info:** None in the message.
+- **Context (from lore):** Patch is part of ext4 iomap conversion work;
+  discussion linked to ext4 thread.
 
-### Step 2.3: Bug mechanism
-**Record:** **Reference counting / double-free bug.** Category: extra
-`fput()` on an error path that already releases the file reference.
-Matches the correct pattern in sibling function `cachefiles_open_file()`
-(lines 576–611), which uses `goto error_fput` with only one `fput()`.
-
-### Step 2.4: Fix quality
-**Record:** Obviously correct — removes redundant `fput()` and aligns
-with existing convention in the same file. Minimal regression risk; no
-locking or API changes.
+### Step 1.4: DETECT HIDDEN BUG FIXES
+**Record:** Not disguised — this is an explicit correctness fix. The
+"prevent" verb and corruption/leak language indicate a real bug, not
+cleanup.
 
 ---
 
-## Phase 3: Git History Investigation
+## PHASE 2: DIFF ANALYSIS
 
-### Step 3.1: Blame
-**Record:** `git blame` attributes all lines to merge commit
-`5d324e5159d9e` (history in this tree is flattened). Tag comparison
-shows the buggy pattern present since `cachefiles_create_tmpfile()` was
-introduced:
-- Present with bug in **v6.12.50** through **v6.12.99**
-- Absent in **v6.18.0**; present with bug from **v6.18.1** through
-  **v6.18.44** (current HEAD)
-
-### Step 3.2: Fixes: tag
-**Record:** N/A — no Fixes: tag in commit message.
-
-### Step 3.3: Related file history
-**Record:** `git log --oneline -- fs/cachefiles/namei.c` shows only
-merge commit in this tree’s shallow history. Tag comparison confirms the
-bug has been present since the function’s introduction in this stable
-series.
-
-### Step 3.4: Author context
-**Record:** David Howells is the primary fscache/cachefiles maintainer.
-Patch was submitted to Christian Brauner and fsdevel/netfs lists.
-
-### Step 3.5: Dependencies
-**Record:** Standalone fix. Although labeled patch 03/15 of v3, this
-one-line deletion has no structural dependency on other series patches.
-Applies cleanly to the current tree.
-
----
-
-## Phase 4: Mailing List and External Research
-
-### Step 4.1: Original discussion
-**Record:** `b4 dig -c HEAD` did not match (commit not in local
-history). Found submission at https://lists.openwall.net/linux-
-kernel/2026/06/25/1287 (Message-ID:
-`<20260625140640.3116900-4-dhowells@redhat.com>`). Also appeared in v2
-and v4 series. No NAKs or objections found in fetched content. No
-explicit stable nomination in the patch email.
-
-### Step 4.2: Reviewers
-**Record:** CC’d: Christian Brauner, Christoph Hellwig, Paulo Alcantara,
-netfs@lists.linux.dev, linux-fsdevel, plus netfs client lists (afs,
-cifs, ceph). Appropriate maintainer coverage.
-
-### Step 4.3: Bug report
-**Record:** No external bug report or syzbot link. Bug identified by
-code inspection during cachefiles development (sashiko patchset).
-
-### Step 4.4: Series context
-**Record:** Part of David Howells’ cachefiles patchset (v3 03/15). This
-specific fix is self-contained and does not require other series
-patches.
-
-### Step 4.5: Stable list history
-**Record:** Not searched exhaustively on lore stable@; no stable
-discussion found in available sources.
-
----
-
-## Phase 5: Code Semantic Analysis
-
-### Step 5.1: Key functions
-**Record:** `cachefiles_create_tmpfile()` modified.
-
-### Step 5.2: Callers
+### Step 2.1: INVENTORY THE CHANGES
 **Record:**
-- `cachefiles_create_file()` — `namei.c:531` (new cache object creation)
-- `cachefiles_invalidate_cookie()` — `interface.c:407` (cookie
-  invalidation / tmpfile replacement)
+- **Files:** `fs/iomap/ioend.c` (+2 lines)
+- **Function:** `iomap_ioend_can_merge()`
+- **Scope:** Single-file, surgical fix
 
-Both are kernel fscache/cachefiles paths triggered during networked
-filesystem cache operations.
+### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+**Record:**
+- **Before:** Adjacent ioends merge if status, flags, offsets, and
+  sectors match — `io_private` ignored.
+- **After:** Merge rejected when `ioend->io_private !=
+  next->io_private`.
+- **Path:** `iomap_ioend_try_merge()` → called from `xfs_end_io()`
+  during write completion processing.
 
-### Step 5.3: Callees
-**Record:** `kernel_tmpfile_open()`, `cachefiles_mark_inode_in_use()`,
-`cachefiles_ondemand_init_object()`, `vfs_truncate()`, `fput()`,
-`cachefiles_do_unmark_inode_in_use()`, `cachefiles_end_secure()`.
+### Step 2.3: IDENTIFY THE BUG MECHANISM
+**Record:** **Logic / correctness fix** with **reference-counting** and
+**data-corruption** consequences.
 
-### Step 5.4: Reachability
-**Record:** Reachable when `CONFIG_CACHEFILES` is enabled and a
-user/admin configures cachefiles as a local backing store for fscache
-(NFS, CIFS, AFS, Ceph, etc.). Trigger requires a backing filesystem
-whose file operations lack `read_iter` or `write_iter` — marked
-`unlikely()`, but ext4/xfs/btrfs normally provide these; exotic or
-misconfigured backing FS could hit it. Not a direct syscall path, but
-reachable from normal filesystem I/O for cache-enabled mounts.
-
-### Step 5.5: Similar patterns
-**Record:** `cachefiles_open_file()` at lines 576–611 implements the
-same `read_iter`/`write_iter` check correctly with a single `fput()` via
-`error_fput`. The tmpfile path was inconsistent — classic copy-paste
-error.
-
----
-
-## Phase 6: Cross-Reference Against Local Tree (6.18.44)
-
-### Step 6.1: Buggy code exists?
-**Record:** **YES.** Local tree is **6.18.44** (`git describe`:
-`v6.18.44-1-g2736c32da98b9`). Buggy code confirmed at
-`fs/cachefiles/namei.c:502–504`:
-
-```499:515:fs/cachefiles/namei.c
-        ret = -EINVAL;
-        if (unlikely(!file->f_op->read_iter) ||
-            unlikely(!file->f_op->write_iter)) {
-                fput(file);
-                pr_notice("Cache does not support read_iter and
-write_iter\n");
-                goto err_unuse;
-        }
-// ...
-err_unuse:
-        cachefiles_do_unmark_inode_in_use(object, file_inode(file));
-        fput(file);
+When ioends merge in `iomap_ioend_try_merge()`:
+```335:348:fs/iomap/ioend.c
+void iomap_ioend_try_merge(struct iomap_ioend *ioend,
+                struct list_head *more_ioends)
+{
+        // ...
+                if (!iomap_ioend_can_merge(ioend, next))
+                        break;
+                list_move_tail(&next->io_list, &ioend->io_list);
+                ioend->io_size += next->io_size;
 ```
 
-Bug present since **v6.18.1** (function absent in v6.18.0).
+Only `io_size` is accumulated on the parent; `io_private` from merged
+children is not propagated. XFS completion then uses only the parent's
+`io_private`:
 
-### Step 6.2: Backport complications
-**Record:** **Clean apply expected** — exact one-line deletion, no
-conflicts anticipated. File structure matches the patch diff.
+```153:167:fs/xfs/xfs_aops.c
+        if (is_zoned)
+                error = xfs_zoned_end_io(ip, offset, size,
+ioend->io_sector,
+                                ioend->io_private, NULLFSBLOCK);
+        // ...
+        if (is_zoned)
+                xfs_ioend_put_open_zones(ioend);
+```
 
-### Step 6.3: Related fixes already present?
-**Record:** `git log --grep="double fput"` returns nothing. Fix not yet
-applied in this tree.
+If two adjacent ioends used different `xfs_open_zone` pointers
+(`io_private`), merging causes:
+1. **Data corruption:** `xfs_zoned_end_io()` maps the full merged byte
+   range using only the parent's zone, mis-mapping blocks written under
+   a different zone.
+2. **Reference imbalance:** `xfs_ioend_put_open_zones()` walks the
+   merged chain and puts each child's `io_private` plus the parent's —
+   refcount behavior becomes inconsistent with how zones were acquired
+   in `xfs_submit_zoned_bio()`.
+
+### Step 2.4: ASSESS THE FIX QUALITY
+**Record:** Obviously correct — mirrors existing merge guards (status,
+flags, offset, sector). Minimal (2 lines). Very low regression risk:
+only prevents merges that should never have happened. No new APIs.
 
 ---
 
-## Phase 7: Subsystem Context
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 7.1: Subsystem criticality
-**Record:** **fs/cachefiles** — IMPORTANT (filesystem caching for
-network filesystems). Not universal core code, but affects production
-NFS/CIFS/AFS caching deployments.
+### Step 3.1: BLAME THE CHANGED LINES
+**Record:** `iomap_ioend_can_merge()` in this tree comes from commit
+`5d324e5159d9e` (2025-11-28, v6.18 era). The missing `io_private` check
+has been present since the function was introduced in this tree.
+`io_private` exists in `include/linux/iomap.h` since at least tag
+`v6.18`.
 
-### Step 7.2: Subsystem activity
-**Record:** Actively maintained by David Howells; recent tmpfile
-infrastructure added in 6.18.y stable series.
+### Step 3.2: FOLLOW THE FIXES: TAG
+**Record:** No `Fixes:` tag present. N/A.
+
+### Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+**Record:** Recent `fs/iomap/ioend.c` changes in this tree: split
+bio_set, EOF trim guard, delalloc rejection. Standalone fix; not part of
+a multi-patch series (b4 shows only v1).
+
+### Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+**Record:** Zhang Yi is working on ext4 iomap conversion (per lore).
+Hellwig and Mujoo reviewed. Author is an active contributor in this
+area, not a drive-by.
+
+### Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+**Record:** No prerequisites. The `io_private` field and merge logic
+already exist in v6.18.44. Fix is self-contained.
 
 ---
 
-## Phase 8: Impact and Risk Assessment
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 8.1: Who is affected
-**Record:** Users with `CONFIG_CACHEFILES` enabled and cachefilesd (or
-equivalent) configured. Subset of server/workstation deployments using
-FS-Cache.
-
-### Step 8.2: Trigger conditions
-**Record:** Creating or invalidating a cache object tmpfile on a backing
-filesystem missing `read_iter` or `write_iter`. Uncommon but plausible
-with unusual FS choices. Triggered from kernel cache management, not
-arbitrary userspace directly.
-
-### Step 8.3: Failure mode severity
-**Record:** **HIGH** — double `fput()` causes refcount underflow,
-potential use-after-free, kernel `WARN`/`BUG`, or memory corruption. Not
-merely cosmetic.
-
-### Step 8.4: Risk-benefit
+### Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
 **Record:**
-- **Benefit:** Prevents refcount corruption and potential crash/UAF on a
-  real error path.
-- **Risk:** Very low — one-line removal, matches established pattern in
-  same file.
-- **Ratio:** Strong benefit, negligible risk.
+- **URL:** https://patch.msgid.link/20260713074206.1768006-1-
+  yi.zhang@huaweicloud.com
+- **Series revisions:** v1 only (no v2/v3)
+- **Reviewer feedback:** Hellwig: "Looks sensible and fine to queue up
+  now"; Mujoo: "Looks good Yi"
+- **Stable nominations:** None found in thread
+- **NAKs/concerns:** None
+
+### Step 4.2: CHECK WHO REVIEWED THE PATCH
+**Record:** CC'd: `linux-fsdevel`, `linux-xfs`, `linux-ext4`,
+`brauner@kernel.org`, `djwong@kernel.org`, `hch@infradead.org`.
+Appropriate maintainers included and reviewed.
+
+### Step 4.3: SEARCH FOR THE BUG REPORT
+**Record:** No external bug report or syzbot link. Bug identified during
+ext4 iomap conversion development. Logical analysis of XFS zoned
+completion path confirms real corruption risk.
+
+### Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+**Record:** Related to ext4 iomap conversion (future in this tree). In
+v6.18.44, only XFS sets `io_private` on ioends.
+
+### Step 4.5: CHECK STABLE MAILING LIST HISTORY
+**Record:** Not searched exhaustively; no stable discussion found in the
+patch thread.
 
 ---
 
-## Phase 9: Final Synthesis
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 9.1: Evidence summary
+### Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+**Record:** `iomap_ioend_can_merge()` (modified),
+`iomap_ioend_try_merge()` (caller).
 
-**FOR backport:**
-- Real double `fput()` bug on error path
-- HIGH severity when triggered (refcount corruption / UAF)
-- One-line, obviously correct fix
-- Bug present in this 6.18.44 tree since v6.18.1
-- Matches correct pattern already used in `cachefiles_open_file()`
-- From subsystem maintainer (David Howells)
-- Applies cleanly
+### Step 5.2: TRACE CALLERS
+**Record:** `iomap_ioend_try_merge()` called from `xfs_end_io()` in
+`fs/xfs/xfs_aops.c` (line 204). Triggered during asynchronous write I/O
+completion on XFS inodes — normal write path for buffered/direct I/O.
 
-**AGAINST backport:**
-- Rare trigger path (`unlikely()` + specific FS requirements)
-- CONFIG_CACHEFILES is optional
-- No syzbot/user crash report
+### Step 5.3: TRACE CALLEES
+**Record:** Merge logic chains ioends via `list_move_tail`; completion
+calls `xfs_end_ioend()` → `xfs_zoned_end_io()` /
+`xfs_ioend_put_open_zones()`.
 
-**Unresolved:** No runtime crash report; severity inferred from refcount
-semantics and code analysis.
+### Step 5.4: FOLLOW THE CALL CHAIN
+**Record:** `submit_bio` → `xfs_end_bio` → workqueue `xfs_end_io` →
+`iomap_ioend_try_merge` → `xfs_end_ioend`. Reachable from normal file
+writes on zoned XFS RT volumes. Zone fill in
+`xfs_zone_alloc_and_submit()` can produce adjacent ioends with different
+`io_private` when `select_zone` picks a new open zone.
 
-### Step 9.2: Stable rules checklist
-1. Obviously correct and tested? **PASS** — logic is clear; no Tested-by
-   but fix is trivial
-2. Fixes a real bug? **PASS** — confirmed double `fput()` in code
-3. Important issue? **PASS** — refcount bug / potential UAF (HIGH)
-4. Small and contained? **PASS** — 1 line, 1 file
+### Step 5.5: SEARCH FOR SIMILAR PATTERNS
+**Record:** Other merge guards already check `bi_status`,
+`IOMAP_IOEND_BOUNDARY`, `IOMAP_IOEND_NOMERGE_FLAGS`, offset continuity,
+and sector continuity. The `io_private` check fills an obvious gap
+consistent with those guards.
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+
+### Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+**Record:** **Yes.** `io_private` field exists in
+`include/linux/iomap.h` (line 413). XFS sets it in
+`xfs_submit_zoned_bio()` (`fs/xfs/xfs_zone_alloc.c:833`).
+`iomap_ioend_can_merge()` lacks the guard (lines 307–333). Fix commit
+`c97cd6f447d8` is **not** an ancestor of HEAD (`merge-base --is-
+ancestor` returned exit 1).
+
+### Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+**Record:** Upstream patch does not apply verbatim (`git apply --check`
+fails at line 385 — local tree has fewer lines in the function, no READ-
+op guard). **Minor adjustment needed:** insert the 2 lines after the
+`bi_status` check at line 310. Trivial backport.
+
+### Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+**Record:** No duplicate fix found. `git log --grep="io_private"`
+returns nothing in this tree's history.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+### Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+**Record:** **Filesystem / iomap layer** (shared infrastructure) with
+**XFS zoned RT** as the current consumer in this tree. Criticality:
+**IMPORTANT** — affects filesystem data integrity for zoned XFS users.
+
+### Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+**Record:** iomap and XFS zoned code actively developed in the 6.18
+cycle. `io_private` and zoned allocation are relatively new, making this
+bug relevant to current 6.18.y users.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: DETERMINE WHO IS AFFECTED
+**Record:** Users of **XFS with zoned realtime volumes**
+(`CONFIG_XFS_RT`, `xfs_has_zoned`). Not universal, but any such
+deployment doing writes is affected. ext4 does not use `io_private` in
+this tree yet.
+
+### Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+**Record:** Adjacent write ioends completing with different `io_private`
+(e.g., zone boundary crossing during allocation). Plausible during
+normal sequential or concurrent writes when zones fill. Privileged write
+access required (not a direct syscall attack vector), but corruption
+affects all data on the volume.
+
+### Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+**Record:** **CRITICAL** — incorrect extent mapping via
+`xfs_zoned_end_io()` on merged ranges causes **filesystem metadata/data
+corruption**. Secondary refcount imbalance can cause leaks or premature
+free of `xfs_open_zone` structures.
+
+### Step 8.4: CALCULATE RISK-BENEFIT RATIO
+**Record:**
+- **Benefit:** HIGH for affected XFS zoned users — prevents silent
+  corruption
+- **Risk:** VERY LOW — 2-line guard, no behavior change for correctly-
+  formed ioend chains
+- **Ratio:** Strongly favors backport
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+### Step 9.1: COMPILE THE EVIDENCE
+
+**FOR backporting:**
+- Fixes real data-corruption bug in XFS zoned write completion
+- Small, surgical, reviewer-approved (Hellwig, Mujoo, Brauner)
+- Buggy code and `io_private` usage both present in v6.18.44
+- Fix mirrors existing merge guards — obviously correct
+- Prevents refcount corruption on `xfs_open_zone`
+
+**AGAINST backporting:**
+- Affects niche config (`CONFIG_XFS_RT` zoned volumes only)
+- No user bug report or syzbot reproduction
+- Patch needs trivial line-offset adjustment for this tree (not a
+  blocker)
+
+**Unresolved:** None that affect the decision.
+
+### Step 9.2: STABLE RULES CHECKLIST
+1. Obviously correct and tested? **PASS** — logic is clear; reviewed by
+   iomap/XFS maintainers
+2. Fixes a real bug affecting users? **PASS** — XFS zoned write
+   completion corruption
+3. Important issue? **PASS** — data corruption (CRITICAL)
+4. Small and contained? **PASS** — 2 lines, 1 file
 5. No new features or APIs? **PASS**
-6. Can apply to local tree? **PASS** — buggy code present, clean apply
+6. Can apply to the local tree? **PASS** — trivial insertion after
+   `bi_status` check (minor offset adjustment)
 
-### Step 9.3: Exception categories
-**Record:** None (standard bug fix, not device ID/quirk/build fix).
+### Step 9.3: EXCEPTION CATEGORIES
+**Record:** None (not a device ID, quirk, DT, build fix, or docs fix).
+Qualifies on merit as a correctness/corruption fix.
 
-### Step 9.4: Decision rationale
-This is a textbook stable backport: a real reference-counting bug on an
-error path, fixed by a single-line deletion that mirrors the correct
-pattern already in the same file. The trigger is uncommon but the
-consequence is serious. The bug exists in the locally checked-out
-**6.18.44** tree and the patch applies without dependencies.
+### Step 9.4: DECISION RATIONALE
+For **v6.18.44**, the buggy merge path exists, XFS actively uses
+`io_private` for zoned completion contexts, and incorrect merging can
+corrupt extent mappings. The fix is minimal, maintainer-reviewed, and
+low-risk. The narrow config scope does not outweigh the severity of data
+corruption.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed commit message and tags from user-provided diff and
-  openwall mirror
-- [Phase 2] Read current `fs/cachefiles/namei.c:442–515` — confirmed
-  double `fput()` path
-- [Phase 2] Compared with `cachefiles_open_file()` at lines 576–611 —
-  correct single-fput pattern verified
-- [Phase 3] `git describe HEAD` → v6.18.44-1-g2736c32da98b9; `make
-  kernelversion` → 6.18.44
-- [Phase 3] `git blame -L 499,520 fs/cachefiles/namei.c` → lines
-  attributed to 5d324e5159d9e
-- [Phase 3] Tag comparison: v6.18.0 (no function), v6.18.1–v6.18.44 (bug
-  present), v6.12.50–v6.12.99 (bug present)
-- [Phase 3] `git show 1efe5d048a391:fs/cachefiles/namei.c` → buggy code
-  at 6.18.44 tag
-- [Phase 3] `git log --grep="double fput"` → no existing fix
-- [Phase 4] `b4 dig -c HEAD` → no match (commit not in tree)
-- [Phase 4] WebFetch openwall 2026/06/25/1287 → confirmed patch content
-  and v3 03/15 series context
-- [Phase 4] CC list verified: Brauner, Hellwig, fsdevel, netfs
+- **[Phase 1]** Parsed subject, tags, body; noted Hellwig/Mujoo reviews;
+  ext4 conversion context from lore
+- **[Phase 2]** Read diff: +2 lines in `iomap_ioend_can_merge()`; traced
+  merge → XFS completion path
+- **[Phase 3]** `git describe HEAD`: v6.18.44; `git blame` on lines
+  307–333: from `5d324e5159d9e`
+- **[Phase 3]** `git log --grep="io_private"`: no prior fix in tree
+- **[Phase 3]** `git merge-base --is-ancestor c97cd6f447d8 HEAD`: exit 1
+  (fix not in HEAD)
+- **[Phase 4]** `b4 dig -c fff189121d344`: found lore URL; v1 only;
+  Hellwig/Mujoo reviewed; Brauner applied
+- **[Phase 4]** `b4 dig -w`: CC list includes fsdevel, xfs, ext4,
   maintainers
-- [Phase 5] `grep cachefiles_create_tmpfile` → callers in `namei.c:531`,
-  `interface.c:407`
-- [Phase 6] Current working tree has buggy code at line 502 (`fput`
-  before `goto err_unuse`)
-- [Phase 6] `git log --grep="double fput"` → fix not yet applied
-- [Phase 7] Read `fs/cachefiles/Kconfig` → CONFIG_CACHEFILES tristate,
-  depends on NETFS_SUPPORT && FSCACHE && BLOCK
-- [Phase 8] Failure mode assessed from double-fput refcount semantics
-  (no runtime reproducer available)
+- **[Phase 4]** Read `/tmp/iomap_io_private.mbox`: no NAKs, no stable
+  nomination
+- **[Phase 5]** `grep iomap_ioend_try_merge`: caller is `xfs_end_io()`
+  in `fs/xfs/xfs_aops.c`
+- **[Phase 5]** Read `xfs_zone_alloc.c`: `io_private` set in
+  `xfs_submit_zoned_bio()`; zone refill via `select_zone`
+- **[Phase 5]** Read `xfs_aops.c`: `xfs_zoned_end_io()` uses parent
+  `io_private` only; `xfs_ioend_put_open_zones()` walks merged chain
+- **[Phase 6]** `grep io_private fs/ext4`: no matches (ext4 not affected
+  in this tree)
+- **[Phase 6]** `git show v6.18:include/linux/iomap.h | grep
+  io_private`: field present since v6.18
+- **[Phase 6]** `git apply --check` on upstream patch: fails at line 385
+  (offset mismatch; trivial manual apply)
+- **[Phase 6]** Current `fs/iomap/ioend.c` lacks `io_private` merge
+  guard (verified by read)
+- **[Phase 8]** Failure mode: extent mapping corruption on zoned XFS
+  writes — CRITICAL severity
+
+**YES**The background check finished: `c97cd6f447d8` (the upstream fix)
+is **not** in this tree’s HEAD (`v6.18.44`), so the bug is still present
+here.
+
+**Summary:** The patch adds a 2-line guard in `iomap_ioend_can_merge()`
+so ioends with different `io_private` values are not merged. Without it,
+XFS zoned RT write completion can mis-map extents and corrupt metadata.
+The change is small, maintainer-reviewed, and should backport cleanly
+with a minor line-offset tweak.
 
 **YES**
 
- fs/cachefiles/namei.c | 1 -
- 1 file changed, 1 deletion(-)
+ fs/iomap/ioend.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
-index d1edb2ac38376..eae5045d50081 100644
---- a/fs/cachefiles/namei.c
-+++ b/fs/cachefiles/namei.c
-@@ -499,7 +499,6 @@ struct file *cachefiles_create_tmpfile(struct cachefiles_object *object)
- 	ret = -EINVAL;
- 	if (unlikely(!file->f_op->read_iter) ||
- 	    unlikely(!file->f_op->write_iter)) {
--		fput(file);
- 		pr_notice("Cache does not support read_iter and write_iter\n");
- 		goto err_unuse;
- 	}
+diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+index 2a86b05c88efc..da174d896abfe 100644
+--- a/fs/iomap/ioend.c
++++ b/fs/iomap/ioend.c
+@@ -309,6 +309,8 @@ static bool iomap_ioend_can_merge(struct iomap_ioend *ioend,
+ {
+ 	if (ioend->io_bio.bi_status != next->io_bio.bi_status)
+ 		return false;
++	if (ioend->io_private != next->io_private)
++		return false;
+ 	if (next->io_flags & IOMAP_IOEND_BOUNDARY)
+ 		return false;
+ 	if ((ioend->io_flags & IOMAP_IOEND_NOMERGE_FLAGS) !=
 -- 
 2.53.0
 
