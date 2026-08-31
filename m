@@ -1,142 +1,186 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2726249F11D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 18:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788199306; cv=pass; b=qlarC0Gzbo6Eff13pk1l+MFcWe/wUjn0NAyD2J0Qm8uZcNpax1huK3JQn6v9lDtKGxF+N+KabkgsUl7/VH62W6w1JXMqLBGx9vlKJ6MuxsTukVLP5ATeqYusEr2hVU8lw5z+Fn33T4/1Ml9lGaznjGBwxAHLdAtu6H4yU7uv9G8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788199306; c=relaxed/simple;
-	bh=DN7ajB5HW+161pKga12XB+ux9+zyLcXTHDVln4XJ3u4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nnbZUj0a+utJrcR+iU/uDPkuwkw2FiTaQFWiFqmhbynRmAgd8Mfz740VJ0orsRO+C9/6fM4R7rYLMfTMmV/d68axw/crPwhmfYyOwvxTaIVsJrEiDbLpifj8n2QQTgiyrH7GJRmQf5MWKGSGgctrAcf+fpDpqf8VNeIW2g2Z+TU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=TmgoL+AX; arc=pass smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A24D353A72;
+	Mon, 31 Aug 2026 18:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788199482; cv=none; b=m1KzO0L5BBiwPBYIp6iIZWCFIlQQj34QbliouquzOAMBMNzoT0dRMURhQCLEHp+uTTM3UpzuRxYKMimchRdMd7Bh1vtPBq4EnwBJ6svHV6OIBg87jL99CImKejEvcebNYUW22Vuzdx4jtBxdgtRUGaH1cr90HSKX+a7vgEv72bg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788199482; c=relaxed/simple;
+	bh=/NYvPj7eAOAn7UdYrC65ybioEF48RHttCPjrXGuNB6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ntR+s5kRQ8JGWhPctdI+40/cC8aZ+N3Hn7vkUJ53zEeaGzGkU4UnoWr/Hbu5fyFaedDvKCNpvVxITYaTMoh0/yPruvIczIqZVzCtDoa92lqsjYj1IB3Ra3ezZOhyWLKmKfwRHVHBVReyvMRkvQGLRjK+YXvjtrbwM97i6Oo4f2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEO3izI3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="TmgoL+AX"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8535a9be75eso2872238b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 31 Aug 2026 11:01:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788199302; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NVtg1yjpIVb6OpTP5B33TBmCz+Rsr4HQh9VBFN93UCGmh6eclqCKK3Ao/aEC+5MkCl
-         28gAtD2Gj77YrU4R9GxHLwkhd53FNOEPBqMEJ/Z3XSOoXK5IDMN4j87o8V1lS50pVEH4
-         kxrKZ/T+3ZgnEbDmOURYSkT3ICkztugXsSCcb8ZbOQtPfrNSWh+I/YbhloS44ATJYZn9
-         pxgoSUmeGGP1tH/RD2dzjXDz6DPWKvqFuUJtShPJ/53qd2CVqSg2qMPbobDupKi8ZFmS
-         g2n9Imc8ommKW7dSywZrNfD+sjXoT+Cqu4wn2zUFAmLHoaeMGccIzzqx/wR3wBTQoV2c
-         BKTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qcH86xjgshAXJpFP6qrb20Jfgu2TTKubE4sb7Xw/UbQ=;
-        fh=5f0cxze56e8Rda8MlgxMTxI9i0Dd5Tkn24S0vzrTL0k=;
-        b=aQTqHBBWRKB562+rJf05iDFbuLRp+1BdeNgwOm4gfelZhUYsgzHXotjC0Bing1LbUI
-         d56VfKZDa7j1YxxuGfdRNiCJZ51uzJwYESY6FiJ9puz/jaQb+A9Fa1FhsLGLCFG1lEb0
-         0PSulV60pKSeSEImegkqas09I0dn0lqGcdS0oSa2fqGVOs5ABjNkEuDDcP5aCGU+gw0X
-         lb0R5srbpT4ClyL9D9Y8pyosq9kyEpGTpqThVJNOvxcauoPnzoh5U9TWPTTiv2IcTkfv
-         9ozejWLug1cYgSth4Lj73y8LU5K0blxzE7cDkVZ3dWjtg+6PppIZXguyBe2zfbodG5Tk
-         7+SQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1788199302; x=1788804102; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qcH86xjgshAXJpFP6qrb20Jfgu2TTKubE4sb7Xw/UbQ=;
-        b=TmgoL+AX+K+1e+0xEF544/bUrWJ3T3a80izkqNfqNAKO898D8dx8I5/igau5wIciZA
-         vv5WkZqD5Dy+XtReibK5Ct+B4wsdewKBKTguNt7YWEC3tSvy3LpjsMmN3R6UMFJ9GUNG
-         sZawzTAYN7cWNQIAnORI2I6foeE6YDpl9p5NrUv9i/ax+ax/Bi5DIzB2XI4KzlsYc3oN
-         VqH1GJB6jHJaMstxshrYgxxFObIJmQgz379rvIFau6q9DbkMblsZrQQ+vH1jjcDYDcKE
-         kPspNZqPeAW/1UrrPh0NAxvvWqxEU0Vy2m8QiXn/qphWxO+iARdvnPNB5Ot9aIGIgr4U
-         n29Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788199302; x=1788804102;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qcH86xjgshAXJpFP6qrb20Jfgu2TTKubE4sb7Xw/UbQ=;
-        b=dnfXMD70zaErBWaA1UylnmYsMJuBgm7/ShMLsOZ68VYHdIBgE7/4Pfa+8J9RmCH4JP
-         nNcX58Cox+KA8Y1xFy/+hQONa+jvi3Qq/RTlXycvJAbHXGikqHVxGQmZNGYyBLoR4ACM
-         pjrhtscI3+a7C3KTC5qb40RcxBLT4XslYVOzM8trEEbdMPSTbyh90Qxabu9JUkYOJwhU
-         kNm37QxvgJxx+Ko0Igpg1O24gXvhKrMlwvPlTfxHFEO6NHjH52D4CuQ4YhmL+z4FjCxe
-         C5aiMppLGCv4qdwH1E5dG3O3SafYbge8lru4rfq0FbeSyf3yCeDVxTd4QuyOwS4Mm0qk
-         dZcA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp2TPRj9tvTyjkQzr13Sh++pOTfb6PWRMKAYLcvZ/3daZg5t0+lRtu+9yphcFUQJXDBx2uxEts4kM/c/6gE@vger.kernel.org
-X-Gm-Message-State: AFuF++lI2ONwHVdAoyAMYeDj6fb0UHjC1R/Ag9XoZX9Ry7a+uMmiE8DK
-	0wnEVg57L/5IhHkXFXM4s+1Kv+/A6BYjc8IhG5JKRdk2m/6+R76BEdmsG/dAysXomjnHd1a77F7
-	YULdjmbSwJq/bsgcVAjRE/clA6op/zgdUCs5aLSe2
-X-Gm-Gg: AR+sD13c4Zza1MP1VvvNxjTIMDZHW9tRX7DxbUtw+cr5twrLWp/YI3LBnZVEmSCFUlL
-	OtlC4wfn54f5glCXVlhl56eSSRTH5UvbR2c6qpsSTyqWCNb7BMxj+24w80IxGLAs4z2pFvxeRfZ
-	Z/Kk+5gbxvOZ3nRZYtlfX/p4p0f0H8hiqSIs/MvO/6L16deCtZ/fvSyKpJ5nH/6o2x3go16c9yf
-	E57pyZ4GTJzeFLnhWvY5rFrBvi4+DgBQ+VoYTp0kw1L5JkhMFd00M2U9gf6YUiK/BUYwTUo6wfx
-	2SkCtKzQ4g8wEiXVvcV5/rG7+cM4j3C20EaPXnjieHPu
-X-Received: by 2002:a05:6a00:802:b0:842:7296:dba with SMTP id
- d2e1a72fcca58-85629064fcamr42578483b3a.7.1788199302293; Mon, 31 Aug 2026
- 11:01:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEO3izI3"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D1F761F000E9;
+	Mon, 31 Aug 2026 18:04:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788199480;
+	bh=TcIj3qN74m0gr8cszLQKLQ5q2xc2S6ABykuk3oNs2OY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fEO3izI3Ht2uUuLegmfjFhMtWBdsCwgHKIcsgJ9+LxXXYKVo0JwQWLdI6rn3kwVV7
+	 SWTG9EGkm7xJ8qNfClhakFQxSmSSeIHw2daZFv2m8zWEsXpssTgMxGvBZbvPMAgu0B
+	 uELZelq0pvrP0UUIddNJgBqlMHPuevN/0vJ3mF+z0i7dJQA/jlk2z39g3gcLV8lf09
+	 y1a5t5Dz6SIl0DjGDw4hWTcOTiAw/VLOi7yK5enwtxwdAA/KURbCFzN/e97fPURQz6
+	 P+IiCoQkkioPJvtGG3AQ+DCFeITftK9wy4EAeIwho7cXaYADwfTP4XwgA1k1ftj84H
+	 Yp1PNvAO9ny/g==
+Date: Mon, 31 Aug 2026 11:04:40 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>, Tal Zussman <tz2294@columbia.edu>,
+	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 01/17] block: pass a maxlen argument to
+ bio_iov_iter_get_pages
+Message-ID: <20260831180440.GJ1933798@frogsfrogsfrogs>
+References: <20260831064010.2574896-1-hch@lst.de>
+ <20260831064010.2574896-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ef5bf18a4b3805ec0fe5fb638963ccbdfc01d6fe.1787077711.git.rgb@redhat.com>
- <65425b98ae226a9d19f89bd66a1defbe@paul-moore.com>
-In-Reply-To: <65425b98ae226a9d19f89bd66a1defbe@paul-moore.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 31 Aug 2026 14:01:30 -0400
-X-Gm-Features: AcwNN1UjA6EQ0vdTUMZpIzMqbTR5XzQsbvy_jGC-ejOGutXWjivMDB6qbx9VHhc
-Message-ID: <CAHC9VhTAe1x5Fzj==SanTP85wxi+XQ5N2-m98fdxWmcAeM105g@mail.gmail.com>
-Subject: Re: [PATCH v3] audit: free proctitle in context so it can be re-set
- by fork on exec_binprm
-To: Richard Guy Briggs <rgb@redhat.com>, 
-	Linux-Audit Mailing List <linux-audit@lists.linux-audit.osci.io>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel@vger.kernel.org, 
-	Linux Kernel Audit Mailing List <audit@vger.kernel.org>
-Cc: Eric Paris <eparis@parisplace.org>, Steve Grubb <sgrubb@redhat.com>, 
-	Roman Dolgikh <rmd4work@mail.ru>, Ricardo Robaina <rrobaina@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260831064010.2574896-2-hch@lst.de>
 
-On Mon, Aug 24, 2026 at 6:07=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
-ote:
-> On Aug 18, 2026 Richard Guy Briggs <rgb@redhat.com> wrote:
-> >
-> > Between the actual process startup (fork systemd) and the executable fi=
-le
-> > replacement (exec), systemd sets a temporary file name (executable file
-> > name in parentheses). If an auditable system call occurs at this point,
-> > the audit context will latch the temporary process name into the cache.
-> > This name will not change again. The patch clears proctitle into the
-> > audit cache when the exec call is made, allowing the new process name t=
-o
-> > be latched.
-> >
-> > Suggested-by: Roman Dolgikh <rmd4work@mail.ru>
-> > Link: https://github.com/user-attachments/files/20751461/fix_audit_proc=
-title.txt
->
-> I did drop the link above from the commit as it is contained within the
-> link below.
->
-> > Link: https://github.com/linux-audit/audit-kernel/issues/170
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > Reviewed-by: Ricardo Robaina <rrobaina@redhat.com>
-> > Reviewed-by: Bradley Morgan <include@grrlz.net>
-> > ---
-> > Changelog:
-> > v3: use previously assigned context
-> > v2: simplified to call single use directly before need in audit_bimprm
-> > ---
-> >  kernel/auditsc.c | 2 ++
-> >  1 file changed, 2 insertions(+)
->
-> Merged into audit/dev-staging since we're currently in the middle of the
-> merge window, this will got to audit/dev once the window closes.
+On Mon, Aug 31, 2026 at 09:39:49AM +0300, Christoph Hellwig wrote:
+> Writes that require additional per-I/O allocations such as when using
+> file system level protection information can be limited to a maximum
+> size.  Allow passing that to bio_iov_iter_get_pages.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-... and now it's in audit/dev, thanks!
+I'm slightly wary of what weird bugs might fall out on account of
+reducing the size of the bi_iter size, but AFAICT it's a reasonable
+thing to do, so
 
---=20
-paul-moore.com
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
+> ---
+>  block/bio.c          |  8 ++++++--
+>  block/blk-map.c      |  2 +-
+>  block/fops.c         |  3 ++-
+>  fs/iomap/direct-io.c | 10 +++++-----
+>  include/linux/bio.h  |  3 ++-
+>  5 files changed, 16 insertions(+), 10 deletions(-)
+> 
+> diff --git a/block/bio.c b/block/bio.c
+> index 898b2f5ef8c8..efd9483b8348 100644
+> --- a/block/bio.c
+> +++ b/block/bio.c
+> @@ -1261,6 +1261,7 @@ static inline bool bio_iov_bvec_aligned(const struct bio *bio,
+>   * bio_iov_iter_get_pages - add user or kernel pages to a bio
+>   * @bio: bio to add pages to
+>   * @iter: iov iterator describing the region to be added
+> + * @maxlen: maximum size to consume from @iter
+>   * @mem_align_mask: the mask the source address and length must be aligned to,
+>   *	0 for no requirement
+>   * @len_align_mask: the mask to align the total size to, 0 for any length
+> @@ -1281,7 +1282,8 @@ static inline bool bio_iov_bvec_aligned(const struct bio *bio,
+>   * is returned only if 0 pages could be pinned.
+>   */
+>  int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+> -			   unsigned mem_align_mask, unsigned len_align_mask)
+> +			   unsigned maxlen, unsigned mem_align_mask,
+> +			   unsigned len_align_mask)
+>  {
+>  	iov_iter_extraction_t flags = 0;
+>  
+> @@ -1293,6 +1295,8 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+>  		    !bio_iov_bvec_aligned(bio, mem_align_mask))
+>  			return -EINVAL;
+>  
+> +		/* Truncate to the maximum size that the caller can handle */
+> +		bio->bi_iter.bi_size = min(bio->bi_iter.bi_size, maxlen);
+>  		iov_iter_advance(iter, bio->bi_iter.bi_size);
+>  		return 0;
+>  	}
+> @@ -1306,7 +1310,7 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+>  		ssize_t ret;
+>  
+>  		ret = iov_iter_extract_bvecs(iter, bio->bi_io_vec,
+> -				BIO_MAX_SIZE - bio->bi_iter.bi_size,
+> +				maxlen - bio->bi_iter.bi_size,
+>  				&bio->bi_vcnt, bio->bi_max_vecs,
+>  				mem_align_mask, flags);
+>  		if (ret <= 0) {
+> diff --git a/block/blk-map.c b/block/blk-map.c
+> index 9cb9605d1f62..81cba3af4e9c 100644
+> --- a/block/blk-map.c
+> +++ b/block/blk-map.c
+> @@ -274,7 +274,7 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+>  	 * No alignment requirements on our part to support arbitrary
+>  	 * passthrough commands.
+>  	 */
+> -	ret = bio_iov_iter_get_pages(bio, iter, 0, 0);
+> +	ret = bio_iov_iter_get_pages(bio, iter, BIO_MAX_SIZE, 0, 0);
+>  	if (ret)
+>  		goto out_put;
+>  	ret = blk_rq_append_bio(rq, bio);
+> diff --git a/block/fops.c b/block/fops.c
+> index 2ce7c6c4714e..a83df69b175a 100644
+> --- a/block/fops.c
+> +++ b/block/fops.c
+> @@ -46,7 +46,8 @@ static bool blkdev_dio_invalid(struct block_device *bdev, struct kiocb *iocb,
+>  static inline int blkdev_iov_iter_get_pages(struct bio *bio,
+>  		struct iov_iter *iter, struct block_device *bdev)
+>  {
+> -	return bio_iov_iter_get_pages(bio, iter, bdev_dma_alignment(bdev),
+> +	return bio_iov_iter_get_pages(bio, iter, BIO_MAX_SIZE,
+> +			bdev_dma_alignment(bdev),
+>  			bdev_logical_block_size(bdev) - 1);
+>  }
+>  
+> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+> index 8b4039d16ce8..bc726d47b7dc 100644
+> --- a/fs/iomap/direct-io.c
+> +++ b/fs/iomap/direct-io.c
+> @@ -359,8 +359,8 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_iter *iter,
+>  				iomap_max_bio_size(&iter->iomap), alignment);
+>  	else
+>  		ret = bio_iov_iter_get_pages(bio, dio->submit.iter,
+> -					     bdev_dma_alignment(bio->bi_bdev),
+> -					     alignment - 1);
+> +				BIO_MAX_SIZE, bdev_dma_alignment(bio->bi_bdev),
+> +				alignment - 1);
+>  	if (unlikely(ret))
+>  		goto out_put_bio;
+>  	ret = bio->bi_iter.bi_size;
+> @@ -1034,9 +1034,9 @@ ssize_t __iomap_dio_read_simple(struct kiocb *iocb, struct iov_iter *iter,
+>  	bio->bi_iter.bi_sector = iomap_sector(&iomi->iomap, iomi->pos);
+>  	bio->bi_ioprio = iocb->ki_ioprio;
+>  
+> -	ret = bio_iov_iter_get_pages(bio, iter,
+> -				bdev_dma_alignment(bio->bi_bdev),
+> -				alignment - 1);
+> +	ret = bio_iov_iter_get_pages(bio, iter, BIO_MAX_SIZE,
+> +			bdev_dma_alignment(bio->bi_bdev),
+> +			alignment - 1);
+>  	if (unlikely(ret))
+>  		goto out_bio_put;
+>  
+> diff --git a/include/linux/bio.h b/include/linux/bio.h
+> index bb3235497e67..0070be355181 100644
+> --- a/include/linux/bio.h
+> +++ b/include/linux/bio.h
+> @@ -516,7 +516,8 @@ int bdev_rw_virt(struct block_device *bdev, sector_t sector, void *data,
+>  		size_t len, enum req_op op);
+>  
+>  int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+> -		unsigned mem_align_mask, unsigned len_align_mask);
+> +		unsigned maxlen, unsigned mem_align_mask,
+> +		unsigned len_align_mask);
+>  
+>  bool bio_iov_iter_set(struct bio *bio, const struct iov_iter *iter);
+>  void __bio_release_pages(struct bio *bio, bool mark_dirty);
+> -- 
+> 2.53.0
+> 
+> 
