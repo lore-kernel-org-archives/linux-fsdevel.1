@@ -1,40 +1,40 @@
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D09E35C6B5;
-	Tue,  1 Sep 2026 01:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9A7275B03;
+	Tue,  1 Sep 2026 01:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788226883; cv=none; b=OyFcUcZTjyTmu8UpYEjYiWoOXMfRDiWl51bg7YW/DFE4dNPcqvSnt4Hi+DSWJ8LzmI0UlTMsJ1bbxTgBp5g2wpk5O/SIhhQWsYiQeZJXF05TSlPYd2oh3x6mlONpJFYmhAI5prAxXrQF/9aPTVAa6NHUrAXQTHtxo7u4vL2PDQw=
+	t=1788227055; cv=none; b=ePQiIvYMEcueDIV45xEVjja6pGwmd8/kfKRNdMIxyRfGIqUdc1hUH2PmSfvzTNI2WY3O9O6hBTQDcFqvzhQTAoHErNIROEDdkZyQQF/smhA0gHRaEH7NMIgUgNgkVPXrpm5tQzbpdzZ4KBBPur6tEzdVr4Y1mmU9Z2Up4vgzLMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788226883; c=relaxed/simple;
-	bh=8V/iJ1syJzk3Ej0PD6xyVpop3GjTd8FsA+LFSMddAWw=;
+	s=arc-20240116; t=1788227055; c=relaxed/simple;
+	bh=TB6RZD/pt7Gz8TU3lj3c6JpMlbDlwhfy9NYrF5ISpKo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hpRRj/4jJaRe4RjHncwbVOXjj/A+aZqMFPpQ70pYstu67CmXXdzzjuT54w43m1hOOT74V8Q0mOwcyww6OamjzAjdEN7CHKg9ZQI6nAf96cpR6ey1e4b0x91I5ThxSaLKrQkHHDHtbDxMUy8espnFfVUsjulPcnybEf/PKCAC7Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Jml/HTTQ; arc=none smtp.client-ip=113.46.200.221
+	 In-Reply-To:Content-Type; b=EpDYS2IJYud1dLcUO3ThbBGViA1eKIre7+ZlkIWNdizKU1IoLAQtmOqcby2JgtJKyNUAa+/EHV0IPO3i+i68b0Gg9EAruUPQmer+WUfwgl1HLQY8F7wKRu1jqUvW4ZyuCW2rUE4SwHNjC+md1C1Xbw+cd2gFppwXiWKp4wg/qrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=tlNmZK3x; arc=none smtp.client-ip=113.46.200.216
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Jml/HTTQ"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="tlNmZK3x"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=zPvP1K9EnRd/mao8eJm5iib0cl/6wBDf4gm9yBOU/uA=;
-	b=Jml/HTTQck/emuqLeeU2tibQLYjU8fXxCCcdo3klXPgO8NzCaTkbd5ycSpoG64qAUTvikX/3F
-	607VcvF+fmYaem7r38R+LD9SNSgKkzUeX3TLkcP4y7zA0vceMDXkYNbj0KO3qWM1ZVKio3aaJuW
-	cW+wJefcVETqqA/xk+td/6E=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4hYpFv2FTwzRhVN;
-	Tue,  1 Sep 2026 09:30:27 +0800 (CST)
+	bh=N36HLPGcjsZJzfg6qhBaQf589Afsp8pwfdoIrnl6OtA=;
+	b=tlNmZK3xuIYt4C3tGPgcR0z1kNZ2XiMu/JKnt0zt7LX2UBANk4iDBPWxJ0taIS6DcddFlkp38
+	MBPfYalEna/PP9C9nlRSF/MTe5TClD4SW7jDtl4G2ZUABZ1gBfookUXwnNB1lfM9RM/EBZAXuqL
+	3zN37a05cU3rci5OdZA4N4g=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4hYpJY2gH6z1T4JN;
+	Tue,  1 Sep 2026 09:32:45 +0800 (CST)
 Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 689A840561;
-	Tue,  1 Sep 2026 09:41:14 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 1014F202E6;
+	Tue,  1 Sep 2026 09:44:05 +0800 (CST)
 Received: from [10.67.109.254] (10.67.109.254) by
  dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 1 Sep 2026 09:41:10 +0800
-Message-ID: <fa771c74-c0b0-435d-9ebf-e52c00865c90@huawei.com>
-Date: Tue, 1 Sep 2026 09:41:09 +0800
+ 15.2.1544.11; Tue, 1 Sep 2026 09:44:02 +0800
+Message-ID: <c9e5f38c-d067-494a-8eaa-b1f2c2ee305f@huawei.com>
+Date: Tue, 1 Sep 2026 09:44:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,34 +42,29 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/17] LoongArch: kexec: Fix CMA page leaks in segment
- placement retry loops
-To: Huacai Chen <chenhuacai@kernel.org>
-CC: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
-	<kernel@xen0n.name>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
-	<npiggin@gmail.com>, <chleroy@kernel.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <akpm@linux-foundation.org>, <baoquan.he@linux.dev>,
-	<rppt@kernel.org>, <pasha.tatashin@soleen.com>, <pratyush@kernel.org>,
-	<ruirui.yang@linux.dev>, <kees@kernel.org>, <thuth@redhat.com>,
-	<gshan@redhat.com>, <jic23@kernel.org>, <james.morse@arm.com>,
-	<ardb@kernel.org>, <leitao@debian.org>, <yeoreum.yun@arm.com>,
-	<sourabhjain@linux.ibm.com>, <coxu@redhat.com>, <tangyouling@kylinos.cn>,
-	<hbathini@linux.ibm.com>, <adityag@linux.ibm.com>,
-	<ionut.nechita@windriver.com>, <liaoyuanhong@vivo.com>, <seanjc@google.com>,
-	<fuqiang.wang@easystack.cn>, <makb@juniper.net>, <piliu@redhat.com>,
-	<ebiggers@kernel.org>, <jbouron@amazon.com>, <mclapinski@google.com>,
-	<me@linux.beauty>, <graf@amazon.com>, <bgwin@google.com>, <robh@kernel.org>,
-	<takahiro.akashi@linaro.org>, <palmer@rivosinc.com>, <x86@kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
-	<kexec@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-mm@kvack.org>
-References: <20260826092541.3905933-1-ruanjinjie@huawei.com>
- <20260826092541.3905933-6-ruanjinjie@huawei.com>
- <CAAhV-H7+dO2rnb4KxRvVo1w_Mx8Vfsdq7LAbkzPfNYrwUhEtfg@mail.gmail.com>
+Subject: Re: [PATCH 03/11] fs: aio: Use acquire/release for ring->tail
+ publication
+To: Jan Kara <jack@suse.cz>
+CC: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <bcrl@kvack.org>,
+	<tytso@mit.edu>, <adilger.kernel@dilger.ca>, <libaokun@linux.alibaba.com>,
+	<ojaswin@linux.ibm.com>, <ritesh.list@gmail.com>, <yi.zhang@huawei.com>,
+	<pmladek@suse.com>, <rostedt@goodmis.org>,
+	<andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
+	<senozhatsky@chromium.org>, <akpm@linux-foundation.org>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <horms@kernel.org>, <socketcan@hartkopp.net>,
+	<mkl@pengutronix.de>, <kuniyu@google.com>, <willemb@google.com>,
+	<jhs@mojatatu.com>, <jiri@resnulli.us>, <kees@kernel.org>,
+	<cyphar@cyphar.com>, <tglx@kernel.org>, <liuhangbin@gmail.com>,
+	<sdf@fomichev.me>, <nb@tipi-net.de>, <linux-fsdevel@vger.kernel.org>,
+	<linux-aio@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-ext4@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-can@vger.kernel.org>
+References: <20260825095422.3166067-1-ruanjinjie@huawei.com>
+ <20260825095422.3166067-4-ruanjinjie@huawei.com>
+ <x75um7rluga7zvqhe4wdqj76hjnyazpaxqs4ugme4eaompfsf6@zzj5flkfcw26>
 From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <CAAhV-H7+dO2rnb4KxRvVo1w_Mx8Vfsdq7LAbkzPfNYrwUhEtfg@mail.gmail.com>
+In-Reply-To: <x75um7rluga7zvqhe4wdqj76hjnyazpaxqs4ugme4eaompfsf6@zzj5flkfcw26>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
@@ -77,83 +72,49 @@ X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
 
 
 
-在 2026/8/31 22:09, Huacai Chen 写道:
-> Hi, Jinjie,
-> 
-> Why does the ARM64 version of this patch use "kexec_file" in the
-> subject line but the LoongArch version uses "kexec"? It is better to
-> keep consistency.
-
-Hi Huacai,
-
-Thank you for the review. I will revise the subject in v4.
-
-Best regards,
-Jinjie
-
-> 
-> Huacai
-> 
-> On Wed, Aug 26, 2026 at 5:25 PM Jinjie Ruan <ruanjinjie@huawei.com> wrote:
+在 2026/8/31 20:13, Jan Kara 写道:
+> On Tue 25-08-26 17:54:14, Jinjie Ruan wrote:
+>> Replace the smp_wmb() + WRITE_ONCE(ring->tail) and READ_ONCE(ring->tail)
+>> + smp_rmb() barrier pair with smp_store_release()/smp_load_acquire()
+>> on `ring->tail`.
 >>
->> During kexec image placement retry loops, any midway failure causes
->> the loader to truncate `image->nr_segments` back to its initial state
->> to purge the failed segments.
+>> This expresses the publish/subscribe pattern more clearly and allows
+>> architectures with native acquire/release instructions (e.g. arm64's
+>> STLR/LDAR) to avoid the cost of full one-way barriers (DMB ISHST/ISHLD).
 >>
->> However, this truncation introduces a memory leak. The CMA pages
->> allocated via kexec_add_buffer() during the failed attempt are tracked
->> in the `image->segment_cma` array. Because the subsequent cleanup paths
->> only iterate up to the truncated `nr_segments` boundary, these allocated
->> CMA pages outside the new boundary are permanently leaked.
+>> The release ensures event data written before updating ring->tail is
+>> visible to readers that observe the new tail value via acquire, which
+>> is exactly the ordering the barrier pair provided.
 >>
->> Fix this by explicitly releasing the associated CMA buffers in
->> the failure paths before `image->nr_segments` is reduced.
+>> No functional change intended.
 >>
->> Cc: Huacai Chen <chenhuacai@kernel.org>
->> Cc: WANG Xuerui <kernel@xen0n.name>
->> Cc: Youling Tang <tangyouling@kylinos.cn>
->> Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
->> Cc: Sourabh Jain <sourabhjain@linux.ibm.com>
->> Cc: Kees Cook <kees@kernel.org>
->> Cc: stable@vger.kernel.org
->> Link: https://sashiko.dev/#/patchset/20260729031235.2840255-1-ruanjinjie%40huawei.com
->> Fixes: 55d990f0084c ("LoongArch: Add EFI binary support for kexec_file")
+>> Assisted-by: DeepSeek:DeepSeek-V3
 >> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->> ---
->>  arch/loongarch/kernel/kexec_efi.c          | 1 +
->>  arch/loongarch/kernel/machine_kexec_file.c | 6 +++++-
->>  2 files changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/loongarch/kernel/kexec_efi.c b/arch/loongarch/kernel/kexec_efi.c
->> index 5ee78ebb1546..15fd797ff3de 100644
->> --- a/arch/loongarch/kernel/kexec_efi.c
->> +++ b/arch/loongarch/kernel/kexec_efi.c
->> @@ -86,6 +86,7 @@ static void *efi_kexec_load(struct kimage *image,
->>                  * We couldn't find space for the other segments; erase the
->>                  * kernel segment and try the next available hole.
->>                  */
->> +               kexec_free_segment_cma(image, kernel_segment_number);
->>                 image->nr_segments -= 1;
->>                 kbuf.buf_min = kernel_segment->mem + kernel_segment->memsz;
->>                 kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
->> diff --git a/arch/loongarch/kernel/machine_kexec_file.c b/arch/loongarch/kernel/machine_kexec_file.c
->> index 5412aa9f3568..62a5be102065 100644
->> --- a/arch/loongarch/kernel/machine_kexec_file.c
->> +++ b/arch/loongarch/kernel/machine_kexec_file.c
->> @@ -217,7 +217,11 @@ int load_other_segments(struct kimage *image,
->>         return 0;
->>
->>  out_err:
->> -       image->nr_segments = orig_segments;
->> +       while (image->nr_segments > orig_segments) {
->> +               kexec_free_segment_cma(image, image->nr_segments - 1);
->> +               image->nr_segments--;
->> +       }
->> +
->>         kfree(modified_cmdline);
->>         return ret;
->>  }
->> --
->> 2.34.1
->>
+> 
+> The patch looks good. Feel free to add:
+> 
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> 
+> Just one nit below:
+> 
+>> diff --git a/fs/aio.c b/fs/aio.c
+>> index d78acc69f487..4413c82688cc 100644
+>> --- a/fs/aio.c
+>> +++ b/fs/aio.c
+>> @@ -1206,13 +1206,12 @@ static void aio_complete(struct aio_kiocb *iocb)
+>>  	/* after flagging the request as done, we
+>>  	 * must never even look at it again
+>>  	 */
+>> -	smp_wmb();	/* make event visible before updating tail */
+>> -
+>> -	ctx->tail = tail;
+>> +	WRITE_ONCE(ctx->tail, tail);
+> 
+> I don't thing ctx->tail is accessed anywhere outside of completion_lock so
+> I think this WRITE_ONCE is pointless.
+
+I agree with that. I'll drop the unnecessary WRITE_ONCE in v2.
+
+> 
+> 								Honza
 
