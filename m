@@ -1,203 +1,219 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E76279DAF;
-	Tue,  1 Sep 2026 13:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F273189F43;
+	Tue,  1 Sep 2026 13:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788270826; cv=none; b=BDK3bd1hggzZHRlyjzynr6/CkCDa1xo6TuIxQNInCzFvSzEpmrENGyIQbBlQOojDftWAMNunbGNOaM3ksBfttyMHb6+XUUbw0nLI7MAk7I4xM6ZKs7YIcOBhIc3sOAwaCb5azbkG+2TXDhvUA/Id60+rc6LE4wczUqYqCtIN4wo=
+	t=1788270940; cv=none; b=P55HpyBm4cLXD7h667a2kUu9TNzARhkls/SvOX0TpwixmXkR2Z0sclp2htFF86pM1+yx6VEzjRwhp0Yi8yFqEqiCRN89Gzy4gbEUx/1iUTUhyAcuViY86WoW5SohBUK7WF4ot3XsqX4uehmKt29UIA3VtyIaG/RuJmAnrKDAxcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788270826; c=relaxed/simple;
-	bh=Vt2MWKyl5bbTEG7qrvpnpJ3ejVTAd5cH0Zaw0irDXlA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FePiLfQRNFay1hzByawx4saGBIa4rUlKTGQ1KEJfREFlLsIjzXGelbDyuX0YwbCOQw1dnRU4DXEIyjAOt4QGCU9CLjipGtIfYV8Z/29G7Vrfh3ftsY2ovkk8G9Xhd5SAwFGvBdy3LMtC/7lpNSoIqv4IABKHtVlkPjGlrNETpL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aUihpmUD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788270940; c=relaxed/simple;
+	bh=+lv3JU9YTFJRgUVSopnnbVbsgjFo1rzZBz1rfXXsuCY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dOR2uQELNJDCzb5p3ANu5eqopCjPY1Z5uxabJurbEyEGLgs5G87srxh8b+MfTQPX7frj2jGtMn8dkjwPWDSuUqd+n4vDAOncSY8g9o2OIC58vKZd6rH9S49E6ITCKADDDeYuzTMoQ0+ECe31NLOtz/O303PqYebDhFRrwhqNFW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DG1vdoEv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bJPNBMR6; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SsGE3c2V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4vjzU0at; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aUihpmUD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E7461F000E9;
-	Tue,  1 Sep 2026 13:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788270825;
-	bh=KSzI1LYDcymN6EfqOi9OTKCeTxQdPNjY3wFBoaiHj3s=;
-	h=From:To:Cc:Subject:Date;
-	b=aUihpmUDhj9J97A3vGtL8xe6pzFY897tBgM2bAs0r1SV+FF3KglxuWqCURUhxhY9M
-	 fsFcTa/dy1ohZXc8JsHf/mbW1mP7Iu0Ow7XLRuCJrzvZiRvwMtKOfPEWeRyne8B86h
-	 SjGdojymq0DEzRCBiNsJSAIwcI5WqPOfFSNxOZceobBWtmoWyBVfuoge0sfoipGPuB
-	 GE7wgRbpQ08fVFgmDTgGHI0mQgJm9HSA+vD5UCKQp8IoD73JOG9s01ZLBdoVxveZz3
-	 DAauYUXP86fDcmV4nc4Qj9++XJyqVChbx5qE2E1xkqrjg5BS9NjcwDYi3kbWXeZUiY
-	 ZsorLzZdvF5qA==
-From: Chuck Lever <cel@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Cc: <linux-fsdevel@vger.kernel.org>,
-	<linux-nfs@vger.kernel.org>,
-	Ameer Hamza <ameer.hamza@truenas.com>,
-	Amir Goldstein <amir73il@gmail.com>
-Subject: [PATCH v2] splice: emit a single fsnotify access event per NFSD READ
-Date: Tue,  1 Sep 2026 09:53:29 -0400
-Message-ID: <20260901135329.487666-1-cel@kernel.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DG1vdoEv";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bJPNBMR6";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SsGE3c2V";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4vjzU0at"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 021CD1F456;
+	Tue,  1 Sep 2026 13:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788270932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MjO7b8BiqciaFISpoTL+zOgGR0VbUuS8pqnqjH6vazg=;
+	b=DG1vdoEv/Qe0Ufw2JayuTZr02OWvgr7G423SHFU/Kairm9U5Z+f5HBz/mQId3jru3N7Lzf
+	37fkOReTNLktpXlWP9d+IUoGmWhi0q/k8aJWab0axtTF4wCtnFOHl6voPtK3taoodHnOMl
+	7R+rcwY014S+Yl23vWANLg3dztg0yN8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788270932;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MjO7b8BiqciaFISpoTL+zOgGR0VbUuS8pqnqjH6vazg=;
+	b=bJPNBMR6zsGmB2AdER/JH3+bPrI75g1+0FGhZCra2N06UiwchyGorohCU1VvB3bVyVuTDj
+	SOHi6E1tjNUAFeAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=SsGE3c2V;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=4vjzU0at
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788270928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MjO7b8BiqciaFISpoTL+zOgGR0VbUuS8pqnqjH6vazg=;
+	b=SsGE3c2VCZ1i7jOMs8iGzU1GV2o4dM408bGlh0CwvF3X2RHyIdUs77ToeVcMQhqUl2A38+
+	RNHiPLqRAh9x3sjmR1Ak7M0nfPe5cBM9Li2ctePCmhL3IeeeH78eQHoKnfhPRWZg1IGq9o
+	4BeOY6g/ttzlzRqdMLLYLVGeIS2aerM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788270928;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MjO7b8BiqciaFISpoTL+zOgGR0VbUuS8pqnqjH6vazg=;
+	b=4vjzU0atSAzEHkYExz/OGYJLWXLKKYe4QdD8eI9iaqYPpBam7W0AtCOiCgffvpR5P1zj7i
+	PnBnC53fXpDyUzAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D20FD136A2;
+	Tue,  1 Sep 2026 13:55:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eYk7M0/ZlmoaUQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 01 Sep 2026 13:55:27 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 6AF7BA13B2; Tue, 01 Sep 2026 15:55:23 +0200 (CEST)
+Date: Tue, 1 Sep 2026 15:55:23 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	bcrl@kvack.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	libaokun@linux.alibaba.com, ojaswin@linux.ibm.com, ritesh.list@gmail.com, 
+	yi.zhang@huawei.com, sforshee@kernel.org, pmladek@suse.com, rostedt@goodmis.org, 
+	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk, senozhatsky@chromium.org, 
+	akpm@linux-foundation.org, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, kuniyu@google.com, willemb@google.com, 
+	jhs@mojatatu.com, jiri@resnulli.us, kees@kernel.org, cyphar@cyphar.com, 
+	tglx@kernel.org, sdf@fomichev.me, nb@tipi-net.de, liuhangbin@gmail.com, 
+	da-x@monatomic.org, jeff@garzik.org, linux-fsdevel@vger.kernel.org, 
+	linux-aio@kvack.org, linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v2 07/12] ext4: Fix out-of-bounds read in
+ ext4_get_group_info()
+Message-ID: <stftjabhlylnomnoc445lfa6cio4fdtdtjlo6awia4xczfpum6@vmnfqv3omqfc>
+References: <20260901024234.135119-1-ruanjinjie@huawei.com>
+ <20260901024234.135119-8-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260901024234.135119-8-ruanjinjie@huawei.com>
+X-Spam-Score: -2.51
+X-Rspamd-Queue-Id: 021CD1F456
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[40];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,kvack.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,huawei.com,suse.com,goodmis.org,linux.intel.com,rasmusvillemoes.dk,chromium.org,linux-foundation.org,davemloft.net,google.com,redhat.com,mojatatu.com,resnulli.us,cyphar.com,fomichev.me,tipi-net.de,monatomic.org,garzik.org,vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[alibaba.com:email,suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLa77mm4gi8mw7uppieotozii3)];
+	MISSING_XM_UA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Flag: NO
 
-nfsd_finish_read() calls fsnotify_access() on both NFSD read paths,
-because splice_direct_to_actor() does not emit the event itself. The
-iterator path reaches nfsd_finish_read() from vfs_iocb_iter_read(),
-which has already emitted one. A READ served without splice therefore
-emits two access events.
+On Tue 01-09-26 10:42:29, Jinjie Ruan wrote:
+> A plain read of s_groups_count in ext4_get_group_info() allows CPU
+> load-load reordering. On weak memory models, speculative prefetch of
+> s_group_info prior to the boundary check could lead to an out-of-bounds
+> read if a concurrent online resize expands the array and increments
+> s_groups_count.
+> 
+> The data race occurs between the ioctl configuration path (holding the
+> resize lock via ext4_resize_begin) and the lockless metadata lookup path:
+> 
+>    CPU 0 (Writer, Resize Lock)                CPU 1 (Reader, Lockless)
+>    ---------------------------                ------------------------
+>    ext4_ioctl()
+>      [EXT4_IOC_GROUP_ADD]
+>      ext4_ioctl_group_add()
+>        ext4_resize_begin() // Takes lock
+>        ext4_group_add()
+>          ext4_mb_alloc_groupinfo()
+>            // Publishes expanded array via RCU
+>            rcu_assign_pointer(s_group_info, ...)
+> 
+>          ext4_flex_group_add()
+>            ext4_update_super()
+>                                               ext4_get_group_info()
+>                                                 // Speculative / out-of-order read
+>                                                 [Loads old/smaller s_group_info pointer]
+>              [Plain C store / smp_wmb()]
+>              sbi->s_groups_count += ...;
+>                                                 // Reads new s_groups_count,
+>                                                 // boundary check passes
+>                                                 if (group >= s_groups_count)
+> 
+>                                                 // Out-of-bounds array access!
+>                                                 sbi_array_rcu_deref(..., s_group_info)
+> 
+> Fix this by using ext4_get_groups_count() to enforce acquire semantics.
+> 
+> Cc: stable@vger.kernel.org
+> Cc: "Theodore Ts'o" <tytso@mit.edu>
+> Cc: Andreas Dilger <adilger.kernel@dilger.ca>
+> Cc: Baokun Li <libaokun@linux.alibaba.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+> Cc: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+> Cc: Zhang Yi <yi.zhang@huawei.com>
+> Fixes: 5354b2af3406 ("ext4: allow ext4_get_group_info() to fail")
+> Link: https://sashiko.dev/#/patchset/20260825095422.3166067-1-ruanjinjie%40huawei.com
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-NFSD does not use splice for the GSS integrity and privacy services, so
-a READ on a sec=krb5i or sec=krb5p mount takes the iterator. An inotify
-watch on that file sees the READ twice.
+Looks good. Feel free to add:
 
-Reported-by: Ameer Hamza <ameer.hamza@truenas.com>
-Closes: https://lore.kernel.org/linux-nfs/20260818225715.572140-1-ameer.hamza@truenas.com/
-Suggested-by: Amir Goldstein <amir73il@gmail.com>
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-Link: https://lore.kernel.org/linux-nfs/CAOQ4uxgUOqFv6pVmdT_+4DjA0KQoQDCzN2Xz=xm1FyumewHZXg@mail.gmail.com/
-Signed-off-by: Chuck Lever <cel@kernel.org>
----
-Changes in v2:
-- Rename the new helper to vfs_splice_to_actor()
-- Take pos, count, and actor data, not a splice_desc
-- Link to v1: https://lore.kernel.org/r/20260824161021.245575-1-cel@kernel.org
----
- fs/nfsd/vfs.c          | 13 ++--------
- fs/splice.c            | 58 +++++++++++++++++++++++++++++++-----------
- include/linux/splice.h |  4 +--
- 3 files changed, 47 insertions(+), 28 deletions(-)
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
-index f9131827d391..4789f2ec2078 100644
---- a/fs/nfsd/vfs.c
-+++ b/fs/nfsd/vfs.c
-@@ -1046,7 +1046,6 @@ static __be32 nfsd_finish_read(struct svc_rqst *rqstp, struct svc_fh *fhp,
- 		nfsd_stats_io_read_add(nn, fhp->fh_export, host_err);
- 		*eof = nfsd_eof_on_read(file, offset, host_err, *count);
- 		*count = host_err;
--		fsnotify_access(file);
- 		trace_nfsd_read_io_done(rqstp, fhp, offset, *count);
- 		return 0;
- 	} else {
-@@ -1071,19 +1070,11 @@ __be32 nfsd_splice_read(struct svc_rqst *rqstp, struct svc_fh *fhp,
- 			struct file *file, loff_t offset, unsigned long *count,
- 			u32 *eof)
- {
--	struct splice_desc sd = {
--		.len		= 0,
--		.total_len	= *count,
--		.pos		= offset,
--		.u.data		= rqstp,
--	};
- 	ssize_t host_err;
- 
- 	trace_nfsd_read_splice(rqstp, fhp, offset, *count);
--	host_err = rw_verify_area(READ, file, &offset, *count);
--	if (!host_err)
--		host_err = splice_direct_to_actor(file, &sd,
--						  nfsd_direct_splice_actor);
-+	host_err = vfs_splice_to_actor(file, offset, *count,
-+				       nfsd_direct_splice_actor, rqstp);
- 	return nfsd_finish_read(rqstp, fhp, file, offset, count, eof, host_err);
- }
- 
-diff --git a/fs/splice.c b/fs/splice.c
-index 9d8f63e2fd1a..96cff31d97e1 100644
---- a/fs/splice.c
-+++ b/fs/splice.c
-@@ -1009,21 +1009,14 @@ ssize_t vfs_splice_read(struct file *in, loff_t *ppos,
- }
- EXPORT_SYMBOL_GPL(vfs_splice_read);
- 
--/**
-- * splice_direct_to_actor - splices data directly between two non-pipes
-- * @in:		file to splice from
-- * @sd:		actor information on where to splice to
-- * @actor:	handles the data splicing
-- *
-- * Description:
-- *    This is a special case helper to splice directly between two
-- *    points, without requiring an explicit pipe. Internally an allocated
-- *    pipe is cached in the process, and reused during the lifetime of
-- *    that process.
-- *
-+/*
-+ * This is a special case helper to splice directly between two
-+ * points, without requiring an explicit pipe. Internally an allocated
-+ * pipe is cached in the process, and reused during the lifetime of
-+ * that process.
-  */
--ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
--			       splice_direct_actor *actor)
-+static ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
-+				      splice_direct_actor *actor)
- {
- 	struct pipe_inode_info *pipe;
- 	ssize_t ret, bytes;
-@@ -1147,7 +1140,42 @@ ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
- 
- 	goto done;
- }
--EXPORT_SYMBOL(splice_direct_to_actor);
-+
-+/**
-+ * vfs_splice_to_actor - call an actor on data read from a file
-+ * @in:		file to read from
-+ * @pos:	file offset
-+ * @count:	maximum number of bytes to read
-+ * @actor:	callback to process a pipe's worth of data
-+ * @private:	private data passed to @actor
-+ *
-+ * Read up to @count worth of data from @in at @pos, and call @actor
-+ * when the hidden pipe used to buffer the data is full. Ensures the
-+ * read is allowed using rw_verify_area() and emits fsnotify access
-+ * events. @in must be seekable (FMODE_LSEEK).
-+ *
-+ * Return: The number of bytes spliced, or a negative errno.
-+ */
-+ssize_t vfs_splice_to_actor(struct file *in, loff_t pos, size_t count,
-+			    splice_direct_actor *actor, void *private)
-+{
-+	struct splice_desc sd = {
-+		.total_len	= count,
-+		.pos		= pos,
-+		.u.data		= private,
-+	};
-+	ssize_t ret;
-+
-+	ret = rw_verify_area(READ, in, &sd.pos, sd.total_len);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = splice_direct_to_actor(in, &sd, actor);
-+	if (ret >= 0)
-+		fsnotify_access(in);
-+	return ret;
-+}
-+EXPORT_SYMBOL(vfs_splice_to_actor);
- 
- static int direct_splice_actor(struct pipe_inode_info *pipe,
- 			       struct splice_desc *sd)
-diff --git a/include/linux/splice.h b/include/linux/splice.h
-index 9dec4861d09f..0e6c955dc6ff 100644
---- a/include/linux/splice.h
-+++ b/include/linux/splice.h
-@@ -79,8 +79,8 @@ ssize_t add_to_pipe(struct pipe_inode_info *pipe, struct pipe_buffer *buf);
- ssize_t vfs_splice_read(struct file *in, loff_t *ppos,
- 			struct pipe_inode_info *pipe, size_t len,
- 			unsigned int flags);
--ssize_t splice_direct_to_actor(struct file *file, struct splice_desc *sd,
--			       splice_direct_actor *actor);
-+ssize_t vfs_splice_to_actor(struct file *file, loff_t pos, size_t count,
-+			    splice_direct_actor *actor, void *private);
- ssize_t do_splice(struct file *in, loff_t *off_in, struct file *out,
- 		  loff_t *off_out, size_t len, unsigned int flags);
- ssize_t do_splice_direct(struct file *in, loff_t *ppos, struct file *out,
+								Honza
+
+> ---
+>  fs/ext4/balloc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ext4/balloc.c b/fs/ext4/balloc.c
+> index 52f4c5169f91..778fe8788f06 100644
+> --- a/fs/ext4/balloc.c
+> +++ b/fs/ext4/balloc.c
+> @@ -329,7 +329,7 @@ struct ext4_group_info *ext4_get_group_info(struct super_block *sb,
+>  	struct ext4_group_info **grp_info;
+>  	long indexv, indexh;
+>  
+> -	if (unlikely(group >= EXT4_SB(sb)->s_groups_count))
+> +	if (unlikely(group >= ext4_get_groups_count(sb)))
+>  		return NULL;
+>  	if (unlikely(!EXT4_SB(sb)->s_group_info))
+>  		return NULL;
+> -- 
+> 2.34.1
+> 
 -- 
-2.55.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
