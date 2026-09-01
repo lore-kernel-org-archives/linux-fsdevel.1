@@ -1,78 +1,236 @@
-Received: from forwardcorp1d.mail.yandex.net (forwardcorp1d.mail.yandex.net [178.154.239.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-201.mta0.migadu.com [91.218.175.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2705C35DA53;
-	Tue,  1 Sep 2026 13:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8B53B5306
+	for <linux-fsdevel@vger.kernel.org>; Tue,  1 Sep 2026 13:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788267641; cv=none; b=XYL25Ew2o8Ja2Kp0dv1JPcDF4xgW7jTBd+89tR03VEjwfMHrFgQpltCiWAQz/J1LsDAIt5L3bYA/tZKPhZQAYShLRnKolZR+xbRdJitaSpXOY2SLu1hVOc+1iDcYYdZKPPOmrKY4p7CiHBku4fgOqR1hR3mYAqo6zIBVWRq/OZI=
+	t=1788268146; cv=none; b=YHAAtHS5dz/18wyTWnCmZJ+DiPIX9NqmJJup2kzV8fwonEGHF2wkzf2r82ZPWWM2XMFE09Jfnb9O6Ja/Q3PS+bSU8x8ObeciXEBQZqFRkCvJ8YY1A36457Hw3FwE9gue7a7+ApWo1a98uw7+dg5frlNAus2g21L5evNRcZRl+Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788267641; c=relaxed/simple;
-	bh=XjX7qqSEui/95Ib2ltt0J/TcGkipBtRq3ORpYCQQAGk=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=L3N0RnkHsZTvplGUVW87rojAWCFbqd0FH+bjiWSOl9QAF6papVcd76fPxjeT1ATOMk5bfEpxnFlOq3ww8KP6oYBUmFMv2mEWhg7T4q99BTo5bM+ow9GOHCVZ0xdQplr569qFslggUZ1Lw/5bX+dHzN2jYyT7gADRiUerD49SCfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=nfgNYCew; arc=none smtp.client-ip=178.154.239.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
+	s=arc-20240116; t=1788268146; c=relaxed/simple;
+	bh=I9p86zfEc0rxJVFc8bGyzgpJ2NfBzjwUd1RaEkL/cGk=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ilIBvxj3VguiJhJ1xrPNEa2RoaBmsVt2XB5HkAE71ilsCppxal5+eylan4sOTFxyEPFXCnbi7qf1R50NLIp7LloEo780UTbJEE3Y36sxiVQeufyxmsIQQtjm1bBBYb+kchaWCcyPnEV4sQw3KKHE7I0Bzjtf05Qrr9Ven++1kug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fZkK6VcH; arc=none smtp.client-ip=91.218.175.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="nfgNYCew"
-Received: from mail-nwsmtp-smtp-corp-main-56.klg.yp-c.yandex.net (mail-nwsmtp-smtp-corp-main-56.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:65a0:0:640:e1de:0])
-	by forwardcorp1d.mail.yandex.net (postfix) with ESMTPS id E648480E59;
-	Tue, 01 Sep 2026 16:00:32 +0300 (MSK)
-Received: from i115078296 (unknown [2a02:6bf:8009:1403:13e2:aa39:7988:f1b2])
-	by mail-nwsmtp-smtp-corp-main-56.klg.yp-c.yandex.net (smtpcorp) with ESMTPSA id V0jkli4XZ4Y0-lUm04SLH;
-	Tue, 01 Sep 2026 16:00:32 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
-	s=default; t=1788267632;
-	bh=RIL5BDSmnpt/clViAGgpO3bi547d2sKwxTFQZMToJyo=;
-	h=Message-ID:Date:Subject:In-reply-to:Cc:References:To:From;
-	b=nfgNYCewOamY7sLEfH+edyS7zierpEBeOd1XpfQXbk2av9dfIkv4+SvZgD5J+qpY6
-	 YOYyfyp1t3SNWdbRLDmECLNKRxQ8AvebTYqYlxF5lQYVbER0cmhjOL1TqKhP9GAhk6
-	 JSRGL2LmiMCk85BTyBbeOcL+yU5M4SCovw44DaiY=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-56.klg.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
-References: <20260813-deferred-dirtytime-iput-v1-0-ad2fb3ad6bdb@yandex-team.ru>
- <27v2ckdgybmvxog5b55sr3o6ri4bkbzu6ycwtjwckrhzyazxzd@7qruolrsu5t7>
-User-agent: mu4e 1.10.9; emacs 31.1
-From: Mikhail Rudenko <xyzzy@yandex-team.ru>
-To: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/2] Defer final iputs for dirty-time inodes in
- PF_MEMALLOC context
-Date: Tue, 01 Sep 2026 15:54:59 +0300
-In-reply-to: <27v2ckdgybmvxog5b55sr3o6ri4bkbzu6ycwtjwckrhzyazxzd@7qruolrsu5t7>
-Message-ID: <86zey1qg7k.fsf@yandex-team.ru>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fZkK6VcH"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=I9p86zfEc0rxJVFc8bGyzgpJ2NfBzjwUd1RaEkL/cGk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788268142; v=1; x=1788872942;
+ b=fZkK6VcHcWXc6/ummS3qr4RVvcxLaFevWOgOuRykRe/Klm1sphaVaNcPDXmJhYjokP45oK4Z
+ kRXeA1gwAq4DQGO6T6H3m2RxmfU0fTDANGVFG2cGzZjfqNhVy0JXtLB8/GR6TpihBHpJ4MkAoh0
+ 8IAhMOVEp95mx7hYnCv6NjZ4=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 7ec9b92416be4d2e;
+	Tue, 01 Sep 2026 13:09:01 +0000
+X-Mizu-Trace-ID: 7ec9b92416be4d2e
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <d1209b70-7e76-4415-92c9-6ddc192a3347@linux.dev>
+Date: Tue, 1 Sep 2026 21:08:49 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Cc: cui.tao@linux.dev, Markus.Elfring@web.de, axboe@kernel.dk,
+ broonie@kernel.org, bvanassche@acm.org, dlemoal@kernel.org,
+ hch@infradead.org, hch@lst.de, hdanton@sina.com,
+ linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-next@vger.kernel.org, lkp@intel.com, oe-lkp@lists.linux.dev,
+ oliver.sang@intel.com, torvalds@linux-foundation.org,
+ viro@zeniv.linux.org.uk, Tao Cui <cuitao@kylinos.cn>
+Subject: Re: [PATCH v7] loop: Fix NULL pointer dereference in lo_rw_aio()
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, brauner@kernel.org
+References: <6a770a9c-2642-4392-9b9c-609836693f36@I-love.SAKURA.ne.jp>
+ <20260831141143.704821-1-cui.tao@linux.dev>
+ <30528b67-6ff9-4512-892b-f48d819e100f@I-love.SAKURA.ne.jp>
+From: Tao Cui <cui.tao@linux.dev>
+In-Reply-To: <30528b67-6ff9-4512-892b-f48d819e100f@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi Bart, Tetsuo,
 
-Hi Jan,
+Thanks for the detailed replies, and to Tetsuo for the sashiko
+log.
 
-On 2026-09-01 at 14:24 +02, Jan Kara <jack@suse.cz> wrote:
+在 2026/8/31 23:49, Tetsuo Handa 写道:
+> Thank you for joining to this thread, Tao.
+> 
+> On 2026/08/31 23:11, Tao Cui wrote:
+>> From: Tao Cui <cuitao@kylinos.cn>
+>>
+>> Hi Tetsuo, Bart,
+>>
+>>> +	/* Step 1: Flush all outstanding I/O, without open_mutex held. */
+>>> +	/*
+>>> +	 * Now that loop_queue_rq() sees lo->lo_state != Lo_bound,
+>>> +	 * wait for already started loop_queue_rq() to complete.
+>>> +	 */
+>>> +	synchronize_rcu();
+>>
+>> Your reply to Bart says loop_queue_rq() is called with RCU read
+>> lock, but I don't see one.  The two call sites of ->queue_rq() are
+>> blk_mq_dispatch_rq_list() and __blk_mq_issue_directly(), and
+>> neither is wrapped in rcu_read_lock().  Direct issue from
+>> blk_mq_submit_bio() runs in process context with no RCU read-side
+>> critical section, so synchronize_rcu() does not wait for a
+>> loop_queue_rq() that is already running there.  Only the softirq
+>> dispatch path is an implicit RCU reader.
+> 
+> You can read sashiko's raw logs at https://sashiko.dev/#/log/49552 .
+> 
+>   Okay, let's break this down. My initial thought is to examine how the `blk_mq_run_dispatch_ops`
+>   macro is implemented. Specifically, how does it handle RCU read locks? It wraps the provided
+>   `dispatch_ops` in either `rcu_read_lock()` or `srcu_read_lock()`, depending on the `BLK_MQ_F_BLOCKING`
+>   flag. The loop device, however, is set up *without* this `BLK_MQ_F_BLOCKING` flag. Therefore,
+>   `loop_queue_rq` executes under the protection of `rcu_read_lock()`.
+> 
+>   Now, the critical question: Does the `synchronize_rcu()` call in `__loop_clr_fd` effectively address
+>   the potential race conditions? Since `loop_queue_rq()` is indeed RCU-protected, `synchronize_rcu()` will
+>   correctly wait for all currently executing instances of `loop_queue_rq()` to complete. Furthermore,
+>   the `lo_state` transition to `Lo_rundown` before calling `__loop_clr_fd` ensures that any *new* calls to
+>   `loop_queue_rq()` will see this state and return an error. This perfectly fences the execution of
+>   `loop_queue_rq()`. Moreover, `drain_workqueue()` then makes sure all queued works are completed, and
+>   these are scheduled by `loop_queue_rq()`. This is great; all scheduled works are completed before
+>   clearing `lo->lo_backing_file`.
+> 
 
-> Thanks for your patches. I've actually submitted patches to address this
-> problem back at the end of April [1]. In particularly the problem you
-> report was addressed somewhat differently by patch 1. We've then discussed
-> them at LSF/MM/BPF summit and people mostly agreed with the approach, just
-> there were some requests for better parallelization of deferred inode
-> reclaim (which I so far failed to implement). But it's currently high on my
-> todo list so I should hopefully send v2 of the patches for the next merge
-> window.
+Bart, on 8/31 you wrote:
+> This is the code that protects .queue_rq() implementations like
+> loop_queue_rq() with an rcu_read_lock() / rcu_read_unlock() pair:
 >
-> 								Honza
->
-> [1] https://lore.kernel.org/all/20260429174850.18223-1-jack@suse.cz/
+> /* run the code block in @dispatch_ops with rcu/srcu read lock held */
+> #define __blk_mq_run_dispatch_ops(q, check_sleep, dispatch_ops)	\
+> ...
+> 	} else {						\
+> 		rcu_read_lock();				\
+> 		(dispatch_ops);					\
+> 		rcu_read_unlock();				\
+> 	}							\
+> } while (0)
 
-My bad, should've done better prior art reasearch. :) Looking forward
-to your v2 then.
+You are both right and I was wrong.  I stopped at
+__blk_mq_issue_directly() and blk_mq_dispatch_rq_list() and missed
+that every caller goes through this macro.  So synchronize_rcu()
+does wait for a running loop_queue_rq() with the current loop
+setup.  I withdraw that comment.
 
---
-Best regards,
-Mikhail Rudenko
+>>
+>> The window is still closed by the steps below, so this is not a
+>> correctness bug, but the synchronize_rcu() is not doing what the
+>> comment claims.  blk_mq_quiesce_queue() +
+>> blk_mq_wait_quiesce_done(), as Bart suggested, would express the
+>> intent directly.
+> 
+> synchronize_rcu() + drain_workqueue() can be implied by blk_mq_freeze_queue() + blk_mq_unfreeze_queue().
+> But why are you talking about blk_mq_quiesce_queue() + blk_mq_wait_quiesce_done() ?
+> 
+
+That was Bart's suggestion from his earlier review, and I passed
+it on while assuming the synchronize_rcu() was unfounded.  With
+the RCU pairing confirmed, there is nothing left to replace and
+the quiesce suggestion is moot.
+
+>>
+>>> +	/*
+>>> +	 * Now that no more AIO requests are scheduled by lo_rw_aio(),
+>>> +	 * wait for already started AIO to complete.
+>>> +	 */
+>>> +	blk_mq_unfreeze_queue(lo->lo_queue, blk_mq_freeze_queue(lo->lo_queue));
+>>
+>> About this step, in your follow-up you wrote:
+>>
+>>>   (1) since we are in lo_release() with disk_openers(disk) == 0, the activity of
+>>>       incrementing/decrementing q_usage_counter (incremented before loop_queue_rq()
+>>>       is called, and decremented after loop_queue_rq() returned BLK_STS_IOERR)) will
+>>>       cease shortly
+>>
+>> The decrement timing here is only true for the error path.  For
+>> BLK_STS_OK the reference is held until the request is freed, which
+>> is what makes blk_mq_freeze_queue() wait for requests that already
+>> passed the state check, including the loop workqueue worker that
+>> completes them.  That is the property step 1 relies on, and it is
+>> worth stating in the comment.
+>>
+>> What is still open is Bart's question about io_uring fixed files:
+>> if submissions can continue after the last close, "cease shortly"
+>> does not hold, and it is the freeze wait that actually drains them.
+> 
+
+The decrement part I would still reword: for BLK_STS_OK the
+reference is held until the request is freed, and that is the
+property blk_mq_freeze_queue() relies on.  But you are right that
+the activity ceases, and for a simpler reason than the freeze:
+
+> If submissions can continue _forever_ despite disk_openers(disk) == 0, what
+> mechanism was preventing this problem from occurring until Linux 7.0 ?
+> 
+
+An io_uring fixed file holds a reference to the struct file, so
+bd_openers never reaches zero and lo_release() does not start
+while such a submission path exists.  Any submission needs an
+open block device file (or a mount holding it), so "openers == 0
+but submissions continue" needs no additional mechanism.  I'll
+drop the io_uring part.
+
+>>
+>>> +	if (need_clear) {
+>>> +		/*
+>>> +		 * Grab all references that will be dropped as soon as
+>>> +		 * returning from lo_release() and releasing disk->open_mutex.
+>>> +		 */
+>>> +		get_device(disk_to_dev(disk));
+>>> +		__module_get(disk->fops->owner);
+>>> +		queue_work(system_long_wq, &lo->lo_clr_work);
+>>> +	}
+>>
+>> With teardown now asynchronous, between the last close()
+>> returning and the work item finishing, lo_open() and
+>> LOOP_CONFIGURE return -ENXIO.  That is the same behavior change
+>> that led to the revert of the earlier attempt (bf23747ee053,
+>> xfs/259).  Moving the xfstests side to the tests is one thing, but
+>> userspace that closes a loop device and immediately reconfigures
+>> it now needs to handle a transient -ENXIO.  Is that acceptable, or
+>> should the retry happen in the kernel?
+> 
+> Does whether the teardown being synchronous or asynchronous matter so much?
+> 
+> I don't think we can control when e.g. udev-worker becomes the thread
+> who actually calls __loop_clr_fd()
+> ( https://lkml.kernel.org/r/9f8b5ab0-efbc-4cf3-a1f8-b43377416946@I-love.SAKURA.ne.jp ).
+> Even if an existing user app calls close() immediately followed by open(),
+> we can't prove that __loop_clr_fd() is synchronously called by that user app
+> because udev-worker can jump in and udev-worker becomes the thread who actually
+> calls __loop_clr_fd().
+> 
+>    An user app     udev-worker
+>    -----------     -----------
+>                     open()
+>     close()
+>     open() // => succeeds due to Lo_bound state
+>     ioctl(LOOP_CONFIGURE) // => fails with -EBUSY due to Lo_bound state
+>     close() // <= gives up due to ioctl() failure
+>                     close() // => becomes  Lo_rundown and __loop_clr_fd() is called
+> 
+> A claim that mentions that the kernel is unable to release forever due to a refcount
+> leak bug is valid. But a claim that mentions that the kernel cannot prove that
+> this -ENXIO or -EBUSY problem never happens is invalid. Programs that use the loop
+> device have to be prepared for transient errors.
+
+Your udev-worker sequence shows that synchronous completion was
+never guaranteed and -EBUSY or -ENXIO transients were already
+possible.  I accept that.  The remaining difference is only that
+the window now exists after every close instead of requiring an
+interleaving close from another opener, and if programs must
+tolerate transient errors anyway, that is not a blocker.
+
+Tao
+
