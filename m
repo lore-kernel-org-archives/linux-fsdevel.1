@@ -1,114 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D4147F76B;
-	Tue,  1 Sep 2026 12:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3134023BD1D;
+	Tue,  1 Sep 2026 12:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788265020; cv=none; b=dDk72a6Y7uFDUU9n3MmfOM1OGsPViE9A9zP8APXpeHavnzGUip1XYmE0BVw+eI94aUTZJ28ugyh97aPs6vSjQV+tyMfa0PDOkWFX6/FRs3U7Bp+UIQ+ZApJwJOKYeYgWlzWK3ovpbU9ptoukRT7sFX9WTKA5R8ZRM+XUaq2ImzY=
+	t=1788265488; cv=none; b=Nc8uN0AaHTmY/cqVqpeGOdP+7THjYpVnvWhV6zJB94ioxr3HzqsnGVpb5F7rM1TXIHx43czCDaF90PrBSup1gYm0OmVQOtkLoYNlQh/3maKjcNTVnlaQ54EGrx3zfItAgLMKg5PuAgys/V7HE698pKvrssRuRbVQpyICmZe5I2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788265020; c=relaxed/simple;
-	bh=F/j2NqH+w7TNV8U4wBjPBjnprw3X0ltqzP2LkSeZfIQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fZdW2N26sQEJ1X8CHqNe72h6FubetyyWmjqf2nOwpOMo1kOYiJzGabMz9KdyFT+v8eZwSuv3D4UJeRF0pp/35KOhNY2E5wQwEgo/cWM8+PDT1VkbKMsdR/vlG3qPPk0TDcmwDAMhIJ/W9MrLUWVHg9dNj4GMLpLbRqxrWCdAXKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O+9iSSna; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788265488; c=relaxed/simple;
+	bh=qftqCtjCBY7wKQMOoS6ap8jXNv4Qv/Kul7Lie0xCCFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U5UDk5AFSfz2IKAgp1ucsfn8RskUnpEkU1yYWJHTRcP8xJ/41W7PrXpp1HbcD/JWuvLN3mC6iErKWhrIToWmFjHjbRNu7onYk00dSbFl0n1BFWD9adgVEKte59ycZe2c9THv1H95KOLMHPxHSD0WZiMaTgtSSNjk/RLkyqxx2go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=imxBGETj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6O57BEOs; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vx2QucMe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wp258brr; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O+9iSSna"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC7B91F00A3E;
-	Tue,  1 Sep 2026 12:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788265019;
-	bh=BcC4YMfM11/fGljBqSTApr2iuzA2VgR75nVP6J1Ns+U=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=O+9iSSnaLb98YWV2BOQGyoaOGowmVxpgGMBak8Z6FXI8QAR7yfBQ5hTcd+G6LrlP/
-	 2N3uSTb1RL6fK7rW1NtU3wJK5l6FTSj9oBbVOwMx7aXnUUQPjLMMe08l/XbxFMd1VD
-	 f3rwyXmzRQJ3l7F3WqTv5BlGcht151R7uj3RafMzmCarjjYPXasUe7GjmJhAkOfT0m
-	 MEv390o/4NJj05ivjF2QtHeqWE3XtLSIjeg3bWH8iqN9jr1gVQwnDGIt+K0MnnLYeZ
-	 Iz2uszihWkWFAaYqCp7I9mCCcvSp1xY4YZXkgTwQ6g35QIUgSG5GW9CSDbzMeWn5Fw
-	 ybQULS0u+cKZA==
-From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 01 Sep 2026 14:14:52 +0200
-Subject: [PATCH 27/27] fs: make nop_mnt_idmap and invalid_mnt_idmap const
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="imxBGETj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6O57BEOs";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vx2QucMe";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wp258brr"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F270D1F794;
+	Tue,  1 Sep 2026 12:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788265481; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u6ScYrcbTJ0tOAG5oiqEdXV2D1V4U1bKFlU+ezidy2Y=;
+	b=imxBGETjIXPzXwGCi6mjdjDo8jKbWk9UKuQeU+E3QmwMVacRAJROpwDuwC/dNrEFbZaWZ2
+	J3yeKqjriSmtcXfv2YZitC8uazaWjF3FFvN6pTcCb5L27SyBl70CSnUGVrKiQ/IKa/ONCr
+	8MnjUMRyeTb2U66VrNsG04/L7XSCFL4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788265481;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u6ScYrcbTJ0tOAG5oiqEdXV2D1V4U1bKFlU+ezidy2Y=;
+	b=6O57BEOsOxEtstOMGA54zz4aA78XfZhuqcGwm6fN4pk846jngdnMmCMwQP0+UxCxvUdK5F
+	ypciR+xaZsil5/AQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=vx2QucMe;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=wp258brr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788265477; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u6ScYrcbTJ0tOAG5oiqEdXV2D1V4U1bKFlU+ezidy2Y=;
+	b=vx2QucMeNZzCUfzdJ1Xec+hQwEUggMqVfkhtO43SgvPCFDAHpSn6mCusEJRLPephitlIXE
+	ulcOfklC/3FV6Mf+oyqVyCfzobuNEhTdExM6aZ46qw+eyd4Wx8kSbIQAgRgfryFyumVgWO
+	AEk3D60zYxdA+amX7ewLOGiN5XiXVJI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788265477;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u6ScYrcbTJ0tOAG5oiqEdXV2D1V4U1bKFlU+ezidy2Y=;
+	b=wp258brrk9KL23SLnHI6TxhI4mDhgqovlh5shWnJ1TbfzxMFSoE2qzgh2M8uTnPsUBzi88
+	KSN5YJZTwKekyKDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ADAEC136A2;
+	Tue,  1 Sep 2026 12:24:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rVNiKgTElmrdcwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 01 Sep 2026 12:24:36 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 37B8EA13B2; Tue, 01 Sep 2026 14:24:32 +0200 (CEST)
+Date: Tue, 1 Sep 2026 14:24:32 +0200
+From: Jan Kara <jack@suse.cz>
+To: Mikhail Rudenko <xyzzy@yandex-team.ru>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 0/2] Defer final iputs for dirty-time inodes in
+ PF_MEMALLOC context
+Message-ID: <27v2ckdgybmvxog5b55sr3o6ri4bkbzu6ycwtjwckrhzyazxzd@7qruolrsu5t7>
+References: <20260813-deferred-dirtytime-iput-v1-0-ad2fb3ad6bdb@yandex-team.ru>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-work-idmap-const-v1-27-54ccd48e100b@kernel.org>
-References: <20260901-work-idmap-const-v1-0-54ccd48e100b@kernel.org>
-In-Reply-To: <20260901-work-idmap-const-v1-0-54ccd48e100b@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Christoph Hellwig <hch@lst.de>, Seth Forshee <sforshee@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, linux-security-module@vger.kernel.org, 
- Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org, 
- Ilya Dryomov <idryomov@gmail.com>, ceph-devel@vger.kernel.org, 
- Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, 
- Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
- linux-unionfs@vger.kernel.org, Namjae Jeon <linkinjeon@kernel.org>, 
- linux-cifs@vger.kernel.org, linux-kernel@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1731; i=brauner@kernel.org;
- h=from:subject:message-id; bh=F/j2NqH+w7TNV8U4wBjPBjnprw3X0ltqzP2LkSeZfIQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRNO7juuASHSvjdD2vZN/1wK1Q8PP2K8SIPF4Nds+KrQ
- tZn6yupdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkwDGGP1yn3TyV2B+5WR/7
- OGsWf21se1dQxD6NlxOZboaqhcUFA1Xwv3b+1lLjefzIN8fv0XP3d2wuslt8guU/o9nzRLPE4j2
- MAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260813-deferred-dirtytime-iput-v1-0-ad2fb3ad6bdb@yandex-team.ru>
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: F270D1F794
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-Make both static maps const so they end up in rodata. Any attempt to
-modify them now faults instead of silently corrupting the initial
-idmapping.
+I'm sorry for the delayed reply. Due to vacation and backlog after it it
+took me long to get back to this.
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/mnt_idmapping.c            | 4 ++--
- include/linux/mnt_idmapping.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+On Thu 13-08-26 12:43:28, Mikhail Rudenko wrote:
+> The motivation for this small series is the following kernel WARNING:
+> 
+> [  893.915584] ------------[ cut here ]------------
+> [  893.915589] WARNING: mm/page_alloc.c:4749 at __alloc_pages_slowpath.constprop.0+0xd4d/0x10f0, CPU#1: stress-ng-vm/3784
 
-diff --git a/fs/mnt_idmapping.c b/fs/mnt_idmapping.c
-index 26704eeb7318..bed57094cef0 100644
---- a/fs/mnt_idmapping.c
-+++ b/fs/mnt_idmapping.c
-@@ -28,7 +28,7 @@ struct mnt_idmap {
-  * mapping. This means that {g,u}id 0 is mapped to {g,u}id 0, {g,u}id 1 is
-  * mapped to {g,u}id 1, [...], {g,u}id 1000 to {g,u}id 1000, [...].
-  */
--struct mnt_idmap nop_mnt_idmap = {
-+const struct mnt_idmap nop_mnt_idmap = {
- 	.count	= REFCOUNT_INIT(1),
- };
- EXPORT_SYMBOL_GPL(nop_mnt_idmap);
-@@ -37,7 +37,7 @@ EXPORT_SYMBOL_GPL(nop_mnt_idmap);
-  * Carries the invalid idmapping of a full 0-4294967295 {g,u}id range.
-  * This means that all {g,u}ids are mapped to INVALID_VFS{G,U}ID.
-  */
--struct mnt_idmap invalid_mnt_idmap = {
-+const struct mnt_idmap invalid_mnt_idmap = {
- 	.count	= REFCOUNT_INIT(1),
- };
- EXPORT_SYMBOL_GPL(invalid_mnt_idmap);
-diff --git a/include/linux/mnt_idmapping.h b/include/linux/mnt_idmapping.h
-index b445c7660040..78eeef4c2996 100644
---- a/include/linux/mnt_idmapping.h
-+++ b/include/linux/mnt_idmapping.h
-@@ -8,8 +8,8 @@
- struct mnt_idmap;
- struct user_namespace;
+<snip>
  
--extern struct mnt_idmap nop_mnt_idmap;
--extern struct mnt_idmap invalid_mnt_idmap;
-+extern const struct mnt_idmap nop_mnt_idmap;
-+extern const struct mnt_idmap invalid_mnt_idmap;
- extern struct user_namespace init_user_ns;
- 
- typedef struct {
+> It was initially observed in the wild on linux 6.12.y, but later I
+> reproduced it in Qemu with linux 7.0.11. I believe it is still an
+> issue in the mainline master. Similar issue was reported earlier [1],
+> but looks like no real analysis was performed then.
+> 
+> The warning is triggered when a process with PF_MEMALLOC flag set
+> requests a __GFP_NOFAIL page allocation. In this case, the allocation
+> comes from ext4_dirty_inode() called when shrinker frees a dentry,
+> resulting in i_count of an inode going zero, which in it turn can
+> trigger sync_lazytime() if said inode has I_DIRTY_TIME flag, resulting
+> in inode becoming dirty. On ext4 this causes an immediate journal
+> transaction, which may lead to __GFP_NOFAIL allocation in the
+> slowpath.
 
+Yes, we are well aware of this problem. It actually goes significantly
+further than just lazytime processing.
+
+> The proposed approach to fix this basically boils down to "if need to
+> do sync_lazytime() in PF_MEMALLOC context, defer instead".
+> 
+> Patch 1 adds basic per-superblock infrastracture for deferring iputs:
+> a workqueue, a work_struct, a list, a bool flag, a spinlock, and some
+> glue code. A tricky place is superblock shutdown: we should stop
+> accepting deferred iputs not too early, so that no legit cases fail to
+> defer, and not too late, so that superblock is still operational and
+> we can flush the workqueue. Since we cannot enter
+> deactivate_locked_super() from PF_MEMALLOC context, stopping after
+> shrinker_free() seems safe.
+> 
+> Patch 2 uses this infrastructure to defer iputs of inodes with
+> I_DIRTY_TIME, which would trigger sync_lazytime() otherwise, when
+> running in PF_MEMALLOC context. Clumping default and PF_MEMALLOC paths
+> together in iput() would have resulted in decreased readablity, so I
+> avoided that by setting up a separate iput_memalloc(), at cost of
+> slight code duplication.
+
+Thanks for your patches. I've actually submitted patches to address this
+problem back at the end of April [1]. In particularly the problem you
+report was addressed somewhat differently by patch 1. We've then discussed
+them at LSF/MM/BPF summit and people mostly agreed with the approach, just
+there were some requests for better parallelization of deferred inode
+reclaim (which I so far failed to implement). But it's currently high on my
+todo list so I should hopefully send v2 of the patches for the next merge
+window.
+
+								Honza
+
+[1] https://lore.kernel.org/all/20260429174850.18223-1-jack@suse.cz/
 -- 
-2.53.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
