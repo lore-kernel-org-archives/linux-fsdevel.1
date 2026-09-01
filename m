@@ -1,236 +1,374 @@
-Received: from mta0.migadu.com (out-201.mta0.migadu.com [91.218.175.201])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8B53B5306
-	for <linux-fsdevel@vger.kernel.org>; Tue,  1 Sep 2026 13:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3CE480961;
+	Tue,  1 Sep 2026 13:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788268146; cv=none; b=YHAAtHS5dz/18wyTWnCmZJ+DiPIX9NqmJJup2kzV8fwonEGHF2wkzf2r82ZPWWM2XMFE09Jfnb9O6Ja/Q3PS+bSU8x8ObeciXEBQZqFRkCvJ8YY1A36457Hw3FwE9gue7a7+ApWo1a98uw7+dg5frlNAus2g21L5evNRcZRl+Ts=
+	t=1788268906; cv=none; b=UcYFcNZFALECclWxJFbXUEtDW44gg3VL3jG0CJWVLXdv56lHm7X7pH7EJ0YbKl6DhKqCrtI8jeqkSjXILRGq70c/aAJctQOLIwVtoqkCGIrbcpDJYspNiwYFHud2zw+fJ8ez9hef7qSrc4fOlYZi8yx4f3mUPstxB5uAYbUcsZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788268146; c=relaxed/simple;
-	bh=I9p86zfEc0rxJVFc8bGyzgpJ2NfBzjwUd1RaEkL/cGk=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ilIBvxj3VguiJhJ1xrPNEa2RoaBmsVt2XB5HkAE71ilsCppxal5+eylan4sOTFxyEPFXCnbi7qf1R50NLIp7LloEo780UTbJEE3Y36sxiVQeufyxmsIQQtjm1bBBYb+kchaWCcyPnEV4sQw3KKHE7I0Bzjtf05Qrr9Ven++1kug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fZkK6VcH; arc=none smtp.client-ip=91.218.175.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788268906; c=relaxed/simple;
+	bh=nsmBtXYHyv2bzmeK+dgsAbh4lVmOFLqYCxCg3RVy02E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YBnSjpeKjOSeDk1m1DfZ7x/cBxFStTNG3VpkfQYN3WwlMO7LIrUAhI25WjxLulq2tTe0d1QtUy4sj+ykuQWU8owCMRb41+8/rGIpS9SfRjHGjs+xp/EDuadf/eBWM+xQERzYMRkOfstU17HPf5mjht9yN0qZ2m7JJ0jn+MOtgas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=15gO+vTW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=eT99rnCX; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=x/XSK3cc; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qI8aaktY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fZkK6VcH"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=I9p86zfEc0rxJVFc8bGyzgpJ2NfBzjwUd1RaEkL/cGk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788268142; v=1; x=1788872942;
- b=fZkK6VcHcWXc6/ummS3qr4RVvcxLaFevWOgOuRykRe/Klm1sphaVaNcPDXmJhYjokP45oK4Z
- kRXeA1gwAq4DQGO6T6H3m2RxmfU0fTDANGVFG2cGzZjfqNhVy0JXtLB8/GR6TpihBHpJ4MkAoh0
- 8IAhMOVEp95mx7hYnCv6NjZ4=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 7ec9b92416be4d2e;
-	Tue, 01 Sep 2026 13:09:01 +0000
-X-Mizu-Trace-ID: 7ec9b92416be4d2e
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <d1209b70-7e76-4415-92c9-6ddc192a3347@linux.dev>
-Date: Tue, 1 Sep 2026 21:08:49 +0800
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="15gO+vTW";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="eT99rnCX";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="x/XSK3cc";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qI8aaktY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1CCD321BE1;
+	Tue,  1 Sep 2026 13:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788268898; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sJ1u5d81P5NsUds05pPvIum9o51WwkoVc644ebqxkmw=;
+	b=15gO+vTWUs5G0WdrSr1KE/7eoe4JG6UjCzBIc11GmQyPG+x4DgjZ1kOR53x+qxaRTz6a6q
+	+QZHRLaznfR09djQBcbee5qCtYWBaU3RNgR7s6CNeMu6ssLmz1BAqyFQLrIRgoQeE9bpma
+	QlGyJ1nUZCmirFV4plm/B0+mw2YjC10=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788268898;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sJ1u5d81P5NsUds05pPvIum9o51WwkoVc644ebqxkmw=;
+	b=eT99rnCXimMIFo6ZGgArAGAfONauZrxv31wT18FN+xwydtNm1CSaDrjvkB9PkupVBY7Ibx
+	bVHfSE6WVFqeelBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788268894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sJ1u5d81P5NsUds05pPvIum9o51WwkoVc644ebqxkmw=;
+	b=x/XSK3ccs4tSY/lQvtowsMj3PopFykfHQTqiiOZws/N3OSq4LliEeieCylXwhggx3jtaKG
+	PiPVSHWw8XJwSxmNwSr4bePoj6X3pif1kj7PdZVZomPxuYljChAz5LGJYrKKvIlJoNnSJs
+	SLCGxUfLGKkGm/MMUHKysFD9AR+Fb5k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788268894;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sJ1u5d81P5NsUds05pPvIum9o51WwkoVc644ebqxkmw=;
+	b=qI8aaktYMkC2bugv9hQ8E79W2uXniA25CyNmQgL0+eVf0NCAmzHV+LQgbFdTB/GUFcf4yR
+	FZWkcwoDyGF1KdAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EAD7D13515;
+	Tue,  1 Sep 2026 13:21:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7rJROV3Rlmr6LQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 01 Sep 2026 13:21:33 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7985AA13B2; Tue, 01 Sep 2026 15:21:33 +0200 (CEST)
+Date: Tue, 1 Sep 2026 15:21:33 +0200
+From: Jan Kara <jack@suse.cz>
+To: Joseph Qi <jiangqi903@gmail.com>
+Cc: Chao Shi <coshi036@gmail.com>, Jan Kara <jack@suse.cz>, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, 
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>, Ritesh Harjani <ritesh.list@gmail.com>, 
+	Zhang Yi <yi.zhang@huawei.com>, Zhang Yi <yi.zhang@huaweicloud.com>, 
+	Bob Copeland <me@bobcopeland.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
+	linux-ext4@vger.kernel.org, ocfs2-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Weidong Zhu <weizhu@fiu.edu>
+Subject: Re: [PATCH v2 03/21] jbd2: point the shadow buffer at the frozen
+ data directly
+Message-ID: <lxi7r2shdcsx7oagldgpjnwgushnogqlvud42m4a5b2as5tpx6@bi6aquij5bxb>
+References: <cover.1785951556.git.coshi036@gmail.com>
+ <6140cd23beb88e99f40eaeff4044a16213f6caab.1785951556.git.coshi036@gmail.com>
+ <20d3b629-e052-492f-9a24-ee700b259c37@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: cui.tao@linux.dev, Markus.Elfring@web.de, axboe@kernel.dk,
- broonie@kernel.org, bvanassche@acm.org, dlemoal@kernel.org,
- hch@infradead.org, hch@lst.de, hdanton@sina.com,
- linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-next@vger.kernel.org, lkp@intel.com, oe-lkp@lists.linux.dev,
- oliver.sang@intel.com, torvalds@linux-foundation.org,
- viro@zeniv.linux.org.uk, Tao Cui <cuitao@kylinos.cn>
-Subject: Re: [PATCH v7] loop: Fix NULL pointer dereference in lo_rw_aio()
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, brauner@kernel.org
-References: <6a770a9c-2642-4392-9b9c-609836693f36@I-love.SAKURA.ne.jp>
- <20260831141143.704821-1-cui.tao@linux.dev>
- <30528b67-6ff9-4512-892b-f48d819e100f@I-love.SAKURA.ne.jp>
-From: Tao Cui <cui.tao@linux.dev>
-In-Reply-To: <30528b67-6ff9-4512-892b-f48d819e100f@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20d3b629-e052-492f-9a24-ee700b259c37@gmail.com>
+X-Spam-Level: 
+X-Spam-Score: -2.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLhn4jw3wthgom179184pqozfe)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,suse.cz,kernel.org,zeniv.linux.org.uk,infradead.org,vger.kernel.org,mit.edu,dilger.ca,linux.alibaba.com,linux.ibm.com,huawei.com,huaweicloud.com,bobcopeland.com,samsung.com,sony.com,mail.parknet.co.jp,fasheh.com,evilplan.org,redhat.com,lists.linux.dev,fiu.edu];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,infradead.org:email]
 
-Hi Bart, Tetsuo,
-
-Thanks for the detailed replies, and to Tetsuo for the sashiko
-log.
-
-在 2026/8/31 23:49, Tetsuo Handa 写道:
-> Thank you for joining to this thread, Tao.
+On Tue 01-09-26 11:37:14, Joseph Qi wrote:
+> On 8/7/26 12:58 AM, Chao Shi wrote:
+> > When a metadata buffer has to be copied out before it can be journalled,
+> > jbd2_journal_write_metadata_buffer() writes jh->b_frozen_data rather than
+> > the page cache copy.  b_frozen_data is kmalloc()ed, so folio_set_bh() makes
+> > the shadow buffer point at a slab folio.
+> > 
+> > That is not something the buffer_head layer can reason about.  A slab folio
+> > overloads ->mapping, so a shadow buffer looks like it belongs to an
+> > address_space when it does not.  buffer_set_crypto_ctx() already has to
+> > work around this, and it is the reason mark_buffer_write_io_error() cannot
+> > be called on a shadow buffer today.
+> > 
+> > Point the shadow buffer at the frozen data itself instead: leave b_folio
+> > NULL, which it already is out of alloc_buffer_head(), and set b_data.  The
+> > previous patch taught fs/buffer.c to submit such a buffer.  folio_set_bh()
+> > is now needed on only one path - the one that journals the page cache copy
+> > directly - so it moves there, and new_folio, new_offset and the flag that
+> > used to pick between them all go away.
+> > 
+> > The two commit-path checksum helpers reach the shadow buffer's contents
+> > through a new kmap_local_bh()/kunmap_local_bh() pair, which handle a buffer
+> > with or without a folio.  Memory outside the page cache is always mapped,
+> > so for those there is nothing to map or unmap.  Mapping it anyway would be
+> > worse than pointless: with CONFIG_DEBUG_KMAP_LOCAL_FORCE_MAP,
+> > kmap_local_page() hands back a one page mapping even for such memory, which
+> > is not enough for a buffer bigger than a page.
+> > 
+> > Tested with ext4 mounted data=journal,journal_checksum on a metadata_csum
+> > filesystem, writing files whose every block begins with the JBD2 magic so
+> > that escaping forces the copy-out, then crashing with sysrq-b without
+> > unmounting and replaying the journal on the next mount.  Recovery
+> > completed, the file contents matched, e2fsck -fn was clean, and an
+> > instrumented build confirmed the b_folio == NULL path was taken.
+> > 
+> > Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> > Acked-by: Weidong Zhu <weizhu@fiu.edu>
+> > Signed-off-by: Chao Shi <coshi036@gmail.com>
+> > ---
+> >  fs/jbd2/commit.c            |  8 ++++----
+> >  fs/jbd2/journal.c           | 29 +++++++++++++++++------------
+> >  include/linux/buffer_head.h | 29 +++++++++++++++++++++++++++++
+> >  3 files changed, 50 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
+> > index 3029cb6f6d64..0c85af91f9b2 100644
+> > --- a/fs/jbd2/commit.c
+> > +++ b/fs/jbd2/commit.c
+> > @@ -330,9 +330,9 @@ static __u32 jbd2_checksum_data(__u32 crc32_sum, struct buffer_head *bh)
+> >  	char *addr;
+> >  	__u32 checksum;
+> >  
+> > -	addr = kmap_local_folio(bh->b_folio, bh_offset(bh));
+> > +	addr = kmap_local_bh(bh);
+> >  	checksum = crc32_be(crc32_sum, addr, bh->b_size);
+> > -	kunmap_local(addr);
+> > +	kunmap_local_bh(bh, addr);
+> >  
+> >  	return checksum;
+> >  }
+> > @@ -357,10 +357,10 @@ static void jbd2_block_tag_csum_set(journal_t *j, journal_block_tag_t *tag,
+> >  		return;
+> >  
+> >  	seq = cpu_to_be32(sequence);
+> > -	addr = kmap_local_folio(bh->b_folio, bh_offset(bh));
+> > +	addr = kmap_local_bh(bh);
+> >  	csum32 = jbd2_chksum(j->j_csum_seed, (__u8 *)&seq, sizeof(seq));
+> >  	csum32 = jbd2_chksum(csum32, addr, bh->b_size);
+> > -	kunmap_local(addr);
+> > +	kunmap_local_bh(bh, addr);
+> >  
+> >  	if (jbd2_has_feature_csum3(j))
+> >  		tag3->t_checksum = cpu_to_be32(csum32);
+> > diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
+> > index 09efa337649e..6e05dc47e20a 100644
+> > --- a/fs/jbd2/journal.c
+> > +++ b/fs/jbd2/journal.c
+> > @@ -327,8 +327,6 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+> >  {
+> >  	int do_escape = 0;
+> >  	struct buffer_head *new_bh;
+> > -	struct folio *new_folio;
+> > -	unsigned int new_offset;
+> >  	struct buffer_head *bh_in = jh2bh(jh_in);
+> >  	journal_t *journal = transaction->t_journal;
+> >  
+> > @@ -348,24 +346,31 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+> >  	/* keep subsequent assertions sane */
+> >  	atomic_set(&new_bh->b_count, 1);
+> >  
+> > +	/*
+> > +	 * b_frozen_data is slab memory, not page cache, so when we use it the
+> > +	 * shadow buffer gets no folio at all: b_folio stays NULL from the
+> > +	 * allocation and b_data points straight at the copy.  Pointing it at
+> > +	 * the slab folio instead would hand its overloaded ->mapping to
+> > +	 * anything that goes looking for an address_space.
+> > +	 */
+> > +
+> >  	spin_lock(&jh_in->b_state_lock);
+> >  	/*
+> >  	 * If a new transaction has already done a buffer copy-out, then
+> >  	 * we use that version of the data for the commit.
+> >  	 */
+> >  	if (jh_in->b_frozen_data) {
+> > -		new_folio = virt_to_folio(jh_in->b_frozen_data);
+> > -		new_offset = offset_in_folio(new_folio, jh_in->b_frozen_data);
+> >  		do_escape = jbd2_data_needs_escaping(jh_in->b_frozen_data);
+> >  		if (do_escape)
+> >  			jbd2_data_do_escape(jh_in->b_frozen_data);
+> > +		new_bh->b_data = jh_in->b_frozen_data;
+> >  	} else {
+> > +		struct folio *folio = bh_in->b_folio;
+> > +		unsigned int offset = offset_in_folio(folio, bh_in->b_data);
+> >  		char *tmp;
+> >  		char *mapped_data;
+> >  
+> > -		new_folio = bh_in->b_folio;
+> > -		new_offset = offset_in_folio(new_folio, bh_in->b_data);
+> > -		mapped_data = kmap_local_folio(new_folio, new_offset);
+> > +		mapped_data = kmap_local_folio(folio, offset);
+> >  		/*
+> >  		 * Fire data frozen trigger if data already wasn't frozen. Do
+> >  		 * this before checking for escaping, as the trigger may modify
+> > @@ -379,8 +384,10 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+> >  		/*
+> >  		 * Do we need to do a data copy?
+> >  		 */
+> > -		if (!do_escape)
+> > +		if (!do_escape) {
+> > +			folio_set_bh(new_bh, folio, offset);
+> >  			goto escape_done;
+> > +		}
+> >  
+> >  		spin_unlock(&jh_in->b_state_lock);
+> >  		tmp = kmalloc(bh_in->b_size, GFP_NOFS | __GFP_NOFAIL);
+> > @@ -391,7 +398,7 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+> >  		}
+> >  
+> >  		jh_in->b_frozen_data = tmp;
+> > -		memcpy_from_folio(tmp, new_folio, new_offset, bh_in->b_size);
+> > +		memcpy_from_folio(tmp, folio, offset, bh_in->b_size);
+> >  		/*
+> >  		 * This isn't strictly necessary, as we're using frozen
+> >  		 * data for the escaping, but it keeps consistency with
+> > @@ -400,13 +407,11 @@ int jbd2_journal_write_metadata_buffer(transaction_t *transaction,
+> >  		jh_in->b_frozen_triggers = jh_in->b_triggers;
+> >  
+> >  copy_done:
+> > -		new_folio = virt_to_folio(jh_in->b_frozen_data);
+> > -		new_offset = offset_in_folio(new_folio, jh_in->b_frozen_data);
+> >  		jbd2_data_do_escape(jh_in->b_frozen_data);
+> > +		new_bh->b_data = jh_in->b_frozen_data;
+> >  	}
+> >  
+> >  escape_done:
+> > -	folio_set_bh(new_bh, new_folio, new_offset);
+> >  	new_bh->b_size = bh_in->b_size;
+> >  	new_bh->b_bdev = journal->j_dev;
+> >  	new_bh->b_blocknr = blocknr;
+> > diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+> > index 699970b4bbf2..20b8fca1abfa 100644
+> > --- a/include/linux/buffer_head.h
+> > +++ b/include/linux/buffer_head.h
+> > @@ -172,6 +172,35 @@ static inline unsigned long bh_offset(const struct buffer_head *bh)
+> >  	return (unsigned long)(bh)->b_data & (folio_size(bh->b_folio) - 1);
+> >  }
+> >  
+> > +/**
+> > + * kmap_local_bh - Map the data of a buffer.
+> > + * @bh: The buffer.
+> > + *
+> > + * Buffers usually live in the page cache, but a few are built over memory
+> > + * which is not.  Those carry no folio and b_data is already a kernel address
+> > + * which is always mapped, so there is nothing to do for them.  Pair with
+> > + * kunmap_local_bh().
+> > + *
+> > + * Return: A pointer to the buffer's data.
+> > + */
+> > +static inline void *kmap_local_bh(const struct buffer_head *bh)
+> > +{
+> > +	if (!bh->b_folio)
+> > +		return bh->b_data;
+> > +	return kmap_local_folio(bh->b_folio, bh_offset(bh));
+> > +}
+> > +
+> > +/**
+> > + * kunmap_local_bh - Unmap the data of a buffer.
+> > + * @bh: The buffer.
+> > + * @addr: The address returned by kmap_local_bh().
+> > + */
+> > +static inline void kunmap_local_bh(const struct buffer_head *bh, void *addr)
+> > +{
+> > +	if (bh->b_folio)
+> > +		kunmap_local(addr);
+> > +}
+> > +
+> >  /* If we *know* page->private refers to buffer_heads */
+> >  #define page_buffers(page)					\
+> >  	({							\
 > 
-> On 2026/08/31 23:11, Tao Cui wrote:
->> From: Tao Cui <cuitao@kylinos.cn>
->>
->> Hi Tetsuo, Bart,
->>
->>> +	/* Step 1: Flush all outstanding I/O, without open_mutex held. */
->>> +	/*
->>> +	 * Now that loop_queue_rq() sees lo->lo_state != Lo_bound,
->>> +	 * wait for already started loop_queue_rq() to complete.
->>> +	 */
->>> +	synchronize_rcu();
->>
->> Your reply to Bart says loop_queue_rq() is called with RCU read
->> lock, but I don't see one.  The two call sites of ->queue_rq() are
->> blk_mq_dispatch_rq_list() and __blk_mq_issue_directly(), and
->> neither is wrapped in rcu_read_lock().  Direct issue from
->> blk_mq_submit_bio() runs in process context with no RCU read-side
->> critical section, so synchronize_rcu() does not wait for a
->> loop_queue_rq() that is already running there.  Only the softirq
->> dispatch path is an implicit RCU reader.
+> When tested ocfs2 on next-20260831, I've encountered the following NULL
+> pointer dereference:
 > 
-> You can read sashiko's raw logs at https://sashiko.dev/#/log/49552 .
+>   BUG: kernel NULL pointer dereference, address: 0000000000000000
+>   RIP: 0010:__bh_submit.constprop.0+0x87/0x120
+>   Call Trace:
+>     jbd2_journal_commit_transaction+0x932/0x1b10
+>     kjournald2+0xb2/0x250
 > 
->   Okay, let's break this down. My initial thought is to examine how the `blk_mq_run_dispatch_ops`
->   macro is implemented. Specifically, how does it handle RCU read locks? It wraps the provided
->   `dispatch_ops` in either `rcu_read_lock()` or `srcu_read_lock()`, depending on the `BLK_MQ_F_BLOCKING`
->   flag. The loop device, however, is set up *without* this `BLK_MQ_F_BLOCKING` flag. Therefore,
->   `loop_queue_rq` executes under the protection of `rcu_read_lock()`.
+> Commit a2c924c240e7 ("buffer: set BIO_COMPLETE_IN_TASK for dropbehind
+> writeback") added an unconditional folio_test_dropbehind(bh->b_folio) in
+> __bh_submit(). But jbd2 shadow buffers have a NULL b_folio since commit
+> 5febcba29792 ("jbd2: point the shadow buffer at the frozen data
+> directly") made them point b_data at the kmalloced frozen data rather
+> than a folio. So submitting such a buffer during journal commit oopses.
 > 
->   Now, the critical question: Does the `synchronize_rcu()` call in `__loop_clr_fd` effectively address
->   the potential race conditions? Since `loop_queue_rq()` is indeed RCU-protected, `synchronize_rcu()` will
->   correctly wait for all currently executing instances of `loop_queue_rq()` to complete. Furthermore,
->   the `lo_state` transition to `Lo_rundown` before calling `__loop_clr_fd` ensures that any *new* calls to
->   `loop_queue_rq()` will see this state and return an error. This perfectly fences the execution of
->   `loop_queue_rq()`. Moreover, `drain_workqueue()` then makes sure all queued works are completed, and
->   these are scheduled by `loop_queue_rq()`. This is great; all scheduled works are completed before
->   clearing `lo->lo_backing_file`.
+> A simple fix:
 > 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index 427d8a817cd5..f46fa6413032 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -1106,7 +1106,8 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
+>  
+>  	bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
+>  
+> -	if (folio_test_dropbehind(bh->b_folio) && op_is_write(opf))
+> +	if (bh->b_folio && folio_test_dropbehind(bh->b_folio) &&
+> +	    op_is_write(opf))
+>  		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
+>  
+>  	if (IS_ENABLED(CONFIG_FS_ENCRYPTION))
 
-Bart, on 8/31 you wrote:
-> This is the code that protects .queue_rq() implementations like
-> loop_queue_rq() with an rcu_read_lock() / rcu_read_unlock() pair:
->
-> /* run the code block in @dispatch_ops with rcu/srcu read lock held */
-> #define __blk_mq_run_dispatch_ops(q, check_sleep, dispatch_ops)	\
-> ...
-> 	} else {						\
-> 		rcu_read_lock();				\
-> 		(dispatch_ops);					\
-> 		rcu_read_unlock();				\
-> 	}							\
-> } while (0)
+Thanks for debugging this Joseph! Please send a formal fix to Christian
+(both changes are now upstream) and feel free to add:
 
-You are both right and I was wrong.  I stopped at
-__blk_mq_issue_directly() and blk_mq_dispatch_rq_list() and missed
-that every caller goes through this macro.  So synchronize_rcu()
-does wait for a running loop_queue_rq() with the current loop
-setup.  I withdraw that comment.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
->>
->> The window is still closed by the steps below, so this is not a
->> correctness bug, but the synchronize_rcu() is not doing what the
->> comment claims.  blk_mq_quiesce_queue() +
->> blk_mq_wait_quiesce_done(), as Bart suggested, would express the
->> intent directly.
-> 
-> synchronize_rcu() + drain_workqueue() can be implied by blk_mq_freeze_queue() + blk_mq_unfreeze_queue().
-> But why are you talking about blk_mq_quiesce_queue() + blk_mq_wait_quiesce_done() ?
-> 
-
-That was Bart's suggestion from his earlier review, and I passed
-it on while assuming the synchronize_rcu() was unfounded.  With
-the RCU pairing confirmed, there is nothing left to replace and
-the quiesce suggestion is moot.
-
->>
->>> +	/*
->>> +	 * Now that no more AIO requests are scheduled by lo_rw_aio(),
->>> +	 * wait for already started AIO to complete.
->>> +	 */
->>> +	blk_mq_unfreeze_queue(lo->lo_queue, blk_mq_freeze_queue(lo->lo_queue));
->>
->> About this step, in your follow-up you wrote:
->>
->>>   (1) since we are in lo_release() with disk_openers(disk) == 0, the activity of
->>>       incrementing/decrementing q_usage_counter (incremented before loop_queue_rq()
->>>       is called, and decremented after loop_queue_rq() returned BLK_STS_IOERR)) will
->>>       cease shortly
->>
->> The decrement timing here is only true for the error path.  For
->> BLK_STS_OK the reference is held until the request is freed, which
->> is what makes blk_mq_freeze_queue() wait for requests that already
->> passed the state check, including the loop workqueue worker that
->> completes them.  That is the property step 1 relies on, and it is
->> worth stating in the comment.
->>
->> What is still open is Bart's question about io_uring fixed files:
->> if submissions can continue after the last close, "cease shortly"
->> does not hold, and it is the freeze wait that actually drains them.
-> 
-
-The decrement part I would still reword: for BLK_STS_OK the
-reference is held until the request is freed, and that is the
-property blk_mq_freeze_queue() relies on.  But you are right that
-the activity ceases, and for a simpler reason than the freeze:
-
-> If submissions can continue _forever_ despite disk_openers(disk) == 0, what
-> mechanism was preventing this problem from occurring until Linux 7.0 ?
-> 
-
-An io_uring fixed file holds a reference to the struct file, so
-bd_openers never reaches zero and lo_release() does not start
-while such a submission path exists.  Any submission needs an
-open block device file (or a mount holding it), so "openers == 0
-but submissions continue" needs no additional mechanism.  I'll
-drop the io_uring part.
-
->>
->>> +	if (need_clear) {
->>> +		/*
->>> +		 * Grab all references that will be dropped as soon as
->>> +		 * returning from lo_release() and releasing disk->open_mutex.
->>> +		 */
->>> +		get_device(disk_to_dev(disk));
->>> +		__module_get(disk->fops->owner);
->>> +		queue_work(system_long_wq, &lo->lo_clr_work);
->>> +	}
->>
->> With teardown now asynchronous, between the last close()
->> returning and the work item finishing, lo_open() and
->> LOOP_CONFIGURE return -ENXIO.  That is the same behavior change
->> that led to the revert of the earlier attempt (bf23747ee053,
->> xfs/259).  Moving the xfstests side to the tests is one thing, but
->> userspace that closes a loop device and immediately reconfigures
->> it now needs to handle a transient -ENXIO.  Is that acceptable, or
->> should the retry happen in the kernel?
-> 
-> Does whether the teardown being synchronous or asynchronous matter so much?
-> 
-> I don't think we can control when e.g. udev-worker becomes the thread
-> who actually calls __loop_clr_fd()
-> ( https://lkml.kernel.org/r/9f8b5ab0-efbc-4cf3-a1f8-b43377416946@I-love.SAKURA.ne.jp ).
-> Even if an existing user app calls close() immediately followed by open(),
-> we can't prove that __loop_clr_fd() is synchronously called by that user app
-> because udev-worker can jump in and udev-worker becomes the thread who actually
-> calls __loop_clr_fd().
-> 
->    An user app     udev-worker
->    -----------     -----------
->                     open()
->     close()
->     open() // => succeeds due to Lo_bound state
->     ioctl(LOOP_CONFIGURE) // => fails with -EBUSY due to Lo_bound state
->     close() // <= gives up due to ioctl() failure
->                     close() // => becomes  Lo_rundown and __loop_clr_fd() is called
-> 
-> A claim that mentions that the kernel is unable to release forever due to a refcount
-> leak bug is valid. But a claim that mentions that the kernel cannot prove that
-> this -ENXIO or -EBUSY problem never happens is invalid. Programs that use the loop
-> device have to be prepared for transient errors.
-
-Your udev-worker sequence shows that synchronous completion was
-never guaranteed and -EBUSY or -ENXIO transients were already
-possible.  I accept that.  The remaining difference is only that
-the window now exists after every close instead of requiring an
-interleaving close from another opener, and if programs must
-tolerate transient errors anyway, that is not a blocker.
-
-Tao
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
