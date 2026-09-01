@@ -1,189 +1,233 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010067.outbound.protection.outlook.com [52.101.46.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic310-30.consmr.mail.ne1.yahoo.com (sonic310-30.consmr.mail.ne1.yahoo.com [66.163.186.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610B6411F8B;
-	Tue,  1 Sep 2026 16:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788278493; cv=fail; b=BSA7TtiPUihwTQCh1aHtZJ3mJFKEtJFkuKWhXt1MsoSfViJy86wsztN4zZNdf/ABDWS6KrZt7rcIpcsBpE5yfsR9+/YzRQjn5Rt0P47DFF9XXK1C+qw4KIXXl3FLItQ2JEF7HT6wPBWfooqL2GWYfBPLasmSBA5nw86uEZm/uRs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788278493; c=relaxed/simple;
-	bh=13pZTwHbrQS/3LKLIBaBbvu7CM/EZ7BbLtEfD9PpQEU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JRG2lBj2nuGTx8jhO7XbAU2SLVPhxquHDkp1aGANN/I7ZT0ZpCe96BCLP9CYmFf5eR+1W1CcXE2Ls3znAiwWQwjEijPQVrKmo2KKQc7v5pttdeiva1N5xKf7iE417q8KtzyKJB8DDW5jzMTm7viLbkznA9i9+c4wtHCJ7s8fvVc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VizP/y1C; arc=fail smtp.client-ip=52.101.46.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176D13EEACB
+	for <linux-fsdevel@vger.kernel.org>; Tue,  1 Sep 2026 16:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.186.211
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788279267; cv=none; b=EhedttDDkp5LsHHzZfernVFf8qvstLX+29MwE25cn3Lu2ZlSLfkQFpdrcI/EM2au00d3WRXEQZ+0kDFjczRKnZEh+sfC7Cjdi3rltvD8tFmzTy+vt4Z81Lnaaj8A2PF0sc2UPO2B6ay51UvxlvzvAd4f4KavMRg9rKolRxwHYn8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788279267; c=relaxed/simple;
+	bh=EIjyPnqw8QTTn+ydcMEjt0qRWEFtEg0Ql8NGv6CxEVA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fDuwZKKiWotyaadFqP8ynzgNp1FigqDFO9dKddWnDoQkEbYVswCtgMiJypoZwvyai7bljvS7OINaXlQGMeI01R6fOfLsM6ArqSQCuPrg1WZmmrScqkVrSOY67cOQZxjOUC5XUiWIJsztAxPXRG2oF+6AgQjW7FedPk26ZueOk2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=dKXWigqB; arc=none smtp.client-ip=66.163.186.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VizP/y1C"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ShKMCidC2wy+6sr7PW47Lce/KOLSEddwCJhYU72dfyITQAsyS8M8K9VtWXwgSLcMWRgY1H+gNtDGYB/u2GqFsuqMF+yRgvs/wjjg0VUXhEubO71tDKQ8qfA62hYosKx6DFRpiUSd5hUIE+EDklyypIni2jaTIxiXzSX4+Jn54lMuw4BZJQY5Ou3R4o5dBLkDK9fSQQH/+ADvg19arSPxmwv+CO2KbyG+JDzWzSPau0CtgNZa4oSFZvOt4evNKEXGQ6zu/6bJJGpHZtBdx7CV7f51UPtmHOFZDagv7C1JYfkhu9G/KAu+7+s2EvNjDUGFr7n4yVSX8bY8XNC2aFWfFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P/DmEx5/WB+Em+la+QvOgrNoPkDRmGyHQEe65bVuto4=;
- b=ucX/QHL4qyM/SoVfcaQcwezdc8oXLE0hP1RxaozVSeVLuKQHXmNT4mktSHeZWumxGt3l454nbZr5tZcnOfeCqp3CsPc9lPc9ikWOeMFrrC1UB9/NZO4Sq5LhZeWGhlLogNng76iWdx+9+7TAA0kqKjUgXuzEyf8pNgEmpfX67HFZJooeKylAGPM4VaD3eSaKmuGTb/tFbhjYYbHF6qwOu4Uk2Gd1/rVUoNZ7NbLtzxy2whLdMcIL2PK2he4imqImnDUK+SHuMZN0a/GvrBhu3Mel6FOMCx8Bo98ekfMIYGkdXDCObeiwOXlrpaE+Anwo80qjUl18LYX1ZvrQr/xugA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P/DmEx5/WB+Em+la+QvOgrNoPkDRmGyHQEe65bVuto4=;
- b=VizP/y1CgmX73m0Lq94U7/1U6fsRqLVhWPgHvWvn+2L1/aFTX7ZbKfd9xOolFFj7TWg9OCnJbmZ/TQqlCn/+TFgof5QkzoPbfg8lzVU/jMhhN+0bzWQLtC6cdMWzrogMvwyh2vV4JNkienJbA94saYUriydLB5Q5t/7UsEEJrtmjGk8zFxxPaE98FhuSnUpUPgK+sSKI3G/2JDHEIWrUIwqXcnxHNgrJGtNNPk9NEHW1ibLky0gA41dgskYJN3hLWyK0oZ4G2MiZgF2SLapkMkyjYkNz3vT/4fn6c9Ob/ibA/n1PSqpU+weGfl1gpGSD5lx0QPHxV6DkzyVQMa+8WA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by MW9PR12MB999209.namprd12.prod.outlook.com (2603:10b6:303:301::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
- 2026 16:01:29 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 16:01:29 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: David Hildenbrand <david@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kairui Song <kasong@tencent.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Baoquan He <baoquan.he@linux.dev>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Jan Kara <jack@suse.cz>, Masami Hiramatsu <mhiramat@kernel.org>,
- Dave Young <ruirui.yang@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- kexec@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 14/14] mm/page-flags: remove PG_private
-Date: Tue, 01 Sep 2026 12:01:24 -0400
-X-Mailer: MailMate (3.0r7024)
-Message-ID: <21998471-74B7-4799-9E8C-D75003D1A4CB@nvidia.com>
-In-Reply-To: <20260901115542.35cf337f@gandalf.local.home>
-References: <20260831-remove-pg_private-v2-0-3668159cd9e8@nvidia.com>
- <20260831-remove-pg_private-v2-14-3668159cd9e8@nvidia.com>
- <20260901115542.35cf337f@gandalf.local.home>
-Content-Type: text/plain
-X-MS-Reactions: disallow
-X-ClientProxiedBy: YT1PR01CA0084.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2d::23) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="dKXWigqB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788279264; bh=gPh+X/iBiqRKhw1S4WGz1YTRGse+nCFpHEMx4R0LHRw=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=dKXWigqBPpZ0eaG8TWu/XP5ar3FPrhpdwiPLn3bCwy/im1bzlBlyfu+f4CdV76V7+Mx1HzGDE0093grGrbgXTtxHa9j23fRTdt5r+y0dei05Treb86V77kPAJHKw8hVgu1Rv67U217M1gcBJsbmKQ/ckrXW/YAXOgpKwAg+0KXxKlbFZxr0AO/MhhbSv3x27fgwbpyI0vBD9jF3POoqU5+ryJ9jp0Yi9Thu5UZ5+qbMmuk8H9GT0Ctz7XicNF+XqEKD4oJ2lsVDtQetBLyx/gIdYCf7XjCPInqqih8ZCP2cGSufs4m7ias6em9vttCuPXj5MNgKDrpXENbJ1LhPaxA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788279264; bh=j/edI6kC2JF7fN+O4txiAmzyXORhDNhEx6b1cEXvJ0k=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=aTv8bfFvJUlUatPbR2HngqoKl1JKZecwmnoH4h/MpgBrAjNWPiObC5eqa0ZsViUWeR6xB6tsE5agpsvLSGIg5gt19o8i3El9yoA7Ujldum0yu1NlQygWdShFkEC8Pf7hGEyKtr0cCmsU89NxzIRmxjrDuS3NyFzCfzK5mOozcTjfXca6nRIgFjyUjVNhRl1/RRl8sk5smy1z0XnEBsm5HX6e61E3jlsHGsZijSEzmJj8Kn3B1hUYhsB8sFizXxQeIwjcQrjF547mUadrORcj8WjkK3+NUijcfpiBO6Wi/Y3LMQb7vrCAHWU7Nkre1bGiM5rYdR7/ZSmf1fE7oS3ggw==
+X-YMail-OSG: BnRSzUsVM1l6DMJ0RcDbVkj8OA4EnfP5.zaF5Sy_6KG2J6a5XNB2nRUsOjT3ART
+ x5kLRUjxN7qI.IXN_GOJxUAxbDm4WQ1qWxDFpikbntvRnmDeeModNmJvEuDFj70nMxMVDCfR7i08
+ TLoHA1R6hIZ1LhwgEBJz6BXTQpcu137HEdLRqbU3iAMWdmdCgHN.jybBtQrF.C89oj3iXdcwq83U
+ kyDrUGwY2QAD56uB_yS9.v1b6lpsfgvy_wVq5Xl.XMcya.NblpqHct.74b_WgBLRj.n2g260Ze_5
+ MC6oHD9kLsWBzV7oNxexUIrvLvA2NSEWiiQVAEF5Dyw0J_p2gi34blnPWV1ffY2fr2.2ndZK5mCw
+ q8JZUkPybYawiAqbZMETn62xgxSJxqPLZriKVsh.Yur2GcbnN9rZY_BrvztvDaILL1w.poZ6QlwF
+ HHWdMVYN65I.NYExwdSzLBLVE_XCTXiFgVwWkHjUWiRUX1WAttlhY7x7O4pRzoFf7rDr5KUvjq5T
+ QFYbawEwONrjsddJQcutigmcwqUqQcYbsFsMPcGrG7uqKjThJvkpiyR9ZVvBcSQW7i.VmngJ09L3
+ zNPMqOW23l3jYUmLNJA9tdLGcCRY8qixdtT_dA_LF6khvJdag3IzZ0iJXOPiBVwoPqOpVzmSDK0K
+ rYXwTp56ucWKOEXaUx9qB5fKNpyhTVno69lmXRn586srKGKH9bcyQNuag15gmd4cQ_bwLRJpsebv
+ hrH9oshCVWTElz0zb3kh5ZTnkTH3F540Joo96iqkl4GF1jBVeoHTGqM93jXemH20j.XQzu7F1kjv
+ silAPMLu3nlfcOUZEuG6P6yeunGiFF8wT88ZXiNAvrO_eCWdV.BKTTl_GDY8Ki1_nhXYmMPNWTWL
+ L4WVgb9bg2GzAGgwe7O_YWw1lUPljGE_7kizgV86h5n6.AeO1GAta2FijW7JtM4CIp94IlvVt3_X
+ n2JoT.pEZXBK5T0805WWPzRfy0KT0RDYN2uYFdzPP3vo1mIWkiWPjfBSfdpa0P6T2p84k6QfmCkz
+ HPyi8EzuxmPrb0oXLYeiYnj9Wv99M29bnqSOdD_91vneq9YVbWF7Q6Ob8VIQf6f_em9BBLlclDi4
+ EXEc8pebwZ6v3bSF9hJIvWVd_1nwlDXudPKpTYbDy01lfwwMPxHqX4U7yo7jMXECMbWjiPC_EIei
+ 1rwJ6gZqwT_kXId0dQZTUuj7.NHXwISkRI5c77y.JwwNOrTopnjvAO50EPbmSmBYZ.Wm9.zbd7zz
+ 8mffN78xMRX437TWJmZsia5XHlwnD__SwtGTCFgLLDLqG0waLpdI5Gnjsk7PEsRhAB7b3weR_G4t
+ mFhIaY7iOjLIM44a1g_LCMSSyJWLGhnL1u9Qf2jhZLL5gJ_6IYVXHVRVfV9ziNetQXEm_8WaIrTT
+ tlixevJkEx6Dz..j6uh5NXC35zBpJbSM7StGjzdCZ6VVY86xr1QYX9Xm8BJhSQ7pkqx89uwC3CP0
+ .p1kR0Plgh_Gdiw1C.9uSEEfWllyoBISuzXgpocW6t8tN5S53NAmNWF18cQm.SZHhO3Ncak.CkAx
+ lo6eXKa52FjEofHF7ZRseScCLRHlnMH854MvxW05_v4OQqzn_dKcr.1mdNt1FlZvmNwoNCvKEhTr
+ GBc11oR5WIkXvaO1zclx6FmXGgDjPc.Ie266nDgGo_72clnHYHYUKf875KOPIW1AzvxAW7oCLKHe
+ 2ahfFP1DPqv5akZ1S14Gks6tf1x27QnHtgR7mdotq8XOFuwAZe7DpFOphuTtnOuu3rwpY5WAFfoO
+ 8trFKjtEC7u.3PTb_9.FyXwuzAcJdZp6xU1DxO1LCDc9QG1ccOvBHiFjpwSgUkohS1J3Mu_vnr1p
+ d5Wxy21YJJhYtS21aiCcV50vmBxj0jgvFg59llCpT3vN1pMaxf14PawfRh5PKiqRWhpad2vNXT4f
+ FKtJWRdyhVAaFVTSBsbPot7S9XzzRgEInkTcl.vBKUhn9jtA8ADT7YWT9zvV1foYbKik0_X_dnYJ
+ 7ckBVPo6fIx2.7eqgJZ8JOsUBOfYNp5C6Cd2io8btrpEiGP8XXEIXv8lNiMIuiZrcm841JUkmksG
+ DyK0xgr3MeyHSybaP_Fys7Nltg.EIr4Q0v4309l60Yib91EEQ7awW7xjVpdcnBZw1bekGO9PBACm
+ HJtn0fGSUS3U9JB.nlXkq9a.8PxosWl9UkcaGzsm98E_rYsjhEt3dLJIH0eSlHBj8M9ednNL0JvJ
+ WkoKD3FJpOYf25tly81HBtlpU0e0sVW1fbNJ3xF70RJgzlCrypYY0bHfiaif786dAoWYR1oDy_Pd
+ SPBHQbxcB6yTNOQ--
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: ae5512ae-c89c-4588-a92d-d5c736d4192f
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ne1.yahoo.com with HTTP; Tue, 1 Sep 2026 16:14:24 +0000
+Received: by hermes--production-gq1-678d9dd684-mxdfs (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 7bb86a24437c43194baefa3abed212e3;
+          Tue, 01 Sep 2026 15:53:44 +0000 (UTC)
+Message-ID: <d3656927-c39d-421f-8baa-f04c8d4eeff3@schaufler-ca.com>
+Date: Tue, 1 Sep 2026 08:53:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|MW9PR12MB999209:EE_
-X-MS-Office365-Filtering-Correlation-Id: e301290c-ad93-4ea3-d08b-08df08424887
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|10067099003|56012099006|11063799006|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	NaOquSOHq3qDfgJ4uRqzvyhAEdS5CRdYU36kpuxOOEelZNDgEW9b78+O5Q4eP3YaVlrr4UijSIn9owZgLgT13yH0mOEPUpeuMGsbtSiW7MBS8CcAbF9WLiEUNNvfnk1XcQQnN7zaU1WPLHbDXfUMUww6Gw0ewM0W07WNNYGt3wK4FnEbREYB7jw+BAFpWA4ZJQNd1ivvZ4aSFSND2w5zig2bJzP78+R73LLdDdFvNNxZRGrSAfiYC+EAhlb4MDYP7OGQFDKkpFUUct2i8dgxJ94TGVW486qlkGrOsFUVmQ1PTK2Tt2K6lqsJMkPTqvl3dGf56vlWqsoQtDoIe1H/vaKFCIQhj7464ZGJ3zrCFnqd8uB5fA2v13ZeXllMirxXzffl/wUYrHTeb937swoKXf1gLmrJH5klSQuzCX4qxcDX+exEWteLX5GYO7DYrusZOofsKoPoSfSU6qSqvvC0pT6v8ZlPls4maoEz6d0i/G328LHwE9qUkBnWsoQ/UxGOLh0iPUZ0iNYAbSMXCiXRQkZMeaDbFOlDQ73THkmJtqPBd6FV16w8cBfNCV2F+zYBFDZf7Xd+utiCs50AF5NMT7mg2Ezikgnl9J55IIO7gomPdHzzaO8eKkgFJou4QzhjkGlRIoclioAZpe/v1pwaAhokSU5+v8O7FYQjEx73fIg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(10067099003)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pFAuO+J1iPlAakgGdD5klVJlZts7suOogn9xWqtT4tEv5sRqMe4jea4yELVV?=
- =?us-ascii?Q?2XCG0TLtN2z3dKFmdVAw0cwpsyMHA7JyTUpalLZPN9URyXAT+Sq9Htd2yRdD?=
- =?us-ascii?Q?xLnH2LoBorsh5yE4xcKgP78YLlqbrw6/hVrAKs5w6ga+60SFYggBfosImMMh?=
- =?us-ascii?Q?iUxIHppr1fhRcorKw/q5Jid4jL+pBGeATq8aXP3+6mf399d+wTJf3nBrGE5o?=
- =?us-ascii?Q?MTDVO7yQYkzeebDuKSmeJhFpKJiiyeZcVTrO/MidZJK7O4gKSZAn1q4vGH4K?=
- =?us-ascii?Q?/6I1IOeYgbHQqME6hNajy+oL0A5b8d4l+tT6zTcfHGFQEAL/J3RWcn1gq02O?=
- =?us-ascii?Q?bnDycIYAOgjTOMqLICm5s7DbhRmwc88Dh1LjYAnf6JZaI1TIg2bCLYf4+aW9?=
- =?us-ascii?Q?2aSrY/OQg33/fQwSrMUJR6sbBHM5WYjyheLJAvOuQe96H3iYKbSv8Wpl2QKb?=
- =?us-ascii?Q?bqGvLJxy1WstPxPLitsbn+JZJpm7OPbT1jqodN/LnTT869B4dwgvCwnbPrF0?=
- =?us-ascii?Q?E1YtfmaiqEI3fTKQtY2/0lI7IFuWIdhLuSgGisAlF0KFME3kEIRFI2WN7Vwb?=
- =?us-ascii?Q?zKYA5DLV1qwj2/HdvQ5GBVGlKcGeMlbdWqDsKNAYJxexKmHn0yJQJucJBV8s?=
- =?us-ascii?Q?aiZMmDg6gyeSTz02VuucwAFIhyeN9n1wOoNcs72ruE/Boa/BzQx+nzr+LdL/?=
- =?us-ascii?Q?XV79XAIyzCkcgbccjpr43AVpTaMtloahcS26bHyfqDTTT3OW4BY+0a+biEkX?=
- =?us-ascii?Q?UVInBiO65jKNDUmk09z442u/dL5mBkikJ87xQXq1SeO4HWVmXTLHYSwQhhqZ?=
- =?us-ascii?Q?U9luAlD5W1dliexKBFNpNNPUnDeOXrjeCKGHk4HFNs8qddXCUXkBRm/cG8/E?=
- =?us-ascii?Q?jptNWU1T8Hdd+OjZFmyZQIx6T8WJI545beb5rtBmTW5BYl1uIl0AEiU76+yV?=
- =?us-ascii?Q?8m6GsWgbOaCwONaOEgs5f0j4Xvjpfas3L5nmJZrjMN3AeDjqSm52eaHS0CTp?=
- =?us-ascii?Q?HaiNuILZ7moaWkfqyQ1Bil8+oVCs/SN+IrY7/o661BAcZsYHOCMUxvQlE5LT?=
- =?us-ascii?Q?3tJYzRsYuMg6nnQi0rgXCMyfJG4NMCFx4/9GIJwAr33adJ4M+wvJogEB9JDM?=
- =?us-ascii?Q?P5jGP7chR9KcQYYNk0lsnuyqIfnzh9xfsJW8pC1R8UyEhFUP29wOYJghnsNo?=
- =?us-ascii?Q?xtmXDkOcGoLGuUDw9xK5G2RAa3NZMhc9d9GOvslyEBL4uKwW/pfbhS+2ijXQ?=
- =?us-ascii?Q?acrq7HmKMhnQy2cJjLHvj+WmeNmhj2qHnqo+NkTJ/AQBbYrQ6GadoQ8u66iN?=
- =?us-ascii?Q?LXZ3+zNm+mqnXTSdOhT8DT98/F+3RFQj0sEQ9GQR95Hm+cuA8qrhIJNZ0QNk?=
- =?us-ascii?Q?vRG6/2XGBrSrOZoHmiqgip7A9giL44Mon4yO7Jb8i5HmRYXN/xCSAo/S+Iqe?=
- =?us-ascii?Q?6TKiHY7PCvgitl9Laxiu6UJmAe63KuTfgYsiODHufwEUE2wIstqt4581v3dB?=
- =?us-ascii?Q?Y7/vngztCBSpeC3vgVUfGiuY+/7Eqjbs80uLYNVt7D9IQpbXBsdQdy6e2mCi?=
- =?us-ascii?Q?LfLXSjzWKkTu5xTLf0L0Xw9kkSsTYGEmlY2MqhvTeaEK20Iz/6rH2/YHJkjz?=
- =?us-ascii?Q?6tLghKF2Di0woEWUlNJCT/41cqJZX8ypgjiw3BH2GnnJlXz+OWbczUQiemPL?=
- =?us-ascii?Q?C7LrNuZNxCaQ8qsdw8TWqm7yGWPfmdFXzSd6n96DeI5xGp02gY3dslzXqgqL?=
- =?us-ascii?Q?pFUGEZNkiQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e301290c-ad93-4ea3-d08b-08df08424887
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 16:01:28.9236
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SocWdsEStq/hi7+wWZgc8NKX8mfja0+VxYrL/7DQYtXuMM3cscPluo0NUnrEDe8F
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW9PR12MB999209
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 24/27] fs: port ->setattr() to pass const mnt_idmap
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Christoph Hellwig <hch@lst.de>, Seth Forshee <sforshee@kernel.org>,
+ Paul Moore <paul@paul-moore.com>, linux-security-module@vger.kernel.org,
+ Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org,
+ Ilya Dryomov <idryomov@gmail.com>, ceph-devel@vger.kernel.org,
+ Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org,
+ Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>,
+ linux-unionfs@vger.kernel.org, Namjae Jeon <linkinjeon@kernel.org>,
+ linux-cifs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Casey Schaufler <casey@schaufler-ca.com>
+References: <20260901-work-idmap-const-v1-0-54ccd48e100b@kernel.org>
+ <20260901-work-idmap-const-v1-24-54ccd48e100b@kernel.org>
+Content-Language: en-US
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <20260901-work-idmap-const-v1-24-54ccd48e100b@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.26380 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-On 1 Sep 2026, at 11:55, Steven Rostedt wrote:
+On 9/1/2026 5:14 AM, Christian Brauner wrote:
+> Convert to const struct mnt_idmap.
+>
+> A mount's idmapping is immutable. The only thing that is allowed to be
+> modified afterwards is the reference count and that is hidden behind
+> mnt_idmap_get() and mnt_idmap_put(). Everything else only ever reads
+> from the idmapping. This is the same model that struct cred uses and the
+> idmapping is also rather sensitive.
+>
+> So make the idmap argument const wherever we can. The conversion is done
+> from the bottom up so callers can continue to pass a non-const pointer
+> to a const parameter until the conversion is finished.
+>
+> No functional changes.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  Documentation/filesystems/locking.rst     | 2 +-
+>  Documentation/filesystems/vfs.rst         | 2 +-
+>  arch/powerpc/platforms/cell/spufs/inode.c | 2 +-
+>  fs/9p/v9fs_vfs.h                          | 2 +-
+>  fs/9p/vfs_inode.c                         | 2 +-
+>  fs/9p/vfs_inode_dotl.c                    | 2 +-
+>  fs/adfs/adfs.h                            | 2 +-
+>  fs/adfs/inode.c                           | 2 +-
+>  fs/affs/affs.h                            | 2 +-
+>  fs/affs/inode.c                           | 2 +-
+>  fs/afs/inode.c                            | 2 +-
+>  fs/afs/internal.h                         | 2 +-
+>  fs/anon_inodes.c                          | 2 +-
+>  fs/attr.c                                 | 2 +-
+>  fs/bad_inode.c                            | 2 +-
+>  fs/btrfs/inode.c                          | 2 +-
+>  fs/ceph/inode.c                           | 2 +-
+>  fs/ceph/super.h                           | 2 +-
+>  fs/coda/coda_linux.h                      | 2 +-
+>  fs/coda/inode.c                           | 2 +-
+>  fs/configfs/configfs_internal.h           | 2 +-
+>  fs/configfs/inode.c                       | 2 +-
+>  fs/debugfs/inode.c                        | 2 +-
+>  fs/ecryptfs/inode.c                       | 2 +-
+>  fs/efivarfs/inode.c                       | 2 +-
+>  fs/exfat/exfat_fs.h                       | 2 +-
+>  fs/exfat/file.c                           | 2 +-
+>  fs/ext2/ext2.h                            | 2 +-
+>  fs/ext2/inode.c                           | 2 +-
+>  fs/ext4/ext4.h                            | 2 +-
+>  fs/ext4/inode.c                           | 2 +-
+>  fs/f2fs/f2fs.h                            | 2 +-
+>  fs/f2fs/file.c                            | 2 +-
+>  fs/fat/fat.h                              | 2 +-
+>  fs/fat/file.c                             | 2 +-
+>  fs/fuse/dir.c                             | 2 +-
+>  fs/gfs2/inode.c                           | 2 +-
+>  fs/hfs/hfs_fs.h                           | 2 +-
+>  fs/hfs/inode.c                            | 2 +-
+>  fs/hfsplus/inode.c                        | 2 +-
+>  fs/hostfs/hostfs_kern.c                   | 2 +-
+>  fs/hpfs/hpfs_fn.h                         | 2 +-
+>  fs/hpfs/inode.c                           | 2 +-
+>  fs/hugetlbfs/inode.c                      | 2 +-
+>  fs/inode.c                                | 2 +-
+>  fs/internal.h                             | 2 +-
+>  fs/jffs2/fs.c                             | 2 +-
+>  fs/jffs2/os-linux.h                       | 2 +-
+>  fs/jfs/file.c                             | 2 +-
+>  fs/jfs/jfs_inode.h                        | 2 +-
+>  fs/kernfs/inode.c                         | 2 +-
+>  fs/kernfs/kernfs-internal.h               | 2 +-
+>  fs/libfs.c                                | 4 ++--
+>  fs/minix/file.c                           | 2 +-
+>  fs/nfs/inode.c                            | 2 +-
+>  fs/nfs/namespace.c                        | 2 +-
+>  fs/nilfs2/inode.c                         | 2 +-
+>  fs/nilfs2/nilfs.h                         | 2 +-
+>  fs/ntfs/file.c                            | 2 +-
+>  fs/ntfs/inode.h                           | 2 +-
+>  fs/ntfs3/file.c                           | 2 +-
+>  fs/ntfs3/ntfs_fs.h                        | 2 +-
+>  fs/ocfs2/dlmfs/dlmfs.c                    | 2 +-
+>  fs/ocfs2/file.c                           | 2 +-
+>  fs/ocfs2/file.h                           | 2 +-
+>  fs/omfs/file.c                            | 2 +-
+>  fs/orangefs/inode.c                       | 2 +-
+>  fs/orangefs/orangefs-kernel.h             | 2 +-
+>  fs/overlayfs/inode.c                      | 2 +-
+>  fs/overlayfs/overlayfs.h                  | 2 +-
+>  fs/pidfs.c                                | 2 +-
+>  fs/proc/base.c                            | 2 +-
+>  fs/proc/generic.c                         | 2 +-
+>  fs/proc/internal.h                        | 2 +-
+>  fs/proc/proc_sysctl.c                     | 2 +-
+>  fs/ramfs/file-nommu.c                     | 4 ++--
+>  fs/smb/client/cifsfs.h                    | 2 +-
+>  fs/smb/client/inode.c                     | 2 +-
+>  fs/tracefs/event_inode.c                  | 2 +-
+>  fs/tracefs/inode.c                        | 2 +-
+>  fs/ubifs/file.c                           | 2 +-
+>  fs/ubifs/ubifs.h                          | 2 +-
+>  fs/udf/file.c                             | 2 +-
+>  fs/ufs/inode.c                            | 2 +-
+>  fs/ufs/ufs.h                              | 2 +-
+>  fs/vboxsf/utils.c                         | 2 +-
+>  fs/vboxsf/vfsmod.h                        | 2 +-
+>  fs/xfs/xfs_iops.c                         | 2 +-
+>  fs/zonefs/super.c                         | 2 +-
+>  include/linux/fs.h                        | 6 +++---
+>  include/linux/lsm_hook_defs.h             | 4 ++--
+>  include/linux/nfs_fs.h                    | 2 +-
+>  include/linux/security.h                  | 8 ++++----
+>  mm/secretmem.c                            | 2 +-
+>  mm/shmem.c                                | 2 +-
+>  net/socket.c                              | 2 +-
+>  security/integrity/evm/evm_main.c         | 4 ++--
+>  security/integrity/ima/ima_appraise.c     | 2 +-
+>  security/security.c                       | 4 ++--
+>  security/selinux/hooks.c                  | 2 +-
+>  security/smack/smack_lsm.c                | 2 +-
+>  virt/kvm/guest_memfd.c                    | 2 +-
+>  102 files changed, 112 insertions(+), 112 deletions(-)
 
-> On Mon, 31 Aug 2026 15:25:37 -0400
-> Zi Yan <ziy@nvidia.com> wrote:
->
->> diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
->> index 935893e5ea53b..caf090cd6f85e 100644
->> --- a/include/trace/events/mmflags.h
->> +++ b/include/trace/events/mmflags.h
->> @@ -144,7 +144,7 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
->>  	DEF_PAGEFLAG_NAME(owner_2),					\
->>  	DEF_PAGEFLAG_NAME(arch_1),					\
->>  	DEF_PAGEFLAG_NAME(reserved),					\
->> -	DEF_PAGEFLAG_NAME(private),					\
->> +	{ 1UL << __PG_folio, "folio" },					\
->>  	DEF_PAGEFLAG_NAME(private_2),					\
->>  	DEF_PAGEFLAG_NAME(writeback),					\
->>  	DEF_PAGEFLAG_NAME(head),					\
->
-> Hmm, just for consistency sake, can we create a:
->
->  #define __DEF_PAGEFLAG_NAME(_name) { 1UL <<  __PG_##_name, __stringify(_name) }
->
-> Which is similar to:
->
->  #define DEF_PAGEFLAG_NAME(_name) { 1UL <<  PG_##_name, __stringify(_name) }
->
-> But adds the "__" to the name. Then the above would look like:
->
-> 	DEF_PAGEFLAG_NAME(reserved),					\
-> 	__DEF_PAGEFLAG_NAME(folio),					\
-> 	DEF_PAGEFLAG_NAME(private_2),					\
-> 	DEF_PAGEFLAG_NAME(writeback),					\
->
-> Where the __DEF_PAGEFLAG_NAME() with the "__" still stands out, but the
-> code looks better than open coding it in the middle and making one wonder
-> why it was open coded. (It took me a bit to noticed the "__" difference.)
->
+...
 
-No problem.
 
-BTW, the plan is to add PG_folio after this series is picked up by Andrew/David.
-So the new __DEF_PAGEFLAG_NAME() will have no user then and can be deleted.
-It should be fine, right?
+> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+> index df4fc6ff26aa..bb78569b3d5b 100644
+> --- a/security/smack/smack_lsm.c
+> +++ b/security/smack/smack_lsm.c
+> @@ -1270,7 +1270,7 @@ static int smack_inode_permission(struct inode *inode, int mask)
+>   *
+>   * Returns 0 if access is permitted, an error code otherwise
+>   */
+> -static int smack_inode_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+> +static int smack_inode_setattr(const struct mnt_idmap *idmap, struct dentry *dentry,
+>  			       struct iattr *iattr)
 
-Best Regards,
-Yan, Zi
+Please keep to 80 columns.
+
++static int smack_inode_setattr(const struct mnt_idmap *idmap,
++				struct dentry *dentry, struct iattr *iattr)
+
+Note that the above may get whitespace mangled.
+
+>  {
+>  	struct smk_audit_info ad;
+>
