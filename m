@@ -1,85 +1,49 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A183390991;
-	Tue,  1 Sep 2026 09:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2EF4CCDCA;
+	Tue,  1 Sep 2026 09:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788254151; cv=none; b=RQ4/wn4nTt6wbQQRdnqxo1sBJPh70OgurCImm0d/6snIwVPOgdIB5ybOOMWuJtC23A8boqBKYF4fkVHYPaZkaYHj2Hnnt2VVCTZOMR4VA7+TazuDJLc5qNpek+14MO7JEFvpILSexXvcS55HbPTs+A1quhv6exxaHh6IrXPGUGU=
+	t=1788254315; cv=none; b=D9qwQP1UYARmEK7PN0+l28j0+uAJshv1yAT1uAH7KBgoMxNNggRSUKd/OajX8Xu1GgOPqWafpbiYf26tvNG+LRMlTF0pBZ7VRHc/jbhie3JdWG5B61FOTz8ar5Y+IFpF1wVwVFubizbajQA1tvlbZTRrNFsk4tQaTB34k2ERTMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788254151; c=relaxed/simple;
-	bh=3nGsT1a8ZAxjr6zYdLM1ZD2KxJd2Bpj/IpTiJ0lSTeI=;
+	s=arc-20240116; t=1788254315; c=relaxed/simple;
+	bh=Pataque8YQpiB/+2cX+QZyY/JqOzW0iprmedHVeFsKY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KgtEkHjyYhUZe9cRG6dou/H598uAbkcG6fKaYNvQQfJ5bbqxq4D+9SIp5565guX8EdrQOpbzUPe1d8qpeck/J742uDNqoBRK2TYe8kGR1uFmit5cG+DJzHtvnIssgHVWCKOpKsORLCxNk3uq8VTmwZvDRecnW3rg5968qV7zHBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=T5HDpcGc; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XOsNivaS; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=UpUhZkNW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=r9D50IQ1; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=IwajrV0N6deLeh1/xL85fkzAiNkAFbKcFAmTdK5gmSKyVAWmqWwdbPqojm6aJEHLybbpFZBsMcNoGnZ9o75oTgO3rcZ1+rYlpJapl5Gdp+Q2xBPCrKTUghu/jqsT56Pzg34fTBw0rskhp07R9CX66VApYn1En/8/6uDMPJUK4VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kfsXWdMK; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="T5HDpcGc";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XOsNivaS";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="UpUhZkNW";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="r9D50IQ1"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0AF362264D;
-	Tue,  1 Sep 2026 09:15:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788254143; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JfSyDPEMs2JFoyqupch3mU4oxd1RHFxIvwMKRSaKMG4=;
-	b=T5HDpcGcG/KB1IH0GvXrcFzwv9nCU+jaCzuB1yTTcmbxQHeVunzqzvVos0wQUbw1prnWc/
-	bj5MYX+0IXnHbk3+qzuTyj5Rd/uPiMCybnO5zlYkhvss1RLFybvns01Gi3qQMZMTPXsj5Y
-	b4AfpQoBWq/vOqXbhpisDqaR11exqF8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788254143;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JfSyDPEMs2JFoyqupch3mU4oxd1RHFxIvwMKRSaKMG4=;
-	b=XOsNivaS80SdQXPUnjK1cTi7rhPg77P53aD5Wop2hxaOme1HTxw9LXMgp+V5sBagzFEph1
-	VcGcCK3/gS0hpFCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788254139; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JfSyDPEMs2JFoyqupch3mU4oxd1RHFxIvwMKRSaKMG4=;
-	b=UpUhZkNWbAE6kB9Qlh3lkmABTgnrEPfmYsFXeBK14HH0GRJazixdaPibc8fqP46VNZxNbC
-	dzmvWlQWBEU5AJDAv2chkW/GMJ5uHPvXVRVpmUItI82IW++NiG42pmSNGRPbrB8qHgcbOy
-	hsP7v+A+4jn1WVViod8+lgfFU3UVsH0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788254139;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JfSyDPEMs2JFoyqupch3mU4oxd1RHFxIvwMKRSaKMG4=;
-	b=r9D50IQ1Xg9M5tgff5s+OkJKJadGeFmladvUf/FfgsYQLgy88zNc7/d5AMAg2kmglvm/7M
-	6fEHWmsVVUfihyAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF67813515;
-	Tue,  1 Sep 2026 09:15:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PMOBNrqXlmosNQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 01 Sep 2026 09:15:38 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7AD3BA13AF; Tue, 01 Sep 2026 11:15:30 +0200 (CEST)
-Date: Tue, 1 Sep 2026 11:15:30 +0200
-From: Jan Kara <jack@suse.cz>
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH V2] fs: Kconfig: Alignment of code and text in the FS_DAX
- help section for better readability
-Message-ID: <tobxd52ikncxgffyrbz6bwvz3rk4joxrf2i7agh2ajevkgwfre@xekv4txekrsf>
-References: <20260823212851.1187668-1-unixbhaskar@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kfsXWdMK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=6CxCAH8sEzSUs/hYjro/RkojoH/AgXv1l0pZ6N9+14M=; b=kfsXWdMK+/Xf9A+oH9o+ozW6a2
+	RX71TxfcGtucXRZtAztu8sxVXCpxasb1oxjOGh2RH32N01qzdtFVHuUgDi2MNoKVNkqK4PjWeajji
+	akUI5WEujPU4PdKQ+vGpV+KCi3SXPYhQ1VmRnI0e8Vn/j5TgzJP0lPFwvxeKZJqwmIufCd7zWfRLP
+	dYOb1UM3a6DETFk5QlASMIwdIju3obCj2OhY0ovMRrUjXIW6mB2peDDdzv06aN1AtHsUY43nvVCr4
+	TpuzlDVuYZjVvwf+HhP7NI42j5on2Yq68sX+yNp0zFXWtNJqkDa35fvFAC/WV4vy5vbPOm2fWv5AH
+	eU8E4Jdw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x1KdU-0000000BOx7-0OBC;
+	Tue, 01 Sep 2026 09:18:32 +0000
+Date: Tue, 1 Sep 2026 02:18:32 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: NeilBrown <neil@brown.name>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>, fstests@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Chuck Lever <cel@kernel.org>,
+	linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH] fstests: generic: Add test of seek in directories
+Message-ID: <apaYaEx6hlyRbe4c@infradead.org>
+References: <20260827234743.2389778-1-neilb@ownmail.net>
+ <20260827234743.2389778-2-neilb@ownmail.net>
+ <apEK5uirjyLZUfmA@casper.infradead.org>
+ <178791556100.3510150.18132687067056760170@noble.neil.brown.name>
+ <apV-omM4s58KtkRz@infradead.org>
+ <178822473504.3510150.6373190942920919075@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -88,74 +52,67 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260823212851.1187668-1-unixbhaskar@gmail.com>
-X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
+In-Reply-To: <178822473504.3510150.6373190942920919075@noble.neil.brown.name>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon 24-08-26 02:50:18, Bhaskar Chowdhury wrote:
-> I thought eliminating the line break and add an empty line would improve the
-> readability.
+On Tue, Sep 01, 2026 at 11:05:35AM +1000, NeilBrown wrote:
+> > > I think a strong argument for Linux needing something is that NFS needs
+> > > working directory offsets to be able to support READDIR, because there
+> > > is no "OPEN" request for directories.
+> > 
+> > I don't think anyone disputes the need for stable directory offsets,
+> > and we should (*knock on wood*) have implementation of native
+> > file systems that fail this.
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202608240313.d7SDG2tE-lkp@intel.com/
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> "should not" ??
 
-I don't know. It depends on the width of your terminal what's more
-readable. I'd just leave it as is.
+Yes.
 
-								Honza
+> > What the test tries to force is a specific behavior for rename onto
+> > existing file names, replacing the original file name entry with
+> > a new one of the same name.  The test expects that to reuse the
+> > previous d_off, which is not required by any real or de facto standard.
+> 
+> That's debatable.  The documents that I have found don't mention rename.
+> Does that mean anything goes, or do that mean it doesn't get an
+> exemption from the general rule that all names must be listed?
 
-> ---
->  Changes from V1:
->  Getting rid of the unwanted ":" ;that was the source of build failure.
->  fs/Kconfig | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+The Posix definition of rename is very explicit that the old directory
+entry shall be removed:
+
+    Otherwise, if the directory entry named by new exists, it shall be
+    removed and old renamed to new. In this case, a directory entry named
+    new shall remain visible to other threads throughout the renaming
+    operation and refer either to the file referred to by new or old
+    before the operation began.
+
+So the previous directory entry for "new" shall be removed.  If a
+file system reuses the same d_off for the renamed file, it just created
+a new entry that happens to instantly reuse the d_off in the same atomic
+operation.
+
+> I think a fix to make it work over NFS would be to report the entries in
+> reverse order - most recently added to least recently added.  This would
+> effectively encode the timestamp (last_index) in the seek cookie instead
+> of in btrfs_file_private.
+> Changing how the seek-cookie is interpreted could cause a hiccup
+> for an NFS client which was in the middle of a READDIR when a server
+> we reboot to a new verion of btrfs, but that is likely not significant.
 > 
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index e05917adcd60..a2e724cae76f 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -71,11 +71,10 @@ config FS_DAX
->  	  struct pages.  For the nfit based NVDIMMs this can be enabled
->  	  using the ndctl utility:
+> Note that
+>   https://pubs.opengroup.org/onlinepubs/9799919799/functions/posix_getdents.html
 > 
-> -		# ndctl create-namespace --force --reconfig=namespace0.0 \
-> -			--mode=fsdax --map=mem
-> +	  # ndctl create-namespace --force --reconfig=namespace0.0 --mode=fsdax --map=mem
-> +
-> +	  See the 'create-namespace' man page for details on the overhead of --map=mem
+> uses the word "incremented" in 
 > 
-> -	  See the 'create-namespace' man page for details on the overhead of
-> -	  --map=mem:
->  	  https://docs.pmem.io/ndctl-user-guide/ndctl-man-pages/ndctl-create-namespace
+>   the directory entry immediately following the last entry whose
+>   information was returned
 > 
->  	  For ndctl to work CONFIG_DEV_DAX needs to be enabled as well. For most
-> --
-> 2.54.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> but I don't think anyone seems interested in that detail.
+
+I would suggest to ignore posix_getdents or the whole Issue 8 base spec,
+as unlike previous versions I did not try to document and norm existing
+behavior, but instead comes up with it's own things.  If we need a
+justification we should look at historic Linux and Unix behaviors and
+older Posix specs that haven't drifted away from the purpose as much
+as the current one.
+
