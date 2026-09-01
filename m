@@ -1,97 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C966415F07;
-	Tue,  1 Sep 2026 15:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C8F47CC92;
+	Tue,  1 Sep 2026 15:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788275509; cv=none; b=Gvy/VHWVVh1hz+p2JhCnmLE8XQ+8kmt7tbMumRSY4nMai8G/u9bkWb6PfUD2gkYwpz1koGPShhPvcnT6xT2aFFzOvGsYiyUfNfSRcEY7P8/xYHOaQYJx7XdcD2HXIrSZP/rDONJq6OSbjlpMlZ5IXruiu5ytYU5Ebb/EhiA4DeI=
+	t=1788278101; cv=none; b=USgAuUO1eWAt2wG0nt/2d7LqOLyv+rDiHGdLJ47bCKnq3+HKfe1XhaXELlXJdXZ7kOKtVMwkZPv0pm8FtwLrK+4c8eUXRdUEYia3zAK2ASqomDYyjupZXMSnbV8s6o1OBKebTBCYsfp35MI2daQxu5Im2Os0pk7uLbtHsPCfqYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788275509; c=relaxed/simple;
-	bh=Ro9V/fWNYLcxJrZD7vLc2P7yaGXm/ZFQmbQxl0g8Zf8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZSMOhNR4j75JRzXxH3H2R9n7XdYvT6+wa5mF1tJ5NToGkNTktAtONp2VYWPtaDNcT1eGatII2W5KwXeNY/qrFcandHndNkLCTCBvNdsoDT2XhoGWEw/t19bUnyZNgo849cka2ZvrDdpJUFqc2kG5SjrVjRiMoM0jByn/QUZmtPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gl2gPj8d; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788278101; c=relaxed/simple;
+	bh=a64S5AsJmm6QqlLQ5d0m9Imwh1EiEcnDjAQTmOZN2+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eTurQaOtWNcluqhWx++/BfsgWjmm3nOG4/RnnMvuwJeUXyYFJ4xCFhZUfylgfma2u3p+ULfaSmU1Ar/h4d2NHlTGexqWGu7fbu6ayobbgUW/MmB4bSOezvcp28yhZdkD5XY2Afm5EYmOFJZVVDbGxL/vu0RO+etHtQqRLeLghNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=tGc4Z9sC; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gl2gPj8d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716491F000E9;
-	Tue,  1 Sep 2026 15:11:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788275508;
-	bh=22jciHchDzUkZuvJuLeEwCgemxKYmaE2eCs6YcRWQ4E=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=gl2gPj8d218u8GLK01j4chCTENJTXDKp/fS1CPlD6C8C3pM/OQUiSoSO+kU1iFVWN
-	 ZoAPupts9dEHBHmcENCWSl0My+R5Znd/6QR9BmjMUvwAwdZAT9FYMST8JaOgrIZEfT
-	 P/YrMuEwEZ1UumcG/s6dQHtbo5+RPS2BMingPcoxOgoAjpIHzvU/QbX+4i1oH1ok++
-	 51kh8hSI+C77nnUAFyhq3sowBJqCA57wY7T2Ub2AHf5w9nos/bZeaKVyquETMOfoI2
-	 vX3MvfaLzuw5Xq5Hi0b0UUplAWARDkuM3wc0LSuvVvwJ/vriE20RiEAKFI2PPP+MQU
-	 aoYIWO9nLR7EA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Hyunwoo Kim <imv4bel@gmail.com>, Frederic Weisbecker
- <frederic@kernel.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, Kees
- Cook <kees@kernel.org>, Christian Brauner <brauner@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, John Stultz <jstultz@google.com>, Ingo
- Molnar <mingo@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, "Eric W. Biederman" <ebiederm@xmission.com>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org
-Subject: Re: [PATCH v2] posix-cpu-timers: Dequeue per-thread timers before
- exchange_tids()
-In-Reply-To: <87qzjdauv4.ffs@fw13>
-References: <ao7Q8miiuLAPVnWv@v4bel> <ao7iQ_wOLghOvTsq@redhat.com>
- <875x0qclcx.ffs@fw13> <apXGzcA9BmrbrQZv@redhat.com> <87qzjdauv4.ffs@fw13>
-Date: Tue, 01 Sep 2026 17:11:45 +0200
-Message-ID: <87o6ehatvy.ffs@fw13>
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="tGc4Z9sC"
+Received: from omf10.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id C29301A0469;
+	Tue,  1 Sep 2026 15:54:52 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id 8E80930;
+	Tue,  1 Sep 2026 15:54:43 +0000 (UTC)
+Date: Tue, 1 Sep 2026 11:55:42 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: David Hildenbrand <david@kernel.org>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Muchun
+ Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R.
+ Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike
+ Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
+ Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Nico
+ Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain
+ <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, Lance Yang
+ <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, Gregory Price
+ <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, Alistair
+ Popple <apopple@nvidia.com>, Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng
+ <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song
+ <kasong@tencent.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Baoquan He <baoquan.he@linux.dev>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Jan Kara <jack@suse.cz>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Dave Young <ruirui.yang@linux.dev>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, kexec@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 14/14] mm/page-flags: remove PG_private
+Message-ID: <20260901115542.35cf337f@gandalf.local.home>
+In-Reply-To: <20260831-remove-pg_private-v2-14-3668159cd9e8@nvidia.com>
+References: <20260831-remove-pg_private-v2-0-3668159cd9e8@nvidia.com>
+	<20260831-remove-pg_private-v2-14-3668159cd9e8@nvidia.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: b6ytfgjtokst1jc1aabs95dwf5ejwe1f
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 8E80930
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/zWbvIDz+3Hi5z7GDK/fNqzAPKpw/khW4=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=PMQPDVPJ0tCxO93gmrhVyeG5Oa0anovLBVYtrsBizkA=; b=tGc4Z9sCnIntcGcWtJ1kOvYe5256jqS1DsWodW2sqCKQLdl8Y8nHkKMI+/bZHJCQztdMhcSkJj8YVjXCQshVK+Dgc2EYzxp1kQ+nPt/MKxXAHxYAr/fN2B+/kb850ZrxY0100q3DUUBwY4s7EFwq4xvvaRIiE/XmnNIq0jxhRxw=
+X-HE-Tag: 1788278083-807407
+X-HE-Meta: U2FsdGVkX1+zDlnR6QN6MUglWJjwZx5iCWUM+krVLXlc2zuUtd2IG2DLx1JPwqlTPq6HywJagZIVfhFWq44D2aDRr8CqPASzgDg55B72H7mSnF5ikilDHz6BwtU39295NFtcyv6lgavetSPz7y1L0g1K1zuV3ydBJ2a0X+t/9iTl4lf+jI9pSLCyfw2TQI05jjgMqbeUDhSMlamHBWoJCJ9h/PNz2A75JPoGpqGqH4tC/s8xhJUmsTXFGe6/YTY1Ki/+liODnEmp1JpspQt4nrByo2d4u2HwgRpO1hcQFU+FSiTYj5enzhApbGNiHUuTn+pvjGsLrpU3m7+D/3dcDhPAQVDdzRzZ
 
-On Tue, Sep 01 2026 at 16:50, Thomas Gleixner wrote:
-> On Mon, Aug 31 2026 at 20:24, Oleg Nesterov wrote:
->> On 08/31, Thomas Gleixner wrote:
->>>
->>> On Wed, Aug 26 2026 at 14:55, Oleg Nesterov wrote:
->>> > Can we move posix_cpu_timers_exit() or the whole CONFIG_POSIX_TIMERS
->>> > sequence in begin_new_exec() up, right after de_thread() before the
->>> > "if (retval)" check?
->>>
->>> Yes, but that does not buy us anything.
->>
->> I didn't mean this makes sense, I just tried to understand the Hyunwoo's
->> fix, in particular the placement of additional posix_cpu_timers_exit().
->
-> Fair enough. But as I was staring at it some more, I thought more about
-> it. Yes, we can do:
->
->      ret = de_thread()
->      if (ret)
->      	goto out;
->
->      mop_up_posix_timers();
->
-> de_thread() only returns failure _before_ the TID swap, so that's safe
-> and spares sprinkling this extra invocation into de_thread().
->
-> What a mess.
+On Mon, 31 Aug 2026 15:25:37 -0400
+Zi Yan <ziy@nvidia.com> wrote:
 
-I'm still thinking that an indicator for a task doing exec(), which is
-set _before_ de_thread() and removed afterwards would be more sensible
-than relying on subtle ordering constraints.
+> diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+> index 935893e5ea53b..caf090cd6f85e 100644
+> --- a/include/trace/events/mmflags.h
+> +++ b/include/trace/events/mmflags.h
+> @@ -144,7 +144,7 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
+>  	DEF_PAGEFLAG_NAME(owner_2),					\
+>  	DEF_PAGEFLAG_NAME(arch_1),					\
+>  	DEF_PAGEFLAG_NAME(reserved),					\
+> -	DEF_PAGEFLAG_NAME(private),					\
+> +	{ 1UL << __PG_folio, "folio" },					\
+>  	DEF_PAGEFLAG_NAME(private_2),					\
+>  	DEF_PAGEFLAG_NAME(writeback),					\
+>  	DEF_PAGEFLAG_NAME(head),					\
 
-Along with the nonsense to keep timers queued on a task until
-release_task(). There is no real benefit from keeping them around at
-after PF_EXITING is set. Sure someone might argue that the precious CPU
-cycles consumed in do_exit() afterwards won't be accounted, but
-seriously?
+Hmm, just for consistency sake, can we create a:
 
-Thanks,
+ #define __DEF_PAGEFLAG_NAME(_name) { 1UL <<  __PG_##_name, __stringify(_name) }
 
-        tglx
+Which is similar to:
 
+ #define DEF_PAGEFLAG_NAME(_name) { 1UL <<  PG_##_name, __stringify(_name) }
 
+But adds the "__" to the name. Then the above would look like:
 
+	DEF_PAGEFLAG_NAME(reserved),					\
+	__DEF_PAGEFLAG_NAME(folio),					\
+	DEF_PAGEFLAG_NAME(private_2),					\
+	DEF_PAGEFLAG_NAME(writeback),					\
+
+Where the __DEF_PAGEFLAG_NAME() with the "__" still stands out, but the
+code looks better than open coding it in the middle and making one wonder
+why it was open coded. (It took me a bit to noticed the "__" difference.)
+
+-- Steve
