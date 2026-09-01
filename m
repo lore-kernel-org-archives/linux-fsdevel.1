@@ -1,295 +1,240 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-oi2-f5.google.com (mail-oi2-f5.google.com [74.125.231.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E33248880;
-	Tue,  1 Sep 2026 14:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E72175A80
+	for <linux-fsdevel@vger.kernel.org>; Tue,  1 Sep 2026 14:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788272876; cv=none; b=r1vwrTjOwBhxmEQPbI6YWwjxhp6gbTBnj30alxI0vAmkQCWIVaBqbe9lAxkA24WEEr6cPnk9IQbwDW8iQyeIgw15zlW1KRvJe7eS2OlSM6cPhrmJ2gthDZzwp4tWapEmv9vNTrYmKmQWMNC7CKFP3sOtJwXCgynFf1XNAeVITLE=
+	t=1788273831; cv=none; b=R7ktj4S51bI2g+Hibk1ayL/ZIobW6RTv9JKFFIQTeL3xMstcl/9EZ+7fEYRPU4wl0gvUdZciaUmGmQLcPYBeOorfPqPIoxLcFOozDW7O/fl5JZMaNwgD530uf0JTryBalg+93dF/iDarPwG9a/wXxtONWpmdNeDKNB+K3DrYsX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788272876; c=relaxed/simple;
-	bh=3Pi2wWfe/B8XATiTV+wQhps3hbtFcclQ395AN4b4qhA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTBTI1MOUm3QNSWETmVOgEi9voT6hEsuRLOs4pQhmLa304z+79Se15ePT7Gn8N/UPv/n/E3ooAzCZnUkuRi6TQ5oNCXAdm20OaKFGBwQJP245ljXCP9Jl9M024j/1WC9C7vRBxVzm0RQX1s5nzp6ZWZexXx2m+7V0MoCK0xj2c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=UbwZqe8M; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=enZJ5C/L; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=LsA8xA1p; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0wkh7VHm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="UbwZqe8M";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="enZJ5C/L";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="LsA8xA1p";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0wkh7VHm"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AF6A61F397;
-	Tue,  1 Sep 2026 14:27:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788272868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPK49wVZdID7g9/Zu62nmPqeg16U/FWpi177Sp1FYrI=;
-	b=UbwZqe8MQxl8+WVG+cpWWpvqA1IilkP/aK+NohF0wOsHXLqtV1LtM06kTZkS5NI3nz03qx
-	s+GkeHvIhe3RYznTkFXu8RI2i7yFUOcnqF1Tc9zPuTJIuqXG38AkUxNhLIQrIZvTKaIlPn
-	4Iu24V8a5UYy8T71PdKoZr36EXLJx4k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788272868;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPK49wVZdID7g9/Zu62nmPqeg16U/FWpi177Sp1FYrI=;
-	b=enZJ5C/LtQrS2x7LiUMPAaEa7LglF2BOKxPyzuhjQygF2lQh6CARXSVgID1gEszSCkGIuI
-	lnLobIYMSDpzm2BQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=LsA8xA1p;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=0wkh7VHm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788272864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPK49wVZdID7g9/Zu62nmPqeg16U/FWpi177Sp1FYrI=;
-	b=LsA8xA1p2HbQ02wSWqdklX6eO0MmZMBOakWDeWhNVu7I1/YuRzMLQaKBTdCLI4s5YhJ5VY
-	ipHTAoIhxakLKC2aUOwJI0mdvmWX+lR9Sacdm+eouSSDMsAPoV6jeNNx9T8TcB5QHjXjl7
-	IbeXMnWSwxIIVjFkjxBppZamkWohweA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788272864;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPK49wVZdID7g9/Zu62nmPqeg16U/FWpi177Sp1FYrI=;
-	b=0wkh7VHmTJ9YLZHWCGHwsGLmpx1vSOPRNuEhZEQ1kU7+RO0T4V3Gdl7WBQ9REDA337jqRc
-	kJYUPdYV2XIXkPCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 85F5F1369E;
-	Tue,  1 Sep 2026 14:27:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 92OuIODglmrQcQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 01 Sep 2026 14:27:44 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1668FA13B2; Tue, 01 Sep 2026 16:27:40 +0200 (CEST)
-Date: Tue, 1 Sep 2026 16:27:40 +0200
-From: Jan Kara <jack@suse.cz>
-To: Chuck Lever <cel@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, Ameer Hamza <ameer.hamza@truenas.com>, 
-	Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH v2] splice: emit a single fsnotify access event per NFSD
- READ
-Message-ID: <wvcczks7hv3ks7xfavizwszge3ncy36ceupk42owzjvpjnie2t@uo4rphyxlwry>
-References: <20260901135329.487666-1-cel@kernel.org>
+	s=arc-20240116; t=1788273831; c=relaxed/simple;
+	bh=TQgFlwPdI4zA03bXAdtEJSGhgdqgKCcQyo9J97o4buQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=dcoVtG+bTjIKCEYzCW4UZsbfK4CTF6/oTygk2Kgc9u1g83m77opNR2QTB5ZhCye/pBVRhRRKHLzRE55y9Pslwu1Hr48SLQQCwV/UcwVuH65HjKw+Omj/RBANFd4WfKfSnOvwiyurWCdMoIRZj3xXC5/NB2GIAnmRzI0FC3BiRLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f5.google.com with SMTP id 5614622812f47-4b3759b7ff0so1948454b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 01 Sep 2026 07:43:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788273829; x=1788878629;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SGFAxB12JeY2QizAxCcdqjroGpz+aeSxqyXMKgYLsNE=;
+        b=X2TO83O4ywQv5guXBO+9841QN4F0Kh9crwj/Vj35zkQMt5EjKPyShe3mAM98iwcT9T
+         OVs8XRu1wYc6QJ2AKHHoigxlRvfcJOtXo5ZVEAnU1+fmTri4HFnTcKbc0FsspCADQr18
+         xCgMpReGB3+3C0wva0AMjGWY2D0XGG1T4vNFanWGgqRAG38cvI28ly5RRiN46sV8ZJB7
+         epIrr3wnIT/ESMV2XE59mvtjcNpVx2ETdit7Myyd2biODSkGx3mySQBzBISq0oyAiS18
+         nCCOZb4AJSoX5WhGHFDPQp5fg7wIiANURERgvNfmCb4mtCVjqlhzWxtWYwI9qoqqqUK7
+         wobg==
+X-Forwarded-Encrypted: i=1; AHgh+RquQ/A2dgkwLoJI4FSM8sKcV2iWYBIsNETIxf8NJF/sMYRd8686/VgJmKOPQP1IVfYDufl73V6DWkU4evSS@vger.kernel.org
+X-Gm-Message-State: AFuF++nOXUpQu+NK6wnvNLeylE88uQAjRkpwXsHMcOWXQti3g8CFY+nP
+	CrxtVjHiON7uy36fPMxhj6mNEvdiI3dr/KID5/bJNzZ/Tp7wk3ggATpoV1wv484elR8iMEsHhz4
+	U5CK0QrNASkCEBX58vsy44SxaZuk3WmR8eIC0iGupE9mOXoQYhcIAiolvtco=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901135329.487666-1-cel@kernel.org>
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: AF6A61F397
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,truenas.com,gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[truenas.com:email,suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
+X-Received: by 2002:a05:6808:14d5:b0:4b1:b037:da8b with SMTP id
+ 5614622812f47-4b39818826cmr31619891b6e.11.1788273828862; Tue, 01 Sep 2026
+ 07:43:48 -0700 (PDT)
+Date: Tue, 01 Sep 2026 07:43:48 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a96e4a4.04428c52.29b18.0006.GAE@google.com>
+Subject: [syzbot] [fs?] possible deadlock in uvcg_extension_ba_source_id_store
+From: syzbot <syzbot+76d92b6236b6ff1fc991@syzkaller.appspotmail.com>
+To: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue 01-09-26 09:53:29, Chuck Lever wrote:
-> nfsd_finish_read() calls fsnotify_access() on both NFSD read paths,
-> because splice_direct_to_actor() does not emit the event itself. The
-> iterator path reaches nfsd_finish_read() from vfs_iocb_iter_read(),
-> which has already emitted one. A READ served without splice therefore
-> emits two access events.
-> 
-> NFSD does not use splice for the GSS integrity and privacy services, so
-> a READ on a sec=krb5i or sec=krb5p mount takes the iterator. An inotify
-> watch on that file sees the READ twice.
-> 
-> Reported-by: Ameer Hamza <ameer.hamza@truenas.com>
-> Closes: https://lore.kernel.org/linux-nfs/20260818225715.572140-1-ameer.hamza@truenas.com/
-> Suggested-by: Amir Goldstein <amir73il@gmail.com>
-> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> Link: https://lore.kernel.org/linux-nfs/CAOQ4uxgUOqFv6pVmdT_+4DjA0KQoQDCzN2Xz=xm1FyumewHZXg@mail.gmail.com/
-> Signed-off-by: Chuck Lever <cel@kernel.org>
+Hello,
 
-Looks good. Feel free to add:
+syzbot found the following issue on:
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12ba6d79580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
+dashboard link: https://syzkaller.appspot.com/bug?extid=76d92b6236b6ff1fc991
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-								Honza
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-818bebeb.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6e4100526b12/vmlinux-818bebeb.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/723c4783ee96/bzImage-818bebeb.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+76d92b6236b6ff1fc991@syzkaller.appspotmail.com
+
+openvswitch: netlink: Either Ethernet header or EtherType is required.
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Tainted: G             L     
+------------------------------------------------------
+syz.0.1880/13612 is trying to acquire lock:
+ffffffff903dfc08 (gadget_subsys.su_mutex){+.+.}-{4:4}, at: uvcg_extension_ba_source_id_store+0xdb/0x430 drivers/usb/gadget/function/uvc_configfs.c:1046
+
+but task is already holding lock:
+ffff888049f5da70 (&p->frag_sem){++++}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
+ffff888049f5da70 (&p->frag_sem){++++}-{4:4}, at: configfs_write_iter+0x218/0x4e0 fs/configfs/file.c:229
+
+which lock already depends on the new lock.
 
 
-> ---
-> Changes in v2:
-> - Rename the new helper to vfs_splice_to_actor()
-> - Take pos, count, and actor data, not a splice_desc
-> - Link to v1: https://lore.kernel.org/r/20260824161021.245575-1-cel@kernel.org
-> ---
->  fs/nfsd/vfs.c          | 13 ++--------
->  fs/splice.c            | 58 +++++++++++++++++++++++++++++++-----------
->  include/linux/splice.h |  4 +--
->  3 files changed, 47 insertions(+), 28 deletions(-)
-> 
-> diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
-> index f9131827d391..4789f2ec2078 100644
-> --- a/fs/nfsd/vfs.c
-> +++ b/fs/nfsd/vfs.c
-> @@ -1046,7 +1046,6 @@ static __be32 nfsd_finish_read(struct svc_rqst *rqstp, struct svc_fh *fhp,
->  		nfsd_stats_io_read_add(nn, fhp->fh_export, host_err);
->  		*eof = nfsd_eof_on_read(file, offset, host_err, *count);
->  		*count = host_err;
-> -		fsnotify_access(file);
->  		trace_nfsd_read_io_done(rqstp, fhp, offset, *count);
->  		return 0;
->  	} else {
-> @@ -1071,19 +1070,11 @@ __be32 nfsd_splice_read(struct svc_rqst *rqstp, struct svc_fh *fhp,
->  			struct file *file, loff_t offset, unsigned long *count,
->  			u32 *eof)
->  {
-> -	struct splice_desc sd = {
-> -		.len		= 0,
-> -		.total_len	= *count,
-> -		.pos		= offset,
-> -		.u.data		= rqstp,
-> -	};
->  	ssize_t host_err;
->  
->  	trace_nfsd_read_splice(rqstp, fhp, offset, *count);
-> -	host_err = rw_verify_area(READ, file, &offset, *count);
-> -	if (!host_err)
-> -		host_err = splice_direct_to_actor(file, &sd,
-> -						  nfsd_direct_splice_actor);
-> +	host_err = vfs_splice_to_actor(file, offset, *count,
-> +				       nfsd_direct_splice_actor, rqstp);
->  	return nfsd_finish_read(rqstp, fhp, file, offset, count, eof, host_err);
->  }
->  
-> diff --git a/fs/splice.c b/fs/splice.c
-> index 9d8f63e2fd1a..96cff31d97e1 100644
-> --- a/fs/splice.c
-> +++ b/fs/splice.c
-> @@ -1009,21 +1009,14 @@ ssize_t vfs_splice_read(struct file *in, loff_t *ppos,
->  }
->  EXPORT_SYMBOL_GPL(vfs_splice_read);
->  
-> -/**
-> - * splice_direct_to_actor - splices data directly between two non-pipes
-> - * @in:		file to splice from
-> - * @sd:		actor information on where to splice to
-> - * @actor:	handles the data splicing
-> - *
-> - * Description:
-> - *    This is a special case helper to splice directly between two
-> - *    points, without requiring an explicit pipe. Internally an allocated
-> - *    pipe is cached in the process, and reused during the lifetime of
-> - *    that process.
-> - *
-> +/*
-> + * This is a special case helper to splice directly between two
-> + * points, without requiring an explicit pipe. Internally an allocated
-> + * pipe is cached in the process, and reused during the lifetime of
-> + * that process.
->   */
-> -ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
-> -			       splice_direct_actor *actor)
-> +static ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
-> +				      splice_direct_actor *actor)
->  {
->  	struct pipe_inode_info *pipe;
->  	ssize_t ret, bytes;
-> @@ -1147,7 +1140,42 @@ ssize_t splice_direct_to_actor(struct file *in, struct splice_desc *sd,
->  
->  	goto done;
->  }
-> -EXPORT_SYMBOL(splice_direct_to_actor);
-> +
-> +/**
-> + * vfs_splice_to_actor - call an actor on data read from a file
-> + * @in:		file to read from
-> + * @pos:	file offset
-> + * @count:	maximum number of bytes to read
-> + * @actor:	callback to process a pipe's worth of data
-> + * @private:	private data passed to @actor
-> + *
-> + * Read up to @count worth of data from @in at @pos, and call @actor
-> + * when the hidden pipe used to buffer the data is full. Ensures the
-> + * read is allowed using rw_verify_area() and emits fsnotify access
-> + * events. @in must be seekable (FMODE_LSEEK).
-> + *
-> + * Return: The number of bytes spliced, or a negative errno.
-> + */
-> +ssize_t vfs_splice_to_actor(struct file *in, loff_t pos, size_t count,
-> +			    splice_direct_actor *actor, void *private)
-> +{
-> +	struct splice_desc sd = {
-> +		.total_len	= count,
-> +		.pos		= pos,
-> +		.u.data		= private,
-> +	};
-> +	ssize_t ret;
-> +
-> +	ret = rw_verify_area(READ, in, &sd.pos, sd.total_len);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = splice_direct_to_actor(in, &sd, actor);
-> +	if (ret >= 0)
-> +		fsnotify_access(in);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(vfs_splice_to_actor);
->  
->  static int direct_splice_actor(struct pipe_inode_info *pipe,
->  			       struct splice_desc *sd)
-> diff --git a/include/linux/splice.h b/include/linux/splice.h
-> index 9dec4861d09f..0e6c955dc6ff 100644
-> --- a/include/linux/splice.h
-> +++ b/include/linux/splice.h
-> @@ -79,8 +79,8 @@ ssize_t add_to_pipe(struct pipe_inode_info *pipe, struct pipe_buffer *buf);
->  ssize_t vfs_splice_read(struct file *in, loff_t *ppos,
->  			struct pipe_inode_info *pipe, size_t len,
->  			unsigned int flags);
-> -ssize_t splice_direct_to_actor(struct file *file, struct splice_desc *sd,
-> -			       splice_direct_actor *actor);
-> +ssize_t vfs_splice_to_actor(struct file *file, loff_t pos, size_t count,
-> +			    splice_direct_actor *actor, void *private);
->  ssize_t do_splice(struct file *in, loff_t *off_in, struct file *out,
->  		  loff_t *off_out, size_t len, unsigned int flags);
->  ssize_t do_splice_direct(struct file *in, loff_t *ppos, struct file *out,
-> -- 
-> 2.55.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+the existing dependency chain (in reverse order) is:
+
+-> #3 (&p->frag_sem){++++}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5886 [inline]
+       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
+       down_write_killable+0x93/0x240 kernel/locking/rwsem.c:1643
+       configfs_rmdir+0x3fa/0x950 fs/configfs/dir.c:1534
+       vfs_rmdir fs/namei.c:5515 [inline]
+       vfs_rmdir+0x328/0x8a0 fs/namei.c:5488
+       filename_rmdir+0x31a/0x5c0 fs/namei.c:5572
+       __do_sys_rmdir fs/namei.c:5595 [inline]
+       __se_sys_rmdir fs/namei.c:5592 [inline]
+       __x64_sys_rmdir+0x46/0x70 fs/namei.c:5592
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (&sb->s_type->i_mutex_key#29){++++}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5886 [inline]
+       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
+       down_write+0x8b/0x1f0 kernel/locking/rwsem.c:1631
+       inode_lock include/linux/fs.h:1025 [inline]
+       configfs_depend_item_unlocked+0xf3/0x6a0 fs/configfs/dir.c:1259
+       usbg_make_tpg+0x261/0x620 drivers/usb/gadget/function/f_tcm.c:1686
+       target_fabric_make_tpg+0xab/0x8c0 drivers/target/target_core_fabric_configfs.c:939
+       configfs_mkdir+0x51e/0xb70 fs/configfs/dir.c:1360
+       vfs_mkdir+0x364/0x850 fs/namei.c:5410
+       filename_mkdirat+0x48b/0x5e0 fs/namei.c:5443
+       __do_sys_mkdir fs/namei.c:5470 [inline]
+       __se_sys_mkdir fs/namei.c:5467 [inline]
+       __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5467
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&opts->dep_lock){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5886 [inline]
+       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
+       tcm_set_name+0x29/0xb0 drivers/usb/gadget/function/f_tcm.c:2669
+       function_make+0x21c/0x3f0 drivers/usb/gadget/configfs.c:636
+       configfs_mkdir+0x51e/0xb70 fs/configfs/dir.c:1360
+       vfs_mkdir+0x364/0x850 fs/namei.c:5410
+       filename_mkdirat+0x48b/0x5e0 fs/namei.c:5443
+       __do_sys_mkdir fs/namei.c:5470 [inline]
+       __se_sys_mkdir fs/namei.c:5467 [inline]
+       __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5467
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (gadget_subsys.su_mutex){+.+.}-{4:4}:
+       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
+       check_prevs_add kernel/locking/lockdep.c:3300 [inline]
+       validate_chain kernel/locking/lockdep.c:3924 [inline]
+       __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5253
+       lock_acquire kernel/locking/lockdep.c:5886 [inline]
+       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
+       uvcg_extension_ba_source_id_store+0xdb/0x430 drivers/usb/gadget/function/uvc_configfs.c:1046
+       flush_write_buffer fs/configfs/file.c:207 [inline]
+       configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x6af/0x1050 fs/read_write.c:687
+       ksys_write+0x12a/0x250 fs/read_write.c:739
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  gadget_subsys.su_mutex --> &sb->s_type->i_mutex_key#29 --> &p->frag_sem
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(&p->frag_sem);
+                               lock(&sb->s_type->i_mutex_key#29);
+                               lock(&p->frag_sem);
+  lock(gadget_subsys.su_mutex);
+
+ *** DEADLOCK ***
+
+locks held by syz.0.1880/13612: 4, last CPU#2:
+ #0: ffff888035452470 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x2aa/0x380 fs/file.c:1259
+ #1: ffff888024144460 (sb_writers#16){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
+ #2: ffff888064e84080 (&buffer->mutex#2){+.+.}-{4:4}, at: configfs_write_iter+0x76/0x4e0 fs/configfs/file.c:226
+ #3: ffff888049f5da70 (&p->frag_sem){++++}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
+ #3: ffff888049f5da70 (&p->frag_sem){++++}-{4:4}, at: configfs_write_iter+0x218/0x4e0 fs/configfs/file.c:229
+
+stack backtrace:
+CPU: 2 UID: 0 PID: 13612 Comm: syz.0.1880 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2059
+ check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2191
+ check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
+ check_prevs_add kernel/locking/lockdep.c:3300 [inline]
+ validate_chain kernel/locking/lockdep.c:3924 [inline]
+ __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5253
+ lock_acquire kernel/locking/lockdep.c:5886 [inline]
+ lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
+ __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+ __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
+ uvcg_extension_ba_source_id_store+0xdb/0x430 drivers/usb/gadget/function/uvc_configfs.c:1046
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6af/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f475e39e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f475f310028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f475e625fa0 RCX: 00007f475e39e159
+RDX: 0000000000000011 RSI: 0000200000000440 RDI: 0000000000000009
+RBP: 00007f475e435024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f475e626038 R14: 00007f475e625fa0 R15: 00007fff043810d8
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
