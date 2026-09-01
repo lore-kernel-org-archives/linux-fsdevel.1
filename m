@@ -1,87 +1,135 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5F73859D7;
-	Tue,  1 Sep 2026 17:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F3FE494801;
+	Tue,  1 Sep 2026 18:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788284986; cv=none; b=cC7vwK7EWDJZFD5MMda4neNRHzXpg9THKmGDYd5AEgFuX5wp9gMzJw2BBnwjqYZ5vhOCi9QZVQfTdyJZHUqXtQfA30HUDx19MhDA9209Ca640k5rgYqpaxx4SSfJ1be9JkxoJFVPjrSucbUIZEMt1CYyQ4rRAq1dXHi8c15jeK8=
+	t=1788285987; cv=none; b=Dp7OpwnV9qTFSVcOzbqVanw0WSC7q/ijzSYfxET8Oxv9GJZsasBiPmT6De97VryEi8XEWzj57ldQLYv7DQaRzEHF8+Y64+p7AaXlKeNUsFlnHp58Umhpu1an99wDs9u2GObPcA6SpqZDiT6UdMgbds8/OeSO3GgI1uDya+LdBu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788284986; c=relaxed/simple;
-	bh=cnAoMGE9nklht8651wLeA0npk+YDqzAEltkj6uh38Lk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ldt88h21zxMYG7FesMAFJJzt8DmZ+6FDSLBdD9revXK50w8onkrMZR0BppCZGse7Y3WD87cyu8QrVtzQIW4iL2IoCW2ILlg14xN+PSgQI5Cqku6X+5psac+qp3QJ2XBpJtJS67lhNh7UAIhnrOUdLiNV/w5Hjof3rbonABn7acs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=1mgqFkkr; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1788285987; c=relaxed/simple;
+	bh=3W8JVYLQkvVQN7to25EbxblwpFAKAuVFh9UmW30i3N0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VItTHEYCn/GLPJAAMPZOJaYwxSPIy9WdGXJxysPH9hgCETYZ1/CRytxHqZKlKM+ia5QsFv1Os40JcOn//OkgfQ0yiRHOfkNUOrnVn+hkqfHWyNsAL9QkzG6S56s0c/pb2SPWJS9xx7xZB2uev3BA6YaD2rAOa8HUqtVNbL7Mlx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CL4/pghU; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="1mgqFkkr"
-Received: from omf20.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id E5B95804FF;
-	Tue,  1 Sep 2026 17:49:38 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf20.hostedemail.com (Postfix) with ESMTPA id 18B6320027;
-	Tue,  1 Sep 2026 17:49:28 +0000 (UTC)
-Date: Tue, 1 Sep 2026 13:50:27 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: David Hildenbrand <david@kernel.org>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Muchun
- Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R.
- Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Nico
- Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain
- <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, Lance Yang
- <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, Gregory Price
- <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, Alistair
- Popple <apopple@nvidia.com>, Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng
- <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song
- <kasong@tencent.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Baoquan He <baoquan.he@linux.dev>, Pasha Tatashin
- <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Jan Kara <jack@suse.cz>, Masami Hiramatsu
- <mhiramat@kernel.org>, Dave Young <ruirui.yang@linux.dev>, Shuah Khan
- <skhan@linuxfoundation.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, kexec@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 14/14] mm/page-flags: remove PG_private
-Message-ID: <20260901135027.028ea9e4@gandalf.local.home>
-In-Reply-To: <21998471-74B7-4799-9E8C-D75003D1A4CB@nvidia.com>
-References: <20260831-remove-pg_private-v2-0-3668159cd9e8@nvidia.com>
-	<20260831-remove-pg_private-v2-14-3668159cd9e8@nvidia.com>
-	<20260901115542.35cf337f@gandalf.local.home>
-	<21998471-74B7-4799-9E8C-D75003D1A4CB@nvidia.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CL4/pghU"
+Received: from localhost.localdomain (unknown [52.172.102.222])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5DEB420B7166;
+	Tue,  1 Sep 2026 11:05:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5DEB420B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1788285949;
+	bh=dPpGuVKFWxabCbT9X1+NC/BlECnScEpIX1GeAfUkNws=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CL4/pghUYwiPRKjF+dxKSwmOqV2fl3bq+GtqijeIdX9alwhOipERGR60zU3z4ERTV
+	 +PF9Dc5oXlQzrqMrU5XphNUnlVnJJSvtaD8JVfTN4diKNkCtz/jKl71QffuG/wpvxi
+	 j+Ao1+/5ApWzvg7jTnrdaz5RjdL/KiIlbkrm8oAk=
+From: "Cen Zhang (Microsoft Security FORGE Labs)" <cenzhang@linux.microsoft.com>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Cc: jack@suse.cz,
+	jkoolstra@xs4all.nl,
+	neil@brown.name,
+	sandeen@redhat.com,
+	kees@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	AutonomousCodeSecurity@microsoft.com,
+	xmei5@asu.edu,
+	tgopinath@linux.microsoft.com,
+	kys@microsoft.com,
+	"Cen Zhang (Microsoft Security FORGE Labs)" <cenzhang@linux.microsoft.com>
+Subject: [PATCH] ufs: validate cylinder group free bitmap offset
+Date: Tue,  1 Sep 2026 14:06:00 -0400
+Message-ID: <20260901180600.10394-1-cenzhang@linux.microsoft.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 18B6320027
-X-Stat-Signature: 7ef3suggza6rwrwt98ucxd5tb1in8g7f
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19gFCgDW4g7ez/BxoPyHANfn1/41/yL2k8=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=ygP2WicIyxvIfgiulI4Z+w98tf+NFr5YAyeGttsc9pU=; b=1mgqFkkrL4Js3FsbhN/khvoOEvnHVh/aadmAMTCUde9xGE7BUvdArUa1RFWye4SH2Ctek4vS4gXiMbJcZCGFh5DVr4gJ1YyJQrfjy3W7IYtjDzLOP7asP560ZaX5A29U3FwYxXzeZu3rRui/fC5b+U4Jy3KfK07GTDhVffGq7Bg=
-X-HE-Tag: 1788284968-292977
-X-HE-Meta: U2FsdGVkX19FFDvFfWjTCdlnsQZ6K9ZDH4G8yyE+mLes3dBmHWO8NPu6yEW8XXzWgHsuxMDRFSptqXWfMG/Mc+vYMqM5I7IvoIiQAb8UocwUi/mhVmxt81zskgiVGnoXtfTLsJnPK2S+57J8V1WnQFXxP6OtVQ7C3JQiqyk6GHKdnEceDMmgU8UvEa1Vj0wlxj76LZY6CogJO8meStEy2MeviQuBcRNaEP1/lsb0/kCfQ/lF+Pw1bHZfL8fAaIqQ9wHGLY9MM3CVEabUY6AJmK8sY0fn0jiO4bl6CHHeOt5dG97E3JSrappl0A9/PWW3XYCVCivoJPwoLVwpncq/jSqtrYDYGvgG
+Content-Transfer-Encoding: 8bit
 
-On Tue, 01 Sep 2026 12:01:24 -0400
-Zi Yan <ziy@nvidia.com> wrote:
+ufs_read_cylinder() copies cg_freeoff from the on-disk cylinder group
+without checking that the free-fragment bitmap fits in the loaded
+cylinder group buffers. A crafted image can place cg_freeoff past those
+buffers so that allocation later indexes ubh->bh[] out of range.
 
-> No problem.
-> 
-> BTW, the plan is to add PG_folio after this series is picked up by Andrew/David.
-> So the new __DEF_PAGEFLAG_NAME() will have no user then and can be deleted.
-> It should be fine, right?
+UBSAN: array-index-out-of-bounds in fs/ufs/balloc.c:752:15
+  ubh_scanc()              fs/ufs/balloc.c:752
+  ufs_bitmap_search()      fs/ufs/balloc.c
+  ufs_alloccg_block()      fs/ufs/balloc.c
+  ufs_alloc_fragments()    fs/ufs/balloc.c
+  ufs_new_fragments()      fs/ufs/balloc.c
 
-Yeah, then we just remove that macro and change the one user of
-__DEF_PAGEFLAG_NAME() to DEF_PAGEFLAG_NAME().
+Reject the cylinder group unless the full BITS_TO_BYTES(s_fpg)
+free-fragment bitmap starting at c_freeoff fits in the bytes actually
+loaded for that cylinder group.
 
-It will make that patch even easier ;-)
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: Xiang Mei (Microsoft) <xmei5@asu.edu>
+Cc: AutonomousCodeSecurity@microsoft.com
+Cc: stable@vger.kernel.org
+Signed-off-by: Cen Zhang (Microsoft Security FORGE Labs) <cenzhang@linux.microsoft.com>
+---
+ fs/ufs/cylinder.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
--- Steve
+diff --git a/fs/ufs/cylinder.c b/fs/ufs/cylinder.c
+index a2813270c303..fec6c9dfb055 100644
+--- a/fs/ufs/cylinder.c
++++ b/fs/ufs/cylinder.c
+@@ -33,6 +33,8 @@ static bool ufs_read_cylinder(struct super_block *sb,
+ 	struct ufs_sb_private_info * uspi;
+ 	struct ufs_cg_private_info * ucpi;
+ 	struct ufs_cylinder_group * ucg;
++	u64 cg_bytes, free_bitmap_bytes;
++	const char *err;
+ 	unsigned i, j;
+ 
+ 	UFSD("ENTER, cgno %u, bitmap_nr %u\n", cgno, bitmap_nr);
+@@ -48,8 +50,10 @@ static bool ufs_read_cylinder(struct super_block *sb,
+ 	UCPI_UBH(ucpi)->bh[0] = sbi->s_ucg[cgno];
+ 	for (i = 1; i < UCPI_UBH(ucpi)->count; i++) {
+ 		UCPI_UBH(ucpi)->bh[i] = sb_bread(sb, UCPI_UBH(ucpi)->fragment + i);
+-		if (!UCPI_UBH(ucpi)->bh[i])
++		if (!UCPI_UBH(ucpi)->bh[i]) {
++			err = "can't read cylinder group block %u";
+ 			goto failed;
++		}
+ 	}
+ 	sbi->s_cgno[bitmap_nr] = cgno;
+ 			
+@@ -68,6 +72,16 @@ static bool ufs_read_cylinder(struct super_block *sb,
+ 	ucpi->c_clustersumoff = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_clustersumoff);
+ 	ucpi->c_clusteroff = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_clusteroff);
+ 	ucpi->c_nclusterblks = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_nclusterblks);
++
++	cg_bytes = UCPI_UBH(ucpi)->count * sb->s_blocksize;
++	free_bitmap_bytes = BITS_TO_BYTES((u64)uspi->s_fpg);
++	/* The full free bitmap must fit in the loaded CG buffer. */
++	if (!free_bitmap_bytes ||
++	    (u64)ucpi->c_freeoff + free_bitmap_bytes > cg_bytes) {
++		err = "cylinder group %u has invalid free bitmap";
++		goto failed;
++	}
++
+ 	UFSD("EXIT\n");
+ 	return true;
+ 	
+@@ -75,7 +89,7 @@ static bool ufs_read_cylinder(struct super_block *sb,
+ 	for (j = 1; j < i; j++)
+ 		brelse(UCPI_UBH(ucpi)->bh[j]);
+ 	sbi->s_cgno[bitmap_nr] = UFS_CGNO_EMPTY;
+-	ufs_error (sb, "ufs_read_cylinder", "can't read cylinder group block %u", cgno);
++	ufs_error(sb, "ufs_read_cylinder", err, cgno);
+ 	return false;
+ }
+ 
+
+base-commit: 786262be6048deab760f68c8acc2c85607165894
+-- 
+2.55.0
+
