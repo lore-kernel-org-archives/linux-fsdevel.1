@@ -1,176 +1,66 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00B2471CED;
-	Tue,  1 Sep 2026 08:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B82A46EC7C;
+	Tue,  1 Sep 2026 08:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788249716; cv=none; b=B6HVXaChUcuRpgv7K2a4TciVSwrJ0Mu6T00TYLgOlRtN7BEIl3bm9ZxbOJ6wagHOZTHMyL3Y2xPKSPhnk+BaXYr6H6wRxF7cCZXdmHLmXCWyT6uUodUMWpL4oJOA7BN00wqUOqls29U5uqcTRboZtBU8Nhcsqsiz0ocn2g0hxgs=
+	t=1788250327; cv=none; b=omzXp//dn2hIT3KvkYs+GID8iNJsV+A+wYlDIXGnvLC/vNdQzszfIg3f+Bhg2u+Lnr5LcsWwmrLV9n2u1/1Pz40VHJTiI8tajNR+HipR0J4GPumyNAfJI3h9G1uXDhlMnbrlzaLUfRCpF1Vg5oGtsPNsSSuFg6sTLQutHoedw5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788249716; c=relaxed/simple;
-	bh=1+NQ21UE4ohTgTsn4MRFA0UiefKVUcTVyfhdeBGkbSk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=JVE/Ol1sQCyV3A0ySar3Up6aRWrSkbGLGNslBbMcnyBUA9AUiIYXtzk+1B/ODhUOW/LPvu2IXTzX3jCcrVDogEsCtMYNOh2B+7qiKQgO3cPx+RqXbiIP5WRzJwLma0MNu2Kl+gnHxR8XW+A6/CNuufN8Ck/Rkb5ihbj21bydKs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=m/qrrNf8; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=RZbxcvwC; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="m/qrrNf8";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="RZbxcvwC"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1788249689; bh=5iGCuz1H4YwkJWeg/wxwPm6
-	A9zDo3R5pq4ps0XW+/Qc=; b=m/qrrNf8ftmvZN/qNE2Pc3i0wW6Y09EeoJyl2bSX9n0nznZvLB
-	25HxUS9Q3TshAtOsIsJl0H8Or9DDvKpL9WV3Q9b235oP208nhqKkGzHnL4dYmJdQPYoIiIhFyVl
-	UhHxycl/zj1AEhOFuMKU3ANHpo+4Ek13JXacVoudxMKqS55pvR/CncMkytMN8gN7dtQCEpqR4ce
-	h9wK8ePpiuWJups3QEyELCuPzzoKnKlvsHOZEJE2tc8nct6PBJJ5mobpHpWP8Xg/+R71O2DL6+d
-	tO9DSoj3/to7C+7lgqzPpDlvPwakKONbji3N7ZUjgYKfqPApaMPGjkbKXFiE2Gqcfuw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1788249689; bh=5iGCuz1H4YwkJWeg/wxwPm6
-	A9zDo3R5pq4ps0XW+/Qc=; b=RZbxcvwCIwIifQWGMeWmq3DKHh4OXZoUPrIhJLd7X51EsoTYKJ
-	Uz4DkijC97w/R06UJkJ2QA1KbN6ktABo8KCA==;
-Date: Tue, 01 Sep 2026 09:01:28 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: 4ncienth@gmail.com
-CC: brauner@kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, mjguzik@gmail.com, oleg@redhat.com,
- syzbot+0aee5e8066eddbbe7397@syzkaller.appspotmail.com,
- syzbot+e8b3520b53e78e90034e@syzkaller.appspotmail.com
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2=5D_exit=3A_hold_a_referenc?=
- =?US-ASCII?Q?e_to_thread=5Fpid_across_proc=5Fflush=5Fpid?=
-In-Reply-To: <20260831001221.3755948-1-4ncienth@gmail.com>
-Message-ID: <842FFDA5-674F-41DA-ADD3-E19B3FB98104@mainlining.org>
+	s=arc-20240116; t=1788250327; c=relaxed/simple;
+	bh=gBIzIbNFR12//+mkGiJ16TI6jFrWvhCXBaD3KNNlxt0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bSUsmWnLx5bUzK2XcSKYre7/6jv0a2WzxBlsEYWo95M5suyQbO75+EoukfsKTOP85vEOp0babt5PDhVkmgL0FQhn1DnPhuGVitOhJAV9oRY/ewnsIBwmfVCzobO4oKFzytD2u9zHRC/BaFKF+O+qutjRH+LHOFxiJR0suk7dypg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B1CE568AFE; Tue,  1 Sep 2026 10:12:00 +0200 (CEST)
+Date: Tue, 1 Sep 2026 10:12:00 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>, Tal Zussman <tz2294@columbia.edu>,
+	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 02/17] block: warn on too larger integrity allocations
+Message-ID: <20260901081200.GB22531@lst.de>
+References: <20260831064010.2574896-1-hch@lst.de> <20260831064010.2574896-3-hch@lst.de> <20260831180136.GI1933798@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260831180136.GI1933798@frogsfrogsfrogs>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 31 August 2026 01:12:21 BST, Daehyeon Ko <4ncienth@gmail.com> wrote:
->Commit 0a36bad01731 ("release_task: kill the no longer needed
->get/put_pid(thread_pid)") removed the reference around proc_flush_pid().
->It assumed that free_pids(post.pids) at the end of release_task() would
->keep thread_pid alive until then.
->
->That assumption is wrong.  __change_pid() only records a detached PID in
->post.pids when pid_has_task() is false for every PIDTYPE.  If another task
->still uses the exiting task's PID as its process group or session ID,
->__unhash_process() removes the exiting task's PIDTYPE_PID link but leaves
->the PID out of post.pids.  release_task() therefore holds no reference to
->it after dropping tasklist_lock.
->
->The other task can then remove the remaining PIDTYPE links.  Its
->free_pids() call schedules delayed_put_pid(), and the RCU callback can
->free
->the PID before the first release_task() reaches proc_flush_pid().
->
->An unprivileged reproducer races wait4(-1) against setsid() to trigger
->this
-
-Gnarly!
-
->ordering.  Three of three fresh v7.2 KASAN boots reported:
->
->    BUG: KASAN: slab-use-after-free in
->    proc_invalidate_siblings_dcache+0x3e2/0x3f0
->    Read of size 8 by task h7_pid_reaper/1921
->
->    Call Trace:
->     proc_invalidate_siblings_dcache
->     release_task
->     wait_consider_task
->     __do_wait
->     do_wait
->     kernel_wait4
->
->    Freed by task 0:
->     kmem_cache_free
->     put_pid
->     delayed_put_pid
->     rcu_core
->
->    Last potentially related work creation:
->     __call_rcu_common
->     free_pids
->     ksys_setsid
->
->KASAN identified a 144-byte object from the pid cache and located the bad
->read 80 bytes into the freed object, matching pid->inodes.  With an
->explicit reference, three of three fresh boots completed without a KASAN
->report.  The concurrent RCU callback dropped its reference while
->proc_flush_pid() was protected, and the balancing put_pid() performed the
->final free afterward.
->
-
-Ok
-
->Take a reference before __unhash_process() clears p->thread_pid and
->release
->it after proc_flush_pid() completes.
->
->A tested source reproducer is available privately on request.  No
->controlled read or write, information leak, or privilege escalation is
->claimed.  The mainline patch applies directly to v6.19.y and newer;
->v6.16.y through v6.18.y need a context-adjusted backport.
->
->Fixes: 0a36bad01731 ("release_task: kill the no longer needed get/put_pid(thread_pid)")
->Reported-by: syzbot+0aee5e8066eddbbe7397@syzkaller.appspotmail.com
->Closes: https://syzkaller.appspot.com/bug?extid=0aee5e8066eddbbe7397
->Reported-by: syzbot+e8b3520b53e78e90034e@syzkaller.appspotmail.com
->Link: https://syzkaller.appspot.com/bug?extid=e8b3520b53e78e90034e
->Cc: <stable@vger.kernel.org> # see patch description, needs adjustments for 6.16.y-6.18.y
->Assisted-by: LLM
-
-Thanks,
-
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
-
-
->Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
->---
->Changes in v2:
->- Rewrite the root-cause explanation around __change_pid(), pid_has_task(),
->  and the last PIDTYPE detach, as requested by Oleg.
->- Explain in the source comment why thread_pid needs an explicit reference.
->- Rebase onto current Torvalds master cee9395acd80.
->
-> kernel/exit.c | 9 ++++++---
-> 1 file changed, 6 insertions(+), 3 deletions(-)
->
->diff --git a/kernel/exit.c b/kernel/exit.c
->index 97686af89501..4e028f157597 100644
->--- a/kernel/exit.c
->+++ b/kernel/exit.c
->@@ -261,8 +261,11 @@ void release_task(struct task_struct *p)
-> 	pidfs_exit(p);
-> 	cgroup_task_release(p);
+On Mon, Aug 31, 2026 at 11:01:36AM -0700, Darrick J. Wong wrote:
+> On Mon, Aug 31, 2026 at 09:39:50AM +0300, Christoph Hellwig wrote:
+> > Catch cases where upper layer bugs create larger I/Os than the
+> > mempool would return even without dipping into the mempool.
+> > 
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > ---
+> >  block/bio-integrity.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+> > index b23e2434d80c..d3df726e0f08 100644
+> > --- a/block/bio-integrity.c
+> > +++ b/block/bio-integrity.c
+> > @@ -72,6 +72,7 @@ void bio_integrity_alloc_buf(struct bio *bio, gfp_t gfp, bool zero_buffer)
+> >  	unsigned int len = bio_integrity_bytes(bi, bio_sectors(bio));
+> >  	void *buf;
+> >  
+> > +	WARN_ON_ONCE(len > BLK_INTEGRITY_MAX_SIZE);
 > 
->-	/* Retrieve @thread_pid before __unhash_process() may set it to NULL. */
->-	thread_pid = task_pid(p);
->+	/*
->+	 * Pin @thread_pid before __unhash_process() clears it. The last
->+	 * PIDTYPE detach can otherwise free it before proc_flush_pid().
->+	 */
->+	thread_pid = get_pid(task_pid(p));
-> 
-> 	write_lock_irq(&tasklist_lock);
-> 	ptrace_release_task(p);
->@@ -291,8 +294,8 @@ void release_task(struct task_struct *p)
-> 	}
-> 
-> 	write_unlock_irq(&tasklist_lock);
->-	/* @thread_pid can't go away until free_pids() below */
-> 	proc_flush_pid(thread_pid);
->+	put_pid(thread_pid);
-> 	exit_cred_namespaces(p);
-> 	add_device_randomness(&p->se.sum_exec_runtime,
-> 			      sizeof(p->se.sum_exec_runtime));
->
->base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
->
+> Should it fail the bio after complaining, then?
 
---- Thanks!
-https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
+We can't really fail here as the entire path is build around continuing.
+This is really a big warning for developer bugs that must not happen
+for properly written callers.
+
