@@ -1,38 +1,38 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36ECC426EB7;
-	Tue,  1 Sep 2026 02:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBED52931C1;
+	Tue,  1 Sep 2026 02:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788230551; cv=none; b=YcXLtDvX1ngRWhSJXoh3FQrzgWYPjXaK0q8ecZ+pMQvlSvPE+hmyiO1uf0vd0q0/2AM20Wjg0ypBrQBh+d1QkWQkkhMFwKfJed0x8jH+yKnynrVexU6PCE7F9AWGHpeO+kADa52ifFWOVukDGBgDxu8k/+J6RgAAyzJbWlu0i+c=
+	t=1788230543; cv=none; b=jYL4GChc8XqIMChzxSeu466n9YvWH6tts7zzrWp/ObA8/j9lwP6vnUlUGoaa2gJbYYgVxJwbCvsCrJ7ZPws4cLPpgNgTgoI/LVMvYtL5N+ViJgLs8BIiMzEVtwC32Cg+NBwVqMfkiRbGmc3H2vjYeRd52rxE9oglgB3DWvtlt9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788230551; c=relaxed/simple;
-	bh=Q4IHSqNTta6ZY/efVhCtaRjHjKcMWUomiKRMpYUCKlw=;
+	s=arc-20240116; t=1788230543; c=relaxed/simple;
+	bh=rM/tXGbf1aCcjq5KxywPtk0vBUXFIx2mFpz196P6YbQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JByEnaDUReboLHNdNXca9QxVoIb0ribKpHjZcjtfhE+xQ7Q2YgmkmbyVN9SIBNCHHngkof0gdwbWdGs7nMdWjjtZoc1JpwhqIO/uzy3C8cxOtURvbhavT7jDb1Fi6QHgGAGkKi4kjfxl2K2F7rzpOuDAjGMfB1RfsHhIoaeasgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=3MN1y82A; arc=none smtp.client-ip=113.46.200.220
+	 MIME-Version:Content-Type; b=hooyVEdO+3CAkBAGoIG/BIwAPQUka0KQyyo8omdlJej3iGAjUgn5ageiOQDvw20MfpKGSiQb7uv/RodH2bU85qc6BG+HFaPxxPXOvdYNDwcwyUrtv4BhfH1tkFSggbnRYotwKXTs6Aj1wun9RC83Zr68E8N1oqjEDTLL5xWL6aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=NOgSQT1d; arc=none smtp.client-ip=113.46.200.225
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="3MN1y82A"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="NOgSQT1d"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=HpnC7rLdz/iDoVhcUnqYIGvEK4UiEp8j2qFTrzFFI14=;
-	b=3MN1y82AyUB+uSVGkpsEtn46gwJl3yuhLHq+APy7OksLo3azZvR0HlLyg/DfR5RZ8YBYprGfD
-	IfPDFzpbKdgaKYr4CjKFT7GcHHN6kXtOvwv+26okjTS7wgzucRQEAXul44jF7TxYxkACO6gDi6m
-	2HM8XEE4+uMal1dtnRg0FhE=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4hYqbd3nwvz12LHt;
-	Tue,  1 Sep 2026 10:30:53 +0800 (CST)
+	bh=Xr9BLFJfOVdKkYTXuHA//41f3O6Yyk2q7ziikLqqqXw=;
+	b=NOgSQT1dlqJaQi9vrvjYnOEf8vsKWa97ntxZrTZMRxiKx0d/nYt5xLqPcABA9lWZ31g/7l5Y1
+	+AfGvHDdfxbE8Fgiw6r/ppCN3i8sshYU034KTWamrxz3cwwcpKeTXatkjTKwHhVVwkOK/Im0sjX
+	vRXMeKBUnArlIhi7y1g3vL8=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4hYqc32Wnfz1K9cF;
+	Tue,  1 Sep 2026 10:31:15 +0800 (CST)
 Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8DF7B40561;
-	Tue,  1 Sep 2026 10:42:10 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id AE57940572;
+	Tue,  1 Sep 2026 10:42:04 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
  (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 1 Sep
- 2026 10:42:09 +0800
+ 2026 10:42:03 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
 	<bcrl@kvack.org>, <tytso@mit.edu>, <adilger.kernel@dilger.ca>,
@@ -50,9 +50,9 @@ To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
 	<linux-fsdevel@vger.kernel.org>, <linux-aio@kvack.org>,
 	<linux-kernel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
 	<netdev@vger.kernel.org>
-Subject: [PATCH v2 10/12] net: sched: act_gact: use acquire/release for tcfg_ptype
-Date: Tue, 1 Sep 2026 10:42:32 +0800
-Message-ID: <20260901024234.135119-11-ruanjinjie@huawei.com>
+Subject: [PATCH v2 06/12] super: Use acquire for SB_BORN check in super_cache_count()
+Date: Tue, 1 Sep 2026 10:42:28 +0800
+Message-ID: <20260901024234.135119-7-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260901024234.135119-1-ruanjinjie@huawei.com>
 References: <20260901024234.135119-1-ruanjinjie@huawei.com>
@@ -67,72 +67,50 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
  dggpemf500011.china.huawei.com (7.185.36.131)
 
-Replace the smp_wmb()/smp_rmb() barrier pair with
-smp_store_release()/smp_load_acquire() on gact->tcfg_ptype.
-tcf_gact_init() publishes tcfg_ptype via release after writing
-tcfg_pval/tcfg_paction; tcf_gact_act() acquires it before
-dispatching to gact_net_rand()/gact_determ(), ensuring the probability
-parameters are visible.
+The active SB_BORN check in super_cache_count() pairs with the
+smp_store_release() in super_wake() when publishing a newly initialized
+superblock.
 
-No functional change intended.
+Replace the historical independent smp_rmb() barrier with an acquire load
+on sb->s_flags via super_flags(). This expresses the publish-subscribe
+pattern more clearly and allows weakly-ordered architectures like arm64
+to utilize efficient native instructions (e.g., LDAR) instead of a full
+one-way barrier.
 
-Cc: Jamal Hadi Salim <jhs@mojatatu.com>
-Cc: Jiri Pirko <jiri@resnulli.us>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>
+Also remove the outdated memory barrier comment in super_cache_count(),
+as the underlying super_flags() implementation already self-documents
+the matched smp_store_release() in super_wake().
+
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Assisted-by: Gemini:Gemini-3.1
 Assisted-by: DeepSeek:DeepSeek-V3
+Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- net/sched/act_gact.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ fs/super.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/net/sched/act_gact.c b/net/sched/act_gact.c
-index 565860cccba6..d4f39f98e2cf 100644
---- a/net/sched/act_gact.c
-+++ b/net/sched/act_gact.c
-@@ -25,7 +25,6 @@ static struct tc_action_ops act_gact_ops;
- #ifdef CONFIG_GACT_PROB
- static int gact_net_rand(struct tcf_gact *gact)
- {
--	smp_rmb(); /* coupled with smp_wmb() in tcf_gact_init() */
- 	if (get_random_u32_below(gact->tcfg_pval))
- 		return gact->tcf_action;
- 	return gact->tcfg_paction;
-@@ -35,7 +34,6 @@ static int gact_determ(struct tcf_gact *gact)
- {
- 	u32 pack = atomic_inc_return(&gact->packets);
+diff --git a/fs/super.c b/fs/super.c
+index 05e443173038..caa6189e4057 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -267,12 +267,10 @@ static unsigned long super_cache_count(struct shrinker *shrink,
+ 	 * However, if we are currently mounting the superblock, the underlying
+ 	 * filesystem might be in a state of partial construction and hence it
+ 	 * is dangerous to access it.  super_trylock_shared() uses a SB_BORN check
+-	 * to avoid this situation, so do the same here. The memory barrier is
+-	 * matched with the one in mount_fs() as we don't hold locks here.
++	 * to avoid this situation, so do the same here.
+ 	 */
+-	if (!(sb->s_flags & SB_BORN))
++	if (!super_flags(sb, SB_BORN))
+ 		return 0;
+-	smp_rmb();
  
--	smp_rmb(); /* coupled with smp_wmb() in tcf_gact_init() */
- 	if (pack % gact->tcfg_pval)
- 		return gact->tcf_action;
- 	return gact->tcfg_paction;
-@@ -133,11 +131,8 @@ static int tcf_gact_init(struct net *net, struct nlattr *nla,
- 	if (p_parm) {
- 		gact->tcfg_paction = p_parm->paction;
- 		gact->tcfg_pval    = max_t(u16, 1, p_parm->pval);
--		/* Make sure tcfg_pval is written before tcfg_ptype
--		 * coupled with smp_rmb() in gact_net_rand() & gact_determ()
--		 */
--		smp_wmb();
--		gact->tcfg_ptype   = p_parm->ptype;
-+		/* Pairs with smp_load_acquire() in tcf_gact_act(). */
-+		smp_store_release(&gact->tcfg_ptype, p_parm->ptype);
- 	}
- #endif
- 	spin_unlock_bh(&gact->tcf_lock);
-@@ -160,7 +155,8 @@ TC_INDIRECT_SCOPE int tcf_gact_act(struct sk_buff *skb,
- 
- #ifdef CONFIG_GACT_PROB
- 	{
--	u32 ptype = READ_ONCE(gact->tcfg_ptype);
-+	/* Pairs with smp_store_release() in tcf_gact_init() */
-+	u32 ptype = smp_load_acquire(&gact->tcfg_ptype);
- 
- 	if (ptype)
- 		action = gact_rand[ptype](gact);
+ 	if (sb->s_op && sb->s_op->nr_cached_objects &&
+ 	    super_fs_objects_eligible(sc))
 -- 
 2.34.1
 
