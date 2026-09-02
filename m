@@ -1,193 +1,136 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E64581724
-	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 08:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BFD430CD3;
+	Wed,  2 Sep 2026 10:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788337510; cv=none; b=gHG5ZN+qBwNl5Q2reMKRF2Txpd3PdSI1LlWPW2qhlK5VRDc2YuPl8RrPY/F+XYBr8rhPNb/aMUfr1wywYbmSWcsq+M4qtv/MtmPE91W8sYYVTQOH4HYg/SW2r9JBf2sAoJQb+49CelFMNpPb2ncvrzAG8C33Y/dhvjfUvJjH4lE=
+	t=1788343283; cv=none; b=HOUrrcqAs3IZ4fluPnnu7ZOiUKv3qdQyZe3+c9V4EBfTZgssPDawfrepNh/QYniON0PumCrf358UrSII9jPH9/uxNjCJ3vG5NuHg1zkBSTBxSgxbNli9pGYB8Zxo0l2Lk7Pxk944EV3SyHdi8Yc6dzBMLkDWBf9gaGJbEyeCeqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788337510; c=relaxed/simple;
-	bh=Jd2a9RXvsQf33KLbdgSdyS4W1Br953Py70GyxhjHwfE=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iUjJcZC8vyPG26a4rz9SQSmxBEdbow8sVolBAcjJf3IuQFjnwrfPecjG1M9IE+aQlChvLq2veJQzxzXybwcdOOlIihLj1E8UYGDDKNU0Uy/tvxcx+d3Fc+NifSc1qL6mP7so6FYb+4r0nSQ+6qdlLKS9xlutVrfN55nPMl5o4ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bhD+Fjwy; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1788343283; c=relaxed/simple;
+	bh=n39eUgVDD5l2zyp5goXnb/ODSDiV8FhVFdZbdUdNpLY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Qb/4klJUQG1ogOSLy6FdVKPkmz03pR/erSaPi17oclaqKtQIgyQ70EMJWeV5UkykIG6GYSzn0I6LP7wbXgDBvFU0e+aQ2VN0tc1BBksBnR3KZ45/vx1DV7mK1XLXJcikZ9Sx+4c3/8tLKXU+xYShYn0vdezIccyZb7YIEuEVHmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=1OKXC1Wl; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bhD+Fjwy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788337508;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=HVqFm8D0vBG1ow64zGx55zGZW/KvA/uA3IdWSxf3nxk=;
-	b=bhD+Fjwyi50q1bbEtBRBM+lZ+vs/NZ8BXvC4urJOGSU/IwzCFLMkhuMZ/7Zo/7Jrwi/ME9
-	vQvSWe467i7eipxDAqSBqkEKV94hkwUYEo9MuBWGgSnyOQ80x43BhHd5eYFbpFgg7sunEk
-	1IIpEhpa2omjcBbWw/k4PwlOQpgENMI=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-213-I6_MlpAWMQm05DSr4ZAqXA-1; Wed,
- 02 Sept 2026 04:25:06 -0400
-X-MC-Unique: I6_MlpAWMQm05DSr4ZAqXA-1
-X-Mimecast-MFC-AGG-ID: I6_MlpAWMQm05DSr4ZAqXA_1788337505
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9998C1955F16;
-	Wed,  2 Sep 2026 08:25:05 +0000 (UTC)
-Received: from ws (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4AAD4426;
-	Wed,  2 Sep 2026 08:25:03 +0000 (UTC)
-Date: Wed, 2 Sep 2026 10:25:00 +0200
-From: Karel Zak <kzak@redhat.com>
-To: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	util-linux@vger.kernel.org
-Subject: [ANNOUNCE] util-linux v2.42.3
-Message-ID: <pymhqp55bzgzuuhvjhmo5msoor4xp6ekvtc5xcqhmcyvwf3dbd@5dp2dim4ttzs>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="1OKXC1Wl"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=5muCGImxQEXCs9mgbU84wjK603R7oDB3KGXYhDYZoIc=;
+	b=1OKXC1WlAcuXvATuYy9843J+ts23aqDRPtEBmymokcm2wcDFN7n+VLXs5YlFtuuOI17YRGOle
+	AE1kaDyBL8Psb6qsvqP6GD+2KaR9IZFlJSaA9VKKZKh4vJ8pLjxN4lSw5BvQVM6ddEVaTK1WC49
+	5AuTsqZ1V1GNz92YBNN1IQA=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hZdHw4T64znTwN;
+	Wed,  2 Sep 2026 17:50:04 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id C74E54057A;
+	Wed,  2 Sep 2026 18:01:17 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 2 Sep 2026 18:01:15 +0800
+Message-ID: <d12302b0-f0b3-4df6-963c-bf25b6e720c7@huawei.com>
+Date: Wed, 2 Sep 2026 18:01:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 12/17] x86/crash: Use num_possible_cpus() for
+ elfcorehdr size
+To: Sourabh Jain <sourabhjain@linux.ibm.com>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <mark.rutland@arm.com>, <chenhuacai@kernel.org>,
+	<kernel@xen0n.name>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
+	<npiggin@gmail.com>, <chleroy@kernel.org>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <akpm@linux-foundation.org>, <baoquan.he@linux.dev>,
+	<rppt@kernel.org>, <pasha.tatashin@soleen.com>, <pratyush@kernel.org>,
+	<ruirui.yang@linux.dev>, <kees@kernel.org>, <thuth@redhat.com>,
+	<gshan@redhat.com>, <jic23@kernel.org>, <james.morse@arm.com>,
+	<ardb@kernel.org>, <leitao@debian.org>, <yeoreum.yun@arm.com>,
+	<coxu@redhat.com>, <tangyouling@kylinos.cn>, <hbathini@linux.ibm.com>,
+	<adityag@linux.ibm.com>, <ionut.nechita@windriver.com>,
+	<liaoyuanhong@vivo.com>, <seanjc@google.com>, <fuqiang.wang@easystack.cn>,
+	<makb@juniper.net>, <piliu@redhat.com>, <ebiggers@kernel.org>,
+	<jbouron@amazon.com>, <mclapinski@google.com>, <me@linux.beauty>,
+	<graf@amazon.com>, <bgwin@google.com>, <robh@kernel.org>,
+	<takahiro.akashi@linaro.org>, <palmer@rivosinc.com>, <x86@kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<kexec@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-mm@kvack.org>
+References: <20260826092541.3905933-1-ruanjinjie@huawei.com>
+ <20260826092541.3905933-13-ruanjinjie@huawei.com>
+ <99b1121d-4277-4764-8c3a-b3f6d9a47ab0@linux.ibm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <99b1121d-4277-4764-8c3a-b3f6d9a47ab0@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
-
-
-The util-linux release v2.42.3 is now available at
-
-  http://www.kernel.org/pub/linux/utils/util-linux/v2.42
-
-Feedback and bug reports, as always, are welcomed.
-
-  Karel
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
 
 
-util-linux 2.42.3 Release Notes
-===============================
+在 2026/9/2 14:14, Sourabh Jain 写道:
+> Hello Jinjie,
+> 
+> This patch makes the below patch redundant..
+> https://lore.kernel.org/all/20260826073527.21487-2-
+> ionut.nechita@windriver.com/
+> 
+> I suggest dropping the first patch from the above series and including
+> the second patch from that series in this patch series with the updated
+> comment.
 
-Security fixes:
+Agreed. This approach makes sense to me.
 
- CVE-2026-76642 - mount(8) post-mount hooks execute after helper failure.
-   When an external mount.<type> helper exits nonzero, post-mount hooks
-   (X-mount.idmap, X-mount.owner/group/mode) still execute as if the
-   mount had succeeded, allowing privileged operations on the
-   pre-existing target filesystem.
+I will update it in v4.
 
- CVE-2026-78410 - mount(8) TOCTOU race on source path.
-   In restricted (SUID, non-root) mode, the source path is
-   canonicalized with realpath() as euid=0, following symlinks through
-   user-writable directories.  Additionally, open_tree() follows
-   symlinks in intermediate path components.  A local attacker can
-   redirect a privileged mount or post-mount ownership change to an
-   arbitrary path.
-
- CVE-2026-78409 - mount(8) X-mount.subdir symlink escape.
-   The open_tree() call used to open a subdirectory on a detached mount
-   follows symlinks in intermediate path components, allowing escape
-   from the detached tree.
-
- CVE-2026-78408 - nsenter(1), unshare(1) file descriptor leak.
-   File descriptors in nsenter and unshare were not created with
-   O_CLOEXEC, potentially leaking them across exec.  Added O_CLOEXEC
-   as defense in depth.
-
- wall(1), write(1) - hostname escape sequence injection.
-   The CVE-2024-28085 fix sanitized only message bodies; the banner
-   headers still interpolated the system hostname without sanitization.
-   An unprivileged user can inject terminal escape sequences via a user
-   namespace hostname.
-   Additional fix for CVE-2024-28085.
-   Reported-by: Skyler Ferrante
-
-Changes between v2.42.2 and v2.42.3:
-
-agetty:
-    - fix spurious issue file reprinting on reload (by Karel Zak)
-
-bitops:
-    - avoid macro redefinition on macOS (by Karel Zak)
-
-build-sys:
-    - require lastlog.h for liblastlog2 (by WanBingjiang)
-
-col:
-    - guard c_width sign before size_t cast in BS branch (by Aizal Khan)
-    - fix cur_col underflow on backspace over a wide char (by Aizal Khan)
-
-disk-utils:
-    - fix memory leak in execute function (by Tigran Sogomonian)
-
-hexdump:
-    - stop after stdout write errors (by WanBingjiang)
-
-libblkid:
-    - befs fix possible load of misaligned address (by Milan Broz)
-    - befs fix possible too large shift (by Milan Broz)
-    - dos fix 32-bit overflow in partition start/size [coverity CID 503517, 503518] (by Karel Zak)
-    - (iso9660) fix out-of-bounds read of root dir record (by Aizal Khan)
-
-libfdisk:
-    - fix OOM on GPT with huge partition entries array (by Karel Zak)
-
-lib/fileutils:
-    - add ul_openat_resolve() openat2 wrapper (by Karel Zak)
-
-libmount:
-    - skip post-mount hooks after failed mount helper [CVE-2026-76642] (by Karel Zak)
-    - pin source path with openat2() for restricted users [CVE-2026-78410] (by Karel Zak)
-    - restrict source path canonicalization for non-root users [CVE-2026-78410] (by Karel Zak)
-    - fix X-mount.subdir symlink following on detached tree [CVE-2026-78409] (by Karel Zak)
-    - add mnt_open_tree() helper for safe tree opening (by Karel Zak)
-    - fix DBG() macro use (by Karel Zak)
-    - reuse existing act fd in mnt_update_start on ro retry (by wangrong)
-    - properly end act file in mnt_free_update (by wangrong)
-    - don't ignore "/" target in mount --all when target prefix is set (by Karel Zak)
-
-lscpu:
-    - remove mmu reference not available in stable/v2.42 (by Karel Zak)
-    - add NULL guards for RISC-V ISA functions [coverity CID 503785] (by Karel Zak)
-
-mbsalign:
-    - check remaining buffer space before writing hex escapes (by aizu-m)
-
-meson:
-    - move header checks before component dependency resolution (by Karel Zak)
-    - gate liblastlog2 on lastlog.h (by Thomas Weißschuh)
-
-more:
-    - fix out-of-bounds write in get_line() on invalid multibyte input (by logical-misha)
-
-nsenter, unshare:
-    - add O_CLOEXEC to all open() calls [CVE-2026-78408] (by Karel Zak)
-
-pg:
-    - fix out-of-bounds access past wbuf on a trailing tab (by logical-misha)
-
-po:
-    - merge changes (by Karel Zak)
-    - update zh_CN.po (from translationproject.org) (by Boyuan Yang)
-    - update tr.po (from translationproject.org) (by Emir SARI)
-    - update es.po (from translationproject.org) (by Antonio Ceballos Roa)
-
-po-man:
-    - merge changes (by Karel Zak)
-    - update pl.po (from translationproject.org) (by Michał Kułach)
-
-tests:
-    - (partx) settle udev before checking partition count (by Karel Zak)
-    - kill/decode also strip RT0 from signal mask output (by Karel Zak)
-    - test_scols_termreduce needs libsmartcols (by Adam Sampson)
-
-unshare:
-    - Fix --map-auto regression (by Chris Webb)
-
-wall, write:
-    - sanitize hostname in banner header (by Karel Zak)
+> 
+> - Sourabh Jain
+> 
+> 
+> On 26/08/26 14:55, Jinjie Ruan wrote:
+>> Use num_possible_cpus() instead of CONFIG_NR_CPUS to calculate the
+>> elfcorehdr buffer size, matching what crash_prepare_elf64_headers()
+>> already uses for the actual header content.
+>>
+>> This avoids over-allocation when the system has fewer possible CPUs
+>> than the compile-time limit, and aligns x86 with PowerPC.
+>>
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> ---
+>>   arch/x86/kernel/crash.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/arch/x86/kernel/crash.c b/arch/x86/kernel/crash.c
+>> index a3bf786286d4..afe2aea19f47 100644
+>> --- a/arch/x86/kernel/crash.c
+>> +++ b/arch/x86/kernel/crash.c
+>> @@ -369,9 +369,9 @@ int crash_load_segments(struct kimage *image)
+>>        * maximum CPUs and maximum memory ranges.
+>>        */
+>>       if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG))
+>> -        pnum = 2 + CONFIG_NR_CPUS + CONFIG_CRASH_MAX_MEMORY_RANGES;
+>> +        pnum = 2 + num_possible_cpus() + CONFIG_CRASH_MAX_MEMORY_RANGES;
+>>       else
+>> -        pnum += 2 + CONFIG_NR_CPUS;
+>> +        pnum += 2 + num_possible_cpus();
+>>         if (pnum < (unsigned long)PN_XNUM) {
+>>           kbuf.memsz = elf64_phdr_size(pnum);
+>> @@ -429,7 +429,7 @@ unsigned int arch_crash_get_elfcorehdr_size(void)
+>>       unsigned int sz;
+>>         /* kernel_map, VMCOREINFO and maximum CPUs */
+>> -    sz = 2 + CONFIG_NR_CPUS;
+>> +    sz = 2 + num_possible_cpus();
+>>       if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG))
+>>           sz += CONFIG_CRASH_MAX_MEMORY_RANGES;
+>>       sz *= sizeof(Elf64_Phdr);
+> 
 
