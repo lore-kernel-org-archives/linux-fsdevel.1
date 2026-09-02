@@ -1,72 +1,75 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A8739F17F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 08:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E64581724
+	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 08:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788337396; cv=none; b=dSj2Q51/aQ91/2Zd3uo6x2uQaLslpjZwkkya5sLYx1Tm1lde90npLhulZEV9pdmCPqpayFAFq+4B9TlL/8blj0ToJWP64L/E4U8zVKNf+tJB+X8WmDvD6kRbuD5xquR81I+peXRMjILb4oJ9FYSIzCCNYdXN5Tz1ozaCReUExmE=
+	t=1788337510; cv=none; b=gHG5ZN+qBwNl5Q2reMKRF2Txpd3PdSI1LlWPW2qhlK5VRDc2YuPl8RrPY/F+XYBr8rhPNb/aMUfr1wywYbmSWcsq+M4qtv/MtmPE91W8sYYVTQOH4HYg/SW2r9JBf2sAoJQb+49CelFMNpPb2ncvrzAG8C33Y/dhvjfUvJjH4lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788337396; c=relaxed/simple;
-	bh=tQIvgQqGPyGgn78PqVP6NOGSx6WMgw2hQRFbb6w+Mtk=;
+	s=arc-20240116; t=1788337510; c=relaxed/simple;
+	bh=Jd2a9RXvsQf33KLbdgSdyS4W1Br953Py70GyxhjHwfE=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IMC/QLGM2hVzCy6MVEqo8INui4UuR4xdMkBbm6EJYPsUQKMfKhLvlUpKz7s6KqDZc6YVVvzchB9I9Jcl1QWk9kTXLdA8WA8qn4QATbw7fq+iuMJsgoXd0mfT9z2qCw3eY6PHBXaWb+xA7OZHgBjKVMxloBwm+6W7lfZ5A9YU2cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XqZ31YWS; arc=none smtp.client-ip=170.10.129.124
+	 Content-Disposition; b=iUjJcZC8vyPG26a4rz9SQSmxBEdbow8sVolBAcjJf3IuQFjnwrfPecjG1M9IE+aQlChvLq2veJQzxzXybwcdOOlIihLj1E8UYGDDKNU0Uy/tvxcx+d3Fc+NifSc1qL6mP7so6FYb+4r0nSQ+6qdlLKS9xlutVrfN55nPMl5o4ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bhD+Fjwy; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XqZ31YWS"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bhD+Fjwy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788337393;
+	s=mimecast20190719; t=1788337508;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=WQuF0kvMWaNNMHPqsEiSj1pAGCWEDfGpmkrHT5U+rCI=;
-	b=XqZ31YWSV/KDczB/t+THaRALkr/mmVEa7hLXh1k4vUebQHmgUAuB/2OFtRW3bQuZkcrTj5
-	orY1g4B784FEqQmPwdYK5Am0RRnBasIPegcaq/Wdddc8ztNH2sxxLedwjVB8Mo+8ZyoiHF
-	LHGWxxvxPgNenw6+cazwi1TCt6toh0w=
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HVqFm8D0vBG1ow64zGx55zGZW/KvA/uA3IdWSxf3nxk=;
+	b=bhD+Fjwyi50q1bbEtBRBM+lZ+vs/NZ8BXvC4urJOGSU/IwzCFLMkhuMZ/7Zo/7Jrwi/ME9
+	vQvSWe467i7eipxDAqSBqkEKV94hkwUYEo9MuBWGgSnyOQ80x43BhHd5eYFbpFgg7sunEk
+	1IIpEhpa2omjcBbWw/k4PwlOQpgENMI=
 Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-381-L-uV9cNSM-KEPI0xDDtzVg-1; Wed,
- 02 Sept 2026 04:23:12 -0400
-X-MC-Unique: L-uV9cNSM-KEPI0xDDtzVg-1
-X-Mimecast-MFC-AGG-ID: L-uV9cNSM-KEPI0xDDtzVg_1788337391
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-213-I6_MlpAWMQm05DSr4ZAqXA-1; Wed,
+ 02 Sept 2026 04:25:06 -0400
+X-MC-Unique: I6_MlpAWMQm05DSr4ZAqXA-1
+X-Mimecast-MFC-AGG-ID: I6_MlpAWMQm05DSr4ZAqXA_1788337505
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 62D9E1954B05;
-	Wed,  2 Sep 2026 08:23:11 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9998C1955F16;
+	Wed,  2 Sep 2026 08:25:05 +0000 (UTC)
 Received: from ws (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 26F241956044;
-	Wed,  2 Sep 2026 08:23:08 +0000 (UTC)
-Date: Wed, 2 Sep 2026 10:23:06 +0200
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4AAD4426;
+	Wed,  2 Sep 2026 08:25:03 +0000 (UTC)
+Date: Wed, 2 Sep 2026 10:25:00 +0200
 From: Karel Zak <kzak@redhat.com>
 To: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	util-linux@vger.kernel.org
-Subject: [ANNOUNCE] util-linux v2.41.6
-Message-ID: <iaeylahlofszibnlw3ixknbeinsavh5guesuytkag6bg5a2eh4@gwzdbo6oqb2x>
+Subject: [ANNOUNCE] util-linux v2.42.3
+Message-ID: <pymhqp55bzgzuuhvjhmo5msoor4xp6ekvtc5xcqhmcyvwf3dbd@5dp2dim4ttzs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
 
-The util-linux release v2.41.6 is now available at
+The util-linux release v2.42.3 is now available at
 
-  http://www.kernel.org/pub/linux/utils/util-linux/v2.41
+  http://www.kernel.org/pub/linux/utils/util-linux/v2.42
 
 Feedback and bug reports, as always, are welcomed.
 
   Karel
 
 
-util-linux 2.41.6 Release Notes
+
+util-linux 2.42.3 Release Notes
 ===============================
 
 Security fixes:
@@ -85,6 +88,11 @@ Security fixes:
    redirect a privileged mount or post-mount ownership change to an
    arbitrary path.
 
+ CVE-2026-78409 - mount(8) X-mount.subdir symlink escape.
+   The open_tree() call used to open a subdirectory on a detached mount
+   follows symlinks in intermediate path components, allowing escape
+   from the detached tree.
+
  CVE-2026-78408 - nsenter(1), unshare(1) file descriptor leak.
    File descriptors in nsenter and unshare were not created with
    O_CLOEXEC, potentially leaking them across exec.  Added O_CLOEXEC
@@ -98,7 +106,35 @@ Security fixes:
    Additional fix for CVE-2024-28085.
    Reported-by: Skyler Ferrante
 
-Changes between v2.41.5 and v2.41.6:
+Changes between v2.42.2 and v2.42.3:
+
+agetty:
+    - fix spurious issue file reprinting on reload (by Karel Zak)
+
+bitops:
+    - avoid macro redefinition on macOS (by Karel Zak)
+
+build-sys:
+    - require lastlog.h for liblastlog2 (by WanBingjiang)
+
+col:
+    - guard c_width sign before size_t cast in BS branch (by Aizal Khan)
+    - fix cur_col underflow on backspace over a wide char (by Aizal Khan)
+
+disk-utils:
+    - fix memory leak in execute function (by Tigran Sogomonian)
+
+hexdump:
+    - stop after stdout write errors (by WanBingjiang)
+
+libblkid:
+    - befs fix possible load of misaligned address (by Milan Broz)
+    - befs fix possible too large shift (by Milan Broz)
+    - dos fix 32-bit overflow in partition start/size [coverity CID 503517, 503518] (by Karel Zak)
+    - (iso9660) fix out-of-bounds read of root dir record (by Aizal Khan)
+
+libfdisk:
+    - fix OOM on GPT with huge partition entries array (by Karel Zak)
 
 lib/fileutils:
     - add ul_openat_resolve() openat2 wrapper (by Karel Zak)
@@ -107,18 +143,50 @@ libmount:
     - skip post-mount hooks after failed mount helper [CVE-2026-76642] (by Karel Zak)
     - pin source path with openat2() for restricted users [CVE-2026-78410] (by Karel Zak)
     - restrict source path canonicalization for non-root users [CVE-2026-78410] (by Karel Zak)
+    - fix X-mount.subdir symlink following on detached tree [CVE-2026-78409] (by Karel Zak)
     - add mnt_open_tree() helper for safe tree opening (by Karel Zak)
+    - fix DBG() macro use (by Karel Zak)
+    - reuse existing act fd in mnt_update_start on ro retry (by wangrong)
+    - properly end act file in mnt_free_update (by wangrong)
+    - don't ignore "/" target in mount --all when target prefix is set (by Karel Zak)
 
-loopdev:
-    - use openat2(RESOLVE_NO_SYMLINKS) for backing file (by Karel Zak)
+lscpu:
+    - remove mmu reference not available in stable/v2.42 (by Karel Zak)
+    - add NULL guards for RISC-V ISA functions [coverity CID 503785] (by Karel Zak)
+
+mbsalign:
+    - check remaining buffer space before writing hex escapes (by aizu-m)
+
+meson:
+    - move header checks before component dependency resolution (by Karel Zak)
+    - gate liblastlog2 on lastlog.h (by Thomas Weißschuh)
+
+more:
+    - fix out-of-bounds write in get_line() on invalid multibyte input (by logical-misha)
 
 nsenter, unshare:
     - add O_CLOEXEC to all open() calls [CVE-2026-78408] (by Karel Zak)
 
+pg:
+    - fix out-of-bounds access past wbuf on a trailing tab (by logical-misha)
+
+po:
+    - merge changes (by Karel Zak)
+    - update zh_CN.po (from translationproject.org) (by Boyuan Yang)
+    - update tr.po (from translationproject.org) (by Emir SARI)
+    - update es.po (from translationproject.org) (by Antonio Ceballos Roa)
+
+po-man:
+    - merge changes (by Karel Zak)
+    - update pl.po (from translationproject.org) (by Michał Kułach)
+
 tests:
-    - (lsfd) add a function checking the availability of UDPLite socket (by Masatake YAMATO)
-    - (lsfd/option-inet) make UDPLite related test case skippable (by Masatake YAMATO)
-    - (lsfd/mkfds-udp*) make UDPLite related test cases skippable (by Masatake YAMATO)
+    - (partx) settle udev before checking partition count (by Karel Zak)
+    - kill/decode also strip RT0 from signal mask output (by Karel Zak)
+    - test_scols_termreduce needs libsmartcols (by Adam Sampson)
+
+unshare:
+    - Fix --map-auto regression (by Chris Webb)
 
 wall, write:
     - sanitize hostname in banner header (by Karel Zak)
