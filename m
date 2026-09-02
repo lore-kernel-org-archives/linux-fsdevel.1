@@ -1,70 +1,50 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-235.mta1.migadu.com [95.215.58.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7F449504B
-	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 12:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3915B495051
+	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 12:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788353496; cv=none; b=AD7K+9pqxQDA//v6Y5EO4bmNj3V8SSLpzLrxwXnDFdJb4q+Ltee6Au/WXmQDhADXnqEHLomnhFwuwDqKRowGRz8Qe8JejvylL1NjWRceHoZw3naImNilyQLRm+7jhTXNKU08gOyVgR9QzWLkitwVm6x+m3FYFQytw52WEeuioxw=
+	t=1788353514; cv=none; b=D9/kpq24sq9p5RsPa9LtpRSc71Heh7YBYIGWTshRQGuUZuSJttBulK+KqDLnXd48tLmoMdkNf4grmaamR4ZvQpSfi1YyVwpQq8JD+WNaicPLKrOmtge+YocxalEukN49QfNR+covZi64xdFUL90PJcn6YijcKXdhko7LgFfQXx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788353496; c=relaxed/simple;
-	bh=W2kJtw4O5e76N7BAD/qieLlPtSIegOOZE5GoZ8N5R1w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qggy9PnHORLgcwErBb3AKv35y3ChHqDqzx5AgBx1E5niKhQUn0IcPAfE8XcYER84vQM3aPzLIHNCjBnZhfg+Rr60P7fzJo6mIjQKzIM4Y4BMT5JnpWi7xwgBmGzok+GR4tm2pz7pA1yVDUjpJ5Nfr35WrvsBla33cWLMc+cXc6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YXUvaHM5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1788353514; c=relaxed/simple;
+	bh=tpDxEjwAM4Z3tcZlQ8FduIdTuWHyaHUuGyRrq6OnN2s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NTBT07KFx9yD0wU1apj5ACHUvzZ71XGNna2m9+UUmP0Zm+kjDTAzHqvNCOdfJgsezoPFBF3g1/2TNOeOe3vwv5J4UTJX+KtzJNfQOwpfCF6gh4Nfis9fwElRcS8rlHjQJOpPTWHiMt5COKZEMrE8d7B/OpC71la+YB3A2j4bfJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=X0UDvp9o; arc=none smtp.client-ip=95.215.58.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YXUvaHM5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788353493;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U94jvVdcc6M9sU+UqV//7PJqOhUXEq707LDKv62Ascg=;
-	b=YXUvaHM5PBvAnKTCngMc1vrgdVG3VKiK6eGRpd13z8ijmAmJFRXAXmSooL8IrvXqulL6oQ
-	Q7dXBPWNlhxeDnFJaZ9JuZOPTk+zxuedjN96KhY1ndX2Y0jUClluXQ48A8/9vNkSvfhmVx
-	KV+qWiCoVaos2Ks+u+DQViVPpfVokRI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-674-gRM1hhEVPAWA3Yxmuxs9oQ-1; Wed,
- 02 Sept 2026 08:51:30 -0400
-X-MC-Unique: gRM1hhEVPAWA3Yxmuxs9oQ-1
-X-Mimecast-MFC-AGG-ID: gRM1hhEVPAWA3Yxmuxs9oQ_1788353487
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 377F11830517;
-	Wed,  2 Sep 2026 12:51:27 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.158])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C33C93000223;
-	Wed,  2 Sep 2026 12:51:21 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Jeffrey Altman <jaltman@auristor.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	linux-afs@lists.infradead.org,
-	openafs-devel@openafs.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="X0UDvp9o"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=tpDxEjwAM4Z3tcZlQ8FduIdTuWHyaHUuGyRrq6OnN2s=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788353508; v=1; x=1788958308;
+ b=X0UDvp9owiQsJm/X2vB0jS198NLYIH/HsFxS13fa3tteUr0hmQM6thLpmRPSuLUHhr6ETCir
+ oJT4iSMhH0FmxSZceX5y4yr+kg4bs72Jj8UeSnUgEde36ueBGDYzgkYSGU0jaiw3gNv71JXQ27f
+ u1qblRCD0ZvzmsdrB9hcXxFs=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 1a541c8069397e4d;
+	Wed, 02 Sep 2026 12:51:48 +0000
+X-Mizu-Trace-ID: 1a541c8069397e4d
+X-Migadu-Flow: FLOW_OUT
+From: Tao Cui <cui.tao@linux.dev>
+To: linux-fsdevel@vger.kernel.org,
+	jlayton@kernel.org,
+	cel@kernel.org
+Cc: alex.aring@gmail.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
 	linux-kernel@vger.kernel.org,
-	Etienne Champetier <champetier.etienne@gmail.com>,
-	Chet Ramey <chet.ramey@case.edu>,
-	Cheyenne Wills <cwills@sinenomine.net>,
-	Christian Brauner <brauner@kernel.org>,
-	Steve French <sfrench@samba.org>
-Subject: [PATCH v4 2/2] afs, bash: Fix open(O_CREAT) on an extant AFS file in a sticky dir
-Date: Wed,  2 Sep 2026 13:50:51 +0100
-Message-ID: <20260902125054.3380685-3-dhowells@redhat.com>
-In-Reply-To: <20260902125054.3380685-1-dhowells@redhat.com>
-References: <20260902125054.3380685-1-dhowells@redhat.com>
+	avagin@openvz.org,
+	khorenko@virtuozzo.com,
+	bcodding@redhat.com,
+	cui.tao@linux.dev,
+	Tao Cui <cuitao@kylinos.cn>
+Subject: [PATCH v2] fs/locks: filter OFD locks from /proc/locks for foreign pid namespaces
+Date: Wed,  2 Sep 2026 20:51:39 +0800
+Message-ID: <20260902125139.975253-1-cui.tao@linux.dev>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -72,221 +52,79 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Since version 1.11 (January 1992) Bash has a work around in redir_open()
-that causes open(O_CREAT) of a file to be retried without O_CREAT if open()
-fails with an EACCES error if bash was built with AFS workarounds
-configured:
+From: Tao Cui <cuitao@kylinos.cn>
 
-        #if defined (AFS)
-              if ((fd < 0) && (errno == EACCES))
-            {
-              fd = open (filename, flags & ~O_CREAT, mode);
-              errno = EACCES;    /* restore errno */
-            }
+Since Linux 4.9, /proc/locks only shows locks whose owning process is
+visible in the reader's pid namespace.  The check cannot see the
+owner of an OFD lock, though: locks_translate_pid() always returns
+-1 for FL_OFDLCK, so an OFD lock held outside of that namespace
+bypasses the filter and is shown with its device/inode numbers and
+byte range, e.g.
 
-        #endif /* AFS */
+    4: OFDLCK ADVISORY  WRITE -1 fd:00:70536961 0 EOF
 
-The ~O_CREAT fallback logic was introduced to workaround a bug[1] in the
-IBM AFS 3.1 cache manager and server which can return EACCES in preference
-to EEXIST if the requested file exists but the caller is neither granted
-explicit PRSFS_READ permission nor is the file owner and is granted
-PRSFS_INSERT permission on the directory.  IBM AFS 3.2 altered the cache
-manager permission checks but failed to correct the permission checks in
-the AFS server.  As of this writing, all IBM AFS derived servers continue
-to return EACCES in preference to EEXIST when these conditions are met.
-Bug reports have been filed with all implementations.
+This was observed on a Kubernetes node: a pod reading /proc/locks
+listed the OFD write lock of an unrelated host process, while the
+POSIX locks of the very same process were correctly hidden.  The
+device/inode pair identifies which host file is locked, the byte
+range discloses where it is actively written, and the
+appearance/disappearance of entries reflects host task activity,
+contrary to the documented per-pidns visibility of /proc/locks
+(proc_locks(5)).
 
-As an unintended side effect, the Bash fallback logic also undermines the
-Linux kernel protections against O_CREAT opening FIFOs and regular files
-not owned by the user in world writeable sticky directories - unless the
-owner is the same as that of the directory - as was added in commit
-30aba6656f61e ("namei: allow restricted O_CREAT of FIFOs and regular
-files").
+OFD locks record the owner tgid in flc_pid, so use it for the
+visibility decision in locks_show(), mirroring what
+locks_translate_pid() does for POSIX locks.  The pid column is still
+reported as -1 for OFD locks; only the filter decision changes.
+Remote locks keep their negative flc_pid and stay visible as before.
 
-As a result the Bash fallback logic masks an incompatibility between the
-ownership checks performed by may_create_in_sticky() and network
-filesystems such as AFS where the uid namespace is disjoint from the uid
-namespace of the local system.
+Verified with an OFD and a POSIX write lock held in the initial pid
+namespace while a process in a fresh pid namespace reads /proc/locks:
+the OFD entry is visible without this patch and hidden with it, the
+POSIX entry is hidden in both cases.
 
-However, the bash work around has been removed in bash-5.3[2].
+Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 
-Fix this in the kernel by using a preceding patch that allows the user ID
-comparisons to be overridden by:
-
- (1) Implement the ->is_owned_by_me() inode op for kafs to determine if the
-     caller owns the file by checking to see if the server indicated the
-     ADMINISTER bit was set in the access rights returned by the
-     FS.FetchStatus and suchlike instead of checking the i_uid to
-     current_fsuid().
-
-     Unfortunately, this check doesn't work for directories, but none of
-     the ops should require that.
-
-     Note that anonymous accesses to AFS will never see the ADMINISTER bit
-     being set and so will not be perceived as owning an anonymously-owned
-     file.
-
- (2) Implement the ->have_same_owner() inode op, for kafs to compare the
-     AFS owner IDs retrieved by FS.FetchStatus (which are 64-bit integers
-     with AuriStor's YFS server and, as such, won't fit in a kuid_t).
-
-     Note that whilst an anonymously-owned file will match an
-     anonymously-owned parent directory, an anonymously-owned directory
-     cannot have the sticky bit set.
-
-This can be tested by creating a sticky directory (the user must have a
-token to do this) and creating a file in it.  Then strace bash doing "echo
-foo >>file" and look at whether bash does a single, successful O_CREAT open
-on the file or whether that one fails and then bash does one without
-O_CREAT that succeeds.
-
-Fixes: 30aba6656f61 ("namei: allow restricted O_CREAT of FIFOs and regular files")
-Reported-by: Etienne Champetier <champetier.etienne@gmail.com>
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: Jeffrey Altman <jaltman@auristor.com>
-cc: Chet Ramey <chet.ramey@case.edu>
-cc: Cheyenne Wills <cwills@sinenomine.net>
-cc: Alexander Viro <viro@zeniv.linux.org.uk>
-cc: Christian Brauner <brauner@kernel.org>
-cc: Steve French <sfrench@samba.org>
-cc: linux-afs@lists.infradead.org
-cc: openafs-devel@openafs.org
-cc: linux-cifs@vger.kernel.org
-cc: linux-fsdevel@vger.kernel.org
-Link: https://groups.google.com/g/gnu.bash.bug/c/6PPTfOgFdL4/m/2AQU-S1N76UJ [1]
-Link: https://git.savannah.gnu.org/cgit/bash.git/tree/redir.c?h=bash-5.3-rc1#n733 [2]
 ---
- fs/afs/dir.c      |  2 ++
- fs/afs/file.c     |  2 ++
- fs/afs/inode.c    |  1 +
- fs/afs/internal.h |  3 +++
- fs/afs/security.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- fs/afs/symlink.c  |  2 ++
- 6 files changed, 56 insertions(+)
 
-diff --git a/fs/afs/dir.c b/fs/afs/dir.c
-index 81565366d937..013030b64a55 100644
---- a/fs/afs/dir.c
-+++ b/fs/afs/dir.c
-@@ -69,6 +69,8 @@ const struct inode_operations afs_dir_inode_operations = {
- 	.permission	= afs_permission,
- 	.getattr	= afs_getattr,
- 	.setattr	= afs_setattr,
-+	.is_owned_by_me	= afs_is_owned_by_me,
-+	.have_same_owner = afs_have_same_owner,
- };
+Changes since v1: keep remote OFD locks (negative flc_pid) visible in
+non-initial pid namespaces, as locks_translate_pid() does for remote
+POSIX locks.
+---
+ fs/locks.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/fs/locks.c b/fs/locks.c
+index 6e4ff7fcec05..4af1385682e4 100644
+--- a/fs/locks.c
++++ b/fs/locks.c
+@@ -3022,6 +3022,25 @@ static int locks_show(struct seq_file *f, void *v)
  
- const struct address_space_operations afs_dir_aops = {
-diff --git a/fs/afs/file.c b/fs/afs/file.c
-index 0467742bfeee..ba44493ccaf6 100644
---- a/fs/afs/file.c
-+++ b/fs/afs/file.c
-@@ -49,6 +49,8 @@ const struct inode_operations afs_file_inode_operations = {
- 	.getattr	= afs_getattr,
- 	.setattr	= afs_setattr,
- 	.permission	= afs_permission,
-+	.is_owned_by_me	= afs_is_owned_by_me,
-+	.have_same_owner = afs_have_same_owner,
- };
+ 	cur = hlist_entry(v, struct file_lock_core, flc_link);
  
- const struct address_space_operations afs_file_aops = {
-diff --git a/fs/afs/inode.c b/fs/afs/inode.c
-index 14f39a9bea6c..af85a88d943d 100644
---- a/fs/afs/inode.c
-+++ b/fs/afs/inode.c
-@@ -91,6 +91,7 @@ static int afs_inode_init_from_status(struct afs_operation *op,
- 	inode->i_flags |= S_NOATIME;
- 	inode->i_uid = make_kuid(&init_user_ns, status->owner);
- 	inode->i_gid = make_kgid(&init_user_ns, status->group);
-+	inode->i_opflags |= IOP_OWNERSHIP_OVERRIDE;
- 	set_nlink(&vnode->netfs.inode, status->nlink);
++	/*
++	 * OFD locks are reported with pid -1, so the filter below cannot see
++	 * their owner; flc_pid holds the owner tgid, so filter on it.
++	 * Remote locks keep a negative flc_pid and stay visible as before.
++	 */
++	if ((cur->flc_flags & FL_OFDLCK) && cur->flc_pid > 0 &&
++	    proc_pidns != &init_pid_ns) {
++		struct pid *pid;
++		bool visible = false;
++
++		rcu_read_lock();
++		pid = find_pid_ns(cur->flc_pid, &init_pid_ns);
++		if (pid)
++			visible = pid_nr_ns(pid, proc_pidns) != 0;
++		rcu_read_unlock();
++		if (!visible)
++			return 0;
++	}
++
+ 	if (locks_translate_pid(cur, proc_pidns) == 0)
+ 		return 0;
  
- 	i_size_write(inode, status->size);
-diff --git a/fs/afs/internal.h b/fs/afs/internal.h
-index 290873bac89b..f15dbbc8dd26 100644
---- a/fs/afs/internal.h
-+++ b/fs/afs/internal.h
-@@ -1531,6 +1531,9 @@ extern struct key *afs_request_key(struct afs_cell *);
- extern struct key *afs_request_key_rcu(struct afs_cell *);
- extern int afs_check_permit(struct afs_vnode *, struct key *, afs_access_t *);
- extern int afs_permission(struct mnt_idmap *, struct inode *, int);
-+int afs_is_owned_by_me(struct mnt_idmap *idmap, struct inode *inode);
-+int afs_have_same_owner(struct mnt_idmap *idmap, struct inode *inode1,
-+			struct inode *inode2);
- extern void __exit afs_clean_up_permit_cache(void);
- 
- /*
-diff --git a/fs/afs/security.c b/fs/afs/security.c
-index 6d00d62a65ed..7092f5acdcd6 100644
---- a/fs/afs/security.c
-+++ b/fs/afs/security.c
-@@ -510,6 +510,52 @@ int afs_permission(struct mnt_idmap *idmap, struct inode *inode,
- 	return ret;
- }
- 
-+/*
-+ * Determine if an inode is owned by 'me' - whatever that means for the
-+ * filesystem.  In the case of AFS, this means that the file is owned by the
-+ * AFS user represented by the Rx Security Class token held in a key.  Returns
-+ * 0 if owned by me, 1 if not; can also return an error.
-+ */
-+int afs_is_owned_by_me(struct mnt_idmap *idmap, struct inode *inode)
-+{
-+	struct afs_vnode *vnode = AFS_FS_I(inode);
-+	afs_access_t access;
-+	struct key *key;
-+	int ret;
-+
-+	if (S_ISDIR(inode->i_mode))
-+		return 1; /* The ADMIN right check doesn't work for directories. */
-+
-+	key = afs_request_key(vnode->volume->cell);
-+	if (IS_ERR(key))
-+		return PTR_ERR(key);
-+
-+	/* Get the access rights for the key on this file. */
-+	ret = afs_check_permit(vnode, key, &access);
-+	if (ret < 0)
-+		goto error;
-+
-+	/* We get the ADMINISTER bit if we own the file. */
-+	ret = (access & AFS_ACE_ADMINISTER) ? 0 : 1;
-+error:
-+	key_put(key);
-+	return ret;
-+}
-+
-+/*
-+ * Determine if a file has the same owner as its parent - whatever that means
-+ * for the filesystem.  In the case of AFS, this means comparing their AFS
-+ * UIDs.  Returns 0 if same, 1 if not same; can also return an error.
-+ */
-+int afs_have_same_owner(struct mnt_idmap *idmap, struct inode *inode1,
-+			struct inode *inode2)
-+{
-+	const struct afs_vnode *vnode1 = AFS_FS_I(inode1);
-+	const struct afs_vnode *vnode2 = AFS_FS_I(inode2);
-+
-+	return vnode1->status.owner != vnode2->status.owner;
-+}
-+
- void __exit afs_clean_up_permit_cache(void)
- {
- 	int i;
-diff --git a/fs/afs/symlink.c b/fs/afs/symlink.c
-index 16b4823cb7b7..ed834ba90e85 100644
---- a/fs/afs/symlink.c
-+++ b/fs/afs/symlink.c
-@@ -271,6 +271,8 @@ int afs_symlink_writepages(struct address_space *mapping,
- const struct inode_operations afs_symlink_inode_operations = {
- 	.get_link	= afs_get_link,
- 	.readlink	= afs_readlink,
-+	.is_owned_by_me	= afs_is_owned_by_me,
-+	.have_same_owner = afs_have_same_owner,
- };
- 
- const struct address_space_operations afs_symlink_aops = {
+-- 
+2.43.0
 
