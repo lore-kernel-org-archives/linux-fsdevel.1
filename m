@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F8B4A0EE1;
-	Wed,  2 Sep 2026 13:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF214A0EF8;
+	Wed,  2 Sep 2026 13:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788355711; cv=none; b=eK5uDa3sVDLc9HJhD+HWga3C0s3P3A7xlZUs53XkHUq5+l8zq7QH6v+K2m5jbpS2zMvA6CfGxfMr4828S70uROU3uPTo8iiP147JzDNZeAP55YiKl5hbqCPw/ZRcRqVTAlrJM+8cjwFV9CjGxdDOXtpl802DuRZDJcLDCCYsHcY=
+	t=1788355717; cv=none; b=kvlICf7go2nHDFMB3Yl9mdRVAdtgbIAHtjOyDHLU+9Z611dqw44kkN5YkcPO+SPxjOzg19P6DnLA3T9dnRSKxl62XABgE58tTSwwo/AJIj7i9d7u/B7M4K6uKOqyZqZrBvJC2vAgFpKiHq/Wxp8vl4MQp6+oUEvw67Iiu0Rbvkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788355711; c=relaxed/simple;
-	bh=qh/kWsxpWtJTnMsjGDetI3+BPXuYwIehfqEkMzoAKOk=;
+	s=arc-20240116; t=1788355717; c=relaxed/simple;
+	bh=+omDfc9TL/XAqCElB1ECov07Wz53Bjd9L1vrszIACpU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OjkTzoO0yz8D/AzKM7N6BrCKXEN0Xikdl4/R+MDiMLNHsL/8tqfbJnKbZgW7QT1xcA1e5oJr30rUCmjalpZWqQZmyqL/iG0H+O8SLOGkxP6xj4hcJ4Zfglb834iBD8nuPpZ+eYKauz5zHD1GQmk4FvT44nFzr4CnSWarF3T81YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YUfwhx54; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=sB8jlQ9ptcJIB+js2Z/Kuh/mKNTgUHKlL0NnXvILHAryGdDiP8MPd1uzChFLwuYfSWt8CqpoMaHzI3QIfG/fWtG6ESUna82WSWQETWUI38BJPsCWxlu0yMmxzPMFxCipo+SFFLVcJoE94NZL7t5TviNFsfya96yhoGNQv5NtN7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lm0rohuP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUfwhx54"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561D11F00A3A;
-	Wed,  2 Sep 2026 13:28:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lm0rohuP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F4C1F000E9;
+	Wed,  2 Sep 2026 13:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788355709;
-	bh=X7gwJtRN282x+tCWLvqdh4zA4VQZ73eNGEmZwXXg9AA=;
+	s=k20260515; t=1788355715;
+	bh=dd8siENsqtHhQzXPZF0LKxm97fALr2t5Pd26+e10O2o=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=YUfwhx54IjYX5Ey/zFGYqewmbqaoJ6TrjvfumzLMK7iM/U8sK5VpTQjpMxyy43ryX
-	 /Eo9EnkVyXkXT3Cfs0aRWlwdwb6NH7i2iggVOj43ZbBP0tTOEFtK/jekD0iUqPuewc
-	 5LyYZyPA6Fd5rPaE4BsbsB3/iQ8stZUSZ59iYXPVnmX/plkb/oh8k2rfcOPMbaC0Rw
-	 YvKD9GFuWlQF8pfXXAmHutTk4HPoY33h17zj9T7cxrrkK49Xi0WqmoLn4o3Sg6Krti
-	 2I0bshwofTUlzt1BUa94WoMO7+DG9xnVQ0VcLC4MaafqE/c8aDg46x3fzjZUPO4QJk
-	 lLAsSO8Kj4F7A==
+	b=Lm0rohuP6ISavxKdLUcodpGsLZ35LIfEfFgviN75v83FXuw7EgygD65gM6GLUyGZY
+	 gDUftNOffZpkrhrXf4H0OLW7BoSl4QFXeuLj+M3LhJ+ZwIeQvNKdj6pgNPN7GBgZBX
+	 FxiHHsWHlUfTuVSUyMly7Z/1mSWzTOFXHqIYSQJr2rnEa3W3VHxf7OB90QKnZU06y1
+	 lXKYJtPkdUJ9yS6Vkaz+NCBaLnQ6ov27PGmV6JrJU792vLc8lTQEnwEJIHiySCHAhB
+	 lrMc05SplsUftNtFpG7F8+Xk4UOgquQKVu+NPvf3jQho1uRyYd0cmtVRnNRksN4Ci0
+	 5zW+xzYq4enxQ==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Wed, 02 Sep 2026 15:25:59 +0200
-Subject: [PATCH v5 03/12] xarray: move xas_result() and xa_zero_to_null()
- to the header
+Date: Wed, 02 Sep 2026 15:25:57 +0200
+Subject: [PATCH v5 01/12] rust: xarray: minor formatting fixes
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-xarray-entry-send-v5-3-d18adae40708@kernel.org>
+Message-Id: <20260902-xarray-entry-send-v5-1-d18adae40708@kernel.org>
 References: <20260902-xarray-entry-send-v5-0-d18adae40708@kernel.org>
 In-Reply-To: <20260902-xarray-entry-send-v5-0-d18adae40708@kernel.org>
 To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -57,115 +56,108 @@ To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
  Roman Gushchin <roman.gushchin@linux.dev>
 Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ Daniel Gomez <da.gomez@samsung.com>, 
+ "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2745; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=qh/kWsxpWtJTnMsjGDetI3+BPXuYwIehfqEkMzoAKOk=;
- b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBqmCQbKtU2TBroNoHBj4gHXVX9d4qVvUTe3v5l7
- WHLs1k9iNCJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCapgkGwAKCRD6UCkIqsW9
- 0AApEACtvY4bZttqTtKgG4ptRmCZeXOYE0MPktLb/8/ea9/SZRCy8yzPZlN3pzNq/EzI5dX0fYo
- 31bJ9XOJas2xPibfFTAvrxYUOV1abZxiu2M1fagVBF//mZ3oEydoi696PMOgOjJNd+J0RGTNAHl
- pfCRn15HO0aJUaow6XnYWdJX6I0nG2oMbiF0fXHuc8jeBvPa7uS+RWBiAqQsALpl7vQQz09IlZa
- iiG1HMl7gJ2VxvlStC4oMiMU4xg1IBFOV76/BUYvTgVJwVEVERujj2++HCjQyE/iRzaonRMNaCD
- Ro5Lkc086QvEvuvj5J6qw8GIVH/9JL//owEXcMEY7FHxCbwhYBsUHIrSgjj0xhx2e7PFNQnpCW+
- zf3nxBzzqtT/loJ5o5F5QbU2GibP47awBVdfmzWGwD0qI2RlGypGddQLDCJzAuyoEAJO3v2adMd
- 2WCzT3dkAK+eyjiL4xF+xTIBXhFg+/8mUU5tUFuN+17hOT6zQw0R2Az/lgpBt8ah94Mngh07WqI
- fVrLdESuNxxGVext+AjR5Rbgje9KdvdUeO5h7NjhOVjpsIEMbkVWvCdeOHC8SrEK37YfzLxHEyq
- yfhgBfNFwYC06b9faLttEBD1l7A9Y9mpYF5OjgE7v1W+FbcyPFek/4RAJ3hyK73pCWMhZ90sqo6
- QzzutF1hJTxulGQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2371; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=+omDfc9TL/XAqCElB1ECov07Wz53Bjd9L1vrszIACpU=;
+ b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBqmCQawZH0SGA2p5ke/OiKg/3VhhXiRaJhAB+XD
+ XruU96yNTiJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCapgkGgAKCRD6UCkIqsW9
+ 0P50D/4iu74xgFGoPRqYXhC28GSw5li89gEWBMELQwbtd37y7DiKm4hsVD/JbvDhAySxNOPcKhY
+ 3eKCjD3RcaZfmpBH71/DViwRdJ8tlHt8tTqzlA3ovdM9ck6v7Yfel55OaXcRTHm54+H7BXQSBnD
+ 5yMll5okuX3iDijeDKXWdrxUWoJl7hBUEjKK8vybks+uuNFVczRVeXkKwqyT3CyUrHVLn1V4KMP
+ RdDBJFxj6OwrIZsiNfcMCudWMQUJG/onFXCx3U68Z+ehIkOob7fgN/VOcJNn2t965Y7sYPUMOoN
+ O9//Evx9jynx2ZuRBiF/1UmgahJee8SFUjc9m14llAhhIO+M1PeX6z6hJQJqaldgm9Qdy6jqndD
+ OxCyUPALpVpUdvb9XXFJNcxofJxB0BY687RxgRgEu0WztaPZ76QcnNawY2dW0wjdQQhHaHBmrnW
+ dWi0dhVHd1pW2zd5mJInLzyJm598EsjCYyAHyRhx0aSmDEhiob9gW7Pwa9K5cGqIOkNu/+2ivLD
+ nb3iy7mqO82EfMZUcRabMDSpPI4zLGis+bCLVosrvetRa73KwyXeS9ZIjr4ohalgkD6jn8nnpXR
+ O6xbyhDUhDXsje6gCw634mB56nB51QY0Kij2FWVCTRI7wjuNo4UDQtNZJRRWye+JH6AroE8oK/n
+ lp4H2sXM7jXm+Mg==
 X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
  fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-The functions xas_result() and xa_zero_to_null() are static in
-lib/xarray.c. Upcoming Rust XArray changes need to call them from
-Rust helper functions. Move them to include/linux/xarray.h as static
-inline functions, following the approach of commit 79ada2ae6615
-("xarray: extract helper from __xa_{insert,cmpxchg}").
+Fix formatting in xarray module to comply with kernel coding
+guidelines:
 
-No functional change.
+- Update use clauses to use vertical layout with each import on its
+  own line.
+- Add trailing empty comments to preserve formatting and prevent
+  rustfmt from collapsing imports.
+- Break long assert_eq! statement in documentation across multiple
+  lines for better readability.
 
-Suggested-by: Tamir Duberstein <tamird@kernel.org>
+Reviewed-by: Gary Guo <gary@garyguo.net>
+Reviewed-by: Tamir Duberstein <tamird@gmail.com>
+Acked-by: Tamir Duberstein <tamird@gmail.com>
+Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
+Acked-by: Liam R. Howlett <Liam.Howlett@oracle.com>
+Reviewed-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 Assisted-by: LLM
 Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
- include/linux/xarray.h | 26 ++++++++++++++++++++++++++
- lib/xarray.c           | 12 ------------
- 2 files changed, 26 insertions(+), 12 deletions(-)
+ rust/kernel/xarray.rs | 30 +++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/xarray.h b/include/linux/xarray.h
-index be850174e802e..db2520864aaa7 100644
---- a/include/linux/xarray.h
-+++ b/include/linux/xarray.h
-@@ -191,6 +191,17 @@ static inline bool xa_is_zero(const void *entry)
- 	return unlikely(entry == XA_ZERO_ENTRY);
- }
+diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
+index 987c9c0c21989..02f93ae1f92de 100644
+--- a/rust/kernel/xarray.rs
++++ b/rust/kernel/xarray.rs
+@@ -4,20 +4,33 @@
+ //!
+ //! C header: [`include/linux/xarray.h`](srctree/include/linux/xarray.h)
  
-+/**
-+ * xa_zero_to_null() - Convert an internal zero entry into a NULL pointer.
-+ * @entry: XArray entry.
-+ *
-+ * Return: %NULL if @entry is a zero entry, @entry otherwise.
-+ */
-+static inline void *xa_zero_to_null(void *entry)
-+{
-+	return xa_is_zero(entry) ? NULL : entry;
-+}
-+
- /**
-  * xa_is_err() - Report whether an XArray operation returned an error
-  * @entry: Result from calling an XArray function
-@@ -1437,6 +1448,21 @@ static inline int xas_error(const struct xa_state *xas)
- 	return xa_err(xas->xa_node);
- }
+-use crate::{
++use core::{
++    iter,
++    marker::PhantomData,
++    pin::Pin,
++    ptr::NonNull, //
++};
++use kernel::{
+     alloc,
+     bindings,
+-    build_assert::build_assert,
+-    error::{Error, Result},
++    build_assert::build_assert, //
++    error::{
++        Error,
++        Result, //
++    },
+     ffi::c_void,
+     types::{
+         ForeignOwnable,
+         NotThreadSafe,
+         Opaque, //
+-    }, //
++    },
++};
++use pin_init::{
++    pin_data,
++    pin_init,
++    pinned_drop,
++    PinInit, //
+ };
+-use core::{iter, marker::PhantomData, pin::Pin, ptr::NonNull};
+-use pin_init::{pin_data, pin_init, pinned_drop, PinInit};
  
-+/**
-+ * xas_result() - Extract the result of an XArray operation.
-+ * @xas: XArray operation state.
-+ * @curr: Entry returned by the operation.
-+ *
-+ * Return: @curr if the operation succeeded, the error encoded in @xas
-+ * otherwise.
-+ */
-+static inline void *xas_result(struct xa_state *xas, void *curr)
-+{
-+	if (xas_error(xas))
-+		curr = xas->xa_node;
-+	return curr;
-+}
-+
- /**
-  * xas_set_err() - Note an error in the xa_state.
-  * @xas: XArray operation state.
-diff --git a/lib/xarray.c b/lib/xarray.c
-index 9a8b4916540cf..cddb44f6b4ab2 100644
---- a/lib/xarray.c
-+++ b/lib/xarray.c
-@@ -437,11 +437,6 @@ static unsigned long max_index(void *entry)
- 	return (XA_CHUNK_SIZE << xa_to_node(entry)->shift) - 1;
- }
- 
--static inline void *xa_zero_to_null(void *entry)
--{
--	return xa_is_zero(entry) ? NULL : entry;
--}
--
- static void xas_shrink(struct xa_state *xas)
- {
- 	struct xarray *xa = xas->xa;
-@@ -1624,13 +1619,6 @@ void *xa_load(struct xarray *xa, unsigned long index)
- }
- EXPORT_SYMBOL(xa_load);
- 
--static void *xas_result(struct xa_state *xas, void *curr)
--{
--	if (xas_error(xas))
--		curr = xas->xa_node;
--	return curr;
--}
--
- /**
-  * __xa_erase() - Erase this entry from the XArray while locked.
-  * @xa: XArray.
+ /// An array which efficiently maps sparse integer indices to owned objects.
+ ///
+@@ -50,7 +63,10 @@
+ /// *guard.get_mut(0).unwrap() = 0xffff;
+ /// assert_eq!(guard.get(0).copied(), Some(0xffff));
+ ///
+-/// assert_eq!(guard.store(0, beef, GFP_KERNEL)?.as_deref().copied(), Some(0xffff));
++/// assert_eq!(
++///     guard.store(0, beef, GFP_KERNEL)?.as_deref().copied(),
++///     Some(0xffff)
++/// );
+ /// assert_eq!(guard.get(0).copied(), Some(0xbeef));
+ ///
+ /// guard.remove(0);
 
 -- 
 2.51.2
