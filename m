@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C605383C8D;
-	Wed,  2 Sep 2026 18:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BC4383C8D;
+	Wed,  2 Sep 2026 18:00:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788372053; cv=none; b=qMcwAdQDwAJlNjz7VYI10m+Oi58gnJDNdLmMfbLjPZ07enkAPzoyjddG0bUrpS85WYYDh6YPcHlZA3Dq/+9oBgVepwhe+sdbdW0BWur/z5oTRIjjWrhervo2NkDbkHGw484HugSyrA2IZv78+BbZccgWi0WiJPWqakV0b2g4iCQ=
+	t=1788372057; cv=none; b=Zyso6Jq9ynyL5KpGe3F8rcJuO6Tjf3rMRvJaH+/ob4ql37133b6mpbzGRgh6YSLKvcfkzzodHLN/tGZctvhIbitE0JQ/z6WjQnJFAN76lFi7HvwbxWdISW0OhoQIIPjJdKMOsoG4k+w+582kIqc++KgCcnviYek6yFA5CDynLdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788372053; c=relaxed/simple;
-	bh=+lQ64M91uOCmTZQebnoxYSvQq7Jfy6kZG9l8lKXW1J4=;
+	s=arc-20240116; t=1788372057; c=relaxed/simple;
+	bh=8RUVAZRLPzU4llnS3oLrE03c3Dx8Fmtq1pWNn43ElvA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fRSPKccaIMs5PesmvD2JKS0lOIjSws/x+GSuzKCzT8fA1S/Wip06uAFhqKa4nhW1ziJmYZfthogd/0Dhrh0hx9efueoLqvYz3Ak279nI5OO/RIIC3MHLLxItlj2vYz/NIc9DspRtdwjd9u4tKTKipOzPrZCT3Mshfvu6MEvYYO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OGydZTsC; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=ZnPc/s+ojawkxaXGhVPBIRclcaL6kHhWiOR+Rl3+R5a5bonCqR8Lj9oXZiJChKCJr0ScEZLLDsJCbAJRjE0xuB/Q2VEWLt7gwz1eBnva/w1Pc60Gn9ZvtDj6ECcVCxhuVVo4VtBnlLK7YdjkvBuYu69pGiJ/w61dLOkezgm7U2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=doxzFlR+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OGydZTsC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D90601F00A3A;
-	Wed,  2 Sep 2026 18:00:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="doxzFlR+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618101F000E9;
+	Wed,  2 Sep 2026 18:00:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788372051;
-	bh=FkujdrJ/pdcNwpIbp+sSj6hn+DXxw2Xn58xtJMFlJxs=;
+	s=k20260515; t=1788372056;
+	bh=jalqcGbTgpiwMOKCsH/rxa3bYllTMGaMYpLwBNB765E=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=OGydZTsC4RGgesW31RFvGv8NgGNrrRKWaqywQDMxbqsW3Wyx/EAVj4VvJR4KJQbPD
-	 hym+9RctbEOEGHMpWGfFbBe3BnGzDbiq24XumBUsaPFDDJaTAoU8HQI+YJHXCFOK5g
-	 NgZh6lej/czw/qPob3S7F7vTewedg/mXKnNvl9bdyz8PJayZs4oGeHzKFSk4O92+FK
-	 Bvp3bCd6znxQJFZrEFrBVszkU5TEgG6yVESvbT0BrYMJCmt+ZQpPaVkwC+dQ6lRCpl
-	 d6OeS478mdWn1liNL+w1RxG1n2/Ml2n+QqX2Qu9+MSrvgcT3P8BLCMCJLKzxNCkmJV
-	 /kJ5V4j43Y/xA==
+	b=doxzFlR+siE8INCIvg2cvuz6MHpVNZMF68w2lxnCxkffbz1ZHhmabPy8brvZyPiaB
+	 QnZToLPbA8CMmcfXQZeQkjbEtUfFMArC1EX06mMDwjMMCckjtZk5t1nxZ8/ZHv0ZAe
+	 1bcr1zeQFzHK+bmBpqwtxYp9gQRp4RiFVGfahnqXT5zTP8gIvKBUNvGrIqJ6QYmbXb
+	 GKSkmcJ6lxk7qWSFTH2WfCLTnWRC8noM0Vp8qi8kmAsw0MzXy+DqlaGD7nqJBmTdmN
+	 0cn4w4vj63IRafwXlO9E2GjPAgLcsvqdUKtIomG+HD/Cm3WYilI4HzJgHj36RUbwSQ
+	 34eVzChAWze1g==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Wed, 02 Sep 2026 19:00:18 +0100
-Subject: [PATCH 1/6] mm: move drivers/char/mem.c to mm/char-mem.c
+Date: Wed, 02 Sep 2026 19:00:19 +0100
+Subject: [PATCH 2/6] mm: implement file_is_dev_zero() to uniquely identify
+ /dev/zero
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-map-private-dev-zero-v1-1-a578c730cec7@kernel.org>
+Message-Id: <20260902-map-private-dev-zero-v1-2-a578c730cec7@kernel.org>
 References: <20260902-map-private-dev-zero-v1-0-a578c730cec7@kernel.org>
 In-Reply-To: <20260902-map-private-dev-zero-v1-0-a578c730cec7@kernel.org>
 To: Arnd Bergmann <arnd@arndb.de>, 
@@ -54,116 +55,112 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3541; i=ljs@kernel.org;
- h=from:subject:message-id; bh=+lQ64M91uOCmTZQebnoxYSvQq7Jfy6kZG9l8lKXW1J4=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLJmpHg9UN0a/7/TWUg8x1o8wJEhtUpBeIuz+fbSa8W7/
- zObn2PqKGVhEONikBVTZHn+RXx/kEjYvM4L/m4wc1iZQIYwcHEKwES+nWVkOLx4/glBmX8CS0Ju
- N0R7HdjYZGh3L3mhVNVJ0x2/leXSuxkZvrf0GS0/11DnPH/nmmXZixev8t3nq/U/6vO9NzdmC07
- 7zQAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2934; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=8RUVAZRLPzU4llnS3oLrE03c3Dx8Fmtq1pWNn43ElvA=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLJmpHiVax5h8JvsqLRXeYlzx+f1kz1m7N39TEJCWcg8e
+ VmK26cXHaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZhIXwTDf5esEO3qK6I3JjL+
+ EF/356EG67sPB9dVcgX1COy/8+d57VSGX8wzGk9dfDZ5g87s/3Mapy92fMJc+C1KQNFpZ1yPUfW
+ MeDYA
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-The memory character driver implements several mm-specific features and is
-always compiled into the kernel, so move it to mm/ where it belongs.
+To lay the foundation for a future change that converts
+MAP_PRIVATE-/dev/zero mappings to be truly anonymous, add the ability to
+uniquely identify these mappings.
 
-Among other things the driver implements /dev/mem which provides raw access
-to physical memory, and /dev/zero which either allows mapping of a shmem
-region (if mapped with MAP_SHARED) or, uniquely, anonymous memory (if
-mapped MAP_PRIVATE).
+With the memory character device now part of mm/ this is trivially
+achievable through a file_is_dev_zero() predicate that simply tests that
+the file operation hooks are zero_fops.
 
-This change lays the foundations to allow MAP_PRIVATE-/dev/zero to be
-mapped precisely the same as anonymous memory is mapped as currently it is
-an edge case within mm.
-
-Also update a couple of comments that reference 'drivers/char/mem.c' to
-reference 'mm/char-mem.c'.
+Also update userland VMA tests to expose file_is_dev_zero() and provide
+a stub zero_fops for testing.
 
 Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- MAINTAINERS                         | 4 ++--
- drivers/char/Makefile               | 2 +-
- mm/Makefile                         | 3 ++-
- drivers/char/mem.c => mm/char-mem.c | 2 +-
- mm/shmem.c                          | 2 +-
- 5 files changed, 7 insertions(+), 6 deletions(-)
+ mm/char-mem.c                   | 13 +++++++++++++
+ mm/internal.h                   |  3 +++
+ tools/testing/vma/include/dup.h |  7 +++++++
+ tools/testing/vma/shared.c      |  9 +++++++++
+ 4 files changed, 32 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2133aec4a200..ebadf4cef076 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17272,7 +17272,7 @@ F:	Documentation/ABI/testing/sysfs-kernel-mm-memory-tiers
- F:	Documentation/ABI/testing/sysfs-kernel-mm-numa
- F:	Documentation/admin-guide/mm/
- F:	Documentation/mm/
--F:	drivers/char/mem.c
-+F:	mm/char-mem.c
- F:	include/linux/cma.h
- F:	include/linux/dmapool.h
- F:	include/linux/ioremap.h
-@@ -17477,7 +17477,7 @@ L:	linux-mm@kvack.org
- S:	Maintained
- W:	http://www.linux-mm.org
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
--F:	drivers/char/mem.c
-+F:	mm/char-mem.c
- F:	include/trace/events/mmap.h
- F:	fs/proc/task_mmu.c
- F:	fs/proc/task_nommu.c
-diff --git a/drivers/char/Makefile b/drivers/char/Makefile
-index a46d7bf7c4c8..bb3bf66937b3 100644
---- a/drivers/char/Makefile
-+++ b/drivers/char/Makefile
-@@ -3,7 +3,7 @@
- # Makefile for the kernel character device drivers.
- #
- 
--obj-y				+= mem.o random.o
-+obj-y				+= random.o
- obj-$(CONFIG_TTY_PRINTK)	+= ttyprintk.o
- obj-y				+= misc.o
- obj-$(CONFIG_TEST_MISC_MINOR)	+= misc_minor_kunit.o
-diff --git a/mm/Makefile b/mm/Makefile
-index e7245cb88c66..2a3ec53d62ee 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -55,7 +55,8 @@ obj-y			:= filemap.o mempool.o oom_kill.o fadvise.o \
- 			   mm_init.o percpu.o slab_common.o \
- 			   compaction.o show_mem.o \
- 			   interval_tree.o list_lru.o workingset.o \
--			   debug.o gup.o mmap_lock.o vma_init.o $(mmu-y)
-+			   debug.o gup.o mmap_lock.o vma_init.o char-mem.o \
-+			   $(mmu-y)
- 
- # Give 'page_alloc' its own module-parameter namespace
- page-alloc-y := page_alloc.o
-diff --git a/drivers/char/mem.c b/mm/char-mem.c
-similarity index 99%
-rename from drivers/char/mem.c
-rename to mm/char-mem.c
-index 63253d1de5d7..d2e575545044 100644
---- a/drivers/char/mem.c
+diff --git a/mm/char-mem.c b/mm/char-mem.c
+index d2e575545044..e53e89e6ddd8 100644
+--- a/mm/char-mem.c
 +++ b/mm/char-mem.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- *  linux/drivers/char/mem.c
-+ *  mm/char-mem.c
-  *
-  *  Copyright (C) 1991, 1992  Linus Torvalds
-  *
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 255d69ebceba..c92ed17dbc4a 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -2981,7 +2981,7 @@ unsigned long shmem_get_unmapped_area(struct file *file,
- 			sb = file_inode(file)->i_sb;
- 		} else {
- 			/*
--			 * Called directly from mm/mmap.c, or drivers/char/mem.c
-+			 * Called directly from mm/mmap.c, or mm/char-mem.c
- 			 * for "/dev/zero", to create a shared anonymous object.
- 			 */
- 			if (IS_ERR(shm_mnt))
+@@ -31,6 +31,8 @@
+ #include <linux/uaccess.h>
+ #include <linux/security.h>
+ 
++#include "internal.h"
++
+ #define DEVMEM_MINOR	1
+ #define DEVPORT_MINOR	4
+ 
+@@ -707,6 +709,17 @@ static const struct memdev {
+ #endif
+ };
+ 
++/**
++ * file_is_dev_zero() - is the specified @file associated with the /dev/zero
++ * driver?
++ * @file: File to test.
++ * Returns: true if it is, false otherwise.
++ */
++bool file_is_dev_zero(const struct file *file)
++{
++	return file && file->f_op == &zero_fops;
++}
++
+ static int memory_open(struct inode *inode, struct file *filp)
+ {
+ 	int minor;
+diff --git a/mm/internal.h b/mm/internal.h
+index e16f1250b25c..5d474e5f7709 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1638,4 +1638,7 @@ static inline bool can_spin_trylock(void)
+ 	return true;
+ }
+ 
++/* char-mem.c */
++bool file_is_dev_zero(const struct file *file);
++
+ #endif	/* __MM_INTERNAL_H */
+diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+index 57046d8ac81d..0d1a2ac88922 100644
+--- a/tools/testing/vma/include/dup.h
++++ b/tools/testing/vma/include/dup.h
+@@ -1641,3 +1641,10 @@ static inline pgoff_t linear_anon_page_index(const struct vm_area_struct *vma,
+ 
+ 	return pgoff;
+ }
++
++extern const struct file_operations zero_fops;
++
++static inline bool file_is_dev_zero(const struct file *file)
++{
++	return file && file->f_op == &zero_fops;
++}
+diff --git a/tools/testing/vma/shared.c b/tools/testing/vma/shared.c
+index 4a39c9d50489..8c4826499f40 100644
+--- a/tools/testing/vma/shared.c
++++ b/tools/testing/vma/shared.c
+@@ -12,6 +12,15 @@ const struct vm_operations_struct vma_dummy_vm_ops;
+ struct anon_vma dummy_anon_vma;
+ struct task_struct __current;
+ 
++static int mmap_zero_prepare(struct vm_area_desc *desc)
++{
++	return 0;
++}
++
++const struct file_operations zero_fops = {
++	.mmap_prepare = mmap_zero_prepare,
++};
++
+ struct vm_area_struct *alloc_vma(struct mm_struct *mm,
+ 		unsigned long start, unsigned long end,
+ 		pgoff_t pgoff, vma_flags_t vma_flags)
 
 -- 
 2.55.0
