@@ -1,128 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F3748663D;
-	Wed,  2 Sep 2026 13:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B7348C8AF;
+	Wed,  2 Sep 2026 13:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788354308; cv=none; b=pwk76g/Wwi/CVKHrhBpbGvOSrtyZyFxgku7XImbSATJf2jeV+eKCQpjKvKzW15/2/jlpLSf9ZLZG/elIuxsBA4MPzZfBIf27/fvDMbFcXIMcFLeu7HHIqZGV/7NMQ08DwENzKqNd4jHaLmU1wxPOqQtWyXARg47QUDn4PU7euuw=
+	t=1788355027; cv=none; b=kmyrPIgIyJsABhec52E6c9UskuOL+5nJrpjrHZZDzRUitZTpIK4otep1REds1aR5saJwexT3nI0r4ozGvQHqL76QON5nTlyBVf+hQDe06bRDJLyTtcWcT2s88pvmPDoJI6KMdbNuaBZ28I5ZQaT2S0ObUec7+OwHg4X+ZPIGi+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788354308; c=relaxed/simple;
-	bh=nuGiQpVdQXM62iqN7zRrQ1PDjyq0FozVNQtWBQVuEoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ttz7meYz2IvxLFO5+S1odwvgwKkoeR5g9dRpMeJyeF2ca6xJBa95zWpqhIcoNhoTP6LiYQRpxBWWfdolhkMX8UIqKDa37DlNvwMdO0UOCaNvlbMiJMIEx0enx9uXP3599JjRnN4qchOhk+PKo/04ODlrI+1t3ONVebS/+JLwGkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RI9XTGbG; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788355027; c=relaxed/simple;
+	bh=Y6ZMkcQu7k15mSxiuSv0YF3tYm3dKpM75JU24537c9k=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aIGFQHkF/YIotcuqZCTCZfGpwkyUSV/wF2uAQbFu5p5SFTvqP/1QJDDzD6+H2QyT+eN4sNlFxmZKT2vpF+UJbVUp/MHZfxFLCvrATYpuiLUX9buZEEDScaFyCk6CLKp+TuGfVdKw2d5GGWrdQGpoofi+tpf5wvVy0tMu8uRxEnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=VFXbj+lH; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RI9XTGbG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788354307; x=1819890307;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nuGiQpVdQXM62iqN7zRrQ1PDjyq0FozVNQtWBQVuEoU=;
-  b=RI9XTGbGl2UhS1hUpqpVE744r12j/2PdT9uClFlGseOKiqwa2YG1ACvO
-   qpkWq8mBohZ3IZwbUzxy+/85KaiP61xVfotKeNx8606BnfL0KiBswR8gS
-   zwatYLfV4AOFVd8A480zIG44PgAfaijeBReS2PxhAk+VyfdnVVZQkM0y1
-   mkLoVAzsIMxyqcKk70KximoKQEdcpmJcdAqpeCljXrrPVtca2JCjVIegM
-   XnojAqxq1jZWi+O25ghJAurUd36fpHLTgUOFUrP95Mq5kS3O8Mb81tkPy
-   5CSUwoNe7moOZuacz8Az3RRabfm/tdAX3Ca09Az68hQx8FBDpKYdznCJo
-   w==;
-X-CSE-ConnectionGUID: +JdhoEllTw6myc8hRQIsNQ==
-X-CSE-MsgGUID: fq51iaPMTpuvye66tJL9LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88858096"
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="88858096"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:05:06 -0700
-X-CSE-ConnectionGUID: f4YbeFikTwSzmAXirWXbjg==
-X-CSE-MsgGUID: yRpphcw+T5yDxdF2uEC8wg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="307617041"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.118])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:05:01 -0700
-Date: Wed, 2 Sep 2026 16:04:58 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: bcrl@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	jack@suse.cz, tytso@mit.edu, adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com, ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com, yi.zhang@huawei.com, sforshee@kernel.org,
-	akpm@linux-foundation.org, pmladek@suse.com, rostedt@goodmis.org,
-	linux@rasmusvillemoes.dk, senozhatsky@chromium.org, kees@kernel.org,
-	tglx@kernel.org, linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
-	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org
-Subject: Re: [PATCH v3 1/8] user_namespace: Use acquire/release for
- nr_extents synchronization
-Message-ID: <apge-t-tp00Tl9TL@ashevche-desk.local>
-References: <20260902074805.398540-1-ruanjinjie@huawei.com>
- <20260902074805.398540-2-ruanjinjie@huawei.com>
- <apgek5EhgjxpDCkh@ashevche-desk.local>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="VFXbj+lH"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=ow5+5zT/Qz68HwOR7hge2aByrndRNdMarakE/QBZiCg=;
+	b=VFXbj+lHggagP9n/+yQoCKVOFSLN5qmHvAnRjc2SuoDmJBsGdpPCXwi+W2WH7xOFN+Duw+met
+	4pa0nh3ChZr4eZ/gMFSfxyKgyVzUWeIRpZU2PL5uAcSir8zGNthTUTV+CBUW+Cfiv++XPqmCWGl
+	sjTRNDtuTETjbI1+REajJNU=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hZjf663f0zmV7C;
+	Wed,  2 Sep 2026 21:06:06 +0800 (CST)
+Received: from kwepemk300003.china.huawei.com (unknown [7.202.195.93])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1D00940586;
+	Wed,  2 Sep 2026 21:16:57 +0800 (CST)
+Received: from ubuntu (10.50.87.83) by kwepemk300003.china.huawei.com
+ (7.202.195.93) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 2 Sep
+ 2026 21:16:56 +0800
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+To: <brauner@kernel.org>, <djwong@kernel.org>, <cem@kernel.org>,
+	<akpm@linux-foundation.org>, <vbabka@kernel.org>, <surenb@google.com>,
+	<mhocko@suse.com>, <brendan.jackman@linux.dev>, <hannes@cmpxchg.org>,
+	<ziy@nvidia.com>, <david@kernel.org>, <qi.zheng@linux.dev>,
+	<shakeel.butt@linux.dev>, <ljs@kernel.org>
+CC: <linux-xfs@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-mm@kvack.org>, Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: [PATCH 3/4] mm: replace PF_KSWAPD flag with kthread_func() check
+Date: Wed, 2 Sep 2026 21:16:52 +0800
+Message-ID: <20260902131653.1338227-4-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260902131653.1338227-1-wangkefeng.wang@huawei.com>
+References: <20260902131653.1338227-1-wangkefeng.wang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apgek5EhgjxpDCkh@ashevche-desk.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemk300003.china.huawei.com (7.202.195.93)
 
-On Wed, Sep 02, 2026 at 04:03:23PM +0300, Andy Shevchenko wrote:
-> On Wed, Sep 02, 2026 at 03:47:58PM +0800, Jinjie Ruan wrote:
-> > Replace smp_wmb()/smp_rmb() with smp_store_release()/smp_load_acquire()
-> > when publishing and consuming `nr_extents`. This expresses the
-> > publish/subscribe pattern more clearly and allows architectures with
-> > native acquire/release instructions (e.g. arm64's STLR/LDAR) to avoid
-> > the cost of full one-way barriers (DMB ISHST/ISHLD).
-> > 
-> > No functional change intended.
-> 
-> Please, locate Cc list...
-> 
-> > Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> > Cc: Christian Brauner <brauner@kernel.org>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: Seth Forshee <sforshee@kernel.org>
-> > Cc: Kees Cook <kees@kernel.org>
-> > Cc: Aleksa Sarai <cyphar@cyphar.com>o
-> 
-> ...(all the above)...
+The preceding commits removed the last consumer that propagated
+PF_KSWAPD beyond kswapd itself (XFS btree split worker inheritance).
+The only remaining setter of PF_KSWAPD is kswapd(), and every
+current_is_kswapd() caller only needs to check whether the current
+task *is* the kswapd thread, not whether it inherited the flag.
 
-Important remark: this is only about Cc, the regular tags have to be
-in the commit message trailers (such as Reviewed-by).
+Replace the flag-based test with kthread_func(current) == kswapd,
+freeing the 0x00020000 PF flag bit.
 
-> > Assisted-by: DeepSeek:DeepSeek-V3
-> > Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> > ---
-> 
-> ...somewhere here. It will have the same effect on the email thread and it will
-> unload the commit message from the unneeded noise.
-> 
-> > v2:
-> > - Add missing load replace in copy_mnt_idmap()
-> > ---
-> >  fs/mnt_idmapping.c      |  5 ++---
-> >  kernel/user_namespace.c | 24 +++++++++++++-----------
-> >  2 files changed, 15 insertions(+), 14 deletions(-)
-> 
-> ...
-> 
-> This comment applies to the whole series.
-> Also note, `b4 trailers` can handle that, you can keep the
-> 
->   ---
->   Cc: ...
-> 
-> in the local Git. You can find some details in the subthread here
-> https://lore.kernel.org/lkml/20260123113708.416727-19-bigeasy@linutronix.de/
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ include/linux/sched.h                    |  2 +-
+ include/linux/swap.h                     |  7 +------
+ mm/vmscan.c                              | 10 ++++++++--
+ tools/sched_ext/include/scx/common.bpf.h |  1 -
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 8b3d47a325cc..86394121b6c0 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1809,7 +1809,7 @@ extern struct pid *cad_pid;
+ #define PF_USER_WORKER		0x00004000	/* Kernel thread cloned from userspace thread */
+ #define PF_NOFREEZE		0x00008000	/* This thread should not be frozen */
+ #define PF_KCOMPACTD		0x00010000	/* I am kcompactd */
+-#define PF_KSWAPD		0x00020000	/* I am kswapd */
++#define PF__HOLE__00020000	0x00020000
+ #define PF_MEMALLOC_NOFS	0x00040000	/* All allocations inherit GFP_NOFS. See memalloc_nfs_save() */
+ #define PF_MEMALLOC_NOIO	0x00080000	/* All allocations inherit GFP_NOIO. See memalloc_noio_save() */
+ #define PF_LOCAL_THROTTLE	0x00100000	/* Throttle writes only against the bdi I write to,
+diff --git a/include/linux/swap.h b/include/linux/swap.h
+index a72ecf12c00d..fc290e29e4a9 100644
+--- a/include/linux/swap.h
++++ b/include/linux/swap.h
+@@ -25,12 +25,6 @@
+ #define SWAP_FLAGS_VALID	(SWAP_FLAG_PRIO_MASK | SWAP_FLAG_PREFER | \
+ 				 SWAP_FLAG_DISCARD | SWAP_FLAG_DISCARD_ONCE | \
+ 				 SWAP_FLAG_DISCARD_PAGES)
+-
+-static inline int current_is_kswapd(void)
+-{
+-	return current->flags & PF_KSWAPD;
+-}
+-
+ /*
+  * MAX_SWAPFILES defines the maximum number of swaptypes: things which can
+  * be swapped to.  The swap type and the offset into that swap type are
+@@ -339,6 +333,7 @@ void check_move_unevictable_folios(struct folio_batch *fbatch);
+ 
+ extern void __meminit kswapd_run(int nid);
+ extern void __meminit kswapd_stop(int nid);
++bool current_is_kswapd(void);
+ 
+ #ifdef CONFIG_SWAP
+ int add_swap_extent(struct swap_info_struct *sis, unsigned long start_page,
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 07ba86634b84..775d3f71a9de 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -7468,7 +7468,7 @@ static int kswapd(void *p)
+ 	 * us from recursively trying to free more memory as we're
+ 	 * trying to free the first piece of memory in the first place).
+ 	 */
+-	tsk->flags |= PF_MEMALLOC | PF_KSWAPD;
++	tsk->flags |= PF_MEMALLOC;
+ 	set_freezable();
+ 
+ 	WRITE_ONCE(pgdat->kswapd_order, 0);
+@@ -7518,11 +7518,17 @@ static int kswapd(void *p)
+ 			goto kswapd_try_sleep;
+ 	}
+ 
+-	tsk->flags &= ~(PF_MEMALLOC | PF_KSWAPD);
++	tsk->flags &= ~PF_MEMALLOC;
+ 
+ 	return 0;
+ }
+ 
++bool current_is_kswapd(void)
++{
++	return kthread_func(current) == kswapd;
++}
++EXPORT_SYMBOL_GPL(current_is_kswapd);
++
+ /*
+  * A zone is low on free memory or too fragmented for high-order memory.  If
+  * kswapd should reclaim (direct reclaim is deferred), wake it up for the zone's
+diff --git a/tools/sched_ext/include/scx/common.bpf.h b/tools/sched_ext/include/scx/common.bpf.h
+index 76f5e025e107..3e095343ae84 100644
+--- a/tools/sched_ext/include/scx/common.bpf.h
++++ b/tools/sched_ext/include/scx/common.bpf.h
+@@ -32,7 +32,6 @@
+ #define PF_IO_WORKER			0x00000010	/* Task is an IO worker */
+ #define PF_WQ_WORKER			0x00000020	/* I'm a workqueue worker */
+ #define PF_KCOMPACTD			0x00010000      /* I am kcompactd */
+-#define PF_KSWAPD			0x00020000      /* I am kswapd */
+ #define PF_KTHREAD			0x00200000	/* I am a kernel thread */
+ #define PF_EXITING			0x00000004
+ #define CLOCK_MONOTONIC			1
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.55.0
 
