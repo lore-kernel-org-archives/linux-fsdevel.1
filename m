@@ -1,60 +1,42 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D9E4908A7
-	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 12:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C9247FAE7;
+	Wed,  2 Sep 2026 12:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788351066; cv=none; b=e6zWF6PYv2fYoYhRw3AF0gmM2NlgMZZsLreDyLI7LTZsLG4uUXllXYfnbd5OyZlwW6TRD3N/lKVae+dtWScb1cruo/HyRdqvj97NafLcThDfZCTWkON6C48GSxQK1lBm1q9V+kaTAhXoN73eAPGqf/23LccqMhNMkmzglKSGf+4=
+	t=1788351244; cv=none; b=VFBIjRPMo6bj+EffZCYb85/Q406Tt5Bcf6+t0Yxr9pNP9+Wh67xt7wvSZX9pCTowogtBvbC3TNiHgn3/kAqbOjnRbdacedHb4gWhRkuZHuM9Gi9Q6LBKlEzL5LkSXNIXW4vAUWVwqj2Q2DB2hZCZnz5BWlxn2sCE2Hpc3lIRm14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788351066; c=relaxed/simple;
-	bh=YMK5LvesX9XitnPi7os9CksoixaX/8C7fM7tV9Cgc3I=;
+	s=arc-20240116; t=1788351244; c=relaxed/simple;
+	bh=ZDcOggslxCVkJ8daW/g8vyDbXApQQ0+Iaaqgg/9yIdQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EHHAC9dQoGOgzj0ov/kjcr6HfB4wpLCipMZOwWYS/LQMldKJbrWVWJeGBHRcRx4U4TjPHP0YN+wdL1QKVo8a+gJaD+OJxd9XkLKA0HXBpVMjTM3YCWq7iGI2queKzBlMc0LokrNZ8Y41SB5kSJE3NCqKlpi9fGYyUkXpjS2agEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ly7LI3HW; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 MIME-Version:Content-Type; b=r+c0WPJsW+BJDrByfzBLTz9zbTYsxDtoBY87GuHAAnml8mcHsSlwpd9o1h8sbAGtcX/qwhC98WFR4ZJmtv19ZaH7P/ZLoLT2QxHvrkRVOsoa5OvV4PbPxGXqn4yMb5jSxM+fGcjqo2RuJXZqQk8j+QWeoW3gmma9if54xRem4I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bj4L9/Bu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ly7LI3HW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788351060;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zanSzEiwTIQarru0lltqSRWr2TKEL/j5OJqjRgaFpJA=;
-	b=Ly7LI3HWAzH98n29gPDb+921h+S5I9gCDQad2c7zPQL9AbULGgWH1EEMkBImK9YF0g6zY5
-	62/nBUftz/b46Hp/B0xF7RpCKlQUuM1rejXUDGyh0P3RpQEkYq2w8Qt3N/wC28SZ2MczXI
-	ag3gJlLbQjfa1YL2tp8uPL1peyjYzJs=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-660-2dqzDj8YNfqSjBxsi3hNOw-1; Wed,
- 02 Sept 2026 08:10:57 -0400
-X-MC-Unique: 2dqzDj8YNfqSjBxsi3hNOw-1
-X-Mimecast-MFC-AGG-ID: 2dqzDj8YNfqSjBxsi3hNOw_1788351056
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 48E8D19344F7;
-	Wed,  2 Sep 2026 12:10:55 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.158])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1428D3000223;
-	Wed,  2 Sep 2026 12:10:51 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bj4L9/Bu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB8FF1F000E9;
+	Wed,  2 Sep 2026 12:13:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788351240;
+	bh=ajQ5Fb8+rIem6vBhUF78M4psB5Abho1rTJe15gUk4K4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=bj4L9/Bu3HfhCcrFa5F6oBAnckAeIIqCUz/xSXVfc9nDR9+ozeUGRIVEVMyTSwOHc
+	 sAlyC1UhLF1VigIiWYoOu11tunhyve+q79nUH1nNbVAGMnb6twlAYbY0flY2X5a9pv
+	 KSVShCz8XGnKzqBgw7FQGBhNAKonAL18M4rB9JSxhy3DP4GvRFbyHAGIbYUkP4VCmx
+	 Qvn3r6c0A8HbBCPmz5ZezISbAU2A8zE0K/62Bt8W/sg0N2y7euxB5lT3rVaZL1HkeF
+	 ZBn0orzK6uIsSLzNvuzK5The3evJHhQAsjAEiSAenay1dhrP5Im+Wg95Qg196NGisl
+	 6gH0feS1Telig==
+From: Christian Brauner <brauner@kernel.org>
+To: Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>
+Cc: Marc Dionne <marc.dionne@auristor.com>,
 	linux-afs@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chengfeng Ye <nicoyip.dev@gmail.com>,
-	Qi Zhang <marsy12010123@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH 4/4] afs: Clear stale peer app data after address list changes
-Date: Wed,  2 Sep 2026 13:10:22 +0100
-Message-ID: <20260902121024.3328255-5-dhowells@redhat.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] afs: Miscellaneous fixes
+Date: Wed,  2 Sep 2026 14:13:53 +0200
+Message-ID: <20260902-hirnbotenstoff-lernen-haselnuss-96e280463c84@brauner>
+X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260902121024.3328255-1-dhowells@redhat.com>
 References: <20260902121024.3328255-1-dhowells@redhat.com>
 Precedence: bulk
@@ -63,92 +45,41 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1415; i=brauner@kernel.org; h=from:subject:message-id; bh=ZDcOggslxCVkJ8daW/g8vyDbXApQQ0+Iaaqgg/9yIdQ=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTNEGbmWFJodjtvuQ2HTqH06vlT18omSJ+2ZeF5u3XVt R0SM6IaOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYiqsXIsPSawr6fvRtLVf44 Ta8v+7L3462FES+uVxrIBXRYVdxk+8TwV4TDUX9fwH25sLoV8842XcnVa1R52potdsG/8lRERos 4KwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-From: Chengfeng Ye <nicoyip.dev@gmail.com>
+On Wed, 02 Sep 2026 13:10:18 +0100, David Howells wrote:
+> Can you pick up these miscellaneous AFS fixes, please?  Three were found by
+> Sashiko[1][2] and one was a posted patch.
+> 
+>  (1) Fix missing kunmap in afs_dir_search_bucket().
+> 
+>  (2) Fix double-unmap of directory block.
+> 
+> [...]
 
-afs_fs_probe_fileserver() fetches the current endpoint state under
-server->fs_lock, but leaves old_alist as NULL.  Consequently,
-afs_set_peer_appdata() treats every address list replacement as initial
-setup and only binds the new peers; it never unbinds peers removed from
-the old list.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-An address refresh can therefore proceed as follows.  CPU 0 replaces
-server S's list and drops Pold without clearing Pold->app_data.  The
-server destroyer then clears only S's current peers and lets S reach its
-RCU callback.  After the callback frees S, CPU 1 handles a callback
-through an RxRPC connection that still pins Pold, reads Pold->app_data,
-and calls afs_use_server() on the freed object.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-KASAN reported:
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-  BUG: KASAN: slab-use-after-free in afs_find_server+0x3c/0xa0
-  Read of size 4 at addr ffff8881013e1af0 by task krxrpcio/7001/74
-  Call Trace:
-   afs_find_server+0x3c/0xa0
-   afs_rx_new_call+0x15c/0x390
-   rxrpc_new_incoming_call+0x97c/0x1730
-   rxrpc_input_packet.constprop.0+0xd03/0xec0
-   rxrpc_io_thread+0x967/0x1640
-  Allocated by task 93:
-   afs_lookup_server+0x1a7/0x14c0
-   afs_alloc_server_list+0x43f/0xb60
-   afs_create_volume+0x923/0x1490
-   afs_get_tree+0x1c6/0x10a0
-  Freed by task 0:
-   kfree+0x131/0x3c0
-   rcu_core+0x50a/0x1850
-  Last potentially related work creation:
-   __call_rcu_common.constprop.0+0x71/0xa10
-   afs_put_server+0x213/0x2b0
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-Preserve old->addresses for the peer app-data update so that removed
-peers are cleared before the endpoint state is replaced.  Also advance
-both cursors when the old and new lists share a peer; activating the
-old/new comparison without this would otherwise loop forever on the
-shared entry.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
 
-Fixes: 40e8b52fe8c8 ("afs: Use the per-peer app data provided by rxrpc")
-Signed-off-by: Chengfeng Ye <nicoyip.dev@gmail.com>
-Signed-off-by: Qi Zhang <marsy12010123@gmail.com>
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: linux-afs@lists.infradead.org
-cc: linux-fsdevel@vger.kernel.org
-cc: stable@vger.kernel.org
----
- fs/afs/addr_list.c | 5 ++++-
- fs/afs/fs_probe.c  | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/fs/afs/addr_list.c b/fs/afs/addr_list.c
-index 63bf096b721a..73195d76b481 100644
---- a/fs/afs/addr_list.c
-+++ b/fs/afs/addr_list.c
-@@ -394,8 +394,11 @@ void afs_set_peer_appdata(struct afs_server *server,
- 		struct rxrpc_peer *pn = new_alist->addrs[n].peer;
- 		struct rxrpc_peer *po = old_alist->addrs[o].peer;
- 
--		if (pn == po)
-+		if (pn == po) {
-+			n++;
-+			o++;
- 			continue;
-+		}
- 		if (pn < po) {
- 			rxrpc_kernel_set_peer_data(pn, data);
- 			n++;
-diff --git a/fs/afs/fs_probe.c b/fs/afs/fs_probe.c
-index a91ad1938d07..8c62334dbfe7 100644
---- a/fs/afs/fs_probe.c
-+++ b/fs/afs/fs_probe.c
-@@ -258,6 +258,7 @@ int afs_fs_probe_fileserver(struct afs_net *net, struct afs_server *server,
- 					lockdep_is_held(&server->fs_lock));
- 	if (old) {
- 		estate->responsive_set = old->responsive_set;
-+		old_alist = old->addresses;
- 		if (!new_alist)
- 			new_alist = old->addresses;
- 	}
-
+[1/4] afs: Fix missing kunmap in afs_dir_search_bucket()
+      https://git.kernel.org/vfs/vfs/c/950ae84b5cc9
+[2/4] afs: Fix double-unmap of directory block
+      https://git.kernel.org/vfs/vfs/c/e3cfd3eb7d5b
+[3/4] afs: Fix incorrect free in candidate cleanup in afs_lookup_server()
+      https://git.kernel.org/vfs/vfs/c/044d596094af
+[4/4] afs: Clear stale peer app data after address list changes
+      https://git.kernel.org/vfs/vfs/c/ba0623fc19a4
