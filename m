@@ -1,145 +1,112 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922843AB284
-	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 20:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788382371; cv=none; b=H5w54OQFQQtaotVTFeLTirs11N8nSzqrSg71PRZ1kDjYI0dSmKxI+Ugt/EqqlWiLR4h5tN/X23kUiJtArsVK+Dl6IjsyET9MB77At64Xl+rfwLUbDP9gCsvkClO6nVVy2O5Dlm5+kaXsHGV1SK7s7tZvwwcnkPJJORnFxhS2QlE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788382371; c=relaxed/simple;
-	bh=/BadFUsA3OstmHGhfK99QbnF/NkulvL8khR/iLpaHno=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JY1sRI9jpeLaovGSNMtKQMkBolQ605LLz97Kz9zSTxSoDjMHRk2qkJLTRq5KDcKUQiuZQNqRqiQkoKnzgl+qLMZgpl+5t28z2r5OMi8jliwnn9HKKjepz6zwxa5Q/i+funDDPDcz5fPhsCXJY1JU9jE6QZfhiuxCBNdamPDTFhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C1xFPzzy; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5423C872C
+	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 21:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788383291; cv=pass; b=YlpJoddclexdWWjpvf27hIUxti/lEy4cnNybT5toPEA6R55JKUYq+UXFLqJcOx7zWkpkzM1KftZVLM1+363ECLs4A97z1lOXs2Kdc+GwCrq6vRJqFB5dGRyOtmU96mFf73aKbpa3l6MdjSlNxnbNPxXaCyi10VLPpe9oBiOXAjY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788383291; c=relaxed/simple;
+	bh=UN1N4GaOPeTmD6Z07qcHfiRUT1OJYE5x12PsUkTyt3Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kwMpputmFEj7/g2kbP2+7eKBy2DdWB0mDULPWJABYuKty8t2APeY4smEu0lj8fiXPEVXvGfDLVHKUuA2azN4L6u9lIWcbXmca3hzQnA2fjjQQHiA7eCzmPeElgW32+I8hCc+Z/JLjolsf8SjX1QKndtCCcSQgROKvnYhNcHz+2g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fasheh.com; spf=none smtp.mailfrom=fasheh.com; dkim=pass (2048-bit key) header.d=fasheh.com header.i=@fasheh.com header.b=IahtgZsm; arc=pass smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fasheh.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fasheh.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C1xFPzzy"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-853f8c34ba4so2464070b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 02 Sep 2026 13:52:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fasheh.com header.i=@fasheh.com header.b="IahtgZsm"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-90e7d9c747eso19510956d6.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 02 Sep 2026 14:08:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788383285; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FBtzmyRRTsgFTk48rtuKCwOSuv1SpHH5od95g4rj/Uvu3AGU4RoRIfmru6oGNg6NdK
+         Xfk3RVxwC/f28koxFT/fmWJK/kbR4rOeJk2+rZNbHarcFk9KrcdoX24x75X/l9gkO2uR
+         kjuvT1xaW/IyVwLq+on3BM1oDCK0TsPnOnbWH2ULtG9D26vwJmcLYdG+wAaQlHF23SB4
+         /g9KLmFuNxvi2e0Knr3hQ1Kj2fgAlStYziz8u8GkHDEqgLTPO8HJthRHB2j2yjFSne8N
+         rYO2uQl5ZqEK8YKiVJMP3DS2btFl3ddaF1irN5NRhROse5P63ABp2Trkp609QmL6Cufs
+         Yytg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UN1N4GaOPeTmD6Z07qcHfiRUT1OJYE5x12PsUkTyt3Q=;
+        fh=JFPNdS/3IqAMEpD/ucEcEaFeDA2CrNBbKh1GqWFVPYE=;
+        b=JGtDjKfklh1cvrN41I2IR5683w/qANDJ/WyIN71DGE76MbhPfz2CpbKrxKwLLxthxF
+         SsyDbZOdSAf7XhTNkqQZQ7Zu/CF10zfSuYHi6O0aekr7PZW+AdnwcZi7wBXm/9D85oph
+         YWMMXtBVlq26nxI2gmygZZ9wfHRx1M5AZ2rGh9ZEOykuqlFPGLH0xEeAC79bNXGMZVK1
+         5tR7gHS1oeFFexvXwYYzKhpSjIFOwZn3qnYymbq6U7WFgw37CKnnTxLNmyLLhXRS2a/N
+         OY3HuPxMVm85LfGSu03dFdge0d+8qHetlGnXyhN3qBAi5Kp1ZY4JeL98bikn6Nm8/MA4
+         wSyg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788382369; x=1788987169; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=fasheh.com; s=google; t=1788383285; x=1788988085; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=VXjufAEosIj1q8FXumUFsTj098OQ/YAIZCUC7EsihNw=;
-        b=C1xFPzzyJe6Xcw5H6uguX8gbdFiLTeqdfE9McpcpgiEBn2hdYvKAsXzJL5s+fovqf5
-         mozyYL3r+hSAeBLzk4kiCl1wbhoKyeUqD6c3Kv/zvn0IdxSppVDB15XxF1WdAf9rMpr3
-         J4RRJh0XZKkLpxWSzPl9qwGSLRgui6DIrPcuIOfELYBimO88NOIEkjNNmFY5dtl8sl8Y
-         lESZSUcj8+r8afHpEXPHolYRXgFaPpAq5GIqz0UJ1kfQU1g19gN1XTaHmHIf8LuBT1A/
-         bwEDhecpph8l5aVYn19tXLnRTZePi9WpseEUHzvn2M0Te5HvmbpcqgEWEKXmL5pF4xx4
-         M6hw==
+        bh=UN1N4GaOPeTmD6Z07qcHfiRUT1OJYE5x12PsUkTyt3Q=;
+        b=IahtgZsmdL8wjEqra036j4tkHcj+IdoFoHjh+uS6qwYFOoyTKsR4kv/+Vika+ayFEn
+         Q9D5aCxxNuHccYq+4VmzASV6XkBRhk7VxNkIXcAPzSeI9H0VE6ynucm9UcPbJXi3fPOR
+         A94bKYT6wn+tzVuE+f1bmvNI+sEz9mmq76YW5cvaITlhvG1wCa6QhUKb7cLBDwpTFWVH
+         GQJMyZd96bKEfA7eXA04LCut6OXuxoz9/mx2Z0pZrUX4HxgO10QRt2bW0RrlyKJ2I9uc
+         /Q+CeDAlNrjyqcfmVFy8AbBjvYUGgFK2owjOCSdVzmxImYh21AmnZ3dqGfGAGE9UduNC
+         bs2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788382369; x=1788987169;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1788383285; x=1788988085;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VXjufAEosIj1q8FXumUFsTj098OQ/YAIZCUC7EsihNw=;
-        b=PjND3ajjrPWJ/ijcVfSSeXINATrpHjtgYC9ldOm7mn6mbQqD/E3cAbIuiNZKBggm9W
-         Qk02xzpbrGh8eByloY/OoQl1XO3hrpxEsJ+FLh3W4GjmxxEzoJyET4qUt96G+gRHXi15
-         iMQQwSjaAROAl2vHyciwTWuv/XREWFwsyj480GDGOl2o6OYOyifjrBkLJWMDkKkTFs5N
-         UH+86VIe60ynFXZ4u8nZZ9DFFbq1TWapEJ08SMLDpKpocNqbPW1amz1TkmRwa53idvHR
-         QPRD2yoNpAABDVlge8q9OeQlWoL1VEVqNvYsu7ZL2jbXosrjWcbz3QFH9FXU+ukIlpBC
-         pd2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzuPVIuFHdIygVoR0If19Bj3GdUkuJ3zVeoopTds5IEuGYzBVFo9Zk015H3Hf6RIdb2cuh04FKGPtQc5ssF@vger.kernel.org
-X-Gm-Message-State: AFuF++lUJhfxAZ0RgwmFZf3Wg367UcxEgOH61ocSu8L/Mjb4NsQY1J2Q
-	DXLppmusoDBXPVejWrpiiVxdKrWHOpixBGssxFFkUXyyiw2ZVt8vHnpJ
-X-Gm-Gg: AYBFou19Eaq2R9mnvoEMrQNW5QhZpxTp/0A2mlb3r4lVQCgbIpo8XlGwksMxr1sm7uL
-	5cNztz1JWUIqYKnTkn2du1fbFmfWHxutToKR2mnGvBjyoW+oxhYH9ZQOnsIkJQ/pykOb5Dd084O
-	WTatahna9cOBqfRv9oq2gkUVtSsHj3z/LgooQ7smNATFJmhAoR7jyoTnkmHaVqhvHxnPvLcamio
-	RIYBuvxU4RvzC5DwbUBdVrpaN1i70z2sKSPqo4+shTZk1QNEsC+KSGUQ+yjJja3FjwqsJmYcdk1
-	v2DtEArTqzTh3OrfQ0R81O6O3pwE76ZlJsZTJhuVuL7zFPOlqY5/oJK4X2d2XE6JzPJNIEPMLqG
-	c3wXY8ys0V55dny/guBylZ2Qb/GmF2Eq9kRz9Ukpj1JZklN1uuCqwayv0i8KpMVVPP+NUoc47ZC
-	0J0TtPy7nw6aWLwNjJzmWvd8XSCl3UxziviryI/zYN/PYgsf/G7lj7Mghi9+K8gZEZ
-X-Received: by 2002:a05:6a21:6004:b0:3d0:88f5:f813 with SMTP id adf61e73a8af0-3d9b05238admr12663995637.11.1788382368648;
-        Wed, 02 Sep 2026 13:52:48 -0700 (PDT)
-Received: from user ([2405:201:c052:b00b:4bb2:9d5:1e62:39c6])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3325592d9c5sm642702eec.11.2026.09.02.13.52.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 13:52:48 -0700 (PDT)
-Date: Thu, 3 Sep 2026 02:22:24 +0530
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-To: Joseph Qi <joseph.qi@linux.alibaba.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, ocfs2-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Srikanth Aithal <Srikanth.Aithal@amd.com>,
-	Luca Weiss <luca.weiss@fairphone.com>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH] buffer: fix NULL dereference of bh->b_folio in
- __bh_submit()
-Message-ID: <apiMiLlwujmqyYLP@user>
-References: <20260902013357.2815214-1-joseph.qi@linux.alibaba.com>
+        bh=UN1N4GaOPeTmD6Z07qcHfiRUT1OJYE5x12PsUkTyt3Q=;
+        b=olgizQfcdeW7jSZN4Q3p+6psI6Yb5vkh5XMSCAdfLGoN4aavQz7FD5uBO6cfu6QmzA
+         Beqi2CkI9TTAMqcjtqSrZNu9h4BefKyAVTIciIFdpyRa9F48YUdWerCFFYpBDCDrTEE8
+         nlXngxI0xDvdyJiKctrz0JJ4Jq6xTLsoaaEEMwhuCwwCffJoNfZhe53NRBVRImJLhRcG
+         hzfn5SrgHSdSnFbTEInGZyZq8mQmBNlVcEwkyL0pOhnkR0BpX1nX3J3OprtoDpuuppeg
+         UfLABXdmINsu+cjq7rMQ5VyxN+CsVsZoO1aPl7jkQ+6Zb4BfjkXlLPzh3vyDtIRW+GaC
+         7jvw==
+X-Gm-Message-State: AFuF++l0c2vlrlh6sWTDXGWmsEavon1rCmQoj+I4hEljzQGXvkVzObfy
+	rXs99WWgQkLjjFJ7YuPH5IlRbBvSwre3W1nRdBgstV+geMn9sD2wIGyf1583S05dWyCEic0xiVb
+	oKnnAZnj6BJL9LFrmFzVWEmS5pYCXxOQF014txw5IEA==
+X-Gm-Gg: AYBFou0waOP60Og0V2pvY/fzpaDPBH4lQHYeCUvW/2WsHjoWUNb66lk867rE0RMoy6e
+	vXYIHHOTz9YkvhsIUDNoA5Nt/HbNBv5dTtxbzbh3dEptSuGGCHgDJiVSPw+/SRrTty9xEN7eWs+
+	6Up/QWTREdMUgNlAAbPqFcbCHVdvE3Ob+XezNn5MC+nOHwmIdrnt8n3Cv+7QKVLm62SYhJUPM+y
+	C9gcWH2q8mdcRuu936/K0uh5H/ibZsciDfRWYLlkNrmgY5LuIt8nf1jzIv8Z3yYkHT4mOrF3ntw
+	rX4FUzeL59HCRHtm/aewH/zelY2k8lG8W9hEgv+cak7nnfaS6pSbJBJhVnYRfnkPpwgvVFbYl0Z
+	wRC3tNCH9G7k=
+X-Received: by 2002:a05:620a:a489:b0:938:fd23:1e29 with SMTP id
+ af79cd13be357-93960cb95e6mr829447085a.4.1788383284982; Wed, 02 Sep 2026
+ 14:08:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260902013357.2815214-1-joseph.qi@linux.alibaba.com>
+References: <20260902132458.23590-1-jack@suse.cz> <20260902133702.1313635-3-jack@suse.cz>
+In-Reply-To: <20260902133702.1313635-3-jack@suse.cz>
+From: Mark Fasheh <mark@fasheh.com>
+Date: Wed, 2 Sep 2026 14:07:53 -0700
+X-Gm-Features: AcwNN1WtV1dqVx49J7eUpu1wKtIk7R3uNrgG2lJ_B3RcbI_Kpq3v_hSHulQC3gM
+Message-ID: <CAGe7X7kgULLGViiEt1o+F32eU7cR9-vTvc3YGJXSg9Wjxa2Sqw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ocfs2: Refuse to enable ocfs2 format for another filesystem
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	ocfs2-devel@lists.linux.dev, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Farhad Alemi <farhad.alemi@berkeley.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 02, 2026 at 09:33:57AM +0800, Joseph Qi wrote:
-> Commit a2c924c240e7 ("buffer: set BIO_COMPLETE_IN_TASK for dropbehind
-> writeback") added an unconditional folio_test_dropbehind(bh->b_folio) in
-> __bh_submit().  But jbd2 shadow buffers have a NULL b_folio since commit
-> 5febcba29792 ("jbd2: point the shadow buffer at the frozen data
-> directly") made them point b_data at the kmalloced frozen data rather
-> than a folio.  Submitting such a buffer during journal commit oopses:
-> 
->   BUG: kernel NULL pointer dereference, address: 0000000000000000
->   RIP: 0010:__bh_submit.constprop.0+0x87/0x120
->   Call Trace:
->    jbd2_journal_commit_transaction+0x932/0x1b10
->    kjournald2+0xb2/0x250
-> 
-> Hit by the ocfs2-testsuite fill_verify_holes test running with
-> data=writeback.
-> 
-> Dropbehind only applies to buffers backed by a folio, so skip the check
-> when b_folio is NULL.
+On Wed, Sep 2, 2026 at 8:26=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
 >
-Hi,
+> It is possible to issue Q_QUOTAON quotactl(2) e.g. for ext4 filesystem
+> requesting to enable quota using ocfs2 quota format. With suitable
+> passed arguments this can get upto ocfs2_local_check_quota_file() where
+> the passed superblock is from the ext4 filesystem and that can cause all
+> sorts of interesting things, most likely crashes. As ocfs2 quotas are
+> specific to ocfs2 filesystem, verify we are indeed enabling quotas
+> there.
+>
+> Signed-off-by: Jan Kara <jack@suse.cz>
 
-I was working on a fix for this syzbot report [1] and didn't realize that you were
-already working on it. I noticed your patch on the mailing list, so i won't
-send a duplicate patch.
- 
-> Fixes: 5febcba29792 ("jbd2: point the shadow buffer at the frozen data directly")
-
-Could you please add the Reported-by: and Closes: tags from the syzbot report
-to your patch? This will help syzbot associate the patch with the reported
-issue and track the fix.
-
-[1]: https://syzkaller.appspot.com/bug?extid=41453ea05ab61c075f1f
-
-Thank you,
-Pavan
-
-> Tested-by: Srikanth Aithal <Srikanth.Aithal@amd.com>
-> Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sm7225-fairphone-fp4
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: Joseph Qi <joseph.qi@linux.alibaba.com>
-> ---
->  fs/buffer.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index 427d8a817cd5..f46fa6413032 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -1106,7 +1106,8 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
->  
->  	bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
->  
-> -	if (folio_test_dropbehind(bh->b_folio) && op_is_write(opf))
-> +	if (bh->b_folio && folio_test_dropbehind(bh->b_folio) &&
-> +	    op_is_write(opf))
->  		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
->  
->  	if (IS_ENABLED(CONFIG_FS_ENCRYPTION))
-> -- 
-> 2.39.3
-> 
+Reviewed-by: Mark Fasheh <mark@fasheh.com>
