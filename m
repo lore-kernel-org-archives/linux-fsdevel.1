@@ -1,130 +1,123 @@
-Received: from mta1.migadu.com (out-235.mta1.migadu.com [95.215.58.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3915B495051
-	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 12:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE21347209B;
+	Wed,  2 Sep 2026 13:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788353514; cv=none; b=D9/kpq24sq9p5RsPa9LtpRSc71Heh7YBYIGWTshRQGuUZuSJttBulK+KqDLnXd48tLmoMdkNf4grmaamR4ZvQpSfi1YyVwpQq8JD+WNaicPLKrOmtge+YocxalEukN49QfNR+covZi64xdFUL90PJcn6YijcKXdhko7LgFfQXx4=
+	t=1788354218; cv=none; b=lLhahVxJfQBbrURqZ51QbA/kQ3McoBYFDtPiblW5dKGMUtWDHbN7WKtgtndZiK+IFN8zvjTWY+Rf/wbf8aXVyMlmcYvHLe+IRdS0J4cf/XeD7VpJjUKAn0jlRh84FFan9W6xF0+PvnnR/PNhyXA+dhEOq9xTiQS9GuEtJuGFeUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788353514; c=relaxed/simple;
-	bh=tpDxEjwAM4Z3tcZlQ8FduIdTuWHyaHUuGyRrq6OnN2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NTBT07KFx9yD0wU1apj5ACHUvzZ71XGNna2m9+UUmP0Zm+kjDTAzHqvNCOdfJgsezoPFBF3g1/2TNOeOe3vwv5J4UTJX+KtzJNfQOwpfCF6gh4Nfis9fwElRcS8rlHjQJOpPTWHiMt5COKZEMrE8d7B/OpC71la+YB3A2j4bfJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=X0UDvp9o; arc=none smtp.client-ip=95.215.58.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788354218; c=relaxed/simple;
+	bh=1/g8QdCFuOqdhgC63+NGkQCYyQ/RcYQH9znnWzFeHNc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=llziIQ+8A+EMSFJjCYCKv8bz5Kmy/b7GPu3kgROqd2jq+vXjr5rMQZCes9CdmOR2aAjiYe1N/5MxvP5KwtfzJI5+kgBWUq/vDbADhXtnlOwVt1Nwz6MvG4ga33oK8OTi4FoKnnN4JxFCtExhYVi73qmszxJXbCzZdfGRftGsgU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QX0B71Ep; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="X0UDvp9o"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=tpDxEjwAM4Z3tcZlQ8FduIdTuWHyaHUuGyRrq6OnN2s=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788353508; v=1; x=1788958308;
- b=X0UDvp9owiQsJm/X2vB0jS198NLYIH/HsFxS13fa3tteUr0hmQM6thLpmRPSuLUHhr6ETCir
- oJT4iSMhH0FmxSZceX5y4yr+kg4bs72Jj8UeSnUgEde36ueBGDYzgkYSGU0jaiw3gNv71JXQ27f
- u1qblRCD0ZvzmsdrB9hcXxFs=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 1a541c8069397e4d;
-	Wed, 02 Sep 2026 12:51:48 +0000
-X-Mizu-Trace-ID: 1a541c8069397e4d
-X-Migadu-Flow: FLOW_OUT
-From: Tao Cui <cui.tao@linux.dev>
-To: linux-fsdevel@vger.kernel.org,
-	jlayton@kernel.org,
-	cel@kernel.org
-Cc: alex.aring@gmail.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	linux-kernel@vger.kernel.org,
-	avagin@openvz.org,
-	khorenko@virtuozzo.com,
-	bcodding@redhat.com,
-	cui.tao@linux.dev,
-	Tao Cui <cuitao@kylinos.cn>
-Subject: [PATCH v2] fs/locks: filter OFD locks from /proc/locks for foreign pid namespaces
-Date: Wed,  2 Sep 2026 20:51:39 +0800
-Message-ID: <20260902125139.975253-1-cui.tao@linux.dev>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QX0B71Ep"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788354216; x=1819890216;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1/g8QdCFuOqdhgC63+NGkQCYyQ/RcYQH9znnWzFeHNc=;
+  b=QX0B71Ep+waEKMvPrq9gMptt1SMDkaPjHnutkOMRwuQCa4HOz3NjrTla
+   slWQ+lrVNFwUTt5re3GZtt3dLUbYXeeT9s9+pHhC+iBx0SpqD+Bo4cclK
+   p9xbhOOHr1ScknHlbOpcRA1B46IabnHC5UZLB9vKFmnR4C6nhaiPRMbcy
+   E6LtYI3RFCoDjsGdJ+PUkgPXM6wowHeTqFg2lH4LMuYdiHMQWh1RSzAGB
+   M5TXowSabbyS22eaFpFZRdhIW9XBO/5A4SF4wbfIo9tiIEyL5BGKmjwZ7
+   u5dY57fF5kAtXXJtN0eWS0XA66OQ0fSJ3W2SWPKzsQNDYZN/M+D2cXXPi
+   A==;
+X-CSE-ConnectionGUID: 2eQPlpXwQKGqWY8lsHqxWA==
+X-CSE-MsgGUID: 1XzokaYyTKeKuxNTm7Yzdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88935131"
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="88935131"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:03:23 -0700
+X-CSE-ConnectionGUID: awyv3BgAS9SKIGpy3EHizA==
+X-CSE-MsgGUID: cxMKTkLqSSWk4/Vvd51jmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="267647624"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.118])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 06:03:18 -0700
+Date: Wed, 2 Sep 2026 16:03:15 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: bcrl@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, tytso@mit.edu, adilger.kernel@dilger.ca,
+	libaokun@linux.alibaba.com, ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com, yi.zhang@huawei.com, sforshee@kernel.org,
+	akpm@linux-foundation.org, pmladek@suse.com, rostedt@goodmis.org,
+	linux@rasmusvillemoes.dk, senozhatsky@chromium.org, kees@kernel.org,
+	tglx@kernel.org, linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org
+Subject: Re: [PATCH v3 1/8] user_namespace: Use acquire/release for
+ nr_extents synchronization
+Message-ID: <apgek5EhgjxpDCkh@ashevche-desk.local>
+References: <20260902074805.398540-1-ruanjinjie@huawei.com>
+ <20260902074805.398540-2-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902074805.398540-2-ruanjinjie@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Tao Cui <cuitao@kylinos.cn>
+On Wed, Sep 02, 2026 at 03:47:58PM +0800, Jinjie Ruan wrote:
+> Replace smp_wmb()/smp_rmb() with smp_store_release()/smp_load_acquire()
+> when publishing and consuming `nr_extents`. This expresses the
+> publish/subscribe pattern more clearly and allows architectures with
+> native acquire/release instructions (e.g. arm64's STLR/LDAR) to avoid
+> the cost of full one-way barriers (DMB ISHST/ISHLD).
+> 
+> No functional change intended.
 
-Since Linux 4.9, /proc/locks only shows locks whose owning process is
-visible in the reader's pid namespace.  The check cannot see the
-owner of an OFD lock, though: locks_translate_pid() always returns
--1 for FL_OFDLCK, so an OFD lock held outside of that namespace
-bypasses the filter and is shown with its device/inode numbers and
-byte range, e.g.
+Please, locate Cc list...
 
-    4: OFDLCK ADVISORY  WRITE -1 fd:00:70536961 0 EOF
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Seth Forshee <sforshee@kernel.org>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Aleksa Sarai <cyphar@cyphar.com>o
 
-This was observed on a Kubernetes node: a pod reading /proc/locks
-listed the OFD write lock of an unrelated host process, while the
-POSIX locks of the very same process were correctly hidden.  The
-device/inode pair identifies which host file is locked, the byte
-range discloses where it is actively written, and the
-appearance/disappearance of entries reflects host task activity,
-contrary to the documented per-pidns visibility of /proc/locks
-(proc_locks(5)).
+...(all the above)...
 
-OFD locks record the owner tgid in flc_pid, so use it for the
-visibility decision in locks_show(), mirroring what
-locks_translate_pid() does for POSIX locks.  The pid column is still
-reported as -1 for OFD locks; only the filter decision changes.
-Remote locks keep their negative flc_pid and stay visible as before.
+> Assisted-by: DeepSeek:DeepSeek-V3
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
 
-Verified with an OFD and a POSIX write lock held in the initial pid
-namespace while a process in a fresh pid namespace reads /proc/locks:
-the OFD entry is visible without this patch and hidden with it, the
-POSIX entry is hidden in both cases.
+...somewhere here. It will have the same effect on the email thread and it will
+unload the commit message from the unneeded noise.
 
-Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+> v2:
+> - Add missing load replace in copy_mnt_idmap()
+> ---
+>  fs/mnt_idmapping.c      |  5 ++---
+>  kernel/user_namespace.c | 24 +++++++++++++-----------
+>  2 files changed, 15 insertions(+), 14 deletions(-)
 
----
+...
 
-Changes since v1: keep remote OFD locks (negative flc_pid) visible in
-non-initial pid namespaces, as locks_translate_pid() does for remote
-POSIX locks.
----
- fs/locks.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+This comment applies to the whole series.
+Also note, `b4 trailers` can handle that, you can keep the
 
-diff --git a/fs/locks.c b/fs/locks.c
-index 6e4ff7fcec05..4af1385682e4 100644
---- a/fs/locks.c
-+++ b/fs/locks.c
-@@ -3022,6 +3022,25 @@ static int locks_show(struct seq_file *f, void *v)
- 
- 	cur = hlist_entry(v, struct file_lock_core, flc_link);
- 
-+	/*
-+	 * OFD locks are reported with pid -1, so the filter below cannot see
-+	 * their owner; flc_pid holds the owner tgid, so filter on it.
-+	 * Remote locks keep a negative flc_pid and stay visible as before.
-+	 */
-+	if ((cur->flc_flags & FL_OFDLCK) && cur->flc_pid > 0 &&
-+	    proc_pidns != &init_pid_ns) {
-+		struct pid *pid;
-+		bool visible = false;
-+
-+		rcu_read_lock();
-+		pid = find_pid_ns(cur->flc_pid, &init_pid_ns);
-+		if (pid)
-+			visible = pid_nr_ns(pid, proc_pidns) != 0;
-+		rcu_read_unlock();
-+		if (!visible)
-+			return 0;
-+	}
-+
- 	if (locks_translate_pid(cur, proc_pidns) == 0)
- 		return 0;
- 
+  ---
+  Cc: ...
+
+in the local Git. You can find some details in the subthread here
+https://lore.kernel.org/lkml/20260123113708.416727-19-bigeasy@linutronix.de/
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
