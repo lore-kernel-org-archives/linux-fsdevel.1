@@ -1,136 +1,161 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BFD430CD3;
-	Wed,  2 Sep 2026 10:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E0B3A48D9;
+	Wed,  2 Sep 2026 10:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788343283; cv=none; b=HOUrrcqAs3IZ4fluPnnu7ZOiUKv3qdQyZe3+c9V4EBfTZgssPDawfrepNh/QYniON0PumCrf358UrSII9jPH9/uxNjCJ3vG5NuHg1zkBSTBxSgxbNli9pGYB8Zxo0l2Lk7Pxk944EV3SyHdi8Yc6dzBMLkDWBf9gaGJbEyeCeqU=
+	t=1788343844; cv=none; b=UGaGB2L5qk5U1OPtrMVWM4qHxML6i2oZ+QNmYY3fLA8x9HSXFfcwBFJOVxIWGztr/30eUTObAX/TFTfMMYPN4NS7EAvaI3iZTakBbejTra5+AWmmKZBgcwvVt8JPtZTanBJzja+y52dWWPDYyiohruW8cl5V9y8TmCfmlF4HONI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788343283; c=relaxed/simple;
-	bh=n39eUgVDD5l2zyp5goXnb/ODSDiV8FhVFdZbdUdNpLY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Qb/4klJUQG1ogOSLy6FdVKPkmz03pR/erSaPi17oclaqKtQIgyQ70EMJWeV5UkykIG6GYSzn0I6LP7wbXgDBvFU0e+aQ2VN0tc1BBksBnR3KZ45/vx1DV7mK1XLXJcikZ9Sx+4c3/8tLKXU+xYShYn0vdezIccyZb7YIEuEVHmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=1OKXC1Wl; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="1OKXC1Wl"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=5muCGImxQEXCs9mgbU84wjK603R7oDB3KGXYhDYZoIc=;
-	b=1OKXC1WlAcuXvATuYy9843J+ts23aqDRPtEBmymokcm2wcDFN7n+VLXs5YlFtuuOI17YRGOle
-	AE1kaDyBL8Psb6qsvqP6GD+2KaR9IZFlJSaA9VKKZKh4vJ8pLjxN4lSw5BvQVM6ddEVaTK1WC49
-	5AuTsqZ1V1GNz92YBNN1IQA=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hZdHw4T64znTwN;
-	Wed,  2 Sep 2026 17:50:04 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id C74E54057A;
-	Wed,  2 Sep 2026 18:01:17 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 2 Sep 2026 18:01:15 +0800
-Message-ID: <d12302b0-f0b3-4df6-963c-bf25b6e720c7@huawei.com>
-Date: Wed, 2 Sep 2026 18:01:14 +0800
+	s=arc-20240116; t=1788343844; c=relaxed/simple;
+	bh=S2Fgo2+0uDUQRVnyX93VSUZe+ONxffN7rdt7J6o3miY=;
+	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
+	 Content-Type; b=Wzon0ieGKLVhOYh5PA6KPA1NjP5dmTY28XODY7prdcYyW90IFWpdq4T9DxRVkrSXM2140blzrTrJlQkOuJcH25pZFTcdo1x8dqwShkkPOXbsb+Pii0pg88G+ks2dG26ecdA4pJUlsZQgTevuqKMKjvXzUh4vq0vSfQsA42JjseE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.helo=mail.mainlining.org; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.helo=mail.mainlining.org
+Date: Wed, 02 Sep 2026 11:09:15 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: ruanjinjie@huawei.com
+CC: adilger.kernel@dilger.ca, akpm@linux-foundation.org,
+ andriy.shevchenko@linux.intel.com, bcrl@kvack.org, brauner@kernel.org,
+ jack@suse.cz, kees@kernel.org, libaokun@linux.alibaba.com,
+ linux-aio@kvack.org, linux-ext4@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux@rasmusvillemoes.dk, ojaswin@linux.ibm.com, pmladek@suse.com,
+ ritesh.list@gmail.com, rostedt@goodmis.org, senozhatsky@chromium.org,
+ sforshee@kernel.org, tglx@kernel.org, tytso@mit.edu, viro@zeniv.linux.org.uk,
+ yi.zhang@huawei.com
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_1/8=5D_user=5Fnamespace=3A_Use_acq?=
+ =?US-ASCII?Q?uire/release_for_nr=5Fextents_synchronization?=
+In-Reply-To: <20260902074805.398540-2-ruanjinjie@huawei.com>
+Message-ID: <0303FE1D-8F56-4C18-87DA-9C3BBF2D43AE@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 12/17] x86/crash: Use num_possible_cpus() for
- elfcorehdr size
-To: Sourabh Jain <sourabhjain@linux.ibm.com>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <mark.rutland@arm.com>, <chenhuacai@kernel.org>,
-	<kernel@xen0n.name>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
-	<npiggin@gmail.com>, <chleroy@kernel.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <akpm@linux-foundation.org>, <baoquan.he@linux.dev>,
-	<rppt@kernel.org>, <pasha.tatashin@soleen.com>, <pratyush@kernel.org>,
-	<ruirui.yang@linux.dev>, <kees@kernel.org>, <thuth@redhat.com>,
-	<gshan@redhat.com>, <jic23@kernel.org>, <james.morse@arm.com>,
-	<ardb@kernel.org>, <leitao@debian.org>, <yeoreum.yun@arm.com>,
-	<coxu@redhat.com>, <tangyouling@kylinos.cn>, <hbathini@linux.ibm.com>,
-	<adityag@linux.ibm.com>, <ionut.nechita@windriver.com>,
-	<liaoyuanhong@vivo.com>, <seanjc@google.com>, <fuqiang.wang@easystack.cn>,
-	<makb@juniper.net>, <piliu@redhat.com>, <ebiggers@kernel.org>,
-	<jbouron@amazon.com>, <mclapinski@google.com>, <me@linux.beauty>,
-	<graf@amazon.com>, <bgwin@google.com>, <robh@kernel.org>,
-	<takahiro.akashi@linaro.org>, <palmer@rivosinc.com>, <x86@kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
-	<kexec@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-mm@kvack.org>
-References: <20260826092541.3905933-1-ruanjinjie@huawei.com>
- <20260826092541.3905933-13-ruanjinjie@huawei.com>
- <99b1121d-4277-4764-8c3a-b3f6d9a47ab0@linux.ibm.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <99b1121d-4277-4764-8c3a-b3f6d9a47ab0@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+
+On 2 September 2026 08:47:58 BST, Jinjie Ruan <ruanjinjie@huawei.com>
+wrote:
+>Replace smp_wmb()/smp_rmb() with smp_store_release()/smp_load_acquire()
+>when publishing and consuming `nr_extents`. This expresses the
+>publish/subscribe pattern more clearly and allows architectures with
+>native acquire/release instructions (e.g. arm64's STLR/LDAR) to avoid
+>the cost of full one-way barriers (DMB ISHST/ISHLD).
+>
+>No functional change intended.
+>
+>Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+>Cc: Christian Brauner <brauner@kernel.org>
+>Cc: Jan Kara <jack@suse.cz>
+>Cc: Seth Forshee <sforshee@kernel.org>
+>Cc: Kees Cook <kees@kernel.org>
+>Cc: Aleksa Sarai <cyphar@cyphar.com>
+>Assisted-by: DeepSeek:DeepSeek-V3
+
+LGTM, thanks
+
+Reviewed-by: Bradley Morgan <brads@mainlining.org>
 
 
-
-在 2026/9/2 14:14, Sourabh Jain 写道:
-> Hello Jinjie,
+>Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>---
+>v2:
+>- Add missing load replace in copy_mnt_idmap()
+>---
+> fs/mnt_idmapping.c      |  5 ++---
+> kernel/user_namespace.c | 24 +++++++++++++-----------
+> 2 files changed, 15 insertions(+), 14 deletions(-)
+>
+>diff --git a/fs/mnt_idmapping.c b/fs/mnt_idmapping.c
+>index cb61fbdb52e9..612b266ab3da 100644
+>--- a/fs/mnt_idmapping.c
+>+++ b/fs/mnt_idmapping.c
+>@@ -219,10 +219,9 @@ EXPORT_SYMBOL_GPL(vfsgid_in_group_p);
+> static int copy_mnt_idmap(struct uid_gid_map *map_from,
+> 			  struct uid_gid_map *map_to)
+> {
+>+	/* Pairs with smp_store_release() in map_write(). */
+>+	u32 nr_extents = smp_load_acquire(&map_from->nr_extents);
+> 	struct uid_gid_extent *forward, *reverse;
+>-	u32 nr_extents = READ_ONCE(map_from->nr_extents);
+>-	/* Pairs with smp_wmb() when writing the idmapping. */
+>-	smp_rmb();
 > 
-> This patch makes the below patch redundant..
-> https://lore.kernel.org/all/20260826073527.21487-2-
-> ionut.nechita@windriver.com/
+> 	/*
+> 	 * Don't blindly copy @map_to into @map_from if nr_extents is
+>diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
+>index 0bed462e9b2a..576b667a8813 100644
+>--- a/kernel/user_namespace.c
+>+++ b/kernel/user_namespace.c
+>@@ -317,9 +317,9 @@ map_id_range_down_base(unsigned extents, struct uid_gid_map *map, u32 id, u32 co
 > 
-> I suggest dropping the first patch from the above series and including
-> the second patch from that series in this patch series with the updated
-> comment.
+> static u32 map_id_range_down(struct uid_gid_map *map, u32 id, u32 count)
+> {
+>+	/* Pairs with smp_store_release() in map_write(). */
+>+	unsigned int extents = smp_load_acquire(&map->nr_extents);
+> 	struct uid_gid_extent *extent;
+>-	unsigned extents = map->nr_extents;
+>-	smp_rmb();
+> 
+> 	if (extents <= UID_GID_MAP_MAX_BASE_EXTENTS)
+> 		extent = map_id_range_down_base(extents, map, id, count);
+>@@ -383,9 +383,9 @@ map_id_range_up_max(unsigned extents, struct uid_gid_map *map, u32 id, u32 count
+> 
+> u32 map_id_range_up(struct uid_gid_map *map, u32 id, u32 count)
+> {
+>+	/* Pairs with smp_store_release() in map_write(). */
+>+	unsigned int extents = smp_load_acquire(&map->nr_extents);
+> 	struct uid_gid_extent *extent;
+>-	unsigned extents = map->nr_extents;
+>-	smp_rmb();
+> 
+> 	if (extents <= UID_GID_MAP_MAX_BASE_EXTENTS)
+> 		extent = map_id_range_up_base(extents, map, id, count);
+>@@ -676,9 +676,9 @@ static int projid_m_show(struct seq_file *seq, void *v)
+> static void *m_start(struct seq_file *seq, loff_t *ppos,
+> 		     struct uid_gid_map *map)
+> {
+>+	/* Pairs with smp_store_release() in map_write(). */
+>+	unsigned int extents = smp_load_acquire(&map->nr_extents);
+> 	loff_t pos = *ppos;
+>-	unsigned extents = map->nr_extents;
+>-	smp_rmb();
+> 
+> 	if (pos >= extents)
+> 		return NULL;
+>@@ -967,9 +967,11 @@ static ssize_t map_write(struct file *file, const char __user *buf,
+> 	 * desired behavior is to see the values of the extents that
+> 	 * were written before the count of the extents.
+> 	 *
+>-	 * To achieve this smp_wmb() is used on guarantee the write
+>-	 * order and smp_rmb() is guaranteed that we don't have crazy
+>-	 * architectures returning stale data.
+>+	 * The nr_extents field is the publish point for the extent
+>+	 * data.  Writers use smp_store_release() to ensure all extent
+>+	 * data is visible before nr_extents is updated.  Readers use
+>+	 * smp_load_acquire() to ensure they see a consistent view of
+>+	 * the extent data when reading nr_extents.
+> 	 */
+> 	mutex_lock(&userns_state_mutex);
+> 
+>@@ -1098,8 +1100,8 @@ static ssize_t map_write(struct file *file, const char __user *buf,
+> 		map->forward = new_map.forward;
+> 		map->reverse = new_map.reverse;
+> 	}
+>-	smp_wmb();
+>-	map->nr_extents = new_map.nr_extents;
+>+	/* Pairs with smp_load_acquire() in map_id_range_{up,down}() and m_start(). */
+>+	smp_store_release(&map->nr_extents, new_map.nr_extents);
+> 
+> 	*ppos = count;
+> 	ret = count;
+>
 
-Agreed. This approach makes sense to me.
-
-I will update it in v4.
-
-> 
-> - Sourabh Jain
-> 
-> 
-> On 26/08/26 14:55, Jinjie Ruan wrote:
->> Use num_possible_cpus() instead of CONFIG_NR_CPUS to calculate the
->> elfcorehdr buffer size, matching what crash_prepare_elf64_headers()
->> already uses for the actual header content.
->>
->> This avoids over-allocation when the system has fewer possible CPUs
->> than the compile-time limit, and aligns x86 with PowerPC.
->>
->> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->> ---
->>   arch/x86/kernel/crash.c | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/x86/kernel/crash.c b/arch/x86/kernel/crash.c
->> index a3bf786286d4..afe2aea19f47 100644
->> --- a/arch/x86/kernel/crash.c
->> +++ b/arch/x86/kernel/crash.c
->> @@ -369,9 +369,9 @@ int crash_load_segments(struct kimage *image)
->>        * maximum CPUs and maximum memory ranges.
->>        */
->>       if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG))
->> -        pnum = 2 + CONFIG_NR_CPUS + CONFIG_CRASH_MAX_MEMORY_RANGES;
->> +        pnum = 2 + num_possible_cpus() + CONFIG_CRASH_MAX_MEMORY_RANGES;
->>       else
->> -        pnum += 2 + CONFIG_NR_CPUS;
->> +        pnum += 2 + num_possible_cpus();
->>         if (pnum < (unsigned long)PN_XNUM) {
->>           kbuf.memsz = elf64_phdr_size(pnum);
->> @@ -429,7 +429,7 @@ unsigned int arch_crash_get_elfcorehdr_size(void)
->>       unsigned int sz;
->>         /* kernel_map, VMCOREINFO and maximum CPUs */
->> -    sz = 2 + CONFIG_NR_CPUS;
->> +    sz = 2 + num_possible_cpus();
->>       if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG))
->>           sz += CONFIG_CRASH_MAX_MEMORY_RANGES;
->>       sz *= sizeof(Elf64_Phdr);
-> 
-
+--- Thanks!
+https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
