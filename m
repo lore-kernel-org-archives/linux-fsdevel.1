@@ -1,161 +1,145 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E0B3A48D9;
-	Wed,  2 Sep 2026 10:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282E939D6D6;
+	Wed,  2 Sep 2026 10:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788343844; cv=none; b=UGaGB2L5qk5U1OPtrMVWM4qHxML6i2oZ+QNmYY3fLA8x9HSXFfcwBFJOVxIWGztr/30eUTObAX/TFTfMMYPN4NS7EAvaI3iZTakBbejTra5+AWmmKZBgcwvVt8JPtZTanBJzja+y52dWWPDYyiohruW8cl5V9y8TmCfmlF4HONI=
+	t=1788344291; cv=none; b=rDiYdhO13SZhgTVwLANi2XUWDuhZqLf4m3t9xkNyVydMFni4e90+omxPnURM/x2/RwdA1iOFaA8liOf9koDw4nPvLP9Pc/aJi4yFGSP4/vRTOVM+iAt+bw1GKAZgzW5ipnQSarv13I7TpHgF9QaPLnwq9+tzWBJwr5+MKUbi9jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788343844; c=relaxed/simple;
-	bh=S2Fgo2+0uDUQRVnyX93VSUZe+ONxffN7rdt7J6o3miY=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=Wzon0ieGKLVhOYh5PA6KPA1NjP5dmTY28XODY7prdcYyW90IFWpdq4T9DxRVkrSXM2140blzrTrJlQkOuJcH25pZFTcdo1x8dqwShkkPOXbsb+Pii0pg88G+ks2dG26ecdA4pJUlsZQgTevuqKMKjvXzUh4vq0vSfQsA42JjseE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.helo=mail.mainlining.org; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.helo=mail.mainlining.org
-Date: Wed, 02 Sep 2026 11:09:15 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: ruanjinjie@huawei.com
-CC: adilger.kernel@dilger.ca, akpm@linux-foundation.org,
- andriy.shevchenko@linux.intel.com, bcrl@kvack.org, brauner@kernel.org,
- jack@suse.cz, kees@kernel.org, libaokun@linux.alibaba.com,
- linux-aio@kvack.org, linux-ext4@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux@rasmusvillemoes.dk, ojaswin@linux.ibm.com, pmladek@suse.com,
- ritesh.list@gmail.com, rostedt@goodmis.org, senozhatsky@chromium.org,
- sforshee@kernel.org, tglx@kernel.org, tytso@mit.edu, viro@zeniv.linux.org.uk,
- yi.zhang@huawei.com
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_1/8=5D_user=5Fnamespace=3A_Use_acq?=
- =?US-ASCII?Q?uire/release_for_nr=5Fextents_synchronization?=
-In-Reply-To: <20260902074805.398540-2-ruanjinjie@huawei.com>
-Message-ID: <0303FE1D-8F56-4C18-87DA-9C3BBF2D43AE@mainlining.org>
+	s=arc-20240116; t=1788344291; c=relaxed/simple;
+	bh=L4dl+I8eJZr3QwINbEgQX0+lXkQHdU/NO7O3NIe/AO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TDhvz74ZkSn5cNJSO0Ch9HSzPXdWgxSFeNRJMj+NbiQzseajC03aNfKd3t/C0WL8+/YB8ZYBcpKYo7E4EkSu6y5b5Gs3XvgKvR5ZxCzzC912JYHCgWvKRhwcbffQ+V6TSjB303pfW8Z5XF8p7WO/9VaYm4UaRHNx57AF7UlrEQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=B0CTONCk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Frhm3lg0; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jLcf4ese; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=n8AmMtZR; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="B0CTONCk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Frhm3lg0";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jLcf4ese";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="n8AmMtZR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C684121CDA;
+	Wed,  2 Sep 2026 10:17:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788344283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=leU8WBYFb+b1H5ZuoGcOMF3uO0IPANu0kE55T3Hz8Ig=;
+	b=B0CTONCkNrxCg8WLHfPFskz9pEolmu9iGFvby14IKuxzKsLNCMHAuxZF32eYur9FVF2SgO
+	Gs4r4/ymxbq8sQZXrLULdU0Mbmq44rf9IBr8FcRnGao4Voe6S1Uy/5PsGVvZzDmy27kUce
+	5r/p9y7wD3geFSSkn9DzmO35ZcyprHY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788344283;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=leU8WBYFb+b1H5ZuoGcOMF3uO0IPANu0kE55T3Hz8Ig=;
+	b=Frhm3lg0SCTtPlFKZkN7vPxtpyU3VCcedStCRf6yNgGHuDzezIodRSwpiTPc6yrm253ytT
+	LRWo1EAZqEgDZWDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=jLcf4ese;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=n8AmMtZR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788344279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=leU8WBYFb+b1H5ZuoGcOMF3uO0IPANu0kE55T3Hz8Ig=;
+	b=jLcf4ese1nTodXaE1Iocx58Ey/ZInriHbPl7sw2pcMksgSRMpftfDlYf5UWzhQAwEjJEz3
+	z/REwIfuxzVMhAvV/vVkAl8Iv9doT0iS+YxqZErVyp/LkercJ1l/wJ/0bXhn9Ect622/BQ
+	CMGmoootdrGt1b3qynO+g21lIFh+0r4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788344279;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=leU8WBYFb+b1H5ZuoGcOMF3uO0IPANu0kE55T3Hz8Ig=;
+	b=n8AmMtZRnpuOj56A4xP2JJ751dYv0vlut2L0CB94wSZqXLAFjbfkNRUB3zWZOZzpahErCW
+	EbWq3Bx+hdqRFZCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A524B136E6;
+	Wed,  2 Sep 2026 10:17:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PqhEKNf3l2oYFQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 02 Sep 2026 10:17:59 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 2CA2AA13B5; Wed, 02 Sep 2026 12:17:55 +0200 (CEST)
+Date: Wed, 2 Sep 2026 12:17:55 +0200
+From: Jan Kara <jack@suse.cz>
+To: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc: jack@suse.cz, brauner@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, lkp@intel.com, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH V2] fs: Kconfig: Alignment of code and text in the FS_DAX
+ help section for better readability
+Message-ID: <ga4rb66i2zartjmraicprs7vpvkeaphi6juhajfi2mmcxqtitg@eqvtcf34mrdx>
+References: <tobxd52ikncxgffyrbz6bwvz3rk4joxrf2i7agh2ajevkgwfre@xekv4txekrsf>
+ <87zey0ouzj.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87zey0ouzj.fsf@gmail.com>
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: C684121CDA
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-On 2 September 2026 08:47:58 BST, Jinjie Ruan <ruanjinjie@huawei.com>
-wrote:
->Replace smp_wmb()/smp_rmb() with smp_store_release()/smp_load_acquire()
->when publishing and consuming `nr_extents`. This expresses the
->publish/subscribe pattern more clearly and allows architectures with
->native acquire/release instructions (e.g. arm64's STLR/LDAR) to avoid
->the cost of full one-way barriers (DMB ISHST/ISHLD).
->
->No functional change intended.
->
->Cc: Alexander Viro <viro@zeniv.linux.org.uk>
->Cc: Christian Brauner <brauner@kernel.org>
->Cc: Jan Kara <jack@suse.cz>
->Cc: Seth Forshee <sforshee@kernel.org>
->Cc: Kees Cook <kees@kernel.org>
->Cc: Aleksa Sarai <cyphar@cyphar.com>
->Assisted-by: DeepSeek:DeepSeek-V3
+On Wed 02-09-26 15:06:32, Bhaskar Chowdhury wrote:
+> Ah, you are missing the point. Reading a single straight line and read a
+> divided line make difference.
+> 
+> I took away the line divisor( the forward slash at the end of line to
+> break it) and while doing so, the colon at the end of it produces "build
+> error" as the kernel-test-robots complained.
 
-LGTM, thanks
+No, I got that part. What I was objecting to was that merging these split
+lines into longer ones is beneficial. I've actually tried in my terminal
+and after the proposed patch things actually look worse (the long lines get
+trimmed in the view, you have to use right arrow to scroll the kconfig help
+window to see them all).
 
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
-
-
->Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->---
->v2:
->- Add missing load replace in copy_mnt_idmap()
->---
-> fs/mnt_idmapping.c      |  5 ++---
-> kernel/user_namespace.c | 24 +++++++++++++-----------
-> 2 files changed, 15 insertions(+), 14 deletions(-)
->
->diff --git a/fs/mnt_idmapping.c b/fs/mnt_idmapping.c
->index cb61fbdb52e9..612b266ab3da 100644
->--- a/fs/mnt_idmapping.c
->+++ b/fs/mnt_idmapping.c
->@@ -219,10 +219,9 @@ EXPORT_SYMBOL_GPL(vfsgid_in_group_p);
-> static int copy_mnt_idmap(struct uid_gid_map *map_from,
-> 			  struct uid_gid_map *map_to)
-> {
->+	/* Pairs with smp_store_release() in map_write(). */
->+	u32 nr_extents = smp_load_acquire(&map_from->nr_extents);
-> 	struct uid_gid_extent *forward, *reverse;
->-	u32 nr_extents = READ_ONCE(map_from->nr_extents);
->-	/* Pairs with smp_wmb() when writing the idmapping. */
->-	smp_rmb();
-> 
-> 	/*
-> 	 * Don't blindly copy @map_to into @map_from if nr_extents is
->diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
->index 0bed462e9b2a..576b667a8813 100644
->--- a/kernel/user_namespace.c
->+++ b/kernel/user_namespace.c
->@@ -317,9 +317,9 @@ map_id_range_down_base(unsigned extents, struct uid_gid_map *map, u32 id, u32 co
-> 
-> static u32 map_id_range_down(struct uid_gid_map *map, u32 id, u32 count)
-> {
->+	/* Pairs with smp_store_release() in map_write(). */
->+	unsigned int extents = smp_load_acquire(&map->nr_extents);
-> 	struct uid_gid_extent *extent;
->-	unsigned extents = map->nr_extents;
->-	smp_rmb();
-> 
-> 	if (extents <= UID_GID_MAP_MAX_BASE_EXTENTS)
-> 		extent = map_id_range_down_base(extents, map, id, count);
->@@ -383,9 +383,9 @@ map_id_range_up_max(unsigned extents, struct uid_gid_map *map, u32 id, u32 count
-> 
-> u32 map_id_range_up(struct uid_gid_map *map, u32 id, u32 count)
-> {
->+	/* Pairs with smp_store_release() in map_write(). */
->+	unsigned int extents = smp_load_acquire(&map->nr_extents);
-> 	struct uid_gid_extent *extent;
->-	unsigned extents = map->nr_extents;
->-	smp_rmb();
-> 
-> 	if (extents <= UID_GID_MAP_MAX_BASE_EXTENTS)
-> 		extent = map_id_range_up_base(extents, map, id, count);
->@@ -676,9 +676,9 @@ static int projid_m_show(struct seq_file *seq, void *v)
-> static void *m_start(struct seq_file *seq, loff_t *ppos,
-> 		     struct uid_gid_map *map)
-> {
->+	/* Pairs with smp_store_release() in map_write(). */
->+	unsigned int extents = smp_load_acquire(&map->nr_extents);
-> 	loff_t pos = *ppos;
->-	unsigned extents = map->nr_extents;
->-	smp_rmb();
-> 
-> 	if (pos >= extents)
-> 		return NULL;
->@@ -967,9 +967,11 @@ static ssize_t map_write(struct file *file, const char __user *buf,
-> 	 * desired behavior is to see the values of the extents that
-> 	 * were written before the count of the extents.
-> 	 *
->-	 * To achieve this smp_wmb() is used on guarantee the write
->-	 * order and smp_rmb() is guaranteed that we don't have crazy
->-	 * architectures returning stale data.
->+	 * The nr_extents field is the publish point for the extent
->+	 * data.  Writers use smp_store_release() to ensure all extent
->+	 * data is visible before nr_extents is updated.  Readers use
->+	 * smp_load_acquire() to ensure they see a consistent view of
->+	 * the extent data when reading nr_extents.
-> 	 */
-> 	mutex_lock(&userns_state_mutex);
-> 
->@@ -1098,8 +1100,8 @@ static ssize_t map_write(struct file *file, const char __user *buf,
-> 		map->forward = new_map.forward;
-> 		map->reverse = new_map.reverse;
-> 	}
->-	smp_wmb();
->-	map->nr_extents = new_map.nr_extents;
->+	/* Pairs with smp_load_acquire() in map_id_range_{up,down}() and m_start(). */
->+	smp_store_release(&map->nr_extents, new_map.nr_extents);
-> 
-> 	*ppos = count;
-> 	ret = count;
->
-
---- Thanks!
-https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
