@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E83F49F118
-	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 15:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9FE4A4829
+	for <linux-fsdevel@vger.kernel.org>; Wed,  2 Sep 2026 15:59:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788364748; cv=none; b=N2TvFwoXJRh5NXMCnhoozBQGTHgia+ElPVgb9+AKD8TrD3bGqkK3azPLFHMvf0HKoHP09f0PyiGaSPWYWwJSHnU1Lumf6hCYrsl5BHX84IG6dI6jJXiSmdNQnjxqs2jh6erYNAi5vfMyWIhXmnhbQC4PrFaWayfwZqpuZEWTKgs=
+	t=1788364750; cv=none; b=fF/wwVr53/1N9WFG963VFUlxJagW3dMyut7kUnPdBfxMXIRyVgtyp/QFtJDBKBV5H7/60Hnk/klDCm10mdrddyjxEAxDnX55Zlin757BYQ+mBzo+GVsFcJcoycWjHxBv8W5mZagQw85LzGYNEa2YP5jC5shNdY2YPdJbYgScYXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788364748; c=relaxed/simple;
-	bh=w5XzCNvtISA11x/79z4k70SkTnJoEx63BOLbxemarHg=;
+	s=arc-20240116; t=1788364750; c=relaxed/simple;
+	bh=q5fv3xXfMwIS7NIb+RDtHK9T1wBd+dUjDqoKFQqCgiA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lXzoK26R+dgefKS0svBd1pMTIgKIJ6lyS5PqRWuhIyfG9dS6HxKJz6ZtKBgQIKh+dSbUvde/zGKCS/DPCVFXHZe0uvi+SEyhJ/dxR3cSeeuMQzq5QGL5B9uWoShfK1LNLqQh8qwpCkqGXz8R8FIz/ucgDVB1WqIaGdH4pVtVYZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hYlkQtMn; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=o4Nr+doDoik3hS1kGOBYBTNP6KwbF3RpnSmevaQKxM3pe8/EZ1jFd7CZTxqdjO2oBj3O1IiU0QVRZxWmpELOyreM8v2QngAKQN70GiqBkp03X49VX1BE6zkJhC8R6fF/C2za87r59O1tDhE88EDyyTQSuSQvf1L6F8jSpVToWwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=knur4eYZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hYlkQtMn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC59E1F000E9;
-	Wed,  2 Sep 2026 15:59:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="knur4eYZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C831F00A3A;
+	Wed,  2 Sep 2026 15:59:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788364745;
-	bh=L1XJ1r2xt5aE7vmReSMfA1K25jgXdTcqXM3YU0cEydE=;
+	s=k20260515; t=1788364748;
+	bh=gkozlQ97FOXIHzmKRRpGFQ9TYyV+8utx+rqNwOCLl3k=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=hYlkQtMn3bcrXhuLHDGJQ3SywuCQL6wxw1zq/P55laeTRd3eEdSjpbqTBqB272sN8
-	 ZC4+f1na33Xt9PmyyQNerhGoJpr4X++W6MkLRKUHSgGlILMmYSqRoyfGf8lWyv2/Lh
-	 8Kd3ik+96s8e/7teUurzryH1FiTXotuy2G8CwmmycQhkGkoPl1lK+HWDp+mSeldAZk
-	 AVBZxkkQm95wuvGdoDrIpKZENw4LI3kOIBCOh60UiszJSLugrDBJLez1CApdFzYNL3
-	 YKnWm45e9Xb45+ZzF/Do3N8S66P8OE+MM6Ya+u6+fLDmncRTBof5ZnWlADzOFhJkZI
-	 i6iJbrGCW5/3w==
+	b=knur4eYZsu0qvHjPSCquqT25Ifn6BR2Kl+Epez/zlkx0z5uC9yypLETPCizsRARC7
+	 WhjMTnvp+PmlAV2BRLaTxb4sagUmIOaUkhEWXhb3t8pwyArCL8/n73bEe/w8OIWfvR
+	 BCD2kEZGsyncVowzRmOcOjxiUKndQFjMfqyjWuI3EZvKWngbx/lndnzH93iCvXvVRy
+	 fEVX70OvfjWYAwlmd1FKqCua8TnHw5MCn/ntrpsvlgmt9XeQeQZTIK9c6/yiGeaNsM
+	 nZUUVutwV0U/ZiAoFfiR5DHUJXE+LlHnV1eBWBYQ4cWisscgsZYR4KoaPJJzEoaSjj
+	 8k9ToYsIDir0A==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 02 Sep 2026 17:58:28 +0200
-Subject: [PATCH RFC v2 10/16] fs: make close_range() synchronous
+Date: Wed, 02 Sep 2026 17:58:29 +0200
+Subject: [PATCH RFC v2 11/16] coredump: s/startup/done/g
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-work-coredump-unlock-self-v2-10-1bece368cbb1@kernel.org>
+Message-Id: <20260902-work-coredump-unlock-self-v2-11-1bece368cbb1@kernel.org>
 References: <20260902-work-coredump-unlock-self-v2-0-1bece368cbb1@kernel.org>
 In-Reply-To: <20260902-work-coredump-unlock-self-v2-0-1bece368cbb1@kernel.org>
 To: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
@@ -47,79 +47,76 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2303; i=brauner@kernel.org;
- h=from:subject:message-id; bh=w5XzCNvtISA11x/79z4k70SkTnJoEx63BOLbxemarHg=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTNcF+h4XWZYdLMBTViuwqn3mdVF/FStv47PaDFVY73Q
- 8zX3iavjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlcW87wTzUiVi52S/PDWyk8
- x1Rrbc89KfoxW9WWreGMyAq59oRwT4b/nhpLhVzOLptqFn/3Au+XWkEF8czrHR/T1hjbZatuypR
- lBwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2022; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=q5fv3xXfMwIS7NIb+RDtHK9T1wBd+dUjDqoKFQqCgiA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTNcF9xyKPw+jkWe/sVficuedX8/FN62bf9Q4TLLenUW
+ e7sxzymd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk+Awjw7fLMybV7Na+f1Y0
+ 4Uzb9M1nCzkX3XFkipt64Wr7As0c1gRGhnPVkts7vOZL1Ce8k42r4k+Sl+TVkVj+8+s6hpsO3Y7
+ pHAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-__range_close() closes through filp_close() so every file the caller
-held the last reference to is punted to task work. That costs one
-cmpxchg per file plus a list entry for any later task_work_cancel() to
-search under ->pi_lock. close_range(2) exists to close many descriptors
-in one go fast. So convert it to the same synchronous treatment as
-close(2) and close_files().
+We're going to use that in a bit. Rename it to something easier to
+understand.
 
-We collect the last references through filp_close_list() and run any
-final __fput()s through fput_list() right before returning.
-close_range(2) now behaves like close(2).
+No functional changes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/file.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ fs/coredump.c                | 4 ++--
+ include/linux/sched/signal.h | 3 ++-
+ kernel/exit.c                | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/fs/file.c b/fs/file.c
-index 47ce844be95b..608e6a1fa69b 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -798,7 +798,7 @@ static inline void __range_cloexec(struct files_struct *cur_fds,
- }
+diff --git a/fs/coredump.c b/fs/coredump.c
+index 9addd2d59b7b..545a6df48ea8 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -523,7 +523,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+ 	struct task_struct *tsk = current;
+ 	int core_waiters = -EBUSY;
  
- static inline void __range_close(struct files_struct *files, unsigned int fd,
--				 unsigned int max_fd)
-+				 unsigned int max_fd, struct llist_head *list)
- {
- 	struct file *file;
- 	struct fdtable *fdt;
-@@ -815,7 +815,8 @@ static inline void __range_close(struct files_struct *files, unsigned int fd,
- 		file = file_close_fd_locked(files, fd);
- 		if (file) {
- 			spin_unlock(&files->file_lock);
--			filp_close(file, files);
-+			filp_flush(file, files);
-+			fput_close_list(file, list);
- 			cond_resched();
- 			spin_lock(&files->file_lock);
- 			fdt = files_fdtable(files);
-@@ -845,6 +846,7 @@ SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
- {
- 	struct task_struct *me = current;
- 	struct files_struct *cur_fds = me->files, *fds = NULL;
-+	LLIST_HEAD(to_close);
+-	init_completion(&core_state->startup);
++	init_completion(&core_state->done);
+ 	core_state->dumper.task = tsk;
+ 	core_state->dumper.next = NULL;
  
- 	if (flags & ~(CLOSE_RANGE_UNSHARE | CLOSE_RANGE_CLOEXEC))
- 		return -EINVAL;
-@@ -876,7 +878,7 @@ SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
- 	if (flags & CLOSE_RANGE_CLOEXEC)
- 		__range_cloexec(cur_fds, fd, max_fd);
- 	else
--		__range_close(cur_fds, fd, max_fd);
-+		__range_close(cur_fds, fd, max_fd, &to_close);
+@@ -531,7 +531,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+ 	if (core_waiters > 0) {
+ 		struct core_thread *ptr;
  
- 	if (fds) {
+-		wait_for_completion_state(&core_state->startup,
++		wait_for_completion_state(&core_state->done,
+ 					  TASK_UNINTERRUPTIBLE|TASK_FREEZABLE);
  		/*
-@@ -886,6 +888,7 @@ SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
- 		put_files_struct(switch_files_struct(me, cur_fds));
- 	}
+ 		 * Wait for all the threads to become inactive, so that
+diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+index 584ae88b435e..ed9e2d49d166 100644
+--- a/include/linux/sched/signal.h
++++ b/include/linux/sched/signal.h
+@@ -81,7 +81,8 @@ struct core_thread {
+ struct core_state {
+ 	atomic_t nr_threads;
+ 	struct core_thread dumper;
+-	struct completion startup;
++	/* Completed by the last thread to park. */
++	struct completion done;
+ };
  
-+	fput_list(&to_close);
- 	return 0;
- }
+ /*
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 97686af89501..8702e3ead7dd 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -440,7 +440,7 @@ static void coredump_task_exit(struct task_struct *tsk,
+ 	 * to core_state->dumper.
+ 	 */
+ 	if (atomic_dec_and_test(&core_state->nr_threads))
+-		complete(&core_state->startup);
++		complete(&core_state->done);
  
+ 	for (;;) {
+ 		set_current_state(TASK_IDLE|TASK_FREEZABLE);
 
 -- 
 2.53.0
