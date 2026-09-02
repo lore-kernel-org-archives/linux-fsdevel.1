@@ -1,184 +1,196 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B734A9D76;
-	Wed,  2 Sep 2026 16:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086F147F786;
+	Wed,  2 Sep 2026 16:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788365269; cv=none; b=SZHkDmF/Kf03QqRVRZDLYwRbijXZEZTkkPeRr2T0w5pOv0yWt02Z/ZG4MrVlB/FnrFDNOGWnJ02+kSwzRe1Gh9hHSO6DEhgoeCyGc8dUuPFFgVwGox/qkIeWtp6+Cja6kvEt4sKY2fgUv4JjIVEh+JXeSv4WuyOzmFDHCPCUBFE=
+	t=1788366955; cv=none; b=hZFloCcg25Q+zuL3eM9YombtDHG9fJjmfV6EhTkWON2BQBaNPmrvKBr9fAvz7wHfi12STFr4TsXlsug+xz3kvEvMZ0qiLlA5Rr+PfO6hUYGMe620cEsI6uHIoO7eMu8PDohcpVF5dZ9KwAh8FbDUylozO52k7GdBRjos940gVxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788365269; c=relaxed/simple;
-	bh=P6CyjnQCD6Ueg6/odmAdFf71SxIvposEfb5XFt0XTH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=heFO5EHKX2AvAnQrWyO0BANsm5jGW7v04JYnxIX87U9Auxh2cpAemA4ld7rcrQsnoNoo+T13bkaNYEvdZ9DejImKa84ogOPNZ2Ny2yWr39VIsOxGQte8bBTt7Uh/4oKeERYLW6hXuw3nzdSsObjI38xaIMmerjXIuVBF/7sAj54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=A0G0EV6U; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wMfk1JD4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=J2u0vrLQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jhVZVvvG; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788366955; c=relaxed/simple;
+	bh=sqNtSfdNCaTQb/2mf73osRumdi1Z06osl4U/LVAk7AU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nPNuX8KDK84j0nXja06PXtPaVcFYaMlOnypygLB/igp7ivqT945A1LD90EXVYTFFkGP4WgsmnwoIs+yPpT4Cq77OEPLPeegFMOnSYsFB4t4GVkt3naMBp/j/LaQ/lExm00yD7PMZHOOy8+zWqaGoNYwg5MqvzaaAh2tRo7+ONZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUx12r4I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="A0G0EV6U";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wMfk1JD4";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="J2u0vrLQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jhVZVvvG"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D984721CF1;
-	Wed,  2 Sep 2026 16:07:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788365260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GyyAayOiVnv3aCFB/W1ne3d6kkITO1+ebE/Tmz3HhRc=;
-	b=A0G0EV6UhbB6YIvOcpkFyIfobvY9/e8i/ReIi8HVus8DxK9g5Hk5ISsE5espVhhlivJZOU
-	ImQ51Lja4jGOm1Tf6aRccvgqzCLff2nf22JUKY5mlzlEFKzQFTn60qtuyKgzDV0AOBqIUV
-	lfAJu0mnlzJXGa3I9wqiz48JnlJ1ZdE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788365260;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GyyAayOiVnv3aCFB/W1ne3d6kkITO1+ebE/Tmz3HhRc=;
-	b=wMfk1JD4823uYOsl8fRyyPrX6HKmco8UqVmxSlHr5EdUleJzoOC6hSE544UQHcxcMbS1Rq
-	p9SnsXWpu3kNZmDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788365255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GyyAayOiVnv3aCFB/W1ne3d6kkITO1+ebE/Tmz3HhRc=;
-	b=J2u0vrLQuKQxOjcCTVhxFLjobpvG5TMTIE29WBZx0Kfd6B7+2rH4mLAdzP/e+YRYBfkhi1
-	/dsloXZkTXfiA7rJdHeBBTbJgSCdbgHK7Gnw0uA41QQrTbKKpIkmlh8noKS+0iuqcNcXcg
-	zx/wQArVMHi8TVda+qCcK9L3pWQap+c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788365255;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GyyAayOiVnv3aCFB/W1ne3d6kkITO1+ebE/Tmz3HhRc=;
-	b=jhVZVvvGm3fLLJuX6gV+8KGwP9KoKX/mo0qHd/+V2P87KOQvfzzvsovffSqZZ5hvtPLeGP
-	YaEYZs6Z2naE0oBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B91D713515;
-	Wed,  2 Sep 2026 16:07:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AAStLMdJmGrnegAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 02 Sep 2026 16:07:35 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 64656A13B5; Wed, 02 Sep 2026 18:07:35 +0200 (CEST)
-Date: Wed, 2 Sep 2026 18:07:35 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
-	Seth Forshee <sforshee@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	linux-security-module@vger.kernel.org, Mimi Zohar <zohar@linux.ibm.com>, 
-	linux-integrity@vger.kernel.org, Ilya Dryomov <idryomov@gmail.com>, ceph-devel@vger.kernel.org, 
-	Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>, 
-	Amir Goldstein <amir73il@gmail.com>, linux-unionfs@vger.kernel.org, 
-	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 27/27] fs: make nop_mnt_idmap and invalid_mnt_idmap const
-Message-ID: <zjaeoapknslc6sxdf7ycgkytk2fr6ougieqz7icejptlfzkuhd@sr47lzi4ldex>
-References: <20260901-work-idmap-const-v1-0-54ccd48e100b@kernel.org>
- <20260901-work-idmap-const-v1-27-54ccd48e100b@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUx12r4I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8512B1F000E9;
+	Wed,  2 Sep 2026 16:35:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788366953;
+	bh=ac8jsX+DMtEi6vVSz6czKKoo3d1DKY5/tg/cm1MFQFw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RUx12r4IWkNLDsowdrG0tIOgZVYvTtRlYFpwS7Ps2MMhUDo8igPTsx5tqCIx+dq7Z
+	 P45rLsyOHNZ648U94ptQfeZK2A6TIPNQ1jReHuNNaBFn1FpxVy8yWXLcWIeku6ogf3
+	 phduk3qLzEe+N5cPT55mwg37gegxI/Km0KI7fLBcmLItsmKIyiPbKfe055cCnOgsmT
+	 Hj6e5Xzpy/SOMfU4n1Jfo/4KJG55kbI+nqf+WVv1ur153KlNEiDkd3z+uNSX3O5xxx
+	 wK869ki2JRA8vPt7m9JGtU8shMYnwNuJVRQ2YKntYe6yvK8KFGuG1wfJG6pEikmfAv
+	 4BdET61TLKMcQ==
+Message-ID: <86fc18f6-8c21-4738-9a10-64a2fa48cc1f@kernel.org>
+Date: Wed, 2 Sep 2026 18:35:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901-work-idmap-const-v1-27-54ccd48e100b@kernel.org>
-X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,zeniv.linux.org.uk,suse.cz,lst.de,kernel.org,paul-moore.com,linux.ibm.com,gmail.com,szeredi.hu];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] mm: replace PF_KSWAPD flag with kthread_func() check
+To: Kefeng Wang <wangkefeng.wang@huawei.com>, brauner@kernel.org,
+ djwong@kernel.org, cem@kernel.org, akpm@linux-foundation.org,
+ surenb@google.com, mhocko@suse.com, brendan.jackman@linux.dev,
+ hannes@cmpxchg.org, ziy@nvidia.com, david@kernel.org, qi.zheng@linux.dev,
+ shakeel.butt@linux.dev, ljs@kernel.org
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org
+References: <20260902131653.1338227-1-wangkefeng.wang@huawei.com>
+ <20260902131653.1338227-4-wangkefeng.wang@huawei.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260902131653.1338227-4-wangkefeng.wang@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue 01-09-26 14:14:52, Christian Brauner wrote:
-> Make both static maps const so they end up in rodata. Any attempt to
-> modify them now faults instead of silently corrupting the initial
-> idmapping.
+On 9/2/26 15:16, Kefeng Wang wrote:
+> The preceding commits removed the last consumer that propagated
+> PF_KSWAPD beyond kswapd itself (XFS btree split worker inheritance).
+> The only remaining setter of PF_KSWAPD is kswapd(), and every
+> current_is_kswapd() caller only needs to check whether the current
+> task *is* the kswapd thread, not whether it inherited the flag.
 > 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Replace the flag-based test with kthread_func(current) == kswapd,
+> freeing the 0x00020000 PF flag bit.
+> 
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
 > ---
->  fs/mnt_idmapping.c            | 4 ++--
->  include/linux/mnt_idmapping.h | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
+>  include/linux/sched.h                    |  2 +-
+>  include/linux/swap.h                     |  7 +------
+>  mm/vmscan.c                              | 10 ++++++++--
+>  tools/sched_ext/include/scx/common.bpf.h |  1 -
+>  4 files changed, 10 insertions(+), 10 deletions(-)
 > 
-> diff --git a/fs/mnt_idmapping.c b/fs/mnt_idmapping.c
-> index 26704eeb7318..bed57094cef0 100644
-> --- a/fs/mnt_idmapping.c
-> +++ b/fs/mnt_idmapping.c
-> @@ -28,7 +28,7 @@ struct mnt_idmap {
->   * mapping. This means that {g,u}id 0 is mapped to {g,u}id 0, {g,u}id 1 is
->   * mapped to {g,u}id 1, [...], {g,u}id 1000 to {g,u}id 1000, [...].
->   */
-> -struct mnt_idmap nop_mnt_idmap = {
-> +const struct mnt_idmap nop_mnt_idmap = {
->  	.count	= REFCOUNT_INIT(1),
->  };
->  EXPORT_SYMBOL_GPL(nop_mnt_idmap);
-> @@ -37,7 +37,7 @@ EXPORT_SYMBOL_GPL(nop_mnt_idmap);
->   * Carries the invalid idmapping of a full 0-4294967295 {g,u}id range.
->   * This means that all {g,u}ids are mapped to INVALID_VFS{G,U}ID.
->   */
-> -struct mnt_idmap invalid_mnt_idmap = {
-> +const struct mnt_idmap invalid_mnt_idmap = {
->  	.count	= REFCOUNT_INIT(1),
->  };
->  EXPORT_SYMBOL_GPL(invalid_mnt_idmap);
-> diff --git a/include/linux/mnt_idmapping.h b/include/linux/mnt_idmapping.h
-> index b445c7660040..78eeef4c2996 100644
-> --- a/include/linux/mnt_idmapping.h
-> +++ b/include/linux/mnt_idmapping.h
-> @@ -8,8 +8,8 @@
->  struct mnt_idmap;
->  struct user_namespace;
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 8b3d47a325cc..86394121b6c0 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1809,7 +1809,7 @@ extern struct pid *cad_pid;
+>  #define PF_USER_WORKER		0x00004000	/* Kernel thread cloned from userspace thread */
+>  #define PF_NOFREEZE		0x00008000	/* This thread should not be frozen */
+>  #define PF_KCOMPACTD		0x00010000	/* I am kcompactd */
+> -#define PF_KSWAPD		0x00020000	/* I am kswapd */
+> +#define PF__HOLE__00020000	0x00020000
+>  #define PF_MEMALLOC_NOFS	0x00040000	/* All allocations inherit GFP_NOFS. See memalloc_nfs_save() */
+>  #define PF_MEMALLOC_NOIO	0x00080000	/* All allocations inherit GFP_NOIO. See memalloc_noio_save() */
+>  #define PF_LOCAL_THROTTLE	0x00100000	/* Throttle writes only against the bdi I write to,
+> diff --git a/include/linux/swap.h b/include/linux/swap.h
+> index a72ecf12c00d..fc290e29e4a9 100644
+> --- a/include/linux/swap.h
+> +++ b/include/linux/swap.h
+> @@ -25,12 +25,6 @@
+>  #define SWAP_FLAGS_VALID	(SWAP_FLAG_PRIO_MASK | SWAP_FLAG_PREFER | \
+>  				 SWAP_FLAG_DISCARD | SWAP_FLAG_DISCARD_ONCE | \
+>  				 SWAP_FLAG_DISCARD_PAGES)
+> -
+> -static inline int current_is_kswapd(void)
+> -{
+> -	return current->flags & PF_KSWAPD;
+> -}
+> -
+>  /*
+>   * MAX_SWAPFILES defines the maximum number of swaptypes: things which can
+>   * be swapped to.  The swap type and the offset into that swap type are
+> @@ -339,6 +333,7 @@ void check_move_unevictable_folios(struct folio_batch *fbatch);
 >  
-> -extern struct mnt_idmap nop_mnt_idmap;
-> -extern struct mnt_idmap invalid_mnt_idmap;
-> +extern const struct mnt_idmap nop_mnt_idmap;
-> +extern const struct mnt_idmap invalid_mnt_idmap;
->  extern struct user_namespace init_user_ns;
+>  extern void __meminit kswapd_run(int nid);
+>  extern void __meminit kswapd_stop(int nid);
+> +bool current_is_kswapd(void);
 >  
->  typedef struct {
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>  #ifdef CONFIG_SWAP
+>  int add_swap_extent(struct swap_info_struct *sis, unsigned long start_page,
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 07ba86634b84..775d3f71a9de 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -7468,7 +7468,7 @@ static int kswapd(void *p)
+>  	 * us from recursively trying to free more memory as we're
+>  	 * trying to free the first piece of memory in the first place).
+>  	 */
+> -	tsk->flags |= PF_MEMALLOC | PF_KSWAPD;
+> +	tsk->flags |= PF_MEMALLOC;
+>  	set_freezable();
+>  
+>  	WRITE_ONCE(pgdat->kswapd_order, 0);
+> @@ -7518,11 +7518,17 @@ static int kswapd(void *p)
+>  			goto kswapd_try_sleep;
+>  	}
+>  
+> -	tsk->flags &= ~(PF_MEMALLOC | PF_KSWAPD);
+> +	tsk->flags &= ~PF_MEMALLOC;
+>  
+>  	return 0;
+>  }
+>  
+> +bool current_is_kswapd(void)
+> +{
+> +	return kthread_func(current) == kswapd;
+> +}
+> +EXPORT_SYMBOL_GPL(current_is_kswapd);
+> +
+>  /*
+>   * A zone is low on free memory or too fragmented for high-order memory.  If
+>   * kswapd should reclaim (direct reclaim is deferred), wake it up for the zone's
+> diff --git a/tools/sched_ext/include/scx/common.bpf.h b/tools/sched_ext/include/scx/common.bpf.h
+> index 76f5e025e107..3e095343ae84 100644
+> --- a/tools/sched_ext/include/scx/common.bpf.h
+> +++ b/tools/sched_ext/include/scx/common.bpf.h
+> @@ -32,7 +32,6 @@
+>  #define PF_IO_WORKER			0x00000010	/* Task is an IO worker */
+>  #define PF_WQ_WORKER			0x00000020	/* I'm a workqueue worker */
+>  #define PF_KCOMPACTD			0x00010000      /* I am kcompactd */
+> -#define PF_KSWAPD			0x00020000      /* I am kswapd */
+>  #define PF_KTHREAD			0x00200000	/* I am a kernel thread */
+>  #define PF_EXITING			0x00000004
+>  #define CLOCK_MONOTONIC			1
+
