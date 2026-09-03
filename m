@@ -1,36 +1,31 @@
-Received: from mta0.migadu.com (out-37.mta0.migadu.com [91.218.175.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE83F3382F7
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 23:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBD733C192;
+	Thu,  3 Sep 2026 23:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788477603; cv=none; b=eVfb5poVeVyRBPGiQd9iv1OGKtWPECyKjSWXLKoy02SADLqQt229DkynUIYf/aYgdwufB1lzodaNgPeAytoRCxqh6ptDZXeI4H42XxJeNhPMRIW/aUhhO7ZGZH1TLVjLfA9ArzSGhs1mVI2K7rWsagttGNe3wFh7uFU5L37I8pQ=
+	t=1788479489; cv=none; b=nV3NdUdUFxsCdhgifcfRNwBc3RDe9JLZgh0P2Tnjxd7JeHasbgqR/G578pX4o+PhT2p6kRhxZ4AtCTt6AMzJYr5/5xIJX2Hq3SFnDkKfOHPbZtBAlV1x+ekIKqG0HRXdfz7L3vE+amLOUE2TMst+EtJseLSUFA2TigfVS9EwASQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788477603; c=relaxed/simple;
-	bh=122pexZufQYfTsSGUStzGsOrhTfJYDQADD35SE5TtB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p83foFfAW+kazGZD+djrmVLmMvi3XxhuMyMkmycWdrzI4YMyy980/9rhC/d5IWNDTxHOjjiYgmTBfObiahEImk+qjPzsqR/tA0Ds4HdBV4Is0+b6NKWfqj8vjbtYbnkWYHv3hMJ3W++kZZNzP5UCUhoDp3YEWvNy1C44/xCe2pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vAVXZ1FH; arc=none smtp.client-ip=91.218.175.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vAVXZ1FH"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=122pexZufQYfTsSGUStzGsOrhTfJYDQADD35SE5TtB8=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788477596; v=1; x=1789082396;
- b=vAVXZ1FH8i9vyLbkLrPwT1oXJT3sx7kmXZjcwfoXbz/nvV+5NvwKWbLekjzDWvPXnQzoaPlD
- +0iIX6OmeNN85hSLP89UksruwXBInYFvwm0mrPW+w3nA6pNLF02UrKMkmxR1nUD88NgAj+EBwAf
- ntiFi9bzYY394gDK2L6nDzUE=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 876ef0493799c3d9;
-	Thu, 03 Sep 2026 23:19:46 +0000
-X-Mizu-Trace-ID: 876ef0493799c3d9
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <b29fbb51-5d0f-4f82-a06f-55ea080b5629@linux.dev>
-Date: Thu, 3 Sep 2026 16:19:39 -0700
+	s=arc-20240116; t=1788479489; c=relaxed/simple;
+	bh=whx3MwuuqeUZLwexkSsMN1tzlP1OB0NfURrM/yY9dtw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=khKe6/FfuP83S/VbOM22fMBFu/VodUwh+0mKIxvMP++jwoWWZqd4fETvqs3eob7nCD/LbiLCsYBa6Ta1/uUO8VM8+0144YQnxkMPyp+X2OesM0c7fLwR1+ZGBKRXLWMRBO/H21ya4KMSsO0lO3X+6DVMisQ/pi4Fq1m84DqE19w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 683Nol7J013836;
+	Fri, 4 Sep 2026 08:50:47 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.6] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 683NokUa013833
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 4 Sep 2026 08:50:47 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <dc2f1e00-5e10-4e02-9415-c6ecb2cbc6b3@I-love.SAKURA.ne.jp>
+Date: Fri, 4 Sep 2026 08:50:46 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,473 +33,249 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] eventfd: luo: luo support for preserving eventfd
-To: Chenghao Duan <duanchenghao@kylinos.cn>, viro@zeniv.linux.org.uk,
- brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org,
- pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org, rppt@kernel.org,
- pratyush@kernel.org, kexec@lists.infradead.org, linux-mm@kvack.org
-Cc: jianghaoran@kylinos.cn
-References: <20260625054946.73445-1-duanchenghao@kylinos.cn>
- <20260625054946.73445-2-duanchenghao@kylinos.cn>
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <20260625054946.73445-2-duanchenghao@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH v8] loop: Fix NULL pointer dereference in lo_rw_aio()
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: Bart Van Assche <bvanassche@acm.org>,
+        Markus Elfring <Markus.Elfring@web.de>, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, lkp@intel.com,
+        oe-lkp@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>, Christoph Hellwig <hch@lst.de>,
+        Hillf Danton <hdanton@sina.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mark Brown <broonie@kernel.org>, Oliver Sang <oliver.sang@intel.com>,
+        linux-btrfs@vger.kernel.org
+References: <8dedfc40-9cae-44ff-9960-e0eb1825e963@I-love.SAKURA.ne.jp>
+ <550ff0b4-df39-46d2-9781-c8688df10c93@web.de>
+ <38ad64c1-edc7-431d-8f52-fba572ebf3eb@I-love.SAKURA.ne.jp>
+ <372ca5f6-81a0-4f6c-8f55-ebeeada9f955@acm.org>
+ <27bcb147-bead-4432-8cd0-981489f36228@acm.org>
+ <c41e9198-86a8-4bcd-a608-6f457b24f345@I-love.SAKURA.ne.jp>
+ <7e51bca8-218a-40b8-8ff8-fc59671f5add@acm.org>
+ <3bb080d0-4421-4012-8a62-6a2bf165cbd9@I-love.SAKURA.ne.jp>
+ <d2f387b9-031a-4306-9323-56f98a8241b7@acm.org>
+ <e5518546-701e-4d3c-a077-18e34aa8c188@I-love.SAKURA.ne.jp>
+ <c0df5f39-d103-4e36-9807-df0ae0247772@acm.org>
+ <c2ab2547-63b3-48cf-87c1-fc53219e360a@I-love.SAKURA.ne.jp>
+ <d0471919-9b71-4d24-9fb8-5f1d7f3792ca@acm.org>
+ <903a22a2-432c-4e72-bc09-7898becf2f3e@I-love.SAKURA.ne.jp>
+ <d7e26d4b-d9b9-47c0-9658-c241499209b5@acm.org>
+ <9ac07477-b2be-482b-9e97-87acf9635307@I-love.SAKURA.ne.jp>
+Content-Language: en-US
+In-Reply-To: <9ac07477-b2be-482b-9e97-87acf9635307@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Anti-Virus-Server: fsav212.rs.sakura.ne.jp
+X-Virus-Status: clean
 
-在 2026/6/24 22:49, Chenghao Duan 写道:
-> This patch adds support for preserving eventfd file descriptors across
-> kexec live updates using the Live Update Orchestrator (LUO) framework.
-> Userspace applications using eventfd for event notification can now
-> maintain their state across kernel updates.
-> 
-> Preserved State:
-> The following properties of the eventfd are preserved across kexec:
-> - Counter Value: The current 64-bit counter value, including any pending
->    events that have been signaled but not yet consumed by readers.
-> - File Flags: The creation flags (EFD_SEMAPHORE, EFD_CLOEXEC, EFD_NONBLOCK)
->    are preserved.
-> 
-> Non-Preserved State:
-> - File Descriptor Number: The eventfd will be assigned a new fd number
->    in the target process after restore.
-> - Wait Queue State: Any processes blocked on read() operations will be
->    woken up and need to re-establish their blocking state.
-> - All other internal state is reset to default.
-> 
-> Changes:
-> - fs/eventfd.c: Add eventfd_luo_get_state() to safely read eventfd state
->    (count and flags), and eventfd_create() helper function.
-> - fs/eventfd_luo.c: New file implementing LUO file operations:
->    preserve, freeze, unpreserve, retrieve, and finish callbacks.
-> - include/linux/eventfd.h: Export new functions.
-> - include/linux/kho/abi/eventfd.h: Define the ABI contract with
->    eventfd_luo_ser structure for serialization.
-> 
-> Signed-off-by: Chenghao Duan <duanchenghao@kylinos.cn>
-> ---
->   fs/Makefile                     |   1 +
->   fs/eventfd.c                    |  40 +++++
->   fs/eventfd_luo.c                | 250 ++++++++++++++++++++++++++++++++
->   include/linux/eventfd.h         |   2 +
->   include/linux/kho/abi/eventfd.h |  39 +++++
->   kernel/liveupdate/Kconfig       |  16 ++
->   6 files changed, 348 insertions(+)
->   create mode 100644 fs/eventfd_luo.c
->   create mode 100644 include/linux/kho/abi/eventfd.h
-> 
-> diff --git a/fs/Makefile b/fs/Makefile
-> index 89a8a9d207d1..36d568e6cfc7 100644
-> --- a/fs/Makefile
-> +++ b/fs/Makefile
-> @@ -27,6 +27,7 @@ obj-y				+= anon_inodes.o
->   obj-$(CONFIG_SIGNALFD)		+= signalfd.o
->   obj-$(CONFIG_TIMERFD)		+= timerfd.o
->   obj-$(CONFIG_EVENTFD)		+= eventfd.o
-> +obj-$(CONFIG_LIVEUPDATE_EVENTFD)+= eventfd_luo.o
->   obj-$(CONFIG_AIO)               += aio.o
->   obj-$(CONFIG_FS_DAX)		+= dax.o
->   obj-$(CONFIG_FS_ENCRYPTION)	+= crypto/
-> diff --git a/fs/eventfd.c b/fs/eventfd.c
-> index 9d33a02757d5..9b76cf06135a 100644
-> --- a/fs/eventfd.c
-> +++ b/fs/eventfd.c
-> @@ -376,6 +376,40 @@ struct eventfd_ctx *eventfd_ctx_fileget(struct file *file)
->   }
->   EXPORT_SYMBOL_GPL(eventfd_ctx_fileget);
->   
-> +/**
-> + * eventfd_luo_get_state - Get eventfd state (count and flags) for LUO
-> + * @file: Eventfd file
-> + * @count: Output parameter for count value
-> + * @flags: Output parameter for flags value
-> + *
-> + * This function is exported for use by LUO to safely read eventfd state.
-> + * Since struct eventfd_ctx is defined in this file, we can access its
-> + * members directly here. The function uses the wait queue lock to ensure
-> + * atomic access to count.
-> + *
-> + * Returns 0 on success, negative error code on failure.
-> + */
-> +int eventfd_luo_get_state(struct file *file, __u64 *count, unsigned int *flags)
-> +{
-> +	struct eventfd_ctx *ctx;
-> +	unsigned long irq_flags;
-> +
-> +	ctx = eventfd_ctx_fileget(file);
-> +	if (IS_ERR(ctx))
-> +		return PTR_ERR(ctx);
-> +
-> +	/* Read count with lock (flags don't need lock) */
-> +	spin_lock_irqsave(&ctx->wqh.lock, irq_flags);
-> +	*count = ctx->count;
-> +	spin_unlock_irqrestore(&ctx->wqh.lock, irq_flags);
-> +
-> +	*flags = ctx->flags;
-> +
-> +	eventfd_ctx_put(ctx);
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(eventfd_luo_get_state);
-> +
->   static int do_eventfd(unsigned int count, int flags)
->   {
->   	struct eventfd_ctx *ctx __free(kfree) = NULL;
-> @@ -411,6 +445,12 @@ static int do_eventfd(unsigned int count, int flags)
->   	return fd_publish(fdf);
->   }
->   
-> +int eventfd_create(__u64 count, unsigned int flags)
-> +{
-> +	return do_eventfd(count, flags);
-> +}
-> +EXPORT_SYMBOL_GPL(eventfd_create);
-> +
->   SYSCALL_DEFINE2(eventfd2, unsigned int, count, int, flags)
->   {
->   	return do_eventfd(count, flags);
-> diff --git a/fs/eventfd_luo.c b/fs/eventfd_luo.c
-> new file mode 100644
-> index 000000000000..781d90635c52
-> --- /dev/null
-> +++ b/fs/eventfd_luo.c
-> @@ -0,0 +1,250 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2026 KylinSoft Corporation.
-> + * Author: Chenghao Duan <duanchenghao@kylinos.cn>
-> + */
-> +
-> +/**
-> + * DOC: Eventfd Preservation via LUO
-> + *
-> + * Overview
-> + * ========
-> + *
-> + * Event file descriptors (eventfd) can be preserved over a kexec using the Live
-> + * Update Orchestrator (LUO) file preservation. This allows userspace applications
-> + * that use eventfd for event notification to maintain their state across kernel
-> + * updates.
-> + *
-> + * Eventfd is a simple notification mechanism that uses a 64-bit counter for
-> + * signaling events between userspace processes or between userspace and kernel.
-> + * The preservation ensures that pending events and configuration are not lost
-> + * during kexec.
-> + *
-> + * The preservation is not intended to be transparent. Only select properties of
-> + * the eventfd are preserved. All others are reset to default. The preserved
-> + * properties are described below.
-> + *
-> + * Preserved Properties
-> + * ====================
-> + *
-> + * The following properties of the eventfd are preserved across kexec:
-> + *
-> + * Counter Value
-> + *   The current 64-bit counter value is preserved. This includes any pending
-> + *   events that have been signaled but not yet consumed by readers.
-> + *
-> + * File Flags
-> + *   The creation flags (EFD_SEMAPHORE, EFD_CLOEXEC, EFD_NONBLOCK) are preserved.
-> + *   These control the behavior of read/write operations and file descriptor
-> + *   inheritance.
-> + *
-> + * Non-Preserved Properties
-> + * ========================
-> + *
-> + * All properties which are not preserved must be assumed to be reset to
-> + * default. This section describes some of those properties which may be more of
-> + * note.
-> + *
-> + * File Descriptor Number
-> + *   The file descriptor number itself is not preserved. After restore, the
-> + *   eventfd will be assigned a new file descriptor number in the target process.
-> + *
-> + * Wait Queue State
-> + *   Any processes currently blocked on read() operations will be woken up and
-> + *   need to re-establish their blocking state if desired.
-> + *
-> + * File Position
-> + *   Eventfd files don't have a traditional file position, but any internal
-> + *   state related to the file descriptor is reset.
-> + */
-> +
-> +#include <linux/err.h>
-> +#include <linux/file.h>
-> +#include <linux/io.h>
-> +#include <linux/kexec_handover.h>
-> +#include <linux/kho/abi/eventfd.h>
-> +#include <linux/liveupdate.h>
-> +#include <linux/module.h>
-> +#include <linux/eventfd.h>
-> +#include <linux/anon_inodes.h>
-> +#include <linux/idr.h>
-> +#include <linux/slab.h>
-> +#include <linux/wait.h>
-> +#include <linux/kref.h>
-> +#include <linux/fdtable.h>
-> +
-> +static int eventfd_luo_preserve(struct liveupdate_file_op_args *args)
-> +{
-> +	struct eventfd_luo_ser *ser;
-> +	u64 count;
-> +	unsigned int flags;
-> +	int err = 0;
-> +
-> +	/* Get eventfd state safely */
-> +	err = eventfd_luo_get_state(args->file, &count, &flags);
-> +	if (err) {
-> +		pr_err("Failed to get eventfd state: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	ser = kho_alloc_preserve(sizeof(*ser));
-> +	if (IS_ERR(ser)) {
-> +		err = PTR_ERR(ser);
-> +		pr_err("Failed to allocate preserve memory: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	/* Save eventfd state */
-> +	ser->count = count;
-> +	ser->flags = flags;
-> +
-> +	pr_debug("Preserved eventfd: count=%llu, flags=0x%x\n",
-> +		ser->count, ser->flags);
-> +
-> +	/* Return physical address of serialization structure */
-> +	args->serialized_data = virt_to_phys(ser);
-> +
-> +	return 0;
-> +}
-> +
-> +static int eventfd_luo_freeze(struct liveupdate_file_op_args *args)
-> +{
-> +	struct eventfd_luo_ser *ser;
-> +	u64 count;
-> +	unsigned int flags;
-> +	int err;
-> +
-> +	if (WARN_ON_ONCE(!args->serialized_data))
-> +		return -EINVAL;
-> +
-> +	ser = phys_to_virt(args->serialized_data);
-> +
-> +	/* Get current state and update if changed */
-> +	err = eventfd_luo_get_state(args->file, &count, &flags);
-> +	if (err)
-> +		return err;
-> +
-> +	if (ser->count != count) {
-> +		pr_debug("WARNING: Count changed during preserve->freeze! old=%llu, new=%llu\n",
-> +			 ser->count, count);
-> +	}
-> +
-> +	ser->count = count;
-> +
-> +	return 0;
-> +}
-> +
-> +static void eventfd_luo_unpreserve(struct liveupdate_file_op_args *args)
-> +{
-> +	struct eventfd_luo_ser *ser;
-> +
-> +	if (WARN_ON_ONCE(!args->serialized_data))
-> +		return;
-> +
-> +	ser = phys_to_virt(args->serialized_data);
-> +	kho_unpreserve_free(ser);
-> +}
-> +
-> +static int eventfd_luo_retrieve(struct liveupdate_file_op_args *args)
-> +{
-> +	struct eventfd_luo_ser *ser;
-> +	struct eventfd_ctx *ctx;
-> +	struct file *file = NULL;
-> +	int eventfd;
-> +
-> +	ser = phys_to_virt(args->serialized_data);
-> +	if (!ser)
-> +		return -EINVAL;
-> +
-> +	/* Create a new eventfd with the preserved count and flags */
-> +	eventfd = eventfd_create(ser->count, ser->flags);
-> +	if (eventfd < 0) {
-> +		pr_err("Failed to create eventfd: %d\n", eventfd);
-> +		return eventfd;
-> +	}
-> +
-> +	file = fget(eventfd);
-> +	if (!file) {
-> +		pr_err("Failed to get file from fd\n");
-> +		close_fd(eventfd);
-> +		return -EBADF;
-> +	}
-> +
-> +	close_fd(eventfd);
-> +
-> +	/* Verify the created file has correct internal state */
-> +	ctx = eventfd_ctx_fileget(file);
-> +	if (IS_ERR(ctx)) {
-> +		pr_err("Failed to get context from file\n");
-> +		fput(file);
-> +		return PTR_ERR(ctx);
-> +	}
-> +
-> +	eventfd_ctx_put(ctx);
-> +
-> +	args->file = file;
-> +	return 0;
-> +}
-> +
-> +static void eventfd_luo_finish(struct liveupdate_file_op_args *args)
-> +{
-> +	struct eventfd_luo_ser *ser;
-> +
-> +	if (args->retrieve_status)
-> +		return;
-> +
-> +	if (!args->serialized_data)
-> +		return;
-> +
-> +	ser = phys_to_virt(args->serialized_data);
-> +	if (!ser)
-> +		return;
-> +
-> +	kho_restore_free(ser);
-> +}
-> +
-> +static bool eventfd_luo_can_preserve(struct liveupdate_file_handler *handler,
-> +				     struct file *file)
-> +{
-> +	struct eventfd_ctx *ctx;
-> +
-> +	if (!file->f_op)
-> +		return false;
-> +
-> +	/* Try to get eventfd context - this will fail if not an eventfd */
-> +	ctx = eventfd_ctx_fileget(file);
-> +	if (IS_ERR(ctx))
-> +		return false;
-> +
-> +	eventfd_ctx_put(ctx);
-> +	return true;
-> +}
-> +
-> +static const struct liveupdate_file_ops eventfd_luo_file_ops = {
-> +	.preserve = eventfd_luo_preserve,
-> +	.unpreserve = eventfd_luo_unpreserve,
-> +	.freeze = eventfd_luo_freeze,
-> +	.retrieve = eventfd_luo_retrieve,
-> +	.finish = eventfd_luo_finish,
-> +	.can_preserve = eventfd_luo_can_preserve,
-> +	.owner = THIS_MODULE,
-> +};
-> +
-> +static struct liveupdate_file_handler eventfd_luo_handler = {
-> +	.ops = &eventfd_luo_file_ops,
-> +	.compatible = EVENTFD_LUO_FH_COMPATIBLE,
-> +};
-> +
-> +static int __init eventfd_luo_init(void)
-> +{
-> +	int err = liveupdate_register_file_handler(&eventfd_luo_handler);
+syzbot is reporting NULL pointer dereference in lo_rw_aio() [1][2].
+An analysis by the Gemini AI collaborator [3] considers that this problem
+is caused by a timing shift primarily exposed by commit 65565ca5f99b
+("block: unify the synchronous bi_end_io callbacks"), along with helper
+refactorings like commit 92c3737a2473 ("block: add a bio_submit_or_kill
+helper").
 
-The function liveupdate_unregister_file_handler should also be invoked 
-to unregister luo handler.
+But due to difficulty of reproducing this race, discussion about what is
+happening and how to fix this problem is stalling. Also, we haven't
+identified how many filesystems are subjected to this problem.
 
-Zhu Yanjun
+Therefore, introduce a grace period for flushing outstanding I/O
+(which should be a good thing from the perspective of defensive
+programming) so that we won't hit NULL pointer dereference problem.
 
-> +
-> +	if (err && err != -EOPNOTSUPP) {
-> +		pr_err("Could not register eventfd LUO handler: %pe\n",
-> +		       ERR_PTR(err));
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +late_initcall(eventfd_luo_init);
-> diff --git a/include/linux/eventfd.h b/include/linux/eventfd.h
-> index e32bee4345fb..703e1a126c4d 100644
-> --- a/include/linux/eventfd.h
-> +++ b/include/linux/eventfd.h
-> @@ -35,6 +35,8 @@ void eventfd_ctx_put(struct eventfd_ctx *ctx);
->   struct file *eventfd_fget(int fd);
->   struct eventfd_ctx *eventfd_ctx_fdget(int fd);
->   struct eventfd_ctx *eventfd_ctx_fileget(struct file *file);
-> +int eventfd_luo_get_state(struct file *file, __u64 *count, unsigned int *flags);
-> +int eventfd_create(__u64 count, unsigned int flags);
->   void eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask);
->   int eventfd_ctx_remove_wait_queue(struct eventfd_ctx *ctx, wait_queue_entry_t *wait,
->   				  __u64 *cnt);
-> diff --git a/include/linux/kho/abi/eventfd.h b/include/linux/kho/abi/eventfd.h
-> new file mode 100644
-> index 000000000000..148beac6bcc7
-> --- /dev/null
-> +++ b/include/linux/kho/abi/eventfd.h
-> @@ -0,0 +1,39 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2026 KylinSoft Corporation.
-> + * Author: Chenghao Duan <duanchenghao@kylinos.cn>
-> + */
-> +
-> +#ifndef _LINUX_KHO_ABI_EVENTFD_H
-> +#define _LINUX_KHO_ABI_EVENTFD_H
-> +
-> +#include <linux/types.h>
-> +
-> +/*
-> + * Eventfd Live Update ABI
-> + *
-> + * This header defines the ABI for preserving eventfd state across kexec.
-> + *
-> + * The state is serialized into a packed structure `struct eventfd_luo_ser`
-> + * which is handed over to the next kernel via the KHO mechanism.
-> + *
-> + */
-> +
-> +/**
-> + * struct eventfd_luo_ser - Serialized state of an eventfd
-> + * @count: The current counter value
-> + * @flags: File flags (EFD_SEMAPHORE, EFD_CLOEXEC, EFD_NONBLOCK)
-> + *
-> + * This structure contains the minimal state needed to restore an eventfd
-> + * after kexec. The count represents the current value of the event counter,
-> + * and flags represent the file creation flags.
-> + */
-> +struct eventfd_luo_ser {
-> +	__u64 count;
-> +	unsigned int  flags;
-> +} __packed;
-> +
-> +/* The compatibility string for eventfd file handler */
-> +#define EVENTFD_LUO_FH_COMPATIBLE	"eventfd-v1"
-> +
-> +#endif /* _LINUX_KHO_ABI_EVENTFD_H */
-> diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
-> index c13af38ba23a..1361b5733f41 100644
-> --- a/kernel/liveupdate/Kconfig
-> +++ b/kernel/liveupdate/Kconfig
-> @@ -86,4 +86,20 @@ config LIVEUPDATE_MEMFD
->   
->   	  If unsure, say N.
->   
-> +config LIVEUPDATE_EVENTFD
-> +	bool "Eventfd Live Update Orchestrator support"
-> +	depends on EVENTFD
-> +	depends on LIVEUPDATE
-> +	help
-> +	  Enable Live Update Orchestrator support for eventfd file descriptors.
-> +	  This allows eventfd files to be preserved and restored across kexec
-> +	  operations, maintaining their counter values and flags.
-> +
-> +	  Eventfd files are commonly used for event notification between
-> +	  userspace processes or between userspace and kernel. With this
-> +	  option enabled, eventfd state can be handed over to a new kernel
-> +	  during live update operations.
-> +
-> +	  If unsure, say N.
-> +
->   endmenu
+However, calling drain_workqueue() from __loop_clr_fd() with
+disk->open_mutex held causes lockdep warnings. We need to flush
+outstanding I/O without disk->open_mutex held. But we can't use task work
+context, for there is no way to reliably wait for completion of a task work
+function inside a loadable module when module unloading code for that
+loadable module has started. We need to use a callback function which is
+embedded into a built-in module so that it can reliably wait for completion
+of synchronous teardown for the loop driver module.
 
+Therefore, add a dedicated callback for the loop module to the block core
+layer, and invoke that callback immediately after disk->open_mutex is
+released. It is possible that multiple threads invoke that callback
+when a teardown work was scheduled because disk->open_mutex was already
+released, but concurrently calling flush_work() in order to wait for
+completion of an outstanding teardown work will be safe.
+
+Link: https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28 [1]
+Link: https://syzkaller.appspot.com/bug?extid=bc273027d5643e48e5b3 [2]
+Link: https://lkml.kernel.org/r/fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp [3]
+Link: https://lkml.kernel.org/r/9f8b5ab0-efbc-4cf3-a1f8-b43377416946@I-love.SAKURA.ne.jp [4]
+Fixes: 65565ca5f99b ("block: unify the synchronous bi_end_io callbacks")
+Assisted-by: Gemini-Pro
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+What this patch does is basically the same with the v6 patch. Can this be
+a possible alternative for Bart's
+
+  Releasing and reacquiring disk->open_mutex from __loop_clr_fd() seems
+  risky to me. There is plenty of code in block/bdev.c that assumes that
+  disk->open_mutex is not released by lo_release().
+
+comment?
+
+ block/bdev.c           |  2 ++
+ drivers/block/loop.c   | 65 +++++++++++++++++++++++++++++++++---------
+ include/linux/blkdev.h |  5 ++++
+ 3 files changed, 59 insertions(+), 13 deletions(-)
+
+diff --git a/block/bdev.c b/block/bdev.c
+index cd8323083740..7ce5acaacf43 100644
+--- a/block/bdev.c
++++ b/block/bdev.c
+@@ -1188,6 +1188,8 @@ void bdev_release(struct file *bdev_file)
+ 	else
+ 		blkdev_put_whole(bdev);
+ 	mutex_unlock(&disk->open_mutex);
++	if (bdev->bd_disk->fops->post_release)
++		bdev->bd_disk->fops->post_release(bdev->bd_disk);
+ 
+ 	module_put(disk->fops->owner);
+ put_no_open:
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 6f12976035b0..620298978706 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -75,6 +75,7 @@ struct loop_device {
+ 	struct gendisk		*lo_disk;
+ 	struct mutex		lo_mutex;
+ 	bool			idr_visible;
++	struct work_struct	lo_clr_work;
+ };
+ 
+ struct loop_cmd {
+@@ -1134,13 +1135,42 @@ static int loop_configure(struct loop_device *lo, blk_mode_t mode,
+ 	return error;
+ }
+ 
+-static void __loop_clr_fd(struct loop_device *lo)
++static void __loop_clr_fd(struct work_struct *work)
+ {
++	struct loop_device *lo = container_of(work, struct loop_device, lo_clr_work);
++	struct gendisk *disk = lo->lo_disk;
+ 	struct queue_limits lim;
+ 	struct file *filp;
+ 	gfp_t gfp = lo->old_gfp_mask;
+ 	int err;
+ 
++	/* Step 1: Flush all outstanding I/O, without open_mutex held. */
++	/*
++	 * Since loop_queue_rq() is called with RCU read lock, this synchronize_rcu()
++	 * makes sure that no more queue_work() calls are made from loop_queue_work()
++	 * from loop_queue_rq(). Subsequent loop_queue_rq() calls which are made after
++	 * this synchronize_rcu() returned shall see lo->lo_state != Lo_bound and
++	 * return with BLK_STS_IOERR.
++	 */
++	synchronize_rcu();
++	/*
++	 * This drain_workqueue() makes sure that no more loop_handle_cmd() calls are
++	 * made from loop_process_work() from loop_workfn()/loop_rootcg_workfn().
++	 */
++	drain_workqueue(lo->workqueue);
++	/*
++	 * This blk_mq_freeze_queue() waits for completion of all outstanding I/O
++	 * which has been scheduled via loop_queue_rq(), by waiting for q_usage_counter
++	 * to reach 0. Since the lo->lo_state != Lo_bound check in loop_queue_rq()
++	 * guarantees that no more new I/O requests are made, we can call
++	 * blk_mq_unfreeze_queue() immediately after blk_mq_freeze_queue() returns.
++	 */
++	blk_mq_unfreeze_queue(lo->lo_queue, blk_mq_freeze_queue(lo->lo_queue));
++
++	/* Step 2: Perform remaining cleanup, with open_mutex held. */
++	mutex_lock(&disk->open_mutex);
++	WARN_ON_ONCE(lo->lo_state != Lo_rundown);
++
+ 	spin_lock_irq(&lo->lo_lock);
+ 	filp = lo->lo_backing_file;
+ 	lo->lo_backing_file = NULL;
+@@ -1151,12 +1181,7 @@ static void __loop_clr_fd(struct loop_device *lo)
+ 	lo->lo_sizelimit = 0;
+ 	memset(lo->lo_file_name, 0, LO_NAME_SIZE);
+ 
+-	/*
+-	 * Reset the block size to the default.
+-	 *
+-	 * No queue freezing needed because this is called from the final
+-	 * ->release call only, so there can't be any outstanding I/O.
+-	 */
++	/* Reset the block size to the default. */
+ 	lim = queue_limits_start_update(lo->lo_queue);
+ 	lim.logical_block_size = SECTOR_SIZE;
+ 	lim.physical_block_size = SECTOR_SIZE;
+@@ -1199,11 +1224,9 @@ static void __loop_clr_fd(struct loop_device *lo)
+ 	WRITE_ONCE(lo->lo_state, Lo_unbound);
+ 	mutex_unlock(&lo->lo_mutex);
+ 
+-	/*
+-	 * Need not hold lo_mutex to fput backing file. Calling fput holding
+-	 * lo_mutex triggers a circular lock dependency possibility warning as
+-	 * fput can take open_mutex which is usually taken before lo_mutex.
+-	 */
++	/* Step 3: Drop refcounts, without open_mutex held. */
++	mutex_unlock(&disk->open_mutex);
++
+ 	fput(filp);
+ }
+ 
+@@ -1769,8 +1792,22 @@ static void lo_release(struct gendisk *disk)
+ 	need_clear = (lo->lo_state == Lo_rundown);
+ 	mutex_unlock(&lo->lo_mutex);
+ 
++	/*
++	 * In order to flush outstanding I/O (without open_mutex for deadlock
++	 * avoidance) before clearing the backing device, defer __loop_clr_fd()
++	 * to WQ context and let lo_post_release() wait for completion.
++	 * The Lo_rundown state guarantees that lo_open() will fail with -ENXIO.
++	 */
+ 	if (need_clear)
+-		__loop_clr_fd(lo);
++		queue_work(system_long_wq, &lo->lo_clr_work);
++}
++
++static void lo_post_release(struct gendisk *disk)
++{
++	struct loop_device *lo = disk->private_data;
++
++	/* Wait for __loop_clr_fd() to complete. */
++	flush_work(&lo->lo_clr_work);
+ }
+ 
+ static void lo_free_disk(struct gendisk *disk)
+@@ -1789,6 +1826,7 @@ static const struct block_device_operations lo_fops = {
+ 	.owner =	THIS_MODULE,
+ 	.open =         lo_open,
+ 	.release =	lo_release,
++	.post_release = lo_post_release,
+ 	.ioctl =	lo_ioctl,
+ #ifdef CONFIG_COMPAT
+ 	.compat_ioctl =	lo_compat_ioctl,
+@@ -2034,6 +2072,7 @@ static int loop_add(int i)
+ 	lo = kzalloc_obj(*lo);
+ 	if (!lo)
+ 		goto out;
++	INIT_WORK(&lo->lo_clr_work, __loop_clr_fd);
+ 	lo->worker_tree = RB_ROOT;
+ 	INIT_LIST_HEAD(&lo->idle_worker_list);
+ 	timer_setup(&lo->timer, loop_free_idle_workers_timer, TIMER_DEFERRABLE);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 4f7905c3412b..5172d6bdd9e7 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1605,6 +1605,11 @@ struct block_device_operations {
+ 	 * driver.
+ 	 */
+ 	int (*alternative_gpt_sector)(struct gendisk *disk, sector_t *sector);
++	/*
++	 * Special callback for synchronous cleanup without open_mutex.
++	 * Needed by loop devices.
++	 */
++	void (*post_release)(struct gendisk *disk);
+ };
+ 
+ #ifdef CONFIG_COMPAT
+-- 
+2.55.0
