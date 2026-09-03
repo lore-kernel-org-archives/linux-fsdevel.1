@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9DE39E6EB;
-	Thu,  3 Sep 2026 10:09:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B88476CE2;
+	Thu,  3 Sep 2026 10:11:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788430170; cv=none; b=bEZxuhh6W6GwbmSCMMcUgJQidZH7R+E3NucXooX8VpzVYreJPpSpESbFNdsCFXvIqqkmL/yoKu3bihFA5O3aszSY8dS1o99R5ziNVyfRRWxqzN9nYfSXLE2HrZMgvjeMHUVOqoHaMJuoydA/6662GYSdkA10kMF1COUHrxljGpY=
+	t=1788430314; cv=none; b=Sc9Z0jj/gv9pZ5dPuVBDQnybBW9CVO7AqkA3lX0PrSSUBMBDDgfqc7T5r7rTFltJ1IS/jg4DO8hgSpLupP0KGVi9YI41lvP6aGmNFyq72YNGyP0Nu3h+D/bsQxOZofBHyhZ/49u5TtvkGkmkPsOOwihrJBRV7K7hUlPbhlcguto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788430170; c=relaxed/simple;
-	bh=ttN0vFwitDuSEU75+GbOKngPaDGgUCuptVbHGQ09HjM=;
+	s=arc-20240116; t=1788430314; c=relaxed/simple;
+	bh=BN4qunNBubpj0XR3wKSg04dnQbkN+UbGnKV1S5NmCEU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I4l+yKTH5Qr7ED25ED+SaeGRCheGqbsC0M360psFQLwuuer80Xi4SAtX6QEjDEtkh9dC/obR98iogsm/uI99joqn0CONv1DPgRNYxrbphiiqhBERQdS4JH92/CY9zpgEdbM4eLnugKtqDKSjXaoH4iep/rOQ4KdxoQTqbBjHN3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LWQUiP1o; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=iSG7f1hM1Ved0n/bxX2lnQCHiTZZjeYRs9Uf69cm5u0m3sAWnkNKVYksyyopXw+hQxx9TsRS3hSlcYI65rzTlbQ8xzrZC41+umaOBo767lHc/v/5lgWjtiJdiKGHd4FVEf/9kroO9/Q4QMfjZw2ZIbKsF5UKT+aTX+TvH7A6IBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VBTTOy4Z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LWQUiP1o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61FF11F000E9;
-	Thu,  3 Sep 2026 10:09:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VBTTOy4Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93E311F000E9;
+	Thu,  3 Sep 2026 10:11:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788430163;
-	bh=5kdCJbwtYjwdwpiipUS39ooVAOG5yIhe/eZjFNLrhWw=;
+	s=k20260515; t=1788430311;
+	bh=ATnn0rFlXTYrVtedHEnWgM8vXFFmNhxFeLJmYOeDXBk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=LWQUiP1oDc+eiSZLGgpmxHE3o0lgmGDPD6pRBrIEybso4LD+iiD7oVPSZybfQqn+N
-	 e+pXcMxx5xEbYpf67YbwHxpTwZAiunjHBdLE6XwEDjOu21gwI13462hMLlD7KpoXu1
-	 QWRUYN/6v0rGEnohmMPUkmr9WhTTqDF+ssDO4uo78F0xcMUWhcZ5IjBqTTc5Smn84h
-	 5hQn78UWMGO49s2DR4NTu5g+yo/jFVcpmyGWE4hu9r4k6lFYGrMnuaqUWqKUOaBYkQ
-	 Cgee9cf8BCGHqX8IbGo7fq9ainGRzpHhoJY1L2lMe1bbHsOVxqdbsIBTY29RrS0iEq
-	 Ozc+uYBVvmEZg==
-Message-ID: <8a73da1c-0167-4aa5-a62c-4190327685cd@kernel.org>
-Date: Thu, 3 Sep 2026 12:09:16 +0200
+	b=VBTTOy4Zghb2X+R2qVo4ULeLYQIJvXRTePh93UEcOu76QCZm+hfproMO+r/Nfbqd5
+	 zWGprDLfpTGL9xeX6uOll5EclMwhO2WTri87vDXyT1TFmz6GNgT6oHXr6vevlAgc1s
+	 W5qfqa6hdHIW8jGHtMGQuKFLPPA1E8kdQT4W5dri3GC3+S032rNC0D/txLxmRaMn17
+	 rUF+tNB1CjWzHug8aRT3aAAxcJxFu5sAcJBTouGc0KX0TBs0OVCLcK3ExZKDlHV68L
+	 LE6Qjyj7iTugogz/OPp7Ik18wpw6GlnnV3jDn93TCs+BrUAxb2bG3miEOpzNqG7hVS
+	 m+kgfsrPHg8gA==
+Message-ID: <0082d06b-381d-4001-9ea6-cd3217e437dd@kernel.org>
+Date: Thu, 3 Sep 2026 12:11:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/12] rust: mm: add abstractions for allocating from a
- `sheaf`
+Subject: Re: [PATCH v5 09/12] rust: mm: sheaf: allow use of C initialized
+ static caches
 Content-Language: en-US
 To: Andreas Hindborg <a.hindborg@kernel.org>,
  Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
@@ -55,7 +55,7 @@ To: Andreas Hindborg <a.hindborg@kernel.org>,
 Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
 References: <20260902-xarray-entry-send-v5-0-d18adae40708@kernel.org>
- <20260902-xarray-entry-send-v5-8-d18adae40708@kernel.org>
+ <20260902-xarray-entry-send-v5-9-d18adae40708@kernel.org>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -96,21 +96,34 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20260902-xarray-entry-send-v5-8-d18adae40708@kernel.org>
+In-Reply-To: <20260902-xarray-entry-send-v5-9-d18adae40708@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/2/26 15:26, Andreas Hindborg wrote:
-> Add Rust APIs for allocating objects from a `sheaf`.
+> Extend the sheaf abstraction to support caches initialized by C at kernel
+> boot time, in addition to dynamically created Rust caches.
+
+Nit: in C code caches can be also dynamically created :)
+
+> Introduce `KMemCache<T>` as a transparent wrapper around `kmem_cache` for
+> static caches with `'static` lifetime. Rename the previous `KMemCache<T>`
+> to `KMemCacheHandle<T>` to represent dynamically created, reference-counted
+> caches.
 > 
-> Introduce a reduced abstraction `KMemCacheInit` for `struct kmem_cache` to
-> support management of the `Sheaf`s.
+> Add `Static` and `Dynamic` marker types along with `StaticSheaf` and
+> `DynamicSheaf` type aliases to distinguish sheaves from each cache type.
+> The `Sheaf` type now carries lifetime and allocation mode type parameters.
 > 
-> Initialize objects using in-place initialization when objects are allocated
-> from a `Sheaf`. This is different from C which tends to do some
-> initialization when the cache is filled. This approach is chosen because
-> there is no destructor/drop capability in `struct kmem_cache` that can be
-> invoked when the cache is dropped.
+> Add `SBox::into_ptr()` and `SBox::static_from_ptr()` methods for passing
+> allocations through C code via raw pointers.
+> 
+> Add `KMemCache::from_raw()` for wrapping C-initialized static caches and
+> `Sheaf::refill()` for replenishing a sheaf to a minimum size.
+> 
+> Export `kmem_cache_prefill_sheaf`, `kmem_cache_return_sheaf`,
+> `kmem_cache_refill_sheaf`, and `kmem_cache_alloc_from_sheaf_noprof` to
+> allow Rust module code to use the sheaf API.
 > 
 > Cc: Vlastimil Babka <vbabka@suse.cz>
 > Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
@@ -122,8 +135,4 @@ On 9/2/26 15:26, Andreas Hindborg wrote:
 
 Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Note that currently all caches have sheaves (except CONFIG_SLUB_TINY or
-slab_debug enabled), and sheaf_capacity on creation is treated as a minimum,
-which the automated sizing calculation can make larger - in case you want to
-reflect this detail in some of the description comments.
 
