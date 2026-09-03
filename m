@@ -1,75 +1,75 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7801722370A
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 00:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A153C246781
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 01:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788394873; cv=none; b=Oy3mQHniTDwQKS58TSlnQP6mbt7vmMYMFHnK8dFpT3xT411NRgOSowD87ENm9ugf+Zg5AO0N97T0poba/1BvZGAupupV4hMhnsflf6brhngPcUoqAJGK6j6iyMcl2iM/DV4YyNzYa8b14WF2gS9ZDNa45ctWNOnGCV/ms7+jOYo=
+	t=1788399229; cv=none; b=ZUM06hAIXTesS+t5m6aydof7AjEJ/Eon5Iu5Q2S8oEJxhgSFRyIf+HjyQf7y++OnGNuUPhcWBhgwDl8dtF8kX7GSc/qqeUl+eKSwXLFXui+rsvDdxnEulGl/gjxASAcjceqg25/XbW1SkiDSHUhq34TQuyU9/oUpLit0iyKha0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788394873; c=relaxed/simple;
-	bh=mjFAKiXB7ZAxn25FoteH1IzY/8IF7hq0XuQIZiUcbvI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EVX3hfa3+f+iSHCuYbngNU0Ixr/LchbRiCI+4lTmg+DOmPr2dxSvVwbeHdmUE5CgnTaVIFSZIPKBGdUyu88pRGBHK2ve4V9UfqVuPKEc9eetBFWmnvMwksbeAr1GxBfmE9qgCMOcbYCK3LxBzteoswdXkzb53KJsiDBNEWXsiFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R/77lARf; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1788399229; c=relaxed/simple;
+	bh=BSQQzVNIuupTKWHkDHInQ5UQ2OhS26ABbsbDxBswT/E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pAMG08YZHy2vicsjSE1qd6L3n9QK8mmPU0a82AwNrHJVNLIEqG5TNGYUrQuStMpTUT991pPdQo0q++MWjrxbrXz18ZrroyDGxynfxiGwt5BBiduh//Ttv9owRIInjweXbLYw8utf0cOvXrpiFCNrKboXEP0h7wKdac4nDoYvBCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n+u6506U; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/77lARf"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-485538d3499so1265488f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 02 Sep 2026 17:21:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n+u6506U"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48444ec4fe2so937891f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 02 Sep 2026 18:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788394869; x=1788999669; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788399226; x=1789004026; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4p+kVOqrl9TNdjQ0Ytm/XdNA1rDd6yPAPDCtXX/9+oM=;
-        b=R/77lARfp+Sb4OkbWjeEDxOY/ycfah7we/aWQIz9auOmNaMqkLIqhsxAD1lsT9AMRE
-         D3mpscDv7Z0WMVZlg4HIq2xgT95HjiCbA1/6cPuqQh6gr/i42zPBngLivr35NaRu4poz
-         6MKBJAq/ZnOOqG07h6xNfPBroFVeyY26x2JyA+JO4D1fbppwwofGEKOHHB5jsoSZkvuT
-         1C+aeg4ZAvlZGTt4WwWu0jKHMqAHEpc8D9SiOb3zbWLXE4ISpP52Q4oK6hgPYe8rSZyP
-         xttsit+Ee+w7eSPeGCdP0zDYmO/hdHQIxUrjoT36kfkFibMi4bPdJ2KI5sLOTNz2Q6jZ
-         EgCA==
+        bh=EVU2xXIwX74fn3t2r/Vw9dgcDAmgQOJ1XEy2yGBRzGw=;
+        b=n+u6506UUZxMIUyB1HWGzkgal3KkYaeRENWHfRqBPMs40eQcTF+IGyg9fkP1LnvAaI
+         oAhP7la/IWVzl80GaoApzFYdhYRJywaPb9yQ3RpF42xhUuHrfZwFdpCB8u70fPMbItKS
+         sjAuH0u9N0K3wg9KDT5CBLQhZ98CLqWkbGY0rnYWCS5B8Q4ujzbbRfZZVQma3d2PCnnn
+         Mu51sPOgYsr1/6/xkJC6R2zTghyOKqscGFn3HwDofLqhpWc3J1RcbpNrXEkL3FUzs2MG
+         VW4z9ZpzVmaxXAHftpXKoukyn8Jyky9465DNAjyWm2xC3ih6rjKMN0PtypeICZtBNmYT
+         PtlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788394869; x=1788999669;
+        d=1e100.net; s=20251104; t=1788399226; x=1789004026;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4p+kVOqrl9TNdjQ0Ytm/XdNA1rDd6yPAPDCtXX/9+oM=;
-        b=CtP/7v1ShTKgz9KpsRNd2parFMtaaf4O7o2nz9ERtjsqOXAy5VanVr3qY2reIOzgAM
-         ZJxh/oAisxPVaof0fnWe4JYUNXTCYRvo0ekzLFBgCjQ/vPISudcTAg/sOcDMSSISV0Hb
-         D72rXDQXJGuTAtps3KkhzQjOMbL+tBkta561dhhzSJFZdokoYNicxKEDPwWAmWGFo3zx
-         NxPG6ltyzjp8BzqHoT2WW/Xz5Wc1h3Y5y5qS1nHSOsLnk4m+fRPiu+y96Mep8jD4Ba+L
-         P9D1M+lhoAkleZSxhKmRo8XyCoIndGh9nEj47MgbosZKWip8vTrWdkal+Wlm9pggvHrK
-         IgtA==
-X-Forwarded-Encrypted: i=1; AKwUvBz13Xd1tQAXdHj6q1/s8sMeutr69T6ZwkidYlG+haMVw64yxJGDj3DeJjrq59nM/wMDnl4KPugCzr5y/FhV@vger.kernel.org
-X-Gm-Message-State: AFuF++nCPvwGI82VvditeH96rNSWrCg+lD0ldDdyJUCbMWmgWJZnSaO2
-	fzlRHMkgZuyiT8PPlE+Iqe5YxEU+kcOX1AmJi3O8xkjd6Y8x2ljKoI90
-X-Gm-Gg: AYBFou3p7sWz1qQaEKVLWIa9lrRuNTePEHKwGm7GRfQrNCnpujwJDPVzHkjbQ8XBVdY
-	9TSPz00JUFA0/ucTgOKyIGinSXIZZ2v+e5qHpBGdKh0A0fvpZXLRtreM8ObEF2dZHv4kQDllWGW
-	ACC8FxyBWQZ5/iZ2Reh/Z+uToTfUYHePgD7RIwd3vpyya5mG1qeN2bJB4alM14sni0Xtg9o/8o1
-	rb1tjO5KvIg1rk3xnN5UUEYluVreyq0flkqB0GcTi10N4zJVRxPre3O7VyS/rC00wMALUsh+G6N
-	2/Y0b8dvZdBztgnRSwibPhd4PUhHOQkXS6selkNzP0XBsxN1oE9ATVm+kCztnnY3dFAgrb6JlDu
-	nis4OhqOqOe+I5ICXdnfzMvAPH+W8m0H/7xaBpVNA57aFqp4nF9XMHRjceNP59yzDMfTWx0bM20
-	0S51RWlRxP1eNIK3tVSfX31P0ezxL6O4cc2VwP1Z8gNXtk/9bl5dRbbqnaKMWwWIA1vBFJ+JVAk
-	kTN+VMUGiSluLOqBxD+dFj1T39b2ia46thcUzYtCvEbntAGAFsJLYTSGDgVT5lF03Kw9K4u4i85
-	eXmWZQ+AQgEC8xTfmgqrKbmPZDpVfrw6YBDTOXTdkscGwoNmJwjcuQiiFHy4SzN0jQxu/PIsas2
-	cMFKn
-X-Received: by 2002:a05:6000:22c8:b0:484:4779:bcdb with SMTP id ffacd0b85a97d-48488deb822mr15780139f8f.6.1788394868328;
-        Wed, 02 Sep 2026 17:21:08 -0700 (PDT)
-Received: from MacBook-Pro-von-Karl.localdomain (dynamic-2a02-3100-a1c2-c401-11b2-c123-0d12-6c0f.310.pool.telefonica.de. [2a02:3100:a1c2:c401:11b2:c123:d12:6c0f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448eea961sm9709743f8f.28.2026.09.02.17.21.06
+        bh=EVU2xXIwX74fn3t2r/Vw9dgcDAmgQOJ1XEy2yGBRzGw=;
+        b=tDTtszAjle55hkQT6Ayd+MBZQaymDstLPeWVFmgyu1VjJft+qF6ae0oR45X/C0JwW4
+         ouLOYWIq6Sd8Jsr8836IpZ5NySs+p8khRgDoCsqtA3PCFVttO58c+QVfdBeHzPTPoBAG
+         ru4Im+IGlHn2VHN+SbI/xj85lM9PxDndYfkNBviCY+TknAcz+NBQkMZb1PpSYUFCSGyX
+         CO5s1bLS7CkMJBhuj17d/4s1wZXhrmafUAHMZne8ckMQ2s8UENEh69JqZM/vJFSIl4Cy
+         xxcadIp7bGMVMZIu26Npr5o/XCRyn5hb0WdmGdLPFgL9pZ+umTaYGM0ufUU5K6PsJK6R
+         bWnA==
+X-Forwarded-Encrypted: i=1; AKwUvBx0sDcSaG1KN8Q24howQAXUg8/vCUdxVgQH24FWEyZ8hBhprSUaKvC6uYqMuD8wRQaV76av924qQYJOV9l/@vger.kernel.org
+X-Gm-Message-State: AFuF++k+IxX4tfB/ZYiBN7A0ba5X3tY1PxIvDIH+jZ0wL9WbO+NXXDIC
+	AfF52LG+SBrA4RMeiWQn1gWrGNB56F8miSq+MmjN2PYjoXaXYPLloLAb
+X-Gm-Gg: AYBFou03+ucQa/1D70p/VPI17I7VNYZtbMg3G3PCdZhbDv7hBICIeGjUCvlUtdzoHJk
+	b4f+j+58zDLPeH8fVjGsizMiD9PVPyWMzShJNgWC5gY3ezGdbkdjlkrNvWQKaR9nXOFKbgEd5k3
+	WADatUCsJeeFfKyykFpHM7JS1ouEl7z9/aHhKQ2cOGB3PgvHfK0Ao2ayuGM9fDRB0AxVQdLQBc9
+	iD/xIFlSJbIahMsO/CCvvw7VLh0vtvkcMtnUBXskS2B6kJL9OSRWoFGm0plzGhH8wAJWhrj0883
+	5dwN+7e4+IzSIvze8ihnFpJyiCS0ZlaIjr7TiFFSAAOiVGbOn+zrYJWUAEyNPg4Wla6x45u/2H/
+	ld00YKpK4Vx2KOqfdrGqkFXzVth1xJSDJjetxCL9U8h3Zp1SqfOhG3rSjhAnk/Qrauk966+2Ony
+	p45IRhCEMxSEzAY9RxQJXwMBLZnVjLdnusWWy8io5rV9YwcgVZLncvefXKC2daL2PmCZl5NbLuR
+	HFhmYexJOsQNOuwIk69k+nMV3hT2JAZBgrHx1Rc5zb6z+6ZyOXJ+KQfe4piIFlyDTq9ZGXvbtUI
+	5w0OCdDgjG/KOA34Bdq1EEXrePs47X6B6oG+yi8KOWMrKKRhQpPc/f1kAnZX1DXEhytFims=
+X-Received: by 2002:a05:6000:4813:b0:485:81b9:4e79 with SMTP id ffacd0b85a97d-48581b9523dmr1775697f8f.7.1788399225660;
+        Wed, 02 Sep 2026 18:33:45 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a1c2-c401-11b2-c123-0d12-6c0f.310.pool.telefonica.de. [2a02:3100:a1c2:c401:11b2:c123:d12:6c0f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448eea5b4sm10241187f8f.27.2026.09.02.18.33.43
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 02 Sep 2026 17:21:07 -0700 (PDT)
+        Wed, 02 Sep 2026 18:33:44 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Jan Kara <jack@suse.cz>,
+	Paulo Alcantara <pc@manguebit.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] fs_pin: publish pins with RCU list helpers
-Date: Thu,  3 Sep 2026 02:21:00 +0200
-Message-Id: <20260903002100.34822-1-kmehltretter@gmail.com>
+	linux-cifs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] super: make iterate_supers_type() deletion-safe
+Date: Thu,  3 Sep 2026 03:33:36 +0200
+Message-Id: <20260903013336.92081-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -79,75 +79,82 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pin_insert() initializes a pin before adding it under pin_lock.  The kill
-paths read the list heads under RCU without taking that lock.  Plain hlist
-insertion does not publish the earlier initialization to those readers.
+iterate_supers_type() drops sb_lock while invoking the callback and keeps
+only a passive reference to the current superblock. That reference keeps
+the object allocated, but does not keep its s_instances node linked.
 
-KCSAN weak-memory checking reported acct_on() callback initialization
-racing with pin_kill() after the superblock-list publication.  The
-corresponding LKMM model permits the stale read with plain publication;
-the RCU release/acquire pair forbids it.
+After the callback releases s_umount, final teardown can unlink the current
+s_instances node. The iterator then advances through a reinitialized node.
+With the current hlist it stops without visiting the remaining superblocks.
+The unlink moved from generic_shutdown_super() to kill_super_notify(), but
+the cursor lifetime has been unsafe since the helper was introduced.
 
-Use the RCU hlist add and dereference helpers for both pin lists.
+The CIFS DFS lookup can consequently miss a matching superblock and return
+-EINVAL.
 
-Fixes: 2798d4ce6160 ("acct: get rid of acct_lock for acct->count")
+Walk the global superblock list in reverse and filter it by filesystem
+type. A passive reference keeps its s_list node linked, and reverse
+traversal preserves newest-first visitation. Superblocks removed from
+fs_supers remain on the global list, but teardown marks them SB_DYING
+before unlinking them, so the existing filter excludes them.
+
+This broadens the scan from superblocks of one type to all superblocks.
+The only in-tree caller is the CIFS DFS lookup, so the broader scan is
+limited to that path.
+
+Fixes: 43e15cdbefea ("new helper: iterate_supers_type()")
 Cc: stable@vger.kernel.org
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
-Reviewer notes:
+Testing: x86_64 QEMU deterministic KUnit A/B using the actual CIFS lookup
+callback over temporary VFS superblocks. Baseline skipped the surviving
+match after teardown of the preceding nonmatch and returned -EINVAL. With
+only this patch applied, the same test passed.
 
-Tested on arm64 (Raspberry Pi 400, Cortex-A72) at cf72cbb39da8 with clang,
-strict KCSAN, and weak-memory modeling.  Concurrent acct(path) and
-read-only remounts produced one __arm64_sys_acct()/pin_kill() report in
-the baseline.  Disassembly identified both accesses as pin->kill and the
-write as modeled past pin_insert().
+A real Samba DFS server and the kernel CIFS client were then run in the
+same QEMU guest over loopback. Baseline and patch-only kernels both followed
+the referrals and completed 20 reconnects while two workers repeatedly
+mounted and unmounted independent CIFS superblocks. The patch-only run
+successfully mounted, read from, and unmounted CIFS shares 95 times. Kprobes
+recorded 110 DFS lookup calls and 60 iterate_supers_type() calls. There were
+no unmount failures, kernel warnings, oopses, or sanitizer reports. The
+natural network stress did not hit the narrow race on baseline.
 
-With this patch, the report was absent at five times the baseline
-exposure, while unrelated control races continued to fire.  The LKMM
-plain-publication test is "Sometimes"; its RCU counterpart is "Never".
+Stable is requested because concurrent DFS automount teardown can make a
+reconnect lookup miss a live matching superblock.
 
-This demonstrates modeled reordering, not an observed crash.  Plain KCSAN
-also found no report in about 400,000 acct() cycles.
+Backport note: before dc3216b14160 ("super: ensure valid info"), the
+s_instances unlink is in generic_shutdown_super(). Before 3ec9800c2d33
+("super: convert s_count to refcount_t s_passive"), the passive reference is
+named s_count.
 
- fs/fs_pin.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ fs/super.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
---- a/fs/fs_pin.c
-+++ b/fs/fs_pin.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <linux/fs.h>
-+#include <linux/rculist.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
- #include "internal.h"
-@@ -22,8 +23,8 @@
- void pin_insert(struct fs_pin *pin, struct vfsmount *m)
- {
- 	spin_lock(&pin_lock);
--	hlist_add_head(&pin->s_list, &m->mnt_sb->s_pins);
--	hlist_add_head(&pin->m_list, &real_mount(m)->mnt_pins);
-+	hlist_add_head_rcu(&pin->s_list, &m->mnt_sb->s_pins);
-+	hlist_add_head_rcu(&pin->m_list, &real_mount(m)->mnt_pins);
- 	spin_unlock(&pin_lock);
- }
-
-@@ -73,7 +74,7 @@
- 	while (1) {
- 		struct hlist_node *p;
- 		rcu_read_lock();
--		p = READ_ONCE(m->mnt_pins.first);
-+		p = rcu_dereference(hlist_first_rcu(&m->mnt_pins));
- 		if (!p) {
- 			rcu_read_unlock();
- 			break;
-@@ -87,7 +88,7 @@
- 	while (1) {
- 		struct hlist_node *q;
- 		rcu_read_lock();
--		q = READ_ONCE(p->first);
-+		q = rcu_dereference(hlist_first_rcu(p));
- 		if (!q) {
- 			rcu_read_unlock();
- 			break;
+diff --git a/fs/super.c b/fs/super.c
+index 05e4431730387..c8accd144bad2 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -1026,11 +1026,18 @@ void iterate_supers_type(struct file_system_type *type,
+ 	struct super_block *sb, *p = NULL;
+ 
+ 	spin_lock(&sb_lock);
+-	hlist_for_each_entry(sb, &type->fs_supers, s_instances) {
++	/*
++	 * The passive reference keeps the s_list cursor valid while sb_lock
++	 * is dropped. Entries are added at the tail. Walk backwards to retain
++	 * newest-first visitation.
++	 */
++	list_for_each_entry_reverse(sb, &super_blocks, s_list) {
+ 		bool locked;
+ 
+ 		if (super_flags(sb, SB_DYING))
+ 			continue;
++		if (sb->s_type != type)
++			continue;
+ 
+ 		if (!refcount_inc_not_zero(&sb->s_passive))
+ 			continue;
+-- 
+2.53.0
