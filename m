@@ -1,36 +1,36 @@
-Received: from mta0.migadu.com (out-133.mta0.migadu.com [91.218.175.133])
+Received: from mta1.migadu.com (out-147.mta1.migadu.com [95.215.58.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5224446C839
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 09:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D90E3BB9F7
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 09:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788426716; cv=none; b=el3BGwfFpsJnOYD8nLYq5Pcja5jXbVqsKsG21hZdsxlvGU77oi5x/yBd6VihM4H/eLlSLX2Xyl/aob/OZM1Dm83I3j8J1V89AZUWWAbofcIKD0/UMxQ4KelLYRQ8uofqsGCkkZFdIql6bAunO/bAJXac++E/KhXuYJLLhGbbfpM=
+	t=1788427739; cv=none; b=c0mSID3dhvXztec+lCoKxrhLMrKgrstzAEJp71P2wnccSEaAKkmSvPSOl3o3rDM+IhTpgqjBp+39mTcP4S9tGuWkyr5n5cpO8ykb2pbZWFkPy2GD5ZPCXboxTWe/5DnYftmjqjGFn/wNSyTs0fpXj3Y20rZp/KGhzGvEQg8dxBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788426716; c=relaxed/simple;
-	bh=CgN0w/eudyXQY8rZE9Aqh7i7PEtWKIBv4uyTbWxNO1Y=;
+	s=arc-20240116; t=1788427739; c=relaxed/simple;
+	bh=U5pi9NpNkggEpIXhIWqLp0A74V6qUf5yXoAM5xhOX0Q=;
 	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=rmHoQ/qVKqA5uHlNlLGn+srABWkyTSKVCUfigBBUJjUyU4u+J8aXMYzShO66XY8v0C4W7sbuMqGsla7VYE7hr204jFWDf3WOMODwX1SA0jI7hpKvQmhb55NksvWsuP7gyT1EB4JVblLnT/XcJytERgckhLvLLbSXqk8rqhgrE2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=U0YZPEd5; arc=none smtp.client-ip=91.218.175.133
+	 In-Reply-To:Content-Type; b=Oh5gPI0ZJVI8AZTYdnoPiE3KhfXXnoEWsgM3QQQBiIFp7MOvGvodFxL3WTVFd1TjSlzHLNlHV48GfAHbTOHMY5G/fvohCwDtJDMvCo2amdsvWttrzYHUUFVbS6Q7bOC0SIKKeXBqgnlIu3i5xSDFYssGapCinuJ8MQaoTuOxdfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fE/xtliZ; arc=none smtp.client-ip=95.215.58.147
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="U0YZPEd5"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fE/xtliZ"
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=CgN0w/eudyXQY8rZE9Aqh7i7PEtWKIBv4uyTbWxNO1Y=;
+DKIM-Signature: a=rsa-sha256; bh=U5pi9NpNkggEpIXhIWqLp0A74V6qUf5yXoAM5xhOX0Q=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788426711; v=1; x=1789031511;
- b=U0YZPEd59LOhBnogDT2ZWC1ubJL2uoJtbrC2Zalq5Nd11i76bq5xsgpGGuuW9/0ZUpC+2Jvk
- tBu2UcxxkRS+NxNpANcb4Wg7h7D6Tn3UsRfpn3uDFyvUU8+aUF9H6JS/99n3A9xZXHXGNR52zt8
- vt/SGPT67mXTd/a/tUghFtPM=
+ t=1788427735; v=1; x=1789032535;
+ b=fE/xtliZyUR7sSEanHE6W6zVSFJ7M268Lo+drXADDWbmQN4mZr8Dpbe2bm3RrxyXKeJGtDwD
+ oF4xtqmfEQ025u9ATgpzOYfb2yn6hm/a+LNJVz/BHkUH+8A7NpPjIu61YSgYC5yNUxYNAuNY2vp
+ 2fNGEfKqC5fTbA9EUUx4GNmo=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 4466a18d953500fa;
-	Thu, 03 Sep 2026 09:11:41 +0000
-X-Mizu-Trace-ID: 4466a18d953500fa
+Received: by smtp.migadu.com with ESMTPS id 6635a15b9f1bc633;
+	Thu, 03 Sep 2026 09:28:55 +0000
+X-Mizu-Trace-ID: 6635a15b9f1bc633
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <de02c1f0-c675-4050-a2ee-2584eda63499@linux.dev>
-Date: Thu, 3 Sep 2026 17:11:37 +0800
+Message-ID: <7fb0d5df-6d16-477a-a140-377158b0fa05@linux.dev>
+Date: Thu, 3 Sep 2026 17:28:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,63 +38,48 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: cui.tao@linux.dev, linux-unionfs@vger.kernel.org, miklos@szeredi.hu,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Tao Cui <cuitao@kylinos.cn>
-Subject: Re: [PATCH] ovl: reject verity= together with userxattr
-To: Amir Goldstein <amir73il@gmail.com>
-References: <20260903064504.1052841-1-cui.tao@linux.dev>
- <CAOQ4uxhZOBv93_y4K0mc4PofprdPfSN8c45KW226LR-JO_BEkw@mail.gmail.com>
+Cc: cui.tao@linux.dev, Jan Kara <jack@suse.cz>,
+ Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, cgroups@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] cgroup: namespace: drop BUG_ON() in
+ copy_cgroup_ns()
+To: Shaojie Sun <sunshaojie@kylinos.cn>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>
+References: <aphwXq5bEQwKhqx2@localhost.localdomain>
+ <20260903064828.126643-1-sunshaojie@kylinos.cn>
+ <20260903064828.126643-2-sunshaojie@kylinos.cn>
 From: Tao Cui <cui.tao@linux.dev>
-In-Reply-To: <CAOQ4uxhZOBv93_y4K0mc4PofprdPfSN8c45KW226LR-JO_BEkw@mail.gmail.com>
+In-Reply-To: <20260903064828.126643-2-sunshaojie@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Amir,
 
-在 2026/9/3 16:09, Amir Goldstein 写道:
-> On Thu, Sep 3, 2026 at 8:45 AM Tao Cui <cui.tao@linux.dev> wrote:
->>
->> From: Tao Cui <cuitao@kylinos.cn>
->>
->> userxattr forces metacopy off, and copy-up only computes and stores
->> the verity digest for metacopy inodes.  With "userxattr,verity=on"
->> (or verity=require) the mount succeeds, verity is advertised in
->> mountinfo, but no digest is ever generated and no lowerdata is ever
->> verified - the option silently does nothing:
->>
->>   $ mount -t overlay ovl -o lowerdir=$l,upperdir=$u,workdir=$w,userxattr,verity=on /mnt
->>   (mount succeeds; after copy-up the upper inode carries only the
->>    origin xattr, no metacopy xattr, no digest)
+
+在 2026/9/3 14:48, Shaojie Sun 写道:
+> The sole caller, create_new_namespaces(), always passes a valid cgroup
+> namespace pointer from the task's nsproxy. The other copy_*_ns()
+> helpers, e.g. copy_time_ns() and copy_pid_ns(), don't perform such a
+> check either. Drop the BUG_ON() for consistency with them.
 > 
-> If metacopy is disabled, then the data of the upper file is in the upper file
-> there is not supposed to be a verity signature for the upper file data
-> verity signature is to attest the data of the lower file, so this report
-> is strange.
+> Signed-off-by: Shaojie Sun <sunshaojie@kylinos.cn>
+> ---
+>  kernel/cgroup/namespace.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> Moreover, even though metacopy=off does not create new meta copies,
-> it still respects existing metacopy xattr, which may very well also contain a
-> verity digest, so the statement "silently does nothing" is inaccurate.
-> 
-> I admit that user xattrs for verity digest is an odd combination, but it does
-> what it is supposed to do.
-> 
-> If you want to report a bug please explain how the security model gets
-> broken.
-> 
+> diff --git a/kernel/cgroup/namespace.c b/kernel/cgroup/namespace.c
+> index ea4ee13936be..76660332ec64 100644
+> --- a/kernel/cgroup/namespace.c
+> +++ b/kernel/cgroup/namespace.c
+> @@ -53,8 +53,6 @@ struct cgroup_namespace *copy_cgroup_ns(u64 flags,
+>  	struct ucounts *ucounts;
+>  	struct css_set *cset;
+>  
+> -	BUG_ON(!old_ns);
+> -
+>  	if (!(flags & CLONE_NEWCGROUP)) {
+>  		get_cgroup_ns(old_ns);
+>  		return old_ns;
 
-Thanks for the explanation.  I hadn't considered that pre-existing
-metacopy xattrs are still respected regardless of the mount option,
-and that with metacopy off the copy-up data lives in the upper file
-where there is nothing to attest.  The patch gets this wrong, please
-drop it.
-
-The fs-verity section in overlayfs.rst does spell this out; I read
-it too narrowly.
-
-Thanks,
-Tao
-
-> Thanks,
-> Amir.
-
+Reviewed-by: Tao Cui <cuitao@kylinos.cn>
