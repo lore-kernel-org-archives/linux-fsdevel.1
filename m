@@ -1,47 +1,47 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2163E3932EA;
-	Thu,  3 Sep 2026 18:31:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A42383339;
+	Thu,  3 Sep 2026 18:36:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788460280; cv=none; b=d+dertHjjQ4OtPuWyy6FBtRth6t4LCZPeqpBpT30bGCQn9y2VUHB0meFukWYEkqsdDNwe6iIp88Y7HwKdivtW9+/UMtA6XbqLoRN6+jRI45P4rhyVt+9gN4Zrt3e2QpGFM8CZ3olw11IjR05BLd0VK72tw9CKiCmXUPuS/iBEF8=
+	t=1788460573; cv=none; b=mDPjkWch6G6drrmF8EXbc/8s4gQaIC+Wo2Tkvi5C3AJdWdcHJz9DlweQ0q0hia2LKfeFwHBjDH1MrsKBbUvNW/Z27s0Gn6PCqIZVFHYKDog+s6pPe2JC2nMHJh7Sw2Q+urRR5TL59IH+vFDPDlbX97TbjO7OpCU956KB85cgT1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788460280; c=relaxed/simple;
-	bh=0+mcuKAkQa9mHcRqV44JCDODeNMWAzheCMo4mO0u9PE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NFxK/9UgnO45J4qreCqy9cXuUD4zRnWh1GqkCCZSvpTSLYjoVUh7OphgSXt1cJxZv7Ss43cY/kMTAtislFcMQE9HDLY0/NtqFLKC4x9knPRoZVIolhxO3qc369ovLiaSBmtk7SHSekCiZmNdjfQrjbFwqK+X3R5zRlgPJN+EZVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Pj0F53Yq; arc=none smtp.client-ip=35.157.23.187
+	s=arc-20240116; t=1788460573; c=relaxed/simple;
+	bh=cm7H8nQffoaULUq6JIRlP8F1vvH9RE1k/PAlBbYBuW0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hch0YdXGINDfWJooqLQmKCCki91J5DI4HcZSH1Y0EBjPCE3cgK/uKqoaSLLjYVc9+YCPZ4lrNxHOE9dzeLYFK/7YVgMl6yQXD5ixuIz4FsjU/5mRz8LC0SDzsAtrAJJ39eExexzy/aA1Nv61X90xcYCniqbNM7RKQAdbLBznz9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=phl9Qt5K; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Pj0F53Yq"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="phl9Qt5K"
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id AC1CB1D27;
-	Thu,  3 Sep 2026 18:32:08 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id C2ABE42C;
+	Thu,  3 Sep 2026 18:30:39 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Pj0F53Yq;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=phl9Qt5K;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 38A0D21DC;
-	Thu,  3 Sep 2026 18:31:06 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 6B2A421DC;
+	Thu,  3 Sep 2026 18:29:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1788460266;
-	bh=P2ffXHGxJvV1lvLjfTUlLDTK9q1bXPteARV+5BDBc0c=;
+	d=paragon-software.com; s=mail; t=1788460181;
+	bh=Wgo+qK1kTqee7nbzW4w8ARLLIrio7iKxUzwBL+4N7rI=;
 	h=From:To:CC:Subject:Date;
-	b=Pj0F53YqJsl1xWXCXStcUzHScbOpU9K74wOCDnQvvMqlPNmiM7inkgR4kkaMCE1yt
-	 eEZMd8Xcqz+AleWfGSYWpgNEYDDJVm1nva2VTjNIamLmE174QKXptuYtu52U9iLMvM
-	 1MLlLWJskKyq3ykSkwdKuMj+fllQCsjZY4QAoIV0=
+	b=phl9Qt5Kv7e+9JFR5DFp04G8CWqCH2+uHiMZTpsWuQeVEZe9Qj5id4RgAH793tapy
+	 I+XbcaAYIlEFzGXY1AHw45BFr6iklXhsYLXqYTyWPPV9DE2egh0UZGslVHlAAJ7fyC
+	 OoGMft+YqGQU/4aco6kV1k50opNoC6kmdPAh8Ako=
 Received: from localhost.localdomain (172.30.20.155) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 3 Sep 2026 21:31:05 +0300
+ 15.1.2375.7; Thu, 3 Sep 2026 21:29:40 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH] fs/ntfs3: use MAX_LFS_FILESIZE for maxbytes with 64-bit clusters
-Date: Thu, 3 Sep 2026 20:30:57 +0200
-Message-ID: <20260903183057.6171-1-almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: convert to non-resident when the new size exceeds the record size
+Date: Thu, 3 Sep 2026 20:29:31 +0200
+Message-ID: <20260903182931.4871-1-almaz.alexandrovich@paragon-software.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -54,31 +54,44 @@ Content-Type: text/plain
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-When CONFIG_NTFS3_64BIT_CLUSTER is enabled and the cluster count
-saturates the 64-bit VCN space, ntfs_init_from_boot() sets
-sbi->maxbytes to -1, while maxbytes_sparse and s_maxbytes are both
-set to MAX_LFS_FILESIZE just below.
+attr_set_size_res() only checked whether the attribute still fits when
+the attribute was growing (dsize > 0), and only against
+sbi->max_bytes_per_attr. A resident attribute could therefore be
+resized to a value larger than a single MFT record can hold.
 
-Set maxbytes to MAX_LFS_FILESIZE so all three limits agree.
+Move the check ahead of the memmove() paths and also reject a new size
+larger than sbi->record_size, falling back to attr_make_nonresident()
+in both cases.
 
 Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 ---
- fs/ntfs3/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/ntfs3/attrib.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index f4a42a0c73a4..d3093f72ea38 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -1210,7 +1210,7 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index b1c315206ffa..833731d799a4 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -394,13 +394,15 @@ static int attr_set_size_res(struct ntfs_inode *ni, struct ATTRIB *attr,
+ 	char *next = Add2Ptr(attr, asize);
+ 	s64 dsize = ALIGN(new_size, 8) - ALIGN(rsize, 8);
  
- #ifdef CONFIG_NTFS3_64BIT_CLUSTER
- 	if (clusters >= (1ull << (64 - cluster_bits)))
--		sbi->maxbytes = -1;
-+		sbi->maxbytes = MAX_LFS_FILESIZE;
- 	sbi->maxbytes_sparse = MAX_LFS_FILESIZE;
- 	sb->s_maxbytes = MAX_LFS_FILESIZE;
- #else
++	if (new_size > sbi->record_size ||
++	    (dsize > 0 && used + dsize > sbi->max_bytes_per_attr)) {
++		return attr_make_nonresident(ni, attr, le, mi, new_size, run,
++					     ins_attr, NULL);
++	}
++
+ 	if (dsize < 0) {
+ 		memmove(next + dsize, next, tail);
+ 	} else if (dsize > 0) {
+-		if (used + dsize > sbi->max_bytes_per_attr)
+-			return attr_make_nonresident(ni, attr, le, mi, new_size,
+-						     run, ins_attr, NULL);
+-
+ 		memmove(next + dsize, next, tail);
+ 		memset(next, 0, dsize);
+ 	}
 -- 
 2.43.0
 
