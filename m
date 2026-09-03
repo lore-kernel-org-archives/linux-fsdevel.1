@@ -1,267 +1,246 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAC13E0226;
-	Thu,  3 Sep 2026 19:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB2E3D88F6
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 19:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788462427; cv=none; b=m5V1J+QmKbbufPzQXxVEeVYL8CgJIlMdsGnemoAfQvuXX477AJlor/oGLR12n9AnFGB4TkXw2OcacGQYJZ+AepQNMpVpf3nPmI0Feb8gcNOSB0SyL1Jf7JX3x/mNtbnh7kmRIhTRcf1Ou0Q/PMhEDt4D5lPX6smH9JTu9CZW3cw=
+	t=1788462558; cv=none; b=A65vbZ+xqz6xHZzM6SY6/1ZBxicK311Jz/7Jaffhxwt/gxnS8XMvQmFdDrD8v5fYYGkP1FVdGW2L9YLEvSepzY2+97ZpcPxIKeXJzklZjnBtw9ZYrvaA5GwhnJFucHMLxupgpv1yyKKXNEndgU6zVIl5PDI2z83yKkjVLeLSv1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788462427; c=relaxed/simple;
-	bh=onmgCsziHJQnvL+vxGNSDERIkdIcrfq+DGen62RdF0Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=decV08Lnk/9qB0MzlyRhhVTWJ8GH7eDUlHHHgbOdKKzAeV85OsjYVD3Q4tqFnh9t4SeW/BqX8Iu98l0k0PEqKccBEuVaYtxSOt/5/gIQ447bIxorXCqAe3pYJicIIDuf2qMIO3qjrmL8CQ7jb0GCaEivS/cupYBoXlH0YeYFWE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a1c04ctt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788462558; c=relaxed/simple;
+	bh=zohLUEHoUGucyIqh2JCSr6NzM/L90VLWTpNmRSm/PsI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=R52sT/sCMZQDwRSwX6ztKNa7qGKgm37dES83SfT8rbHVnhlTgqvUTQhM8Cc/N2PyolVWVQf/zpOpVHJ6C8+SO9NElFhE9illpdGEvhW7m9a6140FExAImI7LDbqlu7gTK/dI6PCPRpEiii+ZJ1KuqfSYHnOP0aewGMOuo5R2KNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ofibgSda; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a1c04ctt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5981B1F000E9;
-	Thu,  3 Sep 2026 19:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788462412;
-	bh=nbU7Tk7BzdPqNhg/v2vBK8mfcT5KOYleWhIUP9qBNQ0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=a1c04ctt+/QJZ48FMMxJAanIzNfqNRnCsqpm7SQl/O7Y3ThFrK+FbfCjyHojj0AIS
-	 k2UOWbaufk0P9zh+3FyBSW9G4pxLOUUfdHEYoea7xBqNdR3yJCl3IyOctK7bYIe6qr
-	 5M7/M6u2a3mI2GZJQQ7+c2b2RQN4Rw22ZcDsfibSQGtlgUfKmwd6Sv9MrusNzm9xEf
-	 hQQUw6HXWWoTi04VhE2buGIl72sgLZC/Am6TfywOdZ3Xfz2wEsd5zKOzC12n75QIoE
-	 nu2+FEcFiPIe5qyAJGZpIp4kocfO5u/o3wT5aaDAa8FNGHJbKJUPqsBN/0ktS3moaZ
-	 mGurChnXXVyJQ==
-Message-ID: <f666d3a226451d6317fb8a3c7bc0f9db17f38e7e.camel@kernel.org>
-Subject: Re: [PATCH v2] fs/locks: filter OFD locks from /proc/locks for
- foreign pid namespaces
-From: Jeff Layton <jlayton@kernel.org>
-To: Tao Cui <cui.tao@linux.dev>, linux-fsdevel@vger.kernel.org,
- cel@kernel.org
-Cc: alex.aring@gmail.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	linux-kernel@vger.kernel.org, avagin@openvz.org, khorenko@virtuozzo.com, 
-	bcodding@redhat.com, Tao Cui <cuitao@kylinos.cn>
-Date: Thu, 03 Sep 2026 15:06:49 -0400
-In-Reply-To: <5eb2ec0a-e6d6-4cae-89fd-6e68f75a64cc@linux.dev>
-References: <20260902125139.975253-1-cui.tao@linux.dev>
-	 <ab253791f92c329865168c4734c9bfe2f8537a5e.camel@kernel.org>
-	 <5eb2ec0a-e6d6-4cae-89fd-6e68f75a64cc@linux.dev>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ofibgSda"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-86162c086f8so2648277b3.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 03 Sep 2026 12:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788462543; x=1789067343; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=B0jjBKM/T0lxzBL1G/oFuXqJ/xjVo9f/c2XBOtxdJVs=;
+        b=ofibgSdaJwnFgZeNiEwciUuhLlr9Fs7OmYZBi5ay3ML37iA0pO/SL9WGsipJwDbXW+
+         RbtQ0AcaLfXPjPGttww3mXWPhtTrzoiZ3WLgmOC2zL9+v3044orn5T6gk3a/asd0yZLA
+         mAZIXOct4AmPt7wd5yajmvX3cJwOrSFBh7LlBtoVE2a0wHT/kCgIj+aHnAH+QSSrvJuH
+         bAj0+tSYniTJ/4x28jIMjdu1U7bYQ3m4zC7mk6wawObwfAs4KfV+LRLApq1oMi7HepwJ
+         Kjx9LnVe4t5uLNqhwH65otVXAFCEPfv0H6EqWxIvZuyoRX9e5OLKpCwI9lvf0W1XuldM
+         egdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788462543; x=1789067343;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=B0jjBKM/T0lxzBL1G/oFuXqJ/xjVo9f/c2XBOtxdJVs=;
+        b=Jr7iSO/VfGrKdJnwYi+8uDeckfoPIDFATuOJy7JMzKv9z4zPixHp8tlQMVI3ydVLBT
+         dDlaDaPTTISX98iERuVuDmqLkVO8pSBfBCvF5tXqouGONJaIT+zzcs+MNuLfDYsbkc8h
+         DXmjKugCvNVx3Iifqiy6imuWZd0ciPcY7hcEmbza27cVDgQVAFywkeDRP3HnH1zGnWFE
+         0iX5PSPzoP9FAUTbhDu6BgB4gVJcCPH3rxqiLX9WvwPRmOrD9iPfLRsxJFDU64D2Iq2b
+         /cwIHJ5ivHoBBKozK0N+iiBqDqUu40RyEgBJ7tMViyjuPJUhuBLOIUOR/HFB6h7cBbJ5
+         X5HA==
+X-Forwarded-Encrypted: i=1; AKwUvBwF7loEzF2nU53uUMgvyK71UfCCjiFC+/tQn8FCufXIE74tVxM6OFCTQ+Hv/rITh7SmcQaVf6O2Q8857dvC@vger.kernel.org
+X-Gm-Message-State: AFuF++lrUNdETszHiWD1mgyiCneqlsXSaELYZLSGohZzua8Q6E8GIEvo
+	+U1S4wYUY9WgUlWZ9TrCtFRQ4vE6MWo1wb3W9e1B2YtLKHDASjiGPBIDaPdZ6inyrg==
+X-Gm-Gg: AYBFou2AweWvn+RQxF/ULDdn83fWNqR5qi4hwEV3gbjePfYecjAVibUvcRhvkiKbr/h
+	EHt3uNAhR57T9uEpVsJ1D/3EbdtvmOh2SLli2cZQN8x/jhbfzLJFf7LenT0mOZJRi9lPHj4DeCB
+	XObM+qiHlYW1fiscMW7LKib19362U2r4/5F6pG/DMjN4jzDNsGbN3dQFdFJ2U/DDxoMT/X1bUDR
+	4qwbzZyeY0YCwCRUG0AqSs9gNsvr6PkttRRhIgkmovFyKrJU3JpKow0DtF22TtNgjMLt04AeC/S
+	aYMsDF1qcSJNxLYi49lsm+YGOLEz3qMOEI7ibg4hMnGwuLClhmgIT7kuJmwQiXsRFA8y6sDeWmE
+	9lOAgsBV8d/koAhOuJeXnXhBV+ba/nvjMNKkz9tIbj2PUrpjYXSos44Wr66J+sodvr102i0jRUJ
+	j9ms/ssYy25sCQwNLwwdy1/5iHs4XX7xupA/Qmuv6yBIY5yz88KNfpNJJivwzkU0Sg7Rb8c/2Ys
+	rYTINAgThJYjDFRSwMURL4GRpbV0L3BkG/wFhQH8Jn0adHm
+X-Received: by 2002:a05:690c:e257:10b0:80e:c332:1796 with SMTP id 00721157ae682-86e7081d3ecmr33938977b3.10.1788462542453;
+        Thu, 03 Sep 2026 12:09:02 -0700 (PDT)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714af5581bsm2146627b3.36.2026.09.03.12.08.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 12:09:01 -0700 (PDT)
+Date: Thu, 3 Sep 2026 12:08:46 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: Kiryl Shutsemau <kas@kernel.org>
+cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+    Ackerley Tng <ackerleytng@google.com>, 
+    Alexander Viro <viro@zeniv.linux.org.uk>, 
+    Baolin Wang <baolin.wang@linux.alibaba.com>, 
+    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
+    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+    Christoph Lameter <cl@gentwo.org>, 
+    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
+    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
+    Lance Yang <lance.yang@linux.dev>, Leonardo Bras <leobras.c@gmail.com>, 
+    Lorenzo Stoakes <ljs@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>, 
+    Matthew Wilcox <willy@infradead.org>, 
+    Mel Gorman <mgorman@techsingularity.net>, 
+    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
+    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
+    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Shakeel Butt <shakeel.butt@linux.dev>, 
+    Suren Baghdasaryan <surenb@google.com>, 
+    Vlastimil Babka <vbabka@kernel.org>, 
+    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
+    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 07/25] mm/fbatch: LRU_NEXT_ACTIVATE bit to optimize
+ folio_activate()
+In-Reply-To: <aplHq9bvNdyPGEw-@thinkstation>
+Message-ID: <e2098d3b-722a-50aa-3b01-ec012f05c1e5@google.com>
+References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com> <16b39f43-d91e-7b23-900e-90cec13837ff@google.com> <apAllneItXmyjRPo@thinkstation> <7b30ca86-dca6-83b7-a632-180e35ed2a0c@google.com> <apThx6sWOQ-aZcN7@thinkstation> <821cced3-dcc8-6c80-a92c-c568c2639e5a@google.com>
+ <aplHq9bvNdyPGEw-@thinkstation>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 2026-09-03 at 10:10 +0800, Tao Cui wrote:
-> Hi, Jeff
->=20
-> =E5=9C=A8 2026/9/2 21:03, Jeff Layton =E5=86=99=E9=81=93:
-> > On Wed, 2026-09-02 at 20:51 +0800, Tao Cui wrote:
-> > > From: Tao Cui <cuitao@kylinos.cn>
-> > >=20
-> > > Since Linux 4.9, /proc/locks only shows locks whose owning process is
-> > > visible in the reader's pid namespace.  The check cannot see the
-> > > owner of an OFD lock, though: locks_translate_pid() always returns
-> > > -1 for FL_OFDLCK, so an OFD lock held outside of that namespace
-> > > bypasses the filter and is shown with its device/inode numbers and
-> > > byte range, e.g.
-> > >=20
-> > >     4: OFDLCK ADVISORY  WRITE -1 fd:00:70536961 0 EOF
-> > >=20
-> > > This was observed on a Kubernetes node: a pod reading /proc/locks
-> > > listed the OFD write lock of an unrelated host process, while the
-> > > POSIX locks of the very same process were correctly hidden.  The
-> > > device/inode pair identifies which host file is locked, the byte
-> > > range discloses where it is actively written, and the
-> > > appearance/disappearance of entries reflects host task activity,
-> > > contrary to the documented per-pidns visibility of /proc/locks
-> > > (proc_locks(5)).
-> > >=20
-> > > OFD locks record the owner tgid in flc_pid, so use it for the
-> > > visibility decision in locks_show(), mirroring what
-> > > locks_translate_pid() does for POSIX locks.  The pid column is still
-> > > reported as -1 for OFD locks; only the filter decision changes.
-> > > Remote locks keep their negative flc_pid and stay visible as before.
-> > >=20
-> > > Verified with an OFD and a POSIX write lock held in the initial pid
-> > > namespace while a process in a fresh pid namespace reads /proc/locks:
-> > > the OFD entry is visible without this patch and hidden with it, the
-> > > POSIX entry is hidden in both cases.
-> > >=20
-> > > Signed-off-by: Tao Cui <cuitao@kylinos.cn>
-> > >=20
-> > > ---
-> > >=20
-> > > Changes since v1: keep remote OFD locks (negative flc_pid) visible in
-> > > non-initial pid namespaces, as locks_translate_pid() does for remote
-> > > POSIX locks.
-> > > ---
-> > >  fs/locks.c | 19 +++++++++++++++++++
-> > >  1 file changed, 19 insertions(+)
-> > >=20
-> > > diff --git a/fs/locks.c b/fs/locks.c
-> > > index 6e4ff7fcec05..4af1385682e4 100644
-> > > --- a/fs/locks.c
-> > > +++ b/fs/locks.c
-> > > @@ -3022,6 +3022,25 @@ static int locks_show(struct seq_file *f, void=
- *v)
-> > > =20
-> > >  	cur =3D hlist_entry(v, struct file_lock_core, flc_link);
-> > > =20
-> > > +	/*
-> > > +	 * OFD locks are reported with pid -1, so the filter below cannot s=
-ee
-> > > +	 * their owner; flc_pid holds the owner tgid, so filter on it.
-> > > +	 * Remote locks keep a negative flc_pid and stay visible as before.
-> > > +	 */
-> > > +	if ((cur->flc_flags & FL_OFDLCK) && cur->flc_pid > 0 &&
-> > > +	    proc_pidns !=3D &init_pid_ns) {
-> > > +		struct pid *pid;
-> > > +		bool visible =3D false;
-> > > +
-> > > +		rcu_read_lock();
-> > > +		pid =3D find_pid_ns(cur->flc_pid, &init_pid_ns);
-> > > +		if (pid)
-> > > +			visible =3D pid_nr_ns(pid, proc_pidns) !=3D 0;
-> > > +		rcu_read_unlock();
-> > > +		if (!visible)
-> > > +			return 0;
-> > > +	}
-> > > +
-> > >  	if (locks_translate_pid(cur, proc_pidns) =3D=3D 0)
-> > >  		return 0;
-> > > =20
-> >=20
-> > First: I think this may be the wrong place to do this. Why not fold
-> > this change into locks_translate_pid()? It seems like we'd have
-> > inconsistent results wrt lock visibility between /proc/locks and
-> > F_GETLK if you do this here.
-> >=20
->=20
-> Good point. I did consider that.  My hesitation with folding it into
-> locks_translate_pid() is that posix_lock_to_flock() also uses it, so
-> F_GETLK/F_OFD_GETLK would then report a conflicting OFD lock with
-> l_pid =3D 0 instead of the -1 that fcntl(2) documents for OFD locks.
-> That's why I kept the check in locks_show(), where it only affects
-> the /proc/locks view.
->=20
-> That distinction isn't introduced by this patch, though, since it
-> already exists for POSIX locks: since the 4.9 pid namespace filter, a
-> foreign-namespace POSIX lock that blocks F_GETLK is reported there
-> with l_pid =3D 0 while /proc/locks hides it.  v2 just gives OFD locks
-> the same treatment.
->=20
-> > Thinking about this some more though, I wonder if trying to hide these
-> > locks is the right thing to do. These locks do exist and they do block
-> > you from acquiring a lock. If you go to look at /proc/locks and don't
-> > see them, that seems confusing.
-> >=20
-> > Would we be better off showing all the locks and reporting the pid as a
-> > negative value for ones acquired in foreign namespaces, like we do for
-> > remote locks?
->=20
-> That's a reasonable alternative - anonymizing the owner instead of
-> hiding the lock does have precedent (fdinfo follows that model), and I
-> can see the debugging benefit of always showing locks that may block
-> acquisition.  I went with hiding because it preserves the /proc/locks
-> visibility semantics introduced in 4.9 by making OFD locks consistent
-> with POSIX locks.  With only the pid anonymized, the output would
-> still disclose which files are locked and the locked byte ranges of
-> tasks outside the reader's pid namespace.
->=20
-> If the consensus is that /proc/locks should show all locks with an
-> anonymized pid instead, I'm happy to rework the patch in that
-> direction.
->=20
+On Thu, 3 Sep 2026, Kiryl Shutsemau wrote:
+> On Wed, Sep 02, 2026 at 10:41:56PM -0700, Hugh Dickins wrote:
+> > On Mon, 31 Aug 2026, Kiryl Shutsemau wrote:
+> > > On Fri, Aug 28, 2026 at 01:40:51AM -0700, Hugh Dickins wrote:
+> > > > Do you have a head for smp_mb__ barriers? I'm more anxious that
+> > > > I might be missing one or two of those.
+> > > 
+> > > I think the release side of PG_lru is missing.
+> > > 
+> > > You effectively turn PG_lru into a lock over folio->lru.next.
+> > > 
+> > > The acquire side works: test_and_clear_bit() has a return value, so it
+> > > is fully ordered.
+> > > 
+> > > But there's a problem with release. set_bit() is unordered. You
+> > > correctly placed a fence in __folio_add_lru(), but every other
+> > > folio_set_lru() is problematic.
+> > > 
+> > > For instance:
+> > > 
+> > > 	CPU0 				CPU1
+> > > folio_batch_move_lru()		folio_batch_move_lru()
+> > >   lru_add_del_folio()
+> > >     lru.next = LIST_POISON1
+> > >   lruvec lock
+> > >     list_add()
+> > >   /* no barrier */
+> > >   set_bit(PG_lru)
+> > > 				  folio_try_get() == true
+> > > 				  folio_test_clear_lru() == true
+> > > 				  lru_next == stale BATCHED ???
+> > >   lruvec unlock
+> > > 
+> > > If CPU1 sees a stale BATCHED, lru_add_del_folio() returns true without
+> > > doing the list_del() or the NR_LRU_BASE accounting, and CPU1 then goes
+> > > on to lruvec_add_folio() a folio that is already on a list.
+> > > 
+> > > I think we need to have a helper that would set PG_lru and enforce
+> > > release semantics.
+> > 
+> > Thank you very much for this, Kiryl: it helps me considerably.
+> > But I have to cool myself down close to absolute zero to think
+> > about these things, and can only manage that occasionally.
+> > 
+> > I've nothing useful to say yet. I believe I understand you, and in
+> > particular your last sentence, which I take as an observation that
+> > clear_bit_unlock() is well-established, but what we want is
+> > set_bit_unlock(), perhaps better named set_bit_release().
+> > 
+> > Of course I'm not competent to add that to N architectures, most of
+> > them unfamiliar to me.  So I'm looking for a reasonable compromise,
+> > to minimize the additional overhead needed for correctness here,
+> > just using what we have already have (test_and_set, smp_mb__).
+> 
+> It would not be N architectures. This should be good enough:
+> 
+> /* include/asm-generic/bitops/lock.h */
+> #ifndef arch_set_bit_release
+> static __always_inline void
+> arch_set_bit_release(unsigned int nr, volatile unsigned long *p)
+> {
+> 	p += BIT_WORD(nr);
+> 	raw_atomic_long_fetch_or_release(BIT_MASK(nr), (atomic_long_t *)p);
+> }
+> #endif
+> 
+> /* include/asm-generic/bitops/instrumented-lock.h */
+> static inline void set_bit_release(long nr, volatile unsigned long *addr)
+> {
+> 	kcsan_release();
+> 	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+> 	arch_set_bit_release(nr, addr);
+> }
+> 
+> /* arch/x86/include/asm/bitops.h -- mirrors arch_clear_bit_unlock() */
+> static __always_inline void
+> arch_set_bit_release(long nr, volatile unsigned long *addr)
+> {
+> 	barrier();	/* LOCK prefix is already a full barrier */
+> 	arch_set_bit(nr, addr);
+> }
+> #define arch_set_bit_release arch_set_bit_release
+> 
+> I don't know if we want to make it _unlock() to match
+> clear_bit_unlock(). Naming is hard.
+> 
+> x86 does need an override, since it has no locked OR that returns the old
+> value -- arch_atomic64_fetch_or() is a cmpxchg loop.
+> 
+> arm64 is happy with the generic version.
+> 
+> ppc and riscv need a definition of their own only because they do not
+> include asm-generic/bitops/lock.h, so the #ifndef above never reaches
+> them. ppc can take the generic body. and riscv is a one-liner right next
+> to its existing arch_clear_bit_unlock().
+> 
+> This set_bit_release() gets better results than alternatives:
+> 
+>                 set_bit_release()  smp_mb__ + set_bit()   test_and_set_bit()
+> x86             lock orb           lock orb               lock btsq
+> arm64 LSE       ldsetl             dmb ish + stset        ldsetal
+> arm64 LL/SC     ldxr/stlxr         dmb ish + ldxr/stxr    ldxr/stlxr + dmb ish
+> ppc             lwsync + loop      sync + loop            sync + loop + sync
+> riscv           amoor.d.rl         fence rw,rw + amoor.d  amoor.d.aqrl
+> 
+> I can prepare a proper patches with what I listed above, if you want, so
+> you can prepend to your series.
+> 
+> If you don't want to go there for the initial series,
+> smp_mb__before_atomic() plus folio_set_lru() should be good enough:
+> 
+> static __always_inline bool folio_test_clear_lru_acquire(struct folio *folio)
+> {
+> 	return folio_test_clear_lru(folio);
+> }
+> 
+> static __always_inline void folio_set_lru_release(struct folio *folio)
+> {
+> 	smp_mb__before_atomic();
+> 	folio_set_lru(folio);
+> }
+> 
+> -- 
 
-I personally think that would be a more useful option. The main reason
-people look at /proc/locks is to debug locking problems. Hiding locks
-like this makes that more difficult.
+Thanks a lot for taking this further, and we may indeed want it later;
+but you guess correctly that I don't want to go there for the initial
+series, and I've not yet convinced myself that it's what we want anyway.
 
-While we're on the topic:
+Assuming that the existing pre-series code is correct just to use
+folio_set_lru() throughout, what I've added are these additional lru_next
+transitions, unprotected by lruvec lock, and it's just these which need
+the additional protection.
 
-Should the reader of /proc/locks be able to see locks on superblocks
-that are not reachable from the current mount namespace? It seems like
-if you want real container isolation, then what you really want to do
-is hide those locks.
+So, I haven't finished thinking on it, but what I'm currently inclined
+to, is putting an smp_mb__before_atomic() after the LIST_POISON1 in
+lru_add_del_folio(). That's a long way from the folio_set_lru() it's
+intended for, which is unusual, but it seems more to the point than
+always using folio_set_lru_release(). We can switch to a proper
+folio_set_lru_release() later, if that's usually seen to work better.
 
-As a further thought: maybe it's time to think about deprecating
-/proc/locks? It's not extensible, and it's been a source of pain for a
-long time.
-
-We could add something new under /sys, or maybe do something netlink
-based, and extend lslocks to use that when it's available?
---=20
-Jeff Layton <jlayton@kernel.org>
+Hugh
