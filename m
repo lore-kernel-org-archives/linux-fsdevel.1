@@ -1,79 +1,98 @@
-Received: from mta1.migadu.com (out-6.mta1.migadu.com [95.215.58.6])
+Received: from mta1.migadu.com (out-160.mta1.migadu.com [95.215.58.160])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6C53C988D
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 06:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF1E3F54D2
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 06:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.160
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788416057; cv=none; b=SucU/KQHDf7lEMBk9xN3j8qKnRmoaaxLm7qyaAlqd9worDuVUhJewT+HKzK/amNqNh+2KIq3IhAbaEgmSk/URDrRWNNvVQAicH7bSOOzvjF3rDqB9BvrlvUg5cMXvjfQ26B62qmVSEs+NMQAtpYttIi1a5yu5gMW3otOocubim8=
+	t=1788417922; cv=none; b=qR6oZ02lhsLGDQMOJADFV46sFRFPOX0FwPeJfYII2KryT3zTtGuNYGN42l69LcGiHHRAuFSCQFHMmuPX5KTBbg1OMTohc5NJ6Sjs8GBQhn1cgZc/9QvUNvGsxIZzSJSnHGh/apgsDYHLrGHuEk8HoGA4ILNzbCtxfpMeWCaeqUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788416057; c=relaxed/simple;
-	bh=1YMLmtHW/WBurfyOKTLaWe5Z6KGqYrkDEKTmr8il+MU=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=CuGRf0ukENEnLXz6bNpAkdWmQiHJEi0PrgxTfvtTy+f90nOi7X7IbJ9eYBt6DGAba3egt8hz5+QLQkDLsp8qrtzyWT4Ca50Q+S+VUjGFGAlg7bAY9O+OM2vLAMChNQ52+1rIu6tmJbStIErmhgDPqjexbhmFox0D90Gf2ZL82CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ovTain7M; arc=none smtp.client-ip=95.215.58.6
+	s=arc-20240116; t=1788417922; c=relaxed/simple;
+	bh=NcgsQkL++YGnbd7TXEBQmukOQ23cANjg8v+rYDuUlos=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bPqql5M6R9uGmi/OOvgEXflLB81s14XlHKPcd4FAYg8N9YA+HQzZlJck5aYjkdqJ/AXJMY7RdbMBCsMPeQVZ2BrioJfiTVCQUfz4n3Od/PfQig4ZuInfksZ924v3XnIiu1ZJ05LC0+DtHBZqLaug8T+zIdka5eiSjTARrLOMkww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bnTSn2un; arc=none smtp.client-ip=95.215.58.160
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ovTain7M"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bnTSn2un"
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=1YMLmtHW/WBurfyOKTLaWe5Z6KGqYrkDEKTmr8il+MU=;
+DKIM-Signature: a=rsa-sha256; bh=NcgsQkL++YGnbd7TXEBQmukOQ23cANjg8v+rYDuUlos=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788416053; v=1; x=1789020853;
- b=ovTain7Mi79FQ3AoY/EUs6Bi9nNhzMvf0Oz4u3Y7EE+shBWvdeoEs3EJbRfmawe1fewepsV9
- W5nGohx5uPpFrgtuDzz6We0EL/Gduk0zI+D9PEf+nLbpmuPHYaRp5Y+z2TE3SjYB8ZttK5kvocg
- 6af5DK/oxxgZNDFPsg4+YnLk=
+ t=1788417916; v=1; x=1789022716;
+ b=bnTSn2un8fGjzVlusfJ2JjNss+kBp36opyOZa+3+bD4CUBxVo1l6d3fPZqs/5M4FSkILzAvJ
+ Q+HeR5/+E0pDwMJV1RS0UNSQieteyDIFyzdSf9Intu0sBdD5Z4F/aJzku9YAskaEYdLMOs6ko1X
+ LTjr8vol4xS3v2Tyqzx05tvE=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 36b16760ce6668a2;
-	Thu, 03 Sep 2026 06:14:13 +0000
-X-Mizu-Trace-ID: 36b16760ce6668a2
+Received: by smtp.migadu.com with ESMTPS id 232c423d1b9db787;
+	Thu, 03 Sep 2026 06:45:16 +0000
+X-Mizu-Trace-ID: 232c423d1b9db787
 X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+From: Tao Cui <cui.tao@linux.dev>
+To: linux-unionfs@vger.kernel.org,
+	miklos@szeredi.hu,
+	amir73il@gmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cui.tao@linux.dev,
+	Tao Cui <cuitao@kylinos.cn>
+Subject: [PATCH] ovl: reject verity= together with userxattr
+Date: Thu,  3 Sep 2026 14:45:03 +0800
+Message-ID: <20260903064504.1052841-1-cui.tao@linux.dev>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.1\))
-Subject: Re: [PATCH] fs/dax: Remove redundant deferred list initialization
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20260903050207.7015-1-kaitao.cheng@linux.dev>
-Date: Thu, 3 Sep 2026 14:13:55 +0800
-Cc: Dan Williams <djbw@kernel.org>,
- Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- linux-fsdevel@vger.kernel.org,
- nvdimm@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- Kaitao Cheng <chengkaitao@kylinos.cn>
-Content-Transfer-Encoding: 7bit
-Message-Id: <3D5079CF-6FB3-4ABC-A164-D42920A19DA7@linux.dev>
-References: <20260903050207.7015-1-kaitao.cheng@linux.dev>
-To: Kaitao Cheng <kaitao.cheng@linux.dev>
-X-Mailer: Apple Mail (2.3864.700.51.1.1)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+From: Tao Cui <cuitao@kylinos.cn>
 
+userxattr forces metacopy off, and copy-up only computes and stores
+the verity digest for metacopy inodes.  With "userxattr,verity=on"
+(or verity=require) the mount succeeds, verity is advertised in
+mountinfo, but no digest is ever generated and no lowerdata is ever
+verified - the option silently does nothing:
 
-> On Sep 3, 2026, at 13:02, Kaitao Cheng <kaitao.cheng@linux.dev> wrote:
-> 
-> From: Kaitao Cheng <chengkaitao@kylinos.cn>
-> 
-> prep_compound_page() calls prep_compound_head(), which initializes
-> folio->_deferred_list for compound folios with an order greater than one.
-> Therefore, dax_folio_init() initializes the list twice for large DAX
-> folios.
-> 
-> Remove the redundant initialization from dax_folio_init(). This leaves
-> the behavior unchanged and keeps compound folio initialization
-> centralized in prep_compound_head().
-> 
-> Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
+  $ mount -t overlay ovl -o lowerdir=$l,upperdir=$u,workdir=$w,userxattr,verity=on /mnt
+  (mount succeeds; after copy-up the upper inode carries only the
+   origin xattr, no metacopy xattr, no digest)
 
-Acked-by: Muchun Song <muchun.song@linux.dev>
+Follow the existing pattern for redirect_dir/metacopy and reject the
+explicit combination at parse time:
 
-Thanks.
+  $ mount -t overlay ovl -o lowerdir=$l,upperdir=$u,workdir=$w,userxattr,verity=on /mnt
+  mount: /mnt: wrong fs type, bad option, bad superblock...
+  overlayfs: conflicting options: userxattr,verity=on
+
+This does not affect per-file fs-verity on the lower layers used
+together with userxattr (e.g. fstests overlay/089): it only concerns
+the verity= mount option, whose copy-up digest semantics cannot be
+honored when userxattr forces metacopy off.
+
+Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+---
+ fs/overlayfs/params.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/fs/overlayfs/params.c b/fs/overlayfs/params.c
+index c93fcaa45d4a..29dfc16fecc9 100644
+--- a/fs/overlayfs/params.c
++++ b/fs/overlayfs/params.c
+@@ -997,6 +997,11 @@ int ovl_fs_params_verify(const struct ovl_fs_context *ctx,
+ 			pr_err("conflicting options: userxattr,metacopy=on\n");
+ 			return -EINVAL;
+ 		}
++		if (config->verity_mode) {
++			pr_err("conflicting options: userxattr,verity=%s\n",
++			       ovl_verity_mode(config));
++			return -EINVAL;
++		}
+ 		/*
+ 		 * Silently disable default setting of redirect and metacopy.
+ 		 * This shall be the default in the future as well: these
+-- 
+2.43.0
 
