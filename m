@@ -1,97 +1,278 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A42383339;
-	Thu,  3 Sep 2026 18:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788460573; cv=none; b=mDPjkWch6G6drrmF8EXbc/8s4gQaIC+Wo2Tkvi5C3AJdWdcHJz9DlweQ0q0hia2LKfeFwHBjDH1MrsKBbUvNW/Z27s0Gn6PCqIZVFHYKDog+s6pPe2JC2nMHJh7Sw2Q+urRR5TL59IH+vFDPDlbX97TbjO7OpCU956KB85cgT1Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788460573; c=relaxed/simple;
-	bh=cm7H8nQffoaULUq6JIRlP8F1vvH9RE1k/PAlBbYBuW0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hch0YdXGINDfWJooqLQmKCCki91J5DI4HcZSH1Y0EBjPCE3cgK/uKqoaSLLjYVc9+YCPZ4lrNxHOE9dzeLYFK/7YVgMl6yQXD5ixuIz4FsjU/5mRz8LC0SDzsAtrAJJ39eExexzy/aA1Nv61X90xcYCniqbNM7RKQAdbLBznz9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=phl9Qt5K; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BC43CBE8F
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 19:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788462105; cv=pass; b=tBp5OKx318CMMce34RR9PjVVoOwR1Cr/iIEi1CdYGyGlNCd1ocuPq9Ba9CvEGTCtQypaQ80o3rEOY/1H3ONGY/fOKE7ZbdHoHfVm9hd/K+mH1H4862EZYnWD6KWMPTZsE/Dq1ZWNxoA202Y0OsSHqzCk/+p5WK2MLZ6M/Mm003I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788462105; c=relaxed/simple;
+	bh=nO7P5MOWf5n75hGIclRBq3mBx37PZnx6Ncqnx419+RY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FRWoXy7hFAV5810c4e/rjo/lkmABAIbURJpmv0F1l/B7/N+50C8URB0vXxXQWs53CBgyFf1yCAGbRD5DcaAm4PjTYv5lCZdNmIqI0K/sjWmo+auJZYtcdzlAn7/FNJCfFeYXP/zRuz1j3LV4A1Qy08it23dleyPg9gULVUOFvlg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hy3qmigA; arc=pass smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="phl9Qt5K"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id C2ABE42C;
-	Thu,  3 Sep 2026 18:30:39 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=phl9Qt5K;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 6B2A421DC;
-	Thu,  3 Sep 2026 18:29:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hy3qmigA"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4843e397f74so232432f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 03 Sep 2026 12:01:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788462095; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sQK8TdAJWQbx6H9fZpOUCjSu9l/yP4YYpIszzBeXn/qHwZl8zL3ciyc82mrojPPnRL
+         YPHanXwIOIEl8M4ToircyX2X7YSmu/H8IpXlgWnk8680og3idqfn/ltWRFBCmCf9R9xs
+         J0h8NEswfB6tjx1I6Saz6l2GCLjB8Uxi0I+Vx7QXc9F2Q2llfLpzlc6l7yNdkQ9EzZIw
+         4n+lYNk28KsDQ2aXkRQPXR2+aloWm0619+zQ2iIVdQ0Ru0oFk/5lLTGNj9lnNpOcnJak
+         2YKIUpAvhw1Z3WgKk0syDrFsxa/CpReOgfbn3ZChKNfYD0E8IcAD9Z+YOg9NL/+EM1yY
+         ajKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4k6051qYGqcOE0IbvTlu78LucmjSeHvrRypj52NEgg0=;
+        fh=75zXcEz6eTkJItx5jC6B3tsqtjxop5y5SalyjA0309w=;
+        b=Xu33T3m384ByJ6rdlpFl8zZE35M/uooqQlx6c4HFMcOjPahpR8NiPoqkwisB8oFruv
+         LNrm9+G8T+/0ZPo9FfhWohhw6ArYAoVwakzB3BCFYqxHZfwJ8zrKLVXb+dCB4O8+kzC8
+         s3GtGloL2196SNruFS5f04lId523NcUjQK1EtcM24nw6Pa0qp2nABjJbtK9IB+yyha2P
+         MZSYmj02aMepYpIsphb1FhqHIog1CIMskQVx+MRrtOVcNS03tnu/TOKXXGt9lDrhEZo4
+         Ds3z2TkmnLbwLvPXBzPl7u45a5kXv/WNIDF+i1G+JJ61cWTTdpq/W6XDy6/DgC3I8Nu2
+         xCOA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1788460181;
-	bh=Wgo+qK1kTqee7nbzW4w8ARLLIrio7iKxUzwBL+4N7rI=;
-	h=From:To:CC:Subject:Date;
-	b=phl9Qt5Kv7e+9JFR5DFp04G8CWqCH2+uHiMZTpsWuQeVEZe9Qj5id4RgAH793tapy
-	 I+XbcaAYIlEFzGXY1AHw45BFr6iklXhsYLXqYTyWPPV9DE2egh0UZGslVHlAAJ7fyC
-	 OoGMft+YqGQU/4aco6kV1k50opNoC6kmdPAh8Ako=
-Received: from localhost.localdomain (172.30.20.155) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 3 Sep 2026 21:29:40 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <ntfs3@lists.linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: [PATCH] fs/ntfs3: convert to non-resident when the new size exceeds the record size
-Date: Thu, 3 Sep 2026 20:29:31 +0200
-Message-ID: <20260903182931.4871-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+        d=gmail.com; s=20251104; t=1788462095; x=1789066895; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4k6051qYGqcOE0IbvTlu78LucmjSeHvrRypj52NEgg0=;
+        b=Hy3qmigAP91kBmiZ/NcBxXvBu7TS3L4LREM6KRRtk6Snv9xEbXxpfSuEFEexsr8Jle
+         afvGYmxuSE9zWLO36hBTtOHj96fB9f8Nz5dBWxm1LScuIiHm22IJmhsTilYuVM1KXaqg
+         xMg2S4c1UlvEpF7B2MvUplvmVE5ma7ovkcmX61jNW+23pZWPYAGgJ0TX4VWYoGNl5BqX
+         nSzAPApuErPNTAza8ZQdRkRmaXq/SZqcSaKbjF/8oF5Q1DbdPi6DjdqMjBKaVe7t5IO5
+         Ld5VHCx8zFskyH36vkz1qMDoYK2zMXX1WLsQMD/nvgVJh05Qxd5bpkBjDNY/jHhQmNms
+         uWXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788462095; x=1789066895;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4k6051qYGqcOE0IbvTlu78LucmjSeHvrRypj52NEgg0=;
+        b=QLFQYKDfsngEtDw1mAZWR6hsor7EJLLYiDm8ZOKf9AmSe6wf2x4LxKIZs/Sa94PC0A
+         ePbjHn8HwcH7KClEpGbPFNG16yd1f2mg0gWAfE3BsLlRepRS0V5iL7PmiTstFSXHEW/Q
+         nnF5xYhR+YRSFO99KLQfkcMlrMfU26pXg/3z8YwQ/dwsfxUatsaM9fY7FTDfT6gxQlu6
+         3NyHskzaKav+1otWpsbkkkMZyWWeWOp/BruKfWpBBn9pNuXJRqy7Me4nNq0N84cflsso
+         EZZ19wBG4gve/9EUdPcaf5zM8em07xyb99vfO3HUIhgxvgEE3KAh/sNPG89IUJ3x2gje
+         quRg==
+X-Forwarded-Encrypted: i=1; AKwUvBzkDJ/3X//DQiBjE+by5OofhssKDRXi9Og5ukxPd9SLqKolg6cwGnM6lhRVmUyX2djucEc/pHSIFbPIGHoT@vger.kernel.org
+X-Gm-Message-State: AFuF++nrOJNhvAw2Ev7/oeghH+9erAPkeLXCBZXhlS+cijOxAEytg+Sv
+	+vh3lRj14Cn1t6CvOyNhemqvhbjXgAiFDLXjCXmzpgS+aCVUXZyZcrjAptIHsCxL5yvbBWVXgZl
+	uJH1XtUlCmUOv92cj7Wuu/uyj8KHyCUs=
+X-Gm-Gg: AYBFou2ts4spkRKVwmNbxlTs0EiSPLz4/7+bZfr2T8xn2T3+7YATUm+kzztLu50cdku
+	3Opm9HKu+lAwnX0YLjioi8FFLM4xX98t+2DkC1zB4bc0cUb5sJdTNTCUZA+kiKKMKRYnqfJdUWK
+	lMufrnROhzFNlcLVA1t3f36PrhjZR+WZRdZK3gjrcBPOKmxLUgmn/+Bfgqe5pq8XWn55qapSJLp
+	RZo9k3oa1V5JnrdQTtXDOVpsAaqT3uWRI+uI6GZa9p874hLTnibn3zRyNPr1lLOYtSJkJUI9ibr
+	LOHJOpPT1/HVAUiKt7sjmH3AxOZmnTPj/gucSU/R1FQHhm/DMbAuySJoAnoCz8gAsRxLIM8/YVc
+	X57cd3hPT5rsO13RaSYGIEsZOZ2c=
+X-Received: by 2002:a5d:64c4:0:b0:485:7d6d:e0e0 with SMTP id
+ ffacd0b85a97d-48582315f07mr6561895f8f.3.1788462094628; Thu, 03 Sep 2026
+ 12:01:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+References: <20260903115018.2034541-1-yi.zhang@huaweicloud.com>
+In-Reply-To: <20260903115018.2034541-1-yi.zhang@huaweicloud.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 3 Sep 2026 12:01:22 -0700
+X-Gm-Features: AcwNN1Xq1z0FxsQ9zPWn4QO4ZTMRixlUUwLEJLuKQWt5XQuIf6s3hWHxYB2ovjw
+Message-ID: <CAJnrk1ZLzNQxrSLQx7TsLK89QC_=9cDfoDcyKNBNde0CiDGoNg@mail.gmail.com>
+Subject: Re: [RFC PATCH] mm/truncate: fix data loss when splitting fails in truncate_inode_partial_folio()
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com, 
+	willy@infradead.org, jack@suse.cz, ziy@nvidia.com, bfoster@redhat.com, 
+	djwong@kernel.org, yi.zhang@huawei.com, yizhang089@gmail.com, 
+	yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, 
+	yukuai@fnnas.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-attr_set_size_res() only checked whether the attribute still fits when
-the attribute was growing (dsize > 0), and only against
-sbi->max_bytes_per_attr. A resident attribute could therefore be
-resized to a value larger than a single MFT record can hold.
+On Thu, Sep 3, 2026 at 5:01=E2=80=AFAM Zhang Yi <yi.zhang@huaweicloud.com> =
+wrote:
+>
+> From: Zhang Yi <yi.zhang@huawei.com>
+>
+> truncate_inode_partial_folio() splits a large folio so that the caller's
+> truncate loop can drop the in-range sub-folios while keeping the
+> out-of-range tail. The first split at the punch start edge is
+> non-uniform, which leaves the sub-folio at the truncation end edge as
+> large as possible, this means it may still straddle the range, holding
+> both zeroed in-range and valid out-of-range data. The function then
+> attempts a second split at offset + length to isolate that tail.
+>
+> If the second split fails the straddling sub-folio stays merged. The
+> function returned true unconditionally on all exit paths of the success
+> block, telling the caller it was fully handled. The caller kept its
+> default end and the truncate loop truncated every sub-folio below it,
+> including the merged straddler, discarding the valid out-of-range tail.
+>
+> For example, a 4-page order-2 folio punched from offset 0 to the middle
+> of the last page:
+>
+>   truncate_inode_pages_range()
+>     truncate_inode_partial_folio()      # same_folio =3D=3D true
+>       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
+>       folio2 =3D p2-3 # straddles: p2 zeroed, p3 tail valid
+>       2nd split of folio2 fails / cannot lock
+>       return true                       # BUG: caller keeps default end
+>     end =3D 3
+>     loop truncates p0, p1, p2-3        # p3's valid tail is lost
+>
+> This became reachable after commit 7460b470a131 ("mm/truncate: use
+> folio_split() in truncate operation") replaced the atomic split_folio()
+> with folio_split(), whose non-uniform split can partially split a folio
+> and leave the end edge merged.
+>
+> It has gone unnoticed because a dirty large folio normally carries the
+> filesystem's private data, for example buffer_head, so
+> filemap_release_folio() -> iomap_release_folio() returns false on a
+> dirty folio and folio_split() aborts with -EBUSY before any split,
+> leaving the straddler safely unsplit. The bug is only reachable on paths
+> that produce dirty large folios without filesystem private data, and it
+> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
+> attached.
+>
+> Rework the contract so the caller is told where to stop instead of
+> silently truncating the straddler:
+>
+>   - Return true only when a split occurred, false otherwise. This
+>     clarifies the existing confusing return value semantics.
+>
+>   - Add an optional out-parameter pgoff_t *end, set to the index of the
+>     folio that contains @lend and must be kept by the caller's loop. It
+>     is only written when the folio actually straddles @lend. On the
+>     success path it defaults to the page index of the end edge and is
+>     refined to folio2->index when the second split fails to isolate the
+>     tail.
+>
+>   - Rename the byte-range parameters start/end to lstart/lend to avoid
+>     clashing with the new @end output and to separate byte offsets from
+>     folio indices.
+>
+> Callers in truncate_inode_pages_range() and shmem_undo_range() pass &end
+> only when the folio straddles lend. After all, no caller discards a
+> straddling folio anymore, the in-range cleanly-split sub-folios below it
+> are still dropped.
+>
+> Suggested-by: Brian Foster <bfoster@redhat.com>
+> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
+> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operatio=
+n")
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> ---
+>  mm/internal.h |  4 ++--
+>  mm/shmem.c    | 12 +++++------
+>  mm/truncate.c | 57 ++++++++++++++++++++++++++++++---------------------
+>  3 files changed, 41 insertions(+), 32 deletions(-)
+>
+> diff --git a/mm/truncate.c b/mm/truncate.c
+> index b58ba940be47..2ebb00f6c379 100644
+> --- a/mm/truncate.c
+> +++ b/mm/truncate.c
+> @@ -206,15 +206,18 @@ static int folio_split_or_unmap(struct folio *folio=
+, struct page *split_at,
+>  /*
+>   * Handle partial folios.  The folio may be entirely within the
+>   * range if a split has raced with us.  If not, we zero the part of the
+> - * folio that's within the [start, end] range, and then split the folio =
+if
+> + * folio that's within the [lstart, lend] range, and then split the foli=
+o if
+>   * it's large.  split_page_range() will discard pages which now lie beyo=
+nd
+>   * i_size, and we rely on the caller to discard pages which lie within a
+>   * newly created hole.
+>   *
+> - * Returns false if splitting failed so the caller can avoid
+> - * discarding the entire folio which is stubbornly unsplit.
+> + * When @end non-NULL, set to the index of the folio that contains @lend
+> + * and must be kept by the caller's truncate loop.  Return %true if the
+> + * folio was split, %false otherwise, in which case the folio is dropped=
+ or
+> + * may still straddle the range, so the caller must not discard it.
+>   */
+> -bool truncate_inode_partial_folio(struct folio *folio, loff_t start, lof=
+f_t end)
+> +bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
+> +                                 loff_t lend, pgoff_t *end)
+>  {
+>         loff_t pos =3D folio_pos(folio);
+>         size_t size =3D folio_size(folio);
+> @@ -222,19 +225,22 @@ bool truncate_inode_partial_folio(struct folio *fol=
+io, loff_t start, loff_t end)
+>         struct page *split_at, *split_at2;
+>         unsigned int min_order;
+>
+> -       if (pos < start)
+> -               offset =3D start - pos;
+> +       if (end && pos + size > (u64)lend)
+> +               *end =3D folio->index;
+> +
+> +       if (pos < lstart)
+> +               offset =3D lstart - pos;
+>         else
+>                 offset =3D 0;
+> -       if (pos + size <=3D (u64)end)
+> +       if (pos + size <=3D (u64)lend)
+>                 length =3D size - offset;
+>         else
+> -               length =3D end + 1 - pos - offset;
+> +               length =3D lend + 1 - pos - offset;
+>
+>         folio_wait_writeback(folio);
+>         if (length =3D=3D size) {
+>                 truncate_inode_folio(folio->mapping, folio);
+> -               return true;
+> +               return false;
+>         }
+>
+>         /*
+> @@ -248,7 +254,7 @@ bool truncate_inode_partial_folio(struct folio *folio=
+, loff_t start, loff_t end)
+>         if (folio_needs_release(folio))
+>                 folio_invalidate(folio, offset, length);
+>         if (!folio_test_large(folio))
+> -               return true;
+> +               return false;
+>
+>         min_order =3D mapping_min_folio_order(folio->mapping);
+>         split_at =3D folio_page(folio, PAGE_ALIGN_DOWN(offset) / PAGE_SIZ=
+E);
+> @@ -259,6 +265,10 @@ bool truncate_inode_partial_folio(struct folio *foli=
+o, loff_t start, loff_t end)
+>                  * for shmem truncate
+>                  */
+>                 struct folio *folio2;
+> +               bool tail_isolated =3D true;
+> +
+> +               if (end)
+> +                       *end =3D (pos + offset + length) >> PAGE_SHIFT;
 
-Move the check ahead of the memmove() paths and also reject a new size
-larger than sbi->record_size, falling back to attr_make_nonresident()
-in both cases.
+If I'm understanding it correctly, based on how
+truncate_inode_pages_range() uses the end value (eg the "while (index
+< end)" loop condition and the find_get_entries(..., end - 1, ...)),
+end needs to point to the start of the folio if the tail folio from
+the split is a large folio, in order to exclude that folio from then
+being truncated. But with the (pos + offset + length) >> PAGE_SHIFT
+calculation here, does that result in some cases in it pointing to the
+middle of a large folio? Maybe some logic is needed to make sure that
+it points to the start?
 
-Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
----
- fs/ntfs3/attrib.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
-index b1c315206ffa..833731d799a4 100644
---- a/fs/ntfs3/attrib.c
-+++ b/fs/ntfs3/attrib.c
-@@ -394,13 +394,15 @@ static int attr_set_size_res(struct ntfs_inode *ni, struct ATTRIB *attr,
- 	char *next = Add2Ptr(attr, asize);
- 	s64 dsize = ALIGN(new_size, 8) - ALIGN(rsize, 8);
- 
-+	if (new_size > sbi->record_size ||
-+	    (dsize > 0 && used + dsize > sbi->max_bytes_per_attr)) {
-+		return attr_make_nonresident(ni, attr, le, mi, new_size, run,
-+					     ins_attr, NULL);
-+	}
-+
- 	if (dsize < 0) {
- 		memmove(next + dsize, next, tail);
- 	} else if (dsize > 0) {
--		if (used + dsize > sbi->max_bytes_per_attr)
--			return attr_make_nonresident(ni, attr, le, mi, new_size,
--						     run, ins_attr, NULL);
--
- 		memmove(next + dsize, next, tail);
- 		memset(next, 0, dsize);
- 	}
--- 
-2.43.0
-
+Thanks,
+Joanne
