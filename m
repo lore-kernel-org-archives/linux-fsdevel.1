@@ -1,278 +1,267 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BC43CBE8F
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 19:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788462105; cv=pass; b=tBp5OKx318CMMce34RR9PjVVoOwR1Cr/iIEi1CdYGyGlNCd1ocuPq9Ba9CvEGTCtQypaQ80o3rEOY/1H3ONGY/fOKE7ZbdHoHfVm9hd/K+mH1H4862EZYnWD6KWMPTZsE/Dq1ZWNxoA202Y0OsSHqzCk/+p5WK2MLZ6M/Mm003I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788462105; c=relaxed/simple;
-	bh=nO7P5MOWf5n75hGIclRBq3mBx37PZnx6Ncqnx419+RY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FRWoXy7hFAV5810c4e/rjo/lkmABAIbURJpmv0F1l/B7/N+50C8URB0vXxXQWs53CBgyFf1yCAGbRD5DcaAm4PjTYv5lCZdNmIqI0K/sjWmo+auJZYtcdzlAn7/FNJCfFeYXP/zRuz1j3LV4A1Qy08it23dleyPg9gULVUOFvlg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hy3qmigA; arc=pass smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAC13E0226;
+	Thu,  3 Sep 2026 19:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788462427; cv=none; b=m5V1J+QmKbbufPzQXxVEeVYL8CgJIlMdsGnemoAfQvuXX477AJlor/oGLR12n9AnFGB4TkXw2OcacGQYJZ+AepQNMpVpf3nPmI0Feb8gcNOSB0SyL1Jf7JX3x/mNtbnh7kmRIhTRcf1Ou0Q/PMhEDt4D5lPX6smH9JTu9CZW3cw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788462427; c=relaxed/simple;
+	bh=onmgCsziHJQnvL+vxGNSDERIkdIcrfq+DGen62RdF0Q=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=decV08Lnk/9qB0MzlyRhhVTWJ8GH7eDUlHHHgbOdKKzAeV85OsjYVD3Q4tqFnh9t4SeW/BqX8Iu98l0k0PEqKccBEuVaYtxSOt/5/gIQ447bIxorXCqAe3pYJicIIDuf2qMIO3qjrmL8CQ7jb0GCaEivS/cupYBoXlH0YeYFWE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a1c04ctt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hy3qmigA"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4843e397f74so232432f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 03 Sep 2026 12:01:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788462095; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sQK8TdAJWQbx6H9fZpOUCjSu9l/yP4YYpIszzBeXn/qHwZl8zL3ciyc82mrojPPnRL
-         YPHanXwIOIEl8M4ToircyX2X7YSmu/H8IpXlgWnk8680og3idqfn/ltWRFBCmCf9R9xs
-         J0h8NEswfB6tjx1I6Saz6l2GCLjB8Uxi0I+Vx7QXc9F2Q2llfLpzlc6l7yNdkQ9EzZIw
-         4n+lYNk28KsDQ2aXkRQPXR2+aloWm0619+zQ2iIVdQ0Ru0oFk/5lLTGNj9lnNpOcnJak
-         2YKIUpAvhw1Z3WgKk0syDrFsxa/CpReOgfbn3ZChKNfYD0E8IcAD9Z+YOg9NL/+EM1yY
-         ajKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4k6051qYGqcOE0IbvTlu78LucmjSeHvrRypj52NEgg0=;
-        fh=75zXcEz6eTkJItx5jC6B3tsqtjxop5y5SalyjA0309w=;
-        b=Xu33T3m384ByJ6rdlpFl8zZE35M/uooqQlx6c4HFMcOjPahpR8NiPoqkwisB8oFruv
-         LNrm9+G8T+/0ZPo9FfhWohhw6ArYAoVwakzB3BCFYqxHZfwJ8zrKLVXb+dCB4O8+kzC8
-         s3GtGloL2196SNruFS5f04lId523NcUjQK1EtcM24nw6Pa0qp2nABjJbtK9IB+yyha2P
-         MZSYmj02aMepYpIsphb1FhqHIog1CIMskQVx+MRrtOVcNS03tnu/TOKXXGt9lDrhEZo4
-         Ds3z2TkmnLbwLvPXBzPl7u45a5kXv/WNIDF+i1G+JJ61cWTTdpq/W6XDy6/DgC3I8Nu2
-         xCOA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788462095; x=1789066895; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4k6051qYGqcOE0IbvTlu78LucmjSeHvrRypj52NEgg0=;
-        b=Hy3qmigAP91kBmiZ/NcBxXvBu7TS3L4LREM6KRRtk6Snv9xEbXxpfSuEFEexsr8Jle
-         afvGYmxuSE9zWLO36hBTtOHj96fB9f8Nz5dBWxm1LScuIiHm22IJmhsTilYuVM1KXaqg
-         xMg2S4c1UlvEpF7B2MvUplvmVE5ma7ovkcmX61jNW+23pZWPYAGgJ0TX4VWYoGNl5BqX
-         nSzAPApuErPNTAza8ZQdRkRmaXq/SZqcSaKbjF/8oF5Q1DbdPi6DjdqMjBKaVe7t5IO5
-         Ld5VHCx8zFskyH36vkz1qMDoYK2zMXX1WLsQMD/nvgVJh05Qxd5bpkBjDNY/jHhQmNms
-         uWXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788462095; x=1789066895;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4k6051qYGqcOE0IbvTlu78LucmjSeHvrRypj52NEgg0=;
-        b=QLFQYKDfsngEtDw1mAZWR6hsor7EJLLYiDm8ZOKf9AmSe6wf2x4LxKIZs/Sa94PC0A
-         ePbjHn8HwcH7KClEpGbPFNG16yd1f2mg0gWAfE3BsLlRepRS0V5iL7PmiTstFSXHEW/Q
-         nnF5xYhR+YRSFO99KLQfkcMlrMfU26pXg/3z8YwQ/dwsfxUatsaM9fY7FTDfT6gxQlu6
-         3NyHskzaKav+1otWpsbkkkMZyWWeWOp/BruKfWpBBn9pNuXJRqy7Me4nNq0N84cflsso
-         EZZ19wBG4gve/9EUdPcaf5zM8em07xyb99vfO3HUIhgxvgEE3KAh/sNPG89IUJ3x2gje
-         quRg==
-X-Forwarded-Encrypted: i=1; AKwUvBzkDJ/3X//DQiBjE+by5OofhssKDRXi9Og5ukxPd9SLqKolg6cwGnM6lhRVmUyX2djucEc/pHSIFbPIGHoT@vger.kernel.org
-X-Gm-Message-State: AFuF++nrOJNhvAw2Ev7/oeghH+9erAPkeLXCBZXhlS+cijOxAEytg+Sv
-	+vh3lRj14Cn1t6CvOyNhemqvhbjXgAiFDLXjCXmzpgS+aCVUXZyZcrjAptIHsCxL5yvbBWVXgZl
-	uJH1XtUlCmUOv92cj7Wuu/uyj8KHyCUs=
-X-Gm-Gg: AYBFou2ts4spkRKVwmNbxlTs0EiSPLz4/7+bZfr2T8xn2T3+7YATUm+kzztLu50cdku
-	3Opm9HKu+lAwnX0YLjioi8FFLM4xX98t+2DkC1zB4bc0cUb5sJdTNTCUZA+kiKKMKRYnqfJdUWK
-	lMufrnROhzFNlcLVA1t3f36PrhjZR+WZRdZK3gjrcBPOKmxLUgmn/+Bfgqe5pq8XWn55qapSJLp
-	RZo9k3oa1V5JnrdQTtXDOVpsAaqT3uWRI+uI6GZa9p874hLTnibn3zRyNPr1lLOYtSJkJUI9ibr
-	LOHJOpPT1/HVAUiKt7sjmH3AxOZmnTPj/gucSU/R1FQHhm/DMbAuySJoAnoCz8gAsRxLIM8/YVc
-	X57cd3hPT5rsO13RaSYGIEsZOZ2c=
-X-Received: by 2002:a5d:64c4:0:b0:485:7d6d:e0e0 with SMTP id
- ffacd0b85a97d-48582315f07mr6561895f8f.3.1788462094628; Thu, 03 Sep 2026
- 12:01:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a1c04ctt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5981B1F000E9;
+	Thu,  3 Sep 2026 19:06:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788462412;
+	bh=nbU7Tk7BzdPqNhg/v2vBK8mfcT5KOYleWhIUP9qBNQ0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=a1c04ctt+/QJZ48FMMxJAanIzNfqNRnCsqpm7SQl/O7Y3ThFrK+FbfCjyHojj0AIS
+	 k2UOWbaufk0P9zh+3FyBSW9G4pxLOUUfdHEYoea7xBqNdR3yJCl3IyOctK7bYIe6qr
+	 5M7/M6u2a3mI2GZJQQ7+c2b2RQN4Rw22ZcDsfibSQGtlgUfKmwd6Sv9MrusNzm9xEf
+	 hQQUw6HXWWoTi04VhE2buGIl72sgLZC/Am6TfywOdZ3Xfz2wEsd5zKOzC12n75QIoE
+	 nu2+FEcFiPIe5qyAJGZpIp4kocfO5u/o3wT5aaDAa8FNGHJbKJUPqsBN/0ktS3moaZ
+	 mGurChnXXVyJQ==
+Message-ID: <f666d3a226451d6317fb8a3c7bc0f9db17f38e7e.camel@kernel.org>
+Subject: Re: [PATCH v2] fs/locks: filter OFD locks from /proc/locks for
+ foreign pid namespaces
+From: Jeff Layton <jlayton@kernel.org>
+To: Tao Cui <cui.tao@linux.dev>, linux-fsdevel@vger.kernel.org,
+ cel@kernel.org
+Cc: alex.aring@gmail.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	linux-kernel@vger.kernel.org, avagin@openvz.org, khorenko@virtuozzo.com, 
+	bcodding@redhat.com, Tao Cui <cuitao@kylinos.cn>
+Date: Thu, 03 Sep 2026 15:06:49 -0400
+In-Reply-To: <5eb2ec0a-e6d6-4cae-89fd-6e68f75a64cc@linux.dev>
+References: <20260902125139.975253-1-cui.tao@linux.dev>
+	 <ab253791f92c329865168c4734c9bfe2f8537a5e.camel@kernel.org>
+	 <5eb2ec0a-e6d6-4cae-89fd-6e68f75a64cc@linux.dev>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260903115018.2034541-1-yi.zhang@huaweicloud.com>
-In-Reply-To: <20260903115018.2034541-1-yi.zhang@huaweicloud.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 3 Sep 2026 12:01:22 -0700
-X-Gm-Features: AcwNN1Xq1z0FxsQ9zPWn4QO4ZTMRixlUUwLEJLuKQWt5XQuIf6s3hWHxYB2ovjw
-Message-ID: <CAJnrk1ZLzNQxrSLQx7TsLK89QC_=9cDfoDcyKNBNde0CiDGoNg@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm/truncate: fix data loss when splitting fails in truncate_inode_partial_folio()
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com, 
-	willy@infradead.org, jack@suse.cz, ziy@nvidia.com, bfoster@redhat.com, 
-	djwong@kernel.org, yi.zhang@huawei.com, yizhang089@gmail.com, 
-	yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, 
-	yukuai@fnnas.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 3, 2026 at 5:01=E2=80=AFAM Zhang Yi <yi.zhang@huaweicloud.com> =
-wrote:
->
-> From: Zhang Yi <yi.zhang@huawei.com>
->
-> truncate_inode_partial_folio() splits a large folio so that the caller's
-> truncate loop can drop the in-range sub-folios while keeping the
-> out-of-range tail. The first split at the punch start edge is
-> non-uniform, which leaves the sub-folio at the truncation end edge as
-> large as possible, this means it may still straddle the range, holding
-> both zeroed in-range and valid out-of-range data. The function then
-> attempts a second split at offset + length to isolate that tail.
->
-> If the second split fails the straddling sub-folio stays merged. The
-> function returned true unconditionally on all exit paths of the success
-> block, telling the caller it was fully handled. The caller kept its
-> default end and the truncate loop truncated every sub-folio below it,
-> including the merged straddler, discarding the valid out-of-range tail.
->
-> For example, a 4-page order-2 folio punched from offset 0 to the middle
-> of the last page:
->
->   truncate_inode_pages_range()
->     truncate_inode_partial_folio()      # same_folio =3D=3D true
->       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->       folio2 =3D p2-3 # straddles: p2 zeroed, p3 tail valid
->       2nd split of folio2 fails / cannot lock
->       return true                       # BUG: caller keeps default end
->     end =3D 3
->     loop truncates p0, p1, p2-3        # p3's valid tail is lost
->
-> This became reachable after commit 7460b470a131 ("mm/truncate: use
-> folio_split() in truncate operation") replaced the atomic split_folio()
-> with folio_split(), whose non-uniform split can partially split a folio
-> and leave the end edge merged.
->
-> It has gone unnoticed because a dirty large folio normally carries the
-> filesystem's private data, for example buffer_head, so
-> filemap_release_folio() -> iomap_release_folio() returns false on a
-> dirty folio and folio_split() aborts with -EBUSY before any split,
-> leaving the straddler safely unsplit. The bug is only reachable on paths
-> that produce dirty large folios without filesystem private data, and it
-> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
-> attached.
->
-> Rework the contract so the caller is told where to stop instead of
-> silently truncating the straddler:
->
->   - Return true only when a split occurred, false otherwise. This
->     clarifies the existing confusing return value semantics.
->
->   - Add an optional out-parameter pgoff_t *end, set to the index of the
->     folio that contains @lend and must be kept by the caller's loop. It
->     is only written when the folio actually straddles @lend. On the
->     success path it defaults to the page index of the end edge and is
->     refined to folio2->index when the second split fails to isolate the
->     tail.
->
->   - Rename the byte-range parameters start/end to lstart/lend to avoid
->     clashing with the new @end output and to separate byte offsets from
->     folio indices.
->
-> Callers in truncate_inode_pages_range() and shmem_undo_range() pass &end
-> only when the folio straddles lend. After all, no caller discards a
-> straddling folio anymore, the in-range cleanly-split sub-folios below it
-> are still dropped.
->
-> Suggested-by: Brian Foster <bfoster@redhat.com>
-> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
-> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operatio=
-n")
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> ---
->  mm/internal.h |  4 ++--
->  mm/shmem.c    | 12 +++++------
->  mm/truncate.c | 57 ++++++++++++++++++++++++++++++---------------------
->  3 files changed, 41 insertions(+), 32 deletions(-)
->
-> diff --git a/mm/truncate.c b/mm/truncate.c
-> index b58ba940be47..2ebb00f6c379 100644
-> --- a/mm/truncate.c
-> +++ b/mm/truncate.c
-> @@ -206,15 +206,18 @@ static int folio_split_or_unmap(struct folio *folio=
-, struct page *split_at,
->  /*
->   * Handle partial folios.  The folio may be entirely within the
->   * range if a split has raced with us.  If not, we zero the part of the
-> - * folio that's within the [start, end] range, and then split the folio =
-if
-> + * folio that's within the [lstart, lend] range, and then split the foli=
-o if
->   * it's large.  split_page_range() will discard pages which now lie beyo=
-nd
->   * i_size, and we rely on the caller to discard pages which lie within a
->   * newly created hole.
->   *
-> - * Returns false if splitting failed so the caller can avoid
-> - * discarding the entire folio which is stubbornly unsplit.
-> + * When @end non-NULL, set to the index of the folio that contains @lend
-> + * and must be kept by the caller's truncate loop.  Return %true if the
-> + * folio was split, %false otherwise, in which case the folio is dropped=
- or
-> + * may still straddle the range, so the caller must not discard it.
->   */
-> -bool truncate_inode_partial_folio(struct folio *folio, loff_t start, lof=
-f_t end)
-> +bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
-> +                                 loff_t lend, pgoff_t *end)
->  {
->         loff_t pos =3D folio_pos(folio);
->         size_t size =3D folio_size(folio);
-> @@ -222,19 +225,22 @@ bool truncate_inode_partial_folio(struct folio *fol=
-io, loff_t start, loff_t end)
->         struct page *split_at, *split_at2;
->         unsigned int min_order;
->
-> -       if (pos < start)
-> -               offset =3D start - pos;
-> +       if (end && pos + size > (u64)lend)
-> +               *end =3D folio->index;
-> +
-> +       if (pos < lstart)
-> +               offset =3D lstart - pos;
->         else
->                 offset =3D 0;
-> -       if (pos + size <=3D (u64)end)
-> +       if (pos + size <=3D (u64)lend)
->                 length =3D size - offset;
->         else
-> -               length =3D end + 1 - pos - offset;
-> +               length =3D lend + 1 - pos - offset;
->
->         folio_wait_writeback(folio);
->         if (length =3D=3D size) {
->                 truncate_inode_folio(folio->mapping, folio);
-> -               return true;
-> +               return false;
->         }
->
->         /*
-> @@ -248,7 +254,7 @@ bool truncate_inode_partial_folio(struct folio *folio=
-, loff_t start, loff_t end)
->         if (folio_needs_release(folio))
->                 folio_invalidate(folio, offset, length);
->         if (!folio_test_large(folio))
-> -               return true;
-> +               return false;
->
->         min_order =3D mapping_min_folio_order(folio->mapping);
->         split_at =3D folio_page(folio, PAGE_ALIGN_DOWN(offset) / PAGE_SIZ=
-E);
-> @@ -259,6 +265,10 @@ bool truncate_inode_partial_folio(struct folio *foli=
-o, loff_t start, loff_t end)
->                  * for shmem truncate
->                  */
->                 struct folio *folio2;
-> +               bool tail_isolated =3D true;
-> +
-> +               if (end)
-> +                       *end =3D (pos + offset + length) >> PAGE_SHIFT;
+On Thu, 2026-09-03 at 10:10 +0800, Tao Cui wrote:
+> Hi, Jeff
+>=20
+> =E5=9C=A8 2026/9/2 21:03, Jeff Layton =E5=86=99=E9=81=93:
+> > On Wed, 2026-09-02 at 20:51 +0800, Tao Cui wrote:
+> > > From: Tao Cui <cuitao@kylinos.cn>
+> > >=20
+> > > Since Linux 4.9, /proc/locks only shows locks whose owning process is
+> > > visible in the reader's pid namespace.  The check cannot see the
+> > > owner of an OFD lock, though: locks_translate_pid() always returns
+> > > -1 for FL_OFDLCK, so an OFD lock held outside of that namespace
+> > > bypasses the filter and is shown with its device/inode numbers and
+> > > byte range, e.g.
+> > >=20
+> > >     4: OFDLCK ADVISORY  WRITE -1 fd:00:70536961 0 EOF
+> > >=20
+> > > This was observed on a Kubernetes node: a pod reading /proc/locks
+> > > listed the OFD write lock of an unrelated host process, while the
+> > > POSIX locks of the very same process were correctly hidden.  The
+> > > device/inode pair identifies which host file is locked, the byte
+> > > range discloses where it is actively written, and the
+> > > appearance/disappearance of entries reflects host task activity,
+> > > contrary to the documented per-pidns visibility of /proc/locks
+> > > (proc_locks(5)).
+> > >=20
+> > > OFD locks record the owner tgid in flc_pid, so use it for the
+> > > visibility decision in locks_show(), mirroring what
+> > > locks_translate_pid() does for POSIX locks.  The pid column is still
+> > > reported as -1 for OFD locks; only the filter decision changes.
+> > > Remote locks keep their negative flc_pid and stay visible as before.
+> > >=20
+> > > Verified with an OFD and a POSIX write lock held in the initial pid
+> > > namespace while a process in a fresh pid namespace reads /proc/locks:
+> > > the OFD entry is visible without this patch and hidden with it, the
+> > > POSIX entry is hidden in both cases.
+> > >=20
+> > > Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+> > >=20
+> > > ---
+> > >=20
+> > > Changes since v1: keep remote OFD locks (negative flc_pid) visible in
+> > > non-initial pid namespaces, as locks_translate_pid() does for remote
+> > > POSIX locks.
+> > > ---
+> > >  fs/locks.c | 19 +++++++++++++++++++
+> > >  1 file changed, 19 insertions(+)
+> > >=20
+> > > diff --git a/fs/locks.c b/fs/locks.c
+> > > index 6e4ff7fcec05..4af1385682e4 100644
+> > > --- a/fs/locks.c
+> > > +++ b/fs/locks.c
+> > > @@ -3022,6 +3022,25 @@ static int locks_show(struct seq_file *f, void=
+ *v)
+> > > =20
+> > >  	cur =3D hlist_entry(v, struct file_lock_core, flc_link);
+> > > =20
+> > > +	/*
+> > > +	 * OFD locks are reported with pid -1, so the filter below cannot s=
+ee
+> > > +	 * their owner; flc_pid holds the owner tgid, so filter on it.
+> > > +	 * Remote locks keep a negative flc_pid and stay visible as before.
+> > > +	 */
+> > > +	if ((cur->flc_flags & FL_OFDLCK) && cur->flc_pid > 0 &&
+> > > +	    proc_pidns !=3D &init_pid_ns) {
+> > > +		struct pid *pid;
+> > > +		bool visible =3D false;
+> > > +
+> > > +		rcu_read_lock();
+> > > +		pid =3D find_pid_ns(cur->flc_pid, &init_pid_ns);
+> > > +		if (pid)
+> > > +			visible =3D pid_nr_ns(pid, proc_pidns) !=3D 0;
+> > > +		rcu_read_unlock();
+> > > +		if (!visible)
+> > > +			return 0;
+> > > +	}
+> > > +
+> > >  	if (locks_translate_pid(cur, proc_pidns) =3D=3D 0)
+> > >  		return 0;
+> > > =20
+> >=20
+> > First: I think this may be the wrong place to do this. Why not fold
+> > this change into locks_translate_pid()? It seems like we'd have
+> > inconsistent results wrt lock visibility between /proc/locks and
+> > F_GETLK if you do this here.
+> >=20
+>=20
+> Good point. I did consider that.  My hesitation with folding it into
+> locks_translate_pid() is that posix_lock_to_flock() also uses it, so
+> F_GETLK/F_OFD_GETLK would then report a conflicting OFD lock with
+> l_pid =3D 0 instead of the -1 that fcntl(2) documents for OFD locks.
+> That's why I kept the check in locks_show(), where it only affects
+> the /proc/locks view.
+>=20
+> That distinction isn't introduced by this patch, though, since it
+> already exists for POSIX locks: since the 4.9 pid namespace filter, a
+> foreign-namespace POSIX lock that blocks F_GETLK is reported there
+> with l_pid =3D 0 while /proc/locks hides it.  v2 just gives OFD locks
+> the same treatment.
+>=20
+> > Thinking about this some more though, I wonder if trying to hide these
+> > locks is the right thing to do. These locks do exist and they do block
+> > you from acquiring a lock. If you go to look at /proc/locks and don't
+> > see them, that seems confusing.
+> >=20
+> > Would we be better off showing all the locks and reporting the pid as a
+> > negative value for ones acquired in foreign namespaces, like we do for
+> > remote locks?
+>=20
+> That's a reasonable alternative - anonymizing the owner instead of
+> hiding the lock does have precedent (fdinfo follows that model), and I
+> can see the debugging benefit of always showing locks that may block
+> acquisition.  I went with hiding because it preserves the /proc/locks
+> visibility semantics introduced in 4.9 by making OFD locks consistent
+> with POSIX locks.  With only the pid anonymized, the output would
+> still disclose which files are locked and the locked byte ranges of
+> tasks outside the reader's pid namespace.
+>=20
+> If the consensus is that /proc/locks should show all locks with an
+> anonymized pid instead, I'm happy to rework the patch in that
+> direction.
+>=20
 
-If I'm understanding it correctly, based on how
-truncate_inode_pages_range() uses the end value (eg the "while (index
-< end)" loop condition and the find_get_entries(..., end - 1, ...)),
-end needs to point to the start of the folio if the tail folio from
-the split is a large folio, in order to exclude that folio from then
-being truncated. But with the (pos + offset + length) >> PAGE_SHIFT
-calculation here, does that result in some cases in it pointing to the
-middle of a large folio? Maybe some logic is needed to make sure that
-it points to the start?
+I personally think that would be a more useful option. The main reason
+people look at /proc/locks is to debug locking problems. Hiding locks
+like this makes that more difficult.
 
-Thanks,
-Joanne
+While we're on the topic:
+
+Should the reader of /proc/locks be able to see locks on superblocks
+that are not reachable from the current mount namespace? It seems like
+if you want real container isolation, then what you really want to do
+is hide those locks.
+
+As a further thought: maybe it's time to think about deprecating
+/proc/locks? It's not extensible, and it's been a source of pain for a
+long time.
+
+We could add something new under /sys, or maybe do something netlink
+based, and extend lslocks to use that when it's available?
+--=20
+Jeff Layton <jlayton@kernel.org>
