@@ -1,73 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-80.mta0.migadu.com [91.218.175.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9571036212F;
-	Thu,  3 Sep 2026 04:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7E7386424
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 05:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788410092; cv=none; b=EH4gr5Lp345lR3g5quKOlce1MtyqULQD74BmEPQSKUwl52kZdKzFgYJUqHwrn7KP+XwHf6TG4+1pryVak6b1ocq5u7jvgcmQYTFiQxqGBAKjKpMe2ViAHGODjtqSsXeAAyGs0xmEZ/A48QW/PvIxEpA2Y8zyna1tgsYN+8kh3i8=
+	t=1788411755; cv=none; b=qQ7mQ7vkz6irbfKunKxAWz256KOsTR48iXXO34s6Ws34POtM4Ar+pfN697jlxDt2i2XKUqeGNQQB7Dy+kkNc2WDwuN3roynicIunYOMnSFcOOoGmBv3ALC9TDmNX9DAmXfCRkSDTgvbtizowlGiYdoj8bUVbc3lJ9x9yVSHgmbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788410092; c=relaxed/simple;
-	bh=PcB710B/IhM4skkfgKnH9GKp/iK67Z8H2/MoXjSwQe0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nqLnzKwLSVE1kYag5WI5O8xbKRMV3L55QpGUC9Zz7qjjk9X6wtuIYCTlq1FeTD9pwBsuirFfiHmq0YYzKRf3np35BlIHfKeYW9sRKxWB58K5V+i2VLtD+wBQgI/KffZHAkWj4XkWIC1FP+ZO+NVvccUGPC8WKoxaNe5ZYkb3GgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hdw72yJ/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788411755; c=relaxed/simple;
+	bh=DrMHlZMozqyndKpLSTkuk0p4rmxGy43whNlgBg2HojY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VZtPPgissXcBw47Yc01FiahK0lyyoAWMUHHnoCSoOYlbidDCQ1x1B+dBOytOLJp58LK6/YENVJbIOuzAj2sf5NYM8nSvgs6Gqwwv8nLIl0F3RJP//NmhwlJZ8Ftf2njyxkYYv75gHrW81Ieh8Ic8bTqsZ9D8uNIgKnVMrWAoE6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UBhr9U4l; arc=none smtp.client-ip=91.218.175.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hdw72yJ/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A04B51F000E9;
-	Thu,  3 Sep 2026 04:34:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788410091;
-	bh=jm6IklPUG84+JOVuRABoU1ve3l9Iwr94DueD7vB8jnQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hdw72yJ/h2HszzuCDBDpMhE+VsKrcNCmhnU3T8qolI1ML/o/iwbS+/TDXS633NZdu
-	 8mL/3s3CVu5qILdwgFVV7VXSvtw/oiPk7wOZ08r+Fz8cSEv9sJUvY0VQOcrFwD/Bv0
-	 e8h+RYfqFokkByl+pxVUwn4P+rRC03CwJz50Oyfo=
-Date: Thu, 3 Sep 2026 06:33:06 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tao Cui <cui.tao@linux.dev>
-Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org,
-	lxc-devel@lists.linuxcontainers.org, Tao Cui <cuitao@kylinos.cn>
-Subject: Re: [PATCH] devpts: reject max=0 instead of silently lifting the
- limit
-Message-ID: <2026090337-crowbar-unable-24b0@gregkh>
-References: <20260903033625.1042796-1-cui.tao@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UBhr9U4l"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=DrMHlZMozqyndKpLSTkuk0p4rmxGy43whNlgBg2HojY=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788411750; v=1; x=1789016550;
+ b=UBhr9U4l70Ia6v4yKYX+BTYZmM64gYTfy7XFSE7748EO9XzWxGOCtqaJwuZYRERfHVTI+Jge
+ A0yMgk8y6gLOzBW69bl0zPVh0ejg+RYCMjAtnV2oH4XFQEN1/EjIkI3HDK/FffzYbXfH/4GQ+dl
+ WV8QljyKHNsMkIVXFs5Wt5ZY=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id df70ff5a37511f08;
+	Thu, 03 Sep 2026 05:02:20 +0000
+X-Mizu-Trace-ID: df70ff5a37511f08
+X-Migadu-Flow: FLOW_OUT
+From: Kaitao Cheng <kaitao.cheng@linux.dev>
+To: Dan Williams <djbw@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Muchun Song <muchun.song@linux.dev>,
+	linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kaitao Cheng <chengkaitao@kylinos.cn>
+Subject: [PATCH] fs/dax: Remove redundant deferred list initialization
+Date: Thu,  3 Sep 2026 13:02:07 +0800
+Message-ID: <20260903050207.7015-1-kaitao.cheng@linux.dev>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903033625.1042796-1-cui.tao@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 03, 2026 at 11:36:25AM +0800, Tao Cui wrote:
-> From: Tao Cui <cuitao@kylinos.cn>
-> 
-> mount_opts.max == 0 is consumed as ida_alloc_max(..., max - 1), which
-> wraps to 0xffffffff.  The IDA layer treats a negative max as INT_MAX,
-> so "mount -t devpts -o max=0" does not disable ptys - it lifts the
-> per-instance limit entirely and only the global kernel.pty.max still
-> applies.
-> 
-> Reject the value at parse time:
-> 
->   $ mount -t devpts -o max=0 pt /tmp/pt
->   mount: /tmp/pt: wrong fs type, bad option, bad superblock...
-> 
-> No userspace relies on 0 meaning "unlimited": runc and crun never
-> set max=, and LXC, the only runtime that does, omits the property
-> entirely when the configured value is 0.
-> 
-> The value has never been validated since the option was introduced,
-> so there is no Fixes tag.
+From: Kaitao Cheng <chengkaitao@kylinos.cn>
 
-Shouldn't the Fixes tag be where the option was introduced?
+prep_compound_page() calls prep_compound_head(), which initializes
+folio->_deferred_list for compound folios with an order greater than one.
+Therefore, dax_folio_init() initializes the list twice for large DAX
+folios.
 
-Anyway, not all that big of a deal as this is a root-only thing.
+Remove the redundant initialization from dax_folio_init(). This leaves
+the behavior unchanged and keeps compound folio initialization
+centralized in prep_compound_head().
 
-thanks,
+Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
+---
+ fs/dax.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-greg k-h
+diff --git a/fs/dax.c b/fs/dax.c
+index 6ba50142eeb2..dad4efea7964 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -469,8 +469,6 @@ static void dax_folio_init(void *entry)
+ 
+ 	if (order > 0) {
+ 		prep_compound_page(&folio->page, order);
+-		if (order > 1)
+-			INIT_LIST_HEAD(&folio->_deferred_list);
+ 		WARN_ON_ONCE(folio_ref_count(folio));
+ 	}
+ }
+-- 
+2.50.1 (Apple Git-155)
+
