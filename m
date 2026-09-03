@@ -1,88 +1,165 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DA24A840B
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 12:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520234AA596;
+	Thu,  3 Sep 2026 12:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788439468; cv=none; b=qtwp0RWtt1+OQ/DTo14pSq2uUpdOSwBlqHc2lrvQufEhbmxVwsE2mA+zaaT4D11DiE8+LgNMh/odywlpwA+gTmKH68s1tw0JGWE3ZZ9G907WtBrzjAC0rtRm7706KRt/EanRRmtCZbjPRE6l99Jkc0Se9prjpDlbUGUXEG0JtY8=
+	t=1788439650; cv=none; b=eBirztBjqPJu1b1LEHXS9o70K10dmUe3mk4qy5EynfYG2ipfdTMynVUMrogsCa3EGTlKqppfZzNfgtMYiJhn75ghRatR45/vs0UGDGggoccsMB4Y7IsWZ/4MryoUYY2//rXwJL6ldbP9CwO4xLDXr3OaKPXKdx4LXkLqyE+kLu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788439468; c=relaxed/simple;
-	bh=ISWcFeBBc16h2qdp2QnpfbgkRoT2z3JGpBb3QERwrMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CUd1Y0yquNU7ndbEO5z2rD/ncvldL8LSBG035iaUHlNYNYWAMJll4H2FsGYgVwj65urbXb+iXUyNLfrLNPybravMXif5Wa4qaG0QG9q1kpPgwMC/ZGtNd2KfVYC/wpZ8IIp+WDG9Qf0RL/70c92leGy0CTpLz3/J1TAJjbMQnso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WTVqukFY; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WTVqukFY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788439465;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ISWcFeBBc16h2qdp2QnpfbgkRoT2z3JGpBb3QERwrMo=;
-	b=WTVqukFYtWqcpb9BNMXgX3aZC4PzvNWcK5CV1499z4XWKMpzvPukk2zwsekHDzytghwkOB
-	dh0yQ+XiEdvt8CDJ8VPRfzTBIcrMniNcZfsGLKVPiUPwnlQ4/G0ixBJSKWpVUP50xeABmB
-	5jUJqOT2Cowm9v5pAlm1kbdJj4OduBo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-588-6fHV56k8OGCznqt6en4hwQ-1; Thu,
- 03 Sep 2026 08:44:24 -0400
-X-MC-Unique: 6fHV56k8OGCznqt6en4hwQ-1
-X-Mimecast-MFC-AGG-ID: 6fHV56k8OGCznqt6en4hwQ_1788439463
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DC85B19540C1;
-	Thu,  3 Sep 2026 12:44:22 +0000 (UTC)
-Received: from fedora (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id C6F8618005BD;
-	Thu,  3 Sep 2026 12:44:20 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu,  3 Sep 2026 14:44:22 +0200 (CEST)
-Date: Thu, 3 Sep 2026 14:44:19 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] super: remember whether freeze holds writer rwsems
-Message-ID: <aplro1ObQ5YNZT6R@redhat.com>
-References: <20260903060855.4610-1-kmehltretter@gmail.com>
+	s=arc-20240116; t=1788439650; c=relaxed/simple;
+	bh=i0SMlCJYTjlbA13Cu4HRUD83Ic60VoD+gJj3EtNTv2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=a/G/v3c3kJCLf+tPkgd57INUzYXUeSXUkehc58LEU/kGP9IyGykneF9lhfvihXJ94fUVZ3TpuPYas43Z1FSF9qPvXdP+tf5u0HXgmp38In1IDu9bCuoDIv81fHH4rZAGtpONVHHzycUu7UbtNejHXA2fkEoRIxCibe3HTIM7SjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hbK934yXRzKHMRr;
+	Thu,  3 Sep 2026 20:46:31 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 200114056F;
+	Thu,  3 Sep 2026 20:47:25 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.85.155])
+	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgBnUAtUbJlqlPhrAg--.37288S6;
+	Thu, 03 Sep 2026 20:47:24 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	libaokun@linux.alibaba.com,
+	jack@suse.cz,
+	ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com,
+	djwong@kernel.org,
+	hch@infradead.org,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	yizhang089@gmail.com,
+	chengzhihao1@huawei.com,
+	yangerkun@huawei.com,
+	wangkefeng.wang@huawei.com,
+	yukuai@fnnas.com
+Subject: [PATCH v6 31/31] ext4: introduce a mount option for iomap buffered I/O path
+Date: Thu,  3 Sep 2026 20:40:17 +0800
+Message-ID: <20260903124017.2325538-3-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
+References: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903060855.4610-1-kmehltretter@gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgBnUAtUbJlqlPhrAg--.37288S6
+X-Coremail-Antispam: 1UD129KBjvJXoWxWr47Kr15Gr1xZry3ZFy7KFg_yoWrGr1xpr
+	W5KFyrGr1kXr9Y9w4xuF4kXr1Fy3ZIka1UCrZYgr47Ga9rAryIqFyfKF15AF4agrW8X340
+	qF1Fgw17Wa17CrDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr1j6rxdM2
+	8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+	IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+	xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW5JVW7JwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Cr1j6rxdMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26F4UJVW0obIYCTnIWIev
+	Ja73UjIFyTuYvjTRMWlyDUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On 09/03, Karl Mehltretter wrote:
->
-> Record whether a successful freeze acquired the writer rwsems and use that
-> state during thaw instead of re-sampling SB_RDONLY.
+From: Zhang Yi <yi.zhang@huawei.com>
 
-Looks correct at first glance, but I leave this to other reviewers,
-I don't understand fs/ enough.
+Since the iomap buffered I/O path does not yet support all existing ext4
+features, it cannot be enabled by default. Introduce the
+'buffered_iomap' and 'nobuffered_iomap' mount options to explicitly
+enable or disable the iomap buffered I/O path for regular files.
 
-> Tested with a test-only KUnit case in x86_64 QEMU on linux-next
-> 32b6ef9a5d0e (next-20260902). It freezes a writable ramfs, sets SB_RDONLY,
-> thaws it, and calls sb_start_write_trylock(). The call fails without this
-> patch and succeeds with it.
+Toggling this option via remount is allowed. The change of I/O path will
+not take effect immediately. It will be deferred. The new setting will
+only take effect after the inode is re-initialized (i.e., after the last
+reference is dropped and the inode is re-read from disk).
 
-But I am curious, how exactly did you test this?
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+---
+ fs/ext4/ext4.h  | 1 +
+ fs/ext4/inode.c | 6 ++++++
+ fs/ext4/super.c | 7 +++++++
+ 3 files changed, 14 insertions(+)
 
-ramfs_ops doesn't have ->freeze_fs or ->freeze_super, so
-ioctl_fsfreeze() should fail?
-
-And how it is possible to remount with -ro, reconfigure_super() should
-see sb->s_writers.frozen != SB_UNFROZEN ?
-
-Oleg.
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index 405e256a1802..8cfe77b45e21 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -1321,6 +1321,7 @@ struct ext4_inode_info {
+ 						    * scanning in mballoc
+ 						    */
+ #define EXT4_MOUNT2_ABORT		0x00000100 /* Abort filesystem */
++#define EXT4_MOUNT2_BUFFERED_IOMAP	0x00000200 /* Use iomap for buffered I/O */
+ 
+ #define clear_opt(sb, opt)		EXT4_SB(sb)->s_mount_opt &= \
+ 						~EXT4_MOUNT_##opt
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index e7849c25c110..6e6c32b8a556 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -6101,11 +6101,17 @@ static int check_igot_inode(struct inode *inode, ext4_iget_flags flags,
+  * For extent-to-indirect block migration (via EXT4_IOC_SETFLAGS
+  * clearing EXT4_EXTENTS_FL), this operation is directly rejected for
+  * inodes using the iomap path.
++ *
++ * When remounting to toggle the buffered_iomap mount option, the change
++ * of I/O path is deferred as well, it will be available after the inode
++ * is re-initialized.
+  */
+ void ext4_enable_buffered_iomap(struct inode *inode)
+ {
+ 	struct super_block *sb = inode->i_sb;
+ 
++	if (!test_opt2(sb, BUFFERED_IOMAP))
++		return;
+ 	if (!S_ISREG(inode->i_mode))
+ 		return;
+ 	if (ext4_test_inode_flag(inode, EXT4_INODE_EA_INODE))
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 73735fd336b9..7db34ba0ea59 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -1747,6 +1747,7 @@ enum {
+ 	Opt_discard, Opt_nodiscard, Opt_init_itable, Opt_noinit_itable,
+ 	Opt_max_dir_size_kb, Opt_nojournal_checksum, Opt_nombcache,
+ 	Opt_no_prefetch_block_bitmaps, Opt_mb_optimize_scan,
++	Opt_buffered_iomap, Opt_nobuffered_iomap,
+ 	Opt_errors, Opt_data, Opt_data_err, Opt_jqfmt, Opt_dax_type,
+ #ifdef CONFIG_EXT4_DEBUG
+ 	Opt_fc_debug_max_replay, Opt_fc_debug_force
+@@ -1885,6 +1886,8 @@ static const struct fs_parameter_spec ext4_param_specs[] = {
+ 	fsparam_flag	("no_prefetch_block_bitmaps",
+ 						Opt_no_prefetch_block_bitmaps),
+ 	fsparam_s32	("mb_optimize_scan",	Opt_mb_optimize_scan),
++	fsparam_flag	("buffered_iomap",	Opt_buffered_iomap),
++	fsparam_flag	("nobuffered_iomap",	Opt_nobuffered_iomap),
+ 	fsparam_string	("check",		Opt_removed),	/* mount option from ext2/3 */
+ 	fsparam_flag	("nocheck",		Opt_removed),	/* mount option from ext2/3 */
+ 	fsparam_flag	("reservation",		Opt_removed),	/* mount option from ext2/3 */
+@@ -1978,6 +1981,10 @@ static const struct mount_opts {
+ 	{Opt_nombcache, EXT4_MOUNT_NO_MBCACHE, MOPT_SET},
+ 	{Opt_no_prefetch_block_bitmaps, EXT4_MOUNT_NO_PREFETCH_BLOCK_BITMAPS,
+ 	 MOPT_SET},
++	{Opt_buffered_iomap, EXT4_MOUNT2_BUFFERED_IOMAP,
++	 MOPT_SET | MOPT_2 | MOPT_EXT4_ONLY},
++	{Opt_nobuffered_iomap, EXT4_MOUNT2_BUFFERED_IOMAP,
++	 MOPT_CLEAR | MOPT_2 | MOPT_EXT4_ONLY},
+ #ifdef CONFIG_EXT4_DEBUG
+ 	{Opt_fc_debug_force, EXT4_MOUNT2_JOURNAL_FAST_COMMIT,
+ 	 MOPT_SET | MOPT_2 | MOPT_EXT4_ONLY},
+-- 
+2.52.0
 
