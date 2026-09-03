@@ -1,130 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3979A331A6E;
-	Thu,  3 Sep 2026 02:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1DC3515D2
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 02:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788401845; cv=none; b=RTcJrJ98isSSuzTOCMSIZpi80aq9Yh0K47uX6wDsPc8mOBJWNdVk1pJMZVWNtx8CR9gsdtFOEJM98gk1Wgut0e36a7fDlRYKAekRdKeSbZIyW7h3EjU1ZUfgkmwV5vkMginOEUBzCPAuaQC1XgaPQNEhXRezXkl+E6VbUekhWpM=
+	t=1788402724; cv=none; b=JKuqxdCw2fXv0tO3ApQ0eRFILkazwPpdkxISt44kB1AHErub8gNCqfRadL9x63MkXZdR1cj2l2TqCxCSl0CmVs8VGb2CypXkstx0x/5VSxZarjQc7Whjpd6xWweH/57Sd+xQFcoB/dViL8cen64L0f3Dssf0ISCHYkkBzfQSmwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788401845; c=relaxed/simple;
-	bh=9V9meKK+nlsTtdgyOIBDrYbfmOvrSL+d8jNKzeVDk5Q=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=jW2X6ta/Ebz0j3lwkTy5NqUYdVW546pqVQWdxQV88+OAkPVbMz2BTANgKtgZh2mp2K3g8dA9JlfRW8WJI7qawg2oAnU/JY2BSWsvXJqR7kvPzrXYCIjF5TceL2HHmdS3B0/hSCeSv07GhI3oJxbBDw24hhzdnoR5X3P8ZEuotfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=uxoEp2z3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788402724; c=relaxed/simple;
+	bh=mhnQUgpB08Teq6ugPKEvbkk1XBrN1Jr1TmAjxKH8h+4=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=KkPV/t6f+n+RSV6iLFSpXHG2Ub2G3FHhvCS16gycv0dQgtVadnWFuVqK3h1hdMipxpJb7Uj9cWLqjfDmmJ29uyp3mmh5YbWLr4jSibfbk30gbXZOQ8ldLgymCRjGTg7CQ/YnS1uaS7ihl16SfJYbg86u87v6BekQeXWAvxmZo+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B5DN7vQC; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="uxoEp2z3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E70DF1F000E9;
-	Thu,  3 Sep 2026 02:17:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B5DN7vQC"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-86a29a48ed9so21527927b3.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 02 Sep 2026 19:32:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1788401841;
-	bh=9RbG7VHeuVj53+b3LCtWcmq5nQiRaYTjwCeLdKUdcPM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=uxoEp2z3+eV686EWjn6iSZZJpO2HR/bCDAnlTbTrQgswao0KOZZOP+gfj3puHGzaS
-	 KYJJNbCrzCb5bnDCL710Xdt5tn9ifonO8zp2Pbr3REKEinYWV2qWh+7qFHCGd7Db1E
-	 vy+JjIqT1tP2LicClpOdpOt+xXb33r9Bkw4+dVyg=
-Date: Wed, 2 Sep 2026 19:17:20 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Disha Goel <disgoel@linux.ibm.com>
-Cc: Christian Brauner <brauner@kernel.org>, shuah@kernel.org,
- wenyang.linux@foxmail.com, jlayton@kernel.org, jack@suse.cz,
- djwong@kernel.org, aleksa@amutable.com, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] selftests/filesystems: fix missing and stale TARGETS
- entries
-Message-Id: <20260902191720.464705fabe41818d747ff3c7@linux-foundation.org>
-In-Reply-To: <cecdc333-f58a-4e8b-a3f5-774fd0e69cf7@linux.ibm.com>
-References: <20260703150742.58991-1-disgoel@linux.ibm.com>
-	<20260706-geerntet-neonlicht-liege-d005ee1904b3@brauner>
-	<cecdc333-f58a-4e8b-a3f5-774fd0e69cf7@linux.ibm.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=google.com; s=20251104; t=1788402719; x=1789007519; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SZ9VwK4M9RrXiYAkL+dI7dyHkhFNxu+nw3mnW/q/dvk=;
+        b=B5DN7vQCkn9c14rCfZDH6C2g6O14KFPRTb0Ovn6pbqH4f17SOjCRYOdarytBbUC6Sv
+         0j2U8PcN1vjRbr051e6PQilMrpphaodjBB4aCpdmiSqvq8QiJsNnoGYy2aozYu9TkL9t
+         ia4aD644n6x/mFzK680t00KB/gdXgXMeuz0qZkZ6N6AFYeVicZh1XO9noBmqn3PsuRU5
+         174YC6yRQL5WgXu8hvhat0iI5I4fzULluP9WN2LFx4k358usFvEfwCU39hglRyIDJu8j
+         xqA3qdjN9siMSNYj2FUBzzNhUdU0wmSu8kGJ9xhxdzyLgvBqksb1ebaow7RGLsBlEBxc
+         sJkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788402719; x=1789007519;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SZ9VwK4M9RrXiYAkL+dI7dyHkhFNxu+nw3mnW/q/dvk=;
+        b=KkH0RTLL/x4/1OG4DLFe4k96O9vxt5KgYRV72aH6L61F7jG4OcVapK3D4QwM+2HjLC
+         pfJPkyf9s4HN1/0fNCThzsIPbGA29umfMq+0J7bpDxQHGfBr6ysq9PuYfq9tQyt1P1/E
+         aQz62ZvhGpGHTAfZ7rvi6lHMvPyJLSX/S3vO60Q3rcobh9+cLJKL0/fIhTcR3c/YFBM7
+         8jOMmXr3DCU4mqVb8pNU26qbZhpH/kVRtZWSGIQ19EfKv/KoCjngXu0wMcs8HmNWQC10
+         pcdJF+VN0BqZZJ52Fc125G0RNmQhWNuJZDW1+4h/Oo/obb5L4Gkb54s5JtA0y9+TyVhu
+         8oaw==
+X-Gm-Message-State: AFuF++nNMMFAB/jXyUAVPrbt7epO0inzywBjVws3w4B2DCpfb6upTug3
+	B+zHXzIOvTJS0OrJqEbw8+xQM0mmr3T997N8ebqvwxn90aQBoh9+IUUcvU0tBCPdWZM5cEuNpBG
+	J8f3OmPPx918=
+X-Gm-Gg: AYBFou3zKDqo+nfXl5ituJ7iAhnqwLc71dSBTxiScRlquvom6pBcZhFJA7zwMmL4L5q
+	FyiaahzYchPSgY/9j0NmIN7rO2+IJCzxDjaIhXD3R/DkB/huECxPaP4+R381pLu4Qyh825rQFOs
+	DmGzF3mda+aNjNwCvgy69X3145dEytGS/zvFs5UW9pbpkLIUZwYTvIpU9NFkJF+xO7wIr5Uq9iz
+	l1+A2LTxKm+iawXRwfXQtWn0o6t/zkzCvBwZkJF87WBTDgc5ccbrRxV70LKfFyiYoIC0E5sp2s0
+	bZqdlWAvCzJgkfML7TTPGDbgk4nKNhkNQczVCF5fXZcuIN+Dx5gQHK5QJqUk1G8JRAulrHaIPKA
+	RAaUanaETG4ePOkyT1lX1sD9vPT+1ED0lBGLsY8+80/ZLuGXaKr5ggbwfBunen2uCpqHV2z4HqF
+	/CeIudbf+WrpRjQG3ttCu6KBKBvtoUbdZDPVrBJJ3LtEO8/GJdTJC5aOV0SjwoOwilUjTviDmEh
+	Rm37dawuqjE991cqdzxXNhBKcS5sqxrybcaQyweus22Y2Gt
+X-Received: by 2002:a05:690e:1689:b0:66e:65b1:6977 with SMTP id 956f58d0204a3-66f9b8f010cmr3430168d50.5.1788402718645;
+        Wed, 02 Sep 2026 19:31:58 -0700 (PDT)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66faa62c132sm753177d50.7.2026.09.02.19.31.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 19:31:57 -0700 (PDT)
+Date: Wed, 2 Sep 2026 19:31:39 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: Jan Kara <jack@suse.cz>
+cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+    ocfs2-devel@lists.linux.dev, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+    Hugh Dickins <hughd@google.com>, 
+    Baolin Wang <baolin.wang@linux.alibaba.com>, 
+    Farhad Alemi <farhad.alemi@berkeley.edu>
+Subject: Re: [PATCH 2/2] shmem: Refuse to enable tmpfs format for another
+ filesystem
+In-Reply-To: <20260902133702.1313635-4-jack@suse.cz>
+Message-ID: <5f7e2e81-6a79-3b5a-1dc2-83ce775017ac@google.com>
+References: <20260902132458.23590-1-jack@suse.cz> <20260902133702.1313635-4-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 31 Aug 2026 15:16:45 +0530 Disha Goel <disgoel@linux.ibm.com> wrote:
+On Wed, 2 Sep 2026, Jan Kara wrote:
 
-> Gentle ping — is this patch merged or queued for a future merge window.
+> It is possible to issue Q_QUOTAON quotactl(2) e.g. for ext4 filesystem
+> requesting to enable quota using tmpfs quota format. With suitable
+> passed arguments this can actually succeed in enabling tmpfs quota
+> format on top of ext4 filesystem which leads to crashes later in
+> dquot_acquire().  As tmpfs quota format is intended for tmpfs
+> filesystems only, verify we are indeed enabling quotas there.
 > 
+> Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+> Signed-off-by: Jan Kara <jack@suse.cz>
+> ---
+>  mm/shmem_quota.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/mm/shmem_quota.c b/mm/shmem_quota.c
+> index d0b92d6da50f..6e0b43cbded3 100644
+> --- a/mm/shmem_quota.c
+> +++ b/mm/shmem_quota.c
+> @@ -54,6 +54,10 @@ struct quota_id {
+>  
+>  static int shmem_check_quota_file(struct super_block *sb, int type)
+>  {
+> +	/* Verify enabling happens on tmpfs superblock */
+> +	if (strcmp(sb->s_type->name, "tmpfs"))
+> +		return 0;
+> +
 
-I can help with that ;)
+I don't object to this, but was rather expecting you'd check s_magic
+for TMPFS_MAGIC: isn't this the kind of hi-tech thing s_magic is for?
 
-The four Fixes: targets are problematic.  How are backporters to figure
-out what kernel version(s) need the patch?
+Thanks anyway,
+Hugh
 
-I guess these things crept in over time and a four-patch series would be
-too elaborate.
-
-I'll just queue it for 7.3-rcX and will let others figure out the
-fallout.
-
-The underlying code has changed somewhat, but the fixups were simple.
-
-
-From: Disha Goel <disgoel@linux.ibm.com>
-Subject: selftests/filesystems: fix missing and stale TARGETS entries
-Date: Fri, 3 Jul 2026 20:37:42 +0530
-
-filesystems/eventfd, filesystems/open_tree_ns and filesystems/xattr were
-never added to TARGETS when introduced.  filesystems/openat2 was moved
-from selftests/openat2/ but the TARGETS entry was never updated, leaving a
-stale entry pointing at a directory that no longer exists.
-
-Fix this by adding the four missing subdirectories to TARGETS and
-removing the stale openat2 entry.
-
-Link: https://lore.kernel.org/20260703150742.58991-1-disgoel@linux.ibm.com
-Fixes: 7c37857fc23a ("selftests: add eventfd selftests")
-Fixes: b8f7622aa6e3 ("selftests/open_tree: add OPEN_TREE_NAMESPACE tests")
-Fixes: 7e28fef5d4db ("selftests/xattr: path-based AF_UNIX socket xattr tests")
-Fixes: fe087927046c ("selftests: move openat2 tests to selftests/filesystems/")
-Signed-off-by: Disha Goel <disgoel@linux.ibm.com>
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Jeff Layton <jlayton@kernel.org>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: Wen Yang <wenyang.linux@foxmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- tools/testing/selftests/Makefile |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
---- a/tools/testing/selftests/Makefile~selftests-filesystems-fix-missing-and-stale-targets-entries
-+++ a/tools/testing/selftests/Makefile
-@@ -35,8 +35,11 @@ TARGETS += fchmodat2
- TARGETS += filesystems
- TARGETS += filesystems/binderfs
- TARGETS += filesystems/epoll
-+TARGETS += filesystems/eventfd
- TARGETS += filesystems/failfs
- TARGETS += filesystems/fat
-+TARGETS += filesystems/openat2
-+TARGETS += filesystems/open_tree_ns
- TARGETS += filesystems/overlayfs
- TARGETS += filesystems/statmount
- TARGETS += filesystems/mount-notify
-@@ -47,6 +50,7 @@ TARGETS += filesystems/empty_mntns
- TARGETS += filesystems/fsmount_ns
- TARGETS += filesystems/fscontext_ns
- TARGETS += filesystems/mntns_cleanup
-+TARGETS += filesystems/xattr
- TARGETS += firmware
- TARGETS += fpu
- TARGETS += ftrace
-@@ -103,7 +107,6 @@ TARGETS += prctl
- TARGETS += proc
- TARGETS += pstore
- TARGETS += ptrace
--TARGETS += openat2
- TARGETS += rdma
- TARGETS += resctrl
- TARGETS += riscv
-_
-
+>  	/* There is no real quota file, nothing to do */
+>  	return 1;
+>  }
+> -- 
+> 2.51.0
