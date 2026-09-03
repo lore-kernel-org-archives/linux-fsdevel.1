@@ -1,150 +1,132 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175274B1B2D
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 13:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788443491; cv=pass; b=XW994MKzFp0jHTyME6EGW1N06yMUygq9e9EicWGb3u1KaL5MQX+me8r2BdV1kyuqL+Uuowmv3JyezSXtSjNNaZqsvMAXdSls2oXvPgR135gK99Z9LyBv7tWWyKeUkdUz0qrQQaUbuyVrYOlP/wJ9Gk8xcYZmPgGrJMTNRUf66L8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788443491; c=relaxed/simple;
-	bh=CnepmmzELbEjghYI6j0ZociAv62uiRsm0df/ajYLGG8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XW0iMSavrG7hYY1foBQb3l4CfsDBhJF9IvxpZsuN3GwIw2O5FhhQc4WtOWFaZwnk5nnxUv7NhD75LswIhREHP2FXUoTpyJtYzdhsgCuUcQlvYBWYLHYG8khQ0JsT7fpWJZskcNJLemvFvxinzt0a1715Qye7dpLqiu7wi7RsKHU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ihCbHIw4; arc=pass smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC6E4B1497
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 13:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788443558; cv=none; b=bCjlaP4Qja6zAwEQZYLhphyKvkYbeaWC+ZokzpQMd+jVnMYvDBzMEwKEfnEW7nqmW01mC+ZeAcchxdiqgMU4JPeZHpmHwKIbVWzGXv32ypd1XvKvln5tOlMiiF6vIrUhbKBooyu3JMZLAiGTE2tpZo/ObGYQOmegJO1nsMQsjvo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788443558; c=relaxed/simple;
+	bh=Iji4D2buWPRLhZoxA1uH9NERFPm7OneKA3HE03sRbkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UK5ThLYI1XhJRZEOKRcvHJ/VTetjPPtB9vodOp3kM+yMlG1u+DWb38iVhJnc8rP+hAo5tuoYQgakYxx6as9Pxl/FkOinGKo56aCnOjWzOyOvhLXoTkYUGMWj/yVX3y9Q1ATb+zg5SppVVGQji5HVk6ieWGMRxpksSRK3SydWTeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ao3ZwmL/; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ihCbHIw4"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6a68ab90eb8so983089a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 03 Sep 2026 06:51:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788443481; cv=none;
-        d=google.com; s=arc-20260327;
-        b=b+sq5k18JOYW63IwsnPqdY3L34WpQDXkMHAyicu6y9YsbRfcZU0pkrFDRwEBNqXEbk
-         /fy3gFSmdxUT4vXddYhVXcP+VunR5ZO7ILJ4b8vcNQCSb6AfLysVrkm/2IPy6DPVzw6R
-         kG+Jc4xAkN5WYvrLgFGaqK4ot1+TG5V5SAj4ykVA0tjPlKq/7ItgZy40SS1hXiHr2j7U
-         1MDJQWwumxYka4n2hgmUQaZk62W/i/MLvgllL7JStLmbnW9hzNRuMzfnxGgt6FKomhio
-         EHM19Tk0H+lkDvKwxjaQPRkFTlmIbaesRahuCSk/G1ELAJUHiRq5bj04jFOazux/a4X2
-         6dQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MoZRNEtYIWDS0IurH9QV+UfQGtgGdZsOItW/ktopJYY=;
-        fh=UyoGpGU2lalMm+k7NyO5sVfVs7dxzVFcOlBYPWtqBFo=;
-        b=U2a9M29Ao55QL3y5dJMa/ayTNKZjRzyITU5+YnsTVrPb5y554DM4jKoOJ5skPWZTJN
-         7IxqOPkV/+JXjNRrGqxeXQxTHOe4vfJI3UtVNx3v+roEb9ddu6WoIl+H+IOqrto2XcDI
-         eq57jynp0F/25RNR+FKiuKWssgr0wbGKKZOpzkRzpO7Sp/COS+cQi4ZAheSrmYopcrcX
-         9yti35KiAAlyIJpowiW8nROWB3hxOXkZoGQVv998mpXRLLXAv7y8pyoAqv2/Y3lnA25m
-         dpazr+LJlYi+9h0QYzOP5vhLrlya8ats8xTpgDlhTVnk1vrlfxc40ahbw5Jnp5fxfNh9
-         v9sQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788443481; x=1789048281; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MoZRNEtYIWDS0IurH9QV+UfQGtgGdZsOItW/ktopJYY=;
-        b=ihCbHIw41Cpllq2Pdrh1AybFP3rOn56Vt67U8mhzTSoyolGHCYUbHv4mgyX8LmDPp9
-         GC4gmUyplFlmhdyahxu/XXLRq9TvT2kSymhB2d5I/2p/IRx+Cl8Rh7zhYqb96ArMB/lU
-         PdG1cKmWln3Q/5xkUbxma5JpP6W+HwsDBHnHFUu1DUnqSwi4iUbF/5I+O6UOVcFuOKf+
-         MFLQDWDtmc7GNngbWlRYEWQEoLrHzfhKG6m6RCH8taLlZ5LlMPJn4Dp5n2DauRFZ0K9N
-         KGYuaFgYVfvF+/HYsdNOQS7LNfQqm7OfBudQDfyV7vMdB56z6HaKIWFqFGWwVy9tYJjM
-         4h0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788443481; x=1789048281;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MoZRNEtYIWDS0IurH9QV+UfQGtgGdZsOItW/ktopJYY=;
-        b=RXa+rXpAxFkGHA1UcIe361PSEXDGXiacKCt5tAr/+Jz6jndiT36CYkVAkNQr9vg7Vx
-         aGL+I0Q2jvleGcyvwaRhIUEN0rC17UveI2dSGQhCgP6FN4z4GRBYlCqnL558x29i2hJC
-         AvP2a5kdAw9j3ULuk1PAqlNyBGE8S5v6laDQ4BDGzfsBW5NeMof5X2kDvRMzOaK6X4NZ
-         4ntQ3+n8/0mYnzqhNICBZ/PHzRAEsZduEAi0nRkxMphSpqyEdsfAbrzxKjtyFLEnbSwQ
-         JoNsj5cshJ6Juq87L/18VLnuYlST03zK7ME/ug7Io0mtSG5YHHyq+1cmQ4TrINL/4yKG
-         HX3w==
-X-Forwarded-Encrypted: i=1; AKwUvBwyBfiF4Yl/st6s7wfo5enk2OYACwN2QCpZP3+7vgL5CqLoSWlU4u8LbF4ZRe6nXDjIJYE+UN2+OgzFN/T8@vger.kernel.org
-X-Gm-Message-State: AFuF++kwHuEv0RQggbN4gZ+lQjSihffocMKwBcrL7TS3j2WFeYwor9ba
-	n8vgufwZuaCBSNoYWywQYmeZ0Py872kxMZMO7ujHeDpKroOE+EZPed9ziiAe5/lIYNtdna5zReg
-	bXVZ4DuNUW8MZ9pxAlBuFxbAUYllq+gPmQPrPa8w=
-X-Gm-Gg: AYBFou2qWJ+nOUotHG9Gi0bNLL88NyjLSS52wrnU/F7KhPBXXpHxz8K3ymO/XlXBox2
-	XJjJFd6MIcs4ocPd6TA4b6FjD1mfFceli7ddprVNy4QaiIqXKKWc3Ff8xGX0dM4KkBNvKLuqnF6
-	eTCXpDaUf9q8fjME16IAYzkA9CB3SmB7nKSsgFGim2IvkpLxeNgnchuAlmpl9R/J63ldJX+gYqw
-	gXXrVszgt/+0HoxmciGqAqhXTVs6uRW6uhEvvLQwksQwQVJmTflg+nb2CSj8XQJonN4bElrk0vG
-	PC1o7RqWynf5bohDZiUE3fmgbBQ6A+K3KkQh0vuROYXXElz8O/jvvQDh
-X-Received: by 2002:a05:6402:4615:b0:6a5:f814:2278 with SMTP id
- 4fb4d7f45d1cf-6a7e551f77bmr22171a12.2.1788443481155; Thu, 03 Sep 2026
- 06:51:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ao3ZwmL/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788443535;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RYValkT1RfLf8KNyXAg43KyIUolG/6q8D740NY7N3y0=;
+	b=Ao3ZwmL/iGBJdBOZ8TnueGe/uhegrwg8+8GFFxq5eS3LQ+L07tc00m7lk/8f/KNcO5Tsd2
+	hO4WP4y603tak/TL2vTzayBOz4NzeolZ9xl/X1Aj5WEps+lE5DUoDqsnWdZDAhFzOtQVvL
+	P6malKMJAZvEsgfO4wxRcSxsIfnaB3M=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-27--MjhSEGMNGGbQ1VSHW1TjA-1; Thu,
+ 03 Sep 2026 09:52:14 -0400
+X-MC-Unique: -MjhSEGMNGGbQ1VSHW1TjA-1
+X-Mimecast-MFC-AGG-ID: -MjhSEGMNGGbQ1VSHW1TjA_1788443530
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E1174190FF8E;
+	Thu,  3 Sep 2026 13:52:09 +0000 (UTC)
+Received: from bfoster (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 830C73000239;
+	Thu,  3 Sep 2026 13:52:06 +0000 (UTC)
+Date: Thu, 3 Sep 2026 09:52:04 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc: brauner@kernel.org, djwong@kernel.org, cem@kernel.org,
+	akpm@linux-foundation.org, vbabka@kernel.org, surenb@google.com,
+	mhocko@suse.com, brendan.jackman@linux.dev, hannes@cmpxchg.org,
+	ziy@nvidia.com, david@kernel.org, qi.zheng@linux.dev,
+	shakeel.butt@linux.dev, ljs@kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] xfs: fix NOFS state corruption in btree split worker
+Message-ID: <apl7hNnt0lR5HFXA@bfoster>
+References: <20260902134417.c44503a1d65533f81fb1c391@linux-foundation.org>
+ <20260903133756.2006032-1-wangkefeng.wang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260903132636.1113789-1-cui.tao@linux.dev>
-In-Reply-To: <20260903132636.1113789-1-cui.tao@linux.dev>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 3 Sep 2026 15:51:09 +0200
-X-Gm-Features: AcwNN1XLPOGjY6GkGn_VD8RO3WKWNti90NMjrqMlxwQvVF-i2CTvjSe5-uBDR5U
-Message-ID: <CAOQ4uxg6_0wnzBmA+-rZeADBTKwLsWFdEM5ZVGa6YvWX6mAGXA@mail.gmail.com>
-Subject: Re: [PATCH v2] overlayfs.rst: clarify the scope of file locks taken
- through the overlay
-To: Tao Cui <cui.tao@linux.dev>
-Cc: linux-unionfs@vger.kernel.org, miklos@szeredi.hu, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	brauner@kernel.org, jlayton@kernel.org, Tao Cui <cuitao@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260903133756.2006032-1-wangkefeng.wang@huawei.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Thu, Sep 3, 2026 at 3:26=E2=80=AFPM Tao Cui <cui.tao@linux.dev> wrote:
->
-> From: Tao Cui <cuitao@kylinos.cn>
->
-> File locks and leases taken on files through the overlay mount are
-> only meaningful between tasks that access the files through the same
-> overlay mount; they do not conflict with anything that changes the
-> underlying filesystems directly.  Add a short note to "Changes to
-> underlying filesystems" stating this scope.
->
-> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+On Thu, Sep 03, 2026 at 09:37:56PM +0800, Kefeng Wang wrote:
+> xfs_btree_split_worker() calls xfs_trans_set_context() and
+> xfs_trans_clear_context() on the caller's transaction, overwriting
+> tp->t_pflags with the worker's NOFS state. When the caller already has
+> PF_MEMALLOC_NOFS set (e.g. xfs_end_ioend_write, xfs_dio_write_end_io),
+> the corrupted tp->t_pflags causes xfs_trans_free() to erroneously clear
+> the caller's NOFS protection.
+> 
+> Use memalloc_nofs_save/restore with a local variable instead so
+> tp->t_pflags is never touched.
+> 
+> Closes: https://sashiko.dev/#/patchset/20260902131653.1338227-1-wangkefeng.wang@huawei.com
+> Fixes: 756b1c343333 ("xfs: use current->journal_info for detecting transaction recursion")
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 > ---
-> Changes since v1:
-> - minimal note within "Changes to underlying filesystems" instead of a
->   separate section, per review (Amir Goldstein)
-> ---
->  Documentation/filesystems/overlayfs.rst | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
-systems/overlayfs.rst
-> index 16c35b491dad..11af5bc73e32 100644
-> --- a/Documentation/filesystems/overlayfs.rst
-> +++ b/Documentation/filesystems/overlayfs.rst
-> @@ -671,6 +671,15 @@ filesystem are not allowed.  If the underlying files=
-ystem is changed,
->  the behavior of the overlay is undefined, though it will not result in
->  a crash or deadlock.
->
-> +Note that file locks and leases taken on files through the overlay
-> +mount only provide mutual exclusion between tasks that access the
-> +files through the same overlay mount, and a lease taken through the
-> +overlay is broken by opens through that overlay.  They do not
-> +conflict with locks taken on the same files by anything that changes
-> +the underlying filesystems directly, so file locking cannot be relied
-> +on for mutual exclusion between overlay users and such direct
-> +changes.
+
+I agree that the Sashiko analysis looks correct. The only thing I wonder
+is whether it might be a bit cleaner to have the set_context() helper
+return the context instead of hardcode the assignment to ->t_pflags so
+it can be used in both places. The reasoning is just that the current
+arrangement kind of makes it easy to repeat this mistake in the future.
+
+Then again, it's a single line helper so maybe another option could be
+to just remove and open code it. I suppose the pro of keeping the helper
+is that it's a decent spot to document the concern and why it returns a
+value, etc. *shrug* Thoughts?
+
+(Please don't change this patch just on my comments alone. Let's see if
+others have input first..).
+
+Brian
+
+>  fs/xfs/libxfs/xfs_btree.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/xfs/libxfs/xfs_btree.c b/fs/xfs/libxfs/xfs_btree.c
+> index 6738d9d1511b..8ae4b94e6995 100644
+> --- a/fs/xfs/libxfs/xfs_btree.c
+> +++ b/fs/xfs/libxfs/xfs_btree.c
+> @@ -3007,12 +3007,18 @@ xfs_btree_split_worker(
+>  {
+>  	struct xfs_btree_split_args	*args = container_of(work,
+>  						struct xfs_btree_split_args, work);
+> -	xfs_trans_set_context(args->cur->bc_tp);
+> +	unsigned int			nofs_flags;
 > +
->  Offline changes, when the overlay is not mounted, are allowed to the
->  upper tree.  Offline changes to the lower tree are only allowed if the
->  "metacopy", "index", "xino" and "redirect_dir" features
-> --
-> 2.43.0
->
+> +	/*
+> +	 * Don't use xfs_trans_set_context() here: it would overwrite the
+> +	 * caller's saved NOFS state in tp->t_pflags.  Use a local scope.
+> +	 */
+> +	nofs_flags = memalloc_nofs_save();
+>  
+>  	args->result = __xfs_btree_split(args->cur, args->level, args->ptrp,
+>  					 args->key, args->curp, args->stat);
+>  
+> -	xfs_trans_clear_context(args->cur->bc_tp);
+> +	memalloc_nofs_restore(nofs_flags);
+>  
+>  	/*
+>  	 * Do not access args after complete() has run here. We don't own args
+> -- 
+> 2.55.0
+> 
+> 
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-
-I'd like to wait for Miklos to comment before merging this.
-
-Thanks,
-Amir.
