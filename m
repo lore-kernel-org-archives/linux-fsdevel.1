@@ -1,102 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.245.243.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F84B372B27
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 21:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5968361979;
+	Thu,  3 Sep 2026 22:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.245.243.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788471839; cv=none; b=XJXl4blVnLgUixAIOjDfvwRbBZae7G/2qTWl90cv6c0sPvP+S6+O+vhknDTnwn+LXJsfG1f6v99P+/aliwhRAe/4T7yxdG4K/LVyWnh5HjfxIdXYEaXA/8yrTHZcWVPUbKXps6o264kWf5PzNDsvNcUfCtN5j6z+WIVEqOxLDcY=
+	t=1788474883; cv=none; b=qg+9o3Kl9biF5/ELiUc8v7Zvt6O7aHSAia+DPMuJUdNcRmyIaCEMsAXnMlI+bJTChfHBydOcCk+xZKVQgtOhHLUg+BTnlPZZ2aPHnM61ak1EHZk4sfOha4q4yWniisX6aKn947++HrDAnB/yom4Pgy8cG90TWWX2ajmS4CXwM+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788471839; c=relaxed/simple;
-	bh=F3jOHh+snqMsGLak2PpEkbeCpwY6HsbPB4pwFgYJvVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bh9rcjVCeHn3cWbqDAxBnZ5n9pGpsW/YXvEognwcM5iNf262+to376/BoVqvDeE9LkLF4Nn0+zc/aNKlyFicdYraMv+GdOFufgux0ux/DVIKQVVC9ooWsy0xkF+XeguZTHLn/YJauKvd1w24tyac++20IlzcP5O7oqCNvN4C5Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bt+7O/4j; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1788474883; c=relaxed/simple;
+	bh=8LjHDQQElRP4E4Kj0EKSD4zlgW3GkePkRkvT6/d6dkc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uYmOF2YOaB/zIBhBIG3GOoy7SLBiZopbtmxdZ7u/BnaIvIX8x27r5dyxN0n7WlIH1OR39D8PAVOwcDdWHf6K1iYmG2EhiTzKGrjGHFUU8qo7ggQ/2yGTcP4VjS7S410DKA/dB5anUDV7GS0JO+zFD30M0EkHZfOH9MK64wG6Alw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=sYMuKSlD; arc=none smtp.client-ip=44.245.243.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bt+7O/4j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788471837;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F3jOHh+snqMsGLak2PpEkbeCpwY6HsbPB4pwFgYJvVo=;
-	b=bt+7O/4jZ6+kYLJIsO8zdxlrlFo0GPOnXyzt73mZ1Pft5x2oJR1P4+iDG+A9p7aCC1lm9c
-	AlbthHB3hf1/jajqId7Wev/7OVGOxxd5yXMvtLLoomwqsWYsKDJcQBywktPH+FH1Bz3o5x
-	62HvEGeCvSH+eT3kXWIRLBa9fH+WgiM=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-257-E472_1DMN2K9UdbHXXDiBQ-1; Thu,
- 03 Sep 2026 17:43:54 -0400
-X-MC-Unique: E472_1DMN2K9UdbHXXDiBQ-1
-X-Mimecast-MFC-AGG-ID: E472_1DMN2K9UdbHXXDiBQ_1788471833
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9F074195605E;
-	Thu,  3 Sep 2026 21:43:52 +0000 (UTC)
-Received: from fedora (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 867C31800669;
-	Thu,  3 Sep 2026 21:43:50 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu,  3 Sep 2026 23:43:52 +0200 (CEST)
-Date: Thu, 3 Sep 2026 23:43:49 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] super: remember whether freeze holds writer rwsems
-Message-ID: <apnqFe3aZdSM6lsy@redhat.com>
-References: <20260903060855.4610-1-kmehltretter@gmail.com>
- <aplro1ObQ5YNZT6R@redhat.com>
- <apnKz_3xD-zbw0dM@gmail.com>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="sYMuKSlD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1788474882; x=1820010882;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wQHtafO+2PZp5fDHu8SdXIgV6dsbXhD0ZZCiMht7hug=;
+  b=sYMuKSlD2hd6hvxlz+7UGCsmtOyuf8OZy559a5lS9uvp9IWQIBUCmhMT
+   aam+VfOBeWh5TgVtC7yymR9D5DhWZ6sO+csqCtgUQYQkfgnNcquE/8Aoo
+   h4Iaa48GrV0ub9u9MgI2oHyEL8PUMyuhf45XL7iEFS1qlVSNFKYcObOTa
+   WSdtnqmRxHz3j+NaxA8zOXDmkp0+R7u3CUNzl2cs8FBzfGOgosezMjVOX
+   60wUzPohf9JHUcPTRe6yi8xT5rtChzMDu+/jo8djViTLnGtdsgaXcLymj
+   uJ32kJG/ZIkedmF53X/M+RAQ7BrFREwFYLfm+8jfAH1kUonehLu26+vdv
+   Q==;
+X-CSE-ConnectionGUID: Sj+fJK0DQRWNmduAlgzh2g==
+X-CSE-MsgGUID: HOLHUP2QSQSSrVMfDj1iBA==
+X-IronPort-AV: E=Sophos;i="6.25,260,1779148800"; 
+   d="scan'208";a="27268212"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 22:34:42 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:31183]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.50.234:2525] with esmtp (Farcaster)
+ id 024a6efd-d29a-4060-8432-ed8ca77689f0; Thu, 3 Sep 2026 22:34:42 +0000 (UTC)
+X-Farcaster-Flow-ID: 024a6efd-d29a-4060-8432-ed8ca77689f0
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Thu, 3 Sep 2026 22:34:41 +0000
+Received: from dev-dsk-surajjs-2c-afd24e6d.us-west-2.amazon.com
+ (10.189.247.117) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46; Thu, 3 Sep 2026
+ 22:34:41 +0000
+From: Suraj Jitindar Singh <surajjs@amazon.com>
+To: <stable@vger.kernel.org>
+CC: David Howells <dhowells@redhat.com>, Jeff Layton <jlayton@kernel.org>,
+	Christian Brauner <brauner@kernel.org>, <netfs@lists.linux.dev>,
+	<linux-fsdevel@vger.kernel.org>, Paulo Alcantara <pc@manguebit.org>, "Matthew
+ Wilcox" <willy@infradead.org>
+Subject: [PATCH 6.12.y] netfs: Fix netfs_read_folio() to wait on writeback
+Date: Thu, 3 Sep 2026 22:34:38 +0000
+Message-ID: <20260903223438.2312-1-surajjs@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apnKz_3xD-zbw0dM@gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D032UWA001.ant.amazon.com (10.13.139.62) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On 09/03, Karl Mehltretter wrote:
->
-> On Thu, Sep 03, 2026 at 02:44:19PM +0100, Oleg Nesterov wrote:
-> > > Tested with a test-only KUnit case in x86_64 QEMU on linux-next
-> > > 32b6ef9a5d0e (next-20260902). It freezes a writable ramfs, sets SB_RDONLY,
-> > > thaws it, and calls sb_start_write_trylock(). The call fails without this
-> > > patch and succeeds with it.
-> >
-> > But I am curious, how exactly did you test this?
-> >
-> > ramfs_ops doesn't have ->freeze_fs or ->freeze_super, so
-> > ioctl_fsfreeze() should fail?
-> >
-> > And how it is possible to remount with -ro, reconfigure_super() should
-> > see sb->s_writers.frozen != SB_UNFROZEN ?
-> >
-> Hi Oleg,
->
-> Thank you for the review!
->
-> The original test called freeze_super() directly, changed SB_RDONLY,
-> and called thaw_super().
+From: David Howells <dhowells@redhat.com>
 
-Thanks, but this doesn't answer my questions...
+commit ded0c6f1606061148c202825f7e53d711f9f84cf upstream.
 
-How exactly this original test "called freeze_super() directly" ?
-Could you show this test-case ?
+Fix netfs_read_folio() to wait for an ongoing writeback to complete so that
+it can trust the dirty flag and whatever is attached to folio->private
+(folio->private may get cleaned up by the collector before it clears the
+writeback flag).
 
-IOW, how can we actually hit the problems described in the changelog?
+Fixes: ee4cdf7ba857 ("netfs: Speed up buffered reading")
+Closes: https://sashiko.dev/#/patchset/20260414082004.3756080-1-dhowells%40redhat.com
+Signed-off-by: David Howells <dhowells@redhat.com>
+Link: https://patch.msgid.link/20260512123404.719402-23-dhowells@redhat.com
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: Matthew Wilcox <willy@infradead.org>
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Suraj Jitindar Singh <surajjs@amazon.com>
+---
+ fs/netfs/buffered_read.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Let me repeat, you can safely ignore me, I don't understand fs/,
-I am just curious.
-
-Oleg.
-
+diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
+index d99284e35126..fd41e38aedb7 100644
+--- a/fs/netfs/buffered_read.c
++++ b/fs/netfs/buffered_read.c
+@@ -565,6 +565,8 @@ int netfs_read_folio(struct file *file, struct folio *folio)
+ 	struct netfs_inode *ctx = netfs_inode(mapping->host);
+ 	int ret;
+ 
++	folio_wait_writeback(folio);
++
+ 	if (folio_test_dirty(folio)) {
+ 		trace_netfs_folio(folio, netfs_folio_trace_read_gaps);
+ 		return netfs_read_gaps(file, folio);
+-- 
+2.47.3
