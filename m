@@ -1,53 +1,82 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF284AD4C3;
-	Thu,  3 Sep 2026 12:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF854A64E2
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 13:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788439654; cv=none; b=RsJc0Xp/MXQ+4M5ie1qDqv1P+7WrZ33PjnfqEBppDjDXrOo1ZuBdf6fCU5kA3PlR2tUeyqfnvbfG1/MFEWSQXiEhYuNcNP3u4eZLLWLopwoUizdUrsmBOqmeiinM7B7V3OdHfxEX3GQ+polsqx2WATnGNAHb09cLW5/RsNOy6Ek=
+	t=1788440408; cv=none; b=UHs2fa0QVHLMT4xox3vhezuSRdB1McU1SwvTnnCHToJftl/o2OEIB2JwnZEGXxoNWMfbgiMrMEggeZ3L8v77K2qgaUCKXWdhv4z7RrhWffkLRwJUZa2VxhXbq51w24fTscaZMczpSWAhhS+YwO0o6DmAJ8+27V3A84qx/I9GlPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788439654; c=relaxed/simple;
-	bh=ME1wRvnfPs0ygAjChHcBbUMgivrDIPwMqWUjW7fIVTg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sKdZhQutNu/UwFPbUAoK5USqSd8jCXwnGDj8Gn1re+dwHPi7mjFmZmzuQ+jl4rXU6zb/KNdPMorK9K7vxykp4iZpQNRiSzjT2N8Qob7aQZ+PLpcr7UlVD0UqfSnwKGeOS3mV3YeZmOYZccNAD5VcZMXHBFUvCwTE5FH8yhaFhX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hbK9G1C7WzYQtjh;
-	Thu,  3 Sep 2026 20:46:42 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 0490F40D1F;
-	Thu,  3 Sep 2026 20:47:25 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgBnUAtUbJlqlPhrAg--.37288S5;
-	Thu, 03 Sep 2026 20:47:24 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com,
+	s=arc-20240116; t=1788440408; c=relaxed/simple;
+	bh=4+P9nneWcuishzT1eaSG3vRCHDAcoPq8z8fmuq4UY7U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oSla5bCMKP0bVOkmCcYSTbTVzKPnquGNYaGB2RiKOHxZSacgAOHMblpPVVilAQo2joKjar+hBBa2VzyxWTTOGeTXAlydb3+06AjhtbH8PJdJwnvE17DdCgS8vYNQ+k/Yb8ki52SKy/F6iXik8jikTcyaDQ5HsKUPZf4rRVlEo8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ic9xycFh; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ic9xycFh"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8485b358552so2125901b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 03 Sep 2026 06:00:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788440403; x=1789045203; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ySykvbIWmO4Te6vIVwftEuMOLYpDg3lGaudbSYAL6eg=;
+        b=Ic9xycFh/kSMjnqE+WaTrqY9u8NkqH+XPdI3NZG1Yym2kShoVf7zJmxZ7XJXR9zdsU
+         uLymiEB/j/v7T35j3RoE78eQCveH1+YfL/w0+hWbuYBDrxu8YLek+9i7jRMKzmXzAIjV
+         MYM6ucI/MT3UzjskseGapCDz7p0ZkkJLohMWMg3UIn9kzgUVEt+wPPw1SSoz/SntbeJC
+         vq03oCvU7VrQqaC4ZmnhO/5x7DUlDsUoDzlXfQjnoWH+F7EynOeD/pB78Rbt+Ma9I3Bu
+         Fq+FTEj+Gp+isv3GQyJzAkeVrc6Fj4RXG0rAPK1ZDuDQ1qcNhhHW46BuOHDJ2435XkkA
+         d0eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788440403; x=1789045203;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ySykvbIWmO4Te6vIVwftEuMOLYpDg3lGaudbSYAL6eg=;
+        b=cP5Hqjk11X85NkKW5VkGuH4Okz81VT/nSIWafOmjcnJKddco3MyYSXwJhNYEeQXWAP
+         KCjCoZ1MJW7LPyQ2KXgqQz99/97wDf9BouLAmxnGezKm9QUWDmP6z9KdoIw/NwjAfDFK
+         G2CPe9ZnFwh3kwhjc3aQOYZI7CdHqeEjOIqP2XgYi95K0jp9/11wYutkAz9FAoJCq5P0
+         xzbJsyKCMOhzD4MwhS8Mo4SbcH6TrjUo5kIYx/RmqAWy4v3J4Q0e6qgpduLBDrCawI4w
+         REnRTBG5anr5l6X/L9OSjR2l7qiMZWDEV07ZDEbjkAHLWn5iL0nEwecXordaOt83KUx6
+         1QaQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwate0BmVgNKm4DL0C/jpCkrP+IwJM433d+tMUvlmo1VJ9oL0D3y2SIBvBzrRG8LXWHKSiqtOkaRIjffQBu@vger.kernel.org
+X-Gm-Message-State: AFuF++mLTCIi1DyDuKr9WhZGH7eKsHkS26f+9Ppzpb03ghOKv/dcThWF
+	VGvuAv6HdhR477A525DOX/GU1Yv4fgl4UyNMqWJt4Ecks1m/elTfMq1/
+X-Gm-Gg: AYBFou1goZrhdcrBoHjP8A0NNACR9+BuBV7WQzUXjn6i4NObA/JXWDIWAdOQA18Ybp0
+	ULJEYYt+8mhNDBbrJkJu/xHJqvnM4qVMXvYlW9s0lABNOzeg9Y4pIRCdSkafG7AmwNPxn7XndsH
+	FEK50onUKIGr/0LFrOClaHJr7pxZVSj+wLxE6rOZMJIuOCYBWFYm1bqYKPIC3KNNLH2CNBTiUpT
+	do5E1nHddeh1XlcPyOBgRgMAucOk2I1kOaTc9kRWjKDjRdHR3LS0RKu6dxQrvFooFX1GLQDkDhf
+	hG7X+ec/rm8i4QgXIzCc8OCWrDy6tfrGE6eifI7bO01Kdy0C241eslVH5xY0b42VH3mER5Z5feG
+	CyXCSGwjEDe14cfB6xRghheUGWCysDORdxbU16SlwTETuiY1w3CD9/AEmHDPjDH5QFfAfByefmg
+	5AUOCrWuoO35Z1ckdz5hATHrS1Iaf2tAAogcrmvBk98SwplvARJBPCC3tAZGWRCrSzd0aJcmumq
+	9fzazAiT71tx69Mb0yTAxnD
+X-Received: by 2002:a05:6a00:189c:b0:848:4754:28e4 with SMTP id d2e1a72fcca58-85ed3895332mr17366905b3a.15.1788440403103;
+        Thu, 03 Sep 2026 06:00:03 -0700 (PDT)
+Received: from qiwenjie-ThinkCentre-M760t.mioffice.cn ([43.224.245.241])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-85db23f7bccsm2980946b3a.10.2026.09.03.05.59.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 06:00:01 -0700 (PDT)
+From: Wenjie Qi <qwjhust@gmail.com>
+X-Google-Original-From: Wenjie Qi <qiwenjie@xiaomi.com>
+To: jaegeuk@kernel.org,
+	chao@kernel.org
+Cc: linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org,
+	hch@lst.de,
 	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	djwong@kernel.org,
-	hch@infradead.org,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	chengzhihao1@huawei.com,
-	yangerkun@huawei.com,
-	wangkefeng.wang@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH v6 30/31] ext4: partially enable iomap for the buffered I/O path of regular files
-Date: Thu,  3 Sep 2026 20:40:16 +0800
-Message-ID: <20260903124017.2325538-2-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
-References: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
+	axboe@kernel.dk,
+	tz2294@columbia.edu,
+	baohua@kernel.org,
+	linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	qiwenjie@xiaomi.com,
+	qwjhust@gmail.com
+Subject: [PATCH v4 0/2] f2fs: enable buffered RWF_DONTCACHE
+Date: Thu,  3 Sep 2026 20:59:51 +0800
+Message-ID: <cover.1788438786.git.qiwenjie@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -55,303 +84,128 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgBnUAtUbJlqlPhrAg--.37288S5
-X-Coremail-Antispam: 1UD129KBjvJXoW3tw1DWw15JF48Cr48tr4rGrg_yoWDZw47pr
-	9xK34rGr1DX34v9w4xtw4DXr1Yv3WxK3yUGrZ3ur1kZa98Jw1IqFyjyF1YvF15JrZ3Ww42
-	qF40yw1Uuw1qkrDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmmb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGw
-	A2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	WxJr0_GcWl84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
-	Ij6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_
-	Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I
-	0E8cxan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCa
-	FVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
-	Wlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj
-	6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWlIxAIcVCF04k26cxKx2IYs7xG6r
-	1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Cr1j6rxd
-	YxBIdaVFxhVjvjDU0xZFpf9x0piRRR_UUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-From: Zhang Yi <yi.zhang@huawei.com>
+This series enables buffered RWF_DONTCACHE on F2FS for sustained one-pass
+streaming writes, where retaining the written data can displace more useful
+cache.
 
-Introduce ext4_enable_buffered_iomap() to determine whether a regular
-file inode should use the iomap buffered I/O path. We now support the
-default filesystem features, mount options, and the bigalloc feature.
-However, inline data, fsverity, fscrypt, indirect inode type, and
-data=journal mode are not fully supported.
+Patch 1 marks dropbehind write bios with BIO_COMPLETE_IN_TASK and uses the
+same flag to keep normal and dropbehind folios separate in the IPU and OPU
+paths.  The block layer owns deferral from unsafe completion contexts.
 
-The decision is made at inode initialization time in __ext4_new_inode()
-and __ext4_iget() by setting the EXT4_STATE_BUFFERED_IOMAP state flag.
-If any of these unsupported features are met, the inode silently falls
-back to the traditional buffer_head path. Switching the buffered I/O
-path on an active inode is not supported, with the exception of changing
-a per-inode journal flag.
+Patch 2 passes FGP_DONTCACHE to the F2FS buffered write folio lookup and
+advertises FOP_DONTCACHE.
 
-For features like encryption, verity, and inline data that can be
-dynamically enabled at the superblock level, checking the global feature
-flag avoids the complexity of toggling the path on individual inodes.
+Tests were run on a Xiaomi phone with 10.7 GiB of kernel-visible memory,
+running Android 16 and Linux 6.12.69 with 4 KiB pages.  /data used F2FS.
 
-Additionally:
+The performance test wrote exactly 64 GiB per run at 4 KiB,
+8 KiB, 16 KiB, 32 KiB, 64 KiB, 128 KiB, 256 KiB, 512 KiB, and 1 MiB.
+Two counterbalanced rounds ran ascending normal-first and descending
+dontcache-first.  Values below are equal-weight means of both runs; N=2.
+The pwritev2() writer models the streaming workload; it does not show that
+an unchanged Android application already issues RWF_DONTCACHE.
 
- - Extend ext4_inode_journal_mode() to force ordered mode for inodes
-   using the iomap path under a data=journal mount. For the global data
-   journal mode (EXT4_MOUNT_JOURNAL_DATA), dynamic enablement is
-   deferred until the next inode re-initialization. For the per-inode
-   data journal mode (EXT4_INODE_JOURNAL_DATA), dynamic changes take
-   effect immediately, as it is safe to switch address_space operations
-   and drop all page cache under i_rwsem and filemap_invalidate_lock.
+Android remained active with displays off.  Each run started after a cache
+reset and at least 120 seconds of cooldown.  Throughput and one-second
+kswapd0/global-memory samples cover the write loop.
 
- - Add a WARN_ON_ONCE() guard in _ext4_get_block() to catch inodes
-   using the iomap path from accidentally entering the legacy
-   buffer_head writeback path.
+Write-loop throughput was:
 
- - Place silent BUFFERED_IOMAP checks in ext4_do_writepages() and
-   ext4_iomap_writepages() under the writepages rwsem. Unlike
-   _ext4_get_block(), the writeback path does not hold i_rwsem or
-   invalidate_lock and can race with ext4_change_inode_journal_flag()
-   switching the inode's a_ops.
+          normal MiB/s              dontcache MiB/s
+ I/O      r1       r2      mean      r1       r2      mean     change
+ 4K      946.28   935.74   941.01   291.36   309.31   300.33   -68.08%
+ 8K     1077.05  1105.84  1091.45   477.79   479.79   478.79   -56.13%
+ 16K    1126.84  1118.49  1122.67   643.40   652.06   647.73   -42.30%
+ 32K    1150.62  1036.33  1093.48   762.24   751.45   756.84   -30.79%
+ 64K    1144.80  1163.82  1154.31   852.11   851.19   851.65   -26.22%
+ 128K   1166.29  1162.84  1164.57   867.47   865.05   866.26   -25.61%
+ 256K   1153.61  1172.78  1163.19   895.53   885.33   890.43   -23.45%
+ 512K   1173.61  1197.34  1185.48   903.09   903.01   903.05   -23.82%
+ 1M     1126.22  1154.59  1140.41   850.74   894.60   872.67   -23.48%
 
- - Reject extent-to-indirect migration via ext4_ind_migrate() for inodes
-   on the iomap path.
+Average kswapd0 CPU and average global Cached were:
 
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/ext4/ext4.h      |   1 +
- fs/ext4/ext4_jbd2.c |   8 +++-
- fs/ext4/ialloc.c    |   1 +
- fs/ext4/inode.c     | 105 ++++++++++++++++++++++++++++++++++++++++++--
- fs/ext4/migrate.c   |   2 +
- 5 files changed, 112 insertions(+), 5 deletions(-)
+ I/O      kswapd0 CPU, normal/DC        Cached MiB, normal/DC
+ 4K             18.45% / 0%                 4830.15 / 686.56
+ 8K             21.60% / 0%                 4862.35 / 591.48
+ 16K            22.75% / 0%                 4905.47 / 625.07
+ 32K            22.05% / 0%                 4945.82 / 561.59
+ 64K            23.46% / 0%                 4920.77 / 639.78
+ 128K           23.16% / 0%                 4971.37 / 693.26
+ 256K           23.68% / 0%                 4956.93 / 668.60
+ 512K           24.25% / 0%                 4972.22 / 663.92
+ 1M             22.01% / 0%                 5001.09 / 705.30
 
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 504dce9fdc6b..405e256a1802 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -3170,6 +3170,7 @@ int ext4_walk_page_buffers(handle_t *handle,
- int do_journal_get_write_access(handle_t *handle, struct inode *inode,
- 				struct buffer_head *bh);
- void ext4_set_inode_mapping_order(struct inode *inode);
-+void ext4_enable_buffered_iomap(struct inode *inode);
- int ext4_nonda_switch(struct super_block *sb);
- #define FALL_BACK_TO_NONDELALLOC 1
- #define EXT4_WRITE_DATA_INLINE	 2
-diff --git a/fs/ext4/ext4_jbd2.c b/fs/ext4/ext4_jbd2.c
-index 53ddedb52a6f..a4664ddecdcd 100644
---- a/fs/ext4/ext4_jbd2.c
-+++ b/fs/ext4/ext4_jbd2.c
-@@ -17,8 +17,12 @@ int ext4_inode_journal_mode(struct inode *inode)
- 	    test_opt(inode->i_sb, DATA_FLAGS) == EXT4_MOUNT_JOURNAL_DATA ||
- 	    (ext4_test_inode_flag(inode, EXT4_INODE_JOURNAL_DATA) &&
- 	    !test_opt(inode->i_sb, DELALLOC))) {
--		/* We do not support data journalling for encrypted data */
--		if (S_ISREG(inode->i_mode) && IS_ENCRYPTED(inode))
-+		/*
-+		 * We do not support data journalling for encrypted data
-+		 * and buffered IOMAP path.
-+		 */
-+		if (S_ISREG(inode->i_mode) &&
-+		    (IS_ENCRYPTED(inode) || ext4_inode_buffered_iomap(inode)))
- 			return EXT4_INODE_ORDERED_DATA_MODE;  /* ordered */
- 		return EXT4_INODE_JOURNAL_DATA_MODE;	/* journal data */
- 	}
-diff --git a/fs/ext4/ialloc.c b/fs/ext4/ialloc.c
-index a5831fc536db..f97a2f4904eb 100644
---- a/fs/ext4/ialloc.c
-+++ b/fs/ext4/ialloc.c
-@@ -1346,6 +1346,7 @@ struct inode *__ext4_new_inode(struct mnt_idmap *idmap,
- 		}
- 	}
- 
-+	ext4_enable_buffered_iomap(inode);
- 	ext4_set_inode_mapping_order(inode);
- 
- 	ext4_update_inode_fsync_trans(handle, inode, 1);
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 7454867ac8bd..e7849c25c110 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -1036,6 +1036,9 @@ static int _ext4_get_block(struct inode *inode, sector_t iblock,
- 
- 	if (ext4_has_inline_data(inode))
- 		return -ERANGE;
-+	/* inode using the iomap buffered I/O path should not go here. */
-+	if (WARN_ON_ONCE(ext4_inode_buffered_iomap(inode)))
-+		return -EINVAL;
- 
- 	map.m_lblk = iblock;
- 	map.m_len = bh->b_size >> inode->i_blkbits;
-@@ -2906,6 +2909,13 @@ static int ext4_do_writepages(struct mpage_da_data *mpd)
- 	if (!mapping->nrpages || !mapping_tagged(mapping, PAGECACHE_TAG_DIRTY))
- 		goto out_writepages;
- 
-+	/*
-+	 * Does ext4_change_inode_journal_flag() change the inode's
-+	 * buffered I/O path?
-+	 */
-+	if (ext4_inode_buffered_iomap(inode))
-+		goto out_writepages;
-+
- 	/*
- 	 * If the filesystem has aborted, it is read-only, so return
- 	 * right away instead of dumping stack traces later on that
-@@ -4044,6 +4054,9 @@ static int ext4_iomap_map_blocks(struct inode *inode, loff_t offset,
- {
- 	u8 blkbits = inode->i_blkbits;
- 
-+	/* inode using the buffer_head buffered I/O path should not go here. */
-+	if (WARN_ON_ONCE(!ext4_inode_buffered_iomap(inode)))
-+		return -EINVAL;
- 	if ((offset >> blkbits) > EXT4_MAX_LOGICAL_BLOCK)
- 		return -EINVAL;
- 
-@@ -4482,11 +4495,18 @@ static int ext4_iomap_writepages(struct address_space *mapping,
- 	ext4_iomap_wb_submit_zeroed_eof(inode, wbc);
- 
- 	alloc_ctx = ext4_writepages_down_read(sb);
-+	/*
-+	 * Does ext4_change_inode_journal_flag() change the inode's
-+	 * buffered I/O path?
-+	 */
-+	if (!ext4_inode_buffered_iomap(inode))
-+		goto out;
-+
- 	trace_ext4_writepages(inode, wbc);
- 	ret = iomap_writepages(&wpc);
- 	trace_ext4_writepages_result(inode, wbc, ret, nr - wbc->nr_to_write);
-+out:
- 	ext4_writepages_up_read(sb, alloc_ctx);
--
- 	return ret;
- }
- 
-@@ -6054,6 +6074,81 @@ static int check_igot_inode(struct inode *inode, ext4_iget_flags flags,
- 	return -EFSCORRUPTED;
- }
- 
-+/*
-+ * Determine whether an inode should use the iomap buffered I/O path.
-+ * EXT4_STATE_BUFFERED_IOMAP is generally set at inode initialization
-+ * time. Online switching of the buffered I/O path on an active inode is
-+ * NOT supported, with the exception of changing a per-inode journal
-+ * flag.
-+ *
-+ * For features like inline data, fsverity, and encryption that can be
-+ * dynamically enabled or disabled, we check the superblock-level
-+ * feature flags. If any of these is globally enabled, no inode is
-+ * allowed into the iomap buffered I/O path. This avoids the complexity
-+ * of dynamic toggling.
-+ *
-+ * For the global data journal mode (EXT4_MOUNT_JOURNAL_DATA), dynamic
-+ * change through remount is deferred. It will only become available
-+ * after the inode is re-initialized (i.e., after the last reference
-+ * drops and the inode is re-read from disk with the journal flag
-+ * cleared).
-+ *
-+ * For the per-inode data journal mode (EXT4_INODE_JOURNAL_DATA),
-+ * dynamic changes take effect immediately. This is safe because
-+ * address_space operations can be switched and all page cache can be
-+ * dropped under i_rwsem and filemap_invalidate_lock.
-+ *
-+ * For extent-to-indirect block migration (via EXT4_IOC_SETFLAGS
-+ * clearing EXT4_EXTENTS_FL), this operation is directly rejected for
-+ * inodes using the iomap path.
-+ */
-+void ext4_enable_buffered_iomap(struct inode *inode)
-+{
-+	struct super_block *sb = inode->i_sb;
-+
-+	if (!S_ISREG(inode->i_mode))
-+		return;
-+	if (ext4_test_inode_flag(inode, EXT4_INODE_EA_INODE))
-+		return;
-+
-+	/* Unsupported Features */
-+	if (ext4_has_feature_inline_data(sb))
-+		return;
-+	if (ext4_has_feature_verity(sb))
-+		return;
-+	if (ext4_has_feature_encrypt(sb))
-+		return;
-+	if (test_opt(sb, DATA_FLAGS) == EXT4_MOUNT_JOURNAL_DATA ||
-+	    ext4_test_inode_flag(inode, EXT4_INODE_JOURNAL_DATA))
-+		return;
-+	if (!(ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS)))
-+		return;
-+
-+	ext4_set_inode_state(inode, EXT4_STATE_BUFFERED_IOMAP);
-+
-+	/*
-+	 * Install the iomap end_io handler on the shared conversion
-+	 * work.  This is safe at inode initialization and during the
-+	 * buffered I/O path changes where we flush all pending
-+	 * writebacks and drop page cache under i_rwsem and
-+	 * filemap_invalidate_lock.
-+	 */
-+	INIT_WORK(&EXT4_I(inode)->i_rsv_conversion_work, ext4_iomap_end_io);
-+}
-+
-+static void ext4_disable_buffered_iomap(struct inode *inode)
-+{
-+	ext4_clear_inode_state(inode, EXT4_STATE_BUFFERED_IOMAP);
-+
-+	/*
-+	 * Reinstall the buffer_head end_io handler on the shared
-+	 * conversion work.  This is safe during the buffered I/O path
-+	 * changes where we flush all pending writebacks and drop page
-+	 * cache under i_rwsem and filemap_invalidate_lock.
-+	 */
-+	INIT_WORK(&EXT4_I(inode)->i_rsv_conversion_work, ext4_end_io_rsv_work);
-+}
-+
- void ext4_set_inode_mapping_order(struct inode *inode)
- {
- 	struct super_block *sb = inode->i_sb;
-@@ -6368,6 +6463,8 @@ struct inode *__ext4_iget(struct super_block *sb, unsigned long ino,
- 	if (ret)
- 		goto bad_inode;
- 
-+	ext4_enable_buffered_iomap(inode);
-+
- 	if (S_ISREG(inode->i_mode)) {
- 		inode->i_op = &ext4_file_inode_operations;
- 		inode->i_fop = &ext4_file_operations;
-@@ -7593,9 +7690,10 @@ int ext4_change_inode_journal_flag(struct inode *inode, int val)
- 	 * the inode's in-core data-journaling state flag now.
- 	 */
- 
--	if (val)
-+	if (val) {
- 		ext4_set_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
--	else {
-+		ext4_disable_buffered_iomap(inode);
-+	} else {
- 		err = jbd2_journal_flush(journal, 0);
- 		if (err < 0) {
- 			jbd2_journal_unlock_updates(journal);
-@@ -7604,6 +7702,7 @@ int ext4_change_inode_journal_flag(struct inode *inode, int val)
- 			return err;
- 		}
- 		ext4_clear_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
-+		ext4_enable_buffered_iomap(inode);
- 	}
- 	ext4_set_aops(inode);
- 	ext4_set_inode_mapping_order(inode);
-diff --git a/fs/ext4/migrate.c b/fs/ext4/migrate.c
-index 5d60ef10fe11..09931d3ba2c6 100644
---- a/fs/ext4/migrate.c
-+++ b/fs/ext4/migrate.c
-@@ -621,6 +621,8 @@ int ext4_ind_migrate(struct inode *inode)
- 
- 	if (ext4_has_feature_bigalloc(inode->i_sb))
- 		return -EOPNOTSUPP;
-+	if (ext4_inode_buffered_iomap(inode))
-+		return -EOPNOTSUPP;
- 
- 	/*
- 	 * In order to get correct extent info, force all delayed allocation
+Other global memory means were:
+
+          MemAvailable MiB       Dirty MiB          Writeback MiB
+ I/O       normal / DC          normal / DC          normal / DC
+ 4K      6513.08 / 6382.31     640.48 / 33.93       37.94 / 0.09
+ 8K      6560.77 / 6529.33     690.89 / 43.57       40.84 / 0.54
+ 16K     6587.46 / 6519.94     789.16 / 62.67       61.58 / 4.64
+ 32K     6571.95 / 6566.74     850.48 / 69.14       67.69 / 9.24
+ 64K     6600.64 / 6559.89    856.97 / 134.28      59.60 / 16.19
+ 128K    6627.03 / 6465.10    873.68 / 137.57      60.57 / 41.50
+ 256K    6615.58 / 6541.09    885.98 / 158.15      61.25 / 29.57
+ 512K    6625.52 / 6534.41    900.65 / 139.07      63.65 / 30.35
+ 1M      6677.09 / 6539.89    909.70 / 187.56      51.58 / 33.46
+
+          Active(file) MiB      Inactive(file) MiB
+ I/O       normal / DC             normal / DC
+ 4K       279.57 / 264.13         4426.38 / 183.12
+ 8K       262.32 / 260.97         4472.62 / 182.19
+ 16K      392.09 / 252.95         4392.78 / 195.82
+ 32K      254.30 / 248.44         4554.18 / 187.34
+ 64K      252.73 / 244.94         4545.40 / 267.28
+ 128K     322.02 / 243.95         4530.63 / 298.91
+ 256K     245.47 / 240.02         4586.64 / 303.92
+ 512K     254.75 / 232.05         4591.17 / 288.27
+ 1M       238.88 / 233.64         4638.81 / 341.00
+
+Dontcache left zero target-file pages resident at every size.  Normal
+retained about 1.19--1.24 million pages.  Normal runs incurred roughly
+15.6 million kswapd page scans and steals per run, while dontcache recorded
+zero.  Direct scan and allocation-stall deltas were zero in both modes.
+
+A controlled explicit-dontcache model issued 64 KiB writes for 120 seconds
+at 64, 128, and 256 MiB/s.  Both modes sustained all three rates in both
+rounds with no final schedule overrun.  Between 0.02% and 0.41% of writes
+completed late, with a maximum schedule lag of 3.3--6.0 ms.  Dontcache left
+zero target pages resident.  This was a controlled model, not an unchanged
+Xiaomi application.
+
+Buffered read throughput was:
+
+ I/O       normal MiB/s   dontcache MiB/s   change
+ 4K          1825.50          1695.10        -7.14%
+ 8K          1901.46          1847.96        -2.81%
+ 16K         1941.60          1872.55        -3.56%
+ 32K         1960.95          1905.92        -2.81%
+ 64K         1951.35          1886.54        -3.32%
+ 128K        1960.03          1915.82        -2.26%
+ 256K        1976.01          1900.41        -3.83%
+ 512K        1973.31          1911.24        -3.15%
+ 1M          2230.91          2007.82       -10.00%
+
+Dontcache left zero source pages resident in all measured read runs.
+
+The normal-I/O control showed read-throughput differences of +0.67%,
+-0.90%, and -2.58%, and write-throughput differences of -1.75%, +0.33%,
+and +2.33%, at 4 KiB, 64 KiB, and 1 MiB respectively.
+
+Changes since v3:
+
+- use the common block task-context completion infrastructure;
+- rebase onto the current F2FS development branch based on v7.3-rc1.
+
+Wenjie Qi (2):
+  f2fs: complete dropbehind write bios in task context
+  f2fs: enable buffered RWF_DONTCACHE
+
+ fs/f2fs/data.c | 27 +++++++++++++++++++++------
+ fs/f2fs/file.c |  2 +-
+ 2 files changed, 22 insertions(+), 7 deletions(-)
+
 -- 
-2.52.0
-
+2.43.0
