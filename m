@@ -1,200 +1,165 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mta0.migadu.com (out-1.mta0.migadu.com [91.218.175.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1202C3ED3CF;
-	Thu,  3 Sep 2026 09:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD593F4128
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 09:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788428865; cv=none; b=tlsvUuNyX1Ss3XGo0PisyB6A6bP0qvLx87m5Ng/wgW1cDedIMQN5bZavw5RAVjqvBiiRsQD3yizufRl5QJhTc2L7yTaWQCHzsNzs9s9AjZuvWJqsJrfxDVISsn3b98QgS+Kl+txEWUkS04G8Kc7gOHKKU7MSsatv0IYcQgYcnQ8=
+	t=1788428913; cv=none; b=CHs6d+ZpzGXCUJbX7krFfey7g1tFBMwa//HeNf19ykDPOmAh5ph8/jcF/dA4NjAXh2nRj7EZnST9DvK5B2vVUf4z7S5PkjH9PRYBCtB/gS1ri6xk1Xsotz9v2U768SgDU8eje7BcwJaYqIqQVTQjVqy/3YKL2jBkFCZobpkgLVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788428865; c=relaxed/simple;
-	bh=bt4aZiSOgpfLqi/7NsUYlGh1dU1+hGM0UnSikuH0Wzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HG7k1BhoDj5jRu+kPH1feFcQNLev2SY58i+3xG1zYXjrLvBJX8BgG/wlE45NhGjdcYt+fjFudw35nvbihckXVKrifS1IboRZTW/gZpIPFd0wZ/Kgb5OUMxAFfBW6itRcOO2+viOhmZun1o67rHgA4iOaqSb3eoWLyfyBjYzckhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hMO0AuIm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uZe32N5A; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ziPQ+YxP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=L1bVU+QU; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788428913; c=relaxed/simple;
+	bh=Ik9huR8Fv3jP0fCrZ51BXyUeLfQ8zJYSoZb9a4mFbQ8=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=YMb6x9ktaVUvA1SEfwTYQMH7UrMYACFYTb6+3eTFpW+6YHjbBUMiVMqUPG53ALKEdIxcHSnC8HYsditaafMZwnPoHyEPuZQDd+2YEdKxtREcH/9T7ZlXneRFdwlKDA0F3bzOnLY1TeI3fa3F4gmvu2oyiyaZxHBwCDRaVh3m1UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=toKoexVX; arc=none smtp.client-ip=91.218.175.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hMO0AuIm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uZe32N5A";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ziPQ+YxP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="L1bVU+QU"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E7AE21F7EE;
-	Thu,  3 Sep 2026 09:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788428858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t8USff4bKcpLn8d3s9T1L6SRyU92pAeHZ36VKLj5ios=;
-	b=hMO0AuImsFoJAjTEaauuXoSDkyodqE+9EFx+U/dosnPnwpO0Yl5YbEqBOJTR1gZXxsr41i
-	NqEIC/ViameS1UMz7YqLY7chBlW+XQsW4toSLSqYQMUpnxCewfAL+MCJEQ/k3tra6G87XT
-	V8Bdh88Bez3fhwd4KtH2dhXGuz/tfjY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788428858;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t8USff4bKcpLn8d3s9T1L6SRyU92pAeHZ36VKLj5ios=;
-	b=uZe32N5AJgMdSqaQckGBNq5/zPpE443K/UJ3oKUYm28GtqHe209A2dSLjnJKnIEeqdStNf
-	nHsX84KKkysnSuCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788428853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t8USff4bKcpLn8d3s9T1L6SRyU92pAeHZ36VKLj5ios=;
-	b=ziPQ+YxPyaKQFDJf1cfE1UKin8KNI6dV2BcnPZ+nqu77IY2ucdKl3ArqFl5V6iP/7acXZ0
-	d+TpzyUOO+p1HQXUd2TVcxMdIqUgzm0HIIpxxv2lsUb3A78FsCgG2I/AmLRBkmA9ALbQ4t
-	YI4VMjN4ET0fqyoAHyncrhhAgBCGjVA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788428853;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t8USff4bKcpLn8d3s9T1L6SRyU92pAeHZ36VKLj5ios=;
-	b=L1bVU+QUlw9qV2EUl05byb2we0PXEk6BPQlzgAFnYCOLoZ5z9GzES6+86LNh5RuU002MIm
-	KkFnwQniP+5BKfBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C90BA136D9;
-	Thu,  3 Sep 2026 09:47:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5JYMMTVCmWpOdwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 03 Sep 2026 09:47:33 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 5EED3A13AC; Thu, 03 Sep 2026 11:47:29 +0200 (CEST)
-Date: Thu, 3 Sep 2026 11:47:29 +0200
-From: Jan Kara <jack@suse.cz>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] fs_pin: publish pins with RCU list helpers
-Message-ID: <okwtct7jxzddg7tnj6srpbxtkhu7axog73tmectdlyx67ujh6q@kiaqkyuqiwcv>
-References: <20260903002100.34822-1-kmehltretter@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="toKoexVX"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=Ik9huR8Fv3jP0fCrZ51BXyUeLfQ8zJYSoZb9a4mFbQ8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788428909; v=1; x=1789033709;
+ b=toKoexVXvDje+lIgPpURyaNxSHJeWFUN/VVq91wysCaM+V9542NX0N0rgPsWDswtFf+Qtg3X
+ LKESqbqxQdjJphFbW2TboFPcuDze7oaD5lC0Tx1fh3wu9TIILU7NsXHOdVIsOBiVgppQNaAbGhz
+ h8at0ajMflcKFviqYM1hzoXw=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 4ed958fe3d1258f7;
+	Thu, 03 Sep 2026 09:48:19 +0000
+X-Mizu-Trace-ID: 4ed958fe3d1258f7
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <65de40ce-50bb-495f-8ad8-a396bbaa0a3f@linux.dev>
+Date: Thu, 3 Sep 2026 17:48:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903002100.34822-1-kmehltretter@gmail.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Cc: cui.tao@linux.dev, linux-unionfs@vger.kernel.org, miklos@szeredi.hu,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ brauner@kernel.org, jlayton@kernel.org, Tao Cui <cuitao@kylinos.cn>
+Subject: Re: [PATCH] overlayfs.rst: document cross-layer file lock and lease
+ semantics
+To: Amir Goldstein <amir73il@gmail.com>
+References: <20260903033359.1042529-1-cui.tao@linux.dev>
+ <CAOQ4uxgyPhJQueqUJuwS8=4wGxTAC1Nhy+gfFxrEfaL5A5-EOw@mail.gmail.com>
+From: Tao Cui <cui.tao@linux.dev>
+In-Reply-To: <CAOQ4uxgyPhJQueqUJuwS8=4wGxTAC1Nhy+gfFxrEfaL5A5-EOw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu 03-09-26 02:21:00, Karl Mehltretter wrote:
-> pin_insert() initializes a pin before adding it under pin_lock.  The kill
-> paths read the list heads under RCU without taking that lock.  Plain hlist
-> insertion does not publish the earlier initialization to those readers.
-> 
-> KCSAN weak-memory checking reported acct_on() callback initialization
-> racing with pin_kill() after the superblock-list publication.  The
-> corresponding LKMM model permits the stale read with plain publication;
-> the RCU release/acquire pair forbids it.
-> 
-> Use the RCU hlist add and dereference helpers for both pin lists.
-> 
-> Fixes: 2798d4ce6160 ("acct: get rid of acct_lock for acct->count")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Hi Amir,
 
-Yes, it looks like the memory ordering is indeed insufficient here. Feel
-free to add:
+在 2026/9/3 16:34, Amir Goldstein 写道:
+> On Thu, Sep 3, 2026 at 5:34 AM Tao Cui <cui.tao@linux.dev> wrote:
+>>
+>> From: Tao Cui <cuitao@kylinos.cn>
+>>
+>> Locks and leases taken through an overlay attach to the overlay inode,
+>> while opens of the same on-disk file through its real upper/lower path
+>> operate on the underlying inode.  The two do not conflict, so an
+>> "exclusive" flock/POSIX/OFD lock or a write lease held via the overlay
+>> is silently bypassed by anyone reaching the file through the layers
+>> directly, e.g. backup tools walking a container's upperdir or another
+>> overlay mount over the same layers.
+>>
+>> Locking through the overlay succeeds and appears to work, so the lack
+>> of mutual exclusion only shows up as data corruption when the two
+>> sides write concurrently.  Document the semantics, the affected
+>> scenarios and the recommended practice.
+>>
+>> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+>> ---
+>>  Documentation/filesystems/overlayfs.rst | 27 +++++++++++++++++++++++++
+>>  1 file changed, 27 insertions(+)
+>>
+>> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
+>> index 16c35b491dad..546b77e66016 100644
+>> --- a/Documentation/filesystems/overlayfs.rst
+>> +++ b/Documentation/filesystems/overlayfs.rst
+>> @@ -884,6 +884,33 @@ The "-o userxattr" mount option forces overlayfs to use the
+>>  useful for unprivileged mounting of overlayfs.
+>>
+>>
+>> +File locks and leases
+>> +---------------------
+>> +
+>> +File locks (flock, POSIX record locks and OFD locks) and file leases
+>> +taken on a file through the overlay attach to the overlay inode.  The
+>> +same on-disk file opened through its real upper or lower path is a
+>> +different inode object, so locks and leases acquired through one path
+>> +do not conflict with locks and leases acquired through the other.
+>> +
+> 
+> Hi Tao,
+> 
+> Thanks for your contribution, but it is not acceptable as it is.
+> 
+> Everything written above may be true, but a document needs to be coherent
+> and this text was written without regard to the context of the document.
+> 
+> The most relevant context is:
+> 
+>   Changes to underlying filesystems
+>   ---------------------------------
+> 
+>   Changes to the underlying filesystems while part of a mounted overlay
+>   filesystem are not allowed.  If the underlying filesystem is changed,
+>   the behavior of the overlay is undefined, though it will not result in
+>   a crash or deadlock.
+> 
+> TBH I am not enthusiastic about documenting what may happen
+> on changes of the underlying layer beyond this statement.
+> 
+> I am fine with clarifying a bit about the lock scope, but not as much
+> as you did -
+> keep it to bare minimum which is useful.
+> 
+> Also when writing text in this document you need to use terminology of
+> the document, for example, "same on-disk file" is incoherent with how
+> this document refers to underlying layers.
+> 
+>> +An "exclusive" lock or a write lease held by a task that opened the
+>> +file through the overlay does not prevent another task from acquiring
+>> +the same lock or opening the file if the latter reaches the file
+>> +through the underlying layer directly, e.g.:
+>> +
+>> +- a tool running outside the container accesses the container's
+>> +  upperdir/workdir or the image layers below it directly,
+>> +- a second overlay mount is stacked over the same upperdir,
+> 
+> This is really a disaster setup. I won't even discuss what could go
+> wrong with sharing an uperdir
+> 
+>> +- the same layers are shared between different overlay mounts.
+> 
+> This is obviously normal so not sure why it is relevant
+> 
+>> +
+>> +Locks and leases do provide mutual exclusion between tasks that all
+>> +reach the file through the same overlay mount, and a lease taken
+>> +through the overlay is broken by opens through that overlay.
+>> +
+>> +Do not rely on file locking for mutual exclusion between overlay
+>> +users and anything that may touch the underlying layers directly.
+>> +
+>> +
+> 
+> These two statements are the only ones that seem relevant to me
+> and I would add them in the context of
+> "Changes to underlying filesystems" not as a separate section.
+> 
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Thanks for the review.  Understood - the note belongs in the context
+of "Changes to underlying filesystems" and should stay minimal, in
+the document's terminology.  I'll follow up with a v2.
 
-								Honza
+Thanks,
+Tao
 
-> ---
-> Reviewer notes:
-> 
-> Tested on arm64 (Raspberry Pi 400, Cortex-A72) at cf72cbb39da8 with clang,
-> strict KCSAN, and weak-memory modeling.  Concurrent acct(path) and
-> read-only remounts produced one __arm64_sys_acct()/pin_kill() report in
-> the baseline.  Disassembly identified both accesses as pin->kill and the
-> write as modeled past pin_insert().
-> 
-> With this patch, the report was absent at five times the baseline
-> exposure, while unrelated control races continued to fire.  The LKMM
-> plain-publication test is "Sometimes"; its RCU counterpart is "Never".
-> 
-> This demonstrates modeled reordering, not an observed crash.  Plain KCSAN
-> also found no report in about 400,000 acct() cycles.
-> 
->  fs/fs_pin.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> --- a/fs/fs_pin.c
-> +++ b/fs/fs_pin.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  #include <linux/fs.h>
-> +#include <linux/rculist.h>
->  #include <linux/sched.h>
->  #include <linux/slab.h>
->  #include "internal.h"
-> @@ -22,8 +23,8 @@
->  void pin_insert(struct fs_pin *pin, struct vfsmount *m)
->  {
->  	spin_lock(&pin_lock);
-> -	hlist_add_head(&pin->s_list, &m->mnt_sb->s_pins);
-> -	hlist_add_head(&pin->m_list, &real_mount(m)->mnt_pins);
-> +	hlist_add_head_rcu(&pin->s_list, &m->mnt_sb->s_pins);
-> +	hlist_add_head_rcu(&pin->m_list, &real_mount(m)->mnt_pins);
->  	spin_unlock(&pin_lock);
->  }
-> 
-> @@ -73,7 +74,7 @@
->  	while (1) {
->  		struct hlist_node *p;
->  		rcu_read_lock();
-> -		p = READ_ONCE(m->mnt_pins.first);
-> +		p = rcu_dereference(hlist_first_rcu(&m->mnt_pins));
->  		if (!p) {
->  			rcu_read_unlock();
->  			break;
-> @@ -87,7 +88,7 @@
->  	while (1) {
->  		struct hlist_node *q;
->  		rcu_read_lock();
-> -		q = READ_ONCE(p->first);
-> +		q = rcu_dereference(hlist_first_rcu(p));
->  		if (!q) {
->  			rcu_read_unlock();
->  			break;
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Thanks,
+> Amir.
+
