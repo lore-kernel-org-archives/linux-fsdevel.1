@@ -1,133 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7109F4B7178
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 21:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F84B372B27
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 21:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788470934; cv=none; b=b1XzkOIowjLcbQ8V8LzPLXNTKY3TDoIOT8Q1tgnVtHULi1FLVRhtQmvQBAd2Z3+uEzXr7bBmYC6wcEFIjtwsOu57BNVDht6whqiuSakHZP+Xzb2495+iyB6ozr9+4riL/wdKvq347dU7I6HkBZEn/CIy3TBCmvgWvLShU4pMXLI=
+	t=1788471839; cv=none; b=XJXl4blVnLgUixAIOjDfvwRbBZae7G/2qTWl90cv6c0sPvP+S6+O+vhknDTnwn+LXJsfG1f6v99P+/aliwhRAe/4T7yxdG4K/LVyWnh5HjfxIdXYEaXA/8yrTHZcWVPUbKXps6o264kWf5PzNDsvNcUfCtN5j6z+WIVEqOxLDcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788470934; c=relaxed/simple;
-	bh=k0UGZFBcM14tGAANtsBQoJQ41jp8M2g/X5OqTmiEaO4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u5OLxCYpSXeGePr6utdjm/YDxNk+/ytZPylwkTV0oqR7QMy3ogf3NG8jEJChc9FrjtqLHbKkXTvcN9SyylF3VD0nPELkLwQXOzO7m0tFO+Ssx85cOehrAFwhWjBQ8+4416a0eVpvOksEgeOdGDVz7Uk9oFTAgjH8n/vyyRDJlNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cLciFSPN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788471839; c=relaxed/simple;
+	bh=F3jOHh+snqMsGLak2PpEkbeCpwY6HsbPB4pwFgYJvVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bh9rcjVCeHn3cWbqDAxBnZ5n9pGpsW/YXvEognwcM5iNf262+to376/BoVqvDeE9LkLF4Nn0+zc/aNKlyFicdYraMv+GdOFufgux0ux/DVIKQVVC9ooWsy0xkF+XeguZTHLn/YJauKvd1w24tyac++20IlzcP5O7oqCNvN4C5Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bt+7O/4j; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cLciFSPN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11DB11F000E9
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 21:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788470933;
-	bh=k0UGZFBcM14tGAANtsBQoJQ41jp8M2g/X5OqTmiEaO4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=cLciFSPNpHPvErPyrguDhuDdaFlV6k+ktJrQ50plBiKSkSRdiJSmP5Z1NddL74Nz3
-	 +2i9y5IVNF8EkXgQsM1okDwFk/bt0FXotNgTnNjhJlR9t9b8RHJyBv/a+KFx8PUH/M
-	 /y9+UaqVFzzJzKDh5f06W2q3fElikLxX5FdvEfpmuHXqEKLaFwww+A+Pn8pk+mQLXL
-	 wemm4Sy5JnJbQ67bp3vqdyOYIws6f0dc+RBImAEXVVrOBMVlZCWfzKFII5crt3hPCG
-	 73i12Zb/eAs6aM+o7k24kJDK/khuuUlJosq6OxAa/H+K9+Tq8UkA6hXk3hZhYQmL3X
-	 rXNUC9qqFrdxQ==
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-92f0b5ed131so39290085a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 03 Sep 2026 14:28:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzy5ly6irS5avKlKUyiscaZ+2up2J2I2u6lAyP+G+qVmdqJurSSAVbJPqfGgoPDkSO5QH5YJxV9vFcoWmg1@vger.kernel.org
-X-Gm-Message-State: AFuF++l6as7mQjSPmEWiN5M7nDOw3IBE/XHlrAzBuwDm1fAglKkHRo/3
-	ZVh9L4bSp+IY4Uw/sJWnRyXEAgUw7obt4c1W3SwXwRqEBhOLmw8AHOe9Y4636XrCsD1y1ZJfReo
-	FDA0Q05VEV5nqMym1/ziFljvlZDzg09M=
-X-Received: by 2002:a05:620a:21c9:b0:939:597:e7af with SMTP id
- af79cd13be357-939804784a0mr126943385a.35.1788470927443; Thu, 03 Sep 2026
- 14:28:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bt+7O/4j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788471837;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F3jOHh+snqMsGLak2PpEkbeCpwY6HsbPB4pwFgYJvVo=;
+	b=bt+7O/4jZ6+kYLJIsO8zdxlrlFo0GPOnXyzt73mZ1Pft5x2oJR1P4+iDG+A9p7aCC1lm9c
+	AlbthHB3hf1/jajqId7Wev/7OVGOxxd5yXMvtLLoomwqsWYsKDJcQBywktPH+FH1Bz3o5x
+	62HvEGeCvSH+eT3kXWIRLBa9fH+WgiM=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-257-E472_1DMN2K9UdbHXXDiBQ-1; Thu,
+ 03 Sep 2026 17:43:54 -0400
+X-MC-Unique: E472_1DMN2K9UdbHXXDiBQ-1
+X-Mimecast-MFC-AGG-ID: E472_1DMN2K9UdbHXXDiBQ_1788471833
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9F074195605E;
+	Thu,  3 Sep 2026 21:43:52 +0000 (UTC)
+Received: from fedora (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 867C31800669;
+	Thu,  3 Sep 2026 21:43:50 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu,  3 Sep 2026 23:43:52 +0200 (CEST)
+Date: Thu, 3 Sep 2026 23:43:49 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] super: remember whether freeze holds writer rwsems
+Message-ID: <apnqFe3aZdSM6lsy@redhat.com>
+References: <20260903060855.4610-1-kmehltretter@gmail.com>
+ <aplro1ObQ5YNZT6R@redhat.com>
+ <apnKz_3xD-zbw0dM@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260820142956.1414337-1-qiwenjie@xiaomi.com> <3fa43eaca792bc0bbde4b82a6c1fcdd3f528b398.1787999152.git.qiwenjie@xiaomi.com>
- <4aba05e1a2c3b61cb337d373eb9b7a8db4ddd822.1788024049.git.qiwenjie@xiaomi.com>
- <20260829111621.41ed2bc9a0e99e3367eb96c3@linux-foundation.org>
- <ef160933595c365f2c47597b260bc7ecd98ed7ce.1788029516.git.qiwenjie@xiaomi.com> <076bb01b-6fcf-4691-be8c-0e8507c9fe64@columbia.edu>
-In-Reply-To: <076bb01b-6fcf-4691-be8c-0e8507c9fe64@columbia.edu>
-From: Barry Song <baohua@kernel.org>
-Date: Fri, 4 Sep 2026 05:28:36 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4xMK=rPXCH5OiCOYHKRQp-w+xDJQusJ_ykbuAuLZr+8bA@mail.gmail.com>
-X-Gm-Features: AcwNN1UfF8fjF6Gm62yh0ikVnF99aXRfOugf7CCehE6ggJ06AxtYcFJ6rS-ls8g
-Message-ID: <CAGsJ_4xMK=rPXCH5OiCOYHKRQp-w+xDJQusJ_ykbuAuLZr+8bA@mail.gmail.com>
-Subject: Re: [PATCH v4] mm: filemap: retain mapped dropbehind folios
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: Wenjie Qi <qwjhust@gmail.com>, willy@infradead.org, jack@suse.cz, 
-	akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, axboe@kernel.dk, 
-	trond.myklebust@hammerspace.com, jaegeuk@kernel.org, chao@kernel.org, 
-	qiwenjie@xiaomi.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <apnKz_3xD-zbw0dM@gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Sun, Aug 30, 2026 at 7:59=E2=80=AFPM Tal Zussman <tz2294@columbia.edu> w=
-rote:
+On 09/03, Karl Mehltretter wrote:
 >
-> On 8/30/26 6:25 AM, Wenjie Qi wrote:
-> > From: Wenjie Qi <qiwenjie@=E2=80=8Axiaomi.=E2=80=8Acom> Fault-around ca=
-n map ready dropbehind
-> > folios without going through the normal page-cache lookup that clears
-> > dropbehind. A mapping represents a competing cached user, but writeback
-> > completion can currently
-> > ZjQcmQRYFpfptBannerStart
-> > This Message Is From an External Sender
-> > This message came from outside your organization.
-> > ZjQcmQRYFpfptBannerEnd
+> On Thu, Sep 03, 2026 at 02:44:19PM +0100, Oleg Nesterov wrote:
+> > > Tested with a test-only KUnit case in x86_64 QEMU on linux-next
+> > > 32b6ef9a5d0e (next-20260902). It freezes a writable ramfs, sets SB_RDONLY,
+> > > thaws it, and calls sb_start_write_trylock(). The call fails without this
+> > > patch and succeeds with it.
 > >
-> > From: Wenjie Qi <qiwenjie@xiaomi.com>
+> > But I am curious, how exactly did you test this?
 > >
-> > Fault-around can map ready dropbehind folios without going through the
-> > normal page-cache lookup that clears dropbehind. A mapping represents a
-> > competing cached user, but writeback completion can currently unmap tha=
-t
-> > folio. A later mmap access must then fault it back in.
+> > ramfs_ops doesn't have ->freeze_fs or ->freeze_super, so
+> > ioctl_fsfreeze() should fail?
 > >
-> > Retain mapped folios instead. For a mapped folio,
-> > folio_unmap_invalidate() can call unmap_mapping_folio(), which takes
-> > i_mmap_rwsem and may sleep. Retaining the folio also avoids this path w=
-hen
-> > folio_end_dropbehind() runs in non-preemptible task context.
+> > And how it is possible to remount with -ro, reconfigure_super() should
+> > see sb->s_writers.frozen != SB_UNFROZEN ?
 > >
-> > Unmapped dropbehind folios continue through the existing invalidation p=
-ath.
-> >
-> > Fixes: fb7d3bc41493 ("mm/filemap: drop streaming/uncached pages when wr=
-iteback completes")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Wenjie Qi <qiwenjie@xiaomi.com>
-> > Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > Reviewed-by: Tal Zussman <tz2294@columbia.edu>
-> > ---
-> > The mapped-plus-dropbehind state was reproduced in QEMU. The patched
-> > kernel retained the mapped folio and continued to evict the unmapped
-> > dontcache folio. I did not reproduce the sleeping-in-atomic warning and
-> > am not aware of an existing report.
-> >
+> Hi Oleg,
 >
-> I was able to trigger the sleeping-while-atomic BUG on current mainline w=
-ith
-> some help from Claude. The reproducer itself is straightforward enough, b=
-ut the
-> configuration was a little finicky. The atomic context comes from using
-> threadirqs so that virtblk_done() completes requests from the irq thread =
-under
-> local_bh_disable() and the vq spinlock with irqs off, so in_task() is tru=
-e but
-> the i_mmap_rwsem down_read() sleeps. It also needed 1 vCPU (so completion=
- stays
-> in the irq thread rather than softirq) and ext4 -o dioread_lock (so end_i=
-o runs
-> inline instead of on a workqueue). With v4 applied the bug is gone, so:
+> Thank you for the review!
 >
+> The original test called freeze_super() directly, changed SB_RDONLY,
+> and called thaw_super().
 
-Thanks, Tal. Then I'm getting quite confused. Since with Wenjie's
-patch, we are no longer going to sleep for dropbehind in `filemap.c`,
-do we still need all the complex logic in the block device and file
-system layers to move dropbehind to a workqueue task context?
+Thanks, but this doesn't answer my questions...
 
-> Tested-by: Tal Zussman <tz2294@columbia.edu>
->
+How exactly this original test "called freeze_super() directly" ?
+Could you show this test-case ?
 
-Thanks
-Barry
+IOW, how can we actually hit the problems described in the changelog?
+
+Let me repeat, you can safely ignore me, I don't understand fs/,
+I am just curious.
+
+Oleg.
+
