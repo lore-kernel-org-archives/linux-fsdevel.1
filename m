@@ -1,59 +1,54 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC6E4B1497
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 13:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8538E4BCADD
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 14:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788443558; cv=none; b=bCjlaP4Qja6zAwEQZYLhphyKvkYbeaWC+ZokzpQMd+jVnMYvDBzMEwKEfnEW7nqmW01mC+ZeAcchxdiqgMU4JPeZHpmHwKIbVWzGXv32ypd1XvKvln5tOlMiiF6vIrUhbKBooyu3JMZLAiGTE2tpZo/ObGYQOmegJO1nsMQsjvo=
+	t=1788446837; cv=none; b=NBJO0d+KZNfMtI66JsEn46MxYGX6KybHgji0Z3s4VjfIpAr5tZy+VNUPRa2IMYEME9UJ6DfKRoX/EsQu1xJcHBcHNVyw0DTcBgIrCsfAp4O/lIl5RmOpmW0ioQ9ZEE+fI/hJdgDcBmoTZ0KXYQTfrxCwaccEIhtmpd5Zr3N/8jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788443558; c=relaxed/simple;
-	bh=Iji4D2buWPRLhZoxA1uH9NERFPm7OneKA3HE03sRbkI=;
+	s=arc-20240116; t=1788446837; c=relaxed/simple;
+	bh=/T7YqONCo5eBXsKvF/epQygH07trT6370ALQnDdAp40=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UK5ThLYI1XhJRZEOKRcvHJ/VTetjPPtB9vodOp3kM+yMlG1u+DWb38iVhJnc8rP+hAo5tuoYQgakYxx6as9Pxl/FkOinGKo56aCnOjWzOyOvhLXoTkYUGMWj/yVX3y9Q1ATb+zg5SppVVGQji5HVk6ieWGMRxpksSRK3SydWTeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ao3ZwmL/; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=lFB2IkALAvXiJxYoGqHxL/Y2/DUWbqn4L6kuC2WHjXxcwT42LwZRROmZ5Na++UHftixS8ZEsBQLKSZDNereiVj83E79ggTtMkBzeztWeULu+JmDppqWnV6DG5fZ1c0coxNsH44KQHOF40zF0mYqksWJ8/HFOLjGGRpJ7zC2HbBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=QJesqE4T; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ao3ZwmL/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788443535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RYValkT1RfLf8KNyXAg43KyIUolG/6q8D740NY7N3y0=;
-	b=Ao3ZwmL/iGBJdBOZ8TnueGe/uhegrwg8+8GFFxq5eS3LQ+L07tc00m7lk/8f/KNcO5Tsd2
-	hO4WP4y603tak/TL2vTzayBOz4NzeolZ9xl/X1Aj5WEps+lE5DUoDqsnWdZDAhFzOtQVvL
-	P6malKMJAZvEsgfO4wxRcSxsIfnaB3M=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-27--MjhSEGMNGGbQ1VSHW1TjA-1; Thu,
- 03 Sep 2026 09:52:14 -0400
-X-MC-Unique: -MjhSEGMNGGbQ1VSHW1TjA-1
-X-Mimecast-MFC-AGG-ID: -MjhSEGMNGGbQ1VSHW1TjA_1788443530
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E1174190FF8E;
-	Thu,  3 Sep 2026 13:52:09 +0000 (UTC)
-Received: from bfoster (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 830C73000239;
-	Thu,  3 Sep 2026 13:52:06 +0000 (UTC)
-Date: Thu, 3 Sep 2026 09:52:04 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc: brauner@kernel.org, djwong@kernel.org, cem@kernel.org,
-	akpm@linux-foundation.org, vbabka@kernel.org, surenb@google.com,
-	mhocko@suse.com, brendan.jackman@linux.dev, hannes@cmpxchg.org,
-	ziy@nvidia.com, david@kernel.org, qi.zheng@linux.dev,
-	shakeel.butt@linux.dev, ljs@kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] xfs: fix NOFS state corruption in btree split worker
-Message-ID: <apl7hNnt0lR5HFXA@bfoster>
-References: <20260902134417.c44503a1d65533f81fb1c391@linux-foundation.org>
- <20260903133756.2006032-1-wangkefeng.wang@huawei.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="QJesqE4T"
+Received: from macsyma.thunk.org (pool-108-26-156-67.bstnma.fios.verizon.net [108.26.156.67])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 683EjLMF011651
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 3 Sep 2026 10:45:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1788446726; bh=qHs/hYcfdCQ1ysGE+hmGWWr3Mk+We3imbSb6wYOC52U=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=QJesqE4TZVDMmqCP0gYnKzQVE38G5Sj1uHY8Px+6ZarWBBRuhH1Fwb1CRJ5tJPRFV
+	 tmOiLD28kscOP8nUwRZQsNO/wuT4KMKK12aCBaWLHnxjUqbgUTwmyQBvTJ2mBkZ+88
+	 /QN2pl7raeA9OfyGDIqrh4LXvngd7aOvgPf+U75IMT4tmP+CjfZpnKL3Ym4RgOG14t
+	 k28ord6f1XO1MU81Az2eIi9VgraAJBU9HpcZgM1M3J0UIfdl859jwgeG0NbUVpFB/V
+	 7p2L8VgjrjdYi/84CLpjr044H60KgLgzIYRVIAI7c/vwX2bDYIxq9mAEVxUhO4HVWN
+	 LYHu+Y27eWAuA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id BA709132623E; Thu,  3 Sep 2026 10:44:20 -0400 (EDT)
+Date: Thu, 3 Sep 2026 10:44:20 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Christian Brauner <christian@brauner.io>, Jan Kara <jack@suse.cz>,
+        Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+        Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+        Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>,
+        Phillip Lougher <phillip@squashfs.org.uk>,
+        linux-erofs@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org,
+        ntfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH 2/9] ext4: Remove uses of FGP_NOFS
+Message-ID: <apmHuRN-r4gfWnTX@mit.edu>
+References: <20260830041901.2668-1-willy@infradead.org>
+ <20260830041901.2668-3-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,71 +57,14 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260903133756.2006032-1-wangkefeng.wang@huawei.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+In-Reply-To: <20260830041901.2668-3-willy@infradead.org>
 
-On Thu, Sep 03, 2026 at 09:37:56PM +0800, Kefeng Wang wrote:
-> xfs_btree_split_worker() calls xfs_trans_set_context() and
-> xfs_trans_clear_context() on the caller's transaction, overwriting
-> tp->t_pflags with the worker's NOFS state. When the caller already has
-> PF_MEMALLOC_NOFS set (e.g. xfs_end_ioend_write, xfs_dio_write_end_io),
-> the corrupted tp->t_pflags causes xfs_trans_free() to erroneously clear
-> the caller's NOFS protection.
+On Sun, Aug 30, 2026 at 05:18:49AM -0500, Matthew Wilcox (Oracle) wrote:
+> Both of these locations are called while a transaction is in progress.
+> Starting a transaction uses memalloc_nofs_save(), so we are already
+> prevented from recursing into the filesystem and using GFP_NOFS was
+> unnecessary.
 > 
-> Use memalloc_nofs_save/restore with a local variable instead so
-> tp->t_pflags is never touched.
-> 
-> Closes: https://sashiko.dev/#/patchset/20260902131653.1338227-1-wangkefeng.wang@huawei.com
-> Fixes: 756b1c343333 ("xfs: use current->journal_info for detecting transaction recursion")
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> ---
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-I agree that the Sashiko analysis looks correct. The only thing I wonder
-is whether it might be a bit cleaner to have the set_context() helper
-return the context instead of hardcode the assignment to ->t_pflags so
-it can be used in both places. The reasoning is just that the current
-arrangement kind of makes it easy to repeat this mistake in the future.
-
-Then again, it's a single line helper so maybe another option could be
-to just remove and open code it. I suppose the pro of keeping the helper
-is that it's a decent spot to document the concern and why it returns a
-value, etc. *shrug* Thoughts?
-
-(Please don't change this patch just on my comments alone. Let's see if
-others have input first..).
-
-Brian
-
->  fs/xfs/libxfs/xfs_btree.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/xfs/libxfs/xfs_btree.c b/fs/xfs/libxfs/xfs_btree.c
-> index 6738d9d1511b..8ae4b94e6995 100644
-> --- a/fs/xfs/libxfs/xfs_btree.c
-> +++ b/fs/xfs/libxfs/xfs_btree.c
-> @@ -3007,12 +3007,18 @@ xfs_btree_split_worker(
->  {
->  	struct xfs_btree_split_args	*args = container_of(work,
->  						struct xfs_btree_split_args, work);
-> -	xfs_trans_set_context(args->cur->bc_tp);
-> +	unsigned int			nofs_flags;
-> +
-> +	/*
-> +	 * Don't use xfs_trans_set_context() here: it would overwrite the
-> +	 * caller's saved NOFS state in tp->t_pflags.  Use a local scope.
-> +	 */
-> +	nofs_flags = memalloc_nofs_save();
->  
->  	args->result = __xfs_btree_split(args->cur, args->level, args->ptrp,
->  					 args->key, args->curp, args->stat);
->  
-> -	xfs_trans_clear_context(args->cur->bc_tp);
-> +	memalloc_nofs_restore(nofs_flags);
->  
->  	/*
->  	 * Do not access args after complete() has run here. We don't own args
-> -- 
-> 2.55.0
-> 
-> 
-
+Acked-by: Theodore Ts'o <tytso@mit.edu>
