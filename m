@@ -1,27 +1,27 @@
 Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4884A8A0F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B9A4A8A09;
 	Thu,  3 Sep 2026 12:43:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788439384; cv=none; b=DISxZIaFNaCdOCWWM+OTpgcHxAC5Uj2sAvzTBUjQQL1NNmIb++Y/jdl5fYwCYaNGdiDA11ZDBtCwQM686IKI04xUpiNuVvcrZvyuzRHyvnZBumBgPAkLgeksVGqkaHw7iu8RZNMnY3AWDnfkNXBiQQpEcEaEFJdmkX12c7rYzGU=
+	t=1788439384; cv=none; b=LoHitGBGO7Ko8gs7U27sX6aaV4sl+mc3/SJ8+/U0mMFX9eY2PHSa3+3OThEZ0NLYOVyyP9Z2L+VyOk3kYlzRrhueAFKW4YhKnuFBJ3vqOKBTDTpIjwhLpZqbe7dmzeo7iJlHm/gi+cuz36+HMkqNGoxrXqCFOmNe146GysOG3IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788439384; c=relaxed/simple;
-	bh=cUByWoE9fl3o8KVhapAupZrnMGVdxA6G+4Kp8EITLOY=;
+	bh=XXeUYwrDUt8jL1jP8meZoctdOLOZe4Bdky9N7U1rYfU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e8XnilfweyM/Sh2obPKJ7CITlUOeKADT0ETeTRwdqeeYxewOrWrlQ97xtwc2BVX7iUJvyI/7XLPTBLsM1e2KlhggtzIGhr+7j0jjSuzZ/S/JRfUkWHl0e5FuYwFdNgu+E6j/2R185lGWebMi9t3JShVVIt1ye7bkj/VRnzJMns0=
+	 MIME-Version; b=CG+rGM2CKc9Pv9r6dG7sUpw1xovx0o1rGuyAvre1XsufF25a0Wm5x3QxrFKuVy/pV0t5Uure9fvGf1HnYNkf2xhwow1K5XdjqsVUWZAmSY6MTIt8YbZ0PcnHmT6lwdPT60FZ96GpOqtqiZH1h+3EkSrYmPq3u5U7YUHp97X6V7c=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hbK3p5c2kzKHMmQ;
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hbK3p4ctHzKHMlw;
 	Thu,  3 Sep 2026 20:41:58 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 67F7F4058F;
+	by mail.maildlp.com (Postfix) with ESMTP id 4D79B40561;
 	Thu,  3 Sep 2026 20:42:52 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgA3HglDa5lqAJVrAg--.30843S23;
+	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgA3HglDa5lqAJVrAg--.30843S22;
 	Thu, 03 Sep 2026 20:42:52 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-ext4@vger.kernel.org,
@@ -42,9 +42,9 @@ Cc: linux-kernel@vger.kernel.org,
 	yangerkun@huawei.com,
 	wangkefeng.wang@huawei.com,
 	yukuai@fnnas.com
-Subject: [PATCH v6 19/31] ext4: add block mapping tracepoints for iomap buffered I/O path
-Date: Thu,  3 Sep 2026 20:35:31 +0800
-Message-ID: <20260903123543.2302999-20-yi.zhang@huaweicloud.com>
+Subject: [PATCH v6 18/31] ext4: drain writeback before removing extents on the iomap path
+Date: Thu,  3 Sep 2026 20:35:30 +0800
+Message-ID: <20260903123543.2302999-19-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
 References: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
@@ -55,10 +55,10 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgA3HglDa5lqAJVrAg--.30843S23
-X-Coremail-Antispam: 1UD129KBjvJXoWxurW7ZF1rKr18XF4kGrWrAFb_yoWrGFy7pa
-	4ktFy5KF4xXrsF9w4fWrW3Xr1Fva1xKr4UGry3Wry5ZFWxtr12gF4UGFyjyFy5t3yjkryf
-	WF4Yyry8G3WUurDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:cCh0CgA3HglDa5lqAJVrAg--.30843S22
+X-Coremail-Antispam: 1UD129KBjvJXoWxWw4fuFykAF18Kr17tw1UZFb_yoW5Zw15pF
+	9Ikw1rGr1DWay7urs7ZF1xXr10gws5GFWUuFy3WF13XF95C34IgFyUKa4F9ay5trWxAry0
+	vF48Cry8XF15ZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
 	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -77,111 +77,83 @@ X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Add tracepoints for iomap buffered read, write, partial block zeroing,
-and writeback operations to help debug the iomap buffered I/O path.
+Because the iomap infrastructure does not always create an ifs to
+manage sub-folio state when folio size is larger than blocksize,
+invalidating a partial dirty folio during punch hole may fail to
+clear the dirty state of the affected range. As a result, writeback
+of that folio may observe a hole. At writeback submit time,
+ext4_map_blocks() already handles this case and will not allocate
+blocks. However, when punch hole races with writeback, the
+following scenario can cause I/O completion to encounter a hole.
+
+  punch hole                        writeback
+  ----------                        ---------
+  ext4_punch_hole()
+    ext4_truncate_page_cache_block_range()
+      iomap_invalidate_folio() [partial folio]
+        iomap_clear_range_dirty()
+        -- no ifs, sub-block dirty bits NOT cleared
+                                    ext4_iomap_writepages()
+                                      iomap_writepages()
+                                        ext4_iomap_writeback_submit()
+                                          ext4_iomap_map_writeback_range()
+                                            ext4_map_blocks(IO_SUBMIT)
+                                              -> extent exists, not a hole
+                                          submit_io()  -> bio in flight
+    down_write(&i_data_sem)
+    ext4_es_remove_extent()
+    ext4_ext_remove_space()
+      -> extent removed, hole inserted
+    up_write(&i_data_sem)
+    [ transaction commits, freed blocks released to buddy ]
+    [ allocator reuses freed blocks for another inode ]
+                                    [bio completes]
+                                    ext4_iomap_finish_ioend()
+                                      ext4_convert_unwritten_extents()
+                                        ext4_map_blocks(IO_CONVERT_EXT)
+                                          -> returns 0 (hole found)
+                                    [bio writes to reallocated blocks ]
+                                    -> silent data corruption
+
+If the bio completes after the freed blocks have been reallocated to
+another inode, it silently overwrites them and causes data corruption.
+Therefore, on the iomap path, drain writeback in ext4_punch_hole() after
+partial zeroing and before starting the freeing transaction, so any bio
+in flight on a partial folio completes against blocks still owned by
+this inode before extent removal.  Once extent removal begins, the ES
+hole insert and the existing IO_SUBMIT short-circuit prevent further bio
+submission.
+
+This is a workaround. The proper fix is for the iomap infrastructure to
+always maintain an ifs when folio size is larger than blocksize, so that
+partial invalidate reliably clears sub-block dirty bits and no draining
+is needed.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
 ---
- fs/ext4/inode.c             |  6 +++++
- include/trace/events/ext4.h | 45 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
+ fs/ext4/inode.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index e91b4efce098..c1315f09c39d 100644
+index b876a8127d09..e91b4efce098 100644
 --- a/fs/ext4/inode.c
 +++ b/fs/ext4/inode.c
-@@ -4008,6 +4008,8 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
- 	if (ret < 0)
+@@ -5028,7 +5028,14 @@ int ext4_punch_hole(struct file *file, loff_t offset, loff_t length)
+ 	ret = ext4_zero_partial_blocks(inode, offset, length, &partial_zeroed);
+ 	if (ret)
  		return ret;
- 
-+	trace_ext4_iomap_buffered_read_begin(inode, &map, offset, length,
-+					     flags);
- 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
- 	return 0;
- }
-@@ -4041,6 +4043,8 @@ static int ext4_iomap_buffered_do_write_begin(struct inode *inode,
- 	if (ret < 0)
- 		return ret;
- 
-+	trace_ext4_iomap_buffered_write_begin(inode, &map, offset, length,
-+					      flags);
- 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
- 	return 0;
- }
-@@ -4157,6 +4161,7 @@ static int ext4_iomap_zero_begin(struct inode *inode,
- 			goto again;
- 	}
- 
-+	trace_ext4_iomap_zero_begin(inode, &map, offset, length, flags);
- 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
- 	iomap->flags |= iomap_flags;
- 
-@@ -4266,6 +4271,7 @@ static int ext4_iomap_map_writeback_range(struct iomap_writepage_ctx *wpc,
- 		return ret;
- 	}
- 
-+	trace_ext4_iomap_map_writeback_range(inode, &map, offset, dirty_len, 0);
- 	ext4_set_iomap(inode, &wpc->iomap, &map, offset, dirty_len, 0);
- 	return 0;
- }
-diff --git a/include/trace/events/ext4.h b/include/trace/events/ext4.h
-index 7028a28316fa..69596a216dcb 100644
---- a/include/trace/events/ext4.h
-+++ b/include/trace/events/ext4.h
-@@ -3157,6 +3157,51 @@ TRACE_EVENT(ext4_move_extent_exit,
- 		  __entry->ret)
- );
- 
-+DECLARE_EVENT_CLASS(ext4_set_iomap_class,
-+	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map,
-+		 loff_t offset, loff_t length, unsigned int flags),
-+	TP_ARGS(inode, map, offset, length, flags),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(u64, ino)
-+		__field(ext4_lblk_t, m_lblk)
-+		__field(unsigned int, m_len)
-+		__field(unsigned int, m_flags)
-+		__field(u64, m_seq)
-+		__field(loff_t, offset)
-+		__field(loff_t, length)
-+		__field(unsigned int, iomap_flags)
-+	),
-+	TP_fast_assign(
-+		__entry->dev		= inode->i_sb->s_dev;
-+		__entry->ino		= inode->i_ino;
-+		__entry->m_lblk		= map->m_lblk;
-+		__entry->m_len		= map->m_len;
-+		__entry->m_flags	= map->m_flags;
-+		__entry->m_seq		= map->m_seq;
-+		__entry->offset		= offset;
-+		__entry->length		= length;
-+		__entry->iomap_flags	= flags;
-+
-+	),
-+	TP_printk("dev %d:%d ino %llu m_lblk %u m_len %u m_flags %s m_seq %llu orig_off 0x%llx orig_len 0x%llx iomap_flags 0x%x",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->m_lblk, __entry->m_len,
-+		  show_mflags(__entry->m_flags), __entry->m_seq,
-+		  __entry->offset, __entry->length, __entry->iomap_flags)
-+)
-+
-+#define DEFINE_SET_IOMAP_EVENT(name) \
-+DEFINE_EVENT(ext4_set_iomap_class, name, \
-+	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map, \
-+		 loff_t offset, loff_t length, unsigned int flags), \
-+	TP_ARGS(inode, map, offset, length, flags))
-+
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_buffered_read_begin);
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_buffered_write_begin);
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_map_writeback_range);
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_zero_begin);
-+
- #endif /* _TRACE_EXT4_H */
- 
- /* This part must be outside protection */
+-	if (((file->f_flags & O_SYNC) || IS_SYNC(inode)) && partial_zeroed) {
++	/*
++	 * On the iomap path, partial invalidate of a folio without an ifs
++	 * leaves sub-block dirty bits uncleared.  Drain writeback before
++	 * removing extents so that any bio in flight on a partial folio
++	 * completes against blocks still owned by this inode.
++	 */
++	if (ext4_inode_buffered_iomap(inode) ||
++	    (((file->f_flags & O_SYNC) || IS_SYNC(inode)) && partial_zeroed)) {
+ 		ret = filemap_write_and_wait_range(inode->i_mapping, offset,
+ 						   end - 1);
+ 		if (ret)
 -- 
 2.52.0
 
