@@ -1,136 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B719463;
-	Thu,  3 Sep 2026 00:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7801722370A
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 00:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788393856; cv=none; b=DjNUL9Cgae9LaY7suIv0dxoBTxr36qUuQyjCKm6hZduwBkphhfsQiZz4tn38lhcN6Fx1umj2To5n8XlwF55zJz8Gfaj+fnMdF1lMLtOyrC2DYcxjybtQkBrd5cvES0G1mDy6f2xaVRXXa1pUziWMsjSjvOQWhs4MI4fSDYvtpDg=
+	t=1788394873; cv=none; b=Oy3mQHniTDwQKS58TSlnQP6mbt7vmMYMFHnK8dFpT3xT411NRgOSowD87ENm9ugf+Zg5AO0N97T0poba/1BvZGAupupV4hMhnsflf6brhngPcUoqAJGK6j6iyMcl2iM/DV4YyNzYa8b14WF2gS9ZDNa45ctWNOnGCV/ms7+jOYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788393856; c=relaxed/simple;
-	bh=FnKqod29qrbfyQNawdcqOhtqmUfCU92hzzvSmOC6DP4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=r2sAHRkQoq9nTowXjOxJ9sLzv1rjkruHNPK+e+TyRMQOQODgheoqNuURCxa9jjpY243x0Zvs8uGKrefsNkFWBzojIzVhaE7/WieeCiQHcA4oKuCp+E+gVysEVS0yXV1DCCWlEBnblZhviiPtFMzxTi0Pz2LcwdFdFepzWub3gkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PU4tdwXE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788394873; c=relaxed/simple;
+	bh=mjFAKiXB7ZAxn25FoteH1IzY/8IF7hq0XuQIZiUcbvI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EVX3hfa3+f+iSHCuYbngNU0Ixr/LchbRiCI+4lTmg+DOmPr2dxSvVwbeHdmUE5CgnTaVIFSZIPKBGdUyu88pRGBHK2ve4V9UfqVuPKEc9eetBFWmnvMwksbeAr1GxBfmE9qgCMOcbYCK3LxBzteoswdXkzb53KJsiDBNEWXsiFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R/77lARf; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PU4tdwXE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74F3A1F00A3D;
-	Thu,  3 Sep 2026 00:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788393854;
-	bh=k1T1mSQt9nXndvTD3GdJspqSLb02WDkXBhGjPz0MRvU=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=PU4tdwXEWnj1QSsf0DRmxII7S1wHxWNSJ5LRgOE4heiXa4ZQ4AQUP3KXipmTztYYv
-	 4mspDdQHkmHsd/deGUztpi1yo9zfroG8blYZ+ausMy/WqGRWV45ntkq5ODC7W3utNn
-	 nEB76oJUgM5i6tsbERunWUrLcTj3i601meY0mSNG3R30F3vGuCKBOVMS080svlOyuF
-	 dx2NYkxO31v5a/v608acribWuWQFnFDERyJCGIoyOIW66X9rs4XRltX85l3yxAL+0P
-	 C8rPohjb3HH1IFb/UkOm7y8c3gmlRGMxzYWbCwZY27AyVFc0xJ3dWsY+70cfgE/K1D
-	 Go19iBIIZrtFw==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 7AD79F40066;
-	Wed,  2 Sep 2026 20:04:13 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 02 Sep 2026 20:04:13 -0400
-X-ME-Sender: <xms:fbmYauQv33tcZIBeNS3WSChoYiYWc5aLSQguQUFnZSW0Riv1H8MVrg>
-    <xme:fbmYaukPzfzIHYbp4kCf3toxUMO2dvVmx4N1aK4wZt0lsnGG1tzbGj9rcrrRFYVhQ
-    P9bViIh2OA8BHBU4lhHy_JgMItlYDiJ_uWUOxgfqYEBOv-RqSvT_h8>
-X-ME-Proxy-Cause: dmFkZTErUHh5BuRVNpnhm4wFZdzcU6Gbef16hK1rlwjUGzG1b1RbSQ89W9JMf+dKlZA/Wv
-    reby9HkzPvy/+Kk0QW3WafCg2myqasjn5Yw/IeZxkREKi4I/Csd/ERpzaGq+wnGJbq32nc
-    BPO+lrtos2qFL4QqKVPsjb/OwoGeAGKh6Xa9h0GLSgSyciUs2aZOYn/CDBddxzXBY0hiod
-    JBmg0dxR0HlPdWYAKm2XUSXGAWVr6wGoIcLlEVPHOVNFfShMWUlnUE3oPfu9qBg0YJaYHC
-    76qQ7dMqwd1kFrMLXU5QrlUERuA6vBd0XqRZfCTeUOKNziSQxuVXDWwtxJF+3SroNcV7Io
-    66BCRzmVnHoI4XWSL4V57optk336x4nKfzxBQYshtqifqQysqM34YD2tj900hWbtRb0OZw
-    ZThpCBev8KeX+F+cCLyK5EvaND7q3nl7Xdw2W85rAiSkC0nB0qIOveshuxiWro34QEtXcd
-    jRT9tBECHBYD9kHZomPsABT6YoMUJrm4YlOJhgOoLIFIVIQ8JORyLwCTP6J7ygE9cOaAZQ
-    PB0r3prLRaEP0HmxYvxuUsIR/rRzxkXp4h71/t1SUO0mC0GccElBeFvikOZSph9cwPJL6g
-    kX9h0GU3flsH19uiJkPRotH8Mrv1t0Jz18GmNVGPaFI7l86fgZLl/F6nxRsw
-X-ME-Proxy: <xmx:fbmYajFZpbR4thcbLHSkL1DJ_sywKHeRiJFGTHx4vIoY-Y-iKoyuag>
-    <xmx:fbmYatBLXz3fBXL6sRJfAAYtLSMc6R8pMAqOBgaSDGr4txpwoHAZLQ>
-    <xmx:fbmYapAKXn1IEP4tkk8ZSIUjvDUWxZqF3nUSkQqA48JDZwzkCmodaA>
-    <xmx:fbmYarPSDRl8dBaq9UUWUWY843JuKvXc73F-que28L6z0eHVrpppdA>
-    <xmx:fbmYatPVqlQsTcX-nM7BruVi5BCu6kYUyEAvoMPdDLa0C8cgSKLroJcn>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 535147811F0; Wed,  2 Sep 2026 20:04:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/77lARf"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-485538d3499so1265488f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 02 Sep 2026 17:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788394869; x=1788999669; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4p+kVOqrl9TNdjQ0Ytm/XdNA1rDd6yPAPDCtXX/9+oM=;
+        b=R/77lARfp+Sb4OkbWjeEDxOY/ycfah7we/aWQIz9auOmNaMqkLIqhsxAD1lsT9AMRE
+         D3mpscDv7Z0WMVZlg4HIq2xgT95HjiCbA1/6cPuqQh6gr/i42zPBngLivr35NaRu4poz
+         6MKBJAq/ZnOOqG07h6xNfPBroFVeyY26x2JyA+JO4D1fbppwwofGEKOHHB5jsoSZkvuT
+         1C+aeg4ZAvlZGTt4WwWu0jKHMqAHEpc8D9SiOb3zbWLXE4ISpP52Q4oK6hgPYe8rSZyP
+         xttsit+Ee+w7eSPeGCdP0zDYmO/hdHQIxUrjoT36kfkFibMi4bPdJ2KI5sLOTNz2Q6jZ
+         EgCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788394869; x=1788999669;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4p+kVOqrl9TNdjQ0Ytm/XdNA1rDd6yPAPDCtXX/9+oM=;
+        b=CtP/7v1ShTKgz9KpsRNd2parFMtaaf4O7o2nz9ERtjsqOXAy5VanVr3qY2reIOzgAM
+         ZJxh/oAisxPVaof0fnWe4JYUNXTCYRvo0ekzLFBgCjQ/vPISudcTAg/sOcDMSSISV0Hb
+         D72rXDQXJGuTAtps3KkhzQjOMbL+tBkta561dhhzSJFZdokoYNicxKEDPwWAmWGFo3zx
+         NxPG6ltyzjp8BzqHoT2WW/Xz5Wc1h3Y5y5qS1nHSOsLnk4m+fRPiu+y96Mep8jD4Ba+L
+         P9D1M+lhoAkleZSxhKmRo8XyCoIndGh9nEj47MgbosZKWip8vTrWdkal+Wlm9pggvHrK
+         IgtA==
+X-Forwarded-Encrypted: i=1; AKwUvBz13Xd1tQAXdHj6q1/s8sMeutr69T6ZwkidYlG+haMVw64yxJGDj3DeJjrq59nM/wMDnl4KPugCzr5y/FhV@vger.kernel.org
+X-Gm-Message-State: AFuF++nCPvwGI82VvditeH96rNSWrCg+lD0ldDdyJUCbMWmgWJZnSaO2
+	fzlRHMkgZuyiT8PPlE+Iqe5YxEU+kcOX1AmJi3O8xkjd6Y8x2ljKoI90
+X-Gm-Gg: AYBFou3p7sWz1qQaEKVLWIa9lrRuNTePEHKwGm7GRfQrNCnpujwJDPVzHkjbQ8XBVdY
+	9TSPz00JUFA0/ucTgOKyIGinSXIZZ2v+e5qHpBGdKh0A0fvpZXLRtreM8ObEF2dZHv4kQDllWGW
+	ACC8FxyBWQZ5/iZ2Reh/Z+uToTfUYHePgD7RIwd3vpyya5mG1qeN2bJB4alM14sni0Xtg9o/8o1
+	rb1tjO5KvIg1rk3xnN5UUEYluVreyq0flkqB0GcTi10N4zJVRxPre3O7VyS/rC00wMALUsh+G6N
+	2/Y0b8dvZdBztgnRSwibPhd4PUhHOQkXS6selkNzP0XBsxN1oE9ATVm+kCztnnY3dFAgrb6JlDu
+	nis4OhqOqOe+I5ICXdnfzMvAPH+W8m0H/7xaBpVNA57aFqp4nF9XMHRjceNP59yzDMfTWx0bM20
+	0S51RWlRxP1eNIK3tVSfX31P0ezxL6O4cc2VwP1Z8gNXtk/9bl5dRbbqnaKMWwWIA1vBFJ+JVAk
+	kTN+VMUGiSluLOqBxD+dFj1T39b2ia46thcUzYtCvEbntAGAFsJLYTSGDgVT5lF03Kw9K4u4i85
+	eXmWZQ+AQgEC8xTfmgqrKbmPZDpVfrw6YBDTOXTdkscGwoNmJwjcuQiiFHy4SzN0jQxu/PIsas2
+	cMFKn
+X-Received: by 2002:a05:6000:22c8:b0:484:4779:bcdb with SMTP id ffacd0b85a97d-48488deb822mr15780139f8f.6.1788394868328;
+        Wed, 02 Sep 2026 17:21:08 -0700 (PDT)
+Received: from MacBook-Pro-von-Karl.localdomain (dynamic-2a02-3100-a1c2-c401-11b2-c123-0d12-6c0f.310.pool.telefonica.de. [2a02:3100:a1c2:c401:11b2:c123:d12:6c0f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448eea961sm9709743f8f.28.2026.09.02.17.21.06
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 02 Sep 2026 17:21:07 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] fs_pin: publish pins with RCU list helpers
+Date: Thu,  3 Sep 2026 02:21:00 +0200
+Message-Id: <20260903002100.34822-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 02 Sep 2026 20:03:53 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>
-Cc: "Thomas Haynes" <loghyr@gmail.com>, linux-nfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Message-Id: <3caef4ff-9f01-4b09-8e83-12bcb0a1ee17@app.fastmail.com>
-In-Reply-To: <20260902-delegts-v2-0-383cb289ce88@kernel.org>
-References: <20260902-delegts-v2-0-383cb289ce88@kernel.org>
-Subject: Re: [PATCH v2 0/3] fs/nfsd: accept a backdated timestamp from a delegation
- holder
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+pin_insert() initializes a pin before adding it under pin_lock.  The kill
+paths read the list heads under RCU without taking that lock.  Plain hlist
+insertion does not publish the earlier initialization to those readers.
 
+KCSAN weak-memory checking reported acct_on() callback initialization
+racing with pin_kill() after the superblock-list publication.  The
+corresponding LKMM model permits the stale read with plain publication;
+the RCU release/acquire pair forbids it.
 
-On Wed, Sep 2, 2026, at 2:54 PM, Jeff Layton wrote:
-> The main problem is that an attribute delegation has strict rules about
-> updates can be done, and that prevents applications that backdate
-> timestamps on files after writing them, (e.g. tar -x, cp -p, etc.) from
-> setting them properly.
->
-> We could fix this on the client by making it always issue an RPC for the
-> SETATTR, but that would harm performance in these common use-cases.
-> This set allows the server to accept some of these backdated mtime
-> updates, by changing how the ctime is handled.
->
-> It'd be nice to see this in v7.4.
->
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
-> Changes in v2:
-> - Split the change into three patches
-> - Stamp now in inode_set_ctime_deleg() for a stale update, so nfsd need
->   not compare
-> - Drop a SETATTR report that matches the inode, so an untouched file
->   keeps its change attribute
-> - Set dl_setattr only on the branch that carries a c/mtime update
-> - Compare against the inode, not the grant-time snapshots (Chuck)
-> - Set the ctime whenever a CB_GETATTR moves the mtime
-> - Take i_rwsem before the CB_GETATTR comparison
-> - Drop the unused dl_atime, dl_mtime and dl_ctime, and make
->   nfsd4_vet_deleg_time() static
-> - Link to v1: 
-> https://lore.kernel.org/r/20260901-delegts-v1-1-9937f7ee4370@kernel.org
->
-> ---
-> Jeff Layton (3):
->       fs: stamp the current time for a stale delegated ctime update
->       nfsd: accept a backdated timestamp from a delegation holder
->       nfsd: compare CB_GETATTR times against the inode
->
->  fs/inode.c          | 17 +++++++++++----
->  fs/nfsd/nfs4proc.c  | 63 +++++++++++++++++++++++++++++++++++++++++++----------
->  fs/nfsd/nfs4state.c | 49 ++++++++++++++++++++++++++---------------
->  fs/nfsd/state.h     |  8 -------
->  4 files changed, 95 insertions(+), 42 deletions(-)
-> ---
-> base-commit: ac579868af0c900d8fd9c8cfe9e10db46ccc5a75
-> change-id: 20260901-delegts-e91a648f1427
->
-> Best regards,
-> -- 
-> Jeff Layton <jlayton@kernel.org>
+Use the RCU hlist add and dereference helpers for both pin lists.
 
-Since the series modifies fs/inode.c, Christian will want to take it
-through the VFS tree.
+Fixes: 2798d4ce6160 ("acct: get rid of acct_lock for acct->count")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+Reviewer notes:
 
-Acked-by: Chuck Lever <cel@kernel.org>
+Tested on arm64 (Raspberry Pi 400, Cortex-A72) at cf72cbb39da8 with clang,
+strict KCSAN, and weak-memory modeling.  Concurrent acct(path) and
+read-only remounts produced one __arm64_sys_acct()/pin_kill() report in
+the baseline.  Disassembly identified both accesses as pin->kill and the
+write as modeled past pin_insert().
 
+With this patch, the report was absent at five times the baseline
+exposure, while unrelated control races continued to fire.  The LKMM
+plain-publication test is "Sometimes"; its RCU counterpart is "Never".
 
--- 
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
+This demonstrates modeled reordering, not an observed crash.  Plain KCSAN
+also found no report in about 400,000 acct() cycles.
+
+ fs/fs_pin.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+--- a/fs/fs_pin.c
++++ b/fs/fs_pin.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include <linux/fs.h>
++#include <linux/rculist.h>
+ #include <linux/sched.h>
+ #include <linux/slab.h>
+ #include "internal.h"
+@@ -22,8 +23,8 @@
+ void pin_insert(struct fs_pin *pin, struct vfsmount *m)
+ {
+ 	spin_lock(&pin_lock);
+-	hlist_add_head(&pin->s_list, &m->mnt_sb->s_pins);
+-	hlist_add_head(&pin->m_list, &real_mount(m)->mnt_pins);
++	hlist_add_head_rcu(&pin->s_list, &m->mnt_sb->s_pins);
++	hlist_add_head_rcu(&pin->m_list, &real_mount(m)->mnt_pins);
+ 	spin_unlock(&pin_lock);
+ }
+
+@@ -73,7 +74,7 @@
+ 	while (1) {
+ 		struct hlist_node *p;
+ 		rcu_read_lock();
+-		p = READ_ONCE(m->mnt_pins.first);
++		p = rcu_dereference(hlist_first_rcu(&m->mnt_pins));
+ 		if (!p) {
+ 			rcu_read_unlock();
+ 			break;
+@@ -87,7 +88,7 @@
+ 	while (1) {
+ 		struct hlist_node *q;
+ 		rcu_read_lock();
+-		q = READ_ONCE(p->first);
++		q = rcu_dereference(hlist_first_rcu(p));
+ 		if (!q) {
+ 			rcu_read_unlock();
+ 			break;
