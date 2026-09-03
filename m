@@ -1,85 +1,90 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B441E415B6C;
-	Thu,  3 Sep 2026 10:41:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BE244239E;
+	Thu,  3 Sep 2026 10:43:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788432064; cv=none; b=WDFodg3QcIeN+6uEaeTNl5yQCFOTSU6WeChJsbCcz9M0JPh/Mo7rj4EsZ+XPQ4ZMxAogF1AjMjLaAeW2LXeKiPbk/XsB3iZpKlfNydcqPL0i8n5WMe4c1EjASpLfFKeeviSgl4e9Su3yd2WBtDBICivFVsXWPipzM40HC+GcbR0=
+	t=1788432234; cv=none; b=Dddexw/3DE29oMzSmJAanuplog+qVeUUcaMTVtCOLvYUJri4DXEOVZJ2U+VCo5c18j3TxJTdjgnE6ddVgumhlySGIdNLgk8y2gHb9rIDKU/UMbA1kmA639WcZK91BblaAhyy/Zsa6Q137zfqpAp3zB4+bOvhiIL9sAEsIq+pug8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788432064; c=relaxed/simple;
-	bh=pjYrk+oEhP2JAyIypUnZXzeOAH1x7rsk9JNYsn4PFdY=;
+	s=arc-20240116; t=1788432234; c=relaxed/simple;
+	bh=9bwFkXE/f9SR0xge/C4Ui8DJt0PBN+jcuUwCspL0Bmk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U4olIzKU3i6t7mFpfQYDbfrKhphweAI/SwkeJEG6/axsoq59NAh7GmtydawdBV0Ah1YNlIahOca0IzWDSt6cFQO2hL8JBgcttFJSDCfqCMxhb472Q3aaPuoWcPI+VdHQPNTXhl7ecNWf2K5Rzjx/A6sqlpVxZ6PF65NzvuFx8ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Qujb3Iz1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=osa66p7/; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=np5Gys8I; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xf8mFPwV; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=spAFaZzn27QUEne6jNCZZsBjM27bR2w4Hi4bjLShqSGnxPbDSdcHLuUlHI8EgnJ52hPgkLv5sa6mHG/lpl8IMPjJwiZFF+c2OzMhSzjN2peKJUjfCwOhlSwPpDfLpxMnIKijuE0t/rbHQesDTMhrbQpFreAQRmvrA3hNseWsjS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KwL+d+VN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=G/wkuO+8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rN6OBiun; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cZzDFwux; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Qujb3Iz1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="osa66p7/";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="np5Gys8I";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xf8mFPwV"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KwL+d+VN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="G/wkuO+8";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rN6OBiun";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cZzDFwux"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 328361FE27;
-	Thu,  3 Sep 2026 10:40:51 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9D7AD1FE40;
+	Thu,  3 Sep 2026 10:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788432055; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788432226; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EMhJVx8krsSQrkT6nrVmuvPRO8gUKluRoBkeXXRAgvg=;
-	b=Qujb3Iz1ls/4zs9I3yDoJIUhIXwwj2gm/2qlYgozh+LQEeKXBU++UAaaTFIwrTFgbVA5Pg
-	97YlzIhYFCirSsdd7hBlrs9u1oW/rRamLfnDmbGKxVXCO4lXZ7p2pGMGX3SA72AuGTgK98
-	0jbug/aFzBIkvSdnpC1auIq2yT3L4JA=
+	bh=5bOHKYQ2W0tgyQ7zeKH/M5xbbFFDIk0NaxeQdsh/AfU=;
+	b=KwL+d+VN9hYaG8WlrCiRLaX5pPMCsd5IdXQs41gkgFlwdp2sDsXnLsARi+kVxYCbNMuBxe
+	6OTCA+IUGtBDP187VfOHXJ7Tkr+tEp56wb9W3bJFEw08/lAvgQJzXPQVIlCXGvtkMfiOqI
+	nkabSjYTt7j0qYvC6ob+2n9sb3oB/Jg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788432055;
+	s=susede2_ed25519; t=1788432226;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EMhJVx8krsSQrkT6nrVmuvPRO8gUKluRoBkeXXRAgvg=;
-	b=osa66p7/njyJ5wmC8gcrRY8oxxQ70GNHb/C56LwoDxP0CvLv4Ghv/S1H9gdvsYh2hqcuTf
-	EoE5M2P4hN36OKBA==
+	bh=5bOHKYQ2W0tgyQ7zeKH/M5xbbFFDIk0NaxeQdsh/AfU=;
+	b=G/wkuO+85R9pQpdp/KaF+eU3Ux5E+URH540hO4PCT10TP8usSilS+rpV9pPACW5GP4bRgF
+	BTKAW0hSPThV0XBw==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=rN6OBiun;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=cZzDFwux
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788432051; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788432222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EMhJVx8krsSQrkT6nrVmuvPRO8gUKluRoBkeXXRAgvg=;
-	b=np5Gys8I/LsR79FepW6v8/30MNUIeeZtPYy+5RmxORfNNtXsKqe4068Hp/lh6jbzdmsEKa
-	tUwFQFrJEGTqnM7JLZ+alpUyjtnCzGGRaYlYXgbqG4qxW988XMHjK6aQ96+jjj+SZolHHP
-	EPe3AmDIY+YVkhfDpsx1AQ8e61lUvu8=
+	bh=5bOHKYQ2W0tgyQ7zeKH/M5xbbFFDIk0NaxeQdsh/AfU=;
+	b=rN6OBiunbfADzwCCzo9S2Jbgt65ss+Sa65NwSPtNFoghWfifxwaZx4z+0pmaG3BwSJhiNx
+	M6sRdU61hRvPjksfDFi4fH2PJ+PpRg6/leXERzbVLdyT4b0BhehaP+Hdusb+htnEfHtvIn
+	YQamkkrUCackf7Gen7RvUSCUm2TLUKY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788432051;
+	s=susede2_ed25519; t=1788432222;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EMhJVx8krsSQrkT6nrVmuvPRO8gUKluRoBkeXXRAgvg=;
-	b=xf8mFPwVFv1Zg45A6mnA/wROHwlIZd62fanYRvShSzY+yYS4w0NByiwyHLIBKS+l0uZ3Lz
-	Bw94yvhrKmvT0SAA==
+	bh=5bOHKYQ2W0tgyQ7zeKH/M5xbbFFDIk0NaxeQdsh/AfU=;
+	b=cZzDFwuxFc3J8HCMTI68idXANFsqI+aofJEJ7z5gKtGOQJTsmyNeZAzbDNSVd+XAsNvQQQ
+	VybOXDcn1nhAaHCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13700136E6;
-	Thu,  3 Sep 2026 10:40:51 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5CA33136E6;
+	Thu,  3 Sep 2026 10:43:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oQ+7BLNOmWo9LgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 03 Sep 2026 10:40:51 +0000
+	id DsqXFV5PmWqoMAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 03 Sep 2026 10:43:42 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id A1BDEA13AC; Thu, 03 Sep 2026 12:40:42 +0200 (CEST)
-Date: Thu, 3 Sep 2026 12:40:42 +0200
+	id E1FB2A13AC; Thu, 03 Sep 2026 12:43:41 +0200 (CEST)
+Date: Thu, 3 Sep 2026 12:43:41 +0200
 From: Jan Kara <jack@suse.cz>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Oleg Nesterov <oleg@redhat.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] super: remember whether freeze holds writer rwsems
-Message-ID: <yly6lgithikpjfvmozn73zvcivoftko7ou6qozsf6xntaoi6yc@44aw3yj4i7rh>
-References: <20260903060855.4610-1-kmehltretter@gmail.com>
+To: Shaojie Sun <sunshaojie@kylinos.cn>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] fs: namespace: drop BUG_ON() in copy_mnt_ns()
+Message-ID: <nqedakm2hzmzbuu26l6dnnhkyc25k7tls5bognyvcfy7z5oc42@r3bso7zdins4>
+References: <aphwXq5bEQwKhqx2@localhost.localdomain>
+ <20260903064828.126643-1-sunshaojie@kylinos.cn>
+ <20260903064828.126643-4-sunshaojie@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -88,114 +93,71 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260903060855.4610-1-kmehltretter@gmail.com>
-X-Spam-Score: -3.80
+In-Reply-To: <20260903064828.126643-4-sunshaojie@kylinos.cn>
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: 9D7AD1FE40
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.cz:email,suse.com:email];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+	DKIM_TRACE(0.00)[suse.cz:+]
 X-Spam-Flag: NO
 
-On Thu 03-09-26 08:08:55, Karl Mehltretter wrote:
-> freeze_super() does not acquire the writer rwsems when the superblock is
-> read-only. thaw_super_locked() currently decides whether to release them
-> from the current SB_RDONLY flag. Filesystem error paths can change that
-> flag between freeze and thaw without s_umount serialization.
+On Thu 03-09-26 14:48:28, Shaojie Sun wrote:
+> The sole caller, create_new_namespaces(), always passes a valid mount
+> namespace pointer from the task's nsproxy. The other copy_*_ns()
+> helpers, e.g. copy_time_ns() and copy_pid_ns(), don't perform such a
+> check either. Drop the BUG_ON() for consistency with them.
 > 
-> If a writable freeze is followed by a forced read-only transition, thaw
-> reports success but skips ->unfreeze_fs() and sb_freeze_unlock(). The
-> superblock is marked unfrozen while all writer rwsems remain write-locked.
-> Conversely, if a filesystem is read-only when frozen and SB_RDONLY is
-> cleared before thaw, thaw can release rwsems that were never acquired.
-> 
-> Record whether a successful freeze acquired the writer rwsems and use that
-> state during thaw instead of re-sampling SB_RDONLY.
-> 
-> Fixes: 8129ed29644b ("change sb_writers to use percpu_rw_semaphore")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> Signed-off-by: Shaojie Sun <sunshaojie@kylinos.cn>
 
-This looks like one of these theoretical issues LLMs come up with. Frankly,
-I just wouldn't bother. If the fs gets forcibly remounted RO due to
-metadata errors, a frozen fs is likely the least of your worries.
+It's indeed pointless. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
-> Tested with a test-only KUnit case in x86_64 QEMU on linux-next
-> 32b6ef9a5d0e (next-20260902). It freezes a writable ramfs, sets SB_RDONLY,
-> thaws it, and calls sb_start_write_trylock(). The call fails without this
-> patch and succeeds with it.
+>  fs/namespace.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> Backport note: before e0b62a4dee24 ("fs: add fs/super_types.h header"),
-> struct sb_writers is in include/linux/fs.h.
-> 
->  fs/super.c                     | 4 +++-
->  include/linux/fs/super_types.h | 1 +
->  2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/super.c b/fs/super.c
-> index 9d40252135212..e8d75cef74677 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -2329,6 +2329,7 @@ int freeze_super(struct super_block *sb, enum freeze_holder who, const void *fre
->  	 */
->  	WARN_ON_ONCE(freeze_inc(sb, who) > 1);
->  	sb->s_writers.freeze_owner = freeze_owner;
-> +	sb->s_writers.freeze_rwsems_locked = true;
->  	sb->s_writers.frozen = SB_FREEZE_COMPLETE;
->  	wake_up_var(&sb->s_writers.frozen);
->  	lockdep_sb_freeze_release(sb);
-> @@ -2364,7 +2365,7 @@ static int thaw_super_locked(struct super_block *sb, enum freeze_holder who,
->  		goto out_unlock;
->  	}
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index 1ecd96c918b3..0f35c8c14027 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -4247,8 +4247,6 @@ struct mnt_namespace *copy_mnt_ns(u64 flags, struct mnt_namespace *ns,
+>  	struct mount *new;
+>  	int copy_flags;
 >  
-> -	if (sb_rdonly(sb)) {
-> +	if (!sb->s_writers.freeze_rwsems_locked) {
->  		sb->s_writers.frozen = SB_UNFROZEN;
->  		sb->s_writers.freeze_owner = NULL;
->  		wake_up_var(&sb->s_writers.frozen);
-> @@ -2387,6 +2388,7 @@ static int thaw_super_locked(struct super_block *sb, enum freeze_holder who,
->  	sb->s_writers.freeze_owner = NULL;
->  	wake_up_var(&sb->s_writers.frozen);
->  	sb_freeze_unlock(sb, SB_FREEZE_FS);
-> +	sb->s_writers.freeze_rwsems_locked = false;
->  out_deactivate:
->  	deactivate_locked_super(sb);
->  	return 0;
-> diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-> index ecd96aeb1cee7..3e15efab65329 100644
-> --- a/include/linux/fs/super_types.h
-> +++ b/include/linux/fs/super_types.h
-> @@ -53,6 +53,7 @@ enum {
->  
->  struct sb_writers {
->  	unsigned short			frozen;		/* Is sb frozen? */
-> +	bool				freeze_rwsems_locked; /* Freeze holds writer rwsems */
->  	int				freeze_kcount;	/* How many kernel freeze requests? */
->  	int				freeze_ucount;	/* How many userspace freeze requests? */
->  	const void			*freeze_owner;	/* Owner of the freeze */
+> -	BUG_ON(!ns);
+> -
+>  	if (likely(!(flags & CLONE_NEWNS))) {
+>  		get_mnt_ns(ns);
+>  		return ns;
 > -- 
-> 2.53.0
+> 2.50.1
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
