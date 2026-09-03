@@ -1,90 +1,85 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF9A3EC82A;
-	Thu,  3 Sep 2026 09:37:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1202C3ED3CF;
+	Thu,  3 Sep 2026 09:47:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788428238; cv=none; b=B4PJz+ibJbjWqSVsY0edYB8Th1ZQC1b3qG3XbVKxCpSVzwdSZon1KwJL/jjpCSAkZC6thFRaOWuZRG8yZk4r/925rYuiXl6ogl14OnnfP9gReyGIb+dUR+O82aa/qHBIDoeBA0truPP9vjVGIprB4V29pd9v1nRql+gS1szfS+U=
+	t=1788428865; cv=none; b=tlsvUuNyX1Ss3XGo0PisyB6A6bP0qvLx87m5Ng/wgW1cDedIMQN5bZavw5RAVjqvBiiRsQD3yizufRl5QJhTc2L7yTaWQCHzsNzs9s9AjZuvWJqsJrfxDVISsn3b98QgS+Kl+txEWUkS04G8Kc7gOHKKU7MSsatv0IYcQgYcnQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788428238; c=relaxed/simple;
-	bh=FPjfhF3k9V3+9UL/NSmwro9U3MXqTrk2tNthB1C1Qs4=;
+	s=arc-20240116; t=1788428865; c=relaxed/simple;
+	bh=bt4aZiSOgpfLqi/7NsUYlGh1dU1+hGM0UnSikuH0Wzg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pu4tpZhrWuz384/LArQSaZeGOYzS3bBkem85YQJydVtjv4u4Ulm6E0HduKV3Lb5wY1RBwbOILYnxtGHiCrsPRIgEQZy260HzsCdpBCJquQFw8ALzWnoYMWC7ui5ShOE4VyiNP+gZyQYb6/z+FFlu3Zx3RYMJdjoy8QqgVQ2NRjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iFgBmr8C; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=n/NqC4Fp; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=elwrXNmM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Wvmk0PIH; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=HG7k1BhoDj5jRu+kPH1feFcQNLev2SY58i+3xG1zYXjrLvBJX8BgG/wlE45NhGjdcYt+fjFudw35nvbihckXVKrifS1IboRZTW/gZpIPFd0wZ/Kgb5OUMxAFfBW6itRcOO2+viOhmZun1o67rHgA4iOaqSb3eoWLyfyBjYzckhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hMO0AuIm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uZe32N5A; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ziPQ+YxP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=L1bVU+QU; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="iFgBmr8C";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="n/NqC4Fp";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="elwrXNmM";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Wvmk0PIH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hMO0AuIm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uZe32N5A";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ziPQ+YxP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="L1bVU+QU"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2C6491FDEE;
-	Thu,  3 Sep 2026 09:37:06 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E7AE21F7EE;
+	Thu,  3 Sep 2026 09:47:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788428230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788428858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B2MzetJdmoKA6BgyFkbvWCTtiNNAt6T9i9NzyJMYtYM=;
-	b=iFgBmr8C76UJiRquacdMO/pvI2ggiPLBNcfUM6xdJ+gmPT0n1dc5zlk65K7YvPbuAn2uUT
-	Q7O3Bvw8rqcAsSSG3Q1Kb8GY94BDKeiuQrJGqC0hg+NQ6wycjptop9HIbNguHVA80WKbG9
-	C5EPYC+HO/I4UWfd1SiVS+9SH0HRbxk=
+	bh=t8USff4bKcpLn8d3s9T1L6SRyU92pAeHZ36VKLj5ios=;
+	b=hMO0AuImsFoJAjTEaauuXoSDkyodqE+9EFx+U/dosnPnwpO0Yl5YbEqBOJTR1gZXxsr41i
+	NqEIC/ViameS1UMz7YqLY7chBlW+XQsW4toSLSqYQMUpnxCewfAL+MCJEQ/k3tra6G87XT
+	V8Bdh88Bez3fhwd4KtH2dhXGuz/tfjY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788428230;
+	s=susede2_ed25519; t=1788428858;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B2MzetJdmoKA6BgyFkbvWCTtiNNAt6T9i9NzyJMYtYM=;
-	b=n/NqC4FpYXx8pp/NoBUEEZBuJ+HhgIqgg0WWfCLhsmWVZlyNxYoFZIaiUI7xL6K+T+84Ky
-	x0Y6+DjH1fdLXmCg==
+	bh=t8USff4bKcpLn8d3s9T1L6SRyU92pAeHZ36VKLj5ios=;
+	b=uZe32N5AJgMdSqaQckGBNq5/zPpE443K/UJ3oKUYm28GtqHe209A2dSLjnJKnIEeqdStNf
+	nHsX84KKkysnSuCw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=elwrXNmM;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Wvmk0PIH
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788428226; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788428853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B2MzetJdmoKA6BgyFkbvWCTtiNNAt6T9i9NzyJMYtYM=;
-	b=elwrXNmMJR/CfzacpudWQ16+gQB53wlkRUZYSuDYs632LHkBMcu2KdkFPRMBuVuLnzCvXo
-	eN+QugG+YSQOGtbTCNuYQlKrTrh4E+Zi2T3RJ+n3BHtfEKxjgQvLubN5n388Hx+AuD7d/p
-	/woRpkml8Fg9Ltr494wliR1SnQSuClA=
+	bh=t8USff4bKcpLn8d3s9T1L6SRyU92pAeHZ36VKLj5ios=;
+	b=ziPQ+YxPyaKQFDJf1cfE1UKin8KNI6dV2BcnPZ+nqu77IY2ucdKl3ArqFl5V6iP/7acXZ0
+	d+TpzyUOO+p1HQXUd2TVcxMdIqUgzm0HIIpxxv2lsUb3A78FsCgG2I/AmLRBkmA9ALbQ4t
+	YI4VMjN4ET0fqyoAHyncrhhAgBCGjVA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788428226;
+	s=susede2_ed25519; t=1788428853;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B2MzetJdmoKA6BgyFkbvWCTtiNNAt6T9i9NzyJMYtYM=;
-	b=Wvmk0PIHZPS2ffb8fzpiJD8qUKDJIJsvY/I3h89xrvpRUEbovlO5l1dvq/+CCuoyWZRxde
-	yTn3eOt06MHh4tCQ==
+	bh=t8USff4bKcpLn8d3s9T1L6SRyU92pAeHZ36VKLj5ios=;
+	b=L1bVU+QUlw9qV2EUl05byb2we0PXEk6BPQlzgAFnYCOLoZ5z9GzES6+86LNh5RuU002MIm
+	KkFnwQniP+5BKfBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B5BB136E6;
-	Thu,  3 Sep 2026 09:37:06 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C90BA136D9;
+	Thu,  3 Sep 2026 09:47:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +prBAsI/mWoibQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 03 Sep 2026 09:37:06 +0000
+	id 5JYMMTVCmWpOdwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 03 Sep 2026 09:47:33 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 9588CA13AC; Thu, 03 Sep 2026 11:37:05 +0200 (CEST)
-Date: Thu, 3 Sep 2026 11:37:05 +0200
+	id 5EED3A13AC; Thu, 03 Sep 2026 11:47:29 +0200 (CEST)
+Date: Thu, 3 Sep 2026 11:47:29 +0200
 From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Thomas Haynes <loghyr@gmail.com>, linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] fs: stamp the current time for a stale delegated
- ctime update
-Message-ID: <hszc7ektvbypy3thdw4iwh2cpnnjecwt7tu5s54ucay5yikcbg@wmcihhkjay2u>
-References: <20260902-delegts-v2-0-383cb289ce88@kernel.org>
- <20260902-delegts-v2-1-383cb289ce88@kernel.org>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] fs_pin: publish pins with RCU list helpers
+Message-ID: <okwtct7jxzddg7tnj6srpbxtkhu7axog73tmectdlyx67ujh6q@kiaqkyuqiwcv>
+References: <20260903002100.34822-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -93,106 +88,113 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260902-delegts-v2-1-383cb289ce88@kernel.org>
+In-Reply-To: <20260903002100.34822-1-kmehltretter@gmail.com>
+X-Spam-Score: -3.80
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 2C6491FDEE
-X-Spamd-Result: default: False [-4.01 / 50.00];
+X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim,suse.cz:email];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,brown.name,redhat.com,oracle.com,talpey.com,zeniv.linux.org.uk,suse.cz,gmail.com,vger.kernel.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
 X-Spam-Flag: NO
-X-Spam-Score: -4.01
 
-On Wed 02-09-26 14:54:14, Jeff Layton wrote:
-> inode_set_ctime_deleg() drops an update that does not advance the ctime.
-> That is correct when a client reports a timestamp that it advanced on its
-> own. It is wrong when the client moves the timestamp backwards on purpose,
-> as utimensat() does.
+On Thu 03-09-26 02:21:00, Karl Mehltretter wrote:
+> pin_insert() initializes a pin before adding it under pin_lock.  The kill
+> paths read the list heads under RCU without taking that lock.  Plain hlist
+> insertion does not publish the earlier initialization to those readers.
 > 
-> Stamp the current time in that case. The ctime still never moves backwards.
+> KCSAN weak-memory checking reported acct_on() callback initialization
+> racing with pin_kill() after the superblock-list publication.  The
+> corresponding LKMM model permits the stale read with plain publication;
+> the RCU release/acquire pair forbids it.
 > 
-> Fixes: 3952f1cbcbc4 ("nfsd: fix SETATTR updates for delegated timestamps")
+> Use the RCU hlist add and dereference helpers for both pin lists.
+> 
+> Fixes: 2798d4ce6160 ("acct: get rid of acct_lock for acct->count")
+> Cc: stable@vger.kernel.org
 > Assisted-by: LLM
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-Looks good to me. Feel free to add:
+Yes, it looks like the memory ordering is indeed insufficient here. Feel
+free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
->  fs/inode.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
+> Reviewer notes:
 > 
-> diff --git a/fs/inode.c b/fs/inode.c
-> index ba7da39be4a3..8391814a4016 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -2959,11 +2959,17 @@ EXPORT_SYMBOL(inode_set_ctime_current);
->   * inode attributes, including the mtime. When updating the mtime, update
->   * the ctime to a value at least equal to that.
->   *
-> - * This can race with concurrent updates to the inode, in which
-> - * case the update is skipped.
-> + * The ctime never moves backwards. An @update that does not advance the ctime
-> + * records the current time instead, so that the delegated change is still
-> + * visible in the ctime.
-> + *
-> + * This can still race with a concurrent update to the inode. That stamp takes
-> + * precedence, and is at least as recent as the one it displaces.
->   *
->   * Note that this works even when multigrain timestamps are not enabled,
->   * so it is used in either case.
-> + *
-> + * Returns the resulting ctime.
->   */
->  struct timespec64 inode_set_ctime_deleg(struct inode *inode, struct timespec64 update)
+> Tested on arm64 (Raspberry Pi 400, Cortex-A72) at cf72cbb39da8 with clang,
+> strict KCSAN, and weak-memory modeling.  Concurrent acct(path) and
+> read-only remounts produced one __arm64_sys_acct()/pin_kill() report in
+> the baseline.  Disassembly identified both accesses as pin->kill and the
+> write as modeled past pin_insert().
+> 
+> With this patch, the report was absent at five times the baseline
+> exposure, while unrelated control races continued to fire.  The LKMM
+> plain-publication test is "Sometimes"; its RCU counterpart is "Never".
+> 
+> This demonstrates modeled reordering, not an observed crash.  Plain KCSAN
+> also found no report in about 400,000 acct() cycles.
+> 
+>  fs/fs_pin.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> --- a/fs/fs_pin.c
+> +++ b/fs/fs_pin.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  #include <linux/fs.h>
+> +#include <linux/rculist.h>
+>  #include <linux/sched.h>
+>  #include <linux/slab.h>
+>  #include "internal.h"
+> @@ -22,8 +23,8 @@
+>  void pin_insert(struct fs_pin *pin, struct vfsmount *m)
 >  {
-> @@ -2975,9 +2981,12 @@ struct timespec64 inode_set_ctime_deleg(struct inode *inode, struct timespec64 u
->  	cur_ts.tv_nsec = cur & ~I_CTIME_QUERIED;
->  	cur_ts.tv_sec = inode_get_ctime_sec(inode);
->  
-> -	/* If the update is older than the existing value, skip it. */
-> +	/*
-> +	 * The update does not advance the ctime. Stamp the current time, so
-> +	 * that the delegated change is still visible in the ctime.
-> +	 */
->  	if (timespec64_compare(&update, &cur_ts) <= 0)
-> -		return cur_ts;
-> +		return inode_set_ctime_current(inode);
->  
->  	ktime_get_coarse_real_ts64_mg(&now);
->  
+>  	spin_lock(&pin_lock);
+> -	hlist_add_head(&pin->s_list, &m->mnt_sb->s_pins);
+> -	hlist_add_head(&pin->m_list, &real_mount(m)->mnt_pins);
+> +	hlist_add_head_rcu(&pin->s_list, &m->mnt_sb->s_pins);
+> +	hlist_add_head_rcu(&pin->m_list, &real_mount(m)->mnt_pins);
+>  	spin_unlock(&pin_lock);
+>  }
 > 
-> -- 
-> 2.55.0
-> 
+> @@ -73,7 +74,7 @@
+>  	while (1) {
+>  		struct hlist_node *p;
+>  		rcu_read_lock();
+> -		p = READ_ONCE(m->mnt_pins.first);
+> +		p = rcu_dereference(hlist_first_rcu(&m->mnt_pins));
+>  		if (!p) {
+>  			rcu_read_unlock();
+>  			break;
+> @@ -87,7 +88,7 @@
+>  	while (1) {
+>  		struct hlist_node *q;
+>  		rcu_read_lock();
+> -		q = READ_ONCE(p->first);
+> +		q = rcu_dereference(hlist_first_rcu(p));
+>  		if (!q) {
+>  			rcu_read_unlock();
+>  			break;
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
