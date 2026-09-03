@@ -1,46 +1,46 @@
-Received: from mta0.migadu.com (out-48.mta0.migadu.com [91.218.175.48])
+Received: from mta0.migadu.com (out-72.mta0.migadu.com [91.218.175.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11ED370ADF
-	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 03:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563A8370ADF
+	for <linux-fsdevel@vger.kernel.org>; Thu,  3 Sep 2026 03:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788406456; cv=none; b=tkgmslohxpASHIEsuokqc1jYa4uugMhE2k5SPeknAuqtKv8OsD/pFFyIHDqWMhSiNIbRGjLR7hoS6yHlWYGpQ4zY+R2KQhjrIfg9+/8DJ3qmAjxWLx301K872lgMg0BBd1SDtTSNo9wbcts0Hk3GNuRP2JvMnvZbINfZrFc4EBA=
+	t=1788406601; cv=none; b=kJlumeNKEn6RcYZqUK48BH1vkeEq6mU4Tth0Eb+s9FvfSDJQWokqSUvbQzqhv2H1Um3Wp/kI+IeDk+7N+AFHcrGT3G1v0CTaJ5g6skhhJ5zvHFb9zK+JrjLJmwRoX7adHk6azJpvC99m2O4EkRzKaEqt1kogsFkc/DlzxixUEgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788406456; c=relaxed/simple;
-	bh=1KMp/FOl0LyWPvCuKijZ4ceqVvuUTUzcJmSfy/YwVyk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L8IKRtVyEMVAsrsL+qfJpW7mnDWvDQ9FbMsnlr2jr2M/+fTRzcQlqt/Vl0JgCU1TVUTYOIFjtk1ftb/EFoCi3WDRiYn/A6/to3AhnD+a8jKYUjX9nohnDYL7tTn1Qn2Z6QWZXnvfkB0NqqxqV3OvIGFzRMhIHDwPBKoRGbK10WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UAB79+zm; arc=none smtp.client-ip=91.218.175.48
+	s=arc-20240116; t=1788406601; c=relaxed/simple;
+	bh=f9n7vxqegBMiJa3B9ktL1V1OhF+Wal7I2bpsCiLF8lg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f4b9r2XUUKKlUKOwuDyn4c5IcZlHyMatZrsARQnQYyQyzIiOQJvFImjNqyH0Iky04B7LVFo0tQHrj3l2U2MhQh7qSZI5qPhQbtJHkbPVUkjfwz6zKONVmLHJ1EKdIHsRBVX8AhGc2ZBo9JLv8DgfnHn8JQLrPy2JOHSKQyir/Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mE6fl3ZX; arc=none smtp.client-ip=91.218.175.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UAB79+zm"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mE6fl3ZX"
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=1KMp/FOl0LyWPvCuKijZ4ceqVvuUTUzcJmSfy/YwVyk=;
+DKIM-Signature: a=rsa-sha256; bh=f9n7vxqegBMiJa3B9ktL1V1OhF+Wal7I2bpsCiLF8lg=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788406451; v=1; x=1789011251;
- b=UAB79+zmoW119l1raAHb1WADzD+ghefSqyWc7R+eVB1ssXPC9j5WehaUN0awtBZfy+RCxT0w
- cn9zaTvTod3ctSOvikhiC3wzzhIyfnJe3KlllsiLb7f3pZ3g16FQGrM34kDrfH74mA4anNDYybR
- 1uAC1JPfX3oYvFQJaNbAun30=
+ t=1788406595; v=1; x=1789011395;
+ b=mE6fl3ZXiL2QY6mleTtmWlQU0ZgG1WQqqiZJefKqWB+lqpLsCnPgpBpL4XW782TyvwQSPUnD
+ 8lOe0+DIaGq/3RwJmHJSSQ2pSPA4jVSqvyg4/yPUO7yhjh6QguKH1SSRb9etCSS8n7NpYlDsREy
+ ZOzCb7U0hboqP+mRdXKkjK6w=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id e20257ac234d1e26;
-	Thu, 03 Sep 2026 03:34:11 +0000
-X-Mizu-Trace-ID: e20257ac234d1e26
+Received: by smtp.migadu.com with ESMTPS id dde1976bb73c7399;
+	Thu, 03 Sep 2026 03:36:35 +0000
+X-Mizu-Trace-ID: dde1976bb73c7399
 X-Migadu-Flow: FLOW_OUT
 From: Tao Cui <cui.tao@linux.dev>
-To: linux-unionfs@vger.kernel.org,
-	miklos@szeredi.hu,
-	amir73il@gmail.com
-Cc: linux-fsdevel@vger.kernel.org,
+To: linux-fsdevel@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Cc: jack@suse.cz,
+	gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
-	brauner@kernel.org,
-	jlayton@kernel.org,
+	lxc-devel@lists.linuxcontainers.org,
 	cui.tao@linux.dev,
 	Tao Cui <cuitao@kylinos.cn>
-Subject: [PATCH] overlayfs.rst: document cross-layer file lock and lease semantics
-Date: Thu,  3 Sep 2026 11:33:59 +0800
-Message-ID: <20260903033359.1042529-1-cui.tao@linux.dev>
+Subject: [PATCH] devpts: reject max=0 instead of silently lifting the limit
+Date: Thu,  3 Sep 2026 11:36:25 +0800
+Message-ID: <20260903033625.1042796-1-cui.tao@linux.dev>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -52,62 +52,42 @@ Content-Transfer-Encoding: 8bit
 
 From: Tao Cui <cuitao@kylinos.cn>
 
-Locks and leases taken through an overlay attach to the overlay inode,
-while opens of the same on-disk file through its real upper/lower path
-operate on the underlying inode.  The two do not conflict, so an
-"exclusive" flock/POSIX/OFD lock or a write lease held via the overlay
-is silently bypassed by anyone reaching the file through the layers
-directly, e.g. backup tools walking a container's upperdir or another
-overlay mount over the same layers.
+mount_opts.max == 0 is consumed as ida_alloc_max(..., max - 1), which
+wraps to 0xffffffff.  The IDA layer treats a negative max as INT_MAX,
+so "mount -t devpts -o max=0" does not disable ptys - it lifts the
+per-instance limit entirely and only the global kernel.pty.max still
+applies.
 
-Locking through the overlay succeeds and appears to work, so the lack
-of mutual exclusion only shows up as data corruption when the two
-sides write concurrently.  Document the semantics, the affected
-scenarios and the recommended practice.
+Reject the value at parse time:
+
+  $ mount -t devpts -o max=0 pt /tmp/pt
+  mount: /tmp/pt: wrong fs type, bad option, bad superblock...
+
+No userspace relies on 0 meaning "unlimited": runc and crun never
+set max=, and LXC, the only runtime that does, omits the property
+entirely when the configured value is 0.
+
+The value has never been validated since the option was introduced,
+so there is no Fixes tag.
 
 Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 ---
- Documentation/filesystems/overlayfs.rst | 27 +++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ fs/devpts/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
-index 16c35b491dad..546b77e66016 100644
---- a/Documentation/filesystems/overlayfs.rst
-+++ b/Documentation/filesystems/overlayfs.rst
-@@ -884,6 +884,33 @@ The "-o userxattr" mount option forces overlayfs to use the
- useful for unprivileged mounting of overlayfs.
- 
- 
-+File locks and leases
-+---------------------
-+
-+File locks (flock, POSIX record locks and OFD locks) and file leases
-+taken on a file through the overlay attach to the overlay inode.  The
-+same on-disk file opened through its real upper or lower path is a
-+different inode object, so locks and leases acquired through one path
-+do not conflict with locks and leases acquired through the other.
-+
-+An "exclusive" lock or a write lease held by a task that opened the
-+file through the overlay does not prevent another task from acquiring
-+the same lock or opening the file if the latter reaches the file
-+through the underlying layer directly, e.g.:
-+
-+- a tool running outside the container accesses the container's
-+  upperdir/workdir or the image layers below it directly,
-+- a second overlay mount is stacked over the same upperdir,
-+- the same layers are shared between different overlay mounts.
-+
-+Locks and leases do provide mutual exclusion between tasks that all
-+reach the file through the same overlay mount, and a lease taken
-+through the overlay is broken by opens through that overlay.
-+
-+Do not rely on file locking for mutual exclusion between overlay
-+users and anything that may touch the underlying layers directly.
-+
-+
- Testsuite
- ---------
- 
+diff --git a/fs/devpts/inode.c b/fs/devpts/inode.c
+index 9844dcf354ee..bd1e8eb26edb 100644
+--- a/fs/devpts/inode.c
++++ b/fs/devpts/inode.c
+@@ -249,6 +249,8 @@ static int devpts_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 	case Opt_max:
+ 		if (result.uint_32 > NR_UNIX98_PTY_MAX)
+ 			return invalf(fc, "max out of range");
++		if (result.uint_32 == 0)
++			return invalf(fc, "max must be greater than 0");
+ 		opts->max = result.uint_32;
+ 		break;
+ 	}
 -- 
 2.43.0
 
