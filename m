@@ -1,77 +1,75 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80379397347;
-	Thu,  3 Sep 2026 19:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF314A8FCB;
+	Thu,  3 Sep 2026 21:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788465364; cv=none; b=JZq03noHcCD1KyToB9gX1Uw9f7RjKAcWwA2FiSpvZpkL+FU70NvY4HxeGmqgn4RJzyILDheiouz3/07ZCMLxIm9twM67kd9TDanAKSiiBl5vTGicLKmtzOYGSMse3TQCtZ3V+KJxCIgjpqHpNr5SR1KQY7TC3ydrYvifLhvItpQ=
+	t=1788470348; cv=none; b=efLLjsfqKCEVRFuOwpB6ydd8Ckgo0PSu30CaHk1mnGy5A41whogI0gROecWTYU1ut9Ww3tj5pAJsS9Al5CDbcaRORRtwZgL4eHJ8uI+XGFlvo/85Z7lJMKKGiw//pvn2siuLUWcmR5mlZQli8gJJ2MsK3d9b3gui8VYeP/1NRXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788465364; c=relaxed/simple;
-	bh=TgZZTTsZ6LqLUJkBT2c3k6hBKBn+yENi4da+hBRAVns=;
+	s=arc-20240116; t=1788470348; c=relaxed/simple;
+	bh=n7bXea1Nwi+OAhiePbpS6n0L92KkeM24e644t8Q6uV4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N4AWQA+uBBnop2eedxR9nP7G4qRC0rxEGISx4XCP+7BlPCsivNT6iSi7DLzLJl8G6VSNVBVICYgq/AprhiqqM3pTpWlrjBPBtl6hXZMtkFvgtapndbs7ZQEOmQi29JWGm+n8EHIxwrw3G2c0g7TcAjFQS6ooNoUaCyx+3ACfoEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RTa9IYvW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CFg+9dYm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZZOpl9GX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SsuNNNEm; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=iE/03dhMlwXvwVtTKSUDsOfbSOCxJ8aLOFukSC/EOnj3yQOYlvF5lmuRQBkniNJe+LutZlyiNS0Xu4ovtxms6uLVWpdAcFwV9vT8jGI4uGOYvSmWohg+CFkR1tKGdRd7/pDRPu4X8UBGyKZ8APNCzqioskvlhKud/hxqg0ESKVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=KkyGpbv/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kTkuY8LX; arc=none smtp.client-ip=103.168.172.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RTa9IYvW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CFg+9dYm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZZOpl9GX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SsuNNNEm"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B310E22237;
-	Thu,  3 Sep 2026 19:55:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788465343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S/Erzy3qipSog21XmSRx+P/p00l6BX/qJZPWZvzZbSI=;
-	b=RTa9IYvWr7tGW2jZp+DEqsmOO4wo0p/zNOm3E98Fy7mcLnp1qoUJNo55E4KsNRznO+7ijg
-	dMHsKqHVOGT49LMRn4yu1Ady01BVijv4bw7yRmLlRPUpxFhaF5H+QH+Z5ahgeSAaK2cpcv
-	u2W8X+m7BwxK6s5yBJvSj7G4q0JVbCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788465343;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S/Erzy3qipSog21XmSRx+P/p00l6BX/qJZPWZvzZbSI=;
-	b=CFg+9dYmO96Hwaqod/zU66rVwAo5M4L0rNh7WS5r0GuLh/E1yZyKisoB6G7bArc8F3soPB
-	fHjfdfnue0iR7yBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788465339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S/Erzy3qipSog21XmSRx+P/p00l6BX/qJZPWZvzZbSI=;
-	b=ZZOpl9GXzWFguyRkJIL9k5Y/7whPO2Adk5/8ftBff3g+LhDqNJL6FiYqe084lCTI9uUBZL
-	3IL0j5aYKlppzTTIRHWeG8yzuIam2xdSK56wfSPaFyJ9wFjOLlK3eqIcs9WWGTYRipDO8i
-	AEWREz/4pNR0KEn80gfWpTowRheQWJo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788465339;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S/Erzy3qipSog21XmSRx+P/p00l6BX/qJZPWZvzZbSI=;
-	b=SsuNNNEmrr8o/kFytiLZzYYkZwBlE7YGMXNxL4Nxp7YKsR0qgS9kW+527BbOfaO83Tv21q
-	16E6Z8iUVnnyVdBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EFF23136D9;
-	Thu,  3 Sep 2026 19:55:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XGgBN7nQmWoHVgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 03 Sep 2026 19:55:37 +0000
-Date: Thu, 3 Sep 2026 20:55:36 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Kiryl Shutsemau <kirill@shutemov.name>
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="KkyGpbv/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kTkuY8LX"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.phl.internal (Postfix) with ESMTP id 9FA10138011F;
+	Thu,  3 Sep 2026 17:19:00 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 03 Sep 2026 17:19:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1788470340; x=
+	1788477540; bh=7ionguWI8woKzL1NBqHJS3q3P7mndBbcfqKVWzugITQ=; b=K
+	kyGpbv/xk3XEBsFODyNNbPNhtISyQzZok3DSPya01CwZV+kwt5ABBw0IE2wyouvP
+	IHqmtFW6WGlUtkcORzDbB31AnWdw7VpELOtvXH2xJl1x3D2tPK5IjwZ3Zm1QMpB+
+	5V+QiTCpRK7ZO7BxXlINFjTDLTBQJlX4DtHit15mzjLvROVaY/TPHIcC5yM7UnEt
+	gmtbLL/EgP+ZZiworifrxEbnvRUlfmfRLY2gbhElz0s8ls/nYBu3luVMWgHI8fbs
+	IYELbwLj0Jbm7+LP2Km54IFowHViDWew8ElLhftzeL1WMn15wx1a2hbyyEH8UpfX
+	xylcSUduqHOHr9Qt+yweg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1788470340; x=1788477540; bh=7ionguWI8woKzL1NBqHJS3q3P7mndBbcfqK
+	VWzugITQ=; b=kTkuY8LXa1IqB74/9oSwScifj+93XwAdFCiALWWa64sFKERxIHL
+	NS8dFJd8hGAkJkd5nKNBjL3TLUHl4GZmvq8kG52Z+zH0JhFT3ZF1oFuLXz6bqRFD
+	pFhF/qSUizLtgBPD2cvIBS5Hyu87drtjmzAKEKuSJjTH2NDLmUXKqZzbvwndpC6z
+	N2ZrIQ+/gB61cN/oQjp5MTDSr642N6d5gGuaWwNr21222k2LgrUPiTbkpFj7eNeP
+	DHvRKj/rb1a/GQDRYD2a7sHSHOI9DD/NvbqSweR9DITPUOTW9tvb7F1tebDE2Xsz
+	fcT3p+vu78oN1b2Coq0EwAqvKk53sZZ2lRQ==
+X-ME-Sender: <xms:ROSZagYsobD3c2h-Wdl89NMeq7pW8NXhglXCCKifbju_BNPJNW2pdQ>
+    <xme:ROSZap0zJh7rmWadvXuee5SbWOJ26ZG-pEfGHhTLKo453_ri4jc1oicKGEe4FwsxC
+    6_jK6bZKRpNmSGb6SAw8p-4ONFLDkUfwyfGunihJ7mT4DKbX2V9UKdErg>
+X-ME-Received: <xmr:ROSZaiGPy-Kk1Tc6ZejicntQeSEiBWSA4zgSf2QV719CnwdtrLGGKO3cCdA>
+X-ME-Proxy-Cause: dmFkZTGWigpzmqyNitv9uTrA95IFMdWwGGI+6KZ2VVuNnzRvIZsn+TK1jFAGEicXuZi9Fp
+    gbjJlgSD454klJuCw6LuID91eg85v+tMqoS8HqcgIHD/POYyHZkp/Y81BY4mgMKHSq/nEq
+    lMZnm/7plL33kQ5/zwiPoew57IMfLMJoPmyCqQWBSu50XV/W58V7YZyrOgDt79AOJKoVk2
+    yE0kH2F5YlLH8hGjt/74wtuQ+f1HG0IddTaxUqkd70lEiCOQXcpq+K1xwhLoNiL6Q04fj1
+    iNh/8ip0Jr6ZQOXZ26pNHPEf7dA5CPzflnKYQmRIEICzXQu2QLGGYRpKnxizXY8ZopdMqV
+    OT4AaxPctccLpPdNEEl1CfqNQm7lV6SBK3S1wvLNMA0TVJUCFXKvIW7Wg/erHe59VbwS1v
+    AigM7FUGg0r1denPnQ7Fz5xeh4Wqbw39jffn3NHwbZb38VMoNh2P73RFfWGZ+bx9FPN3Cd
+    FhHM/ogmP4MEoclyGTk8qrXmqSXTSN6jX8x2Rnw4GDY5Z9BkdqyuyDkF7HvYwocy4vdv8T
+    +S+9EYlb86i8i1d9fn1jvyWziYDd40P6i/2p1SNBYpkp9Y4MYfjQ/9VaH3KXXZNp4jjjr4
+    YU7h36T1KQGZBhwDW/T+IQKpz/dO8AUaLvqs9jLlMP2BxYYGl7P1PVFTy1wA
+X-ME-Proxy: <xmx:ROSZauNL6rWsY1CL01y1Y_GyPAB3C8IU4O5tv8CkIYwSSz0iJ0T_iw>
+    <xmx:ROSZavBdGOal3ndBo3Lgm3UHgKp5dBe1J72GuoDcpvQK58uYXceFfA>
+    <xmx:ROSZalxUp2DruySNPqnVYhT9Apl2KORHoSkSNQD3N6d6kxRY4kuzBg>
+    <xmx:ROSZajdGCISGV2C1wF07tjd3fqeqDBoW1d90RuwE5PkmaMCSbpprUA>
+    <xmx:ROSZaqjqMWUhDWeQ7ym4WLZ4TUWodn2ThDaEnrubTS-psg-s4iunu5Mw>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Sep 2026 17:18:59 -0400 (EDT)
+Date: Thu, 3 Sep 2026 22:18:58 +0100
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: Pedro Falcato <pfalcato@suse.de>
 Cc: akpm@linux-foundation.org, 
 	"Matthew Wilcox (Oracle)" <willy@infradead.org>, David Hildenbrand <david@kernel.org>, 
 	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
@@ -82,11 +80,12 @@ Cc: akpm@linux-foundation.org,
 	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
 	Carlos Maiolino <cem@kernel.org>, Usama Arif <usama.arif@linux.dev>, linux-mm@kvack.org, 
 	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-team@meta.com, "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+	kernel-team@meta.com
 Subject: Re: [RFC PATCH 0/5] mm: sub-folio dirty tracking for PTE-mapped mmap
  writes
-Message-ID: <apnO6MyHhCilamqJ@pedro-suse.lan>
+Message-ID: <apngWgs4OAVFij_7@thinkstation>
 References: <20260903182943.662461-1-kirill@shutemov.name>
+ <apnO6MyHhCilamqJ@pedro-suse.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -95,114 +94,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260903182943.662461-1-kirill@shutemov.name>
-X-Spam-Level: 
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+In-Reply-To: <apnO6MyHhCilamqJ@pedro-suse.lan>
 
-On Thu, Sep 03, 2026 at 07:29:38PM +0100, Kiryl Shutsemau wrote:
-> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+On Thu, Sep 03, 2026 at 08:55:36PM +0100, Pedro Falcato wrote:
+> On Thu, Sep 03, 2026 at 07:29:38PM +0100, Kiryl Shutsemau wrote:
+> > Narrowing the dirtying at page_mkwrite() time does not work on its own:
+> > set_pte_range() batch-maps a whole folio writable on the first shared
+> > write fault, so the stores that follow never fault and never reach the
+> > filesystem.
 > 
-> A store through a shared file mapping dirties the whole folio. With large
-> page cache folios that turns a 4K store into 2M of writeback: one dirty
-> bit per folio, and writeback has no way to know which part changed.
-> 
-> XFS already knows better. iomap tracks dirty state per block and
-> iomap_writeback_folio() submits only the dirty ranges, and the buffered
-> write path sets just the range it copied. Only the mmap path throws that
-> away, because iomap_dirty_folio() covers the whole folio.
-> 
+> Help me out here: in which case does this happen? page fault handling is a
+> mess... I think page_mkwrite is always called, no? in do_shared_fault().
 
-Hmm, I believe Willy already had some patches; I don't know what came of
-them (I think he's out for now).
+It is always called, but once per folio, not once per page. It is the
+filesystem's chance to preallocate whatever it needs to track dirty
+state for the *folio*.
 
-> Narrowing the dirtying at page_mkwrite() time does not work on its own:
-> set_pte_range() batch-maps a whole folio writable on the first shared
-> write fault, so the stores that follow never fault and never reach the
-> filesystem.
+Later finish_fault() maps the folio. It tries to map it fully when it
+can, so a write fault creates up to 512 writable PTEs on x86. And we
+really do need to map the folio fully whenever we can. Otherwise we
+significantly undercount mlocked memory. See commit 19773df031bc
+("mm/fault: try to map the entire file folio in finish_fault()").
 
-Help me out here: in which case does this happen? page fault handling is a
-mess... I think page_mkwrite is always called, no? in do_shared_fault().
-
-> 
-> So harvest the hardware instead. folio_clear_dirty_for_io() already calls
-> folio_mkclean(), whose rmap walk reads pte_dirty() for every entry of the
-> folio and throws it away. Those bits are the only record of which parts
-> of a large folio were written through a mapping. Collect them there and
-> hand the filesystem the runs that were dirty, through a new
-> a_ops->dirty_folio_range().
-
-I think this goes against what we're trying to pull off. We want a single
-method of dirtying folios, not 3.
-
-Ideally(tm) we would have a single mkwrite interface.
-
-> 
-> All of this is about PTE-mapped folios. A PMD-mapped folio has a single
-> dirty bit for the 2M it maps, so there is nothing finer to harvest, and
-> it keeps writing back whole. Keeping shared write faults off PMDs is a
-> separate patch and not part of this posting.
-> 
-> On a 512M file in 2M folios on XFS, storing one byte per folio and
-> calling msync() wrote 512M before and writes 1M after, with identical
-> minor fault counts.
-
-But the effects are definitely nice though :)
-
-> 
-> Not addressed here:
-> 
->  - Dirty accounting stays folio-granular. A 4K store still counts as 2M
->    against dirty_ratio and balance_dirty_pages().
-
-That is correct; I don't think doing subpage accounting makes any sense,
-the whole folio is still dirty, and for reclaim purposes can't be thrown
-away (unless you added gnarly split logic for file folios as well).
-
->  - iomap_page_mkwrite() still allocates blocks for the whole folio.
->  - Filesystems without per-block dirty state see no change.
-> 
-> Kiryl Shutsemau (Meta) (5):
->   mm: let folio_mkclean() report which pages had dirty PTEs
->   mm: add a_ops->dirty_folio_range() and use the mkclean dirty harvest
->   mm: keep the mmap dirty range down to the faulting page
->   iomap: narrow page_mkwrite() dirtying to the faulting page
->   xfs: track mmap dirty state per block
-> 
->  fs/iomap/buffered-io.c | 37 +++++++++++++-----
->  fs/xfs/xfs_aops.c      |  2 +-
->  include/linux/fs.h     |  3 ++
->  include/linux/iomap.h  |  2 +
->  include/linux/mm.h     |  1 +
->  include/linux/rmap.h   |  7 ++++
->  mm/memory.c            | 58 ++++++++++++++++++++++++++--
->  mm/page-writeback.c    | 87 +++++++++++++++++++++++++++++++++++++++---
->  mm/rmap.c              | 56 +++++++++++++++++++++------
->  9 files changed, 222 insertions(+), 31 deletions(-)
-> 
-> 
-> base-commit: 0a0d1d55dad570724bf8c7ea83409639cfb4be9b
-> -- 
-> 2.54.0
-> 
+And once the whole folio is mapped with writable PTEs we cannot narrow
+the dirtying to a subset of pages. Any of them can turn dirty at any
+time, with nothing to record it.
 
 -- 
-Pedro
+  Kiryl Shutsemau / Kirill A. Shutemov
