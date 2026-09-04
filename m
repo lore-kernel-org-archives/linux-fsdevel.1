@@ -1,106 +1,105 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9833A4F2C
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 10:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315F53EBF02;
+	Fri,  4 Sep 2026 10:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788518318; cv=none; b=i9nr1Z5a5vMPfywBsAfMNc5EFTdpT8X8kCnjmz94JANVJA2cQFAmqsEN2zZXxNOIBaABiUOTjICqChuAV58cBuaQeA5FAsz4cTWCKy0Oa3GrQ7etlHK5LRpzah3XlpTgtiHHXBtWvoxanZXJgoejDTxvuJEhjB+DRul9yscMui0=
+	t=1788518631; cv=none; b=d9Xh7P4orQKXdjv3lblr98LQolWwfwBxWg9LPVgjcnIGJhj1h+EcspshU42m6xelXdePNORPFvdLRMeeXqIDTQvmyXOTd1PZCF1F3kyEGa3rGGAaGS8akjZNJi6kqeKT6ACe5xgso5U0wHKIpAJvm/7ZYXo4L8npO4024b3y1bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788518318; c=relaxed/simple;
-	bh=hrqf0jyjkU0OW+EN/dkVrlGnsBCJhMrfjslOXtc4uDg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s5qSNKrhT7rD36WPbs4eoVXBN6JMOcD+AvH8o4fcv/6SXWTA5lIeQXj/Ld6WL6GvKW2eb7T+50wr7MXvXe7diXcjNyVdf/NfldZ1PRwOzl3G4IsFU4keKmSVCfq7+ni4FOAiZGLuFKpj4QTm6QarqfwTVKlkVS3xvgClBVu0uLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sY4vUvG8; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788518631; c=relaxed/simple;
+	bh=SEZe5HnLJEPtViVtmgtwkTJszcnx/wvXNNnLPrgibYw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=maA6sWf+OVNxGrGgX8QuPxZ4ZOo1pbE0P3Oqi20uZRIqvCswVoE2Y/Lp7L1n62oumHb8e98Ikel/22kAVF7Fbl0r5574wrGuJEB4sRc71iHcsL4+b+S2/4l3WLjqY4kol64XaT11ccHha9E3LR2/bsn01yTCl+vZxe9jrFlEyLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CVjYeIbd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sY4vUvG8"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so894640a91.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 03:38:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788518316; x=1789123116; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=054o4Lr7yqy/ksle6dmyEe/GjMAK9Y9LzcGMY3tBvRY=;
-        b=sY4vUvG8LF8aXkEcg6GyLaV1A4tGzIGw+e61ZafNKhX8HLPhCTPbuTkDI9dlUq3K5V
-         01HPWF9cjvoF6+GXjcFdR6ILMuuw2ZT6gkfBRGKTWjrpYHwahOjhtl7zhP41oe8c/5gm
-         k6F/FxaQbt1ECqGkOJ0wIn4YJnKxzRFiQ+sxUxRNOebaQgGeWuS2aPYp8KeFUQddh5V4
-         TCALh2xF3RI+BCGeFyRRjArtoTvnRWmuZ+6ghTR5+DEKL6FXftqXs9czeOV/5jIbi5IA
-         ayvPbg3Q/CMGT6Mn1uLjrs7mYpxEwqe4E/ySuxSyiO9AptOWBoSWtUY88rpcXv79mlnz
-         KNGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788518316; x=1789123116;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=054o4Lr7yqy/ksle6dmyEe/GjMAK9Y9LzcGMY3tBvRY=;
-        b=UdoBir6P4AJTPqyYP+BxcNzy83n/cm2o2mC/js8HEmcLKWmm5Gt9prDnxeRbaGv89E
-         D+ooTRpu9d2in7G0YBJC8JDeQchR4DVQwIq5lwUa7wIuzVpodV2gVRYKbZCsKbcMBGaZ
-         VM0YAmkkoADMV4pwsGbU1cFFTeJIFSn2LIcEWOAAT36afi7LlDD24pKcoYGs6xTEpVW7
-         q/3xoCwl0ZQJSFm2InTFhmByfS94iKytYNGVJFOFf2owEJVklBpTfc28uWpt17e3Czm3
-         oo7nUAi6GKfD5wYnnzTkRxvtWB7O4IlY9Ej/Tdq1WbXSzLyxuMD76U15taIlZzCMtUim
-         O0ag==
-X-Forwarded-Encrypted: i=1; AKwUvBzp+XuCQys/2gfF+zZu4kpAE5idInRrpNyZ3V5BGBCYiYQWecxQPp6erERtLEuqp28ED4pWxxpHnnKwpStP@vger.kernel.org
-X-Gm-Message-State: AFuF++lar/n3DQ1hd5zwlPtLaQ/CFJsVLLfm6xc0AoC9EZedrA/ePSku
-	sppYfa2o6ta3Kf5IQ3ESBJo8EABQINNyuUy91RuWci4BrNYeYKw9Dwmb
-X-Gm-Gg: AYBFou2tDgzC4wX9BWIZeN8iEovKB8MIoaDBIRDofSvmMIogouh+aAOtf7frMbig7Ox
-	yWTnLNzRZddKDgcPd7XBeZD8ivFx4fjZe755oyEM8ng2nCaifLwLy+busnPIp2348FPS4Bbo93o
-	Fbe7a9Ep39QxkDIl7kTBrS/sTNh/baQLI7uWIIi0Tj2/bjnpJ1kFKP5Pt5SITMVVFwRNMhdYImc
-	9l3MZkUUzrHmwMJwex7+uAJ26ucqEuQG/23L6XwHiM8jYf1OGYNAsMu3dVRe+6c9+BjZaWkpzIy
-	+qvLEka9mwr+hNHU1o26xKKTPYRstMLKnsFFnkowPkgvEqSZGk+ICGxapVkXL/2TY8Cn+B5onom
-	NCDXwcHXE4VyitX1mqzPym1IADzU7kDMtyVbq5pU/qc62STtlvn4rRBZrIMQlSTv8TbZhpSPrGm
-	zAGTrECaP+6ZolOOscNV2J7vlcQkY0n1nGCKNGGGXfJbpp0GWetr3UqjdBH7EAUUAp84/ra9Fej
-	9Ldpm1kP8+YXds=
-X-Received: by 2002:a17:90b:1a8f:b0:398:d2a0:87ff with SMTP id 98e67ed59e1d1-39b26101029mr7458449a91.1.1788518315763;
-        Fri, 04 Sep 2026 03:38:35 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339aa33e96sm6021835eec.12.2026.09.04.03.38.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 03:38:34 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 2/2] iomap: fix repeated word 'the' in comment
-Date: Fri,  4 Sep 2026 16:08:23 +0530
-Message-ID: <20260904103825.8752-3-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260904103825.8752-1-hemanth.selam@gmail.com>
-References: <20260904103825.8752-1-hemanth.selam@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CVjYeIbd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A10011F00A3D;
+	Fri,  4 Sep 2026 10:43:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788518629;
+	bh=VW/CLvXtR4yi53YJ7B+rM0JAvXpIe3UjCxJyIRDFpr0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=CVjYeIbd00dffOAYPugbkKN2MbArT5cImYadB4j+59apFTYJ6qNsx+HJXhXSHjxWd
+	 PDU+/10sgnpMiO+5G+/JkISHJeO5wyEx1bjM/hX2VhwGl6LIlR3fGnc8THVTpArie1
+	 0Xk7ms3jKC3xlsqJhXRbTzeRZjLy4Abb2Suyos0H7Aj2bak0q/nUotJea62OlTfBij
+	 QyM6wsxZkGpPgAGrubvnOsTcq+ZBX3tEAp72W8R7GuA7Lqbhu8bwvKXzqb7k6qJm9l
+	 sLBakyO/blUmymUISaV/2lYDlsveRZLBbJM96xbjGN9yZpw4lKEzujXCapOwqYUlvZ
+	 ZIMVI+2+bSC4Q==
+From: Christian Brauner <brauner@kernel.org>
+To: Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+ Nicholas Piggin <npiggin@gmail.com>, 
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Jakub Kicinski <kuba@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+ Hisam Mehboob <hisamshar@gmail.com>, 
+ =?utf-8?q?Martin_Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, 
+ Amir Goldstein <amir73il@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Eric Biggers <ebiggers@kernel.org>, 
+ Geert Uytterhoeven <geert@linux-m68k.org>, 
+ David Howells <dhowells@redhat.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Theodore Ts'o <tytso@mit.edu>, Catalin Iacob <iacobcatalin@gmail.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, 
+ Andrew Lunn <andrew@lunn.ch>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+ Andrei Vagin <avagin@gmail.com>, Wei Yang <richard.weiyang@gmail.com>, 
+ Bhavik Sachdev <b.sachdev1904@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Wang Yan <wangyan01@kylinos.cn>, 
+ Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, 
+ Malaya Kumar Rout <malayarout91@gmail.com>, linux-doc@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: Luis de Bethencourt <luisbg@kernel.org>, 
+ Salah Triki <salah.triki@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>
+In-Reply-To: <20260904082954.48738-1-enelsonmoore@gmail.com>
+References: <20260904082954.48738-1-enelsonmoore@gmail.com>
+Subject: Re: [PATCH] bfs: remove the filesystem
+Message-Id: <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
+Date: Fri, 04 Sep 2026 12:43:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=859; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=SEZe5HnLJEPtViVtmgtwkTJszcnx/wvXNNnLPrgibYw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTNWnB77S5lMyEl9+dJ/HLX590J4N+XsPtmUsuNHyGhN
+ Q1OTHcedZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykeiojwxoB52CpkN9BCyZ2
+ 2izo/OY7bYapT739fJPZbu0Sp8xilzP8Lyt/d+TkVQWPP+sS1xyavfuujX3Dr4edtfbn2XY16J4
+ 9ygYA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Drop the second 'the', reported by checkpatch.pl as a possible repeated
-word.  Only touches a comment, no code changes.
+On Fri, 04 Sep 2026 01:29:19 -0700, Ethan Nelson-Moore wrote:
+> bfs: remove the filesystem
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+I agree.
+
 ---
- fs/iomap/buffered-io.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 0a5ebfda90f1..d42751d6f5ff 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -1708,7 +1708,7 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
-  * @iomap_flags: Flags to set on the associated iomap to track the batch.
-  *
-  * Returns the folio count directly. Also returns the associated control flag if
-- * the the batch lookup is performed and the expected offset of a subsequent
-+ * the batch lookup is performed and the expected offset of a subsequent
-  * lookup via out params. The caller is responsible to set the flag on the
-  * associated iomap.
-  */
--- 
-2.48.1
+Applied to the vfs-7.4.bfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.4.bfs branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.4.bfs
+
+[1/1] bfs: remove the filesystem
+      https://git.kernel.org/vfs/vfs/c/e36781a626b2
 
