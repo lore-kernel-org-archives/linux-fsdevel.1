@@ -1,152 +1,84 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7453B27F9
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 03:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21673D34A8
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 03:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788491891; cv=none; b=hcdMkVnu5f+2yq/HClzgIPkqNKHdr36gL3brIQ7m3EVzpUdCYn5+sFDVXejfsj90ivxKim4V4ORbTxleIlP7ZTqtc0CG9t6Y1kKpYYeYNcPp49DUojVkWq2BLLkQXvol2Lz0WzJHcU0GHMIECrLGmnSoqwDVG+V/zC8kweoli7I=
+	t=1788493112; cv=none; b=FlfDEqamueDAtqkdF3ZPEnXWH7SKo/yufcPqIMcer3XW6UpobcrMx7TWAuU+55JOt75a1n1qiZqiZyPltzH/Pms931qD4O90vMiMsKLwg2i077d2q3U/gHRMyZjs0tmiP09953z0hRkQ273ZQ3GOm9HqdIwgo9NJJ0Tt2z9z9l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788491891; c=relaxed/simple;
-	bh=AIU6NGTW/RpZfTt6y2cuypcAmkoFDaCDqNNZTCJi0Bc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NxSNw9dx7k+NrW5r/p8EYarm+82yUx2hEhZMX/ZMBuFICVnY/FCIb50XO6qg3uOtWAx0Z3/xhiP5bR21hv+Y52PiSGgzSI5+JSB24SQjkfTHrVJtAOZoK3oIlpde4nRDBqqAgVHhcFWYAFUMFuUDEL1eQYnEGseFpKrBwD2KYMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XXnf1qrk; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1788493112; c=relaxed/simple;
+	bh=SIxl79RQVug3Il2ZT7fp/ZCcUV6GlI+OgdCE9FEFUAI=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=dhzvjyZ+29mOoWz1DUVUWcUo8mmLppktMPON8m6/Z5rCuIj4duhpeHDakKPhS48EGyd4h7FtES8BayaijVJGP4Ada4UK3zWndcOCB5YuHatd6GtMmewvDejYNEkNFAauKSHDepYp1MdOK/8h4gWDXonO07breWXzpBgHTSHdFn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=cr/bVGZm; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XXnf1qrk"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5303932c4f3so3554591cf.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 03 Sep 2026 20:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1788491887; x=1789096687; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
-        b=XXnf1qrkElo3aCzA7QExaOWSdNxP/unmoxpQ7Nl14LSqP+OXLeyp+7TwEx+/0vPFXS
-         mbXWBII3WXz82rpc/mRXs5oQAafMXv/lR9i6NSNTO7vI6fbUQ9Lm/H+/70dUKyPYID/D
-         rINud0bXIB6JWQRfob5+wo6/7GzlrBSpoLZZyO4V6Mq1y4oT1jQb28+99bKN5jmlVfq7
-         XLGDbXv6L3DciY+gWrXNu3RIZDTtpgb+GehzhnXRXGRkpYwMGg9GSc7zeFG53wLU+gCx
-         flGxyi214iKlFdnetOf0+RVR7gjNDakGPu1348MlAGrbuEUQ+hjaFC/oLLirlUZ3Lv2L
-         lQ3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788491887; x=1789096687;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
-        b=ZX34NEtD/j5CG45EE0MxjSe0LIWwO062SAOqn5DaYTDzDvjXyrMk2yA32cSRdaxt4E
-         6eog5Ru/XyU47Y0nqAN0Hk7ZD+2zEp+Cw8SGQhmvymPb7KZBZ3oru2Za/s9LyHXkmbXl
-         Y3jNy4/FivZsEVlrkyUk0XX6GanQXJ8vafAYC4meRuftuReuIRSnMlb4uTo9bc6HM8eY
-         FKHK3M/is9O2j2hT95hrJXg+SD58OpYulqM04I0bY0See2bSj+hE5qttHbGE3WoYYnWl
-         FlbitGawxw09PS6p+WN17dyvSDY3hZpO975bt1DdiDc/FEN0EW5X1bBdY+CPuLYttakH
-         eF4g==
-X-Forwarded-Encrypted: i=1; AKwUvBwZ0tw7LEMR32eAaKAjQqfwKDCwtqJCVFAL2eT6seQrda1Bn903DL2EGoKASO3ZEUNHWjdbZqndBQGeowMs@vger.kernel.org
-X-Gm-Message-State: AFuF++lyhg14VzUQHNo+4hMmRuq1kHV6H5kRpWPa80FC/TMyPIZPbFIt
-	tnfqSyg5xnJ3jx18WzKCLPA+SANN52vOHYVe1uVmZZkq2NrE5DljGNy9DjjjH75VENU=
-X-Gm-Gg: AYBFou1hvTekIShvzd0ITbJRD7AP2watpJ7/LW42thkXLzRenG8QDdZ6vtF8nNwP/X7
-	CpcpHA42Qc4ayMa46bHNhZswHwLOMG6zSniY5ju1B0u1r2+gTaJsCoJaeZUZS7rT6K3GNoil8TC
-	NG1GRhGJqc1repXy+tR7cmS6co/TTZCelCDV+OCYZXG9rIRVyexBshHB2p4BJt0fjcuTKCh6Qfw
-	7uQGUKmAHtmtu6/SrcuN8sMzRMuj+Gd3Nt4/FlB7xBaDtK/667I64EYW+Ah2bNGGjnm/u8vvPzQ
-	amNvRGPg+BFXd2zqId9BsMWpZDPJXPyuF1PoJCBMj6dBBkCmM9EBNAgi1areKtIVxN6/QedzpCU
-	ZlexUK6oqADQfGbq8k+x3hWAru5i/K94vqNONWfZCBrPZmgK5078rsfud1sHSfmrNgG97cNtwrw
-	bknTxoimLDUBEUoJJVW+apCDRwvq6Gh2IZn/fqm/ZWfPpIVCn0fdtdrV1PyKAURWjHAX86eSOQU
-	SBFWroRQcROOldvNtub8oEWLyQwIRO3/2cpWm8hfALICjMvmSqPU8I=
-X-Received: by 2002:a05:622a:1c18:b0:52d:4f43:d5b0 with SMTP id d75a77b69052e-530548bc5e0mr43078621cf.22.1788491887027;
-        Thu, 03 Sep 2026 20:18:07 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5305402a7b7sm11260161cf.3.2026.09.03.20.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 20:18:06 -0700 (PDT)
-Date: Thu, 3 Sep 2026 23:18:03 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Qiqi Li <liqiqi23@huawei.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 25/36] mm/memory_hotplug: support N_MEMORY_PRIVATE
- node hotplug
-Message-ID: <apo3bZab6qtCosQM@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-26-gourry@gourry.net>
- <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
- <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
- <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="cr/bVGZm"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=biC4R+3LhAPGPOqKjajgQ9ft5Kgc9aWgzDMercUsc4o=;
+	b=cr/bVGZmvR+Db/oP0Dj9tZ6ueSc2zbqdvTsKUvCJhO/Jdi3VIzzceDdmWB2g/An67Vy4ZH3Y8
+	+gJOaHYmE4iydXuWUh4hQZ+eyXPc82AtoKa5SMp2lCze+3HMM6sddWsmMFg7q+shXnewtB/pxGq
+	Lep5wAs7BZItzX3UODjNGeE=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hbhjS5kvszKmVp;
+	Fri,  4 Sep 2026 11:27:24 +0800 (CST)
+Received: from whupemk100004.china.huawei.com (unknown [7.152.185.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 8931040572;
+	Fri,  4 Sep 2026 11:38:19 +0800 (CST)
+Received: from [10.173.124.160] (10.173.124.160) by
+ whupemk100004.china.huawei.com (7.152.185.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 4 Sep 2026 11:38:17 +0800
+Subject: Re: [PATCH v9 02/15] memory-failure: Prevent hugetlb freeing during
+ unpoisoning
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	<linux-fsdevel@vger.kernel.org>, Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>, "Gregory Price (Meta)" <gourry@gourry.net>,
+	Andrew Morton <akpm@linux-foundation.org>, Jane Chu <jane.chu@oracle.com>,
+	<linux-mm@kvack.org>
+References: <20260805210557.1118966-1-willy@infradead.org>
+ <20260805210557.1118966-3-willy@infradead.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <616d673c-3428-24c4-c3f8-ce93b950e142@huawei.com>
+Date: Fri, 4 Sep 2026 11:38:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
+In-Reply-To: <20260805210557.1118966-3-willy@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ whupemk100004.china.huawei.com (7.152.185.74)
 
-On Fri, Sep 04, 2026 at 09:05:39AM +0800, Qiqi Li wrote:
-> On 8/17/2026 8:49 AM, Gregory Price wrote:
-> > It would need to be reserved, and you could use numa emulation but
-> > that's clunky.  I have an RFC for exactly this issue - though i haven't
-> > pushed it further yet.
-> > 
-> > https://lore.kernel.org/all/20260610014517.253609-1-gourry@gourry.net/
+On 2026/8/6 5:05, Matthew Wilcox (Oracle) wrote:
+> If we fail to get a reference on the hugetlb folio, then it might be
+> freed as we operate on it.  Prevent the freeing and the attendant races
+> around manipulation of the raw_hwp list by holding the hugetlb_lock,
+> which is also held by the hugetlb code when freeing hugetlb folios.
 > 
-> Hi Gregory,
-> 
-> Sorry for the late reply.
-> 
-> I took a look at the exclusive-node RFC. The approach looks useful for
-> device-backed private memory without a firmware-described NUMA node.
-> Thanks for the pointer.
-> 
-> We are currently looking into the private-node and CRAM design as a
-> whole. I noticed that CRAM was not included with the v5 series, and saw
-> that others were also interested in a v5 version.
-> 
-> If you already have a CRAM branch or patches based on v5, even if they
-> are still work in progress, would you mind sharing them? It would be
-> very helpful for us to continue testing the overall design.
->
+> Fixes: ac5fcde0a96a ("mm, hwpoison: make unpoison aware of raw error info in hwpoisoned hugepage")
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+> Reviewed-by: Jane Chu <jane.chu@oracle.com>
+> ---
+>  include/linux/hugetlb.h | 19 +++++++++++++++++++
+>  mm/memory-failure.c     |  6 +++++-
+>  2 files changed, 24 insertions(+), 1 deletion(-)
 
-I dropped it off because it was starting to become unwieldly, but i am
-continuing to maintain a branch on my github:
+Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
 
-https://github.com/gourryinverse/linux/commits/scratch/gourry/cramtest/cram_72/
-
-I have not posted a new version in some time and it has been reworked
-significantly in the past few months - but I plan to talk about this
-particular branch and the tests I've run with it at the device memory
-LPC micro-conference.
-
-I validated this branch against most in-tree (relevant) filesystems for
-the page-cache extension, but I imagine the anon-only version subset is
-the more immediately interesting for upstream development.
-
-I may include the anon-only version in v6, but I've been a bit busy
-shoring up the base private memory node core and implementing kernel
-selftests and LTP tests to ensure there's no userland api regressions.
-
-I hope to get something out later this month.
-
-~Gregory
+Thanks.
+.
