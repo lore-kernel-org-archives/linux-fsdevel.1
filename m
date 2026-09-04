@@ -1,73 +1,73 @@
 Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A3343B3CE;
-	Fri,  4 Sep 2026 21:53:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC74D426438;
+	Fri,  4 Sep 2026 21:53:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788558823; cv=none; b=u/VLMKd6qiy/EqFoXgNNcXW+zgLL2e9TagPRlKLUEHLg4bh0lyZOwcwdj0AvhHFoxnbgfk5sDUps0gQYHuUCqv8FwmOd1tI3Sgom076WZjsI6Z8QEb2P1tG2ZQvbDQNhXit1lJ7LiCUHE9J/1fIr03fxsJp8/07krA69xb9ww/k=
+	t=1788558828; cv=none; b=ZHf2+8MfZ65ZsVU1veypAm701dB4BUNXODGyplWW9BJGHFLxqJkNBk5yycgYjZnI10P9AfPzbdkSamEbNzS8BYZyQnKi7kLwJ0jFEnYmQi6zDVdxXa0+AZ3YwyQlJcq8vJkQLF3WRbmM/yhUeZpAeBzLWb0deFL21QENWR63Cgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788558823; c=relaxed/simple;
-	bh=ZQvaC8dFecVpds878fbdcXZVKMpD3woowzwCpCb4u9Q=;
+	s=arc-20240116; t=1788558828; c=relaxed/simple;
+	bh=DKn3mH6e5UW5ZKmdIoCgZcupxdHkXvCEbmNshn0Ohwo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RwAVz8sAStEiVOwkeIJkpa2nt3fL0vQ+aS/ChVBOtxGVnPDSzl7Dr9Z+bbf/TLXwpB0NdheOLFwpFREu0NVgV8a6G8xfkI965K5XbUG2wluTbj0Rhiy1YKFuBtCipErtsFvzW2EFf5Td5z43BqyrR02XuvFiJ2IsFZAAVkCCeqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=UyLQL+cW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q2RuxB6F; arc=none smtp.client-ip=103.168.172.158
+	 MIME-Version; b=J7upI9b8khvARBXO4X5tHPH+obd1TDq09U6svZODDyNmpTpPJQ0AAKWHJy02ZSRbBgYgFvPRHv62ggxASnpkajrb/879YOr8/Jcmd9kNN6v8pUsrZ9TyW4iOiFKizp9uMXi5wTp6YmdlPpZkv9aowkVhdKutFyRYBWn98vb5Nro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=O/PUQwGC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ShGahM1R; arc=none smtp.client-ip=103.168.172.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="UyLQL+cW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q2RuxB6F"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id B5FE11400012;
-	Fri,  4 Sep 2026 17:53:40 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Fri, 04 Sep 2026 17:53:40 -0400
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="O/PUQwGC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ShGahM1R"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0AF471400156;
+	Fri,  4 Sep 2026 17:53:46 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Fri, 04 Sep 2026 17:53:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1788558820;
-	 x=1788645220; bh=C5zeecdiXDFUM4KIYX///uvKg7YTspSiWbXqcfJhCrk=; b=
-	UyLQL+cWCZwggjN5YaZkyHdTzwikg4JPPRHAMJUpNPx2YJFfcrqLL6w28LHDoGD5
-	BUmfkVQK9IZ2RjXkyQ6uHE704A9lbt0RxAtTgHGkGtIZF8ApqGcgN6kyzw9MC1uX
-	ON8kCkoKdbx0WLKIs59rc/bBhfwMh4di2+dvX57r3bH6eWGxHU3X07u7FATNLywL
-	1U6AMTkh/Vufh0OdTvAprIxscLzwqmCAEItPfMxNAY+K09ldMo9KCRuK8OmtjuPk
-	PdqAM7nEYYGMbm4MzyxvQunhSTDzXibBqcCrNeLkY6yG8uSyCjkyRHKuIHCHMYlY
-	B+f9umkkT7Qih+ocViOazA==
+	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1788558826;
+	 x=1788645226; bh=x76cWHKe6pufS6Tmmh9Hg+tYaejNmWztL1qC220hXPo=; b=
+	O/PUQwGCcCBQMAHLIb08w2AdXwZhTJUorguAwS3+iJrgFPZrWmxhtCFh3gQW51Pc
+	DRMaWfTllRofe7pzTDlIGLM08elnW6BJiQMdCBniV0rOcNnpq0NCluh+fIixbSer
+	DVs58A2w05yz/qxhPWJwrgvSE1YWOzzplyyKuybGGtRJebJMPRagKtUt3KjjuqlT
+	8XQIwIImcYU1ww42P5pae3S8PLNdLPrUkautSfwfBalyZd3mKseGoMq4JFh6XVpR
+	IEuBDsDk8LdHzA2PQ0H2+MfxGtNQoDDDXFBKH5rK/M7JCIIizN4hr5D9InM7/0NZ
+	kNGFsgMj47x1dcrYkfXWKA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1788558820; x=1788645220; bh=C
-	5zeecdiXDFUM4KIYX///uvKg7YTspSiWbXqcfJhCrk=; b=Q2RuxB6FISo63kPx/
-	wGgxNxhjwQMn3zmPNyf8ZjJ6+YNncPuB1yy9zQABjYWsuOlmRYfEuT35Q6xMljUs
-	tqv8cesRTxMOxPiPdAaW8RiE8/ZrTj/ChliIDEDdceR7STNz1GNuHg4PKW95pdsA
-	O5Z/843OaxYtBXyoRaiB4cvPA0mnikZN5exvM0tWhyFLBP8WV0YGruOCfwLToHw7
-	b0eJPOhmwXqLMLwXQAfOYGV+UStI3WHdP63yhkXx+I1Dpm0JqVz2UYdh4gD6zkik
-	8BotGvRQx5/H0Yn/WCA4JqQOLjhB1fkFXcM98p6Z0bU3tUPLVcMOcBpeBQBAt+f4
-	ooWvw==
-X-ME-Sender: <xms:5D2bam1jUp25mZ5ozs4kmw7pW5YDBabiAcRkTW0NrdzOPBxfVdr2mQ>
-    <xme:5D2barojmGKjx2G_rjtNB8iJPBeceKTtiLFmgOxQqgw9CD9SmyMoQfuXp2P06XqMp
-    Ze3A29oTMKLz5wVLCNssBwmpFW9YZ3JcBCjsKUig6qeFMT_Qa8>
-X-ME-Received: <xmr:5D2baigndm2kWHXS7hqmj4xqJNqxcAH1S2JPBclVPx6qPFHsTQRfdpVEiPzHmtdqjAkiQXN4zbD-LdoE-pXkcuntxaDmhCk>
+	:x-me-sender:x-sasl-enc; s=fm1; t=1788558826; x=1788645226; bh=x
+	76cWHKe6pufS6Tmmh9Hg+tYaejNmWztL1qC220hXPo=; b=ShGahM1RL2AY4v70k
+	x+xAB4QCU2bGDAyZEored5cX/qxzTfOy1caRdMRDQ4qWAvM4JW93XUtAGrhR/gMJ
+	O1p24JB7Js5+bG5a6MI7Ck4hiF1EwBPdA/bilro2u/0h/nUvGxYOMZYCpHaqcwOk
+	m0or0LpJuFKVOF8X8oVQg2mztgEfLVUme+KO33Cp5njfrvnK95kmraBQ67xTcoES
+	brpEk1g8uhZE5CSdTZxF7b6ke8WbeF0mNzQINI6weiiUOQeYD81dF+HH0v2dKrId
+	T/AY0S9Apqo1mhFi72p8fz2BaecFdZzeXbb1BDFYsA8u76typeRJRtQjPOtgU+Zf
+	Y9ogg==
+X-ME-Sender: <xms:6T2banTAL_Eal74wJhgF8wltVTV3x8_DgQSAHcY-B3Rb5sln5gEcjQ>
+    <xme:6T2barUJ4c2tj6Avvt9iIY8Ekl1ZMbxqeVCBvtpJ9scQZuW6ERz84nJvPRdbMwIb8
+    8wgcs30k4U0QkkGhbJc9ZsO9pvljL3p8IGHasxBihyjlZ43DOQ>
+X-ME-Received: <xmr:6T2bageVg0ciscCOYIfiJB5Z2bJNqCBMC0KlpfMoyYWfN5LCptem1631iKWCiFx1crooCK94xZQqRESoughMQEZqlp5Of_4>
 X-ME-Proxy-Cause: dmFkZTFiAOSj3LUvbMyTizwFG8S0Z77/oyH2J2g/uycK/oy+xjfWiF27uJMr9H7g3QAOe/
     XYsAVApeSvodxh0nJXqm+2ih0Zs0UFQnZPCwAsQgYJh4bKlGJCxAFvJ28DiVFZcSJ1v4SN
     eyofj/RHn+C6wmmzYsHzdQWXaMLzQ5qjTmyCk6u6FNaJzHTyX3mRZJWbQlLecUBL+8R9uF
     oXPgTkabZ8M+0wwMRuzFqlmpEXjU77OKNTiGAEqZPKyJRGqwLIf4volXBc3DcquHRoaijA
-    Ked+eKVy/8jzE5J4p8iliYop7ExvhRi8QZDkpUnJW3mwzA4SzmVm5+ia17mBgI6SpbQsZZ
-    ROG3vVGdz0eExPr9nwP/a7Ac0MWGotd3LzCIrgaWYQDZ9HkQXPh8G59X6mtm0OB3ydRSVW
-    N981RvJoaUo0wpIiZXWImf9hmQFGbQJMzSLaVAGz6TmWtZ3xQCQzd12YZ9uhO53HRUO+SV
-    iTeCjsFuybjku9EIoMb5UbnsUaBJCkoho+ubDlYisJGK5azdcTIvPpXTVqf1RBePcLLjX6
-    nJnLuMD8gNiGPk/RkiaDefEmzTXgUBLaWHyLXsOhwKZaXyYg6FW2aw9qQxs/A6n7/f1X9y
-    X472xqcA63bM7259sZ3ZhH+SiY2m08WudF2gmzaID02FTrg9CtByjRjymkWg
-X-ME-Proxy: <xmx:5D2ban9R6ZiNAhrhXUUgh5JGPLkW-D7zbIhHdLDPYhJ7UFHpYdVZwA>
-    <xmx:5D2bauX8I39o362fquZll2ZKdnURzRB9Us0sYDE_Z9oTiHyWYgUmBw>
-    <xmx:5D2barAhRkIGpnFxDuyflODt981vmOUT51nH62ijJLY2TbRP5g7zRg>
-    <xmx:5D2bajF0Z7Hr3wq_R0ER5pm0TbSoWk2BwN8HL4ZRNiONqjE01TSeOw>
-    <xmx:5D2bagf4tMb9KPm9Ld0sxnpACkofXm-Dq0Ph-AoQM8wBQ_eoHmODmpG3>
+    Ked+eKVy/8jzE5J4p8iliYop7ExvhRi8QZDkpUnJW3mwzA4SzmVm5+ia17mBgI6SpbQspn
+    KOe1ipPvDb1dZcGdAxFpFgmtv2gIpIjaL+xSGRg8zmijYpytkhaOM24PfPWocRKSaqDsQE
+    DSNdCbjO/5pyusvzxyzKyH21CrHy1U3KZ35FyuLclBUYC0vupR6nRRD6zTQC4sgILITPmH
+    UqaZHbzj0H6wJ3ksSKCLZOvAcJlKsMofbRL1mJfPFYajkGiQTZBqpMyAm4yNw1orJbRluU
+    whmjuIcisBYvApjNIiSqOhwTBeBltl83AbNKrA17/sG88V8ypgQFGDIIMfazC4JRT4o+w7
+    PzMIJ65MYyczH7KFBjNWmnQGKhocuDnom5ZBYfgjEPpe3PWA3SVF9FQSt7iA
+X-ME-Proxy: <xmx:6T2banJz6yxALd14LSB2dNOWj-jZEnjFHWCKTm5BvuOkP9f1vq0_tg>
+    <xmx:6T2balzDkHTHinIuX9iJ86v8h78pxi-XjDYD-Xbmb8eW8pj8UhhVdQ>
+    <xmx:6T2baluMmaMw6udDqpFi-qQNnFSSubIa5XMhzYh9aBORyp_sGP5fbA>
+    <xmx:6T2bagCBZbP9N-acMRBI5Fxyui62z_BsMplIGSgf5bCxQCc7NN5vaA>
+    <xmx:6j2bav7jsOENub4LfkfCkyQZCRm8rii2I3LnuzmTAc6czwH3HSiJEL8I>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Sep 2026 17:53:38 -0400 (EDT)
+ 4 Sep 2026 17:53:43 -0400 (EDT)
 From: NeilBrown <neilb@ownmail.net>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -77,9 +77,9 @@ Cc: Jan Kara <jack@suse.cz>,
 	Amir Goldstein <amir73il@gmail.com>,
 	Miklos Szeredi <miklos@szeredi.hu>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 4/7] VFS: add d_duplicate()
-Date: Sat,  5 Sep 2026 07:48:13 +1000
-Message-ID: <20260904215142.1060510-5-neilb@ownmail.net>
+Subject: [PATCH v4 5/7] VFS: Add LOOKUP_SHARED flag.
+Date: Sat,  5 Sep 2026 07:48:14 +1000
+Message-ID: <20260904215142.1060510-6-neilb@ownmail.net>
 X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
 In-Reply-To: <20260904215142.1060510-1-neilb@ownmail.net>
 References: <20260904215142.1060510-1-neilb@ownmail.net>
@@ -94,120 +94,112 @@ Content-Transfer-Encoding: 8bit
 
 From: NeilBrown <neil@brown.name>
 
-Occasionally a single operation can require two sub-operations on the
-same name, and it is important that a d_alloc_parallel() (once that can
-be run unlocked) does not create another dentry with the same name
-between the operations.
+Some ->lookup handlers will need to drop and retake the parent lock, so
+they can safely use d_alloc_parallel().
 
-Two examples:
-1/ rename where the target name (a positive dentry) needs to be
-  "silly-renamed" to a temporary name so it will remain available on the
-  server (NFS and AFS).  Here the same name needs to be the subject
-  of one rename, and the target of another.
-2/ rename where the subject needs to be replaced with a white-out
-  (shmemfs).  Here the same name need to be the subject of a rename
-  and the target of a mknod()
+->lookup can be called with the parent lock either exclusive or shared.
 
-In both cases the original dentry is renamed to something else, and a
-replacement is instantiated, possibly as the target of d_move(), possibly
-by d_instantiate().
+A new flag, LOOKUP_SHARED, tells ->lookup how the parent is locked.
 
-Currently d_alloc() is used to create the dentry and the exclusive lock
-on the parent ensures no other dentry is created.  When
-d_alloc_parallel() is moved out of the parent lock, this will no longer
-be sufficient.  In particular if the original is renamed away before the
-new is instantiated, there is a window where d_alloc_parallel() could
-create another name.  "silly-rename" does work in this order.  shmemfs
-whiteout doesn't open this hole but is essentially the same pattern and
-should use the same approach.
-
-The new d_duplicate() creates an in-lookup dentry with the same name as
-the original dentry, which must be hashed.  There is no need to check if
-an in-lookup dentry exists with the same name as d_alloc_parallel() will
-never try add one while the hashed dentry exists.  Once the new
-in-lookup is created, d_alloc_parallel() will find it and wait for it to
-complete, then use it.
+This is rather ugly, but will be gone soon after we move
+d_alloc_parallel() out of the directory lock as ->lookup() will *always*
+called with a shared lock on the parent.
 
 Signed-off-by: NeilBrown <neil@brown.name>
 ---
- fs/dcache.c            | 51 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/dcache.h |  1 +
- 2 files changed, 52 insertions(+)
+ fs/namei.c            | 20 +++++++++++---------
+ include/linux/namei.h |  3 ++-
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 43149c7849d9..cbd5738de168 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -2000,6 +2000,57 @@ struct dentry *d_alloc(struct dentry * parent, const struct qstr *name)
+diff --git a/fs/namei.c b/fs/namei.c
+index 8d8d2af185f1..e978a75eb8a1 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -1933,7 +1933,7 @@ static noinline struct dentry *lookup_slow(const struct qstr *name,
+ 	struct inode *inode = dir->d_inode;
+ 	struct dentry *res;
+ 	inode_lock_shared(inode);
+-	res = __lookup_slow(name, dir, flags);
++	res = __lookup_slow(name, dir, flags | LOOKUP_SHARED);
+ 	inode_unlock_shared(inode);
+ 	return res;
  }
- EXPORT_SYMBOL(d_alloc);
+@@ -1947,7 +1947,7 @@ static struct dentry *lookup_slow_killable(const struct qstr *name,
  
-+/**
-+ * d_duplicate - duplicate a dentry for combined atomic operation
-+ * @dentry: the dentry to duplicate
-+ *
-+ * Some rename operations need to be combined with another operation
-+ * inside the filesystem.
-+ * 1/ A cluster filesystem when renaming to an in-use file might need to
-+ *   first "silly-rename" that target out of the way before the main rename
-+ * 2/ A filesystem that supports white-out might want to create a whiteout
-+ *   in place of the file being moved.
-+ *
-+ * For this they need two dentries which temporarily have the same name,
-+ * before one is renamed.  d_duplicate() provides for this.  Given a
-+ * positive hashed dentry, it creates a second in-lookup dentry.
-+ * Because the original dentry exists, no other thread will try to
-+ * create an in-lookup dentry, so there can be no race in this create.
-+ *
-+ * The caller should d_move() the original to a new name, often via a
-+ * rename request, and should call d_lookup_done() on the newly created
-+ * dentry.  If the new is instantiated then the old MUST either be moved
-+ * or dropped.
-+ *
-+ * Parent must be locked.
-+ *
-+ * Returns: an in-lookup dentry, or -ENOMEM.
-+ */
-+struct dentry *d_duplicate(struct dentry *dentry)
-+{
-+	unsigned int hash = dentry->d_name.hash;
-+	struct dentry *parent = dentry->d_parent;
-+	struct hlist_bl_head *b = in_lookup_hash(parent, hash);
-+	struct dentry *new = __d_alloc(parent->d_sb, &dentry->d_name);
-+
-+	if (unlikely(!new))
-+		return ERR_PTR(-ENOMEM);
-+
-+	new->d_flags |= DCACHE_PAR_LOOKUP;
-+	spin_lock(&parent->d_lock);
-+	new->d_parent = dget_dlock(parent);
-+	hlist_add_head(&new->d_sib, &parent->d_children);
-+	if (parent->d_flags & DCACHE_DISCONNECTED)
-+		new->d_flags |= DCACHE_DISCONNECTED;
-+	spin_unlock(&parent->d_lock);
-+
-+	hlist_bl_lock(b);
-+	hlist_bl_add_head(&new->d_in_lookup_hash, b);
-+	hlist_bl_unlock(b);
-+	return new;
-+}
-+EXPORT_SYMBOL(d_duplicate);
-+
- struct dentry *d_alloc_anon(struct super_block *sb)
- {
- 	return __d_alloc(sb, NULL);
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index 7afe16d4664d..2b7d99ec9306 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -259,6 +259,7 @@ extern struct dentry * d_alloc_anon(struct super_block *);
- extern struct dentry * d_alloc_parallel(struct dentry *, const struct qstr *);
- extern struct dentry * d_alloc_trylock(struct dentry *, struct qstr *);
- extern struct dentry * d_splice_alias(struct inode *, struct dentry *);
-+struct dentry *d_duplicate(struct dentry *dentry);
- /* weird procfs mess; *NOT* exported */
- extern struct dentry * d_splice_alias_ops(struct inode *, struct dentry *,
- 					  const struct dentry_operations *);
+ 	if (inode_lock_shared_killable(inode))
+ 		return ERR_PTR(-EINTR);
+-	res = __lookup_slow(name, dir, flags);
++	res = __lookup_slow(name, dir, flags | LOOKUP_SHARED);
+ 	inode_unlock_shared(inode);
+ 	return res;
+ }
+@@ -4440,12 +4440,14 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 	int error, create_error;
+ 	umode_t mode;
+ 	bool got_write;
++	unsigned int shared_flag;
+ 
+ retry:
+ 	open_flag = op->open_flag;
+ 	got_write = false;
+ 	mode = op->mode;
+ 	create_error = 0;
++	shared_flag = (open_flag & O_CREAT) ? 0 : LOOKUP_SHARED;
+ 
+ 	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
+ 		got_write = !mnt_want_write(nd->path.mnt);
+@@ -4454,10 +4456,10 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 		 * a different error; we'll be dropping this one anyway.
+ 		 */
+ 	}
+-	if (open_flag & O_CREAT)
+-		inode_lock(dir_inode);
+-	else
++	if (shared_flag)
+ 		inode_lock_shared(dir_inode);
++	else
++		inode_lock(dir_inode);
+ 
+ 	if (unlikely(IS_DEADDIR(dir_inode))) {
+ 		dentry = ERR_PTR(-ENOENT);
+@@ -4526,7 +4528,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 
+ 	if (d_in_lookup(dentry)) {
+ 		struct dentry *res = dir_inode->i_op->lookup(dir_inode, dentry,
+-							     nd->flags);
++							     nd->flags | shared_flag);
+ 		d_lookup_done(dentry);
+ 		if (unlikely(res)) {
+ 			if (IS_ERR(res)) {
+@@ -4574,10 +4576,10 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 		if (file->f_mode & FMODE_OPENED)
+ 			fsnotify_open(file);
+ 	}
+-	if ((open_flag & O_CREAT) || create_error)
+-		inode_unlock(dir_inode);
+-	else
++	if (shared_flag)
+ 		inode_unlock_shared(dir_inode);
++	else
++		inode_unlock(dir_inode);
+ 
+ 	if (got_write)
+ 		mnt_drop_write(nd->path.mnt);
+diff --git a/include/linux/namei.h b/include/linux/namei.h
+index 86d657b24fc6..65f0f5712885 100644
+--- a/include/linux/namei.h
++++ b/include/linux/namei.h
+@@ -32,8 +32,9 @@ enum { MAX_NESTED_LINKS = 8 };
+ #define LOOKUP_CREATE		BIT(17)	/* ... in object creation */
+ #define LOOKUP_EXCL		BIT(18)	/* ... in target must not exist */
+ #define LOOKUP_RENAME_TARGET	BIT(19)	/* ... in destination of rename() */
++#define LOOKUP_SHARED		BIT(20) /* Parent lock is held shared */
+ 
+-/* 4 spare bits for intent */
++/* 3 spare bits for intent */
+ 
+ /* Scoping flags for lookup. */
+ #define LOOKUP_NO_SYMLINKS	BIT(24) /* No symlink crossing. */
 -- 
 2.50.0.107.gf914562f5916.dirty
 
