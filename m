@@ -1,73 +1,73 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A0C43D503;
-	Fri,  4 Sep 2026 21:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8209642E429;
+	Fri,  4 Sep 2026 21:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788558834; cv=none; b=V0R14Lakq7TWtIvvANhPw8sig1SePJFEOfz11glag69gecPkyOhYdUwii3ldcfUdPPT+JJK12NUhtYE4B7buM2SRsrYdk59SzeGjvHrYtjD/uY/F6W2BaI7+h4LmcUoSgrGCyBPgVSet6v72Ok6VyC0tPsxYiyUe9CcHd1e2wik=
+	t=1788558839; cv=none; b=fHfNKn7IEBVIimODG8cNMbFr484COPeQCVM08z2fz7mmxyiC6Sew0TqNeCQLOM7/rjR0WYAzMfziABugxy1yOq8uHEaKFlaIzhOi0SHLpSYkYQO/w/0nvwVciC0N65P7VNCYXKGJbSo78j+YD7u0nGVMX6xIsxT7ONskxW+DFjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788558834; c=relaxed/simple;
-	bh=QyziwjqPMuKUE0Ywdu8lOJLdi6iNAo/ZH9vHAtT5uy4=;
+	s=arc-20240116; t=1788558839; c=relaxed/simple;
+	bh=aUs/PFLLTaGein3PyaTaOoqZxfDY7ORzzk9KelrvCqo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ctLC3kT3jY2m7zhSQWpsoIkmKrGX7ouCWnakDe/zAtd1dVKzMcAsSXJHhUu4rlNsj/LHo0bvnrx9sSKcwwhbstude7xVzny2eH/RpUUyQ6seB1E55wDWQhBwUJ1UO8DS67CNdcUnR8PYpWGrZcw4odYsIQ2zOXj/mPmnmeQuu5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=nhrta9X7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Hrwp4K6u; arc=none smtp.client-ip=103.168.172.147
+	 MIME-Version; b=uwVkQ+xQmdyE9kEbHLiup1gQGXmJZdAt/oLdUhJp8aIgLZa3kVwObxpCXDC7wczv1kHqBW9tXhdJFYjzvVSwEAcSQ39CmcnrSChC+RssSCz/2RD8eFXgPmog1lzWY7mqkwfTJvuIfugnE8XiPOQlP6HY6/9Ape1mp7iNCw3RC5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=COanBLnm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NvXfjivQ; arc=none smtp.client-ip=103.168.172.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="nhrta9X7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Hrwp4K6u"
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="COanBLnm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NvXfjivQ"
 Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 406AFEC0148;
-	Fri,  4 Sep 2026 17:53:51 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 04 Sep 2026 17:53:51 -0400
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 5FC891400156;
+	Fri,  4 Sep 2026 17:53:56 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 04 Sep 2026 17:53:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1788558831;
-	 x=1788645231; bh=BM84miZIdMOU+h52rKqAXVXjLVrvMNKt0AXMbFVF+8k=; b=
-	nhrta9X7GX0M3ZwZ3XCrXHXNOs+HxbD5/C/9z9wpWZjBnYRhHbHq4kh9zwiyG6kH
-	+XUIqLZ1MqbM1WkrjPY1Ffo0b70lGymj2bzZ4qak+fkww8RCTWzEDZ3mZcZJMBrs
-	Hka5/1d7iruC9GNXx9DfegQNFaOA9OgRZ+2o31uBBGEGe1iFByOLHkpfAb1k6Cq2
-	f2sgZ1U/7pFuaYicf4ruPYmaBD2H89P2Hyv2oEsmdg0IPBffiK7O0DT7w5ygt5F0
-	QONTqrhlUt1IHmka/Fxen3dysLhnSWo8wlHyCVleBHaQ62CTJiXtowwFRnzMzixp
-	QoRlbqo5oAcwJ6/rFlvr1Q==
+	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1788558836;
+	 x=1788645236; bh=wj/MnL34RixKciPgZi/7laRXXNimZ5XfwnqNuzhacfk=; b=
+	COanBLnmXJBIoT4hDX+ScO9r7qdGdcBWmGAgc7K6vQw37b7pCmWtNpTuSW//1Z3y
+	itNxaevYlAt9zrW1t1ZdP+ttLh72ThRTdKNE6eEtzdRwMUq3K3frhlSaTXE3z2AZ
+	YwBIlc9sCBnjm37cRpNgn7z2T9dWy6R79YijSJipS1FZkIBPfBqbZUmQ0NXLR77L
+	YUJSj9IYPR9Jztln+bi3wqg5NPcenCh6n6NjrGYMx/fQXlBJTCwbDdPSnGEBAStW
+	/Q+nsawOmJl9Y9UuD1h82EahTtiSQr2BkBAfrw5+MFULVMGcl7/f50nYpdiBJtP5
+	SHMoP1uQ9R0ZJ8orCyMatw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1788558831; x=1788645231; bh=B
-	M84miZIdMOU+h52rKqAXVXjLVrvMNKt0AXMbFVF+8k=; b=Hrwp4K6u3j5crd1pZ
-	VlVZwVML3G/CcKPDYRlim35qLemloeCZD/6lcOh+o8wOiw3EY5iPGjJ3/e2kDlpu
-	0XJse7DFWJod7HvKF9ffN5rIs3+6X2ORTQh7uU8VpxrTteaNDNn715MLY5svwXdY
-	7mgknh7PBLRS+ND+mOTWkQJf4+uB9pdzOZZoR0dA9tOvMzT5Sn4aKq7GsmEcjFgN
-	1/DQcVapAQbkmThRdCenV/hCOEhPff4bnOjsI8E6AFuiIWnPQBWxusd48Y9TTXxB
-	rp2QSfStR22xOx48vo8aFpLashoJEwjiS4S2I9/h6Vp64qdON03P+7O75APIq5CL
-	xHu0w==
-X-ME-Sender: <xms:7z2bavHBmU8tGjjBS0r3X0BLgtQj6PgdjDaH96vZGYc9gUTD7CxgSg>
-    <xme:7z2bau75lQPNtBusJ7zGYTgIdoQd8hLxx1r_p6VIal7T2jHvG7JGe2k8GEgNcojxU
-    0sk2Xfdzq_Jz041cs_nVWEL3Tu1RW7m9BELi6hsliwQRMnEMVM>
-X-ME-Received: <xmr:7z2bakwT7ZekJlVEwvgkumlA0CDV1SU_4wg4mtBxzxXe8uOWK80L6ECDV36hey1304APcVvYyxI4KnzBg_ZlAwpafI8t41w>
-X-ME-Proxy-Cause: dmFkZTFDVljjZPAYZ1l/aqq4nrL+3Kba1UGdgNzRbLHxNyZsBntb6givVbdJfo5BU3j95t
-    +UQU7WjR6Go54RULzYYdNoUTzLStmDkBzIg7iAUMGGPyun7cXaJ/tB+RDeFqAMJs98sAqA
-    8UTNhC/OQM/aHTCEgRGMWo/qNqW4Cm4ZpbUAGc1yB/wYZCmyUFIFjHNO+nBl6KHnpd3kh5
-    kJGEMNZuUD6j2jJVpJ5tURud5waXhGOgIEZWqqHFhojd6ln7NIlrB7SgqCD/laD7h+xaRU
-    I5R2WpSXAH/sDdSGVPXGsuUa9Zu1lOQJK4tOelP1k+iwmt4tCWllwcYTI4lONAt5xo76VK
-    ZbQgvL7/1f8FZ6kq8yTsgb2Y+kN/+A7R9zGfLM2zvYWA+LdZ41luRJh2lPVylusqyP5aBh
-    IR3RAWxfhpP/4A4ZbYSFCly023+qulKqlDxnXdpdtzF51nhmFjuv/LL+PZy/4+iIxG+W6X
-    v1o0rr4V5gLZeuy3O9FgIk00V8pfVBnG6c0qhTQ8y9f5NCK5JA/3dXLSKP7zz8Nbp/nlVm
-    qmkwdc2BwJlpynoGFR9v8zCMo/m1Ci56SDJMCJMKh8SZXRDWedTMgS2pMIhClgTpyoZQMr
-    xEm1oAVcIUHr8cLCiPsYt9m/4DyyfLgt87YdFQZ/FxfuZF7cPHqlqMDXQJ9Q
-X-ME-Proxy: <xmx:7z2batM05G6R-CcXzVTswsAvW-JpVFQHKrhXdTHaWOTdpj77uMN44g>
-    <xmx:7z2baqk_pGylhXLuGOb9tZaTh7rIWhbB9rFm8Hh7cmlkxE5im2cR-g>
-    <xmx:7z2baiSnjiLFyvJl1mlyH9AM1Lm8Zt-QJuHGaC6yuoSJaFoMlZRyng>
-    <xmx:7z2bapV-Hve-OaM2wpGCArYh6BhycjcFdPgsEF1ioGiZbAbcY9CP-Q>
-    <xmx:7z2basu0vv9DcnQLVvckdVrjfL-A7cQ8Xv8sp4kt5G5QaLZ176Ivoj1v>
+	:x-me-sender:x-sasl-enc; s=fm1; t=1788558836; x=1788645236; bh=w
+	j/MnL34RixKciPgZi/7laRXXNimZ5XfwnqNuzhacfk=; b=NvXfjivQbyX1+xS3v
+	7k91TGS0rsUcyjxGrgYuZbdnTwqU/Pdk8gweYzWYT/4+r6LsBUTshJOszLurUDLa
+	mB7K1+GNLJVPHP/eYejpcCc8Oy/yXrcP8sJvjw8aTnb0uYIQr4sfT2PnSOReLWlY
+	/cCuKrlwt9pjZV9ascA5M0xWm9yp2UzB3Jjso1NeImSrvVgEau95vBTJM1O7VNar
+	bKcczJMCFusdHf93Z1veM/NOhk3/VdTqUnAIo29vlwhVr1kFeGXPAyeXIuaqylwK
+	yQenLPb/17/Qtma27402ngz+8j8EXVHKNoif0EsFFMVt6fNNZ1YFUyJBd58iLuwH
+	kifpw==
+X-ME-Sender: <xms:9D2bapooYyNcfqDe9WUA_SckSiW0c_KuZfdcO2asN8Ltic71SzM5RA>
+    <xme:9D2bauOFXlT31zXHrDrnBsZQaAElO8bLZoen6jDUSM-yWMqAp5TS9vgCH4rqyCn_C
+    3R1HTCiqrko8EPYLTwJCQFTYrEdJ4iISDtXBn-lEswxHS6dhO4>
+X-ME-Received: <xmr:9D2bap3I6qb3EgImiuN3X6enw1Q__PvV4JG6EjyrBejjNyCmgxsyI8UCrQDcddNn4Cs3oB_2o7WZFrBV802VyoqvJdfBHC4>
+X-ME-Proxy-Cause: dmFkZTFiAOSj3LUvbMyTizwFG8S0Z77/oyH2J2g/uycK/oy+xjfWiF27uJMr9H7g3QAOe/
+    XYsAVApeSvodxh0nJXqm+2ih0Zs0UFQnZPCwAsQgYJh4bKlGJCxAFvJ28DiVFZcSJ1v4SN
+    eyofj/RHn+C6wmmzYsHzdQWXaMLzQ5qjTmyCk6u6FNaJzHTyX3mRZJWbQlLecUBL+8R9uF
+    oXPgTkabZ8M+0wwMRuzFqlmpEXjU77OKNTiGAEqZPKyJRGqwLIf4volXBc3DcquHRoaijA
+    Ked+eKVy/8jzE5J4p8iliYop7ExvhRi8QZDkpUnJW3mwzA4SzmVm5+ia17mBgI6SpbQsJH
+    CygeaM1INM6cV32x4VYKeOonKyzLfyPCrxqNtWdoN4AcYkpPdbaw5na1oFweMamG4+s97P
+    E0+ufaUNxi9a44fopeY9q6mozrO6UECQTg0xSxcbPpFoZhjJpnGa+cuoVSucT00a/BRs64
+    W7U6CmfL+/CGBzf7/E0gB/+MpBctZkhHg/jFUjGxMVdgwm5Q7oVSsX3WUFxW4njTGEigaL
+    /22TAynsvaT7AuFF1504Qwk1W9BWrrOfRuPAmEcjvGD9w9OZGFl4QFyrYTCw24DZfjTiAn
+    gguwTOmjMjpBWkh29HetTdQscDxX1JaOgTVb+Nomk2WqV8cGnB8tUUh8+AkA
+X-ME-Proxy: <xmx:9D2balAufSa0JvlDPzwfaK_WI_EDk0wm39xWTfhzMMxt4wToOonWEg>
+    <xmx:9D2bauLHKG63jtU65aUCkqOXB2Fe5lBccWhkg4Caquxll9TK-iP5sA>
+    <xmx:9D2bamnd69xAM3mztGTGS2eRTyMPIk889X4_AgoUiaUn32l0fPI3eQ>
+    <xmx:9D2bavaXLO0FjJyA55hLHFGiS6UuRiDAA6owSOxIRYPh2VuLXtF6aw>
+    <xmx:9D2baoSPnS54lgahcKrJVcNYGPEyTBRcgYObDe2xlyZpNKrZSQkQnonq>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Sep 2026 17:53:48 -0400 (EDT)
+ 4 Sep 2026 17:53:53 -0400 (EDT)
 From: NeilBrown <neilb@ownmail.net>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -77,9 +77,9 @@ Cc: Jan Kara <jack@suse.cz>,
 	Amir Goldstein <amir73il@gmail.com>,
 	Miklos Szeredi <miklos@szeredi.hu>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 6/7] VFS: add lockdep monitoring of DCACHE_PAR_LOOKUP lock.
-Date: Sat,  5 Sep 2026 07:48:15 +1000
-Message-ID: <20260904215142.1060510-7-neilb@ownmail.net>
+Subject: [PATCH v4 7/7] VFS: reserve a d_flags bit for fs-specific usage
+Date: Sat,  5 Sep 2026 07:48:16 +1000
+Message-ID: <20260904215142.1060510-8-neilb@ownmail.net>
 X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
 In-Reply-To: <20260904215142.1060510-1-neilb@ownmail.net>
 References: <20260904215142.1060510-1-neilb@ownmail.net>
@@ -94,154 +94,31 @@ Content-Transfer-Encoding: 8bit
 
 From: NeilBrown <neil@brown.name>
 
-DCACHE_PAR_LOOKUP acts like a lock in that threads can block waiting for
-it to clear.  As we plan to make changes to lock order for this lock,
-teach lockdep to monitor it so as to help detect bugs early.
-
-As NFS allocates an in-lookup dentry to unlink a silly-renamed file, and
-completes the lookup in a different thread, we need interfaces to
-release and the acquire ownership of the lock.  This avoids lockdep
-complaining that a lock is still held on return to user-space.
+DCACHE_PRIVATE may be used by any filesystem for its own purposes, much
+like d_fsdata and d_time.
+I plan to use this in a similar manner the way nfs stores
+NFS_FSDATA_BLOCKED in d_fsdata.
 
 Signed-off-by: NeilBrown <neil@brown.name>
 ---
- fs/dcache.c            | 15 +++++++++++++++
- fs/nfs/unlink.c        |  3 +++
- include/linux/dcache.h | 32 ++++++++++++++++++++++++++++++++
- 3 files changed, 50 insertions(+)
+ include/linux/dcache.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index cbd5738de168..83790c7a4dee 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1901,6 +1901,7 @@ EXPORT_SYMBOL(d_invalidate);
-  
- static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
- {
-+	static struct lock_class_key __lookup_key;
- 	struct dentry *dentry;
- 	char *dname;
- 	int err;
-@@ -1958,6 +1959,8 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
- 	dentry->waiters = NULL;
- 	INIT_HLIST_NODE(&dentry->d_sib);
- 
-+	lockdep_init_map(&dentry->lookup_map, "DCACHE_PAR_LOOKUP", &__lookup_key, 0);
-+
- 	if (dentry->d_op && dentry->d_op->d_init) {
- 		err = dentry->d_op->d_init(dentry);
- 		if (err) {
-@@ -2037,6 +2040,7 @@ struct dentry *d_duplicate(struct dentry *dentry)
- 		return ERR_PTR(-ENOMEM);
- 
- 	new->d_flags |= DCACHE_PAR_LOOKUP;
-+	lock_map_acquire_try(&new->lookup_map);
- 	spin_lock(&parent->d_lock);
- 	new->d_parent = dget_dlock(parent);
- 	hlist_add_head(&new->d_sib, &parent->d_children);
-@@ -2801,6 +2805,15 @@ static inline void end_dir_add(struct inode *dir, unsigned int n)
- static void d_wait_lookup(struct dentry *dentry)
- {
- 	if (likely(d_in_lookup(dentry))) {
-+		/*
-+		 * Tell lockdep we will wait for the lookup lock, after
-+		 * dropping ->d_lock, but won't actually take it.
-+		 */
-+		spin_release(&dentry->d_lock.dep_map, _THIS_IP_);
-+		lock_map_acquire(&dentry->lookup_map);
-+		lock_map_release(&dentry->lookup_map);
-+		spin_acquire(&dentry->d_lock.dep_map, 0, 1, _THIS_IP_);
-+
- 		dentry->d_flags |= DCACHE_LOOKUP_WAITERS;
- 		wait_var_event_spinlock(&dentry->d_flags,
- 					!d_in_lookup(dentry),
-@@ -2923,6 +2936,7 @@ struct dentry *__d_alloc_parallel(struct dentry *parent,
- 	}
- 	hlist_bl_add_head(&new->d_in_lookup_hash, b);
- 	hlist_bl_unlock(b);
-+	lock_map_acquire_try(&new->lookup_map);
- 	return new;
- mismatch:
- 	spin_unlock(&dentry->d_lock);
-@@ -3021,6 +3035,7 @@ static void __d_lookup_unhash(struct dentry *dentry)
- 	b = in_lookup_hash(dentry->d_parent, dentry->d_name.hash);
- 	hlist_bl_lock(b);
- 	dentry->d_flags &= ~DCACHE_PAR_LOOKUP;
-+	lock_map_release(&dentry->lookup_map);
- 	__hlist_bl_del(&dentry->d_in_lookup_hash);
- 	hlist_bl_unlock(b);
- 	dentry->waiters = NULL;
-diff --git a/fs/nfs/unlink.c b/fs/nfs/unlink.c
-index b57cfaa4d516..c8d712204e64 100644
---- a/fs/nfs/unlink.c
-+++ b/fs/nfs/unlink.c
-@@ -67,6 +67,7 @@ static void nfs_async_unlink_release(void *calldata)
- 	struct super_block *sb = dentry->d_sb;
- 
- 	up_read_non_owner(&NFS_I(d_inode(dentry->d_parent))->rmdir_sem);
-+	d_lookup_acquire(dentry);
- 	d_lookup_done(dentry);
- 	nfs_free_unlinkdata(data);
- 	dput(dentry);
-@@ -159,6 +160,8 @@ static int nfs_call_unlink(struct dentry *dentry, struct inode *inode, struct nf
- 		return ret;
- 	}
- 	data->dentry = alias;
-+	d_lookup_release(alias);
-+
- 	nfs_do_call_unlink(inode, data);
- 	return 1;
- }
 diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index 2b7d99ec9306..e7e3ef05313b 100644
+index e7e3ef05313b..adf239f8205f 100644
 --- a/include/linux/dcache.h
 +++ b/include/linux/dcache.h
-@@ -116,6 +116,8 @@ struct dentry {
- 					 * possible!
- 					 */
+@@ -238,7 +238,9 @@ enum dentry_flags {
+ 	DCACHE_PAR_LOOKUP		= BIT(24),	/* being looked up (with parent locked shared) */
+ 	DCACHE_DENTRY_CURSOR		= BIT(25),
+ 	DCACHE_NORCU			= BIT(26),	/* No RCU delay for freeing */
+-	DCACHE_PERSISTENT		= BIT(27)
++	DCACHE_PERSISTENT		= BIT(27),
++/* 28, 29, 30 free */
++	DCACHE_PRIVATE			= BIT(31)	/* fs-specific flag */
+ };
  
-+	/* lockdep tracking of DCACHE_PAR_LOOKUP locks */
-+	struct lockdep_map		lookup_map;
- 	struct list_head d_lru;		/* LRU list */
- 	struct hlist_node d_sib;	/* child of parent list */
- 	struct hlist_head d_children;	/* our children */
-@@ -554,6 +556,36 @@ static inline int simple_positive(const struct dentry *dentry)
- 
- unsigned long vfs_pressure_ratio(unsigned long val);
- 
-+/**
-+ * d_lookup_release - release ownership of DCACHE_PAR_LOOKUP lock
-+ * @dentry: dentry that is locked
-+ *
-+ * If an in-lookup dentry is to be passed to another thread which
-+ * will drop the in-lookup lock, then d_lookup_release() must be called
-+ * to tell lockdep that this thread no lock holds the lock.  The
-+ * thread that receives the lock must call d_lookup_acquire() to
-+ * acquire the lock.
-+ */
-+static inline void d_lookup_release(struct dentry *dentry)
-+{
-+	if (d_in_lookup(dentry))
-+		lock_map_release(&dentry->lookup_map);
-+}
-+
-+/**
-+ * d_lookup_acquire - acquire ownership of DCACHE_PAR_LOOKUP lock
-+ * @dentry: dentry that is locked
-+ *
-+ * If an in-lookup dentry was passed to this thread, the
-+ * d_lookup_acquire() must be called to tell lockdep that this
-+ * thread now owns the DCACHE_PAR_LOOKUP lock.
-+ */
-+static inline void d_lookup_acquire(struct dentry *dentry)
-+{
-+	if (d_in_lookup(dentry))
-+		lock_map_acquire_try(&dentry->lookup_map);
-+}
-+
- /**
-  * d_inode - Get the actual inode of this dentry
-  * @dentry: The dentry to query
+ #define DCACHE_MANAGED_DENTRY \
 -- 
 2.50.0.107.gf914562f5916.dirty
 
