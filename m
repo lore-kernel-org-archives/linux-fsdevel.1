@@ -1,235 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CFB4E2378;
-	Fri,  4 Sep 2026 14:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982B238DC68
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 14:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788531469; cv=none; b=DmHasMCqoDf5wvZv+wRdIIfOWDWblWQhje5f3PxHEnoIdTqefKSjs3jdKYaBbG97T5k7NCRDv8V58ElIX62zeR/M0dWpAcROYMurL089MNMMC2e3oVNovaNVZ72qTLXfvL1JSpHhE2GWS0CYEePIM9Z9Fb+9DW5Ux9Qeqj2WyBk=
+	t=1788532101; cv=none; b=U4djgBex11MNO7JyY7YJqWC4v7XiEd5g4VAjNyXOHGJFCX0Hm0N5NnItw9Z35hWkvhJTKdMmU7+mSV9ZGmqEzaWAIJK4teE1Sro8+eJBCcUwj3MqjmLWX5nlL4phMXzqTi8f/HrgjNti4mupBkpKeiZ0NisOce/GXEl/hOSlC2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788531469; c=relaxed/simple;
-	bh=JsdBO55uCRKWqXpn4EMIUC5/klUGfaKJEuis9Udc5ag=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sc35jjxMKEOwJI5NHqmtYB+ZK3eZ0Sp+pclAL40+Odxe5TsOL0YpKJWnn4xNdoys6x+YDLsdZFdfsCyeFjwyesCeyNi/UQ5ItW2Nz6AReB8dUXjdZ4Z/trIwzla+d4IAzc4ya4GqtW5Cq/akH6+oKzPDJmwNh5+3rcI82kdCkZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K39kKo3p; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788532101; c=relaxed/simple;
+	bh=kf/1ey0GqeVu9fPQWj2L2Mm5Rt20DZ2y/xGWZmN2GIQ=;
+	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=CB7D7X6rRAMrZXHK/FsqJAQe9G3vWIr2fZrf8QK88DMCnaYn8qucMVXb/XV/9lINKRkO8DVf12hALisBms76GrXPjLV4kfPi7REQfDYqvz54k92VaE5jJXaQR88FUHSpj+AqsYjG8AQE0FIwRodUVnOivMGcWJWMNOcGorLc63M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com; spf=pass smtp.mailfrom=doyensec.com; dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b=e4h2L2E4; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=doyensec.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K39kKo3p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7605B1F00A3F;
-	Fri,  4 Sep 2026 14:17:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788531467;
-	bh=02WNrILEH6/OPBx3GU+DghKYQb2lTWCkSVl6B+Kwx54=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=K39kKo3pO3Wi1iIeEFYGFOIIzwtw3uSy6W2WcidhSTZVVvaRTJHxI5lnqbVRzbUIC
-	 neShbZWoVi2GqI929B7uJdIWAyYZ9TvPo2qDcIoSmYq6QwHjQwC8zj/tV7YxvCtjtB
-	 wchgUkvw7FVvIeaIM/cTr3YvcX6Rc9QghrjYt/wN0yQphH5azpXo8Qrdb880R4vcoz
-	 4daNwQh7+572ydIMf6GtzvBWeDNhgFQIIt4MaVQdTjRM3yyiBcT5E4MsdSfcPRTjD/
-	 6sSZiJmH/MQ+Vl5rphFBBJXrJODaA3GeTcWuSmz6B6GG0aWp3x8YgR2NInweLep0Vj
-	 0vZ0YIMPoppNw==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Fri, 04 Sep 2026 10:17:34 -0400
-Subject: [PATCH v3 3/3] nfsd: compare CB_GETATTR times against the inode
+	dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b="e4h2L2E4"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c15cf78d1a2so102364266b.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 07:28:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=doyensec.com; s=google; t=1788532098; x=1789136898; darn=vger.kernel.org;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:content-type:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=NNlQHxyERxR0BCf4rdmfxT/+3TEDXoy4SOv/36YNyCQ=;
+        b=e4h2L2E4sNxwcg/rMrmYH4uyGNjbaU1O9UWm2Ubpi5HR9o23N+3u7u3hk0VSVPkUNT
+         2wKfIzEz5fPVA/A4DMesB6ckAB7y7ZzhHw/mJVXoxLk08wIAtQJGXw2EY8zinrFnD148
+         nD2FoyVHh6T/h7lvr3UFdJNZEkeZWA0gSoIrZ9vLj3DnERth4R23wa1rcjo7CtZXywIC
+         LritYKRA9Uzu6i7JyS5wO71eN0JxfqTA5/het6r8uScBN+NY9x5Eu98zL0aAdxYnspYZ
+         gkpM21l9v1t8kyCMCoZl2q95ajD+uPeTckAzlEGy9tTVwG+907+IctrBYgIyeJAxbeDc
+         AbGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788532098; x=1789136898;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:content-type:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NNlQHxyERxR0BCf4rdmfxT/+3TEDXoy4SOv/36YNyCQ=;
+        b=mGY/KwBNsMVtwRBihi9WuUJhuwFv2fKDL6rHPGmrXIh6eFhDNZ41j0YBHp/QWdlmEC
+         aT0OtoHnbW8uWaMIFb5v91F3vjrMUoP09tbaQI4Tde4QX2jWBnyxwyLDPlEfy4jlVxdw
+         5j/VardJ97ybBooMQ+RYaYxBc+o50jFhSpmFnR6HmHF6+KRT8pJvmQCszSlQBwvAm+vl
+         M3VHBruAFhOqqECDmH+/vZjnHpsCY4A0JJAi9/B6EOAlzI936aE0qnltOMoqWIOLWs6p
+         W9C6KiQoJFiNy85KjMQSA8/4ST95LQKP2FQPhRcNRmSRkRBJf0TLzR+Ko59cXIK6O4VM
+         Jb3A==
+X-Forwarded-Encrypted: i=1; AKwUvBwyyaOcPfXw+/9RaGQ/k85kNiWpC2QAA5m1lU90Tc8aATRQfwT5tyWF1I3PsvpkxRr9tkMFC8Jc+RU9EetU@vger.kernel.org
+X-Gm-Message-State: AFuF++mQznoVW5c4Hw29Y74lB9E6uDRwTUe/IFtZaxBCuPE4+RzsxXU3
+	ciIxPkEMY5gQhK4wyY129q1QBHZ2vqNX1WP0STvAdCMJe4t+2hgpHhvnT/0ujyVFMbs=
+X-Gm-Gg: AYBFou1SDjl55TD28HPMVxbnsVpYRCz7NU4C72yStXC4Yl++UygA/YxYIhKi1RNYhaV
+	JDdNxVS9wL9x0nm/4VUYF2xJiMZTjPNVIp5GHNckjMQ3qckyigL3YLyxG0XI4hskUiV/Is2p9Ff
+	fdlBD/m0Alim3ymmKIPY8Ex7qgF06PTloqvKWozTc2+WSWXhkggicdK4+Cv9O8+A+/AHH3X36SU
+	AOnlu0yxUzlvQw5vOW+Vt2botP5/zGIFFRxfdIfUkc4u+ZtMPoLYEepPQdohjxm9XyQsY/G4YlB
+	kyzsnYOh24jOq8KU/ofvVhU41oGq/db6WsTveJ1fBDa95aj3KqRavAD0ebJW7iDAs01olJOntHF
+	6pxrgILHGIksSZQ96nuTWOlcQWkkXopL8nMJKLULvHu7jq8QGcRK/np5eps5rZeb5bVF5Xk4ybS
+	Jy5XPSG/28xWXrzP8ychCiQfdvVi9n9hON55/9XPR8FJnp5ni/ELPAtRZjqJm5nlDjkgtFcWz20
+	dziLabVo7j8PEmIGP7AlNFJuTxrLnlFa5ps8CC3HelRJaxTT/H/lrs=
+X-Received: by 2002:a17:907:728f:b0:c26:19e3:e97a with SMTP id a640c23a62f3a-c2619e3ee84mr151939166b.26.1788532097705;
+        Fri, 04 Sep 2026 07:28:17 -0700 (PDT)
+Received: from smtpclient.apple (83.10.35.35.ipv4.supernova.orange.pl. [83.10.35.35])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d4aa01dsm114864866b.15.2026.09.04.07.28.16
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 04 Sep 2026 07:28:17 -0700 (PDT)
+From: Norbert Szetei <norbert@doyensec.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-delegts-v3-3-b6062ba75f07@kernel.org>
-References: <20260904-delegts-v3-0-b6062ba75f07@kernel.org>
-In-Reply-To: <20260904-delegts-v3-0-b6062ba75f07@kernel.org>
-To: Christian Brauner <brauner@kernel.org>, Chuck Lever <cel@kernel.org>, 
- NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Cc: Thomas Haynes <loghyr@gmail.com>, linux-nfs@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6478; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=JsdBO55uCRKWqXpn4EMIUC5/klUGfaKJEuis9Udc5ag=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqmtMGvDlmZOp+gTuqd0FL2nI6Pj5+/DM0BqLSQ
- 4i2PSc6GKSJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaprTBgAKCRAADmhBGVaC
- FVPDEACRy/zpmgftM56mjgFXqVIlfI7s/4DgQx6yTqpl6iNnETQUMISV+f/IOFDmfLpl0FGQPiu
- TUX1WgAoYtQbk8sdRmAfGJKq8eC6zKrqikOB1phgm/tCYVcc3KXfbzyz3x0FnPDl1zawuqcs+70
- QfmWxiI0oPfWTEwBv4xtsJp9/1YppsZqvfwDV3XTi/G9kKiiDJIrnoTSsi6H+op3HfF8AhN8FBA
- tcOe71xCHgqbTySBdmnWQar3h2fb3HaZm8Uwr6Rl9BNLRQbokXY/UJ4e4iyVbdI4BpBLB/B3gNm
- 2xkH9xSnR7h3oxHRR3Oh50afnav8ZXTPvc3Um6Z/Hi1FP2LxIUZFOsQNfcW+LbZeBc83Ekk5owB
- /0k9uLNOHu4cw4DP7ZNTcOICGiW1zmsL/B9wazjmDilZ3FlEgh078FkTY8UXJDJhMxDIVVggfYD
- i3Or+V8GH9jRaNiAmnWvvNpvcgA7SdMjQBstw5vdYuJnFuXFvLutqUOl6xLcb+xP0knGYOxwqEo
- qfz6Iv3Yqy+qO4yTnmdt9rp/FMn33g4YehgiG+VT44Ljj1z4zLUuNnf2Jjf+DPNIptZPArdrNFD
- z4hvbzpwHTbfa0yWrNen9hz92YILjql/ow94lyhxFWrRevLp4T7dQ0rlFwah7XTdtyjkAtKX/ln
- fAYvn81EknKjW5A==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
+Subject: [PATCH] nstree: check listing permission before taking a namespace
+ reference
+Message-Id: <34C54FF6-AA8F-4124-9B40-C68EADB26D99@doyensec.com>
+Date: Fri, 4 Sep 2026 16:28:05 +0200
+Cc: linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+To: Christian Brauner <brauner@kernel.org>
+X-Mailer: Apple Mail (2.3826.700.81.1.4)
 
-cb_getattr_update_times() vets the times that a client reports in a
-CB_GETATTR against dl_atime, dl_mtime and dl_ctime. nfsd samples those
-three when it grants the delegation, and nothing refreshes them. An
-earlier CB_GETATTR or SETATTR can move the inode past them.
+legitimize_ns() takes a reference on the candidate namespace before
+may_list_ns() has decided whether the caller may see it. The
+__free(ns_put) cleanup on the denied path can drop the last reference to =
+a
+mount namespace while we still hold the rcu read lock, and put_mnt_ns()
+may sleep there. This is the same problem commit 2ec2aff3c8e2 ("ns: make
+sure reference are dropped outside of rcu lock") fixed for the =
+put_user()
+path. Neither ns_requested() nor may_list_ns() needs a reference, both
+only look at the namespace type and at the caller's own namespaces, so =
+do
+the checks first and take the reference last.
 
-The vetting then compares against a stale value and accepts a report
-that it must reject. setattr_copy() applies the atime and the mtime with
-no check of the current value, so both move backwards. That is the
-result the vetting exists to prevent.
-
-Compare against the inode instead. Take the inode lock before the
-comparison, so that a setattr from a concurrent delegation break cannot
-land before notify_change() runs.
-
-With this change, there is no longer a need to keep dl_atime/mtime/ctime
-in the delegation. Drop those fields as well. That also drops a read of
-an uninitialized struct kstat: the read-delegation arm assigned
-stat.atime to dl_atime even when nfs4_delegation_stat() had not run.
-Nothing consumed the value, since dl_atime is only read under
-deleg_attrs_deleg().
-
-Fixes: 3952f1cbcbc4 ("nfsd: fix SETATTR updates for delegated timestamps")
-Assisted-by: LLM
-Acked-by: Chuck Lever <cel@kernel.org>
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
+Fixes: 76b6f5dfb3fd ("nstree: add listns()")
+Signed-off-by: Norbert Szetei <norbert@doyensec.com>
 ---
- fs/nfsd/nfs4state.c | 49 +++++++++++++++++++++++++++++++------------------
- fs/nfsd/state.h     |  8 --------
- 2 files changed, 31 insertions(+), 26 deletions(-)
+A reproducer is available on request.
 
-diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-index ae0af9490fb1..b2b8d3a8030b 100644
---- a/fs/nfsd/nfs4state.c
-+++ b/fs/nfsd/nfs4state.c
-@@ -7307,9 +7307,6 @@ nfs4_open_delegation(struct svc_rqst *rqstp, struct nfsd4_open *open,
- 		open->op_delegate_type = deleg_ts ? OPEN_DELEGATE_WRITE_ATTRS_DELEG :
- 						    OPEN_DELEGATE_WRITE;
- 		dp->dl_cb_fattr.ncf_initial_cinfo = nfsd4_change_attribute(&stat);
--		dp->dl_atime = stat.atime;
--		dp->dl_ctime = stat.ctime;
--		dp->dl_mtime = stat.mtime;
- 		spin_lock(&f->f_lock);
- 		if (deleg_ts)
- 			f->f_mode |= FMODE_NOCMTIME;
-@@ -7318,7 +7315,6 @@ nfs4_open_delegation(struct svc_rqst *rqstp, struct nfsd4_open *open,
- 	} else {
- 		open->op_delegate_type = deleg_ts && nfs4_delegation_stat(dp, currentfh, &stat) ?
- 					 OPEN_DELEGATE_READ_ATTRS_DELEG : OPEN_DELEGATE_READ;
--		dp->dl_atime = stat.atime;
- 		trace_nfsd_deleg_read(&dp->dl_stid.sc_stateid);
- 	}
- 	nfs4_put_stid(&dp->dl_stid);
-@@ -10447,7 +10443,7 @@ nfsd4_get_writestateid(struct nfsd4_compound_state *cstate,
- /**
-  * nfsd4_vet_deleg_time - vet and set the timespec for a delegated timestamp update
-  * @req: timestamp from the client
-- * @orig: original timestamp in the inode
-+ * @cur: current timestamp in the inode
-  * @now: current time
-  *
-  * Given a timestamp from the client response, check it against the
-@@ -10455,15 +10451,17 @@ nfsd4_get_writestateid(struct nfsd4_compound_state *cstate,
-  * if the inode's timestamp needs to be updated, and false otherwise.
-  * @req may also be changed if the timestamp needs to be clamped.
-  */
--bool nfsd4_vet_deleg_time(struct timespec64 *req, const struct timespec64 *orig,
--			  const struct timespec64 *now)
-+static bool nfsd4_vet_deleg_time(struct timespec64 *req,
-+				 const struct timespec64 *cur,
-+				 const struct timespec64 *now)
+ kernel/nstree.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/kernel/nstree.c b/kernel/nstree.c
+index 6d12e5900ac0..831f279d174a 100644
+--- a/kernel/nstree.c
++++ b/kernel/nstree.c
+@@ -533,19 +533,13 @@ DEFINE_FREE(ns_put, struct ns_common *, if =
+(!IS_ERR_OR_NULL(_T)) ns_put(_T))
+ static inline struct ns_common *__must_check legitimize_ns(const struct =
+klistns *kls,
+ 							   struct =
+ns_common *candidate)
  {
+-	struct ns_common *ns __free(ns_put) =3D NULL;
 -
- 	/*
--	 * "When the time presented is before the original time, then the
--	 *  update is ignored." Also no need to update if there is no change.
-+	 * RFC 9754 has the server ignore a time that is before the original
-+	 * one. Compare against the value in the inode rather than the original:
-+	 * an earlier CB_GETATTR or SETATTR may have moved it, and a report that
-+	 * does not advance it is stale.
- 	 */
--	if (timespec64_compare(req, orig) <= 0)
-+	if (timespec64_compare(req, cur) <= 0)
- 		return false;
- 
- 	/*
-@@ -10484,30 +10482,45 @@ static int cb_getattr_update_times(struct dentry *dentry, struct nfs4_delegation
- 	struct iattr attrs = { };
- 	int ret;
- 
-+	/*
-+	 * Take the inode lock first, so that a setattr from a delegation break
-+	 * cannot land between the comparison and notify_change(). The atime can
-+	 * still move under us: touch_atime() takes no lock, and FMODE_NOCMTIME
-+	 * does not cover it.
-+	 */
-+	inode_lock(inode);
-+
- 	if (deleg_attrs_deleg(dp->dl_type)) {
- 		struct timespec64 now = current_time(inode);
-+		struct timespec64 atime = inode_get_atime(inode);
-+		struct timespec64 mtime = inode_get_mtime(inode);
- 
- 		attrs.ia_atime = ncf->ncf_cb_atime;
- 		attrs.ia_mtime = ncf->ncf_cb_mtime;
- 
--		if (nfsd4_vet_deleg_time(&attrs.ia_atime, &dp->dl_atime, &now))
-+		if (nfsd4_vet_deleg_time(&attrs.ia_atime, &atime, &now))
- 			attrs.ia_valid |= ATTR_ATIME | ATTR_ATIME_SET;
- 
--		if (nfsd4_vet_deleg_time(&attrs.ia_mtime, &dp->dl_mtime, &now)) {
--			attrs.ia_valid |= ATTR_MTIME | ATTR_MTIME_SET;
-+		/*
-+		 * A change to the mtime must show in the ctime.
-+		 * inode_set_ctime_deleg() takes the mtime when it advances the
-+		 * ctime, and stamps the current time otherwise.
-+		 */
-+		if (nfsd4_vet_deleg_time(&attrs.ia_mtime, &mtime, &now)) {
-+			attrs.ia_valid |= ATTR_MTIME | ATTR_MTIME_SET |
-+					  ATTR_CTIME | ATTR_CTIME_SET;
- 			attrs.ia_ctime = attrs.ia_mtime;
--			if (nfsd4_vet_deleg_time(&attrs.ia_ctime, &dp->dl_ctime, &now))
--				attrs.ia_valid |= ATTR_CTIME | ATTR_CTIME_SET;
- 		}
- 	} else {
- 		attrs.ia_valid |= ATTR_MTIME | ATTR_CTIME;
- 	}
- 
--	if (!attrs.ia_valid)
-+	if (!attrs.ia_valid) {
-+		inode_unlock(inode);
- 		return 0;
-+	}
- 
- 	attrs.ia_valid |= ATTR_DELEG;
--	inode_lock(inode);
- 	ret = notify_change(&nop_mnt_idmap, dentry, &attrs, NULL);
- 	inode_unlock(inode);
- 	return ret;
-diff --git a/fs/nfsd/state.h b/fs/nfsd/state.h
-index cd9294f024bb..e7fe2af45f53 100644
---- a/fs/nfsd/state.h
-+++ b/fs/nfsd/state.h
-@@ -330,11 +330,6 @@ struct nfs4_delegation {
- 		struct nfsd4_cb_notify	dl_cb_notify;
- 	};
- 
--	/* For delegated timestamps */
--	struct timespec64	dl_atime;
--	struct timespec64	dl_mtime;
--	struct timespec64	dl_ctime;
+ 	if (!ns_requested(kls, candidate))
+ 		return NULL;
+=20
+-	ns =3D ns_get_unless_inactive(candidate);
+-	if (!ns)
+-		return NULL;
 -
- 	/* For dir delegations */
- 	u32			dl_notify_mask;
- 	u32			dl_child_attrs[2];
-@@ -357,9 +352,6 @@ static inline bool deleg_attrs_deleg(u32 dl_type)
- 	       dl_type == OPEN_DELEGATE_WRITE_ATTRS_DELEG;
+-	if (!may_list_ns(kls, ns))
++	if (!may_list_ns(kls, candidate))
+ 		return NULL;
+=20
+-	return no_free_ptr(ns);
++	return ns_get_unless_inactive(candidate);
  }
- 
--bool nfsd4_vet_deleg_time(struct timespec64 *cb, const struct timespec64 *orig,
--			  const struct timespec64 *now);
--
- #define cb_to_delegation(cb) \
- 	container_of(cb, struct nfs4_delegation, dl_recall)
- 
-
--- 
+=20
+ static ssize_t do_listns_userns(struct klistns *kls)
+--=20
 2.55.0
 
