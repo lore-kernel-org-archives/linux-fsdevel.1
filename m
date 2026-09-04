@@ -1,103 +1,98 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9FF472088;
-	Fri,  4 Sep 2026 10:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEBD3EEAF4
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 10:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788519247; cv=none; b=rYt3nqLjZ4h9igaNDthfc0NsZ8VwRBTuHS/WbrF9jiP5z7B8qgnFO4Nfg7+DCZ9NEw9YNgwwNyEbkFW9Oj9NuZ608mSikCiwehiU5RM5ZyPTQFr0Bz4epnR/wkAlV6XpcU9t4+IwA1RI1Rv6AHWuMi5GhZ3Vv1O3x6Xl8VRL2C8=
+	t=1788519312; cv=none; b=Yt3ib8e6VOYJNu+Ufg8GzLOest2QYVcWtUPnvZYMtjmU+7eiQcb0NfsXLGePGnfciK/VZOkWSRFGRy3Ve4gN6zzwrfPXcUlvUqzGwe7ILSPBzBqTSTTwUudMXFzxHBfnz4dN/FQMzfwaUHazdpkIuJyc+1nJAVPcfHFajLw8wBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788519247; c=relaxed/simple;
-	bh=AuQmDI80L6Qo8i15LU1LctjI9xB8T8iXJn6A+skiQWM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=pqIrJr0NAxnhMThWUCA17F114MqcBanLgMkjM5fKvpfngJuc8PcJfF/nS9udCruEbABJcR3R4eXkt1EiFzI32xKv6CCwKM5344SnW1hkvQ94Uj/t8B/7FMDYeX3ErawMGzam82BWtr3oSfSrMXhrngswbrbQueavAtIz7FnKFQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=vRZFRV+x; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1788519312; c=relaxed/simple;
+	bh=S1SJr8UbfCEGALIt8QcBF+thJiIuJ0INCq0S9U45FLY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=li7btR/0R+xmweIjGL6OnkudO2vTU4zaslDUyHeO7tHCtdBYR8tE+5d1dMF00hYpKI36rvi7POsxkX/vcy3Zvt1LBWfShbasE8N0h34FBWUqgnP8qCR+zq8nLHWP4pPsJ94GRG+hkCCGEKfjTOzFHYwfRbzVFh3mFtjTsZA4d9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ohRxS7Xf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="vRZFRV+x"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id ABC3632C;
-	Fri,  4 Sep 2026 10:55:02 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=vRZFRV+x;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 8DB382206;
-	Fri,  4 Sep 2026 10:54:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1788519244;
-	bh=7qstcDk7tqVfdFyRK5jQ1nNUCM/E/gzwRPi1HUBSq4w=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=vRZFRV+xb3Xy6QhCeD/Ww+9cs2iw/Kel8Emx2xxqR4YMabpZuLtcGlIYOFBHYBbVV
-	 3YuSqbJkoGiwc7hPRDdy75xKj6NqG3w27lXJZhLjkSvO2mDqA0quMtZ7iK5Wyql+bb
-	 X2LqhoAE/jktMa8jQtbr3fTOaQLsiGv9aw67MXR4=
-Received: from [192.168.95.128] (172.30.20.203) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 4 Sep 2026 13:54:03 +0300
-Message-ID: <65b90e7c-d3b1-41f9-b4fd-6a1d51b88e4c@paragon-software.com>
-Date: Fri, 4 Sep 2026 12:54:02 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ohRxS7Xf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 040C51F00A3D;
+	Fri,  4 Sep 2026 10:55:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788519310;
+	bh=kJQo5PQlxLuJKkQWQ1jriZpureLfoB73xzfvAO+4aAE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ohRxS7XfM7NtztrnFOQebW0Ia3CORAUfxI6jiB4y6/Fj7ooCVe3ABH1mSnFo03VAq
+	 8yZzg3NdtC25ZufPea3qYa3yllhIDbnQV8nkRFQV9PZTHPBD7s+DM4bJCkyF1jVgDl
+	 1aU8VhdhRFvpxF6zDbQQghXyLIntUVOfkKaChwuNqlUN2bA8KDA/swnPLHcRwCwXkK
+	 DBt+H+1iN+LMOLF4SYBOb8VSw4OfoEG3gSLmqiqoaFdBW9bl8fuMSpS+eVh8hTOQPs
+	 3V/+uG45yyjPnUTpUnNWNxIIPnQ+IOxw34tVM7tZxvc0l2pBB/bCVolskrPJZAMxWX
+	 hAH088YfaW4LA==
+From: Christian Brauner <brauner@kernel.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+In-Reply-To: <20260828205429.3678204-1-willy@infradead.org>
+References: <20260828205429.3678204-1-willy@infradead.org>
+Subject: Re: [PATCH 0/6] Buffer head documentation updates
+Message-Id: <20260904-nettigkeiten-assoziieren-bioladen-120adaf29ea6@brauner>
+Date: Fri, 04 Sep 2026 12:55:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: fix out-of-bounds write in
- ni_create_attr_list()
-To: hewei-gikaku <skyexpoc@gmail.com>, Weiming Shi <bestswngs@gmail.com>
-CC: Xiang Mei <xmei5@asu.edu>, <ntfs3@lists.linux.dev>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20260624053008.4885-2-xmei5@asu.edu>
- <20260626131122.1341-1-skyexpoc@gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260626131122.1341-1-skyexpoc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1872; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=S1SJr8UbfCEGALIt8QcBF+thJiIuJ0INCq0S9U45FLY=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTNWtwTds7F/tOiL33+vZs1dJ2bL6+Mu7khqi6n3C11j
+ prDTJG6jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlUZjMyvD66ujBv53KXnK3h
+ 23wnMSjqPZryffbxne6GtzfeL3kp+4/hny5PQlRy1/spKxYym+zSdd0iW7AlS0mk9Id1RMNbwRW
+ eTAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 6/26/26 15:11, hewei-gikaku wrote:
+On Fri, 28 Aug 2026 21:54:20 +0100, Matthew Wilcox (Oracle) wrote:
+> Buffer head documentation updates
+> 
+> Mostly just tidying up some out of date documentation, but I found the
+> time to document some functions I thought were worth documenting.
+> 
+> Matthew Wilcox (Oracle) (6):
+>   buffer: Remove reference to unmap_buffer()
+>   fs: Remove references to mark_buffer_dirty_inode()
+>   buffer: Document sb_bread(), sb_bread_unmovable() and sb_breadahead()
+>   buffer: Document mmb_mark_buffer_dirty()
+>   buffer: Refer to folios in comments
+>   buffer: Rename label
+> 
+> [...]
 
-> Hi Weiming, Xiang,
->
-> I posted a fix for this exact ni_create_attr_list() out-of-bounds write
-> two weeks before this patch, to the same list and CC'ing the same
-> maintainer:
->
->    v1 (2026-06-10): https://lore.kernel.org/all/20260610002929.51765-1-skyexpoc@gmail.com/
->    v2 (2026-06-25): https://lore.kernel.org/all/20260625031932.9412-1-skyexpoc@gmail.com/
->
-> Same root cause, same Fixes: tag.  The two patches differ in how they fix
-> it, and the difference matters:
->
->    - This patch keeps the fixed al_aligned(record_size) buffer and returns
->      -EINVAL as soon as an entry would cross the buffer end.  Because each
->      ATTR_LIST_ENTRY (le_size(0) = 0x20) is larger than the minimum resident
->      attribute it represents (SIZEOF_RESIDENT = 0x18), the list can grow past
->      a single record_size for a sufficiently full base record, so this can
->      fail a normal setxattr/file operation with -EINVAL instead of handling
->      it.
->
->    - My v2 computes the exact list size from the attributes first and
->      allocates accordingly, closing the overflow without introducing that
->      regression.
->
-> Given the earlier posting and that v2 fixes the bug without rejecting
-> otherwise-valid records, I'd suggest taking v2.  I'm happy to rebase it or
-> adjust to whatever Konstantin prefers.
->
-> Thanks,
-> HE WEI
+Applied to the vfs-7.4.bh branch of the vfs/vfs.git tree.
+Patches in the vfs-7.4.bh branch should appear in linux-next soon.
 
-Hello,
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Sorry for the delay.
-I'll stick to the He Wei patch for this fix.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Regards,
-Konstantin
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.4.bh
+
+[1/6] buffer: Remove reference to unmap_buffer()
+      https://git.kernel.org/vfs/vfs/c/d786d6d71513
+[2/6] fs: Remove references to mark_buffer_dirty_inode()
+      https://git.kernel.org/vfs/vfs/c/6bfa37fa455f
+[3/6] buffer: Document sb_bread(), sb_bread_unmovable() and sb_breadahead()
+      https://git.kernel.org/vfs/vfs/c/984cc59b6b42
+[4/6] buffer: Document mmb_mark_buffer_dirty()
+      https://git.kernel.org/vfs/vfs/c/2ce4bdcedd23
+[5/6] buffer: Refer to folios in comments
+      https://git.kernel.org/vfs/vfs/c/624ae75c3878
+[6/6] buffer: Rename label
+      https://git.kernel.org/vfs/vfs/c/72873ce78b36
 
