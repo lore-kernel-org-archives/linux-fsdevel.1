@@ -1,59 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5CB3ACA4B;
-	Fri,  4 Sep 2026 16:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0383C5522
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 16:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788538000; cv=none; b=XW5XykRisGHZRhH++zFFu45/uCMdNC5LlXpa0D+P8l2zY9nVJxMw1fn9HX/6jeMW/ZpF/jSMenK1Oml8Q13y8tDjW6vKDiM6CV1nh9NTC4La3D7Z2vhA80neU6m756ybRoIDiyaKeo7rD/Vu4uLN8VwN0dhhxyT5Ip77hcldpRI=
+	t=1788538215; cv=none; b=Ok41uS8gY7Yy5dhXo4hIP2tlPXMAQPvzWViC/yE40nP4NIJ2vRaKsYJYS+Qfc5QSMjQoC1iZ0tZygXDZ2Ge3YQBPjz0gi+ltkpRfDlEHv9ZZgRVB/Js9Bov1+bmfo9LotjmdtypORbCkl6MzcuPrW1CVHeQjx/1P4Ar3JSgVfQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788538000; c=relaxed/simple;
-	bh=8FSb/gjuciMqhZIT4RXlFvIKNcHmDi84w1BldFvuDhY=;
+	s=arc-20240116; t=1788538215; c=relaxed/simple;
+	bh=P2rW3hKxGUs4nS+9TbwXfR4YDLmtL/y0lG03tWYudJA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sh/qN0alBc0a63zT/HPfMMRa4x3ha6j7NVeMS2us1rZ6NZfxV5Ip5df1wjlyySXZqLcyilEEGIShWyCgM9YWeEQu5sE5sTEv9ZQ6TVD/BGpYCNhb5jNG0omKeiuWapAkcV+BoXAq9ZyhlDAJdKaZUDfqxcfLplEB1ix+yjSH63Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFVs81Nr; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=RJDBkfWO7gFAaqCvWqZzn7v2mpV61d0EELjSkFTX0wHCVTRc+M20qLM5svOh1Dn8sWZM2C9wZYP0AIcQp2RrDKCfDr0SETR2BN8kG0xZmx7mMKKC4HsSrciOimBjHf5DcnQa1CZiOfXg2X5gBmpLngkuvsQrNOE6huA9dmhf48U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=tloUJTCp; arc=none smtp.client-ip=209.85.222.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFVs81Nr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B31E1F00A3D;
-	Fri,  4 Sep 2026 16:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788537990;
-	bh=89DU0GapqiOZlaA7jU9CQs5/T4ZZ4b0KeYVQAFryc+c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CFVs81Nrix1xWs3kup1P05Krc0JJYYhS/ViPHckidBWbZUUGJsinV0OpG0P2Yp0BM
-	 Yi+nMeESljaXeDglpK+m7DNQxDrSYy8UGDgOQoERJShk9RAc41+SjMQlXp7YkTY/cs
-	 KX7Zc2qg+zrln15rB1FL9dhfPpQNrATWQEC0mVvJPFKr8EUGnQG1Al5bkXiPq+CkAV
-	 8ASReE6E/YXuMju48gmLyNRm35+cwsjDqveHmTZAEelBBwGoMRCiXvPw2ZAyXgeW7s
-	 FNu/myp6GFkUNY3kus7xr2P0HhWcShI8J6dlb8+vBIMclZAmORFzAg8TXYBEMMFa6n
-	 RwUUxSxh+CnkA==
-Date: Fri, 4 Sep 2026 17:06:19 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Hisam Mehboob <hisamshar@gmail.com>, 
-	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, Amir Goldstein <amir73il@gmail.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Eric Biggers <ebiggers@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, David Howells <dhowells@redhat.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>, 
-	Catalin Iacob <iacobcatalin@gmail.com>, Stephen Hemminger <stephen@networkplumber.org>, 
-	Andrew Lunn <andrew@lunn.ch>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Andrei Vagin <avagin@gmail.com>, Wei Yang <richard.weiyang@gmail.com>, 
-	Bhavik Sachdev <b.sachdev1904@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Wang Yan <wangyan01@kylinos.cn>, Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, 
-	Malaya Kumar Rout <malayarout91@gmail.com>, linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Luis de Bethencourt <luisbg@kernel.org>, 
-	Salah Triki <salah.triki@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH] bfs: remove the filesystem
-Message-ID: <aprr9xUwEmjA1N5T@gremlin>
-References: <20260904082954.48738-1-enelsonmoore@gmail.com>
- <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
- <20260904151054.GG6047@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="tloUJTCp"
+Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-92ed19f4d60so118571885a.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 09:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1788538211; x=1789143011; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=O/dj2tdiAd1cTUZz8ylHlEPfPG8XqvRkzCQtnk9erCM=;
+        b=tloUJTCpTsWudC7midDUdjsYKW2/JUorRtK+r/eC6ai57Qs3PctppLNFJzn2SKd/eW
+         wo5w/sjHj/fXS++vbcRqvmK85zYbNUYB21q7x7OHeMZ3qMspjflFmTfVWO38MuWlEjCD
+         Q+pO5GLjfPi1cSKisnAZIy8eLSRUyFKEfehfWbWJ0oDQd8ThJBMk3NiSI+OfVDsK1mub
+         dRZFXRIm+Xg8gaNAk5Yuz15QQ7AM4RnYtJbVpfPAZL2Sg0Lqo8Sr3Sry0/Dn5Css3Zai
+         aSSinXohraHDJKJ6A1s340y9A3XxKSt9UnKkt47bITSiFZEReAdNsM7T5hWnRdI3z0G2
+         e1gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788538211; x=1789143011;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=O/dj2tdiAd1cTUZz8ylHlEPfPG8XqvRkzCQtnk9erCM=;
+        b=NdE9AGjSMo7sUm6od3QPW4B88jc6IdgGRGhmTKzwtxO9/YbxOHaf93mq8oKO4j1OYw
+         lNBJerEOkKND3R4Dyp1zUGsPI4j6GRqlLa1Cv+EU/Shw6DxDpWM7Y66fxpMFQTz+FMHu
+         3X7h7a/A48ZksCXBysvNmShSh7zEBMjysEfgCr+guKWCQ3E5Q7YySZhHQr3M8QHOQDZm
+         mrCLQYCPMF00/teIqxEvjrN2L6a1xzCkBP7GVMNsQIPRCEyuNWVMtomefCwTpEmlXI3e
+         z7DvIPfqcjAFJHM6+jH6uRBfDLOWnwJU6sTX7FJ6J/Ou4gyVjWN3n5EEpJgvVM5M87/B
+         5Syg==
+X-Forwarded-Encrypted: i=1; AKwUvBz5BS8X+vNI7O7LFyEHFTRN0xIMI6YtLpy6a7nvTz81ga9mAl8CjRsyreo0ofT4mFHOWeVtDC/Isd3K+veR@vger.kernel.org
+X-Gm-Message-State: AFuF++nbYhXcrOh0Kmc71ztCrKr0jzWOV//1RPhdur+XcLBeCE5HP99M
+	Wu0hJInxovi7edAP3ADMFDKPGkrXMKs0M9YJY4E5U1/9uGWRMRYZAWShcpJ47oaTt4A=
+X-Gm-Gg: AYBFou0G0fCrTMeMmM6E43iGt9uuZzfjvVtIG6BJil8fndqM67fIioZVTQaFxPNMLiz
+	lb2lWWPZyDHrOquMlNzBMWfzPPp/CLWEtDyf7GcWG21omq9kAX8NKd9YKMkMTw6RIQZ0dj273RJ
+	HtyShfHOb4O+dBLviGilcLSHXzI8kiyui+EDImeK3cAdaIMauSqSvpLAC4vToDmp3ty1wUaGCiz
+	S5thvRaqr++2qakwa5mevDVwYQdz63gdpQLaXcRVLu1Yv6dT7vyV7Qq3/StKXkZ2FJRAB/IXlo1
+	ZzI1czJid+jGT/9NUub+uiIAC3uSUdgzn1qTMc9iW0QyQ7KrtMkg+kuY4Kv0XoXwGgq+M9vtmGU
+	4OAbCvIZKA8QUyTb/oe99JPh2ir158jYDPCKG20rRcR6tmxrLGI/TM5jVDpTxljWEiIBLk8urpr
+	zzU/TvaE1lYBJ5o6jiKDfbGXPzEZ6EUZ/ISSsh
+X-Received: by 2002:a05:620a:6cc6:b0:930:f285:5ee9 with SMTP id af79cd13be357-9396e0b2fc3mr1194176885a.20.1788538206229;
+        Fri, 04 Sep 2026 09:10:06 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:501::2])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9104067b125sm23869576d6.29.2026.09.04.09.10.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 09:10:05 -0700 (PDT)
+Date: Fri, 4 Sep 2026 12:10:00 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Salvatore Dipietro <dipiets@amazon.it>
+Cc: linux-kernel@vger.kernel.org, hch@infradead.org, abuehaze@amazon.com,
+	akpm@linux-foundation.org, alisaidi@amazon.com, blakgeof@amazon.com,
+	brauner@kernel.org, dgc@kernel.org, dipietro.salvatore@gmail.com,
+	djwong@kernel.org, jackmanb@google.com,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-xfs@vger.kernel.org, mhocko@suse.com, ritesh.list@gmail.com,
+	rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
+	vbabka@kernel.org, willy@infradead.org, ziy@nvidia.com,
+	Vlastimil Babka <vbabka@suse.cz>,
+	David Hildenbrand <david@redhat.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Brendan Jackman <brendan.jackman@linux.dev>
+Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly
+ __GFP_NORETRY allocations
+Message-ID: <20260904161000.GC6641@cmpxchg.org>
+References: <20260904115629.3993331-1-dipiets@amazon.it>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,65 +86,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260904151054.GG6047@frogsfrogsfrogs>
+In-Reply-To: <20260904115629.3993331-1-dipiets@amazon.it>
 
-On Fri, Sep 04, 2026 at 08:10:54AM -0700, Darrick J. Wong wrote:
-> On Fri, Sep 04, 2026 at 12:43:09PM +0200, Christian Brauner wrote:
-> > On Fri, 04 Sep 2026 01:29:19 -0700, Ethan Nelson-Moore wrote:
-> > > bfs: remove the filesystem
-> >
-> > I agree.
->
-> At the moment, I don't.  Nowhere in this thread does anyone mention what
-> someone with a B(oot)FS filesystem image should do if they want to
-> extract whatever's stored in the filesystem.  Are there userspace tools
-> for that purpose (ala efs)?  Does "binwalk -e $bfs_image" suffice for
-> that purpose?  Or is there solid evidence that there isn't even a single
-> user (ala freevxfs) who strongly wants it to stay in?
->
-> I'm all for getting rid of old cruft but there still needs to be a
-> documented offramp for users.
+On Fri, Sep 04, 2026 at 11:56:28AM +0000, Salvatore Dipietro wrote:
+> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+> introduced high-order folio allocations in the iomap buffered write
+> path.  When memory is fragmented, each failed costly-order allocation
+> enters __alloc_pages_slowpath() which runs direct compaction and
+> drain_all_pages(), causing a 0.38x throughput drop on PostgreSQL
+> pgbench (simple-update) with 1024 clients on a 96-vCPU arm64 system.
+> 
+> The root issue is that direct compaction is too expensive for hot
+> allocation paths that have fallbacks to smaller allocations.
+> __filemap_get_folio_mpol() already marks higher-order allocations with
+> __GFP_NORETRY | __GFP_NOWARN, signalling that the caller can handle
+> failure.  However, the page allocator still attempts full direct
+> compaction for costly orders with __GFP_NORETRY, which is unnecessarily
+> aggressive when the caller will simply retry at a lower order.
+> 
+> For costly-order allocations with __GFP_NORETRY, clear
+> __GFP_DIRECT_RECLAIM at the very start of the slowpath, before
+> can_direct_reclaim, can_compact and the nofail checks are evaluated.
+> This makes the entire slowpath treat the request as non-blocking: no
+> direct reclaim, no direct compaction and no drain_all_pages() IPI
+> across every CPU. kswapd (and in turn kcompactd) is still woken further
+> down for background defragmentation, so compaction keeps working for
+> long-term system health while being removed from the latency-critical
+> direct allocation path.
+> 
+> Allocations that also request __GFP_THISNODE are exempted.  That flag
+> pairing identifies the local-node-first THP attempt issued by
+> alloc_pages_mpol() (mempolicy.c), which relies on direct compaction to
+> form transparent huge pages.
+> 
+> Test environment:
+>   Hardware:  AWS EC2 m8g.24xlarge (96 vCPU, arm64)
+>              12x 1TB IO2 32000 IOPS RAID0 XFS
+>   OS:        AL2023
+>   Kernel:    v7.3-rc1
+>   Database:  PostgreSQL 18.4
+>   Workload:  pgbench simple-update, 1024 clients, 96 threads, 1200s
+> 
+> Results (average of 3 runs, TPS):
+> 
+>   Config                   Avg TPS      % vs Baseline
+>   baseline (no patch)       59,408       -
+>   With this patch          155,409      +161.6%
+> 
+> Link: https://lore.kernel.org/all/20260403193535.9970-1-dipiets@amazon.it/T/#t [v1]
+> Link: https://lore.kernel.org/linux-mm/20260420161404.642-1-dipiets@amazon.it/T/#u [v2]
+> Link: https://lore.kernel.org/all/20260710143437.12379-1-dipiets@amazon.it/T/#u [v3]
+> Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+> Cc: stable@vger.kernel.org
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Dave Chinner <dgc@kernel.org>
+> Cc: Ritesh Harjani <ritesh.list@gmail.com>
+> Cc: linux-mm@kvack.org
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-xfs@vger.kernel.org
+> Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
 
-Use an older/downstream version of linux? :)
+Looks good to me, thanks for keeping at it.
 
-It's like the museum piece arch stuff - people argue vigorously in favour of
-nommu (which btw is a variety of linux that _doesn't implement forking_ :)))
-gesticulating at talks given at conferences etc.
-
-But then never quite answer the 'why not use an older version of linux' or 'why
-not just maintain it downstraem for the 3 people who need it'.
-
-Also worth consider what the Venn diagram overlap of bfs users and people
-running even-vaguely-tip kernels/likely to ever upgrade is. Quite likely zero I
-expect?
-
-I get the desire not to lose people their data, but the code's not gone away
-forever :)
-
->
-> --D
->
-> > ---
-> >
-> > Applied to the vfs-7.4.bfs branch of the vfs/vfs.git tree.
-> > Patches in the vfs-7.4.bfs branch should appear in linux-next soon.
-> >
-> > Please report any outstanding bugs that were missed during review in a
-> > new review to the original patch series allowing us to drop it.
-> >
-> > It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> > patch has now been applied. If possible patch trailers will be updated.
-> >
-> > Note that commit hashes shown below are subject to change due to rebase,
-> > trailer updates or similar. If in doubt, please check the listed branch.
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> > branch: vfs-7.4.bfs
-> >
-> > [1/1] bfs: remove the filesystem
-> >       https://git.kernel.org/vfs/vfs/c/e36781a626b2
-> >
-> >
-
---
-Cheers, Lorenzo
+Reviewed-by: Johannes Weiner <hannes@cmpxchg.org>
