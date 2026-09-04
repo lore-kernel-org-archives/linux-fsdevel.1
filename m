@@ -1,94 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011039.outbound.protection.outlook.com [40.93.194.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474993A6F11;
-	Fri,  4 Sep 2026 11:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788522422; cv=none; b=H6rHsIP6fUfWc/8oflpFR6iGXV+CmSzofVhBGchn3pfYnWVJQ2cJ5izO0vy27VY33Q5KonER0XSkck8SbhuoxqwHQbBQvI3WxHnOai+SQRYqHZYE8L68v1NfCG66qCy7lMBfSc8cpq/dEaym+3K8deHB99SM23X5jqQEP7KaWh0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788522422; c=relaxed/simple;
-	bh=No7RxpqQJwgIJeJlpjDe0CUFOgagiIf6Q+PYrkQFE4Q=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lgNpQOlqyodcf1XRXVFue9i/aoUfPHgrIDBiAGSTO19Ugh9vnG1vGIduTgm9AELWUSyiePDw2dF8w0NjtZrw7wrFnpBpsfqEnWiQjSn6fSctx86v5TVgokih4MECN60DjPCiiUdZFMy7lM0yIYpkDQIAKVAY6chXoxzVFhTcswk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fyUwTLQJ; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CEB47ECF9;
+	Fri,  4 Sep 2026 11:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788522441; cv=fail; b=Go1+Hp9CIPh3j10LUh3BztCu+REI8GvbLhI7ahdd2eMQpbSBM9c/ANLw4NfcV60wq0zweFVuohVtotcA3wUA3TE/H4sj1SmrlAZaImiYgZuwCUuu999Q2HjLOpIM0slZER3czRad9v4pdgt2YwOWJvt5CuXUw5kUQ0RnTjIWN38=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788522441; c=relaxed/simple;
+	bh=8/gzKUfvo4Aqpqj98o8tivODkYcoxXGyiTdZyzpLQqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=DkBQxmCa1vA0k7am6GKJH6Nnc3MvsuuRoT8NfNk1XmtppNRpBgNtMr2inSjOXkuOn/kKY9QG3NYfMdiLEcUANcFpON4An5ckXQx4APdYp3XdibV14H6SPYdxvAlNTjzzWNAmtnFdLtXvnO6tpe7Vi42s129noOB+VR8eRurt2FU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qtkCgF71; arc=fail smtp.client-ip=40.93.194.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fyUwTLQJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F9B1F00A3D;
-	Fri,  4 Sep 2026 11:46:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788522420;
-	bh=YtoXJyjR8/C4xJI+BwDO07bbXr32ODV2nIQdgU3Ckes=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=fyUwTLQJRIXJp3VrqRYW2BjefRQK3/yM2//HHtDeYWKcwMbsT2ITfarC6sEqHhSy+
-	 ymtgATA8JI9+st+FWhugXaEfosw+GvPR1dnY2a7XIGbVjTr/sije6RImMVr7wE7zpZ
-	 aPD0itVbBEhkbabofDoVZx/1srlFatDsPlMjmgcgqhO0XLJwtGWgPitMCLyGIZm68g
-	 VfnHtW/aWlE8FOlN9TBfq7T+/AJChI+dHincbPxaEK95Kl30NKrc6i2NlJBIEjXVpS
-	 HgVNoJWJw8FCXtbzNjElJESHOwoN3Eq7TRId4p4khzqcm9ypr2T0+vNjv9RNNWkKZJ
-	 yBaMlbnbNKdIA==
-From: Christian Brauner <brauner@kernel.org>
-To: hch@lst.de, "Darrick J . Wong" <djwong@kernel.org>, 
- linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>
-Cc: changfengnan@bytedance.com, kbusch@kernel.org, 
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, David Sterba <dsterba@suse.com>, 
- Gao Xiang <xiang@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>, 
- Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
- Miklos Szeredi <miklos@szeredi.hu>, 
- Andreas Gruenbacher <agruenba@redhat.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
- Hyunchul Lee <hyc.lee@gmail.com>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
- libaokun@linux.alibaba.com, bfoster@redhat.com, linux-ext4@vger.kernel.org, 
- linux-xfs@vger.kernel.org
-In-Reply-To: <20260729192737.3190206-1-joannelkoong@gmail.com>
-References: <20260729192737.3190206-1-joannelkoong@gmail.com>
-Subject: Re: (subset) [PATCH v5 00/22] iomap: convert to in-iter
- iomap_next() model
-Message-Id: <20260904-darauf-relikt-plazieren-5dbecdd0ae68@brauner>
-Date: Fri, 04 Sep 2026 13:46:53 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qtkCgF71"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=q4ycy6o7ckbZqtTuKVcscbRBt4uapNFEAsEx8pM/A8PApMGT+Ts5CqXUWDF3DVgaRysBWHQf2jB/iPaggDFY+6HnSTQjCLhiOseWOQ5N0xGSdJ5g63R6S+DSZ1uZtK1V92q87pDw08a1VyR18xZ8T57NqmZQKsPAi1r0cw9PEzroI0OnKOrXgPHN8FMeNSa+6sK+GExv3w2JyjTDv4aErTGIpYebyLyOFJEF7290dy0AgtTInTX6wZGgxG+zWjjwZoQvqdZVqLN8OQ31Xdwky+2gPIPxsG4fiPBxScumEPOz41pZ4/CXK98xjXBYvXFDW0aaxiNkw56fJdgldndvlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4dtimgsOiLWju7xR18BevpBC5wIYxueT8dwQIiAjWlM=;
+ b=DpEDRkPOYJlFYRlPDtg4vHoQEVBXsB/SYCOlkfsTjZoDJHM9oABPgWA8fQKU5seKteOeIkAUeXKJ9R/eHh77Yf+/8/sjZRT+7JOhnxlwLaKSNeYjRG/WwQ/O198tHCZvVa20LsAs6fVw5YkMnCr1uRQmRcmMYczQmmrAgVZwbb60yEHQOBHtS7O577ZsgNd9tJbdRleSNc9rWhdBOBOwdkbhnWNKi835WSkTq7LNltLA5SRpLtREOla/9w9y4LiX9IYtWgMKzdkYz5NvFJQ/RE4R4dJQkptXhwDkuMTcaaAPAUx6mQKeT80oIYi0VjED/iarxEET7gvpmPTPcAnTrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4dtimgsOiLWju7xR18BevpBC5wIYxueT8dwQIiAjWlM=;
+ b=qtkCgF71heu11hOMB6FIyJEndGuUHfbv3/wwsT4YqjPCkOxBBPQRojIKa+1XrGDSH3yk4pQKrIm9kXouuZtocn6r0/uQSNvObIpgvP0aZWfnAsZkHC6fjL5gM5cfTr0J0jSfMZzgnNACgDG0hVFav6fDSXvfsMvmVVlfziqd3BbGg8PsZyZ3p4ZMh0fMgCScRDo/oPUFlEygCyJixn9VniQ8qHBKC0Jv+eVez0PmQCCyZTIfloWUwE0grnEwV/NIDUKBFRZC9ucHGzzcZUpPN7U1Mh7IkgghM8eZo+3bfPtOoj86WfGuF+H4aq5vbZbSKX+NSLo2zi2F0Yg72mmANQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by LV2PR12MB5824.namprd12.prod.outlook.com (2603:10b6:408:176::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
+ 2026 11:47:15 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0360.008; Fri, 4 Sep 2026
+ 11:47:14 +0000
+Date: Fri, 4 Sep 2026 08:47:13 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: syzbot <syzbot+7666ed2c3d42196bf7e3@syzkaller.appspotmail.com>,
+	jack@suse.cz, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+	viro@zeniv.linux.org.uk, Kevin Tian <kevin.tian@intel.com>,
+	iommu@lists.linux.dev
+Subject: Re: [syzbot] [fs?] memory leak in path_openat (4)
+Message-ID: <20260904114713.GP4157646@nvidia.com>
+References: <6a8efe2e.1d9ded08.62e62.00b2.GAE@google.com>
+ <20260904-clown-zersplittern-sequenz-987f972a607b@brauner>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260904-clown-zersplittern-sequenz-987f972a607b@brauner>
+X-ClientProxiedBy: BL1PR13CA0174.namprd13.prod.outlook.com
+ (2603:10b6:208:2bd::29) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-db0b7
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|LV2PR12MB5824:EE_
+X-MS-Office365-Filtering-Correlation-Id: 031c16d4-0fd8-4af3-aa9c-08df0a7a4395
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|11063799006|5023799004|4143699003|6133799003|18002099003|22082099003|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	4AlGJtedph6/qkf/YVVY28JadJ0T2oHrVM49x3ctovf58zZjU9jft8hXMxeloC7jLwdBDuTZp+cZKhaevdAZpgHBJ+G5pzA+ekRZiFRVnfeZlPBLSxXk8gWkzZhefeQgPzsHH45YaUFAKg0AZWkB9e034nAE93Yz3mKsZQ+HFyr1YdKZiapI3SpdigyN9+ewJUXLI/rUqOYl5kw6X6tbQI8heGrXWsb3DhDHeg93guiA8w7H9RPwFrR57LU910LvO6cpW9v7FGORmGthfEsNuVV3P1akR3+rpIYRLLCmdLM9iVHMCmX3zKImltdqQUDdVmtu14NNeCq6KpEnndGfgqVJwPEjXDKi2TELirDRZWBhYPboZ0iPmQtQNd5zOjKcZaqzQ7e9eatxtCKMwHO4hpQL2aWoF0i/u74ki5eXCeyrCzKhETmIhSAoRhkt2aI5wc41F/2F1Ur/rtiZNVRKM5OJZC1BTVpaNJmAcmyl5upLTd6TF8S5vuwLiZjkVFmthQttj7iAlYuq9pEqS7Gkccf+k9O25cKZk/4/Dm1zTXdbTMakYfSsOgRdbgo60PFTzh7pa+LjUyTjFBF+546TQ7Hx81vylvzKfn85RmyVGoBE73EOd6VwisdSt3di4xn959fny4nO6arGhL3YUuq6kX2VvP9hKLx+Ylsdsmp6NPs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(11063799006)(5023799004)(4143699003)(6133799003)(18002099003)(22082099003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?STdmNVZVaVZ0bkE4V25xNnpQTEl6RUNnN1RsNDRsR3c5OStFektvWCszRlp5?=
+ =?utf-8?B?Q2xienlLQlFuZUlRbDVGMENGU3RDYUl4U0xEbHpkRnJROEtsd0hNUk1yOElx?=
+ =?utf-8?B?QmoxQ1cwNFJkYU1aUE1tZHRnRjUwLzhQN25PTTdsdnlTYUFZSUtkSXVKVG80?=
+ =?utf-8?B?UE1KcVorMWhyT3hNSndEbU42TWQ2aWRqT2l3TTI3NGp0dGIwZk15dHkyNXk2?=
+ =?utf-8?B?VDBBaHMzTzFpRTFRckhUQzlSanJvUmcxT2wzQU0vemlTTldHanlTMzlJWEtk?=
+ =?utf-8?B?azBoeTZZOFp1SlZ2QkZJVE1DdXVRbzFHUGZsVkhrcmlRb091U01QNVZSVlp2?=
+ =?utf-8?B?d0l6eEJCVDhuaXV5dmo3Mmtkc09ib01Rc1VoK3ByeE9BVWI5SFJva3dVQXVa?=
+ =?utf-8?B?UklGSVQ0NlRpd05NQzBrOHBNdmxzdStoaFk4YTFURHlTd1M4bUJ2RmxWRFg0?=
+ =?utf-8?B?VVRIeVVPTWlzSTdtRGdjc3o2c2RiVG9sY08wNjdzdkc1MzNiQzdXZEVkZ25O?=
+ =?utf-8?B?RXFkOUxyd0ZrMFpZMzZyZHhEbm8zK1hHSkY1OTg2dHNNRk5XTE54UWFpN0Zy?=
+ =?utf-8?B?YzdDTElUVTNmLzZzbXE5RmMxbWQ4SHd4cjhQQW00aWMwZndtZ1dPVGlwWC91?=
+ =?utf-8?B?b2hhYlBIbGhRS3VFYmJ5OWdYdW5XeGRkbTVPdGFrelUwMUR6VTZCSUxZT3Vq?=
+ =?utf-8?B?THF1OHBOSVY0WjY5a0t2MHVlUDFFOGh5V2JWUllhS1pyVEF1VUZuYTdSRDcv?=
+ =?utf-8?B?bFBNSVBIdXZqcFVnVUhCdm1heXgrZG9yUjdmOWErZVlBNmhmRHJma09aaUZw?=
+ =?utf-8?B?VDNIQWdMSEVhcE1RbWpGS3JOUXErM1c3cW5ESzNhSUhMcm5zcFhVVDJNVHo4?=
+ =?utf-8?B?QnRKc0F6STRucXdOT3RaQWRTL2FUbmlxOHoraGZCUFM3TFN1U3JCUWloOXQ0?=
+ =?utf-8?B?MlFiZ1AzSzNNS1JiQnRVVzlRajUxODYxakZaRFp6SEJvSE1uRWgwbVNFWFNl?=
+ =?utf-8?B?RDdDR0ExRTd1Z1hpSkdYTUZCZEJDVWZQckNiVko5cUMzV1h5N0EyQnVnZmRv?=
+ =?utf-8?B?cVd1NHlFNUtXRUdsSm9WRVhrU05FQUpvMUdKUG5kcDJBU1d3akM2anRWWThZ?=
+ =?utf-8?B?UWIxeGtqT0h1UzZpdEtjeitJTkhzRVdsZTBEcVRJcUYyNk01cGtFbFU2MitN?=
+ =?utf-8?B?b3lwa1RkYXl0Zko1RFY4WHpsTlJxZi9wU0xZdi9iLzVUSGFVT1hOMjhBUXJU?=
+ =?utf-8?B?NytHenNEc0FwZG9MejVtR09OeE1XcW1tNi9jUStBcFZDeUZTSkRrODBKRHVi?=
+ =?utf-8?B?cUY3L0pEMWwxZE94Q2JXZ2JEQ2xnend4TjhGR0dvYXR3aENTUWxwOHlZb3Av?=
+ =?utf-8?B?eHV1bWs0cVE5RzFBeHFSNVcyTm82N3BaYzh5MHdFQUpBS3MrQmxRQW5pUjFt?=
+ =?utf-8?B?WDBTbm9qcEw5aFhFSUNNRGs4Q2FESEg0Z2NrS3YxcDg2b0RTczU4N2h3Nits?=
+ =?utf-8?B?bnd6ODEvb1psRlZXcGJVeElFRmJVK2Y4R2dLTy9Pb3FXaGR0M01leDJiekxY?=
+ =?utf-8?B?UDFpblJDdXZxRUVCZkhDdDFjM29DbmJoMVVVSm9HL3VFajBXNk0wQVVUcXZp?=
+ =?utf-8?B?dm82UmZsa0xZREppUk44eDlOcVQ3eGdkV3RYcHg5VEdlZjVTaU1hYlJRQ1pJ?=
+ =?utf-8?B?cU1qZXk2S3Niam11Sk1XMCtzTW1xRUdpWE1CQkYzZHdVM2lOZzRKYU1qSmk2?=
+ =?utf-8?B?U0Iyb0wwZTR0Q0dLY0lxS3hoRlRBV1ZrbUZ2Q0JPM1J1QWNJTGVzUloyU1Yx?=
+ =?utf-8?B?ZG8zaWQvUTdGQmc3ekZWUnZMNXBLWWNOd0N0a2tRajVYNWNHR0wzQXNxeGgv?=
+ =?utf-8?B?aWpPdFd3bXdyZTRkNTV0Smhzc0ZnWWVHTVZ4QkpMRnl2S2F5aXlxVXZLSi8z?=
+ =?utf-8?B?bldzR1NkV3lOK2J0dEhiODJBV0srdjVYU3V5RTRQTWFtVnVmaWcyc0FkT1Nk?=
+ =?utf-8?B?YzFUY09qSGtuaGlvU2QrR3lJdmtBUFhGWEMrRm9pVkJWZ1NDUGtKSXlod29K?=
+ =?utf-8?B?cjUvZXFzZEpjYW9EWHZQWHVXQlFuSXM5Nk9BaU9DQ0N3elFvdysvZnlySVJr?=
+ =?utf-8?B?bVA3aEZ4SGlycUtWdGw3WkR6TnQ1SDRDNmJVWUdOa0EveHZoRFZQMGNOR2U3?=
+ =?utf-8?B?YThkZzh6LzFOUW1yVnVMa2hwcVFVZElKYU40TTVsNXE5aE9HMzFYTFV1c2ts?=
+ =?utf-8?B?cS9nSis0UkdnTFFmeEFkTEU3UElISStBTXJCa3FFSnlWRjh4dWtGRGw0dk1o?=
+ =?utf-8?Q?nt2jafBucWeMW6YI7y?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 031c16d4-0fd8-4af3-aa9c-08df0a7a4395
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 11:47:14.8430
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U3VtK121Q5M7A1HJPlqpRTdXSQpewlZejarxyX9xJq5Hoz7cFYQ9ZAxerL+YRqxW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5824
 
-On Wed, 29 Jul 2026 12:27:15 -0700, Joanne Koong wrote:
-> This series implements a suggestion by Christoph for finishing the conversion
-> of iomap to an iterator model. This revives Matthew's previous RFC [1], which
-> had the same intention.
+On Fri, Sep 04, 2026 at 11:18:02AM +0200, Christian Brauner wrote:
+> Closing the fd does nothing. The hex dump shows the same pattern btw:
 > 
-> Every iomap operation currently drives its iteration through a struct
-> iomap_ops, which contains two callbacks, ->iomap_begin() and ->iomap_end().
-> iomap_iter() only ever sees these as pointers, so every step of every
-> iteration is an indirect call, including on the hottest paths.
+>   - obj1 struct file @ ffff88812811f9c0, obj2 its LSM blob
+>   - obj3 iommufd_ctx @ ffff88811161cd80, first word = ffff88812811f9c0 → ictx->file is obj1
+>   - obj5 xa_node, its ->array = ffff88811161cd88 = &ictx->objects
+>   - obj4 iommufd_object: shortterm_users=1, users=1, type=4, id=1 → the IOAS with ioas_id == 1 from the repro
+>   - obj6 iopt_pages, kref == 1
 > 
-> [...]
+> Likely caused by f4986a72d6e4 ("iommufd: Add IOMMU_IOAS_MAP_FILE")
+> 
+> Afaic,t, this should either reject based on file->f_op == &iommufd_fops.
+> But iiuc there's other cycles that can be formed.
+> For example, via a vfio device fd that's bound to the iommufd. It holds an iommufd_ctx reference via iommufd_ctx_from_fd().
+> So mapping a bound but unattached vfio fd builds the same cycle.
+> 
+> So probably this should do validation what type of file can actually be
+> used like shmem and hugepage file.
 
-Applied to the vfs-7.3.iomap.final branch of the vfs/vfs.git tree.
-Patches in the vfs-7.3.iomap.final branch should appear in linux-next soon.
+Oh.. This is a bit of a pain because we rely on memfd_pin_folios() to
+determine if the file is acceptable or not. I prefer to keep that
+logic contained within the mm side.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+The issue is we don't always call memfd_pin_folios() inside the first
+system call. A normal user would, but syzkaller has arranged something
+a bit weird and out of order.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+So we need to figure out some validation to run before the mapping
+step..
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.3.iomap.final
-
-[20/22] iomap: remove ->iomap_begin()/->iomap_end() legacy path
-        https://git.kernel.org/vfs/vfs/c/71864822ce32
-[21/22] iomap: pass iomap_iter_next_fn directly instead of struct iomap_ops
-        https://git.kernel.org/vfs/vfs/c/2a3b6fe7a17f
-[22/22] Documentation: iomap: update docs to reflect iomap_iter_next model
-        https://git.kernel.org/vfs/vfs/c/e16ceb1b6c03
-
+Thanks,
+Jason
