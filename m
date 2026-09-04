@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EDF1A9F91;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0A14B26FA;
 	Fri,  4 Sep 2026 14:48:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788533339; cv=none; b=c4In0L0bA2l3LGK7vIOfzH1WWASfDrzMVsvYb3Dy5UvWXHQBfTEPksF4afen/e9iOeAB+GlSLDrSjCkTfhR88nyAi6JctY8/eaxhxVwREYYwNwUycH2BJYVS9TIffSX3ulRD4jXrfkW7YvbthOFw/GyT6qOStEzFMh8ofSn+BK4=
+	t=1788533339; cv=none; b=Ydsy+N8pmCZb3RumBiedyoKt08u+s0l9aO51bvOT0ug5PBcS+01Ja7AEgfT/YMcU92FcpRVPbgnL02+0PDp0JJbrtnnQv15AX110rUqI0aekT26fF/ZFjf87/b2xs6u2GVmiBqN8EftIbswKOn2XmYfhDYzykL5jRANn9B7JGJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788533339; c=relaxed/simple;
-	bh=RPZk54L1rty0ICmm5Vw6nd84czl1ctT8mF95svoe+s8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hn8lVFazl4ZfxfjzMCrNpG0TcXWu7IiAMPVR/smXedIfD4w42XpIhkAflG+C61iaOwL+etdJWODZ+HEpq8r+SFjdnYXo95b3DOa95cm49I9zojzdG7rqf/qHwc45UsUQoxGpqwlfDGw/cGuZX9rIn4+RHKV/Z/N5DkNnrCvnf24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ntr7V7Sk; arc=none smtp.client-ip=10.30.226.201
+	bh=9Nab3tCcEL3G4Frkd7/vNHTmnEAF0Yi4UVa3/Zgbx9E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Xj221xpS351YQKWyNBBQskVw5DeHbMFYIh6UMQiN3y1uKag4nRYvLg2Jw+w+iDNBJaHs85NAqcBhzFxlkAoCeOT6NXg5wLJeE5MayZSPNqDrw5kXZe9r1+3WBuFJu9yHkYQje8rNAM143toJekoIofEYMDUwLuHA7KcN5av+6h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tF+J6ckk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ntr7V7Sk"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D57DEC2BCC7;
-	Fri,  4 Sep 2026 14:48:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tF+J6ckk"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0E04DC2BCFB;
+	Fri,  4 Sep 2026 14:48:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788533338;
-	bh=RPZk54L1rty0ICmm5Vw6nd84czl1ctT8mF95svoe+s8=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=Ntr7V7SkevS+N/58ZM46AZRxYxyPElIdjeWGTdmh71AX2IdqvZoobFMwzw8X4BVHG
-	 bH3QvRGZUHcqcCoQ7/Z8rvYVV/qpjH+ZuBWf2BqaB1t3TEd3668/HX7ezNRJ9xP2h3
-	 +R3jYbdCBmJu0fUABOvfFrKCDBftKaFbbT/K+lQdRoufiOI3SzHHDrp2Z9TtocPJJP
-	 Q5aeOi3Am6UYaC0ddHfERIk9ooX4RYfRIpuslX2PrITXbCWLNIdlxuV4M8JI+CX4Cs
-	 9qWG1hXIjq11K//ZfKqfqeLklqVkexRHssPJFQ/LQSWru7Yevr4H3kJxuR+zLo+qq3
-	 oNP5kXlpJDgaQ==
+	s=k20201202; t=1788533339;
+	bh=9Nab3tCcEL3G4Frkd7/vNHTmnEAF0Yi4UVa3/Zgbx9E=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=tF+J6ckkGdTc4vRU2Pw3mxgPoHp+Hpd1PD/Hx0cML9xqiKY3oBNuUSEk4X4AuZuSJ
+	 2RCT7KiCEpj+Ruj/asHXhcypVXHjlLpQxi2qN94hzIzAc2HsJMjQ+3/pWEwfigXA8w
+	 7K156k/7UkJJ9v/l5GcoffFJeH4SRjuXLVrEY/G1anotJvs/uY49J6FoiOnXCjDYDO
+	 LeSGqjPZjccZzDqpVe4+mTz4is5uRc4n+um7mV2zGusnPaGUFPbs/S7recWrlWU61B
+	 4dStxoR6d0HJ6WBlpE54r2rNNUTHuIhgx93CUDUXcAWQnNqJSJLkzoyyeLoYT8GJWP
+	 w61w+to1A6ORA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB782C624DE;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C3DC79F8C;
 	Fri,  4 Sep 2026 14:48:58 +0000 (UTC)
 From: Daan De Meyer via B4 Relay <devnull+daan.amutable.com@kernel.org>
-Subject: [PATCH v3 0/2] lsm: expose mount idmaps to inode hooks
-Date: Fri, 04 Sep 2026 16:48:54 +0200
-Message-Id: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
+Date: Fri, 04 Sep 2026 16:48:56 +0200
+Subject: [PATCH v3 2/2] selftests/bpf: verify mount idmaps reach inode
+ hooks
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -40,21 +41,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32PwW4CMQxEfwXlXFdxNkWkJ/4DcXCyppuK7KI4u
- wKh/fcm9ICEqh7HY78Z35Vwjizqc3NXmZcocRqr6N42Kgw0fjHEvmpltNnqnbFwlgRpmsdSjUQ
- XAdc775w9MRKqenbJfIrXB/Jw/NUy+28OpXHahidh8JnGMLRRIimcmzFEKVO+Pcos2AD/5C4IG
- rRFS25rMew+9pTmQv7M72FKqkUv5slwGv9gGEDoOl0/6JF7Mi+MdV1/AAR5/AciAQAA
-X-Change-ID: 20260824-lsm-mount-idmaps-9d9b994fe1a1
+Message-Id: <20260904-lsm-mount-idmaps-v3-2-920a1963675d@amutable.com>
+References: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
+In-Reply-To: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
 To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
  Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>
 Cc: linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
  Daan De Meyer <daan@amutable.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788533337; l=2257;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788533337; l=10145;
  i=daan@amutable.com; s=20260712; h=from:subject:message-id;
- bh=RPZk54L1rty0ICmm5Vw6nd84czl1ctT8mF95svoe+s8=;
- b=db8BeU4lBmswjj71tam6b0ZlFa10vg2dFktxgSM+aFee3/ldCqywM6PQAqYiBnQM3rvsm/Qak
- yP9wQ00Wh6oDrq5IInU6yk6X8pKX5VkKltBRcRZj244BJ8RLE2N4KxQ
+ bh=u4GiTIZYgqLv3c6YBoMnUhElfysaNCSwRqVywNmRGhg=;
+ b=/rXwiJDElK0pAd3c4CbjKmjtmdiKSAtDZvJ2h5v/XS5TDBTamMx877qWeYtJMrS6ASfMSfbhg
+ FTMFThflq81DBTyyWxUMxftca9Oq45iGkdSypS9NvMsPZUKQHA5a4JH
 X-Developer-Key: i=daan@amutable.com; a=ed25519;
  pk=I1l+WwrtmzRgofA5SQ1wTuJi18fjh91w+f5uRkFeZEA=
 X-Endpoint-Received: by B4 Relay for daan@amutable.com/20260712 with
@@ -62,56 +61,389 @@ X-Endpoint-Received: by B4 Relay for daan@amutable.com/20260712 with
 X-Original-From: Daan De Meyer <daan@amutable.com>
 Reply-To: daan@amutable.com
 
-OverlayFS performs upper-layer operations through inode-based security
-hooks. Those hooks receive the upper inode and dentry, but not the mount
-idmap used by the VFS operation.
+From: Daan De Meyer <daan@amutable.com>
 
-The security layer cannot distinguish an identity-mapped upper from an
-idmapped one or make the same ownership decision as the VFS. The VFS
-layer already passes the idmap down into all relevant inode operations
-so this just brings the security hooks to parity.
+Extend the BPF LSM selftest to exercise create, link, symlink, mkdir,
+mknod, and permission through both the VFS identity idmap and a real
+idmapped tmpfs mount.
 
-So pass the mount idmap through the create, link, symlink, mkdir, mknod,
-and permission hooks. Update the in-tree security implementations and
-non-VFS callers accordingly.
+Record the idmap observed by each hook and verify that every updated hook
+receives the mapping used by the VFS operation. This provides regression
+coverage for passing mount idmaps through inode security hooks.
 
-systemd has been shipping systemd-nsresourced for quite a while now. It
-relies on inode and path hooks to perform ownership checks using a bpf lsm.
-To make this actually secure we need to be able to calculate the on-disk
-ownership from the idmap.
-
+Signed-off-by: Daan De Meyer <daan@amutable.com>
 ---
-Changes in v3:
-- Restore the two-patch split from v1.
-- Add the missing Signed-off-by trailers to both patches.
-- Link to v2: https://patch.msgid.link/20260901-lsm-mount-idmaps-v2-1-3309b9d1eda2@amutable.com
-
-Changes in v2:
-- Squash the implementation and selftest into a single patch.
-- Add the missing Signed-off-by trailer.
-- Link to v1: https://patch.msgid.link/20260824-lsm-mount-idmaps-v1-0-0414a9641c85@amutable.com
-
----
-Daan De Meyer (2):
-      lsm: expose mount idmaps to inode hooks
-      selftests/bpf: verify mount idmaps reach inode hooks
-
- fs/cachefiles/security.c                          |   4 +-
- fs/namei.c                                        |  18 +-
- include/linux/lsm_hook_defs.h                     |  23 +--
- include/linux/security.h                          |  58 +++---
- security/security.c                               |  40 ++--
- security/selinux/hooks.c                          |  19 +-
- security/smack/smack_lsm.c                        |   9 +-
  tools/testing/selftests/bpf/prog_tests/test_lsm.c | 231 ++++++++++++++++++++++
  tools/testing/selftests/bpf/progs/lsm.c           |  79 ++++++++
- 9 files changed, 410 insertions(+), 71 deletions(-)
----
-base-commit: 786262be6048deab760f68c8acc2c85607165894
-change-id: 20260824-lsm-mount-idmaps-9d9b994fe1a1
+ 2 files changed, 310 insertions(+)
 
-Best regards,
---  
-Daan De Meyer <daan@amutable.com>
+diff --git a/tools/testing/selftests/bpf/prog_tests/test_lsm.c b/tools/testing/selftests/bpf/prog_tests/test_lsm.c
+index d7495efd4a56..c0ae813698ae 100644
+--- a/tools/testing/selftests/bpf/prog_tests/test_lsm.c
++++ b/tools/testing/selftests/bpf/prog_tests/test_lsm.c
+@@ -1,18 +1,30 @@
+ // SPDX-License-Identifier: GPL-2.0
++#define _GNU_SOURCE
+ 
+ /*
+  * Copyright (C) 2020 Google LLC.
+  */
+ 
+ #include <test_progs.h>
++#include <sched.h>
++#include <signal.h>
++#include <string.h>
++#include <sys/stat.h>
++#include <sys/syscall.h>
+ #include <sys/wait.h>
+ #include <unistd.h>
+ 
++#include <linux/mount.h>
++
+ #include "lsm.skel.h"
+ #include "lsm_tailcall.skel.h"
+ 
+ char *CMD_ARGS[] = {"true", NULL};
+ 
++enum {
++	INODE_IDMAP_ALL = (1U << 6) - 1,
++};
++
+ int exec_cmd(int *monitored_pid)
+ {
+ 	int child_pid, child_status;
+@@ -30,6 +42,219 @@ int exec_cmd(int *monitored_pid)
+ 	return -EINVAL;
+ }
+ 
++static ssize_t write_nointr(int fd, const void *buf, size_t count)
++{
++	ssize_t ret;
++
++	do {
++		ret = write(fd, buf, count);
++	} while (ret < 0 && errno == EINTR);
++
++	return ret;
++}
++
++static int write_file(const char *path, const char *value)
++{
++	size_t len = strlen(value);
++	int fd, saved_errno = 0;
++	ssize_t ret;
++
++	fd = open(path, O_WRONLY | O_CLOEXEC | O_NOCTTY | O_NOFOLLOW);
++	if (fd < 0)
++		return -1;
++
++	ret = write_nointr(fd, value, len);
++	if (ret < 0)
++		saved_errno = errno;
++	else if ((size_t)ret != len)
++		saved_errno = EIO;
++	close(fd);
++	if (saved_errno) {
++		errno = saved_errno;
++		return -1;
++	}
++	return 0;
++}
++
++static int write_userns_file(pid_t pid, const char *name, const char *value)
++{
++	char path[64];
++	int len;
++
++	len = snprintf(path, sizeof(path), "/proc/%d/%s", pid, name);
++	if (len < 0 || (size_t)len >= sizeof(path)) {
++		errno = EOVERFLOW;
++		return -1;
++	}
++
++	return write_file(path, value);
++}
++
++static int create_userns_fd(void)
++{
++	char path[64];
++	pid_t pid, waited;
++	int fd = -1, len, saved_errno, status;
++
++	pid = fork();
++	if (pid < 0)
++		return -1;
++	if (pid == 0) {
++		if (unshare(CLONE_NEWUSER))
++			_exit(1);
++		raise(SIGSTOP);
++		_exit(0);
++	}
++
++	do {
++		waited = waitpid(pid, &status, WUNTRACED);
++	} while (waited < 0 && errno == EINTR);
++	if (waited != pid)
++		goto out;
++	if (!WIFSTOPPED(status)) {
++		pid = -1;
++		goto out;
++	}
++
++	/* A one-entry map is identity for root but remains distinct from nop_mnt_idmap. */
++	if (write_userns_file(pid, "setgroups", "deny") && errno != ENOENT)
++		goto out;
++	if (write_userns_file(pid, "uid_map", "0 0 1") ||
++	    write_userns_file(pid, "gid_map", "0 0 1"))
++		goto out;
++
++	len = snprintf(path, sizeof(path), "/proc/%d/ns/user", pid);
++	if (len < 0 || (size_t)len >= sizeof(path)) {
++		errno = EOVERFLOW;
++		goto out;
++	}
++	fd = open(path, O_RDONLY | O_CLOEXEC);
++
++out:
++	saved_errno = errno;
++	if (pid > 0) {
++		kill(pid, SIGKILL);
++		do {
++			waited = waitpid(pid, NULL, 0);
++		} while (waited < 0 && errno == EINTR);
++	}
++	errno = saved_errno;
++	return fd;
++}
++
++static int create_idmapped_tmpfs(void)
++{
++	struct mount_attr attr = {
++		.attr_set = MOUNT_ATTR_IDMAP,
++	};
++	int fsfd = -1, mntfd = -1, saved_errno, userns_fd = -1;
++
++	userns_fd = create_userns_fd();
++	if (userns_fd < 0)
++		goto out;
++
++	/* A detached tmpfs avoids relying on the host test directory supporting idmaps. */
++	fsfd = syscall(__NR_fsopen, "tmpfs", FSOPEN_CLOEXEC);
++	if (fsfd < 0)
++		goto out;
++	if (syscall(__NR_fsconfig, fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0))
++		goto out;
++
++	mntfd = syscall(__NR_fsmount, fsfd, FSMOUNT_CLOEXEC, 0);
++	if (mntfd < 0)
++		goto out;
++
++	attr.userns_fd = userns_fd;
++	if (syscall(__NR_mount_setattr, mntfd, "", AT_EMPTY_PATH, &attr,
++		    sizeof(attr))) {
++		close(mntfd);
++		mntfd = -1;
++	}
++
++out:
++	saved_errno = errno;
++	if (fsfd >= 0)
++		close(fsfd);
++	if (userns_fd >= 0)
++		close(userns_fd);
++	errno = saved_errno;
++	return mntfd;
++}
++
++static int exercise_inode_idmap_hooks(int dirfd)
++{
++	int fd = -1, ret = -1;
++
++	fd = openat(dirfd, "file", O_CREAT | O_EXCL | O_WRONLY | O_CLOEXEC,
++		    0600);
++	if (!ASSERT_GE(fd, 0, "create"))
++		goto out;
++	close(fd);
++	fd = -1;
++
++	if (!ASSERT_OK(mkdirat(dirfd, "dir", 0700), "mkdir"))
++		goto out;
++	if (!ASSERT_OK(symlinkat("target", dirfd, "symlink"), "symlink"))
++		goto out;
++	if (!ASSERT_OK(linkat(dirfd, "file", dirfd, "link", 0), "link"))
++		goto out;
++	if (!ASSERT_OK(mkfifoat(dirfd, "fifo", 0600), "mknod"))
++		goto out;
++
++	ret = 0;
++out:
++	if (fd >= 0)
++		close(fd);
++	unlinkat(dirfd, "link", 0);
++	unlinkat(dirfd, "fifo", 0);
++	unlinkat(dirfd, "symlink", 0);
++	unlinkat(dirfd, "file", 0);
++	unlinkat(dirfd, "dir", AT_REMOVEDIR);
++	return ret;
++}
++
++static int test_lsm_inode_idmap(struct lsm *skel)
++{
++	char tmpdir[] = "/var/tmp/test_lsm_idmap.XXXXXX";
++	__u32 expected = INODE_IDMAP_ALL;
++	int dirfd = -1, idmapped_dirfd = -1;
++	int ret = -1;
++
++	if (!ASSERT_OK_PTR(mkdtemp(tmpdir), "mkdtemp"))
++		return -1;
++
++	dirfd = open(tmpdir, O_RDONLY | O_DIRECTORY | O_CLOEXEC);
++	if (!ASSERT_GE(dirfd, 0, "open_tmpdir"))
++		goto out;
++
++	idmapped_dirfd = create_idmapped_tmpfs();
++	if (!ASSERT_GE(idmapped_dirfd, 0, "create_idmapped_tmpfs"))
++		goto out;
++
++	skel->bss->inode_identity_idmap_seen = 0;
++	skel->bss->inode_idmapped_mount_seen = 0;
++
++	if (!ASSERT_OK(exercise_inode_idmap_hooks(dirfd), "identity_idmap"))
++		goto out;
++	if (!ASSERT_OK(exercise_inode_idmap_hooks(idmapped_dirfd),
++		       "idmapped_mount"))
++		goto out;
++
++	if (!ASSERT_EQ(skel->bss->inode_identity_idmap_seen, expected,
++		       "inode_identity_idmap_seen"))
++		goto out;
++	ret = ASSERT_EQ(skel->bss->inode_idmapped_mount_seen, expected,
++			"inode_idmapped_mount_seen") ? 0 : -1;
++
++out:
++	if (idmapped_dirfd >= 0)
++		close(idmapped_dirfd);
++	if (dirfd >= 0)
++		close(dirfd);
++	rmdir(tmpdir);
++	return ret;
++}
++
+ static int test_lsm(struct lsm *skel)
+ {
+ 	struct bpf_link *link;
+@@ -53,6 +278,10 @@ static int test_lsm(struct lsm *skel)
+ 
+ 	skel->bss->monitored_pid = getpid();
+ 
++	err = test_lsm_inode_idmap(skel);
++	if (!ASSERT_OK(err, "test_lsm_inode_idmap"))
++		return err;
++
+ 	err = stack_mprotect();
+ 	if (!ASSERT_EQ(err, -1, "stack_mprotect") ||
+ 	    !ASSERT_EQ(errno, EPERM, "stack_mprotect"))
+@@ -71,6 +300,8 @@ static int test_lsm(struct lsm *skel)
+ 	skel->bss->copy_test = 0;
+ 	skel->bss->bprm_count = 0;
+ 	skel->bss->mprotect_count = 0;
++	skel->bss->inode_identity_idmap_seen = 0;
++	skel->bss->inode_idmapped_mount_seen = 0;
+ 	return 0;
+ }
+ 
+diff --git a/tools/testing/selftests/bpf/progs/lsm.c b/tools/testing/selftests/bpf/progs/lsm.c
+index 7de173daf27b..7e32fbddbfad 100644
+--- a/tools/testing/selftests/bpf/progs/lsm.c
++++ b/tools/testing/selftests/bpf/progs/lsm.c
+@@ -84,6 +84,85 @@ char _license[] SEC("license") = "GPL";
+ int monitored_pid = 0;
+ int mprotect_count = 0;
+ int bprm_count = 0;
++__u32 inode_identity_idmap_seen = 0;
++__u32 inode_idmapped_mount_seen = 0;
++
++enum {
++	INODE_IDMAP_CREATE	= 1U << 0,
++	INODE_IDMAP_LINK	= 1U << 1,
++	INODE_IDMAP_SYMLINK	= 1U << 2,
++	INODE_IDMAP_MKDIR	= 1U << 3,
++	INODE_IDMAP_MKNOD	= 1U << 4,
++	INODE_IDMAP_PERMISSION	= 1U << 5,
++};
++
++static __always_inline bool is_monitored_idmap(struct mnt_idmap *idmap)
++{
++	__u32 pid = bpf_get_current_pid_tgid() >> 32;
++
++	return monitored_pid == pid && idmap;
++}
++
++static __always_inline bool is_identity_idmap(struct mnt_idmap *idmap)
++{
++	return idmap->uid_map.nr_extents == 0 &&
++	       idmap->gid_map.nr_extents == 0;
++}
++
++static __always_inline int record_inode_idmap(struct mnt_idmap *idmap,
++					      __u32 hook, int ret)
++{
++	if (ret || !is_monitored_idmap(idmap))
++		return ret;
++	if (is_identity_idmap(idmap))
++		inode_identity_idmap_seen |= hook;
++	else
++		inode_idmapped_mount_seen |= hook;
++	return 0;
++}
++
++SEC("lsm/inode_create")
++int BPF_PROG(test_inode_create, struct mnt_idmap *idmap, struct inode *dir,
++	     struct dentry *dentry, umode_t mode, int ret)
++{
++	return record_inode_idmap(idmap, INODE_IDMAP_CREATE, ret);
++}
++
++SEC("lsm/inode_link")
++int BPF_PROG(test_inode_link, struct mnt_idmap *idmap,
++	     struct dentry *old_dentry, struct inode *dir,
++	     struct dentry *new_dentry, int ret)
++{
++	return record_inode_idmap(idmap, INODE_IDMAP_LINK, ret);
++}
++
++SEC("lsm/inode_symlink")
++int BPF_PROG(test_inode_symlink, struct mnt_idmap *idmap, struct inode *dir,
++	     struct dentry *dentry, const char *old_name, int ret)
++{
++	return record_inode_idmap(idmap, INODE_IDMAP_SYMLINK, ret);
++}
++
++SEC("lsm/inode_mkdir")
++int BPF_PROG(test_inode_mkdir, struct mnt_idmap *idmap, struct inode *dir,
++	     struct dentry *dentry, umode_t mode, int ret)
++{
++	return record_inode_idmap(idmap, INODE_IDMAP_MKDIR, ret);
++}
++
++SEC("lsm/inode_mknod")
++int BPF_PROG(test_inode_mknod, struct mnt_idmap *idmap, struct inode *dir,
++	     struct dentry *dentry, umode_t mode, dev_t dev, int ret)
++{
++	return record_inode_idmap(idmap, INODE_IDMAP_MKNOD, ret);
++}
++
++SEC("lsm/inode_permission")
++int BPF_PROG(test_inode_permission, struct mnt_idmap *idmap,
++	     struct inode *inode, int mask, int ret)
++{
++	return record_inode_idmap(idmap, INODE_IDMAP_PERMISSION, ret);
++}
+ 
+ SEC("lsm/file_mprotect")
+ int BPF_PROG(test_int_hook, struct vm_area_struct *vma,
+
+-- 
+2.54.0
 
 
