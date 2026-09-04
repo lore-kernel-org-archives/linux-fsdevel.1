@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948DB445ACD;
-	Fri,  4 Sep 2026 09:34:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B764457A3;
+	Fri,  4 Sep 2026 09:40:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788514484; cv=none; b=K7nunfogWe3ca9FfgStlRtYSKRRnDgWsurh/HUcyF1CAzYqF/GcSI2ssw0y88Na7Qsza2x2DHK52r+FTC5ez/VTyHh5OW/8qR8/vcOT+h+NbrKyNU7jWfs+taL++JR764C9LfEm5ugmE+D+ZCYwEj2ZXLyz+RssH1TQvRyo3Exk=
+	t=1788514808; cv=none; b=sDTLNy5Qi1EMoHlXDAUxgwIDIM7VeYVSzpI4vEmgfqPt3uhbEHcqxW+cWZCWGvbvn8VtYUONSMI2VOfbu1DfdN//HzKfK+wG+9fsk5CIsckZ3HmVPElrlc9BLwzscqJO805Ipiz9gCaMfdfG1KUjGnT43SF4MYTasUzNMpqTjT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788514484; c=relaxed/simple;
-	bh=RaAQC1csl/TZXaFPApDzX6VvxQ/8nf34Pz0A5s9J87o=;
+	s=arc-20240116; t=1788514808; c=relaxed/simple;
+	bh=8cq1SyG4CiKJy2jqYIRh9FXnJfo/t8IzNgo/+dKlNS4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bihUak2+EqnoVVGMDMIdosQviefrXy/qZYIgFhpbeIdUKnkWWBfMi3OIgKdkbEbf276gxJL+QnLJzYp09/hx9eQSX8Ty6jQ1mFtuo8b2RBSJUUeJG5p1ldPh4NPC0e4cXJF6AEF26nNE524RoWqIYTbkgWP7qYsOiBew8a5UySU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MP+7vBL4; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=f4tyv5T89XiWd0zbw/KpwBBw/5KKjbWBzww477HKHl1kozyAU3ehcCIvDi0C/BcvV/mzT6JDN98q+VbJ7KyXVBo69gjkdWch7art9Y/15P4WEgrGHqNVq78hW50Gn/reWNE/+Nxi9+VX5AnTqSOvTegG5BwhBGTwnb3HaUgXAtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CDhS9etO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MP+7vBL4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53C921F00A3D;
-	Fri,  4 Sep 2026 09:34:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CDhS9etO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEDBE1F00A3D;
+	Fri,  4 Sep 2026 09:40:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788514483;
-	bh=eK397mSRVgm1qG90uV7zAPfrgCr1A8mrhqFDHCunWWU=;
+	s=k20260515; t=1788514806;
+	bh=irtB4Gphur0hq/oa9u72227e10mQv5+zJ7j9flQSWKs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MP+7vBL4CvZI8+aPjTemUNhZqygTPRJsrM48ckDbY6znvXHMXoCdgptFL3eP0SrXV
-	 9UIwYJnGwO3EMtZJPbTAwfE5XGwRhNEApT/RS8oROfqjyJbRY6Fhsn8CcFmt7P1IrP
-	 oWCm+RlxLuwYXotdgllqn3bnLzE/dCkGs4b+JAjQptz6KoJCYdjxAegePnGOPPKkpU
-	 dAMpq/zIrNwrcBTzAz+vbadLH0COjmFu9p+bqScj2ZT46xdpsMlnmdYvvTRprVFfPU
-	 7CKX1SP3al+vXQPaqpbTc3/8xtG4pZC6nptsxHrZmr1/rA64v8Wf/wwM4KTWbg2PcO
-	 1Bn1WFM20fdug==
-Date: Fri, 4 Sep 2026 11:34:37 +0200
+	b=CDhS9etOg+i38SyDTYcp5f0Q79Eb+8hx9Zh53eDFMB/7tj3ZjjB+qaPd6T9w1Z7rg
+	 PMNhFVE8akcng0zh8eKSZBLqj54pag+ihQFA0SuLayr6bQVNV3Dpb9pYOtuhiJJc72
+	 Q9qQ/GTUOiSLIZXWih69N+pFbZz2J15NN4ApLyUOQpw/5+LudOT6zynLohfB5kVhsL
+	 JWZHpw7MeTNeH+yP3YOCRjdITc0ILwlx3/vA2tkvu/AcG8YtBSDBoZodtlWj0wPKnA
+	 2p2LsHQ9kOkEFWb3KKyE3LqBxt8HVcevJSeM39Zc8gPRlGYlM/4AwxUMKu1NB2m8QL
+	 JG2xsT8NMrnKQ==
+Date: Fri, 4 Sep 2026 11:40:02 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>, 
-	Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, Chris Mason <clm@fb.com>, 
-	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, 
-	linux-ext4@vger.kernel.org, Gao Xiang <xiang@kernel.org>, linux-erofs@lists.ozlabs.org
-Subject: Re: [PATCH RFC 4/8] xfs: port to fs_bdev_file_open_by_path()
-Message-ID: <20260904-resignieren-ambiente-beweis-b7a6044bb60f@brauner>
-References: <20260602-work-super-bdev_holder_global-v1-0-bb0fd82f3861@kernel.org>
- <20260602-work-super-bdev_holder_global-v1-4-bb0fd82f3861@kernel.org>
- <apLx7pdNVkHPkrAq@infradead.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Daehyeon Ko <4ncienth@gmail.com>, Mateusz Guzik <mjguzik@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	syzbot+0aee5e8066eddbbe7397@syzkaller.appspotmail.com, syzbot+e8b3520b53e78e90034e@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] exit: hold a reference to thread_pid across
+ proc_flush_pid
+Message-ID: <20260904-absehbar-dissident-rackern-b030022aa84e@brauner>
+References: <20260831001221.3755948-1-4ncienth@gmail.com>
+ <apWWsqOzJny1v4ab@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,22 +45,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <apLx7pdNVkHPkrAq@infradead.org>
+In-Reply-To: <apWWsqOzJny1v4ab@redhat.com>
 
-On Sat, Aug 29, 2026 at 07:51:26AM -0700, Christoph Hellwig wrote:
-> This causes regressions in xfstests xfs/006 xfs/264 when running with
-> a RT device because reopening the dm substitutef RT device returns
-> -EBUSY:
+On Mon, Aug 31, 2026 at 04:58:58PM +0200, Oleg Nesterov wrote:
+> On 08/31, Daehyeon Ko wrote:
+> >
+> > Commit 0a36bad01731 ("release_task: kill the no longer needed
+> > get/put_pid(thread_pid)") removed the reference around proc_flush_pid().
+> > It assumed that free_pids(post.pids) at the end of release_task() would
+> > keep thread_pid alive until then.
+> >
+> > That assumption is wrong.  __change_pid() only records a detached PID in
+> > post.pids when pid_has_task() is false for every PIDTYPE.  If another task
+> > still uses the exiting task's PID as its process group or session ID,
+> > __unhash_process() removes the exiting task's PIDTYPE_PID link but leaves
+> > the PID out of post.pids.  release_task() therefore holds no reference to
+> > it after dropping tasklist_lock.
+> >
+> > The other task can then remove the remaining PIDTYPE links.  Its
+> > free_pids() call schedules delayed_put_pid(), and the RCU callback can free
+> > the PID before the first release_task() reaches proc_flush_pid().
 > 
-> [   20.814542] XFS (dm-0): log I/O error -5
-> [   20.815055] XFS (dm-0): Filesystem has been shut down due to log error (0x2).
-> [   20.815960] XFS (dm-0): Please unmount the filesystem and rectify the problem(s).
-> [   20.906440] device-mapper: zone: dm-1 using native zone append
-> [   20.954262] XFS (dm-0): Invalid device [/dev/mapper/error-rttest.264], error=-16
-> [   20.970876] XFS (dm-0): Invalid device [/dev/mapper/error-rttest.264], error=-16
+> Much better, thanks. The comment above get_pid(task_pid(p)) looks better too.
 > 
-> I'm also a bit surprised a RFC patch without any xfs rviews landed in
-> Linus tree, especially as the series alsso got various NAKs..
+> Acked-by: Oleg Nesterov <oleg@redhat.com>
+> 
+> 
+> > A tested source reproducer is available privately on request.  No
+> > controlled read or write, information leak, or privilege escalation is
+> > claimed.  The mainline patch applies directly to v6.19.y and newer;
+> > v6.16.y through v6.18.y need a context-adjusted backport.
+> 
+> Up to you and Christian (I am hoping we can take your fix), but I think
 
-I said I'll wait for Jan to comment and once he Acked it it landed in
--next for multiple months.
+Snatching it up, thanks!
