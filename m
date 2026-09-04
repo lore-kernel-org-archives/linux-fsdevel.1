@@ -1,100 +1,126 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8B2481672
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 12:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4457834A78F
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 13:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788525561; cv=none; b=GHsasK6KVXC2jRyIz2ad+SqhRuWpSUZFyFASRVxz7x9XJuHVN7+Dp8lJeYZPmev+R3P15soNt4feD5bDN/rz7YCicxizB0VXiuWiXw6VqcLuqtbesrjeo/ffsLkUb7rFtUdIkaPZ3ZWunI2hXYVvKPiSmHDRbuUlX6B81ucGdtg=
+	t=1788527616; cv=none; b=mZSnAh0aYTsR3iF746C8k8XjG1cN8ngeuwBjOBHcmcW+ObmW//tT5tGlalIAYtrgNGI4VtOGm7VOqBzt3CkHXCTvMPzu60rthZIqmb1wSXNkJEP+YkA/V8AX6OET1EcEyRFf/tXImj939LEET9ce3h6KyyQ0ZFkv9OvNcsbCUrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788525561; c=relaxed/simple;
-	bh=a6xYloLLdYX0cAtqYS7RsAg6FM06w16G8wdbVf2OzwE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T2ExnwcjkOGYJkE1bOg2MmISnLPQcvCQIfnnR/UUq8QFDCc+ADKttFPD+ba/UPYQdNzlvVt9jD4poJO4gMxsatCdOqIfQf/k05agIZYm+a2kPD0rfm7zjA3c97DfVxIBReBueQmqga/xe/zsuHS/L/e/h1sgUCMmBg3LW5KQ48Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mAyw3+eA; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788527616; c=relaxed/simple;
+	bh=frKo+EDgyBgPiqzNfVxH9bEhfV6BDttiGdaNdUyhrPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tNC2sOzWbBGbnqe1KwbS7+G3CdRSH+QJ9WuBytqTnlEZqz+FamInhK1ed1ypU2SGzPo1UGGDGOpLk7+vSpJlY9nmhuw+3icZF4KjpPmkOlknFtC+girka9mgOzRb84YfNHsgoZIjIHKwsiwzBH9OQ4jGGQZZCm/09xF5o9TbjmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IeWYMJ65; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mAyw3+eA"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7ee37dc91f5so596990a34.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 05:39:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IeWYMJ65"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so10439465e9.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 06:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788525558; x=1789130358; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pdL21V6dT/0CedcIDLqVQ9Tv8x5UXBkXWpfky8wqTYA=;
-        b=mAyw3+eALOe5FAwp7M4PLfUk4HRG7NsPU1XjSIorw9Crocb3lQRC+bTutwEDrte87c
-         oggufXbSsrO86skKZPycGCXjwZp/WeidPeIHtrgjQT69LztFB5/sNwsdbLt8ZvHwlRni
-         3Ig1rEyChizMZcjOqsGPP+rJ7UX2ZfDrkW2eGim5LkAbDM/egFiom+4aUK1XMHoW3wak
-         2ElGEaCas9L5X9aP5l04O2K71klamNeYQsFFoqWLiVdIt6vz3Nx0AMtRdTjWWjqsNsAi
-         9vpmAcPX7wAHCH5eFuABXol4WdmKOjiQW28mxOXkPbx7dLPTF1JLjN9aB9CVVZcR0kmP
-         PEBA==
+        d=suse.com; s=google; t=1788527611; x=1789132411; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/B3wwZTlur6ZmEw56GSgDTNaWB2UuFCQEkVYM+7GfWk=;
+        b=IeWYMJ65Q1LWZv3HS3Frm1F6PdWQA+aQECMPh7AkHYgZ3EymBIvAiCbtmcYd2bhWHo
+         VJCQYntFVOFPpXq+Lkol59z5hD3SzHuR1Qa80A4EUzZysgFgbsbGbLQ9K78uXRxtrsi+
+         AhgsrgVKlkOdQJzCTEzo1pAHMwGv/nQixuuRSOfmYjfoQkbN7UwuSuxtHJyjkGa5yX7D
+         qX1WDrXM1m2dsZwCkJ7on9zP3krU8Jm8BEyhFSVqA7S9Ku03j6WNP1D8r7QOHM8zxW0+
+         2kK9Xfex8DPG7b5t7VDcQRVsPdKMzfAJVPyeX46zwQIzK9y4Fw7Um+ZYpJhYm0HFKi+9
+         9o5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788525558; x=1789130358;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pdL21V6dT/0CedcIDLqVQ9Tv8x5UXBkXWpfky8wqTYA=;
-        b=m3XmjucAXURfeN+gMJ0LofPfPmNCmdT/336M+cg2kZCzgjQrmA89gb2NQ4cuoM6XQZ
-         rVCm+NRCYGZvA8mfHSTQAeLTIZZiT994HFlo0MYMwWmjZsaz2PXpjkHwf4aFX4wKopj2
-         nRrNq53+kDTMP2AQeCWVOoSqAXZKebAySP4VPK1R3F2FbnSauHApN8BIMXXDch8P3qKG
-         0IjfVfRB/KURW2KNo32ASb9+xmTXt3w5nrbo6HbSELoDIpO6C3rGGLnnFJJgW3QYr7ww
-         XSELIupT645Mw2RrHk+S/toQjmvoqJ4SEJJXB8Tdo5hw39IF1bkJ7+vXIkiTnB5tbjb+
-         Ne2w==
-X-Forwarded-Encrypted: i=1; AKwUvBxneBHDXAQhsX/6zB+XM113PPtp1bFQDu+jzMwuOAJ1wvCN46iird58TH4ueANH82v3Zf446Qzhr2G1U/QZ@vger.kernel.org
-X-Gm-Message-State: AFuF++kyaHE799t6iRCpF3QSLnmws+KXrrraXwfG/eWpPRbOjZEPyQy1
-	C1ZIWyCX2fBSqyIqpiXI2+TUeF7ZAP+ywt2U5dJt/J+6Zw28hAeSCA3v
-X-Gm-Gg: AYBFou2XHL3/nOdvIOnt467cNMnoyKk/EHAujlUCRIXrpNo3aM3T5B4DYDDFudOCZ6V
-	oe1Zmo3mrxez9zDV9X4lusQNdzfgaw39SLhA+Fv8JX5URJBWPSsyqLlDD/Jldm9RTP9DYhBRtJ/
-	+5kYo+PnExlOG0rKcseV90bE0pZDrYHUVULDDA2GMf68QCcqfcwcBmi6zLGWjcuDcpkACPP3tmU
-	uqzEoyAkSydG08DA6Of42mcONNwp/UOYkHB1hGsD6Oh8kz+5oGtBjQAC80L1zaWD92PFfXvXOlr
-	EsTmHlQ/8emnq0uUwG+6NYM1W6gKTVAoyT4EY2ycus0eajb1q+4XPgXOcFGzhC6uhoVjSkRf3Yi
-	YEINwRnykjXVkXmxmsgSKqWjiOmtAkjsFqIgL/6c3PVhN71yte2g5IcxEfwIGv0LJM9FpVx0tVU
-	kd4RG8b44+x336RHENKSAbaaq5GUvi70fs60DDA0PyA9iuRUQAtexj6qYkNj+zOzVgZ546NLQld
-	SnoXGepEZwEl5w=
-X-Received: by 2002:a05:6820:991:b0:6b6:d425:53eb with SMTP id 006d021491bc7-6b6fd1cac0bmr3521457eaf.25.1788525558344;
-        Fri, 04 Sep 2026 05:39:18 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339ac24d7esm9867944eec.15.2026.09.04.05.39.16
+        d=1e100.net; s=20251104; t=1788527611; x=1789132411;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/B3wwZTlur6ZmEw56GSgDTNaWB2UuFCQEkVYM+7GfWk=;
+        b=lfjqVc60MtDWpdoUyXR2/ry0bGzfPRaYmuM5lGU9jYs+Vii6oeBVGw+9qH9GQgcSDL
+         GTdrmQ4hrOEzqkMtViZvVeDfHjAEFiYPCVFscsH+aOGtz76VNIJ3z1yJC50l+eufAvYK
+         mBa8RFXF5jTyXSKSOfoydpKzdhvLE7LOwrc673t9P5U/5bTGhVP2ro9tRYnA/dp0vt/D
+         TxjvXnU1ivJH7gdelhu8maIoUfstF1HphzOWeB7096dKEbpsfVa7Sxh0E6LHmVMbvnhJ
+         yNF6Ljwr8nRvbJgEdsK4bLc5mxIYwNyZv4+JI66vhI10eJA2NOnxeC/iNQg1KeYnCMEy
+         bpkg==
+X-Forwarded-Encrypted: i=1; AKwUvBy7CoC01phr4muXJu/yKyCwLl9hDAHmmxS/utGUHsQbyNLNtNG8AWubS+9ycEBeTrQEJbRPqJs79zYxkTbB@vger.kernel.org
+X-Gm-Message-State: AFuF++kzarCa5B87AhwgHmhKDXKnbNrw32cNrFIhm5/qKYKWBH8+B4rO
+	Ny3Zxpbu9zaUJSdF72hZcUfsuc05HughP5p8a0v04Gw+2I0hZ4PVMIbc0PcSmuiu5Ac=
+X-Gm-Gg: AYBFou03sGRig3PV+y1XMYJo+xDMh5Wy4qVjoWHG2lTAB4FkB0juIX+2vnC06//wDng
+	7zAJT5FJZ3oZwg6a4cGUxvZaTpIEbvVtrt8tGfNhhBAL8swHX8nlsQ8oZKLzP9dP6O5mdFXyKlk
+	d+vKGhEZDwJka2Og/+ft4Im/dMKs65NYfe0nM9qnDfrjNxclV57OvlxBHNxKsNY9q7QA2eCdaMG
+	gpCnlwBVQn0gMkpm+GgPNwLbjWQ/1Yn+4qbvM+0IOQVxlLpQQxa1V+PW+uu8jPVP/C1/7VAGtpm
+	tAAabU9xfksPZ6fLEZ41heNHpQFVeC2liC/57MeHpZUCtxcaya/ouPwYfV64ede/CzZbRhhr5dD
+	JGWm5nLokXcQhO6StcVD95jFcRxR/SincwXNdCFLHtXXTcftyeLg/8YLPtzyfNM76jx33rQFcMb
+	1onVtfXTvKdsTKlJiI1HlV16yDJ2liDLdojw6a8pj+3v11kKtVb62yu6XCQslKcg==
+X-Received: by 2002:a05:600c:3508:b0:49c:fc6c:be02 with SMTP id 5b1f17b1804b1-49cfc6cc032mr33479365e9.25.1788527611383;
+        Fri, 04 Sep 2026 06:13:31 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee5d476esm170317445e9.1.2026.09.04.06.13.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 05:39:18 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] isofs: fix repeated word 'in' in comment
-Date: Fri,  4 Sep 2026 18:09:13 +0530
-Message-ID: <20260904123914.583-1-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
+        Fri, 04 Sep 2026 06:13:30 -0700 (PDT)
+Date: Fri, 4 Sep 2026 15:13:27 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: bcrl@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, tytso@mit.edu, adilger.kernel@dilger.ca,
+	libaokun@linux.alibaba.com, ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com, yi.zhang@huawei.com, sforshee@kernel.org,
+	akpm@linux-foundation.org, rostedt@goodmis.org,
+	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+	senozhatsky@chromium.org, kees@kernel.org, tglx@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org
+Subject: Re: [PATCH v3 2/8] lib/vsprintf: Use acquire/release for ptr_key
+ publication
+Message-ID: <aprD97HPpbVNW4ir@pathway.suse.cz>
+References: <20260902074805.398540-1-ruanjinjie@huawei.com>
+ <20260902074805.398540-3-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902074805.398540-3-ruanjinjie@huawei.com>
 
-Drop the second 'in', reported by checkpatch.pl as a possible repeated
-word.  Only touches a comment, no code changes.
+On Wed 2026-09-02 15:47:59, Jinjie Ruan wrote:
+> Replace the smp_wmb() + WRITE_ONCE() and READ_ONCE() + smp_rmb() barrier
+> pair with smp_store_release()/smp_load_acquire() on filled_random_ptr_key.
+> 
+> This expresses the publish/subscribe pattern more clearly and allows
+> architectures with native acquire/release instructions (e.g. arm64's
+> STLR/LDAR) to avoid the cost of full one-way barriers (DMB ISHST/ISHLD).
+> 
+> No functional change intended.
+> 
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Assisted-by: DeepSeek:DeepSeek-V3
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- fs/isofs/compress.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Just for record.
 
-diff --git a/fs/isofs/compress.c b/fs/isofs/compress.c
-index f9869d62b850..9efd7a9082e3 100644
---- a/fs/isofs/compress.c
-+++ b/fs/isofs/compress.c
-@@ -90,7 +90,7 @@ static loff_t zisofs_uncompress_block(struct inode *inode, loff_t block_start,
- 	/*
- 	 * First block is special since it may be fractional.  We also wait for
- 	 * it before grabbing the zlib mutex; odds are that the subsequent
--	 * blocks are going to come in in short order so we don't hold the zlib
-+	 * blocks are going to come in short order so we don't hold the zlib
- 	 * mutex longer than necessary.
- 	 */
- 
--- 
-2.48.1
+The conversion looks correct from the barrier guarantees POV.
 
+I am just not 100% sure about that the performance on different
+architectures. I asked this question as a reply on the cover
+letter, see https://lore.kernel.org/all/apq5iLOF8lAQ_ZVU@pathway.suse.cz/
+
+Anyway, vsprintf() is not a hot path. So, we do not need to take
+care of the performance effect here. Feel free to use:
+
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+
+I am going wait how the discussion about the performance goes.
+If it does not block this patchset then I could queue this
+particular patch via printk tree.
+
+Best Regards,
+Petr
