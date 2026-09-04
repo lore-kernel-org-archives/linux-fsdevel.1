@@ -1,117 +1,210 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DB0501F46
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 16:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788540885; cv=none; b=ilgNRo5+t8XK1DtetQnW0NBJ/3DIraUFHt6jmUWQLo1H0ylyV2XCU7E0TxUR+gilVggHBY7hgjz8kL6j2P6aGox1+WASOGEyz4x9cmEz92aJPDo9DFS+ozQjCRu9E2BKuZQwxY/gfyJFcEdKwsP9Mm4tof8s1jjK3qS4yU1XbO0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788540885; c=relaxed/simple;
-	bh=ZdzwbYcSxFp1YM2NzyKteD8bxTtEzteMVXqKaxQGfHw=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3812517BAA
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 17:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788543222; cv=pass; b=l1pBFbpiTBeIW87r6MytnyTZFLdC2TL/J9LjC0vCoUiRPM5SpI64L+K16v5ufxKRP7vVGFAL7s4DYZHJZ616q0K2vmMORGAfOvU1aiZj6oO5rJuhpjG8VTiHgRY5q3zgHWpwJgzi4pET529twWQbbiDyYpauXCUVQkfQei1uOWw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788543222; c=relaxed/simple;
+	bh=+dxsPdcG+42yJ1jF2czoqDuFc+SMLBZvLdpM9geZ/gM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=loPw7DEPkFlQGyoyJmRF9Yo0gLeNh45hfC8XACSK/rKYdhPyNZtgUj+bDPET8gzYAKTx7AD48nS2f1bdMu4qPLY6FO/eJomxfAZ1TzdEjFHKaAoHq2iGo7I8chnX4GatReY/nYmVWf/wmsVGFIlP2nyf/ruJMMf9uPLABeKdYhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=black-desk.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=black-desk.cn
+	 To:Cc:Content-Type; b=pno5R+pHxTk+n5INRe0WQNJx1pl5Zn7a3p7Gz2xPylzVyKJ2WZ5bG0wWwasrCMoDs38LmIbrRG0h5wgjbSPjBcsm3kAyrxQIii4XimW+JEV3qaig1/CwF4pmcFfmbFJ5xDWDycXeYdC3v30jZ1UwBIs1XtXOiXLkJF8bQCui+Ao=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SrfKcEPY; arc=pass smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5b60bc6b4eeso869959e87.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 09:54:42 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SrfKcEPY"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48589798dbbso896757f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 10:33:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788543214; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EgFdzrm17N/IRJveNdMoOcJKT7KaUOoat2ba6GceUW3hf8aOgj5qbZo+SBWXtAO9Th
+         Ww26zZ/iHgoWUxTp7HhFUbC7shNT53fkGMT86Jgsj7BGlxJ442GqostJALkHZBryVfvu
+         O+5LUJaKjQLsc/K71IMhEf9ObSdnHyZcGqcCDq0Xuv0nayT1Oh3GE7tWc3Cl24Nv4zV8
+         9g/m5TPu4KcEftbQS8FPnxMXQdF8NYRLncy/nIMxtj1ZetP/kdpBVJAKsBhogTcxo5/4
+         AC4oe4qPpXOWch/4CyEdgMykWVBo1P/LpteouqcbIYqjp6otkzKV5b2OYKmKzabnX50h
+         c29g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=soTQky9Z3nYNLqFSceLyBlbSmjBlYyMm4HBR+pwE4Gg=;
+        fh=tC5E9mEsKK5kxtnAPwZo2qaictFPwrhf/wX4rtcVPww=;
+        b=V1SVE+57UjFLgInPldVD/HN2vvZSZndaZY5aectsea5rmWFsMyMzRPVD9n33ZdObTj
+         +buZpphdQHGzNV9z8+3x1GdmQAyAvq7r9ENTP1rZ+I/pNkgudjX7qAUqCKmtHo8k0jiZ
+         NktAzHNmYI2FGF3DdkMRIk0rJgQ7P1X3csGujbn9Wc9NnGbX4gOUlU0wt+l8yFDxsbJ2
+         dVTmE/cRekq/fF8wCFcaoTWVCLG4WXbYm8XmCBgYqJe5wfmErukzLpc6e9/DeqFbzWbN
+         wsJFm3ZG2qkG23vvrQG73ZVKqV78EtPBiBZfDYd3cwp+pPw9+6+WgQ8Uv5elvVeFAHLM
+         z5yA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788543214; x=1789148014; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=soTQky9Z3nYNLqFSceLyBlbSmjBlYyMm4HBR+pwE4Gg=;
+        b=SrfKcEPYEZ66jVyN7RYZa0gsikH15ECqcg7g9v0Cllrb3/RZvJ0FlBWcm7vqAgMxn5
+         BLCXhkbNtGyWk3udifVhjHzW9IHthVaca8mtm63Ievpd4B7/TI0Z6m451NwEOtrbLNiz
+         FuLvUxMO1G7h0smQalOS08Lm8r3BSmDxn+bcazZQEfiCZtINSvO8ECgRkqIZfJZWM1XA
+         q31Hkv0gkfVmnpG2rqDRoTPB09qHeHPeqI/cdnMgSrmLxhK94ugxhyarNuSo4zDz0CrU
+         pDlt8LabAuNEgqkcu/8/OHjC/nlENPYIM4HwKKeG31oCYVQ1weAdhYDnNKzlYiPYkAZX
+         +kjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788540881; x=1789145681;
+        d=1e100.net; s=20251104; t=1788543214; x=1789148014;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GyJwn4+ssjywZb/F3JjOY0S6/aIo0tP90S69DFDLuSQ=;
-        b=tE2oaURhMHGmB5KVRRQ9OGLZatug/aW0W/938lcd8dSKsHeJM8Cb+79DDNAybsiCqM
-         ZwIOl9mO/MnYrzhVh5/SeNznnyy6A4hi4PiXpUdfe4SzymHY+b61BmaI+E6erC+d8giF
-         Dy6ivYhJVHqkscLrXMhTY2veH40tZDnrjc6+HpDGgIiHWKl0Uory6UYdq0sMW/ispL2t
-         UM5y8Bmz+uNhrU84IQv8GNS67v8q6dIcY+s2/dUnlTBY6ZZF79nK+QdrtxkPEpjCCvWb
-         Gozcpe2vSWKrEutb7XFVElBmHOma1DK5/Uf7biZ6x0qbkMwR1wb37hOvlpjK44aNLKWG
-         zQFg==
-X-Forwarded-Encrypted: i=1; AKwUvByexrhAMmcs6VRZdaFK70OxRYjIIz54/7Vh8mxxox2PWkMR459CS64SRVBs0+A+O/Om6gbYO8tIE0stMUWM@vger.kernel.org
-X-Gm-Message-State: AFuF++kG/SCZZBKeqzdrscAh83hZEw54kGuRT00A8XVLp/3n5iaoNXsy
-	09T/dxM+uAKcGMFGFzmFEO2fKU9rzRgDtmWOwLalm9FRLlx9ayjfJri2KUR3xq5xCActCA==
-X-Gm-Gg: AYBFou1THqc33oScBiGgJrg3oE4vV9F5Y4EBJJeamd6vIKsQ2ZH8Xs2xPGwGH48Mr+E
-	OvtnoD8JoIr+ZuKVd6Ze1JSJd9NKWTzywQ8fSUgHvW8BLuKb0+TSJLT8Cg1b3LWHNna2eKsmozz
-	9lIWSlXm2EJGDiu5qop0FmEpoFGV9xsAdCJ4aY5+Upqw2fJ5VzFX9dU1+hwThQw7UPz2nmqGIc5
-	PNnyRHNojFe4wJDRNaWRYsjFW/OzA3ctdyPA6STrcNw+o2PJKbnQD2b3jAu+lRBPrERnow9jxJh
-	IJ2djdv790KuLYptm3Deqhm9Uh1Vki8a8XgYvYgzfqRiJiGIzEfE5+QiToC3a1SFLZImqoKoLKJ
-	smGNqQDfI887lPWRP/fe3F9elinrwX4rPQsETBVbtu1G7Z9zkA4UFHHVFsi0eYqP1hGl9wKXMqD
-	7WMaUkpd6bkXHtcdWEfBJiAvjtENxIllT/TISKELIV4jIA2Go/Qu1RwPwkQLV9IH+uWHh+tHjz7
-	ESfPu9o63TJIJjneXdxUDXqTKvHTTlTdwtNUm4eKAKhAlwtNTzIB5ctZ1A8LcLg
-X-Received: by 2002:a05:6512:3baa:b0:5b5:e092:c3ee with SMTP id 2adb3069b0e04-5b616ed47f6mr2076837e87.1.1788540880687;
-        Fri, 04 Sep 2026 09:54:40 -0700 (PDT)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b6166ecfbcsm652628e87.13.2026.09.04.09.54.38
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2026 09:54:38 -0700 (PDT)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5b15dcaca31so1217857e87.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 09:54:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByXXve5ZMkp42WtS6rOyaFm1tfRCfRJq6zZqIfwQNQ9WO/EC1hfBpUFDbznWOW2j9zmtX+CQ98sO9NY14kr@vger.kernel.org
-X-Received: by 2002:a05:6512:3502:b0:5b0:23b4:be97 with SMTP id
- 2adb3069b0e04-5b616ed4b1dmr2357411e87.6.1788540878064; Fri, 04 Sep 2026
- 09:54:38 -0700 (PDT)
+        bh=soTQky9Z3nYNLqFSceLyBlbSmjBlYyMm4HBR+pwE4Gg=;
+        b=T2aDMhR40RGlOYRn648J9EYYRDPqqOpweJ1DibaZeRJCDYZFLpWKFswla7gMw7lP5v
+         NrOPh1v3/udhQEf9RJrl7aWQi4jxl3qqSd1T/4EMRqUNn6jRCtDOy59k+DNUz5m+aHPM
+         OZ5pCliLLzedM5ZGbG2ZG7WznEoKlxQDKYm1nEBzhJfPIherMsNnrq+ps5PYQCBOvc2W
+         RrCZOvvsoyWzjXppAJQb8MFN1tQC/M0ABK6NN5YmKvQZOueGeE1fwsNSJ4So7ESVeB2O
+         hXV8jA8T8lTS7fw5GektoymOe/sOaJ98K6KvezfCwRo/ENS2F4zLKxWCyYkOLb+QIbeU
+         GGQw==
+X-Forwarded-Encrypted: i=1; AKwUvByqSLMDiC9XAIenJhxEu1TzTYZrZDHmIdpZp+LTOmdYBBOzjsF4c38ivMupMRCPD+4T41NjHYn7ydeA/ZNw@vger.kernel.org
+X-Gm-Message-State: AFuF++mTzM4skGbTkeb3UsDFWYLvbYSm2OFW5Gcurvwf0DliEx1SPTFR
+	sv9WOcx0XTk3J5rquZ98gvoPNhGAmkOePcLcUNYhYNcKxuIAXBZ3aRQM5JDtlrPYOT5mx3cUMkc
+	K128ocAzKSUlMFwmy+9YQoAs+jR+yfd4CjXqcQ8A=
+X-Gm-Gg: AYBFou01j7eOXpYycIOnxIgoV7JOHKrFgzUZOjmXKcdSsXdQ519LNKfq/rEFxFNFCyG
+	6LA3APToHejUjBAp9w3GUYkwXXBxLIWsQ5qNgNB90mnIC8HFsy8s1/BaXEqZwWw82ANbOhwbtXC
+	ZmMUGNPL3fVXDXodUw8WpzLsvktCcmFQPUQC94v6xWeHIGxsELPvO7MmOu4Jwd88wPC8qs+0Uc8
+	LV4f/hq/YBvcZeJW/cUx+e3fO0OTngXe4eeZ6H8GXY9QRez4C2ElCCfWrqE2r0hEQfqmSfpSYrO
+	D43GtAZCNvQ/J+PV2UDQkJ/4ba7pPN2CLeI4ddiEjlFh6PZLMcvZkurngZm0bcozhBvRDioQW6d
+	B8W1hqIEOqtX/IssRVbSbDtPYnfs=
+X-Received: by 2002:a05:6000:228a:b0:485:8fe2:ed81 with SMTP id
+ ffacd0b85a97d-4858fe2ee3amr163801f8f.26.1788543213669; Fri, 04 Sep 2026
+ 10:33:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260831-pidfd-get-paths-v2-0-c59ea6a21b72@black-desk.cn> <lhuecf9cbl8.fsf@oldenburg.str.redhat.com>
-In-Reply-To: <lhuecf9cbl8.fsf@oldenburg.str.redhat.com>
-From: Chen Linxuan <me@black-desk.cn>
-Date: Sat, 5 Sep 2026 00:54:26 +0800
-X-Gmail-Original-Message-ID: <CAC1kPDPu41RxMLHpPtz4VqfkEZeu-fYXG76XVZMh8bbQa3okaw@mail.gmail.com>
-X-Gm-Features: AcwNN1UgBltmpHY5GDpzTdve1vmhfclnbN_NvQgKzWwvr0zbygpAGe7Eg-teU9E
-Message-ID: <CAC1kPDPu41RxMLHpPtz4VqfkEZeu-fYXG76XVZMh8bbQa3okaw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] pidfd: add task path ioctls
-To: Florian Weimer <fweimer@redhat.com>
-Cc: Chen Linxuan via B4 Relay <devnull+me.black-desk.cn@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Kees Cook <kees@kernel.org>, John Johansen <john.johansen@canonical.com>, 
-	Georgia Garcia <georgia.garcia@canonical.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, me@black-desk.cn, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
+References: <20260903115018.2034541-1-yi.zhang@huaweicloud.com>
+ <CAJnrk1ZLzNQxrSLQx7TsLK89QC_=9cDfoDcyKNBNde0CiDGoNg@mail.gmail.com> <4e498938-f21b-4d75-b789-8a615aba877a@huaweicloud.com>
+In-Reply-To: <4e498938-f21b-4d75-b789-8a615aba877a@huaweicloud.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 4 Sep 2026 10:33:21 -0700
+X-Gm-Features: AcwNN1WC5_C19pRuHFRSSvaEOgUDXw8Fkj4YdviBWSd6-uI0JItHi4sYChYNXkU
+Message-ID: <CAJnrk1bQYUe6+1ryyJur5EEnZYrC+_5AYsy=OWzVRgD4202y1g@mail.gmail.com>
+Subject: Re: [RFC PATCH] mm/truncate: fix data loss when splitting fails in truncate_inode_partial_folio()
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com, 
+	willy@infradead.org, jack@suse.cz, ziy@nvidia.com, bfoster@redhat.com, 
+	djwong@kernel.org, yi.zhang@huawei.com, yizhang089@gmail.com, 
+	yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, 
+	yukuai@fnnas.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 4, 2026 at 10:53=E2=80=AFPM Florian Weimer <fweimer@redhat.com>=
+On Thu, Sep 3, 2026 at 11:27=E2=80=AFPM Zhang Yi <yi.zhang@huaweicloud.com>=
  wrote:
 >
-> * Chen Linxuan via:
+> On 9/4/2026 3:01 AM, Joanne Koong wrote:
+> >>         /*
+> >> @@ -259,6 +265,10 @@ bool truncate_inode_partial_folio(struct folio *f=
+olio, loff_t start, loff_t end)
+> >>                  * for shmem truncate
+> >>                  */
+> >>                 struct folio *folio2;
+> >> +               bool tail_isolated =3D true;
+> >> +
+> >> +               if (end)
+> >> +                       *end =3D (pos + offset + length) >> PAGE_SHIFT=
+;
+> >
+> > If I'm understanding it correctly, based on how
+> > truncate_inode_pages_range() uses the end value (eg the "while (index
+> > < end)" loop condition and the find_get_entries(..., end - 1, ...)),
+> > end needs to point to the start of the folio if the tail folio from
+> > the split is a large folio, in order to exclude that folio from then
+> > being truncated. But with the (pos + offset + length) >> PAGE_SHIFT
+> > calculation here, does that result in some cases in it pointing to the
+> > middle of a large folio? Maybe some logic is needed to make sure that
+> > it points to the start?
+> >
 >
-> > This series adds PIDFD_GET_EXE, PIDFD_GET_CWD, and PIDFD_GET_ROOT. Each
-> > ioctl takes no argument and returns a close-on-exec O_PATH file
-> > descriptor referencing the corresponding task path.  The new ioctls use
-> > the same ptrace permission check and nonzero-argument rejection as the
-> > existing pidfd namespace ioctls.
+> Hi Joanne,
 >
-> How would one upgrade the O_PATH descriptor to a full descriptor without
-> a mounted /proc?
+> Thanks for your careful review! I don't think that case can actually
+> occur. Let me walk through the scenarios where the
+> (pos + offset + length) >> PAGE_SHIFT calculation is kept as the final
+> end value:
 
-For PIDFD_GET_CWD and PIDFD_GET_ROOT, the returned O_PATH descriptor is
-typically used directly as a base directory for openat(2) or passed to
-fchdir(2), so upgrading it to a full descriptor is usually unnecessary.
+Hi Yi,
 
-For cases where upgrading an O_PATH descriptor to a full descriptor is
-required without /proc mounted (such as inspecting the executable binary
-from PIDFD_GET_EXE), users can use the newly added O_EMPTYPATH flag with
-openat2(2) (introduced in Linux 7.2) to reopen the O_PATH descriptor.
+Thanks for your reply and for walking through the logic and explaining it.
 
 >
-> Thanks,
-> Florian
+> 1) offset + length =3D=3D size:
+>    The truncate range aligns exactly with the folio boundary, so
+>    (pos + offset + length) >> PAGE_SHIFT points to the start of the next
+>    folio, not the middle of one.
 >
+> 2) !folio_try_get(folio2):
+>    The folio at that position has already been freed or is being freed,
+>    so there is no folio in the page cache at that location. The
+>    subsequent find_get_entries() won't find anything there.
 >
+> 3) !folio_test_large(folio2):
+>    folio2 is no longer large, likely split to order-0 by a concurrent
+>    operation. For an order-0 folio, the page index and folio index are
+>    the same, so the calculation is correct.
+>
+> 4) folio2 becomes stale:
+>    The same to case 2), folio2 is removed from the address space, so
+>    there is no large folio straddling the boundary that needs
+>    protection. The caller won't get folio from here through
+>    find_get_entries(). Using the page index is safe here.
+>
+> If a large folio straddles the boundary at (offset + length), we will
+> successfully get a reference via folio_try_get(folio2) and
+> folio_test_large(folio2) will be true. In that case, if the split fails
+> (cannot lock or split operation fails), we set tail_isolated to false
+> and set *end =3D folio2->index to point to the start of that large folio
+> since tail_isolated.
+
+The case I have in mind is the case where the 2nd split succeeds
+(returns 0) and tail_isolated will not be set to false, and *end still
+gets returned back to the caller as the original "(pos + offset +
+length) >> PAGE_SHIFT" calculation. I don't think it's guaranteed that
+the split will create a folio that starts at that page.
+
+The example I'm thinking about is a 64k folio being truncated at
+offset 0 to 36k on a 16k blocksize filesystem with 4k pages:
+*end =3D (pos + offset + length) >> PAGE_SHIFT =3D 36k >> PAGE_SHIFT =3D pa=
+ge index 9
+start: [0 - 15]
+after 1st split: [0 - 3] [4 - 7] [8 - 15]
+split_at2 =3D 36k / PAGE_SIZE =3D 9
+2nd split will try splitting [8 - 15] at split_at2
+after 2nd split: [8 - 11] [12 - 15]
+
+in the truncate_inode_pages_range() logic, start =3D 0, end =3D 9, so
+find_get_entries(..., end - 1 (=3D 8) ...) returns the [8 - 11] folio
+and truncate_inode_folio() will drop all 4 of those pages (including
+36k to 48k which might have dirty data).
+
+Do you think this makes sense or am I missing something?
+
+>
+> The page index from this setting is only kept when no large folio exists
+> at the boundary, which makes it safe to use. What is particularly
+> noteworthy is that for cases 2 and 4 above, aside from setting it to
+> (pos + offset + length) >> PAGE_SHIFT, there does not seem to be any
+> better alternative.
+
+I think if we just rounded down *end by the min order (eg *end =3D
+round_down((pos + offset + length) >> PAGE_SHIFT, 1UL << min_order);),
+that would ensure end is always on a folio boundary and can't be
+inside a folio.
+
+Thanks,
+Joanne
