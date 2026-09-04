@@ -1,84 +1,108 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9413E5A08;
-	Fri,  4 Sep 2026 08:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40953DB327;
+	Fri,  4 Sep 2026 08:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788509939; cv=none; b=k9ZzHQtGqlmf4V48jhrPoiR3aMzns9Rj1Yg4vSuoRDALAL3LmmaJ+klzVKoJoLkywmJ3LmuSCZ50J67axCzTKBwhUNaiHGynW2MFl8f5im9e6SzEhbc+QQrCpF4SVIVvXbldJrlJTnJC6P/vn9RlCcnDrKZASS+8RDljD8lMHQ4=
+	t=1788510122; cv=none; b=fdw29zOUsr9xGkg6LhXKh6IEacyrGIs8idurPXcwAt43vfglttGiqOnDbVLpNmVisWriXoL/crmGMhnDhbF1HyIRZ4HH8BgeOoSjJNrXtcA30A2H0d5W1ZWdalSR5aY47iRQkuzaD5kD1B4Tz7YCYdQWUXPbHGd/LZxEIZvdM1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788509939; c=relaxed/simple;
-	bh=HNmXgmoAMksoht/4i8CVRwcYdk7auDsaJ38L54Gwr/8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CvogY/pSM/cXaazBBxbEJPj8c2R7uNoPf/loANayNQbMob0Apqvwvg+P1x50zYodXUB38DMs5nAT4RJB1E8rGSPSaH2a29XLc/o0LghQFRSdvC/xBC6RPlvOXjmCcuPmzUPnTbnngJdP51oEIQP67n8ZApBuWs7HNQ5V0gf/GWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=wspXO/FI; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1788510122; c=relaxed/simple;
+	bh=NOPnmzYQ2FNNWOW/u/n3R8m2vKkoaoqBEYdskMu4U3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T0+++Dwy/gORnvm1XBUF1Vs+JcyaeLYtJj3G5z+kBbu7ksMCt2xmkbb3vMSW8GCyUljCXCM44cQ2JIHB5ou3/Fl0tTCR5Ihu5uQ9r2joGbSsdi6heZwglbxpO3v0M0PVizAlOEVsEHdewcn/rk5Lyf6bT9aomNJ8H8VA1aGDIzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OjIgCijT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="wspXO/FI"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=RRZfaKoBvhh1M5ju2v6XxhyN2vsiPEHeXEVYqH14rsk=;
-	b=wspXO/FIwLnA579VlStpAUmo08I2COkXywCT/q8Xt98HVj95yxLy6jmtLGLRaOul0TnZ9L9Iw
-	bKRvIbk93pU2PEVjwAdUAqGzS+h8pNYmhnrNWlc9qcGOv2AiqcxVzsZnkjCl4YE8varVs6XAx8M
-	yqBDr4gq9l40KtfqQ/8q5nc=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hbpws3HCSznTVx;
-	Fri,  4 Sep 2026 16:07:41 +0800 (CST)
-Received: from dggpemr200001.china.huawei.com (unknown [7.185.36.96])
-	by mail.maildlp.com (Postfix) with ESMTPS id 897754056C;
-	Fri,  4 Sep 2026 16:18:53 +0800 (CST)
-Received: from huawei.com (10.50.85.155) by dggpemr200001.china.huawei.com
- (7.185.36.96) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 4 Sep
- 2026 16:18:52 +0800
-From: Ran Hongyun <ranhongyun1@huawei.com>
-To: <namcao@linutronix.de>
-CC: <axboe@kernel.dk>, <bigeasy@linutronix.de>, <brauner@kernel.org>,
-	<clrkwllms@kernel.org>, <frederic@kernel.org>, <jack@suse.cz>,
-	<jdamato@fastly.com>, <john.ogness@linutronix.de>, <kprateek.nayak@amd.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-rt-devel@lists.linux.dev>, <linux-rt-users@vger.kernel.org>,
-	<mkarsten@uwaterloo.ca>, <rostedt@goodmis.org>, <stable@vger.kernel.org>,
-	<torvalds@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
-	<vschneid@redhat.com>, <xry111@xry111.site>, <ranhongyun1@huawei.com>,
-	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>,
-	<wozizhi@huawei.com>
-Subject: [QUESTION] Are these issues PREEMPT_RT-specific? 
-Date: Fri, 4 Sep 2026 16:11:41 +0800
-Message-ID: <20260904081149.3000727-1-ranhongyun1@huawei.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
-References: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OjIgCijT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 079581F00A3D;
+	Fri,  4 Sep 2026 08:21:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788510121;
+	bh=ViqxEg2nic21/cC+OdaYhidCKvzIE/91TrHsQDV+MNs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OjIgCijTg8xubFCjXgjFEtmB1OQ+cfvyNFkyhkMtj8Y7nIE6k+3q/RspG0eSdf5bs
+	 2svaQZbbt+haYCBqjLTdpFHywBlL3Dv1AeDUK1p18/QTS9oyZ4cnvAmfa3nBgsmhQM
+	 tD6TyWTRFWOZXPJgDpzltMHLopfSdJDEIj0ME57ePoF44PluyT27F2LO0m3wSN+vTx
+	 wWntQnd3eH+IaFBkfmKkYvd1h5gGdIK9gnQOyZ7ZeyPE6KjCBYBxL+XNERadmabR4i
+	 RSjSNiRJzetnE1zaqPaJTtGeDy75H3nSCS09VbBvslDUSLXNf+yQesncXhmSVvL+5F
+	 ZVxAtzIYZMaVg==
+Date: Fri, 4 Sep 2026 11:21:55 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: syzbot <syzbot@kernel.org>, syzkaller-bugs@googlegroups.com,
+	Krystian Kaniewski <krystianmkaniewski@gmail.com>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
+	syzbot@lists.linux.dev
+Subject: Re: [PATCH] xarray: fix index jumping backwards in xas_find()
+Message-ID: <app_o87YogZExbwm@kernel.org>
+References: <2992424b-2120-489e-9010-f45f46ed52c8@mail.kernel.org>
+ <20260903112251.6114f91af953412d2355e5b3@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- dggpemr200001.china.huawei.com (7.185.36.96)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260903112251.6114f91af953412d2355e5b3@linux-foundation.org>
 
-The commit eb0d280c2751 ("eventpoll: Replace rwlock with spinlock") aims to fix:
+On Thu, Sep 03, 2026 at 11:22:51AM -0700, Andrew Morton wrote:
+> On Thu,  3 Sep 2026 13:48:55 +0000 (UTC) "syzbot" <syzbot@kernel.org> wrote:
+> 
+> > From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+> > 
+> > A bug in the XArray iterator xas_find() causes the iterator's index
+> > (xas->xa_index) to jump backwards when iterating over a multi-index entry
+> > (like a THP) that resides in a non-leaf node and is concurrently split.
+> > 
+> > When iterating over a multi-index entry in a non-leaf node, xas_load() sets
+> > xas->xa_offset to the base offset of the entry, but leaves xas->xa_index at
+> > the requested index. When the caller subsequently wants to advance to the
+> > next entry, xas_find() is called. xas_find() attempts to synchronize
+> > xas->xa_offset with xas->xa_index before advancing. However, the fixup
+> > logic was incorrectly restricted to leaf nodes (!xas->xa_node->shift).
+> > Because the THP resides in a non-leaf node, the fixup is skipped.
+> > 
+> > As a result, xas_find() simply increments xas->xa_offset and recalculates
+> > xas->xa_index based on this new offset. This causes xas->xa_index to jump
+> > backwards. If the THP was concurrently split, the entry at the new offset
+> > is a node pointer, so xas_find() descends into it and returns the folio at
+> > the backwards index. The caller (filemap_map_pages()) then calculates the
+> > PTE pointer based on this backwards index, resulting in an invalid memory
+> > access such as an out-of-bounds read or use-after-free on a page-table page
+> > freed via tlb_remove_table_rcu().
+> > 
+> > To fix this, check if xas->xa_offset matches get_offset(xas->xa_index,
+> > xas->xa_node). If it does not and the node is a non-leaf node, set
+> > xas->xa_offset to get_offset(xas->xa_index, xas->xa_node) before advancing.
+> > Also add test cases in test_xarray to verify xas_find() behavior when
+> > iterating over and splitting multi-index entries.
+> 
+> Thanks.  But the changelog omits vital information: a description of
+> the userspace-visible runtime effects of the bug.
+> 
+> > Fixes: b803b42823d0 ("xarray: Add XArray iterators")
+> > Assisted-by: Gemini:gemini-3.7-flash syzbot
+> > Reported-by: syzbot+b72767277f29b6407083@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=b72767277f29b6407083
+> 
+> I see from there that it was a use-after-free, detected by KASAN.  I'll
+> update the changelog and I'll add cc:stable.
+> 
+> I'll queue the patch for testing while awaiting review input.
 
-1.Priority inversion – On PREEMPT_RT, rwlock_t readers lack priority
-inheritance (PI), so a low-priority reader holding the lock can be
-preempted by a medium-priority task, blocking a high-priority writer
-indefinitely.
+The testing shows there are issues with this patch:
 
-2.Stall – A reader (p_read) holding the lock can be throttled by CFS
-bandwidth control and scheduled out. A writer (p_write) blocks waiting
-for the lock, and a timer thread (ktimers/n) needed to replenish p_read's
-runtime is blocked due to writer-fairness (286deb7ec03d). This forms a
-circular dependency and stalls the system.
+https://github.com/linux-mm/linux-mm/actions/runs/33815757662/job/100847425973
 
-Are these issues PREEMPT_RT-specific? 
+And since it's in mm-unstable now it breaks all CI jobs :(
 
-Any clarification would be appreciated.
+> > Link: https://syzkaller.appspot.com/ai_job?id=a01c56bd-74d0-411c-afb4-ee6f0cb6cb61
+> 
+> 
 
-Thanks,
-Ran Hongyun
-
+-- 
+Sincerely yours,
+Mike.
