@@ -1,74 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-39.mta0.migadu.com [91.218.175.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5F03B2D1D
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 08:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594323DEFE3
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 08:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788510165; cv=none; b=P1GGeXVrakQsHM0RZxaOj941u3oO4/OlMaTCr0x80DQ6kTLkj4d14f7zy8VBMruztGTbgV1s6Mex5HeYg39vLMfE1EYsdbrhyg8jq33tU9BZHe6N4wmJc2ApnF900cNH5vrabrsbKujDAxFEystNr6ZqpvJibwbS9qxU69hZ3aQ=
+	t=1788510625; cv=none; b=fKRX/JpMeIEKQaQ0rZTKBdB5DMH6hd8MUL6rSE3nH2bQGHcR25hbfO8mHU87EESEjlYE0SSaNF7lWhDNX5QFTU2OZzKi2XSkixUAW7YYP4tF6MzxUQtaWLNAwZ1H+uJLx474ukZ213h17ZYklYUTKJicgQfwaJw4iVWt/hHDPyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788510165; c=relaxed/simple;
-	bh=eyoqfcZNOrhfsTAiad491Er8/wtQztPNNmAMKY7yJs0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b681EtO//5+kisq2S8/83dSbs+H9QhTMKCw5gl8yVNSEzB5NoBRYcj1p+V2QzrZLddbdt6BauPN+dvKPck45VjMiz40vLzNpAaeYywZLoOuRCPOgXt+rYygGyU6S2/Glrd87wsrQ8CjGomEWgJz8ffLzgaN8wznvXsFgB3sJJ0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmcNO+DP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788510625; c=relaxed/simple;
+	bh=L8pOajLjq6OOGJ6hOdj/9J4YnLULNmgvV3Ddj6iBbVU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ZzRxIQCWBbebdPX52WuQZH+AF7cU8S2rVBZcXNBkOVQSD+MTt4kc5s1RLDxOI3dJDaORB16rxoZQmzCigPRGlo5O792tuYqJzDrDdusCxEj0vpIXqsP2i2jVECQRB+t7WPxsajte+WfxrzEVjWgCtRu2TlrI9KAKpkHAOLvTlaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SwyJQPQ/; arc=none smtp.client-ip=91.218.175.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmcNO+DP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D083F1F00A3D;
-	Fri,  4 Sep 2026 08:22:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788510164;
-	bh=cU0tXjNCAqFuJYdHOWWa37/FkZoOfXmqoSZFmoZBpEw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FmcNO+DPDmmy8fIb1irTfYsT4QXVp8fHHBtqJlwcGjYscH2f/iZqR+NZUnUEGInVl
-	 /BHMPDlkGQzgy8pbQEWuhldjK2ANyn6CrSze70tJoeKR9MzShFoiw87D8O/e2Z5fet
-	 pLvyXqkeJq8JNWqVKeUZKGyMZ2e4ofZYeXGR6dI99ZgIuyA5playPHKV6yX5MWghIj
-	 RAm0iBfq0DITSHrP/gPIVOz9crAn68oFRFoIF7udu5/MBBD/0Lz3I6ECAJOXQMP+cj
-	 P2jiZITTBsJ/pxgwHa+sBZnmKSYP7ZrspXxLV2vRG4N6earNZNt5CQLV4yLLmSCHbZ
-	 blVE27H22kDQw==
-Date: Fri, 4 Sep 2026 10:22:39 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
-	linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Xin Zhao <jackzxcui1989@163.com>, 
-	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH RFC v2 02/16] fs: add fput_close_list() and fput_list()
-Message-ID: <20260904-nimmt-sparflamme-westwind-3c4c8232eddc@brauner>
-References: <20260902-work-coredump-unlock-self-v2-0-1bece368cbb1@kernel.org>
- <20260902-work-coredump-unlock-self-v2-2-1bece368cbb1@kernel.org>
- <CAGudoHGQ=eTQjzY1cV6ZUa+CmTrTF0=au6r+_98CqEGnY+ZfxA@mail.gmail.com>
- <CAGudoHFEjeLK_neejhQTKTS=YxN8ew5p=8jWW-WYK8XC5tw_ZQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SwyJQPQ/"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=L8pOajLjq6OOGJ6hOdj/9J4YnLULNmgvV3Ddj6iBbVU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788510619; v=1; x=1789115419;
+ b=SwyJQPQ/JsqB0G+VQvAHfhOqVMDhSiAIC4wNpuayZfNUeVrLxXBB47YPlyrxfXF8weTMjmWD
+ zMtG0x5ODFmBJzGTVqVb61iOkElSJupyRY8r1iV16nqYAs4x+/s4D9BsqoaCZ/mEJaMkYbOwXPG
+ MHZyIm6+6Ci6OKgaWZX8Yb0g=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c4aafd7d2505d2d3;
+	Fri, 04 Sep 2026 08:30:11 +0000
+X-Mizu-Trace-ID: c4aafd7d2505d2d3
+X-Migadu-Flow: FLOW_OUT
+From: Ye Liu <ye.liu@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>
+Subject: [PATCH 0/8] mm: introduce for_each_process_rcu and for_each_thread_rcu
+Date: Fri,  4 Sep 2026 16:29:52 +0800
+Message-Id: <20260904083001.553587-1-ye.liu@linux.dev>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHFEjeLK_neejhQTKTS=YxN8ew5p=8jWW-WYK8XC5tw_ZQ@mail.gmail.com>
 
-On Wed, Sep 02, 2026 at 07:58:46PM +0200, Mateusz Guzik wrote:
-> On Wed, Sep 2, 2026 at 7:41 PM Mateusz Guzik <mjguzik@gmail.com> wrote:
-> >
-> > On Wed, Sep 2, 2026 at 5:58 PM Christian Brauner <brauner@kernel.org> wrote:
-> > >
-> > > Add helpers for paths that close many files in one go. They collect the
-> > > last references during the walk and drain them right after
-> > >
-> > > fput_list() runs the final __fput() for everything on the list.
-> > > delayed_fput() shares that loop.
-> >
-> > nit: I think fput_list is a highly misleading name here, suggesting it
-> > grabs a list of files to unref.
-> >
-> > I don't have a proposal for a name I'm happy with and I'm not going to
-> > argue about this, but to throw some ideas: filp_close_list,
-> > fput_finish_list or similar
-> 
-> The more I'm looking at this, the more I'm convinced I'm whatever name
-> it should follow the convention of ending with _sync.
+From: Ye Liu <liuye@kylinos.cn>
 
-Ok, might change.
+Introduce for_each_process_rcu(), for_each_thread_rcu() and
+for_each_process_thread_rcu() macros that combine the existing
+iteration macros with scoped_guard(rcu), so that the RCU read lock
+is automatically acquired before iteration and released when the
+loop exits — including via break, goto, or return.
+
+The rest of the series converts manual rcu_read_lock()/
+rcu_read_unlock() and guard(rcu)() pairs across mm/, kernel/, fs/,
+lib/ and security/ to use the new macros.
+
+Patch 1 may trigger checkpatch "Macros with complex values should be
+enclosed in parentheses" errors.  These are false positives — the
+scoped_guard() pattern is a control-flow construct, not a multi-
+statement macro, and the same idiom is used elsewhere in the kernel.
+
+Suggested by Michal Hocko for the oom_kill path [1].
+
+[1] https://lore.kernel.org/all/20260813092933.562028-1-ye.liu@linux.dev/
+
+Ye Liu (8):
+  mm: introduce for_each_process_rcu and for_each_thread_rcu
+  mm/oom_kill: convert process/thread iterators to for_each_*_rcu
+  mm/ksm: convert process iterator to for_each_process_rcu
+  mm/memory-failure: convert process iterator to for_each_process_rcu
+  kernel: convert process/thread iterators to for_each_*_rcu
+  fs: convert process/thread iterators to for_each_*_rcu
+  lib: convert process iterator to for_each_process_rcu
+  security/landlock: convert thread iterator to for_each_thread_rcu
+
+ fs/proc/base.c               |  4 +---
+ fs/resctrl/rdtgroup.c        |  8 ++------
+ include/linux/sched/signal.h | 19 +++++++++++++++++++
+ kernel/cpu.c                 |  4 +---
+ kernel/freezer.c             |  4 +---
+ kernel/hung_task.c           |  7 ++-----
+ kernel/locking/lockdep.c     |  4 +---
+ kernel/rcu/update.c          |  4 +---
+ kernel/sched/core.c          |  3 +--
+ kernel/sched/debug.c         |  4 +---
+ kernel/trace/fgraph.c        |  8 ++------
+ kernel/unwind/deferred.c     |  3 +--
+ lib/is_single_threaded.c     |  5 +----
+ mm/ksm.c                     |  4 +---
+ mm/memory-failure.c          | 16 ++++------------
+ mm/oom_kill.c                | 20 +++++---------------
+ security/landlock/tsync.c    |  8 ++------
+ 17 files changed, 46 insertions(+), 79 deletions(-)
+
+Signed-off-by: Ye Liu <liuye@kylinos.cn>
+
+--
+2.25.1
