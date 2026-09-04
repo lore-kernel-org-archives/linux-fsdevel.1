@@ -1,210 +1,263 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3812517BAA
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 17:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788543222; cv=pass; b=l1pBFbpiTBeIW87r6MytnyTZFLdC2TL/J9LjC0vCoUiRPM5SpI64L+K16v5ufxKRP7vVGFAL7s4DYZHJZ616q0K2vmMORGAfOvU1aiZj6oO5rJuhpjG8VTiHgRY5q3zgHWpwJgzi4pET529twWQbbiDyYpauXCUVQkfQei1uOWw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788543222; c=relaxed/simple;
-	bh=+dxsPdcG+42yJ1jF2czoqDuFc+SMLBZvLdpM9geZ/gM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pno5R+pHxTk+n5INRe0WQNJx1pl5Zn7a3p7Gz2xPylzVyKJ2WZ5bG0wWwasrCMoDs38LmIbrRG0h5wgjbSPjBcsm3kAyrxQIii4XimW+JEV3qaig1/CwF4pmcFfmbFJ5xDWDycXeYdC3v30jZ1UwBIs1XtXOiXLkJF8bQCui+Ao=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SrfKcEPY; arc=pass smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F37419CC0F;
+	Fri,  4 Sep 2026 17:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788543963; cv=none; b=FtfIgNPdCpF9g2wG3w6wnMRD8M3Vrc2CiDpo6W6jK3AsOaGga3CviFJQX7xclctyggjJtFtpfc+A0zgkDStdBFtk+pS0cQGlGeQfpJp+GWX3ikHer+iI/rZ6DUD5C0zSnjd6rTC3yBWhp8J074JRmIRkBoT45eRaFurBRvvavvY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788543963; c=relaxed/simple;
+	bh=IpIcXmZ5y3zAPIXH0ITLn7oZOKruZHk0aeMQju5DuzE=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=liIdabv0fHEGSagt+zcALKdoTP26oHgIOD+yqxoMV7dNVVb3KwbEV6Ywr8evNoX6eIuomRnWopowKTrGrmXBu8RkX1G+M2rWr2yLizCR4SIdjktIBMudrSrLPBRVezbkyLnDV1fkMrUqbPHza16Zf5U9GoxxvFZaCM0BM7RSq/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=pMU/YCpY; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SrfKcEPY"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48589798dbbso896757f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 10:33:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788543214; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EgFdzrm17N/IRJveNdMoOcJKT7KaUOoat2ba6GceUW3hf8aOgj5qbZo+SBWXtAO9Th
-         Ww26zZ/iHgoWUxTp7HhFUbC7shNT53fkGMT86Jgsj7BGlxJ442GqostJALkHZBryVfvu
-         O+5LUJaKjQLsc/K71IMhEf9ObSdnHyZcGqcCDq0Xuv0nayT1Oh3GE7tWc3Cl24Nv4zV8
-         9g/m5TPu4KcEftbQS8FPnxMXQdF8NYRLncy/nIMxtj1ZetP/kdpBVJAKsBhogTcxo5/4
-         AC4oe4qPpXOWch/4CyEdgMykWVBo1P/LpteouqcbIYqjp6otkzKV5b2OYKmKzabnX50h
-         c29g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=soTQky9Z3nYNLqFSceLyBlbSmjBlYyMm4HBR+pwE4Gg=;
-        fh=tC5E9mEsKK5kxtnAPwZo2qaictFPwrhf/wX4rtcVPww=;
-        b=V1SVE+57UjFLgInPldVD/HN2vvZSZndaZY5aectsea5rmWFsMyMzRPVD9n33ZdObTj
-         +buZpphdQHGzNV9z8+3x1GdmQAyAvq7r9ENTP1rZ+I/pNkgudjX7qAUqCKmtHo8k0jiZ
-         NktAzHNmYI2FGF3DdkMRIk0rJgQ7P1X3csGujbn9Wc9NnGbX4gOUlU0wt+l8yFDxsbJ2
-         dVTmE/cRekq/fF8wCFcaoTWVCLG4WXbYm8XmCBgYqJe5wfmErukzLpc6e9/DeqFbzWbN
-         wsJFm3ZG2qkG23vvrQG73ZVKqV78EtPBiBZfDYd3cwp+pPw9+6+WgQ8Uv5elvVeFAHLM
-         z5yA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788543214; x=1789148014; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=soTQky9Z3nYNLqFSceLyBlbSmjBlYyMm4HBR+pwE4Gg=;
-        b=SrfKcEPYEZ66jVyN7RYZa0gsikH15ECqcg7g9v0Cllrb3/RZvJ0FlBWcm7vqAgMxn5
-         BLCXhkbNtGyWk3udifVhjHzW9IHthVaca8mtm63Ievpd4B7/TI0Z6m451NwEOtrbLNiz
-         FuLvUxMO1G7h0smQalOS08Lm8r3BSmDxn+bcazZQEfiCZtINSvO8ECgRkqIZfJZWM1XA
-         q31Hkv0gkfVmnpG2rqDRoTPB09qHeHPeqI/cdnMgSrmLxhK94ugxhyarNuSo4zDz0CrU
-         pDlt8LabAuNEgqkcu/8/OHjC/nlENPYIM4HwKKeG31oCYVQ1weAdhYDnNKzlYiPYkAZX
-         +kjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788543214; x=1789148014;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=soTQky9Z3nYNLqFSceLyBlbSmjBlYyMm4HBR+pwE4Gg=;
-        b=T2aDMhR40RGlOYRn648J9EYYRDPqqOpweJ1DibaZeRJCDYZFLpWKFswla7gMw7lP5v
-         NrOPh1v3/udhQEf9RJrl7aWQi4jxl3qqSd1T/4EMRqUNn6jRCtDOy59k+DNUz5m+aHPM
-         OZ5pCliLLzedM5ZGbG2ZG7WznEoKlxQDKYm1nEBzhJfPIherMsNnrq+ps5PYQCBOvc2W
-         RrCZOvvsoyWzjXppAJQb8MFN1tQC/M0ABK6NN5YmKvQZOueGeE1fwsNSJ4So7ESVeB2O
-         hXV8jA8T8lTS7fw5GektoymOe/sOaJ98K6KvezfCwRo/ENS2F4zLKxWCyYkOLb+QIbeU
-         GGQw==
-X-Forwarded-Encrypted: i=1; AKwUvByqSLMDiC9XAIenJhxEu1TzTYZrZDHmIdpZp+LTOmdYBBOzjsF4c38ivMupMRCPD+4T41NjHYn7ydeA/ZNw@vger.kernel.org
-X-Gm-Message-State: AFuF++mTzM4skGbTkeb3UsDFWYLvbYSm2OFW5Gcurvwf0DliEx1SPTFR
-	sv9WOcx0XTk3J5rquZ98gvoPNhGAmkOePcLcUNYhYNcKxuIAXBZ3aRQM5JDtlrPYOT5mx3cUMkc
-	K128ocAzKSUlMFwmy+9YQoAs+jR+yfd4CjXqcQ8A=
-X-Gm-Gg: AYBFou01j7eOXpYycIOnxIgoV7JOHKrFgzUZOjmXKcdSsXdQ519LNKfq/rEFxFNFCyG
-	6LA3APToHejUjBAp9w3GUYkwXXBxLIWsQ5qNgNB90mnIC8HFsy8s1/BaXEqZwWw82ANbOhwbtXC
-	ZmMUGNPL3fVXDXodUw8WpzLsvktCcmFQPUQC94v6xWeHIGxsELPvO7MmOu4Jwd88wPC8qs+0Uc8
-	LV4f/hq/YBvcZeJW/cUx+e3fO0OTngXe4eeZ6H8GXY9QRez4C2ElCCfWrqE2r0hEQfqmSfpSYrO
-	D43GtAZCNvQ/J+PV2UDQkJ/4ba7pPN2CLeI4ddiEjlFh6PZLMcvZkurngZm0bcozhBvRDioQW6d
-	B8W1hqIEOqtX/IssRVbSbDtPYnfs=
-X-Received: by 2002:a05:6000:228a:b0:485:8fe2:ed81 with SMTP id
- ffacd0b85a97d-4858fe2ee3amr163801f8f.26.1788543213669; Fri, 04 Sep 2026
- 10:33:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="pMU/YCpY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To
+	:From:Date:MIME-Version:From:Reply-To;
+	bh=3kJ7V4qqJDGktsGa6HvFkInxay1XxXTxaazUjY3g2Hg=; b=pMU/YCpYNVsT4y/cw1wUdM7zig
+	6FGELePr69ke+QNUk1G581g+plUqC63/ulntoNIxp4pmbIVxfOia9PckTHSRm7xpUciNq57SZzqVN
+	cbsILUiD8lzSdwcwFXmRLM5CfmP+hPRfm6lYmxFlKNBEyu4prtcCynH9vE1ksDe8NHMM4ChUZakqb
+	g9JR+994Oc+oJQ4Q0AJSntCNDkHoysIvAdma6HpwZmNS1nvN6HQ7sdhdssRvg1w9t7SZEOTJlyvat
+	sUbSdbal24ShKj5UheutEWEXP6HsQ9h5DXMVF9LQie/eE7V27D08mGmnS+RWfYNHD9zmSk/JT0i/e
+	OBepHvZQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine2.igalia.com with esmtps 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1x2Xyg-00Ezrc-2e; Fri, 04 Sep 2026 19:45:26 +0200
+Received: from webmail.service.igalia.com ([192.168.21.45])
+	by mail.igalia.com with esmtp (Exim)
+	id 1x2Xye-001h2m-Ee; Fri, 04 Sep 2026 19:45:25 +0200
+Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
+	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
+	(envelope-from <mfo@igalia.com>)
+	id 1x2Xye-00000006G3f-1esz;
+	Fri, 04 Sep 2026 19:45:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260903115018.2034541-1-yi.zhang@huaweicloud.com>
- <CAJnrk1ZLzNQxrSLQx7TsLK89QC_=9cDfoDcyKNBNde0CiDGoNg@mail.gmail.com> <4e498938-f21b-4d75-b789-8a615aba877a@huaweicloud.com>
-In-Reply-To: <4e498938-f21b-4d75-b789-8a615aba877a@huaweicloud.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 4 Sep 2026 10:33:21 -0700
-X-Gm-Features: AcwNN1WC5_C19pRuHFRSSvaEOgUDXw8Fkj4YdviBWSd6-uI0JItHi4sYChYNXkU
-Message-ID: <CAJnrk1bQYUe6+1ryyJur5EEnZYrC+_5AYsy=OWzVRgD4202y1g@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm/truncate: fix data loss when splitting fails in truncate_inode_partial_folio()
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com, 
-	willy@infradead.org, jack@suse.cz, ziy@nvidia.com, bfoster@redhat.com, 
-	djwong@kernel.org, yi.zhang@huawei.com, yizhang089@gmail.com, 
-	yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, 
-	yukuai@fnnas.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Fri, 04 Sep 2026 14:45:23 -0300
+From: Mauricio Faria de Oliveira <mfo@igalia.com>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ kernel-dev@igalia.com, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, fsverity@lists.linux.dev,
+ keyrings@vger.kernel.org, bpf@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
+ lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, linux-sctp@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+ bridge@lists.linux.dev, mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH RFC v3 00/13] sysctl: add module aliases
+In-Reply-To: <mokz5pdtwswkyab4byfq7q7m6ac2g6ceoi6jflyxmaszaibzqa@su6m4kamtdpy>
+References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
+ <bpnqwggtidgiec5akns3fa5edbsvl7xf55dxabtwng2xspy4pn@ue554aii2ngk>
+ <53155340c897560bfc67e61ba9568fd6@igalia.com>
+ <mokz5pdtwswkyab4byfq7q7m6ac2g6ceoi6jflyxmaszaibzqa@su6m4kamtdpy>
+Message-ID: <b1a6cec17e7c828fcebe310ca2a0d25b@igalia.com>
+X-Sender: mfo@igalia.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Report: NO, Score=-2.1, Tests=ALL_TRUSTED=-3,BAYES_50=0.8,KAM_DMARC_NONE=0.125,KAM_DMARC_STATUS=0.005
+X-Spam-Score: -20
+X-Spam-Bar: --
 
-On Thu, Sep 3, 2026 at 11:27=E2=80=AFPM Zhang Yi <yi.zhang@huaweicloud.com>=
- wrote:
->
-> On 9/4/2026 3:01 AM, Joanne Koong wrote:
-> >>         /*
-> >> @@ -259,6 +265,10 @@ bool truncate_inode_partial_folio(struct folio *f=
-olio, loff_t start, loff_t end)
-> >>                  * for shmem truncate
-> >>                  */
-> >>                 struct folio *folio2;
-> >> +               bool tail_isolated =3D true;
-> >> +
-> >> +               if (end)
-> >> +                       *end =3D (pos + offset + length) >> PAGE_SHIFT=
-;
-> >
-> > If I'm understanding it correctly, based on how
-> > truncate_inode_pages_range() uses the end value (eg the "while (index
-> > < end)" loop condition and the find_get_entries(..., end - 1, ...)),
-> > end needs to point to the start of the folio if the tail folio from
-> > the split is a large folio, in order to exclude that folio from then
-> > being truncated. But with the (pos + offset + length) >> PAGE_SHIFT
-> > calculation here, does that result in some cases in it pointing to the
-> > middle of a large folio? Maybe some logic is needed to make sure that
-> > it points to the start?
-> >
->
-> Hi Joanne,
->
-> Thanks for your careful review! I don't think that case can actually
-> occur. Let me walk through the scenarios where the
-> (pos + offset + length) >> PAGE_SHIFT calculation is kept as the final
-> end value:
+On 2026-09-04 10:41, Joel Granados wrote:
+> On Thu, Aug 20, 2026 at 06:22:13PM -0300, Mauricio Faria de Oliveira wrote:
+>> On 2026-08-20 09:51, Joel Granados wrote:
+>> > On Wed, Aug 19, 2026 at 03:16:13PM -0300, Mauricio Faria de Oliveira wrote:
+>> >> This series adds 'sysctl:' aliases to modules that register sysctl tables; e.g.:
+>> >> 
+>> >>         $ modinfo ./mpls_router.ko  | grep sysctl:
+>> >>         alias:          sysctl:*/net/mpls/conf/*/input
+>> >>         alias:          sysctl:*/net/mpls/default_ttl
+>> >>         alias:          sysctl:*/net/mpls/ip_ttl_propagate
+>> >>         alias:          sysctl:*/net/mpls/platform_labels
+>> >> 
+>> >> It provides a trivial way to map /proc/sys files to modules (not trivial today),
+>> >> and for userspace to handle nonexistent /proc/sys files (e.g., procps's sysctl
+>> >> and systemd-sysctl applying tunables) with "modprobe sysctl:<...>" and a retry.
+>> >> 
+>> >> This is done almost automatically with register_sysctl(), register_net_sysctl()
+>> >> and friends as wrappers of MODULE_SYSCTL_TABLE (similar to MODULE_DEVICE_TABLE),
+>> >> which emits symbols for file2alias/modpost to find and parse the sysctl tables.
+>> >> 
+>> >> The big exception to 'almost' are sysctl tables and paths allocated or defined
+>> >> at runtime (e.g., per-namespace or per-device), as all information is required
+>> >> at build-time. Fortunately, such tables and paths are often based on 'templates'
+>> >> which are static and can be used.
+>> >> 
+>> >> This is done by plumbing the template table/path as optional arguments (macros
+>> >> with default values as default_gfp()), so not to create functions for all cases:
+>> >> 
+>> >>         register_sysctl(path, table [, table_tmpl [, path_tmpl]]);
+>> >>         register_net_sysctl(net, path, table [, table_tmpl[, path_tmpl]]);
+>> >>         register_net_sysctl_sz(net, path, table, size [, table_tmpl[, path_tmpl]]);
+>> > 
+>> > The "what" is described but I'm missing more clarity on the "why". Why
+>> > does this need to be trivial? Where is it that you will know the sysctl
+>> > file path of a module and not the module name or alias?
+>> 
+>> Thanks for looking at this.
+>> 
+>> The problem this feature addresses is sysctl settings not applied
+>> because modules aren't yet loaded when systemd-sysctl/procps's sysctl
+>> runs on boot, and the usage of /etc/modules as a workaround.
+> 
+> Sorry for insisting, but is it not possible to set the sysctls after the
+> modules have been loaded? Why is the order to first set the sysctl and
+> then load the module?
 
-Hi Yi,
+No worries, and thanks for getting back to this.
 
-Thanks for your reply and for walking through the logic and explaining it.
+Yes, the former is possible and usually how that happens, but it is not
+guaranteed, thus the latter might happen -- unintentionally.
 
->
-> 1) offset + length =3D=3D size:
->    The truncate range aligns exactly with the folio boundary, so
->    (pos + offset + length) >> PAGE_SHIFT points to the start of the next
->    folio, not the middle of one.
->
-> 2) !folio_try_get(folio2):
->    The folio at that position has already been freed or is being freed,
->    so there is no folio in the page cache at that location. The
->    subsequent find_get_entries() won't find anything there.
->
-> 3) !folio_test_large(folio2):
->    folio2 is no longer large, likely split to order-0 by a concurrent
->    operation. For an order-0 folio, the page index and folio index are
->    the same, so the calculation is correct.
->
-> 4) folio2 becomes stale:
->    The same to case 2), folio2 is removed from the address space, so
->    there is no large folio straddling the boundary that needs
->    protection. The caller won't get folio from here through
->    find_get_entries(). Using the page index is safe here.
->
-> If a large folio straddles the boundary at (offset + length), we will
-> successfully get a reference via folio_try_get(folio2) and
-> folio_test_large(folio2) will be true. In that case, if the split fails
-> (cannot lock or split operation fails), we set tail_isolated to false
-> and set *end =3D folio2->index to point to the start of that large folio
-> since tail_isolated.
+For example, a sysctl setting can be configured in /etc/sysctl.d/*.conf,
+which is manually tested and confirmed to apply it correctly. However,
+that might have worked only because its module was inadvertently loaded
+earlier (e.g., for something else by the sysadmin, or by something else
+in the system). The next time the system boots, the module is not
+automatically loaded, thus the sysctl setting fails to be applied when
+the (previously working) /etc/sysctl.d/*.conf is parsed.
 
-The case I have in mind is the case where the 2nd split succeeds
-(returns 0) and tail_isolated will not be set to false, and *end still
-gets returned back to the caller as the original "(pos + offset +
-length) >> PAGE_SHIFT" calculation. I don't think it's guaranteed that
-the split will create a folio that starts at that page.
+Also, a sysctl setting may, or may not, be tied to a module; it can be
+built-in. This can change with kernel configuration, e.g., distro.
 
-The example I'm thinking about is a 64k folio being truncated at
-offset 0 to 36k on a 16k blocksize filesystem with 4k pages:
-*end =3D (pos + offset + length) >> PAGE_SHIFT =3D 36k >> PAGE_SHIFT =3D pa=
-ge index 9
-start: [0 - 15]
-after 1st split: [0 - 3] [4 - 7] [8 - 15]
-split_at2 =3D 36k / PAGE_SIZE =3D 9
-2nd split will try splitting [8 - 15] at split_at2
-after 2nd split: [8 - 11] [12 - 15]
+So, another example: a sysadmin learns of a sysctl setting in
+documentation tested with another distro, which has it built-in. It
+fails to apply on this distro, which has it in a module, because the
+module isn't loaded. (Now the sysadmin is left to figure that out, and
+then which kernel module provides the sysctl setting.) 
 
-in the truncate_inode_pages_range() logic, start =3D 0, end =3D 9, so
-find_get_entries(..., end - 1 (=3D 8) ...) returns the [8 - 11] folio
-and truncate_inode_folio() will drop all 4 of those pages (including
-36k to 48k which might have dirty data).
+Note that both examples can be combined. (And the poor sysadmin is, in a
+reboot happening days/weeks/months later, left to also figure out that
+the sysctl setting is not applied, and whatever effect that caused,
+because that particular module was not loaded on boot, and should be
+added to /etc/modules).
 
-Do you think this makes sense or am I missing something?
+>> This can be addressed with a way for sysctl tools to load the module for
+>> a non-existent sysctl file path.
+>> For that, the mapping between a sysctl file path (known) and its module
+>> (unknown) needs to be trivial.
+> This touches on my question. How is the file path known and the module
+> not known? The module is the one providing the paths, not the other way
+> around. Why choose to just work with sysctl path lists and not include
+> the modules that go with them?
 
->
-> The page index from this setting is only kept when no large folio exists
-> at the boundary, which makes it safe to use. What is particularly
-> noteworthy is that for cases 2 and 4 above, aside from setting it to
-> (pos + offset + length) >> PAGE_SHIFT, there does not seem to be any
-> better alternative.
+The sysctl tools and configuration files only know about the file path,
+not the module. The sysctl tools know the file path when parsing the
+configuration files, converting a 'dir.file = value' line into opening
+/proc/sys/dir/value and writing value into it.
 
-I think if we just rounded down *end by the min order (eg *end =3D
-round_down((pos + offset + length) >> PAGE_SHIFT, 1UL << min_order);),
-that would ensure end is always on a folio boundary and can't be
-inside a folio.
+The format of configuration files only include file paths and values,
+but not modules, per sysctl.conf(5) and sysctl.d(5). This is reasonable,
+as there may, or may not, be a module for the sysctl setting (i.e.,
+module vs. built-in).
 
-Thanks,
-Joanne
+Maybe I misunderstand the context for your questions; please let me
+know.
+Also, could you please clarify what you mean by 'include the modules
+that go with them' [sysctl path files] ?
+
+>> It may not seem serious at first, but I've seen this consume significant
+>> engineering time and impact production systems, in a previous technical
+>> support job.
+>> An example: cloud deployments with non-scalable network routing
+>> performance due to nf_conntrack_max not applied after reboot or an
+>> upgrade because the component which turned out to help with the
+>> /etc/modules workaround had its placement changed from network router
+>> nodes.
+> This is more understandable to me. The issue is that you loose the
+> relationship between sysctl paths and modules on updates. Are there
+> other cases where the module would not be loaded?
+
+In general, there is no guarantee that a module is loaded by the time a
+sysctl setting is about to be applied -- during system boot or even
+later.
+
+The example for system boot is covered previously. An example for
+'later' / after system boot: on network device testing which includes
+module unload/reload and sysctl settings for network performance, one
+might unload the module, and mistakenly first apply sysctl settings then
+reload the module, thus loosing the performance tuning on that one
+testing round.
+
+> And doesn't it create another problem where you will load modules that
+> you don't expect (on the update)?
+
+Sorry, not sure I understand the meaning of 'update' correctly, but yes,
+if there is a hard-coded module load (e.g., /etc/modules or in scripts),
+that happens. However, AFAICT, loading unexpected modules is less of a
+problem than not loading required modules, or may not be a problem.
+
+With an auto-load mechanism in place, hard-coding/force-load is not
+required, and neither problem (loading unexpected modules due to
+hard-coding, and not loading required modules due to lack of
+hard-coding) would happen, IIUIC.
+
+>> > Additionally, sysctls are not module specific; they are a way to
+>> > read/write kernel variables. Putting a module specific aspect in the
+>> > function arguments (that needs to be ignored in non-module cases) seems
+>> > wrong. Why not use the module subsys to add sysctl alias instead of the
+>> > sysctl subsys?
+>> 
+>> Fair point. The current design has 2 reasons:
+>> 
+>> 1) Use the 'path' argument (raised in [1]), only available in the
+>> register sysctl functions.
+>> 2) Use a more implicit/transparent approach, instead of more
+>> explicit/declarative approach. 
+> 
+> I get that the data is there and you would be able to do it, but it
+> still seems misplaced. Additionally, are you planning to move all the
+> modules to this scheme? If not, does that mean that some modules would
+> work and some wouldn't? And how would you make sure that modules would
+> use the correct call moving forward?
+
+This scheme currently covers all modules, AFAIK, as it is wrapped in the
+functions that register sysctl tables.
+
+On moving forward: usage of such functions in a way that breaks a
+requirement of this series (e.g., failing to specify the template
+table/path parameter(s), or not having constant initializers) hits a
+build error, as the requirements are actually from the compiler.
+
+>> I guess that a different design could use MODULE_SYSCTL_TABLE() as
+>> MODULE_DEVICE_TABLE(), declared per table instead of wrapped into
+>> register sysctl functions.
+>> However, it seems to require moving the value of the path argument (or
+>> its template) into the macro and still referencing it in the function
+>> (or its instantiation of the template), which adds obfuscation, to all
+>> callers. 
+>> 
+>> What do you think?
+> It might be that having it inside the module subsys is more work, but I
+> believe that there is the right place to have it. I still don't see that
+> adding a module specific arg to the sysctl register is a good thing.
+
+Ok, cool. I can work on a different design.
+
+Please just let me know whether you are OK with the remaining (above),
+and I'll be happy to tackle this.
+
+Thanks again,
+
+> 
+> 
+> Best
+
+-- 
+Mauricio
