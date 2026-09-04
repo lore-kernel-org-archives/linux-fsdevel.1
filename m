@@ -1,169 +1,244 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC314779A4
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 12:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778AB3EBF02
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 12:29:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788524197; cv=none; b=RsvqPMZBCgS5QGWa0p/Cd06YG++BHkiYVqcWNni9VsZMKITRsB8mwjIlZ+JDjyLss/Z+1pWyEhDYkXQyeg45HOsyoTzyASc1Hhht0Rc9tso7BZF8rnKRyMsnBx39FfUbog3CEqFkwyVig6syZzRCRP4koAfZaSOKPjGobDCVd6U=
+	t=1788524943; cv=none; b=p8O+Ic+dyxYC8C9Gg2x1IQLnOIOi9TQ3kikY0xooXosarYo2pQZQQpe7FE6ZED7sdH1l8XeKvO4bSsjf2IHmOYAfWkfy8jNGq9PFqiNkOkWXVS14vCfrjMzb29pOGnBdliw3z2HQ84U1JzIILKCZnrfOlE5dJGHTVvWZGLWEWwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788524197; c=relaxed/simple;
-	bh=Mih/s/iaTNQ3AYU6LlfwTYiHV7v9uAhhnX40xc6A7xI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RrjbZFtIrUpIwmgSdYLl1A/pRBsh/n5sv5etBmIaTpY0R5tLh5vJzX4gIMV0IdP3vxc5dI4rMrhl1XwLOCogIAxScJvKH2oyInoO82T65LlhA4L/OCA0dmAzMsMkYZxTy6ZHCSl61WfAAmCYQmFmEE4tVxriYXHC16j/xXAjOCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qCBmfqt0; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788524943; c=relaxed/simple;
+	bh=kINVtp9Tcy1uzfSPCqgfZTuR0AXIWvwWWaRfnsIc6rA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UgAueJG7I0wt3kubiMotGRUK5zcTh1Y1hKljrCON3AMyOV8tzmUqGD+4ZIUxpQQxpk26nh98KhF8mcUguCOcPovnbzRCTE7GI3EncsKjOaU7NkSjGRG/gg9wDGOchpRG7+kcbfJ6IAuqq5V9DG/MdoixvqJ9xod4l9rsl32TvWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EPYs0E8o; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qCBmfqt0"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a65e66555cso1036602a12.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 05:16:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EPYs0E8o"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-484362f5c4aso1134573f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 05:29:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788524193; x=1789128993; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bmyMOpfaX4h3t7GBum5n74Kd1I2b9Qp+ODDo5tAvT2c=;
-        b=qCBmfqt0B/sKDrrtbfSlwO20B/3vhHc0kzEMLY9OLkVHve5+kT/mUMfD50s+JZD9Fo
-         rFd0AqsfsD1NbhMPeNffZUH5+xGlqdtE1TVTWXy/RvFcimX+5W7to7r5o9y6ZpuTWo+p
-         8pAh6CPh8QZOWIHWtG/BXcI4PR4pLdMqub61PTnYYzLmP1H0buo3+KTIpEfhzhWNr2Av
-         yKTmLiP1oDxH4/m0RRbYlxEeJ3nI4ceyQ6wFQq6iJPtm1BmwnepQNgT4LOHA6YeSZOBe
-         ekbbsFirfhnDeZYsahJrTxwtRo0ujLGSZoZzRGZQrxKutGsAQp9xAOZz35CzwP8jpg0A
-         x+Fg==
+        d=suse.com; s=google; t=1788524940; x=1789129740; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wkKTYWKeG6QUBS922LjHNIJ7+OwGoSgdldmULUcOoY0=;
+        b=EPYs0E8o8KX/heV0KahZoy3jtMox1RXJ8SP1/dm/wPYixoCzGnwQx1dbm8QX1gjTe0
+         /IAttt2/8h69bIYrLxkRcu497Xp9BDVeHkP4cK78diZLjN/cUVQYiD9Qmiw5Z9e4I7RT
+         L4SE9GrUFck4RoI58lltcmxazD8cJmhq2Paeb7roDdHlTMongr4ZjRiZWeHXkmitJ+nP
+         WwKivE7/ZRfGlm/5NxK7GUEx7HpracWWEqII2MrD20iGkm/3wBtlr6Y8XahZgcDNJngH
+         2rNK7alhy5XbCvuUJZgBUMYBvjQvqJ5lLnPLZoeDlTMCR1DxyTtAXd/cUvNnZcZNuqEv
+         mQsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788524193; x=1789128993;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bmyMOpfaX4h3t7GBum5n74Kd1I2b9Qp+ODDo5tAvT2c=;
-        b=UZfZQTnEtQ/n6K1w0bT+PQqjFSp7CtO2k1YiITtw8t/Wviz9XivEPtZDGu5iSuS+Z7
-         sSzMt+ldhJZ3fZLmOW/fgHuRMNkXSkdbuLIJrXTxFBMjz0Dt2NttIZlkFN997GPB+DJl
-         NefL1/s/Qred9dbU3o7z2sKZyJVaNX3qXw2/iH9oNfR9hao48wIHDoTJkV8u4CoX5T3U
-         Zb6RQCzygh8LBxEacMgkDdxNWov0SBd6j5Q41eY+imvFIW7tGiuqKewA1dTNEE4Dsteu
-         QaYHrmjawl92GSf451IS0VDg6mXbGzm1fHVOns5wO65xGMDJnhhMvk0Nwhzi5eNwmjG8
-         ZHkA==
-X-Forwarded-Encrypted: i=1; AKwUvBz2nyac/NpBhaRIZj6mS4Tz463AdG3+SEa/IBCROWXbV6lXZs1oYKx7P7GuGbYi8fCYdCKVihTLDV5S2IGG@vger.kernel.org
-X-Gm-Message-State: AFuF++nRv4t3+Q6NidJfw3UUD2yWFkpuH05yPRy0LXuIJ47DYHI5XrHq
-	shFoYtB9GZCA9e4jlA8TNpZ0fTEidl4HXdCGbRXV9uy4PzIO4wvNbENb
-X-Gm-Gg: AYBFou1LMa0Lpwt3Fd2M7ACjM/LV3eEyXo8vS51nmbtP1bIjAAYSpSdSdNA+oGj/Z8A
-	OePo1mHDwaT1vSfCcFZdtXuVc4AVg7HfQroxV+KBJeiS+TSx8+EDEz7pLWH+L0XVeActQdURItg
-	qNo7Ur38o2dCZ2PCWrm9V5n6m6kJDVNP8uKaS56Y30Wpaof0fzxobVqKn6Os2sAWgh5d2paQ2IJ
-	CXn44OTota+V+i1pKUSrbgOKjYzO1xgblUl1uS6KX6SehkGGWgUD+H0EC+9OWUL11GKzpTLqUe/
-	RJxxwn+ZtHy5g+iWdR+SEQviIBqnSF5+PzjqS5nWkKS1HuIfcYhGfafQ11ghmJoRlqkPEN8BGhy
-	Y4qC3kmypxtc9Zx2Q0ZSJ5ZldPz7V3AjiNlr5TEtgFeuBcLA93slHzVqmwSxPKTqX+OJ/f2iRQB
-	xMBYTwUrX3pBfHsDeACJIwQ4LF3F/G38LJHD+FupueBA09slR1JFal8k/1bFwV7mytYBqeL69mY
-	IYBbSS4qcKZl2nvSzpUW3goVdglYGDD+ZtWOdR4R6UqoctlA4O7+XlsK6sD2aRR8IfgDhAEeZbo
-	0OdXqwFC886BJvKVFyHn8R84CPKIFYVI3jIR+tkz3dSRk6RJJi/9vPCQZgphvBu0vgIcft2YnmP
-	/s9kW7xav1gS0qDVoeR5CU1gAsqXzHR4EswJxsj/L1SvGnQ==
-X-Received: by 2002:a05:6402:4592:b0:6a6:35ca:af8f with SMTP id 4fb4d7f45d1cf-6a7e8e92b23mr2244160a12.16.1788524193458;
-        Fri, 04 Sep 2026 05:16:33 -0700 (PDT)
-Received: from [192.168.100.51] (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a7e6bf337bsm1063392a12.26.2026.09.04.05.16.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2026 05:16:32 -0700 (PDT)
-Message-ID: <493efefa-308b-4d3d-a6e9-841a3b118283@gmail.com>
-Date: Fri, 4 Sep 2026 14:16:31 +0200
+        d=1e100.net; s=20251104; t=1788524940; x=1789129740;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wkKTYWKeG6QUBS922LjHNIJ7+OwGoSgdldmULUcOoY0=;
+        b=TVkdT6uvry0Rs4DkrpvaH5WXl285HVrycqtU+4LwhVe6pRkNPZ8nM0Aj8Hb7y+3Du2
+         XnMfZez2cuKLR2bggVuE85qn2eTPE00R4LFWjS4Zl4xIapXRvJUFL8yqUKha33x4Von9
+         9gaY01RrCfgwLK7JwMzGvrAlMJiVy2q0HLt2BEmA5sgPsYbjQIkVy77PHVtdeCyCbI2p
+         U4ZrZTc9p5I8yA6tHtc72TYc4UeKIUgFbDeGhO7ibISZCqdwgR+AjRNYVPxGexqKwUEa
+         GJBZ6xjoGP8QwGCLKTMbhjsAY9IRIFw3/G5XQwtNREV+oT2K/9jf08CLYVdwvMJdYu9k
+         oA/Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxdyhebz/hwlPxE0RrBNY491suTLG/KnbfHLPDOgbkcox4iDjy69mhb4irEWIUFaszVJvEZO32Fkh5ub4Ab@vger.kernel.org
+X-Gm-Message-State: AFuF++k6fvZN3HoGchrVUmS2OEIEuyGkXo1ksOTA0eVXRAlVNX/dckKb
+	uKtrl/7oxoIKDV+OUG7OYr5/kqBl4lcwOOhshlTeMWLzPrd0Do7m/BM/WOnnT0RT/SM=
+X-Gm-Gg: AYBFou1JpbOAPEhmqhvtFQEm89NLlUde9ygXs5MQwxuNlXqD1aBgycEWuE0BR+6i/q5
+	gFDkPJ7BlulTfFbWPTLlSVCHDDybUSV2tjhMnqM9AE3A0Ew3nnjM/pdfyxBEM51pO2e9tKsDX7n
+	/8rAA6xP2ZV4HXdfvPciFSzZOvKcXZjKj0UL7Et9pFxH2xlTO0elotH04Ne9TSiD4IU1j1FkrGz
+	RKcRrYflQ3uq5gFDmS6LEmnnoqnrMbJToZWY8O5nXF9JKC1fKlhgnlenYLC3jf8lGwO70iKHFGP
+	a/zZfjnjx+043VeCoHCPdi8C/ogYafVHwix1V8vy/QCF1SpFoDlXRQkG3Iuk7SbOsmUimXXze0H
+	qDx62R7tnpMsaNbVR8C9G8IeFQymwITYXXKbMSwWIhDn639LxTCC76mrr3bI5H7GciAuNC9iVCa
+	sQJaPcLATURQ0ftvVK0ioNs/Gn+vr74pp9eHvu13kugA0CUNjrwlXWRcCaLt9RWA==
+X-Received: by 2002:a05:600c:6087:b0:49c:d52e:d0ea with SMTP id 5b1f17b1804b1-49cf81e3454mr99528635e9.4.1788524939473;
+        Fri, 04 Sep 2026 05:28:59 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee5f912esm153375065e9.4.2026.09.04.05.28.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 05:28:58 -0700 (PDT)
+Date: Fri, 4 Sep 2026 14:28:56 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: bcrl@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, tytso@mit.edu, adilger.kernel@dilger.ca,
+	libaokun@linux.alibaba.com, ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com, yi.zhang@huawei.com, sforshee@kernel.org,
+	akpm@linux-foundation.org, rostedt@goodmis.org,
+	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+	senozhatsky@chromium.org, kees@kernel.org, tglx@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v3 0/8] Convert barrier pairs to acquire/release for
+ better performance
+Message-ID: <apq5iLOF8lAQ_ZVU@pathway.suse.cz>
+References: <20260902074805.398540-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] xarray: fix index jumping backwards in xas_find()
-From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, syzbot <syzbot@kernel.org>,
- syzkaller-bugs@googlegroups.com, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>,
- linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
-References: <2992424b-2120-489e-9010-f45f46ed52c8@mail.kernel.org>
- <20260903112251.6114f91af953412d2355e5b3@linux-foundation.org>
- <app_o87YogZExbwm@kernel.org>
- <CAGJbn0f+s3U0G=1yUx7a10-buHgA_yu0REG01M8hgFo=t+3Y1g@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAGJbn0f+s3U0G=1yUx7a10-buHgA_yu0REG01M8hgFo=t+3Y1g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902074805.398540-1-ruanjinjie@huawei.com>
 
-I have fixed the test issue and submitted patch as v2. I'm sorry about 
-issue v1 caused, hopefully v2 is going to be fully correct now.
+Adding Risc-V list into Cc.
 
-On 9/4/2026 10:41 AM, Krystian Kaniewski wrote:
-> Hello,
->
-> Thanks for running tests on my patch. I've quickly looked into the test
-> result and the problem seems to be related to check_multi_find_4() test and
-> not the fix itself. I'll send a v2 patch once I get the test fixed.
->
-> pt., 4 wrz 2026 o 10:22 Mike Rapoport <rppt@kernel.org> napisał(a):
->
->> On Thu, Sep 03, 2026 at 11:22:51AM -0700, Andrew Morton wrote:
->>> On Thu,  3 Sep 2026 13:48:55 +0000 (UTC) "syzbot" <syzbot@kernel.org>
->> wrote:
->>>> From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
->>>>
->>>> A bug in the XArray iterator xas_find() causes the iterator's index
->>>> (xas->xa_index) to jump backwards when iterating over a multi-index
->> entry
->>>> (like a THP) that resides in a non-leaf node and is concurrently split.
->>>>
->>>> When iterating over a multi-index entry in a non-leaf node, xas_load()
->> sets
->>>> xas->xa_offset to the base offset of the entry, but leaves
->> xas->xa_index at
->>>> the requested index. When the caller subsequently wants to advance to
->> the
->>>> next entry, xas_find() is called. xas_find() attempts to synchronize
->>>> xas->xa_offset with xas->xa_index before advancing. However, the fixup
->>>> logic was incorrectly restricted to leaf nodes (!xas->xa_node->shift).
->>>> Because the THP resides in a non-leaf node, the fixup is skipped.
->>>>
->>>> As a result, xas_find() simply increments xas->xa_offset and
->> recalculates
->>>> xas->xa_index based on this new offset. This causes xas->xa_index to
->> jump
->>>> backwards. If the THP was concurrently split, the entry at the new
->> offset
->>>> is a node pointer, so xas_find() descends into it and returns the
->> folio at
->>>> the backwards index. The caller (filemap_map_pages()) then calculates
->> the
->>>> PTE pointer based on this backwards index, resulting in an invalid
->> memory
->>>> access such as an out-of-bounds read or use-after-free on a page-table
->> page
->>>> freed via tlb_remove_table_rcu().
->>>>
->>>> To fix this, check if xas->xa_offset matches get_offset(xas->xa_index,
->>>> xas->xa_node). If it does not and the node is a non-leaf node, set
->>>> xas->xa_offset to get_offset(xas->xa_index, xas->xa_node) before
->> advancing.
->>>> Also add test cases in test_xarray to verify xas_find() behavior when
->>>> iterating over and splitting multi-index entries.
->>> Thanks.  But the changelog omits vital information: a description of
->>> the userspace-visible runtime effects of the bug.
->>>
->>>> Fixes: b803b42823d0 ("xarray: Add XArray iterators")
->>>> Assisted-by: Gemini:gemini-3.7-flash syzbot
->>>> Reported-by: syzbot+b72767277f29b6407083@syzkaller.appspotmail.com
->>>> Closes: https://syzkaller.appspot.com/bug?extid=b72767277f29b6407083
->>> I see from there that it was a use-after-free, detected by KASAN.  I'll
->>> update the changelog and I'll add cc:stable.
->>>
->>> I'll queue the patch for testing while awaiting review input.
->> The testing shows there are issues with this patch:
->>
->>
->> https://github.com/linux-mm/linux-mm/actions/runs/33815757662/job/100847425973
->>
->> And since it's in mm-unstable now it breaks all CI jobs :(
->>
->>>> Link:
->> https://syzkaller.appspot.com/ai_job?id=a01c56bd-74d0-411c-afb4-ee6f0cb6cb61
->>>
->> --
->> Sincerely yours,
->> Mike.
->>
+On Wed 2026-09-02 15:47:57, Jinjie Ruan wrote:
+> Hi,
+> 
+> This series converts some existing smp_wmb()/smp_rmb() barrier pairs to
+> smp_store_release()/smp_load_acquire() across various subsystems.
+> 
+> Background
+> ==========
+> 
+> Many architectures support load acquire and store release instructions
+> which can replace explicit memory barriers and save cycles. As noted
+> in the ARM architecture reference [1]:
+> 
+>   "Weaker ordering requirements that are imposed by Load-Acquire and
+>    Store-Release instructions allow for micro-architectural
+>    optimizations, which could reduce some of the performance impacts
+>    that are otherwise imposed by an explicit memory barrier.
+> 
+>    If the ordering requirement is satisfied using either a Load-Acquire
+>    or Store-Release, then it would be preferable to use these
+>    instructions instead of a DMB."
+> 
+> On arm64, a typical seqcount [2] read loop requires 13 cycles with DMB
+> barriers. Replacing the read barrier with smp_load_acquire() reduces
+> this to 8 cycles on an Ampere Altra.
+
+I wonder if this is true on all other architectures:
+
+  + It seems that Arm gets the gain because the instruction
+    does both load/store + barrier. It helps even when
+    the barrier is full.
+
+  + Some other architectures need two instructions. One for the
+    load/store and the other for the barrier. But the barrier
+    is weaker, it synchronizes just reads or just writes.
+
+For example, I see the following in riscv/include/asm/barrier.h:
+
+<paste riscv/include/asm/barrier.h>
+#define smp_mb()	RISCV_FENCE(rw, rw)
+#define smp_rmb()	RISCV_FENCE(r, r)
+#define smp_wmb()	RISCV_FENCE(w, w)
+
+#define smp_store_release(p, v)						\
+do {									\
+	RISCV_FENCE(rw, w);						\
+	WRITE_ONCE(*p, v);						\
+} while (0)
+
+#define smp_load_acquire(p)						\
+({									\
+	typeof(*p) ___p1 = READ_ONCE(*p);				\
+	RISCV_FENCE(r, rw);						\
+	___p1;								\
+})
+</paste riscv/include/asm/barrier.h>
+
+I wonder whether:
+
+  + RISCV_FENCE(r, r) is faster than RISCV_FENCE(r, rw)
+  + RISCV_FENCE(w, w) is faster than RISCV_FENCE(rw, w)
+
+so it might cause performance regression there...
+
+Best Regards,
+Petr
+
+> We also observed significant barrier overhead while profiling Unxibench
+> syscall test on arm64: a single getuid() call is ~8ns slower than on
+> a comparable x86 system, with the dominant cost in map_id_up()'s smp_rmb(),
+> which is a DMB ISHLD on arm64. Converting it to smp_load_acquire() allows
+> the use of LDAR, eliminating the measurable overhead.
+> 
+> This motivated a broader search for existing barrier pairs that can
+> be converted to the lighter acquire/release semantics.
+> 
+> Changes
+> =======
+> 
+> Each patch in this series targets a specific barrier pair where the
+> publish/subscribe pattern is already present:
+> 
+> - Writers populate data, then publish a flag/count/pointer via
+>   smp_store_release()
+> 
+> - Readers load the flag/count/pointer via smp_load_acquire(), then
+>   consume the data
+> 
+> This preserves the existing memory ordering guarantees while allowing
+> architectures with native acquire/release instructions (e.g. arm64's
+> STLR/LDAR) to avoid the cost of full one-way barriers (DMB ISHST/ISHLD).
+> On architectures without native support, the generated code is
+> generally no worse than the explicit barrier pair.
+> 
+> The conversions are mechanical and no functional change is intended.
+> 
+> Testing (Kunpeng HIP09 arm64 server)
+> ====================================
+> 
+> 1. UNIXBENCH syscall
+> 	Baseline: 715.27
+> 	Patched:  718.83
+> 	Improvement: +0.50%
+> 
+> 2. fs/aio (fio + null_blk, 4 jobs):
+> 	Baseline: 1441k IOPS, 86.46us
+> 	Patched:  1452k IOPS, 85.80us
+> 	Improvement: ~0.8%
+> 
+> Both improvements are consistent across runs and align with the
+> expected savings from replacing DMB with LDAR/STLR on arm64.
+> 
+> [1]: https://support.arm.com/documentation/102336/0100/Load-Acquire-and-Store-Release-instructions
+> [2]: https://github.com/torvalds/linux/commit/d0dd066a0fa26d55c19ace9e89dedd9504c5bcba
+> 
+> Changes in v3:
+> - Add Reviewed-by.
+> - Split out network patch set as Kuniyuki suggested.
+> - Link to v2: https://lore.kernel.org/all/20260901024234.135119-1-ruanjinjie@huawei.com/
+> 
+> Changes in v2:
+> - Fix pre-existing issue for ext4 and 8021q [3].
+> - Fix missing copy_mnt_idmap() udapte [3].
+> - Drop nacked isotp patch.
+> - Add test data.
+> - Add Reviewed-by and update fs patch as Jan suggested.
+> 
+> [3]: https://sashiko.dev/#/patchset/20260825095422.3166067-1-ruanjinjie%40huawei.com
+> 
+> Jinjie Ruan (8):
+>   user_namespace: Use acquire/release for nr_extents synchronization
+>   lib/vsprintf: Use acquire/release for ptr_key publication
+>   fs: aio: Use acquire/release for ring->tail publication
+>   fs: Use acquire/release for fdtable resize synchronization
+>   pidfs: Use test_bit_acquire() for attr flag tests
+>   super: Use acquire for SB_BORN check in super_cache_count()
+>   ext4: Fix out-of-bounds read in ext4_get_group_info()
+>   ext4: Convert group-count barrier protocol to acquire/release
+> 
+>  fs/aio.c                | 10 ++++------
+>  fs/ext4/balloc.c        |  2 +-
+>  fs/ext4/ext4.h          | 10 +++-------
+>  fs/ext4/mballoc.c       |  6 ++----
+>  fs/ext4/resize.c        | 19 +++++++++++--------
+>  fs/file.c               | 10 ++++------
+>  fs/mnt_idmapping.c      |  5 ++---
+>  fs/pidfs.c              |  6 ++----
+>  fs/super.c              |  6 ++----
+>  kernel/user_namespace.c | 24 +++++++++++++-----------
+>  lib/vsprintf.c          | 11 ++++-------
+>  11 files changed, 48 insertions(+), 61 deletions(-)
+> 
+> -- 
+> 2.34.1
