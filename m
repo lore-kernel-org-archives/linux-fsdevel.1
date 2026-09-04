@@ -1,145 +1,73 @@
-Received: from mta0.migadu.com (out-147.mta0.migadu.com [91.218.175.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F643F44E9
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 15:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465023D9DA8;
+	Fri,  4 Sep 2026 15:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788535701; cv=none; b=iom2iIBhQZXOD/kxYeqVXxakxrzl4mp80IyxOqhxAd5cibpVaozb4OSdzz0sxzmSdajMv20STjBRS0goekKw0L/bs7Ev58NkpYAwPs2aX2QQK5KquDt4YYAenHXYkHGmQpTVqKuMXNsd2+tupWqIqNrtExrIaoRUvo3tIK+SkJg=
+	t=1788536317; cv=none; b=fC/6vy3PnyCSnJHvWjoZkw0unkl7tQdEgxRqMKEQTW6NmOmjV0Jwgzto9JWHgqHm4jnQ/5XwijBHxkUfHxmH2LlvQagSztd1RvZWi+w7V55apWHCUgBmaVutMlpg+MqzHiuPM8dfpERGetG2oF/CVHE71Wyh9+Q8y6ChWHRnN0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788535701; c=relaxed/simple;
-	bh=svWZ9zpx2LBS4ke8ImROCzfa4vg56SD715HVVMsnjko=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=npUlhKKu2xlZlCsp6Ugkm1k5x9Ezhz8gsEIaCW5jnG3n19rEs32gxX06jJ3tTxmq1Nkjzc1nGbkceXFKjypu4pTDHDQko30SutGIWFQBtte1k0zx9DvyYPFBTthfihHsUU7IA1Y+iUsc404bvj/jagRcYLR6Xsec45+rPQbVEAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=reiFS/PK; arc=none smtp.client-ip=91.218.175.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788536317; c=relaxed/simple;
+	bh=MFGNhoPZSSYrfPl7DxsK1rpVv/eJY/GjY/qKmZtxztw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HG1VmI65Nz+kUdJeEtpKeIXBYnqq1ZpCQTmmyaNLIyAhpCArmg+SYLrd/KI+Afd0kDjac3CLf0piBXPtPcMq5/8OuW8aothbOBbpip0x/so9t0H8Jih/ALEBgr0qoXxsLJh7L2Ru4UKIcmxIjrfAHSShpTvhTt2AwTu5/39dgOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=osHikE9d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="reiFS/PK"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=svWZ9zpx2LBS4ke8ImROCzfa4vg56SD715HVVMsnjko=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788535697; v=1; x=1789140497;
- b=reiFS/PKJLtEa8BcNqbi6xLO+tw1KajZgWqMk3wF90MaehHg81e7tQ/dfWbo7M31s21/Gy9I
- vPsS3j/HJQXlBctYC+tYZqkZidKrS7qBYBjS72cDmWiBwXuFTpCbdF2n3S22MyCcRLxb5pjK00n
- V+s8JtyyEydeMPK5HhCv8hIA=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 30bf5abb2794981b;
-	Fri, 04 Sep 2026 15:28:17 +0000
-X-Mizu-Trace-ID: 30bf5abb2794981b
-X-Migadu-Flow: FLOW_OUT
-From: Kaitao Cheng <kaitao.cheng@linux.dev>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Dan Williams <djbw@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: Muchun Song <muchun.song@linux.dev>,
-	linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kaitao Cheng <chengkaitao@kylinos.cn>
-Subject: [PATCH 2/2] fs/dax: Make dax_layout_busy_page_range() static
-Date: Fri,  4 Sep 2026 23:27:49 +0800
-Message-ID: <20260904152749.84493-3-kaitao.cheng@linux.dev>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260904152749.84493-1-kaitao.cheng@linux.dev>
-References: <20260904152749.84493-1-kaitao.cheng@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="osHikE9d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BBF91F00A3D;
+	Fri,  4 Sep 2026 15:38:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788536315;
+	bh=E6gCTHbN1a2TvbVEkb78KjRMvftQouYezcH7gqQv2vI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=osHikE9duZi0l2YZ/2IvPD/u47R7h8kU2MsV+q5Q+suYvHi0rJZl2rqeg9okLAIyZ
+	 21fXlhcZnkG+vu+TJnZDcdeRcFl34b35fM6E7ZklgtwZCQABaUABLV03g2VwQ/Glq7
+	 Dh49natl6oqJk1BzWQTqoDKX8mQuhVo3ZfyLsOzEJcSVKlGkdoTDjR10o/E8tU/6Ap
+	 eHADj4ECChbSKjqxyR6A2iB9yQQXro+tgNsB111dA8qUGjY8w8VDrxQkR8lj4mr1QU
+	 h2e/34GCUxD1YHIr0G0TreTMBZFivSCLtiFIRwzm8jz+Q1GrW097acTUiTMPRSx2NE
+	 jHhMZQCWInoXg==
+Date: Fri, 4 Sep 2026 08:38:34 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Kuniyuki Iwashima <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Willem de Bruijn <willemb@google.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, Alexander Mikhalitsyn
+ <alexander@mihalicyn.com>
+Subject: Re: [PATCH 05/10] net: turn sk_peer_pid into an array indexed by
+ pid type
+Message-ID: <20260904083834.5c31e8f1@kernel.org>
+In-Reply-To: <20260904-eintagsfliege-goldpreis-gebinde-8e5b7c9fa9b7@brauner>
+References: <20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org>
+	<20260831-work-unix-passpidfd-v1-5-70cbfda0c7ba@kernel.org>
+	<20260901172014.71a2863c@kernel.org>
+	<20260904-eintagsfliege-goldpreis-gebinde-8e5b7c9fa9b7@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Kaitao Cheng <chengkaitao@kylinos.cn>
+On Fri, 04 Sep 2026 11:03:24 +0200 Christian Brauner wrote:
+> > Warning: include/net/sock.h:606 struct member 'PIDTYPE_TGID' not described in 'sock'
+> > Warning: include/net/sock.h:606 Excess struct member 'sk_peer_pid' description in 'sock' (did you mean one of: '#define sk_portpair             __sk_common.skc_portpair', 'sk_peer_cred', 'sk_peer_lock', 'sk_peek_off')
+> > 
+> > 
+> > include/trace/events/landlock.h:946:13: error: incompatible pointer types assigning to 'struct pid *' from 'struct pid *const volatile *' [-Wincompatible-pointer-types]
+> > 
+> > 
+> > What's the merging path for these? Judging by the To: perhaps you
+> > expect us to take these directly?  
+> 
+> If you have no quarrels with me taking it through the vfs tree it would
+> help because I have other work on top of this. Otherwise a shared branch
+> also works.
 
-dax_layout_busy_page_range() no longer has callers outside fs/dax.c.
-Keeping the range helper exported unnecessarily exposes a low-level
-implementation detail.
-
-Make the helper static and remove its export and header definitions.
-
-Also fix the stale dax_layout_busy_page_range() comment to match the
-implementation.
-
-Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
----
- fs/dax.c            | 18 ++++++++----------
- include/linux/dax.h |  6 ------
- 2 files changed, 8 insertions(+), 16 deletions(-)
-
-diff --git a/fs/dax.c b/fs/dax.c
-index 1e19e4a354ce..c6ad9533aa54 100644
---- a/fs/dax.c
-+++ b/fs/dax.c
-@@ -770,24 +770,23 @@ static void *grab_mapping_entry(struct xa_state *xas,
- 
- /**
-  * dax_layout_busy_page_range - find first pinned page in @mapping
-- * @mapping: address space to scan for a page with ref count > 1
-+ * @mapping: address space to scan for a pinned page
-  * @start: Starting offset. Page containing 'start' is included.
-  * @end: End offset. Page containing 'end' is included. If 'end' is LLONG_MAX,
-  *       pages from 'start' till the end of file are included.
-  *
-- * DAX requires ZONE_DEVICE mapped pages. These pages are never
-- * 'onlined' to the page allocator so they are considered idle when
-- * page->count == 1. A filesystem uses this interface to determine if
-- * any page in the mapping is busy, i.e. for DMA, or other
-- * get_user_pages() usages.
-+ * DAX requires ZONE_DEVICE mapped pages. A page is considered busy when
-+ * folio_ref_count(folio) exceeds folio_mapcount(folio). This helper is
-+ * used to determine if any page in the mapping is busy, i.e. for DMA,
-+ * or other get_user_pages() usages.
-  *
-  * It is expected that the filesystem is holding locks to block the
-  * establishment of new mappings in this address_space. I.e. it expects
-- * to be able to run unmap_mapping_range() and subsequently not race
-+ * to be able to run unmap_mapping_pages() and subsequently not race
-  * mapping_mapped() becoming true.
-  */
--struct page *dax_layout_busy_page_range(struct address_space *mapping,
--					loff_t start, loff_t end)
-+static struct page *dax_layout_busy_page_range(struct address_space *mapping,
-+					       loff_t start, loff_t end)
- {
- 	void *entry;
- 	unsigned int scanned = 0;
-@@ -839,7 +838,6 @@ struct page *dax_layout_busy_page_range(struct address_space *mapping,
- 	xas_unlock_irq(&xas);
- 	return page;
- }
--EXPORT_SYMBOL_GPL(dax_layout_busy_page_range);
- 
- static int __dax_invalidate_entry(struct address_space *mapping,
- 				  pgoff_t index, bool trunc)
-diff --git a/include/linux/dax.h b/include/linux/dax.h
-index 05e59e45a1c2..f2d47975d905 100644
---- a/include/linux/dax.h
-+++ b/include/linux/dax.h
-@@ -155,7 +155,6 @@ int dax_writeback_mapping_range(struct address_space *mapping,
- 		struct dax_device *dax_dev, struct writeback_control *wbc);
- int dax_folio_reset_order(struct folio *folio);
- 
--struct page *dax_layout_busy_page_range(struct address_space *mapping, loff_t start, loff_t end);
- dax_entry_t dax_lock_folio(struct folio *folio);
- void dax_unlock_folio(struct folio *folio, dax_entry_t cookie);
- dax_entry_t dax_lock_mapping_entry(struct address_space *mapping,
-@@ -172,11 +171,6 @@ static inline int fs_dax_get(struct dax_device *dax_dev, void *holder,
- {
- 	return -EOPNOTSUPP;
- }
--static inline struct page *dax_layout_busy_page_range(struct address_space *mapping, pgoff_t start, pgoff_t nr_pages)
--{
--	return NULL;
--}
--
- static inline int dax_writeback_mapping_range(struct address_space *mapping,
- 		struct dax_device *dax_dev, struct writeback_control *wbc)
- {
--- 
-2.50.1 (Apple Git-155)
-
+Shared branch, please. It's too much code to be sitting in another tree
+for the full development cycle
