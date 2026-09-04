@@ -1,111 +1,139 @@
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEA02192F9;
-	Fri,  4 Sep 2026 01:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A275726159E
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 01:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788483953; cv=none; b=Zyyq2nx+N4VeK8LcOEla2uEGaoFFsk87e8eUDCa9k7ol/LrI1rdL0QRk0UlBWyrMgTHJ425uzVab0b3H03cUwjfmAQV6kug3BFb4AYSdM69im8Wl/I9FtrUDNYUCyQqajXRcUPjMlzVXbOw98HesBoZx3l9Zod3nKMK4BcFUIS0=
+	t=1788486441; cv=none; b=S9sewsXsh7pe/CnfvGTjtRPDrh7Rc2fycqA5mG6H9lFDIesaVTeqwxXZB15fE3pJ1HUafYhxm71TFVRfwnlz5GgKPz7CA7VCN59u3J41E5KH/7jRHd8glhaAHCQmr6w1FCtMVksHmqjDjB7SgAY62+FskwbsaDHLYAFgQtTVhIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788483953; c=relaxed/simple;
-	bh=pXJxK3+dwpX0ZuLCucXJEaT/CLa6AThnH/lmQa4I3lI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=K6sqXm79kIHXQrJpNr6wZhjLfmDp3COgDSGbEn5dz3ORV2RkqwoXNS02YpBebtlW79rwRQI4JM1B/b542lQ8/bltMYhzhy+gaSzv6xpGybQYLSpI+7QnnOYbfMiSf4WXw3eDZqKgIFHpWndfg4OkpOJhx5hXPgSeMnuoHDZ5pgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=c1r7eiZl; arc=none smtp.client-ip=113.46.200.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1788486441; c=relaxed/simple;
+	bh=N/3C5zaEOAKyN2Oiv7/u5NzJv6efo77Cl49KeZ2r/OQ=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=DFRTfVu3ObPblDwqWZsn/70s3RzC2b4BCwaxvefA8Ig1Udm0FK2SpwQz/t6z3xuNeEQYSaZDJ0xLOONceZHLbwDdwzjn4rKNl3m7rKhlkOZ16cKUzLRTgJF8sKwssf7ENX4a/2VkluexhuOWNg0Xn6IXoZBbn+UPjOsobve8kU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=mSeQcdvX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p5FSwo3B; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="c1r7eiZl"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=R44xkW68vjRLhEKdA9HxJ22eV9oyvArt4A8C0/wQSo8=;
-	b=c1r7eiZldp5+In5FW8BEUxdtlU5u/WVo+hSCJWw91lCBymS2tcgwWI/JzJA041tHKqqz4v/Nl
-	hXo7ErQV6AgoBMx7gU1AaEoW5lxF3r8HvNXZJwWBGTpxd9MgOyQkHUYa6XLn1XNdCt00vy8B1Ug
-	A1o7hU9teks1R0J1f8bUgiU=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4hbdKQ3qwkz1prLc;
-	Fri,  4 Sep 2026 08:54:50 +0800 (CST)
-Received: from kwepemo500018.china.huawei.com (unknown [7.202.195.199])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3A59E40579;
-	Fri,  4 Sep 2026 09:05:43 +0800 (CST)
-Received: from [10.174.176.101] (10.174.176.101) by
- kwepemo500018.china.huawei.com (7.202.195.199) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Fri, 4 Sep 2026 09:05:39 +0800
-Message-ID: <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
-Date: Fri, 4 Sep 2026 09:05:39 +0800
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="mSeQcdvX";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p5FSwo3B"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DE54B14000CB;
+	Thu,  3 Sep 2026 21:47:18 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Thu, 03 Sep 2026 21:47:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1788486438; x=1788572838; bh=UUVR6YN+g0CF9YVa5PuHspdZOQPG+DNL4LW
+	0gYEl7Xs=; b=mSeQcdvXXKlRn3ye7tz7W14X1ZSabB0VznZndXvygs6ZDZHaYKO
+	SCXRyMwMMoCn5EtqB5KdHeqDy4/e0GuGH1kXyFfoYOE0JrDsjRFUtk5Cb8ftnsdJ
+	bALi5z4MMAf78iqWAQ4lBXut7MBzpCls/BKLgTptfToW12uxI75be7B+mxQpHctw
+	RL8M2BRWshFdYSlsiZuZKmC+RV+H8Epm6ExlTkb2tfbqUqWaQw0Vo9Z5jIe48Ydp
+	gGmMbSP2AdQ4VnxtFIaDdPtHd22I3XgMd8aWbVXwwVZ7i81m2tzdZeiWFuZ2vKlM
+	8XHnUT3nxgfiO5Q6whXWISFtBnl5SGuAarA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788486438; x=
+	1788572838; bh=UUVR6YN+g0CF9YVa5PuHspdZOQPG+DNL4LW0gYEl7Xs=; b=p
+	5FSwo3Bd3MHxkUZO85FKhDns5kVHEQ11zQEdpD8UAWOm/d4RV5wru0sBSRJyCRZT
+	q4t1AdSs5Sfy5XQQse9737Usg4IAWSWNw8v9qWnyNLcGcke/lnuJZHS02s8HgLnS
+	c2DVhDHX6ZIWY4TY5OE1j9EKv0pGbIPcy6QBpjgVa5jKRuq0WSKdzMUuetHIGmAL
+	aCrDcwGvZswN4tgCwcuQFXt/4pg+xio62ffkC2rScX0AEKS1uA/TMXFuRjgeZxRr
+	BCpY+zs1BZoxGb1r+muRuuLhtwmNFAiqySNCzWurOAV3FGQekGSf7pJCGIO0HN5z
+	dtuHBfhsWsD1uUVZTtFfA==
+X-ME-Sender: <xms:JSOaaowiJY1BlO0QN9oyOuHh5EdjQEYjWaUPtm2kCBxlHmq2IUeieg>
+    <xme:JSOaamXdNgkfBXRFulR84vjOYCpWPhCFdGh1XZyJeP7mTIkirD0Ec8eyX_d1qJcNO
+    lZLAz4aCupxIVV05ujDmqPghuKihpnAVskwkhWe8rjnGvcZ>
+X-ME-Received: <xmr:JSOaaqNdO1oQZTN7V-4RLCpCG2R3I7b1kNoMMDpWJJsTceYBgdL-4UDmBzMz27PRzP6ijlH_I6KkqvWr6ZurKJliuB-wlwc>
+X-ME-Proxy-Cause: dmFkZTF0tiZ1M4gAamiEcNYAu6it1Rm1iMqup9+Ok+4+RHZhmKB5Iaz3KjSvu+0n30ykPF
+    RT2tm0xdanjcuyuXcyZc2CYOOYzEDFhOQIApQmNtHkeEY0GuC5x8ZwAyXNzlyYCxKrxxuH
+    ieEcCrRcyPHLDGf9WWpIxSqTUyhe8SAPfCEh6tqwd8t/UDzOg1XBR3r3/gS85jOEDvoAtd
+    YOTEi/22rjbujxyDxIgg+SJmX61Y86Bp/T1DRX/yYq0sLi0B/zUDh+AnHPSVVLXqzBVvrU
+    g1UNGPVxppAB5BUk6czuQIERWuAQXRJcWnOPBH9NO/9FWSFrwHhtJku9KHuJ4ItpNamzJ4
+    K6+4oTVRWj9P0bgX3DMWhRlJhTNa3zWbUmcRPdzMlapfIi/SlX0YzSEne0hV4dC2ewQkxD
+    8oIKJyk1CHlwyM9QM29Dik7mTDEpgndclBSzhFL6YDfnZadsCNRMz38Jdloa4ufMNnkBtl
+    5Du4oHvuR+rN/gaUwYWJUWQjXcCIUhrsl2IODnQWSolup8Y01NIOhl+m6JZzptTkwBsY+q
+    UH6+bcLcWWGEbcVoKDtZ8Iw65cHNsGu02LXLJaH9uNaILX5Y/KhArKUE8xWHkwC/QSCAhD
+    SU7RcIY9llWyyPtlnHieDZhqhBTgpHWyRw+/I+UKNDJmpasjy6n0YPMdzo5w
+X-ME-Proxy: <xmx:JSOaaoBLFPzilkiRXCVrOuY4zpC_gkOtl9jrY3Yu_fvz2XX6Ah5BBg>
+    <xmx:JSOaanfjBb62ZmLqp7oDI3GTpepA0xFa_uL277VsFsc8-7gdXgx3Ug>
+    <xmx:JSOaanPhe4uDOhOl2y4a2vyk72ilFzUeVqXXBhRsYMBpgGU1YhcDmQ>
+    <xmx:JSOaanLejmjeDhQ88hE48hqr10tjMquIUb63vqUmi0xkjyg3DejxNQ>
+    <xmx:JiOaahEONDbbp_gJizIcHZgpASk9tBU2R7Pmirpwj-JcBNeVI7f5rddN>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Sep 2026 21:47:15 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Qiqi Li <liqiqi23@huawei.com>
-Subject: Re: [PATCH v5 25/36] mm/memory_hotplug: support N_MEMORY_PRIVATE node
- hotplug
-To: Gregory Price <gourry@gourry.net>
-CC: <linux-mm@kvack.org>, <Zhigang.Luo@amd.com>, <arun.george@samsung.com>,
-	<balbirs@nvidia.com>, <brendan.jackman@linux.dev>, <yuzenghui@huawei.com>,
-	<apopple@nvidia.com>, <alucerop@amd.com>, <matthew.brost@intel.com>,
-	<akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>,
-	<liam@infradead.org>, <vbabka@kernel.org>, <rppt@kernel.org>,
-	<surenb@google.com>, <mhocko@suse.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <gregkh@linuxfoundation.org>,
-	<rafael@kernel.org>, <dakr@kernel.org>, <djbw@kernel.org>,
-	<vishal.l.verma@intel.com>, <dave.jiang@intel.com>,
-	<alison.schofield@intel.com>, <osandov@osandov.com>, <jannh@google.com>,
-	<pfalcato@suse.de>, <jackmanb@google.com>, <hannes@cmpxchg.org>,
-	<ziy@nvidia.com>, <pbonzini@redhat.com>, <osalvador@suse.de>,
-	<joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>, <byungchul@sk.com>,
-	<ying.huang@linux.alibaba.com>, <kasong@tencent.com>, <qi.zheng@linux.dev>,
-	<shakeel.butt@linux.dev>, <baohua@kernel.org>, <axelrasmussen@google.com>,
-	<yuanchu@google.com>, <weixugc@google.com>, <yury.norov@gmail.com>,
-	<linux@rasmusvillemoes.dk>, <longman@redhat.com>, <ridong.chen@linux.dev>,
-	<tj@kernel.org>, <mkoutny@suse.com>, <sj@kernel.org>, <jgg@ziepe.ca>,
-	<jhubbard@nvidia.com>, <peterx@redhat.com>, <baolin.wang@linux.alibaba.com>,
-	<npache@redhat.com>, <ryan.roberts@arm.com>, <dev.jain@arm.com>,
-	<lance.yang@linux.dev>, <usama.arif@linux.dev>, <xu.xin16@zte.com.cn>,
-	<chengming.zhou@linux.dev>, <roman.gushchin@linux.dev>,
-	<muchun.song@linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <driver-core@lists.linux.dev>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-debuggers@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<kvm@vger.kernel.org>, <cgroups@vger.kernel.org>, <damon@lists.linux.dev>,
-	<linux-kselftest@vger.kernel.org>, <kernel-team@meta.com>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-26-gourry@gourry.net>
- <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
- <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
-In-Reply-To: <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemo500018.china.huawei.com (7.202.195.199)
+From: NeilBrown <neilb@ownmail.net>
+To: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>
+Cc: "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+ "Jeff Layton" <jlayton@kernel.org>, "Amir Goldstein" <amir73il@gmail.com>,
+ "Miklos Szeredi" <miklos@szeredi.hu>
+Subject: [PATCH v3 7/6] VFS: reserve a d_flags bit for fs-specific usage
+In-reply-to: <20260903032431.142777-1-neilb@ownmail.net>
+References: <20260903032431.142777-1-neilb@ownmail.net>
+Date: Fri, 04 Sep 2026 11:47:11 +1000
+Message-id: <178848643139.207413.1358009499219351091@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On 8/17/2026 8:49 AM, Gregory Price wrote:
-> It would need to be reserved, and you could use numa emulation but
-> that's clunky.  I have an RFC for exactly this issue - though i haven't
-> pushed it further yet.
-> 
-> https://lore.kernel.org/all/20260610014517.253609-1-gourry@gourry.net/
 
-Hi Gregory,
+From: NeilBrown <neil@brown.name>
 
-Sorry for the late reply.
+DCACHE_PRIVATE may be used by any filesystem for its own purposes, much
+like d_fsdata and d_time.
+I plan to use this in a similar manner the way nfs stores
+NFS_FSDATA_BLOCKED in d_fsdata.
 
-I took a look at the exclusive-node RFC. The approach looks useful for
-device-backed private memory without a firmware-described NUMA node.
-Thanks for the pointer.
+Signed-off-by: NeilBrown <neil@brown.name>
+---
+ include/linux/dcache.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-We are currently looking into the private-node and CRAM design as a
-whole. I noticed that CRAM was not included with the v5 series, and saw
-that others were also interested in a v5 version.
+Sorry for the late addition but I'd like to include this patch in this
+prep series.  I have patches which add NFS_FSDATA_BLOCKED-like
+functionality to afs and smb/client.  Having this bit available will
+make those patches a bit cleaner.
 
-If you already have a CRAM branch or patches based on v5, even if they
-are still work in progress, would you mind sharing them? It would be
-very helpful for us to continue testing the overall design.
+Eventually I'd like to build on this to move d_time and d_fsdata into a
+union as no fs needs both (only NFS uses both at present) and to include
+a u64 d_version in the union which will be better than d_time on 32-bit
+archs for at least afs and nfs.  This would make struct dentry 8 bytes
+smaller on 64bit.
 
 Thanks,
-Qiqi
+NeilBrown
+
+
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index e7e3ef05313b..adf239f8205f 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -238,7 +238,9 @@ enum dentry_flags {
+ 	DCACHE_PAR_LOOKUP		=3D BIT(24),	/* being looked up (with parent locked shar=
+ed) */
+ 	DCACHE_DENTRY_CURSOR		=3D BIT(25),
+ 	DCACHE_NORCU			=3D BIT(26),	/* No RCU delay for freeing */
+-	DCACHE_PERSISTENT		=3D BIT(27)
++	DCACHE_PERSISTENT		=3D BIT(27),
++/* 28, 29, 30 free */
++	DCACHE_PRIVATE			=3D BIT(31)	/* fs-specific flag */
+ };
+=20
+ #define DCACHE_MANAGED_DENTRY \
+
+--=20
+2.50.0.107.gf914562f5916.dirty
+
