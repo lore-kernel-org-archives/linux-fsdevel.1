@@ -1,139 +1,152 @@
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A275726159E
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 01:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7453B27F9
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 03:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788486441; cv=none; b=S9sewsXsh7pe/CnfvGTjtRPDrh7Rc2fycqA5mG6H9lFDIesaVTeqwxXZB15fE3pJ1HUafYhxm71TFVRfwnlz5GgKPz7CA7VCN59u3J41E5KH/7jRHd8glhaAHCQmr6w1FCtMVksHmqjDjB7SgAY62+FskwbsaDHLYAFgQtTVhIw=
+	t=1788491891; cv=none; b=hcdMkVnu5f+2yq/HClzgIPkqNKHdr36gL3brIQ7m3EVzpUdCYn5+sFDVXejfsj90ivxKim4V4ORbTxleIlP7ZTqtc0CG9t6Y1kKpYYeYNcPp49DUojVkWq2BLLkQXvol2Lz0WzJHcU0GHMIECrLGmnSoqwDVG+V/zC8kweoli7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788486441; c=relaxed/simple;
-	bh=N/3C5zaEOAKyN2Oiv7/u5NzJv6efo77Cl49KeZ2r/OQ=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=DFRTfVu3ObPblDwqWZsn/70s3RzC2b4BCwaxvefA8Ig1Udm0FK2SpwQz/t6z3xuNeEQYSaZDJ0xLOONceZHLbwDdwzjn4rKNl3m7rKhlkOZ16cKUzLRTgJF8sKwssf7ENX4a/2VkluexhuOWNg0Xn6IXoZBbn+UPjOsobve8kU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=mSeQcdvX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p5FSwo3B; arc=none smtp.client-ip=103.168.172.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1788491891; c=relaxed/simple;
+	bh=AIU6NGTW/RpZfTt6y2cuypcAmkoFDaCDqNNZTCJi0Bc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NxSNw9dx7k+NrW5r/p8EYarm+82yUx2hEhZMX/ZMBuFICVnY/FCIb50XO6qg3uOtWAx0Z3/xhiP5bR21hv+Y52PiSGgzSI5+JSB24SQjkfTHrVJtAOZoK3oIlpde4nRDBqqAgVHhcFWYAFUMFuUDEL1eQYnEGseFpKrBwD2KYMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XXnf1qrk; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="mSeQcdvX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p5FSwo3B"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id DE54B14000CB;
-	Thu,  3 Sep 2026 21:47:18 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Thu, 03 Sep 2026 21:47:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1788486438; x=1788572838; bh=UUVR6YN+g0CF9YVa5PuHspdZOQPG+DNL4LW
-	0gYEl7Xs=; b=mSeQcdvXXKlRn3ye7tz7W14X1ZSabB0VznZndXvygs6ZDZHaYKO
-	SCXRyMwMMoCn5EtqB5KdHeqDy4/e0GuGH1kXyFfoYOE0JrDsjRFUtk5Cb8ftnsdJ
-	bALi5z4MMAf78iqWAQ4lBXut7MBzpCls/BKLgTptfToW12uxI75be7B+mxQpHctw
-	RL8M2BRWshFdYSlsiZuZKmC+RV+H8Epm6ExlTkb2tfbqUqWaQw0Vo9Z5jIe48Ydp
-	gGmMbSP2AdQ4VnxtFIaDdPtHd22I3XgMd8aWbVXwwVZ7i81m2tzdZeiWFuZ2vKlM
-	8XHnUT3nxgfiO5Q6whXWISFtBnl5SGuAarA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788486438; x=
-	1788572838; bh=UUVR6YN+g0CF9YVa5PuHspdZOQPG+DNL4LW0gYEl7Xs=; b=p
-	5FSwo3Bd3MHxkUZO85FKhDns5kVHEQ11zQEdpD8UAWOm/d4RV5wru0sBSRJyCRZT
-	q4t1AdSs5Sfy5XQQse9737Usg4IAWSWNw8v9qWnyNLcGcke/lnuJZHS02s8HgLnS
-	c2DVhDHX6ZIWY4TY5OE1j9EKv0pGbIPcy6QBpjgVa5jKRuq0WSKdzMUuetHIGmAL
-	aCrDcwGvZswN4tgCwcuQFXt/4pg+xio62ffkC2rScX0AEKS1uA/TMXFuRjgeZxRr
-	BCpY+zs1BZoxGb1r+muRuuLhtwmNFAiqySNCzWurOAV3FGQekGSf7pJCGIO0HN5z
-	dtuHBfhsWsD1uUVZTtFfA==
-X-ME-Sender: <xms:JSOaaowiJY1BlO0QN9oyOuHh5EdjQEYjWaUPtm2kCBxlHmq2IUeieg>
-    <xme:JSOaamXdNgkfBXRFulR84vjOYCpWPhCFdGh1XZyJeP7mTIkirD0Ec8eyX_d1qJcNO
-    lZLAz4aCupxIVV05ujDmqPghuKihpnAVskwkhWe8rjnGvcZ>
-X-ME-Received: <xmr:JSOaaqNdO1oQZTN7V-4RLCpCG2R3I7b1kNoMMDpWJJsTceYBgdL-4UDmBzMz27PRzP6ijlH_I6KkqvWr6ZurKJliuB-wlwc>
-X-ME-Proxy-Cause: dmFkZTF0tiZ1M4gAamiEcNYAu6it1Rm1iMqup9+Ok+4+RHZhmKB5Iaz3KjSvu+0n30ykPF
-    RT2tm0xdanjcuyuXcyZc2CYOOYzEDFhOQIApQmNtHkeEY0GuC5x8ZwAyXNzlyYCxKrxxuH
-    ieEcCrRcyPHLDGf9WWpIxSqTUyhe8SAPfCEh6tqwd8t/UDzOg1XBR3r3/gS85jOEDvoAtd
-    YOTEi/22rjbujxyDxIgg+SJmX61Y86Bp/T1DRX/yYq0sLi0B/zUDh+AnHPSVVLXqzBVvrU
-    g1UNGPVxppAB5BUk6czuQIERWuAQXRJcWnOPBH9NO/9FWSFrwHhtJku9KHuJ4ItpNamzJ4
-    K6+4oTVRWj9P0bgX3DMWhRlJhTNa3zWbUmcRPdzMlapfIi/SlX0YzSEne0hV4dC2ewQkxD
-    8oIKJyk1CHlwyM9QM29Dik7mTDEpgndclBSzhFL6YDfnZadsCNRMz38Jdloa4ufMNnkBtl
-    5Du4oHvuR+rN/gaUwYWJUWQjXcCIUhrsl2IODnQWSolup8Y01NIOhl+m6JZzptTkwBsY+q
-    UH6+bcLcWWGEbcVoKDtZ8Iw65cHNsGu02LXLJaH9uNaILX5Y/KhArKUE8xWHkwC/QSCAhD
-    SU7RcIY9llWyyPtlnHieDZhqhBTgpHWyRw+/I+UKNDJmpasjy6n0YPMdzo5w
-X-ME-Proxy: <xmx:JSOaaoBLFPzilkiRXCVrOuY4zpC_gkOtl9jrY3Yu_fvz2XX6Ah5BBg>
-    <xmx:JSOaanfjBb62ZmLqp7oDI3GTpepA0xFa_uL277VsFsc8-7gdXgx3Ug>
-    <xmx:JSOaanPhe4uDOhOl2y4a2vyk72ilFzUeVqXXBhRsYMBpgGU1YhcDmQ>
-    <xmx:JSOaanLejmjeDhQ88hE48hqr10tjMquIUb63vqUmi0xkjyg3DejxNQ>
-    <xmx:JiOaahEONDbbp_gJizIcHZgpASk9tBU2R7Pmirpwj-JcBNeVI7f5rddN>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Sep 2026 21:47:15 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XXnf1qrk"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5303932c4f3so3554591cf.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 03 Sep 2026 20:18:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1788491887; x=1789096687; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
+        b=XXnf1qrkElo3aCzA7QExaOWSdNxP/unmoxpQ7Nl14LSqP+OXLeyp+7TwEx+/0vPFXS
+         mbXWBII3WXz82rpc/mRXs5oQAafMXv/lR9i6NSNTO7vI6fbUQ9Lm/H+/70dUKyPYID/D
+         rINud0bXIB6JWQRfob5+wo6/7GzlrBSpoLZZyO4V6Mq1y4oT1jQb28+99bKN5jmlVfq7
+         XLGDbXv6L3DciY+gWrXNu3RIZDTtpgb+GehzhnXRXGRkpYwMGg9GSc7zeFG53wLU+gCx
+         flGxyi214iKlFdnetOf0+RVR7gjNDakGPu1348MlAGrbuEUQ+hjaFC/oLLirlUZ3Lv2L
+         lQ3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788491887; x=1789096687;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
+        b=ZX34NEtD/j5CG45EE0MxjSe0LIWwO062SAOqn5DaYTDzDvjXyrMk2yA32cSRdaxt4E
+         6eog5Ru/XyU47Y0nqAN0Hk7ZD+2zEp+Cw8SGQhmvymPb7KZBZ3oru2Za/s9LyHXkmbXl
+         Y3jNy4/FivZsEVlrkyUk0XX6GanQXJ8vafAYC4meRuftuReuIRSnMlb4uTo9bc6HM8eY
+         FKHK3M/is9O2j2hT95hrJXg+SD58OpYulqM04I0bY0See2bSj+hE5qttHbGE3WoYYnWl
+         FlbitGawxw09PS6p+WN17dyvSDY3hZpO975bt1DdiDc/FEN0EW5X1bBdY+CPuLYttakH
+         eF4g==
+X-Forwarded-Encrypted: i=1; AKwUvBwZ0tw7LEMR32eAaKAjQqfwKDCwtqJCVFAL2eT6seQrda1Bn903DL2EGoKASO3ZEUNHWjdbZqndBQGeowMs@vger.kernel.org
+X-Gm-Message-State: AFuF++lyhg14VzUQHNo+4hMmRuq1kHV6H5kRpWPa80FC/TMyPIZPbFIt
+	tnfqSyg5xnJ3jx18WzKCLPA+SANN52vOHYVe1uVmZZkq2NrE5DljGNy9DjjjH75VENU=
+X-Gm-Gg: AYBFou1hvTekIShvzd0ITbJRD7AP2watpJ7/LW42thkXLzRenG8QDdZ6vtF8nNwP/X7
+	CpcpHA42Qc4ayMa46bHNhZswHwLOMG6zSniY5ju1B0u1r2+gTaJsCoJaeZUZS7rT6K3GNoil8TC
+	NG1GRhGJqc1repXy+tR7cmS6co/TTZCelCDV+OCYZXG9rIRVyexBshHB2p4BJt0fjcuTKCh6Qfw
+	7uQGUKmAHtmtu6/SrcuN8sMzRMuj+Gd3Nt4/FlB7xBaDtK/667I64EYW+Ah2bNGGjnm/u8vvPzQ
+	amNvRGPg+BFXd2zqId9BsMWpZDPJXPyuF1PoJCBMj6dBBkCmM9EBNAgi1areKtIVxN6/QedzpCU
+	ZlexUK6oqADQfGbq8k+x3hWAru5i/K94vqNONWfZCBrPZmgK5078rsfud1sHSfmrNgG97cNtwrw
+	bknTxoimLDUBEUoJJVW+apCDRwvq6Gh2IZn/fqm/ZWfPpIVCn0fdtdrV1PyKAURWjHAX86eSOQU
+	SBFWroRQcROOldvNtub8oEWLyQwIRO3/2cpWm8hfALICjMvmSqPU8I=
+X-Received: by 2002:a05:622a:1c18:b0:52d:4f43:d5b0 with SMTP id d75a77b69052e-530548bc5e0mr43078621cf.22.1788491887027;
+        Thu, 03 Sep 2026 20:18:07 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5305402a7b7sm11260161cf.3.2026.09.03.20.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 20:18:06 -0700 (PDT)
+Date: Thu, 3 Sep 2026 23:18:03 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Qiqi Li <liqiqi23@huawei.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
+	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
+	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
+	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 25/36] mm/memory_hotplug: support N_MEMORY_PRIVATE
+ node hotplug
+Message-ID: <apo3bZab6qtCosQM@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <20260720193431.3841992-26-gourry@gourry.net>
+ <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
+ <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
+ <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>
-Cc: "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
- "Jeff Layton" <jlayton@kernel.org>, "Amir Goldstein" <amir73il@gmail.com>,
- "Miklos Szeredi" <miklos@szeredi.hu>
-Subject: [PATCH v3 7/6] VFS: reserve a d_flags bit for fs-specific usage
-In-reply-to: <20260903032431.142777-1-neilb@ownmail.net>
-References: <20260903032431.142777-1-neilb@ownmail.net>
-Date: Fri, 04 Sep 2026 11:47:11 +1000
-Message-id: <178848643139.207413.1358009499219351091@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
 
+On Fri, Sep 04, 2026 at 09:05:39AM +0800, Qiqi Li wrote:
+> On 8/17/2026 8:49 AM, Gregory Price wrote:
+> > It would need to be reserved, and you could use numa emulation but
+> > that's clunky.  I have an RFC for exactly this issue - though i haven't
+> > pushed it further yet.
+> > 
+> > https://lore.kernel.org/all/20260610014517.253609-1-gourry@gourry.net/
+> 
+> Hi Gregory,
+> 
+> Sorry for the late reply.
+> 
+> I took a look at the exclusive-node RFC. The approach looks useful for
+> device-backed private memory without a firmware-described NUMA node.
+> Thanks for the pointer.
+> 
+> We are currently looking into the private-node and CRAM design as a
+> whole. I noticed that CRAM was not included with the v5 series, and saw
+> that others were also interested in a v5 version.
+> 
+> If you already have a CRAM branch or patches based on v5, even if they
+> are still work in progress, would you mind sharing them? It would be
+> very helpful for us to continue testing the overall design.
+>
 
-From: NeilBrown <neil@brown.name>
+I dropped it off because it was starting to become unwieldly, but i am
+continuing to maintain a branch on my github:
 
-DCACHE_PRIVATE may be used by any filesystem for its own purposes, much
-like d_fsdata and d_time.
-I plan to use this in a similar manner the way nfs stores
-NFS_FSDATA_BLOCKED in d_fsdata.
+https://github.com/gourryinverse/linux/commits/scratch/gourry/cramtest/cram_72/
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
- include/linux/dcache.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I have not posted a new version in some time and it has been reworked
+significantly in the past few months - but I plan to talk about this
+particular branch and the tests I've run with it at the device memory
+LPC micro-conference.
 
-Sorry for the late addition but I'd like to include this patch in this
-prep series.  I have patches which add NFS_FSDATA_BLOCKED-like
-functionality to afs and smb/client.  Having this bit available will
-make those patches a bit cleaner.
+I validated this branch against most in-tree (relevant) filesystems for
+the page-cache extension, but I imagine the anon-only version subset is
+the more immediately interesting for upstream development.
 
-Eventually I'd like to build on this to move d_time and d_fsdata into a
-union as no fs needs both (only NFS uses both at present) and to include
-a u64 d_version in the union which will be better than d_time on 32-bit
-archs for at least afs and nfs.  This would make struct dentry 8 bytes
-smaller on 64bit.
+I may include the anon-only version in v6, but I've been a bit busy
+shoring up the base private memory node core and implementing kernel
+selftests and LTP tests to ensure there's no userland api regressions.
 
-Thanks,
-NeilBrown
+I hope to get something out later this month.
 
-
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index e7e3ef05313b..adf239f8205f 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -238,7 +238,9 @@ enum dentry_flags {
- 	DCACHE_PAR_LOOKUP		=3D BIT(24),	/* being looked up (with parent locked shar=
-ed) */
- 	DCACHE_DENTRY_CURSOR		=3D BIT(25),
- 	DCACHE_NORCU			=3D BIT(26),	/* No RCU delay for freeing */
--	DCACHE_PERSISTENT		=3D BIT(27)
-+	DCACHE_PERSISTENT		=3D BIT(27),
-+/* 28, 29, 30 free */
-+	DCACHE_PRIVATE			=3D BIT(31)	/* fs-specific flag */
- };
-=20
- #define DCACHE_MANAGED_DENTRY \
-
---=20
-2.50.0.107.gf914562f5916.dirty
-
+~Gregory
