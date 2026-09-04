@@ -1,184 +1,217 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52E043DA20;
-	Fri,  4 Sep 2026 09:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788515762; cv=none; b=huzT+CWXWOjvqgc/I5HHa6exflbnDg9nzPI1ui96fVbXcOShqy6+oLDeT2B8wDFDIGVU+LvEXM3Qvi/R2AilA/WdBpnNJWThQQVA21TNdDBsDdD/E4suTvoptg7wv+Rm/fSw6CWeOxHVF9NLt957v46kczvCilms7Ax/nOh4BL8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788515762; c=relaxed/simple;
-	bh=gnIBxKwtZtizljDf8ntnc5PsKurT8mkgOoph4B8t5LI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qbxFg/mWx5P+eMcgC06t66AksZNRSP9l9//LF0g4naWePOErCzJq24Qq2vTtCOg2xJzaCWTCxXNYvBkCzBF/e6kT0z+WAAArc9GhyMEnRqGpEW+nX9qXFysJAZzjT3Tr3Ajb+vsp+tjt2+tHHAEYf6fvM3FXPeSvfXK9yvF3N28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0UfkgZLG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+4h++arR; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ad1QSPu6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BNvHZQEx; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10306446855
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 09:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788515866; cv=pass; b=H9CuGCr4cKo7d5Gj4jI4V67ONaJV7jFlxG54IbcEYkSuS2Jt/SlNh7vqh+ypM49gGr08FiNr6KkrT+CFFzV2rt5IzdGg3N692gfmFYkD2DzKokHX6xDPdOb5fcgINTP1OSuCfh+Q/s6inA5mm0HWyfo1O6tVmNGgvpV+5pM+hRw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788515866; c=relaxed/simple;
+	bh=6WmWFr9BY8WHDH5HOaS9iTFTd4EmRtRdp6fMjyF+1mA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=awuEF1HdZW+FvtKZFl4HplC7ug6LTHvxHn5uyFHR43YYN0N0DYADGlXTEpE0XRrOGGjc536XW9PA1Hhot/TI3ZXLRAtEnSbpiWSK6hHdSo/HPYBawmrQzZts0utw6FPsda//27J6Yh9aNPDsanKHpYoGDqDsnAMQwRGbQ2/clhc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p34yhGnZ; arc=pass smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0UfkgZLG";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+4h++arR";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ad1QSPu6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BNvHZQEx"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 32E891F7C1;
-	Fri,  4 Sep 2026 09:55:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788515754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DWnOsR3taajAx5HxQdLrn4oIj0S+37+jF+NaGCzhb2U=;
-	b=0UfkgZLGuceFVSXFhOXCo3bxuMJ/ajW/SjffHOn74F0at0FcRmV49AeQ5hyGC83Kd2rkz/
-	SCA+luHV89CZ9lAPn0tgbT98Y+Ggnw1dXkF73z5Y67zcXenuB2IGg/aSkVXNnR/zXtNFsU
-	g5YRfJTfTDBzKarYT0aJUsfOciJr8b4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788515754;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DWnOsR3taajAx5HxQdLrn4oIj0S+37+jF+NaGCzhb2U=;
-	b=+4h++arRnl4FJbmh9/Vyp9J7QnfSbWLNoe3HTDCMTwA/eiG0QbkUvjvH0NU0guqMHpeh/q
-	hjDf1JNztScsFEBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ad1QSPu6;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=BNvHZQEx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788515750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DWnOsR3taajAx5HxQdLrn4oIj0S+37+jF+NaGCzhb2U=;
-	b=ad1QSPu6lJxN90Ow+Xg3moi/PVFKz5+jCa6LpBWejhp/Q5swAHdJSOy3FQk6VShnYjXheu
-	yrZGoxs9tbdRDgCDvWI+gZSd9tSOZMp5TJV5+RkaxnROpL63+vI+41Oi6SsCR5zUHnKSeg
-	5ExFBG+qWtL670H8SE7qFSX59co5esY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788515750;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DWnOsR3taajAx5HxQdLrn4oIj0S+37+jF+NaGCzhb2U=;
-	b=BNvHZQExiGh1+LTbXnIpigowoCkEO/5O6Uic8NBtADtD4i1BYpJjQfjdWuwJsqdnxuiZBd
-	5w+stBh0rXm9TMCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10CAA13678;
-	Fri,  4 Sep 2026 09:55:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id t8IUBKaVmmqEKgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 04 Sep 2026 09:55:50 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 9CC8CA13CE; Fri, 04 Sep 2026 11:55:45 +0200 (CEST)
-Date: Fri, 4 Sep 2026 11:55:45 +0200
-From: Jan Kara <jack@suse.cz>
-To: Tigran Aivazian <aivazian.tigran@gmail.com>
-Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Hisam Mehboob <hisamshar@gmail.com>, 
-	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, Christian Brauner <brauner@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Eric Biggers <ebiggers@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, David Howells <dhowells@redhat.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>, 
-	Catalin Iacob <iacobcatalin@gmail.com>, Stephen Hemminger <stephen@networkplumber.org>, 
-	Andrew Lunn <andrew@lunn.ch>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Andrei Vagin <avagin@gmail.com>, Wei Yang <richard.weiyang@gmail.com>, 
-	Bhavik Sachdev <b.sachdev1904@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Wang Yan <wangyan01@kylinos.cn>, Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, 
-	Malaya Kumar Rout <malayarout91@gmail.com>, linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH] bfs: remove the filesystem
-Message-ID: <35dsgpk5dsh6bm4xoblrq6hdslfvtuibl5grzag37cye2hgepk@rkrtkjxdyk5g>
-References: <20260904082954.48738-1-enelsonmoore@gmail.com>
- <CAK+_RL=RHfRLDc=Ldjx1p8KTHSKeELjnBpxEqYjwWX_8ur1hOw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p34yhGnZ"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7f48c750afcso724409a34.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 02:57:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788515863; cv=none;
+        d=google.com; s=arc-20260327;
+        b=DJkgYx9bDvYtSSKN49fwkn0DfMg+IOJHA0a+YuP7ResUrFE7YgHla8JDSinaizAGAp
+         2fCRaVKGQH2+AD1FcvD5vcpT+pJy34RFGibbCAUl9wQ7Y/qKbfuKxuTPajda7+QikAj6
+         x7r3z6TXzrEwEN124hIsNnPqKzERWmF7AzkqMYMt0bMnCxKJiFZdnGzIIP5Y0B4ZGdNO
+         9muhpIIXkvozLWHKfWjbPZ+rY3g0QC0cOKTLRxAQnYackt8FRpmH+m8UHetYOxZHLIAu
+         h1O+Uz7bkqi4R94/i+Zx2unjcEvzza9ilgjKLrOfj59Mr8IT7WR58N5GbDnImUm9ws5Q
+         kjKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3pmQAxfFHxZRfYhLuLaVrq3tjXnncmJuNgkRzDwbSwk=;
+        fh=g6RrWsm70O4lzHdi61dV1gQn/JroY3Rq5RtJFKsDQYA=;
+        b=ByvXWYf5akwZ3axzETetNc3BCG1hxuuYt8NC6QZDjgwnau9mPdl8/sbtwzWbflCSEy
+         H5TNQx+iSqqI3NfYaWmJtDxcAJKNlvbJuTitNBUpYIEnJMNVOcmBCWCFYTE1K+qVdI85
+         CuAYM4weG8lC78XXuFjpk6dHOSXxgJnuouiAyE3MQJIqP05HDmZKyA8lvjeNNDYIfE1n
+         Esr1k00h5L2o4PhSUposzFRRERtX6Co6vp3ndAACeA0H0te27NmktRxZH7rabxDFW9ya
+         fpNIIucc9x+V2s+sOUMeZ4zAxdpynm9h/wJdJag7ivD1onD1AVbX7qAyIi5rycUqA93R
+         AaLQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788515863; x=1789120663; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3pmQAxfFHxZRfYhLuLaVrq3tjXnncmJuNgkRzDwbSwk=;
+        b=p34yhGnZVz8zMYlY8wulQUE91x2tam8kGrjhqaIwbqLp6Z/RuyPDqnER0vqTTmlYVq
+         3BvTZX3KBOJLJAX+8EGkrBhgtRoDPO23k65T+0fBX4vI207R12ZHwdNIkC4vB9iZVzn4
+         bI3nZF0hA+OFaNULTutflrZ1uOjJkXIiMHbPDWj+Hwg8UKtsdCqUkJoa9+/08m7C0e/y
+         qOaNDmgxASD2bQVX7TMvV5L464sncRHDZU1R3WlgkFo7czqNoHoJXew0DNfXMMvhLtV6
+         aIuhMJGf+85TkA6ByjGdLzwwrLcT1mXrxEciHf3N98eKNvWV94eksVFqFirnZ1Uv9jWB
+         kbdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788515863; x=1789120663;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3pmQAxfFHxZRfYhLuLaVrq3tjXnncmJuNgkRzDwbSwk=;
+        b=oJ3VxqWGNq+T01IN93dZBetNzN4hohEs1ElfLn2jNK3mUFvWrnDLnllP3g03JYZQlj
+         IOb1KuseJggBPJ/1H0NDUjlVXhI1fpC4RRe4DZK7EfWxPfqtAfJPtCluPYnHTB6cKDHl
+         StPokUsuMB1KKu5omuRDUtmF+vfq2ODZ7V+5Sh1XcwaIzzLeQI98f6Ekg/h0EVGUUb5b
+         10u870aBakNmQqSWuWzu2lR8EVxIINiHZRHH8sv9CiSKpdjTO51Sat7vkxHCU1zbNiyT
+         Q1MbPs5toagOX0ab+uU7b6Yvp3Bit9nJVKrhmkx5rCE6cWtWvb/RoVvJSc049Gmdt1En
+         IYkg==
+X-Forwarded-Encrypted: i=1; AKwUvBxkEUaoe450fEErLBSyh3keMvnQoyUvLujKNsf2IU2wMuJlZRX07/Mtt/D+19sI8zL2VgRvcTobGZtiHqCw@vger.kernel.org
+X-Gm-Message-State: AFuF++nRxsXmYCMtA+I/PGMdjDjFu8eSc1GcRITSm5S1KHxH/lx7yXl7
+	1XXe+HJsjpQyEi8SYnsNotyIpUGicPAlv+Cj9qa+ya3lqx1GCEAtL/6vZxxRYbE13JeG/GsT/Fh
+	xAmGDQHq+XMz9g8hGTjIy14cIuJuDOhPIkb5c0FN7
+X-Gm-Gg: AYBFou2iENdxKNtSeFMJAbCSLzRD/yHtLg3AW5z2ZFwoYLU0D070GdV2yE3ReNRIE2L
+	pAalnpq4/F2gKNGRW1yfIxSQQ7/W6uIiUBpUVitGgZWlYxjCyP9rJLw9KCelck6NehuGox4891G
+	IFzZ3+KHvK9OjZCPSXQe34M0L3PWqPSoBp8NtvE+wjPzpJXvmNB5MuTcfzrfIr2qJXC/+bQBm03
+	FFtb9gXwDOMQhN0YGOP0Zdt3hfk8niKKYrEwoKAHi+eUGVJ6rjU6etuaD/2V+TyZ0lXtGtYmGMi
+	eH3YeCZcX0/YW3+IkbLwWW9gcgsx03Oj7jqdR+hJkW9AlLrTRJfTr7+TWZHHhCiEnR5W06n0DAT
+	eLPfUFU2Zo+hCtyzsyB2Y9Shb/gg6nBJsTHD3EB6iWokWG1cbxCShxwcpMl/cUWhErPAlLFd1yO
+	oXI8oUgFfBdjvqHoDw6iiizDCf
+X-Received: by 2002:a05:6820:6ac3:b0:6b0:4170:59ad with SMTP id
+ 006d021491bc7-6b6fc7d1f64mr3797277eaf.24.1788515862149; Fri, 04 Sep 2026
+ 02:57:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK+_RL=RHfRLDc=Ldjx1p8KTHSKeELjnBpxEqYjwWX_8ur1hOw@mail.gmail.com>
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 32E891F7C1
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[42];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,linuxfoundation.org,infradead.org,ellerman.id.au,kernel.org,suse.cz,posteo.de,linux-m68k.org,redhat.com,alpha.franken.de,mit.edu,networkplumber.org,lunn.ch,orcam.me.uk,linux-foundation.org,kylinos.cn,vger.kernel.org,lists.ozlabs.org,lwn.net,linux.ibm.com,zeniv.linux.org.uk];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLx5fqm8k6as49t7tzapjazi4f)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim]
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
+References: <20260904-clown-zersplittern-sequenz-987f972a607b@brauner> <6a9a8cd1.a011d2ce.399d32.0000.GAE@google.com>
+In-Reply-To: <6a9a8cd1.a011d2ce.399d32.0000.GAE@google.com>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Fri, 4 Sep 2026 11:57:30 +0200
+X-Gm-Features: AcwNN1U7j0-le73bygNJxDaUo8VXPRh4lkxTXAwyp7z5061WENtccz_ye1P0Dso
+Message-ID: <CANp29Y4e=0yahrA4K8xKO186JiruTorRaq7u+Y=Q4Mo-3SReCQ@mail.gmail.com>
+Subject: Re: [syzbot] [fs?] memory leak in path_openat (4)
+To: syzbot <syzbot+7666ed2c3d42196bf7e3@syzkaller.appspotmail.com>
+Cc: brauner@kernel.org, iommu@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello!
-
-On Fri 04-09-26 09:51:10, Tigran Aivazian wrote:
-> On Fri, 4 Sept 2026 at 09:30, Ethan Nelson-Moore <enelsonmoore@gmail.com> wrote:
+On Fri, Sep 4, 2026 at 11:18=E2=80=AFAM syzbot
+<syzbot+7666ed2c3d42196bf7e3@syzkaller.appspotmail.com> wrote:
+>
+> > On Wed, Aug 26, 2026 at 07:54:38AM -0700, syzbot wrote:
+> >> Hello,
+> >>
+> >> syzbot found the following issue on:
+> >>
+> >> HEAD commit:    26260251022f Merge tag 'livepatching-for-7.3' of git:/=
+/git..
+> >> git tree:       upstream
+> >> console output: https://syzkaller.appspot.com/x/log.txt?x=3D1196a17958=
+0000
+> >> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D6c1b5958b2=
+d1207f
+> >> dashboard link: https://syzkaller.appspot.com/bug?extid=3D7666ed2c3d42=
+196bf7e3
+> >> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils fo=
+r Debian) 2.44
+> >> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D139f7179=
+580000
+> >>
+> >> Downloadable assets:
+> >> disk image: https://storage.googleapis.com/syzbot-assets/0f75e7622b1f/=
+disk-26260251.raw.xz
+> >> vmlinux: https://storage.googleapis.com/syzbot-assets/2bbff9fd7b60/vml=
+inux-26260251.xz
+> >> kernel image: https://storage.googleapis.com/syzbot-assets/95d73300490=
+7/bzImage-26260251.xz
+> >>
+> >> IMPORTANT: if you fix the issue, please add the following tag to the c=
+ommit:
+> >> Reported-by: syzbot+7666ed2c3d42196bf7e3@syzkaller.appspotmail.com
 > >
-> > BFS (not to be confused with BeFS, the BeOS filesystem) is the
-> > filesystem UnixWare uses for its boot partition. It has extremely
-> > limited functionality, only supporting contiguous files and no
-> > subdirectories. Even though the bfs driver is very small and is
-> > unlikely to cause future maintenance problems, given that the only type
-> > of data stored on such a partition is likely to be kernels and
-> > bootloader settings, there is very little reason anyone would want to
-> > access it from Linux. Other old Unix filesystems (efs, freevxfs) have
-> > been removed recently, and bfs is highly unlikely to have any users, so
-> > remove it as well. Retain the UAPI header to be safe.
-> 
-> You are right that probably no one would want to use BFS for storing the
-> actual data today. But some things have didactical value, rather than
-> mere pragmatic usage. It is the didactic value of MINIX (and its
-> limitations wrt making use of the wonderful capabilities of i386) that
-> has originally triggered the creation of Linux. But back to BFS: it is
-> actually used in Steve Pate's book "Linux Filesystems" (2024, unfinished
-> yet), which is a sequel to his excellent classic "UNIX Filesystems"
-> (2003), as an illustration of a particularly simple filesystem
-> implementation.
+> > #syz set subsystems: iommufd
+>
 
-So I agree BFS is simple. In fact so simple that I was confused by how it
-can get away with not implementing certain bits when having to modify it
-couple months ago when doing some fs-wide fixes :). Regarding didactical
-value, we currently also have minix and ext2 implementations more or less
-for educational purposes so frankly, I don't think we need a third one.
+#syz set subsystems: iommu
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> The specified label value is incorrect.
+> "iommufd" is not among the allowed values.
+> Please use one of the supported label values.
+>
+> The following labels are suported:
+> actionable, missing-backport, no-reminders, prio: {low, normal, high}, su=
+bsystems: {..
+> see below ..}
+> The list of subsystems: https://syzkaller.appspot.com/upstream/subsystems=
+?all=3Dtrue
+>
+> >
+> > This seems to be a reference cycle in iommufd. path_openat() and
+> > alloc_empty_file() is just the place where the file is allocated.
+> >
+> > The reproducer does:
+> >
+> >   r0 =3D openat$iommufd(AT_FDCWD, "/dev/iommu", 0, 0)      /* =E2=86=92=
+ fd 4 */
+> >   ioctl$IOMMU_IOAS_ALLOC(r0, 0x3b81, {size=3D0xc})         /* =E2=86=92=
+ ioas_id 1 */
+> >   ioctl(r0, 0x3b8f, "2800...0400000000...0010")          /* IOMMU_IOAS_=
+MAP_FILE */
+> >
+> > So that last payload can be decoded as:
+> >
+> >   iommu_ioas_map_file: size=3D40, flags=3DR|W, ioas_id=3D1, fd=3D4, sta=
+rt=3D0, length=3D0x1000
+> >
+> > So fd is r0 itself which is the iommufd fd which is handed back to IOMM=
+U_IOAS_MAP_FILE.
+> >
+> > That causes a cycle:
+> >
+> > iopt_map_file_pages() does fget(fd) without worrying what it calls it
+> > on. So that does iopt_alloc_file_pages() which takes a long-term refere=
+nce in pages->file =3D get_file(file)
+> >
+> > The reference is dropped in iopt_release_pages() in fput(pages->file)
+> > from the IOAS teardown. That in turn runs from iommufd_fops_release().
+> >
+> > TL;DR:
+> >
+> >   struct file(/dev/iommu)->private_data-> ictx->objects->ioas->iopt->ar=
+ea->iopt_pages
+> >           ^                                                            =
+        ^
+> >           |____________________________ get_file() ____________________=
+________|
+> >
+> > Closing the fd does nothing. The hex dump shows the same pattern btw:
+> >
+> >   - obj1 struct file @ ffff88812811f9c0, obj2 its LSM blob
+> >   - obj3 iommufd_ctx @ ffff88811161cd80, first word =3D ffff88812811f9c=
+0 =E2=86=92 ictx->file is obj1
+> >   - obj5 xa_node, its ->array =3D ffff88811161cd88 =3D &ictx->objects
+> >   - obj4 iommufd_object: shortterm_users=3D1, users=3D1, type=3D4, id=
+=3D1 =E2=86=92 the IOAS with ioas_id =3D=3D 1 from the repro
+> >   - obj6 iopt_pages, kref =3D=3D 1
+> >
+> > Likely caused by f4986a72d6e4 ("iommufd: Add IOMMU_IOAS_MAP_FILE")
+> >
+> > Afaic,t, this should either reject based on file->f_op =3D=3D &iommufd_=
+fops.
+> > But iiuc there's other cycles that can be formed.
+> > For example, via a vfio device fd that's bound to the iommufd. It holds=
+ an iommufd_ctx reference via iommufd_ctx_from_fd().
+> > So mapping a bound but unattached vfio fd builds the same cycle.
+> >
+> > So probably this should do validation what type of file can actually be
+> > used like shmem and hugepage file.
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> To view this discussion visit https://groups.google.com/d/msgid/syzkaller=
+-bugs/6a9a8cd1.a011d2ce.399d32.0000.GAE%40google.com.
