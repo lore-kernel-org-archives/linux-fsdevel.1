@@ -1,263 +1,345 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC503BD62E
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 03:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA8D3EC2EA
+	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 03:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788493230; cv=none; b=GvumJqIqi+VQ3KQDGndS+an7wTCKO+Xmtt/8Q2mParHPsL7TR0KFv/BYpGesgFUMQvLPYNK6SqP6155nachhhFk5EstnrPKyqzCEbNNJEcyzp2juqXjpIpdoL4UvhSBYL4VH8O3oWy2bwZFJWjSVcHPysjRfEvdW9q39KhUU4Y4=
+	t=1788493577; cv=none; b=HnUOzUiYEI9HqTA+jy9yAe7MoBSzm6dCbiWo3evwnkDCoGZW3x1QAA1dWzGnQUUdsuNAu+tflfoJpdk/jU6qyXg13w290aMVbqk7kidVH5GJF2IHHzwvnL8DrJzytN033oKEbfdZs3Ddaa9JmXV8uoRTZQw6jkcpNf2BrBiondU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788493230; c=relaxed/simple;
-	bh=Qcbn1Dc3aezToHJMlhouCpKpK/OB6S/dvn6AN0De3U0=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=D+RKBkRuLuYVVIvK1LgwSUcUyF9j21YdbxckgCSidWZHCN+jFDJk7IOZXG4Usux16kSELQuh2dp4J+LATY1dHGVLAChdrpXLVYmamKwL4Dcvizx/BnbwzNF5oVS0MHmgFjT7ohqA9Z+3hWMLe44AMlBecOICwAK71Fi2Wj+Huvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=jYh4JFdr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uRPh0xTI; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1788493577; c=relaxed/simple;
+	bh=nC9TVcP3PbpMiuBei0XHWEl7MGkrOj3/nHltdfzO/C8=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=Tqmlah+HhbLDPgR8e/qUYropeq90gKodtJbsXhPyOoqZ4UAamaS7IrpOFYCq6ULsahqQzyGh1hfzOTS/S/TgKafPBw/4x0Fx+p9DtfAVqsuygL9n5mMkZ7OSE/MFizwUas780grJgrR5N4RgPO891wm/HICMXL3Ygau6+FgcZk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=6uC/vWv0; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="jYh4JFdr";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uRPh0xTI"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id EAC76EC017A;
-	Thu,  3 Sep 2026 23:40:26 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Thu, 03 Sep 2026 23:40:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1788493226; x=1788579626; bh=IK07Y/u1GKQuIzLV5UM5mfWcLOjSwmNm0Om
-	/8XKWp8k=; b=jYh4JFdrduxuizj0p+Lf0T5Ff+TkUkvB9imA/JQfKlrx+59p9Du
-	EqDSJjC2/khph6Q5oiTO/QVVYAtvbpeizEHvEEuoL9kGVDT0MOLFBeq6ds0kwX3B
-	ohmx2NRV9pLsCK1QuC/UsRruc/YJTMH5tDFvV1z+NzDW65nZixiQvAF6EgmGpKR4
-	TuAQJzCQ58Jz8tA4EsXWACd7Gq5M46FTWAitjlmEuRIe0DJnAjLByn96LAE4DQ8+
-	LU2he1Fztfh9oOAeBAHrzrz9qFv1Mjr9G+PHFDKT1daViX2FIUppPYCjoskrnGHV
-	nbg2HYnXPXhrNpwBz/9q/n9CXjsS8OYYDZg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788493226; x=
-	1788579626; bh=IK07Y/u1GKQuIzLV5UM5mfWcLOjSwmNm0Om/8XKWp8k=; b=u
-	RPh0xTILmAiV4iH2TI7aJUiJ78QCyHNSv0h0dsklk8SYa7+eCwVabfvLRnooMeh8
-	jr6I8e6zozaEqRUT1ha2pavfx/NDBNVnSUWW6eQG5DcyanC+rwhpPCnpaztcDbjx
-	D5aMLxnZPxAdZxFTLnCLHbuXzJkeYoTt4oMYzW1+Tjr90PfqUGy/YbdTkAfikH1j
-	Mn8PvMbW916ChZDotcLgW7dSOHRn16ZY+PimfGLB4HdgKdkCBurCGdWat8eXyGBv
-	IlRCOryBAU2zqadOC/OoE8XSjeblbnTZcuKQHqNxBMjNz7d8cBu7K9g4EJ7YqIiv
-	5/uknbS0v5l1dasrQN2JQ==
-X-ME-Sender: <xms:qj2aakDCVfaiC4_hqL-UIe80xaGUg0A0XNd8-JiLwF0lssN8FUVNnQ>
-    <xme:qj2aagmVVtSyHlPO76-ErwGSZcdYQPgCAfa15AD5PJvtUF347Rz81Vkmz_3tbaXuC
-    KOocLJXx0hdR9VJ5yvGNnnn4RaG_fDjwUTLdHLg2_G8ACuvGG8>
-X-ME-Received: <xmr:qj2aanfm6dj91HsOCMvfK_G7yAjbzvi0lBSF3fVhQ7jXpOrsdXqNesG-ZxgxBfMTKqwbW76JphJxjgnQGaednVwwe5hJm84>
-X-ME-Proxy-Cause: dmFkZTF7Gtlmat09jQ7eAquoH2QNkWCczJMnXbKul2ft85bMcmiBuqh4VC6G3HVRXoD7Y4
-    IyO+KGem5WYhkFjpUlD5ckQs6E1XrF6Krp78fxt86N9/xUjiJUG4672epXVYwuA4uffqhO
-    +D1RRCAI35TLkUbQNov9SzObPfnd8xXiaBTVSdWPYLFgOBYmZWfMOAeg45B5tnkdJTovCy
-    J2a8r47tQZzQtKCt5gchJ5uECm9rfK/tsMNe8vVpLWW4vIp+fr/hB4dxeyTMxH17OeFIej
-    T252Fgm/EBiksdzKuDeU7Y8PKhqzQpFrQbFmDFxQewppvS5h/xQQks6cNYvzeKs8poP2lp
-    /kpjj8eCaVTxhEq+Veq3w/gDX4AA9lr3Cvvxa468j7olsyHU+whepjgJ4e3x3uO6VpQrfI
-    +qwSWOnitUx/+WiLdyQfDIZ2ipLCxK2ycKRkL2OUR5PqLUKRYaxMkkgX239ETUOl/IE3EQ
-    74WSBvPT9271huHQmleYelMcSZ6ohgii+sfLG1Fz3LLNM1P+5mxVeRIbZk4vhRpW0HKGpP
-    t9UozcyH4Lq0Za88+cFEK5pVibCv4Yazwe73gqPbk9+CQxxyI5Jwk9e3sXSR5ym0pWeukJ
-    wkfffbG0LaxQjrRZfPzFwT4s5SBVB5duEAe7UFKO6n3DiWzZbrxsZDGCHESg
-X-ME-Proxy: <xmx:qj2aasQFw7aqN94BtU_Eut7vxkBUc9vXWy6C_rmiOKPKImF6z5lbAw>
-    <xmx:qj2aamtKdORxyVF0ugOsGtSRtbGhGBXLb1qUNVJSmNBr_DCrZ1R7tA>
-    <xmx:qj2aalfv7Jm11w9cqmSTt2Vguz6Ey2uLqDCe5dbB-39CKJzLxyEk-Q>
-    <xmx:qj2aaoagXKdEQ3u7Y_kcqscDBApN7gY12b_i-mLka2qdt0uDF2NcgA>
-    <xmx:qj2aagUn0a1a1mJYYynrQnukM2_TwVVP5hVDMAAfTSDEEM_7yXMNAee_>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Sep 2026 23:40:24 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="6uC/vWv0"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=SIuK7J1YBtgSbsO4y234J+OCLkHRVV8xFBrqxuZcDSY=;
+	b=6uC/vWv088IcSD3VRAb+C7qMy8CmOjPd0VDzbXrco+qQJERbahSNy8fjOrnfB6pC/+Dz57CDW
+	KyQCG/e0CnT7nH2do2JAfb01k2ABou365u01YElwR2uwNmFkKW4mxWBG0CJBfdyluD96/pw1l97
+	5r/YE6i0aGIgH0Q2BHmMYbo=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hbhtZ68r4zmVX8;
+	Fri,  4 Sep 2026 11:35:18 +0800 (CST)
+Received: from whupemk100004.china.huawei.com (unknown [7.152.185.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1B8C540580;
+	Fri,  4 Sep 2026 11:46:10 +0800 (CST)
+Received: from [10.173.124.160] (10.173.124.160) by
+ whupemk100004.china.huawei.com (7.152.185.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 4 Sep 2026 11:46:08 +0800
+Subject: Re: [PATCH v9 08/15] hugetlb: Use the has_hwpoisoned flag
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
+	<linux-fsdevel@vger.kernel.org>, Christian Brauner <christian@brauner.io>,
+	Jiaqi Yan <jiaqiyan@google.com>, "Gregory Price (Meta)" <gourry@gourry.net>,
+	Andrew Morton <akpm@linux-foundation.org>, Jane Chu <jane.chu@oracle.com>,
+	<linux-mm@kvack.org>
+References: <20260805210557.1118966-1-willy@infradead.org>
+ <20260805210557.1118966-9-willy@infradead.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <d30db03b-ffb4-52ce-c922-415ad75661ea@huawei.com>
+Date: Fri, 4 Sep 2026 11:46:07 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>
-Cc: "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
- "Jeff Layton" <jlayton@kernel.org>, "Amir Goldstein" <amir73il@gmail.com>,
- "Miklos Szeredi" <miklos@szeredi.hu>
-Subject:
- Re: [PATCH v3 6/6] VFS: add lockdep monitoring of DCACHE_PAR_LOOKUP lock.
-In-reply-to: <20260903032431.142777-7-neilb@ownmail.net>
-References: <20260903032431.142777-1-neilb@ownmail.net>
-  <20260903032431.142777-7-neilb@ownmail.net>
-Date: Fri, 04 Sep 2026 13:40:19 +1000
-Message-id: <178849321924.207413.10355742855271220022@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+In-Reply-To: <20260805210557.1118966-9-willy@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ whupemk100004.china.huawei.com (7.152.185.74)
 
-On Thu, 03 Sep 2026, NeilBrown wrote:
-> From: NeilBrown <neil@brown.name>
->=20
-> DCACHE_PAR_LOOKUP acts like a lock in that threads can block waiting for
-> it to clear.  As we plan to make changes to lock order for this lock,
-> teach lockdep to monitor it so as to help detect bugs early.
->=20
-> As NFS allocates an in-lookup dentry to unlink a silly-renamed file, and
-> completes the lookup in a different thread, we need interfaces to
-> release and the acquire ownership of the lock.  This avoids lockdep
-> complaining that a lock is still held on return to user-space.
->=20
-> Signed-off-by: NeilBrown <neil@brown.name>
+On 2026/8/6 5:05, Matthew Wilcox (Oracle) wrote:
+> Other large folios use the has_hwpoisoned flag.  Convert hugetlb to match.
+> This will help us use the per-page hwpoison flag in the future.
+> 
+> Also introduce a folio_test_huge_poison().  This has exactly the same
+> meaning as folio_test_has_hwpoisoned() but can be used when we don't have
+> a reference to the folio containing the page.  folio_test_has_hwpoisoned()
+> can race with folio splitting / reallocation and trip the assertions
+> in const_folio_flags().
+> 
+> This closes a gap where a page in a previously-poisoned hugetlb folio
+> could be observed to not have the hwpoison bit set.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Reviewed-by: Jane Chu <jane.chu@oracle.com>
+> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 > ---
->  fs/dcache.c            | 14 ++++++++++++++
->  fs/nfs/unlink.c        |  3 +++
->  include/linux/dcache.h | 32 ++++++++++++++++++++++++++++++++
->  3 files changed, 49 insertions(+)
->=20
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index cbd5738de168..3af8b2ac699f 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -1901,6 +1901,7 @@ EXPORT_SYMBOL(d_invalidate);
->  =20
->  static struct dentry *__d_alloc(struct super_block *sb, const struct qstr =
-*name)
->  {
-> +	static struct lock_class_key __lookup_key;
->  	struct dentry *dentry;
->  	char *dname;
->  	int err;
-> @@ -1958,6 +1959,8 @@ static struct dentry *__d_alloc(struct super_block *s=
-b, const struct qstr *name)
->  	dentry->waiters =3D NULL;
->  	INIT_HLIST_NODE(&dentry->d_sib);
-> =20
-> +	lockdep_init_map(&dentry->lookup_map, "DCACHE_PAR_LOOKUP", &__lookup_key,=
- 0);
+>  fs/Kconfig                 |  2 +-
+>  fs/hugetlbfs/inode.c       |  2 +-
+>  include/linux/page-flags.h | 47 ++++++++++++++++++++++++------
+>  mm/Kconfig                 |  6 +++-
+>  mm/hugetlb.c               | 10 +++----
+>  mm/memory-failure.c        | 58 +++++++++++++++++++++++++++-----------
+>  mm/rmap.c                  | 43 +++++++++++++++++-----------
+>  7 files changed, 120 insertions(+), 48 deletions(-)
+> 
+> diff --git a/fs/Kconfig b/fs/Kconfig
+> index cf6ae64776e6..eddac4ed214b 100644
+> --- a/fs/Kconfig
+> +++ b/fs/Kconfig
+> @@ -272,7 +272,7 @@ endif # HUGETLBFS
+>  
+>  config HUGETLB_PAGE
+>  	def_bool HUGETLBFS
+> -	select XARRAY_MULTI
+> +	select LARGE_FOLIO
+>  
+>  config HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+>  	def_bool HUGETLB_PAGE
+> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+> index 216e1a0dd0b2..fbac554886c3 100644
+> --- a/fs/hugetlbfs/inode.c
+> +++ b/fs/hugetlbfs/inode.c
+> @@ -258,7 +258,7 @@ static ssize_t hugetlbfs_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>  		} else {
+>  			folio_unlock(folio);
+>  
+> -			if (!folio_test_hwpoison(folio))
+> +			if (!folio_test_has_hwpoisoned(folio))
+>  				want = nr;
+>  			else {
+>  				/*
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index 4185a03a45cf..7e8784e852fb 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -893,14 +893,20 @@ static inline int PageTransCompound(const struct page *page)
+>  TESTPAGEFLAG_FALSE(TransCompound, transcompound)
+>  #endif
+>  
+> -#if defined(CONFIG_MEMORY_FAILURE) && defined(CONFIG_TRANSPARENT_HUGEPAGE)
+> +#if defined(CONFIG_MEMORY_FAILURE) && defined(CONFIG_LARGE_FOLIO)
+>  /*
+> - * PageHasHWPoisoned indicates that at least one subpage is hwpoisoned in the
+> - * compound page.
+> + * The has_hwpoisoned flag indicates that at least one page is hwpoisoned
+> + * in the folio.  That page will usually also have the HWPoison flag
+> + * set, but this is not possible for folios which have HugeTLB vmemmap
+> + * optimization (see hugetlb_update_hwpoison() for the scheme used
+> + * in that case).  You probably don't want to call this directly; use
+> + * folio_has_hwpoisoned_page() instead.
+>   *
+>   * This flag is set by hwpoison handler.  Cleared by THP split or free page.
+>   */
+>  FOLIO_FLAG(has_hwpoisoned, FOLIO_SECOND_PAGE)
+> +FOLIO_TEST_SET_FLAG(has_hwpoisoned, FOLIO_SECOND_PAGE)
+> +FOLIO_TEST_CLEAR_FLAG(has_hwpoisoned, FOLIO_SECOND_PAGE)
+>  #else
+>  FOLIO_FLAG_FALSE(has_hwpoisoned)
+>  #endif
+> @@ -1041,8 +1047,29 @@ PAGE_TYPE_OPS(Slab, slab, slab)
+>  
+>  #ifdef CONFIG_HUGETLB_PAGE
+>  FOLIO_TYPE_OPS(hugetlb, hugetlb)
 > +
->  	if (dentry->d_op && dentry->d_op->d_init) {
->  		err =3D dentry->d_op->d_init(dentry);
->  		if (err) {
-> @@ -2037,6 +2040,7 @@ struct dentry *d_duplicate(struct dentry *dentry)
->  		return ERR_PTR(-ENOMEM);
-> =20
->  	new->d_flags |=3D DCACHE_PAR_LOOKUP;
-> +	lock_map_acquire_try(&new->lookup_map);
->  	spin_lock(&parent->d_lock);
->  	new->d_parent =3D dget_dlock(parent);
->  	hlist_add_head(&new->d_sib, &parent->d_children);
-> @@ -2801,6 +2805,14 @@ static inline void end_dir_add(struct inode *dir, un=
-signed int n)
->  static void d_wait_lookup(struct dentry *dentry)
->  {
->  	if (likely(d_in_lookup(dentry))) {
-> +		/*
-> +		 * Tell lockdep we will wait for the lookup lock, after
-> +		 * dropping ->d_lock, but won't actually take it.
-> +		 */
-> +		spin_release(&dentry->d_lock.dep_map, 0);
-> +		lock_map_sync(&dentry->lookup_map);
-
-Unfortunately that does compile when lockdep isn't enabled.
-I guess I'll resend the series.
-
-NeilBrown
-
-
-> +		spin_acquire(&dentry->d_lock.dep_map, 0, 1, _THIS_IP_);
+> +#ifdef CONFIG_MEMORY_FAILURE
+> +static inline bool folio_test_huge_poison(const struct folio *folio)
+> +{
+> +	return (READ_ONCE(folio->page.page_type) >> 23) ==
+> +		((PGTY_hugetlb << 1) | 1);
+> +}
 > +
->  		dentry->d_flags |=3D DCACHE_LOOKUP_WAITERS;
->  		wait_var_event_spinlock(&dentry->d_flags,
->  					!d_in_lookup(dentry),
-> @@ -2923,6 +2935,7 @@ struct dentry *__d_alloc_parallel(struct dentry *pare=
-nt,
->  	}
->  	hlist_bl_add_head(&new->d_in_lookup_hash, b);
->  	hlist_bl_unlock(b);
-> +	lock_map_acquire_try(&new->lookup_map);
->  	return new;
->  mismatch:
->  	spin_unlock(&dentry->d_lock);
-> @@ -3021,6 +3034,7 @@ static void __d_lookup_unhash(struct dentry *dentry)
->  	b =3D in_lookup_hash(dentry->d_parent, dentry->d_name.hash);
->  	hlist_bl_lock(b);
->  	dentry->d_flags &=3D ~DCACHE_PAR_LOOKUP;
-> +	lock_map_release(&dentry->lookup_map);
->  	__hlist_bl_del(&dentry->d_in_lookup_hash);
->  	hlist_bl_unlock(b);
->  	dentry->waiters =3D NULL;
-> diff --git a/fs/nfs/unlink.c b/fs/nfs/unlink.c
-> index b57cfaa4d516..c8d712204e64 100644
-> --- a/fs/nfs/unlink.c
-> +++ b/fs/nfs/unlink.c
-> @@ -67,6 +67,7 @@ static void nfs_async_unlink_release(void *calldata)
->  	struct super_block *sb =3D dentry->d_sb;
-> =20
->  	up_read_non_owner(&NFS_I(d_inode(dentry->d_parent))->rmdir_sem);
-> +	d_lookup_acquire(dentry);
->  	d_lookup_done(dentry);
->  	nfs_free_unlinkdata(data);
->  	dput(dentry);
-> @@ -159,6 +160,8 @@ static int nfs_call_unlink(struct dentry *dentry, struc=
-t inode *inode, struct nf
->  		return ret;
->  	}
->  	data->dentry =3D alias;
-> +	d_lookup_release(alias);
+> +static inline void folio_set_huge_poison(struct folio *folio)
+> +{
+> +	folio->page.page_type |= (1 << 23);
+> +}
 > +
->  	nfs_do_call_unlink(inode, data);
->  	return 1;
+> +static inline void folio_clear_huge_poison(struct folio *folio)
+> +{
+> +	folio->page.page_type &= ~(1 << 23);
+> +}
+> +#else
+> +FOLIO_TEST_FLAG_FALSE(huge_poison)
+> +#endif
+>  #else
+>  FOLIO_TEST_FLAG_FALSE(hugetlb)
+> +FOLIO_TEST_FLAG_FALSE(huge_poison)
+>  #endif
+>  
+>  PAGE_TYPE_OPS(Zsmalloc, zsmalloc, zsmalloc)
+> @@ -1069,9 +1096,10 @@ static inline bool PageHuge(const struct page *page)
 >  }
-> diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-> index 2b7d99ec9306..e7e3ef05313b 100644
-> --- a/include/linux/dcache.h
-> +++ b/include/linux/dcache.h
-> @@ -116,6 +116,8 @@ struct dentry {
->  					 * possible!
->  					 */
-> =20
-> +	/* lockdep tracking of DCACHE_PAR_LOOKUP locks */
-> +	struct lockdep_map		lookup_map;
->  	struct list_head d_lru;		/* LRU list */
->  	struct hlist_node d_sib;	/* child of parent list */
->  	struct hlist_head d_children;	/* our children */
-> @@ -554,6 +556,36 @@ static inline int simple_positive(const struct dentry =
-*dentry)
-> =20
->  unsigned long vfs_pressure_ratio(unsigned long val);
-> =20
-> +/**
-> + * d_lookup_release - release ownership of DCACHE_PAR_LOOKUP lock
-> + * @dentry: dentry that is locked
-> + *
-> + * If an in-lookup dentry is to be passed to another thread which
-> + * will drop the in-lookup lock, then d_lookup_release() must be called
-> + * to tell lockdep that this thread no lock holds the lock.  The
-> + * thread that receives the lock must call d_lookup_acquire() to
-> + * acquire the lock.
-> + */
-> +static inline void d_lookup_release(struct dentry *dentry)
+>  
+>  /*
+> - * Check if a page is currently marked HWPoisoned. Note that this check is
+> - * best effort only and inherently racy: there is no way to synchronize with
+> - * failing hardware.
+> + * Check if a page is currently marked HWPoisoned.  This check is best
+> + * effort only and inherently racy: there is no way to synchronize with
+> + * failing hardware.  The caller may not have a refcount on the folio
+> + * containing the page, so we must be careful to not trip any assertions.
+>   */
+>  static inline bool is_page_hwpoison(const struct page *page)
+>  {
+> @@ -1080,12 +1108,15 @@ static inline bool is_page_hwpoison(const struct page *page)
+>  	if (PageHWPoison(page))
+>  		return true;
+>  	folio = page_folio(page);
+> -	return folio_test_hugetlb(folio) && PageHWPoison(&folio->page);
+> +	if (folio_test_huge_poison(folio))
+> +		return true;
+> +	/* In case we raced with hugetlb transferring flags */
+> +	return PageHWPoison(page);
+>  }
+>  
+>  static inline bool folio_has_hwpoisoned_page(const struct folio *folio)
+>  {
+> -	return folio_test_hwpoison(folio) ||
+> +	return PageHWPoison(&folio->page) ||
+>  	       (folio_test_large(folio) && folio_test_has_hwpoisoned(folio));
+>  }
+>  
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index 9e0ca4824905..e666dd14ca0c 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -843,11 +843,15 @@ config PERSISTENT_HUGE_ZERO_FOLIO
+>  config MM_ID
+>  	def_bool n
+>  
+> +config LARGE_FOLIO
+> +	def_bool n
+> +	select XARRAY_MULTI
+> +
+>  menuconfig TRANSPARENT_HUGEPAGE
+>  	bool "Transparent Hugepage Support"
+>  	depends on HAVE_ARCH_TRANSPARENT_HUGEPAGE && !PREEMPT_RT
+>  	select COMPACTION
+> -	select XARRAY_MULTI
+> +	select LARGE_FOLIO
+>  	select MM_ID
+>  	help
+>  	  Transparent Hugepages allows the kernel to use huge pages and
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 47403d02be88..40ae967b9ecc 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -1255,7 +1255,7 @@ static struct folio *dequeue_hugetlb_folio_node_exact(struct hstate *h,
+>  		if (pin && !folio_is_longterm_pinnable(folio))
+>  			continue;
+>  
+> -		if (folio_test_hwpoison(folio))
+> +		if (folio_test_has_hwpoisoned(folio))
+>  			continue;
+>  
+>  		if (is_migrate_isolate_page(&folio->page))
+> @@ -1387,7 +1387,7 @@ static void folio_clear_hugetlb(struct folio *folio)
+>  	 * Move HWPoison flag to each error page
+>  	 * which makes any healthy pages reusable.
+>  	 */
+> -	if (unlikely(folio_test_hwpoison(folio)))
+> +	if (unlikely(folio_test_has_hwpoisoned(folio)))
+>  		folio_clear_hugetlb_hwpoison(folio);
+>  
+>  	__folio_clear_hugetlb(folio);
+> @@ -4003,7 +4003,7 @@ long demote_pool_huge_page(struct hstate *src, nodemask_t *nodes_allowed,
+>  		struct folio *folio, *next;
+>  
+>  		list_for_each_entry_safe(folio, next, &src->hugepage_freelists[node], lru) {
+> -			if (folio_test_hwpoison(folio))
+> +			if (folio_test_has_hwpoisoned(folio))
+>  				continue;
+>  
+>  			remove_hugetlb_folio(src, folio, false);
+> @@ -5814,7 +5814,7 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
+>  		 * don't have hwpoisoned swap entry for errored virtual address.
+>  		 * So we need to block hugepage fault by PG_hwpoison bit check.
+>  		 */
+> -		if (unlikely(folio_test_hwpoison(folio))) {
+> +		if (unlikely(folio_test_has_hwpoisoned(folio))) {
+>  			ret = VM_FAULT_HWPOISON_LARGE |
+>  				VM_FAULT_SET_HINDEX(hstate_index(h));
+>  			goto backout_unlocked;
+> @@ -6323,7 +6323,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+>  	ptl = huge_pte_lock(h, dst_mm, dst_pte);
+>  
+>  	ret = -EIO;
+> -	if (folio_test_hwpoison(folio))
+> +	if (folio_test_has_hwpoisoned(folio))
+>  		goto out_release_unlock;
+>  
+>  	ret = -EEXIST;
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index 1dd0e7b99bb1..714e1b398f2c 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -1829,7 +1829,7 @@ bool is_raw_hwpoison_page_in_hugepage(struct page *page)
+>  	struct folio *folio = page_folio(page);
+>  	bool ret = false;
+>  
+> -	if (!folio_test_hwpoison(folio))
+> +	if (!folio_test_has_hwpoisoned(folio))
+>  		return false;
+>  
+>  	if (!folio_test_hugetlb(folio))
+> @@ -1881,6 +1881,24 @@ static unsigned long __folio_free_raw_hwp(struct folio *folio, bool move_flag)
+>  #define	MF_HUGETLB_FOLIO_PRE_POISONED	3	/* folio already poisoned */
+>  #define	MF_HUGETLB_PAGE_PRE_POISONED	4	/* exact page already poisoned */
+>  #define	MF_HUGETLB_RETRY		5	/* hugepage is busy, retry */
+> +
+> +static inline int hugetlb_set_poison(struct folio *folio)
 > +{
-> +	if (d_in_lookup(dentry))
-> +		lock_map_release(&dentry->lookup_map);
+> +	if (folio_test_set_has_hwpoisoned(folio))
+> +		return MF_HUGETLB_FOLIO_PRE_POISONED;
+> +	folio_set_huge_poison(folio);
+> +	return 0;
 > +}
 > +
-> +/**
-> + * d_lookup_acquire - acquire ownership of DCACHE_PAR_LOOKUP lock
-> + * @dentry: dentry that is locked
-> + *
-> + * If an in-lookup dentry was passed to this thread, the
-> + * d_lookup_acquire() must be called to tell lockdep that this
-> + * thread now owns the DCACHE_PAR_LOOKUP lock.
-> + */
-> +static inline void d_lookup_acquire(struct dentry *dentry)
+> +static inline int hugetlb_clear_poison(struct folio *folio)
 > +{
-> +	if (d_in_lookup(dentry))
-> +		lock_map_acquire_try(&dentry->lookup_map);
+> +	if (!folio_test_has_hwpoisoned(folio))
+> +		return -EBUSY;
+> +	folio_clear_huge_poison(folio);
+> +	folio_clear_has_hwpoisoned(folio);
+> +	return 0;
 > +}
 > +
->  /**
->   * d_inode - Get the actual inode of this dentry
->   * @dentry: The dentry to query
-> --=20
-> 2.50.0.107.gf914562f5916.dirty
->=20
->=20
->=20
+>  /*
+>   * Set hugetlb folio as hwpoisoned, update folio private raw hwpoison list
+>   * to keep track of the poisoned pages.
+> @@ -1890,12 +1908,12 @@ static int hugetlb_update_hwpoison(struct folio *folio, struct page *page)
+>  	struct llist_head *head;
+>  	struct raw_hwp_page *raw_hwp;
+>  	struct raw_hwp_page *p;
+> -	int ret = folio_test_set_hwpoison(folio) ? MF_HUGETLB_FOLIO_PRE_POISONED : 0;
+> +	int ret = hugetlb_set_poison(folio);
+>  
+>  	/*
+>  	 * Once the hwpoison hugepage has lost reliable raw error info,
+> -	 * there is little meaning to keep additional error info precisely,
+> -	 * so skip to add additional raw error info.
+> +	 * there is no point in keeping additional error info precisely,
+> +	 * so skip adding additional raw error info.
+>  	 */
+>  	if (folio_test_hugetlb_raw_hwp_unreliable(folio))
+>  		return MF_HUGETLB_FOLIO_PRE_POISONED;
+> @@ -1950,8 +1968,8 @@ void folio_clear_hugetlb_hwpoison(struct folio *folio)
+>  		return;
+>  	if (folio_test_hugetlb_vmemmap_optimized(folio))
+>  		return;
+> -	folio_clear_hwpoison(folio);
+>  	folio_free_raw_hwp(folio, true);
+> +	folio_clear_has_hwpoisoned(folio);
 
+Should hugetlb_clear_poison be used here to clear huge_poison flag now that hwpoison flag
+is transferred to the raw error pages? Apart from this, this patch looks good to me.
+
+Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
+
+Thanks.
+.
