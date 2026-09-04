@@ -1,41 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EE41E8826;
-	Fri,  4 Sep 2026 10:56:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E6549B20C;
+	Fri,  4 Sep 2026 10:56:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788519374; cv=none; b=Vr2VxqN14KZliGHgKyC2qDGbr/61U1GOXWK+oqhNofXKwdiGXzvnvLTMq/Qd6hY8WVePxiYQBDoLkTMfD2Lhr5GOfM7FrYIArBS/+SYrkcXmXKhvY05rlcxxhkCmWV+I1kfP5cPAzlAb9eAMM0isf9n4BKf6iGKCFxLAmLW8mU4=
+	t=1788519419; cv=none; b=cF45kvjkBGCBK1oyrSxHqkfOyZs0gMvNRXIhmrXmGhviXECW+E3BhTG5ubgqXj2msV7FTDumv1pny5inRZVdbts6afPVWYZW0azGH9uS0a3AzR9s5Fkjr8P3PrfBvBw96iXOeyqsby5nUpIvqI/KM/RCi4hYu36HLC73QVv3D5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788519374; c=relaxed/simple;
-	bh=X8IStrcrbOsDOQVw1398eZtTDU0M7L2uOYS8xBgjrlM=;
+	s=arc-20240116; t=1788519419; c=relaxed/simple;
+	bh=CRAyTRPorJp2MyL1wvnONUON/dshR3MBUaAS7DxKxO0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DNGOcg3FFdZGWJ38EPM3jkn7Qeq7b00WDBfh1Hvmt8tStJBoIHRxDBbWNkgkGpMxSAx7CMI3cIzG4lS55nCOT+TuZ5uCtCqUjuXhgqG6r/ZQy5E4AFn80+/kyJteredYBH1TgJi05Y+BG/EDFhKpu36VG5PeOeRMX3RmRtaO1c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L9l28uca; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=aEiFAc9BW+41jqLoR4Bgh+qlNYsZfUo51z2pxNXTF5NmeLp0Z27IfG7iDiHnYYB4glIR3oMYOc7VPNmB1fUz3/fnk1dgYP2dqI2g3mDTsg1iIiqV7otMgj4rfUWHjUSGt+WXsFxlkagVn6LAwHfB3z4Dvz/zJ1uUT55NW99Q9J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LKuLiJmB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L9l28uca"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 027051F00A3D;
-	Fri,  4 Sep 2026 10:56:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LKuLiJmB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9A021F01560;
+	Fri,  4 Sep 2026 10:56:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788519373;
-	bh=KHk55JxnZIaPiswtVevvFyT4Q+4/zllWsPfgyt53b4E=;
+	s=k20260515; t=1788519415;
+	bh=alt32ncZUYAMs1hUtHuw1oAyZ9AhPDNwWLyZ/PqTu3s=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=L9l28ucaw5Or3Tp0q0qTbDXMc8x59HbCxZw3SLV0SYioAbQL7r6g7yS9lFzVF20K7
-	 UqqRJDXw91Ix4OccrEI1UOJt+pqxjxuYTmuTNUyMYeovg5ZsqBZxKt7oEBy/nRi1PU
-	 FpBtBW3Sa0EB2s1lqfcqg8aO7nuYha3al//BEF0pFuhsfdjLG/g4X3EYX/gjq4jNsq
-	 2DUNbFM7GNg1rH11hsMMfPxuDa9yn+o9kBGfdNOCWsLVbIm9gBMhCga/xloZe30Wss
-	 DWr8WsVtWghsWmfGbApFz32Q/0cIebpaKNmrH5D2amhxVmgfgRo1e6tWscGaPuqrEC
-	 9uwADYSlXnQFA==
+	b=LKuLiJmBa1kmwZXDBaQ/RuU4QDwo6uDQPKo3byITybUwASshHnlpB/Nba5PfyZ4qn
+	 Zg2PzQ71vB/2NwtqUxBWsH1lzqy3oRuQYw/A5IWjniXdNfhiad2jc0pQuseArTsRNg
+	 p/CiR5Zc2a/KaG9teOGc35h+hQPMifZpWDc2utJO9pLa0JS0o1Sb9eIkPohmklSxOt
+	 SSbzQ9d2Ko5YmrhGOiJTWDNR+AjB7mjjLDOgs+gSsl5IXL6+irOBkf/S7kG57HdpX5
+	 bPEVwCW3pDpEzOXwH81J6SEeG7Ck7cSteC/cK6AycQKHfeTboelmks3wWnQp6LnGgf
+	 g1n/yU4847wNA==
 From: Christian Brauner <brauner@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20260903002100.34822-1-kmehltretter@gmail.com>
-References: <20260903002100.34822-1-kmehltretter@gmail.com>
-Subject: Re: [PATCH] fs_pin: publish pins with RCU list helpers
-Message-Id: <20260904-gebilde-subkultur-befugnis-3f28d5b5e127@brauner>
-Date: Fri, 04 Sep 2026 12:56:06 +0200
+To: Dan Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+ Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Kaitao Cheng <kaitao.cheng@linux.dev>
+Cc: Muchun Song <muchun.song@linux.dev>, linux-fsdevel@vger.kernel.org, 
+ nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Kaitao Cheng <chengkaitao@kylinos.cn>
+In-Reply-To: <20260903050207.7015-1-kaitao.cheng@linux.dev>
+References: <20260903050207.7015-1-kaitao.cheng@linux.dev>
+Subject: Re: [PATCH] fs/dax: Remove redundant deferred list initialization
+Message-Id: <20260904-erbauen-wannen-junggeblieben-3347b4280185@brauner>
+Date: Fri, 04 Sep 2026 12:56:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,17 +47,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=873; i=brauner@kernel.org;
- h=from:subject:message-id; bh=X8IStrcrbOsDOQVw1398eZtTDU0M7L2uOYS8xBgjrlM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTNWnzy8HPFmrKaAzUGHjtYKryOV8t/erT076Nb9WlbZ
- 2yeIXmCp6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAinH2MDPdq8qILPE/djHQ5
- wRC54/4O/q32UcnHlkx/f+JkVPG+g8cY/tmUL9A8/+XBofqNXs7XLJasZptjKJAcc/BtoVr375t
- i/qwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=891; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=CRAyTRPorJp2MyL1wvnONUON/dshR3MBUaAS7DxKxO0=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTNWvz5SE3G1t6tkbr+fKn6fSflDrQ8KORyeeRzU+uua
+ SKniJBcRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwES86hn+e4bM5/Y9my9rMPXU
+ 07LS6l+brRbHmzaqv3zIOW8+o77ybIb/CfucnF7yvl4u+zDm/Jwjl3uu3M+ZfOTxpMy/r67sqF1
+ ymREA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, 03 Sep 2026 02:21:00 +0200, Karl Mehltretter wrote:
-> fs_pin: publish pins with RCU list helpers
+On Thu, 03 Sep 2026 13:02:07 +0800, Kaitao Cheng wrote:
+> fs/dax: Remove redundant deferred list initialization
 
 Applied to the vfs-7.4.misc branch of the vfs/vfs.git tree.
 Patches in the vfs-7.4.misc branch should appear in linux-next soon.
@@ -72,6 +74,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs-7.4.misc
 
-[1/1] fs_pin: publish pins with RCU list helpers
-      https://git.kernel.org/vfs/vfs/c/8d01d6b4c17c
+[1/1] fs/dax: Remove redundant deferred list initialization
+      https://git.kernel.org/vfs/vfs/c/4dda2f40edd8
 
