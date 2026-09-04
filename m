@@ -1,78 +1,33 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3257144607E;
-	Fri,  4 Sep 2026 09:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9185F37F73E;
+	Fri,  4 Sep 2026 10:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788515993; cv=none; b=oMDJM9pGAJ+1JhMlfdeuTHSV5UWFDyA3nfDowpzFGl+LmYUVJmQSZDu/RPRZSeSYUkLI4wpg0zZZ8n6k7P+2w+q5htLZhzFqWLchU5K1LHIGTDoA8NxrNliFbeB7xJ92EXgh6ujgEgLJ/LdOF2cFL/1bTKM6E7T7qirlo3HMbWo=
+	t=1788516336; cv=none; b=n85IAAHhv3kbdTz6KzaFEEYuj2SYMkjUy8w18H8FcXHDD1UDr5UjJBDhdPZRMmxARjHEGV66bjxAoRcQ20t9enzso0NwXKZoTfLzUoV0n1BRLpxJzwxY1HTPZiuJ8LZnKY6lkNDMVSFaQYM7fqCFEbumvvV5O6c/pf/2Bngn1Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788515993; c=relaxed/simple;
-	bh=PEk6AkvrPuBgEyyyD4RJGxmoho+3UChpdcM1fAWzlpg=;
+	s=arc-20240116; t=1788516336; c=relaxed/simple;
+	bh=fsXmAlXO+7ulMRD0Y2ZoWUanKUwGf7/zndvye9qEIZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+2BS4w01QyM4/cF1x2uParZdtYFi6wMX6JcqFokDMcTgfjh2mdbK1VZ7z7BxY7d9waBvajhBT0AguHxk2m3dASxda5jxSkN7J0HUHz/hREfNf/va5CXna8biNtTKkdCSixHa3qixzg5IXJq9QXrIgpNyarjH3Ew3KRfRUD0xlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tR//t31f; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lrbDz73N; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Qm1b5pqk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=D4vlxWVI; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=cYf/g+XMr6YEAvEDtvnCdjk5bsKiJm050J7FVfLaYUfSOJBVYl/JPMwaFOHyxFG9/1T2N1PTqJSM7391sixj3iDT/VsdTn+3tLbRdIuWvtlCzU5jJrLTjgRznrlvdq8KAZ+vo4NDIRQZ6edehieye913p+wRgQlpQX/okBO/l/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hqu5aAv3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tR//t31f";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lrbDz73N";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Qm1b5pqk";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="D4vlxWVI"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 805571F79A;
-	Fri,  4 Sep 2026 09:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788515983; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8eH5Sazuk1G4o7oNLxfGrGz9CqYEh1yWDF/k+PkJzGg=;
-	b=tR//t31fr1UTCiJBr+P5Dywn8Wuc2E3k2JHIHxKvDygLDPByo9p0GF2CU5MZxMJ3Pmqjbr
-	WbQlHMfGdIoHrXjuisSnW/U+BxHArkZxaqwoLvWZ3pzCVNc85dizzWMQf17sfI58Qmvs1l
-	XVDHMn+CD6Up4NVDZDvz10nOUE+vF8k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788515983;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8eH5Sazuk1G4o7oNLxfGrGz9CqYEh1yWDF/k+PkJzGg=;
-	b=lrbDz73NsNYU5RF686yFjbmNl3bwV8OMPhRbTHfyn5Yt8yzJT7EI2R5YAWJq0F6UIGwpm0
-	1eLPAfbxymamdVDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788515979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8eH5Sazuk1G4o7oNLxfGrGz9CqYEh1yWDF/k+PkJzGg=;
-	b=Qm1b5pqkOpB84Yk5C9J1XnYUHtUDE0krbTlzwQSikigd8NjwAm6fqcUcNKJWQb5ZkL/ftj
-	p8O6oyv1o0xML2s9ay1iBSvX4NXFNxj5j5SwqWGP25lTayOcie3R12k6j7xsR2MXiEsuDj
-	dpDPrnfUT/kU7ZY2BUZPJMpwELvX7Xg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788515979;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8eH5Sazuk1G4o7oNLxfGrGz9CqYEh1yWDF/k+PkJzGg=;
-	b=D4vlxWVIJDQ8d9/4iE57q2VZVUtKlECxmPUw3HH9Ig3lJQfYujBtcdb0wPmlw6Wk494u8N
-	JiIJDGDQNH6eFOAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 35E7913678;
-	Fri,  4 Sep 2026 09:59:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +t6gDIuWmmqdLwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 04 Sep 2026 09:59:39 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id BAD74A13CE; Fri, 04 Sep 2026 11:59:38 +0200 (CEST)
-Date: Fri, 4 Sep 2026 11:59:38 +0200
-From: Jan Kara <jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hqu5aAv3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03BBE1F00A3D;
+	Fri,  4 Sep 2026 10:05:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788516333;
+	bh=/k2wnkM4SxyC3Hh5lYevz1aOCjrzkCdvmr9ghMQ1b/0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hqu5aAv36RbiGYaaswfWmnGruYQjOvLl4ZWqBpfBJPQsrMT+LYb8Bvdaupbc6xOEV
+	 RME/aeRuuUyMaN4tKixDOC2RNI7BH8TcrE9J4682FUfVToJgCDbjEqDa676GvlbH70
+	 mAWAUQ0VKSPaLd7sf/6WFralXzf7N49nAZ/j1CAaRRrzwRWI3p/eIhhgXbWeR84Zj9
+	 ivWHftNyPx4jKd5dtc8g4XCLBXKYnJuAFobGjQ1IT/N8hJmhQ3zxBICPbTXgVxX4A1
+	 IJAYUnayyTrEoJvieULQT8Gn9D7wHcl+esqLBpDalC8iS2ahBTMwKn7oeN8dFqPimp
+	 eUfuS4QByCugw==
+Date: Fri, 4 Sep 2026 11:05:21 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 Cc: Shuah Khan <skhan@linuxfoundation.org>, 
 	Randy Dunlap <rdunlap@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, 
@@ -81,21 +36,21 @@ Cc: Shuah Khan <skhan@linuxfoundation.org>,
 	Namjae Jeon <linkinjeon@kernel.org>, Hisam Mehboob <hisamshar@gmail.com>, 
 	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, Christian Brauner <brauner@kernel.org>, 
 	Amir Goldstein <amir73il@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Eric Biggers <ebiggers@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, David Howells <dhowells@redhat.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>, 
-	Catalin Iacob <iacobcatalin@gmail.com>, Stephen Hemminger <stephen@networkplumber.org>, 
-	Andrew Lunn <andrew@lunn.ch>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Andrei Vagin <avagin@gmail.com>, Wei Yang <richard.weiyang@gmail.com>, 
-	Bhavik Sachdev <b.sachdev1904@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Wang Yan <wangyan01@kylinos.cn>, Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, 
-	Malaya Kumar Rout <malayarout91@gmail.com>, linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Eric Biggers <ebiggers@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	David Howells <dhowells@redhat.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Theodore Ts'o <tytso@mit.edu>, Catalin Iacob <iacobcatalin@gmail.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, Andrew Lunn <andrew@lunn.ch>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Andrei Vagin <avagin@gmail.com>, 
+	Wei Yang <richard.weiyang@gmail.com>, Bhavik Sachdev <b.sachdev1904@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Wang Yan <wangyan01@kylinos.cn>, 
+	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, Malaya Kumar Rout <malayarout91@gmail.com>, 
+	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
 	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
 	Jonathan Corbet <corbet@lwn.net>, "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
 	Madhavan Srinivasan <maddy@linux.ibm.com>, Alexander Viro <viro@zeniv.linux.org.uk>
 Subject: Re: [PATCH] bfs: remove the filesystem
-Message-ID: <y75h7cbqzqe7j6tcv673v5cvtqrmciiewzbnw5vp5pvx4x6gmy@gmhmwyircgfj>
+Message-ID: <apqXNCL4X_i6xy2Z@gremlin>
 References: <20260904082954.48738-1-enelsonmoore@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -106,37 +61,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20260904082954.48738-1-enelsonmoore@gmail.com>
-X-Spam-Score: -6.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[42];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	R_RATELIMIT(0.00)[to_ip_from(RLizrtjkoytmmoj3iud1rzij51)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,infradead.org,ellerman.id.au,gmail.com,kernel.org,suse.cz,posteo.de,linux-m68k.org,redhat.com,alpha.franken.de,mit.edu,networkplumber.org,lunn.ch,orcam.me.uk,linux-foundation.org,kylinos.cn,vger.kernel.org,lists.ozlabs.org,lwn.net,linux.ibm.com,zeniv.linux.org.uk];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
 
-On Fri 04-09-26 01:29:19, Ethan Nelson-Moore wrote:
+On Fri, Sep 04, 2026 at 01:29:19AM -0700, Ethan Nelson-Moore wrote:
 > BFS (not to be confused with BeFS, the BeOS filesystem) is the
 > filesystem UnixWare uses for its boot partition. It has extremely
 > limited functionality, only supporting contiguous files and no
@@ -147,17 +73,17 @@ On Fri 04-09-26 01:29:19, Ethan Nelson-Moore wrote:
 > access it from Linux. Other old Unix filesystems (efs, freevxfs) have
 > been removed recently, and bfs is highly unlikely to have any users, so
 > remove it as well. Retain the UAPI header to be safe.
-> 
+>
 > Also update the former maintainer's email address in CREDITS.
-> 
+>
 > Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 
-I think this is sensible. Feel free to add:
+Based on Jan's feedback at [0] that closes the loop (it is indeed a
+maintenance headache):
 
-Acked-by: Jan Kara <jack@suse.cz>
+Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-								Honza
-
+[0]:https://lore.kernel.org/all/35dsgpk5dsh6bm4xoblrq6hdslfvtuibl5grzag37cye2hgepk@rkrtkjxdyk5g/
 
 > ---
 >  CREDITS                                       |   2 +-
@@ -188,14 +114,14 @@ Acked-by: Jan Kara <jack@suse.cz>
 >  delete mode 100644 fs/bfs/dir.c
 >  delete mode 100644 fs/bfs/file.c
 >  delete mode 100644 fs/bfs/inode.c
-> 
+>
 > diff --git a/CREDITS b/CREDITS
 > index bba5071c29a5..c570dd7eebbd 100644
 > --- a/CREDITS
 > +++ b/CREDITS
 > @@ -57,7 +57,7 @@ S: Longford, Ireland
 >  S: Sydney, Australia
->  
+>
 >  N: Tigran A. Aivazian
 > -E: tigran@aivazian.fsnet.co.uk
 > +E: aivazian.tigran@gmail.com
@@ -215,7 +141,7 @@ Acked-by: Jan Kara <jack@suse.cz>
 > +But the UnixWare Boot Filesystem is called bfs, too, and it was already
 > +in the kernel. Because of this naming conflict, on Linux the BeOS
 >  filesystem is called befs.
->  
+>
 >  How to Install
 > diff --git a/Documentation/filesystems/bfs.rst b/Documentation/filesystems/bfs.rst
 > deleted file mode 100644
@@ -302,7 +228,7 @@ Acked-by: Jan Kara <jack@suse.cz>
 > @@ -4627,13 +4627,6 @@ S:	Odd Fixes
 >  F:	Documentation/block/bfq-iosched.rst
 >  F:	block/bfq-*
->  
+>
 > -BFS FILE SYSTEM
 > -M:	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>
 > -S:	Maintained
@@ -981,7 +907,7 @@ Acked-by: Jan Kara <jack@suse.cz>
 > -	 * range of blocks allocated for this file, we can grant it.
 > -	 */
 > -	if (bi->i_sblock && (phys <= bi->i_eblock)) {
-> -		dprintf("c=%d, b=%08lx, phys=%08lx (interim block granted)\n", 
+> -		dprintf("c=%d, b=%08lx, phys=%08lx (interim block granted)\n",
 > -				create, (unsigned long)block, phys);
 > -		map_bh(bh_result, sb, phys);
 > -		return 0;
@@ -1000,7 +926,7 @@ Acked-by: Jan Kara <jack@suse.cz>
 > -	 * anywhere.
 > -	 */
 > -	if (bi->i_eblock == info->si_lf_eblk) {
-> -		dprintf("c=%d, b=%08lx, phys=%08lx (simple extension)\n", 
+> -		dprintf("c=%d, b=%08lx, phys=%08lx (simple extension)\n",
 > -				create, (unsigned long)block, phys);
 > -		map_bh(bh_result, sb, phys);
 > -		info->si_freeb -= phys - bi->i_eblock;
@@ -1018,7 +944,7 @@ Acked-by: Jan Kara <jack@suse.cz>
 > -	}
 > -
 > -	if (bi->i_sblock) {
-> -		err = bfs_move_blocks(inode->i_sb, bi->i_sblock, 
+> -		err = bfs_move_blocks(inode->i_sb, bi->i_sblock,
 > -						bi->i_eblock, phys);
 > -		if (err) {
 > -			dprintf("failed to move ino=%08lx -> fs corruption\n",
@@ -1645,7 +1571,7 @@ Acked-by: Jan Kara <jack@suse.cz>
 > --- a/tools/testing/selftests/filesystems/statmount/statmount_test.c
 > +++ b/tools/testing/selftests/filesystems/statmount/statmount_test.c
 > @@ -17,7 +17,7 @@
->  
+>
 >  static const char *const known_fs[] = {
 >  	"9p", "adfs", "affs", "afs", "aio", "anon_inodefs", "apparmorfs",
 > -	"autofs", "bcachefs", "bdev", "befs", "bfs", "binder", "binfmt_misc",
@@ -1653,9 +1579,9 @@ Acked-by: Jan Kara <jack@suse.cz>
 >  	"bpf", "btrfs", "btrfs_test_fs", "ceph", "cgroup", "cgroup2", "cifs",
 >  	"coda", "configfs", "cpuset", "cramfs", "cxl", "dax", "debugfs",
 >  	"devpts", "devtmpfs", "dmabuf", "drm", "ecryptfs", "efivarfs", "efs",
-> -- 
+> --
 > 2.43.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>
+
+--
+Cheers, Lorenzo
