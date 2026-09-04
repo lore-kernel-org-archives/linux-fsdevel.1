@@ -1,73 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465023D9DA8;
-	Fri,  4 Sep 2026 15:38:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5CB3ACA4B;
+	Fri,  4 Sep 2026 16:06:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788536317; cv=none; b=fC/6vy3PnyCSnJHvWjoZkw0unkl7tQdEgxRqMKEQTW6NmOmjV0Jwgzto9JWHgqHm4jnQ/5XwijBHxkUfHxmH2LlvQagSztd1RvZWi+w7V55apWHCUgBmaVutMlpg+MqzHiuPM8dfpERGetG2oF/CVHE71Wyh9+Q8y6ChWHRnN0U=
+	t=1788538000; cv=none; b=XW5XykRisGHZRhH++zFFu45/uCMdNC5LlXpa0D+P8l2zY9nVJxMw1fn9HX/6jeMW/ZpF/jSMenK1Oml8Q13y8tDjW6vKDiM6CV1nh9NTC4La3D7Z2vhA80neU6m756ybRoIDiyaKeo7rD/Vu4uLN8VwN0dhhxyT5Ip77hcldpRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788536317; c=relaxed/simple;
-	bh=MFGNhoPZSSYrfPl7DxsK1rpVv/eJY/GjY/qKmZtxztw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HG1VmI65Nz+kUdJeEtpKeIXBYnqq1ZpCQTmmyaNLIyAhpCArmg+SYLrd/KI+Afd0kDjac3CLf0piBXPtPcMq5/8OuW8aothbOBbpip0x/so9t0H8Jih/ALEBgr0qoXxsLJh7L2Ru4UKIcmxIjrfAHSShpTvhTt2AwTu5/39dgOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=osHikE9d; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788538000; c=relaxed/simple;
+	bh=8FSb/gjuciMqhZIT4RXlFvIKNcHmDi84w1BldFvuDhY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sh/qN0alBc0a63zT/HPfMMRa4x3ha6j7NVeMS2us1rZ6NZfxV5Ip5df1wjlyySXZqLcyilEEGIShWyCgM9YWeEQu5sE5sTEv9ZQ6TVD/BGpYCNhb5jNG0omKeiuWapAkcV+BoXAq9ZyhlDAJdKaZUDfqxcfLplEB1ix+yjSH63Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFVs81Nr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="osHikE9d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BBF91F00A3D;
-	Fri,  4 Sep 2026 15:38:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFVs81Nr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B31E1F00A3D;
+	Fri,  4 Sep 2026 16:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788536315;
-	bh=E6gCTHbN1a2TvbVEkb78KjRMvftQouYezcH7gqQv2vI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=osHikE9duZi0l2YZ/2IvPD/u47R7h8kU2MsV+q5Q+suYvHi0rJZl2rqeg9okLAIyZ
-	 21fXlhcZnkG+vu+TJnZDcdeRcFl34b35fM6E7ZklgtwZCQABaUABLV03g2VwQ/Glq7
-	 Dh49natl6oqJk1BzWQTqoDKX8mQuhVo3ZfyLsOzEJcSVKlGkdoTDjR10o/E8tU/6Ap
-	 eHADj4ECChbSKjqxyR6A2iB9yQQXro+tgNsB111dA8qUGjY8w8VDrxQkR8lj4mr1QU
-	 h2e/34GCUxD1YHIr0G0TreTMBZFivSCLtiFIRwzm8jz+Q1GrW097acTUiTMPRSx2NE
-	 jHhMZQCWInoXg==
-Date: Fri, 4 Sep 2026 08:38:34 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Willem de Bruijn <willemb@google.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Alexander Viro
- <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Alexander Mikhalitsyn
- <alexander@mihalicyn.com>
-Subject: Re: [PATCH 05/10] net: turn sk_peer_pid into an array indexed by
- pid type
-Message-ID: <20260904083834.5c31e8f1@kernel.org>
-In-Reply-To: <20260904-eintagsfliege-goldpreis-gebinde-8e5b7c9fa9b7@brauner>
-References: <20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org>
-	<20260831-work-unix-passpidfd-v1-5-70cbfda0c7ba@kernel.org>
-	<20260901172014.71a2863c@kernel.org>
-	<20260904-eintagsfliege-goldpreis-gebinde-8e5b7c9fa9b7@brauner>
+	s=k20260515; t=1788537990;
+	bh=89DU0GapqiOZlaA7jU9CQs5/T4ZZ4b0KeYVQAFryc+c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CFVs81Nrix1xWs3kup1P05Krc0JJYYhS/ViPHckidBWbZUUGJsinV0OpG0P2Yp0BM
+	 Yi+nMeESljaXeDglpK+m7DNQxDrSYy8UGDgOQoERJShk9RAc41+SjMQlXp7YkTY/cs
+	 KX7Zc2qg+zrln15rB1FL9dhfPpQNrATWQEC0mVvJPFKr8EUGnQG1Al5bkXiPq+CkAV
+	 8ASReE6E/YXuMju48gmLyNRm35+cwsjDqveHmTZAEelBBwGoMRCiXvPw2ZAyXgeW7s
+	 FNu/myp6GFkUNY3kus7xr2P0HhWcShI8J6dlb8+vBIMclZAmORFzAg8TXYBEMMFa6n
+	 RwUUxSxh+CnkA==
+Date: Fri, 4 Sep 2026 17:06:19 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Hisam Mehboob <hisamshar@gmail.com>, 
+	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, Amir Goldstein <amir73il@gmail.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Eric Biggers <ebiggers@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, David Howells <dhowells@redhat.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Theodore Ts'o <tytso@mit.edu>, 
+	Catalin Iacob <iacobcatalin@gmail.com>, Stephen Hemminger <stephen@networkplumber.org>, 
+	Andrew Lunn <andrew@lunn.ch>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+	Andrei Vagin <avagin@gmail.com>, Wei Yang <richard.weiyang@gmail.com>, 
+	Bhavik Sachdev <b.sachdev1904@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Wang Yan <wangyan01@kylinos.cn>, Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, 
+	Malaya Kumar Rout <malayarout91@gmail.com>, linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Luis de Bethencourt <luisbg@kernel.org>, 
+	Salah Triki <salah.triki@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] bfs: remove the filesystem
+Message-ID: <aprr9xUwEmjA1N5T@gremlin>
+References: <20260904082954.48738-1-enelsonmoore@gmail.com>
+ <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
+ <20260904151054.GG6047@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260904151054.GG6047@frogsfrogsfrogs>
 
-On Fri, 04 Sep 2026 11:03:24 +0200 Christian Brauner wrote:
-> > Warning: include/net/sock.h:606 struct member 'PIDTYPE_TGID' not described in 'sock'
-> > Warning: include/net/sock.h:606 Excess struct member 'sk_peer_pid' description in 'sock' (did you mean one of: '#define sk_portpair             __sk_common.skc_portpair', 'sk_peer_cred', 'sk_peer_lock', 'sk_peek_off')
-> > 
-> > 
-> > include/trace/events/landlock.h:946:13: error: incompatible pointer types assigning to 'struct pid *' from 'struct pid *const volatile *' [-Wincompatible-pointer-types]
-> > 
-> > 
-> > What's the merging path for these? Judging by the To: perhaps you
-> > expect us to take these directly?  
-> 
-> If you have no quarrels with me taking it through the vfs tree it would
-> help because I have other work on top of this. Otherwise a shared branch
-> also works.
+On Fri, Sep 04, 2026 at 08:10:54AM -0700, Darrick J. Wong wrote:
+> On Fri, Sep 04, 2026 at 12:43:09PM +0200, Christian Brauner wrote:
+> > On Fri, 04 Sep 2026 01:29:19 -0700, Ethan Nelson-Moore wrote:
+> > > bfs: remove the filesystem
+> >
+> > I agree.
+>
+> At the moment, I don't.  Nowhere in this thread does anyone mention what
+> someone with a B(oot)FS filesystem image should do if they want to
+> extract whatever's stored in the filesystem.  Are there userspace tools
+> for that purpose (ala efs)?  Does "binwalk -e $bfs_image" suffice for
+> that purpose?  Or is there solid evidence that there isn't even a single
+> user (ala freevxfs) who strongly wants it to stay in?
+>
+> I'm all for getting rid of old cruft but there still needs to be a
+> documented offramp for users.
 
-Shared branch, please. It's too much code to be sitting in another tree
-for the full development cycle
+Use an older/downstream version of linux? :)
+
+It's like the museum piece arch stuff - people argue vigorously in favour of
+nommu (which btw is a variety of linux that _doesn't implement forking_ :)))
+gesticulating at talks given at conferences etc.
+
+But then never quite answer the 'why not use an older version of linux' or 'why
+not just maintain it downstraem for the 3 people who need it'.
+
+Also worth consider what the Venn diagram overlap of bfs users and people
+running even-vaguely-tip kernels/likely to ever upgrade is. Quite likely zero I
+expect?
+
+I get the desire not to lose people their data, but the code's not gone away
+forever :)
+
+>
+> --D
+>
+> > ---
+> >
+> > Applied to the vfs-7.4.bfs branch of the vfs/vfs.git tree.
+> > Patches in the vfs-7.4.bfs branch should appear in linux-next soon.
+> >
+> > Please report any outstanding bugs that were missed during review in a
+> > new review to the original patch series allowing us to drop it.
+> >
+> > It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> > patch has now been applied. If possible patch trailers will be updated.
+> >
+> > Note that commit hashes shown below are subject to change due to rebase,
+> > trailer updates or similar. If in doubt, please check the listed branch.
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> > branch: vfs-7.4.bfs
+> >
+> > [1/1] bfs: remove the filesystem
+> >       https://git.kernel.org/vfs/vfs/c/e36781a626b2
+> >
+> >
+
+--
+Cheers, Lorenzo
