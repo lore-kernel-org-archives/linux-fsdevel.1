@@ -1,133 +1,117 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982B238DC68
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 14:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EDF1A9F91;
+	Fri,  4 Sep 2026 14:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788532101; cv=none; b=U4djgBex11MNO7JyY7YJqWC4v7XiEd5g4VAjNyXOHGJFCX0Hm0N5NnItw9Z35hWkvhJTKdMmU7+mSV9ZGmqEzaWAIJK4teE1Sro8+eJBCcUwj3MqjmLWX5nlL4phMXzqTi8f/HrgjNti4mupBkpKeiZ0NisOce/GXEl/hOSlC2s=
+	t=1788533339; cv=none; b=c4In0L0bA2l3LGK7vIOfzH1WWASfDrzMVsvYb3Dy5UvWXHQBfTEPksF4afen/e9iOeAB+GlSLDrSjCkTfhR88nyAi6JctY8/eaxhxVwREYYwNwUycH2BJYVS9TIffSX3ulRD4jXrfkW7YvbthOFw/GyT6qOStEzFMh8ofSn+BK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788532101; c=relaxed/simple;
-	bh=kf/1ey0GqeVu9fPQWj2L2Mm5Rt20DZ2y/xGWZmN2GIQ=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=CB7D7X6rRAMrZXHK/FsqJAQe9G3vWIr2fZrf8QK88DMCnaYn8qucMVXb/XV/9lINKRkO8DVf12hALisBms76GrXPjLV4kfPi7REQfDYqvz54k92VaE5jJXaQR88FUHSpj+AqsYjG8AQE0FIwRodUVnOivMGcWJWMNOcGorLc63M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com; spf=pass smtp.mailfrom=doyensec.com; dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b=e4h2L2E4; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=doyensec.com
+	s=arc-20240116; t=1788533339; c=relaxed/simple;
+	bh=RPZk54L1rty0ICmm5Vw6nd84czl1ctT8mF95svoe+s8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hn8lVFazl4ZfxfjzMCrNpG0TcXWu7IiAMPVR/smXedIfD4w42XpIhkAflG+C61iaOwL+etdJWODZ+HEpq8r+SFjdnYXo95b3DOa95cm49I9zojzdG7rqf/qHwc45UsUQoxGpqwlfDGw/cGuZX9rIn4+RHKV/Z/N5DkNnrCvnf24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ntr7V7Sk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b="e4h2L2E4"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c15cf78d1a2so102364266b.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 07:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=doyensec.com; s=google; t=1788532098; x=1789136898; darn=vger.kernel.org;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:content-type:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NNlQHxyERxR0BCf4rdmfxT/+3TEDXoy4SOv/36YNyCQ=;
-        b=e4h2L2E4sNxwcg/rMrmYH4uyGNjbaU1O9UWm2Ubpi5HR9o23N+3u7u3hk0VSVPkUNT
-         2wKfIzEz5fPVA/A4DMesB6ckAB7y7ZzhHw/mJVXoxLk08wIAtQJGXw2EY8zinrFnD148
-         nD2FoyVHh6T/h7lvr3UFdJNZEkeZWA0gSoIrZ9vLj3DnERth4R23wa1rcjo7CtZXywIC
-         LritYKRA9Uzu6i7JyS5wO71eN0JxfqTA5/het6r8uScBN+NY9x5Eu98zL0aAdxYnspYZ
-         gkpM21l9v1t8kyCMCoZl2q95ajD+uPeTckAzlEGy9tTVwG+907+IctrBYgIyeJAxbeDc
-         AbGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788532098; x=1789136898;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:content-type:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NNlQHxyERxR0BCf4rdmfxT/+3TEDXoy4SOv/36YNyCQ=;
-        b=mGY/KwBNsMVtwRBihi9WuUJhuwFv2fKDL6rHPGmrXIh6eFhDNZ41j0YBHp/QWdlmEC
-         aT0OtoHnbW8uWaMIFb5v91F3vjrMUoP09tbaQI4Tde4QX2jWBnyxwyLDPlEfy4jlVxdw
-         5j/VardJ97ybBooMQ+RYaYxBc+o50jFhSpmFnR6HmHF6+KRT8pJvmQCszSlQBwvAm+vl
-         M3VHBruAFhOqqECDmH+/vZjnHpsCY4A0JJAi9/B6EOAlzI936aE0qnltOMoqWIOLWs6p
-         W9C6KiQoJFiNy85KjMQSA8/4ST95LQKP2FQPhRcNRmSRkRBJf0TLzR+Ko59cXIK6O4VM
-         Jb3A==
-X-Forwarded-Encrypted: i=1; AKwUvBwyyaOcPfXw+/9RaGQ/k85kNiWpC2QAA5m1lU90Tc8aATRQfwT5tyWF1I3PsvpkxRr9tkMFC8Jc+RU9EetU@vger.kernel.org
-X-Gm-Message-State: AFuF++mQznoVW5c4Hw29Y74lB9E6uDRwTUe/IFtZaxBCuPE4+RzsxXU3
-	ciIxPkEMY5gQhK4wyY129q1QBHZ2vqNX1WP0STvAdCMJe4t+2hgpHhvnT/0ujyVFMbs=
-X-Gm-Gg: AYBFou1SDjl55TD28HPMVxbnsVpYRCz7NU4C72yStXC4Yl++UygA/YxYIhKi1RNYhaV
-	JDdNxVS9wL9x0nm/4VUYF2xJiMZTjPNVIp5GHNckjMQ3qckyigL3YLyxG0XI4hskUiV/Is2p9Ff
-	fdlBD/m0Alim3ymmKIPY8Ex7qgF06PTloqvKWozTc2+WSWXhkggicdK4+Cv9O8+A+/AHH3X36SU
-	AOnlu0yxUzlvQw5vOW+Vt2botP5/zGIFFRxfdIfUkc4u+ZtMPoLYEepPQdohjxm9XyQsY/G4YlB
-	kyzsnYOh24jOq8KU/ofvVhU41oGq/db6WsTveJ1fBDa95aj3KqRavAD0ebJW7iDAs01olJOntHF
-	6pxrgILHGIksSZQ96nuTWOlcQWkkXopL8nMJKLULvHu7jq8QGcRK/np5eps5rZeb5bVF5Xk4ybS
-	Jy5XPSG/28xWXrzP8ychCiQfdvVi9n9hON55/9XPR8FJnp5ni/ELPAtRZjqJm5nlDjkgtFcWz20
-	dziLabVo7j8PEmIGP7AlNFJuTxrLnlFa5ps8CC3HelRJaxTT/H/lrs=
-X-Received: by 2002:a17:907:728f:b0:c26:19e3:e97a with SMTP id a640c23a62f3a-c2619e3ee84mr151939166b.26.1788532097705;
-        Fri, 04 Sep 2026 07:28:17 -0700 (PDT)
-Received: from smtpclient.apple (83.10.35.35.ipv4.supernova.orange.pl. [83.10.35.35])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d4aa01dsm114864866b.15.2026.09.04.07.28.16
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 04 Sep 2026 07:28:17 -0700 (PDT)
-From: Norbert Szetei <norbert@doyensec.com>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ntr7V7Sk"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D57DEC2BCC7;
+	Fri,  4 Sep 2026 14:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788533338;
+	bh=RPZk54L1rty0ICmm5Vw6nd84czl1ctT8mF95svoe+s8=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Ntr7V7SkevS+N/58ZM46AZRxYxyPElIdjeWGTdmh71AX2IdqvZoobFMwzw8X4BVHG
+	 bH3QvRGZUHcqcCoQ7/Z8rvYVV/qpjH+ZuBWf2BqaB1t3TEd3668/HX7ezNRJ9xP2h3
+	 +R3jYbdCBmJu0fUABOvfFrKCDBftKaFbbT/K+lQdRoufiOI3SzHHDrp2Z9TtocPJJP
+	 Q5aeOi3Am6UYaC0ddHfERIk9ooX4RYfRIpuslX2PrITXbCWLNIdlxuV4M8JI+CX4Cs
+	 9qWG1hXIjq11K//ZfKqfqeLklqVkexRHssPJFQ/LQSWru7Yevr4H3kJxuR+zLo+qq3
+	 oNP5kXlpJDgaQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB782C624DE;
+	Fri,  4 Sep 2026 14:48:58 +0000 (UTC)
+From: Daan De Meyer via B4 Relay <devnull+daan.amutable.com@kernel.org>
+Subject: [PATCH v3 0/2] lsm: expose mount idmaps to inode hooks
+Date: Fri, 04 Sep 2026 16:48:54 +0200
+Message-Id: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
-Subject: [PATCH] nstree: check listing permission before taking a namespace
- reference
-Message-Id: <34C54FF6-AA8F-4124-9B40-C68EADB26D99@doyensec.com>
-Date: Fri, 4 Sep 2026 16:28:05 +0200
-Cc: linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-To: Christian Brauner <brauner@kernel.org>
-X-Mailer: Apple Mail (2.3826.700.81.1.4)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32PwW4CMQxEfwXlXFdxNkWkJ/4DcXCyppuK7KI4u
+ wKh/fcm9ICEqh7HY78Z35Vwjizqc3NXmZcocRqr6N42Kgw0fjHEvmpltNnqnbFwlgRpmsdSjUQ
+ XAdc775w9MRKqenbJfIrXB/Jw/NUy+28OpXHahidh8JnGMLRRIimcmzFEKVO+Pcos2AD/5C4IG
+ rRFS25rMew+9pTmQv7M72FKqkUv5slwGv9gGEDoOl0/6JF7Mi+MdV1/AAR5/AciAQAA
+X-Change-ID: 20260824-lsm-mount-idmaps-9d9b994fe1a1
+To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ Daan De Meyer <daan@amutable.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788533337; l=2257;
+ i=daan@amutable.com; s=20260712; h=from:subject:message-id;
+ bh=RPZk54L1rty0ICmm5Vw6nd84czl1ctT8mF95svoe+s8=;
+ b=db8BeU4lBmswjj71tam6b0ZlFa10vg2dFktxgSM+aFee3/ldCqywM6PQAqYiBnQM3rvsm/Qak
+ yP9wQ00Wh6oDrq5IInU6yk6X8pKX5VkKltBRcRZj244BJ8RLE2N4KxQ
+X-Developer-Key: i=daan@amutable.com; a=ed25519;
+ pk=I1l+WwrtmzRgofA5SQ1wTuJi18fjh91w+f5uRkFeZEA=
+X-Endpoint-Received: by B4 Relay for daan@amutable.com/20260712 with
+ auth_id=868
+X-Original-From: Daan De Meyer <daan@amutable.com>
+Reply-To: daan@amutable.com
 
-legitimize_ns() takes a reference on the candidate namespace before
-may_list_ns() has decided whether the caller may see it. The
-__free(ns_put) cleanup on the denied path can drop the last reference to =
-a
-mount namespace while we still hold the rcu read lock, and put_mnt_ns()
-may sleep there. This is the same problem commit 2ec2aff3c8e2 ("ns: make
-sure reference are dropped outside of rcu lock") fixed for the =
-put_user()
-path. Neither ns_requested() nor may_list_ns() needs a reference, both
-only look at the namespace type and at the caller's own namespaces, so =
-do
-the checks first and take the reference last.
+OverlayFS performs upper-layer operations through inode-based security
+hooks. Those hooks receive the upper inode and dentry, but not the mount
+idmap used by the VFS operation.
 
-Fixes: 76b6f5dfb3fd ("nstree: add listns()")
-Signed-off-by: Norbert Szetei <norbert@doyensec.com>
+The security layer cannot distinguish an identity-mapped upper from an
+idmapped one or make the same ownership decision as the VFS. The VFS
+layer already passes the idmap down into all relevant inode operations
+so this just brings the security hooks to parity.
+
+So pass the mount idmap through the create, link, symlink, mkdir, mknod,
+and permission hooks. Update the in-tree security implementations and
+non-VFS callers accordingly.
+
+systemd has been shipping systemd-nsresourced for quite a while now. It
+relies on inode and path hooks to perform ownership checks using a bpf lsm.
+To make this actually secure we need to be able to calculate the on-disk
+ownership from the idmap.
+
 ---
-A reproducer is available on request.
+Changes in v3:
+- Restore the two-patch split from v1.
+- Add the missing Signed-off-by trailers to both patches.
+- Link to v2: https://patch.msgid.link/20260901-lsm-mount-idmaps-v2-1-3309b9d1eda2@amutable.com
 
- kernel/nstree.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+Changes in v2:
+- Squash the implementation and selftest into a single patch.
+- Add the missing Signed-off-by trailer.
+- Link to v1: https://patch.msgid.link/20260824-lsm-mount-idmaps-v1-0-0414a9641c85@amutable.com
 
-diff --git a/kernel/nstree.c b/kernel/nstree.c
-index 6d12e5900ac0..831f279d174a 100644
---- a/kernel/nstree.c
-+++ b/kernel/nstree.c
-@@ -533,19 +533,13 @@ DEFINE_FREE(ns_put, struct ns_common *, if =
-(!IS_ERR_OR_NULL(_T)) ns_put(_T))
- static inline struct ns_common *__must_check legitimize_ns(const struct =
-klistns *kls,
- 							   struct =
-ns_common *candidate)
- {
--	struct ns_common *ns __free(ns_put) =3D NULL;
--
- 	if (!ns_requested(kls, candidate))
- 		return NULL;
-=20
--	ns =3D ns_get_unless_inactive(candidate);
--	if (!ns)
--		return NULL;
--
--	if (!may_list_ns(kls, ns))
-+	if (!may_list_ns(kls, candidate))
- 		return NULL;
-=20
--	return no_free_ptr(ns);
-+	return ns_get_unless_inactive(candidate);
- }
-=20
- static ssize_t do_listns_userns(struct klistns *kls)
---=20
-2.55.0
+---
+Daan De Meyer (2):
+      lsm: expose mount idmaps to inode hooks
+      selftests/bpf: verify mount idmaps reach inode hooks
+
+ fs/cachefiles/security.c                          |   4 +-
+ fs/namei.c                                        |  18 +-
+ include/linux/lsm_hook_defs.h                     |  23 +--
+ include/linux/security.h                          |  58 +++---
+ security/security.c                               |  40 ++--
+ security/selinux/hooks.c                          |  19 +-
+ security/smack/smack_lsm.c                        |   9 +-
+ tools/testing/selftests/bpf/prog_tests/test_lsm.c | 231 ++++++++++++++++++++++
+ tools/testing/selftests/bpf/progs/lsm.c           |  79 ++++++++
+ 9 files changed, 410 insertions(+), 71 deletions(-)
+---
+base-commit: 786262be6048deab760f68c8acc2c85607165894
+change-id: 20260824-lsm-mount-idmaps-9d9b994fe1a1
+
+Best regards,
+--  
+Daan De Meyer <daan@amutable.com>
+
 
