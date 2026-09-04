@@ -1,162 +1,158 @@
-Received: from mail-oa2-f1.google.com (mail-oa2-f1.google.com [74.125.231.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4212C438488
-	for <linux-fsdevel@vger.kernel.org>; Fri,  4 Sep 2026 09:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5BC43FD06;
+	Fri,  4 Sep 2026 09:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788513491; cv=none; b=Y7K3/oezbY4gtKae6NaqoT7/f2Ycl81ok+nTDeiW88VPM5qoItsjQgQfnU5A8R6+ErmEov2jExmHAhkft/VSDycKhxIxRQ0tSFffm57yVVsM76kIKhE4LQIt+6azRma7P41PVXkohh5wgMu5AmArX2vKAdew/n0n0rPNMyikPBI=
+	t=1788513768; cv=none; b=HIUUPypPSp5VBZzi8i1Ot+9b2l2YVjYxz2pdtzqHNSsfiuPqppR82ggA77ndl8+AcPnWs7x+8MY9b18aBBfO12ZzpUSta9ZMoeJ8B1V14w9x0c4T1AKXOohm8Wdk23J/lfGD8KXu6ibm/z3/sZ2/E9/OMe8fDxSrdqydcXmP150=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788513491; c=relaxed/simple;
-	bh=OR2W4C5RJeu31LTWR0IuWWn8GbjlLAisu1bzfRpRmto=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=GdFCiOpaLDODkE71ML8zuyJ4AsF9YNO2UNfGl7m5V8/4Xuikm7iT+IZnzlyTYyiBpwufeK6S5YH3XnDFPd9OKlTGDZohSSdiMV/wdfIpf7myZkV9LHZr/+ov/0QqoPIAiDMEg0u2bPskMSGVopGlpauGyhpFqt0WZD9lDx2CkXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa2-f1.google.com with SMTP id 586e51a60fabf-4489b7aa0e7so141988fac.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 02:18:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788513489; x=1789118289;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:in-reply-to:date:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=lWA7gjj4ueJ+MIU8cYLOnoqtXa/lQkjXbHrHZ6qQ27s=;
-        b=Dw0P65NCnDj2hpq32D+dotkjy1XzOgdOe9jI6dQHkPqd682na7KFPIyCNsP10g1fl3
-         eRvcG/2sNAGRKA1GVMGjrFxiUmb8kDT7RZbXIAOvBBePBROBBlBzNMc4SnXg3oGmU2BG
-         4AeTi3VwbYcW6Tkj3TP/gHStgyUkr4uX6BAgCiPOq05o4bx73U6H7qjeA2YjPFeaw3uz
-         sNEuQtR/jKSkPN4/siJIDgj2PCwjDum7y3njoSJqFj+2OaGhehYPMR3nE7QHJ7BIkQjp
-         i4C8uBBKukm0y42OAKezwMKbWiGQJAv2B5DfrBiYXH59Nk+zIWcaeqgI09pdHMvGUmQS
-         +dfw==
-X-Forwarded-Encrypted: i=1; AKwUvByKksGp7X1B52aYFmE7ry3oB83y2XD563jjNwYQPRbouaEIY/2d0WXiZhNXwkWFFIpgt8PavJh1PE/lcaef@vger.kernel.org
-X-Gm-Message-State: AFuF++lyTbGViBAHx+kXGFlQPQFLvbcJLQkqKR/umhwNxsC8qV1MSB05
-	Ej2I+PnGox59sf2NEWM9HtWyHUgK29eTuggNmSQKQ/QVxk2rffS0Ptl+2H9SKDTwwwzXiKImMP1
-	/XLdQBejOlz2dhnVn2x+IrKJ94IRuiagpmDmeXu/WbKPaYyueASUrNhNEZrw=
+	s=arc-20240116; t=1788513768; c=relaxed/simple;
+	bh=GKU6pGPgWNvvIDBVwgi9urL1ptmWQbWY5sLdsyVOTlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XKwDhJtZnT+R5SIjFUGbMSzKcEpfMpD2SqxWdoLAQIUUkhVoOhYz5y/V3RjzRAedY9wWhtsZidT7gWdw7DiH6rArv9+5rZKk9zQT6irZWgKlwRMn0bKqnb3pNVfrthHTEkwJA/hCk4eZkZhzm2ZBOep8CUn3PK3h8137dwLbCpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nnyf4jhA; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nnyf4jhA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC8B41F00A3D;
+	Fri,  4 Sep 2026 09:22:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788513758;
+	bh=vID5EID0YCuBYaR+0VVIol8Ipj98elZ+LfLBM7mQ4Uk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Nnyf4jhAsDMK/uWU4FAVFgX/Zu05soB7mn0uEllItoL9EGzcoFkhR7TzfhQxMI/C7
+	 PrI0J+WMwxdEwdZBaSO8kI5A3dY/R4gxSGRmJJ2VYZ7zLaTky6XWqHopWy/la9NiJi
+	 HeIGvZCN7ifYWk3Fqgqm8wyc1H4/UHxRS7jIyTpSSZyDML1sIoaGbH2hV0Q9jjP9O9
+	 2Osol+AwPNUQzgbwnFMH63NJ7OjYxUjJzHrnmyHxt68ySy7saEvwBU2s5GkSXNvVUI
+	 BL0jF61IeVv3jATQP5JsUZ4qezVF7hRJn0W68gTSPwyhnWuB5f4UlSoBnOufu4BjFt
+	 aunVolAOt+vvA==
+Date: Fri, 4 Sep 2026 10:22:32 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Ye Liu <ye.liu@linux.dev>
+Cc: Tony Luck <tony.luck@intel.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, x86@kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, 
+	"David Hildenbrand (arm)" <david@kernel.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Alexey Dobriyan <adobriyan@gmail.com>, Oleg Nesterov <oleg@redhat.com>, Ye Liu <liuye@kylinos.cn>, 
+	Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>, 
+	Babu Moger <babu.moger@amd.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 6/8] fs: convert process/thread iterators to
+ for_each_*_rcu
+Message-ID: <apqMmyhslEFx8EjT@gremlin>
+References: <20260904083001.553587-1-ye.liu@linux.dev>
+ <20260904083001.553587-7-ye.liu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:2912:b0:6b7:46e9:9702 with SMTP id
- 006d021491bc7-6b746e9a327mr1580777eaf.50.1788513489314; Fri, 04 Sep 2026
- 02:18:09 -0700 (PDT)
-Date: Fri, 04 Sep 2026 02:18:09 -0700
-In-Reply-To: <20260904-clown-zersplittern-sequenz-987f972a607b@brauner>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a9a8cd1.a011d2ce.399d32.0000.GAE@google.com>
-Subject: Re: [syzbot] [fs?] memory leak in path_openat (4)
-From: syzbot <syzbot+7666ed2c3d42196bf7e3@syzkaller.appspotmail.com>
-To: brauner@kernel.org
-Cc: brauner@kernel.org, iommu@lists.linux.dev, jack@suse.cz, jgg@nvidia.com, 
-	kevin.tian@intel.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260904083001.553587-7-ye.liu@linux.dev>
 
-> On Wed, Aug 26, 2026 at 07:54:38AM -0700, syzbot wrote:
->> Hello,
->>=20
->> syzbot found the following issue on:
->>=20
->> HEAD commit:    26260251022f Merge tag 'livepatching-for-7.3' of git://g=
-it..
->> git tree:       upstream
->> console output: https://syzkaller.appspot.com/x/log.txt?x=3D1196a1795800=
-00
->> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D6c1b5958b2d1=
-207f
->> dashboard link: https://syzkaller.appspot.com/bug?extid=3D7666ed2c3d4219=
-6bf7e3
->> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for =
-Debian) 2.44
->> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D139f717958=
-0000
->>=20
->> Downloadable assets:
->> disk image: https://storage.googleapis.com/syzbot-assets/0f75e7622b1f/di=
-sk-26260251.raw.xz
->> vmlinux: https://storage.googleapis.com/syzbot-assets/2bbff9fd7b60/vmlin=
-ux-26260251.xz
->> kernel image: https://storage.googleapis.com/syzbot-assets/95d733004907/=
-bzImage-26260251.xz
->>=20
->> IMPORTANT: if you fix the issue, please add the following tag to the com=
-mit:
->> Reported-by: syzbot+7666ed2c3d42196bf7e3@syzkaller.appspotmail.com
+Please cc everybody on every patch in the series :) it makes it incredible hard
+for me to see context otherwise.
+
+I can already see a comment I'd like to leave on another patch in the series but
+it's a total pain for me go retrieve that to do it.
+
+And I worry about acking one bit only to find out a horrible flaw in another
+part :P
+
+Can you please make sure to do that on any respin?...
+
+On Fri, Sep 04, 2026 at 04:29:58PM +0800, Ye Liu wrote:
+> From: Ye Liu <liuye@kylinos.cn>
 >
-> #syz set subsystems: iommufd
+> Replace the manual rcu_read_lock()/rcu_read_unlock() pairs combined
+> with for_each_process() and for_each_process_thread() loops in fs/
+> with the for_each_*_rcu() macros.
 
-The specified label value is incorrect.
-"iommufd" is not among the allowed values.
-Please use one of the supported label values.
-
-The following labels are suported:
-actionable, missing-backport, no-reminders, prio: {low, normal, high}, subs=
-ystems: {..
-see below ..}
-The list of subsystems: https://syzkaller.appspot.com/upstream/subsystems?a=
-ll=3Dtrue
+Probably worth mentioning that they hold the RCU lock in a scoped guard over the
+operation.
 
 >
-> This seems to be a reference cycle in iommufd. path_openat() and
-> alloc_empty_file() is just the place where the file is allocated.
+> No functional change.
 >
-> The reproducer does:
+> Signed-off-by: Ye Liu <liuye@kylinos.cn>
+
+In general it looks reasonable to me, but I wonder if you're correctly including
+linux/cleanup.h to have the scope guard available...
+
+Anyway can check that on respin with the right cc ;)
+
+> ---
+>  fs/proc/base.c        | 4 +---
+>  fs/resctrl/rdtgroup.c | 8 ++------
+>  2 files changed, 3 insertions(+), 9 deletions(-)
 >
->   r0 =3D openat$iommufd(AT_FDCWD, "/dev/iommu", 0, 0)      /* =E2=86=92 f=
-d 4 */
->   ioctl$IOMMU_IOAS_ALLOC(r0, 0x3b81, {size=3D0xc})         /* =E2=86=92 i=
-oas_id 1 */
->   ioctl(r0, 0x3b8f, "2800...0400000000...0010")          /* IOMMU_IOAS_MA=
-P_FILE */
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index 6a39de424f62..da36ba73dc17 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -1160,8 +1160,7 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+
+Side-note - I wonder if this really belongs in mm/oom_kill.c? Seems really odd
+to have it here.
+
+>  	if (mm) {
+>  		struct task_struct *p;
 >
-> So that last payload can be decoded as:
+> -		rcu_read_lock();
+> -		for_each_process(p) {
+> +		for_each_process_rcu(p) {
+>  			if (same_thread_group(task, p))
+>  				continue;
 >
->   iommu_ioas_map_file: size=3D40, flags=3DR|W, ioas_id=3D1, fd=3D4, start=
-=3D0, length=3D0x1000
+> @@ -1177,7 +1176,6 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+>  			}
+>  			task_unlock(p);
+>  		}
+> -		rcu_read_unlock();
+>  		mmdrop(mm);
+>  	}
+>  err_unlock:
+> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+> index 5dcbb0a964e8..3f96d21b84ab 100644
+> --- a/fs/resctrl/rdtgroup.c
+> +++ b/fs/resctrl/rdtgroup.c
+> @@ -709,14 +709,12 @@ int rdtgroup_tasks_assigned(struct rdtgroup *r)
 >
-> So fd is r0 itself which is the iommufd fd which is handed back to IOMMU_=
-IOAS_MAP_FILE.
+>  	lockdep_assert_held(&rdtgroup_mutex);
 >
-> That causes a cycle:
+> -	rcu_read_lock();
+> -	for_each_process_thread(p, t) {
+> +	for_each_process_thread_rcu(p, t) {
+>  		if (is_closid_match(t, r) || is_rmid_match(t, r)) {
+>  			ret = 1;
+>  			break;
+>  		}
+>  	}
+> -	rcu_read_unlock();
 >
-> iopt_map_file_pages() does fget(fd) without worrying what it calls it
-> on. So that does iopt_alloc_file_pages() which takes a long-term referenc=
-e in pages->file =3D get_file(file)
+>  	return ret;
+>  }
+> @@ -826,15 +824,13 @@ static void show_rdt_tasks(struct rdtgroup *r, struct seq_file *s)
+>  	struct task_struct *p, *t;
+>  	pid_t pid;
 >
-> The reference is dropped in iopt_release_pages() in fput(pages->file)
-> from the IOAS teardown. That in turn runs from iommufd_fops_release().
+> -	rcu_read_lock();
+> -	for_each_process_thread(p, t) {
+> +	for_each_process_thread_rcu(p, t) {
+>  		if (is_closid_match(t, r) || is_rmid_match(t, r)) {
+>  			pid = task_pid_vnr(t);
+>  			if (pid)
+>  				seq_printf(s, "%d\n", pid);
+>  		}
+>  	}
+> -	rcu_read_unlock();
+>  }
 >
-> TL;DR:
+>  static int rdtgroup_tasks_show(struct kernfs_open_file *of,
+> --
+> 2.25.1
 >
->   struct file(/dev/iommu)->private_data-> ictx->objects->ioas->iopt->area=
-->iopt_pages
->           ^                                                              =
-      ^
->           |____________________________ get_file() ______________________=
-______|
->
-> Closing the fd does nothing. The hex dump shows the same pattern btw:
->
->   - obj1 struct file @ ffff88812811f9c0, obj2 its LSM blob
->   - obj3 iommufd_ctx @ ffff88811161cd80, first word =3D ffff88812811f9c0 =
-=E2=86=92 ictx->file is obj1
->   - obj5 xa_node, its ->array =3D ffff88811161cd88 =3D &ictx->objects
->   - obj4 iommufd_object: shortterm_users=3D1, users=3D1, type=3D4, id=3D1=
- =E2=86=92 the IOAS with ioas_id =3D=3D 1 from the repro
->   - obj6 iopt_pages, kref =3D=3D 1
->
-> Likely caused by f4986a72d6e4 ("iommufd: Add IOMMU_IOAS_MAP_FILE")
->
-> Afaic,t, this should either reject based on file->f_op =3D=3D &iommufd_fo=
-ps.
-> But iiuc there's other cycles that can be formed.
-> For example, via a vfio device fd that's bound to the iommufd. It holds a=
-n iommufd_ctx reference via iommufd_ctx_from_fd().
-> So mapping a bound but unattached vfio fd builds the same cycle.
->
-> So probably this should do validation what type of file can actually be
-> used like shmem and hugepage file.
+
+--
+Cheers, Lorenzo
