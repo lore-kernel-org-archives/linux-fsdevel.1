@@ -1,139 +1,172 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13682360EFF
-	for <linux-fsdevel@vger.kernel.org>; Sat,  5 Sep 2026 06:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052863F20FA
+	for <linux-fsdevel@vger.kernel.org>; Sat,  5 Sep 2026 07:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788589898; cv=none; b=M/JmNwBjHutWOadFFvZ9I88lnh2whnDErubvlxZWgKKb9HoacAuURaAt0oIoFn4frobk1nwI3bg2BGbVZObP1efBCVcLMj1pQnXrzYFzK8sHRj6ErP+RGV1IrTGmBifMpdzZ3QOeMXsl4pR1ua/+AxuHC9dJ8pjO4jJ840CKV9Y=
+	t=1788592024; cv=none; b=X6CcgBewdNt1BZkfjLrhPuzptbucbnOba20pfm2XR3KmnIjb4ZKpc292yKf8TUJ04GOaZ1+KQBUJ6l2K9MAiPoB1sOx7kobpztKCJ6IAA/6QbxkJvnhYyi+F9oeM3nk2NDWKR17ul++BX3fo1TrMxrO9zAouqk5ErHgVANAz75I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788589898; c=relaxed/simple;
-	bh=CSdPRELROkYKXy+2tVtR16UKWCgrtQnEIaCw5HxeGSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mhX35DqH+q2wZvAsxfgMapCCRscxEZBk3YTqx7zD29UxUCuu1bGCXq80puH5DEMzAiodjQnsNr//gje+ZQ61hbFVtWFcWkhEs1aNPNDkm14R6lwb92VyX5FEYESo7WMQNxKeNnZYyFFpy4RPWz1KeekHh0XYlB1RN9np4GX3Z9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFFi5FYk; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFFi5FYk"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-499ac87c92bso19935755e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 23:31:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788589894; x=1789194694; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=E0jfYxlquFYCTLGleo8vFGywQI0ODEMKtD2q20GPHRE=;
-        b=hFFi5FYkEeheJKxTd6NpdlYlW6XEAX2xWBQdisIdVI+P58B0fJZPDFEYTTNjs1xHsd
-         Fj869yNm/ZJQ1sDscqTmgdyrWCk9keGzKb7tDFnUlN5aytzo8FnRrc6vAib+ds0CXTUo
-         znk380OhJKNGdrorzvXkCnKk708LmG3mmsIJmlUl8s7lYCMSW3ugiUrJ20+lOmfBco0J
-         V5WX9Pv/jLFvowgYmxu/gj5NCKdiGSSJpZaOQu0dS7+f3pT3CXNwOU30PnLSNZil1wFk
-         y/35Q1THjmaxiTqtCEqzbIcSKNbWWmirQeGiKngG/lYyZrRxwsOFU4Hu0azfnt18u2HT
-         4CLQ==
+	s=arc-20240116; t=1788592024; c=relaxed/simple;
+	bh=6oaGc/WO4cwTtsEqJt5kWPU00aUPc/WnmINShN+4QPM=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=h0xSMUpA5Vryyx5yjNkcJYCw4v7/imrOHXhBNpW1+Lfh/Bg4ex9ScqhB0R7bthnxjCzIJuvqD7VwaAaKvxLpf/Hh5oBj1xhdbGwJ6tge2MnL0jCHz2Jnwb7COVbO15ZnDYND4NsBJPPYUWimv/fw936lexs3Xg0Uk4GUxnUcVJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-6b34e5453cbso1667138eaf.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 05 Sep 2026 00:07:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788589894; x=1789194694;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=E0jfYxlquFYCTLGleo8vFGywQI0ODEMKtD2q20GPHRE=;
-        b=f/GjB2a5UkDslBRYbGYZIghKd1OC4oWoF4S44OEsJMcuMOZWDzDr6bhmbhKmhXAIUA
-         ttY9QzjYioxB8ZN3PjE/0zXR4xiQ6IQO3r6PcvKM5XlOSpqnfTybN7nwTXv6Uruh/Wea
-         aFgL7cC1LfsZczTroFQgDjp+wI+2iQve8Y0Omlnf8dS3Q1vupfijDiKhg3COv3Z/ot7s
-         Qh3197EyZs8mb+Zq74XEHgZyu7Wvzh9zktHHszwJqDpnHbHl0ffMog/+R9KnW2pr7hD0
-         XhA3/QCp8hQQrpI0fKwvH7FClJ4CarJW4AGZJhOOnxwuZyJZV0LZleTqXtUlOh9Y2BvJ
-         sggg==
-X-Forwarded-Encrypted: i=1; AKwUvByERAG67MeZ//tXYh2DstPEv3K9Oda3pNYlneF2bPUgmMuTjCGjUHMVKfe7cd1JG1Zkm+5zzDZCjCmbjyaY@vger.kernel.org
-X-Gm-Message-State: AFuF++kz4xFOH05YKjCG5q+5GI2mBQ9MFG82EvZzPpx7Ugwx+nKUMWja
-	BjD3O6NXT+trOnYk7WEL7nTTq8WGQUnT94UUl9bHEwHLqXLUGhxoC1l7rAwpVjje
-X-Gm-Gg: AYBFou2mOeFYNN7pfES4irnXUIphOBO9B4TsTd0sl96yJxn5JsqmUUT532XXtDTuOzU
-	ovjoeiBuVLpPbc5H8fqJSlwkula90CeW5dXtAnI/l2xk3q5IE3fKlDzn2hEX5zrZ3ErYFjwVPyo
-	fnEdC5prkpYjS4K+HvVnOxDZ5x78+sylcN3l0/P7yWJDYBp+/bVly1pLWUA4HUdG0sawOpLJ9jd
-	acwHgyhJ0uZQtZZgAS3ODCcApOeWh/A/o6CDcy3aM7mijkoyinGNIbvkhrdkdQu7jWwUcShMoRx
-	kW094y0Up+waCrqPAbymfcsAiJJxL/nQBgSrLCgjUHINz1ale4jmhhF4LkBU12EGXNqjOjCzDXJ
-	JUo69BXJU3QNwxga234CDbaca2ZSiCQsboo8+GH94pUH30fYptt90xRuoVk6D5b8p3nKecJPwNk
-	WsROlxALWtGhyyp+yxpvzpy0pu83eqF1lYysvHSnXqx35GkZg9fNKxU9HnUJhEWZNd16gxwhj9Q
-	wrFwEK0E/fc3i++Aau5RHGO4UrggdXbCOQNuvFKMJ2pJrdWHPezilf7z3IKbBlkLidjsRrUgRXI
-	HPUHkIJh1RbJYuy/Wmx19BLDV3qAKBMCbDHfk/gpzP8QEqolDHche9G5Lzy1csRB83Fynk7S85E
-	=
-X-Received: by 2002:a05:600c:3b02:b0:49b:9202:6f80 with SMTP id 5b1f17b1804b1-49cf8220edemr113027825e9.6.1788589893900;
-        Fri, 04 Sep 2026 23:31:33 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7710aa5sm123259535e9.7.2026.09.04.23.31.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 23:31:33 -0700 (PDT)
-Date: Sat, 5 Sep 2026 08:31:32 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Paulo Alcantara <pc@manguebit.org>, linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] super: make iterate_supers_type() deletion-safe
-Message-ID: <apu0mCbJ4S0TKIQM@gmail.com>
-References: <20260903013336.92081-1-kmehltretter@gmail.com>
- <32afuwcqxfzvc2qwsvx6ecpyvbunr45wnvmezbbqzz25qtfn35@tvotjvtm3soe>
- <20260904-astronaut-anpfiff-unbebaut-743381f4995a@brauner>
- <20260904-rockkonzert-bergtour-dahin-23c9c5c87d0f@brauner>
+        d=1e100.net; s=20251104; t=1788592020; x=1789196820;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=nnvwnS1OPKAjnbL2Ffg9wjdt+AOLqiiejT+aXhRtPlk=;
+        b=LvbsW83dX84xeJF61gB9QCP43fqytJfbIvE4nV1HSaiG7b7KWWoOzsGrMFtgO8VKc4
+         kr/3pOURg+AEfBUKBDqIRoAmzac+gDUWLsJ5vxlSXmWJUC7PhxFhpyY5GNW82AgBpOY2
+         a6GsMUxgEj22JvB2x26W4PnIEh1Xl4A0Q6jpXNS6Pv4NtFBB5018GDDSJY7dqonyjNf9
+         qVtcgATj2vJUV9ofMTCoY45ku21TdBhR50TsoF712ll0V9hY0X5Me88olqNqddJld/MK
+         +5S2n8x/vpJMwv2To2JRSl38vl8TpebinHrJ4V80e+HTegMql1uUjLJSPiipjhdLeKCb
+         4CQg==
+X-Forwarded-Encrypted: i=1; AKwUvBx24MPotg/64tmWpmA5UlCJ4AuzhyrVr941ri8xip67RsnIt0C7xxJ4aB/MkKiRj58tn7LQAoxMqsshKeOE@vger.kernel.org
+X-Gm-Message-State: AFuF++kVtyV5FD1KVZ5bSlRo4UkEBHdL9U7PVVDm5AfvXTU0fQLA514z
+	i+twgE1l9OjqUOF2p7NtDXcR0sinv1Dsh430rk26Jhk1rauT3slr9fhgvOzk3vfX0a5RQ5ZHnQD
+	Ca1vvu8u3AEKyBP425sonLyG8Efyxl2dIqeXjyxMvKcXzjWhpAw+FtVKIzSY=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904-rockkonzert-bergtour-dahin-23c9c5c87d0f@brauner>
+X-Received: by 2002:a05:6820:4cca:b0:6b7:8415:d790 with SMTP id
+ 006d021491bc7-6b78415d8d8mr4693626eaf.59.1788592020180; Sat, 05 Sep 2026
+ 00:07:00 -0700 (PDT)
+Date: Sat, 05 Sep 2026 00:07:00 -0700
+In-Reply-To: <cover.1788438786.git.qiwenjie@xiaomi.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a9bbf94.a5e650b3.26d8a.0006.GAE@google.com>
+Subject: [syzbot ci] Re: f2fs: enable buffered RWF_DONTCACHE
+From: syzbot ci <syzbot+cid5582b8164122eda@syzkaller.appspotmail.com>
+To: axboe@kernel.dk, baohua@kernel.org, chao@kernel.org, hch@lst.de, 
+	jack@suse.cz, jaegeuk@kernel.org, linux-block@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, qiwenjie@xiaomi.com, 
+	qwjhust@gmail.com, tz2294@columbia.edu
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 04, 2026 at 01:11:53PM +0100, Christian Brauner wrote:
-> 
-> Draft, feel free to grab, Jan or Karl.
-> 
-> ---
->  fs/kernfs/mount.c |  4 ++--
->  fs/super.c        | 39 +++++++++++++++++++--------------------
->  2 files changed, 21 insertions(+), 22 deletions(-)
-> 
+syzbot ci has tested the following series
 
-Thanks, I found no issues with your draft.
-All the tests I ran on my patch also pass with your draft.
+[v4] f2fs: enable buffered RWF_DONTCACHE
+https://lore.kernel.org/all/cover.1788438786.git.qiwenjie@xiaomi.com
+* [PATCH v4 1/2] f2fs: complete dropbehind write bios in task context
+* [PATCH v4 2/2] f2fs: enable buffered RWF_DONTCACHE
 
-Below is my proposed changelog. If it looks good, I'll send v2 with you as
-author. Could you provide your Signed-off-by?
+and found the following issue:
+general protection fault in f2fs_write_begin
 
-super: make iterate_supers_type() deletion-safe
+Full report is available here:
+https://ci.syzbot.org/series/cbb9ded8-1388-4a7b-bfa7-44082b04025b
 
-iterate_supers_type() drops sb_lock while invoking the callback and keeps
-only a passive reference to the current superblock. That reference keeps
-the object allocated, but does not keep its s_instances node linked.
+***
 
-After the iterator releases s_umount, final teardown can unlink the current
-s_instances node. The iterator then advances through a reinitialized node.
-With the current hlist it stops without visiting the remaining superblocks.
-The unlink moved from generic_shutdown_super() to kill_super_notify(), but
-the cursor lifetime has been unsafe since the helper was introduced.
+general protection fault in f2fs_write_begin
 
-The CIFS DFS lookup can consequently miss a matching superblock and return
--EINVAL.
+tree:      mm-new
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/akpm/mm.git
+base:      e3fc12b08aadde9cec7b3799ac0e0c9a1aa245c4
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/e5903709-6ea2-4b1e-9dfc-f073e36367f7/config
+syz repro: https://ci.syzbot.org/findings/d05a5d64-e9a3-4714-9b41-43042eaaa82c/syz_repro
 
-Move removal from fs_supers to put_super(), alongside removal from
-super_blocks, so a passive reference keeps both list nodes linked. Keep
-the filesystem module reference until then, since unlinking s_instances
-may touch type->fs_supers.
+loop0: detected capacity change from 0 to 40427
+F2FS-fs (loop0): invalid crc value
+F2FS-fs (loop0): f2fs_recover_fsync_data: recovery fsync data, check_only: 0
+F2FS-fs (loop0): Mounted with checkpoint version = 48b305e5
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000004: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000020-0x0000000000000027]
+CPU: 1 UID: 0 PID: 5791 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:f2fs_write_begin+0x181/0x28e0 fs/f2fs/data.c:3893
+Code: e7 e8 23 21 d4 fd 49 8b 04 24 48 89 44 24 40 41 c6 45 2c 04 c7 84 24 a0 02 00 00 00 00 00 00 48 83 c3 20 48 89 d8 48 c1 e8 03 <42> 0f b6 04 30 84 c0 0f 85 e9 23 00 00 41 be 80 00 00 00 44 23 33
+RSP: 0018:ffffc900037af7a0 EFLAGS: 00010202
+RAX: 0000000000000004 RBX: 0000000000000020 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: ffff8881b465c918 RDI: 0000000000000000
+RBP: ffffc900037afad0 R08: ffffc900037afb80 R09: ffffc900037afba0
+R10: dffffc0000000000 R11: ffffffff8463a450 R12: ffff88816b91e678
+R13: fffff520006f5f1c R14: dffffc0000000000 R15: ffff8881b465c918
+FS:  00007f65b5e096c0(0000) GS:ffff8882a8cd9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f65b4e70050 CR3: 000000016a860000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ page_symlink+0x27a/0x440 fs/namei.c:6556
+ f2fs_symlink+0x5fc/0x970 fs/f2fs/namei.c:714
+ vfs_symlink+0x18b/0x330 fs/namei.c:5794
+ filename_symlinkat+0x1cd/0x410 fs/namei.c:5819
+ __do_sys_symlinkat fs/namei.c:5839 [inline]
+ __se_sys_symlinkat+0x4e/0x2b0 fs/namei.c:5834
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f65b4f9e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f65b5e09028 EFLAGS: 00000246 ORIG_RAX: 000000000000010a
+RAX: ffffffffffffffda RBX: 00007f65b5225fa0 RCX: 00007f65b4f9e159
+RDX: 00002000000005c0 RSI: ffffffffffffff9c RDI: 0000200000000700
+RBP: 00007f65b5035024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f65b5226038 R14: 00007f65b5225fa0 R15: 00007fffb6ecc0c8
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:f2fs_write_begin+0x181/0x28e0 fs/f2fs/data.c:3893
+Code: e7 e8 23 21 d4 fd 49 8b 04 24 48 89 44 24 40 41 c6 45 2c 04 c7 84 24 a0 02 00 00 00 00 00 00 48 83 c3 20 48 89 d8 48 c1 e8 03 <42> 0f b6 04 30 84 c0 0f 85 e9 23 00 00 41 be 80 00 00 00 44 23 33
+RSP: 0018:ffffc900037af7a0 EFLAGS: 00010202
+RAX: 0000000000000004 RBX: 0000000000000020 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: ffff8881b465c918 RDI: 0000000000000000
+RBP: ffffc900037afad0 R08: ffffc900037afb80 R09: ffffc900037afba0
+R10: dffffc0000000000 R11: ffffffff8463a450 R12: ffff88816b91e678
+R13: fffff520006f5f1c R14: dffffc0000000000 R15: ffff8881b465c918
+FS:  00007f65b5e096c0(0000) GS:ffff8882a8cd9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f65b4feb840 CR3: 000000016a860000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	e8 23 21 d4 fd       	call   0xfdd42128
+   5:	49 8b 04 24          	mov    (%r12),%rax
+   9:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+   e:	41 c6 45 2c 04       	movb   $0x4,0x2c(%r13)
+  13:	c7 84 24 a0 02 00 00 	movl   $0x0,0x2a0(%rsp)
+  1a:	00 00 00 00
+  1e:	48 83 c3 20          	add    $0x20,%rbx
+  22:	48 89 d8             	mov    %rbx,%rax
+  25:	48 c1 e8 03          	shr    $0x3,%rax
+* 29:	42 0f b6 04 30       	movzbl (%rax,%r14,1),%eax <-- trapping instruction
+  2e:	84 c0                	test   %al,%al
+  30:	0f 85 e9 23 00 00    	jne    0x241f
+  36:	41 be 80 00 00 00    	mov    $0x80,%r14d
+  3c:	44 23 33             	and    (%rbx),%r14d
 
-Make sget_fc() skip SB_DEAD superblocks before invoking test(), and set
-SB_DEAD under sb_lock to serialize with those callbacks. This allows
-kernfs to free its private information after kill_anon_super() returns.
-Keep matching SB_DYING superblocks until SB_DEAD is set so concurrent
-mounts still wait for teardown before retrying.
 
-Fixes: 43e15cdbefea ("new helper: iterate_supers_type()")
-Reported-by: Karl Mehltretter <kmehltretter@gmail.com>
-Suggested-by: Jan Kara <jack@suse.cz>
-Cc: stable@vger.kernel.org
-<your Signed-off-by>
-Tested-by: Karl Mehltretter <kmehltretter@gmail.com>
-Assisted-by: LLM
-<my Signed-off-by>
+***
 
-Thanks,
-Karl
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a fix for this bug, please reply with `#syz test`
+(on a separate line) and attach the patch to the email.
+
+Notes:
+- The patch will be applied on top of the tested series (as an
+  incremental fix).
+- To test a new version of the whole series, please send it directly
+  to syzbot@lists.linux.dev.
+- Arguments like custom git repos and branches are not supported.
