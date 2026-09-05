@@ -1,172 +1,268 @@
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052863F20FA
-	for <linux-fsdevel@vger.kernel.org>; Sat,  5 Sep 2026 07:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7167C2288D5
+	for <linux-fsdevel@vger.kernel.org>; Sat,  5 Sep 2026 09:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788592024; cv=none; b=X6CcgBewdNt1BZkfjLrhPuzptbucbnOba20pfm2XR3KmnIjb4ZKpc292yKf8TUJ04GOaZ1+KQBUJ6l2K9MAiPoB1sOx7kobpztKCJ6IAA/6QbxkJvnhYyi+F9oeM3nk2NDWKR17ul++BX3fo1TrMxrO9zAouqk5ErHgVANAz75I=
+	t=1788599753; cv=none; b=jokBwiSabb+J0tmrIHXu9jWLV5M4q9sfLEaleORJPk2QcGByJUlDeAwOj9f6Bdl/gVOpla7e9hGJfy1q7Nmv981A182xENzv1UASVHZfO/B/HFnkx6zhDQeQji/QUXWdMeqhqpi0uWiS0y7Fk04nUGKIVx3TezQwn0o0KiioKmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788592024; c=relaxed/simple;
-	bh=6oaGc/WO4cwTtsEqJt5kWPU00aUPc/WnmINShN+4QPM=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=h0xSMUpA5Vryyx5yjNkcJYCw4v7/imrOHXhBNpW1+Lfh/Bg4ex9ScqhB0R7bthnxjCzIJuvqD7VwaAaKvxLpf/Hh5oBj1xhdbGwJ6tge2MnL0jCHz2Jnwb7COVbO15ZnDYND4NsBJPPYUWimv/fw936lexs3Xg0Uk4GUxnUcVJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-6b34e5453cbso1667138eaf.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 05 Sep 2026 00:07:01 -0700 (PDT)
+	s=arc-20240116; t=1788599753; c=relaxed/simple;
+	bh=I17MN1cjrjhAf4Z1mZ/cZRutoo1DCddKqycdm0lxff4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZS4YwcVbk1DyyjDxSvF51cGOouXFpfoq2yJPSjOV2FpeW3dPE8Hf1R346iVLxZpT0eXe77uyop3bu/geAkJQ8ayVFHLt3DTQAQ4Qa7UpL2dw+sP0V/MjWyzfgJtFUK0IsXtXaDJmZ/ejli2rEvRDPKGXB2/WjlwU2C7Yaer4wfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LGXGZjNX; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LGXGZjNX"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-398b1e63c49so2642368a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 05 Sep 2026 02:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788599752; x=1789204552; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OkNrlvb6cnD9CuTqAczKwPY041LfREd/gnUIybiJ3Io=;
+        b=LGXGZjNX0extL8MT2bzgbN3eMsPbgoOc/uAGl3OyAT4z8yYyNQQc7FWji2Rq29Xat4
+         oGR47WCPb4JC4rWXUEHzxouuqSNkHOux51VFL2Lt5CmkPL3Ly/zPPiCa5D5rLpqNVsRq
+         d5MPFATsXAbU6otblR7jXg717ENaXFXXY/mYp4JcJJhkXDT8cgwmgo3J5aiNxDVXY9eD
+         NTolsWEK+ZNFdRWFx5hXnIanbqt1Hg0Uf7QPYjA3VtRnXjOWYTD4BsGfgyKP0KLA8qUM
+         u1zyyvphMHx9s/LQ7MtZG7TnsLM1SMQf5wvlRn8Uo+gwWgc33T32Lv9bT0BYEs7H14lX
+         F4Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788592020; x=1789196820;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=nnvwnS1OPKAjnbL2Ffg9wjdt+AOLqiiejT+aXhRtPlk=;
-        b=LvbsW83dX84xeJF61gB9QCP43fqytJfbIvE4nV1HSaiG7b7KWWoOzsGrMFtgO8VKc4
-         kr/3pOURg+AEfBUKBDqIRoAmzac+gDUWLsJ5vxlSXmWJUC7PhxFhpyY5GNW82AgBpOY2
-         a6GsMUxgEj22JvB2x26W4PnIEh1Xl4A0Q6jpXNS6Pv4NtFBB5018GDDSJY7dqonyjNf9
-         qVtcgATj2vJUV9ofMTCoY45ku21TdBhR50TsoF712ll0V9hY0X5Me88olqNqddJld/MK
-         +5S2n8x/vpJMwv2To2JRSl38vl8TpebinHrJ4V80e+HTegMql1uUjLJSPiipjhdLeKCb
-         4CQg==
-X-Forwarded-Encrypted: i=1; AKwUvBx24MPotg/64tmWpmA5UlCJ4AuzhyrVr941ri8xip67RsnIt0C7xxJ4aB/MkKiRj58tn7LQAoxMqsshKeOE@vger.kernel.org
-X-Gm-Message-State: AFuF++kVtyV5FD1KVZ5bSlRo4UkEBHdL9U7PVVDm5AfvXTU0fQLA514z
-	i+twgE1l9OjqUOF2p7NtDXcR0sinv1Dsh430rk26Jhk1rauT3slr9fhgvOzk3vfX0a5RQ5ZHnQD
-	Ca1vvu8u3AEKyBP425sonLyG8Efyxl2dIqeXjyxMvKcXzjWhpAw+FtVKIzSY=
+        d=1e100.net; s=20251104; t=1788599752; x=1789204552;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OkNrlvb6cnD9CuTqAczKwPY041LfREd/gnUIybiJ3Io=;
+        b=DPuy8x2+3Uq/gTquWN/sJ4hioYNIa8UVyyTfzABX9UI0XxcDy9s8AOJzt9A2NXS0Jd
+         OyDS/lFpbIP4dt+CE1KgNzwiSCnjO4NVRkvvdFy31a9RrWEhdrS3b9FQVQ/PMSo0OxiA
+         5KU1Fh0jn8DHlNmAQgQWvTZcdME/DDu2QyL6Ap+FrwDqSuNsfOQp6zhpGE2/VLABK+fF
+         FOl8w3I5B4EwaVJ7sfiJsHwWkX1Sc8IUGzjH4Vmmu1nTWEazWy6E2+uVDJwDuO089tXw
+         N3Cc02OWPdlHK3qf5DolDO+pjgVr3pBLPrtlZWuq/f+0j6AgYnP+sZyiKUXSD0G7DYtd
+         NT9g==
+X-Gm-Message-State: AFuF++lQEmdEp8utps38OHoaSo63JbQ4h/jsXg8oKgEt5tPdwx/ZPURH
+	bTuSMB6YfqD+f6MvEnmDtWEugDXFH6IssdW0PrUqs/oOEAXyajQZRuhH
+X-Gm-Gg: AYBFou0SJ8VqvV324dhDV4GL19kcgRnCWjMOkWChSVrRTfq/1UEemrII2QGcOh0DFi4
+	VdorvZl2rf/L2pDkqKhGcNYq1rKHNfgax6SIRYDGKyHJnif71f3biQ+Z81+DuxBeXTC9qNnmOmG
+	NZADxQbS2QfcgBuWCg5zoRqFf494uC3EvNbCKwalQCRABkIrD33Kn7FbYQ3jw/aGWKed13EidWp
+	N5stDaKt8y76Z6U6xDNyM54Zq1CEXSxn7+Lcxq0bvTYeA8gJQyTYO/B50Y+th9DHrwITEI7rSD2
+	MWJLnWQK9fLgodRNsl3Ni7az98ohVnvmADrKo0ZqiVzH5nsUbeyvD7gbaj6dgvNS1uPIBXsKany
+	2Zd+O/V2E6wBCPVvsUqV0I8aMuughLJTuWjM8rBxUWV61BOS0Q4qVq2iPpuks0EYTrzdifOWfbn
+	CAX17FnyGi0TTAzzspunvONOmr/deoC2lsQNI3wpjbNFE0IZTYkdC12MKZjDtPpCWz53g+6XsgC
+	DNHL+U/
+X-Received: by 2002:a17:90b:3a0f:b0:395:8124:ac53 with SMTP id 98e67ed59e1d1-39b27c49335mr8504502a91.6.1788599751607;
+        Sat, 05 Sep 2026 02:15:51 -0700 (PDT)
+Received: from [192.168.0.104] ([115.192.217.46])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08ca63b3sm15197402a91.11.2026.09.05.02.15.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Sep 2026 02:15:50 -0700 (PDT)
+Message-ID: <4e166a3d-9012-45ab-a011-0e0ad54143d5@gmail.com>
+Date: Sat, 5 Sep 2026 17:15:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4cca:b0:6b7:8415:d790 with SMTP id
- 006d021491bc7-6b78415d8d8mr4693626eaf.59.1788592020180; Sat, 05 Sep 2026
- 00:07:00 -0700 (PDT)
-Date: Sat, 05 Sep 2026 00:07:00 -0700
-In-Reply-To: <cover.1788438786.git.qiwenjie@xiaomi.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a9bbf94.a5e650b3.26d8a.0006.GAE@google.com>
-Subject: [syzbot ci] Re: f2fs: enable buffered RWF_DONTCACHE
-From: syzbot ci <syzbot+cid5582b8164122eda@syzkaller.appspotmail.com>
-To: axboe@kernel.dk, baohua@kernel.org, chao@kernel.org, hch@lst.de, 
-	jack@suse.cz, jaegeuk@kernel.org, linux-block@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, qiwenjie@xiaomi.com, 
-	qwjhust@gmail.com, tz2294@columbia.edu
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] mm/truncate: fix data loss when splitting fails in
+ truncate_inode_partial_folio()
+To: Zi Yan <ziy@nvidia.com>, linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, akpm@linux-foundation.org, david@kernel.org,
+ ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, hughd@google.com,
+ baolin.wang@linux.alibaba.com, willy@infradead.org, jack@suse.cz,
+ bfoster@redhat.com, djwong@kernel.org, yi.zhang@huawei.com,
+ yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com,
+ yukuai@fnnas.com, Joanne Koong <joannelkoong@gmail.com>,
+ Zhang Yi <yi.zhang@huaweicloud.com>
+References: <20260903115018.2034541-1-yi.zhang@huaweicloud.com>
+ <DL6S5JLBHSAB.1RL17ESZ1EK10@nvidia.com>
+Content-Language: en-US
+From: Zhang Yi <yizhang089@gmail.com>
+In-Reply-To: <DL6S5JLBHSAB.1RL17ESZ1EK10@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-syzbot ci has tested the following series
+On 9/5/2026 3:31 AM, Zi Yan wrote:
+> On Thu Sep 3, 2026 at 7:50 AM EDT, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> truncate_inode_partial_folio() splits a large folio so that the caller's
+>> truncate loop can drop the in-range sub-folios while keeping the
+>> out-of-range tail. The first split at the punch start edge is
+>> non-uniform, which leaves the sub-folio at the truncation end edge as
+>> large as possible, this means it may still straddle the range, holding
+>> both zeroed in-range and valid out-of-range data. The function then
+>> attempts a second split at offset + length to isolate that tail.
+>>
+>> If the second split fails the straddling sub-folio stays merged. The
+>> function returned true unconditionally on all exit paths of the success
+>> block, telling the caller it was fully handled. The caller kept its
+>> default end and the truncate loop truncated every sub-folio below it,
+>> including the merged straddler, discarding the valid out-of-range tail.
+>>
+>> For example, a 4-page order-2 folio punched from offset 0 to the middle
+>> of the last page:
+>>
+>>    truncate_inode_pages_range()
+>>      truncate_inode_partial_folio()      # same_folio == true
+>>        1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
+>>        folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
+>>        2nd split of folio2 fails / cannot lock
+>>        return true                       # BUG: caller keeps default end
+>>      end = 3
+>>      loop truncates p0, p1, p2-3        # p3's valid tail is lost
+>>
+>> This became reachable after commit 7460b470a131 ("mm/truncate: use
+>> folio_split() in truncate operation") replaced the atomic split_folio()
+>> with folio_split(), whose non-uniform split can partially split a folio
+>> and leave the end edge merged.
+>>
+>> It has gone unnoticed because a dirty large folio normally carries the
+>> filesystem's private data, for example buffer_head, so
+>> filemap_release_folio() -> iomap_release_folio() returns false on a
+>> dirty folio and folio_split() aborts with -EBUSY before any split,
+>> leaving the straddler safely unsplit. The bug is only reachable on paths
+>> that produce dirty large folios without filesystem private data, and it
+>> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
+>> attached.
+> 
+> Thank you for the analysis.
+> 
+>>
+>> Rework the contract so the caller is told where to stop instead of
+>> silently truncating the straddler:
+>>
+>>    - Return true only when a split occurred, false otherwise. This
+>>      clarifies the existing confusing return value semantics.
+> 
+> Should we do "return false" for not split case as a minmal fix first?
+> 
+> Something like below. A second patch can optimize on top of it. Let me
+> know if I miss anything.
+> 
+> BTW, Claude also mentioned that if min_order > 0 and end is not aligned
+> to 1UL << min_order, there could be some issue. So
+> 
+> ret = !folio_split_or_unmap(folio2, split_at2, min_order);
+> 
+> should be
+> 
+> unsigned long idx2 = PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE;
+> 
+> ret = !folio_split_or_unmap(folio2, split_at2, min_order) &&
+> IS_ALIGNED(idx2, 1UL << min_order);
+> 
+> ?
+> 
 
-[v4] f2fs: enable buffered RWF_DONTCACHE
-https://lore.kernel.org/all/cover.1788438786.git.qiwenjie@xiaomi.com
-* [PATCH v4 1/2] f2fs: complete dropbehind write bios in task context
-* [PATCH v4 2/2] f2fs: enable buffered RWF_DONTCACHE
+Hi Zi Yan,
 
-and found the following issue:
-general protection fault in f2fs_write_begin
+Thanks for the minimal fix. I agree with the core observation — the
+tail is only really isolated when the second split and the boundary
+alignment both cooperate.  However, I'd like to point out a trade-off:
+the "return false to make the caller skip the folio" mechanism leads
+to an incorrect 'start' in truncate_inode_pages_range() and over-keeps
+the in-range sub-folios.
 
-Full report is available here:
-https://ci.syzbot.org/series/cbb9ded8-1388-4a7b-bfa7-44082b04025b
+The problem is that the false return value was designed for the case
+where the folio is unsplit.  Look at the caller:
 
-***
+         if (!truncate_inode_partial_folio(folio, lstart, lend)) {
+                 start = folio_next_index(folio);
+                 if (same_folio)
+                         end = folio->index;
+         }
 
-general protection fault in f2fs_write_begin
+start = folio_next_index(folio); end = folio->index only makes sense
+when folio is still the whole folio.  But after the first split
+succeeds, the caller's folio reference has already been transferred to
+the sub-folio containing split_at, so folio is no longer the whole
+folio.
 
-tree:      mm-new
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/akpm/mm.git
-base:      e3fc12b08aadde9cec7b3799ac0e0c9a1aa245c4
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/e5903709-6ea2-4b1e-9dfc-f073e36367f7/config
-syz repro: https://ci.syzbot.org/findings/d05a5d64-e9a3-4714-9b41-43042eaaa82c/syz_repro
+Concretely, take the commit's example: a 4-page order-2 folio
+[p0 p1 p2 p3], punched from offset 0 into the middle of p3,
+min_order == 0:
 
-loop0: detected capacity change from 0 to 40427
-F2FS-fs (loop0): invalid crc value
-F2FS-fs (loop0): f2fs_recover_fsync_data: recovery fsync data, check_only: 0
-F2FS-fs (loop0): Mounted with checkpoint version = 48b305e5
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000004: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000020-0x0000000000000027]
-CPU: 1 UID: 0 PID: 5791 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:f2fs_write_begin+0x181/0x28e0 fs/f2fs/data.c:3893
-Code: e7 e8 23 21 d4 fd 49 8b 04 24 48 89 44 24 40 41 c6 45 2c 04 c7 84 24 a0 02 00 00 00 00 00 00 48 83 c3 20 48 89 d8 48 c1 e8 03 <42> 0f b6 04 30 84 c0 0f 85 e9 23 00 00 41 be 80 00 00 00 44 23 33
-RSP: 0018:ffffc900037af7a0 EFLAGS: 00010202
-RAX: 0000000000000004 RBX: 0000000000000020 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: ffff8881b465c918 RDI: 0000000000000000
-RBP: ffffc900037afad0 R08: ffffc900037afb80 R09: ffffc900037afba0
-R10: dffffc0000000000 R11: ffffffff8463a450 R12: ffff88816b91e678
-R13: fffff520006f5f1c R14: dffffc0000000000 R15: ffff8881b465c918
-FS:  00007f65b5e096c0(0000) GS:ffff8882a8cd9000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f65b4e70050 CR3: 000000016a860000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- page_symlink+0x27a/0x440 fs/namei.c:6556
- f2fs_symlink+0x5fc/0x970 fs/f2fs/namei.c:714
- vfs_symlink+0x18b/0x330 fs/namei.c:5794
- filename_symlinkat+0x1cd/0x410 fs/namei.c:5819
- __do_sys_symlinkat fs/namei.c:5839 [inline]
- __se_sys_symlinkat+0x4e/0x2b0 fs/namei.c:5834
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f65b4f9e159
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f65b5e09028 EFLAGS: 00000246 ORIG_RAX: 000000000000010a
-RAX: ffffffffffffffda RBX: 00007f65b5225fa0 RCX: 00007f65b4f9e159
-RDX: 00002000000005c0 RSI: ffffffffffffff9c RDI: 0000200000000700
-RBP: 00007f65b5035024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f65b5226038 R14: 00007f65b5225fa0 R15: 00007fffb6ecc0c8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:f2fs_write_begin+0x181/0x28e0 fs/f2fs/data.c:3893
-Code: e7 e8 23 21 d4 fd 49 8b 04 24 48 89 44 24 40 41 c6 45 2c 04 c7 84 24 a0 02 00 00 00 00 00 00 48 83 c3 20 48 89 d8 48 c1 e8 03 <42> 0f b6 04 30 84 c0 0f 85 e9 23 00 00 41 be 80 00 00 00 44 23 33
-RSP: 0018:ffffc900037af7a0 EFLAGS: 00010202
-RAX: 0000000000000004 RBX: 0000000000000020 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: ffff8881b465c918 RDI: 0000000000000000
-RBP: ffffc900037afad0 R08: ffffc900037afb80 R09: ffffc900037afba0
-R10: dffffc0000000000 R11: ffffffff8463a450 R12: ffff88816b91e678
-R13: fffff520006f5f1c R14: dffffc0000000000 R15: ffff8881b465c918
-FS:  00007f65b5e096c0(0000) GS:ffff8882a8cd9000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f65b4feb840 CR3: 000000016a860000 CR4: 00000000000006f0
-----------------
-Code disassembly (best guess), 1 bytes skipped:
-   0:	e8 23 21 d4 fd       	call   0xfdd42128
-   5:	49 8b 04 24          	mov    (%r12),%rax
-   9:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
-   e:	41 c6 45 2c 04       	movb   $0x4,0x2c(%r13)
-  13:	c7 84 24 a0 02 00 00 	movl   $0x0,0x2a0(%rsp)
-  1a:	00 00 00 00
-  1e:	48 83 c3 20          	add    $0x20,%rbx
-  22:	48 89 d8             	mov    %rbx,%rax
-  25:	48 c1 e8 03          	shr    $0x3,%rax
-* 29:	42 0f b6 04 30       	movzbl (%rax,%r14,1),%eax <-- trapping instruction
-  2e:	84 c0                	test   %al,%al
-  30:	0f 85 e9 23 00 00    	jne    0x241f
-  36:	41 be 80 00 00 00    	mov    $0x80,%r14d
-  3c:	44 23 33             	and    (%rbx),%r14d
+         [p0 p1 p2 p3]  --1st split @p0-->  [p0] [p1] [p2-p3]
+         folio now points to [p0]
+         folio2 = [p2-p3]              # p2 zeroed, p3 tail valid
+         2nd split of [p2-p3] fails    # e.g. -EBUSY, or can't lock
+		
+With your fix, ret becomes false, so the caller runs:
 
+         start = folio_next_index([p0]) = 1;
+         end   = folio->index          = 0;
 
-***
+The truncate loop then does while (index < end) -> 1 < 0 -> nothing,
+and [p0] and [p1] are left in the page cache, even though they are
+fully inside the punched range and should have been dropped.
 
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
+To be fair, this will not lead to any data-corruption problem because
+p0 and p1 are already zeroed.  So as a minimal fix to stop the data
+loss, it is acceptable.  But it still leaves the in-range sub-folios
+behind and wastes memory, which somewhat reduces the benefit of
+splitting the folio. So I don't think change the return value alone can
+solve this problem.
 
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+What do you think?
 
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
+Thanks,
+Yi.
 
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
+>  From 564fd753071be9d59d9e45e4609a812bb81f778a Mon Sep 17 00:00:00 2001
+> From: Zi Yan <ziy@nvidia.com>
+> Date: Fri, 4 Sep 2026 15:25:06 -0400
+> Subject: [PATCH] fix unsuccessful folio2 split
+> 
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
+>   mm/truncate.c | 11 ++++++++---
+>   1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/truncate.c b/mm/truncate.c
+> index b58ba940be474..2c575f5e61889 100644
+> --- a/mm/truncate.c
+> +++ b/mm/truncate.c
+> @@ -259,6 +259,7 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
+>   		 * for shmem truncate
+>   		 */
+>   		struct folio *folio2;
+> +		bool ret = true;
+>   
+>   		if (offset + length == size)
+>   			goto no_split;
+> @@ -273,19 +274,23 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
+>   		if (!folio_test_large(folio2))
+>   			goto out;
+>   
+> -		if (!folio_trylock(folio2))
+> +		if (!folio_trylock(folio2)) {
+> +			ret = false;
+>   			goto out;
+> +		}
+>   
+>   		/* make sure folio2 is large and does not change its mapping */
+>   		if (folio_test_large(folio2) &&
+>   		    folio2->mapping == folio->mapping)
+> -			folio_split_or_unmap(folio2, split_at2, min_order);
+> +			ret = !folio_split_or_unmap(folio2, split_at2, min_order);
+> +		else
+> +			ret = false;
+>   
+>   		folio_unlock(folio2);
+>   out:
+>   		folio_put(folio2);
+>   no_split:
+> -		return true;
+> +		return ret;
+>   	}
+>   	if (folio_test_dirty(folio))
+>   		return false;
+
