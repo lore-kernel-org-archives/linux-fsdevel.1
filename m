@@ -1,85 +1,110 @@
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B081E98EF
-	for <linux-fsdevel@vger.kernel.org>; Sat,  5 Sep 2026 23:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D249F32B130
+	for <linux-fsdevel@vger.kernel.org>; Sat,  5 Sep 2026 23:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788651507; cv=none; b=OGppH4ybNkfq5hp0aVcpvgpf3q8pRV9cA7wQsEZW4frDQ3GU7Og6ZTVf/DnUyt9tB/qkJHLxGOQzBJ8WX7i02EkA4yzQ7D57j+woqR0kAG4dBxi/HyfnkcCMcR/BqXhmcj6r1edANukw7BAsWybdsYPHQ0IhWSTJmDZ/0zpx/ts=
+	t=1788651508; cv=none; b=N9tqjuv1VlcB+ZaMSgcTS5V0f9jsHtQOwk+oeVUevhRiBF7Oj1rXh80pI0Mos+DMkcO+HVVUNt9sVdtD/i2sPBVUWsN0VYX6wgwoDomfqW3EZfM2SgpIK0a9SYgIn4KVPFkayKeOA5lgBF3b9enZ9cHCNar+o6xlspb2lSJxZMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788651507; c=relaxed/simple;
-	bh=pxEFJ0SzeajJ4oXnf7+xiiJKR2kUJMldh08pATwL2Pg=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=op5YiPSKvZK7PVMU/3YRe153pQRe00e7vl1K4Bv5WwxyPHcb9GfFe7m/UfiUqBPGgOgLtXpxHmsnlsnqruKRAD7D2h/ixvGQZiyjP6V73ekgSWiW5bH28tFwUPrjg1u95qB9nEu1NdA8hhkL1ZmkyCwJ6r2Cgv5amW+8lKAaQG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bSxOdu7A; arc=none smtp.client-ip=209.85.216.69
+	s=arc-20240116; t=1788651508; c=relaxed/simple;
+	bh=VBwqJxVdt1Xq0XVIzyQS3Rava+X0ogxWnXZEjgkvgLE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Bm7pQq3Zw9wCPvj7a4B8N15384/cJXwXDf0YCWbyQZ/ePEEPhisyMU7FIhF59DtLzUVm/3Jxh8iroScJpNKtQ3QnENieJ1xFqx1Vw+pNNA/Ih9ieZo4peikX7+TwHDhi7XypUCedzKMflf80P+Ws5HSoFSqhbQN3TM8zoEZVLEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OG/EGSAz; arc=none smtp.client-ip=209.85.216.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bSxOdu7A"
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38e1118e4abso3951529a91.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 05 Sep 2026 16:38:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OG/EGSAz"
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38ec0f510a9so4212024a91.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 05 Sep 2026 16:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788651505; x=1789256305; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lkvHpDl5ZMFwWYlxckJTNL0qsEuk+B17N0SjI8tRm60=;
-        b=bSxOdu7AKuS+OY/0xNLKxby16mKevpjoVo4gBpjWVhiZk69VzY1eXQQkkYjCj7Uuqx
-         1whnbcDsXseROD30jGVnnyL3cirZt4+6JiOuergs7m1e7RQdKlFlnOSzuq6Sa+ObeVgW
-         Rp3kYnewByl63ZTsjweKQWu1/RQWbafuCKLoxYzuwysU/KuUz4AJtUa41B+P4D0kx9oN
-         WPVOUp3lCrkv5zxxs5fOrtw7upagMokorE8q7HuDEhNuAo5oBZYEsL14aXUsm3EC1Gzf
-         XyEANC4A7zuwg0xxFq6F1krj1gv1rLEkxChjF10LA31EyfVkbzQC3rTHixC+kHhqveiz
-         KFCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788651505; x=1789256305;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1788651506; x=1789256306; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lkvHpDl5ZMFwWYlxckJTNL0qsEuk+B17N0SjI8tRm60=;
-        b=VqQ4ONALcryE8WeX6Ndqq/nXvVRz0uI/XjLUFVlRfwTDJrwcahnWoeeH+MHmzWIyII
-         Tzv1KXFZXybE8SpLcDXFbYSv8dYeYwBJoquxtGrfttTT8Xt2VdsGdCXo6lXBZWqnEtlu
-         aKMUGLPaPErgpW0Z3hDIuqC6Al5Y4lj++aYnTnMlXgQr5urgGlhU+7cxVdH4bpbhwyQR
-         eqUJppqc9Bn4RM+ascIUFRHv15j0P4lCWdfbDtxCZA0bACc7JII3xu/QA+7Ae5xMXdOV
-         BnBFSFk/7qz8wqI/2MV9D8+rLRVyj5v09o7cJ7yITxXVB+5ilcvnE971PMTETwMe3/l1
-         hYsw==
-X-Forwarded-Encrypted: i=1; AKwUvBxMkrKxQb+0Mflsg5LTpQME5otZkx2HclRoUN5nkjzI3nSGbYCKQWlERMjqrv1SunIg4i6iMdGziABox0kn@vger.kernel.org
-X-Gm-Message-State: AFuF++kXaKrA/AOWxKTHVsMwJecloXzJqYlkGWUdFtWYLgt2/k1wAL28
-	ZAG8wQ23XS5eEuZuyOLfKd3+3wazWzQFPofrjsF6QaanRR63j1akKV7kM5LFVIYmJH3nFO5N1h9
-	puo4K2Q==
-X-Received: from pjbmj19.prod.google.com ([2002:a17:90b:3693:b0:39b:3cf0:cd0f])
- (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5844:b0:398:e436:370
- with SMTP id 98e67ed59e1d1-39b260ff0e9mr23955312a91.2.1788651505211; Sat, 05
- Sep 2026 16:38:25 -0700 (PDT)
-Date: Sat,  5 Sep 2026 23:36:29 +0000
+        bh=r15LapvVWVwQkzcr61T+u7jhLX/Oi5sEbrvA8bk0n6k=;
+        b=OG/EGSAzCN2zpvMptGZ8bzr4ZU9H5C9pUwTmwZudMcjbtph3aNa7TwkEKPZggcP6no
+         RHt6aXmkqfoQIUqbDYksbD+IU4dwXkLcSL/0NfnJQp1VQrFZurCM85NZPjm3fr0oD4XL
+         axaqCFX/pcEtCK+/5Yf5iNm1sAVyp+ZxSJshPKkR6PD7QJNKAb9jrmRWStuMRKaj+dJc
+         nklx4gtmW96jT/btayFNSBVV3i/XJkulsVQgsn1+Pi7ca5tKkuVal3U9twxhSblprCky
+         XyeUZwB8mkJ5Xqk/TK22zgNcP3ea1rsmysjg7orOFCeliOk890yRyn/1blh7GIvA2olp
+         7ofQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788651506; x=1789256306;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r15LapvVWVwQkzcr61T+u7jhLX/Oi5sEbrvA8bk0n6k=;
+        b=eoXuZ0cgeNFJlG/FhzOkbt0PNWNgyM+fmzzoyZmIEFE9oyLGZo2VpAwlGeolfAQVD/
+         MVuiLfq0GZjh8feWB0F0jX5ZVcq5zqyxqkYcunlObfkGU9LSD2DKDSR5s/6xbsgYIPAP
+         tv7ZnmJLucwXvDziYdi6kHyyfMhuExpUzVSaOQEBImVEHrh+NFgAUpesh2qSjB38taCw
+         r7wSFsS1Z9W1/bckMtMEPFulaXStRDvEnsOVwCfzdQy8cJMR8nF+65tVlRVb1b+7xRTu
+         ZhL6edaXhi45cXQp1KblYdTSQVbyDx4+MNUiFGUY4WL0dwCc+1SVZVk0+wWBvJ5fGKcG
+         jWwQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxm1CkVBhpBU+kCMM291SGHzFN5D6d9FkDKtTcIXDbEURp2ob6+m5V4R8beX0o+cgHFKkl+NKocP8kYKuEq@vger.kernel.org
+X-Gm-Message-State: AFuF++ld8UeYqwWnqFDFx+4YAIbcB1gyPr66ejpohY+B0VxrtYTteFlP
+	vrlNgesCKYb0HVwV9t6I0yxsaDVAWZOnddLco8d3VG+LRA4nXZEh7IqJ6bq01AwF9GdZA93Ti03
+	Lc1JA7g==
+X-Received: from pjtl8.prod.google.com ([2002:a17:90a:c588:b0:39b:272c:6659])
+ (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3943:b0:398:d8eb:cb2a
+ with SMTP id 98e67ed59e1d1-39b26273e31mr24737207a91.23.1788651506033; Sat, 05
+ Sep 2026 16:38:26 -0700 (PDT)
+Date: Sat,  5 Sep 2026 23:36:30 +0000
+In-Reply-To: <20260905233819.1064529-1-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20260905233819.1064529-1-kuniyu@google.com>
 X-Mailer: git-send-email 2.55.0.1003.g10538fe699-goog
-Message-ID: <20260905233819.1064529-1-kuniyu@google.com>
-Subject: [PATCH 0/2] sysctl: Restore minmax check for proc_do{int,ulong}vec_ms_jiffies_minmax().
+Message-ID: <20260905233819.1064529-2-kuniyu@google.com>
+Subject: [PATCH 1/2] sysctl: Make proc_dointvec_ms_jiffies_minmax() enforce
+ minmax again.
 From: Kuniyuki Iwashima <kuniyu@google.com>
 To: Kees Cook <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>, 
 	Thomas Gleixner <tglx@kernel.org>
 Cc: Kuniyuki Iwashima <kuniyu@google.com>, Kuniyuki Iwashima <kuni1840@gmail.com>, linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-The recent refactoring accidentally removed the minmax
-check from proc_dointvec_ms_jiffies_minmax() and
-proc_doulongvec_ms_jiffies_minmax().
+When the cited commit converted the SYSCTL_INT_CONV_CUSTOM macro to
+functions, it accidentally changed do_proc_int_conv_ms_jiffies_minmax()
+to pass false for k_ptr_range_check.
 
-The series restores the validation, and patch 2 adds
-the INT_MAX limit for proc_doulongvec_ms_jiffies_minmax()
-to avoid silent truncation.
+Since then, net.ipv[46].neigh.${dev}.interval_probe_time_ms no
+longer enforces the lower bound.
 
+  # sysctl net.ipv4.neigh.bond0.interval_probe_time_ms=0
+  net.ipv4.neigh.bond0.interval_probe_time_ms = 0
 
-Kuniyuki Iwashima (2):
-  sysctl: Make proc_dointvec_ms_jiffies_minmax() enforce minmax again.
-  sysctl: Make proc_doulongvec_ms_jiffies_minmax() enforce minmax again.
+Let's restore the minmax check.
 
- kernel/time/jiffies.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+With this:
 
+  # sysctl net.ipv4.neigh.bond0.interval_probe_time_ms=0
+  sysctl: setting key "net.ipv4.neigh.bond0.interval_probe_time_ms": Invalid argument
+
+Fixes: d174174c6776 ("sysctl: replace SYSCTL_INT_CONV_CUSTOM macro with functions")
+Signed-off-by: Kuniyuki Iwashima <kuniyu@google.com>
+---
+ kernel/time/jiffies.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/time/jiffies.c b/kernel/time/jiffies.c
+index 213ae1d6a014..70926b73905a 100644
+--- a/kernel/time/jiffies.c
++++ b/kernel/time/jiffies.c
+@@ -181,7 +181,7 @@ static int do_proc_int_conv_ms_jiffies_minmax(bool *negp, ulong *u_ptr,
+ 					      int *k_ptr, int dir,
+ 					      const struct ctl_table *tbl)
+ {
+-	return proc_int_conv(negp, u_ptr, k_ptr, dir, tbl, false,
++	return proc_int_conv(negp, u_ptr, k_ptr, dir, tbl, true,
+ 			     sysctl_u2k_int_conv_ms, sysctl_k2u_int_conv_ms);
+ }
+ 
 -- 
 2.55.0.1003.g10538fe699-goog
 
