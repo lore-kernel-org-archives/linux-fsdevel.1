@@ -1,63 +1,63 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C48353A8F
-	for <linux-fsdevel@vger.kernel.org>; Sat,  5 Sep 2026 05:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B8C32E12E
+	for <linux-fsdevel@vger.kernel.org>; Sat,  5 Sep 2026 05:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788585470; cv=none; b=Hib1X/JxNKwnODj2csDLD87sBkhbzzQqvO5cc6AawBwEG9MplY/ELVa4sQaYyhlrVxJKYlbey1YwYHqN71tWTNEWvNmLo8i5BjEWoOvAsOYoe3gEm0gqBjwBrJJXff/5mjn2q3wBEQFpi1Gt6bv7nDpak+UIze2eHiWfMTNSQfc=
+	t=1788585539; cv=none; b=sTs/9Q6VK7ApvTFlLLy5Uu9i6/P6zD7x86/4CcLFaSRR92I7PK96lg15WYufaplSAXG5WQP0/pNZHKZCU2McMo/i6hiYTMyTgzhLDlFU01XhBNC70LbBu9Cm8RgzrHK8c8bAj1MYrIGqc76zFnqX4WXj4W7p+j5X7dQzAhrEhaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788585470; c=relaxed/simple;
-	bh=9cESAQnKS1GvNLQYlN2dyJ8BiT0g66cuhPX4uVynMRw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=J7sSwDbIHJJv3LUOTEmAhiREMXCf99KMPos+2DZkjbEp3x2qNwFPrGYaFM2508L3ti/Vc+0ikTV/4viHUcNNd/Eb2thIfKFzKnjjHuUMGtYpeA9y/OJRYgWikZzLPRSE0iWVsPZPn/bmZlpEaPW1wTgy3zcGwFu0RGNU2JUNJX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ckvLWazP; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1788585539; c=relaxed/simple;
+	bh=UwfSi01JrjgFFoyq4nGcZMTUyyfTi0iyb+hO2kMTbno=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HebeynNmZ3pplMCBO9FzgxLJXU5OZTbNq/m+S11+AeiSFl9t2B/lBA1b2r4ciq71QOeUsilImsmcliE/02Vb1dhhwl2/X4LrjlTUrXZ35oz/SkKje/ceG5eHf1OWgRDG6ehU1Yd8JPjUv81iSfUzLh1uNxpPQMSMuxJFb/jcOM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TLZciGuH; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ckvLWazP"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4859245e493so131057f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 22:17:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TLZciGuH"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-485850cf499so995551f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 04 Sep 2026 22:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788585466; x=1789190266; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788585536; x=1789190336; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OCaSkOIbas1sDw8YO8X3FHEghul9wX61PC7BjPNNw68=;
-        b=ckvLWazPCyGRsnbiwv6t9mjgGTFaee50Bb542sGbZ2Mm0LedNdVHrLSocFa/5ztogs
-         pYYuX5+FdpkRmP/xyYZI9Y5whSi7fpEqIgWn7nNn0dXU82ejqSdoLZdGvUDCJx24hBjL
-         WoNv/hIL3gq2gmhCYDms9ytfymAclAnY0AhID99cNFHbX4ikIbBksAp+6p87QZkKQNgU
-         /ewyP5Lx7cVwkga8XeQWZ92bkBz+yPSLvGe/GZeuxr8LmorYK0sxfxsppDU9yuxBjsmh
-         U0MDNeuoga6wdKqkwCTmG/kS9I3EHJKFC6ZFGsNJV5c6D0l1whsP/6W7DFYwPbL1lynN
-         kBfw==
+        bh=YP1AYjVYNbHbr+XqRGPctt4NDejyNq5oyC8iI1I37GM=;
+        b=TLZciGuHHnOYhOuEYQb2XvyDRtQVPsyCZnqdSkr76mT0hlDjZu21VR2JjZ9vitHeF2
+         NMwIl10j8rGePWGZL2arj+MoXVMZqOtxanCPGnDBvl/hRnyp/vzXxyvz0BPxUqhqLuKX
+         n666lIis+Syi1Q/WsaaZjZwP/waaj+gBZZ76/kup1CtDnOf+r5h+klIQj7z1Ed+L8t1X
+         /llwc04FZESw9woNx47E3dkgT2UIHOd0Pw+NbWHRaxzRNZNDWRDb9SoMqyC+t0vlkLGp
+         MgaqTsyAglFiDvfGP6fTTK68t4YMWkMxfNjJGWbFZWQlaG8f9UHCAOLl940bl0P8YWUX
+         1Gmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788585466; x=1789190266;
+        d=1e100.net; s=20251104; t=1788585536; x=1789190336;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OCaSkOIbas1sDw8YO8X3FHEghul9wX61PC7BjPNNw68=;
-        b=BTWxkP/9iyvgcCgOxzRpWg1PtauwK2Jo9iheuWH5qDPRbJiTW8TrmulBKg2LRrluK0
-         z6OVfPQjfHdU4/Vd9hTi9ksIUxJDUmJi6IFAJgb6KzhkassDjMUhY4+tGxvJ2hu+IEnR
-         qkT/wK55xKw030kiKbBAHGDfzDsALZ+xgu2HmfgJn6XQYyBn1mFqea6bNkc9fyMZ3IOP
-         ql7Xja/q1ItFeX67gEJkNcnXjHGtfO1A+np7HZpYX5QtJtqtUZ41Xo1XHbGkundm4HBm
-         qU9ALGfWZADM2cyUNGedOixTkq4WnwNm+f3a7Pk/Ixifji43vhjHwzgpdqeLGEPXyYZM
-         C2+g==
-X-Forwarded-Encrypted: i=1; AKwUvBy624UhgOZuauFgBTvQ4Fb1fYxaeANm4miGHR+RhgsUl1QRpampGhZHXIuRoVX3mAdmEtsPD3K9rj84Zi5l@vger.kernel.org
-X-Gm-Message-State: AFuF++mCoPt/G3iRADoLP2JzK7RKTYoItFZ4it6HdVtrpftKJvpTYuDe
-	e8KwSPK+YWnqdIaaxlmHSjHYOwenY0HdjwBUMmRbbKZe+3WOulTtKy48
-X-Gm-Gg: AYBFou3+YQrwhpT/EXZa1L8IuL92DRzHEn8ITk4kUJzkv8CQN/WMm2gds5hV1o/TI6e
-	D2O5I8S4nh0oQOenRvIyEs3EgSsVn70/oWhF1yjqiGE6wKAPK0yS5ygY/noR6C5QbRQFz7rocwG
-	IhOXPNxge1R+TVHd7tmPQKvGEJsvLihL4GHtvPE9+oOT9IvB0HPaHP+ZBtK6w75hZy5jUnvHfTB
-	UE563QAF6cpnrejcIG9tzbCCSlW50a3s880Y6dsYu502WITs+JMwnAehZA6zt1jIBlhgQj5tU02
-	qBURUQcNZQ4ZC/AsCG1KoGab16Gb7AAF9mOtG2hAMnJ0dXlSdlEjLt6uSRnImvrUnQguVkZJYhD
-	4sbD4MpWoRSU7gjs7kds0YJIWWFFyJkCYLcrGMgTqMiJvW/fmImUDPYXR0H8I4KMWYOsmGlOuIg
-	5VsxxCxPUQ7x1Esgzy4wrkYw+oKaGWfG1y0UrX5ZUZ9rF0DP56KSShzF6YbmQeVWOG1WwF1vl1J
-	pYTrn+rDQehzS9+daHEq6A98X8ofgGvPqffGgsPDLuYLXqdLX+0ZbA1vTOTNYuwWub2x3m7y8G1
-	AQFZg6kHHaDInMooGjdpbPMHLmgj0hPIlhcFvHybX222PwwbqOVwvyDr8Ba3ZhGBrUo=
-X-Received: by 2002:a05:6000:4604:b0:485:8f9c:2875 with SMTP id ffacd0b85a97d-4858f9c28fdmr2642911f8f.12.1788585465881;
-        Fri, 04 Sep 2026 22:17:45 -0700 (PDT)
+        bh=YP1AYjVYNbHbr+XqRGPctt4NDejyNq5oyC8iI1I37GM=;
+        b=ZuIEk7tDCQTfCxh6DRi4NrfOFh4cPIKDKfSTfeYx1Mie1tX0gQ1dYhgYgpL0SCcrax
+         KBgc0Lorexdt/W9sSH+3ydw0ycvy2YOGwMUt8urrDkpL0QJD85UfpxZ/oEHgZaYISxve
+         lYyPXvA1ir7PMDfecq2wjDG7LOikOyW7OGDa+ReWb3kQwaYGHsISNlNQlnoNGKlUE4sz
+         tdlDB5MiOeeNZWbvbfbW62N4x2m829N1Zav+8kuvpkK2Ep9l1e0HEYilt1bjiRYcVjvj
+         PIgLJNFAtmarvZMnV0e3jIEFlDXhxhEc0WFk8lL6azNCqABC4BX1DOPSFqa8/bLaNXo4
+         b2BA==
+X-Forwarded-Encrypted: i=1; AKwUvByWKEjmsXP57kpDzQJpaRObYkT+kqiTliP+wDYT3xvf25qK469d+3xndo5DKzAr/MtFIkUG8KEAYmz5Jyxf@vger.kernel.org
+X-Gm-Message-State: AFuF++mMeDcdtwQUIvzq5nbKrFNwzFCfFzgpbkY3PRZwjQeQq3swlnIv
+	PxlGHDqyCNuVhJ8PSFm2oCMBdX9i1xT4iTA2w0fxIOzTIDpH0HwHd4if
+X-Gm-Gg: AYBFou2Y8KalCVm/V85CbsSLI7mZ4luPCLnl6+M14uiaswXCP2p5rNj7tU3spi2GkqX
+	LgMEYvxETW/Bh1m/n4/uG1m9/RMcfmHz3Uy6dYTE1xsNj95jukSKoGqO2iWY5/cHPrWST9pc4tL
+	zHnZd7D+OJM6KI6yTaEbVC4a0OtsATyL2om579f3/yol/eI71g6NNlryeo+Sh/dXKDCYSBOfC9F
+	Chq52BsQQDxZFXjSR1MIgxlxxDJ7QDHS+FF2TexWuzcqwrTdc8BJpBH7I6bG3x5zqD+N9hqCVlp
+	rJ2DRSp+gWXGpCQhlYEP2oEcTDsHHzjcYOb/T5sM1O227HaMwzp/f4Ia04nozzhPXKYyzLobNBn
+	uswImvnelc7BRTrglz2/6kusuFpwME7QQbkvuepXQg4w6uq1lK7cPTopN0ckFOjMbL24W83Q7Ri
+	RB/Jc833A5MZhD5tQUNxIQ3OVgBBEX8ASMUF8dCkYoHUi49EWimx+tkdWEnW3Y/2tZPzKFrfupu
+	OnbTcmw5Dt2UmtLuukEjmhypXmo2I8Q65VGT+7qlNnkZGhM3PTXPUuI65nszrUi51NVTbSyU+Bp
+	fll1r7oEcYGK8nVjGgbxVutVkZxkr/UW/3kh7vL7QKoLzukzGX4CwcTn5PoU/S2ny8s=
+X-Received: by 2002:a05:6000:701:b0:485:8c17:9766 with SMTP id ffacd0b85a97d-4858c1799b3mr6894505f8f.40.1788585536473;
+        Fri, 04 Sep 2026 22:18:56 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588135600sm9329547f8f.2.2026.09.04.22.17.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ab73c2bsm9581135f8f.22.2026.09.04.22.18.55
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 04 Sep 2026 22:17:45 -0700 (PDT)
+        Fri, 04 Sep 2026 22:18:56 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: David Howells <dhowells@redhat.com>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
@@ -67,9 +67,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	netfs@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] netfs: Restore selective debug mask handling
-Date: Sat,  5 Sep 2026 07:17:38 +0200
-Message-Id: <20260905051738.11317-1-kmehltretter@gmail.com>
+Subject: [PATCH] netfs: Fix the debug module parameter description
+Date: Sat,  5 Sep 2026 07:18:51 +0200
+Message-Id: <20260905051851.11516-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -79,88 +79,33 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The netfs debug macros test only whether netfs_debug is nonzero.
-Consequently, selecting one debug point enables every entry, exit and
-general debug message.
+The debugging mask is registered as the "debug" parameter, but
+MODULE_PARM_DESC() attaches its description to "netfs_debug", the
+backing variable, so modinfo lists the description under a parameter
+that does not exist.
 
-Documentation/filesystems/caching/fscache.rst and the NETFS_DEBUG
-Kconfig help still describe /sys/module/netfs/parameters/debug as a
-bitmask of per-stream function entry, exit and general debugging
-points, and the fscache_*.c files still define FSCACHE_DEBUG_LEVEL,
-but nothing has decoded either since the mask handling was dropped
-when FS-Cache was folded into netfs.
+Use the parameter name.
 
-Restore the per-level and per-point mask decoding.  Files that do not
-define FSCACHE_DEBUG_LEVEL, which includes the netfs core, fall under
-the cache management stream, the same default the FS-Cache macros had.
-
-Fixes: 915cd30cdea8 ("netfs, fscache: Combine fscache with netfs")
+Fixes: b900f4b89b4d ("netfs: Split some core bits out into their own file")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- fs/netfs/internal.h | 32 +++++++++++++++++++++++++++++---
- 1 file changed, 29 insertions(+), 3 deletions(-)
+ fs/netfs/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index 420ee7b26580f..425c73b7e77b4 100644
---- a/fs/netfs/internal.h
-+++ b/fs/netfs/internal.h
-@@ -468,6 +468,32 @@ void fscache_create_volume(struct fscache_volume *volume, bool wait);
- #define kleave(FMT, ...) dbgprintk("<== %s()"FMT"", __func__, ##__VA_ARGS__)
- #define kdebug(FMT, ...) dbgprintk(FMT, ##__VA_ARGS__)
+diff --git a/fs/netfs/main.c b/fs/netfs/main.c
+index 927badf3989d..ec402837aab8 100644
+--- a/fs/netfs/main.c
++++ b/fs/netfs/main.c
+@@ -22,7 +22,7 @@ EXPORT_TRACEPOINT_SYMBOL(netfs_sreq);
  
-+#define FSCACHE_DEBUG_CACHE	0
-+#define FSCACHE_DEBUG_COOKIE	1
-+#define FSCACHE_DEBUG_OBJECT	2
-+#define FSCACHE_DEBUG_OPERATION	3
-+
-+#define FSCACHE_POINT_ENTER	1
-+#define FSCACHE_POINT_LEAVE	2
-+#define FSCACHE_POINT_DEBUG	4
-+
-+#ifndef FSCACHE_DEBUG_LEVEL
-+#define FSCACHE_DEBUG_LEVEL CACHE
-+#endif
-+
-+/*
-+ * Determine whether a particular optional debugging point should be logged.
-+ * Three levels of indirection are needed to expand FSCACHE_DEBUG_LEVEL before
-+ * joining it with its prefix.
-+ */
-+#define ____do_kdebug(LEVEL, POINT) \
-+	unlikely(netfs_debug & \
-+		 (FSCACHE_POINT_##POINT << (FSCACHE_DEBUG_ ## LEVEL * 3)))
-+#define ___do_kdebug(LEVEL, POINT) \
-+	____do_kdebug(LEVEL, POINT)
-+#define __do_kdebug(POINT) \
-+	___do_kdebug(FSCACHE_DEBUG_LEVEL, POINT)
-+
- #ifdef __KDEBUG
- #define _enter(FMT, ...) kenter(FMT, ##__VA_ARGS__)
- #define _leave(FMT, ...) kleave(FMT, ##__VA_ARGS__)
-@@ -476,19 +502,19 @@ void fscache_create_volume(struct fscache_volume *volume, bool wait);
- #elif defined(CONFIG_NETFS_DEBUG)
- #define _enter(FMT, ...)			\
- do {						\
--	if (netfs_debug)			\
-+	if (__do_kdebug(ENTER))			\
- 		kenter(FMT, ##__VA_ARGS__);	\
- } while (0)
+ unsigned netfs_debug;
+ module_param_named(debug, netfs_debug, uint, S_IWUSR | S_IRUGO);
+-MODULE_PARM_DESC(netfs_debug, "Netfs support debugging mask");
++MODULE_PARM_DESC(debug, "Netfs support debugging mask");
  
- #define _leave(FMT, ...)			\
- do {						\
--	if (netfs_debug)			\
-+	if (__do_kdebug(LEAVE))			\
- 		kleave(FMT, ##__VA_ARGS__);	\
- } while (0)
- 
- #define _debug(FMT, ...)			\
- do {						\
--	if (netfs_debug)			\
-+	if (__do_kdebug(DEBUG))			\
- 		kdebug(FMT, ##__VA_ARGS__);	\
- } while (0)
- 
+ static struct kmem_cache *netfs_request_slab;
+ static struct kmem_cache *netfs_subrequest_slab;
 -- 
-2.53.0
+2.39.5 (Apple Git-154)
 
