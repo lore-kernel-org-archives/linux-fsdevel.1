@@ -1,143 +1,86 @@
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE44D38B158
-	for <linux-fsdevel@vger.kernel.org>; Sat,  5 Sep 2026 23:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78ADB2E7F3A;
+	Sun,  6 Sep 2026 00:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788651509; cv=none; b=F51QkkSjaB3AIaUVgDPrEljKc9TrGeKMRwIVR1fYc1IPk3ad8rAObkq2RMhu/aD2okIf0aUivP8N0yCywCzJT6KOKdruV76gso1z79Z0TonBLMIjqH3mu3djBdQ6nknWWdFmKK/DQjJoBhzxRnc6/pauXM9vPMCuLUaSogVNyWY=
+	t=1788655362; cv=none; b=OxVto4pkyF/KdcclYyn+KoKAMNJoo6BJoVzI4VqdHHq6hcFpYq1s71djLM5HdNA/z1z804IAg8decGJGFyP2F4lLNKKPzG08iVCk0VfTgva/sYeqQUFLmwAQ9f8GD+PApjl4ctwC6Qhp8w6P8ICF2N4pVokVKK8OBoXw0gAS9xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788651509; c=relaxed/simple;
-	bh=9ZfFIWzseapJ4UAdXpbGXoJpc6X/0hXsk4k5rUtPDoI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=awVWv2pucaP8pkbzKOmJUjMn1/t/OVTtAnVBx2qT8GKb2kE/+/CMW8MSSWnWtDhGwu5ny6eNdgvux3yAZUavUr56ZJ+NHvdlz/3WEyacxmtShCijahDipgr+NZhBaVAnDs0hGv/OEbmPGoYIL2+3kQk3KeOexqyyCjAGS0N0xKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EejDytXk; arc=none smtp.client-ip=209.85.214.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
+	s=arc-20240116; t=1788655362; c=relaxed/simple;
+	bh=arFJLmH5jl9WeLftwszFDOgOlstbl9Zjhdw61LUG4kg=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=gK/cmuijgDes78nRFci2Ssu/rkE5d1Er/iein1B8VTJeXumUbo/6/jeItbtaXh47lQSiK7i9l07taUdvvrkGqDH+JXVBw41o08My1St5X236O/xNkLZdatpZfIsvNeJFvYywimmwgvrZz6F4mYRwx9eGDXlrmI4smEi09VPLwVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=DH+YNIWa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EejDytXk"
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2d63bad3d09so33788445ad.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 05 Sep 2026 16:38:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="DH+YNIWa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A6881F00A3A;
+	Sun,  6 Sep 2026 00:42:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788651507; x=1789256307; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Frntbal32WlMg10huQQliOlhpQlU/2JMUB7os5CGbss=;
-        b=EejDytXkRno4Jn3EoGukB4l1ulCssAcGt5qr1ku2iTYyoQZwcVp1d7YvxsYnJ1uMAt
-         qeSzAARHyLsLTzrEEq8tmOVY4BA9o/nmL4k/XCW3Clry21htic9kDPL59T+azzuQn3cQ
-         8S98hK6hBkyrdFjaP4nQeJcIp14OJ+1Dtk2Uc8n8ZGt1y368ula/g0BZmPplFDjUqjj4
-         l/hjR26PV9Bfo5tPIwVnBrBW4hv463tqr3RPPdXzlI41DUxbn5HES74IC7c3SRayUhwU
-         CldS5ve9ID8fRVwUM7fU19vf6sek0oZxV2dlOBy43DgNfXRRDNjKgpLGzQ3oohnMn65w
-         zDEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788651507; x=1789256307;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Frntbal32WlMg10huQQliOlhpQlU/2JMUB7os5CGbss=;
-        b=Nx1Y3CqzEkQdDR+T0pR90F7s/tNqZHM0SZJRX5c3ftjkHnvhTmASJwwE2jQ7iv18rH
-         wchV9VHp82T6x1RfQ7oHUbWEOS3I4ObUklRn1ArQS7bTOS7nmF3aLSXziQZRCR4iNzdf
-         GbUScrN8gaz3SX64nBwhBezJfOOa6BjKCgDsR+SR2A38JOcDHi9w5eOCm84lM/M8FD6l
-         fx3g46F2KUPag0Gx2GILyyQjxt0yxBUVFFgsAjW81OKSkYgszVS4NKRhPYm+vKK7UM64
-         wUl3WH1zr56S7d6quZgyGVYXYzFXZzPl7iw4+IhEs9MhuRhJrnSTHoh+28frt1aXe0+b
-         W3/Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzm9HCg9f15m24sXImPE8OzBW1obY34RRRjre+1TDHPVPbn2IxNSpWnDoq3+olo6WaIYPqATJc4QInXoJy7@vger.kernel.org
-X-Gm-Message-State: AFuF++nwnWTDA1XHuZwgrG4nmI5CzpmPurJKo81vbvhiBLnGMOaaV0oJ
-	4MvqshLETcHEM7XA+eY844tzpspPuLX5tsJGH4MUsRXoRL3k03dNvtfOi5YKRuAY2G3eZbsWVGT
-	U/O7FKg==
-X-Received: from plhz2.prod.google.com ([2002:a17:902:d9c2:b0:2d6:eed7:9d44])
- (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:3c24:b0:2db:479a:5127
- with SMTP id d9443c01a7336-2db479a55c8mr3012495ad.19.1788651506893; Sat, 05
- Sep 2026 16:38:26 -0700 (PDT)
-Date: Sat,  5 Sep 2026 23:36:31 +0000
-In-Reply-To: <20260905233819.1064529-1-kuniyu@google.com>
+	d=linux-foundation.org; s=korg; t=1788655360;
+	bh=GM2SyBAgRCQZD95qhR+WEi9oXrPFIDHlTqyVd3dGmVE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=DH+YNIWar6wt1hdxQ72+7q6esIgjvBDieMtYb75WVM9L5FOTr3Ca3mSeY5LpHYALu
+	 SrooTcOzf/OGvsFOC7HuJGILmvO8Epx7K459+4ZeWUlKIdeHNcjeY8SafIc1lx/13r
+	 R/+GTdeReqy0Af0lnKAmyMndnjwjcW8qNm/zpDZQ=
+Date: Sat, 5 Sep 2026 17:42:39 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Salvatore Dipietro <dipiets@amazon.it>
+Cc: <linux-kernel@vger.kernel.org>, <hch@infradead.org>,
+ <abuehaze@amazon.com>, <alisaidi@amazon.com>, <blakgeof@amazon.com>,
+ <brauner@kernel.org>, <dgc@kernel.org>, <dipietro.salvatore@gmail.com>,
+ <djwong@kernel.org>, <hannes@cmpxchg.org>, <jackmanb@google.com>,
+ <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-xfs@vger.kernel.org>, <mhocko@suse.com>, <ritesh.list@gmail.com>,
+ <rvvandan@amazon.com>, <stable@vger.kernel.org>, <surenb@google.com>,
+ <vbabka@kernel.org>, <willy@infradead.org>, <ziy@nvidia.com>, Vlastimil
+ Babka <vbabka@suse.cz>, David Hildenbrand <david@redhat.com>, Christoph
+ Hellwig <hch@lst.de>, Brendan Jackman <brendan.jackman@linux.dev>
+Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly
+ __GFP_NORETRY allocations
+Message-Id: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
+In-Reply-To: <20260904115629.3993331-1-dipiets@amazon.it>
+References: <20260904115629.3993331-1-dipiets@amazon.it>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260905233819.1064529-1-kuniyu@google.com>
-X-Mailer: git-send-email 2.55.0.1003.g10538fe699-goog
-Message-ID: <20260905233819.1064529-3-kuniyu@google.com>
-Subject: [PATCH 2/2] sysctl: Make proc_doulongvec_ms_jiffies_minmax() enforce
- minmax again.
-From: Kuniyuki Iwashima <kuniyu@google.com>
-To: Kees Cook <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>
-Cc: Kuniyuki Iwashima <kuniyu@google.com>, Kuniyuki Iwashima <kuni1840@gmail.com>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Since the cited commit changed proc_doulongvec_ms_jiffies_minmax()
-to use proc_ulong_conv(), proc_doulongvec_ms_jiffies_minmax() no
-longer applies the range check.
+On Fri, 4 Sep 2026 11:56:28 +0000 Salvatore Dipietro <dipiets@amazon.it> wrote:
 
-It happened probably because do_proc_ulong_conv_ms_jiffies() does
-not have the _minmax suffix.
+> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+> introduced high-order folio allocations in the iomap buffered write
+> path.  When memory is fragmented, each failed costly-order allocation
+> enters __alloc_pages_slowpath() which runs direct compaction and
+> drain_all_pages(), causing a 0.38x throughput drop on PostgreSQL
+> pgbench (simple-update) with 1024 clients on a 96-vCPU arm64 system.
 
-In addition, sysctl_msecs_to_jiffies() casts u64 user input to u32,
-and a truncated value could bypass the max check.
+Is there anything particularly unusual about this test case?
 
-Let's rename do_proc_ulong_conv_ms_jiffies(), pass true to
-k_ptr_range_check, and limit the max user input to INT_MAX in
-sysctl_u2k_ulong_conv_ms() to avoid truncation and clamping to
-MAX_JIFFY_OFFSET. (INT_MAX ms ~= 24 days is more than enough)
+> Results (average of 3 runs, TPS):
+> 
+>   Config                   Avg TPS      % vs Baseline
+>   baseline (no patch)       59,408       -
+>   With this patch          155,409      +161.6%
 
-Fixes: b96b5c6708ea ("sysctl: Replace do_proc_do{int,ulong,uint}vec with do_proc_vec")
-Signed-off-by: Kuniyuki Iwashima <kuniyu@google.com>
----
- kernel/time/jiffies.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Is this back to pre-5d8edfb900d5 performance?
 
-diff --git a/kernel/time/jiffies.c b/kernel/time/jiffies.c
-index 70926b73905a..4737431fdb16 100644
---- a/kernel/time/jiffies.c
-+++ b/kernel/time/jiffies.c
-@@ -187,6 +187,9 @@ static int do_proc_int_conv_ms_jiffies_minmax(bool *negp, ulong *u_ptr,
- 
- static int sysctl_u2k_ulong_conv_ms(const ulong *u_ptr, ulong *k_ptr)
- {
-+	if (*u_ptr > INT_MAX)
-+		return -EINVAL;
-+
- 	return proc_ulong_u2k_conv_uop(u_ptr, k_ptr, sysctl_msecs_to_jiffies);
- }
- 
-@@ -195,10 +198,10 @@ static int sysctl_k2u_ulong_conv_ms(ulong *u_ptr, const ulong *k_ptr)
- 	return proc_ulong_k2u_conv_kop(u_ptr, k_ptr, sysctl_jiffies_to_msecs);
- }
- 
--static int do_proc_ulong_conv_ms_jiffies(bool *negp, ulong *u_ptr, ulong *k_ptr,
--					 int dir, const struct ctl_table *tbl)
-+static int do_proc_ulong_conv_ms_jiffies_minmax(bool *negp, ulong *u_ptr, ulong *k_ptr,
-+						int dir, const struct ctl_table *tbl)
- {
--	return proc_ulong_conv(u_ptr, k_ptr, dir, tbl, false,
-+	return proc_ulong_conv(u_ptr, k_ptr, dir, tbl, true,
- 			       sysctl_u2k_ulong_conv_ms, sysctl_k2u_ulong_conv_ms);
- }
- 
-@@ -229,8 +232,8 @@ static int do_proc_int_conv_ms_jiffies_minmax(bool *negp, ulong *u_ptr,
- 	return -ENOSYS;
- }
- 
--static int do_proc_ulong_conv_ms_jiffies(bool *negp, ulong *u_ptr, ulong *k_ptr,
--					 int dir, const struct ctl_table *tbl)
-+static int do_proc_ulong_conv_ms_jiffies_minmax(bool *negp, ulong *u_ptr, ulong *k_ptr,
-+						int dir, const struct ctl_table *tbl)
- {
- 	return -ENOSYS;
- }
-@@ -333,7 +336,7 @@ int proc_doulongvec_ms_jiffies_minmax(const struct ctl_table *table, int dir,
- 				      void *buffer, size_t *lenp, loff_t *ppos)
- {
- 	return proc_doulongvec_conv(table, dir, buffer, lenp, ppos,
--				    do_proc_ulong_conv_ms_jiffies);
-+				    do_proc_ulong_conv_ms_jiffies_minmax);
- }
- EXPORT_SYMBOL(proc_doulongvec_ms_jiffies_minmax);
- 
--- 
-2.55.0.1003.g10538fe699-goog
+> Link: https://lore.kernel.org/all/20260403193535.9970-1-dipiets@amazon.it/T/#t [v1]
+> Link: https://lore.kernel.org/linux-mm/20260420161404.642-1-dipiets@amazon.it/T/#u [v2]
+> Link: https://lore.kernel.org/all/20260710143437.12379-1-dipiets@amazon.it/T/#u [v3]
+> Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
 
+That's three years old.  v6.10.  
+
+This is not good.  Can you think of an exceptional reason why this took
+so long to surface, or is it simply that our testing isn't good?
+
+And thanks for fixing it.
+
+AI review asked a few serious-looking questions:
+	https://sashiko.dev/#/patchset/20260904115629.3993331-1-dipiets@amazon.it
