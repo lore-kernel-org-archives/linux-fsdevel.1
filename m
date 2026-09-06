@@ -1,132 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6891A2BE03C;
-	Sun,  6 Sep 2026 23:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2042346A10
+	for <linux-fsdevel@vger.kernel.org>; Sun,  6 Sep 2026 23:45:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788735918; cv=none; b=ERXFQQKbdfh27dd80oc2E3mQ+F7EXA3M6m2K5Rh8XrlqCDB10z5CvWcPy+4/0rLrIQo0WojEHyWCn5Q6oB8wxWsxg8XHbqhSVkfFaoztarAzl3ULrdc//vasG4vH7QYSMBtCbAFjp/yWfP716zd/sO+yaOjm6D/U8rHHLHSn9Cw=
+	t=1788738358; cv=none; b=UPIxILjAWKXDqT7+Bs9rVXqudtQ0nIgvDadvnDBGTpRB52ALcozy83UbIfH31fsyBuANUxJ3GgSB4Q2JRh9MPaZXHpLw4LdcdpS3e33/UJdUDkeQAKVBS1TD8+y2VIftSwFNB0YLO/TVMWNs7fzWnwLiVsEvwZdyOVcFpAeswUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788735918; c=relaxed/simple;
-	bh=y9jBvSyYrbjCnWD+ynO0ZAOlYOFyxf/8hw7FIhm2yZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HDDHk8yp5cM7gJrt+2XSNeNYpJfg2UPBBivG+bmQntpaQ/W1c0juzq1KtE6qXA0dqcwI6P2Oq13i4gmJTXL1z8kaoJYncQoi6gf3GvMMCwaD4ts7DG88mR3vt76VNZZTDK+/s2+XCIE4Ejmz+dRL3JP0G1lfWXJn36NKLRHlmFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKpgL+U4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788738358; c=relaxed/simple;
+	bh=YUiuq5HeQFR23XYm7BLXCGUfVjFSKte5pFD1VHdooz0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a9Bv+w/xszf/HxAJ7U3mNgHUqkVjdRQPgYfRGs506GL65aQZXDBu80wZyC7Kq/No9GkkUGGioW041szODiaANPNiEZdaOhVUwEHCZNnrJVLR3dV0TgCPUTakG7VqCAKTWkFr3Y1V2WLiZT6nAHyvYJHrLQI+4+3B/0rfoRqpBKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=cBn30TGD; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=YePP35VO; arc=none smtp.client-ip=148.163.139.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKpgL+U4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91B921F00A3A;
-	Sun,  6 Sep 2026 23:05:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788735917;
-	bh=azoo0pX+3AIYzE2g/eGc3kL5OniqDxseTzcbFubdQLU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JKpgL+U4xlNFixXBnAA2Wa3j8oJlvb3HTDY/coujxaGy/qHOJQh2CmKsxLkS9wo9R
-	 uhwE4PG1QlCwceNT55FSQy3XrsxhCp1+kyeJZ40sqoOVtu8kelfuKIxzgocLIpGdo7
-	 G4obCwQW0MzajzT0pPNZk43gdWUI9ECvp46xtGiooOd5DgB14rMVKbof/EtlxOR4P4
-	 UBRK8cRL3A3FTO+K4RxYf5s3QzHFH8DelKXPWqtJNo0K59JC5KxUKt3g9niGpQRgqQ
-	 KDLCp+FRrJTuMFurhbWUD+CoijRR9YL5pfH5usQ3AMMCWVn/6M4F1L2LfhPisCF3HS
-	 FSiyRpjbdZRUQ==
-Date: Mon, 7 Sep 2026 09:05:04 +1000
-From: Dave Chinner <dgc@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Salvatore Dipietro <dipiets@amazon.it>, linux-kernel@vger.kernel.org,
-	hch@infradead.org, abuehaze@amazon.com, alisaidi@amazon.com,
-	blakgeof@amazon.com, brauner@kernel.org,
-	dipietro.salvatore@gmail.com, djwong@kernel.org, hannes@cmpxchg.org,
-	jackmanb@google.com, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-xfs@vger.kernel.org, mhocko@suse.com,
-	ritesh.list@gmail.com, rvvandan@amazon.com, stable@vger.kernel.org,
-	surenb@google.com, vbabka@kernel.org, willy@infradead.org,
-	ziy@nvidia.com, Vlastimil Babka <vbabka@suse.cz>,
-	David Hildenbrand <david@redhat.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Brendan Jackman <brendan.jackman@linux.dev>
-Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly
- __GFP_NORETRY allocations
-Message-ID: <ap3xoHb-GtxZXkMd@dread>
-References: <20260904115629.3993331-1-dipiets@amazon.it>
- <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="cBn30TGD";
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="YePP35VO"
+Received: from pps.filterd (m0499198.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 686MYZUC1114863
+	for <linux-fsdevel@vger.kernel.org>; Sun, 6 Sep 2026 19:45:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pps01; bh=/yb4ZkUCpaFSOuZxeTi0yQTuX8
+	MdzkWN0yCAF5xi2yw=; b=cBn30TGDABdCA6aqJdXTGmmni2RYUYCvuqY3haebvp
+	8yW9p3sZwkhByVbuw4q4HEj7sW9iq6fNnAhFYnHzriKUZiB4kQYusDuPJgU8VPDn
+	FG1B7SyiaiDmNmJgJhvT2WauCWZiFy68cCrAUXl0dcI88HAVtUC/saUcmiWhKCEt
+	Ebf9NYI2v1UzpGcZ3GogitunKKiPJTk0Hf5GVam+1/VRWRjEJlHq4TDDUW0mof5c
+	qER/49ZOvLXOU7n7Uh39/LCt+cmreJlcXZP1F5pfvMLSXDPfoU9Pd6JXO1Ai6taa
+	a8x9fmr/JCiahaTeQ7MaNmKbiFBZDEzf6BMbxPMktWow==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4gh42tu4aq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Sun, 06 Sep 2026 19:45:48 -0400 (EDT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-53000c06184so76433291cf.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 06 Sep 2026 16:45:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=columbia.edu; s=lionmail; t=1788738348; x=1789343148; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=/yb4ZkUCpaFSOuZxeTi0yQTuX8MdzkWN0yCAF5xi2yw=;
+        b=YePP35VOqsNCxKLYktI9XSPVuU57MVpWBU9rvJ28GH0fH8Pq8bBI/RGS5xvZJoCLq6
+         ALi+G+5T+3NDAoBkRFMg7uqh8WkTNH+ipUlVZCZdNa9DXJ6h+VIAP7puH4QjWbnMhxKw
+         fkv1roK9S2xiXIHfH7lDOdx7SOVCFBKczSvC2bYV4aAiY18HK3JRB1/q2NHecI+yGIVe
+         nMxRqs19TZ16QcBcRZn/juVI5GzC/hpXIyNoGCu4eAUEt7cinvRLlJukcn1MlLdG40J6
+         l/DjkXu3yPm3mnJ/LIPYUWb37sxk9G5cglyA43MgrN4+SCRSJpMmqUNipdmYW8k1KNzx
+         Lr/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788738348; x=1789343148;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=/yb4ZkUCpaFSOuZxeTi0yQTuX8MdzkWN0yCAF5xi2yw=;
+        b=UV4vDHymzknm91PbbnvylOBOxG+FbVarVtnORwFU7vW30k7ZuOIzVEOF7oPT/lzdnH
+         GBm14utrGaKLZlfQU1JlXX+XNnmcyvzNoexb2P9L149YAZ2F9M1/5hkvp8ybpqAbFA/d
+         rivoztsujN9CwjMJLGOabenBRnUG5OR+XsnZECPf54UGPo3Zg471JIsx1CVBAZSYldrL
+         8FUfhPC1pzoAirfiKb6u5/+NTTV6pdrhdNaZmIDvMuftHIsaG2q+nDBk7kGbUcEFTMzZ
+         +2LVzRDpOwa7CPFHq6+DtjhpaDssS2RQg1hJKsiO58Q/4HZL0mj39qLVwuCoG2xpy41R
+         bk0w==
+X-Forwarded-Encrypted: i=1; AKwUvBy9voyQbOSel9lEcIA0g2GIV6+rgQwGnrbJW0XSK4KDgO97P4Lhe4H0avJE7sDfesGeaRctuoZ+z7N/I+C0@vger.kernel.org
+X-Gm-Message-State: AFuF++nB+f1145eTtNprfZC6vhoaNWH856SeRpSthei6yKJjPURGLrVO
+	avrMSpk04DeAvJTZF+28CqTJhE1RU0SqLjvyfS15qAybzwek+PBYX57dFyIWNA1gVxCWHjtEENI
+	F25nFHlosuCd55gDbbya9ITr3s8e3jTwxh6N2hh0KkQtOUInOd7bZuEwGowzXKhEm+29DQ8EHlQ
+	==
+X-Gm-Gg: AYBFou3FxICLnlJCH3KqvFD8Nl9kLSsmLoariPRa0GBo6CkhhuLa14GKVdj8bh9fqUi
+	ttJKxthQSSueh0nlwgubLcX0UELZBvwEefRIZwxHXE3lXiM+581XTAqz5RCABhErbJY0YWTpcEw
+	0IHr8zBp+1Y1YvmdNIjts3CSBAsZ6h4PlbcXD64VP4I5TGASUaH/QiCpAKb1ukUB9ujgfV4xwhA
+	lzOqJ2GZ5UP/9zV3kC7V+ByOoJKlHBtCP6Rg+ZGWacZS0ONjvo6PlFT7ezHpEJgEMvn1DhnNWA1
+	b7gwqrsvXmzmP3FSXtB+yFyXoUto7fn1hfFC4kH883Jburbk7vYKMoV0RFJ532NarytB6eZ+JPn
+	q5Wb8YWqrqFmEDYEb9D1aVSC6pBTFLx6pPeROe3jUt0aZAXeJ
+X-Received: by 2002:a05:622a:244d:b0:52f:ae28:6aef with SMTP id d75a77b69052e-530549ef56bmr206701841cf.36.1788738347738;
+        Sun, 06 Sep 2026 16:45:47 -0700 (PDT)
+X-Received: by 2002:a05:622a:244d:b0:52f:ae28:6aef with SMTP id d75a77b69052e-530549ef56bmr206701691cf.36.1788738347261;
+        Sun, 06 Sep 2026 16:45:47 -0700 (PDT)
+Received: from [127.0.1.1] (nat-128-59-176-104.net.columbia.edu. [128.59.176.104])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530541ba2d2sm75705561cf.22.2026.09.06.16.45.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Sep 2026 16:45:46 -0700 (PDT)
+From: Tal Zussman <tz2294@columbia.edu>
+Date: Sun, 06 Sep 2026 19:45:33 -0400
+Subject: [PATCH] cramfs: convert cramfs_blkdev_read() to use folios
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260906-cramfs-blkdev-read-folio-v1-1-1be99a82be55@columbia.edu>
+X-B4-Tracking: v=1; b=H4sIABz7nWoC/yXMQQ6CQAxA0auQrm0ysJiAVzEuhk6LVWRMq8SEc
+ HdHXb7F/xs4m7LDsdnAeFXXslS0hwbokpaJUXM1dKGLYQgRydJdHMf5lnlF45RRyqwF2yhMEof
+ QJ4KaP4xF37/16fy3v8Yr0/P7g33/AN0bOq18AAAA
+X-Change-ID: 20260906-cramfs-blkdev-read-folio-16fecf6908ac
+To: Nicolas Pitre <nico@fluxnic.net>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tal Zussman <tz2294@columbia.edu>
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788738346; l=2174;
+ i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
+ bh=YUiuq5HeQFR23XYm7BLXCGUfVjFSKte5pFD1VHdooz0=;
+ b=7RQVLj+g4dR1Ms5MKg10azl/ZEQxqrZ+FrRbgv+OZXEbwjS/gh1ZsOCHA04qZAWcLuFRYMf2v
+ uWXO2T/4bvGC0UrS30MOFyxP1o2OhYjSXUPIpZ41FdgLl8ue/IRIhgr
+X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
+ pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA2MDI2NyBTYWx0ZWRfX+OF3g2KZZ0nv
+ zqVN0sNcoMjmdzTsQPtDCmvVUWz1SvAoTVZ+i8hY1Tv2f9hPuMsv5tj5Q+vsu5dmxkgkFB+O4u1
+ 9ErdmUolEUGplkUtWeZYy1Y+fuTbU31tkXF4vcfyjOCvYAK2aEQ/lt9pfykQq2MLntuv/laboYk
+ HK3CNsbLlgfocxqCDaoy17RONJ1+tFgc6g75UFE5VDz/xilxGcZMi+gd8LhdYF5GOo+fvvoiNme
+ PU2+1SJZafVvr06EHQSv6ciB06/b2j8asDaG+t650KO3/anmN+gVrrXWwRYZh/B5TR9LjrsfFGu
+ 2nhaAbtmi8UAS+29CU0OL154y3UA1NE05P/veD2aDPBa0dsSIMVO6sqCpi93Ys362cv4EeDqILB
+ l9va4nMgv0LQJC+r1qA7dKDudaRWVnH89W3XxpgBKHgT8GomnBxOmAwBN0k1qw+YUQ+PHprU9Tk
+ j2uOlBr2sZMdzJP40Vg==
+X-Proofpoint-GUID: kC0y5-FuWVYejMHt6mEB9U7oB8yLQDdt
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA2MDI2NyBTYWx0ZWRfXyDeSqnAM1Pw/
+ O59UrFgCzwF+9j6THLX5NZHmj7f8XTSTtQrVQMwlMUUDWPTBc9OC1H6SDVbbq7OZN+KbEEN86yH
+ QWQJjiuhEH21H+qOQXkR7ed8Iol4TM7rm8GEEMZRE32ZQN4dlOov
+X-Authority-Analysis: v=2.4 cv=DrhmPm/+ c=1 sm=1 tr=0 ts=6a9dfb2c cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=aNLBvxxoObQFLnBXsbaGlA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=BpGzv1V74M3SfeTrGa8v:22
+ a=QBf-Z-tBp1IkNLPPPQEA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-ORIG-GUID: kC0y5-FuWVYejMHt6mEB9U7oB8yLQDdt
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11898
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 lowpriorityscore=10 impostorscore=10
+ priorityscore=1501 adultscore=0 phishscore=0 bulkscore=10 malwarescore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2609060267
 
-On Sat, Sep 05, 2026 at 05:42:39PM -0700, Andrew Morton wrote:
-> On Fri, 4 Sep 2026 11:56:28 +0000 Salvatore Dipietro <dipiets@amazon.it> wrote:
-> 
-> > Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-> > introduced high-order folio allocations in the iomap buffered write
-> > path.  When memory is fragmented, each failed costly-order allocation
-> > enters __alloc_pages_slowpath() which runs direct compaction and
-> > drain_all_pages(), causing a 0.38x throughput drop on PostgreSQL
-> > pgbench (simple-update) with 1024 clients on a 96-vCPU arm64 system.
-> 
-> Is there anything particularly unusual about this test case?
-> 
-> > Results (average of 3 runs, TPS):
-> > 
-> >   Config                   Avg TPS      % vs Baseline
-> >   baseline (no patch)       59,408       -
-> >   With this patch          155,409      +161.6%
-> 
-> Is this back to pre-5d8edfb900d5 performance?
-> 
-> > Link: https://lore.kernel.org/all/20260403193535.9970-1-dipiets@amazon.it/T/#t [v1]
-> > Link: https://lore.kernel.org/linux-mm/20260420161404.642-1-dipiets@amazon.it/T/#u [v2]
-> > Link: https://lore.kernel.org/all/20260710143437.12379-1-dipiets@amazon.it/T/#u [v3]
-> > Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-> 
-> That's three years old.  v6.10.  
-> 
-> This is not good.  Can you think of an exceptional reason why this took
-> so long to surface, or is it simply that our testing isn't good?
+Read the block device pages through read_mapping_folio() and copy with
+memcpy_from_folio() instead of going through a page.
 
-Neither.  We've know about these excessive high-order allocation->
-direct reclaim compaction costs for a lot longer than this, and have
-quite a number of filesystem based workloads that have been easily
-able to reproduce it on demand.  XFS first worked around direct
-compaction overhead back around ~5.17/18.
+Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+---
+ fs/cramfs/inode.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-So why has it taken so long for this to be (kinda) fixed in the
-memory reclaim code?
+diff --git a/fs/cramfs/inode.c b/fs/cramfs/inode.c
+index d4cd03f4f60d..b55eb3bd29c1 100644
+--- a/fs/cramfs/inode.c
++++ b/fs/cramfs/inode.c
+@@ -194,7 +194,7 @@ static void *cramfs_blkdev_read(struct super_block *sb, unsigned int offset,
+ {
+ 	struct address_space *mapping = sb->s_bdev->bd_mapping;
+ 	struct file_ra_state ra = {};
+-	struct page *pages[BLKS_PER_BUF];
++	struct folio *folios[BLKS_PER_BUF];
+ 	unsigned i, blocknr, buffer;
+ 	unsigned long devsize;
+ 	char *data;
+@@ -227,15 +227,15 @@ static void *cramfs_blkdev_read(struct super_block *sb, unsigned int offset,
+ 	page_cache_sync_readahead(mapping, &ra, NULL, blocknr, BLKS_PER_BUF);
+ 
+ 	for (i = 0; i < BLKS_PER_BUF; i++) {
+-		struct page *page = NULL;
++		struct folio *folio = NULL;
+ 
+ 		if (blocknr + i < devsize) {
+-			page = read_mapping_page(mapping, blocknr + i, NULL);
++			folio = read_mapping_folio(mapping, blocknr + i, NULL);
+ 			/* synchronous error? */
+-			if (IS_ERR(page))
+-				page = NULL;
++			if (IS_ERR(folio))
++				folio = NULL;
+ 		}
+-		pages[i] = page;
++		folios[i] = folio;
+ 	}
+ 
+ 	buffer = next_buffer;
+@@ -245,11 +245,14 @@ static void *cramfs_blkdev_read(struct super_block *sb, unsigned int offset,
+ 
+ 	data = read_buffers[buffer];
+ 	for (i = 0; i < BLKS_PER_BUF; i++) {
+-		struct page *page = pages[i];
++		struct folio *folio = folios[i];
+ 
+-		if (page) {
+-			memcpy_from_page(data, page, 0, PAGE_SIZE);
+-			put_page(page);
++		if (folio) {
++			size_t offset = offset_in_folio(folio,
++					(loff_t)(blocknr + i) << PAGE_SHIFT);
++
++			memcpy_from_folio(data, folio, offset, PAGE_SIZE);
++			folio_put(folio);
+ 		} else
+ 			memset(data, 0, PAGE_SIZE);
+ 		data += PAGE_SIZE;
 
-It is not for lack of awareness or trying.
+---
+base-commit: df2908090cda368b01ff43709f51890076c56157
+change-id: 20260906-cramfs-blkdev-read-folio-16fecf6908ac
 
-I've responded to about half a dozen "direct compaction is
-expensive" bug reports in the past couple of years where I've said
-"this needs to be fixed in the reclaim code, not at the individual
-call sites". Not just fs stuff, but graphics and other subsystems,
-too.
+Best regards,
+--  
+Tal Zussman <tz2294@columbia.edu>
 
-However, convincing the MM manintainers to do anything w.r.t.
-changing memory reclaim takes forever, and requires excessive
-amounts of persistence before anything happens despite clear
-evidence of the issue and the performance numbers showing how costly
-direct compaction actually is.
-
-A directly relatable example of this is kvmalloc() semantics. We
-needed kvmalloc() use fail fast semantics for the high order
-kmalloc() because it is much less costly to fall back to vmalloc()
-than do direct compaction....
-
-This was what the XFS changes in 5.17 worked around, and that fix
-didn't get pulled into the kvmalloc() implementation until 6.15 with
-commit 46459154f997 ("mm: kvmalloc: make kmalloc fast path real fast
-path").
-
-IOWs, it often takes years from "bad behaviour known" to "fixed in
-MM infrastructure", and most of that time is spent trying to
-convince the MM maintainers that the (relatively simple) fix needs
-to be done in the MM code itself...
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-dgc@kernel.org
