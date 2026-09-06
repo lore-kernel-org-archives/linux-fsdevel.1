@@ -1,125 +1,112 @@
-Received: from va-2-45.ptr.blmpb.com (va-2-45.ptr.blmpb.com [209.127.231.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB97E392C21
-	for <linux-fsdevel@vger.kernel.org>; Sun,  6 Sep 2026 11:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD4736C5AE;
+	Sun,  6 Sep 2026 11:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788694906; cv=none; b=qsU2Z217uWnk2o592TDXnND1rBFuqG81l+JJ3A4Y2Ivdxm7n5jwVtPcHP2RvBjiEzzqXNaBeH9I1GgV53aWVhk+71Lj0FkHpZmA1uzR56s5ZyHRLQO2uUtSHEuDCX0Ep7JcY26NxjkgE6AEWzXC0vfCMlnvoGEtJoKJH5GAl458=
+	t=1788695529; cv=none; b=mXSk7wk1b7vgl8Ob+QVqBnu6oYPr0V+2ZOG+7rYbZUfygsCbCLYmcBOYHSL/x/ZOUKLa4t1ryCWBr2BJChk08rATlqEPneZ80bdu5nffCOTNk4CevoBqN//BNmymI22wDftYx7flKHfaZ2HAJjj/RAbPZQs0JLIfokh0rkb7im8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788694906; c=relaxed/simple;
-	bh=Txjb4A2ru0WHH8ExTeA1+aRZilQ6U0tRJ24xs4Setuk=;
-	h=To:Subject:References:Cc:Date:Mime-Version:In-Reply-To:Message-Id:
-	 Content-Type:From; b=s5BnfgKPaQxMVdlLOynkI+vS688NN55D04Gxad3HmhZxxS42N5+Q+kYwD2jrYzjPO2UrmAeLSLOLrU3jHbq00kYZmonshPt2bxjEV1RFfpdVOPgttRWLZXPx9pyee6GWpcYPejNom8m1VYvB3oz/AhLYogFVV8VztB6oxtjnkjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=gsMGNOoB; arc=none smtp.client-ip=209.127.231.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
+	s=arc-20240116; t=1788695529; c=relaxed/simple;
+	bh=tlMfm4phO1UIuyZTeTiMNg6FsXbMxsNSHLiZQt/uw5k=;
+	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
+	 Content-Type; b=LJ4YFTv8j8GvVzrQDTXw2SL1u2ZPbpO8wJMcGb232gtELz9eMDpfdLGGRgoTsFer8HptCFAJppV4UnQnfvcEvh1zPBYY3WQWBJ++fAvjL7QJ3oyZIix55O5f27MQPJ6B6SpYTVGETRo/6C7Cv50QH3My+jexqGRdrvQXqxLL38E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=GphGd2I8; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=bAxWjMjB; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="gsMGNOoB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1788694893;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=Txjb4A2ru0WHH8ExTeA1+aRZilQ6U0tRJ24xs4Setuk=;
- b=gsMGNOoBKWnuzNae+zqKdZqMscRCD1AiEZYEY6htIlRk6+gNoKGaQmKYsKYNBjNXUm1bg6
- xGaAOEqOARkImszoU6UA/pFzyCd7LSfk32qvYJElb/bqw7GJgVgWGZ/PG3teeTMVKxDjz2
- 0+sL2e/vQDFiT2KHBN7ctjFgp5CUS+dexxkSZWJwgupilHVZmfc9Qu+tcyc4J2ZBybJEYE
- 3O7lCgnI+/VOUxbbNaHQn/Cwet4hIu6rLmTVNizTAhAmTzubMJhfIq3DvQpPSPhj27EBwQ
- 19siYfKDSN/tMAK0s7/7xhbUyXGLHqWKoqogA1tdzyeiqm81vko7cmrmvzJ4AQ==
-To: "Nilay Shroff" <nilay@linux.ibm.com>, "Yu Kuai" <yukuai@kernel.org>, 
-	"Jens Axboe" <axboe@kernel.dk>, "Tejun Heo" <tj@kernel.org>, 
-	"Josef Bacik" <josef@toxicpanda.com>, 
-	"Johannes Weiner" <hannes@cmpxchg.org>, 
-	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	"yu kuai" <yukuai@fygo.io>
-Subject: Re: [PATCH 3/3] blk-cgroup: move async bio punt state to blkcg
-References: <20260823133045.970199-1-yukuai@kernel.org> <20260823133045.970199-4-yukuai@kernel.org> <d88a132d-177b-4d54-9927-3d16065c7b60@linux.ibm.com>
-Cc: "Christoph Hellwig" <hch@lst.de>, "Tao Cui" <cui.tao@linux.dev>, 
-	"Jan Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>, 
-	"Shuah Khan" <skhan@linuxfoundation.org>, "Coly Li" <colyli@fygo.io>, 
-	"Kent Overstreet" <kent.overstreet@linux.dev>, 
-	"Alasdair Kergon" <agk@redhat.com>, "Mike Snitzer" <snitzer@kernel.org>, 
-	"Mikulas Patocka" <mpatocka@redhat.com>, 
-	"Benjamin Marzinski" <bmarzins@redhat.com>, "Song Liu" <song@kernel.org>, 
-	"Li Nan" <magiclinan@didiglobal.com>, "Xiao Ni" <xiao@kernel.org>, 
-	"Pankaj Gupta" <pankaj.gupta.linux@gmail.com>, 
-	"Dan Williams" <djbw@kernel.org>, 
-	"Vishal Verma" <vishal.l.verma@intel.com>, 
-	"Dave Jiang" <dave.jiang@intel.com>, 
-	"Alison Schofield" <alison.schofield@intel.com>, 
-	"Ira Weiny" <iweiny@kernel.org>, 
-	"Andreas Gruenbacher" <agruenba@redhat.com>, 
-	"Matthew Wilcox" <willy@infradead.org>, 
-	"Andrew Morton" <akpm@linux-foundation.org>, 
-	"Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, 
-	"Kemeng Shi" <shikemeng@huaweicloud.com>, 
-	"Nhat Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>, 
-	"Barry Song" <baohua@kernel.org>, 
-	"Youngjun Park" <youngjun.park@lge.com>, <cgroups@vger.kernel.org>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-block@vger.kernel.org>, <linux-bcache@vger.kernel.org>, 
-	<dm-devel@lists.linux.dev>, <linux-raid@vger.kernel.org>, 
-	<nvdimm@lists.linux.dev>, <virtualization@lists.linux.dev>, 
-	<gfs2@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
-Date: Sun, 6 Sep 2026 19:41:24 +0800
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="GphGd2I8";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="bAxWjMjB"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1788695525; bh=oz+HE2ETYucJKULh+WvxdLZ
+	m/16AU54giBU3BvlUsMQ=; b=GphGd2I8s9zg3Ti3H16dO7mZVpk/QbyktYq5FJmmbtZ3CaiBhx
+	IWZwyKFLCzrim4DmcF+Ct1z7xcBVdXMbLjiTPTAwlcIP+EKRBIMU2h0//PQnstLWMLAeUSmaFXK
+	dv2gMQNuXCIkZ3lpT75kI+yXA3pq8StgLzvoscVJRYsKHDULygv8Wy6AjtTf9OcvEzEWFEtB+d/
+	VjBnLOt0EPCFGs32wo1WxkI+AyJbt3kXJBEUuquUCiJ8ECga7QtxZpSwHDhsFLlAJJy9Ubk9/ul
+	tThflo39/W4RzAmlhY0yR8ZF83PMTj2vRBwOTxP7dJ0RvvvUXraQFwouPmMsVFRMeZg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1788695525; bh=oz+HE2ETYucJKULh+WvxdLZ
+	m/16AU54giBU3BvlUsMQ=; b=bAxWjMjBEWJ8LgQVplPKKgKURJG5ivbbmMWXmnFgHjIwDZVbiU
+	/tNeomZmHIwS8wVc1R21jK75gnlQ7NYKYsAg==;
+Date: Sun, 06 Sep 2026 12:52:04 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: norbert@doyensec.com
+CC: brauner@kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, akpm@linux-foundation.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_nstree=3A_check_listing_permis?=
+ =?US-ASCII?Q?sion_before_taking_a_namespace_reference?=
+In-Reply-To: <34C54FF6-AA8F-4124-9B40-C68EADB26D99@doyensec.com>
+Message-ID: <F8EF9799-CDCE-435F-97E2-13B6CC92EC6D@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Received: from [192.168.1.104] ([39.182.0.178]) by smtp.larksuite.com with ESMTPS; Sun, 06 Sep 2026 11:41:32 +0000
-In-Reply-To: <d88a132d-177b-4d54-9927-3d16065c7b60@linux.ibm.com>
-Message-Id: <4706f5fa-3a09-4c48-aa4b-c56521166618@fygo.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Original-From: yu kuai <yukuai@fygo.io>
-Reply-To: yukuai@fygo.io
-From: "yu kuai" <yukuai@fygo.io>
-User-Agent: Mozilla Thunderbird
-X-Lms-Return-Path: <lba+26a9d516d+f58e2f+vger.kernel.org+yukuai@fygo.io>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 4 September 2026 15:28:05 BST, Norbert Szetei <norbert@doyensec.com>
+wrote:
+>legitimize_ns() takes a reference on the candidate namespace before
+>may_list_ns() has decided whether the caller may see it. The
+>__free(ns_put) cleanup on the denied path can drop the last reference to a
+>mount namespace while we still hold the rcu read lock, and put_mnt_ns()
+>may sleep there. This is the same problem commit 2ec2aff3c8e2 ("ns: make
+>sure reference are dropped outside of rcu lock") fixed for the put_user()
+>path. Neither ns_requested() nor may_list_ns() needs a reference, both
+>only look at the namespace type and at the caller's own namespaces, so do
+>the checks first and take the reference last.
+>
 
-=E5=9C=A8 2026/9/6 19:01, Nilay Shroff =E5=86=99=E9=81=93:
-> On 8/23/26 7:00 PM, Yu Kuai wrote:
->> @@ -111,10 +104,15 @@ struct blkcg {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * List of updated percpu blkg_iosta=
-t_set's since the last flush.
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct llist_head __percpu=C2=A0=C2=A0=C2=
-=A0 *lhead;
->> =C2=A0 +#ifdef CONFIG_BLK_CGROUP_PUNT_BIO
->> +=C2=A0=C2=A0=C2=A0 spinlock_t=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 async_bio_lock; /* protects async_bios */
->> +=C2=A0=C2=A0=C2=A0 struct bio_list=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 async_bios;
->> +=C2=A0=C2=A0=C2=A0 struct work_struct=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 async_bio_work;
->> +#endif
->> =C2=A0 #ifdef CONFIG_BLK_CGROUP_FC_APPID
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fc_app_id[FC_APPID_LEN]=
-;
->> =C2=A0 #endif
->> =C2=A0 #ifdef CONFIG_CGROUP_WRITEBACK
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct list_head=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 cgwb_list;
->
-> As I mentioned, Clang context annotations are now officially supported
-> in the block layer. Since you're touching this code, I suggest annotating
-> async_bios with __guarded_by(&async_bio_lock) as well.
->
-> This would allow the Clang thread-safety analyzer to verify that every
-> access to async_bios is properly protected by async_bio_lock.
-Sounds reasonable, will do this in the next version.
->
-> Thanks,
-> --Nilay
+Great catch!
 
---=20
-Thanks,
-Kuai
+>Fixes: 76b6f5dfb3fd ("nstree: add listns()")
+>Signed-off-by: Norbert Szetei <norbert@doyensec.com>
+>---
+>A reproducer is available on request.
+
+Please? Or a splat, or anything?
+
+
+>
+> kernel/nstree.c | 10 ++--------
+> 1 file changed, 2 insertions(+), 8 deletions(-)
+>
+>diff --git a/kernel/nstree.c b/kernel/nstree.c
+>index 6d12e5900ac0..831f279d174a 100644
+>--- a/kernel/nstree.c
+>+++ b/kernel/nstree.c
+>@@ -533,19 +533,13 @@ DEFINE_FREE(ns_put, struct ns_common *, if (!IS_ERR_OR_NULL(_T)) ns_put(_T))
+> static inline struct ns_common *__must_check legitimize_ns(const struct
+> klistns *kls,
+> 							   struct ns_common *candidate)
+> {
+>-	struct ns_common *ns __free(ns_put) = NULL;
+>-
+> 	if (!ns_requested(kls, candidate))
+> 		return NULL;
+> 
+>-	ns = ns_get_unless_inactive(candidate);
+>-	if (!ns)
+>-		return NULL;
+>-
+>-	if (!may_list_ns(kls, ns))
+>+	if (!may_list_ns(kls, candidate))
+> 		return NULL;
+> 
+>-	return no_free_ptr(ns);
+>+	return ns_get_unless_inactive(candidate);
+> }
+
+Fix LGTM, 
+
++ CC akpm, he tends to look at fixes in kernel/, if brauner wants to merge this then that's ok :)
+
+> 
+> static ssize_t do_listns_userns(struct klistns *kls)
+>
+
+--- Thanks!
+https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
