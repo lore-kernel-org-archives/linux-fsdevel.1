@@ -1,33 +1,33 @@
-Received: from mta1.migadu.com (out-50.mta1.migadu.com [95.215.58.50])
+Received: from mta0.migadu.com (out-221.mta0.migadu.com [91.218.175.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6DF50C282
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 16:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA71519906
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 16:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788799528; cv=none; b=FUj02v8X4ZwbsD6DfJp/LCdmHhYQEEi2BfgePDYMvVBBmrFZhBSrfJ7UdljjQJtXC3gss6iujCM9PazREkkDvQP5uxuqz3vQMZ419cz4Yabm6Kk+3Jix07Ic9UQC893OXWozqSYNqr16Ev6Sl9lH4pVxo7Q6JdH3AHi0Qjlj83s=
+	t=1788799779; cv=none; b=PUCFBHRIHe4j3VREQLwhNeobJKYhANVg9VKYMTDm2J7URsuBKeE8ebS6CAlrgwoGWjnKGKIkj6NOdJzSTTFwZs8ebDc5hBirLQ93wo20CZDz9YEMv/xLFblAGM4FILoO3FVnHqejQDXSGRAxa/ne8dyjmRKnal1Zgc294JMx4fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788799528; c=relaxed/simple;
-	bh=mA7P/Qe1tvxUEQLZlPrgfbJg0c6VIZe0R0iXWMkfLmM=;
+	s=arc-20240116; t=1788799779; c=relaxed/simple;
+	bh=aiOV96iWD1E/8/sYj8GdsqnibwPCG/X4Yj+j2mG5QNs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GGPCDel3T7GRtQdhTv1erMunR59HTTgkX6/XiVOQ2KDaDLHQLnqvkmMhtlkLrG4G6fu1OmB+FkWTvjyUFmn4vygVwLNcp4u3cFG7IoFAoosXoA6L9XfTvyadFJfis5k7hWuN0HLvq1sOHLIIfOlhodVWEHq5BWOaz//aS/konpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=E11nSGYU; arc=none smtp.client-ip=95.215.58.50
+	 MIME-Version; b=sr8d52WW60I4SAonGhdEOZhzr8phqKwxDMmmGYPtOQWLCZtwxCwLLnu2GHAAxD8zBHda1lLUaAwlF+m6uI8ym/0u77TvwQ+fi3vEQPDERF7noMpleRdQ8QHvwRF3cybYvsDL6j3OEmYWXzjEyH7VTUPPZQbBaJVcpCDHdhZ8NfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QQpm8w8q; arc=none smtp.client-ip=91.218.175.221
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="E11nSGYU"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QQpm8w8q"
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=mA7P/Qe1tvxUEQLZlPrgfbJg0c6VIZe0R0iXWMkfLmM=;
+DKIM-Signature: a=rsa-sha256; bh=aiOV96iWD1E/8/sYj8GdsqnibwPCG/X4Yj+j2mG5QNs=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788799523; v=1; x=1789404323;
- b=E11nSGYUdFDOKkZEOPkTm2YxFAzEOKlNI8sSZFUvCSIyQLC1YygSwlGE1iHVJFpLwtucE0Fu
- YYktdxxUDnVQwqq3ue65c/Yo6t0OAYZjFqLPLh2RH9D8nxDUdxFacmtLDoLfdt4YSJlymhzQF7j
- ea+Dmb7tbknUTrQYlJ+hOm2g=
+ t=1788799774; v=1; x=1789404574;
+ b=QQpm8w8qtlyl4A29Mq6LnWHurYgAMCMDz+IP0s22x/N0nM/hcuEbmZ5o0tzh+VcdNjCr3Reh
+ OFnSHnHBZZNkvbzy9FKBNEf0SBsQLLgMuHSlBS+PPYe0YiqW1KLbxCn251Ze/xK9zS4bEAuMvbB
+ 6T8MKteHfhqzXgK7TUMxIYYY=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id f0a5260ef7ab4742;
-	Mon, 07 Sep 2026 16:45:04 +0000
-X-Mizu-Trace-ID: f0a5260ef7ab4742
+Received: by mta11.migadu.com with ESMTPS id b961d15e53dc88c5;
+	Mon, 07 Sep 2026 16:49:34 +0000
+X-Mizu-Trace-ID: b961d15e53dc88c5
 X-Migadu-Flow: FLOW_OUT
 From: Usama Arif <usama.arif@linux.dev>
 To: Suren Baghdasaryan <surenb@google.com>
@@ -44,11 +44,11 @@ Cc: Usama Arif <usama.arif@linux.dev>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] proc/task_mmu: remove unnecessary helpers
-Date: Mon,  7 Sep 2026 09:44:57 -0700
-Message-ID: <20260907164500.3920334-1-usama.arif@linux.dev>
+Subject: Re: [PATCH v2 2/5] proc/task_mmu: remove unnecessary inlines in function definitions
+Date: Mon,  7 Sep 2026 09:49:30 -0700
+Message-ID: <20260907164931.131215-1-usama.arif@linux.dev>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260907063918.3432401-2-surenb@google.com>
+In-Reply-To: <20260907063918.3432401-3-surenb@google.com>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -58,146 +58,153 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sun,  6 Sep 2026 23:39:14 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+On Sun,  6 Sep 2026 23:39:15 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
 
-> When per-vma locks were behind a config option, a number of helper
-> functions were needed to simplify the locking code. Now that these
-> locks are universally available, we can do a little cleanup.
-> Remove lock_vma_range(), unlock_vma_range(), query_vma_setup(),
-> query_vma_teardown() helpers.
+> It was pointed out in the previous reviews of this code that many
+> functions are specified as inline, which is unnecessary as the compile
+> can make that decision by itself. Cleanup these definitions.
 > 
 > No functional change intended.
 > 
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 > ---
->  fs/proc/task_mmu.c | 67 ++++++++++++----------------------------------
->  1 file changed, 17 insertions(+), 50 deletions(-)
+>  fs/proc/task_mmu.c | 32 ++++++++++++++++----------------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
 
-Change makes sense independent of the series as well.
+Most of these functions would be inlined anyways so should be ok.
+
+Curious if there was a change in binary size with this?
 
 Acked-by: Usama Arif <usama.arif@linux.dev>
 
 > 
 > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index e671b4fd8ded..2f500d639db5 100644
+> index 2f500d639db5..9908ba32f180 100644
 > --- a/fs/proc/task_mmu.c
 > +++ b/fs/proc/task_mmu.c
-> @@ -160,25 +160,6 @@ static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
->  	}
+> @@ -130,7 +130,7 @@ static void release_task_mempolicy(struct proc_maps_private *priv)
+>  }
+>  #endif
+>  
+> -static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> +static int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+>  {
+>  	int ret = mmap_read_lock_killable(lock_ctx->mm);
+>  
+> @@ -140,7 +140,7 @@ static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+>  	return ret;
 >  }
 >  
-> -static inline bool lock_vma_range(struct seq_file *m,
-> -				  struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	rcu_read_lock();
-> -	reset_lock_ctx(lock_ctx);
-> -
-> -	return true;
-> -}
-> -
-> -static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	if (lock_ctx->mmap_locked) {
-> -		unlock_ctx_mm(lock_ctx);
-> -	} else {
-> -		unlock_ctx_vma(lock_ctx);
-> -		rcu_read_unlock();
-> -	}
-> -}
-> -
->  static struct vm_area_struct *get_next_vma(struct proc_maps_private *priv,
->  					   loff_t last_pos)
+> -static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> +static void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
 >  {
-> @@ -286,13 +267,8 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
->  		return NULL;
->  	}
+>  	mmap_read_unlock(lock_ctx->mm);
+>  	lock_ctx->mmap_locked = false;
+> @@ -177,7 +177,7 @@ static struct vm_area_struct *get_next_vma(struct proc_maps_private *priv,
+>  	return vma;
+>  }
 >  
-> -	if (!lock_vma_range(m, lock_ctx)) {
-> -		mmput(mm);
-> -		put_task_struct(priv->task);
-> -		priv->task = NULL;
-> -		return ERR_PTR(-EINTR);
-> -	}
-> -
-> +	rcu_read_lock();
-> +	reset_lock_ctx(lock_ctx);
->  	/*
->  	 * Reset current position if last_addr was set before
->  	 * and it's not a sentinel.
-> @@ -325,7 +301,12 @@ static void m_stop(struct seq_file *m, void *v)
+> -static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+> +static bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+>  					 loff_t pos)
+>  {
+>  	struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
+> @@ -194,7 +194,7 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+>  	return true;
+>  }
+>  
+> -static inline void drop_rcu(struct proc_maps_private *priv)
+> +static void drop_rcu(struct proc_maps_private *priv)
+>  {
+>  	if (priv->lock_ctx.mmap_locked)
 >  		return;
+> @@ -202,7 +202,7 @@ static inline void drop_rcu(struct proc_maps_private *priv)
+>  	rcu_read_unlock();
+>  }
 >  
->  	release_task_mempolicy(priv);
-> -	unlock_vma_range(&priv->lock_ctx);
-> +	if (priv->lock_ctx.mmap_locked) {
-> +		unlock_ctx_mm(&priv->lock_ctx);
-> +	} else {
-> +		unlock_ctx_vma(&priv->lock_ctx);
-> +		rcu_read_unlock();
-> +	}
->  	mmput(mm);
->  	put_task_struct(priv->task);
->  	priv->task = NULL;
-> @@ -518,21 +499,6 @@ static int pid_maps_open(struct inode *inode, struct file *file)
->  		PROCMAP_QUERY_VMA_FLAGS				\
->  )
->  
-> -static int query_vma_setup(struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	reset_lock_ctx(lock_ctx);
-> -
-> -	return 0;
-> -}
-> -
-> -static void query_vma_teardown(struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	if (lock_ctx->mmap_locked)
-> -		unlock_ctx_mm(lock_ctx);
-> -	else
-> -		unlock_ctx_vma(lock_ctx);
-> -}
-> -
->  static struct vm_area_struct *query_vma_find_by_addr(struct proc_maps_locking_ctx *lock_ctx,
->  						     unsigned long addr)
+> -static inline void reacquire_rcu(struct proc_maps_private *priv)
+> +static void reacquire_rcu(struct proc_maps_private *priv)
 >  {
-> @@ -653,12 +619,7 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
->  	if (!mm || !mmget_not_zero(mm))
->  		return -ESRCH;
+>  	if (priv->lock_ctx.mmap_locked)
+>  		return;
+> @@ -1230,7 +1230,7 @@ static const struct mm_walk_ops smaps_shmem_walk_vma_lock_ops = {
+>  	.walk_lock		= PGWALK_VMA_RDLOCK_VERIFY,
+>  };
 >  
-> -	err = query_vma_setup(&lock_ctx);
-> -	if (err) {
-> -		mmput(mm);
-> -		return err;
-> -	}
-> -
-> +	reset_lock_ctx(&lock_ctx);
->  	vma = query_matching_vma(&lock_ctx, karg.query_addr, karg.query_flags);
->  	if (IS_ERR(vma)) {
->  		err = PTR_ERR(vma);
-> @@ -732,7 +693,10 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
->  		vm_file = get_file(vma->vm_file);
+> -static inline const struct mm_walk_ops *
+> +static const struct mm_walk_ops *
+>  get_smaps_walk_ops(struct proc_maps_private *priv)
+>  {
+>  	if (priv->lock_ctx.mmap_locked)
+> @@ -1238,7 +1238,7 @@ get_smaps_walk_ops(struct proc_maps_private *priv)
+>  	return &smaps_walk_vma_lock_ops;
+>  }
 >  
->  	/* unlock vma or mmap_lock, and put mm_struct before copying data to user */
-> -	query_vma_teardown(&lock_ctx);
-> +	if (lock_ctx.mmap_locked)
-> +		unlock_ctx_mm(&lock_ctx);
-> +	else
-> +		unlock_ctx_vma(&lock_ctx);
->  	mmput(mm);
+> -static inline const struct mm_walk_ops *
+> +static const struct mm_walk_ops *
+>  get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+>  {
+>  	if (priv->lock_ctx.mmap_locked)
+> @@ -1572,7 +1572,7 @@ struct clear_refs_private {
+>  	enum clear_refs_types type;
+>  };
 >  
->  	if (karg.build_id_size) {
-> @@ -773,7 +737,10 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
->  	return 0;
+> -static inline bool pte_is_pinned(struct vm_area_struct *vma, unsigned long addr, pte_t pte)
+> +static bool pte_is_pinned(struct vm_area_struct *vma, unsigned long addr, pte_t pte)
+>  {
+>  	struct folio *folio;
 >  
->  out:
-> -	query_vma_teardown(&lock_ctx);
-> +	if (lock_ctx.mmap_locked)
-> +		unlock_ctx_mm(&lock_ctx);
-> +	else
-> +		unlock_ctx_vma(&lock_ctx);
->  	mmput(mm);
->  out_file:
->  	if (vm_file)
+> @@ -1588,8 +1588,8 @@ static inline bool pte_is_pinned(struct vm_area_struct *vma, unsigned long addr,
+>  	return folio_maybe_dma_pinned(folio);
+>  }
+>  
+> -static inline void clear_soft_dirty(struct vm_area_struct *vma,
+> -		unsigned long addr, pte_t *pte)
+> +static void clear_soft_dirty(struct vm_area_struct *vma, unsigned long addr,
+> +			     pte_t *pte)
+>  {
+>  	if (!pgtable_supports_soft_dirty())
+>  		return;
+> @@ -1620,8 +1620,8 @@ static inline void clear_soft_dirty(struct vm_area_struct *vma,
+>  }
+>  
+>  #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
+> -static inline void clear_soft_dirty_pmd(struct vm_area_struct *vma,
+> -		unsigned long addr, pmd_t *pmdp)
+> +static void clear_soft_dirty_pmd(struct vm_area_struct *vma,
+> +				 unsigned long addr, pmd_t *pmdp)
+>  {
+>  	pmd_t old, pmd = *pmdp;
+>  
+> @@ -1646,8 +1646,8 @@ static inline void clear_soft_dirty_pmd(struct vm_area_struct *vma,
+>  	}
+>  }
+>  #else
+> -static inline void clear_soft_dirty_pmd(struct vm_area_struct *vma,
+> -		unsigned long addr, pmd_t *pmdp)
+> +static void clear_soft_dirty_pmd(struct vm_area_struct *vma,
+> +				 unsigned long addr, pmd_t *pmdp)
+>  {
+>  }
+>  #endif
+> @@ -1846,7 +1846,7 @@ struct pagemapread {
+>  
+>  #define PM_END_OF_BUFFER    1
+>  
+> -static inline pagemap_entry_t make_pme(u64 frame, u64 flags)
+> +static pagemap_entry_t make_pme(u64 frame, u64 flags)
+>  {
+>  	return (pagemap_entry_t) { .pme = (frame & PM_PFRAME_MASK) | flags };
+>  }
+> @@ -3388,7 +3388,7 @@ static const struct mm_walk_ops show_numa_vma_lock_ops = {
+>  	.walk_lock = PGWALK_VMA_RDLOCK_VERIFY,
+>  };
+>  
+> -static inline const struct mm_walk_ops *
+> +static const struct mm_walk_ops *
+>  get_show_numa_ops(struct proc_maps_private *priv)
+>  {
+>  	if (priv->lock_ctx.mmap_locked)
 > -- 
 > 2.55.0.979.g7e5102b832-goog
 > 
