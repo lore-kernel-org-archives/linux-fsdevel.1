@@ -1,173 +1,324 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281F2442393;
-	Mon,  7 Sep 2026 09:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788774331; cv=none; b=ojGUA+cd/5ObmrZWztVXYG1Ddf0GxzFUD092zH0Jnp9gvzzSbp6P907UBwh4BgjyFgUj7YFqA9fsK0Fukn1EhmS+zLPJ5mUTghHu03mMtpm7fDMLloIK43XujpVqBMHCbvXEY72Gho7nxPfkgD9o151MwQIf8oa6kUKyx/hjrW8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788774331; c=relaxed/simple;
-	bh=aFMxlYIEr10mLBc7x0/wwlHNnkqEkXrtV230o1PAo5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gXMWbD4oDT3O9+RErIzzYkvEbwGOMCn/nAA/1i19FUDgIDtStfNaNDsJlZ3f4EvnNi3en62eUHKQRDKUgYLGhiZJGkBSD8aBA59vtQM3V6x4+GJIdq95Kr2c386tu5FyiSFJ/yXT4gZl3GutvQzR2nxwJ3px4iKPCs8JV9+9GQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wBQtCOO8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=o4lmmul7; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=nI5wW2TB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QhPIsXQU; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956DB43E49B
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 09:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788774939; cv=pass; b=dueMhbUwm4NRa0ZhfBPxdAJLc/9AHB9M+yZjmTqehc4nlM4Slgaukc//ZDS9pU+e5F8k9rmG636tToDUbW4AkYo9mXekhTEIeH5jM+pAelvb/hGg9+6Xg0g0/GyBqH65vGnoqRoGJRMePY8mVQr6LZHA0RX+wFaKOiirnSwX4fg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788774939; c=relaxed/simple;
+	bh=QMq/3wt6gqw+Gsc9uIo3bo3qvi85hMrqTTGnYwngynM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MTs6DDOQnk/zLCsmfBxIV8Hr92kXkm2PPkTAgTfjRO0lCT+8ggQoQZVHwfdCLrPQxBruOruExGpZv131uZD1ccqpfHj3xwkXW0Je/yOCiJPIUyL6PZUlDVSGQ8SbqspF5IjXd/i2HIPkfeOdE2Dwia/eTqjMP6xNEWRkZ4rV3Gc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=MYgEmecE; arc=pass smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mihalicyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wBQtCOO8";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="o4lmmul7";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="nI5wW2TB";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QhPIsXQU"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DD55D1F387;
-	Mon,  7 Sep 2026 09:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788774324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TK18g6cC4GqXBbeIEtDDxGQ3nIY8al02NrXM6/w1y30=;
-	b=wBQtCOO8jv8Sup2KrEujrraHWxWIeH8yNfYNnnOvGS6o4yDUYc3qWX+8+0WC2rdraoevyt
-	E/1+/DdkM1RQk3nYxX6SCiEr7FJlY7DckMVr76SKCQSfvxdxLqWqSyifj3L43AaY6hdVU9
-	PfDIVM1Te0HNhblztCriN6U0drZt6iI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788774324;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TK18g6cC4GqXBbeIEtDDxGQ3nIY8al02NrXM6/w1y30=;
-	b=o4lmmul7lMOPbPvq4TA4XZjEpxtxN8/V0TgY14kY57Ogxd2vak4LRaQhL9iRlbxA2SNh7w
-	RNG/U4ahJ/ZfG1DQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788774319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TK18g6cC4GqXBbeIEtDDxGQ3nIY8al02NrXM6/w1y30=;
-	b=nI5wW2TBXKEDbCy48a44C3k37yi6Ese8kG/pJC3073WmzGkU8tkxu5wdKUebb6PRJrpQIg
-	qsr1//KSTjSDF5pxWUABOai0ajQTHIB/OwpezF4qDsFTRAoG6c3jTse5PkWIY7yKizxMdJ
-	XeJd52reJ6nUHQGeCoLYf0xfWKAmeWc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788774319;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TK18g6cC4GqXBbeIEtDDxGQ3nIY8al02NrXM6/w1y30=;
-	b=QhPIsXQU28dWqTbr1U2rjs5DSZUYwXQyjN2F4PmMmMydex7UH0YLD9I3X7/OdLlz8qpjeq
-	oR+hqy8OnyMIskDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD37313432;
-	Mon,  7 Sep 2026 09:45:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kSUsLq+HnmpZDQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 07 Sep 2026 09:45:19 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 57EDBA13B2; Mon, 07 Sep 2026 11:45:19 +0200 (CEST)
-Date: Mon, 7 Sep 2026 11:45:19 +0200
-From: Jan Kara <jack@suse.cz>
-To: Tao Cui <cui.tao@linux.dev>
-Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, jack@suse.cz, andrii.nakryiko@gmail.com, 
-	linux-kernel@vger.kernel.org, Tao Cui <cuitao@kylinos.cn>, stable@vger.kernel.org
-Subject: Re: [PATCH] fs: reject U64_MAX as last_mnt_id in listmount()
-Message-ID: <vwmaviizpdpjwi5rf4gj65wmge5xj4rivhsissnxf7qytztzxr@qsphr7wj4h76>
-References: <20260907065724.1355551-1-cui.tao@linux.dev>
+	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="MYgEmecE"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c25420fe973so548109466b.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 02:55:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788774935; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aZIxJQBkVuUQnbU6QYsyPcnKq4PilRIapM2us2Vsw1MkwojIXmlhmKwOSqv2PPymZc
+         bkilHXOlA7bpHZajRjRZQ5UbVnyTjRN6174+gv61q6UhbWH60oDGNH2tCrnOIMJz2RE9
+         X7Zta/p1O7Z9LsdordZkxOt3uMmjXXP06vipI8D3t7qOZoT9GRGjF73HlbPAKN9FZGj0
+         4qdtT6qXYrUk4A8y3letPwkebH7XJ6HnFWWsz+6WwzDZ0d7jEdmzx+1atwCEJ1SDXygT
+         7ER5LWGKho5wJeRgq107zlcXgKFqeBEcs63zV4jjzIU7MO8liig7xvAjVsfpjt7S4PI5
+         4ihg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jEmqdy7P1JtEe/4sIlPPVfS6r5YyiIUkbZDzj02rKPM=;
+        fh=5z3FFVdJ5pKboUsvMehHxwiOn1O8isI4pmtMOjNQnzU=;
+        b=JBUcsDFhEHZBwJzHJu+4MDdWxvMPKrVce2DuOu5UZFrqzQyQI4pE+Q8SpRVmDFT7IB
+         uSoee8pNfNaIHlnzx8PwCD6VocxEI3cHhnCzSWrnqmph9UYK2shopQaWMciUt9kSEj6L
+         XRK5U3yHnfcWZ0DqjlkNhd0K+9lo2VdXVFjqrIF6OBdvlQnFae8XSg0KKub19FzdhP2X
+         fsHW4PFRJnStUCXUYqos02XimilZmiOunG7BOpwmFJQ+vrjzTA5WIlxbX+FjrYCU5NUl
+         XcM0TehDF55oHCk4JUtLV1jkQqXygrSAcR89Zw/DApNJz3TExh3nIwjkAomOmtUh7cp1
+         u+GQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mihalicyn.com; s=mihalicyn; t=1788774935; x=1789379735; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jEmqdy7P1JtEe/4sIlPPVfS6r5YyiIUkbZDzj02rKPM=;
+        b=MYgEmecEwL8ZaJK2nSZO7N5BTZEtcQySZb/OZgdTiArJVQLT0dPqr+2GpXqLpecX3v
+         H9fy4tbMuGZ8nOP8iqjfvP8TCwPEg0t6+SyyIesYy8u7DRFoOCruPhwWorQBn/FhrZPQ
+         XkCHuqJcHmJuEBWQfEF7ql1+cKgFONGtxoFCA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788774935; x=1789379735;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=jEmqdy7P1JtEe/4sIlPPVfS6r5YyiIUkbZDzj02rKPM=;
+        b=eJnOfULO4tePB/V7BfQ8hnb/Sci3wo5ZGuVtu2/tZ7ivOcEIfQ0GDEHNF7BYHDDHTs
+         sF/DA4Yql1qQVUmDxuRRn0mIplRx08zONvabDh4K7ihzYUDbJclseHrBEffsb1psGpJt
+         +aFdCqW64NeGe2OQwHqB2ektbalB4O3VlbdChyq/f0WsabmuxnufuP0/PjnwG4qrKFEh
+         Mq22xLLI8nnfErGCwbmK+1RU6dnYTRU/4NVIg4LAbE13W4jZlN7rcoY9pB9BLFaZScds
+         vkVD5arlE+MF7E/bsskZdKoS6rOag0RqD/zWpusYguJ3f20wtFE8BV589995783LvIDs
+         V7hw==
+X-Forwarded-Encrypted: i=1; AKwUvBxdD3MjtM+b6VZFQeI81DnXDc2NJuAYeCCKHUgS5N+FOglp/5HG8uAR/yIFIdQjc1TTpgQUguBEpxPuEgCr@vger.kernel.org
+X-Gm-Message-State: AFuF++msy7xUlXj42kgDwCVp+vKTShUt2MvYO38p0Hu3ZKk6uYCOjwJF
+	ssfad//C9eqvPF/IQNW85fDlqVsGDuWZce22ig4u20k311fgLPSUbdrc1ALx2HvEhw3qSf9vB4N
+	/2u8eQnRY40nlOatzVqXV+suyJSjVs06frEDOZFviqw==
+X-Gm-Gg: AYBFou2Ag8WaClVMIKbPC0oLeS2B7s0pMry8N2HvLaM8ELL4fpwKYFDNyFzE/5++S6e
+	eXoZujozdrpD+Eg4+IaqziYDwD3QG37+p87FUhVqwwuZKUtIPDFhd8vmc6wJ4cGQNX/mKbNl9GW
+	TRcG9y5eh/7yw/0paw0KCkJv/b1K8DCsGbRIrTIpS3LfyfYoLmJ4iDqrKCxIsgltRxnmk3u9iuj
+	ZatgOtCo5akgs1edt4WfryEnWkUx9cFcbijwQ5LD2R8ac2JOhL861/Gk89sarjVdMJeq+z1RgLj
+	k9IWinkuQ8v5g71D4hYqDkxZztxVTdc4BtPogYSuGSd7wipZyzicKR8G+EKEGqLEAr3VNDDh880
+	=
+X-Received: by 2002:a17:906:4fc7:b0:c25:8bf0:36ef with SMTP id
+ a640c23a62f3a-c260c987f6bmr826311266b.14.1788774934516; Mon, 07 Sep 2026
+ 02:55:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260907065724.1355551-1-cui.tao@linux.dev>
-X-Spam-Level: 
-X-Spam-Score: -2.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,zeniv.linux.org.uk,kernel.org,suse.cz,gmail.com,kylinos.cn];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,kylinos.cn:email]
+References: <20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org> <20260831-work-unix-passpidfd-v1-2-70cbfda0c7ba@kernel.org>
+In-Reply-To: <20260831-work-unix-passpidfd-v1-2-70cbfda0c7ba@kernel.org>
+From: Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Date: Mon, 7 Sep 2026 11:55:23 +0200
+X-Gm-Features: AcwNN1WsTyP8--pMd2iX9H-j2E4UJYkittYgJSq5id6vWYQXtW8MRT3JzKNcglo
+Message-ID: <CAJqdLrooAYAcgzug=+idiPfqsZ0HGaqi29STuw7uzDh7eEB1xQ@mail.gmail.com>
+Subject: Re: [PATCH 02/10] af_unix: record the pid of the sending thread
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon 07-09-26 14:57:23, Tao Cui wrote:
-> From: Tao Cui <cuitao@kylinos.cn>
-> 
-> listmount() uses mnt_id_req::param as a pagination cursor: on forward
-> iteration do_listmount() starts from the first mount with an id strictly
-> greater than last_mnt_id.  The sanity check in prepare_klistmount() only
-> rejects ids in the range [1, MNT_UNIQUE_ID_OFFSET]; U64_MAX passes the
-> check, and incrementing it wraps back to 0, so mnt_find_id_at() restarts
-> from the leftmost mount in the namespace every time.
-> 
-> A caller paging with last_mnt_id set to U64_MAX therefore always gets
-> the same first batch of ids returned and can never advance to the end of
-> the list:
-> 
->   # base: every call returns the same first batch
->   listmount(param=U64_MAX) = 8 ids: 2147483886 2147483888 ...
->   # patched:
->   listmount(param=U64_MAX) = -1 EINVAL
-> 
-> Reject U64_MAX up front together with the other invalid ids.
-> 
-> Fixes: b4c2bea8ceaa ("add listmount(2) syscall")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
-
-This looks OK, but I think we should reject U64_MAX only if
-LISTMOUNT_REVERSE flag is not set? With this flag specifying U64_MAX
-actually makes sense and it is likely used by people?
-
-								Honza
-
+Am Mo., 31. Aug. 2026 um 13:21 Uhr schrieb Christian Brauner
+<brauner@kernel.org>:
+>
+> Currently only the struct pid of the thread-group leader is recorded.
+> The identity of the actual thread that sent the message or is connected
+> to a given socket cannot be retrieved.
+>
+> Add the plumbing to make it possible to retrieve a pidfd for the sender.
+> Nothing uses the thread-specific struct pid yet. No functional changes.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
->  fs/namespace.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 8d4009cfbf5b..cb95b855f78b 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -6108,6 +6108,9 @@ static inline int prepare_klistmount(struct klistmount *kls, struct mnt_id_req *
->  	/* The first valid unique mount id is MNT_UNIQUE_ID_OFFSET + 1. */
->  	if (last_mnt_id != 0 && last_mnt_id <= MNT_UNIQUE_ID_OFFSET)
->  		return -EINVAL;
-> +	/* U64_MAX would wrap to 0 and restart the iteration. */
-> +	if (last_mnt_id == U64_MAX)
-> +		return -EINVAL;
->  
->  	kls->last_mnt_id = last_mnt_id;
->  
-> -- 
-> 2.43.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>  include/net/scm.h  |  7 +++----
+>  net/core/scm.c     | 21 +++++++++++++++++----
+>  net/unix/af_unix.c | 23 +++++++++++++----------
+>  net/unix/af_unix.h |  3 ++-
+>  4 files changed, 35 insertions(+), 19 deletions(-)
+>
+> diff --git a/include/net/scm.h b/include/net/scm.h
+> index 86ae6bc109ec..aa7d15c5fc27 100644
+> --- a/include/net/scm.h
+> +++ b/include/net/scm.h
+> @@ -42,7 +42,7 @@ struct scm_fp_list {
+>  };
+>
+>  struct scm_cookie {
+> -       struct pid              *pid;           /* Skb credentials */
+> +       DECLARE_PIDS(pid, PIDTYPE_TGID);        /* Skb credentials by pid type */
+>         struct scm_fp_list      *fp;            /* Passed files         */
+>         struct scm_creds        creds;          /* Skb credentials      */
+>  #ifdef CONFIG_SECURITY_NETWORK
+> @@ -69,7 +69,7 @@ static __inline__ void unix_get_peersec_dgram(struct socket *sock, struct scm_co
+>  static __inline__ void scm_set_cred(struct scm_cookie *scm,
+>                                     struct pid *pid, kuid_t uid, kgid_t gid)
+>  {
+> -       scm->pid = get_pid(pid);
+> +       scm->pid[PIDTYPE_TGID] = get_pid(pid);
+>         scm->creds.pid = pid_vnr(pid);
+>         scm->creds.uid = uid;
+>         scm->creds.gid = gid;
+> @@ -77,8 +77,7 @@ static __inline__ void scm_set_cred(struct scm_cookie *scm,
+>
+>  static __inline__ void scm_destroy_cred(struct scm_cookie *scm)
+>  {
+> -       put_pid(scm->pid);
+> -       scm->pid = NULL;
+> +       put_pids(scm->pid);
+>  }
+>
+>  static __inline__ void scm_destroy(struct scm_cookie *scm)
+> diff --git a/net/core/scm.c b/net/core/scm.c
+> index f0d44ecdb11f..9b9e119c353a 100644
+> --- a/net/core/scm.c
+> +++ b/net/core/scm.c
+> @@ -149,6 +149,7 @@ EXPORT_SYMBOL(__scm_destroy);
+>
+>  static inline int scm_replace_pid(struct scm_cookie *scm, struct pid *pid)
+>  {
+> +       struct pid *thread_pid;
+>         int err;
+>
+>         /* drop all previous references */
+> @@ -158,7 +159,18 @@ static inline int scm_replace_pid(struct scm_cookie *scm, struct pid *pid)
+>         if (unlikely(err))
+>                 return err;
+>
+> -       scm->pid = pid;
+> +       /* A sender naming its own thread-group sends from the current thread. */
+> +       if (pid == task_tgid(current))
+> +               thread_pid = task_pid(current);
+> +       else
+> +               thread_pid = pid;
+
+Hi Christian,
+
+The patch looks good to me, but this spot raised some doubts for me.
+
+If scm_replace_pid() is called with pid == task_tgid(current) then all
+good, because we
+get scm->pid[PIDTYPE_TGID] == pid and  scm->pid[PIDTYPE_PID] ==
+task_pid(current). All good.
+
+If scm_replace_pid() is supplied with pid that has a type PIDTYPE_TGID, then:
+- scm->pid[PIDTYPE_TGID] == pid. Good.
+- scm->pid[PIDTYPE_PID] = pid. Doesn't looks correct, shoudn't we do
+something like:
+{
+        struct task_struct *task;
+
+        rcu_read_lock();
+        task = pid_task(pid, PIDTYPE_TGID);
+        thread_pid = task_pid(task);
+        rcu_read_unlock();
+}
+
+to get a correct thread_pid for both cases here?
+
+Kind regards,
+Alex
+
+> +
+> +       err = pidfs_register_pid(thread_pid);
+> +       if (unlikely(err))
+> +               return err;
+> +
+> +       scm->pid[PIDTYPE_TGID] = pid;
+> +       scm->pid[PIDTYPE_PID] = get_pid(thread_pid);
+>         scm->creds.pid = pid_vnr(pid);
+>         return 0;
+>  }
+> @@ -207,7 +219,8 @@ int __scm_send(struct socket *sock, struct msghdr *msg, struct scm_cookie *p)
+>                         if (err)
+>                                 goto error;
+>
+> -                       if (!p->pid || pid_vnr(p->pid) != creds.pid) {
+> +                       if (!p->pid[PIDTYPE_TGID] ||
+> +                           pid_vnr(p->pid[PIDTYPE_TGID]) != creds.pid) {
+>                                 struct pid *pid;
+>                                 err = -ESRCH;
+>                                 pid = find_get_pid(creds.pid);
+> @@ -504,10 +517,10 @@ static void scm_pidfd_recv(struct msghdr *msg, struct scm_cookie *scm)
+>                 return;
+>         }
+>
+> -       if (!scm->pid)
+> +       if (!scm->pid[PIDTYPE_TGID])
+>                 return;
+>
+> -       pidfd = pidfd_prepare(scm->pid, PIDFD_STALE, &pidfd_file);
+> +       pidfd = pidfd_prepare(scm->pid[PIDTYPE_TGID], PIDFD_STALE, &pidfd_file);
+>
+>         if (put_cmsg(msg, SOL_SOCKET, SCM_PIDFD, sizeof(int), &pidfd)) {
+>                 if (pidfd_file) {
+> diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+> index 13f9926bf205..011af84e3626 100644
+> --- a/net/unix/af_unix.c
+> +++ b/net/unix/af_unix.c
+> @@ -1973,7 +1973,7 @@ static void unix_destruct_scm(struct sk_buff *skb)
+>  {
+>         struct scm_cookie scm = {};
+>
+> -       swap(scm.pid, UNIXCB(skb).pid);
+> +       swap_pids(scm.pid, UNIXCB(skb).pid);
+>
+>         if (UNIXCB(skb).fp)
+>                 unix_detach_fds(&scm, skb);
+> @@ -1991,7 +1991,7 @@ static int unix_scm_to_skb(struct scm_cookie *scm, struct sk_buff *skb, bool sen
+>  {
+>         int err = 0;
+>
+> -       UNIXCB(skb).pid = get_pid(scm->pid);
+> +       get_pids(UNIXCB(skb).pid, scm->pid);
+>         UNIXCB(skb).uid = scm->creds.uid;
+>         UNIXCB(skb).gid = scm->creds.gid;
+>         UNIXCB(skb).fp = NULL;
+> @@ -2005,7 +2005,10 @@ static int unix_scm_to_skb(struct scm_cookie *scm, struct sk_buff *skb, bool sen
+>
+>  static void unix_skb_to_scm(struct sk_buff *skb, struct scm_cookie *scm)
+>  {
+> -       scm_set_cred(scm, UNIXCB(skb).pid, UNIXCB(skb).uid, UNIXCB(skb).gid);
+> +       get_pids(scm->pid, UNIXCB(skb).pid);
+> +       scm->creds.pid = pid_vnr(scm->pid[PIDTYPE_TGID]);
+> +       scm->creds.uid = UNIXCB(skb).uid;
+> +       scm->creds.gid = UNIXCB(skb).gid;
+>         unix_set_secdata(scm, skb);
+>  }
+>
+> @@ -2025,20 +2028,20 @@ static void unix_skb_to_scm(struct sk_buff *skb, struct scm_cookie *scm)
+>  static int unix_maybe_add_creds(struct sk_buff *skb, const struct sock *sk,
+>                                 const struct sock *other)
+>  {
+> -       if (UNIXCB(skb).pid)
+> +       if (UNIXCB(skb).pid[PIDTYPE_TGID])
+>                 return 0;
+>
+>         if (unix_may_passcred(sk) || unix_may_passcred(other) ||
+>             !other->sk_socket) {
+> -               struct pid *pid;
+>                 int err;
+>
+> -               pid = task_tgid(current);
+> -               err = pidfs_register_pid(pid);
+> -               if (unlikely(err))
+> +               get_task_pids(UNIXCB(skb).pid, current);
+> +               err = pidfs_register_pids(UNIXCB(skb).pid);
+> +               if (unlikely(err)) {
+> +                       put_pids(UNIXCB(skb).pid);
+>                         return err;
+> +               }
+>
+> -               UNIXCB(skb).pid = get_pid(pid);
+>                 current_uid_gid(&UNIXCB(skb).uid, &UNIXCB(skb).gid);
+>         }
+>
+> @@ -2048,7 +2051,7 @@ static int unix_maybe_add_creds(struct sk_buff *skb, const struct sock *sk,
+>  static bool unix_skb_scm_eq(struct sk_buff *skb,
+>                             struct scm_cookie *scm)
+>  {
+> -       return UNIXCB(skb).pid == scm->pid &&
+> +       return UNIXCB(skb).pid[PIDTYPE_TGID] == scm->pid[PIDTYPE_TGID] &&
+>                uid_eq(UNIXCB(skb).uid, scm->creds.uid) &&
+>                gid_eq(UNIXCB(skb).gid, scm->creds.gid) &&
+>                unix_secdata_eq(scm, skb);
+> diff --git a/net/unix/af_unix.h b/net/unix/af_unix.h
+> index 8119dbeef3a3..402742895acc 100644
+> --- a/net/unix/af_unix.h
+> +++ b/net/unix/af_unix.h
+> @@ -2,6 +2,7 @@
+>  #ifndef __AF_UNIX_H
+>  #define __AF_UNIX_H
+>
+> +#include <linux/pid_types.h>
+>  #include <linux/uidgid.h>
+>
+>  #define UNIX_HASH_MOD  (256 - 1)
+> @@ -11,7 +12,7 @@
+>  struct sock *unix_peer_get(struct sock *sk);
+>
+>  struct unix_skb_parms {
+> -       struct pid              *pid;           /* skb credentials      */
+> +       DECLARE_PIDS(pid, PIDTYPE_TGID);        /* skb credentials by pid type */
+>         kuid_t                  uid;
+>         kgid_t                  gid;
+>         struct scm_fp_list      *fp;            /* Passed files         */
+>
+> --
+> 2.53.0
+>
