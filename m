@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95280455176;
-	Mon,  7 Sep 2026 16:20:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39D9517BDF;
+	Mon,  7 Sep 2026 16:21:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788798044; cv=none; b=dO/iS4XMpSghl8R1FoixgzNRN/uThsi7AASGGzSWiTCj7eHBiQNZ6UfFoJAZ+f7DFhIMAqip+PftHdqWV81g+BVDNR4zu3jAhYxAr44YwXe1kR3eK8xTFAL3TnSqeEGF0/23yXxaAOs29ptaPhtTm40VURIDXv8QOQlgMxsMYtg=
+	t=1788798106; cv=none; b=UNb/mRtejfsqRg/zQK5JWjHGivbxIYBz8SlnXTLi+h/US7CY1kGkrnFmun4BPuJ3eXHwU51nNP3cugz5KPAaS0IKY1H1wh1uurtlmGBvp6/LCCdqqrDnlHiuORKcPG9LTa/C80vBPi0hRiwTcE/CqKgCVFmDU2mNeR3j8cvdR/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788798044; c=relaxed/simple;
-	bh=NcQq5tZ/8AWYgdHRrgw+9x8YqUAL7V3eN2Uhsw5UAJ0=;
+	s=arc-20240116; t=1788798106; c=relaxed/simple;
+	bh=8kaiwJ+UyZ2YX1kr0/2ZGjw82kzkwMA3luOw+ktOXrg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c+Nny/PGClZeeP6nO5B79sNG8K8z/HjW3FxxRBLnEqbBEIWaqIQ+ioGq9s+5C41U1LZpViz1V7qzvBXv5EWQkyuBKGD54KFFM7Q4kG5q90K2x8+uvNb40sTegjkZloSlyWRyE2hrFYleXuqT9an53Tv2EMobUduDrdQ768wMti0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VH3Ab38O; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=REc2OApILip9GZ1/J99XUnCp9YO/Aw3a4io9NQg0j8tBBbSqsfuX8WUCc0pZFP9Sy8HsiK39GcR0h5jqkEzHioJGFzQ/WaJ6A0ngjJV4B7LfTeCD2eDzv1tZrSmSGCSIHfTs6PT5O8myms5XPegMmSC6K53oAF6ylFVLgkMXfIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WioyDUTT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VH3Ab38O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 046CB1F00A3D;
-	Mon,  7 Sep 2026 16:20:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WioyDUTT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4641F00A3E;
+	Mon,  7 Sep 2026 16:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788798035;
-	bh=9kLM4fZHDiz3Py+ARq+PlWNVvvJZV6fZYvS362NZvoY=;
+	s=k20260515; t=1788798095;
+	bh=1FcNaC3tk4BXA1Rw0dktdlxAia8YznUdS4WNauHXOFY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VH3Ab38OqLqXSfjh8woYnu9BKgzQP+llv4PleY5ru7pSjMALkHlqOBp3pWnVdMAZY
-	 cqvfNkBg7hychvUk5kh+Hyx+k/l3Cr9V35glCHklUfbtLyqZn+n3D96Gm1o/Vw8tXt
-	 bycNE5LSYG7GLlxwUnKJWiLPS11qyzzEFG8SHCZhrRBhotOVDxOuCVK/Oe3Y6fT/6Z
-	 CNJEDRdV/qy6aqqjZ8Kb3Esx86xXSkr+d9VglXkIwGBzSCL8Y0K+a4XUaxggLRaltA
-	 UCTM5qmFfbOe0VAkK+PlZOE/ME7V/b6HSBRGElkUEfv8SRxh5trEbRsp93ptz9OIjy
-	 b0aeS1FPsjkoA==
-Message-ID: <9f124981-3149-4a58-a78b-290fd9fb2c87@kernel.org>
-Date: Mon, 7 Sep 2026 18:20:29 +0200
+	b=WioyDUTTj2SiZw9LN5ke28ZFLliBYvU9wN/q0/x+LOXIMH7mcf/0D27FC7YFtJeKK
+	 ESRHLr22hys2gbj0GZXm6i5sPjXSobpyGsHbKEy4X5VdOOSBZoaNPmaJJ0B+JKdl7x
+	 bOlo1MY6Am+P+mVK1amJkr0tl/iNAmL8sllqLqxB4g4qdAoz0UnpLuxs1bxh7X7cNw
+	 L/N5EOxXwQ468K8MQsNbEJEy2xqeCIjMI/5O0xK4u4p0DeqNJchIatLOLoVAXGTIEv
+	 sLyn1+/KK8yns9tOK72XsILWbA2QWSAoL6rrJSMBJake+IyZPgb02XvITcPjEATZ3+
+	 kN9cnET569djA==
+Message-ID: <292b27a7-94d1-4a2e-8346-a53e80fd2ed0@kernel.org>
+Date: Mon, 7 Sep 2026 18:21:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] mm: move drivers/char/mem.c to mm/char-mem.c
+Subject: Re: [PATCH 2/6] mm: implement file_is_dev_zero() to uniquely identify
+ /dev/zero
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -48,7 +49,7 @@ To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
 References: <20260902-map-private-dev-zero-v1-0-a578c730cec7@kernel.org>
- <20260902-map-private-dev-zero-v1-1-a578c730cec7@kernel.org>
+ <20260902-map-private-dev-zero-v1-2-a578c730cec7@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -95,29 +96,26 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260902-map-private-dev-zero-v1-1-a578c730cec7@kernel.org>
+In-Reply-To: <20260902-map-private-dev-zero-v1-2-a578c730cec7@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/2/26 20:00, Lorenzo Stoakes (ARM) wrote:
-> The memory character driver implements several mm-specific features and is
-> always compiled into the kernel, so move it to mm/ where it belongs.
+> To lay the foundation for a future change that converts
+> MAP_PRIVATE-/dev/zero mappings to be truly anonymous, add the ability to
+> uniquely identify these mappings.
 > 
-> Among other things the driver implements /dev/mem which provides raw access
-> to physical memory, and /dev/zero which either allows mapping of a shmem
-> region (if mapped with MAP_SHARED) or, uniquely, anonymous memory (if
-> mapped MAP_PRIVATE).
+> With the memory character device now part of mm/ this is trivially
+> achievable through a file_is_dev_zero() predicate that simply tests that
+> the file operation hooks are zero_fops.
 > 
-> This change lays the foundations to allow MAP_PRIVATE-/dev/zero to be
-> mapped precisely the same as anonymous memory is mapped as currently it is
-> an edge case within mm.
-> 
-> Also update a couple of comments that reference 'drivers/char/mem.c' to
-> reference 'mm/char-mem.c'.
+> Also update userland VMA tests to expose file_is_dev_zero() and provide
+> a stub zero_fops for testing.
 > 
 > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
 
-Yes, that's the way to go
+yes!
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
