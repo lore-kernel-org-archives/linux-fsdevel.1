@@ -1,150 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AC54562BA
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 10:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788776125; cv=none; b=lTkr1ejKyrQx8huws7zBJdrSvwU0JUWU9dAL00ng48HcIyN31Ot9xG6cJpHnsqtcv1LI2wtaARYAPjUalWxlhgo00VlfjPKX/k6xdTZzRD3T8wt2XhFNb7CxeUgGuyfrhniB55RFQofjZpYE/0B9tiZov/6radNxaKdzcdUgBdw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788776125; c=relaxed/simple;
-	bh=V1i2BlnEahg2JQVO7eGvk4+itxVbEnp06vCwoaBgSBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LEqvmUCjurGupL0LIqAOjCxvvyEtEnwwExv2Cgv6TBx2+r9zrBJong9O/6p7127XDD4VNcj8tUS9q4g93p/weTAgT6UxzLzXqgDOwIp6NQmJ+HdDn1whhbnY2lVQMM9XcYrS/cyepzRst4GfkSR7F5Req3pQ0dBiLPQ2aQn+Oyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0MKkuWy; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D13843E488
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 10:29:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788776958; cv=pass; b=nauUSHT+fU6whCm+vxuzT0cDG3iqi0TTTC9cEs2gKivAeMrXVjT7oL2VWh0CCfGwBQNZigRmpVxqUaTVu5Mfk3Hw4UqpW2CJS8QIlyQ8AyW21n5kdKcT5PENABUY4nkljzhtSC5+fxjj8dIb1NqPfqTBuxGKlptDNF8BsO+s6jo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788776958; c=relaxed/simple;
+	bh=/pPCcmo1c+POG45z52X2BnuE0gA1n9usXKsFAtkEfko=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uM5QrbbbN0MoDmKjBYS9VR/ki1QLC9JPqM2RG24rMUFJwf8iTmKolMSv0dVD2S7+TwKrGLIghf5A7mdDHdvAiwEIlal45g5XBHJP0NgTXWBtrG/Q7ZfbOPzjeXeSCt7L262F0ybBQuq65e8ZrBKnDup8zE1+17fZHBmA5cN6lt4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=PsWOR6uc; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mihalicyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0MKkuWy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A981F00A3A;
-	Mon,  7 Sep 2026 10:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788776124;
-	bh=uXoDu1tMF/m4jQEGiGmHY63F0xkg8Ul6v/JOuBvCagg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=B0MKkuWyAkIty6BdiG/6Kws82Fw5TEuiwUGYU7WLDG67Fi6ZW4Dct4XfJ1soZCiMA
-	 8UFaLk1hrxEEpmdoTpZajrzDVw2gowNTWygqZDuL8b4y94K8/8sW5s15WVhTEKpApd
-	 BHzxDDWgXgGagpAlcgbA/zABdwF4t+rBeudPPfq25qB6Ve3jt5fptun+ET8wGxUqyo
-	 +tRwrMpjEBFlTTXEDfVb/S3tHTUJr/Gu6mFn54gCaQ0sEI7rFlFdz/3jxdFTkQDsU8
-	 L3YzVzuzkQYEbReNMP37b6z54NzkovspYwwqoG/LKxL9q0ku6V5xHqZDICeNjpcZQ3
-	 +vS+vVbQX7ZQg==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 518AA198003A;
-	Mon,  7 Sep 2026 06:15:17 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Mon, 07 Sep 2026 06:15:21 -0400
-X-ME-Sender: <xms:tI6eaioxSVOks1MJoD6R-S_Vh_AtHsMa35N6mp_0-Nbr1_L4V7hHuA>
-    <xme:tI6eaju2Uv4uRwrT7B_E-oBjRS0NXseU9bAxuhla93TUHsh2Q70mDAYPpq3gr--8H
-    xU0xzRXA3rghZMlqMNHqCg8w4er7jzW60mGawgK87L8BVzGLaAN9mVm0g>
-X-ME-Received: <xmr:tI6ealS9cLRZ7cAiIsdk7xpwxZmm7tIDccAHHNesU6QwHDJAjJxDo-1jq1U>
-X-ME-Proxy-Cause: dmFkZTFHFolurtLcJyg80wlpE3jE4As5ICevdsLw9Idtn5zhcahGdYV1d6mfesOnz7ojPM
-    ytzhTab1V2GhnoGE1Cftep3BcFeYyX0YlfP4RU7WEC00zqBSEAY10lwR8q6VVL9j0Ys8no
-    MTD/QXRXQNWCXlfNmtO0jrqDD3wszlDmafHT9AkWEkfheH+x9Vt3njf8EcVlrHDWB+wA8O
-    uCS64qEvIb5A4F5wEyaUi/2/HjAZgeO5XE9Lw+CZifEc9aKV/igMWm8OrbrQFi/3xawyay
-    dTVpNMntCM+OHerB41uHPJUCUxZf3tDWrBg4NTgw7Rozr3TlWpXPuatzWCuvHtlzLREhjF
-    OsFMGvmM96qB2J7Q9z2eUYAFFGX4WapiC2NuJG5ILecaoUoq56hTapJ13PLvozI5SE6jL3
-    7bkcbSsG938Ex6mZcGX82xm0finLo4F8q+PZwOwHl3d0oiwj/7t5fJjmB7tOAed7L/lyL4
-    ZuRSWtiDAVa1MfXeDsBP/mA3nojlQTGCSFgb85XOQzWpN9IKCS8mi8KAcE9mvU36+gAASN
-    E0TB0QAhKRhb8cJVB1JunYAQR7k6Qtp9K2OLyJ7cTx6VcIk/yBeVWDXm0HFpzsozwVTs9h
-    Nouzqhdawo9IXzwzzIMJm6OX7PvNKVckNIMK2E38emiBsXOaT3ZKHQIPEi9A
-X-ME-Proxy: <xmx:tI6ealVV0iXKK03Xc7ufXYAeW2v6_7dmWl-3ZMZ6RYmc39tWo__Crw>
-    <xmx:tI6eaoDfHeUrKT2MYPHblQm8DFYXR-IwhbZb64EKZXq7GWVNmMVl2g>
-    <xmx:tI6eavEKunu_m2YZgeGcFMkyBfuRJFGnqMDB1UBBv5aKPG5aMuaadg>
-    <xmx:tI6eancfHl-JSXUfsjKZpilOvbQVDnQathOmNacC07Tu07tSVacG4Q>
-    <xmx:tI6eard_QJtbsu3JuT1U4Ms5tvRxRsSBhg40qhA-_xsEc2rW845NgIfV>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Sep 2026 06:15:16 -0400 (EDT)
-Date: Mon, 7 Sep 2026 11:15:15 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: akpm@linux-foundation.org, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, David Hildenbrand <david@kernel.org>, 
-	Boris Burkov <boris@bur.io>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
-	Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [RFC PATCH 0/5] mm: sub-folio dirty tracking for PTE-mapped mmap
- writes
-Message-ID: <ap6LFvuOuWf_BkGi@thinkstation>
-References: <20260903182943.662461-1-kirill@shutemov.name>
+	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="PsWOR6uc"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c207cb16cf5so512637766b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 03:29:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788776955; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mx8E16S8+reCV7Tn2bqxTs2XPnwWHptgCEHXQjDtIRSFFlH+4TqkLuV1yGFFwSzIKx
+         0+K9nEtGvvHAT/M3JoZWyEWRrWriPTWOvYW1gXTjyp2VMo8o6kzJmTz3VkjWBZe09It+
+         mCYE+/yzfRWj55Q/QDF8PVDsgive+bHa/uCiK+JH7Z45wogRPuT6RppDH81JLNCG3FKT
+         72mP+mLR4LtLqZLyMFQl4esEehNY1tj2BIt9VIGGNr63sGbdVI7pi2tO1swV2ugl4+0M
+         VKdDLQQag+EEVUnffnppjsX7humQ9oxSmavIs8TtjURSdbK8lACoafigrGbRe1AJHq3E
+         lgzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=9774GFxLNjPLVY7G1GzEmZBrWX8xiW+2/RWdji5WoSE=;
+        fh=XYWNSzpnlSnuxteIgSRKDST4qHEw+c0YzG5GnVtmXgo=;
+        b=gV9hcxkbfEST2AOCEbVq9qbY8vkXuX1nfhVKvJYm+dHO3ZbNXmzozpRuP1ld2LbgWM
+         wmZiuCrFTOsvpgqMyYtlvi40WfpzMoTLjME2cqjPbvlAcOqFMb2jLublYZeQkxG0nInc
+         1MqZOKAqcvHlNStxlEHY8fC8ZDiNIjVLYmTVKk6cgCW8HUN7BQefkzj+VUuYrOshJrOy
+         nDtDewf/lrVsiuTWP05EBj+7Xr2ofxAHKiHRiTDxfSE6uA2LjjIIQl+sUNrrbGQCDxs7
+         R84G6v0JWqhAhrCRre83GRzjFJ5Jp9/3uvjW/2x4EJW6CbcNjdHkLJbwk5td5bSlfs4o
+         I11g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mihalicyn.com; s=mihalicyn; t=1788776955; x=1789381755; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9774GFxLNjPLVY7G1GzEmZBrWX8xiW+2/RWdji5WoSE=;
+        b=PsWOR6ucWs5LNiilAtlGMAErC1D8j4USrRdAR5Ndh9HolAQA27ZvKoBb+NIf8hUjL/
+         YZhLgdX8YzmlOLFbD0FH3lppfDuU3JSWwrlpWbCLX/qs9LNqQaAdE7qUC7POycAKqNCM
+         cuK7x5WfpYTmtmwE0EOlAiBlFDlrCe89Vmbsg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788776955; x=1789381755;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=9774GFxLNjPLVY7G1GzEmZBrWX8xiW+2/RWdji5WoSE=;
+        b=DYEn0zna1baNm3Kii2ylg3xvszHVCippUQMeh/RXQszRZ6XsoBkwIMIBOiEJ89a2NH
+         Gd3H2zGeotjlNepjss1f9VUdaG6OPcLBNTpQ4kLTaVoRKuTLxfjqVSTt1/FhOtWL9WCM
+         KXxYky2EDz5sfN4vQITnt++TDAEZUOkyP2GadudANJpJY2x22TcmzCkhyvgr33nTYHEw
+         Mo9Ug8Kk5RZNj933WaAUAmNwQKutm6lJCoWYi18Zar94arNWbz85TvuOJmy2dfsNkTDV
+         uvYJnzHATAANkmOIq/aXuV5NZAz2g++4LN4tBxiIr3gqhDK4grVY640headUV7MapTHx
+         cRVQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxVUZXC62HNTC3JVYePXqETmZxetta/De22aMcDwX0TZdc6YuWzneEc0HzhxiuIOcnH7qh7iW6HsbBeiPsC@vger.kernel.org
+X-Gm-Message-State: AFuF++lPIWSMbBqb1oOYGH1O2QCp6dQ2neoo7YziENdG6uKL0U1q5xvP
+	yVCSQ24Bi35+CK7sjRHkKoNk1QrHnFzTA71KbAQKgLNI9Jp6BWAeR8CKxb7WXs6KK7GZQDsRMBL
+	M/XxS5gWwcNp5v2RtaTzFokFVw6sjMPE1rHRUWsq/bA==
+X-Gm-Gg: AYBFou3r7HMscX5iR3X2Mp7kDyj0hQvcqQCkM6GemA9/zFSO7ZN06U5TW3MWAmgIHBu
+	AZMv5xwlaSIR8cXYVEsqCir7hpb2ELXXXvdvjHHjTR1SbRJXKB6JOYJjFXO+389zynC9BYAJoDT
+	fAUJIO7X/0jfiqtQ/q3/ipfTjdE+8FxZ0OghP7K6BUSzEiuIh4m1v/3P8B4MgOMIjXAl3eHG9NB
+	tTBC3j7LiGRKQuqs0OjArndIaAkm+51pxBkH/9kHTdhIHFt4HJEzIFTY/vl8b6DKTBDWsVZt4aS
+	u4FkCJuj5n+mnNXdg+L8FhBACBiQZxmfDgPk69hqtJvKybOI9/43MAqiEbTJdK49RUYh8K4ZTWY
+	=
+X-Received: by 2002:a17:907:c705:b0:c25:62db:772b with SMTP id
+ a640c23a62f3a-c260c8b141amr822489666b.7.1788776954579; Mon, 07 Sep 2026
+ 03:29:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903182943.662461-1-kirill@shutemov.name>
+References: <20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org> <20260831-work-unix-passpidfd-v1-6-70cbfda0c7ba@kernel.org>
+In-Reply-To: <20260831-work-unix-passpidfd-v1-6-70cbfda0c7ba@kernel.org>
+From: Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Date: Mon, 7 Sep 2026 12:29:03 +0200
+X-Gm-Features: AcwNN1WlWJvrJ2vB2H7lv9qLS355J43HWilCGyv40E-X7Jm5rVAZmAIMZ0pzCnI
+Message-ID: <CAJqdLrqS==7gt+bshJ8DzyaqVek_57fqUnT8EFCAboZF1ufcCA@mail.gmail.com>
+Subject: Re: [PATCH 06/10] af_unix: record the pid of the connecting thread
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 03, 2026 at 07:29:38PM +0100, Kiryl Shutsemau wrote:
-> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-> 
-> A store through a shared file mapping dirties the whole folio. With large
-> page cache folios that turns a 4K store into 2M of writeback: one dirty
-> bit per folio, and writeback has no way to know which part changed.
-> 
-> XFS already knows better. iomap tracks dirty state per block and
-> iomap_writeback_folio() submits only the dirty ranges, and the buffered
-> write path sets just the range it copied. Only the mmap path throws that
-> away, because iomap_dirty_folio() covers the whole folio.
-> 
-> Narrowing the dirtying at page_mkwrite() time does not work on its own:
-> set_pte_range() batch-maps a whole folio writable on the first shared
-> write fault, so the stores that follow never fault and never reach the
-> filesystem.
-> 
-> So harvest the hardware instead. folio_clear_dirty_for_io() already calls
-> folio_mkclean(), whose rmap walk reads pte_dirty() for every entry of the
-> folio and throws it away. Those bits are the only record of which parts
-> of a large folio were written through a mapping. Collect them there and
-> hand the filesystem the runs that were dirty, through a new
-> a_ops->dirty_folio_range().
+Am Mo., 31. Aug. 2026 um 13:21 Uhr schrieb Christian Brauner
+<brauner@kernel.org>:
+>
+> Currently only the struct pid of the thread-group leader is recorded.
+> The identity of the actual thread that connected to a given socket
+> cannot be retrieved.
+>
+> Add the plumbing to make it possible to retrieve a pidfd for the
+> connecting thread. Nothing uses the thread-specific struct pid yet. No
+> functional changes.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Boris pointed me to Matthew's proposal to remove ->dirty_folio:
+LGTM
 
-https://lore.kernel.org/all/aoyWln-Gt-yvZQkE@casper.infradead.org
+Reviewed-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
 
-I agree that the current ->dirty_folio() makes little sense and that
-dirtying the folio can be bundled into ->page_mkwrite(), as they are
-matched 1-to-1.
-
-My proposal makes the distinction between making the folio writable and
-making it dirty meaningful. ->page_mkwrite() allocates whatever is needed
-on the filesystem side to track dirty state and drive writeback for the
-*folio*, while ->dirty_folio_range() marks part of the folio dirty.
-
-We can still drop ->dirty_folio(). A filesystem can provide
-->dirty_folio_range() if it wants fine-grained (sub-folio) dirty
-tracking.
-
-A separate question is whether we want to avoid installing a writable PMD
-entry for filesystems that want fine-grained dirty tracking. I have a
-patch for this, but it deserves a separate discussion once we agree that we
-want this for PTE-mapped folios first.
-
-Any feedback?
-
-> All of this is about PTE-mapped folios. A PMD-mapped folio has a single
-> dirty bit for the 2M it maps, so there is nothing finer to harvest, and
-> it keeps writing back whole. Keeping shared write faults off PMDs is a
-> separate patch and not part of this posting.
-> 
-> On a 512M file in 2M folios on XFS, storing one byte per folio and
-> calling msync() wrote 512M before and writes 1M after, with identical
-> minor fault counts.
-> 
-> Not addressed here:
-> 
->  - Dirty accounting stays folio-granular. A 4K store still counts as 2M
->    against dirty_ratio and balance_dirty_pages().
->  - iomap_page_mkwrite() still allocates blocks for the whole folio.
->  - Filesystems without per-block dirty state see no change.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+> ---
+>  net/unix/af_unix.c | 30 +++++++++++++-----------------
+>  1 file changed, 13 insertions(+), 17 deletions(-)
+>
+> diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+> index 335abd23c9bf..d01ee76c8026 100644
+> --- a/net/unix/af_unix.c
+> +++ b/net/unix/af_unix.c
+> @@ -743,51 +743,47 @@ struct unix_peercred {
+>
+>  static inline int prepare_peercred(struct unix_peercred *peercred)
+>  {
+> -       struct pid *pid;
+>         int err;
+>
+> -       pid = task_tgid(current);
+> -       err = pidfs_register_pid(pid);
+> -       if (likely(!err)) {
+> -               peercred->peer_pid[PIDTYPE_TGID] = get_pid(pid);
+> -               peercred->peer_cred = get_current_cred();
+> +       get_task_pids(peercred->peer_pid, current);
+> +       err = pidfs_register_pids(peercred->peer_pid);
+> +       if (unlikely(err)) {
+> +               put_pids(peercred->peer_pid);
+> +               return err;
+>         }
+> -       return err;
+> +
+> +       peercred->peer_cred = get_current_cred();
+> +       return 0;
+>  }
+>
+>  static void drop_peercred(struct unix_peercred *peercred)
+>  {
+>         const struct cred *cred = NULL;
+> -       struct pid *pid = NULL;
+>
+>         might_sleep();
+>
+> -       swap(peercred->peer_pid[PIDTYPE_TGID], pid);
+> +       put_pids(peercred->peer_pid);
+>         swap(peercred->peer_cred, cred);
+> -
+> -       put_pid(pid);
+>         put_cred(cred);
+>  }
+>
+>  static inline void init_peercred(struct sock *sk,
+>                                  const struct unix_peercred *peercred)
+>  {
+> -       sk->sk_peer_pid[PIDTYPE_TGID] = peercred->peer_pid[PIDTYPE_TGID];
+> +       memcpy(sk->sk_peer_pid, peercred->peer_pid, sizeof(sk->sk_peer_pid));
+>         sk->sk_peer_cred = peercred->peer_cred;
+>  }
+>
+>  static void update_peercred(struct sock *sk, struct unix_peercred *peercred)
+>  {
+>         const struct cred *old_cred;
+> -       struct pid *old_pid;
+>
+>         spin_lock(&sk->sk_peer_lock);
+> -       old_pid = sk->sk_peer_pid[PIDTYPE_TGID];
+> +       swap_pids(sk->sk_peer_pid, peercred->peer_pid);
+>         old_cred = sk->sk_peer_cred;
+> -       init_peercred(sk, peercred);
+> +       sk->sk_peer_cred = peercred->peer_cred;
+>         spin_unlock(&sk->sk_peer_lock);
+>
+> -       peercred->peer_pid[PIDTYPE_TGID] = old_pid;
+>         peercred->peer_cred = old_cred;
+>  }
+>
+> @@ -796,7 +792,7 @@ static void copy_peercred(struct sock *sk, struct sock *peersk)
+>         lockdep_assert_held(&unix_sk(peersk)->lock);
+>
+>         spin_lock(&sk->sk_peer_lock);
+> -       sk->sk_peer_pid[PIDTYPE_TGID] = get_pid(peersk->sk_peer_pid[PIDTYPE_TGID]);
+> +       get_pids(sk->sk_peer_pid, peersk->sk_peer_pid);
+>         sk->sk_peer_cred = get_cred(peersk->sk_peer_cred);
+>         spin_unlock(&sk->sk_peer_lock);
+>  }
+>
+> --
+> 2.53.0
+>
