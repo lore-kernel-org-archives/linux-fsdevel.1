@@ -1,197 +1,135 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BE54BCAA9
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 13:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788787894; cv=pass; b=AfBdYiksEYIpRAAuQ2h3oZ2XTrX0npOj+cGJ5I9iHArOCvfQU/jpwok0P/FTzLYAdT15E9YoCqzP4GK5eeLemLyABDPWmxBLQZNxEssdf+PKZDmgmZ0P0Kfm7blsSJLYP16LeKSq5yGX4s9UHS+hl7MFwjjSjmg/QLsq24dEUgU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788787894; c=relaxed/simple;
-	bh=D1wAsx4CR5aOXpjyMVJB7sUcHL24GlLysdFmwnbPMG0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fYZzrbd1o/T3PDF8EyV7Z7LurDTUUZ8m0Ap+zZR2uRYwh34i+nJWqeS4l4TRICqQCVeqD+zOAH8wDVU1CytcqRQfn5wnkQ+6DkwWf6CIRGKbVLhMm7pCvcvO9v80Sjl9AqIrYwks5CEy/e06XMjsNW1pwjkUoyamgKedSuA8QQI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NIdr3zAl; arc=pass smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FA34949FA
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 13:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788788492; cv=none; b=oiTsvBG3EbWZcSxuaHZaVJTLTWLzkL06nBHwx6cectiduk9Hok8D20/clmXFJeOv4B6VAPsY1tGZJhjkJ+GLloK5lf7RjxG5einQHNYjnYxVyoKIJvwg/Wn3lERhlkWlwogOAVcHQmdtbrxia95xV+9odmZ1TQitSOPLuKaH7ig=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788788492; c=relaxed/simple;
+	bh=reyY/SSEkR1hnlm27/oBWU/HkTc3wy99JVkrYnF7+Ro=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hm+uQfySc5ZqJIywGqWHz0+FHk5noqHY8iLyg1Kg3HOCAENk8mYciP5IXWbtBjLa7lJayES6lXQeWlt0Ow9wDHAac6FilZq0f/OQXyz1lYNmUGT54sQDr1twX4HXMA/Y/VFlP9uJ+MQ7LmCRO62qtozzTMiO12qqX3ACi2lr/m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=exG3ufYi; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NIdr3zAl"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-484362f5c4aso4499162f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 06:31:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788787889; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PjD7qK8PO02DM8MTOj11npDAJTRzY0bUSNmF+uigEFbVjfY76eu7CxDwlWSig+mFOh
-         80vKb5Zatv4ReXGUcENrAMg0B0DVEw3oA2jPt0nq75E2+Fe923K6BABpf2lVZgWlHoKI
-         LZr2ZCHk/LrwcMd6SX5/EWHqyh1VHc9v9Xby9cyaH48QGJbJnnCwqhOcQv7IIwPXwt2G
-         Ghx+avfGRaW1h4Uh9KQdkK6Gi3qXZogwlVYVNMRqZbXf5PsgtFiOU0AYvUiUinKgWJTR
-         MNJ7yQXfyhniIJzMlToiBoIT5UzCUgk6K+WEE8aRIUg8kZzEqBK03al02bcOFaEvnax2
-         Lduw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MeIqMgyiOqWe7HQD7SmKTKpkW52D9bvAC89kO8GNV9I=;
-        fh=yd2/7+e1RmR9eYRKXUnNLk7ZnqReCa3PydY5x7zQ8fE=;
-        b=GPQ5oVdq8DrT0fDHDi0zvDJEWJKoeDkbjB4RUy9NF74vu6aQIORIOUloPnVW6bP+Yd
-         iu8yEoEs/cxFUBB35SysvnkJj4/d++ok0lYIiC+w0CS4q4tyJHeHpt6HA/c3/OjH6sXw
-         KtOaOMmBgNtVxDXh8IOHhuAeEXPpavLlzwOiN2mrZdG9QH74kXcdHMZN3DrzRLsYFGiV
-         LuMbDEY03Y0qs/xjkPFcC5W7qDOOn0JjXBv8GlbM6LaHQAm1dhJ5b41vZkc2+5sKVufX
-         S4BLKoRD/q5UOKbWZX1rBGBa0vDq1ix91rojapPTKDZVHCDijHVpfqi8GesYV839ncbv
-         K8IQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="exG3ufYi"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48441a2ba14so3135084f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 06:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788787889; x=1789392689; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MeIqMgyiOqWe7HQD7SmKTKpkW52D9bvAC89kO8GNV9I=;
-        b=NIdr3zAlo3mcJVZ2dOsGTkXVQo6l5bJk9h11ifhR8G9reIyHly7mUSVvibfZB87k3d
-         Fx7Lik65jLFxC8URd9knurRBD0NgJ+NJHzhV2LQReayvmkTPU3S/s26EWw7od/1byId9
-         +1HGyd1j8UcghfQIBp6uMmcAYUGuq+S7b78vJJjIR1rKsGWzzbHSTs7nVXrW+Z1mbG0j
-         t8+hbqg6d9mPI3CWh2n6lkIqono0TArY2S4viwnddzIdV6PvAZWrAjRsFSmeWivtw3hW
-         ZVJvra6EouwJXNFMsob1Jm2nEFk3NUn+V0DDo2hhryoPIEBCImkswBBIQQdwvzjR3RZD
-         Pk2w==
+        d=gmail.com; s=20251104; t=1788788489; x=1789393289; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JdqenWViU/7DdrPY02Ze4qYR4l7SaizSPWmzY+qOqso=;
+        b=exG3ufYiFIIwXt3jURMEzeZgTYsK3Z65iqYzEr/rVOfHMDC9OI94A0jy2eS7nW4ONi
+         gQ0m595vzrD+Up4219Dzd57XMet9jOPTaf2m3f1RvBHMcM/ZXZ/5rzdxYNoH4etFMdrR
+         nNPSJ73W4CBV7Q1N7PxgCEItLctTeeWJCMnNBxEf0JkaSZsoebjodE8RiD8bhkLlFWCS
+         NS+Um/pr0gZY+w+hxCx87bmFey1wq0kzErJn4dc19P1h7BvaC2HF30FJxwJR1LFJ8h4R
+         3Sf9iLMXHvHC8uZlin49cJIVLWcBGDE+339DQyCmkfgTdfxldD3FfJ7j57uukBVCKwCr
+         /0pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788787889; x=1789392689;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MeIqMgyiOqWe7HQD7SmKTKpkW52D9bvAC89kO8GNV9I=;
-        b=EUvvAMBnzMvqU1iH7RLn757Sx6K7DW/bKrt0cN1FHqCyZqPteiYU+5Y7BzpZU2Mhyl
-         nNi913RlK1QAdzfwoq+JZvCWbNgslBnJuu1GlWSNZPgNVs3yyvAiUGTGy0MlP17rNAzI
-         N1rPhfbvPIei+Sm/r5M2y8qffIL9dKtS3NhH3FIY5DbUnXGM29zAn4ebCWUoBWYkeeOF
-         byeIn2AWtv2lFPbTiAKuG2ZuHDUQdDF6SJXSiPmBxpvJumbqxjj1m9S6v7WHvS4ZWubG
-         1K+HH+TDeeSvskl0XTYGKq6yabM7sJej00ZphVD3fscyxW/mQNzw+kuBtaMBax5z3Csc
-         0xxQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzmmL30N+QGd+T/n6krw5qnpvbPNRGeZ2IntWrkHgYpTlAUvgOdFAd/wxXoIXQg7lMw1nOoK/NpsUW/HL+T@vger.kernel.org
-X-Gm-Message-State: AFuF++nsvN/lLRE6KxZhvxgo5AmzNrOr7MVWZ7e5LyM3UvK8k6B4ZUF+
-	wTmd7dNtwtWqTigp0it20mj4vDRKXRwtkVRBZ8/Ev96GZ7WUxzB4e2PDxMSaZKbuAkeVPyfvag/
-	aP8P86ylnJwS+SoNoW3pXsaUTk+tdv5cXSFxbBUW2
-X-Gm-Gg: AYBFou0OLdEec5S9MLmwnB5S8oPyX3HwvYpoZXRQ1Trr4z6N/FiuNA4NUgth+zCf6Bm
-	iTRz2I6XrlTmy3LiBGQoy/q4hlQTE3jZBdn/rMeMAqrH+BDAAGRpSxi5vbDp6ds8jhCtvV4oDQm
-	5yULYsWYq0XqPqlmllAw1A1WB0nCmjz4q5At/eB3idAE1lz+qIfdgVQcPViE7wU+fEF4mMYlNOT
-	GD1gcmlE+fkmYIQX2yHhJVcvboBflq+LovaFNX3hImvx4TjQcNlshJz/ck3IxbdSUJn/xRZnBwY
-	TgYvT1kYELPx9GhKKmDscJDp9b8z35UjjZeWUhNgHKi0z74ZcrD/9yNW3ef2XVYd7+H3fS+NGok
-	g2go0Av5phZ+h8scrUmFuspb4QwBfoqmxN4yR3kqUOQ==
-X-Received: by 2002:a05:6000:26d3:b0:485:8393:2176 with SMTP id
- ffacd0b85a97d-485870902eamr40614985f8f.21.1788787888668; Mon, 07 Sep 2026
- 06:31:28 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788788489; x=1789393289;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JdqenWViU/7DdrPY02Ze4qYR4l7SaizSPWmzY+qOqso=;
+        b=p7rAsz/nixtfPETT/eJFMFAPjCzRWgj4qaWiZjVNY7QJVt+OEwa9h4VMnMGtS+MmWw
+         BZWm7PqDobRHOUNfJhDzSXVE2svJmPrKCMN1cq0gHJXOm8S48c90+vNt1r/tB77vwhkQ
+         VWqjLZf86bDm7DGgVvLAOo9tO0iGB2ly++jTNfaEjcJNKi85kdFwR15nHGRlRLS0LHKL
+         i9STlgevbzPh1on5yGe6nFqtyiyVldYCuvRrk3hVBC0smGDgRqwXAK1ywr8TaTCYhS78
+         6p0xD7NtyKD7zCDlp5ajWc7SxTNAw4rhQePYRutpl07xVt+PXvuwxrRk7B4jwNbEZ/Ir
+         ZWJQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy8jBoMlZgyjld4uOHh1i6TpDxRpbio6zowevTBeYYdTfAzlcj1H0u/W+LmqxzbDcZHyCYpvOfKvDSwey/8@vger.kernel.org
+X-Gm-Message-State: AFuF++mIgyjvGH16ULM4nhnVdlPhWo2x1D2mvckIuS4fWeLuNjKTM9uq
+	tFg23N3UT7VnqbPUVbVYTOvXWijmW1s1rgmlBDSEU/U452X7MjG+yKLt
+X-Gm-Gg: AYBFou0XUdkdmkGp8xiJMz2WR0mIj5XVT9jJ8Qn7ogqW+ptVRAxdQpDD3AG66MujpCa
+	xS46dBKXoTAc+/ObKZeMKZAaszML5kDRmvrDUPXJcKWF0BjI3IxJLoqQgEaHQPgrw2kMR+c7yem
+	aUSZ94Hrt6l+JwTwRumCJxljSX/b6cnM6X2N4pIrTbM6Mkz2koQsymEfzS+t1ba5t19QJTSz5r8
+	f/6aMwJfTknZ5uSFJazzHWAhwxhuYUNCfPrzbDimyXiyEdpqZKBAUQoyYZyf02xI/JVfw9uEYIY
+	khmXU+shPAKKZtpWTXv9CrqloZC9eLeTsgeQGej5bNgWWwy/pHcXugZYWQV5vYWW9ylpXb+i32l
+	VG1U5SgZVjLCYHYsMELd/xaMLZHAWW8TbBuqDAlDSQ8Q2U47ywOnNsHbEukfHaVx34I2Xw2lkrJ
+	7tYfkTHFnulJkUR/q/wksGc97UPPh/2AZ1DEBIp2G9mrTkYbJXUIgOYvjIN6ZWGhSHMuXOf9Ze2
+	w==
+X-Received: by 2002:a05:6000:41d3:b0:485:8e90:bf55 with SMTP id ffacd0b85a97d-4858e90c0a6mr18822569f8f.47.1788788488633;
+        Mon, 07 Sep 2026 06:41:28 -0700 (PDT)
+Received: from dell-desktop ([2a02:587:4b5f:900:ef25:2f4:1792:4e6f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858d312ca0sm28655087f8f.4.2026.09.07.06.41.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 06:41:28 -0700 (PDT)
+From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+To: david@kernel.org
+Cc: akpm@linux-foundation.org,
+	andrii@kernel.org,
+	ast@kernel.org,
+	bpf@vger.kernel.org,
+	brauner@kernel.org,
+	daniel@iogearbox.net,
+	eddyz87@gmail.com,
+	kpsingh@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	matt@bobrowski.net,
+	memxor@gmail.com,
+	song@kernel.org,
+	sun.jian.kdev@gmail.com,
+	tasos.papagiannnis@gmail.com,
+	utilityemal77@gmail.com,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH bpf-next v4 1/7] mm: Add copy_remote_mm_str()
+Date: Mon,  7 Sep 2026 16:41:01 +0300
+Message-ID: <20260907134101.424017-1-tasos.papagiannnis@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <0e4edfd3-0c82-42e0-ad09-19ff8b8d1511@kernel.org>
+References: <0e4edfd3-0c82-42e0-ad09-19ff8b8d1511@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-4-490735672187@kernel.org> <ao2WubjLtDuHvRzx@google.com>
- <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net> <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
- <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 7 Sep 2026 15:31:16 +0200
-X-Gm-Features: AcwNN1Umd_wQEAUZHPYxidNRM70dkjd7WtcOMgQxK1KjbblodnsY1lRpQ3kHiGM
-Message-ID: <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com>
-Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Asahi Lina <lina+kernel@asahilina.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 7, 2026 at 2:38=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
-org> wrote:
->
-> Alice Ryhl <aliceryhl@google.com> writes:
->
-> > On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> wrot=
-e:
-> >>
-> >> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
-> >> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wrote:
-> >> >> +        // SAFETY: We just successfully allocated a page, so we no=
-w have ownership of the newly
-> >> >> +        // allocated page. We transfer that ownership to the new `=
-Owned<Page>` object.
-> >> >> +        // Since `Page` is transparent, we can cast the pointer di=
-rectly.
-> >> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
-> >> >
-> >> > This doesn't satisfy the safety requirements of Owned::from_raw()
-> >> > because the page may be used with vm_insert_page(), which increments=
- its
-> >> > refcount and causes it to be shared the vma system, and this occurs
-> >> > before Page::release() is called.
-> >>
-> >> I suppose the existing vm_insert_page() abstraction we have is already
-> >> problematic, because it uses `&Page`?
-> >>
-> >> Maybe we want to change the API to use `ARef<Page>` so it already has =
-to be
-> >> shared? Conceptually it takes a reference count from a `&Page`, which =
-isn't
-> >> possible because `Page` is not `AlwaysRefCounted`, so it needs a `&ARe=
-f<Page>`
-> >> to be able to do that op.
-> >
-> > Honestly, the problem is the safety requirements of Owned::from_raw().
-> > Pages have a "special" main reference, and free_page() does more than
-> > put_page(). It even does something when the refcount does not hit
-> > zero.
-> >
-> > The correct behavior for Page is to allow the user to hold one
-> > Owned<Page> whose drop calls free_page(), *plus* any number of
-> > ARef<Page> references that invoke put_page() on drop. This way, the
-> > owned page controls the special drop codepath.
->
-> This does not mesh well with the model of `Owned` behaving like
-> `UniqueArc` to `ARef` behaving like an `Arc`.
+> We have this check in copy_remote_vm_str(). Why are we performing the check now
+> twice?
 
-It's a different case, I agree.
+> It should either go only into __copy_remote_mm_str(), or if there a reason to
+> have it before get_task_mm(), it should go into copy_remote_mm_str(). Same
+> applies to the memory.c case.
 
-> Please help me understand; with page having a main ref and an auxiliary
-> refcount, if we model that with a single `Owned<Page>` and a number of
-> `ARef<Page>`, what would happen in the case where the main ref (`Owned`)
-> is dropped first? Is this legal?
+Yes, this makes sense. I will fix that.
 
-Yes, it's legal.
+> What's more annoying is that both implementations of copy_remote_vm_str() are
+> identical, and both implementations of copy_remote_mm_str() are nearly identical
+> (just dropping the gup_flags for nommu). I'd like to avoid duplicating code for
+> nommu.
 
-> My intuition here would be to follow Garry's suggestion and have
-> `vm_insert_page` take an `ARef<Page>`. Can you elaborate why this is not
-> an option?
+> If we could export __copy_remote_vm_str(mm, addr, buf, len, gup_flags) for both
+> cases, we could instead provide a single implementation for copy_remote_vm_str()
+> and copy_remote_mm_str() e.g., in mm.h? (I'd prefer somewhere else, but we don't
+> seem to have a good git for memory.c + nommu.c shared stuff)
 
-That would be the wrong ownership semantics. The C side increments the
-refcount rather than take ownership of a passed-in refcount, so the
-correct argument type is &Page.
+Another idea can be:
+mm/memory.c: MMU implementation of __copy_remote_mm_str()
+mm/nommu.c: NOMMU implementation of __copy_remote_mm_str()
+mm/internal.h: declaration of __copy_remote_mm_str()
+include/linux/mm.h: declaration of copy_remote_mm_str() and  copy_remote_vm_str()
+mm/util.c: shared implementation for copy_remote_mm_str() and copy_remote_vm_str()
 
-Now, for the use-case in Binder I believe we could switch to
-put_page(), as we don't need the extra stuff from free_page(), in
-which case we only want ARef<Page> and do not require Owned support.
-But as long as we are calling free_page(), it needs to not be
-clonable.
+This allows us to remove the duplicate code. Does this sound reasonable?
 
-Alice
+> Now, that's also not completely nice, as I don't want us to EXPORT
+> __copy_remote_vm_str() ... given that these functions are "#ifdef
+> CONFIG_BPF_SYSCALL" could we EXPORT_SYMBOL_FOR_MODULES?
+
+Now copy_remote_vm_str() is EXPORT_SYMBOL_GPL. In this series, we use
+copy_remote_mm_str() without the need to export that. Why do we need to
+consider exporting __copy_remote_vm_str()?
+
+--
+Thanks,
+-Anastasios
