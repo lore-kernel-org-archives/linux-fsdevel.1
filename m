@@ -1,414 +1,121 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FAC3FD12A
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 06:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE76E3FC5BE
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 06:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788763175; cv=none; b=dlti4fE57EcaxoOZ8byHTk07nMxHEkvU0qguTefCOqMCoevJF+AyCqk2DfbbYtt5PnROSRtefmx+iABhgGazyknhOXAUPlBLK5fb+hs3FH8prctmtuaIvA5YBEnN9NaJzegnRTaVUqHI3ieZ3REOUAenUsC8JMw9A+i2jVvxlS0=
+	t=1788763307; cv=none; b=huP6LbeZDu0uKKiB1YC5yb+kevLuDs3qVfkTQiY2oYF/dIeU78xKIgLo5uQmw0m4xuJriZGBHTC46t05OWPK/ym7Ip9rxvfm4vEcqMIuzHeBeapaCotzHMYT6mUEyb7pKDkmPWdPrr1vzVqaOR6vTD4LcHwHpfejHDqSaVH/uIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788763175; c=relaxed/simple;
-	bh=KtiDqItAIqcOo5yX7TKSo5IrBmn9uko0OiM/lrd3JH8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=B48OKk7GKHwxRsS9psTmgCB89yKKwb7UqbA0q8A2X7DrixkPFWE6kJhff3HtgqFgOaKf2jAEsfOFgqQPHB+IC5z9uVn7ILeKn0vAysKkrtFCMamgRtgQgbsbBTKGC5j9gtOc3kRpfIM4TPMgoT6i3j4OwYr5ZQyY/aoA6gH0r5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=He8mhBPT; arc=none smtp.client-ip=209.85.215.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
+	s=arc-20240116; t=1788763307; c=relaxed/simple;
+	bh=HYQYm7Ol+ajDdBWB8eOE9bTzmYQUN/ysOtKPbk0gEOk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EX8pDffeMN7EHHEo675RvpizbLilO8a3tTnpOh5TJbGe24p2qtnNFFxVbyYHavbzA0v5DD9ibP59f/Bw+//kwB5C/JsLT8j35KKPTratt/14HR374zYfECymQEK7qdeC+iILbl7hzHRVQByIE+yf5dGZRrJ6ipHJMNxmuJwcSgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XCoMdSi3; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="He8mhBPT"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc44d708055so5927345a12.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 06 Sep 2026 23:39:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XCoMdSi3"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-398b3d66515so3065160a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 06 Sep 2026 23:41:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788763173; x=1789367973; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=T7MPdcOKwaU52QY/pYkhfSWrRgRTHQ7GCQeg5bNkckA=;
-        b=He8mhBPT8AYaXLpJVm6fIzABnjlPCchRHX1MZohICs8TN56jeuSnKM7oJIpzqYIqKA
-         foLMPS/8pe5t8XZVDQOZcRHyc6o+/mggwBKyjJdw6FYy9sO/IAcZTo8hVaJzU8NP76Yh
-         qGf/ZaRzqqmvACD4tGrekDzrUooKGvCyp1uI/6mkv6SqJhM+j2LitXjsHDI/OqQM+liP
-         6VjQFDaFuntvrBiKyE0nEA2JrvTPcBfa3GFM/fu0joRTrOcb+NM+4QWsr7+pNRGEtJ6N
-         t6lK2/kzcyNCsKrP8t87jJ3TuLIWVsUPcH3uiO1+Ie9+vm8xx8n6/rtIpY6t2zOGocmi
-         5h/g==
+        d=gmail.com; s=20251104; t=1788763305; x=1789368105; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zflL+q58grc4cagGW8mHiAFMNdUiRsMqNFtJfF7Dmyo=;
+        b=XCoMdSi3c4YjOmIc/sur3cFNq1AvOqkdb+tGIpYoz74r0V1Z8RY9sR4YTs0dDd8WWo
+         5y0Xk+/kCDlfF0T9KerCa7DzftYkq7EJO7RErTOU7v0clnI8TR23SMCrLKSVsxbbHXee
+         /LqrAJTKxoolta6oUyvZUwoAWZ4VT9CDPuxhQOfiwPcsSR7t8ZtBblwqJVPNSZsFOLo7
+         Zx6zuL5D/f+Wm5kHFe+LBy++U5iJ32SX6WUbDAoj+PhmOPR26RZcXI1JPMhkKyvXqrNw
+         BYM5aH2rkcwiNTX/uxAsO76DJB0YzFMoEYNJMW02kTP82EEaV6Jl+XpZ5cQYUhBcKtb9
+         HBTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788763173; x=1789367973;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1788763305; x=1789368105;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=T7MPdcOKwaU52QY/pYkhfSWrRgRTHQ7GCQeg5bNkckA=;
-        b=bIJ8XNdhNzO/A2Eq8/tGXJZEau0UaFyAHIntK4kCvm2O9PSIMmhH4d8ZrGG5I58/2G
-         64gNwjQZ47SgedZiljIdyjXv6c7+MmA8kGkaO27hbS6IuSmmnxccyRGW3xNTwgn6TaS1
-         W/ZTuBNYLN0ihDmbZRSXS5TNYhb9LJX7rdoyAgxAX+hIOaYk/bKIdA20fDboZ2wfsE95
-         gw+Dt3jmUoThixoecLGL73oQ70QhNdl48sA98zpr0ezizhOZSqLwBEsrFmxpk/E5aHjq
-         QCioAXuOvRVLon8EIO6vk6Kr8wg1IBOAgL5OTO4zNkDMnVLBI3uyOj3VRtC5Ug1oKcgE
-         Cwmw==
-X-Forwarded-Encrypted: i=1; AKwUvBzyxhOnNBdqiAC9ZXZQy+uteOxu+85uhBIMKhiw2/BQuuTufTd6hk5Sx3reN8a9GFEcLWNOEZqjhF4FC/0A@vger.kernel.org
-X-Gm-Message-State: AFuF++lkvqdwW2GTQbdI4dRvVC0JY7hLWj1p2j2hDx+9NSBczAcqIwRo
-	l8tjAm1SzEXCmc4zwi5V4Mg9ehYcY0JUxtiU69gZhq9xnWzDpdwwpXyvWDhMil51fUif61esOVO
-	Qr0A/vQ==
-X-Received: from dybdx7.prod.google.com ([2002:a05:7300:b187:b0:32c:7ca7:8f62])
- (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:62c2:b0:3d0:d0ed:f141
- with SMTP id adf61e73a8af0-3da39d18dfcmr32776365637.2.1788763172413; Sun, 06
- Sep 2026 23:39:32 -0700 (PDT)
-Date: Sun,  6 Sep 2026 23:39:18 -0700
-In-Reply-To: <20260907063918.3432401-1-surenb@google.com>
+        bh=zflL+q58grc4cagGW8mHiAFMNdUiRsMqNFtJfF7Dmyo=;
+        b=HuvnvWWjbaPc2sjXqElvVTx4GLiOPteBt6EaK91Vn6aDCOVnELP2YgB7l6xFkHJG+y
+         F1KVvi6aCrw9QVo6oWzh2aXcO7vzF80r9YPl2OsWRwr5bQT4fGV8/aLN/0y7VOI6XJ5u
+         Mg7ntNFO7940vgmHoJYBBjRrNzJl72TjT78ryDU664e4nb+KHT5Z+kaCyPIVjV7otbN1
+         EjZfesOR/OhJiivEBUuYvvxm7d2yAkRGir24RvjZNELqBnUnbEhFw9b5KVcmtQ72kXhb
+         cz1KJd76If9/ZTjQ8OPgd4A/phanv1QVchq34X54n7syDvX/bajJ+GB+qsDZWD0wcRsN
+         3vYA==
+X-Forwarded-Encrypted: i=1; AKwUvBy2EpvLUEIWExxCy6nouOyf1CBCMhRyFGCkRlsOY6PhykC7GqIMBb/JRtkS+2obt4VRXq3zchYtXBoBDkk/@vger.kernel.org
+X-Gm-Message-State: AFuF++nTLtciP5RFxlHoI6kYsk6YWaBetLkk2x5z7nVpyLUAzATGyhaa
+	ZV/V3l5H+cacOwY9ev+ZRUf6EDWiBaHJe7QCmmGFtuN6hHC4/EXIk9ow8cswt2Fb
+X-Gm-Gg: AYBFou2um/aJG1IAuMJHzWPBt0kFNWnAigcChYXlVlOskZbtR52Ir/svLWn8Ggaev55
+	3lT0ExJ27t3XuP183JuxSHXSrFP5kf+HnLk/zFNWeB/wtfAF/dHfV5jBHlx9hewEoe9R/s2bHli
+	hsVAA9njkyMrpCrVO6dOE2FJFfmPbDJOs1fEwC2NpnJX1dRm8Q+4FYLuRhE3CQPZSMgUV2yMnR4
+	PaVZKCcbGUg5asqzBpDukVgT/PDmdKFzhI15xdSanSDltgucWIlb+y4IMYyOYCkOt14I6LEJ6/4
+	tJ884F2ltrHOGngeXRN4VovSt8yp4RALBI1R6yjppMi3WM3eWcUdUYRhN2suiniMTY9IjNs5Wg1
+	DMsREGYF50WEMo0hfkDOyg3tBTF8okf3cFfd94NGonLMjndi44++CEvzMPCLH54tQFJLsrXsNuK
+	tl7JQ1xVUMQoRWDW2cnosncPQWB9J6Owfq5zsKVsjUcB4z0gTEeuMgTMRNZa6/Lnr0/Nb+1AfVf
+	k5vgtKkvJ6JIw==
+X-Received: by 2002:a17:90b:2f87:b0:38e:9045:bac0 with SMTP id 98e67ed59e1d1-39b260fe42amr31090592a91.5.1788763304914;
+        Sun, 06 Sep 2026 23:41:44 -0700 (PDT)
+Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-143240d86c3sm22413038c88.0.2026.09.06.23.41.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Sep 2026 23:41:44 -0700 (PDT)
+From: Hemanth Selam <hemanth.selam@gmail.com>
+To: Shuah Khan <shuah@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	x86@kernel.org,
+	Dave Martin <Dave.Martin@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Ming Lei <tom.leiming@gmail.com>
+Cc: linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org
+Subject: [PATCH 0/2] selftests: fix typos and repeated words in comments
+Date: Mon,  7 Sep 2026 12:11:36 +0530
+Message-ID: <20260907064138.38689-1-hemanth.selam@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260907063918.3432401-1-surenb@google.com>
-X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
-Message-ID: <20260907063918.3432401-6-surenb@google.com>
-Subject: [PATCH v2 5/5] selftests/proc: add /proc/pid/smaps_rollup tearing tests
-From: Suren Baghdasaryan <surenb@google.com>
-To: akpm@linux-foundation.org
-Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, david@redhat.com, 
-	willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, surenb@google.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-During tearing tests, smaps_rollup Pss* metrics should stay constant.
-Extend /proc/pid/smaps tearing tests to also check for smaps_rollup
-consistency.
+This corrects 2 misspellings and repeated words in comments.  Each is a
+separate patch so that any one of them can be dropped without touching
+the rest.
 
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
----
- tools/testing/selftests/proc/proc-maps-race.c | 187 +++++++++++++++++-
- 1 file changed, 182 insertions(+), 5 deletions(-)
+Nothing outside comments changes.  Every touched C file was checked by
+dropping its comments, replacing each string literal with a placeholder
+and collapsing whitespace; what remained was identical before and after,
+so the compiled code cannot differ.
 
-diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testing/selftests/proc/proc-maps-race.c
-index 415eccb70468..8d00d7db1c65 100644
---- a/tools/testing/selftests/proc/proc-maps-race.c
-+++ b/tools/testing/selftests/proc/proc-maps-race.c
-@@ -80,6 +80,61 @@ enum maps_file {
- 
- struct vma_modifier_info;
- 
-+enum smaps_rollup_stat {
-+	Rss,
-+	Pss,
-+	Pss_Dirty,
-+	Pss_Anon,
-+	Pss_File,
-+	Pss_Shmem,
-+	Shared_Clean,
-+	Shared_Dirty,
-+	Private_Clean,
-+	Private_Dirty,
-+	Referenced,
-+	Anonymous,
-+	KSM,
-+	LazyFree,
-+	AnonHugePages,
-+	ShmemPmdMapped,
-+	FilePmdMapped,
-+	Shared_Hugetlb,
-+	Private_Hugetlb,
-+	Swap,
-+	SwapPss,
-+	Locked,
-+	RollupFieldCount
-+};
-+
-+static const char *smaps_rollup_stat_names[RollupFieldCount] = {
-+	"Rss",
-+	"Pss",
-+	"Pss_Dirty",
-+	"Pss_Anon",
-+	"Pss_File",
-+	"Pss_Shmem",
-+	"Shared_Clean",
-+	"Shared_Dirty",
-+	"Private_Clean",
-+	"Private_Dirty",
-+	"Referenced",
-+	"Anonymous",
-+	"KSM",
-+	"LazyFree",
-+	"AnonHugePages",
-+	"ShmemPmdMapped",
-+	"FilePmdMapped",
-+	"Shared_Hugetlb",
-+	"Private_Hugetlb",
-+	"Swap",
-+	"SwapPss",
-+	"Locked",
-+};
-+
-+struct smaps_rollup_stats {
-+	unsigned long values[RollupFieldCount];
-+};
-+
- FIXTURE(proc_maps_race)
- {
- 	struct vma_modifier_info *mod_info;
-@@ -91,6 +146,7 @@ FIXTURE(proc_maps_race)
- 	enum maps_file maps_file;
- 	int shared_mem_size;
- 	int skip_pages;
-+	int rollup_fd;
- 	int page_size;
- 	int vma_count;
- 	bool verbose;
-@@ -132,12 +188,12 @@ struct vma_modifier_info {
- 	void *child_mapped_addr[];
- };
- 
--static bool read_page(FIXTURE_DATA(proc_maps_race) *self,
-+static bool read_page(FIXTURE_DATA(proc_maps_race) *self, int fd,
- 		      struct page_content *page)
- {
- 	ssize_t  bytes_read;
- 
--	bytes_read = read(self->maps_fd, page->data, self->page_size);
-+	bytes_read = read(fd, page->data, self->page_size);
- 	if (bytes_read <= 0)
- 		return false;
- 
-@@ -175,7 +231,7 @@ static int locate_containing_page(FIXTURE_DATA(proc_maps_race) *self,
- 		char *curr_pos;
- 		char *end_pos;
- 
--		if (!read_page(self, &self->page1))
-+		if (!read_page(self, self->maps_fd, &self->page1))
- 			return -1;
- 
- 		curr_pos = self->page1.data;
-@@ -205,10 +261,11 @@ static bool read_two_pages(FIXTURE_DATA(proc_maps_race) *self)
- 		return false;
- 
- 	for (int i = 0; i < self->skip_pages; i++)
--		if (!read_page(self, &self->page1))
-+		if (!read_page(self, self->maps_fd, &self->page1))
- 			return false;
- 
--	return read_page(self, &self->page1) && read_page(self, &self->page2);
-+	return read_page(self, self->maps_fd, &self->page1) &&
-+	       read_page(self, self->maps_fd, &self->page2);
- }
- 
- static void copy_line(const char *line_start, const char *line_end,
-@@ -317,6 +374,61 @@ static bool read_boundary_lines(FIXTURE_DATA(proc_maps_race) *self,
- 		      &first_line->end_addr) == 2;
- }
- 
-+static bool parse_smaps_rollup(FIXTURE_DATA(proc_maps_race) *self,
-+			       struct smaps_rollup_stats *stats)
-+{
-+	unsigned int dev_maj, dev_min, inode;
-+	unsigned long start, end, offs;
-+	unsigned long value;
-+	char name[32], perm[5];
-+	char *curr_pos;
-+	char *end_pos;
-+	char *line_end;
-+
-+	if (lseek(self->rollup_fd, 0, SEEK_SET) < 0)
-+		return false;
-+
-+	if (!read_page(self, self->rollup_fd, &self->page1))
-+		return false;
-+
-+	curr_pos = self->page1.data;
-+	end_pos = self->page1.data + self->page1.size;
-+
-+	line_end = strchr(curr_pos, '\n');
-+	if (!line_end)
-+		return false;
-+
-+	if (sscanf(curr_pos, "%lx-%lx %4s %lx %u:%u %u %31s",
-+		&start, &end, perm, &offs, &dev_maj, &dev_min, &inode, name) != 8)
-+		return false;
-+
-+	if (strcmp(name, "[rollup]"))
-+		return false;
-+
-+	for (int stat = 0; stat < ARRAY_SIZE(smaps_rollup_stat_names); stat++) {
-+		int len;
-+
-+		curr_pos = line_end + 1;
-+		if (curr_pos >= end_pos)
-+			return false;
-+
-+		line_end = strchr(curr_pos, '\n');
-+		if (!line_end)
-+			return false;
-+
-+		if (sscanf(curr_pos, "%31s %lu kB", name, &value) != 2)
-+			return false;
-+
-+		len = strlen(name);
-+		if (name[len - 1] != ':' || strncmp(name, smaps_rollup_stat_names[stat], len - 1))
-+			return false;
-+
-+		stats->values[stat] = value;
-+	}
-+
-+	return true;
-+}
-+
- /* Thread synchronization routines */
- static void wait_for_state(struct vma_modifier_info *mod_info, enum test_state state)
- {
-@@ -397,6 +509,41 @@ static bool print_boundaries_on(bool condition, const char *title,
- 	return condition;
- }
- 
-+static void print_smaps_rollup_stats(const char *title, FIXTURE_DATA(proc_maps_race) *self,
-+				     struct smaps_rollup_stats *stats)
-+{
-+	printf("%s", title);
-+	for (int stat = 0; stat < ARRAY_SIZE(smaps_rollup_stat_names); stat++)
-+		printf("%64s %lu kB\n", smaps_rollup_stat_names[stat], stats->values[stat]);
-+}
-+
-+static bool cmp_smaps_rollup_stat(struct smaps_rollup_stats *s1,
-+				  struct smaps_rollup_stats *s2,
-+				  enum smaps_rollup_stat stat)
-+{
-+	return s1->values[stat] == s2->values[stat];
-+}
-+
-+static bool compare_smaps_rollup(FIXTURE_DATA(proc_maps_race) *self,
-+				 struct smaps_rollup_stats *expected,
-+				 struct smaps_rollup_stats *actual)
-+{
-+	/*
-+	 * Clean/dirty metrics might change but Pss-related ones
-+	 * should stay constant.
-+	 */
-+	if (cmp_smaps_rollup_stat(expected, actual, Pss) &&
-+	    cmp_smaps_rollup_stat(expected, actual, Pss_Anon) &&
-+	    cmp_smaps_rollup_stat(expected, actual, Pss_File) &&
-+	    cmp_smaps_rollup_stat(expected, actual, Pss_Shmem))
-+		return true;
-+
-+	print_smaps_rollup_stats("Expected stats:", self, expected);
-+	print_smaps_rollup_stats("Actual stats:", self, actual);
-+
-+	return false;
-+}
-+
- static void report_test_start(const char *name, bool verbose)
- {
- 	if (verbose)
-@@ -572,6 +719,7 @@ FIXTURE_SETUP(proc_maps_race)
- 	unsigned long first_map_addr;
- 	unsigned long last_map_addr;
- 	unsigned long duration_sec;
-+	char rollup_fname[32];
- 	char fname[32];
- 
- 	self->page_size = (unsigned long)sysconf(_SC_PAGESIZE);
-@@ -649,6 +797,9 @@ FIXTURE_SETUP(proc_maps_race)
- 		break;
- 	case SMAPS:
- 		sprintf(fname, "/proc/%d/smaps", self->pid);
-+		sprintf(rollup_fname, "/proc/%d/smaps_rollup", self->pid);
-+		self->rollup_fd = open(rollup_fname, O_RDONLY);
-+		ASSERT_NE(self->rollup_fd, -1);
- 		break;
- 	default:
- 		ksft_exit_fail();
-@@ -711,6 +862,8 @@ FIXTURE_TEARDOWN(proc_maps_race)
- 	for (int i = 0; i < self->vma_count; i++)
- 		munmap(self->mod_info->child_mapped_addr[i], self->page_size);
- 	close(self->maps_fd);
-+	if (self->maps_file == SMAPS)
-+		close(self->rollup_fd);
- 	waitpid(self->pid, &status, 0);
- 	munmap(self->mod_info, self->shared_mem_size);
- }
-@@ -723,6 +876,7 @@ TEST_F(proc_maps_race, test_maps_tearing_from_split)
- 	struct line_content split_first_line;
- 	struct line_content restored_last_line;
- 	struct line_content restored_first_line;
-+	struct smaps_rollup_stats orig_stats;
- 
- 	wait_for_state(mod_info, SETUP_READY);
- 
-@@ -736,6 +890,8 @@ TEST_F(proc_maps_race, test_maps_tearing_from_split)
- 	report_test_start("Tearing from split", self->verbose);
- 	ASSERT_TRUE(capture_mod_pattern(self, &split_last_line, &split_first_line,
- 					&restored_last_line, &restored_first_line));
-+	if (self->maps_file == SMAPS)
-+		ASSERT_TRUE(parse_smaps_rollup(self, &orig_stats));
- 
- 	/* Now start concurrent modifications for self->duration_sec */
- 	signal_state(mod_info, TEST_READY);
-@@ -799,6 +955,11 @@ TEST_F(proc_maps_race, test_maps_tearing_from_split)
- 				     vma_end == self->last_line.end_addr) ||
- 				    (vma_start == split_first_line.start_addr &&
- 				     vma_end == split_first_line.end_addr));
-+		} else {
-+			struct smaps_rollup_stats stats;
-+
-+			ASSERT_TRUE(parse_smaps_rollup(self, &stats));
-+			ASSERT_TRUE(compare_smaps_rollup(self, &orig_stats, &stats));
- 		}
- 		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
- 		end_test_iteration(&end_ts, self->verbose);
-@@ -817,6 +978,7 @@ TEST_F(proc_maps_race, test_maps_tearing_from_resize)
- 	struct line_content shrunk_first_line;
- 	struct line_content restored_last_line;
- 	struct line_content restored_first_line;
-+	struct smaps_rollup_stats orig_stats;
- 
- 	wait_for_state(mod_info, SETUP_READY);
- 
-@@ -830,6 +992,8 @@ TEST_F(proc_maps_race, test_maps_tearing_from_resize)
- 	report_test_start("Tearing from resize", self->verbose);
- 	ASSERT_TRUE(capture_mod_pattern(self, &shrunk_last_line, &shrunk_first_line,
- 					&restored_last_line, &restored_first_line));
-+	if (self->maps_file == SMAPS)
-+		ASSERT_TRUE(parse_smaps_rollup(self, &orig_stats));
- 
- 	/* Now start concurrent modifications for self->duration_sec */
- 	signal_state(mod_info, TEST_READY);
-@@ -880,6 +1044,11 @@ TEST_F(proc_maps_race, test_maps_tearing_from_resize)
- 			ASSERT_TRUE(vma_start == self->last_line.start_addr &&
- 				    (vma_end - vma_start == self->page_size * 3 ||
- 				     vma_end - vma_start == self->page_size));
-+		} else {
-+			struct smaps_rollup_stats stats;
-+
-+			ASSERT_TRUE(parse_smaps_rollup(self, &stats));
-+			ASSERT_TRUE(compare_smaps_rollup(self, &orig_stats, &stats));
- 		}
- 		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
- 		end_test_iteration(&end_ts, self->verbose);
-@@ -898,6 +1067,7 @@ TEST_F(proc_maps_race, test_maps_tearing_from_remap)
- 	struct line_content remapped_first_line;
- 	struct line_content restored_last_line;
- 	struct line_content restored_first_line;
-+	struct smaps_rollup_stats orig_stats;
- 
- 	wait_for_state(mod_info, SETUP_READY);
- 
-@@ -911,6 +1081,8 @@ TEST_F(proc_maps_race, test_maps_tearing_from_remap)
- 	report_test_start("Tearing from remap", self->verbose);
- 	ASSERT_TRUE(capture_mod_pattern(self, &remapped_last_line, &remapped_first_line,
- 					&restored_last_line, &restored_first_line));
-+	if (self->maps_file == SMAPS)
-+		ASSERT_TRUE(parse_smaps_rollup(self, &orig_stats));
- 
- 	/* Now start concurrent modifications for self->duration_sec */
- 	signal_state(mod_info, TEST_READY);
-@@ -963,6 +1135,11 @@ TEST_F(proc_maps_race, test_maps_tearing_from_remap)
- 				     vma_end - vma_start == self->page_size * 3) ||
- 				    (vma_start == self->last_line.start_addr + self->page_size &&
- 				     vma_end - vma_start == self->page_size));
-+		} else {
-+			struct smaps_rollup_stats stats;
-+
-+			ASSERT_TRUE(parse_smaps_rollup(self, &stats));
-+			ASSERT_TRUE(compare_smaps_rollup(self, &orig_stats, &stats));
- 		}
- 		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
- 		end_test_iteration(&end_ts, self->verbose);
+The mistakes were found with scripts/checkpatch.pl against the list in
+scripts/spelling.txt.  The scanning, the edits and the changelogs were
+produced with Cursor running the claude-opus-5 model, from a request to
+find and fix spelling mistakes across the tree, and every correction was
+then re-checked by the comparison described above.  Words that name an
+identifier were left alone deliberately, even when they read as typos,
+because correcting the prose would make the comment disagree with the
+code it describes.
+
+Tested by building x86_64 defconfig at v7.3-rc1-269-gbc35965f6940, which
+is clean.  Nothing else was built, so any patch touching code that
+x86_64 defconfig does not compile has been read but not compiled.
+
+Hemanth Selam (2):
+  selftests: fix typos in comments
+  selftests: core: fix repeated word 'and' in comment
+
+ tools/testing/selftests/amd-pstate/tbench.sh    | 4 ++--
+ tools/testing/selftests/core/close_range_test.c | 2 +-
+ tools/testing/selftests/proc/setns-dcache.c     | 2 +-
+ tools/testing/selftests/proc/setns-sysvipc.c    | 2 +-
+ tools/testing/selftests/resctrl/resctrlfs.c     | 6 +++---
+ tools/testing/selftests/ublk/kublk.h            | 2 +-
+ 6 files changed, 9 insertions(+), 9 deletions(-)
+
 -- 
-2.55.0.979.g7e5102b832-goog
+2.48.1
 
