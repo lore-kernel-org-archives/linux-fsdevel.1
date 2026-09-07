@@ -1,245 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC8740FDAD;
-	Mon,  7 Sep 2026 07:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E24440A920;
+	Mon,  7 Sep 2026 08:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788766217; cv=none; b=dHVK/xo1jQI6MGCTdFEef+O3uPgVrkBrcHTWO3qH5JfisYNPGEpN4EYuSlHery+1Y18ZcNX1hEwTELWZbzFPG+J28X1YFfDkAwalQpYNo+7Xmwaz+bLv5NLb6orCPCW/h6ZKcaRi8WPBTzSLRLq+FtsgqY0+mC/pSYFQZUvB0FQ=
+	t=1788768032; cv=none; b=UgBgMreWbJ5z0EQRe4g9VSyaC+FdTQ3qKht2s2GZ+Yg7zZLQaMlr4NcNo3RtmgI44jesucZMtftVzVK3aKEfu8LEFFjfqVLIAmnqz2hlqwzWgY2HTiLzo0yBXe3/wVufu/4ynoQl7m5TsseYn9VMNkWCbP+qE8BPgmRcUpaf+nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788766217; c=relaxed/simple;
-	bh=svv6muD9hszgHilNpJg3Fvfty/+6yyQ325GAbLVD+LM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nsZUUjYpvyd6o/sT+SBq/N3hJV4ickKC0HGYTDcs8OfhqHdqBxxXDKNT+wqoWPbha2zbUzto1S5WQhY69cSRjqPfLyF2vt+UpviKZcC5pQl0cURJElQStlCYjDdj4K0rXWH3zMX6oqRvmc7iVNdzdEJzPFbCDLdmEUARgH5UlpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWaarEKX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788768032; c=relaxed/simple;
+	bh=FeJU9vE+CU76Xi9GfavQWBSN/s/1bxon5OC3xJ4ge5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKpJ1ZhNWDJtMyUOhkvODJbUn6GgSZm0Mf2dWNImPoorZ5xu+yT6WfeNEGAtsELQndGhK6nhf5Nh0EfL5qD8sy4wY7uy2vFNaJ5rcw73QKS/OsTAl9+s/QgyHfAZ8w/yEC+eJjTBxjNEmc9I4x4oqjvkNhDPp17++gk7vNg7FVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r/pmLGse; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=d7o2qPjc; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1TJA9Wbk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oPJIiQrZ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWaarEKX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C62B91F00A3A;
-	Mon,  7 Sep 2026 07:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788766215;
-	bh=/tpCXcNTxR15hZHrvxHbLtYdqjcKUmFt0AW82RaDF3k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=IWaarEKXnNsEq4AcRA76zzMw/cQHTWhq7UWcw9YuwNblXvg8j4PlTUHPN8PEWn2xC
-	 1wFD/4Fd41C+wcqMHghpq/qHvHpCLTSDGJpVbmeXtLeHHIjjbRydk/Rb+WqMEBUz6i
-	 33b2zxNXWaS6Ml36srWf+a+CPCMG23XL5PWAVA95mb48jzYymhdfKAy9jtZ1C0QEfH
-	 OjGhjewr+IB7RWw49omorVydBu4d0SM8xpBc94OsjQM07kkjTP4d8GKqVx5fjG9rTX
-	 4q8Gl7uv82jqI4CXOdKTfKzlZbMKdfRHZSuqHPd7Y8+jG0RAqqR5WKuHtzakBRX/Qs
-	 oKMJLkHg8VwEg==
-Message-ID: <be13228a-f35e-4868-9b56-6452c34abc60@kernel.org>
-Date: Mon, 7 Sep 2026 09:30:09 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r/pmLGse";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="d7o2qPjc";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1TJA9Wbk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oPJIiQrZ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C0FF421B18;
+	Mon,  7 Sep 2026 08:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788768024; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FEBOJEt5KZS43kfEoAVZVttylh2W9OoDxC9m7JqILVc=;
+	b=r/pmLGsekhd7MHn0C7eFe8MxWcH31bcPeqT3JcwbB0dcr+7zGxQFYCmfGKgNAOkZQDM3yT
+	9D7seJAUtdLV6dci6zbme1zIEvs6yvendeJJeooxAeZgNtE7WVymF/9pgm5EHUAlH/ty7t
+	XsZxoJELSMTFbHBRo3qJGLsaWx4USqw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788768024;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FEBOJEt5KZS43kfEoAVZVttylh2W9OoDxC9m7JqILVc=;
+	b=d7o2qPjcG3CvSbFGvcuDsnbIROicV07olh1NPoWRfoB8ypU+T1MwvUUAy50jk0UniaWlal
+	PYQ9xjHtLtFwRdBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788768020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FEBOJEt5KZS43kfEoAVZVttylh2W9OoDxC9m7JqILVc=;
+	b=1TJA9WbkKA+fYimVVshOfhTh46dW/mrELdCYovyZmvGsjJYh1XipO6SqkU5LFmbpLSc650
+	MB5ErPttx4WaEaSLvqD3qDQ6CE1vDPoyxio7SRWopu1az1F/cRtHZLkBxX7vxQDEtoB9Hw
+	XHr6KGnV2T7VAI8oX+gGqVmABP5LXrs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788768020;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FEBOJEt5KZS43kfEoAVZVttylh2W9OoDxC9m7JqILVc=;
+	b=oPJIiQrZw/9l8+TlBwJGL8oLUqDbGhyFaM7k+RX57Unr58ULVVZWOLfTmiUkOHfKUTzrf/
+	EwmNiTKd7c5ds0Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C7271339B;
+	Mon,  7 Sep 2026 08:00:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wbYsJhRvnmq2JAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 07 Sep 2026 08:00:20 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 2EF31A13B2; Mon, 07 Sep 2026 10:00:16 +0200 (CEST)
+Date: Mon, 7 Sep 2026 10:00:16 +0200
+From: Jan Kara <jack@suse.cz>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jan Kara <jack@suse.cz>, Jakub Kicinski <kuba@kernel.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Hisam Mehboob <hisamshar@gmail.com>, 
+	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, Amir Goldstein <amir73il@gmail.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Eric Biggers <ebiggers@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	David Howells <dhowells@redhat.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Theodore Ts'o <tytso@mit.edu>, Catalin Iacob <iacobcatalin@gmail.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, Andrew Lunn <andrew@lunn.ch>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Andrei Vagin <avagin@gmail.com>, 
+	Wei Yang <richard.weiyang@gmail.com>, Bhavik Sachdev <b.sachdev1904@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Wang Yan <wangyan01@kylinos.cn>, 
+	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, Malaya Kumar Rout <malayarout91@gmail.com>, 
+	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Luis de Bethencourt <luisbg@kernel.org>, 
+	Salah Triki <salah.triki@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] bfs: remove the filesystem
+Message-ID: <fee7t27m5tfbqcf2wsin3yd3mluz3yjnw7z6av6tts2qh6lnwa@qleeg76z37nl>
+References: <20260904082954.48738-1-enelsonmoore@gmail.com>
+ <20260904-hinnimmt-triumphieren-handgefertigt-4e51fe2ed659@brauner>
+ <20260904151054.GG6047@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly
- __GFP_NORETRY allocations
-Content-Language: en-US
-To: Zi Yan <ziy@nvidia.com>, Salvatore Dipietro <dipiets@amazon.it>,
- linux-kernel@vger.kernel.org, hch@infradead.org
-Cc: abuehaze@amazon.com, akpm@linux-foundation.org, alisaidi@amazon.com,
- blakgeof@amazon.com, brauner@kernel.org, dgc@kernel.org,
- dipietro.salvatore@gmail.com, djwong@kernel.org, hannes@cmpxchg.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-xfs@vger.kernel.org, mhocko@suse.com, ritesh.list@gmail.com,
- rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
- willy@infradead.org, David Hildenbrand <david@redhat.com>,
- Christoph Hellwig <hch@lst.de>, Brendan Jackman <brendan.jackman@linux.dev>
-References: <20260904115629.3993331-1-dipiets@amazon.it>
- <8cc503d9-04a1-4d90-874c-ada6c0ac5147@kernel.org>
- <DL6MKKOOL5DX.1R3Q77UTXBFYT@nvidia.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
- KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
- 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
- 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
- tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
- Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
- 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
- LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
- 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
- BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSNWbGFzdGltaWwg
- QmFia2EgPHZiYWJrYUBrZXJuZWwub3JnPsLBsAQTAQoAWhYhBKlA1DSZLC6OmRA9UCJPp+fM
- gqZkBQJqFFy6GxSAAAAAAAQADm1hbnUyLDIuNSsxLjEyLDIsMgIbAwUJGtCBUAULCQgHAwUV
- CgkICwUWAgMBAAIeBQIXgAAKCRAiT6fnzIKmZJIUEADFx/tREzUImHrEwVHeSvDFmA7tJysI
- UVrlvrM09E7GIuzphzv7jYmo8n3ANpCczLEVr4G0syYQdTigaZgv3+FQDIIzhKih1IHhu1Ei
- XHlywNWKnQxxQEUNi5Mwx43wQz5XVw9F1A7gtKBKNtfogO511hAbrzagrYajyQacEJ/+sfhZ
- 9Da8ltHIXD8pcYaHUfQgEusCgmEd9+KrUwrTbckFKmYq5chuE6yJ4J0EmWknL096jIE6CnzF
- FRslQ3B1UKDjxVsm1ZHfir5NeWszLkTvGFsddFaWTgh8UycESG6VQzKXjjewXu2pG7YQYRpj
- QKm1W5X2TkwWkXRBZTmfmbhxIUMh3+zf5wQ463rSmDN/8v81tdqBtAW6rH/kzg1GvkaTHXn0
- 507yEHFzBksk2viAuIxxr7km8+/KARYLIdGtx30EG8cKzAUZOK6WqxtNCsXUJNrVE8CWrCaD
- icoNu7Fs1c5hmPHdSTnU48ce67449DdnO4neLSNhRiGlMHJgfJUmgrxu/hcYeOZ3haWmEQ2w
- uW1Mh01OHi8QZHCEyAbABrPs9GUgccc/4eYXX9hIgxfSkYzn8f+8NuIFPWl/0uTvjgqU29FQ
- SbzOLxHq9439Ox40G5mS5eZXRGxITYR+6TXvRGI6P/264jvflnr/pDGUttaikU+0W+1uxgKH
- cmYbEc7ATQRbGTU1AQgAn0H6UrFiWcovkh6EXVcl+SeqyO6JHOPm+e9Wu0Vw+VIUvXZVUVVQ
- La1PQDUi6j00ChlcR66g9/V0sPIcSutacPKfdKYOBvzd4rlhL8rfrdEsQw5ApZxrA8kYZVMh
- FmBRKAa6wos25moTlMKpCWzTH84+WO5+ziCTsTUZASAToz3RdunTD+vQcHj0GqNTPAHK63sf
- bAB2I0BslZkXkY1RLb/YhuA6E7JyEd2pilZOrIuBGl/5q2qSakgnAVFWFBR/DO27JuAksYnq
- +aH8vI0xGvwn75KqSk4UzAkDzWSmO4ZHuahKtQgZNsMYV+PGayRBX9b9zbldzopoLBdqHc4n
- jQARAQABwsF8BBgBCgAmAhsMFiEEqUDUNJksLo6ZED1QIk+n58yCpmQFAmfIHFQFCRYU6J8A
- CgkQIk+n58yCpmS2PA//bqN1LfcotmArgElsa+0EGZSQlYgK48pm8WAeTXTngudP9IJ4SuKY
- HR5RNjHcBeqN+Me0zxRqYzRb8nGanHEkDyf4Im8DQM8d6vbyU+FcPmG4skud4kgS1zMHnlVd
- SXfSIwKC/hKgdHG8aBV7545Lz9X6Iohea+94wneD0aw/hqF+QWewGZhWJriWAZtvEkzNjQOi
- 4U9F/trLten/x7bpphDSnDMKJtITbtzATT1Dq7o7VpIUK1nCTQALMuMjKCdi8OdU/+V+R3O4
- 0PXWvX8qrvqYapVbZ+9KqT74FsuB0Ya9uXwgBF2Q6cRuETZk5vqaqKxzqoQZCO8AOz/58j6O
- 2RHNy/mZEN+7tJ5Tsq42zVJ4jxsT8b9YplavCMsnBgDeRWhcbYhCyttoL7nYISyWg4kQYZ/P
- wIV3OuNv2f8iKYsxNsRuClOAF82+gvqOy1/1pprFjy8uo2pkoOrb63aOP3vO5VHnRKgra6dq
- NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
- OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
- jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <DL6MKKOOL5DX.1R3Q77UTXBFYT@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260904151054.GG6047@frogsfrogsfrogs>
+X-Spam-Level: 
+X-Spam-Score: -2.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[43];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLizrtjkoytmmoj3iud1rzij51)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,infradead.org,ellerman.id.au,gmail.com,suse.cz,posteo.de,linux-m68k.org,redhat.com,alpha.franken.de,mit.edu,networkplumber.org,lunn.ch,orcam.me.uk,linux-foundation.org,kylinos.cn,vger.kernel.org,lists.ozlabs.org,lwn.net,linux.ibm.com,zeniv.linux.org.uk];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
 
-On 9/4/26 17:08, Zi Yan wrote:
-> On Fri Sep 4, 2026 at 10:11 AM EDT, Vlastimil Babka (SUSE) wrote:
->> On 9/4/26 13:56, Salvatore Dipietro wrote:
->>> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
->>> introduced high-order folio allocations in the iomap buffered write
->>> path.  When memory is fragmented, each failed costly-order allocation
->>> enters __alloc_pages_slowpath() which runs direct compaction and
->>> drain_all_pages(), causing a 0.38x throughput drop on PostgreSQL
->>> pgbench (simple-update) with 1024 clients on a 96-vCPU arm64 system.
->>> 
->>> The root issue is that direct compaction is too expensive for hot
->>> allocation paths that have fallbacks to smaller allocations.
->>> __filemap_get_folio_mpol() already marks higher-order allocations with
->>> __GFP_NORETRY | __GFP_NOWARN, signalling that the caller can handle
->>> failure.  However, the page allocator still attempts full direct
->>> compaction for costly orders with __GFP_NORETRY, which is unnecessarily
->>> aggressive when the caller will simply retry at a lower order.
->>> 
->>> For costly-order allocations with __GFP_NORETRY, clear
->>> __GFP_DIRECT_RECLAIM at the very start of the slowpath, before
->>> can_direct_reclaim, can_compact and the nofail checks are evaluated.
->>> This makes the entire slowpath treat the request as non-blocking: no
->>> direct reclaim, no direct compaction and no drain_all_pages() IPI
->>> across every CPU. kswapd (and in turn kcompactd) is still woken further
->>> down for background defragmentation, so compaction keeps working for
->>> long-term system health while being removed from the latency-critical
->>> direct allocation path.
->>> 
->>> Allocations that also request __GFP_THISNODE are exempted.  That flag
->>> pairing identifies the local-node-first THP attempt issued by
->>> alloc_pages_mpol() (mempolicy.c), which relies on direct compaction to
->>> form transparent huge pages.
->>> 
->>> Test environment:
->>>   Hardware:  AWS EC2 m8g.24xlarge (96 vCPU, arm64)
->>>              12x 1TB IO2 32000 IOPS RAID0 XFS
->>>   OS:        AL2023
->>>   Kernel:    v7.3-rc1
->>>   Database:  PostgreSQL 18.4
->>>   Workload:  pgbench simple-update, 1024 clients, 96 threads, 1200s
->>> 
->>> Results (average of 3 runs, TPS):
->>> 
->>>   Config                   Avg TPS      % vs Baseline
->>>   baseline (no patch)       59,408       -
->>>   With this patch          155,409      +161.6%
->>> 
->>> Link: https://lore.kernel.org/all/20260403193535.9970-1-dipiets@amazon.it/T/#t [v1]
->>> Link: https://lore.kernel.org/linux-mm/20260420161404.642-1-dipiets@amazon.it/T/#u [v2]
->>> Link: https://lore.kernel.org/all/20260710143437.12379-1-dipiets@amazon.it/T/#u [v3]
->>> Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
->>> Cc: stable@vger.kernel.org
->>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>> Cc: Vlastimil Babka <vbabka@suse.cz>
->>> Cc: David Hildenbrand <david@redhat.com>
->>> Cc: Michal Hocko <mhocko@suse.com>
->>> Cc: Johannes Weiner <hannes@cmpxchg.org>
->>> Cc: Matthew Wilcox <willy@infradead.org>
->>> Cc: Christoph Hellwig <hch@lst.de>
->>> Cc: Dave Chinner <dgc@kernel.org>
->>> Cc: Ritesh Harjani <ritesh.list@gmail.com>
->>> Cc: linux-mm@kvack.org
->>> Cc: linux-fsdevel@vger.kernel.org
->>> Cc: linux-xfs@vger.kernel.org
->>> Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
->>
->> I guess this will have to do until unlikely(we figure out a better API)...
+On Fri 04-09-26 08:10:54, Darrick J. Wong wrote:
+> On Fri, Sep 04, 2026 at 12:43:09PM +0200, Christian Brauner wrote:
+> > On Fri, 04 Sep 2026 01:29:19 -0700, Ethan Nelson-Moore wrote:
+> > > bfs: remove the filesystem
+> > 
+> > I agree.
 > 
-> We could add a "new_gfp = gfp_policy(gfp)" to adjust input gfp based on
-> various policies we currently have.
+> At the moment, I don't.  Nowhere in this thread does anyone mention what
+> someone with a B(oot)FS filesystem image should do if they want to
+> extract whatever's stored in the filesystem.  Are there userspace tools
+> for that purpose (ala efs)?  Does "binwalk -e $bfs_image" suffice for
+> that purpose?  Or is there solid evidence that there isn't even a single
+> user (ala freevxfs) who strongly wants it to stay in?
 
-Maybe with the help of alloc_flags to avoid the limitated count of gfp flags.
+BFS was only ever used for boot partitions of some old unix clone (see
+Tigran's initial reply). I have hard time imagining someone has some data
+on such partition he wants to still read. And if such exceptional case
+arises, I agree that just using old kernel in UML / VM is a viable
+alternative.
 
-> Even better if callers can do that
-> instead.
+> I'm all for getting rid of old cruft but there still needs to be a
+> documented offramp for users.
 
-Not sure about burdening the callers (e.g. "every filesystem should do X"
-etc), unless they are some intermediate wrappers within mm itself.
-For example, THP (but only anonymous?) is now handled in such a special way,
-it could be a candidate. But I also have a vague feeling this was already
-done in the past. Worth investigating perhaps.
+Yes, I agree that it would be good to document this approach.
 
->>
->> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->>
->>> ---
->>> v4: Clear __GFP_DIRECT_RECLAIM early in the slowpath and exempt
->>>     __GFP_THISNODE so THP attempt keeps using direct compaction
->>> v3: Move to mm/page_alloc.c, wake kcompactd instead of avoiding it
->>> v2: Move from fs/iomap/buffered-io.c to mm/filemap.c
->>> v1: Avoid compaction in iomap folio allocation
->>> 
->>>  mm/page_alloc.c | 18 +++++++++++++++---
->>>  1 file changed, 15 insertions(+), 3 deletions(-)
->>> 
->>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
->>> index 12fac9084c48..542c2ec31061 100644
->>> --- a/mm/page_alloc.c
->>> +++ b/mm/page_alloc.c
->>> @@ -4784,10 +4784,10 @@ static inline struct page *
->>>  __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
->>>  						struct alloc_context *ac)
->>>  {
->>> -	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
->>> -	bool can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
->>> -	bool nofail = gfp_mask & __GFP_NOFAIL;
->>>  	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
->>> +	bool can_direct_reclaim;
->>> +	bool can_compact;
->>> +	bool nofail;
->>>  	struct page *page = NULL;
->>>  	unsigned int alloc_flags;
->>>  	unsigned long did_some_progress;
->>> @@ -4802,6 +4802,18 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
->>>  	bool can_retry_reserves = true;
->>>  	unsigned long alloc_start_time = jiffies;
->>>  
->>> +	/*
->>> +	 * Costly __GFP_NORETRY callers have a cheap fallback, so don't stall
->>> +	 * them in reclaim or compaction. __GFP_THISNODE callers are exempt.
->>> +	 */
-> 
-> Should this also be documented in gfp_types.h? It currently only says,
-> 
-> "__GFP_NORETRY: The VM implementation will try only very lightweight
-> memory direct reclaim to get some memory under memory pressure (thus it
-> can sleep)."
-> 
-> Otherwise,
-> 
-> Acked-by: Zi Yan <ziy@nvidia.com>
-> 
->>> +	if (costly_order && (gfp_mask & __GFP_NORETRY) &&
->>> +	    !(gfp_mask & __GFP_THISNODE))
->>> +		gfp_mask &= ~__GFP_DIRECT_RECLAIM;
->>> +
->>> +	can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
->>> +	can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
->>> +	nofail = gfp_mask & __GFP_NOFAIL;
->>> +
->>>  	if (unlikely(nofail)) {
->>>  		/*
->>>  		 * Also we don't support __GFP_NOFAIL without __GFP_DIRECT_RECLAIM,
-> 
-> 
-> 
-> 
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
