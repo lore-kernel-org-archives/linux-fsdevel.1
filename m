@@ -1,184 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F077F448391;
-	Mon,  7 Sep 2026 13:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE6E31197C;
+	Mon,  7 Sep 2026 14:01:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788789536; cv=none; b=c4W41MGjtHK6xfVDxcbm9b7HHuLqGHnrAkd9I24WMRl9mUow7spdxZJYkDu4SM2HyulG7GiUOD0iSY79zlVo5Bp7iEpZARYSbkfaSXyGrkXKJ1ZcNHNZM8hDCDe4bWqp7IzBcQuD7b/pHD9dABscV9JMXp3Z4UjsaqyWNHeed/o=
+	t=1788789699; cv=none; b=XddrIWlXO5GEq4c/T3LLlVMiTWNN+SjiksfsAFz4TtITNuF3HcKBoNpwgQ66a/PY/nJsMSz5xytUGxhzSDVEb1EL2X4N6BzBv256qArE+jsKJtgcOZLIcw7SCVXN6pGDmo8PzOm4gI/uf0glynb1nEKSbMh2B599k7dFmss6MMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788789536; c=relaxed/simple;
-	bh=FoCP7lPoDfHG2GfC2Z1IJE/VE1BgpSCafAaICpL0ILw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rEdgY+w4GQlKSQuobykD1EvA0Ym+FB2JKitBZRjCrJZ9ZJC7+vsMam8jnHW52CcgyZPOMzZKR4gA8I0NoxrU6/dgiEF8zKGflWQ5GRiXflb8HDNXGLMfjwWyJTF2gYX41UEyeAUWVQTIJkT31XtUsVTswTWAvr92iFFONXRR2PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wu3IZRZr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788789699; c=relaxed/simple;
+	bh=7kJIDjYW8q33BgxlHYzic8uH2Wmk+MD3jfErTIt51hA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VFwi3e4eY10h6FENDdfJOD8lv5Ur9LtRT2aRMieXFyZdk1b0gQYz8VwpuVX+jD17cacEL3uzRnqVeJuw3YBHLXJi6KXb/U9Jq1J8AukyKq+3rS6p3wENnnn+saZ37wOkTe6MaFc6hzI3LnYZgsnL5TBeHgU92zYXkikDunMlN14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZDItgF5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wu3IZRZr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD7821F00A3A;
-	Mon,  7 Sep 2026 13:58:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZDItgF5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E131F00A3D;
+	Mon,  7 Sep 2026 14:01:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788789534;
-	bh=I6HvKokTBWQ5qgUPDm6WwxT5+vJL6f+t/uawYA58zoY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=Wu3IZRZrPimxJw8Xrfy4xfMIQYTFuR01X8avL7jkL6VDDrRR/R5ZOFA2yk6u1qm/w
-	 AKoK2kijj6fYGv5w8z+yajL7wx8MHIt41AhSubYNt4+Zd6KlEXkqZX/mbd8drzk9W4
-	 BhAcsbTdhvbMQ0uxnwA4wAf3wYS7iFq4rFc1zYtkKv1sUwUKX2MnKP8p3a2Kd5g6iU
-	 gI55Yv2wG8TFVCTbExYoWOrB4WMke5xHKiy6gRZJDHOIqxHvyE18ycr3ZJ8xPejC3Y
-	 IggNAEHiJaevSjwpzqvJKs3X3UeTqGP8ry5v4xe4lCj+SE0wSrAqt5ojIe9ehxWWS7
-	 fBME7tR0VAR4g==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Lorenzo
- Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, "Liam R.
- Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel
- Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, =?utf-8?Q?Bj?=
- =?utf-8?Q?=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Trevor
- Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>,
- Lyude Paul
- <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve
- =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, Todd Kjos
- <tkjos@android.com>, Christian
- Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, "Rafael
- J.
- Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, Leon
- Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
- Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>,
- Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski
- <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, Philipp Stanner
- <phasta@kernel.org>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- driver-core@lists.linux.dev, linux-block@vger.kernel.org,
- linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-usb@vger.kernel.org, Asahi Lina <lina+kernel@asahilina.net>
-Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
-In-Reply-To: <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com>
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-4-490735672187@kernel.org>
- <ao2WubjLtDuHvRzx@google.com> <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net>
- <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
- <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
- <2dpwVpJS3VbfQ7CmE3HeY4IJSSMXTP_O9sSP3HHHUD7Z29RNEG4Hc0m8f94jKWjFlekcTXvIBA-QdGYrf8w1sw==@protonmail.internalid>
- <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com>
-Date: Mon, 07 Sep 2026 15:58:35 +0200
-Message-ID: <87zextw4c4.fsf@t14s.mail-host-address-is-not-set>
+	s=k20260515; t=1788789697;
+	bh=CT/PRZLhit2fRIl3/YwuJ8bKg1BMJtfb23DmTmMzVEM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gZDItgF5lu7ObJAVqpHDntSxEo5tnQSW97w+OS3wzeszJHbYiCLfnRHHpSFXM9pSd
+	 agr+j+4sQa8+BXS0SCLYyA5/yGk6soH2cY4y44jMqgxnRDm5+u0+B7HQHKCwPu9YgP
+	 OwwBtmiqO9gxxGTzNrEIn+8/do2+xJw6XuCOFijbQ7nS61OMGxNQ2o/Vp+amWYf8zV
+	 p/tXJKpLX7czlW1NVpT5cOKHcnUrynpMW7OxkgfmCIIUsjrqbPA53GwVtjOiG8QcYS
+	 I0Q+7FlF/WKakyEpCFfKJ7oe1btbCA7Km89/UDdOpKf1uIEI0XBsirEGbFRHzkmjmN
+	 3cK2HvEfdSQHA==
+Date: Mon, 7 Sep 2026 15:01:30 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+Cc: david@kernel.org, akpm@linux-foundation.org, andrii@kernel.org, 
+	ast@kernel.org, bpf@vger.kernel.org, brauner@kernel.org, daniel@iogearbox.net, 
+	eddyz87@gmail.com, kpsingh@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, matt@bobrowski.net, memxor@gmail.com, 
+	song@kernel.org, sun.jian.kdev@gmail.com, utilityemal77@gmail.com, 
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH bpf-next v4 1/7] mm: Add copy_remote_mm_str()
+Message-ID: <ap7CocZyy6K9QYMp@gremlin>
+References: <0e4edfd3-0c82-42e0-ad09-19ff8b8d1511@kernel.org>
+ <20260907134101.424017-1-tasos.papagiannnis@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260907134101.424017-1-tasos.papagiannnis@gmail.com>
 
-"Alice Ryhl" <aliceryhl@google.com> writes:
-
-> On Mon, Sep 7, 2026 at 2:38=E2=80=AFPM Andreas Hindborg <a.hindborg@kerne=
-l.org> wrote:
->>
->> Alice Ryhl <aliceryhl@google.com> writes:
->>
->> > On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> wro=
-te:
->> >>
->> >> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
->> >> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wrote:
->> >> >> +        // SAFETY: We just successfully allocated a page, so we n=
-ow have ownership of the newly
->> >> >> +        // allocated page. We transfer that ownership to the new =
-`Owned<Page>` object.
->> >> >> +        // Since `Page` is transparent, we can cast the pointer d=
-irectly.
->> >> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
->> >> >
->> >> > This doesn't satisfy the safety requirements of Owned::from_raw()
->> >> > because the page may be used with vm_insert_page(), which increment=
-s its
->> >> > refcount and causes it to be shared the vma system, and this occurs
->> >> > before Page::release() is called.
->> >>
->> >> I suppose the existing vm_insert_page() abstraction we have is already
->> >> problematic, because it uses `&Page`?
->> >>
->> >> Maybe we want to change the API to use `ARef<Page>` so it already has=
- to be
->> >> shared? Conceptually it takes a reference count from a `&Page`, which=
- isn't
->> >> possible because `Page` is not `AlwaysRefCounted`, so it needs a `&AR=
-ef<Page>`
->> >> to be able to do that op.
->> >
->> > Honestly, the problem is the safety requirements of Owned::from_raw().
->> > Pages have a "special" main reference, and free_page() does more than
->> > put_page(). It even does something when the refcount does not hit
->> > zero.
->> >
->> > The correct behavior for Page is to allow the user to hold one
->> > Owned<Page> whose drop calls free_page(), *plus* any number of
->> > ARef<Page> references that invoke put_page() on drop. This way, the
->> > owned page controls the special drop codepath.
->>
->> This does not mesh well with the model of `Owned` behaving like
->> `UniqueArc` to `ARef` behaving like an `Arc`.
+On Mon, Sep 07, 2026 at 04:41:01PM +0300, Anastasios Papagiannis wrote:
+> > We have this check in copy_remote_vm_str(). Why are we performing the check now
+> > twice?
 >
-> It's a different case, I agree.
+> > It should either go only into __copy_remote_mm_str(), or if there a reason to
+> > have it before get_task_mm(), it should go into copy_remote_mm_str(). Same
+> > applies to the memory.c case.
 >
->> Please help me understand; with page having a main ref and an auxiliary
->> refcount, if we model that with a single `Owned<Page>` and a number of
->> `ARef<Page>`, what would happen in the case where the main ref (`Owned`)
->> is dropped first? Is this legal?
+> Yes, this makes sense. I will fix that.
 >
-> Yes, it's legal.
+> > What's more annoying is that both implementations of copy_remote_vm_str() are
+> > identical, and both implementations of copy_remote_mm_str() are nearly identical
+> > (just dropping the gup_flags for nommu). I'd like to avoid duplicating code for
+> > nommu.
 >
->> My intuition here would be to follow Garry's suggestion and have
->> `vm_insert_page` take an `ARef<Page>`. Can you elaborate why this is not
->> an option?
+> > If we could export __copy_remote_vm_str(mm, addr, buf, len, gup_flags) for both
+> > cases, we could instead provide a single implementation for copy_remote_vm_str()
+> > and copy_remote_mm_str() e.g., in mm.h? (I'd prefer somewhere else, but we don't
+> > seem to have a good git for memory.c + nommu.c shared stuff)
 >
-> That would be the wrong ownership semantics. The C side increments the
-> refcount rather than take ownership of a passed-in refcount, so the
-> correct argument type is &Page.
+> Another idea can be:
+> mm/memory.c: MMU implementation of __copy_remote_mm_str()
+> mm/nommu.c: NOMMU implementation of __copy_remote_mm_str()
+> mm/internal.h: declaration of __copy_remote_mm_str()
+> include/linux/mm.h: declaration of copy_remote_mm_str() and  copy_remote_vm_str()
+> mm/util.c: shared implementation for copy_remote_mm_str() and copy_remote_vm_str()
 
-Or `&ARef<Page>`? Because with `Page` being `Ownable` it would not be
-OK to increment the refcount from just a `&Page`.
+I mean copy_remote_vm_str() is tiny, so maybe just inline it in mm.h?
 
-> Now, for the use-case in Binder I believe we could switch to
-> put_page(), as we don't need the extra stuff from free_page(), in
-> which case we only want ARef<Page> and do not require Owned support.
-> But as long as we are calling free_page(), it needs to not be
-> clonable.
+get_task_mm() is available from include/linux/sched/mm.h anyway so it's not a
+problem to use that there.
 
-You are calling `__free_page` directly in binder? I could not find this
-with grep except in the C binder. Is this code you are calling into from
-Rust binder?
+>
+> This allows us to remove the duplicate code. Does this sound reasonable?
+>
+> > Now, that's also not completely nice, as I don't want us to EXPORT
+> > __copy_remote_vm_str() ... given that these functions are "#ifdef
+> > CONFIG_BPF_SYSCALL" could we EXPORT_SYMBOL_FOR_MODULES?
+>
+> Now copy_remote_vm_str() is EXPORT_SYMBOL_GPL. In this series, we use
+> copy_remote_mm_str() without the need to export that. Why do we need to
+> consider exporting __copy_remote_vm_str()?
 
-From `__free_pages()` kernel-doc (`mm/page_alloc.c`):
+I don't think that's a problem, because all copy_remote_vm_str() is is:
 
-> If the last reference to this page is speculative, it will be
-> released by put_page() which only frees the first page of a
-> non-compound allocation. [...] **If you want to use the page's
-> reference count to decide when to free the allocation, you should
-> allocate a compound page, and use put_page() instead of
-> __free_pages().**
+- get_task_mm() (already GPL exported)
+- invokes __copy_remote_vm_str()
 
-I guess this is what you are referring to? We could change `Page` to
-this style as well and all would be fine I think?
+It already requires that the caller has pinned mm, and I guess the one key
+difference is you can't pass some stupid parameter like NULL mm and have it
+break.
 
-At any rate, today I learned about Pfn walkers, compaction,
-memory-failure, etc. that take transient refcounts
-pages. With that in mind we need to reformulate the invariant of
-`Ownable` to exclude optimistic transient references.
+But if you're kernel code you can NULL ptr deref without anybody's help so :)
 
-Best regards,
-Andreas Hindborg
+The other concern would be accessing a remote mm but... that's literally the
+whole point of the function and we already export that.
 
+I guess the other thing is mm copy_remote_vm_str() is only available if
+CONFIG_BPF_SYSCALL is enabled but that's pretty much any sensible kernel config
+so meh doesn't matter really.
 
+>
+> --
+> Thanks,
+> -Anastasios
+
+--
+Cheers, Lorenzo
