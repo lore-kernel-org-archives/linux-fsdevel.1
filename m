@@ -1,55 +1,86 @@
-Received: from mta0.migadu.com (out-221.mta0.migadu.com [91.218.175.221])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA71519906
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 16:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC0546DFF7
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 16:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788799779; cv=none; b=PUCFBHRIHe4j3VREQLwhNeobJKYhANVg9VKYMTDm2J7URsuBKeE8ebS6CAlrgwoGWjnKGKIkj6NOdJzSTTFwZs8ebDc5hBirLQ93wo20CZDz9YEMv/xLFblAGM4FILoO3FVnHqejQDXSGRAxa/ne8dyjmRKnal1Zgc294JMx4fc=
+	t=1788799972; cv=none; b=mT1F6xt3nJexM1sXOPGjvW8EoN0cuypvfla5LorPjOzSwTunKhTYsvZIf5aVFCOKm4GOIVC9LRGdcg+5BcoVFiPDSYbW0OVX2fWhZwRqzeZE5ItJiyJ7Uup+hwcDHmOIWVN21MkBDtA7eHnKx5bm9OamC+yPH+NvmjUj4fgelCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788799779; c=relaxed/simple;
-	bh=aiOV96iWD1E/8/sYj8GdsqnibwPCG/X4Yj+j2mG5QNs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sr8d52WW60I4SAonGhdEOZhzr8phqKwxDMmmGYPtOQWLCZtwxCwLLnu2GHAAxD8zBHda1lLUaAwlF+m6uI8ym/0u77TvwQ+fi3vEQPDERF7noMpleRdQ8QHvwRF3cybYvsDL6j3OEmYWXzjEyH7VTUPPZQbBaJVcpCDHdhZ8NfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QQpm8w8q; arc=none smtp.client-ip=91.218.175.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788799972; c=relaxed/simple;
+	bh=CSQ8kuws1GE3KyX86hyowAfIeJXSMxy86cZQrTHrSvw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I7APpSKJYnFW96zHkhKA0kPJ1EaVfgItNevR/7cBmr4kktEEUOTkW9C4N0dnthmscGxbKoqYrAh4/52qOcAIgmT9Xvn0ibMIVW5ZwEOrvTyNkQfuNN+DKHlTKlX49OeCYsNwDJgpLLcxI61/rOpICVeSs+36NJWdM8Z3A7mB0aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q65+W32e; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QQpm8w8q"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=aiOV96iWD1E/8/sYj8GdsqnibwPCG/X4Yj+j2mG5QNs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788799774; v=1; x=1789404574;
- b=QQpm8w8qtlyl4A29Mq6LnWHurYgAMCMDz+IP0s22x/N0nM/hcuEbmZ5o0tzh+VcdNjCr3Reh
- OFnSHnHBZZNkvbzy9FKBNEf0SBsQLLgMuHSlBS+PPYe0YiqW1KLbxCn251Ze/xK9zS4bEAuMvbB
- 6T8MKteHfhqzXgK7TUMxIYYY=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id b961d15e53dc88c5;
-	Mon, 07 Sep 2026 16:49:34 +0000
-X-Mizu-Trace-ID: b961d15e53dc88c5
-X-Migadu-Flow: FLOW_OUT
-From: Usama Arif <usama.arif@linux.dev>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	akpm@linux-foundation.org,
-	liam@infradead.org,
-	ljs@kernel.org,
-	vbabka@kernel.org,
-	david@redhat.com,
-	willy@infradead.org,
-	jannh@google.com,
-	paulmck@kernel.org,
-	pfalcato@suse.de,
-	linux-mm@kvack.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q65+W32e"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49b0dd3c9a0so36225105e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 09:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788799969; x=1789404769; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=u9H98ndHjG+ZTBmwr+gw4XIiGi1/LzmNQdKATV2GZh0=;
+        b=q65+W32ex3cK0pCz+XDR4jQRwVrN2KcnHbSlcRsCoL2NY57qgda/sh2skpORAa7CwV
+         Ib6Q/euERaiMX07UBO4Xs/mjNdxcDlXurvAJbt5n5upHofnuuvM6RP/q3Ai6Dv3mDsrV
+         LKB3Uqm1Ll8bFZJwmFrKlbteVR0iO5SppvO3WG3ETIOkMc4Dof1pR7zFfQ4IT5AjEI8/
+         rjxowB8+DhTmOgJ1um2J4rklF0GKM0eDigWEHiSuo0Yp9AjFG40p//PpeyoHga6tz8ND
+         BQJCX4nIt2l0w3glb79lopW3w8Y1duQw8Ka9xd0AZ4qluqBMenka5/atfERva9RdlD8H
+         fylQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788799969; x=1789404769;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=u9H98ndHjG+ZTBmwr+gw4XIiGi1/LzmNQdKATV2GZh0=;
+        b=mZeOF6Z3nB+gVvdgnyL50F2kNdccj1de1UayfiVrMuXIeBMSrK9FPCd6kAzQKKrlHW
+         LiHZxR7yz4hldXokzNoYYfHKIrrxDtbtwq+4HR1Q+13zaJIKTqseQ0eJlAx+r4r8Q50N
+         gUrCy9eEt7yzIHYQH+NXT6ZWQ6401ESCRFfxJNNBM28jFla+ElbgSMrilJVuEbR1mLN5
+         70nODr30F+9lZ65abynU+OCvSp9jFg72fcslQpBZPrZkAo8+xLrarhqNRT3y+Ar3X4nL
+         1JGrm3thc1NyGKt29XsQNbyeebnhTf8WeibjpBQsSDB8IYr84spJA7ZGIX4QUAkYC6Dz
+         uXPA==
+X-Gm-Message-State: AFuF++lUakuyj0P234qukf6C6CG6+GJsVFOZUrhHmTL9dHs2NzZF6d6Y
+	WX9PeGkvCKAG4stmrnIKOxP1S72eM+tMMgg7pa16mB956jc3eR9Roc51
+X-Gm-Gg: AYBFou2JHPyvB6zMZKCSAO4JijURiDbpDoBg31JErvrWatzdzUGjoXsgOAeIMWcLP1X
+	vEfCasK1cb62UzJt1CN47VrvrLhDR+pOq8kzfGQKigp5hqzzysZG+a44KRXRYS8fUKv/i5hMGWF
+	tS23wxgIcswa8dcW4pmMRXxEpvDC9vqKDGWc9LOsvyxC2J95uHplJSy5chKnOLrtceRDDZZIiFw
+	P9H54C1IAkQ1GV4w97VanXBBl+aW3zNLK0MILlgmMg1+wB3TpWB/QDeJ9eubPmmW6HvIsJ3qwuO
+	QbTtmy6CrRm3TbXqQbz+dbahbBqNAqGSWZwfdRzoDSEEY574fFE6Um8NtK2XtjD1i8gqEJa7yk5
+	qgW3i9Lor+TDmwSiZX0tGGOPa35ufB3phImlA/vWbyvsLFlA72r3OVWMj4jEe0zhvgTP+xmo1Gg
+	XTJsL5rYgSuSlqrCebGaBaUbXTiEIiftEn6C7+DHwI10Coyxp9tnMi9O01TAyTh7O7YAF0326D7
+	sWbYWAIsdEfJw==
+X-Received: by 2002:a05:600c:a0a:b0:49c:e1f1:3dd5 with SMTP id 5b1f17b1804b1-49cf81e6cebmr426580115e9.4.1788799968516;
+        Mon, 07 Sep 2026 09:52:48 -0700 (PDT)
+Received: from dell-desktop ([2a02:587:4b5f:900:ef25:2f4:1792:4e6f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d03543064sm233022415e9.13.2026.09.07.09.52.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 09:52:48 -0700 (PDT)
+From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+To: bpf@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] proc/task_mmu: remove unnecessary inlines in function definitions
-Date: Mon,  7 Sep 2026 09:49:30 -0700
-Message-ID: <20260907164931.131215-1-usama.arif@linux.dev>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260907063918.3432401-3-surenb@google.com>
-References: 
+	linux-mm@kvack.org,
+	david@kernel.org,
+	akpm@linux-foundation.org,
+	andrii@kernel.org,
+	ast@kernel.org,
+	brauner@kernel.org,
+	daniel@iogearbox.net,
+	eddyz87@gmail.com,
+	kpsingh@kernel.org,
+	ljs@kernel.org,
+	matt@bobrowski.net,
+	memxor@gmail.com,
+	song@kernel.org,
+	sun.jian.kdev@gmail.com,
+	tasos.papagiannnis@gmail.com,
+	utilityemal77@gmail.com,
+	viro@zeniv.linux.org.uk
+Subject: [PATCH bpf-next v5 0/7] bpf: Add user memory access kfuncs for mm_struct
+Date: Mon,  7 Sep 2026 19:52:13 +0300
+Message-ID: <20260907165220.52431-1-tasos.papagiannnis@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -58,154 +89,135 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sun,  6 Sep 2026 23:39:15 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+On MMU systems, during exec, argument and environment strings are copied
+into the new address space held by struct linux_binprm before that address
+space is installed on the task_struct. Existing BPF user memory helpers
+operate on the current address space or one associated with a task_struct.
+Because no task_struct refers to the new address space at this point,
+programs cannot access these strings from the bprm_check_security LSM
+hook.
 
-> It was pointed out in the previous reviews of this code that many
-> functions are specified as inline, which is unnecessary as the compile
-> can make that decision by itself. Cleanup these definitions.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  fs/proc/task_mmu.c | 32 ++++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
+This series adds two sleepable BPF kfuncs for copying bytes or
+NUL-terminated strings from a trusted struct mm_struct. It also marks
+linux_binprm->mm as trusted-or-null, allowing BPF LSM programs to pass it
+to the kfuncs after a NULL check and inspect exec arguments before
+allowing the exec to continue.
 
-Most of these functions would be inlined anyways so should be ok.
+Changing bprm->mm to trusted-or-null would otherwise reject existing BPF
+programs that read through it without a NULL check. Preserve that behavior
+by allowing fault-protected reads through trusted-or-null BTF pointers.
+Pointer arithmetic, writes, atomic RMW operations, BPF_LOAD_ACQ accesses,
+and passing the pointer to a kfunc that requires a non-NULL trusted
+argument continue to require an explicit NULL check.
 
-Curious if there was a change in binary size with this?
+On NOMMU systems, exec argument and environment strings remain in
+bprm->page[] until they are transferred to the new process stack. They
+cannot be accessed through bprm->mm at the bprm_check_security hook.
+The new kfuncs remain available on NOMMU for address ranges represented
+by a supplied struct mm_struct.
 
-Acked-by: Usama Arif <usama.arif@linux.dev>
+The series also adds selftests covering both kfuncs when reading argument
+and environment strings, and verifier tests covering trusted-or-null BTF
+pointer reads.
 
-> 
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 2f500d639db5..9908ba32f180 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -130,7 +130,7 @@ static void release_task_mempolicy(struct proc_maps_private *priv)
->  }
->  #endif
->  
-> -static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
-> +static int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
->  {
->  	int ret = mmap_read_lock_killable(lock_ctx->mm);
->  
-> @@ -140,7 +140,7 @@ static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
->  	return ret;
->  }
->  
-> -static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
-> +static void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
->  {
->  	mmap_read_unlock(lock_ctx->mm);
->  	lock_ctx->mmap_locked = false;
-> @@ -177,7 +177,7 @@ static struct vm_area_struct *get_next_vma(struct proc_maps_private *priv,
->  	return vma;
->  }
->  
-> -static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
-> +static bool fallback_to_mmap_lock(struct proc_maps_private *priv,
->  					 loff_t pos)
->  {
->  	struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
-> @@ -194,7 +194,7 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
->  	return true;
->  }
->  
-> -static inline void drop_rcu(struct proc_maps_private *priv)
-> +static void drop_rcu(struct proc_maps_private *priv)
->  {
->  	if (priv->lock_ctx.mmap_locked)
->  		return;
-> @@ -202,7 +202,7 @@ static inline void drop_rcu(struct proc_maps_private *priv)
->  	rcu_read_unlock();
->  }
->  
-> -static inline void reacquire_rcu(struct proc_maps_private *priv)
-> +static void reacquire_rcu(struct proc_maps_private *priv)
->  {
->  	if (priv->lock_ctx.mmap_locked)
->  		return;
-> @@ -1230,7 +1230,7 @@ static const struct mm_walk_ops smaps_shmem_walk_vma_lock_ops = {
->  	.walk_lock		= PGWALK_VMA_RDLOCK_VERIFY,
->  };
->  
-> -static inline const struct mm_walk_ops *
-> +static const struct mm_walk_ops *
->  get_smaps_walk_ops(struct proc_maps_private *priv)
->  {
->  	if (priv->lock_ctx.mmap_locked)
-> @@ -1238,7 +1238,7 @@ get_smaps_walk_ops(struct proc_maps_private *priv)
->  	return &smaps_walk_vma_lock_ops;
->  }
->  
-> -static inline const struct mm_walk_ops *
-> +static const struct mm_walk_ops *
->  get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
->  {
->  	if (priv->lock_ctx.mmap_locked)
-> @@ -1572,7 +1572,7 @@ struct clear_refs_private {
->  	enum clear_refs_types type;
->  };
->  
-> -static inline bool pte_is_pinned(struct vm_area_struct *vma, unsigned long addr, pte_t pte)
-> +static bool pte_is_pinned(struct vm_area_struct *vma, unsigned long addr, pte_t pte)
->  {
->  	struct folio *folio;
->  
-> @@ -1588,8 +1588,8 @@ static inline bool pte_is_pinned(struct vm_area_struct *vma, unsigned long addr,
->  	return folio_maybe_dma_pinned(folio);
->  }
->  
-> -static inline void clear_soft_dirty(struct vm_area_struct *vma,
-> -		unsigned long addr, pte_t *pte)
-> +static void clear_soft_dirty(struct vm_area_struct *vma, unsigned long addr,
-> +			     pte_t *pte)
->  {
->  	if (!pgtable_supports_soft_dirty())
->  		return;
-> @@ -1620,8 +1620,8 @@ static inline void clear_soft_dirty(struct vm_area_struct *vma,
->  }
->  
->  #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
-> -static inline void clear_soft_dirty_pmd(struct vm_area_struct *vma,
-> -		unsigned long addr, pmd_t *pmdp)
-> +static void clear_soft_dirty_pmd(struct vm_area_struct *vma,
-> +				 unsigned long addr, pmd_t *pmdp)
->  {
->  	pmd_t old, pmd = *pmdp;
->  
-> @@ -1646,8 +1646,8 @@ static inline void clear_soft_dirty_pmd(struct vm_area_struct *vma,
->  	}
->  }
->  #else
-> -static inline void clear_soft_dirty_pmd(struct vm_area_struct *vma,
-> -		unsigned long addr, pmd_t *pmdp)
-> +static void clear_soft_dirty_pmd(struct vm_area_struct *vma,
-> +				 unsigned long addr, pmd_t *pmdp)
->  {
->  }
->  #endif
-> @@ -1846,7 +1846,7 @@ struct pagemapread {
->  
->  #define PM_END_OF_BUFFER    1
->  
-> -static inline pagemap_entry_t make_pme(u64 frame, u64 flags)
-> +static pagemap_entry_t make_pme(u64 frame, u64 flags)
->  {
->  	return (pagemap_entry_t) { .pme = (frame & PM_PFRAME_MASK) | flags };
->  }
-> @@ -3388,7 +3388,7 @@ static const struct mm_walk_ops show_numa_vma_lock_ops = {
->  	.walk_lock = PGWALK_VMA_RDLOCK_VERIFY,
->  };
->  
-> -static inline const struct mm_walk_ops *
-> +static const struct mm_walk_ops *
->  get_show_numa_ops(struct proc_maps_private *priv)
->  {
->  	if (priv->lock_ctx.mmap_locked)
-> -- 
-> 2.55.0.979.g7e5102b832-goog
-> 
-> 
+Changes in v5:
+- Move the shared wrappers to mm/util.c and handle zero-length requests
+  at the entry points.
+
+Changes in v4:
+- Add negative verifier tests for atomic RMW and load-acquire accesses
+  through trusted-or-null BTF pointers.
+- Preserve explicit nullability-marking coverage for tracepoint
+  arguments, dentry->d_inode, and sched_ext .dispatch.
+- Use the already-nullable mmap_file argument for the negative store
+  test, avoiding dependency on the later linux_binprm->mm marking.
+- Clarify the bprm->mm lifetime invariant and move its lifetime fix
+  before the mm_struct kfunc patch.
+- Reword the trusted-or-null read change in imperative mood and remove
+  its redundant before-and-after summary.
+- Document that the existing task-based user-memory interfaces delegate
+  to the new mm-based implementations, reorder the string-copy kfuncs to
+  remove an unnecessary declaration, and annotate the remaining
+  declaration with __bpf_kfunc.
+
+Changes in v3:
+- Replace the linux_binprm-specific kfuncs with generic struct mm_struct
+  kfuncs, as suggested by Andrii Nakryiko.
+- Move the kfuncs next to the existing user memory helpers and make the
+  task-based variants delegate to the new mm-based implementations, as
+  suggested by Andrii Nakryiko.
+- Clear bprm->mm before dropping its reference on exec error paths.
+- Mark linux_binprm->mm as trusted-or-null.
+- Allow fault-protected reads through trusted-or-null BTF pointers to
+  preserve compatibility with existing BPF programs, as suggested by
+  Andrii Nakryiko.
+- Add verifier and runtime selftests for trusted-or-null BTF pointer
+  reads.
+- Rename __copy_remote_vm_str() to __copy_remote_mm_str(), as suggested
+  by Andrii Nakryiko.
+- Clarify that reading exec strings through bprm->mm is limited to MMU
+  systems, while the generic mm-based kfuncs remain available on NOMMU.
+
+Changes in v2:
+- Register the kfuncs on NOMMU systems and return -EOPNOTSUPP when called,
+  as suggested by Justin Suess.
+- Add selftest coverage for reading environment strings, as suggested by
+  Justin Suess.
+- Clarify that copy_remote_mm_str() leaves the destination untouched when
+  called with a zero-length buffer.
+- Use sizeof() instead of hardcoded argument lengths in the selftests.
+- Use ~0ULL for invalid-flags checks in the selftests.
+
+v4:
+https://lore.kernel.org/bpf/20260904145340.40212-1-tasos.papagiannnis@gmail.com/
+
+v3:
+https://lore.kernel.org/bpf/20260831092305.42062-1-tasos.papagiannnis@gmail.com/
+
+v2:
+https://lore.kernel.org/bpf/20260820131801.68759-1-tasos.papagiannnis@gmail.com/
+
+v1:
+https://lore.kernel.org/bpf/20260812111140.7762-1-tasos.papagiannnis@gmail.com/
+
+Anastasios Papagiannis (7):
+  mm: Add copy_remote_mm_str()
+  exec: Clear bprm->mm before dropping its reference
+  bpf: Add user memory access kfuncs for mm_struct
+  bpf: Allow reads through trusted-or-null BTF pointers
+  selftests/bpf: Cover trusted-or-null BTF pointer reads
+  bpf: Mark linux_binprm->mm as trusted-or-null
+  selftests/bpf: Test mm_struct user memory kfuncs with linux_binprm
+
+ fs/exec.c                                     |   7 +-
+ include/linux/bpf_verifier.h                  |   9 +-
+ include/linux/mm.h                            |   2 +
+ kernel/bpf/helpers.c                          | 142 ++++++++++++++----
+ kernel/bpf/verifier.c                         |  17 ++-
+ mm/internal.h                                 |   5 +
+ mm/memory.c                                   |  41 +----
+ mm/nommu.c                                    |  41 +----
+ mm/util.c                                     |  62 ++++++++
+ .../selftests/bpf/prog_tests/bpf_iter.c       |   6 +-
+ .../bpf/prog_tests/copy_from_user_bprm.c      |  72 +++++++++
+ .../prog_tests/test_struct_ops_maybe_null.c   |  13 +-
+ .../bpf/prog_tests/tp_btf_nullable.c          |  28 ++++
+ .../selftests/bpf/progs/copy_from_user_bprm.c | 123 +++++++++++++++
+ .../selftests/bpf/progs/raw_tp_null_fail.c    |  78 +++++++++-
+ .../bpf/progs/test_tp_btf_nullable.c          |  45 +++++-
+ .../bpf/progs/test_tp_btf_nullable_runtime.c  |  35 +++++
+ .../selftests/bpf/progs/verifier_lsm.c        |  18 ++-
+ .../selftests/bpf/progs/verifier_vfs_accept.c |  14 ++
+ .../selftests/bpf/progs/verifier_vfs_reject.c |  14 --
+ .../selftests/bpf/test_kmods/bpf_testmod.c    |   1 +
+ .../sched_ext/maybe_null_fail_dsp.bpf.c       |   5 +-
+ 22 files changed, 631 insertions(+), 147 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
+ create mode 100644 tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_tp_btf_nullable_runtime.c
+
+
+base-commit: 1b7415bf70be95b9a1e7e87d544867881065613f
+-- 
+2.55.0
+
