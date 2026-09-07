@@ -1,143 +1,191 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mta0.migadu.com (out-120.mta0.migadu.com [91.218.175.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D2043E094;
-	Mon,  7 Sep 2026 08:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D612446074
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 08:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788768918; cv=none; b=ddky6IG8o/CcVMwhTmakgs+vT9MzzW4ZPIwdIzD/2I46051SZzZjbw/375AQPQjjURw+AcmZhPJ7CuO0KEee9Aa+KBiP4zqDUjFVmg7hsa6hgNeiIToU++x3M6EOi3VzBi5delaHJGcjk6JTChrBHcL5wctaeblUMQ7soweqPwU=
+	t=1788768922; cv=none; b=kmehrijmkFYAOKXD+CN+2xYhvDwo5q3yvaL1/Cffg7lTc7ZbuUeWax9a8pFDuq7VCgSNFDvZNDN6K/g+7XxR5+IFVfAVh/n1Rb50f35F+JCWZGD5RMhtZJaIUzgCOC3sx0nr/enEz5QxuJZazB9q0OmyTgVo/bjcIkKozF7C3Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788768918; c=relaxed/simple;
-	bh=ElOIULgAMDi4U9S3SooKnwGu2kYRiN8Nt64uHmhI5W0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WV5wfq7IdBCtm7FZf6HkPjRnYR7SZvUK7kA4FxgviIzJ7rBqDcQEFbhvPDY9zLzpJgCvReOZJDGgPONRnmxUyfr1hcqxr1q4LQ5jxO9o853C+Q/4HtRGo56qp2UsboBu6Vv/+hdZs73OWXL+GRAQl9FXHK+U8gg3sNCHU0PJsjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K1OA/hgK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+LTRB+jP; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WfSDut0z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Lv/gb01L; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788768922; c=relaxed/simple;
+	bh=dQwY3gP5992iA8WFv3nEtraOYZnGKkWp4+ZsJMlQB8A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Xcx1Lhy/XUbcbPrCVm8p5I/tX8T+xzzjjoRXAewrFe4bmlF3BOloWLedUndrvh+UE4pY+2r+awhdMLIYAVGvZf+sDRSl80RKK3Tex0UcAsDso49bqyHkWwjGm7wFdkacbElatRTRT8EjYxUrLVFQ8y+xfDmteuIp+gpX2cFAwXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gLPhPDDj; arc=none smtp.client-ip=91.218.175.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K1OA/hgK";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+LTRB+jP";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WfSDut0z";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Lv/gb01L"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9FB0921B71;
-	Mon,  7 Sep 2026 08:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788768910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+BNTNFqUdOlzrExQbTmBMvlA8LJ1R3i4u+JN007pPHQ=;
-	b=K1OA/hgKxn0d2qrAOWmbQlcgcvpYBUV7oFlrbUntNXwUirFyOfmybC2oR4CuMJtI6sB88D
-	FeKbSbUXssehtwtg3VnEjuWYaDrAGRPBeY/sKk4ylzJm8Gfkhe0cKtVMMA1Tc5V4OATQas
-	rimsyXrl58ZQtnBBksti371K7LhUUq4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788768910;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+BNTNFqUdOlzrExQbTmBMvlA8LJ1R3i4u+JN007pPHQ=;
-	b=+LTRB+jPadJYBX/J7834zmYzTfOF1AamRzsz+fNg2sAtIjMEtKnKiaP6R8y+nSBjGNXhjR
-	t8g7uFHVm7IuBdCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=WfSDut0z;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="Lv/gb01L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788768906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+BNTNFqUdOlzrExQbTmBMvlA8LJ1R3i4u+JN007pPHQ=;
-	b=WfSDut0zIZgn+IqWFdYOqsxe+G1hzDOnkmUTFTupCd2522UvfMBG2P0bnnjXyrzy8PC3et
-	Ng+RZwEG5BcuBIFfP3XAyoIC+CdbbMFVLsNqB0ejZQgAaijPRzKy/uj2cUUlMX8zDHDkcc
-	kze1WN8okVofcMBLvm/Bh3x2SaQf2YY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788768906;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+BNTNFqUdOlzrExQbTmBMvlA8LJ1R3i4u+JN007pPHQ=;
-	b=Lv/gb01LOSehRrXJzg5G6uT/oa4scgrSbu+Mzf+fDBpvDqU88PGZmizXW52nHKqKmQr2mN
-	Piwb0UxEWamwkqBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 820551339B;
-	Mon,  7 Sep 2026 08:15:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id w1K5H4pynmp6MwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 07 Sep 2026 08:15:06 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1098CA13B2; Mon, 07 Sep 2026 10:15:02 +0200 (CEST)
-Date: Mon, 7 Sep 2026 10:15:02 +0200
-From: Jan Kara <jack@suse.cz>
-To: Hemanth Selam <hemanth.selam@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] isofs: fix repeated word 'in' in comment
-Message-ID: <fxnknuyxrjcvdvytipdbfnl3czuy6uxoyfzbglz5upfbatords@2o3yhtlfro6u>
-References: <20260904123914.583-1-hemanth.selam@gmail.com>
- <20260907042402.12893-6-hemanth.selam@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gLPhPDDj"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=dQwY3gP5992iA8WFv3nEtraOYZnGKkWp4+ZsJMlQB8A=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788768918; v=1; x=1789373718;
+ b=gLPhPDDj5LILH9XrPJwI6KC3TtpjjsjDRkMyRrYpv+MW3lkFBltvAzmfG2MThsTZ2jqc32DD
+ HNkuUR5z6VW8HdLv6dSkniipkk6CpJjiVa1AYlTLgaVP9EAfFktT4eZ7ibaz+DlxJJM8xe1wzB4
+ 6gCp5nc8r1+nRD+2ADa3HXis=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id b383245cc3c82e7c;
+	Mon, 07 Sep 2026 08:15:06 +0000
+X-Mizu-Trace-ID: b383245cc3c82e7c
+X-Migadu-Flow: FLOW_OUT
+From: Ye Liu <ye.liu@linux.dev>
+To: Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	x86@kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	"David Hildenbrand (arm)" <david@kernel.org>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	Michal Hocko <mhocko@suse.com>,
+	peterz@infradead.org,
+	paulmck@kernel.org,
+	mingo@redhat.com,
+	rostedt@goodmis.org,
+	jpoimboe@kernel.org,
+	mic@digikod.net,
+	tglx@kernel.org,
+	linmiaohe@huawei.com,
+	nao.horiguchi@gmail.com,
+	rafael@kernel.org,
+	gnoack3000@gmail.com,
+	sj@kernel.org,
+	rientjes@google.com,
+	shakeel.butt@linux.dev,
+	xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev,
+	will@kernel.org,
+	boqun@kernel.org,
+	frederic@kernel.org,
+	neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com,
+	josh@joshtriplett.org,
+	urezki@gmail.com,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	pavel@kernel.org,
+	lance.yang@linux.dev,
+	mhiramat@kernel.org,
+	pmladek@suse.com,
+	longman@redhat.com,
+	mathieu.desnoyers@efficios.com,
+	jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev,
+	dietmar.eggemann@arm.com,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	mark.rutland@arm.com,
+	Dave.Martin@arm.com,
+	james.morse@arm.com,
+	babu.moger@amd.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH v2 6/8] fs: convert process/thread iterators to for_each_*_rculock
+Date: Mon,  7 Sep 2026 16:13:32 +0800
+Message-Id: <20260907081334.1152889-7-ye.liu@linux.dev>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260907081334.1152889-1-ye.liu@linux.dev>
+References: <20260907081334.1152889-1-ye.liu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260907042402.12893-6-hemanth.selam@gmail.com>
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 9FB0921B71
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+Content-Transfer-Encoding: 8bit
 
-On Mon 07-09-26 09:54:02, Hemanth Selam wrote:
-> Please drop this patch, it is wrong.
-> 
->   "the subsequent blocks are going to come in in short order"
-> 
-> "come in" is the verb and "in short order" is the adverbial that follows
-> it.  Both words belong there and the comment reads correctly as it is.
+From: Ye Liu <liuye@kylinos.cn>
 
-Ah right. It actually makes sense both ways but you are right the change is
-unnecessary. Dropping.
-	
-								Honza
+Replace the manual rcu_read_lock()/rcu_read_unlock() pairs combined
+with for_each_process() and for_each_process_thread() loops in fs/
+with the for_each_*_rculock() macros, which scope the RCU read lock
+to the loop body via scoped_guard(rcu).
+
+No functional change.
+
+Signed-off-by: Ye Liu <liuye@kylinos.cn>
+Acked-by: Michal Hocko <mhocko@suse.com>
+---
+Changes in v2:
+  - Rename *_rcu to *_rculock
+ fs/proc/base.c        | 4 +---
+ fs/resctrl/rdtgroup.c | 8 ++------
+ 2 files changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 6a39de424f62..3de4f4557e4c 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -1160,8 +1160,7 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+ 	if (mm) {
+ 		struct task_struct *p;
+ 
+-		rcu_read_lock();
+-		for_each_process(p) {
++		for_each_process_rculock(p) {
+ 			if (same_thread_group(task, p))
+ 				continue;
+ 
+@@ -1177,7 +1176,6 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+ 			}
+ 			task_unlock(p);
+ 		}
+-		rcu_read_unlock();
+ 		mmdrop(mm);
+ 	}
+ err_unlock:
+diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+index 5dcbb0a964e8..b14df8b23f1a 100644
+--- a/fs/resctrl/rdtgroup.c
++++ b/fs/resctrl/rdtgroup.c
+@@ -709,14 +709,12 @@ int rdtgroup_tasks_assigned(struct rdtgroup *r)
+ 
+ 	lockdep_assert_held(&rdtgroup_mutex);
+ 
+-	rcu_read_lock();
+-	for_each_process_thread(p, t) {
++	for_each_process_thread_rculock(p, t) {
+ 		if (is_closid_match(t, r) || is_rmid_match(t, r)) {
+ 			ret = 1;
+ 			break;
+ 		}
+ 	}
+-	rcu_read_unlock();
+ 
+ 	return ret;
+ }
+@@ -826,15 +824,13 @@ static void show_rdt_tasks(struct rdtgroup *r, struct seq_file *s)
+ 	struct task_struct *p, *t;
+ 	pid_t pid;
+ 
+-	rcu_read_lock();
+-	for_each_process_thread(p, t) {
++	for_each_process_thread_rculock(p, t) {
+ 		if (is_closid_match(t, r) || is_rmid_match(t, r)) {
+ 			pid = task_pid_vnr(t);
+ 			if (pid)
+ 				seq_printf(s, "%d\n", pid);
+ 		}
+ 	}
+-	rcu_read_unlock();
+ }
+ 
+ static int rdtgroup_tasks_show(struct kernfs_open_file *of,
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.25.1
+
