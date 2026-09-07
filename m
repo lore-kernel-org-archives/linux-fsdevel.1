@@ -1,93 +1,43 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD87A442FAE
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 21:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DD319B5A3;
+	Mon,  7 Sep 2026 22:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788818106; cv=none; b=JmojqPR3YVDRtwpVvkcWxJ+UeX/MB1nYWGs/RVXmeJxZtqmPpIV+4feEa8i0pmhMvkiLvpZHjGlpBH7xCSiI4G6uDU/H8Cc8GiqQJtLqNwvDc+PYdCnklSGmPHYIPcJZjM1fdBgTqdXTnjg4bx/0CDRGb5qBR585cTu6YzSn7xk=
+	t=1788819220; cv=none; b=q7gis3eGqylwA5grdjAKjsbvbZ/1GJzSeQvRa32FZwM07wz5CLp7VuKah6QAjqGRnIRRldPhyJOMpcpvQ9mSmqvCKkdBYqu+kq0D+Mkl3jKOrb9KKZPSL0OkIi3f5ole3M+/+wz10uHEahiMmDRffxx0WTE91FPe7y07eyGhy9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788818106; c=relaxed/simple;
-	bh=Rp87txIj1Itj2htGVKkLuIFznvABC1xejs5EuVShP/g=;
+	s=arc-20240116; t=1788819220; c=relaxed/simple;
+	bh=+qe6ytbyTQ4oj4VE0v+4RxMRunN6UnQmesYUuA3wVqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gbeI7p+yyqDltor+nP1w2nJL2SQyeQFBHhX7ragopbvNIHM7WYQuEikvPprIgtRMmTcmBYUJZOD54OdG6CL6hiukf5B7INHGu9qCA988bFfmwyYQmiysBxcaw414TKO0T3TEj15MdVY7PgfSVAXlJ+aufJyyMbtMMSDd6fgubns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ag/M7kDK; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=AKCMxJl91h9huI/MEardvOxoSo7bmVWLtpPjrcgSZdS7Nz25ZtWw3YuBE+TOmUENabUSENipCybvKXeNleOeeq7RYGFgwRqrzwJ1FTURN6SaAJZ9gDTqKGzh+A9nTgRr4tLxI1zR3c4HkiZmGQQdNiNfKYWaxn61p2OjLuSE//s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QEB6pn6R; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ag/M7kDK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788818103;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U5vbt3dDTcq0wdPHap0JtL9B1dVtnkBH7soBmqKWLIw=;
-	b=ag/M7kDKfQ30excTGtUgUQLJxMHp/qVB7mLxn+omYlp/nGsi56Bw2grdzF6CeiH+26ESdS
-	n9qctGkJ0djBFdIMq32KX2IJJbJRuRJCuD+qksTWUiFeaSOb67LEqpd3YRToj0Hm73rONn
-	NYPedrRWQ/40wOGABPpbkhfpBfwZQ8Q=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-139-Ut24lLeFO0a40zf8pdXsKw-1; Mon,
- 07 Sep 2026 17:55:02 -0400
-X-MC-Unique: Ut24lLeFO0a40zf8pdXsKw-1
-X-Mimecast-MFC-AGG-ID: Ut24lLeFO0a40zf8pdXsKw_1788818101
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 92C831800EC7;
-	Mon,  7 Sep 2026 21:55:00 +0000 (UTC)
-Received: from fedora (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 8E52D1800257;
-	Mon,  7 Sep 2026 21:54:42 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon,  7 Sep 2026 23:55:00 +0200 (CEST)
-Date: Mon, 7 Sep 2026 23:54:41 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: Ye Liu <ye.liu@linux.dev>, Thomas Gleixner <tglx@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>, Ye Liu <liuye@kylinos.cn>,
-	Michal Hocko <mhocko@suse.com>, mic@digikod.net, david@kernel.org,
-	linmiaohe@huawei.com, nao.horiguchi@gmail.com, gnoack3000@gmail.com,
-	ljs@kernel.org, sj@kernel.org, rientjes@google.com,
-	shakeel.butt@linux.dev, xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev, tony.luck@intel.com,
-	reinette.chatre@intel.com, x86@kernel.org, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com, pavel@kernel.org,
-	lance.yang@linux.dev, pmladek@suse.com, longman@redhat.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, dietmar.eggemann@arm.com, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
-	mark.rutland@arm.com, Dave.Martin@arm.com, james.morse@arm.com,
-	babu.moger@amd.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v2 5/8] kernel: convert process/thread iterators to
- for_each_*_rculock
-Message-ID: <ap8yoW37GY17pHYS@redhat.com>
-References: <20260907081334.1152889-1-ye.liu@linux.dev>
- <20260907081334.1152889-6-ye.liu@linux.dev>
- <ap7dC-LWNaoPYJvv@gourry-fedora-PF4VCD3F>
- <ap76-0-hN6CAcYXX@redhat.com>
- <ap8mgnpE7D4TTrno@gourry-fedora-PF4VCD3F>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QEB6pn6R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33EA31F00A3A;
+	Mon,  7 Sep 2026 22:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788819218;
+	bh=ZgKjfsHtYgTqWKaNbFLCtnc8X3K6sKxBe2W0c8nQIqg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QEB6pn6R+9hLn9X+eMFooE3mUeIcWRiOKERE1noHKZ8Otcb5UVOcEx91RLYcetOJ4
+	 Ar4FWFZ+9YEDLqsNCJ6CXj4eUT29uongnPVU6Muw8DxABAGSclbXCiWroDT1tw8krS
+	 +NTSRBna/XbEc2pXEc0Ul+DR2umQYSypy8iOgYC6J/wNsvqk/K086/w8aK5pgOftg0
+	 sIgeYOUFBg4beFgQ7l8yj+BLn5c34jTxRh45CdlThPYPBMqrtg6Sma7jXMnY4UaGub
+	 1moMJUJ9bGpaanDtIFKwuimyJDtzAhb5VjhERampXIDK6Rsr0YYLEnWweTh8JKqjnD
+	 KRj7cGW4O89pw==
+Date: Mon, 7 Sep 2026 15:13:34 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	Jan Kara <jack@suse.cz>,
+	Timothy Day <timday@thelustrecollective.com>,
+	linux-ext4@vger.kernel.org, Theodore Tso <tytso@mit.edu>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] once_lite: Simplify condition handling and fix context
+ analysis
+Message-ID: <20260907221334.GA1619741@ax162>
+References: <20260903101843.3462767-1-elver@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -96,50 +46,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ap8mgnpE7D4TTrno@gourry-fedora-PF4VCD3F>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+In-Reply-To: <20260903101843.3462767-1-elver@google.com>
 
-On 09/07, Gregory Price wrote:
->
-> On Mon, Sep 07, 2026 at 07:57:15PM +0200, Oleg Nesterov wrote:
-> > On 09/07, Gregory Price wrote:
-> > >
-> > > On Mon, Sep 07, 2026 at 04:13:31PM +0800, Ye Liu wrote:
-> > > > --- a/kernel/hung_task.c
-> > > > +++ b/kernel/hung_task.c
-> > > > @@ -315,13 +315,12 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
-> > > >  		return;
-> > > >
-> > > >  	this_round_count = 0;
-> > > > -	rcu_read_lock();
-> > > > -	for_each_process_thread(g, t) {
-> > > > +	for_each_process_thread_rculock(g, t) {
-> > > >  		if (!max_count--)
-> > > > -			goto unlock;
-> > > > +			goto out;
-> > > ... snip ...
-> > > > - unlock:
-> > > > -	rcu_read_unlock();
-> > > > -
-> > > > +out:
-> > > >  	if (!this_round_count)
-> > > >  		return;
-> > > >
-> > >
-> > > The sunken rcu_read_lock()/unlock() + scoped_guard usage makes this goto
-> > > at a minimum very confusing, if not actually broken.
-> >
-> > I am afraid I misunderstood you concerns...
-> >
->
-> This might be my - admittedly shallow - understanding of scoped_guard,
-> but does scoped guard handle goto correctly?
+On Thu, Sep 03, 2026 at 10:16:38AM +0000, Marco Elver wrote:
+> When WARN_ON_ONCE() wraps a conditional lock acquisition (such as
+> down_write_trylock()) on architectures relying on DO_ONCE_LITE_IF()
+> (e.g. arm), Clang's context analysis (Thread Safety Analysis) failed
+> with a false positive:
+> 
+>   fs/ext2/xattr.c:825:6: error: rw_semaphore 'EXT2_I().xattr_sem' is not held on every path through here [-Werror,-Wthread-safety-analysis]
+>     825 |         if (WARN_ON_ONCE(!down_write_trylock(&EXT2_I(inode)->xattr_sem)))
+>         |             ^
+> 
+> This happens because DO_ONCE_LITE_IF() branches on __ONCE_LITE_IF()'s
+> return value (__ret_once), creating an intermediate branch merge point
+> where the lock may or may not be held depending on whether the once-flag
+> (__already_done) was already set. Because the merge branch condition is
+> __ret_once rather than the trylock predicate (__ret_do_once), Clang
+> cannot reconcile the lockset at the branch merge points.
+> 
+> Fix it by refactoring __ONCE_LITE_IF() into an unconditional
+> __ONCE_LITE() primitive and redefining __ONCE_LITE_IF(condition) as:
+> 
+>   (unlikely(condition) && __ONCE_LITE())
+> 
+> This simplifies the implementation, short-circuits evaluation so that
+> __ONCE_LITE() is not called when the condition is false, and ensures
+> that DO_ONCE_LITE_IF() only enters __ONCE_LITE() when __ret_do_once is
+> true.
+> 
+> Reported-by: Nathan Chancellor <nathan@kernel.org>
+> Link: https://lore.kernel.org/all/20260903072759.GA1750084@ax162/
+> Signed-off-by: Marco Elver <elver@google.com>
 
-Yes, it does,
+Thanks, this fixes that warning for me across all my builds.
 
-> and why it's generally discouraged to mix cleanup.h and goto.
+Tested-by: Nathan Chancellor <nathan@kernel.org> # build
 
-Hmm, why? I didn't know...
-
-Oleg.
-
+-- 
+Cheers,
+Nathan
