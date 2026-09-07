@@ -1,175 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF81469832;
-	Mon,  7 Sep 2026 11:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788779121; cv=none; b=E/dAURwvlj5BYrIvIY6T2aXiAQLwvbeBWvQhvNhTnX7/mkyoNN1yjq1/gxSmCs5j48fd1wg11oqEaxENTVYZhSmRxpAOaFad3nXNu83i2JHB5/GPHQzFBJLsakkLN2EelXt0ypMMHGv7Whg4uBbc1Qo2wTqrDjNe/90+Ar10obw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788779121; c=relaxed/simple;
-	bh=gAhPEThI5K+PeUzhYbnNEzwW7sHKMRTi0p//YdseykA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IbS8hWF6qPNFAID/1cUDDm+nVabDTE8wBlv2WEXPGcYI9M+cu0KIPZeDSz3DGksrbVUMm+CDqPQfBQfqRACkceVWQSE2XDkRVMzLsTTRPXn6tkhF7xxg2bEpebd7hOSYP5YV/tK3Z7vNSs9e0Pc8IQ07lHdsjHibu7O89ptJyvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PoyOKEVN; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7530C227BB9
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 11:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788779329; cv=pass; b=EN25GPPWEzXMQfDMzXIGvchBLRDgNMqljO/2YWz8FJ3bJZ+/gRFTEzGyYrHsl7UBALXP0/TAEq7Iaaep6tj6BeaErRFCYaceYsE/Laf3rs0zBqDe7jJHKDBebKhCzWbZqths/FzmY1PIQhV/N2Ta6ki+UDzUV3XaPR5+EO3Fv8U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788779329; c=relaxed/simple;
+	bh=BR+eUj/ALV0eoXQmo7i7n34XaH7aoKJnU1bS8FGvxoY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ux3olhgzX3F+aMcWyVV+RcbOTIytXNLpoW3DJLFKDSQPvbbE0yb2u2haVTqSIIqwVtGdu92vIMdURE2eoJJHOO5rhUIMiIo4kUlezniOm3uo3SA3rpKnrXsGc2zN9FzZZKGrpM4EUUkS6Q4yA54FCzcQmun1S91b8KmDTM8iLHQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ns6QrfWI; arc=pass smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PoyOKEVN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716671F00A3D;
-	Mon,  7 Sep 2026 11:05:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788779120;
-	bh=vJW6MPhOnN8P0SEk/mBUWKuIt9Xcv/RQpni+Df40/kY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PoyOKEVNRy4VXTHA+NBiLBYDZc6Sblto8Kaz7UsiOV0QrOkd+U6KphTUovSDNjhCz
-	 q7m+nudOTVg3uWbyUbQ1K/0rmRM9xZxyvl43eHr+m/KaV8/+Bt+iJP1qA+qLRmwqhY
-	 kfkrd57WJ4utnJF9Yh+A7rU8ghy9VxqBexyWkFemv+rw9RK9Yx+kL/BjPy8/0iVJlH
-	 fxK3oXlu/CBuDfkAR/y75njkvq7DNeDTYUABFhtRrfHzBERdZHQzIwGgUnsJnZN8fb
-	 r6NYrwXxiUhaMsRCpUBMelI1o26+9ocIx7No45lfOZwm841rcd19HgskuKzFteika5
-	 sC5hUTUEN4gvA==
-Date: Mon, 7 Sep 2026 12:05:04 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Ye Liu <ye.liu@linux.dev>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Ye Liu <liuye@kylinos.cn>, Michal Hocko <mhocko@suse.com>, 
-	peterz@infradead.org, paulmck@kernel.org, mingo@redhat.com, rostedt@goodmis.org, 
-	jpoimboe@kernel.org, mic@digikod.net, oleg@redhat.com, tglx@kernel.org, 
-	david@kernel.org, nao.horiguchi@gmail.com, rafael@kernel.org, gnoack3000@gmail.com, 
-	sj@kernel.org, rientjes@google.com, shakeel.butt@linux.dev, xu.xin16@zte.com.cn, 
-	chengming.zhou@linux.dev, will@kernel.org, boqun@kernel.org, frederic@kernel.org, 
-	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org, tony.luck@intel.com, 
-	reinette.chatre@intel.com, x86@kernel.org, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, pavel@kernel.org, lance.yang@linux.dev, mhiramat@kernel.org, 
-	pmladek@suse.com, longman@redhat.com, mathieu.desnoyers@efficios.com, 
-	jiangshanlai@gmail.com, qiang.zhang@linux.dev, dietmar.eggemann@arm.com, 
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, 
-	mark.rutland@arm.com, Dave.Martin@arm.com, james.morse@arm.com, babu.moger@amd.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v2 4/8] mm/memory-failure: convert process iterator to
- for_each_process_rculock
-Message-ID: <ap6aWlC9RoAMILb7@gremlin>
-References: <20260907081334.1152889-1-ye.liu@linux.dev>
- <20260907081334.1152889-5-ye.liu@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ns6QrfWI"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a600a1caf8so5289402a12.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 04:08:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788779326; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gh9lBGrwOV7beO4oMhk/0bOeeoXV4Hz2Fl9Y68sJuTDeuIE6EyTiVxWWaVODhV6MtG
+         ZJeflxHmRrxCk9suaxhsEhAFYnjBRrMGCyQGsBQbv+1COxCLSTk+7P7PqggJJjCfa9DE
+         o7BZQfirCi0Ng/GRxjIX3Ei3iS+zjOYIBFwHCZ49xaROE+G0Meysfm1P71/h+wV6i5ek
+         z1gWbmj4xmphrzDgQYboOw+r4EWvseVL/SEUsv5pGu2LNoHJ1U75IfuwF+Y5Xu6f4fA+
+         cO0VWMs//vs/2HxuZQ3gh/B6InuQ6q8yV0zurdCAQ+naqqk/dX+uNOhkIValYD+ofqT2
+         vShg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0/lzFsFhEaINkh+OA6BnMxyXwomqvTDkY7AyQ5pswls=;
+        fh=VG+Xwjm6JXUNT6r55zQxCfKNEQHhp31ovQLLlNaXny4=;
+        b=micG7Zi/cf4HqRd8DuTA55Ybs7hVDUqWxFo6JrHi4KDUX9ZUWEA6Jv9G1U4echxj+D
+         tInppnQxsDvzfeSxQII4ASkQhFK76qfqa04oOyzanJIN+k4mxjwbIkh/7lvCdUqrqKR6
+         WEtoJ6YqS4s9Tsl6toB1GklKW6bJ511xB3RqOywxJWe3M/MQa4FXxJSKy7mUgLVSjauL
+         RBLk7mbaSnEHeM0uZDLMAu31x7GHzT+ijQbejBHv49kSYjEs6ILCVfT/NR3XOCUJRIwp
+         bOknlyDkco8+RMohJVe6WecbHGWdMt/e02teRoyKEf9gMRzagnTLL7tMl9RmWUMC0NMk
+         dt7g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788779326; x=1789384126; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0/lzFsFhEaINkh+OA6BnMxyXwomqvTDkY7AyQ5pswls=;
+        b=ns6QrfWIKW9xEXdIi6P1CN3CT+NNAsSJ9onkLx8xKYjt19n13DMRg8Di+9fwQ3B7MH
+         lqPFgECZcK3Aul2YUiG9mGBeil25UMpdZMDgAxxIaHq1QpJVw5OwAn1+y4pmzyyV7VsU
+         NsTQsDJtsFaASff63T/a6ZiAqJt1KsUuINB6JWHgpV0OH6qKtj+p+k31AZrCitQ++Xu2
+         u3KRZ6E4/x9FkRsACCvr408ynx35VySyrMOhOZ4gQvk4G/W55W+NZORr3swGG6vgniT7
+         kdAxoQF814mg8uY8z9d7ojoNSNCe7DHu3C75BmL84C9mb82+xC7SzSd89hSAOmPQyQfT
+         E//g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788779326; x=1789384126;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0/lzFsFhEaINkh+OA6BnMxyXwomqvTDkY7AyQ5pswls=;
+        b=RxXk6azvpJtiDeG99iOujTFNAhyKz2fMkQMFPb2I1OqYP6MRFiOVA+gw/sx0d+4RR7
+         fRm5VYYUe4WQ6h65HON7MayNCW3voQReT0SnnBD1SwZ8zMRof0fHcGJnqGdYkJWKf0DI
+         bQkUPer6ONpzxtrNXZklE4jwQvTNupg8/eNQ2F/iw3p/U+D0pqL8TcVxn4KQppTkXWaK
+         1RPnj4YXqkFL3p4Ob3571gmbgg9MO+0wV7F/rjlbhVeVH+DTz/cjmrLR+FlD1vDbqHTg
+         KZoPglWCxG2AQtBA0mEcAiRP7a13zmV8s25Imrff/qyRh28mfEgPAcIUU3z900VN5mUW
+         3nWg==
+X-Forwarded-Encrypted: i=1; AKwUvBzdW1BAlg8wJQJsqwr7oIncgPhO7wzphjoMIjz2s2EUkTCFKIM3tzCgxXls4IoOVwdJbGuriLZCJ3YCkH5P@vger.kernel.org
+X-Gm-Message-State: AFuF++kLiwXGKpbVaoCYLaCg0hs+8rSvSkx9YYkXXrCdFH1BE29ie1Kb
+	YW/wSsi65GPYpybIgKeRrpF8bzd5CBk3tnV9z2oAIwb+eBEohqtzaDnG7QyBbRFmgvlARsSCFzC
+	SwCcRGwWBqZ/GkXd88D/97GJV1zcfD0U=
+X-Gm-Gg: AYBFou1QewnWyJX+EhtxFdT9OGekNvJuQE9XUBXVQ2hpA1XrfBWcVa/emSJhI5a8YuN
+	U3gc8YLwcwavPkEOMhYUXvg2I2R9Xxf2luV13yR/hgTrXZaaounuIl1mnuWOKe7r1AMmXt6h9xk
+	CkEzNrvIerxGeear8dld5cK5kfPBwpiSPU9w6OVuERoAOaUhaFUKCUDwbLIoRI82wN6yCTJ5A4j
+	hTvvj01dH6zLe01gKn4OMLTB5GMiBlYIoXSY7cHBgec6jfaSy1fuFje6L/bSj8MWFiDyPTZhGJH
+	PBAEZxcaxwK+sWCQe2oa5l7n10+EwIFnVFVk3tmtJsCYecZmn8tgnXzB
+X-Received: by 2002:a05:6402:44c4:b0:6a5:f814:2278 with SMTP id
+ 4fb4d7f45d1cf-6a7e8d25c02mr5757746a12.2.1788779325248; Mon, 07 Sep 2026
+ 04:08:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260907081334.1152889-5-ye.liu@linux.dev>
+References: <20260907045517.1347518-1-cui.tao@linux.dev> <73236c69-bd81-45e1-8195-59775a34475a@linux.dev>
+In-Reply-To: <73236c69-bd81-45e1-8195-59775a34475a@linux.dev>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 7 Sep 2026 13:08:33 +0200
+X-Gm-Features: AcwNN1WRkYAEFvO02MfgvO2cIVdjx8ikA3HzbSdaJ9Rlgd-Ol6Vhuk6uNLapsKs
+Message-ID: <CAOQ4uxj5thxY2sMkJUO__qWxVX5AdKeb+e1zoHcYfQBPyfqvhg@mail.gmail.com>
+Subject: Re: [PATCH] ovl: clean up dir on casefold mismatch
+To: Tao Cui <cui.tao@linux.dev>
+Cc: linux-unionfs@vger.kernel.org, miklos@szeredi.hu, andrealmeid@igalia.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Tao Cui <cuitao@kylinos.cn>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 07, 2026 at 04:13:30PM +0800, Ye Liu wrote:
-> From: Ye Liu <liuye@kylinos.cn>
+On Mon, Sep 7, 2026 at 7:38=E2=80=AFAM Tao Cui <cui.tao@linux.dev> wrote:
 >
-> Replace the manual rcu_read_lock()/rcu_read_unlock() pairs combined
-> with for_each_process() loop in mm/memory-failure.c with
-> for_each_process_rculock(), which scopes the RCU read lock to the
-> loop body via scoped_guard(rcu).
 >
-> In collect_procs_file(), the page_pgoff() call now falls outside the
-> RCU read-side critical section.  This is safe because page_pgoff()
-> only reads folio->index and does not traverse any RCU-protected
-> structures.
 >
-> Signed-off-by: Ye Liu <liuye@kylinos.cn>
-> Acked-by: Michal Hocko <mhocko@suse.com>
-> Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+> =E5=9C=A8 2026/9/7 12:55, Tao Cui =E5=86=99=E9=81=93:
+> > From: Tao Cui <cuitao@kylinos.cn>
+> >
+> > In ovl_create_real(), the S_IFDIR case checks after a successful
+> > ovl_do_mkdir() that the new directory inherited the expected casefold
+> > flag.  On mismatch, err is set to -EINVAL but the directory that was
+> > just created in the workdir or in the upper layer is left behind.
+> >
+> > The mismatch is reachable: ofs->casefold is fixed at mount time, but
+> > the casefold flag of the index dir can diverge.
 
-LGTM so:
+Hi Tao,
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+This is a case of:
 
-> ---
-> Changes in v2:
->   - Rename *_rcu to *_rculock
->   - Clarify page_pgoff() safety outside RCU lock (SJ Park)
->  mm/memory-failure.c | 16 ++++------------
->  1 file changed, 4 insertions(+), 12 deletions(-)
->
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index a8b03e2920ba..7d93deb1f7b3 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -555,8 +555,7 @@ static void collect_procs_anon(const struct folio *folio,
->  		return;
->
->  	pgoff = page_pgoff(folio, page);
-> -	rcu_read_lock();
-> -	for_each_process(tsk) {
-> +	for_each_process_rculock(tsk) {
->  		struct vm_area_struct *vma;
->  		struct anon_vma_chain *vmac;
->  		struct task_struct *t = task_early_kill(tsk, force_early);
-> @@ -572,7 +571,6 @@ static void collect_procs_anon(const struct folio *folio,
->  			add_to_kill_anon_file(t, page, vma, to_kill, addr);
->  		}
->  	}
-> -	rcu_read_unlock();
->  	anon_vma_unlock_read(av);
->  }
->
-> @@ -589,9 +587,8 @@ static void collect_procs_file(const struct folio *folio,
->  	pgoff_t pgoff;
->
->  	i_mmap_lock_read(mapping);
-> -	rcu_read_lock();
->  	pgoff = page_pgoff(folio, page);
-> -	for_each_process(tsk) {
-> +	for_each_process_rculock(tsk) {
->  		struct task_struct *t = task_early_kill(tsk, force_early);
->  		unsigned long addr;
->
-> @@ -611,7 +608,6 @@ static void collect_procs_file(const struct folio *folio,
->  			add_to_kill_anon_file(t, page, vma, to_kill, addr);
->  		}
->  	}
-> -	rcu_read_unlock();
->  	i_mmap_unlock_read(mapping);
->  }
->
-> @@ -635,8 +631,7 @@ static void collect_procs_fsdax(const struct page *page,
->  	struct task_struct *tsk;
->
->  	i_mmap_lock_read(mapping);
-> -	rcu_read_lock();
-> -	for_each_process(tsk) {
-> +	for_each_process_rculock(tsk) {
->  		struct task_struct *t = tsk;
->
->  		/*
-> @@ -653,7 +648,6 @@ static void collect_procs_fsdax(const struct page *page,
->  				add_to_kill_fsdax(t, page, vma, to_kill, pgoff);
->  		}
->  	}
-> -	rcu_read_unlock();
->  	i_mmap_unlock_read(mapping);
->  }
->  #endif /* CONFIG_FS_DAX */
-> @@ -2288,8 +2282,7 @@ static void collect_procs_pfn(struct pfn_address_space *pfn_space,
->  	struct address_space *mapping = pfn_space->mapping;
->
->  	i_mmap_lock_read(mapping);
-> -	rcu_read_lock();
-> -	for_each_process(tsk) {
-> +	for_each_process_rculock(tsk) {
->  		struct task_struct *t = tsk;
->
->  		t = task_early_kill(tsk, true);
-> @@ -2303,7 +2296,6 @@ static void collect_procs_pfn(struct pfn_address_space *pfn_space,
->  				add_to_kill_pgoff(t, vma, to_kill, pgoff);
->  		}
->  	}
-> -	rcu_read_unlock();
->  	i_mmap_unlock_read(mapping);
->  }
->
-> --
-> 2.25.1
->
+Changes to the underlying filesystems while part of a mounted overlay
+filesystem are not allowed.  If the underlying filesystem is changed,
+the behavior of the overlay is undefined, though it will not result in
+a crash or deadlock.
 
---
-Cheers, Lorenzo
+I am not sympathetic to adding code to gracefully cleanup after
+this error.
+
+Assuming that you are utilizing LLM to help you with writing overlayfs
+patches please refer LLM to this commandment.
+
+Thanks,
+Amir.
+
+> > With index=3Don, a
+> > pre-existing "index" directory with +F is accepted at mount, and every
+> > temp mkdir for an index entry inside it fails the check and leaks one
+> > directory.  Measured on an ext4 casefold upper: 100 directory renames
+> > left 100 "#nnnn" entries in the index dir, one per failed mkdir,
+> > growing without bound.
+> >
+> > Clean up the created directory with ovl_cleanup_locked() before
+> > returning the error.  All callers of ovl_create_real() arrive with the
+> > parent inode locked (via start_creating()), so the locked variant must
+> > be used; ovl_cleanup() would deadlock on inode_lock().
+> >
+> > Fixes: dfc7da402ccc9 ("ovl: Check for casefold consistency when creatin=
+g new dentries")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+> > ---
+> >  fs/overlayfs/dir.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
+> > index 7beb0af26498..4e451bbd8f97 100644
+> > --- a/fs/overlayfs/dir.c
+> > +++ b/fs/overlayfs/dir.c
+> > @@ -188,6 +188,7 @@ struct dentry *ovl_create_real(struct ovl_fs *ofs, =
+struct dentry *parent,
+> >                       if (!err && ofs->casefold !=3D ovl_dentry_casefol=
+ded(newdentry)) {
+> >                               pr_warn_ratelimited("wrong inherited case=
+fold (%pd2)\n",
+> >                                                   newdentry);
+> > +                             ovl_cleanup_locked(ofs, dir, newdentry);
+> >                               err =3D -EINVAL;
+> >                       }
+> >                       break;
+>
+> Sashiko pointed out that the casefold check can crash on a negative
+> dentry (https://sashiko.dev/#/patchset/20260907045517.1347518-1-cui.tao%4=
+0linux.dev):
+>
+> ovl_dentry_casefolded() evaluates IS_CASEFOLDED(d_inode()), which is a
+> plain dereference, so a negative dentry would crash before we even get
+> to the WARN_ON(!newdentry->d_inode) check below.  And if it somehow
+> survived that, ovl_cleanup_locked() would rmdir a negative dentry.
+>
+> The NULL deref itself is pre-existing (dfc7da402ccc9), but the cleanup
+> call makes it worse, so I'll fix the ordering in v2:
+>
+> +                       if (!err && d_is_positive(newdentry) &&
+> +                           ofs->casefold !=3D ovl_dentry_casefolded(newd=
+entry)) {
+>
+> Negative dentries stay on the existing WARN_ON path.
+>
+>
+>
