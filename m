@@ -1,86 +1,85 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F3A44C510;
-	Mon,  7 Sep 2026 09:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281F2442393;
+	Mon,  7 Sep 2026 09:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788773836; cv=none; b=VxUqcvRr85xo343CMjDl0aCyN5slWWzJmlBx+vzLE0uStbDIrDNMkVW/l1wXRdN40JL4IbNg3/XrG9bEZHEHo+ud4ZcfExAZh3ZHifyS1m74jf5Y9YVJhicequU1Vz0hYIPR+YIfpcgMhkPPV4+Ptiu0sZ1OqiQqgKPFsUT7kiY=
+	t=1788774331; cv=none; b=ojGUA+cd/5ObmrZWztVXYG1Ddf0GxzFUD092zH0Jnp9gvzzSbp6P907UBwh4BgjyFgUj7YFqA9fsK0Fukn1EhmS+zLPJ5mUTghHu03mMtpm7fDMLloIK43XujpVqBMHCbvXEY72Gho7nxPfkgD9o151MwQIf8oa6kUKyx/hjrW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788773836; c=relaxed/simple;
-	bh=co85iF7zay+xITR/ElFqLhJ/zDR3pdwuYKyo0Bwr2eA=;
+	s=arc-20240116; t=1788774331; c=relaxed/simple;
+	bh=aFMxlYIEr10mLBc7x0/wwlHNnkqEkXrtV230o1PAo5U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gdcjFGqMhss/InIbzr2gtCr0fDN3+2oFoBqYqo1TI0Vgl87kJAwHZtdlwkSKSCeOexJ5X1cJAvrI2CyDaMQyiggt5nCJraMbspY/VunTl3HzJeoE1VITGtC/z3ufZfWe0RriO0pMcxfEqj8lMAtEF7aBqhBlFvmMwNFQsYMU4aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=W7zEZyUB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9OgZ2gZd; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=E3yHj+59; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iIBOrHnc; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=gXMWbD4oDT3O9+RErIzzYkvEbwGOMCn/nAA/1i19FUDgIDtStfNaNDsJlZ3f4EvnNi3en62eUHKQRDKUgYLGhiZJGkBSD8aBA59vtQM3V6x4+GJIdq95Kr2c386tu5FyiSFJ/yXT4gZl3GutvQzR2nxwJ3px4iKPCs8JV9+9GQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wBQtCOO8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=o4lmmul7; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=nI5wW2TB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QhPIsXQU; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="W7zEZyUB";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9OgZ2gZd";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="E3yHj+59";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iIBOrHnc"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wBQtCOO8";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="o4lmmul7";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="nI5wW2TB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QhPIsXQU"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E679A21987;
-	Mon,  7 Sep 2026 09:37:03 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DD55D1F387;
+	Mon,  7 Sep 2026 09:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788773828; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788774324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yXTuRTcipgb8g59VzbVsmNoGwSaFBC6kHtxX4w47vMo=;
-	b=W7zEZyUBZXQc9jOUh9eo/G3c7SVUVBz9oaC/fZvjORdr5ehB1CrQHv4SDva3LV49uGXH4u
-	GJbb63yjFyHOkVSe98HN2cMGFNNavNkb8OZ9rmVF/xeruJoOhYrJJGBbM8RUXfOClG5RO5
-	0PnOFk+e6T+8PHoaPx3bPU1mcz5t1U0=
+	bh=TK18g6cC4GqXBbeIEtDDxGQ3nIY8al02NrXM6/w1y30=;
+	b=wBQtCOO8jv8Sup2KrEujrraHWxWIeH8yNfYNnnOvGS6o4yDUYc3qWX+8+0WC2rdraoevyt
+	E/1+/DdkM1RQk3nYxX6SCiEr7FJlY7DckMVr76SKCQSfvxdxLqWqSyifj3L43AaY6hdVU9
+	PfDIVM1Te0HNhblztCriN6U0drZt6iI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788773828;
+	s=susede2_ed25519; t=1788774324;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yXTuRTcipgb8g59VzbVsmNoGwSaFBC6kHtxX4w47vMo=;
-	b=9OgZ2gZdg6KfSR0G9zJTmtZn2518XC6TAzzUfA4EZr2R9j6J9H+g2ZS89uhvMb/wmM31Wv
-	605TNLd+S5DPY7Cw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=E3yHj+59;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=iIBOrHnc
+	bh=TK18g6cC4GqXBbeIEtDDxGQ3nIY8al02NrXM6/w1y30=;
+	b=o4lmmul7lMOPbPvq4TA4XZjEpxtxN8/V0TgY14kY57Ogxd2vak4LRaQhL9iRlbxA2SNh7w
+	RNG/U4ahJ/ZfG1DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788773824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788774319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yXTuRTcipgb8g59VzbVsmNoGwSaFBC6kHtxX4w47vMo=;
-	b=E3yHj+59b7l2w2A6fdsDhhIo1nwMVaVqq9HAuJLLF3R5k5/rK3C4cIlqt8hjITqrsmvZtO
-	zV1WHIo/vPqR/ckBBaDaRgs33pBTMTczmyaDvTWLJK48vHvI5m/aYBx8C2dwGVJ9xAnFLr
-	CDchNrccOVnztocN7dtwmKExwvbMJ3c=
+	bh=TK18g6cC4GqXBbeIEtDDxGQ3nIY8al02NrXM6/w1y30=;
+	b=nI5wW2TBXKEDbCy48a44C3k37yi6Ese8kG/pJC3073WmzGkU8tkxu5wdKUebb6PRJrpQIg
+	qsr1//KSTjSDF5pxWUABOai0ajQTHIB/OwpezF4qDsFTRAoG6c3jTse5PkWIY7yKizxMdJ
+	XeJd52reJ6nUHQGeCoLYf0xfWKAmeWc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788773824;
+	s=susede2_ed25519; t=1788774319;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yXTuRTcipgb8g59VzbVsmNoGwSaFBC6kHtxX4w47vMo=;
-	b=iIBOrHncTBiQqriIDApRf826f9WsW9u/zvKSlpshaliLmpK0RV6Az1RG04cBoyM/Y2A18+
-	W70iAl2WqSyvJ4AQ==
+	bh=TK18g6cC4GqXBbeIEtDDxGQ3nIY8al02NrXM6/w1y30=;
+	b=QhPIsXQU28dWqTbr1U2rjs5DSZUYwXQyjN2F4PmMmMydex7UH0YLD9I3X7/OdLlz8qpjeq
+	oR+hqy8OnyMIskDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A48FE13432;
-	Mon,  7 Sep 2026 09:37:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD37313432;
+	Mon,  7 Sep 2026 09:45:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id witfJ7+FnmrFBQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 07 Sep 2026 09:37:03 +0000
+	id kSUsLq+HnmpZDQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 07 Sep 2026 09:45:19 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3A808A13B2; Mon, 07 Sep 2026 11:36:59 +0200 (CEST)
-Date: Mon, 7 Sep 2026 11:36:59 +0200
+	id 57EDBA13B2; Mon, 07 Sep 2026 11:45:19 +0200 (CEST)
+Date: Mon, 7 Sep 2026 11:45:19 +0200
 From: Jan Kara <jack@suse.cz>
-To: Hemanth Selam <hemanth.selam@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Benjamin LaHaise <bcrl@kvack.org>, 
-	linux-fsdevel@vger.kernel.org, linux-aio@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs: fix typos in comments
-Message-ID: <o7ixcy65sb3k6xniphvu4cq623shz6ww6etqrzp2lb4mggrjv2@tfdpte7untfk>
-References: <20260907063252.21433-1-hemanth.selam@gmail.com>
+To: Tao Cui <cui.tao@linux.dev>
+Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, jack@suse.cz, andrii.nakryiko@gmail.com, 
+	linux-kernel@vger.kernel.org, Tao Cui <cuitao@kylinos.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] fs: reject U64_MAX as last_mnt_id in listmount()
+Message-ID: <vwmaviizpdpjwi5rf4gj65wmge5xj4rivhsissnxf7qytztzxr@qsphr7wj4h76>
+References: <20260907065724.1355551-1-cui.tao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,185 +88,85 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260907063252.21433-1-hemanth.selam@gmail.com>
-X-Spam-Score: -2.51
-X-Rspamd-Queue-Id: E679A21987
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+In-Reply-To: <20260907065724.1355551-1-cui.tao@linux.dev>
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spam-Score: -2.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,zeniv.linux.org.uk,kernel.org,suse.cz,gmail.com,kylinos.cn];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,kylinos.cn:email]
 
-On Mon 07-09-26 12:02:52, Hemanth Selam wrote:
-> Fix typos in comments, reported by scripts/checkpatch.pl using the
-> misspelling list in scripts/spelling.txt.  Only touches comments, no code
-> changes.
+On Mon 07-09-26 14:57:23, Tao Cui wrote:
+> From: Tao Cui <cuitao@kylinos.cn>
 > 
-> Assisted-by: Cursor:claude-opus-5
-> Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+> listmount() uses mnt_id_req::param as a pagination cursor: on forward
+> iteration do_listmount() starts from the first mount with an id strictly
+> greater than last_mnt_id.  The sanity check in prepare_klistmount() only
+> rejects ids in the range [1, MNT_UNIQUE_ID_OFFSET]; U64_MAX passes the
+> check, and incrementing it wraps back to 0, so mnt_find_id_at() restarts
+> from the leftmost mount in the namespace every time.
+> 
+> A caller paging with last_mnt_id set to U64_MAX therefore always gets
+> the same first batch of ids returned and can never advance to the end of
+> the list:
+> 
+>   # base: every call returns the same first batch
+>   listmount(param=U64_MAX) = 8 ids: 2147483886 2147483888 ...
+>   # patched:
+>   listmount(param=U64_MAX) = -1 EINVAL
+> 
+> Reject U64_MAX up front together with the other invalid ids.
+> 
+> Fixes: b4c2bea8ceaa ("add listmount(2) syscall")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
+This looks OK, but I think we should reject U64_MAX only if
+LISTMOUNT_REVERSE flag is not set? With this flag specifying U64_MAX
+actually makes sense and it is likely used by people?
 
 								Honza
 
 > ---
->  fs/aio.c                | 4 ++--
->  fs/coredump.c           | 2 +-
->  fs/fs-writeback.c       | 6 +++---
->  fs/inode.c              | 2 +-
->  fs/namespace.c          | 2 +-
->  include/linux/fs.h      | 2 +-
->  include/uapi/linux/fs.h | 2 +-
->  7 files changed, 10 insertions(+), 10 deletions(-)
+>  fs/namespace.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/fs/aio.c b/fs/aio.c
-> index d78acc69f487..685525aef7a3 100644
-> --- a/fs/aio.c
-> +++ b/fs/aio.c
-> @@ -936,7 +936,7 @@ static int kill_ioctx(struct mm_struct *mm, struct kioctx *ctx,
->  
->  /*
->   * exit_aio: called when the last user of mm goes away.  At this point, there is
-> - * no way for any new requests to be submited or any of the io_* syscalls to be
-> + * no way for any new requests to be submitted or any of the io_* syscalls to be
->   * called on the context.
->   *
->   * There may be outstanding kiocbs, but free_ioctx() will explicitly wait on
-> @@ -1280,7 +1280,7 @@ static long aio_read_events_ring(struct kioctx *ctx,
->  	 * The mutex can block and wake us up and that will cause
->  	 * wait_event_interruptible_hrtimeout() to schedule without sleeping
->  	 * and repeat. This should be rare enough that it doesn't cause
-> -	 * peformance issues. See the comment in read_events() for more detail.
-> +	 * performance issues. See the comment in read_events() for more detail.
->  	 */
->  	sched_annotate_sleep();
->  	mutex_lock(&ctx->ring_lock);
-> diff --git a/fs/coredump.c b/fs/coredump.c
-> index ac3cd74808c6..2e8f247efd65 100644
-> --- a/fs/coredump.c
-> +++ b/fs/coredump.c
-> @@ -1047,7 +1047,7 @@ static bool coredump_write(struct core_name *cn,
->  	cn->core_dumped = binfmt->core_dump(cprm);
->  	/*
->  	 * Ensures that file size is big enough to contain the current
-> -	 * file postion. This prevents gdb from complaining about
-> +	 * file position. This prevents gdb from complaining about
->  	 * a truncated file if the last "write" to the file was
->  	 * dump_skip.
->  	 */
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index e744f9f9d43f..f303936446da 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -233,7 +233,7 @@ void wb_wait_for_completion(struct wb_completion *done)
->   * Parameters for foreign inode detection, see wbc_detach_inode() to see
->   * how they're used.
->   *
-> - * These paramters are inherently heuristical as the detection target
-> + * These parameters are inherently heuristical as the detection target
->   * itself is fuzzy.  All we want to do is detaching an inode from the
->   * current owner if it's being written to by some other cgroups too much.
->   *
-> @@ -248,7 +248,7 @@ void wb_wait_for_completion(struct wb_completion *done)
->   * to 16 slots.  To avoid tiny writes from swinging the decision too much,
->   * writes smaller than 1/8 of avg size are ignored.
->   */
-> -#define WB_FRN_TIME_SHIFT	13	/* 1s = 2^13, upto 8 secs w/ 16bit */
-> +#define WB_FRN_TIME_SHIFT	13	/* 1s = 2^13, up to 8 secs w/ 16bit */
->  #define WB_FRN_TIME_AVG_SHIFT	3	/* avg = avg * 7/8 + new * 1/8 */
->  #define WB_FRN_TIME_CUT_DIV	8	/* ignore rounds < avg / 8 */
->  #define WB_FRN_TIME_PERIOD	(2 * (1 << WB_FRN_TIME_SHIFT))	/* 2s */
-> @@ -259,7 +259,7 @@ void wb_wait_for_completion(struct wb_completion *done)
->  #define WB_FRN_HIST_THR_SLOTS	(WB_FRN_HIST_SLOTS / 2)
->  					/* if foreign slots >= 8, switch */
->  #define WB_FRN_HIST_MAX_SLOTS	(WB_FRN_HIST_THR_SLOTS / 2 + 1)
-> -					/* one round can affect upto 5 slots */
-> +					/* one round can affect up to 5 slots */
->  #define WB_FRN_MAX_IN_FLIGHT	1024	/* don't queue too many concurrently */
->  
->  /*
-> diff --git a/fs/inode.c b/fs/inode.c
-> index ba7da39be4a3..817fd5254495 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -1771,7 +1771,7 @@ EXPORT_SYMBOL(ilookup);
->   * function must never block --- find_inode() can block in
->   * __wait_on_freeing_inode() --- or when the caller can not increment
->   * the reference count because the resulting iput() might cause an
-> - * inode eviction.  The tradeoff is that the @match funtion must be
-> + * inode eviction.  The tradeoff is that the @match function must be
->   * very carefully implemented.
->   */
->  struct inode *find_inode_nowait(struct super_block *sb,
 > diff --git a/fs/namespace.c b/fs/namespace.c
-> index 1ecd96c918b3..f45233f425f7 100644
+> index 8d4009cfbf5b..cb95b855f78b 100644
 > --- a/fs/namespace.c
 > +++ b/fs/namespace.c
-> @@ -4115,7 +4115,7 @@ int path_mount(const char *dev_name, const struct path *path,
->  	if (flags & SB_MANDLOCK)
->  		warn_mandlock();
+> @@ -6108,6 +6108,9 @@ static inline int prepare_klistmount(struct klistmount *kls, struct mnt_id_req *
+>  	/* The first valid unique mount id is MNT_UNIQUE_ID_OFFSET + 1. */
+>  	if (last_mnt_id != 0 && last_mnt_id <= MNT_UNIQUE_ID_OFFSET)
+>  		return -EINVAL;
+> +	/* U64_MAX would wrap to 0 and restart the iteration. */
+> +	if (last_mnt_id == U64_MAX)
+> +		return -EINVAL;
 >  
-> -	/* Default to relatime unless overriden */
-> +	/* Default to relatime unless overridden */
->  	if (!(flags & MS_NOATIME))
->  		mnt_flags |= MNT_RELATIME;
+>  	kls->last_mnt_id = last_mnt_id;
 >  
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index f9d1e05e8ae6..05d05bb9c951 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -1436,7 +1436,7 @@ static inline void i_gid_write(struct inode *inode, gid_t gid)
->   * @idmap: idmap of the mount the inode was found from
->   * @inode: inode to map
->   *
-> - * Return: whe inode's i_uid mapped down according to @idmap.
-> + * Return: the inode's i_uid mapped down according to @idmap.
->   * If the inode's i_uid has no mapping INVALID_VFSUID is returned.
->   */
->  static inline vfsuid_t i_uid_into_vfsuid(struct mnt_idmap *idmap,
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index 34c6f219462a..a46c33692aa2 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -88,7 +88,7 @@ struct fstrim_range {
->   * We include a length field because some filesystems (vfat) have an identifier
->   * that we do want to expose as a UUID, but doesn't have the standard length.
->   *
-> - * We use a fixed size buffer beacuse this interface will, by fiat, never
-> + * We use a fixed size buffer because this interface will, by fiat, never
->   * support "UUIDs" longer than 16 bytes; we don't want to force all downstream
->   * users to have to deal with that.
->   */
 > -- 
-> 2.48.1
+> 2.43.0
 > 
 -- 
 Jan Kara <jack@suse.com>
