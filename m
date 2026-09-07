@@ -1,165 +1,158 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84701353A7C;
-	Mon,  7 Sep 2026 08:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F5F42467C;
+	Mon,  7 Sep 2026 08:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788769632; cv=none; b=m14NV2RAUW2UZuZA/ySyQtFLuegUtA499kuOdQkCfIm+w2y/CbVJMetII2I/9dO4Ie9GEPdmJjXzNe4SE6rW/wefqy1piuiBIvaFQrkxK8wrTrpcRIL7BFKa0omw0qwGK4OSdsAcu3RHDbXySPG2m2bg9ZPbxfhQjK7wZHeKZOA=
+	t=1788769861; cv=none; b=OlfwQsJ9BITmGuJca9NuR7dA5mOQ2Y6XoU6ksrGOI+qiThzw9TCgmqq5ldVhABtrpICx0BLKWMwdZyS2Uk5Qhu+aL/bUgMKCK8g83pmjftRggrrv0MMcbz9CCIwxFER2XgLe5ezfBLVxTIAqQkCPiA9DCF6BWtfbNiBYOsAIukE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788769632; c=relaxed/simple;
-	bh=Ad4w0uR1Iu/xT5mxmU260NA/rHJqJ8LtRQvJxF7pEjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=emDdFS00OcuUAdM2WVjJ5gWYKbeouZWySx7E78H8eDt/Wc3WDO1YECWxg15FhCo5DLkvtRiB3q5o6AvQHE1hY/BwndVTrQ940amcaprumJDbu6cX2J6isFtjw6CzFGJ93/7fYoWnoXTyurs8JkeQDhZP++R/oxQjntj5bmgAjDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=phfoY/wH; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1788769861; c=relaxed/simple;
+	bh=UyvTApDFSHUTrEMxF7m1O9nQZ0M3f/YbiPyyL5h8X64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bzKfNL985iccZ3kA+QUU66Y9/H6veNmL95rvcHnOnMCbqCcv+Ha07DwbTKR9Rs7Gp9lqnrSYGl/o7ibgEAGf1rhF6gYs5kAWAlvdOizbYlMxoqBgumXjxcoB/1OXUwQu/tDzEoBPASyRecNhdrwufyII7dyVzOHBhJT4GZf8UNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CDdbDc9x; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="phfoY/wH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Qd
-	fUULiZbW919nFKPewAAkLOXHnvhnNemYIXuxxRD1E=; b=phfoY/wH+QODpqkcUO
-	t+ULb2Lmd3LZ/dVII0zBUIg3yCuOkZiRZ/dED/9ilqItUGpOa6wKsRQxbFl47hHg
-	gxjOukiBN9hPd3KTZ7yqjkltyHwcy7LiRSuHqUxjQgQwQDv6WUU7oslqZ7N23uCm
-	lXAivj//pq+mS9F164GKrQrn4=
-Received: from liubaolin-ThinkPad-E15-Gen-2 (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wD3nwpAdZ5qHYkKBQ--.46075S2;
-	Mon, 07 Sep 2026 16:26:42 +0800 (CST)
-From: Baolin Liu <liubaolin12138@163.com>
-To: jack@suse.cz,
-	michael.bommarito@gmail.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	liubaolin12138@163.com,
-	Baolin Liu <liubaolin@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] isofs: fix Rock Ridge CE extent validation on multisession media
-Date: Mon,  7 Sep 2026 16:26:02 +0800
-Message-ID: <20260907082602.3777551-1-liubaolin12138@163.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CDdbDc9x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A98A01F00A3A;
+	Mon,  7 Sep 2026 08:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788769860;
+	bh=C3Qj5aYZdoYUGz5K6Ve4x0QUot1tBZloGgZLRhBtw34=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CDdbDc9xHCMS30v5MjFDnxUKCRYcq4sLDVR7heIyRnV3dVUWiz3jSR21p2tC8tLY0
+	 a5ppuV7Oq3pqn1sm26nImkiVnwzWnY4nIQpm5AtJmpDSLfdRBixMkHYcZYNNP+KKIb
+	 V+8S6YT+pI9Ac75JoyFDjT5kVsmPyq3bHmp0UAu48vzyqptOu/DDxVdfhBdKPZMXxt
+	 LiYaNk1vnoX3Zi8LMh3SGY/hQ7VNY8eF5BGTFWspXDc9TtjKf6v0/YhUdmqpfrdnNY
+	 bLDNFrftjN8cE6OpOzzSLk//d9oDXTHlaIIWcd08zyic+FHuWNK9TPoDFmcRsKANU2
+	 WIu8oYXSV7NUA==
+Date: Mon, 7 Sep 2026 09:30:44 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Ye Liu <ye.liu@linux.dev>
+Cc: Oleg Nesterov <oleg@redhat.com>, 
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Marco Elver <elver@google.com>, Ye Liu <liuye@kylinos.cn>, 
+	Tejun Heo <tj@kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Bart Van Assche <bvanassche@acm.org>, Yi Tao <escape@linux.alibaba.com>, 
+	Michal Hocko <mhocko@suse.com>, paulmck@kernel.org, mingo@redhat.com, rostedt@goodmis.org, 
+	jpoimboe@kernel.org, mic@digikod.net, tglx@kernel.org, akpm@linux-foundation.org, 
+	david@kernel.org, linmiaohe@huawei.com, nao.horiguchi@gmail.com, rafael@kernel.org, 
+	gnoack3000@gmail.com, sj@kernel.org, rientjes@google.com, shakeel.butt@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, will@kernel.org, boqun@kernel.org, 
+	frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com, 
+	josh@joshtriplett.org, urezki@gmail.com, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, tony.luck@intel.com, reinette.chatre@intel.com, x86@kernel.org, 
+	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, pavel@kernel.org, 
+	lance.yang@linux.dev, mhiramat@kernel.org, pmladek@suse.com, longman@redhat.com, 
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, qiang.zhang@linux.dev, 
+	dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
+	kprateek.nayak@amd.com, mark.rutland@arm.com, Dave.Martin@arm.com, james.morse@arm.com, 
+	babu.moger@amd.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 1/8] sched: introduce for_each_process_rculock and
+ for_each_thread_rculock
+Message-ID: <ap51Mj0cqvAYb31k@gremlin>
+References: <20260907081334.1152889-1-ye.liu@linux.dev>
+ <20260907081334.1152889-2-ye.liu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3nwpAdZ5qHYkKBQ--.46075S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWFWkWFy8Xw4fGF17Cr17Wrg_yoWrAF1kpF
-	sFk3W3KF47G3s3Wr97AryDZry5K390yF47Gr9xJ3WaqFn2qrnIvFy8tr1UJay0qrZ5JF45
-	uFWYqrZ7Ga1qyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEaZXUUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6gKvemqedULeRAAA3k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260907081334.1152889-2-ye.liu@linux.dev>
 
-From: Baolin Liu <liubaolin@kylinos.cn>
+On Mon, Sep 07, 2026 at 04:13:27PM +0800, Ye Liu wrote:
+> From: Ye Liu <liuye@kylinos.cn>
+>
+> Introduce for_each_process_rculock(), for_each_thread_rculock() and
+> for_each_process_thread_rculock() macros that acquire the RCU read
+> lock before the iteration starts and release it when the loop is left,
+> so that the RCU read-side critical section is scoped to the loop body
+> instead of an externally managed rcu_read_lock()/rcu_read_unlock()
+> pair.
+>
+> Signed-off-by: Ye Liu <liuye@kylinos.cn>
+> Acked-by: Michal Hocko <mhocko@suse.com>
 
-Commit a36d990f5913 ("isofs: validate Rock Ridge CE continuation extent
-against volume size") compares the CE extent directly with s_nzones.  The
-extent is an absolute block number, while s_nzones is the number of blocks
-relative to the selected ISO session.  The comparison is therefore wrong
-when a multisession disc starts at a non-zero block.
+Some nits below, with those addressed, LGTM so:
 
-isofs_get_last_session() selects the last session on multisession
-media, and its volume descriptors describe a volume beginning at that
-session's LBA.
-For example, a session beginning at LBA 45447 with 64 blocks can contain a
-valid CE at absolute LBA 45467.  The existing check rejects that CE, so the
-ER continuation record is not read, Rock Ridge is disabled, and the mount
-falls back to Joliet names.
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Save the selected session start in filesystem-block units and validate the
-CE extent against the half-open interval [session_start, session_end).
-Scale the session length to the same block units and retain a separate
-block-device limit.  The lower bound is intentional: accepting arbitrary
-blocks before the selected session could make a CE read data from a
-previous session or another filesystem on the device.
+> ---
+> Changes in v2:
+>   - Rename macros from *_rcu to *_rculock (Steven Rostedt, Thomas Gleixner)
+>   - Improve comment on for_each_process_thread_rculock() double loop
+>   - Change prefix from mm: to sched: (Michal Hocko)
+>  include/linux/sched/signal.h | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index 584ae88b435e..110ea9f131f3 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -2,6 +2,7 @@
+>  #ifndef _LINUX_SCHED_SIGNAL_H
+>  #define _LINUX_SCHED_SIGNAL_H
+>
+> +#include <linux/cleanup.h>
+>  #include <linux/rculist.h>
+>  #include <linux/signal.h>
+>  #include <linux/sched.h>
+> @@ -663,6 +664,30 @@ extern bool current_is_single_threaded(void);
+>  #define for_each_process_thread(p, t)	\
+>  	for_each_process(p) for_each_thread(p, t)
+>
+> +/*
+> + * Variants of for_each_process(), for_each_thread() and
+> + * for_each_process_thread() that automatically acquire and release the
+> + * RCU read lock via scoped_guard(rcu).  The lock is held for the
+> + * duration of the loop and released on exit, including via break,
+> + * goto, or return.
+> + */
+> +#define for_each_process_rculock(p) \
+> +	scoped_guard(rcu) \
+> +	for (p = &init_task ; (p = next_task(p)) != &init_task ; )
 
-Only apply the bounds check when cont_extent is non-zero.  A zero extent is
-the in-memory sentinel indicating that no CE continuation was found, rather
-than a request to read block zero.
+NIT: Can you indent the for loop by a tab? Since the for is in
+scoped_guard() scope and that's not made clear.
 
-For a single-session image, session_start is zero and the effective volume
-boundary remains unchanged.
+> +
+> +#define for_each_thread_rculock(p, t) \
+> +	scoped_guard(rcu) \
+> +	__for_each_thread((p)->signal, t)
 
-Build-tested with:
+Same comment as above.
 
-    make CONFIG_RUST= CONFIG_RUST_DRIVERS= fs/isofs/
+> +
+> +/*
+> + * Double loop: 'break' only exits the inner for_each_thread() loop.
+> + * Use 'goto' to exit both loops; the RCU read lock is released
+> + * automatically when the scoped_guard scope is left.
+> + */
+> +#define for_each_process_thread_rculock(p, t) \
+> +	scoped_guard(rcu) \
+> +	for_each_process(p) for_each_thread(p, t)
 
-Fixes: a36d990f5913 ("isofs: validate Rock Ridge CE continuation extent against volume size")
-Cc: stable@vger.kernel.org
-Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
----
- fs/isofs/inode.c |  2 ++
- fs/isofs/isofs.h |  2 ++
- fs/isofs/rock.c  | 13 +++++++++++--
- 3 files changed, 15 insertions(+), 2 deletions(-)
+Yeah this is even worse for clarity :) I know the existing defines do itg
+this way but it's kinda confusing.
 
-diff --git a/fs/isofs/inode.c b/fs/isofs/inode.c
-index 337836a0a170..efcb8fb2b10c 100644
---- a/fs/isofs/inode.c
-+++ b/fs/isofs/inode.c
-@@ -821,6 +821,8 @@ static int isofs_fill_super(struct super_block *s, struct fs_context *fc)
- 	if (!sb_set_blocksize(s, orig_zonesize))
- 		goto out_freesbi;
- 
-+	sbi->s_session_start = (u64)vol_desc_start <<
-+				(ISOFS_BLOCK_BITS - s->s_blocksize_bits);
- 	sbi->s_nls_iocharset = NULL;
- 
- #ifdef CONFIG_JOLIET
-diff --git a/fs/isofs/isofs.h b/fs/isofs/isofs.h
-index dacb9cdae4fd..0732e1aa3b7f 100644
---- a/fs/isofs/isofs.h
-+++ b/fs/isofs/isofs.h
-@@ -35,6 +35,8 @@ struct isofs_sb_info {
- 	unsigned long s_firstdatazone;
- 	unsigned long s_log_zone_size;
- 	unsigned long s_max_size;
-+	/* Session start in filesystem block units. */
-+	u64 s_session_start;
- 	
- 	int           s_rock_offset; /* offset of SUSP fields within SU area */
- 	s32           s_sbsector;
-diff --git a/fs/isofs/rock.c b/fs/isofs/rock.c
-index 2628f31bd3a5..a9645a9e8628 100644
---- a/fs/isofs/rock.c
-+++ b/fs/isofs/rock.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/slab.h>
- #include <linux/pagemap.h>
-+#include <linux/blkdev.h>
- 
- #include "isofs.h"
- #include "rock.h"
-@@ -84,6 +85,11 @@ static void init_rock_state(struct rock_state *rs, struct inode *inode)
-  */
- static int rock_continue(struct rock_state *rs)
- {
-+	struct super_block *sb = rs->inode->i_sb;
-+	struct isofs_sb_info *sbi = ISOFS_SB(sb);
-+	u64 extent = (unsigned int)rs->cont_extent;
-+	u64 session_end = sbi->s_session_start +
-+		((u64)sbi->s_nzones << (ISOFS_BLOCK_BITS - sb->s_blocksize_bits));
- 	int ret = 1;
- 	int blocksize = 1 << rs->inode->i_blkbits;
- 	const int min_de_size = offsetof(struct rock_ridge, u);
-@@ -101,11 +107,14 @@ static int rock_continue(struct rock_state *rs)
- 		goto out;
- 	}
- 
--	if ((unsigned)rs->cont_extent >= ISOFS_SB(rs->inode->i_sb)->s_nzones) {
-+	if (rs->cont_extent &&
-+	    (extent < sbi->s_session_start ||
-+	     extent >= session_end ||
-+	     extent >= sb_bdev_nr_blocks(sb))) {
- 		printk(KERN_NOTICE "rock: corrupted directory entry. "
- 			"extent=%u out of volume (nzones=%lu)\n",
- 			(unsigned)rs->cont_extent,
--			ISOFS_SB(rs->inode->i_sb)->s_nzones);
-+			sbi->s_nzones);
- 		ret = -EIO;
- 		goto out;
- 	}
--- 
-2.51.0
+I know it's a bit fugly, but it's MUCH clearer as:
 
+	#define for_each_process_thread_rculock(p, t) \
+		scoped_guard(rcu) \
+			for_each_process(p) \
+				for_each_thread(p, t)
+
+> +
+>  typedef int (*proc_visitor)(struct task_struct *p, void *data);
+>  void walk_process_tree(struct task_struct *top, proc_visitor, void *);
+>
+> --
+> 2.25.1
+>
+
+--
+Cheers, Lorenzo
