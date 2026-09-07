@@ -1,328 +1,143 @@
-Received: from mta0.migadu.com (out-92.mta0.migadu.com [91.218.175.92])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6DA43E067
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 08:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D2043E094;
+	Mon,  7 Sep 2026 08:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788768897; cv=none; b=ZRidT1aeZPV5TJk0jHq94+JgPh4TgmI3IPAh244qdxVsAq52WIqABZBjqFFQMVa2rEWjCs0eEFB4yAvpxNmRwiiZlVx/iLcuij5mGjjY8+LrIGWEpgs//U4BIB1MWD3wecymBs+r7LvVfG+mce6lduTkwq+sp/VW8i1K3qJQXhI=
+	t=1788768918; cv=none; b=ddky6IG8o/CcVMwhTmakgs+vT9MzzW4ZPIwdIzD/2I46051SZzZjbw/375AQPQjjURw+AcmZhPJ7CuO0KEee9Aa+KBiP4zqDUjFVmg7hsa6hgNeiIToU++x3M6EOi3VzBi5delaHJGcjk6JTChrBHcL5wctaeblUMQ7soweqPwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788768897; c=relaxed/simple;
-	bh=GYHf+zbpJIbN8wdET2m2KoX50bTFoVYyZ6SIH+UzDwc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GL+MyXQVz9TbclIE5+dPzOr40XlQ09H2qgpQuONpxC8pXUYHndZyjibHtTe/Ep54hw4SigxHJUr9zoigbcLUVLMjwRi/BiGmgotpPcyag8YI6jNS8YgJAuwTEzPhPCcEOGlYsAtAyKG4Hkd5SyfX5A1z4viUjMr8qS/2IVpHfIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IK19lLt3; arc=none smtp.client-ip=91.218.175.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788768918; c=relaxed/simple;
+	bh=ElOIULgAMDi4U9S3SooKnwGu2kYRiN8Nt64uHmhI5W0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WV5wfq7IdBCtm7FZf6HkPjRnYR7SZvUK7kA4FxgviIzJ7rBqDcQEFbhvPDY9zLzpJgCvReOZJDGgPONRnmxUyfr1hcqxr1q4LQ5jxO9o853C+Q/4HtRGo56qp2UsboBu6Vv/+hdZs73OWXL+GRAQl9FXHK+U8gg3sNCHU0PJsjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K1OA/hgK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+LTRB+jP; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WfSDut0z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Lv/gb01L; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IK19lLt3"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=GYHf+zbpJIbN8wdET2m2KoX50bTFoVYyZ6SIH+UzDwc=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788768893; v=1; x=1789373693;
- b=IK19lLt3RNhYH68ocEIktoMXlTKmsbtOmPmpyDQFNth/wOqvSaB7UimEnHmi81y5XUfTIvwb
- kKKcLzcqR7McNFASai1GURu9fB3QBwYl8KS2twuyvQUTMw7KgSZP295bAN8RXc1oUjTU5fNebjS
- eABgGH/ib6letISwgKAGFn/0=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 70f3f824a87c0db2;
-	Mon, 07 Sep 2026 08:14:52 +0000
-X-Mizu-Trace-ID: 70f3f824a87c0db2
-X-Migadu-Flow: FLOW_OUT
-From: Ye Liu <ye.liu@linux.dev>
-To: Thomas Gleixner <tglx@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Ye Liu <liuye@kylinos.cn>,
-	Michal Hocko <mhocko@suse.com>,
-	mic@digikod.net,
-	oleg@redhat.com,
-	david@kernel.org,
-	linmiaohe@huawei.com,
-	nao.horiguchi@gmail.com,
-	gnoack3000@gmail.com,
-	ljs@kernel.org,
-	sj@kernel.org,
-	rientjes@google.com,
-	shakeel.butt@linux.dev,
-	xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev,
-	tony.luck@intel.com,
-	reinette.chatre@intel.com,
-	x86@kernel.org,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	pavel@kernel.org,
-	lance.yang@linux.dev,
-	pmladek@suse.com,
-	longman@redhat.com,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev,
-	dietmar.eggemann@arm.com,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	mark.rutland@arm.com,
-	Dave.Martin@arm.com,
-	james.morse@arm.com,
-	babu.moger@amd.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	rcu@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH v2 5/8] kernel: convert process/thread iterators to for_each_*_rculock
-Date: Mon,  7 Sep 2026 16:13:31 +0800
-Message-Id: <20260907081334.1152889-6-ye.liu@linux.dev>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260907081334.1152889-1-ye.liu@linux.dev>
-References: <20260907081334.1152889-1-ye.liu@linux.dev>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K1OA/hgK";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+LTRB+jP";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WfSDut0z";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Lv/gb01L"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9FB0921B71;
+	Mon,  7 Sep 2026 08:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788768910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+BNTNFqUdOlzrExQbTmBMvlA8LJ1R3i4u+JN007pPHQ=;
+	b=K1OA/hgKxn0d2qrAOWmbQlcgcvpYBUV7oFlrbUntNXwUirFyOfmybC2oR4CuMJtI6sB88D
+	FeKbSbUXssehtwtg3VnEjuWYaDrAGRPBeY/sKk4ylzJm8Gfkhe0cKtVMMA1Tc5V4OATQas
+	rimsyXrl58ZQtnBBksti371K7LhUUq4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788768910;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+BNTNFqUdOlzrExQbTmBMvlA8LJ1R3i4u+JN007pPHQ=;
+	b=+LTRB+jPadJYBX/J7834zmYzTfOF1AamRzsz+fNg2sAtIjMEtKnKiaP6R8y+nSBjGNXhjR
+	t8g7uFHVm7IuBdCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=WfSDut0z;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="Lv/gb01L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788768906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+BNTNFqUdOlzrExQbTmBMvlA8LJ1R3i4u+JN007pPHQ=;
+	b=WfSDut0zIZgn+IqWFdYOqsxe+G1hzDOnkmUTFTupCd2522UvfMBG2P0bnnjXyrzy8PC3et
+	Ng+RZwEG5BcuBIFfP3XAyoIC+CdbbMFVLsNqB0ejZQgAaijPRzKy/uj2cUUlMX8zDHDkcc
+	kze1WN8okVofcMBLvm/Bh3x2SaQf2YY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788768906;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+BNTNFqUdOlzrExQbTmBMvlA8LJ1R3i4u+JN007pPHQ=;
+	b=Lv/gb01LOSehRrXJzg5G6uT/oa4scgrSbu+Mzf+fDBpvDqU88PGZmizXW52nHKqKmQr2mN
+	Piwb0UxEWamwkqBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 820551339B;
+	Mon,  7 Sep 2026 08:15:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id w1K5H4pynmp6MwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 07 Sep 2026 08:15:06 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1098CA13B2; Mon, 07 Sep 2026 10:15:02 +0200 (CEST)
+Date: Mon, 7 Sep 2026 10:15:02 +0200
+From: Jan Kara <jack@suse.cz>
+To: Hemanth Selam <hemanth.selam@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] isofs: fix repeated word 'in' in comment
+Message-ID: <fxnknuyxrjcvdvytipdbfnl3czuy6uxoyfzbglz5upfbatords@2o3yhtlfro6u>
+References: <20260904123914.583-1-hemanth.selam@gmail.com>
+ <20260907042402.12893-6-hemanth.selam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260907042402.12893-6-hemanth.selam@gmail.com>
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 9FB0921B71
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-From: Ye Liu <liuye@kylinos.cn>
+On Mon 07-09-26 09:54:02, Hemanth Selam wrote:
+> Please drop this patch, it is wrong.
+> 
+>   "the subsequent blocks are going to come in in short order"
+> 
+> "come in" is the verb and "in short order" is the adverbial that follows
+> it.  Both words belong there and the comment reads correctly as it is.
 
-Replace the manual rcu_read_lock()/rcu_read_unlock() and guard(rcu)
-pairs combined with for_each_process(), for_each_thread() and
-for_each_process_thread() loops across kernel/ with the
-for_each_*_rculock() macros, which scope the RCU read lock to the
-loop body via scoped_guard(rcu).
-
-No functional change.
-
-Signed-off-by: Ye Liu <liuye@kylinos.cn>
-Acked-by: Michal Hocko <mhocko@suse.com>
----
-Changes in v2:
-  - Rename *_rcu to *_rculock
-  - Rename stale 'unlock:' label to 'out:' in hung_task.c (Günther Noack)
- kernel/cpu.c             |  4 +---
- kernel/freezer.c         |  4 +---
- kernel/hung_task.c       | 11 ++++-------
- kernel/locking/lockdep.c |  4 +---
- kernel/rcu/update.c      |  4 +---
- kernel/sched/core.c      |  3 +--
- kernel/sched/debug.c     |  4 +---
- kernel/trace/fgraph.c    |  8 ++------
- kernel/unwind/deferred.c |  3 +--
- 9 files changed, 13 insertions(+), 32 deletions(-)
-
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index b3c8553d7bd6..00638d2abc0f 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -1254,8 +1254,7 @@ void clear_tasks_mm_cpumask(int cpu)
- 	 * full-fledged tasklist_lock.
- 	 */
- 	WARN_ON(cpu_online(cpu));
--	rcu_read_lock();
--	for_each_process(p) {
-+	for_each_process_rculock(p) {
- 		struct task_struct *t;
- 
- 		/*
-@@ -1268,7 +1267,6 @@ void clear_tasks_mm_cpumask(int cpu)
- 		arch_clear_mm_cpumask_cpu(cpu, t->mm);
- 		task_unlock(t);
- 	}
--	rcu_read_unlock();
- }
- 
- /* Take this CPU down. */
-diff --git a/kernel/freezer.c b/kernel/freezer.c
-index a76bf957fb32..7a870f71dcf6 100644
---- a/kernel/freezer.c
-+++ b/kernel/freezer.c
-@@ -217,11 +217,9 @@ void thaw_process(struct task_struct *p)
- {
- 	struct task_struct *t;
- 
--	rcu_read_lock();
--	for_each_thread(p, t) {
-+	for_each_thread_rculock(p, t) {
- 		__thaw_task(t);
- 	}
--	rcu_read_unlock();
- }
- 
- /**
-diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-index 6fcc94ce4ca9..73a5ad3be9a8 100644
---- a/kernel/hung_task.c
-+++ b/kernel/hung_task.c
-@@ -315,13 +315,12 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
- 		return;
- 
- 	this_round_count = 0;
--	rcu_read_lock();
--	for_each_process_thread(g, t) {
-+	for_each_process_thread_rculock(g, t) {
- 		if (!max_count--)
--			goto unlock;
-+			goto out;
- 		if (time_after(jiffies, last_break + HUNG_TASK_LOCK_BREAK)) {
- 			if (!rcu_lock_break(g, t))
--				goto unlock;
-+				goto out;
- 			last_break = jiffies;
- 		}
- 
-@@ -337,9 +336,7 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
- 			hung_task_info(t, timeout, this_round_count);
- 		}
- 	}
-- unlock:
--	rcu_read_unlock();
--
-+out:
- 	if (!this_round_count)
- 		return;
- 
-diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
-index c56a7f91d72e..ea218dc75ad5 100644
---- a/kernel/locking/lockdep.c
-+++ b/kernel/locking/lockdep.c
-@@ -6834,15 +6834,13 @@ void debug_show_all_locks(void)
- 	}
- 	pr_warn("\nShowing all locks held in the system:\n");
- 
--	rcu_read_lock();
--	for_each_process_thread(g, p) {
-+	for_each_process_thread_rculock(g, p) {
- 		if (!p->lockdep_depth)
- 			continue;
- 		lockdep_print_held_locks(p);
- 		touch_nmi_watchdog();
- 		touch_all_softlockup_watchdogs();
- 	}
--	rcu_read_unlock();
- 
- 	pr_warn("\n");
- 	pr_warn("=============================================\n\n");
-diff --git a/kernel/rcu/update.c b/kernel/rcu/update.c
-index 2a778b8ab4ad..d8e0b5896db9 100644
---- a/kernel/rcu/update.c
-+++ b/kernel/rcu/update.c
-@@ -548,15 +548,13 @@ void synchronize_rcu_trivial_preempt(void)
- 	struct task_struct *t;
- 
- 	smp_mb(); // Order prior accesses before grace-period start.
--	rcu_read_lock(); // Protect task list.
--	for_each_process_thread(g, t) {
-+	for_each_process_thread_rculock(g, t) {
- 		if (t == current)
- 			continue;  // Don't deadlock on ourselves!
- 		// Order later rcu_read_lock() on other tasks after QS.
- 		while (smp_load_acquire(&t->rcu_trivial_preempt_nesting))
- 			continue;
- 	}
--	rcu_read_unlock();
- }
- EXPORT_SYMBOL_GPL(synchronize_rcu_trivial_preempt);
- #endif // #if IS_ENABLED(CONFIG_TRIVIAL_PREEMPT_RCU)
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 0697ed0f1c3d..fd5bdd2cb798 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -2005,8 +2005,7 @@ static void uclamp_sync_util_min_rt_default(void)
- 	smp_mb__after_spinlock();
- 	read_unlock(&tasklist_lock);
- 
--	guard(rcu)();
--	for_each_process_thread(g, p)
-+	for_each_process_thread_rculock(g, p)
- 		uclamp_update_util_min_rt_default(p);
- }
- 
-diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-index 72236db67983..cdae165b98f7 100644
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -1029,14 +1029,12 @@ static void print_rq(struct seq_file *m, struct rq *rq, int rq_cpu)
- #endif
- 		   "\n");
- 
--	rcu_read_lock();
--	for_each_process_thread(g, p) {
-+	for_each_process_thread_rculock(g, p) {
- 		if (task_cpu(p) != rq_cpu)
- 			continue;
- 
- 		print_task(m, rq, p);
- 	}
--	rcu_read_unlock();
- }
- 
- void print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq)
-diff --git a/kernel/trace/fgraph.c b/kernel/trace/fgraph.c
-index 40d373d65f9b..f797ce119223 100644
---- a/kernel/trace/fgraph.c
-+++ b/kernel/trace/fgraph.c
-@@ -1057,11 +1057,10 @@ static int alloc_retstack_tasklist(unsigned long **ret_stack_list)
- 		}
- 	}
- 
--	rcu_read_lock();
--	for_each_process_thread(g, t) {
-+	for_each_process_thread_rculock(g, t) {
- 		if (start == end) {
- 			ret = -EAGAIN;
--			goto unlock;
-+			goto free;
- 		}
- 
- 		if (t->ret_stack == NULL) {
-@@ -1074,9 +1073,6 @@ static int alloc_retstack_tasklist(unsigned long **ret_stack_list)
- 			t->ret_stack = ret_stack_list[start++];
- 		}
- 	}
--
--unlock:
--	rcu_read_unlock();
- free:
- 	for (i = start; i < end; i++)
- 		kmem_cache_free(fgraph_stack_cachep, ret_stack_list[i]);
-diff --git a/kernel/unwind/deferred.c b/kernel/unwind/deferred.c
-index 5bea47314254..ecfe1336095e 100644
---- a/kernel/unwind/deferred.c
-+++ b/kernel/unwind/deferred.c
-@@ -319,9 +319,8 @@ void unwind_deferred_cancel(struct unwind_work *work)
- 
- 	synchronize_srcu(&unwind_srcu);
- 
--	guard(rcu)();
- 	/* Clear this bit from all threads */
--	for_each_process_thread(g, t) {
-+	for_each_process_thread_rculock(g, t) {
- 		atomic_long_andnot(BIT(bit),
- 				   &t->unwind_info.unwind_mask);
- 		if (t->unwind_info.cache)
+Ah right. It actually makes sense both ways but you are right the change is
+unnecessary. Dropping.
+	
+								Honza
 -- 
-2.25.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
