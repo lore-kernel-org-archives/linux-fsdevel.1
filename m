@@ -1,132 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244DB423A6C;
-	Mon,  7 Sep 2026 21:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF50423A6C
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 21:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788816308; cv=none; b=uCEUzCeH1CLicaBMy+jxvQJJ1dwueq650ji4ODHx0+173+r3zjdIOdcuXqBQR3cPSsTScn7hV5hSzDmlF+phgBrMh6nvqDTmR2ORUtmiciF2VrSWZfMZ3obFzJU9MfumnI0HjowlYNG7Cr9r4fEnDTc6In/mYCGaeZWx2Re36b0=
+	t=1788816404; cv=none; b=Phv5+FdEj0uuh42uJ7TTvclKw+SLqmeHy912ZAB8A9NK4XSFVeWDlR24KR/6sJJwTDPHLkr3REcmBL0I55WLvDvR2ziv5QkK72ADiXSijTM//hh9oyhAL+FHmbBfLzl0eAHQhpQVOrXz1c8YgYfVGpXl44JL/CXaQinECR04/6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788816308; c=relaxed/simple;
-	bh=z/PxfvviLLTFugbGZPcf/FuvmD/zRDYhjBU3T1yQooc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UfuDtw/eQzwoo1vGHcA4S843FHMkJAITKaFO2a36bBmgiLWf+AKsy9J7TWv1mtQJY/Fr8gYQioODy5WrECheeD8nlytR+rlcWLbUKT4REFZwkQkGxOVWlAPeOjl9WcnJ2i5Rc940uQNGuAwRJAFuAKiSC45b6R3/h1Yrhummd1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZOBDXX8q; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788816404; c=relaxed/simple;
+	bh=Pt3mK+0ZNA9CMJHEAkdLHJWnBxav//gmOF27YEuQ9ds=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fp4ruAA6cI3hom7SjEjBEVRLfUvaFbaK2jVX4UUFb8YEloQp051JdPtihlb4IMcxVr8zjEjvBGohGQO4JoxW1OM0iq73l91HjIGcwd0Nli6uxYY5MluNMSDEoV8SWZIS7CBdK82mzLejRstd3KGTCnjrKa8pdIE9q46gXdBe/pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ESC1snvq; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZOBDXX8q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 750261F00A3E;
-	Mon,  7 Sep 2026 21:25:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788816306;
-	bh=CGH0z6eCbi75StZiFhp1/k3e2S59+73Cki+MY1VrPg4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ZOBDXX8qIyCCRdOP6tmA1KKhaSnjDoxcs35+x3T6KqIIusFXAjWJYrBMBEuco732f
-	 2aucM9Ce26EMBbOtvMfVw5m3uXDmIwn75EbcQwOgTfa41bAvJkGvHUkD0LqeP68xaO
-	 WXvKxA1HV/VFth7JkNkkD28247+PWkJqzXGr9urxogjw99Bfe5QZqorMT5PhKjqEPm
-	 sbr0RFQP4JKb320CuP8R4H7nGOAk8d8njNUH7L5BnvlQtXPuY+B5/TUe0K1mym+3kh
-	 E77o10jT7QSqMsVnSpIkTOivSqbfl3yuMr0KsodwV68Qx86U7CG2okAg1UYJ6DuFuO
-	 /QlNjIUZ7JYxA==
-From: SJ Park <sj@kernel.org>
-To: Ye Liu <ye.liu@linux.dev>
-Cc: SJ Park <sj@kernel.org>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Michal Hocko <mhocko@suse.com>,
-	peterz@infradead.org,
-	paulmck@kernel.org,
-	mingo@redhat.com,
-	rostedt@goodmis.org,
-	jpoimboe@kernel.org,
-	mic@digikod.net,
-	oleg@redhat.com,
-	tglx@kernel.org,
-	david@kernel.org,
-	nao.horiguchi@gmail.com,
-	rafael@kernel.org,
-	gnoack3000@gmail.com,
-	ljs@kernel.org,
-	rientjes@google.com,
-	shakeel.butt@linux.dev,
-	xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev,
-	will@kernel.org,
-	boqun@kernel.org,
-	frederic@kernel.org,
-	neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com,
-	josh@joshtriplett.org,
-	urezki@gmail.com,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	tony.luck@intel.com,
-	reinette.chatre@intel.com,
-	x86@kernel.org,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	pavel@kernel.org,
-	lance.yang@linux.dev,
-	mhiramat@kernel.org,
-	pmladek@suse.com,
-	longman@redhat.com,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev,
-	dietmar.eggemann@arm.com,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	mark.rutland@arm.com,
-	Dave.Martin@arm.com,
-	james.morse@arm.com,
-	babu.moger@amd.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	rcu@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v2 4/8] mm/memory-failure: convert process iterator to for_each_process_rculock
-Date: Mon,  7 Sep 2026 14:24:57 -0700
-Message-ID: <20260907212457.88243-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260907081334.1152889-5-ye.liu@linux.dev>
-References: 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ESC1snvq"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cff3b3b92so59155e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 14:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788816400; x=1789421200; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=qkljoxpxAxxPq21+AvVJh3UswkdUWKfwz5YiyhHP7QA=;
+        b=ESC1snvqOgbpUVRPaiSKLgXvORw5rzT5te//TorK7hkpbMZA7Uokhj97SU2SlSBnsS
+         Q63CSW4nyHT5xmQeHEF7gnV0c+rpZBvDKJ6Qx+0QWUAikg2qEw20G6UjjscHfguTcjd0
+         Njg2ZRy1huMmLjQ6BOiLNEd00AOd74KgnJFJ50Ub6lDe2k3rGkXDUNkz5xpkt900RqyY
+         guZQiRKVldW4f4IYDt+VzMTrqi1LZax1CNvqMDH+3Rj2NCvXOJaCI/w9sShpm/+MazJU
+         4FgD/ogEgjLbH3/Euon0jZS5ZX2pgFV77qe8Bm/jYv7Ty8PRVr+BjeTPpYl+XnibSzqp
+         +jzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788816400; x=1789421200;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=qkljoxpxAxxPq21+AvVJh3UswkdUWKfwz5YiyhHP7QA=;
+        b=dlHSSnNmKL33QOBWULO1G+PNd8zIseEP/mJukdpZbk3nbd8dg1Kx+4tIQyyxUZWvVy
+         GTg1lNJxyju4qK78HTslppLAWxPlmEpLAQiktBH73W4UCR9JyJ3DNkt9uJwJmkW5fPda
+         AE7D6mPwMhJYuZ3wTPxKsOyZAhnTHksLZWhpB2XhiqwNM1uHJyFPyhBXgZHvOUDjUnAb
+         ZfNJ+XREeB8whutSHq+SYBIS343iR9MdFshsmTxvmuXBNKmnpyHLfIFovsQGt5kpeQQ6
+         d3VH3R6VFTygvGI+5iFbfH9NW986RlX/751BNM20wvcKKSdC0WG87UMByE4jISkVW2Jo
+         49cg==
+X-Forwarded-Encrypted: i=1; AKwUvBxbDhvGQA9J9dUucrnrrWzq2RHNRhk1EHSRuRCI+efVMAMc5bJ3j9zrSX1L2Fu3rnRwSclAylu/L74IiF/v@vger.kernel.org
+X-Gm-Message-State: AFuF++ntNq/Pc+Ns9AORmE5EdEZ7KCzwOBsqkLMH18P/3G3jaX4xxym3
+	X2rnaVqMzf/mzyZnm2fD8/zmVnTBZPaR/hpNPkhZ+QBGP/VxTc52JbEgceaHA/X2GA==
+X-Gm-Gg: AYBFou0DhBayr/YhrKYQNGcY63JfjRtAnfINSmU0DLYNzOVK/NcMsBLx9fRVvxr0hDn
+	tbZA3giKObuGlclotORsDoGUY9ho/EYdMROr+bG4DoSXr6BumiMyZf2zhEKpff36//sPYfw7D9d
+	S3PeqCxD/uKofODpV0qBXRsm32uTIzjiKmkiF3uVmU1J41vIJJdyobKEXJwxckOSXM/TeKMkCyW
+	L37O4MyRC3XJ0gvZBvnZ46cnwhrF28pTAhFPjluUS2XWR9y6gLeXEczXobyltkSXldTEG46diMQ
+	Dj2peOpqeoIEP+eg3AjMxQKka077rkFHysczpgNUxZHvxfPZif14HWWxlSAFdF1rcCONEoZJcpr
+	wmiAndff9WRil+WcSw0EYo/W9nuBsGss2hE1DJfPOhqAWMXX7mRfVn15XQbIqpuwcjcTrGVFd4i
+	rL7hf9ger25yXcsNcoLcim8ECUjx+Uys8mSP2QQJ4pxUaQ4SHIwCMHE/h3kkdrwVYuShaERmZoA
+	9v0nysHT77ktTPDl4yGJ/TcqCtQtzIK9dm0ikY5il4eUcm6
+X-Received: by 2002:a05:600c:a313:b0:49c:ca44:63db with SMTP id 5b1f17b1804b1-49d0cb45e43mr1433875e9.13.1788816399509;
+        Mon, 07 Sep 2026 14:26:39 -0700 (PDT)
+Received: from localhost ([2a00:79e0:288a:8:437c:9ac6:4a41:e58b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm29981878f8f.16.2026.09.07.14.26.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 14:26:38 -0700 (PDT)
+From: Jann Horn <jannh@google.com>
+Date: Mon, 07 Sep 2026 23:26:32 +0200
+Subject: [PATCH] exec: do_close_on_exec() before taking exec_update_lock
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260907-cloexec-before-exec-update-lock-v1-1-8018c201a7df@google.com>
+X-B4-Tracking: v=1; b=H4sIAAcsn2oC/yXNwQ6CMBCE4Vche3aTtokivorxULaDrhJKWiAkh
+ He34m2+yz8bZSRFplu1UcKiWeNQYE8VycsPT7CGYnLGXUxjapY+YoVwiy4m8LHnMfgJ3Ef5cFM
+ 7H6y5nq0RKpUxodP1eLg//s5z+4ZMvyzt+xfQhYYGgwAAAA==
+X-Change-ID: 20260907-cloexec-before-exec-update-lock-972ad108510c
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Benjamin Peterson <benjamin@locrian.net>
+Cc: Jan Kara <jack@suse.cz>, Arjan van de Ven <arjan@linux.intel.com>, 
+ "Eric W. Biederman" <ebiederm@xmission.com>, Jake Edge <jake@lwn.net>, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ stable@vger.kernel.org, Jann Horn <jannh@google.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788816397; l=2822;
+ i=jannh@google.com; s=20240730; h=from:subject:message-id;
+ bh=Pt3mK+0ZNA9CMJHEAkdLHJWnBxav//gmOF27YEuQ9ds=;
+ b=AwaXyTEY9qpiShqdufkAcGgNjKGo/DWK5pXUVA4Aq1oolo8E8fd9npcOAtwvul1lRV1JuNGw2
+ UEJ8fCTloyAAiZ4c6TE4xjYY19jWIBl5Ljf5tGzFjcjSDlsC0/Zt+s/
+X-Developer-Key: i=jannh@google.com; a=ed25519;
+ pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
 
-On Mon,  7 Sep 2026 16:13:30 +0800 Ye Liu <ye.liu@linux.dev> wrote:
+do_close_on_exec() currently happens while holding the exec_update_lock,
+which is used in a lot of places that access process state to
+synchronize access checks.
+I recently added another such use of exec_update_lock, causing a
+regression.
 
-> From: Ye Liu <liuye@kylinos.cn>
-> 
-> Replace the manual rcu_read_lock()/rcu_read_unlock() pairs combined
-> with for_each_process() loop in mm/memory-failure.c with
-> for_each_process_rculock(), which scopes the RCU read lock to the
-> loop body via scoped_guard(rcu).
-> 
-> In collect_procs_file(), the page_pgoff() call now falls outside the
-> RCU read-side critical section.  This is safe because page_pgoff()
-> only reads folio->index and does not traverse any RCU-protected
-> structures.
+do_close_on_exec() can block waiting for a reply from a filesystem.
+That means a hung filesystem can block codepaths that use
+exec_update_lock; and it also means that a FUSE filesystem which
+attempts to inspect the calling process can deadlock.
 
-Thank you for clarifying :)
+To avoid such problems, move do_close_on_exec() before the
+exec_update_lock is taken, but after the FD table has been copied if
+necessary.
 
-> 
-> Signed-off-by: Ye Liu <liuye@kylinos.cn>
-> Acked-by: Michal Hocko <mhocko@suse.com>
-> Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+I have looked through all the calls between the old and new position of
+the do_close_on_exec() call; there seems to be no file descriptor table
+access in between.
 
-Reviewed-by: SJ Park <sj@kernel.org>
+Reported-by: Benjamin Peterson <benjamin@locrian.net>
+Closes: https://lore.kernel.org/r/f5e8166a-88be-46c5-8939-1e5227ffe4c2@app.fastmail.com
+Fixes: 6650527444da ("proc: protect ptrace_may_access() with exec_update_lock (part 1)")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+ fs/exec.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
+diff --git a/fs/exec.c b/fs/exec.c
+index 745f6eb5279e..b51e5d7e4536 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1164,6 +1164,20 @@ int begin_new_exec(struct linux_binprm * bprm)
+ 	if (retval)
+ 		goto out;
+ 
++	/*
++	 * We have to apply CLOEXEC before we change whether the process is
++	 * dumpable (in setup_new_exec) to avoid a race with a process in userspace
++	 * trying to access the should-be-closed file descriptors of a process
++	 * undergoing exec(2).
++	 *
++	 * This can block on filesystem ->flush() handlers, including waiting
++	 * for FUSE daemons, so do it before exec_mmap takes the
++	 * exec_update_lock.
++	 * This must happen after the point of no return, and after unsharing
++	 * the FD table.
++	 */
++	do_close_on_exec(me->files);
++
+ 	/*
+ 	 * Must be called _before_ exec_mmap() as bprm->mm is
+ 	 * not visible until then. Doing it here also ensures
+@@ -1214,14 +1228,6 @@ int begin_new_exec(struct linux_binprm * bprm)
+ 
+ 	clear_syscall_work_syscall_user_dispatch(me);
+ 
+-	/*
+-	 * We have to apply CLOEXEC before we change whether the process is
+-	 * dumpable (in setup_new_exec) to avoid a race with a process in userspace
+-	 * trying to access the should-be-closed file descriptors of a process
+-	 * undergoing exec(2).
+-	 */
+-	do_close_on_exec(me->files);
+-
+ 	if (bprm->secureexec) {
+ 		/* Make sure parent cannot signal privileged process. */
+ 		me->pdeath_signal = 0;
 
-Thanks,
-SJ
+---
+base-commit: 73ae59e975966d24e32926247ddb45a537ebe184
+change-id: 20260907-cloexec-before-exec-update-lock-972ad108510c
 
-[...]
+Best regards,
+--  
+Jann Horn <jannh@google.com>
+
