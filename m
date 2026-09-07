@@ -1,150 +1,176 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mta0.migadu.com (out-219.mta0.migadu.com [91.218.175.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4E0409273;
-	Mon,  7 Sep 2026 08:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB49F37F305
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 08:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788768805; cv=none; b=ulsOFrSxTEx18XHDBowQCF0zhDnygq7J7aTdv/Ti4LHv3lN/Nr4ARdQOADWs76AwVsN3J5CzNX0j0z/b8ASyDzkC7iFMUI+mR0NZfrRfo7s9BCtllIenN2q4tJWgJ97qm6pt7WTMO7qDo6zqKDZnj3lTE0Ok7VnwUI1C5xTJIAY=
+	t=1788768833; cv=none; b=Q6pqmhDlnLmJD+P/hK3xGHA7FZ3kl/jBs2Um0+1mYzHJnvpkWbjD+Sfhvn8A2pvDXRFHBQFB9DhakYm1NojEgt7yL5Ysfw8K9hLiK7TpMkUY/E7UbC8qrvBa50riObAbTCTkwvNBhru3YnQq2qGItyOFYAkrN8FD+HQkiRpQ9sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788768805; c=relaxed/simple;
-	bh=hkZKtEpUa8YeJNQhSxbK0MTF72WCOGzDbh+fOV+xndg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dT8wqgxoGXwBCTTmKn9LYLjprEwIbWTb4lylfM8htLqYEG3Q3RGHFXFHH9ASm9rzY3mmVKsstsmCAob/nEMirJLuHofp6wuRSOY6RYsOKJjFWdzLNYH+R0xHM8GX2FUfBNxZCk9YvTt7RcJMnlDmQJ8PAZ7GROCeCo3J7cCqQzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YHmDIvjj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=W7dnrAfu; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ltTmMs1c; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=quvDt5WN; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788768833; c=relaxed/simple;
+	bh=WPjsFkKr6FEYMnlHhMl1nDBxkpUdBFsa1ndkFSmZ/0Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=qAFaAfhUV3h7ZNQ9R3MLI1rYY5W+k7A5MFZJ/BilH6WaelP0KicB/UwGX6vLkQlVSJVc5Ji6qswJaZn4feJ/ukAwQixKgYa+R6sQzgo89+h7nbBHxemCh+Clj2jc31waBQbySMGgZrimJYO/JTxTKlTeuY/pmPI+wRmxDUW2SOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=crrNKirS; arc=none smtp.client-ip=91.218.175.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YHmDIvjj";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="W7dnrAfu";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ltTmMs1c";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="quvDt5WN"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AC005219AF;
-	Mon,  7 Sep 2026 08:13:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788768797; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wug/DUoehL446uW0Qq0uBHQgP1BZ03ulx6MYrv+f8qI=;
-	b=YHmDIvjjqvp/yKJOM3LAJum9jZrPZNrjRX42oO0S8Xd36y0GmyXboc8w1p2PAa3ydsfYJE
-	O5WlSbK3Zz/nmleipzXJXhy8BHlWlZ07i603GkYVSyn1dAgwKZ54Ab1obp+V2oXRxnc9gZ
-	bK4wsm2jLpfmbt7Ep8vmzbTgF5Bf3oc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788768797;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wug/DUoehL446uW0Qq0uBHQgP1BZ03ulx6MYrv+f8qI=;
-	b=W7dnrAfuMWqiyqWeQ+uZE0MRbk11dh4fL2e4GVfJ2QKT5Bn19FNxojG2YdpKFU7aaolD/S
-	gXUHFYAiCMex0qCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788768793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wug/DUoehL446uW0Qq0uBHQgP1BZ03ulx6MYrv+f8qI=;
-	b=ltTmMs1cCbgzkfrmuLY2gZpXnpKlitAQ9xDr2DPYBt6j3tqzYj3+WTFvM7tGqzcl1D87Vs
-	rQ5slRe09FQklremEYfdu0KB4RynqRzlc1hfUZ7wfCNdmuWzimcB/Uw4j319i3EKlWajzG
-	7rNck9Vh8mJW2OBpvInk20fENoe7dmg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788768793;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wug/DUoehL446uW0Qq0uBHQgP1BZ03ulx6MYrv+f8qI=;
-	b=quvDt5WN9l60cLyEbnSozQLU+fh7PTFHXlUJ6sig7GruxBZXD9foGV0bhDZV81orDfpIFM
-	qbsqEpDB8yGwvjBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C7BE1339B;
-	Mon,  7 Sep 2026 08:13:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jpRKIhlynmreMQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 07 Sep 2026 08:13:13 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 20865A13B2; Mon, 07 Sep 2026 10:13:09 +0200 (CEST)
-Date: Mon, 7 Sep 2026 10:13:09 +0200
-From: Jan Kara <jack@suse.cz>
-To: Hemanth Selam <hemanth.selam@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] isofs: fix repeated word 'in' in comment
-Message-ID: <hwsl7k6ezrfohhdlk4irrw7rnyxzwnlmerefnatubdahrxicpp@i6yik4tryzxv>
-References: <20260904123914.583-1-hemanth.selam@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="crrNKirS"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=WPjsFkKr6FEYMnlHhMl1nDBxkpUdBFsa1ndkFSmZ/0Q=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788768828; v=1; x=1789373628;
+ b=crrNKirSqCWRXtMKzcMLrd5Pr+KEL469evIyIDu0TuNSSltuuZgJPHpt1rJogB6oRN0/99hM
+ nQnFgQYvjoiAgHCnf1L6IQynfj3mqIKlj4TLcxUCRfXwXHPGzd8tS0xRmj5V3wnp1uj3vngbMc2
+ wo/yPRoS2cZswZPb4rm8udr0=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2103926bec6903fd;
+	Mon, 07 Sep 2026 08:13:48 +0000
+X-Mizu-Trace-ID: 2103926bec6903fd
+X-Migadu-Flow: FLOW_OUT
+From: Ye Liu <ye.liu@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	SJ Park <sj@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	rientjes@google.com,
+	shakeel.butt@linux.dev,
+	xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev,
+	will@kernel.org,
+	boqun@kernel.org,
+	frederic@kernel.org,
+	neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com,
+	josh@joshtriplett.org,
+	urezki@gmail.com,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	tony.luck@intel.com,
+	reinette.chatre@intel.com,
+	x86@kernel.org,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	pavel@kernel.org,
+	lance.yang@linux.dev,
+	mhiramat@kernel.org,
+	pmladek@suse.com,
+	longman@redhat.com,
+	mathieu.desnoyers@efficios.com,
+	jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev,
+	dietmar.eggemann@arm.com,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	mark.rutland@arm.com,
+	Dave.Martin@arm.com,
+	james.morse@arm.com,
+	babu.moger@amd.com
+Subject: [PATCH v2 0/8] sched: introduce for_each_process_rculock and for_each_thread_rculock
+Date: Mon,  7 Sep 2026 16:13:26 +0800
+Message-Id: <20260907081334.1152889-1-ye.liu@linux.dev>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904123914.583-1-hemanth.selam@gmail.com>
-X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri 04-09-26 18:09:13, Hemanth Selam wrote:
-> Drop the second 'in', reported by checkpatch.pl as a possible repeated
-> word.  Only touches a comment, no code changes.
-> 
-> Assisted-by: Cursor:claude-opus-5
-> Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+From: Ye Liu <liuye@kylinos.cn>
 
-Thanks. Added to my tree.
+Introduce for_each_process_rculock(), for_each_thread_rculock() and
+for_each_process_thread_rculock() macros that combine the existing
+iteration macros with scoped_guard(rcu), so that the RCU read lock
+is automatically acquired before iteration and released when the
+loop exits — including via break, goto, or return.
 
-								Honza
+The rest of the series converts manual rcu_read_lock()/
+rcu_read_unlock() and guard(rcu)() pairs across mm/, kernel/, fs/,
+lib/ and security/ to use the new macros.
 
-> ---
->  fs/isofs/compress.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/isofs/compress.c b/fs/isofs/compress.c
-> index f9869d62b850..9efd7a9082e3 100644
-> --- a/fs/isofs/compress.c
-> +++ b/fs/isofs/compress.c
-> @@ -90,7 +90,7 @@ static loff_t zisofs_uncompress_block(struct inode *inode, loff_t block_start,
->  	/*
->  	 * First block is special since it may be fractional.  We also wait for
->  	 * it before grabbing the zlib mutex; odds are that the subsequent
-> -	 * blocks are going to come in in short order so we don't hold the zlib
-> +	 * blocks are going to come in short order so we don't hold the zlib
->  	 * mutex longer than necessary.
->  	 */
->  
-> -- 
-> 2.48.1
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Changes since v1 [1]:
+  - Rename macros from *_rcu to *_rculock, as suggested by Steven
+    Rostedt and acked by Thomas Gleixner, to avoid confusion with
+    existing *_rcu() list iterators that expect the caller to hold
+    the RCU read lock.
+  - Improve the comment on for_each_process_thread_rculock() to
+    document that 'break' only exits the inner loop and 'goto' is
+    needed to exit both loops (Thomas Gleixner).
+  - Rename the stale 'unlock:' label to 'out:' in hung_task.c, as
+    noted by Günther Noack.
+  - Clarify in patch 4 that page_pgoff() is safe outside the RCU
+    read-side critical section (SJ Park).
+  - CC all relevant maintainers on every patch (Lorenzo Stoakes).
+  - Drop the mm: prefix from patch 1, as the macros are in
+    include/linux/sched/signal.h (Michal Hocko).
+
+Patch 1 may trigger checkpatch "Macros with complex values should be
+enclosed in parentheses" errors.  These are false positives — the
+scoped_guard() pattern is a control-flow construct, not a multi-
+statement macro, and the same idiom is used elsewhere in the kernel.
+
+Suggested by Michal Hocko for the oom_kill path [2].
+
+[1] https://lore.kernel.org/all/20260904083001.553587-1-ye.liu@linux.dev/
+[2] https://lore.kernel.org/all/20260813092933.562028-1-ye.liu@linux.dev/
+
+Ye Liu (8):
+  sched: introduce for_each_process_rculock and for_each_thread_rculock
+  mm/oom_kill: convert process/thread iterators to for_each_*_rculock
+  mm/ksm: convert process iterator to for_each_process_rculock
+  mm/memory-failure: convert process iterator to for_each_process_rculock
+  kernel: convert process/thread iterators to for_each_*_rculock
+  fs: convert process/thread iterators to for_each_*_rculock
+  lib: convert process iterator to for_each_process_rculock
+  security/landlock: convert thread iterator to for_each_thread_rculock
+
+ fs/proc/base.c               |  4 +---
+ fs/resctrl/rdtgroup.c        |  8 ++------
+ include/linux/sched/signal.h | 25 +++++++++++++++++++++++++
+ kernel/cpu.c                 |  4 +---
+ kernel/freezer.c             |  4 +---
+ kernel/hung_task.c           | 11 ++++-------
+ kernel/locking/lockdep.c     |  4 +---
+ kernel/rcu/update.c          |  4 +---
+ kernel/sched/core.c          |  3 +--
+ kernel/sched/debug.c         |  4 +---
+ kernel/trace/fgraph.c        |  8 ++------
+ kernel/unwind/deferred.c     |  3 +--
+ lib/is_single_threaded.c     |  5 +----
+ mm/ksm.c                     |  4 +---
+ mm/memory-failure.c          | 16 ++++------------
+ mm/oom_kill.c                | 20 +++++---------------
+ security/landlock/tsync.c    |  8 ++------
+ 17 files changed, 54 insertions(+), 81 deletions(-)
+
+Signed-off-by: Ye Liu <liuye@kylinos.cn>
+
+--
+2.25.1
