@@ -1,137 +1,138 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AB526AF4
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 22:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788819493; cv=pass; b=okuCUhNyQ5ojRtPAWt+u19B3hfhEPuz6VKymP7M+PNCbn7qwFeH7uOWZEXQTaZe1FVwPGMyqCqIWGEOq33ZQ03SiDYqSWmus41k0Qg7vJjgbThFrhtj55iCWNSi+x3E4Nm7+nQHTpWpEs7J5gAoS84KI9+sOfSHzcG/0I9k/7kc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788819493; c=relaxed/simple;
-	bh=ZdQ3JbGEBj66Iri9bXPFZvgMyN/PybvpINhIicFF/EE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PpCMPyNrIFiN+D+sdu5FlKAKb/slZpdyXyMn2GTTz3vS7y4Wg0Bu2rQa8KYcPu6LsHEt4SrCEFRg1/scRumga7gArIDLFuTOTWpN3hgcqBT3W3a4KqL87g7kblvJ7MYCDTn27GmY9v95ILfeww/BjClLFkLoxrnRcqpNDHWqZWQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gpyxuA40; arc=pass smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F3F3B19BA
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 22:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788820041; cv=none; b=EOS5AGOxbRb8h/9pmFqsBZctUC2LHi9V+sgY+I/TsN38w279d/IlFtV4eOSVnVVOiDJtXjUGtidpGtDf6VY4c8OkOSECM3nQ76ONgAAUelvKtHlP6ilqTvhFTYh8Od5GJX83oAlVISiL+qKrGPX+YY6VItLCk4V5vcuYrnisEpM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788820041; c=relaxed/simple;
+	bh=w089gXyEOCJY9gUZSUVwdihbdEuqGTphnzmTU3c5wIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aj8YFFAGt6jQCNZhbXYCvdggae9JIEEYNpLLiNMKoqmRQ1njCW4Xq1qh85sHm60xj+LU155FS+dJb2VAXgHmRSTYOxWd3EqI+bYD61hVEsqEtOmiEsNyJ9MsiNXfr9q8l+7XHBXIXiwKQhUbzYMWrt2UYDsjZ2F9QpVsTgK43YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=gaVEiIr+; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gpyxuA40"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38e041ea211so3081693a91.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 15:18:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788819492; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ngb2nkKYZUTQsJ/5WesuJKF3NK0hT6vroqbr8XznET7RAtGj7qiMu8lbPvkzpjjQn6
-         OD9w/jxd18egq2Rn5DFG92wW5dqfIfZeLFmtsiYfKfKCvgHgCb2w5+Uh9orCw7RqAXfA
-         hXyCNu/7HrXj08TkUehsPjVIXhwuvn6MCwP3mD2pP+H2qFGPvf+8FFNLj4Dq08oNqC7Y
-         M2SrTi/K37Yrl09iuaw1GFH4p/6ij4G6Y3TZavE//S18NBxzIFLiki61oWF8T77aJ/cY
-         XMPgbqRMTFYYj/45SwoFjc+HCtQ1mgn5Zvlo98E5OQC2oBw5BMGENO5khZ/zDMWl/3lw
-         NPPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=jNlTXyDPKBggEGyMwYYgjcO9kU30dwD9XLhdPez1l84=;
-        fh=Og0UU6Syd6EWJ+Hd0m4KDN5jQEXsS4XNKHZzbNkpGLg=;
-        b=jpJVGZWlE4RxwJah1hvePtzJvffvR/d/9ERZAZkjyjV//BewKD/Eb4NqDhL2C6lvvS
-         mATmFY7dI5gA5rSmDoJNtJ1mcbs6zc3pscmYVmWKN0diGG/W+wK7FGr7+iZYm3gRpv7z
-         u1I/x84AgGu6qtfoJsi86pfO1hk6j7OEDgr9eriat7xfCEw0fqo7GrtqcEXWv6jH9L+u
-         k5OJe6POQhSzDeFf3dq78QXmt7WvqDCxkMf3+xj7it94TLFWCYrA0U/CH95xNELvAmh2
-         dFXhu5f0CSCGA6Rr4KOnQuHFeds2nmKQTXmroZq+GG8u5+QGuQnjc9z1OIxmEgNsmXbo
-         gVTA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="gaVEiIr+"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5301a453186so37794591cf.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 15:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788819492; x=1789424292; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jNlTXyDPKBggEGyMwYYgjcO9kU30dwD9XLhdPez1l84=;
-        b=gpyxuA405pfhfXiGIMx1EziqMPmw5k+AfeoYjX6GWiJH5nXMvUufy17ErKzQJdrJsP
-         YFLCQSh/he5lOnjY28WA1eM0VzjJG2HizQf7b53oZ8R9y7JB74tr6RZyRrza90vyuOjp
-         niYC8FCUDSsjr5cuJcDL2or9TLjVncQLrnGD3kkqs476rd/txfpJMCDsdgqp8ygpTC6I
-         /IaP/YXo/3wecobtyAW/kcfNJA8HOqbWTSeZGfnpZ3SnceW1wX7/M4+levpUiiX666ci
-         caCQTir3leVBQ4+QCPkG6zo4zVM1T5kFuwNs0BjykEPUaTFp2333tnIDJWjlLwHrU+QD
-         6aeA==
+        d=gourry.net; s=google; t=1788820038; x=1789424838; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=voF+0uPdvqMWSZZsE3DB359nSHA2KdFl0fM0Svv/P2k=;
+        b=gaVEiIr+tWszuP7yIhlBLyyh6/EQoRUbXiocZyOvHCAyBAuFNw4GjNq+ApFupWmr+O
+         +tDD4hPSE0KEVpVFxDgs2hlVMnH1STJdy/eJU1jdZzOxgpd3KhkSPxtbMxAeux4ifkJj
+         dOgDQjsDRKYUGY83uMid7eSJa1jVyw8TBHH/DDUJC6VYhuPT7QNQmV+is1/w9MxWB06L
+         /vIil5JV+IF72ZbJZw8oKRphab6uPo5BZN6FIITg8v049OxKRawJ4GU2ukGXiu/xBflG
+         ehUOPG5JWTfgduNbsO32bN/kw2Jv9lVlhfbTfLG7myRDbuVZOHJn8mctdilaaubRODmi
+         GRXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788819492; x=1789424292;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=jNlTXyDPKBggEGyMwYYgjcO9kU30dwD9XLhdPez1l84=;
-        b=U/skNW/qLkqplJzFgfswu8HbLcUsX/breU1LEHQD7z4yp4lIUQEQvFFjMerPoFseqi
-         3GP0KjN17baDIClS+O3fD2YZn1nurmNuvSxlyS+yF/+AUwigPtR9C6FtBUGb3MwywRTV
-         2NXwDKI092zA3qQRPoSMgulvSlrpN60e/M7xKFphMHns3RVx9loQCNtwHhX1UXJdYRPs
-         Wgnv9rqTKh4jEKMhHM7Hjphhi6KcXeB/JsIb073mV78w1+6SKCpnIT7YMpWk3fgLjo7A
-         raLaKS7gtLruy5DU1o7poHH6GIb1KiM6op1rG8v1hepEjG46WSh9Fa3c2rrqqdooCDRI
-         fbaA==
-X-Forwarded-Encrypted: i=1; AKwUvBzs422lr288i/IjS7p3mbsrxKP7I/EW2ECpgkvqeIzEJgUkZg1kGT7HFbcuBdB4TM0Bp2fDm/163Nbpgd/I@vger.kernel.org
-X-Gm-Message-State: AFuF++nfnitVFMiLAc2OqyCpYnBRCFen5ae54KYBhW4irpx2MO/A+Pzn
-	CPiICFTY6LW3xPo4HWV4bESWj29qAKcIRqDXHkRa2jzxtVpqmYxCppYWTfADNqVV9l89iZQ1fTf
-	/i6AGNws+if0ai//73C48pvf9zo9jUUnanwZF3MxY
-X-Gm-Gg: AYBFou3jLa/hFf/C/kMaYvKdtXpBJRRlZ2XFS55HZ2hlhG/owWhHmnJoCMwlThsyh6a
-	2LkWvUPZs5ZaTUSBYfEfXx56/Szj/WzsRGzHHW665T3m2yM+iMWQhW99sydaSWcTDQQil1DV5j1
-	E20+T+xTrgW0rjW7kiDqIwZ94QhZlIt2sIOlXR2Odnrj7yasUTNY19107Lbnb3Kw74Etg+XW99e
-	sHDWZ/8BwXdSap3GUwdY1i5+L5WjCmscFn3eo6k4obOP7401rcgtWpgh3eO+97+ktg3ZrsUoqV6
-	Faod4FO6+n3tpjzVERG5hV5pNIKQcMDDAKhxfCIbcF9hTfsw32D13EyzVSEhZyio3RvrclrZrHs
-	NiX+AHQXmGA==
-X-Received: by 2002:a17:90a:149:b0:39b:2b10:d05c with SMTP id
- 98e67ed59e1d1-39b2b115ba1mr26085066a91.5.1788819491324; Mon, 07 Sep 2026
- 15:18:11 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788820038; x=1789424838;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=voF+0uPdvqMWSZZsE3DB359nSHA2KdFl0fM0Svv/P2k=;
+        b=NhtUs56RYCaQtacwlSTXoyDV62E+ReNsl3qxJVnj5qSN+4tQNE2vajPHvHHdoB55Er
+         JSAqxRHPl0ct/ljXgHNJfNUIuPe62PO2r1tpYB1qYt0IohQ9Xu6px6N3N4qbD7N0WCXt
+         s5i1gIHIDNXnpCAcXa9hAIPFKHD8mRgTegnEM/F0u+2olh3hrh0itUEwtK8yZ4JsDYit
+         pc2nr3ADnVeJuvS0kG2Tjxzhm+b9unMYoCYCwGjsshJ7EZw20MIyLvvgnCY3LYL1DYfy
+         mww6D9w8/f74PnYn15sZ31oc/wtyBtDl9kC0zr12tnKKOuBp89p9jf5uaOrtaptv0lMl
+         uMsA==
+X-Forwarded-Encrypted: i=1; AKwUvBycARr7t6i2eqLMmQnbS3akiQ1mPUnKAF7qPeVvys0goycvA9xqlN+VaGQ8/KQsQuL6yCF0eHPF6TpVjJ74@vger.kernel.org
+X-Gm-Message-State: AFuF++lS6rsRXdhNmvFV/zs/kcn0Cks0nYgDbc7f8K1Tg7s02htFoaRr
+	IJ5F2RxYR9snLAyZUAWJj8HWnT/bQnMeULZpKTh0MudJAdFsvIYeFDUM+bKKzGkqmIc=
+X-Gm-Gg: AYBFou0bj72EnMTcSMWsjnRgyFMWZGYjZ+CSpH/4LW6IwoksoGjWvx+etc5y1pskd8P
+	TkODP4V46mHHm5Bbj8sO3VsSom8zBRlYePH7DiB/U9UVGly7CrhJ+OnUC+n77CvFt1jQeZ1xTke
+	9h290vVRB95TPEM4KkHzVYK149zFcGxvraRLS0z7D1NeajeQN2gGO2LK4x7EkmDDIwG33SqZ+vY
+	gCjJ8PrT2e6YywrCMrZecKlfoLxtumkPgQ6J4RW3e/+N8NmPJdYpF/rZddn+T0Zy/szTSqgR7rF
+	kiPoEps59e/qvh7D8waEDS7kdbOGswelykYzfG+DZY5yJQoyWYO/GCqpBj1fNL0BfE1PtVR3dUE
+	bWSKZ0Kw/+BCj+Eyd3WR5a6uqaZ8woK7Fsa4Ffe2+jaFiz+RIubm9hjat0qyPfAUPron5AH+SqH
+	/ClRMz9h5X/ErK5/JMaYKdQm9CvwCfTvUQcEKFw47vKpCc7OA+vMQ4VQnOWX1tGDpUddHeLrhlL
+	vaELDZvoRdHRMPHK/vmQH606znjtmLHheOPKrrvTb9P
+X-Received: by 2002:ac8:594c:0:b0:52f:b1b6:a4aa with SMTP id d75a77b69052e-530547fb02fmr300586681cf.4.1788820038503;
+        Mon, 07 Sep 2026 15:27:18 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53080ce82aesm39676931cf.31.2026.09.07.15.27.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 15:27:18 -0700 (PDT)
+Date: Mon, 7 Sep 2026 18:27:14 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Ye Liu <ye.liu@linux.dev>, Thomas Gleixner <tglx@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Ye Liu <liuye@kylinos.cn>, 
+	Michal Hocko <mhocko@suse.com>, mic@digikod.net, david@kernel.org, linmiaohe@huawei.com, 
+	nao.horiguchi@gmail.com, gnoack3000@gmail.com, ljs@kernel.org, sj@kernel.org, 
+	rientjes@google.com, shakeel.butt@linux.dev, xu.xin16@zte.com.cn, 
+	chengming.zhou@linux.dev, tony.luck@intel.com, reinette.chatre@intel.com, x86@kernel.org, 
+	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, pavel@kernel.org, 
+	lance.yang@linux.dev, pmladek@suse.com, longman@redhat.com, 
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, qiang.zhang@linux.dev, 
+	dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
+	kprateek.nayak@amd.com, mark.rutland@arm.com, Dave.Martin@arm.com, james.morse@arm.com, 
+	babu.moger@amd.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 5/8] kernel: convert process/thread iterators to
+ for_each_*_rculock
+Message-ID: <ap83lNf0bUXX4ZS8@gourry-fedora-PF4VCD3F>
+References: <20260907081334.1152889-1-ye.liu@linux.dev>
+ <20260907081334.1152889-6-ye.liu@linux.dev>
+ <ap7dC-LWNaoPYJvv@gourry-fedora-PF4VCD3F>
+ <ap76-0-hN6CAcYXX@redhat.com>
+ <ap8mgnpE7D4TTrno@gourry-fedora-PF4VCD3F>
+ <ap8yoW37GY17pHYS@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260903101843.3462767-1-elver@google.com> <20260907221334.GA1619741@ax162>
-In-Reply-To: <20260907221334.GA1619741@ax162>
-From: Marco Elver <elver@google.com>
-Date: Tue, 8 Sep 2026 00:17:34 +0200
-X-Gm-Features: AcwNN1Ud8SWGdY6soyCDfiwuMYKmM_SUBGIs8OdKM5eZuw6s2ybWmhPNVxak0AA
-Message-ID: <CANpmjNNuiX-rQFvn0GK1SxAbcxEUH7rKh69GPq+7u2tg63qbmQ@mail.gmail.com>
-Subject: Re: [PATCH] once_lite: Simplify condition handling and fix context analysis
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	Jan Kara <jack@suse.cz>, Timothy Day <timday@thelustrecollective.com>, 
-	linux-ext4@vger.kernel.org, Theodore Tso <tytso@mit.edu>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ap8yoW37GY17pHYS@redhat.com>
 
-On Tue, 8 Sept 2026 at 00:13, Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Thu, Sep 03, 2026 at 10:16:38AM +0000, Marco Elver wrote:
-> > When WARN_ON_ONCE() wraps a conditional lock acquisition (such as
-> > down_write_trylock()) on architectures relying on DO_ONCE_LITE_IF()
-> > (e.g. arm), Clang's context analysis (Thread Safety Analysis) failed
-> > with a false positive:
+On Mon, Sep 07, 2026 at 11:54:41PM +0200, Oleg Nesterov wrote:
 > >
-> >   fs/ext2/xattr.c:825:6: error: rw_semaphore 'EXT2_I().xattr_sem' is not held on every path through here [-Werror,-Wthread-safety-analysis]
-> >     825 |         if (WARN_ON_ONCE(!down_write_trylock(&EXT2_I(inode)->xattr_sem)))
-> >         |             ^
-> >
-> > This happens because DO_ONCE_LITE_IF() branches on __ONCE_LITE_IF()'s
-> > return value (__ret_once), creating an intermediate branch merge point
-> > where the lock may or may not be held depending on whether the once-flag
-> > (__already_done) was already set. Because the merge branch condition is
-> > __ret_once rather than the trylock predicate (__ret_do_once), Clang
-> > cannot reconcile the lockset at the branch merge points.
-> >
-> > Fix it by refactoring __ONCE_LITE_IF() into an unconditional
-> > __ONCE_LITE() primitive and redefining __ONCE_LITE_IF(condition) as:
-> >
-> >   (unlikely(condition) && __ONCE_LITE())
-> >
-> > This simplifies the implementation, short-circuits evaluation so that
-> > __ONCE_LITE() is not called when the condition is false, and ensures
-> > that DO_ONCE_LITE_IF() only enters __ONCE_LITE() when __ret_do_once is
-> > true.
-> >
-> > Reported-by: Nathan Chancellor <nathan@kernel.org>
-> > Link: https://lore.kernel.org/all/20260903072759.GA1750084@ax162/
-> > Signed-off-by: Marco Elver <elver@google.com>
->
-> Thanks, this fixes that warning for me across all my builds.
->
-> Tested-by: Nathan Chancellor <nathan@kernel.org> # build
+> > This might be my - admittedly shallow - understanding of scoped_guard,
+> > but does scoped guard handle goto correctly?
+> 
+> Yes, it does,
+> 
+> > and why it's generally discouraged to mix cleanup.h and goto.
+> 
+> Hmm, why? I didn't know...
+> 
 
-Thanks! I think this is one of those orphaned files - which tree can
-this go through? Can it go through your tree, unless Jan already
-picked it up with the other fix?
+one of the reasons to use cleanup.h it is to eliminate the "goto
+for exit cleanup" mechanism in the first place (says so in the first
+paragraph of cleanup.h).
+
+Later in the header is explicit says don't mix:
+ 
+ * Lastly, given that the benefit of cleanup helpers is removal of
+ * "goto", and that the "goto" statement can jump between scopes, the
+ * expectation is that usage of "goto" and cleanup helpers is never
+ * mixed in the same function. I.e. for a given routine, convert all
+ * resources that need a "goto" cleanup to scope-based cleanup, or
+ * convert none of them.
+
+This particular patch only does a partial conversion - so it's a
+bit of an anti-pattern.
+
+Reading up on scoped_guard a bit more it seems you're right it handles
+the issue to jump-out, but i can see why cleanup.h says "don't do that"
+because it's confusing to look at / hard to reason about.
+
+~Gregory
