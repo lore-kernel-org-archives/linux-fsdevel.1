@@ -1,169 +1,118 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FB5392C3C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 14:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E72242C508;
+	Mon,  7 Sep 2026 14:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788790955; cv=none; b=ZKdoU4wwn7wHBlxYEoh9I3gofo6gMQj5R43GehRkzbLKWqoGYKevVEYP6weZ8Axf/44LDAPbxX8gTxpCRsTta6olYaESX/n2EEyL4sLcjCRwXMLPc17rv28X3VuLy9snXgC0o+Fz5fAwjGrW+gc7r1YLw1E4+dJL3XzXl+SnxRI=
+	t=1788791975; cv=none; b=X5uoI6ifgxvpnrO8FeNfUxUJChJQiuyqKoWFmugi1Jqda1zJvwo8QUjMVa6cneR2I2B1dmNwgwS565ihJ8HgvcE9KeWaK4FyS46YRh7wFfT2qSMSY4uFfWnxb8QM72iqsLEHxJOrwU1nrs0XF/LjE6cbRdCh6hveXtwyhB76+dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788790955; c=relaxed/simple;
-	bh=ETt+eXJwyTapb9YHrKVDAzaP4e3JtDlrePvD76FyjQM=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=QisZCcweCNkv4v+l5bTmvliz7IUI1qz0jCLPXyZYVI5AoNdA6aCzhVfDeFg8NmZsfePWGd12NCof/241PPo/uPd6GvupqIpUudFGh2P2TlQogjNN9lcxDwQxtg/NxT0QrFJsm/OMsaJSXa4ySZeKReXzt2ovtSs1T9IZ+oS9BcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com; spf=pass smtp.mailfrom=doyensec.com; dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b=gtAfAWnN; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=doyensec.com
+	s=arc-20240116; t=1788791975; c=relaxed/simple;
+	bh=6NHJ7mxXbJigOyVF3N/fh0vOvJXlZBLSq+wvwzcu7xc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Q98MI1QiPvbbSz6i7cjy81QZk3z+1n9cVsF8wM1zhkM9NzpFbfz0xWaSEVUmhumUNJ2sFS4IJX4cINF1euLJGKPZdaD486YkUODHf/xG3LYir+rlbRx++st5JxeT+8y05DplosPM4CDPe61/4bnB1HV9OGiLN45lvSldvmXxHsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oKjCcXRU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b="gtAfAWnN"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c252e703fa3so546027766b.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 07:22:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=doyensec.com; s=google; t=1788790951; x=1789395751; darn=vger.kernel.org;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:content-type:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zrQGe/+l07Pnb5/py0yrxKfx5ESJVlaN3S8EQmXHeAw=;
-        b=gtAfAWnNWmNwvCQUC2ghJpgfgvvrXBqe+EApq5neWkQYfUI/iR7uSsWEoMu27ECKPT
-         qHSk1OXvNvo7aTRUYocYhcYQimBXgEnqrJVYiZ6RNcB6I2Pw5N0KzxEf0nqk/Yr8nYGa
-         J6YnJ2BUHC/LnEA3d51lW9FvuUATUWpqsMNJugW7McdVTI2hQe64TrtDOFyhPNunEPqw
-         UwQvUJGSCUyf3LWr1zCltI5OrnH9V7668fvtYO5s+X+IwtIGrRo0dRrMBra8yU2zZ92t
-         LbnX+ZaJMFH6emvf1TJJkW0DYHH7tOEfafygnQHaLVQthcuwxUx4vWT5T8oiYaBJnD5R
-         ENmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788790951; x=1789395751;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:content-type:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zrQGe/+l07Pnb5/py0yrxKfx5ESJVlaN3S8EQmXHeAw=;
-        b=nQ1H7KMD/fl/k0rmoOBLRAbiiunPEinzvkNkqBuof9dRNPqCjGk3ASAUVT8PxwCaFf
-         TKCOhWyGsRcqPic++EfzNmvwcTLjVaFOOtGVLwcpEqPolwVYdHLrN9I+xRzNoOI+V0hW
-         8iVBeXrrpOYzsoaNW5mfANMFFsaN1S2EiszX3+p0ByQuhthDPGxN6ezaZ25PU3Zpponz
-         6erAC0skLFgOH8ikVCGOl1YFzb360eLJy9p6E1FMPCWnqfBVOy6mb5L7qIqBrvm6ovtw
-         NhFS/iu8QgONcGjqKdB71RTbAIOCOV0otF7fX/CbC/UsLCHWO7Zrf6mb/RhXuyCVmvKB
-         Gotg==
-X-Forwarded-Encrypted: i=1; AKwUvByMCVNkiRsh9/ELyQsrz0qlDjz2Q3jVleITbrXtZgQH0AJ0BOjQlJlTHR5aCMaEshoxln7fWUetGOybPLap@vger.kernel.org
-X-Gm-Message-State: AFuF++l9lKwK8RNi1wfxZXzX7aMOgwLH532l9wzIvQNZ5TTZm/pjhYQI
-	YwsjCpTFLnd4+Gg96p4opr7PmtAKNOi6KsGyqheLNsQPBatf65Grm9twHqKUByE+JFIYnyNI9+e
-	Z/v8oqgY=
-X-Gm-Gg: AYBFou2awvO6CbBTDzmcCJoMJykUHPCevZ9ZWeuup64Sl9l3kGzd2yEfwi6bVpBJRCC
-	hPW3/sg0lLq6iD7uH7F2mPpIVo/31oB3tcDwPdYplVl8vReTAox1+4q7wVpDBXi+gQS8xPRDBXV
-	uQ7TM4LThRxh5xmV7ZpNJkwwKliLK+GDIP5dxc7PZWgf1ADBp0QuMpuxD0A3NFc+pOgWVkCCPdy
-	UB8P8hzO3n0Soh0LnwfDaummHXC/ywVDNkNl3AWpAImjgtbtpD0TtwzSWAuseGA9UFInf1tezNK
-	lvKG62Qxc0SIXs5UanRBO2oTEb1XM+2KgSA8eakvTw/J+Mc5eTeQK1cJQWIWCpcherxn9AUvWqk
-	D1gtftR4MIO/jtZgAV3TvDKsEOorW7qxghWVLk4z+Yg+1FN7emcukS4FFDrhHnyvHKrGTqVcPr7
-	r5y/ZKXNAAbQH4xYziv5YMbj+N4X7Gz0JstvDWihw1F59mkzGbPb4C1Zdi+C9MokJYcCIs+TYrQ
-	yp/brDhQHoIqEBCE103x59dg4w5/dppAuHTs8EjGxmrZ8vKWbPHHKX9UA==
-X-Received: by 2002:a17:906:c116:b0:c26:1648:a063 with SMTP id a640c23a62f3a-c261648b68dmr769104166b.30.1788790951116;
-        Mon, 07 Sep 2026 07:22:31 -0700 (PDT)
-Received: from smtpclient.apple (80.49.147.201.ipv4.supernova.orange.pl. [80.49.147.201])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d5375d9sm477623866b.30.2026.09.07.07.22.28
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 07 Sep 2026 07:22:29 -0700 (PDT)
-From: Norbert Szetei <norbert@doyensec.com>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oKjCcXRU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04A11F00A3E;
+	Mon,  7 Sep 2026 14:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788791967;
+	bh=FF/4LY9T8Md+KHYRgYaW8tObKolXGJt+bxdKVLRNMK4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=oKjCcXRUx3KIE7PDg4I0iKm39bJwJcc5JLpmGukpJCvgpbPtp+5V+NgRDJH9jcYoR
+	 GCUtlBCSiPof+NQIBWp0fHxtxs+EeDzAwBGCVdtL5nAJi4oR3qrLzORnKffpm3W81h
+	 bKk41I6aohTMffS91N7ZlJupW8HNbY1r8CN7zplLBvX+uWv2L0YVz1Y+SzsLHxjAA3
+	 H41lI5HG3N+LyKjg1cEw3JS9a+vK4LXYLdN3NTyVole7QVGzpXTZZ+o7om57ZFJT58
+	 9tV5PGneesnx8ADowDEQWeI7QNR7w8a/pfcKHgePcRTO92JWn391z7T8dpIQJ9Tdf1
+	 9DBXvAcQ9qheA==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Enzo Matsumiya <ematsumiya@suse.de>,
+	linux-cifs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Steve French <stfrench@microsoft.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.6.y 2/4] cifs: Scripted clean up fs/smb/client/fs_context.h
+Date: Mon,  7 Sep 2026 10:39:21 -0400
+Message-ID: <20260907143923.3586545-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260907143923.3586545-1-sashal@kernel.org>
+References: <2026090352-renegade-sneeze-d3c6@gregkh>
+ <20260907143923.3586545-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
-Subject: [PATCH v2] nstree: check listing permission before taking a namespace
- reference
-Message-Id: <ABA32239-733B-438C-B95A-B13ED69FF0F3@doyensec.com>
-Date: Mon, 7 Sep 2026 16:22:17 +0200
-Cc: linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org,
- akpm@linux-foundation.org,
- Bradley Morgan <brads@mainlining.org>
-To: Christian Brauner <brauner@kernel.org>
-X-Mailer: Apple Mail (2.3826.700.81.1.4)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-legitimize_ns() takes a reference on the candidate namespace before
-may_list_ns() has decided whether the caller may see it. The
-__free(ns_put) cleanup on the denied path can drop the last reference to =
-a
-mount namespace while we still hold the rcu read lock, and put_mnt_ns()
-may sleep there. This is the same problem commit 2ec2aff3c8e2 ("ns: make
-sure reference are dropped outside of rcu lock") fixed for the =
-put_user()
-path. Neither ns_requested() nor may_list_ns() needs a reference, both
-only look at the namespace type and at the caller's own namespaces, so =
-do
-the checks first and take the reference last.
+From: David Howells <dhowells@redhat.com>
 
-Splat:
+[ Upstream commit 047e504766a357ab751f76ccdec7a2e824e75e6d ]
 
-  Voluntary context switch within RCU read-side critical section!
-  WARNING: kernel/rcu/tree_plugin.h:332 at =
-rcu_note_context_switch+0x238/0x2a0, CPU#5: a/3442
-  CPU: 5 UID: 1000 PID: 3442 Comm: a Not tainted 7.0.0-30-generic =
-#30-Ubuntu PREEMPT(lazy)
-  RIP: 0010:rcu_note_context_switch+0x238/0x2a0
-  Call Trace:
-   <TASK>
-   __schedule+0xcf/0x650
-   schedule+0x27/0x90
-   schedule_preempt_disabled+0x15/0x30
-   __mutex_lock.constprop.0+0x550/0xaf0
-   __mutex_lock_slowpath+0x13/0x20
-   mutex_lock+0x3b/0x50
-   exp_funnel_lock+0xb2/0x260
-   synchronize_rcu_expedited+0xe7/0x220
-   namespace_unlock+0x26a/0x320
-   put_mnt_ns+0xd3/0x120
-   mntns_put+0xe/0x20
-   do_listns+0x13e/0x560
-   __do_sys_listns+0x126/0x2d0
-   __x64_sys_listns+0x20/0x30
-   x64_sys_call+0x2366/0x2390
-   do_syscall_64+0x105/0x5a0
-   entry_SYSCALL_64_after_hwframe+0x76/0x7e
-   </TASK>
+Remove externs, correct argument names and reformat declarations.
 
-Fixes: 76b6f5dfb3fd ("nstree: add listns()")
-Signed-off-by: Norbert Szetei <norbert@doyensec.com>
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Steve French <sfrench@samba.org>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: Enzo Matsumiya <ematsumiya@suse.de>
+cc: linux-cifs@vger.kernel.org
+cc: linux-fsdevel@vger.kernel.org
+cc: linux-kernel@vger.kernel.org
+Acked-by: Enzo Matsumiya <ematsumiya@suse.de>
+Signed-off-by: Steve French <stfrench@microsoft.com>
+Stable-dep-of: b8e5dc4f95e5 ("smb: client: clear setuid/setgid bit on write with cifsacl/modefromsid/posix extensions")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-v2: include the splat in the description, no code changes.
-v1: =
-https://lore.kernel.org/all/34C54FF6-AA8F-4124-9B40-C68EADB26D99@doyensec.=
-com/
+ fs/smb/client/fs_context.h | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
- kernel/nstree.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
-
-diff --git a/kernel/nstree.c b/kernel/nstree.c
-index 6d12e5900ac0..831f279d174a 100644
---- a/kernel/nstree.c
-+++ b/kernel/nstree.c
-@@ -533,19 +533,13 @@ DEFINE_FREE(ns_put, struct ns_common *, if =
-(!IS_ERR_OR_NULL(_T)) ns_put(_T))
- static inline struct ns_common *__must_check legitimize_ns(const struct =
-klistns *kls,
- 							   struct =
-ns_common *candidate)
+diff --git a/fs/smb/client/fs_context.h b/fs/smb/client/fs_context.h
+index 90ebff5d0199d..bcffc15322604 100644
+--- a/fs/smb/client/fs_context.h
++++ b/fs/smb/client/fs_context.h
+@@ -292,18 +292,20 @@ struct smb3_fs_context {
+ 
+ extern const struct fs_parameter_spec smb3_fs_parameters[];
+ 
+-extern int smb3_init_fs_context(struct fs_context *fc);
+-extern void smb3_cleanup_fs_context_contents(struct smb3_fs_context *ctx);
+-extern void smb3_cleanup_fs_context(struct smb3_fs_context *ctx);
++int smb3_init_fs_context(struct fs_context *fc);
++void smb3_cleanup_fs_context_contents(struct smb3_fs_context *ctx);
++void smb3_cleanup_fs_context(struct smb3_fs_context *ctx);
+ 
+ static inline struct smb3_fs_context *smb3_fc2context(const struct fs_context *fc)
  {
--	struct ns_common *ns __free(ns_put) =3D NULL;
--
- 	if (!ns_requested(kls, candidate))
- 		return NULL;
-=20
--	ns =3D ns_get_unless_inactive(candidate);
--	if (!ns)
--		return NULL;
--
--	if (!may_list_ns(kls, ns))
-+	if (!may_list_ns(kls, candidate))
- 		return NULL;
-=20
--	return no_free_ptr(ns);
-+	return ns_get_unless_inactive(candidate);
+ 	return fc->fs_private;
  }
-=20
- static ssize_t do_listns_userns(struct klistns *kls)
---=20
-2.55.0
+ 
+-extern int smb3_fs_context_dup(struct smb3_fs_context *new_ctx, struct smb3_fs_context *ctx);
+-extern int smb3_sync_session_ctx_passwords(struct cifs_sb_info *cifs_sb, struct cifs_ses *ses);
+-extern void smb3_update_mnt_flags(struct cifs_sb_info *cifs_sb);
++int smb3_fs_context_dup(struct smb3_fs_context *new_ctx,
++			struct smb3_fs_context *ctx);
++int smb3_sync_session_ctx_passwords(struct cifs_sb_info *cifs_sb,
++				    struct cifs_ses *ses);
++void smb3_update_mnt_flags(struct cifs_sb_info *cifs_sb);
+ 
+ /*
+  * max deferred close timeout (jiffies) - 2^30
+@@ -311,7 +313,7 @@ extern void smb3_update_mnt_flags(struct cifs_sb_info *cifs_sb);
+ #define SMB3_MAX_DCLOSETIMEO (1 << 30)
+ #define SMB3_DEF_DCLOSETIMEO (1 * HZ) /* even 1 sec enough to help eg open/write/close/open/read */
+ #define MAX_CACHED_FIDS 16
+-extern char *cifs_sanitize_prepath(char *prepath, gfp_t gfp);
++char *cifs_sanitize_prepath(char *prepath, gfp_t gfp);
+ 
+ extern struct mutex cifs_mount_mutex;
+ 
+-- 
+2.53.0
 
