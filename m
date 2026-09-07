@@ -1,327 +1,325 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0F0523799
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 16:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831583B47CD;
+	Mon,  7 Sep 2026 16:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788799999; cv=none; b=k6AhYCKcCdfmKPxa/r6BvRXFLdfvDldMxC/chYuEKSIoLkkBXrXP0JQbocAjrWOHOs0r5qI4TytgV08DMmp/NG8gw+AmdlizxVCApJH5WZ69lEIQC6TbUCNMGuaOF8zwJ9eSa601u5OPfM+ak6wNNS9NZMjBB2+eZ8IeXScbIPA=
+	t=1788800221; cv=none; b=OLihD2X0NLIwR+EaJy3cEUuG0GqJSDRG09dD8ohTninaXQiyVQY4ohYP7swSGU3Ew0CcWgEUdM48VduCvK6dr4hk7TaXsqh2unwdw8c8q2ZQjCmBngvLP7hTYghYuW+b0cg6JJ33RIrnrWplGm4HJQuvS+B5w8Xxi3BWS3MFH4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788799999; c=relaxed/simple;
-	bh=nSBS+rlhEpu4GtYBRlDxNT0IMhKXrWZBlDW7Ai/0My4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hN9QLUAPp41Uq4LSY6YXcNll3qWnAqQCvgzu+Pd5EGheuCYGkyS7CXUoA9Wdwuw9vsJzsIm/RDe4VdH8TNpj9734qnlD39JVKA3oY4Y8LK0oXbjbqddYwwivjpAnh7NK/W/0XhCOM7/e71IGMRNvV4676QQWUzdVMs43xTtvqJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gvLU/83Q; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788800221; c=relaxed/simple;
+	bh=aTuazGd35Bcu9csBhTUgz4cz9heaPWV36zCjuHxVwA0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pdEYwu7gLcvMCt2kva/RCjM5MChEnx+Xampw9l4Xm3rcoeM718KBZ6WLUcxB6A0XJ8N/GQWMRkzDnyg+dfXpjvv3LvH3OwttTJFZTN5kE8UALtjTxSWkGwRVbVUdIwKMzLxSPrzGm7TrO0Joh9OJyU+Ps1tpD4O+GG9nvtI2PSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2eMkJBn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gvLU/83Q"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49b96837ca3so29956695e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 09:53:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788799994; x=1789404794; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6KgsraBrUcToWRNGkqj8MPFUdOM/wW4nUtZo/xB90w4=;
-        b=gvLU/83QWw+BBDbY7MKMk3tCFSXW3BMFl5bWQjLrzb3eSbsX7CgvOuqkuT3+icxm2R
-         bPBdMwcZkuj4gFm1mrvSDOiMzTWzL5430Oh1BK8VtAfdYHNEJRwXft5FMeiEnbgFyVus
-         ACImVqzqwnZwmVwrNm4rTCFRpWpun0bb3inLerxAAKGQO4ho3Zvk+NdEnPseRa1qMSjq
-         n4vb65ahHimcjBmrRV/yEstLuePXTqRYuxGSJsm2reSg5a4W5sNXt4o7zfCiArqDg4Ss
-         iiWOklDQaaOhMIu21mehblND5bzrbiC6vJ+INHYWYALeS5eYI3F9bOa6DFPGIknoEsZi
-         WcxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788799994; x=1789404794;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6KgsraBrUcToWRNGkqj8MPFUdOM/wW4nUtZo/xB90w4=;
-        b=HMCaSBVW0TY07mnvTn1Fc3GkoiGawnrrjOx2WQL9WxeccsV4EYoRBHvnZVb4bxeMMn
-         +rH0Ay5b52b872baT91HrP+uIG1TBWMKU+ZsZrCf/kBJF3rIltHBp7kgormJzo/myBLx
-         yG46grKkDpsnjdpJHapBcx6BArCA6zwI6Vt5RwqGYfkH+jjU3IV47pjQH0zXeh9bROYc
-         hms6VsDSRe2YAfw5jiSou7hhxbD0KK6c4go0qvMohtOZRkoto1iuZDVn5O0LEt9MWt8C
-         e0GozmIK07tNEDXTm/Al6qHotWRQ91MvpaGw6QYUcqUXg0qQlaZag5O6gqlBC81Ez2uX
-         EAMg==
-X-Gm-Message-State: AFuF++m2noFWFlPvzhcj7O5adkGrSZ9cNY+1mxDO1xO/pPqzdhCH2fqV
-	1/ZncIGNBkoM1ADxES0iKe7yVIpSDWtVblpLcYeL67wYD1K5QdiTQKtS
-X-Gm-Gg: AYBFou198QH6CnECKM/xwOgV7iE182nrGOi/bBYRqkofTEe/X7temEcaZGvTxYW7YWz
-	NQ/ARLLGcVmpSVaxiKhRGIQqYu/Hv8OyKxXpGseNiFOyOXhsSCRzMjIS1zZwpFSYH8EN/eJS9rM
-	8pSjXXgzhR4tLcnhrqOywXKu7BcgSD5vZHj6ne/U2CmBtFabGyNNltGn4eGoopvHZVR0TFf5v7z
-	JMENMRw54+udiaL5Y6fGGTEZHSo4hjxXM9MPxcMjA5wEchZQIbOwJ5aNEiCUCeEN2DCk+CMbg7m
-	we8GcY9sDMb4bFl9MKfedbRj1+rmWRzXRylLvkhaaAcTxiElG7DOoroq7SI3K2Oaj9ERGsyE8RR
-	1VcCeQU/oJQuhzqsME4Vk72Hy9l9lAfu/77QCZMlmQJcT1HmWlEa4stXqLu7csa05ADrrpnu8kA
-	AuTCqcYDcm5YgqTz25g2pz6g7r8vPAjL+GVavmf9Q80MsK0wuriOGuljq3szsBbGnbHEDW1/kd0
-	j+Ysmbx+/M/
-X-Received: by 2002:a05:600d:650c:20b0:49c:fc6c:be08 with SMTP id 5b1f17b1804b1-49cfc6cc026mr166941545e9.31.1788799994171;
-        Mon, 07 Sep 2026 09:53:14 -0700 (PDT)
-Received: from dell-desktop ([2a02:587:4b5f:900:ef25:2f4:1792:4e6f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d03543064sm233022415e9.13.2026.09.07.09.53.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 09:53:13 -0700 (PDT)
-From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
-To: bpf@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	david@kernel.org,
-	akpm@linux-foundation.org,
-	andrii@kernel.org,
-	ast@kernel.org,
-	brauner@kernel.org,
-	daniel@iogearbox.net,
-	eddyz87@gmail.com,
-	kpsingh@kernel.org,
-	ljs@kernel.org,
-	matt@bobrowski.net,
-	memxor@gmail.com,
-	song@kernel.org,
-	sun.jian.kdev@gmail.com,
-	tasos.papagiannnis@gmail.com,
-	utilityemal77@gmail.com,
-	viro@zeniv.linux.org.uk
-Subject: [PATCH bpf-next v5 7/7] selftests/bpf: Test mm_struct user memory kfuncs with linux_binprm
-Date: Mon,  7 Sep 2026 19:52:20 +0300
-Message-ID: <20260907165220.52431-8-tasos.papagiannnis@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260907165220.52431-1-tasos.papagiannnis@gmail.com>
-References: <20260907165220.52431-1-tasos.papagiannnis@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2eMkJBn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1461F00A3A;
+	Mon,  7 Sep 2026 16:56:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788800219;
+	bh=7sMiZud/gecw2GU2/OU3WSFMgRwBwDYM1b6ol/3L2AQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=U2eMkJBnxejCrjOQYxNf49B/y7ghwS63xl8kEFfSHPWHnEslOhZPUH9PrfOaFb/oO
+	 vhBO4qgPGcA4rgq/5XcEfm7JlWYqx1IgFGQwjh1wWy1/O6JVpIHy2U4n8+BXHPsDNx
+	 1VLmZw2b6mikVBQRxjIYCzdsH5OuRk7gr2NrmNJMcOj+DSky/Ir00/zP+/t1IlvVKT
+	 b2ju0GSQNWjg7+im/JUVMHfkNJdv0WspOrigCfBEvB4oyND2m/Ye03Ju/EQ9/Hr6j1
+	 HFdX4QrTcpf91Aj+wxuQwfBphRIEyrP22dI461P1S/nE4ua3v7dNt1qETwDaMYrngQ
+	 Wxon93uiVUv/A==
+Message-ID: <d6dc52e3-b27d-4663-848c-a2f270fb4c5d@kernel.org>
+Date: Mon, 7 Sep 2026 18:56:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] mm/vma: only permit MAP_PRIVATE /dev/zero to be
+ mapped anonymous
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260902-map-private-dev-zero-v1-0-a578c730cec7@kernel.org>
+ <20260902-map-private-dev-zero-v1-3-a578c730cec7@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260902-map-private-dev-zero-v1-3-a578c730cec7@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add a sleepable BPF LSM program attached to bprm_check_security to test
-bpf_copy_from_user_mm() and bpf_copy_from_user_mm_str() on CONFIG_MMU
-kernels.
+On 9/2/26 20:00, Lorenzo Stoakes (ARM) wrote:
+> In order to use mmap_prepare() with MAP_PRIVATE mappings of /dev/zero
+> without the success_hook hack we explicitly permitted mmap_prepare handlers
+> to set NULL vm_ops.
+> 
+> However this is dangerous and we really only want to allow this for
+> MAP_PRIVATE-mapped /dev/zero.
+> 
+> Therefore use the newly introduced file_is_dev_zero() to uniquely identify
+> MAP_PRIVATE-/dev/zero mappings and only permit this behaviour for them.
+> 
+> Then, remove all ability for mmap_prepare or mmap hooks to set a VMA
+> anonymous and update mmap_zero_prepare() to leave it to the core mmap code
+> to do so.
+> 
+> Note that this disallows nested MAP_PRIVATE-mappings of /dev/zero
+> regions. Doing this would be broken in any case.
+> 
+> We therefore do not need to update the mmap_prepare() compatibility layer
+> to reflect these changes, as the mmap hook check suffices to disallow this
+> behaviour.
+> 
+> Now we're setting vma->vm_ops to NULL for an mmap_prepare-initialised
+> MAP_PRIVATE-/dev/zero mapping, we have to avoid a subtle issue when
+> updating user-defined fields via set_vma_user_defined_fields().
+> 
+> The default for vma->vm_ops for all mmap_prepare-initialised mappings is
+> vma_dummy_vm_ops, so map->vm_ops will be set to this and setting
+> vma->vm_ops to this will render the VMA mistakenly non-anon.
+> 
+> In general, we should never be setting user-defined fields for an anonymous
+> VMA, so explicitly check for this to avoid doing so for the one case where
+> a mapping can be both mmap_prepare and anonymous.
+> 
+> In the case of legacy ->mmap hooks some drivers may set vma->vm_ops NULL
+> believing this is the equivalent of setting no VMA operations. Therefore
+> update mmap_file() to correct this by setting dummy VMA operations if this
+> occurs.
+> 
+> An example of this is drm_gem_shmem_mmap() which deliberately clears
+> vma->vm_ops before handing the VMA to dma-buf. Cases such as this will be
+> updated when they are converted to mmap_prepare.
+> 
+> Also, in order to avoid a single commit bisection hazard, add a temporary
+> workaround to set the VMA anonymous only after vma->vm_file is assigned in
+> __mmap_new_file_vma().
+> 
+> This is because vma_set_range() calls vma_set_pgoff() and
+> assert_sane_pgoff() in turn, prior to the vma->vm_file being assigned. If
+> we set the VMA anonymous early then this assert will fail.
+> 
+> This is removed in the subsequent commit.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  mm/char-mem.c |  6 +-----
+>  mm/internal.h | 17 ++++++++++-------
+>  mm/vma.c      | 33 +++++++++++++++++++++++++--------
+>  3 files changed, 36 insertions(+), 20 deletions(-)
+> 
+> diff --git a/mm/char-mem.c b/mm/char-mem.c
+> index e53e89e6ddd8..c0b5fb019223 100644
+> --- a/mm/char-mem.c
+> +++ b/mm/char-mem.c
+> @@ -508,11 +508,7 @@ static int mmap_zero_prepare(struct vm_area_desc *desc)
+>  	if (vma_desc_test(desc, VMA_SHARED_BIT))
+>  		return shmem_zero_setup_desc(desc);
+>  
+> -	/*
+> -	 * This is a highly unique situation where we mark a MAP_PRIVATE mapping
+> -	 * of /dev/zero anonymous, despite it not being.
+> -	 */
+> -	vma_desc_set_anonymous(desc);
+> +	/* MAP_PRIVATE semantics are taken care of for us by core mm. */
+>  	return 0;
+>  }
+>  
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 5d474e5f7709..da14c56fb24e 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -226,15 +226,18 @@ static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
+>  {
+>  	int err = vfs_mmap(file, vma);
+>  
+> -	if (likely(!err))
+> -		return 0;
+> -
+>  	/*
+> -	 * OK, we tried to call the file hook for mmap(), but an error
+> -	 * arose. The mapping is in an inconsistent state and we must not invoke
+> -	 * any further hooks on it.
+> +	 * Either we tried to call the file hook for mmap() and an error arose
+> +	 * or a driver set vma->vm_ops = NULL intending there to be no VMA
+> +	 * operations.
+> +	 *
+> +	 * In the former case the VMA is in an inconsistent state and we mustn't
+> +	 * invoke any further hooks on it, in the latter case the hook actually
+> +	 * wanted no further hooks to be invoked, so fix both by setting dummy
+> +	 * VMA ops.
+>  	 */
+> -	vma->vm_ops = &vma_dummy_vm_ops;
+> +	if (unlikely(err || !vma->vm_ops))
+> +		vma->vm_ops = &vma_dummy_vm_ops;
+>  
+>  	return err;
+>  }
+> diff --git a/mm/vma.c b/mm/vma.c
+> index 35e7a64855fa..4b8d430d9619 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -2621,6 +2621,19 @@ static int __mmap_new_file_vma(struct mmap_state *map,
+>  	return 0;
+>  }
+>  
+> +static bool map_is_private(const struct mmap_state *map)
+> +{
+> +	return !vma_flags_test(&map->vma_flags, VMA_SHARED_BIT);
+> +}
+> +
+> +static bool map_is_anon(const struct mmap_state *map)
 
-Starting at bprm->p, verify that bpf_copy_from_user_mm() can copy the
-contiguous NUL-separated argument and environment data. Then use
-bpf_copy_from_user_mm_str() to read each argument and environment string
-separately, advancing the offset by the length returned from each call.
+I was wondering whether we should call this "map_is_private_anon", due to
+MAP_ANON|MAP_SHARED. But looking at __mmap_new_vma(), the existing "is_anon" is
+also limited to MAP_ANON|MAP_PRIVATE.
 
-Skip the test on !CONFIG_MMU. In that configuration, exec argument and
-environment strings remain in bprm->page[] until the binary loader
-transfers them to the new process stack, so they are not accessible
-through bprm->mm at the bprm_check_security hook.
+> +{
+> +	if (!map_is_private(map))
+> +		return false;
+> +
+> +	return !map->file || file_is_dev_zero(map->file);
+> +}
+> +
+>  /*
+>   * __mmap_new_vma() - Allocate a new VMA for the region, as merging was not
+>   * possible.
+> @@ -2634,8 +2647,7 @@ static int __mmap_new_file_vma(struct mmap_state *map,
+>  static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
+>  	struct mmap_action *action)
+>  {
+> -	const bool is_anon = !map->file &&
+> -		!vma_flags_test(&map->vma_flags, VMA_SHARED_BIT);
+> +	const bool is_anon = map_is_anon(map);
+>  	struct vma_iterator *vmi = map->vmi;
+>  	int error = 0;
+>  	struct vm_area_struct *vma;
+> @@ -2651,7 +2663,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
+>  
+>  	vma_iter_config(vmi, map->addr, map->end);
+>  
+> -	if (is_anon)
+> +	if (is_anon && !map->file)
+>  		vma_set_anonymous(vma);
+>  
+>  	vma_set_range(vma, map->addr, map->end, map->pgoff, map->anon_pgoff);
+> @@ -2669,6 +2681,10 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
+>  	else if (!is_anon)
+>  		error = shmem_zero_setup(vma);
+>  
+> +	/* Temporary MAP_PRIVATE-/dev/zero workaround. */
+> +	if (is_anon && map->file)
+> +		vma_set_anonymous(vma);
+> +
+>  	if (error)
+>  		goto free_iter_vma;
+>  
+> @@ -2777,6 +2793,10 @@ static int call_mmap_prepare(struct mmap_state *map,
+>  	if (err)
+>  		return err;
+>  
+> +	/* Hooks cannot mark themselves anonymous. */
 
-Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
----
- .../bpf/prog_tests/copy_from_user_bprm.c      |  72 ++++++++++
- .../selftests/bpf/progs/copy_from_user_bprm.c | 123 ++++++++++++++++++
- 2 files changed, 195 insertions(+)
- create mode 100644 tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
- create mode 100644 tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
+I guess this comment will be stale soon (after #4 where you drop the
+set_anonymous part).
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
-new file mode 100644
-index 000000000000..b2325b193576
---- /dev/null
-+++ b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
-@@ -0,0 +1,72 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <errno.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+
-+#include <test_progs.h>
-+
-+#include "copy_from_user_bprm.skel.h"
-+
-+void test_copy_from_user_bprm(void)
-+{
-+	char arg0[] = "first";
-+	char arg1[] = "second-argument";
-+	char env0[] = "SOME_ENV=a";
-+	char env1[] = "OTHER_ENV=something";
-+	struct copy_from_user_bprm *skel;
-+	pid_t child;
-+	int status;
-+
-+	skel = copy_from_user_bprm__open_and_load();
-+	if (!ASSERT_OK_PTR(skel, "open_and_load"))
-+		return;
-+
-+	/*
-+	 * On !CONFIG_MMU, exec strings are held in bprm->page[] rather than
-+	 * being mapped in bprm->mm.
-+	 */
-+	if (!skel->kconfig->CONFIG_MMU) {
-+		printf("%s:SKIP: test requires CONFIG_MMU\n", __func__);
-+		test__skip();
-+		goto out;
-+	}
-+
-+	if (!ASSERT_OK(copy_from_user_bprm__attach(skel), "attach"))
-+		goto out;
-+
-+	child = fork();
-+	if (!ASSERT_GE(child, 0, "fork"))
-+		goto out;
-+
-+	if (!child) {
-+		char *const argv[] = { arg0, arg1, NULL };
-+		char *const envp[] = { env0, env1, NULL };
-+
-+		skel->bss->monitored_pid = getpid();
-+		execve("/bin/true", argv, envp);
-+		_exit(errno);
-+	}
-+
-+	if (!ASSERT_EQ(waitpid(child, &status, 0), child, "waitpid"))
-+		goto out;
-+
-+	if (ASSERT_TRUE(WIFEXITED(status), "child_exited"))
-+		ASSERT_EQ(WEXITSTATUS(status), EPERM, "exec_errno");
-+
-+	ASSERT_EQ(skel->bss->bprm_argc, 2, "bprm_argc");
-+	ASSERT_EQ(skel->bss->bprm_envc, 2, "bprm_envc");
-+	ASSERT_EQ(skel->bss->data_len_match, 1, "data_len_match");
-+	ASSERT_EQ(skel->bss->invalid_flags_ret, -EINVAL, "invalid_flags_ret");
-+	ASSERT_EQ(skel->bss->copy_ret, 0, "copy_ret");
-+	ASSERT_EQ(skel->bss->str_arg0_ret, sizeof(arg0), "str_arg0_ret");
-+	ASSERT_EQ(skel->bss->str_arg1_ret, sizeof(arg1), "str_arg1_ret");
-+	ASSERT_EQ(skel->bss->str_env0_ret, sizeof(env0), "str_env0_ret");
-+	ASSERT_EQ(skel->bss->str_env1_ret, sizeof(env1), "str_env1_ret");
-+	ASSERT_EQ(skel->bss->data_match, 1, "data_match");
-+	ASSERT_EQ(skel->bss->str_args_match, 1, "str_args_match");
-+	ASSERT_EQ(skel->bss->str_envs_match, 1, "str_envs_match");
-+
-+out:
-+	copy_from_user_bprm__destroy(skel);
-+}
-diff --git a/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
-new file mode 100644
-index 000000000000..b334a157419e
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
-@@ -0,0 +1,123 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include "vmlinux.h"
-+
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+#include <errno.h>
-+#include "bpf_misc.h"
-+
-+char _license[] SEC("license") = "GPL";
-+
-+static const char expected_data[] = "first\0second-argument\0"
-+				    "SOME_ENV=a\0OTHER_ENV=something";
-+static const char expected_arg0[] = "first";
-+static const char expected_arg1[] = "second-argument";
-+static const char expected_env0[] = "SOME_ENV=a";
-+static const char expected_env1[] = "OTHER_ENV=something";
-+
-+int monitored_pid;
-+int bprm_argc;
-+int bprm_envc;
-+int data_len_match;
-+int invalid_flags_ret;
-+int copy_ret;
-+int str_arg0_ret;
-+int str_arg1_ret;
-+int str_env0_ret;
-+int str_env1_ret;
-+int data_match;
-+int str_args_match;
-+int str_envs_match;
-+
-+extern bool CONFIG_MMU __kconfig __weak;
-+
-+extern int bpf_copy_from_user_mm(void *dst, u32 dst__sz,
-+				 const void *unsafe_ptr__ign,
-+				 struct mm_struct *mm, u64 flags) __ksym;
-+
-+extern int bpf_copy_from_user_mm_str(void *dst, u32 dst__sz,
-+				     const void *unsafe_ptr__ign,
-+				     struct mm_struct *mm, u64 flags) __ksym;
-+
-+SEC("lsm.s/bprm_check_security")
-+int BPF_PROG(check_exec_args, struct linux_binprm *bprm)
-+{
-+	u32 pid = bpf_get_current_pid_tgid() >> 32;
-+	char data[sizeof(expected_data)] = {};
-+	struct mm_struct *mm;
-+	char arg0[32] = {};
-+	char arg1[32] = {};
-+	char env0[32] = {};
-+	char env1[32] = {};
-+	u64 offset = 0;
-+	u64 data_len;
-+
-+	if (!CONFIG_MMU)
-+		return 0;
-+
-+	if (pid != monitored_pid)
-+		return 0;
-+
-+	mm = bprm->mm;
-+	if (!mm)
-+		return 0;
-+
-+	bprm_argc = bprm->argc;
-+	bprm_envc = bprm->envc;
-+
-+	/* this is the total size of args and envs starting from bprm->p */
-+	data_len = bprm->exec - bprm->p;
-+	data_len_match = data_len == sizeof(expected_data);
-+
-+	invalid_flags_ret = bpf_copy_from_user_mm(data,
-+						  sizeof(data), (void *)bprm->p, mm, ~0ULL);
-+
-+	copy_ret = bpf_copy_from_user_mm(data, sizeof(data), (void *)bprm->p,
-+					 mm, 0);
-+	if (copy_ret)
-+		return 0;
-+
-+	data_match =
-+		!__builtin_memcmp(data, expected_data, sizeof(expected_data));
-+
-+	/* arg0 is at bprm->p */
-+	str_arg0_ret = bpf_copy_from_user_mm_str(arg0, sizeof(arg0),
-+						 (void *)(bprm->p + offset),
-+						 mm, BPF_F_PAD_ZEROS);
-+	if (str_arg0_ret != sizeof(expected_arg0))
-+		return 0;
-+	offset += str_arg0_ret;
-+
-+	/* arg1 is at bprm->p + sizeof(arg0) */
-+	str_arg1_ret = bpf_copy_from_user_mm_str(arg1, sizeof(arg1),
-+						 (void *)(bprm->p + offset),
-+						 mm, BPF_F_PAD_ZEROS);
-+	if (str_arg1_ret != sizeof(expected_arg1))
-+		return 0;
-+	offset += str_arg1_ret;
-+
-+	/* env0 is at bprm->p + sizeof(arg0) + sizeof(arg1) */
-+	str_env0_ret = bpf_copy_from_user_mm_str(env0, sizeof(env0),
-+						 (void *)(bprm->p + offset),
-+						 mm, BPF_F_PAD_ZEROS);
-+	if (str_env0_ret != sizeof(expected_env0))
-+		return 0;
-+	offset += str_env0_ret;
-+
-+	/* env1 is at bprm->p + sizeof(arg0) + sizeof(arg1) + sizeof(env0) */
-+	str_env1_ret = bpf_copy_from_user_mm_str(env1, sizeof(env1),
-+						 (void *)(bprm->p + offset),
-+						 mm, BPF_F_PAD_ZEROS);
-+	if (str_env1_ret != sizeof(expected_env1))
-+		return 0;
-+
-+	str_args_match =
-+		!__builtin_memcmp(arg0, expected_arg0, sizeof(expected_arg0)) &&
-+		!__builtin_memcmp(arg1, expected_arg1, sizeof(expected_arg1));
-+	str_envs_match =
-+		!__builtin_memcmp(env0, expected_env0, sizeof(expected_env0)) &&
-+		!__builtin_memcmp(env1, expected_env1, sizeof(expected_env1));
-+
-+	return data_match && str_args_match && str_envs_match ? -EPERM : 0;
-+}
+Should it be
+
+"vm_ops are strictly required with mmap_prepare"
+
+or sth like that?
+
+> +	if (!desc->vm_ops)
+> +		return -EINVAL;
+> +
+>  	err = call_action_prepare(map, desc);
+>  	if (err)
+>  		return err;
+> @@ -2799,10 +2819,7 @@ static int call_mmap_prepare(struct mmap_state *map,
+>  static void set_vma_user_defined_fields(struct vm_area_struct *vma,
+>  		struct mmap_state *map)
+>  {
+> -	if (map->vm_ops)
+> -		vma->vm_ops = map->vm_ops;
+> -	else	/* Only /dev/zero should do this. */
+> -		vma_set_anonymous(vma);
+> +	vma->vm_ops = map->vm_ops;
+>  	vma->vm_private_data = map->vm_private_data;
+>  }
+>  
+> @@ -2882,7 +2899,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+>  		allocated_new = true;
+>  	}
+>  
+> -	if (have_mmap_prepare)
+> +	if (have_mmap_prepare && !map_is_anon(&map))
+>  		set_vma_user_defined_fields(vma, &map);
+
+Ah, we have mmap_zero_prepare() for handling the shmem_zero_setup_desc(). I was
+just about to ask whether we can just get rid of this here.
+
+
+But, hold on, do we now even need that? Could core-mm now take care of that as
+well, and we could just remove mmap_zero_prepare() entirely?
+
+That is, we'd make shmem_zero_setup() in __mmap_new_vma() take care of this?
+Then we might not even need shmem_zero_setup_desc() anymore.
+
+Maybe harder than it sounds at first.
+
 -- 
-2.55.0
+Cheers,
 
+David
