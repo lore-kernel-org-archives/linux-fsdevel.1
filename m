@@ -1,325 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831583B47CD;
-	Mon,  7 Sep 2026 16:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010BC51E42B
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 17:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788800221; cv=none; b=OLihD2X0NLIwR+EaJy3cEUuG0GqJSDRG09dD8ohTninaXQiyVQY4ohYP7swSGU3Ew0CcWgEUdM48VduCvK6dr4hk7TaXsqh2unwdw8c8q2ZQjCmBngvLP7hTYghYuW+b0cg6JJ33RIrnrWplGm4HJQuvS+B5w8Xxi3BWS3MFH4c=
+	t=1788800758; cv=none; b=qeYEycIJjZiqqyLXt7S6maSTTf6wjpnyvh+2mD3bsQgMuGGlXsef8ESEpBm4p1pg6RxZP25Wo+OlcTed/VnvWThu35seZMJ+EtEM9pbhcjGWRteRk1koBdBSh15bUtOEva4KopMVWgAVYPg1kLqUSAW4m0NNU/qdonjthHZSia4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788800221; c=relaxed/simple;
-	bh=aTuazGd35Bcu9csBhTUgz4cz9heaPWV36zCjuHxVwA0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pdEYwu7gLcvMCt2kva/RCjM5MChEnx+Xampw9l4Xm3rcoeM718KBZ6WLUcxB6A0XJ8N/GQWMRkzDnyg+dfXpjvv3LvH3OwttTJFZTN5kE8UALtjTxSWkGwRVbVUdIwKMzLxSPrzGm7TrO0Joh9OJyU+Ps1tpD4O+GG9nvtI2PSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2eMkJBn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788800758; c=relaxed/simple;
+	bh=30E5+fn1SPBaPinE5yhL9vLNK+JbITEUO6qnT0TgdOY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uZRwUgSwwT62ehHFG3F1jT+DGSrO/5rtACOFkPk3vFQo+hmeJOrGUHqaTsc9VwZFMEAcSBCW2Y2Aip4iYxBKmexWCTkvvx3KB4ksqLxvhctqhOnlcU362G9s7HN/Yt3zFKtCu2hgeXg2q6+um1KngoZm7U2+X4plt/aGGHfnEhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=nMkC82fi; arc=none smtp.client-ip=209.85.217.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2eMkJBn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1461F00A3A;
-	Mon,  7 Sep 2026 16:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788800219;
-	bh=7sMiZud/gecw2GU2/OU3WSFMgRwBwDYM1b6ol/3L2AQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=U2eMkJBnxejCrjOQYxNf49B/y7ghwS63xl8kEFfSHPWHnEslOhZPUH9PrfOaFb/oO
-	 vhBO4qgPGcA4rgq/5XcEfm7JlWYqx1IgFGQwjh1wWy1/O6JVpIHy2U4n8+BXHPsDNx
-	 1VLmZw2b6mikVBQRxjIYCzdsH5OuRk7gr2NrmNJMcOj+DSky/Ir00/zP+/t1IlvVKT
-	 b2ju0GSQNWjg7+im/JUVMHfkNJdv0WspOrigCfBEvB4oyND2m/Ye03Ju/EQ9/Hr6j1
-	 HFdX4QrTcpf91Aj+wxuQwfBphRIEyrP22dI461P1S/nE4ua3v7dNt1qETwDaMYrngQ
-	 Wxon93uiVUv/A==
-Message-ID: <d6dc52e3-b27d-4663-848c-a2f270fb4c5d@kernel.org>
-Date: Mon, 7 Sep 2026 18:56:51 +0200
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="nMkC82fi"
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-785073ad5ccso2578870137.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 10:05:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1788800754; x=1789405554; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4ViMkmwSoErS7rxxMTiQ1fqBwA5lQ27YbW52AFDf1PI=;
+        b=nMkC82fiE0qrtydvqmovNXyKhS6Bo2yeRyyrJqHZdusVz8GawhSnphotCH0CKxvkYp
+         THDr1T6zBoK93qFpAhs9h/qbpWq5gGO3RwvKHplbiAQGYRUPDx2yvS8F9Z09PvhK1LwH
+         2kPT2sG2CYm5FoaANHqiRiCawKd57LjAvz3wcRDuxC+7wh4PB8lNYXHlNdgcePH7pzze
+         cO3xduMT8z2uMB3rDo0yiTz0CqVwVKvOLWE3IcFaIhektlf8ZOxQdkC3otQw7Il4j0kP
+         ccgqxvMTsFyNo6I3toclxphc+A2j5PHdUjcAVCfi7JcwQwYgZ5sY73VwSUiy1XEFzwWe
+         6yDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788800754; x=1789405554;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=4ViMkmwSoErS7rxxMTiQ1fqBwA5lQ27YbW52AFDf1PI=;
+        b=LFU1VNzxfixJB08zow9o1dyNN8iRhCfgblbyms2zppuk5RKjPSK8PVfIP7Jotx7OhN
+         IeDL2NfIIZyvm20NEsIsco1SE3l1+ZxMLdac7gtuac3Nl/+serc/D5ejGfnW3B7f7JD/
+         bxQLJNgmhHZ05LD2837wjXi9RNHY/XBR/bBe+FwK1SkQ+DeuRm5TRdvEIlbE7iDJGNMo
+         MsCTXlPGfNiIT+XXM3IojgiQzqPKqwDttb8bHxTOvtm7TFGz7gHC9g4j9JJGR8T2o3OP
+         eDc8g/lQi1n+Y+vLetzNDS4Qg/CeVeb1Lp7N6MBbD1YZ6b2Rt9Zet1Qs/Xnvt0zQjkjl
+         ugFg==
+X-Gm-Message-State: AFuF++kfXaooDeTjMpw2THmURSLDEqmsmdFCj0tNfmfOqA9HagwR3yep
+	tI1g9iGrBaqhBxumMrZ0v4tJyw1EWviDDz/c1CRKPzIdaN1fxYMnf6jybf9me5uNe+L0wb8K0Pf
+	6CmrKgYc=
+X-Gm-Gg: AYBFou3jvLimLcMmzr5lGwscA1+HxT0OWTDcutO9espejq9Imo+qBVzUYJJocugmdI8
+	qRocc+yie1ogBz6UCzIN2VkYe/OWCuK0i1znADJ0REsOprMUFJe5m0nu8vRptl7xuAddmAXLYBS
+	BFAsBiDAH9frp4suR66avMU6/6iQqk0Gra7/dQSxc9QHreHXLW4ywRhMzGwBKuRcxwwOGV+s1XF
+	hhDIg+5KjuuntmO3jILLinUoRBbtRc3sfuB9q15o14jRngceL/hQcHTX8EqO3pCJE85NiLC0Enf
+	NyD/7iwaCSF2Z1394VyH6BrvuwqVD6girEKRe3oLdjaNXS1GM+tsV6SGl1WGnyV4RpEM/8GtKG8
+	4U1Ho8EY1f747u31fSdhOOjstHa/UwDlJMKk9Apqy5B9f6fdxULXagLlQ0hpGqMyE1z42uC2dOU
+	FPDRafQaNBSzBN7Sg7QwYm5itSC/cHCRKlBW6nRU4H8AfZFYhwkZ7mUh0gWupbqv7cxd1En+EGy
+	a/5MW/79rEinsdNK5ptB/qqocnJGRJQV/mQgd5Y8IrubCPMdYzC6qkQVMM3jZA3xfvcyZ47fz5v
+	Goltdk+M1qN4ifWEOEaNrkHF4WUjKQaRz5+3Zvl1cBfZi6SMEQbA5NM=
+X-Received: by 2002:a05:6102:1484:b0:785:1d9c:633c with SMTP id ada2fe7eead31-78a4a8436b7mr10378157137.7.1788800754614;
+        Mon, 07 Sep 2026 10:05:54 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:51d3:d0fc:6793:303f? ([2600:1700:6476:1430:51d3:d0fc:6793:303f])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-78a4764e321sm7450610137.0.2026.09.07.10.05.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 10:05:51 -0700 (PDT)
+Message-ID: <56524bbf4d0a08e932f9cea18861538151a89534.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: fix recursive tree_lock in
+ hfsplus_file_extend()
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: ThangNN99 <ngocthang2710.1999@gmail.com>, John Paul Adrian Glaubitz
+	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
+Date: Mon, 07 Sep 2026 10:05:50 -0700
+In-Reply-To: <20260906154924.94160-1-ngocthang2710.1999@gmail.com>
+References: <20260906154924.94160-1-ngocthang2710.1999@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] mm/vma: only permit MAP_PRIVATE /dev/zero to be
- mapped anonymous
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260902-map-private-dev-zero-v1-0-a578c730cec7@kernel.org>
- <20260902-map-private-dev-zero-v1-3-a578c730cec7@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260902-map-private-dev-zero-v1-3-a578c730cec7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 9/2/26 20:00, Lorenzo Stoakes (ARM) wrote:
-> In order to use mmap_prepare() with MAP_PRIVATE mappings of /dev/zero
-> without the success_hook hack we explicitly permitted mmap_prepare handlers
-> to set NULL vm_ops.
-> 
-> However this is dangerous and we really only want to allow this for
-> MAP_PRIVATE-mapped /dev/zero.
-> 
-> Therefore use the newly introduced file_is_dev_zero() to uniquely identify
-> MAP_PRIVATE-/dev/zero mappings and only permit this behaviour for them.
-> 
-> Then, remove all ability for mmap_prepare or mmap hooks to set a VMA
-> anonymous and update mmap_zero_prepare() to leave it to the core mmap code
-> to do so.
-> 
-> Note that this disallows nested MAP_PRIVATE-mappings of /dev/zero
-> regions. Doing this would be broken in any case.
-> 
-> We therefore do not need to update the mmap_prepare() compatibility layer
-> to reflect these changes, as the mmap hook check suffices to disallow this
-> behaviour.
-> 
-> Now we're setting vma->vm_ops to NULL for an mmap_prepare-initialised
-> MAP_PRIVATE-/dev/zero mapping, we have to avoid a subtle issue when
-> updating user-defined fields via set_vma_user_defined_fields().
-> 
-> The default for vma->vm_ops for all mmap_prepare-initialised mappings is
-> vma_dummy_vm_ops, so map->vm_ops will be set to this and setting
-> vma->vm_ops to this will render the VMA mistakenly non-anon.
-> 
-> In general, we should never be setting user-defined fields for an anonymous
-> VMA, so explicitly check for this to avoid doing so for the one case where
-> a mapping can be both mmap_prepare and anonymous.
-> 
-> In the case of legacy ->mmap hooks some drivers may set vma->vm_ops NULL
-> believing this is the equivalent of setting no VMA operations. Therefore
-> update mmap_file() to correct this by setting dummy VMA operations if this
-> occurs.
-> 
-> An example of this is drm_gem_shmem_mmap() which deliberately clears
-> vma->vm_ops before handing the VMA to dma-buf. Cases such as this will be
-> updated when they are converted to mmap_prepare.
-> 
-> Also, in order to avoid a single commit bisection hazard, add a temporary
-> workaround to set the VMA anonymous only after vma->vm_file is assigned in
-> __mmap_new_file_vma().
-> 
-> This is because vma_set_range() calls vma_set_pgoff() and
-> assert_sane_pgoff() in turn, prior to the vma->vm_file being assigned. If
-> we set the VMA anonymous early then this assert will fail.
-> 
-> This is removed in the subsequent commit.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+On Sun, 2026-09-06 at 22:49 +0700, ThangNN99 wrote:
+> hfs_bmap_reserve() calls hfsplus_file_extend() on tree->inode with
+> tree->tree_lock already held.=C2=A0 When the tree is the extents overflow
+> B-tree and its own fork already claims more blocks than its eight
+> fork extents describe, hfsplus_file_extend() calls
+> hfsplus_ext_read_extent() -> hfs_find_init() on that same tree,
+> taking tree_lock a second time (lockdep: "possible recursive locking
+> ... &tree->tree_lock/1").
+
+Could you please explain the use-case or workload that is trying to
+claim more blocks that fork can include for Extents Overflow file?
+Could you please share the call trace for the issue?
+
+Thanks,
+Slava.
+
+>=20
+> Per the HFS+ format the extents overflow file is fully described by
+> its eight fork extents, so this state only arises from a corrupted
+> image. hfsplus_get_block() already refuses it for lookups; do the
+> same when growing the file.
+>=20
+> Reported-by: syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
+> Signed-off-by: ThangNN99 <ngocthang2710.1999@gmail.com>
 > ---
->  mm/char-mem.c |  6 +-----
->  mm/internal.h | 17 ++++++++++-------
->  mm/vma.c      | 33 +++++++++++++++++++++++++--------
->  3 files changed, 36 insertions(+), 20 deletions(-)
-> 
-> diff --git a/mm/char-mem.c b/mm/char-mem.c
-> index e53e89e6ddd8..c0b5fb019223 100644
-> --- a/mm/char-mem.c
-> +++ b/mm/char-mem.c
-> @@ -508,11 +508,7 @@ static int mmap_zero_prepare(struct vm_area_desc *desc)
->  	if (vma_desc_test(desc, VMA_SHARED_BIT))
->  		return shmem_zero_setup_desc(desc);
->  
-> -	/*
-> -	 * This is a highly unique situation where we mark a MAP_PRIVATE mapping
-> -	 * of /dev/zero anonymous, despite it not being.
-> -	 */
-> -	vma_desc_set_anonymous(desc);
-> +	/* MAP_PRIVATE semantics are taken care of for us by core mm. */
->  	return 0;
->  }
->  
-> diff --git a/mm/internal.h b/mm/internal.h
-> index 5d474e5f7709..da14c56fb24e 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -226,15 +226,18 @@ static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
->  {
->  	int err = vfs_mmap(file, vma);
->  
-> -	if (likely(!err))
-> -		return 0;
-> -
->  	/*
-> -	 * OK, we tried to call the file hook for mmap(), but an error
-> -	 * arose. The mapping is in an inconsistent state and we must not invoke
-> -	 * any further hooks on it.
-> +	 * Either we tried to call the file hook for mmap() and an error arose
-> +	 * or a driver set vma->vm_ops = NULL intending there to be no VMA
-> +	 * operations.
-> +	 *
-> +	 * In the former case the VMA is in an inconsistent state and we mustn't
-> +	 * invoke any further hooks on it, in the latter case the hook actually
-> +	 * wanted no further hooks to be invoked, so fix both by setting dummy
-> +	 * VMA ops.
->  	 */
-> -	vma->vm_ops = &vma_dummy_vm_ops;
-> +	if (unlikely(err || !vma->vm_ops))
-> +		vma->vm_ops = &vma_dummy_vm_ops;
->  
->  	return err;
->  }
-> diff --git a/mm/vma.c b/mm/vma.c
-> index 35e7a64855fa..4b8d430d9619 100644
-> --- a/mm/vma.c
-> +++ b/mm/vma.c
-> @@ -2621,6 +2621,19 @@ static int __mmap_new_file_vma(struct mmap_state *map,
->  	return 0;
->  }
->  
-> +static bool map_is_private(const struct mmap_state *map)
-> +{
-> +	return !vma_flags_test(&map->vma_flags, VMA_SHARED_BIT);
-> +}
-> +
-> +static bool map_is_anon(const struct mmap_state *map)
-
-I was wondering whether we should call this "map_is_private_anon", due to
-MAP_ANON|MAP_SHARED. But looking at __mmap_new_vma(), the existing "is_anon" is
-also limited to MAP_ANON|MAP_PRIVATE.
-
-> +{
-> +	if (!map_is_private(map))
-> +		return false;
-> +
-> +	return !map->file || file_is_dev_zero(map->file);
-> +}
-> +
->  /*
->   * __mmap_new_vma() - Allocate a new VMA for the region, as merging was not
->   * possible.
-> @@ -2634,8 +2647,7 @@ static int __mmap_new_file_vma(struct mmap_state *map,
->  static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
->  	struct mmap_action *action)
->  {
-> -	const bool is_anon = !map->file &&
-> -		!vma_flags_test(&map->vma_flags, VMA_SHARED_BIT);
-> +	const bool is_anon = map_is_anon(map);
->  	struct vma_iterator *vmi = map->vmi;
->  	int error = 0;
->  	struct vm_area_struct *vma;
-> @@ -2651,7 +2663,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
->  
->  	vma_iter_config(vmi, map->addr, map->end);
->  
-> -	if (is_anon)
-> +	if (is_anon && !map->file)
->  		vma_set_anonymous(vma);
->  
->  	vma_set_range(vma, map->addr, map->end, map->pgoff, map->anon_pgoff);
-> @@ -2669,6 +2681,10 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
->  	else if (!is_anon)
->  		error = shmem_zero_setup(vma);
->  
-> +	/* Temporary MAP_PRIVATE-/dev/zero workaround. */
-> +	if (is_anon && map->file)
-> +		vma_set_anonymous(vma);
-> +
->  	if (error)
->  		goto free_iter_vma;
->  
-> @@ -2777,6 +2793,10 @@ static int call_mmap_prepare(struct mmap_state *map,
->  	if (err)
->  		return err;
->  
-> +	/* Hooks cannot mark themselves anonymous. */
-
-I guess this comment will be stale soon (after #4 where you drop the
-set_anonymous part).
-
-Should it be
-
-"vm_ops are strictly required with mmap_prepare"
-
-or sth like that?
-
-> +	if (!desc->vm_ops)
-> +		return -EINVAL;
-> +
->  	err = call_action_prepare(map, desc);
->  	if (err)
->  		return err;
-> @@ -2799,10 +2819,7 @@ static int call_mmap_prepare(struct mmap_state *map,
->  static void set_vma_user_defined_fields(struct vm_area_struct *vma,
->  		struct mmap_state *map)
->  {
-> -	if (map->vm_ops)
-> -		vma->vm_ops = map->vm_ops;
-> -	else	/* Only /dev/zero should do this. */
-> -		vma_set_anonymous(vma);
-> +	vma->vm_ops = map->vm_ops;
->  	vma->vm_private_data = map->vm_private_data;
->  }
->  
-> @@ -2882,7 +2899,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
->  		allocated_new = true;
->  	}
->  
-> -	if (have_mmap_prepare)
-> +	if (have_mmap_prepare && !map_is_anon(&map))
->  		set_vma_user_defined_fields(vma, &map);
-
-Ah, we have mmap_zero_prepare() for handling the shmem_zero_setup_desc(). I was
-just about to ask whether we can just get rid of this here.
-
-
-But, hold on, do we now even need that? Could core-mm now take care of that as
-well, and we could just remove mmap_zero_prepare() entirely?
-
-That is, we'd make shmem_zero_setup() in __mmap_new_vma() take care of this?
-Then we might not even need shmem_zero_setup_desc() anymore.
-
-Maybe harder than it sounds at first.
-
--- 
-Cheers,
-
-David
+> =C2=A0fs/hfsplus/extents.c | 9 +++++++++
+> =C2=A01 file changed, 9 insertions(+)
+>=20
+> diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
+> index eb7c11524d18..39920b51e08b 100644
+> --- a/fs/hfsplus/extents.c
+> +++ b/fs/hfsplus/extents.c
+> @@ -458,6 +458,15 @@ int hfsplus_file_extend(struct inode *inode,
+> bool zeroout)
+> =C2=A0	if (hip->alloc_blocks =3D=3D hip->first_blocks)
+> =C2=A0		goal =3D hfsplus_ext_lastblock(hip->first_extents);
+> =C2=A0	else {
+> +		/*
+> +		 * The extents overflow file can't have overflow
+> extents of
+> +		 * its own; growing it here would re-enter
+> hfs_find_init()
+> +		 * on the extents tree, whose tree_lock is already
+> held.
+> +		 */
+> +		if (inode->i_ino =3D=3D HFSPLUS_EXT_CNID) {
+> +			res =3D -EIO;
+> +			goto out;
+> +		}
+> =C2=A0		res =3D hfsplus_ext_read_extent(inode, hip-
+> >alloc_blocks);
+> =C2=A0		if (res)
+> =C2=A0			goto out;
