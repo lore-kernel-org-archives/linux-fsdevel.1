@@ -1,154 +1,190 @@
-Received: from mta0.migadu.com (out-167.mta0.migadu.com [91.218.175.167])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F18843C05F
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 08:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221D5242910;
+	Mon,  7 Sep 2026 08:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788768946; cv=none; b=ihR161kg6D/QndVi0noO692/LLgVB1cJUd5pEe5d10GJmr2UxiCUbS0ddhP8U7a1Nzyq/EcbbeSxCAGYU43LSGGK04KEbFrxzVXAeMpYyn7Q+FkwQ/2EQX6ySos644OkrWPViH8kP5lx9nfImHzDt1mqLxHB0JgsMnOcUR8lE3M=
+	t=1788769324; cv=none; b=DMGWqZFx4HVciB/EfMx/g6HOLsylpziwzDrmpjuVs+p+GR7M4PLzvV7xpgqTYrineAreJ4oT7qCk064YJOHp5DqWqcjvA8ILzLTkNw6xSCWt2jDgM3ZMjwCAG+J4GYW2gwI87b8SUY3pnywbLf3PZsNzUgDe0upVODwedOjz6UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788768946; c=relaxed/simple;
-	bh=QPbA87RHE+w44sKh8YFv32hrfoolvz7WuKZeL9giD2c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KFUhLc3YaOn57yMVfk59d7iaVzXFu+iYoOpMt1FliB+z6KDwACdUlXOwbuCA5ALkwJudxRTlxZrPGWkQaJ6nFxs/i8oThsSWhEc9qfbSHykWFcCEGGcr03o/pNgvEaHFC3e6CSGZAzKOxwiaFF2HERLtTJiBSP1HTg79APKqC3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Mr/dbA1s; arc=none smtp.client-ip=91.218.175.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788769324; c=relaxed/simple;
+	bh=3QPwa3MeBF3B84pme974A80HEI+sVX5CODPVCBdfC+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VvhZqY16T6wuEZNsI5bfFdWyNaF82ve5SWrStwKAdwQehRUzI01I0IWnf+HiL32rKTHXaHEDvQXM8cGLewXZ5X44HE30IWpOECPg4+8JHnsNyqMGaUdMOtzXFziFHX4p50wG735/u2AgIiKfYOw5beovJAtrVN4M+MBzzLgtmXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lEAzgXId; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mBcTfsYf; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uTAXmQ9F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zuAeVTWW; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Mr/dbA1s"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=QPbA87RHE+w44sKh8YFv32hrfoolvz7WuKZeL9giD2c=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788768942; v=1; x=1789373742;
- b=Mr/dbA1ssVgGNGSkx9NfcW/TeNr3X7ajPN5WChcRkivApREW2EP1xWiVFInVPhm1sPWsjB3w
- SxfFgpedO4Vr5GcEhpleqAbVMPYg4DPql6i5nm/5ONajnHrM7ZQZwILXWB5BliGboSUnHA1OFdC
- Jb0/0QoO2QZhUW+sgHTDxF68=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 6d517d0bf0f3bdbe;
-	Mon, 07 Sep 2026 08:15:41 +0000
-X-Mizu-Trace-ID: 6d517d0bf0f3bdbe
-X-Migadu-Flow: FLOW_OUT
-From: Ye Liu <ye.liu@linux.dev>
-To: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>
-Cc: Ye Liu <liuye@kylinos.cn>,
-	Justin Suess <utilityemal77@gmail.com>,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
-	mhocko@suse.com,
-	peterz@infradead.org,
-	paulmck@kernel.org,
-	mingo@redhat.com,
-	rostedt@goodmis.org,
-	jpoimboe@kernel.org,
-	oleg@redhat.com,
-	tglx@kernel.org,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	linmiaohe@huawei.com,
-	nao.horiguchi@gmail.com,
-	rafael@kernel.org,
-	ljs@kernel.org,
-	sj@kernel.org,
-	rientjes@google.com,
-	shakeel.butt@linux.dev,
-	xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev,
-	will@kernel.org,
-	boqun@kernel.org,
-	frederic@kernel.org,
-	neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com,
-	josh@joshtriplett.org,
-	urezki@gmail.com,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	tony.luck@intel.com,
-	reinette.chatre@intel.com,
-	x86@kernel.org,
-	pavel@kernel.org,
-	lance.yang@linux.dev,
-	mhiramat@kernel.org,
-	pmladek@suse.com,
-	longman@redhat.com,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev,
-	dietmar.eggemann@arm.com,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	mark.rutland@arm.com,
-	Dave.Martin@arm.com,
-	james.morse@arm.com,
-	babu.moger@amd.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	rcu@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH v2 8/8] security/landlock: convert thread iterator to for_each_thread_rculock
-Date: Mon,  7 Sep 2026 16:13:34 +0800
-Message-Id: <20260907081334.1152889-9-ye.liu@linux.dev>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260907081334.1152889-1-ye.liu@linux.dev>
-References: <20260907081334.1152889-1-ye.liu@linux.dev>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lEAzgXId";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mBcTfsYf";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uTAXmQ9F";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zuAeVTWW"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0B08D21B40;
+	Mon,  7 Sep 2026 08:21:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788769316; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gHHdFupRkSPL5Qu9Y6CTRq5TzAGvzNKJA+0n+VN11dI=;
+	b=lEAzgXId0wnbywLNGMFKA3SOBhnbQFepub3knfVFFsabW1F+wjAAtrhOWXldoZMBAwlZKl
+	g17Klrsu9rqcRwqAV5Y5l1C3AD3F6hZ0im3UmIV+qco/1mkc3vPcRBBQm8WSu4O+JlIEhl
+	4LIyBeGUc2lPSShDHjiB5l4EQ7fD9Qk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788769316;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gHHdFupRkSPL5Qu9Y6CTRq5TzAGvzNKJA+0n+VN11dI=;
+	b=mBcTfsYfj47DnTiA56VGJRmXqDqWE0zgiKWrfKf2371GsfYvYTt+YmfhLfjOww+PYsxe1F
+	7qlu3In+vocWe9Dg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788769312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gHHdFupRkSPL5Qu9Y6CTRq5TzAGvzNKJA+0n+VN11dI=;
+	b=uTAXmQ9F9dgnFDQLS2P5QCnRP3HXRBTpwDLCR9OZiKp9CdcwaM0nntN7x0JDyxOSJq6SA1
+	ppG81oZuXc+0VaJBN+2h1yA2alPqV3N//VgvIGyqbgGUPNRVC6hhfyJqwipKT0wQlCS3X6
+	2BrdSvrE+0/RniIR3YYRryPMnqOy5nA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788769312;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gHHdFupRkSPL5Qu9Y6CTRq5TzAGvzNKJA+0n+VN11dI=;
+	b=zuAeVTWWhm3zC2sVdpjt8GtveLKbIIIRpQtf7sZ7hp9IJZ5geEWl2q8gd9QXGBq+VJKCeL
+	jzGjwxhN/ZdpqKBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DECEA1339B;
+	Mon,  7 Sep 2026 08:21:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nUJbNh90nmq6OgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 07 Sep 2026 08:21:51 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 794E6A13B2; Mon, 07 Sep 2026 10:21:43 +0200 (CEST)
+Date: Mon, 7 Sep 2026 10:21:43 +0200
+From: Jan Kara <jack@suse.cz>
+To: Kaitao Cheng <kaitao.cheng@linux.dev>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Dan Williams <djbw@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Muchun Song <muchun.song@linux.dev>, 
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Kaitao Cheng <chengkaitao@kylinos.cn>
+Subject: Re: [PATCH 1/2] fs/dax: Remove unused dax_layout_busy_page()
+Message-ID: <kuqhtiqd5ibegkkpul5q62xjrpuzbzhlswiziqatlzfksvcfgl@jp3fbktfv64q>
+References: <20260904152749.84493-1-kaitao.cheng@linux.dev>
+ <20260904152749.84493-2-kaitao.cheng@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260904152749.84493-2-kaitao.cheng@linux.dev>
+X-Spam-Level: 
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
 
-From: Ye Liu <liuye@kylinos.cn>
+On Fri 04-09-26 23:27:48, Kaitao Cheng wrote:
+> From: Kaitao Cheng <chengkaitao@kylinos.cn>
+> 
+> dax_layout_busy_page() used to let filesystems scan an entire DAX
+> mapping for pinned pages. All callers now use dax_break_layout(),
+> which also handles waiting for busy pages and deleting DAX mapping
+> entries once the range becomes idle.
+> 
+> The remaining function is only a wrapper around
+> dax_layout_busy_page_range() and has no in-tree users. Remove it
+> together with its declaration, !CONFIG_FS_DAX stub, and exported
+> symbol.
+> 
+> Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
 
-Replace guard(rcu)() + for_each_thread() with for_each_thread_rculock(),
-which scopes the RCU read lock to the loop body via scoped_guard(rcu).
+Looks good. Feel free to add:
 
-No functional change.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Signed-off-by: Ye Liu <liuye@kylinos.cn>
-Reviewed-by: Justin Suess <utilityemal77@gmail.com>
-Reviewed-by: Günther Noack <gnoack3000@gmail.com>
----
-Changes in v2:
-  - Rename *_rcu to *_rculock
- security/landlock/tsync.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+								Honza
 
-diff --git a/security/landlock/tsync.c b/security/landlock/tsync.c
-index 0b71e158c3f5..a578af640aad 100644
---- a/security/landlock/tsync.c
-+++ b/security/landlock/tsync.c
-@@ -335,9 +335,7 @@ static size_t count_additional_threads(const struct tsync_works *works)
- 
- 	caller = current;
- 
--	guard(rcu)();
--
--	for_each_thread(caller, thread) {
-+	for_each_thread_rculock(caller, thread) {
- 		/* Skip current, since it is initiating the sync. */
- 		if (thread == caller)
- 			continue;
-@@ -376,9 +374,7 @@ static bool schedule_task_work(struct tsync_works *works,
- 
- 	caller = current;
- 
--	guard(rcu)();
--
--	for_each_thread(caller, thread) {
-+	for_each_thread_rculock(caller, thread) {
- 		/* Skip current, since it is initiating the sync. */
- 		if (thread == caller)
- 			continue;
+> ---
+>  fs/dax.c            | 6 ------
+>  include/linux/dax.h | 6 ------
+>  2 files changed, 12 deletions(-)
+> 
+> diff --git a/fs/dax.c b/fs/dax.c
+> index dad4efea7964..1e19e4a354ce 100644
+> --- a/fs/dax.c
+> +++ b/fs/dax.c
+> @@ -841,12 +841,6 @@ struct page *dax_layout_busy_page_range(struct address_space *mapping,
+>  }
+>  EXPORT_SYMBOL_GPL(dax_layout_busy_page_range);
+>  
+> -struct page *dax_layout_busy_page(struct address_space *mapping)
+> -{
+> -	return dax_layout_busy_page_range(mapping, 0, LLONG_MAX);
+> -}
+> -EXPORT_SYMBOL_GPL(dax_layout_busy_page);
+> -
+>  static int __dax_invalidate_entry(struct address_space *mapping,
+>  				  pgoff_t index, bool trunc)
+>  {
+> diff --git a/include/linux/dax.h b/include/linux/dax.h
+> index fe6c3ded1b50..05e59e45a1c2 100644
+> --- a/include/linux/dax.h
+> +++ b/include/linux/dax.h
+> @@ -155,7 +155,6 @@ int dax_writeback_mapping_range(struct address_space *mapping,
+>  		struct dax_device *dax_dev, struct writeback_control *wbc);
+>  int dax_folio_reset_order(struct folio *folio);
+>  
+> -struct page *dax_layout_busy_page(struct address_space *mapping);
+>  struct page *dax_layout_busy_page_range(struct address_space *mapping, loff_t start, loff_t end);
+>  dax_entry_t dax_lock_folio(struct folio *folio);
+>  void dax_unlock_folio(struct folio *folio, dax_entry_t cookie);
+> @@ -173,11 +172,6 @@ static inline int fs_dax_get(struct dax_device *dax_dev, void *holder,
+>  {
+>  	return -EOPNOTSUPP;
+>  }
+> -static inline struct page *dax_layout_busy_page(struct address_space *mapping)
+> -{
+> -	return NULL;
+> -}
+> -
+>  static inline struct page *dax_layout_busy_page_range(struct address_space *mapping, pgoff_t start, pgoff_t nr_pages)
+>  {
+>  	return NULL;
+> -- 
+> 2.50.1 (Apple Git-155)
+> 
 -- 
-2.25.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
