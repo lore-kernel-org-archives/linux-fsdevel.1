@@ -1,91 +1,91 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5E63B14CC
-	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 10:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034674399F4
+	for <linux-fsdevel@vger.kernel.org>; Mon,  7 Sep 2026 10:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788775472; cv=pass; b=igV+pjdRxkk+OS3+nkaqwJWB+TM5XLwSKSE5tv8qoXLz6i0dFkXoFbZpknN6UKfVJXdWPUMCYeqPlLtjE0tHHxfta5kFWkV3+A+XVIkKAgQOj2Kt1BK6/iE6xxKLgqNCKL4UMNSd7kq/j8cF1g+1ycsF5m8OnBegsh/AppZL6zE=
+	t=1788775676; cv=pass; b=XlWDCqCSlkTDGp8/LbRX2VdIJZvjtChLPxHAW+/5vm979yKZ5S/DZ67e9Y4rCRcAc7bMowsiHb6CBIEam0KbUzlb6SomfYTav2nsYUf15aGxOgMU3xC2PzvQyyF2yBznFoQGBMACNY/33j9Iz6cQeMG9E4uVJ0ZK4SG1aHjGHE0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788775472; c=relaxed/simple;
-	bh=t0gmqSsELkYeAdkrHCvcJgihVwo4xcwTdmB7LfyN9pE=;
+	s=arc-20240116; t=1788775676; c=relaxed/simple;
+	bh=2Ll82zU9YTcjyoerXCYANDbZSFwKQrbdnSaKvUSG0rE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pbe6q7dykriw8oK5ClXgbKULPHjGdV883pXKIz9ghkJVKkPC7BDFXtzF1kr72yQ17OiMZDcTMhmL3FMd6ItY8ncqdr7aMyTV1IRhivmUZxuj/CkaWpBTGlbNatrtS9e35jxDCUTzUpqJ2Xa8CmDx54GGL+Ldnz54H8WRPgB6PDg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=ZPK76V/v; arc=pass smtp.client-ip=209.85.218.45
+	 To:Cc:Content-Type; b=J2gjXzPOh7Ru4V3wO1Sza2nRaJLD7mg/iqx3IZfKDsUWGgWLK+bxkkHzJIkNK5YqFFGJFSTmKtWEXSUtKR6Y0kjgzQmcT2NCpASxCvFLCsEy3Qe1QHIIosb7VzFOP4IP7/EquLkwKGntjLiW9axHtrj7fQE9IzPe2me/Ukr1SiY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=f8QQ8XiX; arc=pass smtp.client-ip=74.125.228.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mihalicyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="ZPK76V/v"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c2544ff970dso443998666b.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 03:04:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788775468; cv=none;
+	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="f8QQ8XiX"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f9c60d5so431266b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 03:07:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788775671; cv=none;
         d=google.com; s=arc-20260327;
-        b=R9bICC4dYxIDEIacJhSNgonSlwrRY4vkNJe9XYFt36axwoM0lAr9mXWX7U8sniOAlm
-         UPUgvCrdERl1vxJqnXG/uILdgt3hP9vD1oJlpL+gf2ixihVvFAJz4hzTeP1uoli+Qm88
-         es9iZ7ggYDiqWlEd0bDlgpJdS6MN+Hb0Hc2F6Uxh5kNalxJUQwaJ8d+70DZNZjDKJrvv
-         fl4QO5om1IyjcGDy04eedneWT47S+HAFTpeEatL+eef1iy/Iq8XjjUeers4R2sCfnzJw
-         3px+cyHeBK75IIPI9XGQkCuSQAq2pC03lLBaHQ5e/55/a+pg+1HENcaD/hQeF1udob6s
-         gHdg==
+        b=PmecM7QZX5fxguQX3YfAneluXFt/KbDoVPKxSwHx4Gm8lEZjJBLJFqI8AfT3LaGpl4
+         dZNFbUifx89iesbevc7TEm82lq3Wmn/am9K/68kxz6H+WqAbocqO5g0vg/GUmkcy9nsS
+         SS6Q1crYZURiBI+CSgMeQ9+fHKPEVsCFcVTNDAwcAN98uP22J7HEazBWkyXbl0YCUxa9
+         EHUG/PFaWHwXQnGkSCp8iumpltkoUHFVVlxNrOTl1cMNY+1yXUYLc1y9AkUs23fuf7Jw
+         /G/YTaHsCc6hldfWABc7VJUziJQbURcr1yUY9x01n7ZAiXnEctyFHYiY0sikp2mc2+89
+         Jjnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=Zz1BLCyCTXn7C+FlfZxMgF1zGe1NobuOstWz2dxBIQs=;
-        fh=3dFcIvnNp0sqmE6MAi9NuKqStee8nF++pVNcJqGpIzI=;
-        b=X8KJL2fk00dZV8g+Rop+U67Ooutt6ZrlfG9kjEo3pB96yVswyr4ozU7+AKuhRC7ZTk
-         Bq0KjUcJGOFi3HyHUHSQSs3isHt/AVflWM6tzQ5/J5ETw+PKPvaPEYXH0w2cVFkJObZ+
-         zP6jxLE766hnOTsmTzfNtvAtY0LCDmqf4bmrg0ZX7n+WNyHN5+ZVh6GRmCsgmKOLNbQS
-         G6O6TLwPNVnKO5veB96SotiroMChTeR9rj5T2EpvXGblPTioRAX5DDIu2knAljzXUa+z
-         wOzyeDGRvQLa+V1InfACt3cBhQsDzU+oJ5hWbbVoYMCeuYiQlXB3ykw962cJHXrzJXAh
-         j1wQ==;
+        bh=BNaEPel1NdtIe+zUUZDBwTrn792D672lVbXfid2E2LE=;
+        fh=kq4I5skVC+xn0mI7rlgP8OuWg5xeJV9Qob/WKEArznc=;
+        b=Q7EIc3D0bdL0CXVZbmL/YWvyCc6aDITM/qFl4xzLP32Szb3o/EvX9TVJIHoMYJ+LPI
+         Q5WbHYvEtmBo8ELkoKK8xBo01fjR2X8otBrp/yqBji0lgj8u7cWBHHd2o5A0pffMrJ/B
+         tHfrvzkRAc8La637oyV55xpdOId254q4EGA0hGTXiFm/Jm8k8Ww++NRfZokVguufvm9z
+         M1Z1hcabJXePvj9KB9PLLCnWcZ6BOGnNuLr3OooVZOoSQUe8FqAijdV273Z20TYwgfgq
+         nax14pCEy11nXDB6msZhPuy6jJ1j4aZuStMNHK7drNIzTaQJtu7U+bMEmAp2qdsRVvHa
+         mPjA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mihalicyn.com; s=mihalicyn; t=1788775468; x=1789380268; darn=vger.kernel.org;
+        d=mihalicyn.com; s=mihalicyn; t=1788775671; x=1789380471; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Zz1BLCyCTXn7C+FlfZxMgF1zGe1NobuOstWz2dxBIQs=;
-        b=ZPK76V/vYPl2HTeiYiMf32JhzmSUIthhElSBmoQc1pa5UFXrw1KFjUVroMqp1oH9Cu
-         Q60UK2Oi3gzsvMVopMlsLol1CZjcMdoI7uL7eEWUIig+mLYXGdRw1wKobHBEhto63fl8
-         zs5ZauUT3H+pfn68GpPzta6xouc+XCMHFkerQ=
+        bh=BNaEPel1NdtIe+zUUZDBwTrn792D672lVbXfid2E2LE=;
+        b=f8QQ8XiX0mMbv/5/uythpObXlnDkhytxt/gKhOrPiqNNOa4Pc8Oclr5yMCj4w2vL1g
+         n3OOfAaIaF6otWkrmwzZai/GAvvMCzTL/wp5sTRxZuz8Wx2hiS0JW21ryXt9HCAqLv+h
+         ewYbMFqbwMw+OFrLBEuKDknPWE36bb0LGznYg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788775468; x=1789380268;
+        d=1e100.net; s=20251104; t=1788775671; x=1789380471;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=Zz1BLCyCTXn7C+FlfZxMgF1zGe1NobuOstWz2dxBIQs=;
-        b=M6hX3uyvhROPAYRqKchnMp7ntRpHz6Re1dCXhA6kYH1XvPaumqMo4k2UGSi4xQB+Sz
-         VW/zrT9zWQ4TYmHhsc1TSKg56tTb0iUKRgTWDXpAC5EQtwPtjF2bZ4PFL8nMIoJIi6vM
-         mUq7GeeU2v+aomTDPDnHYwFKa1tAib8Mz3loIXFQjB1BV7d/IIdV9d3pZfOVYaFcnRc4
-         Z1mSQ5hVSO9NvEPv8lVrzpcEjnoqLOb2cJl13zq/iRD/YnvAYt7kvCRMTvawO0/mprNQ
-         fBFpZmoYTH1x82yodramMMmjAbLm+9cvx9DIiBM2+Gt5WEf06Pc6x6pCcdWYkQe8vF7a
-         8HYQ==
-X-Forwarded-Encrypted: i=1; AKwUvByfmseT2BQ9FregPIQbGG97/ua8dzxPM+P5GrzuUsvQyc1Ux1IvJ/hnXM0Fwm8/4u0ZZu08m4lYXmuu8D3l@vger.kernel.org
-X-Gm-Message-State: AFuF++nVU/dc0y9jZvfnbxBu1KIn+9uAJ0wrt0bFOgiTTKf/vq3itkIN
-	hUDGuzebqjcTXV9TU9M21RSyYjpYvsVvr6lydwmaFPiNOeOHnAIalPGzVLXfaCssq0lOfJYzo80
-	HQMPz1SrQWAjiP520Tn6LnwXx5hWxKajtzO61JgDXVQ==
-X-Gm-Gg: AYBFou1siSeoKsh7/F/xcE4QeXD1TQwsexImqT6Ff7af1cJaORB8V1+2nLJfbw0oaYM
-	3QHG9iyPbcpe1ZZAkXLPUic6OpEWN4l1GVMc82tFsOXbztK+vv4rxo+Rwn6BaIc7hR8Vz+kYeP7
-	2m/Z9eCy56CnAZDPnc7yWzVK2fkOdeLRObqJL2kTSHEJTfovcYe2pkwt2wfJu7XKnYMZUo6HwS6
-	AZskzDcyhpvA1I1zK1K1byon5H8U+3E2JBovxXhBFd6Oj9QFCHpT2FAgwW3A0s6F5ExnL9ZdpMM
-	X61g+XloMRE6Wq4iczgVOeZ8JjmUTxmy4UTQOgtrPjVAlqBGylCUJ9cqxrwcTOYVTysJkGw+yy4
-	=
-X-Received: by 2002:a17:907:7243:b0:c26:1649:47b4 with SMTP id
- a640c23a62f3a-c2616495644mr674091266b.42.1788775468318; Mon, 07 Sep 2026
- 03:04:28 -0700 (PDT)
+        bh=BNaEPel1NdtIe+zUUZDBwTrn792D672lVbXfid2E2LE=;
+        b=QXdPmNX4yYWjen/5I12lt44oCDXm0S+954BaN9zZPDBYrebY9MNt7BkyADkQHNNBR2
+         L8ogFBetvw+l9BJvIlmgACkJRRBBZyEJGfunbM7L3BwcuBWNbEG6FmhcKxIGCYwOxz+4
+         S2duxHM4cBMCTAMgbyC/Ez7T2h5a9xTURdxBvgT6ZXbH9oVWAo6nz8fQq3ydmZRnTzrj
+         3eCcw0tYOOLPsi5+UcuGIfV3WJI60BPW0uWcUm3CXyLF85fkYq7e251YwBWadqs95utB
+         JizGniAD9sqU1gdnwXgra9BZlje3tz0cTSuy3dE6p5OYYfaTqmFRMgSc3r/B6IQFlkV9
+         C0CA==
+X-Forwarded-Encrypted: i=1; AKwUvBzzE8czalhcniUbrO+Ew9fMMXoRIQEWLtny6bJB2K4SCUjXQPRe+KFwYjtdvariJF2iVMhzLAUs5WZvGVkM@vger.kernel.org
+X-Gm-Message-State: AFuF++lcKiO8AnOR4HQNKheeqd0tklTMTTx9AnXpShuQQ046kevetizc
+	s/cpmgCkrD9DvYIYWXxXgtaXRddr8gWLBfS19nXl32w8bPnIvV9VLgVnetDbIUWJ3ToKS9EclLi
+	RKZXPnkttW3S5ZB5blglwlChZ7GUfTrQ26OxIeVnDlWrGJgOp2KIot0mEQA==
+X-Gm-Gg: AYBFou2lUF8FnDY8rTVNVuk7dCvf4h5LmL3e5VpIe6Oj85+Ibe8T0F9ZnIPDt79BxuB
+	uird4E/NRr5HKnLkByKw7yotWekmSfWfuXwiMasrHZmJqvLBMvroWHvfw1YJ7djuUjHf2KHQwgC
+	IYmx5JCG7EZMKz5B15NdxykBUJdPHJylR1jIvsH/M5f0rdN9qBytlfiquMxitLgT3VQVFyeJZ3X
+	eMBZb9lb5LKJKfnTzr6vSYHkAFkjpD7yxkxyUZ6BhBc9oLPapJ00zaIfmOk8VF/mEEPAyRDHbAC
+	wiCMSOHhQu7KAMzilOhQNlBhtvC3dO0OwV+pY9i4Rvl10EUU/i6C4WWzzzDlySiYYkYy0/XiJr9
+	u
+X-Received: by 2002:a17:906:f597:b0:c26:3377:752b with SMTP id
+ a640c23a62f3a-c29042b7343mr2628366b.3.1788775671134; Mon, 07 Sep 2026
+ 03:07:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org> <20260831-work-unix-passpidfd-v1-4-70cbfda0c7ba@kernel.org>
-In-Reply-To: <20260831-work-unix-passpidfd-v1-4-70cbfda0c7ba@kernel.org>
+References: <20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org> <20260831-work-unix-passpidfd-v1-1-70cbfda0c7ba@kernel.org>
+In-Reply-To: <20260831-work-unix-passpidfd-v1-1-70cbfda0c7ba@kernel.org>
 From: Alexander Mikhalitsyn <alexander@mihalicyn.com>
-Date: Mon, 7 Sep 2026 12:04:16 +0200
-X-Gm-Features: AcwNN1U53obUY6edk7tmo2gorb4aQGmQvzBhetE_1I4r8D7MXt3o-Z0oL-9LgKg
-Message-ID: <CAJqdLrqZOCdioD47OvrW2GtJ+Mi7=a-PSErmJ21ujqQSNUViCA@mail.gmail.com>
-Subject: Re: [PATCH 04/10] selftests/net: SO_PASSPIDFD_THREAD
+Date: Mon, 7 Sep 2026 12:07:39 +0200
+X-Gm-Features: AcwNN1V7LPSWnyROmwcXNgMOTNDk9p2-2d_HjS0RFfSlm_TayeYshLabGwoOGk8
+Message-ID: <CAJqdLrp-5zkpUOzA8WeAyTq-KqQ0f=BERy0PcniSmXYmOJ2wZw@mail.gmail.com>
+Subject: Re: [PATCH 01/10] pid: add helpers to operate on a struct pid array
 To: Christian Brauner <brauner@kernel.org>
 Cc: Jakub Kicinski <kuba@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>, 
 	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
@@ -97,7 +97,10 @@ Content-Type: text/plain; charset="UTF-8"
 Am Mo., 31. Aug. 2026 um 13:21 Uhr schrieb Christian Brauner
 <brauner@kernel.org>:
 >
-> Extend the af_unix scm_pidfd selftest with SO_PASSPIDFD_THREAD tests.
+> We're about to extend af_unix sockets and coredump code with the ability
+> to hand out thread-specific pidfds. Add a few simple helpers that allow
+> to operate on multiple struct pids up to PIDTYPE_MAX with automatic
+> bounds checking.
 >
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
@@ -106,315 +109,188 @@ LGTM
 Reviewed-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
 
 > ---
->  tools/testing/selftests/net/af_unix/Makefile    |   2 +
->  tools/testing/selftests/net/af_unix/scm_pidfd.c | 269 ++++++++++++++++++++++++
->  2 files changed, 271 insertions(+)
+>  fs/pidfs.c                   | 16 +++++++++++++
+>  include/linux/pid.h          | 53 ++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/pid_types.h    |  8 +++++++
+>  include/linux/pidfs.h        |  5 +++++
+>  include/linux/sched/signal.h | 18 +++++++++++++++
+>  5 files changed, 100 insertions(+)
 >
-> diff --git a/tools/testing/selftests/net/af_unix/Makefile b/tools/testing/selftests/net/af_unix/Makefile
-> index a66f10fb0c23..45b841758f1b 100644
-> --- a/tools/testing/selftests/net/af_unix/Makefile
-> +++ b/tools/testing/selftests/net/af_unix/Makefile
-> @@ -23,6 +23,8 @@ TEST_GEN_FILES := scm_rights_denial_lsm.bpf.o
->  include ../../lib.mk
->  include ../bpf.mk
->
-> +$(OUTPUT)/scm_pidfd: CFLAGS += -pthread
-> +
->  $(OUTPUT)/scm_rights_denial_lsm: $(BPFOBJ)
->  $(OUTPUT)/scm_rights_denial_lsm: CFLAGS += -I$(SCRATCH_DIR)/include
->  $(OUTPUT)/scm_rights_denial_lsm: LDLIBS += -lelf -lz
-> diff --git a/tools/testing/selftests/net/af_unix/scm_pidfd.c b/tools/testing/selftests/net/af_unix/scm_pidfd.c
-> index 2c18b92a2603..019c48e1cdcd 100644
-> --- a/tools/testing/selftests/net/af_unix/scm_pidfd.c
-> +++ b/tools/testing/selftests/net/af_unix/scm_pidfd.c
-> @@ -10,6 +10,7 @@
->  #include <unistd.h>
->  #include <string.h>
->  #include <errno.h>
-> +#include <pthread.h>
->  #include <sys/un.h>
->  #include <sys/signal.h>
->  #include <sys/types.h>
-> @@ -27,6 +28,10 @@
->  #define SCM_PIDFD 0x04
->  #endif
->
-> +#ifndef SO_PASSPIDFD_THREAD
-> +#define SO_PASSPIDFD_THREAD 86
-> +#endif
-> +
->  #define CHILD_EXIT_CODE_OK 123
->
->  static void child_die()
-> @@ -553,4 +558,268 @@ TEST_F(scm_pidfd, test)
->         close(pfd);
+> diff --git a/fs/pidfs.c b/fs/pidfs.c
+> index a6a643f15d08..586af2e5811c 100644
+> --- a/fs/pidfs.c
+> +++ b/fs/pidfs.c
+> @@ -1070,6 +1070,22 @@ int pidfs_register_pid_gfp(struct pid *pid, gfp_t gfp)
+>         return 0;
 >  }
 >
-> +struct thread_ids {
-> +       pid_t pid;
-> +       pid_t tid;
-> +};
-> +
-> +static void *send_ids_thread(void *arg)
+> +/* Register the pids up to pid type @last of @pids in pidfs. */
+> +int __pidfs_register_pids(struct pid *const *pids, enum pid_type last)
 > +{
-> +       int fd = *(int *)arg;
-> +       struct thread_ids ids = {
-> +               .pid = getpid(),
-> +               .tid = gettid(),
-> +       };
-> +       char sync;
+> +       if (WARN_ON_ONCE(last >= PIDTYPE_MAX))
+> +               return -EINVAL;
 > +
-> +       if (send(fd, &ids, sizeof(ids), 0) != sizeof(ids))
-> +               return (void *)1;
+> +       for (enum pid_type type = PIDTYPE_PID; type <= last; type++) {
+> +               int ret = pidfs_register_pid(pids[type]);
 > +
-> +       /* stay alive until the receiver has looked at our pidfd */
-> +       if (read(fd, &sync, 1) != 1)
-> +               return (void *)1;
-> +
-> +       return NULL;
-> +}
-> +
-> +static void *send_ids_creds_thread(void *arg)
-> +{
-> +       int fd = *(int *)arg;
-> +       struct thread_ids ids = {
-> +               .pid = getpid(),
-> +               .tid = gettid(),
-> +       };
-> +       struct ucred ucred = {
-> +               .pid = getpid(),
-> +               .uid = getuid(),
-> +               .gid = getgid(),
-> +       };
-> +       char control[CMSG_SPACE(sizeof(ucred))] = { 0 };
-> +       struct iovec iov;
-> +       struct msghdr msg = { 0 };
-> +       struct cmsghdr *cmsg;
-> +       char sync;
-> +
-> +       iov.iov_base = &ids;
-> +       iov.iov_len = sizeof(ids);
-> +
-> +       msg.msg_iov = &iov;
-> +       msg.msg_iovlen = 1;
-> +       msg.msg_control = control;
-> +       msg.msg_controllen = sizeof(control);
-> +
-> +       cmsg = CMSG_FIRSTHDR(&msg);
-> +       cmsg->cmsg_level = SOL_SOCKET;
-> +       cmsg->cmsg_type = SCM_CREDENTIALS;
-> +       cmsg->cmsg_len = CMSG_LEN(sizeof(ucred));
-> +       memcpy(CMSG_DATA(cmsg), &ucred, sizeof(ucred));
-> +
-> +       if (sendmsg(fd, &msg, 0) != sizeof(ids))
-> +               return (void *)1;
-> +
-> +       if (read(fd, &sync, 1) != 1)
-> +               return (void *)1;
-> +
-> +       return NULL;
-> +}
-> +
-> +static void thread_client(int fd, int syncfd, void *(*sender)(void *))
-> +{
-> +       pthread_t thread;
-> +       void *ret;
-> +       char sync;
-> +
-> +       /* wait until the receiver enabled SO_PASSPIDFD */
-> +       if (read(syncfd, &sync, 1) != 1)
-> +               child_die();
-> +
-> +       if (pthread_create(&thread, NULL, sender, &fd))
-> +               child_die();
-> +
-> +       if (pthread_join(thread, &ret) || ret)
-> +               child_die();
-> +
-> +       exit(0);
-> +}
-> +
-> +static int recv_pidfd(int fd, struct thread_ids *ids)
-> +{
-> +       char control[CMSG_SPACE(sizeof(int))] = { 0 };
-> +       struct iovec iov;
-> +       struct msghdr msg = { 0 };
-> +       struct cmsghdr *cmsg;
-> +       int pidfd = -1;
-> +
-> +       iov.iov_base = ids;
-> +       iov.iov_len = sizeof(*ids);
-> +
-> +       msg.msg_iov = &iov;
-> +       msg.msg_iovlen = 1;
-> +       msg.msg_control = control;
-> +       msg.msg_controllen = sizeof(control);
-> +
-> +       if (recvmsg(fd, &msg, 0) != sizeof(*ids)) {
-> +               log_err("recvmsg");
-> +               return -1;
+> +               if (unlikely(ret))
+> +                       return ret;
 > +       }
-> +
-> +       if (msg.msg_flags & (MSG_TRUNC | MSG_CTRUNC)) {
-> +               log_err("recvmsg: truncated");
-> +               return -1;
-> +       }
-> +
-> +       for (cmsg = CMSG_FIRSTHDR(&msg); cmsg != NULL;
-> +            cmsg = CMSG_NXTHDR(&msg, cmsg)) {
-> +               if (cmsg->cmsg_level == SOL_SOCKET &&
-> +                   cmsg->cmsg_type == SCM_PIDFD)
-> +                       memcpy(&pidfd, CMSG_DATA(cmsg), sizeof(pidfd));
-> +       }
-> +
-> +       return pidfd;
-> +}
-> +
-> +static int thread_pidfd_flow(void *(*sender)(void *), int optname,
-> +                            struct thread_ids *ids, struct pidfd_info *info)
-> +{
-> +       int sk[2];
-> +       int syncpipe[2];
-> +       int pidfd;
-> +       int child_status = 0;
-> +       pid_t child;
-> +
-> +       if (socketpair(AF_UNIX, SOCK_STREAM, 0, sk))
-> +               return -1;
-> +
-> +       if (pipe(syncpipe))
-> +               return -1;
-> +
-> +       child = fork();
-> +       if (child < 0)
-> +               return -1;
-> +
-> +       if (child == 0) {
-> +               close(sk[0]);
-> +               close(syncpipe[1]);
-> +               thread_client(sk[1], syncpipe[0], sender);
-> +       }
-> +       close(sk[1]);
-> +       close(syncpipe[0]);
-> +
-> +       int on = 1;
-> +
-> +       if (setsockopt(sk[0], SOL_SOCKET, optname, &on, sizeof(on))) {
-> +               log_err("Failed to set pidfd passing option");
-> +               return -1;
-> +       }
-> +
-> +       if (write(syncpipe[1], "1", 1) != 1)
-> +               return -1;
-> +       close(syncpipe[1]);
-> +
-> +       pidfd = recv_pidfd(sk[0], ids);
-> +       if (pidfd < 0)
-> +               return -1;
-> +
-> +       info->mask = PIDFD_INFO_PID;
-> +       if (ioctl(pidfd, PIDFD_GET_INFO, info)) {
-> +               log_err("ioctl(PIDFD_GET_INFO)");
-> +               close(pidfd);
-> +               return -1;
-> +       }
-> +       close(pidfd);
-> +
-> +       /* release the sending thread */
-> +       if (write(sk[0], "x", 1) != 1)
-> +               return -1;
-> +       close(sk[0]);
-> +
-> +       waitpid(child, &child_status, 0);
-> +       if (!WIFEXITED(child_status) || WEXITSTATUS(child_status))
-> +               return -1;
 > +
 > +       return 0;
 > +}
 > +
-> +static int sockopt_set(int fd, int optname, int val)
+>  static struct dentry *pidfs_stash_dentry(struct dentry **stashed,
+>                                          struct dentry *dentry)
+>  {
+> diff --git a/include/linux/pid.h b/include/linux/pid.h
+> index ddaef0bbc8ba..87635d0cc1f7 100644
+> --- a/include/linux/pid.h
+> +++ b/include/linux/pid.h
+> @@ -2,6 +2,9 @@
+>  #ifndef _LINUX_PID_H
+>  #define _LINUX_PID_H
+>
+> +#include <linux/array_size.h>
+> +#include <linux/build_bug.h>
+> +#include <linux/minmax.h>
+>  #include <linux/pid_types.h>
+>  #include <linux/rculist.h>
+>  #include <linux/rcupdate.h>
+> @@ -92,6 +95,56 @@ static inline struct pid *get_pid(struct pid *pid)
+>  }
+>
+>  extern void put_pid(struct pid *pid);
+> +
+> +/*
+> + * Helpers for arrays of struct pid indexed by pid type declared with
+> + * DECLARE_PIDS(). The array covers PIDTYPE_PID up to the pid type it
+> + * was declared with and the helpers take that bound from the array.
+> + */
+> +static inline void __get_pids(struct pid **dst, struct pid *const *src,
+> +                             enum pid_type last)
 > +{
-> +       return setsockopt(fd, SOL_SOCKET, optname, &val, sizeof(val));
+> +       for (enum pid_type type = PIDTYPE_PID; type <= last; type++)
+> +               dst[type] = get_pid(src[type]);
 > +}
 > +
-> +static int sockopt_get(int fd, int optname)
+> +static inline void __put_pids(struct pid **pids, enum pid_type last)
 > +{
-> +       socklen_t len = sizeof(int);
-> +       int val = -1;
-> +
-> +       if (getsockopt(fd, SOL_SOCKET, optname, &val, &len))
-> +               return -1;
-> +
-> +       return val;
+> +       for (enum pid_type type = PIDTYPE_PID; type <= last; type++) {
+> +               put_pid(pids[type]);
+> +               pids[type] = NULL;
+> +       }
 > +}
 > +
-> +TEST(scm_pidfd_setsockopt_values)
+> +static inline void __swap_pids(struct pid **a, struct pid **b,
+> +                              enum pid_type last)
 > +{
-> +       int sk[2];
-> +
-> +       ASSERT_EQ(0, socketpair(AF_UNIX, SOCK_STREAM, 0, sk));
-> +
-> +       ASSERT_EQ(0, sockopt_set(sk[0], SO_PASSPIDFD_THREAD, 1));
-> +       ASSERT_EQ(1, sockopt_get(sk[0], SO_PASSPIDFD_THREAD));
-> +       ASSERT_EQ(0, sockopt_get(sk[0], SO_PASSPIDFD));
-> +
-> +       /* The option set last wins. */
-> +       ASSERT_EQ(0, sockopt_set(sk[0], SO_PASSPIDFD, 1));
-> +       ASSERT_EQ(1, sockopt_get(sk[0], SO_PASSPIDFD));
-> +       ASSERT_EQ(0, sockopt_get(sk[0], SO_PASSPIDFD_THREAD));
-> +
-> +       ASSERT_EQ(0, sockopt_set(sk[0], SO_PASSPIDFD_THREAD, 1));
-> +       ASSERT_EQ(1, sockopt_get(sk[0], SO_PASSPIDFD_THREAD));
-> +       ASSERT_EQ(0, sockopt_get(sk[0], SO_PASSPIDFD));
-> +
-> +       /* Disabling one option leaves the other alone. */
-> +       ASSERT_EQ(0, sockopt_set(sk[0], SO_PASSPIDFD, 0));
-> +       ASSERT_EQ(1, sockopt_get(sk[0], SO_PASSPIDFD_THREAD));
-> +       ASSERT_EQ(0, sockopt_set(sk[0], SO_PASSPIDFD_THREAD, 0));
-> +       ASSERT_EQ(0, sockopt_get(sk[0], SO_PASSPIDFD));
-> +       ASSERT_EQ(0, sockopt_get(sk[0], SO_PASSPIDFD_THREAD));
-> +
-> +       close(sk[0]);
-> +       close(sk[1]);
+> +       for (enum pid_type type = PIDTYPE_PID; type <= last; type++)
+> +               swap(a[type], b[type]);
 > +}
 > +
-> +TEST(scm_pidfd_thread)
+> +static inline bool __pids_equal(struct pid *const *a, struct pid *const *b,
+> +                               enum pid_type last)
 > +{
-> +       struct thread_ids ids;
-> +       struct pidfd_info info;
-> +
-> +       ASSERT_EQ(0, thread_pidfd_flow(send_ids_thread, SO_PASSPIDFD_THREAD,
-> +                                      &ids, &info));
-> +       ASSERT_NE(ids.pid, ids.tid);
-> +       EXPECT_EQ(ids.tid, info.pid);
-> +       EXPECT_EQ(ids.pid, info.tgid);
+> +       for (enum pid_type type = PIDTYPE_PID; type <= last; type++)
+> +               if (a[type] != b[type])
+> +                       return false;
+> +       return true;
 > +}
 > +
-> +TEST(scm_pidfd_thread_group)
-> +{
-> +       struct thread_ids ids;
-> +       struct pidfd_info info;
+> +/* The last pid type an array declared with DECLARE_PIDS() covers. */
+> +#define pids_last(pids)                                                        \
+> +       ((enum pid_type)(ARRAY_SIZE(pids) - 1 +                         \
+> +                        BUILD_BUG_ON_ZERO(ARRAY_SIZE(pids) > PIDTYPE_MAX)))
 > +
-> +       ASSERT_EQ(0, thread_pidfd_flow(send_ids_thread, SO_PASSPIDFD,
-> +                                      &ids, &info));
-> +       ASSERT_NE(ids.pid, ids.tid);
-> +       EXPECT_EQ(ids.pid, info.pid);
-> +       EXPECT_EQ(ids.pid, info.tgid);
+> +#define __pids_last2(a, b)                                             \
+> +       (pids_last(a) + BUILD_BUG_ON_ZERO(ARRAY_SIZE(a) != ARRAY_SIZE(b)))
+> +
+> +#define get_pids(dst, src)     __get_pids(dst, src, __pids_last2(dst, src))
+> +#define put_pids(pids)         __put_pids(pids, pids_last(pids))
+> +#define swap_pids(a, b)                __swap_pids(a, b, __pids_last2(a, b))
+> +#define pids_equal(a, b)       __pids_equal(a, b, __pids_last2(a, b))
+> +
+>  extern struct task_struct *pid_task(struct pid *pid, enum pid_type);
+>  static inline bool pid_has_task(struct pid *pid, enum pid_type type)
+>  {
+> diff --git a/include/linux/pid_types.h b/include/linux/pid_types.h
+> index c2aee1d91dcf..3302690a2a28 100644
+> --- a/include/linux/pid_types.h
+> +++ b/include/linux/pid_types.h
+> @@ -2,6 +2,8 @@
+>  #ifndef _LINUX_PID_TYPES_H
+>  #define _LINUX_PID_TYPES_H
+>
+> +#include <linux/build_bug.h>
+> +
+>  enum pid_type {
+>         PIDTYPE_PID,
+>         PIDTYPE_TGID,
+> @@ -10,6 +12,12 @@ enum pid_type {
+>         PIDTYPE_MAX,
+>  };
+>
+> +struct pid;
+> +
+> +/* An array of struct pid indexed by pid type, PIDTYPE_PID up to @last. */
+> +#define DECLARE_PIDS(name, last)                                       \
+> +       struct pid *name[(last) + 1 + BUILD_BUG_ON_ZERO((last) >= PIDTYPE_MAX)]
+> +
+>  struct pid_namespace;
+>  extern struct pid_namespace init_pid_ns;
+>
+> diff --git a/include/linux/pidfs.h b/include/linux/pidfs.h
+> index 0abf7da9ab23..3c1e82f1a369 100644
+> --- a/include/linux/pidfs.h
+> +++ b/include/linux/pidfs.h
+> @@ -3,6 +3,7 @@
+>  #define _LINUX_PID_FS_H
+>
+>  #include <linux/gfp_types.h>
+> +#include <linux/pid.h>
+>
+>  struct coredump_params;
+>
+> @@ -32,5 +33,9 @@ static inline int pidfs_register_pid(struct pid *pid)
+>  }
+>
+>  void pidfs_free_pid(struct pid *pid);
+> +int __pidfs_register_pids(struct pid *const *pids, enum pid_type last);
+> +
+> +/* Register the pids of an array declared with DECLARE_PIDS(). */
+> +#define pidfs_register_pids(pids)      __pidfs_register_pids(pids, pids_last(pids))
+>
+>  #endif /* _LINUX_PID_FS_H */
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index 584ae88b435e..9444b47789a0 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -677,6 +677,24 @@ struct pid *task_pid_type(struct task_struct *task, enum pid_type type)
+>         return pid;
+>  }
+>
+> +/* Fill @pids with the pid types of @task up to @last, without references. */
+> +static inline void __task_pids(struct pid **pids, enum pid_type last,
+> +                              struct task_struct *task)
+> +{
+> +       for (enum pid_type type = PIDTYPE_PID; type <= last; type++)
+> +               pids[type] = task_pid_type(task, type);
 > +}
 > +
-> +TEST(scm_pidfd_thread_creds)
+> +static inline void __get_task_pids(struct pid **pids, enum pid_type last,
+> +                                  struct task_struct *task)
 > +{
-> +       struct thread_ids ids;
-> +       struct pidfd_info info;
-> +
-> +       ASSERT_EQ(0, thread_pidfd_flow(send_ids_creds_thread, SO_PASSPIDFD_THREAD,
-> +                                      &ids, &info));
-> +       ASSERT_NE(ids.pid, ids.tid);
-> +       EXPECT_EQ(ids.tid, info.pid);
-> +       EXPECT_EQ(ids.pid, info.tgid);
+> +       for (enum pid_type type = PIDTYPE_PID; type <= last; type++)
+> +               pids[type] = get_pid(task_pid_type(task, type));
 > +}
 > +
->  TEST_HARNESS_MAIN
+> +#define task_pids(pids, task)          __task_pids(pids, pids_last(pids), task)
+> +#define get_task_pids(pids, task)      __get_task_pids(pids, pids_last(pids), task)
+> +
+>  static inline struct pid *task_tgid(struct task_struct *task)
+>  {
+>         return task->signal->pids[PIDTYPE_TGID];
 >
 > --
 > 2.53.0
