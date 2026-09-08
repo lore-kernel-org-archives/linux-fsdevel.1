@@ -1,118 +1,128 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655E4550DB8
-	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 16:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93699584944;
+	Tue,  8 Sep 2026 16:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788885673; cv=none; b=iOUBInipK0A9kjqxDIsjKXIbG6QOafdjTxBXhIZ7KKbthxgIoSaT+C22CoaZnY4RL0b8ejZjAxHd9VqfwYv1JZ5V09aFeqMeqL3T7DrrzvmRZsFHm/P/8KpzGJwVQvMsYGCE0wkc2b9CwOuchrDeEHHBo10JTBuONOwmarpaDWc=
+	t=1788885973; cv=none; b=aXRUt8dQqXLt8tjPKCjtKY9HYxSKhbZpLNJpoUloI3RXRmKFCVzDcWGlkZPp483sjhvcxlbkZPXlKT23EFTul0efD3wngqjwSGQUu/wr8FRSZ4kMBoBn8Lt1xY5mgCiwJrEeU+tr3sJsYNK+kH3MJFYwWZ4h0LBQdbos2UL7PPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788885673; c=relaxed/simple;
-	bh=0WHkL3siKLt2gWr0nui1TBB7PxNZQd/Fg0sZRCV9eV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aX5VMCJAf91xBES2w9ATvVnbOIvEdPsFW2GFXMXg/sYOfpCr6+pzmTEW5d2LS1QjFEj1+YZsqmgZ0kFsaSCXns3c2fDRQHVT0JtsLuu8OCmndzMJrnqxP1pGi0Plqv49AGFBhzKP96H82iJ7jegLZic0xJ/KP7fIH+6Eh7DIYlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YS8Q20EA; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788885973; c=relaxed/simple;
+	bh=UQDOhMmId5GcFk41MzuKun8L0gg0x7wRS+/yLL1y/yw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=el0d6+hmzoU0gCOJ7M4pBPmcXMfSSQfNqUy++nJ09G3mFHNPusRvjzqD12eWL8vOItUg59DV5ApHA/x3NdhuTtiz2XjgkxKVnW+WBhasdv5YVGwymFcY+iQfkJKLyIkH7m39RLHDUj1dMmm3RkGVCntZXj7tohgjdDj3ei/+QjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=locrian.net; spf=pass smtp.mailfrom=locrian.net; dkim=pass (2048-bit key) header.d=locrian.net header.i=@locrian.net header.b=bn9n8UFZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=c41GqfjZ; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=locrian.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=locrian.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YS8Q20EA"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-485850cf499so3218049f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 09:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788885669; x=1789490469; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DmxATc8MnBJh9MLhFG8Zz8kz1UkODPqcBWsJlPPeeGU=;
-        b=YS8Q20EAUz0y7tDRJmZpWJ0DrPQhA1ifZgh5fFQ2epcV09Z+I/WCHTz+VJj2aj6w2m
-         UgnWTS7vmuSZfzF8Kx3jL61udLnCetn5/Mhy1tyVZlzQZrcA/v9JOxmoSmCtVSc7TWpV
-         Pa8AgXwPnwu5BFwQ/k5RWPprYhT2HEpFLVTEDVPRJm5PhoA4i8DoENzuM/Q6G0QObjx9
-         nGDvq+FQY00lsj9Q9/lO+le87fr4utWe6ZmiolioInn2UW0YOtqBC/B8nv4lkOLmiEbz
-         lUfnbgjssuG4WWKHVpDgLz0xJshUmYpU3q8cuVAj8v/6CKba+bnRVy+el64hLgHjb6F8
-         o2iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788885669; x=1789490469;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DmxATc8MnBJh9MLhFG8Zz8kz1UkODPqcBWsJlPPeeGU=;
-        b=P/BTpC27VYfS/f/1IGlPKqdiEmrUTqr1COBuQwfL1TGkByU2MBp8bu/jt6U9urA/tt
-         BTsfDKNrQPzWb5YhvUwgQlDvV9FeIEuAZWJdvxRoq3FAodBMBwYhWFsLW0SqiZMSPWsQ
-         Q8fghgLiLb9ckmac0asbdubq8//MLcHBmFYww1Fb7P1a4iDPzVPT5O1rufTHC1vfVzuU
-         fWfSy0kkMHh+kuS3UpdWzqA1agsY1cTCGwmUGfj+B0SYgpLkZM10Cx5DuKSJDm1ap6EM
-         BkwH3L4NOJuA9ATUicRiF01wbC5nugJigUgxx9FHeMZl4lr/qBSCIGGRXCshqgR5WVS9
-         XBnw==
-X-Forwarded-Encrypted: i=1; AKwUvBxU60emF5M35O4qfbWlgiiV4CK08EGeY07Z5Zh3quFr3i1OEbuv/x6bCEAiY2GrceEtXpAVR6vLXdBo//K7@vger.kernel.org
-X-Gm-Message-State: AFuF++kcFvxmu++TxByvHGeiiTtvlc7WG1BmeNbfXgGLp/ZG+LKo1pn6
-	xeR1beNxY4Q/NDNh5XRoVN7fkVyNeGg/nJSXXfdLV1Gkt2YfDGFh2+c=
-X-Gm-Gg: AYBFou1RHCLLNQ/n2391mFORauymc1B6gBmr8tfDpWeDrFhCcTjzzbsGh6bluL7Uo40
-	0deV+RXfRm5L2snpV1ZkrhvZQvTXo0b9jr+N+Bq+HmzKe3Le9KFqn3oKf4g0L5oNR2e2Ti+CS2y
-	Rze0rBLjSHGXjpeHLV52qXcoQtxDPeLj9O8aBh6b1Qt+xDE1R0rTV+IoQTV/5DH+5BztrOZxX+K
-	bZGmtN0hVFjCrGdDbhsGDBWNSoWJMatZjn5icUeDdNDLWH7n1o8W6ZVE7QgeIpn9uzWuQNUOQHW
-	FCSz13ofc9mCw0B/Q/I7YETO6CAhLWyg1OudzFy3xOKE/U+bLQSyS3Y8iq16oE7Us5nUlpUi4Py
-	Aoe7A8NlsADcuFQDEAwGx21y1nzjXz08joSKmeNVdKOQPsEW0FNgU8cTuRdQ7aaJa9/6OS1Grb7
-	sHfbu39fc7lAwpPpuKxnYGZRhVQQ0E6R12EJrtDhhfa/56tpeq
-X-Received: by 2002:a5d:584f:0:b0:485:a517:62a8 with SMTP id ffacd0b85a97d-485a5176dbbmr6928581f8f.24.1788885669413;
-        Tue, 08 Sep 2026 09:41:09 -0700 (PDT)
-Received: from p183 ([178.172.147.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485958f1493sm25834639f8f.37.2026.09.08.09.41.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 09:41:08 -0700 (PDT)
-Date: Tue, 8 Sep 2026 19:45:15 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Ye Liu <ye.liu@linux.dev>
-Cc: Tony Luck <tony.luck@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>, x86@kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	"David Hildenbrand (arm)" <david@kernel.org>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-	Ye Liu <liuye@kylinos.cn>, Dave Martin <Dave.Martin@arm.com>,
-	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 6/8] fs: convert process/thread iterators to
- for_each_*_rcu
-Message-ID: <662ade9d-d662-4f6f-869f-08c41da53170@p183>
-References: <20260904083001.553587-1-ye.liu@linux.dev>
- <20260904083001.553587-7-ye.liu@linux.dev>
+	dkim=pass (2048-bit key) header.d=locrian.net header.i=@locrian.net header.b="bn9n8UFZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="c41GqfjZ"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 56EC8EC008B;
+	Tue,  8 Sep 2026 12:46:10 -0400 (EDT)
+Received: from phl-imap-06 ([10.202.2.83])
+  by phl-compute-05.internal (MEProxy); Tue, 08 Sep 2026 12:46:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=locrian.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1788885970;
+	 x=1788972370; bh=NGqizxzouAdfy+DM5egPfb4OgLDAXx2HVrfQ9gLtbYc=; b=
+	bn9n8UFZPkjmO/i8lmjhrYS94b5lnGeRPo+sudfGi0ODMI6vbcjgz1y+NPAyqY45
+	wGuPUm27wPu2LkMN0Zqft9hzowonFCc7YbQ63t2zSx2PEg6D6NVZWNCWwuvDpzGK
+	sxs7HzG695jYFOofdXe8ulQ7Sqg1pLNWXKF5SPpg5d2OQxIEpiQTZZzkTcdTmXza
+	onZk8fELnAUESrJde09SVOvDvkSq++KCR281ZANYhzml1UTaGgVqGoIbY+L4k/Rj
+	jbTaZCSQshtsxyMhRCv1wyV2IQvFPpeym0DeONScUgEX2RFWB4Y76H7329O7FNkQ
+	cF3chL5n/rQCGP8AiDp/0A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788885970; x=
+	1788972370; bh=NGqizxzouAdfy+DM5egPfb4OgLDAXx2HVrfQ9gLtbYc=; b=c
+	41GqfjZ1Lz4E6bHNXhh4qY5ZyJDw9gBv+USR+BwtYdyd407ZgAl5PFRNmUHkrCYu
+	Z7H3dl682yU7A/EPIUi5+GleSFYyCj6rKv4M55tiHNWSSke0p2n8PW9MrqpwoeyQ
+	9PWAHu3Yk0k1YfkS6+gh/CPNasBmMC5GW6Jzo9HxCBz2mXvH97X6vpyL4FE69zHu
+	CqAGo2mJbuueykdCffv2b6KDM7IVmwgdgSYhvqPj/BXw7Qz1lqcm0hxjL/3G0YfJ
+	XVQ80nOvo+RJ74bQQ11mC+eRnpk6eblhTD7fz27cUDZ2V8OSJrIGOVuKab78o5EE
+	pNEg1EHB6OmmFjG+HaV9A==
+X-ME-Sender: <xms:0TugahnT_bEFYZYIsDH13r7bBWSbjloQmSJoHirzS3ZHhc7Gvly9zA>
+    <xme:0TuganorVvmaRcn4__o66Uaiku0xxkT1bBzPiWqxlKOW5ekRFM_Brh8Jvs8eyKcZv
+    CdzofbVqFFjzOvoONgGDBeiObSdIR3Rzz6gDSbCG4BIx3GWYHa5f4Q>
+X-ME-Proxy-Cause: dmFkZTFnLqIyYIBg+UtBhFjabtuEpxyPqfK5VS81h1mcjtMFHXOgRBXxvoFuwzCnsjeO1y
+    sKj7jtYR7ssnejOl3UO5scbK69GdPke25I2fT5ZPllTo8pMKlso9vr1DFgVoLTq/k+wTzR
+    6WpQMETdflfZLNfk/TFGZSFR4nO0zAZO7FzARuEHxXtqE3SVYzrK8BBmSm0ucT+c+bUFUU
+    VeM2LLEfY14jQSCfOLpOQFRKgXLI5Pvd/tBhSzT1SUbHq+cFYCmrfTT9V65bieYUzclmYJ
+    IWLXEyCLHEpTMOv+82lWopX/xSrw/kmbCfuFTZHJ6/5kJvQ6rRAP5iyhVBHBH9Yn0rNrOw
+    Qndb3n8hZQ8WDsC6iBpJrsEDa4TjMc6AwZw9A/10+6kaSZ+OF+2CHnjxdfmfL6tsZTxb9t
+    ISzjsFyPzZ4HqnGZ/9ecoAtpteka7Lt1rfkyIuGvGQP4bYng9Y4y0XK3ZM+FGl/kQUEJJ9
+    mRxhbkhPcT/7Oo1s1TP7mLtZzUgiCoKAEmV3jKywWdZ7gfYf4DTjA75LjD/kYMDtBxmjhM
+    OeYrVNAgrt0xXtfE20o94U+RyBuESHTV4/no3r4Y45R5fNLlRorleoDFnqIbnnrS3e0C8/
+    5AzNqj6QS+HN+R4WzexiJTCkccpAgqTpH7WasHpjsbJ2pzPCNs79GqyEeWmA
+X-ME-Proxy: <xmx:0TugamsZfcXm1GW73jZN_KwljsaYgk-yo2vS4o843D1VDoOyV6C-8w>
+    <xmx:0TuganRf73ByB2a-ivU8VF6ZeE_SsEZpawGfayFZa-ZWOlbXyGRwfg>
+    <xmx:0TugatIV74R6WLNZOF2eBTDXX467X5XCWPFkUNxw8eNfLfGmTyBzUQ>
+    <xmx:0TugaqszrdNcMrFcAEpw_TmfHA3XtdhBDpkVWpZerqhbXYuWVCP9Lg>
+    <xmx:0jugaiSCXwkVwr3JmIDHtJMGZNHhWEpTjR2fISl56U2RQSqP60AMSBZu>
+Feedback-ID: icec1443c:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C4C992400098; Tue,  8 Sep 2026 12:46:09 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260904083001.553587-7-ye.liu@linux.dev>
+X-ThreadId: ACnqMq6o3wCZ
+Date: Tue, 08 Sep 2026 09:45:36 -0700
+From: "Benjamin Peterson" <benjamin@locrian.net>
+To: "Jann Horn" <jannh@google.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>
+Cc: "Jan Kara" <jack@suse.cz>, "Arjan van de Ven" <arjan@linux.intel.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, "Jake Edge" <jake@lwn.net>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ stable@vger.kernel.org
+Message-Id: <48eea5cd-b4ad-43c1-b9d4-4086970c0be0@app.fastmail.com>
+In-Reply-To: 
+ <20260907-cloexec-before-exec-update-lock-v1-1-8018c201a7df@google.com>
+References: 
+ <20260907-cloexec-before-exec-update-lock-v1-1-8018c201a7df@google.com>
+Subject: Re: [PATCH] exec: do_close_on_exec() before taking exec_update_lock
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 04, 2026 at 04:29:58PM +0800, Ye Liu wrote:
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -1160,8 +1160,7 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
->  	if (mm) {
->  		struct task_struct *p;
->  
-> -		rcu_read_lock();
-> -		for_each_process(p) {
-> +		for_each_process_rcu(p) {
->  			if (same_thread_group(task, p))
->  				continue;
->  
-> @@ -1177,7 +1176,6 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
->  			}
->  			task_unlock(p);
->  		}
-> -		rcu_read_unlock();
->  		mmdrop(mm);
->  	}
->  err_unlock:
 
-What's going on here?
-Now it's RCU unlock after mmdrop().
 
-These scoped guards kind of suck unless you allow infinite line length.
+On Mon, Sep 7, 2026, at 14:26, Jann Horn wrote:
+> do_close_on_exec() currently happens while holding the exec_update_lock,
+> which is used in a lot of places that access process state to
+> synchronize access checks.
+> I recently added another such use of exec_update_lock, causing a
+> regression.
+>
+> do_close_on_exec() can block waiting for a reply from a filesystem.
+> That means a hung filesystem can block codepaths that use
+> exec_update_lock; and it also means that a FUSE filesystem which
+> attempts to inspect the calling process can deadlock.
+>
+> To avoid such problems, move do_close_on_exec() before the
+> exec_update_lock is taken, but after the FD table has been copied if
+> necessary.
+>
+> I have looked through all the calls between the old and new position of
+> the do_close_on_exec() call; there seems to be no file descriptor table
+> access in between.
+>
+> Reported-by: Benjamin Peterson <benjamin@locrian.net>
+> Closes: 
+> https://lore.kernel.org/r/f5e8166a-88be-46c5-8939-1e5227ffe4c2@app.fastmail.com
+> Fixes: 6650527444da ("proc: protect ptrace_may_access() with 
+> exec_update_lock (part 1)")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jann Horn <jannh@google.com>
 
-	A
+Thanks. I confirmed this fixes my regression, so
+
+Tested-by: Benjamin Peterson <benjamin@locrian.net>
