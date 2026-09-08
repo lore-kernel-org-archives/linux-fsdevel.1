@@ -1,191 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-195.mta1.migadu.com [95.215.58.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CE44B04B9;
-	Tue,  8 Sep 2026 11:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB96A4CA793
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 11:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788866723; cv=none; b=lw5iBcZrQ+YxZZFsaCG68Bh7YMtF/z9OcKzRBbXI3gGCooPrylobmSLPu6wD7KbTWkiUeL3hJK98zKWlt0mc0j05KeBv1LnauhEj1vgyEqzrfzVleJA7CTIFe55CdBq0TTb4fqFmW6glBI6PFaAei9KkDfDp+yz6tTM7PZuurXo=
+	t=1788867071; cv=none; b=ora32kJt9PR3AYV/4+H068/3aHlhBq6HrsI6pkBXRMW5LmbsPDx0wRKwey6NWmsBaOPWHTYRPCkfUqt6PI0uOHmvaPEhTD1pFiDgPZf89+ObRZToh20IqHQDlI1t7d718HWyqAv1ek+3lSF06T6WuPcUU21Bi1REszmkq82TBSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788866723; c=relaxed/simple;
-	bh=3png0c8or7nYdCZx23lmGIGRrVIeUt4V+p87b2uuFI8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=puwvB4UYN21P8aj2geEMouwsm6ykN6j/gCg+WH4u5Q1lS+F+pFIfabD5Za361rBknzYP+j/c0/EbE1xltU5ZjXbxE3U568bFkhqtnIyz5ep5PWOTQkDQ2Q5UVTRDof0NDlZOH4GKDPrqXs1zl3UT74uNrczG7NDvs8QT4sjQt38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XgmNxLy3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788867071; c=relaxed/simple;
+	bh=u8J66aam5HAU3EWrKJfVOFwKlJPnOYn4J4IC9+9xLnk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dpIdaV8FRlr/z7YQdTdxeagiouhmq6MWLLVv8gEqkdkEUiQ0XTezSzodpOkezTz/ZcMWk1w2m7lVyk2H0FPh8hdWNkeSgdZ0BQtwClNbMbVtRl0vAeM5leYiNAOQefS0zvEh2Tkn45F8U4tEPKRRWyLWx+vmsx99Tm99+C0v4wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gGARx6Tv; arc=none smtp.client-ip=95.215.58.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XgmNxLy3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C87C1F00A3D;
-	Tue,  8 Sep 2026 11:25:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788866708;
-	bh=om0np5kv2o7p4ujdr2YodlAc5O6JiCLsFWeQl7Rh24s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XgmNxLy3XXo6zJi+ipSK9/Kxq68nxv16sLLPsIcI4SUgz9twJMZI81MQ1uLL0ZcxC
-	 sd97Rux856rODIB4DkQj/J3btopjnfJz8KZCP9qLUOFtDQ2gQaa0TKT3NTVC4GBxU1
-	 sI9BHcnkMlIEvT3Uq5LYGLwZs7FIfAp4e0w3RWiA0yOxITZIYl1/1TqH1gLG9liSBj
-	 Kb076kSuPDadjILy/hzduDtUlggkJN6sLYAXYVTZWNmCw9NK5UL2hwjZJMzMYTiv8Z
-	 l53JivNcQ3Y6aIvGa6Ww9F6P4pV3Nj1kltUc3JU6Apyk2SY5pGVVxBG5oH77ddyBC0
-	 RtU5Qgx16whFQ==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Tue, 08 Sep 2026 12:23:43 +0100
-Subject: [PATCH v2 6/6] tools/testing/selftests/mm: add
- MAP_PRIVATE-/dev/zero merge tests
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gGARx6Tv"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=u8J66aam5HAU3EWrKJfVOFwKlJPnOYn4J4IC9+9xLnk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788867061; v=1; x=1789471861;
+ b=gGARx6TvljhZxn3wQ90OPpLeZ+gOca9cflYOlVJs6elN369NvRAvAHQQR/eHU9thSf7sv+tl
+ gdSkinhip0iHsgunVPb+SI42IQzaLgK1QNhu9hfAoh2niY0A9dIz9wEQmefDWY17TYbvEytWh3K
+ IlcAPGMhsDYOLQ+73ZxibGRc=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c921d85a689fffe6;
+	Tue, 08 Sep 2026 11:31:01 +0000
+X-Mizu-Trace-ID: c921d85a689fffe6
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <6e54b8b3-150d-4d41-b4d1-8c5793edb840@linux.dev>
+Date: Tue, 8 Sep 2026 19:30:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH next] buffer: guard folio_test_dropbehind() against a NULL
+ b_folio in __bh_submit()
+To: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Chao Shi <coshi036@gmail.com>,
+ Weidong Zhu <weizhu@fiu.edu>,
+ "open list:FILESYSTEMS (VFS and infrastructure)"
+ <linux-fsdevel@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ Ridong Chen <chenridong@xiaomi.com>
+References: <20260908023600.788219-1-ridong.chen@linux.dev>
+ <mpqseqzxcgyug5cwk5sivtyngvtcz7az7pugzv65nkm3ylmwjq@rfhz34dg655s>
+From: Ridong Chen <ridong.chen@linux.dev>
+In-Reply-To: <mpqseqzxcgyug5cwk5sivtyngvtcz7az7pugzv65nkm3ylmwjq@rfhz34dg655s>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260908-map-private-dev-zero-v2-6-acc7b5625305@kernel.org>
-References: <20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org>
-In-Reply-To: <20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4111; i=ljs@kernel.org;
- h=from:subject:message-id; bh=3png0c8or7nYdCZx23lmGIGRrVIeUt4V+p87b2uuFI8=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLLmfyh8seHhftu6/WGcCu07NVd5JzsuVNKK1z46e9qze
- f6bWVjWd5SyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAifVoM/3PfCx6wSxSaVbmk
- 7+bO4wwSV0UPetSq1M6ULVgWsuaT41aGfwpzf6lGe8wQfcrt4LPt3/Qizd8Nv+V/c+012bGWz6A
- mhwUA
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-Assert that MAP_PRIVATE-mapped /dev/zero mappings behave like they are
-anonymous.
 
-Test both unfaulted and faulted/unfaulted merges with page offset 0 which
-would not merge if the mappings were treated as if they were file-backed.
 
-With the recent change that makes them behave as pure anonymous mappings,
-the merges should succeed as their page offsets are equal to their
-anonymous page offsets.
+On 9/8/2026 6:07 PM, Jan Kara wrote:
+> On Tue 08-09-26 10:36:00, Ridong Chen wrote:
+>> From: Ridong Chen <chenridong@xiaomi.com>
+>>
+>> Commit 8deae2284976 ("buffer: allow a buffer_head to point at memory
+>> outside the page cache") made bh->b_folio optional: jbd2 submits a shadow
+>> buffer_head whose data lives in slab (the frozen/escaped copy of a metadata
+>> block), and such a buffer carries no folio at all - b_folio stays NULL from
+>> alloc_buffer_head() onwards (see the comment in
+>> jbd2_journal_write_metadata_buffer()).  That commit audited __bh_submit()
+>> and taught bio_add_folio_nofail() and wbc_account_cgroup_owner() to check
+>> for a NULL folio, but it missed an earlier dereference:
+>>
+>> 	if (folio_test_dropbehind(bh->b_folio) && op_is_write(opf))
+>> 		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
+>>
+>> That test was added by commit a2c924c240e7 ("buffer: set
+>> BIO_COMPLETE_IN_TASK for dropbehind writeback"), which predates the
+>> NULL-b_folio semantics and so dereferenced b_folio unconditionally.  Once
+>> b_folio may be NULL, folio_test_dropbehind() reads NULL->flags and the
+>> kernel takes a NULL pointer dereference.
+>>
+>> This is reached from the jbd2 commit path (bh_submit() -> __bh_submit())
+>> whenever a shadow buffer is submitted, i.e. when a metadata block has to be
+>> escaped or was copied out, so it is data/timing dependent rather than seen
+>> on every commit.  When it does hit, it is deterministic and independent of
+>> the dropbehind bit, since the flag test dereferences the folio before
+>> examining it.
+>>
+>> Reproduced on x86_64 with KASAN under filesystem write pressure:
+>>
+>>    KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+>>    RIP: 0010:__bh_submit+0x21b/0x9d0
+>>    Call Trace:
+>>     bh_submit+0x15/0x30
+>>     jbd2_journal_commit_transaction+0x1c19/0x5ac0
+>>     kjournald2+0x1cf/0x760
+>>
+>> Guard the flag test with a b_folio check, matching the other folio
+>> accesses in the same function.
+>>
+>> Fixes: 8deae2284976 ("buffer: allow a buffer_head to point at memory outside the page cache")
+>> Assisted-by: Claude:claude-opus-4-8
+>> Signed-off-by: Ridong Chen <chenridong@xiaomi.com>
+> 
+> A similar fix was already posted here [1] and is on its way to upstream.
+> 
+> 								Honza
+> 
+> [1] https://lore.kernel.org/all/20260902013357.2815214-1-joseph.qi@linux.alibaba.com/
+> 
 
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- tools/testing/selftests/mm/merge.c | 95 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
+Apologies, I missed that. Thank you for letting me know.
 
-diff --git a/tools/testing/selftests/mm/merge.c b/tools/testing/selftests/mm/merge.c
-index 52b8727b6628..7dd2933417c1 100644
---- a/tools/testing/selftests/mm/merge.c
-+++ b/tools/testing/selftests/mm/merge.c
-@@ -1362,6 +1362,101 @@ TEST_F(merge, anon_and_page_offset_mismatch_memfd)
- 	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 5 * page_size);
- }
- 
-+TEST_F(merge, merge_map_private_dev_zero_unfaulted)
-+{
-+	struct procmap_fd *procmap = &self->procmap;
-+	unsigned int page_size = self->page_size;
-+	char *carveout = self->carveout;
-+	char *ptr, *ptr2;
-+	int fd_zero;
-+
-+	if (access("/dev/zero", F_OK))
-+		SKIP(return, "No /dev/zero.");
-+	fd_zero = open("/dev/zero", O_RDWR);
-+	ASSERT_NE(fd_zero, -1);
-+
-+	/*
-+	 * Map two MAP_PRIVATE-/dev/zero VMAs next to one another with offset 0
-+	 * each.
-+	 *
-+	 * With these being made truly anonymous upon mapping, they will
-+	 * merge. If they were file-backed VMAs the page offsets would prevent
-+	 * the merge:
-+	 *
-+	 * |-----||------|    |-------------|
-+	 * | ptr || ptr2 | -> |     ptr     |
-+	 * |-----||------|    |-------------|
-+	 */
-+	ptr = mmap(carveout, 5 * page_size, PROT_READ | PROT_WRITE,
-+		   MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
-+	ptr2 = mmap(&carveout[5 * page_size], 5 * page_size,
-+		   PROT_READ | PROT_WRITE, MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
-+	close(fd_zero);
-+	ASSERT_NE(ptr, MAP_FAILED);
-+	ASSERT_NE(ptr2, MAP_FAILED);
-+
-+	/* Assert that they merged. */
-+	ASSERT_TRUE(find_vma_procmap(procmap, ptr));
-+	ASSERT_EQ(procmap->query.vma_start, (unsigned long)ptr);
-+	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 10 * page_size);
-+}
-+
-+TEST_F(merge, merge_map_private_dev_zero_faulted_unfaulted)
-+{
-+	struct procmap_fd *procmap = &self->procmap;
-+	unsigned int page_size = self->page_size;
-+	char *carveout = self->carveout;
-+	char *ptr, *ptr2;
-+	int fd_zero;
-+
-+	if (access("/dev/zero", F_OK))
-+		SKIP(return, "No /dev/zero.");
-+	fd_zero = open("/dev/zero", O_RDWR);
-+	ASSERT_NE(fd_zero, -1);
-+
-+	/*
-+	 * Map a MAP_PRIVATE mapping of /dev/zero with page offset 0, then fault
-+	 * it in:
-+	 *
-+	 * |-------------------------------|
-+	 * |           faulted             |
-+	 * |-------------------------------|
-+	 */
-+	ptr = mmap(carveout, 15 * page_size, PROT_READ | PROT_WRITE,
-+		   MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
-+	ASSERT_NE(ptr, MAP_FAILED);
-+	memset(ptr, 'x', 15 * page_size);
-+
-+	/*
-+	 * Unmap the middle:
-+	 *
-+	 * |---------|           |---------|
-+	 * | faulted |           | faulted |
-+	 * |---------|           |---------|
-+	 */
-+	ASSERT_EQ(munmap(&ptr[5 * page_size], 5 * page_size), 0);
-+
-+	/*
-+	 * Map in a new unfaulted mapping in the middle with page offset 0 -
-+	 * this should merge and would not if it were treated as a file rather
-+	 * than pure anon:
-+	 *
-+	 * |---------|-----------|---------|
-+	 * | faulted | unfaulted | faulted |
-+	 * |---------|-----------|---------|
-+	 */
-+	ptr2 = mmap(&carveout[5 * page_size], 5 * page_size,
-+		    PROT_READ | PROT_WRITE, MAP_FIXED | MAP_PRIVATE,
-+		    fd_zero, 0);
-+	close(fd_zero);
-+	ASSERT_NE(ptr2, MAP_FAILED);
-+
-+	/* Assert that they merged. */
-+	ASSERT_TRUE(find_vma_procmap(procmap, ptr));
-+	ASSERT_EQ(procmap->query.vma_start, (unsigned long)ptr);
-+	ASSERT_EQ(procmap->query.vma_end, (unsigned long)ptr + 15 * page_size);
-+}
-+
- TEST_F(merge_with_fork, mremap_faulted_to_unfaulted_prev)
- {
- 	struct procmap_fd *procmap = &self->procmap;
+>> ---
+>>   fs/buffer.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/fs/buffer.c b/fs/buffer.c
+>> index 427d8a817cd5..f46fa6413032 100644
+>> --- a/fs/buffer.c
+>> +++ b/fs/buffer.c
+>> @@ -1106,7 +1106,8 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
+>>   
+>>   	bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
+>>   
+>> -	if (folio_test_dropbehind(bh->b_folio) && op_is_write(opf))
+>> +	if (bh->b_folio && folio_test_dropbehind(bh->b_folio) &&
+>> +	    op_is_write(opf))
+>>   		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
+>>   
+>>   	if (IS_ENABLED(CONFIG_FS_ENCRYPTION))
+>> -- 
+>> 2.34.1
+>>
 
 -- 
-2.55.0
+Best regards
+Ridong
 
