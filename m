@@ -1,95 +1,95 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388405650E3
-	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 22:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7A348F019
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 22:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788905067; cv=pass; b=cxjus2BMhYXU6ums/fh/yHIhAPb5HnMFxuRjkzIYO3Et+Cg7+ThFqE3Qp+JSq0TvcrQ9l4QAecEAR5hY/+FhkmRK5LMmd3LHbpVabHPIFzCDExT0rUGr4PUDOXCW7lom5kfXTklwJptA3aB9hkW6f/9813LS8prYw7iusblCJX4=
+	t=1788905150; cv=pass; b=esB6WrdkCHVd3o75lLdGzUvtDJ+6lJqPsUr3D1+cEOgRYZ+K0iDLWMo/EMBPXLgRLGRQuFHRCV57zqNkffX0cOWMRrdPj2JHW66dbVh1TWWjM9liYEdkNSFK/BJ5yxLa3arw7iSgtvPNIu+cRLScr0avcbc1AGaoUm7VSRIS2+8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788905067; c=relaxed/simple;
-	bh=kFs2/Y5KiTV72hw46XVjq1+BiwJ435803ate9yBUPeM=;
+	s=arc-20240116; t=1788905150; c=relaxed/simple;
+	bh=gWyldk0oc12yDTN1m54loFdW4UdsmUa/ZK1j4ZExUpk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j7YEATb7EFhoioM4bGpPJfyyNc0chZYUwBBH5KYo6ncAal510UusOSK/ktyyaz3i8RLcnMEIinwZ7OsPhsc22ln3XVIvLyV8vUtEUFTyF8m6C6FsLW1UCV+qRZtyrvaAtSv8tuRWOWboAcMOf6YMlR9SkUR7KMwn8Lw25Zv5TE4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=byGtWLH9; arc=pass smtp.client-ip=74.125.228.12
+	 To:Cc:Content-Type; b=JQnhbfEluEn8EhXlVaAQxWg5PLEQGvYRyhGHzDMnQHS6higTD37oRV0Hrq9qeZOPEqBJds9SrI23RbFXqCV3LvmbHs+4wDPfOjBCtlBIGRZLh227J4j3Tn+wQcPymyBrLnA0hxbCIzwn42980mrdX+fVr93FCFF1ti7NC9WIlpo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ZLRLTFZw; arc=pass smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="byGtWLH9"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-859e0bc7dd9so399772b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 15:04:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788905065; cv=none;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ZLRLTFZw"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2d6f9e2f681so56426545ad.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 15:05:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788905148; cv=none;
         d=google.com; s=arc-20260327;
-        b=Fbh6aEN3SsewubYrFvK/is42RkwTeDvd22V4JsetI+A6MGPjMMH+6bG41XkMbLvwMK
-         /sHMNRLd2W/lqRyF2u4A/5BYMy3zjTleOpTLEPzru+J9HkJB6NOMl1yGUzq9KO8ZEAyR
-         RRvEaprnhklU2Qidrn6gioEoKts8cIww4CwOolPE8sWC7U6HUfcmmCNjjQcBSpAeBsBS
-         4DjS7ad4rA9MrtKR1xDLp+ZU29zsJugUxNqdqZmTeK67CD5KN4QWnc3z4ktJXsDJNWP3
-         iYwtrJWHlWFfUezXy2H8V1n3qOShFPm0eR+1JamoE8Jm5akwIiCjr52GDcj/oz6X6dy/
-         MpGA==
+        b=FaJbWRUBGCelu85jVmd70qL3N65yE8ax1bYtZoKfLlLDRXSEE1ALXh/guJZRnOdM8r
+         cS137VMH3BxeZ9JONxc/j0Cl1qhP/Na63CywcOuDpd60ZAsjAy3TsvDhjJ61U/Bc4qlm
+         nvVoyZLWTzMR9zg/eZHyD68IJScgz9rtPdJIYXA35MJBHMPC82SyNHPAS7k+FcGbxPbQ
+         SElL45khefwfhCIYXbUARHuwjfBiJ0Ob+DE9mNxRmBlpm+0LFcEjWfD+mXr1b7WBNDjZ
+         tg3oakf1kG0KdWQzFCxRyZr8uSd6mHnxs9TKYM8lpgi/W/hup0RIfwRirrLQ59D430gA
+         xdOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=YWfrU9KFZA0btF/+MeYl25HDjvWja/4fX79GCEtM140=;
-        fh=wK2kSgtIUhP5effIbkBs/IYXyT7YQXTneI5eNPbnRZU=;
-        b=DSc5EENPurjjJvhMNV5J1vbrosybhl0A+hXfR3w4/TDradjWVC9JBz0t0Tv7j5VlSO
-         FAWvfTJ36IViqRDnv3MxlzfTRjLRZAhP2bpGYEX18KZoVYTvYvKv364Ly5mE8FFS3wSQ
-         iwi+BdhXk5NKnIZ2jwbGl8Bsozfve2OLn+NBFxEQ+sATOY5CChZjSiaCUyIB57Kbj8y8
-         gqzzhsH3j2QdqVXQJq5aEh9BwD6scKOcDYIiu3UeI8aL2J3UjmeqgClELBdB79n1JeUJ
-         ESVlCnYNF8Lhw1IqDdJ+udNbUANiev2FPRRPh9psERcMUNhyNGbk/ukm4FmpazylxBJk
-         HrgQ==;
+        bh=wViXqQw+49Q+sqlxh6pZf9kI4lGcySkRvR38g0HW4SQ=;
+        fh=nC8RJpJctjtA/3l0UMfIHwfE4rN/OwdDGZgCd6+ni14=;
+        b=eKD5Gsrmt9n1Oc7OfQErcXmvDgY18ZMywb+GdCkpl+R0it+8v9PogYWmoaFUFqFl9O
+         XrBaeIsv7tnrTqy3SuCPSarOnoSJ218ILgWAq+2dBW1UR/G4acwOqCqnsAsrqwbUt5ZC
+         AcP3YdGGmn6dP+WcOQVkxomvgr5nOhIG/xL0dwM5etgQ/9C0PeM5dpbT5R5wM8NQM3Bq
+         M4NtG6L/DZMeV5nERlcDDH9yfyLcN6RiiGipwCzeFn3gwaSlh//5o4mbNkiaUOBaNNSF
+         2Ke1kpsmjOjAfKOYfjtoTD9A/A9LTvWFcbcYK+ZutKvQVkhV0NRrLhdg10LiA7RRr8A7
+         Blqw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1788905065; x=1789509865; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1788905148; x=1789509948; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=YWfrU9KFZA0btF/+MeYl25HDjvWja/4fX79GCEtM140=;
-        b=byGtWLH96x6sw3h9XGMxxuPYSC951TzNPI+BCrqb+S36so5xweMUtxaq+IhYdl78cO
-         l4K3ie4BoXiLGo5f1w2xx4fm/S+8X+lQMv171L7v6tU59b+KrRF82z5wKjAZ2H+P/+5O
-         xtmXKTzL+uob3DpVranPTuGeOOwVh7q0nUpftp8VN1KzTMKong8gRs8yK48VJMZvuc6W
-         0otQwxvj8ogNuOWZm+CVwDcQ87CWDrOHMgkOUJR+ItwtrfKxDdpzKtjRysfMFi9YE3ZL
-         5PX9XAlHnebv8jwuud1d/EJMoQs/D8OjES/ydwa6btLWWg4BgMUf8uIIAXsTUUdh7Z+S
-         Y97Q==
+        bh=wViXqQw+49Q+sqlxh6pZf9kI4lGcySkRvR38g0HW4SQ=;
+        b=ZLRLTFZwLnb/2GRIUNigIpydpUPDsmiveg10k8EXIkCTcHEUDSd+RkwAVSEpPLIGuH
+         kIOqYVJmHZzAfexFzAlmVKCgoLzv2LjpeIQGs9ONCLNn0uA8rUrEoCHsbOdy9OpLX3qT
+         8tpVgiri4S2nkwKCXj5DN2+GdfTWYec99FrEzKhnMpxfuKpZUu75y5Dw1Um7hSTQoSuC
+         eaXZnaKLUVb/hJSZKbb2ZmhSDY//hKM/w7ZVt+RKv1JFZ5RJTY9aIDGnSaQD5V0gEjki
+         U66rI1gkH9XZuCfrha+GExcm7CHZhtmGpG3etgue6tkV0j6GD1x1h+rIcsBnHYTGgbvF
+         xlaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788905065; x=1789509865;
+        d=1e100.net; s=20251104; t=1788905148; x=1789509948;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YWfrU9KFZA0btF/+MeYl25HDjvWja/4fX79GCEtM140=;
-        b=VNorISFO1Bn0wBc5vgAJwPZzqBAqa3ceZ0pgZUdbUTR6IFU1akdVRoV4ekmQHqlHVS
-         aE/N2TjbeK+Oe3yZKTa9E2tgM0d0s0kCDtk07ouv5rdkUqYD1sNFs4vvVXzv5vlhhcvw
-         VDqmMGT0O4mburgivS7b81gtTL79OUErk8SVd7KxTcbQ3QGUmU7krJoYAa18mVwMUtHL
-         zDT3G+6xSQcTUvSIIEk6VMI5q3IJ3UQQ2/Xy4OYdnNE9u/VlV1ddHa+HPHGfMMY1VVfP
-         wRMGu50dolyBS1V9Wm6FyIQov1LQmdX+zte899Hkcah03ZwqGyQcrMqVkQAtnpqXL1hs
-         ZhAg==
-X-Forwarded-Encrypted: i=1; AKwUvBziPUTtCJVH2A9mANq3Sahduzg8cVz4jJGBbhuwupV311r6uKY2gn5xbnlAyCMi2hTP4oLLw8C4G67oqfzb@vger.kernel.org
-X-Gm-Message-State: AFuF++mSe1/+vi8MQoFnT5pBnZNJy1L5QVIKXFY7qmRiAivdxuqPX9o2
-	2xa5Tglz8AI8mKugyOtht64PcZK0BSjgbH/7veW+Mz3sIb1EUR7IB3U2KpsvL64ZqaYletCe2ib
-	a1eug6gZl5o2nHcM20h+oKE1psQ7yaQKWDlond2g7
-X-Gm-Gg: AYBFou1In6BP5fbN5biCSZE5v0p6RNrvwYrwdSx5P3QEunHQgGo2r90kNb1Q0QhzK6F
-	vLTpqIwbeYmgLN5++0bEPBCH9eejc2Q/Mw0Fxzqf9fzX43OmpgAMA9xcWU6vYrmhecwjzM24rUZ
-	09kPnI2zjT1v+B7FVCA+3lm8IqkrcxEcahkfz+J1ocZKRJs3nyG7pw7hFXdlN9+GwKxpWkzyi6/
-	dW3ngerkA3GwV0OQGe8el1uJIaXu0gDo3G9nnDOrlZotChH2W/mRtUJ/genw39X1iIheLKayOqn
-	eTZZNRhTwvZvqD+TFCpNMLqxS2clDld6CdldUanpANpF8Vl6PXuLg/cqFuAZBKICKH0BZ8ifC1f
-	z
-X-Received: by 2002:a05:6a00:4103:b0:857:72ba:ff0c with SMTP id
- d2e1a72fcca58-86843380d24mr2506973b3a.20.1788905065338; Tue, 08 Sep 2026
- 15:04:25 -0700 (PDT)
+        bh=wViXqQw+49Q+sqlxh6pZf9kI4lGcySkRvR38g0HW4SQ=;
+        b=P3mwQHLiljis7E+uOymNra4ICiSk/SGbX2W/XaHfr3tHCr+LPcWl+54GGbovDsAnx2
+         HWMVIt0PEolzLuI/uXrOY7mQog6w+D36ViI5ABgb9Xu5cgVePP3MFTJxMU2tDEMShhOt
+         E2bWWZkri4wawclL1QnKZPoZpo/GfIyfQc5RgZpN42Jt+tv14e4pmcSz+6cMn9+EXuvF
+         CcoeJotd3AX8sQ4Ut2fkgEyTMi59KPclbC8H6WE/q9eqpI6u+qmPgy8fHJ7cF+Fdmvdd
+         NRL4jHxv+zXYAKEKsKRLqiMGdcG615ahcHWZkiA7n8+rT/ZDV+o4bwEqtyqqJVgiwozs
+         m+pA==
+X-Forwarded-Encrypted: i=1; AKwUvBz/6uVjY5ll/7m750rFD2LqUgbUTyFa2D/UFZD3BVNQSZdF7k96cPzXxqwzIdpB5arspQ0BhDAx28JiQJsZ@vger.kernel.org
+X-Gm-Message-State: AFuF++nXv5DN9cGvcUUMsg0KvzEEy8lm6ULTaXnVEOjyTXaW++ZfdJhi
+	XOtQ1q43xY8LrpH1UepqmTHaFb4mPQiTRfvYYlTahhgdb92LSdz5KrmOKYm3+gsd3ZixVfcr08W
+	u1a7ldWG3fpNCqz6wc/8lERmGnHwuiW+4NlRp4AgA
+X-Gm-Gg: AYBFou3d0lVHgAmsVDVCsW1Z6i1u39+6Skfy2wNcy/gUXjThP6JH0akhWUGXbLQv5IX
+	tk2rzI7jFmq25ZMwsjabBhbw3FjvktTDn0z/L9hVeedAaQxtwg/79Gs27SmBjeW73slcycHDat+
+	NpQPNp8pj9p+uFMPdf5wTX8NQ5HgoNkJ4vN9BmLt2rs/4Qm9m/zaRUS96NkCA1SCk5RlofEHJBD
+	xMkeZ6OpMWKMo9kXRs9pvF9/ZWDAXcJLUx2RVL1Xn+POQuHYsywZNCdYlVpHH8WH1F0e76EWBXC
+	tN4hZf15owIWGHQ6W0fkVuAXL851/fa9xjTvkrYddzUwNGoRglKtcpYfmMSSEgi1sfd6cXx3Ve1
+	U
+X-Received: by 2002:a17:90b:3ec5:b0:398:9c00:29ed with SMTP id
+ 98e67ed59e1d1-39b26277673mr45556792a91.21.1788905147387; Tue, 08 Sep 2026
+ 15:05:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
-In-Reply-To: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
+References: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com> <20260904-lsm-mount-idmaps-v3-1-920a1963675d@amutable.com>
+In-Reply-To: <20260904-lsm-mount-idmaps-v3-1-920a1963675d@amutable.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 8 Sep 2026 18:04:13 -0400
-X-Gm-Features: AcwNN1WG-GhgrrNi3fsiuaGk2OK8M8zXACNxnVPqz0qu4sJFuS02JXSPQW7uSlo
-Message-ID: <CAHC9VhQwHFdfWkTmZtMC+FgPDd32nW-e_FPbUhE70Y8a6viEBw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] lsm: expose mount idmaps to inode hooks
+Date: Tue, 8 Sep 2026 18:05:34 -0400
+X-Gm-Features: AcwNN1VBzLRcTymdA1zjcoOHYpTWayCftPPsC70quA8PGtg67RyLgDxcQLUcPf4
+Message-ID: <CAHC9VhS5q2=6p2bi5c7CZ3mutji1xiKR2eFKgJ9C+XZsYgky2g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] lsm: expose mount idmaps to inode hooks
 To: daan@amutable.com
 Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
@@ -100,72 +100,75 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, Sep 4, 2026 at 10:48=E2=80=AFAM Daan De Meyer via B4 Relay
 <devnull+daan.amutable.com@kernel.org> wrote:
 >
-> OverlayFS performs upper-layer operations through inode-based security
-> hooks. Those hooks receive the upper inode and dentry, but not the mount
-> idmap used by the VFS operation.
+> From: Daan De Meyer <daan@amutable.com>
 >
-> The security layer cannot distinguish an identity-mapped upper from an
-> idmapped one or make the same ownership decision as the VFS. The VFS
-> layer already passes the idmap down into all relevant inode operations
-> so this just brings the security hooks to parity.
->
-> So pass the mount idmap through the create, link, symlink, mkdir, mknod,
+> Pass the mount idmap through the create, link, symlink, mkdir, mknod,
 > and permission hooks. Update the in-tree security implementations and
 > non-VFS callers accordingly.
-
-The above three paragraphs should replace the commit description for
-patch 1/2.  The current commit description for patch 1/2 only
-describes what you did, not why.  In this case, it's pretty easy to
-see what you did by looking at the code in patch 1/2, but the motive
-behind the change isn't quite as obvious.
-
-As long as you are okay with me updating the patch with the change
-above (and explicit on-list email would be good), I can swap in the
-paragraphs when I merge the patch so you don't need to do another
-respin.  However, if you would prefer to do a respin, that's fine too.
-
-> systemd has been shipping systemd-nsresourced for quite a while now. It
-> relies on inode and path hooks to perform ownership checks using a bpf ls=
-m.
-> To make this actually secure we need to be able to calculate the on-disk
-> ownership from the idmap.
 >
+> Signed-off-by: Daan De Meyer <daan@amutable.com>
 > ---
-> Changes in v3:
-> - Restore the two-patch split from v1.
-> - Add the missing Signed-off-by trailers to both patches.
-> - Link to v2: https://patch.msgid.link/20260901-lsm-mount-idmaps-v2-1-330=
-9b9d1eda2@amutable.com
+>  fs/cachefiles/security.c      |  4 +--
+>  fs/namei.c                    | 18 +++++++-------
+>  include/linux/lsm_hook_defs.h | 23 +++++++++--------
+>  include/linux/security.h      | 58 +++++++++++++++++++++++++------------=
+------
+>  security/security.c           | 40 +++++++++++++++++------------
+>  security/selinux/hooks.c      | 19 +++++++++-----
+>  security/smack/smack_lsm.c    |  9 ++++---
+>  7 files changed, 100 insertions(+), 71 deletions(-)
+
+Casey, are you okay with the Smack changes (below)?
+
+> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+> index 8e88ac65fd7f..a45819d13c0d 100644
+> --- a/security/smack/smack_lsm.c
+> +++ b/security/smack/smack_lsm.c
+> @@ -1089,14 +1089,15 @@ static int smack_inode_init_security(struct inode=
+ *inode, struct inode *dir,
 >
-> Changes in v2:
-> - Squash the implementation and selftest into a single patch.
-> - Add the missing Signed-off-by trailer.
-> - Link to v1: https://patch.msgid.link/20260824-lsm-mount-idmaps-v1-0-041=
-4a9641c85@amutable.com
+>  /**
+>   * smack_inode_link - Smack check on link
+> + * @idmap: idmap of the mount
+>   * @old_dentry: the existing object
+>   * @dir: unused
+>   * @new_dentry: the new object
+>   *
+>   * Returns 0 if access is permitted, an error code otherwise
+>   */
+> -static int smack_inode_link(struct dentry *old_dentry, struct inode *dir=
+,
+> -                           struct dentry *new_dentry)
+> +static int smack_inode_link(struct mnt_idmap *idmap, struct dentry *old_=
+dentry,
+> +                           struct inode *dir, struct dentry *new_dentry)
+>  {
+>         struct smack_known *isp;
+>         struct smk_audit_info ad;
+> @@ -1226,6 +1227,7 @@ static int smack_inode_rename(struct inode *old_ino=
+de,
 >
-> ---
-> Daan De Meyer (2):
->       lsm: expose mount idmaps to inode hooks
->       selftests/bpf: verify mount idmaps reach inode hooks
+>  /**
+>   * smack_inode_permission - Smack version of permission()
+> + * @idmap: idmap of the mount
+>   * @inode: the inode in question
+>   * @mask: the access requested
+>   *
+> @@ -1233,7 +1235,8 @@ static int smack_inode_rename(struct inode *old_ino=
+de,
+>   *
+>   * Returns 0 if access is permitted, an error code otherwise
+>   */
+> -static int smack_inode_permission(struct inode *inode, int mask)
+> +static int smack_inode_permission(struct mnt_idmap *idmap, struct inode =
+*inode,
+> +                                 int mask)
+>  {
+>         struct superblock_smack *sbsp =3D smack_superblock(inode->i_sb);
+>         struct smk_audit_info ad;
 >
->  fs/cachefiles/security.c                          |   4 +-
->  fs/namei.c                                        |  18 +-
->  include/linux/lsm_hook_defs.h                     |  23 +--
->  include/linux/security.h                          |  58 +++---
->  security/security.c                               |  40 ++--
->  security/selinux/hooks.c                          |  19 +-
->  security/smack/smack_lsm.c                        |   9 +-
->  tools/testing/selftests/bpf/prog_tests/test_lsm.c | 231 ++++++++++++++++=
-++++++
->  tools/testing/selftests/bpf/progs/lsm.c           |  79 ++++++++
->  9 files changed, 410 insertions(+), 71 deletions(-)
-> ---
-> base-commit: 786262be6048deab760f68c8acc2c85607165894
-> change-id: 20260824-lsm-mount-idmaps-9d9b994fe1a1
->
-> Best regards,
 > --
-> Daan De Meyer <daan@amutable.com>
+> 2.54.0
 
 --=20
 paul-moore.com
