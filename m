@@ -1,65 +1,64 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1822432304
-	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 21:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1DB43CE7C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 21:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788901506; cv=none; b=Z5BWjXc7fAForXKncc7TjlLbFm36rLb2Rf63QHyJYnINHxiz77GZEH59CaXTAMv/HfxVCi+uy/cn8dEkUkIRoWByDJwp0P1d8z/bcuH0fg3oRIo1ggXOXKdusvhjj/bIUlq6+4+8v3XVdhMSmk5+rN/TSioaIrk3TaDD7aRU4Lc=
+	t=1788901510; cv=none; b=AQWDeDSejEVv1jH99JUcocKMVbiDOb2BXViYPpCJ5C/ikY8mJP1y8P349DcnS/FoWpPvYnX58/wqWxhhijnq/sJOrXW5hHV9jYcXK/rUCE8FVehlqTTdECOTnjRRBKmrXnJuFArR8L5y1RqBOGgzYTujYoA9ib3pktWJU7dTMLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788901506; c=relaxed/simple;
-	bh=JS4es041X9iQ3ww+X8OGRBNQHXimqemFhijw7rmEypM=;
+	s=arc-20240116; t=1788901510; c=relaxed/simple;
+	bh=z8nxWyZBGM2mWMHN3Gb3eNdOXLjX6i/8WNe3N3r6Jjo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hyCnY7EacWknq8/XTWVUA7qIJns5T8vXbTl5SNnXtCqK5tXejboE7kqnw3Vhki1w8W26cR6g+V0CObPHrGWD+oPFmTWDtO/KD1aRSwAkDtTltsS3S1v76gHjgs2ZYAy1/OYW0eereA4EvJ7xp1JyAUtpea12DY4uFuagQTDDwlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=TgnpThmI; arc=none smtp.client-ip=74.125.224.140
+	 MIME-Version; b=bg6Jv7+2CVMvnrpPyYuqt2zofKbl9ol0VvGJzLNwHqsrFZ9dmuk7o8UZukCQjkjDPqlWT8mhrUo3lHKdjNEErqOTQYDVoJCKk0QpOHTAsnqM+EHZj+2SNGmdXdmab28ALyBoEYWizNlcOaH7ElXp49Vho4yIS3KcRQZatobfYaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=nqzFr5b/; arc=none smtp.client-ip=74.125.224.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="TgnpThmI"
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e4aae3149so432891d50.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 14:05:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="nqzFr5b/"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66cf1f9965dso3988636d50.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 14:05:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1788901504; x=1789506304; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1788901507; x=1789506307; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+JM2TitCUkHWsoHev5+SihBzZ6SFDmIJWRE6hX8zY3w=;
-        b=TgnpThmIp23oMAZm0vH2L2u1SQYiCA//G0VpRSYTlS16DNKXch4r6QhrGo3uSE3Ufs
-         nxUuHLG9DJIRA+Yl+c5Xjbz5wTCfJCAbak4Ytx8TAFn/xM0hulguYLvgc5qXRJ/uJ+qf
-         vmfOS0pWqTCfZiLdvQKZK3Q+lV4ffTiYD7AXsX+3Zc8biT2eSToycgqbelMqLygq+VMP
-         GNqyxbT0ZtoFGEZx4ZqhVod0IQljxG7KkP/An7DZGfiTTHFa3Afj5wxmBOiffaEmX/Tg
-         07NJtibWDpsTRQDf2xEfiNTRruB4JX2BF19sfeV6qpImGNuj5htNVBlFb/tTh6986v70
-         y4yg==
+        bh=06j1qeZXVtj7Nz/ZYPnBZzCHEmkktKQWmdPGkPaUsk8=;
+        b=nqzFr5b/pTtjcRg+Jqu0gCaCp4Wu5A69pa2YxpkdUmc2bTVF/LRUnxEHbTZ63PaptX
+         BZd86Z/LAQiNAqf4pC0ljgxT8Kyo7gDqWFjQF0gX+koipfsHIXXzof4APdNwUQlv9168
+         qHcIinySHa7VtlRcC+m8lUcV/DwxEbKJv7XKNKLuehXgHLvRwqcyJ5c7iShIfTx/Kd8J
+         73/NqlEpEnsvUBw3ou+iX+beAyAwuZRwJi7RaG8xT64fNRwwe4DlFfb/KR6kYNELqzAo
+         lY/uMsITl6UMFRrrh2qs8F3dPepBguKy1SJPYAxooiLS0+96BSp0UUMwexkK+/rMQlbH
+         PUvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788901504; x=1789506304;
+        d=1e100.net; s=20251104; t=1788901507; x=1789506307;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+JM2TitCUkHWsoHev5+SihBzZ6SFDmIJWRE6hX8zY3w=;
-        b=Zd1U6LRf21cYI36mBCc9V0mau6+hc2n3E78zR8aywKEy5Gld78+b4AymVXnZtDl0nh
-         KZriaQ9KqSUPNf71B3jpje5JbWkxjvwW+QuHX2C+0eO4vkowwUFZ0hT63qgQ2V1uP9bS
-         Df0zGK1xdfkvI1chjBJ4XAtNJilHNICvbJdSVRFpfZi6qavJM4ERJiloJC7Jxt9HAFbl
-         pNTK4JhqOmkNKtOYOeNlGVSK0m+mj75LSvyBSsL7yxS87vVkphmpZ73UyLhYP028nMgn
-         Lmk45ewLJJ1k23vgj2AJ2SwtSBvNoMNrCMi6twDEPkB3hi9fRKii23n5dPEcMMA4dpf8
-         9DDA==
-X-Gm-Message-State: AFuF++mRjRIgWXxmuH/dlUd7jKar+TYEqV9wD/Ytqm3EUt5vROXbgQ3+
-	z06UqJ+y3QvoNZqlzLzZ6Xubo3NwZGJ7eNNcYi4RzzrLy+pKdyG9/iPk7+zRKwFoOOrGPatz8Si
-	kEG9mY7j5+w==
-X-Gm-Gg: AYBFou1Ffjj3aHyo6NMEGZ2zoRPXpzEVcQ6WKp+Ew6ewXXKDtBfqfAufi/9rJEAyCLs
-	n+zE5xhfwkBZC3VJzaTkDB+CXn3/aTque1DMS0g1iC3QB7d0S16SoRaoozCL+lY08f5/LIFo4r5
-	tNrjr+GU5ADEGAtx1/lP+pPSUFEBdbdHUQV0hzlbjXk+m7yUKSa+B84r5Nzi9jAXsqw5vt13/TU
-	oq4U3mfr6n6gMplrDJ61EWHSHpPhqrIgTCESZe7c6jPY/BTcc3B7YTyKpxyYq7u7p7z6PD4ojDn
-	kJj7B1l4JuRWbuWRVT6SZVowceGbhG1sdNuJeLSKaYPzm0egVbTX1kfb8kppbD2P/wsSATmckdf
-	MCqHPYKGRULGx6d7eD7cTUEYs5QhsiW14G9jf+EpmvcfNaOSAalwwr71FHR+S4soDuS97Hof8xP
-	AaXald9m+wfWJjzK5cDQlJJ/oWmcOtE41D0O+XXYIZbyDq4jOrhWQIdPXWDEOxob/yCDCT6DwkJ
-	5RqnblRirOFTxuU0620Qdf48PYx7GJQhZoHe1jcLXI/0tgPsMWMDylVEJWNWh4tVnWsyyzkq+Xa
-	pkEngzxMcuX4sfyj
-X-Received: by 2002:a05:690e:80d:10b0:66d:1a61:5c6 with SMTP id 956f58d0204a3-671036edcbbmr515226d50.29.1788901503692;
-        Tue, 08 Sep 2026 14:05:03 -0700 (PDT)
+        bh=06j1qeZXVtj7Nz/ZYPnBZzCHEmkktKQWmdPGkPaUsk8=;
+        b=l7PYC/p8/dh/GAWaT6fsAJ92shQXonw9dAY17ABU8JDRnZ3Fsc+0YPdzG+8hT0qZcI
+         lWFxQuCvyRzl2PG/2DIzA19uDHBoeYylIijX5NGWmwe75KxyO55rW1wBwHf0kI/eZI1G
+         qKRYSb+FrxtblMTD/v1348+zIKNuohtpH5332CYwD2qOayz9YxoK6AyZxc7CyfAqoS/j
+         a/xj+9KizhBQiTNROx1oEzUaJvWQVzZoRT5iE2eGKpLd1pPe+3vja8UpOy0RUrOVMFc/
+         01qloM7+PEmFkMD7FgtQvTloGQ+JYMNkRkufjay23tv9YSXhnN6Z6Ch+e7RB3p+UPeUR
+         dYKg==
+X-Gm-Message-State: AFuF++nAB29p1opS/jnpoWg0kYUM057Lr7x1egN7b2+tixlG6cD6oosw
+	8pvr+C70UGCezk+71esAgUxFSkCTnfyfjQOp2yBaXcFsS13+Q1p0hZXmi9YK+kZEp+8=
+X-Gm-Gg: AYBFou1tvJWRM88IlcLGkjZ769JPx6ktEryYvjyiYYfxnI17dtwhLksflELpnoOc7bI
+	JxSkkxokEnnqATYptZXf1X2NfB95Zn1RKGGbVmCyedQ9jlu1Ptsd2vSoHQYWpTjo4oITSCsYy9u
+	XvG1lLINjB1F72pn96fA/CPHeItsrT7dHwDgHkKgPYmFlDlgjU+WKP7VgC+aoC92vo9viwZwuXM
+	bAl3xEI9DcTEE/079jOs/ptBLBc4wfOcAk3YhcnAAewK6ut9Bc+pl5X434NEMofVILTzFEXbOMM
+	+9JRrLSSTyiUJsivBWQ8BDWUqEAcWoBoT02DyeRTyZCqnr8vJ0UfOQSBeRYV/wpZgrLgfeRYVAD
+	2FzXuosuE3k3gmTf1jJyyS85Y8uQRJsi2sWhWKxhsMKmSg6kTvTlz2g50YS011XyaNuIUKgPkNP
+	ZMUUt0S0mxCLSCson1L8JoBk1ku4S1sDciy6g5h4C5u+xOLw5WTZ5JuOEjdxDzVsvYhm4qIVK+c
+	JRbsAmIUrv+EsFd2zYdSemngip4zRH2MFEjatc65XQ4A6WmYkHTuhW4OJOE9q9zr18iupK26dpt
+	/fB3dHFifPRfOfQy
+X-Received: by 2002:a05:690e:13cf:b0:66f:8731:8d1 with SMTP id 956f58d0204a3-66fb5a646bcmr9702655d50.39.1788901507316;
+        Tue, 08 Sep 2026 14:05:07 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:1eca:212:86d0:4e87])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb495eccesm11078129d50.18.2026.09.08.14.05.02
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb495eccesm11078129d50.18.2026.09.08.14.05.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 14:05:03 -0700 (PDT)
+        Tue, 08 Sep 2026 14:05:06 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: glaubitz@physik.fu-berlin.de,
 	frank.li@vivo.com,
@@ -71,9 +70,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	brauner@kernel.org,
 	djwong@kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v3 3/7] hfsplus: take the bitmap page lock for allocate/free
-Date: Tue,  8 Sep 2026 14:04:44 -0700
-Message-ID: <20260908210448.296772-4-slava@dubeyko.com>
+Subject: [PATCH v3 5/7] hfsplus: move file related operations to file.c
+Date: Tue,  8 Sep 2026 14:04:46 -0700
+Message-ID: <20260908210448.296772-6-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260908210448.296772-1-slava@dubeyko.com>
 References: <20260908210448.296772-1-slava@dubeyko.com>
@@ -85,13 +84,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The hfsplus_block_allocate() and hfsplus_block_free() kmap
-the allocation bitmap's pages and modify their bits in place
-under sbi->alloc_mutex, but without holding the page lock.
-That leaves the read-modify-write of the bitmap bits
-unprotected against a concurrent writeback of the same page,
-which can read a partially-updated bitmap word or race with
-the dirty-bit update.
+This patch introduces fs/hfsplus/file.c and moves
+file related operations from fs/hfsplus/inode.c
+into the new file.
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 cc: Christoph Hellwig <hch@lst.de>
@@ -99,119 +94,341 @@ cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 cc: Yangtao Li <frank.li@vivo.com>
 cc: linux-fsdevel@vger.kernel.org
 ---
-v2
-Christoph Hellwig has detected that taking the page lock around
-the kmap/modify/kunmap section is not enough on its own:
-writeback drops the page lock before the write actually completes,
-so a mutator that only waits on the lock can still start rewriting
-a page whose old contents are still in flight to the device.
-Mark the allocation file's mapping with mapping_set_stable_writes()
-and call folio_wait_stable() right after taking the page lock in
-both functions, so a mutator also waits out any writeback that was
-already in progress when it acquired the lock.
+ fs/hfsplus/Makefile     |   6 +-
+ fs/hfsplus/file.c       | 133 ++++++++++++++++++++++++++++++++++++++++
+ fs/hfsplus/hfsplus_fs.h |   7 ++-
+ fs/hfsplus/inode.c      | 122 ------------------------------------
+ 4 files changed, 141 insertions(+), 127 deletions(-)
+ create mode 100644 fs/hfsplus/file.c
 
-v3
-Matthew Wilcox recommended to use folio_wait_writeback()
-instead of folio_wait_stable().
----
- fs/hfsplus/bitmap.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/fs/hfsplus/bitmap.c b/fs/hfsplus/bitmap.c
-index 1b3af8c87cad..30178ea47362 100644
---- a/fs/hfsplus/bitmap.c
-+++ b/fs/hfsplus/bitmap.c
-@@ -39,6 +39,8 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
- 		start = size;
- 		goto out;
- 	}
-+	lock_page(page);
-+	folio_wait_writeback(page_folio(page));
- 	pptr = kmap_local_page(page);
- 	curr = pptr + (offset & (PAGE_CACHE_BITS - 1)) / 32;
- 	i = offset % 32;
-@@ -75,6 +77,7 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
- 			curr++;
- 		}
- 		kunmap_local(pptr);
-+		unlock_page(page);
- 		offset += PAGE_CACHE_BITS;
- 		if (offset >= size)
- 			break;
-@@ -84,6 +87,8 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
- 			start = size;
- 			goto out;
- 		}
-+		lock_page(page);
-+		folio_wait_writeback(page_folio(page));
- 		curr = pptr = kmap_local_page(page);
- 		if ((size ^ offset) / PAGE_CACHE_BITS)
- 			end = pptr + PAGE_CACHE_BITS / 32;
-@@ -98,6 +103,9 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
- 	start = offset + (curr - pptr) * 32 + i;
- 	if (start >= size) {
- 		hfs_dbg("bitmap full\n");
-+		kunmap_local(pptr);
-+		unlock_page(page);
-+		start = size;
- 		goto out;
- 	}
- 	/* do any partial u32 at the start */
-@@ -128,6 +136,7 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
- 		}
- 		set_page_dirty(page);
- 		kunmap_local(pptr);
-+		unlock_page(page);
- 		offset += PAGE_CACHE_BITS;
- 		page = read_mapping_page(mapping, offset / PAGE_CACHE_BITS,
- 					 NULL);
-@@ -135,6 +144,8 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
- 			start = size;
- 			goto out;
- 		}
-+		lock_page(page);
-+		folio_wait_writeback(page_folio(page));
- 		pptr = kmap_local_page(page);
- 		curr = pptr;
- 		end = pptr + PAGE_CACHE_BITS / 32;
-@@ -152,6 +163,7 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
- 	*curr = cpu_to_be32(n);
- 	set_page_dirty(page);
- 	kunmap_local(pptr);
-+	unlock_page(page);
- 	*max = offset + (curr - pptr) * 32 + i - start;
- 	sbi->free_blocks -= *max;
- 	hfsplus_mark_mdb_dirty(sb);
-@@ -185,6 +197,8 @@ int hfsplus_block_free(struct super_block *sb, u32 offset, u32 count)
- 	page = read_mapping_page(mapping, pnr, NULL);
- 	if (IS_ERR(page))
- 		goto kaboom;
-+	lock_page(page);
-+	folio_wait_writeback(page_folio(page));
- 	pptr = kmap_local_page(page);
- 	curr = pptr + (offset & (PAGE_CACHE_BITS - 1)) / 32;
- 	end = pptr + PAGE_CACHE_BITS / 32;
-@@ -216,9 +230,12 @@ int hfsplus_block_free(struct super_block *sb, u32 offset, u32 count)
- 			break;
- 		set_page_dirty(page);
- 		kunmap_local(pptr);
-+		unlock_page(page);
- 		page = read_mapping_page(mapping, ++pnr, NULL);
- 		if (IS_ERR(page))
- 			goto kaboom;
-+		lock_page(page);
-+		folio_wait_writeback(page_folio(page));
- 		pptr = kmap_local_page(page);
- 		curr = pptr;
- 		end = pptr + PAGE_CACHE_BITS / 32;
-@@ -232,6 +249,7 @@ int hfsplus_block_free(struct super_block *sb, u32 offset, u32 count)
- out:
- 	set_page_dirty(page);
- 	kunmap_local(pptr);
-+	unlock_page(page);
- 	sbi->free_blocks += len;
- 	hfsplus_mark_mdb_dirty(sb);
- 	mutex_unlock(&sbi->alloc_mutex);
+diff --git a/fs/hfsplus/Makefile b/fs/hfsplus/Makefile
+index 2416dfdc3190..3ddea69a9c69 100644
+--- a/fs/hfsplus/Makefile
++++ b/fs/hfsplus/Makefile
+@@ -5,9 +5,9 @@
+ 
+ obj-$(CONFIG_HFSPLUS_FS) += hfsplus.o
+ 
+-hfsplus-objs := super.o options.o inode.o iomap.o ioctl.o extents.o catalog.o \
+-		dir.o btree.o bnode.o brec.o bfind.o tables.o unicode.o \
+-		wrapper.o bitmap.o part_tbl.o \
++hfsplus-objs := super.o options.o inode.o file.o iomap.o ioctl.o extents.o \
++		catalog.o dir.o btree.o bnode.o brec.o bfind.o tables.o \
++		unicode.o wrapper.o bitmap.o part_tbl.o \
+ 		attributes.o xattr.o xattr_user.o xattr_security.o xattr_trusted.o
+ 
+ # KUnit tests
+diff --git a/fs/hfsplus/file.c b/fs/hfsplus/file.c
+new file mode 100644
+index 000000000000..509046aad0c6
+--- /dev/null
++++ b/fs/hfsplus/file.c
+@@ -0,0 +1,133 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * File operations: open/release/fsync and iomap-based read/write/seek
++ */
++
++#include <linux/fs.h>
++#include <linux/uio.h>
++#include <linux/mount.h>
++
++#include "hfsplus_fs.h"
++#include "hfsplus_raw.h"
++
++static int hfsplus_file_open(struct inode *inode, struct file *file)
++{
++	if (HFSPLUS_IS_RSRC(inode))
++		inode = HFSPLUS_I(inode)->rsrc_inode;
++	if (!(file->f_flags & O_LARGEFILE) && i_size_read(inode) > MAX_NON_LFS)
++		return -EOVERFLOW;
++	atomic_inc(&HFSPLUS_I(inode)->opencnt);
++	return 0;
++}
++
++static int hfsplus_file_release(struct inode *inode, struct file *file)
++{
++	struct super_block *sb = inode->i_sb;
++
++	if (HFSPLUS_IS_RSRC(inode))
++		inode = HFSPLUS_I(inode)->rsrc_inode;
++	if (atomic_dec_and_test(&HFSPLUS_I(inode)->opencnt)) {
++		inode_lock(inode);
++		hfsplus_file_truncate(inode);
++		if (inode->i_flags & S_DEAD) {
++			hfsplus_delete_cat(inode->i_ino,
++					   HFSPLUS_SB(sb)->hidden_dir, NULL);
++			hfsplus_delete_inode(inode);
++		}
++		inode_unlock(inode);
++	}
++	return 0;
++}
++
++int hfsplus_file_fsync(struct file *file, loff_t start, loff_t end,
++		       int datasync)
++{
++	struct inode *inode = file->f_mapping->host;
++	struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
++	struct super_block *sb = inode->i_sb;
++	struct hfsplus_sb_info *sbi = HFSPLUS_SB(inode->i_sb);
++	struct hfsplus_vh *vhdr = sbi->s_vhdr;
++	int error = 0, error2;
++
++	hfs_dbg("inode->i_ino %llu, start %llu, end %llu\n",
++		inode->i_ino, start, end);
++
++	error = file_write_and_wait_range(file, start, end);
++	if (error)
++		return error;
++	inode_lock(inode);
++
++	/*
++	 * Sync inode metadata into the catalog and extent trees.
++	 */
++	sync_inode_metadata(inode, 1);
++
++	/*
++	 * And explicitly write out the btrees.
++	 */
++	if (test_and_clear_bit(HFSPLUS_I_CAT_DIRTY,
++				&HFSPLUS_I(HFSPLUS_CAT_TREE_I(sb))->flags)) {
++		clear_bit(HFSPLUS_I_CAT_DIRTY, &hip->flags);
++		error = filemap_write_and_wait(sbi->cat_tree->inode->i_mapping);
++	}
++
++	if (test_and_clear_bit(HFSPLUS_I_EXT_DIRTY,
++				&HFSPLUS_I(HFSPLUS_EXT_TREE_I(sb))->flags)) {
++		clear_bit(HFSPLUS_I_EXT_DIRTY, &hip->flags);
++		error2 =
++			filemap_write_and_wait(sbi->ext_tree->inode->i_mapping);
++		if (!error)
++			error = error2;
++	}
++
++	if (sbi->attr_tree) {
++		if (test_and_clear_bit(HFSPLUS_I_ATTR_DIRTY,
++				&HFSPLUS_I(HFSPLUS_ATTR_TREE_I(sb))->flags)) {
++			clear_bit(HFSPLUS_I_ATTR_DIRTY, &hip->flags);
++			error2 =
++				filemap_write_and_wait(
++					    sbi->attr_tree->inode->i_mapping);
++			if (!error)
++				error = error2;
++		}
++	} else {
++		if (test_and_clear_bit(HFSPLUS_I_ATTR_DIRTY, &hip->flags))
++			pr_err("sync non-existent attributes tree\n");
++	}
++
++	if (test_and_clear_bit(HFSPLUS_I_ALLOC_DIRTY,
++				&HFSPLUS_I(sbi->alloc_file)->flags)) {
++		clear_bit(HFSPLUS_I_ALLOC_DIRTY, &hip->flags);
++		error2 = filemap_write_and_wait(sbi->alloc_file->i_mapping);
++		if (!error)
++			error = error2;
++	}
++
++	mutex_lock(&sbi->vh_mutex);
++	hfsplus_prepare_volume_header_for_commit(vhdr);
++	mutex_unlock(&sbi->vh_mutex);
++
++	error2 = hfsplus_commit_superblock(inode->i_sb);
++	if (!error)
++		error = error2;
++
++	if (!test_bit(HFSPLUS_SB_NOBARRIER, &sbi->flags))
++		blkdev_issue_flush(inode->i_sb->s_bdev);
++
++	inode_unlock(inode);
++
++	return error;
++}
++
++const struct file_operations hfsplus_file_operations = {
++	.llseek		= generic_file_llseek,
++	.read_iter	= generic_file_read_iter,
++	.write_iter	= generic_file_write_iter,
++	.mmap_prepare	= generic_file_mmap_prepare,
++	.splice_read	= filemap_splice_read,
++	.splice_write	= iter_file_splice_write,
++	.fsync		= hfsplus_file_fsync,
++	.open		= hfsplus_file_open,
++	.release	= hfsplus_file_release,
++	.unlocked_ioctl = hfsplus_ioctl,
++};
+diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+index 0a0df0388e7b..190c7de704fd 100644
+--- a/fs/hfsplus/hfsplus_fs.h
++++ b/fs/hfsplus/hfsplus_fs.h
+@@ -446,6 +446,11 @@ int hfsplus_rename_cat(u32 cnid, struct inode *src_dir, const struct qstr *src_n
+ extern const struct inode_operations hfsplus_dir_inode_operations;
+ extern const struct file_operations hfsplus_dir_operations;
+ 
++/* file.c */
++extern const struct file_operations hfsplus_file_operations;
++int hfsplus_file_fsync(struct file *file, loff_t start, loff_t end,
++		       int datasync);
++
+ /* extents.c */
+ int hfsplus_ext_cmp_key(const hfsplus_btree_key *k1,
+ 			const hfsplus_btree_key *k2);
+@@ -480,8 +485,6 @@ int hfsplus_cat_write_inode(struct inode *inode);
+ int hfsplus_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 		    struct kstat *stat, u32 request_mask,
+ 		    unsigned int query_flags);
+-int hfsplus_file_fsync(struct file *file, loff_t start, loff_t end,
+-		       int datasync);
+ int hfsplus_fileattr_get(struct dentry *dentry, struct file_kattr *fa);
+ int hfsplus_fileattr_set(struct mnt_idmap *idmap,
+ 			 struct dentry *dentry, struct file_kattr *fa);
+diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
+index 2ce6de574fa6..9d25e6224ee5 100644
+--- a/fs/hfsplus/inode.c
++++ b/fs/hfsplus/inode.c
+@@ -276,35 +276,6 @@ static int hfsplus_get_perms(struct inode *inode,
+ 	return -EIO;
+ }
+ 
+-static int hfsplus_file_open(struct inode *inode, struct file *file)
+-{
+-	if (HFSPLUS_IS_RSRC(inode))
+-		inode = HFSPLUS_I(inode)->rsrc_inode;
+-	if (!(file->f_flags & O_LARGEFILE) && i_size_read(inode) > MAX_NON_LFS)
+-		return -EOVERFLOW;
+-	atomic_inc(&HFSPLUS_I(inode)->opencnt);
+-	return 0;
+-}
+-
+-static int hfsplus_file_release(struct inode *inode, struct file *file)
+-{
+-	struct super_block *sb = inode->i_sb;
+-
+-	if (HFSPLUS_IS_RSRC(inode))
+-		inode = HFSPLUS_I(inode)->rsrc_inode;
+-	if (atomic_dec_and_test(&HFSPLUS_I(inode)->opencnt)) {
+-		inode_lock(inode);
+-		hfsplus_file_truncate(inode);
+-		if (inode->i_flags & S_DEAD) {
+-			hfsplus_delete_cat(inode->i_ino,
+-					   HFSPLUS_SB(sb)->hidden_dir, NULL);
+-			hfsplus_delete_inode(inode);
+-		}
+-		inode_unlock(inode);
+-	}
+-	return 0;
+-}
+-
+ static int hfsplus_setattr(struct mnt_idmap *idmap,
+ 			   struct dentry *dentry, struct iattr *attr)
+ {
+@@ -361,86 +332,6 @@ int hfsplus_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 	return 0;
+ }
+ 
+-int hfsplus_file_fsync(struct file *file, loff_t start, loff_t end,
+-		       int datasync)
+-{
+-	struct inode *inode = file->f_mapping->host;
+-	struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
+-	struct super_block *sb = inode->i_sb;
+-	struct hfsplus_sb_info *sbi = HFSPLUS_SB(inode->i_sb);
+-	struct hfsplus_vh *vhdr = sbi->s_vhdr;
+-	int error = 0, error2;
+-
+-	hfs_dbg("inode->i_ino %llu, start %llu, end %llu\n",
+-		inode->i_ino, start, end);
+-
+-	error = file_write_and_wait_range(file, start, end);
+-	if (error)
+-		return error;
+-	inode_lock(inode);
+-
+-	/*
+-	 * Sync inode metadata into the catalog and extent trees.
+-	 */
+-	sync_inode_metadata(inode, 1);
+-
+-	/*
+-	 * And explicitly write out the btrees.
+-	 */
+-	if (test_and_clear_bit(HFSPLUS_I_CAT_DIRTY,
+-				&HFSPLUS_I(HFSPLUS_CAT_TREE_I(sb))->flags)) {
+-		clear_bit(HFSPLUS_I_CAT_DIRTY, &hip->flags);
+-		error = filemap_write_and_wait(sbi->cat_tree->inode->i_mapping);
+-	}
+-
+-	if (test_and_clear_bit(HFSPLUS_I_EXT_DIRTY,
+-				&HFSPLUS_I(HFSPLUS_EXT_TREE_I(sb))->flags)) {
+-		clear_bit(HFSPLUS_I_EXT_DIRTY, &hip->flags);
+-		error2 =
+-			filemap_write_and_wait(sbi->ext_tree->inode->i_mapping);
+-		if (!error)
+-			error = error2;
+-	}
+-
+-	if (sbi->attr_tree) {
+-		if (test_and_clear_bit(HFSPLUS_I_ATTR_DIRTY,
+-				&HFSPLUS_I(HFSPLUS_ATTR_TREE_I(sb))->flags)) {
+-			clear_bit(HFSPLUS_I_ATTR_DIRTY, &hip->flags);
+-			error2 =
+-				filemap_write_and_wait(
+-					    sbi->attr_tree->inode->i_mapping);
+-			if (!error)
+-				error = error2;
+-		}
+-	} else {
+-		if (test_and_clear_bit(HFSPLUS_I_ATTR_DIRTY, &hip->flags))
+-			pr_err("sync non-existent attributes tree\n");
+-	}
+-
+-	if (test_and_clear_bit(HFSPLUS_I_ALLOC_DIRTY,
+-				&HFSPLUS_I(sbi->alloc_file)->flags)) {
+-		clear_bit(HFSPLUS_I_ALLOC_DIRTY, &hip->flags);
+-		error2 = filemap_write_and_wait(sbi->alloc_file->i_mapping);
+-		if (!error)
+-			error = error2;
+-	}
+-
+-	mutex_lock(&sbi->vh_mutex);
+-	hfsplus_prepare_volume_header_for_commit(vhdr);
+-	mutex_unlock(&sbi->vh_mutex);
+-
+-	error2 = hfsplus_commit_superblock(inode->i_sb);
+-	if (!error)
+-		error = error2;
+-
+-	if (!test_bit(HFSPLUS_SB_NOBARRIER, &sbi->flags))
+-		blkdev_issue_flush(inode->i_sb->s_bdev);
+-
+-	inode_unlock(inode);
+-
+-	return error;
+-}
+-
+ static const struct inode_operations hfsplus_file_inode_operations = {
+ 	.setattr	= hfsplus_setattr,
+ 	.getattr	= hfsplus_getattr,
+@@ -462,19 +353,6 @@ static const struct inode_operations hfsplus_special_inode_operations = {
+ 	.listxattr	= hfsplus_listxattr,
+ };
+ 
+-static const struct file_operations hfsplus_file_operations = {
+-	.llseek		= generic_file_llseek,
+-	.read_iter	= generic_file_read_iter,
+-	.write_iter	= generic_file_write_iter,
+-	.mmap_prepare	= generic_file_mmap_prepare,
+-	.splice_read	= filemap_splice_read,
+-	.splice_write	= iter_file_splice_write,
+-	.fsync		= hfsplus_file_fsync,
+-	.open		= hfsplus_file_open,
+-	.release	= hfsplus_file_release,
+-	.unlocked_ioctl = hfsplus_ioctl,
+-};
+-
+ struct inode *hfsplus_new_inode(struct super_block *sb, struct inode *dir,
+ 				umode_t mode)
+ {
 -- 
 2.43.0
 
