@@ -1,195 +1,99 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0757147A867;
-	Tue,  8 Sep 2026 08:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D10E3F5BD6;
+	Tue,  8 Sep 2026 08:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788856876; cv=none; b=gXgG5OGnTvms66Ii6eoOiZk0hTqdJuuMh2oH+UA6QqCud1TgZa09ZYNzT11sU9t659HOWBQ4jTLaBraFFzRyDCBsOVsrVHq8ZJY+b8EENPzVEacQwm1SI9EmRUIUhgakHiIFaONYc2uhe/KnovlHfHBi5BN5S3K8csQyi9/CZEo=
+	t=1788857199; cv=none; b=sr92hcfOB2rRdk05sYHaP6NytDzzqwLWAHHvJp9ngJ56LcaCuF/LSiEbZ0sh7Lv6+ynTto7EjSQKIm3HLqypBOuCV1+kmfOEMsImBl3B9hMFzH4Pi1ROu8W0gQlsBmK3upbdbqptFjYsHFgntqW0j1Yarprii4MzbQBhbbyvICU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788856876; c=relaxed/simple;
-	bh=C4ZpWujrP3lY3tYZUmesciEdDg6gzrkYfF8gpZ7Tv7A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NNw2xelXPhOY1iwK9m7lyqsKQyCJuvSZA2x6jJpnkwYsEEgxSI48VZLu6S14MT8QH7U/cQAatN1VKEAToM5Oerh4jGF4u3WjILJ4wREszsxqY19OugBr/QHWVupd/xCeU/rfCgY7hldtR1C566vjT9rlcKBdkbLB9n/diUJbZ5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=CIEUUamV; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1788857199; c=relaxed/simple;
+	bh=g6pzjrfdtvDH5v6W1HOkv6l/ndJmKaxF6TDrQNpBWHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=otgnj7s/dPgRcyT+StiSYBk3DQatioKWKiCyPOHlRyZmzJzkgNgkWTEGfyLJoinr1beS8HTySMepLEA1ldn9c0EaeuLDTb/dcAe7F3sMRt3sCWrS031zWgEc4EvC69LaPGzkWRj8tH1OLA/f+zZWIO+crj7Sko+O8shtEP413Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFVEN8Jg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="CIEUUamV"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id B27FD1A9;
-	Tue,  8 Sep 2026 08:42:03 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=CIEUUamV;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 5256621B2;
-	Tue,  8 Sep 2026 08:41:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1788856866;
-	bh=4GdPyjWrZkTFVn0/S95iWhZM6CbPF4y1CFYjl9hyLBg=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=CIEUUamVeS7RfAIh0VLHKDW180fdGbQ5evBmBDTZNfKhyoyBaJrB1qbniS0r4rC9m
-	 v5I9yIYLsn480pYjbId0SKt0AkLilPbrmkTVFOStAq+8mTo1Jau4lKSdm4+YSdDx5D
-	 Dh8RdsBwrH7ZQVPo5qKzQpDt5FuGGsgaGp9bCQYU=
-Received: from [192.168.95.128] (172.30.20.187) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 8 Sep 2026 11:41:04 +0300
-Message-ID: <74bcba1c-6bf4-43b0-bbb5-ef2f0490e3f7@paragon-software.com>
-Date: Tue, 8 Sep 2026 10:41:01 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFVEN8Jg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 865B01F00A3A;
+	Tue,  8 Sep 2026 08:46:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788857197;
+	bh=pi6DH3h9BVaC49RRQjlI0O6aYCIlCAFAZNGWG1WvFkY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PFVEN8JgyzdpOjdG910dp2qyUJAFTPtXr0iNqWNr5MagH+H0QrDfVOBmEq6qipxbZ
+	 ++krRlOTWT+r0W+aWIpso/p7i548JDpWtUPeoJ33EH1oE/mskhWZ/+AqLSPidspNYi
+	 Dkv//LMEhgIc1fNBR0aGJJlJPMvUIAZR5n69gc2lMfZBqn8PFIqfVk0MjJvjjM2kwP
+	 tHcZLmXVCGfVFqK07+qnTf1iKO93NehQ/JPShF2pvFi+2TDN4voi2YR/aZhtQVRz6F
+	 FRfIzr2sG6JwXZHfdvK6GP+pqy0lc6TPJtcNCiQI143SWohY2E+jlZWsZWNmiOZXvr
+	 l1DDLcjvqttJA==
+Date: Tue, 8 Sep 2026 09:46:30 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 3/6] mm/vma: only permit MAP_PRIVATE /dev/zero to be
+ mapped anonymous
+Message-ID: <ap_LD6lE6JTYouGr@gremlin>
+References: <20260902-map-private-dev-zero-v1-0-a578c730cec7@kernel.org>
+ <20260902-map-private-dev-zero-v1-3-a578c730cec7@kernel.org>
+ <d6dc52e3-b27d-4663-848c-a2f270fb4c5d@kernel.org>
+ <ap71GOPAeKHfHp5J@gremlin>
+ <8f797f01-e958-404e-bcdf-283da960e95c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] fs/ntfs3: fix slab-out-of-bounds write in
- ni_create_attr_list()
-To: =?UTF-8?B?SEUgV0VJ77yI44Ku44Kr44Kv77yJ?= <skyexpoc@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, Christian
- Brauner <brauner@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>
-References: <20260625031932.9412-1-skyexpoc@gmail.com>
- <CAOC0qyLj55itFPEurfNddWpzzcPJ4j3bvDxfWBRev_GzPLL+mw@mail.gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <CAOC0qyLj55itFPEurfNddWpzzcPJ4j3bvDxfWBRev_GzPLL+mw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8f797f01-e958-404e-bcdf-283da960e95c@kernel.org>
 
-On 7/6/26 06:40, HE WEI（ギカク） wrote:
-
-> Hi Konstantin,
+On Mon, Sep 07, 2026 at 09:54:04PM +0200, David Hildenbrand (Arm) wrote:
+> Yes, but my point is that the comment
 >
-> Gentle ping on this v2. It's an attacker-controlled on-disk image heap
-> out-of-bounds write in ni_create_attr_list(),
-> reachable via setxattr on a crafted, loop-mounted NTFS image (KASAN
-> trace is in the commit message), which is why it's Cc'd to stable.
+> "cannot mark themselves anonymous"
 >
-> For the record, the fix was first posted as v1 on 2026-06-10:
-> https://lore.kernel.org/ntfs3/20260610002929.51765-1-skyexpoc@gmail.com/
-> This v2 (2026-06-25) only adds Cc: stable and widens review to
-> linux-fsdevel; the fix itself is unchanged from v1.
+> will not really be correct after the next patch, no?
+
+Ah ok ack I get your point. I will update this comment in the next patch.
+
+> >>>  		set_vma_user_defined_fields(vma, &map);
+> >>
+> >> Ah, we have mmap_zero_prepare() for handling the shmem_zero_setup_desc(). I was
+> >> just about to ask whether we can just get rid of this here.
+> >>
+> >>
+> >> But, hold on, do we now even need that? Could core-mm now take care of that as
+> >> well, and we could just remove mmap_zero_prepare() entirely?
+> >>
+> >> That is, we'd make shmem_zero_setup() in __mmap_new_vma() take care of this?
+> >> Then we might not even need shmem_zero_setup_desc() anymore.
+> >>
+> >> Maybe harder than it sounds at first.
+> >
+> > I think I'd rather that be a follow up :) this series is about eliminiating the
+> > one last (I hope?) corner case for anon VMAs.
+> Right; having to deal with anonymous mappings that have mmap_prepare is rather
+> suboptimal. Ideally we'd just handle the odd dev-zero special-casing early in
+> the mmap path also for MAP_SHARED, and avoid messing with mmap_prepare entirely.
 >
-> Could you let me know if you'd like any changes, or whether it can be
-> queued for a future bugfix pull? I'm happy to rebase or adjust as
-> needed.
+> So agreed that this can be done separately.
+
+Yeah, really life will be easier once the mmap path is gone in general :)
+
 >
-> Thanks,
-> HE WEI (ギカク)
+> --
+> Cheers,
 >
-> hewei-gikaku <skyexpoc@gmail.com> 于2026年6月25日周四 12:19写道：
->> From: HE WEI (ギカク) <skyexpoc@gmail.com>
->>
->> ni_create_attr_list() allocates a fixed buffer of al_aligned(record_size)
->> (== record_size) bytes and then walks every attribute of the primary MFT
->> record, writing one ATTR_LIST_ENTRY per attribute and advancing the cursor
->> by le_size(name_len), with no check against the end of the buffer; the
->> total size is only computed after the loop.
->>
->> A minimum-size resident attribute occupies SIZEOF_RESIDENT (0x18 = 24)
->> bytes on disk, but an unnamed attribute expands to le_size(0) (0x20 = 32)
->> bytes in the list.  Because the number of attributes in a record is not
->> bounded (mi_enum_attr() accepts arbitrarily many equal-type, nameless
->> minimum-size attributes), a crafted record packed with such attributes
->> produces a list larger than record_size and overflows the heap buffer.
->>
->> This is reachable from a crafted, loop-mounted NTFS image: opening the file
->> and adding an attribute (e.g. via setxattr) drives ntfs_set_ea() ->
->> ni_insert_resident() -> ni_insert_attr() -> ni_ins_attr_ext() ->
->> ni_create_attr_list().
->>
->>    BUG: KASAN: slab-out-of-bounds in ni_create_attr_list+0xc48/0x1058
->>    Write of size 4 at addr ffff000008984c00 by task setfattr/345
->>     ni_create_attr_list+0xc48/0x1058
->>     ni_ins_attr_ext+0x510/0x7c0
->>     ni_insert_attr+0x3f8/0x70c
->>     ni_insert_resident+0xc8/0x3b0
->>     ntfs_set_ea+0x66c/0xd28
->>     ntfs_setxattr+0x4d8/0x5b0
->>     __arm64_sys_setxattr+0xa4/0x124
->>    Allocated by task 345:
->>     ni_create_attr_list+0x188/0x1058
->>    The buggy address belongs to the cache kmalloc-1k of size 1024
->>    (the write lands at object+1024).
->>
->> Size the buffer from the actual attributes instead of assuming a single
->> record_size is always enough.
->>
->> Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: HE WEI (ギカク) <skyexpoc@gmail.com>
->> ---
->> v2:
->>   - Add Cc: stable@vger.kernel.org: this is an attacker-controlled on-disk
->>     image heap out-of-bounds write and should be backported.
->>   - No functional change from v1; widening Cc (linux-fsdevel, VFS) for
->>     review, as the v1 posting received no response.
->>   - Drop a redundant self Reported-by.
->>
->> v1: https://lore.kernel.org/all/20260610002929.51765-1-skyexpoc@gmail.com/
->> ---
->>   fs/ntfs3/frecord.c | 20 ++++++++++++++++----
->>   1 file changed, 16 insertions(+), 4 deletions(-)
->>
->> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
->> index 2e901d073fe9..6488d7a415c0 100644
->> --- a/fs/ntfs3/frecord.c
->> +++ b/fs/ntfs3/frecord.c
->> @@ -768,10 +768,23 @@ int ni_create_attr_list(struct ntfs_inode *ni)
->>          rs = sbi->record_size;
->>
->>          /*
->> -        * Skip estimating exact memory requirement.
->> -        * Looks like one record_size is always enough.
->> +        * Compute the exact size of the attribute list.  Each attribute in the
->> +        * record yields one ATTR_LIST_ENTRY of le_size(name_len) bytes.  The
->> +        * minimum on-disk attribute is SIZEOF_RESIDENT (0x18) bytes, but an
->> +        * unnamed one expands to le_size(0) (0x20) here, so a record crafted
->> +        * with many such attributes needs more than a single record_size; the
->> +        * previous fixed kzalloc(record_size) could therefore be overflowed by
->> +        * an attacker-controlled record.
->>           */
->> -       le = kzalloc(al_aligned(rs), GFP_NOFS);
->> +       lsize = 0;
->> +       attr = NULL;
->> +       while ((attr = mi_enum_attr(ni, &ni->mi, attr)))
->> +               lsize += le_size(attr->name_len);
->> +
->> +       if (!lsize)
->> +               return -EINVAL;
->> +
->> +       le = kzalloc(al_aligned(lsize), GFP_NOFS);
->>          if (!le)
->>                  return -ENOMEM;
->>
->> @@ -781,7 +794,6 @@ int ni_create_attr_list(struct ntfs_inode *ni)
->>          attr = NULL;
->>          nb = 0;
->>          free_b = 0;
->> -       attr = NULL;
->>
->>          for (; (attr = mi_enum_attr(ni, &ni->mi, attr)); le = Add2Ptr(le, sz)) {
->>                  sz = le_size(attr->name_len);
->> --
->> 2.43.0
+> David
 
-Hello,
-
-Sorry for the confusion. The fix is already upstream: v1 was applied as
-commit 7c4841e2a627 ("fs/ntfs3: fix slab-out-of-bounds write in
-ni_create_attr_list()"), in v7.3-rc1. v2 is functionally identical, so
-there is nothing further for me to apply.
-
-The applied commit does not carry Cc: stable, though, so it has not
-been backported.
-
-Thanks for the fix, and for following up on it.
-
-Regards,
-Konstantin
-
+--
+Cheers, Lorenzo
