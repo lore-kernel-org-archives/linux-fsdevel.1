@@ -1,126 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D701A6835;
-	Tue,  8 Sep 2026 16:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528C8353A7B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 16:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788885061; cv=none; b=X/T7hGK6xyP8zbDfX0lkeDHg5G1lPXEexjr42sQGySRg82Ux0+fO3+5FNNkmm+bRUO174BqqmirnZeqtte/r/5amLCe0Fr6WemIVtPu8ISMlfuQwJ/n1k+jBQgM6ZWsAXpx71CvWiB0jv5kwgNYVvnbPCl4qB+cR1j831glh1lk=
+	t=1788885386; cv=none; b=s7djN3wW+LUa6YcxvhIZJnGIOOIY+GNghcPygWNUUhB4nC8l6mr6V2WUC+itH55WEGlob0vbVKiZ7aGdGGON5MVOFae9ZeCkydLPCy4X6xNNLePDWpZmNvzGP1zlw4pIPbBoAHMn5drjtyf8aYtO1rxYc09fVKwu7vY2dg5U93E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788885061; c=relaxed/simple;
-	bh=5Ec4aSY7o3k0sKM9wWHt9rsFs5lO16AT9ABnU8TGsao=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nYEF/kspaEt5XuQQHZ/1lNL67sHz2BbEiueTUX8dGhLnNTsIlCqVBNuqz/38ghV9yduUuBQbknmLHQlXTFWyd2oYMokqqqwM25ivL31xTKEYjHaUTK5ohJGj+F9cJsW006NKE7WNfJKVtqWaHjKuXZgszK4xG3wHn9gHvZs03t4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJhwsDAz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788885386; c=relaxed/simple;
+	bh=lecO3ttVgRT8QyyaiDOzI3/QgRH4/dihpQ/rnO1jfaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BO55Ubn7d2DS/mR37/hSDUBSElHDgxgBWOc69Z42p4Zf4y258JShkmhHfJJGn7RyoGZFTyRz/5C+cdYsgrT7kj/7ZcitpXZh+zGwfu1G75gxn+EAhqVaWDb0gxK7oX2AKwCCK4lAJ+RZLG0+fuHPQYDONpH4BPloGBUJtCqlZrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=er2Ntb9a; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJhwsDAz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 687791F00A3A;
-	Tue,  8 Sep 2026 16:30:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788885060;
-	bh=PbREINwiHzdfOIDyvzXmpqXBcn2ufYLyhPRpYbuszSY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=JJhwsDAzdDYYBuw+OjApzid/DL+uKEvAJ2ThGvEQEp2/vT/ZgMLMANci4KhIZVs+q
-	 KJIDDQQEyY89H+5OdaSGpu84eRh3LwQimAoVYTdEGIr2HH6/9L/SixMgZ/eRkkp52m
-	 HbFatySDrHgffwcdSMmR1TKgUfv7D8u8QNU9vBBvQDD5ag/tdudXWiBGWJIgqhyP20
-	 DUX/YejlKToKQSDWX24HIZrv5PvbQhTnV/ykAxojd5wB18HHVIGHuG5DUbmadoVHmP
-	 tLQYD8brxV8cRvpS+E2sUT9aaSJuO4XG6dBrT5eWlTQggVrvOdfVg8KQSmvc6cdwZ6
-	 xhu0OCpOAfQuQ==
-Message-ID: <da0f5ac1-c9a6-40d4-b67d-3c35fab0f428@kernel.org>
-Date: Tue, 8 Sep 2026 18:30:50 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="er2Ntb9a"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4995b0343c1so68643145e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 09:36:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788885382; x=1789490182; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/EansYsnai8F81StzziY3cP4ZOtzfOu0U6ChvK15jxw=;
+        b=er2Ntb9ae8iLiMg72UuUEzUCtuyD9MIuaADma091ODZogrHLUXlgLgtb7BSbQ3sXvW
+         K2KoYI5KIIhH0npatxPYgbSPcUyWPogBl4Yg8+EP/35Rqg6X+IiGq8WXYLnCL7ecHvM3
+         onz8sPk176BTD6LEMTKZ1YuQofmxeyv5oZMhsjqYhsNUOGs1gyxl/Yp9vcwupLKWWeU/
+         4v1KAoYDQapvbhkiFBJlPuk/sXquAzPs40yUJkQl12PLHBbpUzeAjhbjk/D4Jru2FX4E
+         yjs7E6MH+CWVpRaSdnVnhb5vcUu8odkMPBqKq5GE9Q9mdzyacRtS2hrRJv4yeSh/HB+/
+         6UAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788885382; x=1789490182;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/EansYsnai8F81StzziY3cP4ZOtzfOu0U6ChvK15jxw=;
+        b=a1TSX5hX4R3XBxK4vRz540btMyNs3Rfvyey0RGq0JI7+eXtfNlv1GIWgCgt4plQdfM
+         WdZb6TYNup3UvzvFf/wXPs2Dplgu7HghWNRBibsUG0KsGSmO1EZC2e8PotPThrun63IL
+         sW0sDAviF3nJbWMAfpAARqGXJS6Rox/h+2WHZTy87fW4KNBOFnQwzGLuWqMwu+mmNE3K
+         1Xa2oYSljTzIpueeRfiLqMcNVwCctT+Ox85zHfWhU4je8MTG0OW70lsvz9RQgbNY2smT
+         8ErWPbr6QoOvREloUegzggEHEyTguuT2NuaT+YToc+UNEEEjYJVSNCb5D0Ghm3AzeFkH
+         O+MA==
+X-Forwarded-Encrypted: i=1; AKwUvBwmnDnob8VEPtNP2zqpPEmr0EI5a8N1YXhIbG05UmQrVcY4bsstfcBr5tI6YmO2kA+xz8DeMD+Dxvf3nbE1@vger.kernel.org
+X-Gm-Message-State: AFuF++lQb83P8X47AV86zKdteQkoOtOB52eZqk4TE0ASJnRXyyS6iNGp
+	Sq9aadk7tsIAd06gssw/26YKZFJwl0BJZkjW8xNFvbrYVFC+k4mj0nk=
+X-Gm-Gg: AYBFou25rl7iuQad7pdjldQzSKVStytnvQW9R5Z9l4wrrGnYZzEzX91rpVsIuelWjlR
+	xT5dtmyRPVDWEMxj8ASFGeB5BwpbdKQ54UfDSclIhLS6Sh1o+wP3Lfzk/wZSToqf3nosHplDk6T
+	von6B804nLzZbu3BJTSwWq3VOOjy00khaF1EH+fPjFij10fXz+SeoNif7tC9xJFam0CchJdua1g
+	cI8RPmytIwDET5OM5rwW0uwlVMEmbsE4n+np4T8bpm+/noAIRmFus9sTZDpg/aG0IIDZXiziV3D
+	KMhCW7iya7S7Vw5+yhNgrSX6dtGYpol6R61hmg4cbOyIrTecvXQsQRzfVzpzdmQnhDiaRUPSIVW
+	bdAeByafYKlieP94lDxPvauEy6RpqoMYGXB+FSKzhxZAuQaWN+HzkExubuLGpbnrqedkn8QTt9o
+	sJ1uPck5eJDRyypox9PtVEnTVULXlzVN7hlNVo8tchFz3XT0ko
+X-Received: by 2002:a05:600c:3f06:b0:49d:1cc3:fa9a with SMTP id 5b1f17b1804b1-49d1cc3fde0mr39898535e9.14.1788885381519;
+        Tue, 08 Sep 2026 09:36:21 -0700 (PDT)
+Received: from p183 ([178.172.147.205])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7703cefsm545494045e9.5.2026.09.08.09.36.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 09:36:20 -0700 (PDT)
+Date: Tue, 8 Sep 2026 19:40:27 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Paul Dolan <paul.dolan.dev@gmail.com>
+Cc: Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] selftests/proc: avoid exit() from SIGALRM handler
+Message-ID: <a07fc37b-11e3-48a4-a89c-4b59e867e961@p183>
+References: <20260904123752.157562-1-paul.dolan.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/25] mm/fbatch: temporarily disable lazyfree and
- mlock+munlock batching
-Content-Language: en-US
-To: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Ackerley Tng <ackerleytng@google.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
- Binbin Wu <binbin.wu@linux.intel.com>, Christian Brauner
- <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Christoph Lameter <cl@gentwo.org>, Claudio Imbrenda
- <imbrenda@linux.ibm.com>, David Hildenbrand <david@kernel.org>,
- JP Kobryn <jp.kobryn@linux.dev>, Jan Kara <jack@suse.cz>,
- Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
- Kairui Song <ryncsn@gmail.com>, Kiryl Shutsemau <kas@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Leonardo Bras <leobras.c@gmail.com>,
- Lorenzo Stoakes <ljs@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Mel Gorman <mgorman@techsingularity.net>, Miaohe Lin <linmiaohe@huawei.com>,
- Michal Hocko <mhocko@suse.com>, Minchan Kim <minchan@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
- Rik van Riel <riel@surriel.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Shakeel Butt <shakeel.butt@linux.dev>, Suren Baghdasaryan
- <surenb@google.com>, Yang Shi <yang@os.amperecomputing.com>,
- Yu Zhao <yuzhao@google.com>, Zach O'Keefe <zokeefe@google.com>,
- Zi Yan <ziy@nvidia.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
- <9593975e-8732-999a-73d1-37fd332eb840@google.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <9593975e-8732-999a-73d1-37fd332eb840@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260904123752.157562-1-paul.dolan.dev@gmail.com>
 
-On 8/24/26 15:58, Hugh Dickins wrote:
-> It will not matter if we occasionally get activation or deactivation
-> wrong; but a mistaken lazyfree (MADV_FREE) would likely cause dataloss.
-> So disable its batching while reworking the per-cpu fbatch handling,
-> then re-enable it with more thought afterwards.
+On Fri, Sep 04, 2026 at 01:37:52PM +0100, Paul Dolan wrote:
+> proc-tid0 uses SIGALRM to stop the test after one second, but the
+> signal handler calls exit(), which is not async-signal-safe.
 > 
-> Similarly disable mlock+munlock batching temporarily: they will need
-> some redesign before re-enabling. Just insert one disabling line for
-> now, leaving the rest of the code as it was, for consideration later.
+> Set a sig_atomic_t flag from the handler instead and let the main loop
+> terminate normally. This also preserves the existing atexit cleanup
+> that kills the worker child.
 > 
-> Signed-off-by: Hugh Dickins <hughd@google.com>
+> Fixes: 0658a0961b0a ("procfs: do not list TID 0 in /proc/<pid>/task")
+> Signed-off-by: Paul Dolan <paul.dolan.dev@gmail.com>
 
-Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Yeah, yeah.
 
+Reviewed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+
+>  static void sigalrm(int _)
+>  {
+> -	exit(0);
+> +	alarmed = 1;
+>  }
