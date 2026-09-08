@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86C023C4F3;
-	Tue,  8 Sep 2026 12:49:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E48D53FD43;
+	Tue,  8 Sep 2026 12:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788871783; cv=none; b=t055+zOUKMtamEqMhJ2A1saCbdoq0UqtG0AJ2TdxEnRjerVdmfvTd8egVMZttjlb5U8d2eB/DPQnOWiebOxTEZ0WVz31W5JlxKI65T7RWNaIIKlg0hBoQc7R2+9zEyJ4wT3H4B3rB9WXoLfotES8QhT/lp4Y8IlC1CwNM84qsjs=
+	t=1788871830; cv=none; b=QbzCclQkRtJ/ggq4mmyvGB1QWKINCNB7LEuwdfDI9Ygazj8sFMxtgnkdsGUVpkGFPPXf4MOAanOQaWozHW6GNirL+dk9/iX0sb6Ev5EW28HqU0rnpQDrOdyI8QsuygO8gKrT8frWvO0DX28ukgF9G2NbyCTjOoAeZlW+ZPpldkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788871783; c=relaxed/simple;
-	bh=P1OvG4uOnDnbS9mw/m1fHa28JIoHqdQlppOilVy+3L4=;
+	s=arc-20240116; t=1788871830; c=relaxed/simple;
+	bh=dFqVrHscW4Zpe/X+ZqC4/6qm34id5O1ilwxcwFrKT78=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R34wMlYM7lrNB0IbgTA9BIGxHz2jzskikxpObVxOIJHIE2gT7uJHqLkNP8lxs04plq0xJHhCgklTDYwJRI2nrv6RGG+E92WTWGowHZ3ib91oxwSo3GZwW+ugMgWNugbOKROl/qHkw6aa/Kcjz5aBoOwo1RBwkyiKkmNF6ru+6nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H21B48+C; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=Fi+WZzLy3DbrSS4zNZntsl2Fh0uoYB+N8P6gU56P2Zir3Evbb/Xt473SxXfURgJgLDzkH+xqLoTaqgRGI1jrt7ri1g82IBP4s0sKuc/6cWtqCdKR0Dl1sNwl5YLWwb5cusD6sGg4jS0R+IxwahtKpgomLyxRHnbCWBSVRYdUMmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMSl8cWl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H21B48+C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE8A1F00A3A;
-	Tue,  8 Sep 2026 12:49:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMSl8cWl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1E3F1F00A3A;
+	Tue,  8 Sep 2026 12:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788871781;
-	bh=N2rC79oE90b2dwI8Wn327CEOLpPVN9D2E6erew3jyVs=;
+	s=k20260515; t=1788871829;
+	bh=lKBFZhPs/eGo1uvy79sNZrgCL1vNlvYuvk0BKQC0ZEM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=H21B48+CODTED19M4/Omob27b4Id9ZDqXLmNXXJvVvZhlJ6+dBe1fEISd7C+nfkD0
-	 c7g3K1vJm5Oy5ezg5YgUGMFQUJKpzPnPVTgED6F3Ym0RVm+OmNAypwfr6bRukltTUM
-	 r1783v40mWOCxLs1YZV2HW4Mw7lR7dYq7fLSZsho32UVrp95SB8ONSGM9sQVzk1R7a
-	 QTDYn8GO5aZ2hhnPFWIkUkYn5xYhbtgFQMGDxhtEBWgpWijZBkN6KDVEw5VvA79qLD
-	 XDeCGhb23RijvvKmvCqBZ3je5AsnxF2SzPzPgvIytMHRf98jXxpokq6T9hjfXnv/RG
-	 8HoXeGAoD0x1Q==
-Message-ID: <e743b598-9048-440f-9124-72071c696679@kernel.org>
-Date: Tue, 8 Sep 2026 14:49:33 +0200
+	b=ZMSl8cWlZMT42GbWGlAWuzPvmeOJqJWUYg1qsIu94uFfoz+Te7zxeDYfXksLXAJ5V
+	 WYuV2oW/intOhz7QqS0OB5E3MqY4cinTQdtPvLsUXhXg+5If5fVdcFpL1PAq1LZWUn
+	 MNLqKWJI6OGqZlVtApYZ08dDdaTa25Un0TP+7Z1V4zuCvJfG9VivLOZtZBnc9Gz9aQ
+	 9PaeweDbuOXRgo9OZzNOCYAsgkT6cBHsJjn2EswgkbHR+aeartlg+PqJSLEIMp8aT0
+	 1zMHjbLzaYSTa23T22YJcnae5sBCdirvTOcp8Vutl0LGe/wmJ/ZOmc53SF5MdJqkPw
+	 SyDZxQ9lanGQg==
+Message-ID: <dccc8e21-ade5-4726-ae17-a7017f084a02@kernel.org>
+Date: Tue, 8 Sep 2026 14:50:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] mm/vma: only permit MAP_PRIVATE /dev/zero to be
- mapped anonymous
+Subject: Re: [PATCH v2 6/6] tools/testing/selftests/mm: add
+ MAP_PRIVATE-/dev/zero merge tests
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -49,7 +49,7 @@ To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
 References: <20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org>
- <20260908-map-private-dev-zero-v2-3-acc7b5625305@kernel.org>
+ <20260908-map-private-dev-zero-v2-6-acc7b5625305@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -96,27 +96,23 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260908-map-private-dev-zero-v2-3-acc7b5625305@kernel.org>
+In-Reply-To: <20260908-map-private-dev-zero-v2-6-acc7b5625305@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-> +	/* Temporary MAP_PRIVATE-/dev/zero workaround. */
-> +	if (is_anon && map->file)
-> +		vma_set_anonymous(vma);
-> +
->  	if (error)
->  		goto free_iter_vma;
->  
-> @@ -2777,6 +2793,10 @@ static int call_mmap_prepare(struct mmap_state *map,
->  	if (err)
->  		return err;
->  
-> +	/* Hooks cannot mark themselves anonymous. */
-
-Wasn't this supposed to be reworked? :)
-
-In any case,
+On 9/8/26 13:23, Lorenzo Stoakes (ARM) wrote:
+> Assert that MAP_PRIVATE-mapped /dev/zero mappings behave like they are
+> anonymous.
+> 
+> Test both unfaulted and faulted/unfaulted merges with page offset 0 which
+> would not merge if the mappings were treated as if they were file-backed.
+> 
+> With the recent change that makes them behave as pure anonymous mappings,
+> the merges should succeed as their page offsets are equal to their
+> anonymous page offsets.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
