@@ -1,187 +1,115 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mta1.migadu.com (out-154.mta1.migadu.com [95.215.58.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCF51B87C0
-	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 02:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788834755; cv=pass; b=b9q6Nur7WBnVqBxG1xQhVz/WnBeLmVUi9hhSaM273aCVS3mfxB/tMKZIsknscKU96pI97gp7fsmTm24yiUyZXj2lyjTPgir98RiowOm2hhfkYpYmT9jLmgIr5EtgWUBwEHG6sBPuwtneFhad7xWxwCK7Ps5I8lzFjnw4exbT/GI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788834755; c=relaxed/simple;
-	bh=IhkE7Kgsea6Jppo7O0QUJgWybWjjjQxA9sEPbHI1Ymw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l1lMgPJb/teE4GsI0urOeOef8EbBN2hIxwsK7gfFLYjVmzRycxoglqNIPRmDkf/oP023rjA2Ka/FKwBYZHrLC1DKer3xCd5h46aaAs7s0/hYBAVEoSHFzy2hUKrysymjj8g9GYl0lDAmPqdOLpLkUghsVRqmPhbfr7/A72lexmE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=N2Tn5koy; arc=pass smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2AA26158B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 02:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.154
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788834979; cv=none; b=q2BRW223DET0kwaEMRIRcCuzzifO8+jHcGNt+PTMN52UJGfvr1IsZZaEtzK4S6rPz3GXl2Hvw0BAeK/FXLagP2uVOXJrPA9YRU2h0Ox8vDuUWpoLa7QSx6DOwi7osFhH7b7YZJ/SZcS9XVnG73e3zYHdq20pMSRUG+tBa93olLw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788834979; c=relaxed/simple;
+	bh=m6XqoUodv8NsilFjwXb7ElswNYC4z6Ylt8/xBRm4O48=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XWi9BoMvGTU6IT4ktrZqXYflqEYTKs4yhRbOEImjIM3p8D0J/6robNw6V/hYLxUH2NLwQkGsJdAtEto+kaV99kqCDUteTE/Qa0ZXVwlR/AbO69Py3TWC1dw789hdCuacy5eVP3ZOl70LD5J+SNiHTAA1y/gbNFtbv1y9Hh2geb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=S8r9XEGU; arc=none smtp.client-ip=95.215.58.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="N2Tn5koy"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cc891373e0so42627375ad.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 07 Sep 2026 19:32:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788834752; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fxogqJg98O/Dzc8j1oc4GGQiHHOh8hFQm/o+kob/2HBmVG2zRQRxVjUxtdM1CXA/ir
-         ELkKDOLAexFW8hQ9YGZyzanxzHppFgvh3M3+OeCRo3IqriCdQNX4hJB3vc5OrH39WokZ
-         64/QXqqru0kN25047cu2m/RzANFmbz8svWY26UEdhZuo1Hg4bR0Z+z2pb9dVhtmk2itV
-         L+kTPf3x3Fqds5Ga6EPwXA8CYTcG9fF/dGBmCsIudF+bvZ+14gcV8CNy4y9OCrA+FOHf
-         2tmv8i5WOrpQ3DRP2IgHHnXQ/qfjkBRmnkW+DFMYCUspKBmEumfnOy6O68KOm6sJljF9
-         62yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=QQFakzH5ezRHmdy66K1wxZ0Prtbhmc8e0YvL+1cXyNI=;
-        fh=uWx8bsqV7Cas20OtcNa6MdjghmXzyWMwM0aY0B9AFm8=;
-        b=Jf95oobTCrlW5P4GxUQfpzTRsJ16hTtOxmMt7b54BMXA7iuA9rwVgun4NmHAiGxc/C
-         in9Yvfa7EM3SuvZczhFcc6DJ3sy8L3CAPUTvhv6vtAyxpKgTLckOGx23/kClyhwOozFX
-         7HRVrpQLYZe/ej5nOmOyp02Z7C2nOm9SvgtiRYz+9FbTAJh4+UxkhiytUxubh3WH7s9M
-         njwsKXzCx2zfzcD5pbffewSKpGGg7K99MTHFKj9sgV5YaZnjCUhsTo2g8P5sdALrhSYv
-         U8Dik3xc5nPijn/OeRpq9e4SZm8yzOPm2bK/atEahtvCy3xc5iFR1Qx8s4T7Rot04+hy
-         fr7A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=berkeley.edu; s=google; t=1788834752; x=1789439552; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QQFakzH5ezRHmdy66K1wxZ0Prtbhmc8e0YvL+1cXyNI=;
-        b=N2Tn5koyo+vLepiOqwzxwjHob3jJQxbMwJXBL8+vig9V44rY0cLCoSIwI9TnWKQg2e
-         OMkYtf7bR0SBPcq9odYAx5iYek6SPxZUAGRr7srYuIyq642BYlVzcP7OqzJmlsHmpPs0
-         P0wxcjo8KsN9R1JsmsPtIv17BGlGlG/dxCp+YRZBW/9nVR03bE6ZbWIfMUzoGpjgkGcA
-         GQCMzkQSnYoi59M7W/gtND1G7TRp9baLdbJrCrtf2GjCpp37A4oliXkpkJR5AW6Qo9L0
-         a423cjvWuOh1dyMEEZ5HwACEXEYWR/3P9FW0j3WqxE9uAllnW18L6HYlneLbE/c1d3Wy
-         l++A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788834752; x=1789439552;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=QQFakzH5ezRHmdy66K1wxZ0Prtbhmc8e0YvL+1cXyNI=;
-        b=dGw9bB4NqxGymGJV5xo//wbniPFxRsHysRyg8utmHVNELosHtwXma1grwXFhTX/JcI
-         l1z1APYuHAhU8Vm/cs2R0dsv855UR/jFQOZJlo6JleLUW35I1wBOx0eylrpHg6hNw/5d
-         qdTDZQypXDjypfXeOFSzsc1DI9hEvEAIiVxSRJBr+6w4JzDX9UqOO70eZWAZ9GEqbqE0
-         LQBVitxGI+EnNFpHQvTt8eDt/e05QcR5Sp3D81qLBvgYEBJGFnivsN8pWjlVrtitKnXw
-         LMCzbTGKCIbzCuf+zKMxNeCDyAIBeLV7zJuZkWROmSYNMwKKM4XZz9Gtcp5P14N//1mF
-         Xelg==
-X-Gm-Message-State: AFuF++kp+QH1A6ynmFD9mztsgrsn6Z30f5I+bTY5dX0HMLbofAtTi5lx
-	xTOeHljXRDzXu4iMZlbXwaTv5sAlLgPx197LYF8nRTLsTF0/M6A3hmJ4e3a0n6O4HLoed67Ii2C
-	4qmMCIYIlYorwAYJ6Myup7FkT1u+to1fdpu8MBG36
-X-Gm-Gg: AYBFou3GPPUEMZRqGn1W1dHbVjEA26beYgBHi8o6ieRK9gKNJFwuaA96acjnuhitQZL
-	0tJrRTTQbZ/22QNExQBJi8AFoyVTK7LHQeP7DWHsu2u1qilXMwvYLuBbKzRe7QdOWLfUxkKmbxo
-	AvTojoIprEVDK6JgzmCrCmE+LQnx0mILAo7sy926Qv9vbGKWdX0RcCmMEEBFARgeCYJXYBfmUq8
-	dnOdIwZU56/vfkSdcPwx8+cz3mlfH87AuOeSaRdvMHBuKbbeOxgRHavAY7+slyoxDPKAq+2nBh5
-	fAuOnqrLkq9LpNalEcp2BqIbXyC3pWwcy4f+shSyb1+XMEv4D05BVFAgVbjc22jx7/ICeFO/eKu
-	YATAaltcF45kd2keifnG8n84IEV/HSgo=
-X-Received: by 2002:a17:903:3c24:b0:2db:479a:5127 with SMTP id
- d9443c01a7336-2db479a55c8mr167277835ad.19.1788834751616; Mon, 07 Sep 2026
- 19:32:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="S8r9XEGU"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=m6XqoUodv8NsilFjwXb7ElswNYC4z6Ylt8/xBRm4O48=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788834975; v=1; x=1789439775;
+ b=S8r9XEGUQ1kF5s8otbZzIOMqWDhE8NdNCsKbUfk0c88GFm02KDhiuWvzP8/IfCDn4w2QYBQ+
+ gXotAnsFkoH0K9PfVmLbx7XYfzZ3OimkrtSfy1BxRdbMXHvT3rM9zm2YtLovSulacVm3Prwn/Qm
+ df+Z6Und3mA1ZRiLMx3KkyIA=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id cf50a8224a729a78;
+	Tue, 08 Sep 2026 02:36:15 +0000
+X-Mizu-Trace-ID: cf50a8224a729a78
+X-Migadu-Flow: FLOW_OUT
+From: Ridong Chen <ridong.chen@linux.dev>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	Chao Shi <coshi036@gmail.com>,
+	Weidong Zhu <weizhu@fiu.edu>,
+	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
+	linux-kernel@vger.kernel.org,
+	Ridong Chen <ridong.chen@linux.dev>,
+	Ridong Chen <chenridong@xiaomi.com>
+Subject: [PATCH next] buffer: guard folio_test_dropbehind() against a NULL b_folio in __bh_submit()
+Date: Tue,  8 Sep 2026 10:36:00 +0800
+Message-Id: <20260908023600.788219-1-ridong.chen@linux.dev>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260903090053.13120-1-jack@suse.cz> <20260903090508.1360863-4-jack@suse.cz>
- <3b119174-7b10-6eb6-7aff-462949fcb49a@google.com>
-In-Reply-To: <3b119174-7b10-6eb6-7aff-462949fcb49a@google.com>
-From: Farhad Alemi <farhad.alemi@berkeley.edu>
-Date: Mon, 7 Sep 2026 19:32:20 -0700
-X-Gm-Features: AcwNN1WQDihV66cQ-OHH0AQpq0YHKUYC6t3qZ2Ny2_gI23ZREwXcpRRBLjG5-dg
-Message-ID: <CA+0ovCgQaS0mAJPDz=qMQkRgMQ0Tco5PRFHPtQo+ForkqdgC3w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] shmem: Refuse to enable tmpfs format for another filesystem
-To: Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	ocfs2-devel@lists.linux.dev, Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>
-Content-Type: multipart/mixed; boundary="000000000000ef6e9d065aef8b9a"
+Content-Transfer-Encoding: 8bit
 
---000000000000ef6e9d065aef8b9a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ridong Chen <chenridong@xiaomi.com>
 
-Apologies for the delay in response. Upon our run, the patched kernel
-(this patch on 28924df2a08f) no longer panics on the attached
-reproducer.
+Commit 8deae2284976 ("buffer: allow a buffer_head to point at memory
+outside the page cache") made bh->b_folio optional: jbd2 submits a shadow
+buffer_head whose data lives in slab (the frozen/escaped copy of a metadata
+block), and such a buffer carries no folio at all - b_folio stays NULL from
+alloc_buffer_head() onwards (see the comment in
+jbd2_journal_write_metadata_buffer()).  That commit audited __bh_submit()
+and taught bio_add_folio_nofail() and wbc_account_cgroup_owner() to check
+for a NULL folio, but it missed an earlier dereference:
 
-Thanks!
+	if (folio_test_dropbehind(bh->b_folio) && op_is_write(opf))
+		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
 
+That test was added by commit a2c924c240e7 ("buffer: set
+BIO_COMPLETE_IN_TASK for dropbehind writeback"), which predates the
+NULL-b_folio semantics and so dereferenced b_folio unconditionally.  Once
+b_folio may be NULL, folio_test_dropbehind() reads NULL->flags and the
+kernel takes a NULL pointer dereference.
 
-On Thu, Sep 3, 2026 at 8:15=E2=80=AFAM Hugh Dickins <hughd@google.com> wrot=
-e:
->
-> On Thu, 3 Sep 2026, Jan Kara wrote:
->
-> > It is possible to issue Q_QUOTAON quotactl(2) e.g. for ext4 filesystem
-> > requesting to enable quota using tmpfs quota format. With suitable
-> > passed arguments this can actually succeed in enabling tmpfs quota
-> > format on top of ext4 filesystem which leads to crashes later in
-> > dquot_acquire().  As tmpfs quota format is intended for tmpfs
-> > filesystems only, verify we are indeed enabling quotas there.
-> >
-> > Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>
-> > Signed-off-by: Jan Kara <jack@suse.cz>
->
-> Acked-by: Hugh Dickins <hughd@google.com>
->
-> Thanks: yes, please do route it through your tree.
->
-> > ---
-> >  mm/shmem_quota.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/mm/shmem_quota.c b/mm/shmem_quota.c
-> > index d0b92d6da50f..a3fa4bd93e75 100644
-> > --- a/mm/shmem_quota.c
-> > +++ b/mm/shmem_quota.c
-> > @@ -30,6 +30,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/rbtree.h>
-> >  #include <linux/shmem_fs.h>
-> > +#include <linux/magic.h>
-> >
-> >  #include <linux/quotaops.h>
-> >  #include <linux/quota.h>
-> > @@ -54,6 +55,10 @@ struct quota_id {
-> >
-> >  static int shmem_check_quota_file(struct super_block *sb, int type)
-> >  {
-> > +     /* Verify enabling happens on tmpfs superblock */
-> > +     if (sb->s_magic !=3D TMPFS_MAGIC)
-> > +             return 0;
-> > +
-> >       /* There is no real quota file, nothing to do */
-> >       return 1;
-> >  }
-> > --
-> > 2.51.0
+This is reached from the jbd2 commit path (bh_submit() -> __bh_submit())
+whenever a shadow buffer is submitted, i.e. when a metadata block has to be
+escaped or was copied out, so it is data/timing dependent rather than seen
+on every commit.  When it does hit, it is deterministic and independent of
+the dropbehind bit, since the flag test dereferences the folio before
+examining it.
 
---000000000000ef6e9d065aef8b9a
-Content-Type: text/x-c-code; charset="US-ASCII"; name="reproducer.c"
-Content-Disposition: attachment; filename="reproducer.c"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mts1yf5c0>
-X-Attachment-Id: f_mts1yf5c0
+Reproduced on x86_64 with KASAN under filesystem write pressure:
 
-LyoKICogUmVwcm9kdWNlciBmb3IgMTAzLXF1b3RhLW51bGwtZnVuYy1wdHItZHF1b3RfYWNxdWly
-ZQogKi8KI2RlZmluZSBfR05VX1NPVVJDRQojaW5jbHVkZSA8ZmNudGwuaD4KI2luY2x1ZGUgPHN0
-ZGlvLmg+CiNpbmNsdWRlIDxzdGRsaWIuaD4KI2luY2x1ZGUgPHN5cy9pb2N0bC5oPgojaW5jbHVk
-ZSA8c3lzL21vdW50Lmg+CiNpbmNsdWRlIDxzeXMvcXVvdGEuaD4KI2luY2x1ZGUgPHN5cy9zdGF0
-Lmg+CiNpbmNsdWRlIDx1bmlzdGQuaD4KI2luY2x1ZGUgPGxpbnV4L2xvb3AuaD4KCiNkZWZpbmUg
-UUZNVF9TSE1FTSA1CgppbnQgbWFpbih2b2lkKQp7CgljaGFyIGRldlszMl07CglpbnQgZmQsIGxm
-ZCwgbjsKCglmZCA9IG9wZW4oIi90bXAvaSIsIE9fUkRXUiB8IE9fQ1JFQVQgfCBPX1RSVU5DLCAw
-NjAwKTsKCWZ0cnVuY2F0ZShmZCwgNjQgPDwgMjApOwoJY2xvc2UoZmQpOwoJc3lzdGVtKCJta2Zz
-LmV4dDQgLXFGIC1PIF5xdW90YSAvdG1wL2kiKTsKCglmZCA9IG9wZW4oIi9kZXYvbG9vcC1jb250
-cm9sIiwgT19SRFdSKTsKCW4gPSBpb2N0bChmZCwgTE9PUF9DVExfR0VUX0ZSRUUpOwoJY2xvc2Uo
-ZmQpOwoJc3ByaW50ZihkZXYsICIvZGV2L2xvb3AlZCIsIG4pOwoJbGZkID0gb3BlbihkZXYsIE9f
-UkRXUik7CglmZCA9IG9wZW4oIi90bXAvaSIsIE9fUkRXUik7Cglpb2N0bChsZmQsIExPT1BfU0VU
-X0ZELCBmZCk7CgljbG9zZShsZmQpOwkJLyogZXh0NCBtb3VudHMgdGhlIGJsb2NrZGV2IGV4Y2x1
-c2l2ZWx5ICovCgljbG9zZShmZCk7CgoJbWtkaXIoIi9tbnQvcSIsIDA3NTUpOwoJbW91bnQoZGV2
-LCAiL21udC9xIiwgImV4dDQiLCAwLCAidXNycXVvdGEiKTsKCgkvKiB0aGUgcXVvdGEgZmlsZTog
-c2htZW1fY2hlY2tfcXVvdGFfZmlsZSgpIHdhdmVzIGFueSBmaWxlIHRocm91Z2ggKi8KCWNsb3Nl
-KG9wZW4oIi9tbnQvcS9hcXVvdGEudXNlciIsIE9fUkRXUiB8IE9fQ1JFQVQsIDA2MDApKTsKCS8q
-IGEgdmljdGltIGlub2RlIGhlbGQgb3BlbiBmb3Igd3JpdGU6IGFkZF9kcXVvdF9yZWYoKSBvbmx5
-IHZpc2l0cwoJICogaW5vZGVzIHdpdGggYSBub24temVybyBpX3dyaXRlY291bnQgKi8KCW9wZW4o
-Ii9tbnQvcS92aWN0aW0iLCBPX1JEV1IgfCBPX0NSRUFULCAwNjAwKTsKCglxdW90YWN0bChRQ01E
-KFFfUVVPVEFPTiwgVVNSUVVPVEEpLCBkZXYsIFFGTVRfU0hNRU0sCgkJIChjYWRkcl90KSIvbW50
-L3EvYXF1b3RhLnVzZXIiKTsKCXJldHVybiAwOwp9Cg==
---000000000000ef6e9d065aef8b9a--
+  KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+  RIP: 0010:__bh_submit+0x21b/0x9d0
+  Call Trace:
+   bh_submit+0x15/0x30
+   jbd2_journal_commit_transaction+0x1c19/0x5ac0
+   kjournald2+0x1cf/0x760
+
+Guard the flag test with a b_folio check, matching the other folio
+accesses in the same function.
+
+Fixes: 8deae2284976 ("buffer: allow a buffer_head to point at memory outside the page cache")
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Ridong Chen <chenridong@xiaomi.com>
+---
+ fs/buffer.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/fs/buffer.c b/fs/buffer.c
+index 427d8a817cd5..f46fa6413032 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -1106,7 +1106,8 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
+ 
+ 	bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
+ 
+-	if (folio_test_dropbehind(bh->b_folio) && op_is_write(opf))
++	if (bh->b_folio && folio_test_dropbehind(bh->b_folio) &&
++	    op_is_write(opf))
+ 		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
+ 
+ 	if (IS_ENABLED(CONFIG_FS_ENCRYPTION))
+-- 
+2.34.1
+
