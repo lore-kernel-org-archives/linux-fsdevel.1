@@ -1,336 +1,254 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1618C4EBADC;
-	Tue,  8 Sep 2026 09:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D380521238
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 09:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788859633; cv=none; b=fmGSl9LybvJAJKnuHFH8WFURPtDdhXX0WkxPEp/DzsCKlLD8PvBRSTwHaeIPx7vDt4JWUr2XRpbIazJJs8b3Ss4Ci5dn2Q7iagmeWQVVCFQHImppJvmkoteEPLug0yrYMLmGm98UAq1jxliVO5Dkvqu4BQ3cZtIgquVu31bMjzE=
+	t=1788860247; cv=none; b=arl3iZ004t/sd3Y/ZbEh282jKE/9DR/dtNkchRUos1nxq1g+scvqERFrDc6+LgAD8CLI8MS6vWBljrbc/NSjRsYwI0sjqqNBzVSPq8eC97S5IQTdIpggbIiBDKHOvoQb6mKIy3QpwuUfQOTp/M4FLGMV7tkD/GrazTRImXI/H/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788859633; c=relaxed/simple;
-	bh=gV63zHCi7shw/Oa+eFIH0iTh+5EdixT92i8snzno4Es=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qciFU5lIpFZvSJGy7OLtnTTKFf3tt1r+ph0ZpTx3hACSkhdZ9SMa1Y4qQcLp3q+HiRfh1p5feAZtLZ5kAqwu1GWR5jwG+1No8WF1IUSEZJsxso0K8EKTz4oiukjEZIWpsQLZTdVRffWuOVHHLih/jBrQPYjYM3eOG8QKHm+PHXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KEGrH+0/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=NQRf2cZb; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oXEHshzo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xXbjOXqV; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788860247; c=relaxed/simple;
+	bh=HvxZtc3mr9i12qOLGEDlGRfFFykU81xPzVzA7iGQRMs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t8LGgbZA6d9W06boldsQuEFW3UJ1ubnvv0QlYBQoax2z5VZ4uCkRIod1GpL+tYB3RsvbTzo9NklZGTsgF9AwTZBU5MiAmXujZoeGzIhDAgzZ32/ii1qJYATHM8E0cGzCVCOHAvtWMY7h31Ymb0JdpEdCRfbInqanbY+vb5Dx2tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YOVTGmi8; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KEGrH+0/";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="NQRf2cZb";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oXEHshzo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xXbjOXqV"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CFBB021A35;
-	Tue,  8 Sep 2026 09:27:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788859626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AWGzYGgNIklpiS6XLM7Zm8kgqN/+DKlX7bMJrGwLqYU=;
-	b=KEGrH+0/RoLlAYH0/UN/au5tKCS2TWkeBzSgB3LYaszFjJgXpYuljxZC1mj59dDuqKQYOd
-	7TEXUuEFc+cQt1aXZxOBiLuUN3vdjUQ8lOfmgNV8+R/vIq6kBW4zc/ZsMlUtXcYJR4m5Nb
-	bQUN2DjIpukCT0FieX1KmFrorKfYENk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788859626;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AWGzYGgNIklpiS6XLM7Zm8kgqN/+DKlX7bMJrGwLqYU=;
-	b=NQRf2cZb7Uv51vqLo0+KsGutQOHl/zKrKKnkcFI0tE/HY+1fLU9tBo2uVjCAtPsYbKOLLX
-	E8ZgHK8RNU7O8FAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788859621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AWGzYGgNIklpiS6XLM7Zm8kgqN/+DKlX7bMJrGwLqYU=;
-	b=oXEHshzoTCnF1r1TlmbXnCyJOBBpD5Uarjj/MVKX/57jM5GwG3oTChd8PP7z4faeZRJbTR
-	NhhOGtHj7XsD/enxXCnyhA7hM+PO8vjBfp99QJ2hLW65QfzBRDaxAII4AEqTK+SYGW18NB
-	vPgS77LMkk0ZjgSXbxCZ6Aozj0VBJ+g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788859621;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AWGzYGgNIklpiS6XLM7Zm8kgqN/+DKlX7bMJrGwLqYU=;
-	b=xXbjOXqVF26Q9UHa+S/UnsIVQ6SxBWgFZfNvcUDTUQa9s+RzXJkqibMNKzHx2XNQAPy9pc
-	fg4aKWAdayZfXMCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A8F6013332;
-	Tue,  8 Sep 2026 09:27:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Az44KeXUn2qwWAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 08 Sep 2026 09:27:01 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 38A40A12E2; Tue, 08 Sep 2026 11:26:57 +0200 (CEST)
-Date: Tue, 8 Sep 2026 11:26:57 +0200
-From: Jan Kara <jack@suse.cz>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] isofs: convert the zisofs read path to use folios
-Message-ID: <snq6ii4qrjqvohdcb6ybmarzjvkqpibcmnujh7ut2tbftx6egs@y7ocbbe36oap>
-References: <20260907-isofs-zisofs-folio-v2-1-c2e430abfcbc@columbia.edu>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YOVTGmi8"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-85c9a79590aso4177399b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 02:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788860246; x=1789465046; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Jdo8OnRnaSJ+QK5iLvvBRCC1dMO84Sr5WG2RzM3Vkaw=;
+        b=YOVTGmi8Lz0PfQvS99ehQWKsOOwtEGHFRwKiGZ1bppImrvR6t66w6JnCSHww2wXkb6
+         H7yJ2LajLXhcLPhexpMfZzsL3K5FYwEs+cLCL6HfprKkQqi87KBQn3yG8bIVo83/72ns
+         4mYLtV7vTDIMFEoCL/MafzuFCOmaHWFeAYstEqvd6uqhYBFcBkM9MHmZEJ0Y9lWMB4Cq
+         r/06HFlNsUNzjfUhk06kg8W4GLkfeD/bkGfqHStDH3ez2h9cnPXVpoH0KT1T5ytiK1GU
+         WE9Bl0KhAKlZBPxph4gFB73o/u/y8QeUwbDVt5ws+FXBDT7sR5lUUdJ5uqanfG+X+d+V
+         k1WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788860246; x=1789465046;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Jdo8OnRnaSJ+QK5iLvvBRCC1dMO84Sr5WG2RzM3Vkaw=;
+        b=VNlIZe9EgHyt1NmDq004yhx2bS43b3/o+7Zx5NqnAwjo1nif8WbJL0W5tYUWDpuOiE
+         765yJkHlund3/f/fzuc/jPh2L4XCpgEpME92ZOpi473W5/PKaCedYNIxfTxFNLzuvWWx
+         eP8OLPcpf0G7MvX6cZFtZrLkLzM7wXlCBz2ns1VK7kFdcZhVE+xej/8RoSlvX8zDE7l7
+         QbML3y/kGfkqx48ArN8SNBQ/C3bKtjfFWbtFrydZAUoBTm4KhO78Y4ERAJTXzhMGSW+T
+         aZxnUtVs1aB+Dw/U0YSmmcwiaYsYEtbZyyt05UT7NQu+BYpJNyGCE6/sC4k7s4nCiIkB
+         Bz3g==
+X-Forwarded-Encrypted: i=1; AKwUvByI6m1QH5DCNVKhJzh/zMMZfkfiPuHVW8JS2LV71JsXqRHzEO708lSPo5LeSVaOdhhei64YUwbeH9jz8qg9@vger.kernel.org
+X-Gm-Message-State: AFuF++mZav9JaLiAl5cUcjfq0IFk4QsEmKjAIrngX4N4LeBKPyRtiy5e
+	pjIJ6vyAko8OF3In9U1yLvAUqpCRFm0qP8Qfp2iaJTPRFp6b4hxb2IU0
+X-Gm-Gg: AYBFou3SayPlhNopMVV6pMRjTwB0yOTVSdr3jJvqIaryIRKxfkh6MWaYsHARpdgr9nt
+	2c1A7AyZEloVaMwrhhDizjo2h2+KDuBG+z+qGbIfGqSf49EycnUYq+ylQB4N3YRYdOdRGtTerM0
+	AArVKc0gEvGdjJPPhyFMy0V88SETd+GsJVTloQR6uAr8NMbklMcIi1ecybT8XNyyXkPtgcu/9nq
+	St+baFzZPPnmt0xxUEX9x+Sqnm54LHSKTDg5Fv605wyNo0NhWSyy4kwhYlvOwB5j9M8iAWEfjBn
+	KAW2PkAQL7a/Q/7XHtqS5a9/4Gtiyp6cMUfdjzjyD1CRxeQnvj+uYjIV+5L8ouQH1S1CInuuNWd
+	5vBwDMJsel7dTkxYgEJCb3XDAwvGPJ5knh2TbRAsB46VxjspYM2wYEOLnVrDXTDgL/gfzl8FTIc
+	Q4SqmF3a6pYjGu83G6q0hoFaFeY5hXq1tHaNuqx4CPgFaWtP48VgqRgSn4j7k=
+X-Received: by 2002:a05:6a00:f94:b0:857:7337:5db7 with SMTP id d2e1a72fcca58-8616ac58363mr41402529b3a.21.1788860245006;
+        Tue, 08 Sep 2026 02:37:25 -0700 (PDT)
+Received: from gmail.com ([185.220.238.35])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8615292d875sm5324180b3a.25.2026.09.08.02.37.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 02:37:24 -0700 (PDT)
+From: Kunwu Chan <kunwu.chan@gmail.com>
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Kunwu Chan <kunwu.chan@gmail.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Yosry Ahmed <yosry@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kairui Song <ryncsn@gmail.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Wei Xu <weixugc@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] mm: swap: move LRU insertion out of the swap cache allocator
+Date: Tue,  8 Sep 2026 17:37:00 +0800
+Message-ID: <20260908093711.2364516-1-kunwu.chan@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260825135209.3135169-2-alex@ghiti.fr>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260907-isofs-zisofs-folio-v2-1-c2e430abfcbc@columbia.edu>
-X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,suse.com:email,imap1.dmz-prg2.suse.org:helo,columbia.edu:email]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon 07-09-26 11:18:38, Tal Zussman wrote:
-> Store folios in the array that zisofs_read_folio() passes to
-> zisofs_fill_pages() and zisofs_uncompress_block(), use the folio APIs on
-> them, and grab the folios with __filemap_get_folio() instead of
-> grab_cache_page_nowait(). This removes six compound_head() calls, from
-> page_offset(), the three SetPageUptodate() calls, unlock_page() and
-> put_page(), and the last struct page usage in isofs.
-> 
-> isofs only uses order-0 folios, so folio_size() is PAGE_SIZE and the
-> logic is unchanged.
-> 
-> grab_cache_page_nowait() passed FGP_NOFS as well, but FGP_NOWAIT already
-> prevents reclaim entirely, so leave it out, as FGP_NOFS is on its way
-> out [1].
-> 
-> Change poffset to be unsigned int rather than just unsigned while at
-> it.
-> 
-> [1] https://lore.kernel.org/linux-mm/20260830041901.2668-9-willy@infradead.org/
-> 
-> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+On Tue, 25 Aug 2026 15:52:05 +0200 Alexandre Ghiti <alex@ghiti.fr> wrote:
 
-Thanks! I've added the patch to my tree.
-
-								Honza
-
-
+> zswap writeback wants a swap cache folio it can free directly once
+> writeback completes, i.e. one that is not on the LRU (folio_add_lru()
+> stages the folio in a per-CPU batch that holds a reference until it is
+> drained, which keeps remove_mapping() from freeing the folio on
+> synchronous devices, and likely on asynchronous ones too).
+> 
+> So defer the LRU addition to the callers of __swap_cache_alloc_folio(),
+> no functional change intended.
+> 
+> Suggested-by: Kairui Song <kasong@tencent.com>
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
 > ---
-> Changes in v2:
-> - Pass the offset to kmap_local_folio() and use folio_size(), per Jan
-> - Add a sentence in the commit message about how all folios here are
->   order-0 for now
-> - Link to v1: https://patch.msgid.link/20260906-isofs-zisofs-folio-v1-1-cbea614a773f@columbia.edu
-> ---
->  fs/isofs/compress.c | 77 ++++++++++++++++++++++++++++++-----------------------
->  1 file changed, 43 insertions(+), 34 deletions(-)
+>  mm/swap.h       |  6 +++---
+>  mm/swap_state.c | 20 ++++++++++++--------
+>  mm/zswap.c      |  5 +++--
+>  3 files changed, 18 insertions(+), 13 deletions(-)
 > 
-> diff --git a/fs/isofs/compress.c b/fs/isofs/compress.c
-> index f9869d62b850..2d23abaeb874 100644
-> --- a/fs/isofs/compress.c
-> +++ b/fs/isofs/compress.c
-> @@ -39,7 +39,7 @@ static DEFINE_MUTEX(zisofs_zlib_lock);
->   */
->  static loff_t zisofs_uncompress_block(struct inode *inode, loff_t block_start,
->  				      loff_t block_end, int pcount,
-> -				      struct page **pages, unsigned poffset,
-> +				      struct folio **folios, unsigned int poffset,
->  				      int *errp)
->  {
->  	unsigned int zisofs_block_shift = ISOFS_I(inode)->i_format_parm[1];
-> @@ -66,11 +66,12 @@ static loff_t zisofs_uncompress_block(struct inode *inode, loff_t block_start,
->  	if (block_size == 0) {
->  		for ( i = 0 ; i < pcount ; i++ ) {
->  			unsigned int off = i ? 0 : poffset;
-> +			struct folio *folio = folios[i];
+> diff --git a/mm/swap.h b/mm/swap.h
+> index 77d2d14eda42..fc44daae1de1 100644
+> --- a/mm/swap.h
+> +++ b/mm/swap.h
+> @@ -304,9 +304,9 @@ bool swap_cache_has_folio(swp_entry_t entry);
+>  struct folio *swap_cache_get_folio(swp_entry_t entry);
+>  void *swap_cache_get_shadow(swp_entry_t entry);
+>  void swap_cache_del_folio(struct folio *folio);
+> -struct folio *swap_cache_alloc_folio(swp_entry_t target_entry, gfp_t gfp_mask,
+> -				     unsigned long orders, struct vm_fault *vmf,
+> -				     struct mempolicy *mpol, pgoff_t ilx);
+> +struct folio *__swap_cache_alloc_folio(swp_entry_t target_entry, gfp_t gfp_mask,
+> +				       unsigned long orders, struct vm_fault *vmf,
+> +				       struct mempolicy *mpol, pgoff_t ilx);
+>  /* Below helpers require the caller to lock and pass in the swap cluster. */
+>  void __swap_cache_add_folio(struct swap_cluster_info *ci,
+>  			    struct folio *folio, swp_entry_t entry);
+> diff --git a/mm/swap_state.c b/mm/swap_state.c
+> index 727a17ee7821..07418fc94f00 100644
+> --- a/mm/swap_state.c
+> +++ b/mm/swap_state.c
+> @@ -483,13 +483,11 @@ static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
+>  	node_stat_mod_folio(folio, NR_FILE_PAGES, nr_pages);
+>  	lruvec_stat_mod_folio(folio, NR_SWAPCACHE, nr_pages);
 >  
-> -			if (!pages[i])
-> +			if (!folio)
->  				continue;
-> -			memzero_page(pages[i], off, PAGE_SIZE - off);
-> -			SetPageUptodate(pages[i]);
-> +			folio_zero_range(folio, off, folio_size(folio) - off);
-> +			folio_mark_uptodate(folio);
->  		}
->  		return (((loff_t)pcount) << PAGE_SHIFT) - poffset;
->  	}
-> @@ -119,11 +120,12 @@ static loff_t zisofs_uncompress_block(struct inode *inode, loff_t block_start,
->  
->  	while (curpage < pcount && curbh < haveblocks &&
->  	       zerr != Z_STREAM_END) {
-> +		struct folio *folio = folios[curpage];
-> +
->  		if (!stream.avail_out) {
-> -			if (pages[curpage]) {
-> -				stream.next_out = kmap_local_page(pages[curpage])
-> -						+ poffset;
-> -				stream.avail_out = PAGE_SIZE - poffset;
-> +			if (folio) {
-> +				stream.next_out = kmap_local_folio(folio, poffset);
-> +				stream.avail_out = folio_size(folio) - poffset;
->  				poffset = 0;
->  			} else {
->  				stream.next_out = (void *)&zisofs_sink_page;
-> @@ -173,9 +175,9 @@ static loff_t zisofs_uncompress_block(struct inode *inode, loff_t block_start,
->  
->  		if (!stream.avail_out) {
->  			/* This page completed */
-> -			if (pages[curpage]) {
-> -				flush_dcache_page(pages[curpage]);
-> -				SetPageUptodate(pages[curpage]);
-> +			if (folio) {
-> +				flush_dcache_folio(folio);
-> +				folio_mark_uptodate(folio);
->  			}
->  			if (stream.next_out != (unsigned char *)zisofs_sink_page) {
->  				kunmap_local(stream.next_out);
-> @@ -206,7 +208,7 @@ static loff_t zisofs_uncompress_block(struct inode *inode, loff_t block_start,
->   * fills in other pages if we have data for them.
->   */
->  static int zisofs_fill_pages(struct inode *inode, int full_page, int pcount,
-> -			     struct page **pages)
-> +			     struct folio **folios)
->  {
->  	loff_t start_off, end_off;
->  	loff_t block_start, block_end;
-> @@ -221,14 +223,14 @@ static int zisofs_fill_pages(struct inode *inode, int full_page, int pcount,
->  	int err;
->  	loff_t ret;
->  
-> -	BUG_ON(!pages[full_page]);
-> +	BUG_ON(!folios[full_page]);
->  
->  	/*
->  	 * We want to read at least 'full_page' page. Because we have to
->  	 * uncompress the whole compression block anyway, fill the surrounding
->  	 * pages with the data we have anyway...
->  	 */
-> -	start_off = page_offset(pages[full_page]);
-> +	start_off = folio_pos(folios[full_page]);
->  	end_off = min_t(loff_t, start_off + PAGE_SIZE, inode->i_size);
->  
->  	cstart_block = start_off >> zisofs_block_shift;
-> @@ -267,9 +269,9 @@ static int zisofs_fill_pages(struct inode *inode, int full_page, int pcount,
->  		}
->  		err = 0;
->  		ret = zisofs_uncompress_block(inode, block_start, block_end,
-> -					      pcount, pages, poffset, &err);
-> +					      pcount, folios, poffset, &err);
->  		poffset += ret;
-> -		pages += poffset >> PAGE_SHIFT;
-> +		folios += poffset >> PAGE_SHIFT;
->  		pcount -= poffset >> PAGE_SHIFT;
->  		full_page -= poffset >> PAGE_SHIFT;
->  		poffset &= ~PAGE_MASK;
-> @@ -289,9 +291,11 @@ static int zisofs_fill_pages(struct inode *inode, int full_page, int pcount,
->  		cstart_block++;
->  	}
->  
-> -	if (poffset && *pages) {
-> -		memzero_page(*pages, poffset, PAGE_SIZE - poffset);
-> -		SetPageUptodate(*pages);
-> +	if (poffset && *folios) {
-> +		struct folio *folio = *folios;
-> +
-> +		folio_zero_range(folio, poffset, folio_size(folio) - poffset);
-> +		folio_mark_uptodate(folio);
->  	}
->  	brelse(bh);
->  	return 0;
-> @@ -312,7 +316,7 @@ static int zisofs_read_folio(struct file *file, struct folio *folio)
->  	unsigned int zisofs_pages_per_cblock =
->  		PAGE_SHIFT <= zisofs_block_shift ?
->  		(1 << (zisofs_block_shift - PAGE_SHIFT)) : 0;
-> -	struct page **pages;
-> +	struct folio **folios;
->  	pgoff_t index = folio->index, end_index;
->  
->  	end_index = (inode->i_size + PAGE_SIZE - 1) >> PAGE_SHIFT;
-> @@ -336,33 +340,38 @@ static int zisofs_read_folio(struct file *file, struct folio *folio)
->  		full_page = 0;
->  		pcount = 1;
->  	}
-> -	pages = kzalloc_objs(*pages,
-> -			     max_t(unsigned int, zisofs_pages_per_cblock, 1));
-> -	if (!pages) {
-> +	folios = kzalloc_objs(*folios,
-> +			      max_t(unsigned int, zisofs_pages_per_cblock, 1));
-> +	if (!folios) {
->  		folio_unlock(folio);
->  		return -ENOMEM;
->  	}
-> -	pages[full_page] = &folio->page;
-> +	folios[full_page] = folio;
->  
->  	for (i = 0; i < pcount; i++, index++) {
-> -		if (i != full_page)
-> -			pages[i] = grab_cache_page_nowait(mapping, index);
-> +		if (i == full_page)
-> +			continue;
-> +		folios[i] = __filemap_get_folio(mapping, index,
-> +				FGP_LOCK | FGP_CREAT | FGP_NOWAIT,
-> +				mapping_gfp_mask(mapping));
-> +		if (IS_ERR(folios[i]))
-> +			folios[i] = NULL;
->  	}
->  
-> -	err = zisofs_fill_pages(inode, full_page, pcount, pages);
-> +	err = zisofs_fill_pages(inode, full_page, pcount, folios);
->  
-> -	/* Release any residual pages, do not SetPageUptodate */
-> +	/* Release any residual folios, do not mark them uptodate */
->  	for (i = 0; i < pcount; i++) {
-> -		if (pages[i]) {
-> -			flush_dcache_page(pages[i]);
-> -			unlock_page(pages[i]);
-> +		if (folios[i]) {
-> +			flush_dcache_folio(folios[i]);
-> +			folio_unlock(folios[i]);
->  			if (i != full_page)
-> -				put_page(pages[i]);
-> +				folio_put(folios[i]);
->  		}
-> -	}			
-> +	}
->  
->  	/* At this point, err contains 0 or -EIO depending on the "critical" page */
-> -	kfree(pages);
-> +	kfree(folios);
->  	return err;
+> -	/* Caller will initiate read into locked new_folio */
+> -	folio_add_lru(folio);
+>  	return folio;
 >  }
 >  
+>  /**
+> - * swap_cache_alloc_folio - Allocate folio for swapped out slot in swap cache.
+> + * __swap_cache_alloc_folio - Allocate folio for swapped out slot in swap cache.
+>   * @targ_entry: swap entry indicating the target slot
+>   * @gfp: memory allocation flags
+>   * @orders: allocation orders, must be non zero
+> @@ -501,13 +499,17 @@ static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
+>   * doing IO (e.g. swap in or zswap writeback). The swap slot indicated by
+>   * @targ_entry must have a non-zero swap count (swapped out).
+>   *
+> + * The returned folio is locked and is NOT on the LRU. The caller must either
+> + * add it to the LRU with folio_add_lru() so page reclaim can find it, or free
+> + * it directly once done; a folio left off the LRU is unreclaimable and leaks.
+> + *
+>   * Context: Caller must protect the swap device with reference count or locks.
+>   * Return: Returns the folio if allocation succeeded and folio is in the swap
+>   * cache. Returns error code if failed due to race, OOM or invalid arguments.
+>   */
+> -struct folio *swap_cache_alloc_folio(swp_entry_t targ_entry, gfp_t gfp,
+> -				     unsigned long orders, struct vm_fault *vmf,
+> -				     struct mempolicy *mpol, pgoff_t ilx)
+> +struct folio *__swap_cache_alloc_folio(swp_entry_t targ_entry, gfp_t gfp,
+> +				       unsigned long orders, struct vm_fault *vmf,
+> +				       struct mempolicy *mpol, pgoff_t ilx)
+>  {
+>  	int order, err;
+>  	struct folio *ret;
+> @@ -643,12 +645,13 @@ static struct folio *swap_cache_read_folio(swp_entry_t entry, gfp_t gfp,
+>  		folio = swap_cache_get_folio(entry);
+>  		if (folio)
+>  			return folio;
+> -		folio = swap_cache_alloc_folio(entry, gfp, BIT(0), NULL, mpol, ilx);
+> +		folio = __swap_cache_alloc_folio(entry, gfp, BIT(0), NULL, mpol, ilx);
+>  	} while (PTR_ERR(folio) == -EEXIST);
+>  
+>  	if (IS_ERR_OR_NULL(folio))
+>  		return NULL;
+>  
+> +	folio_add_lru(folio);
+>  	swap_read_folio(folio, plug);
+>  	if (readahead) {
+>  		folio_set_readahead(folio);
+> @@ -683,12 +686,13 @@ struct folio *swapin_sync(swp_entry_t entry, gfp_t gfp, unsigned long orders,
+>  		folio = swap_cache_get_folio(entry);
+>  		if (folio)
+>  			return folio;
+> -		folio = swap_cache_alloc_folio(entry, gfp, orders, vmf, mpol, ilx);
+> +		folio = __swap_cache_alloc_folio(entry, gfp, orders, vmf, mpol, ilx);
+>  	} while (PTR_ERR(folio) == -EEXIST);
+>  
+>  	if (IS_ERR(folio))
+>  		return folio;
+>  
+> +	folio_add_lru(folio);
+>  	swap_read_folio(folio, NULL);
+>  	return folio;
+>  }
+> diff --git a/mm/zswap.c b/mm/zswap.c
+> index 761cd699e0a3..8163e6c5f76c 100644
+> --- a/mm/zswap.c
+> +++ b/mm/zswap.c
+> @@ -1000,8 +1000,8 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
+>  		return -EEXIST;
+>  
+>  	mpol = get_task_policy(current);
+> -	folio = swap_cache_alloc_folio(swpentry, GFP_KERNEL, BIT(0), NULL, mpol,
+> -				       NO_INTERLEAVE_INDEX);
+> +	folio = __swap_cache_alloc_folio(swpentry, GFP_KERNEL, BIT(0), NULL, mpol,
+> +					 NO_INTERLEAVE_INDEX);
+>  	put_swap_device(si);
+>  
+>  	/*
+> @@ -1013,6 +1013,7 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
+>  	 */
+>  	if (IS_ERR(folio))
+>  		return PTR_ERR(folio);
+> +	folio_add_lru(folio);
+>  
+>  	/*
+>  	 * folio is locked, and the swapcache is now secured against
+> -- 
+> 2.53.0-Meta
 > 
-> ---
-> base-commit: df2908090cda368b01ff43709f51890076c56157
-> change-id: 20260906-isofs-zisofs-folio-5b1621d694e4
 > 
-> Best regards,
-> --  
-> Tal Zussman <tz2294@columbia.edu>
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
+I checked the callers of __swap_cache_alloc_folio(). The regular 
+swap-in paths add the folio to the LRU after allocation, while 
+the zswap writeback path keeps it off-LRU for the dropbehind 
+handling in patch 3. 
+The new allocator contract is preserved by all callers.
+
+swapfile.c still references the old name in a comment — minor 
+consistency nit.
+
+Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
+
+Thanks,
+KunWu
+
