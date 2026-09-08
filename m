@@ -1,236 +1,294 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A8552FE2B
-	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 09:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788858714; cv=none; b=RqZQy6ki2cBLHBLlvYc9UGvRhSlZ3373RQZNvbwGCmW3PuCrKSeh6GqgTbFKFjV42GKmvC3jmx1z1jOiKWLcKkPX7mXWxe9nKEk8hFh359CZNE5g55hcYYFfbVfncvGn4r3GMX0LjQ1q1VixLzHROjLP636OQR4YvmMGSUHGATk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788858714; c=relaxed/simple;
-	bh=AfC6AN0+oRv9f00/2dtlwIkW+5nMtEfQM9UmhCLa+bE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DZy438MV/k3abZ7PxXy4PG+r82GsgLM5K8pBpCctR+iAcmljPhsaxA6NMYF6CB/VIbIbsT3iuaLdjsUJ7sRF+KyRI1u7n1rRzKL1l+R4oIW8GpOtUZvD+FNM48+xKXqDXW6dB8TICknDAG0cdF7N8p1cCPJ3B6lSFCbFK/WzwK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H7rj62h1; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5E94FDE7B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 09:18:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788859140; cv=pass; b=oJSenS7InYYGwLjIAUHcB7S7XW6YaBjnl8VHAKx44O8eH1h9atd+WRXgb2d2wVD9zZSJic3KsbQBRFaMVo6F2Bs+k1LQeqgwwWcoTKE1Kn90+c7rT8+TGUwJdNh7fFZ4wlrhJr0j3ee8vV+t9S7wTsp7QMMidSRxBp2QhkRoRGc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788859140; c=relaxed/simple;
+	bh=eXO7Dx+pbjhDr44qla+xgyZaF085tCxcRrffYGenIAk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=glZB2Cm1JRPC+7hJWYamI+wxdloaO9+Dc6pxXXUvfXPskceyLwS8VZovBZxrduEro/ZIl1PvDfdWWmnS2qJp3M398svkHcF/wxYBxjEdpTNLnevoSmv+Z26kl90k6CFAt4Jp9iEGj642Cc0iks3Qw7YUn5zho6Wgd3QdMlB67gM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aF2kvHoX; arc=pass smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H7rj62h1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788858712;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sxO7FEkCCz/20KjVrg30v5ozCynNyOtWLTOKJ0S48jc=;
-	b=H7rj62h1xvJ0ly1C/XQbGgQrPfQjLOrvhuAp7gZCOWauuhuB4y4KNeQ0NmEGgwLmDoSxSP
-	yT4BVfcdyk7nb/1m3MVsEGMkup7y1/tH1o4uYFmZmy9hyCwkS9+PXKVXTdh83nsd9JpQ3l
-	qWTm6ufb2sfj7A2CxMYl03Biv9updAU=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-622-8YNJsXH9MtiWIpWsQgpP2g-1; Tue,
- 08 Sep 2026 05:11:47 -0400
-X-MC-Unique: 8YNJsXH9MtiWIpWsQgpP2g-1
-X-Mimecast-MFC-AGG-ID: 8YNJsXH9MtiWIpWsQgpP2g_1788858705
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 017AC195DB9B;
-	Tue,  8 Sep 2026 09:11:45 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.158])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 260CF1800605;
-	Tue,  8 Sep 2026 09:11:38 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Paulo Alcantara <pc@manguebit.org>
-Cc: David Howells <dhowells@redhat.com>,
-	Christian Brauner <christian@brauner.io>,
-	Matthew Wilcox <willy@infradead.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v12 8/8] netfs: Set subrequest->source at alloc before trace emission
-Date: Tue,  8 Sep 2026 10:10:29 +0100
-Message-ID: <20260908091031.1506798-9-dhowells@redhat.com>
-In-Reply-To: <20260908091031.1506798-1-dhowells@redhat.com>
-References: <20260908091031.1506798-1-dhowells@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aF2kvHoX"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-485888b3c3dso4486631f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 02:18:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788859134; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bWC7Pdd63B7MsYHBOPsxy+XHzQQR9VDggFMSBaiVErElJUhaqFBI+9kPXPUtyoSPDv
+         SNlaxPdChI6TFeIzFH5G+yqfxNSUVZct6rvfKYRyHYBwRfQv+dZdv2dGfSy5af26M4Vh
+         /JDZfLBo7vOHjIdzytIKlLoj7r53IC7m0wUePHr2TsS/jpAwS5+DuKDBBW7T4VbnVZ+E
+         Sk7KbbC/Gj6rXVCBe68lJAK3bSTAcXupSMKlIg43Ffm6BGO/9IwBJmPyZuLUC7FZoL4i
+         GgbmQ6chH2MmFTVcwIPGDmEVchT6VrtKTT/zNF2JkGqBwZn/kMkr0a+Uay80DuZcNSF4
+         isxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VIgSHXB8I26MCbzgx5LIxLwOOEsEsffKtC5qMFw/5wM=;
+        fh=haGN2sPSGsFwjrtGTycmiYvGk0SRa1khEIctz4muIBE=;
+        b=CsC1q4T5g5elLMa+RJ2OfUnEmCquBfDOUYvpQ6WJXDh3y64jvWTV07pyn/sZM8XxpF
+         ptew1IZ8RjvWjXqt4nJ7nVhAlGt3sOsl8SOUTAh388r+3/W/u+9CLMFdyNFuTGKCK2d5
+         lSPHmzKZTpMYMuwPNMN9DGb7LulC/wB4U5m5RPfwxBbW82GT1+lrKou6iyw72FTGNwNJ
+         TNN5aKShCmtQxV/E0EpvXvmbU+6VFMYV8LS50zq/vZSFpBonSngUYDXITdQCk+CAbJlL
+         nc4k/HNFf0hVqEjtcJlDynv5G3ywslOVWPvi8NJiJvKj7dubfshZXXlYdmw1+m/SSSu/
+         KRIg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788859134; x=1789463934; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VIgSHXB8I26MCbzgx5LIxLwOOEsEsffKtC5qMFw/5wM=;
+        b=aF2kvHoXQnc3y94j3MpvsaBZICi9rb7EgUVMffOdRTqJRP1zI0ZUrzpkHxbK7TKccP
+         URA7NthNEhjbDpvO5E5SfFkXe8lRprntfGsj6nc9Uj0+yhenHtGbPammp2p5QTTPzonM
+         NNXnjqAp3WJwS07aLIioGpVpAn58cCI7zU4VyygV6BZ/hZx4mJ9gQmVOOut0nIWBt2Wb
+         xPcr2pjuNWPhs94sKnzi7SboLd4mcQyEJwLgimh4PhCdgs+NIu36N1d6RQWevSO1lHXY
+         3YOUzr+4enTI/l8GgUzMWZ467P2mHTPQIQA+3WkuXjBaAoWvG8ewZrnjIWRpQ1ssUF0h
+         B94A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788859134; x=1789463934;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VIgSHXB8I26MCbzgx5LIxLwOOEsEsffKtC5qMFw/5wM=;
+        b=biVVskb+FsOXbyT42fabiZDk5TGEm/y1awutVaGe3O5/VMGMfsoVyq+/dNU1w7UJIX
+         Tdvh2YWrHPUQ1/cZjdx52MrsPkei4XIZ3z0sqIRRbybGjtozJ0MzTucYj0Yp7UilP2I3
+         OEdyXi057GnAMuJ0pmkf70Fy9o5H/aEg61OpefRHKCL2jFVhX6vjc9L0gb0DDDbtnanO
+         NwQLjGURS7ybOZGZeuCtj0gK3TOx4GdHZH0w4AizNdzCAPYzWjXVTMmG12jPIIyHrZDz
+         tgY4n/7Jj/9ajtpLWKZsUUwkRLVmMFeve/4SEH3TSyT2JBV6SPgVtRnz/JlFSDl6nZas
+         nUBQ==
+X-Forwarded-Encrypted: i=1; AKwUvByBaMPXx6xdpJykdLRVlhGRh9LrghS6P1qDAseHL5/PTwqwncmL1LgfE0wej5i1rX/ZnoArkWJDqkNlmL/9@vger.kernel.org
+X-Gm-Message-State: AFuF++kfL4H/r4R3SEQWkC0ZAXUzqj3KDh3FL+abpNn5E0Y3faVVq7l7
+	qvYLz/MoFgBu/y9DIW6/EX5L8rQhfEb8oLAoylzWbMu7sIUQ7gdzpXuI+F8reJsSwWfLPn1oabm
+	G/ZoLW76STnsSQx1UgKrQKEW+QSjUg6Y6jYH5iuoR
+X-Gm-Gg: AYBFou30QbDjsAi0UnbBhvEZf/Tli0+tgYmfz/GTP0mZYnf0xiyesNu+4FJSDBJz70N
+	CsR9i5DECA6DPOJglz11/aRR3cKiLlaPbTjFO/4pIXC0+Z16EyGni4PH+4gHr+Ax6hllqM6/qDT
+	Uat9EhhkHwSWrs7VRSL6/iEHAXoU01IJ7yII60yCxT2hS8krgMEWH0Ggnn8+L+djAmaL0J67k0d
+	YR61MxlcifB1ePGtajZAKGGARjB1ETuJV+nUI47xJ3s1XkjwRMrkwh7+YyYk6jKkhukJyB9ysKQ
+	c/PS3O6fk/Z+XdtNxsWeTfKjUS6OL3BETlIAR5OSkDEMqCrEMZszm/SwNyxYYv4R5OqkKhsiTay
+	ZRAtq9j3OzzSmjbDMkviV+hdpiNNjQQ==
+X-Received: by 2002:a05:6000:2584:b0:485:8c16:5efa with SMTP id
+ ffacd0b85a97d-4858c16617emr27731999f8f.52.1788859132844; Tue, 08 Sep 2026
+ 02:18:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
+ <20260824-unique-ref-v20-4-490735672187@kernel.org> <ao2WubjLtDuHvRzx@google.com>
+ <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net> <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
+ <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set> <2dpwVpJS3VbfQ7CmE3HeY4IJSSMXTP_O9sSP3HHHUD7Z29RNEG4Hc0m8f94jKWjFlekcTXvIBA-QdGYrf8w1sw==@protonmail.internalid>
+ <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com>
+ <87zextw4c4.fsf@t14s.mail-host-address-is-not-set> <CAH5fLgjYmvp1Ph3dYXnTKkAvWgNpgCAPeq_7PZhRai6pCNmVmw@mail.gmail.com>
+ <87qzj4w2nw.fsf@t14s.mail-host-address-is-not-set>
+In-Reply-To: <87qzj4w2nw.fsf@t14s.mail-host-address-is-not-set>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Tue, 8 Sep 2026 11:18:40 +0200
+X-Gm-Features: AcwNN1VPjOtQdlrm_QvCyA8uta8erft96HkhfUzl1dJDcrSqVwPtKidMELQvEqo
+Message-ID: <CAH5fLgjrQDWSPX-81TNdnc=AU3Jge57vUJ_SHCn8=uUyGfRq=g@mail.gmail.com>
+Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Asahi Lina <lina+kernel@asahilina.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Set subrequest->source in netfs_alloc_subrequest() before we emit the trace
-line indicating we allocated the subrequest.  Note that this requires the
-allocation of the subreq in netfs_read_to_pagecache() to be pushed to after
-the decision about what sort of subreq it should be.
+On Tue, Sep 8, 2026 at 11:00=E2=80=AFAM Andreas Hindborg <a.hindborg@kernel=
+.org> wrote:
+>
+> Alice Ryhl <aliceryhl@google.com> writes:
+>
+> > On Mon, Sep 7, 2026 at 3:58=E2=80=AFPM Andreas Hindborg <a.hindborg@ker=
+nel.org> wrote:
+> >>
+> >> "Alice Ryhl" <aliceryhl@google.com> writes:
+> >>
+> >> > On Mon, Sep 7, 2026 at 2:38=E2=80=AFPM Andreas Hindborg <a.hindborg@=
+kernel.org> wrote:
+> >> >>
+> >> >> Alice Ryhl <aliceryhl@google.com> writes:
+> >> >>
+> >> >> > On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net=
+> wrote:
+> >> >> >>
+> >> >> >> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
+> >> >> >> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wro=
+te:
+> >> >> >> >> +        // SAFETY: We just successfully allocated a page, so=
+ we now have ownership of the newly
+> >> >> >> >> +        // allocated page. We transfer that ownership to the=
+ new `Owned<Page>` object.
+> >> >> >> >> +        // Since `Page` is transparent, we can cast the poin=
+ter directly.
+> >> >> >> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
+> >> >> >> >
+> >> >> >> > This doesn't satisfy the safety requirements of Owned::from_ra=
+w()
+> >> >> >> > because the page may be used with vm_insert_page(), which incr=
+ements its
+> >> >> >> > refcount and causes it to be shared the vma system, and this o=
+ccurs
+> >> >> >> > before Page::release() is called.
+> >> >> >>
+> >> >> >> I suppose the existing vm_insert_page() abstraction we have is a=
+lready
+> >> >> >> problematic, because it uses `&Page`?
+> >> >> >>
+> >> >> >> Maybe we want to change the API to use `ARef<Page>` so it alread=
+y has to be
+> >> >> >> shared? Conceptually it takes a reference count from a `&Page`, =
+which isn't
+> >> >> >> possible because `Page` is not `AlwaysRefCounted`, so it needs a=
+ `&ARef<Page>`
+> >> >> >> to be able to do that op.
+> >> >> >
+> >> >> > Honestly, the problem is the safety requirements of Owned::from_r=
+aw().
+> >> >> > Pages have a "special" main reference, and free_page() does more =
+than
+> >> >> > put_page(). It even does something when the refcount does not hit
+> >> >> > zero.
+> >> >> >
+> >> >> > The correct behavior for Page is to allow the user to hold one
+> >> >> > Owned<Page> whose drop calls free_page(), *plus* any number of
+> >> >> > ARef<Page> references that invoke put_page() on drop. This way, t=
+he
+> >> >> > owned page controls the special drop codepath.
+> >> >>
+> >> >> This does not mesh well with the model of `Owned` behaving like
+> >> >> `UniqueArc` to `ARef` behaving like an `Arc`.
+> >> >
+> >> > It's a different case, I agree.
+> >> >
+> >> >> Please help me understand; with page having a main ref and an auxil=
+iary
+> >> >> refcount, if we model that with a single `Owned<Page>` and a number=
+ of
+> >> >> `ARef<Page>`, what would happen in the case where the main ref (`Ow=
+ned`)
+> >> >> is dropped first? Is this legal?
+> >> >
+> >> > Yes, it's legal.
+> >> >
+> >> >> My intuition here would be to follow Garry's suggestion and have
+> >> >> `vm_insert_page` take an `ARef<Page>`. Can you elaborate why this i=
+s not
+> >> >> an option?
+> >> >
+> >> > That would be the wrong ownership semantics. The C side increments t=
+he
+> >> > refcount rather than take ownership of a passed-in refcount, so the
+> >> > correct argument type is &Page.
+> >>
+> >> Or `&ARef<Page>`? Because with `Page` being `Ownable` it would not be
+> >> OK to increment the refcount from just a `&Page`.
+> >
+> > That's just a limitation in your traits. There is no problem with
+> > creating a refcount from just a &Page.
+>
+> Yes, I agree. The limitation is by design. My point is, `vm_insert_page`
+> can work fine with the `&ARef<Page>` type. So if that would be OK with
+> you, I would patch that as part of this patch.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-cc: linux-mm@kvack.org
----
- fs/netfs/buffered_read.c | 4 ++--
- fs/netfs/direct_read.c   | 3 +--
- fs/netfs/internal.h      | 3 ++-
- fs/netfs/objects.c       | 4 +++-
- fs/netfs/read_retry.c    | 3 +--
- fs/netfs/read_single.c   | 2 +-
- fs/netfs/write_issue.c   | 3 +--
- fs/netfs/write_retry.c   | 3 +--
- 8 files changed, 12 insertions(+), 13 deletions(-)
+IMO, Page should implement AlwaysRefcounted and this method should
+take &Page. Anything else just adds limitations that are not needed.
+But I'm ok not implementing Ownable for it.
 
-diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-index e7fa30376862..f88b87c8303e 100644
---- a/fs/netfs/buffered_read.c
-+++ b/fs/netfs/buffered_read.c
-@@ -276,10 +276,10 @@ static void netfs_read_to_pagecache(struct netfs_io_request *rreq)
- 
- 	do {
- 		struct netfs_io_subrequest *subreq;
--		enum netfs_io_source source = NETFS_SOURCE_UNKNOWN;
-+		enum netfs_io_source source;
- 		ssize_t slice;
- 
--		subreq = netfs_alloc_subrequest(rreq);
-+		subreq = netfs_alloc_subrequest(rreq, NETFS_SOURCE_UNKNOWN);
- 		if (!subreq) {
- 			ret = -ENOMEM;
- 			break;
-diff --git a/fs/netfs/direct_read.c b/fs/netfs/direct_read.c
-index 5405e108b7a3..8c15f3079723 100644
---- a/fs/netfs/direct_read.c
-+++ b/fs/netfs/direct_read.c
-@@ -55,7 +55,7 @@ static void netfs_dispatch_unbuffered_reads(struct netfs_io_request *rreq)
- 		struct netfs_io_subrequest *subreq;
- 		ssize_t slice;
- 
--		subreq = netfs_alloc_subrequest(rreq);
-+		subreq = netfs_alloc_subrequest(rreq, NETFS_DOWNLOAD_FROM_SERVER);
- 		if (!subreq) {
- 			/* Stash the error in the request if there's not
- 			 * already an error set.
-@@ -64,7 +64,6 @@ static void netfs_dispatch_unbuffered_reads(struct netfs_io_request *rreq)
- 			break;
- 		}
- 
--		subreq->source	= NETFS_DOWNLOAD_FROM_SERVER;
- 		subreq->start	= start;
- 		subreq->len	= size;
- 
-diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index e0aa0ea510e9..ec520c948420 100644
---- a/fs/netfs/internal.h
-+++ b/fs/netfs/internal.h
-@@ -92,7 +92,8 @@ void netfs_get_request(struct netfs_io_request *rreq, enum netfs_rreq_ref_trace
- void netfs_clear_subrequests(struct netfs_io_request *rreq);
- void netfs_put_request(struct netfs_io_request *rreq, enum netfs_rreq_ref_trace what);
- void netfs_put_failed_request(struct netfs_io_request *rreq);
--struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq);
-+struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq,
-+						   enum netfs_io_source source);
- 
- static inline void netfs_see_request(struct netfs_io_request *rreq,
- 				     enum netfs_rreq_ref_trace what)
-diff --git a/fs/netfs/objects.c b/fs/netfs/objects.c
-index 3460aa1c4af1..9c6ea718692a 100644
---- a/fs/netfs/objects.c
-+++ b/fs/netfs/objects.c
-@@ -207,7 +207,8 @@ void netfs_put_failed_request(struct netfs_io_request *rreq)
- /*
-  * Allocate and partially initialise an I/O request structure.
-  */
--struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq)
-+struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq,
-+						   enum netfs_io_source source)
- {
- 	struct netfs_io_subrequest *subreq;
- 	mempool_t *mempool = rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool;
-@@ -224,6 +225,7 @@ struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq
- 	INIT_WORK(&subreq->work, NULL);
- 	INIT_LIST_HEAD(&subreq->rreq_link);
- 	refcount_set(&subreq->ref, 2);
-+	subreq->source = source;
- 	subreq->rreq = rreq;
- 	subreq->debug_index = atomic_inc_return(&rreq->subreq_counter);
- 	netfs_get_request(rreq, netfs_rreq_trace_get_subreq);
-diff --git a/fs/netfs/read_retry.c b/fs/netfs/read_retry.c
-index 46810d29f0c0..396a05432a7e 100644
---- a/fs/netfs/read_retry.c
-+++ b/fs/netfs/read_retry.c
-@@ -195,12 +195,11 @@ static void netfs_retry_read_subrequests(struct netfs_io_request *rreq)
- 		 * and insert them after.
- 		 */
- 		do {
--			subreq = netfs_alloc_subrequest(rreq);
-+			subreq = netfs_alloc_subrequest(rreq, NETFS_DOWNLOAD_FROM_SERVER);
- 			if (!subreq) {
- 				subreq = to;
- 				goto abandon_after;
- 			}
--			subreq->source		= NETFS_DOWNLOAD_FROM_SERVER;
- 			subreq->start		= start;
- 			subreq->len		= len;
- 			subreq->stream_nr	= stream->stream_nr;
-diff --git a/fs/netfs/read_single.c b/fs/netfs/read_single.c
-index ccb5fc809d99..50775370d13d 100644
---- a/fs/netfs/read_single.c
-+++ b/fs/netfs/read_single.c
-@@ -92,7 +92,7 @@ static int netfs_single_dispatch_read(struct netfs_io_request *rreq)
- 	struct netfs_io_subrequest *subreq;
- 	int ret = 0;
- 
--	subreq = netfs_alloc_subrequest(rreq);
-+	subreq = netfs_alloc_subrequest(rreq, NETFS_DOWNLOAD_FROM_SERVER);
- 	if (!subreq)
- 		return -ENOMEM;
- 
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index 9a528da4bf9f..e7cb496f6324 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -168,10 +168,9 @@ void netfs_prepare_write(struct netfs_io_request *wreq,
- 	    wreq_iter->folioq_slot >= folioq_nr_slots(wreq_iter->folioq))
- 		rolling_buffer_make_space(&wreq->buffer, wreq->gfp);
- 
--	subreq = netfs_alloc_subrequest(wreq);
-+	subreq = netfs_alloc_subrequest(wreq, stream->source);
- 	if (!subreq)
- 		return;
--	subreq->source		= stream->source;
- 	subreq->start		= start;
- 	subreq->stream_nr	= stream->stream_nr;
- 	subreq->io_iter		= *wreq_iter;
-diff --git a/fs/netfs/write_retry.c b/fs/netfs/write_retry.c
-index 6cd584242af2..d7d5348496fc 100644
---- a/fs/netfs/write_retry.c
-+++ b/fs/netfs/write_retry.c
-@@ -149,8 +149,7 @@ static void netfs_retry_write_stream(struct netfs_io_request *wreq,
- 		 * and insert them after.
- 		 */
- 		do {
--			subreq = netfs_alloc_subrequest(wreq);
--			subreq->source		= to->source;
-+			subreq = netfs_alloc_subrequest(wreq, stream->source);
- 			subreq->start		= start;
- 			subreq->stream_nr	= to->stream_nr;
- 			subreq->retry_count	= 1;
+> >> > Now, for the use-case in Binder I believe we could switch to
+> >> > put_page(), as we don't need the extra stuff from free_page(), in
+> >> > which case we only want ARef<Page> and do not require Owned support.
+> >> > But as long as we are calling free_page(), it needs to not be
+> >> > clonable.
+> >>
+> >> You are calling `__free_page` directly in binder? I could not find thi=
+s
+> >> with grep except in the C binder. Is this code you are calling into fr=
+om
+> >> Rust binder?
+> >
+> > Via the Drop of Page, not directly of course.
+> >
+> >> From `__free_pages()` kernel-doc (`mm/page_alloc.c`):
+> >>
+> >> > If the last reference to this page is speculative, it will be
+> >> > released by put_page() which only frees the first page of a
+> >> > non-compound allocation. [...] **If you want to use the page's
+> >> > reference count to decide when to free the allocation, you should
+> >> > allocate a compound page, and use put_page() instead of
+> >> > __free_pages().**
+> >>
+> >> I guess this is what you are referring to? We could change `Page` to
+> >> this style as well and all would be fine I think?
+> >>
+> >> At any rate, today I learned about Pfn walkers, compaction,
+> >> memory-failure, etc. that take transient refcounts
+> >> pages. With that in mind we need to reformulate the invariant of
+> >> `Ownable` to exclude optimistic transient references.
+> >
+> > Yes we can switch Rust Binder to use put_page() and have Page not
+> > implement Ownable at all. That would be okay, because Binder's pages
+> > are not higher order.
+>
+> As far as I can tell, we can also switch `Owned<Page>` to allocate the
+> page with `__GFP_COMP` and use `put_page` in drop.
 
+I'm not entirely sure if __GFP_COMP is needed, since the page is order
+zero to begin with, so I don't think it makes a difference.
+
+> > But this case still does highlight that
+> > Ownable<_> currently does not address the use-case where the
+> > Ownable<T> is a special reference there can only be one of, rather
+> > than a completely unique reference.
+>
+> This is not the use case `Ownable` aims to solve.
+
+Maybe not, but then it doesn't apply to Page.
+
+> > For instance, the GPUVM abstraction would be another case where
+> > Ownable<_> could be used if we have this other model where Ownable<_>
+> > and ARef<_> are legal at the same time. Currently GPUVM uses a special
+> > UniqueRefGpuVm type to solve this problem.
+>
+> I am wondering if we can make case I intend to solve (Ownable is a
+> unique reference) coexist with the "at most one of this ref can exist".
+> The "at most one of this kind" sounds similar to the `ListArc` use case
+> to me, which is a different problem.
+
+I think they can co-exist. If AlwaysRefcounted is implemented, it is
+the ListArc use-case. If Refcounted but not AlwaysRefcounted is
+implemented, it is UniqueArc use-case.
+
+Alice
