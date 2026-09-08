@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830FD58F09F;
-	Tue,  8 Sep 2026 16:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4853558496F;
+	Tue,  8 Sep 2026 16:59:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788886616; cv=none; b=rMhrl1gmwTWbqB1QF+DtJcDH+nA12jyNlQrpNSg86Lhs9H+ojf3+0vgdG+zNEn7naE3CMYlJkxQUBk61YeCpnKp+3zaAgzjNUs0mWSsQ1PTH3arCoQzgirtC0D5uqGmgc9oG3EXiXy9mNIjvKli1Zl+Pkf0qzkTc5icRmFrQg1w=
+	t=1788886800; cv=none; b=nHVGT/V+//S3GKs3FyHZFQ72nMRXarl77RTC1x/qnH6phsdcFHG2Plg1kF+NHimL3iQBK74eF3vr180fNUpOCGohKakdYhpWb9gqrqOgCSMoot1MKN00X+vGCJbuBFC9hvHQpdugjsv7OjyWz0p3VVjA4HHtZTlCxHPISGVWnoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788886616; c=relaxed/simple;
-	bh=kqxeMi4ArDzzKPZSPAYbFi0k/RQwHKztgs/wUmPdSsE=;
+	s=arc-20240116; t=1788886800; c=relaxed/simple;
+	bh=Z5wUi0Voy+X54vFv7sVmKPDtrh4we8LzRDCf1COlaBg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SiaKVIa1/W6fzgRHOfoPDtW5zPa2ZPL5HyZloauoJ03ccxGSsz//W3BOl5RXUj3Gek7MSQjuksjQQ8EkDcL4m98RXGw2xGsvp8n/4QHY273mfbaZgUn0ZoeYUtQxKOXJ5kyRaEbDfkZ0my1HwDFITLB+qureHR3iM/UBJtyM+xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oaCiuBJH; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=tbe4mQvsQL8Zr1mYylTWnBU4TelAQQ4VXxJ7CfyKG3VD7UNR0fg5t2qUhCaPLNkrHoeeJIinwDUuo9J2u/YiI01CsEEDD2nD+bDE9bxMfARxqui1LAKCaLzA603HGT3pGvYp7PhHtJph0rX7WtbIOhvYh3ypMKs381uMMyj1un8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nKAdUKg3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oaCiuBJH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E39A1F00A3D;
-	Tue,  8 Sep 2026 16:56:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nKAdUKg3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C40E01F00A3A;
+	Tue,  8 Sep 2026 16:59:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788886614;
-	bh=7HFhd4KDSfD7wKAluuKwUfaCYQwrDIt/d+mkB/YfLSk=;
+	s=k20260515; t=1788886797;
+	bh=OMQ70/u9u8szoGpESycjyQ4jjTMGAaUnnXdZJr5u6/w=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=oaCiuBJHcKgdnJXHuF42Gzn0lhaqMVP/UkFfIBAUqBxb807yLavtvcGoPz6cRuN6G
-	 Gz9iTzi01MNzkULWuYzsM222rtvW8VlUZsqcufeVph6urpPk1fq7jq+DD1dw4nk/7o
-	 z5o9hGwvA0pLqg0VTxIpay5TpKTE2KrpHOap8FxcJCTa/boF8eOrk3WXzh2hSkhBvd
-	 mwvUhIhsgTgjsSXbJWaZcRSbTgrCrB/nPCczcKQokivuwdrYgXoEJj6JidRCMzOuNE
-	 C0XjaiTLaVLDiOD6roe2m8oNg3/4w7dtuyMQ2SjWxQoBAZRvpcNzsLJOKeXMuzgb3U
-	 N+I5lEnfyJ+xQ==
-Message-ID: <9395aac2-af01-42cf-92ea-4e3d5e7eec6d@kernel.org>
-Date: Tue, 8 Sep 2026 18:56:39 +0200
+	b=nKAdUKg3A1aykLfiEUW6krK0n/AY7E3QMlIU7kvdE1FohxbPYOXiL1PXo3lQ85Qm1
+	 /w+XLES/yMGzI8yCW6vi77eFy2yoXUhghyV09DnNRW9/vY86XCjZkTJM9Dt1gEDqKR
+	 4MwBYc+sazM9MQCWVZERpV1Umhai4/ATKX3wHirYBI2Zmi58mpPhOYpNxgKuH7KOLw
+	 3m5sR0CnQuBoqPQEDDvvpqi05uRYSmmlEGoc7Tasv6KsC1sUtq+USrUJmqu1/bxgpO
+	 1RXCHPOsFiej2e4xQIFliIJXAeueCBM8FTCDC3MlfKkSeCaPPqdRXOcxTICWfbLYbZ
+	 3hDHeI+ivlJwg==
+Message-ID: <6efff84b-7628-4d26-b65a-6f5b747030d0@kernel.org>
+Date: Tue, 8 Sep 2026 18:59:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/14] mm/page-flags: check page/folio->private instead
- of PG_private
+Subject: Re: [PATCH v3 10/14] mm/page-flags: introduce folio_test_fs_private()
 To: Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
  Andrew Morton <akpm@linux-foundation.org>,
  Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
@@ -52,16 +51,13 @@ To: Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
  Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Jan Kara <jack@suse.cz>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Matthew Brost <matthew.brost@intel.com>,
  Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Axel Rasmussen
- <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, linux-fsdevel@vger.kernel.org,
+ Byungchul Park <byungchul@sk.com>, linux-fsdevel@vger.kernel.org,
  linux-trace-kernel@vger.kernel.org
 References: <20260907-remove-pg_private-v3-0-6ae22f9d9272@nvidia.com>
- <20260907-remove-pg_private-v3-9-6ae22f9d9272@nvidia.com>
+ <20260907-remove-pg_private-v3-10-6ae22f9d9272@nvidia.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -108,32 +104,18 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260907-remove-pg_private-v3-9-6ae22f9d9272@nvidia.com>
+In-Reply-To: <20260907-remove-pg_private-v3-10-6ae22f9d9272@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/8/26 04:56, Zi Yan wrote:
-> After the changes of the prior commits, page/folio->private != NULL is now
-> equivalent to checking PG_private.
+> folio_test_fs_private() wraps folio->private != NULL check and excludes
+> swapcache and hugetlb folios, since swapcache uses swp_entry_t overlapping
+> with folio->private and hugetlb sets its own flags in folio->private.
+> Replace open code with the helper, since core MM does this check
+> frequently.
 > 
-> Stop checking PG_private on pages and folios and use page/folio->private
-> instead, except swapcache and hugetlb folios, because the former uses a
-> field (swp_entry_t swap) overlapping with ->private and the latter sets its
-> flags in ->private. Exclude swapcache and hugetlb when the code is meant to
-> check PG_private only. PG_swapcache and folio->swap.val cannot be set/clear
-> as a whole, so excluding swapcache with folio_test_swapcache() is not
-> reliable. Instead, use folio_test_swapbacked(), since PG_swapbacked is
-> stable when a folio is added to/removed from swapcache.
-> 
-> folio_expected_ref_count() can be called without folio lock, so annotate
-> folio_test_private() with data_race() to avoid triggering race condition
-> checks. While at it, annotate folio->mapping too. Add data_race()
-> annotation for other lockless callers too.
-> 
-> folio_set/clear_private() and Set/ClearPagePrivate() become no-ops.
-> PG_private is no longer checked at page free time.
-> 
-> Remove KPF_PRIVATE since PG_private is no longer used.
+> No functional change intended.
 > 
 > Assisted-by: Claude:claude-opus-4-8
 > Assisted-by: Codex:gpt-5
@@ -143,9 +125,6 @@ On 9/8/26 04:56, Zi Yan wrote:
 > To: Steven Rostedt <rostedt@goodmis.org>
 > To: Masami Hiramatsu <mhiramat@kernel.org>
 > To: Lorenzo Stoakes <ljs@kernel.org>
-> To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> To: Jan Kara <jack@suse.cz>
-> To: Johannes Weiner <hannes@cmpxchg.org>
 > Cc: "Liam R. Howlett" <liam@infradead.org>
 > Cc: Vlastimil Babka <vbabka@kernel.org>
 > Cc: Mike Rapoport <rppt@kernel.org>
@@ -167,47 +146,45 @@ On 9/8/26 04:56, Zi Yan wrote:
 > Cc: Gregory Price <gourry@gourry.net>
 > Cc: Ying Huang <ying.huang@linux.alibaba.com>
 > Cc: Alistair Popple <apopple@nvidia.com>
-> Cc: Qi Zheng <qi.zheng@linux.dev>
-> Cc: Shakeel Butt <shakeel.butt@linux.dev>
-> Cc: Kairui Song <kasong@tencent.com>
-> Cc: Axel Rasmussen <axelrasmussen@google.com>
-> Cc: Yuanchu Xie <yuanchu@google.com>
-> Cc: Wei Xu <weixugc@google.com>
 > Cc: linux-kernel@vger.kernel.org
 > Cc: linux-fsdevel@vger.kernel.org
 > Cc: linux-mm@kvack.org
 > Cc: linux-trace-kernel@vger.kernel.org
 > ---
+>  include/linux/mm.h             |  4 +---
+>  include/linux/page-flags.h     | 26 +++++++++++++++++++++++---
+>  include/trace/events/pagemap.h |  4 +---
+>  mm/huge_memory.c               |  4 +---
+>  mm/migrate.c                   |  3 +--
+>  mm/page-writeback.c            |  5 +----
+>  mm/vmscan.c                    |  3 +--
+>  7 files changed, 29 insertions(+), 20 deletions(-)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 5eb8a62fafb56..c861525cda83f 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3053,9 +3053,7 @@ static inline int folio_expected_ref_count(const struct folio *folio)
+>  		 * One reference from filesystem private data.
+>  		 * Use data_race() since folio might not be locked.
+>  		 */
+> -		ref_count += data_race(folio_test_private(folio)) &&
+> -			     !folio_test_hugetlb(folio) &&
+> -			     !folio_test_swapbacked(folio);
+> +		ref_count += data_race(folio_test_fs_private(folio));
+>  	}
 
-[...]
+Lol :) That's what I meant with folio_has_attached_private()
 
->  		/* !PageAnon && !swapper_space */
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 40d3f1b48a74c..9348ebf9de882 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -978,7 +978,8 @@ static void folio_check_dirty_writeback(struct folio *folio,
->  	*writeback = folio_test_writeback(folio);
->  
->  	/* Verify dirty/writeback state if the filesystem supports it */
-> -	if (!folio_test_private(folio))
-> +	if (!(folio_test_private(folio) && !folio_test_swapbacked(folio) &&
-> +	      !folio_test_hugetlb(folio)))
+(I think I prefer that name as it matches folio_attach_private(), but I might be
+biased ;) )
 
-Now that I read that check ... a fourth time? a fifth? I stopped counting :)
 
-Should we have a (in light of folio_attach_private()):
+This really should be sqashed into the previous patch, OR, have a prep patch
+that only replaces these instances and uses folio_test_private() until you
+convert it to folio->private in the second patch.
 
-static inline bool folio_has_attached_private(const struct folio *folio)
-{
-	/* Careful, we might get called on unlocked folios. */
-	if (!data_race(folio->private))
-		return false;
-	/* On some folios ->private is used for different purposes. */
-	return !folio_test_swapbacked(folio) && !folio_test_hugetlb(folio);
-}
-
-Of course, adding some nice documentation what having attached private means?
+In short: touch these call sites only once, not twice in a row.
 
 -- 
 Cheers,
