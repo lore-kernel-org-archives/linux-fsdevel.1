@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F785550DA4;
-	Tue,  8 Sep 2026 14:08:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD82C1FCFEF;
+	Tue,  8 Sep 2026 14:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788876486; cv=none; b=KbyKT5EGbLozNwFtY9o8wzKxOcF6l5GG70iYkQB5Hs7gVnw6b3QUglwl0dZ0ly3Vr4IKmWhs95oEQqmtZsa5ruLYYbBm2z7rfxiQoH5D1y4lp1KhRkVMCc6/o2M/3qZMr0+pzw/qacaw+znDAcTjd/NS2Re8G7o7jcY+IBlrrhw=
+	t=1788877064; cv=none; b=fSGNwB/qFGkuVu/t5Xw0WvuE39pvijBOXIpbgl01chGew4cqOBGR/pZxD3w5EvyriLizSbnqetHjVDi4pTfQEfgDHxN6+ePnNo3BLm7hhhWEOYEm96jSrgPQXK61teuNRzFzE+2D4K14Mbue5KSjbp4l93JG2JmKF4NrfUwWfNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788876486; c=relaxed/simple;
-	bh=jEDFa/29m2d+8Fs9FyzYi1F833lpp7pX1v74K+9copI=;
+	s=arc-20240116; t=1788877064; c=relaxed/simple;
+	bh=iuV3xyscWAa8WdVQdK3rRnbinmT5+MxtyC//eJQ7czY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HC8If2TOBY68j/NaRIlp+IXReEbsajKIPJWJJzTYWGTM0QsCx23PN26SyvkXHLOXdo0oUB/NDxKRHwFJPSBNrW/3k0GZHsbXjiObO7zjUHys4iOntsCcsMgO81T+sg2r/msG2Tvtx9jiBcK9rfJoHBJufFNffEh40pgP2IEIrNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kQGU4RuN; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=nXqT5sCsXjHCJCAoKINUtdN6HUJ0ZzenzJSV6hvvW+eyxN7v/NxSZR8+x9d3eZ64zyKhuMNSmkflZ4apxzUMvUtBpgDTIeLTmoypuh0pXHLyhmtgMBI774TZObumj27W+Pf9Py4pEpDYVpD1IIGMH3A0IZUk8gx2MERQdgoA+1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=myV7eNg/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kQGU4RuN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDE451F00A3D;
-	Tue,  8 Sep 2026 14:07:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="myV7eNg/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B171E1F00A3D;
+	Tue,  8 Sep 2026 14:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788876477;
-	bh=R4WFBW494Ued1je39zGeN2tdJow2EgtUwmTrd9cYNqk=;
+	s=k20260515; t=1788877055;
+	bh=NNSm9JyIdvqOJegC2cdB6kLuYGU1rFuia0SmDqpT6mw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kQGU4RuNAJOY3rsUeHdoZ1orFmipJPWkwfJXBCa3wYKVxTgNb9DT9WtoGg3nfnWgd
-	 mJpV7XsVp10l98a7OX+BOYBcsQqqKcQS6n8mrWQdImuJTR5dRNX5InWjZyZOcEZZKG
-	 HfQqjUbU6drW3G0iyxhJw7VsBh/x4q71/fI3nejJloGv1cwjlE8dUAHlt4vJ1eDaAs
-	 0333NzULtWV4NvQZQxcO/U47nlo4Uf6jYh0MBD+U7kL37fhJtTHmz0OG1HNPXMLIv0
-	 TDnt+5Cpt8ji+rqowMPVVjN84maLB3/3hGzUWoHOrwFP3nY1zvhVvpxaOVi8fWWiKo
-	 MNjMhE4/9fHAQ==
-Message-ID: <211391a9-7283-498d-bef8-41ba5dfcc549@kernel.org>
-Date: Tue, 8 Sep 2026 16:07:40 +0200
+	b=myV7eNg/gv18ZLJYuBI9HmZI8F2KKiBaPLhVUz+ajLhMZhgl0dEcFdPpnMth6B83v
+	 f7bKAmwnkn9B0NO+54KyVRbbRUSJT+mqymyMHBpmKK2jZU+aRP8M304KVS1gKBFzeh
+	 EcYROI937QJtzjnVZHMtcKkuH/fgohPt/53e0Xjf4cYrDbIlpcnz3Ch3HzkCeAF2He
+	 mjDTcEnwkIc79obTXOVQkYijQogcTpASWqBWw7RwTrb82kurV+UZ9BZelSzjnJ3ui9
+	 WLgDmf/OjnP51LoWTRGGQQ3znASGd9+51tfmaf5s0IinPyNYr1r7oMLH+QeT7qEO5a
+	 nrFkF6e9FdI4g==
+Message-ID: <2335b64f-483b-4327-9598-94123c36902f@kernel.org>
+Date: Tue, 8 Sep 2026 16:17:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,16 +35,23 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v6 1/5] mm: Add copy_remote_mm_str()
-To: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>, bpf@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, akpm@linux-foundation.org, andrii@kernel.org,
- ast@kernel.org, brauner@kernel.org, daniel@iogearbox.net, eddyz87@gmail.com,
- kpsingh@kernel.org, ljs@kernel.org, matt@bobrowski.net, memxor@gmail.com,
- song@kernel.org, sun.jian.kdev@gmail.com, utilityemal77@gmail.com,
- viro@zeniv.linux.org.uk
-References: <20260908135302.74963-1-tasos.papagiannnis@gmail.com>
- <20260908135302.74963-2-tasos.papagiannnis@gmail.com>
+Subject: Re: [PATCH v2 3/6] mm/vma: only permit MAP_PRIVATE /dev/zero to be
+ mapped anonymous
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org>
+ <20260908-map-private-dev-zero-v2-3-acc7b5625305@kernel.org>
+ <e743b598-9048-440f-9124-72071c696679@kernel.org> <aqAFBTyAqPTHlxkZ@gremlin>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -91,55 +98,32 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260908135302.74963-2-tasos.papagiannnis@gmail.com>
+In-Reply-To: <aqAFBTyAqPTHlxkZ@gremlin>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/8/26 15:52, Anastasios Papagiannis wrote:
-> copy_remote_vm_str() gets the target address space from a struct
-> task_struct. This does not work for an address space that exists but is
-> not yet associated with a task_struct, such as the mm held by struct
-> linux_binprm during exec.
+On 9/8/26 14:52, Lorenzo Stoakes (ARM) wrote:
+> On Tue, Sep 08, 2026 at 02:49:33PM +0200, David Hildenbrand (Arm) wrote:
+>>
+>>> +	/* Temporary MAP_PRIVATE-/dev/zero workaround. */
+>>> +	if (is_anon && map->file)
+>>> +		vma_set_anonymous(vma);
+>>> +
+>>>  	if (error)
+>>>  		goto free_iter_vma;
+>>>
+>>> @@ -2777,6 +2793,10 @@ static int call_mmap_prepare(struct mmap_state *map,
+>>>  	if (err)
+>>>  		return err;
+>>>
+>>> +	/* Hooks cannot mark themselves anonymous. */
+>>
+>> Wasn't this supposed to be reworked? :)
 > 
-> Add copy_remote_mm_str(), which operates directly on a struct mm_struct.
-> 
-> Use a common internal interface for the MMU and NOMMU implementations
-> and define both public wrappers in mm/util.c. Preserve the existing
-> copy_remote_vm_str() behavior, including handling zero-length requests
-> before acquiring the task's mm.
-> 
-> Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  include/linux/mm.h |  8 +++---
->  mm/internal.h      |  3 +++
->  mm/memory.c        | 41 ++----------------------------
->  mm/nommu.c         | 41 ++----------------------------
->  mm/util.c          | 62 ++++++++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 73 insertions(+), 82 deletions(-)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index dd09c438fa23..6f10ce315eaa 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -3325,10 +3325,10 @@ extern int access_process_vm(struct task_struct *tsk, unsigned long addr,
->  extern int access_remote_vm(struct mm_struct *mm, unsigned long addr,
->  		void *buf, int len, unsigned int gup_flags);
->  
-> -#ifdef CONFIG_BPF_SYSCALL
-> -extern int copy_remote_vm_str(struct task_struct *tsk, unsigned long addr,
-> -			      void *buf, int len, unsigned int gup_flags);
-> -#endif
-> +int copy_remote_mm_str(struct mm_struct *mm, unsigned long addr,
-> +		       void *buf, int len, unsigned int gup_flags);
-> +int copy_remote_vm_str(struct task_struct *tsk, unsigned long addr,
-> +		       void *buf, int len, unsigned int gup_flags);
+> It is, you yourself pointed out 4/6 makes this irrelevant, so I changed it
+> there :)
 
-Two nits I didn't realize earlier ...
-
-We use two-tab indent on the second parameter line in MM.
-
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Ah, thought you'd adjust that right away. Works for me, thanks.
 
 -- 
 Cheers,
