@@ -1,213 +1,200 @@
-Received: from mail-wr2-f10.google.com (mail-wr2-f10.google.com [74.125.225.74])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF79B51121C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 10:24:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CFF517BB1;
+	Tue,  8 Sep 2026 10:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788863050; cv=none; b=p2FV552wCLSanklEXnw37ktyk1a5KFIGYqM4ZelEIXsOGotssHNH1wBk+CYC8a8p3R/hfvcOXjnfimlLKBL6QMF+9cY4kLLNQoIM22+uGumzKRqTpptfgZPY3LvZXj6jZiXtKDbs/439jbMop285qfbUBja6+a9r6lJdrl4dL8E=
+	t=1788864279; cv=none; b=hlkZRIcClICsods2sbMgzJqmfYdvvjnGt2PkFfP+UrMhr1kuVhX9kXQdoFBXkcksG6ZCqbnM/ctNRHfr896ey1txxbcThBRIl/hbHnISi9DkCQTyB5kMgep7AFsntYGycxevjG0XF0ChGvzTUKra6IIn27IpNZd4zAvxbFBiGRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788863050; c=relaxed/simple;
-	bh=7QsWDOvRIVcKWQN6AjiUMToSowjA3/ius6pXM5piGjU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=dQywxaDqavXDBVkUMS6u/oEMGbPf74dGnKUwmsC5hC0PFNXFFKa5MS+Npx2c6TAaXS91Qlhitrr5O3Hpbsc5QgsCR8Qp6DokIjXsHZLJEe4UppRHQagmT5xT5lgi4UqupWp5lH80yr3XI8MVriPHWbBANxu8LXjw6wrTpGJKtjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HKYiLaKk; arc=none smtp.client-ip=74.125.225.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788864279; c=relaxed/simple;
+	bh=XpSImWaewoCn1f55R3L4P539JyJYo/ssl2r/P73WR/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLjthFTMo/F582vz5/rdpD1OUGhIzPAy0NBkaoiPaHC8orOrUnENinBIe34pgpt399k2XTDdFlyat7N4GCyKuecFtEtiM1kUB+njf4tz8ENI2Cfp8Elo7J0twasGmzjlSJo8qirKgD/Di57PIZ2mLd141xqCMk4loIZw8xNJQDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WSiL1IfM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CyqD+9my; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YjD3frJG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ucP47Zrk; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HKYiLaKk"
-Received: by mail-wr2-f10.google.com with SMTP id ffacd0b85a97d-48433107499so1932759f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 03:24:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788863047; x=1789467847; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GN5oe+Yb7QbWSaMIabzdcqrqYrF+b3TvzNzha4X/Tls=;
-        b=HKYiLaKkmCOS2yriyMLsD+7wVJY7qw7N3N/Y4FhL9Tntyk5VmVPpT9wICDSCv/6j7l
-         auVC5QqNyGMWD9Q/ZjQ0NaNUn+AuQHs/Sud1tjJT1soI+WPDjx9fQiE/ZXHdgZOlSd3K
-         YbuEdsi/03zLucTr25K6KGrSroLigCxz3ew0lNLGb9toyNYOFYiDJcdYFUqT84GP+HCT
-         pjkJVQ/F0uwxFubh8UZBidEbmu7TRuuIRO3wGZ4qQu7P5v/mMBTICkX9sfdFpoqLb8GQ
-         HMAyBCVcdICKo6aWGWW7C2ULUxBHbhJpDT+eC7hc7RPVRFk85z3Ax9BWWHKkrDjnIQqM
-         Ss+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788863047; x=1789467847;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GN5oe+Yb7QbWSaMIabzdcqrqYrF+b3TvzNzha4X/Tls=;
-        b=T3FSFUnT60lGeyUl2LSa5aocDJuy3tCez4HMU2qmeTTHKASKhAH1dKuKZg4Hc6ODvT
-         Zxv766TUXjaYB8TPlktpCZ9JgQ9OXyQdIseAPl3jspmc1V0Zu5kCl4FxjFWucMs8rE6M
-         hBFwDbrpnHu+2ex4SZ7OSTZ7e8m+GAfHiVDNJT8UI4JZaYN6WJdT7jBxZf5mvMMXeNmm
-         kQsq4p3+VupdJu9uiv22DQX3LOn+k+DYEdm+/tWDZYo9t+mX/PfdAS9vZrsBnO9pFP+e
-         E+RHzfmF3lCXjpX15snBs8UObOooYI/wwU9yBN7iM1RzSzDCuu/YznDyekjgtv/ihRXU
-         nYtw==
-X-Gm-Message-State: AFuF++m+cPB4IM77j99KhEjFk9Ckz7y8fiNmijhse3coJloQleDeOkuU
-	FAmr7yXUXj5G9mzmvuE0ZAhAFmRDHvB7XrXzDVJm5W1DhhHOKE76Ld9e
-X-Gm-Gg: AYBFou2vo9mVO2fIDouMlSFL6Dds1c78jFhAgWAKHshN0wcjrdkrpW3g7LSJYTF0+Rp
-	uS5pU8hHr7i+NcIXB4AaLYeoJrM8+x5b+5llcV1W4yHZKHSkGpzi2cGMU45WvChscLWnIa1DHkF
-	zOREBkb4nORRr2xgxECSVFrNRbyQ1wlQl1PA23tg5TfqpQllLL+0P6QoLZ82/dvrpJOqEnOrbZL
-	dn9+Zaw/tzOTUnAXWjodFvF0DIFaXn/8dxFNlQ1IgvjUZI5t+IQwn5T30QuZnNtXsoPetQMsFu6
-	VowQAfTxiF82CvuaFdtmrjd2NzN+UVwtmqvP9xPTtqa/4OjwdZ3hcHjCNBI6hEBeTyjoEpKwCiE
-	eGD4IwubbqAYIrK058AzDaRvKyo06/gxLWqpBGss3wppIimNpOfG7p2GOpiPOakA15gLtgzaoro
-	XlPlcg9LQF5ZeWUSsqRXCRO97siZfgAsdx3dNhOa1GiFDrVP7FwpHlMFz4XtZSQbYiGA6HVs+8/
-	YeGEHHrWijvI1EpABZpUHL4US5SR0HFmyR26EWk8qmLf++AMqHMTLGMpvp8FgH7s6N/Ix9V+1xo
-	BX7qrCf+2hbV9I0XxlxdBxTllSI=
-X-Received: by 2002:a5d:5f51:0:b0:485:8a46:704b with SMTP id ffacd0b85a97d-4858a467215mr25183611f8f.29.1788863046836;
-        Tue, 08 Sep 2026 03:24:06 -0700 (PDT)
-Received: from localhost (nat-icclus-192-26-29-3.epfl.ch. [192.26.29.3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4859207c28fsm29714859f8f.5.2026.09.08.03.24.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2026 03:24:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WSiL1IfM";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CyqD+9my";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YjD3frJG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ucP47Zrk"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 38C4C1F7A9;
+	Tue,  8 Sep 2026 10:44:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788864268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SQs+DsQFU/dCtQEHDb0FxIVZYriY7o9+/DEp95bYnqU=;
+	b=WSiL1IfMYyYhjIpCWrWzBWwPSl1l2Zez312DGLoSd24TTL6zfnDdn1Bahknh9snO6MCLpt
+	I50cxxKmVzwpDX6Ndv3pjglt7bAKXzEdDiQZlpDBdmgV1SNE7xwgnFZ6smWCS2bHRM4q2q
+	Y5WKbSgYoBbne069CEmWgnbE5xbf4z4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788864268;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SQs+DsQFU/dCtQEHDb0FxIVZYriY7o9+/DEp95bYnqU=;
+	b=CyqD+9myf+sfv0MP6tinh8iKIX37T6cy7am8Kuu07HF16hVUBpyvITtVq6lhThS/CkrvkN
+	v+N4X4+CxGKZ1RAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=YjD3frJG;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ucP47Zrk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788864264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SQs+DsQFU/dCtQEHDb0FxIVZYriY7o9+/DEp95bYnqU=;
+	b=YjD3frJGyCzfNz+zfYtAi/XSuslZn1+oofrWNuZNWv59Al32/+Q1gNrnZeUdhNWrkpC82B
+	Pb34rlJOzCp7SUQ+4gT0j4xvMxDqORcGrSMi5JTZIMgHA7XAenKoeteGup23B69ehnhf+i
+	5HLu9m8K1tazffdM0SA7KcwmLi0c3+8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788864264;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SQs+DsQFU/dCtQEHDb0FxIVZYriY7o9+/DEp95bYnqU=;
+	b=ucP47Zrkg0HjmvTtp55e/FQJDxMh0TcHBJKUR2O9UKJkSD9Pmc96tFM3fq7onRZ3XszHFZ
+	kPgvClbAkPDOLwCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 17F111347F;
+	Tue,  8 Sep 2026 10:44:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id O9XRBQjnn2onJwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 08 Sep 2026 10:44:24 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 8A204A12E2; Tue, 08 Sep 2026 12:44:23 +0200 (CEST)
+Date: Tue, 8 Sep 2026 12:44:23 +0200
+From: Jan Kara <jack@suse.cz>
+To: Xin Yin <yinxin.x@bytedance.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Tejun Heo <tj@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] writeback: size foreign flushes by target wb
+ dirty pages
+Message-ID: <ehvmfilvbez535uxyxbbqvofo32bglhxpzaekfir4chna4ptrl@tvmig5sf5zcd>
+References: <cover.1788836830.git.yinxin.x@bytedance.com>
+ <a889bf70370d17fec0731b60cf393d8cc7cf145d.1788836830.git.yinxin.x@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 08 Sep 2026 12:24:05 +0200
-Message-Id: <DL9V0Y6BPZSY.3J1EXVDXSHRFO@gmail.com>
-Cc: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-mm@kvack.org>, <david@kernel.org>, <akpm@linux-foundation.org>,
- <andrii@kernel.org>, <ast@kernel.org>, <brauner@kernel.org>,
- <daniel@iogearbox.net>, <eddyz87@gmail.com>, <kpsingh@kernel.org>,
- <ljs@kernel.org>, <matt@bobrowski.net>, <song@kernel.org>,
- <sun.jian.kdev@gmail.com>, <utilityemal77@gmail.com>,
- <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH bpf-next v5 4/7] bpf: Allow reads through
- trusted-or-null BTF pointers
-From: "Kumar Kartikeya Dwivedi" <memxor@gmail.com>
-To: "Anastasios Papagiannis" <tasos.papagiannnis@gmail.com>,
- <bpf@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260907165220.52431-1-tasos.papagiannnis@gmail.com>
- <20260907165220.52431-5-tasos.papagiannnis@gmail.com>
-In-Reply-To: <20260907165220.52431-5-tasos.papagiannnis@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a889bf70370d17fec0731b60cf393d8cc7cf145d.1788836830.git.yinxin.x@bytedance.com>
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 38C4C1F7A9
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:email,suse.com:email];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-On Mon Sep 7, 2026 at 6:52 PM CEST, Anastasios Papagiannis wrote:
-> Currently, a trusted-or-null pointer
-> (i.e. PTR_TO_BTF_ID|PTR_TRUSTED|PTR_MAYBE_NULL) has to be checked
-> for NULL before it can be dereferenced. Marking a field from
-> PTR_TO_BTF_ID typing to trusted-or-null can reject programs that
-> previously dereferenced the pointer directly. This is useful as we
-> need to mark new fields as trusted in order to pass those as arguments
-> to kfuncs.
->
-> Allow reads through pointers marked as
-> PTR_TO_BTF_ID|PTR_TRUSTED|PTR_MAYBE_NULL without an explicit NULL
-> check. Treat these pointers as potentially faulting so the reads happen
-> through BPF_PROBE_MEM. If a read produces another BTF pointer, clear its
-> trusted flags and mark it as PTR_UNTRUSTED.
->
-> This applies only to reads. Other cases still require an explicit NULL
-> check. After such a check, the pointer retains PTR_TRUSTED and can be
-> used normally.
->
-> The unchecked read path has two consequences:
->
-> 1. It uses BPF_PROBE_MEM, which is slower than a normal load. An
->    explicit NULL check refines the pointer to PTR_TRUSTED and allows a
->    normal load.
->
-> 2. A faulting read returns zero, which is indistinguishable from a
->    legitimately zero-valued field. Programs that need to distinguish
->    those cases must check the pointer before reading the field.
->
-> The next patch updates current tests and also introduces more checks to
-> ensure this change does not break anything.
+On Tue 08-09-26 11:23:51, Xin Yin wrote:
+> Foreign dirty tracking records the bdi and wb memcg IDs of recently
+> dirtied foreign inodes. When the source memcg needs foreign writeback,
+> mem_cgroup_flush_foreign() queues WB_REASON_FOREIGN_FLUSH to the
+> recorded target bdi_writeback.
+> 
+> cgroup_writeback_by_id() currently sizes this best-effort work from the
+> target memcg's NR_FILE_DIRTY counter. The work is scoped to one target
+> wb, so a memcg-wide dirty count can over-size a single-bdi flush when
+> the target memcg has dirty pages on other devices. It can also under-size
+> the flush when the target wb has dirty pages charged to other memcgs.
+> 
+> Over-sizing keeps the target wb busy longer and can delay later
+> writeback work. Under-sizing can finish before enough pages are written
+> back for the source memcg.
+> 
+> Use the target wb's WB_RECLAIMABLE counter and keep the existing 25%
+> headroom. This keeps the budget aligned with the writeback object being
+> queued.
+> 
+> Fixes: 97b27821b485 ("writeback, memcg: Implement foreign dirty flushing")
+> Signed-off-by: Xin Yin <yinxin.x@bytedance.com>
 
-We tried doing this before in
-https://lore.kernel.org/bpf/20241104171959.2938862-2-memxor@gmail.com and i=
-t
-got reverted, it broke all sorts of things and made everything more complex=
-.
+Yeah, this looks like an obvious win. Feel free to add:
 
-I would drop this hack and just fix the program. Given your earlier change =
-to
-annotate the field correctly, I am puzzled why you added this, and there is=
-n't
-any description anywhere explaining why.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Anyway, regardless of the reason, it's a bad idea and shouldn't be done. At=
- some
-point we will also tighten conditions around normal PTR_TO_BTF_ID and only =
-allow
-trusted pointers everywhere.
+								Honza
 
-pw-bot: cr
-
->
-> Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
 > ---
->  include/linux/bpf_verifier.h |  9 ++++++++-
->  kernel/bpf/verifier.c        | 12 +++++++++++-
->  2 files changed, 19 insertions(+), 2 deletions(-)
->
-> diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier.h
-> index 9727df5af83a..4f032ad83c67 100644
-> --- a/include/linux/bpf_verifier.h
-> +++ b/include/linux/bpf_verifier.h
-> @@ -1339,6 +1339,11 @@ static inline bool bpf_is_ptr_to_mem_or_btf_id(enu=
-m bpf_reg_type type)
+>  fs/fs-writeback.c | 17 +++++++----------
+>  1 file changed, 7 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> index 7c75ed7e8979..7c2340a5dead 100644
+> --- a/fs/fs-writeback.c
+> +++ b/fs/fs-writeback.c
+> @@ -1131,7 +1131,7 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
+>  	struct cgroup_subsys_state *memcg_css;
+>  	struct bdi_writeback *wb;
+>  	struct wb_writeback_work *work;
+> -	unsigned long dirty;
+> +	long dirty;
+>  	int ret;
+>  
+>  	/* lookup bdi and memcg */
+> @@ -1160,16 +1160,13 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
 >  	}
->  }
->
-> +static inline bool bpf_is_trusted_or_null_btf_ptr(enum bpf_reg_type type=
-)
-> +{
-> +	return type =3D=3D (PTR_TO_BTF_ID | PTR_TRUSTED | PTR_MAYBE_NULL);
-> +}
-> +
->  static inline bool bpf_may_fault_on_deref(enum bpf_reg_type type)
->  {
+>  
 >  	/*
-> @@ -1346,7 +1351,9 @@ static inline bool bpf_may_fault_on_deref(enum bpf_=
-reg_type type)
->  	 * protection, that is, the ones bpf_convert_ctx_accesses() has to
->  	 * turn a BPF_LDX into a BPF_PROBE_MEM one for.
+> -	 * The caller is attempting to write out most of
+> -	 * the currently dirty pages.  Let's take the current dirty page
+> -	 * count and inflate it by 25% which should be large enough to
+> -	 * flush out most dirty pages while avoiding getting livelocked by
+> -	 * concurrent dirtiers.
+> -	 *
+> -	 * BTW the memcg stats are flushed periodically and this is best-effort
+> -	 * estimation, so some potential error is ok.
+> +	 * The caller is attempting to write out most of the target wb's
+> +	 * currently dirty pages.  Size the work from the wb's reclaimable pages
+> +	 * and inflate the count by 25%, which should be large enough to flush
+> +	 * out most dirty pages while avoiding getting livelocked by concurrent
+> +	 * dirtiers.
 >  	 */
-> -	return type =3D=3D PTR_TO_BTF_ID || (type_flag(type) & PTR_UNTRUSTED);
-> +	return type =3D=3D PTR_TO_BTF_ID ||
-> +	       (type_flag(type) & PTR_UNTRUSTED) ||
-> +	       bpf_is_trusted_or_null_btf_ptr(type);
->  }
->
->  static inline bool bpf_prog_has_arena_ctx_arg(const struct bpf_prog *pro=
-g)
-> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> index 9e79750e2480..b5186e664aea 100644
-> --- a/kernel/bpf/verifier.c
-> +++ b/kernel/bpf/verifier.c
-> @@ -6168,6 +6168,15 @@ static int check_ptr_to_btf_access(struct bpf_veri=
-fier_env *env,
->  	if (ret !=3D PTR_TO_BTF_ID) {
->  		/* just mark; */
->
-> +	} else if (bpf_is_trusted_or_null_btf_ptr(reg->type)) {
-> +		/*
-> +		 * An unchecked load through a trusted-or-NULL pointer is
-> +		 * fault-protected. Any pointer derived from that load must be
-> +		 * untrusted, as a fault produces a NULL value.
-> +		 */
-> +		clear_trusted_flags(&flag);
-> +		flag |=3D PTR_UNTRUSTED;
-> +
->  	} else if (type_flag(reg->type) & PTR_UNTRUSTED) {
->  		/* If this is an untrusted pointer, all pointers formed by walking it
->  		 * also inherit the untrusted flag.
-> @@ -6644,7 +6653,8 @@ static int check_mem_access(struct bpf_verifier_env=
- *env, int insn_idx, struct b
->  		if (!err && t =3D=3D BPF_READ && value_regno >=3D 0)
->  			mark_reg_unknown(env, regs, value_regno);
->  	} else if (base_type(reg->type) =3D=3D PTR_TO_BTF_ID &&
-> -		   !type_may_be_null(reg->type)) {
-> +		   (!type_may_be_null(reg->type) ||
-> +		    (t =3D=3D BPF_READ && bpf_is_trusted_or_null_btf_ptr(reg->type))))=
- {
->  		err =3D check_ptr_to_btf_access(env, regs, reg, argno, off, size, t,
->  					      value_regno);
->  	} else if (reg->type =3D=3D CONST_PTR_TO_MAP) {
-
+> -	dirty = memcg_page_state(mem_cgroup_from_css(memcg_css), NR_FILE_DIRTY);
+> +	dirty = wb_stat_sum(wb, WB_RECLAIMABLE);
+>  	dirty = dirty * 10 / 8;
+>  
+>  	/* issue the writeback work */
+> -- 
+> 2.20.1
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
