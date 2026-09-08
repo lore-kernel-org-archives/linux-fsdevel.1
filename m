@@ -1,62 +1,65 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99ED342FCBF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1822432304
 	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 21:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788901506; cv=none; b=nB3hcf+w1X+ause7W+5KeI6DDbZEpfeJJ6jDrysJFfWQE6a4clq4csvi5mUUBYdyNpc46Q2xrNXfhXVXEaccXnKHz9FAaxVVk1DrAqxINyZQP76xb0KL5dgN9dNRp2JN4EnXPnsb8wR23S6WI2D/FzWbYm2nWcn5TP9IrsAJVFg=
+	t=1788901506; cv=none; b=Z5BWjXc7fAForXKncc7TjlLbFm36rLb2Rf63QHyJYnINHxiz77GZEH59CaXTAMv/HfxVCi+uy/cn8dEkUkIRoWByDJwp0P1d8z/bcuH0fg3oRIo1ggXOXKdusvhjj/bIUlq6+4+8v3XVdhMSmk5+rN/TSioaIrk3TaDD7aRU4Lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788901506; c=relaxed/simple;
-	bh=M70UUZB8RbEdIQDSJGfK6gfuonjBPkMbGzk2H0VfuAQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u3ezl9lTDX5V3rB09IFWxzgDwpay24cXvqERqVbO+mXHA9sCcSerXOKRKW/vrY9m+i8rtNphh5efVp8bZvVaUjO3rAW7ONe/vgQ9uOthEIIbuLDgpit6zL8p7CVb7VNGOGrGMOgyVOAaVPf3izAQukRGemQzUNpSq+ZUUvXQQZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=SuwKru7Q; arc=none smtp.client-ip=74.125.224.43
+	bh=JS4es041X9iQ3ww+X8OGRBNQHXimqemFhijw7rmEypM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hyCnY7EacWknq8/XTWVUA7qIJns5T8vXbTl5SNnXtCqK5tXejboE7kqnw3Vhki1w8W26cR6g+V0CObPHrGWD+oPFmTWDtO/KD1aRSwAkDtTltsS3S1v76gHjgs2ZYAy1/OYW0eereA4EvJ7xp1JyAUtpea12DY4uFuagQTDDwlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=TgnpThmI; arc=none smtp.client-ip=74.125.224.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="SuwKru7Q"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66d116f0de8so4453258d50.0
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="TgnpThmI"
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e4aae3149so432891d50.2
         for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 14:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1788901503; x=1789506303; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IymBD51GU+QA9NI7RVfxi4wRYbsFayp2/H5ySdDwOmE=;
-        b=SuwKru7QT4f/FBG4Y+Udyf2t86xVSe4ZyRWEJYYVS6lQ5wuSiQL2pmKKSWim9gA0xh
-         P9vBCH470EY07jzwMkPnM2vxgvQ/hL8/JfJUfTO1X9xM2zrH4zz3moK93PeRvXVXyohv
-         oDAu6/76wpyzyVIQz+aosSIJ0b6acfusSky9Db4mwWD8Ag98xb1x3ICNxGfzh1z+H8qQ
-         bSFUj7Q04zyMOHhQMTqcj2xlyictVlt6r786ekDStbGrWXET9aHRUGRQeetK1WTL9A/j
-         YP+nwDHuIB2biFmP2f9zsSqPPruqWYovQ2yPuPiIjRrISyMCUzF9GKOK1sSNloLRDGbs
-         G8tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788901503; x=1789506303;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1788901504; x=1789506304; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IymBD51GU+QA9NI7RVfxi4wRYbsFayp2/H5ySdDwOmE=;
-        b=tTuwP4VjqstHL6g3HaQQUPtk+bI1qg15R+RHcNfqPye6RSn0oUnQze84hQ3YRWbTsb
-         OwqT5I/LuSxS3Am8jsa9OSKt//GYmNa06wa5825r+hneUmBgv0CwgLSmzFEV+blQrfeJ
-         DHb/pToIZqJwPyO0KKio+GnIxgr9J9ujLyszj1eHj+r/XMAi3upvDndV7X64tOX5OCCp
-         /sx0ipO4p4R7ShU9iyK0PL/0xS5w5g5UBb/s89G+MhNqowrCDWku3mpNdK/fRIbj1RIy
-         txz3Rn6YcRhhK7IDhphq6dy5FdYOs5aIQjUlZyvRoGTdwShlm+C/MbDsJ7U/T2Apkda/
-         sQzA==
-X-Gm-Message-State: AFuF++l3IVsXRlLKJr2tFBcc9ABnOCZvgiievyqlUTbiRfWqrahvoRSW
-	p1HpnffhbRdUTrXhTsER6cCbCNSzwl88CeA2lD33Zh2ssn6FLquKs1uOdWJNUEUYYVI=
-X-Gm-Gg: AYBFou02VcEOA2hQ0u7Q5VHjRYQLboLMKz2RJce4CYCdDarI+sxCmUXgTjdSNOKLY9O
-	y5rwWktHB+j2negbnhBPGEv6Ib7BpN9lhf3x/cZvir/a1/UAStJCXCe93VrJtoW9LTOrwLwknBj
-	Qhl9jfVToNuZnCNTwyxOECs+4ljQQg9i/p4uQjvCwmMWBccbhTjLeihe3+QPyXmRRSES+phPY3x
-	d8IFO9nuzi2a+9piEzvUZFix1hLHgibpqtiHsJJEoodqmDLuznOclNwdrZ1Il0umon0Q2gNqzXd
-	jNfVfS8PUIe3naIgY5oZI35YNE1F8cylcYusCjUgOE5ZaWrVZQ7Y6bVzafKL4HQp2CixZDbopf6
-	z0mosyG5/17Wp1CrGlh3Ggg7F8h3DURkZbBiOzeq526f9o7KkuvJkNbSB7434cdxgWwFfKaQfji
-	nLbqWj7S+/zfefNfGUZSRNIQrVQuigqdEIXSzvsXjZV0RWxu6ZHSQCZ17ZVKZDmz1c9k2Pl7ETo
-	fH/AZe+lLOzNdsRHOYUbz+R67yDeOeFlhydc1Ldk7vH5uDL8eWZ2ilAmOptN0oyDn5mOwSzEV6y
-	FeZ3d9lQtFVWZjLJ
-X-Received: by 2002:a05:690e:439b:b0:66f:a87e:2fdb with SMTP id 956f58d0204a3-66fc1ae0b79mr5594493d50.8.1788901498761;
-        Tue, 08 Sep 2026 14:04:58 -0700 (PDT)
+        bh=+JM2TitCUkHWsoHev5+SihBzZ6SFDmIJWRE6hX8zY3w=;
+        b=TgnpThmIp23oMAZm0vH2L2u1SQYiCA//G0VpRSYTlS16DNKXch4r6QhrGo3uSE3Ufs
+         nxUuHLG9DJIRA+Yl+c5Xjbz5wTCfJCAbak4Ytx8TAFn/xM0hulguYLvgc5qXRJ/uJ+qf
+         vmfOS0pWqTCfZiLdvQKZK3Q+lV4ffTiYD7AXsX+3Zc8biT2eSToycgqbelMqLygq+VMP
+         GNqyxbT0ZtoFGEZx4ZqhVod0IQljxG7KkP/An7DZGfiTTHFa3Afj5wxmBOiffaEmX/Tg
+         07NJtibWDpsTRQDf2xEfiNTRruB4JX2BF19sfeV6qpImGNuj5htNVBlFb/tTh6986v70
+         y4yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788901504; x=1789506304;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+JM2TitCUkHWsoHev5+SihBzZ6SFDmIJWRE6hX8zY3w=;
+        b=Zd1U6LRf21cYI36mBCc9V0mau6+hc2n3E78zR8aywKEy5Gld78+b4AymVXnZtDl0nh
+         KZriaQ9KqSUPNf71B3jpje5JbWkxjvwW+QuHX2C+0eO4vkowwUFZ0hT63qgQ2V1uP9bS
+         Df0zGK1xdfkvI1chjBJ4XAtNJilHNICvbJdSVRFpfZi6qavJM4ERJiloJC7Jxt9HAFbl
+         pNTK4JhqOmkNKtOYOeNlGVSK0m+mj75LSvyBSsL7yxS87vVkphmpZ73UyLhYP028nMgn
+         Lmk45ewLJJ1k23vgj2AJ2SwtSBvNoMNrCMi6twDEPkB3hi9fRKii23n5dPEcMMA4dpf8
+         9DDA==
+X-Gm-Message-State: AFuF++mRjRIgWXxmuH/dlUd7jKar+TYEqV9wD/Ytqm3EUt5vROXbgQ3+
+	z06UqJ+y3QvoNZqlzLzZ6Xubo3NwZGJ7eNNcYi4RzzrLy+pKdyG9/iPk7+zRKwFoOOrGPatz8Si
+	kEG9mY7j5+w==
+X-Gm-Gg: AYBFou1Ffjj3aHyo6NMEGZ2zoRPXpzEVcQ6WKp+Ew6ewXXKDtBfqfAufi/9rJEAyCLs
+	n+zE5xhfwkBZC3VJzaTkDB+CXn3/aTque1DMS0g1iC3QB7d0S16SoRaoozCL+lY08f5/LIFo4r5
+	tNrjr+GU5ADEGAtx1/lP+pPSUFEBdbdHUQV0hzlbjXk+m7yUKSa+B84r5Nzi9jAXsqw5vt13/TU
+	oq4U3mfr6n6gMplrDJ61EWHSHpPhqrIgTCESZe7c6jPY/BTcc3B7YTyKpxyYq7u7p7z6PD4ojDn
+	kJj7B1l4JuRWbuWRVT6SZVowceGbhG1sdNuJeLSKaYPzm0egVbTX1kfb8kppbD2P/wsSATmckdf
+	MCqHPYKGRULGx6d7eD7cTUEYs5QhsiW14G9jf+EpmvcfNaOSAalwwr71FHR+S4soDuS97Hof8xP
+	AaXald9m+wfWJjzK5cDQlJJ/oWmcOtE41D0O+XXYIZbyDq4jOrhWQIdPXWDEOxob/yCDCT6DwkJ
+	5RqnblRirOFTxuU0620Qdf48PYx7GJQhZoHe1jcLXI/0tgPsMWMDylVEJWNWh4tVnWsyyzkq+Xa
+	pkEngzxMcuX4sfyj
+X-Received: by 2002:a05:690e:80d:10b0:66d:1a61:5c6 with SMTP id 956f58d0204a3-671036edcbbmr515226d50.29.1788901503692;
+        Tue, 08 Sep 2026 14:05:03 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:1eca:212:86d0:4e87])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb495eccesm11078129d50.18.2026.09.08.14.04.56
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb495eccesm11078129d50.18.2026.09.08.14.05.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 14:04:58 -0700 (PDT)
+        Tue, 08 Sep 2026 14:05:03 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: glaubitz@physik.fu-berlin.de,
 	frank.li@vivo.com,
@@ -68,10 +71,12 @@ Cc: linux-fsdevel@vger.kernel.org,
 	brauner@kernel.org,
 	djwong@kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v3 0/7] hfsplus: convert regular file I/O to iomap-based operations
-Date: Tue,  8 Sep 2026 14:04:41 -0700
-Message-ID: <20260908210448.296772-1-slava@dubeyko.com>
+Subject: [PATCH v3 3/7] hfsplus: take the bitmap page lock for allocate/free
+Date: Tue,  8 Sep 2026 14:04:44 -0700
+Message-ID: <20260908210448.296772-4-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260908210448.296772-1-slava@dubeyko.com>
+References: <20260908210448.296772-1-slava@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -80,10 +85,20 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series moves HFS+ regular file data I/O off the legacy
-buffer_head/blockdev_direct_IO() path onto iomap-based operations with
-the goal to retire the older buffer_head-based direct I/O infrastructure.
+The hfsplus_block_allocate() and hfsplus_block_free() kmap
+the allocation bitmap's pages and modify their bits in place
+under sbi->alloc_mutex, but without holding the page lock.
+That leaves the read-modify-write of the bitmap bits
+unprotected against a concurrent writeback of the same page,
+which can read a partially-updated bitmap word or race with
+the dirty-bit update.
 
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+cc: Christoph Hellwig <hch@lst.de>
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
+---
 v2
 Christoph Hellwig has detected that taking the page lock around
 the kmap/modify/kunmap section is not enough on its own:
@@ -95,46 +110,108 @@ and call folio_wait_stable() right after taking the page lock in
 both functions, so a mutator also waits out any writeback that was
 already in progress when it acquired the lock.
 
-Christoph Hellwig suggested to introduce a generalized version
-of iomap_dio_end_io() that was placed into include/linux/iomap.h.
-
-The hfsplus_btree_aops uses hfsplus_btree_read_folio() and
-hfsplus_btree_writepages() methods. The hfsplus_symlink_aops
-uses hfsplus_symlink_read_folio() and hfsplus_symlink_writepages()
-methods. Also, hfsplus_setattr() doesn't distinguish the regular
-and not regular file cases anymore.
-
 v3
 Matthew Wilcox recommended to use folio_wait_writeback()
 instead of folio_wait_stable().
+---
+ fs/hfsplus/bitmap.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Fix failures in generic/091, generic/521, and generic/551.
-
-Viacheslav Dubeyko (7):
-  hfs/hfsplus: exchange hardcoded number of extents on named constants
-  hfsplus: rework hfsplus_get_block() logic
-  hfsplus: take the bitmap page lock for allocate/free
-  hfsplus: add iomap operations for regular file data
-  hfsplus: move file related operations to file.c
-  hfsplus: introduce iomap-based file_operations
-  hfsplus: switch address_space_operations on iomap-based support
-
- fs/hfsplus/Kconfig         |   2 +-
- fs/hfsplus/Makefile        |   5 +-
- fs/hfsplus/bitmap.c        |  18 +++
- fs/hfsplus/extents.c       | 164 ++++++++++++++------
- fs/hfsplus/file.c          | 304 +++++++++++++++++++++++++++++++++++++
- fs/hfsplus/hfsplus_fs.h    |  26 +++-
- fs/hfsplus/inode.c         | 281 ++++++++++------------------------
- fs/hfsplus/iomap.c         | 192 +++++++++++++++++++++++
- fs/hfsplus/iomap.h         |  18 +++
- include/linux/hfs_common.h |   8 +-
- include/linux/iomap.h      |  20 +++
- 11 files changed, 787 insertions(+), 251 deletions(-)
- create mode 100644 fs/hfsplus/file.c
- create mode 100644 fs/hfsplus/iomap.c
- create mode 100644 fs/hfsplus/iomap.h
-
+diff --git a/fs/hfsplus/bitmap.c b/fs/hfsplus/bitmap.c
+index 1b3af8c87cad..30178ea47362 100644
+--- a/fs/hfsplus/bitmap.c
++++ b/fs/hfsplus/bitmap.c
+@@ -39,6 +39,8 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
+ 		start = size;
+ 		goto out;
+ 	}
++	lock_page(page);
++	folio_wait_writeback(page_folio(page));
+ 	pptr = kmap_local_page(page);
+ 	curr = pptr + (offset & (PAGE_CACHE_BITS - 1)) / 32;
+ 	i = offset % 32;
+@@ -75,6 +77,7 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
+ 			curr++;
+ 		}
+ 		kunmap_local(pptr);
++		unlock_page(page);
+ 		offset += PAGE_CACHE_BITS;
+ 		if (offset >= size)
+ 			break;
+@@ -84,6 +87,8 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
+ 			start = size;
+ 			goto out;
+ 		}
++		lock_page(page);
++		folio_wait_writeback(page_folio(page));
+ 		curr = pptr = kmap_local_page(page);
+ 		if ((size ^ offset) / PAGE_CACHE_BITS)
+ 			end = pptr + PAGE_CACHE_BITS / 32;
+@@ -98,6 +103,9 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
+ 	start = offset + (curr - pptr) * 32 + i;
+ 	if (start >= size) {
+ 		hfs_dbg("bitmap full\n");
++		kunmap_local(pptr);
++		unlock_page(page);
++		start = size;
+ 		goto out;
+ 	}
+ 	/* do any partial u32 at the start */
+@@ -128,6 +136,7 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
+ 		}
+ 		set_page_dirty(page);
+ 		kunmap_local(pptr);
++		unlock_page(page);
+ 		offset += PAGE_CACHE_BITS;
+ 		page = read_mapping_page(mapping, offset / PAGE_CACHE_BITS,
+ 					 NULL);
+@@ -135,6 +144,8 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
+ 			start = size;
+ 			goto out;
+ 		}
++		lock_page(page);
++		folio_wait_writeback(page_folio(page));
+ 		pptr = kmap_local_page(page);
+ 		curr = pptr;
+ 		end = pptr + PAGE_CACHE_BITS / 32;
+@@ -152,6 +163,7 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
+ 	*curr = cpu_to_be32(n);
+ 	set_page_dirty(page);
+ 	kunmap_local(pptr);
++	unlock_page(page);
+ 	*max = offset + (curr - pptr) * 32 + i - start;
+ 	sbi->free_blocks -= *max;
+ 	hfsplus_mark_mdb_dirty(sb);
+@@ -185,6 +197,8 @@ int hfsplus_block_free(struct super_block *sb, u32 offset, u32 count)
+ 	page = read_mapping_page(mapping, pnr, NULL);
+ 	if (IS_ERR(page))
+ 		goto kaboom;
++	lock_page(page);
++	folio_wait_writeback(page_folio(page));
+ 	pptr = kmap_local_page(page);
+ 	curr = pptr + (offset & (PAGE_CACHE_BITS - 1)) / 32;
+ 	end = pptr + PAGE_CACHE_BITS / 32;
+@@ -216,9 +230,12 @@ int hfsplus_block_free(struct super_block *sb, u32 offset, u32 count)
+ 			break;
+ 		set_page_dirty(page);
+ 		kunmap_local(pptr);
++		unlock_page(page);
+ 		page = read_mapping_page(mapping, ++pnr, NULL);
+ 		if (IS_ERR(page))
+ 			goto kaboom;
++		lock_page(page);
++		folio_wait_writeback(page_folio(page));
+ 		pptr = kmap_local_page(page);
+ 		curr = pptr;
+ 		end = pptr + PAGE_CACHE_BITS / 32;
+@@ -232,6 +249,7 @@ int hfsplus_block_free(struct super_block *sb, u32 offset, u32 count)
+ out:
+ 	set_page_dirty(page);
+ 	kunmap_local(pptr);
++	unlock_page(page);
+ 	sbi->free_blocks += len;
+ 	hfsplus_mark_mdb_dirty(sb);
+ 	mutex_unlock(&sbi->alloc_mutex);
 -- 
 2.43.0
 
