@@ -1,225 +1,221 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944DD581232;
-	Tue,  8 Sep 2026 16:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788883515; cv=none; b=s5W24mButqquWYWOzH2dFiBuawMW+AFiv4Q59qwweRcjFTy+H/v9nKrYTehMpUvjs9n/6io0J19vteV4OU3gdh0qwJdb61xl+mAvgIR+FEl7qNObGadOBKV/9Wp3o2do1ZJ0kMec/NVi/uGiDZXIpGcyvydVdrKNIEGCX6JtAiA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788883515; c=relaxed/simple;
-	bh=IFA+P+ReisZqB2UKDr9RcdY5ADOKSoXx2Fhj2eKS7Ag=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PemIYvnnYAKbX8pEyN6bPxbVWl2CYuJlmJPteC+Pl8RAO0CAv/EhyVX8O5AxqhdYWVStu0BB4vHxGAKXWYjBpeBpSd6U6mSbo3CdvGV/Dy4RPgXrQYIqkL6ikGU0FvGhsxsIUKaz3ZWImQ5FsLrLy+GUjI3fAXh8tH0ZtJ4x8fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fN/nuOR6; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B593533344A
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 16:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788883716; cv=pass; b=KoNRb1Bkd9/TRL6XZwJkaiw2Ev5+q9DdEnEa+cqV1Eahid5T84hgVjP1TqbMYSAbx6nTU5oCFRrh1P72sGHSyRW5L+M03S/8AbOqQSykCZ5ZB4FGs3N/akuRTw2rivFURs4Zk8qUG3rM9+3n1hf8PA5oY/RLSPTtwGI9SLJ7tf0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788883716; c=relaxed/simple;
+	bh=BuweEasqZa4FcA5KIdPQe9NpHrOVSkXVRDcRoAAtry8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Cou3RXjcZf0UDhEOaNXpRf4Cxp2uKQRjnL9hWO0N/0N1TRmYktclC5RRfWW+yGN5iQqtLv2F/frDDk7ucBsg2A1VXNXORuPyS8NNfv5t1JjLSkx6e9OIRqDF/Sn2hhK5SYX3XlTTbvF5sKYgdwCCSMu9yCKzzlm9aQcqTkEe42g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UitvwMzL; arc=pass smtp.client-ip=74.125.228.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fN/nuOR6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC82A1F00A3A;
-	Tue,  8 Sep 2026 16:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788883512;
-	bh=52DvIl2of7dUjq8RgKJMVXe+11DIg6SDkc/sKpreXrU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=fN/nuOR6B2tJjVtren7fsjMrU4FFs7pugNQOxdQjZ1vubCKzB+NHQfxaosCEOrn4e
-	 350jvM32cKifPJw5w9kgsYBaIoyqpsXrx1DPRvTMd0ZEn1P7n6kYQSNwOqliy3v6AD
-	 ucHf7W/RnXMjWGmyJcbaTs6ByEGnULj+CbAZYGc+LjmSxoCPZRYIwBT+gwCLYw+Q0L
-	 vvQCBgZdJY0Ly1Ly2T8rE9IGtstaXzuA+2zuV3x/xAlGByc6Z+a7yvZIBgEcK5WE0A
-	 Q3LA7xQ6JoJXOA6P5vGhbNaYXrbK6lrVpBM62Vf74KJDLC1cEb4j8/lZNgM33bult8
-	 Xm9c0+WfPXM5g==
-Message-ID: <eefbff2b-d619-496e-a977-52062da90f05@kernel.org>
-Date: Tue, 8 Sep 2026 18:04:59 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UitvwMzL"
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a5d8fd8d88so32235a12.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 09:08:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788883712; cv=none;
+        d=google.com; s=arc-20260327;
+        b=I8eq97N3SxAXcpSFyr2vG0gPaVvI34tA/+9No/FXDK14SeuNNw6zNcZu/8dkq8iLov
+         ovSeBX7s6g49qbtMeclrnMibLEpplsxJV5zgZIgGPa/7e4p4Kh19ARspyE8ehDKPAXR/
+         12QiC50ZW0FQK5+uWlE7UouagpJi6dAj6dYXCThqFKxY75/oHa+5BCQdy+pRUBqT/PAT
+         aoX+lXF3cK2GUPHudsWpTFRMl6lPdAnlhJSBdgiEoAXCl57hNCn+hHio844XZgv79KXX
+         UUykeDH5n/xj0x0jDJbWyfg69Py16tFZ1HXOwenq/YMZCIxr42KwVJOI53bpLtoWDkrJ
+         7OqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2ZRky5Q4Vf1326tpyqcdGWIP2cKltS6aBzaezaZXYDY=;
+        fh=/DcS9jojz7GgWHocB8M093/5GIMG9oYNG4IY5sEhNHk=;
+        b=R0GUVS0OGjeqKT8+BdGvh+EEMeaA9sNz6DPHWzTmh4k5YbWv0dMP5QDZhfo0v0sbzg
+         VAxsVR/ohSGVTfBzSUTITH2WZC1Z7j6qqI/1KGEsAR7CKrT2C6SFBA2U8KILN4njCdBz
+         88+gFLO2CooIjx+d03DFI+FQYaiBv4ZeTWluK0kSuszCyNbPM1UMDS3KTMgGvvQ61Lug
+         6HrXVJrrEaHEls9tiGrqlO2NEKNzzKol2InSqiWXh3Zfq5UC/JzIxjYkfTVDbeaddtzo
+         AamBVKc8GE+egwkGMQXkeOQ8Hv92YKk0LR1ckq+cqLOSQH7RcIloviuzSf/MMdAIrhsA
+         eyYg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788883712; x=1789488512; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2ZRky5Q4Vf1326tpyqcdGWIP2cKltS6aBzaezaZXYDY=;
+        b=UitvwMzLPIw1DhPGO7Ytq8MT2YW6tdGh5kGfOc7wLCkmN7WkMmnTjM4mE8i9YdsY2D
+         QBZMRuulBy0HJ4nqdzWaHnPbeit7Z53HwI5VnQPdqbtg4C5+mTVQHumf2Ambugw4nJ+b
+         Sg3/swSmrHnZUyHLAFu2ecr0cNKGRQkNyKucVxrqvl7iKExENslfe2JQg1wrCAilJR1z
+         nj//WiKqFEMolZ8GeJiN5wOFouXP4Z19hRd53IGIBwJe9EzyBzVbe6kES5G182V72hun
+         S1LLN/lPYzyxycwzk+cVMHYZpXfT+03ovIn9CF39qJJ+BQf105W+fkq4fsVnhzPsrYI6
+         LeRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788883712; x=1789488512;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2ZRky5Q4Vf1326tpyqcdGWIP2cKltS6aBzaezaZXYDY=;
+        b=K2WqZ0Nyt8PqoLlRzXWXusAPIIqb15Hr5TTQi6mLlmHRMos0jrqt7PO8+mqLOidMwq
+         10m5e5prtQPO1cfzETZ6JUsRv6KLxZmDlBq3MzQ4MYvwdrZoWRU7ptNdzFbnU28tGHTB
+         antLXEHpeu8HUaq6GX+389FuEeNIr3YiJeHGyzMopz4rdv+BqIrXsFSAToM9qU6L+Ld+
+         Lo1+alRQK6mivPQ01u90jfy73nNvNEerGMo9AbvvMdvrI7vvIJwedOCm28BoB+dNEYRL
+         xXkTelMZoogx2s9r050jzWhzp3kQeZhdP8WKdBMa/tnevguSxEobNjyCgq90ImnYBc5b
+         6IQw==
+X-Forwarded-Encrypted: i=1; AKwUvBzdX2+zQr1ayGeaq8ApHTCleBThnP2k23yPi0q0x7JfosBsg74Ds4MX+pxJM/rCPXQAJZOvKDipOrtzB8Hv@vger.kernel.org
+X-Gm-Message-State: AFuF++mzhv9Ua+fk7+4MbKKTgybdKY3BUelnxooc4aM8S03wjP1PkA+s
+	kPaIbSPoaDJCXYRpjBoN9IzorbbH0f7Wgn228AvPrqv42vLXIkkdhkr6I8Dnvhatg8i22mUcUZi
+	ogKypDsH9j/fu4DNAwLnjXOueufjYb348q+83vXis
+X-Gm-Gg: AYBFou0QxHZqWSfUOSVEmO9bT8q3jUKtIoy/JlzZeBT1DKMMWNjOPJxozzhlA6UuD7K
+	FznxrbJYrpvaHNAyWWXTraXakLgqWE+uCIwpRWmPlqDJMaweAveXTxcfqkxde9qbkQUEuhcJudM
+	G8Sr3JderPjbM25zsTYnrJYPy257IDjB+iBsmpKw26S4mrS8xeldIcxpmIAa+vxsLaGSwi8fB8s
+	AaFvjuOpXk8Q2LTRpWCmqjg21+I+XCUzDo1mGDJC0R1pLhC+woBX3aqDRfVyrXvN8bREPF+Upko
+	f4f1W4b8iLmwOH4efTvlcssoXiYZomtNVpsbMakSGiC+nE2wJyI8AHJhX+X+12mqSrNrovtF1i8
+	=
+X-Received: by 2002:aa7:db59:0:b0:6a6:8513:7e14 with SMTP id
+ 4fb4d7f45d1cf-6a98df30f3emr443a12.9.1788883710869; Tue, 08 Sep 2026 09:08:30
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/14] erofs: mm/pagemap: add readahead_folio_last() to
- avoid folio->private
-To: Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
- Jan Kara <jack@suse.cz>, Yue Hu <zbestahu@gmail.com>,
- Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale
- <dhavale@google.com>, Hongbo Li <hongbohbli@tencent.com>,
- Chunhai Guo <guochunhai@vivo.com>, linux-erofs@lists.ozlabs.org,
- linux-fsdevel@vger.kernel.org
-References: <20260907-remove-pg_private-v3-0-6ae22f9d9272@nvidia.com>
- <20260907-remove-pg_private-v3-7-6ae22f9d9272@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260907-remove-pg_private-v3-7-6ae22f9d9272@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260907063918.3432401-1-surenb@google.com> <20260908160452.1548235-1-xueyuan.chen21@gmail.com>
+In-Reply-To: <20260908160452.1548235-1-xueyuan.chen21@gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 8 Sep 2026 09:08:16 -0700
+X-Gm-Features: AcwNN1X03USG0tbC7AUd4gWC5PsyFgweG67SorhUtWJ-m6PW4b2RwVrgEorognA
+Message-ID: <CAJuCfpEwbMQsax4TG6egJ+nD1C0JB-tY1BZKX0LeiiNoMev7MQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] read proc/pid/smaps_rollup under per-vma lock
+To: Xueyuan Chen <xueyuan.chen21@gmail.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
+	vbabka@kernel.org, david@redhat.com, willy@infradead.org, jannh@google.com, 
+	paulmck@kernel.org, pfalcato@suse.de, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/8/26 04:56, Zi Yan wrote:
-> erofs needs to traverse readahead folios in reverse order to achieve
-> maximum performance by
-> 1. reading all folios from readahead_folio();
-> 2. storing the prior folio pointer in folio->private;
-> 3. traverse from the last folio to the first one.
-> 
-> Add readahead_folio_last() to achieve the same function without using
-> folio->private. __readahead_advance() helper shares readahead_control
-> adjustment code among __readahead_folio(), readahead_folio_last(), and
-> __readahead_batch() by checking new private member, _forward, of
-> readahead_control.
-> 
-> It prepares for a future commit that replaces PG_private checks with
-> !folio->private checks. After switching the checks, erofs's use of
-> folio->private without bumping folio refcount can cause unexpected
-> outcomes, e.g., in filemap_release_folio(), try_to_free_buffers() becomes
-> reachable.
+On Tue, Sep 8, 2026 at 9:05=E2=80=AFAM Xueyuan Chen <xueyuan.chen21@gmail.c=
+om> wrote:
+>
+>
+> On Sun, Sep 06, 2026 at 11:39:13PM -0700, Suren Baghdasaryan wrote:
+> >proc/pid/smaps_rollup can be read using the combination of RCU and
+> >VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
+> >required to safely traverse the VMA tree and VMA lock stabilizes the
+> >VMA being processed and the pagetable walk.
+> >Note that we have to keep the logic to drop mmap_lock on contention
+> >because even when using per-VMA locks we might have to fall back to
+> >holding the mmap_lock.
+> >
+>
+> Hi Suren,
+>
+> I tested this series on my arm64 24-core machine, using the same
+> command:
+>
+> run-proc-vs-map.sh --nsamples 20 --rawdata -- \
+> --busyduration 2 --procfile smaps_rollup
+>
+> baseline:
+>   Median   Minimum   Maximum
+>     0.132     0.121     2.600
+>     0.132     0.123     2.768
+>     0.132     0.123     2.804
+>     0.132     0.125     2.835
+>     0.132     0.125     2.837
+>     0.132     0.125     2.849
+>     0.132     0.125     2.858
+>     0.132     0.125     2.888
+>     0.132     0.130     2.894
+>     0.132     0.132     2.896
+>     0.132     0.132     2.915
+>     0.132     0.134     2.921
+>     0.132     0.134     2.927
+>     0.132     0.137     2.945
+>     0.132     0.141     2.984
+>     0.132     0.246     3.004
+>     0.132     0.270     3.381
+>     0.132     1.316     3.533
+>     0.132     1.321     3.551
+>     0.132     1.343     3.924
+>
+> patched:
+>    Median   Minimum   Maximum
+>     0.006     0.006     1.950
+>     0.006     0.006     1.955
+>     0.006     0.006     1.955
+>     0.006     0.006     1.956
+>     0.006     0.006     1.956
+>     0.006     0.006     1.957
+>     0.006     0.006     1.958
+>     0.006     0.006     1.959
+>     0.006     0.006     1.959
+>     0.006     0.006     1.961
+>     0.006     0.006     1.962
+>     0.006     0.006     1.963
+>     0.006     0.006     1.964
+>     0.006     0.006     1.966
+>     0.006     0.006     1.969
+>     0.006     0.006     1.976
+>     0.006     0.006     1.982
+>     0.006     0.006     1.995
+>     0.006     0.006     1.996
+>     0.006     0.006     2.043
+>
+> So the median is 0.132 -> 0.006 ms, about 22x, and the worst case
+> drops from 3.9 to 2.0 ms.
+>
+> Tested-by: Xueyuan Chen <xueyuan.chen21@gmail.com>
 
-Ah, I was just about to ask. So it's really about folios never using
-folio->private manually (without the attach/detach).
+Thanks for the confirmation!
 
-> 
-> No functional change intended.
-> 
-> Assisted-by: Claude:claude-opus-4-8
-> Assisted-by: Codex:gpt-5
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> To: Gao Xiang <xiang@kernel.org>
-> To: Chao Yu <chao@kernel.org>
-> To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> To: Jan Kara <jack@suse.cz>
-> Cc: Yue Hu <zbestahu@gmail.com>
-> Cc: Jeffle Xu <jefflexu@linux.alibaba.com>
-> Cc: Sandeep Dhavale <dhavale@google.com>
-> Cc: Hongbo Li <hongbohbli@tencent.com>
-> Cc: Chunhai Guo <guochunhai@vivo.com>
-> Cc: linux-erofs@lists.ozlabs.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> ---
->  fs/erofs/zdata.c        | 13 +++---------
->  include/linux/pagemap.h | 56 ++++++++++++++++++++++++++++++++++++++++++-------
->  2 files changed, 51 insertions(+), 18 deletions(-)
-> 
-> diff --git a/fs/erofs/zdata.c b/fs/erofs/zdata.c
-> index e1e25ca0d1904..78fd7d980e957 100644
-> --- a/fs/erofs/zdata.c
-> +++ b/fs/erofs/zdata.c
-> @@ -1898,21 +1898,14 @@ static void z_erofs_readahead(struct readahead_control *rac)
->  	struct inode *realinode = erofs_real_inode(sharedinode, &need_iput);
->  	Z_EROFS_DEFINE_FRONTEND(f, realinode, sharedinode, readahead_pos(rac));
->  	unsigned int nrpages = readahead_count(rac);
-> -	struct folio *head = NULL, *folio;
-> +	struct folio *folio;
->  	int err;
->  
->  	trace_erofs_readahead(realinode, readahead_index(rac), nrpages, false);
->  	z_erofs_pcluster_readmore(&f, rac, true);
-> -	while ((folio = readahead_folio(rac))) {
-> -		folio->private = head;
-> -		head = folio;
-> -	}
-> -
-> -	/* traverse in reverse order for best metadata I/O performance */
-> -	while (head) {
-> -		folio = head;
-> -		head = folio_get_private(folio);
->  
-> +	/* traverse from last to first for best metadata I/O performance */
-> +	while ((folio = readahead_folio_last(rac))) {
-
-Intuitively, this should be called readahead_folio_reverse /
-readahead_folio_reversed, thinking of list_for_each_entry_reverse()?
-
-	list_for_each_entry_reverse - iterate backwards over list of given type.
-
-or maybe readahead_folio_backwards (which matches the forward below)
-
-But I'm not a readahead expert :)
-
->  		err = z_erofs_scan_folio(&f, folio, true);
->  		if (err && err != -EINTR)
->  			erofs_err(realinode->i_sb, "readahead error at folio %lu @ nid %llu",
-> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> index 939f3a5e973f6..2257df004305e 100644
-> --- a/include/linux/pagemap.h
-> +++ b/include/linux/pagemap.h
-> @@ -1415,6 +1415,7 @@ struct readahead_control {
->  	bool dropbehind;
->  	bool _workingset;
->  	unsigned long _pflags;
-> +	bool _forward;
->  };
->  
->  #define DEFINE_READAHEAD(ractl, f, r, m, i)				\
-> @@ -1479,18 +1480,25 @@ void page_cache_async_readahead(struct address_space *mapping,
->  	page_cache_async_ra(&ractl, folio, req_count);
->  }
->  
-> +static inline void __readahead_advance(struct readahead_control *rac)
-> +{
-> +	if (rac->_forward)
-> +		rac->_index += rac->_batch_count;
-
-No expert, but shouldn't we decrement the _index somewhere in the other case? Or
-where is that done? A comment might help :)
-
-
--- 
-Cheers,
-
-David
+>
+> Thanks,
+> Xueyuan
+>
+> >The first 3 patches are cleanups making later change simpler. The main
+> >change is in patch 4. Patch 5 extends existing proc-maps-race tearing
+> >test to verify smaps_rollup content.
+> >
+> >Changes since v1 [1]
+> >- removed helper functions which are not needed after per-VMA locks
+> >became unconditional in [2];
+> >- added a cover letter, per Lorenzo Stoakes and David Hildenbrand;
+> >- removed is_mmap_lock_contended() as it's no more needed after [2],
+> >per David Hildenbrand;
+> >- fixed typos, per Lorenzo Stoakes and David Hildenbrand;
+> >- refactored duplicate error checks, per Lorenzo Stoakes;
+> >- eliminated special case of start=3D0 in smap_gather_stats(),
+> >per Lorenzo Stoakes;
+> >- updated comments, per Lorenzo Stoakes;
+> >- moved original comment about 4 possible cases when mmap lock is
+> >dropped into patch 4 changelog;
+> >- added smaps_rollup testing into proc-maps-race test.
+> >
+> >[1] https://lore.kernel.org/all/20260606015729.1837935-1-surenb@google.c=
+om/
+> >[2] https://lore.kernel.org/all/20260813193433.3318288-1-surenb@google.c=
+om/
+> >
+> >Suren Baghdasaryan (5):
+> >  proc/task_mmu: remove unnecessary helpers
+> >  proc/task_mmu: remove unnecessary inlines in function definitions
+> >  proc/task_mmu: remove special-casing of smap_gather_stats() start
+> >    parameter
+> >  proc/task_mmu: read proc/pid/smaps_rollup under per-vma lock
+> >  selftests/proc: add /proc/pid/smaps_rollup tearing tests
+> >
+> > fs/proc/task_mmu.c                            | 280 +++++++-----------
+> > tools/testing/selftests/proc/proc-maps-race.c | 187 +++++++++++-
+> > 2 files changed, 291 insertions(+), 176 deletions(-)
+> >
+> >
+> >base-commit: e3fc12b08aadde9cec7b3799ac0e0c9a1aa245c4
+> >--
+> >2.55.0.979.g7e5102b832-goog
+> >
+> >
