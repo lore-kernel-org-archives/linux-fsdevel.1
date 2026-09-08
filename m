@@ -1,49 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C631C33A9C4;
-	Tue,  8 Sep 2026 17:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FB359574C;
+	Tue,  8 Sep 2026 17:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788889320; cv=none; b=INmf8ngYYFtcxYiI8qCyIcVLaU2JIXmZJpwKLBTE/TAxeL+pbY4971FdBEJcXwgeBJYQ1CVG9Ane7X4p30mYCpemP8FGatLisQP1Z0xK5fHNbq7M5HT94cIS9R8ZOfM5ozdj0X/QZHPDQS744m5Hk4G8cupRaWEHJ4b5DBEUjPk=
+	t=1788890355; cv=none; b=UEIYv7zrNvJYkDMHkXRyVM4jZB9Dc3yS8CoxtdM27Gcc9p53VIrX40k+PnUgYe8t6ddeUcqTvDJ6PhH2nPGETh64vBDsJ9xXvjAVcjDZGLFHlXd8JW1lsPffSKB2lK7V4N5//pwri5/SES9XrHIY4NQhQkxf8kGvIBIeds30KUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788889320; c=relaxed/simple;
-	bh=H4ohnJrsJFMQaK2ZW36pVWRHCkO6lqkXMXCtOoZedb0=;
+	s=arc-20240116; t=1788890355; c=relaxed/simple;
+	bh=32KXrupUTLqnHQC8oRdO8Vkl4XdBfSu/CHBGO6Vpa+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K497VaH8bl0zsMOSicwOJJjs7LMjAwPCnY+3PTt5kew5hDLcyvYx6csrZrMHWx0VLxeVN3TeA1/vJny5iM7gV+XdVd2C2ISj3oBwdR2XU4T9SvaUXyJtw80jAzUGvx2vSTp51c6uAnEB4Mr76JEjXQWdY+0ZlVR1qrgyM0knBu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVRHoa7g; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=oeGVdoXRgSebWYjvVHGAVj4HOIprj1Myexj7Q8ODXQMFnJ4pe2l9qdadfdA7u1+h9KwrQeonFBlKecVgV4iW6+N4w+KiNw69yHZakXlnyfVU5PINmTXiNPFgne/vqvcI5HaS19LS6+Z1IGbSTbKqGcc/u0e9de6eLYZkDcG/Ua4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=f5D4Cy2E; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVRHoa7g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A774A1F00A3A;
-	Tue,  8 Sep 2026 17:41:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788889319;
-	bh=b1X4r9h7hx5Jvlv1tWU2dbSGEQ+QGTJqKoDaL8tIDYI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IVRHoa7giwOleSsS7rcxEpAstoTe1yxRPl+AGjbifWN/oCAWuX0mlavKseGe/+6/B
-	 P5qQ8i41nfWHSb9snqKI+vWBALbQISqpRPbD39mvwfQmdm5UzNm+CXtJ2b9KMgJCs6
-	 40DIq5MkAYN+Mh/p38ujjm0tG08Y26+u2axZq9HNNtJRQxZa7MxYPXvIrvd3Ipiaub
-	 GwA1xJ+xxzJXpiMq2xHccrphTsAwN9K0bubi/Xzs1+TfIaN4Z08GWtoVCuXqX/1EeB
-	 GYB+GdC7tpIYY+pgZARAp9Wwlmvs40vPHyRk2fpdnnenAFB6oTEcTdiuGvhw6xiBj5
-	 MuMmu7EdVGuxQ==
-Date: Tue, 8 Sep 2026 18:41:52 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: Ye Liu <ye.liu@linux.dev>, Tony Luck <tony.luck@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, x86@kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, 
-	"David Hildenbrand (arm)" <david@kernel.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Ye Liu <liuye@kylinos.cn>, Dave Martin <Dave.Martin@arm.com>, 
-	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, linux-kernel@vger.kernel.org, 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f5D4Cy2E"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=vRhCXB5d+1xHpm+rHDVsJTBtyYPUGsVwslLkzk8euVU=; b=f5D4Cy2ENteVaqqdHK2Qw8PBcd
+	ge7qhzuCUKrwp3+FuAUV+NnRGTHl8qITS0yLk5+4d9u+OHSLGZb3QmAjowan7mBqZ//bzKve4CeTb
+	XUUrhD3lzgxpoZfMMkCTlbtUDcCKqMOwQKSzq6RMP0Nth6d/wFfQUDbjKA/F1Qn8IhepP+I10UYFX
+	SjFH04NFhDqGX0ckuS4cyw1LJqd19MhJdLMJM5l1rxakfpKT4khy1/ZtpN1dO8ZEHdZM1SG34UvLO
+	LluzgX5rw6RKDldJrK3wVIQTTvRp7trL1ASSxe1wL2FuGiZJSEIlYUKJH4wKrON6S6KPnI69QVuth
+	52m+rnaw==;
+Received: from [38.23.173.23] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x4066-00000009v1E-3w6K;
+	Tue, 08 Sep 2026 17:59:07 +0000
+Date: Tue, 8 Sep 2026 13:58:41 -0400
+From: "Liam R. Howlett" <liam@infradead.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, ljs@kernel.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 6/8] fs: convert process/thread iterators to
- for_each_*_rcu
-Message-ID: <aqBH54KFSylcLmIV@gremlin>
-References: <20260904083001.553587-1-ye.liu@linux.dev>
- <20260904083001.553587-7-ye.liu@linux.dev>
- <662ade9d-d662-4f6f-869f-08c41da53170@p183>
- <aqBBFAiMG1NQITkz@gremlin>
- <16df546d-46b5-42c1-a8ca-24cde0051a97@p183>
+Subject: Re: [PATCH v2 1/5] proc/task_mmu: remove unnecessary helpers
+Message-ID: <qtx5xilsefyuqmhybk6s4i7pogz36tiara6wfayijj6oahbpu2@vrafyynbnb5d>
+References: <20260907063918.3432401-1-surenb@google.com>
+ <20260907063918.3432401-2-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,63 +49,145 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <16df546d-46b5-42c1-a8ca-24cde0051a97@p183>
+In-Reply-To: <20260907063918.3432401-2-surenb@google.com>
 
-On Tue, Sep 08, 2026 at 08:26:54PM +0300, Alexey Dobriyan wrote:
-> On Tue, Sep 08, 2026 at 06:10:17PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > On Tue, Sep 08, 2026 at 07:45:15PM +0300, Alexey Dobriyan wrote:
-> > > On Fri, Sep 04, 2026 at 04:29:58PM +0800, Ye Liu wrote:
-> > > > --- a/fs/proc/base.c
-> > > > +++ b/fs/proc/base.c
-> > > > @@ -1160,8 +1160,7 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
-> > > >  	if (mm) {
-> > > >  		struct task_struct *p;
-> > > >
-> > > > -		rcu_read_lock();
-> > > > -		for_each_process(p) {
-> > > > +		for_each_process_rcu(p) {
-> > > >  			if (same_thread_group(task, p))
-> > > >  				continue;
-> > > >
-> > > > @@ -1177,7 +1176,6 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
-> > > >  			}
-> > > >  			task_unlock(p);
-> > > >  		}
-> > > > -		rcu_read_unlock();
-> > > >  		mmdrop(mm);
-> > > >  	}
-> > > >  err_unlock:
-> > >
-> > > What's going on here?
-> > > Now it's RCU unlock after mmdrop().
-> >
-> > No it's not, scoped_guard() is scoped to the for_each_process_rcu() block which
-> > ends before mmdrop(), i.e. the exact same scope as before.
-> >
-> > That closing '}' is attached to the if (mm).
->
-> OK.
->
-> I think naming (and macro) are misguided:
-> * _rcu means "use under RCU section opened elsewhere",
->   this one is "I open and close RCU section myself".
+On 26/09/06 11:39PM, Suren Baghdasaryan wrote:
+> When per-vma locks were behind a config option, a number of helper
+> functions were needed to simplify the locking code. Now that these
+> locks are universally available, we can do a little cleanup.
+> Remove lock_vma_range(), unlock_vma_range(), query_vma_setup(),
+> query_vma_teardown() helpers.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-You're replying to a v1 of a series that has a v2 which changes the naming.
+Reviewed-by: Liam R. Howlett (Oracle) <liam@infradead.org>
 
->
-> * not every 2 lines should be combined into new interface.
-
-Nobody is suggesting every 2 lines should be combined into a new interface.
-
-They're suggesting that explicitly tying lock lifetime to block scope is a
-really good idea.
-
-And having debugged lots of locking issues, I agree.
-
-Anyway the v2 is at:
-
-https://lore.kernel.org/all/20260907081334.1152889-1-ye.liu@linux.dev/
-
-
---
-Cheers, Lorenzo
+> ---
+>  fs/proc/task_mmu.c | 67 ++++++++++++----------------------------------
+>  1 file changed, 17 insertions(+), 50 deletions(-)
+> 
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index e671b4fd8ded..2f500d639db5 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -160,25 +160,6 @@ static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
+>  	}
+>  }
+>  
+> -static inline bool lock_vma_range(struct seq_file *m,
+> -				  struct proc_maps_locking_ctx *lock_ctx)
+> -{
+> -	rcu_read_lock();
+> -	reset_lock_ctx(lock_ctx);
+> -
+> -	return true;
+> -}
+> -
+> -static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
+> -{
+> -	if (lock_ctx->mmap_locked) {
+> -		unlock_ctx_mm(lock_ctx);
+> -	} else {
+> -		unlock_ctx_vma(lock_ctx);
+> -		rcu_read_unlock();
+> -	}
+> -}
+> -
+>  static struct vm_area_struct *get_next_vma(struct proc_maps_private *priv,
+>  					   loff_t last_pos)
+>  {
+> @@ -286,13 +267,8 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
+>  		return NULL;
+>  	}
+>  
+> -	if (!lock_vma_range(m, lock_ctx)) {
+> -		mmput(mm);
+> -		put_task_struct(priv->task);
+> -		priv->task = NULL;
+> -		return ERR_PTR(-EINTR);
+> -	}
+> -
+> +	rcu_read_lock();
+> +	reset_lock_ctx(lock_ctx);
+>  	/*
+>  	 * Reset current position if last_addr was set before
+>  	 * and it's not a sentinel.
+> @@ -325,7 +301,12 @@ static void m_stop(struct seq_file *m, void *v)
+>  		return;
+>  
+>  	release_task_mempolicy(priv);
+> -	unlock_vma_range(&priv->lock_ctx);
+> +	if (priv->lock_ctx.mmap_locked) {
+> +		unlock_ctx_mm(&priv->lock_ctx);
+> +	} else {
+> +		unlock_ctx_vma(&priv->lock_ctx);
+> +		rcu_read_unlock();
+> +	}
+>  	mmput(mm);
+>  	put_task_struct(priv->task);
+>  	priv->task = NULL;
+> @@ -518,21 +499,6 @@ static int pid_maps_open(struct inode *inode, struct file *file)
+>  		PROCMAP_QUERY_VMA_FLAGS				\
+>  )
+>  
+> -static int query_vma_setup(struct proc_maps_locking_ctx *lock_ctx)
+> -{
+> -	reset_lock_ctx(lock_ctx);
+> -
+> -	return 0;
+> -}
+> -
+> -static void query_vma_teardown(struct proc_maps_locking_ctx *lock_ctx)
+> -{
+> -	if (lock_ctx->mmap_locked)
+> -		unlock_ctx_mm(lock_ctx);
+> -	else
+> -		unlock_ctx_vma(lock_ctx);
+> -}
+> -
+>  static struct vm_area_struct *query_vma_find_by_addr(struct proc_maps_locking_ctx *lock_ctx,
+>  						     unsigned long addr)
+>  {
+> @@ -653,12 +619,7 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
+>  	if (!mm || !mmget_not_zero(mm))
+>  		return -ESRCH;
+>  
+> -	err = query_vma_setup(&lock_ctx);
+> -	if (err) {
+> -		mmput(mm);
+> -		return err;
+> -	}
+> -
+> +	reset_lock_ctx(&lock_ctx);
+>  	vma = query_matching_vma(&lock_ctx, karg.query_addr, karg.query_flags);
+>  	if (IS_ERR(vma)) {
+>  		err = PTR_ERR(vma);
+> @@ -732,7 +693,10 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
+>  		vm_file = get_file(vma->vm_file);
+>  
+>  	/* unlock vma or mmap_lock, and put mm_struct before copying data to user */
+> -	query_vma_teardown(&lock_ctx);
+> +	if (lock_ctx.mmap_locked)
+> +		unlock_ctx_mm(&lock_ctx);
+> +	else
+> +		unlock_ctx_vma(&lock_ctx);
+>  	mmput(mm);
+>  
+>  	if (karg.build_id_size) {
+> @@ -773,7 +737,10 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
+>  	return 0;
+>  
+>  out:
+> -	query_vma_teardown(&lock_ctx);
+> +	if (lock_ctx.mmap_locked)
+> +		unlock_ctx_mm(&lock_ctx);
+> +	else
+> +		unlock_ctx_vma(&lock_ctx);
+>  	mmput(mm);
+>  out_file:
+>  	if (vm_file)
+> -- 
+> 2.55.0.979.g7e5102b832-goog
+> 
