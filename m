@@ -1,62 +1,85 @@
-Received: from sonic313-22.consmr.mail.bf2.yahoo.com (sonic313-22.consmr.mail.bf2.yahoo.com [74.6.133.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384363CB54B
-	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 23:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.133.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC2C4B1B39
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 23:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788909004; cv=none; b=p4Oe7464+YvG3JBwtANI0Ge9Xy60Q9ZxYNxFsOnSQVqGPlr58/t+igLviez/s9dTN91ZiHsR5ghJDSd9+e8TfAq2vlRd7kDki89sRVhQdY+WTA5UKUsnhAyxbIB2NWEjWv5zrub1JOkt79V94RwIqL1tifRUMQZ4znHSU35QP9M=
+	t=1788909055; cv=none; b=QpyKrYY8Z8PCepE9W1C4fsQKFYNK7t0y1keO1NBtZ8V8R1Hcs4mbpHlIXE+Sl9DswfdEMEztOMpSqDGBkdaxqX4aLgng5kC2XivORzZzlbJdY5l2hRmL+uvy/4194xeChzBn5yY5mwm7gQ+Z/tRm4T0P/eLOWKF4uNbjl3pmXTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788909004; c=relaxed/simple;
-	bh=4aMvBaJfE6F6X8XAozVCxG84SSG/m3fXQl1EgHroo+Q=;
+	s=arc-20240116; t=1788909055; c=relaxed/simple;
+	bh=7kdKAv1UutyivaCl7H1vS0Jdc3NzhJZAlxtP4jKPHik=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k+A1Tj8U6mnxR0k1e0DzhyDfvfvnlaxGp56i1HNsby5ZuSe+XKaBO+5x9hKM+e6tO5pFhHcPlfELeJCBDdmAYMCWu3ff3Zqn6gwS3ly0iZZ16DTrugCACLW9WAm7483+650ZAdQhXVasbSWIM8V09FBfCWnPuiOWbiPwEGMvmxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=LHDUXBRK; arc=none smtp.client-ip=74.6.133.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
+	 In-Reply-To:Content-Type; b=e8z8NDiolACeyhpDDHDv+jHxIuIBhvNah094SIGDJiZrP/toQoIHq2Ar51OVKcVUQZdeTldJeSL5GSWrqj8W7WP2Lyu++68/XjjOyzUiBLR8f4AcTbXtUzpAh+W49Ti4ow66sSNZf9XyqkC6SuTIvQ0B7WRb3Sbbw1p8LymElhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Dj5Jryrm; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=sRcFuDHT; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="LHDUXBRK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788909001; bh=bNavbKXoeelFxomRONrX7NRcXGbrLs2sTeCQZ/9x9WE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=LHDUXBRKGdYMbz+PfCUxDDRDobsdZJ9mobxUm72LoraMz/2kgXSORhB/HVvaYKUhbCJ9z8eP0VjNNbumW4eMInEQ/cE4qpMnxG4EHzS4NLT/Yd87n5Mc3FmsE2Gzx0qxuLCLZYeM9SVGxiXTifLg2j09+AEUbHTT4u1vI/zQKAfnT3WfEEWeev47mpSIvjtdlDcrNFLR9W9xznSG0p8DcLTYQG8pj/HxZkRX/fP6c/JqDatjXRQkBAbFDB6iSiWJhmr/ImcmM9zTCNsnWZKZwlJaTKJpIFm0upeeqwYJSYs2CM+vUVYqtyKa0iF3yYGnRObCWin37bchhi8cKWjxVg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788909001; bh=+O8ZHcnOlqbqRkHpPLnwxy/QX9Ra8dghvV8Vah+TQ6f=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=HDCP3ISda7SK/+Pp+uijUP4lEC1EQT1gxg3p4AtvSc/ecYFmBYFk5OTF8TVK+TCUWuFKRqKm5H73iR+SbDHOCIElryVPBuQTlz0U87RynPG/jGQngGfrDHbNPcvTo9RA4LJiS+8NM4YwcBz3eg4sqM4c8W0LoXGTA+y166wKbfMgqNFxlwZ/ZpZsRXd7CWgDQAZlp5we6CfD7bTOJ0wy6eMRqSB8j0NOTOFKjTlaMCVv+Wv1V0wKDOa0hW+EXa5WsMypty1r5Sc7O0L72EpXL2mnWWPw4UrRUw2EbRqsTj9exagDY2ffE5mfN5Q/lnA8m+wn42oXbuVNN8fzSxyOVw==
-X-YMail-OSG: TrdP450VM1nkRNToY09DfpMIhr9rz4ZnjyFwZiIWDsi6czussYfvBXPNU3RSC0l
- 6OoozMRFSBbPH9xQE.rSHnJDkPKE.nNesm9FSmMAkbv4I6xZd2ZR8y_8R.ZXvVxlQzM7gYhYMild
- f2ajo9bgl9JIZfLSlAigtDBSeAg_Y6jg3ruKQOGor8hrqleMy2vCx7I2zOl.OewgxsADHTkiDZdw
- FkcEssdhqyrocYIgPCQVOp94.WihT53IR9LJR9wS00eCpougYJZna.dSV5Tgt5y6iwL_0fqjwWS8
- lw_vfBFO2z_tEfCc2i9sNGTMJe9NowvmEA8Xf.7BdANFQbqvRKxzbq_ezoxR2Lv0TiJGsH6pLhWl
- a3Sq5vOueupsZ260PXc26LOlcuyho5w3I6a16.ZnP1_6wsTObuBr97jCaH0jfSeg.wo.UAO7eINE
- PtxH3JqBy3lk3XCJ9aIBDmBUvzHWSXhA8wKZrexZtidjib4oRoB4PJwDpMKYOiZeBNyXfy3pOhlW
- PLISeRcv6uLT0Yh6zlKSUmiSFIk4vIN78XMSjQhl6ncQYVtAzX0tEDYXfd6ExxMb9n.p0kTWpCTy
- uAx_WFx33DC944kh2qndd63WVvE6_QTZhchaOUsqoGD8RmorhJhohVkdi.rj2R4KXO.5wiQW8Qrm
- 6HhMTZe2BiK0dlnM5YFzO8Bg_6k3TMaNBLEKplGXj.BlvqyczivX64RXVdL5yQgmeNFzkcHy09p.
- Saw.FEziugfOA8KHv4kQjPu6zlmCstnD68d7AmZtfi857P13BNxiRMoTVhdtyNlj4z7O2MLd0J3w
- SWpTxLbmZEMIC8iY6nGdv3DNpttbJqIdaxbrN4W3y8.tCg.hJx6X9iUzLyBkKpbGW7N4dpNNI72i
- I6pWyrCypE119R3h0h1Mt4dMU.TUwE7xjyJ3nAqYqURHIgaywDMmMH0VSX3f5KGDMrAj3l06_4xC
- SWeWZc2_N.LS2rmyC04OungQoL1t6IEe9rHxaOkAjpIWeD7MqsacuqQr8Go365qzIf3hzxwQv45P
- xVgxT3_WKgVYoMG3CyLHNnJhEEWP.A39kIIc1p8V6QSMD5AJAdDuTM2hkVqVvfit8U1bP1MayHLE
- qHbb5NbJqHdMzsibLX9783gSlo_N_NDY2MUjrCUCFkHRHw8wF49UUNbm5mp_.m.vLFl1qBS8zh4v
- nmwH5mrZFxuH.DnuNbseFnQyowewr0CmwoEBRlkLqoO.RXj6iUivyDTa.aQpyrkPU9WArEZG27.L
- i6mupOsSFs8zuarMZW0wmLFtB7cGf3VXqNzvqgrSHOVXRRe92RTZUtL.R3I788ycIf45kQQnN3f8
- Sa4NsyJUXD7GBz1YiHvPsBVoPYkAocsZFNsbE.HDUkJhC43o7v1WkAP6ag6.MMkzBmD0as1qxEaI
- TxKHjRXE7AzNJ14lgGKXafqM7UCpp1tOrTBVUbnfYGpv5JHFhVAsg2jO038I6HLfr5xuni0V67DK
- w3OPjZX8F2EK8hJZ0ebOmfOefTFOzwePd42eAA76.sr9X88bPcSHZS7WcE4.s.lyIckQ6STBNI2O
- 6AxrUPAiztRRrWsU39dTl.WXeqZBPnoNc9ub6FKc3.7AyHEhCoa3E_5kz3KwZIlOQ8uAgQIlDakp
- Inbigzv5YUT02wUl2OAv71QkSTT255zC0svgMKeDba3vfUA_eUU3SXfvZelPsjlJM6TXtmG.kYyK
- wWm_kRz58g_Eech1vxHGQvcgHrZxjDUC.aJ2oBP2MFhE3lpsWNU76jnr89xaDOi6ceyW9hVMcLAo
- ghUAlyUHKbj9daEjqNwGxTk3S6S.qaa.dMBhJlBGimbvYW_6qrmby0ohlb.k2DjFwyBNvEAnqjhU
- 8RiUV60AkEiclpSEDmmUSzdGAMU7aO2jiRVP2Jrwe6mDVd5LaeNcKG7W9qBZ5m35bfwmylJneyTY
- vhlgzLU.B17nh4sd8psiU8rmR5BdJQ3e8hRcZb6d38LHKky5eI2aIKCB0RjJ.0x526_0TpjjdTLX
- NK94FppxMT9BRv9iDdKQyx7mHCMI9tJzl4K1hEbDjbrUMWqayBx.n3ITKi3N0.zLkfhSvOUYNQx8
- jVe9yde96vrIWsdbyLAzkFPSTl1.9G0BapK38mvHojMxA6rs8dAiQwpa5tz.ArHqg8BqgGvP37pH
- s_h6pqQQuk8UeiQaEkpVykys0pMKS46aPQOovOyWpVRUCXWZHIQlezhhytR3.JIEbzKCQebSPy_H
- D1E9meija16iTkt6DqY5ZQQ3NXHL13aGRhN2zCHEWJ5oZFMvqu7nTkkwwCmobfTE_sky_ofpFZZA
- BabnJDJcoOw6rPH2zxkY-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: c69521be-aa4e-43e0-980b-a309878f083c
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.bf2.yahoo.com with HTTP; Tue, 8 Sep 2026 23:10:01 +0000
-Received: by hermes--production-gq1-678d9dd684-pmtnp (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d02b3757abb6ec718247a44806490ae3;
-          Tue, 08 Sep 2026 22:27:27 +0000 (UTC)
-Message-ID: <312cbf15-71d7-4fac-bee4-67fd237c5f5b@schaufler-ca.com>
-Date: Tue, 8 Sep 2026 15:27:25 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dj5Jryrm";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="sRcFuDHT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788909052;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GHZMGWGGrZxmd1plGNxBzFOjbHBtD/NVRGD+NRqVMTQ=;
+	b=Dj5JryrmFNdRykxG/33Wz+3g+4bwsBomODn0RdI1PJtvmfp+BWPKy45MGI0UA9uVwyaovN
+	GiNvAmsSg9uy8eS82UZKcP1a5w9/1mCnG4WBbQ9A4YfkCQaCIOYe0Y5t1ApAD1OecIAcZR
+	MDcfvqxo/osIYDilOR8a+xC5qP1AtD0=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-403-NEw5Z4YxOdOBUvlLWZglTg-1; Tue, 08 Sep 2026 19:10:50 -0400
+X-MC-Unique: NEw5Z4YxOdOBUvlLWZglTg-1
+X-Mimecast-MFC-AGG-ID: NEw5Z4YxOdOBUvlLWZglTg_1788909050
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-91043af01d9so79904446d6.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 16:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1788909050; x=1789513850; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GHZMGWGGrZxmd1plGNxBzFOjbHBtD/NVRGD+NRqVMTQ=;
+        b=sRcFuDHTda0H7m8LHKiif11aGzflPoNGjZUaeQmWNhvyX+hj48LkigIJ7dXYGZwOeh
+         X5n5jsN3yTf4AIKhwN5mzQrB9KCWY221mzMpze6j/gWmvrQKjBFRBok8W30JQd5uCwvj
+         /LAVUDO1E0UqwfWZtrVnntU+j9p+ezvkXDary4qZdSwfgecv5/NjI8ZWPPRXrDQRldQv
+         R6IwU/ufQHBJcRnqxy3sTco/N9N8aJ8GR9e8cBOGIfMWB3mKEu6+Xbr0PyBWTTRIaBod
+         1yc1AgikbT9beOf1EOCs+oHc9vxpeXouuv96Zex8jBUD3a6S6oOwHmFdjgtJTmUoGzGU
+         mUCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788909050; x=1789513850;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GHZMGWGGrZxmd1plGNxBzFOjbHBtD/NVRGD+NRqVMTQ=;
+        b=lGtSni4+gYVck3D5E1S/5AdQUbtth0gPY9EX3K9iQKjIB8/6S6jGWqaDPmWHmZPV64
+         /mSWzC8jykDkTnXShJ0YgImULDANi8/ej5fIW4M0nYhtdHAhBrwZ8+27NnGNW3gu2WKh
+         yn9JZ6MbTbgc8JySX4RdqAYVRjTVzJPewcrjgVAGjLQVaQXAcPL971g4jrysLVBIVr6U
+         GsTPPPAwhTFtRHjEB2KXJKyxuMsu216gOO6vL4dr0MVWxVmlS4f1vCOGJ7Brc4kM9c6W
+         Th7paDOBvCEwzWDnIZyyM3JOFTP8k6O52aHx3MM/SiPv0YDw8NBMUfI7Fns6Njiye0YG
+         TEPA==
+X-Gm-Message-State: AFuF++kPi5deO4WVrYtgjMwsVJZlrBHlBbyDWqBv05a24wQ9AC3zCCBU
+	MfYr8eMNOcK+xQXEjvCJgTNbb0EjDPbYJUXjMCKGXXECUsLZzl55omH8MPapsGons7Qkpg8PUzl
+	o2nMlT/i4bWF53FSfQaesm9nkRafjFGQz324Gc4R0uAi6rqaZTZYdxmbAQOiOwfObxXc=
+X-Gm-Gg: AYBFou2N8iRjbyYmsUMhLzwMu4T4mFmFtaQIaaPEOix6sIn1Gz9kWv1zdLOX3YPxvJL
+	tHmm0F2r4LizieIe2j51numR0yXhVt/N0UbLWt9ZtNFJ1WtvWkRagtam58vtD6as/Qf7z0A9l79
+	QnKG9G1AWfDTGJIc9KTxNpMmStKpKk4zQNWIPqlKFeY2kXRpQ8ToPV7+enbEJJf8mMpDBv0ZM9v
+	aO4gyImcmPee2gJHV/Mv0IhttjXQKo/MDVW0V/FYcSoW7dEoe/Y2iJP2FPQnM5AGwnleOdGWapn
+	bMUsiYB+CM2sMs+6yLGXdv0wfrv979TFjBBmGdxU2Vp5oIx3ML4ueK3xeVu4w0vdgtPCnPEKYF3
+	GaMsgqnFrHhEerPAcN/zPZcnkbzDBJFGoqD5sR8HYeg==
+X-Received: by 2002:a05:620a:691a:b0:936:cae5:8b38 with SMTP id af79cd13be357-939802fa452mr3511632985a.10.1788909050209;
+        Tue, 08 Sep 2026 16:10:50 -0700 (PDT)
+X-Received: by 2002:a05:620a:691a:b0:936:cae5:8b38 with SMTP id af79cd13be357-939802fa452mr3511625685a.10.1788909049657;
+        Tue, 08 Sep 2026 16:10:49 -0700 (PDT)
+Received: from [10.0.4.228] (97-127-68-83.mpls.qwest.net. [97.127.68.83])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9397fb70fbdsm1246505785a.32.2026.09.08.16.10.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Sep 2026 16:10:48 -0700 (PDT)
+Message-ID: <fb4bcf42-cb41-4a1e-b307-78dfdc914e00@redhat.com>
+Date: Tue, 8 Sep 2026 18:10:47 -0500
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -64,86 +87,118 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] lsm: expose mount idmaps to inode hooks
-To: Paul Moore <paul@paul-moore.com>, daan@amutable.com
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
- linux-security-module@vger.kernel.org,
- Casey Schaufler <casey@schaufler-ca.com>
-References: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
- <20260904-lsm-mount-idmaps-v3-1-920a1963675d@amutable.com>
- <CAHC9VhS5q2=6p2bi5c7CZ3mutji1xiKR2eFKgJ9C+XZsYgky2g@mail.gmail.com>
+Subject: Re: [PATCH RFC] fs: cache-align lock_class_keys in struct
+ file_system_type
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ David Howells <dhowells@redhat.com>, lkp@intel.com, oe-lkp@lists.linux.dev,
+ Alexander Viro <aviro@redhat.com>
+References: <9fbb6bf2-70ae-4d49-9221-751d28dcfd1a@redhat.com>
+ <o6cnjqy4ivjqaj4n5xphstfnk5jznufaygwmfkm2gyixqgfump@7fc6c6h6d5if>
+ <28f144f8-431d-4c3a-a362-56083bb77541@redhat.com>
+ <CAGudoHFJne0q+dnjYdXOyDKEfu_zZ71_z+kSiUPiHWG7jCBw-Q@mail.gmail.com>
 Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <CAHC9VhS5q2=6p2bi5c7CZ3mutji1xiKR2eFKgJ9C+XZsYgky2g@mail.gmail.com>
+From: Eric Sandeen <sandeen@redhat.com>
+In-Reply-To: <CAGudoHFJne0q+dnjYdXOyDKEfu_zZ71_z+kSiUPiHWG7jCBw-Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.26460 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-On 9/8/2026 3:05 PM, Paul Moore wrote:
-> On Fri, Sep 4, 2026 at 10:48 AM Daan De Meyer via B4 Relay
-> <devnull+daan.amutable.com@kernel.org> wrote:
->> From: Daan De Meyer <daan@amutable.com>
->>
->> Pass the mount idmap through the create, link, symlink, mkdir, mknod,
->> and permission hooks. Update the in-tree security implementations and
->> non-VFS callers accordingly.
->>
->> Signed-off-by: Daan De Meyer <daan@amutable.com>
->> ---
->>  fs/cachefiles/security.c      |  4 +--
->>  fs/namei.c                    | 18 +++++++-------
->>  include/linux/lsm_hook_defs.h | 23 +++++++++--------
->>  include/linux/security.h      | 58 +++++++++++++++++++++++++------------------
->>  security/security.c           | 40 +++++++++++++++++------------
->>  security/selinux/hooks.c      | 19 +++++++++-----
->>  security/smack/smack_lsm.c    |  9 ++++---
->>  7 files changed, 100 insertions(+), 71 deletions(-)
-> Casey, are you okay with the Smack changes (below)?
+hohum, well I spent a bunch of tokens in claude/opus and basically got
 
-Yes, assuming the 80 character limit is adhered to.
+¯\_(ツ)_/¯ 
 
->
->> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
->> index 8e88ac65fd7f..a45819d13c0d 100644
->> --- a/security/smack/smack_lsm.c
->> +++ b/security/smack/smack_lsm.c
->> @@ -1089,14 +1089,15 @@ static int smack_inode_init_security(struct inode *inode, struct inode *dir,
+I could be wrong but I'm not sure sashiko would do a deep dive across
+all the involved code.
+
+I was going to paste the summary of the AI analysis which I generally
+dislike but tbh there's just nothing to go on :(
+
+It did point out that s_lock_key seems dead/unused and thought removing
+it might magically fix the problem as well.
+
+-Eric
+
+On 9/8/26 3:07 AM, Mateusz Guzik wrote:
+> While I'm not convinced spending time on the resulting bug is
+> worthwhile, with the arrival of sashiko I think you should rebase &
+> resend -- it very well might just point out the problem with 0 human
+> effort.
+> 
+> On Tue, Dec 30, 2025 at 11:45 PM Eric Sandeen <sandeen@redhat.com> wrote:
 >>
->>  /**
->>   * smack_inode_link - Smack check on link
->> + * @idmap: idmap of the mount
->>   * @old_dentry: the existing object
->>   * @dir: unused
->>   * @new_dentry: the new object
->>   *
->>   * Returns 0 if access is permitted, an error code otherwise
->>   */
->> -static int smack_inode_link(struct dentry *old_dentry, struct inode *dir,
->> -                           struct dentry *new_dentry)
->> +static int smack_inode_link(struct mnt_idmap *idmap, struct dentry *old_dentry,
->> +                           struct inode *dir, struct dentry *new_dentry)
->>  {
->>         struct smack_known *isp;
->>         struct smk_audit_info ad;
->> @@ -1226,6 +1227,7 @@ static int smack_inode_rename(struct inode *old_inode,
+>> On 12/30/25 4:04 PM, Mateusz Guzik wrote:
+>>> On Tue, Dec 30, 2025 at 03:07:10PM -0600, Eric Sandeen wrote:
+>>>> LKP reported that one of their tests was failing to even boot with my
+>>>> "old mount API code" removal patch. The test was booting an i386 kernel
+>>>> under QEMU, with lockdep enabled. Rather than a functional failure, it
+>>>> seemed to have been slowed to a crawl and eventually timed out.
+>>>>
+>>>> I narrowed the problem down to the removal of the ->mount op from
+>>>> file_system_type, which changed structure alignment and seems to have
+>>>> caused cacheline issues with this structure. Annotating the alignment
+>>>> fixes the problem for me.
+>>>>
+>>>> Reported-by: kernel test robot <oliver.sang@intel.com>
+>>>> Closes: https://lore.kernel.org/oe-lkp/202512230315.1717476b-lkp@intel.com
+>>>> Fixes: 51a146e05 ("fs: Remove internal old mount API code")
+>>>> Signed-off-by: Eric Sandeen <sandeen@redhat.com>
+>>>> ---
+>>>>
+>>>> RFC because I honestly don't understand why this should be so critical,
+>>>> especially the structure was not explicitly (or even very well) aligned
+>>>> before. I would welcome insights from folks who are smarter than me!
+>>>>
+>>>> diff --git a/include/linux/fs.h b/include/linux/fs.h
+>>>> index 9949d253e5aa..b3d8cad15de1 100644
+>>>> --- a/include/linux/fs.h
+>>>> +++ b/include/linux/fs.h
+>>>> @@ -2279,7 +2279,7 @@ struct file_system_type {
+>>>>      struct file_system_type * next;
+>>>>      struct hlist_head fs_supers;
+>>>>
+>>>> -    struct lock_class_key s_lock_key;
+>>>> +    struct lock_class_key s_lock_key ____cacheline_aligned;
+>>>>      struct lock_class_key s_umount_key;
+>>>>      struct lock_class_key s_vfs_rename_key;
+>>>>      struct lock_class_key s_writers_key[SB_FREEZE_LEVELS];
+>>>>
+>>>
+>>> There is no way is about cacheline bouncing. According to the linked
+>>> thread the test vm has only 2 vcpus:
+>>>> test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m 4G
+>>>
+>>> Even if the vcpu count was in hundreds and the ping pong was a problem it
+>>> still would not have prevented bootup.
 >>
->>  /**
->>   * smack_inode_permission - Smack version of permission()
->> + * @idmap: idmap of the mount
->>   * @inode: the inode in question
->>   * @mask: the access requested
->>   *
->> @@ -1233,7 +1235,8 @@ static int smack_inode_rename(struct inode *old_inode,
->>   *
->>   * Returns 0 if access is permitted, an error code otherwise
->>   */
->> -static int smack_inode_permission(struct inode *inode, int mask)
->> +static int smack_inode_permission(struct mnt_idmap *idmap, struct inode *inode,
->> +                                 int mask)
->>  {
->>         struct superblock_smack *sbsp = smack_superblock(inode->i_sb);
->>         struct smk_audit_info ad;
+>> Fair enough, it really didn't make sense to me.
 >>
->> --
->> 2.54.0
+>>> Instead something depends on the old layout for correctness.
+>>
+>> If I add ->mount back to the /end/ of the structure, it boots fine again,
+>> so I guess nothing is expecting specific offsets within the structure
+>> at least.
+>>
+>> (If I turn off lockdep in the kernel config, it boots fine again too,
+>> FWIW.)
+>>
+>>> By any chance is this type-punned somewhere?
+>>
+>> I don't think so...
+>>
+>>> While I can't be bothered to investigate, I *suspect* the way to catch
+>>> this would patch out all of the lock_class_key vars & uses and boot with
+>>> KMSAN (or was it KASAN?). Or whatever mechanism which can tell the
+>>> access is oob.
+>>
+>> Can't do KASAN or KMSAN on i386, AFAIK. :(
+>>
+>> I suppose I could try such things on x86_64 just in case something shows
+>> up...
+>>
+>> Thanks!
+>>
+>> -Eric
+>>
+> 
+
