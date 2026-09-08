@@ -1,45 +1,95 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F5C2EEE86;
-	Tue,  8 Sep 2026 05:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDED638F65C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 06:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788845613; cv=none; b=FaS+5vy4tNuU6HGt0d5B11Thcjy9xZ2tVh7cZdfevQ9gskmJwnTFDS/eCPRnJnWdZzynP6pQi7EvLXNPnm4F3ZLYOXWVTrnGk9ZuwDhr7wm0QK4iHB5Zf8+zo3jxZy2ZhAZv9ncs/G5XovothfWi3PGMUpEzF9pEztFw+3rOGzo=
+	t=1788849344; cv=none; b=NlOh+EbvY7lxZv+keiwsUdBvnPeBC/wLI0Ny4trbI8EoYjn5O158kG95bZJOOA6BkUc+9zMkpJPJs5669X1WIxNZCJLKR49r/qu2/oD1YNr+sRqwP68NJj0/ItNA1zsqIYKHMRhL7X0TCSwHIVw2yxMSfWFqc/hH2sHxxG+hqJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788845613; c=relaxed/simple;
-	bh=dltaH28yUjQQlHMbETH41/bwEToJ8j3Tnd1zRYasmoY=;
+	s=arc-20240116; t=1788849344; c=relaxed/simple;
+	bh=VcsRTcR7UvmGPi3UVltnJ8Mvdqg2EXaylPcDLJc0IKg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NCsogRJ0qvlReNK8xXcbYvo+XXwNEDVnhxJDh22woqb4Y0ib72K9fN7c3FTTA7jcAjM+KFTsm8BenAnG6i/Zv1xziwA4gTvhRDqmnE/Q8MA9h71/e3wgP/A8oXpjLcnhi6ZzQdHeRNud2D2+rw+l9V1lFebyhcv0ZFbAkPmizJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=Asdo7YPL; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=IgOkvxgQ; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=mhpXHDu/XX6dqHkD6RV6G9UNXNxy1cFAxnIeRewHsXm9OB6ztbkkEX9/wq2vPv9X2KjScMlWJ1X7p9ngcqmH2sbZ/i14RliivoQmFq/eBq7mVrdnTGUp3pzK7Uj4X5g93vcFTXj4f4WElWeDCBamf+NWI8KUlhLWuIj1nmSOwRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Lx/6Js27; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="Asdo7YPL";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="IgOkvxgQ"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1788845584; bh=JoGBcgZLjUjt6VU2m3AjQN3
-	W9Ha4kS+Fchgk2bcEpFQ=; b=Asdo7YPLF/TekBShRaprBgqTSEyNNJRCoZ9A6FWC2mSGG1Yitp
-	VUIlCvtqC1EoWHNMgd4IxPLIGMY4RXup/Q4iiIlx+T9RSU7Pgp3wO6Uz5YpUg85AAkAZlH2A2ZZ
-	dtsrCCeoi9CJ5d3+Rycg9D18TyLIR1Q3lab8v5wj6jPXI07lx4+LHi4r0IPJg2A2WBR2S02jaBK
-	3kJWPnDnrNI7oT2hlI1FcBB3t3AF/C9okJ8Ha0CFyiPscY8WVshRMvugCc2rtTyVwml4tPBMbYK
-	7qH2spDYiSSpc36BTAAKVOf6bcTyk1XbCamhPc6iDZ0z04edhvXem2wEMZ+oDA7Su/A==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1788845584; bh=JoGBcgZLjUjt6VU2m3AjQN3
-	W9Ha4kS+Fchgk2bcEpFQ=; b=IgOkvxgQUcbwHbp/r9PXPqqW/A+EqZpzdEPWWC2WsCFzuqiPH9
-	1EerW4WWv8JBGfAGFMkbik1yfBzjs2EfLiDQ==;
-Date: Tue, 8 Sep 2026 05:32:57 +0000
-From: Dang Huynh <dang.huynh@mainlining.org>
-To: Joseph Qi <joseph.qi@linux.alibaba.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, ocfs2-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Srikanth Aithal <Srikanth.Aithal@amd.com>,
-	Luca Weiss <luca.weiss@fairphone.com>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH] buffer: fix NULL dereference of bh->b_folio in
- __bh_submit()
-Message-ID: <ap-dKIn7mos_Ez6Q@melt-pi5>
-References: <20260902013357.2815214-1-joseph.qi@linux.alibaba.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Lx/6Js27"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788849341;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VcsRTcR7UvmGPi3UVltnJ8Mvdqg2EXaylPcDLJc0IKg=;
+	b=Lx/6Js27gCOtLF4jFBu1en27PZmqx/u7d841KQ1bB9R1mAtJgOAxmGoaWPSnAsCTe+m7xq
+	jqT5Zcb8LpXKhkL0ZtKPvhYG3BupQ6D3jihUu78aKNwhOjjiKvvmNN+i2/V6YAstJ5EF+J
+	ic/VN3q2cMV3mQdaZUqdE7AsgeUxIz0=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-271-1sG3jvg3MiK2a5xYuG_qMg-1; Tue,
+ 08 Sep 2026 02:35:38 -0400
+X-MC-Unique: 1sG3jvg3MiK2a5xYuG_qMg-1
+X-Mimecast-MFC-AGG-ID: 1sG3jvg3MiK2a5xYuG_qMg_1788849337
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 920641954222;
+	Tue,  8 Sep 2026 06:35:36 +0000 (UTC)
+Received: from fedora (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id A93311955F08;
+	Tue,  8 Sep 2026 06:35:17 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue,  8 Sep 2026 08:35:36 +0200 (CEST)
+Date: Tue, 8 Sep 2026 08:35:16 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: K Prateek Nayak <kprateek.nayak@amd.com>
+Cc: Gregory Price <gourry@gourry.net>, Ye Liu <ye.liu@linux.dev>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>, Ye Liu <liuye@kylinos.cn>,
+	Michal Hocko <mhocko@suse.com>, mic@digikod.net, david@kernel.org,
+	linmiaohe@huawei.com, nao.horiguchi@gmail.com, gnoack3000@gmail.com,
+	ljs@kernel.org, sj@kernel.org, rientjes@google.com,
+	shakeel.butt@linux.dev, xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev, tony.luck@intel.com,
+	reinette.chatre@intel.com, x86@kernel.org, paul@paul-moore.com,
+	jmorris@namei.org, serge@hallyn.com, pavel@kernel.org,
+	lance.yang@linux.dev, pmladek@suse.com, longman@redhat.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, dietmar.eggemann@arm.com, bsegall@google.com,
+	mgorman@suse.de, vschneid@redhat.com, mark.rutland@arm.com,
+	Dave.Martin@arm.com, james.morse@arm.com, babu.moger@amd.com,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, rcu@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 5/8] kernel: convert process/thread iterators to
+ for_each_*_rculock
+Message-ID: <ap-spMNyMvYFga5k@redhat.com>
+References: <20260907081334.1152889-1-ye.liu@linux.dev>
+ <20260907081334.1152889-6-ye.liu@linux.dev>
+ <ap7dC-LWNaoPYJvv@gourry-fedora-PF4VCD3F>
+ <ap76-0-hN6CAcYXX@redhat.com>
+ <ap8mgnpE7D4TTrno@gourry-fedora-PF4VCD3F>
+ <ap8yoW37GY17pHYS@redhat.com>
+ <e618ace1-6a8b-42c5-8a97-44b39dd1a7c7@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,58 +98,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260902013357.2815214-1-joseph.qi@linux.alibaba.com>
+In-Reply-To: <e618ace1-6a8b-42c5-8a97-44b39dd1a7c7@amd.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hi Joseph Qi,
+On 09/08, K Prateek Nayak wrote:
+>
+> On 9/8/2026 3:24 AM, Oleg Nesterov wrote:
+> >> This might be my - admittedly shallow - understanding of scoped_guard,
+> >> but does scoped guard handle goto correctly?
+> >
+> > Yes, it does,
+> >
+> >> and why it's generally discouraged to mix cleanup.h and goto.
+> >
+> > Hmm, why? I didn't know...
+>
+> Apparently older GCC would allow subtle bugs with cleanup + goto to slip
+> by but clang has always caught those bugs and refused to compile so as
+> long as clang builds are happy, things should be good.
+>
+> Here is an older explanation from Peter:
+> https://lore.kernel.org/lkml/20260327154136.GL3739106@noisy.programming.kicks-ass.net/
 
-I have the same issue on my Orange Pi 5 (next-20260904) and this patch
-fixed it. Been running for at least an hour without any issues.
+Ah, but in this case the code is buggy, "goto unregister" jumps
+into the scope of __free.
 
-Tested-by: Dang Huynh <dang.huynh@mainlining.org> # Orange Pi 5
+Anyway, I agree that mixing cleanup and goto can make the code
+confusing or buggy, but this particular case still looks fine
+to me...
 
-On Wed, Sep 02, 2026 at 09:33:57AM +0800, Joseph Qi wrote:
-> Commit a2c924c240e7 ("buffer: set BIO_COMPLETE_IN_TASK for dropbehind
-> writeback") added an unconditional folio_test_dropbehind(bh->b_folio) in
-> __bh_submit().  But jbd2 shadow buffers have a NULL b_folio since commit
-> 5febcba29792 ("jbd2: point the shadow buffer at the frozen data
-> directly") made them point b_data at the kmalloced frozen data rather
-> than a folio.  Submitting such a buffer during journal commit oopses:
-> 
->   BUG: kernel NULL pointer dereference, address: 0000000000000000
->   RIP: 0010:__bh_submit.constprop.0+0x87/0x120
->   Call Trace:
->    jbd2_journal_commit_transaction+0x932/0x1b10
->    kjournald2+0xb2/0x250
-> 
-> Hit by the ocfs2-testsuite fill_verify_holes test running with
-> data=writeback.
-> 
-> Dropbehind only applies to buffers backed by a folio, so skip the check
-> when b_folio is NULL.
-> 
-> Fixes: 5febcba29792 ("jbd2: point the shadow buffer at the frozen data directly")
-> Tested-by: Srikanth Aithal <Srikanth.Aithal@amd.com>
-> Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sm7225-fairphone-fp4
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: Joseph Qi <joseph.qi@linux.alibaba.com>
-> ---
->  fs/buffer.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index 427d8a817cd5..f46fa6413032 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -1106,7 +1106,8 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
->  
->  	bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
->  
-> -	if (folio_test_dropbehind(bh->b_folio) && op_is_write(opf))
-> +	if (bh->b_folio && folio_test_dropbehind(bh->b_folio) &&
-> +	    op_is_write(opf))
->  		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
->  
->  	if (IS_ENABLED(CONFIG_FS_ENCRYPTION))
-> -- 
-> 2.39.3
-> 
+Oleg.
+
