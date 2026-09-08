@@ -1,44 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82777594819;
-	Tue,  8 Sep 2026 17:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BE6592219
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 17:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788887425; cv=none; b=dq1xCJ2BoMzFV6cLI0v0n0c3BcXZuVhJOcCccqS22/Z3HFsBMRjskYrMltg75/Owd257PXtZHAuQMIJFW4IFrgiMU8aZIUycBGTFj0tGW1BMtWWROR784X8QshhlntfhY6NyOZ3PzHqG7fqAbq11z8RU4o+wsonYUhhx7I5Zahk=
+	t=1788887546; cv=none; b=qO9+yq3nTwsm9o4lq6diLD7sCGCVHnIsn9wwsW7z8Ytbwez/FZO5gYmM7zsMTJEeniFPa94b9FYZnP5d63wiimt3KSNMXdX/5t2DqPG0Yliogav9Z9YCY6efhy1htZmdqzMwhMqAvwfgyPPFedTmRMU8d7wkrwEFmx0W/1d27uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788887425; c=relaxed/simple;
-	bh=oM8MJEueButtTgSqwWUVnv5geNPCevq/+X+xQxkr7BE=;
+	s=arc-20240116; t=1788887546; c=relaxed/simple;
+	bh=bFfiyDhMTYsXIaRarWFmIgSETkJcz5MnYRCF8sjGN0U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sATmGhe2SMis1b4X47E/dmr2g4E/Qj3L0B/ED5zFbAPKdD1NiZu7EfT+DyQAXcnqUAluNAutv2vOimQfrdseG6fqz8lFOxZ31oxyZmWvF2MDy0b/pBxqPGAhhiao1VYhPjo2g+lVH+GZoPvt+pBvnyizxqO9mYBaZX8ISASwrzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n5oiwr4R; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=CXOg4yOgbnrJkpMjtm942moK8FqenW0tVTb3VWfvd+iH4p9BSvcA3RgtLNa9qBEwwztD08DV5twUws6kE8nuoBZRLnt4PxbX96H3IKKXqAKOVnhSGB3abnZ1osVWI5IHBPyVOskq8aOHJuVqBy8dUrVlBWs7L3igouKQoF0G0c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eEzfRl7T; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n5oiwr4R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6A091F00A3A;
-	Tue,  8 Sep 2026 17:10:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788887424;
-	bh=QBX/pKxFcPxpJofmfbbuTaHd+mrutz9WoIjUgUoP3cs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=n5oiwr4RomhJv7hXMRp0RL2vzze64B5EHzRITdpRirryQ0HcuqLfw3H51QSopX/wL
-	 YWrmXNDwx+2bKNTHhVfdrd+hhF2Z3xnB9iv/yCXoQTiM5D9ZSWtFKY1F9Hd9dz8Q4L
-	 u1/wR73xB3JNKVqF+DUPJIK97c6ERiwm5TD0MOyeQrrBHDKD76qfJcbjRx8c5yvBpE
-	 VuR08MQ5bm70WIvto6ZUDHvn4X9b5q4Zj3qWxcJaBXkDLMlmNUrpVn2Y3b4SQZIqFU
-	 SjplWejYr3WPQg+ffoAKJ4aip2YsIAB9dlGae+h2xW+wOFKz9t+9PV6WFRqNe1HKum
-	 tUlnTkNmXbdnw==
-Date: Tue, 8 Sep 2026 18:10:17 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eEzfRl7T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788887542;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cr9AELuw5H9idpdwLdrYmWGJ6ZfMYkalViYQFkg2pyc=;
+	b=eEzfRl7TzeM4H6Mfq/0l/6yBghk3E0s8y5ZD2RAcdSkFdcJFrrvmVSJKEGGryQSkssdKrg
+	szDpv21NIoHj+51CbLJUjKme75Qy2rUwixhKGDEC/s33GVrQOrby3etXP/+6ts+WaqOhyg
+	UjAkhyOMNsx+AiomKW+DulZd3/UQo9s=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-633-7ZKgDR04MVW0vhCxiJOlZQ-1; Tue,
+ 08 Sep 2026 13:12:16 -0400
+X-MC-Unique: 7ZKgDR04MVW0vhCxiJOlZQ-1
+X-Mimecast-MFC-AGG-ID: 7ZKgDR04MVW0vhCxiJOlZQ_1788887534
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 813B6184B382;
+	Tue,  8 Sep 2026 17:12:13 +0000 (UTC)
+Received: from fedora (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 9081930001A2;
+	Tue,  8 Sep 2026 17:12:08 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue,  8 Sep 2026 19:12:13 +0200 (CEST)
+Date: Tue, 8 Sep 2026 19:12:07 +0200
+From: Oleg Nesterov <oleg@redhat.com>
 To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: Ye Liu <ye.liu@linux.dev>, Tony Luck <tony.luck@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, x86@kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, 
-	"David Hildenbrand (arm)" <david@kernel.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Ye Liu <liuye@kylinos.cn>, Dave Martin <Dave.Martin@arm.com>, 
-	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
+Cc: Ye Liu <ye.liu@linux.dev>, Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>, x86@kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	"David Hildenbrand (arm)" <david@kernel.org>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Ye Liu <liuye@kylinos.cn>,
+	Dave Martin <Dave.Martin@arm.com>,
+	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH 6/8] fs: convert process/thread iterators to
  for_each_*_rcu
-Message-ID: <aqBBFAiMG1NQITkz@gremlin>
+Message-ID: <aqBB5_X-Z5C7ORWK@redhat.com>
 References: <20260904083001.553587-1-ye.liu@linux.dev>
  <20260904083001.553587-7-ye.liu@linux.dev>
  <662ade9d-d662-4f6f-869f-08c41da53170@p183>
@@ -51,8 +72,10 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <662ade9d-d662-4f6f-869f-08c41da53170@p183>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Tue, Sep 08, 2026 at 07:45:15PM +0300, Alexey Dobriyan wrote:
+On 09/08, Alexey Dobriyan wrote:
+>
 > On Fri, Sep 04, 2026 at 04:29:58PM +0800, Ye Liu wrote:
 > > --- a/fs/proc/base.c
 > > +++ b/fs/proc/base.c
@@ -78,15 +101,11 @@ On Tue, Sep 08, 2026 at 07:45:15PM +0300, Alexey Dobriyan wrote:
 > What's going on here?
 > Now it's RCU unlock after mmdrop().
 
-No it's not, scoped_guard() is scoped to the for_each_process_rcu() block which
-ends before mmdrop(), i.e. the exact same scope as before.
+Confused... Why do you think so?
 
-That closing '}' is attached to the if (mm).
+I think mmdrop() is called after rcu_read_unlock(), with or without this change.
 
->
-> These scoped guards kind of suck unless you allow infinite line length.
->
-> 	A
+No?
 
---
-Cheers, Lorenzo
+Oleg.
+
