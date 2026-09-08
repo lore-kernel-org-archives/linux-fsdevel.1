@@ -1,181 +1,195 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86B84078D3
-	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 08:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0757147A867;
+	Tue,  8 Sep 2026 08:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788855872; cv=none; b=nWRKoSOsqshkOBMDRcBcDzaIp+UekSuxZnvTSEhtEFOz12IrXuGytqLLvMS4oN+WnM1mLTNXXjCqrLruLquS2SCT7MiaqJgP+YNp7EafYbwaPvaA36CaGit8WZDg4PsH+hGpuK4zLLI9NORVEed5ukODROK+HSwoW10/6i1dytg=
+	t=1788856876; cv=none; b=gXgG5OGnTvms66Ii6eoOiZk0hTqdJuuMh2oH+UA6QqCud1TgZa09ZYNzT11sU9t659HOWBQ4jTLaBraFFzRyDCBsOVsrVHq8ZJY+b8EENPzVEacQwm1SI9EmRUIUhgakHiIFaONYc2uhe/KnovlHfHBi5BN5S3K8csQyi9/CZEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788855872; c=relaxed/simple;
-	bh=cs6YmFEVJahAJBGBREGBxfIH2Ax+NsbUVRI942VY/do=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Twsg8gvtrweRlMiv4PKEvqBZirQEdJm8/kwFopXfzTZPFOi73QtayspVFXQuTUE9ZESn/i/0lbS1AmQclXFxaOSt7E3SFGNpbCAZ8+PJ4Mk88eOphoXXZTQ5mwcvb7yYrDs5wEqEOkUDW4EFBAQvGJXFMVg7nhrXxs9lsCxJr0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dv7iKqUT; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788856876; c=relaxed/simple;
+	bh=C4ZpWujrP3lY3tYZUmesciEdDg6gzrkYfF8gpZ7Tv7A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=NNw2xelXPhOY1iwK9m7lyqsKQyCJuvSZA2x6jJpnkwYsEEgxSI48VZLu6S14MT8QH7U/cQAatN1VKEAToM5Oerh4jGF4u3WjILJ4wREszsxqY19OugBr/QHWVupd/xCeU/rfCgY7hldtR1C566vjT9rlcKBdkbLB9n/diUJbZ5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=CIEUUamV; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dv7iKqUT"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2d91ded8174so33569885ad.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 01:24:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="CIEUUamV"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id B27FD1A9;
+	Tue,  8 Sep 2026 08:42:03 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=CIEUUamV;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 5256621B2;
+	Tue,  8 Sep 2026 08:41:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788855870; x=1789460670; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oK4yZ0KXSZYf7SN3RbE80ZIj6P3fE7TSyC7nlXOk0JQ=;
-        b=dv7iKqUT/OM8T1HzB4QDV/3OuLPVZ8CuPTc1cNw4qP4HoBSoYyhlPAKxnq4k/qqKmx
-         mRj1U22VTRPnh6eKPLHhlJ3etcWl0UHyE+I/t1PW9J+xo2/PzR5wBRWXDdffgHVPhEqZ
-         akZ45CmAXcGQhwowSTEtRWP9Gr5GqlPiChDAJ7A8QmeyMVBGoQdC+LTMIzaLtWJwMGKK
-         DGHfebP+pOyPy6Lfe1831YvMCvTHwZH3d9w/uvJFA/2fg12IqZNYVangGP30VgzR0xR4
-         ABv3bG4SSxd5oKbq+rEQYkLRh74iLbYBCo+PyEfH4LJ/MEtr/l/13u/s80Hy1OF4XpzL
-         R9WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788855870; x=1789460670;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oK4yZ0KXSZYf7SN3RbE80ZIj6P3fE7TSyC7nlXOk0JQ=;
-        b=rZuGv5rfGH/2N6Q0Xhq+HAUX/JT06fU5AwGxXqr8yfzngb/nrpcUmji7L7D5ePmQsR
-         Jq5w5DcVm8nE5IvFZ7O/J9VYoRu9l1itARQRcx7+QWAwu1uLQY233Vt5HqIF1/rMkL6P
-         mOh2qBYuqIB4Q6l/a+v+rdV/tAiMiESC5dHSgcLoMpIfkBexQuFk3virUsx5N3wNWRsq
-         JELzv9BKw31Y35sPvHRNPUHrmVMMA+X2Wr6Ui/neIcWfCTldCEdhXWySuGCwVJ3hjNnP
-         qM1t2WNQXx5kJnPcQTWaHlrwPaIwTjDwwGYQ04umemfRaZ37GlzmuqyrtWG9hj6NfD6T
-         RBXg==
-X-Forwarded-Encrypted: i=1; AKwUvBzW0bgDdBU7+ko+QiAGU4ar6VUU5BxqgupkZmx3+YEdzA33vDOmMbOJmnkFVWeX6CdsrPqDPcHrgC6F+k8U@vger.kernel.org
-X-Gm-Message-State: AFuF++kIxIkLYM0rMEJqAk8kS3B2kM4F+xzRNq7Xugjn9MLVLqxBoBtX
-	fQRg6z7x43EaLe5ZJP+khWI+j72+IZyj5J1sqmu1VXt40ujuEOEQk9SC
-X-Gm-Gg: AYBFou2ETWzv3noi3g1hrZghF0EHePSY6C/pceCzvWF2gsLbF8dO9ChwdaOKV8EOQdD
-	GtaDnby1zqb+MuQeITIT5zrqj6GLGuu/tG49GXLazsH6DoGgY7RXbqud8bHzWf1yoA6j/eUGV5z
-	rrIcNUlpvVwK8IWREIl7MnRbgZc0Z7AjZfixjIaMt3rYtYvW6Qneu6dPnj6wYhUUsLG2DkApblM
-	n21sOkHVr8pHeMwbpFhR1/R33x4COMdnT69XLL/X12YD3WAdIm7epYpTzeyQ9icQcEGHzlZgADm
-	V5f/JjdR4U+cCyZt8Lu8UrSmJyOTvhiCZJ0qJe9vjrbLx5HKG2WTepUaGv9AcgvPUIkE+kbmNgw
-	HHvUvexoimfUZ2HTL30C+yIBvLQ0sjbMLe+VWW6Cy8cOLxLKyvRnb6CDxgj4FBek234ihk1Mnw4
-	59Lc4gziuYWaDqL7heAq3E6xs3wUELsD7B588mpih7Sz7lGsnV6W9Dn9zEciQ=
-X-Received: by 2002:a17:902:d586:b0:2cf:b68a:340 with SMTP id d9443c01a7336-2db125f0cf2mr410415385ad.10.1788855869776;
-        Tue, 08 Sep 2026 01:24:29 -0700 (PDT)
-Received: from gmail.com ([185.220.238.35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2db1495acf7sm55472585ad.25.2026.09.08.01.24.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 01:24:29 -0700 (PDT)
-From: Kunwu Chan <kunwu.chan@gmail.com>
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Kunwu Chan <kunwu.chan@gmail.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Yosry Ahmed <yosry@kernel.org>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kairui Song <ryncsn@gmail.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Wei Xu <weixugc@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
-Date: Tue,  8 Sep 2026 16:24:15 +0800
-Message-ID: <20260908082416.2356617-1-kunwu.chan@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260825135209.3135169-4-alex@ghiti.fr>
-References: 
+	d=paragon-software.com; s=mail; t=1788856866;
+	bh=4GdPyjWrZkTFVn0/S95iWhZM6CbPF4y1CFYjl9hyLBg=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=CIEUUamVeS7RfAIh0VLHKDW180fdGbQ5evBmBDTZNfKhyoyBaJrB1qbniS0r4rC9m
+	 v5I9yIYLsn480pYjbId0SKt0AkLilPbrmkTVFOStAq+8mTo1Jau4lKSdm4+YSdDx5D
+	 Dh8RdsBwrH7ZQVPo5qKzQpDt5FuGGsgaGp9bCQYU=
+Received: from [192.168.95.128] (172.30.20.187) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 8 Sep 2026 11:41:04 +0300
+Message-ID: <74bcba1c-6bf4-43b0-bbb5-ef2f0490e3f7@paragon-software.com>
+Date: Tue, 8 Sep 2026 10:41:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs/ntfs3: fix slab-out-of-bounds write in
+ ni_create_attr_list()
+To: =?UTF-8?B?SEUgV0VJ77yI44Ku44Kr44Kv77yJ?= <skyexpoc@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, Christian
+ Brauner <brauner@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>
+References: <20260625031932.9412-1-skyexpoc@gmail.com>
+ <CAOC0qyLj55itFPEurfNddWpzzcPJ4j3bvDxfWBRev_GzPLL+mw@mail.gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <CAOC0qyLj55itFPEurfNddWpzzcPJ4j3bvDxfWBRev_GzPLL+mw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On Tue, 25 Aug 2026 15:52:07 +0200 Alexandre Ghiti <alex@ghiti.fr> wrote:
+On 7/6/26 06:40, HE WEI（ギカク） wrote:
 
-> zswap writeback decompresses an entry into a fresh swap cache folio and
-> writes it back. The folio is cold by construction, yet it is left on the
-> LRU for reclaim to find and free later, wasting a reclaim scan and keeping
-> cold memory resident longer than necessary.
-> 
-> Allocate the folio off the LRU and mark it PG_dropbehind so the swap
-> dropbehind path frees it from the swap cache once writeback completes.
-> 
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-> Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
-> ---
->  mm/zswap.c | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
-> 
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index 8163e6c5f76c..d16822a516e8 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -1013,7 +1013,6 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
->  	 */
->  	if (IS_ERR(folio))
->  		return PTR_ERR(folio);
-> -	folio_add_lru(folio);
->  
->  	/*
->  	 * folio is locked, and the swapcache is now secured against
-> @@ -1046,12 +1045,26 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
->  	/* folio is up to date */
->  	folio_mark_uptodate(folio);
->  
-> -	/* move it to the tail of the inactive list after end_writeback */
-> -	folio_set_reclaim(folio);
-> +	folio_set_dropbehind(folio);
-> +
-> +	/*
-> +	 * Drop our reference before starting writeback so the swap cache holds
-> +	 * the only one: the drop in folio_end_writeback() needs that for
-> +	 * remove_mapping_reclaim() to succeed, otherwise the folio is handed
-> +	 * back to reclaim instead.
-> +	 *
-> +	 * Nothing can free the folio in the meantime: we hold the folio lock
-> +	 * until writeback starts, PG_writeback then blocks swap cache removal,
-> +	 * and folio_end_writeback() takes its own reference before clearing
-> +	 * PG_writeback and donates it to the drop.
-> +	 */
-> +	folio_put(folio);
->  
->  	/* start writeback */
->  	__swap_writepage(folio, NULL);
+> Hi Konstantin,
+>
+> Gentle ping on this v2. It's an attacker-controlled on-disk image heap
+> out-of-bounds write in ni_create_attr_list(),
+> reachable via setxattr on a crafted, loop-mounted NTFS image (KASAN
+> trace is in the commit message), which is why it's Cc'd to stable.
+>
+> For the record, the fix was first posted as v1 on 2026-06-10:
+> https://lore.kernel.org/ntfs3/20260610002929.51765-1-skyexpoc@gmail.com/
+> This v2 (2026-06-25) only adds Cc: stable and widens review to
+> linux-fsdevel; the fix itself is unchanged from v1.
+>
+> Could you let me know if you'd like any changes, or whether it can be
+> queued for a future bugfix pull? I'm happy to rebase or adjust as
+> needed.
+>
+> Thanks,
+> HE WEI (ギカク)
+>
+> hewei-gikaku <skyexpoc@gmail.com> 于2026年6月25日周四 12:19写道：
+>> From: HE WEI (ギカク) <skyexpoc@gmail.com>
+>>
+>> ni_create_attr_list() allocates a fixed buffer of al_aligned(record_size)
+>> (== record_size) bytes and then walks every attribute of the primary MFT
+>> record, writing one ATTR_LIST_ENTRY per attribute and advancing the cursor
+>> by le_size(name_len), with no check against the end of the buffer; the
+>> total size is only computed after the loop.
+>>
+>> A minimum-size resident attribute occupies SIZEOF_RESIDENT (0x18 = 24)
+>> bytes on disk, but an unnamed attribute expands to le_size(0) (0x20 = 32)
+>> bytes in the list.  Because the number of attributes in a record is not
+>> bounded (mi_enum_attr() accepts arbitrarily many equal-type, nameless
+>> minimum-size attributes), a crafted record packed with such attributes
+>> produces a list larger than record_size and overflows the heap buffer.
+>>
+>> This is reachable from a crafted, loop-mounted NTFS image: opening the file
+>> and adding an attribute (e.g. via setxattr) drives ntfs_set_ea() ->
+>> ni_insert_resident() -> ni_insert_attr() -> ni_ins_attr_ext() ->
+>> ni_create_attr_list().
+>>
+>>    BUG: KASAN: slab-out-of-bounds in ni_create_attr_list+0xc48/0x1058
+>>    Write of size 4 at addr ffff000008984c00 by task setfattr/345
+>>     ni_create_attr_list+0xc48/0x1058
+>>     ni_ins_attr_ext+0x510/0x7c0
+>>     ni_insert_attr+0x3f8/0x70c
+>>     ni_insert_resident+0xc8/0x3b0
+>>     ntfs_set_ea+0x66c/0xd28
+>>     ntfs_setxattr+0x4d8/0x5b0
+>>     __arm64_sys_setxattr+0xa4/0x124
+>>    Allocated by task 345:
+>>     ni_create_attr_list+0x188/0x1058
+>>    The buggy address belongs to the cache kmalloc-1k of size 1024
+>>    (the write lands at object+1024).
+>>
+>> Size the buffer from the actual attributes instead of assuming a single
+>> record_size is always enough.
+>>
+>> Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: HE WEI (ギカク) <skyexpoc@gmail.com>
+>> ---
+>> v2:
+>>   - Add Cc: stable@vger.kernel.org: this is an attacker-controlled on-disk
+>>     image heap out-of-bounds write and should be backported.
+>>   - No functional change from v1; widening Cc (linux-fsdevel, VFS) for
+>>     review, as the v1 posting received no response.
+>>   - Drop a redundant self Reported-by.
+>>
+>> v1: https://lore.kernel.org/all/20260610002929.51765-1-skyexpoc@gmail.com/
+>> ---
+>>   fs/ntfs3/frecord.c | 20 ++++++++++++++++----
+>>   1 file changed, 16 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+>> index 2e901d073fe9..6488d7a415c0 100644
+>> --- a/fs/ntfs3/frecord.c
+>> +++ b/fs/ntfs3/frecord.c
+>> @@ -768,10 +768,23 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>>          rs = sbi->record_size;
+>>
+>>          /*
+>> -        * Skip estimating exact memory requirement.
+>> -        * Looks like one record_size is always enough.
+>> +        * Compute the exact size of the attribute list.  Each attribute in the
+>> +        * record yields one ATTR_LIST_ENTRY of le_size(name_len) bytes.  The
+>> +        * minimum on-disk attribute is SIZEOF_RESIDENT (0x18) bytes, but an
+>> +        * unnamed one expands to le_size(0) (0x20) here, so a record crafted
+>> +        * with many such attributes needs more than a single record_size; the
+>> +        * previous fixed kzalloc(record_size) could therefore be overflowed by
+>> +        * an attacker-controlled record.
+>>           */
+>> -       le = kzalloc(al_aligned(rs), GFP_NOFS);
+>> +       lsize = 0;
+>> +       attr = NULL;
+>> +       while ((attr = mi_enum_attr(ni, &ni->mi, attr)))
+>> +               lsize += le_size(attr->name_len);
+>> +
+>> +       if (!lsize)
+>> +               return -EINVAL;
+>> +
+>> +       le = kzalloc(al_aligned(lsize), GFP_NOFS);
+>>          if (!le)
+>>                  return -ENOMEM;
+>>
+>> @@ -781,7 +794,6 @@ int ni_create_attr_list(struct ntfs_inode *ni)
+>>          attr = NULL;
+>>          nb = 0;
+>>          free_b = 0;
+>> -       attr = NULL;
+>>
+>>          for (; (attr = mi_enum_attr(ni, &ni->mi, attr)); le = Add2Ptr(le, sz)) {
+>>                  sz = le_size(attr->name_len);
+>> --
+>> 2.43.0
 
-Thanks for addressing this.
+Hello,
 
-I checked the refcount handoff in v4. Dropping the zswap reference before 
-__swap_writepage() removes the refcount overlap I was concerned about in v3. 
-The swapcache reference keeps the folio alive until writeback starts, and 
-folio_end_writeback() takes the completion reference before clearing 
-PG_writeback, so remove_mapping_reclaim() sees the expected refcount.
+Sorry for the confusion. The fix is already upstream: v1 was applied as
+commit 7c4841e2a627 ("fs/ntfs3: fix slab-out-of-bounds write in
+ni_create_attr_list()"), in v7.3-rc1. v2 is functionally identical, so
+there is nothing further for me to apply.
 
-Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
+The applied commit does not carry Cc: stable, though, so it has not
+been backported.
 
-Thanks, 
-KunWu
+Thanks for the fix, and for following up on it.
 
->  
-> +	return 0;
-> +
->  out:
->  	if (ret) {
->  		swap_cache_del_folio(folio);
-> -- 
-> 2.53.0-Meta
-> 
-> 
+Regards,
+Konstantin
 
