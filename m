@@ -1,137 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509BA572688;
-	Tue,  8 Sep 2026 15:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A433C57F74C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 16:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788882901; cv=none; b=OnO4c3a/cgXJC5qYsugJ35Gq4aEl8lDTQjSu8M5tFziJHN0l6bkZHAfM1H50TXzH6Mj0GVcGiXo8+CZ5E2dCAE3yj1sYVJTz7zVoAWyP09RKfATSovKN7tpyon+aS6N6p0uK8sJnIno9Hhh0UaYPEi+2aWNU+sJc78uTGDy6OW8=
+	t=1788883506; cv=none; b=eQBV8mPkqJpz8EgGCvAEpGNtDZ9XTwQDsFV5ReVCkxLkLCQ6yS0j2VtRC4sWYcQJGhsLX8EfSedk9shbhnu+TPPvc3PVhYj5lCIh0MkpOclaSPP1Hlno9FbCqrxn/RGw+LHNQTvbty03Rp39ItKqvU5TIO3rOSeIfExa6y74wl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788882901; c=relaxed/simple;
-	bh=pjkcNDn5KFxGr3G5TviCNOQbg/0IkK4fcvglxKhPONo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qW47AyLVjJRuQnLReFHMDMAzea4MRwzzarRZrlDzm/AWMWn1Z9lzQbm96CoU5X7BqltlViWdB6wFyxjS/VTUGhbcQPE97pqyLbLjgVAqlLh6W26bTGD8l0i3YLb/1EpiYTqKAGoxrj8K1AZfDHmCK9BRuq4xWc5NTl2kjqPvEm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jk1wi5nt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788883506; c=relaxed/simple;
+	bh=wKPqxV2LJIDtPvxueXtuaqpAw1KYruaKoIfgvimOWQE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CBUikNoH2MpATGPcQ2FSZm/oJP5Bt3DIEkLySesw9N+4Hfg5fTAMNuWDINy4+1sdBWtZhWLRmzCA9R4CPgGXaVeBxGUDh//5mRRSQF02tCS1gJ8U0Ieo2kLCf2ztIY7cf9KAFVD5PzbuViuHpbPPqHWbuFAQCssYMs2s0xNfTrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S1MkJOJ9; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jk1wi5nt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE4AB1F00A3A;
-	Tue,  8 Sep 2026 15:54:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788882899;
-	bh=+LaiAafgtAJeBS+j2Ji6I5vTEBM/3hGCFd1lVdOgJRk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=jk1wi5ntnDS9w08mvGcPx0/Tng1FRs8OBaQ0uCuMArdSwmO613fP/fiVV8b2MMrGu
-	 3XcaQz6LKP/milwhEwAJABqiicjt/O7NKceozS3oxKfeyPCk22Poa/puMvPVjaTHuV
-	 SQMhvm1S0ZLIHiReBjew1P2vsaQwv8KBeLysV905TUV9QCVVSMZshH2vHmDzV8YyHS
-	 C3FtJfUXVvMYv5hGYWoPlEshi6eELEi4XXVv9iNxR1bHmw5S52b+o3n/wVxxOp0WG6
-	 V8xwdRhs/Plj7f7XEITSOP90bzJg7XNwFvRORECnTX5/HAj3DETjgtna7WwcsCJXNU
-	 i4JRy7WA4Wl0A==
-Message-ID: <81e0b88b-84d1-4d9b-929d-68d26a6ffdbc@kernel.org>
-Date: Tue, 8 Sep 2026 17:54:50 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S1MkJOJ9"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85368f1d484so227973b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 09:05:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788883504; x=1789488304; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EFc84YmPQ7APJ72znZItLC1opm46HMB1M/+k8Tjpgc0=;
+        b=S1MkJOJ9Y0YkBBoQZ0KwaEZiDru6Y7Pmdke1NhTBQmx0IdmOCUFxnXgMHWVILUVUlo
+         Qa5pOTV9ZoYV/i83gN91DkdLbY3R3Gd9LKA/Ar8lCGTPGRmO1H/N9SH8aE2uEMxDaO+b
+         O/nYyAFvO8D3qAtlkGTH4snGcT7AoDUzWYo0teXu4MbrUGFJpq6vvThuM0HEytUydIxQ
+         IOorO6lbwOeVEEpa4kNRedhE8VKIjKSZdSS3/bscmodZbvGD30T+UY9P9GKDRtlFQ6WF
+         Du6+iC60dhlOelsECzOl/1cNPpWIO9BUBs6MZtI8qG5Rb3AZcvK34M8vY0uPhf393KaB
+         5uFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788883504; x=1789488304;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EFc84YmPQ7APJ72znZItLC1opm46HMB1M/+k8Tjpgc0=;
+        b=qH0y5QTWFNrnMjyzR21aWkNn69t0O/eD60O6rYwU6Z+Dh1KBUBZF5Oy5xpwQ/TxfNs
+         KvNbfH+pShG5lgboaLST71JP8icYUnSYLKBcodRwvhsU50BlmwRJOgpG0HRm5c5I0Lqe
+         PBCrgxNhiySF37PHJtJlymGfV1JHcnFmT4ze7I4117WLhPrDaloSUb9KLydQfzWmZEtf
+         CmHrprL6bjZMDrHunoVrWs7qffWdTd8/7P1ovpRrei/KliBVhXeUaauQd19/fCzyGWwJ
+         qve8SoSLEWptilKo9+M8XmuxfwscaSwFKNGRjW5rursvOK37Fq2i+gepKrmtRyVtx4sn
+         PhEA==
+X-Forwarded-Encrypted: i=1; AKwUvBz98qF9I5iml0yD/KV77sZjZ7L0zuU5zOfQrMUt+onAEqlugyUXHzILwv7kKYDeloZ5rvkFRfgVNmdrDkUx@vger.kernel.org
+X-Gm-Message-State: AFuF++k84nQIRfk5DgVeKORM6RGIBUDTYSnBEwFcOC/D/C7ybK4mOiIw
+	1QgsDe0F4kbpSaHr/8kvlhYgXlNYBdJwU4XH3JI0xdx9Mm28fDR9WY5J
+X-Gm-Gg: AYBFou2WyNpCWy0VPk6pb3J1rKeDuxyaLFI33ZD2GpADLWob7+CjjrfwNr4a+R7FTEP
+	fBbD9ZM8M1L53zcynBD4QBmRZNJtq2BdReI/jHF5cnOyoEeCn1WenskOiugBcuPCtAYHGvfOSCx
+	/pstjnlNhFbNDJv3oljssiKCFdTtjSxUj0SC3aAk5W+8vz/S1xNizzhC1pxVLjro70G0TuvP3qc
+	orYM7hqQVCHqjvV4Zre4nvpYhCfWg50Q6LnLqEqxgs9OhajEAmzAU/sV+xlA7VqCV0cuP8T7Rzr
+	rGXZ/W2xpJWnhLBblzU/ZVLMzmQwEiRUU0AcCL4d/HCnry++oj3vRQbdB7Y1vn7vKqQcYgGvusX
+	iJYNFZQG5yjD+nG5AdjXMQ6yf5Qnb1o/G+mMoOVrGGuB1iUHALaMK9G3mVil+jqXDQZgu2KsnDZ
+	XEzVBdHso12S5aEK5awrVXLE2MA51N73bXbxIBqg+tVSe5nM2Gh5xmdl3BfY7TWi9/7VxY0WEXE
+	tfgKISAwTjBWEHtRF5DZXn2Jw==
+X-Received: by 2002:a05:6a00:4787:b0:863:2fc0:4052 with SMTP id d2e1a72fcca58-8632fc04106mr12652769b3a.2.1788883503595;
+        Tue, 08 Sep 2026 09:05:03 -0700 (PDT)
+Received: from o6.lan ([240e:391:e05:8d20::1])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86153027951sm5767881b3a.40.2026.09.08.09.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 09:05:03 -0700 (PDT)
+From: Xueyuan Chen <xueyuan.chen21@gmail.com>
+To: surenb@google.com
+Cc: akpm@linux-foundation.org,
+	liam@infradead.org,
+	ljs@kernel.org,
+	vbabka@kernel.org,
+	david@redhat.com,
+	willy@infradead.org,
+	jannh@google.com,
+	paulmck@kernel.org,
+	pfalcato@suse.de,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Xueyuan Chen <xueyuan.chen21@gmail.com>
+Subject: Re: [PATCH v2 0/5] read proc/pid/smaps_rollup under per-vma lock
+Date: Wed,  9 Sep 2026 00:04:52 +0800
+Message-ID: <20260908160452.1548235-1-xueyuan.chen21@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260907063918.3432401-1-surenb@google.com>
+References: <20260907063918.3432401-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/25] mm/fbatch: remove !CONFIG_SMP special case of
- folio_activate()
-Content-Language: en-US
-To: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Ackerley Tng <ackerleytng@google.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
- Binbin Wu <binbin.wu@linux.intel.com>, Christian Brauner
- <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Christoph Lameter <cl@gentwo.org>, Claudio Imbrenda
- <imbrenda@linux.ibm.com>, David Hildenbrand <david@kernel.org>,
- JP Kobryn <jp.kobryn@linux.dev>, Jan Kara <jack@suse.cz>,
- Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
- Kairui Song <ryncsn@gmail.com>, Kiryl Shutsemau <kas@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Leonardo Bras <leobras.c@gmail.com>,
- Lorenzo Stoakes <ljs@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Mel Gorman <mgorman@techsingularity.net>, Miaohe Lin <linmiaohe@huawei.com>,
- Michal Hocko <mhocko@suse.com>, Minchan Kim <minchan@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
- Rik van Riel <riel@surriel.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Shakeel Butt <shakeel.butt@linux.dev>, Suren Baghdasaryan
- <surenb@google.com>, Yang Shi <yang@os.amperecomputing.com>,
- Yu Zhao <yuzhao@google.com>, Zach O'Keefe <zokeefe@google.com>,
- Zi Yan <ziy@nvidia.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-References: <14a16945-529b-8bc0-ab38-3ea97e54e223@google.com>
- <3f18ab7d-c12a-d2a3-4d3e-f9908f94f27d@google.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <3f18ab7d-c12a-d2a3-4d3e-f9908f94f27d@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/24/26 15:52, Hugh Dickins wrote:
-> 3.0 commit eb709b0d062e ("mm: batch activate_page() to reduce lock
-> contention") brought in an ifdef CONFIG_SMP around activate batching:
-> https://lore.kernel.org/linux-mm/20100805140755.501af8a7.akpm@linux-foundation.org/
-> shows a sensitivity to bloat that day, not any incompatibility with UP.
-> 
-> No other batching here has a UP alternative, and it's a bit confusing:
-> simplify mm/folio.c a little by removing it now.
-> 
-> Certainly we can reduce UP bloat (and/or 32-bit bloat) by, say, lowering
-> FOLIO_BATCH_SIZE from 31: traditionally 16, 14, 15, then raised to 31 by
-> 6.9 commit 9cecde80aae0 ("mm: increase folio batch size"); or by giving
-> just the static per-cpu folio batches a type of their own with a smaller
-> array size on UP (1? or a little batching worthwhile even on UP?). But
-> not right now, it's orthogonal to this series.
-> 
-> And I suspect that the old ifdef led to lru_activate being placed last,
-> whereas it's usually the second most popular fbatch: move it there, to
-> match cpu_needs_drain() comment "Check these in order of likelihood that
-> they're not zero".
-> 
-> Signed-off-by: Hugh Dickins <hughd@google.com>
 
-Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+On Sun, Sep 06, 2026 at 11:39:13PM -0700, Suren Baghdasaryan wrote:
+>proc/pid/smaps_rollup can be read using the combination of RCU and
+>VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
+>required to safely traverse the VMA tree and VMA lock stabilizes the
+>VMA being processed and the pagetable walk.
+>Note that we have to keep the logic to drop mmap_lock on contention
+>because even when using per-VMA locks we might have to fall back to
+>holding the mmap_lock.
+>
 
+Hi Suren,
+
+I tested this series on my arm64 24-core machine, using the same
+command:
+
+run-proc-vs-map.sh --nsamples 20 --rawdata -- \
+--busyduration 2 --procfile smaps_rollup
+
+baseline:
+  Median   Minimum   Maximum
+    0.132     0.121     2.600
+    0.132     0.123     2.768
+    0.132     0.123     2.804
+    0.132     0.125     2.835
+    0.132     0.125     2.837
+    0.132     0.125     2.849
+    0.132     0.125     2.858
+    0.132     0.125     2.888
+    0.132     0.130     2.894
+    0.132     0.132     2.896
+    0.132     0.132     2.915
+    0.132     0.134     2.921
+    0.132     0.134     2.927
+    0.132     0.137     2.945
+    0.132     0.141     2.984
+    0.132     0.246     3.004
+    0.132     0.270     3.381
+    0.132     1.316     3.533
+    0.132     1.321     3.551
+    0.132     1.343     3.924
+
+patched:
+   Median   Minimum   Maximum
+    0.006     0.006     1.950
+    0.006     0.006     1.955
+    0.006     0.006     1.955
+    0.006     0.006     1.956
+    0.006     0.006     1.956
+    0.006     0.006     1.957
+    0.006     0.006     1.958
+    0.006     0.006     1.959
+    0.006     0.006     1.959
+    0.006     0.006     1.961
+    0.006     0.006     1.962
+    0.006     0.006     1.963
+    0.006     0.006     1.964
+    0.006     0.006     1.966
+    0.006     0.006     1.969
+    0.006     0.006     1.976
+    0.006     0.006     1.982
+    0.006     0.006     1.995
+    0.006     0.006     1.996
+    0.006     0.006     2.043
+
+So the median is 0.132 -> 0.006 ms, about 22x, and the worst case
+drops from 3.9 to 2.0 ms.
+
+Tested-by: Xueyuan Chen <xueyuan.chen21@gmail.com>
+
+Thanks,
+Xueyuan
+
+>The first 3 patches are cleanups making later change simpler. The main
+>change is in patch 4. Patch 5 extends existing proc-maps-race tearing
+>test to verify smaps_rollup content.
+>
+>Changes since v1 [1]
+>- removed helper functions which are not needed after per-VMA locks
+>became unconditional in [2];
+>- added a cover letter, per Lorenzo Stoakes and David Hildenbrand;
+>- removed is_mmap_lock_contended() as it's no more needed after [2],
+>per David Hildenbrand;
+>- fixed typos, per Lorenzo Stoakes and David Hildenbrand;
+>- refactored duplicate error checks, per Lorenzo Stoakes;
+>- eliminated special case of start=0 in smap_gather_stats(),
+>per Lorenzo Stoakes;
+>- updated comments, per Lorenzo Stoakes;
+>- moved original comment about 4 possible cases when mmap lock is
+>dropped into patch 4 changelog;
+>- added smaps_rollup testing into proc-maps-race test.
+>
+>[1] https://lore.kernel.org/all/20260606015729.1837935-1-surenb@google.com/
+>[2] https://lore.kernel.org/all/20260813193433.3318288-1-surenb@google.com/
+>
+>Suren Baghdasaryan (5):
+>  proc/task_mmu: remove unnecessary helpers
+>  proc/task_mmu: remove unnecessary inlines in function definitions
+>  proc/task_mmu: remove special-casing of smap_gather_stats() start
+>    parameter
+>  proc/task_mmu: read proc/pid/smaps_rollup under per-vma lock
+>  selftests/proc: add /proc/pid/smaps_rollup tearing tests
+>
+> fs/proc/task_mmu.c                            | 280 +++++++-----------
+> tools/testing/selftests/proc/proc-maps-race.c | 187 +++++++++++-
+> 2 files changed, 291 insertions(+), 176 deletions(-)
+>
+>
+>base-commit: e3fc12b08aadde9cec7b3799ac0e0c9a1aa245c4
+>-- 
+>2.55.0.979.g7e5102b832-goog
+>
+>
