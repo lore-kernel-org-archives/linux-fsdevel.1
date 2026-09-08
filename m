@@ -1,177 +1,157 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5106852E04D
-	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 18:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B04C530E01
+	for <linux-fsdevel@vger.kernel.org>; Tue,  8 Sep 2026 18:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788892746; cv=pass; b=Es5UsR2xYot1GDospzng/jF7iGIE+mNiGU/zM0RSNFTvEfEBtJjsk0ltX55Slu490hb5UG6BcdAqv/qwhvZcYx8O2KIqiNKCMBiqBgjJ5p6GeWxjLCY+NJlFj2lthA4ab2KY7qCiX+UqqlsCb05OD78wK9lgT2VONEPvcflif6M=
+	t=1788892794; cv=pass; b=b9JjPnoLdVTx4poy+jwperB0QAsThpK2veV9qvPHrJyx0YQPPul9CWT5sDV+sEiYdPqTUEtFycpkMQKy+fVGSZ0k9WkZqjHjeX+1ZBGL/o41Fi59zKnuppQByBOAvjdCIExEunLIqGB7YyUXtHaQV1gGgCF+BvfSSUiiKKVldUw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788892746; c=relaxed/simple;
-	bh=DNYDseqyoZJVxdaZRzda73aCo1zvS+JC0niDG1HL1VU=;
+	s=arc-20240116; t=1788892794; c=relaxed/simple;
+	bh=oDK1zDg/oSey2EOVLolfzuplOiYAA9At+21vSxpayKs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cEPTKMd6u1N1OCGOKvJGr1hZ1n7p4Yy5EkXZrzz7rkV1DWmEH+LBs69JWy/aRhkopcJuxdgJ5TFaMwOey4aj7PF2AR80TH2ZKw+e+gF54duVszu+LBqiPFCvP59pcLo76EFYYyVGX2irs1b0AIxH89s/d0D+c/i2hkm4kWAQXnM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iKiLs+2d; arc=pass smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=rcLQG5BG3z2SZNS/VlA12efp7EC5Tne2/uIbY8PDGPJi2Jq5ZIV6k2g3H3F/mqNS+hScK0tqHyAXzwoVBUtk5KC6Y41Vt8veGBE4w1G2+hP92iNff8Vuw4BViZYomWSFy442hex56bhbZXIIpgPBAx5OeSwQD/IqnP6ReSQcWtk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Csj5J8Wx; arc=pass smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iKiLs+2d"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccafb751so247512a91.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 11:39:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788892744; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Csj5J8Wx"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49b8eeb3ff2so47131185e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 08 Sep 2026 11:39:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788892791; cv=none;
         d=google.com; s=arc-20260327;
-        b=VgdazSZ1BQiGIobfEHLNEN3J4NpY5aR+3MT/UUdbLOy3fnlCOJiXd8WAbJdtxUazw/
-         UtOUM5007GW4XraBWHbD5MTC5K20HcqhbTZrDoRTCg/dFdom+UvlkvTrfI+d7pWDmR6v
-         X7BjinTjdxjkZyLO6uSvgVSviTZFWUKeNQfMod0UFWfeP4tXiPLP2W07FBdQ+izaI3dS
-         MGIAcap8iV11FKWH2DmJcs1CBGmHqFEYSoJcPinqBSwDLBFs0ES877pAwIDcBu+kUU4d
-         O7YrfShbLCHBBK+1j9Neg5Rt3e5LzTX85hop1xAeS9x2mQG4pdw6aZPVyCcYjBWclO1i
-         UNlQ==
+        b=Lv9t308yf0z45er1j8TEqcj3FH2M6amcuEQAU2EkoZ/D/vCib6G8EpBWa43DBSqUbP
+         om1TjNPqLUdN+QpTipn2ixhXpHpsTxtsKozx8YVQrysoSHRyMaTyGdunhQUq6lG73Ecz
+         uAQ1KUfxFAG+6HyQ36RFngEJa/d4gMEK9pgkAOqRdR2feY/KfC2L8bW08U3s/o3mRv3C
+         cEI9e1N15eTatYMertIut+A3CcojYyQqcYhMmE7M8cDkv+pDXle50Q0Ds7FqSQ9C0/KE
+         yYx3xnCGwWhBn5ErQ9PoD4P58Y1IGM6egQZc7nlONcgXihL19gZ4qb4gFY9Ogmykv0P+
+         m7fw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=eHQktjygnIEWh5+9kmfRFvjjOg/JlnMZOCs1m/10uXw=;
-        fh=j0qZWzX+buTQZr8/ohthY78wTHZ7q7nOlbhPfOFitd4=;
-        b=V2mLRjovePKzvyLTHBEoGDTLBNCvOhDHh1OMK/9970EVZ5uDHhlbsT60uwic8OSMWY
-         OlAdQRqFpa5RTWpeCM4x7n7EWW+v3xDY5xGS6Zlfmb7qiW4z0CbCB/fOvfvRb2xyz3d8
-         orEfCcUCX1XowDhfvocfAVoawS3ix/obQhoEZZJHmHDu2WgoU2QGj0mkjcY7vXEbcSCO
-         4G65OjlDCgr/x49DBC1z32fvzkbND+Ush4U1xVtLhekEnxcz1Zgs8K97GyjFEwQ2E8no
-         00FMEVQobki/GuZchmAvLeVnv6KquSn3zbtS4jOb8OCIsz1H5vVGeaVmok7UR5e5Rvjs
-         hQDg==;
+        bh=TRHHPtqnAHNoNBtGQy93BNsOG6GDWejrubjBMOtK5uk=;
+        fh=9ZPDcrn3qFdZ6NKQR41k3tYct6wWDm5Sm+M+SqnNfOk=;
+        b=hmmlO+UPe5j9FKvJwUinaETVcsgghnn8ZXxRX51zcF5IJGvGAN17CDW8wEGktr9C1e
+         JCVNSXus0xUME3q29Q5jK+YFBJ754rjDxvInM/4QHGbuEZO8/8XkGXCmFjiRYYC++Hmq
+         pBpc4SQjL2HSFQoUE7N7GEW5T/hDOEz5sAc/wqXKgAQF6icKPNDlqpB/irO1bis8Uzdt
+         Q1xZb7k5tVvRZwBo+xphhzMCT2v15uixwkZodvXb/b9/SJ8VKdy82qlHCAEONKbpcPqe
+         cC6DDHm2We8mP+HXtdS5XuHNQn4NmeE87aEn41yZ/gamz6/clq6WuUXinn23mX7HWrJW
+         Z0aQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788892744; x=1789497544; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788892791; x=1789497591; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=eHQktjygnIEWh5+9kmfRFvjjOg/JlnMZOCs1m/10uXw=;
-        b=iKiLs+2d0dBxvovgIpfSDD1ECFPtZYcxn/caxKar6dLS0ukUKg2wKLANMEgYW9nFIa
-         BmTNvyNhf5vot4yqApB1CSJbe2QcT8so1b49DBdId/O6boRbP5+LdqT4ePPjne9QYo03
-         lVC7xxsSYeQfrG1J0lK4ekQpKG3qnOhgxGnarwalmn9yAMpKKIK0ep7fKU9C1824TzBE
-         L2Lwo0KuQLIPvrZfaxZqDnm2KQCWpyWtwVqg5j/hm98fksuGpcMOY3HYBODgvFQGnkNZ
-         7KAn7DxSEbzpKhJzfEX2cz6HS4U3Ahv3yQ22JISC5d7mUdn5f68a3Wg9cCFV6V26cqUc
-         PZgg==
+        bh=TRHHPtqnAHNoNBtGQy93BNsOG6GDWejrubjBMOtK5uk=;
+        b=Csj5J8WxkMm8R2EqCFomh0kAcCdz+sUYZPIFzdUKf0fykkQVUjgBPs2M2Syg7zCJYv
+         s+Tkp7iaiUreUtraHsYnEBupFh3MECX/3g3IthYWrAQfPcMpH+QMf+IdfeKFGCwWvPMQ
+         15VYir/ackzr08xgllwWQEmCumeNW5hmGy0lE9lKEWRB9ijtDirK32spxN0m628YjiPR
+         EUm7R8QG0XFp8xoQABPrz5w5tkmcHSSU7m+v9Oo/YapoXC0s1MjncEZkDyEzhIF6IP2B
+         4LRNCULlZHz6y5ifUHqb0FrOke7dRTF5y8CFfdgkVKqmc+fRkmz6kF+uLMenEexGQNU0
+         htsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788892744; x=1789497544;
+        d=1e100.net; s=20251104; t=1788892791; x=1789497591;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=eHQktjygnIEWh5+9kmfRFvjjOg/JlnMZOCs1m/10uXw=;
-        b=Uw9bYvuYieKOSfnqVxMwZA7kHp4FtgCLJta72p+yS2mzRCngXUHVMP8yL+6MmSp+tt
-         7zUSX08MS61jhexzsy3XUSPw5vNUE5KYxLHD3Ycr/Tg0EfjqaqqvwffP6obOl0xeVyWH
-         xmLkfV82vuoHMapIr/MudK4BywXmvcpM9QmKiFUzT/mpU44KsVvQ3tHR71RImxvDY9Zm
-         puL5wXCMVMD8BsY1AfS4WAKzHP+/qzYL1M4mesn9/1U6H7qyAlOuJz5fnwwP8xdeKJhl
-         S5uG4ujf1+zcR2MeQN15IOyEzIk8RGo7jt3xks+MCjaQO+UA7Nrje8NO81QzDv4WJr73
-         i5Lg==
-X-Forwarded-Encrypted: i=1; AKwUvBxmAMJx8icVNElyoylhrkgAedic/HdLh0xJhTGZYYa43G9iJ9/j8bG9GwwC/xotQgkqONiGDALXV+z/EsTR@vger.kernel.org
-X-Gm-Message-State: AFuF++l6iJowPpQblU0+GJ+987t4GFiNWpr7DFAMTG3BvdP18qgG5R2c
-	ktNkWsupobUeLv9mFWeWrnCPj08O8bUNidmSjMiQMu6HJBJtNvEcv3NoyGhoSzuplotzB8WgPKh
-	Rg7BZKC2XU8iCYKnhrV2mmWOlEwafLtIQrmP1U9M3
-X-Gm-Gg: AYBFou2Y42g9klS7A9SI0y+cCXvxP7u8+hgWpskCo6wd3GtLNWcf2T7r+m9dDvWE/c5
-	OAHAP0ZMi4tmmg1zGh4IOTqufcoFLJGfKLJEyRN5kBgwKynfLkOaXKPZAcn0FliLujMNudB9d7P
-	ZREbjGdrf6HHS1f8vT9A/yEvAkueln4pfHZ5RH2RjswLQnXFtTfAaqiE6L3HLaK37MaKx2ED7yJ
-	mHXOLKaWFLeKNhT+4xd3ImKKLZbzn/k8IRkVzew10wXopYDLoUmKUaK6yn4DMrYaBtawEjOcxjh
-	7BIVAbt1J+pXvNr4yhuIqTU9qgaLqTQaEp+PlXFCHSsG/6dOA4GWImtOFVJccgvQ/A9uILHKDyl
-	VeL1pdqmn1mQ2E1dZsDcT4P9eD+Iicz254ryOubYGQ0/JtFz3xkEqkz8v2gDGrlMAS0enC//Pva
-	XXPI9MJlzoQp4vOwM=
-X-Received: by 2002:a17:90b:3851:b0:396:40e6:f631 with SMTP id
- 98e67ed59e1d1-39bac1389e1mr1593742a91.3.1788892743834; Tue, 08 Sep 2026
- 11:39:03 -0700 (PDT)
+        bh=TRHHPtqnAHNoNBtGQy93BNsOG6GDWejrubjBMOtK5uk=;
+        b=WIbdKJMeeQRPvU7/RKBaCpNTSL2RMo/Ds+ZcyvSqE5j3yd5w2Xqd1xI/Qkj1rS0FaH
+         hwnc1SY54azqyycSTYiLMISXKiuO799Okj0m1JPI9l9r5lXwEEms07pkwhLIDmuDx0EW
+         4JsL+rom7/5OfT7CXVkmNgQnb5pPxodHnTTzcE0wwlNt0/1vAD4lxSVqSvC30tyTyRbS
+         KGJQL6LkDLDTRp84k+KoMmsOQOuPAkY7Zr0ZV/XJTv0co/seCLHSOqZcQr+0/X5tHOkH
+         tjVj+EftKGQ8pR4Jq0GndpkHYfWu9O9i24hU6QqFCcXft2pnfdxRto9m0T1sClBhO5I6
+         N4+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxd4Mu+gi3x9MSnhO36XUMu6/Jxp/h9KF++zfIGCzv7qzJg1e+kL/Pp+fQyfXmdSjpqM/LqpTw/FQSkweUT@vger.kernel.org
+X-Gm-Message-State: AFuF++kxcZNmNKIc+Uy1if0ochvm4TK1TjpzzorhIG91D1RbQzEl6mKr
+	raX3TnZ5NOcL3VvWTPsibFa6aAFHsBgxeX/qYs9dQAaJ/Ne4/qR10VIM3cXkfJ+Xex9HqslQEUl
+	dnfQ0TjOYz2dniA8VL4t88pZPtNMBWn4=
+X-Gm-Gg: AYBFou1iP/sN1s15/PnVa55k8GJ0b+LYjNrY9AgdaW+FK0gvC4zVviWVadxhQKRF04Q
+	ywYOH7nPL5wvPqeeU9Uh6poGuMCUbwU6oTarVfpEvXuLBq4dFAVXF+5RJlsSAX0aVnkAYmw5fel
+	xQunNEZYE5o5rijRSWWuKU1SAPUiZLOhmdlK78mo4wNQFDkWlCrxkezB66tFLvrM0qAmm74aGxF
+	79EjlmxiZSbhPSAawqju65WvA8FfMmFWbWpmExIUOF5CuMKu3pssta2E1DySEkqElhRNlNMXIR9
+	P92cTf2njKHfsM0blpnd6sb32fFkT3bVM1gSADrrs0K4/lWk4BbgDPpZaerOrXzz+pchuiygr99
+	m
+X-Received: by 2002:a05:600c:4f89:b0:49c:e1df:79a4 with SMTP id
+ 5b1f17b1804b1-49cf822c827mr275918375e9.5.1788892790894; Tue, 08 Sep 2026
+ 11:39:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260905233819.1064529-1-kuniyu@google.com> <20260905233819.1064529-2-kuniyu@google.com>
- <7yotzsvlkroxfl3zkestrul7f5rh7vmlhuacm33reod7uw2mun@jrs7c2hud6oo>
-In-Reply-To: <7yotzsvlkroxfl3zkestrul7f5rh7vmlhuacm33reod7uw2mun@jrs7c2hud6oo>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Tue, 8 Sep 2026 11:38:52 -0700
-X-Gm-Features: AcwNN1XXn0XECLK7Xtm38IMrZ10p39D1AykCeD7W1Vi3SOkjy6Dsjt6gnEHWKQw
-Message-ID: <CAAVpQUBbQYmNXGN3yMyjGJL-EffOPp0cv0jJ8zQDJqgfEHjw3w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] sysctl: Make proc_dointvec_ms_jiffies_minmax()
- enforce minmax again.
-To: Joel Granados <joel.granados@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Kuniyuki Iwashima <kuni1840@gmail.com>, linux-fsdevel@vger.kernel.org
+References: <20260825135209.3135169-1-alex@ghiti.fr> <20260825135209.3135169-3-alex@ghiti.fr>
+In-Reply-To: <20260825135209.3135169-3-alex@ghiti.fr>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 8 Sep 2026 11:39:39 -0700
+X-Gm-Features: AcwNN1UgwciD1I-qE2yD_ZK2P3jH-A8WPIpVEy3cs7LbzeEfivAviywv0_QerXY
+Message-ID: <CAKEwX=NUFMjHHbeeRnUm0Ex9YQaesYTM-22WMGRJMXSKTkc6uw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] mm: swap: drop dropbehind swap cache folios on
+ writeback completion
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosry@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kairui Song <ryncsn@gmail.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Wei Xu <weixugc@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Kunwu Chan <kunwu.chan@gmail.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 8, 2026 at 4:06=E2=80=AFAM Joel Granados <joel.granados@kernel.=
-org> wrote:
+On Tue, Aug 25, 2026 at 6:54=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> wro=
+te:
 >
-> On Sat, Sep 05, 2026 at 11:36:30PM +0000, Kuniyuki Iwashima wrote:
-> > When the cited commit converted the SYSCTL_INT_CONV_CUSTOM macro to
-> > functions, it accidentally changed do_proc_int_conv_ms_jiffies_minmax()
-> > to pass false for k_ptr_range_check.
-> >
-> > Since then, net.ipv[46].neigh.${dev}.interval_probe_time_ms no
-> > longer enforces the lower bound.
-> >
-> >   # sysctl net.ipv4.neigh.bond0.interval_probe_time_ms=3D0
-> >   net.ipv4.neigh.bond0.interval_probe_time_ms =3D 0
-> >
-> > Let's restore the minmax check.
-> >
-> > With this:
-> >
-> >   # sysctl net.ipv4.neigh.bond0.interval_probe_time_ms=3D0
-> >   sysctl: setting key "net.ipv4.neigh.bond0.interval_probe_time_ms": In=
-valid argument
-> >
-> > Fixes: d174174c6776 ("sysctl: replace SYSCTL_INT_CONV_CUSTOM macro with=
- functions")
-> > Signed-off-by: Kuniyuki Iwashima <kuniyu@google.com>
-> > ---
-> >  kernel/time/jiffies.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/kernel/time/jiffies.c b/kernel/time/jiffies.c
-> > index 213ae1d6a014..70926b73905a 100644
-> > --- a/kernel/time/jiffies.c
-> > +++ b/kernel/time/jiffies.c
-> > @@ -181,7 +181,7 @@ static int do_proc_int_conv_ms_jiffies_minmax(bool =
-*negp, ulong *u_ptr,
-> >                                             int *k_ptr, int dir,
-> >                                             const struct ctl_table *tbl=
-)
-> >  {
-> > -     return proc_int_conv(negp, u_ptr, k_ptr, dir, tbl, false,
-> > +     return proc_int_conv(negp, u_ptr, k_ptr, dir, tbl, true,
-> >                            sysctl_u2k_int_conv_ms, sysctl_k2u_int_conv_=
-ms);
+> A PG_dropbehind folio is dropped from its cache once writeback completes
+> rather than left for reclaim to find later; this is implemented for file
+> folios in folio_end_dropbehind(). Extend it to swap cache folios.
 >
-> oops!!!! Very good catch.
->
-> I can see that this needs to be fixed, but your commit message needs
-> work. Please re-write like this:
->
->
->  Add the range check to do_proc_int_conv_ms_jiffies_minmax that commit
->  d174174c6776 ("sysctl: replace SYSCTL_INT_CONV_CUSTOM macro with
->  functions") incorrectly removed.
->
->  Fixes: d174174c6776 ("sysctl: replace SYSCTL_INT_CONV_CUSTOM macro with =
-functions")
->  Signed....
->
-> Why is that info about net is relevant here? I would remove it.
+> The drop takes the folio and swap cluster locks and may sleep, so it
+> cannot run in interrupt context. Set BIO_COMPLETE_IN_TASK on the write,
+> as the file dropbehind paths do, and drop the folio directly from
+> folio_end_writeback().
 
-Because it's the only relevant user.
-
-$ grep -rnI proc_dointvec_ms_jiffies_minmax
-include/linux/jiffies.h:649:int proc_dointvec_ms_jiffies_minmax(const
-struct ctl_table *table, int dir,
-net/core/neighbour.c:3679: ret =3D proc_dointvec_ms_jiffies_minmax(&tmp,
-write, buffer, lenp, ppos);
-kernel/time/jiffies.c:311:int proc_dointvec_ms_jiffies_minmax(const
-struct ctl_table *table, int dir,
+This BIO_COMPLETE_IN_TASK thing is really nice! I'm glad we have a
+proper infra now and no longer have to roll our own solutions :)
 
 >
-> >  }
-> >
-> > --
-> > 2.55.0.1003.g10538fe699-goog
-> >
+> Suggested-by: Yosry Ahmed <yosry@kernel.org>
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+
+Mostly LGTM FWIW. Just one query below:
+
+[...]
+
+> +        * Gate remove_mapping_reclaim() on folio_test_swapcache(): a rac=
+ing
+> +        * swapin may have freed the swap slot (folio_free_swap()) and dr=
+opped the
+> +        * folio from the cache, and it must not run on a non-swapcache f=
+olio (it
+> +        * would trip __remove_mapping()'s mapping =3D=3D folio_mapping()=
+ check).
+> +        */
+> +       if (!folio_test_swapcache(folio) || folio_test_writeback(folio) |=
+|
+> +           !remove_mapping_reclaim(swap_address_space(folio->swap), foli=
+o, memcg)) {
+
+remove_mapping_reclaim() and the likes seem a bit confusing to me, but
+I don't have a good suggestions for the naming...
+
+(also I'm hoping we're fixing the weird shadows behavior of zswap
+writeback soon :))
+
+Anyway:
+
+Reviewed-by: Nhat Pham <nphamcs@gmail.com>
