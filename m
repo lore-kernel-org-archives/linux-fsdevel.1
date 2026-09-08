@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E79E52BE27;
-	Tue,  8 Sep 2026 11:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A07251A743;
+	Tue,  8 Sep 2026 11:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788866690; cv=none; b=ZX3KHCIh6hC5UjOunVH9tRdAa2VDINRhm6hTWdaGn/nB3evHFsF46yx1JHj/0jFSZeBtwszGOBuLVedb1n833SQVUk4UvuDSnquFGYLpogYHzuwcQBrLG+MLK96xtroYws6F0NmcoKZOFqmT5416zE09K97waEXoT6ElScFF7Sg=
+	t=1788866703; cv=none; b=rz8U2xYPmVffH3fnfLup6elXYlXErcd5ftiGW5+Jbc6I8YwLE98pvYgU3wSBy3zyownUHkfqCSvR7aqA7N90ojZm7nOJKMvkQsaDPBRBhJeJL1j5+h2IQZabbKCHYGZbHcfhXpOS9LU4JzuGL5BJ3vjD5sv5wlsYD9y46zIoVSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788866690; c=relaxed/simple;
-	bh=zyHpGOvJgvpz0CkPBa/akIw5hynneWmyWjMSuuPUPHQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qpfnovsZLtTClD3HmOMNil16IJf1OaVPIi9f4hXtQlnUeCrnyLrPv1Pe5KSiULZKG1jZrGcfnYzMvFm66tTxjYmmUsjwmFvYoPI8jXPaBaXqXjV4+CSyYbF1HAeE7pqZH9BlYP91R7NeHl9WUNGIr0jMBfy5AEhc69UTTMay0vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URN9YlhJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788866703; c=relaxed/simple;
+	bh=A0bJ64HW79psSPlOLCnw7EMt+8G8UJeBpFvBmWrksO0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=qkhK5YycPCvJyQJ3TL8eujAAa/LSREyo+5WYNes+acgRr6/r9qHk8QYuaW8+1uPFvVdgRGab6yL/tMgYdxO7AZd1EvDYEnYFMF5vUuv5SgKPs2JSkcm1kVb4vw9U5UunBjncEeE6IAhCo5rrRVCN/VX1ES7brCyD05X1cgu4avU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2vGBeCe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URN9YlhJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520251F00A3A;
-	Tue,  8 Sep 2026 11:24:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2vGBeCe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BDD01F00A3E;
+	Tue,  8 Sep 2026 11:24:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788866678;
-	bh=mfTEZnUAqIu9snNugWvKz9NgMLsK8FTL3j9DOamLiBo=;
-	h=From:Subject:Date:To:Cc;
-	b=URN9YlhJSN5Go9+FGDnDonQuzMD3QjcnwdGAyMqEVUEuGrKKUAmNP+q5CuHjZQlhv
-	 ClYVpndKK8xa9gqd6ICtUjHEKPCKLHvW9r7Q+P4WIMXlpW8IL7k1nv94wvxhY6AuEP
-	 ukXMuQPId/Ph4WCO8dCGMkLGNy7UjYnvjQqW9wOhgTvG03UU8cy870Bbr/pJVU6Ugb
-	 czHNQFEamstUcQLxJ45kh9iBiGnT7dqM2pYQxYxNWNSj4d7GtVeuq87TP/s083vsxW
-	 wo5+jRt6XykBmUJbIfzE29PaWRRRSlCpKz2zi0p03fCCsGHsC9o89ebsiDx7YKOwjy
-	 N7gXijLrRfYqA==
+	s=k20260515; t=1788866689;
+	bh=QpNjJERy5W0kZ4sRAK5DqssDq5giEzAZ8nJVAHeIm7A=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=J2vGBeCewZOhjQLLB49PJxkgMpsXWdqjwH7GKarj61WbzSCS1NNO2oOQt9HIjm5rp
+	 u4jBuYPhwsTKgB+LY7E6DrAtdeh0+kGQ3XDJWk7P0/J2tjJsGgcohsLg2gKViHhNlT
+	 HMFNoovZtWaYxqigrBGQwQWaruFMVFkX1H2eaxW0fwKlrWxRnCV4nN7oni97TZAioY
+	 TJLnyC7f2dfjBY0gWgs6vUpEXWkx3E/1Lw5j5O3IVuGxhkpAd11PqQ5sOuK9XCZAMg
+	 QITnixPPxa7aTS1r4Rlbke1xMxw/oZ1ABhd2RJT4b5lDuWyN1TlNRdT8lQKtXXYMWZ
+	 0BYDV6/5X6ROQ==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Subject: [PATCH v2 0/6] mm: make MAP_PRIVATE-/dev/zero mappings truly
- anonymous
-Date: Tue, 08 Sep 2026 12:23:37 +0100
-Message-Id: <20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org>
+Date: Tue, 08 Sep 2026 12:23:39 +0100
+Subject: [PATCH v2 2/6] mm: implement file_is_dev_zero() to uniquely
+ identify /dev/zero
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,11 +38,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNQQ6CMBBFr0Jm7ZhSIkVX3MOwqGWAiUqbKWlUw
- t2tXMDle8l/f4VIwhThUqwglDiynzPoQwFusvNIyH1m0ErX6qw0Pm3AIJzsQthTwg+Jx5ut6t7
- UVg+ugTwNQgO/9uy1yzxxXLy895dU/uyfYCpRoT2ZxplKOXKmvZPM9Dh6GaHbtu0LSYzZrbkAA
- AA=
-X-Change-ID: 20260902-map-private-dev-zero-ba36d76a2fc8
+Message-Id: <20260908-map-private-dev-zero-v2-2-acc7b5625305@kernel.org>
+References: <20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org>
+In-Reply-To: <20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org>
 To: Arnd Bergmann <arnd@arndb.de>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Andrew Morton <akpm@linux-foundation.org>, 
@@ -57,89 +55,114 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3588; i=ljs@kernel.org;
- h=from:subject:message-id; bh=zyHpGOvJgvpz0CkPBa/akIw5hynneWmyWjMSuuPUPHQ=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLLmfygo+B1t2+j0RnhubYNyxk894yWXTk+wjLpmZJv+b
- dZ8+XmZHaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZiIRggjw7l1t97/8Au7PT/9
- 3i6li4KPmN+1PO1LVtjZpyG2rSJD+wXD/9imdwurPFYLx7Wv+dd8wuDq4X//qnfGBH2pUb5sYf/
- 0KgcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2988; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=A0bJ64HW79psSPlOLCnw7EMt+8G8UJeBpFvBmWrksO0=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLLmfyjcGSSo1Re24du3VUcC7M8aau83dRc+0TDx5cfHI
+ VMDs27xdpSyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAihUEM/+PWJrT9WRQRY19Q
+ ZWlws69zynZdjsJ7BoFxXr+urndleM7w36O0/4+4w8YDU5d/DppydP6UKZdnc2258yTK5umRjr+
+ Nq3kB
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-Historically anonymous memory was obtained in linux by MAP_PRIVATE-mapping
-/dev/zero.
+To lay the foundation for a future change that converts
+MAP_PRIVATE-/dev/zero mappings to be truly anonymous, add the ability to
+uniquely identify these mappings.
 
-The canonical way of doing these now is mmap() specifying MAP_PRIVATE |
-MAP_ANON, but we must continue to support the legacy means of obtaining these
-mappings.
+With the memory character device now part of mm/ this is trivially
+achievable through a file_is_dev_zero() predicate that simply tests that
+the file operation hooks are zero_fops.
 
-As-is these mappings are an unusual edge-case - they satisfy
-vma_is_anonymous() but have non-NULL vma->vm_file, and their page offset is
-the offset into the /dev/zero file.
+Also update userland VMA tests to expose file_is_dev_zero() and provide
+a stub zero_fops for testing.
 
-Commit 93c0c8dc87f6 ("mm/rmap: use anon pgoff to track MAP_PRIVATE
-file-backed anon folios") causes all other anonymous folios to be tracked
-by their anon index (vma->vm_start >> PAGE_SHIFT at the point of first
-fault), leaving MAP_PRIVATE-/dev/zero as the outlier.
-
-This series remedies the situation by making MAP_PRIVATE-/dev/zero mappings
-truly anonymous with !vma->vm_file and correct anonymous page offset.
-
-It starts by bringing the memory character driver into mm/ - this file
-implements /dev/zero, /dev/mem among other things and is already (as
-clearly indicated by its name) within the remit of memory management.
-
-By doing this, the file_is_dev_zero() function can be provided, internal to
-mm, which allows for positive identification of these mappings.
-
-Using this, first prevent any other mappings from mapping memory
-anonymously, then make these mappings truly anonymous and eliminate all
-code in the kernel that previously had to account for these strange beasts.
-
-Finally, it adds userland VMA tests to assert the behaviour and selftests
-to assert expected merge behaviour.
-
-v2:
-* Added tags (thanks everybody!)
-* Reworked comment about mappings not setting themselves anon as per David.
-* Fixed up test typo as per David.
-* Fixed up test close() as per David.
-
-v1:
-https://lore.kernel.org/r/20260902-map-private-dev-zero-v1-0-a578c730cec7@kernel.org
-
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
-Lorenzo Stoakes (ARM) (6):
-      mm: move drivers/char/mem.c to mm/char-mem.c
-      mm: implement file_is_dev_zero() to uniquely identify /dev/zero
-      mm/vma: only permit MAP_PRIVATE /dev/zero to be mapped anonymous
-      mm/vma: make MAP_PRIVATE-mapped /dev/zero mappings truly anonymous
-      tools/testing/vma: add test to assert MAP_PRIVATE-/dev/zero is anon
-      tools/testing/selftests/mm: add MAP_PRIVATE-/dev/zero merge tests
+ mm/char-mem.c                   | 13 +++++++++++++
+ mm/internal.h                   |  3 +++
+ tools/testing/vma/include/dup.h |  7 +++++++
+ tools/testing/vma/shared.c      |  9 +++++++++
+ 4 files changed, 32 insertions(+)
 
- MAINTAINERS                                        |  4 +-
- drivers/char/Makefile                              |  2 +-
- include/linux/mm.h                                 | 10 +--
- include/linux/pagemap.h                            |  3 +-
- mm/Makefile                                        |  3 +-
- drivers/char/mem.c => mm/char-mem.c                | 21 +++--
- mm/internal.h                                      | 20 +++--
- mm/shmem.c                                         |  2 +-
- mm/vma.c                                           | 39 +++++++--
- mm/vma.h                                           |  3 -
- tools/testing/selftests/mm/merge.c                 | 95 ++++++++++++++++++++++
- .../selftests/proc/proc-self-map-files-001.c       |  2 +-
- .../selftests/proc/proc-self-map-files-002.c       |  2 +-
- tools/testing/vma/include/dup.h                    | 10 ++-
- tools/testing/vma/shared.c                         |  9 ++
- tools/testing/vma/tests/mmap.c                     | 37 +++++++++
- 16 files changed, 220 insertions(+), 42 deletions(-)
----
-base-commit: e3b5239afe1b8f0194db7436b17c33e94c1988c4
-change-id: 20260902-map-private-dev-zero-ba36d76a2fc8
+diff --git a/mm/char-mem.c b/mm/char-mem.c
+index d2e575545044..e53e89e6ddd8 100644
+--- a/mm/char-mem.c
++++ b/mm/char-mem.c
+@@ -31,6 +31,8 @@
+ #include <linux/uaccess.h>
+ #include <linux/security.h>
+ 
++#include "internal.h"
++
+ #define DEVMEM_MINOR	1
+ #define DEVPORT_MINOR	4
+ 
+@@ -707,6 +709,17 @@ static const struct memdev {
+ #endif
+ };
+ 
++/**
++ * file_is_dev_zero() - is the specified @file associated with the /dev/zero
++ * driver?
++ * @file: File to test.
++ * Returns: true if it is, false otherwise.
++ */
++bool file_is_dev_zero(const struct file *file)
++{
++	return file && file->f_op == &zero_fops;
++}
++
+ static int memory_open(struct inode *inode, struct file *filp)
+ {
+ 	int minor;
+diff --git a/mm/internal.h b/mm/internal.h
+index e16f1250b25c..5d474e5f7709 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1638,4 +1638,7 @@ static inline bool can_spin_trylock(void)
+ 	return true;
+ }
+ 
++/* char-mem.c */
++bool file_is_dev_zero(const struct file *file);
++
+ #endif	/* __MM_INTERNAL_H */
+diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+index 57046d8ac81d..0d1a2ac88922 100644
+--- a/tools/testing/vma/include/dup.h
++++ b/tools/testing/vma/include/dup.h
+@@ -1641,3 +1641,10 @@ static inline pgoff_t linear_anon_page_index(const struct vm_area_struct *vma,
+ 
+ 	return pgoff;
+ }
++
++extern const struct file_operations zero_fops;
++
++static inline bool file_is_dev_zero(const struct file *file)
++{
++	return file && file->f_op == &zero_fops;
++}
+diff --git a/tools/testing/vma/shared.c b/tools/testing/vma/shared.c
+index 4a39c9d50489..8c4826499f40 100644
+--- a/tools/testing/vma/shared.c
++++ b/tools/testing/vma/shared.c
+@@ -12,6 +12,15 @@ const struct vm_operations_struct vma_dummy_vm_ops;
+ struct anon_vma dummy_anon_vma;
+ struct task_struct __current;
+ 
++static int mmap_zero_prepare(struct vm_area_desc *desc)
++{
++	return 0;
++}
++
++const struct file_operations zero_fops = {
++	.mmap_prepare = mmap_zero_prepare,
++};
++
+ struct vm_area_struct *alloc_vma(struct mm_struct *mm,
+ 		unsigned long start, unsigned long end,
+ 		pgoff_t pgoff, vma_flags_t vma_flags)
 
-Best regards,
 -- 
-Lorenzo Stoakes (ARM) <ljs@kernel.org>
+2.55.0
 
