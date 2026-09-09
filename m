@@ -1,73 +1,73 @@
 Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A66466B57
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 22:02:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99EB3D6CB6
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 22:14:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788991345; cv=none; b=LFvhS0XJDfUmcGYTEcmqrUjsk/SfxF7ue1QOyQVa/koTUTiCLi9za3tU0J2+1nPX+Q5ozT2Az5xKZ0qIXrTyVEy1VPN8GxFsA06lDIJt5waLonQcYlBtWgZGjmbFVF3ON541Vr6J43RFn6FD0p8AW0OY4X0o30fqX40qQRdqqUg=
+	t=1788992065; cv=none; b=nvuqUgOPQtK1B8ggGNexklc1gcDyxwpmvvZhpAyJsvjrYb+J60uQLs97FPsYfN0Psd+aDW6JXL8Zb+neeg4YHyvACxzJrF3RNo6NWQyLewQ9x/OmwSpRZKXGzE++IaMcgzFmgo52vHiSgbB4XGFxpW6GO2B1hXifxgAeCdGUsz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788991345; c=relaxed/simple;
-	bh=0J7aCjBQeJH4hiqH/g0joTSLJGJl2xHMiwNoMN7HndQ=;
+	s=arc-20240116; t=1788992065; c=relaxed/simple;
+	bh=UkK7Mei584GUU91pk3duuvFcu9KfF47mi2kekK2DR7w=;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=E0wuw1mtdpZTwSfGrBIKn7nN1gEQJQyBkhzC/jYgmdHyNEHRDVrsddYs4vl5PEWi4iDbDHYmI5nXPHIMZEQmjFXG49mn9Wyydc4SernaAe4RK5yvlcun8sAJ47T7fhHqhtpeMded/UkvlG7pSKroZKGJ0f426nY9/Cj6W/FnMmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=MLE+WW8t; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LyOpTP71; arc=none smtp.client-ip=202.12.124.151
+	 References:Date:Message-id; b=oKZRN3BA1TvvFnidgNpKLOqnWlB69s1qxqY6FVaJuFwESYqncw1ESqAzaePFlHdLVBOExj5c6ZdAJFchtE1Xg83DaLRkm5HEpobikriTng38dlbmPdlNwN5CQTKJzUmBP+uZ6k/Qs26UZJsE3rY75KiNVmOd2orD7ZBv4tD99T0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=f+JmRWQF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vuB4+CQd; arc=none smtp.client-ip=202.12.124.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="MLE+WW8t";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LyOpTP71"
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="f+JmRWQF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vuB4+CQd"
 Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id E2B0A1D0008D;
-	Wed,  9 Sep 2026 18:02:17 -0400 (EDT)
+	by mailfout.stl.internal (Postfix) with ESMTP id C95191D00091;
+	Wed,  9 Sep 2026 18:14:22 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 09 Sep 2026 18:02:18 -0400
+  by phl-compute-05.internal (MEProxy); Wed, 09 Sep 2026 18:14:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1788991337; x=1789077737; bh=CkiRcq0NS9g/U64cz8tbl3MSe35e2yW9xcN
-	ea7Lg0kw=; b=MLE+WW8ty4WhBnvTjVVI+dpxm3mWBkrI7zks+n55WAj8GqcSgKc
-	IdeyMZ5t2ENx7Dt0BJN6+tMXqV5wrUJOAjO/29hDnCzeanqKTqEc0Y5PGzAwIAii
-	uKBFR9TMngaY+lJy1tEOT5dhiekzDDzaldBPhpUHyQtAakYpzx4RN744rvTpuqI0
-	fxkljC+sBghPSDP7Qwbd6LyDNME/+5kfre7ap3UNYe3NtUY2vzqcVs0KKGkjpNAV
-	dOTT2jHeGW18zQ7uhiZxyCicafFNsqEtcySaNnvTILBC6zLosuvKDy0lqSfhmSsb
-	aVqj6bnGF/FimxEB/yyCz/luK/UVw8VAvgg==
+	1788992062; x=1789078462; bh=NkiVDIyQrBvmrF3ZbGvXusv8aBbs11ZMyvB
+	etnZiCMw=; b=f+JmRWQFrFzcDGRGPFIOD5QdDuxvU7NL7b43ClKgDWxbqHGF3z1
+	QkSd+jWEUn7kTdEpVPhHTV66ArD34iE1bvpg8n+vTMUUsdI+YHWt47/5KY+VvKjx
+	A36SatRnGLCEtcks0zlKo1Qy/WdiJRaozkHvx5jzkalNbkeHxOiVageAlkLh0sF+
+	VmTBmXivsj1hFuO7CsvKFjRMaV8q4itKY9erpVJoW+YKZJ2PB7aZ7eVT1ldPBeHE
+	JXJRV19Tqht8CIMEGwPGEwiDbo4UK/tdXS7W8RrYXX00JCjhdATp9U3zYRbFbcU9
+	4MKkUVBOi383rKzhsx0j6Z6ZuZoJT6nOJew==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788991337; x=
-	1789077737; bh=CkiRcq0NS9g/U64cz8tbl3MSe35e2yW9xcNea7Lg0kw=; b=L
-	yOpTP71ggZyvPLgpM37c+cl1slduDC+gNODelbo6dFhiyPRbMILF01Wmyc3HUxEc
-	dUYuyegq/8f5tuJmhmzxxmIEcwUX8B79p1BWYW8DCS5K5TWmkt738OrlOegLPnQL
-	riA7gYAUh40EuK6bl+xnLTs0pLTkOdTT0b6yAGFfFFFakeQbVY47LT2M83cMjuXH
-	85ILd+HpOLegpWQGaLvlLhVilNwkwreebwxs7zm71t1L5UUPu97Tp0wZWQzqJkBY
-	H5Zo3rlNXOHVu9YQ2A/sNt4kzqkpaAQCI2AeIQF4N0z6A3/+3XaAUnbzCujahYx9
-	NxuZ+Y3t4xEyfozFl/CVQ==
-X-ME-Sender: <xms:adehavN0YbfST6fEqyGd3yoWbVJPqMTlL6mncStgziFp7lwmaQ0mWQ>
-    <xme:adehav-Ulwa6g2umscpV8p-ykv2J7keK7-SeTIqVFeLOK-EQ8k_zpMiRXj7TvLLjy
-    Y1EfhPB-cETIlOL5nywQX22xIIqDLfAPSOcjOONG2rJyZMKbw8>
-X-ME-Received: <xmr:adehapHzOw91JiizVyI40M1x_NSXqfiO_kllJvK5o08tAolBwBNZdxjOb8yNdtPLj1X64YJSpyc3z7TD3xAi89lF98bG-nA>
-X-ME-Proxy-Cause: dmFkZTEXh5SqYZjqqm6H+pDUU8GpQMFNnS/iZ69+zjR7BZfotCoLN1lW33om7F3xk+0z87
-    hBn6bACxHlTKSsfz1Nutw9LMPhGADLP+WuC+JDNWVCZ55vJttZpmPNngWGOzwrm1IWpgZg
-    9eW+l0rmFzWpTnpDNwGR3X3CdluUXu7QRGvhdlI9pwJx7pt/6yNoA2mXJGI379DXTSD9Gs
-    md3UgoFY2eRgkZpSv/YSNZwdtUQS+uhu1JbHv16lU153fs2oE13d8TGHBznvawVsrfWnrT
-    1bvsR1exQ6ei5BW5OOX1VceTsqE7w3O2ld59ivUZLo0+yotmJmXS++reNl6j2JEgUcMIIT
-    2VgLBhxvRu6mc79WYI/huFM+z44DBboORlN1uTwXiUsLvHIOXeROtUj9p6W55KVptm3vLU
-    3DBLtdYN8bhpao+KeK1uVW1/D4BsGf3lStrM+SFGRd0tk+kSVHLKnulpCSiBq0a0TGAlH1
-    LgomnmdpjOe8D4vZX+nUXYyUjnPOjZuew0fs/BntQuMbFpVZhVf2mCyXRzWjUKI4BZyQCC
-    FpgbvcncDAV0iwM1aVc0fCf2ij3Ef14W4CmaBl+xYRNt+CCVaVGrzUVL5CEC1Xem5Z3sxT
-    YlQZrZrGgHlhcZZXnfMQAGv5XVL9uKhn2RiJO8hJC2RUiHDBDeoFgu7ontzg
-X-ME-Proxy: <xmx:adehamgLeWMUDzWxo6U_CR947FloAAqQUHbLIG0QIx6bXbMO7df4kQ>
-    <xmx:adehamsNJFgFfS8t6IrZ5A9YmydGGOM6HmInRdCqJYc3UJ2WRDaNiw>
-    <xmx:adehaptehHb3spr4sEqd0_PhRTJgWh414-0bhmDMiwOYInVwdHKY9g>
-    <xmx:adeharHNjfvn3USh2REWkGL0NgfwKAwH2BDTDUiwBJvPIyuijSFY6A>
-    <xmx:adehalY1KdT91IbwkZzLy1ZPMtnHE6qH7p-m1925jUNAPgY-IZTUvvpP>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788992062; x=
+	1789078462; bh=NkiVDIyQrBvmrF3ZbGvXusv8aBbs11ZMyvBetnZiCMw=; b=v
+	uB4+CQdwbhxNI4bRaKzANscEdgjPlph4w5iFHx7+4yBvRMuqpx6/Mz7L2dhvdS90
+	SwzbMbktWRSRV7li99ZbTmI85cSlFUYn43Dche2Q0PazfWZlOEUn2/zABmCmNzmc
+	Fre1OQFouGNabMbM7QPlJgFGX5sm3hIHRM+OGYX2ERDN/vgjoAXqQ2+PXK+N0UfQ
+	0T2EbiLE3wplyjSFTb+Ix+oz3GpGc8suQYuEx0NnTWwzGapYRr3xCQBm45gafkYo
+	4MTTl0IRNLf9HmWkClu8REIwU3ugxd7ydmrxCZSgQ8WAkoyBhDlYrMHa/eiLRa0o
+	OSZSbE3OjpYAW1B/4YpcA==
+X-ME-Sender: <xms:PtqhanPwkYwSAxTm1KXBIGW--a9FCfdY2d2HjuQ0DxXeSyLtm91SXg>
+    <xme:Ptqhan8qMTW0-FmBVYvzlCoBUCGvdBt_qef9B5ezw1s_8_qKcu5RBsRLORRvFNIk3
+    C-HvqzFbvRndNsj-DflL2vyJUULRSsFjiXqU5Py2TunGnEHZA>
+X-ME-Received: <xmr:PtqhahGb8bQaMwH1PUlFGtM7F-o_pyCbjLCGHyxhxckg67-_5avPXyt94I2YcjwycxEJn4hwE0CFmpNSNKZUe65MSVu5bLU>
+X-ME-Proxy-Cause: dmFkZTEH2XqQVLDuJmWbX5wTFPgaN3RgOTYLzkI1Pg4zcqCerWPFk8aa2ZDThQswSH53cZ
+    GjBLaZwfNL7T24TN/hqXQF6gLr/mrHVYpzjPYjuY/IBj9Ocg/8EcJ9yqfJEQjDnVGD8DLE
+    xQ17ZH3wcxMY7acvbXhdC2WIqvXh12d5/JCYlIGBFP+8T7hMmA18XqkQ6SfugkqIJ2+2Y3
+    VMXH03jGOXjxQ0BRsT6u894/dM+kmIGU9QGvArqjBxnhUNHnJS6Q+g++bxzE6kCyD5+Zqy
+    5FdFH3pfBpsa0ANcALfONI4x3AN5hso11hqMer8ecP55W6RmaWyqhPEYYtkpO4Xfvc8sGt
+    5BU2POc9Q4uMPAEURD7eW8SZqb/yZOXy3YgoUF6XYDZbeKlCOjgCf6k5hD4iyF3bP+3+Yw
+    HPP4EBCNCElFXP7JOpInCcnJkItD7eo8HZq6HqktzyM1a/w3JPKl4rjN4axsPOcCKyrnEh
+    QMecAFrWshr/S8HI+nFbMhaTAifn6h8F5a0M5mvqsVApw9lB5UirLTG9/YclnMer5pjPQ8
+    ZJi2twUdBZ1v1fJ5ud61Ed5yAJOtIqhOsLlyLR1D2zGVG2ICh7dXbd1sgXwO4h0E3iriQs
+    GKmbfa8yXYgD8s3yrip88tlp0753wHUvWrIB/429OW7i4zII6vFdxwf/fkCg
+X-ME-Proxy: <xmx:PtqhauhcTpAYVX0yOqsEO6qfMVvj5Yv0saa2VMwGMqnNmpv23i-JXA>
+    <xmx:PtqhauvAMDjCBe2aHxjPyJH5kHp6PBq29cV8qwFtOWomUFexBonGfQ>
+    <xmx:PtqhahvMMb_Mvi7dXZ7Njl1zwKRoTLtLmO8gdLF3HJXrcLwSdfuG0A>
+    <xmx:PtqhajFtxq905lvDrfkPq7BlfCFzdvQIuZFSmwA4-kjZalWwsAUOTg>
+    <xmx:PtqhatZUJH5WQMzJfe71fIITwhuK5aR3SeqXFq_sw0qQPS6LbsikRt1Z>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Sep 2026 18:02:13 -0400 (EDT)
+ 9 Sep 2026 18:14:19 -0400 (EDT)
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -84,122 +84,63 @@ Cc: "Oleg Nesterov" <oleg@redhat.com>, linux-fsdevel@vger.kernel.org,
  "Mateusz Guzik" <mjguzik@gmail.com>, "Jeff Layton" <jlayton@kernel.org>,
  "Jens Axboe" <axboe@kernel.dk>,
  "Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH RFC v3 02/15] fs: add switch_files_struct()
-In-reply-to: <20260909-work-coredump-unlock-self-v3-2-04f907687563@kernel.org>
+Subject: Re: [PATCH RFC v3 05/15] fs: move filp_flush() to other file helpers
+In-reply-to: <20260909-work-coredump-unlock-self-v3-5-04f907687563@kernel.org>
 References: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
-  <20260909-work-coredump-unlock-self-v3-2-04f907687563@kernel.org>
-Date: Thu, 10 Sep 2026 08:02:09 +1000
-Message-id: <178899132987.207413.16854456855943273597@noble.neil.brown.name>
+  <20260909-work-coredump-unlock-self-v3-5-04f907687563@kernel.org>
+Date: Thu, 10 Sep 2026 08:14:16 +1000
+Message-id: <178899205692.207413.14714923974362266730@noble.neil.brown.name>
 Reply-To: NeilBrown <neil@brown.name>
 
 On Thu, 10 Sep 2026, Christian Brauner wrote:
-> Add switch_files_struct() to install another table on a task. It
-> consumes the reference to the new table and hands the old one back for
-> the caller to put. Convert every place that switches a descriptor table
-> except unshare_files().
->=20
-> No functional changes.
->=20
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/file.c               | 28 ++++++++++++++++------------
->  include/linux/fdtable.h |  2 ++
->  kernel/fork.c           |  6 ++----
->  3 files changed, 20 insertions(+), 16 deletions(-)
->=20
-> diff --git a/fs/file.c b/fs/file.c
-> index 59673547de90..fbc247bd7896 100644
-> --- a/fs/file.c
-> +++ b/fs/file.c
-> @@ -515,16 +515,23 @@ void put_files_struct(struct files_struct *files)
->  	}
->  }
-> =20
-> -void exit_files(struct task_struct *tsk)
-> +/* Install @files on @tsk, consuming the reference; returns the old table.=
- */
-> +struct files_struct *switch_files_struct(struct task_struct *tsk,
-> +					 struct files_struct *files)
->  {
-> -	struct files_struct * files =3D tsk->files;
-> +	struct files_struct *old;
-> =20
-> -	if (files) {
-> -		task_lock(tsk);
-> -		tsk->files =3D NULL;
-> -		task_unlock(tsk);
-> -		put_files_struct(files);
-> -	}
-> +	task_lock(tsk);
-> +	old =3D tsk->files;
-> +	tsk->files =3D files;
-> +	task_unlock(tsk);
-> +	return old;
+> Various functions will flush and put each file inline the
+> way close(2) does in follow-up patches. Drop the static and add a
+> prototype next to file_close_fd_locked().
 
-   guard(task_lock)(tsk);
-   swap(tsk->files, files);
-   return files;
+As every caller of fput_close_sync() will be preceded by a call to
+filp_flush(), would it not make more sense to hav fput_close_sync() call
+filp_flush() itself?  And keep it static.
+Less room for error that way.
 
-???
-I saw guard() and swap() in the code you were removing and thought they
-were worth preserving :-)
-
+Thanks,
 NeilBrown
 
 
-> +}
-> +
-> +void exit_files(struct task_struct *tsk)
-> +{
-> +	if (tsk->files)
-> +		put_files_struct(switch_files_struct(tsk, NULL));
->  }
+>=20
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/internal.h | 1 +
+>  fs/open.c     | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/fs/internal.h b/fs/internal.h
+> index c658c8a5ebd5..b1ca3320cb21 100644
+> --- a/fs/internal.h
+> +++ b/fs/internal.h
+> @@ -198,6 +198,7 @@ extern struct file *do_file_open_root(const struct path=
+ *,
+>  extern struct open_how build_open_how(int flags, umode_t mode);
+>  extern int build_open_flags(const struct open_how *how, struct open_flags =
+*op);
+>  struct file *file_close_fd_locked(struct files_struct *files, unsigned fd);
+> +int filp_flush(struct file *filp, fl_owner_t id);
 > =20
->  struct files_struct init_files =3D {
-> @@ -855,10 +862,7 @@ SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigne=
-d int, max_fd,
->  		 * We're done closing the files we were supposed to. Time to install
->  		 * the new file descriptor table and drop the old one.
->  		 */
-> -		task_lock(me);
-> -		me->files =3D cur_fds;
-> -		task_unlock(me);
-> -		put_files_struct(fds);
-> +		put_files_struct(switch_files_struct(me, cur_fds));
->  	}
+>  int do_ftruncate(struct file *file, loff_t length, unsigned int flags);
+>  int chmod_common(const struct path *path, umode_t mode);
+> diff --git a/fs/open.c b/fs/open.c
+> index 6b1c14e684a9..7181665c3af5 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -1506,7 +1506,7 @@ SYSCALL_DEFINE2(creat, const char __user *, pathname,=
+ umode_t, mode)
+>   * "id" is the POSIX thread ID. We use the
+>   * files pointer for this..
+>   */
+> -static int filp_flush(struct file *filp, fl_owner_t id)
+> +int filp_flush(struct file *filp, fl_owner_t id)
+>  {
+>  	int retval =3D 0;
 > =20
->  	return 0;
-> diff --git a/include/linux/fdtable.h b/include/linux/fdtable.h
-> index c45306a9f007..0f2edec45de0 100644
-> --- a/include/linux/fdtable.h
-> +++ b/include/linux/fdtable.h
-> @@ -100,6 +100,8 @@ static inline bool close_on_exec(unsigned int fd, const=
- struct files_struct *fil
->  struct task_struct;
-> =20
->  void put_files_struct(struct files_struct *fs);
-> +struct files_struct *switch_files_struct(struct task_struct *tsk,
-> +					 struct files_struct *files);
->  int unshare_files(void);
->  struct fd_range {
->  	unsigned int from, to;
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index 416758c8a3d4..b959191edf52 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -3320,10 +3320,8 @@ int ksys_unshare(unsigned long unshare_flags)
->  		if (new_fs)
->  			new_fs =3D switch_fs_struct(new_fs);
-> =20
-> -		if (new_fd) {
-> -			guard(task_lock)(current);
-> -			swap(current->files, new_fd);
-> -		}
-> +		if (new_fd)
-> +			new_fd =3D switch_files_struct(current, new_fd);
-> =20
->  		if (new_cred) {
->  			/* Install the new user namespace */
 >=20
 > --=20
 > 2.53.0
