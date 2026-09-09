@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB77579828
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8DD572691
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788969204; cv=none; b=R3V7yI4jvq3Z6a1YIjjU+Gsi4/LPVhIyLStwmTW1yUqC+1RXbF+OEPm+LHf7o+BjpOUSq3p58pOlH8HFc/HgK96q/PEilHmvedObe0ogN4Awgdk3Hpgh4m4SDrlWXM0vV7ePlkIpFqtqxn5fzg2sq7BUdfjmxqo3qRmI/TvQF+0=
+	t=1788969207; cv=none; b=q54zE9nzwv+wyG34aFPE2gahCBNPfThg3n0tYabfoWLaMM69a8/bYGCps7FIkIEz1XnhKq8cCo/7hsWmT0rJoT7+sNEyFbIzljX0oF+//ZtrNn5CcLfwJ2L5z0yAC3RoLOXDtRiixYUC17Y6ei903yrVcj+539pYw3Pziq8iISA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788969204; c=relaxed/simple;
-	bh=s8p7ElH9xjNn694l1vqjx8/P0Xr9F6xQfPbQQfoqpvg=;
+	s=arc-20240116; t=1788969207; c=relaxed/simple;
+	bh=YbEP5atY/vjnzP1Prk+HS0m1ikIDUYlJP9VJzV8spvw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=b6jcdJazfBV/pHXFK1qZSzOonMaoQXqBQrg4GqP6YiaTRhfySdgEP7JxODHikLTWlTPFzlgM6Ium/g7DHj2PRp9B2XJ+ZnM9dfb6Xxy239c0z7iLcVmNdAzG8mfq3lyqtb3bfwAGI6bgGVuOo4fuADuR8sX/tGCPJyCu3YZJZqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOxEZj40; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=orUbpeTy+vMvLbAAa7WbEqKtwvIeIph2HbU/m4Pa30/80KCx15PLnYj0zDCix0h6WxcedMBWNM3KFDrZXPuIYTrYU64FJZsj6D4mAKkyqof1kqSYibFM0U6/LYxKg2ddQhKHZTvVZfKjgZzU1rK2MhGglODz7cw740UCa9kP1Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hc7yoe/Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOxEZj40"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CA861F00A3A;
-	Wed,  9 Sep 2026 15:53:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hc7yoe/Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7DB11F00A3D;
+	Wed,  9 Sep 2026 15:53:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788969203;
-	bh=eOeApeN2qGpgs0Kz5AvLlZFWgpmxPAY/GDe8DhI/EkA=;
+	s=k20260515; t=1788969206;
+	bh=kQNCjIoni5fJ2LB/ehynPqmvAEYm1ho99d+U8f1jG0M=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=jOxEZj40j6vJVSwsDS/ngVI6mIH5IS+o/RmY07/eP31n6anbYcUaij97SJCUI8AEp
-	 Y2NGPS/JoVbYmRENSyuTtykTNOWs8tnjKrb0kJLe3TjzYoaI7Yph1msd6w8lKERNih
-	 kPByc0aAXWYwZw8vEhAFuMRykUZtcnl/eq7QbyMRB8ExIYQ5oMdblZ3tjiLTzubdEQ
-	 R823huwFYm0bK/l8VqveeHMQ7UWZG2oS22O7bZHTpTv15BvH74VD3xynDsp0YLyt95
-	 fMwH3W3X78Jo8za0W8eJQuAQp3GeKX8eWeCmz5HJ2wlr2a8DrggGe33LZ3TtXHKM/M
-	 lVoEdSDRJwt/Q==
+	b=Hc7yoe/YESpMafuic4Ip9psJ/8xkra3Qe4/movg6SNq3KkxWnmdS4W3bJeq4pjLfM
+	 FC0ctfDHoxrp/MeN11eQM9wGgjFzDDp5/DEWNyGAiZgEwiKpq3I88CFAEve4ctsMjh
+	 wewNLsXfhavbPj32NTaJs/ZB0NG7uRR60kQc1kWYR53jWCKJNcf2FXPjUBEJxxc7dc
+	 dsiC8m/9Suf+TZbkaoeI41w0mqcto38SCa/aDm6CqIKugPtqhVetRcLiThE8u7iJHF
+	 +n12PTQkWlnrGGuSztPGdroozJFfYDg3xEPEbAJoihZzo6wmPvUYgfRQWCo8QhibPj
+	 Z/KwD7fzZZSHA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 09 Sep 2026 17:52:52 +0200
-Subject: [PATCH RFC v3 09/15] fs: make close_cloexec_files() synchronous
+Date: Wed, 09 Sep 2026 17:52:53 +0200
+Subject: [PATCH RFC v3 10/15] coredump: s/startup/done/g
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260909-work-coredump-unlock-self-v3-9-04f907687563@kernel.org>
+Message-Id: <20260909-work-coredump-unlock-self-v3-10-04f907687563@kernel.org>
 References: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 In-Reply-To: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 To: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
@@ -48,79 +48,76 @@ Cc: Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
  Jens Axboe <axboe@kernel.dk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2645; i=brauner@kernel.org;
- h=from:subject:message-id; bh=s8p7ElH9xjNn694l1vqjx8/P0Xr9F6xQfPbQQfoqpvg=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLhaKCPtFRdup5fav/zpoc4/qcdnLddj1nnA8my35
- jej338SOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZyYykjww3lileJXepxR01k
- dqn8Ws9xOvwWr/zmrD2Fn1brT9oqPIGR4fUNSQZGmWkLlR1PbZbSvTmzfIlg2rv+XbvsXx7dPOP
- DQU4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2022; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=YbEP5atY/vjnzP1Prk+HS0m1ikIDUYlJP9VJzV8spvw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLiqXr/nRXjg3OVVfneMzdf33c+Nddj2+rCLaGL7H
+ N9mnntqHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOZcJKR4e6kQr07rjqr09wn
+ iR0Vq06oW8QZqVP544ToPf27ojv2LWf4Z/zH2y72aH5yxbyoW6HCjUGmMzr1NpffW76wiXf5Ocn
+ n/AA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Punting file closing to task work during exec slows down exec
-significantly when its done with a bunch of file descriptors. We can
-do this in-band instead. Flush already runs synchronous. Jann moved
-close-on-exec in e780259b54e6 ("exec: do_close_on_exec() before taking
-exec_update_lock") outside of exec_update_lock.
+We're going to use that in a bit. Rename it to something easier to
+understand.
 
-The only lock that's still held now is cred_guard_mutex. It's deprecated
-and has five takers
+No functional changes.
 
-(1) exec
-(2) ptrace_attach()
-(3) seccomp() with SECCOMP_FILTER_FLAG_TSYNC
-(4) writes to /proc/<pid>/attr/*
-(5) lsm_set_self_attr()
-
-Four of them take the task's own cred_guard_mutex. When
-close_cloexec_files() runs de_thread() ensured that the calling task is
-the only one alive in its thread-group. That leaves ptrace() waiting on
-cred_guard_mutex of the tracee going through exec. exec already sleeps
-under cred_guard_mutex in de_thread() when it reads binary and
-interpreter. So while we add wait-time to an attaching ptracer no new
-lock dependency is added. vfork() als waits but that's a dup_fd() copy
-of the fdtable and rarely holds the last reference. If that's an issue
-we can always change that later.
-
-Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
-Link: https://lore.kernel.org/CAGudoHEsGP1P+sAWaw_tbh1NesJhSeww8869uzmaqtgk8F43=Q@mail.gmail.com
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/exec.c | 6 +++---
- fs/file.c | 3 ++-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ fs/coredump.c                | 4 ++--
+ include/linux/sched/signal.h | 3 ++-
+ kernel/exit.c                | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/fs/exec.c b/fs/exec.c
-index 71268b916419..872ce89f054f 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1173,9 +1173,9 @@ int begin_new_exec(struct linux_binprm * bprm)
- 	 * trying to access the should-be-closed file descriptors of a process
- 	 * undergoing exec(2).
- 	 *
--	 * This can block on filesystem ->flush() handlers, including waiting
--	 * for FUSE daemons, so do it before exec_mmap takes the
--	 * exec_update_lock.
-+	 * This can block on filesystem ->flush() and ->release() handlers,
-+	 * including waiting for FUSE daemons, so do it before exec_mmap
-+	 * takes the exec_update_lock.
- 	 * This must happen after the point of no return, and after unsharing
- 	 * the FD table.
+diff --git a/fs/coredump.c b/fs/coredump.c
+index 9addd2d59b7b..545a6df48ea8 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -523,7 +523,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+ 	struct task_struct *tsk = current;
+ 	int core_waiters = -EBUSY;
+ 
+-	init_completion(&core_state->startup);
++	init_completion(&core_state->done);
+ 	core_state->dumper.task = tsk;
+ 	core_state->dumper.next = NULL;
+ 
+@@ -531,7 +531,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+ 	if (core_waiters > 0) {
+ 		struct core_thread *ptr;
+ 
+-		wait_for_completion_state(&core_state->startup,
++		wait_for_completion_state(&core_state->done,
+ 					  TASK_UNINTERRUPTIBLE|TASK_FREEZABLE);
+ 		/*
+ 		 * Wait for all the threads to become inactive, so that
+diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+index d45a5476b97d..1c1e280a25a1 100644
+--- a/include/linux/sched/signal.h
++++ b/include/linux/sched/signal.h
+@@ -81,7 +81,8 @@ struct core_thread {
+ struct core_state {
+ 	atomic_t nr_threads;
+ 	struct core_thread dumper;
+-	struct completion startup;
++	/* Completed by the last thread to park. */
++	struct completion done;
+ };
+ 
+ /*
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 4e028f157597..affee30bcbca 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -443,7 +443,7 @@ static void coredump_task_exit(struct task_struct *tsk,
+ 	 * to core_state->dumper.
  	 */
-diff --git a/fs/file.c b/fs/file.c
-index f99389bdfadb..2de638d99107 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -935,7 +935,8 @@ void close_cloexec_files(struct files_struct *files)
- 			rcu_assign_pointer(fdt->fd[fd], NULL);
- 			__put_unused_fd(files, fd);
- 			spin_unlock(&files->file_lock);
--			filp_close(file, files);
-+			filp_flush(file, files);
-+			fput_close_sync(file);
- 			cond_resched();
- 			spin_lock(&files->file_lock);
- 		}
+ 	if (atomic_dec_and_test(&core_state->nr_threads))
+-		complete(&core_state->startup);
++		complete(&core_state->done);
+ 
+ 	for (;;) {
+ 		set_current_state(TASK_IDLE|TASK_FREEZABLE);
 
 -- 
 2.53.0
