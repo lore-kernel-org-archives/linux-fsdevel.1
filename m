@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8DD572691
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A60568FD9
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788969207; cv=none; b=q54zE9nzwv+wyG34aFPE2gahCBNPfThg3n0tYabfoWLaMM69a8/bYGCps7FIkIEz1XnhKq8cCo/7hsWmT0rJoT7+sNEyFbIzljX0oF+//ZtrNn5CcLfwJ2L5z0yAC3RoLOXDtRiixYUC17Y6ei903yrVcj+539pYw3Pziq8iISA=
+	t=1788969210; cv=none; b=GKU2DxnZIcWFmMYyu7DAvE/zTBB0LeEa2JPIikjuiK/MfbivsUANCQjeSENzOF0XQYyBG0q2yLiU16D1RvUhWUuN18rseT4J7PFth6sNWqpiB/DOezY6Bl8M/LAJrrcVhmYqPDKIHX6nOYu1UCxAkI8a61xipZDq5WyHsQ20pKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788969207; c=relaxed/simple;
-	bh=YbEP5atY/vjnzP1Prk+HS0m1ikIDUYlJP9VJzV8spvw=;
+	s=arc-20240116; t=1788969210; c=relaxed/simple;
+	bh=KgCdqazHLOHkdl9/IpNnCC2CDcHyQBonguIO92EalpI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=orUbpeTy+vMvLbAAa7WbEqKtwvIeIph2HbU/m4Pa30/80KCx15PLnYj0zDCix0h6WxcedMBWNM3KFDrZXPuIYTrYU64FJZsj6D4mAKkyqof1kqSYibFM0U6/LYxKg2ddQhKHZTvVZfKjgZzU1rK2MhGglODz7cw740UCa9kP1Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hc7yoe/Y; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=HzmOpctFIHym/P8tlx2I3IXgCCIfKlQ/XC1wPLgCdOB7DwtvtIMvkY7ZMUh6IXvP4UQ4cicDLKBouNqBnyjmx3haPljwYaIkJ0KDFTwNwL9yCLqb3pcRQJaZwIB+2HbB1/CTaNbfBdYtOdS9CaTls/+QTzzuxfRMZouElGRHMcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KQR+abYj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hc7yoe/Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7DB11F00A3D;
-	Wed,  9 Sep 2026 15:53:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KQR+abYj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06F61F00A3A;
+	Wed,  9 Sep 2026 15:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788969206;
-	bh=kQNCjIoni5fJ2LB/ehynPqmvAEYm1ho99d+U8f1jG0M=;
+	s=k20260515; t=1788969209;
+	bh=gOoD08iNaabbX4dk36O2wS/anwF5UhM4PlX1E9GLt74=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Hc7yoe/YESpMafuic4Ip9psJ/8xkra3Qe4/movg6SNq3KkxWnmdS4W3bJeq4pjLfM
-	 FC0ctfDHoxrp/MeN11eQM9wGgjFzDDp5/DEWNyGAiZgEwiKpq3I88CFAEve4ctsMjh
-	 wewNLsXfhavbPj32NTaJs/ZB0NG7uRR60kQc1kWYR53jWCKJNcf2FXPjUBEJxxc7dc
-	 dsiC8m/9Suf+TZbkaoeI41w0mqcto38SCa/aDm6CqIKugPtqhVetRcLiThE8u7iJHF
-	 +n12PTQkWlnrGGuSztPGdroozJFfYDg3xEPEbAJoihZzo6wmPvUYgfRQWCo8QhibPj
-	 Z/KwD7fzZZSHA==
+	b=KQR+abYjXl8g/5pVQK1GYrQ+JjMWaazfSNnn0ttTMBObqBuLyySeAIJDj+VGTGw5B
+	 4jSBDn2O9FXZFV6uTYnLlpz1gdyhXrOB2xrX7CvE3SKyoUIc/cduj5clHQkTi7zl8f
+	 f5GeUra/Y6TSEBGfh+dES9b0jGTy9xy/KE6/TRjLSgwOvqrUrRxHco0c2dbJPW4uwA
+	 HL54wfEzKh7t7a2vjnRPEZATrFkZsSG4lsSsaRz3CQrfkP3ZnQBztEXpd79i+VGWlw
+	 yXGwBXBQI5+6OJhTPFOvNwo8Ylkum7XJhsb2U8DWAu8RCUAdqPfMclikEbX0O/zDoy
+	 iM7FOZOwtcH5Q==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 09 Sep 2026 17:52:53 +0200
-Subject: [PATCH RFC v3 10/15] coredump: s/startup/done/g
+Date: Wed, 09 Sep 2026 17:52:54 +0200
+Subject: [PATCH RFC v3 11/15] coredump: factor out coredump_wait_inactive()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260909-work-coredump-unlock-self-v3-10-04f907687563@kernel.org>
+Message-Id: <20260909-work-coredump-unlock-self-v3-11-04f907687563@kernel.org>
 References: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 In-Reply-To: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 To: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
@@ -48,76 +48,79 @@ Cc: Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
  Jens Axboe <axboe@kernel.dk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2022; i=brauner@kernel.org;
- h=from:subject:message-id; bh=YbEP5atY/vjnzP1Prk+HS0m1ikIDUYlJP9VJzV8spvw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLiqXr/nRXjg3OVVfneMzdf33c+Nddj2+rCLaGL7H
- N9mnntqHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOZcJKR4e6kQr07rjqr09wn
- iR0Vq06oW8QZqVP544ToPf27ojv2LWf4Z/zH2y72aH5yxbyoW6HCjUGmMzr1NpffW76wiXf5Ocn
- n/AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1926; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=KgCdqazHLOHkdl9/IpNnCC2CDcHyQBonguIO92EalpI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLjKltSWejd00lK1Sy1vVtUFrLzdsYIl59+BbNXf5
+ 55P3WJ+uqOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi51QYGVbXdHPw9pbm2Mj3
+ rZSfuujVYhXrBeeEuD+dzRNc39Ite4zhf5a0lAOf9eZHbjNU1na475HPP//ZeqHic9GEjw73NF2
+ E2QA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-We're going to use that in a bit. Rename it to something easier to
-understand.
+Factor out a new coredump_wait_inactive() helper that
+COREDUMP_CLOSE_FILES can consume in a bit.
 
 No functional changes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/coredump.c                | 4 ++--
- include/linux/sched/signal.h | 3 ++-
- kernel/exit.c                | 2 +-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ fs/coredump.c | 36 ++++++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
 diff --git a/fs/coredump.c b/fs/coredump.c
-index 9addd2d59b7b..545a6df48ea8 100644
+index 545a6df48ea8..d0796536e03f 100644
 --- a/fs/coredump.c
 +++ b/fs/coredump.c
-@@ -523,7 +523,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
- 	struct task_struct *tsk = current;
- 	int core_waiters = -EBUSY;
+@@ -518,6 +518,24 @@ static int zap_threads(struct task_struct *tsk,
+ 	return nr;
+ }
  
--	init_completion(&core_state->startup);
-+	init_completion(&core_state->done);
- 	core_state->dumper.task = tsk;
++static void coredump_wait_inactive(struct core_state *core_state)
++{
++	struct core_thread *ptr;
++
++	wait_for_completion_state(&core_state->done,
++				  TASK_UNINTERRUPTIBLE|TASK_FREEZABLE);
++	/*
++	 * Wait for all the threads to become inactive, so that
++	 * all the thread context (extended register state, like
++	 * fpu etc) gets copied to the memory.
++	 */
++	ptr = core_state->dumper.next;
++	while (ptr != NULL) {
++		wait_task_inactive(ptr->task, TASK_ANY);
++		ptr = ptr->next;
++	}
++}
++
+ static int coredump_wait(int exit_code, struct core_state *core_state)
+ {
+ 	struct task_struct *tsk = current;
+@@ -528,22 +546,8 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
  	core_state->dumper.next = NULL;
  
-@@ -531,7 +531,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
- 	if (core_waiters > 0) {
- 		struct core_thread *ptr;
+ 	core_waiters = zap_threads(tsk, core_state, exit_code);
+-	if (core_waiters > 0) {
+-		struct core_thread *ptr;
+-
+-		wait_for_completion_state(&core_state->done,
+-					  TASK_UNINTERRUPTIBLE|TASK_FREEZABLE);
+-		/*
+-		 * Wait for all the threads to become inactive, so that
+-		 * all the thread context (extended register state, like
+-		 * fpu etc) gets copied to the memory.
+-		 */
+-		ptr = core_state->dumper.next;
+-		while (ptr != NULL) {
+-			wait_task_inactive(ptr->task, TASK_ANY);
+-			ptr = ptr->next;
+-		}
+-	}
++	if (core_waiters > 0)
++		coredump_wait_inactive(core_state);
  
--		wait_for_completion_state(&core_state->startup,
-+		wait_for_completion_state(&core_state->done,
- 					  TASK_UNINTERRUPTIBLE|TASK_FREEZABLE);
- 		/*
- 		 * Wait for all the threads to become inactive, so that
-diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
-index d45a5476b97d..1c1e280a25a1 100644
---- a/include/linux/sched/signal.h
-+++ b/include/linux/sched/signal.h
-@@ -81,7 +81,8 @@ struct core_thread {
- struct core_state {
- 	atomic_t nr_threads;
- 	struct core_thread dumper;
--	struct completion startup;
-+	/* Completed by the last thread to park. */
-+	struct completion done;
- };
- 
- /*
-diff --git a/kernel/exit.c b/kernel/exit.c
-index 4e028f157597..affee30bcbca 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -443,7 +443,7 @@ static void coredump_task_exit(struct task_struct *tsk,
- 	 * to core_state->dumper.
- 	 */
- 	if (atomic_dec_and_test(&core_state->nr_threads))
--		complete(&core_state->startup);
-+		complete(&core_state->done);
- 
- 	for (;;) {
- 		set_current_state(TASK_IDLE|TASK_FREEZABLE);
+ 	return core_waiters;
+ }
 
 -- 
 2.53.0
