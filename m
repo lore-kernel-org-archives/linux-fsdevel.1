@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608543515D6;
-	Wed,  9 Sep 2026 17:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80ED3342CB0;
+	Wed,  9 Sep 2026 17:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788974245; cv=none; b=WJGR/ILEIhzJDPY4enARe4fAABvLvidGXwVPaBuhsiW5aZGTn1w9Yt2Do6UZomzozW8KUtnAj5sE9QrUw5OjiK49UHBJ5QCj9JkFyoPp5u1/d5OOYeyUqKod8iSrUUv5i/3I9f8L+efGVq6C+o7odOJtX891trVlXqYmwtq+eKc=
+	t=1788974348; cv=none; b=U7te0ARfibdn9luVKqNsMWwPUg3eUXizuh8+CqHMjYWGdNOozHhjuIcOK5UCdlvknaFTDVqyl8J/l4PrflyAX4Z7cIKk/iLW0rrpU1LsyAvh3lqqr9/2nmhcZmhH2FapSPAgKyB10OIYrw49a0IpAdWb1hPGmhzOMq14K8zrJnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788974245; c=relaxed/simple;
-	bh=W6LvbCqnCAMNH7gXhxrKcKxkAOyxBj2Fpx22ddMHA/4=;
+	s=arc-20240116; t=1788974348; c=relaxed/simple;
+	bh=f45NHBdqgQgRD+lkCVot4c4JJkepPy7huNDkyWBT+1E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CD5sHav8S3Q7P20fRZDDDulTv3HnhdQb7ePUuViLG/HpKAX+bc1hD6TPFSTXzOZccDn7nfvvPKHhBgD2/KIBYTfig1d0ugAjsyHzIooX7QjwGGnoY1ukDlN6qT4flXpT1vVsieiFrlu7jzlsDp4C/Hezd2qTVrqff7fyzkcnapI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WZTPUM3N; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=RSXYygM+xgDXAlZ5h+sTVjA0EDhulk085AmzMztR1PgFTzvdb2Qt/SZBI+ViTlLqHrM5V3sAXzDL/k1bXTDoR4TljQc16GWGfaBkYeahe+yZEDJdzkHDsC/t7Q5MmB7S+ZI9IwEBegJnu10xt4FOwQ95HUg0nFyKWVyVurok5XE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQXXW/Yb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WZTPUM3N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8BD51F000FF;
-	Wed,  9 Sep 2026 17:17:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQXXW/Yb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 913BB1F000FF;
+	Wed,  9 Sep 2026 17:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788974243;
-	bh=l7/oXe2Unf02oQIXKj6Q8oOclzzmTMhiMA8uQNjSImE=;
+	s=k20260515; t=1788974346;
+	bh=uZltEzvklF0alHImzEAERiA+PVh7E3q1Jsm6Z/RtKTY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WZTPUM3NAzpthQ178N9qRbFMphr2OQ6CtCCbs08sUVGjYlIhFCtq6J/k00hNfiBoG
-	 mdxET0+3Oyg5Cc5VNEN7hkwaO2kga6s1Xkxsvcy9p/0w8J1lW0kJ5ps2KQ688yHCCG
-	 yLtXgRPhRcEsyq4tNvcZ+mlQcs6DkSEtCWD++evCmmBCFnetYTbUUaApZ6Quu7T7GP
-	 UMBlslIzYomflvSHkJlbAVtaGu9oluHfZrK7DxPtDYKwepcw5iKKJPbqb9M/GtbN9l
-	 BhlR4UxBvTMFLg43Xw35upfmVz/udfD2CR6NImjicJVtWdXYBhn5j25frChSCNWNsk
-	 2rFafsCdXq3Xg==
-Message-ID: <855cb221-cd57-4226-9c98-6a66454d3e62@kernel.org>
-Date: Wed, 9 Sep 2026 19:17:17 +0200
+	b=MQXXW/YbQGdiAIOm/kF6qSQKC7Ng+EPy144HC7OYn6CjwTnO5XWjO7Fby43eLrzWL
+	 C4v7HlqfPUMh7aLVhgNgLCPxrwfK9rFCTOzP/AbhNM+v9awOcMSWRrwtyed7ujlmrc
+	 TBRixw4lcb2nR6NEu0ZEH8zY0RdDOdB+sdevCNXWSZ3DrnQqGNBuXEd4hT1E8WCqcL
+	 QbPAQK3LFUzPVD0mmWQ5kIAXPikUPIw+BA6lLDkeFrGP/Ak2spaars2paiPewdCRMl
+	 p6+rfJXjhu4UmR2WG5dbKPBzIOcRO14X4tVJiHvJtWVrT2jF6+ab/wKc7vcX1gcggT
+	 e6LVYwM1m6f6A==
+Message-ID: <84e667f0-f065-4679-b519-5151aff04e56@kernel.org>
+Date: Wed, 9 Sep 2026 19:18:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,16 +35,28 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] proc/task_mmu: remove unnecessary helpers
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org,
- vbabka@kernel.org, willy@infradead.org, jannh@google.com,
- paulmck@kernel.org, pfalcato@suse.de, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260907063918.3432401-1-surenb@google.com>
- <20260907063918.3432401-2-surenb@google.com>
- <1d5011f8-26a1-41e1-bb9d-8d72c08b8fe9@kernel.org>
- <CAJuCfpH25ML1+hdhTtZUoSjgrNcGv9HbQD8o5UErmAdW-7C8Bg@mail.gmail.com>
+Subject: Re: [PATCH 02/12] mm/sparse: refactor sparse_sections_init()
+To: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-2-008fc8d579fe@kernel.org>
+ <aqGSv_VPT1IKGgIs@localhost.localdomain>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -91,37 +103,39 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <CAJuCfpH25ML1+hdhTtZUoSjgrNcGv9HbQD8o5UErmAdW-7C8Bg@mail.gmail.com>
+In-Reply-To: <aqGSv_VPT1IKGgIs@localhost.localdomain>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 9/9/26 19:13, Suren Baghdasaryan wrote:
-> On Wed, Sep 9, 2026 at 10:06 AM David Hildenbrand (Arm)
-> <david@kernel.org> wrote:
+On 9/9/26 19:09, Oscar Salvador (SUSE) wrote:
+> On Wed, Sep 09, 2026 at 03:32:55PM +0200, David Hildenbrand (Arm) wrote:
+>> memory_present() really identifies+prepares all early sections so the
+>> initialization in sparse_init() can properly iterating them to
+>> initialize metadata.
 >>
->> On 9/7/26 08:39, Suren Baghdasaryan wrote:
->>> When per-vma locks were behind a config option, a number of helper
->>> functions were needed to simplify the locking code. Now that these
->>> locks are universally available, we can do a little cleanup.
->>> Remove lock_vma_range(), unlock_vma_range(), query_vma_setup(),
->>> query_vma_teardown() helpers.
->>>
->>> No functional change intended.
->>>
->>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->>> ---
+>> Let's just inline memory_present() into sparse_sections_init() and
+>> cleaning up the code a bit while at it: make it clear that we are operating
+>> on pfns.
 >>
->> As Usama says, this could get picked up early independent of the rest (maybe
->> even as part of the other patch set)
+>> Note that we call set_section_nid() now only if the section
+>> was not already created earlier. Now, there is no more inconsistency
+>> between what we (temporarily) store in ms->section_mem_map and what
+>> we store in our section->nid array.
+>>
+>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 > 
-> I can post the 3 cleanup patches separately from the one that switches
-> to using per-VMA locks if that's preferable. One downside: I'll have
-> to wait until the cleanups are picked up before posting the last
-> patch, as it depends on these cleanups. Please let me know if I should
-> split them anyway; otherwise, will keep v3 as a single patchset.
+> Acked-by: Oscar Salvador <osalvador@suse.de>
+> 
+> Not sure if it was intentional, but it seems we lost the "Initialize memory section ..."
+> comment.
+> Do we want to put it back? Maybe for the folks that are not really
+> familiar with all the memory section's inner stuff?
 
-Let's keep it as is. We can reconsider if we realize that the other patches get
-stuck.
+Munchus patch added it, and I asked him to remove that comment (as it's
+imprecise). So I expect, once I rebase on top of his updated work, that that
+comment will be gone right away :)
+
+Thanks!
 
 -- 
 Cheers,
