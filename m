@@ -1,221 +1,269 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625533A9DA9
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788951027; cv=pass; b=YoIdvRW2/zIGxppPNq7+3j5FQtn24K/t4/53Ie258MWPWGQ6e4GtlQqwg7WYUgrQgVL84Cn9AEEpvct+kVOJ4e4XYzHPGBJaNZoxzZP0g1+N4KOXHeZhRT2eOWPZgmCAGXbChDD9toCMdTrN6qY78X0TI/3/YhnWJs1CwPC4EWY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788951027; c=relaxed/simple;
-	bh=j6cZDBgYeH1UDdB/vYUO570Md1Mq2XHTWTYhQ5j6hzM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=MuHJnD513wB1jqCGsi0wT+ieP5MGxYlhdOixt4LJRviwjrrfxBPUX5v+EBBaLptpXRy0hJ1eoUtjWiZMHiCrzgvpabQANqGiY2xL4pmRutzTZrTUzYxLRI7zbD9laU97AnDhOT4LFTPXmD7g7Uc2cgAPkhG6zZ7cVzEVIOt/GYc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KX/tOI+g; arc=pass smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87A5531B1C
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788951128; cv=none; b=FhbUS+5HUMP5UAV5k3V7uk22BSalNQuWYdRrEaNSyKXxG/ZAfOyQ5FvYg8I8+ny7uetCRHn6US24/9rOseP7PG/F1aEcPT67UamKIM6JD2O50sg990xRLWArV6d6jRHyQzEB9m0SLhq77ZhlQIZhIZ3IzoM8gvXa1tfh6P5sJIs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788951128; c=relaxed/simple;
+	bh=nLf/lRHoFum5m+0lJCGEXaO0612ccjY4r0VU9eyNeEs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lZqBLrGUY4Z1+wS4dgK6wR0bmKhYmiRNIUt3rScD4Dq49RPcij/B6gINCKZBvuzWJbX6KyIXq6S8TJP56P2Pq1m0Unl8au8hqV2khGRTtGZ6gIKKgLQJTXhZNCpkml/aqAiXtetZMPycWsQhBsiNs1YLePh4/LWYs3mxWTZT2Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gEGy4cKh; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KX/tOI+g"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469e2540eso34610b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:50:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788951026; cv=none;
-        d=google.com; s=arc-20260327;
-        b=P/LDenAXWP1WQ3YpjNyMH+E+3nL02W1pDSZuSUme7Y89FglZFyPf6F2i7cFcX2dWE9
-         J97BGqVqTQ9gG8P79vaLi+KItb3TG5XD2hbuCXbQl7tzaXsCj6UWsmyiNrEcwRWy7Wpb
-         7zShoPbhFQE6gDCVpanatvFQeJ0P/55LVRkb6rG4EomkZLPk2NU6CebEUalfEJ5/y/Bo
-         0pS0hfQ9qZx2JFD4p9TWUPBOufAWScLPXpp44D68ymG8W8JoqWJ8dJ0s1UX23AFd+640
-         EetQSAxhAn8HcDa53bNg3gcT6kDE5NKfHB5wTGPvHUyXpViDm+SRGS4lZmLoJysAYjCf
-         ZX5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=SR3OnMYhSgT26cUzIvbzCnCc1HtdUMyjPk0RDj95K2A=;
-        fh=s9o4IjE+sZMlNvwWtkdnLGk/iexpemkKTjln3jgTd7k=;
-        b=jdlrAzu6TG2Sd6JeZWC9omwX9RdGLaUhdepbVu/sBkJwYDTwUG14L0gnM5P1TJSOPb
-         qlqlUqDajylBjIBlGKiqqGaaxGEgxRW4hBYOEI3THLSl8iPRsUYJ1OGuhu91pnXRPfWP
-         xYu7LO2dn+cok4GL6sPI2Z6D+5vzDNv4InIUYWATeXbAdY/TEiNLSX05Hx87Ce1mpSU7
-         aooF9LQMcFvkydYedeJakPEKJZQfTBJjfEa7a5LlYrGgCcMta7onRqtiQdVehZlUB/Nq
-         CC1xsdmBjHS6Wn6OpwYJKETMfKWBsCUcnmZsiuiy/Mntl+60CfKrCGwROxu9hvgKcg+r
-         Gnhg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788951026; x=1789555826; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SR3OnMYhSgT26cUzIvbzCnCc1HtdUMyjPk0RDj95K2A=;
-        b=KX/tOI+gOhYOae0P+LfG/tdV98xCOtYs5Vobyg5bwKRLYdLGrx2eplUPLeQHgYJpZy
-         th4V6Ate2kj5k39s/pLgaBGr36MIq+foT3ky8FSYIqgje8GVXv/MN25A1qh0bHGUM/VT
-         m6568PpLkmcTvDJCjZE0dZCJsesuVVlmew5y2FqnsyRnlH31pWhr1xf6yaGLIrOhWW81
-         7NG1AtmQcIYzBlG7uGNp4xkr+26jdNFMFzJiZ8mA8Jga2bifBDT/FnTA5yZZlesGwaw1
-         dv6UTWDaYDRbRk4tt2zpIi9V79DhCD8McR4jFxnSdGzuU1mGQtbDuL+ws74Ns4JUoWbs
-         VRFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788951026; x=1789555826;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SR3OnMYhSgT26cUzIvbzCnCc1HtdUMyjPk0RDj95K2A=;
-        b=TJ+06kq6nryNFI8uwQmoDAMR4OwQpIq57cTSHluL0ql+9mcJfEOU0fxzUNzfH0lomQ
-         ZNTJvpjQBc/uNGY0SZSgdnEgaaY02SnAH0mRGe6vIUMwc34jXBECOuN8oWVlhDJM8TTC
-         iYf+YWTTl4lwx48YtWKjg5sDYJv9ocXtlKxcc+aTiLDu8t0LLukeM6RTnajOr9sQs6WH
-         TwyPYvX0xVkMir1ak43Ax7Hvf2ZEGr1VBlxmykq4+GI9WdOUo08qpnXNg2yARgQjQ1w+
-         /1glbD4xQCLkTxB2E2ExQfb32hYl77AD462BALhI1UqzmbY0yWDUzicpHeJCRKWmzyJM
-         BZJg==
-X-Gm-Message-State: AFuF++ncxLPI+0uc1Zha1LuQlblCneKY/L6+aUd2zFgy463YdMncnWqH
-	Jz6Tu4dPH3uNKH9Eus8vi2jgC2VC0Jxu0CfnFGE2NSqsxqQQR5GUE2Fwhm8nHo2Lts9pBUNXwNE
-	rl+IasEGIobbVKPjDVGi7Jp6pjMuuMYuZhJQRo8sNFQ==
-X-Gm-Gg: AYBFou2g2qNUBupeTqJmXXIUvJbr3FiLvwhRfO6o7TaUd+aGLQoj/s9w5Wt20Kvs5JG
-	VwCb9/oKVJW1ueRI7Pf3gtU+DZXSBzlr94fs/omnz80F6ECy+OYj/peRbLOJkD+9DNQxuQM4DtN
-	YTDWGK6N9c3G5KxR3Q9r0PcuzBZze73brL4m1/rSxmGJQZVzlqw6mktomgdJYGDLnfixOy6fGlt
-	dhn6nHHBoOkej/Z+elrHDSAWJDRH6KdNoh5p5zFCdqnckE6ZmEnLrAkqXbeilU9+lM+ZSQIciEM
-	RLmh+ZFgvu2r1uphQQ8tEe7XWEuzUJBYoxeIE+fau8vizgbsyWCzIetB
-X-Received: by 2002:a05:6a20:6f0e:b0:3bf:63af:855 with SMTP id
- adf61e73a8af0-3dacbd26702mr610907637.1.1788951025558; Wed, 09 Sep 2026
- 03:50:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gEGy4cKh"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=nLf/lRHoFum5m+0lJCGEXaO0612ccjY4r0VU9eyNeEs=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788951122; v=1; x=1789555922;
+ b=gEGy4cKhwazS7GQTTOJxrKVaqvi9Tw316nM8CYxF2+90B3NyLQfSD73REwTRe3ZrB9sqzQmI
+ 5KJH7frLcHXHr2u+32wub9Dj/fusOLFmKHjPsS0nKDyEdQP0/3yUcn0YVXWBPKwsDbpF6peYpvL
+ uiLcQG+fA4jVnMu6Bex95YD4=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 5d49b818eb55d532;
+	Wed, 09 Sep 2026 10:52:01 +0000
+X-Mizu-Trace-ID: 5d49b818eb55d532
+X-Migadu-Flow: FLOW_OUT
+From: Usama Arif <usama.arif@linux.dev>
+To: Kiryl Shutsemau <kirill@shutemov.name>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	akpm@linux-foundation.org,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jan Kara <jack@suse.cz>,
+	Rik van Riel <riel@surriel.com>,
+	Harry Yoo <harry@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Jann Horn <jannh@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Pedro Falcato <pfalcato@suse.de>,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com,
+	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: Re: [RFC PATCH 2/5] mm: add a_ops->dirty_folio_range() and use the mkclean dirty harvest
+Date: Wed,  9 Sep 2026 03:51:56 -0700
+Message-ID: <20260909105157.1627242-1-usama.arif@linux.dev>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260903182943.662461-3-kirill@shutemov.name>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?B?Tmd1eeG7hW4gVsSDbiBUaeG6v24=?= <nguyenvantiennani@gmail.com>
-Date: Wed, 9 Sep 2026 17:49:26 +0700
-X-Gm-Features: AcwNN1WxGOQ9bY-7r0846Zbm3ObMObeofeNrISt_TglaNc0pGuiuzJzE2Ktbgps
-Message-ID: <CAKT34MyyF5iC50agYpMMb4sOXYZ=n2Z77PV+u=TWsSTP0YdS8A@mail.gmail.com>
-Subject: [BUG] procfs: fdinfo permission and read can cross a setuid exec epoch
-To: linux-fsdevel@vger.kernel.org
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello,
+On Thu,  3 Sep 2026 19:29:40 +0100 Kiryl Shutsemau <kirill@shutemov.name> wrote:
 
-I am reporting a possible procfs authorization/use consistency issue for
-maintainer review in Linux v7.2.4. This is a normal public bug report, not =
-a
-CVE, exploit, LPE, or claim of confirmed high-impact information disclosure=
-.
+> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+> 
+> Every way of dirtying part of a folio through a mapping ends up at
+> folio_mark_dirty(), which has no way to say which part changed, so
+> a_ops->dirty_folio() dirties all of it. A filesystem that tracks dirty
+> state per block then writes back the whole folio for a single stored
+> byte.
+> 
+> Add a_ops->dirty_folio_range() and folio_mark_dirty_range() to pass the
+> range on. The new operation can express everything a_ops->dirty_folio()
+> can, so folio_mark_dirty() goes through it with a range covering the
+> folio and a filesystem needs only one of the two. Filesystems without it
+> dirty the whole folio.
+> 
+> Use it in folio_clear_dirty_for_io(), where the page table dirty bits
+> were being turned into a whole-folio dirty. It now collects them with
+> folio_mkclean_dirtymap() and hands the filesystem the runs that were
+> dirty. A folio that is not already dirty still dirties whole, because
+> the clean to dirty transition needs the accounting in folio_mark_dirty().
+> 
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> ---
+>  include/linux/fs.h  |  3 ++
+>  include/linux/mm.h  |  1 +
+>  mm/page-writeback.c | 87 +++++++++++++++++++++++++++++++++++++++++----
+>  3 files changed, 85 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 072d8cd09a0b..1d98b6c0b880 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -406,6 +406,9 @@ struct address_space_operations {
+>  
+>  	/* Mark a folio dirty.  Return true if this dirtied it */
+>  	bool (*dirty_folio)(struct address_space *, struct folio *);
+> +	/* Mark [off, off + len) of a folio dirty */
+> +	bool (*dirty_folio_range)(struct address_space *mapping,
+> +				  struct folio *folio, size_t off, size_t len);
+>  
+>  	void (*readahead)(struct readahead_control *);
+>  
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 87feaa5a2b78..7628262c17e1 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3337,6 +3337,7 @@ struct kvec;
+>  struct page *get_dump_page(unsigned long addr, int *locked);
+>  
+>  bool folio_mark_dirty(struct folio *folio);
+> +bool folio_mark_dirty_range(struct folio *folio, size_t off, size_t len);
+>  bool folio_mark_dirty_lock(struct folio *folio);
+>  bool set_page_dirty(struct page *page);
+>  int set_page_dirty_lock(struct page *page);
+> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+> index 6c9c7ba89b8a..39b54c25a9fa 100644
+> --- a/mm/page-writeback.c
+> +++ b/mm/page-writeback.c
+> @@ -2751,6 +2751,21 @@ bool folio_redirty_for_writepage(struct writeback_control *wbc,
+>  }
+>  EXPORT_SYMBOL(folio_redirty_for_writepage);
+>  
+> +/*
+> + * Hand a dirtied range of @folio to the filesystem.  ->dirty_folio_range() can
+> + * express everything ->dirty_folio() can, so a filesystem that implements it
+> + * does not need both, and a whole-folio dirty comes through here as a range
+> + * covering the folio.
+> + */
+> +static bool mapping_dirty_range(struct address_space *mapping,
+> +				struct folio *folio, size_t off, size_t len)
+> +{
+> +	if (!mapping->a_ops->dirty_folio_range)
+> +		return mapping->a_ops->dirty_folio(mapping, folio);
+> +
+> +	return mapping->a_ops->dirty_folio_range(mapping, folio, off, len);
+> +}
+> +
+>  /**
+>   * folio_mark_dirty - Mark a folio as being modified.
+>   * @folio: The folio.
+> @@ -2782,13 +2797,39 @@ bool folio_mark_dirty(struct folio *folio)
+>  		 */
+>  		if (folio_test_reclaim(folio))
+>  			folio_clear_reclaim(folio);
+> -		return mapping->a_ops->dirty_folio(mapping, folio);
+> +		return mapping_dirty_range(mapping, folio, 0,
+> +					   folio_size(folio));
+>  	}
+>  
+>  	return noop_dirty_folio(mapping, folio);
+>  }
+>  EXPORT_SYMBOL(folio_mark_dirty);
+>  
+> +/**
+> + * folio_mark_dirty_range - Mark part of a folio as being modified.
+> + * @folio: The folio.
+> + * @off: Offset of the modified range within the folio.
+> + * @len: Length of the modified range.
+> + *
+> + * Like folio_mark_dirty(), but tells a filesystem that tracks dirty state per
+> + * block that only [@off, @off + @len) changed, so writeback can skip the rest
+> + * of the folio.  Filesystems without that tracking dirty the whole folio.
+> + *
+> + * Return: True if the folio was newly dirtied, false if it was already dirty.
+> + */
+> +bool folio_mark_dirty_range(struct folio *folio, size_t off, size_t len)
+> +{
+> +	struct address_space *mapping = folio_mapping(folio);
+> +
+> +	if (likely(mapping)) {
+> +		if (folio_test_reclaim(folio))
+> +			folio_clear_reclaim(folio);
+> +		return mapping_dirty_range(mapping, folio, off, len);
+> +	}
+> +
+> +	return noop_dirty_folio(mapping, folio);
+> +}
+> +
+>  /*
+>   * folio_mark_dirty() is racy if the caller has no reference against
+>   * folio->mapping->host, and if the folio is unlocked.  This is because another
+> @@ -2844,6 +2885,41 @@ void __folio_cancel_dirty(struct folio *folio)
+>  }
+>  EXPORT_SYMBOL(__folio_cancel_dirty);
+>  
+> +/*
+> + * Write-protect every mapping of @folio and hand the filesystem the parts that
+> + * were dirty in a page table.
+> + *
+> + * Without ->dirty_folio_range() there is nowhere to put per-block state, so
+> + * any PTE dirty bit dirties the whole folio.  Same when the folio is not
+> + * already dirty, because then the dirty transition needs the full accounting
+> + * in folio_mark_dirty(), and for a folio too large for the bitmap, which the
+> + * page cache does not make.
+> + */
+> +static void folio_mkclean_for_io(struct folio *folio,
+> +				 struct address_space *mapping)
+> +{
+> +	DECLARE_BITMAP(map, 1UL << MAX_PAGECACHE_ORDER);
+> +	unsigned int nr = folio_nr_pages(folio);
+> +	unsigned int start, end;
+> +
+> +	if (!mapping->a_ops->dirty_folio_range || !folio_test_dirty(folio) ||
+> +	    WARN_ON_ONCE(nr > (1UL << MAX_PAGECACHE_ORDER))) {
+> +		if (folio_mkclean(folio))
+> +			folio_mark_dirty(folio);
+> +		return;
+> +	}
+> +
+> +	bitmap_zero(map, nr);
+> +	if (!folio_mkclean_dirtymap(folio, map))
+> +		return;
+> +
+> +	for_each_set_bitrange(start, end, map, nr) {
+> +		mapping_dirty_range(mapping, folio,
+> +				    (size_t)start << PAGE_SHIFT,
+> +				    (size_t)(end - start) << PAGE_SHIFT);
 
-Affected source
----------------
+folio_mark_dirty() clears PG_reclaim, but mapping_dirty_range() doesnt.
+Do you need to clear PG_reclaim here?
 
-A clean Linux v7.2.4 checkout was reviewed:
-
-  commit 5015d0d945b3d3f2b038d2667880d5762f7d9437
-  fs/proc/fd.c:23-73, 85-101
-  fs/proc/fd.c SHA-256:
-  5aba6d410e9aee3283b9007e33668a99f5d4c506deffa8b9816be415966eca0b
-
-The suspected check/use sequence is:
-
-  open /proc/<pid>/fdinfo/<fd>
-    -> proc_fdinfo_permission()
-       -> get_proc_task(inode)
-       -> ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS)
-
-  later read of the already-open fdinfo file
-    -> seq_show()
-       -> get_proc_task(m->private)
-       -> current task->files/fd lookup
-       -> get_file(file)
-       -> generic fd metadata output
-       -> current file->f_op->show_fdinfo callback
-
-The permission callback is not held through the later fdinfo generation. A
-same-task setuid/setgid exec can occur between the two operations. The proc
-inode keeps a counted struct pid, so this is not being reported as PID reus=
-e.
-The task/files/file locks and file reference also appear to protect object
-lifetime. The issue is that the authorization result and the subsequently
-inspected task/files state are not visibly tied to one exec credential epoc=
-h.
-
-Impact currently established
-----------------------------
-
-An ordinary local UID can open an fdinfo file while a same-UID target is
-accessible, retain that open file, and read it after the target executes a
-setuid/setgid program. The later read can report the target's current fd
-metadata and invoke the current file's show_fdinfo callback without a new
-ptrace authorization check.
-
-The generic output is position, flags, mount ID and inode. The v7.2.4 callb=
-ack
-review covered eventfd, eventpoll, inotify/fanotify, pidfd, signalfd, timer=
-fd,
-perf, io_uring, sockets, BPF, FUSE, XFS, DRM and other device callbacks. Th=
-e
-observed outputs are metadata/state such as counters, masks, IDs, inode/mou=
-nt
-identifiers, file handles, signal masks, configuration and accounting data.
-I have not established disclosure of protected file contents, a reusable fi=
-le
-reference, credentials, capabilities, a kernel pointer, or a reliable
-high-impact secret. The stronger public memfd scenario for
-/proc/<pid>/fd/<fd> is not being attributed to fdinfo.
-
-For that reason, the current classification is a conditional security and
-process-observation candidate. If the output is intentionally allowed to be
-stale-authorized metadata, this may instead be a procfs consistency or
-hardening issue. I would appreciate guidance on the intended contract.
-
-Safe contract evidence
-----------------------
-
-A disposable v7.2.4 debug KASAN/UBSAN QEMU test opened fdinfo before a
-synthetic root-owned setuid exec and read the already-open file afterward.
-Both independent passes observed the eventfd callback:
-
-  fdinfo_eventfd_callback=3D1
-  credential-epoch-proc-contract: PASS
-  trigger_rc=3D0
-
-The same contract also observed post-exec status/cmdline markers, but those
-are sibling procfs observations and are not needed for this fdinfo report.
-
-Frozen logs:
-
-  evidence/credential-epoch-consistency/proc-contract-smoke.log
-    size 25227 bytes
-    SHA-256 D34C9587A2692830BF118887131D50DF773C5C1B108FDF593B821938E8E48CC=
-5
-  evidence/credential-epoch-consistency/proc-contract-smoke-2.log
-    size 25163 bytes
-    SHA-256 BFFD6DE0C3C64F6A9B68347359DF83B7A6060103E4B65F14E3222FB6DD6C8C4=
-9
-
-This test demonstrates only cross-epoch synthetic metadata/state observatio=
-n.
-The setuid helper is synthetic and does not establish a production privileg=
-ed
-daemon or a high-impact disclosure. No race amplifier, exploit chain,
-credential theft, namespace escape, LPE, or kernel diagnostic was produced.
-
-Questions
----------
-
-1. Should fdinfo authorization and current fd/callback state be coupled to =
-one
-   exec epoch, for example by read-time revalidation or by holding the
-   target's exec_update_lock while selecting the state used for one seq fil=
-l?
-2. Does any in-tree show_fdinfo callback make this stale-authorized read a
-   concrete protected-data or security-boundary disclosure?
-3. If not, should this be handled as a public procfs consistency/hardening
-   fix rather than a security issue?
-
-I have not attached the source-only reproducer or the full audit to this
-public message. The reproducer is a minimal non-exploit contract test, and =
-the
-full source/callback audit can be provided to maintainers on request. This
-keeps the initial public report concise and avoids publishing a synthetic
-reproducer before maintainers assess the issue.
-
-The report follows Documentation/process/security-bugs.rst guidance for
-AI-assisted findings: public routing, concise verified claims, and no publi=
-c
-reproducer for a potentially security-relevant issue.
-
-Regards,
-Nguy=E1=BB=85n V=C4=83n Ti=E1=BA=BFn
+> +	}
+> +}
+> +
+>  /*
+>   * Clear a folio's dirty flag, while caring for dirty memory accounting.
+>   * Returns true if the folio was previously dirty.
+> @@ -2875,9 +2951,9 @@ bool folio_clear_dirty_for_io(struct folio *folio)
+>  		 *
+>  		 * We use this sequence to make sure that
+>  		 *  (a) we account for dirty stats properly
+> -		 *  (b) we tell the low-level filesystem to
+> -		 *      mark the whole folio dirty if it was
+> -		 *      dirty in a pagetable. Only to then
+> +		 *  (b) we tell the low-level filesystem which
+> +		 *      parts of the folio were dirty in a
+> +		 *      pagetable. Only to then
+>  		 *  (c) clean the folio again and return 1 to
+>  		 *      cause the writeback.
+>  		 *
+> @@ -2895,8 +2971,7 @@ bool folio_clear_dirty_for_io(struct folio *folio)
+>  		 * as a serialization point for all the different
+>  		 * threads doing their things.
+>  		 */
+> -		if (folio_mkclean(folio))
+> -			folio_mark_dirty(folio);
+> +		folio_mkclean_for_io(folio, mapping);
+>  		/*
+>  		 * We carefully synchronise fault handlers against
+>  		 * installing a dirty pte and marking the folio dirty
+> -- 
+> 2.54.0
+> 
+> 
