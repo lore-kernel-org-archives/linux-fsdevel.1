@@ -1,154 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D216F49C4AB;
-	Tue,  8 Sep 2026 23:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D601492E5D;
+	Wed,  9 Sep 2026 00:20:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788911158; cv=none; b=LLYmgtx9L+UTx4f3GdJSSl/Sr7MzjXkf4bNCtTU7a/n7ztHZOoJS1QHrPf35BV8yIz2yjX9C95vNb5vHCP9zdKmk+Uxj0nteGTt/MkBy+0ZDLZzaSUPrzUVQyczIGw3yPafSahfukKwqCXJ5fyodApAzCmxGwjdN328vL+wOUhQ=
+	t=1788913211; cv=none; b=m7zCreU7DOlvqP1XmAetO4ci9yRFQtHnqi3Oki3tzu1NpjLxOQTvgiauviYoCLXkloNfQVNys3GgLnnTe+jJ2XvqZx7QtUopvOSqZT5mCTQ4Wfano36a4BC2a1fwyrGxk3XF1V9g3W+zb86XKZPowPnXlwn6A2AMUEisK9s0ypY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788911158; c=relaxed/simple;
-	bh=g7Ky83TgOwFbsOHyvgijjGXpRNo2425Nq4phshWzA7k=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Bst/v+1fgtMkYE+mUgUFRuZ0BXKBvhURtunqSj+zfkLGU7ZFR2XCP6DhJ3c+0dvhQkGVEew7wzikKxShtm52wkxu/B81AJNSlI8ffxee4NS/JIpYwUMtNz4GRj1HjWw3jNRGMgiAlCaGul6VZe9m2CA6KUZSNXtM1FY0OCRBv3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=LtxwYooG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788913211; c=relaxed/simple;
+	bh=GMQsh1v4Gf55Y/HACgSghoeCk3N52W17AAWwwb2v+G8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sqnN/pPMAcOEqB4JzSiF8Hefn+PJg9MXAF77KNALxOmHTIwCniGhF3x89VP5j1+pi0PWhjkRuLsKX5Y8jasYaGdsghDBV7RFPuYFh01sBjVcW2GoP+8UINd4jaI59RdAixJ6EPf3arhqZ6+CT9zuNzL+ibn+CYmi9mzRFFV4+x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0o/qyYE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="LtxwYooG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD8271F00A3A;
-	Tue,  8 Sep 2026 23:45:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1788911156;
-	bh=YluYVMKByfxU0jhrfhAXdNg+GL+9Wi7y0AV09M0/EDg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=LtxwYooGM1HHVGcczPSCT9m8ZaErT53MmLnTvSFuygid+bQEwhZaASugrIOMh12pD
-	 BrNacsADi+fSErVF+GHr0LqnyguMwRdXSGWtF+phvEdI9KqZvARfPvq5h/w+cB/3aZ
-	 wa+Qr1QYe4BOmgodLgUdQd7EiEJygMD8PJDEeKSU=
-Date: Tue, 8 Sep 2026 16:45:55 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro
- Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] mm: make MAP_PRIVATE-/dev/zero mappings truly
- anonymous
-Message-Id: <20260908164555.50a996a3f716523ddc13fbfb@linux-foundation.org>
-In-Reply-To: <20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org>
-References: <20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0o/qyYE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E46EF1F00A3A;
+	Wed,  9 Sep 2026 00:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788913209;
+	bh=3r2rhT0buhb25SsigQaKKYL63plJSffphRat3oXylY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=U0o/qyYEmt+WgP+NR03YdkRzJKdO0kMCc9eS9IGex7vQvOASzM5QMwPZIN0EznFqG
+	 YDGc6yKx78L8CjvKZa6km0YOgcI7+2Db51pno1k/Nn6/GVELLjDUj6l4hBrq/Avrag
+	 kP/4HMw9EtVACynPG2Qsh15D57IciORfrR+Ly2V2/sIse136UQRHaqBPjgGjwE44mE
+	 hHZA58+JpLWQ99fOaoVuOH30f/HLTV9qeL8ABFylKUwKB9UdLxit02QDBRU/oJo9s3
+	 ld1HOkAQSasLjN1rYZC53gpMi/GbjeA5zJUuQ056TGh0tTFLxHjI61PDjciuy0RFOq
+	 PiEtGUBagFvnw==
+Date: Tue, 8 Sep 2026 17:20:05 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Marco Elver <elver@google.com>, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	Timothy Day <timday@thelustrecollective.com>,
+	linux-ext4@vger.kernel.org, Theodore Tso <tytso@mit.edu>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] once_lite: Simplify condition handling and fix context
+ analysis
+Message-ID: <20260909002005.GA3661577@ax162>
+References: <20260903101843.3462767-1-elver@google.com>
+ <20260907221334.GA1619741@ax162>
+ <CANpmjNNuiX-rQFvn0GK1SxAbcxEUH7rKh69GPq+7u2tg63qbmQ@mail.gmail.com>
+ <4ohly4m6ffr4jnpqncucwkajjorfzdi4x3perczoszs5cb7ljx@mrf7no3uuzua>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4ohly4m6ffr4jnpqncucwkajjorfzdi4x3perczoszs5cb7ljx@mrf7no3uuzua>
 
-On Tue, 08 Sep 2026 12:23:37 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+On Tue, Sep 08, 2026 at 12:15:13PM +0200, Jan Kara wrote:
+> On Tue 08-09-26 00:17:34, Marco Elver wrote:
+> > Thanks! I think this is one of those orphaned files - which tree can
+> > this go through? Can it go through your tree, unless Jan already
+> > picked it up with the other fix?
+> 
+> If Nathan can take it through his tree, that would be great, otherwise I
+> can take it through mine. Just let me know.
 
-> Historically anonymous memory was obtained in linux by MAP_PRIVATE-mapping
-> /dev/zero.
-> 
-> The canonical way of doing these now is mmap() specifying MAP_PRIVATE |
-> MAP_ANON, but we must continue to support the legacy means of obtaining these
-> mappings.
-> 
-> As-is these mappings are an unusual edge-case - they satisfy
-> vma_is_anonymous() but have non-NULL vma->vm_file, and their page offset is
-> the offset into the /dev/zero file.
-> 
-> Commit 93c0c8dc87f6 ("mm/rmap: use anon pgoff to track MAP_PRIVATE
-> file-backed anon folios") causes all other anonymous folios to be tracked
-> by their anon index (vma->vm_start >> PAGE_SHIFT at the point of first
-> fault), leaving MAP_PRIVATE-/dev/zero as the outlier.
-> 
-> This series remedies the situation by making MAP_PRIVATE-/dev/zero mappings
-> truly anonymous with !vma->vm_file and correct anonymous page offset.
-> 
-> It starts by bringing the memory character driver into mm/ - this file
-> implements /dev/zero, /dev/mem among other things and is already (as
-> clearly indicated by its name) within the remit of memory management.
-> 
-> By doing this, the file_is_dev_zero() function can be provided, internal to
-> mm, which allows for positive identification of these mappings.
-> 
-> Using this, first prevent any other mappings from mapping memory
-> anonymously, then make these mappings truly anonymous and eliminate all
-> code in the kernel that previously had to account for these strange beasts.
-> 
-> Finally, it adds userland VMA tests to assert the behaviour and selftests
-> to assert expected merge behaviour.
+I applied this to my clang-fixes tree and created an immutable tag for
+you to pull from, as you should have it in your tree since you are
+enabling context analysis there. If nobody else needs it and I do not
+have any other material for 7.4 in that tree, I won't send a pull
+request if the ext2 tree is merged with this included.
 
-Thanks, I've updated mm-unstable to this version.
+The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
 
-> v2:
-> * Added tags (thanks everybody!)
-> * Reworked comment about mappings not setting themselves anon as per David.
-> * Fixed up test typo as per David.
-> * Fixed up test close() as per David.
+  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
 
-Here's how v2 altered mm.git:
+are available in the Git repository at:
 
---- a/mm/vma.c~b
-+++ a/mm/vma.c
-@@ -2801,7 +2801,7 @@ static int call_mmap_prepare(struct mmap
- 	if (err)
- 		return err;
- 
--	/* Hooks cannot mark themselves anonymous. */
-+	/* It's invalid for mmap_preprare hooks to clear vm_ops. */
- 	if (!desc->vm_ops)
- 		return -EINVAL;
- 
---- a/tools/testing/selftests/mm/merge.c~b
-+++ a/tools/testing/selftests/mm/merge.c
-@@ -1381,7 +1381,7 @@ TEST_F(merge, merge_map_private_dev_zero
- 	 *
- 	 * With these being made truly anonymous upon mapping, they will
- 	 * merge. If they were file-backed VMAs the page offsets would prevent
--	 * merge:
-+	 * the merge:
- 	 *
- 	 * |-----||------|    |-------------|
- 	 * | ptr || ptr2 | -> |     ptr     |
-@@ -1389,17 +1389,11 @@ TEST_F(merge, merge_map_private_dev_zero
- 	 */
- 	ptr = mmap(carveout, 5 * page_size, PROT_READ | PROT_WRITE,
- 		   MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
--	if (ptr == MAP_FAILED) {
--		close(fd_zero);
--		ASSERT_TRUE(false);
--	}
- 	ptr2 = mmap(&carveout[5 * page_size], 5 * page_size,
- 		   PROT_READ | PROT_WRITE, MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
--	if (ptr2 == MAP_FAILED) {
--		close(fd_zero);
--		ASSERT_TRUE(false);
--	}
- 	close(fd_zero);
-+	ASSERT_NE(ptr, MAP_FAILED);
-+	ASSERT_NE(ptr2, MAP_FAILED);
- 
- 	/* Assert that they merged. */
- 	ASSERT_TRUE(find_vma_procmap(procmap, ptr));
-@@ -1430,10 +1424,7 @@ TEST_F(merge, merge_map_private_dev_zero
- 	 */
- 	ptr = mmap(carveout, 15 * page_size, PROT_READ | PROT_WRITE,
- 		   MAP_FIXED | MAP_PRIVATE, fd_zero, 0);
--	if (ptr == MAP_FAILED) {
--		close(fd_zero);
--		ASSERT_TRUE(false);
--	}
-+	ASSERT_NE(ptr, MAP_FAILED);
- 	memset(ptr, 'x', 15 * page_size);
- 
- 	/*
-_
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/nathan/linux.git tags/clang-fixes-once_lite-for-7.4
 
+for you to fetch changes up to 0bb666d5f5a2339a5692afb312c2161df9620503:
+
+  once_lite: Simplify condition handling and fix context analysis (2026-09-08 16:54:02 -0700)
+
+----------------------------------------------------------------
+Immutable branch for once_lite.h context analysis fix
+
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+
+----------------------------------------------------------------
+Marco Elver (1):
+      once_lite: Simplify condition handling and fix context analysis
+
+ include/linux/once_lite.h | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+-- 
+Cheers,
+Nathan
