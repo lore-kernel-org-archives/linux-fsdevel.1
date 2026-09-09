@@ -1,146 +1,133 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39733580398
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 16:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E943855C1A6;
+	Wed,  9 Sep 2026 16:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788970865; cv=none; b=POpYw+7Uw691CCdU8jTl2vlRdij6yieMFDSwP+Erdt7MyHs/Yh7gOIBK+afV7h6aPyEveB931ii48uvcT6vV67wlz/sHpEHOiYYsPhxy6hHcdKg6M1tYdp75TeXqC1Gr1cZyONlNCIVRj6MJpUeh5oyEHsZ0ZNvGcobFD8/6ycw=
+	t=1788970927; cv=none; b=eQappFMXhToCqqtQFhKFRC2gcO1g9Gx7Q4I6gPTz/WoqqDY3hz9hM8Bc0tr6OrLHRd8TBWTsumHRpl/n7WhVuJmIyNrap/dws4c4YZLWSi/xwWiIe8b4sl5/Gg6VNdBLmGh90PczqSDUB7OY8SSff7oD4l5iiQ28DgF3fW154H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788970865; c=relaxed/simple;
-	bh=xkYbxYOg02/PDAWI81Kh265hRNWCLTxckeOhfZzaiJY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V7C9OAstINYamobcKWRPfP5lWT1oY5yrwQASKfiY3+Tqufqknvm2TAvLHnNHuEEHjjVQu2igD+38xUFk9lh6eyY9hl18GNF4n/RMbFrvReFHOtB9WF0gEoVk7cZXIkdjFFXqkIxPnSo5AQVyGNN8JzX1hlD8PQCDUb9Wv5rensg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HtMsJnb8; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788970927; c=relaxed/simple;
+	bh=k3HOXlPmjuyP9qvoQu64y11t6PI2XAg6QCEzhbR3WMk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EOK70k8MzkxSWmRW3JDFbWENUOmdoMncr7VUkZppzj7FW5KcmUd52tef4E4GErw+O/fxOEKhJXYQHiELB9HRW6aYGuw9lSdalcfPoOzCgeu6Hl9yT8NcMfP/VlwmnlKKSGRWIrRr3yo9HJ3wY0lNybyMa5WTl86JcUb1VxHgMMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrTCyR10; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtMsJnb8"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-869ac301739so37153b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 09:21:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788970863; x=1789575663; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PzAFJX6yZl3OwKtzJ6LKEeISxVav1Hs+pjBuAYNoKgY=;
-        b=HtMsJnb84J1aT/JR4Q+hpfq2kJ+74b5rMDV9zxwiYiFflKqCzpROrKuq9BRm8JHtKU
-         ExW+5x5N+HQP9ZRmW7+mcQbO6OXTPe/B4BYIUNIDkOLEuldvRDIoewglE7PBrPjybn0X
-         wgnH0FGzyU/FTUZ9CWPukBG6zdWhOyzQEfVXGBff/y4TiOa5mSZKSkMY2nRgZTQ2DGhr
-         +C4ty+rTqEwjC8hwSy5NpLrksjqRqE4kNmVuEJqWI0QiCPwysvrw6Hz8pPLojyBPmu26
-         pUW2h8fpXzR1D8MUkoiRbWZIQpKiYhW8peGn1R001/NICoelBe+sqM6GRKDsdpsB5Ity
-         wqHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788970863; x=1789575663;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PzAFJX6yZl3OwKtzJ6LKEeISxVav1Hs+pjBuAYNoKgY=;
-        b=XwgPG+mCT7BaW/4bf+iTt/Z06oxbqUBjEeHqvjlaowc+6NEWIfswb30VmijlJ+TZNS
-         4h0cywWjcIaC9Zb61oreVWt0Sc424cQEf2Xg+El8+3r0zi18RXQv0DxbeMjlJ9PcSNao
-         9IpNNCehkqjvXUk7UzntEIe6CLYycnQyXAh6Ag7CDClpA4d12UW//RtrAHAsgvFU7p/w
-         hYVVM1/s1uJNj4w9ZiBixEO+yPALUkrqaGrieGu5cQ3u4oEt0tzMb4EfXlwwZ3dlr1sH
-         zkBgHSgWxajnCtiIzz5OFjnmsj/IpPQ8FsFpGl1GF9R6PmgQin4w6CiQEiPZXzKccsZp
-         T2yA==
-X-Forwarded-Encrypted: i=1; AKwUvBy9CQn0gybzOaeBQuSJQF2EJn0OC8rwcQR4ieKENdHx0nTPC8QniNGMrvKME3Y6jxhiPveR+2N7seNmRiXE@vger.kernel.org
-X-Gm-Message-State: AFuF++mwYKA3YwzA6gkJadWK2kx2I0vj5SMsWxqaMNM1oxgvPHBmOgIV
-	1U8Ca0B5DCfSpWTw++4lSQZgs+I1dDKbkk7+l2mgVY4x2A0bvUEPTsu3
-X-Gm-Gg: AYBFou0hcJTrrzVIklgac9WttHnhO/7sUzJgfyDbSCPvGK7uVSADGWZmN7NzLbmYhPH
-	C4pAhbHGvkdYyDwRkev+r8+h2iJ8D9VKscRj5OSqZqHpQSfD8h5UYAg/AIZFvet975lnFE5OinP
-	KzOtSroO0jhh8GLYwMQzzflnWrjy8AZ+cr6TGZiMUehsIwNYKRZKX6deCsntYWDEaQYumuUtcpc
-	1mOW/ejDludBd5BkEDgsmMv55cTl7CK/nAKh4V5gdeWccu8lo20FAEb+01+IagIZ/esL4qpIa8L
-	92OKLqwR83+k4ixfs0yLQT7oEK3W3+O+p2ywLxCeh9jMNawj6S5Fwd4xV3CrSFp2v52+LkziIdr
-	evKSc+H14VQN9pZ2DEG8p6U63TmnFTuUpdBBg/DUseCIc0sCidKOpr+tAkGJss5TpgGDa5Xe6MH
-	vt/wNl7+hAzA0fFz6Udn31QD9CFgrZEBIwt5aBfo1HkJ5bXyr2I6enrIj0tbL5PUo4Cnas3n0qg
-	+cPi21fw16kxaaYinc=
-X-Received: by 2002:a05:6a00:6c9c:b0:857:727c:a1f6 with SMTP id d2e1a72fcca58-8616997ee79mr51866444b3a.24.1788970863053;
-        Wed, 09 Sep 2026 09:21:03 -0700 (PDT)
-Received: from thangnn-ASUS.. ([2405:4802:1d38:5c70:24ba:44ee:a9ec:98f1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8638c51f316sm5547812b3a.43.2026.09.09.09.21.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 09:21:02 -0700 (PDT)
-From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
-Subject: Re: [PATCH] hfsplus: fix recursive tree_lock in hfsplus_file_extend()
-Date: Wed,  9 Sep 2026 23:20:57 +0700
-Message-ID: <20260909162057.28071-1-ngocthang2710.1999@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6adf8403f623448ffa8647b9b5e91397a8256315.camel@dubeyko.com>
-References: <6adf8403f623448ffa8647b9b5e91397a8256315.camel@dubeyko.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrTCyR10"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E191F000FF;
+	Wed,  9 Sep 2026 16:21:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788970925;
+	bh=gVDwXOjHBRzDJvfzuWQ8YBF5gQR9D+1WWpyCaQv2V3o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ZrTCyR10x3uA4f65mS7hxAFp8ku7cHmrXCRqUuYsbGL3uzYAwaspVYHVCKykwDzHG
+	 faaXJvk923DDKhvvtU+iv4+5kdQfUP8VygglE4nhW97099K39oo+ozMIDbRDUYqwet
+	 45Gm7xjQYlElkuo1iaJwAsk3oZNcGVTko1+yY4xdapWhFd54tK5nKolOmYzVEHiPAs
+	 8nu650TEQ4Bg8zF+QTYLisbn57lwTKwIhc4+69a1C0QzJos9RfAJfyA9DEPipwgcX9
+	 NTF0Jt8pcsvEec51ZM2gvemKSDif6g0/ETu8SCkbrLPIo42SWvP6ZPKGnkowPOFQbf
+	 s/ySRFjiNb+Bw==
+Message-ID: <835cf37f-d0a1-4e51-a29f-a1b83d79a940@kernel.org>
+Date: Wed, 9 Sep 2026 18:21:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 17/22] coredump: describe the holes when
+ COREDUMP_SPARSE is negotiated
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>,
+ Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Omar Sandoval <osandov@osandov.com>, Jacob Lalonde <jalalonde@fb.com>,
+ Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+References: <20260820-work-coredump-sparse-v2-0-ba32dd718c51@kernel.org>
+ <20260820-work-coredump-sparse-v2-17-ba32dd718c51@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260820-work-coredump-sparse-v2-17-ba32dd718c51@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Slava,
+On 8/20/26 01:09, Christian Brauner wrote:
+> Make use of COREDUMP_SPARSE. Refuse it without COREDUMP_RECORDS.
+> 
+> Actual holes are sent as a record with length indicating how much zero
+> data there was.
+> 
+> coredump_write() flushes a trailing hole if the coredump is done.
+> Instead of writing the actual byte for pipes and sockets, collapse it.
+> This stops wasting a header with coredump records for a single byte. So
+> we now only write it when the coredump can be seeked. TL;DR a trailing
+> hole is a zero record like any other and the records still cover the
+> whole coredump.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
 
-Agreed on all four points, and dropping the btree.c/super.c hunks --
-you're right on the specifics too: hfs_btree_open() is also called
-from xattr.c when an attributes tree is created lazily, mid-operation,
-so it has no business deciding sb->s_flags itself. And re-checking my
-own super.c hunk: it dereferences sbi->ext_tree/attr_tree
-unconditionally, which NULL-derefs on remount of a volume with no
-attributes file (attr_tree is NULL whenever vhdr->attr_file.total_blocks
-== 0). Glad that didn't go anywhere.
+I don't have a lot to add, the general idea LGTM.
 
-One clarifying question before I attempt that piece: you wrote both
-"it needs to return the error code from this method" and "set the
-state of the btree as inconsistent". Those lead to different mounts:
+What might still be suboptimal is that, for large sparse ranges, we'll do a
 
-  (a) hfs_btree_open() returns ERR_PTR(-EIO) -> the tree never opens,
-      mount fails outright (same as every other check already in that
-      function).
-  (b) hfs_btree_open() still returns the tree, with a new inconsistency
-      flag set on it -> mount can succeed read-only, existing (valid)
-      data stays reachable.
+	get_dump_page()
 
-I'd lean towards (b) -- read-only recovery only works if the tree
-actually opens -- but that's your call, not mine to assume. Which did
-you mean, or something else?
+for each and every possible page in the range.
 
-For v2 I'm narrowing to just the recursion fix, changed per your ENOSPC
-point below:
+It would be interesting to benchmark how much that still costs on large sparse
+memory areas (say, a handful of GiB large).
 
---- a/fs/hfsplus/extents.c
-+++ b/fs/hfsplus/extents.c
-@@ -458,6 +458,14 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
- 	if (hip->alloc_blocks == hip->first_blocks)
- 		goal = hfsplus_ext_lastblock(hip->first_extents);
- 	else {
-+		/*
-+		 * The extents overflow file can't grow past its own fork
-+		 * extents: doing so would re-enter hfs_find_init() on the
-+		 * extents tree, whose tree_lock is already held here.
-+		 */
-+		if (inode->i_ino == HFSPLUS_EXT_CNID) {
-+			res = -ENOSPC;
-+			goto out;
-+		}
- 		res = hfsplus_ext_read_extent(inode, hip->alloc_blocks);
- 		if (res)
- 			goto out;
+-- 
+Cheers,
 
-> Another direction is that we exhausted the volume or volume is so
-> fragmented that we cannot extend the Extents Overflow file anymore.
-> [...] we need to check before extending [...] that we have free
-> extent slots or we can add some space into the latest extent. If
-> there is no such opportunity, then we need to report -ENOSPC.
-
-Right -- that's the same guard, just under a correct errno. It fires
-identically whether the fork is corrupted (this report) or the tree
-has genuinely run out of room to describe itself, without needing to
-tell those two apart at this call site. Sending this alone as v2 so
-the deadlock fix isn't blocked on the larger validator design; happy
-to follow up with the fork-bounds/consistency-flag work separately
-once (a)/(b) above is settled.
-
-Thanks,
-Thang
+David
