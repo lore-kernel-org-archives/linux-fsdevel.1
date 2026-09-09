@@ -1,140 +1,289 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+Received: from mta1.migadu.com (out-121.mta1.migadu.com [95.215.58.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A424B4865
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759184B515E
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788948627; cv=none; b=bhxtJmplDlxmYNcu/1PRTCxnq7ODqjpAqbEdjy3LE8nAUvDo05I7iDrZIejQM171EM+jpTqLX2TRx6fcK6ZVSZBmcp37OQoZSPuE4lWF8Flw3aqY7w5UF27cl/oBBz4BIos8L/scwxvenZ5PTxlV5x+EO2pW3Ui51jjJWHAYLfQ=
+	t=1788948740; cv=none; b=phFBfXKD0lXsI+VZGMvPvmD2p1j1p1vcbJCzLsgleQPxYrvxEY2+7vBxxX1GgT3wacQ3NUi2q9UPQ4yd8MDuBaISynNY3msIVwMEzC/yWMQ+h4PRiinlewSbbUziAYhpLlKKimDpNBLN+J0oKmu5bbzjXxpuSdX1ahtdI09ZXA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788948627; c=relaxed/simple;
-	bh=1gndqcwixIf69ERl83wZ/ahlq6SVahr40TbASWBQcgI=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=L7ZYfFOM6Ni20urEsr0Quyr5zkl9+KapkEO6ZN+HGWKcb5yeomzRWoc5foGJFhc4PLDr2Pw5ePeEzPgMVJYEEgq2rDU9i3nvaYZMtAremMRapR2/4BIEKbs87rRjRZKztZ0pDqy6DK3gPvs/AtOj6W/d+b6C/3mSPiwRoUMl/Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bgff6UGd; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1788948740; c=relaxed/simple;
+	bh=SUb2T8Szd5lQADcRkFmfOpjvj3cL/MOp9zqZDunQQQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=r0oKXTnz7K9QSvUoC41a9ct8OejOyvCPZSRNkGeYw9gAax4tJGG6f2SrZF8RlIqefG/Lb8vDSg4fp9sEbdH60GmjwcRlpAfNasFCO77e2DQtwHn9Iyo0XwEdVOygqk4Ev6wj766f4MX+jaw8wIjWmo6j2rL2kmqE0qR4Ojg57rM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jfGA6Ns4; arc=none smtp.client-ip=95.215.58.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bgff6UGd"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-66fcf87897fso4320175d50.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:10:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788948625; x=1789553425; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lsHaeoqxnMhy2GB3rUAu2bzr8hj8izpjrzp8bJJzBnk=;
-        b=Bgff6UGd6F/BxFyng4Kl/LyCtan7qCWYfurAm16dHjBKg/yW/+EtIiHOldFnUPsRy9
-         LaK3d/O6kMKriCN/VVi/dvv+tdmDyzQJdGzAk+Jue4tQkTS3ABctBnM8dev21qLBxlev
-         UliqiGTMuPygDF7R613arm5jJYiO4tVpEoUWk2V1CSrw94a8RFIqnhttpr4AflIQbk/Z
-         NoGUgHHTEoDXU4DAU7Y81b6VuqZnehJY5C1AIOlh3KQseylO9XxUIpZvO1RpgvWw2TEV
-         qiIrxuhxLDHpL5q+jGjTFzLrMdInp6PfYEz2zvvhYvsDoZ+vtg3xKiP+amY+WOI3s0BC
-         pwrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788948625; x=1789553425;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lsHaeoqxnMhy2GB3rUAu2bzr8hj8izpjrzp8bJJzBnk=;
-        b=RSu8vNNNWyxLRtRR+e95m92nOb4YmakG+oFC9wpWfXeo9kgyUFTis8LSecDQIOashS
-         rqedpRzHPrpfPM9l4SQT/+7oHKwDMUrx8MQGsKlbVEWgWC6bRGS3GRWUro3zpyCtFpEK
-         uWXzwtvlqrHTARVTEv9xxyLpF32g1kyNZXnZesIT634RXrW5wt8fFvxx5jmkcK0JgJBS
-         hfYiRhTTdebWdvB4DlhfWK7hohSFQR2acSDxr9+HUDgG9qGPfZayIA4weLurtw5L2RmV
-         UqHkYIQUprJMw6oA3kei2a2bLXEXZegewDHzl9AgAdq6NDiNovUV3ueciAoyvz4PKHxY
-         WvCA==
-X-Forwarded-Encrypted: i=1; AKwUvBx0JyCG+A8nz3sLrNzjps0uAysO+LwYQEENjXtiPDSRaJzKd9OxX9tHMYgk1fYYcFyjDowDc7aaohfliSu5@vger.kernel.org
-X-Gm-Message-State: AFuF++n0wW/EinMYLUqhLDwEStebNSq4i8A9EJqqJ6PTMW6phwHtAeAB
-	dgpMDFJXCzYhd6PimtlFNgAqgGqjZuO2KT65ytdPuVI/0F55ZIBYZHqtH7AXexeaxg==
-X-Gm-Gg: AYBFou0NUs0+3lBiJHFDNj8tUETCZPmCfutn/55S87Rx1Kt40/mXW7zVU3b1aKkgSMC
-	gBDhcStlOvjJNt8+LIcmEMIP+cpqYc+/ZF5uGhi/BlQ9S8uCQPE8zljPiALB9tHb5a32hgkjs6l
-	2S0YnuRKBLuD59G4S5ja5dUL1PIwQObk4Sv/c7Ueql/0SOysis6Uv/S+egWrYciy/cFanf3JvCr
-	ntG2VpUX0tQtuQHeQ+cBYvXchvUah9cl9BgfHsGqEygWFOrwIMcWPpKLRxlTc28gr6dJW4Ghu22
-	vJ+UVmQF4tVyZWLGdXSN9xvYENg8PDldJPMatynMbfpOX4aou6xehStATKPFoAuTuW086n81Fxl
-	DTlgHZ2BAvhePmCDvk03TDSdui3cb7sK0jV0o4MUzeAEB7o3TITe004lmTJEfTWXi+jHVtVIm3P
-	lG1dSlrFm8lO0Tv3drNulKVmWKygBLx86QXBz9ipmv83iKkqpYp4ymHKoVQtr49sae24nPMiZqI
-	ZjLocE/WNNMEZzwVmzX103AyYhKrSZ86TRCF5MfAN72DbDqBDf8kga0FWc=
-X-Received: by 2002:a53:ad49:0:b0:66f:c1bc:4095 with SMTP id 956f58d0204a3-66fc1bc4852mr7414444d50.88.1788948624105;
-        Wed, 09 Sep 2026 03:10:24 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb48b374bsm12096623d50.3.2026.09.09.03.10.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 03:10:22 -0700 (PDT)
-Date: Wed, 9 Sep 2026 03:10:17 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-cc: Ackerley Tng <ackerleytng@google.com>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>, 
-    Baolin Wang <baolin.wang@linux.alibaba.com>, 
-    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
-    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-    Christoph Lameter <cl@gentwo.org>, 
-    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
-    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
-    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-    Marcelo Tosatti <mtosatti@redhat.com>, 
-    Matthew Wilcox <willy@infradead.org>, 
-    Mel Gorman <mgorman@techsingularity.net>, 
-    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
-    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
-    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Shakeel Butt <shakeel.butt@linux.dev>, 
-    Suren Baghdasaryan <surenb@google.com>, 
-    Vlastimil Babka <vbabka@kernel.org>, 
-    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
-    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
-    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 14/26] mm/fbatch: no lru_add_drain() nor _all() for
- memfd_wait_for_pins()
-In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
-Message-ID: <5b393933-b097-9d70-be09-2d00c8d62f6b@google.com>
-References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jfGA6Ns4"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=SUb2T8Szd5lQADcRkFmfOpjvj3cL/MOp9zqZDunQQQc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788948736; v=1; x=1789553536;
+ b=jfGA6Ns4fWme+TvRv+Umhz2FneXp8Ee5AdFcBHRZr7/ku1cH+sSF5ySdy7eDuF1NBHhUPOzI
+ CTLbZzGH/Vn/TWod8QE9fw9/u2KEzd+TNjZnKmKTtlOLLOM3rK3y10cuLz5jRRwxGmDSCsp7juG
+ Nt5Ds7jCleQLtcvcFhg5jcL0=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 82308e7dde90318c;
+	Wed, 09 Sep 2026 10:12:15 +0000
+X-Mizu-Trace-ID: 82308e7dde90318c
+X-Migadu-Flow: FLOW_OUT
+From: Usama Arif <usama.arif@linux.dev>
+To: Kiryl Shutsemau <kirill@shutemov.name>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	akpm@linux-foundation.org,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jan Kara <jack@suse.cz>,
+	Rik van Riel <riel@surriel.com>,
+	Harry Yoo <harry@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Jann Horn <jannh@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Pedro Falcato <pfalcato@suse.de>,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com,
+	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: Re: [RFC PATCH 1/5] mm: let folio_mkclean() report which pages had dirty PTEs
+Date: Wed,  9 Sep 2026 03:12:10 -0700
+Message-ID: <20260909101212.894871-1-usama.arif@linux.dev>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260903182943.662461-2-kirill@shutemov.name>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-memfd_tag_pins() used lru_add_drain(), memfd_wait_for_pins() then used
-lru_add_drain_all(): remove those calls, no longer useful now that the
-per-cpu fbatch references are gone.
+On Thu,  3 Sep 2026 19:29:39 +0100 Kiryl Shutsemau <kirill@shutemov.name> wrote:
 
-Signed-off-by: Hugh Dickins <hughd@google.com>
----
- mm/memfd.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+> 
+> folio_mkclean() walks every mapping of a folio and clears the dirty and
+> write bits of each page table entry. It has the per-entry dirty bit in
+> hand while doing that, but only counts how many entries it cleaned.
+> 
+> For a large folio those bits are the only record of which parts of the
+> folio were written through a mapping. Everything downstream has to
+> assume the whole folio changed because that information is dropped here.
+> 
+> Add folio_mkclean_dirtymap(), which takes a bitmap and sets a bit for every
+> page of the folio whose entry was dirty. folio_mkclean() becomes a
+> wrapper that passes no bitmap, so there is no change in behaviour yet.
+> 
+> A PMD entry has one dirty bit for the whole folio, so a PMD-mapped folio
+> reports all of its pages as dirty. That is the best that can be done:
+> the hardware does not track anything finer for a PMD.
+> 
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> ---
+>  include/linux/rmap.h |  7 ++++++
+>  mm/rmap.c            | 56 +++++++++++++++++++++++++++++++++++---------
+>  2 files changed, 52 insertions(+), 11 deletions(-)
+> 
+> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
+> index 8dc0871e5f00..6fc0a6020252 100644
+> --- a/include/linux/rmap.h
+> +++ b/include/linux/rmap.h
+> @@ -927,6 +927,7 @@ unsigned long page_address_in_vma(const struct folio *folio,
+>   * returns the number of cleaned PTEs.
+>   */
+>  int folio_mkclean(struct folio *);
+> +int folio_mkclean_dirtymap(struct folio *folio, unsigned long *dirty_map);
+>  
+>  int mapping_wrprotect_range(struct address_space *mapping, pgoff_t pgoff,
+>  		unsigned long pfn, unsigned long nr_pages);
+> @@ -990,6 +991,12 @@ static inline int folio_mkclean(struct folio *folio)
+>  {
+>  	return 0;
+>  }
+> +
+> +static inline int folio_mkclean_dirtymap(struct folio *folio,
+> +					 unsigned long *dirty_map)
+> +{
+> +	return 0;
+> +}
+>  #endif	/* CONFIG_MMU */
+>  
+>  #endif	/* _LINUX_RMAP_H */
+> diff --git a/mm/rmap.c b/mm/rmap.c
+> index 1f72d279ba68..aaf45ac79fa8 100644
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+> @@ -1100,12 +1100,18 @@ int folio_referenced(struct folio *folio, int is_locked,
+>  	return rwc.contended ? -1 : pra.referenced;
+>  }
+>  
+> -static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw)
+> +struct mkclean_state {
+> +	unsigned long *dirty_map;
+> +	int cleaned;
+> +};
+> +
+> +static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw,
+> +				unsigned long *dirty_map)
+>  {
+> -	int cleaned = 0;
+>  	struct vm_area_struct *vma = pvmw->vma;
+> -	struct mmu_notifier_range range;
+>  	unsigned long address = pvmw->address;
+> +	struct mmu_notifier_range range;
+> +	int cleaned = 0;
+>  
+>  	/*
+>  	 * We have to assume the worse case ie pmd for invalidation. Note that
+> @@ -1134,6 +1140,15 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw)
+>  			if (!pte_dirty(entry) && !pte_write(entry))
+>  				continue;
+>  
+> +			if (dirty_map && pte_dirty(entry)) {
+> +				pgoff_t idx = linear_page_index(vma, address) -
+> +					      pvmw->pgoff;
+> +
+> +				/* The walk only visits pages of this folio */
+> +				VM_WARN_ON_ONCE(idx >= pvmw->nr_pages);
+> +				__set_bit(idx, dirty_map);
+> +			}
+> +
 
-diff --git a/mm/memfd.c b/mm/memfd.c
-index c708d92533f4..064f24dcddaa 100644
---- a/mm/memfd.c
-+++ b/mm/memfd.c
-@@ -40,8 +40,6 @@ static void memfd_tag_pins(struct xa_state *xas)
- 	struct folio *folio;
- 	int latency = 0;
- 
--	lru_add_drain();
--
- 	xas_lock_irq(xas);
- 	xas_for_each(xas, folio, ULONG_MAX) {
- 		if (!xa_is_value(folio) && memfd_folio_has_extra_refs(folio))
-@@ -168,9 +166,7 @@ static int memfd_wait_for_pins(struct address_space *mapping)
- 		if (!xas_marked(&xas, MEMFD_TAG_PINNED))
- 			break;
- 
--		if (!scan)
--			lru_add_drain_all();
--		else if (schedule_timeout_killable((HZ << scan) / 200))
-+		if (scan && schedule_timeout_killable((HZ << scan) / 200))
- 			scan = LAST_SCAN;
- 
- 		xas_set(&xas, 0);
--- 
-2.51.0
+The patch reads the PTE first and then records pte_dirty(entry) in the bitmap
+before invalidating the PTE.
 
+Holding the page-table lock prevents another kernel thread from changing
+the PTE, but it does not prevent the CPU from setting the hardware dirty
+bit.
+
+This sequence is possible:
+
+  Writeback CPU                  Application CPU
+  -------------                  ---------------
+  ptep_get(): writable, clean
+                                 store through the PTE
+                                 hardware sets dirty
+  ptep_clear_flush(): returns dirty PTE
+  pte_mkclean()
+  reinstall clean, read-only PTE
+
+The bitmap was populated from the first, clean snapshot. The dirty state
+returned by ptep_clear_flush() is discarded.
+
+With range-aware iomap writeback:
+
+- The folio can still be selected for writeback.
+- The affected filesystem block is absent from the iomap dirty bitmap.
+- Writeback clears the folio dirty state without writing that block.
+- Later eviction can discard the modified data.
+
+The old whole-folio behavior did not need to know which PTE became
+dirty, so this timing window was harmless. Sub-folio tracking makes the
+final dirty state correctness-critical.
+
+The PMD path has the identical race between pmdp_get() and
+pmdp_invalidate().
+
+
+>  			flush_cache_page(vma, address, pte_pfn(entry));
+>  			entry = ptep_clear_flush(vma, address, pte);
+>  			entry = pte_wrprotect(entry);
+> @@ -1155,6 +1170,9 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw)
+>  			if (!pmd_dirty(entry) && !pmd_write(entry))
+>  				continue;
+>  
+> +			if (dirty_map && pmd_dirty(entry))
+> +				bitmap_set(dirty_map, 0, pvmw->nr_pages);
+> +
+>  			flush_cache_range(vma, address,
+>  					  address + HPAGE_PMD_SIZE);
+>  			entry = pmdp_invalidate(vma, address, pmd);
+> @@ -1181,9 +1199,9 @@ static bool page_mkclean_one(struct folio *folio, struct vm_area_struct *vma,
+>  			     unsigned long address, void *arg)
+>  {
+>  	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, PVMW_SYNC);
+> -	int *cleaned = arg;
+> +	struct mkclean_state *state = arg;
+>  
+> -	*cleaned += page_vma_mkclean_one(&pvmw);
+> +	state->cleaned += page_vma_mkclean_one(&pvmw, state->dirty_map);
+>  
+>  	return true;
+>  }
+> @@ -1196,12 +1214,23 @@ static bool invalid_mkclean_vma(struct vm_area_struct *vma, void *arg)
+>  	return true;
+>  }
+>  
+> -int folio_mkclean(struct folio *folio)
+> +/**
+> + * folio_mkclean_dirtymap - Write-protect a folio and report what was dirty.
+> + * @folio: The folio to clean.
+> + * @dirty_map: Bitmap of at least folio_nr_pages(@folio) bits, or NULL.
+> + *
+> + * Write-protects and cleans every mapping of @folio.  With @dirty_map, sets a
+> + * bit for each page whose entry was dirty; a PMD-mapped folio has one dirty
+> + * bit for all of it, so every page is reported.
+> + *
+> + * Return: the number of page table entries cleaned.
+> + */
+> +int folio_mkclean_dirtymap(struct folio *folio, unsigned long *dirty_map)
+>  {
+> -	int cleaned = 0;
+> +	struct mkclean_state state = { .dirty_map = dirty_map };
+>  	struct address_space *mapping;
+>  	struct rmap_walk_control rwc = {
+> -		.arg = (void *)&cleaned,
+> +		.arg = (void *)&state,
+>  		.rmap_one = page_mkclean_one,
+>  		.invalid_vma = invalid_mkclean_vma,
+>  	};
+> @@ -1217,7 +1246,12 @@ int folio_mkclean(struct folio *folio)
+>  
+>  	rmap_walk(folio, &rwc);
+>  
+> -	return cleaned;
+> +	return state.cleaned;
+> +}
+> +
+> +int folio_mkclean(struct folio *folio)
+> +{
+> +	return folio_mkclean_dirtymap(folio, NULL);
+>  }
+>  EXPORT_SYMBOL_GPL(folio_mkclean);
+>  
+> @@ -1241,7 +1275,7 @@ static bool mapping_wrprotect_range_one(struct folio *folio,
+>  		.flags		= PVMW_SYNC,
+>  	};
+>  
+> -	state->cleaned += page_vma_mkclean_one(&pvmw);
+> +	state->cleaned += page_vma_mkclean_one(&pvmw, NULL);
+>  
+>  	return true;
+>  }
+> @@ -1324,7 +1358,7 @@ int pfn_mkclean_range(unsigned long pfn, unsigned long nr_pages, pgoff_t pgoff,
+>  	pvmw.address = vma_address(vma, pgoff, nr_pages);
+>  	VM_BUG_ON_VMA(pvmw.address == -EFAULT, vma);
+>  
+> -	return page_vma_mkclean_one(&pvmw);
+> +	return page_vma_mkclean_one(&pvmw, NULL);
+>  }
+>  
+>  static void __folio_mod_stat(struct folio *folio, int nr, int nr_pmdmapped)
+> -- 
+> 2.54.0
+> 
+> 
