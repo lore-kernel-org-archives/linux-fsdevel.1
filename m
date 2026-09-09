@@ -1,114 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E854F6463;
-	Wed,  9 Sep 2026 23:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9062521225
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 23:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788995679; cv=none; b=cmPBECRS+jpkQflCXiJMR5gZScyIDj9D2kc1Nl46diMc2qihabBnNrt78ikHyztWyWb1lYD7/M7DvQtMMV1egg5B/van1ZjzR1xkm+el4jzrEo49aceHd7TtPnejUidpaayo5/PkaFOm0g14oF3YKkh6aUP3UM59SKVwd0wywnQ=
+	t=1788996241; cv=none; b=X7aerNlGxGG66/z6vZbO6LAzZ5bEB11oTtGMV9v/OrRbenS6aa3pNpDpLlgcHPMAKj4J/i0f1kyaCitJ+jCJAu6cGH3qM9PxPIZSTx0a9LB6ezmJv/r5U4NJH5SsFHH30xPSUvHBuo8hYUiYo/51HybneSWAC9JsOLqvJnv1xYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788995679; c=relaxed/simple;
-	bh=k/p4fw0coVyzoSxQl9afWV1RZ922Qu9ejokKOfUonjQ=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=PbCflQEEvCTNqrE53OggQd+XS8LilK7n6LcS7UtSg+oQ347SwpEkjWlj0AcwC3kxT99WA3yzE8Fv454bgKVSzgkXAnLnwlangafXk4QSVyJLku1TEK+EukcmfYuy6qOxlClsotq+TJmgM1mDtMRw7TaQboMae4BM+cuG91bZoIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=v+a2ECut; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788996241; c=relaxed/simple;
+	bh=SFcGPCTIsPFMlNPNeBbLx0ghqzJJA5xJv+EVBSqQNpw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=mAcoGRA5yHI9Rgr1KS5dN7EkulSI0vwoA2Uws5qmsRm/e2RiaNOFcMSAY6v+pTZOvffu8m1hhnd9X+K+CpbjYdnEf9yruIbUOlbdO6DQJwKBsKpjhWwLsagfgruL7qgznbLX/bqC8OftUrfAenB2WDnR8R1Kn+1QjSjhNzLWKVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--shayba.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y9qDuc7d; arc=none smtp.client-ip=209.85.216.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--shayba.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="v+a2ECut"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 779FD1F000FF;
-	Wed,  9 Sep 2026 23:14:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y9qDuc7d"
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38e8fee6af3so8580880a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 16:23:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1788995674;
-	bh=dkruSTAugRIXgigmDvmANzyJdRXpZQBA7ft2oJiqxSA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=v+a2ECutAdelnbekynA/hQfWWeSGE/n4kGildm2vZBVtWBHjXrP9wFmxcyPvBwb90
-	 y5ouZrgcb2X3mFepZwjXCeV0rhIUsZwQ39vQ7hqRnm4UcpNwS9hFx24JjTcDZ/I+7F
-	 N4GtF6583H4YaDenL369MuTyoefuSjs7xHVvYB8k=
-Date: Wed, 9 Sep 2026 16:14:33 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, david@kernel.org,
- ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hughd@google.com,
- baolin.wang@linux.alibaba.com, willy@infradead.org, jack@suse.cz,
- ziy@nvidia.com, bfoster@redhat.com, joannelkoong@gmail.com,
- djwong@kernel.org, yi.zhang@huawei.com, yizhang089@gmail.com,
- yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com,
- yukuai@fnnas.com
-Subject: Re: [PATCH v2] mm/truncate: fix data loss when truncating
- straddling large folios
-Message-Id: <20260909161433.d96c67399ccac8de27499925@linux-foundation.org>
-In-Reply-To: <20260909062339.473816-1-yi.zhang@huaweicloud.com>
-References: <20260909062339.473816-1-yi.zhang@huaweicloud.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=google.com; s=20251104; t=1788996238; x=1789601038; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=i/IibwXTNGnPsm2Gao34Cgg+5xpN5gHK3teielaz1Co=;
+        b=Y9qDuc7dOkqCZDO+Rjmgk2RQT5BlT7CFkMMCMjkzi6lUTpkNydvxHS8H3w3WXESEe/
+         jAkDrmrCXWlGdpPfOnJIMHrGUs+8loNAK4mH7bKUD4UceHZ/YkkGRv+gLhxLBE36ATgQ
+         KmZo2FrIa8y4GHL2OtSRAAoTttGc5vJBOu6dY8cDWROKgLkyylDUSETZp/YmZ5mnkCzn
+         J4GGbXAblnznt1LYQJpdihr36L5u0yCrq+oBP4yoW7purxrs7v1xlNQNBMnwyxSRw8E8
+         xQO0zl28dphXnJDFpDOM9Q1saE7X6SJqIvBMgBG6TOLuMEYcmxzaxWIE/y1xYjWq0sOx
+         ONbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788996238; x=1789601038;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=i/IibwXTNGnPsm2Gao34Cgg+5xpN5gHK3teielaz1Co=;
+        b=X2riooqvuQT6xP8c/ckZyYzQJCsowxksJKEfS58Seu+M8fxycbMswq9cqYp6SWZRMX
+         lbi+i7ZRNZShSMjenLjjzErI1BqsiCiaciWjNqB8yNWTVzVAARdcUkZOrY0eKC83/MkA
+         5ab1sUqsrySGTdjGB/YaNhwki6eDLKJbr/PkaXkV8KF9WM7HKos9CtbeLelKlb08TJ/n
+         7HuamM/r9XzS8iU+/OFDQfPN91xIxTG/J35ibmhz+5+9HVNEi+Ca0DuKNVMjEw4bC3/n
+         EPHwcPP1c3okA/YtRWLIkuZme4gVoGiOcUaygbaPs14ZKkCsUDDOdp8z+f56rRdzh8UT
+         l4+Q==
+X-Forwarded-Encrypted: i=1; AKwUvByovc8jx7O0bzZGhM1bqMOLMzlYL5n87IBPrFbGqENUQ9IC6tAlnEalj/REq5yWREUVZONtG1s4HlsjYk9z@vger.kernel.org
+X-Gm-Message-State: AFuF++n1dMiiQVWF0jgQ0BVeHEEmsdAUe74A3nA5YfoVydA88MZ8UMfH
+	FLDN5Udm/+X7MEo5LX750TZyAXnx4JksovlwboeUu9M6NKrrVmaqve2T4wO53avD/XK368MaZOS
+	TzxCXhg==
+X-Received: from dybgz3.prod.google.com ([2002:a05:7301:2603:b0:338:508a:ac2b])
+ (user=shayba job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4c86:b0:395:5f43:4ec4
+ with SMTP id 98e67ed59e1d1-39b25f78ab8mr53847823a91.0.1788996237266; Wed, 09
+ Sep 2026 16:23:57 -0700 (PDT)
+Date: Wed,  9 Sep 2026 23:23:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Mailer: git-send-email 2.55.0.1003.g10538fe699-goog
+Message-ID: <20260909232351.1533034-1-shayba@google.com>
+Subject: [PATCH] fuse: Forward vfs_fadvise to backing_file in passthrough mode
+From: Shai Barack <shayba@google.com>
+To: shayba@google.com
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Akilesh Kailash <akailash@google.com>, Suren Baghdasaryan <surenb@google.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed,  9 Sep 2026 14:23:39 +0800 Zhang Yi <yi.zhang@huaweicloud.com> wrote:
+When an application invokes posix_fadvise(..., POSIX_FADV_DONTNEED) or
+other fadvise advice on a FUSE passthrough file descriptor, the VFS
+currently only executes generic_fadvise() on the upper FUSE inode
+mapping.
 
-> From: Zhang Yi <yi.zhang@huawei.com>
-> 
-> truncate_inode_partial_folio() splits a large folio so that the caller's
-> truncate loop can drop the in-range sub-folios while keeping the
-> out-of-range tail. The first split at the punch start edge is
-> non-uniform, which leaves the sub-folio at the truncation end edge as
-> large as possible, this means it may still straddle the range, holding
-> both zeroed in-range and valid out-of-range data. The function then
-> attempts a second split at offset + length to isolate that tail.
-> 
-> If the second split fails the straddling sub-folio stays merged. The
-> function returned true unconditionally on all exit paths of the success
-> block, telling the caller it was fully handled. The caller kept its
-> default end and the truncate loop truncated every sub-folio below it,
-> including the merged straddler, discarding the valid out-of-range tail.
-> 
-> For example, a 4-page order-2 folio punched from offset 0 to the middle
-> of the last page:
-> 
->   truncate_inode_pages_range()
->     truncate_inode_partial_folio()      # same_folio == true
->       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->       folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
->       2nd split of folio2 fails / cannot lock
->       return true                       # BUG: caller keeps default end
->     end = 3
->     loop truncates p0, p1, p2-3        # p3's valid tail is lost
-> 
-> This became reachable after commit 7460b470a131 ("mm/truncate: use
-> folio_split() in truncate operation") replaced the atomic split_folio()
-> with folio_split(), whose non-uniform split can partially split a folio
-> and leave the end edge merged.
-> 
-> It has gone unnoticed because a dirty large folio normally carries the
-> filesystem's private data, for example buffer_head, so
-> filemap_release_folio() -> iomap_release_folio() returns false on a
-> dirty folio and folio_split() aborts with -EBUSY before any split,
-> leaving the straddler safely unsplit. The bug is only reachable on paths
-> that produce dirty large folios without filesystem private data, and it
-> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
-> attached.
+Because FUSE passthrough does not forward fadvise operations to the
+underlying backing file, pages residing in the lower filesystem's
+pagecache remain resident in memory.
 
-So is there any way of being hit by these issues in 7.2 and earlier?
+During media-heavy workloads (such as image thumbnail generation or
+streaming), single-access file data accumulates in the inactive pagecache
+of the lower filesystem. Under memory pressure, the kernel retains these
+stale media pages and instead evicts active executable pages from
+running processes, leading to severe direct reclaim latency spikes.
 
->  mm/internal.h |  4 +--
->  mm/shmem.c    | 13 +++-----
->  mm/truncate.c | 88 +++++++++++++++++++++++++++++++++++----------------
->  3 files changed, 67 insertions(+), 38 deletions(-)
+Architecturally, Linux VFS supports filesystem-specific fadvise
+delegation via the .fadvise hook in struct file_operations. Implement
+fuse_file_fadvise() in fs/fuse/file.c and register it in
+fuse_file_operations. When passthrough is active on a fuse_file,
+fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
+backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
+to cleanly invalidate the physical backing filesystem pagecache.
 
-I hope not, because that's quite a lump of code to be backporting.
+Signed-off-by: Shai Barack <shayba@google.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>
+Cc: Bernd Schubert <bschubert@ddn.com>
+Cc: Sandeep Dhavale <dhavale@google.com>
+Cc: Akilesh Kailash <akailash@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ fs/fuse/file.c        | 11 +++++++++++
+ fs/fuse/fuse_i.h      |  7 +++++++
+ fs/fuse/passthrough.c | 16 ++++++++++++++++
+ 3 files changed, 34 insertions(+)
 
-Thanks.  I'll queue it for testing and shall await your response to Zi
-Yan's questions.
-
-I see you've received Sashiko's feedback.  Please let us know if
-there's any validity to it.
-
-	https://sashiko.dev/#/patchset/20260909062339.473816-1-yi.zhang@huaweicloud.com
-
-
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index a4d736945..81709ab82 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -3537,6 +3537,16 @@ static ssize_t fuse_copy_file_range(struct file *src_file, loff_t src_off,
+ 	return ret;
+ }
+ 
++static int fuse_file_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
++{
++	struct fuse_file *ff = file->private_data;
++
++	if (fuse_file_passthrough(ff))
++		return fuse_passthrough_fadvise(ff, offset, len, advice);
++
++	return generic_fadvise(file, offset, len, advice);
++}
++
+ static const struct file_operations fuse_file_operations = {
+ 	.llseek		= fuse_file_llseek,
+ 	.read_iter	= fuse_file_read_iter,
+@@ -3557,6 +3567,7 @@ static const struct file_operations fuse_file_operations = {
+ 	.fallocate	= fuse_file_fallocate,
+ 	.copy_file_range = fuse_copy_file_range,
+ 	.fop_flags	= FOP_DONTCACHE,
++	.fadvise	= fuse_file_fadvise,
+ };
+ 
+ static const struct address_space_operations fuse_file_aops  = {
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 939553b34..50073e070 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1545,6 +1545,12 @@ static inline struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
+ static inline void fuse_backing_put(struct fuse_backing *fb)
+ {
+ }
++
++static inline int fuse_passthrough_fadvise(struct fuse_file *ff, loff_t offset,
++					   loff_t len, int advice)
++{
++	return -EOPNOTSUPP;
++}
+ #endif
+ 
+ void fuse_backing_files_init(struct fuse_conn *fc);
+@@ -1575,6 +1581,7 @@ ssize_t fuse_passthrough_splice_write(struct pipe_inode_info *pipe,
+ 				      struct file *out, loff_t *ppos,
+ 				      size_t len, unsigned int flags);
+ ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *vma);
++int fuse_passthrough_fadvise(struct fuse_file *ff, loff_t offset, loff_t len, int advice);
+ 
+ /* backing.c */
+ 
+diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+index 059e57969..8062110dd 100644
+--- a/fs/fuse/passthrough.c
++++ b/fs/fuse/passthrough.c
+@@ -382,3 +382,19 @@ void fuse_passthrough_release(struct fuse_file *ff, struct fuse_backing *fb)
+ 	put_cred(ff->cred);
+ 	ff->cred = NULL;
+ }
++
++int fuse_passthrough_fadvise(struct fuse_file *ff, loff_t offset, loff_t len, int advice)
++{
++	struct file *backing_file = fuse_file_passthrough(ff);
++	const struct cred *old_cred;
++	int ret;
++
++	if (!backing_file)
++		return -EINVAL;
++
++	old_cred = override_creds(ff->cred);
++	ret = vfs_fadvise(backing_file, offset, len, advice);
++	revert_creds(old_cred);
++
++	return ret;
++}
+-- 
+2.43.0
