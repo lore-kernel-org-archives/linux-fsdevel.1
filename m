@@ -1,307 +1,157 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8867F56C624;
-	Wed,  9 Sep 2026 16:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8E957981D;
+	Wed,  9 Sep 2026 16:18:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788970507; cv=none; b=iCGY41zsILKqX93eugsBv4gujlc6++0r+8QPUn70N64UQm879wLsPKRC/rycoMKJhXqyiZyFyJvI5wlmOPw5kONP3EEMsr8rgbnC0f/14DzvUUzXMdUg1KE6yp9dMVWU++bICSDGbqqwJ9iHI8uZbD5hNGj+O2JaMP7V906jbTY=
+	t=1788970701; cv=none; b=t5J1hNMDQuXnwfCBf0h7FMlBe7NKMDPhgh3qMcb6Y0qUQ9rBK6jdci0hxHo1lhpRQgsV2ivGYzV5Xewz3Yl2kX7IeIgV8CfX/kanqgqagc17WPeCdgJ23EGC1+2es4u9OzW9N9lofmp2eTmPV8lCv3SM/qNC3cuOBcqu1wTbQzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788970507; c=relaxed/simple;
-	bh=Uf3UWpMlC+F+VybuU4+X+qoZUsXvFzzTNoSEfynXB04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CKYTksf5b1p4MmJb4ojD23MBgnEdtnSHL5ZljNr+nUMxtcKVb7C6hYUgoN7rYpVt/bKEvKMQ4Pr+gzVMxOHkp+6SuchtjXrnePqXguDfnirMPrOR/PPNC2hXIUwjiXUj0Qnjd3vcUqcFNPancKytX8bTB+dLni1rrQpqPLribiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0TvIHZr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788970701; c=relaxed/simple;
+	bh=B8oUdYDYWio5DRF/tHy+wZxlsr1tt7bQQHpXhsBEZ3U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cxbnEE5V3+3NECXwJjoyprgMNG1BLSBRCik4JlMSX09UuhXSucnbO6flWYUsI4+bCluYozVbXdL6xbRL6h8CByAGto72LL+H8+utKNLih4v4e8yEa9nLgNbERyDLu/aNHw6cmBcloWvaAkVhKaZiZXheXopsklr2EKNC4A+Mm7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1ral/CX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0TvIHZr"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 0AE1A1F000FF;
-	Wed,  9 Sep 2026 16:15:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1ral/CX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80631F000FF;
+	Wed,  9 Sep 2026 16:18:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788970505;
-	bh=eafvcQvAZsLdY7+UZNMVyC5dGmWWXZmnb/EX5tArVEA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R0TvIHZrs7P7dsUUei5FrbGLqIQvL78LGNxcBqZ9E3fBU8rSBv72zuBlI/GJ+mgQK
-	 U/Hg5NWj4HxdG9cQE5IniUwc620mogo/LJVllp5cqm8AYpi32vb4li3adzsAeCQZTw
-	 sqwgcZcfAZ2MfS0fsTmct76elvAmdP/jZ0Vn9VZWNdiRP38nkAp+Ezp8KysnEHs95I
-	 QRabWilpyzoF6xTu1xESmvx+i+NZ2egKywXgFl1/xB2RmGX4xc7gP98FRAcTtYn8A8
-	 J2XLHcd7abTTbnUUpklQ2HGh0sbXSilXsTL0/cjPmQxaAi1Aw32vXy8d+5c3vuS36d
-	 M8DXFVdih9E8A==
-Date: Wed, 9 Sep 2026 09:15:04 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>, Tal Zussman <tz2294@columbia.edu>,
-	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 16/16] block,iomap: remove the old read side bounce
- buffering support
-Message-ID: <20260909161504.GK2619314@frogsfrogsfrogs>
-References: <20260909060924.1102037-1-hch@lst.de>
- <20260909060924.1102037-17-hch@lst.de>
+	s=k20260515; t=1788970700;
+	bh=HyXKsyvomAP4+5xUKdpWvuWxueChSf/W0pw/XmgY1Cs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=o1ral/CXD4X/fnI10rF5bNsFBS0O3npyLOcM/9WYX8ixwC5pJ1Hvm0bz89SHGylJK
+	 oWoqybpTMJ98En5CCBAd08JK+6v6M4KeeQKe394T7dBvMwipJCL6YkakDcFA+/71ti
+	 RufHHaydWT326j7bHQhwse69mevd/0OPJuTgxt4j10MfuienIrZEJ/RK304M0xF0Vz
+	 Uo8l8sNIwOyYe88CCHh8s2iFFi7+FlsyZVx7y0t7gdNvLJAWrEXFM1H4UEiQyNDcrE
+	 ZwE1+AZ3FXLqgGTF7EwLHmh+swp+qU7ANIghQ8gN/OaxGoH+VxXJqGvMJRBKtl7vl6
+	 sFFCsg0Ho+g1w==
+Message-ID: <f1a4356a-bef2-4769-8d5d-c8f21ebff47d@kernel.org>
+Date: Wed, 9 Sep 2026 18:18:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909060924.1102037-17-hch@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 20/22] selftests/coredump: put a hole in the middle of
+ a sparse mapping
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>,
+ Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Omar Sandoval <osandov@osandov.com>, Jacob Lalonde <jalalonde@fb.com>,
+ Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+References: <20260820-work-coredump-sparse-v2-0-ba32dd718c51@kernel.org>
+ <20260820-work-coredump-sparse-v2-20-ba32dd718c51@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260820-work-coredump-sparse-v2-20-ba32dd718c51@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 09, 2026 at 09:09:05AM +0300, Christoph Hellwig wrote:
-> bio_iov_iter_bounce_read turned to generate suboptimal I/O sizes and
-> isn't usable for lazy bounce buffering.  Now that is has been replaced
-> with the iomap side implementation that requires extra bounce bios, it
-> is unused and can be removed.  Change the interface so that the
-> previously hidden write-side implementation is directly exposed.
+On 8/20/26 01:09, Christian Brauner wrote:
+> The crashing_child_sparse() helper touches the first page of the
+> mapping. That forces everything behind it to be a trailing hole. This is
+> easy to handle. Make the test more difficult meaningful by also touchin
+> the last page. This causes the hole to sit between two populated pages.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Seems reasonable...
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-
---D
-
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
->  block/bio.c          | 150 ++++++-------------------------------------
->  fs/iomap/direct-io.c |   7 +-
->  include/linux/bio.h  |   5 +-
->  3 files changed, 23 insertions(+), 139 deletions(-)
+>  tools/testing/selftests/coredump/coredump_test_helpers.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/block/bio.c b/block/bio.c
-> index 7f7654e60dd4..987082e0f0ef 100644
-> --- a/block/bio.c
-> +++ b/block/bio.c
-> @@ -1223,8 +1223,9 @@ bool bio_iov_iter_set(struct bio *bio, const struct iov_iter *iter)
->   * for the next iteration.
->   */
->  static int bio_iov_iter_align_down(struct bio *bio, struct iov_iter *iter,
-> -				   struct bio_vec *bv, unsigned len_align_mask)
-> +				   unsigned len_align_mask)
->  {
-> +	struct bio_vec *bv = &bio->bi_io_vec[bio->bi_vcnt - 1];
->  	size_t nbytes = bio->bi_iter.bi_size & len_align_mask;
+> diff --git a/tools/testing/selftests/coredump/coredump_test_helpers.c b/tools/testing/selftests/coredump/coredump_test_helpers.c
+> index 45d76fa0f469..89f3954c5607 100644
+> --- a/tools/testing/selftests/coredump/coredump_test_helpers.c
+> +++ b/tools/testing/selftests/coredump/coredump_test_helpers.c
+> @@ -58,14 +58,16 @@ void crashing_child_sparse(size_t size)
+>  	char *p;
 >  
->  	if (!nbytes)
-> @@ -1356,8 +1357,7 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+>  	/*
+> -	 * Touch the first page only. The whole mapping is dumped because
+> -	 * it has been written to, but all of it save that one page is a
+> -	 * hole.
+> +	 * Touch the first and the last page. This will cause the whole mapping
+> +	 * to be dumped because it has been written to. Everything between
+> +	 * those two pages is a hole though.
+>  	 */
+
+"hole" as in "no pages mapped"?
+
+With THP enabled, this is not necessarily true. You can either size the mapping
+large enough that you get holes in an case, or just disable THPs
+
+madvise(p, size, MADV_NOHUGEPAGE);
+
+before write access.
+
+That's probably the cleanest way here?
+
+>  	p = mmap(NULL, size, PROT_READ | PROT_WRITE,
+>  		 MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE, -1, 0);
+> -	if (p != MAP_FAILED)
+> +	if (p != MAP_FAILED) {
+>  		p[0] = 'x';
+> +		p[size - 1] = 'x';
+> +	}
 >  
->  	if (is_pci_p2pdma_page(bio->bi_io_vec->bv_page))
->  		bio->bi_opf |= REQ_NOMERGE;
-> -	return bio_iov_iter_align_down(bio, iter,
-> -			&bio->bi_io_vec[bio->bi_vcnt - 1], len_align_mask);
-> +	return bio_iov_iter_align_down(bio, iter, len_align_mask);
->  }
->  
->  static struct folio *folio_alloc_greedy(gfp_t gfp, size_t *size,
-> @@ -1428,7 +1428,20 @@ int bio_alloc_bounce_folios(struct bio *bio, size_t total_len, size_t minsize)
->  	return 0;
->  }
->  
-> -static int bio_iov_iter_bounce_write(struct bio *bio, struct iov_iter *iter,
-> +/**
-> + * bio_iov_iter_bounce_write - bounce buffer data from an iter into a bio
-> + * @bio:	bio to send
-> + * @iter:	iter to read from
-> + * @maxlen:	maximum size to bounce
-> + * @minsize:	minimum folio allocation size
-> + *
-> + * Helper for direct I/O write implementations that need to bounce buffer
-> + * because they need need to checksum the data or perform other operations that
-> + * require consistency.  Allocates folios to back the bounce buffer, and copies
-> + * the data into it.  Needs to be paired with bio_free_folios() called on
-> + * completion.
-> + */
-> +int bio_iov_iter_bounce_write(struct bio *bio, struct iov_iter *iter,
->  		size_t maxlen, size_t minsize)
->  {
->  	size_t total_len = min(maxlen, iov_iter_count(iter));
-> @@ -1460,134 +1473,7 @@ static int bio_iov_iter_bounce_write(struct bio *bio, struct iov_iter *iter,
->  
->  	return 0;
->  }
-> -
-> -static int bio_iov_iter_bounce_read(struct bio *bio, struct iov_iter *iter,
-> -		size_t maxlen, size_t minsize)
-> -{
-> -	size_t len = min3(iov_iter_count(iter), maxlen, SZ_1M);
-> -	struct folio *folio;
-> -	ssize_t ret;
-> -
-> -	folio = folio_alloc_greedy(GFP_KERNEL, &len, minsize);
-> -	if (!folio)
-> -		return -ENOMEM;
-> -
-> -	do {
-> -		ret = iov_iter_extract_bvecs(iter, bio->bi_io_vec + 1, len,
-> -				&bio->bi_vcnt, bio->bi_max_vecs - 1, 0, 0);
-> -		if (ret <= 0) {
-> -			if (!bio->bi_vcnt)
-> -				goto out_folio_put;
-> -			break;
-> -		}
-> -		len -= ret;
-> -		bio->bi_iter.bi_size += ret;
-> -	} while (len && bio->bi_vcnt < bio->bi_max_vecs - 1);
-> -
-> -	/*
-> -	 * Set the folio directly here.  The above loop has already calculated
-> -	 * the correct bi_size, and we use bi_vcnt for the user buffers.  That
-> -	 * is safe as bi_vcnt is only used by the submitter and not the actual
-> -	 * I/O path.
-> -	 */
-> -	bvec_set_folio(&bio->bi_io_vec[0], folio, bio->bi_iter.bi_size, 0);
-> -	if (iov_iter_extract_will_pin(iter))
-> -		bio_set_flag(bio, BIO_PAGE_PINNED);
-> -
-> -	/* The first vec stores the bounce buffer, so do not subtract 1 here. */
-> -	ret = bio_iov_iter_align_down(bio, iter,
-> -			&bio->bi_io_vec[bio->bi_vcnt], minsize - 1);
-> -	if (ret)
-> -		goto out_folio_put;
-> -
-> -	/* Update the bounc buffer bv_len to the aligned down size. */
-> -	bio->bi_io_vec[0].bv_len = bio->bi_iter.bi_size;
-> -	return 0;
-> -
-> -out_folio_put:
-> -	folio_put(folio);
-> -	return ret;
-> -}
-> -
-> -/**
-> - * bio_iov_iter_bounce - bounce buffer data from an iter into a bio
-> - * @bio:	bio to send
-> - * @iter:	iter to read from / write into
-> - * @maxlen:	maximum size to bounce
-> - * @minsize:	minimum folio allocation size
-> - *
-> - * Helper for direct I/O implementations that need to bounce buffer because
-> - * we need to checksum the data or perform other operations that require
-> - * consistency.  Allocates folios to back the bounce buffer, and for writes
-> - * copies the data into it.  Needs to be paired with bio_iov_iter_unbounce()
-> - * called on completion.
-> - */
-> -int bio_iov_iter_bounce(struct bio *bio, struct iov_iter *iter, size_t maxlen,
-> -			size_t minsize)
-> -{
-> -	if (op_is_write(bio_op(bio)))
-> -		return bio_iov_iter_bounce_write(bio, iter, maxlen, minsize);
-> -	return bio_iov_iter_bounce_read(bio, iter, maxlen, minsize);
-> -}
-> -
-> -static void bvec_unpin(struct bio_vec *bv, bool mark_dirty)
-> -{
-> -	struct folio *folio = bvec_folio(bv);
-> -	size_t nr_pages = (bv->bv_offset + bv->bv_len - 1) / PAGE_SIZE -
-> -			bv->bv_offset / PAGE_SIZE + 1;
-> -
-> -	if (mark_dirty)
-> -		folio_mark_dirty_lock(folio);
-> -	unpin_user_folio(folio, nr_pages);
-> -}
-> -
-> -static void bio_iov_iter_unbounce_read(struct bio *bio, bool is_error,
-> -		bool mark_dirty)
-> -{
-> -	unsigned int len = bio->bi_io_vec[0].bv_len;
-> -
-> -	if (likely(!is_error)) {
-> -		void *buf = bvec_virt(&bio->bi_io_vec[0]);
-> -		struct iov_iter to;
-> -
-> -		iov_iter_bvec(&to, ITER_DEST, bio->bi_io_vec + 1, bio->bi_vcnt,
-> -				len);
-> -		/* copying to pinned pages should always work */
-> -		WARN_ON_ONCE(copy_to_iter(buf, len, &to) != len);
-> -	} else {
-> -		/* No need to mark folios dirty if never copied to them */
-> -		mark_dirty = false;
-> -	}
-> -
-> -	if (bio_flagged(bio, BIO_PAGE_PINNED)) {
-> -		int i;
-> -
-> -		for (i = 0; i < bio->bi_vcnt; i++)
-> -			bvec_unpin(&bio->bi_io_vec[1 + i], mark_dirty);
-> -	}
-> -
-> -	folio_put(bvec_folio(&bio->bi_io_vec[0]));
-> -}
-> -
-> -/**
-> - * bio_iov_iter_unbounce - finish a bounce buffer operation
-> - * @bio:	completed bio
-> - * @is_error:	%true if an I/O error occurred and data should not be copied
-> - * @mark_dirty:	If %true, folios will be marked dirty.
-> - *
-> - * Helper for direct I/O implementations that need to bounce buffer because
-> - * we need to checksum the data or perform other operations that require
-> - * consistency.  Called to complete a bio set up by bio_iov_iter_bounce().
-> - * Copies data back for reads, and marks the original folios dirty if
-> - * requested and then frees the bounce buffer.
-> - */
-> -void bio_iov_iter_unbounce(struct bio *bio, bool is_error, bool mark_dirty)
-> -{
-> -	if (op_is_write(bio_op(bio)))
-> -		bio_free_folios(bio);
-> -	else
-> -		bio_iov_iter_unbounce_read(bio, is_error, mark_dirty);
-> -}
-> +EXPORT_SYMBOL_GPL(bio_iov_iter_bounce_write);
->  
->  static void bio_wait_end_io(struct bio *bio)
->  {
-> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-> index 4154717a09de..41fdc90a9094 100644
-> --- a/fs/iomap/direct-io.c
-> +++ b/fs/iomap/direct-io.c
-> @@ -255,8 +255,7 @@ static void __iomap_dio_bio_end_io(struct bio *bio, bool inline_completion)
->  		fs_bio_integrity_free(bio);
->  
->  	if (dio->flags & IOMAP_DIO_BOUNCE) {
-> -		bio_iov_iter_unbounce(bio, !!dio->error,
-> -				dio->flags & IOMAP_DIO_USER_BACKED);
-> +		bio_free_folios(bio);
->  		bio_put(bio);
->  	} else if (dio->flags & IOMAP_DIO_USER_BACKED) {
->  		bio_check_pages_dirty(bio);
-> @@ -364,7 +363,7 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_iter *iter,
->  	bio->bi_end_io = iomap_dio_bio_end_io;
->  
->  	if (dio->flags & IOMAP_DIO_BOUNCE)
-> -		ret = bio_iov_iter_bounce(bio, dio->submit.iter, maxsize,
-> +		ret = bio_iov_iter_bounce_write(bio, dio->submit.iter, maxsize,
->  				alignment);
->  	else
->  		ret = bio_iov_iter_get_pages(bio, dio->submit.iter, maxsize,
-> @@ -398,7 +397,7 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_iter *iter,
->  
->  out_bio_release_pages:
->  	if (dio->flags & IOMAP_DIO_BOUNCE)
-> -		bio_iov_iter_unbounce(bio, true, false);
-> +		bio_free_folios(bio);
->  	else
->  		bio_release_pages(bio, false);
->  out_put_bio:
-> diff --git a/include/linux/bio.h b/include/linux/bio.h
-> index bfa3c0e97b6f..17944e44b584 100644
-> --- a/include/linux/bio.h
-> +++ b/include/linux/bio.h
-> @@ -525,11 +525,10 @@ void __bio_release_pages(struct bio *bio, bool mark_dirty);
->  extern void bio_set_pages_dirty(struct bio *bio);
->  extern void bio_check_pages_dirty(struct bio *bio);
->  
-> -int bio_iov_iter_bounce(struct bio *bio, struct iov_iter *iter, size_t maxlen,
-> -		size_t minsize);
-> -void bio_iov_iter_unbounce(struct bio *bio, bool is_error, bool mark_dirty);
->  int bio_alloc_bounce_folios(struct bio *bio, size_t total_len, size_t minsize);
->  void bio_free_folios(struct bio *bio);
-> +int bio_iov_iter_bounce_write(struct bio *bio, struct iov_iter *iter,
-> +		size_t maxlen, size_t minsize);
->  
->  extern void bio_copy_data(struct bio *dst, struct bio *src);
->  extern void bio_free_pages(struct bio *bio);
-> -- 
-> 2.53.0
+>  	/* crash on purpose */
+>  	*(volatile int *)NULL = 0;
 > 
-> 
+
+
+-- 
+Cheers,
+
+David
