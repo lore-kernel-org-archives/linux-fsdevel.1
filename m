@@ -1,117 +1,99 @@
-Received: from va-2-114.ptr.blmpb.com (va-2-114.ptr.blmpb.com [209.127.231.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8A335C6AD
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 17:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963263382C7;
+	Wed,  9 Sep 2026 17:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788973732; cv=none; b=FMZRtKGfhzuxF6nvMiJon+0/jwqTQcCVSKgL4WXoZnTdhYm7Sg6/U3WgkBJIVKjcf/Pzq9A8Lgu5dmtslhd/Cv2xyRFZAzASU9713jiBiTCxiZz72WyprEghqnq3JiwG+A/N/qYIrixo2VvB487Jxa8d/W39UuIzlbmqHgQduuk=
+	t=1788973769; cv=none; b=aMp+Vmi6S4e9ZIBh6RXG90pLFK8p7ZkZ26kX/nLoxINz3l5x/0wZKlDsO+WbH80uC9r9IJZF+T478Y2TrZ7j+FKBN6MnufdrnzZByx/qhEv9M6BWc5u158ufyDbs0Y/u/IRn1UcTgEQkSoQSime3k5tEPY07gaAkx+wnBLy/CZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788973732; c=relaxed/simple;
-	bh=QZCW093E+D2nyI4UShEAXdlYzP5jckeOAUOyoHz6sC8=;
-	h=Message-Id:Cc:Mime-Version:To:From:Date:Subject:Content-Type; b=BA0uPMw1jgNrMsrwLwWA4/Lzp5gwgKad9N7ugDrZdpjtZCv5xvGWRDQW13K+0jBBm5IMSNMlWRqCT7Nfjgkl6RcbYENWrEz/FMtPIZRSz6rmyLGgLf6hDhuMQqEagd/YOlV896itadFrr+Jl1icgkore9wVZOePBCRbAp6+FEzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Qjx+wNR3; arc=none smtp.client-ip=209.127.231.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1788973769; c=relaxed/simple;
+	bh=YkEEeW/MRCXdhGf7c9Ry6UK+yMxZQOps4Vf86kiTgks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C92ox7WkNdibPgNy0UFptY13v+M2sXmk9wk5sBjOzdBSFB+yrwNiuIC6tbonnDIh7SSqNhN5OYrEvJ7Fbfougu0OxzYhbmyVeN1o5NV04uV2BJ/nsPFFZOSTMslx1fiA9j5lckSqB2lINoIT2crb1EZZ4Qy+mbJcuAioZmklUrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YNyzfKHe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Qjx+wNR3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1788973719; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=ot3K2X/2YloRfCtV/mf2YWkwpChF9fDwu+aBl2Z5A1s=;
- b=Qjx+wNR3qpSVpUahORk1mP8rhdd6FVkMFFN+HWW91HSmLc+BGSr6zem9l8WQw0z2G/Bjyw
- Yls52uOaFSaRa8wvJ3ToxinLYU0hP5kmDBB/7rj1Ogz1v2ZgX9uEQD3iAuYBOB6TL2+iTg
- OE29eNvwobAFJ8asaGIra3Y/NNWH2wLcDj+XrYJG47YHxuDEEMsJ31jLvx5Vx2om7D0a8m
- kVcJu945spOluL9mnDWCUh3fbJjIzUhPeZjAa7kNo4BCgkSx47flaeZDCDocaKc+k/gXvK
- iyfX/zTJCWvd+Rc0DDXMbOQaJ1Fqo2WGnpAxMgin+gJGxFTpgNju5Uf2IZd2/g==
-Message-Id: <20260909170833.5663-1-zhujia.zj@bytedance.com>
-X-Lms-Return-Path: <lba+26aa19295+97a8af+vger.kernel.org+zhujia.zj@bytedance.com>
-Cc: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	"Jia Zhu" <zhujia.zj@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YNyzfKHe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 662051F000FF;
+	Wed,  9 Sep 2026 17:09:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788973768;
+	bh=aV+nOwJ5Gj3tu2lGPRWNLzdJqg3QTrStyGxv4qGWJgU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YNyzfKHeuXIUl+W/PcDxkZrDmdeG6hDakZVShiQRZ0O44JliSmf+yf1kfjBnQgVch
+	 0tBQrA472BNig++FCUMuqjk1MRmRqMi+xYDALklMdKjCvpuviMyndXZO9d31bg1BGT
+	 DEuPtbx0DZPB9A19Ix+oR8Q7NjsLYs2iSJfA49SpjWumUDl7sEL9Leth0Hs4KoEazj
+	 J43gzrNFR5NUo3aPVBvgjZXdsoc1c9u/6ACOAogC1vkflSUwZgPM3XRaiDN4NGeBa/
+	 OwDKgrxtyjjf026wXT8dlONCA7Bb9FWePmO1mOSpztlmT70NkdyBMl1y80u4Mj7Pvl
+	 kyr9Qb39RBb1g==
+Date: Wed, 9 Sep 2026 19:09:19 +0200
+From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Kieran Bingham <kbingham@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 02/12] mm/sparse: refactor sparse_sections_init()
+Message-ID: <aqGSv_VPT1IKGgIs@localhost.localdomain>
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-2-008fc8d579fe@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-To: <jack@suse.cz>, <amir73il@gmail.com>
-From: "Jia Zhu" <zhujia.zj@bytedance.com>
-Date: Thu, 10 Sep 2026 01:08:33 +0800
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Subject: [PATCH] fsnotify: avoid unrelated mark reaper waits during group teardown
-Content-Transfer-Encoding: 7bit
-X-Original-From: Jia Zhu <zhujia.zj@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-2-008fc8d579fe@kernel.org>
 
-fsnotify_destroy_group() unconditionally flushes the global mark reaper,
-so an empty inotify instance can hang on unrelated reclamation during
-close or task exit:
+On Wed, Sep 09, 2026 at 03:32:55PM +0200, David Hildenbrand (Arm) wrote:
+> memory_present() really identifies+prepares all early sections so the
+> initialization in sparse_init() can properly iterating them to
+> initialize metadata.
+> 
+> Let's just inline memory_present() into sparse_sections_init() and
+> cleaning up the code a bit while at it: make it clear that we are operating
+> on pfns.
+> 
+> Note that we call set_section_nid() now only if the section
+> was not already created earlier. Now, there is no more inconsistency
+> between what we (temporarily) store in ms->section_mem_map and what
+> we store in our section->nid array.
+> 
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-  do_exit
-    __fput
-      inotify_release
-        fsnotify_destroy_group
-          fsnotify_wait_marks_destroyed
-            __flush_work
+Acked-by: Oscar Salvador <osalvador@suse.de>
 
-Skip the flush when only the closing reference remains, allowing teardown
-to finish without waiting for unrelated SRCU readers.
+Not sure if it was intentional, but it seems we lost the "Initialize memory section ..."
+comment.
+Do we want to put it back? Maybe for the folks that are not really
+familiar with all the memory section's inner stuff?
 
-Verified in QEMU: empty groups and groups whose marks have been reclaimed
-exit while an unrelated SRCU reader remains held; groups with pending
-reclamation still wait.
+Besides that, nice cleanup :-)
 
-Signed-off-by: Jia Zhu <zhujia.zj@bytedance.com>
----
- fs/notify/group.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
-
-diff --git a/fs/notify/group.c b/fs/notify/group.c
-index b56d1c1d9644a..052a419ee52a6 100644
---- a/fs/notify/group.c
-+++ b/fs/notify/group.c
-@@ -46,6 +46,7 @@ void fsnotify_group_stop_queueing(struct fsnotify_group *group)
-  * the group reference.
-  * Note that another thread calling fsnotify_clear_marks_by_group() may still
-  * hold a ref to the group.
-+ * The caller must hold a reference and exclude new marks.
-  */
- void fsnotify_destroy_group(struct fsnotify_group *group)
- {
-@@ -67,19 +68,22 @@ void fsnotify_destroy_group(struct fsnotify_group *group)
- 	 */
- 	wait_event(group->notification_waitq, !atomic_read(&group->user_waits));
  
--	/*
--	 * Wait until all marks get really destroyed. We could actually destroy
--	 * them ourselves instead of waiting for worker to do it, however that
--	 * would be racy as worker can already be processing some marks before
--	 * we even entered fsnotify_destroy_group().
--	 */
--	fsnotify_wait_marks_destroyed();
-+	/* Even detached marks hold a group reference until final destruction. */
-+	if (refcount_read(&group->refcnt) == 1) {
-+		/*
-+		 * Pair the refcount read and this barrier with the release
-+		 * decrement in fsnotify_put_group() (refcount_dec_and_test()),
-+		 * ordering mark destruction before subsequent group teardown.
-+		 */
-+		smp_mb();
-+	} else {
-+		fsnotify_wait_marks_destroyed();
-+	}
- 
- 	/*
--	 * Since we have waited for fsnotify_mark_srcu in
--	 * fsnotify_mark_destroy_list() there can be no outstanding event
--	 * notification against this group. So clearing the notification queue
--	 * of all events is reliable now.
-+	 * Mark destruction waits for fsnotify_mark_srcu, so there can be no
-+	 * outstanding event notification against this group. Clearing the
-+	 * notification queue of all events is reliable now.
- 	 */
- 	fsnotify_flush_notify(group);
- 
+
 -- 
-2.20.1
+Oscar Salvador
+SUSE Labs
