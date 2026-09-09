@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7219E57982C
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A07A57982C
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788969185; cv=none; b=qDsbz6gq5GzTKPprTo/SR6xivAoh3PnkHjHP0mf5fbM3wnFQbIZ8igJscmTOEIFSeWlAreSckeO5DNdOH1+gS3tdDggpq7Nl0PnZwP92P+SBuQ6WmxUnm200fa8hB/Js4GtfcNW7ox3ZokevjRobmk5ZseLaZsdVkbMTJd4jrrY=
+	t=1788969188; cv=none; b=tB1Nd/e8i4gJQumkRiPWOvtcvAmL+qqK1BcLfnMZk/UNBQlLUVULP+e+QqLzL4eYi/TbN672hspttm8KPcXlrEO6OOE7817KZR22qjSaacXJ61Bam3u937ys/x1I5IjO6BpEBQBwCTanSyIuS9pvhGiXbxj8dSc+oz5mxeZc4hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788969185; c=relaxed/simple;
-	bh=Sg4l5niiNn7WFqPgMNaD9aBR6VyhLIlC/5pTsno4dWA=;
+	s=arc-20240116; t=1788969188; c=relaxed/simple;
+	bh=seUKL4baZQl80bACe5x3GNBsLFNla2y8zOYnea220GY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QFXPLXyvU1tY2o1/KJGDCh6jZ4VemJELy5/9slX5eFTU+6VneO8CJAhe84tQP5B8wqZmD9b2UAyfsED7sYUjKQKSSIXFyZbWvZgvI+SmUB7KQJeTgz7Pl93o4Ax2T1PAxV3/dLeZPuXsDXVvDjmOwvmyfLo1h6oq2Ar6IYTTuCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bHBRa2VX; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=pjJAaLNOv2i2Hv5MQwKkNmrZQkJualPtTl3+yLSwal7mytf1vuE5k/yguebS5VeYP5rbSaVZsEcDRQW7ohApKGyWJwfsEU24ngwyTOJlCdpF7Wjihsyefa9APSlrs+gkhrtImWOHuuiRjuR+LQ44mFTf9NVeGoxUSJgytK9pTg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mDYLCHsM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bHBRa2VX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A3B91F00A3D;
-	Wed,  9 Sep 2026 15:53:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mDYLCHsM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C02B1F00A3A;
+	Wed,  9 Sep 2026 15:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788969184;
-	bh=x4IgTQRQTDWCZPVJqf7rI88csj9gaRQymiw+YMJssNQ=;
+	s=k20260515; t=1788969186;
+	bh=MqClb4Div+/vJEICsaMQiffcrKS//ucL7IiO/cYr6j8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=bHBRa2VXskcZ69XsFCJpcDopHxU0tz/Rt/X5SJZN3tkrDQdg8+Gp9KxHWWaOaPTkN
-	 dkM/RlCkCX3204u1osjWCn1wUN0nM1J77SR9CBiC/ctXXN2twvArbTclLpOKOI8vnu
-	 mB4PGhrRipddgz5ZwyGMyCZYpZ1ototQLyc7FCh5N+Ruf/QR0TJpxNnTyUmSk0k554
-	 yF+XO+1hm8q1RKDIo5b0yh3kp4qnYLv608P3U53/TEN7gnULWP6+uAQycsEgzMtE2d
-	 p0JPu1pLOEExsIvrr3mk8nL8wLA62l79OvHgc8M1y4UQ3lAJtBHLyani7Pwa/rFymA
-	 6V9/cJUzXcW3w==
+	b=mDYLCHsMW+6ZD3rUpD8Tz9W/TIEVkwfMjsA+k7m+gCZcog0GuzcM8MWXERAZqYuMx
+	 4U9LhxsTU12nyb5KUUYENLKlxIpBUPly6rqeee8fjVy//MVwdxjmaXp3dlvBqsnRDF
+	 G6Pp4UUjI9fQ8ksiHrZrgnuOQlFRe/0BUwV42Jru//lHmXhaIOEW8GJ7qXABY/XY3h
+	 PPIFOFOMXMQquEDVmBGjmo7CBdpfAnTAbI3EC31CcQrXPwF0i0ZfIyyGi4M9lBPyK2
+	 DVyDINP69T+P8DbYYc7LjVCt10X4jUw3E+pkcEkzDlAqwC7eGepwTrVv8l8//StaRE
+	 6kJasBH7AnEdg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 09 Sep 2026 17:52:45 +0200
-Subject: [PATCH RFC v3 02/15] fs: add switch_files_struct()
+Date: Wed, 09 Sep 2026 17:52:46 +0200
+Subject: [PATCH RFC v3 03/15] fs: move unshare_fd() to fs/file.c
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260909-work-coredump-unlock-self-v3-2-04f907687563@kernel.org>
+Message-Id: <20260909-work-coredump-unlock-self-v3-3-04f907687563@kernel.org>
 References: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 In-Reply-To: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 To: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
@@ -48,107 +48,97 @@ Cc: Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
  Jens Axboe <axboe@kernel.dk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2828; i=brauner@kernel.org;
- h=from:subject:message-id; bh=Sg4l5niiNn7WFqPgMNaD9aBR6VyhLIlC/5pTsno4dWA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLiqHOd/0Uz/4bu+nH8L+myPrOHgn7DjBN9L4dVZH
- YrBfP4fO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZidoPhn0YtyzKV3MPnQzx3
- z7eSu71ZR7XW9EF7ZvL//zm+nf8WFTAyPO9pKQouarCqzp+nqbfswfJvXoanjpy5FPe65gbHtYe
- S3AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2386; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=seUKL4baZQl80bACe5x3GNBsLFNla2y8zOYnea220GY=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLia6p6w7eoVh7dRwjKZiXP2Mf/xmWzSeiHFkSHzo
+ Pfvs7u6O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACayhZfhN8uK8AuG+/N6b36c
+ K5BRoZHvPPFeouEFnp7Zjg9YT7zaZcvIsLn3qbX65os+m8tlHrzlyVm214xjs8B2u+9MHOUMp7R
+ usAMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Add switch_files_struct() to install another table on a task. It
-consumes the reference to the new table and hands the old one back for
-the caller to put. Convert every place that switches a descriptor table
-except unshare_files().
+Move unshare_fd() where the rest of the descriptor table lifecycle
+helpers live.
 
 No functional changes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/file.c               | 28 ++++++++++++++++------------
- include/linux/fdtable.h |  2 ++
- kernel/fork.c           |  6 ++----
- 3 files changed, 20 insertions(+), 16 deletions(-)
+ fs/file.c               | 18 ++++++++++++++++++
+ include/linux/fdtable.h |  1 +
+ kernel/fork.c           | 18 ------------------
+ 3 files changed, 19 insertions(+), 18 deletions(-)
 
 diff --git a/fs/file.c b/fs/file.c
-index 59673547de90..fbc247bd7896 100644
+index fbc247bd7896..a527183dc664 100644
 --- a/fs/file.c
 +++ b/fs/file.c
-@@ -515,16 +515,23 @@ void put_files_struct(struct files_struct *files)
- 	}
+@@ -471,6 +471,24 @@ struct files_struct *dup_fd(struct files_struct *oldf, struct fd_range *punch_ho
+ 	return newf;
  }
  
--void exit_files(struct task_struct *tsk)
-+/* Install @files on @tsk, consuming the reference; returns the old table. */
-+struct files_struct *switch_files_struct(struct task_struct *tsk,
-+					 struct files_struct *files)
- {
--	struct files_struct * files = tsk->files;
-+	struct files_struct *old;
- 
--	if (files) {
--		task_lock(tsk);
--		tsk->files = NULL;
--		task_unlock(tsk);
--		put_files_struct(files);
--	}
-+	task_lock(tsk);
-+	old = tsk->files;
-+	tsk->files = files;
-+	task_unlock(tsk);
-+	return old;
++/*
++ * Unshare file descriptor table if it is being shared
++ */
++int unshare_fd(unsigned long unshare_flags, struct files_struct **new_fdp)
++{
++	struct files_struct *fd = current->files;
++
++	if ((unshare_flags & CLONE_FILES) &&
++	    (fd && atomic_read(&fd->count) > 1)) {
++		fd = dup_fd(fd, NULL);
++		if (IS_ERR(fd))
++			return PTR_ERR(fd);
++		*new_fdp = fd;
++	}
++
++	return 0;
 +}
 +
-+void exit_files(struct task_struct *tsk)
-+{
-+	if (tsk->files)
-+		put_files_struct(switch_files_struct(tsk, NULL));
- }
- 
- struct files_struct init_files = {
-@@ -855,10 +862,7 @@ SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
- 		 * We're done closing the files we were supposed to. Time to install
- 		 * the new file descriptor table and drop the old one.
- 		 */
--		task_lock(me);
--		me->files = cur_fds;
--		task_unlock(me);
--		put_files_struct(fds);
-+		put_files_struct(switch_files_struct(me, cur_fds));
- 	}
- 
- 	return 0;
+ static struct fdtable *close_files(struct files_struct * files)
+ {
+ 	/*
 diff --git a/include/linux/fdtable.h b/include/linux/fdtable.h
-index c45306a9f007..0f2edec45de0 100644
+index 0f2edec45de0..25af1386abbe 100644
 --- a/include/linux/fdtable.h
 +++ b/include/linux/fdtable.h
-@@ -100,6 +100,8 @@ static inline bool close_on_exec(unsigned int fd, const struct files_struct *fil
- struct task_struct;
- 
- void put_files_struct(struct files_struct *fs);
-+struct files_struct *switch_files_struct(struct task_struct *tsk,
-+					 struct files_struct *files);
+@@ -103,6 +103,7 @@ void put_files_struct(struct files_struct *fs);
+ struct files_struct *switch_files_struct(struct task_struct *tsk,
+ 					 struct files_struct *files);
  int unshare_files(void);
++int unshare_fd(unsigned long unshare_flags, struct files_struct **new_fdp);
  struct fd_range {
  	unsigned int from, to;
+ };
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 416758c8a3d4..b959191edf52 100644
+index b959191edf52..c456958c51f4 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
-@@ -3320,10 +3320,8 @@ int ksys_unshare(unsigned long unshare_flags)
- 		if (new_fs)
- 			new_fs = switch_fs_struct(new_fs);
+@@ -3207,24 +3207,6 @@ static int unshare_fs(unsigned long unshare_flags, struct fs_struct **new_fsp)
+ 	return 0;
+ }
  
--		if (new_fd) {
--			guard(task_lock)(current);
--			swap(current->files, new_fd);
--		}
-+		if (new_fd)
-+			new_fd = switch_files_struct(current, new_fd);
- 
- 		if (new_cred) {
- 			/* Install the new user namespace */
+-/*
+- * Unshare file descriptor table if it is being shared
+- */
+-static int unshare_fd(unsigned long unshare_flags, struct files_struct **new_fdp)
+-{
+-	struct files_struct *fd = current->files;
+-
+-	if ((unshare_flags & CLONE_FILES) &&
+-	    (fd && atomic_read(&fd->count) > 1)) {
+-		fd = dup_fd(fd, NULL);
+-		if (IS_ERR(fd))
+-			return PTR_ERR(fd);
+-		*new_fdp = fd;
+-	}
+-
+-	return 0;
+-}
+-
+ /*
+  * unshare allows a process to 'unshare' part of the process
+  * context which was originally shared using clone.  copy_*
 
 -- 
 2.53.0
