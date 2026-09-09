@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9501576EBE
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BC6576EBE
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788969193; cv=none; b=e+Is8wz7I4OrCrzyoyjr7hymLtx8aNjLeOW1w3gp5MSonequysMKLYqoXSrB+nwztCb+hhX8hYsX49tktT5HynCT7tNg7haQuKqA9AXpvm8E5Op6Loz7U5aoxjdiuojQFVxdWJQBzuAezI4mMZVD6G2xGyoVxVM2MgtTkboWA8c=
+	t=1788969196; cv=none; b=oRES9dKvOotEyMIcL31l3bB28EMvyNmvs684ERwJTesMhAdgnKfTR7Sxb8xDvM21CTBx1tpi40wdFRrr7i5P6vUS6xMAB35INwWxKXurgtzzBTHS28zJMtkKvdPQkv9Fa/j05wR2RiqZXB1+FrXBWlaxx9neMbqlb4vZ/3ba2T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788969193; c=relaxed/simple;
-	bh=kzLf7ubXX69fJnu/H+0Z/4/ZnFRhmo4/m7JiXtw+3RQ=;
+	s=arc-20240116; t=1788969196; c=relaxed/simple;
+	bh=BxmrRb0CB66X0HQ4w5uiLfoptNUbXk+Fh3pJpm9s9oI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ydk2h5eY0JFF9gU7h3w83Mc5kmnrJ1dZgcRr5tsUNAC2VC2ptZyKNqmjO8ukPvToK2eF5eOc01XMLLMmLsrLOBcmabczw8/NHNZCnT6oLuwczE5Gg3kaZ0AAD+HcnZvMSuAR/CHUOZsGyORQ5OXFFvewiH0O/lIk5Z3EaLTLI3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQmgEUoD; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=aznNhSD+I9Xujn7O/aZ+pWV7JzL3EPx1eusKCld2uHBWQRVlVdae3qPr0HuNb5QngNEqYzjBVSWIsqRmq3Y+xhXvjhJTe/ft0gINqoF4XJZKv/IlpRnlzT+CnoY8HD0NhP+nivy0YeDAzEJFpqKvJ0ElEDLAgfvBmkS/Drskk9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zk+DrVkU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQmgEUoD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 079121F00A3A;
-	Wed,  9 Sep 2026 15:53:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zk+DrVkU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C501D1F00A3D;
+	Wed,  9 Sep 2026 15:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788969192;
-	bh=XznAbig/fOAGdylG+44BV0/LM87yyRIk8IYGmq5wpmM=;
+	s=k20260515; t=1788969195;
+	bh=5liB7M42gh8JOTQxmIg5mhz/jxgFPQTQG1fTo/z8xd0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=fQmgEUoD3JMoAr16zq3lWtQxi+O6X+YyCnIJNju067436CgzBsw5NTSdl7CFd6Oo9
-	 bwkx+nWA378kUUJ3dAcre7N76YqNJUiqRAi19xAymLPe613pccee3bItKXJPh7TlX2
-	 dpon1uaBmFT7YviLJD75hQ07Etl1xq0LZoUJ3BpvhDdXb2VGSM3XIemPTMSiD38tnh
-	 niyDmawpcjXCeV6pjkoav8d0TyGemb2JUkp5dagYGnznFg782WX7Og331ceGAYMgIf
-	 xDEkbrbA5Z3faBkXN26sNM7hPm/UeTHb3ULCirpXjQeW54SOpXhPn2jUi8W1+5C7bj
-	 uQwdTt7tW83FQ==
+	b=Zk+DrVkUMeqM/POSTFKz1r+wKa7dhOUDP6EMWstHZ/BJPNfpavuoTWJB4FeG/kd+x
+	 BfztGGG/Auhu+41Dm4UsFnQ9cLwbHUhkck3s7LDQjWp0PTLSeCANtv21I2nvfdAbHK
+	 CQqnZpPnSxwd9K6osTWX1qnqYFaFwf6AX00L8tFSqcdNY+IePYr1x8njZJB8IHciVi
+	 pDz5sbntCsj/u34fh/TklxxWzDOU58yKpthQqrbAUbQBaFzn2EE9PfIMAslLDyMURd
+	 RGbhqaVbtD7AEO9Adu432sbcb7H+1j6UN8H0GtNgQRLhyo16ZYUAl/wEG0t6mo7JzN
+	 RQ4mH07jJNR7A==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 09 Sep 2026 17:52:48 +0200
-Subject: [PATCH RFC v3 05/15] fs: move filp_flush() to other file helpers
+Date: Wed, 09 Sep 2026 17:52:49 +0200
+Subject: [PATCH RFC v3 06/15] fs: make close_files() synchronous
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260909-work-coredump-unlock-self-v3-5-04f907687563@kernel.org>
+Message-Id: <20260909-work-coredump-unlock-self-v3-6-04f907687563@kernel.org>
 References: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 In-Reply-To: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 To: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
@@ -48,50 +48,76 @@ Cc: Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
  Jens Axboe <axboe@kernel.dk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1394; i=brauner@kernel.org;
- h=from:subject:message-id; bh=kzLf7ubXX69fJnu/H+0Z/4/ZnFRhmo4/m7JiXtw+3RQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLjK5Lz4Yd6N65feuNzt2Wk1/alxq/k7rmkGUySfy
- PPmt/6J6ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIht+MDG8unorcvfl21vOk
- LdO9133JmaL8YfVxF4aAYrNkz3ncfV8YGS4I/i8p/KTdMbe870jiuizfDSm1Ei331i1e4xO/KY+
- zkQUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2247; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=BxmrRb0CB66X0HQ4w5uiLfoptNUbXk+Fh3pJpm9s9oI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLgq9qEhTEZH4c0ype1+THNarZccm2ksF172qzD5T
+ cyPfTfXdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzEkYPhf6wkg1uED5/dU941
+ z5m2mf6ubE7Zqpf/el6u2zfDpPogLkaGd65tjDM75t14o3b78au0bR8a3jU4lLrlrOq0WTL3y8Z
+ 5vAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Various functions will flush and put each file inline the
-way close(2) does in follow-up patches. Drop the static and add a
-prototype next to file_close_fd_locked().
+When the last reference to a descriptor table is dropped close_files()
+closes every file but punts the actual work to task work. For an exiting
+task that task work only runs in exit_task_work().
+
+Before commit 4a9d4b024a31 ("switch fput to task_work_add") fput() was
+synchronous everywhere and exit released its files in exit_files().
+
+The deferral made fput() safe from any context. And exit_files()
+offloaded to task work as a side-effect. And that has downsides.
+
+Oleg and Neil noticed that some time ago. A task that exits with a big
+descriptor table ends up queueing a very large number of files on task
+work. That leaves a list for any later task_work_cancel() to search
+under ->pi_lock and costs a lot of atomics too.
+
+Let close_files() close right away. Flush and put each file inline the
+way close(2) does. The final __fput() runs during the table walk now
+instead of from task_work_run() in exit_task_work(). One difference is
+the order: task work ran the final __fput()s in reverse and now they run
+in table order.
+
+Every put of a dying table is synchronous now:
+
+- exit_files()
+- copy_process()
+- close_range(CLOSE_RANGE_UNSHARE)
+- unshare(2)
+- exec
+
+Kernel threads don't own a file descriptor table and exec already splats
+were they to exec. kthreadd and every kthread share init_files and
+init_task pins that forever.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/internal.h | 1 +
- fs/open.c     | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ fs/file.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/fs/internal.h b/fs/internal.h
-index c658c8a5ebd5..b1ca3320cb21 100644
---- a/fs/internal.h
-+++ b/fs/internal.h
-@@ -198,6 +198,7 @@ extern struct file *do_file_open_root(const struct path *,
- extern struct open_how build_open_how(int flags, umode_t mode);
- extern int build_open_flags(const struct open_how *how, struct open_flags *op);
- struct file *file_close_fd_locked(struct files_struct *files, unsigned fd);
-+int filp_flush(struct file *filp, fl_owner_t id);
+diff --git a/fs/file.c b/fs/file.c
+index a527183dc664..b7deb4e634c1 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -489,7 +489,7 @@ int unshare_fd(unsigned long unshare_flags, struct files_struct **new_fdp)
+ 	return 0;
+ }
  
- int do_ftruncate(struct file *file, loff_t length, unsigned int flags);
- int chmod_common(const struct path *path, umode_t mode);
-diff --git a/fs/open.c b/fs/open.c
-index 6b1c14e684a9..7181665c3af5 100644
---- a/fs/open.c
-+++ b/fs/open.c
-@@ -1506,7 +1506,7 @@ SYSCALL_DEFINE2(creat, const char __user *, pathname, umode_t, mode)
-  * "id" is the POSIX thread ID. We use the
-  * files pointer for this..
-  */
--static int filp_flush(struct file *filp, fl_owner_t id)
-+int filp_flush(struct file *filp, fl_owner_t id)
+-static struct fdtable *close_files(struct files_struct * files)
++static struct fdtable *close_files(struct files_struct *files)
  {
- 	int retval = 0;
- 
+ 	/*
+ 	 * It is safe to dereference the fd table without RCU or
+@@ -509,7 +509,8 @@ static struct fdtable *close_files(struct files_struct * files)
+ 			if (set & 1) {
+ 				struct file *file = fdt->fd[i];
+ 				if (file) {
+-					filp_close(file, files);
++					filp_flush(file, files);
++					fput_close_sync(file);
+ 					cond_resched();
+ 				}
+ 			}
 
 -- 
 2.53.0
