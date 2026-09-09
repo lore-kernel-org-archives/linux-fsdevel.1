@@ -1,149 +1,144 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99EB3D6CB6
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 22:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A139345D916
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 22:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788992065; cv=none; b=nvuqUgOPQtK1B8ggGNexklc1gcDyxwpmvvZhpAyJsvjrYb+J60uQLs97FPsYfN0Psd+aDW6JXL8Zb+neeg4YHyvACxzJrF3RNo6NWQyLewQ9x/OmwSpRZKXGzE++IaMcgzFmgo52vHiSgbB4XGFxpW6GO2B1hXifxgAeCdGUsz4=
+	t=1788992085; cv=none; b=neyMvGfhVko3IkAx3rqcCnoqLr/A2rr10FOEYg7sabY8GkyJDcdK0Wjegg8CDeCIhbjUso//amMJeL3s9gfUs4PKWhYHS9RB4Lik1NCbUg1DBepgGctOh3NV+iYp3jDSAshvpLUipzBUh3Qsys6vBNZGu/nWfOLOGtKuSGMSNR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788992065; c=relaxed/simple;
-	bh=UkK7Mei584GUU91pk3duuvFcu9KfF47mi2kekK2DR7w=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=oKZRN3BA1TvvFnidgNpKLOqnWlB69s1qxqY6FVaJuFwESYqncw1ESqAzaePFlHdLVBOExj5c6ZdAJFchtE1Xg83DaLRkm5HEpobikriTng38dlbmPdlNwN5CQTKJzUmBP+uZ6k/Qs26UZJsE3rY75KiNVmOd2orD7ZBv4tD99T0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=f+JmRWQF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vuB4+CQd; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1788992085; c=relaxed/simple;
+	bh=aQvz0ZYLQXdqqzd85lD3v43R3LA7HgRcKMR5C2XkRss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V1LT3Fhp3e2YNOTFb7TVoDz0YxlTvji50BblYBPkf3RMLFDuhpbhdtwTvutSGsZFCsz6NjXev6MXlOeSXLIWlzfgzqfDA0rccjYzm8uMGC5FPgYlR1fVNajTj2wAhoOXBX/TPdTtuPSmdodVtxbSKA+gt3jXsL8oobJJxY+pY1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=eXlo75Vd; arc=none smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="f+JmRWQF";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vuB4+CQd"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id C95191D00091;
-	Wed,  9 Sep 2026 18:14:22 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 09 Sep 2026 18:14:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1788992062; x=1789078462; bh=NkiVDIyQrBvmrF3ZbGvXusv8aBbs11ZMyvB
-	etnZiCMw=; b=f+JmRWQFrFzcDGRGPFIOD5QdDuxvU7NL7b43ClKgDWxbqHGF3z1
-	QkSd+jWEUn7kTdEpVPhHTV66ArD34iE1bvpg8n+vTMUUsdI+YHWt47/5KY+VvKjx
-	A36SatRnGLCEtcks0zlKo1Qy/WdiJRaozkHvx5jzkalNbkeHxOiVageAlkLh0sF+
-	VmTBmXivsj1hFuO7CsvKFjRMaV8q4itKY9erpVJoW+YKZJ2PB7aZ7eVT1ldPBeHE
-	JXJRV19Tqht8CIMEGwPGEwiDbo4UK/tdXS7W8RrYXX00JCjhdATp9U3zYRbFbcU9
-	4MKkUVBOi383rKzhsx0j6Z6ZuZoJT6nOJew==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788992062; x=
-	1789078462; bh=NkiVDIyQrBvmrF3ZbGvXusv8aBbs11ZMyvBetnZiCMw=; b=v
-	uB4+CQdwbhxNI4bRaKzANscEdgjPlph4w5iFHx7+4yBvRMuqpx6/Mz7L2dhvdS90
-	SwzbMbktWRSRV7li99ZbTmI85cSlFUYn43Dche2Q0PazfWZlOEUn2/zABmCmNzmc
-	Fre1OQFouGNabMbM7QPlJgFGX5sm3hIHRM+OGYX2ERDN/vgjoAXqQ2+PXK+N0UfQ
-	0T2EbiLE3wplyjSFTb+Ix+oz3GpGc8suQYuEx0NnTWwzGapYRr3xCQBm45gafkYo
-	4MTTl0IRNLf9HmWkClu8REIwU3ugxd7ydmrxCZSgQ8WAkoyBhDlYrMHa/eiLRa0o
-	OSZSbE3OjpYAW1B/4YpcA==
-X-ME-Sender: <xms:PtqhanPwkYwSAxTm1KXBIGW--a9FCfdY2d2HjuQ0DxXeSyLtm91SXg>
-    <xme:Ptqhan8qMTW0-FmBVYvzlCoBUCGvdBt_qef9B5ezw1s_8_qKcu5RBsRLORRvFNIk3
-    C-HvqzFbvRndNsj-DflL2vyJUULRSsFjiXqU5Py2TunGnEHZA>
-X-ME-Received: <xmr:PtqhahGb8bQaMwH1PUlFGtM7F-o_pyCbjLCGHyxhxckg67-_5avPXyt94I2YcjwycxEJn4hwE0CFmpNSNKZUe65MSVu5bLU>
-X-ME-Proxy-Cause: dmFkZTEH2XqQVLDuJmWbX5wTFPgaN3RgOTYLzkI1Pg4zcqCerWPFk8aa2ZDThQswSH53cZ
-    GjBLaZwfNL7T24TN/hqXQF6gLr/mrHVYpzjPYjuY/IBj9Ocg/8EcJ9yqfJEQjDnVGD8DLE
-    xQ17ZH3wcxMY7acvbXhdC2WIqvXh12d5/JCYlIGBFP+8T7hMmA18XqkQ6SfugkqIJ2+2Y3
-    VMXH03jGOXjxQ0BRsT6u894/dM+kmIGU9QGvArqjBxnhUNHnJS6Q+g++bxzE6kCyD5+Zqy
-    5FdFH3pfBpsa0ANcALfONI4x3AN5hso11hqMer8ecP55W6RmaWyqhPEYYtkpO4Xfvc8sGt
-    5BU2POc9Q4uMPAEURD7eW8SZqb/yZOXy3YgoUF6XYDZbeKlCOjgCf6k5hD4iyF3bP+3+Yw
-    HPP4EBCNCElFXP7JOpInCcnJkItD7eo8HZq6HqktzyM1a/w3JPKl4rjN4axsPOcCKyrnEh
-    QMecAFrWshr/S8HI+nFbMhaTAifn6h8F5a0M5mvqsVApw9lB5UirLTG9/YclnMer5pjPQ8
-    ZJi2twUdBZ1v1fJ5ud61Ed5yAJOtIqhOsLlyLR1D2zGVG2ICh7dXbd1sgXwO4h0E3iriQs
-    GKmbfa8yXYgD8s3yrip88tlp0753wHUvWrIB/429OW7i4zII6vFdxwf/fkCg
-X-ME-Proxy: <xmx:PtqhauhcTpAYVX0yOqsEO6qfMVvj5Yv0saa2VMwGMqnNmpv23i-JXA>
-    <xmx:PtqhauvAMDjCBe2aHxjPyJH5kHp6PBq29cV8qwFtOWomUFexBonGfQ>
-    <xmx:PtqhahvMMb_Mvi7dXZ7Njl1zwKRoTLtLmO8gdLF3HJXrcLwSdfuG0A>
-    <xmx:PtqhajFtxq905lvDrfkPq7BlfCFzdvQIuZFSmwA4-kjZalWwsAUOTg>
-    <xmx:PtqhatZUJH5WQMzJfe71fIITwhuK5aR3SeqXFq_sw0qQPS6LbsikRt1Z>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Sep 2026 18:14:19 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="eXlo75Vd"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-9105d241693so8016306d6.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 15:14:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1788992082; x=1789596882; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=C5NkJw6oWjdsiphJVaybRhCdoPAeWbsi0cRS0OiEPYM=;
+        b=eXlo75VdvxhLqwj91yG3NjOJ83pkcplJ03h9KFjYjxYVZ9SKsqJsUyJ+SWGaQP57fx
+         UT6p9GjxxLMqUjNf+j/jAHmpTEd6XxOVjb5YjGrb23SFedJHXhNMcU6aA82d/Wg60fzJ
+         BAUnJsyxdnWDg6tFOch+SZsuDWgc60UAdfHL9T9sxdLevjI6jrtOWeWx/RUhRzKQqfjZ
+         8ngeQcNR5SOnwg+dkF/w4leePSXjvVlKIg/mOKRjfncF5cJyZMFsdD2OEkHCtwiE8/Ud
+         QwEyNorfCJ13/qVRZnrlJatCRC0XdPt0Z3w95usktLPB3aKNgY0HpId6hdM4trmTSRa9
+         Hudg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788992082; x=1789596882;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=C5NkJw6oWjdsiphJVaybRhCdoPAeWbsi0cRS0OiEPYM=;
+        b=Bf3Vk3mAOvSCBNZQm4+W8tB8uuwfjgNfgTkqwlhNZEzABfguDJxqg0YyBjWsL7GZf6
+         QKyPCeIqTYEM0o41QG0kGqbkxjGJg7hptJEtPr2TwqAAHF2ST6/sXAWTkWPDqejCvaKf
+         u7M/8dFrm7MHde18mIceV5DOb8inoBR52yBf4UkNXYL/rMOIT9MKURxdJejNzffMGEf+
+         YztsyTFFEkMG6w0XNPiIayJ7fy06g9sVrY4NlJ8VUe40ttGXMlSWLKjJQyCxlVa1PDcD
+         oW3U/5XC+EktSoSwtu91dCZT73ou4c+1ruPmwHSZbcGBW/1sbLTO++XkYzMS+bwwh9rT
+         lNSw==
+X-Forwarded-Encrypted: i=1; AKwUvBwPOXvjLyghlLKpkRZlcjz8QR5BRvGDspISEKK5bWyu6ncmF2pvGVr9A4r+zPcpRBPRL83yPE7gOHE5ju8R@vger.kernel.org
+X-Gm-Message-State: AFuF++nESKM6wtYSgLcK/LmznnAGvQx18SPsAozIOGgHrlZR9btbT2IF
+	trxcq2MEawKYjlQiiJDCQtMaeRFCfvXD12N18teZ9h5VSoXeIBUg/mn3gQFe+kLaXac=
+X-Gm-Gg: AYBFou1Nf5UelnzptHh7KppQni/Vzb9qtrKWkbXtz0M+FKf1supPtEPzD0w4kJ4XrPC
+	BfHhQqIHgUfvG39kB5AZU7gZRa2gjVE5R2ZBjrLcaRQZkai6MveywKQTyQAwIbnF/T5xBHuNq79
+	llJFgXRlrEdfHWUGzMYyjDR+3Q6FJmxmh/YXfBNOW5m+WkxiC7Cmkc789bWtsaLfVhIrJSnH2O+
+	KaEW6AK3m6EdWL1pVn4OaAoQiYUOpP9gnMPlG+vUZeShWVMjO8xp4Usjys/f3u5Ibv20hPV/7YD
+	C+Q6o2WwP9QB3StseFio1LB1Lh370+ajs7n3UWpM2+Yn9kHc6l4up+voF0b9Xl6SK70vviPwemN
+	ph8CXKH8lR237rkpwvuYvDtTbaROPAkKZHUi2342raHR51Aa/32p0su9U8Q4nap7A+MQ4tKic0Q
+	yeLBF0dhCSyzxbFFwuJiHAs7Ont8Vk6/7mCH6jiBlzKP1i1sC2tXX71+5P7oF5zvNRcbNuQQi1a
+	86agSFcFOJiw0Lusekf5Bu6AaGNaGcxcbhu1CXST07KnIuueVlmSTw=
+X-Received: by 2002:a05:6214:761:b0:8f2:fbb1:cec4 with SMTP id 6a1803df08f44-910d104c019mr49748076d6.19.1788992077664;
+        Wed, 09 Sep 2026 15:14:37 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-910406475f5sm151951376d6.9.2026.09.09.15.14.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 15:14:36 -0700 (PDT)
+Date: Wed, 9 Sep 2026 18:14:33 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: K Prateek Nayak <kprateek.nayak@amd.com>, Ye Liu <ye.liu@linux.dev>, 
+	Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Josh Triplett <josh@joshtriplett.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Ye Liu <liuye@kylinos.cn>, Michal Hocko <mhocko@suse.com>, 
+	mic@digikod.net, david@kernel.org, linmiaohe@huawei.com, nao.horiguchi@gmail.com, 
+	gnoack3000@gmail.com, ljs@kernel.org, sj@kernel.org, rientjes@google.com, 
+	shakeel.butt@linux.dev, xu.xin16@zte.com.cn, chengming.zhou@linux.dev, 
+	tony.luck@intel.com, reinette.chatre@intel.com, x86@kernel.org, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, pavel@kernel.org, lance.yang@linux.dev, 
+	pmladek@suse.com, longman@redhat.com, mathieu.desnoyers@efficios.com, 
+	jiangshanlai@gmail.com, qiang.zhang@linux.dev, dietmar.eggemann@arm.com, 
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, mark.rutland@arm.com, 
+	Dave.Martin@arm.com, james.morse@arm.com, babu.moger@amd.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, rcu@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 5/8] kernel: convert process/thread iterators to
+ for_each_*_rculock
+Message-ID: <aqHZ7lZQnugGJ0ig@gourry-fedora-PF4VCD3F>
+References: <20260907081334.1152889-1-ye.liu@linux.dev>
+ <20260907081334.1152889-6-ye.liu@linux.dev>
+ <ap7dC-LWNaoPYJvv@gourry-fedora-PF4VCD3F>
+ <ap76-0-hN6CAcYXX@redhat.com>
+ <ap8mgnpE7D4TTrno@gourry-fedora-PF4VCD3F>
+ <ap8yoW37GY17pHYS@redhat.com>
+ <e618ace1-6a8b-42c5-8a97-44b39dd1a7c7@amd.com>
+ <ap-spMNyMvYFga5k@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Oleg Nesterov" <oleg@redhat.com>, linux-fsdevel@vger.kernel.org,
- "Jann Horn" <jannh@google.com>, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Jan Kara" <jack@suse.cz>, "Xin Zhao" <jackzxcui1989@163.com>,
- "Mateusz Guzik" <mjguzik@gmail.com>, "Jeff Layton" <jlayton@kernel.org>,
- "Jens Axboe" <axboe@kernel.dk>,
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH RFC v3 05/15] fs: move filp_flush() to other file helpers
-In-reply-to: <20260909-work-coredump-unlock-self-v3-5-04f907687563@kernel.org>
-References: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
-  <20260909-work-coredump-unlock-self-v3-5-04f907687563@kernel.org>
-Date: Thu, 10 Sep 2026 08:14:16 +1000
-Message-id: <178899205692.207413.14714923974362266730@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ap-spMNyMvYFga5k@redhat.com>
 
-On Thu, 10 Sep 2026, Christian Brauner wrote:
-> Various functions will flush and put each file inline the
-> way close(2) does in follow-up patches. Drop the static and add a
-> prototype next to file_close_fd_locked().
+On Tue, Sep 08, 2026 at 08:35:16AM +0200, Oleg Nesterov wrote:
+> On 09/08, K Prateek Nayak wrote:
+> >
+> > On 9/8/2026 3:24 AM, Oleg Nesterov wrote:
+> > >> This might be my - admittedly shallow - understanding of scoped_guard,
+> > >> but does scoped guard handle goto correctly?
+> > >
+> > > Yes, it does,
+> > >
+> > >> and why it's generally discouraged to mix cleanup.h and goto.
+> > >
+> > > Hmm, why? I didn't know...
+> >
+> > Apparently older GCC would allow subtle bugs with cleanup + goto to slip
+> > by but clang has always caught those bugs and refused to compile so as
+> > long as clang builds are happy, things should be good.
+> >
+> > Here is an older explanation from Peter:
+> > https://lore.kernel.org/lkml/20260327154136.GL3739106@noisy.programming.kicks-ass.net/
+> 
+> Ah, but in this case the code is buggy, "goto unregister" jumps
+> into the scope of __free.
+> 
+> Anyway, I agree that mixing cleanup and goto can make the code
+> confusing or buggy, but this particular case still looks fine
+> to me...
+> 
 
-As every caller of fput_close_sync() will be preceded by a call to
-filp_flush(), would it not make more sense to hav fput_close_sync() call
-filp_flush() itself?  And keep it static.
-Less room for error that way.
+Seems jump-out is ok, thanks for the confirmation Peter.
 
-Thanks,
-NeilBrown
+I do agree the general improvement is nice, but maybe worth considering
+taking cleanup.h all the way if we're going to use it - that's all.
 
+The improvement is clearly welcome.
 
->=20
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/internal.h | 1 +
->  fs/open.c     | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/fs/internal.h b/fs/internal.h
-> index c658c8a5ebd5..b1ca3320cb21 100644
-> --- a/fs/internal.h
-> +++ b/fs/internal.h
-> @@ -198,6 +198,7 @@ extern struct file *do_file_open_root(const struct path=
- *,
->  extern struct open_how build_open_how(int flags, umode_t mode);
->  extern int build_open_flags(const struct open_how *how, struct open_flags =
-*op);
->  struct file *file_close_fd_locked(struct files_struct *files, unsigned fd);
-> +int filp_flush(struct file *filp, fl_owner_t id);
-> =20
->  int do_ftruncate(struct file *file, loff_t length, unsigned int flags);
->  int chmod_common(const struct path *path, umode_t mode);
-> diff --git a/fs/open.c b/fs/open.c
-> index 6b1c14e684a9..7181665c3af5 100644
-> --- a/fs/open.c
-> +++ b/fs/open.c
-> @@ -1506,7 +1506,7 @@ SYSCALL_DEFINE2(creat, const char __user *, pathname,=
- umode_t, mode)
->   * "id" is the POSIX thread ID. We use the
->   * files pointer for this..
->   */
-> -static int filp_flush(struct file *filp, fl_owner_t id)
-> +int filp_flush(struct file *filp, fl_owner_t id)
->  {
->  	int retval =3D 0;
-> =20
->=20
-> --=20
-> 2.53.0
->=20
->=20
-
+~Gregory
