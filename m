@@ -1,60 +1,60 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D9C238C16;
-	Wed,  9 Sep 2026 16:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B515E566C53;
+	Wed,  9 Sep 2026 16:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788969685; cv=none; b=r6O2xYgTrLHgntSTIqkAde8GigWqazCb/6aKwbs3AiZ+WEbFgj3tQXy0JBp2FwYjWcsiLCKGXLOXPSW/RV9M+8Dtvg58CU/Ie1excEm4oqyNBNaD5ZOMUELd8SSw5X8NJF1XQSypKqHUOTGJbxjiMoxEj97szBpuNtlNObl+Nj8=
+	t=1788969748; cv=none; b=spPCdTJDGBX/RInpSQ5Mnc6lYxaW7rOC3R2H5eWByMrCVBoJMDSMMIk81XVPSxrtIs3ZhGzbMUqz/fu9BcUHvcO14nQjOw4D1c1P/lkNn6aX4VWqoDLBZhuM1oivTruROwrHyhlUSkJAu6pzKIsKEcQGYraLbgNCCA0K4zDixl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788969685; c=relaxed/simple;
-	bh=z8YcKTHW6LlHKRX7IUzptXO2rIcz6WMZbacNGuHDi10=;
+	s=arc-20240116; t=1788969748; c=relaxed/simple;
+	bh=+qFWelgk7ZhBw3jqt1QlHX25hgNM2NqBuFhO3mk1wuo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h9OOR2zhJ3D6Acvk9I/y/BrZjgiwCN0nQe9nD1TIvhrQUUnU7ZSibf6v/42xSDvBmstx2obYysLMWXzoUjU2SAkHW7PTl0eT9LdIVbr3m1VTCtvkFQljH7ZxeFzIGzjOj56yLLn6ve59A8ALpjSis+J8KiWjwp6W+I83fH7gcGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=TCRP94SY; arc=none smtp.client-ip=148.163.156.1
+	 In-Reply-To:Content-Type; b=OMS7FBLHs2PvJCFN+zOTeOKnHjwx72BaSPNilwAHMKt9Y/8wco8yGxW9n7sYVgfMPPK8VVgqJ2x0n9UQhoO43drc2qgfpwgeTxWDLMRqvxq16BGinMK08AhrLVjn848LjKYb5XHGWmBmQpYFEH0WZ51kXoCzFNbZR3pSu3CD37o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=eQOIS11B; arc=none smtp.client-ip=148.163.158.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="TCRP94SY"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689B1RXR3817363;
-	Wed, 9 Sep 2026 16:00:49 GMT
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="eQOIS11B"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689B1cJc3839630;
+	Wed, 9 Sep 2026 16:01:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=00JU/j
-	/v+DQy0zd7AxUZ9dWcvelnFmS2j8kJVfQrbIQ=; b=TCRP94SY0JQW+S+PR540yU
-	u/lnGUruItr+yZJ8X2SS9trYAqJ5WEcHubrqfQjfVHOhb8tVlMTk1YiNZHOyWMQZ
-	Fp/90cFh4QWFO6uSqV8YSFTGD4nlRRLPlL3Fh2NLOMFzNK9zNXZcu7EQ1yJY0O2f
-	p9RnrmEihlwh4ZzfrFyPCw1Skf2yfri9pRZb5qYGP1b+yeeM9A3K6a/3Y0Bry9re
-	G1dP/e8+Smt9Zvmv5itpSwDcz3kNGNNUK1GkSx00YAnG+MHFjfPeJIVH/iJ76zIH
-	m8keWUtjRQwuhs2Bx+ITGBT0CbU8jYF5uD7lWfhMHN/WYUeqGm2vEBQLa8vr6Zkg
+	:message-id:mime-version:references:subject:to; s=pp1; bh=iGcnBj
+	nzsvFwvqDF7dJOgFmWXqwCG/4To3uYxCNHBPA=; b=eQOIS11BcylKcEdguI+jAm
+	1jRK2YB64sGT0T3qeY9q2Xf9TK2vXHil0SwI6i+xD8ol3CYTbu+mc3j2xQZQJhWK
+	t9O7TIqL92/YrWwX0CizP/oLzY0zFk+SGLd+kDilUefjIibipJeRhwS3hbYEfqT1
+	KIgpaTnSLKfxIVriagFs3M6McPdmqjui4yjnS4hug8mQ8MTiARHBz0X3/PeoOTDi
+	Zm0KQC9xmUYuFmbJAE982gMSFFjzy25TcQE/QBYBAEfrcqqZSSHHOT6dbIx+pdrJ
+	o8PT4kwdFzNi0imWxAnV4XAx6au95/eyu8yGQaPQAOgLh/N+Yryy8O0hRVKbr1Eg
 	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ggbf46y64-1
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ggbhf6jqv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Sep 2026 16:00:48 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 689FuLt0015882;
-	Wed, 9 Sep 2026 16:00:47 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4gh03yjy97-1
+	Wed, 09 Sep 2026 16:01:51 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 689FuEm0001918;
+	Wed, 9 Sep 2026 16:01:50 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ggwswb9as-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Sep 2026 16:00:47 +0000 (GMT)
+	Wed, 09 Sep 2026 16:01:50 +0000 (GMT)
 Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 689G0jcA35717428
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 689G1jw148103904
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 9 Sep 2026 16:00:45 GMT
+	Wed, 9 Sep 2026 16:01:45 GMT
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E333B2004D;
-	Wed,  9 Sep 2026 16:00:44 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 85EF82004E;
+	Wed,  9 Sep 2026 16:01:45 +0000 (GMT)
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2CA3C20040;
-	Wed,  9 Sep 2026 16:00:35 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id BE01220040;
+	Wed,  9 Sep 2026 16:01:35 +0000 (GMT)
 Received: from [9.61.255.18] (unknown [9.61.255.18])
 	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed,  9 Sep 2026 16:00:34 +0000 (GMT)
-Message-ID: <96f4e19c-26d6-481c-b7b3-0a2aa244c834@linux.ibm.com>
-Date: Wed, 9 Sep 2026 21:30:31 +0530
+	Wed,  9 Sep 2026 16:01:35 +0000 (GMT)
+Message-ID: <0e07e597-d816-4425-b190-d61c3281f95c@linux.ibm.com>
+Date: Wed, 9 Sep 2026 21:31:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,7 +62,7 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/22] coredump: always chunk writes
+Subject: Re: [PATCH v2 12/22] coredump: clean up coredump state handling
 To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
 Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>,
         Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -76,145 +76,325 @@ Cc: Jacob Lalonde <jalalonde@meta.com>, Josef Bacik <josef@toxicpanda.com>,
         linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org
 References: <20260820-work-coredump-sparse-v2-0-ba32dd718c51@kernel.org>
- <20260820-work-coredump-sparse-v2-11-ba32dd718c51@kernel.org>
+ <20260820-work-coredump-sparse-v2-12-ba32dd718c51@kernel.org>
 Content-Language: en-US
 From: R Nageswara Sastry <rnsastry@linux.ibm.com>
-In-Reply-To: <20260820-work-coredump-sparse-v2-11-ba32dd718c51@kernel.org>
+In-Reply-To: <20260820-work-coredump-sparse-v2-12-ba32dd718c51@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: 3nsD3dyD9YpDNwrNy79mh4k3ZJgZAoAH
-X-Proofpoint-GUID: 5Ftz_v8DnqJwrQicAaxaxCLwd-1LE4ML
-X-Authority-Analysis: v=2.4 cv=DbEnbPtW c=1 sm=1 tr=0 ts=6aa182b0 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+X-Proofpoint-GUID: RC2P0Eez8eUL9mdFR4p7Y9v5Q42r_iXJ
+X-Authority-Analysis: v=2.4 cv=RIaD2Yi+ c=1 sm=1 tr=0 ts=6aa182ef cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
  a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=uNwIYxRw8H9XJLvQjW8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDE3MyBTYWx0ZWRfX63FEwKXn2pEz
- lbN9cHVZiZXHc6txdAexnXMJtgrSfc5kgQl/RQL8aZJ3oiw7NqTF/WCwpFMjKmwq5NLNAZGgf7Q
- Hos7o2aQf/uCGOISPuipeIO0MunRkNE9zvUd5wusnjKNruB11Hx/j+gFzlJp3hJieicpYa+eeNs
- VkPI2SMmIPn7I8IL8WFtQVjvsWoy1UeU+NFUVDQ9KSshErJfbe9cDG4v706+PSGMOWzSjuy2imC
- 9rWzGxzVCn+WakqwhrsdV1oF+VDabMe2ZSGc8J+rU+SeWGZOzqQ4nHzexEQxcNU7ZreEcsXHjqT
- vnXmtYO1/SidK4tC78nZhlCXtSFAnu9ZuG6T+KEDlEJGJ1VsWRB5SVXl0be+AWY/znuXep8HXml
- ttmhJajuNA1n59oxzUkxRDb3KE0j9eapA5s1nPeKFV5w3rVkfbJFceEiLji4I9KbtpKV+mI6BiC
- 6wZ/lWkQABb3bef66Dw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDE3MyBTYWx0ZWRfXxpDMqZtbveKw
- EOHJ1ijEo1wcbWvww4tsJatXr/zaCikRtHGXSA8SYhI/DW4OjGh4H87T7udcjzwwogzipPCpPGc
- TkIi4XOACd8bpzimfR/h+x2eYMoJeMY=
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=EdPaav6MFMfPzbQwOvsA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDE3OCBTYWx0ZWRfX49YuAzFzCrzn
+ GyUaesOT0Zaas4kjvS7CEdGUBC6cbVZQmqlGd7nXgLusnch3Gb3wkQZFid1EGDi1JsLu8+7C6ha
+ CB/7e7NuREDOrToW519z3pcXTBZANb8=
+X-Proofpoint-ORIG-GUID: KN_x0VA8pfEEO2JiqzD1hzgZ4TDJGFl7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDE3OCBTYWx0ZWRfX8pa+aJ3poKL7
+ pgZf78/kRtTfVslMnHaEvjO0KGTsMmOqAX4lHomWV68n08wcwDQXQP3z0hGakj2K1X9tvEfVTW6
+ OirKTn93cc5pdKHSOxxihMyTGgIT6agsYblgn0oUBBfRqAAPwbYlroG82xDNWtxWZFZC5203bvd
+ ZaRcU7QyYxbZ3vGfzw18tOkex8KrSxNaK7OjxJZock4akTTGeuu5hwyaeUY+Sp+mwumsYUvnrbm
+ YIj2gR1lJXiox7gxTshZwtVSYBPgfaOVnKhz0e0iJHR41a48YxGptZ/gFEKmdLw5+R4jgMxv2u+
+ rmKoTujQ0nYDfCHSiNPTd+pklx28vBkF9mB6p5rituIW5kZRraODAWvj1u3mORCmbMBmU9iFPgT
+ gAPDAf0wiLuKEWsfRO71zqnGjvJxBWsebda8pICzSfVh5F+vbA8J5xIkbOXbUg22IsTKr95wcey
+ lSRRK3JDriFloVdPGoQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-08_03,2026-09-09_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 impostorscore=0 adultscore=0 spamscore=0
- clxscore=1015 suspectscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ spamscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 phishscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609090173
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609090178
 
 
 On 20.08.2026 4:39 AM, Christian Brauner wrote:
-> Right now dump_emit() is the only coredump helper that writes buffers
-> larger than a page in one call. For elf notes that can easily blow past
-> PAGE_SIZE. That's annoying because neither pipes nor af_unix sockets
-> take such writes in one piece.
+> Right now coredump state handling is messy. The binfmt->core_dump::
+> methods return 1 when the coredump method did anything at all which
+> means that a partial write counts as having dumped core. This is fine as
+> the state is really only used to indicate that a coredump event occurred
+> in the exit status of the task. That should obviously be indicated even
+> if the actual writeout of the coredump failed.
 >
-> If a signal arrives while the writer is waiting they drop a short write.
-> With the coredump records work coming up that means header and its data
-> are desynchronized. A write that fits in one pipe buffer or one skb
-> doesn't suffer from this.
+> But it means the coredump method of the binary formats is different from
+> all the other coredump helpers. And there's no way to communicate to
+> userspace that a coredump was truncated. We'll add support for that in a
+> second. For now, clean this up.
 >
-> So split all writes up, including elf notes, and cap every write at a
-> page. The coredump socket already raises sk_sndbuf far enough for a page
-> to fit a single skb and pipes always work that way.
+> Add a flag member into struct coredump_params. Let the coredump method
+> raise COREDUMP_STATE_STARTED. This is what coredump_finish() will end up
+> using to splice in the coredump bit into the exit status.
 >
-> That means dump_interrupted() is now checked once per page. So a large
-> coredump stops earlier (good). An empty write no longer issues a
-> zero-length write. The rlimit core check stays where it was. It
-> continues refusing whole writes.
+> This allows us to let the return value mean success or failure and align
+> it with the other coredump helpers. We also start raising
+> COREDUMP_STATE_TRUNCATED. This will be used in the next patches to
+> communicate truncation to userspace via the coredump socket.
+>
+> No functional changes.
 >
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 Tested-by: R Nageswara Sastry <rnsastry@linux.ibm.com>
 
 System: ppc64le LPAR (IBM POWER), Linux 7.3-rc2
 > ---
->   fs/coredump.c | 37 ++++++++++++++++++++++++++++++-------
->   1 file changed, 30 insertions(+), 7 deletions(-)
+>   fs/binfmt_elf.c          | 12 +++++++-----
+>   fs/binfmt_elf_fdpic.c    | 12 +++++++-----
+>   fs/coredump.c            | 31 +++++++++++++++++--------------
+>   include/linux/binfmts.h  |  3 ++-
+>   include/linux/coredump.h | 12 ++++++++++++
+>   5 files changed, 45 insertions(+), 25 deletions(-)
 >
+> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+> index 16a56b6b3f6c..f85b2137bdb9 100644
+> --- a/fs/binfmt_elf.c
+> +++ b/fs/binfmt_elf.c
+> @@ -74,7 +74,7 @@ static int load_elf_binary(struct linux_binprm *bprm);
+>    * don't even try.
+>    */
+>   #ifdef CONFIG_ELF_CORE
+> -static int elf_core_dump(struct coredump_params *cprm);
+> +static bool elf_core_dump(struct coredump_params *cprm);
+>   #else
+>   #define elf_core_dump	NULL
+>   #endif
+> @@ -1990,9 +1990,9 @@ static void fill_extnum_info(struct elfhdr *elf, struct elf_shdr *shdr4extnum,
+>    * and then they are actually written out.  If we run out of core limit
+>    * we just truncate.
+>    */
+> -static int elf_core_dump(struct coredump_params *cprm)
+> +static bool elf_core_dump(struct coredump_params *cprm)
+>   {
+> -	int has_dumped = 0;
+> +	bool ret = false;
+>   	int segs, i;
+>   	struct elfhdr elf;
+>   	loff_t offset = 0, dataoff;
+> @@ -2023,7 +2023,7 @@ static int elf_core_dump(struct coredump_params *cprm)
+>   	if (!fill_note_info(&elf, e_phnum, &info, cprm))
+>   		goto end_coredump;
+>   
+> -	has_dumped = 1;
+> +	cprm->state |= COREDUMP_STATE_STARTED;
+>   
+>   	offset += sizeof(elf);				/* ELF header */
+>   	offset += segs * sizeof(struct elf_phdr);	/* Program headers */
+> @@ -2118,11 +2118,13 @@ static int elf_core_dump(struct coredump_params *cprm)
+>   			goto end_coredump;
+>   	}
+>   
+> +	ret = true;
+> +
+>   end_coredump:
+>   	free_note_info(&info);
+>   	kfree(shdr4extnum);
+>   	kfree(phdr4note);
+> -	return has_dumped;
+> +	return ret;
+>   }
+>   
+>   #endif		/* CONFIG_ELF_CORE */
+> diff --git a/fs/binfmt_elf_fdpic.c b/fs/binfmt_elf_fdpic.c
+> index fe0b5c5ed2bc..252eb155965b 100644
+> --- a/fs/binfmt_elf_fdpic.c
+> +++ b/fs/binfmt_elf_fdpic.c
+> @@ -75,7 +75,7 @@ static int elf_fdpic_map_file_by_direct_mmap(struct elf_fdpic_params *,
+>   					     struct file *, struct mm_struct *);
+>   
+>   #ifdef CONFIG_ELF_CORE
+> -static int elf_fdpic_core_dump(struct coredump_params *cprm);
+> +static bool elf_fdpic_core_dump(struct coredump_params *cprm);
+>   #endif
+>   
+>   static struct linux_binfmt elf_fdpic_format = {
+> @@ -1476,9 +1476,9 @@ static bool elf_fdpic_dump_segments(struct coredump_params *cprm,
+>    * and then they are actually written out.  If we run out of core limit
+>    * we just truncate.
+>    */
+> -static int elf_fdpic_core_dump(struct coredump_params *cprm)
+> +static bool elf_fdpic_core_dump(struct coredump_params *cprm)
+>   {
+> -	int has_dumped = 0;
+> +	bool ret = false;
+>   	int segs;
+>   	int i;
+>   	struct elfhdr *elf = NULL;
+> @@ -1535,7 +1535,7 @@ static int elf_fdpic_core_dump(struct coredump_params *cprm)
+>   	/* Set up header */
+>   	fill_elf_fdpic_header(elf, e_phnum);
+>   
+> -	has_dumped = 1;
+> +	cprm->state |= COREDUMP_STATE_STARTED;
+>   	/*
+>   	 * Set up the notes in similar form to SVR4 core dumps made
+>   	 * with info from their /proc.
+> @@ -1655,6 +1655,8 @@ static int elf_fdpic_core_dump(struct coredump_params *cprm)
+>   		       cprm->file->f_pos, offset);
+>   	}
+>   
+> +	ret = true;
+> +
+>   end_coredump:
+>   	while (thread_list) {
+>   		tmp = thread_list;
+> @@ -1665,7 +1667,7 @@ static int elf_fdpic_core_dump(struct coredump_params *cprm)
+>   	kfree(elf);
+>   	kfree(psinfo);
+>   	kfree(shdr4extnum);
+> -	return has_dumped;
+> +	return ret;
+>   }
+>   
+>   #endif		/* CONFIG_ELF_CORE */
 > diff --git a/fs/coredump.c b/fs/coredump.c
-> index d837819031ff..d61f36239f91 100644
+> index d61f36239f91..6af3ff0e19a6 100644
 > --- a/fs/coredump.c
 > +++ b/fs/coredump.c
-> @@ -1215,19 +1215,21 @@ void vfs_coredump(const kernel_siginfo_t *siginfo)
->    * do on a core-file: use only these functions to write out all the
->    * necessary info.
->    */
-> -static bool __dump_emit(struct coredump_params *cprm, const void *addr, int nr)
-> +/* One write, never more than a page. See __dump_emit(). */
-> +static bool dump_emit_chunk(struct coredump_params *cprm, const void *addr,
-> +			    int nr)
->   {
->   	struct file *file = cprm->file;
->   	loff_t pos = file->f_pos;
->   	ssize_t n;
+> @@ -98,7 +98,6 @@ struct core_name {
+>   	char *corename __counted_by_ptr(size);
+>   	int used, size;
+>   	unsigned int core_pipe_limit;
+> -	bool core_dumped;
+>   	enum coredump_type_t core_type;
+>   };
 >   
-> -	if (cprm->written + nr > cprm->limit)
-> -		return false;
->   	if (dump_interrupted())
->   		return false;
-> +
->   	n = __kernel_write(file, addr, nr, &pos);
->   	if (n != nr)
->   		return false;
-> +
->   	file->f_pos = pos;
->   	cprm->written += n;
->   	cprm->pos += n;
-> @@ -1235,6 +1237,24 @@ static bool __dump_emit(struct coredump_params *cprm, const void *addr, int nr)
+> @@ -250,7 +249,6 @@ static bool coredump_parse(struct core_name *cn, struct coredump_params *cprm,
+>   	cn->used = 0;
+>   	cn->corename = NULL;
+>   	cn->core_pipe_limit = 0;
+> -	cn->core_dumped = false;
+>   	if (*pat_ptr == '|')
+>   		cn->core_type = COREDUMP_PIPE;
+>   	else if (*pat_ptr == '@')
+> @@ -549,13 +547,13 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+>   	return core_waiters;
+>   }
+>   
+> -static void coredump_finish(bool core_dumped)
+> +static void coredump_finish(enum coredump_state state)
+>   {
+>   	struct core_thread *curr, *next;
+>   	struct task_struct *task;
+>   
+>   	spin_lock_irq(&current->sighand->siglock);
+> -	if (core_dumped && !__fatal_signal_pending(current))
+> +	if ((state & COREDUMP_STATE_STARTED) && !__fatal_signal_pending(current))
+>   		current->signal->group_exit_code |= 0x80;
+>   	next = current->signal->core_state->dumper.next;
+>   	current->signal->core_state = NULL;
+> @@ -1045,19 +1043,23 @@ static bool coredump_pipe(struct core_name *cn, struct coredump_params *cprm,
 >   	return true;
 >   }
 >   
-> +static bool __dump_emit(struct coredump_params *cprm, const void *addr, int nr)
-> +{
-> +	if (cprm->written + nr > cprm->limit)
-> +		return false;
-> +
-> +	while (nr) {
-> +		int chunk = min_t(int, nr, PAGE_SIZE);
-> +
-> +		if (!dump_emit_chunk(cprm, addr, chunk))
-> +			return false;
-> +
-> +		addr += chunk;
-> +		nr -= chunk;
-> +	}
-> +
-> +	return true;
-> +}
-> +
->   static bool __dump_skip(struct coredump_params *cprm, size_t nr)
+> -static bool coredump_write(struct core_name *cn,
+> -			  struct coredump_params *cprm,
+> -			  const struct linux_binfmt *binfmt)
+> +static bool coredump_write(struct coredump_params *cprm,
+> +			   const struct linux_binfmt *binfmt)
 >   {
->   	static char zeroes[PAGE_SIZE];
-> @@ -1247,13 +1267,16 @@ static bool __dump_skip(struct coredump_params *cprm, size_t nr)
+>   
+> -	if (dump_interrupted())
+> +	if (dump_interrupted()) {
+> +		cprm->state |= COREDUMP_STATE_TRUNCATED;
 >   		return true;
->   	}
+> +	}
 >   
-> -	while (nr > PAGE_SIZE) {
-> -		if (!__dump_emit(cprm, zeroes, PAGE_SIZE))
-> +	while (nr) {
-> +		size_t chunk = min_t(size_t, nr, PAGE_SIZE);
-> +
-> +		if (!__dump_emit(cprm, zeroes, chunk))
->   			return false;
-> -		nr -= PAGE_SIZE;
-> +
-> +		nr -= chunk;
->   	}
+> -	if (!dump_vma_snapshot(cprm))
+> +	if (!dump_vma_snapshot(cprm)) {
+> +		cprm->state |= COREDUMP_STATE_TRUNCATED;
+>   		return false;
+> +	}
 >   
-> -	return __dump_emit(cprm, zeroes, nr);
-> +	return true;
+>   	file_start_write(cprm->file);
+> -	cn->core_dumped = binfmt->core_dump(cprm);
+> +	if (!binfmt->core_dump(cprm))
+> +		cprm->state |= COREDUMP_STATE_TRUNCATED;
+>   	/*
+>   	 * Ensures that file size is big enough to contain the current
+>   	 * file postion. This prevents gdb from complaining about
+> @@ -1066,7 +1068,8 @@ static bool coredump_write(struct core_name *cn,
+>   	 */
+>   	if (cprm->to_skip) {
+>   		cprm->to_skip--;
+> -		dump_emit(cprm, "", 1);
+> +		if (!dump_emit(cprm, "", 1))
+> +			cprm->state |= COREDUMP_STATE_TRUNCATED;
+>   	}
+>   	file_end_write(cprm->file);
+>   	free_vma_snapshot(cprm);
+> @@ -1082,7 +1085,7 @@ static void coredump_cleanup(struct core_name *cn, struct coredump_params *cprm)
+>   		atomic_dec(&core_pipe_count);
+>   	}
+>   	kfree(cn->corename);
+> -	coredump_finish(cn->core_dumped);
+> +	coredump_finish(cprm->state);
 >   }
 >   
->   /* Flush the accumulated hole before writing data. */
+>   static inline bool coredump_skip(const struct coredump_params *cprm,
+> @@ -1136,14 +1139,14 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
+>   	if (unshare_files())
+>   		return;
+>   
+> -	if ((cprm->mask & COREDUMP_KERNEL) && !coredump_write(cn, cprm, binfmt))
+> +	if ((cprm->mask & COREDUMP_KERNEL) && !coredump_write(cprm, binfmt))
+>   		return;
+>   
+>   	coredump_sock_shutdown(cprm->file);
+>   
+>   	/* Let the parent know that a coredump was generated. */
+>   	if (cprm->mask & COREDUMP_USERSPACE)
+> -		cn->core_dumped = true;
+> +		cprm->state |= COREDUMP_STATE_STARTED;
+>   
+>   	/*
+>   	 * When core_pipe_limit is set we wait for the coredump server
+> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+> index 2c77e383e737..64f82fb642bf 100644
+> --- a/include/linux/binfmts.h
+> +++ b/include/linux/binfmts.h
+> @@ -94,7 +94,8 @@ struct linux_binfmt {
+>   	struct module *module;
+>   	int (*load_binary)(struct linux_binprm *);
+>   #ifdef CONFIG_COREDUMP
+> -	int (*core_dump)(struct coredump_params *cprm);
+> +	/* Returns true if the whole coredump was written. */
+> +	bool (*core_dump)(struct coredump_params *cprm);
+>   	unsigned long min_coredump;	/* minimal dump size */
+>   #endif
+>   } __randomize_layout;
+> diff --git a/include/linux/coredump.h b/include/linux/coredump.h
+> index 943bddfb22bf..709388dd5659 100644
+> --- a/include/linux/coredump.h
+> +++ b/include/linux/coredump.h
+> @@ -9,6 +9,16 @@
+>   #include <asm/siginfo.h>
+>   
+>   #ifdef CONFIG_COREDUMP
+> +/**
+> + * enum coredump_state - what happened while the coredump was written
+> + * @COREDUMP_STATE_STARTED: the dumper committed to writing a coredump
+> + * @COREDUMP_STATE_TRUNCATED: the dumper stopped before it had written all of it
+> + */
+> +enum coredump_state {
+> +	COREDUMP_STATE_STARTED		= (1U << 0),
+> +	COREDUMP_STATE_TRUNCATED	= (1U << 1),
+> +};
+> +
+>   struct core_vma_metadata {
+>   	unsigned long start, end;
+>   	vm_flags_t flags;
+> @@ -28,6 +38,8 @@ struct coredump_params {
+>   	int cpu;
+>   	/* COREDUMP_* options negotiated with the coredump server. */
+>   	u64 mask;
+> +	/* COREDUMP_STATE_* raised while the coredump is written. */
+> +	enum coredump_state state;
+>   	loff_t written;
+>   	loff_t pos;
+>   	loff_t to_skip;
 >
 -- 
 Thanks and Regards
