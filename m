@@ -1,180 +1,144 @@
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a4-smtp.messagingengine.com (flow-a4-smtp.messagingengine.com [103.168.172.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA05B46F497
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE0344C50E;
+	Wed,  9 Sep 2026 10:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788948866; cv=none; b=ExHb3INm5m2dU/egBOKr3piUOPA8UVkzUrVrfOSnNgovRLKwtLbnSeuJwgNSu1wx7ZC6m3egQmCSMhAtm9AaCVB420PCZwwLotxz85Qh+abFMuDRgPSE9Q572bcS3kBkfWwnQmejomLRyArwBTUrLvmyP1hlww1u3z+79pv+JcE=
+	t=1788948956; cv=none; b=mIow40hpu27pBGEM0YXZJx/CzawqVRdFO9kp6dwk/TFebInnh6cj+eJa6PP2HdV/VYQug5r+tqRcOeVtSYLCTpvLtnBN78NP+pFkbd0VyzXJWXJrXBAUdKQdeazTwSXtlDaEuQ9ns3hHxZkmJAkqvrjIQhmKLx9vwV6BTEOxbH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788948866; c=relaxed/simple;
-	bh=iYBl1TBcq8XbAN5lWXQ5xeG2cPfd6X78ZvXFz11jkXE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=rQUmWBcji4NTLBDRgBCAGmS+O58s7vL200wQKipZ1MP7c5LFLZroCO52ml6rXkYJFsiuGqFRW1duu48babinXO8C2m12mZ0Z8qk+A3JvbxNi58lpy25j9LuzDKp2PHIVwjhxCHfY9OJouw7F1tgjE9bgRGyCVoAluso4XSUj8Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PRYPqwdZ; arc=none smtp.client-ip=74.125.224.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1788948956; c=relaxed/simple;
+	bh=Fp54oNfUOiD3p8nGl6fbPqRL41XnZHFGGQ8I0mtwnUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZVPZigFQRhQpeBnZIFX8m6pG/z2AKBCkviafEhOqWERWWIw/rju4xU4qTJhGFtUOuVFPVgH1HsXPxas/0sXVygakuKkCEDw0K8+KFK/mhYK82xZZHvUtnoXpWoFspv5+qezgVpdUvX3awM4DKHDzN+hSh1Tm0o/F7SxmZuiAfdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=EMk86vK/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xdqi4c4T; arc=none smtp.client-ip=103.168.172.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PRYPqwdZ"
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-67109e0aa0eso324989d50.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:14:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788948858; x=1789553658; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cx1TfB9GnW58nOxDn37ATPgkJR6erGAjBm2BqNqkY28=;
-        b=PRYPqwdZUo/IB9RDXendGZtCja/iYJ1a6PM7GvuYIFcVs73+Aq2REekIyiRl7fjjAk
-         LRp04gPqNFcbyURy/5NcHJapf/ediVuCV9FJ1gJom6LcsEPMy9CDFhkqZ8YDn8ZOT1Ha
-         x4O5p+TtNQEe1tpXqurl4XGFaXkVfFZhpr/nW/5B/zHmkgqGY/bx0ycLpnRgdmH7gU0q
-         KPRfakb0o+JxLzBDZeilT8v9QkXEYKrAImhMZJKQUmLO1sKS50VNsZuJAQNQ3jAtlJZF
-         /hj5X3ycMERjXWMG5IKdk6DNw5Vm752upXAONuac2+tmtxbZxrS+V6RMe0RLe8rdCk66
-         7aSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788948858; x=1789553658;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cx1TfB9GnW58nOxDn37ATPgkJR6erGAjBm2BqNqkY28=;
-        b=LQYc8Je6vh76TO4mnHLm9CDRhV6nHaXEpD5WqFxjZxM2s9VLAZywg528YP2Y3bNlar
-         tAvKV4LJFS86yq7lO2h+GiuM9PVKsBsPUzHGQs1D4tNQxPdmPPox4K/+4Bk2Tzr8N6fP
-         5Iv1fQJNFmlvheLpDhyFelBaVeaCK16Jd1IpdNSBQrtxUeZBk4cGNw+GdTlYxxVEIqGD
-         v97/8QnR5d9tkI6ElKGivndR2cD1j1oG8au/MLHxpRNsjz6yRE8SBxUIh3BXd34D3WTs
-         jtvmwNpaB5/JX8+MngNaCRpGApTxN3ABl1WPnFunegYfYcuSmQ+P4E8jRhN4hmUpilpJ
-         jODg==
-X-Forwarded-Encrypted: i=1; AKwUvByIuMkqGeHlGLBP+vr85DVW4Dv33ympaJTUZjCUh5JC1ZxbqKpQ+JMAgriOor3wMj2rWpQxQmBkQiDXbEEc@vger.kernel.org
-X-Gm-Message-State: AFuF++m5fu8y9nA2PRjNeXwdjLfFTRnvTH0j88FYJrTmYgCAgjES7rfa
-	raWGPjzIIUzbhZ/3cHZLU443gbDiIYOn1jr0gOaD1SUR7N6ZPR4FChzr8a11RP6bJw==
-X-Gm-Gg: AYBFou35kG/pGFtksdEFjS3lyBmrCOBt7XjWpebrFC9wbP/xez40gZaArYoplbFkZig
-	XbMgtgPWqVref1VRUa8Dh6GMzGJq/pmxlP4S6Nurp2Mqp0uWqE/9OyVD1TwCypC9+AthJiDFZvJ
-	zW5LCF0JLdGIvwX9aiAYnef0o9ivAD4ByrZw/pq/JjU1JK4CBO6uF+XKSwqN6sYZEDRXiI+ueyC
-	UW7fBpucgUHWE9Qk5owKcbOB/7PI6t5UZoInZu/gEpJcGVUKhzoHtQGkBIWatvBg/PKtXgqsENX
-	4DEbh8aYoi741L98n4SrO0Om9M51ynGxp2wIkqfY55AEUdVVFgHN8lEEIZbB+dLEveuoRaan5rz
-	/ABv/8oV0Nqmkxgq+HUw6Prd6kDZ8SZyZOgWU/MoY9+vtZwfptevKBWJKOdJ9SUDCCRDkyO9ahY
-	Ov8QxAxsU1hLWCC4n4574CRdXSwj+uevuKgFTjoUsYWLh0uEIE03s2Jfak7ezhjPbAplnKI0TcZ
-	JIWP2oK4mhZS+yZiLFs7sZnren7/5h7SvvhmVmRmhKrw51JL2HDKqkHnF4=
-X-Received: by 2002:a05:690e:4513:10b0:670:f6e8:1f8c with SMTP id 956f58d0204a3-670f6e87f07mr2998845d50.84.1788948857514;
-        Wed, 09 Sep 2026 03:14:17 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb47a8894sm12066216d50.1.2026.09.09.03.14.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 03:14:16 -0700 (PDT)
-Date: Wed, 9 Sep 2026 03:14:11 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-cc: Ackerley Tng <ackerleytng@google.com>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>, 
-    Baolin Wang <baolin.wang@linux.alibaba.com>, 
-    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
-    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-    Christoph Lameter <cl@gentwo.org>, 
-    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
-    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
-    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-    Marcelo Tosatti <mtosatti@redhat.com>, 
-    Matthew Wilcox <willy@infradead.org>, 
-    Mel Gorman <mgorman@techsingularity.net>, 
-    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
-    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
-    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Shakeel Butt <shakeel.butt@linux.dev>, 
-    Suren Baghdasaryan <surenb@google.com>, 
-    Vlastimil Babka <vbabka@kernel.org>, 
-    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
-    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
-    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 16/26] mm/fbatch: remove lru_cache_disable() from NUMA
- folio migration
-In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
-Message-ID: <bc903047-0dad-902d-5774-ecf73c6dd343@google.com>
-References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="EMk86vK/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xdqi4c4T"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailflow.phl.internal (Postfix) with ESMTP id C315C138023A;
+	Wed,  9 Sep 2026 06:15:35 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Wed, 09 Sep 2026 06:15:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1788948935; x=
+	1788956135; bh=l0bA2UOwepFFOmS/bv5Uzc5Fj7QM31mNBWzJWBJpT/A=; b=E
+	Mk86vK/XwrtS9J37WZuFfmJ5SVpJDHDZ6hEJ8/IXG30fs2WD+B0ufH5VZFUTp292
+	jMOuh/xKSUtcqZ8hiBLpOyvteE1BuGHOG9HvywMlI0hwEgaDKys2a9XzQ+sEkqHO
+	M/+cZ7LVwJlZceL0cUnyGzzcwnYBvfy5fJ/D8GTLBmRcLfG3+Ke4EVFZcSZs0JXk
+	/8ANZYCWLjLkbXkfZrFoXWcY1Bakady40rjSUvlJjLPsnPDnTF6F+XewmrE9LrHK
+	YY6yyOgfO5sIcvhdh7BMc4wPd65vHXtSLOG3WGiV6Gzobzei7naXe2nLiNybLrgW
+	O+G0HaVbH/9HzzShnYDtA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1788948935; x=1788956135; bh=l0bA2UOwepFFOmS/bv5Uzc5Fj7QM31mNBWz
+	JWBJpT/A=; b=xdqi4c4TC2EKOMc6mxGpNWM+fvaddmCXeGS11XeaRuRt7M2BDEW
+	BuJchR8oIjLZm3fGlpVcP9diLG3tV9CGFpJUFy35p/wAFFZiQ5YyDfSM+7FzSsbD
+	VjYTsKfRLJJC54Tgip8/mqeGmVdqEy1bCKlIDw6FcxcTx3q83FF17sWqbWu1EB7H
+	JtrtZ00WLoSx9PFCyg35BDGSfOBmNm36KL8mrMnZ0Y7PhhxmkCQBQPLzW0DZc1IA
+	TIF6kHMha7NNegTal9MhKFzn0xYe2yfjC/q3Hb70tKT9TKu3EvL1QPZvdFV5x0EM
+	tsb6RDHlagupN5u+hXBiXeP6HVmNNaD8d9g==
+X-ME-Sender: <xms:xzGhatUAaFDvmvipLNsi9G-JyJiuqY3hJG3-0yKVcQbeJrZNbNeNFQ>
+    <xme:xzGhavk_0CYEIW7IMPC9Dy57zl-oCd9JwmD5wyz6D8b95RYoVoa9Se2ks43X-sgAw
+    AkOCsABGQCHUeD8YSuKjkolVLIps1hhCe4m2tkpToPzIk6xcbc-9MM9Fg>
+X-ME-Received: <xmr:xzGhatun6zlTZCxkwaSgC4dgy4Obno20MG8dP9UM38mxvYOpl5WVmqvP3Q0>
+X-ME-Proxy-Cause: dmFkZTEUqK0n663bU8dHG/gXAim5or8IDZuAMT9spUIRS7o1wQxh4f32BZUUt41uBSxvbY
+    DWEH4wBzf4fX/tU6Fe9b/UvDQQ0roIkvnNsTesZI9aPxwEDI8S2XaBrAFOz/JVvzPWk4GF
+    0W/CnzpEgT1GukTwvX2x5EynFNHqZa91yCXtlA6py88ymBFZ0qGpBPmnBWEroBPrxOoZ6J
+    PqxtX3nPwiTYzSUIvS++f61uroxeRxzzZwFRBYthF8hRDAgYghR75AEnzTZbKrjRQCYzoK
+    UupKJGVHx02xDqQX/sBTbIoAS8d0ijH6w/AR1PW2zkt8ss3DkUpKKE6dfOB3tro1rsAmBf
+    uHeBeKkb7LoD3Po4skHeQe3Uspt+l3Gq1VlrJ5a6fnnbHxbUcjlKfrCAKqxE9l418CYF5J
+    HQs0518a8Aoh8vHgCOZY7J6rYFMHe6HIBNE5Dl4MUNHCPW473nmVgiIW8SyUqM2YYkMiOf
+    mLjR+f4JylidrCUHOGtjuAgJAPK+CsuC/1dSGLw9TfW2GGosMYDNHuzQw7SIsjb/70JD/5
+    EJqKYT+G60OzjQ2RhQsUxYnlrJQrsIT2h2yFJvKMD18gPCH5dM9Mtc6XusEacbzsurMclR
+    rq2n8fJ2FFEHXk9Zhzcu1t9gDC2A0BWbL6yHfCHptYj/aZGmSLMR8s6FE7nA
+X-ME-Proxy: <xmx:xzGhaohW7Svp05zxtpu383xfOj-Pvk0PxIihb73lf-TLnh53Z-dxsA>
+    <xmx:xzGhahS9zW_QrY6EM3-A7DeAA5QdQkwfNHnGvMKkU5VmfsTMFFKGkw>
+    <xmx:xzGhao8sGJPohqw-JMDg1l0cmRId1NX0HquDq7G5V6woFP4IOUBRPA>
+    <xmx:xzGhatJXlaFAqYw5pHoqdjpnQwXwaSHjo69R-pUidKf5nnXBAvar9w>
+    <xmx:xzGhaoByYJea67cl2E40ENZtIHPA_Y36Cmd5EhNgYpInH2bg06n7cfBf>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 9 Sep 2026 06:15:34 -0400 (EDT)
+Date: Wed, 9 Sep 2026 11:15:33 +0100
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: akpm@linux-foundation.org, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Carlos Maiolino <cem@kernel.org>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [RFC PATCH 0/5] mm: sub-folio dirty tracking for PTE-mapped mmap
+ writes
+Message-ID: <aqEwlUNIYYUEfdje@thinkstation>
+References: <20260903182943.662461-1-kirill@shutemov.name>
+ <20260909100240.635595-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909100240.635595-1-usama.arif@linux.dev>
 
-Remove lru_cache_disable() from mbind(MOVE), migrate_pages and move_pages
-syscall handling. They do not now benefit from lru_add_drain_all() first;
-they gain little benefit from invalidating buffer head LRUs first, since
-5.0 commit 80409c65e2c6 ("mm: migrate: make buffer_migrate_page_norefs()
-actually succeed"); and it's a shame that (even without CAP_SYS_NICE)
-they can prevent concurrent tasks from enjoying the use of those caches.
+On Wed, Sep 09, 2026 at 03:02:39AM -0700, Usama Arif wrote:
+> On Thu,  3 Sep 2026 19:29:38 +0100 Kiryl Shutsemau <kirill@shutemov.name> wrote:
+> 
+> > From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+> > 
+> > A store through a shared file mapping dirties the whole folio. With large
+> > page cache folios that turns a 4K store into 2M of writeback: one dirty
+> > bit per folio, and writeback has no way to know which part changed.
+> > 
+> > XFS already knows better. iomap tracks dirty state per block and
+> > iomap_writeback_folio() submits only the dirty ranges, and the buffered
+> > write path sets just the range it copied. Only the mmap path throws that
+> > away, because iomap_dirty_folio() covers the whole folio.
+> > 
+> > Narrowing the dirtying at page_mkwrite() time does not work on its own:
+> > set_pte_range() batch-maps a whole folio writable on the first shared
+> > write fault, so the stores that follow never fault and never reach the
+> > filesystem.
+> > 
+> > So harvest the hardware instead. folio_clear_dirty_for_io() already calls
+> > folio_mkclean(), whose rmap walk reads pte_dirty() for every entry of the
+> > folio and throws it away. Those bits are the only record of which parts
+> > of a large folio were written through a mapping. Collect them there and
+> > hand the filesystem the runs that were dirty, through a new
+> > a_ops->dirty_folio_range().
+> > 
+> > All of this is about PTE-mapped folios. A PMD-mapped folio has a single
+> > dirty bit for the 2M it maps, so there is nothing finer to harvest, and
+> > it keeps writing back whole. Keeping shared write faults off PMDs is a
+> > separate patch and not part of this posting.
+> > 
+> > On a 512M file in 2M folios on XFS, storing one byte per folio and
+> > calling msync() wrote 512M before and writes 1M after, with identical
+> > minor fault counts.
+> 
+> Hi Kiryl,
+> 
+> The motivation makes sense to me. I will look into the patches.
+> 
+> Just wanted to check, the above xfs example, is that on an ARM host?
 
-Signed-off-by: Hugh Dickins <hughd@google.com>
----
- mm/mempolicy.c | 7 -------
- mm/migrate.c   | 3 ---
- 2 files changed, 10 deletions(-)
+No, that was x86. But the math is the same on any arch with 2M THP/mTHP
+in page cache and 4k PAGE_SIZE.
 
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 79053ece02cd..f4d9b5580632 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -1343,8 +1343,6 @@ int do_migrate_pages(struct mm_struct *mm, const nodemask_t *from,
- 	long err = 0;
- 	nodemask_t tmp;
- 
--	lru_cache_disable();
--
- 	/*
- 	 * Find a 'source' bit set in 'tmp' whose corresponding 'dest'
- 	 * bit in 'to' is not also set in 'tmp'.  Clear the found 'source'
-@@ -1425,7 +1423,6 @@ int do_migrate_pages(struct mm_struct *mm, const nodemask_t *from,
- 			break;
- 	}
- 
--	lru_cache_enable();
- 	if (err < 0)
- 		return err;
- 	return (nr_failed < INT_MAX) ? nr_failed : INT_MAX;
-@@ -1530,8 +1527,6 @@ static long do_mbind(unsigned long start, unsigned long len,
- 	if (!new)
- 		flags |= MPOL_MF_DISCONTIG_OK;
- 
--	if (flags & (MPOL_MF_MOVE | MPOL_MF_MOVE_ALL))
--		lru_cache_disable();
- 	{
- 		NODEMASK_SCRATCH(scratch);
- 		if (scratch) {
-@@ -1626,8 +1621,6 @@ static long do_mbind(unsigned long start, unsigned long len,
- 		putback_movable_pages(&pagelist);
- mpol_out:
- 	mpol_put(new);
--	if (flags & (MPOL_MF_MOVE | MPOL_MF_MOVE_ALL))
--		lru_cache_enable();
- 	return err;
- }
- 
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 364015cbef33..1d2085529cd0 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -2359,8 +2359,6 @@ static int do_pages_move(struct mm_struct *mm, nodemask_t task_nodes,
- 	int start, i;
- 	int err = 0, err1;
- 
--	lru_cache_disable();
--
- 	for (i = start = 0; i < nr_pages; i++) {
- 		const void __user *p;
- 		int node;
-@@ -2439,7 +2437,6 @@ static int do_pages_move(struct mm_struct *mm, nodemask_t task_nodes,
- 	if (err >= 0)
- 		err = err1;
- out:
--	lru_cache_enable();
- 	return err;
- }
- 
 -- 
-2.51.0
-
+  Kiryl Shutsemau / Kirill A. Shutemov
