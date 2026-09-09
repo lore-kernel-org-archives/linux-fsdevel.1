@@ -1,292 +1,235 @@
-Received: from mail-oo2-f4.google.com (mail-oo2-f4.google.com [74.125.231.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE5D352008
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AF4576ED2
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788967167; cv=none; b=UDUqd9KHf1+Als9E6pMiyPZi6h940jvRu9H5lOaPquHImnMarloLRGBgp5MnAPGItvYrHXsZmwJg8EIJRB31IGDoeEYPcw7HMQBNtsdYivbE3r3rIQwndls09Z2+ZAOkzdGyk6GkhmL8iXfSKL23WqI+FUhv2trQO0jQw9skEd8=
+	t=1788969180; cv=none; b=JVTwJ+PEv9rKCG4itVY7N4158TmleOyKVcMLm34LHaZzQkSzIt+K9O0d+jKivZ8dss2NtC+GZ5+MoYqni8u2sQCdjRrJZijF12v3oI7V2RK4q6TQeRkw/qtWqJw0lOSKREqor/uJo9SHAyInjqyM3krefzCAecDpTE96+KMq0ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788967167; c=relaxed/simple;
-	bh=fBXbFpbcQbjFQINt1XxYvnOz0zlP+VZPixWHDI+5LpQ=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=mgwJkuH+1MyXV3W4tj/GRpQ5UT7vDG/J9waFPUHlCEifaFB5Qq9z2eWd5UXMF/hu7ikie+Y7aC2WS63A8VlpXeJMRomkTCCRYWfMFTgYol+H9AgRxuOhzjKT/iai20eNHVIYzpyjq2k9o0TZXGlybvFFHJ5Eh8sa9r/JJ6cQdlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo2-f4.google.com with SMTP id 46e09a7af769-7f4e9ec63a7so1428560a34.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 08:19:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788967164; x=1789571964;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=poVcBc/nmVPP4K5lL2InQVuUDiv4ng734KLoRF+5fug=;
-        b=pM2rsoKgelq+IMEL2lvP+p0/AnOU4VmqCG3TelPNb850nAyNzshfv2rH/Z5OWxhuEB
-         /e4NYg3DgiAz/6ZOx3bl66RHeIKOfkC/qKhGHRTZhNZ289vN4CMq8ru0PR/K2H0jmsBf
-         DxiULGx532sFftGh/FBMJO8vWKUvSOsmDQA9s6LF1S5XbpgAGSAxmd6N0t2ttag9r+Zo
-         xPTXSfRjLo7wIbJRg4jdqBkmFbef0BAtntQNVJ/g3dc61wlZMaubwXmkoAfGjuHrWilT
-         0uXNCFnhkaKii3rMyAl4ecTSDbVdaa/ZLYG3b8xdYgO2UH9Lkr5s0UpTbnANkG3h2BL2
-         0NlQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzNk0dyqG4aO5vIdJDlOuY5TjeO2aSXjEUgN6TSiXXKOV2HVge5TJA1+GsmHPBfVcGGxD8P3Z3Et9L5FeqL@vger.kernel.org
-X-Gm-Message-State: AFuF++k4z4cOcKtKr8mGSXxrDYOhPb4w0WMekxdBBDei9p9jASxEpJ7z
-	IIPq9WQlHT+YK8aYlAxCrgEr2Zwg1HpOL4Fb3TE0GwDvI7ds9wVKMHcgTF76ecOBifIfELRkBY2
-	km/mN5pjltaHOPnq5qfBywkgA4V4OgAthP0hJO5Vf7HPGK5W1Jlz9doMCg94=
+	s=arc-20240116; t=1788969180; c=relaxed/simple;
+	bh=Wpr1ztSMIP4YrF+biBe+xPNMlF2tVNTFD3vib3TeIfU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=M2x74dP++L54IbwkeC/Xejxm3lPZKOf+HumSSZK29536xvYDcv7Ix8F5GCPl5J2tG+UjUsyuKYMJA0smOpOcUZsgKuw1o6Uzq4wWy9kOOEg46CZirt9nMx3y54myD5YRECG21yCfbd7N0WYe8jnANPlrFLyRF/PhTtoVLEncFB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O+QjyCEu; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O+QjyCEu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03DA01F00A3D;
+	Wed,  9 Sep 2026 15:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788969178;
+	bh=wY6HDRVpmOVaout77ViBbFbskq21rshSWjtaZsgYYkE=;
+	h=From:Subject:Date:To:Cc;
+	b=O+QjyCEunmZZP1I2MtJcNuxsNrASv155aHuETKzPvKjFhmz+O4GQql6e69wqx9bko
+	 INH6e8/1mWqdFhKdqqkJ3R04EQmEqlTp2Vx6+G9bkSlTjI4UG7ZaXyjcfbdxu6zj6+
+	 9BY0rH5TiNykOm5Cxz35WXHGEtxqHMtziUtJhA+mCvbWPbxMgwBesYo7sn3IL/sEnJ
+	 YryZSZMuHxuxfHWmQ52oa3xAFcVl8B/yajRvk1BPOhbed7SBiSDGFb/pWN+CFbLFTd
+	 oPiDjOpC16kJEa/zVge8HPVlIAMkB5qqGkizO2TNME7VNJpwZzq14H4vb2wYptO9jq
+	 ZEZ9njZzbNRow==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH RFC v3 00/15] coredump, files: exit files on request
+Date: Wed, 09 Sep 2026 17:52:43 +0200
+Message-Id: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4b97:b0:6bd:5506:aadc with SMTP id
- 006d021491bc7-6bd5506ae79mr4764719eaf.35.1788967164386; Wed, 09 Sep 2026
- 08:19:24 -0700 (PDT)
-Date: Wed, 09 Sep 2026 08:19:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aa178fc.f2639fcc.29487d.0008.GAE@google.com>
-Subject: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
-From: syzbot <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43O0WrDIBQG4FcpXk9RU1Kzq8FgD7DbMYqenDQ2T
+ os2rqXk3asZY+xm7PI/+H/+N5IwWkzkcXMjEbNNNvgSmocNgVH7A1Lbl0wkly1Xcks/Q5wohIj
+ 9/HGis3cBJprQDbRttOpUJ6TacVL6p4iDvaz2G3l9eSbvX8c0myPCuar1mdEJqYnaw1hP1WffP
+ gMXEu4H6zAx52w6s9yw2qjNseQQr+v2LNZv/jEzC8rpVg29ANA77PXThNGjYyEe1olZ/lAdl39
+ RslDCIGDTKjBG/KKWZbkDa7TNJl8BAAA=
+X-Change-ID: 20260824-work-coredump-unlock-self-63a898912870
+To: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
+ linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, Xin Zhao <jackzxcui1989@163.com>, 
+ Mateusz Guzik <mjguzik@gmail.com>, Jeff Layton <jlayton@kernel.org>, 
+ Jens Axboe <axboe@kernel.dk>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9084; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Wpr1ztSMIP4YrF+biBe+xPNMlF2tVNTFD3vib3TeIfU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLjqpC92vu2Ap2Lnwb2N2TnCKW195k63Gov2zryad
+ PlA2K+4jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlYNzAy7JdZvCw3fIHNLK6V
+ 9dbJdqHmvd8eCSb33/xcPu+eVX9pBCND2/3pUZ9PvvRJ6zqma6aYYBF1eerluzbflr7cIFXLZmr
+ DAQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hello,
+We've had quite a few proposal for exiting files before generating the
+coredump (see [1]-[8]). The various proposed solution were quite
+unacceptable. So I took some time to look what a _remotely_ acceptable
+version of this could look like. Here it is.
 
-syzbot found the following issue on:
+The gist is that we allow the coredump socket to request the
+thread-group shed the various fdtables closed synchronously before
+generating the coredump.
 
-HEAD commit:    654ae5d73c05 Merge tag 'drm-fixes-2026-09-05' of https://g..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11860cf9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8c5c3949d762a91f
-dashboard link: https://syzkaller.appspot.com/bug?extid=7cab6a19619f1b8efc00
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+The intricate task is that this requires us to add a primitive to close
+fdtables synchronously. Coredump is not enough to justify this but
+performance numbers for this look pretty convincing. For tasks exiting
+with a large file descriptor table this means getting rid of _a lot_ of
+cmpxchg()s and hammering on task->pi_lock. The cost of this was
+mentioned in various threads over the years. I found at least recent
+comments by Oleg and Neil.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+The obvious problematic case are kernel threads. fput() punts their
+final __fput() to a workqueue. kthreads never return to userspace to run
+task work and some of them may need to finish a umount and so cannot
+->release() inline. No path we change is taken by a kthread. They don't
+own a descriptor table and kthreadd is created with CLONE_FILES and
+every kthread inherits it. So all of them share init_files and init_task
+pins that forever. Their exit_files() never drops the last reference.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/90a1eb1b2bfe/disk-654ae5d7.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/dcbbe9cf09c5/vmlinux-654ae5d7.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c80eca6821dd/bzImage-654ae5d7.xz
+kernel_execve() refuses PF_KTHREAD outright. Usermodehelpers are spawned
+without the kthread flag. close_range() is a syscall. The one indirect
+way is a failing copy_process() calling exit_files() on a
+child from a kthread parent. A dup_fd() in copy_process() cannot hold
+the last reference to any of its files while the source table is alive.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com
+Worker threads such as io_uring workers are user threads without
+PF_KTHREAD that share the fdtable. One of them can be the last to put
+the fdtable at exit. Today fput() hands their final __fput()s to task
+work. The worker runs that itself in exit_task_work() a few lines later.
+Now the same thread does the same work in exit_files() instead. vhost
+workers are created without a descriptor table at all, so they never
+even put an fdtable. Neither kind ever execs or calls close_range().
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Tainted: G             L     
-------------------------------------------------------
-syz.6.857/9678 is trying to acquire lock:
-ffff88803cd16460 (sb_writers#6){.+.+}-{0:0}, at: ovl_create_object+0x130/0x3b0 fs/overlayfs/dir.c:705
+Now the performance numbers. I measured this on a 64 vCPU KVM guest (AMD
+EPYC 9754) on top of vfs-7.4.coredump with and without the series and
+the same x86_64_defconfig for both. The benchmark opens N files in a
+forked worker, moves them to random positions in the descriptor table so
+that the table order has nothing to do with the allocation order, and
+times the teardown:
 
-but task is already holding lock:
-ffff888058c6e948 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
-ffff888058c6e948 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: lookup_open+0xb13/0x1990 fs/namei.c:4458
+- process exit
+- execve() with N close-on-exec descriptors
+- close_range() with and without CLOSE_RANGE_UNSHARE
 
-which lock already depends on the new lock.
+Here are the medians over two boots which agree within 4%. With
+/dev/null as the file and 4096, 65536 and 1M descriptors:
 
+                         4096 fds        65536 fds        1M fds
+  ----------------------------------------------------------------------
+  exit                   1045 -> 895 us  18.9 -> 14.9 ms  429 -> 306 ms
+                          -14.4%         -21.2%           -28.7%
+  ----------------------------------------------------------------------
+  execve, close-on-exec  1393 -> 1190 us 21.4 -> 16.9 ms  471 -> 325 ms
+                          -14.6%         -21.0%           -31.1%
+  ----------------------------------------------------------------------
+  close_range()          1179 -> 988 us  21.9 -> 17.4 ms  484 -> 337 ms
+                          -16.1%         -20.6%           -30.3%
+  ----------------------------------------------------------------------
+  close_range(UNSHARE)   1118 -> 958 us  22.1 -> 17.8 ms  487 -> 333 ms
+                          -14.3%         -19.8%           -31.7%
 
-the existing dependency chain (in reverse order) is:
+So that's a 16-21% win or 40-150 ns per closed file. This sheds
+init_task_work() and task_work_add() per file with its cmpxchg() and the
+TIF_NOTIFY_RESUME test-and-set, the list walk with the indirect call
+in the path out, and then a second pass over every struct file that
+isn't cache-hot anymore by then.
 
--> #4 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5908 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
-       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
-       inode_lock_shared include/linux/fs.h:1039 [inline]
-       lookup_slow+0x42/0x70 fs/namei.c:1935
-       walk_component fs/namei.c:2282 [inline]
-       lookup_last fs/namei.c:2789 [inline]
-       path_lookupat+0x5e8/0xc40 fs/namei.c:2813
-       filename_lookup+0x202/0x590 fs/namei.c:2842
-       kern_path+0x37/0x50 fs/namei.c:3036
-       lookup_bdev+0xd8/0x2a0 block/bdev.c:1268
-       bdev_file_open_by_path+0x82/0x330 block/bdev.c:1123
-       add_device drivers/mtd/devices/block2mtd.c:279 [inline]
-       block2mtd_setup2.isra.0+0x2ee/0xbd0 drivers/mtd/devices/block2mtd.c:459
-       block2mtd_setup+0xbd/0xd0 drivers/mtd/devices/block2mtd.c:476
-       param_attr_store+0x199/0x300 kernel/params.c:591
-       module_attr_store+0x58/0x80 kernel/params.c:906
-       sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
-       kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6af/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+The performance boost holds from 256 to 1M descriptors and is largest
+at 1M. Note the thread count doesn't matter since one thread does the
+close anyway.
 
--> #3 (param_lock){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5908 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       ieee80211_rate_control_ops_get net/mac80211/rate.c:221 [inline]
-       rate_control_alloc net/mac80211/rate.c:267 [inline]
-       ieee80211_init_rate_ctrl_alg+0x1df/0x3b0 net/mac80211/rate.c:1008
-       ieee80211_register_hw+0x2c1e/0x4580 net/mac80211/main.c:1561
-       mac80211_hwsim_new_radio+0x2b08/0x6510 drivers/net/wireless/virtual/mac80211_hwsim_main.c:6138
-       init_mac80211_hwsim+0x5e2/0x6f0 drivers/net/wireless/virtual/mac80211_hwsim_main.c:7624
-       do_one_initcall+0x11c/0x6f0 init/main.c:1357
-       do_initcall_level init/main.c:1419 [inline]
-       do_initcalls init/main.c:1435 [inline]
-       do_basic_setup init/main.c:1455 [inline]
-       kernel_init_freeable+0x6ea/0x7b0 init/main.c:1670
-       kernel_init+0x21/0x1e0 init/main.c:1560
-       ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+So with eight processes tearing down 65536 descriptors each at the same
+time the win is 16-21% (34.9 -> 29.5 ms for exit, 34.4 -> 27.0 ms
+for execve). The old code walks the table once to queue the task work
+and then walks all 16 MB of struct file a second time from
+task_work_run().
 
--> #2 (rtnl_mutex){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5908 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       rtnl_lock net/core/rtnetlink.c:80 [inline]
-       rtnetlink_rcv_msg+0x371/0xe90 net/core/rtnetlink.c:7138
-       netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2556
-       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1345
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1900
-       sock_sendmsg_nosec net/socket.c:800 [inline]
-       __sock_sendmsg net/socket.c:815 [inline]
-       sock_sendmsg+0x394/0x410 net/socket.c:838
-       splice_to_socket+0xb3c/0x11a0 fs/splice.c:884
-       do_splice_from fs/splice.c:936 [inline]
-       do_splice+0x109c/0x1fa0 fs/splice.c:1349
-       __do_splice+0x33b/0x370 fs/splice.c:1431
-       __do_sys_splice fs/splice.c:1634 [inline]
-       __se_sys_splice fs/splice.c:1616 [inline]
-       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+So once eight CPUs compete for the cache that second pass gets
+very expensive. With 32 or 64 processes at once both kernels are bound
+by pushing millions of files through slab and RCU. So then the
+difference shrinks to 4-8%. Still though...
 
--> #1 (&pipe->mutex){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5908 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       pipe_lock fs/pipe.c:91 [inline]
-       pipe_lock+0x69/0x80 fs/pipe.c:88
-       iter_file_splice_write+0x1fd/0x10b0 fs/splice.c:682
-       do_splice_from fs/splice.c:936 [inline]
-       do_splice+0x109c/0x1fa0 fs/splice.c:1349
-       __do_splice+0x33b/0x370 fs/splice.c:1431
-       __do_sys_splice fs/splice.c:1634 [inline]
-       __se_sys_splice fs/splice.c:1616 [inline]
-       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Files whose own release dominates the cleanup gain a little less. 13%
+for eventfds, 11% for pipes, 6% for AF_UNIX sockets and 7% for distinct
+tmpfs inodes. For them a release costs about 2 us per descriptor anyway.
 
--> #0 (sb_writers#6){.+.+}-{0:0}:
-       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
-       check_prevs_add kernel/locking/lockdep.c:3300 [inline]
-       validate_chain kernel/locking/lockdep.c:3924 [inline]
-       __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5254
-       lock_acquire kernel/locking/lockdep.c:5908 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
-       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
-       percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
-       __sb_start_write include/linux/fs/super.h:19 [inline]
-       sb_start_write include/linux/fs/super.h:125 [inline]
-       mnt_want_write+0x6f/0x420 fs/namespace.c:494
-       ovl_create_object+0x130/0x3b0 fs/overlayfs/dir.c:705
-       lookup_open+0x1255/0x1990 fs/namei.c:4567
-       open_last_lookups fs/namei.c:4767 [inline]
-       path_openat+0xa2c/0x2440 fs/namei.c:4997
-       do_file_open+0x20e/0x430 fs/namei.c:5029
-       do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
-       do_sys_open fs/open.c:1423 [inline]
-       __do_sys_openat fs/open.c:1439 [inline]
-       __se_sys_openat fs/open.c:1434 [inline]
-       __x64_sys_openat+0x12d/0x210 fs/open.c:1434
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Using function profiling a 65536 descriptor exit spends 4.6 ms in
+exit_files() and 11.1 ms in task_work_run() before and now 13.7 ms in
+exit_files() and nothing in task_work_run() after.
 
-other info that might help us debug this:
+close(2) is untouched and measures the same. will-it-scale (open1,
+open3, dup1, eventfd1, unix1, pipe1, signal1, processes and threads)
+is within 2% either way. dup1_threads at 16 tasks and getppid1 at 64
+tasks a few percent better which I'd put down to layout.
 
-Chain exists of:
-  sb_writers#6 --> param_lock --> &ovl_i_mutex_dir_key[depth]
+So, back to coredumps. With COREDUMP_CLOSE_FILES coredumps switch to an
+empty file descriptor table before generating the coredump. That
+requires a bit of synchronization but I think I got the basics down.
 
- Possible unsafe locking scenario:
+The coredumping thread allocates a new empty file descriptor table. It
+then wakes all threads in the thread-group and tells them to switch to
+the empty file descriptor table and get rid of the old one. They report
+back once they're done.
 
-       CPU0                    CPU1
-       ----                    ----
-  lock(&ovl_i_mutex_dir_key[depth]);
-                               lock(param_lock);
-                               lock(&ovl_i_mutex_dir_key[depth]);
-  rlock(sb_writers#6);
+So that handles most cases where locks would be held for an unreasonable
+time until the coredump is generated but since files can be shared
+between completely unrelated processes that's not a guarantee and we
+can't give one. But it solves the reported issue without resorting to
+even grosser hacks.
 
- *** DEADLOCK ***
+Link: https://lore.kernel.org/20260618030700.2511668-1-jackzxcui1989@163.com [1]
+Link: https://lore.kernel.org/20260618150301.3226517-1-jackzxcui1989@163.com [2]
+Link: https://lore.kernel.org/20260619122419.3954581-1-jackzxcui1989@163.com [3]
+Link: https://lore.kernel.org/20260624145552.70143-1-jackzxcui1989@163.com [4]
+Link: https://lore.kernel.org/20260630075604.52533-1-jackzxcui1989@163.com [5]
+Link: https://lore.kernel.org/20260804001703.1340667-1-jackzxcui1989@163.com [6]
+Link: https://lore.kernel.org/20260807040124.1706927-1-jackzxcui1989@163.com [7]
+Link: https://lore.kernel.org/20260808052732.2589657-1-jackzxcui1989@163.com [8]
 
-locks held by syz.6.857/9678: 2, last CPU#1:
- #0: ffff88802ba66460 (sb_writers#13){.+.+}-{0:0}, at: lookup_open+0x150/0x1990 fs/namei.c:4451
- #1: ffff888058c6e948 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
- #1: ffff888058c6e948 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: lookup_open+0xb13/0x1990 fs/namei.c:4458
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Changes in v3:
+- Drop the llist. This brings yet another performance boost.
+- Link to v2: https://patch.msgid.link/20260902-work-coredump-unlock-self-v2-0-1bece368cbb1@kernel.org
 
-stack backtrace:
-CPU: 1 UID: 0 PID: 9678 Comm: syz.6.857 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2059
- check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2191
- check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
- check_prevs_add kernel/locking/lockdep.c:3300 [inline]
- validate_chain kernel/locking/lockdep.c:3924 [inline]
- __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5254
- lock_acquire kernel/locking/lockdep.c:5908 [inline]
- lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
- percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
- percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
- __sb_start_write include/linux/fs/super.h:19 [inline]
- sb_start_write include/linux/fs/super.h:125 [inline]
- mnt_want_write+0x6f/0x420 fs/namespace.c:494
- ovl_create_object+0x130/0x3b0 fs/overlayfs/dir.c:705
- lookup_open+0x1255/0x1990 fs/namei.c:4567
- open_last_lookups fs/namei.c:4767 [inline]
- path_openat+0xa2c/0x2440 fs/namei.c:4997
- do_file_open+0x20e/0x430 fs/namei.c:5029
- do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
- do_sys_open fs/open.c:1423 [inline]
- __do_sys_openat fs/open.c:1439 [inline]
- __se_sys_openat fs/open.c:1434 [inline]
- __x64_sys_openat+0x12d/0x210 fs/open.c:1434
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2d2539e159
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f2d261d2028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007f2d25625fa0 RCX: 00007f2d2539e159
-RDX: 0000000000000040 RSI: 0000200000000180 RDI: ffffffffffffff9c
-RBP: 00007f2d25435024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000023 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f2d25626038 R14: 00007f2d25625fa0 R15: 00007ffeef1e4b18
- </TASK>
-
+Changes in v2:
+- Revamp.
+- Link to v1: https://patch.msgid.link/20260824-work-coredump-unlock-self-v1-0-48fd1cca7eda@kernel.org
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Christian Brauner (15):
+      fs: don't open-code file_close_fd() in close_fd()
+      fs: add switch_files_struct()
+      fs: move unshare_fd() to fs/file.c
+      fs: remove unshare_files()
+      fs: move filp_flush() to other file helpers
+      fs: make close_files() synchronous
+      fs: make close_range() synchronous
+      fs: rename do_close_on_exec() to close_cloexec_files()
+      fs: make close_cloexec_files() synchronous
+      coredump: s/startup/done/g
+      coredump: factor out coredump_wait_inactive()
+      fs: add alloc_files_struct()
+      coredump: add COREDUMP_CLOSE_FILES
+      tools: sync coredump.h header
+      selftests/coredump: test COREDUMP_CLOSE_FILES
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+ fs/coredump.c                                      |  91 +++-
+ fs/exec.c                                          |  13 +-
+ fs/file.c                                          | 115 ++--
+ fs/internal.h                                      |   1 +
+ fs/open.c                                          |   2 +-
+ include/linux/fdtable.h                            |   7 +-
+ include/linux/sched/signal.h                       |   5 +-
+ include/uapi/linux/coredump.h                      |   8 +
+ kernel/exit.c                                      |  15 +-
+ kernel/fork.c                                      |  48 +-
+ tools/include/uapi/linux/coredump.h                |   8 +
+ tools/testing/selftests/coredump/Makefile          |   4 +-
+ .../selftests/coredump/coredump_close_files_test.c | 592 +++++++++++++++++++++
+ .../coredump/coredump_socket_protocol_test.c       |   6 +
+ .../selftests/coredump/coredump_test_helpers.c     |   3 +-
+ 15 files changed, 810 insertions(+), 108 deletions(-)
+---
+base-commit: a5625efa7a0e77c26e857de147284a21d53fa3ad
+change-id: 20260824-work-coredump-unlock-self-63a898912870
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
