@@ -1,192 +1,72 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5CD50AC14
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 11:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138DC48A2C6;
+	Wed,  9 Sep 2026 11:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788952521; cv=none; b=czPIgjVv3xfYMjPVdLaFCrli+FoEek4kUqC28zTfN4gAsJ5udgHIl+SxXxy9RAQ+IA0iY2OhdrtqubHzBBQhmsVTVVxvAlF2ErmrRgALkgaD4rMJmy4TWze2iDRF4XKpyX8QdgD5xtprO+GmHPzwimeeM97LWVep8cnmQ4aUWlc=
+	t=1788953300; cv=none; b=rKtPBZJ/3iAd3wblsUMkLvGfUWX5XmlMNViN2E49+JFylTQWX1efdZnvOPSx9wYHZwI85tm5Yo6CENzOKh9oUxxHWZebTTkjVU1Ferbulsj9t5STZQZMxQDFVJFBjMWkEmKDTfKpbDtz2m21WY4Bo6zf+tIsnEPbLMQQmjxXS4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788952521; c=relaxed/simple;
-	bh=BOKYqUln8EQzlkZtnYZeIfKT2lDSbwiR9MwSykmYTMg=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=NDtM8RlfRbaUYard3Ln0dMTrpA2k813jpAE4/YV0BU+xmlKyfxY0tgv9WlgRz/PkVp4VsMd7rW98/GiAw5ZgRtIqZIdL22ah8RqKWx/SCUa5kwuiYeoCgap6Llla5ntrXyTPipqigW2Hsq3E8lipUWb3GktdOTcpPq2SnG4dDMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eF/FoDB/; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1788953300; c=relaxed/simple;
+	bh=QVamOOMk3BPX58RfnZC1arhvfIjv3zgYenGB7wPdsbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b31xXKnRQNDz+FA4g0UBTntSed/aOKo5m9TW7mFrWlKwYwLWgxju++3LWoRk4JH+BfbcrTmW0fLlqpb/yYEejz+feLoTRfMQNIArEe1capauWaHpKTl0HNihaKD89Dim9eVXsix9Ij8l1C1BD1k4r7nO80oKMmuEmJRizZNDxak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lXJI9p2z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eF/FoDB/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788952518;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FD4MZ+85OAGIRur4qtfRpT71ya2ywh4k2+CQUSEmgmw=;
-	b=eF/FoDB/1xLYc/Vf7sZaq8jExHx8C+IRe5KpzB76aLVQwWxkUW/PvNV8PGcZ1E/FuXq7C5
-	Smj2G8SwIe1Vaq2EkK4Kha40mudERaRJ/BMliaqyE/TTJoN7lyP2mpa+3ByOAd/tpAoJjY
-	aOpHJkOwqNUbgAm0+E6cw1ArsDEBo0E=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-168-DcC2FFztMwSxkFoe42I7vA-1; Wed,
- 09 Sep 2026 07:15:15 -0400
-X-MC-Unique: DcC2FFztMwSxkFoe42I7vA-1
-X-Mimecast-MFC-AGG-ID: DcC2FFztMwSxkFoe42I7vA_1788952514
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BB1BF19540CF;
-	Wed,  9 Sep 2026 11:15:13 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.32.158])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 39E7041D;
-	Wed,  9 Sep 2026 11:15:10 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <a385053c-1c4a-4060-a3bb-befa007ddb33@redhat.com>
-References: <a385053c-1c4a-4060-a3bb-befa007ddb33@redhat.com>
-To: sorenson@redhat.com
-Cc: dhowells@redhat.com, Paulo Alcantara <pc@manguebit.org>,
-    Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
-    netfs@lists.linux.dev, CIFS <linux-cifs@vger.kernel.org>,
-    linux-kernel@vger.kernel.org
-Subject: Re: netfs_read_gaps(): aliased sink folio makes the read destination unreadable, SIGBUS on cifs with signing
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lXJI9p2z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DAA91F00A3D;
+	Wed,  9 Sep 2026 11:28:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788953299;
+	bh=j17h6KRQ71DOKHe5HbsIWrPqIzBnLjkU7JRtdQFf8P8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lXJI9p2zO/vxjji4Pf57L2VDsA9uaSee2Re2yDtxf4Z5PoOvNPpzKmchx/EziO5kP
+	 KjJnE7YY+z/SB3qB9MjsIV4lSR0a8r9PmrfG8kBW6AegVMRl3fpiXT6Hz1BTSuKRIv
+	 aScTVKuTq4E0MmMhrcXJ/Jn2+fInKWjfayviwlZorXMgrXGDqnJeSu5azDowdwzefX
+	 SQ3BhAH2TVB16pqTfvueEtv7NsJ5Nl10G3PS4ddXbLZ8xD+wzmoEV0jFxbSQIfxkcl
+	 WsDhao8WolO7q/sR8WCm6xWN0lsy7tgyWc/AtM3ENRAX9ono06P5pfbc6C+P4ItoqQ
+	 7VY22cnclJWAw==
+Date: Wed, 9 Sep 2026 13:28:15 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: daan@amutable.com
+Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paul Moore <paul@paul-moore.com>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] lsm: expose mount idmaps to inode hooks
+Message-ID: <20260909-gutsbetrieb-satzreif-flehen-b9e85ff627ec@brauner>
+References: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1714045.1788952509.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 09 Sep 2026 12:15:09 +0100
-Message-ID: <1714046.1788952509@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
 
-Hi Frank,
+On Fri, Sep 04, 2026 at 04:48:54PM +0200, Daan De Meyer via B4 Relay wrote:
+> OverlayFS performs upper-layer operations through inode-based security
+> hooks. Those hooks receive the upper inode and dentry, but not the mount
+> idmap used by the VFS operation.
+> 
+> The security layer cannot distinguish an identity-mapped upper from an
+> idmapped one or make the same ownership decision as the VFS. The VFS
+> layer already passes the idmap down into all relevant inode operations
+> so this just brings the security hooks to parity.
+> 
+> So pass the mount idmap through the create, link, symlink, mkdir, mknod,
+> and permission hooks. Update the in-tree security implementations and
+> non-VFS callers accordingly.
+> 
+> systemd has been shipping systemd-nsresourced for quite a while now. It
+> relies on inode and path hooks to perform ownership checks using a bpf lsm.
+> To make this actually secure we need to be able to calculate the on-disk
+> ownership from the idmap.
+> 
+> ---
 
-Can you try this?  It can be triggered manually with something like:
+Fine by me. @Paul, even if you change the description or whatever. Keep
+my RvB, please.
 
-   xfs_io -c "w 100 100" -c "r 0 4096" /xfstest.test/foo
-
-David
----
-commit 60314c47d9ccce8e7da23e1754e7defb70a234ee
-Author: David Howells <dhowells@redhat.com>
-Date:   Wed Sep 9 11:36:30 2026 +0100
-
-    netfs: Fix netfs_read_gaps() to use separate sink folios
-    =
-
-    Fix netfs_read_gaps() to use separate folios rather than re-using a si=
-ngle
-    sink folio to discard the unwanted data so that cifs checksum checking=
- sees
-    all the data that was fetched.
-    =
-
-    Reported-by: Frank Sorenson <sorenson@redhat.com>
-    Closes: https://lore.kernel.org/r/a385053c-1c4a-4060-a3bb-befa007ddb33=
-@redhat.com/
-    Signed-off-by: David Howells <dhowells@redhat.com>
-    cc: Paulo Alcantara <pc@manguebit.org>
-    cc: Namjae Jeon <linkinjeon@kernel.org>
-    cc: netfs@lists.linux.dev
-    cc: linux-cifs@vger.kernel.org
-    cc: linux-fsdevel@vger.kernel.org
-    Fixes: ee4cdf7ba857 ("netfs: Speed up buffered reading")
-
-diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-index 424df70a5c30..64eb64c475a9 100644
---- a/fs/netfs/buffered_read.c
-+++ b/fs/netfs/buffered_read.c
-@@ -482,15 +482,14 @@ static int netfs_read_gaps(struct file *file, struct=
- folio *folio)
- 	struct netfs_group *group =3D netfs_folio_group(folio);
- 	struct netfs_folio *finfo =3D netfs_folio_info(folio);
- 	struct netfs_inode *ctx =3D netfs_inode(mapping->host);
--	struct folio *sink =3D NULL;
- 	struct bio_vec *bvec;
- 	unsigned int from =3D finfo->dirty_offset;
- 	unsigned int to =3D from + finfo->dirty_len;
--	unsigned int off =3D 0, i =3D 0;
-+	unsigned int off =3D 0;
- 	size_t flen =3D folio_size(folio);
- 	size_t nr_bvec =3D flen / PAGE_SIZE + 2;
- 	size_t part;
--	int ret;
-+	int ret, i =3D 0, sink_from =3D -1, sink_to =3D -1;
- =
-
- 	_enter("%lx", folio->index);
- =
-
-@@ -515,24 +514,23 @@ static int netfs_read_gaps(struct file *file, struct=
- folio *folio)
- 	if (!bvec)
- 		goto discard;
- =
-
--	sink =3D folio_alloc(GFP_KERNEL, 0);
--	if (!sink) {
--		kfree(bvec);
--		goto discard;
--	}
--
- 	trace_netfs_folio(folio, netfs_folio_trace_read_gaps);
- =
-
--	rreq->direct_bv =3D bvec;
--	rreq->direct_bv_count =3D nr_bvec;
- 	if (from > 0) {
- 		bvec_set_folio(&bvec[i++], folio, from, 0);
- 		off =3D from;
- 	}
-+	sink_from =3D i;
- 	while (off < to) {
-+		struct folio *sink =3D folio_alloc(GFP_KERNEL, 0);
-+
-+		if (!sink)
-+			goto discard;
- 		part =3D min_t(size_t, to - off, PAGE_SIZE);
--		bvec_set_folio(&bvec[i++], sink, part, 0);
-+		bvec_set_folio(&bvec[i], sink, part, 0);
- 		off +=3D part;
-+		sink_to =3D i;
-+		i++;
- 	}
- 	if (to < flen)
- 		bvec_set_folio(&bvec[i++], folio, flen - to, to);
-@@ -553,8 +551,10 @@ static int netfs_read_gaps(struct file *file, struct =
-folio *folio)
- 		folio_mark_uptodate(folio);
- 	}
- =
-
--	if (sink)
--		folio_put(sink);
-+	if (sink_to >=3D 0)
-+		for (; sink_from <=3D sink_to; sink_from++)
-+			folio_unlock(bvec_folio(&bvec[sink_from]));
-+	kfree(bvec);
- 	folio_unlock(folio);
- 	netfs_put_request(rreq, netfs_rreq_trace_put_return);
- 	return ret < 0 ? ret : 0;
-@@ -563,6 +563,10 @@ static int netfs_read_gaps(struct file *file, struct =
-folio *folio)
- 	netfs_put_failed_request(rreq);
- alloc_error:
- 	folio_unlock(folio);
-+	if (sink_to >=3D 0)
-+		for (; sink_from <=3D sink_to; sink_from++)
-+			folio_unlock(bvec_folio(&bvec[sink_from]));
-+	kfree(bvec);
- 	return ret;
- }
- =
-
+Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
