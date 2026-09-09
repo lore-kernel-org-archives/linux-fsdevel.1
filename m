@@ -1,139 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9128C476690
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 08:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A136D441600;
+	Wed,  9 Sep 2026 08:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788941205; cv=none; b=Y3BKUcTEZ80dFm8BI05f5Cn1L5mc6FCGCE7u4qzPkgtFtAX0KXDzV/2iiN0EtAKpyT1vsh9g7swo5MlHkkifrR/M53ZdL68WQ3eR5NuJMPJbbdyAPpOvR4n6Z7s3b52uNCKWBQK5TRxuohe8jR3R2KtV7uL+culKcJ23Zp7bMRw=
+	t=1788941465; cv=none; b=bC1cZK1/yCayPDbvscnKSmapkPtDtFMsXnmt34NgNMQ46h26YqQkhsTfntiYq+S61TYVzosDrHwYeaRcQ+EbT20rjlxxkPnrOMZBdYikTNBNnfx38dOEDU4rCogt6YreCM4Yi3SnhX/YiHtnfQyXh47Cjct+pJq3OWSS27lFmKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788941205; c=relaxed/simple;
-	bh=N9z1K2SBrT9/svi51BfJs09jC4ZMQFUjvTpV6sRzPL0=;
-	h=From:To:Cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=Jvch+LpWYIB3/ihEpopt7vuBfSRE1eO2NDitv2d2COAoF/udbYqQXTd8MydantijEHzeoG0j978JjWRTYq2W1AvreKuNToJ0vwkSeCGWzoZ3dE3hQctm88MA3ftq7NRIjuRLqp+HbuQQQ9PcGCugPHKfbsjzbf1gj6kAxJOqs+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ajePZg1E; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1788941465; c=relaxed/simple;
+	bh=1m348XouXFHB5CWK3FLkoGzEKvTq/MkQ8i8Mazo7Z6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GEPj+qd579JI5bu3Pr0e7ymSKuWHw2psqvwNPqkXbwgDdFoKI/7p/BwbKcLZG76RJBs7AjVr7CM14m9kQbCF0QKOZUC/l7v7iWGroOgvK2lyLVEGVydCxD23iL6pqIoMM1GAC64m11/qOet6uYs7U0ku1aDUEha1HXuhu7LDQ8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lLb96y7W; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ajePZg1E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788941201;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RPfNlsD27FEZu3u7e8EknywRWsoD80LV38mFdatAh9w=;
-	b=ajePZg1EloDNe3dnuxS3c2jQIKLDx7g7kbHTOUM1f6ulaMzhl7vFCB4ZqP4mfNnzZHF+es
-	v7pkO795xeS+dp0MkpQu0XgOy6MYxhIpcQT+2pZ/9S6bBtuLz+ElTsyDT3SrPWFQAnmdVr
-	sFvORQS7kCcUQYl4+txap/9WJxechQc=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-179-YDBOeEJyPCSEDI1t1kGT9w-1; Wed,
- 09 Sep 2026 04:06:38 -0400
-X-MC-Unique: YDBOeEJyPCSEDI1t1kGT9w-1
-X-Mimecast-MFC-AGG-ID: YDBOeEJyPCSEDI1t1kGT9w_1788941196
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F15E418005A4;
-	Wed,  9 Sep 2026 08:06:35 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.32.158])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6F77940E;
-	Wed,  9 Sep 2026 08:06:32 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: dhowells@redhat.com, Keith Busch <kbusch@kernel.org>,
-    Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
-    Alexander Viro <viro@zeniv.linux.org.uk>,
-    Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
-    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org
-Subject: [PATCH v4] block: Fix start and length check added to iov_iter_extract_bvecs()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lLb96y7W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C591F00A3A;
+	Wed,  9 Sep 2026 08:11:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788941464;
+	bh=4u6JKCOXGiXpWoDfTTuQ2uKPcNZPW86gx3ocAHFyjCw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lLb96y7W/DXlitq2Lg0rT4P01HqYUE64cjKdIpGXQo+3Q9zjag7hijc5IVuDKGIBH
+	 G2sZHRTcpRP3ETp02C5VWjGPQ/OR0f/cZh33mkJ6oeuELXOUNmQHO+eDdcYtnmKDNy
+	 x1eCyxYPz3xwzSaIPWc5EVc0tsqbU4SCM+cVAekr7OHwIJ/N5PmzQs5cTv/LPyULmn
+	 mTiixjAWvlcZJNklR6vouzl0l1hxH+qGydiPkusgpuOppNBYn/bX7hHIWHtuSfWwDC
+	 XtzWw3gyrTHXbncIY3x18o+pcagqQtiowqfdVGA3dYRVbPWnERgKsIB+1otBXuQo/v
+	 rmbwjZ4TBwYEA==
+Date: Wed, 9 Sep 2026 10:10:58 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paulo Alcantara <pc@manguebit.org>, linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] super: make iterate_supers_type() deletion-safe
+Message-ID: <20260909-speichel-hiesig-windig-480afa97f0b6@brauner>
+References: <20260903013336.92081-1-kmehltretter@gmail.com>
+ <32afuwcqxfzvc2qwsvx6ecpyvbunr45wnvmezbbqzz25qtfn35@tvotjvtm3soe>
+ <20260904-astronaut-anpfiff-unbebaut-743381f4995a@brauner>
+ <20260904-rockkonzert-bergtour-dahin-23c9c5c87d0f@brauner>
+ <apu0mCbJ4S0TKIQM@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1667274.1788941191.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 09 Sep 2026 09:06:31 +0100
-Message-ID: <1667275.1788941191@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <apu0mCbJ4S0TKIQM@gmail.com>
 
-Commit 14b007e17881 added an address check using iter_iov_addr() and a
-length check using iter_iov_len() to iov_iter_extract_bvecs(), but these
-cannot be used so and are unsafe in this circumstance as the functions hav=
-e
-hardwired assumptions about the iterator type.  They should only be used
-with ITER_UBUF or ITER_IOVEC-type iterators; they shouldn't be used with
-ITER_BVEC, ITER_KVEC, ITER_FOLIOQ, ITER_XARRAY or ITER_DISCARD iterators.
+On Sat, Sep 05, 2026 at 08:31:32AM +0200, Karl Mehltretter wrote:
+> On Fri, Sep 04, 2026 at 01:11:53PM +0100, Christian Brauner wrote:
+> > 
+> > Draft, feel free to grab, Jan or Karl.
+> > 
+> > ---
+> >  fs/kernfs/mount.c |  4 ++--
+> >  fs/super.c        | 39 +++++++++++++++++++--------------------
+> >  2 files changed, 21 insertions(+), 22 deletions(-)
+> > 
+> 
+> Thanks, I found no issues with your draft.
+> All the tests I ran on my patch also pass with your draft.
+> 
+> Below is my proposed changelog. If it looks good, I'll send v2 with you as
+> author. Could you provide your Signed-off-by?
+> 
+> super: make iterate_supers_type() deletion-safe
+> 
+> iterate_supers_type() drops sb_lock while invoking the callback and keeps
+> only a passive reference to the current superblock. That reference keeps
+> the object allocated, but does not keep its s_instances node linked.
+> 
+> After the iterator releases s_umount, final teardown can unlink the current
+> s_instances node. The iterator then advances through a reinitialized node.
+> With the current hlist it stops without visiting the remaining superblocks.
+> The unlink moved from generic_shutdown_super() to kill_super_notify(), but
+> the cursor lifetime has been unsafe since the helper was introduced.
+> 
+> The CIFS DFS lookup can consequently miss a matching superblock and return
+> -EINVAL.
+> 
+> Move removal from fs_supers to put_super(), alongside removal from
+> super_blocks, so a passive reference keeps both list nodes linked. Keep
+> the filesystem module reference until then, since unlinking s_instances
+> may touch type->fs_supers.
+> 
+> Make sget_fc() skip SB_DEAD superblocks before invoking test(), and set
+> SB_DEAD under sb_lock to serialize with those callbacks. This allows
+> kernfs to free its private information after kill_anon_super() returns.
+> Keep matching SB_DYING superblocks until SB_DEAD is set so concurrent
+> mounts still wait for teardown before retrying.
+> 
+> Fixes: 43e15cdbefea ("new helper: iterate_supers_type()")
+> Reported-by: Karl Mehltretter <kmehltretter@gmail.com>
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Cc: stable@vger.kernel.org
+> <your Signed-off-by>
+> Tested-by: Karl Mehltretter <kmehltretter@gmail.com>
+> Assisted-by: LLM
+> <my Signed-off-by>
 
-This proves to be a problem for cachefiles as an iterator of type
-ITER_FOLIOQ is passed and iter_iov_addr() and iter_iov_len() both
-malfunction because iter->__iov in iter_iov() is not pointing to an iovec
-array.
-
-Fix this by using iov_iter_alignment() instead.
-
-Fixes: 14b007e17881 ("block: validate user space vectors during extraction=
-")
-Signed-off-by: David Howells <dhowells@redhat.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-cc: Hannes Reinecke <hare@kernel.org>
-cc: Christoph Hellwig <hch@infradead.org>
-cc: Jens Axboe <axboe@kernel.dk>
-cc: Alexander Viro <viro@zeniv.linux.org.uk>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-block@vger.kernel.org
-cc: linux-fsdevel@vger.kernel.org
----
- lib/iov_iter.c |   18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 6665372ecf71..2072c04e99d0 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -1921,15 +1921,29 @@ ssize_t iov_iter_extract_bvecs(struct iov_iter *it=
-er, struct bio_vec *bv,
- 		unsigned short max_vecs, unsigned mem_align_mask,
- 		iov_iter_extraction_t extraction_flags)
- {
--	unsigned long start =3D (unsigned long)iter_iov_addr(iter);
- 	unsigned short entries_left =3D max_vecs - *nr_vecs;
- 	unsigned short nr_pages, i =3D 0;
- 	size_t left, offset, len;
- 	struct page **pages;
- 	ssize_t size;
- =
-
--	if ((start | iter_iov_len(iter)) & mem_align_mask)
-+	/*
-+	 * DMA engines typically have both memory address and length alignment
-+	 * requirements, so check these against the alignment mask.  For UBUF,
-+	 * IOVEC and KVEC, only the current segment will be extracted from; for
-+	 * everything else we might extract from multiple segments, so we need
-+	 * to check those too.
-+	 */
-+	if (likely(iter_is_ubuf(iter) ||
-+		   iter_is_iovec(iter) ||
-+		   iov_iter_is_kvec(iter))) {
-+		unsigned long start =3D (unsigned long)iter_iov_addr(iter);
-+
-+		if ((start | iter_iov_len(iter)) & mem_align_mask)
-+			return -EINVAL;
-+	} else if (iov_iter_alignment(iter) & mem_align_mask) {
- 		return -EINVAL;
-+	}
- =
-
- 	/*
- 	 * Move page array up in the allocated memory for the bio vecs as far as
-
+Sure,
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org> 
