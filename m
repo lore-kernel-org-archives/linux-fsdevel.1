@@ -1,161 +1,191 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA80367285
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F03336894B
 	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 17:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788974139; cv=pass; b=F6dSQOjouTbqY+c8WS6u33kuav0c9Qj5G04+81roQ7h91UCpETwSUSuoSUQv1jcXlsTwPGBMKpo5IrQdC2S750l57yU+ZkQY3oXkPYilbZqO7TQr0R78J2qDhnqS9gNucVvd6TnJnlUQ2EaJbXuCtFOO9Hwqk+Wby3e1qGsgEvo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788974139; c=relaxed/simple;
-	bh=1YAIaeDyLVpEvvzFwuUJMbazAMt3NzSDWCDFujkL5lc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t/OPT+AeeSKcIqmNhVfhCbP48nWO0jiq1MzoUhgAXEU6l95Y4p23JrRPVppwQsiqFwI13bmosTXJ9+k3D9pnFRpGUjHKio7f6zsChgh22ITLe2NtJ8PQHlmCSDRWL+mLlrmhPPNj2dzuqBgJC2Uzo91gKnl1hPmbmgOvn+GHlXU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HbY3TdbX; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788974140; cv=none; b=PTceR4BXrB/G+uDzYrUq+2LoouI2u5Onkg5/+Dwr2w89SVliwLt44mPQsftulqniuMFbSKzlVYGTpoUOjZR7skE/k/gCmCPUvZZQuW59CYVaFPBNXeLtHpKdCXKaJGgWCm7zEycY2idg6EbOvwBrxw1z6BulJd+p67EfCULzmag=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788974140; c=relaxed/simple;
+	bh=Euu0wYFPoXhGAxBOIuPBcDHmg+oFyJh3oP9/A083k3g=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=hsDUGhyAlh7+BnJZcU3FOyIT8moJfjDXVruH4Gk6Jm3aHRFDdS/kyV3h+kP1XYGuyGTU1mYsxSluAQLkAvijc9YYkyKdYw4d9gvsxRH3c4P6WqdJduIbHAYrOT9PDIyPnH5KOOUWf7WH7dLqa391F6vTbQFvZRemzsOJgHbNxp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C/tx7zYx; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HbY3TdbX"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-5306706e89dso329871cf.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 10:15:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788974137; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lrsh/UPY2lBXerjn7G2Q/J8nr0ABd0CmDgSSCbgUm8eY/I5iZJp3XTVCLQyT5OKzfV
-         frDxQVyGWFbTQ9Bjs1jihp5JQa52r7TIZnEjOXurj1fG59mVvfr+jolwByQOK0TyqMTM
-         FMf1L+wPO6aq/TNq0je9MH4gYfGYYDfcNB22EGEx5tNSe+D5pNstId0A6Tf0LJALOoto
-         Yw0PUSlsi9H4QQAgQBSBW8egIGUtniod8LwccMYKGQYm5g1hV/8kEkx8qnBgk8pM+rej
-         ttm2TpqAoI8645dsjgZPvX6IqbaFiZG1PQ+rG2ymysxwCrM/uCX1/ECdDadwvFRGPiBF
-         2ZOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mKUmBDe2b4FLQdJcR20tHldduUrJACzKAwyQg26uG2s=;
-        fh=TAGswkMyQlrxHCYJGEJxuCfV8iGPtGRvrbeOuyTacqg=;
-        b=Drlumbe12h4WDTOZcVmaotHe0JOsSh8ElmPsHDkZVkZkl2+rK8uLHKHo8dB5bTOj7D
-         AYYxJpyATxrUmdcJJb99Zak2ZWgMgGdy/A55oMzGiga+vEBEqNgJEtXCSrkmMILAq5/Z
-         gVWNskEVUcRz6/GHvcbox6mwRxrsecsHlV/Vc6X492kCE72S8gigHdLlzKjPSNA5ahb1
-         3/QhoAR3UuU+9dgLjIzWeJeoPCs1jYrBAa+PaOFusVWefQZgrhPSpckVjC0+ab4ZwCfN
-         yg9saAKTZCzpi+wra9CxVJd/DBQyM32mRxuZeB2YvBUHMHhx/XWie+BZC7EMIaX/JLca
-         lDEA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788974137; x=1789578937; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mKUmBDe2b4FLQdJcR20tHldduUrJACzKAwyQg26uG2s=;
-        b=HbY3TdbXh1HeDA1CISRM4vFgBbshMEJ3Y41MetmpizeACtcBFvrnZ42fCa9kRsD4Yy
-         1nq49pEpk9a9R7roEUh04FoZyRnL2UY9tUOCtzRkPFxxq5DC/yj5VHvuqWDZ6ylzKTov
-         st8IaztaYCk8hGWmc/IC6wda/nUzsp1Zr2lBekrthUV/mj6pbio6ylScmUI/qyDDWp2r
-         H6O5BcgnCS3YHlvVCrS/+Q8b0yMKZR74q5FO/aNdBR0HoD1zepE8Lar1oheT9iawpvM9
-         01x2ghk4163U0s/6GRxybf4YAdDJHeE/d4foFb61WDP4WST7Epq38O0FNKjpspvhdP27
-         cKBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788974137; x=1789578937;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mKUmBDe2b4FLQdJcR20tHldduUrJACzKAwyQg26uG2s=;
-        b=Wrg5IrSe7pjoRA5N+jVa0XXQkumSxVqmhMcWSLoISO6D1f0vxCyORXWr01dTF0eJuH
-         N/kmyP4qECKEi6s6FgPsjCuk32PQaoDxqVJe/ihljVbJVPsS779aYNPmAGlIz3iqmVTB
-         1bzA1gOFztO5PoOWivQdskZG66gg/7zvfFAwVxGUysZQErVHsWlD3uf+pFyLSdFzjzoA
-         ydn9jdgrOjmPcuB/89c3RSVWveEYmyLi4h3rCjPawRsWWxXJ4pZWzW8LdmVNDAZ2U3rY
-         xv01ym4DX45b3JoNTk+wiuf5T+Yx7j3gvnQ+Tf/1IKiflt4RyTbG38XjmdKsWkffPePq
-         VaqQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxn3yiNR2xNBYwrbhcP+MC52cDrRpOfwB1BPJ3CyYbYYwnADkTjtPNAk0EelFwYwK2WiTJUtb3Ucmg0IcV2@vger.kernel.org
-X-Gm-Message-State: AFuF++mfnAMG2DYwd+QIjvz5Tx6tz7Al8dyMdHnAlHZJ2u05fygAV1hE
-	t0m88GkXtWf1jiSz8ucK1fZeQELJ0LyI4f6GdEZsmhmGjyqUxajDEIYy2bvDPAUWkfwCYQHRx/J
-	r2/9h9ahXGy9MoD3Uj/E0223PT+nasf5iRbe1YcRY
-X-Gm-Gg: AYBFou1Im8G1V/nofKCt9jFMp1hvshQ/fNC7zuDz8LIgO51U87jIK1aGuySuw9YM5Cu
-	bqTbNxhtU2XlwSsb7lMahNhxel9iesBU1KsefFJS9ji6R4LkMScYCdhrj8OHi9msF7B3fsQ/E0k
-	dAsz6yolnWctkcI3xscD7KcC1KlUxnDdKN66QApULqz2CTX8cm3SXJka26tpP1qeycIizA21p9l
-	k0Z28AmPaEZWso6AbrFxrKHMbG6oRNUmG9nmyxfCWSoceMyCeWVc0812qWJKe9Hvc2MBvgzu8zk
-	GWCceIR1RgqGyHjaUvYX9X7WRG2W/XBY2MK6lq11h7CoFS2v3lYVtFkQe8P800QJF4Y9
-X-Received: by 2002:a05:622a:a1b:b0:530:5ed7:50f0 with SMTP id
- d75a77b69052e-530a5f51176mr89211cf.13.1788974135518; Wed, 09 Sep 2026
- 10:15:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C/tx7zYx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788974137;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tgKs3wGB3csmds1F82aQBMthcTIz4aLj48mmHICJfz8=;
+	b=C/tx7zYx2ll0TukqCp/xHLsGVF6z9PYrIxp8x2DjY+RAYD/BL9EDwhN26X43XQugMyQI9W
+	vF5bRtVoxXHIzaDerEF0a2rhpJNXalIZyC/u3yEhIZLG8xQEASp7BCHthCs63sORtrKD17
+	I4y6+957ikO11yhY/eWCLJTwIMOOXXU=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-540-UjY14MOsMeS89S3ZPHF9nQ-1; Wed,
+ 09 Sep 2026 13:15:32 -0400
+X-MC-Unique: UjY14MOsMeS89S3ZPHF9nQ-1
+X-Mimecast-MFC-AGG-ID: UjY14MOsMeS89S3ZPHF9nQ_1788974130
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D23C9180056E;
+	Wed,  9 Sep 2026 17:15:30 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.32.158])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AD848195608F;
+	Wed,  9 Sep 2026 17:15:28 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <afd68097-b2b2-47e5-889b-fb077e7a9247@redhat.com>
+References: <afd68097-b2b2-47e5-889b-fb077e7a9247@redhat.com> <a385053c-1c4a-4060-a3bb-befa007ddb33@redhat.com> <1714046.1788952509@warthog.procyon.org.uk>
+To: sorenson@redhat.com
+Cc: dhowells@redhat.com, Paulo Alcantara <pc@manguebit.org>,
+    Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
+    netfs@lists.linux.dev, CIFS <linux-cifs@vger.kernel.org>,
+    linux-kernel@vger.kernel.org
+Subject: Re: netfs_read_gaps(): aliased sink folio makes the read destination unreadable, SIGBUS on cifs with signing
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260907063918.3432401-1-surenb@google.com> <20260907063918.3432401-3-surenb@google.com>
- <4964f874-3f3c-464c-9977-0d004f6ffdbd@kernel.org>
-In-Reply-To: <4964f874-3f3c-464c-9977-0d004f6ffdbd@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 9 Sep 2026 10:15:24 -0700
-X-Gm-Features: AcwNN1WWr8U2hfUDprfzdhTtlvlOsxUFMQbj8KtH7xWoq0JQsfsSVRf58XyzXHk
-Message-ID: <CAJuCfpFJHNq_iCHuzDC0a8CT-AsPLHgnZ0=hVAvVhax_Q6GjOQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] proc/task_mmu: remove unnecessary inlines in
- function definitions
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
-	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1730051.1788974127.1@warthog.procyon.org.uk>
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 09 Sep 2026 18:15:27 +0100
+Message-ID: <1730052.1788974127@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Wed, Sep 9, 2026 at 10:07=E2=80=AFAM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/7/26 08:39, Suren Baghdasaryan wrote:
-> > It was pointed out in the previous reviews of this code that many
-> > functions are specified as inline, which is unnecessary as the compile
-> > can make that decision by itself. Cleanup these definitions.
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  fs/proc/task_mmu.c | 32 ++++++++++++++++----------------
-> >  1 file changed, 16 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> > index 2f500d639db5..9908ba32f180 100644
-> > --- a/fs/proc/task_mmu.c
-> > +++ b/fs/proc/task_mmu.c
-> > @@ -130,7 +130,7 @@ static void release_task_mempolicy(struct proc_maps=
-_private *priv)
-> >  }
-> >  #endif
-> >
-> > -static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
-> > +static int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
-> >  {
-> >       int ret =3D mmap_read_lock_killable(lock_ctx->mm);
-> >
-> > @@ -140,7 +140,7 @@ static inline int lock_ctx_mm(struct proc_maps_lock=
-ing_ctx *lock_ctx)
-> >       return ret;
-> >  }
-> >
-> > -static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ct=
-x)
-> > +static void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
-> >  {
-> >       mmap_read_unlock(lock_ctx->mm);
-> >       lock_ctx->mmap_locked =3D false;
-> > @@ -177,7 +177,7 @@ static struct vm_area_struct *get_next_vma(struct p=
-roc_maps_private *priv,
-> >       return vma;
-> >  }
-> >
-> > -static inline bool fallback_to_mmap_lock(struct proc_maps_private *pri=
-v,
-> > +static bool fallback_to_mmap_lock(struct proc_maps_private *priv,
-> >                                        loff_t pos)
->
-> If you touch these, please convert them to two-tab indent.
+Try #3...
 
-Ack. I didn't realize that's the preferred formatting.
+David
+---
+commit 05abad6ef207137fd3a2559d6ac242d1f94c60aa
+Author: David Howells <dhowells@redhat.com>
+Date:   Wed Sep 9 11:36:30 2026 +0100
 
->
-> --
-> Cheers,
->
-> David
->
+    netfs: Fix netfs_read_gaps() to use separate sink folios
+    =
+
+    Fix netfs_read_gaps() to use separate folios rather than re-using a si=
+ngle
+    sink folio to discard the unwanted data so that cifs checksum checking=
+ sees
+    all the data that was fetched.
+    =
+
+    Fixes: 7f84a7b9892d ("netfs: Make netfs_read_folio() handle streaming-=
+write pages")
+    Reported-by: Frank Sorenson <sorenson@redhat.com>
+    Closes: https://lore.kernel.org/r/a385053c-1c4a-4060-a3bb-befa007ddb33=
+@redhat.com/
+    Signed-off-by: David Howells <dhowells@redhat.com>
+    Tested-by: Frank Sorenson <sorenson@redhat.com>
+    cc: Paulo Alcantara <pc@manguebit.org>
+    cc: Namjae Jeon <linkinjeon@kernel.org>
+    cc: netfs@lists.linux.dev
+    cc: linux-cifs@vger.kernel.org
+    cc: linux-fsdevel@vger.kernel.org
+
+diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
+index 424df70a5c30..105194de6e13 100644
+--- a/fs/netfs/buffered_read.c
++++ b/fs/netfs/buffered_read.c
+@@ -482,15 +482,14 @@ static int netfs_read_gaps(struct file *file, struct=
+ folio *folio)
+ 	struct netfs_group *group =3D netfs_folio_group(folio);
+ 	struct netfs_folio *finfo =3D netfs_folio_info(folio);
+ 	struct netfs_inode *ctx =3D netfs_inode(mapping->host);
+-	struct folio *sink =3D NULL;
+-	struct bio_vec *bvec;
++	struct bio_vec *bvec =3D NULL;
+ 	unsigned int from =3D finfo->dirty_offset;
+ 	unsigned int to =3D from + finfo->dirty_len;
+-	unsigned int off =3D 0, i =3D 0;
++	unsigned int off =3D 0;
+ 	size_t flen =3D folio_size(folio);
+ 	size_t nr_bvec =3D flen / PAGE_SIZE + 2;
+ 	size_t part;
+-	int ret;
++	int ret, i =3D 0, sink_from =3D -1, sink_to =3D -1;
+ =
+
+ 	_enter("%lx", folio->index);
+ =
+
+@@ -515,24 +514,23 @@ static int netfs_read_gaps(struct file *file, struct=
+ folio *folio)
+ 	if (!bvec)
+ 		goto discard;
+ =
+
+-	sink =3D folio_alloc(GFP_KERNEL, 0);
+-	if (!sink) {
+-		kfree(bvec);
+-		goto discard;
+-	}
+-
+ 	trace_netfs_folio(folio, netfs_folio_trace_read_gaps);
+ =
+
+-	rreq->direct_bv =3D bvec;
+-	rreq->direct_bv_count =3D nr_bvec;
+ 	if (from > 0) {
+ 		bvec_set_folio(&bvec[i++], folio, from, 0);
+ 		off =3D from;
+ 	}
++	sink_from =3D i;
+ 	while (off < to) {
++		struct folio *sink =3D folio_alloc(GFP_KERNEL, 0);
++
++		if (!sink)
++			goto discard;
+ 		part =3D min_t(size_t, to - off, PAGE_SIZE);
+-		bvec_set_folio(&bvec[i++], sink, part, 0);
++		bvec_set_folio(&bvec[i], sink, part, 0);
+ 		off +=3D part;
++		sink_to =3D i;
++		i++;
+ 	}
+ 	if (to < flen)
+ 		bvec_set_folio(&bvec[i++], folio, flen - to, to);
+@@ -553,8 +551,10 @@ static int netfs_read_gaps(struct file *file, struct =
+folio *folio)
+ 		folio_mark_uptodate(folio);
+ 	}
+ =
+
+-	if (sink)
+-		folio_put(sink);
++	if (sink_to >=3D 0)
++		for (; sink_from <=3D sink_to; sink_from++)
++			folio_put(bvec_folio(&bvec[sink_from]));
++	kfree(bvec);
+ 	folio_unlock(folio);
+ 	netfs_put_request(rreq, netfs_rreq_trace_put_return);
+ 	return ret < 0 ? ret : 0;
+@@ -563,6 +563,10 @@ static int netfs_read_gaps(struct file *file, struct =
+folio *folio)
+ 	netfs_put_failed_request(rreq);
+ alloc_error:
+ 	folio_unlock(folio);
++	if (sink_to >=3D 0)
++		for (; sink_from <=3D sink_to; sink_from++)
++			folio_put(bvec_folio(&bvec[sink_from]));
++	kfree(bvec);
+ 	return ret;
+ }
+ =
+
