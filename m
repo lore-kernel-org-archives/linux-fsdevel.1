@@ -1,65 +1,65 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3525111A8
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA614D2EDD
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788949670; cv=none; b=OZDesmtE1uZw3efD0y6vK4VzKg6RQguk5c5c/6LloTWW8Tgf079wsqog21UwBq9cQ7/g5hh8sQJVPm4tsLribO/zed0GKQ2JNpKi3zTF/GATVtx6FmLtBPS6B/tsjksYANuEDlJ1S1BAML8V9rmZqmURRnGBrQ9D7ffswMIAxME=
+	t=1788949860; cv=none; b=iAwcYMkLrvyux2pLpi+QnEdozcnrG5cMFdTUD5zM+Kksz3CAizI/BtOXCtWDGMWmdv9bxenLK5XUzbOTWUuHPF2WAK8Rn06wy9OMcjyizapbpgQIia/WH0oRbjBVR/tkntJKyrfVuxHbDMN7ZLOAa2VskLB+w+sDXUfLVhTdFfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788949670; c=relaxed/simple;
-	bh=apGggQcJp2WV1URiHg8Asmh4iwaxGu1pF3vH60oXvTw=;
+	s=arc-20240116; t=1788949860; c=relaxed/simple;
+	bh=e6+P0w42WSank7bJyBRxJ0I/o2AdvAByGwMedNmCY/Y=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=iYBJDWlP2xSWjHVFa+03pjP/bskRt9bgBvdahuBHDGrpyggh3fIMWiaSxkkxO0RfRVXI9peL3uoFYtNKhgAOjNycdTE5PwwnCkolL+DmStNyBqxlvP4oWg1uWC5Hkfg8P3zExwYTCzk88IuPwLfe1YXWQbTgbqIzISn1rP5zOTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GxGDP+Z6; arc=none smtp.client-ip=74.125.224.54
+	 MIME-Version:Content-Type; b=cKrKMWKGjFA4um/h7foZUaxWsgv14NHLJzsy5UWFQZXu7d2I9PH9qefhOUsoAMoZax8/KToFVd9D5Zktv4LOQX5ZTJ45iMxIAB/p2RlCdlad6RdfRGI56IyCbVWg3fXRoxsjRoomc3WtZDFIK3toA/1lhkK5Mpq+6xm3CZ+QbKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dnL/0r+o; arc=none smtp.client-ip=209.85.128.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GxGDP+Z6"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-66fb8a78ad2so6962782d50.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:27:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dnL/0r+o"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-861a2ae9c51so67039437b3.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788949667; x=1789554467; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1788949858; x=1789554658; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0mZ5Gk4/1Pu5bK3S+WjW2BlP4j/qxWTHvLM7mSgUCfk=;
-        b=GxGDP+Z6oWxTSLrBtRAZa+DEityV8+saaWCj3GSm6C/hkO9ldhEfZILDAbNdoqixva
-         J6c3/yfN3eNLcBhTKVSm/yaIjiQDK5sH06oFIzpl1p4Y0mVY7WnZZDXRbJAXU8kgmYk9
-         A86jXkrLjNjN1LhmOCmobsBWYi/oJ+prJgffhPv4HaVxTmB2IMeTef1ZfZgriVtyAywV
-         pA974nCln5Fv0zd59QRdRhjQ3+Jw7i2HwnCcUIMyKfKwLKG98Yg3z9RRTinyEpzcCW+X
-         FOuutXxJfgEEA4ZsOziq+sniLVIoimIma1ZCtnS+HrK5T5Im3FwHtWt7fl7fmKA1Ai1e
-         PISg==
+        bh=xikkFdSddcZk7EZo4mTtVn7i5ie1aP6lqhxPtSw7MtA=;
+        b=dnL/0r+om2LqYB9UWE6tkpdxIFAuAA70GZwyzBcqbjutXXb8HacxXnzq40Z7FLVc7D
+         CsOGNNuLraa8Ye+UWFNxQLLysNo6ShwSpEpNaYyBF5h4KPkuwctUWSGDijbRS/GV6JQm
+         QZFjVrOUF64ePn+xzLq1r98qqSC7BMmeYCW5UKBwB8Bus4PLL7vjqJzCOfHLkddxhtei
+         o0gVwgxkyL0LbI12y+ZF0AwReh/ktCAWly79eYoR19C0eg33Qem0lJl9VSw41d+LlHjb
+         /mGNIwm1h2TtZTnmayVZYgjeEaXPRTFhpgMtXetL38UDHNBAuregBL9hsCaIaL0XA+NM
+         vbNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788949667; x=1789554467;
+        d=1e100.net; s=20251104; t=1788949858; x=1789554658;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0mZ5Gk4/1Pu5bK3S+WjW2BlP4j/qxWTHvLM7mSgUCfk=;
-        b=mol2wIHnYJy1HjD5q7s8UInXzYgNEbx4yYekPmxykA/EZP/LvSfBxqVVUBg9ak0yI7
-         pS045/+QeOL5Mf/HNjyV4NgmJWXggBsQQhVnN5MJu2dsoR4lINQyWI7oQuAVkMo8QKPR
-         oSWr+/ihxXWK3fYaOsdfyn5whJOY2WX8V17Rnp2cOvWwVgViFaoqqIWcrMoVCnb0zg28
-         f7dIn8sKkiyBto5N/MZE/r+XvD7OMyjhfvliWZxUdhkj4ZIJCsyTzJHULI/72Ejj0iLJ
-         TNWyzzDuVQIzXiGRpZpCiE7hiu6X1UmSlFXndXE5MLrsPmkXsNNMY/JGw6A7UaUCdCbj
-         gObw==
-X-Forwarded-Encrypted: i=1; AKwUvBzv9erRVfApU1QF8xB1u+vJCrNhEwhpqvx4/SFlD7v4Rv4fmt0vBzcfaeJQkeMuWpXpBRZWaXr07+LcjoH8@vger.kernel.org
-X-Gm-Message-State: AFuF++kFRRNbQurFIkwjyGKwqEuf+9oOIi0sYmNlRU7aKPIf5qlzvhdl
-	axCL2R1F8zhzbUeUBr8BZLQJYx2Fp/840ukotxePu5EJPDPT2N6LImr2qCEkTniNLA==
-X-Gm-Gg: AYBFou01Dp2nm4huJoUUkq3IGkDQYQBoGFOuKDih5TpPF9mqduY8vU90BBAKT+Dr1cH
-	h9uPZuW56NK8sRHGqJ4BR2DgQZzLc7M2Xw/diGMtAzlW0Rilk/o9J9O9IbgTK2vm3bgC7rf1fF2
-	zIVkZr7Srz9ptPWalr/oLKobGHpsJ02wSx6VollZjsqiabi0fOz8ayyk3yVmVaYslr8OwL+z4Qj
-	euyOx5Ee+5IcsjGUR6gQYELROUxfPLqHgYYgBZBBw6wEx/y+tdUhxT6012gJ8CBxj00b0nOmzSi
-	wY2mfUR0lZexARkf8Shc46HkA5yPw5AbSrpIax7D3fSb4mAFbvmP3Fl35I1qy305RUn9C5zvGFf
-	DVipMWt77InYhO37MusCYuZvCMnF60wPWAUYXQcilQS8w0JyiN/js1UmJ2A1ZapZVI8Cnf7fX7e
-	TKWl4ksWu7dboHNfj7I/wiyy7LnyqGNXOoxF25lqUG4BSJi9faMDU/AEmapi+ZYiD2fqtScXZkL
-	RCk4F8/ZB/k0SFBLUzksp1HlC2Xn/puN5hlEbhH3KeQFVE/E3ENLK90IcyxJ/DGfiSdWg==
-X-Received: by 2002:a05:690e:48b:b0:66f:c1bc:4097 with SMTP id 956f58d0204a3-66fc1bc4874mr7597179d50.90.1788949666224;
-        Wed, 09 Sep 2026 03:27:46 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-670febedc44sm2584559d50.11.2026.09.09.03.27.42
+        bh=xikkFdSddcZk7EZo4mTtVn7i5ie1aP6lqhxPtSw7MtA=;
+        b=kbqj6rAKqD1eusLrVt1euRomadIJ7jMbJ3XYGEE/qdzC6WXyDPoXXrFnL7iRPjL2cd
+         CYaZlLtW+8z97qdbIWtYJGCYlCtnSEZi4N4YHjQ2lO4YDo1Yq9Yb91iOFh/m+ywQwiPv
+         c0LiOOA9HK1MmaVXAEViGCJdVisxP1HvXN5bS7EgaK0M5JyP3nQvwabNFP8e611WMtZX
+         uLO5fcRpJAzHXY/SwVlrUbFZbr/kKet2uLL4AmXZlvYDigAyxbY0JT3k79Omzwal+zZ+
+         5iPGATSCBiEZ93sEn9cX3ZjsHsULHh8P0dgoWQrWnTM8C3wq3RYt5ZGDwBw4DzYg1mvn
+         cpjw==
+X-Forwarded-Encrypted: i=1; AKwUvByIdO/dldnskIG2YOVNFQ1RYKbcgzZNTSapBMyPIdpBzC50LOd5OPUoUtzviRp3VodFxKQGmaZYh2Umpu3l@vger.kernel.org
+X-Gm-Message-State: AFuF++l5eLQ2enJF3onX9qJOfGqMZB9XdME8QCMDnhRL2zkl/d58fZUU
+	JIdrgf9PR8j/ymxQu14bwEBiwetexRDaK4Zh9SSMbakkr/f2aRY4dMXx/adk0HoGnw==
+X-Gm-Gg: AYBFou1uCFUYtOtl5LyGB4XLBvscsD9ijPjfTerjz/ZWuuyv1UiFQIPmCHmneKyXeIX
+	kkcr5LpwlarbuJ5HDKN/vB1q5zhbl9dG4eWKmMPLnduNTyz01LZmwaKiMeiyh2tpSZc2N70xlpy
+	9+vHWZP4qiBkKktRSjvNhps0jTWMrmRp3LkNytWFTzdDU/p3YGb5CjNs14q+cJxlz7jGIT2FBBz
+	3cvj+mLxi4uo04L+DAtrReRX2HtAh3f+WXDMgjAD4i88ovzKWWporKblwyH6ByaetgA5W6O47oJ
+	+/1Ze9uzAnTUwJ7HPKI3OSDS5iMTo3fSWk1Nwnat+Jl6qm1SWTVviMP1H/6q5+5mnGvHU0IVyca
+	aszTX/QdUpz5/Jlzic5mkmPsY87lHQ7eCLGrnf7HT50Vs2ZknArCwyRgZqLS9L+tMRgaO5pGBoP
+	RUAgBNUIho5sGKHJRCVaQp/DH23SPpC+0lbq5+TXJNbF58Mqb/d0QPfEBlp47d1UDZEOg7mndki
+	qx6gsD+6rtSKBRQFQdAximhXhD9oCW2Wlnq5HV2tU7i5Z9dINhCwg==
+X-Received: by 2002:a05:690c:c047:b0:845:1064:5c03 with SMTP id 00721157ae682-8712b59ce6dmr98838127b3.23.1788949857100;
+        Wed, 09 Sep 2026 03:30:57 -0700 (PDT)
+Received: from [192.168.1.242] (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714b52f641sm106441207b3.37.2026.09.09.03.30.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 03:27:45 -0700 (PDT)
-Date: Wed, 9 Sep 2026 03:27:41 -0700 (PDT)
+        Wed, 09 Sep 2026 03:30:56 -0700 (PDT)
+Date: Wed, 9 Sep 2026 03:30:51 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 cc: Ackerley Tng <ackerleytng@google.com>, 
@@ -89,10 +89,10 @@ cc: Ackerley Tng <ackerleytng@google.com>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 22/26] fs/fbatch: drop_caches invalidate_bh_lrus() not
- lru_add_drain_all()
+Subject: [PATCH v2 23/26] fs,mm/fbatch: use invalidate_bh_lrus() not
+ invalidate_bh_lrus_cpu()
 In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
-Message-ID: <75e9b5b0-6a70-06df-ba0e-4d7bf841c0cf@google.com>
+Message-ID: <56a1dba3-1dd4-e4dd-a38b-3fdee74a690e@google.com>
 References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -102,37 +102,149 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-drop_caches has no good reason to lru_add_drain_all(), now that the
-per-cpu fbatch references are gone; but it may have good reason to
-do the invalidate_bh_lrus() part of it.
+Whilst there can be a case for including an invalidate_bh_lrus_cpu() in
+lru_add_drain_all()'s workqueued visits to remote CPUs, wouldn't it now
+be a preferable cleanup to remove that alternative, and stick with the
+smp_call_function_many_cond()-based invalidate_bh_lrus() throughout?
+
+And fix the UP lru_add_drain_all() to include an invalidate_bh_lrus(),
+which went missing when 5.15 commit 243418e3925d ("mm: fs: invalidate
+bh_lrus for only cold path") took that out of lru_add_drain().
 
 Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- fs/drop_caches.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fs/buffer.c                 | 16 +---------------
+ include/linux/buffer_head.h |  4 ----
+ mm/folio.c                  | 25 ++++++-------------------
+ 3 files changed, 7 insertions(+), 38 deletions(-)
 
-diff --git a/fs/drop_caches.c b/fs/drop_caches.c
-index 49f56a598ecb..054af78e6a2e 100644
---- a/fs/drop_caches.c
-+++ b/fs/drop_caches.c
-@@ -10,7 +10,7 @@
- #include <linux/writeback.h>
- #include <linux/sysctl.h>
- #include <linux/gfp.h>
--#include <linux/swap.h>
-+#include <linux/buffer_head.h>
- #include "internal.h"
+diff --git a/fs/buffer.c b/fs/buffer.c
+index ed966fa73b1b..7d114e5b9c62 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -1427,7 +1427,7 @@ static void invalidate_bh_lru(void *arg)
+ 	put_cpu_var(bh_lrus);
+ }
  
- /* A global variable is a bit ugly, but it keeps the code simple */
-@@ -60,7 +60,7 @@ static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
- 		static int stfu;
+-bool has_bh_in_lru(int cpu, void *dummy)
++static bool has_bh_in_lru(int cpu, void *dummy)
+ {
+ 	struct bh_lru *b = per_cpu_ptr(&bh_lrus, cpu);
+ 	int i;
+@@ -1446,20 +1446,6 @@ void invalidate_bh_lrus(void)
+ }
+ EXPORT_SYMBOL_GPL(invalidate_bh_lrus);
  
- 		if (sysctl_drop_caches & 1) {
--			lru_add_drain_all();
-+			invalidate_bh_lrus();
- 			iterate_supers(drop_pagecache_sb, NULL);
- 			count_vm_event(DROP_PAGECACHE);
+-/*
+- * It's called from workqueue context so we need a bh_lru_lock to close
+- * the race with preemption/irq.
+- */
+-void invalidate_bh_lrus_cpu(void)
+-{
+-	struct bh_lru *b;
+-
+-	bh_lru_lock();
+-	b = this_cpu_ptr(&bh_lrus);
+-	__invalidate_bh_lrus(b);
+-	bh_lru_unlock();
+-}
+-
+ void folio_set_bh(struct buffer_head *bh, struct folio *folio,
+ 		  unsigned long offset)
+ {
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index fd2c7115c054..f19f9e80be8f 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -518,8 +518,6 @@ bool mmb_has_buffers(struct mapping_metadata_bhs *mmb);
+ void mmb_invalidate(struct mapping_metadata_bhs *mmb);
+ int mmb_sync(struct mapping_metadata_bhs *mmb);
+ void invalidate_bh_lrus(void);
+-void invalidate_bh_lrus_cpu(void);
+-bool has_bh_in_lru(int cpu, void *dummy);
+ extern int buffer_heads_over_limit;
+ 
+ #else /* CONFIG_BUFFER_HEAD */
+@@ -528,8 +526,6 @@ static inline void buffer_init(void) {}
+ static inline bool try_to_free_buffers(struct folio *folio) { return true; }
+ static inline int mmb_sync(struct mapping_metadata_bhs *mmb) { return 0; }
+ static inline void invalidate_bh_lrus(void) {}
+-static inline void invalidate_bh_lrus_cpu(void) {}
+-static inline bool has_bh_in_lru(int cpu, void *dummy) { return false; }
+ #define buffer_heads_over_limit 0
+ 
+ #endif /* CONFIG_BUFFER_HEAD */
+diff --git a/mm/folio.c b/mm/folio.c
+index d66aa2469e86..dbad66e805e2 100644
+--- a/mm/folio.c
++++ b/mm/folio.c
+@@ -681,21 +681,6 @@ void lru_add_drain(void)
+ 	mlock_drain_local();
+ }
+ 
+-/*
+- * It's called from per-cpu workqueue context in SMP case so
+- * lru_add_drain_cpu and invalidate_bh_lrus_cpu should run on
+- * the same cpu. It shouldn't be a problem in !SMP case since
+- * the core is only one and the locks will disable preemption.
+- */
+-static void lru_add_and_bh_lrus_drain(void)
+-{
+-	local_lock(&cpu_fbatches.lock);
+-	lru_add_drain_cpu(smp_processor_id());
+-	local_unlock(&cpu_fbatches.lock);
+-	invalidate_bh_lrus_cpu();
+-	mlock_drain_local();
+-}
+-
+ void lru_add_drain_cpu_zone(struct zone *zone)
+ {
+ 	local_lock(&cpu_fbatches.lock);
+@@ -711,7 +696,7 @@ static DEFINE_PER_CPU(struct work_struct, lru_add_drain_work);
+ 
+ static void lru_add_drain_per_cpu(struct work_struct *dummy)
+ {
+-	lru_add_and_bh_lrus_drain();
++	lru_add_drain();
+ }
+ 
+ static bool cpu_needs_drain(unsigned int cpu)
+@@ -724,8 +709,7 @@ static bool cpu_needs_drain(unsigned int cpu)
+ 			 folio_batch_count(&fbatches->lru_move_tail) ||
+ 			 folio_batch_count(&fbatches->lru_deactivate_file) ||
+ 			 folio_batch_count(&fbatches->lru_deactivate) ||
+-			 need_mlock_drain(cpu)) ||
+-		has_bh_in_lru(cpu, NULL);
++			 need_mlock_drain(cpu));
+ }
+ 
+ /*
+@@ -824,6 +808,8 @@ static inline void __lru_add_drain_all(bool force_all_cpus)
  		}
+ 	}
+ 
++	invalidate_bh_lrus();
++
+ 	for_each_cpu(cpu, &has_work)
+ 		flush_work(&per_cpu(lru_add_drain_work, cpu));
+ 
+@@ -839,6 +825,7 @@ void lru_add_drain_all(void)
+ void lru_add_drain_all(void)
+ {
+ 	lru_add_drain();
++	invalidate_bh_lrus();
+ }
+ #endif /* CONFIG_SMP */
+ 
+@@ -872,7 +859,7 @@ void lru_cache_disable(void)
+ #ifdef CONFIG_SMP
+ 	__lru_add_drain_all(true);
+ #else
+-	lru_add_and_bh_lrus_drain();
++	lru_add_drain_all();
+ #endif
+ }
+ 
 -- 
 2.51.0
 
