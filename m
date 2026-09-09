@@ -1,215 +1,257 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012046.outbound.protection.outlook.com [40.107.209.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACFF3909A9;
-	Wed,  9 Sep 2026 19:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788981510; cv=fail; b=LV9cSX5vFzofNKAWskUvr+I2bbPowfpDuxwny5dwVacoaQs+feZMpIxg+8VdJJRgjz6mTQziSPMeSAAC54k1WcSenhe1sAhskCAAwHQai9/eBJNPgBGFU5Dj2CZxAhpm6Ea1jNz6NU2o0gxQynfkX/MxTkZ9z+TmS1nn96R3dUM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788981510; c=relaxed/simple;
-	bh=eqtTNBsuNz/AbIrxINTh3IkRXUwytwELxmsbXl2tZS0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cOltp+ItKWB5z/JPSjFYYqlbCLdyT+jAXvdpcBpmutUXWiH7deujBn9KqxZYEn3m3h9/I+sHsZ9876m9SAii6P7npHpJyKYeTmO2jzQ6Sp1GgHTwW7vtQBWUJFlu49pZNv7UkgGIOWsjomqUuUcLvIlFaiK4E7gpK6g73tGkAts=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aAX/Wmph; arc=fail smtp.client-ip=40.107.209.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA1935FF6C
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 19:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788982249; cv=none; b=QlP+jggspBYBzzxEnb+94P+57dAllbMyBoBOoDnNw4F5vud2S17NYMjrEVyOnrEIYlmZDITNI17KDd1aE1W/JVUld15/3D7eI30TRyQNUMzhLMTzxVHcrviWvnRKBzO9e2hSQSF2/uQc2fZ0qVt/qY3oIhCCvXf3jYclEZbVLG0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788982249; c=relaxed/simple;
+	bh=OjwTS77Of0cEI60dHR7L7jYTCrdKX4ImjgWXDc6oBCA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aiZ2T+YcNMH2F0XEpRPY16Akr2K1bl12R1KNQdAZK2FghgtWOULoVSmHhq4UtO8lCJ+t7R1Xw+s5Zd9mN8juuSOfVn4Vdkgeub+XOMK7W/0I8YqmktzZZjDnOyX+gtS9GGKSzImGmObf7AgsRA44mI8+W65spcUl5G1UHIbLvUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PjQVMRUI; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aAX/Wmph"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ukmCwRqK+r3YYsA6/gQw8Owcd5uNbVX8ealioevAcMq8Tja0KqRJl7i6Ha736Ntu8BjMXx/mCwx9xhmmxB8KEZT32IQhjnbsVFJkjb8TqXgBMv1Hl73D45mYEh9qUBNIB7EjqalbjPym4NPU7jktcemN3NCjPhUo3GyIqyC3tsSRolA0O+0WEvoPxreBaBLvvVosfYTILdOCW+v9B9kS8qG4/OilYDeU1joevW7/RTE8Cz+H7BU5+ehJiWh7eu2Z/EJUzwyA65yTyoQN5xo64DAw6MDqMxXhd4241V0wV6LY37nNe/2EuCz5OPCgrPqlzx4kXgGWCEVGosMc6LWr1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iJEq536MlzWpFQuYNdRP2gLcQQ/2eCj7l818RizapKo=;
- b=xQrraDByiql3T5uW0efxXoEKp60z617B3N86ePrHOEzvrecYIQ+m5t8XMpT/sraTb2PrIyc3+RqXILuPG6SZVdC/HrRQWnHdAbQ55r0sFt/5TNbgCep1gfprQxrpgEMj8I2E77JTqKwjfemnf63nH2dy2n5iivcOolLqvIyl43WSgo64lmno1+/zG3qGgJYhtXNQxTzyrURqpCkf3b+L16uKS8VA3G99mL+Xybzv/X4Bt7rPL6Rlh99EowatpXu46BwqYYToeUszNDmQhHngdpZkmk9UfKasnKFAa6mwpKK2fqRsochWfzZVafUahaAPfDTCMcIS2YgGH0OTlvtwvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iJEq536MlzWpFQuYNdRP2gLcQQ/2eCj7l818RizapKo=;
- b=aAX/WmphqFw0d1v4NSXh0N66mJ0Mewz0zXesyejI7Pi4z9mZGr+b1/VQ6aDA+xlDDzbkyYQcscWGweDND92B6ln33LckEQvCzkaYpgOVpQDU8c8rxrCOOAin2WvcP8wVRLJ77M0XnRyrEnEwpmvrukabq9ItYaqdZKTYg8YoVpCbESB/TldE8dlfjPqGsK6o/iqvnO/uuC+lO040ywXYRG23K3B4i9W3bysoNl5dJ/mHeiCESlxR80G+wsyRKAV3JoBsMiAnEgPUgGFBDe5j5KBlpm0xdpW3BEwjDH4LDqGwjXghzxEuxSc9+fKEbib8lO+7nQOe/HOvU4xWiZUVhg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by BY5PR12MB4180.namprd12.prod.outlook.com (2603:10b6:a03:213::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.8; Wed, 9 Sep 2026
- 19:18:22 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0406.007; Wed, 9 Sep 2026
- 19:18:22 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
- willy@infradead.org, jack@suse.cz, bfoster@redhat.com,
- joannelkoong@gmail.com, djwong@kernel.org, yi.zhang@huawei.com,
- yizhang089@gmail.com, yangerkun@huawei.com, chengzhihao1@huawei.com,
- wangkefeng.wang@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v2] mm/truncate: fix data loss when truncating straddling
- large folios
-Date: Wed, 09 Sep 2026 15:18:21 -0400
-X-Mailer: MailMate (3.0r7028)
-Message-ID: <6F18C9FE-3599-4C6E-99F9-767BD7AC8E3B@nvidia.com>
-In-Reply-To: <20260909062339.473816-1-yi.zhang@huaweicloud.com>
-References: <20260909062339.473816-1-yi.zhang@huaweicloud.com>
-Content-Type: text/plain
-X-MS-Reactions: disallow
-X-ClientProxiedBy: BN9P222CA0023.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:408:10c::28) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjQVMRUI"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49cca4ffdcfso51396085e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 12:30:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788982244; x=1789587044; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LWEuh4czJmGzJknfeo9JvN82m4WXeS0H/uuWqVtl4ks=;
+        b=PjQVMRUIXeePD7wCZdk0hktW3427lXGGE1twL6OQiKs4P0lcVEt5rHhrYaQU00zTLT
+         S9Nuqmgk+hXNU8IfYHKYdE6Mf9w6YE9HEVmK9A2E0wQ0GOaMyaXGU0HreEJ5gMayE0CG
+         S0mHPDms1q+H+tiOX2ocgC0O5OoIbHG/cQnRgLeHP0dfDVHCxf40kaijhrGxtYBcAfxB
+         07AvdkttK7iYhv/paPG6kXVi+WZ8lrFxZ9A5dGlxnDlPP0t1qrsDNHGd+SB6XRycfdeF
+         8Do2HZjbNiluiuQOT6dKQdX98yQ4EEPw80xUKg1dmgWFa5za0zvOc9JR28n+tAyrv04D
+         ircA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788982244; x=1789587044;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LWEuh4czJmGzJknfeo9JvN82m4WXeS0H/uuWqVtl4ks=;
+        b=eSBAC/DXI4ZEdUcigDgK4qWEusEOwIbzVir2oSQ+68uNcMxCuguGSpLVQbju2l2GMt
+         olnimEWO7MTPeyYms/9MKy/5MtnLuoiCHKUlxe4Pha/1UNmw4TTvvNf17r1Yox0u1lp2
+         xfXf64xOFV90Pcv51zhQderpf+uIolD7bCWIT2/hJrEDPZa3sf21wD9Xh97b9Gdf1PtG
+         sy1Q8W2LM4UdLZ1nFtj5ysE2k+PjWDKq2cJN25I1aUW2nb15UUKxfNHA/IlSrqcfSehQ
+         nK8hIcYWRoxe9CjX+1V3ZSQtF9hR+LV0+TpjxoWysVNXAUFtPUPasl7TijuzFb3XbNxJ
+         O2Bw==
+X-Forwarded-Encrypted: i=1; AKwUvBzZlHoyX7VqGZ6os8epDbjG0XBXGs9I4ErkLcPcEHJNWOlveQrPXoGcaNWQoaR0eJS1OHPmQ5FzLnhxZgJV@vger.kernel.org
+X-Gm-Message-State: AFuF++kNBtQocvX5DJCp17RNAEAmuS0aC9EPn4Z8PFkaLq7rheLt+HOP
+	MXv+Z1d2pYUZdieK4jviGIIM1IQOtoYJmpzljKNmBNG7VfhEVsCBI3NJ
+X-Gm-Gg: AYBFou2JebL83v+qJvEzGwDq48J+w/9E3bk0M08ooD4to3ThthZRNwokNnEYO1dsjpO
+	Ro7v/GfKV+ebs79vTs3+YzhIVn+A9zL1n3TCCUrBB7Pyljr/H89tE3Y9ocmEUlRccjQvZti5V8U
+	+AIDzFLQm0VZsbbwWqSp7xXrcn/iv0oSaiYIweGE3h5Kb9vz6TR6BL4T9Fq+FE66PSzGYTVtBUp
+	5VwGfMc0Xh9N9Jcu5FssM59TMyK5f4+knXBrw2cHQRRZxZ6tf9WogEdl41JYUZuaXmQ1ERrbtla
+	XCqwkNotw+ie9p1PyxvL+nNwKGbDKc38X55Mn7OMFZuH48Pcima6lkRzGjIg8u9Dam4+s/Eg33I
+	ThUlC//ubT5nfsj3nj7EieZCkRXBc1GDiBtaTz0LK+JIXORd2VUzK/QNjnD7d9ffQ2E0J1pHQE6
+	k2MMjJZ1oSFWrXZ6epdrhalpRpbjriiK8yk+UNhzjYNQZPlGBJGIQNKgS6PGCPi+QopPDT1oF3m
+	sJxZy0xp0kMwORX0ZTnb8l0LHv8JlSsWYoOhZvfOLV8ttsxv7oyMVeuY8cTAXN/2O/HEtO5NMqf
+	ZZg7ecbnvXsBfx85h+SI/yTQ5YIiOZEnvalFkSBJqTE0kNp4Xt/+121pUoRUOr9oK4QiBpUG4Zl
+	bGIo6uDs=
+X-Received: by 2002:a05:600c:3588:b0:49c:fc6e:a3d7 with SMTP id 5b1f17b1804b1-49cfc6ea7d5mr355877335e9.22.1788982243784;
+        Wed, 09 Sep 2026 12:30:43 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-b090-6201-5565-e933-e630-1831.310.pool.telefonica.de. [2a02:3100:b090:6201:5565:e933:e630:1831])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26b7332asm13318195e9.0.2026.09.09.12.30.41
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 09 Sep 2026 12:30:43 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	Paulo Alcantara <pc@manguebit.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] super: make iterate_supers_type() deletion-safe
+Date: Wed,  9 Sep 2026 21:30:34 +0200
+Message-Id: <20260909193034.7467-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|BY5PR12MB4180:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d6fb7b1-5fa9-4124-0f24-08df0ea71cff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|10067099003|6133799003|56012099006|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	I2rA4Ze3ZAqUL1WWmu1F1ArqgJeMAtqLB7EpyJHLHFbOArP3K/TTWhNm5v8oykMN+GqH0DCPeB8klXrs33aQGJequ3p2IwWrjOOmDKgooW3qMd80g3ge0SAAQ1rxx3aniY2dUPVL7CFjOaz3MCznHvnz700xgyQbSP3KIY4BnITN25B+SB9EeLndbgRX3cZOZW5Uk/x1SJs2CbhDmqLEh8TWdep9Ql+MMCC6v4pKezgAKK8vpH1eAx5GFibyJ81dJ7gtmIcU1c8NdZuaDzM77nj9EiJv4+GB/54woTz+Zzlz23746GNaHyW7fKh9XT6SdePy8WJv2/Xm/tn4vYAPlJalT9REHf3LUUJHEHcG6IuTNmQqqA+4UyUA34OzFVscNBSYyVD2FxKxEGYLeNcRO+kRgrMn1MWi8iucuoJQzjWjNnRIjzsu1WY2z+DFx7zehvxO7Kye4R5suQ172SE4QAB2wrb+BEyM7asGLuoyfRX9NFGCqgAucfoWbvYDsLGFDdi8zFxqgk/obGbxsLIWM1TGVJcOVulrZFnBQErfs+3AkN8Lv5MuN+aew8TSbapfxKQdhOyDOh4Uc5KTQQIMSfEcXTx+jVofi5bcrJ/EnfX2lYAGhXvVpqYpUoENqaIWOlAw1zIW/rrDjvTjKs8ZyzJxeD+va01AJzqUYB+N8Cw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(10067099003)(6133799003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?eUvi0nXnD1/Kikb5lrmWNT5sJFhA4ufI2mn+bxeaBn6vk6HSGHffbxC7U1IP?=
- =?us-ascii?Q?jQPJ/31Ujd/vBakq7GDAnXD4nPVC8vLwI2YUk0fTH6C6kkRv5ZA2CV3LY3iC?=
- =?us-ascii?Q?tzJOEIfLJzVeMsc/aj+Q83WeTJmg7w2VKL8Kq0fzYl7lEjxzHVKq2crDDy/w?=
- =?us-ascii?Q?OYZdGiWt56BSoHw6Epxa2JK8Xx8Dp/7619nL8toXZYGxYsVqsdJSROFV3W7S?=
- =?us-ascii?Q?tXzuELXu/AX3ighKkmHUWl2xYnUr7LPH9bK3ZAkf/84qo9+ImCaxs6RQYuL9?=
- =?us-ascii?Q?fz2UG02aOjEP74ziMYTJjwJbsyH09kOl3ZuAYylU5ishZaEIKGc3QWyg+HFQ?=
- =?us-ascii?Q?cTTSfAMY8UPkU6i2DEiKs7r6Ib+Oar2UX1VYjAmlI3b03a1Runo6ZhwBW3sk?=
- =?us-ascii?Q?iO97A5cvNfF0wCuGWX9eay1t9oJtBHdROnBH4T/QhpDpjrOIrOqCuo14DeMe?=
- =?us-ascii?Q?qeAo1P+xq/PP00Nx6kkJlNq6gKK9duzx3UmufhmWcgP+vS4+srpicX6YmS/n?=
- =?us-ascii?Q?E5IepBNPeVTKYDfGdKvlA9kNHRc+h11LcE5THi2IBGGoMJ6hY2Al3brf9A2I?=
- =?us-ascii?Q?ENGaW53hF45GzcAUCtAO/Kyvb/BAt3XY6uDS2KR75jeSd+rARQyVtBnnuyd0?=
- =?us-ascii?Q?s8RhgIqxm7qc7A9Yz6Echkck2GxNrI5pcmwkrHM9sDAJK7qnYXzXWXkYypam?=
- =?us-ascii?Q?kiEcOh0lxfRBpjVSaWUCDWZl6gP45NtimcVsDw1e+UzaKGA94X5d1oDsw/VW?=
- =?us-ascii?Q?Y7zwAclQ9bJ/KplpQ9XYNBqDTftjOQggEMyzBTQSvE9PBI8nHl4gqK8/y+Mq?=
- =?us-ascii?Q?FZnT7EdrPmFnWrpN7AFKlvQMUrIML3yk9kADukn9XCQ0gDQB5tj3poEm9661?=
- =?us-ascii?Q?HC5PdpGyea2KoPRNIwDinidD9GrfqDDSTIdre4ab1FxtNnG8M5OP0/rDzr+l?=
- =?us-ascii?Q?ulxUMX+7uR9TqlJiyZ9kNyxLKBtV39euCc8dXJs3QGfO79ihJOYnqykDSehJ?=
- =?us-ascii?Q?kD9WNPU5aB/RRBb9AGl3T+7q6ElyzByc34OAfBx/pImQlA/kqPo2rzuPfPsk?=
- =?us-ascii?Q?3lkYa4KRUjsC8YcNSnHg5bJ8RDMvL3FoxLjx4O2rmhk2ALvFgbRAOHkf2QYG?=
- =?us-ascii?Q?aRg91GJyyXsL8fFAeoLGJ73B1TYjXuMSnuZqF6+4PnylwmgwAnLdY40Jopqc?=
- =?us-ascii?Q?2hCyey0Gsm17hrlajqZQvUGe7pg2Tb6/h6PFzz0dfiisn7iYbBUZnxpNzM6E?=
- =?us-ascii?Q?edK/6JgjwaARvbmc1QCZ44fND/WFlQgqcaUXjFquKHcXf9NuvDzZOIEFriTq?=
- =?us-ascii?Q?D7XySq9u03atWfcEeZcqy9GlLFKAJPRxFvJenKiWUMRIPeZCBTeOrP2Z9u4N?=
- =?us-ascii?Q?5lteuDi/QFXPTacf5szyepqkAy+cTSuY5EMULNpGQaiSI8fcEarr2Q+NFU88?=
- =?us-ascii?Q?Wbi5YDXlj6HlOLOjfx/ceW+drYHcFZtSzW+wwUCcwM67LwFiiGroaSYBEI3Z?=
- =?us-ascii?Q?sqhlRepNk7jBxDAXgqp7U6lV8jH/RdVQ+/ZwkUQczXFwlPhQ+wUBRFU3w7zp?=
- =?us-ascii?Q?m62OaApPT1XLnQD6kqcRoM0z7T3AniqltyMpZBC058WnyXENW2YsyZQm84Sy?=
- =?us-ascii?Q?o3TouQ3A3DhwaG2OOmGHpgtlmIcJSdvBufpgrGx1tnELyRl+TqMyUARvqRS7?=
- =?us-ascii?Q?ZNRoSyRNWPq3WEYtBdyGkekI/HqacAhtYSFiZrKOTWNVi1j9XVp9FNWWiLeT?=
- =?us-ascii?Q?8nUCVP2c1Q=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d6fb7b1-5fa9-4124-0f24-08df0ea71cff
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2026 19:18:22.0594
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RRE1oDmMTG1YWqTA5GujCaKdgMguIx2IqXzIJEZte67vPgJRpAfvhTOyI/bSZY96
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4180
+Content-Transfer-Encoding: 8bit
 
-On 9 Sep 2026, at 2:23, Zhang Yi wrote:
+From: Christian Brauner <brauner@kernel.org>
 
-> From: Zhang Yi <yi.zhang@huawei.com>
->
-> truncate_inode_partial_folio() splits a large folio so that the caller's
-> truncate loop can drop the in-range sub-folios while keeping the
-> out-of-range tail. The first split at the punch start edge is
-> non-uniform, which leaves the sub-folio at the truncation end edge as
-> large as possible, this means it may still straddle the range, holding
-> both zeroed in-range and valid out-of-range data. The function then
-> attempts a second split at offset + length to isolate that tail.
->
-> If the second split fails the straddling sub-folio stays merged. The
-> function returned true unconditionally on all exit paths of the success
-> block, telling the caller it was fully handled. The caller kept its
-> default end and the truncate loop truncated every sub-folio below it,
-> including the merged straddler, discarding the valid out-of-range tail.
->
-> For example, a 4-page order-2 folio punched from offset 0 to the middle
-> of the last page:
->
->   truncate_inode_pages_range()
->     truncate_inode_partial_folio()      # same_folio == true
->       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->       folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
->       2nd split of folio2 fails / cannot lock
->       return true                       # BUG: caller keeps default end
->     end = 3
->     loop truncates p0, p1, p2-3        # p3's valid tail is lost
->
-> This became reachable after commit 7460b470a131 ("mm/truncate: use
-> folio_split() in truncate operation") replaced the atomic split_folio()
-> with folio_split(), whose non-uniform split can partially split a folio
-> and leave the end edge merged.
->
-> It has gone unnoticed because a dirty large folio normally carries the
-> filesystem's private data, for example buffer_head, so
-> filemap_release_folio() -> iomap_release_folio() returns false on a
-> dirty folio and folio_split() aborts with -EBUSY before any split,
-> leaving the straddler safely unsplit. The bug is only reachable on paths
-> that produce dirty large folios without filesystem private data, and it
-> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
-> attached.
+iterate_supers_type() drops sb_lock while invoking the callback and keeps
+only a passive reference to the current superblock. That reference keeps
+the object allocated, but does not keep its s_instances node linked.
 
-Thank you for fixing it.
+After the iterator releases s_umount, final teardown can unlink the current
+s_instances node. The iterator then advances through a reinitialized node.
+With the current hlist it stops without visiting the remaining superblocks.
+The unlink moved from generic_shutdown_super() to kill_super_notify(), but
+the cursor lifetime has been unsafe since the helper was introduced.
 
->
-> In addition, even when both splits succeed, data can still be lost when
-> the mapping's minimum folio order (min_order) is non-zero. folio_split()
-> stops at min_order instead of order 0, so the sub-folio containing a
-> split point stays aligned to 1 << min_order rather than to a page. The
-> original success path left start at the page-aligned head of the range
-> and set end to the exact page index of the end edge, neither of which is
-> a folio boundary in general. Either one could land inside the large
-> folio at its edge, and the truncate loop would drop that straddling
-> folio together with its valid out-of-range tail.
->
-> For example, a 64K (order-4) folio with min_order = 2 punched from
-> offset 0 to 36K:
->
->   truncate_inode_pages_range()
->     truncate_inode_partial_folio()        # same_folio == true
->       1st split at p0 -> [p0-p3, p4-p7, p8-p15]  # non-uniform, min_order
->       folio2 = p8-p15 # straddles: p8 in range, p9-p15 tail valid
->       2nd split of folio2 -> [p8-p11, p12-p15]   # success
->       end = p9                           # BUG: p9 inside [p8-p11]
->     loop truncates ... p8-p11           # p9-p11's valid tail is lost
+The CIFS DFS lookup can consequently miss a matching superblock and return
+-EINVAL.
 
-Should min_order > 0 fix come as a separate patch first? min_order>0
-was introduced by commit e220917fa5077 ("mm: split a folio in minimum
-folio order chunks") and it is before folio_split(). The old
-split_huge_page_to_list_to_order() can cause a similar issue?
+Move removal from fs_supers to put_super(), alongside removal from
+super_blocks, so a passive reference keeps both list nodes linked. Keep
+the filesystem module reference until then, since unlinking s_instances
+may touch type->fs_supers.
 
+Make sget_fc() skip SB_DEAD superblocks before invoking test(), and set
+SB_DEAD under sb_lock to serialize with those callbacks. This allows
+kernfs to free its private information after kill_anon_super() returns.
+Keep matching SB_DYING superblocks until SB_DEAD is set so concurrent
+mounts still wait for teardown before retrying.
 
-<snip>
+Fixes: 43e15cdbefea ("new helper: iterate_supers_type()")
+Reported-by: Karl Mehltretter <kmehltretter@gmail.com>
+Closes: https://lore.kernel.org/r/20260903013336.92081-1-kmehltretter@gmail.com
+Suggested-by: Jan Kara <jack@suse.cz>
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Tested-by: Karl Mehltretter <kmehltretter@gmail.com>
+Assisted-by: LLM
+[kmehltretter: supplied the commit message]
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+Changes in v2:
+- Use Christian's implementation of Jan's suggestion: keep s_instances
+  linked until the last passive reference is dropped and make sget_fc()
+  skip SB_DEAD superblocks under sb_lock.
+- Retain the filesystem module reference until put_super().
+- Attribute authorship to Christian; retain my commit message.
 
->     i.e. the pages wholly within the range and safe to discard. They are
->     aligned up (pstart) and down (pend) to the mapping's minimum folio
->     order so they always fall on a folio boundary.
+Testing: All tests run on v1 also passed with Christian's draft. These
+included an x86_64 QEMU deterministic KUnit test using the actual CIFS
+lookup callback and a Samba DFS reconnect test with concurrent CIFS
+mounts and unmounts in the same guest. The deterministic test exercised
+the missed-match case; the network stress did not reproduce the narrow
+race on baseline.
 
-Basically, to fix min_order issue alone, truncate_inode_partial_folio()
-needs to align pstart and pend to 1UL << min_order?
+Link to v1: https://lore.kernel.org/r/20260903013336.92081-1-kmehltretter@gmail.com
 
+Christian's draft:
+https://lore.kernel.org/r/20260904-rockkonzert-bergtour-dahin-23c9c5c87d0f@brauner
 
+ fs/kernfs/mount.c |  4 ++--
+ fs/super.c        | 39 +++++++++++++++++++--------------------
+ 2 files changed, 21 insertions(+), 22 deletions(-)
 
-Best Regards,
-Yan, Zi
+diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
+index f183a96778b9..a57399021c8b 100644
+--- a/fs/kernfs/mount.c
++++ b/fs/kernfs/mount.c
+@@ -434,8 +434,8 @@ void kernfs_kill_sb(struct super_block *sb)
+ 	up_write(&root->kernfs_supers_rwsem);
+ 
+ 	/*
+-	 * Remove the superblock from fs_supers/s_instances
+-	 * so we can't find it, before freeing kernfs_super_info.
++	 * Mark the superblock dead so sget_fc() can't find it,
++	 * before freeing kernfs_super_info.
+ 	 */
+ 	kill_anon_super(sb);
+ 	kfree(info);
+diff --git a/fs/super.c b/fs/super.c
+index 05e443173038..0f9e13eedb4f 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -433,15 +433,19 @@ static struct super_block *alloc_super(struct file_system_type *type, int flags,
+ void put_super(struct super_block *s)
+ {
+ 	if (refcount_dec_and_test(&s->s_passive)) {
++		struct file_system_type *type = s->s_type;
+ 
+ 		spin_lock(&sb_lock);
+ 		list_del_init(&s->s_list);
++		hlist_del_init(&s->s_instances);
+ 		spin_unlock(&sb_lock);
+ 
+ 		WARN_ON(s->s_dentry_lru.node);
+ 		WARN_ON(s->s_inode_lru.node);
+ 		WARN_ON(s->s_mounts);
+ 		call_rcu(&s->rcu, destroy_super_rcu);
++		/* The unlink above may touch type->fs_supers, so drop it last. */
++		put_filesystem(type);
+ 	}
+ }
+ 
+@@ -558,17 +562,6 @@ static void kill_super_notify(struct super_block *sb)
+ 	if (sb->s_flags & SB_DEAD)
+ 		return;
+ 
+-	/*
+-	 * Remove it from @fs_supers so it isn't found by new
+-	 * sget_fc() walkers anymore. Any concurrent mounter still
+-	 * managing to grab a temporary reference is guaranteed to
+-	 * already see SB_DYING and will wait until we notify them about
+-	 * SB_DEAD.
+-	 */
+-	spin_lock(&sb_lock);
+-	hlist_del_init(&sb->s_instances);
+-	spin_unlock(&sb_lock);
+-
+ 	/* Drop sget_fc()'s claim; a never-registered entry stays with the sb. */
+ 	if (sb->s_super_dev->sd_dev) {
+ 		super_dev_put(sb->s_super_dev);
+@@ -577,11 +570,15 @@ static void kill_super_notify(struct super_block *sb)
+ 
+ 	/*
+ 	 * Let concurrent mounts know that this thing is really dead.
+-	 * We don't need @sb->s_umount here as every concurrent caller
+-	 * will see SB_DYING and either discard the superblock or wait
+-	 * for SB_DEAD.
++	 * sget_fc() skips SB_DEAD superblocks and calls test() under
++	 * sb_lock, so set it under sb_lock: once we return no test()
++	 * runs on this superblock anymore and none will start. Everyone
++	 * else already saw SB_DYING and either discarded the superblock
++	 * or waits for SB_DEAD.
+ 	 */
++	spin_lock(&sb_lock);
+ 	super_wake(sb, SB_DEAD);
++	spin_unlock(&sb_lock);
+ }
+ 
+ /**
+@@ -608,7 +605,6 @@ void deactivate_locked_super(struct super_block *s)
+ 		list_lru_destroy(&s->s_dentry_lru);
+ 		list_lru_destroy(&s->s_inode_lru);
+ 
+-		put_filesystem(fs);
+ 		put_super(s);
+ 	} else {
+ 		super_unlock_excl(s);
+@@ -795,12 +791,12 @@ void generic_shutdown_super(struct super_block *sb)
+ 	}
+ 	/*
+ 	 * Broadcast to everyone that grabbed a temporary reference to this
+-	 * superblock before we removed it from @fs_supers that the superblock
+-	 * is dying. Every walker of @fs_supers outside of sget_fc() will now
+-	 * discard this superblock and treat it as dead.
++	 * superblock that it is dying. Every walker of @fs_supers outside
++	 * of sget_fc() will now discard this superblock and treat it as
++	 * dead.
+ 	 *
+-	 * We leave the superblock on @fs_supers so it can be found by
+-	 * sget_fc() until we passed sb->kill_sb().
++	 * sget_fc() keeps finding the superblock until SB_DEAD is set, so
++	 * a concurrent mounter waits until we passed sb->kill_sb().
+ 	 */
+ 	super_wake(sb, SB_DYING);
+ 	super_unlock_excl(sb);
+@@ -879,6 +875,9 @@ struct super_block *sget_fc(struct fs_context *fc,
+ 	spin_lock(&sb_lock);
+ 	if (test) {
+ 		hlist_for_each_entry(old, &fc->fs_type->fs_supers, s_instances) {
++			/* Only unlinked at the last passive reference. */
++			if (super_flags(old, SB_DEAD))
++				continue;
+ 			if (test(old, fc))
+ 				goto share_extant_sb;
+ 		}
+-- 
+2.53.0
