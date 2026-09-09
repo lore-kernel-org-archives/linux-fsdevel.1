@@ -1,113 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4DA5581FB;
-	Wed,  9 Sep 2026 12:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813CD5111B9;
+	Wed,  9 Sep 2026 12:47:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788957741; cv=none; b=bgqHZ+Ll72GHefqEIW8GQ63tgdvClxkCqp1KGBrhnlH46ltC5icAoj3lCzaOqxtzjBFq4DLKeqDwQKL134Kcl4xRitmsiqzngZkVeNj4RpKNGtcvVKbyqDIOdfAn3iK4LQpOssz5jJKutMiQQ63ocYXEJymCOL3U8DZHzcioCCI=
+	t=1788958083; cv=none; b=hqsuXP5g9waByv59loAyoSTg9CNPiufP3aA0+t2enMy7A9KwxmR9V9HkYKhXRi853ei2DX0ZL+kFHVTMHoruAOjafrh1yrLpAN3E3dQm0WgTi/u9W1sfqPMr8DgqgTJlQhzBhtApo/sW479WSmH/5yXIe48/7LHAauSWt58p57E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788957741; c=relaxed/simple;
-	bh=NY5kkXrnZzZgiNLFun8C7Lr1re+TSRpPdQy0gKiyCxg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OsHh2A0wVRpqSMI1VdmZ0c+5rfazE73wmjO05FZUEZMgmZlBhP/oQF2RB5bqbXH+AKm4jNfCDsmBuHH8+z8y0tdXQNJ6pZ18EwpogLK8UxU9992LgzTBrdWP1heSaNA77y3qoCqC0aaE0b3wDqK61Z+6UDdSrZKcE9BtmjXs2Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mj6jKoa/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788958083; c=relaxed/simple;
+	bh=UH6njIIyQR9OD67VxOrA7ozK5cAuBO8Er8TuNdULDmc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ec2/gKAaWTT8ZSzgi89GZVcZVdSI2nXoVvD13AnodoP6g+Hc7nByfqtcyLpVn4d6W639mMyLcS76LUmzHqJlXSxyAmOfppdF4JbTyySfGon8BpDPukp117JBmdU1CdqNwXf+Buf/g/rIvDDyD4p3RKI6qihmFtx0GXtw7RjfGgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=ADDLMYnF; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mj6jKoa/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32FD51F00A3A;
-	Wed,  9 Sep 2026 12:42:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788957740;
-	bh=PzrFCfaRwUPe/W44IVH55NxsQ4oS2KmOl4ikIySWXXs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=mj6jKoa/E+1Y1ng+DBulHZL2CsdA+w+cysWTVP9I7XnRCr/snpaqH5OVp8ugfox+Q
-	 sm9DdRq7tMchvorL3oPmolchcLnpL3gqGrH7GOVNwNcjBlvirT3xvldumFKO/fQ3oV
-	 QrL8PNFCcyv6+QJPvdoPOb8+ycwWV23iWhqJCH45Dl9YpNUQ8pv8teA9WEoJ9cn+uO
-	 rmVsaorHf8s76hOqViprmfaiYccLrmy4LEGfuNqqprR2pNXEj0NHp0/7jGzMHNeZpB
-	 y6ln0t5DvRogREfD1gt/3ber4Yrba4s30WJgNBWg5kH3upUqJDqFUbqlaetH1xWZdA
-	 nq9WoIGL3c1JA==
-From: Christian Brauner <brauner@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Christian Brauner <brauner@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Willem de Bruijn <willemb@google.com>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>
-Subject: Re: [PATCH v2 00/10] net: support thread-specific pidfds for send and connect
-Date: Wed,  9 Sep 2026 14:40:25 +0200
-Message-ID: <20260909-vorkommen-einwickeln-entspannen-fb7fb4e29575@brauner>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260909-work-unix-passpidfd-v2-0-7bd342abb2d1@kernel.org>
-References: <20260909-work-unix-passpidfd-v2-0-7bd342abb2d1@kernel.org>
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="ADDLMYnF"
+Received: from omf02.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 4C8ADA0202;
+	Wed,  9 Sep 2026 12:47:55 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id 2ED5B80015;
+	Wed,  9 Sep 2026 12:47:50 +0000 (UTC)
+Date: Wed, 9 Sep 2026 08:49:06 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Ran Hongyun <ranhongyun1@huawei.com>
+Cc: <florian.bezdeka@siemens.com>, <axboe@kernel.dk>,
+ <bigeasy@linutronix.de>, <brauner@kernel.org>, <chengzhihao1@huawei.com>,
+ <clrkwllms@kernel.org>, <frederic@kernel.org>, <jack@suse.cz>,
+ <jdamato@fastly.com>, <john.ogness@linutronix.de>,
+ <kprateek.nayak@amd.com>, <linux-fsdevel@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+ <linux-rt-users@vger.kernel.org>, <mkarsten@uwaterloo.ca>,
+ <namcao@linutronix.de>, <stable@vger.kernel.org>,
+ <torvalds@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
+ <vschneid@redhat.com>, <wozizhi@huawei.com>, <xry111@xry111.site>,
+ <yangerkun@huawei.com>, <yi.zhang@huawei.com>
+Subject: Re: [QUESTION] Are these issues PREEMPT_RT-specific?
+Message-ID: <20260909084906.75ebe0ea@gandalf.local.home>
+In-Reply-To: <20260909030506.344667-1-ranhongyun1@huawei.com>
+References: <63d5cd58e9b85acccdaaac9aed4a8c550cc7b868.camel@siemens.com>
+	<20260909030506.344667-1-ranhongyun1@huawei.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2547; i=brauner@kernel.org; h=from:subject:message-id; bh=NY5kkXrnZzZgiNLFun8C7Lr1re+TSRpPdQy0gKiyCxg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtDFG6cehOsdfexKJUhaXBcxczTz585WaNS3+qKLffn 8vT11w17ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjII11Ghosmk71PGSxITTTW 3asup87SdZvh19ZVYff2Xp3fOH+JawUjQ//THLdDHCELVc1yVY9fX2PvO2em3/tTLtOvem+azFH GzggA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 2ED5B80015
+X-Stat-Signature: o3fwibtfheyjf6uxcieed6spah8gf4o6
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19Xhy7OK4OBMc93k3sLXpaXbNrFBmTU+H4=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=2JZIG0evn7FRLH7buEDQNvcDz4SWp2iw0ronrwwEllg=; b=ADDLMYnF3uDGdfsjFF0AU4mcXm38KNdi8JQJqfv2s53fOhf4+RXiDVgvjxqa2qfF+eWgYXqLtvVi2r6E08M1MGNT+fqqwDF52gB0YKtOpd7t4QfDjaEHj1AhZqNh9XZiz5cv79QyyIa6+fo1PJChOsle7nl88pcyxnhjlfRkMhU=
+X-HE-Tag: 1788958070-860100
+X-HE-Meta: U2FsdGVkX197gq9AYxmfVVmX8SBppYiJWxnth8UqyGIuz6uN3lbwz0pQN7siOw3O4K0M7d4v3vNtgdpSjudf8Q3H833uzaqs1ZB9LiXp/7l6WMYMfifkrHrWiG3iE4YpahG4qYMB/z74IxWPawDwy+le3fYdPgQZIBe6+TktybcVJeTH3KS9TtSQJiWLN4Rf3I9iLhilR9Uhgnch0QOvP7kUktj5KHGRuGz+rEHhAL14UZZkhrroFB52+2Oo2d1S8Z/IMYhj1hfDgtrfuPTvugC5o0UhmQzs+HeDWnndpf6D8+/C80z7YhEhGTv8oy4mQQIn7yLB4nr8YGUvVuOZDrUBMKR44PXZ
 
-On Wed, 09 Sep 2026 12:42:59 +0200, Christian Brauner wrote:
-> SO_PASSPIDFD/SCM_PIDFD and SO_PEERPIDFD allow to retrieve a pidfd for
-> the thread-group leader. The coredump server using the coredump socket
-> cannot get a handle on the task that took the signal and is writing the
-> coredump easily. Workloads interested in per-thread authentification
-> have similar problems.
-> 
-> Add SO_PASSPIDFD_THREAD and SO_PEERPIDFD_THREAD. We record the sending
-> and the connecting thread in addition to the thread-group leader.
-> 
-> [...]
+On Wed, 9 Sep 2026 11:05:05 +0800
+Ran Hongyun <ranhongyun1@huawei.com> wrote:
 
-@Jakub, shared branch in vfs-7.4.shared.net-next.pidfd. I'm open to rebasing if
-you have need for that on your end during the cycle.
+> Florian,
+>=20
+> Thank you for your reply.
+>=20
+> Now I understand that the issues are particularly critical on PREEMPT_RT.=
+=20
+> However, I=E2=80=99m still not entirely clear about the "performance or t=
+hroughput
+> drop" you mentioned for !RT systems. Since !RT kernels are
+> non-preemptible, unbounded priority inversion and stalls should not occur.
 
----
+That is incorrect. !RT kernels have been preemptible for decades. There are
+different levels:
 
-Applied to the vfs-7.4.shared.net-next.pidfd branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.shared.net-next.pidfd branch should appear in linux-next soon.
+  SERVER - non preemptible (but no distributions use that)
+  VOLUNTARY - Has preemptible points in the kernel (might_sleep()) - most d=
+istros used this
+  FULL - Preempts everywhere that doesn't turn off preemption
+  RT - Turns spin locks into mutexes and preempts there too
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Regardless of that, unbound priority inversion can happen even in SERVER
+mode. All it takes is three tasks sharing a mutex. Only RT implements
+priority inheritance (for all locks but reader locks) in the kernel which
+would prevent unbounded priority inversion with normal locks.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+> Are there any other factors that could still cause such a performance or
+> throughput drop?
+>=20
+> In other words, if I am running a !RT system, what benefit can I actually
+> expect from switching from rwlock to spinlock?
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Lack of priority inheritance is true for both RT and !RT in rwlocks. Hence
+that does affect both of them.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.shared.net-next.pidfd
-
-[01/10] pid: add helpers to operate on a struct pid array
-        https://git.kernel.org/vfs/vfs/c/b674dcb18f1d
-[02/10] af_unix: record the pid of the sending thread
-        https://git.kernel.org/vfs/vfs/c/a8575fe8b94e
-[03/10] net: add SO_PASSPIDFD_THREAD to get a thread-specific SCM_PIDFD
-        https://git.kernel.org/vfs/vfs/c/78dc8469581d
-[04/10] selftests/net: SO_PASSPIDFD_THREAD
-        https://git.kernel.org/vfs/vfs/c/7810049c5675
-[05/10] net: turn sk_peer_pid into an array indexed by pid type
-        https://git.kernel.org/vfs/vfs/c/0149a6ceaf8f
-[06/10] af_unix: record the pid of the connecting thread
-        https://git.kernel.org/vfs/vfs/c/4dd362b00be5
-[07/10] net: add SO_PEERPIDFD_THREAD to get a thread-specific pidfd
-        https://git.kernel.org/vfs/vfs/c/41972f2e5ab0
-[08/10] selftests/net: SO_PEERPIDFD_THREAD
-        https://git.kernel.org/vfs/vfs/c/6e8bef9686e4
-[09/10] pidfs: record the coredump on the dumping thread's pid too
-        https://git.kernel.org/vfs/vfs/c/52671ec3712c
-[10/10] selftests/coredump: check the dumping thread's pidfd
-        https://git.kernel.org/vfs/vfs/c/b956027e73be
+-- Steve
