@@ -1,191 +1,189 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F03336894B
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 17:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32483101B2;
+	Wed,  9 Sep 2026 17:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788974140; cv=none; b=PTceR4BXrB/G+uDzYrUq+2LoouI2u5Onkg5/+Dwr2w89SVliwLt44mPQsftulqniuMFbSKzlVYGTpoUOjZR7skE/k/gCmCPUvZZQuW59CYVaFPBNXeLtHpKdCXKaJGgWCm7zEycY2idg6EbOvwBrxw1z6BulJd+p67EfCULzmag=
+	t=1788974195; cv=none; b=c5aH4eC6UAkfGjhawCkIMwOUMdexAIrFDQqB60stELmvg0QoqAdFQUjQGy//u/076lsDMm6/UYBtc1PISl9n9ToEWlpmersaV9jhIk2+e7kKOUbFA29lcF+OWJ1tC+FWNxFFztJUxkdBPFZVHgbdW0JTonRjO2v/JCcEXwVAIn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788974140; c=relaxed/simple;
-	bh=Euu0wYFPoXhGAxBOIuPBcDHmg+oFyJh3oP9/A083k3g=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=hsDUGhyAlh7+BnJZcU3FOyIT8moJfjDXVruH4Gk6Jm3aHRFDdS/kyV3h+kP1XYGuyGTU1mYsxSluAQLkAvijc9YYkyKdYw4d9gvsxRH3c4P6WqdJduIbHAYrOT9PDIyPnH5KOOUWf7WH7dLqa391F6vTbQFvZRemzsOJgHbNxp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C/tx7zYx; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1788974195; c=relaxed/simple;
+	bh=8QFaipwtcL5iD+8jhXmzPpe2u7WQqj/c1B37a4iCI+E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Kx7t9Nfm6oR9NZUCiqQKcopPRQq1eP4hK0z21qXs+TrRkBql85RvKnf1wuICgSeeHBkQ4G+JxBNGBlgspAxnMz3f56HZjcMh17+J8jONLliaE5toI8dmjSqvsnfZN5cV7iOzsZQMXY8fhZXneZmvlrXu5W8Po4VrMYPUh674p6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HUt3fl8h; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C/tx7zYx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788974137;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tgKs3wGB3csmds1F82aQBMthcTIz4aLj48mmHICJfz8=;
-	b=C/tx7zYx2ll0TukqCp/xHLsGVF6z9PYrIxp8x2DjY+RAYD/BL9EDwhN26X43XQugMyQI9W
-	vF5bRtVoxXHIzaDerEF0a2rhpJNXalIZyC/u3yEhIZLG8xQEASp7BCHthCs63sORtrKD17
-	I4y6+957ikO11yhY/eWCLJTwIMOOXXU=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-540-UjY14MOsMeS89S3ZPHF9nQ-1; Wed,
- 09 Sep 2026 13:15:32 -0400
-X-MC-Unique: UjY14MOsMeS89S3ZPHF9nQ-1
-X-Mimecast-MFC-AGG-ID: UjY14MOsMeS89S3ZPHF9nQ_1788974130
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D23C9180056E;
-	Wed,  9 Sep 2026 17:15:30 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.32.158])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AD848195608F;
-	Wed,  9 Sep 2026 17:15:28 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <afd68097-b2b2-47e5-889b-fb077e7a9247@redhat.com>
-References: <afd68097-b2b2-47e5-889b-fb077e7a9247@redhat.com> <a385053c-1c4a-4060-a3bb-befa007ddb33@redhat.com> <1714046.1788952509@warthog.procyon.org.uk>
-To: sorenson@redhat.com
-Cc: dhowells@redhat.com, Paulo Alcantara <pc@manguebit.org>,
-    Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
-    netfs@lists.linux.dev, CIFS <linux-cifs@vger.kernel.org>,
-    linux-kernel@vger.kernel.org
-Subject: Re: netfs_read_gaps(): aliased sink folio makes the read destination unreadable, SIGBUS on cifs with signing
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HUt3fl8h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A47FF1F000FF;
+	Wed,  9 Sep 2026 17:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788974193;
+	bh=RCNfdPry0qx3z3EYS25Xgw7tSBbwgBT8RyM8ger6/hk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HUt3fl8hAt44QPj6lykLIlkMzZu/kNaIu+7I/sN0voLfwcLf510ppqfYbRl7KcDEv
+	 SKMb9cs5xZcJvNsUF9CfDYxSGPCxcA75at/RjGWUvZvZIqRpjlfaZUpBy/mia5YSt3
+	 sehhohY8y6vO3d67rfo9cAcMO7HGnh2faq6EX9fAVC6Jx/gddHiPTEpB42PKbZ2aWu
+	 h8hZN4jNdr1qjMzrwpguqChT6cJC/Ib/QTQ3YnwXC5T5iEmIcstljUzYY3YwY4FdC/
+	 di7xHiCt0w25A7uOe6ykp7TiT06K256QLU4eLUfv4lHS2ZitzlHqsYdVTzbeoEb7tN
+	 KyEZApAl6QaDQ==
+Message-ID: <4825a2fe-f064-45d7-a7c9-e98de7efe86c@kernel.org>
+Date: Wed, 9 Sep 2026 19:16:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1730051.1788974127.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 09 Sep 2026 18:15:27 +0100
-Message-ID: <1730052.1788974127@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/5] proc/task_mmu: remove special-casing of
+ smap_gather_stats() start parameter
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
+ willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260907063918.3432401-1-surenb@google.com>
+ <20260907063918.3432401-4-surenb@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260907063918.3432401-4-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Try #3...
+On 9/7/26 08:39, Suren Baghdasaryan wrote:
+> smap_gather_stats() interprets its start parameter to mean vma->vm_start
+> when it's set to 0. Eliminate this special interpretation and pass
+> vma->vm_start explicitly when needed.
+> 
+> Since smap_gather_stats() operates within a single VMA, we can replace
+> walk_page_vma()/walk_page_range() calls with walk_page_range_vma()
+> which is simpler and also can be called while holding per-VMA lock.
+> 
+> No functional change intended.
+> 
+> Suggested by: Lorenzo Stoakes <ljs@kernel.org>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  fs/proc/task_mmu.c | 40 ++++++++++++++++++++++------------------
+>  1 file changed, 22 insertions(+), 18 deletions(-)
+> 
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 9908ba32f180..3351decd1172 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -1246,20 +1246,27 @@ get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+>  	return &smaps_shmem_walk_vma_lock_ops;
+>  }
+>  
+> -/*
+> - * Gather mem stats from @vma with the indicated beginning
+> - * address @start, and keep them in @mss.
+> +/**
+> + * smap_gather_stats() - Gather mem stats from @vma.
+> + * @priv: proc maps private state.
+> + * @vma: The VMA to gather stats for.
+> + * @mss: The accumulated stats.
+> + * @start: The address from which to start.
+>   *
+> - * Use vm_start of @vma as the beginning address if @start is 0.
+> + * This gathers stats for the whole of the VMA unless the lock was dropped
+> + * and VMA grew or got merged and we found it again, in which case we only
+> + * gather stats for the remainder of the VMA range.
+>   */
+>  static void smap_gather_stats(struct proc_maps_private *priv,
+>  			      struct vm_area_struct *vma,
+> -			      struct mem_size_stats *mss, unsigned long start)
+> +			      struct mem_size_stats *mss,
+> +			      unsigned long start)
+>  {
+>  	const struct mm_walk_ops *ops = get_smaps_walk_ops(priv);
+> +	const bool is_partial = start > vma->vm_start;
+>  
+>  	/* Invalid start */
+> -	if (start >= vma->vm_end)
+> +	if (start < vma->vm_start || start >= vma->vm_end)
+>  		return;
+>  
+>  	if (vma == get_gate_vma(priv->lock_ctx.mm))
+> @@ -1279,20 +1286,17 @@ static void smap_gather_stats(struct proc_maps_private *priv,
+>  		 * Unless we know that the shmem object (or the part mapped by
+>  		 * our VMA) has no swapped out pages at all.
+>  		 */
+> -		unsigned long shmem_swapped = shmem_swap_usage(vma);
+> +		const unsigned long shmem_swapped = shmem_swap_usage(vma);
+> +		const bool shared_or_ro = vma_test(vma, VMA_SHARED_BIT) ||
+> +					  !vma_test(vma, VMA_WRITE_BIT);
+>  
+> -		if (!start && (!shmem_swapped || (vma->vm_flags & VM_SHARED) ||
+> -					!(vma->vm_flags & VM_WRITE))) {
+> +		if (!is_partial && (!shmem_swapped || shared_or_ro))
+>  			mss->swap += shmem_swapped;
+> -		} else {
+> +		else
+>  			ops = get_smaps_shmem_walk_ops(priv);
+> -		}
+
+Horrible, horrible code, really. But not your fault :)
+
+I think we can just make the shared_or_ro less odd by just checking for cow
+mappings (as described in the comment).
+
+	const bool is_cow = vma_is_cow_mapping(vma);
+
+...
+
+	if (is_partial || (shmem_swapped && is_cow))
+		ops = get_smaps_shmem_walk_ops(priv);
+	else
+		mss->swap += shmem_swapped;
+
+That's almost in a form that I could understand what's happening.
+
+-- 
+Cheers,
 
 David
----
-commit 05abad6ef207137fd3a2559d6ac242d1f94c60aa
-Author: David Howells <dhowells@redhat.com>
-Date:   Wed Sep 9 11:36:30 2026 +0100
-
-    netfs: Fix netfs_read_gaps() to use separate sink folios
-    =
-
-    Fix netfs_read_gaps() to use separate folios rather than re-using a si=
-ngle
-    sink folio to discard the unwanted data so that cifs checksum checking=
- sees
-    all the data that was fetched.
-    =
-
-    Fixes: 7f84a7b9892d ("netfs: Make netfs_read_folio() handle streaming-=
-write pages")
-    Reported-by: Frank Sorenson <sorenson@redhat.com>
-    Closes: https://lore.kernel.org/r/a385053c-1c4a-4060-a3bb-befa007ddb33=
-@redhat.com/
-    Signed-off-by: David Howells <dhowells@redhat.com>
-    Tested-by: Frank Sorenson <sorenson@redhat.com>
-    cc: Paulo Alcantara <pc@manguebit.org>
-    cc: Namjae Jeon <linkinjeon@kernel.org>
-    cc: netfs@lists.linux.dev
-    cc: linux-cifs@vger.kernel.org
-    cc: linux-fsdevel@vger.kernel.org
-
-diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-index 424df70a5c30..105194de6e13 100644
---- a/fs/netfs/buffered_read.c
-+++ b/fs/netfs/buffered_read.c
-@@ -482,15 +482,14 @@ static int netfs_read_gaps(struct file *file, struct=
- folio *folio)
- 	struct netfs_group *group =3D netfs_folio_group(folio);
- 	struct netfs_folio *finfo =3D netfs_folio_info(folio);
- 	struct netfs_inode *ctx =3D netfs_inode(mapping->host);
--	struct folio *sink =3D NULL;
--	struct bio_vec *bvec;
-+	struct bio_vec *bvec =3D NULL;
- 	unsigned int from =3D finfo->dirty_offset;
- 	unsigned int to =3D from + finfo->dirty_len;
--	unsigned int off =3D 0, i =3D 0;
-+	unsigned int off =3D 0;
- 	size_t flen =3D folio_size(folio);
- 	size_t nr_bvec =3D flen / PAGE_SIZE + 2;
- 	size_t part;
--	int ret;
-+	int ret, i =3D 0, sink_from =3D -1, sink_to =3D -1;
- =
-
- 	_enter("%lx", folio->index);
- =
-
-@@ -515,24 +514,23 @@ static int netfs_read_gaps(struct file *file, struct=
- folio *folio)
- 	if (!bvec)
- 		goto discard;
- =
-
--	sink =3D folio_alloc(GFP_KERNEL, 0);
--	if (!sink) {
--		kfree(bvec);
--		goto discard;
--	}
--
- 	trace_netfs_folio(folio, netfs_folio_trace_read_gaps);
- =
-
--	rreq->direct_bv =3D bvec;
--	rreq->direct_bv_count =3D nr_bvec;
- 	if (from > 0) {
- 		bvec_set_folio(&bvec[i++], folio, from, 0);
- 		off =3D from;
- 	}
-+	sink_from =3D i;
- 	while (off < to) {
-+		struct folio *sink =3D folio_alloc(GFP_KERNEL, 0);
-+
-+		if (!sink)
-+			goto discard;
- 		part =3D min_t(size_t, to - off, PAGE_SIZE);
--		bvec_set_folio(&bvec[i++], sink, part, 0);
-+		bvec_set_folio(&bvec[i], sink, part, 0);
- 		off +=3D part;
-+		sink_to =3D i;
-+		i++;
- 	}
- 	if (to < flen)
- 		bvec_set_folio(&bvec[i++], folio, flen - to, to);
-@@ -553,8 +551,10 @@ static int netfs_read_gaps(struct file *file, struct =
-folio *folio)
- 		folio_mark_uptodate(folio);
- 	}
- =
-
--	if (sink)
--		folio_put(sink);
-+	if (sink_to >=3D 0)
-+		for (; sink_from <=3D sink_to; sink_from++)
-+			folio_put(bvec_folio(&bvec[sink_from]));
-+	kfree(bvec);
- 	folio_unlock(folio);
- 	netfs_put_request(rreq, netfs_rreq_trace_put_return);
- 	return ret < 0 ? ret : 0;
-@@ -563,6 +563,10 @@ static int netfs_read_gaps(struct file *file, struct =
-folio *folio)
- 	netfs_put_failed_request(rreq);
- alloc_error:
- 	folio_unlock(folio);
-+	if (sink_to >=3D 0)
-+		for (; sink_from <=3D sink_to; sink_from++)
-+			folio_put(bvec_folio(&bvec[sink_from]));
-+	kfree(bvec);
- 	return ret;
- }
- =
-
