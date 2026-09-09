@@ -1,82 +1,110 @@
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC21317173;
-	Wed,  9 Sep 2026 03:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB30376A06;
+	Wed,  9 Sep 2026 06:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788923554; cv=none; b=miQmJfmgJpkCQQBhoJXzVja2ziiGPev0cTDO7JE8BfFk6/hrAuxSvGLDeeLyQeVwliqjjzR+l6ZNfx8p+qKUi9yetbBrNGyar+pvPdMX/KeMfi57H3fq7ixnbn24T7DyFAhyZFxAWuyTyA7+ofhbqnzNYU3jNMxP9tDEljugo6c=
+	t=1788934175; cv=none; b=CjREyeosXAJw1j63baUFaW81f+kV9jqW+pMiRIHct9aZJqGZjRJg0OEV7Hj4Rq5VE4F0thH4wx14BVjlDkq2cc6qTzgGSEJbSz/xEA6y+fdTJYDtBG+F3b5juhrNJOvagJcXsA42ahKICz1JUzTl+wBtIJjL/mGD/4z0J5UgZ5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788923554; c=relaxed/simple;
-	bh=RLeYLogumFQ6XJsvIWq9nwJXeI7KIoroKGT7W1Vl3UE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FZOta/09D7WTqFMCUVL5Hr//79vYeCG0mbT1NQURNp5FBFAPVis6bwFIxR2PVLNDteVoszpFLUogddY1APIjxAC4dnWQlajZsIV46XzrmQ64m81nKAOD91q5GBzhB8IoMit3XnrIwW9fuzYZOKNZ++e4X5Rez6vsy7e5qX/t2Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Z0ANVXml; arc=none smtp.client-ip=113.46.200.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1788934175; c=relaxed/simple;
+	bh=r50sqoThbYc4myXpga5PehtlqgJWFPDPeWrAjzFeBBc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GuGfDihEufUlGkml96UJli1ewJD4JV+0tLByojD/UI4jNqQQlq+w6pXGQE26weLG0DyalUTIfcGFy4SWkEhQFTrXRVkivFtxhfaj+f0aAJMG9Iyw5BQ+WjOBp2jtJN72+zp9h95zmX3ob5PGbg/3AfRtpOa4zFPVcX0XTxJAKfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=v3pTO9qs; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Z0ANVXml"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=f1TwHlr/HpBR52LSyzPtzCCusLmy4u97Fnscmci/Mx0=;
-	b=Z0ANVXml8rYLQpFJoMTkGjk938y8I+J7bAD2bD5HQhwJZ5KBFfTFaguGmXGD4JN2K0uXTWQbT
-	Uc7+XmXoDBHkpGeCuRQBXC+BGvw7ji5DIeyXaIiHCn4PzY/s096wknobqo+JkeOf77ROQpz3mPm
-	OTQ5/7R6Xfq+FB9j+0RnYbM=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4hflvJ66ygz1cyQh;
-	Wed,  9 Sep 2026 11:01:32 +0800 (CST)
-Received: from dggpemr200001.china.huawei.com (unknown [7.185.36.96])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5FADF40578;
-	Wed,  9 Sep 2026 11:12:26 +0800 (CST)
-Received: from huawei.com (10.50.85.155) by dggpemr200001.china.huawei.com
- (7.185.36.96) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Wed, 9 Sep
- 2026 11:12:25 +0800
-From: Ran Hongyun <ranhongyun1@huawei.com>
-To: <florian.bezdeka@siemens.com>
-CC: <axboe@kernel.dk>, <bigeasy@linutronix.de>, <brauner@kernel.org>,
-	<chengzhihao1@huawei.com>, <clrkwllms@kernel.org>, <frederic@kernel.org>,
-	<jack@suse.cz>, <jdamato@fastly.com>, <john.ogness@linutronix.de>,
-	<kprateek.nayak@amd.com>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
-	<linux-rt-users@vger.kernel.org>, <mkarsten@uwaterloo.ca>,
-	<namcao@linutronix.de>, <ranhongyun1@huawei.com>, <rostedt@goodmis.org>,
-	<stable@vger.kernel.org>, <torvalds@linux-foundation.org>,
-	<viro@zeniv.linux.org.uk>, <vschneid@redhat.com>, <wozizhi@huawei.com>,
-	<xry111@xry111.site>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>
-Subject: Re: [QUESTION] Are these issues PREEMPT_RT-specific?
-Date: Wed, 9 Sep 2026 11:05:05 +0800
-Message-ID: <20260909030506.344667-1-ranhongyun1@huawei.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <63d5cd58e9b85acccdaaac9aed4a8c550cc7b868.camel@siemens.com>
-References: <63d5cd58e9b85acccdaaac9aed4a8c550cc7b868.camel@siemens.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="v3pTO9qs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=pR8fMHGb6lehlhbZg0P6MM/nYVxYu2HnDxXPvMOVor8=; b=v3pTO9qs0m/YggYA8bOwTyrS98
+	pdyoqrtkaxY+LiguBaF0qZWep+emePh7CClj3FXP0ZIVuXY76dn1lBGKoSYXx5TaOvAAo0g+EtnI9
+	YqVNiLhQiaHrAliyGdRUncR5ebbPneN28359ME9CEIP/jWV4h2ek0RNo81itNluZdcmmeGO3tJ1kH
+	TAIlUNckj8JzZX7ECPlM28DJxmAMfJ4KB8hZUIjIKpUgCHeaUCtv2xMKMNkIzXkiyTukdkXtaoY/j
+	SxcLYKtHc1OMuxIP4zw1KDhx9dvnJN0PRE2Gu3iRyME1F3in5VY6wTzPh1DZdvnOK+B21e4YzUF+9
+	GJSGStig==;
+Received: from [62.74.3.53] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x4BUv-0000000Aqe0-1QcO;
+	Wed, 09 Sep 2026 06:09:29 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>
+Cc: Tal Zussman <tz2294@columbia.edu>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: lazy bounce buffering for checksummed reads v3
+Date: Wed,  9 Sep 2026 09:08:49 +0300
+Message-ID: <20260909060924.1102037-1-hch@lst.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- dggpemr200001.china.huawei.com (7.185.36.96)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Florian,
+Hi all,
 
-Thank you for your reply.
+this series improves performance and resource usage for reads from
+devices that require stable pages due to checksumming on XFS.
 
-Now I understand that the issues are particularly critical on PREEMPT_RT. 
-However, I’m still not entirely clear about the "performance or throughput
-drop" you mentioned for !RT systems. Since !RT kernels are
-non-preemptible, unbounded priority inversion and stalls should not occur.
-Are there any other factors that could still cause such a performance or
-throughput drop?
+Currently XFS unconditionally bounce buffers reads on such devices to
+prevent user modifications to the buffer from corrupting the data,
+leading to checksum failures.
 
-In other words, if I am running a !RT system, what benefit can I actually
-expect from switching from rwlock to spinlock?
+This uses DRAM bandwidth and CPU cycles for copies that are not needed
+most of the time, and due to the use of a bio_vec for the bounce
+buffer to smaller than wanted and unaligned I/O sizes when using 4k
+user pages (i.e. 1MB-4k I/O).
 
-I`d appreciate any further insights.
+This series addresses this by reading without the bounce buffer first,
+and then only allocating a buffer and reading into that again on an
+initial checksum failure.  To accommodate for rare (or hypothetical?)
+applications that have legitimate needs to frequently modify in-flight
+buffers, a sysfs know is provided to revert to the old behavior.
 
-Thanks,
-Ran Hongyun
+NOTE/QUESTION TO SUBSYSTEM MAINTAINERS: The patches in this series are
+split over 3 subsystems, and I'd love to hear from the maintainers
+about their preferences for merging this.
+
+The baseline of this series is mainline with the
+"misc block PI / bounce buffering fixes" series.
+
+
+A git tree is available to help with the review here:
+
+    git://git.infradead.org/users/hch/misc.git lazy-bounce
+
+Gitweb:
+
+    https://git.infradead.org/?p=users/hch/misc.git;a=shortlog;h=refs/heads/lazy-bounce
+
+Changes since v2:
+ - break out of bio_iov_iter_get_pages when bi_size reaches maxlen
+ - various fixes for pre-existing issues pointed out by Sashiko
+ - generate zone PI a bit earlier
+ - initialize the csum dir in sysfs unconditionally to protect against the
+   rather theoretical case of the flag changing underneath us
+ - redo sysfs initialization order to avoid a cleanup bug
+ - use NOFS allocations in xfs_read_bounce_and_resubmit
+ - rework bio setup for reissue to not leave land mines for other uses
+ - fix commit message typos
+ - fix comment typos
+
+Changes since v1:
+ - rebase on 7.3rc-1 and xfs for-next, which has the bio complete in
+   task support merged
+ - remove the now unused IOMAP_DIO_BOUNCE support for reads
+ - fix compilation with integrity disabled
+ - make I/O size limitation actually work
+ - clear REQ_POLLED when bounce buffering
+ - use sysfs string match helpers to allow non -n echo
