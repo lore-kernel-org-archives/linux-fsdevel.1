@@ -1,208 +1,221 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12AE5335A0
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625533A9DA9
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788950848; cv=pass; b=LzdjxPTpWBCP11FCkzFFM2bF+zV4hOjTGFb+MJARFF2n0vkP/WcPKOoCCOi30XZ7UwfNT/mn94DaEm8K9q+7TE5umM6/n2v9oysyzfwAgnvwRVTggjLjCn/8kLQ4n3qZyvtGKpCvc414YfybEg+uCgg2u/hcLbsndGvzzqUZPrw=
+	t=1788951027; cv=pass; b=YoIdvRW2/zIGxppPNq7+3j5FQtn24K/t4/53Ie258MWPWGQ6e4GtlQqwg7WYUgrQgVL84Cn9AEEpvct+kVOJ4e4XYzHPGBJaNZoxzZP0g1+N4KOXHeZhRT2eOWPZgmCAGXbChDD9toCMdTrN6qY78X0TI/3/YhnWJs1CwPC4EWY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788950848; c=relaxed/simple;
-	bh=c8u0G9DIKWY3wWy8HFtAWaGMEPB6ZGP6llC+ZRy104Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HKIMw8KMkqofqsjRCTY8Aq03AFaYfp+59jk5WOAeljC/lW7P+jNXgR42wsJy3ggXK3ppvnqDTuULOy4NxeP+uR84+Vf3iSZHY/Yn9pMhv+DMZyo1VKMxLtScdp76RYtRpdfZ72s9NZivHEBbcizDjQMXLJYBGlvyP/5spaiVUnY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=K5vcrzUt; arc=pass smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mihalicyn.com
+	s=arc-20240116; t=1788951027; c=relaxed/simple;
+	bh=j6cZDBgYeH1UDdB/vYUO570Md1Mq2XHTWTYhQ5j6hzM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=MuHJnD513wB1jqCGsi0wT+ieP5MGxYlhdOixt4LJRviwjrrfxBPUX5v+EBBaLptpXRy0hJ1eoUtjWiZMHiCrzgvpabQANqGiY2xL4pmRutzTZrTUzYxLRI7zbD9laU97AnDhOT4LFTPXmD7g7Uc2cgAPkhG6zZ7cVzEVIOt/GYc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KX/tOI+g; arc=pass smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="K5vcrzUt"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c255c58156bso1159309066b.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:47:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788950843; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KX/tOI+g"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469e2540eso34610b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:50:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788951026; cv=none;
         d=google.com; s=arc-20260327;
-        b=nM1bIE+EyFQjuzzgMyVUWOlKFnzE5jCHxfihZ+oZ7T1PyUB2844pI/HvmHMD0lfc7/
-         17bmsk8In9hBVyo1ahUZ2pHdvJjjESHNYB80fKSEn1Jv32mg9ZtWrWS9xQaGOAtCP//j
-         +fK3PKRvtYvJZ8MGXnbMVS5LKk4NBEAAR9k1SjQi/gV9+GbI2L1o6cv33s016Ci2KGy7
-         pfgJP+cYHNj7IKewn4hWOUdytDjRtrE+N3sltAPMvWEVJBaoON7RjfwjNDGL2WNbCa+i
-         8UIGSUK2SRFuaQxhNC3MQrO/v2KvJFcdv/D55ufNt0mNgBJKJiaLpIuMmTqEPuKVKCtN
-         4gvw==
+        b=P/LDenAXWP1WQ3YpjNyMH+E+3nL02W1pDSZuSUme7Y89FglZFyPf6F2i7cFcX2dWE9
+         J97BGqVqTQ9gG8P79vaLi+KItb3TG5XD2hbuCXbQl7tzaXsCj6UWsmyiNrEcwRWy7Wpb
+         7zShoPbhFQE6gDCVpanatvFQeJ0P/55LVRkb6rG4EomkZLPk2NU6CebEUalfEJ5/y/Bo
+         0pS0hfQ9qZx2JFD4p9TWUPBOufAWScLPXpp44D68ymG8W8JoqWJ8dJ0s1UX23AFd+640
+         EetQSAxhAn8HcDa53bNg3gcT6kDE5NKfHB5wTGPvHUyXpViDm+SRGS4lZmLoJysAYjCf
+         ZX5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :mime-version:dkim-signature;
-        bh=KuPrUbZf/fUdetX99DjVi3Kowkh+3S7lPORa/Cu8+p8=;
-        fh=rmkpTMvgwNf5FimCYJSf4+vZc1Oh1r5nPtfvo9AxVn0=;
-        b=RrvTEVYG6pHlGfxY2RcPDHL8APXDazDyUtnPqQEJeo7E93VOezGP6S/6LbXG762MLu
-         vMx46MihLzOVqcm35zfyakh6/KKeJayJZ021ExU6SieDGHthwrWlCbStyexBv/6KEs7v
-         TrgpHcqMq0YE4joFJiZQAggNehWXI7pB3Ytzwabb+FKK0doNme8SudUJQM+DeZUSIMNF
-         hOVWpP3vU4iacvsZZ+lDRGJZfTno/96YP1klMxWrb/ZOy5s1Zwmqc5M8qm+KQvYO8ZeA
-         3wQidJqRxbijiGgLl4cNcHBW5HAFIHKoSt2BRZl99UtKIj5Bp4jaayLL3JRZ4SsXqAJW
-         1zLg==;
+        bh=SR3OnMYhSgT26cUzIvbzCnCc1HtdUMyjPk0RDj95K2A=;
+        fh=s9o4IjE+sZMlNvwWtkdnLGk/iexpemkKTjln3jgTd7k=;
+        b=jdlrAzu6TG2Sd6JeZWC9omwX9RdGLaUhdepbVu/sBkJwYDTwUG14L0gnM5P1TJSOPb
+         qlqlUqDajylBjIBlGKiqqGaaxGEgxRW4hBYOEI3THLSl8iPRsUYJ1OGuhu91pnXRPfWP
+         xYu7LO2dn+cok4GL6sPI2Z6D+5vzDNv4InIUYWATeXbAdY/TEiNLSX05Hx87Ce1mpSU7
+         aooF9LQMcFvkydYedeJakPEKJZQfTBJjfEa7a5LlYrGgCcMta7onRqtiQdVehZlUB/Nq
+         CC1xsdmBjHS6Wn6OpwYJKETMfKWBsCUcnmZsiuiy/Mntl+60CfKrCGwROxu9hvgKcg+r
+         Gnhg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mihalicyn.com; s=mihalicyn; t=1788950843; x=1789555643; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1788951026; x=1789555826; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KuPrUbZf/fUdetX99DjVi3Kowkh+3S7lPORa/Cu8+p8=;
-        b=K5vcrzUtilChwK/MPJX5CZQ3+nCjlXcsrIfvIDSQcvZ7DoCbsmViIAE+dwn7nHZPsQ
-         BIHDcv2OJNiGyoNcyuxSprar+Z3meDAKbyod7dx0hMYt1VZU9WmLxWwfR43j0iXWPsCE
-         v5sJB9AOS6P2iiv8ZiUYu05Vibq/kmOpg8QMk=
+        bh=SR3OnMYhSgT26cUzIvbzCnCc1HtdUMyjPk0RDj95K2A=;
+        b=KX/tOI+gOhYOae0P+LfG/tdV98xCOtYs5Vobyg5bwKRLYdLGrx2eplUPLeQHgYJpZy
+         th4V6Ate2kj5k39s/pLgaBGr36MIq+foT3ky8FSYIqgje8GVXv/MN25A1qh0bHGUM/VT
+         m6568PpLkmcTvDJCjZE0dZCJsesuVVlmew5y2FqnsyRnlH31pWhr1xf6yaGLIrOhWW81
+         7NG1AtmQcIYzBlG7uGNp4xkr+26jdNFMFzJiZ8mA8Jga2bifBDT/FnTA5yZZlesGwaw1
+         dv6UTWDaYDRbRk4tt2zpIi9V79DhCD8McR4jFxnSdGzuU1mGQtbDuL+ws74Ns4JUoWbs
+         VRFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788950843; x=1789555643;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20251104; t=1788951026; x=1789555826;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=KuPrUbZf/fUdetX99DjVi3Kowkh+3S7lPORa/Cu8+p8=;
-        b=hvUCn5cKJOzvBIQI5n2U0drHiPbpDc5rIR06z5kMEWOcIaATGY+oLjOp6gbzj8dlEX
-         J7dIsS/ny0EA6oWOGDtkalTdRVZv4kB2ZwzKA//TpD5PViW4Ke7LCrJ2OfQCr5OpW8z1
-         ABt/S/zW32NlEYD+4yeK9muSeVhFCDwy9S5F/bTnRSILcTRnodvt8fyJ3WdB3XB859ta
-         Xs5rbRswD4k5WoidP0GVP5Qie1ODezKOzWElFv1Rse+gWgBFIw/pnIy5oEnzIV1GRyIM
-         et9+Ak+AblAwAljrHPD0r2yUfdc5ofxFIji//8Q5NYzcz1Mnwdl9HBgDXXDfItRkkpcM
-         BJzg==
-X-Forwarded-Encrypted: i=1; AKwUvBzK1XHrFg8i0aIRyELrX038SNC1jvT9lZMGlzQ6Ky2ZTBeI65rITyGt51tZ9bI59wRtg9b8YjETNhnyVTlg@vger.kernel.org
-X-Gm-Message-State: AFuF++mOrypbHMqylwH/IUrXK7naB3MnDNStEJsivukpciuynA1tIPzE
-	kSAIbnMM3QRLXZzoBoCwZsYq+wXBmJ+G8ukgLHwF2Um0d0LK3pahcvH7TdWyiio/8MsMD9SB12t
-	PhJxCcZ5qguqQBrg2WLlQkUo3IAyIL0pTqOusB+nT8Q==
-X-Gm-Gg: AYBFou1fm72n+vRm06v5zK+6iP0w/jooqThVkS9hwsX+4u/5jZBzkhGoy3RyeCm5QL4
-	/W8b5JinsI97SugaFlkR4pd7AEXDb/RJx9/fFyM1ejHvnBV3IF2JdQVlEMIGrvd60A4rLOg/1SC
-	ALKCp7MHZz8VQlIaYqel59cRmAaOO7cgNlha7GsRyu/FiTH2cXI5JBMjnBDtP4e8w6r2TrMJSXV
-	E775M4Ji8rHrtVYDCoutqN/QPIVskm9xD2Ffk5DPF2A1Tgi+xK0ADk585d6o+L68hqhICknVU90
-	XaWkTxf6uRYKovygip4Xb7XE+qB6XkduQY5GOhpiADTQknLiIauhmjaKSd3Wkj6zxdatamEOz6B
-	9JuGuaB1cWjs=
-X-Received: by 2002:a17:907:e1c6:10b0:c26:2c3d:67aa with SMTP id
- a640c23a62f3a-c262c3d7d38mr647675466b.47.1788950843137; Wed, 09 Sep 2026
- 03:47:23 -0700 (PDT)
+        bh=SR3OnMYhSgT26cUzIvbzCnCc1HtdUMyjPk0RDj95K2A=;
+        b=TJ+06kq6nryNFI8uwQmoDAMR4OwQpIq57cTSHluL0ql+9mcJfEOU0fxzUNzfH0lomQ
+         ZNTJvpjQBc/uNGY0SZSgdnEgaaY02SnAH0mRGe6vIUMwc34jXBECOuN8oWVlhDJM8TTC
+         iYf+YWTTl4lwx48YtWKjg5sDYJv9ocXtlKxcc+aTiLDu8t0LLukeM6RTnajOr9sQs6WH
+         TwyPYvX0xVkMir1ak43Ax7Hvf2ZEGr1VBlxmykq4+GI9WdOUo08qpnXNg2yARgQjQ1w+
+         /1glbD4xQCLkTxB2E2ExQfb32hYl77AD462BALhI1UqzmbY0yWDUzicpHeJCRKWmzyJM
+         BZJg==
+X-Gm-Message-State: AFuF++ncxLPI+0uc1Zha1LuQlblCneKY/L6+aUd2zFgy463YdMncnWqH
+	Jz6Tu4dPH3uNKH9Eus8vi2jgC2VC0Jxu0CfnFGE2NSqsxqQQR5GUE2Fwhm8nHo2Lts9pBUNXwNE
+	rl+IasEGIobbVKPjDVGi7Jp6pjMuuMYuZhJQRo8sNFQ==
+X-Gm-Gg: AYBFou2g2qNUBupeTqJmXXIUvJbr3FiLvwhRfO6o7TaUd+aGLQoj/s9w5Wt20Kvs5JG
+	VwCb9/oKVJW1ueRI7Pf3gtU+DZXSBzlr94fs/omnz80F6ECy+OYj/peRbLOJkD+9DNQxuQM4DtN
+	YTDWGK6N9c3G5KxR3Q9r0PcuzBZze73brL4m1/rSxmGJQZVzlqw6mktomgdJYGDLnfixOy6fGlt
+	dhn6nHHBoOkej/Z+elrHDSAWJDRH6KdNoh5p5zFCdqnckE6ZmEnLrAkqXbeilU9+lM+ZSQIciEM
+	RLmh+ZFgvu2r1uphQQ8tEe7XWEuzUJBYoxeIE+fau8vizgbsyWCzIetB
+X-Received: by 2002:a05:6a20:6f0e:b0:3bf:63af:855 with SMTP id
+ adf61e73a8af0-3dacbd26702mr610907637.1.1788951025558; Wed, 09 Sep 2026
+ 03:50:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org>
- <20260831-work-unix-passpidfd-v1-2-70cbfda0c7ba@kernel.org>
- <CAJqdLrooAYAcgzug=+idiPfqsZ0HGaqi29STuw7uzDh7eEB1xQ@mail.gmail.com> <20260909-kredenzen-stock-hyperaktiv-121c1eec9f98@brauner>
-In-Reply-To: <20260909-kredenzen-stock-hyperaktiv-121c1eec9f98@brauner>
-From: Alexander Mikhalitsyn <alexander@mihalicyn.com>
-Date: Wed, 9 Sep 2026 12:47:11 +0200
-X-Gm-Features: AcwNN1XVh-ALE8Pd-F1vhWkAcwoJY8Oak9Or6CODFCYe9Lq9EEeN6slL8DKSSVc
-Message-ID: <CAJqdLrrt_HhKmSmKr72rUip-_j_eOG-41SoBGcJJGZ=i2pUd6w@mail.gmail.com>
-Subject: Re: [PATCH 02/10] af_unix: record the pid of the sending thread
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+From: =?UTF-8?B?Tmd1eeG7hW4gVsSDbiBUaeG6v24=?= <nguyenvantiennani@gmail.com>
+Date: Wed, 9 Sep 2026 17:49:26 +0700
+X-Gm-Features: AcwNN1WxGOQ9bY-7r0846Zbm3ObMObeofeNrISt_TglaNc0pGuiuzJzE2Ktbgps
+Message-ID: <CAKT34MyyF5iC50agYpMMb4sOXYZ=n2Z77PV+u=TWsSTP0YdS8A@mail.gmail.com>
+Subject: [BUG] procfs: fdinfo permission and read can cross a setuid exec epoch
+To: linux-fsdevel@vger.kernel.org
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Am Mi., 9. Sept. 2026 um 12:36 Uhr schrieb Christian Brauner
-<brauner@kernel.org>:
->
-> On Mon, Sep 07, 2026 at 11:55:23AM +0200, Alexander Mikhalitsyn wrote:
-> > Am Mo., 31. Aug. 2026 um 13:21 Uhr schrieb Christian Brauner
-> > <brauner@kernel.org>:
-> > >
-> > > Currently only the struct pid of the thread-group leader is recorded.
-> > > The identity of the actual thread that sent the message or is connected
-> > > to a given socket cannot be retrieved.
-> > >
-> > > Add the plumbing to make it possible to retrieve a pidfd for the sender.
-> > > Nothing uses the thread-specific struct pid yet. No functional changes.
-> > >
-> > > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> > > ---
-> > >  include/net/scm.h  |  7 +++----
-> > >  net/core/scm.c     | 21 +++++++++++++++++----
-> > >  net/unix/af_unix.c | 23 +++++++++++++----------
-> > >  net/unix/af_unix.h |  3 ++-
-> > >  4 files changed, 35 insertions(+), 19 deletions(-)
-> > >
-> > > diff --git a/include/net/scm.h b/include/net/scm.h
-> > > index 86ae6bc109ec..aa7d15c5fc27 100644
-> > > --- a/include/net/scm.h
-> > > +++ b/include/net/scm.h
-> > > @@ -42,7 +42,7 @@ struct scm_fp_list {
-> > >  };
-> > >
-> > >  struct scm_cookie {
-> > > -       struct pid              *pid;           /* Skb credentials */
-> > > +       DECLARE_PIDS(pid, PIDTYPE_TGID);        /* Skb credentials by pid type */
-> > >         struct scm_fp_list      *fp;            /* Passed files         */
-> > >         struct scm_creds        creds;          /* Skb credentials      */
-> > >  #ifdef CONFIG_SECURITY_NETWORK
-> > > @@ -69,7 +69,7 @@ static __inline__ void unix_get_peersec_dgram(struct socket *sock, struct scm_co
-> > >  static __inline__ void scm_set_cred(struct scm_cookie *scm,
-> > >                                     struct pid *pid, kuid_t uid, kgid_t gid)
-> > >  {
-> > > -       scm->pid = get_pid(pid);
-> > > +       scm->pid[PIDTYPE_TGID] = get_pid(pid);
-> > >         scm->creds.pid = pid_vnr(pid);
-> > >         scm->creds.uid = uid;
-> > >         scm->creds.gid = gid;
-> > > @@ -77,8 +77,7 @@ static __inline__ void scm_set_cred(struct scm_cookie *scm,
-> > >
-> > >  static __inline__ void scm_destroy_cred(struct scm_cookie *scm)
-> > >  {
-> > > -       put_pid(scm->pid);
-> > > -       scm->pid = NULL;
-> > > +       put_pids(scm->pid);
-> > >  }
-> > >
-> > >  static __inline__ void scm_destroy(struct scm_cookie *scm)
-> > > diff --git a/net/core/scm.c b/net/core/scm.c
-> > > index f0d44ecdb11f..9b9e119c353a 100644
-> > > --- a/net/core/scm.c
-> > > +++ b/net/core/scm.c
-> > > @@ -149,6 +149,7 @@ EXPORT_SYMBOL(__scm_destroy);
-> > >
-> > >  static inline int scm_replace_pid(struct scm_cookie *scm, struct pid *pid)
-> > >  {
-> > > +       struct pid *thread_pid;
-> > >         int err;
-> > >
-> > >         /* drop all previous references */
-> > > @@ -158,7 +159,18 @@ static inline int scm_replace_pid(struct scm_cookie *scm, struct pid *pid)
-> > >         if (unlikely(err))
-> > >                 return err;
-> > >
-> > > -       scm->pid = pid;
-> > > +       /* A sender naming its own thread-group sends from the current thread. */
-> > > +       if (pid == task_tgid(current))
-> > > +               thread_pid = task_pid(current);
-> > > +       else
-> > > +               thread_pid = pid;
-> >
-> > Hi Christian,
-> >
-> > The patch looks good to me, but this spot raised some doubts for me.
-> >
-> > If scm_replace_pid() is called with pid == task_tgid(current) then all
-> > good, because we
-> > get scm->pid[PIDTYPE_TGID] == pid and  scm->pid[PIDTYPE_PID] ==
-> > task_pid(current). All good.
-> >
-> > If scm_replace_pid() is supplied with pid that has a type PIDTYPE_TGID, then:
-> > - scm->pid[PIDTYPE_TGID] == pid. Good.
-> > - scm->pid[PIDTYPE_PID] = pid. Doesn't looks correct, shoudn't we do
->
-> After chatting with you, I think I get the concern. You think that
-> scm->pid[PIDTYPE_PID] always points to a thread-group leader if pid ==
-> task_tgid(current). Yes, that's true but that's intended and fine. The
-> thread-group leader is just a thread in the thread-group just with
-> magical behavior (that we would really like to get rid of but can't
-> easily...).
+Hello,
 
-Yes, my concern was about another case when `pid != task_tgid(current)`, but the
-chunk of code I've suggested makes no sense. When I looked at it with
-a fresh head I realized this.
-In scm_replace_pid, once we've got `pid` pointing to a leader's thread
-we can't really do anything
-other than taking leader thread's TID as a scm->pid[PIDTYPE_PID]...
+I am reporting a possible procfs authorization/use consistency issue for
+maintainer review in Linux v7.2.4. This is a normal public bug report, not =
+a
+CVE, exploit, LPE, or claim of confirmed high-impact information disclosure=
+.
 
->
-> Thanks for looking closely at this though!
+Affected source
+---------------
 
-LGTM
+A clean Linux v7.2.4 checkout was reviewed:
 
-Reviewed-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
+  commit 5015d0d945b3d3f2b038d2667880d5762f7d9437
+  fs/proc/fd.c:23-73, 85-101
+  fs/proc/fd.c SHA-256:
+  5aba6d410e9aee3283b9007e33668a99f5d4c506deffa8b9816be415966eca0b
+
+The suspected check/use sequence is:
+
+  open /proc/<pid>/fdinfo/<fd>
+    -> proc_fdinfo_permission()
+       -> get_proc_task(inode)
+       -> ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS)
+
+  later read of the already-open fdinfo file
+    -> seq_show()
+       -> get_proc_task(m->private)
+       -> current task->files/fd lookup
+       -> get_file(file)
+       -> generic fd metadata output
+       -> current file->f_op->show_fdinfo callback
+
+The permission callback is not held through the later fdinfo generation. A
+same-task setuid/setgid exec can occur between the two operations. The proc
+inode keeps a counted struct pid, so this is not being reported as PID reus=
+e.
+The task/files/file locks and file reference also appear to protect object
+lifetime. The issue is that the authorization result and the subsequently
+inspected task/files state are not visibly tied to one exec credential epoc=
+h.
+
+Impact currently established
+----------------------------
+
+An ordinary local UID can open an fdinfo file while a same-UID target is
+accessible, retain that open file, and read it after the target executes a
+setuid/setgid program. The later read can report the target's current fd
+metadata and invoke the current file's show_fdinfo callback without a new
+ptrace authorization check.
+
+The generic output is position, flags, mount ID and inode. The v7.2.4 callb=
+ack
+review covered eventfd, eventpoll, inotify/fanotify, pidfd, signalfd, timer=
+fd,
+perf, io_uring, sockets, BPF, FUSE, XFS, DRM and other device callbacks. Th=
+e
+observed outputs are metadata/state such as counters, masks, IDs, inode/mou=
+nt
+identifiers, file handles, signal masks, configuration and accounting data.
+I have not established disclosure of protected file contents, a reusable fi=
+le
+reference, credentials, capabilities, a kernel pointer, or a reliable
+high-impact secret. The stronger public memfd scenario for
+/proc/<pid>/fd/<fd> is not being attributed to fdinfo.
+
+For that reason, the current classification is a conditional security and
+process-observation candidate. If the output is intentionally allowed to be
+stale-authorized metadata, this may instead be a procfs consistency or
+hardening issue. I would appreciate guidance on the intended contract.
+
+Safe contract evidence
+----------------------
+
+A disposable v7.2.4 debug KASAN/UBSAN QEMU test opened fdinfo before a
+synthetic root-owned setuid exec and read the already-open file afterward.
+Both independent passes observed the eventfd callback:
+
+  fdinfo_eventfd_callback=3D1
+  credential-epoch-proc-contract: PASS
+  trigger_rc=3D0
+
+The same contract also observed post-exec status/cmdline markers, but those
+are sibling procfs observations and are not needed for this fdinfo report.
+
+Frozen logs:
+
+  evidence/credential-epoch-consistency/proc-contract-smoke.log
+    size 25227 bytes
+    SHA-256 D34C9587A2692830BF118887131D50DF773C5C1B108FDF593B821938E8E48CC=
+5
+  evidence/credential-epoch-consistency/proc-contract-smoke-2.log
+    size 25163 bytes
+    SHA-256 BFFD6DE0C3C64F6A9B68347359DF83B7A6060103E4B65F14E3222FB6DD6C8C4=
+9
+
+This test demonstrates only cross-epoch synthetic metadata/state observatio=
+n.
+The setuid helper is synthetic and does not establish a production privileg=
+ed
+daemon or a high-impact disclosure. No race amplifier, exploit chain,
+credential theft, namespace escape, LPE, or kernel diagnostic was produced.
+
+Questions
+---------
+
+1. Should fdinfo authorization and current fd/callback state be coupled to =
+one
+   exec epoch, for example by read-time revalidation or by holding the
+   target's exec_update_lock while selecting the state used for one seq fil=
+l?
+2. Does any in-tree show_fdinfo callback make this stale-authorized read a
+   concrete protected-data or security-boundary disclosure?
+3. If not, should this be handled as a public procfs consistency/hardening
+   fix rather than a security issue?
+
+I have not attached the source-only reproducer or the full audit to this
+public message. The reproducer is a minimal non-exploit contract test, and =
+the
+full source/callback audit can be provided to maintainers on request. This
+keeps the initial public report concise and avoids publishing a synthetic
+reproducer before maintainers assess the issue.
+
+The report follows Documentation/process/security-bugs.rst guidance for
+AI-assisted findings: public routing, concise verified claims, and no publi=
+c
+reproducer for a potentially security-relevant issue.
+
+Regards,
+Nguy=E1=BB=85n V=C4=83n Ti=E1=BA=BFn
