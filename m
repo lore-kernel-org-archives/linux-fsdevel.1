@@ -1,65 +1,65 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C8F47DF85
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3525111A8
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788949514; cv=none; b=YC5/s9zqHTJEgQTzGB5EdbgLW3SjvNu6BI6QhHEZ7bZ5Gr1N6pRDR+TqLeiPZSBxMP1BjBzyxdImjRbvwK2M1K0ng7yIC8X5E9tALv4LIVFH9SVpTCEnl0JoYN9ghde5xuVVLgZwJBN/6nU3hBDjGZogBcwXK/pZPOwcIMC3H0Q=
+	t=1788949670; cv=none; b=OZDesmtE1uZw3efD0y6vK4VzKg6RQguk5c5c/6LloTWW8Tgf079wsqog21UwBq9cQ7/g5hh8sQJVPm4tsLribO/zed0GKQ2JNpKi3zTF/GATVtx6FmLtBPS6B/tsjksYANuEDlJ1S1BAML8V9rmZqmURRnGBrQ9D7ffswMIAxME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788949514; c=relaxed/simple;
-	bh=PA7/Pbx5AEThbU1dExwqFT9w9coLuAoGrR7Ue2+wOTE=;
+	s=arc-20240116; t=1788949670; c=relaxed/simple;
+	bh=apGggQcJp2WV1URiHg8Asmh4iwaxGu1pF3vH60oXvTw=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ZcC/ejYr9sRHE+bFeDPFdvLVxtvgrbSanzbiFlv2WUn5OHAfLvujXrOGzTNi1RFB4qCCWQKk/jIooarbhQ9PWAQyyOQXX+zYIX9uVvxAcGc0LNAjk/dosLssoG283qpnYoRDFZ6QF2ezn5uJtIRJR+C5qVJ6PaCf7lhGH71SwoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sMACMHU8; arc=none smtp.client-ip=209.85.128.170
+	 MIME-Version:Content-Type; b=iYBJDWlP2xSWjHVFa+03pjP/bskRt9bgBvdahuBHDGrpyggh3fIMWiaSxkkxO0RfRVXI9peL3uoFYtNKhgAOjNycdTE5PwwnCkolL+DmStNyBqxlvP4oWg1uWC5Hkfg8P3zExwYTCzk88IuPwLfe1YXWQbTgbqIzISn1rP5zOTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GxGDP+Z6; arc=none smtp.client-ip=74.125.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sMACMHU8"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-87ab6e5f91eso26412597b3.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:25:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GxGDP+Z6"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-66fb8a78ad2so6962782d50.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788949511; x=1789554311; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1788949667; x=1789554467; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=tbn1aAX73v4jfLOAScY/xk2YxlfOe4UtWahA1Ug2y2k=;
-        b=sMACMHU8bUBRcevNAt4rnxkr3JHUKboqxgklcBwQXRmJ4F65NgGz0OoXJ1+1SqoDup
-         va3cGoWVD+QdFyHTN315iCwqEyTQMhvn08fWj1aZIOD+a7tAE+SuBkm9Na1vq8daGX0n
-         BpltVo6dID4JgABrOfcolkDET2tDT6Oppk0J/PH9RZxLPddxlD9ARY+GODw/i/WgSpI3
-         Rz3EaF4SPDHXEYV+Az/iF6Y5gppFgVWwQdH0hHhwz+pvdE4SkCSu+uI1Gixk7kgdALkq
-         FmnLa3oRYEIYZEjQgxK5nhvRIqcoLDn98EBrxj4Z7tuxJPalZYBNbcFJmP6SOU0kLkuz
-         gh9g==
+        bh=0mZ5Gk4/1Pu5bK3S+WjW2BlP4j/qxWTHvLM7mSgUCfk=;
+        b=GxGDP+Z6oWxTSLrBtRAZa+DEityV8+saaWCj3GSm6C/hkO9ldhEfZILDAbNdoqixva
+         J6c3/yfN3eNLcBhTKVSm/yaIjiQDK5sH06oFIzpl1p4Y0mVY7WnZZDXRbJAXU8kgmYk9
+         A86jXkrLjNjN1LhmOCmobsBWYi/oJ+prJgffhPv4HaVxTmB2IMeTef1ZfZgriVtyAywV
+         pA974nCln5Fv0zd59QRdRhjQ3+Jw7i2HwnCcUIMyKfKwLKG98Yg3z9RRTinyEpzcCW+X
+         FOuutXxJfgEEA4ZsOziq+sniLVIoimIma1ZCtnS+HrK5T5Im3FwHtWt7fl7fmKA1Ai1e
+         PISg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788949511; x=1789554311;
+        d=1e100.net; s=20251104; t=1788949667; x=1789554467;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=tbn1aAX73v4jfLOAScY/xk2YxlfOe4UtWahA1Ug2y2k=;
-        b=UHjN0gnnPl5AKSAVAvp9PaQMDNz4MrN14BOYexOyRqe/ksi0gMK6pKvCzp5Jpa1twa
-         JpXLCt3qhgFG9XCHnSzcv1U6Lsc98t9j7m1GW2XG70a2+4fv62xRxNTXls5EXqAzLNgC
-         hR7MYf4QnAt2sc3CDCj3LlHHisZ2zmVb/DUmvW+Fw/CiwKXYav0AG2zrZra/9foHya+A
-         oy8Smi5euZyck6h/0Pdv3VbZHpcWJR2b07ZZSDHwCUpHOgfcslmnwVst9RmXn0b37mEv
-         j7asdJRr11LZo0wphffKIjknwu1nKyXLxuZvwbZYPTJm+av9tS6CG+FFDZ4XO76+Ng7L
-         tbow==
-X-Forwarded-Encrypted: i=1; AKwUvByFOPwVyM5GXgs9882kljbQs1OhBG/ljgjRXytrigJ9v4KOUdrORkuTDse4qQGZJYdV8duQgRsjxD3k0pge@vger.kernel.org
-X-Gm-Message-State: AFuF++lcfOkcOFRrIqPbW8g2VQxWUq5rl+ZpiNsnfapfFXYx43RbsvOd
-	I0xNIVen6dTyxL7xlrxlDh92R7PdR5CbA5XvqyccB52n+L/x+AQrcCM1SQyhk5XmrA==
-X-Gm-Gg: AYBFou3Qbx8SNAnnF5c7dE9X0+bImWtIPI0MX7icv3yclkRMQNfEKXJkXK8Td1QMDpd
-	BwoOV0lSaXrnlOiJayUh6EmzYHEx/g/RoPacoTPbKcb5/AuHFy0QMvM/lDy5rcyJD5AeJP22twY
-	WaLDT7y0Nj18XIdHKG/RgOQNu89fO2Vmyt1eOd9FWp8CT3hdaCoEEZthTzIShYm/RIKO19rKWRD
-	vX4tS6+F8XI2kHdafDI8tC9yWFVoaDwRubnZw0q9FXRE6ypFovGWbIzMzJi/cpH1Sf5+p6jRdsI
-	bgdip9HmT8susANXyzBsJBmvATb/zSvtDqrt1+v209XHZMiQh7v2o99JrVgoDhLvnJn+j33O+iq
-	0brkPnKrTAk3Iu/wLO1iceX+RuzAxyIkmMgspvAJne0DeAOzJnjH0o42mEr+oPwqD6qXKX3zxVH
-	nRhoG3jLVc5FXDZH5tEBjjqjq2eQuKxL+1aJjhwP80VktrSNk4tkRedWJjSBUhAK0ONa9W98w9r
-	mI+bJZfChlA8xt685UaFp0CibFGcZkhumhQRUzvEgiy7TUS7jQ2QTMV83MZ1RNRMpNpaQ==
-X-Received: by 2002:a05:690c:62c4:b0:870:96e4:6716 with SMTP id 00721157ae682-87127b36981mr130530337b3.28.1788949510969;
-        Wed, 09 Sep 2026 03:25:10 -0700 (PDT)
+        bh=0mZ5Gk4/1Pu5bK3S+WjW2BlP4j/qxWTHvLM7mSgUCfk=;
+        b=mol2wIHnYJy1HjD5q7s8UInXzYgNEbx4yYekPmxykA/EZP/LvSfBxqVVUBg9ak0yI7
+         pS045/+QeOL5Mf/HNjyV4NgmJWXggBsQQhVnN5MJu2dsoR4lINQyWI7oQuAVkMo8QKPR
+         oSWr+/ihxXWK3fYaOsdfyn5whJOY2WX8V17Rnp2cOvWwVgViFaoqqIWcrMoVCnb0zg28
+         f7dIn8sKkiyBto5N/MZE/r+XvD7OMyjhfvliWZxUdhkj4ZIJCsyTzJHULI/72Ejj0iLJ
+         TNWyzzDuVQIzXiGRpZpCiE7hiu6X1UmSlFXndXE5MLrsPmkXsNNMY/JGw6A7UaUCdCbj
+         gObw==
+X-Forwarded-Encrypted: i=1; AKwUvBzv9erRVfApU1QF8xB1u+vJCrNhEwhpqvx4/SFlD7v4Rv4fmt0vBzcfaeJQkeMuWpXpBRZWaXr07+LcjoH8@vger.kernel.org
+X-Gm-Message-State: AFuF++kFRRNbQurFIkwjyGKwqEuf+9oOIi0sYmNlRU7aKPIf5qlzvhdl
+	axCL2R1F8zhzbUeUBr8BZLQJYx2Fp/840ukotxePu5EJPDPT2N6LImr2qCEkTniNLA==
+X-Gm-Gg: AYBFou01Dp2nm4huJoUUkq3IGkDQYQBoGFOuKDih5TpPF9mqduY8vU90BBAKT+Dr1cH
+	h9uPZuW56NK8sRHGqJ4BR2DgQZzLc7M2Xw/diGMtAzlW0Rilk/o9J9O9IbgTK2vm3bgC7rf1fF2
+	zIVkZr7Srz9ptPWalr/oLKobGHpsJ02wSx6VollZjsqiabi0fOz8ayyk3yVmVaYslr8OwL+z4Qj
+	euyOx5Ee+5IcsjGUR6gQYELROUxfPLqHgYYgBZBBw6wEx/y+tdUhxT6012gJ8CBxj00b0nOmzSi
+	wY2mfUR0lZexARkf8Shc46HkA5yPw5AbSrpIax7D3fSb4mAFbvmP3Fl35I1qy305RUn9C5zvGFf
+	DVipMWt77InYhO37MusCYuZvCMnF60wPWAUYXQcilQS8w0JyiN/js1UmJ2A1ZapZVI8Cnf7fX7e
+	TKWl4ksWu7dboHNfj7I/wiyy7LnyqGNXOoxF25lqUG4BSJi9faMDU/AEmapi+ZYiD2fqtScXZkL
+	RCk4F8/ZB/k0SFBLUzksp1HlC2Xn/puN5hlEbhH3KeQFVE/E3ENLK90IcyxJ/DGfiSdWg==
+X-Received: by 2002:a05:690e:48b:b0:66f:c1bc:4097 with SMTP id 956f58d0204a3-66fc1bc4874mr7597179d50.90.1788949666224;
+        Wed, 09 Sep 2026 03:27:46 -0700 (PDT)
 Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-87149315162sm107287417b3.12.2026.09.09.03.25.06
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-670febedc44sm2584559d50.11.2026.09.09.03.27.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 03:25:09 -0700 (PDT)
-Date: Wed, 9 Sep 2026 03:25:05 -0700 (PDT)
+        Wed, 09 Sep 2026 03:27:45 -0700 (PDT)
+Date: Wed, 9 Sep 2026 03:27:41 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 cc: Ackerley Tng <ackerleytng@google.com>, 
@@ -89,10 +89,10 @@ cc: Ackerley Tng <ackerleytng@google.com>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 21/26] block/fbatch: no lru_add_drain_all() in
- invalidate_bdev()
+Subject: [PATCH v2 22/26] fs/fbatch: drop_caches invalidate_bh_lrus() not
+ lru_add_drain_all()
 In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
-Message-ID: <0debd9f6-0ff8-31b0-4830-3a81ba56754a@google.com>
+Message-ID: <75e9b5b0-6a70-06df-ba0e-4d7bf841c0cf@google.com>
 References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -102,26 +102,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-invalidate_bdev() has no good reason to lru_add_drain_all(), now that the
-per-cpu fbatch references are gone; but keep doing invalidate_bh_lrus().
+drop_caches has no good reason to lru_add_drain_all(), now that the
+per-cpu fbatch references are gone; but it may have good reason to
+do the invalidate_bh_lrus() part of it.
 
 Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- block/bdev.c | 1 -
- 1 file changed, 1 deletion(-)
+ fs/drop_caches.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/bdev.c b/block/bdev.c
-index cd8323083740..853545b29b7f 100644
---- a/block/bdev.c
-+++ b/block/bdev.c
-@@ -97,7 +97,6 @@ void invalidate_bdev(struct block_device *bdev)
+diff --git a/fs/drop_caches.c b/fs/drop_caches.c
+index 49f56a598ecb..054af78e6a2e 100644
+--- a/fs/drop_caches.c
++++ b/fs/drop_caches.c
+@@ -10,7 +10,7 @@
+ #include <linux/writeback.h>
+ #include <linux/sysctl.h>
+ #include <linux/gfp.h>
+-#include <linux/swap.h>
++#include <linux/buffer_head.h>
+ #include "internal.h"
  
- 	if (mapping->nrpages) {
- 		invalidate_bh_lrus();
--		lru_add_drain_all();	/* make sure all lru add caches are flushed */
- 		invalidate_mapping_pages(mapping, 0, -1);
- 	}
- }
+ /* A global variable is a bit ugly, but it keeps the code simple */
+@@ -60,7 +60,7 @@ static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
+ 		static int stfu;
+ 
+ 		if (sysctl_drop_caches & 1) {
+-			lru_add_drain_all();
++			invalidate_bh_lrus();
+ 			iterate_supers(drop_pagecache_sb, NULL);
+ 			count_vm_event(DROP_PAGECACHE);
+ 		}
 -- 
 2.51.0
 
