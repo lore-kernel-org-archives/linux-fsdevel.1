@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EE6577E3C
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCCB576EC1
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 15:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788969199; cv=none; b=qj3HEnPrBzUxCjrMXt3Ku4g3k9gEaksjg7ir0pZXtpc7sTyN3BdPkBnocCMJmRu6atNkk80mqgR+0CGRCv1oIbAPibarvDB3vftT1N+KRQD61BSD0Lmx/tjkV06M44d6KjmpMdH5nN3HOUVxJ5s6pe5/Gy23mQXNYJi0sp/+4F0=
+	t=1788969202; cv=none; b=axEpEoihDQnGY+okIqNGOw6Cb/h7kSHPilC2isZ38dMwduiiaTleUJNm76Df9b2HNdPtD0wQqUP1iR0fh8pCs4Zi7VcwJIqdsLzo5O7Gj4+AMc4wXRiYqFUBjFPxhaYKiKrPm17MDQvkfEAKwMp5dL25gR3NdJW1vTorDKNSv6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788969199; c=relaxed/simple;
-	bh=VYxoJM4ZyWv2icl3Agk7v+jigZxwhQU26XZFhQD9zfI=;
+	s=arc-20240116; t=1788969202; c=relaxed/simple;
+	bh=kky3uTIv90dIhc0aK9Rf76thC7AqszLRdA3IpA3CkAk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cWXE0k5LakzA+oa4vDXRZNufuvLfHgUlvPSuj6nvOHEaMFCqhOXHU3oJ4X3aOmLPxy03X4+fEuMavPqAlAb3cvSv9dZhZV3yZ9/F4IG+JmA0vJbQxnuomi4B9FY6U8X3igcbBm9S27ApD83KUnGuAqr9oqL1MrqdC+XxtFEf8PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LwquVgn9; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=uRe4DhTbL5kmF5N3hd0r9sHYz5H04aQ+TLPc8jxnWgA2PgfMPZ2YNNmfAvfBy/pRQZGnxFhPrb1D8x0BCI/s8OXr22Wwls00hobzY8pEd4M3tZrAMz5iQVYfeS+R7HpCgl1ak4Zp2An2/x9swEgeoucsT2DBRZrTJRKLBQy51HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjrjWXiG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LwquVgn9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9358C1F00A3A;
-	Wed,  9 Sep 2026 15:53:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjrjWXiG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 655D31F00A3D;
+	Wed,  9 Sep 2026 15:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788969197;
-	bh=yEXteokSRECsqnrKrAfTi3nblzblGgp57JSqfC0yPgE=;
+	s=k20260515; t=1788969200;
+	bh=AmCRR5uoDQ/4mGi7vY+PHaJ5tMir3lwyo/zCiwpCmfw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=LwquVgn9IjWd8eSPewGUqewtt+ZeTXOqaogviW3Fxd8vqOVA5GE4upghiNM8R5Q81
-	 mMliqQ1n3MXYl+eu2+Qq9oqP24yz+3anTvoQisp09dvSe8JZErx1QDE3uyCcV5mzPf
-	 Zx43nXGMA8lYpPiLho2WgbRDvLJqHPV7mS0CqE4tmaMvtcsMvJ/9s6oqtCSHxkwou4
-	 b5K/oTvfg6q+Q9t9EZGOVA301zqAX84id5uvKaByPBiXOXLomimZsjFbitKJVt2N2h
-	 nClmWlWV7fHCc9ujI3/wEmkK4GbNOIYz9BQ8vGI4dkWL50wLjyeIZAsoj3+BLlNhE5
-	 KPJ5kGR6nOiYg==
+	b=MjrjWXiGrtwythwjn5Em/gsYnE/hWVCqIEPzbjX+DWUJ7S4tjFSD8t9zu38uBoPix
+	 HLvf1meO25Qqxw240hAlylKPW050m4D3phU+u2qaXiePfJSqTFqJTYoeNdNQmknpIc
+	 yP4CF2gsU9ulIV1F9wRZ+b1WrEi5PUAWSTqA7zXmDfVaHXiIlfalTtcHHRzdDj5XaF
+	 dq9y8+QdRM/qx9HRxGBNXJ4yx4O6c4YouYV0EJSL7Q6L8yx3yiewocsHG+XhZUgu9x
+	 r2I1mTxmmBuSpdJmZDMImxiq49QITXUZdkpP/mqjzhrdl7PFpovjcLEpxwfqhkz859
+	 ql+CHn3/eO2gw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 09 Sep 2026 17:52:50 +0200
-Subject: [PATCH RFC v3 07/15] fs: make close_range() synchronous
+Date: Wed, 09 Sep 2026 17:52:51 +0200
+Subject: [PATCH RFC v3 08/15] fs: rename do_close_on_exec() to
+ close_cloexec_files()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260909-work-coredump-unlock-self-v3-7-04f907687563@kernel.org>
+Message-Id: <20260909-work-coredump-unlock-self-v3-8-04f907687563@kernel.org>
 References: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 In-Reply-To: <20260909-work-coredump-unlock-self-v3-0-04f907687563@kernel.org>
 To: NeilBrown <neil@brown.name>, Oleg Nesterov <oleg@redhat.com>, 
@@ -48,44 +49,65 @@ Cc: Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
  Jens Axboe <axboe@kernel.dk>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=brauner@kernel.org;
- h=from:subject:message-id; bh=VYxoJM4ZyWv2icl3Agk7v+jigZxwhQU26XZFhQD9zfI=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLj6il3z2C7/yzbf1z24uevPC53odUY7Nkm1ftyXu
- s2a+f473Y5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJPEtn+M3iV2Y2QfL9d91b
- nCtN+ioPntOyOvYp8927cKaNVadDolcy/K89N+O5jZPYZPaKTSu+1OaLRz3r3ZZiKXEk52vzvrv
- 6IjwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1628; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=kky3uTIv90dIhc0aK9Rf76thC7AqszLRdA3IpA3CkAk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtbLga1X753M3b/TbavyZfWhZ4aV6Lh47W1Wu/2ZZKa
+ zAViS+s7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhI+ylGhg1+z858X7B6VtBf
+ p+bcNovfp2JvM3Lot0977B3z61q92kKG32y19nq//n6/kphQXCQ1iSewjcFV+8v5pf3rTwrlCZk
+ 6MAMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-__range_close() closes through filp_close() so every file the caller
-held the last reference to is punted to task work. That costs one
-cmpxchg per file plus a list entry for any later task_work_cancel() to
-search under ->pi_lock. close_range(2) exists to close many descriptors
-in one go fast. So convert it to the same synchronous treatment as
-close(2) and close_files().
+Rename the helper and align it with close_files().
 
-Flush and put each file inline while ->file_lock is dropped.
-close_range(2) now behaves like close(2).
+No functional changes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/file.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/exec.c               | 2 +-
+ fs/file.c               | 2 +-
+ include/linux/fdtable.h | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/fs/exec.c b/fs/exec.c
+index ae4702d7ae5f..71268b916419 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1179,7 +1179,7 @@ int begin_new_exec(struct linux_binprm * bprm)
+ 	 * This must happen after the point of no return, and after unsharing
+ 	 * the FD table.
+ 	 */
+-	do_close_on_exec(me->files);
++	close_cloexec_files(me->files);
+ 
+ 	/*
+ 	 * Must be called _before_ exec_mmap() as bprm->mm is
 diff --git a/fs/file.c b/fs/file.c
-index b7deb4e634c1..82b17fe50d25 100644
+index 82b17fe50d25..f99389bdfadb 100644
 --- a/fs/file.c
 +++ b/fs/file.c
-@@ -813,7 +813,8 @@ static inline void __range_close(struct files_struct *files, unsigned int fd,
- 		file = file_close_fd_locked(files, fd);
- 		if (file) {
- 			spin_unlock(&files->file_lock);
--			filp_close(file, files);
-+			filp_flush(file, files);
-+			fput_close_sync(file);
- 			cond_resched();
- 			spin_lock(&files->file_lock);
- 			fdt = files_fdtable(files);
+@@ -908,7 +908,7 @@ struct file *file_close_fd(unsigned int fd)
+ 	return file;
+ }
+ 
+-void do_close_on_exec(struct files_struct *files)
++void close_cloexec_files(struct files_struct *files)
+ {
+ 	unsigned i;
+ 	struct fdtable *fdt;
+diff --git a/include/linux/fdtable.h b/include/linux/fdtable.h
+index acd59e40b76b..fe033bb35e35 100644
+--- a/include/linux/fdtable.h
++++ b/include/linux/fdtable.h
+@@ -107,7 +107,7 @@ struct fd_range {
+ 	unsigned int from, to;
+ };
+ struct files_struct *dup_fd(struct files_struct *, struct fd_range *) __latent_entropy;
+-void do_close_on_exec(struct files_struct *);
++void close_cloexec_files(struct files_struct *);
+ int iterate_fd(struct files_struct *, unsigned,
+ 		int (*)(const void *, struct file *, unsigned),
+ 		const void *);
 
 -- 
 2.53.0
