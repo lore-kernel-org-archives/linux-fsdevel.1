@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F373B52FF;
-	Wed,  9 Sep 2026 07:48:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA26471403;
+	Wed,  9 Sep 2026 08:02:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788940091; cv=none; b=ZMGQrzJQ+SRbiiDtOT0+OUTPJC4AQT4G9PBTdqUMsmkKbBChNK4EVHb/3H0cliwcyLhmupmqXpLQClN3aXNv8pSNBpaEfEkfJcM9P7cI0FwQXkriWBWQp1y7PyxIpgr/mSpUwl+Y1AE8M5tDQuadrK+olpn3/bx0GnEKHHc19AA=
+	t=1788940942; cv=none; b=jLyuJ4Air8yWMgBOSjA0J6d1Lnmq8iBIQSkATHcw13M5EayMBVUoTMCEUpLRtETFUS4ubBSCi6aKiK+Kd/dHnQleZqt+RmlxR4iBaYrsalSTn/K14wYzW1C1MXH32dU25ThLs8QWT1PksrSIzafggZ96ooqU0dBZtzi/dGfSbBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788940091; c=relaxed/simple;
-	bh=I9M3R04EkQEegir+Lu1VoN5C7jd3YRUSo0T4jh5BPL8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mXV+sAthQhw96ZVQfE+7toliEVYAbll+aVOjaf3R0cV28sZ4dKWQUnXyS3EnKpNG37UO8yT387uRq4o+WiM/IOon9Ce6iw8LkwhSN7Mp6DrPlHHHvxjGuomxvZarNJU8ETAP2oN8fx1F4+Kj+r5bRmbbUkvcFi9UQL2klHJEq7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMGqn2GN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788940942; c=relaxed/simple;
+	bh=V8ENEhea0/045IaOrULyUtODpmtdvKkTlPTex21YVtg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sdA6OO7qDjoIFw26aLvkgismtFGWcFd+bAW2sm4kt19L3xU2/SaCcDEinJEyYtzvPWXDjaTVURRA3ZsNIET9daeIszGMhKmoYPMYVyJ3y1xKcWpOn5CILkn3XDeeXTf4Le3qNTtelauDT63+MCiYJy6qDsLgsQadwZfmnbNCO74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j7OzrsvI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMGqn2GN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1BDD1F00A3A;
-	Wed,  9 Sep 2026 07:48:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j7OzrsvI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 552FA1F00A3A;
+	Wed,  9 Sep 2026 08:02:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788940090;
-	bh=NmTlZYgllcdAcwuXRLAtZm3VmnUi3KHwBSOsSf3DGpY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DMGqn2GNnmnQxN6YjDAydKtb2qxX5FH9QZMqaTn8TDpTHwWFiDDs9UNwjpYRnrkBS
-	 AL29TgpPLlgwiM2XF1R70gEKbEcgGz9s6hjCFFItfMxL+w+h0dlEADR3M1mu90Ftmf
-	 c/ene2nicwnVw2hiet1YNn2yyCTXbP/HJ319oXSzHXhWwJctWt7ZSu+EgEGgmXJ+62
-	 cf9lm+Za2MUjz+9U0SH6Tz2gtzYigDfD8PUs7I/dZqQbkHdZ8BYhKjiupm4O3eKOcC
-	 7PV5ffuw73G4JKLlH4Cq1GA0b2Tma6thUswAB/pTh/rzPVHd/IuCidWRHj9iX2fLQ7
-	 xabheRt9FjjRQ==
+	s=k20260515; t=1788940940;
+	bh=W612c/YDCkd9sV3obaip9FxOejj1359jethIBJsEBkE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=j7OzrsvIMBoMfy63XYj4cFEojGCR8j1Nq9GMSWdsJawWwImdjCfTPe+N+iWI/kJzX
+	 afVLmSxN99g5gkk0jAD+V30TFhULJXJHu26HE41r7/Bajn8fLaKsBHn95ZTtsFTD51
+	 2TTxZfT0WOH6JRnoSvg4trBJIGV7IBe8LDl+xUP+ZC7OODzXL6Mh2me7Yzx8/6p1ro
+	 GZRp88OEHXUGfgXo05ApVhRtnIl6fi22RdX1vAGZKqQuP6nd2Tg+Svp9IRNWWitJ0F
+	 ENuHdJyNxIKLdysWZ32ew7fmaCfAPrzUPlj/ifjax1o2lw10HwNhD2j2jIHuHnIAHB
+	 ntZWwikusKr9Q==
 From: Christian Brauner <brauner@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Benjamin Peterson <benjamin@locrian.net>, Jann Horn <jannh@google.com>
-Cc: Jan Kara <jack@suse.cz>, Arjan van de Ven <arjan@linux.intel.com>, 
- "Eric W. Biederman" <ebiederm@xmission.com>, Jake Edge <jake@lwn.net>, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20260907-cloexec-before-exec-update-lock-v1-1-8018c201a7df@google.com>
-References: <20260907-cloexec-before-exec-update-lock-v1-1-8018c201a7df@google.com>
-Subject: Re: [PATCH] exec: do_close_on_exec() before taking
- exec_update_lock
-Message-Id: <20260909-glossar-filter-sorten-0cd07b1e8ad0@brauner>
-Date: Wed, 09 Sep 2026 09:48:06 +0200
+To: Norbert Szetei <norbert@doyensec.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Bradley Morgan <brads@mainlining.org>
+Subject: Re: [PATCH v2] nstree: check listing permission before taking a namespace reference
+Date: Wed,  9 Sep 2026 10:02:13 +0200
+Message-ID: <20260909-arterien-zutreffen-extra-e2858bdb3209@brauner>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <ABA32239-733B-438C-B95A-B13ED69FF0F3@doyensec.com>
+References: <ABA32239-733B-438C-B95A-B13ED69FF0F3@doyensec.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,20 +46,20 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1496; i=brauner@kernel.org; h=from:subject:message-id; bh=V8ENEhea0/045IaOrULyUtODpmtdvKkTlPTex21YVtg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtFOpgt/KffXjmM9PW0MgfB8tL5q5QkXHKtzqQw25++ XQCE+vOjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImIKjH8L3FV/hf5NP6X+PwL FUbHeHbM4c11lt19aN0XmcmfLiVmJTH8Mz21/XducPiva1/+xbxrDeUMNPt1+sJZ0ZOCdXJelWt dGAE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Mon, 07 Sep 2026 23:26:32 +0200, Jann Horn wrote:
-> do_close_on_exec() currently happens while holding the exec_update_lock,
-> which is used in a lot of places that access process state to
-> synchronize access checks.
-> I recently added another such use of exec_update_lock, causing a
-> regression.
-> 
-> do_close_on_exec() can block waiting for a reply from a filesystem.
-> That means a hung filesystem can block codepaths that use
-> exec_update_lock; and it also means that a FUSE filesystem which
-> attempts to inspect the calling process can deadlock.
+On Mon, 07 Sep 2026 16:22:17 +0200, Norbert Szetei wrote:
+> legitimize_ns() takes a reference on the candidate namespace before
+> may_list_ns() has decided whether the caller may see it. The
+> __free(ns_put) cleanup on the denied path can drop the last reference to a
+> mount namespace while we still hold the rcu read lock, and put_mnt_ns()
+> may sleep there. This is the same problem commit 2ec2aff3c8e2 ("ns: make
+> sure reference are dropped outside of rcu lock") fixed for the put_user()
+> path. Neither ns_requested() nor may_list_ns() needs a reference, both
+> only look at the namespace type and at the caller's own namespaces, so do
+> the checks first and take the reference last.
 > 
 > [...]
 
@@ -78,6 +78,5 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs.fixes
 
-[1/1] exec: do_close_on_exec() before taking exec_update_lock
-      https://git.kernel.org/vfs/vfs/c/e780259b54e6
-
+[1/1] nstree: check listing permission before taking a namespace reference
+      https://git.kernel.org/vfs/vfs/c/ecfee3a7c9ea
