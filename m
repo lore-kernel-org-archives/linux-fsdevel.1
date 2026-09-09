@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB96F332EAE;
-	Wed,  9 Sep 2026 17:06:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3E4339395;
+	Wed,  9 Sep 2026 17:07:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788973577; cv=none; b=AWWRdEnp3CsHhkKUDhlvgNTGTKDiRhr2VAg8sZGFLvf3J+FZmXJ6QdBq7R6/j9XIHt49CUMl7Oa4KinJ7/nXqp1v6PaFNPdcXOy05S7GRcQOL5eaTUD4R5Q2zO7FwFsRd2OW+DDfh854GJ1gnKFMaC5YCNaeaMMHF0GIjlwRDis=
+	t=1788973635; cv=none; b=DmT9N3obHTHi2yc8jU1YwPBxwRXOfZ5cuhOFdaGVjvIjU+Aq6M9NmzlNGHLm8c/vkXVYDEDuh2QUL9V9kDS+ArJbC4TQ+WogKlSkwMbwFdvqGZeCBXd+yUv2LSEqzgxN43aHgfxv542t7vpi5/Cb0zsR+GzHSn3vt/11EPcI5Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788973577; c=relaxed/simple;
-	bh=+BM+vopccrR5lUpAFJDvuslRrQBkYNyqfw/fwus3WhM=;
+	s=arc-20240116; t=1788973635; c=relaxed/simple;
+	bh=2as5EPgkZVzVPk1voSC9FatL6zhKJJTDC7n0GTOWlvI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JVzdP/FiKbunPjcPqJMVk3BGpuBzM/2DKx7x3V+8OT0WZQRjuaAuhnb2XqhgvulhUCNti7vXeCsTErq9fQMPsr4KgKKJqTXwXZhCf42lkk1J+Na8p7ejNvpZds2fwI7/memLXmsieFglFvLpy6k5coU4dsOLQGpXayRkyWO2/2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IggdMfSa; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=A/19jFtxldVCX7F8Fo1MafMfB80ci7hNjbxAk9LJYy/MF2rQmy+wUcVjYH1x6rm5CrJTO9lGzrgjFxee+wGIEE2Bj8pDEr3T+ddIB+UIxrqqIFaBQBPQesRnE+ZYl/0cFTm4cy+SfJNQiiHG8goUDa61vk3jLCf6HxQ2HKt1NwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nxcbi68h; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IggdMfSa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 169751F00893;
-	Wed,  9 Sep 2026 17:06:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nxcbi68h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DD2A1F00893;
+	Wed,  9 Sep 2026 17:07:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788973575;
-	bh=If0/S6KcKK48ZbdSVC4TjnVNIBdTzJOLF8VEmurBkLA=;
+	s=k20260515; t=1788973634;
+	bh=Sf4uTyqT87ku5vwudo11FLL7Lqrs0P0zt+IQw+/sbcE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=IggdMfSaHa7Q8elzFmjHlZkkyzf6XOy7XdsBUbbfeImPOd47OZIfAxxU9DwlogF+8
-	 XVPM5EulM7RmsQpjdvUgg1VHyA3anBumcALCcFT9qK8ioW2IsgWpqf7007MFKBwKZl
-	 XAalbdg6lmmOW52HgKdOXnxn45DJ61z5W/NZsxyrMNRZV5jXiz+pQZHWxDsds/BAbk
-	 aJNGeXInh832Pfew4X72X/tfrqyGkIiF2Iqmk8Vjwsqz4Lr8idkwEHGD9QmztS90dO
-	 O7C3bLNpHmDdGaVZaWaq7kFMRCxdhc+GSDdXV3OlPNCoME9IIzvIhLhwOmK00I0OeR
-	 9oh4YvC3GtBow==
-Message-ID: <1d5011f8-26a1-41e1-bb9d-8d72c08b8fe9@kernel.org>
-Date: Wed, 9 Sep 2026 19:06:09 +0200
+	b=nxcbi68hK3D5ptwb/7Tb6HNdafqiy74gebgeHLIX23sJcb/zttGk/laJdPN6faHzQ
+	 fc6a9zRR7C68uGT0PhhyCqJlsfF8LLptOtCn4gGx1CS4RRq5TTRztZc14dDQTM64AC
+	 uT4SN9+bXKNAolpYaCheToAqF5mOLbh/CoUyes8LwzdV0deqW3QWaGoM01ORkeHdkL
+	 Fb/lFHCDMCL+07pjiRFZpF7O/NoGWAEK3H0hfMEq6avAQ5hurA1YUE8UxlOFYf4rVN
+	 5keKNkX62+JUOiuAw7ACxEIy8HBCP0NWSWRnom++dJI8CMHLFcoVbFgkHpnYsskkvV
+	 6WDCe9Cl/7dqw==
+Message-ID: <4964f874-3f3c-464c-9977-0d004f6ffdbd@kernel.org>
+Date: Wed, 9 Sep 2026 19:07:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,14 +35,15 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] proc/task_mmu: remove unnecessary helpers
+Subject: Re: [PATCH v2 2/5] proc/task_mmu: remove unnecessary inlines in
+ function definitions
 To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
 Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
  willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
 References: <20260907063918.3432401-1-surenb@google.com>
- <20260907063918.3432401-2-surenb@google.com>
+ <20260907063918.3432401-3-surenb@google.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -89,26 +90,53 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260907063918.3432401-2-surenb@google.com>
+In-Reply-To: <20260907063918.3432401-3-surenb@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/7/26 08:39, Suren Baghdasaryan wrote:
-> When per-vma locks were behind a config option, a number of helper
-> functions were needed to simplify the locking code. Now that these
-> locks are universally available, we can do a little cleanup.
-> Remove lock_vma_range(), unlock_vma_range(), query_vma_setup(),
-> query_vma_teardown() helpers.
+> It was pointed out in the previous reviews of this code that many
+> functions are specified as inline, which is unnecessary as the compile
+> can make that decision by itself. Cleanup these definitions.
 > 
 > No functional change intended.
 > 
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 > ---
+>  fs/proc/task_mmu.c | 32 ++++++++++++++++----------------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
+> 
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 2f500d639db5..9908ba32f180 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -130,7 +130,7 @@ static void release_task_mempolicy(struct proc_maps_private *priv)
+>  }
+>  #endif
+>  
+> -static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> +static int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+>  {
+>  	int ret = mmap_read_lock_killable(lock_ctx->mm);
+>  
+> @@ -140,7 +140,7 @@ static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+>  	return ret;
+>  }
+>  
+> -static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> +static void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+>  {
+>  	mmap_read_unlock(lock_ctx->mm);
+>  	lock_ctx->mmap_locked = false;
+> @@ -177,7 +177,7 @@ static struct vm_area_struct *get_next_vma(struct proc_maps_private *priv,
+>  	return vma;
+>  }
+>  
+> -static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+> +static bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+>  					 loff_t pos)
 
-As Usama says, this could get picked up early independent of the rest (maybe
-even as part of the other patch set)
-
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+If you touch these, please convert them to two-tab indent.
 
 -- 
 Cheers,
