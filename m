@@ -1,413 +1,306 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC5E36195A;
-	Wed,  9 Sep 2026 06:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A153D9DB0;
+	Wed,  9 Sep 2026 07:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788935476; cv=none; b=BGADst9DHjXOsuGc4slIO3HyaiKIwePU7lCDTtMiFAjuT9jHYj4q9gkoPvjGdFbLCEanadMeL4L2wLQUrZ8sScLwtdYA+8EiIhMOvw0WvJOky+CNMl2KWCHeqYGLJnbqJmamcc0rKpzUAkNcI/cUDEPUKgJgv1OovY+pzdeqgEk=
+	t=1788937933; cv=none; b=L/1S4Bd8jgNCW9A63JzdEKM8wevb5dWYL3O5nlwT1+U5/paal0sB1l6Gg4DRNNRHPrTZrB/tzrPzJfxoP5+0+v9bHmVt7DCrMhuvOnIeWKMMNjrxyDSoQ8yorNMoPMIvkcN/aYZEe3Q8iacshwktQkR41LPgYr9okTmKli26KYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788935476; c=relaxed/simple;
-	bh=ewjMp4b5pYES1b4fAdpV9ur6lPGOz2d2fYRDls5UXAE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eE9soZW5+H4U3sb1RwlHXyFqaf9OgnsKowoqN0mN2sUy/1TifET2pUlqmsaxhHg1uW/8AUMwrrlDHGRzQsT0zX6JTpf/dXqaLrCR9TLnU9tJZrTCRzjsddcyZOJvCirCrQmaFLBhBbjmQUKts+e+7hzbPO5vexZYLwhJshDX+ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hfrX66T2bzYQv0x;
-	Wed,  9 Sep 2026 14:30:14 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id A33D140573;
-	Wed,  9 Sep 2026 14:31:07 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgBnUAsh_aBqxXYzBQ--.8536S4;
-	Wed, 09 Sep 2026 14:31:07 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-mm@kvack.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	hughd@google.com,
-	baolin.wang@linux.alibaba.com,
-	willy@infradead.org,
-	jack@suse.cz,
-	ziy@nvidia.com,
-	bfoster@redhat.com,
-	joannelkoong@gmail.com,
-	djwong@kernel.org,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	yangerkun@huawei.com,
-	chengzhihao1@huawei.com,
-	wangkefeng.wang@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH v2] mm/truncate: fix data loss when truncating straddling large folios
-Date: Wed,  9 Sep 2026 14:23:39 +0800
-Message-ID: <20260909062339.473816-1-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1788937933; c=relaxed/simple;
+	bh=zIApII/eHUX+ZemuG5oK/Oynxm2tVRrUWyuLj3uxxs8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=plXy5t4pKZwQDNnUXbZ8ahr6a70S5fuP0apdJKB+YmK1kFicrY4pf0Yr2jI0C+7JAmTEewdQl1fJwJKc3W74MlJuCRYn1oMj8iC6bnMy4/TaRIc9c/zdQfOFLVH0clSecO6JTZWT0JtUUy6En/U8+Sep2+sAM8S56/RJRDvjdkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=WvO7WbKa; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="WvO7WbKa"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=E9+wtJvYg+iSacqvCDRe0EEDlgdkIc+F0M+swAbrPss=;
+	b=WvO7WbKa/Tjrg+7LupJXVLIfEqlct0QV42AEdHg0Ta1kpLsJCTJPw1y7NTzLf7E5/hvlEglQS
+	Tvh14xBEv/3mW2jXtuKpOWerjfRLG+XaK3rg33ROfNdfv7Vr1mVRb6KhBaSkA15DZAvVRHVbVie
+	zLvGe0pwopZY08b5cU8x9hI=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4hfsCh5qgKz1cyVg;
+	Wed,  9 Sep 2026 15:01:04 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6CE0F402AB;
+	Wed,  9 Sep 2026 15:11:58 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemk200008.china.huawei.com (7.202.194.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Wed, 9 Sep 2026 15:11:57 +0800
+Message-ID: <0c894d2d-1b1b-4b9c-ac07-2ebcb683b36c@huawei.com>
+Date: Wed, 9 Sep 2026 15:11:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/8] Convert barrier pairs to acquire/release for
+ better performance
+To: David Laight <david.laight.linux@gmail.com>
+CC: Petr Mladek <pmladek@suse.com>, <bcrl@kvack.org>,
+	<viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
+	<tytso@mit.edu>, <adilger.kernel@dilger.ca>, <libaokun@linux.alibaba.com>,
+	<ojaswin@linux.ibm.com>, <ritesh.list@gmail.com>, <yi.zhang@huawei.com>,
+	<sforshee@kernel.org>, <akpm@linux-foundation.org>, <rostedt@goodmis.org>,
+	<andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
+	<senozhatsky@chromium.org>, <kees@kernel.org>, <tglx@kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-aio@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>
+References: <20260902074805.398540-1-ruanjinjie@huawei.com>
+ <apq5iLOF8lAQ_ZVU@pathway.suse.cz>
+ <75aeca50-74bf-4888-9dc8-7ac3c5af32ca@huawei.com>
+ <20260907135946.2541aa7e@pumpkin>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260907135946.2541aa7e@pumpkin>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgBnUAsh_aBqxXYzBQ--.8536S4
-X-Coremail-Antispam: 1UD129KBjvAXoW3ur4UWw1xWr4kJFy7Zr43KFg_yoW8JF18to
-	WfJws0vr1FqrWkKa1jkFyxJrykX3ZI9ryfJF13Cr4qvF12q34DAw47JwnrGa1fZr1YkF9x
-	W347J3WfArW7Jr1fn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUYg7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
-	j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
-	x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWx
-	JVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
-	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-	8cxan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
-	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
-	x4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
-	1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
-	JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
-	sGvfC2KfnxnUUI43ZEXa7sRiuWl3UUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-From: Zhang Yi <yi.zhang@huawei.com>
 
-truncate_inode_partial_folio() splits a large folio so that the caller's
-truncate loop can drop the in-range sub-folios while keeping the
-out-of-range tail. The first split at the punch start edge is
-non-uniform, which leaves the sub-folio at the truncation end edge as
-large as possible, this means it may still straddle the range, holding
-both zeroed in-range and valid out-of-range data. The function then
-attempts a second split at offset + length to isolate that tail.
 
-If the second split fails the straddling sub-folio stays merged. The
-function returned true unconditionally on all exit paths of the success
-block, telling the caller it was fully handled. The caller kept its
-default end and the truncate loop truncated every sub-folio below it,
-including the merged straddler, discarding the valid out-of-range tail.
+在 2026/9/7 20:59, David Laight 写道:
+> On Mon, 7 Sep 2026 19:29:06 +0800
+> Jinjie Ruan <ruanjinjie@huawei.com> wrote:
+> 
+>> 在 2026/9/4 20:28, Petr Mladek 写道:
+>>> Adding Risc-V list into Cc.
+>>>
+>>> On Wed 2026-09-02 15:47:57, Jinjie Ruan wrote:  
+>>>> Hi,
+>>>>
+>>>> This series converts some existing smp_wmb()/smp_rmb() barrier pairs to
+>>>> smp_store_release()/smp_load_acquire() across various subsystems.
+>>>>
+>>>> Background
+>>>> ==========
+>>>>
+>>>> Many architectures support load acquire and store release instructions
+>>>> which can replace explicit memory barriers and save cycles. As noted
+>>>> in the ARM architecture reference [1]:
+>>>>
+>>>>   "Weaker ordering requirements that are imposed by Load-Acquire and
+>>>>    Store-Release instructions allow for micro-architectural
+>>>>    optimizations, which could reduce some of the performance impacts
+>>>>    that are otherwise imposed by an explicit memory barrier.
+>>>>
+>>>>    If the ordering requirement is satisfied using either a Load-Acquire
+>>>>    or Store-Release, then it would be preferable to use these
+>>>>    instructions instead of a DMB."
+>>>>
+>>>> On arm64, a typical seqcount [2] read loop requires 13 cycles with DMB
+>>>> barriers. Replacing the read barrier with smp_load_acquire() reduces
+>>>> this to 8 cycles on an Ampere Altra.  
+>>>
+>>> I wonder if this is true on all other architectures:
+>>>
+>>>   + It seems that Arm gets the gain because the instruction
+>>>     does both load/store + barrier. It helps even when
+>>>     the barrier is full.
+>>>
+>>>   + Some other architectures need two instructions. One for the
+>>>     load/store and the other for the barrier. But the barrier
+>>>     is weaker, it synchronizes just reads or just writes.
+>>>
+>>> For example, I see the following in riscv/include/asm/barrier.h:
+>>>
+>>> <paste riscv/include/asm/barrier.h>
+>>> #define smp_mb()	RISCV_FENCE(rw, rw)
+>>> #define smp_rmb()	RISCV_FENCE(r, r)
+>>> #define smp_wmb()	RISCV_FENCE(w, w)
+>>>
+>>> #define smp_store_release(p, v)						\
+>>> do {									\
+>>> 	RISCV_FENCE(rw, w);						\
+>>> 	WRITE_ONCE(*p, v);						\
+>>> } while (0)
+>>>
+>>> #define smp_load_acquire(p)						\
+>>> ({									\
+>>> 	typeof(*p) ___p1 = READ_ONCE(*p);				\
+>>> 	RISCV_FENCE(r, rw);						\
+>>> 	___p1;								\
+>>> })
+>>> </paste riscv/include/asm/barrier.h>
+>>>
+>>> I wonder whether:
+>>>
+>>>   + RISCV_FENCE(r, r) is faster than RISCV_FENCE(r, rw)
+>>>   + RISCV_FENCE(w, w) is faster than RISCV_FENCE(rw, w)
+>>>
+>>> so it might cause performance regression there...  
+>>
+>> Hi Petr,
+>>
+>> Thanks for the detailed analysis. You're right that on some
+>> architectures the acquire/release variants use a slightly heavier
+>> fence than the plain smp_wmb()/smp_rmb() pair. The full picture by
+>> architecture:
+>>
+>>   arm64:    Improvement   (DMB ISHST/ISHLD + STR/LDR → STLR/LDAR)
+>>   x86:      Neutral       (both are compiler barriers)
+>>   s390:     Neutral       (both are compiler barriers)
+>>   ppc64:    Neutral       (both use lwsync)
+>>   loongarch: Slightly heavier fence (DBAR(o_w_w) → DBAR(orw_w),
+>>                            DBAR(or_r_) → DBAR(or_rw))
+>>   riscv:    Slightly heavier fence (fence w,w → fence rw,w,
+>>                            fence r,r → fence r,rw)
+>>
+>> So on Loongarch and Riscv, there may be a slight performance regression.
+> 
+> Is that a bug in the riscv definitions?
+> Nothing in the commit messages seems to indicate why the stronger barriers
+> are used.
+> The original commit 8d235b17 was done to avoid the rw,rw barrier in the
+> generic code (which might since have been relaxed).
 
-For example, a 4-page order-2 folio punched from offset 0 to the middle
-of the last page:
+Hi David,
 
-  truncate_inode_pages_range()
-    truncate_inode_partial_folio()      # same_folio == true
-      1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
-      folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
-      2nd split of folio2 fails / cannot lock
-      return true                       # BUG: caller keeps default end
-    end = 3
-    loop truncates p0, p1, p2-3        # p3's valid tail is lost
+I think the riscv definition is correct, which are consistent with the
+descriptions found in the ARM64 architecture manual [2]. Per the RISC-V
+RVWMO specification [1], the semantics of these fences are:
 
-This became reachable after commit 7460b470a131 ("mm/truncate: use
-folio_split() in truncate operation") replaced the atomic split_folio()
-with folio_split(), whose non-uniform split can partially split a folio
-and leave the end edge merged.
+- FENCE RW, W (for Store-Release):
 
-It has gone unnoticed because a dirty large folio normally carries the
-filesystem's private data, for example buffer_head, so
-filemap_release_folio() -> iomap_release_folio() returns false on a
-dirty folio and folio_split() aborts with -EBUSY before any split,
-leaving the straddler safely unsplit. The bug is only reachable on paths
-that produce dirty large folios without filesystem private data, and it
-was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
-attached.
+"Release orderings work exactly the same as acquire orderings, just in
+the opposite direction. Release semantics require all loads and stores
+preceding the release operation in program order to also precede the
+release operation in the global memory order. This ensures, for example,
+that memory accesses in a critical section appear before the
+lock-releasing store in the global memory order. Just as for acquire
+semantics, release semantics can be enforced using release annotations
+or with a FENCE RW,W operation."
 
-In addition, even when both splits succeed, data can still be lost when
-the mapping's minimum folio order (min_order) is non-zero. folio_split()
-stops at min_order instead of order 0, so the sub-folio containing a
-split point stays aligned to 1 << min_order rather than to a page. The
-original success path left start at the page-aligned head of the range
-and set end to the exact page index of the end edge, neither of which is
-a folio boundary in general. Either one could land inside the large
-folio at its edge, and the truncate loop would drop that straddling
-folio together with its valid out-of-range tail.
+- FENCE R, RW (for Load-Acquire):
 
-For example, a 64K (order-4) folio with min_order = 2 punched from
-offset 0 to 36K:
+"An acquire operation, as would be used at the start of a critical
+section, requires all memory operations following the acquire in program
+order to also follow the acquire in the global memory order. This
+ensures, for example, that all loads and stores inside the critical
+section are up to date with respect to the synchronization variable
+being used to protect it. Acquire ordering can be enforced in one of two
+ways: with an acquire annotation, which enforces ordering with respect
+to just the synchronization variable itself, or with a FENCE R,RW, which
+enforces ordering with respect to all previous loads."
 
-  truncate_inode_pages_range()
-    truncate_inode_partial_folio()        # same_folio == true
-      1st split at p0 -> [p0-p3, p4-p7, p8-p15]  # non-uniform, min_order
-      folio2 = p8-p15 # straddles: p8 in range, p9-p15 tail valid
-      2nd split of folio2 -> [p8-p11, p12-p15]   # success
-      end = p9                           # BUG: p9 inside [p8-p11]
-    loop truncates ... p8-p11           # p9-p11's valid tail is lost
+Regardless, I believe that replacing explicit with acquire/release
+annotations would make the current code semantics clearer.
 
-Rework the contract so the caller is told the page range to discard:
+[1]: https://docs.riscv.org/reference/isa/v20260120/unpriv/mm-eplan.html
+[2]:
+https://support.arm.com/documentation/102336/0100/Load-Acquire-and-Store-Release-instructions
 
-  - Return true only when a split occurred, false otherwise. This
-    clarifies the existing confusing return value semantics.
+Best regards,
+Jinjie
 
-  - Add pgoff_t *pstart and *pend out-parameters that receive the page
-    range fully covered by [lstart, lend] after any split (or none),
-    i.e. the pages wholly within the range and safe to discard. They are
-    aligned up (pstart) and down (pend) to the mapping's minimum folio
-    order so they always fall on a folio boundary.
-
-  - Rename the byte-range parameters start/end to lstart/lend to avoid
-    clashing with the new outputs and to separate byte offsets from
-    folio indices.
-
-Callers in truncate_inode_pages_range() and shmem_undo_range() pass
-&pstart for the folio at the start edge and &pend for the folio at the
-end edge, so the truncate loop drops exactly the fully covered pages and
-never touches a straddling folio that still holds valid out-of-range
-data.
-
-Suggested-by: Brian Foster <bfoster@redhat.com>
-Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
-Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operation")
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
-v1->v2:
- - Export pstart as a new parameter so that the generic and shmem
-   truncate paths don't need to recompute the start value from the
-   return value. (Brian)
- - When min_order is nonzero, align [pstart, pend] to the inner
-   boundaries of the folio to ensure they do not point into the middle
-   of a large folio, which could otherwise cause valid data within the
-   folio to be incorrectly cleared. (Joanne)
-
-v1: https://lore.kernel.org/linux-mm/20260903115018.2034541-1-yi.zhang@huaweicloud.com/
-
- mm/internal.h |  4 +--
- mm/shmem.c    | 13 +++-----
- mm/truncate.c | 88 +++++++++++++++++++++++++++++++++++----------------
- 3 files changed, 67 insertions(+), 38 deletions(-)
-
-diff --git a/mm/internal.h b/mm/internal.h
-index 68db5abd0a4c..6e6ad3187378 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -627,8 +627,8 @@ unsigned find_lock_entries(struct address_space *mapping, pgoff_t *start,
- unsigned find_get_entries(struct address_space *mapping, pgoff_t *start,
- 		pgoff_t end, struct folio_batch *fbatch, pgoff_t *indices);
- int truncate_inode_folio(struct address_space *mapping, struct folio *folio);
--bool truncate_inode_partial_folio(struct folio *folio, loff_t start,
--		loff_t end);
-+bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
-+		loff_t lend, pgoff_t *pstart, pgoff_t *pend);
- long mapping_evict_folio(struct address_space *mapping, struct folio *folio);
- unsigned long mapping_try_invalidate(struct address_space *mapping,
- 		pgoff_t start, pgoff_t end, unsigned long *nr_failed);
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 89a1495e55f7..4efbbbba5da5 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -1175,11 +1175,8 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
- 	if (folio) {
- 		same_folio = lend < folio_next_pos(folio);
- 		folio_mark_dirty(folio);
--		if (!truncate_inode_partial_folio(folio, lstart, lend)) {
--			start = folio_next_index(folio);
--			if (same_folio)
--				end = folio->index;
--		}
-+		truncate_inode_partial_folio(folio, lstart, lend, &start,
-+					     same_folio ? &end : NULL);
- 		folio_unlock(folio);
- 		folio_put(folio);
- 		folio = NULL;
-@@ -1189,8 +1186,7 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
- 		folio = shmem_get_partial_folio(inode, lend >> PAGE_SHIFT);
- 	if (folio) {
- 		folio_mark_dirty(folio);
--		if (!truncate_inode_partial_folio(folio, lstart, lend))
--			end = folio->index;
-+		truncate_inode_partial_folio(folio, lstart, lend, NULL, &end);
- 		folio_unlock(folio);
- 		folio_put(folio);
- 	}
-@@ -1258,7 +1254,8 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
- 
- 				if (!folio_test_large(folio)) {
- 					truncate_inode_folio(mapping, folio);
--				} else if (truncate_inode_partial_folio(folio, lstart, lend)) {
-+				} else if (truncate_inode_partial_folio(folio,
-+							lstart, lend, NULL, NULL)) {
- 					/*
- 					 * If we split a page, reset the loop so
- 					 * that we pick up the new sub pages.
-diff --git a/mm/truncate.c b/mm/truncate.c
-index b58ba940be47..d88a1b159084 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -206,35 +206,41 @@ static int folio_split_or_unmap(struct folio *folio, struct page *split_at,
- /*
-  * Handle partial folios.  The folio may be entirely within the
-  * range if a split has raced with us.  If not, we zero the part of the
-- * folio that's within the [start, end] range, and then split the folio if
-+ * folio that's within the [lstart, lend] range, and then split the folio if
-  * it's large.  split_page_range() will discard pages which now lie beyond
-  * i_size, and we rely on the caller to discard pages which lie within a
-  * newly created hole.
-  *
-- * Returns false if splitting failed so the caller can avoid
-- * discarding the entire folio which is stubbornly unsplit.
-+ * When @pstart and/or @pend are non-NULL they receive the indexes of the
-+ * page range fully covered by [lstart, lend] after any split (or none),
-+ * i.e. the range of pages that are wholly within [lstart, lend] and so safe
-+ * to discard.
-+ *
-+ * Return %true if the folio was split, %false otherwise.
-  */
--bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
-+bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
-+				  loff_t lend, pgoff_t *pstart, pgoff_t *pend)
- {
- 	loff_t pos = folio_pos(folio);
- 	size_t size = folio_size(folio);
- 	unsigned int offset, length;
- 	struct page *split_at, *split_at2;
-+	unsigned long min_nrbytes;
- 	unsigned int min_order;
- 
--	if (pos < start)
--		offset = start - pos;
-+	if (pos < lstart)
-+		offset = lstart - pos;
- 	else
- 		offset = 0;
--	if (pos + size <= (u64)end)
-+	if (pos + size <= (u64)lend)
- 		length = size - offset;
- 	else
--		length = end + 1 - pos - offset;
-+		length = lend + 1 - pos - offset;
- 
- 	folio_wait_writeback(folio);
- 	if (length == size) {
- 		truncate_inode_folio(folio->mapping, folio);
--		return true;
-+		goto no_split;
- 	}
- 
- 	/*
-@@ -248,9 +254,10 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
- 	if (folio_needs_release(folio))
- 		folio_invalidate(folio, offset, length);
- 	if (!folio_test_large(folio))
--		return true;
-+		goto no_split;
- 
- 	min_order = mapping_min_folio_order(folio->mapping);
-+	min_nrbytes = mapping_min_folio_nrbytes(folio->mapping);
- 	split_at = folio_page(folio, PAGE_ALIGN_DOWN(offset) / PAGE_SIZE);
- 	if (!folio_split_or_unmap(folio, split_at, min_order)) {
- 		/*
-@@ -259,38 +266,67 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
- 		 * for shmem truncate
- 		 */
- 		struct folio *folio2;
-+		bool tail_isolated = true;
-+
-+		if (pend)
-+			*pend = round_down(pos + offset + length,
-+					   min_nrbytes) >> PAGE_SHIFT;
- 
- 		if (offset + length == size)
--			goto no_split;
--
-+			goto split;
-+retry:
- 		split_at2 = folio_page(folio,
- 				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
- 		folio2 = page_folio(split_at2);
- 
- 		if (!folio_try_get(folio2))
--			goto no_split;
-+			goto split;
- 
- 		if (!folio_test_large(folio2))
- 			goto out;
- 
--		if (!folio_trylock(folio2))
-+		if (!folio_trylock(folio2)) {
-+			tail_isolated = false;
- 			goto out;
-+		}
-+
-+		/*
-+		 * split_at2 may no longer belong to folio2 due to concurrent
-+		 * split. Retry to find the correct folio in case it's still
-+		 * large.
-+		 */
-+		if (page_folio(split_at2) != folio2) {
-+			folio_unlock(folio2);
-+			folio_put(folio2);
-+			goto retry;
-+		}
- 
- 		/* make sure folio2 is large and does not change its mapping */
- 		if (folio_test_large(folio2) &&
--		    folio2->mapping == folio->mapping)
--			folio_split_or_unmap(folio2, split_at2, min_order);
-+		    folio2->mapping == folio->mapping &&
-+		    folio_split_or_unmap(folio2, split_at2, min_order))
-+			tail_isolated = false;
- 
- 		folio_unlock(folio2);
- out:
-+		if (!tail_isolated && pend)
-+			*pend = folio2->index;
- 		folio_put(folio2);
--no_split:
-+split:
-+		if (pstart)
-+			*pstart = round_up(pos + offset,
-+					   min_nrbytes) >> PAGE_SHIFT;
- 		return true;
- 	}
--	if (folio_test_dirty(folio))
--		return false;
--	truncate_inode_folio(folio->mapping, folio);
--	return true;
-+	if (!folio_test_dirty(folio))
-+		truncate_inode_folio(folio->mapping, folio);
-+no_split:
-+	if (pstart)
-+		*pstart = offset ? folio_next_index(folio) : folio->index;
-+	if (pend)
-+		*pend = (pos + size > (u64)lend) ? folio->index :
-+						   folio_next_index(folio);
-+	return false;
- }
- 
- /*
-@@ -413,11 +449,8 @@ void truncate_inode_pages_range(struct address_space *mapping,
- 	folio = __filemap_get_folio(mapping, lstart >> PAGE_SHIFT, FGP_LOCK, 0);
- 	if (!IS_ERR(folio)) {
- 		same_folio = lend < folio_next_pos(folio);
--		if (!truncate_inode_partial_folio(folio, lstart, lend)) {
--			start = folio_next_index(folio);
--			if (same_folio)
--				end = folio->index;
--		}
-+		truncate_inode_partial_folio(folio, lstart, lend, &start,
-+					     same_folio ? &end : NULL);
- 		folio_unlock(folio);
- 		folio_put(folio);
- 		folio = NULL;
-@@ -427,8 +460,7 @@ void truncate_inode_pages_range(struct address_space *mapping,
- 		folio = __filemap_get_folio(mapping, lend >> PAGE_SHIFT,
- 						FGP_LOCK, 0);
- 		if (!IS_ERR(folio)) {
--			if (!truncate_inode_partial_folio(folio, lstart, lend))
--				end = folio->index;
-+			truncate_inode_partial_folio(folio, lstart, lend, NULL, &end);
- 			folio_unlock(folio);
- 			folio_put(folio);
- 		}
--- 
-2.52.0
+> 
+> David
+> 
+>>
+>> Regards,
+>> Jinjie
+>>
+>>>
+>>> Best Regards,
+>>> Petr
+>>>   
+>>>> We also observed significant barrier overhead while profiling Unxibench
+>>>> syscall test on arm64: a single getuid() call is ~8ns slower than on
+>>>> a comparable x86 system, with the dominant cost in map_id_up()'s smp_rmb(),
+>>>> which is a DMB ISHLD on arm64. Converting it to smp_load_acquire() allows
+>>>> the use of LDAR, eliminating the measurable overhead.
+>>>>
+>>>> This motivated a broader search for existing barrier pairs that can
+>>>> be converted to the lighter acquire/release semantics.
+>>>>
+>>>> Changes
+>>>> =======
+>>>>
+>>>> Each patch in this series targets a specific barrier pair where the
+>>>> publish/subscribe pattern is already present:
+>>>>
+>>>> - Writers populate data, then publish a flag/count/pointer via
+>>>>   smp_store_release()
+>>>>
+>>>> - Readers load the flag/count/pointer via smp_load_acquire(), then
+>>>>   consume the data
+>>>>
+>>>> This preserves the existing memory ordering guarantees while allowing
+>>>> architectures with native acquire/release instructions (e.g. arm64's
+>>>> STLR/LDAR) to avoid the cost of full one-way barriers (DMB ISHST/ISHLD).
+>>>> On architectures without native support, the generated code is
+>>>> generally no worse than the explicit barrier pair.
+>>>>
+>>>> The conversions are mechanical and no functional change is intended.
+>>>>
+>>>> Testing (Kunpeng HIP09 arm64 server)
+>>>> ====================================
+>>>>
+>>>> 1. UNIXBENCH syscall
+>>>> 	Baseline: 715.27
+>>>> 	Patched:  718.83
+>>>> 	Improvement: +0.50%
+>>>>
+>>>> 2. fs/aio (fio + null_blk, 4 jobs):
+>>>> 	Baseline: 1441k IOPS, 86.46us
+>>>> 	Patched:  1452k IOPS, 85.80us
+>>>> 	Improvement: ~0.8%
+>>>>
+>>>> Both improvements are consistent across runs and align with the
+>>>> expected savings from replacing DMB with LDAR/STLR on arm64.
+>>>>
+>>>> [1]: https://support.arm.com/documentation/102336/0100/Load-Acquire-and-Store-Release-instructions
+>>>> [2]: https://github.com/torvalds/linux/commit/d0dd066a0fa26d55c19ace9e89dedd9504c5bcba
+>>>>
+>>>> Changes in v3:
+>>>> - Add Reviewed-by.
+>>>> - Split out network patch set as Kuniyuki suggested.
+>>>> - Link to v2: https://lore.kernel.org/all/20260901024234.135119-1-ruanjinjie@huawei.com/
+>>>>
+>>>> Changes in v2:
+>>>> - Fix pre-existing issue for ext4 and 8021q [3].
+>>>> - Fix missing copy_mnt_idmap() udapte [3].
+>>>> - Drop nacked isotp patch.
+>>>> - Add test data.
+>>>> - Add Reviewed-by and update fs patch as Jan suggested.
+>>>>
+>>>> [3]: https://sashiko.dev/#/patchset/20260825095422.3166067-1-ruanjinjie%40huawei.com
+>>>>
+>>>> Jinjie Ruan (8):
+>>>>   user_namespace: Use acquire/release for nr_extents synchronization
+>>>>   lib/vsprintf: Use acquire/release for ptr_key publication
+>>>>   fs: aio: Use acquire/release for ring->tail publication
+>>>>   fs: Use acquire/release for fdtable resize synchronization
+>>>>   pidfs: Use test_bit_acquire() for attr flag tests
+>>>>   super: Use acquire for SB_BORN check in super_cache_count()
+>>>>   ext4: Fix out-of-bounds read in ext4_get_group_info()
+>>>>   ext4: Convert group-count barrier protocol to acquire/release
+>>>>
+>>>>  fs/aio.c                | 10 ++++------
+>>>>  fs/ext4/balloc.c        |  2 +-
+>>>>  fs/ext4/ext4.h          | 10 +++-------
+>>>>  fs/ext4/mballoc.c       |  6 ++----
+>>>>  fs/ext4/resize.c        | 19 +++++++++++--------
+>>>>  fs/file.c               | 10 ++++------
+>>>>  fs/mnt_idmapping.c      |  5 ++---
+>>>>  fs/pidfs.c              |  6 ++----
+>>>>  fs/super.c              |  6 ++----
+>>>>  kernel/user_namespace.c | 24 +++++++++++++-----------
+>>>>  lib/vsprintf.c          | 11 ++++-------
+>>>>  11 files changed, 48 insertions(+), 61 deletions(-)
+>>>>
+>>>> -- 
+>>>> 2.34.1  
+>>
+>>
+> 
 
