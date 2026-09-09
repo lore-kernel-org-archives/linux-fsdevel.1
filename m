@@ -1,143 +1,177 @@
-Received: from mail-oa2-f8.google.com (mail-oa2-f8.google.com [74.125.231.72])
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE10751C321
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 11:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788952115; cv=none; b=vAiq+SdJPzTwwJ0w8vK6WWqVddNtuE3dIK2NkLodHdgz3Z3KxzDqh8HMVWgwtxrYU/JJWSrutLQXtuYPOnbmzxydXuYfYSmI+9hU8yhCr7a6XKYJmYqCCrCGI2ISvjNfKKPnRZw0WUjI2VYOm337lbIMpLVAXl3amYx+X4Ou0ns=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788952115; c=relaxed/simple;
-	bh=zLFT2midDUIE08jFtiZXoNTa28LZis4aapNizkR9Pl4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JYhc7zUMZF5pJ0E4lo5GFNpMFBOagptrszvgYw6vy48pRQv6HmNjppqqayimLUhKtP/ILnIwC/LIxSO6z63Ji7AFtWQONBcdI+6APF5WinW22zHbW58UUAr3mBExS+ngPD8LZKmW98QzWSbo/Jj90bT6ljRUplJcg44DOhlQ5D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa2-f8.google.com with SMTP id 586e51a60fabf-46683b030d9so2209854fac.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 04:08:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788952112; x=1789556912;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07A852D2DB
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 11:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788952226; cv=pass; b=Q73+r1wIoGkr27ztz0UmTDouCTJQtQc8lh23KnxQqzDR9Jm1BbiOOflQzg9CzGzRTI95oRGjc/+n2iDtsAD3vprgX+WuuwzRqLYhrgbm+9z3qizU8vg6hVbELDzu/iP9Ae7GggZF/2DvhJJYSPRfut9znzsBT49dRCYsDA99EEc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788952226; c=relaxed/simple;
+	bh=YkZ9FXYxom6GTJ696R1xgKPjABJ5NoWT2CU+7PuBHFQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CFpubITgRJCix6wd4R/5Al95IEkplS8a5LBmM+YXjWhYb22NdJ1pD9SwrEeOYJOINFQi43SlFiXv41fkznSjUao3mR4AdimSvkPxow2DyLsvoawhjq528/KSBbnMJdzCPTepFayrp85YnY6gwEpyYCsc5Nt02LagYi5OPcYxVQY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=dX0q+oK6; arc=pass smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mihalicyn.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="dX0q+oK6"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254fa663c2so5074966b.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 04:10:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788952222; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kc7GloVS4tKMYf6TG61s1YFPRA7ZMwjDjcSkm7j+3qepoVZBU0/nfvLlZpLxNZqkKU
+         1xoP76AZF/MhdMLRne3SATqI0+IC82hPj8fBvhecOLthy8Jmu7/YL162VCw2v7gSAoul
+         FdFw3vF6JeNIhXPWw1pJ7iogb/G4RQHdH82SuAJ3HJJQ8SkTIBmbCRYaAca2w+XT5jIf
+         1SXtS9tOKErY8HWV9BWZZrxbWXEmHOB3rwbCjma45oX4G3JyRwt0vKWKL7XnjAlAfoCY
+         ma/h5R+1mPwIbVGeEzB9VwcGtoxpoo2QA6o6KvQT+Goc0KePXkmbkdACsixhVYJ2mxlA
+         g95Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Mgt8XRgHU0466zZJnQp3K3kwl0ZmrdZ791mHZpm+8k4=;
+        fh=Ehd9+5SFwukmtY/3l0tZtGpnuJ6ngO3qCeqLIAq+3NQ=;
+        b=CaTnFmfgmuFyshf0cssNjKxkGZOOipX4zyT/J4nnLos70FVTVAhlSwGbfEZcR9LtT9
+         Y66pV4a9Lp2SkHc/I90d8Zf0T6tA91KY8hARJNMQ7BhnUChKCBXmk+T+kIDR6i2BmSvi
+         jDZFhKkxkBuyKDyHg7cKaTTvBFOTI3lAKx7yCzV6UfNTt062o0aKfQuAbi1rT/nBfyI1
+         K0uJ3hTJ7lf3/8+GhYCWGytLOskt7RfP77lvjJWIjB4ibIMJsI4X00VwAYb5f9ad+u85
+         5Q2khn0ZIbwF41bScoHTDQ6TKLDr3SOGal0b4gZudgKnV9SHUsvt+ADH2LOeUI7+TgJ5
+         Qa9w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mihalicyn.com; s=mihalicyn; t=1788952222; x=1789557022; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=poOtJKRFcKQRNN+xN9bSoCheSB1ECKcVLBbKDneilbo=;
-        b=adUmVdEHKLvA2Fc84QZ+jZkWv96tcx1XfnQ3VmhOZRsdGH4e0wFFPqHymSnu4aTkcC
-         t2evE7EmGXpMNQLtjXItrZHlTTU1J9isceGSFRubm696gojIFVjtF8geRwnmgM9i/QN7
-         q3H0htLYV7Be8RWy2jKsOx0122WeyO07s/BvqGJBXg6qTEEOrAa0HaJBwsUQSGS2qzsq
-         /istLqNhvK/wGuL8ZJdiu1Hwyly3icymC6fsziOv2deha7RXFfUkl2b7w9g1EAr9rHtR
-         OjLoWmGIUwsT65k7PHDkdXv4kK0xIW2KekLlP8KUh98AHmyo4zq6Wu6CUK3IIViSy+T1
-         r8Tw==
-X-Forwarded-Encrypted: i=1; AKwUvBx4srCSee6XCzpaxRoW0baLxpezhZIpBmigNEAKAOUyugsizRxKiRvsiIk1iDX9iT0yucyvrilasV3KKdEg@vger.kernel.org
-X-Gm-Message-State: AFuF++kKGgoQB3+y5PVWNSNzDFKGTo723ZrY3znTDtLi/VQNR4x6Mvol
-	4oXHOUJYy32Aev7f3UimgMRPheKqa53jWSmY7WzQzCt25p3ZXqegJTQZ6EWKyXSOXX9hUJ9F2dJ
-	pYZLMIAL/lAIq5DpcsJ7Ug8bKK9V7xhCIxdkVxZtIjFJbA500u/b/RevDOFE=
+        bh=Mgt8XRgHU0466zZJnQp3K3kwl0ZmrdZ791mHZpm+8k4=;
+        b=dX0q+oK6psQKBVWpzPmJNAB/SUPsmrJYjWjuLSDb+yl4yOhVR75twv//YochFw3j4G
+         f1fgEdTt7HbsfDGgHZJWplKWqJcs8PvMGOKdA9sM0+Sksnc9ZjRmbk1FTI7+WN+FJyer
+         kZJ0GKY23pR7SOJ5QB3rJDr/KexOrL5QPQJp4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788952222; x=1789557022;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Mgt8XRgHU0466zZJnQp3K3kwl0ZmrdZ791mHZpm+8k4=;
+        b=D9ts8uCv52FRvLzJZ65R0lSTg9BC4p4VW1CaCmfKFnXt34NI3bfYr9aMkQO9NZV8vC
+         PCimBhj+1/KU4treyWkarQbyrDp/lXY2mJWJkNJO/NVdndDIkVKthLDkRkMxmnTY3xV3
+         BewGIMZDvL4jK71KAgINsLd2di/tpndHeymkcAOvNLPmAyPeJyaAU6sgPZttyoTqkm4E
+         RWE6sch++irSje5tMEA5QWT5aBmglYuBqjhtCOgH2L4xDj7Oo5OTEXPRgnHTF9qF43c5
+         4DG+GEMQC5j0dMblVG5SLtyroI1sRUyPwFPe3WWM6ytZgwCN7Vp6CvoUxmT6CZmMEtxE
+         hqBQ==
+X-Forwarded-Encrypted: i=1; AKwUvBysNiNATUd08d5Ka2X2HGzKnbJIhqEw0DiImUcR0ohXUaUs2NfmUus6rR0W5UtDSblAZsM7VfuikM+Myrbu@vger.kernel.org
+X-Gm-Message-State: AFuF++nhl2vi+/0E7kB22pdMyt6GGM6Wi3WobhgNmCXgmot9yNNEOqJA
+	iisdb+Gt2MNHiuHQAYaVkc0MyVWpHqS1ofEChPWQkgh8xlSHKT9fNz5V2lDqYcesVPUJaMIGVJY
+	UfwbqO3sgXMoiZKq6fuV6xgDFbcfZFakvIhbJJ9MoFw==
+X-Gm-Gg: AYBFou343c6Vaqu+ttRDvjgAZOKn1pgvutgDzXdI4jlWIZ5eahKbAF564ShciRu5Lu4
+	dE8uB9rqLrLVgY6P5hpWUtT8+y6rcNal/Q43TfZFebC7zDXQsL9EamG0f+SGm45GUws+lckmEcU
+	Q8m+ueQFqWN9SVAaBf1QfN354DNtYyjco23NRYRuykxrLBeE+Vc35y/UM3ZNSrsT2kPind6zzOa
+	84nmZEYQNq6BoLI/JfJWVTXL1U3O0ZH0eUB6K/LJQ4GHvjW0JW5Z/iKhOnoc2+QqzaC8syHjice
+	oFMqHGQhPDIMVRifi+9rBGqjwrw4uvAulgaqmGhQ0SeUgGPVc6Xuhhoj3oiDqNHOk6H6+lZlSod
+	Cqf3zlQFPNy5nFHmvIUgxAg==
+X-Received: by 2002:a17:907:c09:b0:c25:c7a9:7b8a with SMTP id
+ a640c23a62f3a-c2941ae9193mr12751566b.12.1788952221639; Wed, 09 Sep 2026
+ 04:10:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:f08:b0:6bd:ec40:e809 with SMTP id
- 006d021491bc7-6bee4da46bdmr181333eaf.13.1788952112746; Wed, 09 Sep 2026
- 04:08:32 -0700 (PDT)
-Date: Wed, 09 Sep 2026 04:08:32 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aa13e30.f614420e.2bf292.0015.GAE@google.com>
-Subject: [syzbot] [exfat?] WARNING in fat_write_inode
-From: syzbot <syzbot+4cb66d4011e51657d6b4@syzkaller.appspotmail.com>
-To: hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com
+References: <20260909-work-unix-passpidfd-v2-0-7bd342abb2d1@kernel.org>
+In-Reply-To: <20260909-work-unix-passpidfd-v2-0-7bd342abb2d1@kernel.org>
+From: Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Date: Wed, 9 Sep 2026 13:10:10 +0200
+X-Gm-Features: AcwNN1XTgvzqLxcVf_sNNwgtEWfE868-Kflp519NXR5vjxPBUXSPcRZwXEOLDjc
+Message-ID: <CAJqdLroLH7x1Zrgaa2U=H5v9pFfdzJS4CCcAmSvqShS8Wh+0rw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] net: support thread-specific pidfds for send and connect
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, Oleg Nesterov <oleg@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Am Mi., 9. Sept. 2026 um 12:43 Uhr schrieb Christian Brauner
+<brauner@kernel.org>:
+>
+> SO_PASSPIDFD/SCM_PIDFD and SO_PEERPIDFD allow to retrieve a pidfd for
+> the thread-group leader. The coredump server using the coredump socket
+> cannot get a handle on the task that took the signal and is writing the
+> coredump easily. Workloads interested in per-thread authentification
+> have similar problems.
+>
+> Add SO_PASSPIDFD_THREAD and SO_PEERPIDFD_THREAD. We record the sending
+> and the connecting thread in addition to the thread-group leader.
+>
+> SO_PASSPIDFD_THREAD functions like SO_PASSPIDFD but instead of an
+> SCM_PIDFD message for the thread-group leader, SCM_PIDFD sends a pidfd
+> for the specific thread. SO_PASSPIDFD_THREAD is mutually exclusive with
+> SO_PASSPIDFD. The last one set takes precedence and disables the other
+> one. Both SO_PASSCRED and SO_PASSPIDFD receivers see one writer per
+> process as before.
+>
+> SO_PEERPIDFD_THREAD allows to retrieve a pidfd for the specific thread
+> that called connect(), listen(), or socketpair().
+>
+> pidfs_coredump() now also stamps the dumping thread's struct pid so a
+> pidfd for that thread reports the coredump like the pidfd of the
+> thread-group leader does.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-syzbot found the following issue on:
+Reviewed-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
 
-HEAD commit:    654ae5d73c05 Merge tag 'drm-fixes-2026-09-05' of https://g..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=146d68f9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e909ffe6b35dddb7
-dashboard link: https://syzkaller.appspot.com/bug?extid=4cb66d4011e51657d6b4
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-654ae5d7.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/b52a78a429eb/vmlinux-654ae5d7.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/ee752e9e76b3/bzImage-654ae5d7.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4cb66d4011e51657d6b4@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-!buffer_uptodate(bh)
-WARNING: fs/buffer.c:991 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:991, CPU#0: syz.0.0/5320
-Modules linked in:
-CPU: 0 UID: 0 PID: 5320 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:991
-Code: 4c 89 f7 e8 d9 01 d8 ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 74 52 fb ff e8 bf 8b 66 ff eb 8c e8 b8 8b 66 ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 aa 8b 66 ff 90 0f 0b 90 e9 cf fd ff ff
-RSP: 0018:ffffc9000e3cf850 EFLAGS: 00010293
-RAX: ffffffff82614078 RBX: ffff888043def620 RCX: ffff8880003fcb00
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-RBP: ffffc9000e3cf901 R08: ffff888043def627 R09: 1ffff110087bdec4
-R10: dffffc0000000000 R11: ffffed10087bdec5 R12: 1ffff92001c79f20
-R13: ffff888043def620 R14: ffff888041c13410 R15: dffffc0000000000
-FS:  00005555923af540(0000) GS:ffff88808c2cd000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000563f7528d660 CR3: 000000004429a000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- __fat_write_inode fs/fat/inode.c:946 [inline]
- fat_write_inode+0x939/0xca0 fs/fat/inode.c:963
- write_inode fs/fs-writeback.c:1608 [inline]
- __writeback_single_inode+0x69d/0x1220 fs/fs-writeback.c:1851
- writeback_single_inode+0x544/0xf70 fs/fs-writeback.c:1926
- sync_inode_metadata+0x122/0x1d0 fs/fs-writeback.c:3100
- writeback_inode fs/fat/inode.c:1916 [inline]
- fat_flush_inodes+0x9b/0x1d0 fs/fat/inode.c:1936
- fat_file_release+0xe0/0x1a0 fs/fat/file.c:180
- __fput+0x418/0xa50 fs/file_table.c:512
- task_work_run+0x1d9/0x270 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
- exit_to_user_mode_loop+0x204/0x770 kernel/entry/common.c:101
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:336 [inline]
- do_syscall_64+0x328/0x520 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f597199e159
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff8b9d4328 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-RAX: 0000000000000000 RBX: 00007f5971c27da0 RCX: 00007f597199e159
-RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
-RBP: 00007f5971c27da0 R08: 0000000000000006 R09: 0000000000000000
-R10: 00007f5971c27cb0 R11: 0000000000000246 R12: 00000000000179c9
-R13: 00007f5971c2645c R14: 0000000000017964 R15: 00007fff8b9d4430
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+> ---
+> Changes in v2:
+> - Fix a few documentation issues.
+> - Link to v1: https://patch.msgid.link/20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org
+>
+> ---
+> Christian Brauner (10):
+>       pid: add helpers to operate on a struct pid array
+>       af_unix: record the pid of the sending thread
+>       net: add SO_PASSPIDFD_THREAD to get a thread-specific SCM_PIDFD
+>       selftests/net: SO_PASSPIDFD_THREAD
+>       net: turn sk_peer_pid into an array indexed by pid type
+>       af_unix: record the pid of the connecting thread
+>       net: add SO_PEERPIDFD_THREAD to get a thread-specific pidfd
+>       selftests/net: SO_PEERPIDFD_THREAD
+>       pidfs: record the coredump on the dumping thread's pid too
+>       selftests/coredump: check the dumping thread's pidfd
+>
+>  arch/alpha/include/uapi/asm/socket.h               |   4 +
+>  arch/mips/include/uapi/asm/socket.h                |   4 +
+>  arch/parisc/include/uapi/asm/socket.h              |   4 +
+>  arch/sparc/include/uapi/asm/socket.h               |   4 +
+>  fs/coredump.c                                      |  22 +-
+>  fs/pidfs.c                                         |  27 +-
+>  include/linux/coredump.h                           |   4 +-
+>  include/linux/pid.h                                |  53 +++
+>  include/linux/pid_types.h                          |   8 +
+>  include/linux/pidfs.h                              |   5 +
+>  include/linux/sched/signal.h                       |  18 +
+>  include/net/scm.h                                  |   7 +-
+>  include/net/sock.h                                 |  14 +-
+>  include/trace/events/landlock.h                    |   2 +-
+>  include/uapi/asm-generic/socket.h                  |   4 +
+>  net/bluetooth/af_bluetooth.c                       |   6 +-
+>  net/bluetooth/hci_sock.c                           |   8 +-
+>  net/bluetooth/l2cap_sock.c                         |   2 +-
+>  net/core/scm.c                                     |  36 +-
+>  net/core/sock.c                                    | 120 ++++---
+>  net/unix/af_unix.c                                 |  67 ++--
+>  net/unix/af_unix.h                                 |   3 +-
+>  tools/lib/python/kdoc/xforms_lists.py              |   1 +
+>  .../selftests/coredump/coredump_socket_test.c      | 175 ++++++++++
+>  tools/testing/selftests/coredump/coredump_test.h   |   2 +
+>  .../selftests/coredump/coredump_test_helpers.c     |  49 +++
+>  tools/testing/selftests/net/af_unix/Makefile       |   2 +
+>  tools/testing/selftests/net/af_unix/scm_pidfd.c    | 366 +++++++++++++++++++++
+>  28 files changed, 907 insertions(+), 110 deletions(-)
+> ---
+> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+> change-id: 20260825-work-unix-passpidfd-086a1ec09e8a
+>
