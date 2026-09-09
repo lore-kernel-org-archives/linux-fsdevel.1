@@ -1,355 +1,140 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1451A34C815
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E182952BE20;
+	Wed,  9 Sep 2026 10:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788950469; cv=none; b=ON3nF3gQgllu93YEE6BiHP5ml2b7K3aPRyC9VhLQ99ART1FQ2L3pLpnlyBtZSL41X3umopuneE99SZ+Y/bO6pZkg3TK3ua/MO74S5hvDBUja6w6gleJjFwK6YJsEy/lmxdoJMAqND28VruIQE2hnq0PKjkd/UAIBFLB60d9oBk8=
+	t=1788950595; cv=none; b=aUrdy0hX5/5a3UV2bwc/WRmWCqS0VrbASqdGcuSJRktlTCn+Hd4vKXqJwGk9LzlI/AkFAT1qoTcwmO7x8yppzLXkN8zFMeaYxi3Xiri2hmwu9CZg8CgTGfE9JteWmkSOuhFHPZNBH2k3UrAVodTT01K/j/prXI7iZX7+LiMbbdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788950469; c=relaxed/simple;
-	bh=wCi3pUhWZvq93WjLW4ifiEYeMwDAkqD4CUEmoBl4gEM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=RZi4A6kKDEzngNB4Dobf50rPmtYVK1ZJqqUIUOtGnAIgvthWKS77gMc9srTMMuYVAtD5UrBf8v7BHrgyEAytUxUkApVkS65TPcp8oKPFXpptoDUr5K2EvhJGTYrSZfBU29YmCpN9A2BKuyLJN3EoaSEPB+8yZ+xEmG+3QRDo0BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uFQXFG0h; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1788950595; c=relaxed/simple;
+	bh=IFaG9oK69pGnqIWHMIJIFCAIO83YFM743Lqw1GbiJ4o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=L/bTuAY3Mp/S2yOFgmM8s9eE9uL9v5aD7dkK15T0nmX8LCTHdqE04bvpe01AhICDi1iyBP2eHyg8J6QpBcQ+E0OYYcuLCXffgjiMU1KmeM4jDfGPImZgqNa7qmSwJb6dKaz3Md72w1PY56uVGSO/YK99GxCc5t2RPjk2sRoJixg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GxH1xb8i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uFQXFG0h"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-866e57f63a3so64121967b3.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788950467; x=1789555267; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PGN+ybR37+qvtDqf9cFN47582j44el3q/H5/GSGFvrU=;
-        b=uFQXFG0hXoimqiWby6dfpdSvwp1ywbxkEFfD0FeBMdu6eVcVqX/qatRdy77+gn1t28
-         pr3ZJH6p0J62kW32d+tHDLRyOhkmZTfuuM3+aI5rapDZserz+Tnrlkf+ZySE48FhYCtr
-         dNzHT8cG7CB++qH1YjPu0SEFSiDn7z2fU4bqPNI6ym0ohv0YhN3m/4v8A/UVzxCO8iXf
-         opoWMkuRstsNVFOQsaGR6flUmhiIQ93WPekU7RlOjR8zRh4AhDkKbI6dkHFA/Ic6uhYI
-         /wvnbtUiVr9xbHNaCoFf+PEN+tG44AJHK0+HlLZ+FMG/tCQsQL/0S+MmOIJyyOU5ARYT
-         GGkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788950467; x=1789555267;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PGN+ybR37+qvtDqf9cFN47582j44el3q/H5/GSGFvrU=;
-        b=WWVlPw/trESS6vE3LkH2ZascFSDJW9E4xFBIvH/DxuYgKeqDiIYzXL5EFd7YljV9Z6
-         kzP3IDx8clVBxkqNHZzaJvxXoCy8K20RPnANmU64PNpPX6soZe35EHtXAu8oPBGpdcgC
-         2dCtaTzFENjIJ1DLhGhwFii2IyLMzvpDiTaPrXcWiSNPiNXdSs1oRDVctTOJn6oIZPdT
-         Nh659YyfyW9FrkclI2YR8pfyUYXLwpiLV+fLT/glDsXp4uUS5BtB6kmQ5xiJTsOiP5ls
-         lcxSjxEBpRENany+GM4/Qq3Vk/t4VIy4IQYiLzYcG6YlWEnH+WClXTXJMHMXtsYGYTEM
-         Q/eQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzPexBoi4eQ6rmqGNtFoZh83U15PCDSfA4Ss5p7pa3hggYg9//fGxUNkSZuZRGpZ/yax1/HF71ZyhU9SuLH@vger.kernel.org
-X-Gm-Message-State: AFuF++lf5qWwaLo0SxPJPFQfZkDFX1EJ9PMe8u48wGtIOF/2R9dIMXtx
-	CM0/8VuftI2/ECaLEVTSzFqBS9VcRd+czoQNofcfu/eyVh1Es85Jegr/6NNO930Qdg==
-X-Gm-Gg: AYBFou06KW0tfcwbBLblwP5XKDr4k97OQGf332V6BgZMSYmweBMoQBbbY4RdWmmTQxc
-	JH0ui9HNXJKILrgaZquMQmlHwHxKwQok/nW96Joa+C4+hPkKUtWqlqyATXsUeN3AgQanhihoK6u
-	xIkCOMcdHFB+ywuFBYX3NAMhBcH3vJhmRJPGL0Yp96dBaF9vFjAKZyvnDwRVhIC25vBKswIxboQ
-	BIeIc3IkEzxdJHkN/8E54mqiEyqnf65vW5Iwu8Q3PzRxpx7b+0L4v4fpZ4lYuCcrQGrumUEywHg
-	rPwXJKyeiNP6a4CAH5s6i50dInfNjTnjOQm1YxRDsPhjBGhlY9CKyNg4KPtgT+314ttSe5K2QTt
-	hFxQ5aPXycBQCDLCg82JLIKzE7uhtMyL/Yn/CyO7MEFKJcYsTUw7N9yMjApMoQucx0J8k82/P+s
-	u6VkP9WSKLYk0ovITcACbPJZhkbD8gYxhd/ZwiqEw3Eeo/v/MFj1ZN75w4dv8XTkXVeSQcH+YjI
-	Uh5f+ZrDBUgaLgR5SYnnuoSoj7+W5aFM7YsNlKFMWgWwdY1ExVJg7MIado=
-X-Received: by 2002:a05:690c:e3e8:b0:81e:9826:942c with SMTP id 00721157ae682-8711c7488c4mr132269777b3.0.1788950466181;
-        Wed, 09 Sep 2026 03:41:06 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714ab77c4dsm108323097b3.34.2026.09.09.03.41.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 03:41:05 -0700 (PDT)
-Date: Wed, 9 Sep 2026 03:41:01 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-cc: Ackerley Tng <ackerleytng@google.com>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>, 
-    Baolin Wang <baolin.wang@linux.alibaba.com>, 
-    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
-    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-    Christoph Lameter <cl@gentwo.org>, 
-    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
-    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
-    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-    Marcelo Tosatti <mtosatti@redhat.com>, 
-    Matthew Wilcox <willy@infradead.org>, 
-    Mel Gorman <mgorman@techsingularity.net>, 
-    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
-    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
-    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Shakeel Butt <shakeel.butt@linux.dev>, 
-    Suren Baghdasaryan <surenb@google.com>, 
-    Vlastimil Babka <vbabka@kernel.org>, 
-    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
-    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
-    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 27/26] mm/fbatch: paranoid folio vmstats in
- folio_batch_move_lru()
-In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
-Message-ID: <f86f8e55-3f07-fc87-c64f-f34a3be9a013@google.com>
-References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GxH1xb8i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 285251F00A3A;
+	Wed,  9 Sep 2026 10:43:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788950593;
+	bh=mnkxRHXHyGgfz+c94gtF+q/a69edcwnh/cXIisA6SGk=;
+	h=From:Subject:Date:To:Cc;
+	b=GxH1xb8iDWJAz5zp+TA2YNvuVEFcFQWdCVqORGOFqiI6jWfQ3KOYvqI43QDULRNlV
+	 O/2OM+XVJ395eh8bipZuJlGMPMSOGdkSFKZqtrSvh0Phvp5KP2GZW9sEpBkVt2tmgO
+	 FhpqPjpZiTMieblq6kTFjAlcvUozUONKLHgV4HAdPirsqbhJwS4TPIpojwjCXriqQs
+	 8Hw0aJIa/rHOqEU8w8Trj1VKcFk23NnsO/lQx+Did8O/9Er//+8s+zfSavr2jpubtf
+	 SgehfRqVREk3BqEkLoMeq0DMed9y3DXQV3WAfBs0m9eqvsQ999X2i50os7snklIKBR
+	 B2sEG0nL/QV9A==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH v2 00/10] net: support thread-specific pidfds for send and
+ connect
+Date: Wed, 09 Sep 2026 12:42:59 +0200
+Message-Id: <20260909-work-unix-passpidfd-v2-0-7bd342abb2d1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22OQQ6CMBBFr0K6tk1bI6Ar72FYTNsBKqYlLSCGc
+ HcpGlcu3+TPy1tIxGAxkku2kICTjda7DeQhI7oF1yC1ZmMiucx5KU/06UNHR2dn2kOMvTW1obz
+ MQaDmZyyBbJ99wNrOu/VWfTiO6o56SKq0UBCRqgBOt+mUpCxJ2U/K0iRNWxsHH1574SSS8htzF
+ H9jJkE5LbhWtQGuCwXXDoPDB/OhIdW6rm+dmP0u9AAAAA==
+X-Change-ID: 20260825-work-unix-passpidfd-086a1ec09e8a
+To: Jakub Kicinski <kuba@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
+ Oleg Nesterov <oleg@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Willem de Bruijn <willemb@google.com>, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org, 
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3881; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=IFaG9oK69pGnqIWHMIJIFCAIO83YFM743Lqw1GbiJ4o=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQttLC2P+6pFFIorLvRrTz2p8rHjCVHG+YzXRQpTJju5
+ vDlyTTFjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIksWMvwk1E1xNSyvC54vn/M
+ /Yu3N7yNPub3s/CDk2Xdk+SAeqn6dwz/XVVuifO2MCeu+JYwodLiglZZ2ZIfScYfLhknLbONqN3
+ MBgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Save mapping and index when adding folio to per-cpu fbatch, check them
-when draining the fbatch, show folio counts at the end of /proc/vmstat
-when CONFIG_DEBUG_VM=y.
+SO_PASSPIDFD/SCM_PIDFD and SO_PEERPIDFD allow to retrieve a pidfd for
+the thread-group leader. The coredump server using the coredump socket
+cannot get a handle on the task that took the signal and is writing the
+coredump easily. Workloads interested in per-thread authentification
+have similar problems.
 
-This is a work-in-progress hack, not intended for kernel release:
-hence the 27/26 leaving it out of the series; but a useful framework
-for study and reassurance on stale fbatch entries.
+Add SO_PASSPIDFD_THREAD and SO_PEERPIDFD_THREAD. We record the sending
+and the connecting thread in addition to the thread-group leader.
 
-Could be extended to the mlock_fbatch, but probably nothing new to learn
-there. May be more useful if separate stats kept for the lru_add fbatch
-and (together) the other four - their characteristics are different.
+SO_PASSPIDFD_THREAD functions like SO_PASSPIDFD but instead of an
+SCM_PIDFD message for the thread-group leader, SCM_PIDFD sends a pidfd
+for the specific thread. SO_PASSPIDFD_THREAD is mutually exclusive with
+SO_PASSPIDFD. The last one set takes precedence and disables the other
+one. Both SO_PASSCRED and SO_PASSPIDFD receivers see one writer per
+process as before.
 
-Needs refinement: the current numbers raise more questions than give
-answers. The folio_hoisted, folio_changed, folio_already numbers mostly
-record nothing worse than LRU-eligible folio pages getting freed before
-drain, and soon recycled for fresh LRU-eligible folios: no harm there;
-but these stats do not verify that.
+SO_PEERPIDFD_THREAD allows to retrieve a pidfd for the specific thread
+that called connect(), listen(), or socketpair().
 
-For example, after hours of kernel builds on tmpfs while swapping:
+pidfs_coredump() now also stamps the dumping thread's struct pid so a
+pidfd for that thread reports the coredump like the pidfd of the
+thread-group leader does.
 
-folio_not_got 65750323
-folio_off_lru 357827
-folio_hoisted 10458363
-folio_matched 2888574439
-folio_swapped 113626282
-folio_changed 11558942
-folio_already 12717475
-folio_skipped 705
-
-Signed-off-by: Hugh Dickins <hughd@google.com>
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- include/linux/vm_event_item.h |  10 ++++
- mm/folio.c                    | 101 +++++++++++++++++++++++++++++++---
- mm/vmstat.c                   |  10 ++++
- 3 files changed, 112 insertions(+), 9 deletions(-)
+Changes in v2:
+- Fix a few documentation issues.
+- Link to v1: https://patch.msgid.link/20260831-work-unix-passpidfd-v1-0-70cbfda0c7ba@kernel.org
 
-diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-index 2628ccda076a..4572463fb65f 100644
---- a/include/linux/vm_event_item.h
-+++ b/include/linux/vm_event_item.h
-@@ -179,6 +179,16 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
- 		NRSWPIN,
- 		NRSWPOUT,
- #endif /* CONFIG_SWAP */
-+#ifdef CONFIG_DEBUG_VM
-+		FOLIO_NOT_GOT,
-+		FOLIO_OFF_LRU,
-+		FOLIO_HOISTED,
-+		FOLIO_MATCHED,
-+		FOLIO_SWAPPED,
-+		FOLIO_CHANGED,
-+		FOLIO_ALREADY,
-+		FOLIO_SKIPPED,
-+#endif /* CONFIG_DEBUG_VM */
- 		NR_VM_EVENT_ITEMS
- };
- 
-diff --git a/mm/folio.c b/mm/folio.c
-index 7c545e4c090d..9f0cb755595a 100644
---- a/mm/folio.c
-+++ b/mm/folio.c
-@@ -40,19 +40,35 @@
- #define CREATE_TRACE_POINTS
- #include <trace/events/pagemap.h>
- 
-+#ifdef CONFIG_DEBUG_VM
-+#define PARANOID_SIZE FOLIO_BATCH_SIZE
-+#else
-+#define PARANOID_SIZE 0
-+#endif
-+
-+struct mapix {
-+	struct address_space *mapping;
-+	pgoff_t index;
-+};
-+
- struct cpu_fbatches {
- 	/*
--	 * The following folio batches are grouped together because they are protected
--	 * by disabling preemption (and interrupts remain enabled).
-+	 * The following folio batches are grouped together because they are
-+	 * protected by disabling preemption (and interrupts remain enabled).
- 	 */
- 	local_lock_t lock;
- 	struct folio_batch lru_add;
-+	struct mapix mapix0[PARANOID_SIZE];
- 	struct folio_batch lru_activate;
-+	struct mapix mapix1[PARANOID_SIZE];
- 	struct folio_batch lru_deactivate_file;
-+	struct mapix mapix2[PARANOID_SIZE];
- 	struct folio_batch lru_deactivate;
-+	struct mapix mapix3[PARANOID_SIZE];
- 	/* Protecting the following batches which require disabling interrupts */
- 	local_lock_t lock_irq;
- 	struct folio_batch lru_move_tail;
-+	struct mapix mapix4[PARANOID_SIZE];
- };
- 
- static DEFINE_PER_CPU(struct cpu_fbatches, cpu_fbatches) = {
-@@ -60,6 +76,57 @@ static DEFINE_PER_CPU(struct cpu_fbatches, cpu_fbatches) = {
- 	.lock_irq = INIT_LOCAL_LOCK(lock_irq),
- };
- 
-+#if PARANOID_SIZE
-+static void paranoid_count(enum vm_event_item folio_counter)
-+{
-+	count_vm_event(folio_counter);
-+}
-+
-+static void paranoid_save_mapix(struct folio_batch *fbatch)
-+{
-+	int i = fbatch->nr - 1;	/* folio has just been added */
-+	struct mapix *mapix;
-+
-+	mapix = (struct mapix *)(fbatch->folios + ARRAY_SIZE(fbatch->folios));
-+	mapix += i;
-+	mapix->mapping = fbatch->folios[i]->mapping;
-+	mapix->index = fbatch->folios[i]->index;
-+}
-+
-+static void paranoid_check_mapix(struct folio_batch *fbatch, int i)
-+{
-+	struct folio *folio = fbatch->folios[i];
-+	enum vm_event_item folio_counter;
-+	struct mapix *mapix;
-+	unsigned long lru_next = READ_ONCE(folio->lru_next);
-+
-+	if (lru_next & BIT(LRU_NEXT_BATCHED)) {
-+		lru_next ^= (unsigned long)&fbatch->folios[i];
-+		if (lru_next & ~(BIT(NR_LRU_NEXT_FLAGS) - 1))
-+			paranoid_count(FOLIO_HOISTED);
-+	}
-+
-+	mapix = (struct mapix *)(fbatch->folios + ARRAY_SIZE(fbatch->folios));
-+	mapix += i;
-+	if (folio->mapping == mapix->mapping && folio->index == mapix->index) {
-+		folio_counter = FOLIO_MATCHED;
-+	} else if (!folio->mapping || !mapix->mapping) {
-+		/* Truncated? Swapcache? Needs more cleverness */
-+		if (folio->index == mapix->index)
-+			folio_counter = FOLIO_MATCHED;
-+		else
-+			folio_counter = FOLIO_SWAPPED;
-+	} else {
-+		folio_counter = FOLIO_CHANGED;
-+	}
-+	paranoid_count(folio_counter);
-+}
-+#else
-+static void paranoid_count(int event) { }
-+static void paranoid_save_mapix(struct folio_batch *fbatch) { }
-+static void paranoid_check_mapix(struct folio_batch *fbatch, int i) { }
-+#endif
-+
- static void __page_cache_release(struct folio *folio, struct lruvec **lruvecp,
- 		unsigned long *flagsp)
- {
-@@ -135,22 +202,32 @@ static void folio_batch_move_lru(struct folio_batch *fbatch, move_fn_t move_fn)
- 	for (i = 0; i < folio_batch_count(fbatch); i++) {
- 		struct folio *folio = fbatch->folios[i];
- 
--		if (!folio_try_get(folio))
-+		if (!folio_try_get(folio)) {
-+			paranoid_count(FOLIO_NOT_GOT);
- 			continue;
-+		}
- 
--		if (!folio_test_clear_lru(folio))
-+		if (!folio_test_clear_lru(folio)) {
-+			paranoid_count(FOLIO_OFF_LRU);
- 			goto restored_lru;
-+		}
-+
-+		paranoid_check_mapix(fbatch, i);
- 
- 		/* Do not add to LRU if it has already been added */
--		if (move_fn == lru_add && !lru_add_del_folio(folio))
-+		if (move_fn == lru_add && !lru_add_del_folio(folio)) {
-+			paranoid_count(FOLIO_ALREADY);
- 			goto restore_lru;
-+		}
- 
- 		folio_lruvec_relock_irqsave(folio, &lruvec, &flags);
- 		move_fn(lruvec, folio);
- 
- 		/* Do add to LRU if not already there (move_fn skipped) */
--		if (lru_add_del_folio(folio))
-+		if (lru_add_del_folio(folio)) {
- 			lruvec_add_folio(lruvec, folio);
-+			paranoid_count(FOLIO_SKIPPED);
-+		}
- restore_lru:
- 		folio_set_lru(folio);
- 		/* See mm/vmscan.c move_folios_to_lru() comment on ordering */
-@@ -176,16 +253,21 @@ static void folio_batch_move_lru(struct folio_batch *fbatch, move_fn_t move_fn)
- static void __folio_batch_add_and_move(struct folio_batch __percpu *fbatch,
- 		struct folio *folio, move_fn_t move_fn, bool disable_irq)
- {
-+	struct folio_batch *cpu_fbatch;
- 	unsigned long flags;
-+	bool full;
- 
- 	if (disable_irq)
- 		local_lock_irqsave(&cpu_fbatches.lock_irq, flags);
- 	else
- 		local_lock(&cpu_fbatches.lock);
- 
--	if (!folio_batch_add(this_cpu_ptr(fbatch), folio) ||
--			!folio_may_be_lru_cached(folio))
--		folio_batch_move_lru(this_cpu_ptr(fbatch), move_fn);
-+	cpu_fbatch = this_cpu_ptr(fbatch);
-+	full = !folio_batch_add(cpu_fbatch, folio);
-+	paranoid_save_mapix(cpu_fbatch);
-+
-+	if (full || !folio_may_be_lru_cached(folio))
-+		folio_batch_move_lru(cpu_fbatch, move_fn);
- 
- 	if (disable_irq)
- 		local_unlock_irqrestore(&cpu_fbatches.lock_irq, flags);
-@@ -440,6 +522,7 @@ void __folio_add_lru(struct folio *folio, bool mlockit)
- 	}
- 
- 	full = !folio_batch_add(fbatch, folio);
-+	paranoid_save_mapix(fbatch);
- 
- 	/* Ensure folio->lru_next visible to folio_test_clear_lru() callers */
- 	smp_mb__before_atomic();
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index d66cb67f55ce..cc61ac10782a 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1507,6 +1507,16 @@ const char * const vmstat_text[] = {
- 	[I(NRSWPIN)]				= "nrswpin",
- 	[I(NRSWPOUT)]				= "nrswpout",
- #endif /* CONFIG_SWAP */
-+#ifdef CONFIG_DEBUG_VM
-+	[I(FOLIO_NOT_GOT)]			= "folio_not_got",
-+	[I(FOLIO_OFF_LRU)]			= "folio_off_lru",
-+	[I(FOLIO_HOISTED)]			= "folio_hoisted",
-+	[I(FOLIO_MATCHED)]			= "folio_matched",
-+	[I(FOLIO_SWAPPED)]			= "folio_swapped",
-+	[I(FOLIO_CHANGED)]			= "folio_changed",
-+	[I(FOLIO_ALREADY)]			= "folio_already",
-+	[I(FOLIO_SKIPPED)]			= "folio_skipped",
-+#endif /* CONFIG_DEBUG_VM */
- #undef I
- #endif /* CONFIG_VM_EVENT_COUNTERS */
- };
--- 
-2.51.0
+---
+Christian Brauner (10):
+      pid: add helpers to operate on a struct pid array
+      af_unix: record the pid of the sending thread
+      net: add SO_PASSPIDFD_THREAD to get a thread-specific SCM_PIDFD
+      selftests/net: SO_PASSPIDFD_THREAD
+      net: turn sk_peer_pid into an array indexed by pid type
+      af_unix: record the pid of the connecting thread
+      net: add SO_PEERPIDFD_THREAD to get a thread-specific pidfd
+      selftests/net: SO_PEERPIDFD_THREAD
+      pidfs: record the coredump on the dumping thread's pid too
+      selftests/coredump: check the dumping thread's pidfd
+
+ arch/alpha/include/uapi/asm/socket.h               |   4 +
+ arch/mips/include/uapi/asm/socket.h                |   4 +
+ arch/parisc/include/uapi/asm/socket.h              |   4 +
+ arch/sparc/include/uapi/asm/socket.h               |   4 +
+ fs/coredump.c                                      |  22 +-
+ fs/pidfs.c                                         |  27 +-
+ include/linux/coredump.h                           |   4 +-
+ include/linux/pid.h                                |  53 +++
+ include/linux/pid_types.h                          |   8 +
+ include/linux/pidfs.h                              |   5 +
+ include/linux/sched/signal.h                       |  18 +
+ include/net/scm.h                                  |   7 +-
+ include/net/sock.h                                 |  14 +-
+ include/trace/events/landlock.h                    |   2 +-
+ include/uapi/asm-generic/socket.h                  |   4 +
+ net/bluetooth/af_bluetooth.c                       |   6 +-
+ net/bluetooth/hci_sock.c                           |   8 +-
+ net/bluetooth/l2cap_sock.c                         |   2 +-
+ net/core/scm.c                                     |  36 +-
+ net/core/sock.c                                    | 120 ++++---
+ net/unix/af_unix.c                                 |  67 ++--
+ net/unix/af_unix.h                                 |   3 +-
+ tools/lib/python/kdoc/xforms_lists.py              |   1 +
+ .../selftests/coredump/coredump_socket_test.c      | 175 ++++++++++
+ tools/testing/selftests/coredump/coredump_test.h   |   2 +
+ .../selftests/coredump/coredump_test_helpers.c     |  49 +++
+ tools/testing/selftests/net/af_unix/Makefile       |   2 +
+ tools/testing/selftests/net/af_unix/scm_pidfd.c    | 366 +++++++++++++++++++++
+ 28 files changed, 907 insertions(+), 110 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260825-work-unix-passpidfd-086a1ec09e8a
 
