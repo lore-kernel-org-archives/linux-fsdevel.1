@@ -1,96 +1,85 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3761457ED91;
-	Wed,  9 Sep 2026 16:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C965657ED81;
+	Wed,  9 Sep 2026 16:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788970105; cv=none; b=soF/vbin5Cbdy/fqcha26BqfWTFk7Qg6l8Yx4a9dOI7majbDw5mI4J151rv3N/qo5mftUhXLn5IUifNXieJ5VYi7P7P9dNrAILopwWWLVejG2sFs8EYH/cuQzC5A7Xej7l8orM+gczTfIGXc8s20tLRyTZFw+Ijszb+FpS4lgyY=
+	t=1788970128; cv=none; b=XpLG1DQi7D/N2Dbi+hWmX22T8Yv1s0MD9gU17wKaipEnOIXI/ktucSs6DZg8kEQ0RADWC+qg6VnstW3SYOxf7dRvBBorf7RrQykzQJkCIxj8mz5kJnc/XrJjun5XxfHFNgeqiUGA8SxFYEHFeI9KhVDXsmKTX8bqrtmfBdxxPmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788970105; c=relaxed/simple;
-	bh=48vJDYQd/DllTLq+3iIQm08kuK2MD2yf5k0t+DLfZ6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=puKTvTJRjD0EmCX2BT9l/DbI1ovCTiRr1tTxwE9EU0DtnQaHkL4v00WPZ6Paz5K+12oGuoxQezy5ysWwHbay5vflasZ7rK6w7mHJkVjMW8Tvnca+3BSANbRR8LeKmrhTgaeI2PM0m1GWG66q1+LxKzAnqey+eJ4DvWvGDqVwz3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=Ew4HNQfB; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1788970128; c=relaxed/simple;
+	bh=S/UQIZuX7pSEQtw6EymF1U7DV5iy9KK1+GVL2aLlpgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nCxENWCecLNfGayq5tyZhKlKHtlekaFhsdc0fNE+ycbIHFojuM0BTJgpvSsYENUFdhSDSL6TtjGJwNoTfi6yIQuoS0TNO3TRiMuYJDKMlninmbWkWnR7CqkjaxDemNJ7cge3AHGpVXc9osgpVWHyzUATYUE/nztQHpBI95kwLqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFjAO7H7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="Ew4HNQfB"
-Received: from omf08.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id C35A112023E;
-	Wed,  9 Sep 2026 16:08:14 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf08.hostedemail.com (Postfix) with ESMTPA id A212520028;
-	Wed,  9 Sep 2026 16:07:54 +0000 (UTC)
-Date: Wed, 9 Sep 2026 12:09:11 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Ye Liu <ye.liu@linux.dev>, Thomas Gleixner <tglx@kernel.org>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng
- <boqun@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Frederic
- Weisbecker <frederic@kernel.org>, Neeraj Upadhyay
- <neeraj.upadhyay@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, Josh
- Triplett <josh@joshtriplett.org>, Uladzislau Rezki <urezki@gmail.com>, Juri
- Lelli <juri.lelli@redhat.com>, Vincent Guittot
- <vincent.guittot@linaro.org>, Masami Hiramatsu <mhiramat@kernel.org>, Josh
- Poimboeuf <jpoimboe@kernel.org>, Ye Liu <liuye@kylinos.cn>, Michal Hocko
- <mhocko@suse.com>, mic@digikod.net, oleg@redhat.com, david@kernel.org,
- linmiaohe@huawei.com, nao.horiguchi@gmail.com, gnoack3000@gmail.com,
- ljs@kernel.org, sj@kernel.org, rientjes@google.com, shakeel.butt@linux.dev,
- xu.xin16@zte.com.cn, chengming.zhou@linux.dev, tony.luck@intel.com,
- reinette.chatre@intel.com, x86@kernel.org, paul@paul-moore.com,
- jmorris@namei.org, serge@hallyn.com, pavel@kernel.org,
- lance.yang@linux.dev, pmladek@suse.com, longman@redhat.com,
- mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- qiang.zhang@linux.dev, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
- mark.rutland@arm.com, Dave.Martin@arm.com, james.morse@arm.com,
- babu.moger@amd.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, rcu@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v2 5/8] kernel: convert process/thread iterators to
- for_each_*_rculock
-Message-ID: <20260909120911.39032d13@gandalf.local.home>
-In-Reply-To: <20260908074228.GW4120091@noisy.programming.kicks-ass.net>
-References: <20260907081334.1152889-1-ye.liu@linux.dev>
-	<20260907081334.1152889-6-ye.liu@linux.dev>
-	<20260908074228.GW4120091@noisy.programming.kicks-ass.net>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFjAO7H7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E31CC1F00A3A;
+	Wed,  9 Sep 2026 16:08:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788970127;
+	bh=hBWAKzvLWfdIO2wpk11o5RxzGhVGcrpOuED+vxWRH2I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DFjAO7H7YchODDznxcoEvaXVrKCO/tNLnZF86Q4ZJwY6dWXqzgvijGZaNHNmIwCwF
+	 SFqji/acgtoPGGFoak1hWTGYVLYze/c1o5gostl8WLosQNyBxswiBpZHs561iF+Rpo
+	 oslOUjfCi6aWZvKxjTjpQ+VQSOiDU7LxQa676x8f+Bu/kywcAb2oi8xGd9W8SnYE2S
+	 SCtFDu3Av3REbvHW1g5aMgZyz19mGvQ2d4aF00mbgYQsE9oSCtFpJJzzkRlo6kIIkB
+	 bLMav0tCU//+U9jL+FjHKObin9osWuDLTlllDG4WEeZ6m/SdJBNVCuotfKqfd17MrT
+	 CB+6BceJVSKzw==
+Date: Wed, 9 Sep 2026 18:08:43 +0200
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] man/man2: introduce man page for
+ file_getattr/file_setattr syscalls
+Message-ID: <aqGCEDzd39VbrYfY@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20260907131747.1389798-1-aalbersh@kernel.org>
+ <20260908144051.GJ6047@frogsfrogsfrogs>
+ <aqEWjV-NCUuPJlwr@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+ <20260909150006.GH2619314@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: A212520028
-X-Stat-Signature: 9bhr8mrf9jecgksswrur9snxt487op5c
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19AMuTGL3VW5jagbOlwR+u7MA3F7VHnB+E=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=/I71CIheSuIDueqiu5rSWBUTO1zgH8vNXvV3i4L+T3M=; b=Ew4HNQfBJAW3QvJxL4xhoiz9d8D5iKxdsh10iXdMiDWG2dDq7BMF05gGgIe33e3EURTU9qshCUIWRI2S0eUCvA/2rIUrCApBNkGcwACOZpOkimIjHL8b/x7tJjeaE7wl5Zs/j2u4aimfyEbEUcr1qeLykOSGUaC1FUfmTB//jiU=
-X-HE-Tag: 1788970074-992515
-X-HE-Meta: U2FsdGVkX1/sjgIjUTzuszHX70bniX8/y4F8byAYJr5L4Kwf+Pq6SiK2LPgzAD5EmFKiynkAadzXM3x4qLo75WXhyZS59ULjI1qQoL45xrhI1eeT5MQRMQD7bu70iZsc+CglwGOHs01oUY4ZjM52NNgq0CB+kCQa2KO+APJ8kTcl3nqnjNjAlc1JFqBxU4lZ2fyci3LxkzioFG2oL8BkseTKqCeVBDEpzStaNBdD1+0SXhinobD7JBj25O6ZQ2QRX+9EcAaF97Hp+dwm4LQdc9C3AJjaDSrgcaZVEvOum5vPIdIBDcRSXlr1hiTDhVZmnQlEKNFFcUytxpY2d+6lRgiyopEE0T/P2K/3KnRoNxkqh992zUZis1LjkJPZxbAg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909150006.GH2619314@frogsfrogsfrogs>
 
-On Tue, 8 Sep 2026 09:42:28 +0200
-Peter Zijlstra <peterz@infradead.org> wrote:
-
-> >  kernel/cpu.c             |  4 +---
-> >  kernel/freezer.c         |  4 +---
-> >  kernel/hung_task.c       | 11 ++++-------
-> >  kernel/locking/lockdep.c |  4 +---
-> >  kernel/rcu/update.c      |  4 +---
-> >  kernel/sched/core.c      |  3 +--
-> >  kernel/sched/debug.c     |  4 +---
-> >  kernel/trace/fgraph.c    |  8 ++------
-> >  kernel/unwind/deferred.c |  3 +--
-> >  9 files changed, 13 insertions(+), 32 deletions(-)  
+On 2026-09-09 08:00:06, Darrick J. Wong wrote:
+> > > > +User-space applications should zero-initialize
+> > > > +.I struct file_attr
+> > > > +to ensure that future fields added to the structure
+> > > > +will be treated as no-ops if the structure definition is updated
+> > > > +but the application is not.
+> > > 
+> > > I thought they were supposed to call file_getattr() to initialize fattr
+> > > before making whatever changes they want and calling file_setattr()?
+> > 
+> > Yes, if file_getattr() is used for initialization then zeroing is
+> > not required as kernel will zero/check that everything fits, but if
+> > used by itself then zeroing would be necessary to work with older
+> > kernels. What about this:
+> > 
+> > 	.P
+> > 	User-space applications should use
+> > 	.B file_getattr(2)
+> > 	to initialize
+> > 	.I fattr
+> > 	structure beforehand or zero-initialize
+> > 	.I struct file_attr
+> > 	to ensure that future fields added to the structure
+> > 	will be treated as no-ops if the structure definition is updated
+> > 	but the application is not.
 > 
-> This is not something that can be applied.
+> I don't see how zeroing (instead of calling file_getattr) would ever
+> make sense since that would turn off pre-existing attributes, but I do
+> like the sentence "User-space applications should use file_getattr(2) to
+> initialize fattr beforehand."
 
-I believe you mean to break it up into individual subsystems. kernel/ is
-not its own subsystem, it contains many different ones.
+Right, agree, I will shorten to this then.
 
--- Steve
+-- 
+- Andrey
