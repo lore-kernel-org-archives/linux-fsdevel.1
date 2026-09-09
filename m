@@ -1,974 +1,178 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72CB58E2C4;
-	Wed,  9 Sep 2026 14:39:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C693CB540;
+	Wed,  9 Sep 2026 14:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788964796; cv=none; b=Pg2WZEyP+Z3CGSzezviMuKuEdTfD6bdHoBHBUxiQeVo3wYLIZqUlx4emaP9AObM7gR+FyQ4tyUDF+NGmFg2ZizU1gDFFg7QHmJSXqr3TqlaHjLjS+msYloA4RfQt5ZW4Qnbutjd0Wl4E5HbVjYQkzMxa8+g20bZP2IYlxlWzqRg=
+	t=1788965075; cv=none; b=a7G0gssj3vyIHBaiemz4UePfAYErWIwepk10R5DST3PFfXxPzXWrZfY8GvYjWAxj1igKpubknkkUir9Jvj/JQ+TxVR8cYmGOdQG+kJLd7YfosXSRpfEH2MaHL7vxnedJc+r5d4hE87XGg+bXWLrXkDatUBpRsvpLJrjhOIWlbfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788964796; c=relaxed/simple;
-	bh=Ba3sWPmQ9vbrOhHlJ+03UBoTHgc32q1KN8H4+JVnk9w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pa92WOqXAgIAAsM6x0imdPsei1nPekcM1jD2JZ0RmQn8opy+6pQnVVUcPqP3C7ij1uuvlLG0bYC1y5WkDbOCq/XwX5lmf+O/QASX8EmlB6Xx2yZbUz8f6MX9SmY2fSZDMzUZ1aWfDxbejx5sHjr93k8UQncW6AvflM8z1yBhWws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Pe0o0GMp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788965075; c=relaxed/simple;
+	bh=bcRwefqWL8yLZa9DFjrrXLH3J4fyyyLy/rbqxf2tVWM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X6GntyzfHy1QXbLRvxmN5szwOsH0Gb5PikYe/7ek1PO7w2bRC8xuEwOXkUEclb7h4i+0yy0ODtPta0NCWOanHQKU5mL/ZFANUg09U7zc/+luQEwPNZwipllUshKTkTHcXzsg6EGlfe3dD3CPdvl+gwEBZqCIixRlYbRZqhe0Gqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hPtBvy3I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Pe0o0GMp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 168671F00A3D;
-	Wed,  9 Sep 2026 14:39:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788964794;
-	bh=+J5BU39HWLQhVqlz2myUcFNfaU0g36DCHGCvK2iayEs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Pe0o0GMpuN68Gthfi6/DrOrZmelakU7FQKmYLxLp+5ReTPtBx7FPqwrCoQ5eBOHni
-	 WmjHmjydDCbAuYj6zppdjifYtGFlVBP8Xj0RvLeWC6oPQuIe9C0gEJ0xFowzXXcIVo
-	 CuRO4qo1XUKVOCuoeFZ728glWhX4PfyxziFR3mfw=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	David Howells <dhowells@redhat.com>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Enzo Matsumiya <ematsumiya@suse.de>,
-	linux-cifs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Steve French <stfrench@microsoft.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.18 545/583] cifs: SMB1 split: Separate out SMB1 decls into smb1proto.h
-Date: Wed,  9 Sep 2026 15:43:50 +0200
-Message-ID: <20260909134256.624372095@linuxfoundation.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260909134237.773280130@linuxfoundation.org>
-References: <20260909134237.773280130@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPtBvy3I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D29C1F00A3A;
+	Wed,  9 Sep 2026 14:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788965074;
+	bh=DKryHpZeZQ6KARApTW1tXfW8/qhqsgo+z43g+o2hGEw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hPtBvy3IN+9aQnyz4FjXUv2U35jR+DaFAk4MR+MsSrqQhLw/B1mnW4ZEPKZrpTdE+
+	 5Ogl8ftbNdUYWnFiaFYJWzmD8F4P3iY1EPetUNz1Wwal0BHGoCqh2+bUQ7B3jW6Ft+
+	 DBiXy07xw4822CYgZWg666kPfO+OZtSSSXG6+YMavsrtZVwj8xa6MdG2D3k8iN6zH9
+	 zPK16JXMPsihlHKcb+Oe5URKgUnWWRkpWPLTvreGXHRPgldujKKXElm7QEefThm5j5
+	 7Xh6Q+pq+YTVKa1gIiDi7gO3NOt6xZ4daMQ6uJgLDq1fpTeEQVbizUDUbF7xulthht
+	 k7g1XmTUjheLQ==
+Message-ID: <0a7c5147-c193-417d-b1e0-203d9de11247@kernel.org>
+Date: Wed, 9 Sep 2026 16:44:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr handling
+To: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-6.18-stable review patch.  If anyone has any objections, please let me know.
+On 9/9/26 15:33, David Hildenbrand (Arm) wrote:
+> Let's move it to sparse_init_one_section(). However, to keep early
+> boot processing working, we also have to initialize it in
+> sparse_sections_init().
+> 
+> Should we use READ_ONCE/WRITE_ONCE with __highest_used_section_nr?
+> Probably, something for another day.
+> 
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  mm/sparse.c | 5 +++--
+>  mm/sparse.h | 6 +++---
+>  2 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/mm/sparse.c b/mm/sparse.c
+> index 2b41ae36f20b8..2d0f2db34f4cf 100644
+> --- a/mm/sparse.c
+> +++ b/mm/sparse.c
+> @@ -177,7 +177,7 @@ static inline unsigned long first_present_section_nr(void)
+>  
+>  void __init sparse_sections_init(void)
+>  {
+> -	unsigned long pfn, start_pfn, end_pfn;
+> +	unsigned long pfn, start_pfn, end_pfn, section_nr;
+>  	int i, nid;
+>  
+>  	sparse_extreme_init();
+> @@ -187,9 +187,9 @@ void __init sparse_sections_init(void)
+>  		mminit_validate_memmodel_limits(&start_pfn, &end_pfn);
+>  
+>  		for (pfn = start_pfn; pfn < end_pfn; pfn += PAGES_PER_SECTION) {
+> -			unsigned long section_nr = pfn_to_section_nr(pfn);
+>  			struct mem_section *ms;
+>  
+> +			section_nr = pfn_to_section_nr(pfn);
+>  			sparse_index_init(section_nr, nid);
+>  			ms = __nr_to_section(section_nr);
+>  			if (ms->section_mem_map)
+> @@ -201,6 +201,7 @@ void __init sparse_sections_init(void)
+>  			__section_mark_present(ms, section_nr);
+>  		}
+>  	}
+> +	__highest_used_section_nr = section_nr;
+>  }
 
-------------------
+Sashiko says that section_nr could be used uninitialized if the loop body
+doesn't run.
 
-From: David Howells <dhowells@redhat.com>
+Certainly a very high regression.
 
-[ Upstream commit 645427b7a6c59e0074df29bf939aec2e9d6f2819 ]
+In a universe where a machine can boot without any memory?
 
-Separate out SMB1 declarations scriptedly into smb1proto.h.  Script below:
+"This could occur if mminit_validate_memmodel_limits() clamps
+start_pfn and end_pfn to the same value, or if for_each_mem_pfn_range()
+yields no memory ranges."
 
-	#!/usr/bin/perl -w
-	use strict;
-	unless (@ARGV) {
-	    die "Usage: $0 <c_file1> [<c_file2> ...]\n";
-	}
-
-	# Data tracking
-	my %funcs = ();		# Func name => { func prototype }
-	my %headers = ();	# Header filename => { header content }
-	my %c_files = ();	# C filename => { ordered func list, header pref }
-	my %cmarkers = ();	# C filename marker => { header filename it's in }
-
-	# Parse state
-	my $pathname = "-";
-	my $lineno = 0;
-
-	sub error(@) {
-	    print STDERR $pathname, ":", $lineno, ": ", @_, "\n";
-	    exit(1);
-	}
-
-	sub pad($) {
-	    # Reindent the function arguments to line the arguments up with the char
-	    # after the opening bracket on the func argument list
-	    my ($lines) = @_;
-	    return $lines if ($#{$lines} <= 0);
-	    my $has_empty = 0;
-	    for (my $i = 0; $i <= $#{$lines}; $i++) {
-		$lines->[$i] =~ s/^[ \t]+//;
-		$has_empty = 1 if ($lines->[$i] eq "");
-	    }
-
-	    if ($has_empty) {
-		my @clean = grep /.+/, @{$lines};
-		$lines = \@clean;
-	    }
-
-	    my $indlen = index($lines->[0], "(");
-	    return $lines if ($indlen < 0);
-	    my $indent = "";
-	    $indlen++;
-	    $indent .= "\t" x ($indlen / 8);
-	    $indent .= " " x ($indlen % 8);
-
-	    my @padded = ();
-	    my $acc = "";
-	    my $len = -$indlen;
-	    for (my $i = 0; $i <= $#{$lines}; $i++) {
-		my $argument = $lines->[$i];
-		my $arglen = length($argument);
-		my $last = ($i == $#{$lines} ? 1 : 0);
-
-		if ($i == 0 ||
-		    $i == 1) {
-		    $acc .= $argument;
-		    $acc .= ";" if ($last);
-		    $len += $arglen + $last;
-		    next;
-		}
-		if (!$acc) {
-		    $acc = $indent . $argument;
-		    $acc .= ";" if ($last);
-		    $len += $arglen + $last;
-		    next;
-		}
-		if ($indlen + $len + 1 + $arglen + $last > 79) {
-		    push @padded, $acc;
-		    $acc = $indent . $argument;
-		    $acc .= ";" if ($last);
-		    $len = $arglen + $last;
-		    next;
-		}
-
-		$acc .= " " . $argument;
-		$acc .= ";" if ($last);
-		$len += 1 + $arglen + $last;
-	    }
-	    push @padded, $acc if ($acc);
-	    return \@padded;
-	}
-
-	sub earliest(@) {
-	    my $ret = -1;
-	    foreach (@_) {
-		$ret = $_ if ($ret < 0 || ($_ >= 0 && $_ < $ret));
-	    }
-	    return $ret;
-	}
-
-	foreach my $file (@ARGV) {
-	    # Open the file for reading.
-	    next if $file =~ /trace[.]h$/;
-	    next if $file =~ /smbdirect[.][ch]$/;
-	    open my $fh, "<$file"
-		or die "Could not open file '$file'";
-	    $pathname = $file;
-	    $lineno = 0;
-
-	    my $filename;
-	    my @file_content = ();
-	    my @copy = ();
-
-	    my $state = 0;
-	    my $qual = "";
-	    my $type = "";
-	    my $funcname = "";
-	    my @funcdef = ();
-	    my $bracket = 0;
-	    my $comment = 0;
-	    my $smb1 = 0;
-	    my $header = 0;
-	    my $inline = 0;
-	    my $file_marker = "";
-	    my $config = "";
-	    my $c_file = 0;
-
-	    $filename = $pathname;
-	    $filename =~ s!.*/!!;
-
-	    if ($file =~ m!.h$!) {
-		my %new_h_file = (
-		    path    => $pathname,
-		    fname   => $filename,
-		    content => [],
-		    );
-		$header = \%new_h_file;
-		$headers{$filename} = \%new_h_file;
-	    } elsif ($file =~ m!.c$!) {
-		my %new_c_file = (
-		    path  => $pathname,
-		    fname => $filename,
-		    funcs => [],
-		    );
-		$c_file = \%new_c_file;
-		$c_files{$filename} = \%new_c_file;
-	    } else {
-		warn("Ignoring unexpected file $file\n");
-		next;
-	    }
-
-	    $smb1 = 1 if ($file =~ m!/smb1ops.c|/cifssmb.c|/cifstransport.c!);
-
-	    foreach my $line (<$fh>) {
-		$lineno++;
-		chomp($line);
-		push @copy, $line;
-		if (!$line) {
-		    # Blank line
-		    push @file_content, @copy;
-		    @copy = ();
-		    next;
-		}
-
-		# Handle continuation or end of block comment.  Look for C file
-		# prototype insertion point markers.
-		if ($comment) {
-		    if ($line =~ m![*]/!) {
-			if ($comment == 2 && $file_marker) {
-			    $cmarkers{$file_marker} = $file_marker;
-			    push @copy, "#C_MARKER " . $file_marker;
-			    $file_marker = 0;
-			}
-			$comment = 0;
-		    } else {
-			$comment++;
-			if ($comment == 2 && $line =~ m! [*] ([a-z][a-z_0-9]*[.][c])$!) {
-			    $file_marker = $1;
-			    print("Found file marker ", $file_marker, " in ", $filename, "\n");
-			}
-		    }
-		    push @file_content, @copy;
-		    @copy = ();
-		    next;
-		}
-
-		# Check cpp directives, particularly looking for SMB1 bits
-		if ($line =~ /^[#]/) {
-		    if ($header) {
-			if ($line =~ /ifdef.*(CONFIG_[A-Z0-9_])/) {
-			    error("multiconfig") if $config;
-			    $config = $1;
-			    $smb1++ if ($config eq "CONFIG_CIFS_ALLOW_INSECURE_LEGACY");
-			} elsif ($line =~ /endif/) {
-			    $smb1-- if ($config eq "CONFIG_CIFS_ALLOW_INSECURE_LEGACY");
-			    $config = "";
-			}
-		    }
-		    push @file_content, @copy;
-		    @copy = ();
-		    next;
-		}
-
-		# Exclude interference in finding func names and return types
-		if ($line =~ /^[{]/ ||
-		    $line =~ /##/ ||
-		    $line =~ /^[_a-z0-9A-Z]+:$/ || # goto label
-		    $line =~ /^do [{]/ ||
-		    $line =~ m!^//!) {
-		    push @file_content, @copy;
-		    @copy = ();
-		    next;
-		}
-
-		# Start of a block comment
-		if ($line =~ m!^/[*]!) {
-		    $comment = 1 unless ($line =~ m![*]/!);
-		    push @file_content, @copy;
-		    @copy = ();
-		    next;
-		}
-
-		# End of a braced section, such as a function implementation
-		if ($line =~ /^[}]/) {
-			$type = "";
-			$qual = "";
-			$funcname = "";
-			@funcdef = ();
-			push @file_content, @copy;
-			@copy = ();
-			next;
-		}
-
-		if ($line =~ /^typedef/) {
-		    $type = "";
-		    $qual = "";
-		    $funcname = "";
-		    @funcdef = ();
-		    push @file_content, @copy;
-		    @copy = ();
-		    next;
-		}
-
-		# Extract function qualifiers.  There may be multiple of these in more
-		# or less any order.  Some of them cause the func to be skipped (e.g. inline).
-
-		if ($line =~ /^(static|extern|inline|noinline|noinline_for_stack|__always_inline)\W/ ||
-		    $line =~ /^(static|extern|inline|noinline|noinline_for_stack|__always_inline)$/) {
-		    error("Unexpected qualifier '$1'") if ($state != 0);
-		    while ($line =~ /^(static|extern|inline|noinline|noinline_for_stack|__always_inline)\W/ ||
-			   $line =~ /^(static|extern|inline|noinline|noinline_for_stack|__always_inline)$/) {
-			$qual .= " " if ($qual);
-			$qual .= $1;
-			$inline = 1 if ($1 eq "inline");
-			$inline = 1 if ($1 eq "__always_inline");
-			$line = substr($line, length($1));
-			$line =~ s/^\s+//;
-		    }
-		}
-
-		if ($state == 0) {
-		    # Extract what we assume to be the return type
-		    if ($line =~ /^\s/) {
-			push @file_content, @copy;
-			@copy = ();
-			next;
-		    }
-		    while ($line =~ /^(unsigned|signed|bool|char|short|int|long|void|const|volatile|(struct|union|enum)\s+[_a-zA-Z][_a-zA-Z0-9]*|[*]|__init|__exit|__le16|__le32|__le64|__be16|__be32|__be64)/) {
-			$type .= " " if $type;
-			$type .= $1;
-			$line = substr($line, length($1));
-			$line =~ s/^\s+//;
-		    }
-		    if ($line =~ /^struct [{]/) {
-			# Ignore structure definitions
-			$type = "";
-			$qual = "";
-			$funcname = "";
-			@funcdef = ();
-			push @file_content, @copy;
-			@copy = ();
-			next;
-		    }
-		    if (index($line, "=") >= 0) {
-			# Ignore assignments
-			$type = "";
-			$qual = "";
-			$funcname = "";
-			@funcdef = "";
-			push @file_content, @copy;
-			@copy = ();
-			next;
-		    }
-
-		    # Try and extract a function's type and name
-		    while ($line =~ /(^[_a-zA-Z][_a-zA-Z0-9]*)/) {
-			my $name = $1;
-			$line = substr($line, length($name));
-			next if ($line =~ /^[{]/);
-			$line =~ s/^\s+//;
-
-			my $ch = substr($line, 0, 1);
-			last if ($ch eq "[" || $ch eq ";"); # Global variables
-
-			if ($ch eq "(") {
-			    # Found the function name
-			    $state = 1;
-			    $line = substr($line, 1);
-			    $funcname = $name;
-			    my $tmp = $qual . $type . " " . $funcname . "(";
-			    $tmp =~ s/[*] /*/;
-			    push @funcdef, $tmp;
-			    $bracket = 1;
-			    last;
-			}
-
-			if ($type) {
-			    last if (index($line, ";") >= 0 && index($line, "(") == -1);
-			    error("Unexpected name '$name' after '$type'");
-			}
-
-			$type .= " " if $type;
-			$type .= $name;
-			if ($line =~ /^(\s*[*]+)/) {
-			    my $ptr = $1;
-			    $type .= $ptr;
-			    $line = substr($line, length($ptr));
-			}
-		    }
-		}
-
-		# Try and extract a function's argument list
-		my $from = 0;
-		if ($state == 1) {
-		    while (1) {
-			my $o = index($line, "(", $from);
-			my $c = index($line, ")", $from);
-			my $m = index($line, ",", $from);
-
-			my $b = earliest($o, $c, $m);
-			if ($b < 0) {
-			    push @funcdef, $line
-				unless ($line eq "");
-			    last;
-			}
-			my $ch = substr($line, $b, 1);
-
-			# Push the arguments separately on to the list
-			if ($ch eq ",") {
-			    push @funcdef, substr($line, 0, $b + 1);
-			    $line = substr($line, $b + 1);
-			    $from = 0;
-			} elsif ($ch eq "(") {
-			    # Handle brackets in the argument list (e.g. function
-			    # pointers)
-			    $bracket++;
-			    $from = $b + 1;
-			} elsif ($ch eq ")") {
-			    $bracket--;
-			    if ($bracket == 0) {
-				push @funcdef, substr($line, 0, $b + 1);
-				$line = substr($line, $b + 1);
-				$state = 2;
-				last;
-			    }
-			    $from = $b + 1;
-			}
-		    }
-		}
-
-		if ($state == 2) {
-		    $inline = 1 if ($qual =~ /inline/);
-		    #print("QUAL $qual $type $funcname $inline ", $#funcdef, "\n");
-		    if (!$header &&
-			$qual !~ /static/ &&
-			$funcname ne "__acquires" &&
-			$funcname ne "__releases" &&
-			$funcname ne "module_init" &&
-			$funcname ne "module_exit" &&
-			$funcname ne "module_param" &&
-			$funcname ne "module_param_call" &&
-			$funcname ne "PROC_FILE_DEFINE" &&
-			$funcname !~ /MODULE_/ &&
-			$funcname !~ /DEFINE_/) {
-
-			# Okay, we appear to have a function implementation
-			my $func;
-			my $dup = 0;
-
-			if (exists($funcs{$funcname})) {
-			    $func = $funcs{$funcname};
-			    if (exists $func->{body}) {
-				print("dup $funcname\n");
-				$dup = 1;
-			    }
-			} else {
-			    my %new_func = (
-				name => $funcname,
-				cond => "",
-				legacy => 0,
-				);
-			    $func = \%new_func;
-			    $funcs{$funcname} = $func;
-			    $func->{body} = pad(\@funcdef);
-			}
-			$func->{body} = pad(\@funcdef);
-			$func->{legacy} = 1 if $smb1;
-
-			if ($funcname eq "cifs_inval_name_dfs_link_error") {
-			    $func->{cond} = "#ifdef CONFIG_CIFS_DFS_UPCALL";
-			} elsif ($funcname eq "cifs_listxattr") {
-			    $func->{cond} = "#ifdef CONFIG_CIFS_XATTR";
-			}
-
-			push @{$c_file->{funcs}}, $func
-			    unless $dup;
-		    } elsif (!$header || $inline) {
-			# Ignore inline function implementations and other weirdies
-			push @file_content, @copy;
-		    } elsif ($header && !$inline) {
-			push @file_content, "#FUNCPROTO " . $funcname;
-
-			my $func;
-
-			if (exists($funcs{$funcname})) {
-			    $func = $funcs{$funcname};
-			    $func->{lineno} = $lineno;
-			    $func->{pathname} = $pathname;
-			} else {
-			    my %new_func = (
-				name => $funcname,
-				cond => "",
-				lineno => $lineno,
-				pathname => $pathname,
-				legacy => 0,
-				);
-			    $func = \%new_func;
-			    $funcs{$funcname} = $func;
-			}
-
-			$func->{legacy} = 1 if $smb1;
-		    }
-
-		    @funcdef = ();
-		    $type = "";
-		    $qual = "";
-		    $funcname = "";
-		    $inline = 0;
-		    $state = 0;
-		    @copy = ();
-		}
-		if ($line =~ /;/) {
-		    $type = "";
-		    $qual = "";
-		    $funcname = "";
-		    @funcdef = ();
-		    $state = 0;
-		    push @file_content, @copy;
-		    @copy = ();
-		}
-	    }
-	    close($fh);
-
-	    if ($header) {
-		$header->{content} = \@file_content;
-	    }
-	}
-
-	sub write_header($)
-	{
-	    my ($header) = @_;
-	    my $path = $header->{path};
-	    my $legacy = 0;
-
-	    $legacy = 1 if ($path =~ m!smb1proto[.]h!);
-
-	    my @output = ();
-
-	    foreach my $line (@{$header->{content}}) {
-		if ($line =~ "^[#]C_MARKER (.*)") {
-		    my $file_marker = $cmarkers{$1};
-		    my $c_file = $c_files{$file_marker};
-		    print("Found $line\n");
-		    foreach my $func (@{$c_file->{funcs}}) {
-			print("func ", $func->{name}, "\n");
-			push @output, @{$func->{body}};
-		    }
-		    next;
-		} elsif ($line =~ "^[#]FUNCPROTO ([_a-zA-Z0-9]+)") {
-		    my $funcname = $1;
-		    my $func = $funcs{$funcname};
-		    if (!$func->{body}) {
-			print($func->{pathname}, ":", $func->{lineno}, ": '", $funcname,
-			      "' dead prototype\n");
-			next;
-		    }
-		    if ($func->{legacy} == $legacy) {
-			#push @output, $line;
-			push @output, @{$func->{body}};
-		    }
-		} else {
-		    push @output, $line;
-		}
-	    }
-
-	    open my $fh, ">$path"
-		or die "Could not open file '$path' for writing";
-	    foreach my $f (@output) {
-		print($fh $f, "\n") or die $path;
-	    }
-	    close($fh) or die $path;
-	}
-
-	foreach my $h (keys(%headers)) {
-	    write_header($headers{$h});
-	}
-
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Steve French <sfrench@samba.org>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Enzo Matsumiya <ematsumiya@suse.de>
-cc: linux-cifs@vger.kernel.org
-cc: linux-fsdevel@vger.kernel.org
-cc: linux-kernel@vger.kernel.org
-Acked-by: Enzo Matsumiya <ematsumiya@suse.de>
-Signed-off-by: Steve French <stfrench@microsoft.com>
-
-[ sashal: Reduced backport -- upstream 645427b7a6c59 touches 3 file(s), this
-  backport carries 3. Not backported here:
-  fs/smb/client/cifsproto.h
-  fs/smb/client/fscache.h
-  This note is generated from the file lists only; see the resolution record
-  for the reasoning. ]
-
-Stable-dep-of: 730d0bb19507 ("smb: client: fix UAF and buffer leak in cifs_check_trans2() for malformed secondary T2")
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- fs/smb/client/smb1ops.c       |  171 ------------------------------------------
- fs/smb/client/smb1proto.h     |    2 
- fs/smb/client/smb1transport.c |  171 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 173 insertions(+), 171 deletions(-)
-
---- a/fs/smb/client/smb1ops.c
-+++ b/fs/smb/client/smb1ops.c
-@@ -238,146 +238,6 @@ cifs_get_next_mid(struct TCP_Server_Info
- 	return mid;
- }
- 
--/*
--	return codes:
--		0	not a transact2, or all data present
--		>0	transact2 with that much data missing
--		-EINVAL	invalid transact2
-- */
--static int
--check2ndT2(char *buf)
--{
--	struct smb_hdr *pSMB = (struct smb_hdr *)buf;
--	struct smb_t2_rsp *pSMBt;
--	int remaining;
--	__u16 total_data_size, data_in_this_rsp;
--
--	if (pSMB->Command != SMB_COM_TRANSACTION2)
--		return 0;
--
--	/* check for plausible wct, bcc and t2 data and parm sizes */
--	/* check for parm and data offset going beyond end of smb */
--	if (pSMB->WordCount != 10) { /* coalesce_t2 depends on this */
--		cifs_dbg(FYI, "Invalid transact2 word count\n");
--		return -EINVAL;
--	}
--
--	pSMBt = (struct smb_t2_rsp *)pSMB;
--
--	total_data_size = get_unaligned_le16(&pSMBt->t2_rsp.TotalDataCount);
--	data_in_this_rsp = get_unaligned_le16(&pSMBt->t2_rsp.DataCount);
--
--	if (total_data_size == data_in_this_rsp)
--		return 0;
--	else if (total_data_size < data_in_this_rsp) {
--		cifs_dbg(FYI, "total data %d smaller than data in frame %d\n",
--			 total_data_size, data_in_this_rsp);
--		return -EINVAL;
--	}
--
--	remaining = total_data_size - data_in_this_rsp;
--
--	cifs_dbg(FYI, "missing %d bytes from transact2, check next response\n",
--		 remaining);
--	if (total_data_size > CIFSMaxBufSize) {
--		cifs_dbg(VFS, "TotalDataSize %d is over maximum buffer %d\n",
--			 total_data_size, CIFSMaxBufSize);
--		return -EINVAL;
--	}
--	return remaining;
--}
--
--static int
--coalesce_t2(char *second_buf, struct smb_hdr *target_hdr)
--{
--	struct smb_t2_rsp *pSMBs = (struct smb_t2_rsp *)second_buf;
--	struct smb_t2_rsp *pSMBt  = (struct smb_t2_rsp *)target_hdr;
--	char *data_area_of_tgt;
--	char *data_area_of_src;
--	int remaining;
--	unsigned int byte_count, total_in_tgt;
--	__u16 tgt_total_cnt, src_total_cnt, total_in_src;
--
--	src_total_cnt = get_unaligned_le16(&pSMBs->t2_rsp.TotalDataCount);
--	tgt_total_cnt = get_unaligned_le16(&pSMBt->t2_rsp.TotalDataCount);
--
--	if (tgt_total_cnt != src_total_cnt)
--		cifs_dbg(FYI, "total data count of primary and secondary t2 differ source=%hu target=%hu\n",
--			 src_total_cnt, tgt_total_cnt);
--
--	total_in_tgt = get_unaligned_le16(&pSMBt->t2_rsp.DataCount);
--
--	remaining = tgt_total_cnt - total_in_tgt;
--
--	if (remaining < 0) {
--		cifs_dbg(FYI, "Server sent too much data. tgt_total_cnt=%hu total_in_tgt=%u\n",
--			 tgt_total_cnt, total_in_tgt);
--		return -EPROTO;
--	}
--
--	if (remaining == 0) {
--		/* nothing to do, ignore */
--		cifs_dbg(FYI, "no more data remains\n");
--		return 0;
--	}
--
--	total_in_src = get_unaligned_le16(&pSMBs->t2_rsp.DataCount);
--	if (remaining < total_in_src)
--		cifs_dbg(FYI, "transact2 2nd response contains too much data\n");
--
--	/* find end of first SMB data area */
--	data_area_of_tgt = (char *)&pSMBt->hdr.Protocol +
--				get_unaligned_le16(&pSMBt->t2_rsp.DataOffset);
--
--	/* validate target area */
--	data_area_of_src = (char *)&pSMBs->hdr.Protocol +
--				get_unaligned_le16(&pSMBs->t2_rsp.DataOffset);
--
--	data_area_of_tgt += total_in_tgt;
--
--	total_in_tgt += total_in_src;
--	/* is the result too big for the field? */
--	if (total_in_tgt > USHRT_MAX) {
--		cifs_dbg(FYI, "coalesced DataCount too large (%u)\n",
--			 total_in_tgt);
--		return -EPROTO;
--	}
--	put_unaligned_le16(total_in_tgt, &pSMBt->t2_rsp.DataCount);
--
--	/* fix up the BCC */
--	byte_count = get_bcc(target_hdr);
--	byte_count += total_in_src;
--	/* is the result too big for the field? */
--	if (byte_count > USHRT_MAX) {
--		cifs_dbg(FYI, "coalesced BCC too large (%u)\n", byte_count);
--		return -EPROTO;
--	}
--	put_bcc(byte_count, target_hdr);
--
--	byte_count = be32_to_cpu(target_hdr->smb_buf_length);
--	byte_count += total_in_src;
--	/* don't allow buffer to overflow */
--	if (byte_count > CIFSMaxBufSize + MAX_CIFS_HDR_SIZE - 4) {
--		cifs_dbg(FYI, "coalesced BCC exceeds buffer size (%u)\n",
--			 byte_count);
--		return -ENOBUFS;
--	}
--	target_hdr->smb_buf_length = cpu_to_be32(byte_count);
--
--	/* copy second buffer into end of first buffer */
--	memcpy(data_area_of_tgt, data_area_of_src, total_in_src);
--
--	if (remaining != total_in_src) {
--		/* more responses to go */
--		cifs_dbg(FYI, "waiting for more secondary responses\n");
--		return 1;
--	}
--
--	/* we are done */
--	cifs_dbg(FYI, "found the last secondary response\n");
--	return 0;
--}
--
- static void
- cifs_downgrade_oplock(struct TCP_Server_Info *server,
- 		      struct cifsInodeInfo *cinode, __u32 oplock,
-@@ -387,37 +247,6 @@ cifs_downgrade_oplock(struct TCP_Server_
- }
- 
- static bool
--cifs_check_trans2(struct mid_q_entry *mid, struct TCP_Server_Info *server,
--		  char *buf, int malformed)
--{
--	if (malformed)
--		return false;
--	if (check2ndT2(buf) <= 0)
--		return false;
--	mid->multiRsp = true;
--	if (mid->resp_buf) {
--		/* merge response - fix up 1st*/
--		malformed = coalesce_t2(buf, mid->resp_buf);
--		if (malformed > 0)
--			return true;
--		/* All parts received or packet is malformed. */
--		mid->multiEnd = true;
--		dequeue_mid(mid, malformed);
--		return true;
--	}
--	if (!server->large_buf) {
--		/*FIXME: switch to already allocated largebuf?*/
--		cifs_dbg(VFS, "1st trans2 resp needs bigbuf\n");
--	} else {
--		/* Have first buffer */
--		mid->resp_buf = buf;
--		mid->large_buf = true;
--		server->bigbuf = NULL;
--	}
--	return true;
--}
--
--static bool
- cifs_need_neg(struct TCP_Server_Info *server)
- {
- 	return server->maxBuf == 0;
---- a/fs/smb/client/smb1proto.h
-+++ b/fs/smb/client/smb1proto.h
-@@ -33,6 +33,8 @@ extern struct smb_version_values smb1_va
- /*
-  * smb1transport.c
-  */
-+bool cifs_check_trans2(struct mid_q_entry *mid, struct TCP_Server_Info *server,
-+		       char *buf, int malformed);
- 
- #endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
- #endif /* _SMB1PROTO_H */
---- a/fs/smb/client/smb1transport.c
-+++ b/fs/smb/client/smb1transport.c
-@@ -563,3 +563,174 @@ out:
- 		return -ERESTARTSYS;
- 	return rc;
- }
-+
-+/*
-+	return codes:
-+		0	not a transact2, or all data present
-+		>0	transact2 with that much data missing
-+		-EINVAL	invalid transact2
-+ */
-+static int
-+check2ndT2(char *buf)
-+{
-+	struct smb_hdr *pSMB = (struct smb_hdr *)buf;
-+	struct smb_t2_rsp *pSMBt;
-+	int remaining;
-+	__u16 total_data_size, data_in_this_rsp;
-+
-+	if (pSMB->Command != SMB_COM_TRANSACTION2)
-+		return 0;
-+
-+	/* check for plausible wct, bcc and t2 data and parm sizes */
-+	/* check for parm and data offset going beyond end of smb */
-+	if (pSMB->WordCount != 10) { /* coalesce_t2 depends on this */
-+		cifs_dbg(FYI, "Invalid transact2 word count\n");
-+		return -EINVAL;
-+	}
-+
-+	pSMBt = (struct smb_t2_rsp *)pSMB;
-+
-+	total_data_size = get_unaligned_le16(&pSMBt->t2_rsp.TotalDataCount);
-+	data_in_this_rsp = get_unaligned_le16(&pSMBt->t2_rsp.DataCount);
-+
-+	if (total_data_size == data_in_this_rsp)
-+		return 0;
-+	else if (total_data_size < data_in_this_rsp) {
-+		cifs_dbg(FYI, "total data %d smaller than data in frame %d\n",
-+			 total_data_size, data_in_this_rsp);
-+		return -EINVAL;
-+	}
-+
-+	remaining = total_data_size - data_in_this_rsp;
-+
-+	cifs_dbg(FYI, "missing %d bytes from transact2, check next response\n",
-+		 remaining);
-+	if (total_data_size > CIFSMaxBufSize) {
-+		cifs_dbg(VFS, "TotalDataSize %d is over maximum buffer %d\n",
-+			 total_data_size, CIFSMaxBufSize);
-+		return -EINVAL;
-+	}
-+	return remaining;
-+}
-+
-+static int
-+coalesce_t2(char *second_buf, struct smb_hdr *target_hdr)
-+{
-+	struct smb_t2_rsp *pSMBs = (struct smb_t2_rsp *)second_buf;
-+	struct smb_t2_rsp *pSMBt  = (struct smb_t2_rsp *)target_hdr;
-+	char *data_area_of_tgt;
-+	char *data_area_of_src;
-+	int remaining;
-+	unsigned int byte_count, total_in_tgt;
-+	__u16 tgt_total_cnt, src_total_cnt, total_in_src;
-+
-+	src_total_cnt = get_unaligned_le16(&pSMBs->t2_rsp.TotalDataCount);
-+	tgt_total_cnt = get_unaligned_le16(&pSMBt->t2_rsp.TotalDataCount);
-+
-+	if (tgt_total_cnt != src_total_cnt)
-+		cifs_dbg(FYI, "total data count of primary and secondary t2 differ source=%hu target=%hu\n",
-+			 src_total_cnt, tgt_total_cnt);
-+
-+	total_in_tgt = get_unaligned_le16(&pSMBt->t2_rsp.DataCount);
-+
-+	remaining = tgt_total_cnt - total_in_tgt;
-+
-+	if (remaining < 0) {
-+		cifs_dbg(FYI, "Server sent too much data. tgt_total_cnt=%hu total_in_tgt=%u\n",
-+			 tgt_total_cnt, total_in_tgt);
-+		return -EPROTO;
-+	}
-+
-+	if (remaining == 0) {
-+		/* nothing to do, ignore */
-+		cifs_dbg(FYI, "no more data remains\n");
-+		return 0;
-+	}
-+
-+	total_in_src = get_unaligned_le16(&pSMBs->t2_rsp.DataCount);
-+	if (remaining < total_in_src)
-+		cifs_dbg(FYI, "transact2 2nd response contains too much data\n");
-+
-+	/* find end of first SMB data area */
-+	data_area_of_tgt = (char *)&pSMBt->hdr.Protocol +
-+				get_unaligned_le16(&pSMBt->t2_rsp.DataOffset);
-+
-+	/* validate target area */
-+	data_area_of_src = (char *)&pSMBs->hdr.Protocol +
-+				get_unaligned_le16(&pSMBs->t2_rsp.DataOffset);
-+
-+	data_area_of_tgt += total_in_tgt;
-+
-+	total_in_tgt += total_in_src;
-+	/* is the result too big for the field? */
-+	if (total_in_tgt > USHRT_MAX) {
-+		cifs_dbg(FYI, "coalesced DataCount too large (%u)\n",
-+			 total_in_tgt);
-+		return -EPROTO;
-+	}
-+	put_unaligned_le16(total_in_tgt, &pSMBt->t2_rsp.DataCount);
-+
-+	/* fix up the BCC */
-+	byte_count = get_bcc(target_hdr);
-+	byte_count += total_in_src;
-+	/* is the result too big for the field? */
-+	if (byte_count > USHRT_MAX) {
-+		cifs_dbg(FYI, "coalesced BCC too large (%u)\n", byte_count);
-+		return -EPROTO;
-+	}
-+	put_bcc(byte_count, target_hdr);
-+
-+	byte_count = be32_to_cpu(target_hdr->smb_buf_length);
-+	byte_count += total_in_src;
-+	/* don't allow buffer to overflow */
-+	if (byte_count > CIFSMaxBufSize + MAX_CIFS_HDR_SIZE - 4) {
-+		cifs_dbg(FYI, "coalesced BCC exceeds buffer size (%u)\n",
-+			 byte_count);
-+		return -ENOBUFS;
-+	}
-+	target_hdr->smb_buf_length = cpu_to_be32(byte_count);
-+
-+	/* copy second buffer into end of first buffer */
-+	memcpy(data_area_of_tgt, data_area_of_src, total_in_src);
-+
-+	if (remaining != total_in_src) {
-+		/* more responses to go */
-+		cifs_dbg(FYI, "waiting for more secondary responses\n");
-+		return 1;
-+	}
-+
-+	/* we are done */
-+	cifs_dbg(FYI, "found the last secondary response\n");
-+	return 0;
-+}
-+
-+bool
-+cifs_check_trans2(struct mid_q_entry *mid, struct TCP_Server_Info *server,
-+		  char *buf, int malformed)
-+{
-+	if (malformed)
-+		return false;
-+	if (check2ndT2(buf) <= 0)
-+		return false;
-+	mid->multiRsp = true;
-+	if (mid->resp_buf) {
-+		/* merge response - fix up 1st*/
-+		malformed = coalesce_t2(buf, mid->resp_buf);
-+		if (malformed > 0)
-+			return true;
-+		/* All parts received or packet is malformed. */
-+		mid->multiEnd = true;
-+		dequeue_mid(mid, malformed);
-+		return true;
-+	}
-+	if (!server->large_buf) {
-+		/*FIXME: switch to already allocated largebuf?*/
-+		cifs_dbg(VFS, "1st trans2 resp needs bigbuf\n");
-+	} else {
-+		/* Have first buffer */
-+		mid->resp_buf = buf;
-+		mid->large_buf = true;
-+		server->bigbuf = NULL;
-+	}
-+	return true;
-+}
+I think this can be ignored.
 
 
+Sashiko also thinks it found a pre-existing issue when updating
+ms->section_mem_map in sparse_init_one_section() when subsections already exist.
+
+That would be the case during ZONE_DEVICE hotplug only. Likely we should skip
+the sparse_init_one_section() if already initialized. I'll add this to my todo,
+but it has low priority.
+
+-- 
+Cheers,
+
+David
