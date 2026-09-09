@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32483101B2;
-	Wed,  9 Sep 2026 17:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608543515D6;
+	Wed,  9 Sep 2026 17:17:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788974195; cv=none; b=c5aH4eC6UAkfGjhawCkIMwOUMdexAIrFDQqB60stELmvg0QoqAdFQUjQGy//u/076lsDMm6/UYBtc1PISl9n9ToEWlpmersaV9jhIk2+e7kKOUbFA29lcF+OWJ1tC+FWNxFFztJUxkdBPFZVHgbdW0JTonRjO2v/JCcEXwVAIn4=
+	t=1788974245; cv=none; b=WJGR/ILEIhzJDPY4enARe4fAABvLvidGXwVPaBuhsiW5aZGTn1w9Yt2Do6UZomzozW8KUtnAj5sE9QrUw5OjiK49UHBJ5QCj9JkFyoPp5u1/d5OOYeyUqKod8iSrUUv5i/3I9f8L+efGVq6C+o7odOJtX891trVlXqYmwtq+eKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788974195; c=relaxed/simple;
-	bh=8QFaipwtcL5iD+8jhXmzPpe2u7WQqj/c1B37a4iCI+E=;
+	s=arc-20240116; t=1788974245; c=relaxed/simple;
+	bh=W6LvbCqnCAMNH7gXhxrKcKxkAOyxBj2Fpx22ddMHA/4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kx7t9Nfm6oR9NZUCiqQKcopPRQq1eP4hK0z21qXs+TrRkBql85RvKnf1wuICgSeeHBkQ4G+JxBNGBlgspAxnMz3f56HZjcMh17+J8jONLliaE5toI8dmjSqvsnfZN5cV7iOzsZQMXY8fhZXneZmvlrXu5W8Po4VrMYPUh674p6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HUt3fl8h; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=CD5sHav8S3Q7P20fRZDDDulTv3HnhdQb7ePUuViLG/HpKAX+bc1hD6TPFSTXzOZccDn7nfvvPKHhBgD2/KIBYTfig1d0ugAjsyHzIooX7QjwGGnoY1ukDlN6qT4flXpT1vVsieiFrlu7jzlsDp4C/Hezd2qTVrqff7fyzkcnapI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WZTPUM3N; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HUt3fl8h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A47FF1F000FF;
-	Wed,  9 Sep 2026 17:16:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WZTPUM3N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8BD51F000FF;
+	Wed,  9 Sep 2026 17:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788974193;
-	bh=RCNfdPry0qx3z3EYS25Xgw7tSBbwgBT8RyM8ger6/hk=;
+	s=k20260515; t=1788974243;
+	bh=l7/oXe2Unf02oQIXKj6Q8oOclzzmTMhiMA8uQNjSImE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HUt3fl8hAt44QPj6lykLIlkMzZu/kNaIu+7I/sN0voLfwcLf510ppqfYbRl7KcDEv
-	 SKMb9cs5xZcJvNsUF9CfDYxSGPCxcA75at/RjGWUvZvZIqRpjlfaZUpBy/mia5YSt3
-	 sehhohY8y6vO3d67rfo9cAcMO7HGnh2faq6EX9fAVC6Jx/gddHiPTEpB42PKbZ2aWu
-	 h8hZN4jNdr1qjMzrwpguqChT6cJC/Ib/QTQ3YnwXC5T5iEmIcstljUzYY3YwY4FdC/
-	 di7xHiCt0w25A7uOe6ykp7TiT06K256QLU4eLUfv4lHS2ZitzlHqsYdVTzbeoEb7tN
-	 KyEZApAl6QaDQ==
-Message-ID: <4825a2fe-f064-45d7-a7c9-e98de7efe86c@kernel.org>
-Date: Wed, 9 Sep 2026 19:16:27 +0200
+	b=WZTPUM3NAzpthQ178N9qRbFMphr2OQ6CtCCbs08sUVGjYlIhFCtq6J/k00hNfiBoG
+	 mdxET0+3Oyg5Cc5VNEN7hkwaO2kga6s1Xkxsvcy9p/0w8J1lW0kJ5ps2KQ688yHCCG
+	 yLtXgRPhRcEsyq4tNvcZ+mlQcs6DkSEtCWD++evCmmBCFnetYTbUUaApZ6Quu7T7GP
+	 UMBlslIzYomflvSHkJlbAVtaGu9oluHfZrK7DxPtDYKwepcw5iKKJPbqb9M/GtbN9l
+	 BhlR4UxBvTMFLg43Xw35upfmVz/udfD2CR6NImjicJVtWdXYBhn5j25frChSCNWNsk
+	 2rFafsCdXq3Xg==
+Message-ID: <855cb221-cd57-4226-9c98-6a66454d3e62@kernel.org>
+Date: Wed, 9 Sep 2026 19:17:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,15 +35,16 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] proc/task_mmu: remove special-casing of
- smap_gather_stats() start parameter
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
- willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] proc/task_mmu: remove unnecessary helpers
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org,
+ vbabka@kernel.org, willy@infradead.org, jannh@google.com,
+ paulmck@kernel.org, pfalcato@suse.de, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 References: <20260907063918.3432401-1-surenb@google.com>
- <20260907063918.3432401-4-surenb@google.com>
+ <20260907063918.3432401-2-surenb@google.com>
+ <1d5011f8-26a1-41e1-bb9d-8d72c08b8fe9@kernel.org>
+ <CAJuCfpH25ML1+hdhTtZUoSjgrNcGv9HbQD8o5UErmAdW-7C8Bg@mail.gmail.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -90,98 +91,37 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260907063918.3432401-4-surenb@google.com>
+In-Reply-To: <CAJuCfpH25ML1+hdhTtZUoSjgrNcGv9HbQD8o5UErmAdW-7C8Bg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/7/26 08:39, Suren Baghdasaryan wrote:
-> smap_gather_stats() interprets its start parameter to mean vma->vm_start
-> when it's set to 0. Eliminate this special interpretation and pass
-> vma->vm_start explicitly when needed.
+On 9/9/26 19:13, Suren Baghdasaryan wrote:
+> On Wed, Sep 9, 2026 at 10:06 AM David Hildenbrand (Arm)
+> <david@kernel.org> wrote:
+>>
+>> On 9/7/26 08:39, Suren Baghdasaryan wrote:
+>>> When per-vma locks were behind a config option, a number of helper
+>>> functions were needed to simplify the locking code. Now that these
+>>> locks are universally available, we can do a little cleanup.
+>>> Remove lock_vma_range(), unlock_vma_range(), query_vma_setup(),
+>>> query_vma_teardown() helpers.
+>>>
+>>> No functional change intended.
+>>>
+>>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>>> ---
+>>
+>> As Usama says, this could get picked up early independent of the rest (maybe
+>> even as part of the other patch set)
 > 
-> Since smap_gather_stats() operates within a single VMA, we can replace
-> walk_page_vma()/walk_page_range() calls with walk_page_range_vma()
-> which is simpler and also can be called while holding per-VMA lock.
-> 
-> No functional change intended.
-> 
-> Suggested by: Lorenzo Stoakes <ljs@kernel.org>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  fs/proc/task_mmu.c | 40 ++++++++++++++++++++++------------------
->  1 file changed, 22 insertions(+), 18 deletions(-)
-> 
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 9908ba32f180..3351decd1172 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -1246,20 +1246,27 @@ get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
->  	return &smaps_shmem_walk_vma_lock_ops;
->  }
->  
-> -/*
-> - * Gather mem stats from @vma with the indicated beginning
-> - * address @start, and keep them in @mss.
-> +/**
-> + * smap_gather_stats() - Gather mem stats from @vma.
-> + * @priv: proc maps private state.
-> + * @vma: The VMA to gather stats for.
-> + * @mss: The accumulated stats.
-> + * @start: The address from which to start.
->   *
-> - * Use vm_start of @vma as the beginning address if @start is 0.
-> + * This gathers stats for the whole of the VMA unless the lock was dropped
-> + * and VMA grew or got merged and we found it again, in which case we only
-> + * gather stats for the remainder of the VMA range.
->   */
->  static void smap_gather_stats(struct proc_maps_private *priv,
->  			      struct vm_area_struct *vma,
-> -			      struct mem_size_stats *mss, unsigned long start)
-> +			      struct mem_size_stats *mss,
-> +			      unsigned long start)
->  {
->  	const struct mm_walk_ops *ops = get_smaps_walk_ops(priv);
-> +	const bool is_partial = start > vma->vm_start;
->  
->  	/* Invalid start */
-> -	if (start >= vma->vm_end)
-> +	if (start < vma->vm_start || start >= vma->vm_end)
->  		return;
->  
->  	if (vma == get_gate_vma(priv->lock_ctx.mm))
-> @@ -1279,20 +1286,17 @@ static void smap_gather_stats(struct proc_maps_private *priv,
->  		 * Unless we know that the shmem object (or the part mapped by
->  		 * our VMA) has no swapped out pages at all.
->  		 */
-> -		unsigned long shmem_swapped = shmem_swap_usage(vma);
-> +		const unsigned long shmem_swapped = shmem_swap_usage(vma);
-> +		const bool shared_or_ro = vma_test(vma, VMA_SHARED_BIT) ||
-> +					  !vma_test(vma, VMA_WRITE_BIT);
->  
-> -		if (!start && (!shmem_swapped || (vma->vm_flags & VM_SHARED) ||
-> -					!(vma->vm_flags & VM_WRITE))) {
-> +		if (!is_partial && (!shmem_swapped || shared_or_ro))
->  			mss->swap += shmem_swapped;
-> -		} else {
-> +		else
->  			ops = get_smaps_shmem_walk_ops(priv);
-> -		}
+> I can post the 3 cleanup patches separately from the one that switches
+> to using per-VMA locks if that's preferable. One downside: I'll have
+> to wait until the cleanups are picked up before posting the last
+> patch, as it depends on these cleanups. Please let me know if I should
+> split them anyway; otherwise, will keep v3 as a single patchset.
 
-Horrible, horrible code, really. But not your fault :)
-
-I think we can just make the shared_or_ro less odd by just checking for cow
-mappings (as described in the comment).
-
-	const bool is_cow = vma_is_cow_mapping(vma);
-
-...
-
-	if (is_partial || (shmem_swapped && is_cow))
-		ops = get_smaps_shmem_walk_ops(priv);
-	else
-		mss->swap += shmem_swapped;
-
-That's almost in a form that I could understand what's happening.
+Let's keep it as is. We can reconsider if we realize that the other patches get
+stuck.
 
 -- 
 Cheers,
