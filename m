@@ -1,144 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B21437646A;
-	Wed,  9 Sep 2026 17:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801C037C0FC;
+	Wed,  9 Sep 2026 17:29:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788974603; cv=none; b=XZkhEaj7ZhrG0W5qJ6E9PWeOwKJzAao9BUpr1eTU1PVOrTcvtML+GweC7K5gCX1c3o51QJKUCU5C4U/HnSHWAGCtJGHEgwNe+bKfKsWXB6SQq9ya/FKSFQI56iS3fO2h236O9K8eHvmx5r17s6qLCiHogo7TeSdCcYOjK4AC/8M=
+	t=1788974998; cv=none; b=R6/YiAQskoq0KQt6FN+n1A+bmyloJq62Nr8D0IZueSLhK4TQ+RLwipgDSe3JIGX7yWmpx8M+q2ObyOu/12SCEyAIlacxV8Ocpm1i7MATTiLL8T/xtiEpXcHJJCN+panfBiKuXPhpWGLCLvxFzwTjJPmP+RAwCzItkLaVEtXotJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788974603; c=relaxed/simple;
-	bh=FaqonzSisf7fzRpv8fncwVVioCLlYc2ZWkzdQpFYJjw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a/OH2e0HlZnWTdkkCW7ZKU6tKWxJhr4L4+OzXOIJmPBvQUGN6eW62edI6YOnVm2/nsRvdfARmUMz6cyIcCQoyNoxL868zcXHNd+7a0ScxZOypJhybZ1dGxsIHQj70Djevxv2AEI/D0Zqw/XJS1vHqAS7f9tD4W0arwJ/CqhuQsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bDYa0m6y; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788974998; c=relaxed/simple;
+	bh=5D7SoVhjzEokScNygSteAqf9Ex3y5nz2gk7swf3GT9c=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=gDmwF+J/rj7iNGvZy3//wBz1/35Picg7f9t1poNBw0/DUxD5eepICxeAVl+LFazpl9xLP0p89B86qUlsMLn/t4T8AyA/J2RZKBC6ioBxB3fQ1NlqIGKe9lu1n92gP6M5r0iwAFB7yqqwxruQpoDsxBasB4WA0viOKdfBu8MVEXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=KMw6Bqep; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bDYa0m6y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 563E01F000FF;
-	Wed,  9 Sep 2026 17:23:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788974602;
-	bh=MCHSdPZk4zbn59kxK4VxfMJiTngtjItSycfJsFzJGs4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bDYa0m6ymveTw0HTGhDflIHkFJVZ6GnutFwAxlS0dnTV93M0i+vTGPjDB/xLJrUNQ
-	 1a0DPsSCrlJe2SPeOdeGGqCukduQ+BHvb6mMYVy4+V4ZLwJWeT2XDAckf22U215/P7
-	 hUHXF+M1stjZ7/4DPBQw9qxLMfak2L3FlpuRHlpJ+c/2EgbEpz2gLU0GyRgmO92zlA
-	 ZNKBf+MuuUntdCZet/bCi1BSWnv0+EUx0ZcJJd6V4JezjZRGitiNmaGuuxRIZk+BGw
-	 SHxdlwNKF5h85NTEXdvIIhjzcNbqGPJEdvLZVa73xGq4hC7cfgCi68gUdJfX87c1eO
-	 MlaqchPPFVn/Q==
-Message-ID: <19e428e5-d8bc-4abb-b052-e23442464cba@kernel.org>
-Date: Wed, 9 Sep 2026 19:23:16 +0200
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="KMw6Bqep"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To
+	:From:Date:MIME-Version:From:Reply-To;
+	bh=ixMZSD8+UhNtarF+6aKvQsI19PdlMWk8UdPjHUJ+BP8=; b=KMw6Bqep7POVCO8ABQLqn26u4z
+	Vm92Tg+j/0+PmqqK/dvW828O7HrV+w+lZ60KY8e00z2BinoAcJO+teusI18GQwPZa93g46fWpKzrh
+	AgVGA7OW13ikcCWBdkNHyCF5MJrQ4LKcZ+GKP5SaO3VjFYCmljrmH6AfZWccpFDtmCtNfrdPm7mPs
+	y4KaCldihKnLxKrccLdvn9dRcj2yIzJUCoUAgq4c2VAAZwBqHbq49TxRAg0vo9Q8rWDVmDAvS1GYm
+	9TAWMFQFYzZ/e/mtZNAnThAS4lu2g6BMirzitO5ItyIEr8XkzcaGF4jYGgtJDCV/itEvyRHzncwMa
+	n8Da47kw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine2.igalia.com with esmtps 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1x4M72-00HA6O-2e; Wed, 09 Sep 2026 19:29:32 +0200
+Received: from webmail.service.igalia.com ([192.168.21.45])
+	by mail.igalia.com with esmtp (Exim)
+	id 1x4M71-008Hsn-5l; Wed, 09 Sep 2026 19:29:31 +0200
+Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
+	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
+	(envelope-from <mfo@igalia.com>)
+	id 1x4M71-00000007Q64-0Tnk;
+	Wed, 09 Sep 2026 19:29:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] proc/task_mmu: read proc/pid/smaps_rollup under
- per-vma lock
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
- willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20260907063918.3432401-1-surenb@google.com>
- <20260907063918.3432401-5-surenb@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260907063918.3432401-5-surenb@google.com>
-Content-Type: text/plain; charset=UTF-8
+Date: Wed, 09 Sep 2026 14:29:30 -0300
+From: Mauricio Faria de Oliveira <mfo@igalia.com>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ kernel-dev@igalia.com, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, fsverity@lists.linux.dev,
+ keyrings@vger.kernel.org, bpf@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
+ lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, linux-sctp@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+ bridge@lists.linux.dev, mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH RFC v3 00/13] sysctl: add module aliases
+In-Reply-To: <rywhz6soawf5dzyui5g7dnbufsgpxr7ma7honuhejwgncemzrm@f32at7hl6ugm>
+References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
+ <bpnqwggtidgiec5akns3fa5edbsvl7xf55dxabtwng2xspy4pn@ue554aii2ngk>
+ <53155340c897560bfc67e61ba9568fd6@igalia.com>
+ <mokz5pdtwswkyab4byfq7q7m6ac2g6ceoi6jflyxmaszaibzqa@su6m4kamtdpy>
+ <b1a6cec17e7c828fcebe310ca2a0d25b@igalia.com>
+ <rywhz6soawf5dzyui5g7dnbufsgpxr7ma7honuhejwgncemzrm@f32at7hl6ugm>
+Message-ID: <6e93af907298022f077126f1be7bd386@igalia.com>
+X-Sender: mfo@igalia.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Spam-Report: NO, Score=-2.1, Tests=ALL_TRUSTED=-3,BAYES_50=0.8,KAM_DMARC_NONE=0.125,KAM_DMARC_STATUS=0.005
+X-Spam-Score: -20
+X-Spam-Bar: --
 
+On 2026-09-09 11:07, Joel Granados wrote:
+> On Fri, Sep 04, 2026 at 02:45:23PM -0300, Mauricio Faria de Oliveira wrote:
+>> On 2026-09-04 10:41, Joel Granados wrote:
+>> > On Thu, Aug 20, 2026 at 06:22:13PM -0300, Mauricio Faria de Oliveira wrote:
+>> >> On 2026-08-20 09:51, Joel Granados wrote:
+>> >> > On Wed, Aug 19, 2026 at 03:16:13PM -0300, Mauricio Faria de Oliveira wrote:
+>> >> >> This series adds 'sysctl:' aliases to modules that register sysctl tables; e.g.:
+> <... snip ...>
+>> > use the correct call moving forward?
+>> 
+>> This scheme currently covers all modules, AFAIK, as it is wrapped in the
+>> functions that register sysctl tables.
+>> 
+>> On moving forward: usage of such functions in a way that breaks a
+>> requirement of this series (e.g., failing to specify the template
+>> table/path parameter(s), or not having constant initializers) hits a
+>> build error, as the requirements are actually from the compiler.
+>> 
+>> >> I guess that a different design could use MODULE_SYSCTL_TABLE() as
+>> >> MODULE_DEVICE_TABLE(), declared per table instead of wrapped into
+>> >> register sysctl functions.
+>> >> However, it seems to require moving the value of the path argument (or
+>> >> its template) into the macro and still referencing it in the function
+>> >> (or its instantiation of the template), which adds obfuscation, to all
+>> >> callers. 
+>> >> 
+>> >> What do you think?
+>> > It might be that having it inside the module subsys is more work, but I
+>> > believe that there is the right place to have it. I still don't see that
+>> > adding a module specific arg to the sysctl register is a good thing.
+>> 
+>> Ok, cool. I can work on a different design.
+>> 
+>> Please just let me know whether you are OK with the remaining (above),
+>> and I'll be happy to tackle this.
+> 
+> What is "the remaining"?
 
-> -	vma_start = vma->vm_start;
-> -	do {
-> -		smap_gather_stats(priv, vma, &mss, vma->vm_start);
-> -		last_vma_end = vma->vm_end;
-> +	if (!IS_ERR(vma) && vma != get_gate_vma(lock_ctx->mm))
-> +		vma_start = vma->vm_start;
-> +
-> +	while (vma) {
-> +		if (IS_ERR(vma)) {
-> +			ret = PTR_ERR(vma);
-> +			goto out_unlock;
-> +		}
-> +
+I meant the rest of the email, addressing the points/questions you
+raised.
 
-Can we add a comment whey we break (and not e.g., continue) whenw e hit the gate
-VMA?
+cheers,
 
-(I seriously don't kmow ... should I know? :) )
-
-> +		if (vma == get_gate_vma(lock_ctx->mm))
-> +			break;
->  
->  		/*
-> -		 * Release mmap_lock temporarily if someone wants to
-> -		 * access it for write request.
-> +		 * If after retaking the lock, already reported VMA grew or
-> +		 * merged with the next one, smap_gather_stats() will gather
-> +		 * stats for the remaining portion by starting at last_vma_end.
->  		 */
-> -		if (mmap_lock_is_contended(mm)) {
-> -			vma_iter_invalidate(&vmi);
-> -			unlock_ctx_mm(&priv->lock_ctx);
-> -			ret = lock_ctx_mm(&priv->lock_ctx);
-> -			if (ret) {
-> -				release_task_mempolicy(priv);
-> -				goto out_put_mm;
-> -			}
-> +		smap_gather_stats(priv, vma, &mss, last_vma_end);
-> +		last_vma_end = vma->vm_end;
-
-I skimmed over the remaining bits, hoping the VMA lock experts will review in
-detail :)
+> 
+> Best
 
 -- 
-Cheers,
-
-David
+Mauricio
