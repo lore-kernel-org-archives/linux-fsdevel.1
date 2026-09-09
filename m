@@ -1,111 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic.asd.mail.yahoo.com (sonic-euwe4-0022.asd.mail.yahoo.com [34.2.86.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B5B569F1A;
-	Wed,  9 Sep 2026 13:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD29572673
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 13:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.86.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788960949; cv=none; b=YPuWlaCw/d9U8LKbQ/LwGbkJrYlNkwtzFuBh7WnNCWGodY08sv64M4AWy7zaQKb2PzFDeu0pbFPtrD8hPhkP3b+nsQkaMW0pxBOv4Q+OiMzag8j9jF0GoioTEUAQwFAJvUZ7FhnhvfcJsrwMxXocqwbkd88cQrNVEfREjuaJldw=
+	t=1788961182; cv=none; b=jzgG02UyQ/9Wr0S1qMdTw5MtaDd7TrddaoxdWXcpyTSssJ9ePQz/W+sP38nAnMGZUgK+G16iUElIG5wxHld7htZQl8DOUtMfhrK1WsTIxYgAnd3qEykQO1nFXEq45HTxfnm2ZXrx3uP4KSQCqCuY4obo1R1kEslqlIdP+rOSaeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788960949; c=relaxed/simple;
-	bh=I1xFmYSCNfoZRtg/iuz9b+jqWmT7TApM4OSDy8PLZHc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rNJD++V3z5HCIr4PV43moSANkPQGRRP5D/yJetylDPGhfCCikIEv/MDwikke2PJQyytONUKaHv72fcV00p0wpkXZN6t6BiQNtPku4lwcXBbp2v2zhTow5kTyVeHLVu/r1ltbd9XXAcsanzZQE+ajB9xCY2WQ3+XMiYTDGS0Du10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lUP10OIi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788961182; c=relaxed/simple;
+	bh=nz7BXI2m4OUMBVlwQw5x52ctOEKxWUoEVX5S140EVnk=;
+	h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To:
+	 References; b=WEgxYzAjIPY/+CZeFfGw/A1IQPtxrqxvlf+0R3krASx7ZwJKL5gVKTMS1uMW6SleovTSQg+LenpH5uPeaARNmoiatZR7UKS6qKL1I9sMdtV98sfkydAWlk+pGMcSbyK5OiNJqJG3KjZlZPYit0t/ul7Ivr9AN5QTXOc2l7GApgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=IFvxtIX4; arc=none smtp.client-ip=34.2.86.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lUP10OIi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72CCA1F00A3E;
-	Wed,  9 Sep 2026 13:35:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788960947;
-	bh=ppqQV4pamAYsPTCmhaUztf71g95EkhNaJEiPUVBmZoE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=lUP10OIiiOD0g1gKYxyCH57GeQCpOQLzLHyLszIH5wxx2hl1OGsyMlnlJy4o9hb9H
-	 vTrOvVYAthk4gvleTtWAJw71P7fv0FXFCCXGNP8cBs9MBdObgrQ6MjlpBPLC/UPW2S
-	 QX2T0FYx/bn46HOQjzuDWhc0YGbY/YL3k6D79wQHbNZbT7G+N1LGVnZ0OOvHnEvvGJ
-	 9uRqg2cqO1vXaitIqGjFXRGf4ybQTmrIYuUF7g3DZjX671eT1b/hS56i9xzP6RED0F
-	 u00fsWfWEkfTtbOja82QX9Qf+O/BwWhl6H6FvG+Jtl303l8DvzaWXdGCMUBbR5IwyX
-	 Hw6rkhYHu33YA==
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Wed, 09 Sep 2026 15:33:05 +0200
-Subject: [PATCH 12/12] mm/memory_hotplug: drop CONFIG_HAVE_ARCH_PFN_VALID
- handling from pfn_to_online_page()
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="IFvxtIX4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788961179; bh=5kN0UmcpYYHx1crM6iPhg7hzqy9R/0GOIEVvaTQWXD8=; h=From:Date:Subject:To:References:From:Subject:Reply-To; b=IFvxtIX4UNGrVqb2cAMTxSxGDKeJEzNNL7bpCKev3MFCnJg9iv5LOYC6yjcUJT6tQqyujca2xmN+p5x0WzC/qDVCzZTCXB0n8VBI4rY/eTpXV9MfI+pKrjsYa9fwwUJbMKmYWHrTCvZ56pOmQic4h1Qk9LiBnml39byXCEgXnBttZRnge0ApQEMM1UCtGyJQwVr/TpOuoJWKeRE8ygqFSEXSc2od+YrDhw7K1sxP0xEm9ncFifC6B2bYj+LXo1L1m1YklTphy6q0sd2hZHh1vq7O2LNBuxOb9/B0ggkmDsmKA4Oh/wo7IrfmSfXxceEQeKbhJqyfRdjtqQjUVN+u2w==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788961179; bh=4xr0iCuCouMr9SjuUvW0CYDYN+yXzkP3vNiBTInRNiD=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=fJXHF1+fbBIraTqRrL+oMelGYl5OkWy957FegVeZVIYpVPpKkKd1/ThsPINSitHur9Xie1pcVDJenyUMDHYwPcKi2t6crVB/rn/WUV04+PPwFdl5vp3N+PGUOvEX3js2YqJIcZDZ0ysVLo6oVs7wsRmdKrUFYvECCRK5/TXTIVLOw7EKLrs9tAC8w0cy9saffqQKyWgDQqsgODKGbmaB0NgtKnvxTvAPK8W5YEaDJTRlKin2UOMn353Qb9roF4+c/Z6YhQLIGowFqd/+4EXHp75tRf0rPM213/zFagKvhBagrzHAg7a+CD2aC1aqwxf1BCjYOHrf/lOCvUB9p6TXyA==
+X-YMail-OSG: Cy3xC8sVM1kjuPdz42iL.fNvhgiuGEX.ZXOgmnXNTq.ERJpIw0afJjb_hDO6hcg
+ RIEawo5SZWVB0N6P4i7UfkcqviEoyl0vt_fr5hvvO9TxbUgU_wwkU7x1svSX.33XSRfIjTsd6BBF
+ ogumpih21ootyIVr.oghhX75kFUWV_dHUXhgTVgtfLhxjf0HaFgILTIwBa0XFLFOXg5drQpu7hS3
+ elA1OeME57EEsPmStzsA.JyPwkTjBklSUur36S5Rr6qhlnKz7IeaDB9YJUT0w7aNRQepuA6NxKQL
+ b2j032cNdzTTLkP.e3o.PFapB215RbRhQVnGwqSBbsiYJlICG1fDPFGeE0edGDRLDOiwiYq4cyPR
+ H8wljhqWBji3cyZh7_ht8lICwMkIhMY_pyLQke5aeq9t4j_QDu1SDcn_zwTHjo0mbuvXw2jyTNyT
+ 4HliEiyKCdKUhAGu4V_C34xqav2i9jQt6v5r_PC4uCqsbYg5UqkEl1l3htoMzg.KGwK_tt_7wA.8
+ Sxmn.NHXZNl03wimbf9w2pW.oWjvbXZ_5NuThvfc08RzLYjryVIaDp6ZGX74gree131pNNA23KFm
+ zg_J4OoZ0yukmpxHqAZ4L6B6vRclP7blgOHNMAnHutcrg6gWgkso_cPado6FcNv.vOs9Z2EbrVX4
+ 0Cw7Zn2qurDrtBhUX7DYAEy23WYGYPbn.1WzzGz2DavI3k72I1H9wbGDe.7ocOf9y1yhvCldH719
+ 3rQfKU.k_CHqcN7JGpZz3cv6Jl_lZyGegYUAJfMeHPzTvJdRDo_9dtaO_wKJIraBeoGz1UP41ZKe
+ cKKWbkJq15cJtkQlZxmKhg4fYis7O2.O5jtqziUL6QPOzZHB3Ga8c0SKj2NaPHe24d3Twpk2OCbG
+ gTCIhij585PZqwhAVua0eonEaJcdkc60gRqKdMDKq7tQNEHYaRhegtsVMFOL7Pk3wFBsaw9RlfR5
+ qgxsYOBBviQhOM6rCNpKFnyFF4V1enuUils9jAQawmsQZ8Z3SvPZoB8RXdWdFT0B_aHPHGmwDH7E
+ MZFK0HOszLADSeTpZia6JQhBktQJ3Sa.Iadn6rMpC0XQVmGMjEz0Cg67pi5pOo57l8PpjEVc80SM
+ cZVFtwWD_a1ByG2p.vWGN8bPd.VaO919DlTZiY3yxmZGonfQX7o3k4sXY501wTnosMXuNnkIfGpt
+ Uc_S_yHa.v5qHDajDJfP5aszE3iR0XIf5bDa7SdC7GuzDDLNDyyRWOzptcDdURc9D.7A0q7h_N2.
+ DCm1NsNs.AA66yH7FBYWIu93Mvwl7z.W7l2VAlgNCybA6tAssaTGYBXcE60lokK8Kcvn83fP82qJ
+ MtVR9dMejqmOoEoCbaJB3Nhya13cInOHq4WVmTJxUiehTbqKS9C4uTtcXq80NBsdyNM64H3jlG7w
+ ZkVQafMV6PSBt_8Zh5sojgv0.AENee_jTaqgKkyumGvC4IQpRfMNgg2BftilHlFwvl.4Npdpqbk0
+ l5IVrvT1p8oRBiaosMcbfaQvTueX09nvRsjUIZ8Cwgn64Lr4TRVOYjt9wq_C5hQuu0I.O0pUET.g
+ DLDmHqhfnKfhTKNliSnsOyKAzudyxjFvClpKD1AKMP9tgSxt99F.KhzoYwGm9D_VPsp8B7CIQQ3D
+ H8vg4Tbb56ZnVIVmTuhF.rKqvRWJwkLx5scdJl_i1wMZH2O3AxunqEFwDuKT.PzArHwcK2I3jvry
+ v3TpfBVb9D4v1mb7XNKxZ4F1P1m0SF7vBG6EQ_mNbWzPLgSRw6YrbDU.Uliy7eq9FzbRmo9vpsvg
+ 9U_yQ8wK1w7jrltRTcI8xw.3WalyqRAc.8W.eF260SjBm24uyh6qXlkk7ZvP5yL1gNFoudwCI0QE
+ cBwA50940HWZvO1jDQWBHJmj0JGpwvrI.krqubFMY7LOAwnOGDgSPSRANGykoCM8s2Tib_01A.v1
+ n83pvR_W2Md5NTmh8BYR_UlgTO3cxhDv2af.sCulyeOpHpoTyQhUiDZlVUEDXHMhaAhGlKEZyUEK
+ 9PVO8NGlYAYZX88bJLJGCPk9WnzTT
+X-Sonic-MF: <bilginaksoy2003@yahoo.com>
+X-Sonic-ID: 80cec75f-7bce-49db-a6e3-0d50cd51c96c
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe4-prod-sonicconsumer-svc-102 with HTTP; Wed, 9 Sep 2026 13:39:39 +0000
+Received: from dip8.lsn.ir2.yahoo.com ([87.248.99.17])
+          by hello (SMTP) with SMTP ID af061a0f37413227cd8ad28404ec07f0
+          for <linux-fsdevel@vger.kernel.org>;
+          Wed, 09 Sep 2026 13:39:34 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+From: Bilgin Aksoy <bilginaksoy2003@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260909-b4-sparsemem_cleanups-v1-12-008fc8d579fe@kernel.org>
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
-In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Brendan Jackman <brendan.jackman@linux.dev>, 
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
- Oscar Salvador <osalvador@suse.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-cxl@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-fsdevel@vger.kernel.org, "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=david@kernel.org;
- h=from:subject:message-id; bh=I1xFmYSCNfoZRtg/iuz9b+jqWmT7TApM4OSDy8PLZHc=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIWJpgJMyzyvB65vL27f85kbXdLt6gbDzY/Yp6Yf8VM0
- q7DdL5oRykLgxgHg6yYIktQ8H2Dly/X1Va78THDzGFlAhnCwMUpABP52MPIMCEkOfOdVfQq5xUS
- 2W+mcbQLni1POiPosUizLu1HR5/6BIafjB+i52zNM5h+yPuoQ0/ve5nj2ncf8i+0Xq1Tdfdeq8B
- DNgA=
-X-Developer-Key: i=david@kernel.org; a=openpgp;
- fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
+Mime-Version: 1.0 (1.0)
+Date: Wed, 9 Sep 2026 15:39:23 +0200
+Subject: Unsubscribe 
+Message-Id: <C38B6A04-9ACF-439A-BEE1-B6F6AC21181F@yahoo.com>
+To: linux-fsdevel@vger.kernel.org
+X-Mailer: iPhone Mail (23G83)
+References: <C38B6A04-9ACF-439A-BEE1-B6F6AC21181F.ref@yahoo.com>
 
-Drop CONFIG_HAVE_ARCH_PFN_VALID handling, as CONFIG_HAVE_ARCH_PFN_VALID
-is never used with CONFIG_MEMORY_HOTPLUG, as the latter depends on
-CONFIG_SPARSEMEM_VMEMMAP. Make sure it stays that way.
-
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
----
- mm/memory_hotplug.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
-
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index b428da66d279c..58ce35cb48f57 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -344,6 +344,8 @@ struct page *pfn_to_online_page(unsigned long pfn)
- 	struct dev_pagemap *pgmap;
- 	struct mem_section *ms;
- 
-+	BUILD_BUG_ON(IS_ENABLED(CONFIG_HAVE_ARCH_PFN_VALID));
-+
- 	if (nr >= NR_MEM_SECTIONS)
- 		return NULL;
- 
-@@ -351,13 +353,6 @@ struct page *pfn_to_online_page(unsigned long pfn)
- 	if (!online_section(ms))
- 		return NULL;
- 
--	/*
--	 * Save some code text when online_section() +
--	 * pfn_section_valid() are sufficient.
--	 */
--	if (IS_ENABLED(CONFIG_HAVE_ARCH_PFN_VALID) && !pfn_valid(pfn))
--		return NULL;
--
- 	if (!pfn_section_valid(ms, pfn))
- 		return NULL;
- 
-
--- 
-2.43.0
-
+Unsubscribe 
+Bilgin Aksoy
