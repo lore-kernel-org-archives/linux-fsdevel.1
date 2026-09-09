@@ -1,102 +1,107 @@
-Received: from mta1.migadu.com (out-17.mta1.migadu.com [95.215.58.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E1259B69A
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 21:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E15B3B38BC;
+	Wed,  9 Sep 2026 21:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788988785; cv=none; b=fjUlC1Ydxx4O7wVSZBv1aiEUaHlSLWtGhwWoJb9atnfJ2gkRAHop76+sbrpKDdL2oI3+fmMtkeCUOhJ0pO0qtcfrkLzTJRnSVczZmShARW7Ew4vHjaJt6kP8KKFVVFnIioZF41B9A3oQ5cvrrvC2ZMV6gwMhqysM3aIVqTbUFhA=
+	t=1788990414; cv=none; b=XWhDCqXpz/0q7tlvf7tVUEo1njuMrLRxAWrob9snTyzSALG7/PHvc1CRSX6M2J2CdAE6fq21snvoMpxTVef5hfIHhDQE49YTMxJljLi/ZPUJX+mUVzJcvkVzi4JT0em0rwDSA/ZFoafVkl4p/SNZHV5bf7SxUO9ASnI9mIlyQQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788988785; c=relaxed/simple;
-	bh=XRX7D5+qIu+nyobBVV27AMpjipKGZgLW7iTQSvfvVK8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=EOXPEZ3y6BAdkEJ2SfypsAA8sWQO5V82DU4jsa+rYrpahiXROGc53EdSm4kiMm322MWeEvCmjK3pgEFTe5EcQhkPsov3Fzt4ty9Opta45fPaE/sCp0CHNTEacbSdQUZTfJ1feH8FBZlhBOiIyNo4EkZ3F31gyy1w7WwgEDav1hE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pxaL5xD9; arc=none smtp.client-ip=95.215.58.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788990414; c=relaxed/simple;
+	bh=ZHl08cqEOBKSJmhhtJEkeOTc5gq+R7I+L0XkKJK3IUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MheYwmTWHWy2a60SdmsoBgOF5fceKXjHYtpbCSNfCtjtxZw3PO//AMPjFGjBCV60m75e9kYYx0BvG4zN4xLOzZSNcfVxUuNboznLDJBn7+MTcGsCJBp5d3iR7mk88idExFSThpbagmtVXR2mPzALcXi6XFD0vRIgDfqIBbjltHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Bfg77qhx; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pxaL5xD9"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=XRX7D5+qIu+nyobBVV27AMpjipKGZgLW7iTQSvfvVK8=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788988777; v=1; x=1789593577;
- b=pxaL5xD9gMBAgNYTB82yeEaVP3wKhFUtns/5HVPHNdEvFLHlO5THESLYSBze5Yd8MMa5FPsc
- u5Rj8X+2DudVrnoboNOMTdLIVUDTRDO9oIvaA2tnZg5KwLf14XfxGdqkL8wtUR0qVWTsouFfLXw
- EJmbTkI3Z2LYRSIrw3+dbnOU=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id 809fffd4d1b542f4;
-	Wed, 09 Sep 2026 21:19:37 +0000
-X-Mizu-Trace-ID: 809fffd4d1b542f4
-X-Migadu-Flow: FLOW_OUT
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
- <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,  Tejun Heo
- <tj@kernel.org>,  "Matthew Wilcox (Oracle)" <willy@infradead.org>,  Andrew
- Morton <akpm@linux-foundation.org>,  Dennis Zhou <dennis@kernel.org>,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  stable@vger.kernel.org
-Subject: Re: [PATCH] writeback: bound cleanup_offline_cgwb() rescans by
- rotating b_attached
-In-Reply-To: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com> (Patrick
-	Lu's message of "Wed, 09 Sep 2026 18:50:27 +0000")
-References: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com>
-User-Agent: mu4e 1.12.15; emacs 30.2
-Date: Wed, 09 Sep 2026 21:19:32 +0000
-Message-ID: <7ia4fqzijf6j.fsf@castle.c.googlers.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bfg77qhx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=f6WNUc7+ccLtCGhgxedehU0mIM9y5RDc0/iE/jkmqtI=; b=Bfg77qhxtGC5hNL12v7G11D26v
+	PcgN347bttFKmlJs3saw2LMy5Dm9HZ05mQKT4Vs6Ewcvz/Ja6XyCuqW7bnmza0oHiIiUquT49JFek
+	UNZgChWp72DD5/QTWqEPXZg4k5HYipU+4t6dPPCfT61eCUjWZFeXAz8nBGnuzKRKqxgV9bq8rKVnl
+	SYZnDvMQXYlvoeSqpnTB9MCP5IJX1mfyOWWn64+h0dEMVcs2OUCEUS2ozbF65MZw5fMy4NWQPCTds
+	VIBdAjzRtxCqZHgpDwoJARhg2Nwetd3qJ2h0mCP5IVnKGjlksK8muVBthSusdvJBPwpXSeWHmYSof
+	c3f14PAA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1x4Q7m-00000001iSF-2woe;
+	Wed, 09 Sep 2026 21:46:34 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 2D25F300A9A; Wed, 09 Sep 2026 23:46:33 +0200 (CEST)
+Date: Wed, 9 Sep 2026 23:46:33 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ye Liu <ye.liu@linux.dev>, Thomas Gleixner <tglx@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>, Ye Liu <liuye@kylinos.cn>,
+	Michal Hocko <mhocko@suse.com>, mic@digikod.net, oleg@redhat.com,
+	david@kernel.org, linmiaohe@huawei.com, nao.horiguchi@gmail.com,
+	gnoack3000@gmail.com, ljs@kernel.org, sj@kernel.org,
+	rientjes@google.com, shakeel.butt@linux.dev, xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev, tony.luck@intel.com,
+	reinette.chatre@intel.com, x86@kernel.org, paul@paul-moore.com,
+	jmorris@namei.org, serge@hallyn.com, pavel@kernel.org,
+	lance.yang@linux.dev, pmladek@suse.com, longman@redhat.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, dietmar.eggemann@arm.com, bsegall@google.com,
+	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
+	mark.rutland@arm.com, Dave.Martin@arm.com, james.morse@arm.com,
+	babu.moger@amd.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 5/8] kernel: convert process/thread iterators to
+ for_each_*_rculock
+Message-ID: <20260909214633.GN776954@noisy.programming.kicks-ass.net>
+References: <20260907081334.1152889-1-ye.liu@linux.dev>
+ <20260907081334.1152889-6-ye.liu@linux.dev>
+ <20260908074228.GW4120091@noisy.programming.kicks-ass.net>
+ <20260909120911.39032d13@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909120911.39032d13@gandalf.local.home>
 
-"Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com> writes:
+On Wed, Sep 09, 2026 at 12:09:11PM -0400, Steven Rostedt wrote:
+> On Tue, 8 Sep 2026 09:42:28 +0200
+> Peter Zijlstra <peterz@infradead.org> wrote:
+> 
+> > >  kernel/cpu.c             |  4 +---
+> > >  kernel/freezer.c         |  4 +---
+> > >  kernel/hung_task.c       | 11 ++++-------
+> > >  kernel/locking/lockdep.c |  4 +---
+> > >  kernel/rcu/update.c      |  4 +---
+> > >  kernel/sched/core.c      |  3 +--
+> > >  kernel/sched/debug.c     |  4 +---
+> > >  kernel/trace/fgraph.c    |  8 ++------
+> > >  kernel/unwind/deferred.c |  3 +--
+> > >  9 files changed, 13 insertions(+), 32 deletions(-)  
+> > 
+> > This is not something that can be applied.
+> 
+> I believe you mean to break it up into individual subsystems. kernel/ is
+> not its own subsystem, it contains many different ones.
 
-> cleanup_offline_cgwb() prepares at most WB_MAX_INODES_PER_ISW inodes
-> per call and is called again until the dying wb is drained, but every
-> call walks wb->b_attached from the head. Inodes already prepared (they
-> stay on the list with I_WB_SWITCH set until the switch worker runs) and
-> inodes that cannot be switched (I_FREEING, I_WILL_FREE, !SB_ACTIVE,
-> DAX, already on the target wb) stay at the head, so each pass rescans a
-> growing prefix under wb->list_lock and a full drain is quadratic in the
-> number of attached inodes. With ~17M inodes attached to one dying cgwb
-> we have seen this end in soft lockups, with CPUs reported stuck for
-> 21-48s.
->
-> Move every scanned inode to the tail of b_attached, so the next pass
-> starts where the previous one stopped and the drain becomes linear.
-> b_attached is unordered and isw_prepare_wbs_switch() is its only
-> walker, so nobody else sees the reorder. b_dirty_time is ordered by
-> expiry for move_expired_inodes() and keeps its current scan.
->
-> Fixes: c22d70a162d3 ("writeback, cgroup: release dying cgwbs by switching attached inodes")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Patrick Lu (Anthropic) <perf.patrick.lu@gmail.com>
-> ---
-> Seen in production on a 6.18-based kernel: with ~17M inodes attached
-> to one dying cgwb, a node spent 36 minutes in back-to-back
-> wb->list_lock holds by the cleanup scanner (~6ms each, ~46% of wall
-> time, starving writeback on that wb); with this patch the same workload
-> drains in ~30 seconds. Also seen on stock Amazon Linux 2023 6.12.68 as
-> isw workers spinning on the list_lock in inode_switch_wbs_work_fn()
-> while cleanup_offline_cgwbs_workfn() runs.
->
-> Tested with a QEMU A/B setup at 100k attached inodes and patched vs
-> unpatched on production-class hardware at ~17M attached inodes.
->
-> Josef Bacik's patch making the drain loop report a Tasks-RCU quiescent
-> state [1] fixes BPF/ftrace detach stalls behind the same drain; this
-> patch bounds the walk itself. The two are independent.
->
-> [1] https://lore.kernel.org/linux-mm/20260909-cgwb-tasks-rcu-qs-v1-1-967a7754771f@toxicpanda.com/
-> ---
->  fs/fs-writeback.c | 39 ++++++++++++++++++++++++++++-----------
->  1 file changed, 28 insertions(+), 11 deletions(-)
-
-Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
-
-Thanks
+Just so.
