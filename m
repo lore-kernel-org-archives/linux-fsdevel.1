@@ -1,84 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE5E48167B;
-	Wed,  9 Sep 2026 08:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9128C476690
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 08:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788941085; cv=none; b=iROoQkSg1gsMNFBJEWHxsB1WjtzJ/x9Tm3e+4up1rLjqbI6q4kFNg2NFCaogUXx/+Fd7VngjaBPV7B2D0kd6bXVpcrZ6aSxaPZkA1PPFm0Ss3J7eH+3PjKj84N7FJNki6JATizMn/HpzTVXhGl1kQJpEeRKW+xH+nM/rrX/muMM=
+	t=1788941205; cv=none; b=Y3BKUcTEZ80dFm8BI05f5Cn1L5mc6FCGCE7u4qzPkgtFtAX0KXDzV/2iiN0EtAKpyT1vsh9g7swo5MlHkkifrR/M53ZdL68WQ3eR5NuJMPJbbdyAPpOvR4n6Z7s3b52uNCKWBQK5TRxuohe8jR3R2KtV7uL+culKcJ23Zp7bMRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788941085; c=relaxed/simple;
-	bh=a5yCGqaS/DMTpDVyJ72faZ7aBJHc3LDP4cXflNP1Q3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HrXlqtU87g3+QsJ0Acwekoe8W9zyiicroMLdVIlxqm4/4J9CquzP9TRYaCljPsMc0fZO1lxbJjRks/qFhvH31RB5dvJulMmWR33nSUxoEbNQjG/0VQ3IF97VuNasQ7mysjzN66bmV0mtzw0+qJ4OZTmqXoT0+3aqZzCNTJFff5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i01kD9A2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788941205; c=relaxed/simple;
+	bh=N9z1K2SBrT9/svi51BfJs09jC4ZMQFUjvTpV6sRzPL0=;
+	h=From:To:Cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=Jvch+LpWYIB3/ihEpopt7vuBfSRE1eO2NDitv2d2COAoF/udbYqQXTd8MydantijEHzeoG0j978JjWRTYq2W1AvreKuNToJ0vwkSeCGWzoZ3dE3hQctm88MA3ftq7NRIjuRLqp+HbuQQQ9PcGCugPHKfbsjzbf1gj6kAxJOqs+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ajePZg1E; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i01kD9A2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D1C91F00A3A;
-	Wed,  9 Sep 2026 08:04:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788941084;
-	bh=R02bc+J6KL2MRGiL/2wGzw0MT4aaXMJzfoQvrhoWDas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=i01kD9A2yOS+6RP5UUHTWnW1K9RMKV1PXoSwbor2lElBjluKk7Bk3pBFQr2Y4m4Lc
-	 mA93qPGQMDYu9uaSn1nrACYsP6wWbIzs6qGoeh5/QWSguQHjzobH4/ziE6hQ4FQc2F
-	 TIvt6f6o9+RMDbd42CaVprlp7sx7V/NlY/C/WXCBmavBTV6ueJTAgWk9vrAaegW9+G
-	 01/FKfScc4LhMnu+BBzsF3zBp62jXmcjtZi2d+D4uNuEkFUj+1VQSDyjIZpKwoo+Pr
-	 dwp6qKi1VfAPoO6cfRioA0dJu6i8g7vaH/iuHO92FpCMpIubBWts6o0rgSuVqFafjQ
-	 qoh04ZLAGZmOg==
-Date: Wed, 9 Sep 2026 10:04:37 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: Norbert Szetei <norbert@doyensec.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org
-Subject: Re: [PATCH] nstree: check listing permission before taking a
- namespace reference
-Message-ID: <20260909-hergab-abkassieren-besten-0d6e314eedd7@brauner>
-References: <F8EF9799-CDCE-435F-97E2-13B6CC92EC6D@mainlining.org>
- <A0ABE170-488A-49CD-8A6C-4D9EB94A18A8@doyensec.com>
- <F86352E4-FECE-49F6-98B7-8B5DBE49FE0E@mainlining.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ajePZg1E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788941201;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=RPfNlsD27FEZu3u7e8EknywRWsoD80LV38mFdatAh9w=;
+	b=ajePZg1EloDNe3dnuxS3c2jQIKLDx7g7kbHTOUM1f6ulaMzhl7vFCB4ZqP4mfNnzZHF+es
+	v7pkO795xeS+dp0MkpQu0XgOy6MYxhIpcQT+2pZ/9S6bBtuLz+ElTsyDT3SrPWFQAnmdVr
+	sFvORQS7kCcUQYl4+txap/9WJxechQc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-179-YDBOeEJyPCSEDI1t1kGT9w-1; Wed,
+ 09 Sep 2026 04:06:38 -0400
+X-MC-Unique: YDBOeEJyPCSEDI1t1kGT9w-1
+X-Mimecast-MFC-AGG-ID: YDBOeEJyPCSEDI1t1kGT9w_1788941196
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F15E418005A4;
+	Wed,  9 Sep 2026 08:06:35 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.32.158])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6F77940E;
+	Wed,  9 Sep 2026 08:06:32 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: dhowells@redhat.com, Keith Busch <kbusch@kernel.org>,
+    Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+    Alexander Viro <viro@zeniv.linux.org.uk>,
+    Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev,
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: [PATCH v4] block: Fix start and length check added to iov_iter_extract_bvecs()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <F86352E4-FECE-49F6-98B7-8B5DBE49FE0E@mainlining.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1667274.1788941191.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 09 Sep 2026 09:06:31 +0100
+Message-ID: <1667275.1788941191@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-On Sun, Sep 06, 2026 at 07:26:30PM +0100, Bradley Morgan wrote:
-> On 6 September 2026 19:25:22 BST, Norbert Szetei <norbert@doyensec.com>
-> wrote:
-> >On Sep 6, 2026, at 13:52, Bradley Morgan <brads@mainlining.org> wrote:
-> >> 
-> >> On 4 September 2026 15:28:05 BST, Norbert Szetei <norbert@doyensec.com>
-> >> wrote:
-> >>> legitimize_ns() takes a reference on the candidate namespace before
-> >>> may_list_ns() has decided whether the caller may see it. The
-> >>> __free(ns_put) cleanup on the denied path can drop the last reference
-> >to a
-> >>> mount namespace while we still hold the rcu read lock, and put_mnt_ns()
-> >>> may sleep there. This is the same problem commit 2ec2aff3c8e2 ("ns:
-> >make
-> >>> sure reference are dropped outside of rcu lock") fixed for the
-> >put_user()
-> >>> path. Neither ns_requested() nor may_list_ns() needs a reference, both
-> >>> only look at the namespace type and at the caller's own namespaces, so
-> >do
-> >>> the checks first and take the reference last.
-> >>> 
-> >> 
-> >> Great catch!
-> >> 
-> >>> Fixes: 76b6f5dfb3fd ("nstree: add listns()")
-> >>> Signed-off-by: Norbert Szetei <norbert@doyensec.com>
-> >>> ---
-> >>> A reproducer is available on request.
-> >> 
-> >> Please? Or a splat, or anything?
-> >
-> >Sure, both reproducer and splat below.
+Commit 14b007e17881 added an address check using iter_iov_addr() and a
+length check using iter_iov_len() to iov_iter_extract_bvecs(), but these
+cannot be used so and are unsafe in this circumstance as the functions hav=
+e
+hardwired assumptions about the iterator type.  They should only be used
+with ITER_UBUF or ITER_IOVEC-type iterators; they shouldn't be used with
+ITER_BVEC, ITER_KVEC, ITER_FOLIOQ, ITER_XARRAY or ITER_DISCARD iterators.
 
-The repro is available under the patch link in the commit. So no need to
-dump all of this in there.
+This proves to be a problem for cachefiles as an iterator of type
+ITER_FOLIOQ is passed and iter_iov_addr() and iter_iov_len() both
+malfunction because iter->__iov in iter_iov() is not pointing to an iovec
+array.
+
+Fix this by using iov_iter_alignment() instead.
+
+Fixes: 14b007e17881 ("block: validate user space vectors during extraction=
+")
+Signed-off-by: David Howells <dhowells@redhat.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+cc: Hannes Reinecke <hare@kernel.org>
+cc: Christoph Hellwig <hch@infradead.org>
+cc: Jens Axboe <axboe@kernel.dk>
+cc: Alexander Viro <viro@zeniv.linux.org.uk>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: netfs@lists.linux.dev
+cc: linux-block@vger.kernel.org
+cc: linux-fsdevel@vger.kernel.org
+---
+ lib/iov_iter.c |   18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 6665372ecf71..2072c04e99d0 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1921,15 +1921,29 @@ ssize_t iov_iter_extract_bvecs(struct iov_iter *it=
+er, struct bio_vec *bv,
+ 		unsigned short max_vecs, unsigned mem_align_mask,
+ 		iov_iter_extraction_t extraction_flags)
+ {
+-	unsigned long start =3D (unsigned long)iter_iov_addr(iter);
+ 	unsigned short entries_left =3D max_vecs - *nr_vecs;
+ 	unsigned short nr_pages, i =3D 0;
+ 	size_t left, offset, len;
+ 	struct page **pages;
+ 	ssize_t size;
+ =
+
+-	if ((start | iter_iov_len(iter)) & mem_align_mask)
++	/*
++	 * DMA engines typically have both memory address and length alignment
++	 * requirements, so check these against the alignment mask.  For UBUF,
++	 * IOVEC and KVEC, only the current segment will be extracted from; for
++	 * everything else we might extract from multiple segments, so we need
++	 * to check those too.
++	 */
++	if (likely(iter_is_ubuf(iter) ||
++		   iter_is_iovec(iter) ||
++		   iov_iter_is_kvec(iter))) {
++		unsigned long start =3D (unsigned long)iter_iov_addr(iter);
++
++		if ((start | iter_iov_len(iter)) & mem_align_mask)
++			return -EINVAL;
++	} else if (iov_iter_alignment(iter) & mem_align_mask) {
+ 		return -EINVAL;
++	}
+ =
+
+ 	/*
+ 	 * Move page array up in the allocated memory for the bio vecs as far as
+
