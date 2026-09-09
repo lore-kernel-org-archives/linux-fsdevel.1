@@ -1,166 +1,119 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-lr2-f3.google.com (mail-lr2-f3.google.com [74.125.230.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990FE488205
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026064349AD
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:01:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788948092; cv=none; b=WHxp6FmeSmF94xxEa4dVV0tTNiekGXYtM5HlTf9RJGiqsmMtakQe45PtvVRDOhZUpTbC84sfw4O2tJtJOVj3BR087WAqjIVPzEfnjT0APQibHd8A3DW9bHJcVKzSeH1Gtq+idSdu1+OzBD98WbqFXosVogzAMX0yfGcimfqt3vU=
+	t=1788948104; cv=none; b=J9XAvyu9lmkKhD3rrc9xJWlMUxkuOUBXImQNYKn5iLKQOzvY5R0FcU0Uly9rp8JeEQNS4DRwD/iHl1Ri0jHVwDIxMJLmh/EsgHPomm+E8U2QvgUh8TAYZ6J6ygs0owKjeWNbneZplIs03KrI9ivWAXLgGaqJWbnCnr5N+Rn6qA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788948092; c=relaxed/simple;
-	bh=XRPintYB66K90WWvosFbfNFMrCSstXNSaa8RFhDin48=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=MBhz0Ha/2Etwo06+6Psw8rd6fjoh4t9X6ICKQ+v1/vR1z9+KiIaLySmkS5dd/X7BGRQD8rR1So8aC/0KO5CfpeqPrpXPE5d9AAWMFv2TFIcVVLbqU9dhBBLeNzzJ7Q8BTANU2OE5NPIP5V6BJIqLujj7PQfsAl1nqwv25hbqaIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=knKN5ddo; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1788948104; c=relaxed/simple;
+	bh=fr/14uzfnjifOkUIimLTDNDBT8O6btLUilsS+08g3YY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kHA6YT1YDtLx8ob3G/EOD9tgmMtsyWj8G+BI+KgQF3azuK6iQMw0m/MCCokPXA7ueSX1rUkwCUNHDqJ12UOvz8846rcMHJTDvKthI9JosEZ+/rq3fsmGvHDhABUAAlO48Hs2g3dIyjTEX2o35n53dV3k5LfoJU4kdPoLqWXGkBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gP3M0CG7; arc=none smtp.client-ip=74.125.230.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="knKN5ddo"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8565d77c277so73317117b3.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:01:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gP3M0CG7"
+Received: by mail-lr2-f3.google.com with SMTP id 38308e7fff4ca-3a4f7261b56so1394281fa.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:01:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788948089; x=1789552889; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uNBljcBd5pVR40/qSQbRzR+DUQkxJ6419XWxuVBt6mg=;
-        b=knKN5ddo70WoGAqNT1cXYO4RFeqwvEyrgjfzjOTWh0ZI7z0eldN3H9OZHWMzP8Acyc
-         tkz5Nq+NpL9Cl5yMr8vTo0h9DtLwMvjbjnDgVE8UFTKEmvfFzDvpIlPVvcrimFFtQsEo
-         9LMLjq2kA6FBn+PaMr1Wioy/GDYPYiJ+jn72tqftRAgcEk9VbaqC4hfgdzSPCARhEotX
-         w4SSP7FiMBXRm2/0SbJmABzHUA1B8TZXd/3bFMQTALw7vLkROtUu6a2BAfQX7j4rcz1J
-         dtvgs9uG01uy8plVKUXdLdoz0XvRykaSAj+NBOUpnmtxaC9UCWL3SAKZbwYtnXRJGMsw
-         df8A==
+        d=gmail.com; s=20251104; t=1788948101; x=1789552901; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+teM91VaABsA7Ow6jpFbUu2VedKMn5ZNdhX8m3+ru3M=;
+        b=gP3M0CG7C99Ifbv9DHfqpl8SDIswvqSe5sihjYKiXkIXBamRTya/cWkLUneOkxXOAt
+         2SnAhRjsA1vyE4cGgjGIyNbWCRNF7jqqFAzDwWjZwk8vDM54hA1wD2xikr3FS5dXeLI+
+         xKVn+RmOZ9aHLUJ2OZ0EKQyg0IcIoO5LULK2evbR0h0SN8pNbjd5MyGIXYyKCqQCpM6e
+         bx3pHDnGVhdwFKpx6jAOn8kQWSyCOll+W2r2O3VF6FzGuLXl9uhWxYqSPdzWUPJRzMSp
+         W/CpiBGO2GQdfpGNCvPMD9Hk1yWwvuiKPlpFwDnchq65TUwg4Hsok4bmGlt9EZAnOCAz
+         0q9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788948089; x=1789552889;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1788948101; x=1789552901;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=uNBljcBd5pVR40/qSQbRzR+DUQkxJ6419XWxuVBt6mg=;
-        b=OMtjApFX/HN51a52pLGFhgzWUNG/POTOItaNi9T4ItMF26ow37mxRIg2e/a0Qm0wK4
-         Vbbd3QaW7FnobYcUVmyxKiBF+uZKWTKYxTOYhljnBt4F6YUrFtWc4mBDkVnVojjCli7i
-         ihH6VTYpoW4CcTjesXuRlk83mNyWU27msyJ2kMBYLhJhYXrXvcEIqLYWDXzUbbWPQ2qQ
-         dm80x7O52/zBwC6baYlBiPrM71z8LGM/BzMSCRUO+Ion7QTACtwHMGokBPfjBGf3qMQH
-         FNAUI1Qag6k3wORmL/pEeIx0x5rXuu3PQYBaQNzN6jrL2bc4RNcc/HNLbv2qjv3HPOib
-         G+bA==
-X-Forwarded-Encrypted: i=1; AKwUvBy6onqsfBG76paw7meJEG6YXt0jodU4PThEI0EAig0J1FZMWiPkROl8rlqmG4ui0rq8weHhkznJT6l9bdnn@vger.kernel.org
-X-Gm-Message-State: AFuF++kHm1Xk9WMP0ioPScBi6Qhz74AepUZpRs8cVnlmcBEqfayrt1/P
-	Eowo05p6hTogfbriMeZzdHH1jV6TPx7ljoAiitZUc3BK09/cwT3k0rL6BuRmaRxbsQ==
-X-Gm-Gg: AYBFou2p/fisyUI+mFrlsiWuJ9otAtNs2X4lLltoMHNqSkjndnekNCOg7YOayKH0wlz
-	ySzJVmX2YvBXInGHk7ZRAjvZep8fLOZfHGS7smUztUFNXIWASaUcXIPQFDTaCn8zoBLnHJuaD2h
-	vIdVzuvLVzZY10QqV43kTsmi89dD5fkHvtjI0FucijluRac3FYqgmOSm6FJCnVIBNJ88WMs4md/
-	NLtMxh9klSIYExoWpVyB19m75iJ8mCXj7xL4fh0QpPMiROWMpVxTbtpxN+qYkBsvPMpOhyRxRsy
-	wTf7llSbhiwdO98zKW3h8l4ZGbgvYs9WjSMcS/PFirVpR1APGF9qP376remJwo8aqTfTOp8YZJf
-	Rch9DLl1yHV47AkfEHLWp9Nm9DXkSk8qV/4uL9jGzATsP4nfSqrd6FtmALuMlM66C8UtGSOR7t5
-	+JeKpqVXMqG/ZxCviofBxvxTunQvtOOKtCgBemQXOYckz6k72pkC8QS1DN7z4gAsgYTkuEG810Z
-	XFcnPlAdOCoy2IjHFd7dSTgjDK7Y4/KnRgcZ9Yf2ceGr+qjbR36JbzSfgQ=
-X-Received: by 2002:a05:690c:88:b0:864:6f4d:ef7f with SMTP id 00721157ae682-87121acbbc5mr139590577b3.7.1788948088169;
-        Wed, 09 Sep 2026 03:01:28 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714a0b654dsm107264887b3.25.2026.09.09.03.01.23
+        bh=+teM91VaABsA7Ow6jpFbUu2VedKMn5ZNdhX8m3+ru3M=;
+        b=JjocuBW+fyh275tP0ucjWrS9ZNOj1viwIJ9vz0tToBbi/HUrgGIba1mc+znYmAwi3J
+         9JYZe2SlXm9NJMcxDZy9lV9P+i4oTmdw5k9NsG4cT+qHfmXnzVbEpyEr0Sj+wbMSuGjd
+         37B0pO+MnlKvtAMyFTFOUXbHzdR3AMfaPPURPT9xKC34hD1E1bhn6LYgufBFl6VdAxnN
+         72HEnSx953zWDCpIqJF4hVaotg2eekHgQXBvkYs7fklAmwO8PlG6ieqruZgroQCsx7sQ
+         sAVZSH6dfvoFMjGvSyUC6Agremf0flxPfHmYFecWIz8sUPvxulBkS7b9uKE0hOslLSq0
+         v9jg==
+X-Forwarded-Encrypted: i=1; AKwUvByJ+JXTf6SCba3POPisDI2+3P2TF2aScZAGAPZtZj3DzwS61TdbU2NJKhSSEI60nkXmWnFHEi/8CUL3ARbl@vger.kernel.org
+X-Gm-Message-State: AFuF++nTFP1KslT1dEVwWKuMlExX0XHWo0Iec/5kAz7vtQuG9bkH/MpA
+	bU0ahpV6Rj9geLmhF3/pp4XqvV4yEcpkPTQbVEo5AbnRYAPHOuQD1aWb
+X-Gm-Gg: AYBFou2wwWc/ekG36diqC597PoMOX/v615wMXukIvXlB5s6skJ3tANSvXqDh0RmapdZ
+	fCO7ThaBSZSKn18/H0JO4/h9zGrT5A80v8tkOwiwSiuwe4gtQueRbOB9z0WHAUn05uuE/7ycSLG
+	EM24fTjXlT8r9hK+Ae5hiljwLyb+mr4YeCten5CGcZNj4aawKZbfIYZpvuqhBjyDjCFUK6cOLQa
+	lpnQqfahzyJtbTpMjEHQk8IWtOYVz0x41wgdhPHXFDRTMBOvY4vxUEY+FKEVDRwkniJDNlTju4c
+	5M+SHWYtA6mMce05o53Xo6RB0XNRPk2mI3QxqqSJ1p1APNc38iohvbeH6fENehlf2Hq9Ug8iuJY
+	e+iw2c0l+/6ej8/lwBIskoNChVRUbdnRrArul2PXW0tY2f6RhSXVDxqYv0SzsGF0D0+rS9v8X6a
+	TFzR4ZUZbj8AVZMABlrQvYPHqzT5TctMA6ro//rKxl+NskxgV1J0zpc+XQYf6/ae0i+zOh09HhF
+	XAIg0GlWSBtYpEY
+X-Received: by 2002:a05:6512:ba0:b0:5b6:962:4ed2 with SMTP id 2adb3069b0e04-5b616f34d3emr5897163e87.22.1788948100644;
+        Wed, 09 Sep 2026 03:01:40 -0700 (PDT)
+Received: from localhost.localdomain ([78.40.184.2])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b76ff836e2sm236292e87.39.2026.09.09.03.01.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 03:01:26 -0700 (PDT)
-Date: Wed, 9 Sep 2026 03:01:22 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-cc: Ackerley Tng <ackerleytng@google.com>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>, 
-    Baolin Wang <baolin.wang@linux.alibaba.com>, 
-    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
-    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-    Christoph Lameter <cl@gentwo.org>, 
-    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
-    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
-    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-    Marcelo Tosatti <mtosatti@redhat.com>, 
-    Matthew Wilcox <willy@infradead.org>, 
-    Mel Gorman <mgorman@techsingularity.net>, 
-    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
-    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
-    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Shakeel Butt <shakeel.butt@linux.dev>, 
-    Suren Baghdasaryan <surenb@google.com>, 
-    Vlastimil Babka <vbabka@kernel.org>, 
-    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
-    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
-    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 10/26] mm/fbatch: remove several uses of
- mlock_drain_local()
-In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
-Message-ID: <9633684f-e5c4-d92b-8295-5cccaa18fc36@google.com>
-References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+        Wed, 09 Sep 2026 03:01:40 -0700 (PDT)
+From: Roman Demidov <roman.demidov.nn@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: Roman Demidov <roman.demidov.nn@gmail.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] hfs: fix slab-out-of-bounds in __hfs_ext_write_extent
+Date: Wed,  9 Sep 2026 12:59:25 +0300
+Message-ID: <20260909095930.19979-1-roman.demidov.nn@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-Remove several uses of mlock_drain_local(): they were workarounds for
-when that sequence of operations tended to leave folios in mlock_fbatch
-with debilitating raised refcount (and no good if the task changed CPU).
+The function __hfs_ext_write_extent() writes extent data to the B-tree
+node using the length fd->entrylength obtained from the on-disk HFS
+record without validation. This length can be larger than the actual
+source buffer HFS_I(inode)->cached_extents (which is only 12 bytes,
+the size of hfs_extent_rec). An attacker can craft a malicious HFS
+image and mount it locally, then trigger a writeback by truncating
+a file, causing the kernel to read beyond the cached_extents buffer
+and leak up to 84 bytes of kernel memory into the image.
 
-Signed-off-by: Hugh Dickins <hughd@google.com>
+Although CVE-2025-38715 addressed similar out-of-bounds issues in the
+read path and added bounds checks in hfs_bnode_write(), those checks
+only verify that the write stays within the B-tree node boundaries.
+A 96-byte write still fits within a typical node, so the overflow
+persists in the write path.
+
+Fix this by adding a validation in __hfs_ext_write_extent() that rejects
+any write where fd->entrylength does not equal sizeof(hfs_extent_rec).
+This is consistent with the existing check in the read path.
+
+Fixes: a431930c9bac ("hfs: fix slab-out-of-bounds in hfs_bnode_read()")
+Signed-off-by: Roman Demidov <roman.demidov.nn@gmail.com>
 ---
- mm/huge_memory.c | 2 --
- mm/migrate.c     | 2 --
- mm/rmap.c        | 4 ----
- 3 files changed, 8 deletions(-)
+ fs/hfs/extent.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index d53e5443b802..3628b5bd1359 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -3570,8 +3570,6 @@ static bool __discard_anon_folio_pmd_locked(struct vm_area_struct *vma,
- 	folio_remove_rmap_pmd(folio, pmd_page(orig_pmd), vma);
- 	zap_deposited_table(mm, pmdp);
- 	add_mm_counter(mm, MM_ANONPAGES, -HPAGE_PMD_NR);
--	if (vma->vm_flags & VM_LOCKED)
--		mlock_drain_local();
- 	folio_put(folio);
- 
- 	return true;
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 15b45832bcfa..1939d6ed19c9 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -447,8 +447,6 @@ static bool remove_migration_pte(struct folio *folio,
- 				folio_add_file_rmap_pte(folio, new, vma);
- 			set_pte_at(vma->vm_mm, pvmw.address, pvmw.pte, pte);
- 		}
--		if (READ_ONCE(vma->vm_flags) & VM_LOCKED)
--			mlock_drain_local();
- 
- 		trace_remove_migration_pte(pvmw.address, pte_val(pte),
- 					   compound_order(new));
-diff --git a/mm/rmap.c b/mm/rmap.c
-index d1819fd69938..1ee42d60d77d 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -2396,8 +2396,6 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
- 		}
- finish_unmap:
- 		folio_remove_rmap_ptes(folio, page, nr_pages, vma);
--		if (vma->vm_flags & VM_LOCKED)
--			mlock_drain_local();
- 		folio_put_refs(folio, nr_pages);
- 
- 		/*
-@@ -2771,8 +2769,6 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
- 			hugetlb_remove_rmap(folio);
- 		else
- 			folio_remove_rmap_pte(folio, subpage, vma);
--		if (vma->vm_flags & VM_LOCKED)
--			mlock_drain_local();
- 		folio_put(folio);
+diff --git a/fs/hfs/extent.c b/fs/hfs/extent.c
+index 580c62981dbd..b588410f01c7 100644
+--- a/fs/hfs/extent.c
++++ b/fs/hfs/extent.c
+@@ -126,6 +126,8 @@ static int __hfs_ext_write_extent(struct inode *inode, struct hfs_find_data *fd)
+ 	} else {
+ 		if (res)
+ 			return res;
++		if (fd->entrylength != sizeof(hfs_extent_rec))
++			return -EIO;
+ 		hfs_bnode_write(fd->bnode, HFS_I(inode)->cached_extents, fd->entryoffset, fd->entrylength);
+ 		HFS_I(inode)->flags &= ~HFS_FLG_EXT_DIRTY;
  	}
- 
 -- 
-2.51.0
+2.53.0
 
