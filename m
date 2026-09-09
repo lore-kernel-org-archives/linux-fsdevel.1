@@ -1,85 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C965657ED81;
-	Wed,  9 Sep 2026 16:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60B357EDA6
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 16:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788970128; cv=none; b=XpLG1DQi7D/N2Dbi+hWmX22T8Yv1s0MD9gU17wKaipEnOIXI/ktucSs6DZg8kEQ0RADWC+qg6VnstW3SYOxf7dRvBBorf7RrQykzQJkCIxj8mz5kJnc/XrJjun5XxfHFNgeqiUGA8SxFYEHFeI9KhVDXsmKTX8bqrtmfBdxxPmE=
+	t=1788970325; cv=none; b=rh4EtQcPbZJkhdjQvv7mg7vcN2vKgfnjbe0derQn/3ywqEusvapnkxhwM2tmMd+EaaSw7dEY2/53rw+JghHL1gBEf0t866EmCDBSv6FwnmrB8zhnHX1b953iy6zFoWvm+4CqxuunqVZg+Vr/+l/ST+pGG19eD86l/3B/5qGzgxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788970128; c=relaxed/simple;
-	bh=S/UQIZuX7pSEQtw6EymF1U7DV5iy9KK1+GVL2aLlpgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nCxENWCecLNfGayq5tyZhKlKHtlekaFhsdc0fNE+ycbIHFojuM0BTJgpvSsYENUFdhSDSL6TtjGJwNoTfi6yIQuoS0TNO3TRiMuYJDKMlninmbWkWnR7CqkjaxDemNJ7cge3AHGpVXc9osgpVWHyzUATYUE/nztQHpBI95kwLqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFjAO7H7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788970325; c=relaxed/simple;
+	bh=hiRBQugCjUC2qSlftimk1/dBleMnW9pQ7uDf9NI+8s4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B/gZ03tkTiRmyry+qztS+YVR16rzCwRMh2pLLNoIF1CUgK5vcWlr3WKXrMCqse7YeIkN2BwRWYZojbk3Hs80cBiqvhr4eQKDaAB8uJcd4zoFpaFCy1mxOgfwonkNoeDv+xcPlUhWQeHNFtH7SQNSovvpR+FSI61rf0+TE0hRq30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TObYY2yG; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UBfbE+tc; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFjAO7H7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E31CC1F00A3A;
-	Wed,  9 Sep 2026 16:08:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788970127;
-	bh=hBWAKzvLWfdIO2wpk11o5RxzGhVGcrpOuED+vxWRH2I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DFjAO7H7YchODDznxcoEvaXVrKCO/tNLnZF86Q4ZJwY6dWXqzgvijGZaNHNmIwCwF
-	 SFqji/acgtoPGGFoak1hWTGYVLYze/c1o5gostl8WLosQNyBxswiBpZHs561iF+Rpo
-	 oslOUjfCi6aWZvKxjTjpQ+VQSOiDU7LxQa676x8f+Bu/kywcAb2oi8xGd9W8SnYE2S
-	 SCtFDu3Av3REbvHW1g5aMgZyz19mGvQ2d4aF00mbgYQsE9oSCtFpJJzzkRlo6kIIkB
-	 bLMav0tCU//+U9jL+FjHKObin9osWuDLTlllDG4WEeZ6m/SdJBNVCuotfKqfd17MrT
-	 CB+6BceJVSKzw==
-Date: Wed, 9 Sep 2026 18:08:43 +0200
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <aqGCEDzd39VbrYfY@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20260907131747.1389798-1-aalbersh@kernel.org>
- <20260908144051.GJ6047@frogsfrogsfrogs>
- <aqEWjV-NCUuPJlwr@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <20260909150006.GH2619314@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TObYY2yG";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UBfbE+tc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788970322;
+	h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AJ6zoCiMWbIIPldwdYsAIIdGbzVoK/NeTnUzI9OwSjE=;
+	b=TObYY2yGK/6+T22uydLYVc3XMPKFbxIKgpMQTbFL+PhHVdKx03Ygcn98+HtYnlqFMEWQW5
+	MyJ5DmfjpPedHW2e+eg3PU4pwfUU5Bx/6OVKJKqdWDlcEOqYzgpegnXsQJ6yhSUQRI96zZ
+	DElpKCuv9vM1MtOERYC07s2ExuFTU1Y=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-648-WajjxBVHNPi2Ot150MP_jw-1; Wed, 09 Sep 2026 12:12:01 -0400
+X-MC-Unique: WajjxBVHNPi2Ot150MP_jw-1
+X-Mimecast-MFC-AGG-ID: WajjxBVHNPi2Ot150MP_jw_1788970321
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-86c3a053d9bso81594437b3.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 09:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1788970321; x=1789575121; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:reply-to:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=AJ6zoCiMWbIIPldwdYsAIIdGbzVoK/NeTnUzI9OwSjE=;
+        b=UBfbE+tcXDFma8uUtlLsbfOLDREqMtuDVfC9Zlx6Q2Khgsfu4mJwLpYv8wgSr+J5Dy
+         hNnN2shk55HbUrGkmvYAn7tC2rVpZrVh+tqnFMMtikM3FIyx8Rpw0fjoRUSmrz8KqxdC
+         QIGu4XLplRKtclYrwHN6QdOGX0g/xyStPYRDBBRB8vM0BQiZR1kzbsvylp7awIH6eFhS
+         gHwoo3HMzXoewMp6ppm75iKR9X0VeXcbef0NYupZSzgnOv+4sr99JkWrJ3IqeKW0ZZK/
+         Mf9fdhGVKZAMXH1zBWQi18qDYjgPT98KVnA9o3jguGS7ju5srzO/P8onmW1/pXQSOjul
+         TvlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788970321; x=1789575121;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:reply-to:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=AJ6zoCiMWbIIPldwdYsAIIdGbzVoK/NeTnUzI9OwSjE=;
+        b=RWfi5CYjKtCnyhcqVBicBfXHTxAoPVAYtXHJ8lflD043klHyg0Ptl7E7aD6mfD1B90
+         cJIXKqm/02zVFMtWvUuIU2zXUogCPHcPpAwYCF5VUEFBwGWTuIOtqWSdTPpPlt07i5Mh
+         mvQ+6GiSK4XNkwx6sP4vbyj942HhZJ0xGLTTiKuVwkVcHMb+XPOGtv/DF6i3+X0JtHl4
+         Deg5uAiV3s3/e8vqf6pmWvgjQdRohniqrimCHugrQ1bOukm9e7S2YomeL6Z22HqglwqM
+         IdFY2Mvo/OpxBXpwZvUfda9bupNAedzH5P4FU7ffbzECCq+M2RBAcR1/CJWpDx7WBK8y
+         S9Gg==
+X-Forwarded-Encrypted: i=1; AKwUvBxmBE3uXYxCKnXLVgZ9V6GQLnuL5HVph/dbKAF8j0nODusoF0GEYK3EkeRzM3IljbBbqQxjkpbjU4c+BuLy@vger.kernel.org
+X-Gm-Message-State: AFuF++kkdhY0FCryfO9HvpTNKqFW4EVnRJG+hdvhyfc5aC2XngYeYe34
+	A+N1OhQBnN1HnzPXk0abum4K6kLTttnZInF4FSq5yFvOtyEOJliE78h+2IPlstVs2+VSVsGcAxy
+	DaZ0jkgqQqLNyLF5atvlTduUwcgG2HiFAuFoXHTAvlYKRV61SModQOa7O0YYxivATs+c=
+X-Gm-Gg: AYBFou0O6UjzQ9C5cBssFRbbOLhgfoacnqvm+B5SPoM5kOavXOPRPWLWMCKwiMEraGs
+	L7ks2brapxHIIs0jjgWihmyH0pKKlW1iuaaxWUdWVMJr4i9v74bUO2cV2JCUO85qWT8MCw8T5mV
+	G6KLnKfDPgct4TfxmeK7PfiOKRJcGEA1odtgjjF59XudAIFGGof2HF0BLRHGCpA9uq+TxTgo9yV
+	9IGSPmIQPHh40+YS4y3memJZW9LC0sJIh1Cor7WmtB8WHfHXE9Pt0zUOR6+kbv6oBkyAs6V8G2l
+	sbiNMFxrtrbne6kYF/LrfFktJEdkyhzgGtBNtdt8cBuB8D2XwkaRw6J3v3dLcTqpaf2VhrIiHo8
+	56sdFbdUw5EUIEyINOK4eAPVYeZRikEcd3Hx89IfI
+X-Received: by 2002:a05:690e:bc4:b0:664:c3aa:66f0 with SMTP id 956f58d0204a3-6710371652emr2217068d50.39.1788970318481;
+        Wed, 09 Sep 2026 09:11:58 -0700 (PDT)
+X-Received: by 2002:a05:690e:bc4:b0:664:c3aa:66f0 with SMTP id 956f58d0204a3-6710371652emr2217055d50.39.1788970318005;
+        Wed, 09 Sep 2026 09:11:58 -0700 (PDT)
+Received: from [172.16.0.69] (c-98-227-24-213.hsd1.il.comcast.net. [98.227.24.213])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb47a8b8fsm12713671d50.2.2026.09.09.09.11.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Sep 2026 09:11:57 -0700 (PDT)
+Message-ID: <afd68097-b2b2-47e5-889b-fb077e7a9247@redhat.com>
+Date: Wed, 9 Sep 2026 11:11:56 -0500
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909150006.GH2619314@frogsfrogsfrogs>
+User-Agent: Mozilla Thunderbird
+Reply-To: sorenson@redhat.com
+Subject: Re: netfs_read_gaps(): aliased sink folio makes the read destination
+ unreadable, SIGBUS on cifs with signing
+To: David Howells <dhowells@redhat.com>
+Cc: Paulo Alcantara <pc@manguebit.org>, Jeff Layton <jlayton@kernel.org>,
+ linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
+ CIFS <linux-cifs@vger.kernel.org>, linux-kernel@vger.kernel.org
+References: <a385053c-1c4a-4060-a3bb-befa007ddb33@redhat.com>
+ <1714046.1788952509@warthog.procyon.org.uk>
+Content-Language: en-US
+From: Frank Sorenson <sorenson@redhat.com>
+In-Reply-To: <1714046.1788952509@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2026-09-09 08:00:06, Darrick J. Wong wrote:
-> > > > +User-space applications should zero-initialize
-> > > > +.I struct file_attr
-> > > > +to ensure that future fields added to the structure
-> > > > +will be treated as no-ops if the structure definition is updated
-> > > > +but the application is not.
-> > > 
-> > > I thought they were supposed to call file_getattr() to initialize fattr
-> > > before making whatever changes they want and calling file_setattr()?
-> > 
-> > Yes, if file_getattr() is used for initialization then zeroing is
-> > not required as kernel will zero/check that everything fits, but if
-> > used by itself then zeroing would be necessary to work with older
-> > kernels. What about this:
-> > 
-> > 	.P
-> > 	User-space applications should use
-> > 	.B file_getattr(2)
-> > 	to initialize
-> > 	.I fattr
-> > 	structure beforehand or zero-initialize
-> > 	.I struct file_attr
-> > 	to ensure that future fields added to the structure
-> > 	will be treated as no-ops if the structure definition is updated
-> > 	but the application is not.
-> 
-> I don't see how zeroing (instead of calling file_getattr) would ever
-> make sense since that would turn off pre-existing attributes, but I do
-> like the sentence "User-space applications should use file_getattr(2) to
-> initialize fattr beforehand."
 
-Right, agree, I will shorten to this then.
+On 9/9/26 6:15 AM, David Howells wrote:
+> Hi Frank,
+>
+> Can you try this?  It can be triggered manually with something like:
+>
+>     xfs_io -c "w 100 100" -c "r 0 4096" /xfstest.test/foo
+
+Hi David,
+
+With the patch, generic/759 now runs to successful completion on cifs mounted
+with 'sign'.
+
+Two things, though:
+
+1) IIUC, folio_alloc() returns an unlocked folio holding a single reference, so:
+
+         if (sink_to >= 0)
+                 for (; sink_from <= sink_to; sink_from++)
+                         folio_unlock(bvec_folio(&bvec[sink_from]));
+
+unlocks something that was never locked, and never drops the reference.
+
+So should these be folio_put() instead?
+
+With CONFIG_DEBUG_VM=y, I think that's a
+VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio) on the first gap
+read with a non-empty dirty region.  My test VM has it off, which is
+why I got a clean pass; but with bpftrace, I see 190 leaked order-0
+sink folios (760 KiB) over one generic/759 run.
+
+2) if netfs_alloc_request() fails, the kfree(bvec) at alloc_error is reachable
+before bvec is assigned, so I think we need to initialize it to NULL at
+declaration.  (It uses mempool->alloc() directly for the read origins rather than
+mempool_alloc(), so it can genuinely return -ENOMEM.):
+
+        struct bio_vec *bvec = NULL;
+
+
+
+With s/folio_unlock/folio_put/ and initializing bvec to NULL:
+
+Tested-by: Frank Sorenson <sorenson@redhat.com>
+
+(but I'll retest without those additions if I'm mistaken... it's happened before)
+
+(as an aside, 'git log -S' on the bvec_set_folio(..., sink, ...) line puts
+the aliasing earlier than the read rewrite -- should the Fixes: be
+7f84a7b9892d ("netfs: Make netfs_read_folio() handle streaming-write
+pages") instead?
+
+Frank
 
 -- 
-- Andrey
+Frank Sorenson
+sorenson@redhat.com
+Principal Software Maintenance Engineer, filesystems
+Red Hat
+
