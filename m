@@ -1,136 +1,75 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654F435F170
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 17:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788974015; cv=pass; b=tD9NWhh+cD4UmsVCnoy9fGk1KJBUQQiJdbyez/p0/S6GRE0TZ8vCJRqqjuqcyT1K4Uf3krATXnD1VhxQ2iRBLqmeuN96YEe2SbMBcEI0KJ9nvr7PgeihLh4HW+YQWB7kR0lYVvskzwksSaikyFKP/9KVo4EFILfe/c10QYrsWQ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788974015; c=relaxed/simple;
-	bh=BoITJbg+tcqR4yAMRl6LbU3qdaLtqDYLmTuTo1MWr54=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i94EFiLmaoJVaKmVLziDTiZQdvH1yWi+jeoq3kUL4zrL/QpJl6AJDRwgqX6wkRcpN2jlJ5rFK7dnmdHruQlMpHJL4wgspGThCYIx+hmuJzWqyEnzclQbhCE//0hIiNIznx2WQlZNMk79+zq5I6Pb9jjqZYB3UCQvX47F4y3wMsE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lMOncLJx; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDEA936A009
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 17:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788974084; cv=none; b=HSduWusvEh5hjL1MfNVz6E1N+JG4BEvQbxk8a+KClcDowU9XesYk7NYCj4s2N7+suP/Z9YYnpBPWURXFWAFtvo3UnNEAiorknNvxjXOYFfwwAqD75vcUxhUxqoJZ426DszK1Yjy3tOoVefv7ejzGOtKxZhf7kYeXvB73DTXOduY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788974084; c=relaxed/simple;
+	bh=AhG9uZP5Vc+oU60yw43Lea20JRbSBt/2ZAdLmmE7+58=;
+	h=From:In-Reply-To:References:Cc:Subject:MIME-Version:Content-Type:
+	 Date:Message-ID; b=uzxohb0vuMvxSUNneCYhzQOIxcNOpN9y17aE+0JIZ3vqGu8P3JYTGQ3YUNCBcCumiRgrNJVS7hBnohfI/9zwjKoOibTVDGQd4qoVmIzz9ENl06husMa0tllzveObRVG5P1FDdRVxQANSL1EPm29UEt0rKDtBw3vCRcEiJyIgL9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UXiCEEPn; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lMOncLJx"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-5306706e89dso328931cf.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 10:13:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788974012; cv=none;
-        d=google.com; s=arc-20260327;
-        b=aKn2IwQcNlZW3S4Tp98tBHcvNuLfWbJXdZlOsfxK5VZcxmiN7YMMXT+HJI7+zthtH6
-         GtgeJTuwOPgWZBild4EkVuFxTKgZ8+AC6WXVDj6B8yTXBHXf6S96STaD0e8uPYKitzIn
-         Q4t3EcC3oRlkJZTzETSz0kUin0XcCNYbTsLVDQkHyT+T/k2w5FFG/Pk/HYBCJjhcZVn6
-         5Vz12PbWpf4saY5SfjNyCJtSgGcJCfXIbN3Ox8EBx/yVkKnoS0vHp7Xc92vj9BbAOEFN
-         jWqONCMTJdjd++GCUJX4QgUQqZhmiQ48Gl+r/xUDCiGjpxlua5+pUdmAL4lJ5/0d24U0
-         hVHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BoITJbg+tcqR4yAMRl6LbU3qdaLtqDYLmTuTo1MWr54=;
-        fh=Fqd2Dz6NbCot8coxlWwn/78QpijCKwFvRThlmhwVBOY=;
-        b=Ya1i1e19ptAd9K9HSp4Xv9AYN02/tpvkWfuabhUn85s8jtxGfoW6xBHEpC9IbRTzKx
-         lAoTzayyqK/qWdoiVKuuTErrKPKfLmA27mzTnKF2e2d+uJybrko98ziGSR8I1RYxO5lG
-         1REf2rf0L9xjLTQiLGQiYEIR3PfComZveaWcWBzg6C6T5PFXsdxjvsGlB9Bdk8sFQIP/
-         fu53tlXuG0RVLSngG//BWJeIx001OvG2nFbrQrhK4oaO5U/pNFTgNTOa+czyANIFpovs
-         G19IcAHuAGsvzRNscdb08MhoYie66UJ1NOmztYVWJB8HTeNiCtH8ivDhyQvMvw6+kfvY
-         IZpw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788974012; x=1789578812; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BoITJbg+tcqR4yAMRl6LbU3qdaLtqDYLmTuTo1MWr54=;
-        b=lMOncLJxINj9R9tafp9eA1n6M4h6oqObsKm3SmUuE9xfP3sFsYnDChggvPHMbofq5Y
-         CzdDiGscEfJCquZ5DWLuCnUBkLB3B6moWZblGJOJ64SRU7ji3vuqaAkAhFL8veHSi5uP
-         VGR3VL10GfW5ERdyu9jKjOXC1RENAeS8YNdhro4Cv6iL7IwTEMeGdlmOIDtgvpRxl9tJ
-         9UzH32aTScoi+WpPHZJUSl+JyfoyZWGl3Y36000Fut03vjZHiLFQ8b/noZ9AR4k6Yz7g
-         DEWE8XQ7FxhfQ/6iOVixakzGF0SyaCZGXD8OgKG9+Mr3+qG+zD+UWheCKEHzB9DfLmdJ
-         H4pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788974012; x=1789578812;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BoITJbg+tcqR4yAMRl6LbU3qdaLtqDYLmTuTo1MWr54=;
-        b=TsaCPNVzeH/I1FO0DB+8Z0UFWgf8gYrsJmcmdmzGJUHLx3+bWdsyOq0upftmTxprAQ
-         u5jMLN79ndKC2YEGsCih+gznow0YHnzYT+ycSPBqba/xnlbaGodckKR7/V2z4+GOlgai
-         9DF/KQI3WeEK2MkstTfFxqoTj5W/lNpXh/MBgumrzY4i4UIR/MchoIhhY2mjvVSdHRz5
-         b8syJKBTKyDDIx1jtxFUyK3hQ5H6yIlFtpQyM52u1tybebdBrlkYooSg8RxW3zAgaVE6
-         0ViEHPluiP/EtCZWIw3mW7UeUPhvJ63P429qiAuw5eSxd+tMxDUBEFeksfwA5hLdP+pU
-         dPog==
-X-Forwarded-Encrypted: i=1; AKwUvBzY8p/4YLMqpJrgOo/jMfs/B4GOIqV6MFRlBNn1Cx2X582es8ME70TD5hBLQlZBbx8jerUZToOkjey6unlS@vger.kernel.org
-X-Gm-Message-State: AFuF++m5rY25aPFiJKj/5usvda8kWtxi3olUwxKJREiaDAOi7mFTVKit
-	WXZ5bNQLpvwRiHPxwfyBqmORx9PXF6Z6OXQJMpVYsCnBdegL5/N0aMuCLJpVCMn2pJDcrcjqJLv
-	XZSyrlzlHfbsf8J+4MpGUpA18HK77AB9tQTQ0d2KD
-X-Gm-Gg: AYBFou3awNMOPqqwUNK5MYrUfmNOE6HwaX/nVChGdOhC2Rl/jqmKqD4tAqfPlNXUQan
-	2nAoNhAuBOykkMqTuXXfoIZNigfK9DQ9AsiqzFZK2l+g9c12NWJK/e151KVbBZla52jiBLOrP3v
-	CfhZ7aoasToYXlpebyP7HeAfgEH13bX779DsijSSnj4Q1Byefi7AVgK0XlJQVLzkEdHIMqnAR7/
-	Tugiu+7OVE+GFPQbHBBXP1Ns+h0HfYsiaFBxVOWbq3Ay4XF6Hn+okq56W+nvodn4KZREOgw13Mu
-	dcgfeQ33xazXeoApZU9Y0Tozmrs6IqjYj2AypSjuxImSgomRg7yG4XulUg==
-X-Received: by 2002:a05:622a:400d:b0:50f:b69a:f4a8 with SMTP id
- d75a77b69052e-530a5f013ddmr15911cf.7.1788974010867; Wed, 09 Sep 2026 10:13:30
- -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UXiCEEPn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788974081;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wrrcFv43Y6IitaL5MyShgfkwkQfgO8qX9JD4vZRKPPY=;
+	b=UXiCEEPncpzJiCCPNAfiodO7745up5Bn0qCl6yZDAngcVbiBYP/Wzni8iKu/98pl80F4lA
+	R8TbV6aKj/TgP52aUohsnfB9j4Ua35fIXXh6VF+TAUbdJIgAFW/l9YqqSaWofDWIN5grmI
+	DeocymAzGgBYM1Zl+5PjaUgCzvLAIVE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-642-v8CazuleNgmALlpzy5bkZw-1; Wed,
+ 09 Sep 2026 13:14:40 -0400
+X-MC-Unique: v8CazuleNgmALlpzy5bkZw-1
+X-Mimecast-MFC-AGG-ID: v8CazuleNgmALlpzy5bkZw_1788974077
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 94F59195605F;
+	Wed,  9 Sep 2026 17:14:37 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.32.158])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5422F1955F19;
+	Wed,  9 Sep 2026 17:14:35 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <1729858.1788973986@warthog.procyon.org.uk>
+References: <1729858.1788973986@warthog.procyon.org.uk> <afd68097-b2b2-47e5-889b-fb077e7a9247@redhat.com> <a385053c-1c4a-4060-a3bb-befa007ddb33@redhat.com> <1714046.1788952509@warthog.procyon.org.uk>
+Cc: dhowells@redhat.com, sorenson@redhat.com,
+    Paulo Alcantara <pc@manguebit.org>, Jeff Layton <jlayton@kernel.org>,
+    linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
+    CIFS <linux-cifs@vger.kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: netfs_read_gaps(): aliased sink folio makes the read destination unreadable, SIGBUS on cifs with signing
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260907063918.3432401-1-surenb@google.com> <20260907063918.3432401-2-surenb@google.com>
- <1d5011f8-26a1-41e1-bb9d-8d72c08b8fe9@kernel.org>
-In-Reply-To: <1d5011f8-26a1-41e1-bb9d-8d72c08b8fe9@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 9 Sep 2026 10:13:18 -0700
-X-Gm-Features: AcwNN1VviiL9YOndRTSyFCutgcsYgAZMb28lE2qZmCuqHAyOyXU8c5SOoH4lvoQ
-Message-ID: <CAJuCfpH25ML1+hdhTtZUoSjgrNcGv9HbQD8o5UErmAdW-7C8Bg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] proc/task_mmu: remove unnecessary helpers
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
-	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1729916.1788974073.1@warthog.procyon.org.uk>
+Date: Wed, 09 Sep 2026 18:14:33 +0100
+Message-ID: <1729917.1788974073@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Wed, Sep 9, 2026 at 10:06=E2=80=AFAM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/7/26 08:39, Suren Baghdasaryan wrote:
-> > When per-vma locks were behind a config option, a number of helper
-> > functions were needed to simplify the locking code. Now that these
-> > locks are universally available, we can do a little cleanup.
-> > Remove lock_vma_range(), unlock_vma_range(), query_vma_setup(),
-> > query_vma_teardown() helpers.
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
->
-> As Usama says, this could get picked up early independent of the rest (ma=
-ybe
-> even as part of the other patch set)
+David Howells <dhowells@redhat.com> wrote:
 
-I can post the 3 cleanup patches separately from the one that switches
-to using per-VMA locks if that's preferable. One downside: I'll have
-to wait until the cleanups are picked up before posting the last
-patch, as it depends on these cleanups. Please let me know if I should
-split them anyway; otherwise, will keep v3 as a single patchset.
+> +			folio_unlock(bvec_folio(&bvec[sink_from]));
 
->
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Meh.  Nevermind.  There are two of them.
 
-Thanks!
+David
 
->
-> --
-> Cheers,
->
-> David
->
