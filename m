@@ -1,505 +1,217 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6BB33B6D1;
-	Wed,  9 Sep 2026 15:00:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF489572693;
+	Wed,  9 Sep 2026 15:04:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788966008; cv=none; b=qlq4pHiymOA7mFP1NsD8Mte831rnVNuz/i+GQkqQi8yyY0COYMYiYkxaOp1KfjjZceTIBfoOIj1SgSCC6D58eGx16MZ+T/MU6/642CTYoMQcV4ROl0wcDxzIIS1kXAWF+cqqEMC63hQloi26ImZRoMKxtbY36qwQ+x6lOajWB8U=
+	t=1788966273; cv=none; b=My+MFDU1ANv0urvdMfPO49SzaV1XfURSEAszeBD5t3agcwvSUZ+8kuNlM8cfVzSCVRkTAQwNLfrTxE/xC9rBYPyh1Wv3SowzKMW1Nngi3DajXaJU1QeM7lPB1YFaFO0CsCIyKF8ApdXnUAdpyd9kGvWQe2xjjsd6xHVcBUnBZI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788966008; c=relaxed/simple;
-	bh=g4m1gKdMTdCxg104An1Y9sCiHNXvJs78tkbRNXotnzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e3bJ3ohzRTQAZKeq7EdJAxtcrFLrfe6HBwtELLEc5tIrMObLhuvRdMBprK/1FvjLbBngYt3cmgKKr/hRFeqaGrvOM383dfq+NZdC4Mfl+H3aufTcI2isCL4Q6Tdf4CiyutJpF8sXlmdXvCMRuwCRj2OBjQH8cji4yfvfEyCayiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZdtgkGch; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788966273; c=relaxed/simple;
+	bh=eyqrTym7YH33qhz2IUTjQgGLMwSrBBrEuGTGcohxOs8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GxOi9XiRn3fy9pU5xGP2Ak2+0yU/d7KoMvnLSgEXA8ob4+aZCB7XVoUhr73rmxG4KjtAmarBEO7WHHVYxoHbf9TtAQucT/D6apcun0InjsDqKunxrVu3kQuD8wEq0eWyrCI8mcaoUtWh8C0WMJE/KijrOkJlOoH2beF2IpdzmHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SAcK3OrW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZdtgkGch"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id B71AA1F00A3A;
-	Wed,  9 Sep 2026 15:00:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SAcK3OrW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82BC11F00A3D;
+	Wed,  9 Sep 2026 15:04:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788966006;
-	bh=zS3XqRL2PoOQq+0k0oZrFC1/uQguDtXXXg5075PhYRw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZdtgkGch5Dlob77IzvQ4FmcWXEh6SES7HZv1mecqtm42LXgrNsvb3PuCh8jqkErjt
-	 mVcYCLImsvTwQIxZM5/B7J0kcvEmSYYMXB4XZIxJNQQpWOrPCe0MSu2WIg2pB6mpZw
-	 jH/hQuNXT9ga1K63iu7fCl2U7lcqRTBQvnc0owZ5D1ZkZH64gKMXv3tC2yEPxLdnNK
-	 7aPQmkvOijmD9DwTenDt+U71nEQN/ohWHT+saOKZO997cSXOX/sbChlbzt1qA+cvhE
-	 BWB6HnffsId8WYIR6vaNNG1Hz7jI/G8ijAJEh25sLowFQiS8AHNpV5J0SJ0j7M3Xpj
-	 XF70xLqvq1s4Q==
-Date: Wed, 9 Sep 2026 08:00:06 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <20260909150006.GH2619314@frogsfrogsfrogs>
-References: <20260907131747.1389798-1-aalbersh@kernel.org>
- <20260908144051.GJ6047@frogsfrogsfrogs>
- <aqEWjV-NCUuPJlwr@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	s=k20260515; t=1788966271;
+	bh=aeXzLXfVC8e+tzbtM1PdBxXt6XZbDS/FpvLHCNUlfWg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=SAcK3OrWdGIvBXHFshnW4N1kmYi8uwxh70A6GyDCuxzs3FrmYJeKrYDCHVjEu2pmw
+	 UIZKF5N1faibN8kfZYJSfF5CU0Dibdmu/VfarSip3jGeg3La2SN17ZRb6kR4YVvsot
+	 nQBn/sJrXnnzCKvNgRfFOdliI3BHkx1Ijv5u+yF5K2mxhLL29fk6n2Ubh6H215S+2u
+	 ztCV5CLMnDkfxc7sSS0yPfugcoX62t41N/Mi36hA5mdjlUYs/CSFuPjQV3hsoJOekf
+	 blBoiFCh2VK5IXhrzqYxtDOLjqBw5HErG+DVT55hQ7Yik6LSawqEn0JIz4cOub2UYd
+	 c+QYLaq1P1OqQ==
+Message-ID: <af864862-90f9-4b16-a06e-1c189c4c4d6b@kernel.org>
+Date: Wed, 9 Sep 2026 17:04:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqEWjV-NCUuPJlwr@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/26] mm/fbatch: lru_add_del_folio()+folio_add_lru()
+ after clear_lru()
+Content-Language: en-US
+To: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Ackerley Tng <ackerleytng@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
+ Binbin Wu <binbin.wu@linux.intel.com>, Christian Brauner
+ <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Christoph Lameter <cl@gentwo.org>, Claudio Imbrenda
+ <imbrenda@linux.ibm.com>, David Hildenbrand <david@kernel.org>,
+ JP Kobryn <jp.kobryn@linux.dev>, Jan Kara <jack@suse.cz>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ Kairui Song <ryncsn@gmail.com>, Kiryl Shutsemau <kas@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Leonardo Bras <leobras.c@gmail.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Mel Gorman <mgorman@techsingularity.net>, Miaohe Lin <linmiaohe@huawei.com>,
+ Michal Hocko <mhocko@suse.com>, Minchan Kim <minchan@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Rik van Riel <riel@surriel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Suren Baghdasaryan
+ <surenb@google.com>, Yang Shi <yang@os.amperecomputing.com>,
+ Yu Zhao <yuzhao@google.com>, Zach O'Keefe <zokeefe@google.com>,
+ Zi Yan <ziy@nvidia.com>, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+ <b2e312f3-6909-5496-195f-ab71b45970ac@google.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <b2e312f3-6909-5496-195f-ab71b45970ac@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 09, 2026 at 10:29:34AM +0200, Andrey Albershteyn wrote:
-> On 2026-09-08 07:40:51, Darrick J. Wong wrote:
-> > On Mon, Sep 07, 2026 at 03:17:43PM +0200, Andrey Albershteyn wrote:
-> > > Add manual pages for file_getattr() and file_setattr() syscalls and
-> > > struct file_attr used as input/output argument.
-> > > 
-> > > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > > Link: https://lore.kernel.org/all/20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org/
-> > > ---
-> > >  man/man2/file_getattr.2      | 286 +++++++++++++++++++++++++++++
-> > >  man/man2/file_setattr.2      | 340 +++++++++++++++++++++++++++++++++++
-> > >  man/man2type/file_attr.2type | 187 +++++++++++++++++++
-> > >  3 files changed, 813 insertions(+)
-> > >  create mode 100644 man/man2/file_getattr.2
-> > >  create mode 100644 man/man2/file_setattr.2
-> > >  create mode 100644 man/man2type/file_attr.2type
-> > > 
-> > > diff --git a/man/man2/file_getattr.2 b/man/man2/file_getattr.2
-> > > new file mode 100644
-> > > index 000000000000..f1aec2ad8c42
-> > > --- /dev/null
-> > > +++ b/man/man2/file_getattr.2
-> > > @@ -0,0 +1,286 @@
-> > > +.\" Copyright, the authors of the Linux man-pages project
-> > > +.\"
-> > > +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> > > +.\"
-> > > +.TH file_getattr 2 (date) "Linux man-pages (unreleased)"
-> > > +.SH NAME
-> > > +file_getattr \- get filesystem inode attributes
-> > > +.SH SYNOPSIS
-> > > +.nf
-> > > +.BR "#include <linux/fcntl.h>" "      /* " AT_* " constants */"
-> > > +.BR "#include <linux/fs.h>" "         /* struct " file_attr " and " FS_XFLAG_* " constants */"
-> > > +.BR "#include <sys/syscall.h>" "      /* " SYS_* " constants */"
-> > > +.B #include <unistd.h>
-> > > +.P
-> > > +.B long syscall(SYS_file_getattr,
-> > > +.BI "               int " dirfd ", const char *" pathname ,
-> > > +.BI "               struct file_attr *" fattr ", size_t " size ,
-> > > +.BI "               unsigned int " flags );
-> > > +.fi
-> > > +.P
-> > > +.IR Note :
-> > > +glibc provides no wrapper for
-> > > +.BR file_getattr (),
-> > > +use
-> > > +.BR syscall (2)
-> > > +instead.
-> > > +.SH DESCRIPTION
-> > > +The
-> > > +.BR file_getattr ()
-> > > +system call retrieves filesystem file attributes
-> > > +from the file specified by
-> > > +.IR pathname .
-> > > +.P
-> > > +This system call provides functionality similar to the
-> > > +.B FS_IOC_FSGETXATTR
-> > > +.BR ioctl (2)
-> > > +operation,
-> > > +but with the advantage that the file does not need to be opened.
-> > > +By using a pathname,
-> > > +.BR file_getattr ()
-> > > +can retrieve filesystem file attributes
-> > > +from all file types,
-> > > +including special files such as FIFOs, sockets, block devices, character
-> > > +devices, and symlinks, where opening targeted inode may not be possible.
-> > 
-> > opening the targeted inode...
-> > 
-> > > +.P
-> > > +As with
-> > > +.BR openat (2),
-> > > +if
-> > > +.I pathname
-> > > +is relative,
-> > > +then it is interpreted relative to the directory
-> > > +referred to by the file descriptor
-> > > +.IR dirfd .
-> > > +The special value
-> > > +.B AT_FDCWD
-> > > +could be used to refer to the current working directory of the calling process.
-> > > +If
-> > > +.I pathname
-> > > +is absolute,
-> > > +then
-> > > +.I dirfd
-> > > +is ignored.
-> > > +.P
-> > > +The
-> > > +.I fattr
-> > > +argument is a pointer to a
-> > > +.I file_attr
-> > > +structure.
-> > > +This structure will be filled with file attributes.
-> > > +This structure is described in
-> > > +.BR file_attr(2type) .
-> > > +.P
-> > > +The
-> > > +.I size
-> > > +argument specifies the size of the buffer pointed to by
-> > > +.IR fattr .
-> > > +The size indicates version of the structure in use, refer to
-> > > +.B file_attr(2type)
-> > > +for more information on versioning.
-> > > +.P
-> > > +Userspace applications should zero-initialize
-> > > +.I struct file_attr
-> > > +before calling
-> > > +.BR file_getattr ()
-> > > +to ensure that fields not filled in by older kernels
-> > > +will have predictable values.
-> > > +.P
-> > > +The
-> > > +.I flags
-> > > +argument is a bit mask, available flags are:
-> > > +.TP
-> > > +.B AT_EMPTY_PATH
-> > > +If
-> > > +.I pathname
-> > > +is an empty string,
-> > > +operate on the file referred to by
-> > > +.IR dirfd .
-> > > +In this case,
-> > > +.I dirfd
-> > > +can refer to any type of file,
-> > > +not just a directory.
-> > > +If
-> > > +.I dirfd
-> > > +is
-> > > +.BR AT_FDCWD ,
-> > > +the call fails with the error
-> > > +.BR EBADF .
-> > > +.TP
-> > > +.B AT_SYMLINK_NOFOLLOW
-> > > +If
-> > > +.I pathname
-> > > +is a symbolic link,
-> > > +do not dereference it;
-> > > +instead get attributes of the symbolic link inode itself.
-> > > +By default, symbolic links are dereferenced.
-> > > +.SH RETURN VALUE
-> > > +On success,
-> > > +zero is returned.
-> > > +On error,
-> > > +\-1 is returned,
-> > > +and
-> > > +.I errno
-> > > +is set to indicate the error.
-> > > +.SH ERRORS
-> > > +.TP
-> > > +.B E2BIG
-> > > +.I size
-> > > +is too big (larger than
-> > > +.BR PAGE_SIZE ).
-> > > +.TP
-> > > +.B EACCES
-> > > +Search permission is denied for one of the directories
-> > > +in the path prefix of
-> > > +.IR pathname .
-> > > +.TP
-> > > +.B EBADF
-> > > +.I pathname
-> > > +is relative but
-> > > +.I dirfd
-> > > +is neither
-> > > +.B AT_FDCWD
-> > > +nor a valid file descriptor.
-> > > +.TP
-> > > +.B EBADF
-> > > +.I pathname
-> > > +is an empty string,
-> > > +.B AT_EMPTY_PATH
-> > > +was specified,
-> > > +but
-> > > +.I dirfd
-> > > +is an invalid file descriptor.
-> > > +.TP
-> > > +.B EFAULT
-> > > +.I pathname
-> > > +or
-> > > +.I fattr
-> > > +is an invalid pointer.
-> > > +.TP
-> > > +.B EINVAL
-> > > +Invalid flag specified in
-> > > +.IR flags .
-> > > +.TP
-> > > +.B EINVAL
-> > > +.I size
-> > > +is smaller than
-> > > +.BR FILE_ATTR_SIZE_VER0 .
-> > > +.TP
-> > > +.B ELOOP
-> > > +Too many symbolic links encountered while resolving
-> > > +.IR pathname .
-> > > +.TP
-> > > +.B ENAMETOOLONG
-> > > +.I pathname
-> > > +is too long.
-> > > +.TP
-> > > +.B ENOENT
-> > > +A component of
-> > > +.I pathname
-> > > +does not exist,
-> > > +or
-> > > +.I pathname
-> > > +is an empty string and
-> > > +.B AT_EMPTY_PATH
-> > > +was not specified in
-> > > +.IR flags .
-> > > +.TP
-> > > +.B ENOMEM
-> > > +Insufficient kernel memory was available.
-> > > +.TP
-> > > +.B ENOTDIR
-> > > +A component of the path prefix of
-> > > +.I pathname
-> > > +is not a directory or,
-> > > +.I pathname
-> > > +is relative and
-> > > +.I dirfd
-> > > +is a file descriptor referring to a file other than a directory.
-> > > +.TP
-> > > +.B EOPNOTSUPP
-> > > +The filesystem does not support getting attributes on this type of inode.
-> > > +.SH HISTORY
-> > > +.SS Linux 6.17
-> > > +This system call is introduced as a more flexible alternative to the
-> > > +FS_IOC_FSGETXATTR
-> > > +.BR ioctl (2)
-> > > +which could work on any type of files.
-> > 
-> > "...any type of file."
-> > 
-> > > +.SH NOTES
-> > > +This system call is designed to be extensible.
-> > > +The
-> > > +.I size
-> > > +argument allows userspace applications to indicate
-> > > +which version of the
-> > > +.I file_attr
-> > > +structure they are using,
-> > > +enabling the kernel to support both old and new versions
-> > > +of the structure simultaneously.
-> > > +.P
-> > > +If
-> > > +.I size
-> > > +is smaller than the structure size the kernel expects,
-> > > +only the fields that fit within
-> > > +.I size
-> > > +will be filled in.
-> > > +If
-> > > +.I size
-> > > +is larger than the kernel's structure size,
-> > > +the extra bytes are zeroed.
-> > 
-> > The extra bytes at the end are zeroed?  Then why does userspace need to
-> > zero fattr before passing it in?
+On 9/9/26 11:51, Hugh Dickins wrote:
+> Most callers of folio_test_clear_lru() then proceed to remove the folio
+> from its lru, and add it back at the end when they're done (if still in
+> use). But isolate_migratepages_block() and check_move_unevictable_pages()
+> sometimes decide against, and release immediately with a folio_set_lru().
 > 
-> Zeroing is not required for "file_getattr"
+> Which usually works fine: but there's now a small chance that while they
+> held the folio with lru bit cleared, an lru_add fbatch drain came along,
+> and had to skip that folio because its lru bit was transiently cleared
+> (previously, the lru_add fbatch drain relied on finding lru bit never yet
+> set). This risks leaving that folio off lru, unreclaimable until freed.
 
-Oh.  Right.  Comment withdrawn.
+So this makes the previous patch a somewhat bisection hazard? I guess it's
+acceptable given it's not fatal.
 
-> > 
-> > (I mean, it's good practice, if nothing else to shut up valgrind not
-> > being able to notice that an ioctl initializes what otherwise looks like
-> > an uninitialized stack object.)
-> > 
-> > > +.SH EXAMPLES
-> > > +The program below demonstrates the use of
-> > > +.BR file_getattr ()
-> > > +to retrieve and display file attributes.
-> > > +.P
-> > > +.in +4n
-> > > +.EX
-> > > +#include <fcntl.h>
-> > > +#include <linux/fs.h>
-> > > +#include <stdio.h>
-> > > +#include <stdlib.h>
-> > > +#include <sys/syscall.h>
-> > > +#include <unistd.h>
-> > > +
-> > > +#ifndef SYS_file_getattr
-> > > +#define SYS_file_getattr 467
-> > > +#endif
-> > > +
-> > > +int
-> > > +main(int argc, char *argv[])
-> > > +{
-> > > +    struct file_attr fa = { 0 };
-> > > +    int dfd;
-> > > +    long ret;
-> > > +
-> > > +    if (argc != 2) {
-> > > +        fprintf(stderr, "Usage: %s <filename>\\n", argv[0]);
-> > > +        exit(EXIT_FAILURE);
-> > > +    }
-> > > +
-> > > +    ret = syscall(SYS_file_getattr, AT_FDCWD, argv[1], &fa, sizeof(fa), 0);
-> > > +    if (ret == \-1) {
-> > > +        perror("file_getattr");
-> > > +        exit(EXIT_FAILURE);
-> > > +    }
-> > > +
-> > > +    printf("File attributes:\\n");
-> > > +    printf("  xflags:     0x%llx\\n", (unsigned long long)fa.fa_xflags);
-> > > +    printf("  extsize:    %u\\n", fa.fa_extsize);
-> > > +    printf("  nextents:   %u\\n", fa.fa_nextents);
-> > > +    printf("  projid:     %u\\n", fa.fa_projid);
-> > > +    printf("  cowextsize: %u\\n", fa.fa_cowextsize);
-> > > +
-> > > +    /*
-> > > +     * Try setting NODUMP flag with chattr +d ./foo to see the difference
-> > > +     */
-> > > +    if (fa.fa_xflags & FS_XFLAG_NODUMP)
-> > > +        printf("  NODUMP flag is set\\n");
-> > > +
-> > > +    exit(EXIT_SUCCESS);
-> > > +}
-> > > +.EE
-> > > +.in
-> > > +.SH SEE ALSO
-> > > +.BR file_setattr (2),
-> > > +.BR file_attr (2type),
-> > > +.BR ioctl (2),
-> > > +.BR ioctl_fs (2),
-> > > +.BR openat (2)
-> > > diff --git a/man/man2/file_setattr.2 b/man/man2/file_setattr.2
-> > > new file mode 100644
-> > > index 000000000000..596750dc79c8
-> > > --- /dev/null
-> > > +++ b/man/man2/file_setattr.2
-> > > @@ -0,0 +1,340 @@
-> > > +.\" Copyright, the authors of the Linux man-pages project
-> > > +.\"
-> > > +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> > > +.\"
-> > > +.TH file_setattr 2 (date) "Linux man-pages (unreleased)"
-> > > +.SH NAME
-> > > +file_setattr \- set filesystem inode attributes
-> > > +.SH SYNOPSIS
-> > > +.nf
-> > > +.BR "#include <linux/fcntl.h>" "      /* Definition of " AT_* " constants */"
-> > > +.BR "#include <linux/fs.h>" "         /* Definition of " FILE_ATTR_* \
-> > > +" and " FS_XFLAG_* " constants */"
-> > > +.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
-> > > +.B #include <unistd.h>
-> > > +.P
-> > > +.B long syscall(SYS_file_setattr,
-> > > +.BI "               int " dirfd ", const char *" pathname ,
-> > > +.BI "               struct file_attr *" fattr ", size_t " size ,
-> > > +.BI "               unsigned int " flags );
-> > > +.fi
-> > > +.P
-> > > +.IR Note :
-> > > +glibc provides no wrapper for
-> > > +.BR file_setattr (),
-> > > +necessitating the use of
-> > > +.BR syscall (2).
-> > > +.SH DESCRIPTION
-> > > +The
-> > > +.BR file_setattr ()
-> > > +system call sets filesystem inode attributes
-> > > +on the file specified by
-> > > +.IR pathname .
-> > > +.P
-> > > +This system call provides functionality similar to the
-> > > +.B FS_IOC_FSSETXATTR
-> > > +.BR ioctl (2)
-> > > +operation,
-> > > +but with the advantage that the file does not need to be opened.
-> > > +By using a pathname instead of requiring an open file descriptor,
-> > > +.BR file_setattr ()
-> > > +can manipulate filesystem inode attributes
-> > > +on all file types,
-> > > +including special files (FIFOs, sockets, block devices, character devices)
-> > > +where opening the file may have side effects or may not be possible.
-> > > +With
-> > > +.BR ioctl (2),
-> > > +it is not always possible to obtain a file descriptor that refers
-> > > +directly to the filesystem inode for special files.
-> > > +.P
-> > > +As with
-> > > +.BR openat (2),
-> > > +if
-> > > +.I pathname
-> > > +is relative,
-> > > +then it is interpreted relative to the directory
-> > > +referred to by the file descriptor
-> > > +.I dirfd
-> > > +(or the current working directory of the calling process,
-> > > +if
-> > > +.I dirfd
-> > > +is the special value
-> > > +.BR AT_FDCWD ).
-> > > +If
-> > > +.I pathname
-> > > +is absolute,
-> > > +then
-> > > +.I dirfd
-> > > +is ignored.
-> > > +.P
-> > > +The
-> > > +.I fattr
-> > > +argument is a pointer to a
-> > > +.I file_attr
-> > > +structure,
-> > > +which specifies the attributes to set on the file.
-> > > +This structure is described in
-> > > +.BR file_attr (2type).
-> > > +.P
-> > > +The
-> > > +.I size
-> > > +argument specifies the size of the buffer pointed to by
-> > > +.IR fattr .
-> > > +The size indicates version of the structure in use, refer to
-> > > +.B file_attr(2type)
-> > > +for more information on versioning.
-> > > +.P
-> > > +User-space applications should zero-initialize
-> > > +.I struct file_attr
-> > > +to ensure that future fields added to the structure
-> > > +will be treated as no-ops if the structure definition is updated
-> > > +but the application is not.
-> > 
-> > I thought they were supposed to call file_getattr() to initialize fattr
-> > before making whatever changes they want and calling file_setattr()?
+> Fix such cases by trying lru_add_del_folio() (which only takes action and
+> returns true if the folio was on an lru_add fbatch), then folio_add_lru()
+
+Oh ok, that's one detail I didn't realize on the previous patch, and
+explains the name of the function. But it's still IMHO confusing.
+
+> if it succeeded: invalidating the old fbatch slot, appending in a new one.
 > 
-> Yes, if file_getattr() is used for initialization then zeroing is
-> not required as kernel will zero/check that everything fits, but if
-> used by itself then zeroing would be necessary to work with older
-> kernels. What about this:
+> Signed-off-by: Hugh Dickins <hughd@google.com>
+
+In general, LGTM.
+Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+
+Nit below:
+
+> ---
+>  mm/compaction.c | 13 +++++++++++--
+>  mm/vmscan.c     | 16 +++++++++-------
+>  2 files changed, 20 insertions(+), 9 deletions(-)
 > 
-> 	.P
-> 	User-space applications should use
-> 	.B file_getattr(2)
-> 	to initialize
-> 	.I fattr
-> 	structure beforehand or zero-initialize
-> 	.I struct file_attr
-> 	to ensure that future fields added to the structure
-> 	will be treated as no-ops if the structure definition is updated
-> 	but the application is not.
+> diff --git a/mm/compaction.c b/mm/compaction.c
+> index a049415512c6..9e045a90ba21 100644
+> --- a/mm/compaction.c
+> +++ b/mm/compaction.c
+> @@ -1204,7 +1204,13 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
+>  				     !cc->alloc_contig)) {
+>  				low_pfn += folio_nr_pages(folio) - 1;
+>  				nr_scanned += folio_nr_pages(folio) - 1;
+> -				folio_set_lru(folio);
+> +				if (lru_add_del_folio(folio)) {
+> +					lruvec_unlock_irqrestore(locked, flags);
+> +					folio_add_lru(folio);
+> +					locked = NULL;
+> +				} else {
+> +					folio_set_lru(folio);
+> +				}
+>  				goto isolate_fail_put;
+>  			}
+>  		}
+> @@ -1293,7 +1299,10 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
+>  	if (locked)
+>  		lruvec_unlock_irqrestore(locked, flags);
+>  	if (folio) {
+> -		folio_set_lru(folio);
+> +		if (lru_add_del_folio(folio))
+> +			folio_add_lru(folio);
+> +		else
+> +			folio_set_lru(folio);
+>  		folio_put(folio);
+>  	}
+>  
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index f11491ee9ed5..4e8d5cc34f07 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -8093,17 +8093,19 @@ void check_move_unevictable_folios(struct folio_batch *fbatch)
+>  			folio_clear_unevictable(folio);
+>  			lruvec_add_folio(lruvec, folio);
+>  			pgrescued += nr_pages;
+> +		} else if (lru_add_del_folio(folio)) {
+> +			lruvec_unlock_irq(lruvec);
+> +			folio_add_lru(folio);
+> +			lruvec = NULL;
+>  		}
+> -		folio_set_lru(folio);
+> +		if (lruvec)
+> +			folio_set_lru(folio);
+>  	}
+>  
+> -	if (lruvec) {
+> -		__count_vm_events(UNEVICTABLE_PGRESCUED, pgrescued);
+> -		__count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
+> +	if (lruvec)
+>  		lruvec_unlock_irq(lruvec);
+> -	} else if (pgscanned) {
+> -		count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
+> -	}
+> +	count_vm_events(UNEVICTABLE_PGRESCUED, pgrescued);
+> +	count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
 
-I don't see how zeroing (instead of calling file_getattr) would ever
-make sense since that would turn off pre-existing attributes, but I do
-like the sentence "User-space applications should use file_getattr(2) to
-initialize fattr beforehand."
+AFAIU this is done because we can no longer rule out that !lruvec means
+pgrescued is 0.
+But we can still distinguish the cheaper __count_vm_events vs
+count_vm_events? Probably all the same on x86, but I hear on arm64 this_cpu*
+ops have a cost worth proposing rather elaborate schemes to deal with...
 
---D
+>  }
+>  EXPORT_SYMBOL_GPL(check_move_unevictable_folios);
+>  
 
-> -- 
-> - Andrey
-> 
