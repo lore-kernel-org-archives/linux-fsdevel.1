@@ -1,73 +1,96 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3BC46EC98
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 07:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C99B448B80
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 07:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788938556; cv=none; b=T07FifPCIeQVeZWf+ZIu/wU1y7i0XtjE4Awe0BYXQwUEb8FBdETmPBAiS7uwZVS6tuhaL+bRxDxLyCBfycvopF1yLuNV/MXI46sENEWT6EyCJxLFdzdiKzQjbCAfv1Mu1M5XG307OaC2BU6IXxIkPS0EHnGBC+rULeX1ZN4WL0g=
+	t=1788938704; cv=none; b=stmBxqOCuEKmQ+AUB5W2gbH5DvgisW7jYFwfgnxMt8DO6FAS9XsqdYDD1MJTI2/Fpqf4Bbfk+d6Edzcl2LvRbCQNg6U+Ta0gNNmuUJWOEDTzNc4bDs295PENZKuTAEfdj5ExFADMaLtSjHhxOkdexpQMOqdq+7r9ncb62+TJO1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788938556; c=relaxed/simple;
-	bh=LZ2hS8A6llV8NkvAufdH9wFQBoDVrgr/5hAQg36CjfM=;
+	s=arc-20240116; t=1788938704; c=relaxed/simple;
+	bh=6IpihIKg7y7X2cwXfcmqkmOxJCzJb7Ke/fCjIixrgYE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QgZAmTWBseeGZj9LtvPMNDms+TS6CkRQjWIIClNWwVIIGZzlkepr5WGih3PML0yyhwCow7RMfMGAOTS0Q0bLFXyVnEUKLOL2tXBHZeXpQOtx+962MH57Xc1tjn7sKzpYhU4sAQ8eAyyDHq5/Sn27PnMDFlwOBmGSxrBkC0U1q+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gB1UYFXg; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 MIME-Version; b=oVqIf8/SvxA0G6HiTgrSAVHqjsubt0qXP9eoIV9sVegUBcAtGALzr3jc1EGNPRTuCfXYOorMjJxgf7bImjGKIgtlVykDjSHDzJyHqzv90mWi6Lg3UReiiwzwSaLns/4lItmrtgT+ZT72NHm5OeskEQxrAp4/ovW4wDnA7DqFkzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ctdGs+8w; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gB1UYFXg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788938553;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/xgppktK1ya3AHkXZxi9vPI0IjVoDDvwcSOEfPSvP+w=;
-	b=gB1UYFXgD6TAnt2AIx6A+MN+n+NnmezLHX43E+YgBlVf6U3BPanii32Yzppi5HnlzvZIEA
-	hzv7LRGQtvDdny2htvfzLVDdTD1oijcxibnHW7jbuovBxzPD9UPiYa3bAi1fj4oTTzhAMb
-	NWE1z7WHVsh+P6GCUpd7Fa/wngs3tVs=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-488-jc9DiHqrPbe-2bcDCqYZSQ-1; Wed,
- 09 Sep 2026 03:22:27 -0400
-X-MC-Unique: jc9DiHqrPbe-2bcDCqYZSQ-1
-X-Mimecast-MFC-AGG-ID: jc9DiHqrPbe-2bcDCqYZSQ_1788938544
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D94681800598;
-	Wed,  9 Sep 2026 07:22:23 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.158])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 57C9A195608C;
-	Wed,  9 Sep 2026 07:22:18 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctdGs+8w"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48436216a98so3792089f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 00:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788938700; x=1789543500; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6IpihIKg7y7X2cwXfcmqkmOxJCzJb7Ke/fCjIixrgYE=;
+        b=ctdGs+8wEAYbTbCeAp8ELG1CwjP3pXcBGVSoduIKr0ldo2r+KDJZGduZCG/BpoY6pg
+         yecUBlmUEataUjdPUK3qzadO6JcJ13qjR8ig80joGcxStO7bEP8WDMXCTDJ4pxP8B0Ti
+         TyElTkg2UcV1eKHzLQ8BMPfDqtPfWyvim3+uTNGMDn7Uasiq+9IBKRPHJmJc1bbH3t7Z
+         vF9xWYAsNTOroKZSDWiW4cKfAkNBiFHbjIebIuRj7OgoSUWtz3pWHYREm/PzUdsceGJL
+         nGWbtmKvMCq6C/6uljQNpUVE/J9xvBrQ3hz/5Z2kKgdyIB1nyUXnnTEO3oASsiSzZRqO
+         b51Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788938700; x=1789543500;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6IpihIKg7y7X2cwXfcmqkmOxJCzJb7Ke/fCjIixrgYE=;
+        b=Act2f7LmCz8bERMY80ryyxvwsjiVHY8nghhvi+uIs/e9Jhiw6wKq6PYRlCXRdR6GhI
+         WHPW4nUVcoNiKDqlhS3IE+z2CvdjkcF4aZnRzEdf2dPXB1CQMI2h3l/bBHrvtcrgyzHT
+         dOwzbpMb8TXWV8ryNDPenhLGv5Y6LOIVK4lmmTIjRXR/sInmeJ0v5j4TYw7vqYE6i72W
+         FpNMPgZUOuDX9ILcFxc+Xrw1ujOe7uGDhirC1JvpaPvMoq4JE4JoQzSTZMAZ7NdETJm0
+         1PW2sawdW+LaJ3oCWgKXyiHMg2bhACnlL3Mkq43ADdbVcrwlvOqKK+U+h7Dli2Oz11Ad
+         fhyg==
+X-Forwarded-Encrypted: i=1; AKwUvBzt/Yo2YeWY/1/su/RGs/hq9cltkSxVxxUzjJJZwRcreYcy4qrrDJr5hvuYM4bo5kK7OZZAfa/rYsH5C2VZ@vger.kernel.org
+X-Gm-Message-State: AFuF++kjLKd0wmvcItfwyGKByEaGCNdvwbXu591K8mgXR1xE8nk0BkmI
+	vSGQjQaZqhbPmtHNA5ZEOHbxBfudTnS6ax9WzP0ZQFzKuqAxC/u9j5jz
+X-Gm-Gg: AYBFou3SuRWAMOcMNzp6Oz3+GEuYBBqsmOR3l2O0uhg3beC2gTQpiOzZFjrPS1ui9rB
+	QGH+gcdlTH5VIdh0u2iI0p5lb0DE0YB9NFSEWElg2sAgHM+S1rtNVKr0W8JipJjoZQfo2ubOR16
+	xHE2f4CUQ8NC3eiJiUaePepsFecwMhwQ4sQ62LLUH9ZW99qEgk5vRysQRByrzsgB+2+XVWLAS65
+	dJ6kgYbOMPi6StgE2I3iF8aOtWiA58m8UEe/727WSVGrrY4cio4QahlXxWOWWKUp2udLg5RZAcV
+	tqGDZCVtTZRuUl3Qey6C556fvte8395lZhmK/6fxGIkzB8VyyuhpS07fPQ4SOK3PSFuuYUEB0bP
+	+fb8U7IAJjZ3Y8QIEVWE/jMWYKcSykRUFttaZil036u8tN6JMgpdrITr0/fTa5fXcRHqe5HWxj1
+	zFQ2BQT+sEaEShcJ5oYjmbJTmOwEkx5YIhG9mbRqAGWxzs3UPZfYYM2OoAo7SHPDgcw8loODhR2
+	o/D1UvNfRZN
+X-Received: by 2002:a05:6000:4909:b0:485:8c17:9764 with SMTP id ffacd0b85a97d-4858c179966mr30927449f8f.38.1788938700220;
+        Wed, 09 Sep 2026 00:25:00 -0700 (PDT)
+Received: from dell-desktop ([2a02:587:4b5f:900:ef25:2f4:1792:4e6f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883acd33sm41527265f8f.18.2026.09.09.00.24.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 00:24:59 -0700 (PDT)
+From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+To: bot+bpf-ci@kernel.org
+Cc: akpm@linux-foundation.org,
+	andrii@kernel.org,
+	ast@kernel.org,
+	bpf@vger.kernel.org,
+	brauner@kernel.org,
+	daniel@iogearbox.net,
+	david@kernel.org,
+	eddyz87@gmail.com,
+	ihor.solodrai@linux.dev,
+	kpsingh@kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v13 8/8] netfs: Set subrequest->source at alloc before trace emission
-Date: Wed,  9 Sep 2026 08:21:02 +0100
-Message-ID: <20260909072105.1663687-9-dhowells@redhat.com>
-In-Reply-To: <20260909072105.1663687-1-dhowells@redhat.com>
-References: <20260909072105.1663687-1-dhowells@redhat.com>
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	martin.lau@kernel.org,
+	mason@kernel.org,
+	matt@bobrowski.net,
+	memxor@gmail.com,
+	song@kernel.org,
+	sun.jian.kdev@gmail.com,
+	tasos.papagiannnis@gmail.com,
+	utilityemal77@gmail.com,
+	viro@zeniv.linux.org.uk,
+	yonghong.song@linux.dev
+Subject: Re: [PATCH bpf-next v6 3/5] bpf: Add user memory access kfuncs for mm_struct
+Date: Wed,  9 Sep 2026 10:24:34 +0300
+Message-ID: <20260909072434.66868-1-tasos.papagiannnis@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <4ef240a5bea36ff84df9589671367832860795159386a4c8fba546a0fa8b786f@mail.kernel.org>
+References: <4ef240a5bea36ff84df9589671367832860795159386a4c8fba546a0fa8b786f@mail.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -75,166 +98,7 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Set subrequest->source in netfs_alloc_subrequest() before we emit the trace
-line indicating we allocated the subrequest.  Note that this requires the
-allocation of the subreq in netfs_read_to_pagecache() to be pushed to after
-the decision about what sort of subreq it should be.
+> Does this drop the address-wrap guard on !CONFIG_MMU builds?
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-cc: linux-mm@kvack.org
----
- fs/netfs/buffered_read.c | 4 ++--
- fs/netfs/direct_read.c   | 3 +--
- fs/netfs/internal.h      | 3 ++-
- fs/netfs/objects.c       | 4 +++-
- fs/netfs/read_retry.c    | 3 +--
- fs/netfs/read_single.c   | 3 +--
- fs/netfs/write_issue.c   | 3 +--
- fs/netfs/write_retry.c   | 3 +--
- 8 files changed, 12 insertions(+), 14 deletions(-)
-
-diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-index 887d45f3745a..68496e1a171f 100644
---- a/fs/netfs/buffered_read.c
-+++ b/fs/netfs/buffered_read.c
-@@ -276,10 +276,10 @@ static void netfs_read_to_pagecache(struct netfs_io_request *rreq)
- 
- 	do {
- 		struct netfs_io_subrequest *subreq;
--		enum netfs_io_source source = NETFS_SOURCE_UNKNOWN;
-+		enum netfs_io_source source;
- 		ssize_t slice;
- 
--		subreq = netfs_alloc_subrequest(rreq);
-+		subreq = netfs_alloc_subrequest(rreq, NETFS_SOURCE_UNKNOWN);
- 		if (!subreq) {
- 			ret = -ENOMEM;
- 			break;
-diff --git a/fs/netfs/direct_read.c b/fs/netfs/direct_read.c
-index 5405e108b7a3..8c15f3079723 100644
---- a/fs/netfs/direct_read.c
-+++ b/fs/netfs/direct_read.c
-@@ -55,7 +55,7 @@ static void netfs_dispatch_unbuffered_reads(struct netfs_io_request *rreq)
- 		struct netfs_io_subrequest *subreq;
- 		ssize_t slice;
- 
--		subreq = netfs_alloc_subrequest(rreq);
-+		subreq = netfs_alloc_subrequest(rreq, NETFS_DOWNLOAD_FROM_SERVER);
- 		if (!subreq) {
- 			/* Stash the error in the request if there's not
- 			 * already an error set.
-@@ -64,7 +64,6 @@ static void netfs_dispatch_unbuffered_reads(struct netfs_io_request *rreq)
- 			break;
- 		}
- 
--		subreq->source	= NETFS_DOWNLOAD_FROM_SERVER;
- 		subreq->start	= start;
- 		subreq->len	= size;
- 
-diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index d579c5d79609..4891e6e3c5db 100644
---- a/fs/netfs/internal.h
-+++ b/fs/netfs/internal.h
-@@ -92,7 +92,8 @@ void netfs_get_request(struct netfs_io_request *rreq, enum netfs_rreq_ref_trace
- void netfs_clear_subrequests(struct netfs_io_request *rreq);
- void netfs_put_request(struct netfs_io_request *rreq, enum netfs_rreq_ref_trace what);
- void netfs_put_failed_request(struct netfs_io_request *rreq);
--struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq);
-+struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq,
-+						   enum netfs_io_source source);
- 
- static inline void netfs_see_request(struct netfs_io_request *rreq,
- 				     enum netfs_rreq_ref_trace what)
-diff --git a/fs/netfs/objects.c b/fs/netfs/objects.c
-index 3460aa1c4af1..9c6ea718692a 100644
---- a/fs/netfs/objects.c
-+++ b/fs/netfs/objects.c
-@@ -207,7 +207,8 @@ void netfs_put_failed_request(struct netfs_io_request *rreq)
- /*
-  * Allocate and partially initialise an I/O request structure.
-  */
--struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq)
-+struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq,
-+						   enum netfs_io_source source)
- {
- 	struct netfs_io_subrequest *subreq;
- 	mempool_t *mempool = rreq->netfs_ops->subrequest_pool ?: &netfs_subrequest_pool;
-@@ -224,6 +225,7 @@ struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq
- 	INIT_WORK(&subreq->work, NULL);
- 	INIT_LIST_HEAD(&subreq->rreq_link);
- 	refcount_set(&subreq->ref, 2);
-+	subreq->source = source;
- 	subreq->rreq = rreq;
- 	subreq->debug_index = atomic_inc_return(&rreq->subreq_counter);
- 	netfs_get_request(rreq, netfs_rreq_trace_get_subreq);
-diff --git a/fs/netfs/read_retry.c b/fs/netfs/read_retry.c
-index 46810d29f0c0..396a05432a7e 100644
---- a/fs/netfs/read_retry.c
-+++ b/fs/netfs/read_retry.c
-@@ -195,12 +195,11 @@ static void netfs_retry_read_subrequests(struct netfs_io_request *rreq)
- 		 * and insert them after.
- 		 */
- 		do {
--			subreq = netfs_alloc_subrequest(rreq);
-+			subreq = netfs_alloc_subrequest(rreq, NETFS_DOWNLOAD_FROM_SERVER);
- 			if (!subreq) {
- 				subreq = to;
- 				goto abandon_after;
- 			}
--			subreq->source		= NETFS_DOWNLOAD_FROM_SERVER;
- 			subreq->start		= start;
- 			subreq->len		= len;
- 			subreq->stream_nr	= stream->stream_nr;
-diff --git a/fs/netfs/read_single.c b/fs/netfs/read_single.c
-index ccb5fc809d99..81295c055ced 100644
---- a/fs/netfs/read_single.c
-+++ b/fs/netfs/read_single.c
-@@ -92,11 +92,10 @@ static int netfs_single_dispatch_read(struct netfs_io_request *rreq)
- 	struct netfs_io_subrequest *subreq;
- 	int ret = 0;
- 
--	subreq = netfs_alloc_subrequest(rreq);
-+	subreq = netfs_alloc_subrequest(rreq, NETFS_SOURCE_UNKNOWN);
- 	if (!subreq)
- 		return -ENOMEM;
- 
--	subreq->source	= NETFS_SOURCE_UNKNOWN;
- 	subreq->start	= 0;
- 	subreq->len	= rreq->len;
- 	subreq->io_iter	= rreq->buffer.iter;
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index 9a528da4bf9f..e7cb496f6324 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -168,10 +168,9 @@ void netfs_prepare_write(struct netfs_io_request *wreq,
- 	    wreq_iter->folioq_slot >= folioq_nr_slots(wreq_iter->folioq))
- 		rolling_buffer_make_space(&wreq->buffer, wreq->gfp);
- 
--	subreq = netfs_alloc_subrequest(wreq);
-+	subreq = netfs_alloc_subrequest(wreq, stream->source);
- 	if (!subreq)
- 		return;
--	subreq->source		= stream->source;
- 	subreq->start		= start;
- 	subreq->stream_nr	= stream->stream_nr;
- 	subreq->io_iter		= *wreq_iter;
-diff --git a/fs/netfs/write_retry.c b/fs/netfs/write_retry.c
-index 6cd584242af2..d7d5348496fc 100644
---- a/fs/netfs/write_retry.c
-+++ b/fs/netfs/write_retry.c
-@@ -149,8 +149,7 @@ static void netfs_retry_write_stream(struct netfs_io_request *wreq,
- 		 * and insert them after.
- 		 */
- 		do {
--			subreq = netfs_alloc_subrequest(wreq);
--			subreq->source		= to->source;
-+			subreq = netfs_alloc_subrequest(wreq, stream->source);
- 			subreq->start		= start;
- 			subreq->stream_nr	= to->stream_nr;
- 			subreq->retry_count	= 1;
-
+This is fixed in https://lore.kernel.org/bpf/20260909064231.18693-1-tasos.papagiannnis@gmail.com/
