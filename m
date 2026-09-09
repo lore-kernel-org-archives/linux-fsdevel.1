@@ -1,271 +1,168 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7716485CCD
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 09:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFCB4766B7;
+	Wed,  9 Sep 2026 09:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788947083; cv=none; b=ZItlt+9Sz7pabIhwV0PPEEq+2RyfwKebUpvMZRPOrueVaByD4aEVIKXahbJUn78+yQg4TD+0wU36WzJj2h5ebp98f9DPcdeF2Hvg7rMg7uWTfp6yOhFNuoCk+j76bKP13fbcRFJSzQ7LSkCsi6RPcIHtbl+OrxqzDyIo8qdmcek=
+	t=1788947209; cv=none; b=u2vrM5D/FBsOPymTFKlr1HuH5+p7f+XOIwbbWfSDBJDln0AMucQ6L6nk7e/9sXmgwmoopr/H83GgmHWMzSTlSCNC/n37ncdZNYibhYQqKft4AM1aXCBvAEuXgJzUZKEEcr9B3APIfBpcS3k8SpzdotMY53UaAT15h0TkOP1FvgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788947083; c=relaxed/simple;
-	bh=bTUnCSRZY4G+HM39v0Xkm1aeH5odwpKTGFZaGF+zFkU=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=gHLHILadtFoPs4aqQ7SYd6JhkCVuZ3+0t7fIcrRcLZPX/1vWp0SdEQnzyWVdAs0zYzTXjJWsnf7jwr6uB8+umbqqMyBnQQdS5LNDaS9jwiCYXTPOXMe7W2gmW+r4UKrtXIBJaMqvQtGqMvUpPz4NTURoWZzuGxaYOkPmV6B3XRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tdkF8xNK; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1788947209; c=relaxed/simple;
+	bh=mJovflON4q9TCpM6ZQzExrmapiA6Dx3iIby56hc5sjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ut6xIBQNeNiOSY3cpERbk//Ta2HLDzYgRUovErqiIM3ATqgemc9yFnjJfu8jLJ4mH7DB8Gv9Zu6yYAVPhE/8yTAre03ZvSOsOy+Hl77Lkgojl0I0Gafh03YFwwlmKUFltHU2n3Dfbx7Qj+ZMTgvqMNlxJeulmTDuqGw7spEOGwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=clQYoghz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HzOeEs70; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Rgr8rTkp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zMSDJGRn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tdkF8xNK"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-87c938111a7so13698357b3.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 02:44:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788947081; x=1789551881; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=l/77qcoGASc/bcotpYpu7s8Toxgxo4GzXR5d/4rRuxI=;
-        b=tdkF8xNKlSCsIfsWgL91//5JVWgbkFK8LI9ElBpjlcX2oh0npUSYMyYmAKaCdOFusp
-         lzLiD0XQai4k68ZG54JivS5/UV9clbwroSxZjzDWKC/XRqHNG+PpAPOvrp9xtVCCpVLi
-         w5PywqOGLYlOtNtQ7Mgj4iDroomAxlO8O9QpcHgCKmwr74pp6TDdr/r1CoWVwt9FuiVK
-         O23DIzXJzukdhqm3IXUwBBV984B1jGtcg6hWtagQoz3HgCPFL8v2/vSCaWqekEVJbo8L
-         jh2bXikkE0jWIqw4pouWidbBZb8Kik95aoNPF1D5Ai6yygBz4gICB8vPsBmPSaBfoc8H
-         ve2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788947081; x=1789551881;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=l/77qcoGASc/bcotpYpu7s8Toxgxo4GzXR5d/4rRuxI=;
-        b=NUkysvgHxy5DvLRmLQEQOwJ/Y+h/fc2Mi8vD4XpYN/xZMfDun5D1jm3vikJkIJmTUu
-         zn27wtOu65TA3AZ00e7EpHa5YuB0O2zSYDE11Xdy7qiz4tMrM7m5tZ5lpEPe4G5EelFs
-         hVEj51ZF2YLSFmjirSAyAGhCHR/GdkdYn6Isms7mA3b5+uRzWVOqk5iGd+vzFW3qUXzD
-         pppUDJcQapDRTXp5FsqCEo3thB7ZVCPcggzibaHSg1nJ3TbRYXokM0TnbyP5F78EwZsU
-         a3x45RpkrPjM/U1nDxmFQuAbuZyDyWvbyNp/iG0UKmp4MH1WuYJOqkr63Rpi9IHlcAo0
-         C2fA==
-X-Forwarded-Encrypted: i=1; AKwUvBza7M/ftnKBGTforpLfPuDGzYKFQQmCUzySY4aW29D8x89eYj6PnEYszMJ7iGqDBCpr1MmrKP/hkzhGyBSK@vger.kernel.org
-X-Gm-Message-State: AFuF++mqKsaTmsUAmt7JL1FfxCuuN2PC1YZrWPEkKzTk3V+sa7h/IZHn
-	0BqPUUq8kpj8kEjSqgSnRwU/y2IhWQh5eQlmkvfoTPB0FcpoeRD4XJFQEPyQwKN2Jw==
-X-Gm-Gg: AYBFou3qo6fRJ4IjCQ6PeCEEqcPR9vaYwg3kQM2RPxESIo4lauNPGZTbpMm4GigULF9
-	+4Ic7+vnaQRTK4fQXyAnHAe2Wwfb3Lw5FLeyXYcnwtaYrFZOLI8CHyrf0P+NhX4QjKDb4whypSe
-	mF8bQQOkV1SuCs8maMHStUbqoBgdCujGq8yaHd6pN3s7DjwbHanMLasYq/nVAZHPvfwk9yzvMu8
-	Sb/g7NLlMzu98a8XhbUdi8xrWRAiHTspY8k89z1uMIyJ33cEt8d5Gbp0cqrM4riYpSkwAbHxIfy
-	lkMIEpTQAxldDo7s1i4KIilGl32f5E8FOAy6yEcY0eYPVT7xkTPuaZ/HBQgQiASOTvyQAWp9dh2
-	1bDnYp3UASkWSA3jYBCb/gXgmK8hNZjUoWEsIRjniq7pSweAG90HHuGBWsfS5uW6rrXfYA+UKbB
-	T5Xt8AAN3/glrGvkxUGAEMVQkCZRXn8JHDrHofPeVUSY0m+B5gd9eADvuU2SyfPW3S/C8uwtFVH
-	qu8qCy2ruW5tljQNsmJHi4adxFp0VcNbNGMxv+BkX3fPR66YdgNtNWF0QAx
-X-Received: by 2002:a05:690c:a84:b0:7f0:38f7:6ca6 with SMTP id 00721157ae682-86e6d7905ccmr129247067b3.5.1788947079991;
-        Wed, 09 Sep 2026 02:44:39 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-873194f76e3sm92930227b3.5.2026.09.09.02.44.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 02:44:39 -0700 (PDT)
-Date: Wed, 9 Sep 2026 02:44:34 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-cc: Ackerley Tng <ackerleytng@google.com>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>, 
-    Baolin Wang <baolin.wang@linux.alibaba.com>, 
-    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
-    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-    Christoph Lameter <cl@gentwo.org>, 
-    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
-    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
-    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
-    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-    Marcelo Tosatti <mtosatti@redhat.com>, 
-    Matthew Wilcox <willy@infradead.org>, 
-    Mel Gorman <mgorman@techsingularity.net>, 
-    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
-    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
-    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Shakeel Butt <shakeel.butt@linux.dev>, 
-    Suren Baghdasaryan <surenb@google.com>, 
-    Vlastimil Babka <vbabka@kernel.org>, 
-    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
-    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
-    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 02/26] mm/fbatch: allow folios_put_refs() to skip
- xa_is_value() entries
-In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
-Message-ID: <c441176c-33b7-c8f8-fb7f-51774e1fd853@google.com>
-References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="clQYoghz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HzOeEs70";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Rgr8rTkp";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zMSDJGRn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DB42821B48;
+	Wed,  9 Sep 2026 09:46:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788947202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ET8n7cENHr0UHT7IN2RMsfgNqJ4fiwg5SvVAcH7Rh2s=;
+	b=clQYoghzbU3jwwvSUUZ4Fp6MEjUDN1ss5m3HLX6+ZQaodsd4p69uoDeIW0sVx1Xqjpma0h
+	TDXBrkMFof7irKIbhznpQNPHyoTpVpRsucQetZl5MiuVLbjbTzweqWLCcHkD5/xhiN1Poa
+	9l3AUTGnR8BhJHBDCISGfU1GaazzDWo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788947202;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ET8n7cENHr0UHT7IN2RMsfgNqJ4fiwg5SvVAcH7Rh2s=;
+	b=HzOeEs70kHC/CdWJtrPIyf0B1CcyTkYtt+GsIltRkC4AEKVjEfZVNIzefeSDpAj2y2AGA8
+	DF/o69WmynvAc/AQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Rgr8rTkp;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=zMSDJGRn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1788947197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ET8n7cENHr0UHT7IN2RMsfgNqJ4fiwg5SvVAcH7Rh2s=;
+	b=Rgr8rTkp674DvF1CYsr8WdWNXKLwfKOsJCp4FeLFbwyFtpwwmqNTTXeIcVVsvAgfUOQHd3
+	T+I/kY2TNSiXPlq7OD2+k/q7XNbCpmsfUU9jteermIMYI/AsVSq5L4zOScStdMZZpGsq1I
+	ce+UKgS4aWlRmswm3fUqN4CfYghe3nU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1788947197;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ET8n7cENHr0UHT7IN2RMsfgNqJ4fiwg5SvVAcH7Rh2s=;
+	b=zMSDJGRnez5WKRm247LuMMvBMkku642ek9XG/7QKC3ERUDdKcvgFxVr8KOFkXRlGQFhqSL
+	nWQ3JW5bxeB/vFAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B9B271352C;
+	Wed,  9 Sep 2026 09:46:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mS5SLf0qoWqlAQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 09 Sep 2026 09:46:37 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 48C26A1341; Wed, 09 Sep 2026 11:46:33 +0200 (CEST)
+Date: Wed, 9 Sep 2026 11:46:33 +0200
+From: Jan Kara <jack@suse.cz>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Marco Elver <elver@google.com>, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	Timothy Day <timday@thelustrecollective.com>, linux-ext4@vger.kernel.org, Theodore Tso <tytso@mit.edu>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] once_lite: Simplify condition handling and fix context
+ analysis
+Message-ID: <wdik2jphoenf2qaixyrmy2adx5vcf42fzzcictossm73lqweoc@l3vwrnzxvsg5>
+References: <20260903101843.3462767-1-elver@google.com>
+ <20260907221334.GA1619741@ax162>
+ <CANpmjNNuiX-rQFvn0GK1SxAbcxEUH7rKh69GPq+7u2tg63qbmQ@mail.gmail.com>
+ <4ohly4m6ffr4jnpqncucwkajjorfzdi4x3perczoszs5cb7ljx@mrf7no3uuzua>
+ <20260909002005.GA3661577@ax162>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909002005.GA3661577@ax162>
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: DB42821B48
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
 
-Let folios_put_refs() (hence folio_batch_release()) skip xa_is_value()
-entries, and therefore remove unneeded folio_batch_remove_exceptionals().
+On Tue 08-09-26 17:20:05, Nathan Chancellor wrote:
+> On Tue, Sep 08, 2026 at 12:15:13PM +0200, Jan Kara wrote:
+> > On Tue 08-09-26 00:17:34, Marco Elver wrote:
+> > > Thanks! I think this is one of those orphaned files - which tree can
+> > > this go through? Can it go through your tree, unless Jan already
+> > > picked it up with the other fix?
+> > 
+> > If Nathan can take it through his tree, that would be great, otherwise I
+> > can take it through mine. Just let me know.
+> 
+> I applied this to my clang-fixes tree and created an immutable tag for
+> you to pull from, as you should have it in your tree since you are
+> enabling context analysis there. If nobody else needs it and I do not
+> have any other material for 7.4 in that tree, I won't send a pull
+> request if the ext2 tree is merged with this included.
+> 
+> The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
+> 
+>   Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git@gitolite.kernel.org:pub/scm/linux/kernel/git/nathan/linux.git tags/clang-fixes-once_lite-for-7.4
+> 
+> for you to fetch changes up to 0bb666d5f5a2339a5692afb312c2161df9620503:
+> 
+>   once_lite: Simplify condition handling and fix context analysis (2026-09-08 16:54:02 -0700)
+> 
+> ----------------------------------------------------------------
+> Immutable branch for once_lite.h context analysis fix
+> 
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-It made some sense when introduced in 3.1 for shmem swap entries only,
-but workingset shadows popularized exceptional entries in 3.15, and it's
-silly for so many sites to be squashing exceptionals out of the fbatch,
-merely to suit an inadequacy in folios_put_refs().
+OK, thanks. I've pulled this branch into my tree.
 
-But remove exceptionals on leaving truncate_folio_batch_exceptionals(),
-one of whose callers then passes the fbatch on to others less tolerant.
-
-No longer essential to this series, since 7.2 commit 9669b87065a6
-("mm/lruvec: preemptively free dead folios during lru_add drain")
-allowed folios_put_refs() to skip NULLs; but still an improvement.
-
-Signed-off-by: Hugh Dickins <hughd@google.com>
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-Reviewed-By: Vlastimil Babka (SUSE) <vbabka@kernel.org>
----
- include/linux/folio_batch.h |  5 +----
- mm/folio.c                  | 25 ++++---------------------
- mm/shmem.c                  |  2 --
- mm/truncate.c               | 16 ++++++++++------
- 4 files changed, 15 insertions(+), 33 deletions(-)
-
-diff --git a/include/linux/folio_batch.h b/include/linux/folio_batch.h
-index b45946adc50b..e1cc8ae023f1 100644
---- a/include/linux/folio_batch.h
-+++ b/include/linux/folio_batch.h
-@@ -22,8 +22,7 @@ struct folio;
-  * The folio_batch is used to amortise the cost of retrieving and
-  * operating on a set of folios.  The order of folios in the batch may be
-  * significant (eg delete_from_page_cache_batch()).  Some users of the
-- * folio_batch store "exceptional" entries in it which can be removed
-- * by calling folio_batch_remove_exceptionals().
-+ * folio_batch store "exceptional" (xa_is_value) entries in it too.
-  */
- struct folio_batch {
- 	unsigned char nr;
-@@ -100,6 +99,4 @@ static inline void folio_batch_release(struct folio_batch *fbatch)
- 	if (folio_batch_count(fbatch))
- 		__folio_batch_release(fbatch);
- }
--
--void folio_batch_remove_exceptionals(struct folio_batch *fbatch);
- #endif /* _LINUX_FOLIO_BATCH_H */
-diff --git a/mm/folio.c b/mm/folio.c
-index c093ca900a3e..ad6c64a4c22c 100644
---- a/mm/folio.c
-+++ b/mm/folio.c
-@@ -964,6 +964,10 @@ void folios_put_refs(struct folio_batch *folios, unsigned int *refs)
- 		if (!folio)
- 			continue;
- 
-+		/* Skip any "exceptional" (workingset or shmem swap) entry. */
-+		if (xa_is_value(folio))
-+			continue;
-+
- 		if (is_huge_zero_folio(folio))
- 			continue;
- 
-@@ -1069,27 +1073,6 @@ void __folio_batch_release(struct folio_batch *fbatch)
- }
- EXPORT_SYMBOL(__folio_batch_release);
- 
--/**
-- * folio_batch_remove_exceptionals() - Prune non-folios from a batch.
-- * @fbatch: The batch to prune
-- *
-- * find_get_entries() fills a batch with both folios and shadow/swap/DAX
-- * entries.  This function prunes all the non-folio entries from @fbatch
-- * without leaving holes, so that it can be passed on to folio-only batch
-- * operations.
-- */
--void folio_batch_remove_exceptionals(struct folio_batch *fbatch)
--{
--	unsigned int i, j;
--
--	for (i = 0, j = 0; i < folio_batch_count(fbatch); i++) {
--		struct folio *folio = fbatch->folios[i];
--		if (!xa_is_value(folio))
--			fbatch->folios[j++] = folio;
--	}
--	fbatch->nr = j;
--}
--
- #ifdef CONFIG_MEMCG
- static void lruvec_reparent_lru(struct lruvec *child_lruvec,
- 				struct lruvec *parent_lruvec,
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 897fa2b61346..1f2809adec54 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -1157,7 +1157,6 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
- 				truncate_inode_folio(mapping, folio);
- 			folio_unlock(folio);
- 		}
--		folio_batch_remove_exceptionals(&fbatch);
- 		folio_batch_release(&fbatch);
- 		cond_resched();
- 	}
-@@ -1277,7 +1276,6 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
- 			}
- 			folio_unlock(folio);
- 		}
--		folio_batch_remove_exceptionals(&fbatch);
- 		folio_batch_release(&fbatch);
- 	}
- 
-diff --git a/mm/truncate.c b/mm/truncate.c
-index b58ba940be47..4151f7a167e3 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -53,7 +53,7 @@ static void clear_shadow_entries(struct address_space *mapping,
- /*
-  * Unconditionally remove exceptional entries. Usually called from truncate
-  * path. Note that the folio_batch may be altered by this function by removing
-- * exceptional entries similar to what folio_batch_remove_exceptionals() does.
-+ * exceptional entries.
-  * Please note that indices[] has entries in ascending order as guaranteed by
-  * either find_get_entries() or find_lock_entries().
-  */
-@@ -95,7 +95,7 @@ static void truncate_folio_batch_exceptionals(struct address_space *mapping,
- 				dax_delete_mapping_entry(mapping, indices[i]);
- 			}
- 		}
--		goto out;
-+		goto squash;
- 	}
- 
- 	xas_set(&xas, indices[j]);
-@@ -113,8 +113,14 @@ static void truncate_folio_batch_exceptionals(struct address_space *mapping,
- 	if (mapping_shrinkable(mapping))
- 		inode_lru_list_add(mapping->host);
- 	spin_unlock(&mapping->host->i_lock);
--out:
--	folio_batch_remove_exceptionals(fbatch);
-+
-+squash:
-+	for (i = j + 1; i < nr; i++) {
-+		folio = fbatch->folios[i];
-+		if (!xa_is_value(folio))
-+			fbatch->folios[j++] = folio;
-+	}
-+	fbatch->nr = j;
- }
- 
- /**
-@@ -575,7 +581,6 @@ unsigned long mapping_try_invalidate(struct address_space *mapping,
- 		if (xa_has_values)
- 			clear_shadow_entries(mapping, indices[0], indices[nr-1]);
- 
--		folio_batch_remove_exceptionals(&fbatch);
- 		folio_batch_release(&fbatch);
- 		cond_resched();
- 	}
-@@ -732,7 +737,6 @@ int invalidate_inode_pages2_range(struct address_space *mapping,
- 		if (xa_has_values)
- 			clear_shadow_entries(mapping, indices[0], indices[nr-1]);
- 
--		folio_batch_remove_exceptionals(&fbatch);
- 		folio_batch_release(&fbatch);
- 		cond_resched();
- 	}
+								Honza
 -- 
-2.51.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
