@@ -1,168 +1,164 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFCB4766B7;
-	Wed,  9 Sep 2026 09:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A53477E34
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 09:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788947209; cv=none; b=u2vrM5D/FBsOPymTFKlr1HuH5+p7f+XOIwbbWfSDBJDln0AMucQ6L6nk7e/9sXmgwmoopr/H83GgmHWMzSTlSCNC/n37ncdZNYibhYQqKft4AM1aXCBvAEuXgJzUZKEEcr9B3APIfBpcS3k8SpzdotMY53UaAT15h0TkOP1FvgU=
+	t=1788947214; cv=none; b=R3Bk7IT2y5x8SMERHlivQi0Z4+qFhUdDFu4NVZU2wgLghwUw0G0KOTsYuV0s4BN4mHNHbk9R+W/mBVPcyMQb88nKxgTGaJYyBLBdEej6i/7NIi9jLO21Cy/+8y1uwqMQvM9waAFi1EIbqddbbY+0ZdtDWe0W2rXxVFSMiER+fo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788947209; c=relaxed/simple;
-	bh=mJovflON4q9TCpM6ZQzExrmapiA6Dx3iIby56hc5sjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ut6xIBQNeNiOSY3cpERbk//Ta2HLDzYgRUovErqiIM3ATqgemc9yFnjJfu8jLJ4mH7DB8Gv9Zu6yYAVPhE/8yTAre03ZvSOsOy+Hl77Lkgojl0I0Gafh03YFwwlmKUFltHU2n3Dfbx7Qj+ZMTgvqMNlxJeulmTDuqGw7spEOGwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=clQYoghz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HzOeEs70; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Rgr8rTkp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zMSDJGRn; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1788947214; c=relaxed/simple;
+	bh=yz9phphkpKB30xOl4FfJtCYJLrw/kdVME667JYPkLrw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ZqVSX3m0qrEF1lM8RyW8RhvSXPhFfKNNf6XONWEN7dkCNkKLlHZukP48tn0M3cUdeZqlUSeE3BkgEOHUm4P8E8KUUR2+MqsDinNN+800w6iT5p7PClHN0goWRAek3Rdjx02aJKEGHeC/DAKRZhcB0prhSfnZzBPzcaoW2Q4JrR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YJxIfVzB; arc=none smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="clQYoghz";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HzOeEs70";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Rgr8rTkp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zMSDJGRn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DB42821B48;
-	Wed,  9 Sep 2026 09:46:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788947202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ET8n7cENHr0UHT7IN2RMsfgNqJ4fiwg5SvVAcH7Rh2s=;
-	b=clQYoghzbU3jwwvSUUZ4Fp6MEjUDN1ss5m3HLX6+ZQaodsd4p69uoDeIW0sVx1Xqjpma0h
-	TDXBrkMFof7irKIbhznpQNPHyoTpVpRsucQetZl5MiuVLbjbTzweqWLCcHkD5/xhiN1Poa
-	9l3AUTGnR8BhJHBDCISGfU1GaazzDWo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788947202;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ET8n7cENHr0UHT7IN2RMsfgNqJ4fiwg5SvVAcH7Rh2s=;
-	b=HzOeEs70kHC/CdWJtrPIyf0B1CcyTkYtt+GsIltRkC4AEKVjEfZVNIzefeSDpAj2y2AGA8
-	DF/o69WmynvAc/AQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Rgr8rTkp;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=zMSDJGRn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1788947197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ET8n7cENHr0UHT7IN2RMsfgNqJ4fiwg5SvVAcH7Rh2s=;
-	b=Rgr8rTkp674DvF1CYsr8WdWNXKLwfKOsJCp4FeLFbwyFtpwwmqNTTXeIcVVsvAgfUOQHd3
-	T+I/kY2TNSiXPlq7OD2+k/q7XNbCpmsfUU9jteermIMYI/AsVSq5L4zOScStdMZZpGsq1I
-	ce+UKgS4aWlRmswm3fUqN4CfYghe3nU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1788947197;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ET8n7cENHr0UHT7IN2RMsfgNqJ4fiwg5SvVAcH7Rh2s=;
-	b=zMSDJGRnez5WKRm247LuMMvBMkku642ek9XG/7QKC3ERUDdKcvgFxVr8KOFkXRlGQFhqSL
-	nWQ3JW5bxeB/vFAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B9B271352C;
-	Wed,  9 Sep 2026 09:46:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mS5SLf0qoWqlAQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 09 Sep 2026 09:46:37 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 48C26A1341; Wed, 09 Sep 2026 11:46:33 +0200 (CEST)
-Date: Wed, 9 Sep 2026 11:46:33 +0200
-From: Jan Kara <jack@suse.cz>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Marco Elver <elver@google.com>, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	Timothy Day <timday@thelustrecollective.com>, linux-ext4@vger.kernel.org, Theodore Tso <tytso@mit.edu>, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] once_lite: Simplify condition handling and fix context
- analysis
-Message-ID: <wdik2jphoenf2qaixyrmy2adx5vcf42fzzcictossm73lqweoc@l3vwrnzxvsg5>
-References: <20260903101843.3462767-1-elver@google.com>
- <20260907221334.GA1619741@ax162>
- <CANpmjNNuiX-rQFvn0GK1SxAbcxEUH7rKh69GPq+7u2tg63qbmQ@mail.gmail.com>
- <4ohly4m6ffr4jnpqncucwkajjorfzdi4x3perczoszs5cb7ljx@mrf7no3uuzua>
- <20260909002005.GA3661577@ax162>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YJxIfVzB"
+Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d46e4cdcaso7853917b3.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 02:46:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788947211; x=1789552011; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5+7MnKyiB0fAnf+ZBPoUiSQUKpsvD64pam2O0QOh8zY=;
+        b=YJxIfVzBzbyp1rCrC/UYAyN61dhGtbLDcYpDojgpKogDd5Hlbpr4ivQU+2cW8np1xZ
+         nqUT3K59Ak+GAkYkO955repklb+APUlLa5tWbWOWrMJ1gVs+JTM6FQ7GnsdFQtEJQIf/
+         1zOSBORaG59rTroCAbCCwJzErPzg84xeaI3gaL6GuGgUdx+YmaNJptqcxJ14TfXuQP3T
+         QDp26JBdBE2LWOLqRs0TuIJ4rsaEJEy3irRO6aepdcsDgdY/FNymdCHPUc+kz5yRW0tm
+         ixoyD4ohVIKA1geXHlxoXzkkNl2t2jtvoZ/wiKWTk13gog/Ru4VHwTLmJBWV/syA4XrT
+         4k/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788947211; x=1789552011;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5+7MnKyiB0fAnf+ZBPoUiSQUKpsvD64pam2O0QOh8zY=;
+        b=m9A6WGP//O7PJUyUCOG/po+kRBDAUxBp/4dAZo4o71hhOh4X8/yw8t3t8OxVa9svwN
+         H6AfbHQc0VLWdfwiEh+S2sqSmSOGC+2kwCqKgWrcJsQqhuTMy5yqaX0Cs414hndr5pjd
+         MOciBqlO5O90foY4Gl1vgo/quSEMWX8MfxfbcJGNjsVgHGDW40+7sgewfLN604neeuPd
+         LE0xTRtNiTar14hcbbSIBRx8ezSIqZulHQI8H0S4kcQFcMMyGAV2MwiTZ2xFEmd6pyH4
+         Gk6on7fXlER4PCxQJkFgepLNqOVuuAlrt/BYUAWch3FFGwkUVPsT9RAL94N08Y1ZtgzQ
+         fI/Q==
+X-Forwarded-Encrypted: i=1; AKwUvBw4XCShV+HW+EXLiodQsMHn+Txs2zv2YvxhoKNvibNwIKbPinkVBb9HTg2Pxli3DPitZUrmM6B0XVFVAkeg@vger.kernel.org
+X-Gm-Message-State: AFuF++myXqEmylC7+RS7vvDqx35+GAjhkiI/Jl8fZbEuj9MYu5Mu9bsk
+	iRUTiqZl4nfcdnpd68nBDIeADMGVZu8nnzwAdsiW+v53aRqmujkBZl/bjOIHexqQyA==
+X-Gm-Gg: AYBFou3XnRH6kBTk8PkM3eJgpHElW3PAsgjhD5haUE12hf4lquu5SJm1GS6qi1SKNNy
+	8roQAFQ7Zlma+SbtsHR2b6yWZpyycrSjRbeiOVaykv3vth0VVRn4oVC7MKZgyt/X4NwG6C53MZ2
+	al2GIEidzwRoZnJhUr08SMAt/bTwYDgJbzsi6WIsxoH08iK6BZNCrL8XKIKT103JKvaW6NZL8qy
+	AiyilRHteyz2XKEOTUsM5KTIXR9jPBrOFqGUigt0wc2NtKT8IELU27kkjuEb3XFpnV81TUP4QtG
+	NKSt7MIJsfrLwiertAQ2zuuFg8YPlz+tnfJ2Qw1EhG60b9q9V2oD8rROEimkqKwSyqwRgmdEvF8
+	SVB624MDCR/srxh0+Mv9Ic7JD0IbAlG0vX4MjG9oBcGVJzN2L6hsmQiYrMhhe3MkApPun0AjbNf
+	8u5oZvCE3Kyy77G3Moy4vBWeuA7fkillq62BWbOthxwZSm5tfnTpAOFsF0xXOzS/7DtDxkx2jeI
+	OB4JuQw/0XQs6LmskBMeChwuNFw175Pv32ve5dN/EAZnayxf9meKj2fyW8=
+X-Received: by 2002:a05:690c:650c:b0:85b:35f6:bc5d with SMTP id 00721157ae682-87f23fe7a98mr24694497b3.13.1788947210602;
+        Wed, 09 Sep 2026 02:46:50 -0700 (PDT)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-87149316356sm106597417b3.9.2026.09.09.02.46.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 02:46:49 -0700 (PDT)
+Date: Wed, 9 Sep 2026 02:46:45 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+cc: Ackerley Tng <ackerleytng@google.com>, 
+    Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>, 
+    Baolin Wang <baolin.wang@linux.alibaba.com>, 
+    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
+    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+    Christoph Lameter <cl@gentwo.org>, 
+    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
+    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
+    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+    Marcelo Tosatti <mtosatti@redhat.com>, 
+    Matthew Wilcox <willy@infradead.org>, 
+    Mel Gorman <mgorman@techsingularity.net>, 
+    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
+    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
+    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Shakeel Butt <shakeel.butt@linux.dev>, 
+    Suren Baghdasaryan <surenb@google.com>, 
+    Vlastimil Babka <vbabka@kernel.org>, 
+    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
+    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v2 03/26] mm/fbatch: temporarily disable lazyfree and
+ mlock+munlock batching
+In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+Message-ID: <5953f6aa-ca44-c9a2-97e1-a5b3b92e9e50@google.com>
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909002005.GA3661577@ax162>
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: DB42821B48
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue 08-09-26 17:20:05, Nathan Chancellor wrote:
-> On Tue, Sep 08, 2026 at 12:15:13PM +0200, Jan Kara wrote:
-> > On Tue 08-09-26 00:17:34, Marco Elver wrote:
-> > > Thanks! I think this is one of those orphaned files - which tree can
-> > > this go through? Can it go through your tree, unless Jan already
-> > > picked it up with the other fix?
-> > 
-> > If Nathan can take it through his tree, that would be great, otherwise I
-> > can take it through mine. Just let me know.
-> 
-> I applied this to my clang-fixes tree and created an immutable tag for
-> you to pull from, as you should have it in your tree since you are
-> enabling context analysis there. If nobody else needs it and I do not
-> have any other material for 7.4 in that tree, I won't send a pull
-> request if the ext2 tree is merged with this included.
-> 
-> The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
-> 
->   Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git@gitolite.kernel.org:pub/scm/linux/kernel/git/nathan/linux.git tags/clang-fixes-once_lite-for-7.4
-> 
-> for you to fetch changes up to 0bb666d5f5a2339a5692afb312c2161df9620503:
-> 
->   once_lite: Simplify condition handling and fix context analysis (2026-09-08 16:54:02 -0700)
-> 
-> ----------------------------------------------------------------
-> Immutable branch for once_lite.h context analysis fix
-> 
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+It will not matter if we occasionally get activation or deactivation
+wrong; but a mistaken lazyfree (MADV_FREE) would likely cause dataloss.
+So disable its batching while reworking the per-cpu fbatch handling,
+then re-enable it with more thought afterwards.
 
-OK, thanks. I've pulled this branch into my tree.
+Similarly disable mlock+munlock batching temporarily: they will need
+some redesign before re-enabling. Just insert one disabling line for
+now, leaving the rest of the code as it was, for consideration later.
 
-								Honza
+Signed-off-by: Hugh Dickins <hughd@google.com>
+Reviewed-By: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+---
+ mm/folio.c | 2 ++
+ mm/mlock.c | 3 +++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/mm/folio.c b/mm/folio.c
+index ad6c64a4c22c..b9dc4f5e10a6 100644
+--- a/mm/folio.c
++++ b/mm/folio.c
+@@ -219,6 +219,8 @@ static void __folio_batch_add_and_move(struct folio_batch __percpu *fbatch,
+ 		local_lock(&cpu_fbatches.lock);
+ 
+ 	if (!folio_batch_add(this_cpu_ptr(fbatch), folio) ||
++			/* XXX Temporarily disable lazyfree batching */
++			fbatch == &cpu_fbatches.lru_lazyfree ||
+ 			!folio_may_be_lru_cached(folio) || lru_cache_disabled())
+ 		folio_batch_move_lru(this_cpu_ptr(fbatch), move_fn);
+ 
+diff --git a/mm/mlock.c b/mm/mlock.c
+index 39215a3eab1f..929abeac85d0 100644
+--- a/mm/mlock.c
++++ b/mm/mlock.c
+@@ -255,6 +255,7 @@ void mlock_folio(struct folio *folio)
+ 
+ 	folio_get(folio);
+ 	if (!folio_batch_add(fbatch, mlock_lru(folio)) ||
++	    true || /* XXX Temporarily disable mlock batching */
+ 	    !folio_may_be_lru_cached(folio) || lru_cache_disabled())
+ 		mlock_folio_batch(fbatch);
+ 	local_unlock(&mlock_fbatch.lock);
+@@ -278,6 +279,7 @@ void mlock_new_folio(struct folio *folio)
+ 
+ 	folio_get(folio);
+ 	if (!folio_batch_add(fbatch, mlock_new(folio)) ||
++	    true || /* XXX Temporarily disable mlock_new batching */
+ 	    !folio_may_be_lru_cached(folio) || lru_cache_disabled())
+ 		mlock_folio_batch(fbatch);
+ 	local_unlock(&mlock_fbatch.lock);
+@@ -299,6 +301,7 @@ void munlock_folio(struct folio *folio)
+ 	 */
+ 	folio_get(folio);
+ 	if (!folio_batch_add(fbatch, folio) ||
++	    true || /* XXX Temporarily disable munlock batching */
+ 	    !folio_may_be_lru_cached(folio) || lru_cache_disabled())
+ 		mlock_folio_batch(fbatch);
+ 	local_unlock(&mlock_fbatch.lock);
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.51.0
+
