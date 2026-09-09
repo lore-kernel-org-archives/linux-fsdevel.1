@@ -1,289 +1,228 @@
-Received: from mta1.migadu.com (out-121.mta1.migadu.com [95.215.58.121])
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759184B515E
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFFF4B66C2
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788948740; cv=none; b=phFBfXKD0lXsI+VZGMvPvmD2p1j1p1vcbJCzLsgleQPxYrvxEY2+7vBxxX1GgT3wacQ3NUi2q9UPQ4yd8MDuBaISynNY3msIVwMEzC/yWMQ+h4PRiinlewSbbUziAYhpLlKKimDpNBLN+J0oKmu5bbzjXxpuSdX1ahtdI09ZXA4=
+	t=1788948766; cv=none; b=gTxZTmhnoY5/Fl4E7rrKXt6l3q9NeXs3uYafigNviju2wWgnMDjTHLOmnph2tnbROl3d1+sY54if7qob3a5+qSmuigkI+cgtZXeBzeF+eX5otdrOwTTe8zoFg4MFTh/fcGPDT7+jvs3xujseSIXIb0nGfMHFFyFx218H4APC/qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788948740; c=relaxed/simple;
-	bh=SUb2T8Szd5lQADcRkFmfOpjvj3cL/MOp9zqZDunQQQc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r0oKXTnz7K9QSvUoC41a9ct8OejOyvCPZSRNkGeYw9gAax4tJGG6f2SrZF8RlIqefG/Lb8vDSg4fp9sEbdH60GmjwcRlpAfNasFCO77e2DQtwHn9Iyo0XwEdVOygqk4Ev6wj766f4MX+jaw8wIjWmo6j2rL2kmqE0qR4Ojg57rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jfGA6Ns4; arc=none smtp.client-ip=95.215.58.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788948766; c=relaxed/simple;
+	bh=veK2eDLRVGTOGqy7tLB4YUJ+s0qY+28Zl0Q1bFSRbiU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=hwiLy1s1XVkv6VLQyJhBX25Q9aveBHQ7qfRzx8eS3rvFpK8TBC1NIX0x5SZpkPdgZl0P/PYAf7BxrjFlysuwx3Yz46kE5JopdDBb3V8e7GYcYoHcmVOzA66LmIAVGZ6sHtM0ehLgPJEtwKBdhCk8Ak7iayC5/9zjGeASR/wN7aM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mO/6uVOR; arc=none smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jfGA6Ns4"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=SUb2T8Szd5lQADcRkFmfOpjvj3cL/MOp9zqZDunQQQc=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788948736; v=1; x=1789553536;
- b=jfGA6Ns4fWme+TvRv+Umhz2FneXp8Ee5AdFcBHRZr7/ku1cH+sSF5ySdy7eDuF1NBHhUPOzI
- CTLbZzGH/Vn/TWod8QE9fw9/u2KEzd+TNjZnKmKTtlOLLOM3rK3y10cuLz5jRRwxGmDSCsp7juG
- Nt5Ds7jCleQLtcvcFhg5jcL0=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id 82308e7dde90318c;
-	Wed, 09 Sep 2026 10:12:15 +0000
-X-Mizu-Trace-ID: 82308e7dde90318c
-X-Migadu-Flow: FLOW_OUT
-From: Usama Arif <usama.arif@linux.dev>
-To: Kiryl Shutsemau <kirill@shutemov.name>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	akpm@linux-foundation.org,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jan Kara <jack@suse.cz>,
-	Rik van Riel <riel@surriel.com>,
-	Harry Yoo <harry@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Jann Horn <jannh@google.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-team@meta.com,
-	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Subject: Re: [RFC PATCH 1/5] mm: let folio_mkclean() report which pages had dirty PTEs
-Date: Wed,  9 Sep 2026 03:12:10 -0700
-Message-ID: <20260909101212.894871-1-usama.arif@linux.dev>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260903182943.662461-2-kirill@shutemov.name>
-References: 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mO/6uVOR"
+Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-86382f10801so11966647b3.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:12:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788948763; x=1789553563; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bX03VdslkeGAuZnZEXnLni54ZZj7BtxRxhR+YMJ/+OA=;
+        b=mO/6uVOR1LytX7R1AEc6xw8mKUHiLBuvD5LchX2wHlRXdFmIoI4MoQqBIbTy3bwHsG
+         e3bYpTA+zqhbhomqadUhQdNsmOwpbaTEq+uYRATB7A1Qr6wARQfIEuPVUv6ViDBN6vnH
+         R+2rLRJ1GxMHIGCVzzJ4eC4qT1F7Yz8mL9CpvJWRwI6BrI1iQoYbS7pe4dFCIWjh9mK4
+         bvqg8H9QnJYjNhSjxmYLHm7zzbaRmYyW18RyqmYlq2jBDh/04Jnqa8mPYKpC8b6EuzLL
+         poiC5S0mXDQQbJ/bhIDYdrY0kd77QsDbdZOR47LIIAwn6pjezMNckQtuUDwwI9ZJi4Aj
+         IhUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788948763; x=1789553563;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bX03VdslkeGAuZnZEXnLni54ZZj7BtxRxhR+YMJ/+OA=;
+        b=BldWQKrYfs1vjz23/yaDA5/V55TOhBPjVlKMn5v2azrClZ37Xg7ljQyE4yDrV3nH2Q
+         KNfbjvscHPXptT+Anf7rzGqnOroYboSXb+UEOo9BcNry70pJjITAFbvZiqQP2LA/72ya
+         xpcsZRt/bTy0gXb+iLOau7+4g8dIj1EOSjS/Rwrm9emAP7630orGsekcj6NJtyY2qRwt
+         9NakWKVkIiweITDJpMSU4OE6UbUZ+h+ohWrTz4DfL4AWjV+rjqeRkTxCZSf4F0R/Alnz
+         mi7CFH3MC3FfxWXNwkTOakCFMFX0j6k5fsjJl14adVtP+BEKKtlKYN/VLDO2WpgTsno/
+         HImQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz8CbmQrzbOz2PQy1jO9MaU8KpcijAVdcY6i+tzRCO9OhBgyrstVNpsiKPRg1DIqOJ+ZjF1Je+LJek4JB5n@vger.kernel.org
+X-Gm-Message-State: AFuF++kKR8C53yDRWLbdyLFuROD5lVAMIK9dCImtFhPl13Cna9z7rtOZ
+	FI48Lrgs6/+10xofupLIxE6B/GSWZtG7+93atGSA/NRLfpl/jY9NPYKcudCLt5lyYw==
+X-Gm-Gg: AYBFou1zpIH/L13wQ5ymqHzB0kjPWBq2YdpIo6Bv7lEMMWjWKp06sAEQIcnFqabCHxw
+	FNEJns1JkjrSFHTleEUGeYSkKKI/mk/AhNHIkfLdfcfzpBrnlyOnb7SkNlifAET8d1WYvCpb2a1
+	Y6SCNvYV/xira9rgHAorLoRiiJzVbjz+XohNlTEQiflwrfXgMmww+ucfj34u5K2TrJ0O/L8l3aA
+	xPJ8qql61mZpAC3TScnXWieMSmwZEtoE+mMzVCEPssEK2PcIycYIChokIg6vfA3M+2ZDuasceWR
+	r4cukmwc8YJRmp5+u6ttzYrJcaFMUqdps4K4J34BUy/jGs/0YLtya44J487h568DacKfSeJr2uD
+	zj64bAOO4E8GFKn3dcn4HQaQA0pMC+yCrzPOeGTu2oTbW7A0vedtP/HpyEBOulqpu1VTXgC959E
+	0Se7GLWBhJ5d37lJIoMGK2iKSwqlKugcebf2H1B0/44v/P6lzOdA0R6clrYaoXkJJumUjuymRJg
+	ievjaEe+Q61zWkeOnCRus6EWQGfg404hG5m/FPvc3VCMFawpvIxN18+iNQ=
+X-Received: by 2002:a05:690e:1243:b0:66f:d290:6336 with SMTP id 956f58d0204a3-670f4914bc5mr2669673d50.10.1788948762060;
+        Wed, 09 Sep 2026 03:12:42 -0700 (PDT)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-670febedc44sm2574235d50.11.2026.09.09.03.12.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 03:12:41 -0700 (PDT)
+Date: Wed, 9 Sep 2026 03:12:36 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+cc: Ackerley Tng <ackerleytng@google.com>, 
+    Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>, 
+    Baolin Wang <baolin.wang@linux.alibaba.com>, 
+    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
+    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+    Christoph Lameter <cl@gentwo.org>, 
+    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
+    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
+    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+    Marcelo Tosatti <mtosatti@redhat.com>, 
+    Matthew Wilcox <willy@infradead.org>, 
+    Mel Gorman <mgorman@techsingularity.net>, 
+    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
+    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
+    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Shakeel Butt <shakeel.butt@linux.dev>, 
+    Suren Baghdasaryan <surenb@google.com>, 
+    Vlastimil Babka <vbabka@kernel.org>, 
+    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
+    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v2 15/26] mm/fbatch: remove shake_folio() shake_page() from
+ memory-failure
+In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+Message-ID: <29067356-073c-2c36-a78b-7d7d4920aae3@google.com>
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu,  3 Sep 2026 19:29:39 +0100 Kiryl Shutsemau <kirill@shutemov.name> wrote:
+shake_folio()'s lru_add_drain_all() no longer serves a purpose, now that
+the per-cpu fbatch references are gone. Are the retries in get_any_page()
+then still useful? Not obvious, so keep them.
 
-> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-> 
-> folio_mkclean() walks every mapping of a folio and clears the dirty and
-> write bits of each page table entry. It has the per-entry dirty bit in
-> hand while doing that, but only counts how many entries it cleaned.
-> 
-> For a large folio those bits are the only record of which parts of the
-> folio were written through a mapping. Everything downstream has to
-> assume the whole folio changed because that information is dropped here.
-> 
-> Add folio_mkclean_dirtymap(), which takes a bitmap and sets a bit for every
-> page of the folio whose entry was dirty. folio_mkclean() becomes a
-> wrapper that passes no bitmap, so there is no change in behaviour yet.
-> 
-> A PMD entry has one dirty bit for the whole folio, so a PMD-mapped folio
-> reports all of its pages as dirty. That is the best that can be done:
-> the hardware does not track anything finer for a PMD.
-> 
-> Assisted-by: Claude:claude-opus-5
-> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> ---
->  include/linux/rmap.h |  7 ++++++
->  mm/rmap.c            | 56 +++++++++++++++++++++++++++++++++++---------
->  2 files changed, 52 insertions(+), 11 deletions(-)
-> 
-> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-> index 8dc0871e5f00..6fc0a6020252 100644
-> --- a/include/linux/rmap.h
-> +++ b/include/linux/rmap.h
-> @@ -927,6 +927,7 @@ unsigned long page_address_in_vma(const struct folio *folio,
->   * returns the number of cleaned PTEs.
->   */
->  int folio_mkclean(struct folio *);
-> +int folio_mkclean_dirtymap(struct folio *folio, unsigned long *dirty_map);
->  
->  int mapping_wrprotect_range(struct address_space *mapping, pgoff_t pgoff,
->  		unsigned long pfn, unsigned long nr_pages);
-> @@ -990,6 +991,12 @@ static inline int folio_mkclean(struct folio *folio)
->  {
->  	return 0;
->  }
-> +
-> +static inline int folio_mkclean_dirtymap(struct folio *folio,
-> +					 unsigned long *dirty_map)
-> +{
-> +	return 0;
-> +}
->  #endif	/* CONFIG_MMU */
->  
->  #endif	/* _LINUX_RMAP_H */
-> diff --git a/mm/rmap.c b/mm/rmap.c
-> index 1f72d279ba68..aaf45ac79fa8 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -1100,12 +1100,18 @@ int folio_referenced(struct folio *folio, int is_locked,
->  	return rwc.contended ? -1 : pra.referenced;
->  }
->  
-> -static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw)
-> +struct mkclean_state {
-> +	unsigned long *dirty_map;
-> +	int cleaned;
-> +};
-> +
-> +static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw,
-> +				unsigned long *dirty_map)
->  {
-> -	int cleaned = 0;
->  	struct vm_area_struct *vma = pvmw->vma;
-> -	struct mmu_notifier_range range;
->  	unsigned long address = pvmw->address;
-> +	struct mmu_notifier_range range;
-> +	int cleaned = 0;
->  
->  	/*
->  	 * We have to assume the worse case ie pmd for invalidation. Note that
-> @@ -1134,6 +1140,15 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw)
->  			if (!pte_dirty(entry) && !pte_write(entry))
->  				continue;
->  
-> +			if (dirty_map && pte_dirty(entry)) {
-> +				pgoff_t idx = linear_page_index(vma, address) -
-> +					      pvmw->pgoff;
-> +
-> +				/* The walk only visits pages of this folio */
-> +				VM_WARN_ON_ONCE(idx >= pvmw->nr_pages);
-> +				__set_bit(idx, dirty_map);
-> +			}
-> +
+Signed-off-by: Hugh Dickins <hughd@google.com>
+Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+---
+ mm/hwpoison-inject.c |  1 -
+ mm/internal.h        |  1 -
+ mm/memory-failure.c  | 38 +-------------------------------------
+ 3 files changed, 1 insertion(+), 39 deletions(-)
 
-The patch reads the PTE first and then records pte_dirty(entry) in the bitmap
-before invalidating the PTE.
+diff --git a/mm/hwpoison-inject.c b/mm/hwpoison-inject.c
+index a11222572f97..9eab4b7d25b2 100644
+--- a/mm/hwpoison-inject.c
++++ b/mm/hwpoison-inject.c
+@@ -118,7 +118,6 @@ static int hwpoison_inject(void *data, u64 val)
+ 	if (!hwpoison_filter_enable)
+ 		goto inject;
+ 
+-	shake_folio(folio);
+ 	/*
+ 	 * This implies unable to support non-LRU pages except free page.
+ 	 */
+diff --git a/mm/internal.h b/mm/internal.h
+index 40bd128a58ae..6700fff13675 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1171,7 +1171,6 @@ static inline bool node_reclaim_enabled(void)
+  */
+ #ifdef CONFIG_MEMORY_FAILURE
+ int unmap_poisoned_folio(struct folio *folio, unsigned long pfn, bool must_kill);
+-void shake_folio(struct folio *folio);
+ typedef int hwpoison_filter_func_t(struct page *p);
+ void hwpoison_filter_register(hwpoison_filter_func_t *filter);
+ void hwpoison_filter_unregister(void);
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index a8b03e2920ba..d0abbe13447e 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -310,30 +310,6 @@ static int kill_proc(struct to_kill *tk, unsigned long pfn, int flags)
+ 	return ret;
+ }
+ 
+-/*
+- * Unknown page type encountered. Try to check whether it can turn PageLRU by
+- * lru_add_drain_all.
+- */
+-void shake_folio(struct folio *folio)
+-{
+-	if (folio_test_hugetlb(folio))
+-		return;
+-	/*
+-	 * TODO: Could shrink slab caches here if a lightweight range-based
+-	 * shrinker will be available.
+-	 */
+-	if (folio_test_slab(folio))
+-		return;
+-
+-	lru_add_drain_all();
+-}
+-EXPORT_SYMBOL_GPL(shake_folio);
+-
+-static void shake_page(struct page *page)
+-{
+-	shake_folio(page_folio(page));
+-}
+-
+ static unsigned long dev_pagemap_mapping_shift(struct vm_area_struct *vma,
+ 		unsigned long address)
+ {
+@@ -1459,10 +1435,8 @@ static int get_any_page(struct page *p, unsigned long flags)
+ 			 * We raced with (possibly temporary) unhandlable
+ 			 * page, retry.
+ 			 */
+-			if (pass++ < GET_PAGE_MAX_RETRY_NUM) {
+-				shake_page(p);
++			if (pass++ < GET_PAGE_MAX_RETRY_NUM)
+ 				goto try_again;
+-			}
+ 			ret = -EIO;
+ 			goto out;
+ 		}
+@@ -1477,7 +1451,6 @@ static int get_any_page(struct page *p, unsigned long flags)
+ 		 */
+ 		if (pass++ < GET_PAGE_MAX_RETRY_NUM) {
+ 			put_page(p);
+-			shake_page(p);
+ 			count_increased = false;
+ 			goto try_again;
+ 		}
+@@ -1627,7 +1600,6 @@ static bool hwpoison_user_mappings(struct folio *folio, struct page *p,
+ 	LIST_HEAD(tokill);
+ 	bool unmap_success;
+ 	bool forcekill;
+-	bool mlocked = folio_test_mlocked(folio);
+ 
+ 	/*
+ 	 * Here we are interested only in user-mapped pages, so skip any
+@@ -1658,13 +1630,6 @@ static bool hwpoison_user_mappings(struct folio *folio, struct page *p,
+ 		pr_err("%#lx: failed to unmap page (folio mapcount=%d)\n",
+ 		       pfn, folio_mapcount(folio));
+ 
+-	/*
+-	 * try_to_unmap() might put mlocked page in lru cache, so call
+-	 * shake_page() again to ensure that it's flushed.
+-	 */
+-	if (mlocked)
+-		shake_folio(folio);
+-
+ 	/*
+ 	 * Now that the dirty bit has been propagated to the
+ 	 * struct page and all unmaps done we can decide if
+@@ -2554,7 +2519,6 @@ int memory_failure(unsigned long pfn, int flags)
+ 	 * The check (unnecessarily) ignores LRU pages being isolated and
+ 	 * walked by the page reclaim code, however that's not a big loss.
+ 	 */
+-	shake_folio(folio);
+ 
+ 	folio_lock(folio);
+ 
+-- 
+2.51.0
 
-Holding the page-table lock prevents another kernel thread from changing
-the PTE, but it does not prevent the CPU from setting the hardware dirty
-bit.
-
-This sequence is possible:
-
-  Writeback CPU                  Application CPU
-  -------------                  ---------------
-  ptep_get(): writable, clean
-                                 store through the PTE
-                                 hardware sets dirty
-  ptep_clear_flush(): returns dirty PTE
-  pte_mkclean()
-  reinstall clean, read-only PTE
-
-The bitmap was populated from the first, clean snapshot. The dirty state
-returned by ptep_clear_flush() is discarded.
-
-With range-aware iomap writeback:
-
-- The folio can still be selected for writeback.
-- The affected filesystem block is absent from the iomap dirty bitmap.
-- Writeback clears the folio dirty state without writing that block.
-- Later eviction can discard the modified data.
-
-The old whole-folio behavior did not need to know which PTE became
-dirty, so this timing window was harmless. Sub-folio tracking makes the
-final dirty state correctness-critical.
-
-The PMD path has the identical race between pmdp_get() and
-pmdp_invalidate().
-
-
->  			flush_cache_page(vma, address, pte_pfn(entry));
->  			entry = ptep_clear_flush(vma, address, pte);
->  			entry = pte_wrprotect(entry);
-> @@ -1155,6 +1170,9 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw)
->  			if (!pmd_dirty(entry) && !pmd_write(entry))
->  				continue;
->  
-> +			if (dirty_map && pmd_dirty(entry))
-> +				bitmap_set(dirty_map, 0, pvmw->nr_pages);
-> +
->  			flush_cache_range(vma, address,
->  					  address + HPAGE_PMD_SIZE);
->  			entry = pmdp_invalidate(vma, address, pmd);
-> @@ -1181,9 +1199,9 @@ static bool page_mkclean_one(struct folio *folio, struct vm_area_struct *vma,
->  			     unsigned long address, void *arg)
->  {
->  	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, PVMW_SYNC);
-> -	int *cleaned = arg;
-> +	struct mkclean_state *state = arg;
->  
-> -	*cleaned += page_vma_mkclean_one(&pvmw);
-> +	state->cleaned += page_vma_mkclean_one(&pvmw, state->dirty_map);
->  
->  	return true;
->  }
-> @@ -1196,12 +1214,23 @@ static bool invalid_mkclean_vma(struct vm_area_struct *vma, void *arg)
->  	return true;
->  }
->  
-> -int folio_mkclean(struct folio *folio)
-> +/**
-> + * folio_mkclean_dirtymap - Write-protect a folio and report what was dirty.
-> + * @folio: The folio to clean.
-> + * @dirty_map: Bitmap of at least folio_nr_pages(@folio) bits, or NULL.
-> + *
-> + * Write-protects and cleans every mapping of @folio.  With @dirty_map, sets a
-> + * bit for each page whose entry was dirty; a PMD-mapped folio has one dirty
-> + * bit for all of it, so every page is reported.
-> + *
-> + * Return: the number of page table entries cleaned.
-> + */
-> +int folio_mkclean_dirtymap(struct folio *folio, unsigned long *dirty_map)
->  {
-> -	int cleaned = 0;
-> +	struct mkclean_state state = { .dirty_map = dirty_map };
->  	struct address_space *mapping;
->  	struct rmap_walk_control rwc = {
-> -		.arg = (void *)&cleaned,
-> +		.arg = (void *)&state,
->  		.rmap_one = page_mkclean_one,
->  		.invalid_vma = invalid_mkclean_vma,
->  	};
-> @@ -1217,7 +1246,12 @@ int folio_mkclean(struct folio *folio)
->  
->  	rmap_walk(folio, &rwc);
->  
-> -	return cleaned;
-> +	return state.cleaned;
-> +}
-> +
-> +int folio_mkclean(struct folio *folio)
-> +{
-> +	return folio_mkclean_dirtymap(folio, NULL);
->  }
->  EXPORT_SYMBOL_GPL(folio_mkclean);
->  
-> @@ -1241,7 +1275,7 @@ static bool mapping_wrprotect_range_one(struct folio *folio,
->  		.flags		= PVMW_SYNC,
->  	};
->  
-> -	state->cleaned += page_vma_mkclean_one(&pvmw);
-> +	state->cleaned += page_vma_mkclean_one(&pvmw, NULL);
->  
->  	return true;
->  }
-> @@ -1324,7 +1358,7 @@ int pfn_mkclean_range(unsigned long pfn, unsigned long nr_pages, pgoff_t pgoff,
->  	pvmw.address = vma_address(vma, pgoff, nr_pages);
->  	VM_BUG_ON_VMA(pvmw.address == -EFAULT, vma);
->  
-> -	return page_vma_mkclean_one(&pvmw);
-> +	return page_vma_mkclean_one(&pvmw, NULL);
->  }
->  
->  static void __folio_mod_stat(struct folio *folio, int nr, int nr_pmdmapped)
-> -- 
-> 2.54.0
-> 
-> 
