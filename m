@@ -1,65 +1,65 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461E9498929
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C8F47DF85
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 10:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788949391; cv=none; b=sLTM7vGK8wd9zfxhOsdssfeJB9L8S1FbKMAgb1pzp95H63og/Ac5/y4x8aHIVRt+vFPurruo+5PoFkjC57qTOA+Nx7TCW4odmzdoUxzGQxycd6RrIeU1ltMgo+cTFz+FB5vmv3rPUQZJ+BUja+9EYMcdX+00vtIubExLyHh/D3M=
+	t=1788949514; cv=none; b=YC5/s9zqHTJEgQTzGB5EdbgLW3SjvNu6BI6QhHEZ7bZ5Gr1N6pRDR+TqLeiPZSBxMP1BjBzyxdImjRbvwK2M1K0ng7yIC8X5E9tALv4LIVFH9SVpTCEnl0JoYN9ghde5xuVVLgZwJBN/6nU3hBDjGZogBcwXK/pZPOwcIMC3H0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788949391; c=relaxed/simple;
-	bh=RrFIEm8SrJEjhBjzApoefNfd8aQaR4Oxfr/yDuZhFPU=;
+	s=arc-20240116; t=1788949514; c=relaxed/simple;
+	bh=PA7/Pbx5AEThbU1dExwqFT9w9coLuAoGrR7Ue2+wOTE=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=rFOqDRTJN7jQHReUGFwhGAFqdxbFLR4GXWkOcm9mP5ftOfS9WWJGp8L8siao5d+1CNEXY5lEdQO1rscyO+eDgbRp3Zv7sqRPgdcZYIOLpXfx2iB5csaixCj5d4Y2XPMhuCqDZYapmsvLcuLGmSZZZ8bYkWudd3XU5MPgAUyCUio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZoRzlaCR; arc=none smtp.client-ip=209.85.128.175
+	 MIME-Version:Content-Type; b=ZcC/ejYr9sRHE+bFeDPFdvLVxtvgrbSanzbiFlv2WUn5OHAfLvujXrOGzTNi1RFB4qCCWQKk/jIooarbhQ9PWAQyyOQXX+zYIX9uVvxAcGc0LNAjk/dosLssoG283qpnYoRDFZ6QF2ezn5uJtIRJR+C5qVJ6PaCf7lhGH71SwoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sMACMHU8; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZoRzlaCR"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-836c4474028so53553967b3.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:23:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sMACMHU8"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-87ab6e5f91eso26412597b3.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 03:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788949388; x=1789554188; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1788949511; x=1789554311; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2UY30k1UeQzYu1OvDSaJuzIQ8I7z52NjmS+xQ0qJeoY=;
-        b=ZoRzlaCRFXhH6gCaS3eEcmQTSTKHzTmJKAFmIlJChPlLxnQWPDvmcYyCo34ZtQ4JwK
-         9liXSr9XQyn6eDXCJA0PhPpYangmdjaKltp8Z2mbwnKEma2qNUWjNKz+LESYTRm312fu
-         Sc2okpFRLO+NTb1xQex6y7ciauOwGUOmKDcTtFcBSI2lASywJ8vrz8UZEMl0loeyEdqa
-         akAq9L9rAqzMHpqT0nf3pI09liWo+VnpxJ6a6l3ebqBnbZE3pYUqEUc1ioBb925HCRSY
-         dTbxog+PSoprsbaLQk5FE6QVEYobawHzFMMEdh36UGK8SY6HxDgd20i6s3LNBr9kC9E1
-         5F1w==
+        bh=tbn1aAX73v4jfLOAScY/xk2YxlfOe4UtWahA1Ug2y2k=;
+        b=sMACMHU8bUBRcevNAt4rnxkr3JHUKboqxgklcBwQXRmJ4F65NgGz0OoXJ1+1SqoDup
+         va3cGoWVD+QdFyHTN315iCwqEyTQMhvn08fWj1aZIOD+a7tAE+SuBkm9Na1vq8daGX0n
+         BpltVo6dID4JgABrOfcolkDET2tDT6Oppk0J/PH9RZxLPddxlD9ARY+GODw/i/WgSpI3
+         Rz3EaF4SPDHXEYV+Az/iF6Y5gppFgVWwQdH0hHhwz+pvdE4SkCSu+uI1Gixk7kgdALkq
+         FmnLa3oRYEIYZEjQgxK5nhvRIqcoLDn98EBrxj4Z7tuxJPalZYBNbcFJmP6SOU0kLkuz
+         gh9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788949388; x=1789554188;
+        d=1e100.net; s=20251104; t=1788949511; x=1789554311;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2UY30k1UeQzYu1OvDSaJuzIQ8I7z52NjmS+xQ0qJeoY=;
-        b=mrqfjNfEL8/6IabeItZ+H/XJPYsgjSqZSe+Gt6HmsgNgehikoRWYJsedjczQSB920q
-         C2FHRUvCQD/T1UsErnCXo7txomHUvquHdYiCOXs6CZisHvDtemC/x/hwMfw7HOXlbeXv
-         S5bjc+qWAshOAEZt5QgIAU7yj5wAa9O/yoeYH2rFztFQFATwkhNSRO0zOAla+SQOE+4z
-         eGS4um5UhBjebHy42BqH133Yk2tmPDma1p9xj1WueJLIiUxio8ab40miolYZhaZ6xW9v
-         aSUZgrGeWodJx1uDCXMxF1ngaGNZ4Gc3ggXaa520O+L81e/lo6RaDDJ7d7UT8nm8TZxn
-         kIPQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxETFEDvqxciZ0SbCDwppEoP5Ze2OXiDa/e1Y/ppGhQJkkSEuhNJHTq2t3wK6cDJtp0YsKScWpu+OWdL77R@vger.kernel.org
-X-Gm-Message-State: AFuF++kgSDTfbfnghfdwcmu/nuSEpNNGdGQ/Tlq7KxwUFDp8akhQgZ+q
-	fFuey8YmaXalaRNGjO+JDr5GipE4jBor/fIxoSAXub9b5XKgJ8Ojr0OgXUu/jbmpvA==
-X-Gm-Gg: AYBFou1aGTgPUwWLJcUr+wB2ObeKs5bg5e2pKdrQvbcdFIel3AnZztOXQpeb4bFkbMe
-	qE/pBRwfBGDD0E6dwghFlcEf+HFNmsZri00aNsoyWQUxgz5m+6q70nuKu7D0Z7ylIxdgqjRgxeN
-	zKAY7Udg9F0u57TQNP70t2LW4CHwMec7lzYKjwCM/oQLLFIuBHtTyLR1uMi5tSLhMdPq+5ANbbB
-	x9LOAFW+pem37Uo41s/anJrejIoGCek/iHg/MOzTy+ruu1wh0Jwl/XYev8cGu6823FL8ARnYNML
-	ORKDy853Kzoh62TOsmM3VjwjgqjsDlfTVw20L2zNESyKnKClbBXHify7SFGbnav2gJo29xO7i4b
-	OJ/BI/U4loygFMH0+OQXgbgQ6cHJ1X78EM+FQU5HQRGecn5Fiind203hZmZ/7rjZ5sFFbZ5emj+
-	DgKdv6jCqu6GN0bRtmW9A6FYm4cSV6AVcAyVr5BnEXuimL0G/VthdMnnCc3uG0u7NXrC836dz9B
-	8Oi13lnJO+7UTWA/nCdzDxiR8DnOqHMVO40d+eRNKYbuT0vTtyXflOUqoM=
-X-Received: by 2002:a05:690c:4b85:b0:870:c600:686c with SMTP id 00721157ae682-87126aa77d1mr116385687b3.18.1788949387337;
-        Wed, 09 Sep 2026 03:23:07 -0700 (PDT)
+        bh=tbn1aAX73v4jfLOAScY/xk2YxlfOe4UtWahA1Ug2y2k=;
+        b=UHjN0gnnPl5AKSAVAvp9PaQMDNz4MrN14BOYexOyRqe/ksi0gMK6pKvCzp5Jpa1twa
+         JpXLCt3qhgFG9XCHnSzcv1U6Lsc98t9j7m1GW2XG70a2+4fv62xRxNTXls5EXqAzLNgC
+         hR7MYf4QnAt2sc3CDCj3LlHHisZ2zmVb/DUmvW+Fw/CiwKXYav0AG2zrZra/9foHya+A
+         oy8Smi5euZyck6h/0Pdv3VbZHpcWJR2b07ZZSDHwCUpHOgfcslmnwVst9RmXn0b37mEv
+         j7asdJRr11LZo0wphffKIjknwu1nKyXLxuZvwbZYPTJm+av9tS6CG+FFDZ4XO76+Ng7L
+         tbow==
+X-Forwarded-Encrypted: i=1; AKwUvByFOPwVyM5GXgs9882kljbQs1OhBG/ljgjRXytrigJ9v4KOUdrORkuTDse4qQGZJYdV8duQgRsjxD3k0pge@vger.kernel.org
+X-Gm-Message-State: AFuF++lcfOkcOFRrIqPbW8g2VQxWUq5rl+ZpiNsnfapfFXYx43RbsvOd
+	I0xNIVen6dTyxL7xlrxlDh92R7PdR5CbA5XvqyccB52n+L/x+AQrcCM1SQyhk5XmrA==
+X-Gm-Gg: AYBFou3Qbx8SNAnnF5c7dE9X0+bImWtIPI0MX7icv3yclkRMQNfEKXJkXK8Td1QMDpd
+	BwoOV0lSaXrnlOiJayUh6EmzYHEx/g/RoPacoTPbKcb5/AuHFy0QMvM/lDy5rcyJD5AeJP22twY
+	WaLDT7y0Nj18XIdHKG/RgOQNu89fO2Vmyt1eOd9FWp8CT3hdaCoEEZthTzIShYm/RIKO19rKWRD
+	vX4tS6+F8XI2kHdafDI8tC9yWFVoaDwRubnZw0q9FXRE6ypFovGWbIzMzJi/cpH1Sf5+p6jRdsI
+	bgdip9HmT8susANXyzBsJBmvATb/zSvtDqrt1+v209XHZMiQh7v2o99JrVgoDhLvnJn+j33O+iq
+	0brkPnKrTAk3Iu/wLO1iceX+RuzAxyIkmMgspvAJne0DeAOzJnjH0o42mEr+oPwqD6qXKX3zxVH
+	nRhoG3jLVc5FXDZH5tEBjjqjq2eQuKxL+1aJjhwP80VktrSNk4tkRedWJjSBUhAK0ONa9W98w9r
+	mI+bJZfChlA8xt685UaFp0CibFGcZkhumhQRUzvEgiy7TUS7jQ2QTMV83MZ1RNRMpNpaQ==
+X-Received: by 2002:a05:690c:62c4:b0:870:96e4:6716 with SMTP id 00721157ae682-87127b36981mr130530337b3.28.1788949510969;
+        Wed, 09 Sep 2026 03:25:10 -0700 (PDT)
 Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714b62503dsm108473437b3.38.2026.09.09.03.23.01
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-87149315162sm107287417b3.12.2026.09.09.03.25.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 03:23:05 -0700 (PDT)
-Date: Wed, 9 Sep 2026 03:23:00 -0700 (PDT)
+        Wed, 09 Sep 2026 03:25:09 -0700 (PDT)
+Date: Wed, 9 Sep 2026 03:25:05 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 cc: Ackerley Tng <ackerleytng@google.com>, 
@@ -89,10 +89,10 @@ cc: Ackerley Tng <ackerleytng@google.com>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 20/26] s390/fbatch: no lru_add_drain_all() in
- s390_wiggle_split_folio()
+Subject: [PATCH v2 21/26] block/fbatch: no lru_add_drain_all() in
+ invalidate_bdev()
 In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
-Message-ID: <d8a9dcab-4fc6-1f28-d6b2-e9231f3ba150@google.com>
+Message-ID: <0debd9f6-0ff8-31b0-4830-3a81ba56754a@google.com>
 References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -102,26 +102,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
-s390_wiggle_split_folio() has no good reason to lru_add_drain_all(),
-now that the per-cpu fbatch references are gone.
+invalidate_bdev() has no good reason to lru_add_drain_all(), now that the
+per-cpu fbatch references are gone; but keep doing invalidate_bh_lrus().
 
 Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- arch/s390/kernel/uv.c | 1 -
+ block/bdev.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/arch/s390/kernel/uv.c b/arch/s390/kernel/uv.c
-index dc14ebc0105b..120a467026a5 100644
---- a/arch/s390/kernel/uv.c
-+++ b/arch/s390/kernel/uv.c
-@@ -364,7 +364,6 @@ int s390_wiggle_split_folio(struct mm_struct *mm, struct folio *folio)
+diff --git a/block/bdev.c b/block/bdev.c
+index cd8323083740..853545b29b7f 100644
+--- a/block/bdev.c
++++ b/block/bdev.c
+@@ -97,7 +97,6 @@ void invalidate_bdev(struct block_device *bdev)
  
- 	lockdep_assert_not_held(&mm->mmap_lock);
- 	folio_wait_writeback(folio);
--	lru_add_drain_all();
- 
- 	if (!folio_test_large(folio))
- 		return 0;
+ 	if (mapping->nrpages) {
+ 		invalidate_bh_lrus();
+-		lru_add_drain_all();	/* make sure all lru add caches are flushed */
+ 		invalidate_mapping_pages(mapping, 0, -1);
+ 	}
+ }
 -- 
 2.51.0
 
