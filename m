@@ -1,64 +1,65 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B3C355F22
-	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 09:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF2848F00A
+	for <linux-fsdevel@vger.kernel.org>; Wed,  9 Sep 2026 09:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788944501; cv=none; b=p3gVQY2lqqzJQw2ziu9jtcFXGmJBWVzQT/wGkM6anJ6rI1+/vPBFKQ1HQWEkTAbj7OGsPmEu0uGRha2Gvfq+4vB55iuJlNM/0W2qlSbwY9uw8revxdtJDDs9hSo5GYKewKi/q4rXaLvRvwoJKVCma+P/adpru/a9IbE0mh9r0QA=
+	t=1788944508; cv=none; b=gIkpTElo4nWK/4VxnUKajh29pKEwkyJM2a6pI6A1Z0hyi97ZCHxulovG2FxhAZR+5HmnGmjqLyhL+kx3W70hyaL2JtXg7bKRxGKQqB+kWpPlsMSgbNTJ/eDTzRJmIbzmNOHtWa5AuW3zg/tFZDyHS1DsH4cugG9BoUkJ1w/tziI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788944501; c=relaxed/simple;
-	bh=RC1BNmkCuQU1DakRzhjF5JezadS0qgQe8SFPOXejDL4=;
+	s=arc-20240116; t=1788944508; c=relaxed/simple;
+	bh=SAkZAInoNDJlwE4Vz0Q6DNK1AolKSJ1RECb+CGpp1bo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rhqRRTCc7uSgQ3XF6bo33QgPtfAYubAUinQMnbseWARPbOs1j1X6WkxhjroBJwEZC5/0Ehz2DUB2cfPBpeFU5mwkeJRnfD8N96SSTAvOF1h5I5HhXu7NmDLUi7vNkD8+eCCuxmtXBupZ5VPT6wYKOo1VFTetajwundIhrz4S/DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=gOJ6F8ar; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=A5F4t9QQwfYcbVsIMtI3bg6iyaHljOta69th3n+6HB8j5GXeeuYEaygX+kpyFof9O8Kr/oZzksaffwnMbyNlThVA51jFRHUOabxnONYAbq/WUoGAYs90NtIgDAkrPnp2+KvcHDuqFyghPJM1PqPfGmkplentvnbDur32jPjlSrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=O9H84TDg; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="gOJ6F8ar"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d9db539a54so50087935ad.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 02:01:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="O9H84TDg"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-86927f9ba4dso138168b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 02:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1788944493; x=1789549293; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1788944500; x=1789549300; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=E/izFqZ/muM6zoo5C7zoGnLseqg/LKzmuBhX1YVp8oU=;
-        b=gOJ6F8arppcKqtODSq6pTQPHYC11kjfOFk6a3G5oG1Jhz4v0yWI2qz3gH1PmVjlgL8
-         xmb0/PzsRtXpOHzhPi7GcSlBsYGTx/CH+mGCvIsHrY+IIsdv+J7y5cocKuUCSxqG+cYi
-         xl6GqSOMSxQ26e1slcvdZNyJNWrMyZHyAmXr/1WWj0jZFX7bSTXXvsyeDjwLcbpicaTY
-         jwfkNS2AuhowPJ/8KAt7lmc3H6PAStaRBdOwvBnpKgRe1iUt8kLTWe7hzLXNsHjP4Mwy
-         drlaXlke/jcUG2GBhbjRL0wK3H8dDGFl5tFN0Z+c6LlfpCQJ4xg5SOI9tjpv+Bpbqw3D
-         RuvQ==
+        bh=16fpww6sBpVAinXNCcY2u0zfGvd2bv+kcIua+w/wNXg=;
+        b=O9H84TDgaJ8XqSQXKMQDDDiZkkrZIZ8OgFliWpLPCCSxEAXqqt3NWSha6xKivV+V3F
+         VuhOH3vkUluEfsUGCQ58H5FSw4o8iqs/lrfhsExQfZSeKBJxtPeIi86rF16+Gl0AXqK4
+         UJTWAEzPM2ClO26O1LLYOeAVYgR1QM6778/joUMyzZtD3YqHavK6OcTQpH1J8Y5RhPhw
+         HBoiSKUt77KZmNLu0euhokHwZrlUU1s7BQpH/UduDZG9v57zRvJ5tZzx7n6//fNWM08/
+         Sa6+SGBV61oux85OqeOLph6qyfzVrE6p/L+Wd2w/YXYU9SAoaVEHuyWC95eqsd82+XB7
+         ZlYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788944493; x=1789549293;
+        d=1e100.net; s=20251104; t=1788944500; x=1789549300;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=E/izFqZ/muM6zoo5C7zoGnLseqg/LKzmuBhX1YVp8oU=;
-        b=R7AtJLw5oHAh/8N/7BxL03Ro2JpJKG4zoZDdGZtTNKYj8rlC5SOuj5LRw76A7BrJHy
-         sMrpCpSZ7YqkgAN0xRH9KtY6qLaJi5nWZ9CRBHktyfSB83ClRAa9atZR1RCx6QD51UqN
-         jrBJapzH7U32F3wI3GNP0Cqgn31fXo8gtrg9qZudorNJxmS6S5qeMT+TuD2mWXImRZdP
-         FOTKUUuX+XScb2QwXvXdG7b4JS8QHOEfcnRCO7ZEZY7C+wurcJpugf8d/JJyQzz2xN8D
-         BoaM1wlNAw0p3cwct7rdeCAF2rQt5iPQoNlatanAi+tfdf3o/i04WkeMtw7X5VjDgpJI
-         E4Nw==
-X-Forwarded-Encrypted: i=1; AKwUvBwBmYO3wdnFQHML2b7C7D5HrAO/j7V+fReoKm7LjfV9LhCwNNdUxfXjrZ0R9HRVShwwhoT8yufs8MBmcSEV@vger.kernel.org
-X-Gm-Message-State: AFuF++nybmVpPqPbhbVHweURSJRFrjJjxRbOpajhA3zkqtUfMjJtR7qJ
-	iNLHki5o9Vw6g7lBaOo8xwlJEzIuiMdtzV7qikEtCJF+6ZHRy7L0u74F76K+WPHGKA4=
-X-Gm-Gg: AYBFou12zrQksKBeqJFBSChavTrTBb0dmsJzQph7DDJQ4DCrRj3tcPAJTPS82Ro3QUI
-	/+wB26WzYazaVJbhr4JdQcCiS6xIENxA2ONOMwPYxAifjCK7lJFb1mm48U1ByuifldT6+XTXlb1
-	ODM3CumPU/UQJ2mVumOEeUR0nNETxk3zdPo3mNMM2BXJXSlf2B3xtbOq3IPl+YcCk9Cc1AsG44Y
-	HRB77lJKvE0htQ8T0oJu1X60XNocd2Z3+jxw2kPo9PJo60JzFfsj9sbc2YgBXipZ1u3seGD6yzu
-	ccnqvzdNxQShx+VOmk5Kq5ApoTTxqEsSpXFaXa+JqjklpONnsuxtk9/d2lbJZyO3dMcaeQ9j3bG
-	a2ITthcV3OzpqI5ZqGWLpbFO2+aDuvO6WOB8uFJDiOtdfGvL/5Ut89YNWc1LeIZlhyVGZRfbKST
-	Fv/qjCsFSf5JqqHqyunKtPL9tmV91ehHr9GxKSM0OzBGq2d21trgVCrHkfk5fhUVgMkXA4RE+tO
-	Q==
-X-Received: by 2002:a17:90b:2784:b0:395:4de5:1054 with SMTP id 98e67ed59e1d1-39b26272bdcmr57133385a91.16.1788944492663;
-        Wed, 09 Sep 2026 02:01:32 -0700 (PDT)
-Received: from localhost ([106.38.226.45])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08bcc090sm36856959a91.4.2026.09.09.02.01.31
+        bh=16fpww6sBpVAinXNCcY2u0zfGvd2bv+kcIua+w/wNXg=;
+        b=eqLsIiZ7EHpH2D1FAZR/EuDekVPZVe8JrN7yuc0QR9oNT/Qnu8Lo6eSpin4YGYc6+C
+         DxvmQwtsB0pJ43AASwP+PKYoE6eXkc2eHsJCpCFZdqz6PpO1KmwCKkaUClvbNGhUAcwV
+         McCsTx/WlPxFe1RmsFjevL82P/lwOs1gF71og+BNqWfTrztW/qbycKGfM079Jnoo78bQ
+         nJIPNdVbb5lWe7rBo7H1tWABamw22e2k/+qq3O0MVjCWzANpOAQkn/2mK3zK7r143xPv
+         TVYRv5FMXKXO1+VKXevE5DZzsTauoOhE4BsitAACFEbREJnx5clAdYs3GMzVfG7Z4twG
+         tY0Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxlmcbBH/sGB/9rA9IwU/S5mCJNvwe4xJdEp/o0UpXn3d0EITnWyTpARvx/zbLssyZ6anNLoJyyi4GTaLKp@vger.kernel.org
+X-Gm-Message-State: AFuF++kpqHYwrpJtsM7Wl4UQEIOiEi3AqZ+RX4YOhb0r/zcFeAN7CqwE
+	7jIhN/bsVJ+yeMbuEbx/EegECKj1IYp9B+ret1BdTBL3vO93kplF1koz07HJVM9c4pFn/GuOedH
+	nwJDv0GA=
+X-Gm-Gg: AYBFou3MVtTvYN4i/uf75HkjARgzoTCHvgXM3l0xsQwaEMGuuiH4cgKMvweVCyq5+0C
+	lhzfqKG85wjftEufP3vi1OV5G81E6mm4RA0fE1XGDCJLJASCniQouZrVHl1vngez6OdCv+TG3f9
+	mSdDMro3n3/btWW7MPR+azdVQpALPxjL071BK9RawHTUm7ukfh0XEnhBpoMDd3snrWr7F9ZvKMD
+	+JWzDlZB1y3Zbn05oI+lVvpZeD+8LWbaKPNHQGRXY5hkaA2GvrXP4wZBin3HVGsO14JLU2TZPe4
+	A/LgxEMfKUwEcdhyL94hX1blqh2x+gEKpvvidQW0ycNPHatj1qT//u0hqj7euNfX13z4D5BaqQP
+	gB7wPyvOIb3O7OT3I4rBKyUWrzyxqfuWhHrMC2jaZdECI9IEOPIHDnbXJZWHsyP88/M2szR7g+H
+	E4Yg+cMw4xQ8ELsxy+dEjZuWnvzKNfauED3WkzRgaAeMYzDyScYXFkJ7fGIO8TIgRbu7lOqCRav
+	w==
+X-Received: by 2002:a05:6a00:f94:b0:857:7337:5db7 with SMTP id d2e1a72fcca58-8616ac58363mr49645804b3a.21.1788944500308;
+        Wed, 09 Sep 2026 02:01:40 -0700 (PDT)
+Received: from localhost ([106.38.226.64])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86152045f8bsm6902214b3a.15.2026.09.09.02.01.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 02:01:32 -0700 (PDT)
+        Wed, 09 Sep 2026 02:01:39 -0700 (PDT)
 From: Julian Sun <sunjunchao@bytedance.com>
 To: linux-block@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
@@ -76,9 +77,9 @@ Cc: jack@suse.cz,
 	djwong@kernel.org,
 	ebiggers@kernel.org,
 	sandeen@redhat.com
-Subject: [PATCH 4/7] fs: use sb_for_each_inodes() API.
-Date: Wed,  9 Sep 2026 17:01:09 +0800
-Message-Id: <20260909090112.790006-5-sunjunchao@bytedance.com>
+Subject: [PATCH 6/7] quota: use sb_for_each_inodes() in add_dquot_ref()
+Date: Wed,  9 Sep 2026 17:01:11 +0800
+Message-Id: <20260909090112.790006-7-sunjunchao@bytedance.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20260909090112.790006-1-sunjunchao@bytedance.com>
 References: <20260909090112.790006-1-sunjunchao@bytedance.com>
@@ -90,148 +91,115 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use sb_for_each_inodes() in evict_inodes() to avoid rescanning referenced
-inodes after each reschedule. Collect eligible inodes during the walk and
-dispose of them after it completes.
+Convert add_dquot_ref() to sb_for_each_inodes(), passing the quota type
+to the callback and propagating initialization errors. This removes the
+old_inode reference used to preserve the walk position.
 
-Convert drop_pagecache_sb() as well, replacing its deferred toput_inode
-reference with the iterator's position tracking.
+Leave remove_dquot_ref() unchanged to avoid adding per-inode locking to a
+walk that never drops s_inode_list_lock.
 
 Signed-off-by: Julian Sun <sunjunchao@bytedance.com>
 ---
- fs/drop_caches.c | 44 +++++++++++++++++++------------------------
- fs/inode.c       | 49 +++++++++++++-----------------------------------
- 2 files changed, 32 insertions(+), 61 deletions(-)
+ fs/quota/dquot.c | 72 +++++++++++++++++++-----------------------------
+ 1 file changed, 28 insertions(+), 44 deletions(-)
 
-diff --git a/fs/drop_caches.c b/fs/drop_caches.c
-index 49f56a598ecb..0d475a5ff8cf 100644
---- a/fs/drop_caches.c
-+++ b/fs/drop_caches.c
-@@ -16,36 +16,30 @@
- /* A global variable is a bit ugly, but it keeps the code simple */
- static int sysctl_drop_caches;
+diff --git a/fs/quota/dquot.c b/fs/quota/dquot.c
+index 204afc5e984b..77c68149d4ae 100644
+--- a/fs/quota/dquot.c
++++ b/fs/quota/dquot.c
+@@ -1043,64 +1043,48 @@ static int dqinit_needed(struct inode *inode, int type)
+ 	return 0;
+ }
  
--static void drop_pagecache_sb(struct super_block *sb, void *unused)
-+static int drop_pagecache_inode_iter_cb(struct inode *inode, void *unused)
+-/* This routine is guarded by s_umount semaphore */
+-static int add_dquot_ref(struct super_block *sb, int type)
++static int add_dquot_ref_inode_iter_cb(struct inode *inode, void *data)
  {
--	struct inode *inode, *toput_inode = NULL;
+-	struct inode *inode, *old_inode = NULL;
++	int type = *(int *)data;
++	int err = 0;
 +	struct super_block *sb = inode->i_sb;
+ #ifdef CONFIG_QUOTA_DEBUG
+ 	int reserved = 0;
+ #endif
+-	int err = 0;
  
 -	spin_lock(&sb->s_inode_list_lock);
 -	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
 -		spin_lock(&inode->i_lock);
--		/*
--		 * We must skip inodes in unusual state. We may also skip
--		 * inodes without pages but we deliberately won't in case
--		 * we need to reschedule to avoid softlockups.
--		 */
 -		if ((inode_state_read(inode) & (I_FREEING | I_WILL_FREE | I_NEW)) ||
--		    (mapping_empty(inode->i_mapping) && !need_resched())) {
+-		    !atomic_read(&inode->i_writecount) ||
+-		    !dqinit_needed(inode, type)) {
 -			spin_unlock(&inode->i_lock);
 -			continue;
 -		}
 -		__iget(inode);
-+	if (mapping_empty(inode->i_mapping)) {
++	if (!atomic_read(&inode->i_writecount) ||
++	    !dqinit_needed(inode, type)) {
  		spin_unlock(&inode->i_lock);
 -		spin_unlock(&sb->s_inode_list_lock);
--
--		invalidate_mapping_pages(inode->i_mapping, 0, -1);
--		iput(toput_inode);
--		toput_inode = inode;
--
--		cond_resched();
--		spin_lock(&sb->s_inode_list_lock);
 +		return 0;
- 	}
++	}
 +
 +	__iget(inode);
 +	spin_unlock(&inode->i_lock);
- 	spin_unlock(&sb->s_inode_list_lock);
--	iput(toput_inode);
-+
-+	invalidate_mapping_pages(inode->i_mapping, 0, -1);
-+	iput(inode);
-+
-+	spin_lock(&sb->s_inode_list_lock);
-+
-+	return 0;
-+}
-+
-+static void drop_pagecache_sb(struct super_block *sb, void *unused)
-+{
-+	sb_for_each_inodes(sb, INODE_ITER_NORMAL, drop_pagecache_inode_iter_cb, NULL);
- }
++	spin_unlock(&sb->s_inode_list_lock);
  
- static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
-diff --git a/fs/inode.c b/fs/inode.c
-index b4279063a5dd..07a5f48641af 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -959,6 +959,17 @@ static void dispose_list(struct list_head *head)
- 	}
- }
- 
-+static int evict_inodes_inode_iter_cb(struct inode *inode, void *data)
-+{
-+	struct list_head *dispose = (struct list_head *)data;
-+
-+	inode_state_set(inode, I_FREEING);
-+	inode_lru_list_del(inode);
-+	spin_unlock(&inode->i_lock);
-+	list_add(&inode->i_lru, dispose);
-+	return 0;
-+}
-+
- /**
-  * evict_inodes	- evict all evictable inodes for a superblock
-  * @sb:		superblock to operate on
-@@ -970,44 +981,10 @@ static void dispose_list(struct list_head *head)
-  */
- void evict_inodes(struct super_block *sb)
- {
--	struct inode *inode;
- 	LIST_HEAD(dispose);
-+	unsigned int flags = INODE_ITER_NORMAL | INODE_ITER_UNUSED;
- 
--again:
--	spin_lock(&sb->s_inode_list_lock);
--	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--		if (icount_read_once(inode))
--			continue;
--
--		spin_lock(&inode->i_lock);
--		if (icount_read(inode)) {
--			spin_unlock(&inode->i_lock);
--			continue;
+ #ifdef CONFIG_QUOTA_DEBUG
+-		if (unlikely(inode_get_rsv_space(inode) > 0))
+-			reserved = 1;
++	if (unlikely(inode_get_rsv_space(inode) > 0))
++		reserved = 1;
+ #endif
+-		iput(old_inode);
+-		err = __dquot_initialize(inode, type);
+-		if (err) {
+-			iput(inode);
+-			goto out;
 -		}
--		if (inode_state_read(inode) & (I_NEW | I_FREEING | I_WILL_FREE)) {
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
--
--		inode_state_set(inode, I_FREEING);
--		inode_lru_list_del(inode);
--		spin_unlock(&inode->i_lock);
--		list_add(&inode->i_lru, &dispose);
 -
 -		/*
--		 * We can have a ton of inodes to evict at unmount time given
--		 * enough memory, check to see if we need to go to sleep for a
--		 * bit so we don't livelock.
+-		 * We hold a reference to 'inode' so it couldn't have been
+-		 * removed from s_inodes list while we dropped the
+-		 * s_inode_list_lock. We cannot iput the inode now as we can be
+-		 * holding the last reference and we cannot iput it under
+-		 * s_inode_list_lock. So we keep the reference and iput it
+-		 * later.
 -		 */
--		if (need_resched()) {
--			spin_unlock(&sb->s_inode_list_lock);
--			cond_resched();
--			dispose_list(&dispose);
--			goto again;
--		}
+-		old_inode = inode;
+-		cond_resched();
+-		spin_lock(&sb->s_inode_list_lock);
 -	}
 -	spin_unlock(&sb->s_inode_list_lock);
--
-+	sb_for_each_inodes(sb, flags, evict_inodes_inode_iter_cb, &dispose);
- 	dispose_list(&dispose);
+-	iput(old_inode);
+-out:
++	err = __dquot_initialize(inode, type);
+ #ifdef CONFIG_QUOTA_DEBUG
+-	if (reserved) {
+-		quota_error(sb, "Writes happened before quota was turned on "
+-			"thus quota information is probably inconsistent. "
+-			"Please run quotacheck(8)");
+-	}
++	if (reserved)
++		quota_error(sb, "Writes happened before quota was turned "
++			    "on thus quota information is probably "
++			    "inconsistent. Please run quotacheck(8)");
+ #endif
++	iput(inode);
++	spin_lock(&sb->s_inode_list_lock);
+ 	return err;
  }
- EXPORT_SYMBOL_GPL(evict_inodes);
+ 
++/* This routine is guarded by s_umount semaphore */
++static int add_dquot_ref(struct super_block *sb, int type)
++{
++	return sb_for_each_inodes(sb, INODE_ITER_NORMAL,
++				  add_dquot_ref_inode_iter_cb, &type);
++}
++
+ static void remove_dquot_ref(struct super_block *sb, int type)
+ {
+ 	struct inode *inode;
 -- 
 2.39.5
 
