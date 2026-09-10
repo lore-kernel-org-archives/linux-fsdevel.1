@@ -1,102 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1CD3D7D91;
-	Thu, 10 Sep 2026 07:54:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A060F35AC01;
+	Thu, 10 Sep 2026 07:56:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789026890; cv=none; b=WSZEWqK6lSDpVPfUS4Xe8Z774IKlDRDYLwwCkdNmJxje9z0DabSKqcaG2OhdTUBRI2W7r6RpMj4T8P2XYxS2RlRgD9cfcXOs4rAdW3Gzue8ZczV/aaw3IbQNDhumWqDefJetLbMdPBzb46rVLxEVZW4UuOq97kFwToe/X5jdHnw=
+	t=1789026989; cv=none; b=qvnMhwGmTPBMRF2FRMhIDR660bflxOjxsySZxcVvqDlayCnbu3uZV7Llw8jUj9NjE8uEbNI5sNU73Ug/kluO78zpLjo/vcqxvpGhxI8ORkAheT9bqcIJ/uDzOYGGTzK6HrCnIgYyC0SaxwemgoX/juqr5H21+7JPaqIYuJfPE2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789026890; c=relaxed/simple;
-	bh=92MeadmcJtnuno8ZJ8uDmoyfowuzz/49J9L/3j9N4P8=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=Vg+4Di8DxVPIO3qne5FvuBxzXDjvHIcUsUkOO2beDeUeeUMXb3WYAHpZounrNWH8O5d6s9kFS/bHKgwEYAq1Fcj+RJwnnT4VOcRNXQpRcBOpmaar240lHG3mGSYHB6/QxgRB1fM3Ks8otvmTK3Bzqko2sf2yjtLrk7Jnl7EizIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCX5Y8yL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789026989; c=relaxed/simple;
+	bh=EMBp4Doo+oDMrJSXQ4mhY8YBlFdm4sKqNPqkYNZJ9rQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KdIglDYhgWfLVNhD6ktdFmeJvHOZyX6CSsBU/VA8XZ60eCtacS7Q7gkaZICw4RDQmxw9Wl4K6MgZ1fXdrBMsPks9xbInGAfQADEza7J0ls6MEkh+0DcN9EaibEd4wkFCy97Z1muQNOqHbAohaEqbhjx+sTwi0N4UQuzW1XKgHZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UDi8kUuo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCX5Y8yL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D59F1F000FF;
-	Thu, 10 Sep 2026 07:54:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UDi8kUuo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A13BA1F000FF;
+	Thu, 10 Sep 2026 07:56:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789026888;
-	bh=81xEdGdgngRiAgblNE3PtSjjrQlaJ1FhOAUhZwtimZ4=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=nCX5Y8yLwh0ipMwPawk5BN+r9u0BHptijljtYjvdVEosfFEwuSST/sH/YKZvBOcy6
-	 /oryXPV/HCPC3oJfgLNksqP6x1iix3ow0vW8wQ+ZRKCjmUQWxsVuV2vbx6WV0GT3op
-	 BmmWyuky5rFKIIe7DcuIxdOiMqvnYsEHKQSbZZ2fSBwyVWA11ubewJ9xOLIJ6dLNFx
-	 OOM54FlBTYNP0bBdo6/bSwsi3s2i92Ih4Ik+7G8W7OUgxG4y9RiYsByLy47jTWxdNU
-	 ptmnZ1QlYd4ZwVJLi8KlVTnYNE43Fx5uCcwSSqy9LAqiheqsNzkjUKgvxFQXKFS37z
-	 Y+G7YjUHNGXWA==
+	s=k20260515; t=1789026988;
+	bh=BQQcusQ9LLT4yN0vtE2+JJfBAM0whRembcwi5uPMBmY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UDi8kUuoLd3sQBFJGPIWCqcoyztj2LTiq9VJbAroJS0NmrWzlX881kEKj/grf85aD
+	 +iFSIOSNfcbhy3RVHR7B48/NMY+1sQNN8ceb8gy99B3IgdUR4q6rQoNiKgy/V/oR4y
+	 IcrtbvcrheHdS/YlR1R9Ro7LmulIoPjpSMZdb2rjWIBYgKwC7c915RPLwMJxcTsicl
+	 iulfu5rif6jCCo7NCp4ZGfR9WkDxd/Gq44sL7rA8DWe3cYda/Vq+rKC4j93AxOuJGf
+	 I70H/S0fguNXRnW8yk92n+a4QZgcvHR9wkwZ+V09rj+g/x/JqT/bPLYUa+vK1YkvwQ
+	 EZXJMANGawwbQ==
+Date: Thu, 10 Sep 2026 09:56:18 +0200
+From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Kieran Bingham <kbingham@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 06/12] mm/sparse: rename __highest_present_section_nr to
+ __highest_used_section_nr
+Message-ID: <aqJiouyfI716msmO@localhost.localdomain>
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-6-008fc8d579fe@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 00/10] net: support thread-specific pidfds for send
- and connect
-From: Christian Brauner <brauner@kernel.org>
-To: Kuniyuki Iwashima <kuniyu@google.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
- Alexander Mikhalitsyn <alexander@mihalicyn.com>
-In-Reply-To: <CAAVpQUAx2K1Nhj64oEYMfQOzsp35uPhRmRrS4hnp7nd=jvj2kA@mail.gmail.com>
-References: <20260909-work-unix-passpidfd-v2-0-7bd342abb2d1@kernel.org>
- <CAAVpQUAx2K1Nhj64oEYMfQOzsp35uPhRmRrS4hnp7nd=jvj2kA@mail.gmail.com>
-Date: Thu, 10 Sep 2026 09:54:42 +0200
-Message-Id: <20260910-salzig-hegemonie-wipfel-3443601bf82c@brauner>
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1731; i=brauner@kernel.org;
- h=from:subject:message-id; bh=92MeadmcJtnuno8ZJ8uDmoyfowuzz/49J9L/3j9N4P8=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtSnL+aZTJpvc8ktH0zVbpdcd3mMtNfxt9dsm6P/385
- tnCb5u7O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZioM3wP5LFpvrfvTddXs+e
- 5+590FX7cSarSYi4/7rAKt0mMXnJ5YwM75f6tr8uWzPnj11soNdUgccBNSmvV9cwOc1IzLnA49f
- KDAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-6-008fc8d579fe@kernel.org>
 
-On 2026-09-09 23:33 -0700, Kuniyuki Iwashima wrote:
-> On Wed, Sep 9, 2026 at 3:43 AM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > SO_PASSPIDFD/SCM_PIDFD and SO_PEERPIDFD allow to retrieve a pidfd for
-> > the thread-group leader. The coredump server using the coredump socket
-> > cannot get a handle on the task that took the signal and is writing the
-> > coredump easily. Workloads interested in per-thread authentification
-> > have similar problems.
-> >
-> > Add SO_PASSPIDFD_THREAD and SO_PEERPIDFD_THREAD. We record the sending
-> > and the connecting thread in addition to the thread-group leader.
-> >
-> > SO_PASSPIDFD_THREAD functions like SO_PASSPIDFD but instead of an
-> > SCM_PIDFD message for the thread-group leader, SCM_PIDFD sends a pidfd
-> > for the specific thread. SO_PASSPIDFD_THREAD is mutually exclusive with
-> > SO_PASSPIDFD. The last one set takes precedence and disables the other
-> > one. Both SO_PASSCRED and SO_PASSPIDFD receivers see one writer per
-> > process as before.
-> >
-> > SO_PEERPIDFD_THREAD allows to retrieve a pidfd for the specific thread
-> > that called connect(), listen(), or socketpair().
-> >
-> > pidfs_coredump() now also stamps the dumping thread's struct pid so a
-> > pidfd for that thread reports the coredump like the pidfd of the
-> > thread-group leader does.
+On Wed, Sep 09, 2026 at 03:32:59PM +0200, David Hildenbrand (Arm) wrote:
+> In preparation for getting rid of SECTION_MARKED_PRESENT, rename
+> __highest_present_section_nr and clarify the comment.
 > 
-> systemd-coredump currently uses SO_PEERPIDFD, so
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-And dbus-broker and polkit and etc pp.
+Acked-by: Oscar Salvador <osalvador@suse.de>
 
-> SO_PEERPIDFD_THREAD makes sense to me, but is there
-> real need/use-case to fetch each thread's pidfd per sendmsg()
-> via cmsg ?
+ 
 
-I want to be able to authenticate individual threads in a thread-group
-on a per message basis in an authentication framework.
-
-Thanks for the review!
-
+-- 
+Oscar Salvador
+SUSE Labs
