@@ -1,232 +1,214 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C0C58E2C1
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 18:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789066272; cv=pass; b=RfETAo1cTsLPnX9Rmx8Ax2PNrMJhACnjLkEYWOTUQweFzl73yqyoiRtQR0sGt9gRpx2JYyQ/gFa95jW1OFNtTf4waGUk7xaNrZVWb3o+PXEV6Escg7VWDMR+5orWar50s6go3FuszW2ulVHGyF8RCWazpf7bIm67u1pusaFGzE8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789066272; c=relaxed/simple;
-	bh=E8ECUTSxkYxtjfffY1EweDG3Ov8lBYCUxzc2AoG7F7k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BrQuJTR0zDPraO6GA6X4u2IjE8guY8tq/j/LjfavQ1LTw2PIH5Bzo5u1oE5IBK0wqbGhBzaNXdxdOldKCD+hsEYngxmSbRxwZ2Y6OUTtT+tLmMb/Xd7cbxMtKUOKHQIXMhJK8593Opdn4nnXrbNNMy6tuBRxle6dPULi7+0yRII=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tKIvkO4s; arc=pass smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A28370AEB;
+	Thu, 10 Sep 2026 18:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789066546; cv=none; b=qI04ZCD/mffz8cpWqepYGMFV8Mp+SckjY1mMcAa6rsDe9kbC0stcfx2zD+J7+I3u1JbuCYOfprkKBtOdQXCzDaRdWO8wC3s07a4U34v1gZM4aPdg96uWmghvXCkFNLpDqk3ix6QSKvlbeFommd9l3PlW59y1YVogEyWBeklnOxg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789066546; c=relaxed/simple;
+	bh=jA1OIjMBwv91UuOt5Tn56hy+6IGDF/xyXBVDc+O0W7c=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=A+ac7OsFdCSk2ZgjggUEYNyk4qABfHooj+hlO9MbViUc0WCRtXI5eLFkxpk7W9dQ5JYKjN2SCapwFEuOSIMOYCeUAUznU6rWrRcXDK+Uv8sJjOm3BmsrZD6qMF1fS9r9KQgw8cQJYtc7xANVQGzoX0yYNcmROoSIKr0IrqWz3ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6i3O5AT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tKIvkO4s"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f70553dso23266066b.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 11:51:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789066263; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RKCPGN2FSkW4NlwjYY9dCSFrzVJE9zsT54DF2kna1UxoXMM3j48WVm5GyGSWWmk/gs
-         IDGHuZOMiRVbSz0lYr0/bieAerN+TiYLNz0J9ewHUdqrlsZvxd4d1pM603ODwspTs/LF
-         ojKYWpGZX6namxeFdzCdgJbDXlcQSGKFDOEjQzIu2PYc/AzuSkbsszN8CYPLjpPC309T
-         nhWwNG3OC/RlMy3mrbUb4I+XYZ9okltpznAtfL7baf5q1m7Q9KM+WlnPbcTvWM7duWxY
-         LPwwnoqXVv5/RWmL3jg2VyaFbsHaLEwbn36IoGAuLthqTwr+qdtq89UUAxOCbiDJFmrh
-         8RCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GHbrPCsfNB2NLhSOQejnkC4BucMxa/AsAEAIxOLb+IA=;
-        fh=uxtNvqfqPUwt51i3StiELCjqpo3kBoWyErcdVJ1OCik=;
-        b=e9I0rcfUmjTFy71Qr8U3RVnkWdKy8oeTvAwu5GVxyXobfWe94rx933XeKxDxmoxxzy
-         zJ23vqpPqMEBpZ17NrDLaXi5z19rGHT0iv4pHqMiiFNB3/jCH+QygV2cZXtibj60rYBs
-         GpZrm7C7ejhu7KxUyWPmkivj7KT8oAGJmvcVJyFckvJvoy2KHwMQVU+8SOoCTJG4pvq3
-         P2qwPhTVJvIJIpPXnXkphzXjiFk3lQwAq7vq9ALP0j32qt2joeICW4VVNBxz0tH7+weZ
-         FwQac1DTZcg83S1+nZ38kPOwzl7EoOk3ZT80eU8YuUCWDqu1V3Kflw5zXq2cWAKWM13C
-         DK9A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789066263; x=1789671063; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GHbrPCsfNB2NLhSOQejnkC4BucMxa/AsAEAIxOLb+IA=;
-        b=tKIvkO4s5pB1utomlABuEHgX6//OXrZhf0Rh1ivNtUr8dE2KKRRJfWjaJZtaLvTHkj
-         cS3mvxn8xqWAaLDYZlyL5t3XsNA0jXXzzBeDJOmHkyeJsjZGmcg9d+Xpm8t7/nGxrjT+
-         v+8xu4oOHSrpJxtABfKX1e6Z+AUZybHvWpMB+MZccDg878KnlyD7gz0MlS8xVmgBOh36
-         WqNzlLwm8yd55rcKuT/jqqA3+9yvo1jkw8xo3qu4KVV10BvEpmJpUbasogNDpyIAO4Uy
-         kGtEXwztJuBzWg+BtaFkJooXyOeT8n6374RUwgaefKRlOTAA0n2PPaYHkzjlX6orSsnd
-         jDVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789066263; x=1789671063;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GHbrPCsfNB2NLhSOQejnkC4BucMxa/AsAEAIxOLb+IA=;
-        b=B7J/OgGs/n6lCm4q5bJuiG4nXSEtA0w8xQYef1iRCYcPu5SSH/vqfpva8IEp20zVYB
-         6XGnZeHKdIiFoCyDuzFk4iDBlQ3T8XSvoTGS/D3tWF2CL0vC4m24DenmpPucqVgxbc/u
-         36DKq+164foJ/h0qzpJlkiQGxB8Ti6i7LuFd/+i2TEh8XgMSQ+PQSxdv0r1eaK/Io6Ql
-         Gy+KGEca1MZgxEvlFhChDHBFCQRkRNMHnHcgRHS6DfOgkcfomk6zVcRhaVRv/mMlZ6ZX
-         gdRFboZ8bgvLrAkSCojzIEYPKxtky/4A7YWpu3dExXsWxDsxbMEdfvlYkBTvdtFjKk50
-         bMFw==
-X-Forwarded-Encrypted: i=1; AKwUvByGGuIAP/E3GF2yKl6CFm4mrBgGkVycNOcEly3p20vOHt2aYj8J8MpJt+1OfyW3a/ROUti955ssU/Ar/cdS@vger.kernel.org
-X-Gm-Message-State: AFuF++mf7cgKSjTKPU95d6+HUlZgWMrROU90faPN/2rMPQmtKheid7W9
-	Iv7lE3O5Qr36OUSBPbFPtly992nI7+XX4AW8agoMkN3WzetrH2m8Z3jnebnxQqWnWVX1qWPNiaH
-	3E1k7RXh+mbqVRKTfPiJH2GvGZiBLTkQ=
-X-Gm-Gg: AYBFou33SVMoZnCikXfB/tF3e/0LoDfajCbIuv1xDH0TfRAL2hhEwMAmvCfycYqRbvu
-	p2UHYkit6cL5djn6+mG4pG7DDQXCqTCKdrykMGjLd3feSQoIkX8BmFskItpCI1c1SmBigX361ET
-	DGdJngK5AhxqbzUipK1yUi+EItO5R4fGFFs2d8EmskZZlPr3AqYoMF7AeoZ+xDOg9JAkBTFVmhC
-	mqHxwyRqo50Quz3Joja+kQOVdu88yJ2tIacdOJiIiSwPSM2p2SYZdqq1W2ozf0Q+iK54wtnPxKr
-	foMt7q3xHraQdUlDLWs8GIODTUSXlymmliN673DZ9sEDXTYYKP144+k9sDk/lJ9nuhEM
-X-Received: by 2002:a17:907:7203:b0:c12:5a0e:3e0 with SMTP id
- a640c23a62f3a-c29665586bdmr1293366b.19.1789066263344; Thu, 10 Sep 2026
- 11:51:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6i3O5AT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC6741F008A6;
+	Thu, 10 Sep 2026 18:55:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789066544;
+	bh=CrpBp6UrC3ldEa5GcKmmPo3oz74G2RAnpQBvJ2o9k1k=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=F6i3O5AT5R2f9Yx+JsX4oi2MbBVZy6vhmuah8fyZ7HoRM4fcwu9ko/hMOipVkG55B
+	 1Zmg31PLcmFyjN/6qwvx+Gi14CUmpNgqwIW3GIcgTV8r/HdYjj80cmHBvTlnPKg5uR
+	 OFZIpZsE3LqRG10E9rSuJaexxU9wT5CasLzhcaoOUlc1HtwpM6VduzyZ+RCbNEeTCG
+	 7mnywN+8+H6LvsHwXafWrsaQmZDzIueYYyazPefKJGcMkw5e44QHRXV4epY9oIt8b/
+	 VxUYOa++vQ7n7D+qHzq2qnf380yDhptkzXHvt9CgqRKD1Qe5yMUYoD9jvQW061SukA
+	 KzIemnQ3+sQfA==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id C451EF40069;
+	Thu, 10 Sep 2026 14:55:42 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Thu, 10 Sep 2026 14:55:42 -0400
+X-ME-Sender: <xms:Lv2iajO020W1DUB7kxvyyEY7DfRl-e2BIJTX073yLiFUhMClSPWBiA>
+    <xme:Lv2iaoxfBFeDEd_VmLtT0qd94HDtXRhhpDvUfHkJM_m66XDNqrBNS-B2koOqMN4lP
+    Sa0Ug9f_2FH0Kq2r3-yqf79TNecZT6-Lakr_OXpOKrFWd9sWBuPoBo>
+X-ME-Proxy-Cause: dmFkZTF4DbH3FZ3dPjetu62giaNH+KK3h7Vnr+fEg85PysIt/4nck/4imrawKEp8DsE6Pr
+    r0whIQLHunubPaHCLLANlXfZ8RvcApjV2EH4HvJnIa7IIlTjW/aieFsEYioNdVnIC1pGZ7
+    r7+Be7rv47aINSOQmPbhGzYvhtHf8def9lEg4PtjWAs9LAnZxAA8HHEDG0Nu5Q4D+ErnGo
+    wbL3v3GuUBm9m4647OHl9jiHICZ+8M7+WaOVrci5hxhVfG9CY47ExztZrbckd1/ZxcD0FZ
+    vwDE7nYg/E3N/QLZgdrUVACuceWMJkJ6Wb+Z2hJc7h8HgoI8f/4b+gnUnlKGDgCx/5CDPJ
+    po6DIC9Q8yofj6Gyo3f7FKL5mt0EHv82L6g17/YO3gWxVRbIFJetz+YWg8fgbv7WuFfefm
+    hnLsmWUjBQVBzx6B9SMuUsPATs4OJtGO1f+mnt0J/1peJ5Nq63D3J9EC8B1PaX5BKnWN5n
+    NTUc5qHazXKrxzCndz85zJiyINbeiTNLTCeRjTR7RMcNSUFcXqheUFmGnh70f88dysYIhz
+    x/wWpwuzN1bBTEbUGCyOiSyCxaCxeioaasg+88aeLfS3v1QhYfc5bHYGwrmHrU/cjZ20YX
+    SgmgetWptaxFGpGrTy/DDcJdYBDIVEtFh7oH120w4eOuhoZaxlVn3LGzD7xQ
+X-ME-Proxy: <xmx:Lv2iagKDhe4ENuyDEBPe0XuX5JV95iH3pOzVxXrfT1HwGt5hmy731g>
+    <xmx:Lv2iavY0YWPFwc5heNSQaejsEbm3T9Hzm9qfGqn3H3Ql0pmX2TgP2A>
+    <xmx:Lv2ias4lIQtLaB1oGx0UNzfhFXq0OCShC-yE9ybCKPEj_MhGksso3A>
+    <xmx:Lv2iaoJl7Z6wMLyQsn5RJgRWdIhUrImOwvxM7EqgPgmRZWBE2AuVGw>
+    <xmx:Lv2iaqawY0GSonv8zq4bA_iHkDoRcvBDh1ekvmmQAljAmwqWH4krgir7>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 8F75E7811F0; Thu, 10 Sep 2026 14:55:42 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260909232351.1533034-1-shayba@google.com> <20260910184424.156341-1-shayba@google.com>
-In-Reply-To: <20260910184424.156341-1-shayba@google.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 10 Sep 2026 20:50:51 +0200
-X-Gm-Features: AcwNN1XzPl6sCfEfyGDUtYT_TA2joRNYoLDO4R22DRWhcKPdZPzJ_hcvSfmgiWQ
-Message-ID: <CAOQ4uxigJO7Zi2U7WRJh9UNs5-WYDv5wHrZxohSJJOp6_j1=7Q@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: Forward vfs_fadvise to backing_file in
- passthrough mode
-To: Shai Barack <shayba@google.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>, 
-	Sandeep Dhavale <dhavale@google.com>, Akilesh Kailash <akailash@google.com>, 
-	Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: AHIlAaKAQArc
+Date: Thu, 10 Sep 2026 14:55:20 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Fernando Fernandez Mancera" <fmancera@suse.de>, netdev@vger.kernel.org
+Cc: "Simon Horman" <horms@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, edumazet@google.com,
+ davem@davemloft.net, "Jason Gunthorpe" <jgg@ziepe.ca>,
+ "Leon Romanovsky" <leon@kernel.org>,
+ "Andrew Lunn" <andrew+netdev@lunn.ch>,
+ "Tony Nguyen" <anthony.l.nguyen@intel.com>,
+ "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
+ "Elad Nachman" <enachman@marvell.com>,
+ "Saeed Mahameed" <saeedm@nvidia.com>, "Tariq Toukan" <tariqt@nvidia.com>,
+ "Mark Bloch" <mbloch@nvidia.com>, "Ido Schimmel" <idosch@nvidia.com>,
+ "Petr Machata" <petrm@nvidia.com>,
+ "Edward Cree" <ecree.xilinx@gmail.com>,
+ "Maxime Chevallier" <maxime.chevallier@bootlin.com>,
+ "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
+ "Alexandre Torgue" <alexandre.torgue@foss.st.com>,
+ "Arend van Spriel" <arend.vanspriel@broadcom.com>,
+ "Miri Korenblit" <miriam.rachel.korenblit@intel.com>,
+ "Keith Busch" <kbusch@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
+ "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>,
+ "Chaitanya Kulkarni" <kch@nvidia.com>,
+ "Saurav Kashyap" <skashyap@marvell.com>,
+ "Javed Hasan" <jhasan@marvell.com>,
+ GR-QLogic-Storage-Upstream@marvell.com,
+ "James Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>,
+ "Nilesh Javali" <njavali@marvell.com>,
+ "Manish Rangankar" <mrangankar@marvell.com>,
+ "Varun Prakash" <varun@chelsio.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "David Howells" <dhowells@redhat.com>,
+ "Marc Dionne" <marc.dionne@auristor.com>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Marek Lindner" <marek.lindner@mailbox.org>,
+ "Simon Wunderlich" <sw@simonwunderlich.de>,
+ "Antonio Quartulli" <antonio@mandelbit.com>,
+ "Sven Eckelmann" <sven@narfation.org>,
+ "Nikolay Aleksandrov" <razor@blackwall.org>,
+ "Pablo Neira Ayuso" <pablo@netfilter.org>,
+ "Florian Westphal" <fw@strlen.de>, "Phil Sutter" <phil@nwl.cc>,
+ "Johannes Berg" <johannes@sipsolutions.net>,
+ "Matthieu Baerts" <matttbe@kernel.org>,
+ "Mat Martineau" <martineau@kernel.org>,
+ "Geliang Tang" <geliang@kernel.org>, "Julian Anastasov" <ja@ssi.bg>,
+ "Aaron Conole" <aconole@redhat.com>,
+ "Eelco Chaudron" <echaudro@redhat.com>,
+ "Ilya Maximets" <i.maximets@ovn.org>,
+ "Allison Henderson" <achender@kernel.org>,
+ "Jamal Hadi Salim" <jhs@mojatatu.com>, "Jiri Pirko" <jiri@resnulli.us>,
+ "Marcelo Ricardo Leitner" <marcelo.leitner@gmail.com>,
+ "Xin Long" <lucien.xin@gmail.com>,
+ "D. Wythe" <alibuda@linux.alibaba.com>,
+ "Dust Li" <dust.li@linux.alibaba.com>,
+ "Sidraya Jayagond" <sidraya@linux.ibm.com>,
+ "Mahanta Jambigi" <mjambigi@linux.ibm.com>,
+ "Tony Lu" <tonylu@linux.alibaba.com>, "Wen Gu" <guwen@linux.alibaba.com>,
+ "Jon Maloy" <jmaloy@redhat.com>,
+ "Tung Quang Nguyen" <tung.quang.nguyen@est.tech>,
+ "Steffen Klassert" <steffen.klassert@secunet.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>,
+ "Casey Schaufler" <casey@schaufler-ca.com>,
+ "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ "Vikas Gupta" <vikas.gupta@broadcom.com>,
+ "Bhargava Marreddy" <bhargava.marreddy@broadcom.com>,
+ "Rajashekar Hudumula" <rajashekar.hudumula@broadcom.com>,
+ "Nicolai Buchwitz" <nb@tipi-net.de>,
+ =?UTF-8?Q?Markus_Bl=C3=B6chl?= <markus@blochl.de>,
+ "Arnd Bergmann" <arnd@arndb.de>,
+ "Heiner Kallweit" <hkallweit1@gmail.com>,
+ "Florian Fainelli" <florian.fainelli@broadcom.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Qingfang Deng" <qingfang.deng@linux.dev>,
+ "Julian Braha" <julianbraha@gmail.com>,
+ "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Eric Biggers" <ebiggers@kernel.org>, "Ard Biesheuvel" <ardb@kernel.org>,
+ "Neal Cardwell" <ncardwell@google.com>,
+ "Kuniyuki Iwashima" <kuniyu@google.com>,
+ "Willem de Bruijn" <willemb@google.com>, "Alyssa Ross" <hi@alyssa.is>,
+ "Joel Granados" <joel.granados@kernel.org>,
+ "Oleg Nesterov" <oleg@redhat.com>, linux-rdma@vger.kernel.org,
+ linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ oss-drivers@corigine.com, linux-net-drivers@amd.com,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-nvme@lists.infradead.org,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+ b.a.t.m.a.n@lists.open-mesh.org, bridge@lists.linux.dev,
+ netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ mptcp@lists.linux.dev, lvs-devel@vger.kernel.org, dev@openvswitch.org,
+ rds-devel@oss.oracle.com, linux-sctp@vger.kernel.org,
+ linux-s390@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+ linux-security-module@vger.kernel.org
+Message-Id: <ff6ff699-e942-455f-8816-49af24afb370@app.fastmail.com>
+In-Reply-To: <20260910144914.8025-2-fmancera@suse.de>
+References: <20260910144914.8025-1-fmancera@suse.de>
+ <20260910144914.8025-2-fmancera@suse.de>
+Subject: Re: [PATCH 01/13 net-next] net: ipv4: introduce CONFIG_IPV4 to decouple the
+ IPv4 stack
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 10, 2026 at 8:44=E2=80=AFPM Shai Barack <shayba@google.com> wro=
-te:
->
-> When an application invokes posix_fadvise(..., POSIX_FADV_DONTNEED) or
-> other fadvise advice on a FUSE passthrough file descriptor, the VFS
-> currently only executes generic_fadvise() on the upper FUSE inode
-> mapping.
->
-> Because FUSE passthrough does not forward fadvise operations to the
-> underlying backing file, pages residing in the lower filesystem's
-> pagecache remain resident in memory.
->
-> During media-heavy workloads (such as image thumbnail generation or
-> streaming), single-access file data accumulates in the inactive pagecache
-> of the lower filesystem. Under memory pressure, the kernel retains these
-> stale media pages and instead evicts active executable pages from
-> running processes, leading to severe direct reclaim latency spikes.
->
-> Architecturally, Linux VFS supports filesystem-specific fadvise
-> delegation via the .fadvise hook in struct file_operations. Implement
-> fuse_file_fadvise() in fs/fuse/file.c and register it in
-> fuse_file_operations. When passthrough is active on a fuse_file,
-> fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
-> backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
-> to cleanly invalidate the physical backing filesystem pagecache.
->
-> Signed-off-by: Shai Barack <shayba@google.com>
-> Cc: Miklos Szeredi <miklos@szeredi.hu>
-> Cc: Amir Goldstein <amir73il@gmail.com>
-> Cc: Bernd Schubert <bschubert@ddn.com>
-> Cc: Sandeep Dhavale <dhavale@google.com>
-> Cc: Akilesh Kailash <akailash@google.com>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: fuse-devel@lists.linux.dev
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-Thanks,
-Amir.
+On Thu, Sep 10, 2026, at 10:48 AM, Fernando Fernandez Mancera wrote:
+> Historically, the IPv4 protocol has been linked to the core INET
+> subsystem. Because shared infrastructure like the TCP/UDP engine,
+> routing or INET hashtables live inside net/ipv4/, it has been impossible
+> to compile a kernel with only IPv6 support.
+>
+> This patch introduces the CONFIG_IPV4 Kconfig symbol, which is set to
+> 'def_bool y' for now. This does not allow to completely disable the
+> IPv4 stack yet but it lays the necessary build-system work for that
+> goal.
+>
+> In addition, multiple subsystems Kconfig symbols across networking
+> features like tunnels, drivers and filesystems have been adjusted to
+> depend on IPv4. Keep on mind that follow-up work is required to convert
+> the Kconfig symbol to bool and remove the dependency on IPv4 where it
+> makes sense.
+>
+> Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
 
-> ---
-> v2:
-> - Remove redundant !backing_file check in fuse_passthrough_fadvise() (Ami=
-r Goldstein)
-> - Remove unused fuse_passthrough_fadvise() stub under #ifndef CONFIG_FUSE=
-_PASSTHROUGH (Amir Goldstein)
-> - Reorder fuse_passthrough_fadvise() above fuse_passthrough_open() alongs=
-ide other passthrough ops (Amir Goldstein)
-> - Add fuse-devel@lists.linux.dev to CC list (Amir Goldstein, TJ Mercier)
->
->  fs/fuse/file.c        | 11 +++++++++++
->  fs/fuse/fuse_i.h      |  1 +
->  fs/fuse/passthrough.c | 13 +++++++++++++
->  3 files changed, 25 insertions(+)
->
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index a4d736945..81709ab82 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -3537,6 +3537,16 @@ static ssize_t fuse_copy_file_range(struct file *s=
-rc_file, loff_t src_off,
->         return ret;
->  }
->
-> +static int fuse_file_fadvise(struct file *file, loff_t offset, loff_t le=
-n, int advice)
-> +{
-> +       struct fuse_file *ff =3D file->private_data;
-> +
-> +       if (fuse_file_passthrough(ff))
-> +               return fuse_passthrough_fadvise(ff, offset, len, advice);
-> +
-> +       return generic_fadvise(file, offset, len, advice);
-> +}
-> +
->  static const struct file_operations fuse_file_operations =3D {
->         .llseek         =3D fuse_file_llseek,
->         .read_iter      =3D fuse_file_read_iter,
-> @@ -3557,6 +3567,7 @@ static const struct file_operations fuse_file_opera=
-tions =3D {
->         .fallocate      =3D fuse_file_fallocate,
->         .copy_file_range =3D fuse_copy_file_range,
->         .fop_flags      =3D FOP_DONTCACHE,
-> +       .fadvise        =3D fuse_file_fadvise,
->  };
->
->  static const struct address_space_operations fuse_file_aops  =3D {
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 939553b34..6c60716e7 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -1581,6 +1581,7 @@ ssize_t fuse_passthrough_splice_write(struct pipe_i=
-node_info *pipe,
->                                       struct file *out, loff_t *ppos,
->                                       size_t len, unsigned int flags);
->  ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *=
-vma);
-> +int fuse_passthrough_fadvise(struct fuse_file *ff, loff_t offset, loff_t=
- len, int advice);
->
->  /* backing.c */
->
-> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-> index 059e57969..8a8fa6b8c 100644
-> --- a/fs/fuse/passthrough.c
-> +++ b/fs/fuse/passthrough.c
-> @@ -160,6 +160,19 @@ ssize_t fuse_passthrough_mmap(struct file *file, str=
-uct vm_area_struct *vma)
->         return backing_file_mmap(backing_file, vma, &ctx);
->  }
->
-> +int fuse_passthrough_fadvise(struct fuse_file *ff, loff_t offset, loff_t=
- len, int advice)
-> +{
-> +       struct file *backing_file =3D fuse_file_passthrough(ff);
-> +       const struct cred *old_cred;
-> +       int ret;
-> +
-> +       old_cred =3D override_creds(ff->cred);
-> +       ret =3D vfs_fadvise(backing_file, offset, len, advice);
-> +       revert_creds(old_cred);
-> +
-> +       return ret;
-> +}
-> +
->  struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
->  {
->         if (fb && refcount_inc_not_zero(&fb->count))
-> --
-> 2.43.0
+> diff --git a/net/sunrpc/Kconfig b/net/sunrpc/Kconfig
+> index e7808e5714dc..58e6f6db3100 100644
+> --- a/net/sunrpc/Kconfig
+> +++ b/net/sunrpc/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  config SUNRPC
+>  	tristate
+> -	depends on MULTIUSER
+> +	depends on MULTIUSER && IPV4
+> 
+>  config SUNRPC_GSS
+>  	tristate
+
+Acked-by: Chuck Lever <cel@kernel.org>
+
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
