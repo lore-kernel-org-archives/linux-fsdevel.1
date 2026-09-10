@@ -1,91 +1,52 @@
-Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7558B493D55;
-	Thu, 10 Sep 2026 13:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC2F328610;
+	Thu, 10 Sep 2026 13:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789047388; cv=none; b=L4rOXWEpE8TIj/R6rBdjFOALAi0m1GrpXOTbza95p86iUYrn0wqTQ+Vz1LH+31Fiyp4DtS4/cIM9DhobJs0ZlAb7zBqIBXnf3kEBNylrUGyuZWttAJOa8hCnUy65mJr/DO4NAOwYBqJ2PDyiiqPqpOhiNcY5xSudsvN82SqMyPw=
+	t=1789047844; cv=none; b=qlcotDtEMX8f08Fp2hrkxCqMOO69fF/oP5xQV4oKnK9Uwh7xoIPNL2AKum/iJa5FG4UtBH5iZVyRCWl+6mvdzoDI3xD5J6NOZx6f6/CGV1ZWBbt4Df8+bGjk7PGnCXRY8GVyNYGnc1D2d0gEI6R7KUoRNb/58HwAucrRr0C+v9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789047388; c=relaxed/simple;
-	bh=mFzSoT/R8c1Nd73kJmUZCG6wf+klMYpnbTHGbu06jnQ=;
+	s=arc-20240116; t=1789047844; c=relaxed/simple;
+	bh=XnVqWCdpz/jLWaZXkxaUGPhBA5tNcEitcQucAS4b4WU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PId3DnDdQYL8TRTj5wqMdN9Os3ZLb1E7c229fOxspErP8HkqQgAIE3mU5R8X9ijFQFathxxsxNNtEQteBPMORrQSxvzSU2XQq3zSLndOQgk89HAi2gPf4vFqFWrLWlT6yMMaVPjUBZb9Dk2h5EG5vAaP8Yx4zCCAw3MBTL7hR7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=JiC/FNcc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IoUTrepy; arc=none smtp.client-ip=202.12.124.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
+	 Content-Type:Content-Disposition:In-Reply-To; b=uJzB6oVu7TN7qfc8WtemFCmytGcd30MoLL+uOnbgXmoegbmBJxOGVpJEJkt1pvqTCXOR84GGG8ERfc4SEjS8bc330pPL2ym6N1mDhE848K42haD8HHe4uxRscVcyiaeEPidJJE8fsgrdX9U2Y3bpyg7dlI3rnuQEWNVAa98OLGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tvz9goRE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="JiC/FNcc";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IoUTrepy"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailflow.stl.internal (Postfix) with ESMTP id 53394130031B;
-	Thu, 10 Sep 2026 09:36:24 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Thu, 10 Sep 2026 09:36:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1789047384; x=
-	1789054584; bh=Aix6zD+sWAhHCK96XTqdVIPFcUsbKpScTo8omJZ7kRI=; b=J
-	iC/FNccl0yH8eZLx8Y1aA3k5KkWHnq/SUgCGyekPoT/VyPpPrQTTHxbCn774XPfu
-	y+OtArhkvOMs8178JTM/BKjum34C28rfNShUl9uo1JeCNqmmvZUTIZLXDNM6Im8q
-	sLtNlryUoZDEICm2fG/k9QuyUXqjLBLG8a2IOpctkwJfdX2OyW6GP4AlH4u4MugR
-	ok5ztUySC4ICl2NqI+95e879rCmMyP3bn2AvtNIKu/QwMFgSyEeOjSZo7UtiKooM
-	1UPOyj9+JXZ5Voi1xsXtLKQdq6URhZcljDW6WXHgFudXyh4aI/3QEVQ8A2fu0ycx
-	e7fuDH45gUZFIcPEmVYhg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1789047384; x=1789054584; bh=Aix6zD+sWAhHCK96XTqdVIPFcUsbKpScTo8
-	omJZ7kRI=; b=IoUTrepyYSR/bEiVJoM6S3gFlo/l0qjcU7cPRIJFHAdTeJIL9Tz
-	AxlXVqLy4UglZ0QEYVoTgXoVQPc6oK8K6+ic9X5YjPsqMIILcajf8DkK6Cg+m0Lv
-	1J/UJEuwOC/cylj5dYO4IWS+eMzcU0G4uzEfv48dMAwRDbNtYsRY1Bi/UKxSCyTl
-	srbKccBjrnKKKlvJUNOTRTB+ZgWjkfb0rv6y1L/X32QCq5WAlbCgp9i+PFWMvLxF
-	EwEJGDWI6D3jSw/p030sYcVVEHM3bxgzY7JbpciivHKYNlvGQd8g4KZWWK9zHVQm
-	Nm26BOEiho6RxJNoK19o8EAsZljaavd1rjw==
-X-ME-Sender: <xms:V7KiasHiw0d7B0joUAwkdvU8Bga4XWJHRXpeEZTe_kuhdQGwp3EAbA>
-    <xme:V7KianV5efMMkCR84uqLsLP9iF3dRSN08zFokNrRb_iykiESwg0mFmNCHUJ88xX1h
-    xzAJzMU6lcoYmRhdIge3qr8eytQ_68Re5KYBMjMfWJB1MjJhFq7WDFx>
-X-ME-Received: <xmr:V7KiaqeJ7u0PeZS6fdgBUhpQriOniVjSUV2qnx3uEXOKbKe-DSblJxw4ntg>
-X-ME-Proxy-Cause: dmFkZTE/cV7Y3B5vfmq4FxwBW5zjIOR+OZ0Xq5wNE0R+9MV5eEb7Vmg3gWUSzcydLMYKsT
-    k0AEiBx5vAV4G3V3qjltmxAKxV5+/EjuIP6hv39fDwwxRv8x0NwLBFQwKfQdcq+44hzyHZ
-    3/uAyOhAF7+IUKa8FH5q0canFhSzlKFsCqOHb9P8uJE2LFS6hBfLubEv+qPLaOReHYiNDI
-    t7k34surxCm87KQlVrWSwkDE1ybXWYCPpf0JDb1ntZexrcY4FQjImfSwEXvhyEyq9EMbag
-    ZRrwqKZ/zrY7HPzA9+r3qwYLqtLJwM3F3LvVn+dQgoholjbS3YyVg7nrSnhOjJXpJWvdAB
-    bsesbw6nh2xKNlCbjDZaLS+F1fclhtk/tkGvO8q3VrPNgjZRN8cAr1LvpkeXgLQlTk4eD0
-    oBgAWaBpWJY6p3DxNoxJdTkhb1HcO47WICrGjLw8NjRs6Li3q3dAaah3w5GIP6MphuoJdv
-    KaZWhP3av+E8Ee6yVrdqcpk5gs3GC0a9ykMnyqXjOvjFeElgQbEXDsGkZo9ImEoQ+bsWUz
-    kZI1Dy7J/mPKKtvJ5mXRIkHCWlOuO5LJ0imcYavY5eiQ1kQkbc/VDgMLnSThrB/LeIJo/f
-    l21N7br/2Qlm+OfDCuECU3ibjKMGb473+BUWv8mxDr+KQjqxFWJ1rLsrD9qQ
-X-ME-Proxy: <xmx:V7KiamTCFHjpmBE-EEinApbKeCrS6JG3nHB4MLcdlUegeDHp7naQGg>
-    <xmx:V7KiasBRTn6630SaHyJ8qQzwVrY0YsQiHDfSJ83W053CWDz3RnN5SA>
-    <xmx:V7KiassB-nsQ0HGdKsvQQfAE0osTulGGqkk9TyOj2cEUzMFCNLr1Mw>
-    <xmx:V7Kial4KoUrfK9nBSFF_muO3jGSz5q9aAxvFhSblQNCsz7bEbrW5Zg>
-    <xmx:WLKianwh14UVD3RXq0BoVMyJjbOORFjiIgq0wIdt5yyEc40WI17Hm9lf>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Sep 2026 09:36:22 -0400 (EDT)
-Date: Thu, 10 Sep 2026 14:36:21 +0100
-From: Kiryl Shutsemau <kirill@shutemov.name>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: akpm@linux-foundation.org, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Carlos Maiolino <cem@kernel.org>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [RFC PATCH 1/5] mm: let folio_mkclean() report which pages had
- dirty PTEs
-Message-ID: <aqKxU5iOuWjK58Al@thinkstation>
-References: <20260903182943.662461-2-kirill@shutemov.name>
- <20260909101212.894871-1-usama.arif@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tvz9goRE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BD331F000FF;
+	Thu, 10 Sep 2026 13:43:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789047843;
+	bh=IF7M+11q+QECLEteqxbNDabGoO0k0KfVFRmy1+hacIU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Tvz9goRETXsoBH88n/XwxRH7uEZwVgWZml8GL3eYS51YzdH9NIzgyZztJZIXqjTMa
+	 ncz6dlvqeXkE5IZweicBq0YTMz0+VVpbN6R++P/ntujkGJHqeXmJg1s5n7HkXeYTu0
+	 HGqwjwPVGk+MwNUyqShd7SzXBlY1da//0T1KyO+FgbmbL8BiTsN5XWOeruvei/PTLf
+	 pO5ajcD07dyduWDapbbuBL0Y9/PMoKRYlejIf9zEG5Y2ZwQr9OPL6ab6ryoC4okAIa
+	 9+Ra2A+1xP2kwFFofz43vWoooWziI0Kwe28C8wIuf6pM++hyKnCPp3OBSiDkkudQkA
+	 IR86yvw89VACg==
+Date: Thu, 10 Sep 2026 14:43:53 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Oscar Salvador <osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 03/12] mm/sparse: move initialization of section metadata
+ to sparse_metadata_init()
+Message-ID: <aqKzPw763WQR9eCf@gremlin>
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-3-008fc8d579fe@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -94,63 +55,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909101212.894871-1-usama.arif@linux.dev>
+In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-3-008fc8d579fe@kernel.org>
 
-On Wed, Sep 09, 2026 at 03:12:10AM -0700, Usama Arif wrote:
-> The old whole-folio behavior did not need to know which PTE became
-> dirty, so this timing window was harmless. Sub-folio tracking makes the
-> final dirty state correctness-critical.
+On Wed, Sep 09, 2026 at 03:32:56PM +0200, David Hildenbrand (Arm) wrote:
+> Let's move the code responsible for initializing sparse metadata (usemap,
+> memmap) into a helper. Cleanup the variable while at it (e.g.,
+> "map_count").
+>
+> Drop the rather obvious code comments.
+>
+> No functional change intended.
+>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Good catch, thanks. I should have known better.
+Similar comment to last, the move screws up the diff a bit, but staring at
+git-delta it looks ok and the renames are good so:
 
-Fixup below.
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-diff --git a/mm/rmap.c b/mm/rmap.c
-index aaf45ac79fa8..9b8b9428f802 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1140,6 +1140,15 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw,
- 			if (!pte_dirty(entry) && !pte_write(entry))
- 				continue;
- 
-+			flush_cache_page(vma, address, pte_pfn(entry));
-+			entry = ptep_clear_flush(vma, address, pte);
-+
-+			/*
-+			 * Take the dirty bit from what the clear returned, not
-+			 * from the value read above. The entry is writable, so
-+			 * the CPU can set the bit at any point before the
-+			 * clear, and the page table lock does not stop it.
-+			 */
- 			if (dirty_map && pte_dirty(entry)) {
- 				pgoff_t idx = linear_page_index(vma, address) -
- 					      pvmw->pgoff;
-@@ -1149,8 +1158,6 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw,
- 				__set_bit(idx, dirty_map);
- 			}
- 
--			flush_cache_page(vma, address, pte_pfn(entry));
--			entry = ptep_clear_flush(vma, address, pte);
- 			entry = pte_wrprotect(entry);
- 			entry = pte_mkclean(entry);
- 			set_pte_at(vma->vm_mm, address, pte, entry);
-@@ -1170,12 +1177,14 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw,
- 			if (!pmd_dirty(entry) && !pmd_write(entry))
- 				continue;
- 
--			if (dirty_map && pmd_dirty(entry))
--				bitmap_set(dirty_map, 0, pvmw->nr_pages);
--
- 			flush_cache_range(vma, address,
- 					  address + HPAGE_PMD_SIZE);
- 			entry = pmdp_invalidate(vma, address, pmd);
-+
-+			/* See the PTE case above */
-+			if (dirty_map && pmd_dirty(entry))
-+				bitmap_set(dirty_map, 0, pvmw->nr_pages);
-+
- 			entry = pmd_wrprotect(entry);
- 			entry = pmd_mkclean(entry);
- 			set_pmd_at(vma->vm_mm, address, pmd, entry);
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+> ---
+>  mm/sparse.c | 43 ++++++++++++++++++++++---------------------
+>  1 file changed, 22 insertions(+), 21 deletions(-)
+>
+> diff --git a/mm/sparse.c b/mm/sparse.c
+> index 36e3d854febc5..a85a9c3840f6c 100644
+> --- a/mm/sparse.c
+> +++ b/mm/sparse.c
+> @@ -257,38 +257,39 @@ static void __init sparse_init_nid(int nid, unsigned long pnum_begin,
+>  	}
+>  }
+>
+> +static void __init sparse_metadata_init(void)
+> +{
+> +	unsigned long start_section_nr = first_present_section_nr();
+> +	int nid_begin = sparse_early_nid(__nr_to_section(start_section_nr));
+> +	unsigned long section_nr, nr_sections = 1;
+> +
+> +	for_each_present_section_nr(start_section_nr + 1, section_nr) {
+> +		const int nid = sparse_early_nid(__nr_to_section(section_nr));
+> +
+> +		if (nid == nid_begin) {
+> +			nr_sections++;
+> +			continue;
+> +		}
+> +		sparse_init_nid(nid_begin, start_section_nr, section_nr, nr_sections);
+> +		nid_begin = nid;
+> +		start_section_nr = section_nr;
+> +		nr_sections = 1;
+> +	}
+> +	sparse_init_nid(nid_begin, start_section_nr, section_nr, nr_sections);
+> +}
+> +
+>  /*
+>   * Allocate the accumulated non-linear sections, allocate a mem_map
+>   * for each and record the physical to section mapping.
+>   */
+>  void __init sparse_init(void)
+>  {
+> -	unsigned long pnum_end, pnum_begin, map_count = 1;
+> -	int nid_begin;
+> -
+>  	if (compound_info_has_mask()) {
+>  		VM_WARN_ON_ONCE(!IS_ALIGNED((unsigned long) pfn_to_page(0),
+>  				    MAX_FOLIO_VMEMMAP_ALIGN));
+>  	}
+>
+> -	pnum_begin = first_present_section_nr();
+> -	nid_begin = sparse_early_nid(__nr_to_section(pnum_begin));
+> -
+> -	for_each_present_section_nr(pnum_begin + 1, pnum_end) {
+> -		int nid = sparse_early_nid(__nr_to_section(pnum_end));
+> -
+> -		if (nid == nid_begin) {
+> -			map_count++;
+> -			continue;
+> -		}
+> -		/* Init node with sections in range [pnum_begin, pnum_end) */
+> -		sparse_init_nid(nid_begin, pnum_begin, pnum_end, map_count);
+> -		nid_begin = nid;
+> -		pnum_begin = pnum_end;
+> -		map_count = 1;
+> -	}
+> -	/* cover the last node */
+> -	sparse_init_nid(nid_begin, pnum_begin, pnum_end, map_count);
+> +	sparse_metadata_init();
+>  	sparse_init_subsection_map();
+>  	vmemmap_populate_print_last();
+>  }
+>
+> --
+> 2.43.0
+>
+
+--
+Cheers, Lorenzo
