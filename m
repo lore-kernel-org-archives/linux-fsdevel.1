@@ -1,143 +1,162 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F6A53FD21
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 17:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789059754; cv=pass; b=bKNyPIXfwvU/vwI6oNL8Nid/m0pdlOfQdL8PksOweQXvMoYgY4b+gItU3YeuZwnIuCbFkw6DiHLPUJv5pgEi0cL0hqFNazu6mNsj1ynHiLG1joxpEGin5cNNgp7w0WD8C7YNHThbhffyRMNXJCy+2JA1zWY9ctVuZEUUCzhrxfc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789059754; c=relaxed/simple;
-	bh=P+DLIY6UxOqANj9LNama4Ax3pwH1auByUeIWevB5eqk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dA1mMVSOrkp2TLBb2m8ALUg9qLsY9Jfo/Z2FExdhHDSHO+N9t9DijvJkEiAKXoih1ZVRD0Fhlm8spEaLU5nyoE/F8zFaypvIFRHpAta0c1TPgsOJajoF9Z0V2a8NcaE060Sib/TFWjFblJqvV66kPh3GiBrERsK79/d/llwUZig=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dRYVyIwA; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE92F36212C;
+	Thu, 10 Sep 2026 17:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789062063; cv=none; b=pcSGUE1ripH7eNXVJRAHL4Q+KF01q+Fu2HjMn5VAhnOqvqzqfXTh2vaj29RaGqoSLPbmgyY840144X0AHJJ5xBqY35yo4XxuCPfpCLvxIW7OaBIFmsDbYhZL4lpnkg0cFTq3Mc2eJ3XRO30Z+UaR9JXzOzkT2xhQXrStFJUviHM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789062063; c=relaxed/simple;
+	bh=Pw2ile9UJm9sSX8bIRs5HbF7n8pZFfyy9pU9RW/L6dY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YXGuUfjyRGrhpJABzJYD+lEdr9PPxwmW1fz54JHIetks9L4Klvxami5t9RQnEdlg+8J+RvuTTJFql4GXtsNaviDv4eA32/9+qgeFrU2+G98OHhzg5A8/UKoQuwjPpwfuu50kMN5UKklvqTcjVbIDpmvdny2NiLVqEV1U+jKQMv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcw4o46r; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dRYVyIwA"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-5306706e89dso358801cf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 10:02:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789059733; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KuAu9Ou6KM5S9++tYx6sa72KNWfn/i1B+Uubm/a1njIZFyTDovyYi0qJP+LYu3gU1w
-         3BHHwaDf2PvfVkf286gVHxv/wNlenBsRfrvVObvX7GbNn9Pja8esJO1htRW2LFcvVZTo
-         4xoqApntElodjKWpesqbGYyQH6z2BYrkmuUiw7o3LUTKrJhV5ztG7G4S34wZubz55hyi
-         rDRw1v46zqHepnvVDk2VeQwUHI9aT/arBurcIbB9paa1Wjk1fhOlK7ijUKicCeXoHBZo
-         YsHPLJcSnGEltUQbTjvnOGGJyg/ntV0XxdjmJypNemRonUe8n+zIepOPwNUHXkSOGUIR
-         JawQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=P+DLIY6UxOqANj9LNama4Ax3pwH1auByUeIWevB5eqk=;
-        fh=Gu5Mia4nS5Vcjkjrneo7hSVQgJiZT+crns4OoFO8KDc=;
-        b=p1quU4oVaYmmMnJCo6F7hqAq5pZukVfg8y49LyW3j2iW6LsVBQdruYnnEtxdmSigQB
-         BdgOK+f1je+dnXfvIa3W+DTGmrpR791Wrc287DDrSUHTx7I2tNlKiXSi6T0fk0+Uz1zJ
-         kyQ6GqsQcy5j11L2wlx1taVe6cCxJsQYRzCCNnFPrswL4rqvaX6jANbdFHSQciyXQfgD
-         bMRuMfKaeG/pTjlo3kHTVIzYLh2PzaLPU7UoeZO0JHwNYYFLRh4EjhsFd6k12cuV8sUl
-         YJUulFe4TR561nyFpIeoZYkgfa7NqhZN3drXErTPLYEm/T2fvet6zInoSE7jQTJYCU0p
-         Cvxg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789059733; x=1789664533; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=P+DLIY6UxOqANj9LNama4Ax3pwH1auByUeIWevB5eqk=;
-        b=dRYVyIwAVyu339djamiEiFX4SAIXxUXgS0xgDqPFc9GDmLwPm2fdxSsw5yF2LmTSfi
-         +w7kQDvYxPrZLK/kJZ2ViksLmSK5vXi6f/SZTX+u/SZuOru6XbR9puXrIC1vLL3W9wAb
-         BbtBvy+rC0pdB0R5mRELbzL5BAriG9Z0nmuIPpkAsqbtmZlB2nkoPvXqgvO86lAtBQCl
-         HKQ7ZSi0tW/HgKzUTEm6cvevMfp6nsXggQaYaisjKqPA7FCo9QWKupc96/KLb128NvRd
-         BirQbKKuVgi7a9lBmnrVjBTb0KHfWiaJO6ZHRqjUDO++nAyNmR+/DMslHsyCMd1nRRTp
-         K+hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789059733; x=1789664533;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=P+DLIY6UxOqANj9LNama4Ax3pwH1auByUeIWevB5eqk=;
-        b=X8mnNqIQuYheZNMpM49SqLtfedl/Pueg/1m1nkxDfKNXLGmfzchwnM2PDu3JQyWbjg
-         m7ejE6QcRcZrcYp8XK6LoBQn+BfPK9EJXsxi8d3ZRU2iuctqXN4TS0bUKilKFfe7dvNq
-         mbtPgnkAKWzD8KQf+xoESneAzwNLdvXPQ6nNAtk6aK+4fj04G6PTLLD4Wc0Aasjq/shI
-         5BoRHVKE9zY7ykTZ7/DIarBcVwFwLYsx1JRX2V4IaaGj2pHFqSlUJE33BkkHcIEd7i1V
-         fIl8tKsQcokk7w9F5k5nhpnrSk3pWWAgy1Ut+DJHF9a+dWV7lT3YEGT+msHctV3aTrsc
-         o8Kw==
-X-Forwarded-Encrypted: i=1; AKwUvByQNtgCix4+nIEP8fe+t3ggu3pyh/iSwbntuF/eGueLEv2iaFr+/EHkfLuyDhR76oHRaoq+m+L8svsOWk6M@vger.kernel.org
-X-Gm-Message-State: AFuF++kzyGvx9jM6NoOejvXyHIMDoyS5Ut9grOF2XyyPAA5ATWkObvEh
-	g5tXRsqC86rW5rFnYbme37alLzUm/EpVMQVKUAkjUpUayB5H+L7AbI2FUD9xUuL0U5PPZtU5xZP
-	mMybXs7UydAFuoiu2ezSt71i6mf81fJM6VNnjPd+o
-X-Gm-Gg: AYBFou1fExahGhLaVHaCopciU0PuXKo0GIQ8rcdoxQfC9MEb8Z14OcIz3baYW4GP7af
-	cTr1PDnxy7HjYiSg8HlF1ORVT93GP+Dc8u01CQ8STYUwZb2XL1Irzg2ph7fQr1aVLydEyy1YwTP
-	hiP8Qp9l0sIjWp7lZdqZdk5/7SA6bjUc2/Trjv9dhCTmMxfE4rnlzYvm0ojwVA263QX7KWDVXhv
-	Mm7dpeyw1BX7a2MzVqv3WZoaVUURNnZCDuHZ48HTixmmOB+UZDydL8k1QoTrUp+xA9uVS+F8tkK
-	bxCqEm7+Si6Y9YPOHVF2fFoAaPrY8rpcMyMwxl0lKlY+LTmrWA5TnDiHBA4sWI/NI7E8MbocsYO
-	RYascgPBzoQ==
-X-Received: by 2002:ac8:5750:0:b0:52b:806e:2633 with SMTP id
- d75a77b69052e-530b601f181mr19081821cf.1.1789059732422; Thu, 10 Sep 2026
- 10:02:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcw4o46r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789062056; x=1820598056;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Pw2ile9UJm9sSX8bIRs5HbF7n8pZFfyy9pU9RW/L6dY=;
+  b=gcw4o46rlGXZEcweavAluGM3OIbnHyz4sYib9apgKTKayWlD3H4+SHFW
+   U8scg8a+R89QW6HnDPnlFDwCOlyUtSWZkAFtHU0+4grxjIfzTtvdCJTUd
+   jF8uQoAAFIG9IzJMkZwt8sECm6EVaeACLvilDCavff+hL1p23wZq5KD/C
+   KrJA5FYf5X7eN72wafMJJZghUukWBxLh6Es7awuu6hViFCvy5fgcTmCG6
+   5Hyx9yr/HnHReutv3SLI8f+vZkNJJ+C1LKmI4xL0RThfoIFW51tcWcDnf
+   MlTVDDdhgd24itLMKesB8D4hPLy07PyTGqdXwukON4qqh4S2Jgk8N+jqf
+   g==;
+X-CSE-ConnectionGUID: XslhPgcXTsS+kfY2bEysBQ==
+X-CSE-MsgGUID: YeUKpJ2URfi6bl45qQSRaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89453770"
+X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
+   d="scan'208";a="89453770"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 10:40:49 -0700
+X-CSE-ConnectionGUID: ykw0HvrzSzSnsZLcrRAFXg==
+X-CSE-MsgGUID: qRKwknrZTm6tjcrtG2htfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
+   d="scan'208";a="275222006"
+Received: from b04f130c83f2.jf.intel.com ([10.165.154.98])
+  by orviesa003.jf.intel.com with ESMTP; 10 Sep 2026 10:40:49 -0700
+From: Tim Chen <tim.c.chen@linux.intel.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Qais Yousef <qyousef@layalina.io>,
+	Aaron Lu <ziqianlu@bytedance.com>,
+	Srikar Dronamraju <srikar@linux.ibm.com>,
+	Vineeth Remanan Pillai <vineethr@linux.ibm.com>,
+	Ricardo Neri-Calderon <ricardo.neri-calderon@linux.intel.com>,
+	Chen Yu <yu.c.chen@intel.com>,
+	Lu Wang <wanglu.priv@gmail.com>,
+	Hyunwoo Kim <imv4bel@gmail.com>,
+	Zhan Xusheng <zhanxusheng@xiaomi.com>,
+	Zhan Xusheng <zhanxusheng1024@gmail.com>,
+	Yi Lai <yi1.lai@intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH 0/4] sched/cache: Fixes for cache aware scheduling
+Date: Thu, 10 Sep 2026 10:46:08 -0700
+Message-Id: <cover.1789061845.git.tim.c.chen@linux.intel.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260907063918.3432401-1-surenb@google.com> <20260907063918.3432401-4-surenb@google.com>
- <4825a2fe-f064-45d7-a7c9-e98de7efe86c@kernel.org> <CAJuCfpFL_g7tELjT8p8ExM3tX_v2gNDM9rRKwwefPV_KW=fHfA@mail.gmail.com>
- <8e643f51-a47f-428e-9443-678326288fa6@kernel.org> <CAJuCfpEYdj=u0wczKRrsB8uDkbSzPy+hrsCo9TW9-3J3r3p0xQ@mail.gmail.com>
- <2336140f-c993-467a-b2eb-e99dc9427a59@kernel.org> <CAJuCfpEL40p+vk6-km6_BBuE3+YY0WqkpbvQnQGFEo_73MAomQ@mail.gmail.com>
- <9e48cf7b-1700-4a85-af83-8883789ba87b@kernel.org> <CAJuCfpE9_1VYqHp6bctUEihSW35TaTw_LZuOGP2UAnF7SA_UAw@mail.gmail.com>
- <CAJuCfpGvi10sibu_=cE76h2O14WA4KNOd1vARu0r1CYmAiCMEA@mail.gmail.com> <dd134a0a-8fe8-4990-85f2-7b524754b451@kernel.org>
-In-Reply-To: <dd134a0a-8fe8-4990-85f2-7b524754b451@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 10 Sep 2026 10:02:00 -0700
-X-Gm-Features: AcwNN1XzTzo0tLArJpTqgDsm55TNkm9hrEOzHQgtAQph4QFYlsjRry6cHR3SJSA
-Message-ID: <CAJuCfpEN-CWLh__rpzOHaSOpb24ikR5_y=yC_Aqyo3BScq=_RA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] proc/task_mmu: remove special-casing of
- smap_gather_stats() start parameter
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
-	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 10, 2026 at 9:33=E2=80=AFAM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/10/26 18:21, Suren Baghdasaryan wrote:
-> > On Thu, Sep 10, 2026 at 9:09=E2=80=AFAM Suren Baghdasaryan <surenb@goog=
-le.com> wrote:
-> >>
-> >> On Thu, Sep 10, 2026 at 9:01=E2=80=AFAM David Hildenbrand (Arm)
-> >> <david@kernel.org> wrote:
-> >>>
-> >>>
-> >>> I meant as part of this series of course.
-> >>
-> >> I understand but this particular patch cleans up smap_gather_stats()
-> >> function, so if would be weird if I move the comment change in that
-> >> function into some other patch. Unless I completely misunderstood your
-> >> suggestion... Maybe you are suggesting to split this condition and
-> >> comment change into a separate patch and making this one a pure
-> >> special-casing elimination?
-> >
-> > Ok, after re-reading I think that's what you meant. My first
-> > impression was that you wanted this part to be in one of the previous
-> > cleanup patches. I'll split this into a separate cleanup patch.
->
-> Just to clarify: I'd put all COW mapping changes (using the cow_mapping h=
-elper
-> and rewriting the comment) in one cleanup patch that can argue why it is =
-a
-> correct cleanup and doesn't introduce a functional change.
+Hi all,
 
-Got it. Working on it.
+Cache aware scheduling went in for v7.2 and people have found a few
+things wrong with it since.  We collect the fixes in this series
+so it is easier to track. Two keep tasks from
+being stranded outside, or yanked away from, their preferred LLC; two
+fix a use after free.  Patches 1-2 stand alone, 3 and 4 go together.
 
->
-> --
-> Cheers,
->
-> David
+Patch 1: alb_break_llc() compares nr_pref_llc_running with
+cfs.h_nr_runnable, but those count different sets - one follows queued
+tasks, the other drops delay-dequeued ones.  With DELAY_DEQUEUE the
+equality stops holding and active balance pulls a task off its preferred
+LLC.  So fix the counter.  Reported by Zhan Xusheng:
+https://lore.kernel.org/lkml/20260827135000.735138-1-zhanxusheng@xiaomi.com/
+
+Patch 2 (Lu Wang): the stopper doing active load balance builds a fresh
+lb_env that doesn't inherit migration_type, so can_migrate_task() can
+move a task *out* of its preferred LLC.  A new LBF_ACTIVE_LB_LLC flag
+and picking the stopper callback at kick time keep the intent; passing
+migration_type through the stopper would muddy delayed dequeue.  v4:
+https://lore.kernel.org/lkml/20260903020656.3793626-1-wanglu.priv@gmail.com/
+
+Patches 3-4 are for the use after free Hyunwoo Kim caught with KASAN:
+https://lore.kernel.org/lkml/apPb-Dr4nPYuHQOK@v4bel/
+account_mm_sched() reaches the stats via p->mm->sc_stat, but a task can
+be switching mm on one CPU while another is inside account_mm_sched(),
+so the mm and the stats inside it can go away underneath.  Locking the
+rq in the mm free path felt like the wrong trade, so patch 4 pulls
+sched_cache_stat out of mm_struct into a refcounted, RCU freed
+sched_cache_group - just moving code - and patch 5 does the real fix:
+each task takes its own reference (copy_mm(), exec_mmap(), dropped in
+exit_mm()), so the group outlives any mm switch.  Same Fixes: tag and
+Hyunwoo's Tested-by on both; they want to go in together.
+
+Nice side effect: the group no longer follows the address space,
+so a user defined group, or cgroup or numa_group could own it later.
+These are also the grouping by prctl RFC's first two patches, sent here
+so the fix isn't held up by that discussion.
+
+BTW, there are two other issues in discussion currently and need
+a bit more work:
+1. Incorrect donor context being passed to task_tick_cache().  
+https://lore.kernel.org/lkml/20260909092901.2989564-1-sh_def@163.com/
+It is currently under discussion and is not included in this series.
+2. Cache aware scheduling interfering with ITMT.
+https://lore.kernel.org/lkml/20260810033742.1688718-1-yu.c.chen@intel.com/
+https://lore.kernel.org/lkml/2fe2c681-b748-41fa-8b56-1169c86cefbc@intel.com/ 
+
+Applies on sched/urgent branch. 
+
+Tim Chen and Chen Yu
+
+Lu Wang (1):
+  sched/cache: Honor migrate_llc_task semantics in active load balance
+
+Tim Chen (3):
+  sched/cache: Keep nr_pref_llc_running in the runnable domain
+  sched/cache: Decouple sched_cache_group from mm
+  sched/cache: Introduce task_struct->sched_cache_grp
+
+ fs/exec.c                    |  14 ++
+ include/linux/mm_types.h     |  15 +-
+ include/linux/sched.h        |  11 +-
+ kernel/exit.c                |  28 +++-
+ kernel/fork.c                |  23 +++
+ kernel/sched/build_utility.c |   4 +
+ kernel/sched/cache_sched.c   |  39 +++++
+ kernel/sched/fair.c          | 297 ++++++++++++++++++++++++++---------
+ kernel/sched/sched.h         |   3 +
+ 9 files changed, 340 insertions(+), 94 deletions(-)
+ create mode 100644 kernel/sched/cache_sched.c
+
+-- 
+2.32.0
+
