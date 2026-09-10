@@ -1,41 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792B836B07E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 07:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA173C3F7C;
+	Thu, 10 Sep 2026 07:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789024884; cv=none; b=tCKSnGcHGP458xjm6OLNvbFFvt1oF4B8RYLTmppR8LyXMZfsXW1TTp8A124ejWzuYT45+OKTACucRdBrTlI6CRNXEkVJBvZrVeR01qIRG6XUPAl/c6tDh+2vtQQX4nOnh/OcNcAVJtmETb72+lZhakft1o82dlBrpYsSvTCPWOA=
+	t=1789024943; cv=none; b=bhyLUQNXkzSGVA8zBus4tdKdqT4QT58ClOigWKFDZbF2w3ED6cPB5Vz5bOOQrLbkYtXGmpnwl4PPHIdJFijuF4PBem0ePmVTqewyvqs3vTPGclrMIzDwW/r1rQex3WiA3lxhkUIgPyiExjTt40Hbmqw4EwtvhBFqvZNp4MGmlNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789024884; c=relaxed/simple;
-	bh=PRIhoNkO9i7DFlbnKE1gCwvOFnoFhRJlF7dSHv1y44g=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=INoIBdGHUFZ+FsdkbqurM350OSB4sxhQPp42+iAUzRsOey9jr24HDKi6N+kjbCwt7cOpSLl9SrXJ1IqxEzZEmkuFvEf9tFm2VIfbE3bnP1CFH7y14euKO7oeGgO+I+eq5IN/J7TjyYldxZ7om9sPF4ENWFMTAlqWYylgpBOX3s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HTWaqWpD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789024943; c=relaxed/simple;
+	bh=M/1WWSkETfqoyY1iNz5Z3vXCWfB413XOrMNZIKu+EKU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=IwyD9osDb4T7i5zwCYK+pL6MavWgj+IG7yLHNWnXfOsODPs20MCadyjq8sPoy1JN59roF1enIlL83trxr0b7j4iTqcgxFQyGcMHjJTsaY1Cpi2G0GsU8mcM/+WtUXjf6r7lV+28YAcyZV3sfptS3tMlLMoYkr9aNdcAJLU7Jcw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJOH2bZB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HTWaqWpD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 619731F00893;
-	Thu, 10 Sep 2026 07:21:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJOH2bZB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 361261F000FF;
+	Thu, 10 Sep 2026 07:22:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789024883;
-	bh=tHIk8vOhYpLsrNaX6vZcT56D2RwIGvuM3EMpihec5hM=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=HTWaqWpD21p0U7E9t/AlM9t+ZxVO3D+ZHFyiYCcJKmyr3OwSXLsuFDwVj7T5NYPea
-	 L/8EQX3qF0l2bDO8zTIaa035xNxFybJ4i7ln9EmEwlkb7chQzEcv2LOeVWQ5Na+mX7
-	 rCjXoNSaczmyNCH5kPQgaLKLrXBz0iauPPRL5GPWXTPMrNtR+sEcbQ4ILBGI2nJqe8
-	 2gtb5dxVPYdUfLfA1KaiKCoxBG6Psuuucm5+B1zy8QzJHr+AtZWFVVsZplbHSbOdbG
-	 0ftxIycG+yFfcB3G9Rfn+Jnq8Pn5YZjt1HSF9pJDK2wb4QBLPuv+8oac+M8KPPC850
-	 Vhmx1TlAtc3kA==
+	s=k20260515; t=1789024940;
+	bh=s83Rm25xPXSOYy1Iwg12cDHiV8jbFWg/wF6f3Gu1nxY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ZJOH2bZBjXlVlzSH+hbwUF75W60ezWzbLM8RQkYlRSedWHZubjL7f8FNPZ8s9dBwM
+	 9pdovSq3xfH1NWHnOqQweMdS9MhappwswRFSfVx5zl+ziBJRb9amgTtVJN+AU/b/fb
+	 xi5r1hJ1ChWpgO39G433AwNEwAyfqq9kE4T5xNK0EMxZqXzrF7fGFhx0uhRpFDqdy1
+	 hn2swoa1Va9jyis0u76fp3lccQHszOVVovxamXmUBzZ0Dwxr42dPtKBjVK1IbKOqBi
+	 l4/0HNts5m99fK5V9tIqaEfhqeX+eBUFdl11Klj8RD5r4fPRpCVA3iGeF2r60vWBxA
+	 Z8ksgQIouoV9w==
 From: Christian Brauner <brauner@kernel.org>
-To: wenyang.linux@foxmail.com, shuah@kernel.org, jlayton@kernel.org, 
- jack@suse.cz, djwong@kernel.org, disgoel@linux.ibm.com, 
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
-In-Reply-To: <20260904183659.B81CD1F00A3D@smtp.kernel.org>
-References: <20260904183659.B81CD1F00A3D@smtp.kernel.org>
-Subject: Re: [patch 1/1] selftests/filesystems: fix missing and stale
- TARGETS entries
-Message-Id: <20260910-pfade-leser-krallen-16ce99947cb7@brauner>
-Date: Thu, 10 Sep 2026 09:21:17 +0200
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, linux-fsdevel@vger.kernel.org, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, jack@suse.cz, 
+ syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk, 
+ ntfs3@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, stable@vger.kernel.org, 
+ syzbot+2a13ad6914e6fcec716c@syzkaller.appspotmail.com
+In-Reply-To: <20260909-work-ntfs3-d_instantiate_new-v1-1-2db697162ce8@kernel.org>
+References: <20260909-work-ntfs3-d_instantiate_new-v1-1-2db697162ce8@kernel.org>
+Subject: Re: [PATCH] fs/ntfs3: use d_instantiate_new() in
+ ntfs_create_inode() and murder syzbot's "WARNING in do_new_mount" saga
+Message-Id: <20260910-erbsen-beurteilen-affront-6a121821c172@brauner>
+Date: Thu, 10 Sep 2026 09:22:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,17 +51,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=897; i=brauner@kernel.org;
- h=from:subject:message-id; bh=PRIhoNkO9i7DFlbnKE1gCwvOFnoFhRJlF7dSHv1y44g=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtisrns+Pg6fAtvPxnxs/W509nfT11e8FXt8Q3G/VTa
- 2Q7JGYGd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwkL4Xhr/ivD+6fGFq+rDjV
- JDlhyz6z537zLNh/i3fJir08cPT5RR5GhgdPj25ynBN5VEFujnbDu8Oify58yzBKuxG4PEjkviU
- 7LwcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=995; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=M/1WWSkETfqoyY1iNz5Z3vXCWfB413XOrMNZIKu+EKU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtilrOcMH5x5/y6YHPinTPxJXobf05TeXKrfKyrvJLl
+ 2JmNH1c0FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJrAhXJwCMJHHEowM82MfK0mscfUV3rVQ
+ 9YPXp3kWqXFHf/6Zcvz2r9MP1swvWcnIsP+Pmcurm0VTKjb7cBXtlEldwn/jsP9d9eR5KY9YmKa
+ 3MQEA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Fri, 04 Sep 2026 11:36:59 -0700, Andrew Morton wrote:
-> selftests/filesystems: fix missing and stale TARGETS entries
+On Wed, 09 Sep 2026 11:03:18 +0200, Christian Brauner wrote:
+> fs/ntfs3: use d_instantiate_new() in ntfs_create_inode() and murder syzbot's "WARNING in do_new_mount" saga
 
 Applied to the vfs.fixes branch of the vfs/vfs.git tree.
 Patches in the vfs.fixes branch should appear in linux-next soon.
@@ -72,6 +78,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs.fixes
 
-[1/1] selftests/filesystems: fix missing and stale TARGETS entries
-      https://git.kernel.org/vfs/vfs/c/d59ac79915da
+[1/1] fs/ntfs3: use d_instantiate_new() in ntfs_create_inode() and murder syzbot's "WARNING in do_new_mount" saga
+      https://git.kernel.org/vfs/vfs/c/1abd643f3783
 
