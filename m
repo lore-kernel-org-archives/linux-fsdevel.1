@@ -1,51 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED07239449C;
-	Thu, 10 Sep 2026 13:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC2A49B201
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 13:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789048229; cv=none; b=BwhL3U6I8sMmiB3p8YvBTjntn+QnDOtayzILZGonD/ms8mLROli008c4kR4wl9RRZjgvXMy7GA8c3Q5psMbpIhtG8rr/shWqemsWj9AQKDl2qGwYUL8fbTIev3rdFFYdkLckwPFg+GfWh78A0UBHT7zQATBvSg0oF1kJyl7oUiY=
+	t=1789048260; cv=none; b=YyonvYhtuNZbOyQVosyMzgrsml+1bymDJRfjWBigY/Z6XG5tiMgjGhDhnU1sbex3guZXpou8aSCxMTcKEwTWErF6/fgi5MdRNRtguaIA/jRXqZmwPO9VJajTHP7m+W2WMiuesKhseyaY1v9YcZlKC/DJWN0l91dzguSkIhLV+iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789048229; c=relaxed/simple;
-	bh=sTAz9s5rDNCGxP4afPYYy8ehalD4xPRPKsuW+0kPK+Q=;
+	s=arc-20240116; t=1789048260; c=relaxed/simple;
+	bh=/GgnJUSlkpKOpbFArjbVLuedEGJXAGizkH1VsKyTFZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S3nDLplYep2vRjpSMKrGL7qd62mnasmN9mvkgIjZlYAzkN+qC/Db3u34z5+8VO7RXW2Bm7w/dM/IyfH6YM53l7GoiAnbVxU8zcYeCBnqhIvCwZeDNyZYYSLburgXOOcwfSvF75PeKhDuZKngL86NpQLBsomnSiI5N5cX6Qvro3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EFQAUfDL; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=YVU+N3DSNX3WvcOkDkXUMNJ4IlfE1bFjalDk2fpG+99yY/owlIbAC2dNMLeczb8bRpY0YqAjVUYIJFmzwLOdpJYjCuvLtT0HdjNG3UKLXr39DX6g9mvgvIsF9lYLw9n5cyKhH2muPj5r27F1IhvEKFQtf9srP+YLjB2ZnnWobWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=OPpK6kAI; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EFQAUfDL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30A51F000FF;
-	Thu, 10 Sep 2026 13:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789048226;
-	bh=Huo9AavKgYJyC3DyOPGYv+hq7OnKaq51C1pcQHDpq5g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EFQAUfDL152OTzyxXY1pgmtZj7CbgwEMnNX/gqqxzgzLdXEVOxmenctBi0IwLcnqW
-	 dCBbbAMIgVwl8kmKBXwnsnDlV2hB8j4ttJ0g6Qtji1BL8YryHQeypajmRJd9xppbKn
-	 QFChUqMFxP/VZgqX+jPrIPN8SJrlngJSLgW5U8fBZKNy4yRjd31fRhcAi7jDTc1ejc
-	 nCf59edQlTsjNUlQez2McBcAepMIS/bokIJsA844y2K7Xvy/ssNrJpP+6TrXvqv3FL
-	 7mkfUO1Uy8ohog5YCziweZ4RU3Vta/vJbUHr2Zs7OnImdA2vkhSUiwqu9ygkBQNdYZ
-	 uf9Xz1DQ0QNcw==
-Date: Thu, 10 Sep 2026 14:50:16 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Oscar Salvador <osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 07/12] mm/sparse: remove pfn_in_present_section()
-Message-ID: <aqK1g2AuXCFjAq7p@gremlin>
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-7-008fc8d579fe@kernel.org>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="OPpK6kAI"
+Received: from macsyma.thunk.org (pool-108-26-156-127.bstnma.fios.verizon.net [108.26.156.127])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 68ADoTYp021751
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 10 Sep 2026 09:50:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1789048232; bh=JdSOWjSlp3lgQ5ds/SlNQC4dC1szhw6bc5gPQeD5iVg=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=OPpK6kAIC6mh7TQHoaM22w9iw7UHnXVuaXH1Sxfzfg8lYMngwrfGtyr+8QT/FFGq1
+	 f29AnFXsrH/Rkw68auP9OrWxhxH2XuULQZgUDZKty2SH6zN8zzD3ECOBR5/0XrNaxN
+	 nXNnHgpKA3buVuT/KYmCF3g3etn5kiaByh5WMPwbxXubCgD9UHODohq1nyvNqcHc//
+	 a52AUoOlxL9eXE0/qO3fruW/LUINLBG5z+BXd2I4AK9n9VOvLPChcdoCPJYTusYNPV
+	 HxHr3O5odT/Zlwi8RBI0vMAcEe00shdvQn9HwwS0somgudbFFguHBrjklI+ovxVmKM
+	 h8Dan6l7+pAiw==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id BC149144D640; Thu, 10 Sep 2026 09:49:28 -0400 (EDT)
+Date: Thu, 10 Sep 2026 09:49:28 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Viacheslav Dubeyko <slava@dubeyko.com>, zlang@redhat.com,
+        fstests@vger.kernel.org, glaubitz@physik.fu-berlin.de,
+        vdubeyko@coreweave.com, linux-fsdevel@vger.kernel.org,
+        frank.li@vivo.com
+Subject: Re: [PATCH] xfstests: exclude hfs/hfsplus from generic/339 run
+Message-ID: <aqKzDpccJgkmzC5E@mit.edu>
+References: <20260910000449.747189-2-slava@dubeyko.com>
+ <aqJ--AqubS-CWiV-@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,53 +52,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-7-008fc8d579fe@kernel.org>
+In-Reply-To: <aqJ--AqubS-CWiV-@infradead.org>
 
-On Wed, Sep 09, 2026 at 03:33:00PM +0200, David Hildenbrand (Arm) wrote:
-> Unused, let's remove it.
->
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On Thu, Sep 10, 2026 at 02:57:12AM -0500, Christoph Hellwig wrote:
+> On Wed, Sep 09, 2026 at 05:04:50PM -0700, Viacheslav Dubeyko wrote:
+> > The dirhash_collide generates filenames from arbitrary random
+> > bytes (only '.' and '/' are filtered out), which are not valid
+> > UTF-8 in general. Catalog names on both classic HFS and HFS+ are
+> > Unicode. Feeding random bytes causes fsck to report "Illegal name"
+> > or catalog corruption that has nothing to do with directory
+> > hash-collision handling, which is what this test is actually meant
+> > to exercise.
 
-LGTM so:
+I'm curious --- does HFS/HFS+ reject unofficial Unicode characters
+such as those used by Klingon?  (Klingon is an invented/artificial
+language, so it's considered out of scope by Unicode; so Star Trek
+enthusiasts are camping on an unofficial block of the Unicode code
+set.)
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Invalid Unicode characters could also happen because newer versions
+of Unicode have added new emoji's, which might be added as support in
+the mobile handset userspace, but since we aren't regularly updating
+the Unicode tables, they might still be considered invalid if you
+enable strict mode in ext4/f2fs.
 
-> ---
->  include/linux/mmzone.h | 10 ----------
->  1 file changed, 10 deletions(-)
->
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index 19296e8ef44f8..e0fac344f6ac2 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -2315,13 +2315,6 @@ static inline unsigned long next_valid_pfn(unsigned long pfn, unsigned long end_
->
->  #endif
->
-> -static inline int pfn_in_present_section(unsigned long pfn)
-> -{
-> -	if (pfn_to_section_nr(pfn) >= NR_MEM_SECTIONS)
-> -		return 0;
-> -	return present_section(__pfn_to_section(pfn));
-> -}
-> -
->  static inline unsigned long next_present_section_nr(unsigned long section_nr)
->  {
->  	while (++section_nr <= __highest_used_section_nr) {
-> @@ -2351,9 +2344,6 @@ static inline unsigned long next_present_section_nr(unsigned long section_nr)
->  #else
->  #define pfn_to_nid(pfn)		(0)
->  #endif
-> -
-> -#else
-> -#define pfn_in_present_section pfn_valid
->  #endif /* CONFIG_SPARSEMEM */
->
->  /*
->
-> --
-> 2.43.0
->
+> If user file name creation manage to trigger fsck complaints, you need
+> to righten the input checks in the file systems first to fix this.
+> 
+> We can then find a programmatic way to deal with these rejects in
+> xfstests, as ext4/f2fs in case insensiive mode probably have the same
+> issue.
 
---
-Cheers, Lorenzo
+Well, strict mode isn't enabled by default, since users might want to
+use Klingon or emoji's with a skin color that matches their own.  And
+no one has been invested enough to continuously update our Unicode
+tables, and add support in the userspace tooling for upgrading the
+Unicode version in the file system superblock (which would then break
+compatibility with older kernels --- for example, if they downgrade to
+an older version of Android, etc.)
+
+Isn't Unicode **fun**?  :-)
+
+    	       	       	      	   	      - Ted
