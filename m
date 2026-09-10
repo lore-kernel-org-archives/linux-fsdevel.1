@@ -1,304 +1,167 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E7C3AAF53
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 23:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45E049E122
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 23:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789084112; cv=none; b=p6uMYtK7UfFFWKNxKDGEeADcFZ1M/R883Aie/hzBV7Sma3GXkBV7Xm+11i82C2wYLBTzeCNDtDRC4sBzb4Z3+U3SNs7uzqlCSf5XTGQ2HCUsCAGZwR//+k93Aw3m4sqry6fd/L0hG3P9zLirOnYAw8l9wyRoyOorc3DgdnhV8KQ=
+	t=1789084141; cv=none; b=PghZWaVF2T2dNrO3XXZSYwFEWxzq7WiaQy2IAIkq7n6+Kbg3gbTSph0W41tgL9C2LeMZG/Cd2CgJEAJTWge17zEzjlb2m9zbkdCQJXBpzx0wJlg3GAH8+dhTTpNnHov9u/alu1LbpS+bj2Lamu1rkEgWpUa5m5OMJmT3mKhDDGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789084112; c=relaxed/simple;
-	bh=1krA5LAnUkFBCgN8SLYhZTihW2S+lEggZsD06+PREcI=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=YH1bWghDuJPsmXcVIfvSl1Qsbgqg8jm1UWvEP3gPIOB9oX9LEH3RqujUdmkHpn3+NXdGYTUZfnFl+KpJTKkpQGzGNJFxQfFhJApM9dGreM/wzLngMet1kfwwHy9bkt+E6qBq8M9zL+FI9O9qTfZfWzI9vrwBwoxUrxqfY15vfj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Op3hJl7k; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xrSU2wpP; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1789084141; c=relaxed/simple;
+	bh=Ry0KjPtcQlbrnEYtOUzb0KXaQhoS1BQLV2LCGslULi4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=G9nAFx7eHRP29JEbqLXutL2EK/+XuJfCuM7ctIZzkqNLgPl+ymY+c71GqxCkq8bLfM+lvs1DJcEyWHFoD7Agg9ZwrqS7bVcZY97DxU9lzqFImsfSrWUAR4CxFuPgVPwg11+HNkqXxAW9+nOzWHmsGxeJppRTBD/YrTkLyBUL4vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jl68gXeq; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Op3hJl7k";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xrSU2wpP"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id EE9D0EC0316;
-	Thu, 10 Sep 2026 19:48:28 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Thu, 10 Sep 2026 19:48:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1789084108; x=1789170508; bh=XBVHY4NMzOD80fVc37iPrfypoWyBNsC8v2M
-	qfdE0l40=; b=Op3hJl7kaC0cKrh/Aa8QRpYxsGjdA9R4fUJOeiz2FAs/wVuu2GV
-	VYRnoxpus4jiOroYd91UhxVtyCT604pev1SuQa5RO7duRmaidMzgLctbY3LfrjQm
-	60DkYC4MM167kF/LeFoijXfl6L5d8Z+KkBSvSU6Bi5frBjPtEKkjJdWB3GF059S6
-	H2oO17n30FJcEKR3o078qRGEYud8Z7jg+Gk8ujCViv8BGdJUejL0Aj603J9cgS7p
-	KVqcmJD6ZXa5dHJ8JKTdIArdiDtOkAEwEOdgizbDWGdXSkpjYoPcWqKO531g13QT
-	tUDdKerJU+PWu73JXtW4XRb0TjXLbVS0y3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789084108; x=
-	1789170508; bh=XBVHY4NMzOD80fVc37iPrfypoWyBNsC8v2MqfdE0l40=; b=x
-	rSU2wpPbhV01VMMPyBQO2L9tMNo0nkYJniaGJ0I/KrSUlHARmsG7Or6LRUa4z7Ld
-	pP3fbCQGAt0zlEeIOruvMPoC34sQHBL1TbeCtlN9GQitqKuY/9gAsQ24UYPaYjZG
-	tT6hqM8C2SzErVzBjPFEL9E7l8K42QLO5osd3EPaYhJioNXze+d9A18i7vUHRy+l
-	Qz2YEGAG3Ke76quOpnU5kKtc1QGnyb5i0TUupigspz28v19cJMktZE+R4CqkJnVN
-	P+F1XIU+ezEInZyqdj+Ps76+3W0h40+xQYNdDWpPfgwoXMYJGDBPvJ+2IekvRbPh
-	S0MkC8xNOY/6r4ise8s0Q==
-X-ME-Sender: <xms:zEGjauNZpb7x75QAGz_JOqR11FoX9tncyzLhV4KAfx90AwJ3xg5Q3A>
-    <xme:zEGjai-vb0vMgDossFAsCpKwna-B9w40OaK2ElFdVpvOyNEaeICAKWhoAEbym8xT9
-    x8Ezva1ZrOyTeyuxPM7JMBN61PMUbu4gGvWn1KHZPpTU6vo-g>
-X-ME-Received: <xmr:zEGjagE6BkuOjNUXAkg_-ANx1sLF7viUiBR16mTHtkGaD250N_-IMe7XhlPMsDSDwH3ZSt7Httx3g2mx1lIKKsZeqLiMOuo>
-X-ME-Proxy-Cause: dmFkZTGhvFpeFgAN7ywu5oWUvg/JwNHd9wUJ4crh/BsRF1iFjPgLbtqj0PSBdBhOu7AMSo
-    y7szkRwKSadIaA6rdQyDW1GYLb6MUh4KUDbLrXoiHD6SCq7if3uZ3Bx/bm5+o0lBVt2/Au
-    qGRb2yX9ZCQmFQGISn5/RIpsbCKce7s5Abzy6uuonKaiRERz2MzH17aEizIc2HOIYwv7B1
-    6Qu2bTwBTx2Uu7m/XzkNcH9+wa5xnlTI95dyaLeEaIIXMDfuMoK9Q0543lrTFhMTwJ13IY
-    QqR/C+nPjLij8zZg+i5rqogsUgB2Wyf6/3u3hGO1g7Tmljq7d2HFeKrZU80tsgM8R8TEbS
-    +C2L2efw/Y3AKvqt7YOPJ+twLLWuaAE8JTk/Qq1qhN9EyHb3N/5kEPdkYQR5xSskLgNARP
-    CkrzpczgKr4FKtoaB3ADSKysCBkmv2b2HKkt4FkzefxCO/Hh0Y1JIs0Gh/cJuIBrTHiw3x
-    U0Hl0Twq5J/mSDlkLgJyiEyv7Apago9bze4uYwc3uPejDHxkDCfjZAA7m2B97mF+5L+79e
-    dHa0GpmoLc+2wHPqiHBX/hrRbQJxWui7f+Yur9PhIaHJqrGcNRiLSqKKXCMz+EClXAgEww
-    w+DP4jnsVGFKTvD4++QIz5LvN+lcMgH+gOK2TVIbpDsBnSBcKhdGQz+ohQuw
-X-ME-Proxy: <xmx:zEGjahipIaOl9UqhieJYPh_j09MrNPYSBzCZWgAbNgRjPuVN-FgKDQ>
-    <xmx:zEGjaltR2-6-GoxQY2GXxmd1PqT41ApuhUZS1yUqbTjB6IJ2vMIKQw>
-    <xmx:zEGjasvr1Qqus-2S1ACEGhg3S9q4bMO4A_2Qqc7jr96hPR8981WunA>
-    <xmx:zEGjaiELYC-CWMIoZtwxAoBiQ8ZUP7cVnIyXnMQRMhPmxhz7JDAeLA>
-    <xmx:zEGjasZCRI7D_m1X0JsCvVMsWyM6uhxCvo1TDN1T3FZP0Qk8ysgkuws3>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Sep 2026 19:48:25 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jl68gXeq"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8686f46e4adso241906b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 16:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789084139; x=1789688939; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RHDaUplNmiJGB1HcZdUPq45OE3q8nGrruBBv2ttrFg4=;
+        b=jl68gXeqj9eNSYSLaJJd9Vf7U4xeMcbnfqRHzHhFB3tQM04CMl0VUK++EaHvObFU1N
+         cUslE4XSiomOTgMIfDqvB6V6Jv7reoaf3qkoSlmjE4l5O15re1Q39pLskb3IkWMJjQus
+         +MB+bXhNBzYTTABB9YQ9xNhxPYeG0EQ+iEu41wgW0GSFtRODuwvC8upQrrUgBCtYL4s7
+         sx97EWxKOkt7kh/fOe11rhviUO9jzUFeh3RSb5XqsJZLqTcM8wiyFYnFr6BjVXw+gRho
+         z1rDXyBE/AlArCGMGhgAik8ZK2NyvCyIdR3eL7NwBsuhnoX/0Vy5UQK/upgI+7JmKDiX
+         vmHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789084139; x=1789688939;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RHDaUplNmiJGB1HcZdUPq45OE3q8nGrruBBv2ttrFg4=;
+        b=PDE0YeysuB7s5kbEoQEUlWGG+wPVzdaYvtz6GFryGK5kuIAxQGKfmvbRvhL7zU7FsZ
+         gRueN7DMSmGRMAd+tQFSMEjzEj66upujPc4oRhYwm+QNlHE+/ikHOJW9NhPJYKPjtlML
+         i+CM6asWdh89B2ftQRS32yQSkiZPUL8IJJpLemVc8OP3RXHy37NoptuzizkLEBQxyr3W
+         RztM16scuOBG6KxKJz8NzODhxLCuHDKfzqITd8+cnFsuBOriZussrvzufKa4tIVHByUL
+         940sLgq9fIlBrsMHqX8JXD3EOb2iQ5AGs2bem+Toc6Diff+fq+/yaNUcaEvnd75Ce4Kf
+         VGNA==
+X-Forwarded-Encrypted: i=1; AKwUvBw2xoX2qzdQqrBkgmDWyaMWSd50uQr6VAj4yvjAIsL+emNzHDWlVHWM/a4wGxQO1i6HDtxu8fdJdlMytY3O@vger.kernel.org
+X-Gm-Message-State: AFuF++mCd0NKndsTSJigeluujcopjlCIa3XbLpN5W33EzLA4109+J7vo
+	L1r8g+je0TnoKVsL+GKZalBqfh45weLQSnlsM20jrLQ586WvhT46Dymp
+X-Gm-Gg: AYBFou2xCOROCyReDfffQpyAMDB5dhGYhoEPa6HJVjrw6ndKHroeXvopV1z0JJ+b4XJ
+	Csk+BU4KzxSMqCtLzOSCUdipEScsxRhrGpWoeV2NCTurOyPZhmHZyrAeK+47pIY/yjUiejMhTAi
+	+CBfKVkFEL+EtASt1p6uD7pzODKgxWaT8DihtfreHfm0agi3LdQ1krUmheqkOX4N5303cxDoebI
+	yA1z9vMmSI+FejF4u5uvrAwZ/St5lRM3p1Nr5NH2b6EBYL5j5BAq9rly+H+VYmM4qyooLyMeCAt
+	oE3IpAv2S1LWjprwPOrxPwDXKU9KOowTsqHfB8nOBL4f5gNlAT7xpEeXPQ72SUDDou7fM5SxJr0
+	mBo0OeMsvbH6ExPBxXrjTrcZRVu8CFwYq99XBtmvbUDmBoYaESlcDavughvo5eH02SH0zdk1EpF
+	KGrgrh3lWqkCYi88tk08NAlRYQyxGHxb46Of+zFJvEZzgKKH6uurQOsfe7YixC5aLlyJCl12le+
+	XKz1/EWlwgsvc65s78sonO0ShHr/otq/IXjsFmjzBxmdtDOE97iB1jdTDu+BiGZ3iM=
+X-Received: by 2002:a05:6a00:c4c4:b0:869:427:9b0b with SMTP id d2e1a72fcca58-86b30e0c7f7mr1589254b3a.1.1789084139238;
+        Thu, 10 Sep 2026 16:48:59 -0700 (PDT)
+Received: from localhost (ec2-35-80-130-216.us-west-2.compute.amazonaws.com. [35.80.130.216])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b288bd504sm246237b3a.14.2026.09.10.16.48.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 16:48:58 -0700 (PDT)
+Date: Thu, 10 Sep 2026 23:47:44 +0000
+Message-ID: <3ebd03824f0df04947ffca7f25c96c30.perf.patrick.lu@gmail.com>
+From: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Tejun Heo <tj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dennis Zhou <dennis@kernel.org>,
+ linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] writeback: bound cleanup_offline_cgwb() rescans by rotating b_attached
+In-Reply-To: <vciagp74qvys2zdbsfcr2brhbv4uyabvm67czm255ascytesjz@n6q775zxxwvb>
+References: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com> <vciagp74qvys2zdbsfcr2brhbv4uyabvm67czm255ascytesjz@n6q775zxxwvb>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Oleg Nesterov" <oleg@redhat.com>, linux-fsdevel@vger.kernel.org,
- "Jann Horn" <jannh@google.com>, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Jan Kara" <jack@suse.cz>, "Xin Zhao" <jackzxcui1989@163.com>,
- "Mateusz Guzik" <mjguzik@gmail.com>, "Jeff Layton" <jlayton@kernel.org>,
- "Jens Axboe" <axboe@kernel.dk>,
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH RFC v4 00/18] coredump, files: exit files on request
-In-reply-to: <20260910-work-coredump-unlock-self-v4-0-a5c1800dc930@kernel.org>
-References: <20260910-work-coredump-unlock-self-v4-0-a5c1800dc930@kernel.org>
-Date: Fri, 11 Sep 2026 09:48:21 +1000
-Message-id: <178908410155.207413.6420376177654694393@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On Fri, 11 Sep 2026, Christian Brauner wrote:
-> We've had quite a few proposal for exiting files before generating the
-> coredump (see [1]-[8]). The various proposed solution were quite
-> unacceptable. So I took some time to look what a _remotely_ acceptable
-> version of this could look like. Here it is.
->=20
-> The gist is that we allow the coredump socket to request the
-> thread-group shed the various fdtables closed synchronously before
-> generating the coredump.
->=20
-> The intricate task is that this requires us to add a primitive to close
-> fdtables synchronously. Coredump is not enough to justify this but
-> performance numbers for this look pretty convincing. For tasks exiting
-> with a large file descriptor table this means getting rid of _a lot_ of
-> cmpxchg()s and hammering on task->pi_lock. The cost of this was
-> mentioned in various threads over the years. I found at least recent
-> comments by Oleg and Neil.
->=20
-> The obvious problematic case are kernel threads. fput() punts their
-> final __fput() to a workqueue. kthreads never return to userspace to run
-> task work and some of them may need to finish a umount and so cannot
-> ->release() inline. No path we change is taken by a kthread. They don't
-> own a descriptor table and kthreadd is created with CLONE_FILES and
-> every kthread inherits it. So all of them share init_files and init_task
-> pins that forever. Their exit_files() never drops the last reference.
->=20
-> kernel_execve() refuses PF_KTHREAD outright. Usermodehelpers are spawned
-> without the kthread flag. close_range() is a syscall. The one indirect
-> way is a failing copy_process() calling exit_files() on a
-> child from a kthread parent. A dup_fd() in copy_process() cannot hold
-> the last reference to any of its files while the source table is alive.
->=20
-> Worker threads such as io_uring workers are user threads without
-> PF_KTHREAD that share the fdtable. One of them can be the last to put
-> the fdtable at exit. Today fput() hands their final __fput()s to task
-> work. The worker runs that itself in exit_task_work() a few lines later.
-> Now the same thread does the same work in exit_files() instead. vhost
-> workers are created without a descriptor table at all, so they never
-> even put an fdtable. Neither kind ever execs or calls close_range().
->=20
-> Now the performance numbers. I measured this on a 64 vCPU KVM guest (AMD
-> EPYC 9754) on top of vfs-7.4.coredump with and without the series and
-> the same x86_64_defconfig for both. The benchmark opens N files in a
-> forked worker, moves them to random positions in the descriptor table so
-> that the table order has nothing to do with the allocation order, and
-> times the teardown:
->=20
-> - process exit
-> - execve() with N close-on-exec descriptors
-> - close_range() with and without CLOSE_RANGE_UNSHARE
->=20
-> Here are the medians over two boots which agree within 2%. With
-> /dev/null as the file and 4096, 65536 and 1M descriptors:
->=20
->                          4096 fds        65536 fds        1M fds
->   ----------------------------------------------------------------------
->   exit                   1045 -> 895 us  18.9 -> 14.9 ms  429 -> 306 ms
->                           -14.4%         -21.2%           -28.7%
->   ----------------------------------------------------------------------
->   execve, close-on-exec  1393 -> 1190 us 21.4 -> 16.9 ms  471 -> 325 ms
->                           -14.6%         -21.0%           -31.1%
->   ----------------------------------------------------------------------
->   close_range()          1179 -> 988 us  21.9 -> 17.4 ms  484 -> 337 ms
->                           -16.1%         -20.6%           -30.3%
->   ----------------------------------------------------------------------
->   close_range(UNSHARE)   1118 -> 958 us  22.1 -> 17.8 ms  487 -> 333 ms
->                           -14.3%         -19.8%           -31.7%
->=20
-> So that's a 16-21% win or 40-150 ns per closed file. This sheds
-> init_task_work() and task_work_add() per file with its cmpxchg() and the
-> TIF_NOTIFY_RESUME test-and-set, the list walk with the indirect call
-> in the path out, and then a second pass over every struct file that
-> isn't cache-hot anymore by then.
->=20
-> The performance boost holds from 256 to 1M descriptors and is largest
-> at 1M. Note the thread count doesn't matter since one thread does the
-> close anyway.
->=20
-> So with eight processes tearing down 65536 descriptors each at the same
-> time the win is 16-21% (34.9 -> 29.5 ms for exit, 34.4 -> 27.0 ms
-> for execve). The old code walks the table once to queue the task work
-> and then walks all 16 MB of struct file a second time from
-> task_work_run().
->=20
-> So once eight CPUs compete for the cache that second pass gets
-> very expensive. With 32 or 64 processes at once both kernels are bound
-> by pushing millions of files through slab and RCU. So then the
-> difference shrinks to 4-8%. Still though...
->=20
-> Files whose own release dominates the cleanup gain a little less. 13%
-> for eventfds, 11% for pipes, 6% for AF_UNIX sockets and 7% for distinct
-> tmpfs inodes. For them a release costs about 2 us per descriptor anyway.
->=20
-> Using function profiling a 65536 descriptor exit spends 4.6 ms in
-> exit_files() and 11.1 ms in task_work_run() before and now 13.7 ms in
-> exit_files() and nothing in task_work_run() after.
->=20
-> close(2) is untouched and measures the same. will-it-scale (open1,
-> open3, dup1, eventfd1, unix1, pipe1, signal1, processes and threads)
-> is within 2% either way. dup1_threads at 16 tasks and getppid1 at 64
-> tasks a few percent better which I'd put down to layout.
->=20
-> So, back to coredumps. With COREDUMP_CLOSE_FILES coredumps switch to an
-> empty file descriptor table before generating the coredump. That
-> requires a bit of synchronization but I think I got the basics down.
->=20
-> The coredumping thread allocates a new empty file descriptor table. It
-> then wakes all threads in the thread-group and tells them to switch to
-> the empty file descriptor table and get rid of the old one. They report
-> back once they're done.
->=20
-> So that handles most cases where locks would be held for an unreasonable
-> time until the coredump is generated but since files can be shared
-> between completely unrelated processes that's not a guarantee and we
-> can't give one. But it solves the reported issue without resorting to
-> even grosser hacks.
->=20
-> Link: https://lore.kernel.org/20260618030700.2511668-1-jackzxcui1989@163.co=
-m [1]
-> Link: https://lore.kernel.org/20260618150301.3226517-1-jackzxcui1989@163.co=
-m [2]
-> Link: https://lore.kernel.org/20260619122419.3954581-1-jackzxcui1989@163.co=
-m [3]
-> Link: https://lore.kernel.org/20260624145552.70143-1-jackzxcui1989@163.com =
-[4]
-> Link: https://lore.kernel.org/20260630075604.52533-1-jackzxcui1989@163.com =
-[5]
-> Link: https://lore.kernel.org/20260804001703.1340667-1-jackzxcui1989@163.co=
-m [6]
-> Link: https://lore.kernel.org/20260807040124.1706927-1-jackzxcui1989@163.co=
-m [7]
-> Link: https://lore.kernel.org/20260808052732.2589657-1-jackzxcui1989@163.co=
-m [8]
->=20
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
-> Changes in v4:
-> - Fix performance number variations. It said variable within 4%. It's
->   actually just 2%.
-> - Make various simplifications and add wait_var_event_state().
-> - Link to v3: https://patch.msgid.link/20260909-work-coredump-unlock-self-v=
-3-0-04f907687563@kernel.org
+On Thu, Sep 10, 2026 at 01:24:52PM +0200, Jan Kara wrote:
+> On Wed 09-09-26 18:50:27, Patrick Lu (Anthropic) wrote:
+> > Move every scanned inode to the tail of b_attached, so the next pass
+> > starts where the previous one stopped and the drain becomes linear.
+> > b_attached is unordered and isw_prepare_wbs_switch() is its only
+> > walker, so nobody else sees the reorder. b_dirty_time is ordered by
+> > expiry for move_expired_inodes() and keeps its current scan.
+>
+> OK, but isn't there the very same quadratic behavior problem with
+> b_dirty_time scan which you don't touch (and where your trick cannot work)?
 
-There are some more nice improvement here in v4.
-I'm happy to offer a
-  Reviewed-by: NeilBrown <neil@brown.name>
-for 1 thru 14.  I don't think I have the background to properly assess
-the last 4, though I see nothing that might be problematic.
+Yes, the same thing happens there. We never saw it because none of our
+filesystems are mounted with lazytime, so b_dirty_time was always empty
+on the hosts we looked at.
+
+We realized the rotation works for b_dirty_time too if the walk starts
+from the oldest end instead of the newest. sync takes the whole list no
+matter the order, and move_expired_inodes() picks from the oldest end,
+so walking with list_for_each_entry_safe_reverse() and moving scanned
+inodes to the newest end keeps the oldest unscanned inode right where
+the expiry looks. Prepared inodes leave the list as soon as the switch
+work runs and get a new dirtied_time_when on the new wb anyway
+(9a6ebbdbd412), so the only inodes left out of order are the ones that
+can never switch (DAX), and only on the dying wb.
+
+I tried it in qemu with 100k lazytime inodes on a dying cgwb. With v1
+the b_dirty_time scan under list_lock still grows from 11 to 115 ms per
+pass across the drain, same as unpatched. Walking both lists from the
+oldest end keeps b_attached and b_dirty_time flat at ~0.6 ms per pass,
+with one loop and no flag. Does that make sense? Something like this,
+which I can send as v2:
+
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index e744f9f9d43f..ea3eb40bf828 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -727,19 +727,34 @@ static bool isw_prepare_wbs_switch(struct bdi_writeback *new_wb,
+ 				   struct inode_switch_wbs_context *isw,
+ 				   struct list_head *list, int *nr)
+ {
+-	struct inode *inode;
++	struct inode *inode, *tmp;
++	LIST_HEAD(scanned);
++	bool full = false;
++
++	/*
++	 * Walk from the oldest end and move scanned inodes to the newest
++	 * end, so the next scan resumes at unscanned inodes instead of
++	 * re-walking an ever-growing run of prepared and skipped ones.
++	 * For b_dirty_time this keeps the oldest unscanned inode at the
++	 * end move_expired_inodes() picks from; b_attached is unordered.
++	 */
++	list_for_each_entry_safe_reverse(inode, tmp, list, i_io_list) {
++		list_move(&inode->i_io_list, &scanned);
+ 
+-	list_for_each_entry(inode, list, i_io_list) {
+ 		if (!inode_prepare_wbs_switch(inode, new_wb))
+ 			continue;
+ 
+ 		isw->inodes[*nr] = inode;
+ 		(*nr)++;
+ 
+-		if (*nr >= WB_MAX_INODES_PER_ISW - 1)
+-			return true;
++		if (*nr >= WB_MAX_INODES_PER_ISW - 1) {
++			full = true;
++			break;
++		}
+ 	}
+-	return false;
++	list_splice(&scanned, list);
++
++	return full;
+ }
+ 
+ /**
 
 Thanks,
-NeilBrown
-
-
->=20
-> Changes in v3:
-> - Drop the llist. This brings yet another performance boost.
-> - Link to v2: https://patch.msgid.link/20260902-work-coredump-unlock-self-v=
-2-0-1bece368cbb1@kernel.org
->=20
-> Changes in v2:
-> - Revamp.
-> - Link to v1: https://patch.msgid.link/20260824-work-coredump-unlock-self-v=
-1-0-48fd1cca7eda@kernel.org
->=20
-> ---
-> Christian Brauner (18):
->       fs: don't open-code file_close_fd() in close_fd()
->       fs: add switch_files_struct()
->       fs: move unshare_fd() to fs/file.c
->       fs: remove unshare_files()
->       fs: add filp_close_sync()
->       fs: make close_files() synchronous
->       fs: make close_range() synchronous
->       fs: rename do_close_on_exec() to close_cloexec_files()
->       fs: make close_cloexec_files() synchronous
->       coredump: drop core_state->dumper
->       sched: add wait_var_event_state()
->       coredump: replace the startup completion with a thread count
->       coredump: factor out coredump_wait_inactive()
->       fs: add alloc_files_struct()
->       coredump: add COREDUMP_CLOSE_FILES
->       coredump: cancel io_uring requests before closing files
->       tools: sync coredump.h header
->       selftests/coredump: test COREDUMP_CLOSE_FILES
->=20
->  fs/binfmt_elf.c                                    |   2 +-
->  fs/binfmt_elf_fdpic.c                              |   2 +-
->  fs/coredump.c                                      |  91 +++-
->  fs/exec.c                                          |  13 +-
->  fs/file.c                                          | 107 ++--
->  fs/internal.h                                      |   1 +
->  fs/open.c                                          |  17 +-
->  include/linux/fdtable.h                            |   6 +-
->  include/linux/sched/signal.h                       |   8 +-
->  include/linux/wait_bit.h                           |  26 +
->  include/uapi/linux/coredump.h                      |   8 +
->  kernel/exit.c                                      |  22 +-
->  kernel/fork.c                                      |  48 +-
->  tools/include/uapi/linux/coredump.h                |   8 +
->  tools/testing/selftests/coredump/Makefile          |   4 +-
->  .../selftests/coredump/coredump_close_files_test.c | 592 +++++++++++++++++=
-++++
->  .../coredump/coredump_socket_protocol_test.c       |   6 +
->  .../selftests/coredump/coredump_test_helpers.c     |   3 +-
->  18 files changed, 840 insertions(+), 124 deletions(-)
-> ---
-> base-commit: a5625efa7a0e77c26e857de147284a21d53fa3ad
-> change-id: 20260824-work-coredump-unlock-self-63a898912870
->=20
->=20
-
+Patrick
