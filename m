@@ -1,183 +1,160 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A61221F26
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 21:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789074863; cv=none; b=lYXm2TrN7TkvyrPoSXpJfIaYvEF/4wSg+/SWTf/JMzj7tGSSDK8VmuX6DOVCk+dgz8Ke9U1SRqA/7IwT+zUGaR+6lszCMqYB8xNRDTCcCIysbCqAJVkS/n6ZzQd7/ohaiChdNGKfVCzpgTliFLKzlYNNkppx769QzVn9iGuNGX8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789074863; c=relaxed/simple;
-	bh=5oE2uZvsUyaYXny0+JJJPSa84KiRPnythZashd3Qn4s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AEgsUMrLm9MSzg9QPrs+xVkG0TksxLf9MVJIaDVFI75SigaLLTv2v7wxBH1BFndCHKm8fmuxbtk1JvqLHuWNU/qzYF6vAPD+6aivGkaziWHGxynx85atZGkFsXS8EZx0yCjGb3Ky3xitGb+Qsy2SpAwbKyqSu1X9NdJbs3uzu3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=0gkTl/OJ; arc=none smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD08F3DB983
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 21:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789075275; cv=pass; b=d8kKRpYe3riev3Y4l56UIvSjFfSvtD5JkOv2eSgpkuR1sw85tfF35X3ocZagg1eA2tH4znjKztjyXr1yKqpnWzwG0N/JMecS0diEjvv14rmU5Dk7MQGeB2Q9mr7Nr2m1Cm0LYea+i+ddhWn2GHHPa5C1nkUQUPUVeofUYIR2Kck=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789075275; c=relaxed/simple;
+	bh=jqpEM70tSpG5MtmfDeF0hUyCwBgmAiAYkWcb+f353io=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kMIBiAjAPoo8Tee2lokKoO3Xf75Ye9bKAANcldDejLrXd8TFvJFNgGMpRDSGRTV9a9kdBqa8FeSXEsRHvbc3Icl7uc/j1bubqnVp+EbHRgHYkA5IPLQyy4EVwDOGUVkfWlBVnUNwcKGJga3chhSoChkvI6oYG3rlDLf3/hwEglU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mwFm3ZYY; arc=pass smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="0gkTl/OJ"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6711693e489so269732d50.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 14:14:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mwFm3ZYY"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-53012819c04so33481cf.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 14:21:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789075269; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mIiw8S27nQRzfbmgsPC7w6oTDHrV3FRgBqmr9tAW44zjOylCikBijCJsbHdhaIXRf6
+         twIcfXm1ym3ajguddor9TuXrj3ojegO49vOhJn1J1RMPhXWclZgnPz0LZoTM5bHtRuGg
+         3uT4Hkqa1DxiIMjzqpXDh26IEEcZWF3EpmJr1VGEaJNI4S7Xcp07XHIozuXo5DQMfjEZ
+         nKjTDgejKfGRP6WFHvD2ncPfgGZWP1VRQoBo/0rdz2DvkPS1o8bH3tKNXhV0Q2taBP5Z
+         mIf0hbX3xFuYnfxxI7zw8kS8bIXRPG7tBvq+N675USk8++egJWpBpmvtAOh/nWRs9g3K
+         ElfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cPbVFgW9VwbajH9zUlcN4XglfWpRRu+3kWiEh6Msf9M=;
+        fh=ZdX0fwkZBMRKAEFNp/5NNFSCDQXwqI67f7d924iaYdE=;
+        b=LrjMVTM4h6+Ku3MGkWoRc/q6B6rtmLuPZFcIDxMWvo1MEpq9BKMCYGU2DPfS6AXxZr
+         xaW1CoSNpl+tXCdwbM6nKEAd0UwiF/iB6MlHQ4RrB6nAzBXsXOH6YfxuEviAZspMuZaI
+         Yqssj/sb5Mu8MhDq8a7iqpUDMHwJRlyyRL8ciI8kPPDvhr+PX/CVJuiwK+i2Zyx7OGbM
+         SM+tntyY5sm1f5Mbm+2sLqAzr73UfB2yQdGVQli37a3UBlB3dJI44miHQDOh/1lekG9j
+         p3VJqAzl6pLqPFUP9Aqzrql69DPR242PW4FmbzMho+SWUgQP9xaOOpP7dplMkzO2duZw
+         Um2A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1789074851; x=1789679651; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5oE2uZvsUyaYXny0+JJJPSa84KiRPnythZashd3Qn4s=;
-        b=0gkTl/OJmBjWfwJAbU4LrFEwm9ZOE8sbJErQ5DuRCrXF+JVUSKvesLUAehm+xHXX8j
-         emNADLursV5iwQlJ6QLQ1J+8jAe9iTuNezhpZD0bekGb4xRIAziTjpUJQ+cH7wspZqlA
-         4FLZEWiD0GMDYnM67EqdsoT2a8cWsrZBJ3hh/njJ2tdvx0CSiieIKPEsePQAQ1CMTm8r
-         kfLTQu/2LqzOnYca35ZYV96frEeTaC+wspg/dI9IkANwwXIqPeMEDbjdlAEccscgJdxe
-         Au0wbt5bSfm43T27bip4JxAJzxVasT70RV8Ra24TM2O2krt/UyvAElyziQinRN0DE8g7
-         05yw==
+        d=google.com; s=20251104; t=1789075269; x=1789680069; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cPbVFgW9VwbajH9zUlcN4XglfWpRRu+3kWiEh6Msf9M=;
+        b=mwFm3ZYYq5TrI2SEc4KPg6xFHY+4JXsSUC58CjWGE1Ow6RmUqqYF8jleqAzaXOUc21
+         QrGsP5Eo5M1vM7aVngALtdTwcW1HfyvVs0JyYrVcPJiN2NL4votq8nhMdo7ign6sJByR
+         HzmceyzaRj8xZaR7qgrPTastny8qa5bP2Dcy5iUlCkssZ4SGeRFUcQmmjNTsya9y9K1+
+         UJGWTsFJ2hyjFvt/zgSXHZ60MA4GLkkr4tHamxApl9OA9K/LpSsSxdawtM7yUqMRIizV
+         gD+F0MQ2XMqq28r6ckt4HADgV5H+r7x9N8+xOdnbJHNGlObeFBkpSSg30sNkIv6r8IhR
+         JSAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789074851; x=1789679651;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=5oE2uZvsUyaYXny0+JJJPSa84KiRPnythZashd3Qn4s=;
-        b=Bqysk9HQXNAy5yjeF7zTnQFijkpoYMk9IuEbkzp45t8HyhX8u2FlP0VN3HebfhJict
-         1cZP9T10IPqIciEshsBx/bQqXt5Src5egzgrzkQgo/ERnwm8/vuFlHTiyFv0Vih6/gNY
-         PWnmF3L7uaZTXE4nxkRKWYWuMmIE8uukpUH7RXY1HnN5RgUVrsIm1XWW5ph4mmup+6pT
-         4Y0udeL6A178FR1gPpf2tzEgw/HUHMM8v77fnO+zPKjQ+I1q3/H9Tr3iFXGoebwb2OYX
-         GFiPZl/11decc0Uwgbm2ijldMIHq+FQjhm6zrfAY6HTUPtHLSUT+wiOW2qysNOuePCQ4
-         YW0w==
-X-Forwarded-Encrypted: i=1; AKwUvBy/jaoXTnqQfNgkHG5NhZ0uN1SYb1d+obPTyUtCUefFQl+8O/Fdfe1O9nbutdZXCO7JUiTaxFGpRE/5VrBc@vger.kernel.org
-X-Gm-Message-State: AFuF++n1ceSzTIWo6zy5sZaP9PoqtAXZRDT6ZlBZubVagPRAI1jIYRtS
-	Pi3VOzA3NsHFiWmTFD7BKMcMuxyTJf1Nk2RZ0yZj+yhNc5ux0/7EiOHdWVffWCI02YY=
-X-Gm-Gg: AYBFou3rsDE9MaY8MeT2JFmQPqmbTGkjAnIKhlkeXuClwd+qKA2WSPTUJ4THGgC3VXZ
-	flWkxoa7rXbU84DxinX9jOpJeT3lrGabvQSdF7Xt2MFQCbcof0bG+0/yQUYjSpSz0lOgyWmfv2j
-	4PfhYCsL4/N5qm5+rmtlvUwkOMaFOwTKABxivQO+FsYLxj+9OONQGIx6HfEwA14KP3bC0njTmxp
-	nXt6RpEqFfw3t5FiHdjOGjQ/Dt63rb7gzmu3T766TqEwRZqjn6QmEZ9HYUqCsjFTDU6p35/7Way
-	p2kFxWrcMhtrcikiuxPr42AQ7jzqOhnMavBooaOf5pbakYSPiLFvZkGcHtetn8z5DVksXM/te0X
-	eghgHckBFb5KrLwjRKbv3d+86atJYOO2MD8ZeZAq6LjHE0BWdw/Rsqq6593sy3+eMrY+c7IhpPp
-	eiEypAu/9PM01rF7W1LHMD4NPsmzErjealIkZYBjAxoZcu/s3EEhdSejo7wBOP9GW0lI0ZO4j+8
-	YkxeBjL6sIKvEihfkJjWp+rwsd61CiJjLyfAA1lorjfIlC58rKAaGhyyygsiJbN28rQ9M1TRCXZ
-	gutzSCzQDK/4HoOUNOI7FrTbsoqMA5P+caIOIWfGrS/4eAocRZ9ifDHpVq0lXTSP
-X-Received: by 2002:a05:690e:12c2:b0:66f:c1bc:4095 with SMTP id 956f58d0204a3-6712472b6cbmr664487d50.88.1789074850705;
-        Thu, 10 Sep 2026 14:14:10 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:2670:dacd:b84e:82bb? ([2600:1700:6476:1430:2670:dacd:b84e:82bb])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67125df80e6sm155378d50.10.2026.09.10.14.14.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 14:14:10 -0700 (PDT)
-Message-ID: <f156a3665404751b29fd21d9ee136f2d66d5fe87.camel@dubeyko.com>
-Subject: Re: [PATCH] xfstests: exclude hfs/hfsplus from generic/339 run
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Theodore Tso <tytso@mit.edu>, Christoph Hellwig <hch@infradead.org>
-Cc: zlang@redhat.com, fstests@vger.kernel.org, glaubitz@physik.fu-berlin.de,
- 	vdubeyko@coreweave.com, linux-fsdevel@vger.kernel.org, frank.li@vivo.com
-Date: Thu, 10 Sep 2026 14:14:08 -0700
-In-Reply-To: <aqKzDpccJgkmzC5E@mit.edu>
-References: <20260910000449.747189-2-slava@dubeyko.com>
-	 <aqJ--AqubS-CWiV-@infradead.org> <aqKzDpccJgkmzC5E@mit.edu>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20251104; t=1789075269; x=1789680069;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cPbVFgW9VwbajH9zUlcN4XglfWpRRu+3kWiEh6Msf9M=;
+        b=byc6VerZhv5M5SdizkvwSkMSZjcymR52zIg79rzx7gCfvnU7SfVSGwCLMO8UPfrkGG
+         5sctotu/R/dCDrxDLPfedaXWTbUsyPPhZe1Wmry8Ue6YxKV52vD+v9qXG2njzlA4oI2q
+         r5ENdccpImZwsZ3YjTnb0sU7WZj1O93PU31cgUozWw7QSyNDqOpMTRHv9urBA7xIyAcG
+         A+yCalhp4JajS29Vx9Ikb1VbTf9i33dSRbRd3Gn0FFqEUR36Ce9/pn2xOLiiW7fdEh58
+         iwiwJuCxV0G21QTMYyIXPCM/WhPX17ED+4JTdn06Ig30XxYFe130b3k9yMxOFEG/Uj8e
+         IYwg==
+X-Forwarded-Encrypted: i=1; AKwUvBwTCDBdXXH5prpMISFZx79NhxgP+qemeTJ6tVdrpDICnDP4jhnGqfKmPXED0mAwKD/8c+Aq8cr9jv1wVLV5@vger.kernel.org
+X-Gm-Message-State: AFuF++lP9rNy1+iY1wza6HuonX3jYlYfNLvnmEWL5aJyKSNQGXebx5QS
+	XTPXhaJLmhx9Or4azeJp3g2/DdVZNVaSwG9Iurzbu5X5qhdEENLwq9bPl5i/ESuabh6c7PkFlru
+	7tSt6+9OVdGLs5ZuikEpM/XgKUrq0ry+WYbZzDRWX
+X-Gm-Gg: AYBFou15+UgJY5PZ+doV9kGFlz+ggGj9njmGTnYClJLOVQWQOfVqEOGh8aF+n7K1yCw
+	1pxMUUa5j3QoxSnybN9qpoAH3E3RrIFE4Z0un0i9ks8PPrpzTZNAjYfotH5GAnINBlY/Uj5lBIi
+	6OdZj7PKN0HbkL7yE+TDY1A+jqndJymmC5Lf9mDIIoA8f9xefCcX8/ulGyJbeROpvNz+1BxRCVj
+	k3V2rlwfKQ6X4leeGNsRKZjDerLuiV9TamtGvaU3zXP3uz4CUsvxoNaB900p9FbcXRUFI5+RiE0
+	hm0/2MmXyq40h9PFNUiEJXoszGfb+mOvm+XaDo8z8hr8azwplL2LZRewMKINT9uF+51xRvu+p4Q
+	WAwF6XLLhxA==
+X-Received: by 2002:a05:622a:2599:b0:52e:8422:a329 with SMTP id
+ d75a77b69052e-530c94992bemr6190311cf.6.1789075268693; Thu, 10 Sep 2026
+ 14:21:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260907063918.3432401-1-surenb@google.com> <20260907063918.3432401-5-surenb@google.com>
+ <19e428e5-d8bc-4abb-b052-e23442464cba@kernel.org> <CAJuCfpF-xeED3zVL9YyCwrTUxcYXw4s6gVcCYY8p7rx_09mgLg@mail.gmail.com>
+ <d24c425e-7913-4f80-987d-7105a8b13432@kernel.org>
+In-Reply-To: <d24c425e-7913-4f80-987d-7105a8b13432@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 10 Sep 2026 14:20:57 -0700
+X-Gm-Features: AcwNN1VRoq8CDVvkfELfH6Yzm9F4xeICdi1mk_n024FLQWRzxRX3c-6w3l_BjeM
+Message-ID: <CAJuCfpF_1XNP87GL+z13OJqMqk7LNpF9yYNSs4qV7N7tGOTCww@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] proc/task_mmu: read proc/pid/smaps_rollup under
+ per-vma lock
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
+	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2026-09-10 at 09:49 -0400, Theodore Tso wrote:
-> On Thu, Sep 10, 2026 at 02:57:12AM -0500, Christoph Hellwig wrote:
-> > On Wed, Sep 09, 2026 at 05:04:50PM -0700, Viacheslav Dubeyko wrote:
-> > > The dirhash_collide generates filenames from arbitrary random
-> > > bytes (only '.' and '/' are filtered out), which are not valid
-> > > UTF-8 in general. Catalog names on both classic HFS and HFS+ are
-> > > Unicode. Feeding random bytes causes fsck to report "Illegal
-> > > name"
-> > > or catalog corruption that has nothing to do with directory
-> > > hash-collision handling, which is what this test is actually
-> > > meant
-> > > to exercise.
->=20
-> I'm curious --- does HFS/HFS+ reject unofficial Unicode characters
-> such as those used by Klingon?=C2=A0 (Klingon is an invented/artificial
-> language, so it's considered out of scope by Unicode; so Star Trek
-> enthusiasts are camping on an unofficial block of the Unicode code
-> set.)
+On Thu, Sep 10, 2026 at 12:44=E2=80=AFAM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
+>
+> On 9/9/26 19:58, Suren Baghdasaryan wrote:
+> > On Wed, Sep 9, 2026 at 10:23=E2=80=AFAM David Hildenbrand (Arm)
+> > <david@kernel.org> wrote:
+> >>
+> >>
+> >>> -     vma_start =3D vma->vm_start;
+> >>> -     do {
+> >>> -             smap_gather_stats(priv, vma, &mss, vma->vm_start);
+> >>> -             last_vma_end =3D vma->vm_end;
+> >>> +     if (!IS_ERR(vma) && vma !=3D get_gate_vma(lock_ctx->mm))
+> >>> +             vma_start =3D vma->vm_start;
+> >>> +
+> >>> +     while (vma) {
+> >>> +             if (IS_ERR(vma)) {
+> >>> +                     ret =3D PTR_ERR(vma);
+> >>> +                     goto out_unlock;
+> >>> +             }
+> >>> +
+> >>
+> >> Can we add a comment whey we break (and not e.g., continue) whenw e hi=
+t the gate
+> >> VMA?
+> >>
+> >> (I seriously don't kmow ... should I know? :) )
+> >
+> > The way m_next() is implemented, the gate VMA always placed at the end
+> > of the address space, so the next VMA will be NULL and we can break
+> > once we see the gate. But now that I'm looking closer into this code,
+> > reading smaps_rollup file does not invoke m_next(), so we should never
+> > encounter a gate VMA (it's not in the maple tree, so for_each_vma()
+> > should never return it). I think I can remove the special handling for
+> > that case.
+> >
+> > Thanks for the question, David! It made me realize we can simplify this=
+ further.
+>
+> good! :)
 
-I need to double check which particular Unicode characters fsck.hfsplus
-treats as invalid one.
+Sorry, my conclusion was wrong. The modified loop uses proc_get_vma()
+to walk the VMA tree, not for_each_vma(). proc_get_vma() returns gate
+VMA at the end of the walk instead of NULL. That's the desired
+behavior for when it is used from m_start() and m_next() but not so
+much in show_smaps_rollup().
+I think the cleanest way is to change proc_get_vma() to return NULL
+and move the part that deals with gate_vma directly into
+m_start()/mm_next(). I'll post it that way and see what others think.
 
->=20
-> Invalid Unicode characters could also happen because newer versions
-> of Unicode have added new emoji's, which might be added as support in
-> the mobile handset userspace, but since we aren't regularly updating
-> the Unicode tables, they might still be considered invalid if you
-> enable strict mode in ext4/f2fs.
->=20
-> > If user file name creation manage to trigger fsck complaints, you
-> > need
-> > to righten the input checks in the file systems first to fix this.
-> >=20
-> > We can then find a programmatic way to deal with these rejects in
-> > xfstests, as ext4/f2fs in case insensiive mode probably have the
-> > same
-> > issue.
->=20
-> Well, strict mode isn't enabled by default, since users might want to
-> use Klingon or emoji's with a skin color that matches their own.=C2=A0 An=
-d
-> no one has been invested enough to continuously update our Unicode
-> tables, and add support in the userspace tooling for upgrading the
-> Unicode version in the file system superblock (which would then break
-> compatibility with older kernels --- for example, if they downgrade
-> to
-> an older version of Android, etc.)
->=20
-> Isn't Unicode **fun**?=C2=A0 :-)
 
-Could we have any generic way to detect that file system could not
-support some Unicode characters?
 
-Thanks,
-Slava.
-
+>
+> --
+> Cheers,
+>
+> David
