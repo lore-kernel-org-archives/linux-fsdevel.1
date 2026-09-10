@@ -1,130 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0707E49DBA9;
-	Thu, 10 Sep 2026 13:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7558B493D55;
+	Thu, 10 Sep 2026 13:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789047252; cv=none; b=TQx3x7W9/g/S6CFbrZM4OCR0SppMDI4bM3FQk2wnXdNhwDyc5+jfiFFxev7uPLk1Ylo6cszJnOzbst85K6f5Fl96d5ztulbHdIp3gx/QhfRocuj4ZaKpn/MPSPwIeP2Guviqmd+NIMxHBgEMCA7qr1op1C3bEudXzkubSDj2W2I=
+	t=1789047388; cv=none; b=L4rOXWEpE8TIj/R6rBdjFOALAi0m1GrpXOTbza95p86iUYrn0wqTQ+Vz1LH+31Fiyp4DtS4/cIM9DhobJs0ZlAb7zBqIBXnf3kEBNylrUGyuZWttAJOa8hCnUy65mJr/DO4NAOwYBqJ2PDyiiqPqpOhiNcY5xSudsvN82SqMyPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789047252; c=relaxed/simple;
-	bh=Mh4hFiHKRZi+BUTgSgwXr5D4Llvffqg6FfsA7VagRto=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y+rsfHlL55eN4tlYE7bZd8iaxrmW2xAPPaH4ghdaB1mYeytSwiiNf4W3EzLdxTo4UiM5OYdPZQyUlSOFq7NaawNbyohta/7gkJbilU/YFQLCEjkV9TmI2Q2sDzqAwIAHp/cwvdTLh/uztbiRdqEggowkes1nR3zBhiPBrw/90kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e3QGBMx4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789047388; c=relaxed/simple;
+	bh=mFzSoT/R8c1Nd73kJmUZCG6wf+klMYpnbTHGbu06jnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PId3DnDdQYL8TRTj5wqMdN9Os3ZLb1E7c229fOxspErP8HkqQgAIE3mU5R8X9ijFQFathxxsxNNtEQteBPMORrQSxvzSU2XQq3zSLndOQgk89HAi2gPf4vFqFWrLWlT6yMMaVPjUBZb9Dk2h5EG5vAaP8Yx4zCCAw3MBTL7hR7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=JiC/FNcc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IoUTrepy; arc=none smtp.client-ip=202.12.124.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e3QGBMx4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 759441F00898;
-	Thu, 10 Sep 2026 13:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789047250;
-	bh=R6tbpyuljfgfZdUpmG6m3DA4a87+jb+g/2HfQLUIr5Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=e3QGBMx40PqUN7AXNN5xvAZrRXc+smUA71DzaOAKCJ6G7uqdD/CedJcNXMpOGUtHV
-	 Oin5mrHtRH23KfztzB+zwG/7C1glqUgUwj6gLis2aKwn1hCcbYbcWE2YjEX8j2f0vz
-	 ITlhZYTr4l0g/wDFEPFTBYUwOyPh8Y0EXNK+44DCc11pTauxgCg3z7KF4079I7zGh4
-	 YzbRYSmBqz6tHCTqhhCe2BLIicwyugGqTygpIr7GqAKHWqjqfAxLl3y/wcvvqr/QKt
-	 pYGbrrHMx/QLyGr4h06b4NGOBWghPeB6yFdgwKWG1AZ0cow3YJLjnuA1Ny7jRfsZFo
-	 Avx7L5fZNelJg==
-Message-ID: <db6eb031-4eff-4eb2-bc66-df94e890dba0@kernel.org>
-Date: Thu, 10 Sep 2026 15:33:59 +0200
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="JiC/FNcc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IoUTrepy"
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailflow.stl.internal (Postfix) with ESMTP id 53394130031B;
+	Thu, 10 Sep 2026 09:36:24 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Thu, 10 Sep 2026 09:36:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1789047384; x=
+	1789054584; bh=Aix6zD+sWAhHCK96XTqdVIPFcUsbKpScTo8omJZ7kRI=; b=J
+	iC/FNccl0yH8eZLx8Y1aA3k5KkWHnq/SUgCGyekPoT/VyPpPrQTTHxbCn774XPfu
+	y+OtArhkvOMs8178JTM/BKjum34C28rfNShUl9uo1JeCNqmmvZUTIZLXDNM6Im8q
+	sLtNlryUoZDEICm2fG/k9QuyUXqjLBLG8a2IOpctkwJfdX2OyW6GP4AlH4u4MugR
+	ok5ztUySC4ICl2NqI+95e879rCmMyP3bn2AvtNIKu/QwMFgSyEeOjSZo7UtiKooM
+	1UPOyj9+JXZ5Voi1xsXtLKQdq6URhZcljDW6WXHgFudXyh4aI/3QEVQ8A2fu0ycx
+	e7fuDH45gUZFIcPEmVYhg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1789047384; x=1789054584; bh=Aix6zD+sWAhHCK96XTqdVIPFcUsbKpScTo8
+	omJZ7kRI=; b=IoUTrepyYSR/bEiVJoM6S3gFlo/l0qjcU7cPRIJFHAdTeJIL9Tz
+	AxlXVqLy4UglZ0QEYVoTgXoVQPc6oK8K6+ic9X5YjPsqMIILcajf8DkK6Cg+m0Lv
+	1J/UJEuwOC/cylj5dYO4IWS+eMzcU0G4uzEfv48dMAwRDbNtYsRY1Bi/UKxSCyTl
+	srbKccBjrnKKKlvJUNOTRTB+ZgWjkfb0rv6y1L/X32QCq5WAlbCgp9i+PFWMvLxF
+	EwEJGDWI6D3jSw/p030sYcVVEHM3bxgzY7JbpciivHKYNlvGQd8g4KZWWK9zHVQm
+	Nm26BOEiho6RxJNoK19o8EAsZljaavd1rjw==
+X-ME-Sender: <xms:V7KiasHiw0d7B0joUAwkdvU8Bga4XWJHRXpeEZTe_kuhdQGwp3EAbA>
+    <xme:V7KianV5efMMkCR84uqLsLP9iF3dRSN08zFokNrRb_iykiESwg0mFmNCHUJ88xX1h
+    xzAJzMU6lcoYmRhdIge3qr8eytQ_68Re5KYBMjMfWJB1MjJhFq7WDFx>
+X-ME-Received: <xmr:V7KiaqeJ7u0PeZS6fdgBUhpQriOniVjSUV2qnx3uEXOKbKe-DSblJxw4ntg>
+X-ME-Proxy-Cause: dmFkZTE/cV7Y3B5vfmq4FxwBW5zjIOR+OZ0Xq5wNE0R+9MV5eEb7Vmg3gWUSzcydLMYKsT
+    k0AEiBx5vAV4G3V3qjltmxAKxV5+/EjuIP6hv39fDwwxRv8x0NwLBFQwKfQdcq+44hzyHZ
+    3/uAyOhAF7+IUKa8FH5q0canFhSzlKFsCqOHb9P8uJE2LFS6hBfLubEv+qPLaOReHYiNDI
+    t7k34surxCm87KQlVrWSwkDE1ybXWYCPpf0JDb1ntZexrcY4FQjImfSwEXvhyEyq9EMbag
+    ZRrwqKZ/zrY7HPzA9+r3qwYLqtLJwM3F3LvVn+dQgoholjbS3YyVg7nrSnhOjJXpJWvdAB
+    bsesbw6nh2xKNlCbjDZaLS+F1fclhtk/tkGvO8q3VrPNgjZRN8cAr1LvpkeXgLQlTk4eD0
+    oBgAWaBpWJY6p3DxNoxJdTkhb1HcO47WICrGjLw8NjRs6Li3q3dAaah3w5GIP6MphuoJdv
+    KaZWhP3av+E8Ee6yVrdqcpk5gs3GC0a9ykMnyqXjOvjFeElgQbEXDsGkZo9ImEoQ+bsWUz
+    kZI1Dy7J/mPKKtvJ5mXRIkHCWlOuO5LJ0imcYavY5eiQ1kQkbc/VDgMLnSThrB/LeIJo/f
+    l21N7br/2Qlm+OfDCuECU3ibjKMGb473+BUWv8mxDr+KQjqxFWJ1rLsrD9qQ
+X-ME-Proxy: <xmx:V7KiamTCFHjpmBE-EEinApbKeCrS6JG3nHB4MLcdlUegeDHp7naQGg>
+    <xmx:V7KiasBRTn6630SaHyJ8qQzwVrY0YsQiHDfSJ83W053CWDz3RnN5SA>
+    <xmx:V7KiassB-nsQ0HGdKsvQQfAE0osTulGGqkk9TyOj2cEUzMFCNLr1Mw>
+    <xmx:V7Kial4KoUrfK9nBSFF_muO3jGSz5q9aAxvFhSblQNCsz7bEbrW5Zg>
+    <xmx:WLKianwh14UVD3RXq0BoVMyJjbOORFjiIgq0wIdt5yyEc40WI17Hm9lf>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Sep 2026 09:36:22 -0400 (EDT)
+Date: Thu, 10 Sep 2026 14:36:21 +0100
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: akpm@linux-foundation.org, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Carlos Maiolino <cem@kernel.org>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [RFC PATCH 1/5] mm: let folio_mkclean() report which pages had
+ dirty PTEs
+Message-ID: <aqKxU5iOuWjK58Al@thinkstation>
+References: <20260903182943.662461-2-kirill@shutemov.name>
+ <20260909101212.894871-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr handling
-To: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Oscar Salvador <osalvador@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
- driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
- <aqJrblWch-lajp3k@localhost.localdomain>
- <c2239ef2-10f4-4c87-a23a-2753f1e18d27@kernel.org>
- <aqKd1MUgFVHozVWu@localhost.localdomain>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <aqKd1MUgFVHozVWu@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909101212.894871-1-usama.arif@linux.dev>
 
-On 9/10/26 14:08, Oscar Salvador (SUSE) wrote:
-> On Thu, Sep 10, 2026 at 11:13:18AM +0200, David Hildenbrand (Arm) wrote:
->> If you have something consuming __highest_used_section_nr while concurrently
->> updating it, you might get torn reads/writes that mess up the value on the
->> reader side.
->>
->> For example, mm/compaction.c consuming __highest_used_section_nr.
-> 
-> Right, but I guess that if we get a 'wild' value, at least we are
-> guarded by online_section_nr() performing the right thing?
+On Wed, Sep 09, 2026 at 03:12:10AM -0700, Usama Arif wrote:
+> The old whole-folio behavior did not need to know which PTE became
+> dirty, so this timing window was harmless. Sub-folio tracking makes the
+> final dirty state correctness-critical.
 
-I guess so, I was assuming the only real scenario would be us missing to process
-certain sections (which would usually not be the end of the world). Getting
-larger values is unlikely when tearing reads/writes I think.
+Good catch, thanks. I should have known better.
 
+Fixup below.
+
+diff --git a/mm/rmap.c b/mm/rmap.c
+index aaf45ac79fa8..9b8b9428f802 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1140,6 +1140,15 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw,
+ 			if (!pte_dirty(entry) && !pte_write(entry))
+ 				continue;
+ 
++			flush_cache_page(vma, address, pte_pfn(entry));
++			entry = ptep_clear_flush(vma, address, pte);
++
++			/*
++			 * Take the dirty bit from what the clear returned, not
++			 * from the value read above. The entry is writable, so
++			 * the CPU can set the bit at any point before the
++			 * clear, and the page table lock does not stop it.
++			 */
+ 			if (dirty_map && pte_dirty(entry)) {
+ 				pgoff_t idx = linear_page_index(vma, address) -
+ 					      pvmw->pgoff;
+@@ -1149,8 +1158,6 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw,
+ 				__set_bit(idx, dirty_map);
+ 			}
+ 
+-			flush_cache_page(vma, address, pte_pfn(entry));
+-			entry = ptep_clear_flush(vma, address, pte);
+ 			entry = pte_wrprotect(entry);
+ 			entry = pte_mkclean(entry);
+ 			set_pte_at(vma->vm_mm, address, pte, entry);
+@@ -1170,12 +1177,14 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw,
+ 			if (!pmd_dirty(entry) && !pmd_write(entry))
+ 				continue;
+ 
+-			if (dirty_map && pmd_dirty(entry))
+-				bitmap_set(dirty_map, 0, pvmw->nr_pages);
+-
+ 			flush_cache_range(vma, address,
+ 					  address + HPAGE_PMD_SIZE);
+ 			entry = pmdp_invalidate(vma, address, pmd);
++
++			/* See the PTE case above */
++			if (dirty_map && pmd_dirty(entry))
++				bitmap_set(dirty_map, 0, pvmw->nr_pages);
++
+ 			entry = pmd_wrprotect(entry);
+ 			entry = pmd_mkclean(entry);
+ 			set_pmd_at(vma->vm_mm, address, pmd, entry);
 -- 
-Cheers,
-
-David
+  Kiryl Shutsemau / Kirill A. Shutemov
