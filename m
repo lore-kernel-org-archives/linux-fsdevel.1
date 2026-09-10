@@ -1,63 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23593ACA5A;
-	Thu, 10 Sep 2026 21:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2348E3ACEE2;
+	Thu, 10 Sep 2026 22:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789077223; cv=none; b=eOFXQff1nnnprKr0Xh83SxFM4JaZMdJCfhqJ+yhHCuPTcM6oWqmIaeENOSWzoZShT6tZuSUYtkpZwY/xKSWyQB83MCQXEY1tU6wVkF7XYDeHm0NnXCzOYhhyHZ2j4OPIgdd9efCQiUG583zgNj075zmjLT3BQuKGCQ2TcXpBea4=
+	t=1789077659; cv=none; b=HbHXMfLslFaOpEHSmiyG8+fbrC4v2dvoN/LZIBvwjTw2KjHGU6yZhWYqn1eQmkSSMER1ELdplr0p99pHsX0ODt4Ra43BBI7RD5gp4gRC/zZWBdKw0/Urad9oeSjQ1Djx6OScHlixZmD7Co2mzD5AGriC9o2nR9ospfQYcMoehj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789077223; c=relaxed/simple;
-	bh=a+ixi+VqDx28QGjV2YjZQ6gxzz+Y8gQCPZmOph45j5c=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Slic81WAbq62S7wHO6UVo3c6QNtR0ZCTRI+dz5YcJ4vEzQzxqdUwU/w9JA9IGFt1v6BypYfQdMv2dznqTiWJHoEm2sm8zXX1fmFgzN5umrdvXwcmg2P7n7s3BfZ8Cf4EokhWpqfj9BDkBojHJ+o62clszNU0rChcWmX1Rq/3udo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jBdic9Do; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789077659; c=relaxed/simple;
+	bh=GXS2REQZfVhwiioAR+tvLzShnfy+wv3gtlYG29uBL3g=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=ZRfjy3z/73c9epx8301q+135ab3AEBqyP7fZ0v1soizekHF9q+hTXd5tgSibjLJ6XYaMP2ff2T/CJcY+Nv/I4N13N2z2oOsQbJp+qfrm9Oi9bAekIPFSqkys1Fvk97949ihysUsTdNDP+STLPUn0bSib0e+hozJpUFbkLIEm0G0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=fK39eLC2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jBdic9Do"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5209D1F0089F;
-	Thu, 10 Sep 2026 21:53:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789077219;
-	bh=TeoOqIB+SUhzTp1q3X43GMWOt+NEKTJz+9LBlzh4fI8=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=jBdic9DoVYCUzBQdh4LYAGEcYn5ZvXZ1YH+6CDmyhqfHbkmTWN/gToLNwbgtpbeYo
-	 861lDAIeF7giO99MmLfmSpjwrFwg55+tKpYeCPBkm3jjMlAfM4zPr7P/AtkPac82kJ
-	 1TkqgKvJWOwG8Hd1dNyq+WbqBAh2nYruWulPFcQabHNLN5e2r7J/gf7JR4TavF67g4
-	 5pHZzzKHi2I7G/o6t+EacpsVkAojCJ7ivR7u+POs4XLzkmARCFI0l56HUlV/hMfVA5
-	 B+NQeiC2AaGrFtt9H6H5n7mUVEF0pEtQpLXZ1xSC8x7pUmEEDQhsukcjkW8fEUx8kC
-	 QOK/MZ7DkTOXA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0C0B380DBDD;
-	Thu, 10 Sep 2026 21:52:37 +0000 (UTC)
-Subject: Re: [GIT PULL] sysctl fixes for v7.3-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ioe66sxd6x7ku7sghm4tdq5i2fhh2jfanhsb7wvsqjc5gjq6vq@3r5v7mcphc6s>
-References: <ioe66sxd6x7ku7sghm4tdq5i2fhh2jfanhsb7wvsqjc5gjq6vq@3r5v7mcphc6s>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <ioe66sxd6x7ku7sghm4tdq5i2fhh2jfanhsb7wvsqjc5gjq6vq@3r5v7mcphc6s>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git tags/sysctl-7.03-fixes-rc3
-X-PR-Tracked-Commit-Id: 353a95f1cd8da8a5436a3f070be07d2f484486cd
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ad724d319c81475488794eccc11eb5e27242e1eb
-Message-Id: <178907715642.2100681.3141491075017291589.pr-tracker-bot@kernel.org>
-Date: Thu, 10 Sep 2026 21:52:36 +0000
-To: Joel Granados <joel.granados@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Kees Cook <kees@kernel.org>, Bradley Morgan <include@grrlz.net>, Karl Mehltretter <kmehltretter@gmail.com>, Oleg Nesterov <oleg@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="fK39eLC2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070241F000FF;
+	Thu, 10 Sep 2026 22:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1789077657;
+	bh=XCbZRJJSfwFq8fSpu5C5V6NUIqHCcbuO98gGM5adtIw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=fK39eLC2b0vu1d3w2C5YFr0zE38rwHGnqt1hiqpOiDNabPVcXfSWOoVTWdJa41D3v
+	 oii8bg896U7MfHwkeq0lnsDlofLZ2feOp+esT7Y37c0m16NA9v1xAoEe31JU5RQuiQ
+	 QCBZ9ehiGjpded5wUGYFHFn8Dg9T+5mk1K6wcsfc=
+Date: Thu, 10 Sep 2026 15:00:56 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Salvatore Dipietro <dipiets@amazon.it>
+Cc: <abuehaze@amazon.com>, <alisaidi@amazon.com>, <blakgeof@amazon.com>,
+ <brauner@kernel.org>, <brendan.jackman@linux.dev>, <david@redhat.com>,
+ <dgc@kernel.org>, <dipietro.salvatore@gmail.com>, <djwong@kernel.org>,
+ <hannes@cmpxchg.org>, <hch@infradead.org>, <hch@lst.de>,
+ <jackmanb@google.com>, <linux-fsdevel@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-xfs@vger.kernel.org>, <mhocko@suse.com>, <ritesh.list@gmail.com>,
+ <rvvandan@amazon.com>, <stable@vger.kernel.org>, <surenb@google.com>,
+ <vbabka@kernel.org>, <vbabka@suse.cz>, <willy@infradead.org>,
+ <ziy@nvidia.com>
+Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly
+ __GFP_NORETRY allocations
+Message-Id: <20260910150056.499c6312198f1898acb68adb@linux-foundation.org>
+In-Reply-To: <20260910114602.926944-1-dipiets@amazon.it>
+References: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
+	<20260910114602.926944-1-dipiets@amazon.it>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Thu, 10 Sep 2026 10:38:12 +0200:
+On Thu, 10 Sep 2026 11:46:02 +0000 Salvatore Dipietro <dipiets@amazon.it> wrote:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git tags/sysctl-7.03-fixes-rc3
+> 
+> On Sat, 05 Sep 2026 17:42:39 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+> 
+> > Is there anything particularly unusual about this test case?
+> 
+> It is a stock pgbench simple-update PostgreSQL workload on a large
+> instance (96 vCPUs), using standard PostgreSQL settings and with no huge
+> pages assigned to the database. We deliberately overprovision the
+> pgbench clients: 1024 clients over 96 threads. That keeps enough writers
+> in the buffered write path concurrently to hit the costly-order
+> allocation failure path continuously. The memory fragmentation comes from 
+> page tables: PostgreSQL spawns a new process per client, and those page
+> tables consume ~40% of memory, which significantly limits the page cache
+> and the free memory available.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ad724d319c81475488794eccc11eb5e27242e1eb
+OK, thanks.
 
-Thank you!
+> 
+> > > Results (average of 3 runs, TPS):
+> > >
+> > >   Config                   Avg TPS      % vs Baseline
+> > >   baseline (no patch)       59,408       -
+> > >   With this patch          155,409      +161.6%
+> >
+> > Is this back to pre-5d8edfb900d5 performance?
+> 
+> Yes - fully recovered.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Great.  That's worth mentioning in the changelog.
+
+> 
+> > AI review asked a few serious-looking questions:
+> > 	https://sashiko.dev/#/patchset/20260904115629.3993331-1-dipiets@amazon.it
+> 
+> Thanks for pointing that out. To address them, we can have something
+> like the patch below. Performance results are still similar to v4. Happy
+> to submit a formal v5 patch with it if you would like.
+
+Yes please, a v5 would be good.
+
+
