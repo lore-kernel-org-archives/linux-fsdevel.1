@@ -1,197 +1,209 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CD34A3414;
-	Thu, 10 Sep 2026 15:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789054991; cv=none; b=J2KHh3P3KKoS3vUt+J5BcIViv3CDpN5OtHL2lz1zFLzm7//D7KlBRS7L2RaAX8fXxecVe08f2hMrBQ03dokgSkpxZljMklS6q5OFa8JhishhWArnt0yz4dQzd5e1gyebukuOwN88lxPwyfrOwehuUY3DYnIbqOE4MkKPrlPsJX8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789054991; c=relaxed/simple;
-	bh=w+0KqQh4wxbH4rrrBfmQMPhNRMQyYOpSoboeeUpwggI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r3WeoOn1zk70mHYB6QeC1elbt1kMIpcFvkfBr8myBOOdsaaxxu3GHPJTmq+twfl9VHZrf3F0q4t7uJQHnYMLixnF9Ij7UFt4RJFWY17vpYmv7uFX/CwqctgblYdeckbaCBtdRVwYJ4k85ym6jvcRyNyeH93pW1aElZjuhJZhQJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PtcfTxtw; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB42448EC77
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 15:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789055166; cv=pass; b=mTcb3dxaT/AJ4/1otwC/Z6HQc7W6+jyma3NY9z1mR9mosusTZyFRhGyy2wbN9oHu1YS+fQkGFq/6a43j9HbkzBRVeADSbASBZT1UN8hS03R2mpr9QE8bH3qHqULHUKeK0ISNWmOWkygksr1uPx5HpDQFC+zG146wBuBgxGKGdaI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789055166; c=relaxed/simple;
+	bh=xy9Lm9WxkQ3Mmgg/H7vfmk5N45FAYtw9hYAWl41XmQs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fYhvUkEAN4h5AFP2EqX2nOJ/MrOY+hn+GItCWxtoNfWR8AmpxCMw9ydsK2GK8+WkC318PFWei7AhXd1jPdKFl7t++/XfKzg4L/b2PGaOkf0U9i/zoGEgL6a5nB8L+wQmXnRAjiTZSZT/4S6rqd+BkA75dGrh18yfCg4dtjIxj8M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YZccLjKM; arc=pass smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PtcfTxtw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66F481F000FF;
-	Thu, 10 Sep 2026 15:43:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789054989;
-	bh=jdfnsdvWI0jRNqVLMdcR0r8HJLdhTYwH56oScH4f4Pk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PtcfTxtw45R5MAhwdS6U8KTXfpVokzs3jxEpTI9fNqRYbNG8tO8oIN6VOk4J/zpDz
-	 l7fF5oH34xgjuorX5jaiX4Okbtal8yV2+Ib/6+GIFhJDLrwb322Bveh2+XiuaylYCO
-	 AoVYaUg2TSwF1stGN0IDxRm6IkaSSDb3QA6faezOvPq743U0knl01zmkYvEXucPnkg
-	 k2ony48DnokaTCyyOYp3/M1dr9W8WQ3Dp8YpTbf8CpSybrx/yDod3z5IgtNcC4cM1u
-	 FDlYntAFMq7ttb+PBptS7mI34Tg5IF8nzjCEirqMMhG63KvuJxmnK5W7yvjTISPWaw
-	 TLY8z5R14Sm8Q==
-Date: Thu, 10 Sep 2026 16:43:03 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
-	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] proc/task_mmu: remove unnecessary helpers
-Message-ID: <aqLOusjRNlQtQsj-@gremlin>
-References: <20260907063918.3432401-1-surenb@google.com>
- <20260907063918.3432401-2-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YZccLjKM"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-5307425f44bso269511cf.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 08:46:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789055163; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BuEzZRznxL8+gYxFrwme9izJjHdGCOAziMG68a9FxOxjC7Q0vhkmtVoteltjyjKpWA
+         zx9+QC/sWf8KYMw9HvpWBnHPF9HODtniMLI7HQJYDMbmyCSRM9mH6jif57SotPWNR0wW
+         yVWO8Ua0k77O8kMIzdEWCOfOzw0vU8Qs8RVxX/mYcJwgdNq6gtE2LA/bPUFJFL9Ao8tW
+         ahoVORKHZrF4ngwcBKlF2mDQVJioSgDAKCsbo+xV9FuswvXSMR6qoeCysSpZ3QvUxJ7d
+         snvwnq/y8QObWMhbEBvoXXq+wgubpzovKMzqOfyeEPvhCYpp1tphuuqnTeSNYv9yQinP
+         YSog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=m1gukMKgmXXLSe/xkuRtjWvRwSakZxXxaaknc5QrDEs=;
+        fh=GuBSFCNqS5yLDzLsq14sO6mun64F/JmXN+vzvjRBZEk=;
+        b=Kkuvk17Hv0LERi16v5F6cZFYAG6jmkbTx4gYYSqKLHOox3JxGFy6MHoshBVQ/KAQup
+         +2VXnjVa3le1QB8TrEITKi6fQUvX/X/nA+xFf1p+CQZbVWhVGQwKNWleU+4o8n1eWjq4
+         WfhW8qIbukcj6o0X2JwzyQZtuZofgCFe0hnNXOyOnwWOxDa+lOIHTiK1u8tNCoON4kSk
+         ShKWPL6uQwitYzuAuMzJbiBuRpJEyDNeDhQdjoqMDRomvhoDkm9R2moY4XJKMNbRXSkj
+         bt5hx5+vDY1Wrh+z7WnFBHVYcYiUM2swheBuJyHz6bfHGdXNRNM88rU7N9iusChszCaY
+         9kjA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789055163; x=1789659963; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=m1gukMKgmXXLSe/xkuRtjWvRwSakZxXxaaknc5QrDEs=;
+        b=YZccLjKMe0mGvg5tGI35ocfBP6r6eCfPjXwnP/rsTywf13dqe4heTT3Jem2Uuq0BJ+
+         TKoyrJ5zFeUQIO4EL0/R+l5eLqIP7ljy1B+SYohBFx1fIlHrC1OcQfB0rgXmKERsYELn
+         kp3GdHkWcIasssZLqmScACOuf6X5KFjVCUTo5uFx6ZTqWWZH9rljWGoalpwAI43FodbZ
+         SbaLk/sUjtEGbQPGBFhPFgMgWpqFnAWMjO5P55cSPO/GsMj6OG6UJmxsTyQIQRyQScAc
+         bdQ3EP0R8thdDDHc9HsHzfwsseP069iDbgbEZRFa+utA29n5MQtUUdTa+12jJmi/RTX9
+         gwFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789055163; x=1789659963;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=m1gukMKgmXXLSe/xkuRtjWvRwSakZxXxaaknc5QrDEs=;
+        b=TAdNcvGHbPnvu6Xol90jJ89Vydp2AEpsDAci57WIWYo8jRNpqM8G4a+Id3y5073aYZ
+         qIS4VefBWHrN31vr0bSpYHa37mkV7szEfKP6U8zHLNK6EIYaQdj6E/T0HD0Q3Gw/ia91
+         IDfXkTqz1YgMXv04d1fe43yq518TYK8p808MYxVliWExv0uwbYVMUoWDLfc29/5SgqeO
+         S8rUQy3qohOxb7vpGkNHSgOaaTfj2pQKpe1N/YNyxDQNWaG7r2iw66g5+mOVfQCbqqJv
+         9tP5tJeqbU6eyrMS38kP+lOyyJj2C27nSWQRenyX8OXH5rQluJTM/8dRG2Yo12/yB9GB
+         JmFQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxpTwK92z41rHACM66bp0UEcra6gy4NkDb1/Ml4nShEYiGGwC4421A2MmVZD4SZEwdWQXOpOUt2AxUE5HBR@vger.kernel.org
+X-Gm-Message-State: AFuF++mIMajy3vgsz9AjLUCNdIRotIoaWY0u0Y/mCq3faquRaLAuiiiR
+	AdEbiG/0Eg4E5F/i2AEfH29BO32Z+ABDklgpo48RYLSFfQdyi9e5ueCqhHoabh1FDlpwchiKbyL
+	VaTlW9LI61sXMSubuiMglafsldnSedqiG9+50MDmP
+X-Gm-Gg: AYBFou2VQ28xrItul/AzUbq1IMSWmNfbdVyqKZrYfF3pjdVpOiLl8mHdvOJrjfvLcNE
+	97XeSweaU55IYMJTZqfVvUEuR9yF0Y9aRsLckEdavOACEgeuzB5w2nXQxXyrm3cV+/vmMd71xBX
+	poXSmZbukckkWHyd1P+ZFPC+LDzhtsHogNBcLE7QxnVsFYSgw9EF3o+ZcJInyZVekyzAuO90Ox8
+	4e5BFUoRlNUnn7UO+IHOjxSZuMBuP2fmc1Oov2susWbqy6wVlOrSR3YaWQ1/rbqHIESZzwj4pd3
+	gIkJAOoDWPxiH/teR0A1IAy7T2LcTUnPAZF5mTgZiXzv4iczzG94GcSE9qifjIhC5NX9Z3nSfx5
+	Yws3dbUfm8A==
+X-Received: by 2002:a05:622a:1c17:b0:52f:9ed4:8d76 with SMTP id
+ d75a77b69052e-530b49672bdmr21908571cf.14.1789055162926; Thu, 10 Sep 2026
+ 08:46:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260907063918.3432401-2-surenb@google.com>
+References: <20260907063918.3432401-1-surenb@google.com> <20260907063918.3432401-4-surenb@google.com>
+ <4825a2fe-f064-45d7-a7c9-e98de7efe86c@kernel.org> <CAJuCfpFL_g7tELjT8p8ExM3tX_v2gNDM9rRKwwefPV_KW=fHfA@mail.gmail.com>
+ <8e643f51-a47f-428e-9443-678326288fa6@kernel.org> <CAJuCfpEYdj=u0wczKRrsB8uDkbSzPy+hrsCo9TW9-3J3r3p0xQ@mail.gmail.com>
+ <2336140f-c993-467a-b2eb-e99dc9427a59@kernel.org>
+In-Reply-To: <2336140f-c993-467a-b2eb-e99dc9427a59@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 10 Sep 2026 08:45:51 -0700
+X-Gm-Features: AcwNN1U3AJ7bd1wu5DAq47WAQ3768Dp9C-h3ciQoeJdMEez_KO5Qa_LhKJ8PHrw
+Message-ID: <CAJuCfpEL40p+vk6-km6_BBuE3+YY0WqkpbvQnQGFEo_73MAomQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] proc/task_mmu: remove special-casing of
+ smap_gather_stats() start parameter
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
+	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 06, 2026 at 11:39:14PM -0700, Suren Baghdasaryan wrote:
-> When per-vma locks were behind a config option, a number of helper
-> functions were needed to simplify the locking code. Now that these
-> locks are universally available, we can do a little cleanup.
-> Remove lock_vma_range(), unlock_vma_range(), query_vma_setup(),
-> query_vma_teardown() helpers.
+On Thu, Sep 10, 2026 at 12:41=E2=80=AFAM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
+>
+> On 9/9/26 23:51, Suren Baghdasaryan wrote:
+> > On Wed, Sep 9, 2026 at 12:16=E2=80=AFPM David Hildenbrand (Arm)
+> > <david@kernel.org> wrote:
+> >>
+> >> On 9/9/26 20:28, Suren Baghdasaryan wrote:
+> >>> On Wed, Sep 9, 2026 at 10:16=E2=80=AFAM David Hildenbrand (Arm)
+> >>> <david@kernel.org> wrote:
+> >>>
+> >>> Hmm. So, are you saying that !is_cow always implies shared_or_ro? Or
+> >>> maybe you are stating that vma_is_cow_mapping() was the actual intent
+> >>> here?
+> >>
+> >> So the comment says:
+> >>
+> >> "For private writable mappings, we might have COW pages that  .."
+> >>
+> >> Which translates to:
+> >>
+> >>         private writable =3D=3D vma_is_cow_mapping()
+> >
+> > Ok, just want to make sure I'm not missing something subtle.
+> >
+> >>
+> >>>
+> >>> shared_or_ro =3D VMA_SHARED_BIT || !VMA_WRITE_BIT
+> >>>
+> >>> is_cow =3D !VMA_SHARED_BIT && VMA_MAYWRITE_BIT
+> >>> !is_cow =3D VMA_SHARED_BIT || !VMA_MAYWRITE_BIT
+> >>>
+> >>> so, !is_cow would impy shared_or_ro only if !VMA_MAYWRITE_BIT always
+> >>> implies !VMA_WRITE_BIT. But I think it's possible to have a VMA that
+> >>> has VMA_WRITE_BIT but not VMA_MAYWRITE_BIT, right?
+> >>
+> >> VMA_WRITE should imply VMA_MAYWRITE
+> >
+> > Ah, good to know.
+> >
+> >>
+> >> (in sanitize_fault_flags() we even disallow write faults entirely if V=
+M_MAYWRITE
+> >> is missing)
+> >
+> > I see.
+> >
+> >>
+> >> For example, a
+> >>> driver can create such a VMA to allow writing to the VMA but to lock
+> >>> its content once mprotect(PROT_READ) gets called.
+> >>
+> >> I don't think that would be valid for a driver to do. But it wouldn't =
+matter
+> >> here because
+> >>
+> >>         shmem_mapping(vma->vm_file->f_mapping)
+> >
+> > I was obviously overthinking this :)
+> >
+> >>
+> >>
+> >> I think we could simplify the comment as well to:
+> >>
+> >> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> >> index e671b4fd8dedd..4b7e7089cafa7 100644
+> >> --- a/fs/proc/task_mmu.c
+> >> +++ b/fs/proc/task_mmu.c
+> >> @@ -1303,12 +1303,10 @@ static void smap_gather_stats(struct proc_maps=
+_private
+> >> *priv,if (is_partial || (shmem_swapped && is_cow))
+> >>
+> >>         if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
+> >>                 /*
+> >> -                * For shared or readonly shmem mappings we know that =
+all
+> >> -                * swapped out pages belong to the shmem object, and w=
+e can
+> >> -                * obtain the swap value much more efficiently. For pr=
+ivate
+> >> -                * writable mappings, we might have COW pages that are
+> >> -                * not affected by the parent swapped out pages of the=
+ shmem
+> >> -                * object, so we have to distinguish them during the p=
+age walk.
+> >> +                * In CoW mappings, we might have anon folios that are
+> >> +                * independent of the shmem object. So fallback to the=
+ less
+> >> +                * efficient mechanism in such mappings.
+> >> +                *
+> >
+> > Sounds good. Will update.
+>
+> Likely worth putting that into a prior cleanup patch, so there is less no=
+ise in
+> this patch.
 
-Oh nice :)
+Well, this is a cleanup specific for smap_gather_stats() funciton, so
+I would prefer to keep all the pieces in one place.
 
 >
-> No functional change intended.
->
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-
-LGTM so:
-
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-> ---
->  fs/proc/task_mmu.c | 67 ++++++++++++----------------------------------
->  1 file changed, 17 insertions(+), 50 deletions(-)
->
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index e671b4fd8ded..2f500d639db5 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -160,25 +160,6 @@ static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
->  	}
->  }
->
-> -static inline bool lock_vma_range(struct seq_file *m,
-> -				  struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	rcu_read_lock();
-> -	reset_lock_ctx(lock_ctx);
-> -
-> -	return true;
-> -}
-> -
-> -static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	if (lock_ctx->mmap_locked) {
-> -		unlock_ctx_mm(lock_ctx);
-> -	} else {
-> -		unlock_ctx_vma(lock_ctx);
-> -		rcu_read_unlock();
-> -	}
-> -}
-> -
->  static struct vm_area_struct *get_next_vma(struct proc_maps_private *priv,
->  					   loff_t last_pos)
->  {
-> @@ -286,13 +267,8 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
->  		return NULL;
->  	}
->
-> -	if (!lock_vma_range(m, lock_ctx)) {
-> -		mmput(mm);
-> -		put_task_struct(priv->task);
-> -		priv->task = NULL;
-> -		return ERR_PTR(-EINTR);
-> -	}
-> -
-> +	rcu_read_lock();
-> +	reset_lock_ctx(lock_ctx);
->  	/*
->  	 * Reset current position if last_addr was set before
->  	 * and it's not a sentinel.
-> @@ -325,7 +301,12 @@ static void m_stop(struct seq_file *m, void *v)
->  		return;
->
->  	release_task_mempolicy(priv);
-> -	unlock_vma_range(&priv->lock_ctx);
-> +	if (priv->lock_ctx.mmap_locked) {
-> +		unlock_ctx_mm(&priv->lock_ctx);
-> +	} else {
-> +		unlock_ctx_vma(&priv->lock_ctx);
-> +		rcu_read_unlock();
-> +	}
->  	mmput(mm);
->  	put_task_struct(priv->task);
->  	priv->task = NULL;
-> @@ -518,21 +499,6 @@ static int pid_maps_open(struct inode *inode, struct file *file)
->  		PROCMAP_QUERY_VMA_FLAGS				\
->  )
->
-> -static int query_vma_setup(struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	reset_lock_ctx(lock_ctx);
-> -
-> -	return 0;
-> -}
-> -
-> -static void query_vma_teardown(struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	if (lock_ctx->mmap_locked)
-> -		unlock_ctx_mm(lock_ctx);
-> -	else
-> -		unlock_ctx_vma(lock_ctx);
-> -}
-> -
->  static struct vm_area_struct *query_vma_find_by_addr(struct proc_maps_locking_ctx *lock_ctx,
->  						     unsigned long addr)
->  {
-> @@ -653,12 +619,7 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
->  	if (!mm || !mmget_not_zero(mm))
->  		return -ESRCH;
->
-> -	err = query_vma_setup(&lock_ctx);
-> -	if (err) {
-> -		mmput(mm);
-> -		return err;
-> -	}
-> -
-> +	reset_lock_ctx(&lock_ctx);
->  	vma = query_matching_vma(&lock_ctx, karg.query_addr, karg.query_flags);
->  	if (IS_ERR(vma)) {
->  		err = PTR_ERR(vma);
-> @@ -732,7 +693,10 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
->  		vm_file = get_file(vma->vm_file);
->
->  	/* unlock vma or mmap_lock, and put mm_struct before copying data to user */
-> -	query_vma_teardown(&lock_ctx);
-> +	if (lock_ctx.mmap_locked)
-> +		unlock_ctx_mm(&lock_ctx);
-> +	else
-> +		unlock_ctx_vma(&lock_ctx);
->  	mmput(mm);
->
->  	if (karg.build_id_size) {
-> @@ -773,7 +737,10 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
->  	return 0;
->
->  out:
-> -	query_vma_teardown(&lock_ctx);
-> +	if (lock_ctx.mmap_locked)
-> +		unlock_ctx_mm(&lock_ctx);
-> +	else
-> +		unlock_ctx_vma(&lock_ctx);
->  	mmput(mm);
->  out_file:
->  	if (vm_file)
 > --
-> 2.55.0.979.g7e5102b832-goog
+> Cheers,
 >
-
---
-Cheers, Lorenzo
+> David
