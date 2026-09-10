@@ -1,209 +1,259 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB42448EC77
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 15:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789055166; cv=pass; b=mTcb3dxaT/AJ4/1otwC/Z6HQc7W6+jyma3NY9z1mR9mosusTZyFRhGyy2wbN9oHu1YS+fQkGFq/6a43j9HbkzBRVeADSbASBZT1UN8hS03R2mpr9QE8bH3qHqULHUKeK0ISNWmOWkygksr1uPx5HpDQFC+zG146wBuBgxGKGdaI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789055166; c=relaxed/simple;
-	bh=xy9Lm9WxkQ3Mmgg/H7vfmk5N45FAYtw9hYAWl41XmQs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fYhvUkEAN4h5AFP2EqX2nOJ/MrOY+hn+GItCWxtoNfWR8AmpxCMw9ydsK2GK8+WkC318PFWei7AhXd1jPdKFl7t++/XfKzg4L/b2PGaOkf0U9i/zoGEgL6a5nB8L+wQmXnRAjiTZSZT/4S6rqd+BkA75dGrh18yfCg4dtjIxj8M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YZccLjKM; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7C6493643;
+	Thu, 10 Sep 2026 15:47:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789055275; cv=none; b=m4NWC2oVmVG/0mPve4+jy5h4J3uflfRG+LDMc85rwKQoTRc3/I8/NgTJNEWxbp5LRuCOkOWHJasfnMz/iVXvUTOL3BcFgN7oicry1o9bgWGg182soukLDjlXYLg8P+urMjMZPN1ZqyuP0ENhokJqgPXm/Xhi9E8RXn54+X8li5U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789055275; c=relaxed/simple;
+	bh=TOy7SBm/fegV4EjRORkQ0GXT9NCChYqEFIBs+C2vk1g=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=VcmVdnmNH4QcW/TTNnukZ2cdCG4pX03zFIDzGqvgX7Knl8rGBfdZpUKLKLU2Hh52LWt+GR3LxJ1HvuWxVjF4JeShy5dXJsC7tqy6juS0y3thISpxwKfiNqqKYVbt5FBKZaEyygWYFvmly3eNtiVYcxUE87MzCahMBpCwlSB9Chk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IFPNhcOV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YZccLjKM"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-5307425f44bso269511cf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 08:46:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789055163; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BuEzZRznxL8+gYxFrwme9izJjHdGCOAziMG68a9FxOxjC7Q0vhkmtVoteltjyjKpWA
-         zx9+QC/sWf8KYMw9HvpWBnHPF9HODtniMLI7HQJYDMbmyCSRM9mH6jif57SotPWNR0wW
-         yVWO8Ua0k77O8kMIzdEWCOfOzw0vU8Qs8RVxX/mYcJwgdNq6gtE2LA/bPUFJFL9Ao8tW
-         ahoVORKHZrF4ngwcBKlF2mDQVJioSgDAKCsbo+xV9FuswvXSMR6qoeCysSpZ3QvUxJ7d
-         snvwnq/y8QObWMhbEBvoXXq+wgubpzovKMzqOfyeEPvhCYpp1tphuuqnTeSNYv9yQinP
-         YSog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=m1gukMKgmXXLSe/xkuRtjWvRwSakZxXxaaknc5QrDEs=;
-        fh=GuBSFCNqS5yLDzLsq14sO6mun64F/JmXN+vzvjRBZEk=;
-        b=Kkuvk17Hv0LERi16v5F6cZFYAG6jmkbTx4gYYSqKLHOox3JxGFy6MHoshBVQ/KAQup
-         +2VXnjVa3le1QB8TrEITKi6fQUvX/X/nA+xFf1p+CQZbVWhVGQwKNWleU+4o8n1eWjq4
-         WfhW8qIbukcj6o0X2JwzyQZtuZofgCFe0hnNXOyOnwWOxDa+lOIHTiK1u8tNCoON4kSk
-         ShKWPL6uQwitYzuAuMzJbiBuRpJEyDNeDhQdjoqMDRomvhoDkm9R2moY4XJKMNbRXSkj
-         bt5hx5+vDY1Wrh+z7WnFBHVYcYiUM2swheBuJyHz6bfHGdXNRNM88rU7N9iusChszCaY
-         9kjA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789055163; x=1789659963; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=m1gukMKgmXXLSe/xkuRtjWvRwSakZxXxaaknc5QrDEs=;
-        b=YZccLjKMe0mGvg5tGI35ocfBP6r6eCfPjXwnP/rsTywf13dqe4heTT3Jem2Uuq0BJ+
-         TKoyrJ5zFeUQIO4EL0/R+l5eLqIP7ljy1B+SYohBFx1fIlHrC1OcQfB0rgXmKERsYELn
-         kp3GdHkWcIasssZLqmScACOuf6X5KFjVCUTo5uFx6ZTqWWZH9rljWGoalpwAI43FodbZ
-         SbaLk/sUjtEGbQPGBFhPFgMgWpqFnAWMjO5P55cSPO/GsMj6OG6UJmxsTyQIQRyQScAc
-         bdQ3EP0R8thdDDHc9HsHzfwsseP069iDbgbEZRFa+utA29n5MQtUUdTa+12jJmi/RTX9
-         gwFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789055163; x=1789659963;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=m1gukMKgmXXLSe/xkuRtjWvRwSakZxXxaaknc5QrDEs=;
-        b=TAdNcvGHbPnvu6Xol90jJ89Vydp2AEpsDAci57WIWYo8jRNpqM8G4a+Id3y5073aYZ
-         qIS4VefBWHrN31vr0bSpYHa37mkV7szEfKP6U8zHLNK6EIYaQdj6E/T0HD0Q3Gw/ia91
-         IDfXkTqz1YgMXv04d1fe43yq518TYK8p808MYxVliWExv0uwbYVMUoWDLfc29/5SgqeO
-         S8rUQy3qohOxb7vpGkNHSgOaaTfj2pQKpe1N/YNyxDQNWaG7r2iw66g5+mOVfQCbqqJv
-         9tP5tJeqbU6eyrMS38kP+lOyyJj2C27nSWQRenyX8OXH5rQluJTM/8dRG2Yo12/yB9GB
-         JmFQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxpTwK92z41rHACM66bp0UEcra6gy4NkDb1/Ml4nShEYiGGwC4421A2MmVZD4SZEwdWQXOpOUt2AxUE5HBR@vger.kernel.org
-X-Gm-Message-State: AFuF++mIMajy3vgsz9AjLUCNdIRotIoaWY0u0Y/mCq3faquRaLAuiiiR
-	AdEbiG/0Eg4E5F/i2AEfH29BO32Z+ABDklgpo48RYLSFfQdyi9e5ueCqhHoabh1FDlpwchiKbyL
-	VaTlW9LI61sXMSubuiMglafsldnSedqiG9+50MDmP
-X-Gm-Gg: AYBFou2VQ28xrItul/AzUbq1IMSWmNfbdVyqKZrYfF3pjdVpOiLl8mHdvOJrjfvLcNE
-	97XeSweaU55IYMJTZqfVvUEuR9yF0Y9aRsLckEdavOACEgeuzB5w2nXQxXyrm3cV+/vmMd71xBX
-	poXSmZbukckkWHyd1P+ZFPC+LDzhtsHogNBcLE7QxnVsFYSgw9EF3o+ZcJInyZVekyzAuO90Ox8
-	4e5BFUoRlNUnn7UO+IHOjxSZuMBuP2fmc1Oov2susWbqy6wVlOrSR3YaWQ1/rbqHIESZzwj4pd3
-	gIkJAOoDWPxiH/teR0A1IAy7T2LcTUnPAZF5mTgZiXzv4iczzG94GcSE9qifjIhC5NX9Z3nSfx5
-	Yws3dbUfm8A==
-X-Received: by 2002:a05:622a:1c17:b0:52f:9ed4:8d76 with SMTP id
- d75a77b69052e-530b49672bdmr21908571cf.14.1789055162926; Thu, 10 Sep 2026
- 08:46:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IFPNhcOV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F5861F000FF;
+	Thu, 10 Sep 2026 15:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789055273;
+	bh=cgIP0eykI6dWly7Eh5U3U35ajrz0x3t8mRSUn9cHag0=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=IFPNhcOVA6LQue/UQpT13Z8nNqIVS9UTvGfGvmYu/WylQswmD7eq5WFA4YQgsJryT
+	 8Smf+uMTdvLdY2J2hZmvXzVv6Mu+S83vQ0kuOQfcUyCm1yg4OeXaP091maTZoBEeHW
+	 K8UREgl6I1nHT9v5tYG34GKIArJ5rTQAjLNrWfalNoOzPtzzoyxdB+lG5zyx4CGjWk
+	 2GrgwcpEnNmiKNn/t/6QQwN4YaCB5ejDRD7ZeiXO6jsNKwA/n4NkBlfNmLLQQhxYIW
+	 I9c2pfHeUS4P5O1vJEi8dcigW/Vy3riu88VlgJFrrolk4YzO+bDSdma+3ngonFgGoI
+	 C2wVXVPri6oxg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id CA217F40066;
+	Thu, 10 Sep 2026 11:47:52 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Thu, 10 Sep 2026 11:47:52 -0400
+X-ME-Sender: <xms:KNGiaq0jN0s5x8O7SDUJ981ONIuT0KYH74iC20dsHm5KK7BH8eqNOA>
+    <xme:KNGian5yklVj6KmFMw9wFFSWclgcgeWChmc5DoK56rqk00PONixxEk-PHM6UjTYr_
+    zG4GH2XM7Z1hIGd50WLAcvJw_zP4P9N1CLfy3QhtLebocg1-ahI8f1_>
+X-ME-Proxy-Cause: dmFkZTGLvw3BleNJxEKuZlwh5rnA9tSzk4DbRhIdVQ7IpZvqY4oqAW0CpC6J75T3eJHFWf
+    7W6saxzq1yy94XM2kHBdQpeomKZ2mah6nM/7J3WQwUX8O2bRvFDNYkrD47uKXmgE3pq/UP
+    Wrc9P9gxf2k8XmOHNXfaZQGgEjqSC4nqM/2JSPHUVLXN52v41mqPzolKbr3RzFxhyIE46F
+    YrXcmbJJR+lA+qrP0ZsBA5dz3WnnZ9I+M4fJ79BfKIemM6EKBXRTTvr45mB8ANLOG1F6HN
+    +kPWMoOvAsjRoXoPul7Z9X6kgHCNqhH/G+7OlQVgN7AtEtWvB9HLVtJGneiI58dN63Y/gA
+    dlsfYfH/opZLVE/falcnVW7dA7ka9fkzH8XJ7K/Q5oRIE3sIHvcpmkrpGM/g069bbR/Dc3
+    Iw2PfFEH0kaczBr+ZCCCOHPMKzs1lFuSG3gh7bWylYjgja2eRqfPMYRKGJWTGBsoD5Lpok
+    MRAbcWIy62XnEbjja2YpsMgL3rqcnGzCNYGOUK/6J/+46sLz7v015R6Xi0mp4WmxVi7jup
+    DQE6ngtWoCW+YNMUXzpzfEY3QkBeyTCRGKJSFOFtg+HvCBQZWkxrMu23zl4/YTdObbIOP4
+    gwzRvGBLP/FWitrtv/4kXkaA2KyBmI70CPLQbFiwh+yEbBQ7SrhiT54DXNhg
+X-ME-Proxy: <xmx:KNGiavPi-ELwRADVCPrjxfzvXhjVWTNOyLieLogsFFkCqfbNlFod6g>
+    <xmx:KNGiaqphkqDxhMyQ1LKRnvISV1Wg46m47hC4TaWHn2QtdElRbYzptg>
+    <xmx:KNGiasclf55qc4gEHVvqpW1cNnqosSA9GoozCPszi31tGrWTOCYm5w>
+    <xmx:KNGiaoQ_1W9OkE46XuS9GI_RQENKrdHMLT52f2txbRsapULmUHLY4w>
+    <xmx:KNGiatb-Zq5Hv8aTvVBWxG3AGtdTIEpbCp6vEhquqIloR3X_LKk49HlY>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id AD7D57811F3; Thu, 10 Sep 2026 11:47:52 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260907063918.3432401-1-surenb@google.com> <20260907063918.3432401-4-surenb@google.com>
- <4825a2fe-f064-45d7-a7c9-e98de7efe86c@kernel.org> <CAJuCfpFL_g7tELjT8p8ExM3tX_v2gNDM9rRKwwefPV_KW=fHfA@mail.gmail.com>
- <8e643f51-a47f-428e-9443-678326288fa6@kernel.org> <CAJuCfpEYdj=u0wczKRrsB8uDkbSzPy+hrsCo9TW9-3J3r3p0xQ@mail.gmail.com>
- <2336140f-c993-467a-b2eb-e99dc9427a59@kernel.org>
-In-Reply-To: <2336140f-c993-467a-b2eb-e99dc9427a59@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 10 Sep 2026 08:45:51 -0700
-X-Gm-Features: AcwNN1U3AJ7bd1wu5DAq47WAQ3768Dp9C-h3ciQoeJdMEez_KO5Qa_LhKJ8PHrw
-Message-ID: <CAJuCfpEL40p+vk6-km6_BBuE3+YY0WqkpbvQnQGFEo_73MAomQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] proc/task_mmu: remove special-casing of
- smap_gather_stats() start parameter
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
-	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: AHW2aQSR1Px3
+Date: Thu, 10 Sep 2026 11:47:30 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: NeilBrown <neil@brown.name>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
+ linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <f64c2391-2810-406c-8c31-7f80cdde0832@slotpi15m67>
+In-Reply-To: <20260910002934.192979-8-neilb@ownmail.net>
+References: <20260910002934.192979-1-neilb@ownmail.net>
+ <20260910002934.192979-8-neilb@ownmail.net>
+Subject: Re: [PATCH 7/7] nfsd: use vfs_lookup_open() for non-creating open requests
+ too.
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 10, 2026 at 12:41=E2=80=AFAM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/9/26 23:51, Suren Baghdasaryan wrote:
-> > On Wed, Sep 9, 2026 at 12:16=E2=80=AFPM David Hildenbrand (Arm)
-> > <david@kernel.org> wrote:
-> >>
-> >> On 9/9/26 20:28, Suren Baghdasaryan wrote:
-> >>> On Wed, Sep 9, 2026 at 10:16=E2=80=AFAM David Hildenbrand (Arm)
-> >>> <david@kernel.org> wrote:
-> >>>
-> >>> Hmm. So, are you saying that !is_cow always implies shared_or_ro? Or
-> >>> maybe you are stating that vma_is_cow_mapping() was the actual intent
-> >>> here?
-> >>
-> >> So the comment says:
-> >>
-> >> "For private writable mappings, we might have COW pages that  .."
-> >>
-> >> Which translates to:
-> >>
-> >>         private writable =3D=3D vma_is_cow_mapping()
-> >
-> > Ok, just want to make sure I'm not missing something subtle.
-> >
-> >>
-> >>>
-> >>> shared_or_ro =3D VMA_SHARED_BIT || !VMA_WRITE_BIT
-> >>>
-> >>> is_cow =3D !VMA_SHARED_BIT && VMA_MAYWRITE_BIT
-> >>> !is_cow =3D VMA_SHARED_BIT || !VMA_MAYWRITE_BIT
-> >>>
-> >>> so, !is_cow would impy shared_or_ro only if !VMA_MAYWRITE_BIT always
-> >>> implies !VMA_WRITE_BIT. But I think it's possible to have a VMA that
-> >>> has VMA_WRITE_BIT but not VMA_MAYWRITE_BIT, right?
-> >>
-> >> VMA_WRITE should imply VMA_MAYWRITE
-> >
-> > Ah, good to know.
-> >
-> >>
-> >> (in sanitize_fault_flags() we even disallow write faults entirely if V=
-M_MAYWRITE
-> >> is missing)
-> >
-> > I see.
-> >
-> >>
-> >> For example, a
-> >>> driver can create such a VMA to allow writing to the VMA but to lock
-> >>> its content once mprotect(PROT_READ) gets called.
-> >>
-> >> I don't think that would be valid for a driver to do. But it wouldn't =
-matter
-> >> here because
-> >>
-> >>         shmem_mapping(vma->vm_file->f_mapping)
-> >
-> > I was obviously overthinking this :)
-> >
-> >>
-> >>
-> >> I think we could simplify the comment as well to:
-> >>
-> >> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> >> index e671b4fd8dedd..4b7e7089cafa7 100644
-> >> --- a/fs/proc/task_mmu.c
-> >> +++ b/fs/proc/task_mmu.c
-> >> @@ -1303,12 +1303,10 @@ static void smap_gather_stats(struct proc_maps=
-_private
-> >> *priv,if (is_partial || (shmem_swapped && is_cow))
-> >>
-> >>         if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
-> >>                 /*
-> >> -                * For shared or readonly shmem mappings we know that =
-all
-> >> -                * swapped out pages belong to the shmem object, and w=
-e can
-> >> -                * obtain the swap value much more efficiently. For pr=
-ivate
-> >> -                * writable mappings, we might have COW pages that are
-> >> -                * not affected by the parent swapped out pages of the=
- shmem
-> >> -                * object, so we have to distinguish them during the p=
-age walk.
-> >> +                * In CoW mappings, we might have anon folios that are
-> >> +                * independent of the shmem object. So fallback to the=
- less
-> >> +                * efficient mechanism in such mappings.
-> >> +                *
-> >
-> > Sounds good. Will update.
->
-> Likely worth putting that into a prior cleanup patch, so there is less no=
-ise in
-> this patch.
+On Thu, 10 Sep 2026, NeilBrown wrote:
 
-Well, this is a cleanup specific for smap_gather_stats() funciton, so
-I would prefer to keep all the pieces in one place.
+> nfsd: use vfs_lookup_open() for non-creating open requests too.
+>
+> Now that we have vfs_lookup_open() for open requests which create, we
+> can use it for non-creating requests too as vfs_lookup_open() is already
+> able to do that.  nfsd4_create_file() is renamed to nfsd4_open_file()
+> and enhanced to not always create, and is then used for all OPEN
+> requests.
+>
+> The resulting simplification allows fh_fill_pre_attrs_unlocked() to be
+> moved into nfsd4_open_file() so it is closer to fh_full_post_attrs and
+> fh_fill_post_noop calls.
 
+fh_full_post_attrs is fh_fill_post_attrs().
+
+
+> As ->op_create_mode isn't defined when op_create is zero, we need a
+> local create_mode which is -1 (illegal value) when op_create is zero.
+
+The field is ->op_createmode and the local is createmode.
+
+
+> The non-create path now doesn't use nfsd_lookup().  As mount-point
+> crossing including nfsd_check_access() is already included for existing
+> names, this does not lose us anything.
+
+The function is check_nfsd_access(), reached through nfsd_cross_mnt().
+
+Is "already included for existing names" accurate? The only mount-point
+crossing left in nfsd4_open_file() is the try_lookup_noperm() block,
+and that consults only the dcache. More on that below.
+
+
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/nfsd/nfs4proc.c | 109 ++++++++++++++++++++++++++---------------------------
+>  1 file changed, 53 insertions(+), 56 deletions(-)
 >
-> --
-> Cheers,
+> diff --git a/fs/nfsd/nfs4proc.c b/fs/nfsd/nfs4proc.c
+> index a6ba7618a307..1f3096486565 100644
+> --- a/fs/nfsd/nfs4proc.c
+> +++ b/fs/nfsd/nfs4proc.c
+> @@ -251,29 +251,30 @@ static inline bool nfsd4_create_is_exclusive(int createmode)
+>  }
 >
-> David
+>  /*
+> - * Implement NFSv4's unchecked, guarded, and exclusive create
+> - * semantics for regular files. Open state for this new file is
+> - * subsequently fabricated in nfsd4_process_open2().
+> - *
+> + * Implement NFSv4's open semantics for regular files.
+> + * Both create (unchecked, guarded, and exclusive) and non-create.
+> + * Open state for this new file is subsequently fabricated in
+> + * nfsd4_process_open2().
+>   * Upon return, caller must release @fhp and @resfhp.
+>   */
+
+"Both create ... and non-create." is a fragment, and "this new file" no
+longer fits when the file may already exist. Perhaps:
+
+ * Implement NFSv4 OPEN semantics for regular files, both non-creating
+ * and creating (unchecked, guarded, and exclusive). Open state for the
+ * file is subsequently fabricated in nfsd4_process_open2().
+ *
+ * Upon return, caller must release @fhp and @resfhp.
+
+
+> @@ -285,6 +286,10 @@ nfsd4_create_file(struct svc_rqst *rqstp, struct svc_fh *fhp,
+>  	if (status != nfs_ok)
+>  		return status;
+>
+> +	status = fh_fill_pre_attrs_unlocked(fhp);
+> +	if (status)
+> +		return status;
+> +
+>  	if (open->op_createmode == NFS4_CREATE_UNCHECKED) {
+>  		/*
+>  		 * If name is already in dcache we need to check for mountpoints
+
+First, the test reads open->op_createmode, which the commit message says
+is undefined when op_create is zero. It works because
+nfsd4_decode_open() zeroes the whole struct, so a non-creating OPEN
+sees NFS4_CREATE_UNCHECKED here. Could the op_create test that sets
+createmode be hoisted above this block, and the condition become
+
+	if (!open->op_create || createmode == NFS4_CREATE_UNCHECKED) {
+
+so the non-create path does not depend on that zero?
+
+Second, nfsd_lookup_dentry() did a real lookup and then called
+nfsd_cross_mnt() whenever nfsd_mountpoint() was true. try_lookup_noperm()
+returns NULL when the name is not cached. In that case vfs_lookup_open()
+opens whatever it finds on the parent's mount and fh_compose() uses the
+parent's export.
+
+For a referral junction (a regular file carrying the junction xattr),
+nfsd_cross_mnt() would have swapped in the referral export. On a cold
+dcache the client instead gets an ordinary filehandle for the junction
+file, and a second OPEN of the same name, now cached, takes the
+crossing path. The same applies to a bind-mounted file whose mount
+target has its own export.
+
+The Linux client sends OPEN by name without a preceding LOOKUP, so the
+first access after a server reboot reaches this. Could the block do a
+real lookup of the name, as nfsd_lookup_dentry() does, before deciding
+whether to cross?
+
+
+> @@ -373,11 +382,11 @@ nfsd4_create_file(struct svc_rqst *rqstp, struct svc_fh *fhp,
+>  		iap->ia_atime.tv_nsec = 0;
+>  	}
+>
+> -	create_status = fh_verify(rqstp, fhp, S_IFDIR, NFSD_MAY_CREATE);
+> -	if (create_status)
+> -		/* Might still succeed if no create is needed */
+> -		oflags &= ~O_CREAT;
+> -
+> +	if (oflags & O_CREAT) {
+
+Nit: O_CREAT is set only from open->op_create a few lines up. Would
+testing open->op_create here read more directly?
+
+
+> +		create_status = fh_verify(rqstp, fhp, S_IFDIR, NFSD_MAY_CREATE);
+> +		if (create_status)
+> +			oflags &= ~O_CREAT;
+> +	}
+>  	dget(parent.dentry);
+>  	open->op_filp = vfs_lookup_open(&parent,
+>  					&QSTR_LEN(open->op_fname,
+
+This changes when a delegation is recalled relative to the access
+check. oflags carries O_WRONLY or O_RDWR from op_share_access, and
+vfs_lookup_open() opens the child with those flags. do_dentry_open()
+does no permission check of its own and calls break_lease() on the
+inode, so a conflicting delegation held by another client is recalled
+here. Only afterwards does do_open_lookup() call do_open_permission()
+and return NFS4ERR_ACCESS.
+
+Before this patch a non-creating OPEN went through nfsd_lookup() and
+do_open_permission() first, and the open that breaks the lease
+happened later in nfsd_file_do_acquire(), where fh_verify() precedes
+nfsd_open_break_lease(). So a client that can search the directory
+but has no write permission on the file can now recall other clients'
+write delegations on it by sending OPEN with SHARE_ACCESS_WRITE.
+
+The create path has had this ordering since nfsd4_create_file() started
+opening the file itself, but it was limited to opens that pass
+NFSD_MAY_CREATE on the directory. Extending it to every OPEN makes it
+reachable from any client with lookup access.
+
+Could the access check move ahead of the open for the non-creating
+case, or could the open be done O_RDONLY for the type check and the
+share-access open deferred to the filecache as before?
+
+
+> @@ -387,7 +396,7 @@ nfsd4_create_file(struct svc_rqst *rqstp, struct svc_fh *fhp,
+>  	if (IS_ERR(open->op_filp)) {
+>  		status = nfserrno(PTR_ERR(open->op_filp));
+>  		if (status == nfserr_wrong_type) {
+> -			if (nfsd4_create_is_exclusive(open->op_createmode))
+> +			if (nfsd4_create_is_exclusive(createmode))
+>  				status = nfserr_exist;
+>  			else
+>  				status = nfsd_check_obj_isreg(parent.dentry);
+
+On a re-export this arm changes the status a non-creating OPEN of a
+directory returns. nfsd_check_obj_isreg(NULL) returns
+nfserr_wrong_type, where nfsd_lookup() used to return nfserr_isdir.
+
+The Linux client has no mapping for NFS4ERR_WRONG_TYPE, so
+nfs4_map_errors() turns it into EIO. A "cat" of a re-exported directory
+that is not yet in the server's dcache now fails with EIO instead of
+EISDIR. NFSv4.0 clients are covered by the nfserr_symlink conversion in
+do_open_lookup() and recover through a LOOKUP; v4.1 and later see the
+change. Ceph splices before returning -EFTYPE, so it is not affected,
+but nfs, gfs2 and smb all return -EFTYPE before instantiating anything.
+
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
