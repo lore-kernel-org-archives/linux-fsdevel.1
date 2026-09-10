@@ -1,132 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6593603FB;
-	Thu, 10 Sep 2026 03:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789010966; cv=none; b=BHUSmZ0a+Ql50WauEcX06AYQXWETUDRElmZBNOcgd3OvsecyB/VkObE1bwdrbrB+SB621txJWSDk0PrfJFHh8Wqy7HHfYrExHrKlH7xSAFYvfVyaornFvnhsD4SvIakyNG8P1roE5jq6JJZilLaitM5Nuq5Hgz0I/E125rQziyc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789010966; c=relaxed/simple;
-	bh=R5ZmA9ZvPvP1QNDogTCVyoFtS7h5Z+UX4hS7ENIPH24=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qjjQ4W+M+E5NWZ2uN1TUvlQxg9Tw+f2Xmfb/LCQ7hBJz0lmosOwZ4/nqbPeR7GeP3onuVwllkdIlirmem1XRa8RZOiFK5Uktl5iD9v+RoU8yQIjLg+28cFBg9Pk8QHRp189X97o38Ag3jgUvAzcAX2YzQykeodVDDmqa9yPpiC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jqZo0jYu; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2855139A7E0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 04:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789013657; cv=pass; b=Dq2SJa352ZuFrG7DsWrG8/Pnax+Yk5qr/0MZFUX5e9CNLe0M3xqcPtTYZhMjIU/1HgQF+2RfGhT5uyVcRMxNTDCMYVgJuXsHf3r5S66IW9FevZgelzXLMayetjvb6k42eZZDZc3IJSrKnhjDohF7S9TRy3FVBRaRNnBDvf7+XDE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789013657; c=relaxed/simple;
+	bh=PfbASwnYRFDckXUlVC/ifoAWFmyWh3yvGwIK5j4t4Fo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KQ39q2KppcGVzNWfc90Ji5+is4ZBgQsJz3GnxIhHy/mlVjNVgnUU/SVbAyN7rW8FxRbqFupUxnPhf708P9M4ova7vQ8k+vyyt26hJwHGJ6+CzJP+oJ+rK9gqKmPXakU12FxZJCiap/yvvlnw/Rkv/C1w3pqq6pHMa8rTYzULb9g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dzRMhbT/; arc=pass smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqZo0jYu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789010964; x=1820546964;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R5ZmA9ZvPvP1QNDogTCVyoFtS7h5Z+UX4hS7ENIPH24=;
-  b=jqZo0jYu7ijYmdxmtv86GmlfS+cvwRYHTbZCp+LGwePvlgsBhxqgD4zW
-   EJtRz0Eek7bO7M+LnAu3zKtb6pXrnC8GWWQiGrbl6CzbdnavsCZwl9oLP
-   3TA6a5QtiydZFP/FSsiVrnEjrlMp1vIUCzx0K60RoUFcbrCZFefTkto4N
-   7CnJrDny0szR1Pm/ZXb/p394Z2c5u2J/msRMEyfEtgxLBpyXF4WHhGJRS
-   QL7hsb5W8i0ujYjV9E09rPfnG2wjm0Rr7s22/A0X9YAxzukZGxLFZ+6bx
-   EWmghgI8eZjOxMR8rfKytTBjrtb8D/1o/sE+L8nSCo0rRYZWr95T2lTm1
-   Q==;
-X-CSE-ConnectionGUID: e6Uw7himQ0KkV8RWU/J0iw==
-X-CSE-MsgGUID: brf7RhPfTb6PMRUsGoeVPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="93276730"
-X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
-   d="scan'208";a="93276730"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 20:29:24 -0700
-X-CSE-ConnectionGUID: Gg1zQX4CT9aLpslbT2VlIw==
-X-CSE-MsgGUID: Kd1uG4YoQhqLtUm6gTu4iQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
-   d="scan'208";a="275646486"
-Received: from ly-workstation.sh.intel.com (HELO ly-workstation) ([10.239.182.64])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 20:29:22 -0700
-Date: Thu, 10 Sep 2026 11:29:18 +0800
-From: kernel test robot <yi1.lai@intel.com>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org,
-	Eliot Courtney <ecourtney@nvidia.com>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	yi1.lai@intel.com
-Subject: [linus:master] [lib]  f4806cc63c:
- INFO:trying_to_register_non-static_key
-Message-ID: <202609101106.771b567e-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dzRMhbT/"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-395cf2535acso564438a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 21:14:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789013655; cv=none;
+        d=google.com; s=arc-20260327;
+        b=D+ny7n/d/ZmkJf4eqPQU9/C0R85hiTZXleqAxhm8hGPOSCmkRfV9hl9cgPnc2+btee
+         +iSq9RxMZf+PdVNytMkgbIYHFn7vDyaXLjUFsyFBj6ROecQ61b34GzwwNy7jugH+VomP
+         kTmip0uaWMWtpxlyU9CIOx6LA1+goNDPGbyiyAQm8ebMAA2ShRPh9eNrSZwCkFAl7Sao
+         1hNXyI8nfW51+L+kQH1UzFp/nCJgo3R5OzP8kc4QG06K9RR04Qq4a3YWLzRWcFSJohsy
+         UwV2GaCyxLxpUzKvY7akNmRVTpk0sIqqM1Pb3NDVoruFHVfdK+EXh9kFtZiFpqwRdpPh
+         bBPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PfbASwnYRFDckXUlVC/ifoAWFmyWh3yvGwIK5j4t4Fo=;
+        fh=BfqBjFiGYGs9pWtPx71qRrE7g2t07IyG/SxpgAdjIno=;
+        b=K+0AG7wRUPtmRjCLq6byYSXCKjvL8yyQPnzwPMml69Fn0xMZblvDR9r3BpVhoziPBd
+         JQXEJ3PHzzAUpgjmbe8FwXCa3bd2gjfbpfYAtF7qeM4Kxndh9FeyzsGWk3wWkNQDwEXL
+         TCfqZA+UxmyDaSOP/KqUEKAGDWWNDybqvZxc5jckNu3uW/UmybtlmD/W+lb93Xe7dQDr
+         qQlY380lNlwS2caOTPcsOVv2Ofym6lOzkz3+pGLD2OIRUBrm+EHXKcT5oniP4OKNGCXp
+         MSgePjkyrA1zyrddoFnF+vwwEvKQPkScwvZYRtCzRyHEOLcXPNNqKrs36YUFucT6x8KN
+         3jAA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789013655; x=1789618455; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PfbASwnYRFDckXUlVC/ifoAWFmyWh3yvGwIK5j4t4Fo=;
+        b=dzRMhbT/4WSBdYt4p+UNMBCgWiHNmOfmnCh/4EzpwuoNyUEKo5mAHVh1yeMjVHO6FI
+         bP/muVJOLbEMT+x6LTLb6HJk7lbhlmandyGa98XVuB+QH9wpZxFMQyheLE3Ua4/2MaU1
+         gqIKZxtBbVYAmywMp0QG1+gyN9QZaGEU0+drhCmP4XkMc929kFvR5fPWH/+BEhHEuhAL
+         bMgr8D/YdfpqFCCAxqWQCfk8UwWMNsHduIrCzBmxghxN6/Dnh5AFzNoxvgK0bHOc4U+M
+         qau5XH+uSy29Zolnjmj+63GCrsyEtVEq1cmpBrLp4HH1CN6KQs8du/qQJ/dI8+g+5hu8
+         APTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789013655; x=1789618455;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PfbASwnYRFDckXUlVC/ifoAWFmyWh3yvGwIK5j4t4Fo=;
+        b=hUVITDKO+CNaGS5zgm47ZKMNjQ0TcmC8tjI4e0RrVh+OuTPSmAsh9ky6ttZcfnJeuC
+         J0rVVVpFzYjUX0FRuFIn1vPShndSiZXUjeUV/2Afc003q0IX7lE/eYLskCK5il2B+Mw8
+         vG/m9a9VuU8PAAxKLDUpL5vMO8GI1NYzJ6ZiA1BcXUWBDKPFLJZ7Ux4DKA78t5muAPgv
+         4vGm5wQhcxcV45f5Ze1kq24YnuoxgGHb0VRXrBmxIuAB0LBkbWcWfj/ahNdRkKOf0Zwo
+         cjXUvD1c7gTlfZ8lhTqhL3hfgEGt3MsGxRo8x+HX22qOXmujequ61JxMkS/O0GxK1MDi
+         RtHw==
+X-Forwarded-Encrypted: i=1; AKwUvByYFEUchQcRjqznkut9PzwPd3/4GTLgk/yrNyHv4Yn604qluHETqTvAZJORnq+MtIE/BwGn7b6LAFG5NlKb@vger.kernel.org
+X-Gm-Message-State: AFuF++kgQeAizlLeBxKVewgMGBWzojvhCDrhUNd6u6hB5ApS3tPVp7Zb
+	qyIqoxLBS4dd9vbEYXRrVp5Hky8Ccd49tCTHRIG6najooRwgsFguK4Du8YyOgsS8g6oB1Sjv9YP
+	na3cQxfC89Elo8eFe4dkC13in4/au7PdhyFia/UG3
+X-Gm-Gg: AYBFou3Pb2NqsfXJ/fjmiwwXIqBt+4dQrcz9VcY1g+dCoQqoIIYuNDyNY0nMfndRMKe
+	a4w4xhRZvqRHsVKhs1jzDnZ0W588kkVL5NI5WYBqc0FQ+0ve5lqH4bmUckdEL/hkwjvz+kp/WFw
+	bFikWjPGs0lJKu5Vk2SgfYngozyrXd1EWo8dBdFzTdwNMZ403UXWIXecijUxpfnJmposFsMGwk6
+	tiKdtAvX9mnZos7q1fHledTEHrOmJ6rDQ6GDWfu3kv9Sgjxs3+hzn0Wwv8V5cq8kiOcLtRiv0u3
+	wZVKr2nEegsfTq+0bD1LM6HUKW4U02MKU4AA8n7ZmKU8JC3Ai/h1cT9kaCUzdIw9n7R74mH6zvi
+	WNJ0yn7+n80pRQmI3j9WLO5VHDMpYCnaCDDQ9wy0k4QQ9S1MvjNcbVpDAYpYauHHZRLLN0djqzM
+	a92GMMNODmlMQvsrNBqWVZ/sFX
+X-Received: by 2002:a17:90a:fc4f:b0:396:669c:b5f6 with SMTP id
+ 98e67ed59e1d1-39d7796cf16mr3552487a91.12.1789013654775; Wed, 09 Sep 2026
+ 21:14:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260909-work-unix-passpidfd-v2-0-7bd342abb2d1@kernel.org> <20260909-work-unix-passpidfd-v2-1-7bd342abb2d1@kernel.org>
+In-Reply-To: <20260909-work-unix-passpidfd-v2-1-7bd342abb2d1@kernel.org>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Wed, 9 Sep 2026 21:14:02 -0700
+X-Gm-Features: AcwNN1U7qcy0Xgw28VWEZVf5s3od5zIgdwEciEhER1kE6b7z6Yof-RR_xDF3wvU
+Message-ID: <CAAVpQUBC0zZqv5iECj4YvE=oA2hWR1kbxiG6zOBBNkaALwQXEg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/10] pid: add helpers to operate on a struct pid array
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Sep 9, 2026 at 3:43=E2=80=AFAM Christian Brauner <brauner@kernel.or=
+g> wrote:
+>
+> We're about to extend af_unix sockets and coredump code with the ability
+> to hand out thread-specific pidfds. Add a few simple helpers that allow
+> to operate on multiple struct pids up to PIDTYPE_MAX with automatic
+> bounds checking.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-
-Hello,
-
-kernel test robot noticed "INFO:trying_to_register_non-static_key" on:
-
-commit: f4806cc63cc65bd752fd72d84937614dca6504ec ("lib: test bitmap vs IDA vs Maple Tree performance for region allocations") https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
-
-[test failed on linux-next/master a9d7ced84989ec05be09b4b8428759ef60450a0f]
-
-in testcase: boot
-
-config: i386-randconfig-054-20260822
-compiler: gcc-14
-test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m 4G
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yi1.lai@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202609101106.771b567e-lkp@intel.com
-
-[  157.121248][    T1] INFO: trying to register non-static key.
-[  157.122147][    T1] The code is fine but needs lockdep annotation, or maybe
-[  157.122147][    T1] you didn't initialize this object before use?
-[  157.122147][    T1] turning off the locking correctness validator.
-[  157.122147][    T1] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted 7.2.0-rc4-00086-gf4806cc63cc6 #1 PREEMPT(full)  167be1ded5cf2d764b5931072317f04af057210f
-[  157.122147][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[  157.122147][    T1] Call Trace:
-[  157.122147][    T1]  ? show_stack (x86/kernel/dumpstack.c:319 x86/kernel/dumpstack.c:337)
-[  157.122147][    T1]  ? dump_stack_lvl (dump_stack.c:94 dump_stack.c:120)
-[  157.122147][    T1]  ? dump_stack (dump_stack.c:129)
-[  157.122147][    T1]  ? register_lock_class (locking/lockdep.c:984 locking/lockdep.c:1299)
-[  157.122147][    T1]  ? __lock_acquire (locking/lockdep.c:5237)
-[  157.122147][    T1]  ? __lock_acquire (locking/lockdep.c:5112)
-[  157.122147][    T1]  ? lock_acquire (locking/lockdep.c:5872)
-[  157.122147][    T1]  ? mtree_alloc_range (linux/spinlock.h:342 maple_tree.c:5800)
-[  157.122147][    T1]  ? __lock_acquire (locking/lockdep.c:5237)
-[  157.122147][    T1]  ? lock_acquire (locking/lockdep.c:5833)
-[  157.122147][    T1]  ? mtree_alloc_range (linux/spinlock.h:342 maple_tree.c:5800)
-[  157.122147][    T1]  ? _raw_spin_lock (linux/spinlock_api_smp.h:158 (discriminator 1) locking/spinlock.c:158 (discriminator 1))
-[  157.122147][    T1]  ? mtree_alloc_range (linux/spinlock.h:342 maple_tree.c:5800)
-[  157.122147][    T1]  ? __lock_release+0x42/0x140
-[  157.122147][    T1]  ? kvm_clock_get_cycles (x86/kernel/kvmclock.c:80 (discriminator 1) x86/kernel/kvmclock.c:87 (discriminator 1))
-[  157.122147][    T1]  ? ktime_get (time/timekeeping.c:321 time/timekeeping.c:455 time/timekeeping.c:973)
-[  157.122147][    T1]  ? vprintk_default (printk/printk.c:2494)
-[  157.122147][    T1]  ? benchmark_maple_tree (region_alloc_benchmark.c:136 (discriminator 1))
-[  157.122147][    T1]  ? region_alloc_benchmark (region_alloc_benchmark.c:197 (discriminator 1))
-[  157.122147][    T1]  ? benchmark_ida (region_alloc_benchmark.c:124)
-[  157.122147][    T1]  ? do_one_initcall (main.c:1347)
-[  157.122147][    T1]  ? do_initcalls (main.c:1409 (discriminator 1) main.c:1425 (discriminator 1))
-[  157.122147][    T1]  ? kernel_init_freeable (main.c:1445 main.c:1658)
-[  157.122147][    T1]  ? rest_init (main.c:717)
-[  157.122147][    T1]  ? kernel_init (main.c:1548)
-[  157.122147][    T1]  ? ret_from_fork (x86/kernel/process.c:158)
-[  157.122147][    T1]  ? rest_init (main.c:717)
-[  157.122147][    T1]  ? ret_from_fork_asm (x86/entry/entry_32.S:736)
-[  157.122147][    T1]  ? entry_INT80_32 (x86/entry/entry_32.S:940)
-[  158.731005][    C0] clocksource: Marking clocksource tsc unstable due to frequency skew
-[  158.804793][    C0] clocksource: Watchdog               kvm-clock interval:            63117ns
-[  158.871025][    C0] clocksource: Clocksource                  tsc interval:            62703ns
-[  158.935843][    C0] tsc: Marking TSC unstable due to clocksource watchdog
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20260910/202609101106.771b567e-lkp@intel.com
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
+Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
