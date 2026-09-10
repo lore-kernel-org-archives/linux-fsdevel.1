@@ -1,264 +1,181 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB27B46D56E;
-	Thu, 10 Sep 2026 11:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C7947C112;
+	Thu, 10 Sep 2026 11:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.12.53.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789039509; cv=none; b=K7cFWpd1B9GoHFJC3fmYuD06RnLT3+quh00JicwzIKBBOuM9tCpypmS0kDIB+y0CWnes3ZfI2crATi+CKcg+HXnI/VN6odCkMLgR5y51OvpG2ylxEOpDkxceKdKfLc23EN8M/K7gEpPhH7G+giMVxI+E4FR8q+gBRhYqki/1/fM=
+	t=1789040809; cv=none; b=cV1Ku7oVUvasXv8YBIFLxZdfCeF4J2a25VDK3/jdiBzoE5WMIpRW2UzOUk1vyoWfJegs27RkE9LZKEyQU4vF/Vmb9MeY4Zrqtw/lrVcn1/Dz4kwMXjCS3PvwoFeKej8zXvvFBCOy4SGRutF++bYQaQXum+J8niZB0TOfBKzqJ/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789039509; c=relaxed/simple;
-	bh=Ok2rWjqDwyoQUWviMsDqNihKaJmVy/EFBU5yzCIP6KA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hQv/2uyMDBEa9oEq7ewGLhDqRkAt2qRzGUdeFcXPPlB7hawkJO9F1la7aGvI+KPz3qol2pSzRbdI471yO+Yb+GzV8wdvqCysUQUbiK8kNDH9guTOOpgA0L/rSX1f+vbQvFJVwpS2ulQD8qOpkuvd6TKQ7KxVIhDt+RYPgWZBPHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=t5j8XbhQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=KQ0rH2MX; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sWm6MCGI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uims9Jbt; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1789040809; c=relaxed/simple;
+	bh=d7z6KPD6K9yAbT6rqth8+0jINVsF/Bf64K/NCCQDth4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NcaRyy2ZMkK1VvZ8bQ1ELq4Wh/dUC+NiaqiZL2P+M1hKxFYjvwDFIS0SIhR4etJrwTuHChhvGYCbzpNyD8L8oYOcMX2Z2i72+Kn51BAnHT4zQDWO+VhiATcLuoIuqyl5aDmbG/iD/c76aWeF+vtY71gbDjwjfIHgNz5eoiu2Pa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=AEcqfbDC; arc=none smtp.client-ip=52.12.53.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="t5j8XbhQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="KQ0rH2MX";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sWm6MCGI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uims9Jbt"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 808E621C15;
-	Thu, 10 Sep 2026 11:24:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789039501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PPN1BA8/VlwYKG9BYv9LeApz8G2/avpXWiTxQBOb5FI=;
-	b=t5j8XbhQgEKCpoUU5ZC4JxMiQMklEuM+OHnH/ZXiSchomhMCJklPwxNLoCbM6TEdSH8Ybp
-	BpXaXr+awQh9XpdyL9Xlk9T8SIffKTFuX1z54KVR6CVvIEGRylMMsyOW4xm8neF9+efrbU
-	g3Y7XwhHosFlKEpAjg1LEq6aniNyUFM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789039501;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PPN1BA8/VlwYKG9BYv9LeApz8G2/avpXWiTxQBOb5FI=;
-	b=KQ0rH2MXraL/UOZwVElkZQDdJByn0AnBw6HJ5PHG8OV1MPyFWjZdiMLa3sN7QVktpCZE3W
-	gQ43Lp1bDBR7+TBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789039497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PPN1BA8/VlwYKG9BYv9LeApz8G2/avpXWiTxQBOb5FI=;
-	b=sWm6MCGIfrlDqlHXV8pzBeLbiAeYCwYicqxvkTgCAIavcFniTHvVsEK32JDjmv0t03/5NQ
-	ji1RuiAV5pgKjaSA3WWd9gmmqfLnfB45gx8ZBboJ09US1RcPjsdxLJDXtgiH/0KPuhpsLX
-	6rDtiJ8hrq27McEf3INF6jU9VWbDo/c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789039497;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PPN1BA8/VlwYKG9BYv9LeApz8G2/avpXWiTxQBOb5FI=;
-	b=uims9JbtpdBbtS6EqJAA5f+UCkkMipwfIKyUFZmnvnaJ6lL5zd9IwvdulumwNBKz+DItQM
-	BbK3UOb/947YFHCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B1581321C;
-	Thu, 10 Sep 2026 11:24:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sNlKEomTomq3CQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 10 Sep 2026 11:24:57 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id D1F32A12EA; Thu, 10 Sep 2026 13:24:52 +0200 (CEST)
-Date: Thu, 10 Sep 2026 13:24:52 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Tejun Heo <tj@kernel.org>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Dennis Zhou <dennis@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH] writeback: bound cleanup_offline_cgwb() rescans by
- rotating b_attached
-Message-ID: <vciagp74qvys2zdbsfcr2brhbv4uyabvm67czm255ascytesjz@n6q775zxxwvb>
-References: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com>
+	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="AEcqfbDC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
+  t=1789040802; x=1820576802;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=zIxMe7CUOIbyICiMyGkhisOqvvsyopgrlubg8GsVc3c=;
+  b=AEcqfbDCDXAvt011rwBnjlhxM/xy9gfu1gvUpXPZXotAMAjJ9Myhu5HM
+   nOLmFmTVnAnCR/mbrwijotmrd5la9u4SJq5zjGE8qLithggsmyZSOqaDj
+   rbPoQ26MVEYRXneC29m5Cr39l4u5rLBJQ/ZOAMc9xgMeneq4NM7cI7MOC
+   /qovnsQOaVGvSUZf7As3kazauQhjgKdaM/9HdyOJzTyUCdZ5ypaNn3gtp
+   T5qfCbnrlq+pwlsbna2DOwBhsRGLhs9LqfscnZl3iSXaGWuZnO/qBtl8b
+   ykPvVSmzksI8EH8T5tlNAKQ7RuGdVqf3g3Gq1/8QYrubGj8ZBvbXhjBHB
+   A==;
+X-CSE-ConnectionGUID: PrxB9U2pTCO3cOtOxIS8kQ==
+X-CSE-MsgGUID: 71u9WAD7TGq5z4s2L10l2A==
+X-IronPort-AV: E=Sophos;i="6.27,95,1787011200"; 
+   d="scan'208";a="28190348"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 11:46:36 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:31293]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.22.113:2525] with esmtp (Farcaster)
+ id 723b55c1-1dd1-4458-a7f0-829821daf3d6; Thu, 10 Sep 2026 11:46:36 +0000 (UTC)
+X-Farcaster-Flow-ID: 723b55c1-1dd1-4458-a7f0-829821daf3d6
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Thu, 10 Sep 2026 11:46:36 +0000
+Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
+ (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46; Thu, 10 Sep 2026
+ 11:46:31 +0000
+From: Salvatore Dipietro <dipiets@amazon.it>
+To: <akpm@linux-foundation.org>
+CC: <abuehaze@amazon.com>, <alisaidi@amazon.com>, <blakgeof@amazon.com>,
+	<brauner@kernel.org>, <brendan.jackman@linux.dev>, <david@redhat.com>,
+	<dgc@kernel.org>, <dipietro.salvatore@gmail.com>, <dipiets@amazon.it>,
+	<djwong@kernel.org>, <hannes@cmpxchg.org>, <hch@infradead.org>, <hch@lst.de>,
+	<jackmanb@google.com>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-xfs@vger.kernel.org>, <mhocko@suse.com>, <ritesh.list@gmail.com>,
+	<rvvandan@amazon.com>, <stable@vger.kernel.org>, <surenb@google.com>,
+	<vbabka@kernel.org>, <vbabka@suse.cz>, <willy@infradead.org>,
+	<ziy@nvidia.com>
+Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly __GFP_NORETRY allocations
+Date: Thu, 10 Sep 2026 11:46:02 +0000
+Message-ID: <20260910114602.926944-1-dipiets@amazon.it>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
+References: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com>
-X-Spam-Score: -2.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Flag: NO
+X-ClientProxiedBy: EX19D035UWB002.ant.amazon.com (10.13.138.97) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Wed 09-09-26 18:50:27, Patrick Lu (Anthropic) wrote:
-> cleanup_offline_cgwb() prepares at most WB_MAX_INODES_PER_ISW inodes
-> per call and is called again until the dying wb is drained, but every
-> call walks wb->b_attached from the head. Inodes already prepared (they
-> stay on the list with I_WB_SWITCH set until the switch worker runs) and
-> inodes that cannot be switched (I_FREEING, I_WILL_FREE, !SB_ACTIVE,
-> DAX, already on the target wb) stay at the head, so each pass rescans a
-> growing prefix under wb->list_lock and a full drain is quadratic in the
-> number of attached inodes. With ~17M inodes attached to one dying cgwb
-> we have seen this end in soft lockups, with CPUs reported stuck for
-> 21-48s.
 
-Hum, somehow I've missed this case when fixing slow inode switching couple
-months ago. Likely because I was more focused on the b_dirty_time case back
-then :) since that was what the user was hitting.
+On Sat, 05 Sep 2026 17:42:39 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
 
-> Move every scanned inode to the tail of b_attached, so the next pass
-> starts where the previous one stopped and the drain becomes linear.
-> b_attached is unordered and isw_prepare_wbs_switch() is its only
-> walker, so nobody else sees the reorder. b_dirty_time is ordered by
-> expiry for move_expired_inodes() and keeps its current scan.
+> Is there anything particularly unusual about this test case?
 
-OK, but isn't there the very same quadratic behavior problem with
-b_dirty_time scan which you don't touch (and where your trick cannot work)?
+It is a stock pgbench simple-update PostgreSQL workload on a large
+instance (96 vCPUs), using standard PostgreSQL settings and with no huge
+pages assigned to the database. We deliberately overprovision the
+pgbench clients: 1024 clients over 96 threads. That keeps enough writers
+in the buffered write path concurrently to hit the costly-order
+allocation failure path continuously. The memory fragmentation comes from 
+page tables: PostgreSQL spawns a new process per client, and those page
+tables consume ~40% of memory, which significantly limits the page cache
+and the free memory available.
 
-								Honza
 
-> 
-> Fixes: c22d70a162d3 ("writeback, cgroup: release dying cgwbs by switching attached inodes")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Patrick Lu (Anthropic) <perf.patrick.lu@gmail.com>
-> ---
-> Seen in production on a 6.18-based kernel: with ~17M inodes attached
-> to one dying cgwb, a node spent 36 minutes in back-to-back
-> wb->list_lock holds by the cleanup scanner (~6ms each, ~46% of wall
-> time, starving writeback on that wb); with this patch the same workload
-> drains in ~30 seconds. Also seen on stock Amazon Linux 2023 6.12.68 as
-> isw workers spinning on the list_lock in inode_switch_wbs_work_fn()
-> while cleanup_offline_cgwbs_workfn() runs.
-> 
-> Tested with a QEMU A/B setup at 100k attached inodes and patched vs
-> unpatched on production-class hardware at ~17M attached inodes.
-> 
-> Josef Bacik's patch making the drain loop report a Tasks-RCU quiescent
-> state [1] fixes BPF/ftrace detach stalls behind the same drain; this
-> patch bounds the walk itself. The two are independent.
-> 
-> [1] https://lore.kernel.org/linux-mm/20260909-cgwb-tasks-rcu-qs-v1-1-967a7754771f@toxicpanda.com/
-> ---
->  fs/fs-writeback.c | 39 ++++++++++++++++++++++++++++-----------
->  1 file changed, 28 insertions(+), 11 deletions(-)
-> 
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index e744f9f9d43f..69a452b12b12 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -725,21 +725,37 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
->  
->  static bool isw_prepare_wbs_switch(struct bdi_writeback *new_wb,
->  				   struct inode_switch_wbs_context *isw,
-> -				   struct list_head *list, int *nr)
-> +				   struct list_head *list, bool rotate, int *nr)
->  {
-> -	struct inode *inode;
-> +	struct inode *inode, *tmp;
-> +	LIST_HEAD(scanned);
-> +	bool full = false;
-> +
-> +	list_for_each_entry_safe(inode, tmp, list, i_io_list) {
-> +		/*
-> +		 * Rotate scanned inodes to the tail so the next scan resumes
-> +		 * at unscanned ones instead of re-walking an ever-growing
-> +		 * prefix of prepared and skipped inodes.  b_dirty_time is
-> +		 * expiry-ordered and so must not be rotated.
-> +		 */
-> +		if (rotate)
-> +			list_move_tail(&inode->i_io_list, &scanned);
->  
-> -	list_for_each_entry(inode, list, i_io_list) {
->  		if (!inode_prepare_wbs_switch(inode, new_wb))
->  			continue;
->  
->  		isw->inodes[*nr] = inode;
->  		(*nr)++;
->  
-> -		if (*nr >= WB_MAX_INODES_PER_ISW - 1)
-> -			return true;
-> +		if (*nr >= WB_MAX_INODES_PER_ISW - 1) {
-> +			full = true;
-> +			break;
-> +		}
->  	}
-> -	return false;
-> +	if (rotate)
-> +		list_splice_tail(&scanned, list);
-> +
-> +	return full;
->  }
->  
->  /**
-> @@ -747,8 +763,9 @@ static bool isw_prepare_wbs_switch(struct bdi_writeback *new_wb,
->   * @wb: target wb
->   *
->   * Switch all inodes attached to @wb to a nearest living ancestor's wb in order
-> - * to eventually release the dying @wb.  Returns %true if not all inodes were
-> - * switched and the function has to be restarted.
-> + * to eventually release the dying @wb.  Returns %true if the scan stopped
-> + * early after making progress; the caller should call again to continue
-> + * draining.
->   */
->  bool cleanup_offline_cgwb(struct bdi_writeback *wb)
->  {
-> @@ -783,13 +800,13 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
->  	 * bandwidth restrictions, as writeback of inode metadata is not
->  	 * accounted for.
->  	 */
-> -	restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_attached, &nr);
-> +	restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_attached, true, &nr);
->  	if (!restart)
->  		restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty_time,
-> -						 &nr);
-> +						 false, &nr);
->  	spin_unlock(&wb->list_lock);
->  
-> -	/* no attached inodes? bail out */
-> +	/* nothing to switch? bail out */
->  	if (nr == 0) {
->  		atomic_dec(&isw_nr_in_flight);
->  		wb_put(new_wb);
-> 
-> ---
-> base-commit: e14d4302cbd0de773960bec33c2281508c8d8855
-> change-id: 20260909-wb-cgwb-rotate-f17a75facfdc
-> 
-> Best regards,
-> --  
-> Patrick Lu (Anthropic) <perf.patrick.lu@gmail.com>
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> > Results (average of 3 runs, TPS):
+> >
+> >   Config                   Avg TPS      % vs Baseline
+> >   baseline (no patch)       59,408       -
+> >   With this patch          155,409      +161.6%
+>
+> Is this back to pre-5d8edfb900d5 performance?
+
+Yes - fully recovered. Here is the summary, same host and workload
+throughout, average of 3 runs:
+
+  Config                                        Avg TPS   % vs baseline
+  AL2023 stock 6.1 kernel                       136,942            n/a
+  v7.3-rc1 baseline (no patch)                   59,408             -
+  v7.3-rc1, 5d8edfb900d5 behaviour reverted     151,184        +154.5%
+  v7.3-rc1 + v4                                 155,409        +161.6%
+
+The 6.1 row predates 5d8edfb900d5 entirely. A different kernel version,
+so not directly comparable, but it shows the performance this workload
+used to get on this host.
+
+A literal "git revert 5d8edfb900d5" does not apply to v7.3-rc1 -
+iomap_write_iter() has been rewritten since - so the reverted row is a
+one-line behavioural revert, forcing the write loop back to copying at
+most PAGE_SIZE per iteration:
+
+  -	size_t chunk = mapping_max_folio_size(mapping);
+  +	size_t chunk = PAGE_SIZE;
+
+which is what the pre-5d8edfb900d5 loop computed. That makes
+iomap_get_folio() pass no order hint, so the path issues only order-0
+allocations.
+
+
+> AI review asked a few serious-looking questions:
+> 	https://sashiko.dev/#/patchset/20260904115629.3993331-1-dipiets@amazon.it
+
+Thanks for pointing that out. To address them, we can have something
+like the patch below. Performance results are still similar to v4. Happy
+to submit a formal v5 patch with it if you would like.
+
+  Config                                        Avg TPS   % vs baseline
+  v7.3-rc1 baseline (no patch)                   59,408             -
+  v7.3-rc1 + v4                                 155,409        +161.6%
+  v7.3-rc1 + proposed patch                     161,994        +172.7%
+
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 12fac9084c48..be8b0d72a2db 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -4784,10 +4784,22 @@ static inline struct page *
+ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+ 						struct alloc_context *ac)
+ {
+-	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
++	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
++	/*
++	 * Costly __GFP_NORETRY callers have a cheap fallback to a lower order,
++	 * so don't stall them in direct reclaim or direct compaction.  Exempt
++	 * __GFP_THISNODE (the THP attempt from alloc_pages_mpol() needs direct
++	 * compaction) and __GFP_NOFAIL (must not be made to fail).  Don't
++	 * clear __GFP_DIRECT_RECLAIM from gfp_mask instead: that would also
++	 * change the alloc_flags derived by alloc_flags_slowpath().
++	 */
++	const bool costly_noretry = costly_order &&
++		(gfp_mask & __GFP_NORETRY) &&
++		!(gfp_mask & (__GFP_THISNODE | __GFP_NOFAIL));
++	bool can_direct_reclaim = !costly_noretry &&
++		(gfp_mask & __GFP_DIRECT_RECLAIM);
+ 	bool can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
+ 	bool nofail = gfp_mask & __GFP_NOFAIL;
+-	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
+ 	struct page *page = NULL;
+ 	unsigned int alloc_flags;
+ 	unsigned long did_some_progress;
+
+
+Thanks,
+Salvatore
+
+
+
+AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
+
+
+
