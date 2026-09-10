@@ -1,88 +1,89 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C244582D8;
-	Thu, 10 Sep 2026 11:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB27B46D56E;
+	Thu, 10 Sep 2026 11:25:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789038866; cv=none; b=VyslO4kmQZXRNlWrOktUGujMimKlApGWCmQeGXfiu3M/J6kGP47IsLjxv8C9WWVdVG3c9PQ6NB62FlYRbho7QR0n8CIjPunBcQdk/DhBRO1Zkk5dg3lGCS8lfzXQ1+TnF/OVgxrLG0dm+nVqforLebjBcKsf+V8suVdXkdMLWf8=
+	t=1789039509; cv=none; b=K7cFWpd1B9GoHFJC3fmYuD06RnLT3+quh00JicwzIKBBOuM9tCpypmS0kDIB+y0CWnes3ZfI2crATi+CKcg+HXnI/VN6odCkMLgR5y51OvpG2ylxEOpDkxceKdKfLc23EN8M/K7gEpPhH7G+giMVxI+E4FR8q+gBRhYqki/1/fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789038866; c=relaxed/simple;
-	bh=mIWqYvvr4wmShWpjh9vtn/kFNDBpC0yk77hOpP+ZaO8=;
+	s=arc-20240116; t=1789039509; c=relaxed/simple;
+	bh=Ok2rWjqDwyoQUWviMsDqNihKaJmVy/EFBU5yzCIP6KA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pb337VdRZNulO9dZS9m7M+WJLuc8cR8Q6Xh/w3ZlkRFAc6votolhQPHWtG3E1vlZPuFoiIbLSVJXhqIs5PQeY/WRZyWb3Tv70K+SGQT1dNlD/icHM7RDxKnRta/4OG+TYzoA9Dho7tNw1WZb7wlZTUHWLE4mByDN1p0wZygZiv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1mIPhr4b; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=kIV9XFzZ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oy4kXq5U; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Q99hAu+1; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=hQv/2uyMDBEa9oEq7ewGLhDqRkAt2qRzGUdeFcXPPlB7hawkJO9F1la7aGvI+KPz3qol2pSzRbdI471yO+Yb+GzV8wdvqCysUQUbiK8kNDH9guTOOpgA0L/rSX1f+vbQvFJVwpS2ulQD8qOpkuvd6TKQ7KxVIhDt+RYPgWZBPHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=t5j8XbhQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=KQ0rH2MX; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sWm6MCGI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uims9Jbt; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1mIPhr4b";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="kIV9XFzZ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oy4kXq5U";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Q99hAu+1"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="t5j8XbhQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="KQ0rH2MX";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sWm6MCGI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uims9Jbt"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AFB9021B84;
-	Thu, 10 Sep 2026 11:14:14 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 808E621C15;
+	Thu, 10 Sep 2026 11:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789038858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789039501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FYgxcG2rQp/o3X/Px8ZDzwFq7W+7hX2lzAINnC3CS50=;
-	b=1mIPhr4bF5IFje0BLZAbT0jPKiZXOmwhmKAxKn2crlYZQdrq7SQ9JWs5sGj9QiJBPhG31w
-	Tkq7ZoF6jnfb16IDtvdbyMBXG2bENx4JNtgZot6uB8tZSNr68xwhtxvzuzU626MECpsHu3
-	AP4rcG0Tv3J756sJy975gJjYTw443gE=
+	bh=PPN1BA8/VlwYKG9BYv9LeApz8G2/avpXWiTxQBOb5FI=;
+	b=t5j8XbhQgEKCpoUU5ZC4JxMiQMklEuM+OHnH/ZXiSchomhMCJklPwxNLoCbM6TEdSH8Ybp
+	BpXaXr+awQh9XpdyL9Xlk9T8SIffKTFuX1z54KVR6CVvIEGRylMMsyOW4xm8neF9+efrbU
+	g3Y7XwhHosFlKEpAjg1LEq6aniNyUFM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789038858;
+	s=susede2_ed25519; t=1789039501;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FYgxcG2rQp/o3X/Px8ZDzwFq7W+7hX2lzAINnC3CS50=;
-	b=kIV9XFzZYCxTftgycIWh1YDD2CQMuAPeP8YRe+Lh6NoTCMbci3u5mFm6MPn6tSZXadAhyx
-	QWWWIhNTHP8IYiAg==
+	bh=PPN1BA8/VlwYKG9BYv9LeApz8G2/avpXWiTxQBOb5FI=;
+	b=KQ0rH2MXraL/UOZwVElkZQDdJByn0AnBw6HJ5PHG8OV1MPyFWjZdiMLa3sN7QVktpCZE3W
+	gQ43Lp1bDBR7+TBw==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789038854; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789039497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FYgxcG2rQp/o3X/Px8ZDzwFq7W+7hX2lzAINnC3CS50=;
-	b=oy4kXq5UdeEhgV6bMWk9l6ShlROTZURqwpb63oXjA0OQ+/YzEXZgN2mauIFgO+JUAl9qQc
-	XySj2IVmfwPGsSAwlb4aOngR6CcrPb67tMERpXasbXO8JO8Fk0UnhSHTuBTF8gq/OJAu1n
-	77sM0A+7ITQl/PvpnQqjq5t3D6UkdJs=
+	bh=PPN1BA8/VlwYKG9BYv9LeApz8G2/avpXWiTxQBOb5FI=;
+	b=sWm6MCGIfrlDqlHXV8pzBeLbiAeYCwYicqxvkTgCAIavcFniTHvVsEK32JDjmv0t03/5NQ
+	ji1RuiAV5pgKjaSA3WWd9gmmqfLnfB45gx8ZBboJ09US1RcPjsdxLJDXtgiH/0KPuhpsLX
+	6rDtiJ8hrq27McEf3INF6jU9VWbDo/c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789038854;
+	s=susede2_ed25519; t=1789039497;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FYgxcG2rQp/o3X/Px8ZDzwFq7W+7hX2lzAINnC3CS50=;
-	b=Q99hAu+19l0DVAddjHe1V3IL9QiN7baixrVbzRmCsK6Juzuprgl53ur2xYJqljUx4brjWE
-	VlLaN6PUrk9UYSDQ==
+	bh=PPN1BA8/VlwYKG9BYv9LeApz8G2/avpXWiTxQBOb5FI=;
+	b=uims9JbtpdBbtS6EqJAA5f+UCkkMipwfIKyUFZmnvnaJ6lL5zd9IwvdulumwNBKz+DItQM
+	BbK3UOb/947YFHCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 87F601321C;
-	Thu, 10 Sep 2026 11:14:14 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B1581321C;
+	Thu, 10 Sep 2026 11:24:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DUQoIQaRompFfQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 10 Sep 2026 11:14:14 +0000
+	id sNlKEomTomq3CQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 10 Sep 2026 11:24:57 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 13C79A12EA; Thu, 10 Sep 2026 13:14:06 +0200 (CEST)
-Date: Thu, 10 Sep 2026 13:14:06 +0200
+	id D1F32A12EA; Thu, 10 Sep 2026 13:24:52 +0200 (CEST)
+Date: Thu, 10 Sep 2026 13:24:52 +0200
 From: Jan Kara <jack@suse.cz>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	ocfs2-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Srikanth Aithal <Srikanth.Aithal@amd.com>, Luca Weiss <luca.weiss@fairphone.com>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH] buffer: fix NULL dereference of bh->b_folio in
- __bh_submit()
-Message-ID: <m5dja33j5pa7ynhk5bmbsildujkcfjwyy3yvnhinmhlvcnsk7s@rcpnnnzhhteq>
-References: <20260902013357.2815214-1-joseph.qi@linux.alibaba.com>
- <e77d4410-e7fa-4885-9d9f-6dd09fb7cebb@oss.qualcomm.com>
+To: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Tejun Heo <tj@kernel.org>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Dennis Zhou <dennis@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH] writeback: bound cleanup_offline_cgwb() rescans by
+ rotating b_attached
+Message-ID: <vciagp74qvys2zdbsfcr2brhbv4uyabvm67czm255ascytesjz@n6q775zxxwvb>
+References: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,80 +92,173 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e77d4410-e7fa-4885-9d9f-6dd09fb7cebb@oss.qualcomm.com>
+In-Reply-To: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com>
+X-Spam-Score: -2.30
 X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
+X-Spamd-Result: default: False [-2.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,suse.com:email,alibaba.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
 
-On Thu 10-09-26 10:08:55, Konrad Dybcio wrote:
-> On 9/2/26 3:33 AM, Joseph Qi wrote:
-> > Commit a2c924c240e7 ("buffer: set BIO_COMPLETE_IN_TASK for dropbehind
-> > writeback") added an unconditional folio_test_dropbehind(bh->b_folio) in
-> > __bh_submit().  But jbd2 shadow buffers have a NULL b_folio since commit
-> > 5febcba29792 ("jbd2: point the shadow buffer at the frozen data
-> > directly") made them point b_data at the kmalloced frozen data rather
-> > than a folio.  Submitting such a buffer during journal commit oopses:
-> > 
-> >   BUG: kernel NULL pointer dereference, address: 0000000000000000
-> >   RIP: 0010:__bh_submit.constprop.0+0x87/0x120
-> >   Call Trace:
-> >    jbd2_journal_commit_transaction+0x932/0x1b10
-> >    kjournald2+0xb2/0x250
-> > 
-> > Hit by the ocfs2-testsuite fill_verify_holes test running with
-> > data=writeback.
-> > 
-> > Dropbehind only applies to buffers backed by a folio, so skip the check
-> > when b_folio is NULL.
-> > 
-> > Fixes: 5febcba29792 ("jbd2: point the shadow buffer at the frozen data directly")
-> > Tested-by: Srikanth Aithal <Srikanth.Aithal@amd.com>
-> > Tested-by: Luca Weiss <luca.weiss@fairphone.com> # sm7225-fairphone-fp4
-> > Reviewed-by: Jan Kara <jack@suse.cz>
-> > Signed-off-by: Joseph Qi <joseph.qi@linux.alibaba.com>
-> > ---
-> >  fs/buffer.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/fs/buffer.c b/fs/buffer.c
-> > index 427d8a817cd5..f46fa6413032 100644
-> > --- a/fs/buffer.c
-> > +++ b/fs/buffer.c
-> > @@ -1106,7 +1106,8 @@ static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
-> >  
-> >  	bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
-> >  
-> > -	if (folio_test_dropbehind(bh->b_folio) && op_is_write(opf))
-> > +	if (bh->b_folio && folio_test_dropbehind(bh->b_folio) &&
-> > +	    op_is_write(opf))
-> >  		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
-> 
-> 
-> -next has been broken for a week+ already, please pick this up..
+On Wed 09-09-26 18:50:27, Patrick Lu (Anthropic) wrote:
+> cleanup_offline_cgwb() prepares at most WB_MAX_INODES_PER_ISW inodes
+> per call and is called again until the dying wb is drained, but every
+> call walks wb->b_attached from the head. Inodes already prepared (they
+> stay on the list with I_WB_SWITCH set until the switch worker runs) and
+> inodes that cannot be switched (I_FREEING, I_WILL_FREE, !SB_ACTIVE,
+> DAX, already on the target wb) stay at the head, so each pass rescans a
+> growing prefix under wb->list_lock and a full drain is quadratic in the
+> number of attached inodes. With ~17M inodes attached to one dying cgwb
+> we have seen this end in soft lockups, with CPUs reported stuck for
+> 21-48s.
 
-Christian has pushed out a branch with the fixed version of the code today
-so hopefully it should get fixed in linux-next soon.
+Hum, somehow I've missed this case when fixing slow inode switching couple
+months ago. Likely because I was more focused on the b_dirty_time case back
+then :) since that was what the user was hitting.
+
+> Move every scanned inode to the tail of b_attached, so the next pass
+> starts where the previous one stopped and the drain becomes linear.
+> b_attached is unordered and isw_prepare_wbs_switch() is its only
+> walker, so nobody else sees the reorder. b_dirty_time is ordered by
+> expiry for move_expired_inodes() and keeps its current scan.
+
+OK, but isn't there the very same quadratic behavior problem with
+b_dirty_time scan which you don't touch (and where your trick cannot work)?
 
 								Honza
+
+> 
+> Fixes: c22d70a162d3 ("writeback, cgroup: release dying cgwbs by switching attached inodes")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Patrick Lu (Anthropic) <perf.patrick.lu@gmail.com>
+> ---
+> Seen in production on a 6.18-based kernel: with ~17M inodes attached
+> to one dying cgwb, a node spent 36 minutes in back-to-back
+> wb->list_lock holds by the cleanup scanner (~6ms each, ~46% of wall
+> time, starving writeback on that wb); with this patch the same workload
+> drains in ~30 seconds. Also seen on stock Amazon Linux 2023 6.12.68 as
+> isw workers spinning on the list_lock in inode_switch_wbs_work_fn()
+> while cleanup_offline_cgwbs_workfn() runs.
+> 
+> Tested with a QEMU A/B setup at 100k attached inodes and patched vs
+> unpatched on production-class hardware at ~17M attached inodes.
+> 
+> Josef Bacik's patch making the drain loop report a Tasks-RCU quiescent
+> state [1] fixes BPF/ftrace detach stalls behind the same drain; this
+> patch bounds the walk itself. The two are independent.
+> 
+> [1] https://lore.kernel.org/linux-mm/20260909-cgwb-tasks-rcu-qs-v1-1-967a7754771f@toxicpanda.com/
+> ---
+>  fs/fs-writeback.c | 39 ++++++++++++++++++++++++++++-----------
+>  1 file changed, 28 insertions(+), 11 deletions(-)
+> 
+> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> index e744f9f9d43f..69a452b12b12 100644
+> --- a/fs/fs-writeback.c
+> +++ b/fs/fs-writeback.c
+> @@ -725,21 +725,37 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
+>  
+>  static bool isw_prepare_wbs_switch(struct bdi_writeback *new_wb,
+>  				   struct inode_switch_wbs_context *isw,
+> -				   struct list_head *list, int *nr)
+> +				   struct list_head *list, bool rotate, int *nr)
+>  {
+> -	struct inode *inode;
+> +	struct inode *inode, *tmp;
+> +	LIST_HEAD(scanned);
+> +	bool full = false;
+> +
+> +	list_for_each_entry_safe(inode, tmp, list, i_io_list) {
+> +		/*
+> +		 * Rotate scanned inodes to the tail so the next scan resumes
+> +		 * at unscanned ones instead of re-walking an ever-growing
+> +		 * prefix of prepared and skipped inodes.  b_dirty_time is
+> +		 * expiry-ordered and so must not be rotated.
+> +		 */
+> +		if (rotate)
+> +			list_move_tail(&inode->i_io_list, &scanned);
+>  
+> -	list_for_each_entry(inode, list, i_io_list) {
+>  		if (!inode_prepare_wbs_switch(inode, new_wb))
+>  			continue;
+>  
+>  		isw->inodes[*nr] = inode;
+>  		(*nr)++;
+>  
+> -		if (*nr >= WB_MAX_INODES_PER_ISW - 1)
+> -			return true;
+> +		if (*nr >= WB_MAX_INODES_PER_ISW - 1) {
+> +			full = true;
+> +			break;
+> +		}
+>  	}
+> -	return false;
+> +	if (rotate)
+> +		list_splice_tail(&scanned, list);
+> +
+> +	return full;
+>  }
+>  
+>  /**
+> @@ -747,8 +763,9 @@ static bool isw_prepare_wbs_switch(struct bdi_writeback *new_wb,
+>   * @wb: target wb
+>   *
+>   * Switch all inodes attached to @wb to a nearest living ancestor's wb in order
+> - * to eventually release the dying @wb.  Returns %true if not all inodes were
+> - * switched and the function has to be restarted.
+> + * to eventually release the dying @wb.  Returns %true if the scan stopped
+> + * early after making progress; the caller should call again to continue
+> + * draining.
+>   */
+>  bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+>  {
+> @@ -783,13 +800,13 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+>  	 * bandwidth restrictions, as writeback of inode metadata is not
+>  	 * accounted for.
+>  	 */
+> -	restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_attached, &nr);
+> +	restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_attached, true, &nr);
+>  	if (!restart)
+>  		restart = isw_prepare_wbs_switch(new_wb, isw, &wb->b_dirty_time,
+> -						 &nr);
+> +						 false, &nr);
+>  	spin_unlock(&wb->list_lock);
+>  
+> -	/* no attached inodes? bail out */
+> +	/* nothing to switch? bail out */
+>  	if (nr == 0) {
+>  		atomic_dec(&isw_nr_in_flight);
+>  		wb_put(new_wb);
+> 
+> ---
+> base-commit: e14d4302cbd0de773960bec33c2281508c8d8855
+> change-id: 20260909-wb-cgwb-rotate-f17a75facfdc
+> 
+> Best regards,
+> --  
+> Patrick Lu (Anthropic) <perf.patrick.lu@gmail.com>
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
