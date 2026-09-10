@@ -1,181 +1,108 @@
-Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C7947C112;
-	Thu, 10 Sep 2026 11:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.12.53.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CB747A87A;
+	Thu, 10 Sep 2026 11:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789040809; cv=none; b=cV1Ku7oVUvasXv8YBIFLxZdfCeF4J2a25VDK3/jdiBzoE5WMIpRW2UzOUk1vyoWfJegs27RkE9LZKEyQU4vF/Vmb9MeY4Zrqtw/lrVcn1/Dz4kwMXjCS3PvwoFeKej8zXvvFBCOy4SGRutF++bYQaQXum+J8niZB0TOfBKzqJ/k=
+	t=1789041414; cv=none; b=DPHOoR3SgFo7MQ+uI3L82sb/F6LroYcFJnFi3XtmwYwvw6nJbc43oIhtgcDVOTaiYVpPF6hbY9QxD4zpvVh6JeFkon7xkxzM+/SyoI9X5dEOiZJM1JhR7IzB5kdbP//KuJq0baL+xkuRSy0iEh7Ncz65j7iYAa0OIJlZUAUgDuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789040809; c=relaxed/simple;
-	bh=d7z6KPD6K9yAbT6rqth8+0jINVsF/Bf64K/NCCQDth4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NcaRyy2ZMkK1VvZ8bQ1ELq4Wh/dUC+NiaqiZL2P+M1hKxFYjvwDFIS0SIhR4etJrwTuHChhvGYCbzpNyD8L8oYOcMX2Z2i72+Kn51BAnHT4zQDWO+VhiATcLuoIuqyl5aDmbG/iD/c76aWeF+vtY71gbDjwjfIHgNz5eoiu2Pa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=AEcqfbDC; arc=none smtp.client-ip=52.12.53.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+	s=arc-20240116; t=1789041414; c=relaxed/simple;
+	bh=3sK9FeDXBQWrMpZqF7eB+mpAaqABcPjn+pj590Pjxbc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ghI06vSNa3uNN4saeqmejx2Ew07gjMBA8LlCQd5vUWy4P8lpt6Mgp6shnMTmbEDbf1tq2esSdi1KfrZW7eBJT2pYV2Fco64tQjqXShbfASYZZSihCFdi96s8ku0/CG8mnyFXY2nNeIGssfxAIzGQ5sxRKrx3089r17LkBn1H9C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBYR7A+E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="AEcqfbDC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
-  t=1789040802; x=1820576802;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=zIxMe7CUOIbyICiMyGkhisOqvvsyopgrlubg8GsVc3c=;
-  b=AEcqfbDCDXAvt011rwBnjlhxM/xy9gfu1gvUpXPZXotAMAjJ9Myhu5HM
-   nOLmFmTVnAnCR/mbrwijotmrd5la9u4SJq5zjGE8qLithggsmyZSOqaDj
-   rbPoQ26MVEYRXneC29m5Cr39l4u5rLBJQ/ZOAMc9xgMeneq4NM7cI7MOC
-   /qovnsQOaVGvSUZf7As3kazauQhjgKdaM/9HdyOJzTyUCdZ5ypaNn3gtp
-   T5qfCbnrlq+pwlsbna2DOwBhsRGLhs9LqfscnZl3iSXaGWuZnO/qBtl8b
-   ykPvVSmzksI8EH8T5tlNAKQ7RuGdVqf3g3Gq1/8QYrubGj8ZBvbXhjBHB
-   A==;
-X-CSE-ConnectionGUID: PrxB9U2pTCO3cOtOxIS8kQ==
-X-CSE-MsgGUID: 71u9WAD7TGq5z4s2L10l2A==
-X-IronPort-AV: E=Sophos;i="6.27,95,1787011200"; 
-   d="scan'208";a="28190348"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 11:46:36 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:31293]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.22.113:2525] with esmtp (Farcaster)
- id 723b55c1-1dd1-4458-a7f0-829821daf3d6; Thu, 10 Sep 2026 11:46:36 +0000 (UTC)
-X-Farcaster-Flow-ID: 723b55c1-1dd1-4458-a7f0-829821daf3d6
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Thu, 10 Sep 2026 11:46:36 +0000
-Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
- (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46; Thu, 10 Sep 2026
- 11:46:31 +0000
-From: Salvatore Dipietro <dipiets@amazon.it>
-To: <akpm@linux-foundation.org>
-CC: <abuehaze@amazon.com>, <alisaidi@amazon.com>, <blakgeof@amazon.com>,
-	<brauner@kernel.org>, <brendan.jackman@linux.dev>, <david@redhat.com>,
-	<dgc@kernel.org>, <dipietro.salvatore@gmail.com>, <dipiets@amazon.it>,
-	<djwong@kernel.org>, <hannes@cmpxchg.org>, <hch@infradead.org>, <hch@lst.de>,
-	<jackmanb@google.com>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-xfs@vger.kernel.org>, <mhocko@suse.com>, <ritesh.list@gmail.com>,
-	<rvvandan@amazon.com>, <stable@vger.kernel.org>, <surenb@google.com>,
-	<vbabka@kernel.org>, <vbabka@suse.cz>, <willy@infradead.org>,
-	<ziy@nvidia.com>
-Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly __GFP_NORETRY allocations
-Date: Thu, 10 Sep 2026 11:46:02 +0000
-Message-ID: <20260910114602.926944-1-dipiets@amazon.it>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
-References: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBYR7A+E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51FC21F000FF;
+	Thu, 10 Sep 2026 11:56:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789041411;
+	bh=PTv5gjnoUkgmckYg25Wd/ghR+9+1LKQRAbj4/Rz6hR0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mBYR7A+E5z+EvsOhBN7DfdtkE3x9n3oGaFrh40fXMQwQq6v/VuATJp93OAVBpcdsJ
+	 /2x0vHU7OjE29cqp3dLj80QthvfsdFR7OzpWhX4Ex8X+ycWO/SwTQCs3TwpDz5SQip
+	 wokGMjREagLm/mw3zpaMLnOLw6OeqvoHIrUGxnjBsEY7R8LlQTeSDDh7ZassM+vhgn
+	 YkMlBWUBo25M/ndAiVZ/xur5sTx3NUSPGsI/iCT9jKj/49d4a4gjYNlb4RCxezsZNs
+	 /OcUcxbHOYBUZDlVobiSbrDu40TTl7iIXt6qisrv4hk+Oupv53Uks6b0x1810wZFA4
+	 1NxZid0h/Z6AA==
+Message-ID: <63cda829-631c-4758-9aee-7c07ef6a16f9@kernel.org>
+Date: Thu, 10 Sep 2026 13:56:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D035UWB002.ant.amazon.com (10.13.138.97) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] mm: replace PF_KSWAPD flag with kthread_func() check
+To: Kefeng Wang <wangkefeng.wang@huawei.com>, brauner@kernel.org,
+ djwong@kernel.org, cem@kernel.org, akpm@linux-foundation.org,
+ vbabka@kernel.org, surenb@google.com, mhocko@suse.com,
+ brendan.jackman@linux.dev, hannes@cmpxchg.org, ziy@nvidia.com,
+ qi.zheng@linux.dev, shakeel.butt@linux.dev, ljs@kernel.org
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org
+References: <20260902131653.1338227-1-wangkefeng.wang@huawei.com>
+ <20260902131653.1338227-4-wangkefeng.wang@huawei.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260902131653.1338227-4-wangkefeng.wang@huawei.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 9/2/26 15:16, Kefeng Wang wrote:
+> The preceding commits removed the last consumer that propagated
 
-On Sat, 05 Sep 2026 17:42:39 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+We avoid talking about commits or patches.
 
-> Is there anything particularly unusual about this test case?
+"There are no more consumers that ..."
 
-It is a stock pgbench simple-update PostgreSQL workload on a large
-instance (96 vCPUs), using standard PostgreSQL settings and with no huge
-pages assigned to the database. We deliberately overprovision the
-pgbench clients: 1024 clients over 96 threads. That keeps enough writers
-in the buffered write path concurrently to hit the costly-order
-allocation failure path continuously. The memory fragmentation comes from 
-page tables: PostgreSQL spawns a new process per client, and those page
-tables consume ~40% of memory, which significantly limits the page cache
-and the free memory available.
+-- 
+Cheers,
 
-
-> > Results (average of 3 runs, TPS):
-> >
-> >   Config                   Avg TPS      % vs Baseline
-> >   baseline (no patch)       59,408       -
-> >   With this patch          155,409      +161.6%
->
-> Is this back to pre-5d8edfb900d5 performance?
-
-Yes - fully recovered. Here is the summary, same host and workload
-throughout, average of 3 runs:
-
-  Config                                        Avg TPS   % vs baseline
-  AL2023 stock 6.1 kernel                       136,942            n/a
-  v7.3-rc1 baseline (no patch)                   59,408             -
-  v7.3-rc1, 5d8edfb900d5 behaviour reverted     151,184        +154.5%
-  v7.3-rc1 + v4                                 155,409        +161.6%
-
-The 6.1 row predates 5d8edfb900d5 entirely. A different kernel version,
-so not directly comparable, but it shows the performance this workload
-used to get on this host.
-
-A literal "git revert 5d8edfb900d5" does not apply to v7.3-rc1 -
-iomap_write_iter() has been rewritten since - so the reverted row is a
-one-line behavioural revert, forcing the write loop back to copying at
-most PAGE_SIZE per iteration:
-
-  -	size_t chunk = mapping_max_folio_size(mapping);
-  +	size_t chunk = PAGE_SIZE;
-
-which is what the pre-5d8edfb900d5 loop computed. That makes
-iomap_get_folio() pass no order hint, so the path issues only order-0
-allocations.
-
-
-> AI review asked a few serious-looking questions:
-> 	https://sashiko.dev/#/patchset/20260904115629.3993331-1-dipiets@amazon.it
-
-Thanks for pointing that out. To address them, we can have something
-like the patch below. Performance results are still similar to v4. Happy
-to submit a formal v5 patch with it if you would like.
-
-  Config                                        Avg TPS   % vs baseline
-  v7.3-rc1 baseline (no patch)                   59,408             -
-  v7.3-rc1 + v4                                 155,409        +161.6%
-  v7.3-rc1 + proposed patch                     161,994        +172.7%
-
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 12fac9084c48..be8b0d72a2db 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -4784,10 +4784,22 @@ static inline struct page *
- __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 						struct alloc_context *ac)
- {
--	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
-+	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
-+	/*
-+	 * Costly __GFP_NORETRY callers have a cheap fallback to a lower order,
-+	 * so don't stall them in direct reclaim or direct compaction.  Exempt
-+	 * __GFP_THISNODE (the THP attempt from alloc_pages_mpol() needs direct
-+	 * compaction) and __GFP_NOFAIL (must not be made to fail).  Don't
-+	 * clear __GFP_DIRECT_RECLAIM from gfp_mask instead: that would also
-+	 * change the alloc_flags derived by alloc_flags_slowpath().
-+	 */
-+	const bool costly_noretry = costly_order &&
-+		(gfp_mask & __GFP_NORETRY) &&
-+		!(gfp_mask & (__GFP_THISNODE | __GFP_NOFAIL));
-+	bool can_direct_reclaim = !costly_noretry &&
-+		(gfp_mask & __GFP_DIRECT_RECLAIM);
- 	bool can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
- 	bool nofail = gfp_mask & __GFP_NOFAIL;
--	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
- 	struct page *page = NULL;
- 	unsigned int alloc_flags;
- 	unsigned long did_some_progress;
-
-
-Thanks,
-Salvatore
-
-
-
-AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
-
-
-
+David
