@@ -1,178 +1,80 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAB53BBFD8;
-	Thu, 10 Sep 2026 07:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604663BBFD8;
+	Thu, 10 Sep 2026 07:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789024710; cv=none; b=ocvCxiIYRA88HV9kb9ATZphhnVz4a12bvcFpfGceTSUNwxj8lmUpe7rtMC+aO1rV2oGXgIO219NXZZ/V637+ExEJ6nsxU/++jS20Q7JhBOFztItGEswutKmUrooqGYxvlYUUAnpnyKQuu3jh+e6OQDabcjIdiFB418Q5uQEKq9s=
+	t=1789024849; cv=none; b=gIC3LQTPtiSRsWCga8GABg8jJr7kHtmy3gi0XiLR+RqQl7WO+jRdexKIRJWyvrhb8p+Z2nqi2aWEM5/IFsS//MIRm8zjU4RFe/HUrGA+IeL5A9AUaeW14piWgAjuGMSJ4ORgoDPnGSmtfbCUsyqJRQa5M28pvQ5HuiPAbcL9QGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789024710; c=relaxed/simple;
-	bh=L33spyIi49igwJHGU6a/daiLy9JRmCjsH01c4ZHY+O0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F4WRiOrna6k8RtpZ4B20s53Tkiae/EpwB21fjoXGpxyTeWQpUV1/4K2SFqvevQbqU9vp5GahtKWOO/9OymmOWB7ifCMOcVbXkkrm2j8PE5isTKPZux6FZ9ILqRcG0KFoRedMCRjeYWS0aEJAHjpfZOmoekWjw++rPnQzV7z77G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hgTX10xNpzYQvF2;
-	Thu, 10 Sep 2026 15:17:21 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id A559A40576;
-	Thu, 10 Sep 2026 15:18:15 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgCHbgm0WaJqciq1BQ--.27171S3;
-	Thu, 10 Sep 2026 15:18:15 +0800 (CST)
-Message-ID: <25009e78-b1e1-4c3e-a12d-365869b1d475@huaweicloud.com>
-Date: Thu, 10 Sep 2026 15:18:12 +0800
+	s=arc-20240116; t=1789024849; c=relaxed/simple;
+	bh=95lB2rqAT8/9fbrzrWPi9ojqqwpDHL3D7Fj0mykqOXo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=X9ONvKDtjaWf2nJlKY9pAtI/kqguLwajytQ+E10ywHNb4ZKtfJgpgcHCfhjtHvXV0Afe3lqM9Z3dnlgcLS2fDvdsLlGuHrBkoIdhlz7SyXN23ekI+I5OXgmvoOyIL+Jt8oGm1ITuLTa46ulTfFtYjMxthPl0Irid6rmbtqlfzIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IQ6bYg3M; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IQ6bYg3M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE251F000FF;
+	Thu, 10 Sep 2026 07:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789024848;
+	bh=8TX6RG6eAzR9OAyzBYFZrl4ztTDV71rgf3sUqmarc+k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=IQ6bYg3MnkXyDuyDbI64Liip8nHYaBMzMu/UIorsLWaoZy6Le/8DvWXPDVkxl08Lx
+	 QbfWxcxpQ/FdEo1sSKVaH/ho6IVF2lDjmAHwfuiZ8jwnzWG7rvOqCxVHrrh+llmvl7
+	 BevH/YuqiCJO8bKfEjvPCtejPbFK6ZJ2PUp7pcIBZDg2r3lqtm/jcWZCIAtM0xIxOe
+	 MGjur0/6GvJIDZR8m+o7b/knQ0EBAHL5fNUiWh1uYJSfbijounF7pq8MnP16I2lzMm
+	 nxksftyLDB572CLWjHzNHVK4ZQqL+fKvaYOxeqyLquhkI76MsnD4GvUTYm/6u69f6L
+	 wqbht1m1Ge4Jg==
+From: Christian Brauner <brauner@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>, David Howells <dhowells@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@kernel.org>, 
+ Christoph Hellwig <hch@lst.de>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev, 
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <1667275.1788941191@warthog.procyon.org.uk>
+References: <1667275.1788941191@warthog.procyon.org.uk>
+Subject: Re: [PATCH v4] block: Fix start and length check added to
+ iov_iter_extract_bvecs()
+Message-Id: <20260910-bison-unpolitisch-ritualisieren-46a638e9d310@brauner>
+Date: Thu, 10 Sep 2026 09:20:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mm/truncate: fix data loss when truncating straddling
- large folios
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, david@kernel.org,
- ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, hughd@google.com,
- baolin.wang@linux.alibaba.com, willy@infradead.org, jack@suse.cz,
- ziy@nvidia.com, bfoster@redhat.com, joannelkoong@gmail.com,
- djwong@kernel.org, yi.zhang@huawei.com, yizhang089@gmail.com,
- yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com,
- yukuai@fnnas.com
-References: <20260909062339.473816-1-yi.zhang@huaweicloud.com>
- <20260909161433.d96c67399ccac8de27499925@linux-foundation.org>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20260909161433.d96c67399ccac8de27499925@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgCHbgm0WaJqciq1BQ--.27171S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxWw47Wr1kXF15uw4fur4kJFb_yoWrKFy7pF
-	Wagas0kr1kG39akr13Aa1UXw15A34xXw4UJFyfG3ySyFZ8Zw1DKF15K3W8Way7Kwn7Cw1r
-	Xa4jvayDW3WUAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
-	CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
-	rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
-	IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
-	e7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
-	WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
-	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
-	jxCztUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=911; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=95lB2rqAT8/9fbrzrWPi9ojqqwpDHL3D7Fj0mykqOXo=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtivI+Z9MY45fC9mN+qU/P3qJ9ZvJhcvKv6sVfPVx8b
+ nXj2mObO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbSu5Xhv/PVWVnvL5hVTXvv
+ XxK09M8Sz4y4/b0tW1i67nxu/z3V0o7hn43W7IZdzxnX25tfktn56HuIqa5n+62AVO6wJbkVxTm
+ ZbAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 9/10/2026 7:14 AM, Andrew Morton wrote:
-> On Wed,  9 Sep 2026 14:23:39 +0800 Zhang Yi <yi.zhang@huaweicloud.com> wrote:
-> 
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> truncate_inode_partial_folio() splits a large folio so that the caller's
->> truncate loop can drop the in-range sub-folios while keeping the
->> out-of-range tail. The first split at the punch start edge is
->> non-uniform, which leaves the sub-folio at the truncation end edge as
->> large as possible, this means it may still straddle the range, holding
->> both zeroed in-range and valid out-of-range data. The function then
->> attempts a second split at offset + length to isolate that tail.
->>
->> If the second split fails the straddling sub-folio stays merged. The
->> function returned true unconditionally on all exit paths of the success
->> block, telling the caller it was fully handled. The caller kept its
->> default end and the truncate loop truncated every sub-folio below it,
->> including the merged straddler, discarding the valid out-of-range tail.
->>
->> For example, a 4-page order-2 folio punched from offset 0 to the middle
->> of the last page:
->>
->>   truncate_inode_pages_range()
->>     truncate_inode_partial_folio()      # same_folio == true
->>       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->>       folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
->>       2nd split of folio2 fails / cannot lock
->>       return true                       # BUG: caller keeps default end
->>     end = 3
->>     loop truncates p0, p1, p2-3        # p3's valid tail is lost
->>
->> This became reachable after commit 7460b470a131 ("mm/truncate: use
->> folio_split() in truncate operation") replaced the atomic split_folio()
->> with folio_split(), whose non-uniform split can partially split a folio
->> and leave the end edge merged.
->>
->> It has gone unnoticed because a dirty large folio normally carries the
->> filesystem's private data, for example buffer_head, so
->> filemap_release_folio() -> iomap_release_folio() returns false on a
->> dirty folio and folio_split() aborts with -EBUSY before any split,
->> leaving the straddler safely unsplit. The bug is only reachable on paths
->> that produce dirty large folios without filesystem private data, and it
->> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
->> attached.
-> 
-> So is there any way of being hit by these issues in 7.2 and earlier?
-> 
->>  mm/internal.h |  4 +--
->>  mm/shmem.c    | 13 +++-----
->>  mm/truncate.c | 88 +++++++++++++++++++++++++++++++++++----------------
->>  3 files changed, 67 insertions(+), 38 deletions(-)
-> 
-> I hope not, because that's quite a lump of code to be backporting.
+On Wed, 09 Sep 2026 09:06:31 +0100, David Howells wrote:
+> block: Fix start and length check added to iov_iter_extract_bvecs()
 
-I took a rough look at a few existing filesystems and had an LLM help
-put things together.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Actually triggering it needs all of:
-(1) a large folio straddling the punch/truncate boundary, so the
-    in-range part is zeroed and the out-of-range part holds valid data;
-(2) that folio dirty, so the out-of-range tail exists only in the
-    pagecache;
-(3) no filesystem private data on the folio (or ->release_folio()
-    returning success), so the first folio_split() in
-    truncate_inode_partial_folio() can succeed.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Filesystems that enable large folios fall into three groups, none of
-which can currently satisfy all three:
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-- buffer_head / private-based (ext4, btrfs, ...): a dirty folio
-  always carries fs private state (buffer_head, extent state), so
-  ->release_folio() returns false and folio_split() aborts with -EBUSY
-  before the first split — condition (3) fails.
-- netfs (afs, nfs, smb, ...): AP_RELEASE_ALWAYS is set but
-  netfs_release_folio() returns false on a dirty folio — same effect,
-  condition (3) fails.
-- iomap (xfs, zonefs, erofs): these can have dirty large folios
-  without private data, but none reach the unsafe window — xfs always
-  runs filemap_write_and_wait_range() (xfs_flush_unmap_range) before
-  punching, so the boundary folio is clean; zonefs has no punch-hole;
-  erofs is read-only. With the tail already on disk (clean), discarding
-  the straddling folio loses nothing.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-So on 7.2 and earlier I cannot find a reachable trigger path. It only
-becomes reachable on the upcoming ext4 + iomap buffered-I/O path, which
-for the first time combines large folios + no private data on
-fully-dirtied folios + missing pre-punch writeback.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
 
-> 
-> Thanks.  I'll queue it for testing and shall await your response to Zi
-> Yan's questions.
-> 
-> I see you've received Sashiko's feedback.  Please let us know if
-> there's any validity to it.
-> 
-> 	https://sashiko.dev/#/patchset/20260909062339.473816-1-yi.zhang@huaweicloud.com
-> 
-
-I took an initial look at Sashiko's review report. I think the
-issue is valid — the current fix can get the wrong folio2 index
-when there's a concurrent split. I need to think more about how
-to fix it properly.
-
-Thanks,
-Yi.
+[1/1] block: Fix start and length check added to iov_iter_extract_bvecs()
+      https://git.kernel.org/vfs/vfs/c/57a78ad2305f
 
