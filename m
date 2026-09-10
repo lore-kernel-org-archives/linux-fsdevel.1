@@ -1,226 +1,152 @@
-Received: from mail-oo2-f42.google.com (mail-oo2-f42.google.com [74.125.231.170])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C408577E26
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 18:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789063896; cv=pass; b=pqZcsJpjXoX3i/y2WKeNJH70F6iU0ChGNa1yKJ+Oy0UWR/Ka/ztABLEhtma9sSIncr+Wek1AmzDEoAlRcY+kz6XVPgZ2wEMUP1NvcaxAJ3dVcpEZpWQD7+krniDxCdaZd0Q/F/wowZvPAhZIeBtx5Ht8s2net9xruFAMYDm6ToA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789063896; c=relaxed/simple;
-	bh=NT0Z/LF1SMhtkavx81DR2GGYYK6aB7iX5ZVgmCMPgvQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fPYHXyoGzvbP6oHkLxi8WyW6ZVeh9xcnTX76LfGHrV0z6nuVDxZG2oYgFxPDajRa+oaSacCQ28H32DFvXkldmH2Tke51FV9iihfxfcCgpbQ5GIszE5y18wKsPDMF9t8SF6v1SmJd86FLmAfA2iIj039LBjAX+BN9PULXdi1yyY8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FKybIG7v; arc=pass smtp.client-ip=74.125.231.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A759521234
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 18:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789065193; cv=none; b=AjVL05SfBBq/zXap0lMUPTLo6IyX7vPiaj+lsPb8Nepgd9RdDhKTmKp1ka3HDULjGAtpr5twPkdN2hcKaXLDlKybicJanavs7529RiliBMOSjxs2iA4N7m3mXaxycgkaZtD8G/Uxj9peovoiXoV5yBu4P283jpNOFnyZbW3iDw4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789065193; c=relaxed/simple;
+	bh=3nM/7LI7olnSJqPMrKJo8aFg4AW5OoqFi8DNd+317Pc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pqufCsZwnNVs+LhSrABih3oRGQU67QKzrEfdD/l67uQzbuL3OExSJXLrxd/iIWyoIV5+DG67OH3QH5mrIdq2gnRrvU+5QVYA9tEh8aD1VsykE/sF0jB0BXJo1wFWAHMXlV2DPi0yYUOnt3T3imeUvQfcfODCET+2AZq4HRIjj2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=osh0MPFc; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FKybIG7v"
-Received: by mail-oo2-f42.google.com with SMTP id 006d021491bc7-6bff4d6504cso77979eaf.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 11:11:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789063890; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VX7969YOQDdBiEb36nvvZWVGyVJbBSbsgWPAqNXT1MQSvsYNm+fbp6dGLurqUDe1PQ
-         6wzefBd7xui9lWk7tM5cclzkEFjV53D3EP1SipVzD7o7GcSuO8K94uR/rEx0tlQF/GrN
-         i+1Yvh250TwvwuEbZ3kx9Ahwre123CjYcjSkRQ3S7LEH7bLHSrNNzQ7ZRD5LIgUSQZTd
-         tdM+/741EEnzu/mwgojPh4G5QHGahcCtpE9LX4vK0qkvmwY7Z2WbhdAjah3J/uxTsQge
-         KfqU6+PBaAyb6OIyRGys1d7kO0k0HUcHXeiIeod/iG1q1BN9W+vpNA9DZ/mAd/6b7CXM
-         nQbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gxuS67QpsgmiVo7SJODgVn7jNGL8PaTVeXELBYXj9Vc=;
-        fh=lChFrj4N62IjqjT6iQ0+wcUEyLC4AF2i0hEx3eW8BKc=;
-        b=ruXyPLllX5+rMAWVeieOg5iDNG40sm+BtjuaHf8KpROg3vBBe4BbPCVA1+1dBDqvOc
-         ZHu73VOoHP7HO+NAU0TFvHpg5kfl1v2ThOULQSNsL/g7vRq+hk/w7Wp5XiXql4GItrLU
-         l3GasSZ35BNeKaTUvaXvz0uWV/yBIezvpIcr2aqfwG/9UezFKWAdTKSgeIlkdpqw0OCz
-         +6+5m6swX+N4qDGwv8Uv3A0MT0SEh63Qz8yD1FmguPGEm9OON55F2Y5PulPzzghiC7yT
-         RMPaAffqL7N+V8RiWGFSR5uKdFh6qeTDEZuIWIXKzkpPEXgkmzY+BtLe6Cerhmo/Y8M+
-         tV3Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="osh0MPFc"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-499db1a5b5eso132685e9.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 11:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789063890; x=1789668690; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=gxuS67QpsgmiVo7SJODgVn7jNGL8PaTVeXELBYXj9Vc=;
-        b=FKybIG7vbPrID6z1nHaj6kVvqnRQk9kvLUdCSO2+2ma9Rrzv9SNsMhpf6H6ntsMUds
-         JkyN3NfvnmjEM6fiuIEbDJ9ubreYKGMr4WB5YW+WP8daIgGmV93h2QhGZncGxUruNTVl
-         xb2WebfNbk637VrINs16GyzSfy6Udi4tcRoeH/5/HvD6JJC39vardYEfjksmVtn+eq90
-         6nNKA546KE5FFVTONnyAW7NH0ZI0JriDM3YVglc1gMZq/J8BylnjF7IuIBmBXSUxR5sk
-         pKWbcKzTldmYVXmq15a181+DQWmWqY+Hy9X3XmqX1apU7j5PpWG+JMXCx6tSMMlVkN1h
-         l9ew==
+        d=gmail.com; s=20251104; t=1789065186; x=1789669986; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6ost6d0L83lIoeZ+lEEXbmuX93WTw58C3/ZwNuzffpI=;
+        b=osh0MPFc9cxgmfb1CnDiMrCdC9tWwLfLZn/pp8Qe4Oub/GMcasoh0AJBH7+udkdYEX
+         WdJVGieVYt+g59EeyCkxHJdx07kT9QIplTFoH6850IZn5Ylzc/ni9woXLAGLYh2EmOvY
+         O0wtZ4rlkEYv/OlZLmlc1GH4D+F5YwcJW8Pf4pmk5S8lCcqufLOWlumG1lcsEpwBD18T
+         a2meG4EtCzgXsOaZq3ocFlZPq/Qq74vdt6835VtCbzY4dR+44sHElo4/nCSwOfQSMa6c
+         GQgz07QyFhdR+GbecDMaRRmle2BuA1LdxhyLiLwLBWd6rTcqmkRFWcfjj8n3Cqw1Kai0
+         u78A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789063890; x=1789668690;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gxuS67QpsgmiVo7SJODgVn7jNGL8PaTVeXELBYXj9Vc=;
-        b=U46X8VUn/V543+Q8V8Z594ftrD+Ivw6i6BtPRjz8Pu4oeMUh9YAH8I4ol4/8Pt0lXU
-         Eo823NCVWEuExPPudiohXIoBumY5G6z5bMzL0s/ZxngCdr8DzKOYY5s5XpNdoDbRU+ce
-         8jOqatSOT1UjuSL5dk0xz/gYGPIYjXlhlyHXfuNBTYMUZ/TkrAeXch4CHpOFpGBe7qnc
-         1iAa4GSR+ER2JjzjwMTtSZjtARUyHWgAHT6drBydN0lPIQ60ghDR+Y6rj80Gz2zYIy8c
-         VNXfUf+Cj0Qc4cbcCMJF0KjSnK6cIdpzvM5hBZIfedi9eriACObDUsyEMTNyvZp3BF5y
-         as+A==
-X-Forwarded-Encrypted: i=1; AKwUvBxmIRk4YYw98nFr3kqZaPrhypqnStx8QqyDybdclb/2XaZ2BqZxiK5GSCjy9ud1PjgIKDSCiZ8CFLGhwC8x@vger.kernel.org
-X-Gm-Message-State: AFuF++kech1zF4pexPa31H8tJbDJqDPTtHs8UgKHvIczLPcDzRLIY8BT
-	KNaS7CULsbhYaV488fTLX8Gxn8k2zJ5EeLNf3JklhpMtIStKPjuih4hVeu4TZ5TwGuLVJz6Ko//
-	KuBAQs/U0KyJPE7onSLR5bRmaCdVQTi4=
-X-Gm-Gg: AYBFou0JhyS2FqPE+H9PwbwITy8yQ1ENzNaDwEtnESO4hmSgLJGoHv0Ev0vrAO+0s/s
-	rClPrTegMBbCyHe0Z4XnBvPlOi0XRXS0uT0C8NlK5mrIFSPvIGhKGy7VzV8lix2eKI686mPOad5
-	cdTotz6DOheYypFiAr0dOtdSBQw+BndKeG4HvnYnCSmP/ft4zfzVRsGjkggpgfPhg6bGTovw9WK
-	dGFtmAQ9UqnFOqg0Z9EFDZUGWg/XyihuTtJ1r3QZz8wziXQ5jvSovHMPcB0nSLJFo45BJjADs4d
-	l21nhryCFj8SlRQkpiWNrdwabpDp0tT3P4dWgfV6RFpn8KR8YjvC564=
-X-Received: by 2002:a05:6820:55d3:20b0:6b1:ac4f:f708 with SMTP id
- 006d021491bc7-6c0bc1d3ad3mr241038eaf.17.1789063890425; Thu, 10 Sep 2026
- 11:11:30 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789065186; x=1789669986;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6ost6d0L83lIoeZ+lEEXbmuX93WTw58C3/ZwNuzffpI=;
+        b=lK/OIkgkN0d7uo8pmZQbNuviuTGVSrRZYq8jc1qoVs0kYHR7wA82JIH0Q+RGEJ4CVc
+         0RDEHuTLuGlLHCGcTNjQiV02q5/Y+5GBseGsEU/djmtfYYZ9SVrB/LwwEmF/fbV+dUaL
+         27meBe7hOTCXBaIfkS4OK+xzTeUv2Tjg7LyouQaV9kyZARWyHW8MlRIBEkzc9zvubhhI
+         JHuZi0zbzl8vFfRDOpxUaezvVPtwBA95+DWZqs9PEaA8Jjsib5M7s/VB1qlMJrv9himN
+         r+zvLXrruYTEmngYMLDQEAx8X2ktU0WzIVbNlRZJ+uO1OjqB5fZoZQ28TxlPuNOlkDc/
+         OkLQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz65MNWZT0DdBY/Z9AGFKLJy7sGcufT42SoOaQ6ZuwZbCQf2GPEPL9R46Ofz+JS9E+zQX77nmCJf1EJf/ur@vger.kernel.org
+X-Gm-Message-State: AFuF++la4/DNML2WE4ApFnAsQO5r6Mg0ZRLGRm9qZp4Nqo3FY8QpFGvm
+	m/DlyKw/nFoDpngxmFZA8VzZiqUkRjwSnijN9e/yJfoqQgcRxyXok6jNlPrOn9H6OqA=
+X-Gm-Gg: AYBFou3qG7WvHRnZ4DMqVNPsf5IO0faCLuOVkF79ea36aZbnI/FELJ4Cbeu3ZlkSqaQ
+	Rpdi8FG5tezsrdK3LZV5DoGSf+uDTwYWTz8VpX++Xp47WOG+Y0oMXMLyiUFHm264b4cUZ4q3PjM
+	5btwmhxmpjaH9Ljm+kl8sG639RZj6T781mkMfDXq+YE67/JKiwdX2eQUYqaAO3oaeMwz4reoPho
+	fmp0Te6IHoJZYPV8iClSNAMTJDL3DsFjocnzUK0Ir07KlLvDC9LsPps93vOAEx5NE7cyljU3+TJ
+	0xvTL/VKLGhofQ4yOcwQjdJ4r7W9luhML7X110XxtTrTJVSWB4Mb2xk0sqtf55MJTPNKhrme9fr
+	0WtbNTiz8BeISLy4AOyy06hLVaLQ4TKKkdd9m8BR2BxSsQGGZP6GvbKbprncbrtxgaz/jxpFypD
+	HVI3srFzrbfIhpI7jZ5fdFCwfCJOFgp1//IwF5SNvdI9LQNhnkpQp5iWKv0KiP3OI2NZQ+Zr+rr
+	Q542QmPQj57kBtxNwIxuGs2upHE+Jkm
+X-Received: by 2002:a05:600c:4688:b0:49c:cbf4:572b with SMTP id 5b1f17b1804b1-49e619ec129mr2824565e9.2.1789065185924;
+        Thu, 10 Sep 2026 11:33:05 -0700 (PDT)
+Received: from lima-kdev.local ([85.100.66.184])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e5765152asm40701325e9.11.2026.09.10.11.33.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 11:33:05 -0700 (PDT)
+From: Kayra Cizmeci <kayracizmeci@gmail.com>
+To: tim.c.chen@linux.intel.com
+Cc: brauner@kernel.org,
+	bsegall@google.com,
+	dietmar.eggemann@arm.com,
+	imv4bel@gmail.com,
+	jack@suse.cz,
+	juri.lelli@redhat.com,
+	kees@kernel.org,
+	kprateek.nayak@amd.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	mgorman@suse.de,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	qyousef@layalina.io,
+	ricardo.neri-calderon@linux.intel.com,
+	rostedt@goodmis.org,
+	srikar@linux.ibm.com,
+	sshegde@linux.ibm.com,
+	vincent.guittot@linaro.org,
+	vineethr@linux.ibm.com,
+	viro@zeniv.linux.org.uk,
+	vschneid@redhat.com,
+	wanglu.priv@gmail.com,
+	yi1.lai@intel.com,
+	yu.c.chen@intel.com,
+	zhanxusheng1024@gmail.com,
+	zhanxusheng@xiaomi.com,
+	ziqianlu@bytedance.com
+Subject: Re: [PATCH 1/4] sched/cache: Keep nr_pref_llc_running in the runnable domain
+Date: Thu, 10 Sep 2026 21:33:01 +0300
+Message-ID: <20260910183301.1208504-1-kayracizmeci@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <82736e1329bf8ed195bbbc4990486c87094e6789.1789061845.git.tim.c.chen@linux.intel.com>
+References: <82736e1329bf8ed195bbbc4990486c87094e6789.1789061845.git.tim.c.chen@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
- <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
-In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
-From: Stephen Smalley <stephen.smalley.work@gmail.com>
-Date: Thu, 10 Sep 2026 14:11:18 -0400
-X-Gm-Features: AcwNN1XLr_yN2lEzELD3PcXDse2cuW9BBHCwsQpnROCV_SxzPvFmiqhSaiK704I
-Message-ID: <CAEjxPJ7hXSi=oLtQPV+7GEvN+txfYwZ-u-v_EysNHM0gSGNrCw@mail.gmail.com>
-Subject: Re: [PATCH 11/39] selinux: reject writable opens of policy file, drop
- mmap shared/write check
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 8, 2026 at 4:07=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
->
-> The policy file has no write method and is exposed read-only (S_IRUGO in
-> selinux_files[]), yet sel_open_policy() performs no open mode check, so a
-> CAP_DAC_OVERRIDE caller can open it O_RDWR. Reject FMODE_WRITE at open, a=
-s
-> kernfs does.
->
-> The file can then never be mapped with FMODE_WRITE, so do_mmap() always
-> clears VM_MAYWRITE and VM_SHARED for MAP_SHARED mappings and the VM_SHARE=
-D
-> check in sel_mmap_policy() cannot be reached. Remove it.
->
-> This also stops sel_mmap_policy() clearing VM_MAYWRITE on a mapping that =
-is
-> neither a PFN map nor a mixed map, ahead of the core enforcing that only
-> such mappings may do so.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Hello :>,
 
-We should likely do something similar for the other sel_open_*() and
-sel_mmap_*() functions too.
-In particular, truncation of the status file can bring down systemd
-since it is mapped by libselinux.
+> alb_break_llc() decides whether to break LLC preference during active
+> load balance. It does so by testing that every runnable fair task on the
+> source rq prefers its LLC:
+> 
+> 	env->src_rq->nr_pref_llc_running == env->src_rq->cfs.h_nr_runnable
+> 
+> But the two counters cover different sets. nr_pref_llc_running is updated
+> in account_llc_enqueue()/account_llc_dequeue(), next to cfs_rq->nr_queued,
+> so it follows queued tasks. h_nr_runnable is updated in set_delayed()/
+> clear_delayed() and drops delay-dequeued tasks.
 
-Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
+> So under DELAY_DEQUEUE, a preferring task that goes to sleep stays counted
+> in nr_pref_llc_running while h_nr_runnable falls. The equality then breaks,
+> alb_break_llc() returns false, and active balance is free to pull a task
+> off its preferred LLC. Active balance only moves runnable tasks, and this
+> is the only LLC check it consults: once the stopper runs, LBF_ACTIVE_LB
+> skips the per-task test in can_migrate_task(). The runnable set is the one
+> we want.
 
-> ---
->  security/selinux/selinuxfs.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
->
-> diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
-> index c7d91476971c..545a6f89f9e7 100644
-> --- a/security/selinux/selinuxfs.c
-> +++ b/security/selinux/selinuxfs.c
-> @@ -340,6 +340,9 @@ static int sel_open_policy(struct inode *inode, struc=
-t file *filp)
->         struct policy_load_memory *plm =3D NULL;
->         int rc;
->
-> +       if (filp->f_mode & FMODE_WRITE)
-> +               return -EACCES;
-> +
->         rc =3D avc_has_perm(current_sid(), SECINITSID_SECURITY,
->                           SECCLASS_SECURITY, SECURITY__READ_POLICY, NULL)=
-;
->         if (rc)
-> @@ -424,14 +427,6 @@ static const struct vm_operations_struct sel_mmap_po=
-licy_ops =3D {
->
->  static int sel_mmap_policy(struct file *filp, struct vm_area_struct *vma=
-)
->  {
-> -       if (vma->vm_flags & VM_SHARED) {
-> -               /* do not allow mprotect to make mapping writable */
-> -               vm_flags_clear(vma, VM_MAYWRITE);
-> -
-> -               if (vma->vm_flags & VM_WRITE)
-> -                       return -EACCES;
-> -       }
-> -
->         vm_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
->         vma->vm_ops =3D &sel_mmap_policy_ops;
->
->
-> --
-> 2.55.0
->
+> Fix it on the counter side. A task should be counted in
+> nr_pref_llc_running exactly while it is both queued on its preferred LLC
+> (pref_llc_queued) and runnable (!sched_delayed). Define that membership
+> once in task_pref_llc_runnable(), and adjust the counter only through
+> pref_llc_running_inc()/pref_llc_running_dec() from the four sites that
+> change either input: account_llc_enqueue(), account_llc_dequeue(),
+> set_delayed() and clear_delayed(). Gating every update on the same
+> predicate keeps the delay, wake and dequeue paths from double-counting
+> or underflowing; see the comments at those sites for the ordering.
+
+> nr_llc_running and sd->llc_counts are not touched and stay on queued
+> semantics.
+
+I have one question tho, can't we combine the checks with h_nr_runnable? On the paper
+if we are updating h_nr_runnable we could check if the nr_pref_llc_running can be 
+updated and update it if the condition is right. Because, every nr_pref_llc_running enters
+h_nr_runnable while not every h_nr_runnable enters nr_pref_llc_running. 
+
+Why instead we just check the nr_pref_llc_running's conditions on task_pref_llc_runnable()
+and call these dec and inc functions after the h_nr_runnable updates. Wouldn't it be clear that way?
+If possible?
+
+Thanks,
+Kayra :_:
+
