@@ -1,33 +1,33 @@
-Received: from mta0.migadu.com (out-70.mta0.migadu.com [91.218.175.70])
+Received: from mta0.migadu.com (out-74.mta0.migadu.com [91.218.175.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300B5306776
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 00:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8152DF144
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 00:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789000641; cv=none; b=bbD8i8h8DbhIcZF5PYQdRC9zU3viNjYU/0dgFg3iPvd9U6AMohq/EGcah9wn74Fp6kIiEYXRERQc+pjVSlQ4nbmvH6aAMQ1gys6pQcvDLYNlQe+fojp17GxZ4KtTQN7/VSdz+x9IVqNEayMW52yFY56IwSDvKfCB+swO3ok7v2c=
+	t=1789000646; cv=none; b=iaSed4C4z8eiaro2Q/QrxjhWNlBqWGqbFHTutjf8gwlii6XFFQwjuCU1jFA18g1wvtn/sIrComCIRQoa3JZpn3i7UIGr5ZOy9ajLF1CMNxC97vXw9kcMNyWrZaE+tfet9OOl3ZPDZRM3GHxseTE5Igr9JBPdOX6Sh+3eW+SVTwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789000641; c=relaxed/simple;
-	bh=jkhCgg/Ol2NrqjC9zGZTLPFKrW8MH6tEHmgZVAhmkGk=;
+	s=arc-20240116; t=1789000646; c=relaxed/simple;
+	bh=zzpjwUswTpyP7wYlZgMyj5G/NFUunoQdPWTRIzTl6y4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g00YPPkNm1LzszbRKhhXofVvA7naeukBQITSfjXjzTmi9n0evmX5XgS2Pz8frEH1i0QDClANruOiVI2aT7kOutg7ChH9FZE4uYuCQmYIxY6otaBBYbwk6QPpTk7zHE+LPpm9CCRyt5npPS+o0HPJvnXizy1PqBlsYyhMovwpcSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZYl6sI/r; arc=none smtp.client-ip=91.218.175.70
+	 MIME-Version; b=fDqgmCpTl3W2yBqZaqAZDaasutpykcBcT82Ihu72QMgDPpR4XFv5Knyrq4w956gDT7MIewcvg1H9/iicVjgENKB5eFRRrfvQmVUJFzqUT3gOb4BvwTNn0+rszh62l0Iii3X7qJG/qNS2UMhcr7YL2YKF83Gml212ZwX8aGokpSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=coBrfMfo; arc=none smtp.client-ip=91.218.175.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZYl6sI/r"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="coBrfMfo"
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=jkhCgg/Ol2NrqjC9zGZTLPFKrW8MH6tEHmgZVAhmkGk=;
+DKIM-Signature: a=rsa-sha256; bh=zzpjwUswTpyP7wYlZgMyj5G/NFUunoQdPWTRIzTl6y4=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789000636; v=1; x=1789605436;
- b=ZYl6sI/rHOSYiTKa6oH2NzwEOmpPP2+Xb/AJnbcierr2tS6Ym/azX9zlYTJImqZMZ3/Y4s/u
- 0kQcqpsICdz424aEnUS4jepOKeRiMtWDWOp58ekWv9w3zBBGG3/V8EQVXv5QbILXe2ig6WW9hoZ
- +9prpb8AD2nS9NPITnIAEJW8=
+ t=1789000642; v=1; x=1789605442;
+ b=coBrfMfoZqFV+JnTschN94anQXzG2OClqhI4DP7TwgUu6ew7MYIqMQIpe0xjzhb4Mi4OC+1u
+ kC/nG0XZplE6TNdFo7k+iA3UA8AQceobUPKZbR44RJcBlJouGHzfGCPPfmjGbNZKInuqworTNBE
+ cCReVHEeU6Zn1Htbpn2cSKv8=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 05243076f2be2f89;
-	Thu, 10 Sep 2026 00:37:16 +0000
-X-Mizu-Trace-ID: 05243076f2be2f89
+Received: by smtp.migadu.com with ESMTPS id a5b9adec7da825de;
+	Thu, 10 Sep 2026 00:37:22 +0000
+X-Mizu-Trace-ID: a5b9adec7da825de
 X-Migadu-Flow: FLOW_OUT
 From: Shakeel Butt <shakeel.butt@linux.dev>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -38,9 +38,9 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	linux-fsdevel@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] kernfs: don't hold kernfs_rwsem across dir_emit()
-Date: Wed,  9 Sep 2026 17:36:49 -0700
-Message-ID: <20260910003650.1680854-3-shakeel.butt@linux.dev>
+Subject: [PATCH 3/3] selftests: cover readdir resuming at a removed entry
+Date: Wed,  9 Sep 2026 17:36:50 -0700
+Message-ID: <20260910003650.1680854-4-shakeel.butt@linux.dev>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260910003650.1680854-1-shakeel.butt@linux.dev>
 References: <20260910003650.1680854-1-shakeel.butt@linux.dev>
@@ -52,172 +52,255 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-kernfs_fop_readdir() holds kernfs_rwsem for reading across the whole
-listing, dir_emit() included.  dir_emit() copies to userspace, so it can
-fault into reclaim while holding the lock that every create, remove and
-rename in the hierarchy needs.  sysfs and cgroupfs have one per machine.
+The kernfs tests list only directories that do not change, so nothing
+covers the entry a listing stopped on being gone when it comes back.
 
-Under memory pressure the monitoring daemons fault on their own
-getdents(2) buffer with it held:
+readdir_resume_at_removed_entry takes a telldir(3) cookie for every
+entry, then removes each entry in turn, seeks to its cookie and reads
+the rest; nothing reported before it may come back.  This is a resume
+between two getdents(2) calls, and it fails without "kernfs: don't
+repeat or skip an entry when readdir resumes".
 
-        below: page allocation stall for 120 secs: order:0,
-        mode:0x140dca(GFP_HIGHUSER_MOVABLE|__GFP_ZERO|__GFP_COMP)
-        nodemask=(null),cpuset=hostcritical.slice,mems_allowed=0
-        Call Trace:
-         <TASK>
-         dump_stack_lvl+0x5d/0x80
-         __alloc_frozen_pages_noprof+0x5f4d/0x6300
-         ? memcg_list_lru_alloc+0x73/0x320
-         ? ima_file_check+0xd0/0x7d0
-         vma_alloc_folio_noprof+0x145/0x560
-         handle_mm_fault+0x17c9/0x2720
-         ? find_vma+0x27/0x30
-         do_user_addr_fault+0x39f/0x6e0
-         exc_page_fault+0x8f/0x110
-         asm_exc_page_fault+0x22/0x30
-        RIP: 0010:filldir64+0xd7/0x1a0
-        [Code:/RSP:/RAX:..R15: register block elided]
-         kernfs_fop_readdir+0x2de/0x420
-         iterate_dir+0x8c/0x1f0
-         __se_sys_getdents64+0x61/0xe0
-         ? copy_page_from_iter+0x860/0x860
-         do_syscall_64+0x6a/0x250
-         entry_SYSCALL_64_after_hwframe+0x4b/0x53
-         </TASK>
+readdir_resume_vs_internal_remove is a resume inside one call, which
+"kernfs: don't hold kernfs_rwsem across dir_emit()" opens.  It churns
+cgroup.subtree_control rather than calling rmdir(2), which cannot reach
+that window because iterate_dir() holds the listed directory's i_rwsem
+for the whole listing.  It is a stress test, has not been seen to catch
+the ordering bug, and keeps the window busy for lockdep and KASAN.  It
+fails if the churn died and skips if the listings never overlapped it,
+so it cannot pass having listed a static directory.
 
-Commit 9aab10a0249e ("kernfs: Don't re-lock kernfs_root::kernfs_rwsem in
-kernfs_fop_readdir().") took the lock drop out because dir_emit() was
-handed kernfs_node::name, which a rename can free.  So copy the name
-under the lock and emit the copy, and pass it to the resume so that a
-resume within one call keys on (hash, ns_id, name) and not on the hash
-alone.
-
-A listing is no longer atomic within one getdents(2) call, which for
-most sysfs and cgroup directories is all of it.  POSIX leaves that
-unspecified for an entry added or removed since opendir(3).
-
-Fixes: 9aab10a0249e ("kernfs: Don't re-lock kernfs_root::kernfs_rwsem in kernfs_fop_readdir().")
 Assisted-by: LLM
 Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 ---
- fs/kernfs/dir.c | 52 +++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 37 insertions(+), 15 deletions(-)
+ .../selftests/filesystems/kernfs_test.c       | 200 ++++++++++++++++++
+ 1 file changed, 200 insertions(+)
 
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 24a927c85123..f7cd2be67e1a 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -1905,11 +1905,11 @@ static int kernfs_dir_fop_release(struct inode *inode, struct file *filp)
+diff --git a/tools/testing/selftests/filesystems/kernfs_test.c b/tools/testing/selftests/filesystems/kernfs_test.c
+index 6e74da91ebca..01cd58e5e41e 100644
+--- a/tools/testing/selftests/filesystems/kernfs_test.c
++++ b/tools/testing/selftests/filesystems/kernfs_test.c
+@@ -8,6 +8,7 @@
+ #include <limits.h>
+ #include <net/if.h>
+ #include <sched.h>
++#include <signal.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+@@ -17,6 +18,7 @@
+ #include <sys/mount.h>
+ #include <sys/socket.h>
+ #include <sys/stat.h>
++#include <sys/syscall.h>
+ #include <sys/xattr.h>
  
- /*
-  * Find where a listing left off.  @resumed says whether @pos is still that
-- * entry; if not, the first entry at or after @hash is returned instead.
-+ * entry; if not, the search falls back to @hash, keyed by @name if given.
-  */
- static struct kernfs_node *kernfs_dir_pos(const struct ns_common *ns,
- 	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos,
--	bool *resumed)
-+	const char *name, bool *resumed)
- {
- 	if (resumed)
- 		*resumed = false;
-@@ -1928,13 +1928,13 @@ static struct kernfs_node *kernfs_dir_pos(const struct ns_common *ns,
- 
- 		/*
- 		 * Keep a node only on the way left, so the search ends on the
--		 * first entry at or after @hash.  The empty name sorts before
--		 * every entry sharing the hash, so it lands on the first.
-+		 * first entry after the key.  An empty @name sorts before all
-+		 * entries sharing the hash, so it lands on the first of them.
- 		 */
- 		while (node) {
- 			struct kernfs_node *kn = rb_to_kn(node);
- 
--			if (kernfs_name_compare(hash, "", ns, kn) < 0) {
-+			if (kernfs_name_compare(hash, name ?: "", ns, kn) < 0) {
- 				pos = kn;
- 				node = node->rb_left;
- 			} else {
-@@ -1955,12 +1955,13 @@ static struct kernfs_node *kernfs_dir_pos(const struct ns_common *ns,
+ #include "kselftest_harness.h"
+@@ -472,6 +474,204 @@ TEST_F(kernfs_cgroup, readdir_no_duplicates)
+ 			EXPECT_STRNE(names[i], names[j]);
  }
  
- static struct kernfs_node *kernfs_dir_next_pos(const struct ns_common *ns,
--	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos)
-+	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos,
-+	const char *name)
- {
- 	bool resumed;
- 
--	pos = kernfs_dir_pos(ns, parent, hash, pos, &resumed);
--	/* Step over @pos only if it survived; two entries can share a hash. */
-+	pos = kernfs_dir_pos(ns, parent, hash, pos, name, &resumed);
-+	/* Step over @pos only if it survived; @name handles it if not. */
- 	if (pos && resumed) {
- 		do {
- 			struct rb_node *node = rb_next(&pos->rb);
-@@ -1979,34 +1980,55 @@ static int kernfs_fop_readdir(struct file *file, struct dir_context *ctx)
- 	struct dentry *dentry = file->f_path.dentry;
- 	struct kernfs_node *parent = kernfs_dentry_node(dentry);
- 	struct kernfs_node *pos = file->private_data;
-+	char *name __free(kfree) = NULL;
- 	struct kernfs_root *root;
- 	const struct ns_common *ns = NULL;
- 
- 	if (!dir_emit_dots(file, ctx))
- 		return 0;
- 
-+	/*
-+	 * One buffer for the call, so each name can be copied out before
-+	 * dropping kernfs_rwsem.  PATH_MAX: kernfs bounds no single name.
-+	 */
-+	name = kmalloc(PATH_MAX, GFP_KERNEL);
-+	if (!name)
-+		return -ENOMEM;
++#define RESUME_DIRS	24
 +
- 	root = kernfs_root(parent);
- 	down_read(&root->kernfs_rwsem);
- 
- 	if (kernfs_ns_enabled(parent))
- 		ns = kernfs_info(dentry->d_sb)->ns;
- 
--	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos, NULL);
-+	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos, NULL, NULL);
- 	     pos;
--	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos)) {
--		const char *name = kernfs_rcu_name(pos);
-+	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos, name)) {
- 		unsigned int type = fs_umode_to_dtype(pos->mode);
--		int len = strlen(name);
- 		ino_t ino = kernfs_ino(pos);
-+		int len;
++/*
++ * Resuming at an entry that has gone must carry on after it, never before.
++ * Take a cookie for every entry, then remove each one, seek to its cookie
++ * and read the rest; nothing already reported may come back.
++ */
++TEST_F(kernfs_cgroup, readdir_resume_at_removed_entry)
++{
++	/* The cgroup's own control files are listed alongside ours. */
++	char names[128][NAME_MAX + 1];
++	long pos[128];
++	char path[PATH_MAX];
++	struct dirent *de;
++	int n = 0, i, j;
++	DIR *d;
 +
-+		len = strscpy(name, kernfs_rcu_name(pos), PATH_MAX);
- 
- 		ctx->pos = pos->hash;
- 		file->private_data = pos;
- 		kernfs_get(pos);
- 
--		if (!dir_emit(ctx, name, len, ino, type)) {
--			up_read(&root->kernfs_rwsem);
-+		/*
-+		 * getname() caps a path, so only an in-kernel caller can get
-+		 * here.  Skip the entry rather than report a truncated name.
-+		 */
-+		if (WARN_ON_ONCE(len < 0))
++	for (i = 0; i < RESUME_DIRS; i++) {
++		snprintf(path, sizeof(path), "%s/e%02d", self->scratch, i);
++		ASSERT_EQ(mkdir(path, 0755), 0);
++	}
++
++	/* Record the cookie before reading each entry, with its name. */
++	d = opendir(self->scratch);
++	ASSERT_NE(d, NULL);
++	while (1) {
++		long here = telldir(d);
++
++		de = readdir(d);
++		if (!de)
++			break;
++		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
++			continue;
++		ASSERT_LT(n, (int)ARRAY_SIZE(pos));
++		pos[n] = here;
++		strncpy(names[n], de->d_name, NAME_MAX);
++		names[n][NAME_MAX] = '\0';
++		n++;
++	}
++	closedir(d);
++	ASSERT_GT(n, 1);
++
++	for (i = 0; i < n; i++) {
++		/* Only the directories we made can be removed and put back. */
++		if (strncmp(names[i], "e", 1))
 +			continue;
 +
-+		/*
-+		 * dir_emit() can fault, so run it unlocked.  @pos is pinned
-+		 * above and kernfs_dir_pos() rechecks it on the way back.
-+		 */
-+		up_read(&root->kernfs_rwsem);
-+		if (!dir_emit(ctx, name, len, ino, type))
- 			return 0;
--		}
-+		down_read(&root->kernfs_rwsem);
- 	}
- 	up_read(&root->kernfs_rwsem);
- 	file->private_data = NULL;
++		snprintf(path, sizeof(path), "%s/%s", self->scratch, names[i]);
++		ASSERT_EQ(rmdir(path), 0);
++
++		/* Reopen so the seek has to reach the kernel. */
++		d = opendir(self->scratch);
++		ASSERT_NE(d, NULL);
++		seekdir(d, pos[i]);
++		while ((de = readdir(d))) {
++			if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
++				continue;
++			for (j = 0; j < i; j++)
++				ASSERT_STRNE(de->d_name, names[j])
++					TH_LOG("resuming at %s (gone) went back to %s",
++					       names[i], names[j]);
++		}
++		closedir(d);
++
++		ASSERT_EQ(mkdir(path, 0755), 0);
++	}
++
++	for (i = 0; i < RESUME_DIRS; i++) {
++		snprintf(path, sizeof(path), "%s/e%02d", self->scratch, i);
++		EXPECT_EQ(rmdir(path), 0);
++	}
++}
++
++#define CHURN_ROUNDS	400
++#define CHURN_BUFSZ	512	/* small, so a listing takes several calls */
++
++/*
++ * The files appear at the end of the enabling write and go at the start of
++ * the disabling one, so the window where they exist is the short one.
++ */
++#define CHURN_DWELL_ON	2000
++#define CHURN_DWELL_OFF	200
++
++struct kernfs_dirent64 {
++	unsigned long long	d_ino;
++	long long		d_off;
++	unsigned short		d_reclen;
++	unsigned char		d_type;
++	char			d_name[];
++};
++
++/*
++ * The same resume, but inside one getdents(2) call.  rmdir(2) cannot reach
++ * that window because iterate_dir() holds the listed directory's i_rwsem
++ * for the whole listing; cgroup.subtree_control can, having no VFS
++ * operation on the names it adds and removes.  The files that are not the
++ * controller's stay throughout, so each must appear exactly once.
++ *
++ * A stress test: it has not been seen to catch the ordering bug, and is
++ * here to keep the unlocked window under load for lockdep and KASAN.
++ */
++TEST_F(kernfs_cgroup, readdir_resume_vs_internal_remove)
++{
++	char buf[CHURN_BUFSZ] __attribute__((aligned(8)));
++	char stable[128][NAME_MAX + 1];
++	int nstable = 0, i, r;
++	int withctl = 0, without = 0;
++	int seen[128], status;
++	pid_t churner;
++	DIR *d;
++
++	/* With the controller off, whatever is left is what must persist. */
++	ASSERT_EQ(write_file(self->scratch_sc, self->disable), 0);
++	d = opendir(self->child);
++	ASSERT_NE(d, NULL);
++	for (;;) {
++		struct dirent *de = readdir(d);
++
++		if (!de)
++			break;
++		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
++			continue;
++		ASSERT_LT(nstable, (int)ARRAY_SIZE(stable));
++		strncpy(stable[nstable], de->d_name, NAME_MAX);
++		stable[nstable][NAME_MAX] = '\0';
++		nstable++;
++	}
++	closedir(d);
++	ASSERT_GT(nstable, 0);
++
++	churner = fork();
++	ASSERT_GE(churner, 0);
++	if (churner == 0) {
++		for (;;) {
++			if (write_file(self->scratch_sc, self->enable))
++				_exit(10);
++			usleep(CHURN_DWELL_ON);
++			if (write_file(self->scratch_sc, self->disable))
++				_exit(11);
++			usleep(CHURN_DWELL_OFF);
++		}
++	}
++
++	for (r = 0; r < CHURN_ROUNDS; r++) {
++		int fd = open(self->child, O_RDONLY | O_DIRECTORY);
++		int extra = 0;
++		int n;
++
++		ASSERT_GE(fd, 0);
++		memset(seen, 0, sizeof(seen));
++
++		while ((n = syscall(SYS_getdents64, fd, buf, sizeof(buf))) > 0) {
++			int off = 0;
++
++			while (off < n) {
++				struct kernfs_dirent64 *de = (void *)(buf + off);
++				bool known = false;
++
++				off += de->d_reclen;
++				for (i = 0; i < nstable; i++)
++					if (!strcmp(de->d_name, stable[i])) {
++						seen[i]++;
++						known = true;
++					}
++				if (!known && strcmp(de->d_name, ".") &&
++				    strcmp(de->d_name, ".."))
++					extra++;
++			}
++		}
++		ASSERT_GE(n, 0);
++		EXPECT_EQ(close(fd), 0);
++
++		if (extra)
++			withctl++;
++		else
++			without++;
++
++		for (i = 0; i < nstable; i++)
++			ASSERT_EQ(seen[i], 1)
++				TH_LOG("round %d: %s seen %d times",
++				       r, stable[i], seen[i]);
++	}
++
++	/* The churn must have been running, or the listings prove nothing. */
++	EXPECT_EQ(kill(churner, SIGKILL), 0);
++	ASSERT_EQ(waitpid(churner, &status, 0), churner);
++	ASSERT_TRUE(WIFSIGNALED(status) && WTERMSIG(status) == SIGKILL)
++		TH_LOG("churner exited on its own: status %d", status);
++
++	/*
++	 * They also have to have overlapped it.  How much depends on the
++	 * machine, so say the race could not be arranged rather than fail.
++	 */
++	if (!withctl || !without)
++		SKIP(return, "listings did not span the churn: %d with, %d without",
++		     withctl, without);
++}
++
+ /*
+  * A telldir() cookie must resolve back to the same entry after seekdir().
+  * kernfs encodes the cookie as the node's name hash, so this covers
 -- 
 2.53.0-Meta
 
