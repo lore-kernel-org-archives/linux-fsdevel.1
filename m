@@ -1,183 +1,179 @@
-Received: from kylie.crudebyte.com (kylie.crudebyte.com [5.189.157.229])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971C7493D4E;
-	Thu, 10 Sep 2026 14:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.157.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C4B489FD3;
+	Thu, 10 Sep 2026 14:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789049243; cv=none; b=IKp+n7ZdgKijk3WzNFv0piCXglTMDzWQ2cBtSEIWU09geIlJrrpwcenLRtXfLTwcdoHM7eWWivpJXF4NkOf9knTq2G8OJg7C/TikTk/XfqlJKwckKA6L8B3+HBUnczpJAQoSpX4KQKwwQ46iHfECLKTqDiR+e3vhQmWpyNNbA98=
+	t=1789049814; cv=none; b=BE42YQ+kZ9ucz2+fv0CE3zEhTJTREFofz2PXt17dBMs0gdPQs/WSn5sdti7R9vUe9s4kbobI9KVqjJW/lHu8fazuICVWZGLrIklPIj57wMpsT9MJ4VY1lTEn/NTNRWmK1RoQUc4p8DA43tXCCcrw0wAn+q8otLJsLhAq+dSgG+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789049243; c=relaxed/simple;
-	bh=7AHrBlllx7CTtEZHixjBstoCtU2GH+xx1JqNfNfIt2A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jg58i9ZmNhg1lgPzk/Bu6+wXuiZ2/b27COari8Xs8cTi/RVC936YR0MAh9wlyOkXzB8Zzc2e+D59Kop46WUplVhP9I7ah9SUyajTCCdW2TvNG+Jn1amZX2xBTU5HsWF2bavWkYVwvHQDl3zE9jeNZbgv1jXH+18YFESHgFdot4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=utaqg+UL; arc=none smtp.client-ip=5.189.157.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crudebyte.com
+	s=arc-20240116; t=1789049814; c=relaxed/simple;
+	bh=38Ep9oRNjRWqq2y5h4nddjMtc452h0z/caU99kzEE/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kIXgVIM6A9xAhnJQ2QBS0QXvqf3zQxCU235fvRCJnDNOjwdjLbATAKj0ZivHxJ1GK0spg7iVhxOk/HBDWt+lVcN5yVhPN54Xk3q4ysJze4Q+RIZ44tK5e1XfcWuplwvi8kO3jeQp9TltSJufk3lVMuXwgOHVzJ4dGs3VgnK2Wwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKkmADC8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="utaqg+UL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Content-ID:Content-Description;
-	bh=yVckXBT7ZkvtaRt/2Meu8jC/A0/uqyEsunIirUSTZHc=; b=utaqg+ULBFDjUrgWDK56ADnEFi
-	+fOPt3KUC1VWCk6SdJfjBhwvLYciV8l1jyIgZ7ZBF2+c4PkfcjisGoSracBN9ObFtlNM7XT7VnMEo
-	PgdwSGQuA42piRBu1PCfiXYmLHZQF9ZlJ2gCgwxYiFNYj5ftmq1BYb0fDr9Wk2JrYC7rlNC9d70g3
-	cjzV+gs7/FXMB/PKscEegj/hE7jxOumIGrTQyaiuy8MOcJX60OVVFrREcMQOEeZ+JEVT2HEbBgPJm
-	rQwuJRj99TjTkQR+wNcGllN7bYuFmqPJ6ir9MUTvYdm2VnATNnwauAO0ZzorFq76+VCy6l5+OqcRc
-	9vuL4tRcze/kFcz4nPsUcJE7cO7IxFvfVccAHO+FOpvpUO7F3rB4I78mCEfyClCve+xvjtYLyHug0
-	IwpcWKMPvGszWrNM4irJNbSuXzraKM1HlMORWW0bF1KT8s17NpT7alA3475ZK6wG0txI9EhWapjUi
-	cRmz5FlAtMZGIgjcocC5TQpGkOYPeBOCP32KdIAdrQcrQnFSniP7oay2Nf4iugq/EtZPinvZioIhl
-	jKo02CMnWxQxQQVxVFTUXoUsOhdSD/g36o4ZR/ti4uwMRiKgaCWJGYDW24qnNL7yTr4aUVxpIOAL1
-	cmhWFRhQyRdSv0bW6WO/Kn/fW88IdWpZUMIziNft8=;
-From: Christian Schoenebeck <linux_oss@crudebyte.com>
-To: ericvh@kernel.org, lucho@ionkov.net, asmadeus@codewreck.org,
- dhowells@redhat.com, pc@manguebit.org, Michael Mulqueen <mike@method-b.uk>
-Cc: v9fs@lists.linux.dev, netfs@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, regressions@lists.linux.dev
-Subject:
- Re: PROBLEM: [REGRESSION 7.1-rc4 -> 7.1-rc5] 9p: silent NUL corruption of
- file data on cache modes with CACHE_WRITEBACK
-Date: Thu, 10 Sep 2026 16:06:51 +0200
-Message-ID: <10911959.nUPlyArG6x@weasel>
-In-Reply-To: <fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk>
-References: <fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKkmADC8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3AFB1F000FF;
+	Thu, 10 Sep 2026 14:16:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789049812;
+	bh=pKr5hPbNleVMkg76w58XMKUslPR6fzuboqwZkz3wepg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dKkmADC8CQOFHY6kWVFLhHmN/5gQRiSVsLiZPB0L8TvjATCyW+1Cb7C8Vy+kFGQcL
+	 ruGR6HIbcw9pVnmhxY6/ubSwRuttRWtFi+0CQhHxpNcO7wlTNdnxdRXx5jCqDri41c
+	 oduNfZfQDoEE9TXpXwEL78gORwyRdpVrQV9P9seIFBVR8WixbOya2rUNsvN4oGa3cj
+	 G8FMuuDvWgv4ByjBxH2LX0KUHaKdt7uXUfdHWLGiEPJXYIPTAXjwujhpEq86th9s9c
+	 XmCDVX70y+bfM4ZVfe6J/gglXWlFDI6WZ/z4sLsTYKcZRNuco/NOcuVL3G+T+KYPKI
+	 gDhqAkWNhXCvQ==
+Date: Thu, 10 Sep 2026 15:16:42 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Oscar Salvador <osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr handling
+Message-ID: <aqK2_RpAlMbVYcuN@gremlin>
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
 
-On Thursday, 10 September 2026 12:56:24 CEST Michael Mulqueen wrote:
-> Hi,
-> 
-> This is my first kernel bug report, so let's hope I've done it right!
-> 
-> [1.] One line summary of the problem:
-> 
-> A 9p mount returns NULs in place of file contents the server holds, and can
-> write those NULs back over the server's copy. Nothing reports an error - the
-> read succeeds and the file is the correct length. Affects CACHE_WRITEBACK
-> modes - mmap, loose and fscache - but not none or readahead.
-> 
-> [2.] Full description of the problem/report:
-> 
-> I enclose a reproducer script that shows the two presentations of this bug:
-> 
->   - Read side: a range whose folio has been evicted reads back as NULs
->     while the server's copy is intact. The whole file comes back as NULs.
->     A fresh open() on the same mount reads them too, so it is not
->     confined to one descriptor.
-> 
->   - Write side: A partial write into such a range destroys data the server
->     did hold.
-> 
-> I came across this bug on a cache=loose mount in ordinary use, I was seeing
-> this sporadically and I think git was usually the trigger. I switched to
-> cache=mmap, which made it rarer but did not stop it.
-> 
-> After the client's own writeback extends a file, zero_point appears to go
-> stale and the zero-fill branch in fs/netfs/buffered_write.c fires for
-> regions the server does have. The sites were that branch, fs/9p/vfs_inode.c
-> (use_zero_point = true to netfs_inode_init), and fs/netfs/misc.c.
-[...]
-> I then built and tested the likeliest commit and its parent:
-> 
->   - 2c8f4742bb76 ("netfs: Fix potential for tearing in ->remote_i_size and
->     ->zero_point") - clean.
-> 
->   - 4543a4d73794 ("netfs: Fix zeropoint update where i_size >
->     remote_i_size") - CORRUPT.
+On Wed, Sep 09, 2026 at 03:33:01PM +0200, David Hildenbrand (Arm) wrote:
+> Let's move it to sparse_init_one_section(). However, to keep early
+> boot processing working, we also have to initialize it in
+> sparse_sections_init().
 
-So that was:
+A why might be nice :)
 
-commit 4543a4d737944134a1394afe797622546fbcc98a
-Author: David Howells <dhowells@redhat.com>
-Date:   Tue May 12 13:33:43 2026 +0100
+I guess preparing for removal of __section_mark_present()?
 
-    netfs: Fix zeropoint update where i_size > remote_i_size
-    
-    Fix the update of the zero point[*] by netfs_release_folio() when there is
-    uncommitted data in the pagecache beyond the folio being released but the
-    on-server EOF is in this folio (ie. i_size > remote_i_size).  The update
-    needs to limit zero_point to remote_i_size, not i_size as i_size is a local
-    phenomenon reflecting updates made locally to the pagecache, not stuff
-    written to the server.  remote_i_size tracks the server's i_size.
+Also good to have arguments as to why this is equivalent of previous
+behaviour.
 
-[...]
+E.g. higher pfn = higher section nr so naturally the highest is the one you
+end up wtih at the end of sparse_sections_init()?
 
-diff --git a/fs/netfs/misc.c b/fs/netfs/misc.c
-index bad661ff2bec..723571ca1b88 100644
---- a/fs/netfs/misc.c
-+++ b/fs/netfs/misc.c
-@@ -307,10 +307,10 @@ bool netfs_release_folio(struct folio *folio, gfp_t gfp)
-                return false;
- 
-        netfs_read_sizes(inode, &i_size, &remote_i_size, &zero_point);
--       end = umin(folio_next_pos(folio), i_size);
-+       end = folio_next_pos(folio);
-        if (end > zero_point) {
-                spin_lock(&inode->i_lock);
--               end = umin(folio_next_pos(folio), inode->i_size);
-+               end = umin(end, ctx->_remote_i_size);
-                if (end > ctx->_zero_point)
-                        netfs_write_zero_point(inode, end);
-                spin_unlock(&inode->i_lock);
+>
+> Should we use READ_ONCE/WRITE_ONCE with __highest_used_section_nr?
+> Probably, something for another day.
 
-That would explain it, as _remote_i_size is only updated on explicit stat()
-(Tgetattr 9p request); with cache modes "loose" and "fscache" not even then.
+It might be worth expanding this a bit. Do multiple threads read/write this
+concurrently?
 
-That's actually David's domain, but maybe something like the following might
-fix it?
+No functional change intended here or is one intended? :)
 
-diff --git a/fs/netfs/write_collect.c b/fs/netfs/write_collect.c
-index 210eb8f3958d..9585274b118a 100644
---- a/fs/netfs/write_collect.c
-+++ b/fs/netfs/write_collect.c
-@@ -73,6 +73,8 @@ int netfs_folio_written_back(struct folio *folio)
-                spin_lock(&ictx->inode.i_lock);
-                if (fend > ictx->_zero_point)
-                        netfs_write_zero_point(inode, fend);
-+               if (fend > ictx->_remote_i_size)
-+                       netfs_write_remote_i_size(inode, fend);
-                spin_unlock(&ictx->inode.i_lock);
- 
-                folio_detach_private(folio);
-@@ -90,6 +92,15 @@ int netfs_folio_written_back(struct folio *folio)
-                        goto end_wb;
-                }
- 
-+               {
-+                       unsigned long long wend = umin(folio_next_pos(folio),
-+                                                      i_size_read(inode));
-+                       spin_lock(&ictx->inode.i_lock);
-+                       if (wend > ictx->_remote_i_size)
-+                               netfs_write_remote_i_size(inode, wend);
-+                       spin_unlock(&ictx->inode.i_lock);
-+               }
-+
-                /* Need to detach the group pointer if the page didn't get
-                 * redirtied.  If it has been redirtied, then it must be within
-                 * the same group.
+Before it was:
 
-I.e. updating _remote_i_size on client's self-inflicted size extension after
-write completed?
+mm_core_init_early() -> sparse_sections_init() -> __section_mark_present()
+                          sparse_add_section() -> __section_mark_present()
 
-> I searched the v9fs and netfs public-inbox archives and did not find this
-> reported - apologies if I have missed a thread.
-> 
-> The nearest existing thread is Pierre Barre's "[BUG] 9p: data corruption
-> with cache=mmap under concurrent stat/write" (24 Dec 2025). I believe that
-> is a different bug: it needs stat racing against writes and manifests as a
-> wrong i_size. What I have here is single-threaded, deterministic, and
-> destroys data rather than mis-sizing the file. It is also absent on v6.18,
-> the release that report was made against.
+Now:
 
-Even though unrelated, that's not fixed yet either, is it?
+                                                 mm_core_init_early() -> sparse_sections_init() [early]
+                                                 sparse_add_section() -> sparse_init_one_section()
 
-/Christian
+But also called from mm_core_init_early():
+
+sparse_init() -> sparse_metadata_init() -> sparse_metadata_init_nid() -> sparse_init_one_section()
+
+Are both required?
+
+Might be worth digging into why a bit here.
 
 
+>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  mm/sparse.c | 5 +++--
+>  mm/sparse.h | 6 +++---
+>  2 files changed, 6 insertions(+), 5 deletions(-)
+>
+> diff --git a/mm/sparse.c b/mm/sparse.c
+> index 2b41ae36f20b8..2d0f2db34f4cf 100644
+> --- a/mm/sparse.c
+> +++ b/mm/sparse.c
+> @@ -177,7 +177,7 @@ static inline unsigned long first_present_section_nr(void)
+>
+>  void __init sparse_sections_init(void)
+>  {
+> -	unsigned long pfn, start_pfn, end_pfn;
+> +	unsigned long pfn, start_pfn, end_pfn, section_nr;
+>  	int i, nid;
+>
+>  	sparse_extreme_init();
+> @@ -187,9 +187,9 @@ void __init sparse_sections_init(void)
+>  		mminit_validate_memmodel_limits(&start_pfn, &end_pfn);
+>
+>  		for (pfn = start_pfn; pfn < end_pfn; pfn += PAGES_PER_SECTION) {
+> -			unsigned long section_nr = pfn_to_section_nr(pfn);
+>  			struct mem_section *ms;
+>
+> +			section_nr = pfn_to_section_nr(pfn);
+>  			sparse_index_init(section_nr, nid);
+>  			ms = __nr_to_section(section_nr);
+>  			if (ms->section_mem_map)
+> @@ -201,6 +201,7 @@ void __init sparse_sections_init(void)
+>  			__section_mark_present(ms, section_nr);
+>  		}
+>  	}
+> +	__highest_used_section_nr = section_nr;
+>  }
+>
+>  #ifndef CONFIG_SPARSEMEM_VMEMMAP
+> diff --git a/mm/sparse.h b/mm/sparse.h
+> index 7c5d82ceb7142..a3af4967fd5c5 100644
+> --- a/mm/sparse.h
+> +++ b/mm/sparse.h
+> @@ -97,6 +97,9 @@ static inline void sparse_init_one_section(struct mem_section *ms,
+>
+>  	BUILD_BUG_ON(SECTION_MAP_LAST_BIT > PFN_SECTION_SHIFT);
+>
+> +	if (section_nr > __highest_used_section_nr)
+> +		__highest_used_section_nr = section_nr;
+> +
+
+Could also be:
+
+	section_nr = max(section_nr, __highest_used_section_nr);
+
+But not a big deal.
+
+
+>  	/*
+>  	 * We encode the start PFN of the section into the mem_map such that
+>  	 * page_to_pfn() on !CONFIG_SPARSEMEM_VMEMMAP can simply subtract it
+> @@ -114,9 +117,6 @@ static inline void sparse_init_one_section(struct mem_section *ms,
+>  static inline void __section_mark_present(struct mem_section *ms,
+>  		unsigned long section_nr)
+>  {
+> -	if (section_nr > __highest_used_section_nr)
+> -		__highest_used_section_nr = section_nr;
+> -
+>  	ms->section_mem_map |= SECTION_MARKED_PRESENT;
+>  }
+>
+>
+> --
+> 2.43.0
+>
+
+--
+Cheers, Lorenzo
