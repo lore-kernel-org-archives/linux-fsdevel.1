@@ -1,192 +1,143 @@
-Received: from dvalin.narfation.org (dvalin.narfation.org [213.160.73.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BE63AB287;
-	Thu, 10 Sep 2026 16:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.160.73.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789059398; cv=none; b=HJKzcnIDFkhoe2QBCp4RxSTXdLSZklQ9lA/9o3r4EJbU4/6sH5UwhYUuVXrQEoO7fSrNWea+cHCIxc/Qfqf4pPUi/8oDOJm80RXR1yFLHOzpz4m8v/isCThWEb1l8zYTYfsxrA6srBeImTyMR3QOedjgMUC9SYR2HoN4BBpWtKU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789059398; c=relaxed/simple;
-	bh=ScSG9WBXfS4Wo/8HDgWfWshTRFigOP1Fj1R22XjxUT0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UWG/PNPJ3BOcvwcfagXSU5JivU87sfjf2cx6FcYoTCFWl0wNuwEZSLwW9sLabzu0qLR28NYvsJY6cGHLkvWU1j69BJreRSEeS0xdeIr2+UJX2LF43AjAHYCjZ9j+XGhTmUCUJ5k9HqQ7O96L32Mp19IDj55B/oD4tCFgd68PayU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=narfation.org; spf=pass smtp.mailfrom=narfation.org; dkim=pass (1024-bit key) header.d=narfation.org header.i=@narfation.org header.b=nwEXBdcA; arc=none smtp.client-ip=213.160.73.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=narfation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=narfation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F6A53FD21
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 17:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789059754; cv=pass; b=bKNyPIXfwvU/vwI6oNL8Nid/m0pdlOfQdL8PksOweQXvMoYgY4b+gItU3YeuZwnIuCbFkw6DiHLPUJv5pgEi0cL0hqFNazu6mNsj1ynHiLG1joxpEGin5cNNgp7w0WD8C7YNHThbhffyRMNXJCy+2JA1zWY9ctVuZEUUCzhrxfc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789059754; c=relaxed/simple;
+	bh=P+DLIY6UxOqANj9LNama4Ax3pwH1auByUeIWevB5eqk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dA1mMVSOrkp2TLBb2m8ALUg9qLsY9Jfo/Z2FExdhHDSHO+N9t9DijvJkEiAKXoih1ZVRD0Fhlm8spEaLU5nyoE/F8zFaypvIFRHpAta0c1TPgsOJajoF9Z0V2a8NcaE060Sib/TFWjFblJqvV66kPh3GiBrERsK79/d/llwUZig=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dRYVyIwA; arc=pass smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=narfation.org header.i=@narfation.org header.b="nwEXBdcA"
-Received: by dvalin.narfation.org (Postfix) id 2356320394;
-	Thu, 10 Sep 2026 16:56:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=narfation.org;
-	s=20121; t=1789059391;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jpfKdfRhIDieddP8CnPCmiOpHujz9qF8RTfexgVbXU8=;
-	b=nwEXBdcAy3Bpov4VOY4e9xQIUo1PQ2X9HlwxbfnLeQfMjABTkXF73qIcnksvyZ+lcbcS0g
-	2rPkDRnl7UQZFmPrLPM9uczBVt0vyDhtL/31BVXskbZBb26AOMkMrYm6WaedfzaSpjh5hq
-	RYBqqwgy91rok1+/oD3mlpj7KKJQqzg=
-From: Sven Eckelmann <sven@narfation.org>
-To: netdev@vger.kernel.org, Fernando Fernandez Mancera <fmancera@suse.de>
-Cc: horms@kernel.org, kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
- davem@davemloft.net, Fernando Fernandez Mancera <fmancera@suse.de>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Elad Nachman <enachman@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
- Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
- Edward Cree <ecree.xilinx@gmail.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Arend van Spriel <arend.vanspriel@broadcom.com>,
- Miri Korenblit <miriam.rachel.korenblit@intel.com>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Saurav Kashyap <skashyap@marvell.com>,
- Javed Hasan <jhasan@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, Nilesh Javali <njavali@marvell.com>,
- Manish Rangankar <mrangankar@marvell.com>, Varun Prakash <varun@chelsio.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
- Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
- Marek Lindner <marek.lindner@mailbox.org>,
- Simon Wunderlich <sw@simonwunderlich.de>,
- Antonio Quartulli <antonio@mandelbit.com>,
- Nikolay Aleksandrov <razor@blackwall.org>,
- Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>,
- Phil Sutter <phil@nwl.cc>, Johannes Berg <johannes@sipsolutions.net>,
- Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>,
- Geliang Tang <geliang@kernel.org>, Julian Anastasov <ja@ssi.bg>,
- Aaron Conole <aconole@redhat.com>, Eelco Chaudron <echaudro@redhat.com>,
- Ilya Maximets <i.maximets@ovn.org>, Allison Henderson <achender@kernel.org>,
- Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
- Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
- Xin Long <lucien.xin@gmail.com>, "D. Wythe" <alibuda@linux.alibaba.com>,
- Dust Li <dust.li@linux.alibaba.com>,
- Sidraya Jayagond <sidraya@linux.ibm.com>,
- Mahanta Jambigi <mjambigi@linux.ibm.com>, Tony Lu <tonylu@linux.alibaba.com>,
- Wen Gu <guwen@linux.alibaba.com>, Jon Maloy <jmaloy@redhat.com>,
- Tung Quang Nguyen <tung.quang.nguyen@est.tech>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Casey Schaufler <casey@schaufler-ca.com>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Vikas Gupta <vikas.gupta@broadcom.com>,
- Bhargava Marreddy <bhargava.marreddy@broadcom.com>,
- Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>,
- Nicolai Buchwitz <nb@tipi-net.de>,
- Markus =?UTF-8?B?QmzDtmNobA==?= <markus@blochl.de>,
- Arnd Bergmann <arnd@arndb.de>, Heiner Kallweit <hkallweit1@gmail.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Qingfang Deng <qingfang.deng@linux.dev>,
- Julian Braha <julianbraha@gmail.com>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
- Willem de Bruijn <willemb@google.com>, Alyssa Ross <hi@alyssa.is>,
- Joel Granados <joel.granados@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
- linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, oss-drivers@corigine.com,
- linux-net-drivers@amd.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
- b.a.t.m.a.n@lists.open-mesh.org, bridge@lists.linux.dev,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- mptcp@lists.linux.dev, lvs-devel@vger.kernel.org, dev@openvswitch.org,
- rds-devel@oss.oracle.com, linux-sctp@vger.kernel.org,
- linux-s390@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
- linux-security-module@vger.kernel.org
-Subject:
- Re: [PATCH 01/13 net-next] net: ipv4: introduce CONFIG_IPV4 to decouple the
- IPv4 stack
-Date: Thu, 10 Sep 2026 18:56:26 +0200
-Message-ID: <2927239.BEx9A2HvPv@ripper>
-In-Reply-To: <20260910144914.8025-2-fmancera@suse.de>
-References:
- <20260910144914.8025-1-fmancera@suse.de>
- <20260910144914.8025-2-fmancera@suse.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dRYVyIwA"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-5306706e89dso358801cf.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 10:02:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789059733; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KuAu9Ou6KM5S9++tYx6sa72KNWfn/i1B+Uubm/a1njIZFyTDovyYi0qJP+LYu3gU1w
+         3BHHwaDf2PvfVkf286gVHxv/wNlenBsRfrvVObvX7GbNn9Pja8esJO1htRW2LFcvVZTo
+         4xoqApntElodjKWpesqbGYyQH6z2BYrkmuUiw7o3LUTKrJhV5ztG7G4S34wZubz55hyi
+         rDRw1v46zqHepnvVDk2VeQwUHI9aT/arBurcIbB9paa1Wjk1fhOlK7ijUKicCeXoHBZo
+         YsHPLJcSnGEltUQbTjvnOGGJyg/ntV0XxdjmJypNemRonUe8n+zIepOPwNUHXkSOGUIR
+         JawQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=P+DLIY6UxOqANj9LNama4Ax3pwH1auByUeIWevB5eqk=;
+        fh=Gu5Mia4nS5Vcjkjrneo7hSVQgJiZT+crns4OoFO8KDc=;
+        b=p1quU4oVaYmmMnJCo6F7hqAq5pZukVfg8y49LyW3j2iW6LsVBQdruYnnEtxdmSigQB
+         BdgOK+f1je+dnXfvIa3W+DTGmrpR791Wrc287DDrSUHTx7I2tNlKiXSi6T0fk0+Uz1zJ
+         kyQ6GqsQcy5j11L2wlx1taVe6cCxJsQYRzCCNnFPrswL4rqvaX6jANbdFHSQciyXQfgD
+         bMRuMfKaeG/pTjlo3kHTVIzYLh2PzaLPU7UoeZO0JHwNYYFLRh4EjhsFd6k12cuV8sUl
+         YJUulFe4TR561nyFpIeoZYkgfa7NqhZN3drXErTPLYEm/T2fvet6zInoSE7jQTJYCU0p
+         Cvxg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789059733; x=1789664533; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=P+DLIY6UxOqANj9LNama4Ax3pwH1auByUeIWevB5eqk=;
+        b=dRYVyIwAVyu339djamiEiFX4SAIXxUXgS0xgDqPFc9GDmLwPm2fdxSsw5yF2LmTSfi
+         +w7kQDvYxPrZLK/kJZ2ViksLmSK5vXi6f/SZTX+u/SZuOru6XbR9puXrIC1vLL3W9wAb
+         BbtBvy+rC0pdB0R5mRELbzL5BAriG9Z0nmuIPpkAsqbtmZlB2nkoPvXqgvO86lAtBQCl
+         HKQ7ZSi0tW/HgKzUTEm6cvevMfp6nsXggQaYaisjKqPA7FCo9QWKupc96/KLb128NvRd
+         BirQbKKuVgi7a9lBmnrVjBTb0KHfWiaJO6ZHRqjUDO++nAyNmR+/DMslHsyCMd1nRRTp
+         K+hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789059733; x=1789664533;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=P+DLIY6UxOqANj9LNama4Ax3pwH1auByUeIWevB5eqk=;
+        b=X8mnNqIQuYheZNMpM49SqLtfedl/Pueg/1m1nkxDfKNXLGmfzchwnM2PDu3JQyWbjg
+         m7ejE6QcRcZrcYp8XK6LoBQn+BfPK9EJXsxi8d3ZRU2iuctqXN4TS0bUKilKFfe7dvNq
+         mbtPgnkAKWzD8KQf+xoESneAzwNLdvXPQ6nNAtk6aK+4fj04G6PTLLD4Wc0Aasjq/shI
+         5BoRHVKE9zY7ykTZ7/DIarBcVwFwLYsx1JRX2V4IaaGj2pHFqSlUJE33BkkHcIEd7i1V
+         fIl8tKsQcokk7w9F5k5nhpnrSk3pWWAgy1Ut+DJHF9a+dWV7lT3YEGT+msHctV3aTrsc
+         o8Kw==
+X-Forwarded-Encrypted: i=1; AKwUvByQNtgCix4+nIEP8fe+t3ggu3pyh/iSwbntuF/eGueLEv2iaFr+/EHkfLuyDhR76oHRaoq+m+L8svsOWk6M@vger.kernel.org
+X-Gm-Message-State: AFuF++kzyGvx9jM6NoOejvXyHIMDoyS5Ut9grOF2XyyPAA5ATWkObvEh
+	g5tXRsqC86rW5rFnYbme37alLzUm/EpVMQVKUAkjUpUayB5H+L7AbI2FUD9xUuL0U5PPZtU5xZP
+	mMybXs7UydAFuoiu2ezSt71i6mf81fJM6VNnjPd+o
+X-Gm-Gg: AYBFou1fExahGhLaVHaCopciU0PuXKo0GIQ8rcdoxQfC9MEb8Z14OcIz3baYW4GP7af
+	cTr1PDnxy7HjYiSg8HlF1ORVT93GP+Dc8u01CQ8STYUwZb2XL1Irzg2ph7fQr1aVLydEyy1YwTP
+	hiP8Qp9l0sIjWp7lZdqZdk5/7SA6bjUc2/Trjv9dhCTmMxfE4rnlzYvm0ojwVA263QX7KWDVXhv
+	Mm7dpeyw1BX7a2MzVqv3WZoaVUURNnZCDuHZ48HTixmmOB+UZDydL8k1QoTrUp+xA9uVS+F8tkK
+	bxCqEm7+Si6Y9YPOHVF2fFoAaPrY8rpcMyMwxl0lKlY+LTmrWA5TnDiHBA4sWI/NI7E8MbocsYO
+	RYascgPBzoQ==
+X-Received: by 2002:ac8:5750:0:b0:52b:806e:2633 with SMTP id
+ d75a77b69052e-530b601f181mr19081821cf.1.1789059732422; Thu, 10 Sep 2026
+ 10:02:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart15836323.tv2OnDr8pf";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
+References: <20260907063918.3432401-1-surenb@google.com> <20260907063918.3432401-4-surenb@google.com>
+ <4825a2fe-f064-45d7-a7c9-e98de7efe86c@kernel.org> <CAJuCfpFL_g7tELjT8p8ExM3tX_v2gNDM9rRKwwefPV_KW=fHfA@mail.gmail.com>
+ <8e643f51-a47f-428e-9443-678326288fa6@kernel.org> <CAJuCfpEYdj=u0wczKRrsB8uDkbSzPy+hrsCo9TW9-3J3r3p0xQ@mail.gmail.com>
+ <2336140f-c993-467a-b2eb-e99dc9427a59@kernel.org> <CAJuCfpEL40p+vk6-km6_BBuE3+YY0WqkpbvQnQGFEo_73MAomQ@mail.gmail.com>
+ <9e48cf7b-1700-4a85-af83-8883789ba87b@kernel.org> <CAJuCfpE9_1VYqHp6bctUEihSW35TaTw_LZuOGP2UAnF7SA_UAw@mail.gmail.com>
+ <CAJuCfpGvi10sibu_=cE76h2O14WA4KNOd1vARu0r1CYmAiCMEA@mail.gmail.com> <dd134a0a-8fe8-4990-85f2-7b524754b451@kernel.org>
+In-Reply-To: <dd134a0a-8fe8-4990-85f2-7b524754b451@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 10 Sep 2026 10:02:00 -0700
+X-Gm-Features: AcwNN1XzTzo0tLArJpTqgDsm55TNkm9hrEOzHQgtAQph4QFYlsjRry6cHR3SJSA
+Message-ID: <CAJuCfpEN-CWLh__rpzOHaSOpb24ikR5_y=yC_Aqyo3BScq=_RA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] proc/task_mmu: remove special-casing of
+ smap_gather_stats() start parameter
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
+	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---nextPart15836323.tv2OnDr8pf
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Sven Eckelmann <sven@narfation.org>
-Date: Thu, 10 Sep 2026 18:56:26 +0200
-Message-ID: <2927239.BEx9A2HvPv@ripper>
-In-Reply-To: <20260910144914.8025-2-fmancera@suse.de>
-MIME-Version: 1.0
+On Thu, Sep 10, 2026 at 9:33=E2=80=AFAM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
+>
+> On 9/10/26 18:21, Suren Baghdasaryan wrote:
+> > On Thu, Sep 10, 2026 at 9:09=E2=80=AFAM Suren Baghdasaryan <surenb@goog=
+le.com> wrote:
+> >>
+> >> On Thu, Sep 10, 2026 at 9:01=E2=80=AFAM David Hildenbrand (Arm)
+> >> <david@kernel.org> wrote:
+> >>>
+> >>>
+> >>> I meant as part of this series of course.
+> >>
+> >> I understand but this particular patch cleans up smap_gather_stats()
+> >> function, so if would be weird if I move the comment change in that
+> >> function into some other patch. Unless I completely misunderstood your
+> >> suggestion... Maybe you are suggesting to split this condition and
+> >> comment change into a separate patch and making this one a pure
+> >> special-casing elimination?
+> >
+> > Ok, after re-reading I think that's what you meant. My first
+> > impression was that you wanted this part to be in one of the previous
+> > cleanup patches. I'll split this into a separate cleanup patch.
+>
+> Just to clarify: I'd put all COW mapping changes (using the cow_mapping h=
+elper
+> and rewriting the comment) in one cleanup patch that can argue why it is =
+a
+> correct cleanup and doesn't introduce a functional change.
 
-On Thursday, 10 September 2026 16:48:26 CEST Fernando Fernandez Mancera wrote:
-> diff --git a/net/batman-adv/Kconfig b/net/batman-adv/Kconfig
-> index 58c408b7a7d9..60ad4b09be6e 100644
-> --- a/net/batman-adv/Kconfig
-> +++ b/net/batman-adv/Kconfig
-> @@ -9,6 +9,7 @@
->  
->  config BATMAN_ADV
->         tristate "B.A.T.M.A.N. Advanced Meshing Protocol"
-> +       depends on IPV4
->         select CRC32
->         help
->           B.A.T.M.A.N. (better approach to mobile ad-hoc networking) is
+Got it. Working on it.
 
-This doesn't make a lot of sense to me IPV4 is not a requirement for 
-batman-adv. Only very specific features will require symbols from IPv4:
-
-* CONFIG_BATMAN_ADV_BLA
-
-  - arp_create
-
-* CONFIG_BATMAN_ADV_DAT
-
-  - arp_create
-
-* CONFIG_BATMAN_ADV_MCAST
-
-  - ip_mc_check_igmp
-
-
-Basically things which currently depend on INET in net/batman-adv/Kconfig
-
-Or am I missing something here?
-
-Regards,
-	Sven
---nextPart15836323.tv2OnDr8pf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS81G/PswftH/OW8cVND3cr0xT1ywUCaqLhOgAKCRBND3cr0xT1
-y0QVAQCluQcX0gr2MIQxC1VBX8WP3ecVDFqIOBKX04RTLEdoGQD+LCZ3LWDtGBbG
-zKG3h3F96XOApdHINtJ4L0x6nSSviww=
-=kxMI
------END PGP SIGNATURE-----
-
---nextPart15836323.tv2OnDr8pf--
-
-
-
+>
+> --
+> Cheers,
+>
+> David
