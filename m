@@ -1,135 +1,179 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE54E3C9ED5;
-	Thu, 10 Sep 2026 09:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744533E024B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 09:04:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789030955; cv=none; b=nWjVHlIYupapATZPcZaDu3r3XAycvBCvmyrT9WtkKb51nr5242wAjbh/Ta4wEWZC9O0QNukj+7wK4WHxo3VQEnc48R5QYp0xUPDn5730fchLzywBJ0LQd+IAWtrYQN6KW1fNbcOroVMYByzAlk2uijBC1XxECY5yaZWp7AnCSPg=
+	t=1789031058; cv=none; b=RnrYyQJY+bZU7/ZN+S+ZfLKHW1ulDa5na7pOcNfKi7+kA47aInkY+VVS5rYMEwD5sIPpM7zbwwTaO0XymMdHtuzSJGfPbsPfQnCdTN5XAAEDQ+N3CCSvGO3jSwdTLW0kHfri0kOl05ly+wxPd/YplGyD+AKk5veCF73c64YtLuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789030955; c=relaxed/simple;
-	bh=WHW93VvrHeXgOCjNosfBMI4vPnTOHHkUoJXKjGlJMdY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hFlmSFtP82uGRHKtPxj/xTkKkKdPliRU+4zg6b9afpduo9ddj9rk6nc8EkrcdNqJhbpxBN8Vd2AyoO7dq7LDEJei4DkNv9ipr/mdOOzcP3C3Nq44F3NPcDcgujRpWw5sYBGE8hH8fsLV6MpHSH8PA0gbrGwR5TQs1Rr1+jDQE9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=If5M6sRe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789031058; c=relaxed/simple;
+	bh=WLZ6zrQmo6HVXLwkUoZd3daPQsWnGSfgcCiIaY/+cEs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lBeEbo6nkuOYFmy7O/EgLoirDtIgmO48lDfb2e3PABlAO+UHZ8MhCVsj3Zao6LqiSXP6BVjozVT6MqAmHv58t2Jp9djgD+9vDuNcD8gfXaR2vEG+7i291nj7R9KaWhTMYBmU02rN01mBODWb0mgpLKKDVjJ+DORX1Mi6s5/mSTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e8iiK5qL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="If5M6sRe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA4011F00893;
-	Thu, 10 Sep 2026 09:02:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e8iiK5qL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF001F000FF;
+	Thu, 10 Sep 2026 09:04:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789030954;
-	bh=bi6HQbpS7WbVT11MZapyDiTA6f2yGohKV5fr13xqRJc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=If5M6sReucxfAa8nllZsBD5rzyKL9ELmN7J++KhzVHXMFwuo+ywIXweYK0qHvKt73
-	 1DlZC6yieZdrctVpoPbK8xAnJ01MqKDgn8JNOrREKfLrtY3kuk1QD0WFmmwZvIkpKc
-	 cjwQhwi6gfGiK1mJpr70MGacbhPTAkvMJSrfODwcnkW7h00u9xgR6Tozex936pATmf
-	 Y/e3g5Q+e44jwwElZlmy2drakal4M8C3ZYhzWEtU1LZSzTfNXyLU3yRFX7wXmiz5xW
-	 ThtO/NXMID8mQwyR1hAETqMn3NvdBwCEMEnIpbQLdGFzMn0iPU5Qgbppp1CAYsoqRp
-	 rYXsEVBqyS45Q==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Thu, 10 Sep 2026 11:00:05 +0200
-Subject: [PATCH v21 1/9] rust: alloc: add `KBox::into_non_null`
+	s=k20260515; t=1789031057;
+	bh=yBtnVUkOBjFC+tuRfrIDMyjFFDS18yS74JsjfirXMqM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=e8iiK5qLJNOPjyFcTIF2BUIcMokjY32R04rnmH6WiChOBK6aqDA4U+pOy64W0J6Kv
+	 iFTKc+jd6xKGoDkw/ISoG7qq2exU2IFiFh1f6eU29KJ1Q6UtvbBmCDBTyDS+h1pnJS
+	 YHx5+3h6/Vmy7pFJpYV3fh5B2GeHe6HO+ImkP4rZA3o8qp3uQAiBn069WRVGuztHzN
+	 6Lno9cz019L4b/MHu1ji9WSWgFxhacfVkxX3ZRQiqJrhMA0Z0ypgBUdGRCIayoKWw2
+	 aCM/oCt1POSQmZJGYuLQjeUlPTSW7Iaxy7CwdOMyzIRacsBqDRK4NH+Zxb2opDieAp
+	 TJzb8ogpzNWbQ==
+Date: Thu, 10 Sep 2026 11:04:12 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: Kees Cook <kees@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Kuniyuki Iwashima <kuni1840@gmail.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] sysctl: Make proc_doulongvec_ms_jiffies_minmax()
+ enforce minmax again.
+Message-ID: <yjcicbo7okgpkd6gh4exgagt2gkklnkbivq34i3ypksmnooxb4@3t4jfy6grwog>
+References: <20260905233819.1064529-1-kuniyu@google.com>
+ <20260905233819.1064529-3-kuniyu@google.com>
+ <hbatn4h5342kuvni5jcfjpdfjfof7dbsld5m26x6dla7ennpey@usgxbvlikr4i>
+ <CAAVpQUA0ZKAMkhGipXdGb=4o5GRG1dS1Pv11KWhxYqgXKsw1Sg@mail.gmail.com>
+ <skrtuyahssx5tvphmvo3kbkqy475re5yeb2kdl6luf7kmmfqad@2gsivqhqwtvw>
+ <CAAVpQUDOXfiVyuSgJ5HqZ=xX3aBM+Bar5i2Gmf8ur+jBT-74yA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260910-unique-ref-v21-1-e83257373062@kernel.org>
-References: <20260910-unique-ref-v21-0-e83257373062@kernel.org>
-In-Reply-To: <20260910-unique-ref-v21-0-e83257373062@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Lyude Paul <lyude@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
- Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
- Carlos Llamas <cmllamas@google.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, 
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
- Michal Wilczynski <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Ira Weiny <iweiny@kernel.org>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
- Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
- linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
- linux-usb@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1188; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=WHW93VvrHeXgOCjNosfBMI4vPnTOHHkUoJXKjGlJMdY=;
- b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBqonGhYtutHmW3K5/iWt2PtNR0EOOEvKOh8GOE3
- cAXhRn6VpqJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCaqJxoQAKCRD6UCkIqsW9
- 0PiAEAC1ZaUVBOkvlRXYa1uoG7fv8BkX7iuoYs3OUE6Xs7RBS7CbugsVYpLdGgml2yB5Xo/AfF1
- lOrJHP03TKEIawI0QIjvbDUNXrYGXND3iwPfW4oW9EKyBDMM7aQlMGM2ptkYJDcGzux3kw7pAqx
- zYjptUpVSESYUlKv7c6+bSMK1AeydAw1bt04eyJrzPRMgus+QTTFKWMkFU2w4n/A2Vybuz6QDSb
- +gMpzM9B3XcB5EYFx92khT1NMRiQsSRHxCc54Ro6JbS9nA7SFf4X1SRG2ZwFwEYJQw4+P2eXu/B
- kn8z2qUOFN7+DY5TEDT7kwV+OE7FFgKaMjSOLZh48VmeDrw9fYdtqIKT7xIuy1KqplTIuTjsNpb
- Iy++9Nqzy8yEHUWDqdzclvjSepDS5DSFpG5VMDldAC4AENbijZpOJVJwq41LMojHASK+t1NsF2T
- t6P+wfaQTuumBObShygOAi7WRMKfgFIBmoMisdn0c5sE+W1UPIzdRH53GVM7b8aY6Q+rsRPEu32
- rNoYVKX1ZCSGlH/Cai+CxLnb58kRzvOkj9jCMjG804rAMG2AgG+ExQoP1ymqRN4D8kik1NLlEy3
- 5yp5HL4qYcm91XRinv0cXg5icrFwfKuSpkpNl0UuMdJs9OSwTJV3P5cjHJpDbgZcd/sKdO+4yNt
- KzVWbdwXn+Hi8TQ==
-X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
- fpr=3108C10F46872E248D1FB221376EB100563EF7A7
-
-Add a method to consume a `Box<T, A>` and return a `NonNull<T>`. This
-is a convenience wrapper around `Self::into_raw` for callers that need
-a `NonNull` pointer rather than a raw pointer.
-
-Assisted-by: LLM
-Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Reviewed-by: Gary Guo <gary@garyguo.net>
----
- rust/kernel/alloc/kbox.rs | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/rust/kernel/alloc/kbox.rs b/rust/kernel/alloc/kbox.rs
-index c63d6acdbb6f9..27c31120c3854 100644
---- a/rust/kernel/alloc/kbox.rs
-+++ b/rust/kernel/alloc/kbox.rs
-@@ -211,6 +211,15 @@ pub fn leak<'a>(b: Self) -> &'a mut T {
-         // which points to an initialized instance of `T`.
-         unsafe { &mut *Box::into_raw(b) }
-     }
-+
-+    /// Consumes the `Box<T, A>` and returns a `NonNull<T>`.
-+    ///
-+    /// Like [`Self::into_raw`], but returns a `NonNull`.
-+    #[inline]
-+    pub fn into_non_null(b: Self) -> NonNull<T> {
-+        // SAFETY: `Box::into_raw` returns a valid pointer.
-+        unsafe { NonNull::new_unchecked(Self::into_raw(b)) }
-+    }
- }
- 
- impl<T, A> Box<MaybeUninit<T>, A>
-
--- 
-2.51.2
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="a6rxe2vpvgn67z2m"
+Content-Disposition: inline
+In-Reply-To: <CAAVpQUDOXfiVyuSgJ5HqZ=xX3aBM+Bar5i2Gmf8ur+jBT-74yA@mail.gmail.com>
 
 
+--a6rxe2vpvgn67z2m
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 09, 2026 at 10:07:53AM -0700, Kuniyuki Iwashima wrote:
+> On Wed, Sep 9, 2026 at 6:44=E2=80=AFAM Joel Granados <joel.granados@kerne=
+l.org> wrote:
+> >
+> > On Tue, Sep 08, 2026 at 11:44:08AM -0700, Kuniyuki Iwashima wrote:
+> > > On Tue, Sep 8, 2026 at 5:15=E2=80=AFAM Joel Granados <joel.granados@k=
+ernel.org> wrote:
+> > > >
+> > > > On Sat, Sep 05, 2026 at 11:36:31PM +0000, Kuniyuki Iwashima wrote:
+> > > > > Since the cited commit changed proc_doulongvec_ms_jiffies_minmax()
+> > > > > to use proc_ulong_conv(), proc_doulongvec_ms_jiffies_minmax() no
+> > > > > longer applies the range check.
+> > > > >
+> > > > > It happened probably because do_proc_ulong_conv_ms_jiffies() does
+> > > > > not have the _minmax suffix.
+> > > > >
+> > > > > In addition, sysctl_msecs_to_jiffies() casts u64 user input to u3=
+2,
+> > > > > and a truncated value could bypass the max check.
+> > > > This is something that is orthogonal to changing to true in the
+> > > > proc_ulong_conv call. Please put this in its own commit.
+> > > >
+> > > > This also begs the question: why not just use an int converter if t=
+he
+> > > > range of the values is going to be u32?
+> > >
+> > > I guess people wanted to use ulong just because jiffies
+> > > is unsigned long.
+> > >
+> > > Looking at these users, none of them need the ulong range
+> > > and it can be u32 actually.
+> >
+> > Exactly. But changing those calls from ulong to uint is up to net and
+> > parport.
+>=20
+> Agreed, it should be done in the -next branch of each subsystem.
+>=20
+> And later, we can remove do_proc_ulong_conv_ms_jiffies().
+>=20
+>=20
+> > I'm more interested in defining the behavior in
+> > sysctl_u2k_ulong_conv_ms.
+> >
+> > Here is my train of thought:
+> > 1. u64 values will get truncated when they pass through msecs_to_jiffies
+> >
+> > 2. The range of msecs_to_jiffies is:
+> >    [0, INT_MAX]          --->  ceil(m =C3=97 HZ / 1000)
+> >    [INT_MAX+1, UINT_MAX] --->  MAX_JIFFY_OFFSET
+> >
+> >    Which I interpret as whatever that falls out of [0, INT_MAX]
+> >    milliseconds is just infinite jiffies (MAX_JIFFY_OFFSET).
+>=20
+> nit: for HZ > 1000 (IIRC up to 1200 ?), the max of the range
+> gets a little bit smaller.
+>=20
+>=20
+> >
+> > 3. All but one users of do_proc_ulong_conv_ms_jiffies are bound to
+> >    values under MAX_JIFFY_OFFSET. The exception is net/rds/sysctl.c:67
+> >    that has a max of ~0UL (is this too high?).
+>=20
+> I think this is just set as the theoretical max of @jiffies,
+> but not specifically for the knob.
+>=20
+> The default of the knob is 1 sec (HZ), and even INT_MAX
+> (24 days) is too high for RDS reconnect.
+>=20
+>=20
+> >
+> > 4. Since milliseconds to jiffies should be capped at MAX_JIFFY_OFFSET
+> >    for big values. Should we just return MAX_JIFFY_OFFSET?
+> >    Like this:
+> >
+> >     diff --git i/kernel/time/jiffies.c w/kernel/time/jiffies.c
+> >     index 213ae1d6a014..400353b0d6f9 100644
+> >     --- i/kernel/time/jiffies.c
+> >     +++ w/kernel/time/jiffies.c
+> >     @@ -136,6 +136,8 @@ static int sysctl_k2u_int_conv_userhz(bool *neg=
+p, ulong *u_ptr, const int *k_ptr
+> >
+> >      static ulong sysctl_msecs_to_jiffies(const ulong val)
+> >      {
+> >     +       if (val > UINT_MAX)
+> >     +               return MAX_JIFFY_OFFSET;
+>=20
+> Given the nit at 2., it should be like this
+>=20
+> if (val > jiffies_to_msecs(MAX_JIFFY_OFFSET))
+>     return MAX_JIFFY_OFFSET;
+>=20
+> as done in _msecs_to_jiffies().
+
+That is even better.
+
+Please send a V2 of the 3 fixes discussed and I'll push them through
+next week.
+
+Best
+
+
+--a6rxe2vpvgn67z2m
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqicowACgkQupfNUreW
+QU/6qQv/S9rctnQabOzPzSgRmuzzg919WTFryxCVMdyY2k5GAviNTIPr/YZ8v2pZ
+7tRcbWX/n0llTrUzAtxOT8IVZbRP67cRQNbHOPjpatoms6zjJMBEQDzIYmeb7mrA
+E24t870HCy5DfIY6z6klf66DBEehtzCp+PLgn4BAYOx39IkyfyAtEy8V2C9HZG1Z
+/eApOClvxRmRu/MEwgOexlbgjy9Q/0ncKYjVdaRdfyjHVgABh5y+M7iuMvqfdMag
+KvWmfq40lxM73EF4UeCVfTMIs1IK+gwnyjUWob68wBHMEDQ365K1JoZg+DvdGbri
+BPgeKEj6Rizg5m5i2syuo7dwBS+ZwfPniAg3MGdWYbi2SR+sNaD46E6FxRXeKyFQ
+9gQyCVdimKDCaIs3bbBJ7zPBbBXSkLi/lYzX9H/uNJcuT5Iu5usnmj44r86pIQ/2
+qzXbK8h65Fo1BEE8YuSL0d/blhfljbHfneEsITiciZayK5vx+/okkQaT3PAzQIbX
+7B90OiI4
+=SFuq
+-----END PGP SIGNATURE-----
+
+--a6rxe2vpvgn67z2m--
