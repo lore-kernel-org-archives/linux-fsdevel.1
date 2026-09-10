@@ -1,127 +1,91 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FC94825DD;
-	Thu, 10 Sep 2026 12:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81453485924;
+	Thu, 10 Sep 2026 12:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789042436; cv=none; b=C57Tpd1ZuwlWfGwUqo+99QPy1u0m9Gv+3Kp8o7OgCMV2wjEUqtT8raXVlg20uQLYx2ZDcMUGd3KicvthuuOWP6R5LWWXToJLREBFTqfqj71B7T6A8AG47CNCcHjyi50bGHFAQEyLGjPFnucjMYHskoHse+qahKEOmeLdjGHspbU=
+	t=1789042568; cv=none; b=Jqp4fAwkw6jYmfmyebiiPOvX7obrUJZgbdhIbV+bv2Qoiv/BEhnLz9/16sGDbPu8zYnlzzkRrnmHCGgYGA8CnjsN6qNHxf1cbvehNwynvvVtSy8OTAfbZ59aW0UQOKZJzGY9zLL69CoLca+uH3LjoS1eny3SjTIkQMx43WC5It4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789042436; c=relaxed/simple;
-	bh=n3RJkJBXPIWZRG7xCF/gK5LRIUmkklOq42FR9s+rT6c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EaEJcYHB8gBv+R4lcboJWdiBlxuJy93ViOjlapSf8flyxsN/HrP7EIrYtGwQZxfS5P/jiC/LnbMCoSqPysoUol19iQBuzZXka7dOqwybc1JyHDdfZvpoYkvobZGbkmKKZCrkuzKXRup4vX5N/gi5qmAazlLsAhX/LIt4TKpZev0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Vc1xQ2lc; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1789042568; c=relaxed/simple;
+	bh=8337w7/Jd60S2E5ez7imYMouEYiIvgs86bnRen6fVGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DdhgsT3hQklu52aI7Bx1GJoKaZAlz00FMrdLfpKq1QlUwIyS0LH7QeERTlDNRq996weOJX1hirOIkKwDS2d4m1fKeiGcWMqqyzUEw1PTC2aJW+vf6jbDbETgJVV8QQAInJg0SV+of0T2qneFX4kvH8MvFSCKS2OzugGo7UlEJUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TAwYKaDK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Vc1xQ2lc"
-Received: from mail01.layka.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id B61BF807BE;
-	Thu, 10 Sep 2026 14:13:44 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id zBcfdv6p7SeR; Thu, 10 Sep 2026 14:13:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1789042424; bh=n3RJkJBXPIWZRG7xCF/gK5LRIUmkklOq42FR9s+rT6c=;
-	h=From:To:Cc:Subject:Date;
-	b=Vc1xQ2lcWX0J2c5XFnrOVils+u/y47iNyDgFxkg0c/Zu3ZGxqiO+a38tWKb8xqDgB
-	 v+tTZIYHSAyiZ7ZET13HpXFUmZsZ0/28REzwBkiOfDCFVqCUjTg4nlYfuvv3uIUzNF
-	 DDuzG9b9bX00KHy4YArrlKOacSEiojzhgz7pd72Vb76QAXfTrXaAdSVnM9Sb9VP60o
-	 +3cFo1UKRPrqXxelqqJiMma8Te4bccgLU3lJQD81/qSUWraAe2XtUrNHRTYzLhunW1
-	 APIhzKUeOvk/l/l/jEkljDqerXDXs1LuKVPzNHlYF82qO0vb6q2WnA+xJqpOydbpk9
-	 aofc67ol1kOdg==
-From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
-To: Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nls: fix the Unicode to charset tables of cp1251
-Date: Thu, 10 Sep 2026 15:13:31 +0300
-Message-ID: <20260910121335.267148-1-aliamemis@disroot.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TAwYKaDK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F3A41F000FF;
+	Thu, 10 Sep 2026 12:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789042559;
+	bh=1XWeEQAbcBQCpWZCK+9GzqSSfU/QDHQzFWzVzrQZerE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TAwYKaDKW0hTR3gVgSN3rsosHocgxDEN89+NbRlIOOKGsiIjGiLLiQcuDIrTNup1C
+	 PMHhjQHz5Zs7E/Oix00PFWiRwKwbdHVyoNFFEhfTT/hYCQJ6kH98AwL7lUNfSgd34o
+	 Nf0PMRL+FvDvbC9eXZwwcgHkVVpFWZr5HALVe2HA21h/4kxtbp0VkinyOq9tCA4gIg
+	 Eesl1vGtOR1h2yh9AgwFaJ51ZRW/33plu/xlWi7fIkz5aOEXsTATWGjpItFlgzqgd7
+	 DLPo0fcBvIjLFiCX1KgDx02Ghu4fAm2K6vxILj+iWYwyut4Wc8awO4bZIA/oOVPJv9
+	 /EUR8yt1yMeUQ==
+Date: Thu, 10 Sep 2026 14:15:49 +0200
+From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Kieran Bingham <kbingham@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 09/12] mm/sparse: remove SECTION_MARKED_PRESENT
+Message-ID: <aqKfdTCHbqFmc7FC@localhost.localdomain>
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-9-008fc8d579fe@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-9-008fc8d579fe@kernel.org>
 
-Three of the uni2char() tables in nls_cp1251.c are incorrect, while
-charset2uni() matches the Unicode CP1251 mapping.
+On Wed, Sep 09, 2026 at 03:33:02PM +0200, David Hildenbrand (Arm) wrote:
+> All present section iterators run before memory hotplug added any
+> further memory sections, Therefore, we can simply use the SECTION_IS_EARLY
+> flag by setting that flag earlier in sparse_prepare_early_sections().
+> 
+> Get rid of SECTION_MARKED_PRESENT entirely and rename
+> for_each_present_section_nr() to for_each_early_section_nr().
+> 
+> Also update the gdb script to use the updated value for
+> SECTION_IS_EARLY.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-page00 incorrectly maps eight U+00xx characters that are not part of
-CP1251 to 0xbb. page04 is off by one for U+0490..U+0492, causing U+0491
-to be stored as 0xa5 and U+0492 to be stored as 0xb4. page20 also stops
-at U+203F, so U+20AC can be decoded but not encoded.
+Acked-by: Oscar Salvador <osalvador@suse.de>
 
-Regenerate page00, page04 and page20 from charset2uni. glibc iconv
-agrees with the resulting mappings, and a full BMP round trip is now
-lossless.
-
-Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
----
- fs/nls/nls_cp1251.c | 32 +++++++++++++++++++++++---------
- 1 file changed, 23 insertions(+), 9 deletions(-)
-
-diff --git a/fs/nls/nls_cp1251.c b/fs/nls/nls_cp1251.c
-index 6f46d339f23c..3447df754432 100644
---- a/fs/nls/nls_cp1251.c
-+++ b/fs/nls/nls_cp1251.c
-@@ -122,14 +122,14 @@ static const unsigned char page00[256] = {
- 	0x00, 0xa9, 0x00, 0xab, 0xac, 0xad, 0xae, 0x00, /* 0xa8-0xaf */
- 	0xb0, 0xb1, 0x00, 0x00, 0x00, 0xb5, 0xb6, 0xb7, /* 0xb0-0xb7 */
- 	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xb8-0xbf */
--	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xc0-0xc7 */
--	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xc8-0xcf */
--	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xd0-0xd7 */
--	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xd8-0xdf */
--	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xe0-0xe7 */
--	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xe8-0xef */
--	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xf0-0xf7 */
--	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xf8-0xff */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xc0-0xc7 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xc8-0xcf */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xd0-0xd7 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xd8-0xdf */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xe0-0xe7 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xe8-0xef */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xf0-0xf7 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xf8-0xff */
- };
  
- static const unsigned char page04[256] = {
-@@ -152,7 +152,7 @@ static const unsigned char page04[256] = {
- 
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x80-0x87 */
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x88-0x8f */
--	0x00, 0xa5, 0xb4, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x90-0x97 */
-+	0xa5, 0xb4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x90-0x97 */
- };
- 
- static const unsigned char page20[256] = {
-@@ -164,6 +164,20 @@ static const unsigned char page20[256] = {
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x28-0x2f */
- 	0x89, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x30-0x37 */
- 	0x00, 0x8b, 0x9b, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x38-0x3f */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x40-0x47 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x48-0x4f */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x50-0x57 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x58-0x5f */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x60-0x67 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x68-0x6f */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x70-0x77 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x78-0x7f */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x80-0x87 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x88-0x8f */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x90-0x97 */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x98-0x9f */
-+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xa0-0xa7 */
-+	0x00, 0x00, 0x00, 0x00, 0x88, 0x00, 0x00, 0x00, /* 0xa8-0xaf */
- };
- 
- static const unsigned char page21[256] = {
+
 -- 
-2.55.0
-
+Oscar Salvador
+SUSE Labs
