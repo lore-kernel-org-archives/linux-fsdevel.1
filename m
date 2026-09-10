@@ -1,71 +1,102 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A5A3C4B79
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 22:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C373BB134
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 22:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789077817; cv=none; b=bF/i6H855wR11fqb0N4CfeQtZOiFuiUvNKnuz4kJRJitsb8a78OHTLn/dQ6o5c4tyhGim5UE3g3SQyNdW45RGepS4oJ2H51gmii8NGyS88S6bm2V5guujTRLUuqXESSB34C95XyBXvGVMWjj02lAEiOcYTJn4T8AcMd+dK2YRoE=
+	t=1789077820; cv=none; b=Hcvu3lNWjzDuhH/mGv59JuhexSZP92cw/ozTfqB42KHiJY6j9Iipnh/o8SQG3qbaVTbHqEGXPgy1Ha6eG0v+2a9iafHOknTguxnIhfM25kvYAObyPQ0T1E1iSiRcENAZqiZqVMoBxkdp5Dsa1JgYIuac3+Wfeu37QG4OR6srRtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789077817; c=relaxed/simple;
-	bh=7N71QSfXG/oEAXTPRExhYle1NWxzGUIUZP0hY0cvi58=;
+	s=arc-20240116; t=1789077820; c=relaxed/simple;
+	bh=R6zJwtMniZUXSTTD1kXs8OQe30mecg5L76/NRGLeEi8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UYQYS406nOMDNAeN+DMje3R+9IMTc5GbexR3hYo6KHHLO/qSF7AK5/OUsSQU8OKoVyP0Pqvpy5W8OK7QExDQ1Y986pWZ4G6ueKMKqp/D6lwQBTr/mPRNezkVuQEf7roOnQdoGZ5LwKxhGk3GBvWmfU+A4oAQjEf+mIsenhsASWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y8dZErUe; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 MIME-Version; b=BgXQ7d2beJTwAIPwV0iJjunWFhnbcNqHoomQvvLegGZ3H1II8IEppuQEA6V8rHQCqzS4SxNgUO9eFiUsC1pWKgszAIXe0k67j/vTUs/u3UCwAVZiip3TggvFRSPXO/bVJhVtePTkZvhy1XM9JJz/chDQYJz0j17ZqT6I6paUPaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VX8Bh8fO; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y8dZErUe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789077814;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4HeOV1ic1gSfi0+R6SuHSn3W0D1ksy23qGyWj8cUwq4=;
-	b=Y8dZErUe+lHOQxv3UbpwbbpPd4MXj68ivqSYmLvdHUjCte9EONyVVe0IzD/lcoTsm+R7Wj
-	z0+u5PtspzfG018g+rRrq44SE9rHUNx+0v8SwXuUm5enyyeeksFFsrFiGqxcvQ5x1MRcAW
-	4QPuC847z1h7uvMbpH/OWpcNy61vxFE=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-209-YoGHpsZjN12awYFG8sOJ1Q-1; Thu,
- 10 Sep 2026 18:03:32 -0400
-X-MC-Unique: YoGHpsZjN12awYFG8sOJ1Q-1
-X-Mimecast-MFC-AGG-ID: YoGHpsZjN12awYFG8sOJ1Q_1789077809
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id ABD481954B19;
-	Thu, 10 Sep 2026 22:03:29 +0000 (UTC)
-Received: from warthog.com (unknown [10.44.32.54])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EC1DB18004D4;
-	Thu, 10 Sep 2026 22:03:24 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	netfs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	v9fs@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VX8Bh8fO"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48436686a40so22773f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 15:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789077816; x=1789682616; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Y4VC0C0lSHCs8Fcark7cmj0Id1dSh7PB6GmHxMlnI8k=;
+        b=VX8Bh8fO3DZcCKWqBvPN/TMBYfSP252HHdp+vqoiMIpWRDOu+9zcLcxJxJ/gaf1oLH
+         wAUY8ozIOlIYrJ3YsssD26QMFrgCyjWSfDASLNE1h9N2qwcsIRPIUd5tyAm+3AkXQVou
+         krWLB71MKrk5eAPctlu7HjD/zoygACK+rnV+rOElrvBZcJ6mb45IAyQ946/EwMYntueo
+         z/dXFiKLG19CiTicJPieg0APq3oLwEh3sxCiJ44ugjiTedEvl/tkbxW68jEwpOD/lgSM
+         tX4fmqKB651Jf9hyTZKWUGalLcRxYHptTdFxKSlg12b+nxO3FMeozDfKzwnqz75w0toa
+         a0tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789077816; x=1789682616;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Y4VC0C0lSHCs8Fcark7cmj0Id1dSh7PB6GmHxMlnI8k=;
+        b=aSsxiS8jJNqq1ICehBWlDtTDk/hdlE9X9HAQxsXHv7rALhoJSrrcV7UsjCh0J6dq5Q
+         c827yGIIBmIjNRL8EKgfEB7HfYmkDAw1liqzEX8oP8EUr/5CNr8DEKhoQAucu5993MEt
+         7ET/PNGy0r6haLJJm9WOLvqJ9yRjgTmHQmreV2UPep7nWB4yorj76O/21WlZV7hORalw
+         Vt6J/WjuQL3w96OuErlv79Ho5liFuC+zbJQLvAbzgSBSbSdEVBKnmEhmcONauY9rmJcR
+         VaIJ2Cvia+YgxotU0t97yucrjfMnQ9fYBox5wWZalKsX9NNLUR36SEA1Ipcl8x/+JVlx
+         GfcA==
+X-Forwarded-Encrypted: i=1; AKwUvBwo+LXSJfGj4PDXXZgtJ7YBy/IDOwTSa3wp15Z6b3fnR8zunKiFWizUBe4VNiJW3BS83ubxfgrAOKoNlBim@vger.kernel.org
+X-Gm-Message-State: AFuF++kGYOB9JOgCVFPjVwsregxHZFGHCgs1bVh37c/Bkf9sq287o+hi
+	mGb4Xwygi3lnQ3HOqJtrVL8FMw/wHClvkMNi2BPPkOTNQfmKAwPCB9vI
+X-Gm-Gg: AYBFou2IlB8QOZom2a9SV/rJi5cxJR6UyQFxFepfwMl4Dcfm6r5gnB71+o1BEdLSo33
+	JmPo2R1YxwyOHiYy2HmtfpXbOQzfg33tf7eOQ2YF7U6v3TzNaRRAw9e7Kyifcqruo8Wr11k8PI+
+	3cW9ZAFeO3ZT2dKaswl6iuwDC26JC8qdME+lHc9qB8i/ivdtL1iJdeJ/YwZ/91q5zOgs++ChzIH
+	BbEflwxsVk/N97eI4l6otZYnxGq3/LW762GDVD0cLh9/99rWQnLmwdQH01YuKe19+sUaMDLbgn4
+	ABDFj0N3eu1oN+L/P7u0rY52p+GPqCrJnuUEzBvl03DAmBM3rUz5BcNXbuEFY45cPLUpwxpdPp1
+	LtdwnbWqM3oY7FZkzmZPkbZgaCHU5fc5oVkdhw/J0UD07fZGnU+0R5vsgiX1+daaQw4ULnwX3Rn
+	/UcNmQmGOhTmP8796CVHxeVdCeIdLQGAKqytYQSmxt/43yxojis1QOR3+Ce7ZRSv/5sfDr9s/SK
+	bsYWQiv1qDYD0sWOWT/uQ==
+X-Received: by 2002:a05:600c:4712:b0:499:d95a:41f with SMTP id 5b1f17b1804b1-49e61643939mr10000435e9.0.1789077815736;
+        Thu, 10 Sep 2026 15:03:35 -0700 (PDT)
+Received: from lima-kdev.local ([85.100.66.184])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c300e2sm111238475e9.8.2026.09.10.15.03.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 15:03:35 -0700 (PDT)
+From: Kayra Cizmeci <kayracizmeci@gmail.com>
+To: tim.c.chen@linux.intel.com
+Cc: brauner@kernel.org,
+	bsegall@google.com,
+	dietmar.eggemann@arm.com,
+	imv4bel@gmail.com,
+	jack@suse.cz,
+	juri.lelli@redhat.com,
+	kayracizmeci@gmail.com,
+	kees@kernel.org,
+	kprateek.nayak@amd.com,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v12 5/5] cachefiles: Preset the state xattr when creating a new file
-Date: Thu, 10 Sep 2026 23:02:40 +0100
-Message-ID: <20260910220242.2165023-6-dhowells@redhat.com>
-In-Reply-To: <20260910220242.2165023-1-dhowells@redhat.com>
-References: <20260910220242.2165023-1-dhowells@redhat.com>
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	mgorman@suse.de,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	qyousef@layalina.io,
+	ricardo.neri-calderon@linux.intel.com,
+	rostedt@goodmis.org,
+	srikar@linux.ibm.com,
+	sshegde@linux.ibm.com,
+	vincent.guittot@linaro.org,
+	vineethr@linux.ibm.com,
+	viro@zeniv.linux.org.uk,
+	vschneid@redhat.com,
+	wanglu.priv@gmail.com,
+	yi1.lai@intel.com,
+	yu.c.chen@intel.com,
+	zhanxusheng1024@gmail.com,
+	zhanxusheng@xiaomi.com,
+	ziqianlu@bytedance.com
+Subject: Re: [PATCH 1/4] sched/cache: Keep nr_pref_llc_running in the runnable domain
+Date: Fri, 11 Sep 2026 01:03:30 +0300
+Message-ID: <20260910220331.1209469-1-kayracizmeci@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <f3b70dd40e29b309ff3449a95a4af4513ad0ef70.camel@linux.intel.com>
+References: <f3b70dd40e29b309ff3449a95a4af4513ad0ef70.camel@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,139 +104,36 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-With a really small cache, cachefiles is likely to see a lot of writes
-hitting ENOSPC - and this can include setxattr that sets the state xattr on
-a cachefile - but we don't really want to successfully fill a cache file
-only to have to scrap it because we can't set the xattr.
+Hello Tim,
 
-Instead, preset the xattr when we create the tmpfile we're going to use,
-and scrap the file at that point if we get ENOSPC.  Only if setxattr
-succeeds do we allow data to be written to the file.
+> So moving the accounting next to (or after) the h_nr_runnable update
+> would make task_pref_llc_runnable() return false and skip the
+> decrement, leaving nr_pref_llc_running too high.
 
-Note that there is a potential performance loss in that writes to the cache
-have to be delayed until this is completed - but we do the tmpfile/setxattr
-in parallel, starting when the file is opened and only have to wait once
-writeback occurs.
+What I really wanted wasn't getting the accounting next to or after the h_nr_runnable. 
+If we are updating h_nr_runnable in some way that means we don't need
+its check since it's already getting updated. And if it's getting updated
+that means on that branch we know how our check should behave since we 
+are a subset of it. We can skip the delayed check on that way since we are
+trying to behave as h_nr_runnable's subset.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
----
- fs/cachefiles/internal.h |  1 +
- fs/cachefiles/namei.c    |  5 ++++
- fs/cachefiles/xattr.c    | 59 +++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 64 insertions(+), 1 deletion(-)
+>        if (entity_is_task(se))
+>                pref_llc_running_dec(...);      /* sched_delayed still 0 */
+>        se->sched_delayed = 1;
+>        ...
+>        for_each_sched_entity(se)
+>                cfs_rq->h_nr_runnable--;        /* sched_delayed already 1 */
 
-diff --git a/fs/cachefiles/internal.h b/fs/cachefiles/internal.h
-index b2605111fd56..664be64ab538 100644
---- a/fs/cachefiles/internal.h
-+++ b/fs/cachefiles/internal.h
-@@ -283,6 +283,7 @@ void cachefiles_withdraw_volume(struct cachefiles_volume *volume);
- /*
-  * xattr.c
-  */
-+int cachefiles_preset_object_xattr(struct cachefiles_object *object, struct file *file);
- extern int cachefiles_set_object_xattr(struct cachefiles_object *object);
- extern int cachefiles_check_auxdata(struct cachefiles_object *object,
- 				    struct file *file);
-diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
-index ca093840e577..ef656a319ede 100644
---- a/fs/cachefiles/namei.c
-+++ b/fs/cachefiles/namei.c
-@@ -450,6 +450,11 @@ struct file *cachefiles_create_tmpfile(struct cachefiles_object *object)
- 		pr_notice("Cache does not support read_iter and write_iter\n");
- 		goto err_unuse;
- 	}
-+
-+	/* Preallocate space for the xattr. */
-+	ret = cachefiles_preset_object_xattr(object, file);
-+	if (ret < 0)
-+		goto err_unuse;
- out:
- 	cachefiles_end_secure(cache, saved_cred);
- 	object->content_info = CACHEFILES_CONTENT_ALL;
-diff --git a/fs/cachefiles/xattr.c b/fs/cachefiles/xattr.c
-index 551a3b0069c2..8ebb713482e3 100644
---- a/fs/cachefiles/xattr.c
-+++ b/fs/cachefiles/xattr.c
-@@ -34,6 +34,57 @@ struct cachefiles_vol_xattr {
- 	__u8	data[];		/* netfs volume coherency data */
- } __packed;
- 
-+/*
-+ * Preset the state xattr on a cache file to allocate space for it.
-+ */
-+int cachefiles_preset_object_xattr(struct cachefiles_object *object, struct file *file)
-+{
-+	struct cachefiles_xattr *buf;
-+	struct dentry *dentry = file->f_path.dentry;
-+	unsigned int len = object->cookie->aux_len;
-+	int ret;
-+
-+	buf = kzalloc(sizeof(struct cachefiles_xattr) + min(len, sizeof(__be64)), GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	buf->type		= CACHEFILES_COOKIE_TYPE_DATA;
-+	buf->content		= CACHEFILES_CONTENT_DIRTY;
-+
-+	ret = cachefiles_inject_write_error();
-+	if (ret == 0) {
-+		ret = mnt_want_write_file(file);
-+		if (ret == 0) {
-+			ret = vfs_setxattr(&nop_mnt_idmap, dentry,
-+					   cachefiles_xattr_cache, buf,
-+					   sizeof(struct cachefiles_xattr) + len, 0);
-+			mnt_drop_write_file(file);
-+		}
-+	}
-+	if (ret < 0) {
-+		trace_cachefiles_vfs_error(object, file_inode(file), ret,
-+					   cachefiles_trace_setxattr_error);
-+		trace_cachefiles_coherency(object, file_inode(file)->i_ino,
-+					   object->object_size,
-+					   buf->data, buf->content,
-+					   cachefiles_coherency_set_fail);
-+		switch (ret) {
-+		case -ENOMEM:
-+		case -ENOSPC:
-+			break;
-+		default:
-+			cachefiles_io_error_obj(
-+				object,
-+				"Failed to set xattr with error %d", ret);
-+			break;
-+		}
-+	}
-+
-+	kfree(buf);
-+	_leave(" = %d", ret);
-+	return ret;
-+}
-+
- /*
-  * set the state xattr on a cache file
-  */
-@@ -82,10 +133,16 @@ int cachefiles_set_object_xattr(struct cachefiles_object *object)
- 		trace_cachefiles_coherency(object, file_inode(file)->i_ino,
- 					   object_size, buf->data, buf->content,
- 					   cachefiles_coherency_set_fail);
--		if (ret != -ENOMEM)
-+		switch (ret) {
-+		case -ENOMEM:
-+			break;
-+		case -ENOSPC:
-+		default:
- 			cachefiles_io_error_obj(
- 				object,
- 				"Failed to set xattr with error %d", ret);
-+			break;
-+		}
- 	} else {
- 		trace_cachefiles_coherency(object, file_inode(file)->i_ino,
- 					   object_size, buf->data, buf->content,
+For example:
+
+In this code the h_nr_runnable is updated the same way regarding what is sched_delayed.
+That means if we want to behave as a subset of it, we don't need the check delayed,
+since we check the delayed to be a subset but if h_nr_runnable is decreasing/increasing
+we should look into our checks.
+
+My head hurts. Please notify if I'm wrong.
+
+Thanks,
+Kayra
 
