@@ -1,75 +1,82 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361583FCC
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 00:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F168C2AD00;
+	Thu, 10 Sep 2026 00:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788998716; cv=none; b=iuKvFHNVth3I+JX90yVWNlROalnQxmMh9KGuWwOEy5OfSRRRQlmxniW32R2uj6i9yQLq+A5FjQMF4dl8wKN+Elj0JKyFPTiXX50Oc/IQa2rGrUFLneee0nJltgv9uzKalC/MNdABIZwkfkYCozIIQk/GPKFFl3hQQKNEnfDop94=
+	t=1789000189; cv=none; b=XJFECNqDGSZPoMRGXRpe5hcXzBvESDQrS4bPwAewkhqzdGUdeS5HCHYdL4ZcHlg1osgQmybHgUNRcRKWBEk7IgwiS1sIIl3eW/HRe4I8hV+VOC39JD8CkPBcH1yXwU2QyNU/aN1UJOow9myuvEX4C5h1vJ37bYNrOvHg0zEiwpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788998716; c=relaxed/simple;
-	bh=vPGGigZtbn609VllmdxIrfgs2wVQVwK4tTE8Lofg/mA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HQXxnFycHjoBTCUHRSQQXSBvs2p756h9VZRiJGIuaQ5uMgjn62KizPVkdbv1wCZLYUdVzvYJVrrQwVvcUFJex+gsmIGOElPMBm2iAHHvAt9gxWSdlzqr5jX4XuZ9rCOaE/s7LIwKk5j1/Jj0bIF4S+AcMPOC0Hc7FWxdkzeBoXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=n/unJEpP; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1789000189; c=relaxed/simple;
+	bh=aPjjTcqF2XeYLTM41nA3YHEPSk3Ah9fEOqrE6jzMgUY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ownjad+ELTK39W12vXQ0KwJlSVdBBU1yYvQES56ec+iHsKUDV3gVDoc+XFgNxWdvKhyhRhxTE3VbvQDzsRCjpcdeGNJQDy2yNbQb8PlbOD42jUkCAzTf13eP3G35EivUqzE5Q7+wyOq10TeHaigJ9LviNUbDGJ0/edlOg13rKQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=U+2JYhu+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Fy8D1O/I; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="n/unJEpP"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-857ff9fef54so64068217b3.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 09 Sep 2026 17:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1788998712; x=1789603512; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SBS5mNZmCsiLBp7HvXFMoNdv6DnLngpLQ6EQEUK1Hco=;
-        b=n/unJEpP0izSh1Guwp4X1e84gw4dp4dz85xPeBi/uLDts4snOuJtwQDOeeqUw2yCFJ
-         3CuuMg0OUb3mrL84n+JH3z/aHbOizez/8KSKUmtC6RllS7u9xNJ/lBJTPr571R2P6Sub
-         XDZfNQsAYQUlQRMFOjNFsX+ThucsM/laHB7onnNMiBACKnBErZl+PDqldWSDBmn9MhRS
-         ExQLIPGzuJHa0YcRH0yIRO3xfoDLOmAatrWku/WXP2dJNtyHP7FViQxA+hELPA1oQfnr
-         RWAiLZs5ljOt2QcwFdG3h79R1TBlDCOFNFo3KSnuO4uW+cx1Yxa9iWHyvL1J1wETLKHM
-         36Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788998712; x=1789603512;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SBS5mNZmCsiLBp7HvXFMoNdv6DnLngpLQ6EQEUK1Hco=;
-        b=V2SglZ/6+oFmWRtKEiTe5DJYtoNWpl9LJFjRvwCYsSQDNYQ68TikbbDWXEPgFu8BeR
-         x+ebIZIAAd2ly2C+PvMqCSrT54y2/nw0CtRJhAtG5rlqveioNyqAEyu8zeSSqhCycXsk
-         mfmI4tJdDCijv+v1T9PqpObs4lE41QvO9pfa/9fol/LN/152NE9MdATLA2+1r7AUW/iN
-         Og3jSmbLvvoQgscw88HPDv2z8ar95xzX+aC4MwZzVdSlnZN4w+ybD0Gbq3+OREPZg9v1
-         bymBcNd0nqrZ+XYrWT/+48savmrscEg/lst0pnhcEyMq2fbu+iWFJUD/GVdxrPuo9S1y
-         DCIQ==
-X-Forwarded-Encrypted: i=1; AKwUvByqXDSJ+dMN6641hFOTBwTf/3HKubgjtOzrS1J3Y5LnwouL0u/kRKrG9oQzN1JPjE9+bkdRWJVgul21mxC4@vger.kernel.org
-X-Gm-Message-State: AFuF++lyCgdlKtMgKN2nZA0uL/5dysyOFStd0Q9cllEmolRuSlwvhcfR
-	XWa12B3PDV1A1BPMBD7JjtYy/mBqdobQjilCfQCv+gcuRtyyqcOz1z2jADMw50yTulo=
-X-Gm-Gg: AYBFou08NhD6hDDHWPPey2XIp+2UBysVSMeM8SGbLXHw4jEAvmN4PKXm/AixLz1rBfP
-	+INOSxTQpiprqTa5krVshWwXOfJF8gEwMT/hbQ4Nti5NLc7xgVQWfI53lVW3fMOr7CrBk5cMTtZ
-	yzGkSPJ2leWvGtCuBliecMR49Fd3wA3sjCX8GhWWPt4pDos2gsMxMKqW17zZBY2ESWQEC9pE33q
-	BogHrZWJOTWWWY4NTf1D2m4jeKZAGIHdhCw8VebvfE5NntVhQoffIZV+Gz8rMIqWIRsKjiu3yf1
-	o7c3MpO0ITyIVGiIkrXqHwf93tm0QUl35PhNLOjc8KPQGARKJkzNKJWRxWrXhi5ZZXc6muNrwhk
-	BH9rVWmlfP80c8nsO69NEFxkM1DkmArF1GLcKEJHTTogZ9Kj6H98L+opPe6Px9jan4I3OvDiyep
-	clMQdsGtTQz+BjanfAnZX8irQvUEZJerT434VnEvp7NrC9hso5jAWD7eB0XjPhAXQi5X0OQ6RW+
-	ghnfK8WyfRszNos1F/IQKAGPm1k13j4I1aOIZ5B3AIHf2yjCZMgKZ5hw2ym46/wHwPecPimySNH
-	G6tN7/QdcGCym7BR4auwDIzyVznRyZrnbNKcxb8=
-X-Received: by 2002:a05:690c:dc2:b0:870:47a0:6fce with SMTP id 00721157ae682-871225989c2mr154470257b3.4.1788998711977;
-        Wed, 09 Sep 2026 17:05:11 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:bfe2:d67c:7903:eb5e])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714b62503dsm118699177b3.38.2026.09.09.17.05.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 17:05:10 -0700 (PDT)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: zlang@redhat.com,
-	fstests@vger.kernel.org
-Cc: glaubitz@physik.fu-berlin.de,
-	vdubeyko@coreweave.com,
-	linux-fsdevel@vger.kernel.org,
-	frank.li@vivo.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH] xfstests: exclude hfs/hfsplus from generic/339 run
-Date: Wed,  9 Sep 2026 17:04:50 -0700
-Message-ID: <20260910000449.747189-2-slava@dubeyko.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="U+2JYhu+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Fy8D1O/I"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id E808B1D00091;
+	Wed,  9 Sep 2026 20:29:46 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Wed, 09 Sep 2026 20:29:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm1; t=1789000186; x=1789086586; bh=2lQ2pka3FW
+	U4UnyW8EvfdzmcWknbIDD+gKd/6rbH00Q=; b=U+2JYhu+QuDOU3iNolY89E0Jmy
+	yWazQrwJdqWkfEckpAqOOvFChZHbTDlcKzTeL/KIGgsHDXV1rzr9v4XlsxOCnZv0
+	7d8vD2Vhfy19ow7Q36MJ2nOHL0wmz30GwYleKGLtCCIGZ1xfqSIXTuiSUo6Y+TRY
+	xwC6WP9GfiC1s2hoBB8+ShYSpB1EjD4HUDAfEWI+wA6/8FG0AA5dG9okvCUtCV+s
+	67GeEk+2S3+AyTq/kJMR4Ow7XACMXlEcb0u6mvue3earXBm5wGEzPNJjLmgtaRje
+	ERatuArm3FITL0gZ69qdpwgeD6zfLai5q8dlzoaXXr8lQx+W1hCuet8P/q6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1789000186; x=1789086586; bh=2lQ2pka3FWU4UnyW8EvfdzmcWknb
+	IDD+gKd/6rbH00Q=; b=Fy8D1O/IrrozSvLaAPWJYkLvgtRpAJJLBwraxUpjlWmE
+	yM+SjxgwvVeRAXcMWF+2mHUAlKdQlF4Ah+vlzX+R+qgJ6QWzCPWz+Oztlj3go+RC
+	+5eyNajgnBmodHlSmBhndbGG1FJdkj/hbCBaSQ94jJZoNkWqp5B94yEt/36C0KhN
+	NTJeTRwX/vEsP3+fJEpI8RO3Y6lAeyAlu8KRrm9nvBdzGjHgv3weEdXCUC2wrb6f
+	LJw7u9UPaNv+2IbnP2Ru8RRf6xULra/CnwUa028IN80OU8XzdtaWWuVzId1FS09x
+	fYi2t0AMSLY3cFQTt9IgfZUF8ZJtRuGEUgrFXr25BA==
+X-ME-Sender: <xms:-vmhamYx-s9u6sg629eSlS4-TXfFqFrTeio5o-GDBN1kcBL_Frk2HA>
+    <xme:-vmharqwvlKHSZjB2GkXyfQTCQmjg4MgDHqs94Z9W4z6kSf0Ai2LeHYp1mP31Q3Pn
+    2sBxo1_Qi2jfLAQFicimQIPAG-vp-atvPAkpbn1h5VYS3clZA>
+X-ME-Received: <xmr:-vmhajM3tLDiKXZ7CrfcR6zUzxV6WMbm5jmckgsDEsGN_Gdazhe2DpEkjNt77qtAXoZ9LFCevMkllETj7sGmGVDhwXtKq8c>
+X-ME-Proxy-Cause: dmFkZTGeZS4Tz1kwsfzPjKE2MC0aSlZicXXI3+baH1XMHVs4sUVRzBIYjnndtn/0+ifDxl
+    pir+10r4WsWsobcPoZcStx9jeKonSKGYWhx5h0hW3Japu/x3w404MWl8A6hgXkW472G/zZ
+    w8+lYz+G2nFurdh/pQU7wCDvOeD3sBiizp4+7JMbdltNs1GJoCm2yBtoTJEUYSxWKGSYvs
+    9lQIUFQNKZkK6dJrCgr5PfJ27d61bjeqfZwImhizn4nHm5UgrkuxodVav6Erqicbn05aAr
+    L3FonvXPUSFkUfSJzXVaOeloV9igILnJAQ15t0InvGPmafRRschsQhAB0aoPoJz3Rkeztl
+    V3mVrANoYQ2OR1QP3mkoGdhcLYAaNJxdmr5DZro0hEks1qW8L2W9L/H1q72Z8f1RdSahnC
+    moHTH3guca52EAM0nqgB5fUXBFyVKNgN3TRR87AJksaqtPugunJMBOndA3nzqDmHbxaipY
+    UPRKwfifev1KhJgkYE5FXjl2+oD1Oj3JjG3Andwr7hJOHSF6oFW9TwT6SbT+L+EIUrRBtu
+    C9DvShoh1jtEPoPkxOllOKOMn/CGCbXiIQFb7f1SQ2iD32dxO9WJgcCBPkbvFlhzVQGqzt
+    aHJKMW4dHRvWLmHe6BR1p0TEmHnYgeGeiJQQgzW1rVoxtRAahDSwVOdXJKhg
+X-ME-Proxy: <xmx:-vmhaurABtLvRkaxWH8i9qOBAPOW8Xpe9FeAthLJrLlra2SinVETmg>
+    <xmx:-vmhagc0n4nO1O4FtNXHaso0Eg0Lv5GHoh7tFFnth2qttG0t1QWmpw>
+    <xmx:-vmhasTQSPzVi1YLJFPW-qGSQfTcw48uER2YZmYgVnCLkbZ3_XGEmg>
+    <xmx:-vmhahZXG7f1IgEo5RfDoX4D7c-dOs2er0fD_zwp2R2qasyYcBjN3w>
+    <xmx:-vmhaulLZgh_o8fnjvELHcntoPbq4Vc78FtY2xY7RI7SwyyE_IeVCx3o>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 9 Sep 2026 20:29:44 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org
+Subject: [PATCH 0/7 RFC] fixes for vfs_lookup_open, and integration with nfsd
+Date: Thu, 10 Sep 2026 10:20:46 +1000
+Message-ID: <20260910002934.192979-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,41 +85,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The dirhash_collide generates filenames from arbitrary random
-bytes (only '.' and '/' are filtered out), which are not valid
-UTF-8 in general. Catalog names on both classic HFS and HFS+ are
-Unicode. Feeding random bytes causes fsck to report "Illegal name"
-or catalog corruption that has nothing to do with directory
-hash-collision handling, which is what this test is actually meant
-to exercise.
+I've been looking at the problems Chuck and Jeff found with my
+vfs_lookup_open() work for opening files in nfsd and think the following
+patches address the issues.
 
-This patch excludes HFS/HFS+ file systems from generic/339 run.
+I have labeled this an RFC because:
+1/ Patch 2/7 changes user-visible behaviour - in a good way I think.
+   Currently O_NONBLOCK avoids waiting for a leases but doesn't
+   avoid waiting for a directory delegation.  I think it should do both. 
+2/ vfs_lookup_open() is changed to update the 'dentry' in the path arg
+   to report what was found.  On success this is identical to the
+   returned file->f_path.dentry. On -EFTYPE failure it is useful
+   to report the actual type to the NFS client as required.
 
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
----
- tests/generic/339 | 9 +++++++++
- 1 file changed, 9 insertions(+)
+As an aside - what would people think of changing ->atomic_open
+functions to *not* return -EFTYPE.  If they find a non-regular file they
+should use finish_no_open() and let the caller decide if a non-regular
+is an error.  ->atomic_open can still honour O_DIRECTORY if a network
+filesystem does that some special way, but if it find a non-regular when
+O_DIRECTORY wasn't requested, it is best to report what it found and let
+others deal with it.  As it is we need an extra d_lookup() in
+vfs_lookup_open() to find the dentry that ->atomic_open refused to
+return.
 
-diff --git a/tests/generic/339 b/tests/generic/339
-index bf8f7729..5cc1086f 100755
---- a/tests/generic/339
-+++ b/tests/generic/339
-@@ -17,6 +17,15 @@ _begin_fstest auto dir
- _require_scratch
- _require_test_program "dirhash_collide"
- 
-+# dirhash_collide generates filenames from arbitrary random bytes (only
-+# '.' and '/' are filtered out), which are not valid UTF-8 in general.
-+# Catalog names on both classic HFS and HFS+ are Unicode. Feeding random
-+# bytes causes fsck to report "Illegal name" / catalog corruption that has
-+# nothing to do with directory hash-collision handling, which is what this
-+# test is actually meant to exercise.
-+_exclude_fs hfs
-+_exclude_fs hfsplus
-+
- _scratch_mkfs >>$seqres.full 2>&1
- _scratch_mount
- 
--- 
-2.43.0
+Or maybe we shouldn't pass __O_REGULAR because that only affects "open",
+and lookup_open() doesn't even try to open non-regular files.
 
+I'm keen to read your thoughts on the above.
+
+Thanks,
+NeilBrown
+
+
+ [PATCH 1/7] vfs: add some allowed open flags to vfs_lookup_open()
+ [PATCH 2/7] vfs: O_NONBLOCK|O_CREAT open shouldn't wait for directory
+ [PATCH 3/7] vfs: vfs_lookup_open() should only return -EFTYPE for
+ [PATCH 4/7] vfs: change vfs_lookup_open() to return found dentry in
+ [PATCH 5/7] nfsd: switch NFS4 OPEN to use vfs_lookup_open()
+ [PATCH 6/7] nfsd: nfsd_check_obj_isreg() to use nfs error codes.
+ [PATCH 7/7] nfsd: use vfs_lookup_open() for non-creating open
