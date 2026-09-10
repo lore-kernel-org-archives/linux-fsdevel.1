@@ -1,201 +1,107 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB80433F5A5;
-	Thu, 10 Sep 2026 08:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE7A3BBFB6;
+	Thu, 10 Sep 2026 08:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789029265; cv=none; b=lCFiZyci/IgzJ5TGJK52eGbPWP3+nIUVCKvcI0m1hENPAABb0xD7zZdnXL4P3Fm3BQL6BSOv565Q5ZMgA4z1HfzCWtOLo8sJwU+XmLMIgZh9yA/5VzLiex+TVqUuo5ee7/i+elIiF45zsw7OWF+ihGFyToVdWXGk7Z+gzWqyP+A=
+	t=1789029500; cv=none; b=qtfLGrTmJx7cKxcGds3Y8FRz+QJuoa7QdTNVGS1MA3CTFnChH2lmumN83VElUx1SySviOGlzSPyAo8mi0qT9PfpE0xzHmXTmk0PTgRehobNiJwCAh0tEIWDEJFyARYG2AXu3XVd/o3mBM2Tpl2oamCs46Yc+DIk5hsCELk4bJWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789029265; c=relaxed/simple;
-	bh=yN/g2JUqCAILCiTxkpNBVaHCrvzz/9KDwcBHkvCg2GE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZGdphtRbirdC283wf6tbh/RH5J6WMXDPMgECLVnZr3bNducFQIwi3Z9jA6fYvbzFa8J8T8+o82GfLpQR71f6OMZbMELwFKNraOaD9+DlcTn9aY6/sp0TDKYhAZofYNkOjHQVWSrmwJaLS1GDZa2q4kwE6p6PjFUuihEsdaOOE94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=nHSSN/0Q; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ue6td+Li; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=N6uLuSCv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jLUi0+BF; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1789029500; c=relaxed/simple;
+	bh=lygJJpzlqT4Z6yEuMq05SHLQSen4aDw7f2iMBLW1mEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s/tdPGk6XVx7SYwrawoHqqAyThaX8nKmiO3t+uWrp+X0AalNrTpbzM9ThQ6VcFqIWCX6ozM8pcpOM+27DX6ZwRJWHBqOmEdzodx8J1CMUBSgz2OtTrUVxpUR3KSipRHnz9msnoLNdLC8lTkD28UFZAfMSRmSEdqGG8mZCzeo8ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E16Px04i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="nHSSN/0Q";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ue6td+Li";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="N6uLuSCv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jLUi0+BF"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B19E321C55;
-	Thu, 10 Sep 2026 08:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789029257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r/xslGH7/S7wBfSOYVRcDNKymKpwasdTe6P0pCKQm3g=;
-	b=nHSSN/0QkXHgvRFMRbMm37v4Pxh8p40Wlpoen9p5PqRgZh2XuWRokHGoz+aFaeDF0rH1AN
-	5pUii7uEMwSny/5ECNdpMH7VNl6Z6C+OXQhfeHTxwc0AyNlkapmFHluNCYzy+F7Z3MGRCT
-	KY2K5Vdl9zHvHmBhDyBh3c26ii0AfV0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789029257;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r/xslGH7/S7wBfSOYVRcDNKymKpwasdTe6P0pCKQm3g=;
-	b=ue6td+LiV51soP5baVHkrVzbNe+Una1AaDwidUzh1Khx3z05IEqMMT62Aj5gbGey/UGoo+
-	rI1x9fuz4wJlYNBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789029253; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r/xslGH7/S7wBfSOYVRcDNKymKpwasdTe6P0pCKQm3g=;
-	b=N6uLuSCvRDpidGyjLG0YvuUIhxYaJi5N5zxQm+AkWQjb90ixpdbICpVDG9G2V46NP4QM/1
-	TS9w8AbL6XtW+LRZktx7CW2oACI3g0uQDqQJ717Q+AHAJYlPnYIHWkTBzU6xXJ3t9SYFJi
-	6G+jyCj9GH9o5/Bt4ebyHUdrQ66b/nY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789029253;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r/xslGH7/S7wBfSOYVRcDNKymKpwasdTe6P0pCKQm3g=;
-	b=jLUi0+BFL0cvmAWobd7DEBy/z8TrIZYTYbBK3i3CTujsI2eboUpC+UUdueIXsLwUcmbGtn
-	YZwKgCanNdmIeUAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8222F13A5C;
-	Thu, 10 Sep 2026 08:34:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Id++H4VromrQWgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 10 Sep 2026 08:34:13 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0D8CFA12EA; Thu, 10 Sep 2026 10:34:09 +0200 (CEST)
-Date: Thu, 10 Sep 2026 10:34:09 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jia Zhu <zhujia.zj@bytedance.com>
-Cc: jack@suse.cz, amir73il@gmail.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fsnotify: avoid unrelated mark reaper waits during group
- teardown
-Message-ID: <4467cbj7eivubtdwcawvr7mhrb7armgoc4xfqjjnncrbkxxag6@3mmou6nhviao>
-References: <20260909170833.5663-1-zhujia.zj@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E16Px04i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE891F000FF;
+	Thu, 10 Sep 2026 08:38:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789029498;
+	bh=od70uk8YuyRZg30iWu9bkVRGGja46Xc2qik6vdakHAk=;
+	h=Date:From:To:Cc:Subject;
+	b=E16Px04ihprLQqfUXL6AlzyQsqvV6u7064gr/DMD/QnTQBDiGTDgV1uebFKSmglvI
+	 c8MmT9p5GSt8kxCDoxuf3xDp8btnaKq+jcpC6vT0or42K5KWAAx6CJ8fFgJdsfGibS
+	 mHe6hUgoI5r3AJ9qkHfietB2Rx0IlTC0IiXJtCASJ76Uz7PgrhvnrCONxFbxP35Pmk
+	 TGpti17kZNbflWAwnPc3ThCko0F3WDs/Yrs66zcia2Xc6nWAduJHrgSP59wxLBXFFO
+	 N0t/Aa7QZk+2HnCMrSXQoQxGFdAEOPujF0uhCV5VCMMl55Kj1/iOA4I9QMjxNOQTDu
+	 PI1sE/eVLCIaA==
+Date: Thu, 10 Sep 2026 10:38:12 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kees Cook <kees@kernel.org>, Bradley Morgan <include@grrlz.net>, 
+	Karl Mehltretter <kmehltretter@gmail.com>, Oleg Nesterov <oleg@redhat.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] sysctl fixes for v7.3-rc3
+Message-ID: <ioe66sxd6x7ku7sghm4tdq5i2fhh2jfanhsb7wvsqjc5gjq6vq@3r5v7mcphc6s>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="n3oqgsadzwn4tyqn"
+Content-Disposition: inline
+
+
+--n3oqgsadzwn4tyqn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909170833.5663-1-zhujia.zj@bytedance.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,bytedance.com:email,suse.com:email]
-X-Spam-Flag: NO
 
-On Thu 10-09-26 01:08:33, Jia Zhu wrote:
-> fsnotify_destroy_group() unconditionally flushes the global mark reaper,
-> so an empty inotify instance can hang on unrelated reclamation during
-> close or task exit:
-> 
->   do_exit
->     __fput
->       inotify_release
->         fsnotify_destroy_group
->           fsnotify_wait_marks_destroyed
->             __flush_work
-> 
-> Skip the flush when only the closing reference remains, allowing teardown
-> to finish without waiting for unrelated SRCU readers.
+Linus
 
-Yes, but is it really practically relevant? The optimization you add really
-only works in the case when you have no notification marks in a group when
-entering inotify_release(). Usually though you actually want to get
-notified about something and thus do have some notification marks :) and in
-that case fsnotify_clear_marks_by_group() -> fsnotify_put_mark() will add
-marks to the list for the reaper to process. So please explain why this
-corner case practically matters to you.
+This fell through the cracks during the latest merge window. There are
+no more CONFIG_PROC_SYSCTL after this fix.
 
-								Honza
+The following changes since commit df2908090cda368b01ff43709f51890076c56157:
 
-> Verified in QEMU: empty groups and groups whose marks have been reclaimed
-> exit while an unrelated SRCU reader remains held; groups with pending
-> reclamation still wait.
-> 
-> Signed-off-by: Jia Zhu <zhujia.zj@bytedance.com>
-> ---
->  fs/notify/group.c | 26 +++++++++++++++-----------
->  1 file changed, 15 insertions(+), 11 deletions(-)
-> 
-> diff --git a/fs/notify/group.c b/fs/notify/group.c
-> index b56d1c1d9644a..052a419ee52a6 100644
-> --- a/fs/notify/group.c
-> +++ b/fs/notify/group.c
-> @@ -46,6 +46,7 @@ void fsnotify_group_stop_queueing(struct fsnotify_group *group)
->   * the group reference.
->   * Note that another thread calling fsnotify_clear_marks_by_group() may still
->   * hold a ref to the group.
-> + * The caller must hold a reference and exclude new marks.
->   */
->  void fsnotify_destroy_group(struct fsnotify_group *group)
->  {
-> @@ -67,19 +68,22 @@ void fsnotify_destroy_group(struct fsnotify_group *group)
->  	 */
->  	wait_event(group->notification_waitq, !atomic_read(&group->user_waits));
->  
-> -	/*
-> -	 * Wait until all marks get really destroyed. We could actually destroy
-> -	 * them ourselves instead of waiting for worker to do it, however that
-> -	 * would be racy as worker can already be processing some marks before
-> -	 * we even entered fsnotify_destroy_group().
-> -	 */
-> -	fsnotify_wait_marks_destroyed();
-> +	/* Even detached marks hold a group reference until final destruction. */
-> +	if (refcount_read(&group->refcnt) == 1) {
-> +		/*
-> +		 * Pair the refcount read and this barrier with the release
-> +		 * decrement in fsnotify_put_group() (refcount_dec_and_test()),
-> +		 * ordering mark destruction before subsequent group teardown.
-> +		 */
-> +		smp_mb();
-> +	} else {
-> +		fsnotify_wait_marks_destroyed();
-> +	}
->  
->  	/*
-> -	 * Since we have waited for fsnotify_mark_srcu in
-> -	 * fsnotify_mark_destroy_list() there can be no outstanding event
-> -	 * notification against this group. So clearing the notification queue
-> -	 * of all events is reliable now.
-> +	 * Mark destruction waits for fsnotify_mark_srcu, so there can be no
-> +	 * outstanding event notification against this group. Clearing the
-> +	 * notification queue of all events is reliable now.
->  	 */
->  	fsnotify_flush_notify(group);
->  
-> -- 
-> 2.20.1
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+  Linux 7.3-rc2 (2026-09-06 15:07:20 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git tags/sysctl-7.03-fixes-rc3
+
+for you to fetch changes up to 353a95f1cd8da8a5436a3f070be07d2f484486cd:
+
+  syscall_user_dispatch: Use CONFIG_SYSCTL for sysctl guard (2026-09-07 14:00:56 +0200)
+
+----------------------------------------------------------------
+Summary
+
+* Replace CONFIG_PROC_SYSCTL with CONFIG_SYSCTL
+
+  CONFIG_SYSCTL is the config string that controls sysctl subsys.
+
+* Testing
+
+  Ran through x86_64 selftest. Skipped linux-next for this trivial fix.
+
+----------------------------------------------------------------
+Karl Mehltretter (1):
+      syscall_user_dispatch: Use CONFIG_SYSCTL for sysctl guard
+
+ Documentation/admin-guide/sysctl/kernel.rst | 2 +-
+ kernel/entry/syscall_user_dispatch.c        | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+
+--n3oqgsadzwn4tyqn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqibHQACgkQupfNUreW
+QU9g1Av/exzpU3gsFHq+L4zPgOFq7Fs9gkTfUXPa36QAEDIM0EQyvd8wRViHHeBu
+R3B6nMyd3r+n8wH/FiUfeSH2K6T4OBg1rSCgLSRg4TMYEoFe4CuVgfVV1HR1SSJu
+NyYFRbrGJGur7sjytlMFPjBjJk1hsIf//kIWyfpBLbtXCV2iw26tInySQ39/NGRH
++Nd7kc5McOBbw8z5Gf09M7hD/PHs+DreaI1pUbUFg2FYzgHeQ3sv20Gqn7pyA4qi
+gfj1KppJcAKccj93WfyditE4gmggJkpqeWJCf//HSysTCEKJOD4+AXRcDIL2BZCB
+rkIfBFi6grHbcwQ+ouOHAq/8Otn+fCCiTtVMEb3T9YgfAXzWkm0fUVFSUjNj+00s
+xbHtOAah/uSBptwdg5y/xpBKzpuTK3AURktG4kdCK2CwlTCH+KuzxF2zg0i3MDR0
+xpa35jALtJqhu4s8Xd1B4QoW50r5hcoMOGESyaTioL3vv6hXwFBnspHCLVr6zc8u
+gVtwj28l
+=c4TW
+-----END PGP SIGNATURE-----
+
+--n3oqgsadzwn4tyqn--
