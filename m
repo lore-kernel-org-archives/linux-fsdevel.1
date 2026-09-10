@@ -1,177 +1,235 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90055486E67;
-	Thu, 10 Sep 2026 14:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4893489FB1;
+	Thu, 10 Sep 2026 14:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789049833; cv=none; b=KMwQTuiqXV8mgNqxJ8OQT+IJB/c7hZb3A0UleSyJNYo0CRcJ/75o2JgOVxodxjaim9Gpg+y0eY+0c2ffwu4fb/7/tkbLM7xin4wCHp9ArrplKPHl2pRb64jkfWBDzWuDf+vkVd1KIOYvH8K8PJluknQ2GAxyZdJ2G7f0mIn7mWs=
+	t=1789050559; cv=none; b=NMq43LY8+ZJhLla+RPIuz/k+tbQI8GcR1Lt3zipdEx//ItHPu5oOCLO4CGpVFgwVxUMbcbGZ0beLWpH3zy31klzfI2CyCszn4e2/gZLN+fhw/0jkQqRNiLP8QCuCt1goy8qaSqT91pafMFdNWpu/SaXqOpwuQNShzFxds5eJhXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789049833; c=relaxed/simple;
-	bh=ouLSzFPPywcWEjItXpm/BdFxmrrlx7aKIKZ1q/voZWk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nYP1TmGbjF5BPGNLIiuYW+EWSnl/uZD0kuCMmhfzWqsoCSa7018YfAtr1nWio22zwu2hSKGwOmHsp4GzMrKxkwjf5rrd0D5YO8LEJqPqNGTeHnG3MQW7ySXql0sfT0L3E2KYrXfOY6lPrXGXMyAbsPx+40l5rwLRMTJmscCDl8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=LhvMGG5D; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1789050559; c=relaxed/simple;
+	bh=TAOYR8njee2iwqwI0d4esXJMuuALxt6G0+X5gSu7Jtk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W3cxVaureMPw7BReKHIQjJBp6S4eebPIZY6hopcBl2oITmuI0wJXcWKGbJ5eT0JtzxsFY4lB4e77kE5Ml1N7ueB78z2wPqteUkJe93+fSSae+zlf1kLOKreJgSHDHQuxvQF7CsttS8bnNnDh0M5GlMnnN289UkIbP1/D/oFZ+3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/DKz63I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="LhvMGG5D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1789049734; x=1789654534; i=spasswolf@web.de;
-	bh=ouLSzFPPywcWEjItXpm/BdFxmrrlx7aKIKZ1q/voZWk=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=LhvMGG5DzdYI8DqS5YqGNKz6TQL9GIVQN587L5YBWaR3ZxwGh1q3fsORx9ogHMZ7
-	 OpLpUGtIvnnynrFZtbhDTC3bsbxkKziqvJ8cZr2xJC2Fy0Gdvwxg7rGUiGazCB4p5
-	 lluvrmgGRm84qmsDje0Fq3sU8IpOGUyerTEExlv7HJo56G0nM0cnGGfla13fLFzVU
-	 wppgaTNr4orft7UUvOKuhcdRKlZW+nqPNZINJ6Xtg6pI4kyR1vmMf7KtU6A4Dmoyi
-	 Tav6PhyiIj/hZRgwclLtfVLvdtI3S4bVDaixSnopQjF2Y6pSfY6g+aC6eijtxNsoq
-	 6QWXUPpXinHPVcycDQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MLRYd-1xM3io20cV-00XlJW; Thu, 10
- Sep 2026 16:15:33 +0200
-From: Bert Karwatzki <spasswolf@web.de>
-To: Joseph Qi <jiangqi903@gmail.com>
-Cc: Bert Karwatzki <spasswolf@web.de>,
-	Chao Shi <coshi036@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	Venkat <venkat88@linux.ibm.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-fsdevel@vger.kernel.org,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>,
-	Zhang Yi <yi.zhang@huaweicloud.com>,
-	Bob Copeland <me@bobcopeland.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	linux-ext4@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	gfs2@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-next@vger.kernel.org,
-	Weidong Zhu <weizhu@fiu.edu>
-Subject: Re: [PATCH v2 03/21] jbd2: point the shadow buffer at the frozen data directly
-Date: Thu, 10 Sep 2026 16:15:22 +0200
-Message-ID: <20260910141524.12362-1-spasswolf@web.de>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <9CC2EE8A-9F67-408A-87A1-62AF671B4BFB@linux.ibm.com> (raw)
-References: 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/DKz63I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B7D71F00893;
+	Thu, 10 Sep 2026 14:29:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789050557;
+	bh=u57NC1k6Bqf0mo7Kdt9/SiH0AeFRP72u3trAgFtt4Ns=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=I/DKz63Io0owfDmvuXF1ij9DmOob8NZ36qEzesmm68JMcrvrYC1f9gjBLiqyS1NNR
+	 AtCUF797lcT2SlhbFdyyfPMwXX7BVth8RKdT6q/+2i2gr+l5ZkVvEhyUoGhVzOTBBE
+	 TPZQ+UX9U1okNoy8vHDfi6hfrlJ3BUiXuQoEfNuvUWkkawQ8KJOY8pC0J/xMqPhq+j
+	 TbjK+5Q+Rj30wCkFfkJfcmIkdzpJrAKsK9oJPvJ5RVpQbDI3w2BX3trSlemnHEe/3p
+	 2JLdlKg1fVyDjQDOYsSmtD5VuIKY26NLB+G1PhOILay33McJMAqhXw32euDxhrsGEL
+	 +s4H7uJsegykQ==
+Message-ID: <c72f7358-cb6c-448d-9ce9-c17b425964bf@kernel.org>
+Date: Thu, 10 Sep 2026 16:29:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Ul/2rW8Q9s3i94Jp4a/pwfqq/0kVSRETu0GYy0OSrciaIrmj7oC
- /VGMb8bYZHZTZpM3eCw2U9OdkOxr9fhS7hB5W/AULwFivn+5qkqvwV4jR963HDqY5rw6OKb
- n4kIetFwotCaeKUKCRTIbwOvanzg0SOVK9CqAZymL0DXh82HsPZNW+zd+ccRyTR6RkxmBe3
- iQj3Pui9AvylTp30cam/w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:h1+fjtsb0wA=;IFoDmys7j1uXJOqLBetdwENOFSk
- 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
- mbteIBUpUs=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr handling
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+ Baoquan He <baoquan.he@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
+ <aqK2_RpAlMbVYcuN@gremlin>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aqK2_RpAlMbVYcuN@gremlin>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Just a quick reminder, in linux next-20260909 this has not been
-fixed, yet.
+On 9/10/26 16:16, Lorenzo Stoakes (ARM) wrote:
+> On Wed, Sep 09, 2026 at 03:33:01PM +0200, David Hildenbrand (Arm) wrote:
+>> Let's move it to sparse_init_one_section(). However, to keep early
+>> boot processing working, we also have to initialize it in
+>> sparse_sections_init().
+> 
+> A why might be nice :)
 
-Bert Karwatzki
+Agreed, I'll mention that.
+
+> 
+> I guess preparing for removal of __section_mark_present()?
+> 
+
+Right intuition :)
+
+> Also good to have arguments as to why this is equivalent of previous
+> behaviour.
+> 
+> E.g. higher pfn = higher section nr so naturally the highest is the one you
+> end up wtih at the end of sparse_sections_init()?
+
+We go over all sections, just earlier.
+
+> 
+>>
+>> Should we use READ_ONCE/WRITE_ONCE with __highest_used_section_nr?
+>> Probably, something for another day.
+> 
+> It might be worth expanding this a bit. Do multiple threads read/write this
+> concurrently?
+
+Hah, I'll probably just drop it. I was just stumbling over readers vs.
+concurrent updates and thought "that looks suspicious".
+
+> 
+> No functional change intended here or is one intended? :)
+> 
+
+Certainly no change intended ;)
+
+> Before it was:
+> 
+> mm_core_init_early() -> sparse_sections_init() -> __section_mark_present()
+>                           sparse_add_section() -> __section_mark_present()
+> 
+> Now:
+> 
+>                                                  mm_core_init_early() -> sparse_sections_init() [early]
+>                                                  sparse_add_section() -> sparse_init_one_section()
+> 
+> But also called from mm_core_init_early():
+> 
+> sparse_init() -> sparse_metadata_init() -> sparse_metadata_init_nid() -> sparse_init_one_section()
+> 
+> Are both required?
+
+sparse_metadata_init() relies on __highest_used_section_nr in the
+for_each_early_section_nr / for_each_present_section_nr, so it is required.
+
+I could probable move the update on the hotplug side into sparse_add_section()
+instead!
+
+> 
+> 
+>>
+>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>> ---
+>>  mm/sparse.c | 5 +++--
+>>  mm/sparse.h | 6 +++---
+>>  2 files changed, 6 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/mm/sparse.c b/mm/sparse.c
+>> index 2b41ae36f20b8..2d0f2db34f4cf 100644
+>> --- a/mm/sparse.c
+>> +++ b/mm/sparse.c
+>> @@ -177,7 +177,7 @@ static inline unsigned long first_present_section_nr(void)
+>>
+>>  void __init sparse_sections_init(void)
+>>  {
+>> -	unsigned long pfn, start_pfn, end_pfn;
+>> +	unsigned long pfn, start_pfn, end_pfn, section_nr;
+>>  	int i, nid;
+>>
+>>  	sparse_extreme_init();
+>> @@ -187,9 +187,9 @@ void __init sparse_sections_init(void)
+>>  		mminit_validate_memmodel_limits(&start_pfn, &end_pfn);
+>>
+>>  		for (pfn = start_pfn; pfn < end_pfn; pfn += PAGES_PER_SECTION) {
+>> -			unsigned long section_nr = pfn_to_section_nr(pfn);
+>>  			struct mem_section *ms;
+>>
+>> +			section_nr = pfn_to_section_nr(pfn);
+>>  			sparse_index_init(section_nr, nid);
+>>  			ms = __nr_to_section(section_nr);
+>>  			if (ms->section_mem_map)
+>> @@ -201,6 +201,7 @@ void __init sparse_sections_init(void)
+>>  			__section_mark_present(ms, section_nr);
+>>  		}
+>>  	}
+>> +	__highest_used_section_nr = section_nr;
+>>  }
+>>
+>>  #ifndef CONFIG_SPARSEMEM_VMEMMAP
+>> diff --git a/mm/sparse.h b/mm/sparse.h
+>> index 7c5d82ceb7142..a3af4967fd5c5 100644
+>> --- a/mm/sparse.h
+>> +++ b/mm/sparse.h
+>> @@ -97,6 +97,9 @@ static inline void sparse_init_one_section(struct mem_section *ms,
+>>
+>>  	BUILD_BUG_ON(SECTION_MAP_LAST_BIT > PFN_SECTION_SHIFT);
+>>
+>> +	if (section_nr > __highest_used_section_nr)
+>> +		__highest_used_section_nr = section_nr;
+>> +
+> 
+> Could also be:
+> 
+> 	section_nr = max(section_nr, __highest_used_section_nr);
+
+Ack!
+
+-- 
+Cheers,
+
+David
