@@ -1,81 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC64B3E1D0B;
-	Thu, 10 Sep 2026 07:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A66420496;
+	Thu, 10 Sep 2026 08:05:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789027159; cv=none; b=ZIplQ7nwJyAkJZfMCj9DwrGPSKbvrnaUkKrBNlLyPKW++1x0blqleg9LgJo6FZcMeUzJYY6WAVvb9QjuNTOlqft//9KaHl5AOWTJevSvzec1FC5k8FykEPYOnPkcocXHwcrYRCmFdBPxhJBZJQhUEQ6OZ3v8ThExiMPMcsBiTeQ=
+	t=1789027538; cv=none; b=VxudNFrN+99qEhK3hB3dyfKJoZQOdugNOnMcfww/CJ86PQynM2UE2Gju2ezFanJvUH2dHomcIjiaSq0U2ATS49KavTqQzk51hnmkqqzQWo2MAahGb1JDuaPpR0QTQSl8gLxaUutN3ycEOo6FXZ25lJLBZ7O5xjLzNDvz7hAfqPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789027159; c=relaxed/simple;
-	bh=QBEqFvG49KXMsUBHY3b3Wrm2c+A9EmPSlprClXsGqzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aF5b0e499MWA1/WYXGo4AZV2n/xflwEXQeXfQYLgc8LrmdBzPJtLRYOGuPdgONfqlmDtfXpVMTBkdRb6HMfnWlpcxU63mHoJeivpg7dO7CcxcbZdD8E6kh+s7L/K7wlbW+fTFDsmoM7lIR7LSrJS9c8Gt3rTHIz9F2LhcNhU634=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NQFA2UmQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789027538; c=relaxed/simple;
+	bh=Co/xDGyGBm71ZNsClBUBL2FknCJYkPSGnzGLjnGPnv4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=su0hixHAeKGLCL4QpKBUC+QwTzqkU8DPGsepU6Coinl6KxceYCWVqTb3mtoi9AJnAvL6q3t6jashW0Q/Kb9uUe91gE5Kql+HJhkKAsAIt+NmKI9FSVrN3C4cV3vZK+hP3ocXu+YJ85Gyk+g/lm1Z3qAhLzEYTNAGenGMabmNs8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erHB84hB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NQFA2UmQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD62B1F000FF;
-	Thu, 10 Sep 2026 07:59:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erHB84hB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 154CE1F000FF;
+	Thu, 10 Sep 2026 08:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789027157;
-	bh=NRs/chg0KdnpHvHLY9kfJ9kqDasmfHkg3JlNvfdFpxc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NQFA2UmQHMnTly+2eXTG8Pj8f+tmN8nLepBmX5vYFNjVw1HfO3ezcE2e3msAZcGKZ
-	 Nj85KlHQ7ImLxXVhEMr+AXBT/ULU3Zh58BBiYEUMCZqu6PX/SkPJqMSjP/vdKr/sZ1
-	 Cw0SThBCYzl9SW8qCmYWP0gGyLp6/njf2s0ydXIJBfvnFG7iJgU0/dbdRvT+LNQq8B
-	 vI+IaR3JxmLvUBbRZBwNJxifjFC1r4u+XndAlj32yr5YoDSkSOfFpfnaouIaJwP1Za
-	 e/HMCoMOkXuEQ0wm5waUt0AjJkPOFVYQJSJFxLrgvOB+YGpM24gUHIfypCoQ9/EgJK
-	 Hinjfj/aUvopQ==
-Date: Thu, 10 Sep 2026 09:59:08 +0200
-From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 07/12] mm/sparse: remove pfn_in_present_section()
-Message-ID: <aqJjTE04G1A1l0A3@localhost.localdomain>
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-7-008fc8d579fe@kernel.org>
+	s=k20260515; t=1789027537;
+	bh=6/2XfJC86Fm/Ad/wm4hX1MWJfptljS23xiR21EMrGbc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=erHB84hBAIebbCGO0Kuj8g+pDl4x0Y2EJYaU0+8UMfx4Qh2uhStkAbm7Pf5t5xLUr
+	 xM1fZc53eUw6Qg+UwT5KSGVOBQEAVoafbEuTu8advWHSHF+Wgs7jJlHyjLsqYAhl4i
+	 S8LAkx9+wckIJShKUwvLqM9v+X3twZzF3NM9CbmpTorcf9PlUxOc8RFv705fc6GkAT
+	 v3UekI/YBsnH/zvnWo5VV3cXRHcHTUb2Aq4lahX3f9UB8hdBsm8el9aRhJdDEEVNPt
+	 NTbms2jxVq3Jq7PfHJS6UeoTbRmfZM7n67ZLmmixQdR0HZ7It0n+kwOF7sRAkkvvzJ
+	 XEWHLWyjpf/mA==
+From: Christian Brauner <brauner@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Dan Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+ Kaitao Cheng <kaitao.cheng@linux.dev>
+Cc: Muchun Song <muchun.song@linux.dev>, linux-fsdevel@vger.kernel.org, 
+ nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260904152749.84493-1-kaitao.cheng@linux.dev>
+References: <20260904152749.84493-1-kaitao.cheng@linux.dev>
+Subject: Re: [PATCH 0/2] fs/dax: Clean up busy page lookup helpers
+Message-Id: <20260910-getappt-rundreise-aromen-858ffbf41406@brauner>
+Date: Thu, 10 Sep 2026 10:05:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-7-008fc8d579fe@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1328; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Co/xDGyGBm71ZNsClBUBL2FknCJYkPSGnzGLjnGPnv4=;
+ b=kA0DAAoWkcYbwGV43KIByyZiAGqiZMyiPX+nmQud3pHo+LH1RfDUmJt0BnYDYrr9eHfVKYdPt
+ oh1BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmqiZMwACgkQkcYbwGV43KKyagEA4whf
+ JOmXgUnRJSjjTsB6BByqnoi3U6tWgeQyArk18LMA/Rhk+gx2xCwFNQF1af2xGr2ApQoq7FfAVW8
+ yu0D4Zn8C
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Wed, Sep 09, 2026 at 03:33:00PM +0200, David Hildenbrand (Arm) wrote:
-> Unused, let's remove it.
+On Fri, 04 Sep 2026 23:27:47 +0800, Kaitao Cheng wrote:
+> fs/dax: Clean up busy page lookup helpers
 > 
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> The dax_layout_busy_page() and dax_layout_busy_page_range() helpers were
+> originally exposed so filesystems could find pinned DAX pages before
+> changing file layouts. Filesystem callers now use dax_break_layout(),
+> which provides the complete operation, leaving no direct users of these
+> lookup helpers outside fs/dax.c.
+> 
+> [...]
 
-Acked-by: Oscar Salvador <osalvador@suse.de>
+Applied to the vfs-7.4.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.4.misc branch should appear in linux-next soon.
 
- 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
--- 
-Oscar Salvador
-SUSE Labs
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.4.misc
+
+[1/2] fs/dax: Remove unused dax_layout_busy_page()
+      https://git.kernel.org/vfs/vfs/c/cc939930c450
+[2/2] fs/dax: Make dax_layout_busy_page_range() static
+      https://git.kernel.org/vfs/vfs/c/24bf180c869b
+
