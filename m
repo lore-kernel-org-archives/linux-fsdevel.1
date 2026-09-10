@@ -1,96 +1,165 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC2A49B201
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 13:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D584A3F3F;
+	Thu, 10 Sep 2026 14:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789048260; cv=none; b=YyonvYhtuNZbOyQVosyMzgrsml+1bymDJRfjWBigY/Z6XG5tiMgjGhDhnU1sbex3guZXpou8aSCxMTcKEwTWErF6/fgi5MdRNRtguaIA/jRXqZmwPO9VJajTHP7m+W2WMiuesKhseyaY1v9YcZlKC/DJWN0l91dzguSkIhLV+iI=
+	t=1789049216; cv=none; b=GeNi60+PvnLbyUO0kD+E8MzyA3DwyuBfFbv+mjzolpTCQSh31CwvvcPibnlP4K35OFr9NCzGtcyuplDUN64MPLtjpBZMFSGXhwl5RX7uMJb0Q4adRROmqOAp3DiOaRchKLzNBgmIF8rx0Gy5k/r54myswBXo6dhzVlqfx0AkN64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789048260; c=relaxed/simple;
-	bh=/GgnJUSlkpKOpbFArjbVLuedEGJXAGizkH1VsKyTFZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YVU+N3DSNX3WvcOkDkXUMNJ4IlfE1bFjalDk2fpG+99yY/owlIbAC2dNMLeczb8bRpY0YqAjVUYIJFmzwLOdpJYjCuvLtT0HdjNG3UKLXr39DX6g9mvgvIsF9lYLw9n5cyKhH2muPj5r27F1IhvEKFQtf9srP+YLjB2ZnnWobWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=OPpK6kAI; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1789049216; c=relaxed/simple;
+	bh=usjgwNwq8e5FVuDuIy//fKbw8DVuTnjixnyIZu/Ku78=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lY8ZpZDY6Afi7C7XMldN7G1hHFMN2dwWquzdALp2oW/LHbpV1l+ZZg1IHGX4rmXTquRgAOhgrC/sx62gnXfDfIF0iYLQVgkerTcvXLaWIzy7aDx4J6MXg5ABwc/t5rHS3dhcztL9QTpIi0mmM6AnphvEX7HDYGOxmxsBnfjW5dQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khYqYYox; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="OPpK6kAI"
-Received: from macsyma.thunk.org (pool-108-26-156-127.bstnma.fios.verizon.net [108.26.156.127])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 68ADoTYp021751
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Sep 2026 09:50:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1789048232; bh=JdSOWjSlp3lgQ5ds/SlNQC4dC1szhw6bc5gPQeD5iVg=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=OPpK6kAIC6mh7TQHoaM22w9iw7UHnXVuaXH1Sxfzfg8lYMngwrfGtyr+8QT/FFGq1
-	 f29AnFXsrH/Rkw68auP9OrWxhxH2XuULQZgUDZKty2SH6zN8zzD3ECOBR5/0XrNaxN
-	 nXNnHgpKA3buVuT/KYmCF3g3etn5kiaByh5WMPwbxXubCgD9UHODohq1nyvNqcHc//
-	 a52AUoOlxL9eXE0/qO3fruW/LUINLBG5z+BXd2I4AK9n9VOvLPChcdoCPJYTusYNPV
-	 HxHr3O5odT/Zlwi8RBI0vMAcEe00shdvQn9HwwS0somgudbFFguHBrjklI+ovxVmKM
-	 h8Dan6l7+pAiw==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id BC149144D640; Thu, 10 Sep 2026 09:49:28 -0400 (EDT)
-Date: Thu, 10 Sep 2026 09:49:28 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Viacheslav Dubeyko <slava@dubeyko.com>, zlang@redhat.com,
-        fstests@vger.kernel.org, glaubitz@physik.fu-berlin.de,
-        vdubeyko@coreweave.com, linux-fsdevel@vger.kernel.org,
-        frank.li@vivo.com
-Subject: Re: [PATCH] xfstests: exclude hfs/hfsplus from generic/339 run
-Message-ID: <aqKzDpccJgkmzC5E@mit.edu>
-References: <20260910000449.747189-2-slava@dubeyko.com>
- <aqJ--AqubS-CWiV-@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khYqYYox"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 970881F0089A;
+	Thu, 10 Sep 2026 14:06:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789049215;
+	bh=70DL84P6JTZYmHCwquU+RidyFpbSEn3EbhgRLehum0s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=khYqYYoxLCC3IHUZhWSZ/5k6MaUU7a5qG9Uq/H2as3L0W6BL+uxN7k2+pKlEBL0yR
+	 dghTPtHKwmo6niWKCE/e7CEN8xnGbaRJ7ryTnxA4eepLVos7utuH62ktBK1Q3ynEdA
+	 mdUmxTQ9yw+NMXWXyeBG0zO325JsctZUk79B/RHN+V+0ZYQ+50sPC8n8eD8y3pPFBB
+	 05j6cHp94XsGsHj1GusZhoju5knkCNRv/37JUqphBcqKTnaYIRFBjwzHiKXiGecGar
+	 zIt2dcm1Q/eBn9ED6HySRxntqymbCFq4JhBd0JZYXKsLDP+6QtIP8duViFjxKlMAKT
+	 IJS3xyspz9d7Q==
+From: SJ Park <sj@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: SJ Park <sj@kernel.org>,
+	Gregory Price <gourry@gourry.net>,
+	balbirs@nvidia.com,
+	brendan.jackman@linux.dev,
+	yuzenghui@huawei.com,
+	apopple@nvidia.com,
+	alucerop@amd.com,
+	matthew.brost@intel.com,
+	akpm@linux-foundation.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	djbw@kernel.org,
+	vishal.l.verma@intel.com,
+	dave.jiang@intel.com,
+	alison.schofield@intel.com,
+	osandov@osandov.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	jackmanb@google.com,
+	hannes@cmpxchg.org,
+	ziy@nvidia.com,
+	pbonzini@redhat.com,
+	osalvador@suse.de,
+	joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com,
+	byungchul@sk.com,
+	ying.huang@linux.alibaba.com,
+	kasong@tencent.com,
+	qi.zheng@linux.dev,
+	shakeel.butt@linux.dev,
+	baohua@kernel.org,
+	axelrasmussen@google.com,
+	yuanchu@google.com,
+	weixugc@google.com,
+	yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk,
+	longman@redhat.com,
+	ridong.chen@linux.dev,
+	tj@kernel.org,
+	mkoutny@suse.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	baolin.wang@linux.alibaba.com,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev,
+	roman.gushchin@linux.dev,
+	muchun.song@linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	damon@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON migration and pageout
+Date: Thu, 10 Sep 2026 07:06:45 -0700
+Message-ID: <20260910140645.168914-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <e2d2b01e-e6eb-4009-a07e-e615d576c0c3@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqJ--AqubS-CWiV-@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 10, 2026 at 02:57:12AM -0500, Christoph Hellwig wrote:
-> On Wed, Sep 09, 2026 at 05:04:50PM -0700, Viacheslav Dubeyko wrote:
-> > The dirhash_collide generates filenames from arbitrary random
-> > bytes (only '.' and '/' are filtered out), which are not valid
-> > UTF-8 in general. Catalog names on both classic HFS and HFS+ are
-> > Unicode. Feeding random bytes causes fsck to report "Illegal name"
-> > or catalog corruption that has nothing to do with directory
-> > hash-collision handling, which is what this test is actually meant
-> > to exercise.
+On Thu, 10 Sep 2026 10:58:05 +0200 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
 
-I'm curious --- does HFS/HFS+ reject unofficial Unicode characters
-such as those used by Klingon?  (Klingon is an invented/artificial
-language, so it's considered out of scope by Unicode; so Star Trek
-enthusiasts are camping on an unofficial block of the Unicode code
-set.)
-
-Invalid Unicode characters could also happen because newer versions
-of Unicode have added new emoji's, which might be added as support in
-the mobile handset userspace, but since we aren't regularly updating
-the Unicode tables, they might still be considered invalid if you
-enable strict mode in ext4/f2fs.
-
-> If user file name creation manage to trigger fsck complaints, you need
-> to righten the input checks in the file systems first to fix this.
+> On 7/23/26 05:25, Gregory Price wrote:
+> > On Wed, Jul 22, 2026 at 05:19:42PM -0700, SJ Park wrote:
+> >> On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
+> >>
+> >>>
+> >>> See the damon changes in:
+> >>>
+> >>> https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
+> >>
+> >> Summarizing what you want to say, quoting something from the patch, or at least
+> >> calling it "26th patch of this series" would have made reviewing much easier.
+> >> Cc-ing damon@ for only patches that toucing DAMON source files and the cover
+> >> letter of the series could also be helpful.  Please consider doing some of
+> >> these for future replies.
+> >>
+> > 
+> > I have been very much discouraged from this kind of trimming because it
+> > removes the context of the series from the individual patches - making it
+> > even more confusing.
 > 
-> We can then find a programmatic way to deal with these rejects in
-> xfstests, as ext4/f2fs in case insensiive mode probably have the same
-> issue.
+> Yes, 99% of upstream maintainers will scream at you if you CC them only on
+> individual patches :)
 
-Well, strict mode isn't enabled by default, since users might want to
-use Klingon or emoji's with a skin color that matches their own.  And
-no one has been invested enough to continuously update our Unicode
-tables, and add support in the userspace tooling for upgrading the
-Unicode version in the file system superblock (which would then break
-compatibility with older kernels --- for example, if they downgrade to
-an older version of Android, etc.)
+I agree that not everyone would like selective Cc-ing, like I also replied.
+But the number might be changed after we got modern mailing archives and tools
+like lore (public-inbox)?
 
-Isn't Unicode **fun**?  :-)
+At least for me, selective Cc-ing works better as long as the cover letter is
+Cc-ing all recipients of all patches.  I can understand the high level picture
+from the cover letter and directly jump to the specific patch that require my
+attention.  Of course the sender might failed at figuring out to which mails I
+really need to pay attention.  If the cover letter doesn't tell me some details
+or I feel the sender might not Cc-ed me on all the patches that require my
+attention, I can fetch the entire thread from lore (public-inbox).
 
-    	       	       	      	   	      - Ted
+Meanwhile, my private inbox have limited space and suboptimal UI.  Hence I use
+my private inbox as just an alarm and usually work on only public-inbox with a
+CLI tool.  Hence keeping noise in private inbox lower is more important to my
+specific workflow.  Again, my workflow may be very different from others.
+
+
+Thanks,
+SJ
+
+[...]
