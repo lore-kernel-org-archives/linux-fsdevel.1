@@ -1,236 +1,246 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2784B4868;
-	Thu, 10 Sep 2026 16:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4F2346AD5;
+	Thu, 10 Sep 2026 16:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789057648; cv=none; b=QqCEw+3ZSMH2+8YrKz97Vm3rDW8v0/BZbE8JyQRHGAkpluC3su8jTwcaTrnlim7x4ClOb15BxEz0jL3vWLeqW/2DbTvK1nGfiNTCA4vhLDsVlG+QBHQlY/0OeLwI1wgvQTlFhKeSu7Lz9C08gokQdl1Dv5ETEU6hAicTlfjn+Eo=
+	t=1789057919; cv=none; b=RT9vRVj7KOlvAjqKYMSt3/7pHN47D3hwUPewQnlGVloIm655Aa3g+ybWrYhcM+i8KzpjKNeYS/ZCPVo0JxE027p6UGfw5l9PxI+QTZpLS+nXAD7F7Mmny8mJf0fRrPRfqGIwL2oSo7334XwuJjFO0CayPgcwOf/4M+v/3Z/8kDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789057648; c=relaxed/simple;
-	bh=pKxlCUwTpZe1wTSeVu5fsTltRdASXRnyRRfWh8pz6p8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I6QQA0RxxufzlQC5x4Mz6v8WnAQ7YzS48m0K/hmMv8m55SivYuRrgQk2sT15nompN0Q3TB9SsYDotcY/ENwS2J3KhjLUTIzlu1S/ZZ8kw2pH58TosHzgpVpMupOhJzjli6G7/7skNLfkFxDggRnxQnx4eNU/ZHGJKAwiygMpWPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dv3jVlGC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789057919; c=relaxed/simple;
+	bh=a47H8ascUBW8jMxwLKmfEWxJLnstKS97n+pzQV1m0XY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gx+lxrlZzwDExNlx2BL+wPeUnw4DMlwtJ4/z7OsT09IwEOElGASadNtwY0eUhopC/vWXJF1BXNsVkuWbmosjqgRJLp6IMpEm0hoIv4X9rjcPYqwE9UMoIzX4o4t5YiovHHiCMdb1oqYN6u+ymrkihExRp3yy9+r3Beglx11eZvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yQtRt462; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LH324BSn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cYCiQcKe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ImEU0/HI; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dv3jVlGC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 430AC1F000FF;
-	Thu, 10 Sep 2026 16:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789057637;
-	bh=3aTGXI/vDH2A0yENDYRp5mBzUsR6PSfcXx9+o09dZsM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Dv3jVlGCtFEukBdJPnDyi0S9viaPBNEJ7EPE5diPLU/5eJtPhZH2flBsSFScJ/Ga8
-	 LermgRTeEUvLmypfEdZd1t5Ip1ra2wmjEs71hq82nmsSdf9BYO8einEhPF2lzGqh9P
-	 gDrGEfZGe4kLF1qUJEUdenxUtvu/jJ5gCldCFFvxY7kORb8kBtlu4FDs427OdYO8uu
-	 1aacUpMWuMmZT5wvcUAkW4WSUlwq6wswm8Rl2cLyqEpcPSSAy+HFhStdQ3LtZxrKjC
-	 8pb4PjO03HhHfacjkAvhrtc+RM2F+TPCaiM3Q7LjwBNjCxuA8FtYIQ6WTRg49L2wYY
-	 ZOeQb2Uz/OMIA==
-Date: Thu, 10 Sep 2026 17:27:11 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
-	liam@infradead.org, vbabka@kernel.org, willy@infradead.org, jannh@google.com, 
-	paulmck@kernel.org, pfalcato@suse.de, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] proc/task_mmu: remove special-casing of
- smap_gather_stats() start parameter
-Message-ID: <aqLUqsoMDfVtjRuN@gremlin>
-References: <20260907063918.3432401-1-surenb@google.com>
- <20260907063918.3432401-4-surenb@google.com>
- <4825a2fe-f064-45d7-a7c9-e98de7efe86c@kernel.org>
- <CAJuCfpFL_g7tELjT8p8ExM3tX_v2gNDM9rRKwwefPV_KW=fHfA@mail.gmail.com>
- <8e643f51-a47f-428e-9443-678326288fa6@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yQtRt462";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LH324BSn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cYCiQcKe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ImEU0/HI"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8191721DAF;
+	Thu, 10 Sep 2026 16:31:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789057901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K0lYofAWqHa7ePB/bJxKmxDOeogYPK+nv0lM1u2sygM=;
+	b=yQtRt4622LZ6Zi4UvIWOPIjsnQFttLWbic0UbOJ/MktL5wrTGXBqQN6VGuGrXRhIlo/NeW
+	mEztr0zz7AktV8m4uA1s3ZQ6UgnpG9dWJT2grEZj2W+OiQ8bJuPUunvGSejQ+jE1ZPWpKC
+	TMxQGHoX9d9j13TmLvZ4K61GrFCE9hA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789057901;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K0lYofAWqHa7ePB/bJxKmxDOeogYPK+nv0lM1u2sygM=;
+	b=LH324BSnk58hu9qiwIXwVhycJLjRA5a8tBmcWkTq5EUKnPJNyXh5hxQGh9zkZjY59lz4yV
+	8q006bBLfAs0WTDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cYCiQcKe;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="ImEU0/HI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789057897; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K0lYofAWqHa7ePB/bJxKmxDOeogYPK+nv0lM1u2sygM=;
+	b=cYCiQcKeL+lNT5vXzUYXm2veHe3zr0mktCu+3rPmCBwrw2kTXo37AwFOyr1bYeWe0bmHdV
+	1arZOiwul7owGD/gNEqP/XnSrf1owgb50cB3DU9jESucNN4UKtQMk8/5hHaj02PDghTAWf
+	4mE3IjDeiQiY5bqZ7XKwd7ngXgaQAtU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789057897;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K0lYofAWqHa7ePB/bJxKmxDOeogYPK+nv0lM1u2sygM=;
+	b=ImEU0/HIDJ8BCgajwwBBxGIMxsn8h8Ik16/8D9zy28+7s2aEcSnL+JFiPuiMCS5WBdZZOG
+	Rc066ADpK5HMSXCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E4ED913180;
+	Thu, 10 Sep 2026 16:31:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3ywWNWLbomodUwAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Thu, 10 Sep 2026 16:31:30 +0000
+Message-ID: <6cd59005-16b9-402f-896e-a031c1e0b20d@suse.de>
+Date: Thu, 10 Sep 2026 18:30:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8e643f51-a47f-428e-9443-678326288fa6@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/13 net-next] net: ipv4: introduce CONFIG_IPV4 to
+ decouple the IPv4 stack
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+To: netdev@vger.kernel.org
+Cc: horms@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ edumazet@google.com, davem@davemloft.net, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Elad Nachman <enachman@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+ Edward Cree <ecree.xilinx@gmail.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Arend van Spriel <arend.vanspriel@broadcom.com>,
+ Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Saurav Kashyap <skashyap@marvell.com>,
+ Javed Hasan <jhasan@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Nilesh Javali <njavali@marvell.com>,
+ Manish Rangankar <mrangankar@marvell.com>, Varun Prakash
+ <varun@chelsio.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Marek Lindner <marek.lindner@mailbox.org>,
+ Simon Wunderlich <sw@simonwunderlich.de>,
+ Antonio Quartulli <antonio@mandelbit.com>,
+ Sven Eckelmann <sven@narfation.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>,
+ Phil Sutter <phil@nwl.cc>, Johannes Berg <johannes@sipsolutions.net>,
+ Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>,
+ Geliang Tang <geliang@kernel.org>, Julian Anastasov <ja@ssi.bg>,
+ Aaron Conole <aconole@redhat.com>, Eelco Chaudron <echaudro@redhat.com>,
+ Ilya Maximets <i.maximets@ovn.org>, Allison Henderson <achender@kernel.org>,
+ Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
+ Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+ Xin Long <lucien.xin@gmail.com>, "D. Wythe" <alibuda@linux.alibaba.com>,
+ Dust Li <dust.li@linux.alibaba.com>, Sidraya Jayagond
+ <sidraya@linux.ibm.com>, Mahanta Jambigi <mjambigi@linux.ibm.com>,
+ Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+ Jon Maloy <jmaloy@redhat.com>, Tung Quang Nguyen
+ <tung.quang.nguyen@est.tech>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Casey Schaufler <casey@schaufler-ca.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Vikas Gupta <vikas.gupta@broadcom.com>,
+ Bhargava Marreddy <bhargava.marreddy@broadcom.com>,
+ Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>,
+ Nicolai Buchwitz <nb@tipi-net.de>, =?UTF-8?Q?Markus_Bl=C3=B6chl?=
+ <markus@blochl.de>, Arnd Bergmann <arnd@arndb.de>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Qingfang Deng <qingfang.deng@linux.dev>, Julian Braha
+ <julianbraha@gmail.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ Willem de Bruijn <willemb@google.com>, Alyssa Ross <hi@alyssa.is>,
+ Joel Granados <joel.granados@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+ linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, oss-drivers@corigine.com,
+ linux-net-drivers@amd.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+ b.a.t.m.a.n@lists.open-mesh.org, bridge@lists.linux.dev,
+ netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ mptcp@lists.linux.dev, lvs-devel@vger.kernel.org, dev@openvswitch.org,
+ rds-devel@oss.oracle.com, linux-sctp@vger.kernel.org,
+ linux-s390@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+ linux-security-module@vger.kernel.org
+References: <20260910144914.8025-1-fmancera@suse.de>
+ <20260910144914.8025-2-fmancera@suse.de>
+ <bee1e0e0-6114-462b-975c-62ca2e448e8e@suse.de>
+Content-Language: en-US
+In-Reply-To: <bee1e0e0-6114-462b-975c-62ca2e448e8e@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 8191721DAF
+X-Spamd-Result: default: False [-1.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	FORGED_RECIPIENTS(2.00)[m:horms@kernel.org,m:kuba@kernel.org,m:edumazet@google.com,m:davem@davemloft.net,m:leon@kernel.org,m:andrew+netdev@lunn.ch,m:anthony.l.nguyen@intel.com,m:przemyslaw.kitszel@intel.com,m:enachman@marvell.com,m:saeedm@nvidia.com,m:tariqt@nvidia.com,m:mbloch@nvidia.com,m:idosch@nvidia.com,m:petrm@nvidia.com,m:ecree.xilinx@gmail.com,m:maxime.chevallier@bootlin.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:arend.vanspriel@broadcom.com,m:miriam.rachel.korenblit@intel.com,m:kbusch@kernel.org,m:axboe@kernel.dk,m:hch@lst.de,m:sagi@grimberg.me,m:kch@nvidia.com,m:skashyap@marvell.com,m:jhasan@marvell.com,m:GR-QLogic-Storage-Upstream@marvell.com,m:James.Bottomley@HansenPartnership.com,m:mkp@kernel.org,m:njavali@marvell.com,m:mrangankar@marvell.com,m:varun@chelsio.com,m:brauner@kernel.org,m:marc.dionne@auristor.com,m:trondmy@kernel.org,m:anna@kernel.org,m:cel@kernel.org,m:jlayton@kernel.org,m:neil@brown.name,m:Dai.Ngo@oracle.com,m:marek.lindner@mailbox.o
+ rg,m:antonio@mandelbit.com,m:sven@narfation.org,m:razor@blackwall.org,m:pablo@netfilter.org,m:phil@nwl.cc,m:matttbe@kernel.org,m:martineau@kernel.org,m:geliang@kernel.org,m:i.maximets@ovn.org,m:achender@kernel.org,m:jhs@mojatatu.com,m:marcelo.leitner@gmail.com,m:lucien.xin@gmail.com,m:alibuda@linux.alibaba.com,m:dust.li@linux.alibaba.com,m:sidraya@linux.ibm.com,m:mjambigi@linux.ibm.com,m:tonylu@linux.alibaba.com,m:guwen@linux.alibaba.com,m:tung.quang.nguyen@est.tech,m:herbert@gondor.apana.org.au,m:paul@paul-moore.com,m:jmorris@namei.org,m:serge@hallyn.com,m:vikas.gupta@broadcom.com,m:bhargava.marreddy@broadcom.com,m:rajashekar.hudumula@broadcom.com,m:markus@blochl.de,m:arnd@arndb.de,m:hkallweit1@gmail.com,m:florian.fainelli@broadcom.com,m:krzk@kernel.org,m:qingfang.deng@linux.dev,m:julianbraha@gmail.com,m:enelsonmoore@gmail.com,m:gregkh@linuxfoundation.org,m:ebiggers@kernel.org,m:ardb@kernel.org,s:oleg@redhat.com,s:linux-stm32@st-md-mailman.stormreply.com,s:linux-fsdevel@vger.kernel
+ .org,s:linux-kernel@vger.kernel.org,s:linux-nfs@vger.kernel.org,s:linux-rdma@vger.kernel.org,s:linux-s390@vger.kernel.org,s:linux-scsi@vger.kernel.org,s:linux-sctp@vger.kernel.org,s:linux-security-module@vger.kernel.org,s:linux-wireless@vger.kernel.org,s:lvs-devel@vger.kernel.org,s:netfilter-devel@vger.kernel.org,s:target-devel@vger.kernel.org];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,redhat.com,google.com,davemloft.net,ziepe.ca,lunn.ch,intel.com,marvell.com,nvidia.com,gmail.com,bootlin.com,foss.st.com,broadcom.com,kernel.dk,lst.de,grimberg.me,HansenPartnership.com,chelsio.com,zeniv.linux.org.uk,suse.cz,auristor.com,brown.name,oracle.com,talpey.com,mailbox.org,simonwunderlich.de,mandelbit.com,narfation.org,blackwall.org,netfilter.org,strlen.de,nwl.cc,sipsolutions.net,ssi.bg,ovn.org,mojatatu.com,resnulli.us,linux.alibaba.com,linux.ibm.com,est.tech,secunet.com,gondor.apana.org.au,schaufler-ca.com,paul-moore.com,namei.org,hallyn.com,tipi-net.de,blochl.de,arndb.de,linux.dev,linuxfoundation.org,alyssa.is,vger.kernel.org,lists.osuosl.org,corigine.com,amd.com,st-md-mailman.stormreply.com,lists.infradead.org,lists.linux.dev,lists.open-mesh.org,openvswitch.org,oss.oracle.com,lists.sourceforge.net];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLdey6otz8cz7qhffota9ydd97)];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_GT_50(0.00)[133];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -1.01
 
-On Wed, Sep 09, 2026 at 09:16:23PM +0200, David Hildenbrand (Arm) wrote:
-> On 9/9/26 20:28, Suren Baghdasaryan wrote:
-> > On Wed, Sep 9, 2026 at 10:16 AM David Hildenbrand (Arm)
-> > <david@kernel.org> wrote:
-> >>
-> >> On 9/7/26 08:39, Suren Baghdasaryan wrote:
-> >>> smap_gather_stats() interprets its start parameter to mean vma->vm_start
-> >>> when it's set to 0. Eliminate this special interpretation and pass
-> >>> vma->vm_start explicitly when needed.
-> >>>
-> >>> Since smap_gather_stats() operates within a single VMA, we can replace
-> >>> walk_page_vma()/walk_page_range() calls with walk_page_range_vma()
-> >>> which is simpler and also can be called while holding per-VMA lock.
-> >>>
-> >>> No functional change intended.
-> >>>
-> >>> Suggested by: Lorenzo Stoakes <ljs@kernel.org>
-> >>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> >>> ---
-> >>>  fs/proc/task_mmu.c | 40 ++++++++++++++++++++++------------------
-> >>>  1 file changed, 22 insertions(+), 18 deletions(-)
-> >>>
-> >>> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> >>> index 9908ba32f180..3351decd1172 100644
-> >>> --- a/fs/proc/task_mmu.c
-> >>> +++ b/fs/proc/task_mmu.c
-> >>> @@ -1246,20 +1246,27 @@ get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
-> >>>       return &smaps_shmem_walk_vma_lock_ops;
-> >>>  }
-> >>>
-> >>> -/*
-> >>> - * Gather mem stats from @vma with the indicated beginning
-> >>> - * address @start, and keep them in @mss.
-> >>> +/**
-> >>> + * smap_gather_stats() - Gather mem stats from @vma.
-> >>> + * @priv: proc maps private state.
-> >>> + * @vma: The VMA to gather stats for.
-> >>> + * @mss: The accumulated stats.
-> >>> + * @start: The address from which to start.
-> >>>   *
-> >>> - * Use vm_start of @vma as the beginning address if @start is 0.
-> >>> + * This gathers stats for the whole of the VMA unless the lock was dropped
-> >>> + * and VMA grew or got merged and we found it again, in which case we only
-> >>> + * gather stats for the remainder of the VMA range.
-> >>>   */
-> >>>  static void smap_gather_stats(struct proc_maps_private *priv,
-> >>>                             struct vm_area_struct *vma,
-> >>> -                           struct mem_size_stats *mss, unsigned long start)
-> >>> +                           struct mem_size_stats *mss,
-> >>> +                           unsigned long start)
-> >>>  {
-> >>>       const struct mm_walk_ops *ops = get_smaps_walk_ops(priv);
-> >>> +     const bool is_partial = start > vma->vm_start;
-> >>>
-> >>>       /* Invalid start */
-> >>> -     if (start >= vma->vm_end)
-> >>> +     if (start < vma->vm_start || start >= vma->vm_end)
-> >>>               return;
-> >>>
-> >>>       if (vma == get_gate_vma(priv->lock_ctx.mm))
-> >>> @@ -1279,20 +1286,17 @@ static void smap_gather_stats(struct proc_maps_private *priv,
-> >>>                * Unless we know that the shmem object (or the part mapped by
-> >>>                * our VMA) has no swapped out pages at all.
-> >>>                */
-> >>> -             unsigned long shmem_swapped = shmem_swap_usage(vma);
-> >>> +             const unsigned long shmem_swapped = shmem_swap_usage(vma);
-> >>> +             const bool shared_or_ro = vma_test(vma, VMA_SHARED_BIT) ||
-> >>> +                                       !vma_test(vma, VMA_WRITE_BIT);
-> >>>
-> >>> -             if (!start && (!shmem_swapped || (vma->vm_flags & VM_SHARED) ||
-> >>> -                                     !(vma->vm_flags & VM_WRITE))) {
-> >>> +             if (!is_partial && (!shmem_swapped || shared_or_ro))
-> >>>                       mss->swap += shmem_swapped;
-> >>> -             } else {
-> >>> +             else
-> >>>                       ops = get_smaps_shmem_walk_ops(priv);
-> >>> -             }
-> >>
-> >> Horrible, horrible code, really. But not your fault :)
-> >>
-> >> I think we can just make the shared_or_ro less odd by just checking for cow
-> >> mappings (as described in the comment).
-> >>
-> >>         const bool is_cow = vma_is_cow_mapping(vma);
-> >>
-> >> ...
-> >>
-> >>         if (is_partial || (shmem_swapped && is_cow))
-> >>                 ops = get_smaps_shmem_walk_ops(priv);
-> >>         else
-> >>                 mss->swap += shmem_swapped;
-> >>
-> >> That's almost in a form that I could understand what's happening.
-> >
-> > Hmm. So, are you saying that !is_cow always implies shared_or_ro? Or
-> > maybe you are stating that vma_is_cow_mapping() was the actual intent
-> > here?
->
-> So the comment says:
->
-> "For private writable mappings, we might have COW pages that  .."
->
-> Which translates to:
->
-> 	private writable == vma_is_cow_mapping()
->
-> >
-> > shared_or_ro = VMA_SHARED_BIT || !VMA_WRITE_BIT
-> >
-> > is_cow = !VMA_SHARED_BIT && VMA_MAYWRITE_BIT
-> > !is_cow = VMA_SHARED_BIT || !VMA_MAYWRITE_BIT
-> >
-> > so, !is_cow would impy shared_or_ro only if !VMA_MAYWRITE_BIT always
-> > implies !VMA_WRITE_BIT. But I think it's possible to have a VMA that
-> > has VMA_WRITE_BIT but not VMA_MAYWRITE_BIT, right?
->
-> VMA_WRITE should imply VMA_MAYWRITE
+On 9/10/26 6:22 PM, Fernando Fernandez Mancera wrote:
+> On 9/10/26 4:48 PM, Fernando Fernandez Mancera wrote:
+>> Historically, the IPv4 protocol has been linked to the core INET
+>> subsystem. Because shared infrastructure like the TCP/UDP engine,
+>> routing or INET hashtables live inside net/ipv4/, it has been impossible
+>> to compile a kernel with only IPv6 support.
+>>
+>> This patch introduces the CONFIG_IPV4 Kconfig symbol, which is set to
+>> 'def_bool y' for now. This does not allow to completely disable the
+>> IPv4 stack yet but it lays the necessary build-system work for that
+>> goal.
+>>
+>> In addition, multiple subsystems Kconfig symbols across networking
+>> features like tunnels, drivers and filesystems have been adjusted to
+>> depend on IPv4. Keep on mind that follow-up work is required to convert
+>> the Kconfig symbol to bool and remove the dependency on IPv4 where it
+>> makes sense.
+>>
+>> Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
+> FWIW, I just checked and the following symbols that are currently marked 
+> as "depends on IPV4" can already be compiled without IPV4:
+> 
+> IPV6_MIP6, IPV6_ILA and IPV6_MROUTE
+> 
 
-Yup it's illegal to set VMA_WRITE_BIT without VMA_MAYWRITE_BIT.
+MIP6 depends on XFRM so it actually depends on IPV4 for now.
 
->
-> (in sanitize_fault_flags() we even disallow write faults entirely if VM_MAYWRITE
-> is missing)
->
-> For example, a
-> > driver can create such a VMA to allow writing to the VMA but to lock
-> > its content once mprotect(PROT_READ) gets called.
+> They will be adjusted on the next revision of the series. A re-check for 
+> all the symbols will be performed.
+> 
+> Thanks,
+> Fernando.
 
-I'm not even sure how a driver would achieve that but drivers in general are not
-permitted to alter VMA flags after map time.
-
->
-> I don't think that would be valid for a driver to do. But it wouldn't matter
-> here because
->
-> 	shmem_mapping(vma->vm_file->f_mapping)
-
-Yup :)
-
->
->
-> I think we could simplify the comment as well to:
->
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index e671b4fd8dedd..4b7e7089cafa7 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -1303,12 +1303,10 @@ static void smap_gather_stats(struct proc_maps_private
-> *priv,
->
->         if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
->                 /*
-> -                * For shared or readonly shmem mappings we know that all
-> -                * swapped out pages belong to the shmem object, and we can
-> -                * obtain the swap value much more efficiently. For private
-> -                * writable mappings, we might have COW pages that are
-> -                * not affected by the parent swapped out pages of the shmem
-> -                * object, so we have to distinguish them during the page walk.
-> +                * In CoW mappings, we might have anon folios that are
-> +                * independent of the shmem object. So fallback to the less
-> +                * efficient mechanism in such mappings.
-> +                *
-
-Maybe tweak to 'CoW mappings might map anon folios that do not belong to shmem,
-so perform a less efficient page table walk in this situation' or something like
-that?
-
-
->                  * Unless we know that the shmem object (or the part mapped by
->                  * our VMA) has no swapped out pages at all.
->                  */
-
-
-
->
-> --
-> Cheers,
->
-> David
-
---
-Cheers, Lorenzo
