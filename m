@@ -1,169 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5F7496D32;
-	Thu, 10 Sep 2026 20:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF9A3B27D1
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 20:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789073169; cv=none; b=rNskXs59k3GVOF+mFHgdYm+UwhevKFCogGoDUiX+Lb5pzYe66Hj29KqkwXBWMEX7V69Xo0CTxYPVvTQYkvA10bianw9qLKDT2yNviiC5Fg8pwWrb3eqelXBhd5Ff9gw+0VwZWJEyEGn2hFEmNg07f1uBnXCI8N3pLmDKbGlUcZs=
+	t=1789073409; cv=none; b=ZrkD/h2O6fPckHBimxp1O1tJcLyKuSKlhKcckTNaZR1o7lBLJm6F/sUsQgojeTS93npjBSlP24pDdbbqTi/E3zMhGfnLFADGFalIB465Muy7INoAnT/he85PEMgQlwEaz6EE2fuDMF2U6Eo/SoctbiQYnzO5Me9qpRWHr1MowBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789073169; c=relaxed/simple;
-	bh=u95HbUhQ4RS63Z2SF2toUN8QlmyAdZmVTjoX5PdPJQU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ixRAl1NEgBrMwlk5r32TD1KWb7n7EbN5etP0Wq7hKJhz55lvfNsBWc/uao96fFCJeddvpi6ftsvpY1Lx/6uXRAV0ZwsDrg95cOOBZ2Pe34YDrBFl0r2KBKNpDIGrDnoucaXbuW8EW6Wvoiy5dZqzbKnJD8ii04QK+beGDaPYCGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PtQMRz8D; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789073409; c=relaxed/simple;
+	bh=DMskuNQVMj+uoBFxEGvl83x9Kmbf58EB1yX4IXsdyAQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i4X+10/VBfIvBhFmmtw7yiFrqfjFJ0ipMFdFLP5fsZCxzOkskwcXXxtGN8hjA6QT5FqNcynBf8+Tim0/A9dGiq+zmIG/JimT0j7TAzXvDvHRdjfU93hniKGYPwZqqmtDRz1f3DVytIcdXZ09M4Pe7CGXt0Cmr0WeUcykvbrZn7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=CpBOYaFI; arc=none smtp.client-ip=74.125.231.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PtQMRz8D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789073168; x=1820609168;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=u95HbUhQ4RS63Z2SF2toUN8QlmyAdZmVTjoX5PdPJQU=;
-  b=PtQMRz8DrE1HIt+Nx/spEHbSld34IjKBywpDi1ZW7oQt/Hrm07+V3Lpr
-   Agoh4w+xIQmtjkwFAgk8WjKuM00rj5GxWak+5Dg+u3dzA3Dl+YYCbsbA7
-   oem0iUQrpICaST+iGktxts3gOPbjTF4qdznOoqx1RUURONBTVRi6hS/1E
-   TOCcsEXMFT62WczpsH1CHDQlkbscsNCmgj6G5oEgr6alVrnzYH24YUonn
-   4zfGdiiyefHk1DVxOb6nAOYfyP3E7b/j2xT/fiOeuf/tqczadrh3WiiWr
-   BFDJJOPGC0CBAh91zCVib1MlWhVvLgN0s3m3a9r+Mo7e8EckF+Rf3XsuD
-   Q==;
-X-CSE-ConnectionGUID: gETCCllZSOqfVB+BTi1aHg==
-X-CSE-MsgGUID: h7UyDnHLQg6+rYRLhxaejQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="77094750"
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="77094750"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 13:46:07 -0700
-X-CSE-ConnectionGUID: 3TVrN5bdR8Sn0EcEiUephA==
-X-CSE-MsgGUID: uPHYjxBJSainYFU7HApydA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="295219996"
-Received: from unknown (HELO [10.241.243.185]) ([10.241.243.185])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 13:46:06 -0700
-Message-ID: <f3b70dd40e29b309ff3449a95a4af4513ad0ef70.camel@linux.intel.com>
-Subject: Re: [PATCH 1/4] sched/cache: Keep nr_pref_llc_running in the
- runnable domain
-From: Tim Chen <tim.c.chen@linux.intel.com>
-To: Kayra Cizmeci <kayracizmeci@gmail.com>
-Cc: brauner@kernel.org, bsegall@google.com, dietmar.eggemann@arm.com, 
-	imv4bel@gmail.com, jack@suse.cz, juri.lelli@redhat.com, kees@kernel.org, 
-	kprateek.nayak@amd.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, mgorman@suse.de, 
-	mingo@redhat.com, peterz@infradead.org, qyousef@layalina.io, 
-	ricardo.neri-calderon@linux.intel.com, rostedt@goodmis.org,
- srikar@linux.ibm.com, 	sshegde@linux.ibm.com, vincent.guittot@linaro.org,
- vineethr@linux.ibm.com, 	viro@zeniv.linux.org.uk, vschneid@redhat.com,
- wanglu.priv@gmail.com, 	yi1.lai@intel.com, yu.c.chen@intel.com,
- zhanxusheng1024@gmail.com, 	zhanxusheng@xiaomi.com, ziqianlu@bytedance.com
-Date: Thu, 10 Sep 2026 13:46:05 -0700
-In-Reply-To: <20260910183301.1208504-1-kayracizmeci@gmail.com>
-References: 
-	<82736e1329bf8ed195bbbc4990486c87094e6789.1789061845.git.tim.c.chen@linux.intel.com>
-	 <20260910183301.1208504-1-kayracizmeci@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="CpBOYaFI"
+Received: by mail-oo2-f43.google.com with SMTP id 46e09a7af769-7f4f0cfb29cso137828a34.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 13:50:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1789073407; x=1789678207; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pZdl25+fTdFEnFxWqmQ6klfnpO36ISnMAYm6McTSM6g=;
+        b=CpBOYaFIry/s/eHA4Rq9upG7oOTNN1kuNiXh3xH1pik8JOaDYehMbrbv4fBk9pKaXh
+         lBLScF4Eq3/maprx9zN8xTMNaJqQJVSHvMPAgWMRTZEBCjxlujKlWNHdwhCnOSrsidxQ
+         tnSHQzcgL/MuuHYeaBSeUj2fus04xjoJh+kdPEQgaq4bAq8B4l4t5yA0eVcg69PaJsZj
+         MtClqjmw+jV/QWKkZVTuMF6y0VRd9y9psdlx+0Yrs9n+fjA/pkrmLsEriSyMv+6w0aAa
+         egS5mHWNt5H8cj2YYU+tQapufHtp4tXfOxNTYenvQevUu3sdMr89OWFubdNzc3LWaij6
+         3TLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789073407; x=1789678207;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pZdl25+fTdFEnFxWqmQ6klfnpO36ISnMAYm6McTSM6g=;
+        b=aZZqBLVYtkvvFnnQK4/FvtBLDg2SoDTfC01Uo+nSLbrp2A4Q2Ppk4jyswk8nsPn0uT
+         TFwe54H719EvlsBCNgxZBWFDjBXD1ObP4Xe2w0jqW59G372LlVBhweRYlTO4jUkADxts
+         Ymwvos2sCB2BF/lgq+3NGT42BrE/3OHaxUj477uBgrFIcSaJE9YWz7RXBBj7W29VsRlI
+         KwlohVu0IxuCXvF8yP7YKL814ZHa8Com+gjYZxlqabsOpFOD5jpeMea+s7jsUiv1dsMz
+         iPaXCUeUTYHali/TU4yW2e7att7j1i/iDkl1hKbR0TjawkjKcNSv46sVhGEPTkpizYdV
+         79+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBywhDdjyHgzlw6Y45lYEIUnn37jWJaI7HVBV1oH4W5D93mRo46FXz418EQyDHrgFn9uuKWMj6PZ6tzKWVuR@vger.kernel.org
+X-Gm-Message-State: AFuF++kwy4oMJPMqHXdNZ6jtbwfm5h1FAh8LZAEsJoqaf0cUMV+g5Pyn
+	lmX7viXxzmqrku6azEHy1QXRHBh4MNS6JUFoi8/+8X6lkC/vbf1cmBajVe5V+D3AvLs=
+X-Gm-Gg: AYBFou19ohkm5FBUyc3cP76cEp4mIY2gXQ0VpqBx6WnqL4bbaR0MawClgSJeI8JIwdB
+	p6nZcoeqvWgY14OItfcPIPzLRepe7pyIuOVZNoOFbPGaYPfXKVbzhFfvMU4Q3UvqfXrf6SVYft7
+	BcTXnEaD2PFF1yf9tI3/5fDysKfyuZZBjtpBt/0Du5np8EbrXXxDVcSvtiJKsIye/D2/TZNxD7M
+	YGLJKl7sqz3wMZzV3WD+fXw7506gIngnYss8Pl4g6F3l5JguoyLxL4yOHqBbMWDdymcLpsK+y/+
+	8Ek4/8vyz6wiS85QQxnMxUzRYHj3zHZBwKUbABFZQWsrTpkVs3XVkXEFhQtvlH4iTY3NRP4iBBF
+	v93tZnHZvGsJsuUNNgOpQSorV+xSZl1NOYx99GwDSwsYmrwCqrwc7reuTk0wLRvrlEYhaz/oA+J
+	aLD/83dNuONzD+ZQkKCje1gQvJJVFeFxnCxgyTh8be1VvQrNCjVN/jJ5iiZJVw7pRZRb3619rsJ
+	/S/liDC0Gg7x+c9o4Bqy8WZGStyo/JfHR1wF9UsPDMAH2peHTntBtDQ
+X-Received: by 2002:a05:6830:2702:b0:7f4:ea33:8f56 with SMTP id 46e09a7af769-803fec05043mr748651a34.6.1789073406770;
+        Thu, 10 Sep 2026 13:50:06 -0700 (PDT)
+Received: from [192.168.1.102] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-803f670d8c4sm611145a34.19.2026.09.10.13.50.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2026 13:50:05 -0700 (PDT)
+Message-ID: <fe537c5f-114d-4d9a-817d-93f359e12924@kernel.dk>
+Date: Thu, 10 Sep 2026 14:50:04 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: lazy bounce buffering for checksummed reads v3
+To: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>
+Cc: Tal Zussman <tz2294@columbia.edu>, Anuj Gupta <anuj20.g@samsung.com>,
+ linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260909060924.1102037-1-hch@lst.de>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260909060924.1102037-1-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2026-09-10 at 21:33 +0300, Kayra Cizmeci wrote:
-> Hello :>,
->=20
-> > alb_break_llc() decides whether to break LLC preference during active
-> > load balance. It does so by testing that every runnable fair task on th=
-e
-> > source rq prefers its LLC:
-> >=20
-> > 	env->src_rq->nr_pref_llc_running =3D=3D env->src_rq->cfs.h_nr_runnable
-> >=20
-> > But the two counters cover different sets. nr_pref_llc_running is updat=
-ed
-> > in account_llc_enqueue()/account_llc_dequeue(), next to cfs_rq->nr_queu=
-ed,
-> > so it follows queued tasks. h_nr_runnable is updated in set_delayed()/
-> > clear_delayed() and drops delay-dequeued tasks.
->=20
-> > So under DELAY_DEQUEUE, a preferring task that goes to sleep stays coun=
-ted
-> > in nr_pref_llc_running while h_nr_runnable falls. The equality then bre=
-aks,
-> > alb_break_llc() returns false, and active balance is free to pull a tas=
-k
-> > off its preferred LLC. Active balance only moves runnable tasks, and th=
-is
-> > is the only LLC check it consults: once the stopper runs, LBF_ACTIVE_LB
-> > skips the per-task test in can_migrate_task(). The runnable set is the =
-one
-> > we want.
->=20
-> > Fix it on the counter side. A task should be counted in
-> > nr_pref_llc_running exactly while it is both queued on its preferred LL=
-C
-> > (pref_llc_queued) and runnable (!sched_delayed). Define that membership
-> > once in task_pref_llc_runnable(), and adjust the counter only through
-> > pref_llc_running_inc()/pref_llc_running_dec() from the four sites that
-> > change either input: account_llc_enqueue(), account_llc_dequeue(),
-> > set_delayed() and clear_delayed(). Gating every update on the same
-> > predicate keeps the delay, wake and dequeue paths from double-counting
-> > or underflowing; see the comments at those sites for the ordering.
->=20
-> > nr_llc_running and sd->llc_counts are not touched and stay on queued
-> > semantics.
->=20
-> I have one question tho, can't we combine the checks with h_nr_runnable? =
-On the paper
-> if we are updating h_nr_runnable we could check if the nr_pref_llc_runnin=
-g can be=20
-> updated and update it if the condition is right. Because, every nr_pref_l=
-lc_running enters
-> h_nr_runnable while not every h_nr_runnable enters nr_pref_llc_running.=
-=20
->=20
-> Why instead we just check the nr_pref_llc_running's conditions on task_pr=
-ef_llc_runnable()
-> and call these dec and inc functions after the h_nr_runnable updates. Wou=
-ldn't it be clear that way?
-> If possible?
+On 9/9/26 12:08 AM, Christoph Hellwig wrote:
+> NOTE/QUESTION TO SUBSYSTEM MAINTAINERS: The patches in this series are
+> split over 3 subsystems, and I'd love to hear from the maintainers
+> about their preferences for merging this.
 
-Yes, nr_pref_llc_running is a subset of h_nr_runnable.
+It's a little hard to split as you have eg block patches both at the
+start and beginning... In the spirit of getting this some runtime, I'm
+going to queue it up in a separate branch,
+for-7.4/lazy-bounce-buffering for now.
 
-We have to keep nr_pref_llc_running accounting apart from h_nr_runnable in =
-set_delayed().
-Note that in set_delayed(), pref_llc_running_dec() has to run while the tas=
-k still looks runnable,
-that is before se->sched_delayed =3D 1, because task_pref_llc_runnable()
-gates on !sched_delayed. h_nr_runnable is decremented after the flag is
-set:
-
-        if (entity_is_task(se))
-                pref_llc_running_dec(...);      /* sched_delayed still 0 */
-        se->sched_delayed =3D 1;
-        ...
-        for_each_sched_entity(se)
-                cfs_rq->h_nr_runnable--;        /* sched_delayed already 1 =
-*/
-
-So moving the accounting next to (or after) the h_nr_runnable update
-would make task_pref_llc_runnable() return false and skip the
-decrement, leaving nr_pref_llc_running too high.
-
-clear_delayed() happens to be safe either way, since it clears
-sched_delayed first, but keeping the two symmetric and calling inc/dec
-explicitly at each site is what lets the single task_pref_llc_runnable()
-predicate stay the one source of truth.
-
-There is also a scope difference: h_nr_runnable is per-cfs_rq and
-updated at every level of the hierarchy in the for_each_sched_entity()
-loop, while nr_pref_llc_running is a per-rq scalar updated once per
-task - which is why the dec sits before the loop, not inside it.
-
-Thanks.
-
-Tim
+-- 
+Jens Axboe
