@@ -1,187 +1,328 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D59391E76
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 23:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCF239B970
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 23:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789081808; cv=pass; b=pD3XEKo4GSzJhDL3LcTwuXjkz6eZd1ulVc1O848oy+fz3ToZPxXTY2jXhLOGgLzLfE3izBpqt0xIjmrm+C8/dwlZ6Ibi9+uLABqV+Gv/zUZZrY7U25aw6uBySRc8XGdx+QZHduk/AfxIc0Chaks8set7nZEe1oWXFN5wHig8e64=
+	t=1789083018; cv=pass; b=H5WV3m6MbC2JD40XgUFCuYqSMbErTvWfJLn3WUfnZs4ygrbx+FzM/GvGpBU5h2fH1qTttzRuENWWFxwudPVBXE3j7pioTbf3DJAHMTojXxyhrzjJGdwxv7av4QZoqJovj/xk6qiuUFnrS4uS60M0hLdY5/ywo8EHvT3Im5amtSI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789081808; c=relaxed/simple;
-	bh=PnxSfTGJD54jJaS0qmt8X/NOj0X3sFgFp335BaX6BlE=;
+	s=arc-20240116; t=1789083018; c=relaxed/simple;
+	bh=U617IjwK/DTXXMWR/2jdA00pv95iK+IC+ENWc5RiNb8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aP1onBUpBBgLlwpnxq69gGjFSyNzYRS2utEgfUpP/zMaxWYasGUu5HUDWkom+KfAquwDS01r+1cW02GGPI9U08VlXaNct2LR2CsZ+5W8SwhhrNhnK9/xYt/gIqOrTAhmXI1heoICKLOKWKaxjAuTI7VvaGTsTnizv5GR4O3PE1E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ciq9dS4E; arc=pass smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=MFnNR5osqh09kDmU6B89jpV7jlETIrNh0CchLg5TS2g5uEeP82uCh6x66eRYyxZmwJzO5xjZYap1QLf9Edur/nwHNiPMNzvfkJFaS4d1txfKp8HsJ7XuIGuLsXYznaNGSOSLt8700FITgjZUhtCwSpzqKktMNy9eFZR+ORNTFng=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rmpcVaIe; arc=pass smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ciq9dS4E"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc4b62d118aso406613a12.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 16:10:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789081802; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rmpcVaIe"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-53012819c04so59581cf.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 16:30:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789083016; cv=none;
         d=google.com; s=arc-20260327;
-        b=RZDRrFRm0aKkVylp/OGl/anbDgmpMWDpLu0gByC0LoRJvxpv9kHI7bVM+H9wkKbq3L
-         OG+kbMS2VvJVbHrpYEstN47ip2b+0HNFs8vOtTjkCuHpzJ8c5i06ksvgd4VCmndvtC4F
-         UF7sMCyzxHZHG6gvAIBrcsQcdDSOH3/Eoyxo+qa0EgKx17DLUZI3KxLD5k79D45luzs+
-         hMTXD8V78F/osQueJ2Xd9uWR4KKbPIKkzUILSI8qNCsiIDOU6Bqf/Yyrpphg2IN+QPF1
-         VJJkdGLPAVksVKnmLGAUnQyBaXL6qzqLW38+gFPHcsQirTih4cazoMe66aH6jiOTN6IM
-         JD6Q==
+        b=lSck2XjhTj7rVzgRfUDxlgCcSFZNxSoMimJ0bSbFbVeOygly6NC+F2kzRluuy67eys
+         Sg3BuX8v560EYSAB28NayG95/195MXBpEUVDLK0f3nmx/U1FCF8ub/MO4qQ58r/8d+e9
+         pQ6QcOm0JV6e1ZLWIMCfg0iQZqtgdt5/jClCp8W/qlHyFiKI93bOUQs3cosQ6jrRtxn9
+         EWZ46JANWHSzBskmCgdlYc18Vk358mb6vyDh4lgjshyQBrzVGEBCDX44L1HRn/FmGSI9
+         46JnbB+kYbpNPT9J5WAfhPzY/CvntjEcjcjBicz5t+vruFUybUjhMK5wz6S0Ol3eo1dj
+         HLKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=L8sMxb6Uw8z6M0MXXSleWX5vN1RUfOts+cADzDtTadc=;
-        fh=Nk1VRxBeyvS819CqMRDyDVDtXcy3gr0B1Ec42TdtSrI=;
-        b=SdHjvOEJ1tCMm0dgpQJXSrCqoOTF7ovQN4tQyAIiM9myNlQ9Cq4ZgVmRlT5me8VCSl
-         GkTER1VmUWXBPQ9m7q6Ivbvuzoqeg+r6Itq/TPI7Z0nLf0+E6NQbq3Ri2NFsgExm8TxY
-         pZANu4sLxJiUFmmKMZU4Zwx/7ZEjFM8DyMT/jNwTxigrlvHn3NlrZaOEjY54oOeSA27K
-         QwVVKWpyNU4w31iDNOk/GD2SRuWYROALH97P3vzcopA+6036+arjQCEtdlRDSZFUTNrv
-         gGGD1VdZBI7r1aB1SU4BIOJjD9C3Oa0/XeWxq12K8EGiHl5+m8GlqvhUwN92lI9UKwwC
-         Omng==;
+        bh=KfEFjV7pufys+8nogVzTsTnHyxO087XXXuxAAwRJqeE=;
+        fh=WsvonbrAwiKtpIc0pilBwi5u404TKWiYAM0w4tF9GU4=;
+        b=IZcwHy2sA/0i/jaUTAM+I9TXaQ1n1wcXuSJGzPlBuPCnOdK5kNKbc+S1nLYkS9E9tV
+         JWcY6dtB1ERQh5lvW9W5BbOud4+aHr0Hc8A3XpBOlNPzcASHIJF0Vq84S8AbtF6xj7f1
+         bJnoP4Zpmp/lFMj29/iQM3rJRhSZggMw2q7W/QWu4jWU1xUgs3PhB+EYqoRl5KGjSDWR
+         QYueQCE3J+F9tn7wQ3ycgUUucdTm5za0vujCggbB5EfpafzUEDsVQ0zuAAqS74BV5PRX
+         aYF+iDWUwzMfKyo6+pXvUTtKYZCKy0KPiir66w4LgCTNAnUddMU65cvmk1gODRDl7wUA
+         t3bA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1789081802; x=1789686602; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789083016; x=1789687816; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=L8sMxb6Uw8z6M0MXXSleWX5vN1RUfOts+cADzDtTadc=;
-        b=ciq9dS4Eqz5hX+ydh5aF6tMZODwh1Wu4ZDbvj8bPJNa8T1AbvoWIjsyeez0EIPEc3t
-         9D0PDSb+dOow0piSGo4UVZtE7qL+fG/U5noB1UWmKPi2WoQ3U1Gpu5r63VfhfQjLvjMT
-         yrzdKWksXkcUGyzCmesQMrc/uCyuK5k8zx/egQ/1dyIuWktTFfOYG5JaAmdMfd3dxVoW
-         vUjTEx4x4/Jzb45pCnR3x3WMrxyYm1nK4W+mazpea750IFE1cL2CkqQN1pik7oNUji+u
-         q0MMqdQ5UWruaRbzaA6MGLOPZoQ22tiRO+cCntZZ/KxgK5AHErDYY6stdvma7h6A+jOB
-         rhlg==
+        bh=KfEFjV7pufys+8nogVzTsTnHyxO087XXXuxAAwRJqeE=;
+        b=rmpcVaIet+AL8IXdQSepdNWCApYHLTzudUh3G7Hwxhn8ADgShwtCk21QWODBx1S24p
+         5BdvfkV1dyttqeG0CVkXOlhK91DS6Tmt3IBtg8mGlqOwNCyzZ7UBv4YSnWkJBH2O4UwC
+         R1uZ4reguszY0CiI4GB1u/Tcp4Rap6+9LOj/9GHKUkIYJSdAwlfRu+aad/mWV58mOZb7
+         dODnUbjYQlXc2J7Y9eNTGGNWCsjIJx32xN0k5Fm/SgyI3CXl7nRp7cDOQzUmyWslThmW
+         joNIurFYF5k+jwjdnaNGNkqXr+9ZFccI2NQZGWVP3CdnJKnc/5GAFuSNIvfHhgU+p4kV
+         +wAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789081802; x=1789686602;
+        d=1e100.net; s=20251104; t=1789083016; x=1789687816;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=L8sMxb6Uw8z6M0MXXSleWX5vN1RUfOts+cADzDtTadc=;
-        b=ITr0q8hXj/NO0LftqHKe8gS2OetEQPL4aQpZ162vpP0mEDUFPuFj5G+JRNlRxWdM69
-         oHkcFHV53yZislpIfm1eUBg83ZaHBNMEDbD0TGRXgRyPx+TdBWnGYJUz3rmEBGz1XIxZ
-         4vOeJHKXC+ccQMpTUgdbRI87zCuShsR8MQjlb9s29NHQ7VdJBfNVS6q2Hy7Ly9fFTmfq
-         MyHyYVifgc3rp+EyWlM0scxfWExzY9CxojdiomgcTa8xhKU3g/iLx8QyR60kVrnKDVtS
-         OyK5P53fKd39blAqirX1CMBC8hcEcByl2r+9g8SHR8AtJ+QBNOLqBVIpBmFmFv/Ddq9K
-         QDIA==
-X-Forwarded-Encrypted: i=1; AKwUvBwoFib+cr/2lS8kfOskUlDMblu/lZQpB86dCuxrgxe5ib2BV480wzhyg6X3fVzNDnHOMqFpG0VLamAmaGLi@vger.kernel.org
-X-Gm-Message-State: AFuF++nXT1OFdbjQaI8bc+juZVWCEZzTvgsDqBOmiXCDPudbnwiVkF8s
-	6/qzy2fIJeeMpYtiQ+SzycFKvlzJbELuADV+CdVf57Flr6gO265GX5WgfxamrnBFKVwH4fzJmRo
-	OyhMzQdwEW6EHK/cTqQ+NB7eXebN98cKEvRPbIrRN
-X-Gm-Gg: AYBFou3WZ7yI5OcpQNnVoWSOBuc4B8XdkCl5z3kAz7D8DzFw9zgV5xb8+vm4KHYmSOX
-	7boEWLb8LRAUXEYmWi+ldy+K4xtNxbk9eq2DUtDW87g/GtMgJ2LJUQqvR+4qb4Om2EPUfs4HydZ
-	njSjM1itOiSSyLwMN4WpajRniNiUc/8ISd4TvFM+Js7zF9pia/0Jkxwc+9rQEkEJg3e8rIIrPhQ
-	UlhTGUZPxxQiYus5MD2J8E8UriDZynwqIeYidQUDASJb5wuL9Evjq+g4zog6wxmbcjwKgcdLD2m
-	zg+gEd4qoXQfyhRPAyfplHYtP0ACQgUkjNSyPNlJN6r0w5H6C8P+rVc7TQAwHpf9SkzCesy/H0S
-	ojK7w+VSGQHVFjpfDLHfJ5w==
-X-Received: by 2002:a05:6a21:e58d:b0:3d3:ae0f:5269 with SMTP id
- adf61e73a8af0-3daed38e31cmr2162731637.21.1789081802270; Thu, 10 Sep 2026
- 16:10:02 -0700 (PDT)
+        bh=KfEFjV7pufys+8nogVzTsTnHyxO087XXXuxAAwRJqeE=;
+        b=AHwJG4bCS4AhLwJHX0lCW0+42iy/ZVAbErWs3OdJ7ByVRA5kiiEL9jpbg0wJYFv9pY
+         +aiLvjfb4RNQhUVAYvgBOJniKGrsOmC/XIYYHDU3hkGPiljvi7tPSPC3eoAy0DyFv3H6
+         qp9ny20avxHK0lnTLv9aCH/Dgky9KYVFz3WKpIvktpr0VQ6GRVrimLtROzEGz/IOb/5d
+         hr0IPdwAi0TsrwsbgbPyEBP/xOp3gEvlpelC+7oZdOSKdJhZAntx0C865vxaz5PGKkBU
+         jLQ9xfdgRmPW4OHnwoXcyACf3XyXfNSgAqLvdQNg5Wd1fLLkHHi66B7woeQo5Kgv3Eym
+         oFRw==
+X-Forwarded-Encrypted: i=1; AKwUvBxZCrR3+mNmxDZ0KiDfjl6K5evRfHPvrcsTm6sl77F+ktscPn60OyDNFVQLOQtQgQI0+KGsR7sIUkds1qK2@vger.kernel.org
+X-Gm-Message-State: AFuF++nQLil8mygPvCMp3cjWfRY844jj/7eoE7eDWoTW4784l86y4EN9
+	TQOU6YXv8paS9avqdYBWNtDimd4VAUQtyNwXE0m3Ib3Z4COIKzaAmutS9Y7yrOQX5DV2Mv8gHI/
+	NkgXgZb/xN26AbRL7/SRBGgT79SKIxCI0QeaIpwvF
+X-Gm-Gg: AYBFou3f/rbhZhC48TS2Jxmzhdq2wwMs+DE7gdMSXKsuPAp7YDGb7GNOR9CC3z7q3dG
+	RqF0GntJ0mAqv4PFYR0zz7dLrmZntkZwLnufUB9zIH4WJCpzVRtsRtiPGllV+9d2h8AdK7pcPnG
+	hYsbVR+RvuGkMaUqxwtEEb062LryUKNAuGYrurQQ5JsK1plKLgMmCvmgRv6DbyR0V70lyc5yLLf
+	mzQxvd9lz1aILPpdc9UVK5JTUvvDuR4Bph7V7RDbkWa6EphD++unnX1Ypy4eK7Rx/SwZgbNM1cs
+	AmpI+ygwOaddyICpXNYk8ymSs8pctjr6MPrZ8iGd2GL9WT/IoDVPAFGvQO4emfl8L+EZHDTkWJY
+	79T2Lwoa79KE=
+X-Received: by 2002:a05:622a:17c5:b0:51b:ff0a:2048 with SMTP id
+ d75a77b69052e-530cb488208mr4688201cf.3.1789083014965; Thu, 10 Sep 2026
+ 16:30:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260726161400.3010511-4-mic@digikod.net> <5cabf9b33a20f130cedcc423b8b2d151@paul-moore.com>
- <CAHC9VhS_WP-bLgMGiFAfE1MT76iKvVJ-OV5r7xju-KMdrfjssQ@mail.gmail.com>
- <20260909.quahcia8aiF4@digikod.net> <CAHC9VhSRV_axaGM0hTZngQY36Jw1ULy_sHHsik0_HCSdVv4P+A@mail.gmail.com>
- <20260910.Ooph5bing9zu@digikod.net>
-In-Reply-To: <20260910.Ooph5bing9zu@digikod.net>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 10 Sep 2026 19:09:50 -0400
-X-Gm-Features: AcwNN1XD4jUdsWX_8lOn0Nqg8RhgpbaV_W3e5S49NjErQsIEe7OI26lKNwsad-4
-Message-ID: <CAHC9VhSJ3jRybaU=6y2kOKA=KpGE8r=QTMPwdD3KptGcB7msTw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/12] security: Add LSM_AUDIT_DATA_NS for namespace
- audit records
-To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc: Christian Brauner <brauner@kernel.org>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	"Serge E . Hallyn" <serge@hallyn.com>, Daniel Durning <danieldurning.work@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Justin Suess <utilityemal77@gmail.com>, 
-	Lennart Poettering <lennart@poettering.net>, 
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
-	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
+References: <20260907063918.3432401-1-surenb@google.com> <20260907063918.3432401-4-surenb@google.com>
+ <4825a2fe-f064-45d7-a7c9-e98de7efe86c@kernel.org> <CAJuCfpFL_g7tELjT8p8ExM3tX_v2gNDM9rRKwwefPV_KW=fHfA@mail.gmail.com>
+ <8e643f51-a47f-428e-9443-678326288fa6@kernel.org> <aqLUqsoMDfVtjRuN@gremlin>
+In-Reply-To: <aqLUqsoMDfVtjRuN@gremlin>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 10 Sep 2026 16:30:03 -0700
+X-Gm-Features: AcwNN1W4yJUYStTy2CGNJdnxaH7FRdF38u1M6kpzgz8yoKPhhVSmpMzOaXNoWCY
+Message-ID: <CAJuCfpH_t5xOm_=QkKJs+GWH92ThKwifC7Ruo8xx5LKRp6gjaQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] proc/task_mmu: remove special-casing of
+ smap_gather_stats() start parameter
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, akpm@linux-foundation.org, liam@infradead.org, 
+	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 10, 2026 at 4:12=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
-od.net> wrote:
-> On Wed, Sep 09, 2026 at 03:49:11PM -0400, Paul Moore wrote:
-> > On Wed, Sep 9, 2026 at 2:35=E2=80=AFPM Micka=C3=ABl Sala=C3=BCn <mic@di=
-gikod.net> wrote:
-> > > On Mon, Aug 31, 2026 at 05:26:20PM -0400, Paul Moore wrote:
-> > > > On Tue, Aug 11, 2026 at 4:16=E2=80=AFPM Paul Moore <paul@paul-moore=
-.com> wrote:
-> > > > > On Jul 26, 2026 =3D?UTF-8?q?Micka=3DC3=3DABl=3D20Sala=3DC3=3DBCn?=
-=3D <mic@digikod.net> wrote:
-> >
-> > ...
-> >
-> > > > Micka=C3=ABl, if you would like me to merge the remaining patches i=
-n this
-> > > > patchset into the lsm/dev branch just let me know.
-> > >
-> > > I'll send a new patch series soon because this v3 would not apply
-> > > anymore.
-> >
-> > Okay.
-> >
-> > > I'll include your lsm/dev patches to keep a consistent patch
-> > > series.
-> >
-> > Please don't as those are already merged.  If you want to stick with
-> > the same patch series, which is fine, just note that the first three
-> > patches have already been merged into the LSM tree.  It's not uncommon
-> > for patchsets to add or drop patches over time as both the patchset
-> > and the surrounding environment progress.
+On Thu, Sep 10, 2026 at 9:27=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.o=
+rg> wrote:
 >
-> Yeah, I know, but at the same time are there (merged) users of these
-> hooks?  Anyway, we should of course avoid to have two commits for the
-> same patch in different branches (even if that would not be an issue for
-> Git), but having to handle several origins (e.g. the lsm/dev branch for
-> new hooks and the master branch for fixes) might lead to an unpleasant
-> gymnastic.
+> On Wed, Sep 09, 2026 at 09:16:23PM +0200, David Hildenbrand (Arm) wrote:
+> > On 9/9/26 20:28, Suren Baghdasaryan wrote:
+> > > On Wed, Sep 9, 2026 at 10:16=E2=80=AFAM David Hildenbrand (Arm)
+> > > <david@kernel.org> wrote:
+> > >>
+> > >> On 9/7/26 08:39, Suren Baghdasaryan wrote:
+> > >>> smap_gather_stats() interprets its start parameter to mean vma->vm_=
+start
+> > >>> when it's set to 0. Eliminate this special interpretation and pass
+> > >>> vma->vm_start explicitly when needed.
+> > >>>
+> > >>> Since smap_gather_stats() operates within a single VMA, we can repl=
+ace
+> > >>> walk_page_vma()/walk_page_range() calls with walk_page_range_vma()
+> > >>> which is simpler and also can be called while holding per-VMA lock.
+> > >>>
+> > >>> No functional change intended.
+> > >>>
+> > >>> Suggested by: Lorenzo Stoakes <ljs@kernel.org>
+> > >>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > >>> ---
+> > >>>  fs/proc/task_mmu.c | 40 ++++++++++++++++++++++------------------
+> > >>>  1 file changed, 22 insertions(+), 18 deletions(-)
+> > >>>
+> > >>> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> > >>> index 9908ba32f180..3351decd1172 100644
+> > >>> --- a/fs/proc/task_mmu.c
+> > >>> +++ b/fs/proc/task_mmu.c
+> > >>> @@ -1246,20 +1246,27 @@ get_smaps_shmem_walk_ops(struct proc_maps_p=
+rivate *priv)
+> > >>>       return &smaps_shmem_walk_vma_lock_ops;
+> > >>>  }
+> > >>>
+> > >>> -/*
+> > >>> - * Gather mem stats from @vma with the indicated beginning
+> > >>> - * address @start, and keep them in @mss.
+> > >>> +/**
+> > >>> + * smap_gather_stats() - Gather mem stats from @vma.
+> > >>> + * @priv: proc maps private state.
+> > >>> + * @vma: The VMA to gather stats for.
+> > >>> + * @mss: The accumulated stats.
+> > >>> + * @start: The address from which to start.
+> > >>>   *
+> > >>> - * Use vm_start of @vma as the beginning address if @start is 0.
+> > >>> + * This gathers stats for the whole of the VMA unless the lock was=
+ dropped
+> > >>> + * and VMA grew or got merged and we found it again, in which case=
+ we only
+> > >>> + * gather stats for the remainder of the VMA range.
+> > >>>   */
+> > >>>  static void smap_gather_stats(struct proc_maps_private *priv,
+> > >>>                             struct vm_area_struct *vma,
+> > >>> -                           struct mem_size_stats *mss, unsigned lo=
+ng start)
+> > >>> +                           struct mem_size_stats *mss,
+> > >>> +                           unsigned long start)
+> > >>>  {
+> > >>>       const struct mm_walk_ops *ops =3D get_smaps_walk_ops(priv);
+> > >>> +     const bool is_partial =3D start > vma->vm_start;
+> > >>>
+> > >>>       /* Invalid start */
+> > >>> -     if (start >=3D vma->vm_end)
+> > >>> +     if (start < vma->vm_start || start >=3D vma->vm_end)
+> > >>>               return;
+> > >>>
+> > >>>       if (vma =3D=3D get_gate_vma(priv->lock_ctx.mm))
+> > >>> @@ -1279,20 +1286,17 @@ static void smap_gather_stats(struct proc_m=
+aps_private *priv,
+> > >>>                * Unless we know that the shmem object (or the part =
+mapped by
+> > >>>                * our VMA) has no swapped out pages at all.
+> > >>>                */
+> > >>> -             unsigned long shmem_swapped =3D shmem_swap_usage(vma)=
+;
+> > >>> +             const unsigned long shmem_swapped =3D shmem_swap_usag=
+e(vma);
+> > >>> +             const bool shared_or_ro =3D vma_test(vma, VMA_SHARED_=
+BIT) ||
+> > >>> +                                       !vma_test(vma, VMA_WRITE_BI=
+T);
+> > >>>
+> > >>> -             if (!start && (!shmem_swapped || (vma->vm_flags & VM_=
+SHARED) ||
+> > >>> -                                     !(vma->vm_flags & VM_WRITE)))=
+ {
+> > >>> +             if (!is_partial && (!shmem_swapped || shared_or_ro))
+> > >>>                       mss->swap +=3D shmem_swapped;
+> > >>> -             } else {
+> > >>> +             else
+> > >>>                       ops =3D get_smaps_shmem_walk_ops(priv);
+> > >>> -             }
+> > >>
+> > >> Horrible, horrible code, really. But not your fault :)
+> > >>
+> > >> I think we can just make the shared_or_ro less odd by just checking =
+for cow
+> > >> mappings (as described in the comment).
+> > >>
+> > >>         const bool is_cow =3D vma_is_cow_mapping(vma);
+> > >>
+> > >> ...
+> > >>
+> > >>         if (is_partial || (shmem_swapped && is_cow))
+> > >>                 ops =3D get_smaps_shmem_walk_ops(priv);
+> > >>         else
+> > >>                 mss->swap +=3D shmem_swapped;
+> > >>
+> > >> That's almost in a form that I could understand what's happening.
+> > >
+> > > Hmm. So, are you saying that !is_cow always implies shared_or_ro? Or
+> > > maybe you are stating that vma_is_cow_mapping() was the actual intent
+> > > here?
+> >
+> > So the comment says:
+> >
+> > "For private writable mappings, we might have COW pages that  .."
+> >
+> > Which translates to:
+> >
+> >       private writable =3D=3D vma_is_cow_mapping()
+> >
+> > >
+> > > shared_or_ro =3D VMA_SHARED_BIT || !VMA_WRITE_BIT
+> > >
+> > > is_cow =3D !VMA_SHARED_BIT && VMA_MAYWRITE_BIT
+> > > !is_cow =3D VMA_SHARED_BIT || !VMA_MAYWRITE_BIT
+> > >
+> > > so, !is_cow would impy shared_or_ro only if !VMA_MAYWRITE_BIT always
+> > > implies !VMA_WRITE_BIT. But I think it's possible to have a VMA that
+> > > has VMA_WRITE_BIT but not VMA_MAYWRITE_BIT, right?
+> >
+> > VMA_WRITE should imply VMA_MAYWRITE
+>
+> Yup it's illegal to set VMA_WRITE_BIT without VMA_MAYWRITE_BIT.
+>
+> >
+> > (in sanitize_fault_flags() we even disallow write faults entirely if VM=
+_MAYWRITE
+> > is missing)
+> >
+> > For example, a
+> > > driver can create such a VMA to allow writing to the VMA but to lock
+> > > its content once mprotect(PROT_READ) gets called.
+>
+> I'm not even sure how a driver would achieve that but drivers in general =
+are not
+> permitted to alter VMA flags after map time.
+>
+> >
+> > I don't think that would be valid for a driver to do. But it wouldn't m=
+atter
+> > here because
+> >
+> >       shmem_mapping(vma->vm_file->f_mapping)
+>
+> Yup :)
+>
+> >
+> >
+> > I think we could simplify the comment as well to:
+> >
+> > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> > index e671b4fd8dedd..4b7e7089cafa7 100644
+> > --- a/fs/proc/task_mmu.c
+> > +++ b/fs/proc/task_mmu.c
+> > @@ -1303,12 +1303,10 @@ static void smap_gather_stats(struct proc_maps_=
+private
+> > *priv,
+> >
+> >         if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
+> >                 /*
+> > -                * For shared or readonly shmem mappings we know that a=
+ll
+> > -                * swapped out pages belong to the shmem object, and we=
+ can
+> > -                * obtain the swap value much more efficiently. For pri=
+vate
+> > -                * writable mappings, we might have COW pages that are
+> > -                * not affected by the parent swapped out pages of the =
+shmem
+> > -                * object, so we have to distinguish them during the pa=
+ge walk.
+> > +                * In CoW mappings, we might have anon folios that are
+> > +                * independent of the shmem object. So fallback to the =
+less
+> > +                * efficient mechanism in such mappings.
+> > +                *
+>
+> Maybe tweak to 'CoW mappings might map anon folios that do not belong to =
+shmem,
+> so perform a less efficient page table walk in this situation' or somethi=
+ng like
+> that?
 
-We discussed this already during an unrelated offline conversation,
-but for the sake of others who might be wondering, that's not quite
-how things work in the LSM tree.  As a refresher, here is how the LSM
-is managed:
+I ended up with this:
 
-https://github.com/LinuxSecurityModule/kernel/blob/main/README.md#kernel-so=
-urce-branches-and-development-process
+/*
+ * CoW mappings might map anon folios that do not belong to
+ * shmem. Perform a less efficient page table walk in this
+ * situation, unless we know that the shmem object (or the
+ * part mapped by our VMA) has no swapped out pages at all.
+ */
 
-As a quick summary, the lsm/stable-X.Y branch (the current being
-lsm/stable-7.3) contains patches that go up to Linus during the
-v7.3-rcX cycle.  When relevant, patches in lsm/stable-X.Y are also
-tagged for linux-stable.  New development targeting the upcoming merge
-window is merged into the lsm/dev branch.
+Hope this explains the condition clearly.
 
-The lsm/next branch feeds into the daily linux-next tree and is
-composed by cloning the latest lsm/stable-X.Y branch and merging the
-lsm/dev branch on top.  This enables linux-next testing of patches
-bound for both the current RC cycle as well as the upcoming merge
-window.  During the normal RC cycle, the lsm/next branch is updated
-whenever there is a change to either the latest lsm/stable-X.Y branch
-or the lsm/dev branch.
-
-While one might imagine merge conflicts in lsm/next requiring manual
-intervention would be common, after years of experience I can say that
-they are not. On the rare occasion when conflicts require manual
-intervention, they haven't been very difficult to resolve.  If we do
-arrive at such a situation we can work together to sort it out.
-
-> Another concern is to ease review (for both humans and bots) ... which
-> might require a well-known base commit, instead of a (transient?)
-> merge commit.
-
-As documented in the link above, lsm/dev should be a stable branch
-that you can use as a base for patchsets.  It will move forward as
-patches are added, but it is rebased only under extreme cases (e.g.
-filesystem corruption, etc.), and rebases are typically communicated
-to the list.
-
---=20
-paul-moore.com
+>
+>
+> >                  * Unless we know that the shmem object (or the part ma=
+pped by
+> >                  * our VMA) has no swapped out pages at all.
+> >                  */
+>
+>
+>
+> >
+> > --
+> > Cheers,
+> >
+> > David
+>
+> --
+> Cheers, Lorenzo
