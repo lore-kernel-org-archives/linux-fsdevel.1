@@ -1,133 +1,202 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7F73603FB;
-	Thu, 10 Sep 2026 16:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430724746D4;
+	Thu, 10 Sep 2026 16:42:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789058023; cv=none; b=f05Fo6r2ZEDkxI6MZ9M6osxZAM7w6LvqzBHspFYiOx/a6AdVLnOpbW3v49b+9tr994HufsMyw48ioyshmvNZE1wmwk8jlQP6Qt++nh+JLDFRWNIer4gfuNTnYGSimMwe4VaXGvAuEU5u1S6IXWr+nJffgIeMpuXwgrGbEkFdFho=
+	t=1789058581; cv=none; b=SdrHRTUafQkTV4r4sd39jXrKLxXbHEDriwfLH0MB2XqZfzPm8gH1wBT3X6t9ELyUbYiPhPlC9wooZ0k6ztdnpFQ1L8jMbKH9x8wswvtbULKT6QFFcx9iWX2qetwPOEOmraFgBDsfjyhEn9cAml0nqvIF5l988fIfRtXEGgILfDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789058023; c=relaxed/simple;
-	bh=tRYsg4UYEfFhKvFG7ecIL0y/UgY/bWOBzwRWpurkmkg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bMTletegY+Toz6kAKPwaAmFJobmZaUh82dyq2Xw4/5IGHTjhEDR2X7958PUmj1GEvMN21pcSW170F6C2NRsrJjZ0x8ZUWzdep7E6xVZKA+WFI7xN3JEu5Ox5adVIZ9b5TNS045kOYC0UksCKwMi7P1Ah72GgA/keaAO1lDBBoBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3KrAh+S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789058581; c=relaxed/simple;
+	bh=8Ri/Spiu7X3VxJRCZ/3Kkau/nCdLiYyhq30upHZz5ug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=na8GSRraqjkhn+F5Wh+UcHLoOdFn10D1c4Q+XrsFjN9+DLMM9wCkB4rDfpMGdusBA/6ArNEtK8sL7FqL4Y57hC1DiAG2UcjqYDR2izGZm4sgarTdwmUpdCXLe+AxUPZ9N8SEl7SkAaTccCnb+Rb7z6yPMjBW6TBSBqLWesiJwls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mx6t+Yj0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3KrAh+S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 848AC1F000FF;
-	Thu, 10 Sep 2026 16:33:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mx6t+Yj0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B40211F000FF;
+	Thu, 10 Sep 2026 16:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789058021;
-	bh=gLAvnLId1IFvVl34sAhRkO9rI7sSxaoJDUdywkLIsA4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=b3KrAh+S4xix/P0OpUiDqxgv3R47YNcOEZz/k4cQkYQ4EJtUO8w14vdccfMNVcYk5
-	 yfrK/KLkr+J+3yBr5hxx9V0e/C/Fnpsk41HzNtQ2U2//XYUdvfkjhIDXsmQvhzfaNU
-	 v0Od5xVlijR5jmqZLquXkfeOatn/ai/EUJthUfRJupc/xquyIeAb6/uSYBzXqDXBQQ
-	 zyZca/C9m33zpTds+yN+BgX8QSGZ+PUIeRDvgFpEyGLXqBfo0NFXtPOWGW9yoWD1Es
-	 +LG14kxEAUZD6AMm/ZXzzu4lGhSehqwleXNloyb0N9AjTSIsePhNjIwSwsxoQGI7sN
-	 JB764K9dh89Ww==
-Message-ID: <dd134a0a-8fe8-4990-85f2-7b524754b451@kernel.org>
-Date: Thu, 10 Sep 2026 18:33:34 +0200
+	s=k20260515; t=1789058578;
+	bh=u+08F42gZ1mjtG948ilU+qH+waoqzEUJrlsSmxp12pg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Mx6t+Yj0PeebzMuIJqPgec3En+yEc3jysRhyQVcO/3xYfd6qRuj4KeQqGVNCzS2eL
+	 tCtcfzvlsBuCl4wxQp6RjOgXiieppplEvlrHF+GHBK62/oFrGU48yOaMvfA3o8/DKl
+	 lp6zHFol4XfSS/1l/cU6JxsVOB1VRQHK9uwzb3UaviBuy4O13O//74V+0i7C/ekLSM
+	 xY/O3Idda5zMFFYFFSaqcOcGCxMfdZ0Giof01bXvDxALY83lMxS2B1Z6K0pJsE++qd
+	 8ttfLDK+ZFgQeeUlUGkjRs+XrSEr2l8SmGBsKMUNs/VdxT4ev53Rb0h/F/7fMsBQj5
+	 lpuAfGS8Cb3Sg==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 5C10C198003A;
+	Thu, 10 Sep 2026 12:42:46 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Thu, 10 Sep 2026 12:42:53 -0400
+X-ME-Sender: <xms:Bd6iagPViEKcMUR9L2vFUVYNdprlzxw9XOLW44LJ6W1KhqtQxQnhvA>
+    <xme:Bd6iattXOdK7DFkC0F0nDe7b7nzqRN_1slYG7pnn2eTjabVH1i1lJVoXBOTnkDcYD
+    yQHBBQge5ZmMFR65IoCw_QeLeGdvdGeOn7HeFsJIZo_eBj7htu3DsCO>
+X-ME-Received: <xmr:Bd6ialInbQnB2AqOShml-Iu32fBNfjpfNiHw8KMCpB9T_FsL6DAUsXfgPRE>
+X-ME-Proxy-Cause: dmFkZTE6jQ7+ezdJvg0JCOHdeYm98uh8QoD3ppKlDCRkHPBf90NB4jh+ryx62TK4xbeazW
+    OjmkN5eot9viRbZ00CYgDBHT2oH+RH5aQCFDDcusEjlg36Fb5ctpKOdLx985wH/FQip39p
+    T7ct56TymSBRJpKxvgkeX9MwBtQkzBLcy1It/iWo2GFSKP14EPKpuBcDC6NZBPjPGuOYSt
+    gDaf9qR90/vzX/n4LPNTXJAoXyXdh9FPu33aE25/XhViK2AK9AjkA9McfHxKUYwZZ4cNQy
+    L9J1ZGy+68s9a/50qhSiH99Xat/XVOrftxEw7V9RkHk0x0GqdIBAFNnw6YCfe96nIenPCV
+    unI4se8nbIGD4Kq9IYLNhYyv87qSPRhN+Krgj6j273FqV5FEWJwwMlgm5Sz+45zLTVppmx
+    gHvNV0/P+4vzXnfFkqMihWIDJuG3ZV6EBEqsa8ZNbqO6blwIo2VGujQcKnZ0KB8O1A4cZh
+    9aVyRAJDPIwz5b4tC125/MeGSy186XR8QU31P4geQmSY4nJzZjY/iH6DhjfNoFwbPWMawa
+    e5jKQkqOdLGPlpHmn82M4fAZGG4IXR1RdfGZek9O9ES1ZEMAINtyHU1UsXLyrbltnxGrWV
+    KMFv8bBZJLT//oUQTE/4JmHaZi+S9YjPBcCpBWE6Rkuxj00ZtgLEzvfdjpDQ
+X-ME-Proxy: <xmx:Bd6iajt_a78yf2WByZxPGLwSXjlyfvmDfqklZ3D-bRcriVOd6tjAiw>
+    <xmx:Bd6iak311tPhcHMu11wJQRGm-Fk6zSP8hp2lUqWvrnseo5WM6kic7Q>
+    <xmx:Bd6iaupl1jqCNcNt6L9n9QuK98czBLyQ7VsDoSscYztatIFYfsUShA>
+    <xmx:Bd6iav6AfsE1iY-2vTfH3cPqIiNOLEowj4RO_MWGwntIFX9Y4OIZvA>
+    <xmx:Bd6iap0WK4EpvFtPf4iclLgLtn-EIP7kOOwcSnxor8OGyZNXXiZYHcGf>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Sep 2026 12:42:44 -0400 (EDT)
+Date: Thu, 10 Sep 2026 17:42:43 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Hugh Dickins <hughd@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ 	Ackerley Tng <ackerleytng@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ 	Alexandre Ghiti <alex@ghiti.fr>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ 	Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>,
+ 	Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ 	Christoph Lameter <cl@gentwo.org>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ 	David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>,
+ Jan Kara <jack@suse.cz>, 	Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, 	Kairui Song <ryncsn@gmail.com>,
+ Lance Yang <lance.yang@linux.dev>, 	Leonardo Bras <leobras.c@gmail.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, 	Marcelo Tosatti <mtosatti@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ 	Mel Gorman <mgorman@techsingularity.net>,
+ Miaohe Lin <linmiaohe@huawei.com>, 	Michal Hocko <mhocko@suse.com>,
+ Minchan Kim <minchan@kernel.org>, 	Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ 	Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Rik van Riel <riel@surriel.com>,
+ 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ 	Suren Baghdasaryan <surenb@google.com>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ 	Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>,
+ Zach O'Keefe <zokeefe@google.com>, 	Zi Yan <ziy@nvidia.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 07/26] mm/fbatch: LRU_NEXT_ACTIVATE bit to optimize
+ folio_activate()
+Message-ID: <aqLaa4QvXMbQaIWG@thinkstation>
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+ <c44a34f8-ea3c-48cd-27d5-02df129be685@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] proc/task_mmu: remove special-casing of
- smap_gather_stats() start parameter
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org,
- vbabka@kernel.org, willy@infradead.org, jannh@google.com,
- paulmck@kernel.org, pfalcato@suse.de, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260907063918.3432401-1-surenb@google.com>
- <20260907063918.3432401-4-surenb@google.com>
- <4825a2fe-f064-45d7-a7c9-e98de7efe86c@kernel.org>
- <CAJuCfpFL_g7tELjT8p8ExM3tX_v2gNDM9rRKwwefPV_KW=fHfA@mail.gmail.com>
- <8e643f51-a47f-428e-9443-678326288fa6@kernel.org>
- <CAJuCfpEYdj=u0wczKRrsB8uDkbSzPy+hrsCo9TW9-3J3r3p0xQ@mail.gmail.com>
- <2336140f-c993-467a-b2eb-e99dc9427a59@kernel.org>
- <CAJuCfpEL40p+vk6-km6_BBuE3+YY0WqkpbvQnQGFEo_73MAomQ@mail.gmail.com>
- <9e48cf7b-1700-4a85-af83-8883789ba87b@kernel.org>
- <CAJuCfpE9_1VYqHp6bctUEihSW35TaTw_LZuOGP2UAnF7SA_UAw@mail.gmail.com>
- <CAJuCfpGvi10sibu_=cE76h2O14WA4KNOd1vARu0r1CYmAiCMEA@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAJuCfpGvi10sibu_=cE76h2O14WA4KNOd1vARu0r1CYmAiCMEA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c44a34f8-ea3c-48cd-27d5-02df129be685@google.com>
 
-On 9/10/26 18:21, Suren Baghdasaryan wrote:
-> On Thu, Sep 10, 2026 at 9:09 AM Suren Baghdasaryan <surenb@google.com> wrote:
->>
->> On Thu, Sep 10, 2026 at 9:01 AM David Hildenbrand (Arm)
->> <david@kernel.org> wrote:
->>>
->>>
->>> I meant as part of this series of course.
->>
->> I understand but this particular patch cleans up smap_gather_stats()
->> function, so if would be weird if I move the comment change in that
->> function into some other patch. Unless I completely misunderstood your
->> suggestion... Maybe you are suggesting to split this condition and
->> comment change into a separate patch and making this one a pure
->> special-casing elimination?
+On Wed, Sep 09, 2026 at 02:55:41AM -0700, Hugh Dickins wrote:
+> Implement an equivalent to the old __lru_cache_activate_folio()
+> optimization, to activate a folio recently put in the lru_add fbatch,
+> without having to put it through the lru_activate fbatch too. Neither
+> lruvec lock nor lru bit can guard this safely and efficiently, so resort
+> to try_cmpxchg() on a further, LRU_NEXT_ACTIVATE bit in folio->lru_next.
 > 
-> Ok, after re-reading I think that's what you meant. My first
-> impression was that you wanted this part to be in one of the previous
-> cleanup patches. I'll split this into a separate cleanup patch.
+> Signed-off-by: Hugh Dickins <hughd@google.com>
+> ---
+>  include/linux/mm_inline.h |  4 ++++
+>  mm/folio.c                | 23 ++++++++++++++++++++---
+>  2 files changed, 24 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+> index 8420b1276535..8f5efadf9c7c 100644
+> --- a/include/linux/mm_inline.h
+> +++ b/include/linux/mm_inline.h
+> @@ -346,6 +346,7 @@ static inline void folio_migrate_refs(struct folio *new, const struct folio *old
+>  enum {
+>  	LRU_NEXT_NEVER_TAIL = 0,	/* Used by a tail's compound_head */
+>  	LRU_NEXT_BATCHED = 1,		/* Not used by any aligned pointer */
+> +	LRU_NEXT_ACTIVATE,
+>  	NR_LRU_NEXT_FLAGS
+>  };
+>  
+> @@ -358,6 +359,9 @@ bool lru_add_del_folio(struct folio *folio)
+>  	if (!(lru_next & BIT(LRU_NEXT_BATCHED)))
+>  		return false;
+>  
+> +	if (lru_next & BIT(LRU_NEXT_ACTIVATE))
+> +		folio_set_active(folio);
+> +
+>  	WRITE_ONCE(folio->lru.next, LIST_POISON1);
+>  	/* BUG_ON(folio->lru_next & BIT(LRU_NEXT_BATCHED)); */
+>  
+> diff --git a/mm/folio.c b/mm/folio.c
+> index a18d8ef6afd5..0b75c3b69d5a 100644
+> --- a/mm/folio.c
+> +++ b/mm/folio.c
+> @@ -256,15 +256,32 @@ static void lru_activate(struct lruvec *lruvec, struct folio *folio)
+>  
+>  void folio_activate(struct folio *folio)
+>  {
+> +	unsigned long lru_next;
+> +
+>  	if (folio_test_active(folio) || folio_test_unevictable(folio) ||
+>  	    !folio_test_lru(folio))
+>  		return;
+>  
+>  	/*
+> -	 * XXX: It is curiously difficult to recreate safely the old
+> -	 * __lru_cache_activate_folio() optimization (folio_set_active()
+> -	 * directly if it's on the local lru_add fbatch): revisit later.
+> +	 * This optimization is intended for the common case of folio
+> +	 * having been recently added to this CPU's lru_add fbatch.
+> +	 * But since other CPUs can now take it at any instant (after
+> +	 * a folio_test_clear_lru()), and we may be migrated to another
+> +	 * CPU, it is simplest just to extend the optimization to all CPUs.
+> +	 *
+> +	 * folio_set_active() would be unsafe without the lruvec lock, and
+> +	 * a folio_test_clear_lru() here might cause a racing drain of the
+> +	 * lru_add fbatch to skip its lru_add(): so use try_cmpxchg().
+>  	 */
+> +	lru_next = READ_ONCE(folio->lru_next);
+> +	while (lru_next & BIT(LRU_NEXT_BATCHED)) {
+> +		if (lru_next & BIT(LRU_NEXT_ACTIVATE))
+> +			return;
+> +		if (try_cmpxchg(&folio->lru_next, &lru_next,
+> +				lru_next | BIT(LRU_NEXT_ACTIVATE)))
+> +			return;
 
-Just to clarify: I'd put all COW mapping changes (using the cow_mapping helper
-and rewriting the comment) in one cleanup patch that can argue why it is a
-correct cleanup and doesn't introduce a functional change.
+Hm. What prevents the folio from becoming unevictable under us here?
+I don't see anything.
+
+__folio_add_lru() wouldn't like it:
+
+	VM_BUG_ON_FOLIO(folio_test_active(folio) &&
+			folio_test_unevictable(folio), folio);
+
+folio_lru_list() has the VM_BUG() too.
+
+I am not sure what the right fix is.
+
+Maybe lru_add_del_folio() should only call folio_set_active() on
+!folio_test_unevictable() folios?
+
+Or should we allow occasional active+unevictable so if they are
+munlocked, they will go directly to active list?
+
+> +	}
+> +
+>  	folio_batch_add_and_move(folio, lru_activate);
+>  }
+>  
+> -- 
+> 2.51.0
+> 
 
 -- 
-Cheers,
-
-David
+  Kiryl Shutsemau / Kirill A. Shutemov
