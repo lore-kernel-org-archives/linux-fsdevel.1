@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4BE35202C;
-	Thu, 10 Sep 2026 09:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34A63B14B6;
+	Thu, 10 Sep 2026 10:03:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789034350; cv=none; b=se2aXF8QOaMovvWIVLv6OQLBDeSP0beHIm48QUsZM1KFcGQXxhQuOHmdh5kcEuAYyle2aMrG64gU3WV2Tc/VcVwE5VgVfL+o5GuIQkS/8C/3N6NW/iWqBULfuH0TmDV3BQpxnxS6QCwX+C/FvucYEhervK5yPRUyHd7PzHeZyl8=
+	t=1789034634; cv=none; b=YI9zCO20JhIgXqtVDw16guS1qHLSrxgns2khmHpk8NfoxbAEoDkGi+1wzsZ1QK73UcteDTOQq5+hzDNdYTJr9Bvw+vS8RECC7vKaT2BHZjocpa8Xge18mawSO2ZLAG7KXJAhzAC1fA1lt9j/5s//9F/zgF6lN0UB3rEcakJ26b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789034350; c=relaxed/simple;
-	bh=fpSdg5Ex7QRSWoXO1/VxBlB62YDI7zyawiewGoJwkZ8=;
+	s=arc-20240116; t=1789034634; c=relaxed/simple;
+	bh=hlvb4WNjzMB0gRvMldagX4Uhid9PpyKhPjjmMAyVjvs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iYrLI48p5NQl24wOpfZxvcOi5apCTNERVQxa02kzLr+SoKSFIptrdehS8cXhFwYPedNVDQJFZ5Ybb+fBtQtPOegVTfw0cLKM2SwfzztY3Z5OQDYbDJKpSbzyThziMAv4h6gXIHi/NLaISNcGX9KfzjgJIptgUEBl5H9EiK+5Gxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Btbp/DdQ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=sBEEdlqWvCZIvsTAg+6QatyHSB1mv5eSSbsBJ7yyLCKVBsMo8IBz5bnqusL/IgECTsYcV2kxfqqgkcnniu6g06+KnTBI7EBcB9SZCA1tTw+k6FiUoZ0Hb8i4bOs09zGS/P4LKILg3zksQrLQDcNYeaP5EWl5Cu4Q93ldpXUpjVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KSilTxny; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Btbp/DdQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D81C1F000FF;
-	Thu, 10 Sep 2026 09:58:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KSilTxny"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 107771F000FF;
+	Thu, 10 Sep 2026 10:03:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789034349;
-	bh=7E7qL9hnMJksX9Fno6BkugSVMdHcPZ0KaVrs7NYY16s=;
+	s=k20260515; t=1789034622;
+	bh=d6X874Xrr4USoK1MTGkxBCcI6O6k/kEejm0Rs8M2xgI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Btbp/DdQDkYguPGE72KqFMmtU62PXLGOhJ0BVA4TjekaMJ7fvAebinZO9+OCzfBGl
-	 bVNJxH1goP4pUSAi8DwHCvmb7/XxSnj55za6Aw4mxJxj0Qxf8WdK06Nvlk8ir/G2PG
-	 nv3oFP9VVn680YlbepBhluTI4FNqlR2RIac40sfu4z83Dfn7Gs5AnVNYH1AERlO8g/
-	 O/uuq4aKITSnB3CCUCm5KnAiMgGtfX8KByqU3ga68/mWbWbRsGCbQ43yYIMZvxVY8P
-	 6uYoKpLcmcjvXsLJkv8mBTwkXPQJo2m+p2ofMj5WVjmvyVYMna8FhMIvfDN8Tf+KW0
-	 17DPj/qdtxCfA==
-Message-ID: <dedad87b-909d-4d14-b914-ff2e28c414ce@kernel.org>
-Date: Thu, 10 Sep 2026 11:58:53 +0200
+	b=KSilTxnykwDLR+U3kjOVLr+CmFJNrFBj+ywnUwLG4EDY6T7i9rZ0/XFHJRAUxB8Cg
+	 uqldP1L+oOYwVYS+nTPu9ABsJ/c4y13h6g8tMTZP05a5LhHIQGcJgTz7N4er5qin/P
+	 TdDYrSZqPhFpvfWNrCv2w8cKPMKZ2pjwRnlmep6cVJr8RB8MUjJ8ZYY7H4eN8GF7tm
+	 z1qahItZ9O9f5fZTHZnfmxkt4xxnbxtyNAUDI3cGONITin5oQR90wv7UX+e7Nn0Tcf
+	 +q+DIRfuBfX1UoO8t5Ai2ZyWKSJvKhnAtfQjvp3VJ7tFGlZDMAkXCkaCAaLqSainrz
+	 cD2P0SJBso/cg==
+Message-ID: <8fa1b403-99b0-4508-b705-f9e93c6bf0c8@kernel.org>
+Date: Thu, 10 Sep 2026 12:03:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/9] KVM: guest_memfd: take the invalidate lock when
- unbinding a dying file
+Subject: Re: [PATCH v3 2/9] mm: split AS_UNMOVABLE back out of AS_INACCESSIBLE
 To: Shivank Garg <shivankg@amd.com>,
  "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -64,10 +63,9 @@ To: Shivank Garg <shivankg@amd.com>,
  Ira Weiny <iweiny@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>
 Cc: linux-fsdevel@vger.kernel.org, linux-coco@lists.linux.dev,
  linux-mm@kvack.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Sashiko <sashiko-bot@kernel.org>
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20260805-shivank-gmem-migrate-v3-0-00d8bdec4e1d@amd.com>
- <20260805-shivank-gmem-migrate-v3-1-00d8bdec4e1d@amd.com>
+ <20260805-shivank-gmem-migrate-v3-2-00d8bdec4e1d@amd.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -114,52 +112,168 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260805-shivank-gmem-migrate-v3-1-00d8bdec4e1d@amd.com>
+In-Reply-To: <20260805-shivank-gmem-migrate-v3-2-00d8bdec4e1d@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 8/5/26 08:40, Shivank Garg wrote:
-> kvm_gmem_unbind() skips mapping->invalidate_lock when the guest_memfd
-> file is already dying. All other paths that modify f->bindings hold
-> that lock.
+> Commit 27e6a24a4cf3 ("mm, virt: merge AS_UNMOVABLE and AS_INACCESSIBLE")
+> folded the two flags into one, on the grounds that guest_memfd was the
+> only user and always set both. But the two flags were added for
+> different reasons and guard different things:
 > 
-> kvm_gmem_invalidate_{start,end}() checks f->bindings independently to
-> decide whether to begin or end KVM MMU invalidations. So, the bindings
-> must remain stable between the two calls. If a binding is removed in that
-> window, start increments mmu_invalidate_in_progress but end does not
-> decrement it. Example, unbind race with memory failure:
+>   AS_UNMOVABLE (0003e2a41468) marks a mapping whose folios cannot be
+>   migrated.
 > 
->   CPU 0: memory failure               CPU 1: memslot delete
->   ----------------------------------  ---------------------------
->                                       (guest_memfd file is dying)
->   kvm_gmem_error_folio()
->     kvm_gmem_invalidate_start()
->       finds binding
->       mmu_invalidate_in_progress++
->                                       kvm_gmem_unbind()
->                                         get_file_active() fails
->                                         store NULL in bindings
->     kvm_gmem_invalidate_end()
->       no binding found
->       counter stays elevated
+>   AS_INACCESSIBLE (c72ceafbd12c) marks a mapping whose contents must
+>   not be directly R/W accessed. Its only job is to stop
+>   truncate_inode_partial_folio() from zeroing the folio.
 > 
-> mmu_invalidate_retry() then returns 1 forever, so guest page faults
-> retry without ever installing a mapping and the guest hangs.
+> The merge assumed unmovable and inaccessible were the same thing.
+> This cannot express a mapping that is inaccessible yet still movable,
+> which is exactly what guest_memfd wants.
 > 
-> Take the invalidate lock in the dying-file path too. This prevents unbind
-> from removing a binding and leaking mmu_invalidate_in_progress. This is
-> safe because any caller that reaches this path holds slots_lock, so
-> kvm_gmem_release() cannot nullify the slots->gmem.file, until
-> kvm_gmem_unbind() finishes.
+> Reintroduce AS_UNMOVABLE and restore the original split: truncate keeps
+> checking AS_INACCESSIBLE, while migration and compaction go back to
+> checking AS_UNMOVABLE.
 > 
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://lore.kernel.org/all/20260728092027.225CF1F000E9@smtp.kernel.org
-> Fixes: ae431059e75d ("KVM: guest_memfd: Remove bindings on memslot deletion when gmem is dying")
+> Currently guest_memfd sets both, so the resulting flags and behaviour
+> are unchanged. Preparatory change to support folio migration for
+> non-confidential guest_memfd VMs.
+> 
 > Signed-off-by: Shivank Garg <shivankg@amd.com>
 > ---
+>  include/linux/pagemap.h | 24 ++++++++++++++++++++----
+>  mm/compaction.c         | 12 ++++++------
+>  mm/migrate.c            |  2 +-
+>  virt/kvm/guest_memfd.c  |  1 +
+>  4 files changed, 28 insertions(+), 11 deletions(-)
+> 
+> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+> index 2c3718d592d6..a7dcaa66e4e3 100644
+> --- a/include/linux/pagemap.h
+> +++ b/include/linux/pagemap.h
+> @@ -210,6 +210,7 @@ enum mapping_flags {
+>  	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
+>  	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
+>  				   account usage to user cgroups */
+> +	AS_UNMOVABLE = 11,	/* The mapping cannot be moved, ever */
+>  	/* Bits 16-25 are used for FOLIO_ORDER */
+>  	AS_FOLIO_ORDER_BITS = 5,
+>  	AS_FOLIO_ORDER_MIN = 16,
+> @@ -322,11 +323,10 @@ static inline void mapping_clear_stable_writes(struct address_space *mapping)
+>  static inline void mapping_set_inaccessible(struct address_space *mapping)
+>  {
+>  	/*
+> -	 * It's expected inaccessible mappings are also unevictable. Compaction
+> -	 * migrate scanner (isolate_migratepages_block()) relies on this to
+> -	 * reduce page locking.
+> +	 * The mapping's contents must not be accessed by the CPU through
+> +	 * the kernel direct map or other internal paths (e.g. zeroing of
+> +	 * pages during truncation).
+>  	 */
+> -	set_bit(AS_UNEVICTABLE, &mapping->flags);
+>  	set_bit(AS_INACCESSIBLE, &mapping->flags);
+>  }
+>  
+> @@ -335,6 +335,22 @@ static inline bool mapping_inaccessible(const struct address_space *mapping)
+>  	return test_bit(AS_INACCESSIBLE, &mapping->flags);
+>  }
+>  
+> +static inline void mapping_set_unmovable(struct address_space *mapping)
+> +{
+> +	/*
+> +	 * It's expected unmovable mappings are also unevictable. Compaction
+> +	 * migrate scanner (isolate_migratepages_block()) relies on this to
+> +	 * reduce page locking.
+> +	 */
+> +	set_bit(AS_UNEVICTABLE, &mapping->flags);
+> +	set_bit(AS_UNMOVABLE, &mapping->flags);
+> +}
+> +
+> +static inline bool mapping_unmovable(const struct address_space *mapping)
+> +{
+> +	return test_bit(AS_UNMOVABLE, &mapping->flags);
+> +}
+> +
+>  static inline void mapping_set_writeback_may_deadlock_on_reclaim(struct address_space *mapping)
+>  {
+>  	set_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->flags);
+> diff --git a/mm/compaction.c b/mm/compaction.c
+> index f08765ade014..e6b0fdfaf79d 100644
+> --- a/mm/compaction.c
+> +++ b/mm/compaction.c
+> @@ -1133,22 +1133,22 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
+>  		if (((mode & ISOLATE_ASYNC_MIGRATE) && is_dirty) ||
+>  		    (mapping && is_unevictable)) {
+>  			bool migrate_dirty = true;
+> -			bool is_inaccessible;
+> +			bool is_unmovable;
+>  
+>  			/*
+>  			 * Only folios without mappings or that have
+>  			 * a ->migrate_folio callback are possible to migrate
+>  			 * without blocking.
+>  			 *
+> -			 * Folios from inaccessible mappings are not migratable.
+> +			 * Folios from unmovable mappings are not migratable.
+>  			 *
+>  			 * However, we can be racing with truncation, which can
+>  			 * free the mapping that we need to check. Truncation
+>  			 * holds the folio lock until after the folio is removed
+>  			 * from the page so holding it ourselves is sufficient.
+>  			 *
+> -			 * To avoid locking the folio just to check inaccessible,
+> -			 * assume every inaccessible folio is also unevictable,
+> +			 * To avoid locking the folio just to check unmovable,
+> +			 * assume every unmovable folio is also unevictable,
+>  			 * which is a cheaper test.  If our assumption goes
+>  			 * wrong, it's not a correctness bug, just potentially
+>  			 * wasted cycles.
+> @@ -1161,9 +1161,9 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
+>  				migrate_dirty = !mapping ||
+>  						mapping->a_ops->migrate_folio;
+>  			}
+> -			is_inaccessible = mapping && mapping_inaccessible(mapping);
+> +			is_unmovable = mapping && mapping_unmovable(mapping);
+>  			folio_unlock(folio);
+> -			if (!migrate_dirty || is_inaccessible)
+> +			if (!migrate_dirty || is_unmovable)
+>  				goto isolate_fail_put;
+>  		}
+>  
+> diff --git a/mm/migrate.c b/mm/migrate.c
+> index dd15a84b2a52..d4dcd7f142ce 100644
+> --- a/mm/migrate.c
+> +++ b/mm/migrate.c
+> @@ -1101,7 +1101,7 @@ static int move_to_new_folio(struct folio *dst, struct folio *src,
+>  
+>  	if (!mapping)
+>  		rc = migrate_folio(mapping, dst, src, mode);
+> -	else if (mapping_inaccessible(mapping))
+> +	else if (mapping_unmovable(mapping))
+>  		rc = -EOPNOTSUPP;
+>  	else if (mapping->a_ops->migrate_folio)
+>  		/*
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index 45cbdf4801ec..169f75f95433 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -593,6 +593,7 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+>  	inode->i_size = size;
+>  	mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
+>  	mapping_set_inaccessible(inode->i_mapping);
+> +	mapping_set_unmovable(inode->i_mapping);
 
-This was sent independently in the meantime, correct? (or was it included in
-this series, IOW what's the expected patch flow)
+For shared-only guest_memfd, is there even a reason to mark it as
+mapping_set_inaccessible() ?
+
+mapping_inaccessible() is only used in truncation and compaction logic.
+
+Wouldn't we want compaction to work here?
+
+IOW, for shared-only with migration support, can't we just not do
+mapping_set_inaccessible() ?
 
 -- 
 Cheers,
