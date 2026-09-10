@@ -1,107 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp-8fad.mail.infomaniak.ch (smtp-8fad.mail.infomaniak.ch [83.166.143.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84C341D659;
-	Thu, 10 Sep 2026 08:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E791B42586F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 08:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789027900; cv=none; b=Ra8gYRe6ss+lBA32ycWdJVbb/i1cOY97R1n14RReNMXJQnfO3OzSid0Oj9NN10CGiyM453xw1RICHoSAhufwliPLDESJkbDsetW7vooHBOfL1N6qwBZ7llUEvS+Ykf1dvV3fJD2B2Xt94hYImfLdR/s00UT4SMzVapV0dzRwGcM=
+	t=1789027962; cv=none; b=hzj4GyswbGZWFShPy1f9UPKtZgTwRYdIkFqtiYoJ2Ro7AlwdM0Tq4D2UbouIXktFsDLi+Y9M3SehEVABabvV1FGse9qm3EivDzgulPHx49vhdyFe5FQZyDSMmaaLemWb+mKORrwIgGPIycIdX5fPHfcHORaLGlJG/srX5EtEqUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789027900; c=relaxed/simple;
-	bh=PSYLbShhpWiv3aVB2nJrOHdeh7Z3k4zELmiY4CjG9uE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=APz4CCiH+scFj5VaY5yCvC3vSP3RkakrrQqCN0KZJxQqOQRl9O8N8PvOv3WJ5sDVO3a3lyzW4l3fMMYMy/azwITyD5I/W4ZJ1O9lioVpnGUkkI94lQKNvaZwiMHjn5vg600ILmXr7WfEKx56KAqU3h0QGGIZKe3Lqkdm3He+LXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DAqb16Lh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789027962; c=relaxed/simple;
+	bh=0Aqymz4SH8EtX2j/M+mZWv2LIN1WctUYM615PbzbH44=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BEx3PsjcZkbVZF57wzWN/kTg8Q/FWZPO5xEbPcxnafmI50TfdwVEVXTlhKgohHvUtH8f+8HPQKHW4NbPYe+qcrnmFhxhfy170pN16lWSzLeWRbHBMWrf2keULgFMRKEOBIWGG4Veu6MOyCMsKIkTNLF3cIFvJA0uyh5QFYWI1dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=BUJTeDO7; arc=none smtp.client-ip=83.166.143.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DAqb16Lh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06D241F000FF;
-	Thu, 10 Sep 2026 08:11:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789027898;
-	bh=Bl2jWTajUKdkFTVEmaIsZckt4uMF6UIWmGeyLi3kFQg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DAqb16LhXA4V3x2MEBgyebklpieMD75ealCT6F60CkFf+1FpmPAJyTfsmtGyVFhzC
-	 Eekvf46yp132dC4zoRl85r5FXyUpUdsWXVUh08Xcz1+9bOVObP5c6h1fXfZmlaxrzM
-	 P2tKsaJycMsQjasylX2DwThvMnSOubkKYXSyhG5k+ZOmCTZPVPkzq9xY4H9AAtgM2+
-	 bv/gFqBICa+dxei6mzc0FdAoQcLhta8R015Ur710MTEVpZDuYI8huu5pliRpIvykY1
-	 PM3ORUCluTaMjr1OPi/LRpzglnTOCs6cwf/AQvzv4pOZJCfOVOQQWJkrVBZxdVs+Io
-	 bpZbmlO4+cExw==
-From: Christian Brauner <brauner@kernel.org>
-To: Christian Brauner <brauner@kernel.org>, 
- David Howells <dhowells@redhat.com>
-Cc: Paulo Alcantara <pc@manguebit.org>, 
- Matthew Wilcox <willy@infradead.org>, Namjae Jeon <linkinjeon@kernel.org>, 
- Marc Dionne <marc.dionne@auristor.com>, Stefan Metzmacher <metze@samba.org>, 
- Eric Van Hensbergen <ericvh@kernel.org>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Ilya Dryomov <idryomov@gmail.com>, netfs@lists.linux.dev, 
- linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
- linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org, v9fs@lists.linux.dev, 
- linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260909072105.1663687-1-dhowells@redhat.com>
-References: <20260909072105.1663687-1-dhowells@redhat.com>
-Subject: Re: [PATCH v13 0/8] netfs: Miscellaneous preparatory changes
-Message-Id: <20260910-rohrkrepierer-clinchen-affront-100171384452@brauner>
-Date: Thu, 10 Sep 2026 10:11:29 +0200
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="BUJTeDO7"
+Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hgVlh3BTqz6pJ;
+	Thu, 10 Sep 2026 10:12:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1789027952;
+	bh=dwGe9HyyabnkGe1fXD6Rzg1hn+w/5pRkcYvhzHQCogY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BUJTeDO7hDPSq0MZCNKyE1hgxahvX61quxoPO1xQ/kbpOAKXOWiOMcPSa5YQFj5GQ
+	 R+a54v0Hd3+85nx6BbxeRVtFKGMvM+csJ4A6OvmLOe3V5U256Z6cza9+FwCq+mY02S
+	 QIei18WhKs2PZO3YhgLjkCLYXIEIyAerHH5KXW/4=
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4hgVlf4WPJz9mH;
+	Thu, 10 Sep 2026 10:12:30 +0200 (CEST)
+Date: Thu, 10 Sep 2026 10:12:25 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Daniel Durning <danieldurning.work@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v3 3/12] security: Add LSM_AUDIT_DATA_NS for namespace
+ audit records
+Message-ID: <20260910.Ooph5bing9zu@digikod.net>
+References: <20260726161400.3010511-4-mic@digikod.net>
+ <5cabf9b33a20f130cedcc423b8b2d151@paul-moore.com>
+ <CAHC9VhS_WP-bLgMGiFAfE1MT76iKvVJ-OV5r7xju-KMdrfjssQ@mail.gmail.com>
+ <20260909.quahcia8aiF4@digikod.net>
+ <CAHC9VhSRV_axaGM0hTZngQY36Jw1ULy_sHHsik0_HCSdVv4P+A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1938; i=brauner@kernel.org;
- h=from:subject:message-id; bh=PSYLbShhpWiv3aVB2nJrOHdeh7Z3k4zELmiY4CjG9uE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQtSjPOTU++uvzGNKGtX+59+bbANNaqinHmG+kZFS+fz
- imr/6Fl01HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRiX6MDLNL9Jr6i6ZfcHJI
- 5Zibue9R84UHvjxep8JUI2eX/pB/28/IcMBbawZXzeYHH6JTJjpNWJb77J//i10b/F5X3sh6F7u
- ilg0A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHC9VhSRV_axaGM0hTZngQY36Jw1ULy_sHHsik0_HCSdVv4P+A@mail.gmail.com>
+X-Infomaniak-Routing: alpha
 
-On Wed, 09 Sep 2026 08:20:54 +0100, David Howells wrote:
-> netfs: Miscellaneous preparatory changes
+On Wed, Sep 09, 2026 at 03:49:11PM -0400, Paul Moore wrote:
+> On Wed, Sep 9, 2026 at 2:35 PM Mickaël Salaün <mic@digikod.net> wrote:
+> > On Mon, Aug 31, 2026 at 05:26:20PM -0400, Paul Moore wrote:
+> > > On Tue, Aug 11, 2026 at 4:16 PM Paul Moore <paul@paul-moore.com> wrote:
+> > > > On Jul 26, 2026 =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net> wrote:
 > 
-> Hi Christian,
+> ...
 > 
-> Could you pull these patches please for -next?  This is the first of four
-> batches.  This is based on your vfs.fixes as there are some prerequisite
-> patches there.  This was split from v11 of a larger series[1].
+> > > Mickaël, if you would like me to merge the remaining patches in this
+> > > patchset into the lsm/dev branch just let me know.
+> >
+> > I'll send a new patch series soon because this v3 would not apply
+> > anymore.
 > 
-> [...]
+> Okay.
+> 
+> > I'll include your lsm/dev patches to keep a consistent patch
+> > series.
+> 
+> Please don't as those are already merged.  If you want to stick with
+> the same patch series, which is fine, just note that the first three
+> patches have already been merged into the LSM tree.  It's not uncommon
+> for patchsets to add or drop patches over time as both the patchset
+> and the surrounding environment progress.
 
-Applied to the vfs-7.4.netfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.netfs branch should appear in linux-next soon.
+Yeah, I know, but at the same time are there (merged) users of these
+hooks?  Anyway, we should of course avoid to have two commits for the
+same patch in different branches (even if that would not be an issue for
+Git), but having to handle several origins (e.g. the lsm/dev branch for
+new hooks and the master branch for fixes) might lead to an unpleasant
+gymnastic.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Another concern is to ease review (for both humans and bots), which
+might require a well-known base commit, instead of a (transient?)
+merge commit.  That's the reason why I wanted to keep the complete
+series, even if when we'll apply it, we can drop the first (already
+applied) patches.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+My understanding is also that Linus prefers consistent pull requests,
+and I'm wondering if that would be ok to send a PR with the lsm/dev (in
+flight to be merged in master, but not yet) as origin.  That could still
+lead to merge conflicts though...
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.netfs
-
-[1/8] netfs: Use uoff_t instead of unsigned long long and loff_t
-      https://git.kernel.org/vfs/vfs/c/0447d3e7ca81
-[2/8] netfs: Remove the writethrough code
-      https://git.kernel.org/vfs/vfs/c/1c167be3e3f3
-[3/8] netfs: trace: Change the "clear" folio traces to "endwb"
-      https://git.kernel.org/vfs/vfs/c/b4c9fce24e25
-[4/8] netfs: trace: Rejig a couple of the tracepoints
-      https://git.kernel.org/vfs/vfs/c/80fe2005dc3c
-[5/8] netfs: Add the cache object ID to netfs_read/write tracepoints
-      https://git.kernel.org/vfs/vfs/c/b1abd92147b1
-[6/8] netfs: Make deprecated PG_private_2 support opt-in
-      https://git.kernel.org/vfs/vfs/c/e5c67dd3bbf7
-[7/8] netfs: Add some functions to wrap the all-queued handling
-      https://git.kernel.org/vfs/vfs/c/a38f37509940
-[8/8] netfs: Set subrequest->source at alloc before trace emission
-      https://git.kernel.org/vfs/vfs/c/3df7501ad939
-
+At least, I think it would help to have these three commits rebased on a
+(recent) Linux tag (without other commits in between, like the cred's
+one).
