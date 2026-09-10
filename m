@@ -1,169 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C3B39AD2A;
-	Thu, 10 Sep 2026 21:05:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2009429CE8;
+	Thu, 10 Sep 2026 21:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789074341; cv=none; b=KFA44qc96gk+kkWDPAtcKxxZG7RBHBHlC0AihPla1iCgcFgPwlZ8ROKjvqflD24PDQNdskUynLupJKOTMpKx4o6mOCsKlAINS1t/ZBmeNWigiFa8RbcpLrMar+hsXggWS8znSk6PQLljDgFrY3E63QKd9gR0WaXowHGaZk8yvu0=
+	t=1789074757; cv=none; b=UXSOgoTTshXG3nlrDQ8G/8BagvXlUTrDZ/1gmbmqAgfiIfAHm+b2GoMhOrS5z4LXby+l5WsLBQfmrxCJv5AGFVNqlUk1U7QJFwDW1DzvMiAk2xdl/95W2hVWejc6kS3CCa7L2u2HTyar1hcQ9sg/MySi7lv7Drh7qbW6Iz9B1cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789074341; c=relaxed/simple;
-	bh=eC1FWUYfMlG80WKxBlCNmNfp7ZQ52lIhs/luxQagGNk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LYMgN4wc4BZywVrKO26sfDJfv9owZmIhWgc/8lG15NNggj6JyfMZnX+KTN8NbNH6KUnXaS6DPs4cIjtxRk56h/QEZEoHyO3sfsrmsC6dVP4/u4GZcLd8bYAvaSxj6gbfef6nVma5eNYQIPskscMgHZQb4SzwonCRtfSguyl7Kg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eMVAdsjn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789074757; c=relaxed/simple;
+	bh=guLM49YgNyVFb9uZfhXIehQg/5R97Nz9UbY8pbHQJBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tb1OnlBqDzIZ3Vp331yIdIxu9+Jg1jeni3K4YQFNc9/n1cRKDzFqdfZAnZh6f03EVZRe/dkO2n9i+hyu8Wf2i5yJl+/bneDVfm+hR1mTf2ziUpnCB107pEHw8y0+VFohiMKnZ2LKd01rtXqePigsmb7MTq2gLApQB5CpzEiFTTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MYOiTSC0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eMVAdsjn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA7871F000FF;
-	Thu, 10 Sep 2026 21:05:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MYOiTSC0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FC091F000FF;
+	Thu, 10 Sep 2026 21:12:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789074340;
-	bh=oLToX4EccLVtnhGx2Vc8M3u3T1qH7yOvY6cF4At7RK8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=eMVAdsjnlliyWhH3OpkdXujTtNiigDS8c7DRnRcnAIebH2lnzAUn7CGlqjl3uXz0y
-	 s2ALMDFWBA/vymMAewgJcnnCue0nseOnWxIoiAGhV8fE786DdvJmyBvb+zHWePs8XR
-	 lF/fYrIuN9UJhL60bT5x2Fq9bJDI+mVu/yT4u1aXPqPqPf5DzIjhHhHx9SZoh9LVLO
-	 S79uttERoeDeu/vjm/SUOuF4gL0pYXMFFDStZZWSzMhfzYBwpaUD2hX0SAa/cZ2G43
-	 X2y+psFM3rUo/eSavsDm38Ea70SOZJE5rt1/C6Z/69h1i0oG2cTvy1Dclr70hq/j/E
-	 qu/datkRNcZ7w==
-Message-ID: <ce1e07aa-5600-46c1-b35a-d7df09a84521@kernel.org>
-Date: Thu, 10 Sep 2026 23:05:29 +0200
+	s=k20260515; t=1789074743;
+	bh=MCGkKlQ8M0AsOqyjrZvFPwfseu14cQ6jl3sxq1qsu5c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MYOiTSC0JmzJcB8xgUbyhKTmzwLz5Ufnt/u0n81P8iPUb9zUbM91Cjqpn8ZytueFC
+	 tPFJvLAIAmIsfl7XWL6Wn8XY7iIIhPZb6Up/u7p/mRdss47JVzreNh1ZZ/ar1Uc759
+	 U2tnUj/z9UMMi6NDzr0oo3SCoJJnNuIXtv5MTXmzuNsJEgnknPpxdJ8z5mgg+zNgca
+	 VJzNF+QFKEDJqNeq+ygl7BM69QaL8z8ns2LE6OrrZjiAW308UhuhRZKnf2G9KEcQDT
+	 +uPDPvgsn+KNVmvV9TignjF2IycDQhJs8lMhyAJIlIAZ9qbJI959DofyCm4X1lmiME
+	 tqOq+MNEaK80w==
+Date: Thu, 10 Sep 2026 11:12:22 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christian Brauner <christian@brauner.io>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Meta kernel team <kernel-team@meta.com>,
+	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernfs: don't hold kernfs_rwsem across notification
+ delivery
+Message-ID: <aqMdNoXA0LIYFpQW@slm.duckdns.org>
+References: <20260910045406.485295-1-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/26] mm/fbatch: restore mlock+munlock batching,
- without extra ref
-Content-Language: en-US
-To: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Ackerley Tng <ackerleytng@google.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
- Binbin Wu <binbin.wu@linux.intel.com>, Christian Brauner
- <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Christoph Lameter <cl@gentwo.org>, Claudio Imbrenda
- <imbrenda@linux.ibm.com>, David Hildenbrand <david@kernel.org>,
- JP Kobryn <jp.kobryn@linux.dev>, Jan Kara <jack@suse.cz>,
- Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
- Kairui Song <ryncsn@gmail.com>, Kiryl Shutsemau <kas@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Leonardo Bras <leobras.c@gmail.com>,
- Lorenzo Stoakes <ljs@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Mel Gorman <mgorman@techsingularity.net>, Miaohe Lin <linmiaohe@huawei.com>,
- Michal Hocko <mhocko@suse.com>, Minchan Kim <minchan@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
- Rik van Riel <riel@surriel.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Shakeel Butt <shakeel.butt@linux.dev>, Suren Baghdasaryan
- <surenb@google.com>, Yang Shi <yang@os.amperecomputing.com>,
- Yu Zhao <yuzhao@google.com>, Zach O'Keefe <zokeefe@google.com>,
- Zi Yan <ziy@nvidia.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
- <69ba633c-8fd5-1f4b-2e1e-b9b15b8946be@google.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <69ba633c-8fd5-1f4b-2e1e-b9b15b8946be@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910045406.485295-1-shakeel.butt@linux.dev>
 
-On 9/9/26 11:59, Hugh Dickins wrote:
-> Update mlock_folio(), munlock_folio() and their fbatch callouts and
-> helpers, to do folio_try_get()s at batch processing time, instead of
-> holding a folio reference all the while in mlock_fbatch: as in folio.c.
+On Wed, Sep 09, 2026 at 09:54:06PM -0700, Shakeel Butt wrote:
+> Recently at Meta we noticed that on multi-tenant systems, a workload
+> under extreme memory pressure negatively impacts unrelated workloads and
+> system daemons like below [1] and fb-oomd [2]. Mainly we observed that
+> system daemons were stuck on kernfs_rwsem in cgroup-related interfaces
+> for long periods of time.
 > 
-> But more interesting is the use of mod_mlock_count(), using try_cmpxchg()
-> to update folio->mlock_count safely when possible (now when on lru_add
-> fbatch as well as when unevictable). While __mlock_folio() is as hard to
-> think about as before, __munlock_folio() simpler because munlock_folio()
-> can adjust mlock_count itself without clear_lru() or lruvec lock, and so
-> do the folio_test_clear_mlocked() immediately for itself (without which
-> unevictable_pgs_cleared was likely to appear high, when it should be 0
-> or low to indicate good mlock health).
+> On further inspection, we found that the workload under pressure had
+> registered inotify watches on its memory.events and was continuously
+> receiving limit-hitting notifications. The cgroup notification is done in
+> kernfs_notify_workfn(), which holds kernfs_supers_rwsem and kernfs_rwsem
+> and calls fsnotify(), which allocates the event with
+> kmalloc(GFP_KERNEL_ACCOUNT|__GFP_RETRY_MAYFAIL) charged to the watching
+> cgroup, which is already under memory pressure. So the notify worker
+> ended up in memory reclaim of a cgroup already under pressure, and itself
+> kept triggering the limit notifications.
 > 
-> __munlock_folio() is safe for use even when the unreferenced folio has
-> been freed and reused. It appears that __mlock_folio() could affect a
-> folio which has been freed and reused, but only if it is reused as an
-> mlocked folio, in which case its mlock_count is spuriously incremented
-> (but usually a spurious munlock decrement will follow).  How grave is
-> this? If unevictable_pgs_cleared remains low, not so bad.
+> This notification path takes the locks in read mode, but a waiting writer
+> blocks all future readers. That is exactly what is happening in the Meta
+> fleet, and it leaves daemons that are critical to the reliability of the
+> system stuck for long periods of time.
 > 
-> I've gone back and forth on whether to move mlock_fbatch and these
-> functions into mm/folio.c: for now they stay here in mm/mlock.c.
+> Commit 400188ae361a ("kernfs: Acquire kernfs_rwsem in
+> kernfs_notify_workfn().") added kernfs_rwsem just to safely read
+> kernfs_node::name.  Let's sample the name once before the loop and drop
+> the lock.  kernfs_supers_rwsem still covers the list, and the removal
+> paths take that one for reading too, so a stalled worker can still hold
+> a removal up once a mount or unmount is queued behind it.
 > 
-> Signed-off-by: Hugh Dickins <hughd@google.com>
-> ---
->  mm/mlock.c | 147 +++++++++++++++++++++++++++++++----------------------
->  1 file changed, 86 insertions(+), 61 deletions(-)
+> Two things change for a watcher.  A name longer than NAME_MAX now gives
+> an event with no name, where before it gave one with the full name;
+> fsnotify() takes the name as optional, so the event still arrives.  And
+> the name and the parent are no longer sampled under one lock, so a rename
+> between the two would name a file against the directory it moved to.
+> That cannot happen today: kernfs_notify() rejects anything that is not a
+> file, and no caller of kernfs_rename_ns() renames one.
 > 
-> diff --git a/mm/mlock.c b/mm/mlock.c
-> index 2c690f18031e..1050010bbe0b 100644
-> --- a/mm/mlock.c
-> +++ b/mm/mlock.c
-> @@ -58,6 +58,20 @@ EXPORT_SYMBOL(can_do_mlock);
->   * indicate the unevictable state.
->   */
->  
-> +static long mod_mlock_count(struct folio *folio, long incdec)
-> +{
-> +	long mlock_count = READ_ONCE(folio->mlock_count);
-> +
-> +	while (mlock_count & MLOCK_COUNT_0) {
-> +		if (mlock_count + incdec < MLOCK_COUNT_0)
-> +			return MLOCK_COUNT_0;
-> +		if (try_cmpxchg(&folio->mlock_count, &mlock_count,
-> +				mlock_count + incdec))
-> +			return mlock_count + incdec;
-> +	}
+> [1] https://github.com/facebookincubator/below
+> [2] https://github.com/facebookincubator/oomd
+> 
+> Fixes: 400188ae361a ("kernfs: Acquire kernfs_rwsem in kernfs_notify_workfn().")
+> Assisted-by: LLM
+> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 
-This never rereads folio->mlock_count to mlock_count inside the loop, so it
-can spin forever?
+Acked-by: Tejun Heo <tj@kernel.org>
 
-(too late here for me to understand the rest today)
+Thanks.
 
-> +	return 0;
-> +}
-> +
+-- 
+tejun
