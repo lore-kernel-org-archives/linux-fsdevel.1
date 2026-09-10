@@ -1,165 +1,183 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from kylie.crudebyte.com (kylie.crudebyte.com [5.189.157.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D584A3F3F;
-	Thu, 10 Sep 2026 14:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971C7493D4E;
+	Thu, 10 Sep 2026 14:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.157.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789049216; cv=none; b=GeNi60+PvnLbyUO0kD+E8MzyA3DwyuBfFbv+mjzolpTCQSh31CwvvcPibnlP4K35OFr9NCzGtcyuplDUN64MPLtjpBZMFSGXhwl5RX7uMJb0Q4adRROmqOAp3DiOaRchKLzNBgmIF8rx0Gy5k/r54myswBXo6dhzVlqfx0AkN64=
+	t=1789049243; cv=none; b=IKp+n7ZdgKijk3WzNFv0piCXglTMDzWQ2cBtSEIWU09geIlJrrpwcenLRtXfLTwcdoHM7eWWivpJXF4NkOf9knTq2G8OJg7C/TikTk/XfqlJKwckKA6L8B3+HBUnczpJAQoSpX4KQKwwQ46iHfECLKTqDiR+e3vhQmWpyNNbA98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789049216; c=relaxed/simple;
-	bh=usjgwNwq8e5FVuDuIy//fKbw8DVuTnjixnyIZu/Ku78=;
+	s=arc-20240116; t=1789049243; c=relaxed/simple;
+	bh=7AHrBlllx7CTtEZHixjBstoCtU2GH+xx1JqNfNfIt2A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lY8ZpZDY6Afi7C7XMldN7G1hHFMN2dwWquzdALp2oW/LHbpV1l+ZZg1IHGX4rmXTquRgAOhgrC/sx62gnXfDfIF0iYLQVgkerTcvXLaWIzy7aDx4J6MXg5ABwc/t5rHS3dhcztL9QTpIi0mmM6AnphvEX7HDYGOxmxsBnfjW5dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khYqYYox; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=jg58i9ZmNhg1lgPzk/Bu6+wXuiZ2/b27COari8Xs8cTi/RVC936YR0MAh9wlyOkXzB8Zzc2e+D59Kop46WUplVhP9I7ah9SUyajTCCdW2TvNG+Jn1amZX2xBTU5HsWF2bavWkYVwvHQDl3zE9jeNZbgv1jXH+18YFESHgFdot4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=utaqg+UL; arc=none smtp.client-ip=5.189.157.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crudebyte.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khYqYYox"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 970881F0089A;
-	Thu, 10 Sep 2026 14:06:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789049215;
-	bh=70DL84P6JTZYmHCwquU+RidyFpbSEn3EbhgRLehum0s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=khYqYYoxLCC3IHUZhWSZ/5k6MaUU7a5qG9Uq/H2as3L0W6BL+uxN7k2+pKlEBL0yR
-	 dghTPtHKwmo6niWKCE/e7CEN8xnGbaRJ7ryTnxA4eepLVos7utuH62ktBK1Q3ynEdA
-	 mdUmxTQ9yw+NMXWXyeBG0zO325JsctZUk79B/RHN+V+0ZYQ+50sPC8n8eD8y3pPFBB
-	 05j6cHp94XsGsHj1GusZhoju5knkCNRv/37JUqphBcqKTnaYIRFBjwzHiKXiGecGar
-	 zIt2dcm1Q/eBn9ED6HySRxntqymbCFq4JhBd0JZYXKsLDP+6QtIP8duViFjxKlMAKT
-	 IJS3xyspz9d7Q==
-From: SJ Park <sj@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: SJ Park <sj@kernel.org>,
-	Gregory Price <gourry@gourry.net>,
-	balbirs@nvidia.com,
-	brendan.jackman@linux.dev,
-	yuzenghui@huawei.com,
-	apopple@nvidia.com,
-	alucerop@amd.com,
-	matthew.brost@intel.com,
-	akpm@linux-foundation.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	djbw@kernel.org,
-	vishal.l.verma@intel.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	osandov@osandov.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	jackmanb@google.com,
-	hannes@cmpxchg.org,
-	ziy@nvidia.com,
-	pbonzini@redhat.com,
-	osalvador@suse.de,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	byungchul@sk.com,
-	ying.huang@linux.alibaba.com,
-	kasong@tencent.com,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	baohua@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk,
-	longman@redhat.com,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	mkoutny@suse.com,
-	jgg@ziepe.ca,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	baolin.wang@linux.alibaba.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev,
-	muchun.song@linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON migration and pageout
-Date: Thu, 10 Sep 2026 07:06:45 -0700
-Message-ID: <20260910140645.168914-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <e2d2b01e-e6eb-4009-a07e-e615d576c0c3@kernel.org>
-References: 
+	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="utaqg+UL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Content-ID:Content-Description;
+	bh=yVckXBT7ZkvtaRt/2Meu8jC/A0/uqyEsunIirUSTZHc=; b=utaqg+ULBFDjUrgWDK56ADnEFi
+	+fOPt3KUC1VWCk6SdJfjBhwvLYciV8l1jyIgZ7ZBF2+c4PkfcjisGoSracBN9ObFtlNM7XT7VnMEo
+	PgdwSGQuA42piRBu1PCfiXYmLHZQF9ZlJ2gCgwxYiFNYj5ftmq1BYb0fDr9Wk2JrYC7rlNC9d70g3
+	cjzV+gs7/FXMB/PKscEegj/hE7jxOumIGrTQyaiuy8MOcJX60OVVFrREcMQOEeZ+JEVT2HEbBgPJm
+	rQwuJRj99TjTkQR+wNcGllN7bYuFmqPJ6ir9MUTvYdm2VnATNnwauAO0ZzorFq76+VCy6l5+OqcRc
+	9vuL4tRcze/kFcz4nPsUcJE7cO7IxFvfVccAHO+FOpvpUO7F3rB4I78mCEfyClCve+xvjtYLyHug0
+	IwpcWKMPvGszWrNM4irJNbSuXzraKM1HlMORWW0bF1KT8s17NpT7alA3475ZK6wG0txI9EhWapjUi
+	cRmz5FlAtMZGIgjcocC5TQpGkOYPeBOCP32KdIAdrQcrQnFSniP7oay2Nf4iugq/EtZPinvZioIhl
+	jKo02CMnWxQxQQVxVFTUXoUsOhdSD/g36o4ZR/ti4uwMRiKgaCWJGYDW24qnNL7yTr4aUVxpIOAL1
+	cmhWFRhQyRdSv0bW6WO/Kn/fW88IdWpZUMIziNft8=;
+From: Christian Schoenebeck <linux_oss@crudebyte.com>
+To: ericvh@kernel.org, lucho@ionkov.net, asmadeus@codewreck.org,
+ dhowells@redhat.com, pc@manguebit.org, Michael Mulqueen <mike@method-b.uk>
+Cc: v9fs@lists.linux.dev, netfs@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, regressions@lists.linux.dev
+Subject:
+ Re: PROBLEM: [REGRESSION 7.1-rc4 -> 7.1-rc5] 9p: silent NUL corruption of
+ file data on cache modes with CACHE_WRITEBACK
+Date: Thu, 10 Sep 2026 16:06:51 +0200
+Message-ID: <10911959.nUPlyArG6x@weasel>
+In-Reply-To: <fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk>
+References: <fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, 10 Sep 2026 10:58:05 +0200 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
-
-> On 7/23/26 05:25, Gregory Price wrote:
-> > On Wed, Jul 22, 2026 at 05:19:42PM -0700, SJ Park wrote:
-> >> On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
-> >>
-> >>>
-> >>> See the damon changes in:
-> >>>
-> >>> https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
-> >>
-> >> Summarizing what you want to say, quoting something from the patch, or at least
-> >> calling it "26th patch of this series" would have made reviewing much easier.
-> >> Cc-ing damon@ for only patches that toucing DAMON source files and the cover
-> >> letter of the series could also be helpful.  Please consider doing some of
-> >> these for future replies.
-> >>
-> > 
-> > I have been very much discouraged from this kind of trimming because it
-> > removes the context of the series from the individual patches - making it
-> > even more confusing.
+On Thursday, 10 September 2026 12:56:24 CEST Michael Mulqueen wrote:
+> Hi,
 > 
-> Yes, 99% of upstream maintainers will scream at you if you CC them only on
-> individual patches :)
+> This is my first kernel bug report, so let's hope I've done it right!
+> 
+> [1.] One line summary of the problem:
+> 
+> A 9p mount returns NULs in place of file contents the server holds, and can
+> write those NULs back over the server's copy. Nothing reports an error - the
+> read succeeds and the file is the correct length. Affects CACHE_WRITEBACK
+> modes - mmap, loose and fscache - but not none or readahead.
+> 
+> [2.] Full description of the problem/report:
+> 
+> I enclose a reproducer script that shows the two presentations of this bug:
+> 
+>   - Read side: a range whose folio has been evicted reads back as NULs
+>     while the server's copy is intact. The whole file comes back as NULs.
+>     A fresh open() on the same mount reads them too, so it is not
+>     confined to one descriptor.
+> 
+>   - Write side: A partial write into such a range destroys data the server
+>     did hold.
+> 
+> I came across this bug on a cache=loose mount in ordinary use, I was seeing
+> this sporadically and I think git was usually the trigger. I switched to
+> cache=mmap, which made it rarer but did not stop it.
+> 
+> After the client's own writeback extends a file, zero_point appears to go
+> stale and the zero-fill branch in fs/netfs/buffered_write.c fires for
+> regions the server does have. The sites were that branch, fs/9p/vfs_inode.c
+> (use_zero_point = true to netfs_inode_init), and fs/netfs/misc.c.
+[...]
+> I then built and tested the likeliest commit and its parent:
+> 
+>   - 2c8f4742bb76 ("netfs: Fix potential for tearing in ->remote_i_size and
+>     ->zero_point") - clean.
+> 
+>   - 4543a4d73794 ("netfs: Fix zeropoint update where i_size >
+>     remote_i_size") - CORRUPT.
 
-I agree that not everyone would like selective Cc-ing, like I also replied.
-But the number might be changed after we got modern mailing archives and tools
-like lore (public-inbox)?
+So that was:
 
-At least for me, selective Cc-ing works better as long as the cover letter is
-Cc-ing all recipients of all patches.  I can understand the high level picture
-from the cover letter and directly jump to the specific patch that require my
-attention.  Of course the sender might failed at figuring out to which mails I
-really need to pay attention.  If the cover letter doesn't tell me some details
-or I feel the sender might not Cc-ed me on all the patches that require my
-attention, I can fetch the entire thread from lore (public-inbox).
+commit 4543a4d737944134a1394afe797622546fbcc98a
+Author: David Howells <dhowells@redhat.com>
+Date:   Tue May 12 13:33:43 2026 +0100
 
-Meanwhile, my private inbox have limited space and suboptimal UI.  Hence I use
-my private inbox as just an alarm and usually work on only public-inbox with a
-CLI tool.  Hence keeping noise in private inbox lower is more important to my
-specific workflow.  Again, my workflow may be very different from others.
-
-
-Thanks,
-SJ
+    netfs: Fix zeropoint update where i_size > remote_i_size
+    
+    Fix the update of the zero point[*] by netfs_release_folio() when there is
+    uncommitted data in the pagecache beyond the folio being released but the
+    on-server EOF is in this folio (ie. i_size > remote_i_size).  The update
+    needs to limit zero_point to remote_i_size, not i_size as i_size is a local
+    phenomenon reflecting updates made locally to the pagecache, not stuff
+    written to the server.  remote_i_size tracks the server's i_size.
 
 [...]
+
+diff --git a/fs/netfs/misc.c b/fs/netfs/misc.c
+index bad661ff2bec..723571ca1b88 100644
+--- a/fs/netfs/misc.c
++++ b/fs/netfs/misc.c
+@@ -307,10 +307,10 @@ bool netfs_release_folio(struct folio *folio, gfp_t gfp)
+                return false;
+ 
+        netfs_read_sizes(inode, &i_size, &remote_i_size, &zero_point);
+-       end = umin(folio_next_pos(folio), i_size);
++       end = folio_next_pos(folio);
+        if (end > zero_point) {
+                spin_lock(&inode->i_lock);
+-               end = umin(folio_next_pos(folio), inode->i_size);
++               end = umin(end, ctx->_remote_i_size);
+                if (end > ctx->_zero_point)
+                        netfs_write_zero_point(inode, end);
+                spin_unlock(&inode->i_lock);
+
+That would explain it, as _remote_i_size is only updated on explicit stat()
+(Tgetattr 9p request); with cache modes "loose" and "fscache" not even then.
+
+That's actually David's domain, but maybe something like the following might
+fix it?
+
+diff --git a/fs/netfs/write_collect.c b/fs/netfs/write_collect.c
+index 210eb8f3958d..9585274b118a 100644
+--- a/fs/netfs/write_collect.c
++++ b/fs/netfs/write_collect.c
+@@ -73,6 +73,8 @@ int netfs_folio_written_back(struct folio *folio)
+                spin_lock(&ictx->inode.i_lock);
+                if (fend > ictx->_zero_point)
+                        netfs_write_zero_point(inode, fend);
++               if (fend > ictx->_remote_i_size)
++                       netfs_write_remote_i_size(inode, fend);
+                spin_unlock(&ictx->inode.i_lock);
+ 
+                folio_detach_private(folio);
+@@ -90,6 +92,15 @@ int netfs_folio_written_back(struct folio *folio)
+                        goto end_wb;
+                }
+ 
++               {
++                       unsigned long long wend = umin(folio_next_pos(folio),
++                                                      i_size_read(inode));
++                       spin_lock(&ictx->inode.i_lock);
++                       if (wend > ictx->_remote_i_size)
++                               netfs_write_remote_i_size(inode, wend);
++                       spin_unlock(&ictx->inode.i_lock);
++               }
++
+                /* Need to detach the group pointer if the page didn't get
+                 * redirtied.  If it has been redirtied, then it must be within
+                 * the same group.
+
+I.e. updating _remote_i_size on client's self-inflicted size extension after
+write completed?
+
+> I searched the v9fs and netfs public-inbox archives and did not find this
+> reported - apologies if I have missed a thread.
+> 
+> The nearest existing thread is Pierre Barre's "[BUG] 9p: data corruption
+> with cache=mmap under concurrent stat/write" (24 Dec 2025). I believe that
+> is a different bug: it needs stat racing against writes and manifests as a
+> wrong i_size. What I have here is single-threaded, deterministic, and
+> destroys data rather than mis-sizing the file. It is also absent on v6.18,
+> the release that report was made against.
+
+Even though unrelated, that's not fixed yet either, is it?
+
+/Christian
+
+
