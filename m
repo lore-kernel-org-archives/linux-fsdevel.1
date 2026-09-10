@@ -1,136 +1,311 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CB73C13EE;
-	Thu, 10 Sep 2026 09:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4362E3A7F69;
+	Thu, 10 Sep 2026 09:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789031617; cv=none; b=DNuksMPWhLJORlW2OrHELVyMSDql1A6fsrjDhS2BW7rDKCgoPvpT6mSgmVuHDq+LPIkhXufvIwJIPXPl1xKMs1cBI5gO7NV7oKq8kVHYaiFUSUOdZRpSarvxIwIygPaYByyPjkNVFax3etKbb2/di51oMNi+/nxvQhxBYi6o5lA=
+	t=1789032346; cv=none; b=pyLjDL0cP6QgtBzNQaYe+9V2mZZds8A6swgEAAdUuWdj6rUEtbZ6QrvG8OBiqwe5F1Wdx0/lCb/372t5D/m3jdJMoWxiFOEyaTWdUPElJBhGh+QjAy79Ckoa38dAunKgEXFgNiYcCqM7BKWAyymaEQMM2EKDOKVifevWA6AoaSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789031617; c=relaxed/simple;
-	bh=876bPQkmr+qSfmJnN/IbXQk6MFFq7aT9u81fC/kyu54=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WNLcbh6trwjdSFeeaBnT9nrkjeI6Tyvx9s5/TRzOm1Z/XyBElKnqPqh+Tq//+dAwWSK9MYJxiMJslc1r+jFroYjTk6phWla6ozDDcyJWFWZd0v6K+btGyaEu+g/XQlg4ykU/dCHI/4boba3wDfvVeyMrHhGYq36HBxJ4Yd+cnvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyPvGHc4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789032346; c=relaxed/simple;
+	bh=8RaqSawQ1vF5qX9NhmWGCVksHh6K50Ps3D9VLnths8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YHMtPqOJOHlxwy3Yhem7y93Z4xxYVRyVN7wHFmgeoBP0jzBO0OwsFS8c0j4NvVrYDDXcIhsXJxZ0WR6retk8URiogOjSggZ8FsaXRlJgXHEAt3APacbsqEkZ3SLurENn7Q8q+nD8Lbb/4u6YyN4/pUJH8Ty3nCJHNoKWGlf10Qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TS8gejpD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=FZn08i+u; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vhp3byuu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Emzvn4XT; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyPvGHc4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE2331F000FF;
-	Thu, 10 Sep 2026 09:13:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789031608;
-	bh=zEeFtMUHn3s+PI/cg5N17MVY4nHEBTOfJ4ioYjja5j0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XyPvGHc4wMCN7XnUzQUlQv10dHqh7HO9TkjaWiDpqVTCqUZ4CKmIoiz+rzPcl393j
-	 rIr/J7DuGFP9ozSMcRGKBgArgVJ+vGtlpUubDEgaYE5Vzdq6UW9s1oKqS6erMBJjYF
-	 SPn4FVdbHQyZXkXx/ixOwaCHQW3+hbhiDYYkbisYcgnWLijvhtX8jhLnBH+PL4XmMl
-	 0X8GngpShNpiBLxjcnPi2mLIa/G/Kv5WyR4GlLBYjl4gpWQl0s7YVeY5awvfbIrCTf
-	 WbID137Cnw9Gz6smokOCSQR3sQF+L/7Wc84ygpecTcamLUtAKNJQ9w39t3KgLMKJle
-	 sFyI2xY8WPRwg==
-Message-ID: <c2239ef2-10f4-4c87-a23a-2753f1e18d27@kernel.org>
-Date: Thu, 10 Sep 2026 11:13:18 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TS8gejpD";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="FZn08i+u";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vhp3byuu";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Emzvn4XT"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3E8C221A40;
+	Thu, 10 Sep 2026 09:25:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789032335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4OnHufQCEI/q4CeEJ/6LJb9WBevXB4VxMCacj9atnjg=;
+	b=TS8gejpDnCs3pf7xTX4LXrFOtT3NmzhlONzA9+XabE1H7Csb3PjMzDLi1qCgOzsx1XkePN
+	AXVShDiotuHUbi5Bog94bJtRd1a39DIRo9VzDn65GtZXr4yLpahdzq2mtjBvVRU0eWXyvr
+	IjbabB39o69Q/olNwY5Cr1W1kWe02z8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789032335;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4OnHufQCEI/q4CeEJ/6LJb9WBevXB4VxMCacj9atnjg=;
+	b=FZn08i+uXxc7uty6Dtt5rhLHoC0x5qwS5xzxnF9MQlBUaZf5NQPSgG4B58JkYktt9evR8U
+	EG84DCP4SgknYfAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=vhp3byuu;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Emzvn4XT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789032331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4OnHufQCEI/q4CeEJ/6LJb9WBevXB4VxMCacj9atnjg=;
+	b=vhp3byuuq9e9zrYWse5GagWE6a+jFAxBwIl/m3cC7REBg8VYrpnnbukZLFR1Tc1tQKQmjK
+	YK2ovRbiOeVru4tOJ4AXwS9C/wyBNypM2zojcE+/uyHJjBa6S1jaLDGeZq/PrwI3Fj3dzS
+	pqjl3YqSUJMRdFkHWrAQUzUSgig5wps=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789032331;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4OnHufQCEI/q4CeEJ/6LJb9WBevXB4VxMCacj9atnjg=;
+	b=Emzvn4XTerqRE6MD4NmoLpkCaTUQnJQWFNZ3r5zm+WzWN0EW4HTWTEGS9SGB9J801RhHkX
+	jh8irPB+HfacNZCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D509137FD;
+	Thu, 10 Sep 2026 09:25:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LTI7A4t3omqVEAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 10 Sep 2026 09:25:31 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 9DD53A12EA; Thu, 10 Sep 2026 11:25:26 +0200 (CEST)
+Date: Thu, 10 Sep 2026 11:25:26 +0200
+From: Jan Kara <jack@suse.cz>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Paulo Alcantara <pc@manguebit.org>, 
+	linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] super: make iterate_supers_type() deletion-safe
+Message-ID: <fqx7ykgqbmqfinufnwc3spjfcmy5vmkgk7doo5kugar6shlxur@mpleeeom7m7r>
+References: <20260909193034.7467-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr handling
-To: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Oscar Salvador <osalvador@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
- driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
- <aqJrblWch-lajp3k@localhost.localdomain>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aqJrblWch-lajp3k@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909193034.7467-1-kmehltretter@gmail.com>
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: 3E8C221A40
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim,suse.cz:email];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
 
-On 9/10/26 10:33, Oscar Salvador (SUSE) wrote:
-> On Wed, Sep 09, 2026 at 03:33:01PM +0200, David Hildenbrand (Arm) wrote:
->> Let's move it to sparse_init_one_section(). However, to keep early
->> boot processing working, we also have to initialize it in
->> sparse_sections_init().
->>
->> Should we use READ_ONCE/WRITE_ONCE with __highest_used_section_nr?
->> Probably, something for another day.
+On Wed 09-09-26 21:30:34, Karl Mehltretter wrote:
+> From: Christian Brauner <brauner@kernel.org>
 > 
-> What is the worry there?
+> iterate_supers_type() drops sb_lock while invoking the callback and keeps
+> only a passive reference to the current superblock. That reference keeps
+> the object allocated, but does not keep its s_instances node linked.
 > 
-> sparse_init_one_section() calls should run sequentally due to the memhotplug
-> lock, so there should not be parallel updates there?
+> After the iterator releases s_umount, final teardown can unlink the current
+> s_instances node. The iterator then advances through a reinitialized node.
+> With the current hlist it stops without visiting the remaining superblocks.
+> The unlink moved from generic_shutdown_super() to kill_super_notify(), but
+> the cursor lifetime has been unsafe since the helper was introduced.
+> 
+> The CIFS DFS lookup can consequently miss a matching superblock and return
+> -EINVAL.
+> 
+> Move removal from fs_supers to put_super(), alongside removal from
+> super_blocks, so a passive reference keeps both list nodes linked. Keep
+> the filesystem module reference until then, since unlinking s_instances
+> may touch type->fs_supers.
+> 
+> Make sget_fc() skip SB_DEAD superblocks before invoking test(), and set
+> SB_DEAD under sb_lock to serialize with those callbacks. This allows
+> kernfs to free its private information after kill_anon_super() returns.
+> Keep matching SB_DYING superblocks until SB_DEAD is set so concurrent
+> mounts still wait for teardown before retrying.
+> 
+> Fixes: 43e15cdbefea ("new helper: iterate_supers_type()")
+> Reported-by: Karl Mehltretter <kmehltretter@gmail.com>
+> Closes: https://lore.kernel.org/r/20260903013336.92081-1-kmehltretter@gmail.com
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Tested-by: Karl Mehltretter <kmehltretter@gmail.com>
+> Assisted-by: LLM
+> [kmehltretter: supplied the commit message]
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-If you have something consuming __highest_used_section_nr while concurrently
-updating it, you might get torn reads/writes that mess up the value on the
-reader side.
+Looks good to me! Feel free to add:
 
-For example, mm/compaction.c consuming __highest_used_section_nr.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-I don't think this is critical, so I decided to spell it out instead of fixing
-it right away.
+								Honza
 
+> ---
+> Changes in v2:
+> - Use Christian's implementation of Jan's suggestion: keep s_instances
+>   linked until the last passive reference is dropped and make sget_fc()
+>   skip SB_DEAD superblocks under sb_lock.
+> - Retain the filesystem module reference until put_super().
+> - Attribute authorship to Christian; retain my commit message.
+> 
+> Testing: All tests run on v1 also passed with Christian's draft. These
+> included an x86_64 QEMU deterministic KUnit test using the actual CIFS
+> lookup callback and a Samba DFS reconnect test with concurrent CIFS
+> mounts and unmounts in the same guest. The deterministic test exercised
+> the missed-match case; the network stress did not reproduce the narrow
+> race on baseline.
+> 
+> Link to v1: https://lore.kernel.org/r/20260903013336.92081-1-kmehltretter@gmail.com
+> 
+> Christian's draft:
+> https://lore.kernel.org/r/20260904-rockkonzert-bergtour-dahin-23c9c5c87d0f@brauner
+> 
+>  fs/kernfs/mount.c |  4 ++--
+>  fs/super.c        | 39 +++++++++++++++++++--------------------
+>  2 files changed, 21 insertions(+), 22 deletions(-)
+> 
+> diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
+> index f183a96778b9..a57399021c8b 100644
+> --- a/fs/kernfs/mount.c
+> +++ b/fs/kernfs/mount.c
+> @@ -434,8 +434,8 @@ void kernfs_kill_sb(struct super_block *sb)
+>  	up_write(&root->kernfs_supers_rwsem);
+>  
+>  	/*
+> -	 * Remove the superblock from fs_supers/s_instances
+> -	 * so we can't find it, before freeing kernfs_super_info.
+> +	 * Mark the superblock dead so sget_fc() can't find it,
+> +	 * before freeing kernfs_super_info.
+>  	 */
+>  	kill_anon_super(sb);
+>  	kfree(info);
+> diff --git a/fs/super.c b/fs/super.c
+> index 05e443173038..0f9e13eedb4f 100644
+> --- a/fs/super.c
+> +++ b/fs/super.c
+> @@ -433,15 +433,19 @@ static struct super_block *alloc_super(struct file_system_type *type, int flags,
+>  void put_super(struct super_block *s)
+>  {
+>  	if (refcount_dec_and_test(&s->s_passive)) {
+> +		struct file_system_type *type = s->s_type;
+>  
+>  		spin_lock(&sb_lock);
+>  		list_del_init(&s->s_list);
+> +		hlist_del_init(&s->s_instances);
+>  		spin_unlock(&sb_lock);
+>  
+>  		WARN_ON(s->s_dentry_lru.node);
+>  		WARN_ON(s->s_inode_lru.node);
+>  		WARN_ON(s->s_mounts);
+>  		call_rcu(&s->rcu, destroy_super_rcu);
+> +		/* The unlink above may touch type->fs_supers, so drop it last. */
+> +		put_filesystem(type);
+>  	}
+>  }
+>  
+> @@ -558,17 +562,6 @@ static void kill_super_notify(struct super_block *sb)
+>  	if (sb->s_flags & SB_DEAD)
+>  		return;
+>  
+> -	/*
+> -	 * Remove it from @fs_supers so it isn't found by new
+> -	 * sget_fc() walkers anymore. Any concurrent mounter still
+> -	 * managing to grab a temporary reference is guaranteed to
+> -	 * already see SB_DYING and will wait until we notify them about
+> -	 * SB_DEAD.
+> -	 */
+> -	spin_lock(&sb_lock);
+> -	hlist_del_init(&sb->s_instances);
+> -	spin_unlock(&sb_lock);
+> -
+>  	/* Drop sget_fc()'s claim; a never-registered entry stays with the sb. */
+>  	if (sb->s_super_dev->sd_dev) {
+>  		super_dev_put(sb->s_super_dev);
+> @@ -577,11 +570,15 @@ static void kill_super_notify(struct super_block *sb)
+>  
+>  	/*
+>  	 * Let concurrent mounts know that this thing is really dead.
+> -	 * We don't need @sb->s_umount here as every concurrent caller
+> -	 * will see SB_DYING and either discard the superblock or wait
+> -	 * for SB_DEAD.
+> +	 * sget_fc() skips SB_DEAD superblocks and calls test() under
+> +	 * sb_lock, so set it under sb_lock: once we return no test()
+> +	 * runs on this superblock anymore and none will start. Everyone
+> +	 * else already saw SB_DYING and either discarded the superblock
+> +	 * or waits for SB_DEAD.
+>  	 */
+> +	spin_lock(&sb_lock);
+>  	super_wake(sb, SB_DEAD);
+> +	spin_unlock(&sb_lock);
+>  }
+>  
+>  /**
+> @@ -608,7 +605,6 @@ void deactivate_locked_super(struct super_block *s)
+>  		list_lru_destroy(&s->s_dentry_lru);
+>  		list_lru_destroy(&s->s_inode_lru);
+>  
+> -		put_filesystem(fs);
+>  		put_super(s);
+>  	} else {
+>  		super_unlock_excl(s);
+> @@ -795,12 +791,12 @@ void generic_shutdown_super(struct super_block *sb)
+>  	}
+>  	/*
+>  	 * Broadcast to everyone that grabbed a temporary reference to this
+> -	 * superblock before we removed it from @fs_supers that the superblock
+> -	 * is dying. Every walker of @fs_supers outside of sget_fc() will now
+> -	 * discard this superblock and treat it as dead.
+> +	 * superblock that it is dying. Every walker of @fs_supers outside
+> +	 * of sget_fc() will now discard this superblock and treat it as
+> +	 * dead.
+>  	 *
+> -	 * We leave the superblock on @fs_supers so it can be found by
+> -	 * sget_fc() until we passed sb->kill_sb().
+> +	 * sget_fc() keeps finding the superblock until SB_DEAD is set, so
+> +	 * a concurrent mounter waits until we passed sb->kill_sb().
+>  	 */
+>  	super_wake(sb, SB_DYING);
+>  	super_unlock_excl(sb);
+> @@ -879,6 +875,9 @@ struct super_block *sget_fc(struct fs_context *fc,
+>  	spin_lock(&sb_lock);
+>  	if (test) {
+>  		hlist_for_each_entry(old, &fc->fs_type->fs_supers, s_instances) {
+> +			/* Only unlinked at the last passive reference. */
+> +			if (super_flags(old, SB_DEAD))
+> +				continue;
+>  			if (test(old, fc))
+>  				goto share_extant_sb;
+>  		}
+> -- 
+> 2.53.0
 -- 
-Cheers,
-
-David
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
