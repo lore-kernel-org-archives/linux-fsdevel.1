@@ -1,90 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A55B4BFE90;
-	Thu, 10 Sep 2026 12:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FC94825DD;
+	Thu, 10 Sep 2026 12:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789042143; cv=none; b=kpvE8EDRewoWopFxUQ9lvRFM3di/Hfz0FNupYTO98RBldLRgknOgVlMfNjuQnMjGH7pqPg+voKvLIPJsJw+amdn5VMgEFfgJo2ysry7Qi6dwv0PzJY2xLlVJ3y9ZuKYUklQU55FfcPv+AM4NSvfsD/lKvb4osjgv/zLaiEiFp3c=
+	t=1789042436; cv=none; b=C57Tpd1ZuwlWfGwUqo+99QPy1u0m9Gv+3Kp8o7OgCMV2wjEUqtT8raXVlg20uQLYx2ZDcMUGd3KicvthuuOWP6R5LWWXToJLREBFTqfqj71B7T6A8AG47CNCcHjyi50bGHFAQEyLGjPFnucjMYHskoHse+qahKEOmeLdjGHspbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789042143; c=relaxed/simple;
-	bh=+QdmijMIX+OLPq1F9xtXWRLOsn6p6ZPKWz+6/lwS9oc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B2gCkSHMBqW9PDITLUlutAdF6ssbeldsv930ErsQIBCB/h5ggAwnM0sYAV8EUJEEcfedloKC8Ye7mEA/kTKtPJuPhHGN9k9JiKZrYS79MRsa/bhnvq87j6ZFfaT7GJdP40lQPKEAHV0QF9Uh5WsfbMFxlxg0xSR4VPakI9ZHvKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R9XvPJax; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789042436; c=relaxed/simple;
+	bh=n3RJkJBXPIWZRG7xCF/gK5LRIUmkklOq42FR9s+rT6c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EaEJcYHB8gBv+R4lcboJWdiBlxuJy93ViOjlapSf8flyxsN/HrP7EIrYtGwQZxfS5P/jiC/LnbMCoSqPysoUol19iQBuzZXka7dOqwybc1JyHDdfZvpoYkvobZGbkmKKZCrkuzKXRup4vX5N/gi5qmAazlLsAhX/LIt4TKpZev0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Vc1xQ2lc; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9XvPJax"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E17AD1F00893;
-	Thu, 10 Sep 2026 12:08:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789042141;
-	bh=h8JhehTldcB3FE9LGKhQNq/e+HX2lvut2PpvhgojHPY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R9XvPJaxnWBT/hhlHZmNBez+Xu7yQO9mAv8dduJTjSJl0gZxISR+BHcwPyiidi1F1
-	 jRKYzFm5oXjvXRnAP6U2pqltMLSl2J8ZQ9WdTNMfl4z61gvUyOWbzyK3Ub4Mw8QuQ/
-	 HFv6DmfgE3cPnMmOo+TKucAGzNXH2GdATJ/t/rZQnGcTM5RCHGS56zOQx045SPfRCx
-	 Eh9nVKgokLYia9TMkboW3F9ft5E/ybtN5blbY1wMqkcJStzGzWhQk9A6OS1zAAxuLC
-	 C6zxYi09inIeB3Vmv7mraQXhcpNdhDre/6j2qK0OsdoydY771AplJyUt5L0iTDWCpT
-	 CjuHp3FDi2xCA==
-Date: Thu, 10 Sep 2026 14:08:52 +0200
-From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr handling
-Message-ID: <aqKd1MUgFVHozVWu@localhost.localdomain>
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
- <aqJrblWch-lajp3k@localhost.localdomain>
- <c2239ef2-10f4-4c87-a23a-2753f1e18d27@kernel.org>
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Vc1xQ2lc"
+Received: from mail01.layka.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id B61BF807BE;
+	Thu, 10 Sep 2026 14:13:44 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id zBcfdv6p7SeR; Thu, 10 Sep 2026 14:13:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1789042424; bh=n3RJkJBXPIWZRG7xCF/gK5LRIUmkklOq42FR9s+rT6c=;
+	h=From:To:Cc:Subject:Date;
+	b=Vc1xQ2lcWX0J2c5XFnrOVils+u/y47iNyDgFxkg0c/Zu3ZGxqiO+a38tWKb8xqDgB
+	 v+tTZIYHSAyiZ7ZET13HpXFUmZsZ0/28REzwBkiOfDCFVqCUjTg4nlYfuvv3uIUzNF
+	 DDuzG9b9bX00KHy4YArrlKOacSEiojzhgz7pd72Vb76QAXfTrXaAdSVnM9Sb9VP60o
+	 +3cFo1UKRPrqXxelqqJiMma8Te4bccgLU3lJQD81/qSUWraAe2XtUrNHRTYzLhunW1
+	 APIhzKUeOvk/l/l/jEkljDqerXDXs1LuKVPzNHlYF82qO0vb6q2WnA+xJqpOydbpk9
+	 aofc67ol1kOdg==
+From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
+To: Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nls: fix the Unicode to charset tables of cp1251
+Date: Thu, 10 Sep 2026 15:13:31 +0300
+Message-ID: <20260910121335.267148-1-aliamemis@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c2239ef2-10f4-4c87-a23a-2753f1e18d27@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 10, 2026 at 11:13:18AM +0200, David Hildenbrand (Arm) wrote:
-> If you have something consuming __highest_used_section_nr while concurrently
-> updating it, you might get torn reads/writes that mess up the value on the
-> reader side.
-> 
-> For example, mm/compaction.c consuming __highest_used_section_nr.
+Three of the uni2char() tables in nls_cp1251.c are incorrect, while
+charset2uni() matches the Unicode CP1251 mapping.
 
-Right, but I guess that if we get a 'wild' value, at least we are
-guarded by online_section_nr() performing the right thing?
+page00 incorrectly maps eight U+00xx characters that are not part of
+CP1251 to 0xbb. page04 is off by one for U+0490..U+0492, causing U+0491
+to be stored as 0xa5 and U+0492 to be stored as 0xb4. page20 also stops
+at U+203F, so U+20AC can be decoded but not encoded.
 
-Not really figthing anything here, just convincing myself :-)
+Regenerate page00, page04 and page20 from charset2uni. glibc iconv
+agrees with the resulting mappings, and a full BMP round trip is now
+lossless.
 
-But yes, I guess that we should fix this in case we add more consumers
-of __highest_used_section_nr in the future.
+Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
+---
+ fs/nls/nls_cp1251.c | 32 +++++++++++++++++++++++---------
+ 1 file changed, 23 insertions(+), 9 deletions(-)
 
-
+diff --git a/fs/nls/nls_cp1251.c b/fs/nls/nls_cp1251.c
+index 6f46d339f23c..3447df754432 100644
+--- a/fs/nls/nls_cp1251.c
++++ b/fs/nls/nls_cp1251.c
+@@ -122,14 +122,14 @@ static const unsigned char page00[256] = {
+ 	0x00, 0xa9, 0x00, 0xab, 0xac, 0xad, 0xae, 0x00, /* 0xa8-0xaf */
+ 	0xb0, 0xb1, 0x00, 0x00, 0x00, 0xb5, 0xb6, 0xb7, /* 0xb0-0xb7 */
+ 	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xb8-0xbf */
+-	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xc0-0xc7 */
+-	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xc8-0xcf */
+-	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xd0-0xd7 */
+-	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xd8-0xdf */
+-	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xe0-0xe7 */
+-	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xe8-0xef */
+-	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xf0-0xf7 */
+-	0x00, 0x00, 0x00, 0xbb, 0x00, 0x00, 0x00, 0x00, /* 0xf8-0xff */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xc0-0xc7 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xc8-0xcf */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xd0-0xd7 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xd8-0xdf */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xe0-0xe7 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xe8-0xef */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xf0-0xf7 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xf8-0xff */
+ };
+ 
+ static const unsigned char page04[256] = {
+@@ -152,7 +152,7 @@ static const unsigned char page04[256] = {
+ 
+ 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x80-0x87 */
+ 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x88-0x8f */
+-	0x00, 0xa5, 0xb4, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x90-0x97 */
++	0xa5, 0xb4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x90-0x97 */
+ };
+ 
+ static const unsigned char page20[256] = {
+@@ -164,6 +164,20 @@ static const unsigned char page20[256] = {
+ 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x28-0x2f */
+ 	0x89, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x30-0x37 */
+ 	0x00, 0x8b, 0x9b, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x38-0x3f */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x40-0x47 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x48-0x4f */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x50-0x57 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x58-0x5f */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x60-0x67 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x68-0x6f */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x70-0x77 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x78-0x7f */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x80-0x87 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x88-0x8f */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x90-0x97 */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0x98-0x9f */
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* 0xa0-0xa7 */
++	0x00, 0x00, 0x00, 0x00, 0x88, 0x00, 0x00, 0x00, /* 0xa8-0xaf */
+ };
+ 
+ static const unsigned char page21[256] = {
 -- 
-Oscar Salvador
-SUSE Labs
+2.55.0
+
