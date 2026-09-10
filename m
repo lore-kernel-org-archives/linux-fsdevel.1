@@ -1,179 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744533E024B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 09:04:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CB73C13EE;
+	Thu, 10 Sep 2026 09:13:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789031058; cv=none; b=RnrYyQJY+bZU7/ZN+S+ZfLKHW1ulDa5na7pOcNfKi7+kA47aInkY+VVS5rYMEwD5sIPpM7zbwwTaO0XymMdHtuzSJGfPbsPfQnCdTN5XAAEDQ+N3CCSvGO3jSwdTLW0kHfri0kOl05ly+wxPd/YplGyD+AKk5veCF73c64YtLuY=
+	t=1789031617; cv=none; b=DNuksMPWhLJORlW2OrHELVyMSDql1A6fsrjDhS2BW7rDKCgoPvpT6mSgmVuHDq+LPIkhXufvIwJIPXPl1xKMs1cBI5gO7NV7oKq8kVHYaiFUSUOdZRpSarvxIwIygPaYByyPjkNVFax3etKbb2/di51oMNi+/nxvQhxBYi6o5lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789031058; c=relaxed/simple;
-	bh=WLZ6zrQmo6HVXLwkUoZd3daPQsWnGSfgcCiIaY/+cEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lBeEbo6nkuOYFmy7O/EgLoirDtIgmO48lDfb2e3PABlAO+UHZ8MhCVsj3Zao6LqiSXP6BVjozVT6MqAmHv58t2Jp9djgD+9vDuNcD8gfXaR2vEG+7i291nj7R9KaWhTMYBmU02rN01mBODWb0mgpLKKDVjJ+DORX1Mi6s5/mSTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e8iiK5qL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789031617; c=relaxed/simple;
+	bh=876bPQkmr+qSfmJnN/IbXQk6MFFq7aT9u81fC/kyu54=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WNLcbh6trwjdSFeeaBnT9nrkjeI6Tyvx9s5/TRzOm1Z/XyBElKnqPqh+Tq//+dAwWSK9MYJxiMJslc1r+jFroYjTk6phWla6ozDDcyJWFWZd0v6K+btGyaEu+g/XQlg4ykU/dCHI/4boba3wDfvVeyMrHhGYq36HBxJ4Yd+cnvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyPvGHc4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e8iiK5qL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF001F000FF;
-	Thu, 10 Sep 2026 09:04:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyPvGHc4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE2331F000FF;
+	Thu, 10 Sep 2026 09:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789031057;
-	bh=yBtnVUkOBjFC+tuRfrIDMyjFFDS18yS74JsjfirXMqM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=e8iiK5qLJNOPjyFcTIF2BUIcMokjY32R04rnmH6WiChOBK6aqDA4U+pOy64W0J6Kv
-	 iFTKc+jd6xKGoDkw/ISoG7qq2exU2IFiFh1f6eU29KJ1Q6UtvbBmCDBTyDS+h1pnJS
-	 YHx5+3h6/Vmy7pFJpYV3fh5B2GeHe6HO+ImkP4rZA3o8qp3uQAiBn069WRVGuztHzN
-	 6Lno9cz019L4b/MHu1ji9WSWgFxhacfVkxX3ZRQiqJrhMA0Z0ypgBUdGRCIayoKWw2
-	 aCM/oCt1POSQmZJGYuLQjeUlPTSW7Iaxy7CwdOMyzIRacsBqDRK4NH+Zxb2opDieAp
-	 TJzb8ogpzNWbQ==
-Date: Thu, 10 Sep 2026 11:04:12 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Kuniyuki Iwashima <kuniyu@google.com>
-Cc: Kees Cook <kees@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Kuniyuki Iwashima <kuni1840@gmail.com>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/2] sysctl: Make proc_doulongvec_ms_jiffies_minmax()
- enforce minmax again.
-Message-ID: <yjcicbo7okgpkd6gh4exgagt2gkklnkbivq34i3ypksmnooxb4@3t4jfy6grwog>
-References: <20260905233819.1064529-1-kuniyu@google.com>
- <20260905233819.1064529-3-kuniyu@google.com>
- <hbatn4h5342kuvni5jcfjpdfjfof7dbsld5m26x6dla7ennpey@usgxbvlikr4i>
- <CAAVpQUA0ZKAMkhGipXdGb=4o5GRG1dS1Pv11KWhxYqgXKsw1Sg@mail.gmail.com>
- <skrtuyahssx5tvphmvo3kbkqy475re5yeb2kdl6luf7kmmfqad@2gsivqhqwtvw>
- <CAAVpQUDOXfiVyuSgJ5HqZ=xX3aBM+Bar5i2Gmf8ur+jBT-74yA@mail.gmail.com>
+	s=k20260515; t=1789031608;
+	bh=zEeFtMUHn3s+PI/cg5N17MVY4nHEBTOfJ4ioYjja5j0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XyPvGHc4wMCN7XnUzQUlQv10dHqh7HO9TkjaWiDpqVTCqUZ4CKmIoiz+rzPcl393j
+	 rIr/J7DuGFP9ozSMcRGKBgArgVJ+vGtlpUubDEgaYE5Vzdq6UW9s1oKqS6erMBJjYF
+	 SPn4FVdbHQyZXkXx/ixOwaCHQW3+hbhiDYYkbisYcgnWLijvhtX8jhLnBH+PL4XmMl
+	 0X8GngpShNpiBLxjcnPi2mLIa/G/Kv5WyR4GlLBYjl4gpWQl0s7YVeY5awvfbIrCTf
+	 WbID137Cnw9Gz6smokOCSQR3sQF+L/7Wc84ygpecTcamLUtAKNJQ9w39t3KgLMKJle
+	 sFyI2xY8WPRwg==
+Message-ID: <c2239ef2-10f4-4c87-a23a-2753f1e18d27@kernel.org>
+Date: Thu, 10 Sep 2026 11:13:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="a6rxe2vpvgn67z2m"
-Content-Disposition: inline
-In-Reply-To: <CAAVpQUDOXfiVyuSgJ5HqZ=xX3aBM+Bar5i2Gmf8ur+jBT-74yA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr handling
+To: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
+ <aqJrblWch-lajp3k@localhost.localdomain>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aqJrblWch-lajp3k@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 9/10/26 10:33, Oscar Salvador (SUSE) wrote:
+> On Wed, Sep 09, 2026 at 03:33:01PM +0200, David Hildenbrand (Arm) wrote:
+>> Let's move it to sparse_init_one_section(). However, to keep early
+>> boot processing working, we also have to initialize it in
+>> sparse_sections_init().
+>>
+>> Should we use READ_ONCE/WRITE_ONCE with __highest_used_section_nr?
+>> Probably, something for another day.
+> 
+> What is the worry there?
+> 
+> sparse_init_one_section() calls should run sequentally due to the memhotplug
+> lock, so there should not be parallel updates there?
 
---a6rxe2vpvgn67z2m
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If you have something consuming __highest_used_section_nr while concurrently
+updating it, you might get torn reads/writes that mess up the value on the
+reader side.
 
-On Wed, Sep 09, 2026 at 10:07:53AM -0700, Kuniyuki Iwashima wrote:
-> On Wed, Sep 9, 2026 at 6:44=E2=80=AFAM Joel Granados <joel.granados@kerne=
-l.org> wrote:
-> >
-> > On Tue, Sep 08, 2026 at 11:44:08AM -0700, Kuniyuki Iwashima wrote:
-> > > On Tue, Sep 8, 2026 at 5:15=E2=80=AFAM Joel Granados <joel.granados@k=
-ernel.org> wrote:
-> > > >
-> > > > On Sat, Sep 05, 2026 at 11:36:31PM +0000, Kuniyuki Iwashima wrote:
-> > > > > Since the cited commit changed proc_doulongvec_ms_jiffies_minmax()
-> > > > > to use proc_ulong_conv(), proc_doulongvec_ms_jiffies_minmax() no
-> > > > > longer applies the range check.
-> > > > >
-> > > > > It happened probably because do_proc_ulong_conv_ms_jiffies() does
-> > > > > not have the _minmax suffix.
-> > > > >
-> > > > > In addition, sysctl_msecs_to_jiffies() casts u64 user input to u3=
-2,
-> > > > > and a truncated value could bypass the max check.
-> > > > This is something that is orthogonal to changing to true in the
-> > > > proc_ulong_conv call. Please put this in its own commit.
-> > > >
-> > > > This also begs the question: why not just use an int converter if t=
-he
-> > > > range of the values is going to be u32?
-> > >
-> > > I guess people wanted to use ulong just because jiffies
-> > > is unsigned long.
-> > >
-> > > Looking at these users, none of them need the ulong range
-> > > and it can be u32 actually.
-> >
-> > Exactly. But changing those calls from ulong to uint is up to net and
-> > parport.
->=20
-> Agreed, it should be done in the -next branch of each subsystem.
->=20
-> And later, we can remove do_proc_ulong_conv_ms_jiffies().
->=20
->=20
-> > I'm more interested in defining the behavior in
-> > sysctl_u2k_ulong_conv_ms.
-> >
-> > Here is my train of thought:
-> > 1. u64 values will get truncated when they pass through msecs_to_jiffies
-> >
-> > 2. The range of msecs_to_jiffies is:
-> >    [0, INT_MAX]          --->  ceil(m =C3=97 HZ / 1000)
-> >    [INT_MAX+1, UINT_MAX] --->  MAX_JIFFY_OFFSET
-> >
-> >    Which I interpret as whatever that falls out of [0, INT_MAX]
-> >    milliseconds is just infinite jiffies (MAX_JIFFY_OFFSET).
->=20
-> nit: for HZ > 1000 (IIRC up to 1200 ?), the max of the range
-> gets a little bit smaller.
->=20
->=20
-> >
-> > 3. All but one users of do_proc_ulong_conv_ms_jiffies are bound to
-> >    values under MAX_JIFFY_OFFSET. The exception is net/rds/sysctl.c:67
-> >    that has a max of ~0UL (is this too high?).
->=20
-> I think this is just set as the theoretical max of @jiffies,
-> but not specifically for the knob.
->=20
-> The default of the knob is 1 sec (HZ), and even INT_MAX
-> (24 days) is too high for RDS reconnect.
->=20
->=20
-> >
-> > 4. Since milliseconds to jiffies should be capped at MAX_JIFFY_OFFSET
-> >    for big values. Should we just return MAX_JIFFY_OFFSET?
-> >    Like this:
-> >
-> >     diff --git i/kernel/time/jiffies.c w/kernel/time/jiffies.c
-> >     index 213ae1d6a014..400353b0d6f9 100644
-> >     --- i/kernel/time/jiffies.c
-> >     +++ w/kernel/time/jiffies.c
-> >     @@ -136,6 +136,8 @@ static int sysctl_k2u_int_conv_userhz(bool *neg=
-p, ulong *u_ptr, const int *k_ptr
-> >
-> >      static ulong sysctl_msecs_to_jiffies(const ulong val)
-> >      {
-> >     +       if (val > UINT_MAX)
-> >     +               return MAX_JIFFY_OFFSET;
->=20
-> Given the nit at 2., it should be like this
->=20
-> if (val > jiffies_to_msecs(MAX_JIFFY_OFFSET))
->     return MAX_JIFFY_OFFSET;
->=20
-> as done in _msecs_to_jiffies().
+For example, mm/compaction.c consuming __highest_used_section_nr.
 
-That is even better.
+I don't think this is critical, so I decided to spell it out instead of fixing
+it right away.
 
-Please send a V2 of the 3 fixes discussed and I'll push them through
-next week.
+-- 
+Cheers,
 
-Best
-
-
---a6rxe2vpvgn67z2m
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqicowACgkQupfNUreW
-QU/6qQv/S9rctnQabOzPzSgRmuzzg919WTFryxCVMdyY2k5GAviNTIPr/YZ8v2pZ
-7tRcbWX/n0llTrUzAtxOT8IVZbRP67cRQNbHOPjpatoms6zjJMBEQDzIYmeb7mrA
-E24t870HCy5DfIY6z6klf66DBEehtzCp+PLgn4BAYOx39IkyfyAtEy8V2C9HZG1Z
-/eApOClvxRmRu/MEwgOexlbgjy9Q/0ncKYjVdaRdfyjHVgABh5y+M7iuMvqfdMag
-KvWmfq40lxM73EF4UeCVfTMIs1IK+gwnyjUWob68wBHMEDQ365K1JoZg+DvdGbri
-BPgeKEj6Rizg5m5i2syuo7dwBS+ZwfPniAg3MGdWYbi2SR+sNaD46E6FxRXeKyFQ
-9gQyCVdimKDCaIs3bbBJ7zPBbBXSkLi/lYzX9H/uNJcuT5Iu5usnmj44r86pIQ/2
-qzXbK8h65Fo1BEE8YuSL0d/blhfljbHfneEsITiciZayK5vx+/okkQaT3PAzQIbX
-7B90OiI4
-=SFuq
------END PGP SIGNATURE-----
-
---a6rxe2vpvgn67z2m--
+David
