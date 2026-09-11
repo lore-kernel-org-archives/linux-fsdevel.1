@@ -1,145 +1,92 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE32C35C6A3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 12:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BEB47CA71;
+	Fri, 11 Sep 2026 12:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789131231; cv=none; b=mE8I+9zh3hw2Px5nmCQLR7gWFsm7Dq0uPHNn7kcGcQvRLbfcMFY9S0GZvQBRhR0Ys7KXhOWvgueIylnmHvfy73BBNQIGMKXoGF9WHr72J7dHQbLK4SpxdHGVrQmpbY9BhHvY9AiMKg1bPEzFF2G5QW+cDRBh+BStkRZdNaZzjv4=
+	t=1789131438; cv=none; b=C0SPqGYkyDhhKhPi08cf0ky1aR+I/kVtHk2vpToZVsQ4fbQ1TjT4gVsvztKOt4SDd3x0h0kDVvpbbAJOm/gNcudlZWjhFOd5O/MyfH+tSWbkGgK5p0KsvGXNTCgbGqy3/NCfrzBhIpGYUf+ll70rvK206SJn4+ZSdplfB1G9dgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789131231; c=relaxed/simple;
-	bh=m/ys+Oy7wZhz/DzfYhAyQcwzJEpe5j+mlbCa2sSO8is=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WmQkDaFAPktFtIbOQ859SLHexkUteNVExsP1HaNOhVWEzm5dXQ3mcY3/zkZLvuac/ExISiWDKGIuolvEROT7zrS4HXSH3nsyjjepwEs1Ozg3lCWzuD+TlhvCRAmZPSpCVRjJ6VS27szKvJgUhq01R6k2KGzpKHLuediCDJ32BaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=method-b.uk; spf=pass smtp.mailfrom=method-b.uk; dkim=pass (1024-bit key) header.d=method-b.uk header.i=@method-b.uk header.b=WYuwgVdQ; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=method-b.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=method-b.uk
+	s=arc-20240116; t=1789131438; c=relaxed/simple;
+	bh=ei6/coqPeA2IIb+Ksb3fVuzObHky3fFGrbKzBLL/oLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Sb1ka3N5e0VRA4zg68qRLy4GZmq5DCudt+Gb8e6/RATLEl9xcb71BQymXgDyN2vZ5EccOiroSmbidfqo3ZYTzR534noRQfDUq/jp4f4zaL9ygtCcOLC2tNWKmVqCcOa3OCdt61teMp126Uv+a81Y4M5WWf98RaO7Uo5EXxJaYCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=gh7JU/bu; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=method-b.uk header.i=@method-b.uk header.b="WYuwgVdQ"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cc9f581c4so3002655e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 05:53:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=method-b.uk; s=google; t=1789131228; x=1789736028; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dG8HOZHtiAY98dOkyP/NeJQU/ZUjP3gwdxCbOsPTbSo=;
-        b=WYuwgVdQYeLubIoQBygwcn3DPAPOSqrKgiXQ4B/qwHxFdTtH/yc8r735k8iH7rMTy8
-         76sMQDvNlVGVIwYBU8i34wrGI7zyciCJ4LRcsWIKcaXMKB4zS6CeDy2eYEl0DulNwh2O
-         UA+IlpVMDapP+YfcXOzlTTwF9L/Mv4YtlVXvA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789131228; x=1789736028;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dG8HOZHtiAY98dOkyP/NeJQU/ZUjP3gwdxCbOsPTbSo=;
-        b=tXe/RDaR8TwhiINQ2cAA5CpcY1luYTD7oBrcN/al1tZEhG+pXLhAt8t3hZ9B5gqlzI
-         jiwMnUhPkJOZm8yP1SLtp1ztox6VYSWExfIfXE9StTB4Rljz76Gk1M00npN5vI1qZ553
-         aSVU9JFJLxQ/M4kSY6AIsaa5FRO89oaomyMezOxkHiYqj187j/WpJPU0tZdV8KHWBc0u
-         nKpu2isDjlduTOQk6PysahBzHCzX1niq/PLECYtzXJbV9b5ywTDiF5YubojGUYToUmtx
-         Mns/qv4RGdIUrSvbxnUb4A4r/1Y9YULXAAKBwf1CAtHHrXlqNfQtF7NXxmMlOLNqYwwT
-         k0Yw==
-X-Forwarded-Encrypted: i=1; AKwUvBxyb3b+VYa7IvQFeVAs2AYRBLDFDYHo641iJWgeNEkCSBCNLqz/MYy19drKnFWWHfotFiWOkLVpS+nzg7Ji@vger.kernel.org
-X-Gm-Message-State: AFuF++l1wwTK2Vd6TT+c+GwiV67+XONixayzYH/ndxKfsuCHeAwBPiJD
-	EYg4hHsH1vyzuNRf45bE6ZUEQiHQLdqbt+c+bOQrqB/6OlOMuRnlqNA4DkGv8KcIxcQ=
-X-Gm-Gg: AYBFou2fiA//980ceYmEFDgQswIqmHbCZJeK5tUJU3fPcOAuC5icLTRbks8Hs8VoQ3p
-	Ac4HjoRxDdUAv1e1drcljeBsgD6x8JYmdLTf6vAWnEO4JKcH+yhmPm0mD6G5R27qZw1JCGZG1rP
-	GIwhsCY1ySJ6XZAeHkqNqCvZzJVL1ut8Ev0C1u/uVYhwDhBnzqyQPgVJyMMCfgk2VcIAypr9aKD
-	rv8lSJjqb6EpfTSPj9qBNT+mgOaq4qOtqeQTdHk9lp9jcY8ye2RWyntDl1EBeUWVu0OHIJe1XXU
-	/zhd+Tp3QdiArvAdy5k7gFd6Ov4xOgCMX826pNRGGPqJqnhiftM89hD4VspfaX7HDUr5p/axeR0
-	ic2ZoTcCRgKkMvYHv6+Fahgeur7Wdan2RRfrN/LTqg6iuO1VMDVB7petQ/xxybYweLIf9G6gWgy
-	yQwHRH6C9C4Lkosiec1soM7s/PONv0bu4crOt5w5qEpdI+lGscavd8XNOw8NPtgTKhRVsKA/wxO
-	D0hkfUELGdA7C+yD2qV8coJIvmU1xTANfs1eKSxtzz3mUDh9KLoV3v4Ddwt7MjeqjLv0SUENtPy
-	aUdwQb4OFR46ksQVf5aXPXjx
-X-Received: by 2002:a05:600c:4ece:b0:49c:f13e:e4c with SMTP id 5b1f17b1804b1-49e610829b5mr49417265e9.9.1789131227930;
-        Fri, 11 Sep 2026 05:53:47 -0700 (PDT)
-Received: from [192.168.1.182] ([193.9.15.111])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e5765152asm105767435e9.11.2026.09.11.05.53.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2026 05:53:47 -0700 (PDT)
-Message-ID: <3faab0c3-29be-44af-9569-1e12e8ed6a74@method-b.uk>
-Date: Fri, 11 Sep 2026 13:53:46 +0100
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="gh7JU/bu"
+Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id C64AF1C1801;
+	Fri, 11 Sep 2026 12:56:53 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id C51C42002A;
+	Fri, 11 Sep 2026 12:56:33 +0000 (UTC)
+Date: Fri, 11 Sep 2026 08:57:54 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Ye Liu <ye.liu@linux.dev>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Ye Liu <liuye@kylinos.cn>, Michal
+ Hocko <mhocko@suse.com>, SJ Park <sj@kernel.org>, Lorenzo Stoakes
+ <ljs@kernel.org>, Oleg Nesterov <oleg@redhat.com>, peterz@infradead.org,
+ paulmck@kernel.org, mingo@redhat.com, mic@digikod.net, tglx@kernel.org,
+ akpm@linux-foundation.org, david@kernel.org, linmiaohe@huawei.com,
+ nao.horiguchi@gmail.com, rafael@kernel.org, gnoack3000@gmail.com,
+ gourry@gourry.net, rientjes@google.com, shakeel.butt@linux.dev,
+ xu.xin16@zte.com.cn, chengming.zhou@linux.dev, will@kernel.org,
+ boqun@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+ joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+ juri.lelli@redhat.com, vincent.guittot@linaro.org, tony.luck@intel.com,
+ reinette.chatre@intel.com, x86@kernel.org, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com, pavel@kernel.org,
+ lance.yang@linux.dev, mhiramat@kernel.org, pmladek@suse.com,
+ longman@redhat.com, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+ qiang.zhang@linux.dev, dietmar.eggemann@arm.com, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
+ mark.rutland@arm.com, Dave.Martin@arm.com, james.morse@arm.com,
+ babu.moger@amd.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, rcu@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v3 12/15] unwind: convert process/thread iterator to
+ for_each_process_thread_rculock
+Message-ID: <20260911085728.47d3b351@gandalf.local.home>
+In-Reply-To: <20260911075800.491472-13-ye.liu@linux.dev>
+References: <20260911075800.491472-1-ye.liu@linux.dev>
+	<20260911075800.491472-13-ye.liu@linux.dev>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: PROBLEM: [REGRESSION 7.1-rc4 -> 7.1-rc5] 9p: silent NUL
- corruption of file data on cache modes with CACHE_WRITEBACK
-To: David Howells <dhowells@redhat.com>
-Cc: ericvh@kernel.org, lucho@ionkov.net, asmadeus@codewreck.org,
- pc@manguebit.org, linux_oss@crudebyte.com, v9fs@lists.linux.dev,
- netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- regressions@lists.linux.dev
-References: <fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk>
- <2226525.1789118704@warthog.procyon.org.uk>
-Content-Language: en-US
-From: Michael Mulqueen <mike@method-b.uk>
-In-Reply-To: <2226525.1789118704@warthog.procyon.org.uk>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: C51C42002A
+X-Stat-Signature: etnbh8canf3f1kmc7jj9utoztbtwrixp
+X-Rspamd-Server: rspamout07
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/KtCaZ9/tsi0hxBkYuIS2CFwjudzULElM=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=E0ssg816zZqGUemHya07FEZhfM/BCVla+Qd4d9ec2gc=; b=gh7JU/bubZhrpxGBgrxho2alJtCMELUzto5Po0cae150cpl0BavJgC2dRHwU4FvXJDWgj7yOyyuU2Stz8X9XeWiOLT41yNeO3tUvFSw40L8rqSvkkd6r1CgWOdrbH+uscOfxXomLGGWuLAhDqRhufkG1WPXyO7BUnbgmm77KIMY=
+X-HE-Tag: 1789131393-869492
+X-HE-Meta: U2FsdGVkX18a8IZpiamWSNHMOGJqi766L2hoU7BxJ2jc1mbGcETaj4OLytypvLF1C/8k4P6eKXvas+lrJd2fkaPBqv3KUx75daqT4beXqnn0s2TYyKccRHJ75eB75GbvBLtsIiHrPJIERzvArIitexLxj/cO9kvTrTnKbk61hiBe7r2nGDYiIOb1LXm9ZUaQdU3q4M27XcVbYDqNe8LJroq3pRtqtAzUxadzwfvnx2yAElBekjB5HsCjqmT+iIl7VHmhuoQbgdgPLcfu1uuZPVtwqwe4tPyVIqWTA8JTY+/xeG00csaaYSlhKyUuwM4zCh0hTIx4hiAhC0O7Hxmc1L4GgNlGmvWrkiJxOxCWnZSjVtEWmHLD9bmVh59kOkTIR4M5NtVHKoy0W8PLA7ap0pa5fEVrBPjp3LVjOdSzjgHtfss8M5cvpx2hDQTJ21CwWfHIl/mD6Xc5kDP/SGon2U9aC1WoX7LRXWG0diJrZik=
 
-Thanks all for your replies.
+On Fri, 11 Sep 2026 15:57:57 +0800
+Ye Liu <ye.liu@linux.dev> wrote:
 
+> From: Ye Liu <liuye@kylinos.cn>
+> 
+> Replace guard(rcu)() combined with for_each_process_thread() loop in
+> kernel/unwind/deferred.c with for_each_process_thread_rculock(),
+> which scopes the RCU read lock to the loop body via scoped_guard(rcu).
+> 
+> No functional change.
+> 
+> Signed-off-by: Ye Liu <liuye@kylinos.cn>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Reviewed-by: SJ Park <sj@kernel.org>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
-On 11/09/2026 08:16, David Howells wrote:
+Acked-by: Steven Rostedt <rostedt@goodmis.org>
 
-> Are you actually using this with a cache?  Or just enabling the "use a
-> cache" options?
-
-This is my mistake, I hadn't set up cachefiles in my test VM. So yes, 
-I'm seeing what you've seen with the reproducer. Apologies for that
-misdirection! 
-
-For posterity all the previously tested versions that were CORRUPT, except
-v7.3-rc2 which I come to below, do this:
-
-  none             read   0/20  write   0/20  [cache=0x0]
-  readahead        read   0/20  write   0/20  [cache=0x1]
-  mmap             read  20/20  write  20/20  [cache=0x5]
-  loose            read  20/20  write  20/20  [cache=0xf]
-  fscache/unbound  read  20/20  write  20/20  [cache=0x8f]
-  fscache/bound    read   0/20  write  20/20  [cache=0x8f]
-
-Where fscache/unbound is not having cachefiles properly configured and
-fscache/bound is where it's actually active. It's the same reproducer 
-as before, just run twice for the fscache case - the difference is 
-cachefiles configuration outside the script.
-
-On the 7.3 release candidates, I get a different result:
-
-  none             read   0/20  write   0/20  [cache=0x0]
-  readahead        read   0/20  write   0/20  [cache=0x1]
-  mmap             read  20/20  write  20/20  [cache=0x5]
-  loose            read  20/20  write  20/20  [cache=0xf]
-  fscache/unbound  read  20/20  write  20/20  [cache=0x8f]
-  fscache/bound    read  20/20  write  20/20  [cache=0x8f]
-
-It appears that cachefiles isn't actually storing anything on 7.3. I've
-used the same configuration for every version, cachefiles is active, but
-seems to encounter an error when actually storing in 7.3. I haven't had 
-time to investigate that. I only mention this for completeness, it's 
-not material to fixing this bug, just affects how it presents.
-
-On 11/09/2026 10:25, David Howells wrote:
-> Does the attached work for you?
-
-Yes, thanks, I get this on patched 7.2 and on patched 7.3-rc2:
-
-  none             read   0/20  write   0/20  [cache=0x0]
-  readahead        read   0/20  write   0/20  [cache=0x1]
-  mmap             read   0/20  write   0/20  [cache=0x5]
-  loose            read   0/20  write   0/20  [cache=0xf]
-  fscache/unbound  read   0/20  write   0/20  [cache=0x8f]
-  fscache/bound    read   0/20  write   0/20  [cache=0x8f]
-
-So it looks like it's fixed. I haven't had a chance to try the patch 
-on a real workflow, only the reproducer, but I will next week and report 
-back.
-
-Cheers,
-Mike
+-- Steve
