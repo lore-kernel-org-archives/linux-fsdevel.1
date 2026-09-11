@@ -1,21 +1,21 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D89E364059;
-	Fri, 11 Sep 2026 12:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFF046D548;
+	Fri, 11 Sep 2026 12:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789128966; cv=none; b=ankrrb1E71J9PDkix/nKpVO0OJ0DFoM5FKqmF1sLanF0L7v12NO6J7EYTvjbjkd9CUhqPeq0e1UMI3SpdLUdbGyIUdHq62ALHEGezp0yLO6BtmK4GerNRGNL34hoJdv/r1WzmPrNQjcK3c07xPm5bQTe/juQhUvz48jUpiF24kg=
+	t=1789129036; cv=none; b=TrVD8DgRID5tUJ2aTz9XLaP/BzS1/SolUYF3R0e2xrauP7NMA65Ia/SHIMjWbVsdwPm7zsz77RymMvvv/n0hmvgih54KrDprskq/tHNp4uMwIOjQeujUuuhJvoaIcfZqVPpzDzpMOqv6dFjkZJUfgKLZw6OkLqOhl5/1OVR4IcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789128966; c=relaxed/simple;
-	bh=490GEyhkTwzzmJ0XnkWlaB6Ze1NRBFNHe3rMrKdQjOc=;
+	s=arc-20240116; t=1789129036; c=relaxed/simple;
+	bh=hgG4ex11E74cUjRpihO9PAt9otkIlr4zzhbWOYoUoiY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LE0JDDTe0s//Of4UXEUGRJcOGoTndm6LKxkINUqiXbpHdldT/YCEJ8/H/Vn6RfK2kHBra9ApVYVNF9Ely7umfFj5vrN0bdZTkT8HDJe42OfiAuSEvWEJvtCSsgh5xlcFlrUS5uQuB6FLR7sEXifFlp7TjcPAvj3gSOd1J/VS2IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.201
+	 MIME-Version; b=idaZjo0ucuV2m9hOjO7Ezj8aI0/iapRYKV6EOk4v2cxrIIvShfUraP/IqetudE1E8kV7VRsV8Vcf6dH4jfXcQ72hsTczwcjONkC9k8iNYHQ7ZGizft1f61TogTQWrERb1wnwWJb9cYVzCu4XIXEwb9QLT5CnC8c8ufJYac3q8lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 07E7E3EBAD;
-	Fri, 11 Sep 2026 12:15:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F311F3EE2F;
+	Fri, 11 Sep 2026 12:17:02 +0000 (UTC)
 From: Alexandre Ghiti <alex@ghiti.fr>
 To: Johannes Weiner <hannes@cmpxchg.org>,
 	Yosry Ahmed <yosry@kernel.org>,
@@ -47,9 +47,9 @@ Cc: Kairui Song <ryncsn@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Alexandre Ghiti <alex@ghiti.fr>
-Subject: [PATCH v5 2/3] mm: swap: drop dropbehind swap cache folios on writeback completion
-Date: Fri, 11 Sep 2026 14:13:29 +0200
-Message-ID: <20260911121341.178028-3-alex@ghiti.fr>
+Subject: [PATCH v5 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
+Date: Fri, 11 Sep 2026 14:13:30 +0200
+Message-ID: <20260911121341.178028-4-alex@ghiti.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260911121341.178028-1-alex@ghiti.fr>
 References: <20260911121341.178028-1-alex@ghiti.fr>
@@ -61,242 +61,105 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: alex@ghiti.fr
-X-GND-Cause: dmFkZTGfAlh9c+pEh1Y00g1ucsY9TXoPvlSpq+kLO/TyS5eegFUhSZk1HWGBEKI2EIGpMjwYV84dXepg2QrFzjdjhJpD6uJ7UOjwxR4tmFH3HJlDtAdZIv/b82CTk0cvtKYnnlQSesrrWi8eaFeV5GPBNEW00Fw38Sew7azh5zrRlSzfWnGj/zBzOo8f54f1hMdr3s25eShLr9Q2E+gJ5nIKtpdbn7VmBtfAShkJZR/VKWYVh9m0eENOkd+/YMjkMt4MJdqVG1j0L+yDgSQOi9ZZkE0CUfSq92WrHbhe1A00cDoD08RJOchvE15pjmEcvjeF9JzmN2OHb/AlwyGI3s7wzPg8PnXvoD9pAIOfCi0mwSxodaEGLbHW1jDUkqzt745Bp0HYIoaIc5WW0VCvRtpYrA4qU1pkGmrhM1XY02MEj7deCOandoFqRVbSSfKnu1LbHA4/N1uBCV7MQfzlK5PgHmRL/Xzs4QHkkBgiSHLOvqwc9WNOvlb7q0vFUIDCLQXFWsHH6Mj7zSfqhFrNWh2p3tj+EKWRiBWRPb1X+UPF3eUJsAb0MWMJPPAJzAkIwKm/tv/Fwea4FXSeGShkyeiWvvj3hM+2On/na6Wor0wKce3QPDICoRIeudagdRsbeNUCjdaCIDHV30bApqUl5mmAfuH50egqlXbeb+64eAeQL/VMQQ
 X-GND-State: clean
 X-GND-Score: -100
+X-GND-Cause: dmFkZTGjfH5CE7EP1PUuoeu/l2HFd6FdF++hpOgW9bG6M/BTM9F3kapSlk9U7ADtn6kKTISwel0dj9XMJHazyTDJbuCGf1+V6dtQFmMVDsz/j6U8zJS5UWFxlLhlncEBXEX9YRxi/C/PDeW/pyF/LEG1lC35hb8/T6rd2drmQXNcsrOJKh3DWo1SZ4dO8uSsp8GEYnEzEJX5QWflCLS80+j+zqwa+6xD+CuZg9bY1SF9yIU/qkfoyyWDW3JGDJ+aEoJjjp0rdWhKxA6l0J4myGoeFOAENCEQex0bOWMMxHXz5RPKc2sXHCvtKxjhZn7rZZwnhvVGcaI9kZTf2hXpEZopWDbcmhuI+lkgO1VZkGtngqreNfPmyf09XQyJBcekrXeysSX6w+3lqnF8NI/Sss5Y9CLV3j4zFIVtAvlLtHyzjI01JS4lDYoffcBQM7HP0VdS8IKursJsgKwnxu844P8/eGsX7PaeaSHiuGSsUeJrNPKAHUlC5OIcapVTLWGKEdCVdnt4Poaya2cUHRSJJfNVtdy8HPTF8ZTFiplDr9GK5+OWkhuRKiGPKtsY5bCnmQ65H5rYfs2ZF82vh/9baR+n6C7HASFm0sLmnUyyJsJbrU2U6AtoFd2H8ZiO43+6SsmE/N8qdn+EU909sSEeMIJHFlxk/nhu4blmsYlbO56LUzZtDw
 
-A PG_dropbehind folio is dropped from its cache once writeback completes
-rather than left for reclaim to find later; this is implemented for file
-folios in folio_end_dropbehind(). Extend it to swap cache folios.
+zswap writeback decompresses an entry into a fresh swap cache folio and
+writes it back. The folio is cold by construction, yet it is left on the
+LRU for reclaim to find and free later, wasting a reclaim scan and keeping
+cold memory resident longer than necessary.
 
-The drop takes the folio and swap cluster locks and may sleep, so it
-cannot run in interrupt context. Set BIO_COMPLETE_IN_TASK on the write,
-as the file dropbehind paths do, and drop the folio directly from
-folio_end_writeback().
+Allocate the folio off the LRU and mark it PG_dropbehind so the swap
+dropbehind path frees it from the swap cache once writeback completes.
 
-Suggested-by: Yosry Ahmed <yosry@kernel.org>
+__swap_cache_alloc_folio() evaluates a refault on the new folio, and
+workingset_refault() sets PG_active when it looks recent. Until now
+folio_add_lru() consumed that flag and __page_cache_release() cleared it
+once the folio left the LRU. This folio never reaches the LRU, so nothing
+would clear PG_active and the folio would be freed with a
+PAGE_FLAGS_CHECK_AT_FREE flag set, tripping bad_page() under
+CONFIG_DEBUG_VM. Clear it after allocation.
+
+That is a workaround: the refault should not be evaluated on a writeback
+buffer at all. A fix for that is on the mailing list [1].
+
+Link: https://lore.kernel.org/linux-mm/20260911092012.92399-1-alex@ghiti.fr/ [1]
 Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
 Suggested-by: Nhat Pham <nphamcs@gmail.com>
-Reviewed-by: Nhat Pham <nphamcs@gmail.com>
 Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
 Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
 ---
- include/linux/swap.h |  6 ++++++
- mm/filemap.c         | 19 +++++++++++++++++
- mm/page_io.c         |  9 ++++++++
- mm/swap_state.c      | 42 +++++++++++++++++++++++++++++++++++++
- mm/vmscan.c          | 49 +++++++++++++++++++++++++++++++++++---------
- 5 files changed, 115 insertions(+), 10 deletions(-)
+ mm/zswap.c | 33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index 5658a1634b85..538b723a276f 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -318,6 +318,9 @@ static inline bool lru_cache_disabled(void)
- 
- extern unsigned long shrink_all_memory(unsigned long nr_pages);
- long remove_mapping(struct address_space *mapping, struct folio *folio);
-+long remove_mapping_set_shadow(struct address_space *mapping,
-+			       struct folio *folio,
-+			       struct mem_cgroup *target_memcg);
- 
- #if defined(CONFIG_SYSFS) && defined(CONFIG_NUMA)
- extern int reclaim_register_node(struct node *node);
-@@ -402,6 +405,8 @@ void swap_put_entries_direct(swp_entry_t entry, int nr);
-  */
- bool folio_free_swap(struct folio *folio);
- 
-+void swap_writeback_dropbehind_folio(struct folio *folio);
+diff --git a/mm/zswap.c b/mm/zswap.c
+index 0d2efe21f18a..dc8425d6b21e 100644
+--- a/mm/zswap.c
++++ b/mm/zswap.c
+@@ -1014,7 +1014,8 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
+ 	 */
+ 	if (IS_ERR(folio))
+ 		return PTR_ERR(folio);
+-	folio_add_lru(folio);
 +
- /* Allocate / free (hibernation) exclusive entries */
- swp_entry_t swap_alloc_hibernation_slot(int type);
- void swap_free_hibernation_slot(swp_entry_t entry);
-@@ -412,6 +417,7 @@ static inline void put_swap_device(struct swap_info_struct *si)
- }
- 
- #else /* CONFIG_SWAP */
-+static inline void swap_writeback_dropbehind_folio(struct folio *folio) {}
- static inline struct swap_info_struct *get_swap_device(swp_entry_t entry)
- {
- 	return NULL;
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 6afec636881f..e1f1bbe943ce 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1686,6 +1686,8 @@ EXPORT_SYMBOL_GPL(folio_end_writeback_no_dropbehind);
-  */
- void folio_end_writeback(struct folio *folio)
- {
-+	bool swap_dropbehind;
-+
- 	VM_BUG_ON_FOLIO(!folio_test_writeback(folio), folio);
++	folio_clear_active(folio);
  
  	/*
-@@ -1695,7 +1697,24 @@ void folio_end_writeback(struct folio *folio)
- 	 * reused before the folio_wake_bit().
- 	 */
- 	folio_get(folio);
+ 	 * folio is locked, and the swapcache is now secured against
+@@ -1028,12 +1029,12 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
+ 	tree = swap_zswap_tree(swpentry);
+ 	if (entry != xa_load(tree, offset)) {
+ 		ret = -ENOMEM;
+-		goto out;
++		goto err;
+ 	}
+ 
+ 	if (!zswap_decompress(entry, folio)) {
+ 		ret = -EIO;
+-		goto out;
++		goto err;
+ 	}
+ 
+ 	xa_erase(tree, offset);
+@@ -1047,18 +1048,30 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
+ 	/* folio is up to date */
+ 	folio_mark_uptodate(folio);
+ 
+-	/* move it to the tail of the inactive list after end_writeback */
+-	folio_set_reclaim(folio);
++	folio_set_dropbehind(folio);
 +
 +	/*
-+	 * Sample this before folio_end_writeback_no_dropbehind() clears
-+	 * PG_writeback: until then a racing swapin cannot remove the folio from
-+	 * the swap cache. Afterwards it can, and the drop below then finds a
-+	 * non-swapcache folio and puts it back on the LRU instead. The
-+	 * reference taken above keeps the folio alive across that window.
++	 * Drop our reference before starting writeback so the swap cache holds
++	 * the only one: the drop in folio_end_writeback() needs that for
++	 * remove_mapping_set_shadow() to succeed, otherwise the folio is
++	 * handed back to reclaim instead.
++	 *
++	 * Nothing can free the folio in the meantime: we hold the folio lock
++	 * until writeback starts, PG_writeback then blocks swap cache removal,
++	 * and folio_end_writeback() takes its own reference before clearing
++	 * PG_writeback and donates it to the drop.
 +	 */
-+	swap_dropbehind = folio_test_swapcache(folio) &&
-+			  folio_test_dropbehind(folio);
++	folio_put(folio);
+ 
+ 	/* start writeback */
+ 	__swap_writepage(&ctx, folio);
+ 	swap_write_submit(&ctx);
+ 
+-out:
+-	if (ret) {
+-		swap_cache_del_folio(folio);
+-		folio_unlock(folio);
+-	}
++	return 0;
 +
- 	folio_end_writeback_no_dropbehind(folio);
-+
-+	if (swap_dropbehind) {
-+		swap_writeback_dropbehind_folio(folio);
-+		return;
-+	}
-+
- 	folio_end_dropbehind(folio);
++err:
++	swap_cache_del_folio(folio);
++	folio_unlock(folio);
  	folio_put(folio);
- }
-diff --git a/mm/page_io.c b/mm/page_io.c
-index 88962571cb93..52eae99de6e3 100644
---- a/mm/page_io.c
-+++ b/mm/page_io.c
-@@ -602,6 +602,15 @@ static void swap_bdev_submit_write(struct swap_io_ctx *ctx)
- 		submit_bio_wait(bio);
- 		end_swap_bio_write(bio);
- 	} else {
-+		int p;
-+
-+		for (p = 0; p < sio->nr_bvecs; p++) {
-+			if (folio_test_dropbehind(bvec_folio(&sio->bvecs[p]))) {
-+				bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
-+				break;
-+			}
-+		}
-+
- 		bio->bi_end_io = end_swap_bio_write;
- 		submit_bio(bio);
- 	}
-diff --git a/mm/swap_state.c b/mm/swap_state.c
-index e5b7fa468ade..b1656e2d5288 100644
---- a/mm/swap_state.c
-+++ b/mm/swap_state.c
-@@ -543,6 +543,48 @@ struct folio *__swap_cache_alloc_folio(swp_entry_t targ_entry, gfp_t gfp,
  	return ret;
  }
- 
-+/**
-+ * swap_writeback_dropbehind_folio - drop a dropbehind swap cache folio
-+ * @folio: the off-LRU folio whose writeback has completed
-+ *
-+ * Context: task context, with the reference taken by folio_end_writeback()
-+ * donated to us.
-+ */
-+void swap_writeback_dropbehind_folio(struct folio *folio)
-+{
-+	struct mem_cgroup *memcg;
-+
-+	folio_lock(folio);
-+
-+	/* The folio was allocated off the LRU and nothing re-adds it here. */
-+	VM_WARN_ON_ONCE_FOLIO(folio_test_lru(folio), folio);
-+
-+	rcu_read_lock();
-+	memcg = folio_memcg(folio);
-+	if (!mem_cgroup_tryget(memcg))
-+		memcg = NULL;
-+	rcu_read_unlock();
-+
-+	/*
-+	 * Gate remove_mapping_set_shadow() on folio_test_swapcache(): a racing
-+	 * swapin may have freed the swap slot (folio_free_swap()) and dropped the
-+	 * folio from the cache, and it must not run on a non-swapcache folio (it
-+	 * would trip __remove_mapping()'s mapping == folio_mapping() check).
-+	 */
-+	if (!folio_test_swapcache(folio) || folio_test_writeback(folio) ||
-+	    !remove_mapping_set_shadow(swap_address_space(folio->swap), folio,
-+				       memcg)) {
-+		/* Raced: the folio is now owned by the swapin; put it back. */
-+		folio_clear_dropbehind(folio);
-+		folio_add_lru(folio);
-+	}
-+
-+	mem_cgroup_put(memcg);
-+
-+	folio_unlock(folio);
-+	folio_put(folio);
-+}
-+
- /*
-  * If we are the only user, then try to free up the swap cache.
-  *
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index f11491ee9ed5..a02f942418d3 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -783,6 +783,22 @@ static int __remove_mapping(struct address_space *mapping, struct folio *folio,
- 	return 0;
- }
- 
-+static long __remove_mapping_unfreeze(struct address_space *mapping,
-+				      struct folio *folio, bool reclaimed,
-+				      struct mem_cgroup *target_memcg)
-+{
-+	if (__remove_mapping(mapping, folio, reclaimed, target_memcg)) {
-+		/*
-+		 * Unfreezing the refcount with 1 effectively
-+		 * drops the pagecache ref for us without requiring another
-+		 * atomic operation.
-+		 */
-+		folio_ref_unfreeze(folio, 1);
-+		return folio_nr_pages(folio);
-+	}
-+	return 0;
-+}
-+
- /**
-  * remove_mapping() - Attempt to remove a folio from its mapping.
-  * @mapping: The address space.
-@@ -797,16 +813,29 @@ static int __remove_mapping(struct address_space *mapping, struct folio *folio,
-  */
- long remove_mapping(struct address_space *mapping, struct folio *folio)
- {
--	if (__remove_mapping(mapping, folio, false, NULL)) {
--		/*
--		 * Unfreezing the refcount with 1 effectively
--		 * drops the pagecache ref for us without requiring another
--		 * atomic operation.
--		 */
--		folio_ref_unfreeze(folio, 1);
--		return folio_nr_pages(folio);
--	}
--	return 0;
-+	return __remove_mapping_unfreeze(mapping, folio, false, NULL);
-+}
-+
-+/**
-+ * remove_mapping_set_shadow() - Remove a folio and record an eviction shadow.
-+ * @mapping: The address space.
-+ * @folio: The folio to remove.
-+ * @target_memcg: The memcg to charge the eviction shadow to; the caller must
-+ *                keep it alive across the call.
-+ *
-+ * Like remove_mapping(), but stores a workingset eviction shadow the way page
-+ * reclaim does, so that a later refault can be detected and the folio
-+ * re-activated.
-+ * Return: The number of pages removed from the mapping.  0 if the folio
-+ * could not be removed.
-+ * Context: The caller should have a single refcount on the folio and
-+ * hold its lock.
-+ */
-+long remove_mapping_set_shadow(struct address_space *mapping,
-+			       struct folio *folio,
-+			       struct mem_cgroup *target_memcg)
-+{
-+	return __remove_mapping_unfreeze(mapping, folio, true, target_memcg);
- }
- 
- /**
 -- 
 2.53.0-Meta
 
