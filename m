@@ -1,52 +1,52 @@
-Received: from mta0.migadu.com (out-169.mta0.migadu.com [91.218.175.169])
+Received: from mta0.migadu.com (out-211.mta0.migadu.com [91.218.175.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE0245D90B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 07:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A807F459AD2
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 07:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789113575; cv=none; b=VtxbvlhCtSODHDhrdh05gZQyWeV5PDERMdsiJJlcBtN131c4r6UDIInsPqXSH5ijtjVklh7BU7rgjlF6pBkeQoX6pCBD16QStnolCfdn7Zd8rVwSaXqNLfNrJLHqdyLZuM/J3ND6L4EUrDALhuKb47JHswTOz4kNS4WHNyDrM2M=
+	t=1789113591; cv=none; b=J9lYwgM9xiJ0urRc10fRoKDiH4s5TdGDEwQ+qeSr2HlHfA8R16QzhGgtdgj7jGvZ5ln9wkXW/9XYuC7n29bqoLbKmAyQUFiMymmSmlV9zq+r7PyYlyfvK+0n5nwNq2YnzWC4sq/iWUe32tNzmzmFYc5sCqZDumLtqHGMYiw1mxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789113575; c=relaxed/simple;
-	bh=hw2TjBAqEOVWc+zu96DY/c0ZeYo5WpD38F+07ZSfH/w=;
+	s=arc-20240116; t=1789113591; c=relaxed/simple;
+	bh=TDuvYwzdbuaBULIJ2jxj18W/NBHRAQZRTlKBQBMgQMs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=C0rgS/L+7SqoSaMiNyOKap5KcNiBoyt3qVUqWut2qFJxK7Ag8zfl+uYfbrZw2B3WtYpPDcdG4nIxyRlkwLhZUFAYFntb12fjSvTTCujxsGrIrmnulTxwCe7C/nlgOmJOMy4i++/wiNVObzeQ6iCNbweYcmXqfho5bfHCPD08/DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D65qpbOS; arc=none smtp.client-ip=91.218.175.169
+	 MIME-Version; b=dlXG9b5GFCJkPGc43cGa26ccvW/JFCFeY+/M/iulVv8virZVxUKgRvLH0qcip2BBxV+n/wblBRO5PWWln03l+njoSyzbwVs7JzVI1EWdhCXloMn4uSEs156+9POYThlP2gMvVp+toCwK9sUObkxNJI3Jy2p8N6yazGEmsi791WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=g8UHpIuH; arc=none smtp.client-ip=91.218.175.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D65qpbOS"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="g8UHpIuH"
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=hw2TjBAqEOVWc+zu96DY/c0ZeYo5WpD38F+07ZSfH/w=;
+DKIM-Signature: a=rsa-sha256; bh=TDuvYwzdbuaBULIJ2jxj18W/NBHRAQZRTlKBQBMgQMs=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789113571; v=1; x=1789718371;
- b=D65qpbOSyBxEKN3XOVZrQzcIrNiHdrCIiKIFKQ5w9q6yoj6XymHoRvuxPsguJWTKmV1OwcYo
- 3eIfb9i8n2UKi1KwJ/Cd7hNNEHwD83Rzm37VXBKrskmn8DtRRwcfwHYJ0bu+tou4jg4sTTOX4f5
- 8yEp4uVIzM4G8Fo7s/ZTfots=
+ t=1789113586; v=1; x=1789718386;
+ b=g8UHpIuH1iiMFg9exMCp0oGDRdZkKwS0rKp01RPJ2FqZf1pbHq60jt/hle7Q83ez+zGV5PPW
+ VXcKnnCODgMP8LJqBecns78Yasza6y60EBziaaCU7K6zZPjiRXJAcnEHFjc5oEhBw2Jmx/Av+F5
+ IZidRLrA5pukiKpMJDN8STQ4=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 31e1e1833329852b;
-	Fri, 11 Sep 2026 07:59:30 +0000
-X-Mizu-Trace-ID: 31e1e1833329852b
+Received: by smtp.migadu.com with ESMTPS id f84c3708b464234d;
+	Fri, 11 Sep 2026 07:59:46 +0000
+X-Mizu-Trace-ID: f84c3708b464234d
 X-Migadu-Flow: FLOW_OUT
 From: Ye Liu <ye.liu@linux.dev>
-To: Thomas Gleixner <tglx@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Ye Liu <liuye@kylinos.cn>,
 	Michal Hocko <mhocko@suse.com>,
 	SJ Park <sj@kernel.org>,
 	Lorenzo Stoakes <ljs@kernel.org>,
 	Oleg Nesterov <oleg@redhat.com>,
+	peterz@infradead.org,
 	paulmck@kernel.org,
 	mingo@redhat.com,
 	rostedt@goodmis.org,
 	jpoimboe@kernel.org,
 	mic@digikod.net,
+	tglx@kernel.org,
 	akpm@linux-foundation.org,
 	david@kernel.org,
 	linmiaohe@huawei.com,
 	nao.horiguchi@gmail.com,
-	rafael@kernel.org,
 	gnoack3000@gmail.com,
 	gourry@gourry.net,
 	rientjes@google.com,
@@ -92,9 +92,9 @@ Cc: Ye Liu <liuye@kylinos.cn>,
 	linux-trace-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: [PATCH v3 05/15] cpu/hotplug: convert thread iterator to for_each_thread_rculock
-Date: Fri, 11 Sep 2026 15:57:50 +0800
-Message-Id: <20260911075800.491472-6-ye.liu@linux.dev>
+Subject: [PATCH v3 06/15] freezer: convert thread iterator to for_each_thread_rculock
+Date: Fri, 11 Sep 2026 15:57:51 +0800
+Message-Id: <20260911075800.491472-7-ye.liu@linux.dev>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260911075800.491472-1-ye.liu@linux.dev>
 References: <20260911075800.491472-1-ye.liu@linux.dev>
@@ -109,8 +109,9 @@ Content-Transfer-Encoding: 8bit
 From: Ye Liu <liuye@kylinos.cn>
 
 Replace the manual rcu_read_lock()/rcu_read_unlock() pair combined
-with for_each_thread() loop in kernel/cpu.c with for_each_thread_rculock(),
-which scopes the RCU read lock to the loop body via scoped_guard(rcu).
+with for_each_thread() loop in kernel/freezer.c with
+for_each_thread_rculock(), which scopes the RCU read lock to the
+loop body via scoped_guard(rcu).
 
 No functional change.
 
@@ -125,31 +126,26 @@ Changes in v3:
 
 Changes in v2:
   - Rename *_rcu to *_rculock
- kernel/cpu.c | 4 +---
+ kernel/freezer.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index b3c8553d7bd6..00638d2abc0f 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -1254,8 +1254,7 @@ void clear_tasks_mm_cpumask(int cpu)
- 	 * full-fledged tasklist_lock.
- 	 */
- 	WARN_ON(cpu_online(cpu));
--	rcu_read_lock();
--	for_each_process(p) {
-+	for_each_process_rculock(p) {
- 		struct task_struct *t;
+diff --git a/kernel/freezer.c b/kernel/freezer.c
+index a76bf957fb32..7a870f71dcf6 100644
+--- a/kernel/freezer.c
++++ b/kernel/freezer.c
+@@ -217,11 +217,9 @@ void thaw_process(struct task_struct *p)
+ {
+ 	struct task_struct *t;
  
- 		/*
-@@ -1268,7 +1267,6 @@ void clear_tasks_mm_cpumask(int cpu)
- 		arch_clear_mm_cpumask_cpu(cpu, t->mm);
- 		task_unlock(t);
+-	rcu_read_lock();
+-	for_each_thread(p, t) {
++	for_each_thread_rculock(p, t) {
+ 		__thaw_task(t);
  	}
 -	rcu_read_unlock();
  }
  
- /* Take this CPU down. */
+ /**
 -- 
 2.25.1
 
