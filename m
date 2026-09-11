@@ -1,159 +1,175 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2F63947B5
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 09:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DB53EBF23;
+	Fri, 11 Sep 2026 09:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789118721; cv=none; b=nUF0S/+NnLm+IwWUcQc8Nwkyk/M6/i24nBQ/tDmvxACV6OnrXiesqFvMs258vCwnr7xeFyVfmEslLWUsJv6eI6zmQZ374SdOmL5udBccU+N2qtg+NDeLLJMY+NUo7ON1xgEXPbWH5gUmHuy8lYB2QBzsvEVCK4YSNi/PjbIhO/Q=
+	t=1789118805; cv=none; b=fLoOQAvjBusMuiiVJEUok+Z2cXWMItWN5np1TH64kfYo3ssb3B2CtBnYLu9tYZbC18YA3DZ97XJ1RvNO2maG67m8ytXkt3PqNT205tlpvhBeV2HK6S6M9kYxYkmGpoCAaHwM9fTC/JZvwK+GR29OWaENABTEHaaTb4xCPHtBrEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789118721; c=relaxed/simple;
-	bh=OtWsgmvMYInhshoFv4FtygIdzD19rBR8bQTnOhp9aGE=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=dEdhDoGxHI7GHa5EfI0jjOQyn/qc7jtEjiukPJk3p6O0O01bxaS6bqcOca6yFrnmcLmQFpQqLkt1Jc7u67ijQOY0RVLr+ZkM8O4gPuzbzMq2i/+q4WHAYTBPzv+ZFsVcT1d1BNhZXIFiBkNVyB68Cwpd5poXFXgmNkt2S5sA93U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h8h0iD2k; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h8h0iD2k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789118718;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z9B4Wnf7qYXIWekoFfq3J3Lj0e6+DG5IWdv8bi3cWYM=;
-	b=h8h0iD2kCs5Ty7wbLUm7aVNVTtJQsixKxoTCwkX+SzOFLwhyQO5iHNej4Yo153xHUf7mUS
-	00sc8V4DluXEBLEIRDAZjbILYhyYc1acKZJIpGd760tt8GwGug/ZjqALo6pESlLsJJsPSo
-	uWxbXavJ3hJYqWcviOyeOZyeHIcoqwY=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-237-eaZIOypPOCSIN8c2G4TKwg-1; Fri,
- 11 Sep 2026 05:25:13 -0400
-X-MC-Unique: eaZIOypPOCSIN8c2G4TKwg-1
-X-Mimecast-MFC-AGG-ID: eaZIOypPOCSIN8c2G4TKwg_1789118711
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 99CB6195422D;
-	Fri, 11 Sep 2026 09:25:10 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.32.54])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 31EAD180057F;
-	Fri, 11 Sep 2026 09:25:05 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk>
-References: <fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk>
-To: Michael Mulqueen <mike@method-b.uk>
-Cc: dhowells@redhat.com, ericvh@kernel.org, lucho@ionkov.net,
-    asmadeus@codewreck.org, pc@manguebit.org, linux_oss@crudebyte.com,
-    v9fs@lists.linux.dev, netfs@lists.linux.dev,
-    linux-fsdevel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: PROBLEM: [REGRESSION 7.1-rc4 -> 7.1-rc5] 9p: silent NUL corruption of file data on cache modes with CACHE_WRITEBACK
+	s=arc-20240116; t=1789118805; c=relaxed/simple;
+	bh=2Zv+f4bhelSrSTphUvrw1UdkuGT+p2+5YSknl/De/dQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ErCYeh/L1v5p8K5RMvxaHxCcV7BL1w//xRWmh3BHPWRKX1l9gGu7F3zvgsoYlfTK9Uz4wQttOEBPv5NIMyWulUUtffR0KfZW2+oQlSBVXJaNHjU5Vu5UifKFH9C4uDrX0BTeU48rvptRIyQ2vEB/yrZLkfOl18msa9bJg7qcaqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hh8KW19gCzYQtpM;
+	Fri, 11 Sep 2026 17:25:35 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 8DD5340574;
+	Fri, 11 Sep 2026 17:26:31 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgBnUAtFyaNqHzI8Bg--.45614S3;
+	Fri, 11 Sep 2026 17:26:31 +0800 (CST)
+Message-ID: <4fe4a9df-7e1f-4dc5-a3db-8d2ccc4b924f@huaweicloud.com>
+Date: Fri, 11 Sep 2026 17:26:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2226524.1789118704.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2026 10:25:04 +0100
-Message-ID: <2226525.1789118704@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mm/truncate: fix data loss when truncating straddling
+ large folios
+To: Zi Yan <ziy@nvidia.com>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
+ liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
+ willy@infradead.org, jack@suse.cz, bfoster@redhat.com,
+ joannelkoong@gmail.com, djwong@kernel.org, yi.zhang@huawei.com,
+ yizhang089@gmail.com, yangerkun@huawei.com, chengzhihao1@huawei.com,
+ wangkefeng.wang@huawei.com, yukuai@fnnas.com
+References: <20260909062339.473816-1-yi.zhang@huaweicloud.com>
+ <6F18C9FE-3599-4C6E-99F9-767BD7AC8E3B@nvidia.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <6F18C9FE-3599-4C6E-99F9-767BD7AC8E3B@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:cCh0CgBnUAtFyaNqHzI8Bg--.45614S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxWFyrZw4xKFW5GFW5Ww1xXwb_yoWrur43pF
+	W2gasIyFZ7J3yvkr4vva18Xw1Fqay7Xa1UAF93G392k3Z0qr1IkFy7t3W8u398Krn7Jw10
+	q3WjvFWDW3WDAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	4xRDUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-Does the attached work for you?  With it I see:
+On 9/10/2026 3:18 AM, Zi Yan wrote:
+> On 9 Sep 2026, at 2:23, Zhang Yi wrote:
+> 
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> truncate_inode_partial_folio() splits a large folio so that the caller's
+>> truncate loop can drop the in-range sub-folios while keeping the
+>> out-of-range tail. The first split at the punch start edge is
+>> non-uniform, which leaves the sub-folio at the truncation end edge as
+>> large as possible, this means it may still straddle the range, holding
+>> both zeroed in-range and valid out-of-range data. The function then
+>> attempts a second split at offset + length to isolate that tail.
+>>
+>> If the second split fails the straddling sub-folio stays merged. The
+>> function returned true unconditionally on all exit paths of the success
+>> block, telling the caller it was fully handled. The caller kept its
+>> default end and the truncate loop truncated every sub-folio below it,
+>> including the merged straddler, discarding the valid out-of-range tail.
+>>
+>> For example, a 4-page order-2 folio punched from offset 0 to the middle
+>> of the last page:
+>>
+>>   truncate_inode_pages_range()
+>>     truncate_inode_partial_folio()      # same_folio == true
+>>       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
+>>       folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
+>>       2nd split of folio2 fails / cannot lock
+>>       return true                       # BUG: caller keeps default end
+>>     end = 3
+>>     loop truncates p0, p1, p2-3        # p3's valid tail is lost
+>>
+>> This became reachable after commit 7460b470a131 ("mm/truncate: use
+>> folio_split() in truncate operation") replaced the atomic split_folio()
+>> with folio_split(), whose non-uniform split can partially split a folio
+>> and leave the end edge merged.
+>>
+>> It has gone unnoticed because a dirty large folio normally carries the
+>> filesystem's private data, for example buffer_head, so
+>> filemap_release_folio() -> iomap_release_folio() returns false on a
+>> dirty folio and folio_split() aborts with -EBUSY before any split,
+>> leaving the straddler safely unsplit. The bug is only reachable on paths
+>> that produce dirty large folios without filesystem private data, and it
+>> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
+>> attached.
+> 
+> Thank you for fixing it.
+> 
+>>
+>> In addition, even when both splits succeed, data can still be lost when
+>> the mapping's minimum folio order (min_order) is non-zero. folio_split()
+>> stops at min_order instead of order 0, so the sub-folio containing a
+>> split point stays aligned to 1 << min_order rather than to a page. The
+>> original success path left start at the page-aligned head of the range
+>> and set end to the exact page index of the end edge, neither of which is
+>> a folio boundary in general. Either one could land inside the large
+>> folio at its edge, and the truncate loop would drop that straddling
+>> folio together with its valid out-of-range tail.
+>>
+>> For example, a 64K (order-4) folio with min_order = 2 punched from
+>> offset 0 to 36K:
+>>
+>>   truncate_inode_pages_range()
+>>     truncate_inode_partial_folio()        # same_folio == true
+>>       1st split at p0 -> [p0-p3, p4-p7, p8-p15]  # non-uniform, min_order
+>>       folio2 = p8-p15 # straddles: p8 in range, p9-p15 tail valid
+>>       2nd split of folio2 -> [p8-p11, p12-p15]   # success
+>>       end = p9                           # BUG: p9 inside [p8-p11]
+>>     loop truncates ... p8-p11           # p9-p11's valid tail is lost
+> 
+> Should min_order > 0 fix come as a separate patch first? min_order>0
+> was introduced by commit e220917fa5077 ("mm: split a folio in minimum
+> folio order chunks") and it is before folio_split(). The old
+> split_huge_page_to_list_to_order() can cause a similar issue?
+> 
 
-  cache=3Dnone       read   0/20  write   0/20  [cache=3D0x0]
-  cache=3Dreadahead  read   0/20  write   0/20  [cache=3D0x1]
-  cache=3Dmmap       read   0/20  write   0/20  [cache=3D0x5]
-  cache=3Dloose      read   0/20  write   0/20  [cache=3D0xf]
-  cache=3Dfscache    read   0/20  write   0/20  [cache=3D0x8f]
+Indeed, the min_order issue is a separate problem, and we should fix
+it in a separate patch.
 
-David
----
-commit a7f0af2e23c3ab191c08c1041dc67afd971a8c49
-Author: David Howells <dhowells@redhat.com>
-Date:   Fri Sep 11 10:15:43 2026 +0100
+> 
+> <snip>
+> 
+>>     i.e. the pages wholly within the range and safe to discard. They are
+>>     aligned up (pstart) and down (pend) to the mapping's minimum folio
+>>     order so they always fall on a folio boundary.
+> 
+> Basically, to fix min_order issue alone, truncate_inode_partial_folio()
+> needs to align pstart and pend to 1UL << min_order?
+> 
+> 
 
-    9p: Fix v9fs_issue_write() to update i_size and remote_i_size
-    =
+Yes, fixing the min_order issue separately amounts to aligning pstart
+and pend to 1UL << min_order, so they need to be exported first.
+Otherwise the same alignment would have to be done in the two callers,
+truncate_inode_pages_range() / shmem_undo_range(). I can rework
+truncate_inode_partial_folio() to export these two parameters first, and
+then split out a separate patch for the min_order fix.
 
-    Fix v9fs_issue_write() to update i_size and remote_i_size to the new s=
-ize
-    of the server file if we made it larger, using the start fpos and the =
-count
-    returned by p9_client_write() to calculate the new minimum file size.
-    =
+Thanks,
+Yi.
 
-    This assumes that if the 9P server makes a short write (say it hits
-    ENOSPC), a reduced count is returned.
-    =
 
-    Fixes: 5fb70e7275a6 ("netfs, 9p: Implement helpers for new write code"=
-)
-    Reported-by: Michael Mulqueen <mike@method-b.uk>
-    Closes: https://lore.kernel.org/r/fbb9e395-1e07-4212-8f70-23f3cd498074=
-@method-b.uk/
-    Signed-off-by: David Howells <dhowells@redhat.com>
-    cc: Eric Van Hensbergen <ericvh@kernel.org>
-    cc: Latchesar Ionkov <lucho@ionkov.net>
-    cc: Dominique Martinet <asmadeus@codewreck.org>
-    cc: Christian Schoenebeck <linux_oss@crudebyte.com>
-    cc: Paulo Alcantara <pc@manguebit.org>
-    cc: v9fs@lists.linux.dev
-    cc: netfs@lists.linux.dev
-    cc: linux-fsdevel@vger.kernel.org
 
-diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
-index 1ac0b3dcc077..13cf87a5f90c 100644
---- a/fs/9p/vfs_addr.c
-+++ b/fs/9p/vfs_addr.c
-@@ -54,11 +54,37 @@ static void v9fs_begin_writeback(struct netfs_io_reque=
-st *wreq)
- static void v9fs_issue_write(struct netfs_io_subrequest *subreq)
- {
- 	struct p9_fid *fid =3D subreq->rreq->netfs_priv;
-+	struct inode *inode =3D subreq->rreq->inode;
-+	struct netfs_inode *ictx =3D netfs_inode(inode);
- 	int err, len;
- =
-
- 	len =3D p9_client_write(fid, subreq->start, &subreq->io_iter, &err);
--	if (len > 0)
-+	if (len > 0) {
-+		uoff_t end =3D subreq->start + len, i_size, remote, zp;
-+		bool set =3D false;
-+
-+		spin_lock(&inode->i_lock);
-+
-+		/* We can read the sizes directly as we hold i_lock. */
-+		i_size =3D inode->i_size;
-+		remote =3D ictx->_remote_i_size;
-+		zp =3D ictx->_zero_point;
-+
-+		if (end > i_size) {
-+			i_size =3D end;
-+			set =3D true;
-+		}
-+		if (end > remote) {
-+			remote =3D end;
-+			set =3D true;
-+		}
-+
-+		if (set)
-+			netfs_write_sizes(inode, i_size, remote, zp);
-+		spin_unlock(&inode->i_lock);
-+
- 		__set_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
-+	}
- 	netfs_write_subrequest_terminated(subreq, len ?: err);
- }
- =
 
