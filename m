@@ -1,204 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACAF3F8251
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 08:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789117178; cv=none; b=oFPx6+GJR2EH/0wNguE6ycA+C4tS+M27Y31zkKCDK2D5OmL6+dASFQEjIHXMDYI7hoVXDbFKbXQLS4g+WtTbbQ9WFwNLOF0E6cS4H9XUMa/eIlAbLnPiNWTUY2O9FVfgzIpdF5l3x1qSYOk4s2t5cFPhMMGa5Q4n8hsqCBbEv+k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789117178; c=relaxed/simple;
-	bh=Zp4f5T4HItD3vFpjoIgndCvCdVlfwX8d2DutZftq7t4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pE3J+Ii8CHgCCiHr6GM42/Kgdeh0pGcMpbyK1SkIpD+/hfcL+L0Z0MC9ypaDLipxouoR52zsvSOD4tF72p/86BQCmvTUpRaeOPs09EF/Ua3zDI66MDu3IpIxmXQ6OBXpH37OvZfqRCrC0bMrmUGvZvS+l2I3TiA9eFY6APkBPXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mCrK4gF9; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7629E46AEF4
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 09:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789117715; cv=pass; b=kD7fW1R90m67TPBDnJ55GEZmPz02m8B0nPR+iAeIITgdIrFJMGhVl5L0kNIWZEq3I5AoEFtmc16PH97veS7yf4NcfeZxJYDDLNqpYM61kw41eDF/yc8rsTiT+auSOaO1V1vkQ70Acy6Y/URhdtQ9v2YNuoiqpabNYYBfWt9iFPI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789117715; c=relaxed/simple;
+	bh=9AitBb1GHyxUD8itXAfWQrOndn4vr+DMbiE1kW67HMc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ibKZDplQCe13cibloq9Vuz8KjIw4/54fgsFqnsXCphj6LgfRaAGvHBIWhSTcbiPbYUsHNoVIAqZUpg2Nz6oIGbSEqK1UfzRgbJ9KFtKiuJkcRF2S8eUGaOATQ1k912SMJp4oIaVWaV3v15zIuS0oV4mnYnRFL+CaYFXVtcSNFL0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ntc0+0D2; arc=pass smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mCrK4gF9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AA1C1F000FF;
-	Fri, 11 Sep 2026 08:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789117176;
-	bh=eIeilX92bc+iBaEJ6dyPC3t95vWWihFrsch1owrBu5w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mCrK4gF92GzIe4XwdczWgc1noR4oKosIeAQFOdnccYgMg1AqZ7PXi/RJCrJAtluJJ
-	 K0mZvS5KJ834C+9/ztBu7mmMec2qDQtvZrxQdap2L9hMIW6ZQ4ZOdHvePP5pFvVc9X
-	 ZVJw8eiEJ+RMttQdlwWAXDp6dnkiRy6Erx74YmMHmUlNupVELROyIhEXAQmsUBPQ9V
-	 sJWlX73nc2IYPF7vSCXmt2ESOVYuh5NEvhDn1ze2drdhrrOc4u5biWKd1oYpHogOfG
-	 4zdu2xdZc5x4+gu+t+5MjXrIl37k+JTmerK/h9rdxCHgaO8ETWfds4XFdL6uFFpiXe
-	 6rH7yG8VSymyw==
-Date: Fri, 11 Sep 2026 10:59:31 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Kuniyuki Iwashima <kuniyu@google.com>
-Cc: Kees Cook <kees@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Kuniyuki Iwashima <kuni1840@gmail.com>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/2] sysctl: Make proc_doulongvec_ms_jiffies_minmax()
- enforce minmax again.
-Message-ID: <xfgyqifrwew72b3zsfwksixrfgfkxstjeuvwbl35rxwkc67223@wlejfenvjipo>
-References: <20260905233819.1064529-1-kuniyu@google.com>
- <20260905233819.1064529-3-kuniyu@google.com>
- <hbatn4h5342kuvni5jcfjpdfjfof7dbsld5m26x6dla7ennpey@usgxbvlikr4i>
- <CAAVpQUA0ZKAMkhGipXdGb=4o5GRG1dS1Pv11KWhxYqgXKsw1Sg@mail.gmail.com>
- <skrtuyahssx5tvphmvo3kbkqy475re5yeb2kdl6luf7kmmfqad@2gsivqhqwtvw>
- <CAAVpQUDOXfiVyuSgJ5HqZ=xX3aBM+Bar5i2Gmf8ur+jBT-74yA@mail.gmail.com>
- <yjcicbo7okgpkd6gh4exgagt2gkklnkbivq34i3ypksmnooxb4@3t4jfy6grwog>
- <l6n6b4hq63qvrefys4chliyip5kezzxuqrjz5wbtg3ulb4dyyp@zvfh4mov2q67>
- <CAAVpQUDtfWQVBj6Vhtn1wGUZz4H46XXuit_G=YyxrJHUxT_=_g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ntc0+0D2"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48586861639so277435f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 02:08:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789117711; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IgEoQjyN0oLw1SIfcg48IwAI9c6YZEHAFIbKetF2+37PUttDfio3UEqfmsV/ccT0d5
+         DBwxUsAHCvf7Yhfa7Do66DacHCL5J9Dx4sFbEhQthAFFDtW1kgdcreW9P1eakXBXid+h
+         n27uk5poIQG32xFt4K7V22mvqYydqle6rkTTY3Zr20kd6buIxqu+Wgft+iPELJ1vupS2
+         7DFwLMTprFOgd1aZcF2g4QkqtR94LXXsDtmT2CiHf0oI9sKfc6L2XphgyXrACnwtMBlg
+         yJPwFwzP2XLhLo84BdD4a5cZiFx0SlACBoVVGRkViSTcITkkhS+neRBo8NWduw0w+YU6
+         0hGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8V6E7xJ2vtTyuoasuWVTwqEDTbAd7Nywgb6H8W3xPYA=;
+        fh=9S1S3PKMveDnczaKVZ4qAc575TZ1Z+fvzlIeuYbLPTA=;
+        b=mEKOuIhFQlDlnIKRNuclC2lwj6b4AaFNfzgryd3ARfjHKa1jZUsxgiUniDEIeyaouf
+         oG7V+ewwPntBzP2mS2KClIdpBdXNDsJIT2L7Od16mTRQFXtKs25PAthuiWnI+JoPwhb6
+         ZEwUa5rm+0a4588xo4aGD8dChe7jYp/q2klnFPl7w9LrIrm+pRoEBl60/sYwGowYQ968
+         oVz1Q/lK3ncud9eR58s1BM5rfvdKJ4HoS2BGFdFrk8y7/L/9q/2E/uc1iuEweFIsvEY+
+         AgS45g6mCQArHZinK6T7AipCl4XkRWc3G+y3N9aPc0MxB0JlXB6vjrJ3BRcyzL+7jmzM
+         sg0w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789117711; x=1789722511; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8V6E7xJ2vtTyuoasuWVTwqEDTbAd7Nywgb6H8W3xPYA=;
+        b=Ntc0+0D23+YujkzMEy4eJ6nXRpHFOnm4AtVkxEhi5vnpCexhU7KW4PmGmKyNMt+kZa
+         TPGlSB3IBPA9MiD4PQN6ttGdFWT2WqMR0/+bikrH32dyf3RHlyaDpdo24c0XMpHO5GJU
+         lDTJahlTxAMonEnDUsydvsqrYYCX0kfnhBDCQrNCn+atyDFTDkDtjvAsv2M6xPLh4eMe
+         a/AWqeYbYlOAESo9Wgc1GsNr33dNbudqVttD6Sl4VuL4rsbQ/aL6gINrZx4FRE2ZMT3U
+         4K5dculSYJThgW463pZtuOMCZuRhxZHA32PPtyLFovJ2VLCOKrv7CixBauixl/iB/3rB
+         IKCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789117711; x=1789722511;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8V6E7xJ2vtTyuoasuWVTwqEDTbAd7Nywgb6H8W3xPYA=;
+        b=aXHM97nilw2m+zQC25x4GE/uWFQXOs0oQOVJN15S/QWUzezB0kSB9/X65t9Fk2Qksy
+         jzmFa7jKc4jqFBRzcZGg87SmybZ1fK3wybZiKVRj1Og1oVlsINQptsQuwMmKwQn4/TCW
+         tLyLOS6QtLnK/hagqRcIK5SPGuy+cGtJ5Fafo9E6Nc66sO9F+iEJAZkwAIBh8tfj4CG9
+         WoSCo76HYOYAFbTM31Sk6x1ZdyAZyKu4UnO2il+yOA31Ga3cj+36erJe4y28set83ZoA
+         AvLx6fZjjH3SF4+/kCtLVF2TXvbEMcyM/MV6N83L2voVEJNy8dHKu3gDeIZzQ+m93ju+
+         nFfw==
+X-Forwarded-Encrypted: i=1; AKwUvBy5/fA7/FgIV08bDiGsemUx/d1gasHcb1RPrBlVV6lJR5ztWN6/T5yy1F3juyWBvArlXap4aKRim4TZTind@vger.kernel.org
+X-Gm-Message-State: AFuF++nnJVh2xG6YqFpgamZ9W8RD1wevtC0dRJWXQ3OYg8hHwEus7CQ1
+	w7/IuzNgKHvEbm31ySknr87EgAFEJ8lcOmevCq4AbCeOX5wYeQGZGHiZ+vHIYlElDRps2T1V4mM
+	+p3kU/i69hsT1JFDFlOLuUJS82rlvxuXKh7HBXxWW
+X-Gm-Gg: AYBFou1XXpkJkK9w1MoDh8OgM1aeAoAcHluwG5FtUUgeJ/IzPvfcZMYDRke00KHXzX5
+	5Za1GyYBGHoyOyBejZijZbPlTrUk4Lg9wGMnHfjqXIGDXLkzfZ1JUqGRe7Q3nZTskrVLNbMZivc
+	UVIxTdERqiAyTqSpuRLoYRdMHgX46vUnC71Otkf8ZnxEqHOkIvF0B1r6zULKFvUCxRTOSMDEr2e
+	PWPaJ67/2Ld55FlZzvCC6K58l+vpgsSQanNXBNcQMRAu+JdF3jy/GS7w/NEGYWstxYsxGO49sug
+	mHG6dMwDpog1B7/qp2xN6Kg6X6z3HHjw21/zvmnu6WsGgfm0nbVs26yo7O3NJFEwbTFXHJgb03y
+	ClQ/hTifjuQuurCFghroC4ITfXCqhWcG0gsFbxGOlf2AVQGy3dguySNPvWlJRJiev
+X-Received: by 2002:a05:6000:46d0:b0:485:8226:c691 with SMTP id
+ ffacd0b85a97d-486e0f6ce92mr8157059f8f.16.1789117710377; Fri, 11 Sep 2026
+ 02:08:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ywhgclbll4x4x5ky"
-Content-Disposition: inline
-In-Reply-To: <CAAVpQUDtfWQVBj6Vhtn1wGUZz4H46XXuit_G=YyxrJHUxT_=_g@mail.gmail.com>
-
-
---ywhgclbll4x4x5ky
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20260910-unique-ref-v21-0-e83257373062@kernel.org> <20260910-unique-ref-v21-4-e83257373062@kernel.org>
+In-Reply-To: <20260910-unique-ref-v21-4-e83257373062@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Fri, 11 Sep 2026 11:08:18 +0200
+X-Gm-Features: AcwNN1Wcpw91RcC64bgI4fLKPGdY59qIT8O1U-qjeWGvrNCV-tRUtkCYbazUk4w
+Message-ID: <CAH5fLghUQW5urTfLCCDT4BhuqoFVoLUAG46TS-SxaS37bJcgWQ@mail.gmail.com>
+Subject: Re: [PATCH v21 4/9] rust: rename `AlwaysRefCounted` to `RefCounted`.
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Oliver Mangold <oliver.mangold@pm.me>, Viresh Kumar <viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 10, 2026 at 09:43:29AM -0700, Kuniyuki Iwashima wrote:
-> On Thu, Sep 10, 2026 at 3:45=E2=80=AFAM Joel Granados <joel.granados@kern=
-el.org> wrote:
-> >
-> > On Thu, Sep 10, 2026 at 11:04:12AM +0200, Joel Granados wrote:
-> > > On Wed, Sep 09, 2026 at 10:07:53AM -0700, Kuniyuki Iwashima wrote:
-> > > > On Wed, Sep 9, 2026 at 6:44=E2=80=AFAM Joel Granados <joel.granados=
-@kernel.org> wrote:
-> > > > >
-> > > > > On Tue, Sep 08, 2026 at 11:44:08AM -0700, Kuniyuki Iwashima wrote:
-> > > > > > On Tue, Sep 8, 2026 at 5:15=E2=80=AFAM Joel Granados <joel.gran=
-ados@kernel.org> wrote:
-> > > > > > >
-> > > > > > > On Sat, Sep 05, 2026 at 11:36:31PM +0000, Kuniyuki Iwashima w=
-rote:
-> > > > > > > > Since the cited commit changed proc_doulongvec_ms_jiffies_m=
-inmax()
-> > > > > > > > to use proc_ulong_conv(), proc_doulongvec_ms_jiffies_minmax=
-() no
-> > > > > > > > longer applies the range check.
-> > > > > > > >
-> > > > > > > > It happened probably because do_proc_ulong_conv_ms_jiffies(=
-) does
-> > > > > > > > not have the _minmax suffix.
-> > > > > > > >
-> > > > > > > > In addition, sysctl_msecs_to_jiffies() casts u64 user input=
- to u32,
-> > > > > > > > and a truncated value could bypass the max check.
-> > > > > > > This is something that is orthogonal to changing to true in t=
-he
-> > > > > > > proc_ulong_conv call. Please put this in its own commit.
-> > > > > > >
-> > > > > > > This also begs the question: why not just use an int converte=
-r if the
-> > > > > > > range of the values is going to be u32?
-> > > > > >
-> > > > > > I guess people wanted to use ulong just because jiffies
-> > > > > > is unsigned long.
-> > > > > >
-> > > > > > Looking at these users, none of them need the ulong range
-> > > > > > and it can be u32 actually.
-> > > > >
-> > > > > Exactly. But changing those calls from ulong to uint is up to net=
- and
-> > > > > parport.
-> > > >
-> > > > Agreed, it should be done in the -next branch of each subsystem.
-> > > >
-> > > > And later, we can remove do_proc_ulong_conv_ms_jiffies().
-> > > >
-> > > >
-> > > > > I'm more interested in defining the behavior in
-> > > > > sysctl_u2k_ulong_conv_ms.
-> > > > >
-> > > > > Here is my train of thought:
-> > > > > 1. u64 values will get truncated when they pass through msecs_to_=
-jiffies
-> > > > >
-> > > > > 2. The range of msecs_to_jiffies is:
-> > > > >    [0, INT_MAX]          --->  ceil(m =C3=97 HZ / 1000)
-> > > > >    [INT_MAX+1, UINT_MAX] --->  MAX_JIFFY_OFFSET
-> > > > >
-> > > > >    Which I interpret as whatever that falls out of [0, INT_MAX]
-> > > > >    milliseconds is just infinite jiffies (MAX_JIFFY_OFFSET).
-> > > >
-> > > > nit: for HZ > 1000 (IIRC up to 1200 ?), the max of the range
-> > > > gets a little bit smaller.
-> > > >
-> > > >
-> > > > >
-> > > > > 3. All but one users of do_proc_ulong_conv_ms_jiffies are bound to
-> > > > >    values under MAX_JIFFY_OFFSET. The exception is net/rds/sysctl=
-=2Ec:67
-> > > > >    that has a max of ~0UL (is this too high?).
-> > > >
-> > > > I think this is just set as the theoretical max of @jiffies,
-> > > > but not specifically for the knob.
-> > > >
-> > > > The default of the knob is 1 sec (HZ), and even INT_MAX
-> > > > (24 days) is too high for RDS reconnect.
-> > > >
-> > > >
-> > > > >
-> > > > > 4. Since milliseconds to jiffies should be capped at MAX_JIFFY_OF=
-FSET
-> > > > >    for big values. Should we just return MAX_JIFFY_OFFSET?
-> > > > >    Like this:
-> > > > >
-> > > > >     diff --git i/kernel/time/jiffies.c w/kernel/time/jiffies.c
-> > > > >     index 213ae1d6a014..400353b0d6f9 100644
-> > > > >     --- i/kernel/time/jiffies.c
-> > > > >     +++ w/kernel/time/jiffies.c
-> > > > >     @@ -136,6 +136,8 @@ static int sysctl_k2u_int_conv_userhz(boo=
-l *negp, ulong *u_ptr, const int *k_ptr
-> > > > >
-> > > > >      static ulong sysctl_msecs_to_jiffies(const ulong val)
-> > > > >      {
-> > > > >     +       if (val > UINT_MAX)
-> > > > >     +               return MAX_JIFFY_OFFSET;
-> > > >
-> > > > Given the nit at 2., it should be like this
-> > > >
-> > > > if (val > jiffies_to_msecs(MAX_JIFFY_OFFSET))
-> > > >     return MAX_JIFFY_OFFSET;
-> > > >
-> > > > as done in _msecs_to_jiffies().
-> > >
-> > > That is even better.
-> > >
-> > > Please send a V2 of the 3 fixes discussed and I'll push them through
-> > > next week.
-> >
-> > I have created [1] to test the fixes before pushing it upstream.
-> > If you are ok with all my changes contained in [1], there is no need to
-> > send V2. But if you want to change something, do send it out.
->=20
-> Patch 2 has a typo "incorrectlry", but otherwise looks good to me.
-Will adjust=20
+On Thu, Sep 10, 2026 at 11:01=E2=80=AFAM Andreas Hindborg <a.hindborg@kerne=
+l.org> wrote:
+>
+> From: Oliver Mangold <oliver.mangold@pm.me>
+>
+> There are types where it may both be reference counted in some cases and
+> owned in others. In such cases, obtaining `ARef<T>` from `&T` would be
+> unsound as it allows creation of `ARef<T>` copy from `&Owned<T>`.
+>
+> Therefore, we split `AlwaysRefCounted` into `RefCounted` (which `ARef<T>`
+> would require) and a marker trait to indicate that the type is always
+> reference counted (and not `Ownable`) so the `&T` -> `ARef<T>` conversion
+> is possible.
+>
+> - Rename `AlwaysRefCounted` to `RefCounted`.
+> - Add a new unsafe trait `AlwaysRefCounted`.
+> - Implement the new trait `AlwaysRefCounted` for the newly renamed
+>   `RefCounted` implementations. This leaves functionality of existing
+>   implementers of `AlwaysRefCounted` intact.
+>
+> Suggested-by: Alice Ryhl <aliceryhl@google.com>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
+> [ Andreas: Updated commit message and rebase on rust-next (7.2) ]
+> Acked-by: Igor Korotin <igor.korotin.linux@gmail.com>
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Reviewed-by: Gary Guo <gary@garyguo.net>
+> Assisted-by: LLM
+> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-> Feel free to push them with it fixed.
+This has a lot of safety comments of the form "This does not implement
+Ownable, *therefore* it can implement AlwaysRefcounted". But I think
+the safety comment should instead explain that it's okay to create an
+ARef<_> from an &_ for this type. The fact that Ownable is not
+implemented is not sufficient argument.
 
-Thx for the bugfixes!!
-
---ywhgclbll4x4x5ky
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqjwuwACgkQupfNUreW
-QU8mzwwAkkFeDeu9H4vfPU9nOvwitb9qhlLMrR6WbKAIZv33IQef+FNtBknss6s4
-MPu1pAHQV8M5qKezTRWERRVxhjTb1T8ehSOSHh8tdSdl99E5Khm3kobVWlKHOh/v
-eUBJBe/jTfmQwpikAn9gkLjJ3xksmBT2WjI9pU41Nwyp0w195oau8sJvttyzt/Rs
-wZAvtVS2avTsXom4abHHzt+8EpTphQ/2ljL4xcQ9U8JB4k8GE0mPVM4FvRbO52PB
-bgh/vAG67Mam4QpUfKBw0hP5wzS9+vKS/OP7qg6IIXL1i+24tCo5WpGgnnVajsEJ
-KIEnq4IEhXA21txjxRwleuh7S/8kKP8BBDst8Y8Obz2txnbHG0HZYcdufTzsVec2
-wmrTEMQwPvA+BZQ0Z7ZN4RLzMDC1J+gw5BPFLfQP8/LC9Kj/ETK9cmSafJBX61Qm
-wUD+RsyPIxkLmxGoRehKtU1P7zs9ws9vc5Apu4JR/uUkbLM10mrWmGJLapX9o6RQ
-wYV++qHF
-=/+Bo
------END PGP SIGNATURE-----
-
---ywhgclbll4x4x5ky--
+Alice
