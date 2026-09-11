@@ -1,116 +1,154 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EA036923B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 15:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4585345CBE
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 15:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789139518; cv=pass; b=NjaDolq0NrjLzXpDTqyi/Yo3r06Yr5lE0Es9plOLBuu41xWOBRom9PHuhZQA5NRP1J+/zBQsXk6brZXiLn3AdyXBANizBAdRHZp43YliJ53CV8cBIZ7P4YkGxOixy0Om3H/he2SomY+8WhWCATWeXPYmyhACYP+h9lD2mb2YN7Q=
+	t=1789140016; cv=pass; b=MsInIbDBLZsgkRD678XF+tEiQ49fmOsfHEgaPe8uO6iFs3lJA+NT8D9RQyzRwXFq/0mGqEMntHif8lJ2IQr1EwTTysrpLSz6gzssD+Ttg8S+fDmjYd32y0G6YrxGjkgSa+ftDBDA7CfnhlyFVomd49ejRGogPEm4GfaPNhdlYfo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789139518; c=relaxed/simple;
-	bh=a1WAq8z6Lr5iIEubA1slcVW5P1heZAnFuDZolrmXxz4=;
+	s=arc-20240116; t=1789140016; c=relaxed/simple;
+	bh=Yk13UDKhHBWrmRCnNILsAJ9pW2ZdOFTsJD8wrftx0/0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NBZQmRV1WN0pjTevxCXgDAByaR4/M+hyLTUfobfsdSw9cToFtKRJo0gztVu/K4bf6CQZZ70j7fA3ZQun/sdRJNDHJ3dLWE7WlIJKOkp9OHf5zFz/Xc2xeoGQerFWQlhhB9kRATGkrnPsyxdipvg3ThxGDOhSwzSqnoX4OZKi3TY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BKuu6Wdd; arc=pass smtp.client-ip=74.125.227.141
+	 To:Cc:Content-Type; b=OdOpBa7KEJF9/RLu6hyamLcIOFXokQ+KnutXUs5MwVc/0dP3Gx3Gd2EQXEkIs/cquIZRJVubjf9RSQHNrPjqO/LHW3Sk0hSrvmrMpCxPwLGL96TZ80/WuQ8HIqR0QE+vUHAbyHKY4SwL259jVDtc6jnJsZgMoswQAkRWZbv89JE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fBP6UMJz; arc=pass smtp.client-ip=74.125.230.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BKuu6Wdd"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2db425c9050so4455ad.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 08:11:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789139516; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fBP6UMJz"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-530d5fc2cd8so17361cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 08:20:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789140014; cv=none;
         d=google.com; s=arc-20260327;
-        b=ZfPiCkiQCiBN488g1QI5Z6rxdn+VzlUvvO6ZXhA/9g9BwMKM+mawWYtwijk/T5qOX+
-         MA2KMTP80g+G0b6DvQFoxucYEghUhjC75DzAK017hEvPiEv9A58yfjbxJHCrMDmoGjPj
-         wuHLrDaDGACMAvtbWIhBizn5vrh+FFx7SH5/934TqZdI2ZnGLAipjyuSvO7GTuzYmLT1
-         hSbIIiBXHTotAn2XclIZESD+MEpMHJXcRjyaIfnmjG314mcptiKb2JxiNJDTP8iTbw0L
-         kyEbSlDutUqOJ78kUCuRBl8RewIQdcWx43g1oTdKtTp2wnyOHycHHJ4kc+vuQPPwB1TY
-         jlrg==
+        b=MCQiGooZZnam24i86t+KyVW9yKYMI8hKIDA06H1jeF7YtAMM7xjhllDJ0rKxx8JBiy
+         53l9+oukaUUo66rqDsLMWDwNRFtBsPlmqlnl1rvkO3DPpTU3W3uKz40O7i1pUINe1Oa2
+         bitzMGYlTyof0lWdyE9o9V8sRT3Hs01j2UddPXrNgz6FPm9YlfgwPAYTV1BmGpyZ7DNn
+         1KBSSohXFo9QDoF72kdZSQKe3ZO5H26l+wPKc7Mp5Rz55kUn4BocIGArOc1onwtNHFyE
+         b/WN1K85yFmNuuRV0c4EKWtrqpVj7ep8y+ev/qct8Sb8+ZQIYuwzTny/PK+kX/WhJnIm
+         IQNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=JwM5Epgg3IOjgygjiEjc2zoeXrLUf/Epju1L3iuJNZk=;
-        fh=rFXj6HI0KOe4Myr3apJDpodZoWQ4ipq7qEy68c73mpc=;
-        b=qqBaQidrrA99LUr2LG4tkF6A1h4nbhIcCrd51g7L8xdNKpMtvrJfjJ206fzFPPRfx7
-         2FMUpGH9KC7xvERA9j6z4421frLCrMYnam6yMiaX5BWpqaMO5Epi2bDgePQ5AJjsyRq1
-         kFm1wlPfanjH7ksT2xmcMBGsXk1MLmUu+5JxtXiMe8c+w2lL7ybafRasuwm7THEOWze+
-         k7+bnL96+DOMbqqUOXyX50MuZLHGlUJc9WkMV/tibTR+qIiskKfqlXCUrvg4IROsLRyD
-         trPd7JJ+2PHGdh2NK3GnE7ffTMFgoo2Qeh0I69NxM3NjiVOmsnWRifGXAtTCTbEOVlLe
-         p3zA==;
+        bh=Yk13UDKhHBWrmRCnNILsAJ9pW2ZdOFTsJD8wrftx0/0=;
+        fh=6SVue10YDtRygM/wLPq1+SS2X63vC0IvohohP12x5fo=;
+        b=Q5kGBk+pfZL1xfrqgwiOUCp5yM1mtOQ96VXp7ZU7J+gKfUj74tUS8H4TT9qL3IOszW
+         vEUipi7o003DIELPIVAK4htwkyICcpW1TXSDwSRLzgSHlfCuvePPU5ApZG+RKv7T0w7N
+         T2xLwWmC7Sma65hsg73F2Ox0Gs17jh8JKaVuvY23VxQ4csNBszbJv8iqustBLG8bLwZj
+         Xtxh8XniPYMvsbgKcPCzfX8Sizt8ZegDkzknlnh9xyGXhZHbLnLBIw6Uvg4HNCE/LnqV
+         PH7WI7YDi1s2t7Z3ZqoZaDYHC74gKZd3WEHHJSzGQ8O4YHTFNDdXZvpEhUPF8UqHbPKG
+         aUeQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789139516; x=1789744316; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789140014; x=1789744814; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=JwM5Epgg3IOjgygjiEjc2zoeXrLUf/Epju1L3iuJNZk=;
-        b=BKuu6WddAtNn13Ezu/myWUrl8wRcirs7lJnORviTmc1pNq3zz8wrOYdnDa7K2cWUjn
-         7qIuHQT7YQoVpdZfvYe5Hts8v0BvUZWf2y8Ncz6k/bzDPLJHpU5tPCS6kgo6K1KxYfsP
-         RM1s3g2ne7RHDHhc4E3ULstmP4N+Kjg+OgnrmS1AT/+/AARhli0F8jDgJ6QWLfe9beuU
-         24obPTwjhfvBcjcNQqwnl6G84hD6UML3GjvxMb9kFRnqQudyKTvO/xMmBgONinhnrLa8
-         7oqzOdmbLt8giRI9tnl4yNW2z8EbiYjD1vlBjw2CMS+3WSgOY8iZeZvIZnr6AXfv76CO
-         ffZQ==
+        bh=Yk13UDKhHBWrmRCnNILsAJ9pW2ZdOFTsJD8wrftx0/0=;
+        b=fBP6UMJzPJ0KW/juIyKGox20dnrREJZIML5qBY7yeL/B/DZs5pFuhz0lAEXHBycPBL
+         XyM94F/zx2KDpAW85sb0nleo/l+eyI7K2+bfK1LfcF4KAn16DfFF7SBzymDVhwohDA0N
+         xZ7YAX9tAQdRFmUVTpB7Z2Z/dRQQrQk5vNjfA0gWLRI3drg3x8ntsurgXtNln+DLHPXF
+         O0HK21flAY4PErWVsB+IJjMeUBBeiZsE1C8oAS+igJjSGzUhZ5Wv31s0AT3eBNHFoWPG
+         t0yLrMHoJMMxKXicwe68gZgXkK/nTUlTVHTY+ekUZQ7hHI5KyD0w7NI+NpN5yG3EaZqg
+         Yylw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789139516; x=1789744316;
+        d=1e100.net; s=20251104; t=1789140014; x=1789744814;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JwM5Epgg3IOjgygjiEjc2zoeXrLUf/Epju1L3iuJNZk=;
-        b=AxgXyl06+nP/QpXNhpEE7cFxcGc7yvOE9xH0K05c32UiGwSTkM62FxK65qwGkIDhFz
-         NaB/yEOpCJfz8bVf6v1c09RZkNIifRv/Z50FC+MLkxgtVbrWyyxq1UZoYJEJoebfjm6M
-         CvfaHdHkFtajXsN3ZMPkpp16ClR1uisvNqumKAWJDgG+U6g3n7U1mC68E4JZnvukJW9w
-         uKBWkBCEbbpBU4VbWSJ8Z4PYIodhAac8gv78Dhs/YGXyF04CO04L59DE2sebLlJevhyM
-         IsuBmci6Dradi7YorkpTvC5GNBmmhcWKiSxYynarNOOqEKf0FgINqzAQB30TlqYMWxiI
-         BJEA==
-X-Forwarded-Encrypted: i=1; AKwUvBx569NPBzolkITlYcQiJiSxoX0uxVZfCCVXddz5/0MRhs1ACO96K4xczHSbFAQAWaLT1junSxdKow+AvtxV@vger.kernel.org
-X-Gm-Message-State: AFuF++mNVQFhWmHcR+VCuCZR23I9nditdQyJvVGP1swbaWK328XPyNT4
-	ydUrSftwBCAHyV2BUAoRqZ9EYxwlSSQErHGNpvgTRJnTRFtNs0qEnGlr9D8niHVqmFHDEQ1gfDL
-	JWs3A//wSzAkjLX6RM9/bfSbzaUoNdNzxHF9h26io
-X-Gm-Gg: AYBFou0Qe1xBokoBGpxfdOizAaexE1MGV3H6CtzWe5MAqXPXL7NOW6nODqqUvqJudVG
-	bchXBM7xIjKAnazZnU6yN1PdhWwI6uu/6uVcED/weoWkQpQHq+EQwKUCAKURr631yiH+CUeYPDl
-	FVCdRh/qZ21lsh3VkctVZQC0A2TBQMc79lNe7fiy43LSbTH1fv838bO829FUhZfoURg1dJadh8r
-	qBR5lVyGaOw8jkXDPbCg31ck+Sc03+3L4rRtRAsiPikBP2EUy8aCQTuHBBRYGNiPPapIEkkGDqA
-	25WFXXzgQJrHoX2aRJMovRYJw95on0KW+vgXGynQJF2ZvZdv73sOFm2eyw7KYUwdRpAIjhuvUNR
-	zPISIYYupbuYsz8L+aeT3jjWQDNT4CGO9CPeT49tg7g==
-X-Received: by 2002:a17:902:dacb:b0:2cf:4353:f117 with SMTP id
- d9443c01a7336-2dd2bf06220mr7129715ad.0.1789139515742; Fri, 11 Sep 2026
- 08:11:55 -0700 (PDT)
+        bh=Yk13UDKhHBWrmRCnNILsAJ9pW2ZdOFTsJD8wrftx0/0=;
+        b=a5hlE2OzoMbpN5L0om6ApMyjl6lgXQFsDlrsgp+4AOsov5aP/yg9AsQNttafbsi/nQ
+         Tu4CQcycxfwqHeW+8sFE7FcqwszmBx4jj/nD3h4Z8pctv/z3RD9gLtU9Iz7/Ns/sKx3o
+         6iJrGWvo1ffPAgIAMtlbfHgBzCIg3oX9czrhU2VZtVRuzSVdkwRa1SyrijVYR5LV6Qet
+         KKfta9X3dXliXoBhT+uXdlUL3prgsKxcXzgD54in3D02u5m4PFwa3MPI2uApdLO/Iuys
+         rWixPpa+meRXjEV7MUwkEaGZGzsylB9Wg4dKDiRRCma1Bf1WAHF2lnHivbNyQ9jJg+eP
+         oLPA==
+X-Forwarded-Encrypted: i=1; AKwUvByMMi20hNTEsl+rSH32YZBxAmHk3Db7NdsEPDMFIxSBFiPtJKlQulbM7vfDP4CDTf+kUFBKfPP4ZcgGaPpl@vger.kernel.org
+X-Gm-Message-State: AFuF++mA5KKdnTlYv0Rdq9KLj3hpvwT8POP7Ln8g5EPI20PvsAovQYMl
+	tY0Tqpnp9Y1wPVZni/753qMkzJf29ySI3M2HhwzO0tPWWQWrPsefu8nY3Ihue39A6QiUIHAUwm1
+	Z8fqYprh0NlV4lalGRi06Z6TH2zlZoN3BIo02jo+j
+X-Gm-Gg: AYBFou2ueeic8AaSufoWiaJJ4Ppmgq9ffcoM3jT8ZEQIThkOVX71mGEZLQ1Ldk7ouAu
+	t4xzRjVrdOS3hMvuCjsU1qa1mSYhwaL7n1mTdjOcOsKSLHXdKYlsNd2hk9xoWnG0Po0mhotCrEB
+	EYIvDL7BszLQVBPP462xP9PDROBBcQQUkVulfzcYhybrOSjMEieLWWoAM0CkDVCElpLfq3LH4Nz
+	0lK4RNdfZVX4ovXJSoB50euoCrZny5A7lflKnMTEVnsddfVMPBVdCfUetz/rVOwh7rIeUTZB7e1
+	2iZPrebfRoIhhj/iGyltx9zdhhci/yfv8Dnk4kNsebEtw7GRk7BUKmPu73ow3gWGT1sBJ9nM8yO
+	uhmZU/7A=
+X-Received: by 2002:ac8:5d11:0:b0:530:39d7:ef48 with SMTP id
+ d75a77b69052e-530cb49695fmr15549621cf.3.1789140012704; Fri, 11 Sep 2026
+ 08:20:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260907-cloexec-before-exec-update-lock-v1-1-8018c201a7df@google.com>
- <87qzj09gau.fsf@email.froward.int.ebiederm.org>
-In-Reply-To: <87qzj09gau.fsf@email.froward.int.ebiederm.org>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 11 Sep 2026 17:11:18 +0200
-X-Gm-Features: AcwNN1UfWUuTxT6T6m2fFK9oBs0vwCiHpncLk9iQ0jXOn-ma2wM-nV7MC9jABfg
-Message-ID: <CAG48ez3f=-Ydf6rQWRxgeD1jz40LTup3MUmNJgqAaUAgAekDuQ@mail.gmail.com>
-Subject: Re: [PATCH] exec: do_close_on_exec() before taking exec_update_lock
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Benjamin Peterson <benjamin@locrian.net>, Jan Kara <jack@suse.cz>, 
-	Arjan van de Ven <arjan@linux.intel.com>, Jake Edge <jake@lwn.net>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+References: <20260910234737.1340642-1-surenb@google.com> <20260910234737.1340642-2-surenb@google.com>
+ <008dcaa3-2068-46e5-9e58-afb590d90584@kernel.org> <CAJuCfpF5CBrCxZWm+Luopf2gq_hHxsbw0QptNhfRT=+KjyWbJQ@mail.gmail.com>
+ <88838d36-ea5b-4c76-b785-cf2bb71e34a5@kernel.org>
+In-Reply-To: <88838d36-ea5b-4c76-b785-cf2bb71e34a5@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 11 Sep 2026 15:20:01 +0000
+X-Gm-Features: AcwNN1Xk5ADz_rJe0NJkhhPYuxax2hrdjw3AnJOLY-8G8UUIe8p-ZF3eb2mA0Kc
+Message-ID: <CAJuCfpEvyfR1K2ZjM2-AnrfQtVwHiD7zDvHLqfcSCUyfteYzkg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/7] proc/task_mmu: remove unnecessary helpers
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
+	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, xueyuan.chen21@gmail.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Usama Arif <usama.arif@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 11, 2026 at 1:30=E2=80=AFPM Eric W. Biederman <ebiederm@xmissio=
-n.com> wrote:
-> It has always been a requirement that in exec_update_lock not be held
-> for writing over any userspace accesses.  Which is why it is taken in
-> right after exec_mmap is done updating userspace.
+On Fri, Sep 11, 2026 at 2:58=E2=80=AFPM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
 >
-> In the original version I missed that do_close_on_exec calls flush
-> which can block waiting on userspace (Is that just a fuse thing?).
+> On 9/11/26 16:28, Suren Baghdasaryan wrote:
+> > On Fri, Sep 11, 2026 at 3:52=E2=80=AFAM David Hildenbrand (Arm)
+> > <david@kernel.org> wrote:
+> >>
+> >> On 9/11/26 01:47, Suren Baghdasaryan wrote:
+> >>> When per-vma locks were behind a config option, a number of helper
+> >>> functions were needed to simplify the locking code. Now that these
+> >>> locks are universally available, we can do a little cleanup.
+> >>> Remove lock_vma_range(), unlock_vma_range(), query_vma_setup(),
+> >>> query_vma_teardown() helpers.
+> >>>
+> >>> No functional change intended.
+> >>>
+> >>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >>> Reviewed-by: Liam R. Howlett (Oracle) <liam@infradead.org>
+> >>> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> >>> Acked-by: Usama Arif <usama.arif@linux.dev>
+> >>> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> >>> ---
+> >>
+> >> I think you CCed me only on this mail correctly (the other ones went t=
+o my old
+> >> RH address, I thought that one would bounce)
+> >
+> > Oh, man! I used an old list of recipients :/
+> > Should I resend to avoid bounces? So far I haven't seen any bounces
+> > even from the previous version which also used the RH address.
+>
+> Odd, I thought it bounced for a while (maybe it has a new proud owner, wh=
+o
+> knows, haha).
+>
+> I changed Monday my mail filters to not catch to/bc to the RH address whe=
+n also
+> CCing a mailing list ... assuming everybody got annoyed of the bounces.
+>
+> I just reverted that change, so I'll just fish the mails out of the maili=
+ng list
+> folder and should also get replies to the other mails into my inbox.
 
-It's particularly egregious in FUSE, but I think network filesystems
-can also block on network I/O in there.
+Sorry about that. I updated all my old recipient lists now. I thought
+I did that before but apparently only for Lorenzo :)
 
-> Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
-
-Thanks for the review!
+>
+> --
+> Cheers,
+>
+> David
