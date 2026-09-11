@@ -1,93 +1,81 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2C747D442;
-	Fri, 11 Sep 2026 12:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83F847DF90;
+	Fri, 11 Sep 2026 12:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789131538; cv=none; b=QHkwKFyODE3AHhXQ4j0iQx8QqjCQkz1EE+EHwylI3G++rZOfd8sGpirPMPaja5a9onL9dU5CYO1NA4adIfWge5BZMZm2IfFjYeh8qqmB2OLT/UHQi7JISYTX0PzstGUWErNRJX1+LKwTq0CHFoc3U6Q+J3bV71sHl33uGAXRqPs=
+	t=1789131552; cv=none; b=hYjdMxMHipyP6qw3yUoWOCKVjbb+HDjXTWaBjFyzVP3Db8H3suifBMxwMP0OvFuIkNrc5qHAaH25bSgoH8L34FWoyEevdJobyOQJ/+pnWj/LezML4kSeQf42dysf+cMWnDNLhMn0p6OWvI78n8wXhrZHrGovWkrZUgAW8mLBeKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789131538; c=relaxed/simple;
-	bh=bjoTTqpWpKvplAqU+RyCcsF1m/WtPEW3tfKywXliCM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p8yaJNx4Z0Kn+7xf7QCDEANgT7Qp9d4dKtLtneBVPLDLFHB8Tub4xRmTh9RUS4JKQUGtIlXVwWakKsbK8juslUY5SS2yCvABdAUPzpcOXCBXQ6aS6UnQr/SnZOQv1LTGenpA5sczC+xBRmiylpK2w5EfX5xfOdzeoVOR1RWqdE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=0JqVOVv+; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1789131552; c=relaxed/simple;
+	bh=IVo2L+I/fkh6l362FV8nWKtvbhyFH6GF9aN5+o3+XuA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PyYAyJSSjYqwY0SKKcvTmZ6geKmkojPJcHiOMz4VMQckH/s879Uji96CmwpctQXLF1JZifqyqv2yXM7CE9cmrhKsi0i0dyr7NWtj9/RaQwwIP0M8vMNVIAtsbIFXhF4uE+YaD6YHotOZH/T8diUGwrx2XvoRGCHjjDAjKBJ5VEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kV+sBLLQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="0JqVOVv+"
-Received: from omf02.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 57FF11A0226;
-	Fri, 11 Sep 2026 12:58:17 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id 411FB80012;
-	Fri, 11 Sep 2026 12:57:57 +0000 (UTC)
-Date: Fri, 11 Sep 2026 08:59:18 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Ye Liu <ye.liu@linux.dev>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Ye Liu <liuye@kylinos.cn>,
- Michal Hocko <mhocko@suse.com>, SJ Park <sj@kernel.org>, Lorenzo Stoakes
- <ljs@kernel.org>, Oleg Nesterov <oleg@redhat.com>, peterz@infradead.org,
- paulmck@kernel.org, mingo@redhat.com, jpoimboe@kernel.org, mic@digikod.net,
- tglx@kernel.org, akpm@linux-foundation.org, david@kernel.org,
- linmiaohe@huawei.com, nao.horiguchi@gmail.com, rafael@kernel.org,
- gnoack3000@gmail.com, gourry@gourry.net, rientjes@google.com,
- shakeel.butt@linux.dev, xu.xin16@zte.com.cn, chengming.zhou@linux.dev,
- will@kernel.org, boqun@kernel.org, frederic@kernel.org,
- neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com, josh@joshtriplett.org,
- urezki@gmail.com, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- tony.luck@intel.com, reinette.chatre@intel.com, x86@kernel.org,
- paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, pavel@kernel.org,
- lance.yang@linux.dev, pmladek@suse.com, longman@redhat.com,
- mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- qiang.zhang@linux.dev, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
- mark.rutland@arm.com, Dave.Martin@arm.com, james.morse@arm.com,
- babu.moger@amd.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, rcu@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v3 11/15] tracing/fgraph: convert process/thread
- iterator to for_each_process_thread_rculock
-Message-ID: <20260911085918.30c87ab3@gandalf.local.home>
-In-Reply-To: <20260911075800.491472-12-ye.liu@linux.dev>
-References: <20260911075800.491472-1-ye.liu@linux.dev>
-	<20260911075800.491472-12-ye.liu@linux.dev>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kV+sBLLQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B3831F000FF;
+	Fri, 11 Sep 2026 12:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789131542;
+	bh=obY9T9rOkh1/3EUb3FQ0mH6hQECuL7GUAna9UeGCXEs=;
+	h=From:To:Cc:Subject:Date;
+	b=kV+sBLLQiwgF8OGg5h002JQVOp450Gi04gsDHU4EETU2/yFV33OKbhBbc55u4QBU3
+	 NFZ0YdwZlFl7d/OCwCNy/nuLY0E9MTVPxhcmh8szqh+qpw7cEG4UTeCrryacqBj3OM
+	 oyueoP04urgtoUQlaDN7EJgIy/gvEIUNr8iHMtSkDaVg+9sEMxIFQnc0ARYbRZUHeT
+	 3m04O5fnOp1Qkj5hmCWIS+L0/9OOx6MplvYxo55JsAZM4z4QVzHJNgWWbo/ltP9Iqt
+	 MwCeYKKG8QUIJlxmuwa4u1/5hsxVX/5flcnWTLRNZj3CYudeQSj9fQP6OWkjLiWaNU
+	 qj5bSid/1DGaw==
+From: Christian Brauner <brauner@kernel.org>
+To: Bill Wendling <morbo@google.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Bradley Morgan <brads@mainlining.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Jan Kara <jack@suse.cz>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Anand Moon <linux.amoon@gmail.com>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	kernel test robot <lkp@intel.com>,
+	codemender-patching+linux@google.com,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH 0/2] Minor bugfixes for kunit userns tests
+Date: Fri, 11 Sep 2026 14:58:38 +0200
+Message-ID: <20260911-deftig-geprahlt-gesehen-16310bdf51f5@brauner>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 411FB80012
-X-Stat-Signature: n6a6yg87erzr1tr8kadm4kbym8uws4c7
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX184cgL4CPzpG6wyU7gqy6pHH3IT2rF9ets=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=UaQYdknTmueyDeiPHskDcTArMbJldar1uQP+OR5ILiM=; b=0JqVOVv+9L81lkGml08i9mMS8B782yjgSSh0J7qB8NJfLJbXU0fLz9weZAM4fQ5Ra9CUavRTBo+PCH73WKm//G+wNOzwNoyxnF2a7JXOtbmdL7tZR3SzwRbbk7iw2rNQVN3kwRcItAAPl3JNid1xBW4naEquTGk2Qi05wOwcUrA=
-X-HE-Tag: 1789131477-955751
-X-HE-Meta: U2FsdGVkX18IEJ34TJ0+KfkZrrzHJ2dGti8SCtUwJBxnBs7A77nAwjwyHWgBGGkRmcWxfRbbgYYDx9+//1mp9vVOjUQbCfr8JwoUfq6qObLo5XckYsaDveVKT4KVuSxa43lMppAHrfkQ6q66hua38QSWiGZ4pR4WLuiB/fRlv95rgRSwCTUef6/9xZIREFm6zARLWSxhMwm/+USXJ5Odeo33wnQhHtMWXVBSR1fuAOuRDXqRFn/VmuEmY4R93qX7JzsgtbqMZNWtX+CwTgbkKXii7THG1FmHcDAGAFH4eWA8QubRpp9x6o0Bf0fFFGOxvfWU4KGfGsEN23tdH4CEfp8DdKmJ89MyETXiouFLfhLA9mjoesG1uJ4spkJ5GIdarVsiaR7bvBIJXGMAkAiEBCCCpjOlciuLokm1pcCBCZvkrE1QZjTT39frBEzytesHCZdU724fPrc5uye0+xI5ILZJA4Ngv6OQ1x3Efp0PWJo=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=423; i=brauner@kernel.org; h=from:subject:message-id; bh=IVo2L+I/fkh6l362FV8nWKtvbhyFH6GF9aN5+o3+XuA=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQt/s2oeyVvxx4ja5Gk1nscN0LCvTJf8y4JT+5Kd++8L pqg2XOyo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCIT+RkZfj/Z+WDiq95HG2yv smWa7HqwetLBMx9FdFasF5NPffUq5wjDP2Utua7IDYLRZ//Mu/lhM4tcZsXfj5umTbwxRXCZToY 1Nz8A
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Fri, 11 Sep 2026 15:57:56 +0800
-Ye Liu <ye.liu@linux.dev> wrote:
+Hey,
 
-> From: Ye Liu <liuye@kylinos.cn>
-> 
-> Replace the manual rcu_read_lock()/rcu_read_unlock() pair combined
-> with for_each_process_thread() loop in kernel/trace/fgraph.c with
-> for_each_process_thread_rculock(), which scopes the RCU read lock
-> to the loop body via scoped_guard(rcu).
-> 
-> No functional change.
-> 
-> Signed-off-by: Ye Liu <liuye@kylinos.cn>
-> Acked-by: Michal Hocko <mhocko@suse.com>
-> Reviewed-by: SJ Park <sj@kernel.org>
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+two fixes for the kunit userns tests.
 
-Acked-by: Steven Rostedt <rostedt@goodmis.org>
+Christian Brauner (2):
+  userns: rename insert_extent() and sort_idmaps()
+  userns: declare the KUnit-visible helpers whenever KUnit is enabled
 
--- Steve
+ include/linux/user_namespace.h   |  9 +++++----
+ kernel/tests/user_ns_map_kunit.c |  6 +++---
+ kernel/user_namespace.c          | 19 ++++++++++---------
+ 3 files changed, 18 insertions(+), 16 deletions(-)
+
+-- 
+2.53.0
+
