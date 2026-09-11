@@ -1,199 +1,102 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA65436D9F9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 14:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101A6370D4D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 14:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789138033; cv=none; b=XJnOXOwCpkTyy1QvpHE19vdDZo6yICMc6nE5G4Mhj8q1KTyuPc5zvshM/7iJ9X5qWV/F7doOzFKgp7g0FsW/LoY+07/+EEMfKjw2lup4/hqjHU565dn7AM2QbYJGle4Xhww0lMMvzKj3dYir6gjNl2M6S0kQjxrIsKR1mjE2KSA=
+	t=1789138198; cv=none; b=Its35Ab4ipKz9ohVKD7KtJLPPIpIDHfQ3Cbm/Q03QW9HEaKvvh6xXAJzfhIYAtgYfZjV0KEPWLO9ISzP/BjuYP8gXFAH2t/PCHmDVJujIHGvac2fVcz1MCckqdItUgSiUjMMnkHYxTg9Y/J8o+QtJHrG4lqRKZOpNvoyZ9Dc/Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789138033; c=relaxed/simple;
-	bh=dcMfYcrZvJo2odetIockDZHB6TyER2n5DIFvd4jrOOA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G1gRU3RacmlvdJ9WGYIDG7S8/l72FUOTicEwDED+iIYEj3x5+Fn6fS6imtCGckxxUt2z/ji4rv/IUY54QfDU9WM97w1RntSUZvYw3WrqBs9Zh5G9abxER7TMxpxM93V6hRKp3CPYtVbs0HGAZuqs4kDNmbj+6bqwU1bB1jx/gXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Fp1SIsTT; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1789138198; c=relaxed/simple;
+	bh=iRLtMtLNNS4pjEszxOSG75MXP+yV8831MDgLJLg/nZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f9Fjbb5JfZh3MIdJ/0ZLljxKg6SJM3aYmx4ZM7xlOJW/QpSoKi/3rsx2bcNmCYiYE3tprYzbc4cGJTwkyP0anSQPcD9VfsHM9jEnG579xejqlwxy2zHBQXz6oe3lolUGGcG2jJNV09L2aBHnEO23Vey+ST8iaKjZh4whyMgHF0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=hvEixzJJ; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Fp1SIsTT"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485933b2522so781700f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 07:47:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1789138025; x=1789742825; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sAWK/0nRwHnvVvMYnd/Ub3wFPGnd0x9DJjP7YOulvgY=;
-        b=Fp1SIsTTjVyRqL0gIvM9vDPjIjd4izJyKEciKHm8TONmq1ag0xCO5x8W82arGdh9Xz
-         4Z5VG1L95LuGQrrZfZFlCNhUqTPojhGUc7m0c9dbmzYLvDhLFITGryupFkwF1I4B5sGx
-         PGiAF0Uz+do2dBAfXZjkAY1nhermD+CNJ2GhgHEC8USAwpOnbw+sC6iesnt9K6n6IKU3
-         CVIJFRc6zSGTKWFrAbM9r9/BFfCG5eYbh8zcCvbOyJTkfGBNiaKjkIQsGdbTwWiWza9S
-         WE2SudaMNSBYAuSj7OTRbSA+JozgvDM9Med1Ltt4Xu2X8kr5aB0A1Uzyo6Rn/D5Ll3Rm
-         W5lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789138025; x=1789742825;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sAWK/0nRwHnvVvMYnd/Ub3wFPGnd0x9DJjP7YOulvgY=;
-        b=SQ+1qrjzY38BkNseb4cypSyuis8S3DqpOTBmi5HD4qSwA2OMkJy6rMChD9Ro7NzACZ
-         rsVfLL1lHQXPK+CWREMa3IgBE47bTmveEgq0A2Y3N9iEuE4xMF/4h0cWhu+QhP9rmGlJ
-         PTY7maQsKYAhYEdUoG6GEIf4wOaLFJ98zL8/k2E9+k1CerRGGe/3vzcDtq+E3f9EYjiN
-         kqUBZL+l/kAckQK2TMXO1Iofia9hK+FaRw33qt93PSLTyifwlsqhVlB4Q/7LwVG+2KK1
-         yc0iOQEajwDs1yRfT9Imm52F5co5G+vuF8JQygvU626xKBcBtjpv8exW1nGhSUnQK4fG
-         888A==
-X-Forwarded-Encrypted: i=1; AKwUvBzeuF+g+0Xj5y61et8el9Xx5nTjyd1NOHaCYljxfoR5iOepq6njpV38qUMBIbHo38um2n0W+08RxHU05iIn@vger.kernel.org
-X-Gm-Message-State: AFuF++leonNX8qWWYkQA95bAFe+ZsgM+VzJBZmwbvu9Mu9+IrmzWHjMp
-	UmA4KNMcrNFL67vaFVe/tOO1p7oJUS6d+w5qTEYlcB32uwWpDmhhsVEzLbXdhkpMMvQ=
-X-Gm-Gg: AYBFou2dKKiomNaxIhTC55KFe0fwzvAfJ2gNSJ1QAMN6BA1xlo6IGEu+LQY/Ox4KmEs
-	mIwF9Klr36f6a4+HgFSHKGchVaOGg2yO+SH3NndSvC6D6YDFAVkPvIh/hQwxuT7r4dcawZBT6F0
-	Eb908PL1XwT0a8S1VMGJaPII8Ew/91kNbQHF/1BkFfCQXhUO4X6ilT/l3J3DJ045LE+IBj6EmcL
-	kKVqcXHmjYbLkmr5pG3HKg4zZxNEnhDxH9jXh4iWW21iChS5nnSwm7wu4IzaQ9czPgNA5GclTl1
-	4cc9AosgpdVwiBE9V+YHsymutKD/j0jRVHpysJthoSnsJmm/V6tNG1vAgcE53CE9HipL8Kb+v2C
-	g2iv/EwMg2rq+rUtE/napgokCxQGDDFLBzp7jumoZmdWf2oN/DT4rY6Eo9LFm+y7iGX//Pgz1HD
-	SPmvXxM/5Ozxj32p1K5+PTmaysRUJWZGiszGkjBa0yLM7O30bbRgXNuvqX1aw1I8jUNQBZRAZIF
-	C0pdw==
-X-Received: by 2002:a05:6000:26cf:b0:482:f61c:7cdd with SMTP id ffacd0b85a97d-486eb1d8541mr10746731f8f.4.1789138025130;
-        Fri, 11 Sep 2026 07:47:05 -0700 (PDT)
-Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e8d1sm6328068f8f.11.2026.09.11.07.47.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 07:47:04 -0700 (PDT)
-From: Petr Pavlu <petr.pavlu@suse.com>
-To: Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Michal Januszewski <spock@gentoo.org>,
-	Helge Deller <deller@gmx.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linux.dev,
-	linux-block@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-acpi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	cgroups@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	bridge@lists.linux.dev,
-	netdev@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH v3 3/3] module: Bring includes in linux/kmod.h up to date
-Date: Fri, 11 Sep 2026 14:46:16 +0000
-Message-ID: <20260911-module-include-kmod-v3-3-6ebccc3e0731@suse.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
-References: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="hvEixzJJ"
+Received: from macsyma.thunk.org (pool-108-26-156-127.bstnma.fios.verizon.net [108.26.156.127])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 68BEnVtR020550
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Sep 2026 10:49:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1789138175; bh=gIirZmMyD8vuw/30bMQ5PpWdGiAKPqfRzxdpYzASv1I=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=hvEixzJJgo8G0eU9DUFWLXi3TjQ5xWIJiX55bgRU58OAb1voZOOH6grRQ1adYbWrw
+	 Bu3VjKuEQQ3xldgcMN8h14NErpLo4uQTZzSCW+PJB/+JO80W/RIH2qOCmQ5z48j0XH
+	 5Iz+3tiRCNCRxIvt7ZCeFMCTH15YVMGjej0aqRRDMtjuyVGnpIidynv+3jJy+a4BAi
+	 nRbMed8HOoiS7ms7a1LTvWiFhxVk4NOtlW5LkZffMtsyCIoQsL91Nvc+RR0VPJEeBI
+	 Eos02zmBDfVDRQmNCM17EOVrVzp4dy5jiZlFCojBelRjy8uAldPeQcFEaMuqBg+sh4
+	 bc5KeGZPdy69A==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id DB46F148192C; Fri, 11 Sep 2026 10:48:30 -0400 (EDT)
+Date: Fri, 11 Sep 2026 10:48:30 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: Christoph Hellwig <hch@infradead.org>, zlang@redhat.com,
+        fstests@vger.kernel.org, glaubitz@physik.fu-berlin.de,
+        vdubeyko@coreweave.com, linux-fsdevel@vger.kernel.org,
+        frank.li@vivo.com
+Subject: Re: [PATCH] xfstests: exclude hfs/hfsplus from generic/339 run
+Message-ID: <aqQR6cujdVg5qCFp@mit.edu>
+References: <20260910000449.747189-2-slava@dubeyko.com>
+ <aqJ--AqubS-CWiV-@infradead.org>
+ <aqKzDpccJgkmzC5E@mit.edu>
+ <f156a3665404751b29fd21d9ee136f2d66d5fe87.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f156a3665404751b29fd21d9ee136f2d66d5fe87.camel@dubeyko.com>
 
-Including linux/kmod.h alone results in 1.5 MB of preprocessed output, even
-though it provides only a few functions and macros.
+On Thu, Sep 10, 2026 at 02:14:08PM -0500, Viacheslav Dubeyko wrote:
+> 
+> Could we have any generic way to detect that file system could not
+> support some Unicode characters?
 
-The header currently depends on:
+We do have unicode tables which are optionally compiled in if the file
+system requires it.  But those tables are from Unicode 12.1, and the
+latest version of Unicode is 17.0.  Most of the new characters added
+between Unicode 12.1 and Unicode 17.0 are for dead languages that
+archeologists and academics care about, and new Emoji's.  So function
+will let you know if a Unicode character was considered valid as of
+2019.
 
-* __printf() -> linux/compiler_attributes.h,
-* ENOSYS -> linux/errno.h,
-* bool -> linux/types.h.
+You're asking a different question, though which is for hfs/hfsplus,
+what character are deemed valid by fsck.hfs, right?  And as far as I
+know, there is no way to answer that question in the hfs kernel code.
+What you could do is to try creating a filename containing a
+particular character, and see if the kernel rejects it.  Ext4 and f2fs
+will reject such characters if and only if Unicode strict mode is
+enbled.  But that's not going to help for hfs unless you add that
+support into the kernel....
 
-Include only these files, reducing the preprocessed output to 10 kB.
+					- Ted
 
-Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
-Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
----
- include/linux/kmod.h | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+P.S.  A problem which we haven't really solved is how to add support
+for multiple Unicode versions at the same time.  So if someone
+imported Unicode 17.0 into the kernel, ext4 and f2fs really require
+Unicode 12.1.  Short of supporting both Unicode tables in the sources,
+someone would probably have to figure some mechanism (perhaps using
+Agentic Engineering) to collapse the two Unicode tables into one, so
+you can answer the question, is a particular Unicode valid in 12.1 vs
+17.0, and handling the Unicode canonicalization rules for Unicode 12.1
+and 17.0 based on some API.  This is the other reason why no one has
+bothered updating Unicode, since it would be tricky.
 
-diff --git a/include/linux/kmod.h b/include/linux/kmod.h
-index 9a07c3215389..b9474a62a568 100644
---- a/include/linux/kmod.h
-+++ b/include/linux/kmod.h
-@@ -2,17 +2,9 @@
- #ifndef __LINUX_KMOD_H__
- #define __LINUX_KMOD_H__
- 
--/*
-- *	include/linux/kmod.h
-- */
--
--#include <linux/umh.h>
--#include <linux/gfp.h>
--#include <linux/stddef.h>
-+#include <linux/compiler_attributes.h>
- #include <linux/errno.h>
--#include <linux/compiler.h>
--#include <linux/workqueue.h>
--#include <linux/sysctl.h>
-+#include <linux/types.h>
- 
- #ifdef CONFIG_MODULES
- /* modprobe exit status on success, -ve on error.  Return value
+P.P.S.  There is reason why, over a decade ago, when I was talking to
+an internationalization expert at an Internet Engineering Task Force,
+late at night, at a bar, the expert said jokingly (and when said
+expert was very well lubricated), after reviewing all of the
+engineering challeges of getting I18N correct, "It would be easier to
+teach them all English."  :-)
 
--- 
-2.55.0
+Mercifully, we only need to solve a very tiny subset of the I18N
+problem in the kernel.  :-)   :-)   :-)
