@@ -1,141 +1,191 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-qk2-f8.google.com (mail-qk2-f8.google.com [74.125.230.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5601E51E0
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 15:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0475E4582D1
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 15:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789141971; cv=none; b=tDVNOn+OenTAkXn7ND658S+k02Hk5nnK6ZO6QJ0y397FVMXiy7liL+9hTBYzDd80/m1FhmMWv8+uHTJwoZghzZqCF135D+LOWfUMpvmwGiP4SDMLx3Hrt0myNVjFg04eyRgCSh+ZP+uu3ASTVB2KAyDGruRtqHwt755F3nQhYeY=
+	t=1789142363; cv=none; b=ZhPEguxwt1ovfKMjeeHMcMCwKjxQET3rhro+cv0Q1afpULGDCH3y7eK8uLxss82MkImgglUbZ9GtVOkdJf2tzR2vlzcYHeOPyNyCm0mW6MaOcVRvvq91UP1nE18my941pNarXzAwNbSDYCRv5nrCo8Psiqq7ctgEBeICy/qe5xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789141971; c=relaxed/simple;
-	bh=BjyACDhK2iMjtJtP1QUzxghUJly+kB4eAL2PpuozZV4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gX1I33x1SHSPTvT3XKZ3KfnLEg6u0Rawa/I5IgzLw8b35X7o3uYlFVS9F0tqmvHBI0JibhbO8eknXxzugPVDrNc8keQOreF5Q1tJ0JQOovGQjOmrQru3mCi1DQETweU49yppuRH1sjpEH+TXMdDzNBbNPIqu5G5D+yqgbHIe9CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lLsbwDit; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789142363; c=relaxed/simple;
+	bh=phqqF0GuntjVdx0I+dWCfys8PnZD+QuitHe86Ey+UtY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AkWNjkufQLHXNd4aADCQwbE5ItO2WwCn3YbB2IHlty7yaN+Zt/L8cijIRnNKFhZP9SMu6SvYT8xgGhXHZkcUQ82ur0gvaAJ5/vQ41ZSp7hMa64PFLf6caxq6WGaFfXndKUixeouDMuOofbNP0X/xXggisBnIXGKteBlnrpSm+2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=W62XeZ1I; arc=none smtp.client-ip=74.125.230.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lLsbwDit"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3964e480f76so1394935a91.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 08:52:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="W62XeZ1I"
+Received: by mail-qk2-f8.google.com with SMTP id d75a77b69052e-530e0062c97so1620221cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 08:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789141969; x=1789746769; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LNQ5H8myUqx1tWJQeg5MIIwa9og+am+x86iyfUFxIuw=;
-        b=lLsbwDitLTCNxmL0hVg/r6vj5dpn8HnIbkeS82NAY+LlQJelwRjB7jhYaggfKRZE0D
-         h8UFWwFVZVE57Tq30YbBq50rVelWtUZWs+/tFe3jdD60rQtIggHnKIcC6/OdSww2miqm
-         gSWuuu9hPHr5UN6fK1IdkKHjAq1jKgKV5fzTug/axN+Wfb2ULgovoIYQjea2II7O2zqk
-         48rSkmYMPq3gqpuB6NV5+PeFlv3RROjxx+v4Psr3LShJmiR5TzhiRJGbiIKhILSjKJYu
-         sv60qK1Dpa0XkwoyeXWGV7ndV3AvGBkiJfB6XN+R4VFaM4OYj8wy0EJ9NgPJ81hCblAt
-         Y++Q==
+        d=cmpxchg.org; s=google; t=1789142360; x=1789747160; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ql6yDYiCUfB1KtPKnMN8J1mkX0CDVMGXFwFiHiyB4X8=;
+        b=W62XeZ1IzQbjIVeFlRiIahT/KXCCj6qRhvJFVvzOOiNswvtQD+4yR4DEEJWVL5x+Xh
+         OrENQePslIZsOigGMrD8Jcjb8H+qZp7CmLE2iGIr+5w1snz38v0829SanvsZITVESfom
+         YY6Z/qzyy28fEMDE1TqeHNTt75pJ4KQFv30Qi8a2nt4OsI3cbBMta5jcqOKY+uo2Hffx
+         mvVSyb4rLwE6aIjzYs7cI2e2QZtEPXG74zsRvhGMjRXdLwkOFAiii96+DatCkokRoW3y
+         FePhmv+zC8gN7aG3SKfbVwtTNFUbd0CFvYWYdQe4PgdLRzHvJix3MDN7ruwcL0aFE/NR
+         O7JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789141969; x=1789746769;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LNQ5H8myUqx1tWJQeg5MIIwa9og+am+x86iyfUFxIuw=;
-        b=Cl+/6otaitpSlGxBoJKgcjPqBpYCmpt1TY5ugkmH2jtAJVjo8uLMwxcI2qC+AuI5Lm
-         gKfzXjOfATECa7gWciZFp0xDAJqF1M67MszOWb6sd6YgtW7SfW2CUOciNFc0vo1txgFL
-         eM6RhWn/2j5BZ9h8BXL2fe3ZcURDFTrHkYaUk9y5JVdapc9+f9x7Pk//3PetXrXFa5dx
-         fx7bK4FxZZ2827pbNewsSmY56s753iLdTYUcUaGAETZBN7hKNZ0olxoxJxXBLmXTvej7
-         o+PCJIV582lR+Ggn8mxsUTCA41v7X3CktAhO7afSCPh/wUXvk9zt2PjYT5i1Ms9iBXqS
-         /s/w==
-X-Forwarded-Encrypted: i=1; AKwUvBzUeB4dH8PvYH2cyJF9ImdVUWgk+CZJsC3b0sbsJJi7j16+vOISg2AIMTI51F9nzk8srUcgJTTZNh8iW+6r@vger.kernel.org
-X-Gm-Message-State: AFuF++kfO9inUku2J7/EAp7FNSuDcK75QglHf5kEzymnQKnlKrbLBWVm
-	C/nX98P9lGToQprRSpaYRLQBHKXK+RxJJrU3qBiNhmiTLw7i9Sp6fIK4
-X-Gm-Gg: AYBFou0tWY/J3x+GEHg6FWUoK7i+GkQpihLKm4zMdBEnwWOmR1Gz5zHoTAuZVCzLYy3
-	B3LwDqSxKC1U6y5ckmYKYvTNG8z9PFD+rr8W9CSNzCJmKTiUK4r9oAIX+uCInpPij6PGl/9aCfa
-	wHBq1eU/gzuwE30bO3rdHk9nTuCN4tovhUmLIX7MIzUHPxRDi0FEqve7SrhdfKqIKd16/R6Vh8j
-	+nPdDMNYw3iiz+TcUKwdWPTkz6YwxEBrH1qr+QYcetP1HUoWWkGme3gU0tpH++YXlyDT/OLFfDg
-	UYC0TxBeM7wcHaZPVEcJkIdxnKNQVuB9c/zF8qDw+nmMTOUOKPTDxpgGypOdyP4nvczxZzgsDKo
-	Qx099rtWiyskNpbPT0dzXYhViXRIuaoIgFj+OTJdLvhkAhrAy/OsBA8PyO/+PFLIIkr9SH3cWPV
-	xS5q4PyiAhg5sZf5Da2EuOlx404utHq72TrIJnK8n07JdTcOgbuC+gb4CmSuNWyyLdXSs=
-X-Received: by 2002:a17:90b:4b0e:b0:398:9be5:b41d with SMTP id 98e67ed59e1d1-39d9c368348mr7982154a91.24.1789141969010;
-        Fri, 11 Sep 2026 08:52:49 -0700 (PDT)
-Received: from localhost ([216.228.127.130])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365b97994sm13853172c88.12.2026.09.11.08.52.47
+        d=1e100.net; s=20251104; t=1789142360; x=1789747160;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ql6yDYiCUfB1KtPKnMN8J1mkX0CDVMGXFwFiHiyB4X8=;
+        b=Kcbyknksq8pYtpUyIByIrAIqbB3TBivHOrTLl5SiEc+aw1Fzp7MFbtI/fRpNXNcZEQ
+         qMDoGJx9jDvV4CAl2aTXvKjQK232HyTefaRR/X4wgurTVN4XbQQGX3THLFDKR4DoF2Zy
+         eSEr5YgptbB3DYrQituPHL4ubZYQwCnzXXYZSH1fEGrbwoeBtBGuNeES2UOuEGn7abOH
+         eQJbnW6mw9JHchl7b51WKHje/e/7BfrL0pXVX8aCqq7DmgMrajE43stCzkiXXjdSxGSU
+         etCaNDRAUvbL7b3sNE/kx1qbM/ndHUX3FD6Z8yyurYSiSLemf2hp/ZUjHojkcGkV+/Tv
+         Gheg==
+X-Forwarded-Encrypted: i=1; AKwUvBwVKnAJLMgRDLjL8rOokqtAlGm4X2Yr8vfQZiAdiTPyi4pdewUXCV3iyFyoW8fQ5IWCPuu7NN6ILILszck5@vger.kernel.org
+X-Gm-Message-State: AFuF++mhxLSGwQ16GqemEa/WPjlJ1XpzHxyGYaygIlVUAHtf/JtvUKcu
+	Qr4r4PbwKF+ALCgHPfLlM022pxltruGFYhxUcAWSxDzPxsKpi86aF3D/8duOxCyf99s=
+X-Gm-Gg: AYBFou0ODwExAMnyGGO1bR0Mj0FIxrpNoLiA03lQxa+4KnRmnn/0P3iqVn/3jKIuEQe
+	Oz1ku3oyJ4msOtEeVyyh8xWU8Z2N102Sa/1eg4FwPpRyV41lDok3nGThD/vkEHWkHYofQuTM0/p
+	O8teD75/lK37fmg532OL38W1pOxOzpWA/LBwPFyjdHHzPeTRixm5tkx8kym9VS8TZLH+h4URabq
+	+bqcY5DYZ/NGq69Q1vlWnZl1Mfk3sT6pEK8Q3ZPIyzqSzzLUq24bpMj+tqOFOAqKIXDxrnDb92x
+	cyPlqIZvBGUpqxSPjqGyssfCif/TQ5QcuXemAB/ZbMYi/YmaevS++cwVeN72umCMToyHDxPgp9U
+	CbtX4vC5+RcZud5ptDtOwmEaqrvaKnMKUCOslnxvLUJKm7koffaP3ICVqTovzZtIABVh9gPGeBX
+	RScCrOubVZSeLvZg09RVaOXl1dkrS5jKGN8SV4OIa93bPLLbpg47EZqIfnVvZzXobNa9JtWw==
+X-Received: by 2002:a05:622a:2b0b:b0:52f:aa6c:bc7d with SMTP id d75a77b69052e-530c86d54b3mr75558611cf.28.1789142359223;
+        Fri, 11 Sep 2026 08:59:19 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca47efa2sm22945531cf.11.2026.09.11.08.59.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 08:52:48 -0700 (PDT)
-From: Yury Norov <yury.norov@gmail.com>
-X-Google-Original-From: Yury Norov <ynorov@nvidia.com>
-To: "Liam R. Howlett" <liam@infradead.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andrew Ballance <andrewjballance@gmail.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Eliot Courtney <ecourtney@nvidia.com>,
-	maple-tree@lists.infradead.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: Yury Norov <ynorov@nvidia.com>
-Subject: [PATCH] lib: fix lock initialization in region allocation benchmark
-Date: Fri, 11 Sep 2026 11:52:43 -0400
-Message-ID: <20260911155244.1406122-1-ynorov@nvidia.com>
-X-Mailer: git-send-email 2.53.0
+        Fri, 11 Sep 2026 08:59:18 -0700 (PDT)
+Date: Fri, 11 Sep 2026 11:59:14 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Salvatore Dipietro <dipiets@amazon.it>
+Cc: akpm@linux-foundation.org, abuehaze@amazon.com, alisaidi@amazon.com,
+	blakgeof@amazon.com, brauner@kernel.org, brendan.jackman@linux.dev,
+	david@redhat.com, dgc@kernel.org, dipietro.salvatore@gmail.com,
+	djwong@kernel.org, hch@infradead.org, hch@lst.de,
+	jackmanb@google.com, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-xfs@vger.kernel.org, mhocko@suse.com, ritesh.list@gmail.com,
+	rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
+	vbabka@kernel.org, vbabka@suse.cz, willy@infradead.org,
+	ziy@nvidia.com
+Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly
+ __GFP_NORETRY allocations
+Message-ID: <aqQlUr-1h07G8JWM@cmpxchg.org>
+References: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
+ <20260910114602.926944-1-dipiets@amazon.it>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910114602.926944-1-dipiets@amazon.it>
 
-The Maple Tree benchmark uses MTREE_INIT() for a stack-allocated tree.
-Its static spinlock initializer leaves lockdep to use the lock address
-as the class key. Since the address is on the stack, the first allocation
-triggers "INFO: trying to register non-static key" and disables lockdep.
+On Thu, Sep 10, 2026 at 11:46:02AM +0000, Salvatore Dipietro wrote:
+> 
+> On Sat, 05 Sep 2026 17:42:39 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+> 
+> > Is there anything particularly unusual about this test case?
+> 
+> It is a stock pgbench simple-update PostgreSQL workload on a large
+> instance (96 vCPUs), using standard PostgreSQL settings and with no huge
+> pages assigned to the database. We deliberately overprovision the
+> pgbench clients: 1024 clients over 96 threads. That keeps enough writers
+> in the buffered write path concurrently to hit the costly-order
+> allocation failure path continuously. The memory fragmentation comes from 
+> page tables: PostgreSQL spawns a new process per client, and those page
+> tables consume ~40% of memory, which significantly limits the page cache
+> and the free memory available.
+> 
+> 
+> > > Results (average of 3 runs, TPS):
+> > >
+> > >   Config                   Avg TPS      % vs Baseline
+> > >   baseline (no patch)       59,408       -
+> > >   With this patch          155,409      +161.6%
+> >
+> > Is this back to pre-5d8edfb900d5 performance?
+> 
+> Yes - fully recovered. Here is the summary, same host and workload
+> throughout, average of 3 runs:
+> 
+>   Config                                        Avg TPS   % vs baseline
+>   AL2023 stock 6.1 kernel                       136,942            n/a
+>   v7.3-rc1 baseline (no patch)                   59,408             -
+>   v7.3-rc1, 5d8edfb900d5 behaviour reverted     151,184        +154.5%
+>   v7.3-rc1 + v4                                 155,409        +161.6%
+> 
+> The 6.1 row predates 5d8edfb900d5 entirely. A different kernel version,
+> so not directly comparable, but it shows the performance this workload
+> used to get on this host.
+> 
+> A literal "git revert 5d8edfb900d5" does not apply to v7.3-rc1 -
+> iomap_write_iter() has been rewritten since - so the reverted row is a
+> one-line behavioural revert, forcing the write loop back to copying at
+> most PAGE_SIZE per iteration:
+> 
+>   -	size_t chunk = mapping_max_folio_size(mapping);
+>   +	size_t chunk = PAGE_SIZE;
+> 
+> which is what the pre-5d8edfb900d5 loop computed. That makes
+> iomap_get_folio() pass no order hint, so the path issues only order-0
+> allocations.
+> 
+> 
+> > AI review asked a few serious-looking questions:
+> > 	https://sashiko.dev/#/patchset/20260904115629.3993331-1-dipiets@amazon.it
+> 
+> Thanks for pointing that out. To address them, we can have something
+> like the patch below. Performance results are still similar to v4. Happy
+> to submit a formal v5 patch with it if you would like.
 
-The IDA benchmark has the same problem through IDA_INIT(), but runs after
-Maple Tree and therefore encounters an already disabled lockdep.
+The feedback looks misleading to me.
 
-Use mt_init_flags() and ida_init() to initialize the locks with persistent
-lock-class keys. Keep initialization outside the timed allocation paths.
+ALLOC_NON_BLOCKING itself is fine, it usually only means something in
+conjunction with other flags, like __GFP_HIGH. The access to
+MIGRATE_HIGHATOMIC that it points out is in itself too generous. This
+seems like a real but separate bug. It will allow GFP_TRANSHUGE_LIGHT
+into the highatomic reserves as well, for example.
 
-Fixes: f4806cc63cc6 ("lib: test bitmap vs IDA vs Maple Tree performance for region allocations")
-Closes: https://lore.kernel.org/oe-lkp/202609101106.771b567e-lkp@intel.com
-Signed-off-by: Yury Norov <ynorov@nvidia.com>
----
- lib/region_alloc_benchmark.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+The rt issue seems made up too. We're talking about costly_order &&
+__GFP_NORETRY allocations. Why would they need access to reserves?
 
-diff --git a/lib/region_alloc_benchmark.c b/lib/region_alloc_benchmark.c
-index e88b4cf55c62..a644f3d5431a 100644
---- a/lib/region_alloc_benchmark.c
-+++ b/lib/region_alloc_benchmark.c
-@@ -78,11 +78,13 @@ static size_t __init ida_size(unsigned long nr_ids)
- 
- static unsigned long __init benchmark_ida(unsigned long cap)
- {
--	struct ida ida = IDA_INIT(ida);
-+	struct ida ida;
- 	unsigned long cnt, idx, off, nr_ids = 0;
- 	ktime_t alloc_time, free_time;
- 	int id = -ENOSPC;
- 
-+	ida_init(&ida);
-+
- 	alloc_time = ktime_get();
- 	for (cnt = 0; cnt <= cap; cnt++) {
- 		for (off = 0; off < reg_sz[cnt]; off++) {
-@@ -125,12 +127,14 @@ static unsigned long __init benchmark_ida(unsigned long cap)
- 
- static unsigned long __init benchmark_maple_tree(unsigned long cap)
- {
--	struct maple_tree mt = MTREE_INIT(mt, MT_FLAGS_ALLOC_RANGE);
-+	struct maple_tree mt;
- 	unsigned long cnt, idx;
- 	ktime_t alloc_time, free_time;
- 	size_t sz;
- 	int ret;
- 
-+	mt_init_flags(&mt, MT_FLAGS_ALLOC_RANGE);
-+
- 	alloc_time = ktime_get();
- 	for (cnt = 0; cnt <= cap; cnt++) {
- 		ret = mtree_alloc_range(&mt, &idx, xa_mk_value(cnt + 1),
--- 
-2.53.0
+>   Config                                        Avg TPS   % vs baseline
+>   v7.3-rc1 baseline (no patch)                   59,408             -
+>   v7.3-rc1 + v4                                 155,409        +161.6%
+>   v7.3-rc1 + proposed patch                     161,994        +172.7%
+> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 12fac9084c48..be8b0d72a2db 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -4784,10 +4784,22 @@ static inline struct page *
+>  __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+>  						struct alloc_context *ac)
+>  {
+> -	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
+> +	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
+> +	/*
+> +	 * Costly __GFP_NORETRY callers have a cheap fallback to a lower order,
+> +	 * so don't stall them in direct reclaim or direct compaction.  Exempt
+> +	 * __GFP_THISNODE (the THP attempt from alloc_pages_mpol() needs direct
+> +	 * compaction) and __GFP_NOFAIL (must not be made to fail).  Don't
+> +	 * clear __GFP_DIRECT_RECLAIM from gfp_mask instead: that would also
+> +	 * change the alloc_flags derived by alloc_flags_slowpath().
+> +	 */
+> +	const bool costly_noretry = costly_order &&
+> +		(gfp_mask & __GFP_NORETRY) &&
+> +		!(gfp_mask & (__GFP_THISNODE | __GFP_NOFAIL));
+> +	bool can_direct_reclaim = !costly_noretry &&
+> +		(gfp_mask & __GFP_DIRECT_RECLAIM);
 
+IMO this is worse because now there is a disconnect between these
+flags and the gfp mask again. This sets us up for subtle bugs.
+
+I much preferred v4.
