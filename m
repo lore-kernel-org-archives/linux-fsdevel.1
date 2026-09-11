@@ -1,477 +1,307 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3CEBA45
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 03:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7BB30567B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 03:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789097142; cv=none; b=k6YLrLRZh6/eYjRE4xqvg/f9oXqz2sBqjmTrcwn4WcIKDvwbFzop37boB0+C3ZcxHCtw6qWMilVpdSUiyzyg8OxTIKppCGH2neuKnMoV/6MPfT6qeDOevl1fv/e9otIzM6+lCYFPoS4jZK7L3F2augZOMA4Ij5qnZ/rRYktvvCA=
+	t=1789097689; cv=none; b=TDuU2qX3T1eJbvOoylYAeLvvBSVMksO6lgxVbUKAArhNZNODc0vWAhbpQpj3hz+xdNS5K45QbgUiFAI7KKmuUwGQ+5Yi+SjE5+tYA0TZ9sKlQdZrvOgIGTJzIJxIHLbouDi0AdogpfMYjJFomjDmw2xvGanZKzaKUijNj1sUNeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789097142; c=relaxed/simple;
-	bh=Lkgc3M9i0KT6m5TN0npYklrCaI6OqB54r7WQ/AJ1BKI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IpE+WbWd/k40l93Ogl3uHA0ibOzdGbZ7mw/UwMtLG6zLYBsNMyKR+q7Nrl/k5p/yObFyKeJ32xIiWQQIt0LHRIvX3qjt3w+Ejs2YvoTikchLphdwSeoaRHEBCd6z2Nm26cFVL7JA4+UWxqm2LhGQailZxKk7F+Qtl7X/S9nPT+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bobrowski.net; spf=pass smtp.mailfrom=bobrowski.net; dkim=pass (2048-bit key) header.d=bobrowski.net header.i=@bobrowski.net header.b=Al/SmfWo; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bobrowski.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bobrowski.net
+	s=arc-20240116; t=1789097689; c=relaxed/simple;
+	bh=Tu8pKOZMUv7MW57ziXM+jjfR2tJTZJ5OdKiSdiJIjOk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I9Bngl1jYfGVIdMiO9wDYqKUPJRFl1NHXKD2aHeEW449Lxqfu/IAp6SDKzKk1ixQX07vag25YcVRC+Vyu1Q/p+7miEY7vbINr1C3rMuFpty5bZjyTGXkaiSKz1IxkJmThf7S7Of+I9ulTTfPbvd+H7iY2SGaK/jYOKbKGlm/W6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=gtUj6Mp5; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bobrowski.net header.i=@bobrowski.net header.b="Al/SmfWo"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d90ba1d807so4635675ad.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 20:25:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="gtUj6Mp5"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8692a856865so420098b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 20:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bobrowski.net; s=google; t=1789097140; x=1789701940; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0QRxFaZ4nvIVldlD+s8wJgCnfUj2PgjJQRnCUYNgZRU=;
-        b=Al/SmfWorHfy0ozpMsBowd6oU5yOaFjrj5974Tepxd5nGqvNh3KtuLChHjOtLY6Qts
-         plqVHaP9D4/DRkPeXM5w/gyM2RVrNV7ZIcIHtwXUBfdE4uUNOuCamLNc2lgnuhuFZfBH
-         mq7ALiXL7hdFf3o8YUcK+ROs8J+jr4Ln6oHEeC3dAmUqZZbYutODeiX2E2FURFkff+hj
-         uP7OPkgrMN7g7ORNVGWG5kaOustXH8KROi1c3AsTEjYNcPEzIKhmh3pZdlsxr7OLlGfl
-         hUam1mIJsn9PmuktDc9k0GTUw6ydLVyybLKZfutpluPCgONVjfxo6D0jdB+L6KYx53yg
-         Yt6g==
+        d=bytedance.com; s=google; t=1789097687; x=1789702487; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fuXAmveLdtY834MnFfaJv8gpo2I0H6i9bOQiKf03dlw=;
+        b=gtUj6Mp5AlOxNHmRhIfvG9DS5l/+7oq1gXw6q89QzWlV2Vh8joSZxw2S2FRLPKHr7/
+         FjkI3KoG745uPh16//87TFLHtND0hFFmueWRUuHSb2N+DkkORtEVZlDwg6O2+HCN8ge7
+         USIRKa+nBMARSZWC1zls352FtGfwDZDwNDFwQckQwymnIUcbMwhAcNNQ9gMWb6/WfMbX
+         e/wb/pTqtQSYStP1zF44MxQDXUENyRxTYPO6JbvepS+U3Yv/F4oiCbH4eDT057YLN6Oo
+         aJNPYAw+8KoXAnFrqWXWox5uz5ljJPqKdKg4O6ucVxelZYuphJWoW1Yer+eXJF0wFdI8
+         CaKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789097140; x=1789701940;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1789097687; x=1789702487;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0QRxFaZ4nvIVldlD+s8wJgCnfUj2PgjJQRnCUYNgZRU=;
-        b=ig2DmvQpkIQ/BixoaJcujGfpaS3CSjR49gjI18LRU9qN9Ajod7nbiP9T5ehEwVtxmm
-         MSlYy/jwc4ExQ4hB5632jY/GDb1t/9rfZbB/N7k9dDcbUxCVU3pNhsleeitZSm4MInca
-         vLVaPcYa24fNhGK3xJk8utNJm+0WKGGMYZSp1+t4AzfsvWf4MItWiN2YwVqrHHay2/Rl
-         /hFQ5anwpRICld246mgZqyE7YaR8ohUDn64Y8CzzikdagEclSY59HWVjB0pJd0V+xf3d
-         kxgz9xNSMsSN7+qbYaeU4TsaXXVpyxWSKQFpwTotRENwTm3X1eRaAfTdT4lxsEHlKfyI
-         OWfw==
-X-Forwarded-Encrypted: i=1; AKwUvBzAOASJLgyjgHGqWFSkq8de961WxhsLegtG7mbqgG4zcmvG1ncRogCXEtAMLmO0lyd5bQ5n2k3K2roGg4xT@vger.kernel.org
-X-Gm-Message-State: AFuF++k1S+qpX0cBfT4A6hl7CylR/i91UiLMzNuLyWYEkCvibuf4a788
-	KT4Z7XVJLQJKoCQ8aW+42FSjMkHRoiJ/VFg5Amd8xaFiFTey88660NVuor6YIwcxWFtmnG221ch
-	8tOJBBw==
-X-Gm-Gg: AYBFou1JptVK7tRsfXLGv1C/8Bju2+wts+g2R82BA3eJ5iTtYCUXrc5Hq/GK3oLcGJc
-	40Xot+jmqxOTvpVKnQZslDegfxfrRThQPZizgLevlHo6vw1JrpuxjsoKbVfdP28eo+Vhc++vRO2
-	D4SlDRJE6YdOo00kBeonucNLk+jx92qVt9fBr2A2Jfpq2iItlgAgc8Av245u6JONK1znqjJGeV2
-	AdkdOLqOkRlzV5PWk0P6SCzeD5N3HLdlYFFvuYkmVxTlyS2jyJY6eIdWVGFmTqP8eU3Dqi/1CMt
-	QN11WJ/F1W1TLJoAC564MnmNUlhfirY/O/xCbMdZ616fIK4aq4sSnLDsmv254hbIcDhi4hTLt0B
-	pfTye4mAL6tgRth/BNhZlf6l2M9QvuvN4VMOwsxSQwbLsftYoOEti7vvit1sBddFgNr19eis/zV
-	0JuSCdiDUEOXNKir7Sn8mmjYlrdFK2RPUlsi1qmA+haKNjaxBQxvpv8ofFVn/cKKcUjuZf7ROL+
-	CxYrvED774gK54UBWosba6y7uqhih+tZe5KamLwF59ROlGT2w==
-X-Received: by 2002:a17:90b:1a90:b0:398:b71e:60c1 with SMTP id 98e67ed59e1d1-39d9c2346c6mr3295750a91.12.1789097139587;
-        Thu, 10 Sep 2026 20:25:39 -0700 (PDT)
-Received: from lima-development (163-53-146-23.ip4.superloop.au. [163.53.146.23])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d9b085e87sm612061a91.1.2026.09.10.20.25.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 20:25:39 -0700 (PDT)
-Date: Fri, 11 Sep 2026 13:25:28 +1000
-From: Matt Bobrowski <matt@bobrowski.net>
-To: daan@amutable.com
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Paul Moore <paul@paul-moore.com>, linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] selftests/bpf: verify mount idmaps reach inode
- hooks
-Message-ID: <aqN0EGbbHk8XMqI6@lima-development>
-References: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
- <20260904-lsm-mount-idmaps-v3-2-920a1963675d@amutable.com>
+        bh=fuXAmveLdtY834MnFfaJv8gpo2I0H6i9bOQiKf03dlw=;
+        b=o0SA4kPXIs8GeqbMZw2f7glvP3+uRFjjeN6elslGYM/p6o7x6MGUPZAspw6BNekoLO
+         USFMk+IEN01vteIuXTHb/1y2lPafsL69vZzy8dvhewi+pji8FzpHLRRM0sMSCBwlBmgP
+         THBqdYTCrcP9qIWUaYr3l2qRyUrXD/tsu+XvO17jQ0jo88ZJJxCdjuLh5EF5dIJkxSkl
+         +FzQl/ZUlbdn+GcjhkC2Sp2eLYwZrYh49P3S6BmEi0vF1jrIeQ94R99fUcIUkZTVjHGP
+         IF8mzWAdu3ohoqBvzC2f/N6Bw1elMr+b0YvtZJYzg30WhdYm/7Cn3qolNVUJ5J5SJPKI
+         47gA==
+X-Forwarded-Encrypted: i=1; AKwUvBxOBO52hGbedYFfhutOtXvYSfpD8PqmNYiXJDVk/3JhjSTQP4L1pIQIaAte6IqV3EpqLZ5Qv9BUNBaAkDk7@vger.kernel.org
+X-Gm-Message-State: AFuF++l6QxGzd6CwGKqlwhxUOQoOMqE0N3gibl0ct44WcGB1MJHXIgQX
+	rqDN3EOntjtq2XJ2HCoO6GmC2YKx+TFvlDbwau8mIQn14bSEgxpJUbWlalIUGiBjpNw=
+X-Gm-Gg: AYBFou3TdrMYxP6Zld0YkNz6TScFGfUVtc2sBs329+tFefXXNRAhuQaAB2nhxsFFv3C
+	KsLrwlvBo1COc5s9/qDWIqwSgknTtHKDspCnMOx3CPtZztj8Q1DEbBXWS5Q5g67y28EuosyfowV
+	AEwHriaf+Ln9sxlQnHChCpHqgRMfd327toxWKlq55M+SZhGDqZHjl6+IELMH+nigta6VOK91mWy
+	cjDSzifK/apJ7MeS32pdDhRBptoqbbkEcqBP0tDdozu+SFV2cVw8je45rrVnb2t4gq2F2NTWoMg
+	jZjSWW5ZoZjgyI2PBCaECFAo5GwfzclyvqwRo1vAyyPbM1rvT2ZmKy9RQ0LthU3TedaghHZnyso
+	WOdLdtG6ntcDNJScSDyGepea7gkHq7m2DIPT8hF/DGPRJHIelSEfFWSQG21V/85xdtNf+lXklZB
+	k80RoyKzNbsy2yWSwafyqFc+6zzItl7l571Bv3SchKl9QOG+kuKk6cbvdYbx6vmXEt3bNcaaTo9
+	PrbauN6u4BMWbeFFYKJ3zRydtFHbZ19j99DqaI1n28=
+X-Received: by 2002:a05:6a00:148d:b0:848:6c9c:4074 with SMTP id d2e1a72fcca58-86b30413328mr3281646b3a.1.1789097686524;
+        Thu, 10 Sep 2026 20:34:46 -0700 (PDT)
+Received: from [100.81.12.150] ([61.213.176.57])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b291bf622sm397251b3a.27.2026.09.10.20.34.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2026 20:34:46 -0700 (PDT)
+Message-ID: <5e19472a-514a-4483-91c4-3c3b62c71600@bytedance.com>
+Date: Fri, 11 Sep 2026 11:34:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904-lsm-mount-idmaps-v3-2-920a1963675d@amutable.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [External] Re: [PATCH 2/7] fs: introduce sb_for_each_inodes().
+To: Jan Kara <jack@suse.cz>
+Cc: linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ gfs2@lists.linux.dev, linux-security-module@vger.kernel.org,
+ agruenba@redhat.com, mic@digikod.net, gnoack@google.com,
+ paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+ aleksa@amutable.com, legion@kernel.org, djwong@kernel.org,
+ ebiggers@kernel.org, sandeen@redhat.com
+References: <20260909090112.790006-1-sunjunchao@bytedance.com>
+ <20260909090112.790006-3-sunjunchao@bytedance.com>
+ <yhfoyto6skszguj447a7ifajl2r6qiwj5japcg2zsj2ooshi4r@tgkq5fadmyto>
+From: Julian Sun <sunjunchao@bytedance.com>
+In-Reply-To: <yhfoyto6skszguj447a7ifajl2r6qiwj5japcg2zsj2ooshi4r@tgkq5fadmyto>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 04, 2026 at 04:48:56PM +0200, Daan De Meyer via B4 Relay wrote:
-> From: Daan De Meyer <daan@amutable.com>
+On 9/11/26 1:47 AM, Jan Kara wrote:
+> On Wed 09-09-26 17:01:07, Julian Sun wrote:
+>> Add sb_for_each_inodes() to share s_inodes traversal and preserve its
+>> position while s_inode_list_lock is dropped.
+>>
+>> Track active iterators on sb->s_inodes_iters and advance their saved
+>> positions before unlinking an inode. Callbacks manage inode references
+>> and per-inode work, allowing both normal walks and eviction to use the
+>> same interface.
+>>
+>> Signed-off-by: Julian Sun <sunjunchao@bytedance.com>
 > 
-> Extend the BPF LSM selftest to exercise create, link, symlink, mkdir,
-> mknod, and permission through both the VFS identity idmap and a real
-> idmapped tmpfs mount.
+> So I'm not generally opposed the to a superblock inode iterator idea but
+> what you have looks more complex than I'd expect. Also we shouldn't tie
+> that to the fix of the lockup in evict_inodes(). So first I'd just
+> concentrate on fixing that lockup, then we can have a look at the iterator
+> idea.
 > 
-> Record the idmap observed by each hook and verify that every updated hook
-> receives the mapping used by the VFS operation. This provides regression
-> coverage for passing mount idmaps through inode security hooks.
+> You can take some inspiration about inode iteration API from the Dave
+> Chinner's patch set [1]. That looked more like what I'd expect although
+> Christoph had some comments on it too.
 > 
-> Signed-off-by: Daan De Meyer <daan@amutable.com>
+> Regarding the fix I'd just make evict_inodes() do what all other inode
+> iterators do when they decide to drop s_inode_list_lock - pin an inode in
+> the list by grabbing refcount and then resume from it.
 
-This all looks fine to me. Feel free to add:
+Thanks for the feedback. I agree that we should fix the lockup separately,
+and I'll focus on that first.
 
-Reviewed-by: Matt Bobrowski <matt@bobrowski.net>
+I had seen Dave Chinner's series before. I'll revisit it and the review
+comments when working on the inode iteration API.>
+> 								Honza
+> 
+> [1] https://lore.kernel.org/all/20241002014017.3801899-1-david@fromorbit.com/
+> 
+>> ---
+>>   fs/inode.c                     | 93 ++++++++++++++++++++++++++++++++++
+>>   fs/super.c                     |  1 +
+>>   include/linux/fs.h             | 15 ++++++
+>>   include/linux/fs/super_types.h |  3 +-
+>>   4 files changed, 111 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/fs/inode.c b/fs/inode.c
+>> index ba7da39be4a3..b4279063a5dd 100644
+>> --- a/fs/inode.c
+>> +++ b/fs/inode.c
+>> @@ -69,6 +69,15 @@ const struct address_space_operations empty_aops = {
+>>   };
+>>   EXPORT_SYMBOL(empty_aops);
+>>   
+>> +struct inode_iter {
+>> +	struct list_head	iters_node;	/* sb->s_inodes_iters */
+>> +	struct list_head	*next;		/* next node going to iterate */
+>> +	unsigned int flags;
+>> +	inode_iter_cb func;
+>> +	void *data;
+>> +	int ret;
+>> +};
+>> +
+>>   static DEFINE_PER_CPU(unsigned long, nr_inodes);
+>>   static DEFINE_PER_CPU(unsigned long, nr_unused);
+>>   
+>> @@ -641,12 +650,96 @@ void inode_sb_list_add(struct inode *inode)
+>>   }
+>>   EXPORT_SYMBOL_GPL(inode_sb_list_add);
+>>   
+>> +static void inode_sb_iter_start(struct super_block *sb, struct inode_iter *it,
+>> +				unsigned int flags, inode_iter_cb fn, void *data)
+>> +{
+>> +	it->flags = flags;
+>> +	it->func = fn;
+>> +	it->data = data;
+>> +	it->ret = 0;
+>> +	spin_lock(&sb->s_inode_list_lock);
+>> +	it->next = sb->s_inodes.next;
+>> +	list_add(&it->iters_node, &sb->s_inodes_iters);
+>> +}
+>> +
+>> +static void inode_sb_iter_end(struct inode_iter *it, struct super_block *sb)
+>> +{
+>> +	list_del(&it->iters_node);
+>> +	spin_unlock(&sb->s_inode_list_lock);
+>> +}
+>> +
+>> +static bool inode_sb_iter_next(struct inode_iter *it, struct super_block *sb)
+>> +{
+>> +	struct inode *inode = NULL;
+>> +	int ret;
+>> +
+>> +	while (!inode && it->next != &sb->s_inodes) {
+>> +		inode = list_entry(it->next, struct inode, i_sb_list);
+>> +		if (it->flags & INODE_ITER_UNUSED) {
+>> +			if (icount_read_once(inode)) {
+>> +				it->next = it->next->next;
+>> +				continue;
+>> +			}
+>> +
+>> +			spin_lock(&inode->i_lock);
+>> +			if (icount_read(inode)) {
+>> +				spin_unlock(&inode->i_lock);
+>> +				it->next = it->next->next;
+>> +				continue;
+>> +			}
+>> +		} else {
+>> +			spin_lock(&inode->i_lock);
+>> +		}
+>> +
+>> +		if ((it->flags & INODE_ITER_NORMAL) &&
+>> +		    (inode_state_read(inode) & (I_NEW | I_FREEING | I_WILL_FREE))) {
+>> +			spin_unlock(&inode->i_lock);
+>> +			it->next = it->next->next;
+>> +			continue;
+>> +		}
+>> +
+>> +		it->next = it->next->next;
+>> +		ret = it->func(inode, it->data);
+>> +		if (ret) {
+>> +			it->ret = ret;
+>> +			return false;
+>> +		}
+>> +
+>> +		if (need_resched()) {
+>> +			spin_unlock(&sb->s_inode_list_lock);
+>> +			cond_resched();
+>> +			spin_lock(&sb->s_inode_list_lock);
+>> +		}
+>> +	}
+>> +
+>> +	return it->next == &sb->s_inodes ? false : true;
+>> +}
+>> +
+>> +int sb_for_each_inodes(struct super_block *sb, unsigned int flags,
+>> +		       inode_iter_cb fn, void *data)
+>> +{
+>> +	struct inode_iter it;
+>> +
+>> +	inode_sb_iter_start(sb, &it, flags, fn, data);
+>> +	while (inode_sb_iter_next(&it, sb))
+>> +		;
+>> +	inode_sb_iter_end(&it, sb);
+>> +
+>> +	return it.ret;
+>> +}
+>> +EXPORT_SYMBOL(sb_for_each_inodes);
+>> +
+>>   static inline void inode_sb_list_del(struct inode *inode)
+>>   {
+>>   	struct super_block *sb = inode->i_sb;
+>> +	struct inode_iter *it;
+>>   
+>>   	if (!list_empty(&inode->i_sb_list)) {
+>>   		spin_lock(&sb->s_inode_list_lock);
+>> +		list_for_each_entry(it, &sb->s_inodes_iters, iters_node) {
+>> +			if (it->next == &inode->i_sb_list)
+>> +				it->next = inode->i_sb_list.next;
+>> +		}
+>>   		list_del_init(&inode->i_sb_list);
+>>   		spin_unlock(&sb->s_inode_list_lock);
+>>   	}
+>> diff --git a/fs/super.c b/fs/super.c
+>> index 05e443173038..3e069150c544 100644
+>> --- a/fs/super.c
+>> +++ b/fs/super.c
+>> @@ -382,6 +382,7 @@ static struct super_block *alloc_super(struct file_system_type *type, int flags,
+>>   	spin_lock_init(&s->s_roots_lock);
+>>   	mutex_init(&s->s_sync_lock);
+>>   	INIT_LIST_HEAD(&s->s_inodes);
+>> +	INIT_LIST_HEAD(&s->s_inodes_iters);
+>>   	spin_lock_init(&s->s_inode_list_lock);
+>>   	INIT_LIST_HEAD(&s->s_inodes_wb);
+>>   	spin_lock_init(&s->s_inode_wblist_lock);
+>> diff --git a/include/linux/fs.h b/include/linux/fs.h
+>> index 09c4db5e9ae0..f3176ab10e65 100644
+>> --- a/include/linux/fs.h
+>> +++ b/include/linux/fs.h
+>> @@ -870,6 +870,21 @@ struct inode {
+>>   	void			*i_private; /* fs or device private pointer */
+>>   } __randomize_layout;
+>>   
+>> +enum inode_iter_flags_enum {
+>> +	INODE_ITER_NORMAL = (1U << 1),  /* Exclude inodes with (I_NEW | I_FREEING | I_WILL_FREE). */
+>> +	INODE_ITER_UNUSED = (1U << 2),  /* Only return inodes with (i_count == 0). */
+>> +};
+>> +
+>> +/*
+>> + *                             start          end
+>> + *  inode->i_lock              locked         unlocked
+>> + *  sb->s_inode_list_lock      locked         locked
+>> + */
+>> +typedef int (*inode_iter_cb) (struct inode *, void *);
+>> +
+>> +int sb_for_each_inodes(struct super_block *sb, unsigned int flags,
+>> +		       inode_iter_cb fn, void *data);
+>> +
+>>   /*
+>>    * i_state handling
+>>    *
+>> diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
+>> index ecd96aeb1cee..1f81cc219b8e 100644
+>> --- a/include/linux/fs/super_types.h
+>> +++ b/include/linux/fs/super_types.h
+>> @@ -269,9 +269,10 @@ struct super_block {
+>>   	 */
+>>   	int s_stack_depth;
+>>   
+>> -	/* s_inode_list_lock protects s_inodes */
+>> +	/* s_inode_list_lock protects s_inodes and s_inodes_iters */
+>>   	spinlock_t				s_inode_list_lock ____cacheline_aligned_in_smp;
+>>   	struct list_head			s_inodes;	/* all inodes */
+>> +	struct list_head			s_inodes_iters; /* all iterators */
+>>   
+>>   	spinlock_t				s_inode_wblist_lock;
+>>   	struct list_head			s_inodes_wb;	/* writeback inodes */
+>> -- 
+>> 2.39.5
+>>
 
-> ---
->  tools/testing/selftests/bpf/prog_tests/test_lsm.c | 231 ++++++++++++++++++++++
->  tools/testing/selftests/bpf/progs/lsm.c           |  79 ++++++++
->  2 files changed, 310 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/bpf/prog_tests/test_lsm.c b/tools/testing/selftests/bpf/prog_tests/test_lsm.c
-> index d7495efd4a56..c0ae813698ae 100644
-> --- a/tools/testing/selftests/bpf/prog_tests/test_lsm.c
-> +++ b/tools/testing/selftests/bpf/prog_tests/test_lsm.c
-> @@ -1,18 +1,30 @@
->  // SPDX-License-Identifier: GPL-2.0
-> +#define _GNU_SOURCE
->  
->  /*
->   * Copyright (C) 2020 Google LLC.
->   */
->  
->  #include <test_progs.h>
-> +#include <sched.h>
-> +#include <signal.h>
-> +#include <string.h>
-> +#include <sys/stat.h>
-> +#include <sys/syscall.h>
->  #include <sys/wait.h>
->  #include <unistd.h>
->  
-> +#include <linux/mount.h>
-> +
->  #include "lsm.skel.h"
->  #include "lsm_tailcall.skel.h"
->  
->  char *CMD_ARGS[] = {"true", NULL};
->  
-> +enum {
-> +	INODE_IDMAP_ALL = (1U << 6) - 1,
-> +};
-> +
->  int exec_cmd(int *monitored_pid)
->  {
->  	int child_pid, child_status;
-> @@ -30,6 +42,219 @@ int exec_cmd(int *monitored_pid)
->  	return -EINVAL;
->  }
->  
-> +static ssize_t write_nointr(int fd, const void *buf, size_t count)
-> +{
-> +	ssize_t ret;
-> +
-> +	do {
-> +		ret = write(fd, buf, count);
-> +	} while (ret < 0 && errno == EINTR);
-> +
-> +	return ret;
-> +}
-> +
-> +static int write_file(const char *path, const char *value)
-> +{
-> +	size_t len = strlen(value);
-> +	int fd, saved_errno = 0;
-> +	ssize_t ret;
-> +
-> +	fd = open(path, O_WRONLY | O_CLOEXEC | O_NOCTTY | O_NOFOLLOW);
-> +	if (fd < 0)
-> +		return -1;
-> +
-> +	ret = write_nointr(fd, value, len);
-> +	if (ret < 0)
-> +		saved_errno = errno;
-> +	else if ((size_t)ret != len)
-> +		saved_errno = EIO;
-> +	close(fd);
-> +	if (saved_errno) {
-> +		errno = saved_errno;
-> +		return -1;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int write_userns_file(pid_t pid, const char *name, const char *value)
-> +{
-> +	char path[64];
-> +	int len;
-> +
-> +	len = snprintf(path, sizeof(path), "/proc/%d/%s", pid, name);
-> +	if (len < 0 || (size_t)len >= sizeof(path)) {
-> +		errno = EOVERFLOW;
-> +		return -1;
-> +	}
-> +
-> +	return write_file(path, value);
-> +}
-> +
-> +static int create_userns_fd(void)
-> +{
-> +	char path[64];
-> +	pid_t pid, waited;
-> +	int fd = -1, len, saved_errno, status;
-> +
-> +	pid = fork();
-> +	if (pid < 0)
-> +		return -1;
-> +	if (pid == 0) {
-> +		if (unshare(CLONE_NEWUSER))
-> +			_exit(1);
-> +		raise(SIGSTOP);
-> +		_exit(0);
-> +	}
-> +
-> +	do {
-> +		waited = waitpid(pid, &status, WUNTRACED);
-> +	} while (waited < 0 && errno == EINTR);
-> +	if (waited != pid)
-> +		goto out;
-> +	if (!WIFSTOPPED(status)) {
-> +		pid = -1;
-> +		goto out;
-> +	}
-> +
-> +	/* A one-entry map is identity for root but remains distinct from nop_mnt_idmap. */
-> +	if (write_userns_file(pid, "setgroups", "deny") && errno != ENOENT)
-> +		goto out;
-> +	if (write_userns_file(pid, "uid_map", "0 0 1") ||
-> +	    write_userns_file(pid, "gid_map", "0 0 1"))
-> +		goto out;
-> +
-> +	len = snprintf(path, sizeof(path), "/proc/%d/ns/user", pid);
-> +	if (len < 0 || (size_t)len >= sizeof(path)) {
-> +		errno = EOVERFLOW;
-> +		goto out;
-> +	}
-> +	fd = open(path, O_RDONLY | O_CLOEXEC);
-> +
-> +out:
-> +	saved_errno = errno;
-> +	if (pid > 0) {
-> +		kill(pid, SIGKILL);
-> +		do {
-> +			waited = waitpid(pid, NULL, 0);
-> +		} while (waited < 0 && errno == EINTR);
-> +	}
-> +	errno = saved_errno;
-> +	return fd;
-> +}
-> +
-> +static int create_idmapped_tmpfs(void)
-> +{
-> +	struct mount_attr attr = {
-> +		.attr_set = MOUNT_ATTR_IDMAP,
-> +	};
-> +	int fsfd = -1, mntfd = -1, saved_errno, userns_fd = -1;
-> +
-> +	userns_fd = create_userns_fd();
-> +	if (userns_fd < 0)
-> +		goto out;
-> +
-> +	/* A detached tmpfs avoids relying on the host test directory supporting idmaps. */
-> +	fsfd = syscall(__NR_fsopen, "tmpfs", FSOPEN_CLOEXEC);
-> +	if (fsfd < 0)
-> +		goto out;
-> +	if (syscall(__NR_fsconfig, fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0))
-> +		goto out;
-> +
-> +	mntfd = syscall(__NR_fsmount, fsfd, FSMOUNT_CLOEXEC, 0);
-> +	if (mntfd < 0)
-> +		goto out;
-> +
-> +	attr.userns_fd = userns_fd;
-> +	if (syscall(__NR_mount_setattr, mntfd, "", AT_EMPTY_PATH, &attr,
-> +		    sizeof(attr))) {
-> +		close(mntfd);
-> +		mntfd = -1;
-> +	}
-> +
-> +out:
-> +	saved_errno = errno;
-> +	if (fsfd >= 0)
-> +		close(fsfd);
-> +	if (userns_fd >= 0)
-> +		close(userns_fd);
-> +	errno = saved_errno;
-> +	return mntfd;
-> +}
-> +
-> +static int exercise_inode_idmap_hooks(int dirfd)
-> +{
-> +	int fd = -1, ret = -1;
-> +
-> +	fd = openat(dirfd, "file", O_CREAT | O_EXCL | O_WRONLY | O_CLOEXEC,
-> +		    0600);
-> +	if (!ASSERT_GE(fd, 0, "create"))
-> +		goto out;
-> +	close(fd);
-> +	fd = -1;
-> +
-> +	if (!ASSERT_OK(mkdirat(dirfd, "dir", 0700), "mkdir"))
-> +		goto out;
-> +	if (!ASSERT_OK(symlinkat("target", dirfd, "symlink"), "symlink"))
-> +		goto out;
-> +	if (!ASSERT_OK(linkat(dirfd, "file", dirfd, "link", 0), "link"))
-> +		goto out;
-> +	if (!ASSERT_OK(mkfifoat(dirfd, "fifo", 0600), "mknod"))
-> +		goto out;
-> +
-> +	ret = 0;
-> +out:
-> +	if (fd >= 0)
-> +		close(fd);
-> +	unlinkat(dirfd, "link", 0);
-> +	unlinkat(dirfd, "fifo", 0);
-> +	unlinkat(dirfd, "symlink", 0);
-> +	unlinkat(dirfd, "file", 0);
-> +	unlinkat(dirfd, "dir", AT_REMOVEDIR);
-> +	return ret;
-> +}
-> +
-> +static int test_lsm_inode_idmap(struct lsm *skel)
-> +{
-> +	char tmpdir[] = "/var/tmp/test_lsm_idmap.XXXXXX";
-> +	__u32 expected = INODE_IDMAP_ALL;
-> +	int dirfd = -1, idmapped_dirfd = -1;
-> +	int ret = -1;
-> +
-> +	if (!ASSERT_OK_PTR(mkdtemp(tmpdir), "mkdtemp"))
-> +		return -1;
-> +
-> +	dirfd = open(tmpdir, O_RDONLY | O_DIRECTORY | O_CLOEXEC);
-> +	if (!ASSERT_GE(dirfd, 0, "open_tmpdir"))
-> +		goto out;
-> +
-> +	idmapped_dirfd = create_idmapped_tmpfs();
-> +	if (!ASSERT_GE(idmapped_dirfd, 0, "create_idmapped_tmpfs"))
-> +		goto out;
-> +
-> +	skel->bss->inode_identity_idmap_seen = 0;
-> +	skel->bss->inode_idmapped_mount_seen = 0;
-> +
-> +	if (!ASSERT_OK(exercise_inode_idmap_hooks(dirfd), "identity_idmap"))
-> +		goto out;
-> +	if (!ASSERT_OK(exercise_inode_idmap_hooks(idmapped_dirfd),
-> +		       "idmapped_mount"))
-> +		goto out;
-> +
-> +	if (!ASSERT_EQ(skel->bss->inode_identity_idmap_seen, expected,
-> +		       "inode_identity_idmap_seen"))
-> +		goto out;
-> +	ret = ASSERT_EQ(skel->bss->inode_idmapped_mount_seen, expected,
-> +			"inode_idmapped_mount_seen") ? 0 : -1;
-> +
-> +out:
-> +	if (idmapped_dirfd >= 0)
-> +		close(idmapped_dirfd);
-> +	if (dirfd >= 0)
-> +		close(dirfd);
-> +	rmdir(tmpdir);
-> +	return ret;
-> +}
-> +
->  static int test_lsm(struct lsm *skel)
->  {
->  	struct bpf_link *link;
-> @@ -53,6 +278,10 @@ static int test_lsm(struct lsm *skel)
->  
->  	skel->bss->monitored_pid = getpid();
->  
-> +	err = test_lsm_inode_idmap(skel);
-> +	if (!ASSERT_OK(err, "test_lsm_inode_idmap"))
-> +		return err;
-> +
->  	err = stack_mprotect();
->  	if (!ASSERT_EQ(err, -1, "stack_mprotect") ||
->  	    !ASSERT_EQ(errno, EPERM, "stack_mprotect"))
-> @@ -71,6 +300,8 @@ static int test_lsm(struct lsm *skel)
->  	skel->bss->copy_test = 0;
->  	skel->bss->bprm_count = 0;
->  	skel->bss->mprotect_count = 0;
-> +	skel->bss->inode_identity_idmap_seen = 0;
-> +	skel->bss->inode_idmapped_mount_seen = 0;
->  	return 0;
->  }
->  
-> diff --git a/tools/testing/selftests/bpf/progs/lsm.c b/tools/testing/selftests/bpf/progs/lsm.c
-> index 7de173daf27b..7e32fbddbfad 100644
-> --- a/tools/testing/selftests/bpf/progs/lsm.c
-> +++ b/tools/testing/selftests/bpf/progs/lsm.c
-> @@ -84,6 +84,85 @@ char _license[] SEC("license") = "GPL";
->  int monitored_pid = 0;
->  int mprotect_count = 0;
->  int bprm_count = 0;
-> +__u32 inode_identity_idmap_seen = 0;
-> +__u32 inode_idmapped_mount_seen = 0;
-> +
-> +enum {
-> +	INODE_IDMAP_CREATE	= 1U << 0,
-> +	INODE_IDMAP_LINK	= 1U << 1,
-> +	INODE_IDMAP_SYMLINK	= 1U << 2,
-> +	INODE_IDMAP_MKDIR	= 1U << 3,
-> +	INODE_IDMAP_MKNOD	= 1U << 4,
-> +	INODE_IDMAP_PERMISSION	= 1U << 5,
-> +};
-> +
-> +static __always_inline bool is_monitored_idmap(struct mnt_idmap *idmap)
-> +{
-> +	__u32 pid = bpf_get_current_pid_tgid() >> 32;
-> +
-> +	return monitored_pid == pid && idmap;
-> +}
-> +
-> +static __always_inline bool is_identity_idmap(struct mnt_idmap *idmap)
-> +{
-> +	return idmap->uid_map.nr_extents == 0 &&
-> +	       idmap->gid_map.nr_extents == 0;
-> +}
-> +
-> +static __always_inline int record_inode_idmap(struct mnt_idmap *idmap,
-> +					      __u32 hook, int ret)
-> +{
-> +	if (ret || !is_monitored_idmap(idmap))
-> +		return ret;
-> +	if (is_identity_idmap(idmap))
-> +		inode_identity_idmap_seen |= hook;
-> +	else
-> +		inode_idmapped_mount_seen |= hook;
-> +	return 0;
-> +}
-> +
-> +SEC("lsm/inode_create")
-> +int BPF_PROG(test_inode_create, struct mnt_idmap *idmap, struct inode *dir,
-> +	     struct dentry *dentry, umode_t mode, int ret)
-> +{
-> +	return record_inode_idmap(idmap, INODE_IDMAP_CREATE, ret);
-> +}
-> +
-> +SEC("lsm/inode_link")
-> +int BPF_PROG(test_inode_link, struct mnt_idmap *idmap,
-> +	     struct dentry *old_dentry, struct inode *dir,
-> +	     struct dentry *new_dentry, int ret)
-> +{
-> +	return record_inode_idmap(idmap, INODE_IDMAP_LINK, ret);
-> +}
-> +
-> +SEC("lsm/inode_symlink")
-> +int BPF_PROG(test_inode_symlink, struct mnt_idmap *idmap, struct inode *dir,
-> +	     struct dentry *dentry, const char *old_name, int ret)
-> +{
-> +	return record_inode_idmap(idmap, INODE_IDMAP_SYMLINK, ret);
-> +}
-> +
-> +SEC("lsm/inode_mkdir")
-> +int BPF_PROG(test_inode_mkdir, struct mnt_idmap *idmap, struct inode *dir,
-> +	     struct dentry *dentry, umode_t mode, int ret)
-> +{
-> +	return record_inode_idmap(idmap, INODE_IDMAP_MKDIR, ret);
-> +}
-> +
-> +SEC("lsm/inode_mknod")
-> +int BPF_PROG(test_inode_mknod, struct mnt_idmap *idmap, struct inode *dir,
-> +	     struct dentry *dentry, umode_t mode, dev_t dev, int ret)
-> +{
-> +	return record_inode_idmap(idmap, INODE_IDMAP_MKNOD, ret);
-> +}
-> +
-> +SEC("lsm/inode_permission")
-> +int BPF_PROG(test_inode_permission, struct mnt_idmap *idmap,
-> +	     struct inode *inode, int mask, int ret)
-> +{
-> +	return record_inode_idmap(idmap, INODE_IDMAP_PERMISSION, ret);
-> +}
->  
->  SEC("lsm/file_mprotect")
->  int BPF_PROG(test_int_hook, struct vm_area_struct *vma,
-> 
-> -- 
-> 2.54.0
-> 
-> 
+Thanks,
+-- 
+Julian Sun <sunjunchao@bytedance.com>
