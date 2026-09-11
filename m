@@ -1,210 +1,198 @@
-Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E8B392807
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 13:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBED0348896;
+	Fri, 11 Sep 2026 14:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.68.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789134228; cv=none; b=a/kXavgjw0Wfy8mRclZnpWHm79LoChVVC4OqqCYMpqLGTqtzivANd4AIIliq1Nyy0yQvuIb5/QRKU/H+vsgaAAlHuZJoS6B7CU8Bkr5Sg29wBHm2inljYK3V5btvB81RrfXQODTFHyjmFDSjpe8rW/s+wGMO5OJCPvNYKSFZwuw=
+	t=1789136499; cv=none; b=FwMPe3/YcTRTe1UZ1H/uL5rFlrqM6Lb6KmR51LdHQfSNNpXIOanRNQHhjuiT3SRXKCVZVdczzKHqyZbCwJHk9FS3IHsQjsoDz9cmJ7ozTA8Vw/Ds6TeGgTSeP8dUrz4UN++fDSjI4TBAsFfG7tRwuPcvnXEtp1B/NfGcZMumikw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789134228; c=relaxed/simple;
-	bh=zvNf1eO2L1S2f2f1Yt7nZWN3wztelLiP/o13rCP6Iho=;
-	h=Date:To:Cc:References:Content-Type:Message-Id:Subject:From:
-	 Mime-Version:In-Reply-To; b=KC6FESMfx08qCWFHdFR6T5I51UDZCntQd1ewMDQW6yEyg/QqZQkW2eeZlkoFEycAzzDfhO+xnI8bDGbNwl02nsGAz36egTp3lfGR+P35TcozkV9tHSt6zNP0nQ1X4u/uIg+C0DAcduDyHNx4rgxr8qhuaz5h4xp0SRNMcAylxW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=VvckQfvX; arc=none smtp.client-ip=209.127.230.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1789136499; c=relaxed/simple;
+	bh=VUEzRwZBbW36v01xG0o83cDpXLNyNmfI9HXo44wIdn4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QHM+ExN9vJVlqjbuhzy6P3tJmOnGrhKxj4ajVreKaoybMzRyINs2XukvN60LnHbPpWxnm0X7n9ofpo1cNEhFHVMhRIOz4eOe9nPnY5MeAu21hfTj+oHYHKexr3v3ogc5fynrJcY7jZGeH0Zjcs7aCYy1HXZZ25Q/MgBzuKhm0S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=OYDx4bVs; arc=none smtp.client-ip=44.246.68.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="VvckQfvX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1789134220; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=zvNf1eO2L1S2f2f1Yt7nZWN3wztelLiP/o13rCP6Iho=;
- b=VvckQfvXblL6guHHSxBIYcJKL21BTS0eVA+TZhzn282YlDDhT8YGW+8VZtZMfGAQMgwTLz
- Mv+IcqR6LdXCCP+59VYL6QccQ1Q4aOyES1TPB0p51FEWJR41UYYPtN6Yobc3+0xGAJAg/P
- gUpBdYHCH4ihLOeEu/navenbGskDObrQzYs9kYJzQ6/X5Bx2gb+bPi4FXEKaE5qYp0RSmF
- s95dGRvjeS4nGMj4vGwhLIuZXvP00fvfKVYgcyhQr/V/0jBD93/trSrJPqTr8cEUuI6ypQ
- vXzKvVKle0UrgGgM+XUs+P3o6GOMpxDb2S/y7B8bc3FZg4geSZTg17aWzrr5TQ==
-Date: Fri, 11 Sep 2026 21:43:35 +0800
-To: "Jan Kara" <jack@suse.cz>
-Cc: "Jan Kara" <jack@suse.cz>, "Alexander Viro" <viro@zeniv.linux.org.uk>, 
-	"Christian Brauner" <brauner@kernel.org>, "Tejun Heo" <tj@kernel.org>, 
-	"Jens Axboe" <axboe@kernel.dk>, <linux-fsdevel@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>
-References: <cover.1788836830.git.yinxin.x@bytedance.com> <dce170b76e9501d555b0af70cc8c45c248577400.1788836830.git.yinxin.x@bytedance.com> <matvd3klv4w7buhnjkdpllkautw3zu2e5hpjfdedvvoozpbfxj@z7joalz5an74> <b0a5d388d0b2cb320744535d7f9d8f59e469aa88.aa79b65b.6b2f.41be.bcbf.08bf9deeb395@bytedance.com>
-	<22ia4tpnbik23zb4lgkb7rn4v3rbaeburhtxg5ymdwv6dnfar7@iustvvybmr3i>
-X-Lms-Return-Path: <lba+16aa4058a+8f3a14+vger.kernel.org+yinxin.x@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Message-Id: <b0a5d388d0b2cb320744535d7f9d8f59e469aa88.dc1597c4.579e.43cf.b119.f992cf777e6e@bytedance.com>
-Subject: Re: [PATCH v1 2/2] writeback: snapshot foreign flush pages
-From: =?utf-8?q?=E5=B0=B9=E6=AC=A3?= <yinxin.x@bytedance.com>
+	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="OYDx4bVs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
+  t=1789136498; x=1820672498;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gptPpxw0wFk91egaNInUnptSeER0SPdng9bGfnf/tP4=;
+  b=OYDx4bVs8WPzmf1ZCTC6WZ+uu1YRP/M2lVFUTIXC98/4zFEUwY87NTPz
+   0oHsa6QWY9tk0WxX3HAunbKkUdyvNCTnfEsbc68imQ5NiJHWTAlEo+TZH
+   RI+nMjmcSMjNsfrAyw/FFU3q+9FXBo1wZhZWIhbyDrB3+jWaMx2wu5oXi
+   HBcRAnZMAc8Ebu5BThQ5YRSUc2V4m9qPLajoF4z9czcgoeMiZqgJR73L7
+   KwDQDaWx2u3Gru/UmNIZuDunnAEcYkAF85WJ6qRUcSNyZLq0YwXrQcotx
+   Kiqq/IFyPGUdHkcu3dVYFuCvOCnORLHgYv4dEMIYAbZLC5u44OjUd/qDz
+   w==;
+X-CSE-ConnectionGUID: I7XG1V8IQNGYo35kGCunpg==
+X-CSE-MsgGUID: TOfcsjxZS1+qduGqGhMONw==
+X-IronPort-AV: E=Sophos;i="6.27,97,1787011200"; 
+   d="scan'208";a="28340119"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 14:21:35 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.51:24846]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.62.198:2525] with esmtp (Farcaster)
+ id 15edf2e1-39ad-4826-a4a7-d73e88fdd306; Fri, 11 Sep 2026 14:21:35 +0000 (UTC)
+X-Farcaster-Flow-ID: 15edf2e1-39ad-4826-a4a7-d73e88fdd306
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Fri, 11 Sep 2026 14:21:34 +0000
+Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
+ (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46; Fri, 11 Sep 2026
+ 14:21:30 +0000
+From: Salvatore Dipietro <dipiets@amazon.it>
+To: <linux-kernel@vger.kernel.org>
+CC: <hch@infradead.org>, <abuehaze@amazon.com>, <akpm@linux-foundation.org>,
+	<alisaidi@amazon.com>, <blakgeof@amazon.com>, <brauner@kernel.org>,
+	<dgc@kernel.org>, <dipietro.salvatore@gmail.com>, <dipiets@amazon.it>,
+	<djwong@kernel.org>, <hannes@cmpxchg.org>, <jackmanb@google.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-xfs@vger.kernel.org>, <mhocko@suse.com>, <ritesh.list@gmail.com>,
+	<rvvandan@amazon.com>, <stable@vger.kernel.org>, <surenb@google.com>,
+	<vbabka@kernel.org>, <willy@infradead.org>, <ziy@nvidia.com>, Vlastimil Babka
+	<vbabka@suse.cz>, David Hildenbrand <david@redhat.com>, Christoph Hellwig
+	<hch@lst.de>, Brendan Jackman <brendan.jackman@linux.dev>
+Subject: [PATCH v5] mm/page_alloc: avoid direct compaction for costly  __GFP_NORETRY allocations
+Date: Fri, 11 Sep 2026 14:21:02 +0000
+Message-ID: <20260911142102.2294202-1-dipiets@amazon.it>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-In-Reply-To: <22ia4tpnbik23zb4lgkb7rn4v3rbaeburhtxg5ymdwv6dnfar7@iustvvybmr3i>
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-ClientProxiedBy: EX19D031UWC003.ant.amazon.com (10.13.139.252) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+introduced high-order folio allocations in the iomap buffered write
+path.  When memory is fragmented, each failed costly-order allocation
+enters __alloc_pages_slowpath() which runs direct compaction and
+drain_all_pages(), causing a 0.38x throughput drop on PostgreSQL
+pgbench (simple-update) with 1024 clients on a 96-vCPU arm64 system.
+
+The root issue is that direct compaction is too expensive for hot
+allocation paths that have fallbacks to smaller allocations.
+__filemap_get_folio_mpol() already marks higher-order allocations with
+__GFP_NORETRY | __GFP_NOWARN, signalling that the caller can handle
+failure.  However, the page allocator still attempts full direct
+compaction for costly orders with __GFP_NORETRY, which is unnecessarily
+aggressive when the caller will simply retry at a lower order.
+
+For costly-order allocations with __GFP_NORETRY, suppress direct reclaim
+for the whole slowpath by computing can_direct_reclaim (and hence
+can_compact) as false.  The !can_direct_reclaim check near the top of
+the slowpath then short-circuits to nopage: no direct reclaim, no direct
+compaction and no drain_all_pages() IPI across every CPU.  kswapd (and
+in turn kcompactd) is still woken further down for background
+defragmentation, so compaction keeps working for long-term system health
+while being removed from the latency-critical direct allocation path.
+
+Allocations that also request __GFP_THISNODE are exempted.  That flag
+pairing identifies the local-node-first THP attempt issued by
+alloc_pages_mpol() (mempolicy.c), which relies on direct compaction to
+form transparent huge pages.  __GFP_NOFAIL is exempted as well, so a
+must-not-fail allocation is never made to fail.
+
+Test environment:
+  Hardware:  AWS EC2 m8g.24xlarge (96 vCPU, arm64)
+             12x 1TB IO2 32000 IOPS RAID0 XFS
+  OS:        AL2023
+  Kernel:    v7.3-rc1
+  Database:  PostgreSQL 18.4
+  Workload:  pgbench simple-update, 1024 clients, 96 threads, 1200s
+
+Results (average of 3 runs, TPS):
+  Config                                       Avg TPS   % vs baseline
+  AL2023 stock 6.1 kernel (pre-5d8edfb900d5)   136,942           n/a
+  v7.3-rc1 baseline (no patch)                  59,408             -
+  v7.3-rc1 + this patch                        161,994       +172.7%
+
+The patch fully recovers the pre-5d8edfb900d5 performance, bringing
+throughput back above the pre-regression level and well clear of the
+~59k baseline.  The AL2023 6.1 row runs a kernel that predates commit
+5d8edfb900d5 ("iomap: Copy larger chunks from userspace"), so it is not
+directly comparable, but it shows the pre-regression level and confirms
+that the ~59k baseline is the anomaly and not the norm.
 
 
-> From: "Jan Kara"<jack@suse.cz>
-> Date:=C2=A0 Fri, Sep 11, 2026, 19:09
-> Subject:=C2=A0 Re: [PATCH v1 2/2] writeback: snapshot foreign flush pages
-> To: "=E5=B0=B9=E6=AC=A3"<yinxin.x@bytedance.com>
-> Cc: "Jan Kara"<jack@suse.cz>, "Alexander Viro"<viro@zeniv.linux.org.uk>, =
-"Christian Brauner"<brauner@kernel.org>, "Tejun Heo"<tj@kernel.org>, "Jens =
-Axboe"<axboe@kernel.dk>, <linux-fsdevel@vger.kernel.org>, <linux-kernel@vge=
-r.kernel.org>
-> On Wed 09-09-26 10:08:08, =E5=B0=B9=E6=AC=A3 wrote:
-> > > From: "Jan Kara"<jack@suse.cz>
-> > > Date:=C2=A0 Tue, Sep 8, 2026, 19:01
-> > > Subject:=C2=A0 Re: [PATCH v1 2/2] writeback: snapshot foreign flush p=
-ages
-> > > To: "Xin Yin"<yinxin.x@bytedance.com>
-> > > Cc: "Alexander Viro"<viro@zeniv.linux.org.uk>, "Christian Brauner"<br=
-auner@kernel.org>, "Jan Kara"<jack@suse.cz>, "Tejun Heo"<tj@kernel.org>, "J=
-ens Axboe"<axboe@kernel.dk>, <linux-fsdevel@vger.kernel.org>, <linux-kernel=
-@vger.kernel.org>
-> > > On Tue 08-09-26 11:23:52, Xin Yin wrote:
-> > > > WB_REASON_FOREIGN_FLUSH is best-effort writeback for foreign dirtyi=
-ng. It
-> > > > should write pages that are already visible to the target wb, but s=
-hould
-> > > > not keep extending the same work with pages dirtied while the work =
-is
-> > > > running.
-> > > >=C2=A0
-> > > > Make foreign flushes use tagged writeback while preserving WB_SYNC_=
-NONE
-> > > > semantics. Use the remaining work budget as the per-inode chunk, so=
- a
-> > > > tagged pass is not truncated to the normal periodic chunk and a lar=
-ge
-> > > > inode still cannot exceed the finite work budget.
-> > > >=C2=A0
-> > > > Queue b_dirty only once for each foreign-flush work. Later passes o=
-nly
-> > > > retry b_more_io inodes skipped due to I_SYNC, and the work exits on=
-ce
-> > > > b_io and b_more_io are drained. If the budget is consumed, redirty =
-the
-> > > > inode instead of requeueing it to b_more_io so the same work cannot=
- loop
-> > > > on a continuously dirtied inode.
-> > > >=C2=A0
-> > > > Do not refresh dirtied_when for foreign flushes; later dirtying sho=
-uld be
-> > > > handled by later foreign, kupdate, or background writeback.
-> > > >=C2=A0
-> > > > Fixes: 97b27821b485 ("writeback, memcg: Implement foreign dirty flu=
-shing")
-> > > > Signed-off-by: Xin Yin <yinxin.x@bytedance.com>
-> > >=C2=A0
-> > > I really dislike how your implementation ties the two writeback deadl=
-ock
-> > > avoidance schemes (nr_to_write for WB_SYNC_NONE writeback vs folio ta=
-gging
-> > > + inode dirty timestamp for WB_SYNC_ALL writeback) together. But befo=
-re we
-> > > get to the implementation details let's discuss the purpose a bit:
-> > >=C2=A0
-> > > In principle I agree with you that the primary purpose of
-> > > cgroup_writeback_by_id() is that it wants to flush inodes that have f=
-olios
-> > > that are accounted to our memcg. It does this by a rather rough appro=
-ach of
-> > > flushing the whole wb. If this races with other dirtying, it might ha=
-ppen
-> > > that we won't actually flush the foreign folios we want. Am I getting=
- your
-> > > concern right? Are you able to actually observe such situation in pra=
-ctice?
-> >=C2=A0
-> > Yes, that's the concern. Concurrent dirtying could consume the work's
-> > budget without sufficiently flushing the foreign folios charged to the
-> > memcg we're trying to help.
-> >=C2=A0
-> > We haven't confirmed that specific situation in production. What we've
-> > observed is long-running foreign work with many subsequent works queued
-> > behind it. We haven't traced the original source memcg's folios closely
-> > enough to show that they were left dirty because newly dirtied pages
-> > consumed the budget. So that part is still a concern, not an observed
-> > failure.
->=C2=A0
-> OK. So I fully agree that foreign dirty tracking and flushing is very
-> rough. The basic premise of that infrastructure is that foreign dirtying
-> should be very rare and amount of foreign dirty pages very low and thus
-> largely irrelevant for the dirty throttling. The flushing is there mostly
-> as a last resort solution to have a chance of *some* kind of forward
-> progress in corner cases where the amount of foreign dirty pages is
-> substantial.
->=C2=A0
-> As Tejun wrote [1], bdev inodes are kind of breaking these assumptions.
-> Still number of dirty pages there should be low compared to data pages bu=
-t
-> for some workloads that isn't necessarily the case.
->=C2=A0
-> [1] https://lore.kernel.org/all/aqGmmw3rv_2f5Jk4@slm.duckdns.org
->=C2=A0
-> > The idea behind combining the two approaches was to get the budget righ=
-t
-> > for the target wb, while keeping the flush from chasing concurrent
-> > dirtying. The first is about not holding up later work on the same wb,
-> > including syncfs. There's also a fairness concern: an old inode can kee=
-p
-> > getting newly dirtied pages written while later-dirtied inodes have to
-> > wait for another work. The second is about making the flush more useful
-> > to the source memcg, although tagging alone doesn't guarantee that its
-> > folios get flushed.
->=C2=A0
-> If you look at the logic in writeback_sb_inodes(), it actually goes to
-> great lengths to avoid the fairness issues you describe above. We only
-> write a limited amount of pages from each inode (see
-> writeback_chunk_size()), then we switch to another one, cycling through a=
-ll
-> inodes queued to b_io list in this way. Inodes on b_io list get fixed whe=
-n
-> the writeback work starts (see queue_io()) so new inodes cannot appear
-> there. This is not bulletproof but it avoids the practical livelocking
-> cases. So generally I don't expect your systems have practical issues wit=
-h
-> foreign flushes not really flushing what they should.
+Link: https://lore.kernel.org/all/20260403193535.9970-1-dipiets@amazon.it/T/#t [v1]
+Link: https://lore.kernel.org/linux-mm/20260420161404.642-1-dipiets@amazon.it/T/#u [v2]
+Link: https://lore.kernel.org/all/20260710143437.12379-1-dipiets@amazon.it/T/#u [v3]
+Link: https://lore.kernel.org/all/20260904115629.3993331-1-dipiets@amazon.it/T/#u [v4]
+Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+Cc: stable@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Dave Chinner <dgc@kernel.org>
+Cc: Ritesh Harjani <ritesh.list@gmail.com>
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
+---
+v5: Derive the decision into a local flag instead of mutating gfp_mask
+v4: Clear __GFP_DIRECT_RECLAIM early in the slowpath and exempt
+    __GFP_THISNODE so THP attempt keeps using direct compaction
+v3: Move to mm/page_alloc.c, wake kcompactd instead of avoiding it
+v2: Move from fs/iomap/buffered-io.c to mm/filemap.c
+v1: Avoid compaction in iomap folio allocation
 
-I may not have explained the fairness concern clearly. The scenario involve=
-s multiple foreign-flush work items targeting the same wb. W1 can run for a=
- long time while its eligible inodes are continuously dirtied. Inodes dirti=
-ed after W1's `dirtied_before` cutoff are excluded from its scan, while sub=
-sequent works that could flush them remain queued behind W1. Our concern is=
- therefore head-of-line blocking between work items, rather than fairness a=
-mong inodes within a single work. And this is still only a concern, not som=
-ething we have observed in production.
+ mm/page_alloc.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
->=C2=A0
-> > I see your concern about mixing the two mechanisms, though. Would you
-> > suggest keeping the budget-only approach for now, or is there a simpler
-> > way to address the concurrent-dirtying concern?
->=C2=A0
-> As I wrote above, at this point I'm not convinced concurrent dirtying is
-> your practical problem. If you can show foreign flushes in your real
-> workloads often don't end up flushing what they should, then we can discu=
-ss
-> how to improve the writeback behavior (or foreign flush behavior) to avoi=
-d
-> that.
-That makes sense. We can drop patch2 for now and move forward with patch1 a=
-lone. Once we have concrete production evidence and a clearer understanding=
- of the problem, we can revisit whether further changes are needed.
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 12fac9084c48..be8b0d72a2db 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -4784,10 +4784,22 @@ static inline struct page *
+ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+ 						struct alloc_context *ac)
+ {
+-	bool can_direct_reclaim = gfp_mask & __GFP_DIRECT_RECLAIM;
++	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
++	/*
++	 * Costly __GFP_NORETRY callers have a cheap fallback to a lower order,
++	 * so don't stall them in direct reclaim or direct compaction.  Exempt
++	 * __GFP_THISNODE (the THP attempt from alloc_pages_mpol() needs direct
++	 * compaction) and __GFP_NOFAIL (must not be made to fail).  Don't
++	 * clear __GFP_DIRECT_RECLAIM from gfp_mask instead: that would also
++	 * change the alloc_flags derived by alloc_flags_slowpath().
++	 */
++	const bool costly_noretry = costly_order &&
++		(gfp_mask & __GFP_NORETRY) &&
++		!(gfp_mask & (__GFP_THISNODE | __GFP_NOFAIL));
++	bool can_direct_reclaim = !costly_noretry &&
++		(gfp_mask & __GFP_DIRECT_RECLAIM);
+ 	bool can_compact = can_direct_reclaim && gfp_compaction_allowed(gfp_mask);
+ 	bool nofail = gfp_mask & __GFP_NOFAIL;
+-	const bool costly_order = order > PAGE_ALLOC_COSTLY_ORDER;
+ 	struct page *page = NULL;
+ 	unsigned int alloc_flags;
+ 	unsigned long did_some_progress;
+-- 
+2.50.1
 
-Thanks,
-Xin Yin
->=C2=A0
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 Honza
-> --=C2=A0
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
->=C2=A0
+
+
+
+AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
+
+
+
