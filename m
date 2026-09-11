@@ -1,173 +1,208 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AC6463B68
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 11:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCC135F170;
+	Fri, 11 Sep 2026 11:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789127197; cv=none; b=GqvTDBRgJ8vFpUbQFoBUTjjjO0LHpJ+URSHJu4gT2JDlh2GkjF4/bEAIyOR2ovTKfJeWCBEvF7/OHBBViCUBWy4WeTGceVLJCenIHACv5R1s3nFDIu9mnJz8l7soUkxBA5iw/9sZGm48l8oKKXnbjRYjqAg17WXVJUUGP4MrTEo=
+	t=1789127822; cv=none; b=oWC5uKokKIh0Ub5QKGrpS0tqSHxqesd0yH7ltgJg1QNCcAPLG11zRlL0JWaMUi8kUKJ08vtwJou1aecgn6A9xrmSQDzLcvGzXEqAb/tR8jjRyobxzmd6LMjwEEnTM+123s9+9hoWcK4CmGI7QgoTMwTmZOzByV5wVd/1GD549oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789127197; c=relaxed/simple;
-	bh=DqmJQsgUpf4KBnCVC/WyqGYQ2UH9L00dFVSrd0E5b+E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OD9yBDOa/1dyrVTYBnTXG5KOz3QiXM4Wr7Y9+2fhBJbHdnA//2ZfnNfGZuFWQaL/Hl0gEqPouVX6Bh8uAPu7L8X3gqXZ52GRGeVYP6N3hPuCCBZywA/yZ9rgaTKTjIMKEJxMhKEhNkTyjYLT7RaH/p/1OFPHmrOTHq3gL1JkGjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cIZiFMOX; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789127822; c=relaxed/simple;
+	bh=w9StJE+nn0gkG1gomyMgGNCH6NI28semBIPVleJDVGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FGSFcZGaKk5lkHdlb1s81ISx0SoOZgVQgX/tvQWw92uxhPoDtpM/Np6u0DlCii6uyoBU8FgcLudzgtaeZ0c2mYnx3zPzsimgP5Jq7QBW1YD/56oDg7VKx9toonLwiuOZgB24ahqjTQ1zZeIYPuVyXokyfbQ1qV9101lUevLqHpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K11BV0Q0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cIZiFMOX"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8558c0b26a8so564424b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 04:46:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789127195; x=1789731995; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=P0d2aRvLBFsZ2DWV9mXwS41WTqPgM5PBo/dZ4iSn2uA=;
-        b=cIZiFMOX8WGsaTjkxAc+eXStHK5765l0tF2Oa8IgJo7jVUyCaPcd5IlEN7BgC8f3pa
-         VpMxjeJvpIyBQXyyNBA3FPXxHaR80P6G7FVOeBn+e0D1wUcWy+x4OfqNdrtHSBne/PIB
-         SnCaTlvpNeOzD/4vLe3AaBXtofYK0sA2CEujygpfkL9QfFwCScsn0g1BhV7vZoV7U6Xz
-         DXp6zIdmpOsLctPdgonNCSGjJLjRdf5fExAhui60WW+SrEkuUMHnGTgrD47h1kpBOOTz
-         F5Vir3iwDjJHqGESGKOinAVM85bcfhbvuQXyxNeq6S1riXoMh+RjOuD0A8frnuakF7ya
-         mpRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789127195; x=1789731995;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P0d2aRvLBFsZ2DWV9mXwS41WTqPgM5PBo/dZ4iSn2uA=;
-        b=nYFpvfmTM4o5TwTn++XwUdZ1ISBP9oELCZs7fw1sOq8cA1ykVQUPoFkvJA19sOns5U
-         fv0ZXZt7b37zlvN9k61r3Sm1p/5K94abKUu3fKQkZYApGwJJJNm0dGLeKBGmpav9nUmo
-         36q/qZi1rem1VGzfCmXdDAqaEDYdzXBQTtakJzL6TiXYa6huSnLsksK8qI6dkeU+greG
-         Dim69dk7Ewejf/ODaEyLr+gqxMAa0I4WSgE3eCzH1r99Koi/IaVCHyCclG6El1h8k+Qg
-         XPA1Rlg8cAO1dl9WE598rRrpePzYsLj49NGJ8sc5bLgcrAiuyTGIBtImWcOiZX1Oy0Rf
-         WCKw==
-X-Forwarded-Encrypted: i=1; AKwUvBy0fKKs1XDbK8xl8zzYjPZc7xBdlA2JrieeUHtWJjeMFp8DEbTzR5HImDG4udt6dmCnV7/C97JENwA1ZFVI@vger.kernel.org
-X-Gm-Message-State: AFuF++lf/z+fsMDczLjSyCLseXtsGJV1noMcXr/2eap0758DQX4CMSFq
-	VAFvOyY1LAj8+VzB0CxSnydjpnyCjko48nUgaBXl6ckJip/fGZNwEDKU
-X-Gm-Gg: AYBFou09iZ5dWkhNjSM6RTRCTilSEZgetybzwTfc/4RURHV7FBcn7eiEvAO3P0hGnZ9
-	g1DZZY5zR3roo3pyLdSRdv4SMhQXldlgjEtjPYN9r3Ml7+VKvfLx2NLRTx6z7NZNP/vxezaDzg1
-	n0/7NYEFapEyR4/nIA151itWc5DwHm+ZT4h4aGDVIO+M2kgvoglm/5V8Xml9eRCWiMS9mov3NPL
-	UwBO6b7aseiRRz4v+fVl5c5y7E5/nFNrCeotgU9B0dI0lJkNvS+P1fBV21b9duF8HLjp2Azymrl
-	ES9Pxv7HtiKfzhvtwXgSVFeScC63K773tPjrcrExRp6XOP0rIBHQWeQCy9P9xHFJKdCx6GaUiNJ
-	Ogvq4OLzFGgSBF5OroZufxkOje3oC3kja/ZaNHpNHZNpchaUFHLWjwdDmD8hK7ntClBRvdMYFg/
-	8Scpiw2GyXeBqgB8O14HhTqNLJI97NyZko2UHyAmkl0xc5lGMMeS7S97zi201MrR5R8DrJyahZt
-	o6vlggH8OHubv1nk5w=
-X-Received: by 2002:a05:6a00:190f:b0:847:9267:2104 with SMTP id d2e1a72fcca58-86b2fb16751mr6046446b3a.12.1789127194737;
-        Fri, 11 Sep 2026 04:46:34 -0700 (PDT)
-Received: from thangnn-ASUS.. ([2405:4802:1d38:5c70:b928:dcab:35a4:adf0])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b29ebc712sm971495b3a.49.2026.09.11.04.46.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 04:46:33 -0700 (PDT)
-From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
-Subject: Re: [PATCH] hfsplus: fix recursive tree_lock in hfsplus_file_extend()
-Date: Fri, 11 Sep 2026 18:46:28 +0700
-Message-ID: <20260911114628.10349-1-ngocthang2710.1999@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <28f33649277ca654e66c36aea1bd4f2bfd6abbf6.camel@dubeyko.com>
-References: <28f33649277ca654e66c36aea1bd4f2bfd6abbf6.camel@dubeyko.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K11BV0Q0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10FD01F000FF;
+	Fri, 11 Sep 2026 11:56:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789127820;
+	bh=L1OeiMMiUuX2c3YfVw5XAKf2PuPZvV9E0osxi7XkgcM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=K11BV0Q0GfXgRWBY9hWvTQTZUx1Y/DXSo9d5Lsn/KBpbt7Fweoopm7LTE6t7xgAUP
+	 NShNd5sxVrhUs74tL8AyqYIc3l62PRAwMsYrWuiQT0AOYotHhdpOIOmjs9XckKD5Ai
+	 mioUp6silLKJgXoQsE7Y9nAWcZ83QyJ3DN4NcRuNyDpCGaVbbI4f2PIOtazYVI3jGl
+	 N/TpPN5b9boXVr9/DwwHPOGvh2VpTWaDWieU1lspaJLR1Hvajkq3FQHbiufN3HqWtw
+	 Ia6UuoUw69iWxKJcz2v4457+ig63Hgy8+Azvrq4n8/Dh/w6BAMbXFm/8JyGQpJyaFU
+	 fFWBr2lbIGglg==
+Date: Fri, 11 Sep 2026 13:56:55 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-man@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, djwong@kernel.org, 
+	linux-api@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] man/man2: introduce man page for
+ file_getattr/file_setattr syscalls
+Message-ID: <aqPrI5F-IE6_lmK7@devuan>
+References: <20260910104120.3964799-1-aalbersh@kernel.org>
+ <aqKgTGHh3nDnM3eh@devuan>
+ <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="szfb7nu3rmkucoyg"
+Content-Disposition: inline
+In-Reply-To: <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 
-Hi Slava,
 
-> I assume that if we are here, then we already allocated the blocks
-> for the extent. And if we simply return the error here, then we've
-> lost these allocated blocks from the free space. Am I right? I
-> think we need to prevent the blocks allocation, then.
+--szfb7nu3rmkucoyg
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-man@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, djwong@kernel.org, 
+	linux-api@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] man/man2: introduce man page for
+ file_getattr/file_setattr syscalls
+Message-ID: <aqPrI5F-IE6_lmK7@devuan>
+References: <20260910104120.3964799-1-aalbersh@kernel.org>
+ <aqKgTGHh3nDnM3eh@devuan>
+ <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+MIME-Version: 1.0
+In-Reply-To: <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 
-You're right, that was a real bug -- hfsplus_block_allocate() already
-ran by the time we reach insert_extent, so returning straight from
-there leaked start..start+len from the free space permanently. Fixed
-by freeing them back before returning:
+[CC +=3D PERFORMANCE EVENTS SUBSYSTEM maintainers]
 
---- a/fs/hfsplus/extents.c
-+++ b/fs/hfsplus/extents.c
-@@ -537,6 +537,15 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
- 	return res;
+Hi Andrey,
 
- insert_extent:
-+	/*
-+	 * Getting here means the fork's eight extents are exhausted (see
-+	 * hfsplus_add_extent()). The extents overflow file can't record
-+	 * an overflow extent of its own, so it cannot grow any further;
-+	 * give back the blocks just allocated for it above.
-+	 */
-+	if (inode->i_ino == HFSPLUS_EXT_CNID) {
-+		if (hfsplus_block_free(sb, start, len))
-+			pr_err("can't free extent: start %u, count %u\n",
-+				start, len);
-+		res = -ENOSPC;
-+		goto out;
-+	}
-+
- 	hfs_dbg("insert new extent\n");
- 	res = hfsplus_ext_write_extent_locked(inode);
+> Date: 2026-09-11 13:17:12+0200
+> From: Andrey Albershteyn <aalbersh@kernel.org>
+>
+> Hi Alejandro,
+>=20
+> Thanks for the review, I will apply your suggestions, responses to
+> some of the questions below:
+>=20
+[...]
+> > > +The
+> > > +.I flags
+> > > +argument is a bit mask, available flags are:
+> >=20
+> > The usual language we use for this is:
+> >=20
+> > 	The
+> > 	.I flags
+> > 	argument contains
+> > 	a bitwise OR of zero or more of the following constants:
+> >=20
+> > See for example readv(2).
+>=20
+> I will use "constants" then (the readv uses "following flags")
 
-> I think your logic here that if we try to read the extent from the
-> Extents Overflow file's content for the file itself, then something
-> is going wrong. In this case, we need to place this check into
-> hfsplus_ext_read_extent().
+Ok.
 
-Agreed, moved it there -- it's the one place that actually calls
-hfs_find_init() again, so this is now the single point enforcing the
-invariant instead of duplicating it at each caller:
+> > There are some minor variations of this in other pages, and I should
+> > make them more uniform.
+> >=20
+[...]
+> > > +.TP
+> > > +.B EBADF
+> > > +.I pathname
+> > > +is relative but
+> > > +.I dirfd
+> > > +is neither
+> > > +.B AT_FDCWD
+> > > +nor a valid file descriptor.
+> > > +.TP
+> > > +.B EBADF
+> > > +.I pathname
+> > > +is an empty string,
+> > > +.B AT_EMPTY_PATH
+> > > +was specified,
+> > > +but
+> > > +.I dirfd
+> > > +is an invalid file descriptor.
+> >=20
+> > I was wondering: is it valid to specify AT_EMPTY_PATH, use an empty
+> > string, and use AT_FDCWD as the dirfd?  That should act on the current
+> > working directory itself, right?  Or is that not supported?
+>=20
+> Yes, this is valid combination. I can describe this case.
 
---- a/fs/hfsplus/extents.c
-+++ b/fs/hfsplus/extents.c
-@@ -216,6 +216,14 @@ static int hfsplus_ext_read_extent(struct inode *inode, u32 block)
- 	    block < hip->cached_start + hip->cached_blocks)
- 		return 0;
+Thanks!  I think using wording similar to the one above would be enough:
 
-+	/*
-+	 * The extents overflow file is fully described by its own fork
-+	 * extents; looking up an overflow extent for it would re-enter
-+	 * hfs_find_init() on the extents tree, whose tree_lock may already
-+	 * be held by the caller.
-+	 */
-+	if (inode->i_ino == HFSPLUS_EXT_CNID)
-+		return -ENOSPC;
-+
- 	res = hfs_find_init(HFSPLUS_SB(inode->i_sb)->ext_tree, &fd);
+	but
+	.I dirfd
+	is neither
+	.B AT_FDCWD
+	nor a valid file descriptor.
 
-This retires the guard I'd put in hfsplus_file_extend()'s else branch
-(same check, called from the one place that mattered) -- v3 is net
-smaller than v2. hfsplus_get_block()'s existing check at extents.c:261
-(-EIO, before extents_lock is even taken) stays as-is; different
-errno, different purpose -- fast rejection of a read, not an
-allocation failure -- not an oversight.
+[...]
+> > > +.TP
+> > > +.B EINVAL
+> > > +.I size
+> > > +is smaller than
+> > > +.BR FILE_ATTR_SIZE_VER0 .
+> >=20
+> > perf_event_open(2) reports E2BIG for a size smaller than
+> > PERF_ATTR_SIZE_VER0.  This seems unnecessarily inconsistent.  I'm not
+> > sure which I'd say is more appropriate, but I'd expect them to be
+> > consistent.  I mentioned perf_event_open(2) because that's the only page
+> > that has a *_VER0 constant and documents an error if a size is smaller
+> > than it.  There's also mount_setattr(2) which documents
+> > MOUNT_ATTR_SIZE_VER0, but it's not documented in ERRORS.
+> >=20
+> > I think kernel maintainers should have a look at the different APIs that
+> > have such a value, and discuss whether the error codes should be made
+> > uniform retroactively, or whether we should accept the existing
+> > divergence but decide on an error code for new APIs.
+> >=20
+> > I've CCed linux-api@.
+>=20
+> The MOUNT_ATTR_SIZE_VER0 also returns an EINVAL
 
-> But I still don't see how we will check the fork itself because it
-> could be corrupted even without be completely full? And how could
-> we check the forks of other b-trees?
+Thanks!  I'll document that.
 
-Fair, you've asked this three times now and I keep pushing it to
-"follow-up" without saying what's in it, so concretely: a
-hfsplus_check_fork(sb, fork, cnid) called from hfsplus_fill_super()
-for ext_file/cat_file/attr_file, rejecting a fork where, for any of
-the eight extents, block_count == 0 but start_block != 0 (garbage
-in a slot that should be blank -- exactly what's in the syzbot image,
-slots 3 and 6), or start_block + block_count > sbi->total_blocks
-(extent points outside the volume), or a non-zero extent follows a
-zero one (a hole in the middle of the used range). Wired into your
-severity split: first extent fails those checks -> hfs_btree_open()
-returns an error, mount fails; only later extents fail -> open the
-tree, mark it inconsistent, force read-only. I'll send that as a
-separate patch once this one lands, since it touches mount-time
-behavior for all three trees and deserves review on its own.
+> I'm in favor of EINVAL as E2BIG is probably a more confusing naming
+> for the too small argument.
 
-Both hunks above build cleanly here.
+I think I agree.
 
-Thanks,
-Thang
+I've CCd the maintainers of perf_event_open(2).  Can perf_event_open(2)
+be changed to report EINVAL?  Or is that mistake set in stone?
+
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--szfb7nu3rmkucoyg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqj7IEACgkQ64mZXMKQ
+wqlezg//RLQAo0BxssEGu8xfo6SW+0W2DNb3gXUM9X7eVQuUNVndRL3KWcRf0lSD
+bdpX9Z4eK9TfgvYM6U6QLI1qkJMdc76zQKhgU2OwTgJECziYSDaPWeDdTXEU4XTe
+seSFHNg/PKr/FWZaSII4AtH8XIeJt7vMoJcr958fHUnflFb87oXOoyYxQzQ/f69k
+fvLN7IlIJj7ARdJOEHnVinv45b1VSoNNSo2vo6Z9iO6DdIfd8fiROQgz7TG2MhRo
+C38uQapJ77W4V4uF5ui0MMq7AXcN8Ire1+4tZrmWevUYehOJYujROuhxwjfA5VeL
+v9lteYeeyiv4sQIpLgUmI5HmhRyoER43J1N5iXrTbAQhsMxFoslnoruw33lnJ79L
+AVTz2qEm23M9QFHwrxstuv0m2OnH28DIMdu7v439Cpso9NGTtVuPF016gwIapNge
+P7E6g4qgb85H5qZy5JumNB/0OdBBYfYz5CVOsW+0m3D0XwjJYmlw42MMOh5TRDrF
+o5brnzgbdtwJuZaLTZVbB/8HGil5xHQMt8szE6FgKxbWm7aAUNto+MQrhq0TuaRD
++wzhCILjvWNSbueJ/r9gN9PHqU7ura6s1OOnJi6mJ3/YAIueKN0ZCjIwtKBzdugH
+HTkCNhYUgB4udiV9O/+EI8xtDsihKRJbSBm/joWWFV0A08A32n4=
+=pDVG
+-----END PGP SIGNATURE-----
+
+--szfb7nu3rmkucoyg--
