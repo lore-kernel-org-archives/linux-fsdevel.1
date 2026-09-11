@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061F23E1D16;
-	Fri, 11 Sep 2026 15:33:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917903E49E2;
+	Fri, 11 Sep 2026 15:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789140789; cv=none; b=dFS7EZVGzlGtV1nt8rbZ+ihCreTwAPyomsTQmsAv15/ppooGr8PkjZF7yNdE+nRwTzw1zhNCtZwohsxU/UEUQVQSU/701Vs7aUcQRlCB3/GtFip/YkK1aTrLxPRXM9AknzxbsYjCInu28jw2zV2xwZXML2gnJr1RLuW+6o3fsw8=
+	t=1789140820; cv=none; b=DJFpRLHAOqhTKnJTExmFH6BVMI1v2Tz0zWS2xbY46y1EpPNSnPmWF+vpoYR2n0manW7srsqemCM9S/lgWmwulaK0bYExnF8dVAKLDBL76Eb1ausArjlrcnD2dWvcxnVS3fJZ1JZxLQDXBkeGV0SNGMc4He8ZJRfxA42vvU+phts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789140789; c=relaxed/simple;
-	bh=asgZcdYNJhnhjZOihPPBLInlOYvJJo6kypyIhjLjAcY=;
+	s=arc-20240116; t=1789140820; c=relaxed/simple;
+	bh=G2KMCzFlA5oNkYSTmJT/nzBx5bRs6R2Y/lMaPfAROBU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hJOiYLmJLq7ls9VJnW2fpJvGQ36lMcyzf/PP1K4ukifmbslaB2ZBOTRMmiVxNouQ7iDyT+aYKTFR+MgbuH9Wj34/+c1ceLZFU+x9n7xa/V9YNQZDu9eQmCzlQD0Ef4VOWG8VgoP+EL/PdZ5h7UhCWmQ1/n5BLHkzJphZDBCtEE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9HAbm/w; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=Oy7EWS2HuSsU/7CJpQZOGCkb7HNpKya4PQJF/wbqZ5448iAkiYRK2cF2pqU5OQgJSeh1TW9Z4rDs7yNzf1t8BK18w6DX2Ib1RUVTQ2+pCs0LuD6qGTiRTbNdeEkITPTBWQkdT5V9c8RQXpQR7I/CaKD62znwJzQJn8xOPIwUkbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=StSZwZPs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9HAbm/w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4729E1F000FF;
-	Fri, 11 Sep 2026 15:33:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="StSZwZPs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89931F000FF;
+	Fri, 11 Sep 2026 15:33:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789140787;
-	bh=bSKqnb/4RyBm0Huws1qR3jtmSUmdErdTlsTI43caL/A=;
+	s=k20260515; t=1789140819;
+	bh=aF7Nxwvxz+Lpi7RwrS2E2i/AXxZY4vMNQyRAn9DKm5M=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=c9HAbm/wDoDlK5wMtGMZWX9zEUl0Vw2jF7F4jO1ypvTr8HD3Iq12CmfQQWVW/2kKq
-	 AJKvYoLR4OonhRg7EsYC0Ce5pI57nRsGyI4/BhYc4AUwAzYPBmHiIQbyrnM47go2r1
-	 rzoT/N1EMeMUHOjobriVhorQOOiVRdpIm92KjOPboNICnPvT205qlo7P1r/Gaa4tI0
-	 +uIQUHvq2KVBQxJB7TaXZobUPpCu4J7m7IZ02FMM0/5y4FaSoG6wpCRlvemzDGy7fd
-	 ynumDHhMLAYv+sJj7UdVb8wiOB++bdgGMRPYwzGh1umhi3NH8WyprOuTgFNSVBdBbI
-	 0grrQwHpJaWzA==
-Message-ID: <2a96e380-4cfa-4a07-b63f-1806906898ba@kernel.org>
-Date: Fri, 11 Sep 2026 17:33:01 +0200
+	b=StSZwZPsx9Eq1nxx/2p/O0vcQVU7Ig0LZHAbQ9v6d9oXTZQ1hO9ThN0Mcggm9hA1h
+	 HhjmjAkjpT3kyuyB1dRU1kXW8NUma3pAL79hDWDVs2y4i45Rq40PDAPvSpBcM8NsDb
+	 X/xTHb4HbBqMdgBc52URyYRb5fZBTnvq02Vv0fk7elUQkKTuq/8zhPCJ2uXtr6vFSF
+	 qwmLnu4CG/fqq8EeboQsqDiwOfvrQdR3rhawM2T7hpbnftWjU219TeVPpV4fjYj77C
+	 JWnFwpeYJA9d89Pcrpi3wj1vBJewgngY0LLVBFwVviisrPlxxhOdjhxDQMlyNIyLd5
+	 QYwmet90Vkzpw==
+Message-ID: <db06ebd6-8538-4154-9267-9e818cf8113e@kernel.org>
+Date: Fri, 11 Sep 2026 17:33:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,15 +35,15 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/7] proc/task_mmu: remove unnecessary inlines in
- function definitions
+Subject: Re: [PATCH v3 3/7] proc/task_mmu: clarify shmem mapping walk
+ conditions in smap_gather_stats()
 To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
 Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
  willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
  xueyuan.chen21@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Usama Arif <usama.arif@linux.dev>
+ linux-fsdevel@vger.kernel.org
 References: <20260910234737.1340642-1-surenb@google.com>
- <20260910234737.1340642-3-surenb@google.com>
+ <20260910234737.1340642-4-surenb@google.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -90,23 +90,25 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260910234737.1340642-3-surenb@google.com>
+In-Reply-To: <20260910234737.1340642-4-surenb@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/11/26 01:47, Suren Baghdasaryan wrote:
-> It was pointed out in the previous reviews of this code that many
-> functions are specified as inline, which is unnecessary as the compile
-> can make that decision by itself. Cleanup these definitions.
+> smap_gather_stats() optimizes stats gathering by skipping the walk for
+> shmem mappings in certain conditions. Update the comment to clarify
+> these conditions and use vma_is_cow_mapping() for COW identification
+> instead of open-coding it.
+> Instead of using (start != 0) condition to identify partial walks, use
+> more semantically correct (start > vma->vm_start) check.
 > 
-> No change in the resulting binary file size with gcc v15.2.0.
 > No functional change intended.
 > 
+> Suggested by: David Hildenbrand (Arm) <david@kernel.org>
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Reviewed-by: Liam R. Howlett (Oracle) <liam@infradead.org>
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Acked-by: Usama Arif <usama.arif@linux.dev>
 > ---
+
+Thanks!
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
