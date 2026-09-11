@@ -1,168 +1,159 @@
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F0646D560
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 09:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2F63947B5
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 09:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789118405; cv=none; b=N72Q/3uxmlBpBlYs4SgmoWuSVVpEVl8gIWOxVL1HXoO6df9/mXox9rsGMyG4hQ4oTOVJ6tW7X8m2whBbnnblJmF2feVy0maTNw7CItK7JDzsPP7ETX7HNPQ6R7ncOBSTdJbc9k21WtPZtt4wGCiXyl2S4n85N6sdFsz3L20VDRg=
+	t=1789118721; cv=none; b=nUF0S/+NnLm+IwWUcQc8Nwkyk/M6/i24nBQ/tDmvxACV6OnrXiesqFvMs258vCwnr7xeFyVfmEslLWUsJv6eI6zmQZ374SdOmL5udBccU+N2qtg+NDeLLJMY+NUo7ON1xgEXPbWH5gUmHuy8lYB2QBzsvEVCK4YSNi/PjbIhO/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789118405; c=relaxed/simple;
-	bh=LQHKUmm2L3VPczAzSrySIOYelc6UVvj0GiEVXj92Iww=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=p7gdnNyoTIFoQA4/hAudhuffSOopHFnRLYvzN4HT0s0Y2V9l2M3OmQhHU6FratQ0NDgeXZ3hZpKBdpRxFLHk03Xc7agTf+SqQp6MZJhKF82zCB62YxwkqXKLLOQNkFDcoUu/fzEcaiTQpKIgZPieuy8PR2JTHdOZE+Re9r/dsfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WdF9tVpS; arc=none smtp.client-ip=209.85.128.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1789118721; c=relaxed/simple;
+	bh=OtWsgmvMYInhshoFv4FtygIdzD19rBR8bQTnOhp9aGE=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=dEdhDoGxHI7GHa5EfI0jjOQyn/qc7jtEjiukPJk3p6O0O01bxaS6bqcOca6yFrnmcLmQFpQqLkt1Jc7u67ijQOY0RVLr+ZkM8O4gPuzbzMq2i/+q4WHAYTBPzv+ZFsVcT1d1BNhZXIFiBkNVyB68Cwpd5poXFXgmNkt2S5sA93U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h8h0iD2k; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WdF9tVpS"
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-49d0ae342b9so5315905e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 02:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789118400; x=1789723200; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NZtTwWLqkTlApSCCjwtFSfuFmwluELYL36xqCuH39yY=;
-        b=WdF9tVpSSXYvnlrzGgh+P+QcLj5u0AX4p8filA66XSzd5O8vBXYmPSBizgExj6oxwL
-         +PmBeHz4t6HSK7AV7IgXCxiDARpO9PyLesXeDRV74ILIaJiw8pgjUKDWW99gqaSTg9PR
-         mypblrub7AceAOqE4EVBGXzbeqINNAIlUOhB6RTkioOFhpNWHZWVFRYw2MFH6eoBVSqn
-         omL+h/BD6+gLLshheuEdkv1T7XJHsKCulUf7JaARnJbYBE4a2oLTZas0g4C+aduyAhZd
-         u2zFNt+Tr5E5wlpz1iwT5lvMsDx57TFBz7QmSnYzDX6HPEh73EvRU/eyhaLMvqmIYSsr
-         GkDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789118400; x=1789723200;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NZtTwWLqkTlApSCCjwtFSfuFmwluELYL36xqCuH39yY=;
-        b=A76CpsZfmW/Gc1Wdx2Tt7DkVbPTCsdS0h+s/wAjU2wfonti3Scg9PGmncjwj/z3UJe
-         5TWU33nhP2Q4UJ5XwxYbK0r5pN4H2Tz6AZB8eO+G+NGCnJPZSA3lwT7+l2k0XqTxYA4A
-         mIbdy1EtVqdd6TDW5rDcoTc2HPa8oZbeZGdk01ppNQtjtlBGYdt/X3OZKD1Oeu3IH7JM
-         wzuvO7NqjT4MPSN3Dvpvg7RwQN3XmvMQcnGwkMZVIttzBxwx44wAjc1cdM3Wv8L4PiDY
-         0jiH3arFMqgnMJJS44lFOS7WAuIBGt2mKKsgde1+KIeFQls2pX/AgJKz0C+nFM7FH25r
-         VApg==
-X-Forwarded-Encrypted: i=1; AKwUvBxViE6Z3ZOJ0cQXypSbUv1zc+3oZR7UMkMIpnwwxHg/XpHF4Vn3fvjdiSgk72AxhDvg5jqS4YEWDd6XClsU@vger.kernel.org
-X-Gm-Message-State: AFuF++lHLfHJEzeDH7DC/AML3FJvB0Nndp+0biWUfV/bExjIiAc7iMYm
-	xMrUFhzjkzgurOnwvqz0PhjqZ7Syga1GTXzHHsDmIzh1D+eE2nFVxbpatOwm4/8+ONlgwgttae9
-	sqWqdYi3xOGjcfSPmEg==
-X-Received: from wmga6.prod.google.com ([2002:a05:600c:2d46:b0:499:b8f0:3186])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600d:8490:20b0:49d:e0c:e560 with SMTP id 5b1f17b1804b1-49e61983771mr27226365e9.4.1789118400242;
- Fri, 11 Sep 2026 02:20:00 -0700 (PDT)
-Date: Fri, 11 Sep 2026 09:19:58 +0000
-In-Reply-To: <20260910-unique-ref-v21-6-e83257373062@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h8h0iD2k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789118718;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z9B4Wnf7qYXIWekoFfq3J3Lj0e6+DG5IWdv8bi3cWYM=;
+	b=h8h0iD2kCs5Ty7wbLUm7aVNVTtJQsixKxoTCwkX+SzOFLwhyQO5iHNej4Yo153xHUf7mUS
+	00sc8V4DluXEBLEIRDAZjbILYhyYc1acKZJIpGd760tt8GwGug/ZjqALo6pESlLsJJsPSo
+	uWxbXavJ3hJYqWcviOyeOZyeHIcoqwY=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-237-eaZIOypPOCSIN8c2G4TKwg-1; Fri,
+ 11 Sep 2026 05:25:13 -0400
+X-MC-Unique: eaZIOypPOCSIN8c2G4TKwg-1
+X-Mimecast-MFC-AGG-ID: eaZIOypPOCSIN8c2G4TKwg_1789118711
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 99CB6195422D;
+	Fri, 11 Sep 2026 09:25:10 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.32.54])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 31EAD180057F;
+	Fri, 11 Sep 2026 09:25:05 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk>
+References: <fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk>
+To: Michael Mulqueen <mike@method-b.uk>
+Cc: dhowells@redhat.com, ericvh@kernel.org, lucho@ionkov.net,
+    asmadeus@codewreck.org, pc@manguebit.org, linux_oss@crudebyte.com,
+    v9fs@lists.linux.dev, netfs@lists.linux.dev,
+    linux-fsdevel@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: PROBLEM: [REGRESSION 7.1-rc4 -> 7.1-rc5] 9p: silent NUL corruption of file data on cache modes with CACHE_WRITEBACK
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260910-unique-ref-v21-0-e83257373062@kernel.org> <20260910-unique-ref-v21-6-e83257373062@kernel.org>
-Message-ID: <aqPHvi1xFnMXvYLW@google.com>
-Subject: Re: [PATCH v21 6/9] rust: Add `OwnableRefCounted`
-From: Alice Ryhl <aliceryhl@google.com>
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	"Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, Lyude Paul <lyude@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>, Todd Kjos <tkjos@android.com>, 
-	Christian Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	"Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=" <kwilczynski@kernel.org>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
-	Michal Wilczynski <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	"Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, Philipp Stanner <phasta@kernel.org>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, Oliver Mangold <oliver.mangold@pm.me>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2226524.1789118704.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 11 Sep 2026 10:25:04 +0100
+Message-ID: <2226525.1789118704@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Thu, Sep 10, 2026 at 11:00:10AM +0200, Andreas Hindborg wrote:
-> From: Oliver Mangold <oliver.mangold@pm.me>
-> 
-> Types implementing one of these traits can safely convert between an
-> `ARef<T>` and an `Owned<T>`.
-> 
-> This is useful for types which generally are accessed through an `ARef`
-> but have methods which can only safely be called when the reference is
-> unique, like e.g. `block::mq::Request::end_ok()`.
-> 
-> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
-> [ Andreas: Fix formatting, update documentation, fix error handling in
->   examples. ]
-> Assisted-by: LLM
-> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+Does the attached work for you?  With it I see:
 
->  /// Types that specify their own way of performing allocation and destruction. Typically, this trait
->  /// is implemented on types from the C side.
->  ///
-> -/// Implementing this trait allows types to be referenced via the [`Owned<Self>`] pointer type. This
-> -/// is useful when it is desirable to tie the lifetime of the reference to an owned object, rather
-> -/// than pass around a bare reference. [`Ownable`] types can define custom drop logic that is
-> -/// executed when the owned reference [`Owned<Self>`] pointing to the object is dropped.
-> +/// Implementing this trait allows types to be referenced via the [`Owned<Self>`] pointer type.
-> +///  - This is useful when it is desirable to tie the lifetime of an object reference to an owned
-> +///    object, rather than pass around a bare reference.
-> +///  - [`Ownable`] types can define custom drop logic that is executed when the owned reference
-> +///    of type [`Owned<_>`] pointing to the object is dropped.
+  cache=3Dnone       read   0/20  write   0/20  [cache=3D0x0]
+  cache=3Dreadahead  read   0/20  write   0/20  [cache=3D0x1]
+  cache=3Dmmap       read   0/20  write   0/20  [cache=3D0x5]
+  cache=3Dloose      read   0/20  write   0/20  [cache=3D0xf]
+  cache=3Dfscache    read   0/20  write   0/20  [cache=3D0x8f]
 
-This diff looks like it should be in the patch introducing Ownable.
+David
+---
+commit a7f0af2e23c3ab191c08c1041dc67afd971a8c49
+Author: David Howells <dhowells@redhat.com>
+Date:   Fri Sep 11 10:15:43 2026 +0100
 
-> +/// # #![expect(clippy::disallowed_names)]
-> +/// # use core::ptr::NonNull;
-> +/// # use kernel::alloc::{flags, kbox::KBox, AllocError};
-> +/// # use kernel::sync::aref::{ARef, RefCounted};
-> +/// # use kernel::sync::atomic::Acquire;
-> +/// # use kernel::sync::Refcount;
-> +/// # use kernel::types::{Owned, Ownable, OwnableRefCounted};
-> +///
+    9p: Fix v9fs_issue_write() to update i_size and remote_i_size
+    =
 
-This newline will appear weirdly in generated docs because no content is
-shown above it. Consider not hiding the imports.
+    Fix v9fs_issue_write() to update i_size and remote_i_size to the new s=
+ize
+    of the server file if we made it larger, using the start fpos and the =
+count
+    returned by p9_client_write() to calculate the new minimum file size.
+    =
 
-> +pub trait OwnableRefCounted: RefCounted + Ownable + Sized {
-> +    /// Checks if the [`ARef`] is unique and converts it to an [`Owned`] if that is the case.
-> +    /// Otherwise it returns again an [`ARef`] to the same underlying object.
-> +    fn try_from_shared(this: ARef<Self>) -> Result<Owned<Self>, ARef<Self>>;
-> +
-> +    /// Converts the [`Owned`] into an [`ARef`].
-> +    fn into_shared(this: Owned<Self>) -> ARef<Self>;
-> +}
+    This assumes that if the 9P server makes a short write (say it hits
+    ENOSPC), a reduced count is returned.
+    =
 
-This trait provides two methods that have very different conditions for
-existing, IMO.
+    Fixes: 5fb70e7275a6 ("netfs, 9p: Implement helpers for new write code"=
+)
+    Reported-by: Michael Mulqueen <mike@method-b.uk>
+    Closes: https://lore.kernel.org/r/fbb9e395-1e07-4212-8f70-23f3cd498074=
+@method-b.uk/
+    Signed-off-by: David Howells <dhowells@redhat.com>
+    cc: Eric Van Hensbergen <ericvh@kernel.org>
+    cc: Latchesar Ionkov <lucho@ionkov.net>
+    cc: Dominique Martinet <asmadeus@codewreck.org>
+    cc: Christian Schoenebeck <linux_oss@crudebyte.com>
+    cc: Paulo Alcantara <pc@manguebit.org>
+    cc: v9fs@lists.linux.dev
+    cc: netfs@lists.linux.dev
+    cc: linux-fsdevel@vger.kernel.org
 
-The into_shared() method is so likely to exist, that I would almost
-consider placing it on the Ownable trait.
+diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
+index 1ac0b3dcc077..13cf87a5f90c 100644
+--- a/fs/9p/vfs_addr.c
++++ b/fs/9p/vfs_addr.c
+@@ -54,11 +54,37 @@ static void v9fs_begin_writeback(struct netfs_io_reque=
+st *wreq)
+ static void v9fs_issue_write(struct netfs_io_subrequest *subreq)
+ {
+ 	struct p9_fid *fid =3D subreq->rreq->netfs_priv;
++	struct inode *inode =3D subreq->rreq->inode;
++	struct netfs_inode *ictx =3D netfs_inode(inode);
+ 	int err, len;
+ =
 
-pub trait Ownable {
-    unsafe fn release(this: NonNull<Self>);
+ 	len =3D p9_client_write(fid, subreq->start, &subreq->io_iter, &err);
+-	if (len > 0)
++	if (len > 0) {
++		uoff_t end =3D subreq->start + len, i_size, remote, zp;
++		bool set =3D false;
++
++		spin_lock(&inode->i_lock);
++
++		/* We can read the sizes directly as we hold i_lock. */
++		i_size =3D inode->i_size;
++		remote =3D ictx->_remote_i_size;
++		zp =3D ictx->_zero_point;
++
++		if (end > i_size) {
++			i_size =3D end;
++			set =3D true;
++		}
++		if (end > remote) {
++			remote =3D end;
++			set =3D true;
++		}
++
++		if (set)
++			netfs_write_sizes(inode, i_size, remote, zp);
++		spin_unlock(&inode->i_lock);
++
+ 		__set_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
++	}
+ 	netfs_write_subrequest_terminated(subreq, len ?: err);
+ }
+ =
 
-    fn into_shared(this: Owned<Self>) -> ARef<Self>
-    where
-    	Self: Refcounted;
-}
-
-On the other hand, I think try_from_shared() is more likely to be a
-tricky operation you cannot necessarily implement, and as such it can be
-on its own separate trait like you have here.
-
-At the very least, I can easily imagine that some types can never become
-unique again after having been shared.
-
-Alice
