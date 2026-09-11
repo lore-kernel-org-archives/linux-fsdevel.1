@@ -1,179 +1,122 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7004139A80E;
-	Fri, 11 Sep 2026 16:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E7B4756D5;
+	Fri, 11 Sep 2026 16:32:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789144101; cv=none; b=Hqdif+9Hy+ioR3HGBmtOAKZin4CHJnzmihyQzbQNnAQGXIMk6fCAmAoBicvanqNtWFv/6K4ZR+Ik2njES+2KyNQhYYUybAawjyhU3uST/j8+cMiEALjPjZlYKTWQuemS6HGSZc9dPaC1U4X5cgeDJW2CrSUneLwZh5lViH7UtP4=
+	t=1789144338; cv=none; b=A3yP21OqTtZVeYoMCxUNa3/PcRoc41nLPCy85Qd5/5W0jnPsFg0LzAUlGCzUEzp+q9wToy3FHrHuIVo9xaTTX/Rjz+o63M917FRKKLaLTUugI2ZvNfQg6PfXCCMlbz3hymtJkgKy0ypPtDFEP9+kMvCYjJmlJOGw5+wIpA2DqLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789144101; c=relaxed/simple;
-	bh=Vm5njPyScXTq8NWAAL2xzyVn+2tw5gM95aeyDFf4jC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FXzBz3PwkGJ22rNYMObC9KQiApaE3DwjordAP079jhnJCJO2x7+Cm49725gzIy/0iVVCoNLtqph9vjav4B39evWYWSUTVht6i0YebIfovwm97gZFqHU/y6J9GFNphBSsRsi+cSCF9CrD/s+ocOSKVxbjusztU50UjplQFK+doVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JCTJZeai; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789144338; c=relaxed/simple;
+	bh=qJkCbqia+PyvtsUo7qKbKv2ZL6lFALKHQ+NVremMqJY=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=MqSuvDvbaN9DzhelTi6TZUE++iKQS5/Ft6AStUsBKJ3P/4lIPo+67k5pmKaR8A9EDBwIn+zoQSajPyh4NTBaeE3TOi5ifHzKBDuCKaK3N1zKpxBDEDj/kgfbMimW5tBenWBxIS19llSzdS9APCtbcy8CNMdIFzPErATVKBz6XhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=gy1m7qOG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JCTJZeai"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBAE01F000FF;
-	Fri, 11 Sep 2026 16:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789144100;
-	bh=FnYVewSH1HCSqZpF/ajuG7xvpdDrzWPlljC0TTqhOrs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JCTJZeais1k7SJtwRXhrgSSr0A8El3HxjkRjWAgtr2p8twOGvppmDxre4GZu85XWc
-	 64pKGLoVJ7KtwjplDqEXOk0qIeM4o1eyIXBbXuYn/jb70gL+UJVK9QwAJEGjVVa5wc
-	 oAGLMRSpFkraFQ89d5tLaIjv+tUL7d5OZtZ2sPnk7PPqYzNfVEzujyVqP1kyf61EyM
-	 RXL2y8XZecHntb0kXxOgZXWS6kJnHRnnSd7Ft4f941WyOTfEXBAK/JuhP6mignHG9u
-	 Rn33iplVFhtcRAhcOTP8Ph580+9li8swYB2LTNJEw60L9BTO2LgVYUArc2H0iQVdc1
-	 3AdOc7Z7S7c2g==
-Date: Fri, 11 Sep 2026 17:28:14 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
-	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, xueyuan.chen21@gmail.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 3/7] proc/task_mmu: clarify shmem mapping walk
- conditions in smap_gather_stats()
-Message-ID: <aqQoPTTUC9M5HkYb@gremlin>
-References: <20260910234737.1340642-1-surenb@google.com>
- <20260910234737.1340642-4-surenb@google.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gy1m7qOG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C3D1F00893;
+	Fri, 11 Sep 2026 16:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1789144330;
+	bh=j9rqeVVJkLJL7hyeN+ZhuUze7JPnMyhzvchT9akDlcM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=gy1m7qOGyWRZPMTSfQJX9GQn8OMxswkKp0FjsuSudkheza3eMi6XvIr048H2mPW3M
+	 PL8rI73VtGnov+Hua7Sm836ztsrYcARh0SXYdWOwul2HOk/YsGB76Z9LE6hNVa3jgU
+	 bkeKe0wZLVavneFVz57sps8mALXwElCoNhR6bGFA=
+Date: Fri, 11 Sep 2026 09:32:09 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Salvatore Dipietro <dipiets@amazon.it>
+Cc: <linux-kernel@vger.kernel.org>, <hch@infradead.org>,
+ <abuehaze@amazon.com>, <alisaidi@amazon.com>, <blakgeof@amazon.com>,
+ <brauner@kernel.org>, <dgc@kernel.org>, <dipietro.salvatore@gmail.com>,
+ <djwong@kernel.org>, <hannes@cmpxchg.org>, <jackmanb@google.com>,
+ <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-xfs@vger.kernel.org>, <mhocko@suse.com>, <ritesh.list@gmail.com>,
+ <rvvandan@amazon.com>, <stable@vger.kernel.org>, <surenb@google.com>,
+ <vbabka@kernel.org>, <willy@infradead.org>, <ziy@nvidia.com>, Vlastimil
+ Babka <vbabka@suse.cz>, David Hildenbrand <david@redhat.com>, Christoph
+ Hellwig <hch@lst.de>, Brendan Jackman <brendan.jackman@linux.dev>
+Subject: Re: [PATCH v5] mm/page_alloc: avoid direct compaction for costly 
+ __GFP_NORETRY allocations
+Message-Id: <20260911093209.d9181d5950778897935f6bcb@linux-foundation.org>
+In-Reply-To: <20260911142102.2294202-1-dipiets@amazon.it>
+References: <20260911142102.2294202-1-dipiets@amazon.it>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260910234737.1340642-4-surenb@google.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 10, 2026 at 04:47:33PM -0700, Suren Baghdasaryan wrote:
-> smap_gather_stats() optimizes stats gathering by skipping the walk for
-> shmem mappings in certain conditions. Update the comment to clarify
-> these conditions and use vma_is_cow_mapping() for COW identification
-> instead of open-coding it.
-> Instead of using (start != 0) condition to identify partial walks, use
-> more semantically correct (start > vma->vm_start) check.
+On Fri, 11 Sep 2026 14:21:02 +0000 Salvatore Dipietro <dipiets@amazon.it> wrote:
 
-I don't agree what you're doing is semantically correct, it's a hack really.
+> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+> introduced high-order folio allocations in the iomap buffered write
+> path.  When memory is fragmented, each failed costly-order allocation
+> enters __alloc_pages_slowpath() which runs direct compaction and
+> drain_all_pages(), causing a 0.38x throughput drop on PostgreSQL
+> pgbench (simple-update) with 1024 clients on a 96-vCPU arm64 system.
+> 
+> The root issue is that direct compaction is too expensive for hot
+> allocation paths that have fallbacks to smaller allocations.
+> __filemap_get_folio_mpol() already marks higher-order allocations with
+> __GFP_NORETRY | __GFP_NOWARN, signalling that the caller can handle
+> failure.  However, the page allocator still attempts full direct
+> compaction for costly orders with __GFP_NORETRY, which is unnecessarily
+> aggressive when the caller will simply retry at a lower order.
+> 
+> For costly-order allocations with __GFP_NORETRY, suppress direct reclaim
+> for the whole slowpath by computing can_direct_reclaim (and hence
+> can_compact) as false.  The !can_direct_reclaim check near the top of
+> the slowpath then short-circuits to nopage: no direct reclaim, no direct
+> compaction and no drain_all_pages() IPI across every CPU.  kswapd (and
+> in turn kcompactd) is still woken further down for background
+> defragmentation, so compaction keeps working for long-term system health
+> while being removed from the latency-critical direct allocation path.
+> 
+> Allocations that also request __GFP_THISNODE are exempted.  That flag
+> pairing identifies the local-node-first THP attempt issued by
+> alloc_pages_mpol() (mempolicy.c), which relies on direct compaction to
+> form transparent huge pages.  __GFP_NOFAIL is exempted as well, so a
+> must-not-fail allocation is never made to fail.
+> 
+> Test environment:
+>   Hardware:  AWS EC2 m8g.24xlarge (96 vCPU, arm64)
+>              12x 1TB IO2 32000 IOPS RAID0 XFS
+>   OS:        AL2023
+>   Kernel:    v7.3-rc1
+>   Database:  PostgreSQL 18.4
+>   Workload:  pgbench simple-update, 1024 clients, 96 threads, 1200s
+> 
+> Results (average of 3 runs, TPS):
+>   Config                                       Avg TPS   % vs baseline
+>   AL2023 stock 6.1 kernel (pre-5d8edfb900d5)   136,942           n/a
+>   v7.3-rc1 baseline (no patch)                  59,408             -
+>   v7.3-rc1 + this patch                        161,994       +172.7%
+> 
+> The patch fully recovers the pre-5d8edfb900d5 performance, bringing
+> throughput back above the pre-regression level and well clear of the
+> ~59k baseline.  The AL2023 6.1 row runs a kernel that predates commit
+> 5d8edfb900d5 ("iomap: Copy larger chunks from userspace"), so it is not
+> directly comparable, but it shows the pre-regression level and confirms
+> that the ~59k baseline is the anomaly and not the norm.
 
-Callers are passing start=0 to indicate that the entire VMA should be
-processed and that happens to fulfil your criteria but in a surprising way.
+Thanks, I'll update mm.git's mm-hotfixes-unstable branch with this.
 
-And the start in these cases is corrupted.
 
->
-> No functional change intended.
->
-> Suggested by: David Hildenbrand (Arm) <david@kernel.org>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  fs/proc/task_mmu.c | 24 ++++++++++--------------
->  1 file changed, 10 insertions(+), 14 deletions(-)
->
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index cfc7af1b551d..3c40c9cbb9c9 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -1257,6 +1257,7 @@ static void smap_gather_stats(struct proc_maps_private *priv,
->  			      struct mem_size_stats *mss, unsigned long start)
->  {
->  	const struct mm_walk_ops *ops = get_smaps_walk_ops(priv);
-> +	const bool is_partial = start > vma->vm_start;
+> v5: Derive the decision into a local flag instead of mutating gfp_mask
 
-Yeah not in love with this, without changing how it's called.
+The acks from vbabka, hannes and hch were dropped.  Fair enough -
+that's always a hard call.
 
-If you're reworking it all already, the actually semantically correct thing
-I think would be to do something like:
+Sashiko is worried:
+	https://sashiko.dev/#/patchset/20260911142102.2294202-1-dipiets@amazon.it
 
-static void smap_gather_stats_range(struct proc_maps_private *priv,
-		struct vm_area_struct *vma, struct mem_size_stats *mss,
-		unsigned long start)
-{
-	...
-}
+That's different from Sashiko's v4 complaints:
 
-Then to drop a parameter in smap_gather_stats() like:
+	https://sashiko.dev/#/patchset/20260904115629.3993331-1-dipiets@amazon.it
 
-static void smap_gather_stats_range(struct proc_maps_private *priv,
-		struct vm_area_struct *vma, struct mem_size_stats *mss)
-{
-	smap_gather_stats_range(priv, vma, mss, vma->vm_start);
-}
-
-And then you remove the hack and make is_partial not be accidentally true for an
-invalid start parameter.
-
->
->  	/* Invalid start */
->  	if (start >= vma->vm_end)
-> @@ -1270,23 +1271,18 @@ static void smap_gather_stats(struct proc_maps_private *priv,
->
->  	if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
->  		/*
-> -		 * For shared or readonly shmem mappings we know that all
-> -		 * swapped out pages belong to the shmem object, and we can
-> -		 * obtain the swap value much more efficiently. For private
-> -		 * writable mappings, we might have COW pages that are
-> -		 * not affected by the parent swapped out pages of the shmem
-> -		 * object, so we have to distinguish them during the page walk.
-> -		 * Unless we know that the shmem object (or the part mapped by
-> -		 * our VMA) has no swapped out pages at all.
-> +		 * CoW mappings might map anon folios that do not belong to
-> +		 * shmem. Perform a less efficient page table walk in this
-> +		 * situation, unless we know that the shmem object (or the
-> +		 * part mapped by our VMA) has no swapped out pages at all.
->  		 */
-> -		unsigned long shmem_swapped = shmem_swap_usage(vma);
-> +		const unsigned long shmem_swapped = shmem_swap_usage(vma);
-> +		const bool is_cow = vma_is_cow_mapping(vma);
-
-Nice to see this helper naturally slot in to new stuff :)
-
->
-> -		if (!start && (!shmem_swapped || (vma->vm_flags & VM_SHARED) ||
-> -					!(vma->vm_flags & VM_WRITE))) {
-> -			mss->swap += shmem_swapped;
-> -		} else {
-> +		if (is_partial || (shmem_swapped && is_cow))
->  			ops = get_smaps_shmem_walk_ops(priv);
-> -		}
-> +		else
-> +			mss->swap += shmem_swapped;
->  	}
->
->  	if (!start)
-
-Also not absolutely in love with the fact you only use is_partial above and
-leave:
-
-	if (!start)
-		walk_page_vma(vma, ops, mss);
-	else
-		walk_page_range(vma->vm_mm, start, vma->vm_end, ops, mss);
-
-As-is.
-
-Should be:
-
-	if (is_partial)
-		walk_page_range(vma->vm_mm, start, vma->vm_end, ops, mss);
-	else
-		walk_page_vma(vma, ops, mss);
-
-But I also wonder whether, with start not being corrupted (!) you could
-just replace this with:
-
-	walk_page_range_vma(vma, start, vma->vm_end, ops, mss);
-
-Looking at the pagewalk.c implementations I don't know why
-walk_page_range_vma() doesn't just forward [vma->vm_start, vma->vm_end) to
-walk_page_range_vma()... but that's another thing :)
-
-> --
-> 2.55.0.1007.g17ff1f9808-goog
->
-
---
-Cheers, Lorenzo
+does any of this look real?
