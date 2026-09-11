@@ -1,457 +1,190 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B899D4334C9;
-	Fri, 11 Sep 2026 07:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C4D41F379
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 07:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789112099; cv=none; b=dSVXI+oRVnL1bSzsfZF7W4njR/4a/4dm0ThL7pmMjw+byTGFYc2WgV8eaC/jOUYX9C6YeKYyJiG1hv5mg0YL6Gu9YfxUTbvkHNAhAOht2UJbq6yqzRjNutj6j52ESbFCaaWucJnQV7+ngJ6X9fLYX9motBDNOLeVh2wDIfcyYy8=
+	t=1789113501; cv=none; b=DtIyRPgb5cAJ7oX5OOF1HJGR31GXGYopOcGUQNqcHqKVGk84UxoZSD0JrvNJNZTX4mZ+dVPAzG0VZfU+Gfn7/YBZim7hvlA1uyXlaQsYaa6AGyQOLvVojYZ2NXKpbkxtO9v5MMu41ERyVdRxzg3kGAwnzdVVE+ZEk3HA0FbjF7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789112099; c=relaxed/simple;
-	bh=coPsXuKmtF487IufcVpCcYEMGSNreq9HmUgcQLT34ZA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fE+I667f98x3glzWax9OYZCUYGgOeEJCDTdk6gUfUr4ui7yHDASYB3y8ca6YiANazpnmSJ+s3WQjKO79b2pN2gEJAqRhHmNaMGT95xubMPOFu16dICbK/zqdaBi+QMV3HGM59tXcT1NAg47RhgVpO0Ut4DLOd9y+DLXIGwBQ4s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hh5sd22BWzKHMP2;
-	Fri, 11 Sep 2026 15:34:45 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 1732B4058D;
-	Fri, 11 Sep 2026 15:34:51 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgAH7ggYr6Nq45QyBg--.39022S3;
-	Fri, 11 Sep 2026 15:34:50 +0800 (CST)
-Message-ID: <5796c4ea-fd8f-48aa-8c9b-f1cc8ec1dde1@huaweicloud.com>
-Date: Fri, 11 Sep 2026 15:34:48 +0800
+	s=arc-20240116; t=1789113501; c=relaxed/simple;
+	bh=2z6K28VZFghAvaOC2rxcV8P37YjNcXnY9WqrSWMHQ/k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=HyQhLPFIw4L5kuV8gwz0gyWTp96o+Y+qKhV4uxdm+TDdyiY+J+JJzj0rRiPfHZQcjCijcxb8CQebHe2Hgp3HX/NBaCpJSQifMveJqbmBjYKs63sQsfxM59/dePUl6ErrFaJuuDQymMQFoKIneTmnYSkZjdlgE0nou7jGOzJFWYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=czgAtOF3; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="czgAtOF3"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=2z6K28VZFghAvaOC2rxcV8P37YjNcXnY9WqrSWMHQ/k=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789113497; v=1; x=1789718297;
+ b=czgAtOF3JlWxuaKbHd6nJn+3vEEx++yytKytXfhgizpNlKXoBu0iIPbhZbr1uCfHrYUvkPQD
+ pkP6XMVK5eXLDp8cDD9X27POKFZ1M6XVUvSlRcXc7oWwe48CfuZxUSc6jmc7O3rXoKS75h0w7Ex
+ c/9gvUSCt+YiV0IBUdtl2XfQ=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 08c4df989fc31bb8;
+	Fri, 11 Sep 2026 07:58:16 +0000
+X-Mizu-Trace-ID: 08c4df989fc31bb8
+X-Migadu-Flow: FLOW_OUT
+From: Ye Liu <ye.liu@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	SJ Park <sj@kernel.org>,
+	Gregory Price <gourry@gourry.net>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	rientjes@google.com,
+	shakeel.butt@linux.dev,
+	xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev,
+	will@kernel.org,
+	boqun@kernel.org,
+	frederic@kernel.org,
+	neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com,
+	josh@joshtriplett.org,
+	urezki@gmail.com,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	tony.luck@intel.com,
+	reinette.chatre@intel.com,
+	x86@kernel.org,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	pavel@kernel.org,
+	lance.yang@linux.dev,
+	mhiramat@kernel.org,
+	pmladek@suse.com,
+	longman@redhat.com,
+	mathieu.desnoyers@efficios.com,
+	jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev,
+	dietmar.eggemann@arm.com,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	mark.rutland@arm.com,
+	Dave.Martin@arm.com,
+	james.morse@arm.com,
+	babu.moger@amd.com
+Subject: [PATCH v3 00/15] sched: introduce for_each_process_rculock and for_each_thread_rculock
+Date: Fri, 11 Sep 2026 15:57:45 +0800
+Message-Id: <20260911075800.491472-1-ye.liu@linux.dev>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mm/truncate: fix data loss when truncating straddling
- large folios
-To: Brian Foster <bfoster@redhat.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
- willy@infradead.org, jack@suse.cz, ziy@nvidia.com, joannelkoong@gmail.com,
- djwong@kernel.org, yi.zhang@huawei.com, yizhang089@gmail.com,
- yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com,
- yukuai@fnnas.com
-References: <20260909062339.473816-1-yi.zhang@huaweicloud.com>
- <aqLaQcZvaFIrAz0e@bfoster>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <aqLaQcZvaFIrAz0e@bfoster>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:cCh0CgAH7ggYr6Nq45QyBg--.39022S3
-X-Coremail-Antispam: 1UD129KBjvAXoWfJF1DGF4xXw45WFy8ZrWrXwb_yoW8GrWDWo
-	WrJ3yYv3WF9r1kAa10kas7JryDW3Z8ZryxJF13urs0vFnFq34qyw4fJ39rGFZ7Aw1jkF15
-	Ga47Ja4SyrZrtF1fn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUYc7kC6x804xWl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK
-	8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
-	AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
-	7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
-	kF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02
-	F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4I
-	kC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAa
-	w2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a
-	6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-	kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
-	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
-	xUIF4iUUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Transfer-Encoding: 8bit
 
-On 9/11/2026 12:26 AM, Brian Foster wrote:
-> On Wed, Sep 09, 2026 at 02:23:39PM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> truncate_inode_partial_folio() splits a large folio so that the caller's
->> truncate loop can drop the in-range sub-folios while keeping the
->> out-of-range tail. The first split at the punch start edge is
->> non-uniform, which leaves the sub-folio at the truncation end edge as
->> large as possible, this means it may still straddle the range, holding
->> both zeroed in-range and valid out-of-range data. The function then
->> attempts a second split at offset + length to isolate that tail.
->>
->> If the second split fails the straddling sub-folio stays merged. The
->> function returned true unconditionally on all exit paths of the success
->> block, telling the caller it was fully handled. The caller kept its
->> default end and the truncate loop truncated every sub-folio below it,
->> including the merged straddler, discarding the valid out-of-range tail.
->>
->> For example, a 4-page order-2 folio punched from offset 0 to the middle
->> of the last page:
->>
->>   truncate_inode_pages_range()
->>     truncate_inode_partial_folio()      # same_folio == true
->>       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->>       folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
->>       2nd split of folio2 fails / cannot lock
->>       return true                       # BUG: caller keeps default end
->>     end = 3
->>     loop truncates p0, p1, p2-3        # p3's valid tail is lost
->>
->> This became reachable after commit 7460b470a131 ("mm/truncate: use
->> folio_split() in truncate operation") replaced the atomic split_folio()
->> with folio_split(), whose non-uniform split can partially split a folio
->> and leave the end edge merged.
->>
->> It has gone unnoticed because a dirty large folio normally carries the
->> filesystem's private data, for example buffer_head, so
->> filemap_release_folio() -> iomap_release_folio() returns false on a
->> dirty folio and folio_split() aborts with -EBUSY before any split,
->> leaving the straddler safely unsplit. The bug is only reachable on paths
->> that produce dirty large folios without filesystem private data, and it
->> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
->> attached.
->>
->> In addition, even when both splits succeed, data can still be lost when
->> the mapping's minimum folio order (min_order) is non-zero. folio_split()
->> stops at min_order instead of order 0, so the sub-folio containing a
->> split point stays aligned to 1 << min_order rather than to a page. The
->> original success path left start at the page-aligned head of the range
->> and set end to the exact page index of the end edge, neither of which is
->> a folio boundary in general. Either one could land inside the large
->> folio at its edge, and the truncate loop would drop that straddling
->> folio together with its valid out-of-range tail.
->>
->> For example, a 64K (order-4) folio with min_order = 2 punched from
->> offset 0 to 36K:
->>
->>   truncate_inode_pages_range()
->>     truncate_inode_partial_folio()        # same_folio == true
->>       1st split at p0 -> [p0-p3, p4-p7, p8-p15]  # non-uniform, min_order
->>       folio2 = p8-p15 # straddles: p8 in range, p9-p15 tail valid
->>       2nd split of folio2 -> [p8-p11, p12-p15]   # success
->>       end = p9                           # BUG: p9 inside [p8-p11]
->>     loop truncates ... p8-p11           # p9-p11's valid tail is lost
->>
->> Rework the contract so the caller is told the page range to discard:
->>
->>   - Return true only when a split occurred, false otherwise. This
->>     clarifies the existing confusing return value semantics.
->>
->>   - Add pgoff_t *pstart and *pend out-parameters that receive the page
->>     range fully covered by [lstart, lend] after any split (or none),
->>     i.e. the pages wholly within the range and safe to discard. They are
->>     aligned up (pstart) and down (pend) to the mapping's minimum folio
->>     order so they always fall on a folio boundary.
->>
->>   - Rename the byte-range parameters start/end to lstart/lend to avoid
->>     clashing with the new outputs and to separate byte offsets from
->>     folio indices.
->>
->> Callers in truncate_inode_pages_range() and shmem_undo_range() pass
->> &pstart for the folio at the start edge and &pend for the folio at the
->> end edge, so the truncate loop drops exactly the fully covered pages and
->> never touches a straddling folio that still holds valid out-of-range
->> data.
->>
->> Suggested-by: Brian Foster <bfoster@redhat.com>
->> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
->> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operation")
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->> v1->v2:
->>  - Export pstart as a new parameter so that the generic and shmem
->>    truncate paths don't need to recompute the start value from the
->>    return value. (Brian)
->>  - When min_order is nonzero, align [pstart, pend] to the inner
->>    boundaries of the folio to ensure they do not point into the middle
->>    of a large folio, which could otherwise cause valid data within the
->>    folio to be incorrectly cleared. (Joanne)
->>
->> v1: https://lore.kernel.org/linux-mm/20260903115018.2034541-1-yi.zhang@huaweicloud.com/
->>
-> 
-> Hi Zhang,
-> 
-> Thanks for the tweaks. I still found some of the logic circuitous as I
-> read through it so I spent some time playing with this just to
-> experiment with cleaning it up a bit. I ended up removing a couple of
-> the labels, lifting the pstart/pend assignment to a default init/case,
-> and reshuffling the split case pstart/pend assignments in a way that I
-> think also elides the need for the boolean or using folio2. (I'm curious
-> if this happens to address the Sashiko feedback as well..?)
-> 
-> Note that this is completely untested and needs further review. Since
-> the current patch looked mostly Ok to me functionally (though I do agree
-> with the comment about possibly splitting up into smaller changes) and
-> has other reviews, I'm just posting this as an FYI. Here's a diff of the
-> changes I made on top of this patch (Assisted-by: LLM, fwiw). Feel free
-> to use some, all or none of it. Thanks!
-> 
-> Brian
+From: Ye Liu <liuye@kylinos.cn>
 
-Hi Brian,
+Introduce for_each_process_rculock(), for_each_thread_rculock() and
+for_each_process_thread_rculock() macros that combine the existing
+iteration macros with scoped_guard(rcu), so that the RCU read lock
+is automatically acquired before iteration and released when the
+loop exits — including via break, goto, or return.
 
-Thanks a lot for spending time on this, and for posting the diff. I
-agree with most of it.
+The rest of the series converts manual rcu_read_lock()/
+rcu_read_unlock() and guard(rcu)() pairs across mm/, kernel/, fs/,
+lib/ and security/ to use the new macros.
 
-Lifting the default pstart/pend assignment to the top and turning the
-early exits into plain returns removed the need for the no_split: /
-split: labels and the tail_isolated boolean, which does make the
-function easier to follow.
+Suggested by Michal Hocko for the oom_kill path [2].
 
-One thing I was wondering about: in your diff, when setting pend while
-trying to split folio2, you completely dropped the use of folio2->index.
-With folio2->index gone, an unaligned end means any failed split falls
-back to folio->index. I assume that is mainly because its value is not
-reliable under concurrency, which is exactly what sashiko pointed out.
-However, it does mean we lose a bit of precision though, I mean the
-sub-folios that were successfully split off at the pstart edge end up
-left behind in the page cache. Please see a small example below.
+Signed-off-by: Ye Liu <liuye@kylinos.cn>
 
-> 
-> --- 8< ---
-> 
-> diff --git a/mm/truncate.c b/mm/truncate.c
-> index d88a1b159084..8da16d7e6763 100644
-> --- a/mm/truncate.c
-> +++ b/mm/truncate.c
-> @@ -237,10 +237,16 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
->  	else
->  		length = lend + 1 - pos - offset;
->  
-> +	if (pstart)
-> +		*pstart = offset ? folio_next_index(folio) : folio->index;
-> +	if (pend)
-> +		*pend = (pos + size > (u64)lend) ? folio->index :
-> +						   folio_next_index(folio);
-> +
->  	folio_wait_writeback(folio);
->  	if (length == size) {
->  		truncate_inode_folio(folio->mapping, folio);
-> -		goto no_split;
-> +		return false;
->  	}
->  
->  	/*
-> @@ -254,7 +260,7 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
->  	if (folio_needs_release(folio))
->  		folio_invalidate(folio, offset, length);
->  	if (!folio_test_large(folio))
-> -		goto no_split;
-> +		return false;
->  
->  	min_order = mapping_min_folio_order(folio->mapping);
->  	min_nrbytes = mapping_min_folio_nrbytes(folio->mapping);
-> @@ -266,29 +272,30 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
->  		 * for shmem truncate
->  		 */
->  		struct folio *folio2;
-> -		bool tail_isolated = true;
->  
-> -		if (pend)
-> -			*pend = round_down(pos + offset + length,
-> +		if (pstart)
-> +			*pstart = round_up(pos + offset,
->  					   min_nrbytes) >> PAGE_SHIFT;
->  
-> -		if (offset + length == size)
-> -			goto split;
-> +		if (offset + length == size) {
-> +			if (pend)
-> +				*pend = round_down(pos + offset + length,
-> +						   min_nrbytes) >> PAGE_SHIFT;
-> +			return true;
-> +		}
->  retry:
->  		split_at2 = folio_page(folio,
->  				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
->  		folio2 = page_folio(split_at2);
->  
->  		if (!folio_try_get(folio2))
-> -			goto split;
-> +			return true;
->  
->  		if (!folio_test_large(folio2))
->  			goto out;
->  
-> -		if (!folio_trylock(folio2)) {
-> -			tail_isolated = false;
-> +		if (!folio_trylock(folio2))
->  			goto out;
-> -		}
->  
->  		/*
->  		 * split_at2 may no longer belong to folio2 due to concurrent
-> @@ -304,28 +311,18 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
->  		/* make sure folio2 is large and does not change its mapping */
->  		if (folio_test_large(folio2) &&
->  		    folio2->mapping == folio->mapping &&
-> -		    folio_split_or_unmap(folio2, split_at2, min_order))
-> -			tail_isolated = false;
-> +		    !folio_split_or_unmap(folio2, split_at2, min_order) &&
-> +		    pend)
-> +			*pend = round_down(pos + offset + length,
-> +					   min_nrbytes) >> PAGE_SHIFT;
+---
+Changes since v2 [3]:
+  - Split the kernel/ patch into per-subsystem patches, as the
+    combined patch could not be applied (Peter Zijlstra, Steven
+    Rostedt).
+  - Move changelog below the --- separator so it is excluded from
+    the commit message (Lorenzo Stoakes).
+  - Indent loop body in macro definitions to show scoped_guard
+    scope (Lorenzo Stoakes).
 
-[...]
+Changes since v1 [1]:
+  - Rename macros from *_rcu to *_rculock, as suggested by Steven
+    Rostedt and acked by Thomas Gleixner, to avoid confusion with
+    existing *_rcu() list iterators that expect the caller to hold
+    the RCU read lock.
+  - Improve the comment on for_each_process_thread_rculock() to
+    document that 'break' only exits the inner loop and 'goto' is
+    needed to exit both loops (Thomas Gleixner).
+  - Rename the stale 'unlock:' label to 'out:' in hung_task.c, as
+    noted by Günther Noack.
+  - Clarify in patch 4 that page_pgoff() is safe outside the RCU
+    read-side critical section (SJ Park).
+  - CC all relevant maintainers on every patch (Lorenzo Stoakes).
+  - Drop the mm: prefix from patch 1, as the macros are in
+    include/linux/sched/signal.h (Michal Hocko).
 
-Assume a 4-page order-2 folio [p0 p1 p2 p3], punched from offset 0 into
-the middle of p3, with min_order == 0.:
+[1] https://lore.kernel.org/all/20260904083001.553587-1-ye.liu@linux.dev/
+[2] https://lore.kernel.org/all/20260813092933.562028-1-ye.liu@linux.dev/
+[3] https://lore.kernel.org/all/20260907081334.1152889-1-ye.liu@linux.dev/
 
-   [p0 p1 p2 p3]  --1st split @p0-->  [p0] [p1] [p2-p3]
-   folio now points to [p0]
-   folio2 = [p2-p3]            # p2 zeroed, p3 tail valid
-   2nd split of [p2-p3] fails  # folio_split_or_unmap() returns failure.
-		
-As a result, both pstart and pend are p0, so the sub-folios p0 and p1
-are left behind.
+Ye Liu (15):
+  sched: introduce for_each_process_rculock and for_each_thread_rculock
+  mm/oom_kill: convert process/thread iterators to for_each_*_rculock
+  mm/ksm: convert process iterator to for_each_process_rculock
+  mm/memory-failure: convert process iterator to for_each_process_rculock
+  cpu/hotplug: convert thread iterator to for_each_thread_rculock
+  freezer: convert thread iterator to for_each_thread_rculock
+  hung_task: convert process/thread iterators to for_each_*_rculock
+  locking/lockdep: convert process/thread iterators to for_each_*_rculock
+  rcu: convert process/thread iterator to for_each_process_thread_rculock
+  sched: convert process/thread iterators to for_each_*_rculock
+  tracing/fgraph: convert process/thread iterator to for_each_process_thread_rculock
+  unwind: convert process/thread iterator to for_each_process_thread_rculock
+  fs: convert process/thread iterators to for_each_*_rculock
+  lib: convert process iterator to for_each_process_rculock
+  security/landlock: convert thread iterator to for_each_thread_rculock
 
-I agree that under concurrency we really can't get a valid end position
-since folio2 is not trustworthy(e,g., failed to get the folio2 or failed
-to lock the folio2...). But once we have successfully got a reference to
-and locked folio2, its index should be valid. So I've ended up with
-something like the below (This hasn't been tested yet, just wanted to see
-everyone's opinions), let me know what you and the other reviewers think.
+ fs/proc/base.c               |  4 +---
+ fs/resctrl/rdtgroup.c        |  8 ++------
+ include/linux/sched/signal.h | 26 ++++++++++++++++++++++++++
+ kernel/cpu.c                 |  4 +---
+ kernel/freezer.c             |  4 +---
+ kernel/hung_task.c           | 11 ++++-------
+ kernel/locking/lockdep.c     |  4 +---
+ kernel/rcu/update.c          |  4 +---
+ kernel/sched/core.c          |  3 +--
+ kernel/sched/debug.c         |  4 +---
+ kernel/trace/fgraph.c        |  8 ++------
+ kernel/unwind/deferred.c     |  3 +--
+ lib/is_single_threaded.c     |  5 +----
+ mm/ksm.c                     |  4 +---
+ mm/memory-failure.c          | 16 ++++------------
+ mm/oom_kill.c                | 20 +++++---------------
+ security/landlock/tsync.c    |  8 ++------
+ 17 files changed, 55 insertions(+), 81 deletions(-)
 
-
-diff --git a/mm/truncate.c b/mm/truncate.c
-index d88a1b159084..b551e8253de7 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -237,10 +237,16 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
- 	else
- 		length = lend + 1 - pos - offset;
-
-+	if (pstart)
-+		*pstart = offset ? folio_next_index(folio) : folio->index;
-+	if (pend)
-+		*pend = (pos + size > (u64)lend) ? folio->index :
-+						   folio_next_index(folio);
-+
- 	folio_wait_writeback(folio);
- 	if (length == size) {
- 		truncate_inode_folio(folio->mapping, folio);
--		goto no_split;
-+		return false;
- 	}
-
- 	/*
-@@ -254,7 +260,7 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
- 	if (folio_needs_release(folio))
- 		folio_invalidate(folio, offset, length);
- 	if (!folio_test_large(folio))
--		goto no_split;
-+		return false;
-
- 	min_order = mapping_min_folio_order(folio->mapping);
- 	min_nrbytes = mapping_min_folio_nrbytes(folio->mapping);
-@@ -266,66 +272,65 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
- 		 * for shmem truncate
- 		 */
- 		struct folio *folio2;
--		bool tail_isolated = true;
-+		pgoff_t end, aligned_end = round_down(pos + offset + length,
-+						min_nrbytes) >> PAGE_SHIFT;
-
--		if (pend)
--			*pend = round_down(pos + offset + length,
-+		if (pstart)
-+			*pstart = round_up(pos + offset,
- 					   min_nrbytes) >> PAGE_SHIFT;
-
--		if (offset + length == size)
--			goto split;
--retry:
-+		if (offset + length == size) {
-+			end = aligned_end;
-+			goto out;
-+		}
-+
- 		split_at2 = folio_page(folio,
- 				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
- 		folio2 = page_folio(split_at2);
-
--		if (!folio_try_get(folio2))
--			goto split;
--
--		if (!folio_test_large(folio2))
--			goto out;
--
--		if (!folio_trylock(folio2)) {
--			tail_isolated = false;
--			goto out;
--		}
--
- 		/*
--		 * split_at2 may no longer belong to folio2 due to concurrent
--		 * split. Retry to find the correct folio in case it's still
--		 * large.
-+		 * folio2 may become stale due to a concurrent split or
-+		 * freeing, so validate it before and after taking its lock.
-+		 * If it fails, we can't get an accurate end position and fall
-+		 * back to folio->index, which may leave sub-folios split off
-+		 * at the offset edge in the page cache this round.
- 		 */
-+		end = folio->index;
-+		if (!folio_try_get(folio2))
-+			goto out;
-+		if (folio2->mapping != folio->mapping ||
-+		    !folio_test_large(folio2))
-+			goto out_put;
-+
-+		if (!folio_trylock(folio2))
-+			goto out_put;
-+
- 		if (page_folio(split_at2) != folio2) {
- 			folio_unlock(folio2);
--			folio_put(folio2);
--			goto retry;
-+			goto out_put;
-+		}
-+		if (!folio_test_large(folio2)) {
-+			end = aligned_end;
-+			folio_unlock(folio2);
-+			goto out_put;
- 		}
-
--		/* make sure folio2 is large and does not change its mapping */
--		if (folio_test_large(folio2) &&
--		    folio2->mapping == folio->mapping &&
--		    folio_split_or_unmap(folio2, split_at2, min_order))
--			tail_isolated = false;
-+		/* Split failed: back off to the head of the straddler */
-+		if (folio_split_or_unmap(folio2, split_at2, min_order))
-+			end = folio2->index;
-+		else
-+			end = aligned_end;
-
- 		folio_unlock(folio2);
--out:
--		if (!tail_isolated && pend)
--			*pend = folio2->index;
-+out_put:
- 		folio_put(folio2);
--split:
--		if (pstart)
--			*pstart = round_up(pos + offset,
--					   min_nrbytes) >> PAGE_SHIFT;
-+out:
-+		if (pend)
-+			*pend = end;
- 		return true;
- 	}
- 	if (!folio_test_dirty(folio))
- 		truncate_inode_folio(folio->mapping, folio);
--no_split:
--	if (pstart)
--		*pstart = offset ? folio_next_index(folio) : folio->index;
--	if (pend)
--		*pend = (pos + size > (u64)lend) ? folio->index :
--						   folio_next_index(folio);
- 	return false;
- }
-
-
+--
+2.25.1
