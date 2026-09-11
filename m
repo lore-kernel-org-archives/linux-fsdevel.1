@@ -1,167 +1,91 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45E049E122
-	for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 23:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B1A17A586;
+	Fri, 11 Sep 2026 00:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789084141; cv=none; b=PghZWaVF2T2dNrO3XXZSYwFEWxzq7WiaQy2IAIkq7n6+Kbg3gbTSph0W41tgL9C2LeMZG/Cd2CgJEAJTWge17zEzjlb2m9zbkdCQJXBpzx0wJlg3GAH8+dhTTpNnHov9u/alu1LbpS+bj2Lamu1rkEgWpUa5m5OMJmT3mKhDDGU=
+	t=1789088289; cv=none; b=uT2ne6w2hRbV0ij7gBdgbmZVHtlyfnnf7Dx0xelMh0XKxdbHW1d8H8c9GQee2DsJkKInDMLomISN1qOyBv45iXce51yHM4U+Ko93Ey/fNn2Udobbes3c876gjO8wrZUk2p7QkArm8ViH87IY3rZR7eiQVB/vnbT2nWVTy1ZNCMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789084141; c=relaxed/simple;
-	bh=Ry0KjPtcQlbrnEYtOUzb0KXaQhoS1BQLV2LCGslULi4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G9nAFx7eHRP29JEbqLXutL2EK/+XuJfCuM7ctIZzkqNLgPl+ymY+c71GqxCkq8bLfM+lvs1DJcEyWHFoD7Agg9ZwrqS7bVcZY97DxU9lzqFImsfSrWUAR4CxFuPgVPwg11+HNkqXxAW9+nOzWHmsGxeJppRTBD/YrTkLyBUL4vQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jl68gXeq; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789088289; c=relaxed/simple;
+	bh=yKRaBflyg+L2oIiSnsCVIfcGth/aWHUyPXksJV+XyAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LHZfTddzBfvbk6fvgWS/eQHfBsLauQ+rV0mxD+Am4hQCUS5GYZui01vh5Xr8PAymm4vORkQmaAD4vBssy9inTWYFkVFJGCop0l+78t2emnia5lY94YeEVUWou9KBMUpP0YjtnvTRHxP60rEH6WDNSl/pn49F8dm3JD9zJxl3Fng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=oJ8nYRlU; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jl68gXeq"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8686f46e4adso241906b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 16:48:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789084139; x=1789688939; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RHDaUplNmiJGB1HcZdUPq45OE3q8nGrruBBv2ttrFg4=;
-        b=jl68gXeqj9eNSYSLaJJd9Vf7U4xeMcbnfqRHzHhFB3tQM04CMl0VUK++EaHvObFU1N
-         cUslE4XSiomOTgMIfDqvB6V6Jv7reoaf3qkoSlmjE4l5O15re1Q39pLskb3IkWMJjQus
-         +MB+bXhNBzYTTABB9YQ9xNhxPYeG0EQ+iEu41wgW0GSFtRODuwvC8upQrrUgBCtYL4s7
-         sx97EWxKOkt7kh/fOe11rhviUO9jzUFeh3RSb5XqsJZLqTcM8wiyFYnFr6BjVXw+gRho
-         z1rDXyBE/AlArCGMGhgAik8ZK2NyvCyIdR3eL7NwBsuhnoX/0Vy5UQK/upgI+7JmKDiX
-         vmHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789084139; x=1789688939;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RHDaUplNmiJGB1HcZdUPq45OE3q8nGrruBBv2ttrFg4=;
-        b=PDE0YeysuB7s5kbEoQEUlWGG+wPVzdaYvtz6GFryGK5kuIAxQGKfmvbRvhL7zU7FsZ
-         gRueN7DMSmGRMAd+tQFSMEjzEj66upujPc4oRhYwm+QNlHE+/ikHOJW9NhPJYKPjtlML
-         i+CM6asWdh89B2ftQRS32yQSkiZPUL8IJJpLemVc8OP3RXHy37NoptuzizkLEBQxyr3W
-         RztM16scuOBG6KxKJz8NzODhxLCuHDKfzqITd8+cnFsuBOriZussrvzufKa4tIVHByUL
-         940sLgq9fIlBrsMHqX8JXD3EOb2iQ5AGs2bem+Toc6Diff+fq+/yaNUcaEvnd75Ce4Kf
-         VGNA==
-X-Forwarded-Encrypted: i=1; AKwUvBw2xoX2qzdQqrBkgmDWyaMWSd50uQr6VAj4yvjAIsL+emNzHDWlVHWM/a4wGxQO1i6HDtxu8fdJdlMytY3O@vger.kernel.org
-X-Gm-Message-State: AFuF++mCd0NKndsTSJigeluujcopjlCIa3XbLpN5W33EzLA4109+J7vo
-	L1r8g+je0TnoKVsL+GKZalBqfh45weLQSnlsM20jrLQ586WvhT46Dymp
-X-Gm-Gg: AYBFou2xCOROCyReDfffQpyAMDB5dhGYhoEPa6HJVjrw6ndKHroeXvopV1z0JJ+b4XJ
-	Csk+BU4KzxSMqCtLzOSCUdipEScsxRhrGpWoeV2NCTurOyPZhmHZyrAeK+47pIY/yjUiejMhTAi
-	+CBfKVkFEL+EtASt1p6uD7pzODKgxWaT8DihtfreHfm0agi3LdQ1krUmheqkOX4N5303cxDoebI
-	yA1z9vMmSI+FejF4u5uvrAwZ/St5lRM3p1Nr5NH2b6EBYL5j5BAq9rly+H+VYmM4qyooLyMeCAt
-	oE3IpAv2S1LWjprwPOrxPwDXKU9KOowTsqHfB8nOBL4f5gNlAT7xpEeXPQ72SUDDou7fM5SxJr0
-	mBo0OeMsvbH6ExPBxXrjTrcZRVu8CFwYq99XBtmvbUDmBoYaESlcDavughvo5eH02SH0zdk1EpF
-	KGrgrh3lWqkCYi88tk08NAlRYQyxGHxb46Of+zFJvEZzgKKH6uurQOsfe7YixC5aLlyJCl12le+
-	XKz1/EWlwgsvc65s78sonO0ShHr/otq/IXjsFmjzBxmdtDOE97iB1jdTDu+BiGZ3iM=
-X-Received: by 2002:a05:6a00:c4c4:b0:869:427:9b0b with SMTP id d2e1a72fcca58-86b30e0c7f7mr1589254b3a.1.1789084139238;
-        Thu, 10 Sep 2026 16:48:59 -0700 (PDT)
-Received: from localhost (ec2-35-80-130-216.us-west-2.compute.amazonaws.com. [35.80.130.216])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b288bd504sm246237b3a.14.2026.09.10.16.48.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 16:48:58 -0700 (PDT)
-Date: Thu, 10 Sep 2026 23:47:44 +0000
-Message-ID: <3ebd03824f0df04947ffca7f25c96c30.perf.patrick.lu@gmail.com>
-From: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Tejun Heo <tj@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Dennis Zhou <dennis@kernel.org>,
- linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH] writeback: bound cleanup_offline_cgwb() rescans by rotating b_attached
-In-Reply-To: <vciagp74qvys2zdbsfcr2brhbv4uyabvm67czm255ascytesjz@n6q775zxxwvb>
-References: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com> <vciagp74qvys2zdbsfcr2brhbv4uyabvm67czm255ascytesjz@n6q775zxxwvb>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="oJ8nYRlU"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=06ewrVmtpiUthW0f0X+LeH7QcawiHpWQIKkhx26qBG4=;
+	b=oJ8nYRlUe0gbBczxWto/aUXlXyWSDiEjP/Mf743T2ujLnGFToOXhADQtS5kDyjj6qYd002ERB
+	JMPiNcP7oElOizkrrypqA8tIlk077fMEj/x4k7Dh1dh9iG2Puu8vd9Wqt7VQSgF//LBM/D+N3PR
+	ADwJzBiCpYdFOtsCtfve/5g=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4hgwq84sgdzLlX5;
+	Fri, 11 Sep 2026 08:47:00 +0800 (CST)
+Received: from kwepemk300003.china.huawei.com (unknown [7.202.195.93])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0C2254056C;
+	Fri, 11 Sep 2026 08:57:56 +0800 (CST)
+Received: from [10.174.177.243] (10.174.177.243) by
+ kwepemk300003.china.huawei.com (7.202.195.93) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 11 Sep 2026 08:57:54 +0800
+Message-ID: <93256043-c590-4001-bd7f-41ba36055b94@huawei.com>
+Date: Fri, 11 Sep 2026 08:57:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] xfs: kill xfs_trans_set/clear_context() helpers
+To: Brian Foster <bfoster@redhat.com>
+CC: <brauner@kernel.org>, <djwong@kernel.org>, <cem@kernel.org>,
+	<akpm@linux-foundation.org>, <vbabka@kernel.org>, <surenb@google.com>,
+	<mhocko@suse.com>, <brendan.jackman@linux.dev>, <hannes@cmpxchg.org>,
+	<ziy@nvidia.com>, <david@kernel.org>, <qi.zheng@linux.dev>,
+	<shakeel.butt@linux.dev>, <ljs@kernel.org>, <linux-xfs@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Linux MM
+	<linux-mm@kvack.org>
+References: <20260903133756.2006032-1-wangkefeng.wang@huawei.com>
+ <20260910140742.833170-1-wangkefeng.wang@huawei.com>
+ <aqLqeTsbKBMEsl-G@bfoster>
+Content-Language: en-US
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <aqLqeTsbKBMEsl-G@bfoster>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemk300003.china.huawei.com (7.202.195.93)
 
-On Thu, Sep 10, 2026 at 01:24:52PM +0200, Jan Kara wrote:
-> On Wed 09-09-26 18:50:27, Patrick Lu (Anthropic) wrote:
-> > Move every scanned inode to the tail of b_attached, so the next pass
-> > starts where the previous one stopped and the drain becomes linear.
-> > b_attached is unordered and isw_prepare_wbs_switch() is its only
-> > walker, so nobody else sees the reorder. b_dirty_time is ordered by
-> > expiry for move_expired_inodes() and keeps its current scan.
->
-> OK, but isn't there the very same quadratic behavior problem with
-> b_dirty_time scan which you don't touch (and where your trick cannot work)?
++Cc list
 
-Yes, the same thing happens there. We never saw it because none of our
-filesystems are mounted with lazytime, so b_dirty_time was always empty
-on the hosts we looked at.
+On 9/11/2026 1:35 AM, Brian Foster wrote:
+> On Thu, Sep 10, 2026 at 10:07:41PM +0800, Kefeng Wang wrote:
+>> Open code the helpers so that tp->t_pflags access is explicit, reducing
+>> the risk of misusing them outside the transaction owner thread as seen
+>> in xfs_btree_split_worker().
+>>
+>> Suggested-by: Brian Foster <bfoster@redhat.com>
+>> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+>> ---
+> 
+> Any reason this is not cc'd to the list? That aside:
 
-We realized the rotation works for b_dirty_time too if the walk starts
-from the oldest end instead of the newest. sync takes the whole list no
-matter the order, and move_expired_inodes() picks from the oldest end,
-so walking with list_for_each_entry_safe_reverse() and moving scanned
-inodes to the newest end keeps the oldest unscanned inode right where
-the expiry looks. Prepared inodes leave the list as soon as the switch
-work runs and get a new dirtied_time_when on the new wb anyway
-(9a6ebbdbd412), so the only inodes left out of order are the ones that
-can never switch (DAX), and only on the dying wb.
+Oh，my bad, sorry for missing it, should I resend it?
 
-I tried it in qemu with 100k lazytime inodes on a dying cgwb. With v1
-the b_dirty_time scan under list_lock still grows from 11 to 115 ms per
-pass across the drain, same as unpatched. Walking both lists from the
-oldest end keeps b_attached and b_dirty_time flat at ~0.6 ms per pass,
-with one loop and no flag. Does that make sense? Something like this,
-which I can send as v2:
+Another question is the target repository for merging this patch.
+Both this patch and the previous bug fix are based on the mm-new
+branch. Merging into xfs separately (if an independent branch exists) 
+might cause conflicts.
 
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index e744f9f9d43f..ea3eb40bf828 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -727,19 +727,34 @@ static bool isw_prepare_wbs_switch(struct bdi_writeback *new_wb,
- 				   struct inode_switch_wbs_context *isw,
- 				   struct list_head *list, int *nr)
- {
--	struct inode *inode;
-+	struct inode *inode, *tmp;
-+	LIST_HEAD(scanned);
-+	bool full = false;
-+
-+	/*
-+	 * Walk from the oldest end and move scanned inodes to the newest
-+	 * end, so the next scan resumes at unscanned inodes instead of
-+	 * re-walking an ever-growing run of prepared and skipped ones.
-+	 * For b_dirty_time this keeps the oldest unscanned inode at the
-+	 * end move_expired_inodes() picks from; b_attached is unordered.
-+	 */
-+	list_for_each_entry_safe_reverse(inode, tmp, list, i_io_list) {
-+		list_move(&inode->i_io_list, &scanned);
- 
--	list_for_each_entry(inode, list, i_io_list) {
- 		if (!inode_prepare_wbs_switch(inode, new_wb))
- 			continue;
- 
- 		isw->inodes[*nr] = inode;
- 		(*nr)++;
- 
--		if (*nr >= WB_MAX_INODES_PER_ISW - 1)
--			return true;
-+		if (*nr >= WB_MAX_INODES_PER_ISW - 1) {
-+			full = true;
-+			break;
-+		}
- 	}
--	return false;
-+	list_splice(&scanned, list);
-+
-+	return full;
- }
- 
- /**
+> 
+> Reviewed-by: Brian Foster <bfoster@redhat.com>
+> 
 
-Thanks,
-Patrick
+
+Thanks.
