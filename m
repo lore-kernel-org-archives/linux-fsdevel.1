@@ -1,175 +1,229 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DB53EBF23;
-	Fri, 11 Sep 2026 09:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394292E92BA;
+	Fri, 11 Sep 2026 09:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789118805; cv=none; b=fLoOQAvjBusMuiiVJEUok+Z2cXWMItWN5np1TH64kfYo3ssb3B2CtBnYLu9tYZbC18YA3DZ97XJ1RvNO2maG67m8ytXkt3PqNT205tlpvhBeV2HK6S6M9kYxYkmGpoCAaHwM9fTC/JZvwK+GR29OWaENABTEHaaTb4xCPHtBrEc=
+	t=1789119343; cv=none; b=NWL4FHox2tnDtpgmDnjRixXxKh1qSa8TYEprTMzX4DPWy12CY8kYk15c8szU1CxxoQXJoKaUD6hiFZoCVtGhgTg9u8wqBmgqe6Gsak3T1cipZubqTQ4zbn6Py2fZs5JLw7V/yVdPkBW7btQBkrkRhEMTyUyYcuPIq84arkpvmC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789118805; c=relaxed/simple;
-	bh=2Zv+f4bhelSrSTphUvrw1UdkuGT+p2+5YSknl/De/dQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ErCYeh/L1v5p8K5RMvxaHxCcV7BL1w//xRWmh3BHPWRKX1l9gGu7F3zvgsoYlfTK9Uz4wQttOEBPv5NIMyWulUUtffR0KfZW2+oQlSBVXJaNHjU5Vu5UifKFH9C4uDrX0BTeU48rvptRIyQ2vEB/yrZLkfOl18msa9bJg7qcaqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hh8KW19gCzYQtpM;
-	Fri, 11 Sep 2026 17:25:35 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 8DD5340574;
-	Fri, 11 Sep 2026 17:26:31 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP1 (Coremail) with UTF8SMTPSA id cCh0CgBnUAtFyaNqHzI8Bg--.45614S3;
-	Fri, 11 Sep 2026 17:26:31 +0800 (CST)
-Message-ID: <4fe4a9df-7e1f-4dc5-a3db-8d2ccc4b924f@huaweicloud.com>
-Date: Fri, 11 Sep 2026 17:26:28 +0800
+	s=arc-20240116; t=1789119343; c=relaxed/simple;
+	bh=5ilCdKcqCwxjYRqo4FSYfH9Cm2vVzU9QtahGdbQcnhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tqDkuzSoMwolud8rMLYmsIwkJEcMtmjoSou2H3/1PJHy5XU7/Dk7zKwZXYjWqJw3Ht1xxmMAbv53jAE1pHb01RZErKjOVcKksfXSRyEYL/MABXEN/FWJ0JX7sFLEiIOwhW40RAEGGAJOhCFIcCkvy9qmQLgTibPUZXFg4/sUatc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xIGNt+l8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZKVNvNPz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qgEvyuQI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gifg9d9E; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xIGNt+l8";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZKVNvNPz";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qgEvyuQI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gifg9d9E"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B28B321D2B;
+	Fri, 11 Sep 2026 09:35:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789119334; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wE8iaWly/EkLPx8G/L2Hp0WSTnhziRsEW8T9oadhB7o=;
+	b=xIGNt+l8jOYVNSIX7ujdNAJ1iW2XTiRGd9o0QOutyKQFtqYhlRk8Ln6Zj8M85EdjaqMVkM
+	mxmUNjlFVY8/WrxpH1v+mdxlpH+I3xAf6zN5j0lQr5Yi0OGpLfwHTTji11TmtJG9bv0XYf
+	Voqt5G5GoUCkxlvbZ2UwLBWZZM19URg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789119334;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wE8iaWly/EkLPx8G/L2Hp0WSTnhziRsEW8T9oadhB7o=;
+	b=ZKVNvNPz5qWa4w8sVHqBKpx6WsNPpKs08O41aAs5ed0wVyPAo7RrDbUamJvJ0hv01si4ud
+	JUF1OHVk4WrvXVCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=qgEvyuQI;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=gifg9d9E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789119330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wE8iaWly/EkLPx8G/L2Hp0WSTnhziRsEW8T9oadhB7o=;
+	b=qgEvyuQItOS7u/bdUozwj1bNWb7OG5ekxdo4V4NPGbk5ruGgWMhGs/5TAqICwjcs+lMFEb
+	V2DxeCmtmFN3wCSzHFlVp1rgL3MPBsJ3O06awTZC/HWqRIXk776qRYc19f3Ydl574sfnbZ
+	1duejhtKAT1YEj+V12QKZhFQL/7J/HQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789119330;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wE8iaWly/EkLPx8G/L2Hp0WSTnhziRsEW8T9oadhB7o=;
+	b=gifg9d9Ea0zwtw+0PzXVfC8+1NX8ADLaPtx9Iss8SqiAbPxBOBdspM/7hXlho1yrmj+QI9
+	skypO+UFmhJCd+Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 89305136ED;
+	Fri, 11 Sep 2026 09:35:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jEl4IWLLo2pPSwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 11 Sep 2026 09:35:30 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1A278A1342; Fri, 11 Sep 2026 11:35:30 +0200 (CEST)
+Date: Fri, 11 Sep 2026 11:35:30 +0200
+From: Jan Kara <jack@suse.cz>
+To: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Tejun Heo <tj@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Dennis Zhou <dennis@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] writeback: bound cleanup_offline_cgwb() rescans by
+ rotating b_attached
+Message-ID: <5onojwm73shl2c3ddwboijarrefjw4gmkfcvnwdvow2wybhu5u@wu37jhkboemj>
+References: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com>
+ <vciagp74qvys2zdbsfcr2brhbv4uyabvm67czm255ascytesjz@n6q775zxxwvb>
+ <3ebd03824f0df04947ffca7f25c96c30.perf.patrick.lu@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mm/truncate: fix data loss when truncating straddling
- large folios
-To: Zi Yan <ziy@nvidia.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
- willy@infradead.org, jack@suse.cz, bfoster@redhat.com,
- joannelkoong@gmail.com, djwong@kernel.org, yi.zhang@huawei.com,
- yizhang089@gmail.com, yangerkun@huawei.com, chengzhihao1@huawei.com,
- wangkefeng.wang@huawei.com, yukuai@fnnas.com
-References: <20260909062339.473816-1-yi.zhang@huaweicloud.com>
- <6F18C9FE-3599-4C6E-99F9-767BD7AC8E3B@nvidia.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <6F18C9FE-3599-4C6E-99F9-767BD7AC8E3B@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:cCh0CgBnUAtFyaNqHzI8Bg--.45614S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxWFyrZw4xKFW5GFW5Ww1xXwb_yoWrur43pF
-	W2gasIyFZ7J3yvkr4vva18Xw1Fqay7Xa1UAF93G392k3Z0qr1IkFy7t3W8u398Krn7Jw10
-	q3WjvFWDW3WDAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	4xRDUUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3ebd03824f0df04947ffca7f25c96c30.perf.patrick.lu@gmail.com>
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: B28B321D2B
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
 
-On 9/10/2026 3:18 AM, Zi Yan wrote:
-> On 9 Sep 2026, at 2:23, Zhang Yi wrote:
+On Thu 10-09-26 23:47:44, Patrick Lu (Anthropic) wrote:
+> On Thu, Sep 10, 2026 at 01:24:52PM +0200, Jan Kara wrote:
+> > On Wed 09-09-26 18:50:27, Patrick Lu (Anthropic) wrote:
+> > > Move every scanned inode to the tail of b_attached, so the next pass
+> > > starts where the previous one stopped and the drain becomes linear.
+> > > b_attached is unordered and isw_prepare_wbs_switch() is its only
+> > > walker, so nobody else sees the reorder. b_dirty_time is ordered by
+> > > expiry for move_expired_inodes() and keeps its current scan.
+> >
+> > OK, but isn't there the very same quadratic behavior problem with
+> > b_dirty_time scan which you don't touch (and where your trick cannot work)?
 > 
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> truncate_inode_partial_folio() splits a large folio so that the caller's
->> truncate loop can drop the in-range sub-folios while keeping the
->> out-of-range tail. The first split at the punch start edge is
->> non-uniform, which leaves the sub-folio at the truncation end edge as
->> large as possible, this means it may still straddle the range, holding
->> both zeroed in-range and valid out-of-range data. The function then
->> attempts a second split at offset + length to isolate that tail.
->>
->> If the second split fails the straddling sub-folio stays merged. The
->> function returned true unconditionally on all exit paths of the success
->> block, telling the caller it was fully handled. The caller kept its
->> default end and the truncate loop truncated every sub-folio below it,
->> including the merged straddler, discarding the valid out-of-range tail.
->>
->> For example, a 4-page order-2 folio punched from offset 0 to the middle
->> of the last page:
->>
->>   truncate_inode_pages_range()
->>     truncate_inode_partial_folio()      # same_folio == true
->>       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->>       folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
->>       2nd split of folio2 fails / cannot lock
->>       return true                       # BUG: caller keeps default end
->>     end = 3
->>     loop truncates p0, p1, p2-3        # p3's valid tail is lost
->>
->> This became reachable after commit 7460b470a131 ("mm/truncate: use
->> folio_split() in truncate operation") replaced the atomic split_folio()
->> with folio_split(), whose non-uniform split can partially split a folio
->> and leave the end edge merged.
->>
->> It has gone unnoticed because a dirty large folio normally carries the
->> filesystem's private data, for example buffer_head, so
->> filemap_release_folio() -> iomap_release_folio() returns false on a
->> dirty folio and folio_split() aborts with -EBUSY before any split,
->> leaving the straddler safely unsplit. The bug is only reachable on paths
->> that produce dirty large folios without filesystem private data, and it
->> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
->> attached.
+> Yes, the same thing happens there. We never saw it because none of our
+> filesystems are mounted with lazytime, so b_dirty_time was always empty
+> on the hosts we looked at.
 > 
-> Thank you for fixing it.
+> We realized the rotation works for b_dirty_time too if the walk starts
+> from the oldest end instead of the newest. sync takes the whole list no
+> matter the order, and move_expired_inodes() picks from the oldest end,
+> so walking with list_for_each_entry_safe_reverse() and moving scanned
+> inodes to the newest end keeps the oldest unscanned inode right where
+> the expiry looks. Prepared inodes leave the list as soon as the switch
+> work runs and get a new dirtied_time_when on the new wb anyway
+> (9a6ebbdbd412), so the only inodes left out of order are the ones that
+> can never switch (DAX), and only on the dying wb.
 > 
->>
->> In addition, even when both splits succeed, data can still be lost when
->> the mapping's minimum folio order (min_order) is non-zero. folio_split()
->> stops at min_order instead of order 0, so the sub-folio containing a
->> split point stays aligned to 1 << min_order rather than to a page. The
->> original success path left start at the page-aligned head of the range
->> and set end to the exact page index of the end edge, neither of which is
->> a folio boundary in general. Either one could land inside the large
->> folio at its edge, and the truncate loop would drop that straddling
->> folio together with its valid out-of-range tail.
->>
->> For example, a 64K (order-4) folio with min_order = 2 punched from
->> offset 0 to 36K:
->>
->>   truncate_inode_pages_range()
->>     truncate_inode_partial_folio()        # same_folio == true
->>       1st split at p0 -> [p0-p3, p4-p7, p8-p15]  # non-uniform, min_order
->>       folio2 = p8-p15 # straddles: p8 in range, p9-p15 tail valid
->>       2nd split of folio2 -> [p8-p11, p12-p15]   # success
->>       end = p9                           # BUG: p9 inside [p8-p11]
->>     loop truncates ... p8-p11           # p9-p11's valid tail is lost
-> 
-> Should min_order > 0 fix come as a separate patch first? min_order>0
-> was introduced by commit e220917fa5077 ("mm: split a folio in minimum
-> folio order chunks") and it is before folio_split(). The old
-> split_huge_page_to_list_to_order() can cause a similar issue?
-> 
+> I tried it in qemu with 100k lazytime inodes on a dying cgwb. With v1
+> the b_dirty_time scan under list_lock still grows from 11 to 115 ms per
+> pass across the drain, same as unpatched. Walking both lists from the
+> oldest end keeps b_attached and b_dirty_time flat at ~0.6 ms per pass,
+> with one loop and no flag. Does that make sense? Something like this,
+> which I can send as v2:
 
-Indeed, the min_order issue is a separate problem, and we should fix
-it in a separate patch.
+Yes, I was also thinking that since we are going to clobber
+dirtied_time_when anyway, we can as well do it a bit earlier to ease
+iteration.
 
-> 
-> <snip>
-> 
->>     i.e. the pages wholly within the range and safe to discard. They are
->>     aligned up (pstart) and down (pend) to the mapping's minimum folio
->>     order so they always fall on a folio boundary.
-> 
-> Basically, to fix min_order issue alone, truncate_inode_partial_folio()
-> needs to align pstart and pend to 1UL << min_order?
-> 
-> 
+I can see in your patch you don't touch dirtied_time_when at all which will
+make the b_dirtied_time list not ordered by the timestamps. That makes me a
+bit uneasy but since we are going to move everything out from that list
+eventually I think that is fine.
 
-Yes, fixing the min_order issue separately amounts to aligning pstart
-and pend to 1UL << min_order, so they need to be exported first.
-Otherwise the same alignment would have to be done in the two callers,
-truncate_inode_pages_range() / shmem_undo_range(). I can rework
-truncate_inode_partial_folio() to export these two parameters first, and
-then split out a separate patch for the min_order fix.
-
-Thanks,
-Yi.
+								Honza
 
 
-
-
+> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> index e744f9f9d43f..ea3eb40bf828 100644
+> --- a/fs/fs-writeback.c
+> +++ b/fs/fs-writeback.c
+> @@ -727,19 +727,34 @@ static bool isw_prepare_wbs_switch(struct bdi_writeback *new_wb,
+>  				   struct inode_switch_wbs_context *isw,
+>  				   struct list_head *list, int *nr)
+>  {
+> -	struct inode *inode;
+> +	struct inode *inode, *tmp;
+> +	LIST_HEAD(scanned);
+> +	bool full = false;
+> +
+> +	/*
+> +	 * Walk from the oldest end and move scanned inodes to the newest
+> +	 * end, so the next scan resumes at unscanned inodes instead of
+> +	 * re-walking an ever-growing run of prepared and skipped ones.
+> +	 * For b_dirty_time this keeps the oldest unscanned inode at the
+> +	 * end move_expired_inodes() picks from; b_attached is unordered.
+> +	 */
+> +	list_for_each_entry_safe_reverse(inode, tmp, list, i_io_list) {
+> +		list_move(&inode->i_io_list, &scanned);
+>  
+> -	list_for_each_entry(inode, list, i_io_list) {
+>  		if (!inode_prepare_wbs_switch(inode, new_wb))
+>  			continue;
+>  
+>  		isw->inodes[*nr] = inode;
+>  		(*nr)++;
+>  
+> -		if (*nr >= WB_MAX_INODES_PER_ISW - 1)
+> -			return true;
+> +		if (*nr >= WB_MAX_INODES_PER_ISW - 1) {
+> +			full = true;
+> +			break;
+> +		}
+>  	}
+> -	return false;
+> +	list_splice(&scanned, list);
+> +
+> +	return full;
+>  }
+>  
+>  /**
+> 
+> Thanks,
+> Patrick
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
