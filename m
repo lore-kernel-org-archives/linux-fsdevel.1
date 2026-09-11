@@ -1,138 +1,171 @@
-Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f9.google.com (mail-qk2-f9.google.com [74.125.230.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA0459E35D;
-	Fri, 11 Sep 2026 20:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFB155C315
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 20:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789158113; cv=none; b=VtyMnC5xDEb39UrZawTfV5AO5HBQrfmeOULD5kEtQ9oLhceoHRwc6XRKbx7ZpgVyUatnGy3di9CF3clGcKcv9fNQP6vV/wLYjt1FqS5QC7tqoIU4B2KTa1FNo46QzMOs+CQ23WeGDPw1THmb/H4z8bidQ2jt/8c0wBF+dub5DR8=
+	t=1789159459; cv=none; b=RGv/rKJuAhhvxc8V+wzBeQzTwwXtGnPDU5oVSC1fDyX9jSl+qPpCEiunTC9VlGO+lB5Q2lS0ppWKNOo3J3wK+e6Z+/m9eFqP1MxdxvuwgnD6outEOpSpwGrI5fPWTRHzRaui/FNGesRpNhPzE1Us8o1S3hkM5iMKVL9KJ4mUKyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789158113; c=relaxed/simple;
-	bh=Gda/p45mn0eDZ98/49FQRJN55Cd0HHPAXWHYrDruXPk=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
-	 MIME-Version:Content-Type; b=eV+G2U8O9/uQXeKW8gVCKQlSXZCiC57rtpQ4zwwLy4Lnxpv1dtC8xnGa8Ecepy5rkLhXbGZXLsq7Y+R/w3LXP7qsVD6H3+udUsviAOYUY7M637wL1aWwWXxCmy+MdGqAcQ0/1SJPirdQi9ffUx7OGpARD13XrvVHX2lppZ0vfag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=Ul0TTLRS; arc=none smtp.client-ip=143.255.12.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
+	s=arc-20240116; t=1789159459; c=relaxed/simple;
+	bh=9KRmBLpDfExqlzXDVHUVK59qu4C/6ghjdOd9zFQjQ0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O09tSmoguEfUL9NBBjfiexEpHc9UK9sr3jGPjnlGQZ4vd1d9ZwhLr/+bovgYBBa5tar/0z4NVyQL4RjNclnSMH21KYid9KxBBnAZWgoXHZJyHx1lbJgaF+VeT0Qv+dRXvLAnOEBA79CqNYZBk2Jds/MeczHAgkhfWynHKPkQJ4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=qyoduPel; arc=none smtp.client-ip=74.125.230.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="Ul0TTLRS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
-	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=tdC+eeHQ2/y5B3/a3WDCCd1iGftUlGNNEOZKxfjw6Y8=; b=Ul0TTLRSppbnaeKmw4fCK2ft1x
-	F34mxzOMJUI0cVF9k/fXLnBWQgRO3UeJzWuhRYtK1KaZ8BnrVVFf6IZ8pWFPGAfyyz3lKhFN1UBsv
-	AhadtmlzpndrOPRm6lPyp0tyHYNEmMYUcq/tuyKNB5uS91toVwMIoiqZKtDHBnxt3vSHyfL0K+PCw
-	+SjgtXfNotNqhkNOwgjOzxOPKMftYOcwjSPDk3IaYWoAKYXMQXM9OA8ZrYyfpk6n1C6EwR3TZ6QKM
-	scYOL0wrM48BLSc4OLEb6vcHRx6dsk0wX5A40eNqhsDsU/oDu3KS8Ihsemii5xwg19/ZlnAwO9sdP
-	xO+iBfJA==;
-Received: from pc by mx1.manguebit.org with local (Exim 4.99.5)
-	id 1x57kh-00000001Exp-194l;
-	Fri, 11 Sep 2026 17:21:39 -0300
-Message-ID: <920f0b50480231f1af8a9c8e7f118f5c@manguebit.org>
-From: Paulo Alcantara <pc@manguebit.org>
-To: David Howells <dhowells@redhat.com>, Christian Brauner
- <christian@brauner.io>
-Cc: David Howells <dhowells@redhat.com>, Matthew Wilcox
- <willy@infradead.org>, Namjae Jeon <linkinjeon@kernel.org>, Marc Dionne
- <marc.dionne@auristor.com>, Stefan Metzmacher <metze@samba.org>, Eric Van
- Hensbergen <ericvh@kernel.org>, Dominique Martinet
- <asmadeus@codewreck.org>, Ilya Dryomov <idryomov@gmail.com>,
- netfs@lists.linux.dev, linux-afs@lists.infradead.org,
- linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
- ceph-devel@vger.kernel.org, v9fs@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v12 5/5] cachefiles: Preset the state xattr when
- creating a new file
-In-Reply-To: <20260910220242.2165023-6-dhowells@redhat.com>
-References: <20260910220242.2165023-1-dhowells@redhat.com>
- <20260910220242.2165023-6-dhowells@redhat.com>
-Date: Fri, 11 Sep 2026 17:21:38 -0300
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="qyoduPel"
+Received: by mail-qk2-f9.google.com with SMTP id d75a77b69052e-5309ccafbc8so1915401cf.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 13:44:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1789159456; x=1789764256; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FDi78tn+rNyw2f5XP4H8xqn6L7v0YajTpN+MIEXmNi8=;
+        b=qyoduPel33nPtdq/ko3a8YtkDb3zIeUPwdUpVbazYDFTpundfnYW9Oxh4tzKauU9Ei
+         BGisEXp6AQZvGgAYzf7RAEaofve4Af7emK0sCBGXYPsVCBVBzhe46sUKd7ufjzEUWOXJ
+         U4ViDbp1OjP8TqGvyPewYd6vHWnI+IBEutNiacFeVtNmTq+KLDrabYp8n4p6pYJ7g8kt
+         QVTf8aZNDRfCFaU0dYrLN36lPNdDgoEc+JH3O060cahbwXtByrZMeAF8raN/NZxLDS18
+         B9+N0GjWoqs/ZafGY7BYh/KPEbh7+ihPQTNKYfNO+sC9DsqLjJ9jvdq+Ex1ciaH5c64D
+         JjjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789159456; x=1789764256;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FDi78tn+rNyw2f5XP4H8xqn6L7v0YajTpN+MIEXmNi8=;
+        b=ZBgHO0nEXCNZR/p8h7wrFgZRk3Mc2cmD5LUiiYyWRQAN87qESSN/DpPJId3rcatX8E
+         lnECFa8W2bXjj47uGMwk+HhyqrN0vbj6TyKfdLAqMmYKqpcqngows3927AQ+s5bpg2Xc
+         OBhmIExkznQcxfeSy3ZbINcJH4ZGy0CXBPaScSe7L6VZi4iu5AT7t30w1skg2V8YdEU5
+         JvZZa4yPNWmyGWcsaYKurBo4rNj5PgRE5XBDpQ2ngId56St106mXmZ+tqw8bUE/AL5vN
+         OymgpcmCA0IEYQl3iaz0V5aWjl92wq5eeUjS7Z4ynwZXuDPaDTRm2HYq2qF+TkSsDPq4
+         RJQA==
+X-Forwarded-Encrypted: i=1; AKwUvBwoUxO5cy4Ed06GS+hAHqXMc4rjoAdAPNv9D0JDkruNboIzxLkmXzBIk2qY0FG3XyhcGjkZgJrKqGIrheOb@vger.kernel.org
+X-Gm-Message-State: AFuF++kqRTvtNEN3f3L6Ito5abFzPpR98VweQ9LU17984bUn8TiRrNnZ
+	X9LaZXNk3Mx8x0k+LmDACAks2YOLEIlYE+pqXzpYJC6+cypgyjOfnIsR/XH1DZWWc48=
+X-Gm-Gg: AYBFou382DDTpuDSp3C6bbZrOLSdSWc1ZCHg1wK9TpFbN4K1cWCJTDaDbCKiZD57N4R
+	qS7RiieyuvM5hkW4dsc99IXPM1YsJa9x/Geso2Qfb9LqlVVPd6n46VhZawuI39qwhGVr0qC+oaJ
+	4FbGqPrwaBLNqV52QAvvB6chd9qeE1ymzCkSvTkJIU4aB26IeqUbj+0Ew/xCCz9Bw0IPRbDOtR5
+	l1rvTZXbK3H0djXrj199lml/6XozfK0bXvC2zgEfyxxGJNihmSMu+cpF0cnQQ+sDwysKkPvCFyg
+	gxP0Y1zNiCA9bckxWoEm6PHK61j9O4Ewj202n2+Uo9LeMhGCVBzOiFQOr2Z8pmLPFLscTY79biy
+	zjoOkJzWHRwieIyXZf/RNJl7vxlzwUPc8+BDAkb1m6CigdyRwk+17vmGZI3MiSMlXShhPwdU/cF
+	QpKtT7aFcMF1Ubkjj1H9GhzmKgXeUw2qrbIR085LStpBohr9lNSJGuS6rz/KttjCmpkg7k4w==
+X-Received: by 2002:ac8:5e52:0:b0:530:dc5e:27b8 with SMTP id d75a77b69052e-530dc5e2fb1mr37003331cf.27.1789159456019;
+        Fri, 11 Sep 2026 13:44:16 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca511ff0sm28939081cf.31.2026.09.11.13.44.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 13:44:15 -0700 (PDT)
+Date: Fri, 11 Sep 2026 16:44:14 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Salvatore Dipietro <dipiets@amazon.it>
+Cc: linux-kernel@vger.kernel.org, hch@infradead.org, abuehaze@amazon.com,
+	akpm@linux-foundation.org, alisaidi@amazon.com, blakgeof@amazon.com,
+	brauner@kernel.org, dgc@kernel.org, dipietro.salvatore@gmail.com,
+	djwong@kernel.org, jackmanb@google.com,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-xfs@vger.kernel.org, mhocko@suse.com, ritesh.list@gmail.com,
+	rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
+	vbabka@kernel.org, willy@infradead.org, ziy@nvidia.com,
+	Vlastimil Babka <vbabka@suse.cz>,
+	David Hildenbrand <david@redhat.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Brendan Jackman <brendan.jackman@linux.dev>
+Subject: Re: [PATCH v5] mm/page_alloc: avoid direct compaction for costly
+ __GFP_NORETRY allocations
+Message-ID: <aqRoHr8XGzzDUjBk@cmpxchg.org>
+References: <20260911142102.2294202-1-dipiets@amazon.it>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260911142102.2294202-1-dipiets@amazon.it>
 
-David Howells <dhowells@redhat.com> writes:
-
-> With a really small cache, cachefiles is likely to see a lot of writes
-> hitting ENOSPC - and this can include setxattr that sets the state xattr on
-> a cachefile - but we don't really want to successfully fill a cache file
-> only to have to scrap it because we can't set the xattr.
->
-> Instead, preset the xattr when we create the tmpfile we're going to use,
-> and scrap the file at that point if we get ENOSPC.  Only if setxattr
-> succeeds do we allow data to be written to the file.
->
-> Note that there is a potential performance loss in that writes to the cache
-> have to be delayed until this is completed - but we do the tmpfile/setxattr
-> in parallel, starting when the file is opened and only have to wait once
-> writeback occurs.
->
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> cc: Marc Dionne <marc.dionne@auristor.com>
-> cc: Paulo Alcantara <pc@manguebit.org>
-> cc: netfs@lists.linux.dev
-> cc: linux-fsdevel@vger.kernel.org
+On Fri, Sep 11, 2026 at 02:21:02PM +0000, Salvatore Dipietro wrote:
+> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+> introduced high-order folio allocations in the iomap buffered write
+> path.  When memory is fragmented, each failed costly-order allocation
+> enters __alloc_pages_slowpath() which runs direct compaction and
+> drain_all_pages(), causing a 0.38x throughput drop on PostgreSQL
+> pgbench (simple-update) with 1024 clients on a 96-vCPU arm64 system.
+> 
+> The root issue is that direct compaction is too expensive for hot
+> allocation paths that have fallbacks to smaller allocations.
+> __filemap_get_folio_mpol() already marks higher-order allocations with
+> __GFP_NORETRY | __GFP_NOWARN, signalling that the caller can handle
+> failure.  However, the page allocator still attempts full direct
+> compaction for costly orders with __GFP_NORETRY, which is unnecessarily
+> aggressive when the caller will simply retry at a lower order.
+> 
+> For costly-order allocations with __GFP_NORETRY, suppress direct reclaim
+> for the whole slowpath by computing can_direct_reclaim (and hence
+> can_compact) as false.  The !can_direct_reclaim check near the top of
+> the slowpath then short-circuits to nopage: no direct reclaim, no direct
+> compaction and no drain_all_pages() IPI across every CPU.  kswapd (and
+> in turn kcompactd) is still woken further down for background
+> defragmentation, so compaction keeps working for long-term system health
+> while being removed from the latency-critical direct allocation path.
+> 
+> Allocations that also request __GFP_THISNODE are exempted.  That flag
+> pairing identifies the local-node-first THP attempt issued by
+> alloc_pages_mpol() (mempolicy.c), which relies on direct compaction to
+> form transparent huge pages.  __GFP_NOFAIL is exempted as well, so a
+> must-not-fail allocation is never made to fail.
+> 
+> Test environment:
+>   Hardware:  AWS EC2 m8g.24xlarge (96 vCPU, arm64)
+>              12x 1TB IO2 32000 IOPS RAID0 XFS
+>   OS:        AL2023
+>   Kernel:    v7.3-rc1
+>   Database:  PostgreSQL 18.4
+>   Workload:  pgbench simple-update, 1024 clients, 96 threads, 1200s
+> 
+> Results (average of 3 runs, TPS):
+>   Config                                       Avg TPS   % vs baseline
+>   AL2023 stock 6.1 kernel (pre-5d8edfb900d5)   136,942           n/a
+>   v7.3-rc1 baseline (no patch)                  59,408             -
+>   v7.3-rc1 + this patch                        161,994       +172.7%
+> 
+> The patch fully recovers the pre-5d8edfb900d5 performance, bringing
+> throughput back above the pre-regression level and well clear of the
+> ~59k baseline.  The AL2023 6.1 row runs a kernel that predates commit
+> 5d8edfb900d5 ("iomap: Copy larger chunks from userspace"), so it is not
+> directly comparable, but it shows the pre-regression level and confirms
+> that the ~59k baseline is the anomaly and not the norm.
+> 
+> 
+> Link: https://lore.kernel.org/all/20260403193535.9970-1-dipiets@amazon.it/T/#t [v1]
+> Link: https://lore.kernel.org/linux-mm/20260420161404.642-1-dipiets@amazon.it/T/#u [v2]
+> Link: https://lore.kernel.org/all/20260710143437.12379-1-dipiets@amazon.it/T/#u [v3]
+> Link: https://lore.kernel.org/all/20260904115629.3993331-1-dipiets@amazon.it/T/#u [v4]
+> Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
+> Cc: stable@vger.kernel.org
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Dave Chinner <dgc@kernel.org>
+> Cc: Ritesh Harjani <ritesh.list@gmail.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: linux-mm@kvack.org
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-xfs@vger.kernel.org
+> Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
 > ---
->  fs/cachefiles/internal.h |  1 +
->  fs/cachefiles/namei.c    |  5 ++++
->  fs/cachefiles/xattr.c    | 59 +++++++++++++++++++++++++++++++++++++++-
->  3 files changed, 64 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/cachefiles/internal.h b/fs/cachefiles/internal.h
-> index b2605111fd56..664be64ab538 100644
-> --- a/fs/cachefiles/internal.h
-> +++ b/fs/cachefiles/internal.h
-> @@ -283,6 +283,7 @@ void cachefiles_withdraw_volume(struct cachefiles_volume *volume);
->  /*
->   * xattr.c
->   */
-> +int cachefiles_preset_object_xattr(struct cachefiles_object *object, struct file *file);
->  extern int cachefiles_set_object_xattr(struct cachefiles_object *object);
->  extern int cachefiles_check_auxdata(struct cachefiles_object *object,
->  				    struct file *file);
-> diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
-> index ca093840e577..ef656a319ede 100644
-> --- a/fs/cachefiles/namei.c
-> +++ b/fs/cachefiles/namei.c
-> @@ -450,6 +450,11 @@ struct file *cachefiles_create_tmpfile(struct cachefiles_object *object)
->  		pr_notice("Cache does not support read_iter and write_iter\n");
->  		goto err_unuse;
->  	}
-> +
-> +	/* Preallocate space for the xattr. */
-> +	ret = cachefiles_preset_object_xattr(object, file);
-> +	if (ret < 0)
-> +		goto err_unuse;
->  out:
->  	cachefiles_end_secure(cache, saved_cred);
->  	object->content_info = CACHEFILES_CONTENT_ALL;
-> diff --git a/fs/cachefiles/xattr.c b/fs/cachefiles/xattr.c
-> index 551a3b0069c2..8ebb713482e3 100644
-> --- a/fs/cachefiles/xattr.c
-> +++ b/fs/cachefiles/xattr.c
-> @@ -34,6 +34,57 @@ struct cachefiles_vol_xattr {
->  	__u8	data[];		/* netfs volume coherency data */
->  } __packed;
->  
-> +/*
-> + * Preset the state xattr on a cache file to allocate space for it.
-> + */
-> +int cachefiles_preset_object_xattr(struct cachefiles_object *object, struct file *file)
-> +{
-> +	struct cachefiles_xattr *buf;
-> +	struct dentry *dentry = file->f_path.dentry;
-> +	unsigned int len = object->cookie->aux_len;
-> +	int ret;
-> +
-> +	buf = kzalloc(sizeof(struct cachefiles_xattr) + min(len, sizeof(__be64)), GFP_KERNEL);
+> v5: Derive the decision into a local flag instead of mutating gfp_mask
 
-You should use max() here.
+I commented on the v5 variant here:
 
-Otherwise looks good,
+https://lore.kernel.org/all/aqQlUr-1h07G8JWM@cmpxchg.org/
 
-Reviewed-by: Paulo Alcantara <pc@manguebit.org>
+I think v4 was better.
