@@ -1,63 +1,63 @@
 Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777A8497B72
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 22:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E145B3537FF
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 22:14:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789164898; cv=none; b=kjSETU+CXum4zqfs90rSLKGnx74Lvplzo0V2nPwEINz5f7mG4w8i9s1DlwaE6evTpZBsWggyE4ScIt5qFjxyKVgbuYw3EbWClumeSzS3HuTAudA1QwSt2U03ytUaDhRzLnJOUeCQpjSfAc/Bou5SBC5jn4TXs8FvcxCFOlzlOLA=
+	t=1789164902; cv=none; b=ofkkdBJcYY/jE7lVtIyrBxDQeDyTEtDwVj1ndu1cxA13ALuftI/Wh2UPJEvDqh4PfKty/rBQ61pbLzPpVE+EZy/tyH73gpeOhlV/H5xcSDqOZCGdLzOFthJZ9LF5xWkWLOQZG7Ktm9m28V6w8KdFWBBk1UsQ0TT5GHWQcakyqDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789164898; c=relaxed/simple;
-	bh=LdQoQbgZU0lrWT2pURL+7/e3k5+0HWD3ja5iw2sMZws=;
+	s=arc-20240116; t=1789164902; c=relaxed/simple;
+	bh=kudAxJVFZ3LQbBf9zKs5zuF1NACSED3RdhqSu+YS0fU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T+OaWi5g5Z2ddsFJ1uCxjVzoWpjHmiXm/slJpeDkBF08oQObq2xR3dJSqtUGdXygtYtiNgybI32O/UOMm9occlBxl9RNVisAGFaqVY0EXlHK+wTUYtFGPHUW1IoF3RS/BXqkVKYMA/CTcyX4Fy/jJSiTSkV4X7FLoVP5N49DHpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rrVk6KRS; arc=none smtp.client-ip=74.125.227.140
+	 MIME-Version; b=i6FjcQhV7au2haFsA6djBUIEPH2NyRSvKJQT5pi4KNHlcrQ/02Q+3SBHHb+bFuVt6iZcwj0WCr2Lhy6H7a69KW8LwB01WsUZD59ZBS3nGy9NPtJbdyI3h9v8gSADm0M2tAaBsftpyPxD9etLjjxEABothnB4Xa5vHVPSq8kNKfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fHJG2xrY; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rrVk6KRS"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccb1a990so50055a91.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 15:14:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fHJG2xrY"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747f01375so613185ad.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 15:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789164893; x=1789769693; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789164895; x=1789769695; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=bZMF2qooMPRk5Hq78os7KgYAWUsTasHU8sMqJeIvwpw=;
-        b=rrVk6KRSqjxvzJ+D42cYDvBAtF2/WIXzMMqbkVrCRgEA6udEx+DbmuyffQkpfW9OdZ
-         eVo5R5OjMVvCdMTIMluZuG6iYjZvQ2+TiaFyCzvHXSFrePjwcoaDwc92R8hbc9puoF0c
-         VLrZ9UfOJkw47pNqd6rksfJtMxgkOIPQH+S5We6VMSvzoU+tw9vBQaagy79oZMO+mNHx
-         UCbzemGSeygMJrdlwrhaTYOreDpwJkW48fgi9a0EYLgu9Ynirp2EJTbEEWXL5UupL/CC
-         TiAwlASF5L/FHyS8SxF7l+qyEz9iRJIR+SxcYopKL68zxjV+FiqtB0xyvZPi0PkNZyKZ
-         wqsw==
+        bh=SryPbedwt+PB/tIiQ1DKQcYvegcDPhcxT20I1ilZbIQ=;
+        b=fHJG2xrYjiL5PLaGfFFj/j1/KQCLrVyMA6VNZN9eBuw2f2Y9Qwx0OERj4fIXafwoi9
+         AjwLb12BpPcNEBDU2szOAnFqcj1CwnWzDIbYagfy0FbEXDKjszhlTo+76fUOR95TeQ+s
+         FLWAOEGdCwyLsV6ul7SsoNhobgOQdufVuVTsKPnmWXvHt52E8405ieIZzjQSaIInky3b
+         16nTjwGOJuiuFdc2OuBwaAIERak01AjMLJHyf1Mz91KyFPyoZhrpnAReU/JWxucRT/ZU
+         3fevjdDFpDy2AAs8kUCtrAzwCTwKY6MPHzkpnYckQ0/SuYIBK3B3ALNGz9G9bBnj1hH2
+         JkRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789164893; x=1789769693;
+        d=1e100.net; s=20251104; t=1789164895; x=1789769695;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bZMF2qooMPRk5Hq78os7KgYAWUsTasHU8sMqJeIvwpw=;
-        b=igIabg2ttgaRhYAS6gr10OqgyRpbEKtLUBGrF9NmFWqr8PUGfH0/XcJYsiIxHl14ZW
-         PSdl9e6o1+RYGJtAfMXIwX5donQDIJOMOVi/LK6w7rKBiONG0vWgSL7EDKGKWmEylBl4
-         ujoEaEP/JamVrwPGbZ4x5tM5GG0M9qHGC8BPeqfjHGNZBeVj7oUFibHCUv/oSjMpwLC2
-         kbcXl2wl1U3tF9DOXt73l+7iYiveZcYG4iZGV6KgMzEBzEu38w/WZJ0PsaGvN7If/g/y
-         tZBaEZCbErBc2/bWhHuTViOTHlTtlru81Bnso3Le92a6ju4Mtxmq0H58ZxCbb8UZDLl+
-         PeFg==
-X-Forwarded-Encrypted: i=1; AKwUvByXAClV6y3VBwPoYkdAVSI1/t6qEbsdNQ3hTx7xJLqhPVyPkKDkGi3wDM/niZTBYUs1Cugi+l3BFlLnVLtS@vger.kernel.org
-X-Gm-Message-State: AFuF++nVKvPtg8soVmlsu0DPbw8tRTjJxEiRa/2JcjKUh0T2562RTfXl
-	zA0PlaT6eDxiQN0VgJyq0wo9bSC9xwE4jkzTIXkxZAcZfmBqhaKjt61v
-X-Gm-Gg: AYBFou32k1ESdP6939I3rgeu/IP4Zi/OPRTiElJ5+tfCZe3qi9J35wfJZMhrU7uOdZ6
-	JQa8A3gFpR4skLQDtw0gNZC7OjJ2EK6BOBjjALPSjRDI5dZ7/R4qSNmUzfMtotTtCisoeCxfRoB
-	sSUTD8QsupWn/auZuygpUGtb8nxCwxYvWBdMOMMB2kd6qSXDLI/hhPSWvqkMnl/8lyWuJr6vaCs
-	/OW93xbmyTlzB17HQP2pAeNp+jrmIosvbLv5XNojtlzm5fIDoh1CAOlRS+wT//WgvxM4xUQIHhD
-	BPi082JuN8CCKW08ynSXOdRteaxygVFHcLfJHwP4ZUqktt1u0zu2NFjwPFcdL+PiUi9kvcFDbCY
-	kC86uh4pDvPt+/rWoQy+WogVAdA+td1TxZuJpQg2ieyU/1pSMQ/hI1+eXi490hfr6ZMbwTeI3lv
-	y1GQ9Z3jMDUaptK94iLkD3RJ/iHaxx8Pbw1DZdu1aFJJUY3nmJMEo+8KhxTniVBq2Esp/O
-X-Received: by 2002:a17:90b:258e:b0:39b:2c00:c3f5 with SMTP id 98e67ed59e1d1-39dbc6d8753mr375019a91.18.1789164892609;
-        Fri, 11 Sep 2026 15:14:52 -0700 (PDT)
+        bh=SryPbedwt+PB/tIiQ1DKQcYvegcDPhcxT20I1ilZbIQ=;
+        b=eOlkmMsmxWQeFNuvnh8heneM8k4o6wX26JcjMFcIiIMo8oyxUYL9qwfTKpIWh0h3Q6
+         kINlLldYOqj0N5sLmfj/VtenLei9tdka20OR54uvtJ1CVqgpxhpK3x8V1CpGSGkKZmZg
+         2x7ZtGi/elihzmJRlPiRTI1hOmejoVrMQImqZ9bTTLVGeAd4Y3egz3PsNInTbi0gKUfw
+         c2474zNe2bydAN3H/8CJqQQhucvM1kHdbQOsFcd2EQkKYQxp8WZn4F6peWhI0dI9h6yM
+         ZuQQTj2Akr4o5FgJOCbHJEjYouHi0eEE0GYdQJR5/QdjMqww3ACyI8+/MIHBETh+/VWz
+         MVEQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzyDELClDf7w3naAGNeSfxtjFMIlOXk41pYi0GQXDbNFYtH8pxE4+hB5GHo6d/JbOARWE6PycHTvyLFmI12@vger.kernel.org
+X-Gm-Message-State: AFuF++lkkWCCUtOcdEsFUqD2nPMYnbFTppZ5L9q0XOouTfD8X78pGmob
+	riA9A7n7GiOosQOBO7AJCOsFyacY3uehF4vmEIBIbCuuH8JB1KYZ2FoM
+X-Gm-Gg: AYBFou3bs1Gl63U3fs9bVCtPj9xIyv6i5K/L306WdmaCDsRfI57tMmGvQNSVYonjF3x
+	sdIESbLpSRWBEQFh5kJHw3eo2/0nqkqkM8BWsN98O+cYUH8tfyBbORUWdSK7XIGIsP15UUKZ6+t
+	8nXypJ0JUyhkiA757FkMpKqbNS5EDuCBim7CfCqIYVuTaoE7ajY9dvg/iwYZC8FG7DSybj8DQOa
+	XiexfgC7FjInfYdFhNFGwLqUr55fBwgSy5ttwOtxjpL7EgRB4D1ZTbQY+oITb8lkB0rZmrArEaw
+	c836itAtE34huxhajVPybvHro8bHnsPWt5iSgtE9yqiGQiXSkRf3qzjKOhcbHGy2G1Mze7irXty
+	pNYpwTIgwX07mD0b8jzC6L1Iz9lho2NLIToLdUfRQvivv5biB7Ia4jKHeFXhhRaw1R8ha3xk7A0
+	2RJHYplbYxTMWHz8JDwJqXL0KCJSva0MyX+Hj8YZTSDvniQ4+3NPY78+/U3ME9j0kLtzA=
+X-Received: by 2002:a17:90b:4c0d:b0:38e:b400:a860 with SMTP id 98e67ed59e1d1-39dbc6a3e56mr392229a91.13.1789164895357;
+        Fri, 11 Sep 2026 15:14:55 -0700 (PDT)
 Received: from localhost ([216.228.127.128])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4e51449sm7862656eec.5.2026.09.11.15.14.51
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365ba71cesm8971595c88.13.2026.09.11.15.14.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 15:14:51 -0700 (PDT)
+        Fri, 11 Sep 2026 15:14:54 -0700 (PDT)
 From: Yury Norov <yury.norov@gmail.com>
 X-Google-Original-From: Yury Norov <ynorov@nvidia.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -73,9 +73,9 @@ Cc: Yury Norov <ynorov@nvidia.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-mm@kvack.org,
 	maple-tree@lists.infradead.org
-Subject: [PATCH 2/3] idr: assert static storage for DEFINE_IDA()
-Date: Fri, 11 Sep 2026 18:14:42 -0400
-Message-ID: <20260911221444.1523311-3-ynorov@nvidia.com>
+Subject: [PATCH 3/3] maple_tree: assert static storage for DEFINE_MTREE()
+Date: Fri, 11 Sep 2026 18:14:43 -0400
+Message-ID: <20260911221444.1523311-4-ynorov@nvidia.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260911221444.1523311-1-ynorov@nvidia.com>
 References: <20260911221444.1523311-1-ynorov@nvidia.com>
@@ -87,18 +87,18 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DEFINE_IDA() uses IDA_INIT(), which initializes the embedded XArray lock
-with a static spinlock initializer. For an automatic local IDA, lockdep
-cannot use the lock address as a persistent class key and reports
-"INFO: trying to register non-static key" before disabling itself.
+DEFINE_MTREE() uses MTREE_INIT(), which initializes the tree's embedded
+lock with a static spinlock initializer. If the tree is an automatic
+local object, lockdep rejects its address as a non-static class key and
+disables locking validation on the first lock acquisition.
 
-Apply ASSERT_STATIC_STORAGE() to DEFINE_IDA() so that this misuse is
-rejected at compile time. For example:
+Apply ASSERT_STATIC_STORAGE() to DEFINE_MTREE() to catch automatic
+local definitions at compile time. For example:
 
   void example(void)
   {
-          DEFINE_IDA(ida);
-          ida_destroy(&ida);
+          DEFINE_MTREE(mt);
+          mtree_destroy(&mt);
   }
 
 GCC reports:
@@ -108,120 +108,107 @@ GCC reports:
                            ^
   note: in expansion of macro 'ASSERT_STATIC_STORAGE'
     ASSERT_STATIC_STORAGE(name)
-  note: in expansion of macro 'DEFINE_IDA'
-    DEFINE_IDA(ida);
+  note: in expansion of macro 'DEFINE_MTREE'
+    DEFINE_MTREE(mt);
 
-File-scope definitions and static DEFINE_IDA() within a function remain
-valid. Automatic local IDAs must instead be initialized with ida_init().
-Direct uses of IDA_INIT() are not covered by this declaration check.
+File-scope definitions and static local trees remain valid. Automatic
+local trees must instead use mt_init() or mt_init_flags(). Direct uses of
+MTREE_INIT() and MTREE_INIT_EXT() are unchanged.
 
-Convert the five automatic local IDAs in the userspace radix-tree tests
-to ida_init() so they satisfy the new requirement.
+Replace the local DEFINE_MTREE() in the interval-tree span test with a
+plain declaration; the test already initializes the tree with
+mt_init_flags() before use. Convert the three local Maple Trees in the
+userspace radix-tree tests to mt_init().
 
 Validated file-scope and static local definitions with a kernel object
 build, and confirmed that an automatic local definition fails to compile.
+The Maple Tree test and region allocation benchmark objects also build
+with lockdep enabled.
 
 Signed-off-by: Yury Norov <ynorov@nvidia.com>
 ---
- include/linux/idr.h                 |  5 ++++-
- tools/testing/radix-tree/idr-test.c | 20 +++++++++++++++-----
- 2 files changed, 19 insertions(+), 6 deletions(-)
+ include/linux/maple_tree.h       |  4 +++-
+ lib/interval_tree_test.c         |  2 +-
+ tools/testing/radix-tree/maple.c | 12 +++++++++---
+ 3 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/idr.h b/include/linux/idr.h
-index 789e23e67444..e2a4b6298511 100644
---- a/include/linux/idr.h
-+++ b/include/linux/idr.h
-@@ -16,6 +16,7 @@
- #include <linux/gfp.h>
- #include <linux/percpu.h>
- #include <linux/cleanup.h>
-+#include <linux/compiler.h>
+diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+index e595ae5cd0ee..e30e57f5f3df 100644
+--- a/include/linux/maple_tree.h
++++ b/include/linux/maple_tree.h
+@@ -9,6 +9,7 @@
+  */
  
- struct idr {
- 	struct radix_tree_root	idr_rt;
-@@ -269,7 +270,9 @@ struct ida {
- #define IDA_INIT(name)	{						\
- 	.xa = XARRAY_INIT(name, IDA_INIT_FLAGS)				\
- }
--#define DEFINE_IDA(name)	struct ida name = IDA_INIT(name)
-+#define DEFINE_IDA(name)							\
-+	struct ida name = IDA_INIT(name);					\
+ #include <linux/kernel.h>
++#include <linux/compiler.h>
+ #include <linux/rcupdate.h>
+ #include <linux/spinlock.h>
+ 
+@@ -297,7 +298,8 @@ struct maple_tree {
+ #endif
+ 
+ #define DEFINE_MTREE(name)						\
+-	struct maple_tree name = MTREE_INIT(name, 0)
++	struct maple_tree name = MTREE_INIT(name, 0);		\
 +	ASSERT_STATIC_STORAGE(name)
  
- int ida_alloc_range(struct ida *, unsigned int min, unsigned int max, gfp_t);
- void ida_free(struct ida *, unsigned int id);
-diff --git a/tools/testing/radix-tree/idr-test.c b/tools/testing/radix-tree/idr-test.c
-index 945144e98507..6fcba5b5870b 100644
---- a/tools/testing/radix-tree/idr-test.c
-+++ b/tools/testing/radix-tree/idr-test.c
-@@ -460,9 +460,11 @@ void ida_dump(struct ida *);
-  */
- void ida_check_nomem(void)
+ #define mtree_lock(mt)		spin_lock((&(mt)->ma_lock))
+ #define mtree_lock_nested(mas, subclass) \
+diff --git a/lib/interval_tree_test.c b/lib/interval_tree_test.c
+index b0b07270ce7c..06f77fb3179f 100644
+--- a/lib/interval_tree_test.c
++++ b/lib/interval_tree_test.c
+@@ -244,7 +244,7 @@ static int span_iteration_check(void)
+ 	unsigned long start, last;
+ 	struct interval_tree_span_iter span, mas_span;
+ 
+-	DEFINE_MTREE(tree);
++	struct maple_tree tree;
+ 
+ 	MA_STATE(mas, &tree, 0, 0);
+ 
+diff --git a/tools/testing/radix-tree/maple.c b/tools/testing/radix-tree/maple.c
+index d967e76a3c06..bfe4b8626c42 100644
+--- a/tools/testing/radix-tree/maple.c
++++ b/tools/testing/radix-tree/maple.c
+@@ -36022,10 +36022,12 @@ static noinline void __init check_erase_rebalance(struct maple_tree *mt)
+ 
+ static noinline void __init check_mtree_dup(struct maple_tree *mt)
  {
--	DEFINE_IDA(ida);
-+	struct ida ida;
- 	int id;
+-	DEFINE_MTREE(new);
++	struct maple_tree new;
+ 	int i, j, ret, count = 0;
+ 	unsigned int rand_seed = 17, rand;
  
-+	ida_init(&ida);
++	mt_init(&new);
 +
- 	id = ida_alloc_min(&ida, 256, GFP_NOWAIT);
- 	IDA_BUG_ON(&ida, id != -ENOMEM);
- 	id = ida_alloc_min(&ida, 1UL << 30, GFP_NOWAIT);
-@@ -475,9 +477,11 @@ void ida_check_nomem(void)
-  */
- void ida_check_conv_user(void)
+ 	/* store a value at [0, 0] */
+ 	mt_init_flags(mt, 0);
+ 	mtree_store_range(mt, 0, 0, xa_mk_value(0), GFP_KERNEL);
+@@ -36319,7 +36321,9 @@ static inline int check_vma_modification(struct maple_tree *mt)
+ void farmer_tests(void)
  {
--	DEFINE_IDA(ida);
-+	struct ida ida;
- 	unsigned long i;
- 
-+	ida_init(&ida);
+ 	struct maple_node *node;
+-	DEFINE_MTREE(tree);
++	struct maple_tree tree;
 +
- 	for (i = 0; i < 1000000; i++) {
- 		int id = ida_alloc(&ida, GFP_NOWAIT);
- 		if (id == -ENOMEM) {
-@@ -496,11 +500,13 @@ void ida_check_conv_user(void)
++	mt_init(&tree);
  
- void ida_check_random(void)
+ 	mt_dump(&tree, mt_dump_dec);
+ 
+@@ -36432,9 +36436,11 @@ static unsigned long get_last_index(struct ma_state *mas)
+ static void test_spanning_store_regression(void)
  {
--	DEFINE_IDA(ida);
-+	struct ida ida;
- 	DECLARE_BITMAP(bitmap, 2048);
- 	unsigned int i;
- 	time_t s = time(NULL);
+ 	unsigned long from = 0, to = 0;
+-	DEFINE_MTREE(tree);
++	struct maple_tree tree;
+ 	MA_STATE(mas, &tree, 0, 0);
  
-+	ida_init(&ida);
++	mt_init(&tree);
 +
-  repeat:
- 	memset(bitmap, 0, sizeof(bitmap));
- 	for (i = 0; i < 100000; i++) {
-@@ -522,9 +528,11 @@ void ida_check_random(void)
- 
- void ida_alloc_free_test(void)
- {
--	DEFINE_IDA(ida);
-+	struct ida ida;
- 	unsigned long i;
- 
-+	ida_init(&ida);
-+
- 	for (i = 0; i < 10000; i++)
- 		assert(ida_alloc_max(&ida, 20000, GFP_KERNEL) == i);
- 	assert(ida_alloc_range(&ida, 5, 30, GFP_KERNEL) < 0);
-@@ -576,10 +584,12 @@ static void *ida_leak_fn(void *arg)
- 
- void ida_thread_tests(void)
- {
--	DEFINE_IDA(ida);
-+	struct ida ida;
- 	pthread_t threads[20];
- 	int i;
- 
-+	ida_init(&ida);
-+
- 	for (i = 0; i < ARRAY_SIZE(threads); i++)
- 		if (pthread_create(&threads[i], NULL, ida_random_fn, NULL)) {
- 			perror("creating ida thread");
+ 	/*
+ 	 * Build a 3-level tree. We require a parent node below the root node
+ 	 * and 2 leaf nodes under it, so we can span the entirety of the right
 -- 
 2.53.0
 
