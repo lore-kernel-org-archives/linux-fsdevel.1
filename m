@@ -1,240 +1,401 @@
-Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5F9437463
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 19:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.205
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789153937; cv=pass; b=JDLNVqv0npNKuJ6cLH4hrK0bfWmWkKWV22PGjQwWqaNweHm2E/yhBp0LZSnh0Ty0iINVf0fKK7qXwheraeQOyCdvzRTGGWysG1uevVSF97KyOKuqjYFDWrLBDhoPhlSWGV7QnjCZIZXlMQZixvn83G0LmvZ3bQ2xAgUPPSGlPFE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789153937; c=relaxed/simple;
-	bh=cc4a1xNspTXolJI0WCSfnRxb8CzbRjDQYh/QAFhczu4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t+FP1I1eFkPoKnaDrjvO1blGknxbTiFIsWAJF+ZwAGiq4wx8Kppv3Mb5StxjcHp+YT8i6QohTFqTmSdLh2+o5yq1x8KjkKS2iAkdDc/s6L1aH2Lt6PjBeOETpcF6qAwWC+sBC5mWls5QM+m1HbsX51OKsdf7KKo4cUJfjepDY1s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nC3eAX3v; arc=pass smtp.client-ip=74.125.230.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAF2372ED0;
+	Fri, 11 Sep 2026 19:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789153973; cv=none; b=WQqeNUtSHmRvNp8L3VRoo3sOWyC9KzqiXP5D5iH+b3hR5Z75pDw7cO/L+49M4zUg0OFZVoqdtUpF5wudS5VQJgaRpyjdQK4Q2sX3ootQOf2XLbudA3g6v14Ruu6UGlMewHemCCXwvqGhyqwWfM8YQCLuGHdJYT1iDVHH8/7sURA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789153973; c=relaxed/simple;
+	bh=c4yd1kthwTDA0wbnB35YfKitPCxfeYtclDVdCTwjdvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QqGe78EyyiLQalPXHR3COtwSLdWPqkYmeRyvs55EFjet7qUv/CZsMHSHLk/IFZJCfTVPAHXm+rPlsMcoC5RtvHBv4txX5uy7nOGBaKFVAEbxeXYIsSLVZmCIeQizT8d34QCPTkv121hdEzq2YzVdOMeneLsJIGpLZ1nfw39LpL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgJh0y02; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nC3eAX3v"
-Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-5306706e89dso101301cf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 12:12:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789153928; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jgze6SV8PX5A1ocbLDIWUfeu5aP+KbokFabqw05k2TG4/MyuNY4KQaW5xv+EHn7qsH
-         r2Gg/0tZHrwP8C2ZsZ/SgvfDLt5jWTRLkXVuyBvwPcJSn0wi1w+zbxWtMgIsjcqXxi3S
-         4a7n++fzwqd/oADz2sNIA+4eFXnP0W+Kh/V9gokvJlQMQi50SZ8PIdeQQXDaRfZn+XAc
-         atTgdQvv1ZuCh+zUp/ODaqAzV9YOm2eYq7+eJggRaUW/BfQffZKrdVjo4gp3ATcq7GSY
-         sTUQVx48q3UYMKISDRrSpQosAr/q7HKYSY72uEBHti7WZqjNUxWn2FeXqwaqayF4H7gU
-         nSiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=saJSQNQB4V5HEb80TKj8yYWIyI7Lc38n7nBGhE1SZ5s=;
-        fh=0zfwgFrWdXwlqBInsZMCBrggHdx+HXYnl6uh4DUhJnk=;
-        b=mzvEBQw6IWDWqnnJ450FFFaYoGtNAH2OEvrYnyhGEePkbV15tsv+diNq/1I0yUB4u7
-         WV6fHFJyQoBbBdoiE7O5zdOBCoNbuhyTtuUgt0s6p7VpvQtdMrEGCl0320j9GyWc2cCg
-         hS0T3DAyvDo8JCZ/vCIArJMDZkmSGkUxyobYIpaQthiOwrpXQuoGI7ZW3PDRS3L700Ac
-         CaB5kDwBzREKlzbHtB8N5mtIy0rKbYDFJdHSbW5enPKiyZPhDr2/GSHSZ4puLm0+bfQo
-         dvegwzllPkak/FQjPONZo1qGLqBrBeahf4sNADrZ5WYtXsK1cuJG9LeC+rAAWfdXHvZq
-         0B+w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789153928; x=1789758728; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=saJSQNQB4V5HEb80TKj8yYWIyI7Lc38n7nBGhE1SZ5s=;
-        b=nC3eAX3vi7jYS79Vmf5jwl0NlwRV8sFLiXZr8ZcODSszFi+1QxgD3X+1z/e05ixClZ
-         1kl5fMOP/iWUXPR7/EsHp1aSnrDDqK2s2F7Mw7O57mcogkp9wC2idd97V7rweCSZSKDT
-         r947gAIw7UscgU/8IVaszrxTMKMAzeFqKKAhHhBm3KZAkHjtfzmBtxLQiN/My0VLg2Pm
-         mMEH+vDE1Qzlrc9Ss+dI+ksrpegXnl3YJ2nDTa6y6DHMukiQA4cKWWvEYalXX44iJduV
-         hc2HLpvxW/PjTVSOnjDNKydVnwLcpEEZAKEUVSSTDqQqgIONCWaBYoxIpqehIgTxsM5j
-         RkTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789153928; x=1789758728;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=saJSQNQB4V5HEb80TKj8yYWIyI7Lc38n7nBGhE1SZ5s=;
-        b=qhzVoCuZNjG1ufVkDin9yxp/0j2JpHu+DP2u6ss8xuO7r5AFA6KqowXKoOxrGOHGVo
-         czov/2e5Nj1t00cQGUZ+q+gC5ocQyqQQSGzDJoM1Ax0IVuVzTgCJajqQoctVcE+GXYbZ
-         c36Qa9WzJ1cZq59pc6ujod5RZYx/qA6/cOIRarDDM1puPxIw/bIYd/mgyRW9fHRSKU4x
-         HnDV+GdKh0F2GKYm259sFbgXcqj4rwn0dkZhDyATnL24F8s4nSP9zztl/YjUZKFXxRQF
-         HsASHs8Aq14sZuicfnrhYUSwbB7isIWGGPLaCPX+oFcxid4pOPLa9GvEBF1OYfpzX7DZ
-         dzBw==
-X-Forwarded-Encrypted: i=1; AKwUvBzSLY4v1sM8M09ikSsrk2ZT9HqokvsRisGOb4jHJ+DS+eGEjaMUXHkDBpxm6+vyGFKa4BsPq2VXPS12Yzbs@vger.kernel.org
-X-Gm-Message-State: AFuF++mdk0U0yZuoE465DPmH5yw3YXjZrlJI+WJPYqJXGYJOjf04pwOQ
-	35Wsl5kXqPyVE6SB1JUEuzVoIPGnb8ukPk1UlnEu/T8NrQ2XOVhQVwQq3Yoj0jPsuk9Qi94lKgL
-	0Nu+HcX1mw8ccBWjSsK/L3C/I2ERWe+pmddy5sLrM
-X-Gm-Gg: AYBFou2CnMSAjBGaHhE1elkwkmM8Rke2NWUYCYoCP2l3KbPx7dRvA2mOO1fiqeEFJBN
-	XyKfpa1eD65CPaIBckYj/giJBBHEOy4z+/2kkSyEjmkfQ4Ye+2qb8P4945K9GS79zBqW/gzgdY3
-	57m/l1U6ltWcgFaqYcZpxZqGTw8aO2S+cL2u8azWAsLREqXX+bPLqox4X3jE39Cx4mJsesISAVl
-	cgRFdfCV6AlcBH5BbYsLxpXGzD+kS3We+DyFJiErPUDUc+0d4tdIgNxsUbLG/CuRTyFMonW+Zjm
-	W/Ls+HhFFK9rSJHmwj1OqnMzlWxC+/+SW1qAWIGhFO59RM4B+b99+mWRu8gv63Y07uZIu4B6mTl
-	ZIz1iqH+drw==
-X-Received: by 2002:a05:622a:4d94:b0:51b:ff0a:2048 with SMTP id
- d75a77b69052e-530e492ef32mr2365241cf.3.1789153927778; Fri, 11 Sep 2026
- 12:12:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgJh0y02"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ACB11F000FF;
+	Fri, 11 Sep 2026 19:12:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789153960;
+	bh=68KFiehfIHvDcGVNGsPrWYIf012K7fCsBnqAtZBD1Hw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MgJh0y02DAWbVmlXfPlNkkDtdNLPZcojTJp087N/3g+LYogw6GJmoGQfBHPM6D4xE
+	 KaElPdcZ3qfCRK8n7UMrbSLAhuvH28wdV4Q1l8T+/mpEgNHXzlyrRzQ7pXWTxeVOOF
+	 NFjYSWEWvmEbHJ3zAlEkZp0vQqSNDQ8iUIRw+Zuz1PWaPqbPaBRXG2e8ilH9yJQdz6
+	 5yEojp89jNzi8wbVLK7xPTJUXc7ce8dE0b3349ZufNED7xdd6gIauyQf1gwROuXcbG
+	 v0CYdcxH1PbCCpb8WkLyAMJ6TQJlwO7w/UiLqCueljb1w+Oz13s2LyTqEZJCyRFmAl
+	 +ITqpGBwQRJ2g==
+Date: Fri, 11 Sep 2026 20:12:34 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, xueyuan.chen21@gmail.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 7/7] selftests/proc: add /proc/pid/smaps_rollup
+ tearing tests
+Message-ID: <aqRRpPywkExEyDEw@gremlin>
+References: <20260910234737.1340642-1-surenb@google.com>
+ <20260910234737.1340642-8-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260910234737.1340642-1-surenb@google.com> <20260910234737.1340642-6-surenb@google.com>
- <aqRF4YB7Ijk9PmRM@gremlin> <aqRPeZH4yeYXfWgS@gremlin>
-In-Reply-To: <aqRPeZH4yeYXfWgS@gremlin>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 11 Sep 2026 12:11:55 -0700
-X-Gm-Features: AcwNN1Wy-CE4ovXulpkIU8FXd9kbfWYedpTSzKiPANojbqSxgWkXPeoHYX3MZto
-Message-ID: <CAJuCfpG-8sQjg2ECiRQpjn9tBj3AfEXnmgmomdfFGS7JoDhZ4w@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] proc/task_mmu: change proc_get_vma() to stop
- returning gate VMA at the end
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
-	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, xueyuan.chen21@gmail.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910234737.1340642-8-surenb@google.com>
 
-On Fri, Sep 11, 2026 at 12:03=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.=
-org> wrote:
+On Thu, Sep 10, 2026 at 04:47:37PM -0700, Suren Baghdasaryan wrote:
+> During tearing tests, smaps_rollup Pss* metrics should stay constant.
+> Extend /proc/pid/smaps tearing tests to also check for smaps_rollup
+> consistency.
 >
-> On Fri, Sep 11, 2026 at 07:26:49PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > On Thu, Sep 10, 2026 at 04:47:35PM -0700, Suren Baghdasaryan wrote:
-> > > proc_get_vma() returning gate VMA at the end is desirable for the its
-> > > current m_start/m_next callers, as they need to report a gate VMA at =
-the
-> > > end of the address space. This behavior is very specific to these cal=
-lers
-> > > and makes proc_get_vma() hard to use for other purposes.
-> > >
-> > > Move this usage-specific behavior into the callers themselves so that
-> > > proc_get_vma() returns either a valid VMA, an error or a NULL when no
-> > > more VMAs are available. This makes it more generic, simpler and usab=
-le
-> > > in the later patches.
-> > >
-> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> >
-> > Yes, very good change, thanks!
-> >
-> > Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> >
-> > > ---
-> > >  fs/proc/task_mmu.c | 23 ++++++++++++++++++-----
-> > >  1 file changed, 18 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> > > index ecce7ce116cb..9a3c996c1d61 100644
-> > > --- a/fs/proc/task_mmu.c
-> > > +++ b/fs/proc/task_mmu.c
-> > > @@ -236,9 +236,6 @@ static struct vm_area_struct *proc_get_vma(struct=
- seq_file *m, loff_t *ppos)
-> > >              * found the extended vma with the same vm_start.
-> > >              */
-> > >             *ppos =3D vma->vm_end;
-> > > -   } else {
-> > > -           *ppos =3D SENTINEL_VMA_GATE;
-> > > -           vma =3D get_gate_vma(priv->lock_ctx.mm);
-> >
-> > Yeah this is just so confusing as-was.
-> >
-> > >     }
-> > >
-> > >     return vma;
-> > > @@ -248,6 +245,7 @@ static void *m_start(struct seq_file *m, loff_t *=
-ppos)
-> > >  {
-> > >     struct proc_maps_private *priv =3D m->private;
-> > >     struct proc_maps_locking_ctx *lock_ctx;
-> > > +   struct vm_area_struct *vma;
-> > >     loff_t last_addr =3D *ppos;
-> > >     struct mm_struct *mm;
-> > >
-> > > @@ -280,16 +278,31 @@ static void *m_start(struct seq_file *m, loff_t=
- *ppos)
-> > >     if (last_addr =3D=3D SENTINEL_VMA_GATE)
-> > >             return get_gate_vma(mm);
-> > >
-> > > -   return proc_get_vma(m, ppos);
-> > > +   vma =3D proc_get_vma(m, ppos);
-> > > +   if (vma)
-> > > +           return vma;
-> > > +
-> > > +   /* Return gate VMA at the end */
-> > > +   *ppos =3D SENTINEL_VMA_GATE;
-> > > +   return get_gate_vma(mm);
-> > >  }
-> > >
-> > >  static void *m_next(struct seq_file *m, void *v, loff_t *ppos)
-> > >  {
-> > > +   struct proc_maps_private *priv =3D m->private;
-> > > +   struct vm_area_struct *vma;
-> > > +
-> > >     if (*ppos =3D=3D SENTINEL_VMA_GATE) {
-> > >             *ppos =3D SENTINEL_VMA_END;
-> > >             return NULL;
-> > >     }
-> > > -   return proc_get_vma(m, ppos);
-> > > +   vma =3D proc_get_vma(m, ppos);
-> > > +   if (vma)
-> > > +           return vma;
-> >
-> > OK so I guess the logic is, iterate through every VMA, then once you ru=
-n out,
-> > report the gate VMA. Makes sense.
->
-> Hmm one thing on this though - m_start() still has:
->
->         if (last_addr =3D=3D SENTINEL_VMA_GATE)
->                 return get_gate_vma(mm);
->
-> As well as:
->
->         vma =3D proc_get_vma(m, ppos);
->         if (vma)
->                 return vma;
->
->         /* Return gate VMA at the end */
->         *ppos =3D SENTINEL_VMA_GATE;
->         return get_gate_vma(mm);
->
-> Now at the end.
->
-> Is this correct? Is it maybe duplicated now?
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-Yeah, I noticed that too but I it's not duplication. The first check
-handles the case when right after m_next() hit the end of the address
-space and set *ppos =3D SENTINEL_VMA_GATE, we ran out of page space and
-had to flush its content. Once that's done, m_start will be called and
-last_addr will be set to SENTINEL_VMA_GATE. In that case we should
-return get_gate_vma() and avoid calling proc_get_vma(). That's what
-the first check for sentinel is doing. The second one handles the case
-when m_start() itself readches the end of the address space and has to
-return SENTINEL_VMA_GATE.
+All looks reasonable an dall passing locally so:
 
-It's possible this can be refactored a bit and made cleaner but I
-would keep that as a separate change.
+Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
+> ---
+>  tools/testing/selftests/proc/proc-maps-race.c | 187 +++++++++++++++++-
+>  1 file changed, 182 insertions(+), 5 deletions(-)
 >
-> >
-> > > +
-> > > +   /* Return gate VMA at the end */
-> > > +   *ppos =3D SENTINEL_VMA_GATE;
-> > > +   return get_gate_vma(priv->lock_ctx.mm);
-> > >  }
-> > >
-> > >  static void m_stop(struct seq_file *m, void *v)
-> > > --
-> > > 2.55.0.1007.g17ff1f9808-goog
-> > >
-> >
-> > --
-> > Cheers, Lorenzo
+> diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testing/selftests/proc/proc-maps-race.c
+> index 415eccb70468..8d00d7db1c65 100644
+> --- a/tools/testing/selftests/proc/proc-maps-race.c
+> +++ b/tools/testing/selftests/proc/proc-maps-race.c
+> @@ -80,6 +80,61 @@ enum maps_file {
 >
+>  struct vma_modifier_info;
+>
+> +enum smaps_rollup_stat {
+> +	Rss,
+> +	Pss,
+> +	Pss_Dirty,
+> +	Pss_Anon,
+> +	Pss_File,
+> +	Pss_Shmem,
+> +	Shared_Clean,
+> +	Shared_Dirty,
+> +	Private_Clean,
+> +	Private_Dirty,
+> +	Referenced,
+> +	Anonymous,
+> +	KSM,
+> +	LazyFree,
+> +	AnonHugePages,
+> +	ShmemPmdMapped,
+> +	FilePmdMapped,
+> +	Shared_Hugetlb,
+> +	Private_Hugetlb,
+> +	Swap,
+> +	SwapPss,
+> +	Locked,
+> +	RollupFieldCount
+> +};
+> +
+> +static const char *smaps_rollup_stat_names[RollupFieldCount] = {
+> +	"Rss",
+> +	"Pss",
+> +	"Pss_Dirty",
+> +	"Pss_Anon",
+> +	"Pss_File",
+> +	"Pss_Shmem",
+> +	"Shared_Clean",
+> +	"Shared_Dirty",
+> +	"Private_Clean",
+> +	"Private_Dirty",
+> +	"Referenced",
+> +	"Anonymous",
+> +	"KSM",
+> +	"LazyFree",
+> +	"AnonHugePages",
+> +	"ShmemPmdMapped",
+> +	"FilePmdMapped",
+> +	"Shared_Hugetlb",
+> +	"Private_Hugetlb",
+> +	"Swap",
+> +	"SwapPss",
+> +	"Locked",
+> +};
+> +
+> +struct smaps_rollup_stats {
+> +	unsigned long values[RollupFieldCount];
+> +};
+> +
+>  FIXTURE(proc_maps_race)
+>  {
+>  	struct vma_modifier_info *mod_info;
+> @@ -91,6 +146,7 @@ FIXTURE(proc_maps_race)
+>  	enum maps_file maps_file;
+>  	int shared_mem_size;
+>  	int skip_pages;
+> +	int rollup_fd;
+>  	int page_size;
+>  	int vma_count;
+>  	bool verbose;
+> @@ -132,12 +188,12 @@ struct vma_modifier_info {
+>  	void *child_mapped_addr[];
+>  };
+>
+> -static bool read_page(FIXTURE_DATA(proc_maps_race) *self,
+> +static bool read_page(FIXTURE_DATA(proc_maps_race) *self, int fd,
+>  		      struct page_content *page)
+>  {
+>  	ssize_t  bytes_read;
+>
+> -	bytes_read = read(self->maps_fd, page->data, self->page_size);
+> +	bytes_read = read(fd, page->data, self->page_size);
+>  	if (bytes_read <= 0)
+>  		return false;
+>
+> @@ -175,7 +231,7 @@ static int locate_containing_page(FIXTURE_DATA(proc_maps_race) *self,
+>  		char *curr_pos;
+>  		char *end_pos;
+>
+> -		if (!read_page(self, &self->page1))
+> +		if (!read_page(self, self->maps_fd, &self->page1))
+>  			return -1;
+>
+>  		curr_pos = self->page1.data;
+> @@ -205,10 +261,11 @@ static bool read_two_pages(FIXTURE_DATA(proc_maps_race) *self)
+>  		return false;
+>
+>  	for (int i = 0; i < self->skip_pages; i++)
+> -		if (!read_page(self, &self->page1))
+> +		if (!read_page(self, self->maps_fd, &self->page1))
+>  			return false;
+>
+> -	return read_page(self, &self->page1) && read_page(self, &self->page2);
+> +	return read_page(self, self->maps_fd, &self->page1) &&
+> +	       read_page(self, self->maps_fd, &self->page2);
+>  }
+>
+>  static void copy_line(const char *line_start, const char *line_end,
+> @@ -317,6 +374,61 @@ static bool read_boundary_lines(FIXTURE_DATA(proc_maps_race) *self,
+>  		      &first_line->end_addr) == 2;
+>  }
+>
+> +static bool parse_smaps_rollup(FIXTURE_DATA(proc_maps_race) *self,
+> +			       struct smaps_rollup_stats *stats)
+> +{
+> +	unsigned int dev_maj, dev_min, inode;
+> +	unsigned long start, end, offs;
+> +	unsigned long value;
+> +	char name[32], perm[5];
+> +	char *curr_pos;
+> +	char *end_pos;
+> +	char *line_end;
+> +
+> +	if (lseek(self->rollup_fd, 0, SEEK_SET) < 0)
+> +		return false;
+> +
+> +	if (!read_page(self, self->rollup_fd, &self->page1))
+> +		return false;
+> +
+> +	curr_pos = self->page1.data;
+> +	end_pos = self->page1.data + self->page1.size;
+> +
+> +	line_end = strchr(curr_pos, '\n');
+> +	if (!line_end)
+> +		return false;
+> +
+> +	if (sscanf(curr_pos, "%lx-%lx %4s %lx %u:%u %u %31s",
+> +		&start, &end, perm, &offs, &dev_maj, &dev_min, &inode, name) != 8)
+> +		return false;
+> +
+> +	if (strcmp(name, "[rollup]"))
+> +		return false;
+> +
+> +	for (int stat = 0; stat < ARRAY_SIZE(smaps_rollup_stat_names); stat++) {
+> +		int len;
+> +
+> +		curr_pos = line_end + 1;
+> +		if (curr_pos >= end_pos)
+> +			return false;
+> +
+> +		line_end = strchr(curr_pos, '\n');
+> +		if (!line_end)
+> +			return false;
+> +
+> +		if (sscanf(curr_pos, "%31s %lu kB", name, &value) != 2)
+> +			return false;
+> +
+> +		len = strlen(name);
+> +		if (name[len - 1] != ':' || strncmp(name, smaps_rollup_stat_names[stat], len - 1))
+> +			return false;
+> +
+> +		stats->values[stat] = value;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  /* Thread synchronization routines */
+>  static void wait_for_state(struct vma_modifier_info *mod_info, enum test_state state)
+>  {
+> @@ -397,6 +509,41 @@ static bool print_boundaries_on(bool condition, const char *title,
+>  	return condition;
+>  }
+>
+> +static void print_smaps_rollup_stats(const char *title, FIXTURE_DATA(proc_maps_race) *self,
+> +				     struct smaps_rollup_stats *stats)
+> +{
+> +	printf("%s", title);
+> +	for (int stat = 0; stat < ARRAY_SIZE(smaps_rollup_stat_names); stat++)
+> +		printf("%64s %lu kB\n", smaps_rollup_stat_names[stat], stats->values[stat]);
+> +}
+> +
+> +static bool cmp_smaps_rollup_stat(struct smaps_rollup_stats *s1,
+> +				  struct smaps_rollup_stats *s2,
+> +				  enum smaps_rollup_stat stat)
+> +{
+> +	return s1->values[stat] == s2->values[stat];
+> +}
+> +
+> +static bool compare_smaps_rollup(FIXTURE_DATA(proc_maps_race) *self,
+> +				 struct smaps_rollup_stats *expected,
+> +				 struct smaps_rollup_stats *actual)
+> +{
+> +	/*
+> +	 * Clean/dirty metrics might change but Pss-related ones
+> +	 * should stay constant.
+> +	 */
+> +	if (cmp_smaps_rollup_stat(expected, actual, Pss) &&
+> +	    cmp_smaps_rollup_stat(expected, actual, Pss_Anon) &&
+> +	    cmp_smaps_rollup_stat(expected, actual, Pss_File) &&
+> +	    cmp_smaps_rollup_stat(expected, actual, Pss_Shmem))
+> +		return true;
+> +
+> +	print_smaps_rollup_stats("Expected stats:", self, expected);
+> +	print_smaps_rollup_stats("Actual stats:", self, actual);
+> +
+> +	return false;
+> +}
+> +
+>  static void report_test_start(const char *name, bool verbose)
+>  {
+>  	if (verbose)
+> @@ -572,6 +719,7 @@ FIXTURE_SETUP(proc_maps_race)
+>  	unsigned long first_map_addr;
+>  	unsigned long last_map_addr;
+>  	unsigned long duration_sec;
+> +	char rollup_fname[32];
+>  	char fname[32];
+>
+>  	self->page_size = (unsigned long)sysconf(_SC_PAGESIZE);
+> @@ -649,6 +797,9 @@ FIXTURE_SETUP(proc_maps_race)
+>  		break;
+>  	case SMAPS:
+>  		sprintf(fname, "/proc/%d/smaps", self->pid);
+> +		sprintf(rollup_fname, "/proc/%d/smaps_rollup", self->pid);
+> +		self->rollup_fd = open(rollup_fname, O_RDONLY);
+> +		ASSERT_NE(self->rollup_fd, -1);
+>  		break;
+>  	default:
+>  		ksft_exit_fail();
+> @@ -711,6 +862,8 @@ FIXTURE_TEARDOWN(proc_maps_race)
+>  	for (int i = 0; i < self->vma_count; i++)
+>  		munmap(self->mod_info->child_mapped_addr[i], self->page_size);
+>  	close(self->maps_fd);
+> +	if (self->maps_file == SMAPS)
+> +		close(self->rollup_fd);
+>  	waitpid(self->pid, &status, 0);
+>  	munmap(self->mod_info, self->shared_mem_size);
+>  }
+> @@ -723,6 +876,7 @@ TEST_F(proc_maps_race, test_maps_tearing_from_split)
+>  	struct line_content split_first_line;
+>  	struct line_content restored_last_line;
+>  	struct line_content restored_first_line;
+> +	struct smaps_rollup_stats orig_stats;
+>
+>  	wait_for_state(mod_info, SETUP_READY);
+>
+> @@ -736,6 +890,8 @@ TEST_F(proc_maps_race, test_maps_tearing_from_split)
+>  	report_test_start("Tearing from split", self->verbose);
+>  	ASSERT_TRUE(capture_mod_pattern(self, &split_last_line, &split_first_line,
+>  					&restored_last_line, &restored_first_line));
+> +	if (self->maps_file == SMAPS)
+> +		ASSERT_TRUE(parse_smaps_rollup(self, &orig_stats));
+>
+>  	/* Now start concurrent modifications for self->duration_sec */
+>  	signal_state(mod_info, TEST_READY);
+> @@ -799,6 +955,11 @@ TEST_F(proc_maps_race, test_maps_tearing_from_split)
+>  				     vma_end == self->last_line.end_addr) ||
+>  				    (vma_start == split_first_line.start_addr &&
+>  				     vma_end == split_first_line.end_addr));
+> +		} else {
+> +			struct smaps_rollup_stats stats;
+> +
+> +			ASSERT_TRUE(parse_smaps_rollup(self, &stats));
+> +			ASSERT_TRUE(compare_smaps_rollup(self, &orig_stats, &stats));
+>  		}
+>  		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
+>  		end_test_iteration(&end_ts, self->verbose);
+> @@ -817,6 +978,7 @@ TEST_F(proc_maps_race, test_maps_tearing_from_resize)
+>  	struct line_content shrunk_first_line;
+>  	struct line_content restored_last_line;
+>  	struct line_content restored_first_line;
+> +	struct smaps_rollup_stats orig_stats;
+>
+>  	wait_for_state(mod_info, SETUP_READY);
+>
+> @@ -830,6 +992,8 @@ TEST_F(proc_maps_race, test_maps_tearing_from_resize)
+>  	report_test_start("Tearing from resize", self->verbose);
+>  	ASSERT_TRUE(capture_mod_pattern(self, &shrunk_last_line, &shrunk_first_line,
+>  					&restored_last_line, &restored_first_line));
+> +	if (self->maps_file == SMAPS)
+> +		ASSERT_TRUE(parse_smaps_rollup(self, &orig_stats));
+>
+>  	/* Now start concurrent modifications for self->duration_sec */
+>  	signal_state(mod_info, TEST_READY);
+> @@ -880,6 +1044,11 @@ TEST_F(proc_maps_race, test_maps_tearing_from_resize)
+>  			ASSERT_TRUE(vma_start == self->last_line.start_addr &&
+>  				    (vma_end - vma_start == self->page_size * 3 ||
+>  				     vma_end - vma_start == self->page_size));
+> +		} else {
+> +			struct smaps_rollup_stats stats;
+> +
+> +			ASSERT_TRUE(parse_smaps_rollup(self, &stats));
+> +			ASSERT_TRUE(compare_smaps_rollup(self, &orig_stats, &stats));
+>  		}
+>  		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
+>  		end_test_iteration(&end_ts, self->verbose);
+> @@ -898,6 +1067,7 @@ TEST_F(proc_maps_race, test_maps_tearing_from_remap)
+>  	struct line_content remapped_first_line;
+>  	struct line_content restored_last_line;
+>  	struct line_content restored_first_line;
+> +	struct smaps_rollup_stats orig_stats;
+>
+>  	wait_for_state(mod_info, SETUP_READY);
+>
+> @@ -911,6 +1081,8 @@ TEST_F(proc_maps_race, test_maps_tearing_from_remap)
+>  	report_test_start("Tearing from remap", self->verbose);
+>  	ASSERT_TRUE(capture_mod_pattern(self, &remapped_last_line, &remapped_first_line,
+>  					&restored_last_line, &restored_first_line));
+> +	if (self->maps_file == SMAPS)
+> +		ASSERT_TRUE(parse_smaps_rollup(self, &orig_stats));
+>
+>  	/* Now start concurrent modifications for self->duration_sec */
+>  	signal_state(mod_info, TEST_READY);
+> @@ -963,6 +1135,11 @@ TEST_F(proc_maps_race, test_maps_tearing_from_remap)
+>  				     vma_end - vma_start == self->page_size * 3) ||
+>  				    (vma_start == self->last_line.start_addr + self->page_size &&
+>  				     vma_end - vma_start == self->page_size));
+> +		} else {
+> +			struct smaps_rollup_stats stats;
+> +
+> +			ASSERT_TRUE(parse_smaps_rollup(self, &stats));
+> +			ASSERT_TRUE(compare_smaps_rollup(self, &orig_stats, &stats));
+>  		}
+>  		clock_gettime(CLOCK_MONOTONIC_COARSE, &end_ts);
+>  		end_test_iteration(&end_ts, self->verbose);
 > --
-> Cheers, Lorenzo
+> 2.55.0.1007.g17ff1f9808-goog
+>
+
+--
+Cheers, Lorenzo
