@@ -1,395 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E8C40EB8E;
-	Fri, 11 Sep 2026 19:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789153656; cv=none; b=jGWK3zgLyf71sctiP3oS/+B8HF7SnS5pDJcTHApF8ICdQklCOZ/n1BEcEuRKB5oGHGm+Z32ABHQPjAhvm7Wp+R//qroloMEnni4rYt3MFJLSAI0Ea8e/MwIHnx+9pjFwuwo//rDrAn0t7actU7lK9gVqozp38IntEbwa8PtSD9U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789153656; c=relaxed/simple;
-	bh=Khndi0tWKHMe6yxvXOw5Ggby4SB4E+1jnn+GG4AOL5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AH7FHfiFnY2QN5Jmj+AzqkY8EsEiD7TNTbPmGYwFkKxqY4hiS6WIkQDVjhSrfTnTsmfS39ZRWP5JsAvVV8dpkapJsinMUviqicj3D9VJHwk2gEtfv6cWHFbGg9YPwPV1fR/NAOIfcHn2IFzIPB42lqFhzPDEGsxoOX2M1h8ZybU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMRSULqi; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5F9437463
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 19:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.205
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789153937; cv=pass; b=JDLNVqv0npNKuJ6cLH4hrK0bfWmWkKWV22PGjQwWqaNweHm2E/yhBp0LZSnh0Ty0iINVf0fKK7qXwheraeQOyCdvzRTGGWysG1uevVSF97KyOKuqjYFDWrLBDhoPhlSWGV7QnjCZIZXlMQZixvn83G0LmvZ3bQ2xAgUPPSGlPFE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789153937; c=relaxed/simple;
+	bh=cc4a1xNspTXolJI0WCSfnRxb8CzbRjDQYh/QAFhczu4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t+FP1I1eFkPoKnaDrjvO1blGknxbTiFIsWAJF+ZwAGiq4wx8Kppv3Mb5StxjcHp+YT8i6QohTFqTmSdLh2+o5yq1x8KjkKS2iAkdDc/s6L1aH2Lt6PjBeOETpcF6qAwWC+sBC5mWls5QM+m1HbsX51OKsdf7KKo4cUJfjepDY1s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nC3eAX3v; arc=pass smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMRSULqi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DA8D1F00893;
-	Fri, 11 Sep 2026 19:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789153643;
-	bh=ETiJBHuuXeuIAEQKc1zcTyAWH7qqk4xH5LnWBOZQWFQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SMRSULqitKzQ6fimXD+vIZw4bIjmVl52dToJt8fWJJ8sYhAWgV4sqEOWprhYotsCw
-	 0JvYxwQcGitREfO8fJd9SiCdw2ykPwHrHXtKzcDoRhufHWmiKMxPUdyFDZs/jgjmN1
-	 cIsYw8dsP5IS2e17uUB58DXiEbbIeY7E/LhLqM+ATzTWZK+TrePINDnqczTW3AsGC+
-	 nFlFrdppQ5jHfh/8KOy3biVq3+JeFqerYTqO0fOVKEd4dmMRwJf6I1KjrBWX0j3yyj
-	 bjW3vqMfJAAhQjwINWq1X9ySb9lNNDh3nGxtfeHTV07jjOIXXOQaZdJ4ehHPvKoBlH
-	 NmPDBZ72TS4Jg==
-Date: Fri, 11 Sep 2026 20:07:17 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
-	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, xueyuan.chen21@gmail.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 6/7] proc/task_mmu: read proc/pid/smaps_rollup under
- per-vma lock
-Message-ID: <aqRRUAxCsRC6IQIt@gremlin>
-References: <20260910234737.1340642-1-surenb@google.com>
- <20260910234737.1340642-7-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nC3eAX3v"
+Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-5306706e89dso101301cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 12:12:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789153928; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jgze6SV8PX5A1ocbLDIWUfeu5aP+KbokFabqw05k2TG4/MyuNY4KQaW5xv+EHn7qsH
+         r2Gg/0tZHrwP8C2ZsZ/SgvfDLt5jWTRLkXVuyBvwPcJSn0wi1w+zbxWtMgIsjcqXxi3S
+         4a7n++fzwqd/oADz2sNIA+4eFXnP0W+Kh/V9gokvJlQMQi50SZ8PIdeQQXDaRfZn+XAc
+         atTgdQvv1ZuCh+zUp/ODaqAzV9YOm2eYq7+eJggRaUW/BfQffZKrdVjo4gp3ATcq7GSY
+         sTUQVx48q3UYMKISDRrSpQosAr/q7HKYSY72uEBHti7WZqjNUxWn2FeXqwaqayF4H7gU
+         nSiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=saJSQNQB4V5HEb80TKj8yYWIyI7Lc38n7nBGhE1SZ5s=;
+        fh=0zfwgFrWdXwlqBInsZMCBrggHdx+HXYnl6uh4DUhJnk=;
+        b=mzvEBQw6IWDWqnnJ450FFFaYoGtNAH2OEvrYnyhGEePkbV15tsv+diNq/1I0yUB4u7
+         WV6fHFJyQoBbBdoiE7O5zdOBCoNbuhyTtuUgt0s6p7VpvQtdMrEGCl0320j9GyWc2cCg
+         hS0T3DAyvDo8JCZ/vCIArJMDZkmSGkUxyobYIpaQthiOwrpXQuoGI7ZW3PDRS3L700Ac
+         CaB5kDwBzREKlzbHtB8N5mtIy0rKbYDFJdHSbW5enPKiyZPhDr2/GSHSZ4puLm0+bfQo
+         dvegwzllPkak/FQjPONZo1qGLqBrBeahf4sNADrZ5WYtXsK1cuJG9LeC+rAAWfdXHvZq
+         0B+w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789153928; x=1789758728; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=saJSQNQB4V5HEb80TKj8yYWIyI7Lc38n7nBGhE1SZ5s=;
+        b=nC3eAX3vi7jYS79Vmf5jwl0NlwRV8sFLiXZr8ZcODSszFi+1QxgD3X+1z/e05ixClZ
+         1kl5fMOP/iWUXPR7/EsHp1aSnrDDqK2s2F7Mw7O57mcogkp9wC2idd97V7rweCSZSKDT
+         r947gAIw7UscgU/8IVaszrxTMKMAzeFqKKAhHhBm3KZAkHjtfzmBtxLQiN/My0VLg2Pm
+         mMEH+vDE1Qzlrc9Ss+dI+ksrpegXnl3YJ2nDTa6y6DHMukiQA4cKWWvEYalXX44iJduV
+         hc2HLpvxW/PjTVSOnjDNKydVnwLcpEEZAKEUVSSTDqQqgIONCWaBYoxIpqehIgTxsM5j
+         RkTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789153928; x=1789758728;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=saJSQNQB4V5HEb80TKj8yYWIyI7Lc38n7nBGhE1SZ5s=;
+        b=qhzVoCuZNjG1ufVkDin9yxp/0j2JpHu+DP2u6ss8xuO7r5AFA6KqowXKoOxrGOHGVo
+         czov/2e5Nj1t00cQGUZ+q+gC5ocQyqQQSGzDJoM1Ax0IVuVzTgCJajqQoctVcE+GXYbZ
+         c36Qa9WzJ1cZq59pc6ujod5RZYx/qA6/cOIRarDDM1puPxIw/bIYd/mgyRW9fHRSKU4x
+         HnDV+GdKh0F2GKYm259sFbgXcqj4rwn0dkZhDyATnL24F8s4nSP9zztl/YjUZKFXxRQF
+         HsASHs8Aq14sZuicfnrhYUSwbB7isIWGGPLaCPX+oFcxid4pOPLa9GvEBF1OYfpzX7DZ
+         dzBw==
+X-Forwarded-Encrypted: i=1; AKwUvBzSLY4v1sM8M09ikSsrk2ZT9HqokvsRisGOb4jHJ+DS+eGEjaMUXHkDBpxm6+vyGFKa4BsPq2VXPS12Yzbs@vger.kernel.org
+X-Gm-Message-State: AFuF++mdk0U0yZuoE465DPmH5yw3YXjZrlJI+WJPYqJXGYJOjf04pwOQ
+	35Wsl5kXqPyVE6SB1JUEuzVoIPGnb8ukPk1UlnEu/T8NrQ2XOVhQVwQq3Yoj0jPsuk9Qi94lKgL
+	0Nu+HcX1mw8ccBWjSsK/L3C/I2ERWe+pmddy5sLrM
+X-Gm-Gg: AYBFou2CnMSAjBGaHhE1elkwkmM8Rke2NWUYCYoCP2l3KbPx7dRvA2mOO1fiqeEFJBN
+	XyKfpa1eD65CPaIBckYj/giJBBHEOy4z+/2kkSyEjmkfQ4Ye+2qb8P4945K9GS79zBqW/gzgdY3
+	57m/l1U6ltWcgFaqYcZpxZqGTw8aO2S+cL2u8azWAsLREqXX+bPLqox4X3jE39Cx4mJsesISAVl
+	cgRFdfCV6AlcBH5BbYsLxpXGzD+kS3We+DyFJiErPUDUc+0d4tdIgNxsUbLG/CuRTyFMonW+Zjm
+	W/Ls+HhFFK9rSJHmwj1OqnMzlWxC+/+SW1qAWIGhFO59RM4B+b99+mWRu8gv63Y07uZIu4B6mTl
+	ZIz1iqH+drw==
+X-Received: by 2002:a05:622a:4d94:b0:51b:ff0a:2048 with SMTP id
+ d75a77b69052e-530e492ef32mr2365241cf.3.1789153927778; Fri, 11 Sep 2026
+ 12:12:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260910234737.1340642-7-surenb@google.com>
+References: <20260910234737.1340642-1-surenb@google.com> <20260910234737.1340642-6-surenb@google.com>
+ <aqRF4YB7Ijk9PmRM@gremlin> <aqRPeZH4yeYXfWgS@gremlin>
+In-Reply-To: <aqRPeZH4yeYXfWgS@gremlin>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 11 Sep 2026 12:11:55 -0700
+X-Gm-Features: AcwNN1Wy-CE4ovXulpkIU8FXd9kbfWYedpTSzKiPANojbqSxgWkXPeoHYX3MZto
+Message-ID: <CAJuCfpG-8sQjg2ECiRQpjn9tBj3AfEXnmgmomdfFGS7JoDhZ4w@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] proc/task_mmu: change proc_get_vma() to stop
+ returning gate VMA at the end
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, xueyuan.chen21@gmail.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 10, 2026 at 04:47:36PM -0700, Suren Baghdasaryan wrote:
-> proc/pid/smaps_rollup can be read using the combination of RCU and
-> VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
-> required to safely traverse the VMA tree and VMA lock stabilizes the
-> VMA being processed and the pagetable walk.
-> Note that we have to keep the logic to drop mmap_lock on contention
-> because even when using per-VMA locks we might have to fall back to
-> holding the mmap_lock.
+On Fri, Sep 11, 2026 at 12:03=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.=
+org> wrote:
 >
-> Running Paul's contention benchmark [1] shows considerable improvement
-> both in median and in the worst case latencies:
+> On Fri, Sep 11, 2026 at 07:26:49PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > On Thu, Sep 10, 2026 at 04:47:35PM -0700, Suren Baghdasaryan wrote:
+> > > proc_get_vma() returning gate VMA at the end is desirable for the its
+> > > current m_start/m_next callers, as they need to report a gate VMA at =
+the
+> > > end of the address space. This behavior is very specific to these cal=
+lers
+> > > and makes proc_get_vma() hard to use for other purposes.
+> > >
+> > > Move this usage-specific behavior into the callers themselves so that
+> > > proc_get_vma() returns either a valid VMA, an error or a NULL when no
+> > > more VMAs are available. This makes it more generic, simpler and usab=
+le
+> > > in the later patches.
+> > >
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >
+> > Yes, very good change, thanks!
+> >
+> > Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> >
+> > > ---
+> > >  fs/proc/task_mmu.c | 23 ++++++++++++++++++-----
+> > >  1 file changed, 18 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> > > index ecce7ce116cb..9a3c996c1d61 100644
+> > > --- a/fs/proc/task_mmu.c
+> > > +++ b/fs/proc/task_mmu.c
+> > > @@ -236,9 +236,6 @@ static struct vm_area_struct *proc_get_vma(struct=
+ seq_file *m, loff_t *ppos)
+> > >              * found the extended vma with the same vm_start.
+> > >              */
+> > >             *ppos =3D vma->vm_end;
+> > > -   } else {
+> > > -           *ppos =3D SENTINEL_VMA_GATE;
+> > > -           vma =3D get_gate_vma(priv->lock_ctx.mm);
+> >
+> > Yeah this is just so confusing as-was.
+> >
+> > >     }
+> > >
+> > >     return vma;
+> > > @@ -248,6 +245,7 @@ static void *m_start(struct seq_file *m, loff_t *=
+ppos)
+> > >  {
+> > >     struct proc_maps_private *priv =3D m->private;
+> > >     struct proc_maps_locking_ctx *lock_ctx;
+> > > +   struct vm_area_struct *vma;
+> > >     loff_t last_addr =3D *ppos;
+> > >     struct mm_struct *mm;
+> > >
+> > > @@ -280,16 +278,31 @@ static void *m_start(struct seq_file *m, loff_t=
+ *ppos)
+> > >     if (last_addr =3D=3D SENTINEL_VMA_GATE)
+> > >             return get_gate_vma(mm);
+> > >
+> > > -   return proc_get_vma(m, ppos);
+> > > +   vma =3D proc_get_vma(m, ppos);
+> > > +   if (vma)
+> > > +           return vma;
+> > > +
+> > > +   /* Return gate VMA at the end */
+> > > +   *ppos =3D SENTINEL_VMA_GATE;
+> > > +   return get_gate_vma(mm);
+> > >  }
+> > >
+> > >  static void *m_next(struct seq_file *m, void *v, loff_t *ppos)
+> > >  {
+> > > +   struct proc_maps_private *priv =3D m->private;
+> > > +   struct vm_area_struct *vma;
+> > > +
+> > >     if (*ppos =3D=3D SENTINEL_VMA_GATE) {
+> > >             *ppos =3D SENTINEL_VMA_END;
+> > >             return NULL;
+> > >     }
+> > > -   return proc_get_vma(m, ppos);
+> > > +   vma =3D proc_get_vma(m, ppos);
+> > > +   if (vma)
+> > > +           return vma;
+> >
+> > OK so I guess the logic is, iterate through every VMA, then once you ru=
+n out,
+> > report the gate VMA. Makes sense.
 >
-> Execution command: run-proc-vs-map.sh --nsamples 20 --rawdata -- \
-> --busyduration 2 --procfile smaps_rollup
+> Hmm one thing on this though - m_start() still has:
 >
-> Baseline:
->    Median   Minimum   Maximum
->     0.174     0.161     2.553
->     0.174     0.164     2.663
->     0.174     0.165     2.664
->     0.174     0.166     2.679
->     0.174     0.167     2.691
->     0.174     0.168     2.704
->     0.174     0.169     2.729
->     0.174     0.172     2.741
->     0.174     0.174     2.745
->     0.174     0.174     2.755
->     0.174     0.175     2.790
->     0.174     0.177     2.809
->     0.174     0.179     3.096
->     0.174     0.183     3.144
->     0.174     0.184     3.158
->     0.174     0.185     3.175
->     0.174     0.185     4.568
->     0.174     0.198     4.821
->     0.174     0.214     5.143
->     0.174     0.251     5.220
+>         if (last_addr =3D=3D SENTINEL_VMA_GATE)
+>                 return get_gate_vma(mm);
 >
-> Patched:
->    Median   Minimum   Maximum
->     0.007     0.007     1.952
->     0.007     0.007     1.955
->     0.007     0.007     1.955
->     0.007     0.007     1.955
->     0.007     0.007     1.957
->     0.007     0.007     1.969
->     0.007     0.007     2.065
->     0.007     0.007     2.075
->     0.007     0.007     2.146
->     0.007     0.007     2.195
->     0.007     0.007     2.223
->     0.007     0.007     2.259
->     0.007     0.007     2.488
->     0.007     0.007     2.562
->     0.007     0.007     2.599
->     0.007     0.007     2.697
->     0.007     0.007     3.030
->     0.007     0.007     3.075
->     0.007     0.007     3.145
->     0.007     0.007     3.225
+> As well as:
 >
-> Remove now unused lock_ctx_mm() and move unlock_ctx_vma() next to
-> unlock_ctx_mm() as they are logically related.
+>         vma =3D proc_get_vma(m, ppos);
+>         if (vma)
+>                 return vma;
 >
-> Remove a long comment about 4 cases that we handle when dropping the
-> mmap lock in the middle of VMA walk due to contention. The first 3
-> cases explained there are handled naturally and only case 4 needs to
-> be handled in a special way, which is done in smap_gather_stats() by
-> gathering stats from the portion of the VMA that has not yet been
-> processed.
-> For posterity, moving this comment here:
+>         /* Return gate VMA at the end */
+>         *ppos =3D SENTINEL_VMA_GATE;
+>         return get_gate_vma(mm);
 >
-> After dropping the lock, there are four cases to
-> consider. See the following example for explanation.
+> Now at the end.
 >
->   +------+------+-----------+
->   | VMA1 | VMA2 | VMA3      |
->   +------+------+-----------+
->   |      |      |           |
->  4k     8k     16k         400k
->
-> Suppose we drop the lock after reading VMA2 due to
-> contention, then we get:
->
-> 	last_vma_end = 16k
->
-> 1) VMA2 is freed, but VMA3 exists:
->
->    vma_next(vmi) will return VMA3.
->    In this case, just continue from VMA3.
->
-> 2) VMA2 still exists:
->
->    vma_next(vmi) will return VMA3.
->    In this case, just continue from VMA3.
->
-> 3) No more VMAs can be found:
->
->    vma_next(vmi) will return NULL.
->    No more things to do, just break.
->
-> 4) (last_vma_end - 1) is the middle of a vma (VMA'):
->
->    vma_next(vmi) will return VMA' whose range
->    contains last_vma_end.
->    Iterate VMA' from last_vma_end.
->
-> [1] https://github.com/paulmckrcu/proc-mmap_sem-test
->
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Is this correct? Is it maybe duplicated now?
 
-Everything LGTM and it runs fine locally so:
+Yeah, I noticed that too but I it's not duplication. The first check
+handles the case when right after m_next() hit the end of the address
+space and set *ppos =3D SENTINEL_VMA_GATE, we ran out of page space and
+had to flush its content. Once that's done, m_start will be called and
+last_addr will be set to SENTINEL_VMA_GATE. In that case we should
+return get_gate_vma() and avoid calling proc_get_vma(). That's what
+the first check for sentinel is doing. The second one handles the case
+when m_start() itself readches the end of the address space and has to
+return SENTINEL_VMA_GATE.
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+It's possible this can be refactored a bit and made cleaner but I
+would keep that as a separate change.
 
-> ---
->  fs/proc/task_mmu.c | 159 +++++++++++++++++++--------------------------
->  1 file changed, 66 insertions(+), 93 deletions(-)
 >
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 9a3c996c1d61..6fee40bdd736 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -130,28 +130,12 @@ static void release_task_mempolicy(struct proc_maps_private *priv)
->  }
->  #endif
+> >
+> > > +
+> > > +   /* Return gate VMA at the end */
+> > > +   *ppos =3D SENTINEL_VMA_GATE;
+> > > +   return get_gate_vma(priv->lock_ctx.mm);
+> > >  }
+> > >
+> > >  static void m_stop(struct seq_file *m, void *v)
+> > > --
+> > > 2.55.0.1007.g17ff1f9808-goog
+> > >
+> >
+> > --
+> > Cheers, Lorenzo
 >
-> -static int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	int ret = mmap_read_lock_killable(lock_ctx->mm);
-> -
-> -	if (!ret)
-> -		lock_ctx->mmap_locked = true;
-> -
-> -	return ret;
-> -}
-> -
->  static void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
->  {
->  	mmap_read_unlock(lock_ctx->mm);
->  	lock_ctx->mmap_locked = false;
->  }
->
-> -static void reset_lock_ctx(struct proc_maps_locking_ctx *lock_ctx)
-> -{
-> -	lock_ctx->locked_vma = NULL;
-> -	lock_ctx->mmap_locked = false;
-> -}
-> -
->  static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
->  {
->  	if (lock_ctx->locked_vma) {
-> @@ -160,6 +144,12 @@ static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
->  	}
->  }
->
-> +static void reset_lock_ctx(struct proc_maps_locking_ctx *lock_ctx)
-> +{
-> +	lock_ctx->locked_vma = NULL;
-> +	lock_ctx->mmap_locked = false;
-> +}
-> +
->  static struct vm_area_struct *get_next_vma(struct proc_maps_private *priv,
->  					   loff_t last_pos)
->  {
-> @@ -1384,12 +1374,14 @@ static int show_smap(struct seq_file *m, void *v)
->  static int show_smaps_rollup(struct seq_file *m, void *v)
->  {
->  	struct proc_maps_private *priv = m->private;
-> +	struct proc_maps_locking_ctx *lock_ctx = &priv->lock_ctx;
-> +	struct mm_struct *mm = lock_ctx->mm;
->  	struct mem_size_stats mss = {};
-> -	struct mm_struct *mm = priv->lock_ctx.mm;
-> +	unsigned long last_vma_end = 0;
-> +	unsigned long vma_start = 0;
->  	struct vm_area_struct *vma;
-> -	unsigned long vma_start = 0, last_vma_end = 0;
-> +	loff_t pos = 0;
->  	int ret = 0;
-> -	VMA_ITERATOR(vmi, mm, 0);
->
->  	priv->task = get_proc_task(priv->inode);
->  	if (!priv->task)
-> @@ -1400,89 +1392,66 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
->  		goto out_put_task;
->  	}
->
-> -	ret = lock_ctx_mm(&priv->lock_ctx);
-> -	if (ret)
-> -		goto out_put_mm;
-> -
->  	hold_task_mempolicy(priv);
-> -	vma = vma_next(&vmi);
-> +	rcu_read_lock();
-> +	reset_lock_ctx(lock_ctx);
->
-> +	vma_iter_init(&priv->iter, mm, 0);
-> +	vma = proc_get_vma(m, &pos);
->  	if (unlikely(!vma))
->  		goto empty_set;
->
-> -	vma_start = vma->vm_start;
-> -	do {
-> -		smap_gather_stats(priv, vma, &mss, vma->vm_start);
-> +	if (!IS_ERR(vma))
-> +		vma_start = vma->vm_start;
-> +
-> +	while (vma) {
-> +		unsigned long start;
-> +
-> +		if (IS_ERR(vma)) {
-> +			ret = PTR_ERR(vma);
-> +			goto out_unlock;
-> +		}
-> +
-> +		if (vma->vm_start < last_vma_end) {
-> +			/*
-> +			 * After retaking the lock, already reported VMA grew
-> +			 * or got merged with the next one and we found it
-> +			 * again. Gather stats for the remaining portion by
-> +			 * starting at last_vma_end.
-> +			 */
-> +			start = last_vma_end;
-> +		} else {
-> +			/* Found next unreported VMA, start from its beginning */
-> +			start = vma->vm_start;
-> +		}
-> +		smap_gather_stats(priv, vma, &mss, start);
->  		last_vma_end = vma->vm_end;
->
->  		/*
-> -		 * Release mmap_lock temporarily if someone wants to
-> -		 * access it for write request.
-> +		 * If the VMA lock is not taken, we hold the often contended
-> +		 * mmap lock. This can happen if we had to fall back to the
-> +		 * mmap lock.
-> +		 *
-> +		 * To relieve pressure, check if it is indeed contended, then
-> +		 * temporarily release it.
->  		 */
-> -		if (mmap_lock_is_contended(mm)) {
-> -			vma_iter_invalidate(&vmi);
-> -			unlock_ctx_mm(&priv->lock_ctx);
-> -			ret = lock_ctx_mm(&priv->lock_ctx);
-> -			if (ret) {
-> -				release_task_mempolicy(priv);
-> -				goto out_put_mm;
-> -			}
-> -
-> +		if (lock_ctx->mmap_locked &&
-> +		    mmap_lock_is_contended(lock_ctx->mm)) {
-> +			unlock_ctx_mm(lock_ctx);
->  			/*
-> -			 * After dropping the lock, there are four cases to
-> -			 * consider. See the following example for explanation.
-> -			 *
-> -			 *   +------+------+-----------+
-> -			 *   | VMA1 | VMA2 | VMA3      |
-> -			 *   +------+------+-----------+
-> -			 *   |      |      |           |
-> -			 *  4k     8k     16k         400k
-> -			 *
-> -			 * Suppose we drop the lock after reading VMA2 due to
-> -			 * contention, then we get:
-> -			 *
-> -			 *	last_vma_end = 16k
-> -			 *
-> -			 * 1) VMA2 is freed, but VMA3 exists:
-> -			 *
-> -			 *    vma_next(vmi) will return VMA3.
-> -			 *    In this case, just continue from VMA3.
-> -			 *
-> -			 * 2) VMA2 still exists:
-> -			 *
-> -			 *    vma_next(vmi) will return VMA3.
-> -			 *    In this case, just continue from VMA3.
-> -			 *
-> -			 * 3) No more VMAs can be found:
-> -			 *
-> -			 *    vma_next(vmi) will return NULL.
-> -			 *    No more things to do, just break.
-> -			 *
-> -			 * 4) (last_vma_end - 1) is the middle of a vma (VMA'):
-> -			 *
-> -			 *    vma_next(vmi) will return VMA' whose range
-> -			 *    contains last_vma_end.
-> -			 *    Iterate VMA' from last_vma_end.
-> +			 * Even though we previously fell back to mmap lock,
-> +			 * we try taking VMA lock for the next VMA, since it
-> +			 * might not be under modification. In the worst case
-> +			 * we will fall back to mmap lock again.
->  			 */
-> -			vma = vma_next(&vmi);
-> -			/* Case 3 above */
-> -			if (!vma)
-> -				break;
-> -
-> -			/* Case 1 and 2 above */
-> -			if (vma->vm_start >= last_vma_end) {
-> -				smap_gather_stats(priv, vma, &mss, vma->vm_start);
-> -				last_vma_end = vma->vm_end;
-> -				continue;
-> -			}
-> -
-> -			/* Case 4 above */
-> -			if (vma->vm_end > last_vma_end) {
-> -				smap_gather_stats(priv, vma, &mss, last_vma_end);
-> -				last_vma_end = vma->vm_end;
-> -			}
-> +			rcu_read_lock();
-> +			reset_lock_ctx(lock_ctx);
-> +			/* Resume from the last position. */
-> +			pos = last_vma_end;
-> +			vma_iter_init(&priv->iter, mm, pos);
->  		}
-> -	} for_each_vma(vmi, vma);
-> +		vma = proc_get_vma(m, &pos);
-> +	}
->
->  empty_set:
->  	show_vma_header_prefix(m, vma_start, last_vma_end, 0, 0, 0, 0);
-> @@ -1491,10 +1460,14 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
->
->  	__show_smap(m, &mss, true);
->
-> +out_unlock:
-> +	if (lock_ctx->mmap_locked) {
-> +		unlock_ctx_mm(lock_ctx);
-> +	} else {
-> +		unlock_ctx_vma(lock_ctx);
-> +		rcu_read_unlock();
-> +	}
->  	release_task_mempolicy(priv);
-> -	unlock_ctx_mm(&priv->lock_ctx);
-> -
-> -out_put_mm:
->  	mmput(mm);
->  out_put_task:
->  	put_task_struct(priv->task);
 > --
-> 2.55.0.1007.g17ff1f9808-goog
->
-
---
-Cheers, Lorenzo
+> Cheers, Lorenzo
