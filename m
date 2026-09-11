@@ -1,72 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30C446A603
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B302246985D
 	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 08:52:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789116730; cv=none; b=oSaC5mgLGBX3IVUEM5oBFuHQyGVKh3y0lT7MCNnauR092aDa1oMrjJsWHzv95m7SIMB8Hkimk/UTtAbV1MYJummLLeQW6Kdk4NiD+c8IRMagWg57f1HqsfaGF2nuqIpwIFyGEcTHGf9I9q2djUf43f7yCy0NKG6sbeKPPlWAYOo=
+	t=1789116730; cv=none; b=Co4mnD1m9wFsTsimRpVYnci4YbHfIofu1xBRZuiz9MXyu/A3wtjOVFbiCfOE9ENmlUY0jRPdF4PWIoNrQrD7cKR01AcE8djEdpBHeGizRZPOkRDlw+KiQ3ij3HAqG5dzMAlJySr3Lu1t9JcoVK4/6nbC65HXTGOgJPIo43RiqbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789116730; c=relaxed/simple;
-	bh=qb2MBAqTLT1go2FYYfHVi1Q5zbydQPdUbAmNs4JQD1w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HX3gyNJYRc6XwOLe1/qbhd2Dfx3JN7dwk9pU+xwJbsx9m7VEOkjBAtXcVJl1X1qpVj7/QQyv6wXPzuAWd3bVuSKWRPAK1ePSa6mESgPmmuAweRps80y7TrytdstnYlBYG6K9NHDFpfAha+l/SdtvW70s0NdKMlHly/W9xh4+RH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kXPTGl5e; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xHmQSVr/; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=evBWxFs1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rvWH5mkw; arc=none smtp.client-ip=195.135.223.131
+	bh=n0K80NlVJu9vGet7bT/TQoYBw0ad3M3u86eFQZ5/vL4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gIyMc8uFINbm8J9ALrcQHRKxgNUwsUH2LDyzBmWGFWBYgN4SaMRSrA9eT71Wu45ZVA7VpthEnEO/1apzNqnTugIcCFyDVI//mtnczg3Er/oSvoWj9fgb96D+89Yd7e8qwR21N/x7hliR54JCJzieYT/9+SoXjjwahw8mQZiBzsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=o1e1H5S0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Lld2fKKz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=i51qg33t; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=kEDUQO/w; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kXPTGl5e";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xHmQSVr/";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="evBWxFs1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rvWH5mkw"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="o1e1H5S0";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Lld2fKKz";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="i51qg33t";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="kEDUQO/w"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7E7501FA79;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B0E431FD88;
 	Fri, 11 Sep 2026 08:51:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1789116722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=z/fxdm5G9XKt+9Xe5B66an5zv6QkeOhmXsJC5MEhbuw=;
-	b=kXPTGl5e+rYlxHfO0P9FQozWKELvV0LwD+8X2jT7frkWrqIM209HQW9rPQauE9P271cEaT
-	Wq7LbstPEoKMqgY2dkUshCEwNPfBs4v7kcFcs3bQCTDuY+ZPBXKysYLWYVPdzV556BqzFP
-	p72anasTR/gWYUqBmmRMzSa6wki7DOk=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r6NwH++d24GNIYZv7OKuurKVqtEXzUK7BFcqB+QWevU=;
+	b=o1e1H5S0ondTKFIS5WQja6u2CMLt8CzD9k0kQNmAAZ3/D4Pll6a7oXv1DTKF/CcyyFep6c
+	XdaZMA26wqEh/SUj7pc3p2atwpnBQZGwpslqDQD3QiOb4KQG6DO1SAX5U0Ixn4RfIlZ13K
+	ulnOMj5kHGD/xIL2BQjeLtzl3A6rI3c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1789116722;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=z/fxdm5G9XKt+9Xe5B66an5zv6QkeOhmXsJC5MEhbuw=;
-	b=xHmQSVr/TeosCGnXYpwj0W5uOB97er5y8BmxqFjw/NvnaaJJ1vxG11hHdeEaS3fwSevCMS
-	z0x/bD7/GmB4bmDQ==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r6NwH++d24GNIYZv7OKuurKVqtEXzUK7BFcqB+QWevU=;
+	b=Lld2fKKzVxAWVmEH203fxlwHKaXu/ydQZl375BK0QjEVUC3UTX9SEGb/0+OfEcALd6Nkbr
+	s4HY1qIkzA3JtdCg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=evBWxFs1;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=rvWH5mkw
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=i51qg33t;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="kEDUQO/w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1789116718; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=z/fxdm5G9XKt+9Xe5B66an5zv6QkeOhmXsJC5MEhbuw=;
-	b=evBWxFs1LnY87IdpSVJgOaS/D8Phaa7+eUx7GiEj5bpxhfWRkkSdgM6YNz5f098TJ+R/yO
-	ILaPlIEhUXt8Ow3ryNJS5+bbvRzb6U38SZGU1kniGVs2BVrPAjLK4XhGosqP7Uf9NU1HX7
-	hnekQJo8Vs5pY8MkC1Uk8sKMIXwzb5A=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r6NwH++d24GNIYZv7OKuurKVqtEXzUK7BFcqB+QWevU=;
+	b=i51qg33tb863XFo671lPhAI97tHtIUQgBWqx/6wuG0HxauurSn27V+Guszkz0Zq8G4o8xA
+	lh08OsLUo8ME7SW2tp4AV+9UA6iorukPKPFfNMr53wG4wSY9RnOhRwX3zH2fThAh2lETT1
+	L55dyLUHo8DPpNhfK57fgITXjUJDplc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1789116718;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=z/fxdm5G9XKt+9Xe5B66an5zv6QkeOhmXsJC5MEhbuw=;
-	b=rvWH5mkwo67z+qAwNpiJ+H5kRi+SPhPSj45nS2zLF/+6XqlJUl0tZafjnNTbPPii6BYrnc
-	gx+k9j2lr8h2UNCQ==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r6NwH++d24GNIYZv7OKuurKVqtEXzUK7BFcqB+QWevU=;
+	b=kEDUQO/wnt6F9aDVN/HGlgivRDf6CAwe1gfGCyNR6RMMuf5zlHatzQTASDRhBUIEMfmF40
+	a4K9JxcYowS0lJCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 47BB413715;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 67B7C13794;
 	Fri, 11 Sep 2026 08:51:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BQVyES7Bo2quHwAAD6G6ig
+	id nzZRGS7Bo2qyHwAAD6G6ig
 	(envelope-from <jack@suse.cz>); Fri, 11 Sep 2026 08:51:58 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id BF509A1342; Fri, 11 Sep 2026 10:51:53 +0200 (CEST)
+	id C8D7DA13AE; Fri, 11 Sep 2026 10:51:53 +0200 (CEST)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: <linux-mm@kvack.org>,
@@ -74,21 +83,23 @@ Cc: <linux-mm@kvack.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	Mikhail Rudenko <xyzzy@yandex-team.ru>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH 0/5 v2] fs: Deferred inode reclaim
-Date: Fri, 11 Sep 2026 10:51:36 +0200
-Message-ID: <20260911081309.14137-1-jack@suse.cz>
+Subject: [PATCH v2 2/5] fs: Avoid inode dirtying on last iput
+Date: Fri, 11 Sep 2026 10:51:38 +0200
+Message-ID: <20260911085142.1774803-7-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260911081309.14137-1-jack@suse.cz>
+References: <20260911081309.14137-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2552; i=jack@suse.cz; h=from:subject:message-id; bh=qb2MBAqTLT1go2FYYfHVi1Q5zbydQPdUbAmNs4JQD1w=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqo8EYxl9zKGYzitP7Znr2SZL1VlrMOl8wBQxgu rW64pldoMiJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaqPBGAAKCRCcnaoHP2RA 2behB/9mDlFKMai+yJJQedPJanFbltFjkJM6Op6ouyQEjMT2YYFuz6FT81zQOTPZ7/JZYdLtpOr R1YlWV91z9LkSS9kOI7nF4zBGqhSnyelaJ7F2dmv6KCzM/K10mLWymCwjcJtuRHKBx9NnAp3Rkp zKfs7+Vtruv0tOERt3oezMvsYE2xIj5NogYyeOuwDC+TexDzVyKnlUuknWM6lUzGLKAoJs3IoZY qdokUf3VlOiT/Do8B19eF8M+7MJmKTBUAv/+9s75EDfN+DPq8r/RvX2akoeByfVGRwwEie6knkY AhfQyviILiSkggdja1Kw1lJT6sji9vNXEP8xQ0/JYaUCO52D
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4361; i=jack@suse.cz; h=from:subject; bh=n0K80NlVJu9vGet7bT/TQoYBw0ad3M3u86eFQZ5/vL4=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqo8EfB82a9kvKqXvGvUVhyPyh5lvJT25WMqxbi tTzwgoPI2GJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaqPBHwAKCRCcnaoHP2RA 2VDAB/9wQMsi9uWET3Gm3sdzAzNo48twh5uzDf/F6D2dsKfUKSHEPUh7fbH+iaU0LNv+9vE8HLj KGxfgnhhF7pX1VuRFDwypzfolgZvQnaaLTRWwxovX7jrEhaVRWPv3IZXS1sa1yOELku7NXVlggr 40LkZwx/RDXyRDqWftflywW6pMard31o3QUkldDrEHKA0h9yoh5rAx78Wj6Y60uUbbAfYKSJYun 7CBvUNOtEYH1S4ImBKhttEnP1cfS0dwl08yTxu0gW61FTpugqJcChRcDh1tF++BYFBXUtNpsJrE T2F137n/RnoW4TL573PFRqHnqpTuzMzi7T+aqzqcHeZf+HjQ
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
 X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: 7E7501FA79
+X-Rspamd-Queue-Id: B0E431FD88
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 X-Rspamd-Action: no action
@@ -111,54 +122,144 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.cz:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.cz:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	DKIM_TRACE(0.00)[suse.cz:+]
 X-Spam-Flag: NO
 
-Hello,
+When inode has dirtied timestamps, we currently call sync_lazytime() on
+last iput. This is done because inode with any dirty bit set is not
+inserted into LRU and dirty timestamps expire only after many (12 by
+default) hours so these inodes would be sitting outside of LRU aging for
+a really long time. However this can result in doing IO and consequently
+GFP_NOFAIL allocations from dentry reclaim making MM complain. Sample
+trace for ext4 is:
 
-after a long pause here is a second revision of my patches implementing
-deferred inode reclaim to deal with MM warnings due to GFP_NOFAIL allocations
-from reclaim paths. This happens because to reclaim some inodes, filesystems
-have to do IO including complex operations using journalling and forward
-progress of these depends on successful memory allocations (which is impossible
-to guarantee from reclaim context).
+prune_dcache_sb
+shrink_dentry_list
+__dentry_kill
+iput
+sync_lazytime
+__mark_inode_dirty
+ext4_dirty_inode
+__ext4_mark_inode_dirty
+ext4_reserve_inode_write
+ext4_get_inode_loc
+bdev_getblk
+__filemap_get_folio_mpol
 
-This time I have fully tested the patch set. In particular it survives full
-fstests run on ext4 both as is as well as when marking all loaded ext4 inodes
-for deferred reclaim to stress the deferred reclaim paths. I have also tested
-(when marking all inodes for deferred reclaim) the patches by creating a memcg
-with 128m memory limit and then scanning from 10 processes 600k inodes in total
-which heavily exercises deferred inode reclaim paths. This also verified
-efficiency of throttling of marking of inodes for deferred reclaim. Basically
-we cannot guarantee any particular limit on the number of inodes queued for
-deferred reclaim as that is bound only by their number in memory and memory
-pressure. But as the number of queued inodes grows, the tasks creating them
-get slowed down so eventually some equilibrium is hit. In my VM this was
-at ~10k inodes (only slightly above the 8k limit when throttling kicks in)
-but this all very much depends on the reclaim pressure, speed of deferred
-reclaim etc. so I don't think this is some representative number.
+Avoid this dirtying on last iput by reshuffling unused inodes to the
+beginning of b_dirty_time list and clobbering dirtied_time_when instead
+so that they get written during next periodic writeback.
 
-The first patch is a pure fix for a problem I've hit when running fstests.  The
-second patch deals with lazy timestamp updates which I've decided to handle
-better directly inside the writeback infrastructure instead of deferring
-reclaim. The remaining patches implement the inode reclaim deferal. Ext4 use of
-deferred inode reclaim is there mostly as a demonstration. Other filesystems
-need to determine which inodes need deferred reclaim and mark them as such
-which generally requires good internal knowledge of the filesystem. I'm hoping
-that once the infrastructure is there, fs developers prompted by MM warnings
-will start using it :). I know for a fact that besides ext4 e.g. btrfs is
-hitting MM warnings in inode reclaim as well.
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/fs-writeback.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ fs/inode.c        | 15 +++++++--------
+ fs/internal.h     |  1 +
+ 3 files changed, 50 insertions(+), 8 deletions(-)
 
-								Honza
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index bb4546d147dc..762e310e808f 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -2837,6 +2837,48 @@ void __mark_inode_dirty(struct inode *inode, int flags)
+ }
+ EXPORT_SYMBOL(__mark_inode_dirty);
+ 
++/*
++ * If inode has dirty timestamps to write out, make sure flush worker writes
++ * them out during its next periodic writeback writeout.
++ */
++void queue_dirtytime_writeback(struct inode *inode)
++{
++	struct bdi_writeback *wb;
++	unsigned long new_time;
++
++	lockdep_assert_held(&inode->i_lock);
++
++	wb = locked_inode_to_wb_and_lock_list(inode);
++	spin_lock(&inode->i_lock);
++	/*
++	 * If inode writeback is already queued or inode got dirty, we have
++	 * nothing to do and we mustn't touch writeback lists anyway.
++	 */
++	if (inode_state_read(inode) & (I_SYNC_QUEUED | I_DIRTY))
++		goto out_wb_lock;
++	/* Written back while we dropped i_lock? */
++	if (!(inode_state_read(inode) & I_DIRTY_TIME))
++		goto out_wb_lock;
++
++	/*
++	 * Move inode to the beginning of dirty queue and clobber dirtied time
++	 * so that it gets written out during the next periodic writeback.
++	 */
++	new_time = jiffies - dirtytime_expire_interval * HZ;
++	if (!list_empty(&wb->b_dirty_time)) {
++		struct inode *first = wb_inode(wb->b_dirty_time.prev);
++		unsigned long first_time = READ_ONCE(first->dirtied_time_when);
++
++		if (time_before(first_time, new_time))
++			new_time = first_time;
++	}
++	inode->dirtied_when = new_time;
++	inode->dirtied_time_when = new_time;
++	list_move_tail(&inode->i_io_list, &wb->b_dirty_time);
++out_wb_lock:
++	spin_unlock(&wb->list_lock);
++}
++
+ /*
+  * The @s_sync_lock is used to serialise concurrent sync operations
+  * to avoid lock contention problems with concurrent wait_sb_inodes() calls.
+diff --git a/fs/inode.c b/fs/inode.c
+index ba7da39be4a3..5555a513a0a3 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -2030,7 +2030,6 @@ void iput(struct inode *inode)
+ 	if (unlikely(!inode))
+ 		return;
+ 
+-retry:
+ 	lockdep_assert_not_held(&inode->i_lock);
+ 	VFS_BUG_ON_INODE(inode_state_read_once(inode) & (I_FREEING | I_CLEAR), inode);
+ 	/*
+@@ -2043,14 +2042,14 @@ void iput(struct inode *inode)
+ 	if (atomic_add_unless(&inode->i_count, -1, 1))
+ 		return;
+ 
+-	if (inode->i_nlink && sync_lazytime(inode))
+-		goto retry;
+-
+ 	spin_lock(&inode->i_lock);
+-	if (unlikely((inode_state_read(inode) & I_DIRTY_TIME) && inode->i_nlink)) {
+-		spin_unlock(&inode->i_lock);
+-		goto retry;
+-	}
++	/*
++	 * If inode has timestamp updates pending, queue flushing them now as
++	 * otherwise the dirtiness could be preventing the inode from entering
++	 * LRU for hours.
++	 */
++	if (inode->i_nlink && inode_state_read(inode) & I_DIRTY_TIME)
++		queue_dirtytime_writeback(inode);
+ 
+ 	if (!atomic_dec_and_test(&inode->i_count)) {
+ 		spin_unlock(&inode->i_lock);
+diff --git a/fs/internal.h b/fs/internal.h
+index c658c8a5ebd5..eae0e2bb5d1c 100644
+--- a/fs/internal.h
++++ b/fs/internal.h
+@@ -219,6 +219,7 @@ bool in_group_or_capable(struct mnt_idmap *idmap,
+  */
+ long get_nr_dirty_inodes(void);
+ bool sync_lazytime(struct inode *inode);
++void queue_dirtytime_writeback(struct inode *inode);
+ 
+ /*
+  * dcache.c
+-- 
+2.51.0
 
-Changes since v1:
-* Multiple workers to reclaim deferred inodes, related to that I've
-  moved lists of deferred inodes from per-sb to global ones
-* Added missed lazytime sync fix
-
-Previous versions:
-Link: http://lore.kernel.org/r/20260429174850.18223-1-jack@suse.cz # v1
