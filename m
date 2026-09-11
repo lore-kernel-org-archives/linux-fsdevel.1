@@ -1,279 +1,156 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161783939B5
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 17:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789146483; cv=pass; b=pbgQWHhkfpkZTKbge10fi4b3tjjeFf2GsbGP3JKlN0t0ygMV9/Cw3hcvgACgIBFw6fytBfmnop7sxZryzJOns5W4LM6OBJaX7UDlNRJAuu6L2sC3r+LkmX7+O/4OoeAQQlU2eZpsvrqZM9vnaq0LxK9binN+nblvnMjeW7y6DWc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789146483; c=relaxed/simple;
-	bh=yvIYGfK0j5RKlarxd15M99WA87HKIWW0hFtuYq8YyW4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HA5Q2KzcCwJ5DZZABQLUDH8P1S0hf/l2iIHAwIbMKTRbIGFfqhxnmiXcbH8YEzFO0Dvvs1ZInsVpEQdDs3Wr0SFSoyEkOx/nIvx3ULOei3hPhRXtwYSfp3Dl3ogiUin6DX9QCoIyst/GTaUTTnQW+nSRZ8GeB5td5qyeDyEknos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wB+y5zMx; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8144938F25A;
+	Fri, 11 Sep 2026 17:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789146601; cv=none; b=uFHFDYrk2+ntX5+2mMQHr52maLkCden90x1ezHJjT0za9ZZ+0za2evKyJ0et4J/RJiXkokTKEI3oHBEOpEAq4nEBJ5RCv4PmLBfNc8jHzhCPw1J2OdxkO+Nfqu5YLoKlhFQq0F9ESBvfyzmuMoD6EKpsc+L0CZFV4ERs8S12Fmk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789146601; c=relaxed/simple;
+	bh=qEGGnemNsJnEJfIQVmiIohoCAyMLJBS8eglUf/IFRQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A1X/8qb368jmTzjhk7XJpo0qHKb6g7Zgiev3rdMKCbQLu9oydphrBlPveu2CBmTqPLdBh/SaBM7FXjn/17ueYmMCgUhccLqeBHru7035jniLgHmguLC/rfqv3lpX7kgPCRYsjF1FUNo4pa38mBrM4hlK3y4BFm9VgiLkTd9tEjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o3L2NdFM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wB+y5zMx"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-530411c7ee1so71071cf.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 10:08:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789146481; cv=none;
-        d=google.com; s=arc-20260327;
-        b=G78xUrh7Atn63ivwICa9QyESikkEtgjTu/TjqrKavrkgUazTEnxkGHB/LpQ23URyGs
-         vwVyY36rdFog1B84HMmZQkMW2DKAH2Zm/TgC1cPW6QYR3h80tJgDhRksSOmNd37aKKja
-         tAELb4DU4xRHGlktP60bBGqAKQiAYlcRZek/nM7W/WWXV8Af0rwsjh2zy6n3l8dGqXh7
-         rOoxXypoD9HsGeZ54jn48wtKvH88n6JHa9MekvRiq2RKdIWERqM8NupkJj7958k0jhDw
-         LyDByMbGeWecTz0ZPvlzn7rnVl6kAbfdR1nPXjYvlwXg0TgjG2Nwf94Q1IvsTNnLtDqY
-         ckDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FfqAnYs9QWvu4t/PRHSywLwXNZCW3SnEDtn5daAsEzM=;
-        fh=sRKvZ6wvKPM2mWf255/EMLqN5mg1ATxiT2Oagq1eppI=;
-        b=B9vvazv0970bKo2BgS7NLius7Kh3pUTBRaxTsTluZkyFmGX9NGY2bp2IoiyvBkM6Hp
-         9uZxgJPd6dktBKyA9R0O+x4mof2JxQClA8itNfIuSPGUwiLw2ndqu79gPIRjRRaMSIyy
-         lLTbEzGeUTvefUgcb3P6U5/iaqhqhkks1gMe/RjCZl1rfmnKpHjPr6Xc25CqyheTWidl
-         B5gd49usfmSNLCYevDcdjxSCGkDvvBKHM7CoT1GA9k5t1DDTlbV8vscU0htzeKvVPdpe
-         R0bYS7hfXa1Fq5kMew0X0xNqWpSZioeU8ICyb3kn/0rE6Jq1pMk63mTs1Kp1VAVJ58Ey
-         Ublg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789146481; x=1789751281; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FfqAnYs9QWvu4t/PRHSywLwXNZCW3SnEDtn5daAsEzM=;
-        b=wB+y5zMxFTnVBd8Q1/vvXTgcxMAAHujFc8iEl8N4MBaPEBMP2mttHQUdLXbjO3I0eL
-         dinqUAwxjwlXQsvKmfI3CQY/FK4nzCtRPJ0LN+XkzZg5nrKsVV5F7WPSfCMZ5ZELpbsB
-         nNXmuUKSXrKIoNoG/RV1Rxn3ygQO9H/0SpZJiQFbx+qqszGRqBMTPAg63heEPBaXbmy0
-         bxGRsR0ctYf/xMYF8ImFtI56tbQtFEMYPrVhTmsxllf3oVJ9icGsAQWrtdYI/pvTgLuK
-         YE0UeIQyc7iTuPoj5zQHqU7ZdbfY9Qm7CJvPai3pQv6i2ft7exkW65mA6IpH2LUmV+99
-         8egw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789146481; x=1789751281;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FfqAnYs9QWvu4t/PRHSywLwXNZCW3SnEDtn5daAsEzM=;
-        b=HExcX+b9TmQni/mpbXRC1gTvkipL6bMu0IhylfuDljCyaZApFIQgEmje+5wONjrDsU
-         sZEE5eS/HVTk6pZTrcyU17hx66Vsjtmu2M76X6Odx31v7gHjxG1yFtfPkv2uM1Hbx2+V
-         l3wCD4U/ITsf3mym/tjZalUdC82b865VUgxvuVex8S++oOxU9IFQmGrGIsW3364QSDLv
-         UvaVhgTABiYtFcqR+tg0G1iSs9KADtHJvX/Flo15BykJ4j+mNvPZul4ej1zkL19TCyxa
-         ZklqeDpJjPuWv/4BGk+1S84qspV3w+ZdUt18H/+Ob6rtjmVv/j2DEwa4s3binWp6yEwT
-         onpA==
-X-Forwarded-Encrypted: i=1; AKwUvBz8YzWx2HJ96vIYxsa0udub9OeXdJRdMi75J1SqdWs7ZJDmtHhQFwqDpu2Mn83T9mP051HiqQ+AfLlJvi+E@vger.kernel.org
-X-Gm-Message-State: AFuF++kbCK1TSSJzQ3XnEE96WBlCFpTMTfdZhoONOpRdfkViZS53fUY9
-	GpBexhXhGX+YBc+jl7y1uvOwCY6oSRxF5imdYM0V91qMDcJW8jszej1/nJud8H1M5Wd+kcYfBGG
-	GpONevkA2b0FQB3nLKnRNk3a4f0V7MRB1vEhZ1eZ6
-X-Gm-Gg: AYBFou0QNBB9wih6+siS0M0pb84yw5JXiLSQgIoVhiDNr7MixkY8Ry8kFz2N+TsIxI2
-	Zab+1BgDWm+PEXenqdBDKOyD5G04gclRoRKhmhQlx+lMpJJVittqRfRtEs4bYPr55mR4+N+vsVS
-	kISz+pMgKqCG5mdA2HCUl2JHppiOojrjeBfs3NOpKXweo8ZydilhWqpn3k5WTo4acuN5OV5x2yd
-	mJYumPESUVgcmeYlmCzKnB7Nfs1wAl1OSYivBgZXg3xS7uvGPZwGk64FISO+TOWdzCU4gonLxL/
-	BvQknpd6UDZrSm559+ROU26Cc1E8haT1Qgt7TpVZ4Zu1xpsIskLBsVOu5UYsYVCqc8qFJAHAyP5
-	vFomOXUo=
-X-Received: by 2002:a05:622a:1b07:b0:527:f08f:56a2 with SMTP id
- d75a77b69052e-530e4652848mr184701cf.8.1789146479942; Fri, 11 Sep 2026
- 10:07:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o3L2NdFM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22A101F000FF;
+	Fri, 11 Sep 2026 17:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789146600;
+	bh=wtZVEwngtJNDR7Dil3pjiAKeqFlagckAJ2vKOo34aps=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=o3L2NdFMRQT+LpNVPaEJvUSryJiMtoEVuBlhvOpTUX3u5oD1j+1IZzuRmDPssCOD4
+	 3TfJgTwz9pU1ve9tosOWOXJWeO5W5V83R7OCQQ9yL2AVj6egbjS8vXSL82EbvGhM3T
+	 X1XDCLrsl04F+9gry2WDolIIzJu6dcCWuJB5K5pbIbQMAi2KKSjOs3tL2GGoqQq/Wi
+	 xq+SIi39yxW4XtIwV3PkGvVjCoZTgE4SSw6GvxZx1Nypqi8hRWSbbhUoNXXZ0lhxcQ
+	 kqmPeMm2P5VW+rdouLiwMZzBs9F3xluAom1Yg/u88m56rjWUU4zcY2OLNDN0AVIlpJ
+	 G63yfKeDG5URw==
+Message-ID: <85ea78b6-f3c7-4a9b-b25d-1fe2ecbf3b40@kernel.org>
+Date: Fri, 11 Sep 2026 19:01:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260910234737.1340642-1-surenb@google.com> <20260910234737.1340642-5-surenb@google.com>
- <aqQsWNfrBSp4DY_N@gremlin>
-In-Reply-To: <aqQsWNfrBSp4DY_N@gremlin>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 11 Sep 2026 17:07:48 +0000
-X-Gm-Features: AcwNN1VmWwBwvdrrzfbSCfPBns6QLN3cVqhymRQ3A0LlyuwTeNE2s_Y0v9LoFOY
-Message-ID: <CAJuCfpEEi-9ZqhKR536tJHywprb9RFcx92gK00qp_ecBGH9Fvw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] proc/task_mmu: remove special-casing of
- smap_gather_stats() start parameter
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
-	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, xueyuan.chen21@gmail.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/8] mm: rename pointers to software PTE values as
+ ptentp
+To: Muhammad Usama Anjum <usama.anjum@arm.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Dimitri Sivanich
+ <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, SJ Park <sj@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Mike Rapoport <rppt@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ ziy@nvidia.com, pfalcato@suse.de, agordeev@linux.ibm.com,
+ ryan.roberts@arm.com
+Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, damon@lists.linux.dev
+References: <20260903103002.1091859-1-usama.anjum@arm.com>
+ <20260903103002.1091859-3-usama.anjum@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260903103002.1091859-3-usama.anjum@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 11, 2026 at 4:39=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.o=
-rg> wrote:
->
-> On Thu, Sep 10, 2026 at 04:47:34PM -0700, Suren Baghdasaryan wrote:
-> > smap_gather_stats() interprets its start parameter to mean vma->vm_star=
-t
-> > when it's set to 0. Eliminate this special interpretation and pass
-> > vma->vm_start explicitly when needed.
-> >
-> > Since smap_gather_stats() operates within a single VMA, we can replace
-> > walk_page_vma()/walk_page_range() calls with walk_page_range_vma()
-> > which is simpler and also can be called while holding per-VMA lock.
-> >
-> > No functional change intended.
-> >
-> > Suggested by: Lorenzo Stoakes <ljs@kernel.org>
->
-> Hmm did I? Where did I suggest this?... I guess a while ago?
+On 9/3/26 12:29, Muhammad Usama Anjum wrote:
+> Some interfaces use pte_t * for a software PTE value rather than for an
+> entry stored in a PTE table. These pointers must remain pte_t * when
+> pointers to PTE table storage are converted to hw_pte_t *.
+> 
+> Rename these parameters in the install_pte callback,
+> write_protect_page(), and guard_install_set_pte() to ptentp. The later
+> Coccinelle conversion skips pointers named ptentp, allowing it to convert
+> the remaining PTE table pointers without changing these interfaces.
+> 
+> Some functions already use ptentp for such pointers, including:
+> - madvise_folio_pte_batch()
+> - folio_pte_batch_flags()
+> No need to rename them.
+> 
+> This patch only renames parameters and makes no functional change.
+> 
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+> ---
 
-In [1] on June 9, 2026.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-[1] https://lore.kernel.org/all/aifO_rCurVhFRTcl@lucifer/
+-- 
+Cheers,
 
->
-> I mean I also happen to suggest it in the previous patch review :) but th=
-at was
-> sent after you sent this...
->
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Reviewed-by: Liam R. Howlett (Oracle) <liam@infradead.org>
->
-> I don't love hacking a hack for a patch and then unhack it in the next in=
- a
-> slightly roundabout way.
->
-> Feels like this should be squashed. And a wrapper function for
-> start=3Dvma->vm_start should be used rather than duplicating that param
-> constantly.
->
-> > ---
-> >  fs/proc/task_mmu.c | 29 ++++++++++++++++-------------
-> >  1 file changed, 16 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> > index 3c40c9cbb9c9..ecce7ce116cb 100644
-> > --- a/fs/proc/task_mmu.c
-> > +++ b/fs/proc/task_mmu.c
-> > @@ -1246,21 +1246,27 @@ get_smaps_shmem_walk_ops(struct proc_maps_priva=
-te *priv)
-> >       return &smaps_shmem_walk_vma_lock_ops;
-> >  }
-> >
-> > -/*
-> > - * Gather mem stats from @vma with the indicated beginning
-> > - * address @start, and keep them in @mss.
-> > +/**
-> > + * smap_gather_stats() - Gather mem stats from @vma.
-> > + * @priv: proc maps private state.
-> > + * @vma: The VMA to gather stats for.
-> > + * @mss: The accumulated stats.
-> > + * @start: The address from which to start.
-> >   *
-> > - * Use vm_start of @vma as the beginning address if @start is 0.
-> > + * This gathers stats for the whole of the VMA unless the lock was dro=
-pped
-> > + * and VMA grew or got merged and we found it again, in which case we =
-only
-> > + * gather stats for the remainder of the VMA range.
->
-> This seems to be describing what callers do not what the function does un=
-less
-> I'm missing something? So that's really the wrong place for it.
->
-> I think the description of why it might be a partial walk belongs to the =
-bit of
-> code that actually tries to do a partial walk.
->
-> Anyway as per below I think separate partial/full functions make sense an=
-d there
-> it can simply be described as walking either the full or part of the VMA.
-
-This is verbatim of what you wrote at the end of [1]
-
->
-> >   */
-> >  static void smap_gather_stats(struct proc_maps_private *priv,
-> >                             struct vm_area_struct *vma,
-> > -                           struct mem_size_stats *mss, unsigned long s=
-tart)
-> > +                           struct mem_size_stats *mss,
-> > +                           unsigned long start)
-> >  {
-> >       const struct mm_walk_ops *ops =3D get_smaps_walk_ops(priv);
-> >       const bool is_partial =3D start > vma->vm_start;
-> >
-> >       /* Invalid start */
-> > -     if (start >=3D vma->vm_end)
-> > +     if (start < vma->vm_start || start >=3D vma->vm_end)
-> >               return;
-> >
-> >       if (vma =3D=3D get_gate_vma(priv->lock_ctx.mm))
-> > @@ -1285,10 +1291,7 @@ static void smap_gather_stats(struct proc_maps_p=
-rivate *priv,
-> >                       mss->swap +=3D shmem_swapped;
-> >       }
-> >
-> > -     if (!start)
-> > -             walk_page_vma(vma, ops, mss);
-> > -     else
-> > -             walk_page_range(vma->vm_mm, start, vma->vm_end, ops, mss)=
-;
-> > +     walk_page_range_vma(vma, start, vma->vm_end, ops, mss);
->
-> I mean obviously am in favour of this as I suggested it in the last patch=
- :)
->
-> >
-> >       reacquire_rcu(priv);
-> >  }
-> > @@ -1343,7 +1346,7 @@ static int show_smap(struct seq_file *m, void *v)
-> >       struct vm_area_struct *vma =3D v;
-> >       struct mem_size_stats mss =3D {};
-> >
-> > -     smap_gather_stats(priv, vma, &mss, 0);
-> > +     smap_gather_stats(priv, vma, &mss, vma->vm_start);
-> >
-> >       show_map_vma(m, vma);
-> >
-> > @@ -1396,7 +1399,7 @@ static int show_smaps_rollup(struct seq_file *m, =
-void *v)
-> >
-> >       vma_start =3D vma->vm_start;
-> >       do {
-> > -             smap_gather_stats(priv, vma, &mss, 0);
-> > +             smap_gather_stats(priv, vma, &mss, vma->vm_start);
-> >               last_vma_end =3D vma->vm_end;
-> >
-> >               /*
-> > @@ -1455,7 +1458,7 @@ static int show_smaps_rollup(struct seq_file *m, =
-void *v)
-> >
-> >                       /* Case 1 and 2 above */
-> >                       if (vma->vm_start >=3D last_vma_end) {
-> > -                             smap_gather_stats(priv, vma, &mss, 0);
-> > +                             smap_gather_stats(priv, vma, &mss, vma->v=
-m_start);
->
-> I mean this is all horrible, having to pass vma->vm_start explicitly.
->
-> Although better than the hack that gets compounded in patch 3.
->
-> There 4 invocations of smap_gather_stats(), only one of them passes a
-> non-vma->vm_start start.
->
-> So it'd make more sense to just make smap_gather_stats() lose its 3rd par=
-am and
-> have it call smap_gather_stats_range(), then have 1 invocation of
-> smaps_gather_stats_range() directly, as per suggestion in last patch.
->
-> Or something similar to that.
-
-Hmm. Ok, I'll wait for you to read your previous suggestions in [1]
-and after that let's discuss what the final version should look like.
-Thanks,
-Suren.
-
->
->
-> >                               last_vma_end =3D vma->vm_end;
-> >                               continue;
-> >                       }
-> > --
-> > 2.55.0.1007.g17ff1f9808-goog
-> >
->
-> --
-> Cheers, Lorenzo
+David
