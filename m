@@ -1,208 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCC135F170;
-	Fri, 11 Sep 2026 11:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C51A330328;
+	Fri, 11 Sep 2026 12:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789127822; cv=none; b=oWC5uKokKIh0Ub5QKGrpS0tqSHxqesd0yH7ltgJg1QNCcAPLG11zRlL0JWaMUi8kUKJ08vtwJou1aecgn6A9xrmSQDzLcvGzXEqAb/tR8jjRyobxzmd6LMjwEEnTM+123s9+9hoWcK4CmGI7QgoTMwTmZOzByV5wVd/1GD549oA=
+	t=1789128836; cv=none; b=QsNDjOV/MwiBwelLZ3ArOn80orPMmkayCJBHwxnj6rG38EGrtTYKLRkT4PYsF8aS6bxvGz+MvPpPU4T2P4fHw4oMObDGc+zcPO1YUfENoLk5Ac4maidQu6qCF2wMtRMDEaFJyHH5oG+ACVbw7DHQses58HfseGOpOAOgP9vNjyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789127822; c=relaxed/simple;
-	bh=w9StJE+nn0gkG1gomyMgGNCH6NI28semBIPVleJDVGs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FGSFcZGaKk5lkHdlb1s81ISx0SoOZgVQgX/tvQWw92uxhPoDtpM/Np6u0DlCii6uyoBU8FgcLudzgtaeZ0c2mYnx3zPzsimgP5Jq7QBW1YD/56oDg7VKx9toonLwiuOZgB24ahqjTQ1zZeIYPuVyXokyfbQ1qV9101lUevLqHpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K11BV0Q0; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K11BV0Q0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10FD01F000FF;
-	Fri, 11 Sep 2026 11:56:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789127820;
-	bh=L1OeiMMiUuX2c3YfVw5XAKf2PuPZvV9E0osxi7XkgcM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K11BV0Q0GfXgRWBY9hWvTQTZUx1Y/DXSo9d5Lsn/KBpbt7Fweoopm7LTE6t7xgAUP
-	 NShNd5sxVrhUs74tL8AyqYIc3l62PRAwMsYrWuiQT0AOYotHhdpOIOmjs9XckKD5Ai
-	 mioUp6silLKJgXoQsE7Y9nAWcZ83QyJ3DN4NcRuNyDpCGaVbbI4f2PIOtazYVI3jGl
-	 N/TpPN5b9boXVr9/DwwHPOGvh2VpTWaDWieU1lspaJLR1Hvajkq3FQHbiufN3HqWtw
-	 Ia6UuoUw69iWxKJcz2v4457+ig63Hgy8+Azvrq4n8/Dh/w6BAMbXFm/8JyGQpJyaFU
-	 fFWBr2lbIGglg==
-Date: Fri, 11 Sep 2026 13:56:55 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, djwong@kernel.org, 
-	linux-api@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <aqPrI5F-IE6_lmK7@devuan>
-References: <20260910104120.3964799-1-aalbersh@kernel.org>
- <aqKgTGHh3nDnM3eh@devuan>
- <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	s=arc-20240116; t=1789128836; c=relaxed/simple;
+	bh=gD/Bq3bg37b7lMyFEfRQHtV7xYPsci+Lqrosn6+reLY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JD9DzyUwS7VPMLWjyLL1niPA8/Su8juAnYzYfJ9k2LjO4qbw5SIDyCBWbHByPbD4fAX7dhVswV96VEEiM1Beo5tONmTC7CTLPtBfhP5WO/C807Thi3L3qs9AI0HCgpru1dhdLwx79MEG1Olyq+xbOv8hQQHBBM5SCOmtA+MhoKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8B5253ED66;
+	Fri, 11 Sep 2026 12:13:43 +0000 (UTC)
+From: Alexandre Ghiti <alex@ghiti.fr>
+To: Johannes Weiner <hannes@cmpxchg.org>,
+	Yosry Ahmed <yosry@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>
+Cc: Kairui Song <ryncsn@gmail.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Wei Xu <weixugc@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Kunwu Chan <kunwu.chan@gmail.com>,
+	Tal Zussman <tz2294@columbia.edu>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Alexandre Ghiti <alex@ghiti.fr>
+Subject: [PATCH v5 0/3] mm: zswap: free cold writeback folios promptly
+Date: Fri, 11 Sep 2026 14:13:27 +0200
+Message-ID: <20260911121341.178028-1-alex@ghiti.fr>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="szfb7nu3rmkucoyg"
-Content-Disposition: inline
-In-Reply-To: <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alex@ghiti.fr
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: dmFkZTF0WDL/f2k4cldBYDI+o9ZlYZps9V5cGp5Dpt9NPc7WStEtPmZ9SunsNMcl5f5thdTuCuG9K0248RgfLILvM3hGdPquOA7FnXSIshisq3TyNM8nACRF1+b1sQ5OCl7/LnepdASXoR9KDQJTDxlyuzVtd4sEya4b6Efef64T6aJYJnlXKeQK3hIiRpsBJY/2xBJtGolzCQPrlMgA7Zfjq0ZSHW/nWz1A9MFppkf8aAqayEKKbXgGSSw6oXQH0y8kS2wL/9AWfYUqAIztqKXrxpEPGc9+77dyUwsml+BQt1B33dT/zrHHy5Pefin4GXVaHCli1dAHesCThK4k0BxZac2XsPoMgAqSMIGIJufU/baAYk2y9kd1HsKZAqb8+RQQQqIWMED9asKAKCEUASo/pIrPfo9Rb1+nPPV+6hryCg6wnEbn5pqtBalFPFpCVXgcyuFC1Xe3/tXVIXXAHT25IQC9QUVHPKNZnn8VqiB1GD4lZ4jNfmuNQFh2Mo0mA3OPEoai+9YPfwNQGiS/y6ouPi15RjaG6dRWfXl3JhDbVEIW1yy8/xmjtgIiZRC8JFErKrTLq6RvivCG2T49VCO0U24B9jVWmfxsWdEDDJ5iDn8WdzzRaauhTFnLUEO+qK1ebXGp+DLK2NjatpcSINaygrwzBTcvR9jPIvCLJOFI34HidQ
+
+When zswap writes an entry back, it allocates an order-0 swap cache folio,
+decompresses into it, and issues the write. The folio is cold by
+construction, yet today it is left on the LRU for page reclaim to find and
+free later. That wastes a reclaim scan and keeps cold memory resident
+longer than necessary.
+
+Rather than implement this in zswap, extend the existing dropbehind
+mechanism to swap cache folios and have zswap opt into it (Yosry). A
+PG_dropbehind folio is already dropped from its cache once writeback
+completes instead of being left for reclaim; for a swap cache folio that
+"drop" is removing it from the swap cache.
+
+  Patch 1 - move LRU insertion out of the swap cache allocator into its
+            callers, so zswap writeback can allocate off the LRU.
+
+  Patch 2 - drop dropbehind swap cache folios on writeback completion.
+
+  Patch 3 - zswap allocates its writeback folio off the LRU and marks it
+            dropbehind, opting into the mechanism above.
+
+Note: patch 1 also appears as patch 1 of the zswap writeback refault
+series [1]. It is the same patch. Both series need it and both are meant
+to apply on their own, so it is posted in each; whichever lands first, the
+other should drop it.
+
+This version is based on mm-stable. v4 was based on Linus' tree because
+Tal Zussman's BIO_COMPLETE_IN_TASK work had not reached the mm tree yet;
+it has since, so that detour is no longer needed. Thanks to Matthew and
+Barry for pointing that series out!
+
+v1: https://lore.kernel.org/linux-mm/20260718093723.153324-1-alex@ghiti.fr/
+v2: https://lore.kernel.org/linux-mm/20260727143618.1582318-1-alex@ghiti.fr/
+v3: https://lore.kernel.org/linux-mm/20260818163221.589352-1-alex@ghiti.fr/
+v4: https://lore.kernel.org/linux-mm/20260825135209.3135169-1-alex@ghiti.fr/
+
+[1] https://lore.kernel.org/linux-mm/20260911092012.92399-1-alex@ghiti.fr/
+
+Changes in v5:
+- Rebase from Linus' tree onto mm-stable, which now carries Christoph's
+  swap_io_ctx work. __swap_writepage() takes a swap_io_ctx and the bio is
+  built by swap_bdev_submit_write() from a batch of folios, so patch 2 sets
+  BIO_COMPLETE_IN_TASK there instead of in the old per-folio async helper.
+  The bio can hold several folios, so the flag is set if any of them is
+  dropbehind; only the asynchronous branch needs it, as SWP_SYNCHRONOUS_IO
+  already completes in task context. Patch 3 follows the new
+  __swap_writepage() + swap_write_submit() pair.
+- Patch 3: clear PG_active on the writeback folio after allocation.
+  __swap_cache_alloc_folio() evaluates a refault, which can set PG_active;
+  with the folio kept off the LRU nothing clears it again and the folio is
+  freed with a PAGE_FLAGS_CHECK_AT_FREE flag set. This goes away once the
+  refault evaluation moves out of the swap cache allocator in [1].
+- Patch 2: rename remove_mapping_reclaim() to remove_mapping_set_shadow().
+  Storing the workingset eviction shadow is the only thing that sets it
+  apart from remove_mapping(), so name it after that rather than after the
+  caller that historically did it (Nhat).
+- Patch 3: the success path now returns directly, so the "if (ret)" in the
+  error path is dead and the label is only reached on failure. Drop the
+  check and rename the label from "out" to "err". Thanks Yosry for
+  spotting this!
+- Patch 1: take the version from the zswap writeback refault series [1],
+  which is where it has seen the most review. The changelog now describes
+  both users of the change instead of only this one, and it picks up the
+  stale swap_cache_alloc_folio() comment fix in mm/swapfile.c (Kunwu). The
+  two copies are now identical apart from the base they apply to.
+- Collect Reviewed-by tags. Thanks to Kunwu and Nhat for the careful
+  reviews, and to Usama for the ack on patch 1!
+
+Changes in v4:
+- Rebase on BIO_COMPLETE_IN_TASK: set it on dropbehind swap writeback like
+  the file dropbehind paths do, and drop the folio directly from
+  folio_end_writeback(). This removes the per-CPU llist, the workqueue and
+  the reuse of folio->lru as the list node.
+- zswap now drops its folio reference before starting writeback, so the
+  swap cache holds the only one and remove_mapping() sees the refcount it
+  expects. This fixes the drop on synchronous-IO devices and the race
+  Sashiko reported, where the drop could run before zswap released its
+  reference and fall back to the LRU. Verified on zram (the only
+  SWP_SYNCHRONOUS_IO backend I have): over ~6.7M writebacks per run, 99.999%
+  of the folios are dropped, and the refcount fallback fires 37-50 times.
+- Use remove_mapping_reclaim() rather than adding a boolean argument to
+  remove_mapping(), which keeps the calling code readable (David). This also
+  leaves the existing remove_mapping() callers untouched.
+- Patch 1: correct the changelog. The folio has to stay off the LRU because
+  folio_add_lru() leaves a reference in the per-CPU LRU batch, not because
+  of the free-time page-flag checks. Measured on zram, adding the folio to
+  the LRU instead drops the freed rate from 99.999% to 2.7%.
+
+Changes in v3:
+- Drop the synchronous-IO special case in zswap writeback (Yosry, Nhat).
+- Use mem_cgroup_tryget()/mem_cgroup_put(): struct mem_cgroup is only
+  defined under CONFIG_MEMCG, so css_tryget()/css_put() failed to build
+  with CONFIG_MEMCG=n.
+
+Changes in v2:
+- Make swap dropbehind a generic core-mm mechanism that zswap opts into,
+  rather than a zswap-specific implementation (Yosry).
+- Allocate off the LRU by moving folio_add_lru() out of the swap cache
+  allocator into its callers; rename it to __swap_cache_alloc_folio()
+  (Kairui).
+- Skip the folio in the free path if it is still under writeback (Nhat).
+
+Results
+-------
+Paired baseline vs series on async swap (NVMe). Each
+workload runs confined to a memory cgroup (memory.max) small enough to force
+zswap shrinker writeback.
+
+Kernel build (defconfig, make -j4; memory.max = 600M):
+
+  metric            baseline       series      delta
+  pgrotated           441028         2521     -99.4%
+  pgsteal_direct     3524343      2869004     -18.6%
+  pgscan_direct      8393791      7765008      -7.5%
+  zswpwb              705129       699019      -0.9%
+  build time (s)        1155         1114      -3.6%
+
+Of the 699019 folios written back, 698990 (99.996%) were freed promptly on
+writeback completion; only 28 fell back to reclaim.
+
+MySQL/OLTP (sysbench, 10 tables x 1M rows, 512M buffer pool, 8 threads, 300s;
+memory.max = 256M):
+
+  metric            baseline       series      delta
+  transactions/s      153.87       163.30      +6.1%
+  p95 latency (ms)    157.42       145.82      -7.4%
+  avg latency (ms)     52.09        49.05      -5.9%
+  pgrotated           743738        22460     -97.0%
+  pgsteal_direct     6886490      5445278     -20.9%
+  pgscan_direct     13462510     10820730     -19.6%
+
+Future work
+-----------
+Barry suggested extending this to MADV_PAGEOUT and general reclaim. I
+prototyped dropbehind for all reclaimed swap folios and it regressed
+sysbench OLTP throughput by ~15% on NVMe swap: dropping the swap cache
+immediately turns cheap in-cache refaults into disk reads and collapses
+swap readahead clustering. Neither blk-wbt, mq-deadline nor a PG_workingset
+gate recovered it. MADV_PAGEOUT alone may still be worth it, since there
+userspace has explicitly declared the range cold, but I have not measured
+that case in isolation yet.
+
+Alexandre Ghiti (3):
+  mm: swap: move LRU insertion out of the swap cache allocator
+  mm: swap: drop dropbehind swap cache folios on writeback completion
+  mm: zswap: drop cold writeback folios via swap dropbehind
+
+ include/linux/swap.h |  6 +++++
+ mm/filemap.c         | 19 ++++++++++++++
+ mm/page_io.c         |  9 +++++++
+ mm/swap.h            |  6 ++---
+ mm/swap_state.c      | 62 ++++++++++++++++++++++++++++++++++++++------
+ mm/swapfile.c        |  2 +-
+ mm/vmscan.c          | 49 +++++++++++++++++++++++++++-------
+ mm/zswap.c           | 36 +++++++++++++++++--------
+ 8 files changed, 156 insertions(+), 33 deletions(-)
 
 
---szfb7nu3rmkucoyg
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, djwong@kernel.org, 
-	linux-api@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <aqPrI5F-IE6_lmK7@devuan>
-References: <20260910104120.3964799-1-aalbersh@kernel.org>
- <aqKgTGHh3nDnM3eh@devuan>
- <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-MIME-Version: 1.0
-In-Reply-To: <aqPg20OSbTsxRd6-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+base-commit: 0d9ff90a5422cc7509258aaaba1e7481df4d332a
+-- 
+2.53.0-Meta
 
-[CC +=3D PERFORMANCE EVENTS SUBSYSTEM maintainers]
-
-Hi Andrey,
-
-> Date: 2026-09-11 13:17:12+0200
-> From: Andrey Albershteyn <aalbersh@kernel.org>
->
-> Hi Alejandro,
->=20
-> Thanks for the review, I will apply your suggestions, responses to
-> some of the questions below:
->=20
-[...]
-> > > +The
-> > > +.I flags
-> > > +argument is a bit mask, available flags are:
-> >=20
-> > The usual language we use for this is:
-> >=20
-> > 	The
-> > 	.I flags
-> > 	argument contains
-> > 	a bitwise OR of zero or more of the following constants:
-> >=20
-> > See for example readv(2).
->=20
-> I will use "constants" then (the readv uses "following flags")
-
-Ok.
-
-> > There are some minor variations of this in other pages, and I should
-> > make them more uniform.
-> >=20
-[...]
-> > > +.TP
-> > > +.B EBADF
-> > > +.I pathname
-> > > +is relative but
-> > > +.I dirfd
-> > > +is neither
-> > > +.B AT_FDCWD
-> > > +nor a valid file descriptor.
-> > > +.TP
-> > > +.B EBADF
-> > > +.I pathname
-> > > +is an empty string,
-> > > +.B AT_EMPTY_PATH
-> > > +was specified,
-> > > +but
-> > > +.I dirfd
-> > > +is an invalid file descriptor.
-> >=20
-> > I was wondering: is it valid to specify AT_EMPTY_PATH, use an empty
-> > string, and use AT_FDCWD as the dirfd?  That should act on the current
-> > working directory itself, right?  Or is that not supported?
->=20
-> Yes, this is valid combination. I can describe this case.
-
-Thanks!  I think using wording similar to the one above would be enough:
-
-	but
-	.I dirfd
-	is neither
-	.B AT_FDCWD
-	nor a valid file descriptor.
-
-[...]
-> > > +.TP
-> > > +.B EINVAL
-> > > +.I size
-> > > +is smaller than
-> > > +.BR FILE_ATTR_SIZE_VER0 .
-> >=20
-> > perf_event_open(2) reports E2BIG for a size smaller than
-> > PERF_ATTR_SIZE_VER0.  This seems unnecessarily inconsistent.  I'm not
-> > sure which I'd say is more appropriate, but I'd expect them to be
-> > consistent.  I mentioned perf_event_open(2) because that's the only page
-> > that has a *_VER0 constant and documents an error if a size is smaller
-> > than it.  There's also mount_setattr(2) which documents
-> > MOUNT_ATTR_SIZE_VER0, but it's not documented in ERRORS.
-> >=20
-> > I think kernel maintainers should have a look at the different APIs that
-> > have such a value, and discuss whether the error codes should be made
-> > uniform retroactively, or whether we should accept the existing
-> > divergence but decide on an error code for new APIs.
-> >=20
-> > I've CCed linux-api@.
->=20
-> The MOUNT_ATTR_SIZE_VER0 also returns an EINVAL
-
-Thanks!  I'll document that.
-
-> I'm in favor of EINVAL as E2BIG is probably a more confusing naming
-> for the too small argument.
-
-I think I agree.
-
-I've CCd the maintainers of perf_event_open(2).  Can perf_event_open(2)
-be changed to report EINVAL?  Or is that mistake set in stone?
-
-
-Have a lovely day!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---szfb7nu3rmkucoyg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmqj7IEACgkQ64mZXMKQ
-wqlezg//RLQAo0BxssEGu8xfo6SW+0W2DNb3gXUM9X7eVQuUNVndRL3KWcRf0lSD
-bdpX9Z4eK9TfgvYM6U6QLI1qkJMdc76zQKhgU2OwTgJECziYSDaPWeDdTXEU4XTe
-seSFHNg/PKr/FWZaSII4AtH8XIeJt7vMoJcr958fHUnflFb87oXOoyYxQzQ/f69k
-fvLN7IlIJj7ARdJOEHnVinv45b1VSoNNSo2vo6Z9iO6DdIfd8fiROQgz7TG2MhRo
-C38uQapJ77W4V4uF5ui0MMq7AXcN8Ire1+4tZrmWevUYehOJYujROuhxwjfA5VeL
-v9lteYeeyiv4sQIpLgUmI5HmhRyoER43J1N5iXrTbAQhsMxFoslnoruw33lnJ79L
-AVTz2qEm23M9QFHwrxstuv0m2OnH28DIMdu7v439Cpso9NGTtVuPF016gwIapNge
-P7E6g4qgb85H5qZy5JumNB/0OdBBYfYz5CVOsW+0m3D0XwjJYmlw42MMOh5TRDrF
-o5brnzgbdtwJuZaLTZVbB/8HGil5xHQMt8szE6FgKxbWm7aAUNto+MQrhq0TuaRD
-+wzhCILjvWNSbueJ/r9gN9PHqU7ura6s1OOnJi6mJ3/YAIueKN0ZCjIwtKBzdugH
-HTkCNhYUgB4udiV9O/+EI8xtDsihKRJbSBm/joWWFV0A08A32n4=
-=pDVG
------END PGP SIGNATURE-----
-
---szfb7nu3rmkucoyg--
