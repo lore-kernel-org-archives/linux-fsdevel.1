@@ -1,306 +1,268 @@
-Received: from mta0.migadu.com (out-223.mta0.migadu.com [91.218.175.223])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50024BB26B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 18:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3EA4A99C6;
+	Fri, 11 Sep 2026 18:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789151319; cv=none; b=HSlgsXdi2keWmnTLVhGs9dS+dXA0XewqeQZuq1B8RXpntuqUxaH8o5GYeLmfQK3RYaM3SXu+COtsR2gYLKvioocHxAZODGU0pBP7ZE04W87NdWO0g9G55OV9IvXs8l/v5Hblt/pFRTh/dE7zPLf4b/TeaeOb6TiAXtl/eczXPT8=
+	t=1789151546; cv=none; b=BoZ5DgVfsrgpEs7NWHry5Lmt+zHGxyHRS8+m9vbI2WyI8w8Kc2gzoCVybW8rXEZRHE5fOqFO3Kxc9y/A95P7Ldb6BGwx30tknO9rKbOVUlNjN8nDxlTFDVsroC1lpZ+XY7VOx2act8tOeS1d+PQP0xkRJbtAnw/t21Xss1nDJWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789151319; c=relaxed/simple;
-	bh=zzpjwUswTpyP7wYlZgMyj5G/NFUunoQdPWTRIzTl6y4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p3Fc8kV7aUrLaMlV+Wy/wBN8s9jUa4CY4g5Km4mLtZ7zU4oUJE+/Iw4o02fTlgIZs3sZKOI/EsPso7Dsuf0d65mPB8RWudMusnW5c/R3Ot2mPkFeYjLTuKK9yhG4SNqfRVKbj3PGv52NKHHhcJdChxA+4NxvN/olKn8edv0mCEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UfBM+4RC; arc=none smtp.client-ip=91.218.175.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789151546; c=relaxed/simple;
+	bh=kGcna8qnasBYiXRYEi48BDAzZBHcd69XY9IMfaZN56k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=isiojdouDgrKiUUYTpHRE5ISzqs6mHS7087fpUWNcDrecNK5EUCBnQoczuFyvn64cQBarbHdYHourzKMCqAorBO6/mWnihu80JY0wEwppQ/yjJznjAuTdJHMWIgPHlL+biVvte9SXMZPSPZUP7YVDks6HBmOZ/NduNt01B924sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Rod0sU8Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SIrVXAQ4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=t9gvN2nl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FnLFXx/K; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UfBM+4RC"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=zzpjwUswTpyP7wYlZgMyj5G/NFUunoQdPWTRIzTl6y4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789151314; v=1; x=1789756114;
- b=UfBM+4RC2yDnGToKwAhTm7utIEhy6V8SoTGbPuhdj1mrhCizU+UHNp0j4NUux3LNA1cx7+i7
- g6/MSpylFsvXuzmDXatKghUeTcVtCeH+H7y3ieJr4qMqKziLr3bKhH3sCu6AFg68dgm0eqxVqGf
- VoNmuy/ZW/eFduyism5Arubo=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id de4ee8a648a1b887;
-	Fri, 11 Sep 2026 18:28:34 +0000
-X-Mizu-Trace-ID: de4ee8a648a1b887
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christian Brauner <christian@brauner.io>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Meta kernel team <kernel-team@meta.com>,
-	linux-fsdevel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] selftests: cover readdir resuming at a removed entry
-Date: Fri, 11 Sep 2026 11:28:15 -0700
-Message-ID: <20260911182815.1992483-5-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260911182815.1992483-1-shakeel.butt@linux.dev>
-References: <20260911182815.1992483-1-shakeel.butt@linux.dev>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Rod0sU8Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SIrVXAQ4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t9gvN2nl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FnLFXx/K"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 164481FEF2;
+	Fri, 11 Sep 2026 18:32:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789151538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b3huHsOxzXu3WG732phakZA+zeD+7wCDwsZTRvWLdY4=;
+	b=Rod0sU8Qdbl2a9I9t1TH8nevi4QRfn3TPfcK74bX64NGYlK6IHkuzAhBL08HIKt63niSI/
+	6veFNIqyotajC6UCFkeNjNmJezrJxBptWKdfl94tSQs8eHOgD9mU8KcO4CkQo1s/NpMwfn
+	kmsnciPVbpHoeV5HykyGSvDyJ/flO3w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789151538;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b3huHsOxzXu3WG732phakZA+zeD+7wCDwsZTRvWLdY4=;
+	b=SIrVXAQ4ceuoB0fGrHOOtVO1/WzKntIfVXPqXNQPSKYuVdsXv8YzVUOSr+XNFJ/yIPVMhN
+	zTZpSfo+uSEO1wDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789151534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b3huHsOxzXu3WG732phakZA+zeD+7wCDwsZTRvWLdY4=;
+	b=t9gvN2nlbxSG+QCJOr3Qwp0FANn+yCEqu4YHmsqlPzf0zjeumUAtcGLCZTbmav6JBEjAnm
+	c41BWBSWq8AARidcMzA+ZhJfDP3iy28qnix3YpHWZbSEX+hx1j3W5/Dot4Ih4kiPxwIVpp
+	7cHlpzVuqFt2y519+0+mCk4UCgw+K/g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789151534;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b3huHsOxzXu3WG732phakZA+zeD+7wCDwsZTRvWLdY4=;
+	b=FnLFXx/K4kGWIzrUI6pjTmx6O95RSJHfUkFLZdB3yB4XYnlrurdCfLL7hNThqzkOntilHf
+	8PYNspUtNK/EHXCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A640132D3;
+	Fri, 11 Sep 2026 18:32:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id B8AjFydJpGrJdAAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Fri, 11 Sep 2026 18:32:07 +0000
+Message-ID: <dfd9590c-e029-4432-9a13-c789f708cfee@suse.de>
+Date: Fri, 11 Sep 2026 20:31:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/13 net-next] net: ipv4: introduce CONFIG_IPV4 to
+ decouple the IPv4 stack
+To: Casey Schaufler <casey@schaufler-ca.com>, netdev@vger.kernel.org
+Cc: horms@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ edumazet@google.com, davem@davemloft.net, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Elad Nachman <enachman@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+ Edward Cree <ecree.xilinx@gmail.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Arend van Spriel <arend.vanspriel@broadcom.com>,
+ Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Saurav Kashyap <skashyap@marvell.com>,
+ Javed Hasan <jhasan@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Nilesh Javali <njavali@marvell.com>,
+ Manish Rangankar <mrangankar@marvell.com>, Varun Prakash
+ <varun@chelsio.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Marek Lindner <marek.lindner@mailbox.org>,
+ Simon Wunderlich <sw@simonwunderlich.de>,
+ Antonio Quartulli <antonio@mandelbit.com>,
+ Sven Eckelmann <sven@narfation.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>,
+ Phil Sutter <phil@nwl.cc>, Johannes Berg <johannes@sipsolutions.net>,
+ Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>,
+ Geliang Tang <geliang@kernel.org>, Julian Anastasov <ja@ssi.bg>,
+ Aaron Conole <aconole@redhat.com>, Eelco Chaudron <echaudro@redhat.com>,
+ Ilya Maximets <i.maximets@ovn.org>, Allison Henderson <achender@kernel.org>,
+ Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
+ Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+ Xin Long <lucien.xin@gmail.com>, "D. Wythe" <alibuda@linux.alibaba.com>,
+ Dust Li <dust.li@linux.alibaba.com>, Sidraya Jayagond
+ <sidraya@linux.ibm.com>, Mahanta Jambigi <mjambigi@linux.ibm.com>,
+ Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+ Jon Maloy <jmaloy@redhat.com>, Tung Quang Nguyen
+ <tung.quang.nguyen@est.tech>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, Vikas Gupta
+ <vikas.gupta@broadcom.com>,
+ Bhargava Marreddy <bhargava.marreddy@broadcom.com>,
+ Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>,
+ Nicolai Buchwitz <nb@tipi-net.de>, =?UTF-8?Q?Markus_Bl=C3=B6chl?=
+ <markus@blochl.de>, Arnd Bergmann <arnd@arndb.de>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Qingfang Deng <qingfang.deng@linux.dev>, Julian Braha
+ <julianbraha@gmail.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ Willem de Bruijn <willemb@google.com>, Alyssa Ross <hi@alyssa.is>,
+ Joel Granados <joel.granados@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+ linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, oss-drivers@corigine.com,
+ linux-net-drivers@amd.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+ b.a.t.m.a.n@lists.open-mesh.org, bridge@lists.linux.dev,
+ netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ mptcp@lists.linux.dev, lvs-devel@vger.kernel.org, dev@openvswitch.org,
+ rds-devel@oss.oracle.com, linux-sctp@vger.kernel.org,
+ linux-s390@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+ linux-security-module@vger.kernel.org
+References: <20260910144914.8025-1-fmancera@suse.de>
+ <20260910144914.8025-2-fmancera@suse.de>
+ <ee89e26c-3dad-450b-8861-badf19afa141@schaufler-ca.com>
+Content-Language: en-US
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+In-Reply-To: <ee89e26c-3dad-450b-8861-badf19afa141@schaufler-ca.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Score: -0.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-0.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	FORGED_RECIPIENTS(2.00)[m:horms@kernel.org,m:kuba@kernel.org,m:edumazet@google.com,m:davem@davemloft.net,m:leon@kernel.org,m:andrew+netdev@lunn.ch,m:anthony.l.nguyen@intel.com,m:przemyslaw.kitszel@intel.com,m:enachman@marvell.com,m:saeedm@nvidia.com,m:tariqt@nvidia.com,m:mbloch@nvidia.com,m:idosch@nvidia.com,m:petrm@nvidia.com,m:ecree.xilinx@gmail.com,m:maxime.chevallier@bootlin.com,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:arend.vanspriel@broadcom.com,m:miriam.rachel.korenblit@intel.com,m:kbusch@kernel.org,m:axboe@kernel.dk,m:hch@lst.de,m:sagi@grimberg.me,m:kch@nvidia.com,m:skashyap@marvell.com,m:jhasan@marvell.com,m:GR-QLogic-Storage-Upstream@marvell.com,m:James.Bottomley@HansenPartnership.com,m:mkp@kernel.org,m:njavali@marvell.com,m:mrangankar@marvell.com,m:varun@chelsio.com,m:brauner@kernel.org,m:marc.dionne@auristor.com,m:trondmy@kernel.org,m:anna@kernel.org,m:cel@kernel.org,m:jlayton@kernel.org,m:neil@brown.name,m:Dai.Ngo@oracle.com,m:marek.lindner@mailbox.o
+ rg,m:antonio@mandelbit.com,m:sven@narfation.org,m:razor@blackwall.org,m:pablo@netfilter.org,m:phil@nwl.cc,m:matttbe@kernel.org,m:martineau@kernel.org,m:geliang@kernel.org,m:i.maximets@ovn.org,m:achender@kernel.org,m:jhs@mojatatu.com,m:marcelo.leitner@gmail.com,m:lucien.xin@gmail.com,m:alibuda@linux.alibaba.com,m:dust.li@linux.alibaba.com,m:sidraya@linux.ibm.com,m:mjambigi@linux.ibm.com,m:tonylu@linux.alibaba.com,m:guwen@linux.alibaba.com,m:tung.quang.nguyen@est.tech,m:herbert@gondor.apana.org.au,m:paul@paul-moore.com,m:jmorris@namei.org,m:serge@hallyn.com,m:vikas.gupta@broadcom.com,m:bhargava.marreddy@broadcom.com,m:rajashekar.hudumula@broadcom.com,m:markus@blochl.de,m:arnd@arndb.de,m:hkallweit1@gmail.com,m:florian.fainelli@broadcom.com,m:krzk@kernel.org,m:qingfang.deng@linux.dev,m:julianbraha@gmail.com,m:enelsonmoore@gmail.com,m:gregkh@linuxfoundation.org,m:ebiggers@kernel.org,m:ardb@kernel.org,s:oleg@redhat.com,s:linux-stm32@st-md-mailman.stormreply.com,s:linux-fsdevel@vger.kernel
+ .org,s:linux-kernel@vger.kernel.org,s:linux-nfs@vger.kernel.org,s:linux-rdma@vger.kernel.org,s:linux-s390@vger.kernel.org,s:linux-scsi@vger.kernel.org,s:linux-sctp@vger.kernel.org,s:linux-security-module@vger.kernel.org,s:linux-wireless@vger.kernel.org,s:lvs-devel@vger.kernel.org,s:netfilter-devel@vger.kernel.org,s:target-devel@vger.kernel.org];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[netdev];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,redhat.com,google.com,davemloft.net,ziepe.ca,lunn.ch,intel.com,marvell.com,nvidia.com,gmail.com,bootlin.com,foss.st.com,broadcom.com,kernel.dk,lst.de,grimberg.me,HansenPartnership.com,chelsio.com,zeniv.linux.org.uk,suse.cz,auristor.com,brown.name,oracle.com,talpey.com,mailbox.org,simonwunderlich.de,mandelbit.com,narfation.org,blackwall.org,netfilter.org,strlen.de,nwl.cc,sipsolutions.net,ssi.bg,ovn.org,mojatatu.com,resnulli.us,linux.alibaba.com,linux.ibm.com,est.tech,secunet.com,gondor.apana.org.au,paul-moore.com,namei.org,hallyn.com,tipi-net.de,blochl.de,arndb.de,linux.dev,linuxfoundation.org,alyssa.is,vger.kernel.org,lists.osuosl.org,corigine.com,amd.com,st-md-mailman.stormreply.com,lists.infradead.org,lists.linux.dev,lists.open-mesh.org,openvswitch.org,oss.oracle.com,lists.sourceforge.net];
+	R_RATELIMIT(0.00)[to_ip_from(RLzghooyjbkt4nddgixz9uws5c)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[133];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-The kernfs tests list only directories that do not change, so nothing
-covers the entry a listing stopped on being gone when it comes back.
+On 9/11/26 7:46 PM, Casey Schaufler wrote:
+> On 9/10/2026 7:48 AM, Fernando Fernandez Mancera wrote:
+>> Historically, the IPv4 protocol has been linked to the core INET
+>> subsystem. Because shared infrastructure like the TCP/UDP engine,
+>> routing or INET hashtables live inside net/ipv4/, it has been impossible
+>> to compile a kernel with only IPv6 support.
+>>
+>> This patch introduces the CONFIG_IPV4 Kconfig symbol, which is set to
+>> 'def_bool y' for now. This does not allow to completely disable the
+>> IPv4 stack yet but it lays the necessary build-system work for that
+>> goal.
+>>
+>> In addition, multiple subsystems Kconfig symbols across networking
+>> features like tunnels, drivers and filesystems have been adjusted to
+>> depend on IPv4. Keep on mind that follow-up work is required to convert
+>> the Kconfig symbol to bool and remove the dependency on IPv4 where it
+>> makes sense.
+>>
+>> Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
+>> ---
+>>   
+> 
+> ...
+> 
+> 
+>>   security/smack/Kconfig                        |  1 +
+>>   54 files changed, 126 insertions(+), 66 deletions(-)
+>>
+> ...
+> 
+>> diff --git a/security/smack/Kconfig b/security/smack/Kconfig
+>> index 5a8dfad469c3..b4e6d0168bd1 100644
+>> --- a/security/smack/Kconfig
+>> +++ b/security/smack/Kconfig
+>> @@ -3,6 +3,7 @@ config SECURITY_SMACK
+>>   	bool "Simplified Mandatory Access Control Kernel Support"
+>>   	depends on NET
+>>   	depends on INET
+>> +	depends on IPV4
+>>   	depends on SECURITY
+>>   	select NETLABEL
+>>   	select SECURITY_NETWORK
+> 
+> Why would this make sense? You're introducing the capability to use
+> IP6 by itself, which is admirable, but you're disallowing that configuration
+> with the Smack LSM. It appears that you've done a mechanical lookup in the
+> Kconfig files and applied the minimal change to make the kernel compile,
+> which probably works for most cases. It does not work for Smack. Unless
+> there's a strong argument that Smack with IPv6 and without IPv4 is and always
+> will be a pointless configuration you have my NAK.
+> 
+> 
 
-readdir_resume_at_removed_entry takes a telldir(3) cookie for every
-entry, then removes each entry in turn, seeks to its cookie and reads
-the rest; nothing reported before it may come back.  This is a resume
-between two getdents(2) calls, and it fails without "kernfs: don't
-repeat or skip an entry when readdir resumes".
+Right, that was kind of the point. The idea was to be able to compile 
+core networking without IPv4. There are still plenty of modules that 
+depends on IPv4. It does not mean that they will remain like that 
+forever as I mentioned my idea was a follow-up on the series to avoid 
+having a too long series.
 
-readdir_resume_vs_internal_remove is a resume inside one call, which
-"kernfs: don't hold kernfs_rwsem across dir_emit()" opens.  It churns
-cgroup.subtree_control rather than calling rmdir(2), which cannot reach
-that window because iterate_dir() holds the listed directory's i_rwsem
-for the whole listing.  It is a stress test, has not been seen to catch
-the ordering bug, and keeps the window busy for lockdep and KASAN.  It
-fails if the churn died and skips if the listings never overlapped it,
-so it cannot pass having listed a static directory.
+Anyway, I can make Smack to do not depend on IPv4 on this series if that 
+could grant an ACK.
 
-Assisted-by: LLM
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
----
- .../selftests/filesystems/kernfs_test.c       | 200 ++++++++++++++++++
- 1 file changed, 200 insertions(+)
-
-diff --git a/tools/testing/selftests/filesystems/kernfs_test.c b/tools/testing/selftests/filesystems/kernfs_test.c
-index 6e74da91ebca..01cd58e5e41e 100644
---- a/tools/testing/selftests/filesystems/kernfs_test.c
-+++ b/tools/testing/selftests/filesystems/kernfs_test.c
-@@ -8,6 +8,7 @@
- #include <limits.h>
- #include <net/if.h>
- #include <sched.h>
-+#include <signal.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-@@ -17,6 +18,7 @@
- #include <sys/mount.h>
- #include <sys/socket.h>
- #include <sys/stat.h>
-+#include <sys/syscall.h>
- #include <sys/xattr.h>
- 
- #include "kselftest_harness.h"
-@@ -472,6 +474,204 @@ TEST_F(kernfs_cgroup, readdir_no_duplicates)
- 			EXPECT_STRNE(names[i], names[j]);
- }
- 
-+#define RESUME_DIRS	24
-+
-+/*
-+ * Resuming at an entry that has gone must carry on after it, never before.
-+ * Take a cookie for every entry, then remove each one, seek to its cookie
-+ * and read the rest; nothing already reported may come back.
-+ */
-+TEST_F(kernfs_cgroup, readdir_resume_at_removed_entry)
-+{
-+	/* The cgroup's own control files are listed alongside ours. */
-+	char names[128][NAME_MAX + 1];
-+	long pos[128];
-+	char path[PATH_MAX];
-+	struct dirent *de;
-+	int n = 0, i, j;
-+	DIR *d;
-+
-+	for (i = 0; i < RESUME_DIRS; i++) {
-+		snprintf(path, sizeof(path), "%s/e%02d", self->scratch, i);
-+		ASSERT_EQ(mkdir(path, 0755), 0);
-+	}
-+
-+	/* Record the cookie before reading each entry, with its name. */
-+	d = opendir(self->scratch);
-+	ASSERT_NE(d, NULL);
-+	while (1) {
-+		long here = telldir(d);
-+
-+		de = readdir(d);
-+		if (!de)
-+			break;
-+		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-+			continue;
-+		ASSERT_LT(n, (int)ARRAY_SIZE(pos));
-+		pos[n] = here;
-+		strncpy(names[n], de->d_name, NAME_MAX);
-+		names[n][NAME_MAX] = '\0';
-+		n++;
-+	}
-+	closedir(d);
-+	ASSERT_GT(n, 1);
-+
-+	for (i = 0; i < n; i++) {
-+		/* Only the directories we made can be removed and put back. */
-+		if (strncmp(names[i], "e", 1))
-+			continue;
-+
-+		snprintf(path, sizeof(path), "%s/%s", self->scratch, names[i]);
-+		ASSERT_EQ(rmdir(path), 0);
-+
-+		/* Reopen so the seek has to reach the kernel. */
-+		d = opendir(self->scratch);
-+		ASSERT_NE(d, NULL);
-+		seekdir(d, pos[i]);
-+		while ((de = readdir(d))) {
-+			if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-+				continue;
-+			for (j = 0; j < i; j++)
-+				ASSERT_STRNE(de->d_name, names[j])
-+					TH_LOG("resuming at %s (gone) went back to %s",
-+					       names[i], names[j]);
-+		}
-+		closedir(d);
-+
-+		ASSERT_EQ(mkdir(path, 0755), 0);
-+	}
-+
-+	for (i = 0; i < RESUME_DIRS; i++) {
-+		snprintf(path, sizeof(path), "%s/e%02d", self->scratch, i);
-+		EXPECT_EQ(rmdir(path), 0);
-+	}
-+}
-+
-+#define CHURN_ROUNDS	400
-+#define CHURN_BUFSZ	512	/* small, so a listing takes several calls */
-+
-+/*
-+ * The files appear at the end of the enabling write and go at the start of
-+ * the disabling one, so the window where they exist is the short one.
-+ */
-+#define CHURN_DWELL_ON	2000
-+#define CHURN_DWELL_OFF	200
-+
-+struct kernfs_dirent64 {
-+	unsigned long long	d_ino;
-+	long long		d_off;
-+	unsigned short		d_reclen;
-+	unsigned char		d_type;
-+	char			d_name[];
-+};
-+
-+/*
-+ * The same resume, but inside one getdents(2) call.  rmdir(2) cannot reach
-+ * that window because iterate_dir() holds the listed directory's i_rwsem
-+ * for the whole listing; cgroup.subtree_control can, having no VFS
-+ * operation on the names it adds and removes.  The files that are not the
-+ * controller's stay throughout, so each must appear exactly once.
-+ *
-+ * A stress test: it has not been seen to catch the ordering bug, and is
-+ * here to keep the unlocked window under load for lockdep and KASAN.
-+ */
-+TEST_F(kernfs_cgroup, readdir_resume_vs_internal_remove)
-+{
-+	char buf[CHURN_BUFSZ] __attribute__((aligned(8)));
-+	char stable[128][NAME_MAX + 1];
-+	int nstable = 0, i, r;
-+	int withctl = 0, without = 0;
-+	int seen[128], status;
-+	pid_t churner;
-+	DIR *d;
-+
-+	/* With the controller off, whatever is left is what must persist. */
-+	ASSERT_EQ(write_file(self->scratch_sc, self->disable), 0);
-+	d = opendir(self->child);
-+	ASSERT_NE(d, NULL);
-+	for (;;) {
-+		struct dirent *de = readdir(d);
-+
-+		if (!de)
-+			break;
-+		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-+			continue;
-+		ASSERT_LT(nstable, (int)ARRAY_SIZE(stable));
-+		strncpy(stable[nstable], de->d_name, NAME_MAX);
-+		stable[nstable][NAME_MAX] = '\0';
-+		nstable++;
-+	}
-+	closedir(d);
-+	ASSERT_GT(nstable, 0);
-+
-+	churner = fork();
-+	ASSERT_GE(churner, 0);
-+	if (churner == 0) {
-+		for (;;) {
-+			if (write_file(self->scratch_sc, self->enable))
-+				_exit(10);
-+			usleep(CHURN_DWELL_ON);
-+			if (write_file(self->scratch_sc, self->disable))
-+				_exit(11);
-+			usleep(CHURN_DWELL_OFF);
-+		}
-+	}
-+
-+	for (r = 0; r < CHURN_ROUNDS; r++) {
-+		int fd = open(self->child, O_RDONLY | O_DIRECTORY);
-+		int extra = 0;
-+		int n;
-+
-+		ASSERT_GE(fd, 0);
-+		memset(seen, 0, sizeof(seen));
-+
-+		while ((n = syscall(SYS_getdents64, fd, buf, sizeof(buf))) > 0) {
-+			int off = 0;
-+
-+			while (off < n) {
-+				struct kernfs_dirent64 *de = (void *)(buf + off);
-+				bool known = false;
-+
-+				off += de->d_reclen;
-+				for (i = 0; i < nstable; i++)
-+					if (!strcmp(de->d_name, stable[i])) {
-+						seen[i]++;
-+						known = true;
-+					}
-+				if (!known && strcmp(de->d_name, ".") &&
-+				    strcmp(de->d_name, ".."))
-+					extra++;
-+			}
-+		}
-+		ASSERT_GE(n, 0);
-+		EXPECT_EQ(close(fd), 0);
-+
-+		if (extra)
-+			withctl++;
-+		else
-+			without++;
-+
-+		for (i = 0; i < nstable; i++)
-+			ASSERT_EQ(seen[i], 1)
-+				TH_LOG("round %d: %s seen %d times",
-+				       r, stable[i], seen[i]);
-+	}
-+
-+	/* The churn must have been running, or the listings prove nothing. */
-+	EXPECT_EQ(kill(churner, SIGKILL), 0);
-+	ASSERT_EQ(waitpid(churner, &status, 0), churner);
-+	ASSERT_TRUE(WIFSIGNALED(status) && WTERMSIG(status) == SIGKILL)
-+		TH_LOG("churner exited on its own: status %d", status);
-+
-+	/*
-+	 * They also have to have overlapped it.  How much depends on the
-+	 * machine, so say the race could not be arranged rather than fail.
-+	 */
-+	if (!withctl || !without)
-+		SKIP(return, "listings did not span the churn: %d with, %d without",
-+		     withctl, without);
-+}
-+
- /*
-  * A telldir() cookie must resolve back to the same entry after seekdir().
-  * kernfs encodes the cookie as the node's name hash, so this covers
--- 
-2.53.0-Meta
+Thanks,
+Fernando.
 
