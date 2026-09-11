@@ -1,163 +1,212 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0294078E1
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 19:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789154661; cv=pass; b=rUHj3hMLTiyMrwS+T8octZbP3QY1401XpQszvgy/Nz1LVFrUOdM34ObsaDhz1YFqzeNMRbS/oFyI4BKEmRFsbK8M+XFj7UoTq3MGtuK6ECqJ5R86FjbWeMyEul1a+l8xiQBYgkHhpKetnz2CFhghQ92cSCZAl7CpaXkyMs3mQZ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789154661; c=relaxed/simple;
-	bh=Fdw+r3dysTF3WjqXT9axUm7jMijJrnIOkKcC5AZjbbU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TK+mX+mTgxyjluazsURY0oH7o5pq+J46lCjxGXT6vYGdT1bgRBGyAY/p60IKHVgavuyj2ST4GJoLz9Vw2qs2jyAHNC9C5Wz+QLAW43fTEPwRTWIqO5ouXwUpiLkIn/85v5K/Iw8plXOg3ERUyydvKXNFDB5sZqizHI5QNVwd3yA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=t0dNBhsS; arc=pass smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97727449985;
+	Fri, 11 Sep 2026 19:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789154820; cv=none; b=Rf1evqF+wRYGZMYwRX2LaXbartmI1Vp47+PrVhCvKWzTRDiLAHUsU1a5Tcef6pwVSJEaJZLSiNlUCaPf2mnh7GBggm5Ebqh/+pRedy+zvxek8e0aBcfMHz7d5pbRbSfqXQczp5qfGpuYiVogyBP/5VfIu9ono7mRp4aTrb/THgw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789154820; c=relaxed/simple;
+	bh=QfnLHRYTRGvnkZs+uTUt3CS66hqbWU4GBY4NJL6GvWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b+z1Z58wxXzdeNm1BPZktysMq6hLstEyR5aedVTNmNcdHIPvVFW9DzKASiQeWL1reJXOYG7gRAoGK94OCJWkXig7Bj5tt8ot9YOIlmIGnXS3DrodQjguOOaAkXO616+3QakuK99cXXMLCaVnhsoHvFXOE7G+yxeKYgQtvdl11HE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JMsyThF+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t0dNBhsS"
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-791b0163eb3so882872137.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 12:24:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789154651; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NW84xclvkeqHFP02x1A9ozdlerT3iv9FIsdlmWnqltIVrc5WsN0Xk9qSavVy08A8Wk
-         Tr46UN+WQZwAx4edXoqm8Uf+Wa0dou2MhGYMVpj3fg/4PpyQcv6t766mZmZcL4nkiNrO
-         c2ksgQar7tNYcPal4KzYuOORmhKkoaok0mVITFu5gTCXE/LSdMMMUheQeqhqaV6otp8X
-         e5RQ8unHwAF0OL6jYITq05ls3QOuX9ZrJN5xyI1zx8Qj13BhbdnqeLxv0CUJzS89DVAW
-         e2eLTZE8AHK8N9Rn7AXe7VwoPyZuLhrp3jJrwjEoUjv9SAuM2U0/6qI66vWce7Gc/V22
-         aUlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=D9lUlaXsCvPiCPFMAfPhKXQQhy684K2H2SGMPGJQm6U=;
-        fh=GDXCioAgWax2oQHoW+FGYDMpnCmL/jiix2+y26CE3MM=;
-        b=cnTBFQNzO1aROrSoQeMc5JByanG79ieaCAXQ2IQbamJLm/MtXmL1DmNWUa98HB2D8G
-         43V42glmVVx8+EV6VSuMsjjPyNSIqp/d5b/ygC9FZylE9pmgDfgKgTn02HsURKsrWkla
-         Mu1xhKq4imooOEepVUvAM9U18AVUJUQsm5pT3k6wO5tf76aAMw+sRaaWjOeZLkuyj+GS
-         JCNxoRhYeL6yDs4JHM75GeDTvKilv8HP8wLss5tsl0iQPrkoH1F/PDEuGunUG4fNf/Ju
-         2zRMhgy4lJkoeNFj98oFoh5NtOy+FjuVJYiAOnMhIPnpvOuDslh7SiuFTPfiztv+xzra
-         7e9Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789154651; x=1789759451; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=D9lUlaXsCvPiCPFMAfPhKXQQhy684K2H2SGMPGJQm6U=;
-        b=t0dNBhsSX2AQI9wDHg2vq5fkSryk7Mjx1vpHl4tYrx152QTNTv9KybJwEUTZ+gM6eg
-         fbGGh0XoNpFPX2NAw3GAklacgT97Kir5k8Leq+0/tch+y9eptRGGaqAe4QaHKPFdGpdg
-         qqFvbVX0s9J3tMcC1BoxWl/dS0mmvSqdLMzo99hJgf57mSWokmqVnxeW+MTPMo8+qqNm
-         wOH7NKNJ0wTrKc+n9Kb1S55WY7SI/99AkLAGJCPzC2YdiSod0KVONWhgxOZeByYbc516
-         f+GTqcZoc0BIUzpuGu5xlgU5k/B2yrTkIHxaV3rIRBUPvTw/reAVQG3VzcRIuPVpJH8n
-         MEjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789154651; x=1789759451;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=D9lUlaXsCvPiCPFMAfPhKXQQhy684K2H2SGMPGJQm6U=;
-        b=X9LIcRDB5kCuot6bQZAyNuTwPhHQ6dS8rI7sOeEHmcIFfNdFmrJ2hqf5pIbwOWl+xF
-         cYosrA2crtysMPs9gYtu0goWdozgTtw3kQq5Q3syHPSP0V3YjxriE1ZlXo3yIPYqiTXd
-         b5UsvFqRNcojXqwG94gRnRcEb3iMRBsLUAY+lc7E0QZiDtAEXp6h9lQcmH038vX4mOgp
-         vvgOru2FF3Bvd6m37z7dG3B6Ksu6ZM2qgsqCBUdsFXFdtmGvjWhy1Y0cIm3q2SjTUMIR
-         YkZNLegGuyLeiYzEC7URxSP1ntjTkC3CznVt/dU1OcfndrQqDbY4sONi1n6fMZItxO4D
-         bpEA==
-X-Forwarded-Encrypted: i=1; AKwUvBwFua4kuGU7kvcoxHNYaPkKrevo8uf6wkRMhE87CV1oPHGSyPQKWCFPf9tL/NTJAovVbc9claElSTCuBgcS@vger.kernel.org
-X-Gm-Message-State: AFuF++loy8Mo5g3xMel8G3Bbt2jZJzDERCL/IpbtHdiXh8+0iVTaAZmu
-	C4Nqf4yrhQMfzZbmFGYEz3h7wqyhaBClMnw2wsUjMZDRtGYq8NylNOXmdGZ7MfarC+6IRd3hPao
-	cTpVcTzFYmAVlXC9zYAkyuOZghLCC78z8P2iKt8o=
-X-Gm-Gg: AYBFou0qmZN0o54Jum5IW/m0J0K9oo5NHCEm0Y7lT/72OsotNsbvlcmqV2kYp+7cvpr
-	ZRX56O6vOzFff/HddHVDeWyr0MrCKZCGGAvsbuTr32z6uNBKyIAa9oeZB0p8PgJXq5daFM1hLYs
-	js1mGkJr22yIrVcFBDKCUzId7+nlWU/TA3a10//LkIjs3DWOzBQvpj8XhFH4nmECveXB0ZSyJ2Z
-	ijXYsHdEU4dWf58oJY9Sk1LDco4q70X5w9f/BIUmmgJO6xto5bUZzllwnatsan7NU99Z3TOJ0kb
-	WSE0fGqEGUqOfyXzAoqR8/Oo0XANuH75qh5OY6KjdklSV87hCIoCUA1f/opfKfTfpNVK3yQQLhG
-	Psyfle798uc7d+oGkOxfM
-X-Received: by 2002:a05:6102:55d3:b0:785:eb33:87aa with SMTP id
- ada2fe7eead31-792a7c0cf6dmr6291546137.5.1789154650910; Fri, 11 Sep 2026
- 12:24:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JMsyThF+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164BD1F000FF;
+	Fri, 11 Sep 2026 19:26:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789154818;
+	bh=b0O4uX2KxGpU0xHP/fkirBcUw3lYbB//1G421bBqPZ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JMsyThF+eFING3jywDW0rCma9gBDFSSk9za7CH91vogQleXQjw0OVhjzTcvJtUlpq
+	 Ro01gdMnSouNoCkjH/sI1zR5/UG8e/bodteawGjp5FGv2zR7905Po83AAEZE72tS9A
+	 z2EKdi0NWqdrj+9MIDgM9rPgD1MisZ0DQKzWYyBrSb0EtChz3sfBlEo8uwZCKiiz7Q
+	 kbNRycbizvQc4D/+xWVrcrpLXolXYmuooi/e7vvg8CxL0+gvtrw8I0b2K6LIBU6aXw
+	 IZy+IN1zGvMgMNP+UJgc1sv4BED3yUlNrPNUdom3Qyr/mm/5kr9QBo/dBu89An5or6
+	 wIra8LV56l1og==
+Date: Fri, 11 Sep 2026 20:26:52 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, xueyuan.chen21@gmail.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 5/7] proc/task_mmu: change proc_get_vma() to stop
+ returning gate VMA at the end
+Message-ID: <aqRVzecC23YpZeh0@gremlin>
+References: <20260910234737.1340642-1-surenb@google.com>
+ <20260910234737.1340642-6-surenb@google.com>
+ <aqRF4YB7Ijk9PmRM@gremlin>
+ <aqRPeZH4yeYXfWgS@gremlin>
+ <CAJuCfpG-8sQjg2ECiRQpjn9tBj3AfEXnmgmomdfFGS7JoDhZ4w@mail.gmail.com>
+ <aqRSvISJtYrt5Gvp@gremlin>
+ <CAJuCfpGvB4o1HrKsi4zbzKNmdxppW_76xJUbaYeE+sN6w-u6UA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260911-deftig-geprahlt-gesehen-16310bdf51f5@brauner> <20260911-zyklisch-stuhl-zweit-d61b18a17838@brauner>
-In-Reply-To: <20260911-zyklisch-stuhl-zweit-d61b18a17838@brauner>
-From: Bill Wendling <morbo@google.com>
-Date: Fri, 11 Sep 2026 12:23:54 -0700
-X-Gm-Features: AcwNN1XCuxA56YE74BOrs6AnS18Rv8BxhySba1P_h50I4QrnUiuUdff7p6DrTHg
-Message-ID: <CAGG=3QUiRinW3B+-zOd2sPdHbu9=Kt+QdE0mQHcK4t06qC6ckA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] userns: declare the KUnit-visible helpers whenever
- KUnit is enabled
-To: Christian Brauner <brauner@kernel.org>
-Cc: Bradley Morgan <brads@mainlining.org>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>, Nathan Chancellor <nathan@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, Alice Ryhl <aliceryhl@google.com>, 
-	Douglas Anderson <dianders@chromium.org>, Anand Moon <linux.amoon@gmail.com>, 
-	Oleg Nesterov <oleg@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	kernel test robot <lkp@intel.com>, codemender-patching+linux@google.com, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpGvB4o1HrKsi4zbzKNmdxppW_76xJUbaYeE+sN6w-u6UA@mail.gmail.com>
 
-On Fri, Sep 11, 2026 at 5:59=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
+On Fri, Sep 11, 2026 at 12:18:41PM -0700, Suren Baghdasaryan wrote:
+> On Fri, Sep 11, 2026 at 12:13 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> >
+> > On Fri, Sep 11, 2026 at 12:11:55PM -0700, Suren Baghdasaryan wrote:
+> > > On Fri, Sep 11, 2026 at 12:03 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> > > >
+> > > > On Fri, Sep 11, 2026 at 07:26:49PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > > > > On Thu, Sep 10, 2026 at 04:47:35PM -0700, Suren Baghdasaryan wrote:
+> > > > > > proc_get_vma() returning gate VMA at the end is desirable for the its
+> > > > > > current m_start/m_next callers, as they need to report a gate VMA at the
+> > > > > > end of the address space. This behavior is very specific to these callers
+> > > > > > and makes proc_get_vma() hard to use for other purposes.
+> > > > > >
+> > > > > > Move this usage-specific behavior into the callers themselves so that
+> > > > > > proc_get_vma() returns either a valid VMA, an error or a NULL when no
+> > > > > > more VMAs are available. This makes it more generic, simpler and usable
+> > > > > > in the later patches.
+> > > > > >
+> > > > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > > >
+> > > > > Yes, very good change, thanks!
+> > > > >
+> > > > > Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > > > >
+> > > > > > ---
+> > > > > >  fs/proc/task_mmu.c | 23 ++++++++++++++++++-----
+> > > > > >  1 file changed, 18 insertions(+), 5 deletions(-)
+> > > > > >
+> > > > > > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> > > > > > index ecce7ce116cb..9a3c996c1d61 100644
+> > > > > > --- a/fs/proc/task_mmu.c
+> > > > > > +++ b/fs/proc/task_mmu.c
+> > > > > > @@ -236,9 +236,6 @@ static struct vm_area_struct *proc_get_vma(struct seq_file *m, loff_t *ppos)
+> > > > > >              * found the extended vma with the same vm_start.
+> > > > > >              */
+> > > > > >             *ppos = vma->vm_end;
+> > > > > > -   } else {
+> > > > > > -           *ppos = SENTINEL_VMA_GATE;
+> > > > > > -           vma = get_gate_vma(priv->lock_ctx.mm);
+> > > > >
+> > > > > Yeah this is just so confusing as-was.
+> > > > >
+> > > > > >     }
+> > > > > >
+> > > > > >     return vma;
+> > > > > > @@ -248,6 +245,7 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
+> > > > > >  {
+> > > > > >     struct proc_maps_private *priv = m->private;
+> > > > > >     struct proc_maps_locking_ctx *lock_ctx;
+> > > > > > +   struct vm_area_struct *vma;
+> > > > > >     loff_t last_addr = *ppos;
+> > > > > >     struct mm_struct *mm;
+> > > > > >
+> > > > > > @@ -280,16 +278,31 @@ static void *m_start(struct seq_file *m, loff_t *ppos)
+> > > > > >     if (last_addr == SENTINEL_VMA_GATE)
+> > > > > >             return get_gate_vma(mm);
+> > > > > >
+> > > > > > -   return proc_get_vma(m, ppos);
+> > > > > > +   vma = proc_get_vma(m, ppos);
+> > > > > > +   if (vma)
+> > > > > > +           return vma;
+> > > > > > +
+> > > > > > +   /* Return gate VMA at the end */
+> > > > > > +   *ppos = SENTINEL_VMA_GATE;
+> > > > > > +   return get_gate_vma(mm);
+> > > > > >  }
+> > > > > >
+> > > > > >  static void *m_next(struct seq_file *m, void *v, loff_t *ppos)
+> > > > > >  {
+> > > > > > +   struct proc_maps_private *priv = m->private;
+> > > > > > +   struct vm_area_struct *vma;
+> > > > > > +
+> > > > > >     if (*ppos == SENTINEL_VMA_GATE) {
+> > > > > >             *ppos = SENTINEL_VMA_END;
+> > > > > >             return NULL;
+> > > > > >     }
+> > > > > > -   return proc_get_vma(m, ppos);
+> > > > > > +   vma = proc_get_vma(m, ppos);
+> > > > > > +   if (vma)
+> > > > > > +           return vma;
+> > > > >
+> > > > > OK so I guess the logic is, iterate through every VMA, then once you run out,
+> > > > > report the gate VMA. Makes sense.
+> > > >
+> > > > Hmm one thing on this though - m_start() still has:
+> > > >
+> > > >         if (last_addr == SENTINEL_VMA_GATE)
+> > > >                 return get_gate_vma(mm);
+> > > >
+> > > > As well as:
+> > > >
+> > > >         vma = proc_get_vma(m, ppos);
+> > > >         if (vma)
+> > > >                 return vma;
+> > > >
+> > > >         /* Return gate VMA at the end */
+> > > >         *ppos = SENTINEL_VMA_GATE;
+> > > >         return get_gate_vma(mm);
+> > > >
+> > > > Now at the end.
+> > > >
+> > > > Is this correct? Is it maybe duplicated now?
+> > >
+> > > Yeah, I noticed that too but I it's not duplication. The first check
+> > > handles the case when right after m_next() hit the end of the address
+> > > space and set *ppos = SENTINEL_VMA_GATE, we ran out of page space and
+> > > had to flush its content. Once that's done, m_start will be called and
+> > > last_addr will be set to SENTINEL_VMA_GATE. In that case we should
+> > > return get_gate_vma() and avoid calling proc_get_vma(). That's what
+> > > the first check for sentinel is doing. The second one handles the case
+> > > when m_start() itself readches the end of the address space and has to
+> > > return SENTINEL_VMA_GATE.
+> > >
+> > > It's possible this can be refactored a bit and made cleaner but I
+> > > would keep that as a separate change.
+> >
+> > Maybe just add a comment to the first one to explain when it'll trigger? That
+> > should suffice, cleanups can be separate yes.
 >
-> VISIBLE_IF_KUNIT drops the static qualifier whenever CONFIG_KUNIT is
-> enabled but the prototypes for the two helpers it exposes are only
-> declared when CONFIG_USER_NS_MAP_KUNIT_TEST is set.
+> Will do. Appreciate the reviews!
 >
->   kernel/user_namespace.c:787:22: warning: no previous prototype for 'ins=
-ert_extent' [-Wmissing-prototypes]
->   kernel/user_namespace.c:860:22: warning: no previous prototype for 'sor=
-t_idmaps' [-Wmissing-prototypes]
->
-> Guard the declarations on CONFIG_KUNIT so they match the definitions.
->
-> Fixes: f6f1a2496ba5 ("userns: Add KUnit test suite for uid_gid_map")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202609111048.yhHILE11-lkp@i=
-ntel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202609111305.ta3EOA2x-lkp@i=
-ntel.com/
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> I'll post the update today because there is some urgency to backport
+> these patches and I want to have a public link when backporting but I
+> don't expect anyone to burn the midnight oil to review the final
+> version. Have a nice weekend!
 
-Feel free to add:
+Well you have tags on most things from me now so it'll only be one patch I
+think? That'll be missing mine anyway.
 
-Reviewed-by: Bill Wendling <morbo@google.com>
+>
+> >
+> > >
+> > > >
+> > > > >
+> > > > > > +
+> > > > > > +   /* Return gate VMA at the end */
+> > > > > > +   *ppos = SENTINEL_VMA_GATE;
+> > > > > > +   return get_gate_vma(priv->lock_ctx.mm);
+> > > > > >  }
+> > > > > >
+> > > > > >  static void m_stop(struct seq_file *m, void *v)
+> > > > > > --
+> > > > > > 2.55.0.1007.g17ff1f9808-goog
+> > > > > >
+> > > > >
+> > > > > --
+> > > > > Cheers, Lorenzo
+> > > >
+> > > > --
+> > > > Cheers, Lorenzo
+> >
+> > --
+> > Cheers, Lorenzo
 
--bw
-
-> ---
->  include/linux/user_namespace.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/include/linux/user_namespace.h b/include/linux/user_namespac=
-e.h
-> index 637cd7e91a45..91232053775d 100644
-> --- a/include/linux/user_namespace.h
-> +++ b/include/linux/user_namespace.h
-> @@ -208,11 +208,11 @@ extern bool in_userns(const struct user_namespace *=
-ancestor,
->  extern bool current_in_userns(const struct user_namespace *target_ns);
->  struct ns_common *ns_get_owner(struct ns_common *ns);
->
-> -#if IS_ENABLED(CONFIG_USER_NS_MAP_KUNIT_TEST)
-> +#if IS_ENABLED(CONFIG_KUNIT)
->  extern int uid_gid_map_insert_extent(struct uid_gid_map *map,
->                                      struct uid_gid_extent *extent);
->  extern int uid_gid_map_sort(struct uid_gid_map *map);
-> -#endif /* CONFIG_USER_NS_MAP_KUNIT_TEST */
-> +#endif /* CONFIG_KUNIT */
->
->  #else
->
-> --
-> 2.53.0
->
+--
+Cheers, Lorenzo
