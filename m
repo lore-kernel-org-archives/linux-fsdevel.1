@@ -1,116 +1,145 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE48215161
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 13:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789133929; cv=none; b=tLkJqprVvvWp90xlf47RO0fQi/y73/t2ofaL6MlMwT5HZeELzTwBGCYoTKZZb789tyO2hOlBV24v+sRp/RNUbHgt65sjE297+umoJbJBkfuCarpK6TbQ/epRqabkqqujskdV/798TmHo8sHiVVsJL3m6TJrLuRu5AEznVBv+pLE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789133929; c=relaxed/simple;
-	bh=5SC3HT3+5ycGwWh5KBASibBcRAJzdLO3KnH4sjbmFDM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SHCOzDlezdBzwFBhBY+cCA1acTH1pFMFM3NrB2WvL3aOfTGMVVP7l+Hp9xtn4zOwv7Mz/KF4QUuqnL3qn9rYzlpOpvZsAKoM/p36LhRmqZIhDOF6RhptTvbOMy1ppShLcAXNyF3coxM2epp+nJveipdfhs2jncWGc2ses71N6Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=sD9i0EPj; arc=none smtp.client-ip=209.85.210.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4558477984
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 13:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789134214; cv=pass; b=XvUxD2Xkt6vLHF2ee1aj9e+1E9jyCydUl9vjZ15XUR9u6ZA/77TLndky/qpoEgVCJcO1/3O9pO6wWDobnC1pEUt5TBGf9m57EEz8FAdfe9hGT+2EJD2xF/uCXyWEr20ECMhtTmhnZfvslkR2fyeKcq7Kgonx6h7Ekhdb/vchGwA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789134214; c=relaxed/simple;
+	bh=qqONGiVmU3Y+JSEn4qygivSbxUuzyWx0IT02Btj63eI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XZW3DOCSdjDVJz8MuigrtSPJaB5NWbV14nk2vjsXLwMzYRP8kc2AYHkR0HhzTBiCmfIW4eL8nytE2sYb5R4p1y7D7lCrlig2lWSsdkMNMlmKAKrWe16gXlIaqpO3e2bbb9rIUKCzaMRDmJ7gF2JKjH01JtPxiFgGxI12bmFe6f8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ehf9dS9K; arc=pass smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="sD9i0EPj"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7f3ece23165so901109a34.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 06:38:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ehf9dS9K"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49b965570d7so11607455e9.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 06:43:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789134210; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hbBCB1KIKGYOcP2VpOkhkthpSfZ/Cj2NEm8JqLvhiC1u+gXA6ERfM0UA0orQteRFU9
+         CfDJ1eMyToPDRe2lCy1fy9f4KTKpw3MaoESCmSd9wUrfquJEln/b3LhwENly/E5p43wg
+         L9HTmgaaDn690JN+OGMtVvWqpYYI1MZzJXkLbi8Xd5GXRXzVUbpW9LtL19Wbb/3aqGF+
+         OcfIEUHngXt1uwEkC6IibuO3GxaDYVuaVlFQC/fG5iwSiOgo8zp0AdnmuiVuFD0TiqIS
+         50JEyh5tg3VRba5+z+Ny3KnSTmKU4BP3Ug0uKNavxt50xUctLhlmvGc0mklXxYfvtjCU
+         Zr7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=qqONGiVmU3Y+JSEn4qygivSbxUuzyWx0IT02Btj63eI=;
+        fh=cyTzQiGPh3+/EcoAIgOU8/EaFWUixvLLqVUHPntuEuU=;
+        b=JuCZrQadBm3Cgdrl6eUCmIlx36zwL0dag/lvjUpxNce0ayhot5VdiWWgI/9Lx/AjdQ
+         kSz/CgjUwHpapdIdZgTYkxo2xGAjn+I1iyo+OhadIaz/eXPHrV3eEtCMsAddZRFvyYYr
+         tbVciUY5G6Am7RVUOiYWI9izRYWLvNm8MwFuSKtN1HUHHW2lBmN1IFzsoKd/r/aH9FeL
+         aNyt/cnZyoIwb/GzFK2TknuS49osS1WKiAhd0m69Lbk1RgXdq0+G+hgVUfXRrTI8BZHK
+         ehpb0IYjM88ZS2xqnRdHudQEqnXPp02hL4xoDuMWfmVEi5gEso+Wb29HILh4LhIZBDeJ
+         qNyw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1789133926; x=1789738726; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sCKlIYEc3WBtqZTRSmkKr4C+yXpeMrWNJb+k5yI49J0=;
-        b=sD9i0EPjj0Ig68IeGg90WglA7IXGd9HwDQFuhbJxnkZjB9Si4yn+4RIQak7mynH8zH
-         +1igcCeXsxwsXgponQPQcytQjaWGZlR66ar561qN73PpPOlr9uGsjcgjobCPKB/avnlv
-         a6LoshCKEOCyssaM+uYy0Rz5r8mafFkENxpBEAhYYNyTBGSrJ2MW1OIYtHElh1gFbyeS
-         25eZHFxVSNu4fZY/OuFp1yh2tYbwRN9s8O9Uj3iLNMsZMMstNEZ+LW7X1oDFuiHn3V1Z
-         zR3n/XKfT4kjiRHGzC/hy2wBLC4+VjYpRg05efGSlP9DZfjmhocxWk6aScfTYbWrKgFU
-         RHKA==
+        d=google.com; s=20251104; t=1789134210; x=1789739010; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=qqONGiVmU3Y+JSEn4qygivSbxUuzyWx0IT02Btj63eI=;
+        b=ehf9dS9KBtz8dLPV1eOtxc8kmJv+fOyIVW2ZdO06596kBMMRx/tyUK2lDgVQgI5M/c
+         SSpBMb7uUs4G1u34797nfCD7P+9zLvxXZxAHnuR56Buv7tbMHFhU+KXC31bwb8LxfuHW
+         8rSFo0UCiOxET6/EGYFoQmdn13E7BSnpGDUmtBh5eTd4sQzXsa+4KMiX2L2pwFInQmBd
+         XbtYZ8PflSCvO08pB5VAXZaYQ3wTj5HZ2Hp+yRGmtaYxRkpKM8QUHwvM09P+tJQDQK9v
+         QG0xK00MrU/0875Gy+xMQiBhNe3qdsPJOLSKMbDDhT7ODGKOfLVFvcBzJ0WilrEwQq0E
+         IdaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789133926; x=1789738726;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sCKlIYEc3WBtqZTRSmkKr4C+yXpeMrWNJb+k5yI49J0=;
-        b=hU/EbCRTPrFlWcSHACd/cjjZKBp5OG3j0EAReMYK6swVAgKZ+YA3fxBV1FVOj1/0G8
-         kBeZFl3jUtqRuShQ91Owt+X3Rlfq5gBSuCA3JThc7BzCxCVqKMijqtBPGPqODm9VhJaV
-         CGzdvqMjsteaKY4XOyEnCiXaGc9p8TrG42Up/u6TayI94Jy6RlHgahtjqrZn7dqAIZmv
-         gptMql1azc1s4JJKd9TRVVoE4XFXON9BryfhICHfLqA+fxSp+yiq+i0oYm+MJqQDVAa7
-         1DwsBWib+bnmq/I6fcpc+lAVpK0dxSaNmDVTTtBjbagDKzFt9lm5JQi6Hr9wRTvMf3lk
-         UXPw==
-X-Forwarded-Encrypted: i=1; AKwUvBxAYA3ZzCLLab6Fi3FY9JnjHdVhf7H64FkZrAhhqomdhQsMzzumSJDxVNaesZdYlaK97tN4uFGX//DGZ2Iy@vger.kernel.org
-X-Gm-Message-State: AFuF++loEk6n+AqP2HaMuBsYLvH75QncixCy2p7e+28V2RoNbcpH2ASi
-	N509B/70kqXf3E1F2nBwQU/Wnr0SgEdQf9Dozn5kHhjtM+NjT5rrjWT5TxXSWs0DwYg=
-X-Gm-Gg: AYBFou14951RRwvW7SfAUJoOf46VwJ2OWXPzh6ujeucguhE9dUHx+D4gVHypzyAsr+1
-	7bzf1TQvPIx3peWjLQ9Pd/KrzRlbewcdWe+pw7kRwABKaKJj0B4G8zkJa497uTewTtIVwVslrK3
-	XSBP2b0XqeqbgY7sg34EAtywTY+KXymgT30F9hM5ZJL+8WD2VDGu5br6Wprs7+iqJw52S17E/9L
-	9HoSFxRzBqK2hbJJYti8iIeyLUdhadyXv7kEM6zcbvrv/54HQIC1RU+XMxlqsf4+7Kes2FJXz1Q
-	Wae/CY+tyQDUmTiwm0QsqZ3FuVyJAlmB8nXm0FUQVLbuR1z+bkiE8tV6QPHzcaNilAH5IqsDJnQ
-	G1U14cqp1axfPMrjibIcO0nnPCzifv98QwLRVjAFqdvuExDjgQPYxnJbLWKPLIrgYuK58DGFklZ
-	IFSjlQPDfodMbxtvI4L5ae44HxUOtVBd29oiUvkx0emQM29ypmhqv7B+hVdoUgxdXnoQ+aFTRl0
-	mlquy1FPzVGN57yTP7FBrshtHtZM4+ze8NiLaY03Tn/u7r21ZS6D5KL
-X-Received: by 2002:a05:6830:7314:b0:7ee:19dc:b00 with SMTP id 46e09a7af769-803fd2514b3mr3323405a34.3.1789133925938;
-        Fri, 11 Sep 2026 06:38:45 -0700 (PDT)
-Received: from [192.168.1.102] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8051005d845sm206965a34.24.2026.09.11.06.38.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2026 06:38:45 -0700 (PDT)
-Message-ID: <2325107b-8c45-4304-aaa5-f8c768d619bf@kernel.dk>
-Date: Fri, 11 Sep 2026 07:38:44 -0600
+        d=1e100.net; s=20251104; t=1789134210; x=1789739010;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qqONGiVmU3Y+JSEn4qygivSbxUuzyWx0IT02Btj63eI=;
+        b=aa2mOpFktkEgzSnwhpCDkBzyyCNRPkrIjTs4b2hdBhApbjdvCWjIWtHe69Te4s2Nij
+         uEV803eMllh8sU8msg2np+SYEQ78WsMT+wPdRqeMGK30TBjsTAWPP1rs49ks0XjUxrJt
+         IrU8ApdQqhQjhhq1cWC7KPsztanPwRnDZm9Vkj5RFLpKy+LRyj6hwp3x1pVi8Xgdu5Jw
+         DD2G8QC6HD1gl3UwHUO8hHN4pjz78EyPmrWuosZzs6nZYSYIaYD/bTn5c/rQbmcWRSDi
+         3F0aTDPRbAc7BOTVVrMIxFgnrFXZgIoxHD7Q25g18DEBu8CVMtL4OCAfAfSIwQeA0h8c
+         Frnw==
+X-Forwarded-Encrypted: i=1; AKwUvBxJ7KS1HL6/9zo65kcCkP38RmxyDuVceIkK7RBN9R76H43YvrwsOXUwhXB6J8ELjN6n+jgMpE2m2FZcbNMz@vger.kernel.org
+X-Gm-Message-State: AFuF++lImyVEu+ma7fNsKPy77AvGFALJNRDsZit79SCtZL7G3N0MOazX
+	1GH72KMsZvhpPbzlEmm9paqNl5caExu16hMDvIpj2E4hO3rN07M4qkVDH+O5JVw2ixNi/2JJQr1
+	BNeo7+MHzMgm6EUswkVgMMk+H7ljCjW6WhRgQmuCw
+X-Gm-Gg: AYBFou0XVM6QkGEJ3PXP5QMd00XzPweXAvJ3zOCkpGconjAzlyWwhX6C0U468uCumDt
+	tyDJhFQLu3pAZAp5krCkNUH2B7Yh2l/gaq1DRlTcIyJ0u/wkLCWCMP84Tv/zjGupU1fop8C1KRN
+	6AsFDuAcManFWhoO695DO3/7B9L276jZS56TP5sx1NK6rga1IVgvxd91OMjQ6YWg3xJJWEWdeOL
+	6TjSi9nq6Z+ewFmjEBo2pqohEChefLYSfT6YgcUpKB7I8Nnm6QLSnOSTK7KPQ+iTWhD5WhxSrgb
+	bHvRQCVDAaOUTiJZIVjtHfvjcRt8eBhhUZfLEOwz6dcNM5/VImlKmogYAxvOxXxImXBvap6DhxQ
+	RX2AqybdEgfrXnXHjaZRrthqdM48BIcV+EHMYYSZ7C4nZxhQeKGD8
+X-Received: by 2002:a05:600d:8445:10b0:49c:cf18:494e with SMTP id
+ 5b1f17b1804b1-49e6198a3b2mr36939915e9.12.1789134209249; Fri, 11 Sep 2026
+ 06:43:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: lazy bounce buffering for checksummed reads v3
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- Tal Zussman <tz2294@columbia.edu>, Anuj Gupta <anuj20.g@samsung.com>,
- linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20260909060924.1102037-1-hch@lst.de>
- <fe537c5f-114d-4d9a-817d-93f359e12924@kernel.dk>
- <cff350b3-836f-4953-97f3-d664164746b4@kernel.dk>
- <20260911114438.GA21957@lst.de>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20260911114438.GA21957@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260910-unique-ref-v21-0-e83257373062@kernel.org> <20260910-unique-ref-v21-7-e83257373062@kernel.org>
+In-Reply-To: <20260910-unique-ref-v21-7-e83257373062@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Fri, 11 Sep 2026 15:43:16 +0200
+X-Gm-Features: AcwNN1UlYe5vy_4Ph8n7W5xph6nzuuUOW4o-tvYKznIiNAx0UgbfO_rFNfVUhuY
+Message-ID: <CAH5fLghC2qRh8qNmMHMWQXiWW9FAPdd-O4z-O-17FFDB3hy=+A@mail.gmail.com>
+Subject: Re: [PATCH v21 7/9] rust: page: convert to `AlwaysRefCounted`
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/11/26 5:44 AM, Christoph Hellwig wrote:
-> On Thu, Sep 10, 2026 at 02:51:33PM -0600, Jens Axboe wrote:
->>> It's a little hard to split as you have eg block patches both at the
->>> start and beginning... In the spirit of getting this some runtime, I'm
->>> going to queue it up in a separate branch,
->>> for-7.4/lazy-bounce-buffering for now.
->>
->> On 2nd thought since this already relies on stuff in the XFS tree
->> apparently, you can just add my
->>
->> Reviewed-by: Jens Axboe <axboe@kernel.dk>
->>
->> to the block patches. Would probably make everybody's life easier.
-> 
-> No, the current series is just on top of mainline with the block
-> fixes for Sashiko existing issues comments split out.  Which probably
-> was a mistake, as that now lead to a side-discussion and Sashiko can't
-> apply it any more because it is too stupid to parse the cover letter.
-> 
-> I guess I'll do another resend with the two of those that stick
-> included, and I'll leave the third on to John, who already has a
-> handle on it.
+On Thu, Sep 10, 2026 at 11:01=E2=80=AFAM Andreas Hindborg <a.hindborg@kerne=
+l.org> wrote:
+>
+> `struct page` is managed by a native reference count, and kernel C
+> code routinely takes its own references to pages, for example when a
+> page is inserted into a VMA with `vm_insert_page()`.
+>
+> Thus, implement `RefCounted` for `Page`, backed by `get_page()` and
+> `put_page()`, mark it `AlwaysRefCounted`, and return `ARef<Page>` from
+> `Page::alloc_page()`. The page is freed when the last reference to it is
+> dropped; for the order-0 pages allocated here, this is equivalent to
+> `__free_pages()`.
+>
+> This also allows `Page` references to be returned as borrowed
+> references without owning the `struct page`. Remove `BorrowedPage`
+> and update users to use `&Page` and `ARef<Page>`.
+>
+> Assisted-by: LLM
+> Suggested-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-OK, I've got it in for-7.4/lazy-bounce-buffering now.
-
--- 
-Jens Axboe
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
