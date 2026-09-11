@@ -1,67 +1,67 @@
 Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7BB30567B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 03:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566B930567B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 03:35:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789097689; cv=none; b=TDuU2qX3T1eJbvOoylYAeLvvBSVMksO6lgxVbUKAArhNZNODc0vWAhbpQpj3hz+xdNS5K45QbgUiFAI7KKmuUwGQ+5Yi+SjE5+tYA0TZ9sKlQdZrvOgIGTJzIJxIHLbouDi0AdogpfMYjJFomjDmw2xvGanZKzaKUijNj1sUNeQ=
+	t=1789097731; cv=none; b=OPp7ZlZRNfdL7jTDlYQIycfe1rKXTx2EUYT5bRfpJzjrHLZbCJuFDKU6usYfjbAqKXVQOfWKfcB+o1xHi/dedW4kxVZVw1AR/gaEj9pJCZl/gf9qLnrRfzq1HtLunwK8EoUsEcSeFiMN3200DVec9cfUjce5YoXxXzSpqs+gEeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789097689; c=relaxed/simple;
+	s=arc-20240116; t=1789097731; c=relaxed/simple;
 	bh=Tu8pKOZMUv7MW57ziXM+jjfR2tJTZJ5OdKiSdiJIjOk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I9Bngl1jYfGVIdMiO9wDYqKUPJRFl1NHXKD2aHeEW449Lxqfu/IAp6SDKzKk1ixQX07vag25YcVRC+Vyu1Q/p+7miEY7vbINr1C3rMuFpty5bZjyTGXkaiSKz1IxkJmThf7S7Of+I9ulTTfPbvd+H7iY2SGaK/jYOKbKGlm/W6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=gtUj6Mp5; arc=none smtp.client-ip=74.125.228.12
+	 In-Reply-To:Content-Type; b=eqWRR52R/Rjg8Z99P/cPb352zqSyLuHyNSkB666fYk+X1j1IUqk7Qk1tTyU7cJ5Ice2GPrkiJ1gZ4N21T68VaHI6cqQL6yTWhM5AbWKZ+xrI3MsmGjfmKNQGzcj99bapZ0FPT23nIx2pZhRLph0qCbP511FIr//p/1iSSF1yErA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=F9IfZGKw; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="gtUj6Mp5"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8692a856865so420098b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 20:34:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="F9IfZGKw"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea4ae2cso458520a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 10 Sep 2026 20:35:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1789097687; x=1789702487; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1789097729; x=1789702529; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from:references
          :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to:content-type;
         bh=fuXAmveLdtY834MnFfaJv8gpo2I0H6i9bOQiKf03dlw=;
-        b=gtUj6Mp5AlOxNHmRhIfvG9DS5l/+7oq1gXw6q89QzWlV2Vh8joSZxw2S2FRLPKHr7/
-         FjkI3KoG745uPh16//87TFLHtND0hFFmueWRUuHSb2N+DkkORtEVZlDwg6O2+HCN8ge7
-         USIRKa+nBMARSZWC1zls352FtGfwDZDwNDFwQckQwymnIUcbMwhAcNNQ9gMWb6/WfMbX
-         e/wb/pTqtQSYStP1zF44MxQDXUENyRxTYPO6JbvepS+U3Yv/F4oiCbH4eDT057YLN6Oo
-         aJNPYAw+8KoXAnFrqWXWox5uz5ljJPqKdKg4O6ucVxelZYuphJWoW1Yer+eXJF0wFdI8
-         CaKA==
+        b=F9IfZGKwqevcC0DEG9Wu/NGlrJljnuhcnuWUFrUU0nwf2jiwE2RO+cQMXutl3wiA3B
+         KxNPLpTmRwRO1tyjuZfAz59vn0ZuA1Y+CBVeKTGubKz2E1Pg0zmRH5kNn1mzeUEOJWPZ
+         YjjitP4Fi3FBGXKuPE1IA/IiN+6YtQNu+IcPup2jMlcuz+gVyaps17pRK0onIMsrKOoU
+         KfR20tCGyzt6R1+xBLYxbfJ24Gcah+cMDQE2uu3MfIYcKxFU4TJ4HiaZbCrdq5wcfNWT
+         chytS6WJv57Ys2vKSnncn+EjRh0vH1NRqDjTqKtOcIuzvz7S7vVv0BwENtI3F9q1tAbu
+         46uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789097687; x=1789702487;
+        d=1e100.net; s=20251104; t=1789097729; x=1789702529;
         h=content-transfer-encoding:content-type:in-reply-to:from:references
          :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
         bh=fuXAmveLdtY834MnFfaJv8gpo2I0H6i9bOQiKf03dlw=;
-        b=o0SA4kPXIs8GeqbMZw2f7glvP3+uRFjjeN6elslGYM/p6o7x6MGUPZAspw6BNekoLO
-         USFMk+IEN01vteIuXTHb/1y2lPafsL69vZzy8dvhewi+pji8FzpHLRRM0sMSCBwlBmgP
-         THBqdYTCrcP9qIWUaYr3l2qRyUrXD/tsu+XvO17jQ0jo88ZJJxCdjuLh5EF5dIJkxSkl
-         +FzQl/ZUlbdn+GcjhkC2Sp2eLYwZrYh49P3S6BmEi0vF1jrIeQ94R99fUcIUkZTVjHGP
-         IF8mzWAdu3ohoqBvzC2f/N6Bw1elMr+b0YvtZJYzg30WhdYm/7Cn3qolNVUJ5J5SJPKI
-         47gA==
-X-Forwarded-Encrypted: i=1; AKwUvBxOBO52hGbedYFfhutOtXvYSfpD8PqmNYiXJDVk/3JhjSTQP4L1pIQIaAte6IqV3EpqLZ5Qv9BUNBaAkDk7@vger.kernel.org
-X-Gm-Message-State: AFuF++l6QxGzd6CwGKqlwhxUOQoOMqE0N3gibl0ct44WcGB1MJHXIgQX
-	rqDN3EOntjtq2XJ2HCoO6GmC2YKx+TFvlDbwau8mIQn14bSEgxpJUbWlalIUGiBjpNw=
-X-Gm-Gg: AYBFou3TdrMYxP6Zld0YkNz6TScFGfUVtc2sBs329+tFefXXNRAhuQaAB2nhxsFFv3C
-	KsLrwlvBo1COc5s9/qDWIqwSgknTtHKDspCnMOx3CPtZztj8Q1DEbBXWS5Q5g67y28EuosyfowV
-	AEwHriaf+Ln9sxlQnHChCpHqgRMfd327toxWKlq55M+SZhGDqZHjl6+IELMH+nigta6VOK91mWy
-	cjDSzifK/apJ7MeS32pdDhRBptoqbbkEcqBP0tDdozu+SFV2cVw8je45rrVnb2t4gq2F2NTWoMg
-	jZjSWW5ZoZjgyI2PBCaECFAo5GwfzclyvqwRo1vAyyPbM1rvT2ZmKy9RQ0LthU3TedaghHZnyso
-	WOdLdtG6ntcDNJScSDyGepea7gkHq7m2DIPT8hF/DGPRJHIelSEfFWSQG21V/85xdtNf+lXklZB
-	k80RoyKzNbsy2yWSwafyqFc+6zzItl7l571Bv3SchKl9QOG+kuKk6cbvdYbx6vmXEt3bNcaaTo9
-	PrbauN6u4BMWbeFFYKJ3zRydtFHbZ19j99DqaI1n28=
-X-Received: by 2002:a05:6a00:148d:b0:848:6c9c:4074 with SMTP id d2e1a72fcca58-86b30413328mr3281646b3a.1.1789097686524;
-        Thu, 10 Sep 2026 20:34:46 -0700 (PDT)
-Received: from [100.81.12.150] ([61.213.176.57])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b291bf622sm397251b3a.27.2026.09.10.20.34.42
+        b=fCK9w/xV1cYq2hJmNzVsrCoGpsBaq/E7BcORJJw/ut1kkU64u85aN5yACyghaNGpkj
+         SrwFN4I87uYutrhLDvDfOCuL1+SmowB5+qhHYPaHdlt0CISv/JiEeRuIsmVSwnJ4yEiS
+         xrKUzpN13sqBhjT3spCe8yqK7uj8hk9bmln3wPrqGltybe2p0kFbKD4PGBr3xSVnJ2su
+         bCjlkk/+860FmBslIKW768Sgyx3C1gcrH+Q+PflJQCxfKKp0Kp41cmec2Vo3i0Xc0M5p
+         T6/G4AlCqo+XusgT/kZbAFeAFVZ7zPFx4Q4WQ+3+BWtk2yR5xSFaeVEQct3WGYVqKzgo
+         rCoA==
+X-Forwarded-Encrypted: i=1; AKwUvBybSnwv9R5FeEp1Ch/RjcN0+rOkQUxx1jQBJ5dpwzO9BIzffvEIp+3aSCByI5qxZf8CIj7IyKtde8Cp357h@vger.kernel.org
+X-Gm-Message-State: AFuF++nHJS2cbgHPrJSxnWjcbCXke1FNrE3FUo0+SxeVo7AP0Z3AQ6Kn
+	Me531AWN2elWmsWitallIpLtsQ+OTJW99n79XZO19BtuOgsMOtmxl1IUKB1reH7xLlk=
+X-Gm-Gg: AYBFou31VazitvYuGPoggmRoSOFa1fE4iTzywyy3mxx4ma3Z6v2T5Odbf1ea5FM6eIZ
+	3qg4tXsqlwqTrm0FtqUNRV8jcln31x3KalA9oCs5HMgxIdpmHkv9V4YvbEs/0tpjBgrvR0xOTsI
+	3i6K354J92WU8oKcjzQGwMCLkvOBKGWF+rGwOzt9yKKd6+ar2M20c5LwUPhv1PN4smjuj0WTnsP
+	5BEpLHWX0g7qBVXqau3FSLP2NqOZnzd2ejdBCDVHkNL2dju+ahKQrz7X54eFT55G7/BtM+hD1be
+	GrJ9PLTlBKzI4sYYmlALJ7fJL3XycUcW7wqXEPRAsiBqP4XDAE+QrN/ExRmLcjZjPrLJlTnmtQ4
+	6jpMbjnspZZrMEPbbEaN5UUlb1R3C9ZF46BEumKJQ2C/8KKSAgQeZqcjL4t+HSCg0WHkLb7+mFA
+	3ZGn82ROUU6MJvQTUcb1sHc1Z074j5TeNeKgw6r6NuqojecXCuaqbrCyKOHtHRxlcUljLz+ytMv
+	+fYMFLpT+oSEd6T+y06qjOOiKRaKAw1hYYJ/Dfc6n0=
+X-Received: by 2002:a05:6a21:113:b0:3cc:8f53:26c0 with SMTP id adf61e73a8af0-3daed31ac42mr4326967637.17.1789097728599;
+        Thu, 10 Sep 2026 20:35:28 -0700 (PDT)
+Received: from [100.81.12.150] ([61.213.176.55])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc4c65a8120sm472495a12.30.2026.09.10.20.35.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2026 20:34:46 -0700 (PDT)
-Message-ID: <5e19472a-514a-4483-91c4-3c3b62c71600@bytedance.com>
-Date: Fri, 11 Sep 2026 11:34:41 +0800
+        Thu, 10 Sep 2026 20:35:28 -0700 (PDT)
+Message-ID: <1891f4ac-139e-4e9c-80ff-802ec2bb2844@bytedance.com>
+Date: Fri, 11 Sep 2026 11:35:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [External] Re: [PATCH 2/7] fs: introduce sb_for_each_inodes().
+Subject: Re: [PATCH 2/7] fs: introduce sb_for_each_inodes().
 To: Jan Kara <jack@suse.cz>
 Cc: linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  gfs2@lists.linux.dev, linux-security-module@vger.kernel.org,
