@@ -1,126 +1,123 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EF94A92C7
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 18:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3644A3D28
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 18:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789150320; cv=pass; b=oB3Xlr5TaivTozS1TgvCqPoJr+Eed24FBpjM+MgmqRid4HyOR2V8IL8+6ecbn2kTEjDOSxx/OHSliYqGjcQIDYMpKfj4sIPd0SL7Fr7XaBNfxeWthT0w/M0grDalWsFTzoFO1seDTgmj/YnZeEKX7OzGoJDSF284qvJkPeizXgE=
+	t=1789150504; cv=pass; b=EWBzUvnGC+o+AWa5zNyGj+118H5mqMqhEiDq4dOGA9OSFKCZdoChOtg4THGRe9/274rwjjrbcQtwsLiVcMABrl6/s1URxt4gIyXbeLRt0p8HykHSSOMdYZrsesqcRiHQyaKPDZ0pL4MZftnRt8R3GOEmcpgyCUk3c2N++6t2TMY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789150320; c=relaxed/simple;
-	bh=yndXVIPPZUhTwpg5+kIO5TF5aq571rxXnLn21AJXcnM=;
+	s=arc-20240116; t=1789150504; c=relaxed/simple;
+	bh=aXuYUBA4qgCRVJnQLD/3rrlsxYP5kIO8eP6F/R2gRWs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sDXucm06EDUb6IJJBP5Ksb1vckXUDjBBpdDRH/vOFiWFgimpLTPUcUyqHKrspjTwXmGdxdWjqrbwT08GkWgK8ZvoYRbP7Iv6+bY6jnHLNPSWKAva2qk1ZKu+hP36g5pRDH6lEUdAixy2C26HrjiRSg80wkIv1ydsDoCnf6OBsQE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=TwMI0pCI; arc=pass smtp.client-ip=209.85.214.171
+	 To:Cc:Content-Type; b=cMt+7M3SHbLj8O8TozTu77S1/yitfWs/YqJNFVS9mUM5r3hMrZR9bjfw7zgXnrn1NWpJ9CEQDbsWszyZVxVOJvbHlBbKkQBmqk7NrcqBeFJpWCCrsKlZyIDz1VTvOh/eWoeLkzSN/p+zj0TjlhKk8bWQ9q3LrsIXNUXy6lpXCTU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=NyWNpt81; arc=pass smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="TwMI0pCI"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2db710396ffso21126435ad.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 11:11:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789150312; cv=none;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="NyWNpt81"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3964e480f76so1632520a91.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 11:15:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789150502; cv=none;
         d=google.com; s=arc-20260327;
-        b=W2AV6x4WRtMFr9yIebE7uWv5GE305GdYuAYiUFkdDBEE1YwWB0Q33DuvC76ML8jEar
-         RN/sScpGL9u3gRgY0DQ3ZxDXfjJ9P5K2WOHkg5ofwE/o0JTFw+/9rBcGb+RvdTOC2rYY
-         5RIFy1XHMhUfpwYZY8PyHZ/8OXKJsRJi8MFfnTTYT67P0gwEfDQY3H464luHF8Em3eiI
-         xnp9BM0NxveQ11PObUWprMx806giF079tEHnzk0tEhxcgREdQapnH0K0zVq8/HQK4zZU
-         gLI8pHdjZhVEZHqCms4HuAIxDuH07cu6W24/gBUAuZ/BFdJsCy0gyASh1BCu1gt/rIbH
-         6JsA==
+        b=ELAjp+ZeQeY/zy+NkdhNiZkm/sDAEFKcD0mKBzveHqnGtWDFT7PRejNXWvKJigV/6n
+         hBs3qqXUa3gZv9pPp4JygPrSb6edIhuCDXyukNp6eSu3qhs+tcL22D+faCr52+LoS6aC
+         XJLpt9jY0oeZaQSaIpct1pAPT4NalIYV/hMB4hlWaH/2uVXkf7wYQJLDQdSdPYTFIsJF
+         Zy9J80U3Y9pWr4+TCUcLLzXt5pOWDBWGUjipXQhXKI+96D5Q5zxwauijI3rF0BVqbT0F
+         rAlJ5uNZDZCsfR/FTT4ptdteIrC1qF4WpqUIFbQR0K+Rdjt8q8PszIio3zWUqBbXpY4T
+         vH0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=yndXVIPPZUhTwpg5+kIO5TF5aq571rxXnLn21AJXcnM=;
-        fh=+3+ZjxKw0qTtkDo9ohm+mmT/tvznMbu+aCMWvM8mx0w=;
-        b=rRnsVPd7vfPbWu9gSUfYEn+4BGgckGEzecUTdvJRmWUUagOIVNu9LjkNlm0znBdy96
-         cDhp9xagnyPrnN7IJ/aEo5m/IK4EhlUhimgPKFxx82oitasBlhdv7F1elmWqBggno6MO
-         VOvqceUzJTys4kFxI5EpUwDt2HpvBJMSUgmk7o53GjjudOfABQ5kTmmr7q7y8zVopevr
-         0T+rM0VqK8iPItsh5SOwsGUwBbjNLnhtXY/szPyjHYDk7aBp8YEKD0ChPksVoAwaT9cf
-         vRhu+wjkRKYDMVNCF7coyRg/WynmAXVmEM5GiW3WwMw7pXtVU/o9DMvbbuds96bZfo9S
-         3Dzg==;
+        bh=yRboA2lJ2kIoc1yVrTeE0yKRXBLg8DrW4V7cxpnbj5w=;
+        fh=3SsIvkFCbyWYxtKw/CgGQh2IsiRrbxG7ra4wlZZ/J+c=;
+        b=bxBKOzq9sU6j9GeQ8fABkVZ+tU0irOZaBAust5VNlOhylqn4IHKHogUlcB5Avb69VQ
+         IM2hmdWaOkqPbOas7+ZWG6sVZc33U+/UCuAdgki7teicYcUOQHllPWAIyh0urp3ek8Eh
+         EcLCZj7uqIw/eTRN8pEeHbL5z5JPGZXIlmKI3vsryQ4lzAnBNgrDrqZtY0p3JNEpMt1k
+         BCDc5F/Stm+OGroxlKigZH31aRO7Xk/04dR4y5BiMFhTJmz33JJIiaXz1tpfk9RUEC+/
+         /jY7SIdZ/enFMblJJq8y07i8IlqoPiKg7L46eKB7eFlk2VxRNUe9mwrqacUCftrhFGu0
+         DdPg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1789150312; x=1789755112; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1789150502; x=1789755302; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=yndXVIPPZUhTwpg5+kIO5TF5aq571rxXnLn21AJXcnM=;
-        b=TwMI0pCIqmAHyh8l6si1gWdvZtSsDrvLh9KjqPdRsQ6VYijnBeje4y4YCUp2R4s5fm
-         SQ/whomkDjD8E06XZJNCUFaKr8G6Haa4rgUc68wqww72w9B2Kz4vnRx3tQKEnAvxrGYI
-         QiBIkw2mg0V2qBuLgddJuyaAm/jPjhWnOgU89wcxf4mXuXQzE0XIpZaTwx8lL/i9KogS
-         kgZFk2tyA1FCI22L1uCXyCqM0xHNFQcCuiZ15cEKwSeN5Vy0b/sqiQiTCmDk2JwLy3v3
-         0++KOZUvh5l9y9G/AvCvpg3yj5pT45oaPpNpxsgb5oeNfCtQ0sQLbQBh+ao2QIRx0jbz
-         /Z7A==
+        bh=yRboA2lJ2kIoc1yVrTeE0yKRXBLg8DrW4V7cxpnbj5w=;
+        b=NyWNpt817nBZzAUEFKJbFRkfyTX2T6OfjjOF1hr+J9dpdOG9VTkH84QLSXnPfkKwwL
+         qap0hOiWYxAdmluq6327JF+228ATOO3X1QOhuj8QJk9FlwlcfBuDxJ2etLB/UAZSaZ+H
+         0S8nnVWXXirEBCy7ryFgYSd7Z+sYaR/wD/se1CyJ0vLjLbzijI2MEWLjvtcQzE+XPPu0
+         Xtxaka9fQ7SVQqLwaM3xc0sVsqkcrJn0fVA2yKjLgSuyScpchalidRYcW5KDTng8X54Y
+         xI0Mdx6CtacQ9t69jxeNhuqtKdd6mrOqeYzeGUfW5yu77+5d0t10CgiPkACB0TZyInWO
+         AxQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789150312; x=1789755112;
+        d=1e100.net; s=20251104; t=1789150502; x=1789755302;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=yndXVIPPZUhTwpg5+kIO5TF5aq571rxXnLn21AJXcnM=;
-        b=p2Y1Fh3Z5uA56/ihmEV8UAhTj8yMRsglBW1UxTS2OuO2bRC37U61XuUX8vYnPOb0UG
-         vBwMjBEqv6cJEXADuuTfra26lob6X7vqnslPnwiPnwztx9nCF0Xa/eY8DXIhSG8/8i34
-         EIWIHaXQgPNMbloJo84zzgwqoPCRngaHV93AY07gr9OcOHQtf11++vdHXgAi4nFd6+SM
-         w2AqOrxsPExOi/O5gtwfB4dit6VLqgh01ZqJBY0Qz3Rsso63HO1gwwQ8bIv3QRVKgW+C
-         qItOotId3NbZKNLmOYbI/BCRfc2G9qfKbFlM4wcgLO9mGNggLChd/Wl1jjsrLESn1Pnl
-         2F3Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxbs6S5Pjcb86Ucq6tiOHxf0gEoqUbY40FalbXp4dgIIT7Q7GgdtudjYN44U6bZR9tDYRPZOEWmegL14jnI@vger.kernel.org
-X-Gm-Message-State: AFuF++mxYa8sZBAk4ZZy6LY8a/Axl8/BkvW28WgkDY/5w7prADbbjGxy
-	jsARHmWhUsGkyGTupQXKACIUuYup4+Z65DO8Y0CD8TDDTP/6T7ovqyOr3wSAJYJCrR0AkQaQdbY
-	C1XUXSw4EWd+OIlhmDrw2iMXvbNWUX61jOSrglwkp
-X-Gm-Gg: AYBFou0vOLPcDI3sEl6pSNBGnL+6wEeDYcTfVqrm1WcyZk4zJNbR3q/9sj9+dKadSla
-	0Iy93934YngQryhZ/XzkdBMQkxT9ImNtBXis3Z9UrZP9unFgF5xNI7X61vkSXvg3ygDu+SGN0zE
-	BULlRmZ+/PmCse4p1YFFSI8oC5lIhceUxCE3+0HxFT3JD2D972COENOLCJsWzfG+Y/8Hhaq4YLq
-	FSVasXY+u24iOchAAPKs8mrW09g4ZvkEClOzMLEdm6P8abGXKfDmtWWUKrC/SYd0DRkfH0tytB6
-	CqS1zQbN2wA6NiDflKgj9ezPxjITv5b69d5wz2tzr0BOnyR4P3HGSIIjPsmTYJWsMSK8cTdw3Ch
-	6MjqUCKukS80=
-X-Received: by 2002:a17:903:2c0e:b0:2d8:d4d2:d139 with SMTP id
- d9443c01a7336-2dd0eebbae5mr122269175ad.21.1789150312031; Fri, 11 Sep 2026
- 11:11:52 -0700 (PDT)
+        bh=yRboA2lJ2kIoc1yVrTeE0yKRXBLg8DrW4V7cxpnbj5w=;
+        b=G6oivr7ssmfyF0NHggasvRylzSpuSPXX/g3ArogIuR+ve5rCtaCL9R1OC1qkI9cPrH
+         cVAS+J8YWuOknr/wIy7dXD7KeB84xn7zjyOM9NE/+OBIN1bBz3LwGxFv2UA+kOSlwQOT
+         bF1K5jbVP0sYODDySh8cd4/QezjKaWTH222E4bzrPEKizrearJ4yTaKx/YecxgHNjklw
+         B/Slr31NgjQLvowCS/mhbQEXVgDd2jS/CicfxGldPkX05cMUkR5t2erL1gGc/S0dZTcJ
+         B5DuK+EyjBuokvejdZjI2YIUvZF0Ro2aGdM57OaixUgsu2XY9u/yZxp/tvTwBRchs2/s
+         Rkjw==
+X-Forwarded-Encrypted: i=1; AKwUvBzduLnZQGdbR6Z717Gel5Bz19sMUWfCKc2tOoXQHmDb5D3Luho4Z3lUwh53OKamDllbfR4z7/YMeSz2RMcU@vger.kernel.org
+X-Gm-Message-State: AFuF++ljPQSidniXvFWbjG58df5uuwRO9h9Zz6uwrVVFCb6pqXL+Kvpg
+	e7g4JBb41MewG2A2Skdtnne79H0XFTxjtCqWnOSuoh8VyQElQWlbGK7+am0geZeC8xpEoA/Hd/i
+	MbklhsHdkhMId/3S4LP21AWMsAj6WrwD8B9PGz4zP
+X-Gm-Gg: AYBFou1TfQHDAUjTxYq6Oq2fxXkO2S3sGi+R7kKJMgpF6OY+Op8s215ZEOa6gScF2dl
+	WnhxZG6oimQdfccRs5QH/3EXaoZR3mgv47jXL+ar77u/Az+5WJfXcJLPtJnEtkaTMmxOxjLw6uJ
+	PkF1ydf59AMolXMxjuW3z6nGjDr7jgfZEbv7ytsKfwHLK0wx7yMdV9Bh2nopPugzZU1k+KzstRl
+	o6S9Yh7TykEmt3tkb8TcQvB0ugHuv/nOHjBbuV2yRiDSjW+5ZIvWjdw8zccUkAoiVWNeZi7SxAe
+	G1iJMMKk909iePd/OnqnNoDkVChoT0oxlLD+MJI1IwAcQFOYH75BlrI0tDXPVc2zGTot8QsNhWv
+	wLGDw3UA1USk=
+X-Received: by 2002:a17:90a:d64c:b0:396:d27b:89b9 with SMTP id
+ 98e67ed59e1d1-39d9bd6197bmr9465904a91.10.1789150502370; Fri, 11 Sep 2026
+ 11:15:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com>
- <20260904-lsm-mount-idmaps-v3-2-920a1963675d@amutable.com> <aqN0EGbbHk8XMqI6@lima-development>
-In-Reply-To: <aqN0EGbbHk8XMqI6@lima-development>
+References: <20260904-lsm-mount-idmaps-v3-0-920a1963675d@amutable.com> <20260904-lsm-mount-idmaps-v3-2-920a1963675d@amutable.com>
+In-Reply-To: <20260904-lsm-mount-idmaps-v3-2-920a1963675d@amutable.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 11 Sep 2026 14:11:38 -0400
-X-Gm-Features: AcwNN1XCr_fenCgMMDZJbz8HR994qWOko4FbMjHRvNv-mIjsWVDFAeKB1IvJ2OQ
-Message-ID: <CAHC9VhQ-Ee0KftEFdSWiGDvT9EYFnUvfieNg8+uEQagDncy8Fg@mail.gmail.com>
+Date: Fri, 11 Sep 2026 14:14:50 -0400
+X-Gm-Features: AcwNN1XvZ2t1QpElaSJ_H9N8jEw7pF3zTUmE1E90vyMLzERl5dKL7VmQb1Vrt48
+Message-ID: <CAHC9VhQPprfmHVwi1r+Ddvussdp8FW60A2Q7bXCfSYJ8n7PzPA@mail.gmail.com>
 Subject: Re: [PATCH v3 2/2] selftests/bpf: verify mount idmaps reach inode hooks
-To: Matt Bobrowski <matt@bobrowski.net>
-Cc: daan@amutable.com, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+To: daan@amutable.com
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
 	linux-security-module@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 10, 2026 at 11:25=E2=80=AFPM Matt Bobrowski <matt@bobrowski.net=
-> wrote:
-> On Fri, Sep 04, 2026 at 04:48:56PM +0200, Daan De Meyer via B4 Relay wrot=
-e:
-> > From: Daan De Meyer <daan@amutable.com>
-> >
-> > Extend the BPF LSM selftest to exercise create, link, symlink, mkdir,
-> > mknod, and permission through both the VFS identity idmap and a real
-> > idmapped tmpfs mount.
-> >
-> > Record the idmap observed by each hook and verify that every updated ho=
-ok
-> > receives the mapping used by the VFS operation. This provides regressio=
-n
-> > coverage for passing mount idmaps through inode security hooks.
-> >
-> > Signed-off-by: Daan De Meyer <daan@amutable.com>
+On Fri, Sep 4, 2026 at 10:48=E2=80=AFAM Daan De Meyer via B4 Relay
+<devnull+daan.amutable.com@kernel.org> wrote:
 >
-> This all looks fine to me. Feel free to add:
+> From: Daan De Meyer <daan@amutable.com>
 >
-> Reviewed-by: Matt Bobrowski <matt@bobrowski.net>
+> Extend the BPF LSM selftest to exercise create, link, symlink, mkdir,
+> mknod, and permission through both the VFS identity idmap and a real
+> idmapped tmpfs mount.
+>
+> Record the idmap observed by each hook and verify that every updated hook
+> receives the mapping used by the VFS operation. This provides regression
+> coverage for passing mount idmaps through inode security hooks.
+>
+> Signed-off-by: Daan De Meyer <daan@amutable.com>
+> ---
+>  tools/testing/selftests/bpf/prog_tests/test_lsm.c | 231 ++++++++++++++++=
+++++++
+>  tools/testing/selftests/bpf/progs/lsm.c           |  79 ++++++++
+>  2 files changed, 310 insertions(+)
 
-Thanks Matt.
+Merged into lsm/dev, thanks everyone!
 
 --=20
 paul-moore.com
