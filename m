@@ -1,171 +1,114 @@
-Received: from mail-qk2-f9.google.com (mail-qk2-f9.google.com [74.125.230.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFB155C315
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 20:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BC442B742;
+	Fri, 11 Sep 2026 21:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789159459; cv=none; b=RGv/rKJuAhhvxc8V+wzBeQzTwwXtGnPDU5oVSC1fDyX9jSl+qPpCEiunTC9VlGO+lB5Q2lS0ppWKNOo3J3wK+e6Z+/m9eFqP1MxdxvuwgnD6outEOpSpwGrI5fPWTRHzRaui/FNGesRpNhPzE1Us8o1S3hkM5iMKVL9KJ4mUKyY=
+	t=1789160435; cv=none; b=QZUeYSfqCp7JhxwNJViD2imefPJ3RN0+BRTrs4JFg6Q3kumpsc8Ue9Alte1+mO9oSnimMuTtXzw3VDPvG8701ZktLvjMmR+ElrK8+LEm4iy/NNcsZL7L1mDOS9RIIlFLoA5NElFXpvhzZ9OB8O9OABxMsXoNVxxF+YaPpxiX0Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789159459; c=relaxed/simple;
-	bh=9KRmBLpDfExqlzXDVHUVK59qu4C/6ghjdOd9zFQjQ0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O09tSmoguEfUL9NBBjfiexEpHc9UK9sr3jGPjnlGQZ4vd1d9ZwhLr/+bovgYBBa5tar/0z4NVyQL4RjNclnSMH21KYid9KxBBnAZWgoXHZJyHx1lbJgaF+VeT0Qv+dRXvLAnOEBA79CqNYZBk2Jds/MeczHAgkhfWynHKPkQJ4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=qyoduPel; arc=none smtp.client-ip=74.125.230.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1789160435; c=relaxed/simple;
+	bh=yZjf7JKFdKnfct6WVUoDxPoMXOqBcD99ZoVzXOO7gsY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jb+zYZ4n/ALVyF3zdA1DNYCLA3gb4c82QCkEEtp/qAFFFRl2Wsf98GCSa/91wJO/VopZg4uRh8UIsnsijFqlqIP0JTyThQYA1EyMq+/7Ei9wF4y72EjCXlTgo9sgxhnLPjFjc3gW2aMGyBFnc0q7KVedelTDC/VKRn0TjZdjvso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ScS+ytAz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="qyoduPel"
-Received: by mail-qk2-f9.google.com with SMTP id d75a77b69052e-5309ccafbc8so1915401cf.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 13:44:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1789159456; x=1789764256; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FDi78tn+rNyw2f5XP4H8xqn6L7v0YajTpN+MIEXmNi8=;
-        b=qyoduPel33nPtdq/ko3a8YtkDb3zIeUPwdUpVbazYDFTpundfnYW9Oxh4tzKauU9Ei
-         BGisEXp6AQZvGgAYzf7RAEaofve4Af7emK0sCBGXYPsVCBVBzhe46sUKd7ufjzEUWOXJ
-         U4ViDbp1OjP8TqGvyPewYd6vHWnI+IBEutNiacFeVtNmTq+KLDrabYp8n4p6pYJ7g8kt
-         QVTf8aZNDRfCFaU0dYrLN36lPNdDgoEc+JH3O060cahbwXtByrZMeAF8raN/NZxLDS18
-         B9+N0GjWoqs/ZafGY7BYh/KPEbh7+ihPQTNKYfNO+sC9DsqLjJ9jvdq+Ex1ciaH5c64D
-         JjjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789159456; x=1789764256;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FDi78tn+rNyw2f5XP4H8xqn6L7v0YajTpN+MIEXmNi8=;
-        b=ZBgHO0nEXCNZR/p8h7wrFgZRk3Mc2cmD5LUiiYyWRQAN87qESSN/DpPJId3rcatX8E
-         lnECFa8W2bXjj47uGMwk+HhyqrN0vbj6TyKfdLAqMmYKqpcqngows3927AQ+s5bpg2Xc
-         OBhmIExkznQcxfeSy3ZbINcJH4ZGy0CXBPaScSe7L6VZi4iu5AT7t30w1skg2V8YdEU5
-         JvZZa4yPNWmyGWcsaYKurBo4rNj5PgRE5XBDpQ2ngId56St106mXmZ+tqw8bUE/AL5vN
-         OymgpcmCA0IEYQl3iaz0V5aWjl92wq5eeUjS7Z4ynwZXuDPaDTRm2HYq2qF+TkSsDPq4
-         RJQA==
-X-Forwarded-Encrypted: i=1; AKwUvBwoUxO5cy4Ed06GS+hAHqXMc4rjoAdAPNv9D0JDkruNboIzxLkmXzBIk2qY0FG3XyhcGjkZgJrKqGIrheOb@vger.kernel.org
-X-Gm-Message-State: AFuF++kqRTvtNEN3f3L6Ito5abFzPpR98VweQ9LU17984bUn8TiRrNnZ
-	X9LaZXNk3Mx8x0k+LmDACAks2YOLEIlYE+pqXzpYJC6+cypgyjOfnIsR/XH1DZWWc48=
-X-Gm-Gg: AYBFou382DDTpuDSp3C6bbZrOLSdSWc1ZCHg1wK9TpFbN4K1cWCJTDaDbCKiZD57N4R
-	qS7RiieyuvM5hkW4dsc99IXPM1YsJa9x/Geso2Qfb9LqlVVPd6n46VhZawuI39qwhGVr0qC+oaJ
-	4FbGqPrwaBLNqV52QAvvB6chd9qeE1ymzCkSvTkJIU4aB26IeqUbj+0Ew/xCCz9Bw0IPRbDOtR5
-	l1rvTZXbK3H0djXrj199lml/6XozfK0bXvC2zgEfyxxGJNihmSMu+cpF0cnQQ+sDwysKkPvCFyg
-	gxP0Y1zNiCA9bckxWoEm6PHK61j9O4Ewj202n2+Uo9LeMhGCVBzOiFQOr2Z8pmLPFLscTY79biy
-	zjoOkJzWHRwieIyXZf/RNJl7vxlzwUPc8+BDAkb1m6CigdyRwk+17vmGZI3MiSMlXShhPwdU/cF
-	QpKtT7aFcMF1Ubkjj1H9GhzmKgXeUw2qrbIR085LStpBohr9lNSJGuS6rz/KttjCmpkg7k4w==
-X-Received: by 2002:ac8:5e52:0:b0:530:dc5e:27b8 with SMTP id d75a77b69052e-530dc5e2fb1mr37003331cf.27.1789159456019;
-        Fri, 11 Sep 2026 13:44:16 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca511ff0sm28939081cf.31.2026.09.11.13.44.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 13:44:15 -0700 (PDT)
-Date: Fri, 11 Sep 2026 16:44:14 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Salvatore Dipietro <dipiets@amazon.it>
-Cc: linux-kernel@vger.kernel.org, hch@infradead.org, abuehaze@amazon.com,
-	akpm@linux-foundation.org, alisaidi@amazon.com, blakgeof@amazon.com,
-	brauner@kernel.org, dgc@kernel.org, dipietro.salvatore@gmail.com,
-	djwong@kernel.org, jackmanb@google.com,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-xfs@vger.kernel.org, mhocko@suse.com, ritesh.list@gmail.com,
-	rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
-	vbabka@kernel.org, willy@infradead.org, ziy@nvidia.com,
-	Vlastimil Babka <vbabka@suse.cz>,
-	David Hildenbrand <david@redhat.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Brendan Jackman <brendan.jackman@linux.dev>
-Subject: Re: [PATCH v5] mm/page_alloc: avoid direct compaction for costly
- __GFP_NORETRY allocations
-Message-ID: <aqRoHr8XGzzDUjBk@cmpxchg.org>
-References: <20260911142102.2294202-1-dipiets@amazon.it>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ScS+ytAz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F9741F000FF;
+	Fri, 11 Sep 2026 21:00:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789160433;
+	bh=X0v5qDdlZ+UMhSmAlZv+vR0W72nkytSOWSkoGTQSfXo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ScS+ytAz2/iqKxGyKZ4ZZFeYhfiolHMZ2vEn52zhAVtWOO2y6FJUvzBacDbEkZKAg
+	 Z3g4BgDynUOde7Bm+tHrzeM+B3dAR3vKS0XQYC3qlvjSlf3/LLMw6TT/vjNSJKdC1i
+	 VxuQb+YObH6HyAmfvN5KjpnnXZMGwNt/hX8mZOV+uKw2wlUU0YPBU/dpKzSQuJWzK4
+	 g3hIfFW56a5OPtAeuHWuBwdQ6VFik6nDY0kWEnG6Jn+v/ceRsQCxncMk9LKmMWiKUZ
+	 u/zlAm2VNQk3oqO03MR0eU2DJsX5pQMCb24YIULWjHGAwvZ+9vp2Z1qO8T9UXMP7ZV
+	 OMbfLuyTZq7Lg==
+Message-ID: <8a5abc5a-bfd4-4fc3-aec2-a567ef5c409a@kernel.org>
+Date: Fri, 11 Sep 2026 23:00:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260911142102.2294202-1-dipiets@amazon.it>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/7] proc/task_mmu: clarify shmem mapping walk
+ conditions in smap_gather_stats()
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
+ willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
+ xueyuan.chen21@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260911194145.1781926-1-surenb@google.com>
+ <20260911194145.1781926-4-surenb@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260911194145.1781926-4-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 11, 2026 at 02:21:02PM +0000, Salvatore Dipietro wrote:
-> Commit 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-> introduced high-order folio allocations in the iomap buffered write
-> path.  When memory is fragmented, each failed costly-order allocation
-> enters __alloc_pages_slowpath() which runs direct compaction and
-> drain_all_pages(), causing a 0.38x throughput drop on PostgreSQL
-> pgbench (simple-update) with 1024 clients on a 96-vCPU arm64 system.
+On 9/11/26 21:41, Suren Baghdasaryan wrote:
+> smap_gather_stats() optimizes stats gathering by skipping the walk for
+> shmem mappings in certain conditions. Update the comment to clarify
+> these conditions and use vma_is_cow_mapping() for CoW identification
+> instead of open-coding it.
 > 
-> The root issue is that direct compaction is too expensive for hot
-> allocation paths that have fallbacks to smaller allocations.
-> __filemap_get_folio_mpol() already marks higher-order allocations with
-> __GFP_NORETRY | __GFP_NOWARN, signalling that the caller can handle
-> failure.  However, the page allocator still attempts full direct
-> compaction for costly orders with __GFP_NORETRY, which is unnecessarily
-> aggressive when the caller will simply retry at a lower order.
+> No functional change intended.
 > 
-> For costly-order allocations with __GFP_NORETRY, suppress direct reclaim
-> for the whole slowpath by computing can_direct_reclaim (and hence
-> can_compact) as false.  The !can_direct_reclaim check near the top of
-> the slowpath then short-circuits to nopage: no direct reclaim, no direct
-> compaction and no drain_all_pages() IPI across every CPU.  kswapd (and
-> in turn kcompactd) is still woken further down for background
-> defragmentation, so compaction keeps working for long-term system health
-> while being removed from the latency-critical direct allocation path.
-> 
-> Allocations that also request __GFP_THISNODE are exempted.  That flag
-> pairing identifies the local-node-first THP attempt issued by
-> alloc_pages_mpol() (mempolicy.c), which relies on direct compaction to
-> form transparent huge pages.  __GFP_NOFAIL is exempted as well, so a
-> must-not-fail allocation is never made to fail.
-> 
-> Test environment:
->   Hardware:  AWS EC2 m8g.24xlarge (96 vCPU, arm64)
->              12x 1TB IO2 32000 IOPS RAID0 XFS
->   OS:        AL2023
->   Kernel:    v7.3-rc1
->   Database:  PostgreSQL 18.4
->   Workload:  pgbench simple-update, 1024 clients, 96 threads, 1200s
-> 
-> Results (average of 3 runs, TPS):
->   Config                                       Avg TPS   % vs baseline
->   AL2023 stock 6.1 kernel (pre-5d8edfb900d5)   136,942           n/a
->   v7.3-rc1 baseline (no patch)                  59,408             -
->   v7.3-rc1 + this patch                        161,994       +172.7%
-> 
-> The patch fully recovers the pre-5d8edfb900d5 performance, bringing
-> throughput back above the pre-regression level and well clear of the
-> ~59k baseline.  The AL2023 6.1 row runs a kernel that predates commit
-> 5d8edfb900d5 ("iomap: Copy larger chunks from userspace"), so it is not
-> directly comparable, but it shows the pre-regression level and confirms
-> that the ~59k baseline is the anomaly and not the norm.
-> 
-> 
-> Link: https://lore.kernel.org/all/20260403193535.9970-1-dipiets@amazon.it/T/#t [v1]
-> Link: https://lore.kernel.org/linux-mm/20260420161404.642-1-dipiets@amazon.it/T/#u [v2]
-> Link: https://lore.kernel.org/all/20260710143437.12379-1-dipiets@amazon.it/T/#u [v3]
-> Link: https://lore.kernel.org/all/20260904115629.3993331-1-dipiets@amazon.it/T/#u [v4]
-> Fixes: 5d8edfb900d5 ("iomap: Copy larger chunks from userspace")
-> Cc: stable@vger.kernel.org
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Dave Chinner <dgc@kernel.org>
-> Cc: Ritesh Harjani <ritesh.list@gmail.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: linux-mm@kvack.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-xfs@vger.kernel.org
-> Signed-off-by: Salvatore Dipietro <dipiets@amazon.it>
+> Suggested by: David Hildenbrand (Arm) <david@kernel.org>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 > ---
-> v5: Derive the decision into a local flag instead of mutating gfp_mask
 
-I commented on the v5 variant here:
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-https://lore.kernel.org/all/aqQlUr-1h07G8JWM@cmpxchg.org/
+-- 
+Cheers,
 
-I think v4 was better.
+David
