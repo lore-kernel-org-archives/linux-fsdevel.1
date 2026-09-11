@@ -1,51 +1,48 @@
 Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101A6370D4D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 14:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54CD3542F8
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 14:57:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789138198; cv=none; b=Its35Ab4ipKz9ohVKD7KtJLPPIpIDHfQ3Cbm/Q03QW9HEaKvvh6xXAJzfhIYAtgYfZjV0KEPWLO9ISzP/BjuYP8gXFAH2t/PCHmDVJujIHGvac2fVcz1MCckqdItUgSiUjMMnkHYxTg9Y/J8o+QtJHrG4lqRKZOpNvoyZ9Dc/Ns=
+	t=1789138647; cv=none; b=Z22Gm/8tUnYyZ+9DfRLxMUht9oC7hJsdreZfBmhP0P5yUhRu8JNuIv8kzCIXAD8WpX2rxZiGr8fkG+n7DmdK2aAg48E9x4ciLpHAxrjfkUJakKywX8H9cx6BVBfHp8M1NByyh24MCqVkIUSRPC4+g3YVEW7JcDSLOuEvWCK+8cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789138198; c=relaxed/simple;
-	bh=iRLtMtLNNS4pjEszxOSG75MXP+yV8831MDgLJLg/nZA=;
+	s=arc-20240116; t=1789138647; c=relaxed/simple;
+	bh=1bnKdLsqxeHJCmFKuy98rueTrCsBK/5lWfY8BtISw1M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f9Fjbb5JfZh3MIdJ/0ZLljxKg6SJM3aYmx4ZM7xlOJW/QpSoKi/3rsx2bcNmCYiYE3tprYzbc4cGJTwkyP0anSQPcD9VfsHM9jEnG579xejqlwxy2zHBQXz6oe3lolUGGcG2jJNV09L2aBHnEO23Vey+ST8iaKjZh4whyMgHF0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=hvEixzJJ; arc=none smtp.client-ip=18.9.28.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=LlygO9VV/qgrrpJ0p1BGes3CqKcM0nq/T2TMxyx6xdJHoW44jsws8tuwSJ5baLcmVSOfwKqL0SLXvjPhrGZZTvbvJ6Y3zi3nCKHlRPyeLQwC3xVHyMnUB9qhwN54sxYAxcwlZMZobJ6XSbiTH6PSOd0D2y22HxSLcM0p+MDfIZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=V0j7sj0q; arc=none smtp.client-ip=18.9.28.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="hvEixzJJ"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="V0j7sj0q"
 Received: from macsyma.thunk.org (pool-108-26-156-127.bstnma.fios.verizon.net [108.26.156.127])
 	(authenticated bits=0)
         (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 68BEnVtR020550
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 68BEusEA023912
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Sep 2026 10:49:33 -0400
+	Fri, 11 Sep 2026 10:56:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1789138175; bh=gIirZmMyD8vuw/30bMQ5PpWdGiAKPqfRzxdpYzASv1I=;
+	t=1789138617; bh=aOLqMnhLxFcuZQU5MjIuT6M+r5m+kGO8dRpT+arVVBk=;
 	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=hvEixzJJgo8G0eU9DUFWLXi3TjQ5xWIJiX55bgRU58OAb1voZOOH6grRQ1adYbWrw
-	 Bu3VjKuEQQ3xldgcMN8h14NErpLo4uQTZzSCW+PJB/+JO80W/RIH2qOCmQ5z48j0XH
-	 5Iz+3tiRCNCRxIvt7ZCeFMCTH15YVMGjej0aqRRDMtjuyVGnpIidynv+3jJy+a4BAi
-	 nRbMed8HOoiS7ms7a1LTvWiFhxVk4NOtlW5LkZffMtsyCIoQsL91Nvc+RR0VPJEeBI
-	 Eos02zmBDfVDRQmNCM17EOVrVzp4dy5jiZlFCojBelRjy8uAldPeQcFEaMuqBg+sh4
-	 bc5KeGZPdy69A==
+	b=V0j7sj0qoGJXIVCOxj0EapqMi4j8HuO81h2kbjnaUsZ2R6AUOa/4Xgf6sepue9QlF
+	 RhQ+bSGMxs3DUesIlWY8UJxjZ+MhVkPy/EFjnvGmGnqE4/UpzoUjn0hRqAu4KWoZY+
+	 jOjNT+At/iIN4tZkrqX9dciXhqdUp5hay57CQ06XsQrfc8Rn9/8g3i1vboEDMuZYZ8
+	 e/hACqSoojo+fGIvxPAp78avwE7V9a1nhedhHweL4KUwuNerRKd5avDz+NfHiXilFc
+	 cZ0LD2rXI5WurNdh9JsxSLMjOg7BpPBZWsUMh3CFo2TGN5BJlhmn8jEe975fQQZwQB
+	 WzyzSlL9m9QTw==
 Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id DB46F148192C; Fri, 11 Sep 2026 10:48:30 -0400 (EDT)
-Date: Fri, 11 Sep 2026 10:48:30 -0400
+	id E4CD01481C8A; Fri, 11 Sep 2026 10:55:53 -0400 (EDT)
+Date: Fri, 11 Sep 2026 10:55:53 -0400
 From: "Theodore Tso" <tytso@mit.edu>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: Christoph Hellwig <hch@infradead.org>, zlang@redhat.com,
-        fstests@vger.kernel.org, glaubitz@physik.fu-berlin.de,
-        vdubeyko@coreweave.com, linux-fsdevel@vger.kernel.org,
-        frank.li@vivo.com
-Subject: Re: [PATCH] xfstests: exclude hfs/hfsplus from generic/339 run
-Message-ID: <aqQR6cujdVg5qCFp@mit.edu>
-References: <20260910000449.747189-2-slava@dubeyko.com>
- <aqJ--AqubS-CWiV-@infradead.org>
- <aqKzDpccJgkmzC5E@mit.edu>
- <f156a3665404751b29fd21d9ee136f2d66d5fe87.camel@dubeyko.com>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Christian Brauner <brauner@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Mikhail Rudenko <xyzzy@yandex-team.ru>
+Subject: Re: [PATCH 0/5 v2] fs: Deferred inode reclaim
+Message-ID: <aqQV6Uwma_KjUH0O@mit.edu>
+References: <20260911081309.14137-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,49 +51,25 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f156a3665404751b29fd21d9ee136f2d66d5fe87.camel@dubeyko.com>
+In-Reply-To: <20260911081309.14137-1-jack@suse.cz>
 
-On Thu, Sep 10, 2026 at 02:14:08PM -0500, Viacheslav Dubeyko wrote:
+On Fri, Sep 11, 2026 at 10:51:36AM -0500, Jan Kara wrote:
 > 
-> Could we have any generic way to detect that file system could not
-> support some Unicode characters?
+> after a long pause here is a second revision of my patches implementing
+> deferred inode reclaim to deal with MM warnings due to GFP_NOFAIL allocations
+> from reclaim paths. This happens because to reclaim some inodes, filesystems
+> have to do IO including complex operations using journalling and forward
+> progress of these depends on successful memory allocations (which is impossible
+> to guarantee from reclaim context).
 
-We do have unicode tables which are optionally compiled in if the file
-system requires it.  But those tables are from Unicode 12.1, and the
-latest version of Unicode is 17.0.  Most of the new characters added
-between Unicode 12.1 and Unicode 17.0 are for dead languages that
-archeologists and academics care about, and new Emoji's.  So function
-will let you know if a Unicode character was considered valid as of
-2019.
+Thanks for the patch set!  I wonder if it is worthwhile to wait for
+inode reclaim before freezing a file system for suspend.  On the plus
+side, it leaves the file system in a more cleaned-up state, and
+reduces the amount of memory that might need to be written in a
+hibernation scenario.  On the other side of the argument there's more
+opportunity for freeze/suspend deadlocks, and more complexity.  So
+maybe it's not worth it.
 
-You're asking a different question, though which is for hfs/hfsplus,
-what character are deemed valid by fsck.hfs, right?  And as far as I
-know, there is no way to answer that question in the hfs kernel code.
-What you could do is to try creating a filename containing a
-particular character, and see if the kernel rejects it.  Ext4 and f2fs
-will reject such characters if and only if Unicode strict mode is
-enbled.  But that's not going to help for hfs unless you add that
-support into the kernel....
+What do folks think?
 
-					- Ted
-
-P.S.  A problem which we haven't really solved is how to add support
-for multiple Unicode versions at the same time.  So if someone
-imported Unicode 17.0 into the kernel, ext4 and f2fs really require
-Unicode 12.1.  Short of supporting both Unicode tables in the sources,
-someone would probably have to figure some mechanism (perhaps using
-Agentic Engineering) to collapse the two Unicode tables into one, so
-you can answer the question, is a particular Unicode valid in 12.1 vs
-17.0, and handling the Unicode canonicalization rules for Unicode 12.1
-and 17.0 based on some API.  This is the other reason why no one has
-bothered updating Unicode, since it would be tricky.
-
-P.P.S.  There is reason why, over a decade ago, when I was talking to
-an internationalization expert at an Internet Engineering Task Force,
-late at night, at a bar, the expert said jokingly (and when said
-expert was very well lubricated), after reviewing all of the
-engineering challeges of getting I18N correct, "It would be easier to
-teach them all English."  :-)
-
-Mercifully, we only need to solve a very tiny subset of the I18N
-problem in the kernel.  :-)   :-)   :-)
+						- Ted
