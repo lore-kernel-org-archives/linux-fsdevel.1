@@ -1,62 +1,63 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F085497B85
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 22:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3C145C6E5
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 22:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789164893; cv=none; b=TUjzu4Y8Rl8ycTx/kiimO3n+aEif68vcp6kCnbfCCwN3rMEoLU2pi9ntJM0m7gIRNzgqE+Nb5eLLFIYFfmHMcx9rN4kAP1fvP8i45S8xMgcCPQe2Bj1ZKW+amkX7T5da2OFsumAYtnuJAOBLD5Hj+FNxZt8aoww/ti+qr5KnAWM=
+	t=1789164896; cv=none; b=rMbx8hNEX8/n0HlSIX5epDkal9v3HLrtGpb8O8Ugo5eHWiZYcVEdQ7kX8YCk5/4G04bHgCtFLG47MMl4q6ABNDrJgPpJxS9O4vrAuYExVC3QKbgQC6Op28UGGynXZZPoS+6XOkLrLh2a17p4YcrcQAXaFv62Z86YQutw0B71/8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789164893; c=relaxed/simple;
-	bh=46JLE2djcEBHu/e418tq2dWGc92hKIPjTY95HQc1KFU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KSZcB1pb7ikMLgZkzBMzBOIRnMR/ulMbre4wBtUJIqzPQlUQxesDzEtohBQCfzk8174D0yliOt+HzDONYixAF7KYGHCv/9/xmoDVDVMevJPjIDbeFW4mVeMJYn4woDxSkuBnFwUb/XTxmYelKKJJSS7EKL+GiZeixGqVi2EFVwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GM20skbp; arc=none smtp.client-ip=209.85.216.45
+	s=arc-20240116; t=1789164896; c=relaxed/simple;
+	bh=nqm+qgcrDbRH0g5TEzWGEqU1WZ6bbOniRLl1yX0/X+Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HYLyNTyXodB7gF1DEvC1TwCQctYY4KM4V2FCy8qeSs+jbsdHcGezeHNQXrtkDXl7PkBnH3RSfGQiFPfS+pudh1MUm7m3Tp+fhPbhRe1hq2zcjqAdik4r0qWeyKP0tRnb9rtxyNnJgga0yxsv1AW9Xh8zkyNry4LOn6mvIx6ofLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DdgDJty3; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GM20skbp"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso1515575a91.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 15:14:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DdgDJty3"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccafb751so271658a91.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 15:14:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789164887; x=1789769687; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=l+6FszybKpenSJZy2BI3hcOtPumB191OQOasiZknYb8=;
-        b=GM20skbpoc+0uLE5DAJCmZBQHxS9vqugMxUb5S//OL20BD7r+NVdeEoTb942vpmsfK
-         ru0wIMmidHRYp2oRMnvMBIoJMtajZo2SG4zE+FvQwh8/CjIkOWUD9a6Ws4u6IRzd66SM
-         JBvS+XqXA5cQHjEJvL4oHGW5H4Y1b5J6s0RzEFH9L1fhV84FFOcKGTQMfwYAm4tSzgbO
-         Bj8t+PLrhh97briZQOlMKi2zjISpIAP5jIcYfQa6h7OQaECEc3XZDFF6sIgO3wnoaWiD
-         dyEIBGhyesLfvaOkaL0JmOTRvcdeBsScFlZtixKd1P1uvvKUrBM664MGnDOqK3jw2CW0
-         9hsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789164887; x=1789769687;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1789164890; x=1789769690; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=l+6FszybKpenSJZy2BI3hcOtPumB191OQOasiZknYb8=;
-        b=rWI0+/Mt6vwWuU7+3sw25B1Sp9qpznO0/Yc1acgwPPuO+EGYsRCsY6VhGlsWHQE5L9
-         E7mrflbXvKFPR24H22k8IKXCGsdz90hih7fxgGTuxBBoEWQcAlg+4zFu2kH0N5SIyQoG
-         GO2pmAFCDIqWUvCKxeJvW52KLyLXNtMhDX/RKwPuYUnyqjDUsA2eji6Hs8HGau2xEU29
-         aptP2JonhiYMo2wq/FkzGcVSryfbmag1UQEk/kP3e0RdHVLoyMnZCxztqbcnBgcgkhMW
-         zwe9M9/Tk3fzQ3EhEiBRn5OIm9SSFpq918keFiHUcaUY4lzRzS2uNUasQIEV5z5douIg
-         zYJQ==
-X-Forwarded-Encrypted: i=1; AKwUvByk7E7cYNKc6nesL4uZ3VuYRmWYjS9kx9bsp/1AcrwuIKYJlfv77KdC02pqOFfjciMtlFktWz5AUf1vqae5@vger.kernel.org
-X-Gm-Message-State: AFuF++lr8gl3JKV1O4hQLHHKA1QNdQkspGJFzgc0691iRwzF1C8OiESU
-	vA/9fTrLYqoKOh8mskDYBxJ4PWhZRw9zbvXPAckTYNVe0zL4bPn3BQeB
-X-Gm-Gg: AYBFou2HMCS09t5LpOU1G/nEsmUoH+/U0aLBzxvJQp3xCe4lYa2PwUqU7gC9+NlJoDu
-	jO2miEj2TBFEy3lR3qXA5js0f9ZmTp61sQE1upbOVy5KXO2IEqFBbvJ0IIhaciOfXgW3arxa0Ig
-	HWlgAhC/uKIyIXX4O4ZtlzJ8CLfUIstLlF4iDad13H97Bz+9WcUW3BoiIvSbnTGjOF2OvFHqxdR
-	qCVK9K75upgKIB8BuzT+5LvVHBvUzotWWI5+9k/jD1/MLXNfTzj8Zv9Gla0coBaWi2JkRf4HRuz
-	Xswg0V9e03EzdqHTxPDzpc6lpDK1AyWNOoyvQ4X4wHwsNC+h9i4QLn7h1wvKxtUTtt++TwNwm09
-	9GLmroKVZbEH6aaPoRw5FFRui1U+udCQNV+nIsugHSZ9SkRQYPlnggIw6/a16zRrcowLyXDry5a
-	TnZYrI140qaSbyLAPk0XlZYz+LzJVRQ5KfznPcJQ+bq2QwicP9D2X8JeGyazTY39AlEebi1qF0h
-	3ulVso=
-X-Received: by 2002:a17:90a:fc48:b0:39a:e983:d4bd with SMTP id 98e67ed59e1d1-39d9c3527b5mr9789091a91.24.1789164887357;
-        Fri, 11 Sep 2026 15:14:47 -0700 (PDT)
+        bh=r2k+37bKOMj5uflztInqcHyMEmLHoz6JlZjzrLWxQac=;
+        b=DdgDJty3eQhtWdUClp4cLd00Buf85QwNLXU3OHgNikurRiw2L5KM2f9WTlDwFxwU6G
+         Me6ZUADl7lQfen3ltBad+mwrkDqALCHzYO91pwcfamIHeGDPy6HOf5YsaMvPvDJrb4qH
+         eGAR5dqY7mFWyOQGj6HEaWa8se7Ctg8WpzN+ZA5CEPQcILhC30jrfmIAQXBK01ch/mzk
+         /0ctkzIhf40ohV0ZD9hQ+cq70Q0oW882uemZ/hKCbpFCruIw3Wzozxz9QsmHw2N4yvWq
+         rMeM3bhl8yVvYKSyKfZyfDbiW+5T6QfPsGDzhAEsw8aOqBE/IuFCiDTinjofMt+NC0gQ
+         2J+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789164890; x=1789769690;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r2k+37bKOMj5uflztInqcHyMEmLHoz6JlZjzrLWxQac=;
+        b=kuM7v50PC3OrukUDvK8+AMdy9qD7rWh36Pkskpb1wJUTEoVxxEQ8mOD1hpHpbgwREO
+         YiifIeckKTcNACAT6sDm8PQv4kuvsaiMt6zUGJkoHuUKhNbcI2ku77dU0A5Qaxg2W5o9
+         5KlR4JzZ2lOHyYsZw8ac7D0uy2KcheDWQOQLEB/+UWDxsPxOv8BoYWv2ZA3ln1x8a6YS
+         CNgdpr50LB2/BmF/lTSqoCHBi+XS3Fw6YJk7KnL0HBSnnQhys/I5Ztn3HdfBBY8t2T0j
+         +wPL/2iULVyBbLXaeZYSZy6zyGWG/x4+s7e8MzDOgmos/WbeJjLRhdK2zBq/Z2/nEPqX
+         rU/g==
+X-Forwarded-Encrypted: i=1; AKwUvBzp3aELF39fO38oogeLK9G0Y73wYjrCcZExsDhlpy+QT7qa0NwvyInKR+h690LWn5QpKJT2c/V4xZXBG6fV@vger.kernel.org
+X-Gm-Message-State: AFuF++kn6F8sw1TnFANV3QeEDhJ1sDLTY8ns+slEGGp2VOMvfZw1ec0S
+	oJ+hw9NAgXVzOSAvty+vKC8XMJUwXnSpgDSmVayvzZHVzyGacRHFxJxr
+X-Gm-Gg: AYBFou3Y0okVekq1Jf4Url06JG04+GlhAuwMOtjHj4vXGeWyvwQIyc3W+5W9XhB59aD
+	OKDRhjWOaWMD2nY3ytaD3dXPwnDH9pAizKIzrJY0I2xAM35InAUCT5pMHSC3fnUmlb6P2+1g0SN
+	hwkTwkUEiYpdqxL3Q2EljoEDhV1dY3skNsJVC5BXP9CAodJUtw7rDJHgUHeedCfgZDEPH2y2eMr
+	Dy8hE8MoHJNtMrdBAxp6o+eqLblO/OERVqQWvVaevvsJ1VcR9yTmsIuC4oEpDR1btsqpTodEHd1
+	J4BbEu7m1Acn62/MW8la8SuHsuI1F6DuVaqvQZO/NfsxCdMadQk+l9KnjNnHJqfnZpjL6oCCPm+
+	+u1RYd3D2IJY1zlPXm/zIFGbr2p6W2n2y1Ks+FWKEgJcw+ApQwJ99sXWe57LDp0dYRmjk9VYQXn
+	WDj3JfNR1QrTQvMDOnf2vphg4U3hZp2pJCiot2ba6ep9SZQPNr4srTpLTLuJfzcsfI3QU=
+X-Received: by 2002:a17:90b:3c03:b0:398:de23:9af6 with SMTP id 98e67ed59e1d1-39d9c1db154mr11222277a91.15.1789164889827;
+        Fri, 11 Sep 2026 15:14:49 -0700 (PDT)
 Received: from localhost ([216.228.127.128])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4efc398sm10174839eec.19.2026.09.11.15.14.46
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365b8137fsm9073522c88.9.2026.09.11.15.14.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 15:14:46 -0700 (PDT)
+        Fri, 11 Sep 2026 15:14:49 -0700 (PDT)
 From: Yury Norov <yury.norov@gmail.com>
 X-Google-Original-From: Yury Norov <ynorov@nvidia.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -72,10 +73,12 @@ Cc: Yury Norov <ynorov@nvidia.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-mm@kvack.org,
 	maple-tree@lists.infradead.org
-Subject: [PATCH 0/3] Catch automatic storage in IDA and Maple Tree definitions
-Date: Fri, 11 Sep 2026 18:14:40 -0400
-Message-ID: <20260911221444.1523311-1-ynorov@nvidia.com>
+Subject: [PATCH 1/3] compiler.h: add ASSERT_STATIC_STORAGE()
+Date: Fri, 11 Sep 2026 18:14:41 -0400
+Message-ID: <20260911221444.1523311-2-ynorov@nvidia.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260911221444.1523311-1-ynorov@nvidia.com>
+References: <20260911221444.1523311-1-ynorov@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,72 +87,79 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A 0day report [1] from the region allocation benchmark exposed a lockdep
-initialization bug: a stack-local Maple Tree used MTREE_INIT(), whose
-embedded lock has a static initializer. On the first allocation, lockdep
-rejected the lock address as a non-static class key and disabled locking
-validation. The IDA benchmark had the same issue, masked because it ran
-after Maple Tree had already disabled lockdep.
+Static lock initializers rely on a persistent object address when lockdep
+assigns a lock-class key. Using such an initializer for an automatic local
+object can compile successfully but disable lockdep on the first lock
+acquisition.
 
-The fix [2] switches the test to using mt_init_flags() and ida_init().
-This series adds a compile-time check to the related DEFINE_IDA() and
-DEFINE_MTREE() declaration macros to catch the same class of mistake
-earlier.
+Add ASSERT_STATIC_STORAGE() for declaration macros that require
+static storage duration. It declares an unused static pointer initialized
+with the object's address. An automatic local object's address is not a
+valid static initializer, so the compiler rejects it.
 
-Patch 1 introduces ASSERT_STATIC_STORAGE(). It declares an unused static
-pointer initialized with the object's address, requiring that address to
-be a valid static initializer. Patches 2 and 3 apply the helper to IDA and
-Maple Tree definitions, respectively.
+Mirror the helper in tools/include/linux/compiler.h because the userspace
+radix-tree tests include the kernel IDA and Maple Tree headers with the
+tools compiler definitions.
 
-The helper is mirrored in the tools compiler header. The existing automatic
-local IDAs and Maple Trees in the userspace radix-tree tests are converted
-to runtime initialization. The interval-tree span test keeps its existing
-mt_init_flags() call and uses a plain Maple Tree declaration.
-
-For example, an automatic local definition:
+For example:
 
   void example(void)
   {
-          DEFINE_IDA(ida);
-          ida_destroy(&ida);
+          int object;
+          ASSERT_STATIC_STORAGE(object);
   }
 
-now produces:
+GCC reports:
 
   error: initializer element is not constant
+    name##_storage_check = &(name)
+                           ^
   note: in expansion of macro 'ASSERT_STATIC_STORAGE'
-  note: in expansion of macro 'DEFINE_IDA'
+    ASSERT_STATIC_STORAGE(object);
 
-File-scope definitions and static local definitions remain valid.
-Automatic local objects should use ida_init(), mt_init(), or
-mt_init_flags().
+File-scope objects and static local objects remain valid. The helper takes
+an object identifier and must be used as a declaration after that object
+has been declared.
 
-The check is limited to declaration macros. Direct uses of IDA_INIT(),
-MTREE_INIT(), and MTREE_INIT_EXT() remain unchanged. The helper cannot be
-inserted directly into those initializer expressions because it expands
-to a declaration.
+Link: https://lore.kernel.org/all/20260911155244.1406122-1-ynorov@nvidia.com/
+Signed-off-by: Yury Norov <ynorov@nvidia.com>
+---
+ include/linux/compiler.h       | 5 +++++
+ tools/include/linux/compiler.h | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-Validated by GCC and Clang checks accepting static storage and rejecting
-automatic storage The userspace IDR/IDA and Maple Tree test are passed
-as well.
-
-[1] https://download.01.org/0day-ci/archive/20260910/202609101106.771b567e-lkp@intel.com/
-[2] https://lore.kernel.org/all/20260911155244.1406122-1-ynorov@nvidia.com/
-
-Yury Norov (3):
-  compiler.h: add ASSERT_STATIC_STORAGE()
-  idr: assert static storage for DEFINE_IDA()
-  maple_tree: assert static storage for DEFINE_MTREE()
-
- include/linux/compiler.h            |  5 +++++
- include/linux/idr.h                 |  5 ++++-
- include/linux/maple_tree.h          |  4 +++-
- lib/interval_tree_test.c            |  2 +-
- tools/include/linux/compiler.h      |  5 +++++
- tools/testing/radix-tree/idr-test.c | 20 +++++++++++++++-----
- tools/testing/radix-tree/maple.c    | 12 +++++++++---
- 7 files changed, 42 insertions(+), 11 deletions(-)
-
+diff --git a/include/linux/compiler.h b/include/linux/compiler.h
+index cb2f6050bdf7..ef9036fa5413 100644
+--- a/include/linux/compiler.h
++++ b/include/linux/compiler.h
+@@ -275,6 +275,11 @@ static inline void *offset_to_ptr(const int *off)
+ #define __ADDRESSABLE(sym) \
+ 	___ADDRESSABLE(sym, __section(".discard.addressable"))
+ 
++/* Enforce static storage duration. */
++#define ASSERT_STATIC_STORAGE(name) \
++	static typeof(name) * const __always_unused \
++		name##_storage_check = &(name)
++
+ /*
+  * This returns a constant expression while determining if an argument is
+  * a constant expression, most importantly without evaluating the argument.
+diff --git a/tools/include/linux/compiler.h b/tools/include/linux/compiler.h
+index f2f54b038168..03ecf9086643 100644
+--- a/tools/include/linux/compiler.h
++++ b/tools/include/linux/compiler.h
+@@ -73,6 +73,11 @@
+ # define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+ #endif
+ 
++/* Enforce static storage duration. */
++#define ASSERT_STATIC_STORAGE(name) \
++	static typeof(name) * const __always_unused \
++		name##_storage_check = &(name)
++
+ /*
+  * This returns a constant expression while determining if an argument is
+  * a constant expression, most importantly without evaluating the argument.
 -- 
 2.53.0
 
