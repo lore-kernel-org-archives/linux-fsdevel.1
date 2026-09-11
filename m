@@ -1,63 +1,68 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BD14AC147
-	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 19:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337FD563FCE
+	for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 19:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789155730; cv=none; b=Wuub+mkPj2vo62ZNVyy4d9PVVphWsORfz05muBSxYqg3eV4UqxLGzbUsJ4Uw+pOILBxcQ9F3EqUky8Uyx6VYd24+Bx/3XJLoi4YCpq/CfDNe/aiCVA0Eit0zcXqXgNVUdwMqI69WO9WMqVK0AbmyncZmniYqBKZuCTK07fAJ1Zg=
+	t=1789155734; cv=none; b=WQ5iIxFAqpjk5oBUB9a61fz0M9Sa4WtgQb1S2NabmV21b7Z7c/z7En+K6rTxTeJNcUZciomhN/wFpgDYD6l5+JwDe6Nc4dQU+pcMGcDbk0e5/Q+ZHjKZKzvBlhE+9btihDtiygZNlkJjA2azVqCfvWDPVpj87bZBlDKshrVAL4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789155730; c=relaxed/simple;
-	bh=v8OiTYvm9jLxwoItXDWbhS4/9qcPWVaZ1YVyRZglHA0=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Eazuz9zuiMZmLNLBT69DClff2gH8hFimNC3usYaJLy6vsKCmmaCyY9eu+BnteNg0NdKQ5L9fOv0PiLOvChheLf9wBtVJvZziELjFqZwdJ54TbmYhrPHS1A+BqtH3HSsYe+CHKA1NfahxjiW/FtjtH3Ink98TWXIiOLAXok+cxoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GONemXH4; arc=none smtp.client-ip=209.85.215.197
+	s=arc-20240116; t=1789155734; c=relaxed/simple;
+	bh=xC/1m/ZNc5aD6WbXVRq3B46Q8Q9ABXZzcNxtVqCNRYM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=FbDVM5+P9BXAuMke662TByCaYPAvEoakXbndru2KFpmNrMXsRtErDu0qT3mpCArrhcZccL1iI/GgJ6MZ7dXUwiA6U71JnjJ8j5I9CP0MBM6RNnZbBGkZiNnF/Zs1PO9tcJh8ibJ2t4YtNd5do6p70dEKf83AOq1tcOBMdWmIvVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lUdWkD9z; arc=none smtp.client-ip=209.85.210.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GONemXH4"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc4c1fc9ceaso1167532a12.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 12:41:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lUdWkD9z"
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-86a2639398cso1905644b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 11 Sep 2026 12:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789155709; x=1789760509; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NFnX3s9ttQtORT13US/ARsVw733vFoBxkxITzrUPh78=;
-        b=GONemXH4RWP5RrIgHpYK33E0H+Uz7nZrMV6O4OFKWlizAyZXnoQb1DXW8txFzWvQFa
-         qXO9fKR2EWl8PAW2eWCBW2hYLQxKzgwSfa1nmXwLpCxeHNHKeKq7C5PAYt5gKp8dhoVx
-         rr4/Xjtms9mIaZZ/ITkMyqQw6MDuXTUpfKGfc+BuxMnlJkRUMOeAOLeBobH7bHuCcvAI
-         nTHamENzupCNX9zjiq3fFRd4I72mhwFY0v3/vValQLU2aTVK4dhSLoCxvDQXjijRl69b
-         GGkX5yx81Op1bhAhqjUAt7wYFkAj7OfqfkFmj7XcFMgLk0/BWfzWMcqJeJGhTBwBuA+E
-         uPpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789155709; x=1789760509;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1789155715; x=1789760515; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=NFnX3s9ttQtORT13US/ARsVw733vFoBxkxITzrUPh78=;
-        b=rlJA42aS+ndkfLt6Yf3m1nGni8DLZQg3rUH7q4/cYfC6P1rOzIs0kDyGTDQSB0M9/j
-         zEddesVLz5jEfpndB16gILhtjwvDpyLXRaEuMleZsmW/yhit5DONHDuPeKCwzM76YAfz
-         he7c8WAkN4yPIK9EWqRB/bSMyjq0ABVeU7IIaendwyiM+dQBUj28eCVlfWstaBeMXKsu
-         Oods28p1fEZeeOQ7D4JozDLKKbZggjZwvAABId1QM+uMx6mSVjtZutG+45MpIU2OVwqv
-         tSybT0OAPk8463PH51nxmev8l3dmV4qayzpoRi9dxKgpSjb/m0FrmC/PllkO8oV9t0dl
-         9Nww==
-X-Forwarded-Encrypted: i=1; AKwUvBxJaqE/HLCfTJlvg2E9L6ae9lmmTobY9ptuH515bj0o2yeH4Di65GictJ1OSfEHdyGEz2RoqyNiOcCo9f+I@vger.kernel.org
-X-Gm-Message-State: AFuF++nhoz0Jx2aX73zhUA7VI9LGeMnC/pkT44nSDDOxUvHhwxh7lc+g
-	vPojbRb1OuBPQ42VC5DMkcYQGD+iUB8fi9zByff/0fCgeMHAlG1zWtHo/8DmmRBPxjj+OqI52Ys
-	anI6a1A==
-X-Received: from dld34.prod.google.com ([2002:a05:7022:322:b0:141:6ffa:3579])
- (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:3391:b0:3cc:b26a:7686
- with SMTP id adf61e73a8af0-3daed1515f5mr11763572637.6.1789155709034; Fri, 11
- Sep 2026 12:41:49 -0700 (PDT)
-Date: Fri, 11 Sep 2026 12:41:38 -0700
+        bh=7FgSt6854K565EW8hKNAIrNpKO8xQPyDCjbWGmWWQzU=;
+        b=lUdWkD9zD1CLXJmIp/rKKVNq9jD2Oh2GRnSOKy96DciTzX7LLO/Hz2EibEOUL+s1e/
+         Myr//Mdj7dpXKnvsz/kjzig/YClgO5RELer+dbpP3Qe0bQOzTjKMejwrfDbQb56q0n6Q
+         ctvo5WfMqrvxHhLM7RRvaY9ONHb5YzMjk6yu/Id5ipWhnNnN3gdNCmT1ptHYZAFbDH0O
+         nHEVV25Resjyu7i3cCWFH9z7UVAdYCrNxjIytKUy2JYqkYJ+68m7AP7nFUHQzrU+soec
+         TdIDfjf9QsFqAMEOMoZtw3vsb4+OgHgAHdf4l2l4gGj3A6ojjcRx5YhBbv0vxitAVHlA
+         FvUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789155715; x=1789760515;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7FgSt6854K565EW8hKNAIrNpKO8xQPyDCjbWGmWWQzU=;
+        b=LMpgbNkKtGStHb8jtdC1nVNyg4DV3nPXWjAHLWesoRKX6G3et3uLe97OtkP0dnv4e0
+         2AgfYYqdW6FbueLSH3++BK1QQCxBvleNV2Ag+FAKkKCOq35fsdOHR09JBhfM6wAy6Eqx
+         3mYMfJ6oBRcZPKe27BWrNtzkzhd5DHytGfXEzgihefjwq9gZT8d94LRCmCdDnho/6+XQ
+         2AeX8+fJpciYds9rfgn10x0m6s/IOJNdtd9jybxJ2WOcPNh9kJEsF6wrHpXI5llvaRQl
+         BPX8vSyGPB2VvmWlTa1gys0CnhEsZv3R+++rIjL5vB4diZJZRREXU/YrcourHwCaWgp5
+         jlPQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxJx92vb9jeFcLDiEUwG7j4s3QN2aecNNso/KA04yWV6XdB8CU85Yffrb5YgYNBqJbC7HTq8vMpsVywFyWs@vger.kernel.org
+X-Gm-Message-State: AFuF++mxsCqpjBflq257L3qoNYfgHZnXHAkC04/gJRTp/CXMgWV6qtpK
+	S2MDJ8yGJ0bF+WhBa+vY5wqWPNOnZLUWF5vvA1gpMhknTYal+SHBv9wG3790vMzv7CHuHUVaCqL
+	JGdMAig==
+X-Received: from dyaz19-n1.prod.google.com ([2002:a05:693c:6393:10b0:339:7d9d:9439])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:3c8f:b0:3da:b8b4:91d7
+ with SMTP id adf61e73a8af0-3daed100006mr10905880637.2.1789155715225; Fri, 11
+ Sep 2026 12:41:55 -0700 (PDT)
+Date: Fri, 11 Sep 2026 12:41:41 -0700
+In-Reply-To: <20260911194145.1781926-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20260911194145.1781926-1-surenb@google.com>
 X-Mailer: git-send-email 2.55.0.1007.g17ff1f9808-goog
-Message-ID: <20260911194145.1781926-1-surenb@google.com>
-Subject: [PATCH v4 0/7] read proc/pid/smaps_rollup under per-vma lock
+Message-ID: <20260911194145.1781926-4-surenb@google.com>
+Subject: [PATCH v4 3/7] proc/task_mmu: clarify shmem mapping walk conditions
+ in smap_gather_stats()
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, david@kernel.org, 
@@ -66,65 +71,56 @@ Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, david@kernel.org,
 	linux-fsdevel@vger.kernel.org, surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-proc/pid/smaps_rollup can be read using the combination of RCU and
-VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
-required to safely traverse the VMA tree and VMA lock stabilizes the
-VMA being processed and the pagetable walk.
-Note that we have to keep the logic to drop mmap_lock on contention
-because even when using per-VMA locks we might have to fall back to
-holding the mmap_lock.
+smap_gather_stats() optimizes stats gathering by skipping the walk for
+shmem mappings in certain conditions. Update the comment to clarify
+these conditions and use vma_is_cow_mapping() for CoW identification
+instead of open-coding it.
 
-The first 5 patches are cleanups making later change simpler. The main
-change is in patch 6. Patch 7 extends existing proc-maps-race tearing
-test to verify smaps_rollup content.
+No functional change intended.
 
-Changes since v3 [1]:
-Patch 2:
-- Added Acked-by, per David Hildenbrand
-Patch 3:
-- Moved conversion of (start != 0) to is_partial into the next patch,
-  per Lorenzo Stoakes
-Patch 4:
-- Moved conversion of (start != 0) to is_partial into the next patch,
-  per Lorenzo Stoakes
-- Converted multiple lines of arguments in modified functions to
-  two-tab indents, per David Hildenbrand
-- Introduced smap_gather_stats_range() for partial VMA walks,
-  per Lorenzo Stoakes
-Patch 5:
-- Added Reviewed-by and Acked-by, per David Hildenbrand and
-  Lorenzo Stoakes
-- Added a comment explaining the check for SENTINEL_VMA_GATE in m_start,
-  per Lorenzo Stoakes
-Patch 6:
-- Added Reviewed-by, per Lorenzo Stoakes
-Patch 7:
-- Converted multiple lines of arguments in modified functions to
-  two-tab indents
-- Added Acked-by, per Lorenzo Stoakes
+Suggested by: David Hildenbrand (Arm) <david@kernel.org>
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+ fs/proc/task_mmu.c | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
-[1] https://lore.kernel.org/all/20260910234737.1340642-1-surenb@google.com/
-
-Patchset applies over mm-new branch.
-
-Suren Baghdasaryan (7):
-  proc/task_mmu: remove unnecessary helpers
-  proc/task_mmu: remove unnecessary inlines in function definitions
-  proc/task_mmu: clarify shmem mapping walk conditions in
-    smap_gather_stats()
-  proc/task_mmu: remove special-casing of smap_gather_stats() start
-    parameter
-  proc/task_mmu: change proc_get_vma() to stop returning gate VMA at the
-    end
-  proc/task_mmu: read proc/pid/smaps_rollup under per-vma lock
-  selftests/proc: add /proc/pid/smaps_rollup tearing tests
-
- fs/proc/task_mmu.c                            | 339 ++++++++----------
- tools/testing/selftests/proc/proc-maps-race.c | 186 +++++++++-
- 2 files changed, 334 insertions(+), 191 deletions(-)
-
-
-base-commit: 1f78f28a2945f9e856b4ea8428ac41a6788e4b67
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index cfc7af1b551d..0e53eb065a3e 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -1270,23 +1270,18 @@ static void smap_gather_stats(struct proc_maps_private *priv,
+ 
+ 	if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
+ 		/*
+-		 * For shared or readonly shmem mappings we know that all
+-		 * swapped out pages belong to the shmem object, and we can
+-		 * obtain the swap value much more efficiently. For private
+-		 * writable mappings, we might have COW pages that are
+-		 * not affected by the parent swapped out pages of the shmem
+-		 * object, so we have to distinguish them during the page walk.
+-		 * Unless we know that the shmem object (or the part mapped by
+-		 * our VMA) has no swapped out pages at all.
++		 * CoW mappings might map anon folios that do not belong to
++		 * shmem. Perform a less efficient page table walk in this
++		 * situation, unless we know that the shmem object (or the
++		 * part mapped by our VMA) has no swapped out pages at all.
+ 		 */
+-		unsigned long shmem_swapped = shmem_swap_usage(vma);
++		const unsigned long shmem_swapped = shmem_swap_usage(vma);
++		const bool is_cow = vma_is_cow_mapping(vma);
+ 
+-		if (!start && (!shmem_swapped || (vma->vm_flags & VM_SHARED) ||
+-					!(vma->vm_flags & VM_WRITE))) {
+-			mss->swap += shmem_swapped;
+-		} else {
++		if (start || (shmem_swapped && is_cow))
+ 			ops = get_smaps_shmem_walk_ops(priv);
+-		}
++		else
++			mss->swap += shmem_swapped;
+ 	}
+ 
+ 	if (!start)
 -- 
 2.55.0.1007.g17ff1f9808-goog
 
