@@ -1,229 +1,138 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394292E92BA;
-	Fri, 11 Sep 2026 09:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CE4414417;
+	Fri, 11 Sep 2026 10:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789119343; cv=none; b=NWL4FHox2tnDtpgmDnjRixXxKh1qSa8TYEprTMzX4DPWy12CY8kYk15c8szU1CxxoQXJoKaUD6hiFZoCVtGhgTg9u8wqBmgqe6Gsak3T1cipZubqTQ4zbn6Py2fZs5JLw7V/yVdPkBW7btQBkrkRhEMTyUyYcuPIq84arkpvmC8=
+	t=1789121634; cv=none; b=Lg/zhN32hLkvTlALdtKpez/njgpNduhAfla3RCstdoYG3T4dWPc+5quojVFaA7hxx0Kzdx2nuEQqPe2YHiFhSKxie63OowvN58BMmEDzDtpxfuaRr4bLH40NvUfaerm4oRvjZZRPHl94b+m7as74Si4mAqTFO9q/zi8Ik23RiqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789119343; c=relaxed/simple;
-	bh=5ilCdKcqCwxjYRqo4FSYfH9Cm2vVzU9QtahGdbQcnhE=;
+	s=arc-20240116; t=1789121634; c=relaxed/simple;
+	bh=AJ4osXGfnva+GsW9Xj6wSlPvmOYx8+Z4McGwoEWWU6k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tqDkuzSoMwolud8rMLYmsIwkJEcMtmjoSou2H3/1PJHy5XU7/Dk7zKwZXYjWqJw3Ht1xxmMAbv53jAE1pHb01RZErKjOVcKksfXSRyEYL/MABXEN/FWJ0JX7sFLEiIOwhW40RAEGGAJOhCFIcCkvy9qmQLgTibPUZXFg4/sUatc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xIGNt+l8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZKVNvNPz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qgEvyuQI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gifg9d9E; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z/nz25oijYbnMnGJnkIP22Ji/priNezxuNzHqV/HGdcXC2YGF4/GGefAm901p7tRfiIpzS7mmp6x23O2UkT3x4gr26gTiMjXh5MniY6vJupw5sTv/ethNyNlA7hxgZVrwWIITjbJaY2GnZNuaqkXbKF1zQscN3PhvsB0YbWJXKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXiIsYXG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xIGNt+l8";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZKVNvNPz";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qgEvyuQI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gifg9d9E"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B28B321D2B;
-	Fri, 11 Sep 2026 09:35:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789119334; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wE8iaWly/EkLPx8G/L2Hp0WSTnhziRsEW8T9oadhB7o=;
-	b=xIGNt+l8jOYVNSIX7ujdNAJ1iW2XTiRGd9o0QOutyKQFtqYhlRk8Ln6Zj8M85EdjaqMVkM
-	mxmUNjlFVY8/WrxpH1v+mdxlpH+I3xAf6zN5j0lQr5Yi0OGpLfwHTTji11TmtJG9bv0XYf
-	Voqt5G5GoUCkxlvbZ2UwLBWZZM19URg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789119334;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wE8iaWly/EkLPx8G/L2Hp0WSTnhziRsEW8T9oadhB7o=;
-	b=ZKVNvNPz5qWa4w8sVHqBKpx6WsNPpKs08O41aAs5ed0wVyPAo7RrDbUamJvJ0hv01si4ud
-	JUF1OHVk4WrvXVCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=qgEvyuQI;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=gifg9d9E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789119330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wE8iaWly/EkLPx8G/L2Hp0WSTnhziRsEW8T9oadhB7o=;
-	b=qgEvyuQItOS7u/bdUozwj1bNWb7OG5ekxdo4V4NPGbk5ruGgWMhGs/5TAqICwjcs+lMFEb
-	V2DxeCmtmFN3wCSzHFlVp1rgL3MPBsJ3O06awTZC/HWqRIXk776qRYc19f3Ydl574sfnbZ
-	1duejhtKAT1YEj+V12QKZhFQL/7J/HQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789119330;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wE8iaWly/EkLPx8G/L2Hp0WSTnhziRsEW8T9oadhB7o=;
-	b=gifg9d9Ea0zwtw+0PzXVfC8+1NX8ADLaPtx9Iss8SqiAbPxBOBdspM/7hXlho1yrmj+QI9
-	skypO+UFmhJCd+Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 89305136ED;
-	Fri, 11 Sep 2026 09:35:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jEl4IWLLo2pPSwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 11 Sep 2026 09:35:30 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1A278A1342; Fri, 11 Sep 2026 11:35:30 +0200 (CEST)
-Date: Fri, 11 Sep 2026 11:35:30 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Patrick Lu (Anthropic)" <perf.patrick.lu@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Tejun Heo <tj@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Dennis Zhou <dennis@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] writeback: bound cleanup_offline_cgwb() rescans by
- rotating b_attached
-Message-ID: <5onojwm73shl2c3ddwboijarrefjw4gmkfcvnwdvow2wybhu5u@wu37jhkboemj>
-References: <20260909-wb-cgwb-rotate-v1-1-f2eb994d2a46@gmail.com>
- <vciagp74qvys2zdbsfcr2brhbv4uyabvm67czm255ascytesjz@n6q775zxxwvb>
- <3ebd03824f0df04947ffca7f25c96c30.perf.patrick.lu@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXiIsYXG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F4F1F000FF;
+	Fri, 11 Sep 2026 10:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789121626;
+	bh=AJ4osXGfnva+GsW9Xj6wSlPvmOYx8+Z4McGwoEWWU6k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VXiIsYXGW7V+CUC2hoUUxshBtk//170ahXby5qOmnHCTEG6nprU1IS50u25G/fRQk
+	 sf9ytH2Ce2iGqonEAUfAmBNxEiX0H5gDZvz851NX8EhIuDaWSIQBlPZWYHnVma0aGj
+	 blDmI4LY1KM28dzcRxXSp3rNd+ml+k1Jf5jXcr5BNdmFsP+f0lE+KyInKD5utrTv18
+	 j0kWa0ZAaMlc3Pw4wRDO2h4SoWYRal6ZvW3YmHkVxX6gQf6/JqWhQp1QSVXE2Kca+2
+	 BYYLTVktrg9Xqy9CLQ0dyOX4enXiqnPzEjwUfsC5vJviK7A/gYwNlJA1GGOz2i3bhy
+	 SIFHvCnClRnig==
+Date: Fri, 11 Sep 2026 11:13:15 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 11/39] selinux: reject writable opens of policy file,
+ drop mmap shared/write check
+Message-ID: <aqPS_UHU3MotlchR@gremlin>
+References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
+ <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
+ <CAG48ez3Ucb8HyhjC1-fijFiYJsnWcTLYHvJjzMyU710mgegxnA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3ebd03824f0df04947ffca7f25c96c30.perf.patrick.lu@gmail.com>
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: B28B321D2B
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG48ez3Ucb8HyhjC1-fijFiYJsnWcTLYHvJjzMyU710mgegxnA@mail.gmail.com>
 
-On Thu 10-09-26 23:47:44, Patrick Lu (Anthropic) wrote:
-> On Thu, Sep 10, 2026 at 01:24:52PM +0200, Jan Kara wrote:
-> > On Wed 09-09-26 18:50:27, Patrick Lu (Anthropic) wrote:
-> > > Move every scanned inode to the tail of b_attached, so the next pass
-> > > starts where the previous one stopped and the drain becomes linear.
-> > > b_attached is unordered and isw_prepare_wbs_switch() is its only
-> > > walker, so nobody else sees the reorder. b_dirty_time is ordered by
-> > > expiry for move_expired_inodes() and keeps its current scan.
+On Tue, Sep 08, 2026 at 10:22:20PM +0200, Jann Horn wrote:
+> On Tue, Sep 8, 2026 at 10:07 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> > The policy file has no write method and is exposed read-only (S_IRUGO in
+> > selinux_files[]), yet sel_open_policy() performs no open mode check, so a
+> > CAP_DAC_OVERRIDE caller can open it O_RDWR. Reject FMODE_WRITE at open, as
+> > kernfs does.
 > >
-> > OK, but isn't there the very same quadratic behavior problem with
-> > b_dirty_time scan which you don't touch (and where your trick cannot work)?
-> 
-> Yes, the same thing happens there. We never saw it because none of our
-> filesystems are mounted with lazytime, so b_dirty_time was always empty
-> on the hosts we looked at.
-> 
-> We realized the rotation works for b_dirty_time too if the walk starts
-> from the oldest end instead of the newest. sync takes the whole list no
-> matter the order, and move_expired_inodes() picks from the oldest end,
-> so walking with list_for_each_entry_safe_reverse() and moving scanned
-> inodes to the newest end keeps the oldest unscanned inode right where
-> the expiry looks. Prepared inodes leave the list as soon as the switch
-> work runs and get a new dirtied_time_when on the new wb anyway
-> (9a6ebbdbd412), so the only inodes left out of order are the ones that
-> can never switch (DAX), and only on the dying wb.
-> 
-> I tried it in qemu with 100k lazytime inodes on a dying cgwb. With v1
-> the b_dirty_time scan under list_lock still grows from 11 to 115 ms per
-> pass across the drain, same as unpatched. Walking both lists from the
-> oldest end keeps b_attached and b_dirty_time flat at ~0.6 ms per pass,
-> with one loop and no flag. Does that make sense? Something like this,
-> which I can send as v2:
+> > The file can then never be mapped with FMODE_WRITE, so do_mmap() always
+> > clears VM_MAYWRITE and VM_SHARED for MAP_SHARED mappings and the VM_SHARED
+> > check in sel_mmap_policy() cannot be reached. Remove it.
+>
+> You should also be able to remove the sel_mmap_policy_ops.page_mkwrite
+> handler, which is only for shared-writable faults, right?
 
-Yes, I was also thinking that since we are going to clobber
-dirtied_time_when anyway, we can as well do it a bit earlier to ease
-iteration.
+Yeah I think you're right, though I wonder if it's a bit out of scope for this
+change as it's focused on removing a VMA_MAYWRITE_BIT clearance for a
+non-kernel-owned VMA.
 
-I can see in your patch you don't touch dirtied_time_when at all which will
-make the b_dirtied_time list not ordered by the timestamps. That makes me a
-bit uneasy but since we are going to move everything out from that list
-eventually I think that is fine.
+So maybe one for a follow up?
 
-								Honza
+>
+> > This also stops sel_mmap_policy() clearing VM_MAYWRITE on a mapping that is
+> > neither a PFN map nor a mixed map, ahead of the core enforcing that only
+> > such mappings may do so.
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>
+> Reviewed-by: Jann Horn <jannh@google.com>
 
+Thanks!
 
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index e744f9f9d43f..ea3eb40bf828 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -727,19 +727,34 @@ static bool isw_prepare_wbs_switch(struct bdi_writeback *new_wb,
->  				   struct inode_switch_wbs_context *isw,
->  				   struct list_head *list, int *nr)
->  {
-> -	struct inode *inode;
-> +	struct inode *inode, *tmp;
-> +	LIST_HEAD(scanned);
-> +	bool full = false;
-> +
-> +	/*
-> +	 * Walk from the oldest end and move scanned inodes to the newest
-> +	 * end, so the next scan resumes at unscanned inodes instead of
-> +	 * re-walking an ever-growing run of prepared and skipped ones.
-> +	 * For b_dirty_time this keeps the oldest unscanned inode at the
-> +	 * end move_expired_inodes() picks from; b_attached is unordered.
-> +	 */
-> +	list_for_each_entry_safe_reverse(inode, tmp, list, i_io_list) {
-> +		list_move(&inode->i_io_list, &scanned);
->  
-> -	list_for_each_entry(inode, list, i_io_list) {
->  		if (!inode_prepare_wbs_switch(inode, new_wb))
->  			continue;
->  
->  		isw->inodes[*nr] = inode;
->  		(*nr)++;
->  
-> -		if (*nr >= WB_MAX_INODES_PER_ISW - 1)
-> -			return true;
-> +		if (*nr >= WB_MAX_INODES_PER_ISW - 1) {
-> +			full = true;
-> +			break;
-> +		}
->  	}
-> -	return false;
-> +	list_splice(&scanned, list);
-> +
-> +	return full;
->  }
->  
->  /**
-> 
-> Thanks,
-> Patrick
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+--
+Cheers, Lorenzo
