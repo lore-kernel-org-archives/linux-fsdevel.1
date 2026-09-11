@@ -1,40 +1,33 @@
-Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9563E1D0B;
-	Fri, 11 Sep 2026 10:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF0143DEC3;
+	Fri, 11 Sep 2026 10:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789123869; cv=none; b=ey38mFII9I8NUQrb6D6IB9MUPEUcWo+Gxw8s42COHbufFwVjsD/aKz7FAo2hsA3HiSAWPnZdy1X+5yjJX8v/riTcJOBbViVk9vu1rcYDWPz75UlaN8CpL3HJvj2QPPxj8IWUbSNCNHeqLLTYnfya/dUuHkBgSNNMw/zsDMSQzWg=
+	t=1789123967; cv=none; b=cS4UiMYZWyhx/0Oct6wXBZcCNl8fAvk+fiTcR/PecfIyEpmhpKerOKy0swi7N1fEmIoUOik6LYW+xy0GjLbLjSy2XKZh6aFxsty4V5ZmuM/efvtsoAniqXRIsgRlNzt2DKHfc51S6GuQGRx6jrbb2PgWL8YtrLpREmrtdh02aAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789123869; c=relaxed/simple;
-	bh=kkZvIZshRYmJYWWocAIP8fWh5J1GHpiPuZueNICKsoA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nxj+YNx7CwgNC8WMsg6JD2s7wI/7mUJeyIf3W8GNHAWRyJe5/ozMImOm1y1C35haco9qJPxO6XWn10XJCEUV5m3up621DmvYoK+bNWM/jOyMhZt06B6TVsxwRE5MPU+w1D/lrHdmGYNvBcMw+L9MbTvpRs6wQmSglDQwaXxlvqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=AIz7jU+N; arc=none smtp.client-ip=113.46.200.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1789123967; c=relaxed/simple;
+	bh=Uq/8X0HiJupWH4RNI9HVqPD9Bm1/hdFvPw0h4j81gxE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tMk2Dly9sW8jplIYQE3+mge9WzW7PMUqXeD+sVdijUgKlCuXtJy/MbPj+61UtCw5lh8vqdapzEVcC/HTapbNvf9j6608OqaZCs9BoEIKgPgmGXWY9rkzVP1dJzapXiR27O7QFswOF2pxAbnQ7LOu49gIXi5LIImuAwYVbpA4Afs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TMai2M/J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="AIz7jU+N"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=YNIARwvAoaD587kn8kLvRjpjKEQ+aDSYPufdVCROqUQ=;
-	b=AIz7jU+N0TKZGvyxZmpvRaHfK9ACzUFrPcPQzf4wOuWlMI2yC9QrgixQZJVyBB4sqnpDo4EFo
-	AWZFQYN54yHyznl9+IQKrUxEBy4eo1u8JpDd9DY+Gucla3YzXvz5c1gaj6geiJT6MABM5Myn27x
-	OaFLo60/KYV1AvK2D9DAzLs=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4hh9zX1WG2z1K9B2;
-	Fri, 11 Sep 2026 18:40:08 +0800 (CST)
-Received: from kwepemk300003.china.huawei.com (unknown [7.202.195.93])
-	by mail.maildlp.com (Postfix) with ESMTPS id F083640578;
-	Fri, 11 Sep 2026 18:51:03 +0800 (CST)
-Received: from [10.174.177.243] (10.174.177.243) by
- kwepemk300003.china.huawei.com (7.202.195.93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Fri, 11 Sep 2026 18:51:02 +0800
-Message-ID: <b430989d-a146-4db7-ba82-21c5b5e04f11@huawei.com>
-Date: Fri, 11 Sep 2026 18:51:01 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMai2M/J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 553D91F000FF;
+	Fri, 11 Sep 2026 10:52:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789123965;
+	bh=X0wLJyzoS+rujzOY6JY3rDS0t6N6NQfza06M9gcgofo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=TMai2M/JzHX97Uof3kYcZNAXQxel+xYoWDt/nsWStU1GsLYFl6mRdPH2B6r1ujc4J
+	 eFHtj7ktF0FM3oVUDCjjkGnA2ySaseAaONIGzvxd8fKMQKtM0uLlnnpL4Bh3EU+O9q
+	 lA0G9iakdBgTAzB4VMlc7MW4xd8FPUO9HSKG6wkooCyjJI32HmMV12LlKT6kGdEFE/
+	 iHnV2fjW2JqnLRLDsMD5vdgP9nuUK3QbYMy5PLFBnOVkxlS8ZeWJ+diTH1ShYdVatl
+	 0y2uZxCb7gT5yQJRJ2TNQjwp0+JwvIQSgnHgKf7eyuhk3z4NW3nqW3E078ejLa2HrQ
+	 y3c+tcRPpLFUA==
+Message-ID: <008dcaa3-2068-46e5-9e58-afb590d90584@kernel.org>
+Date: Fri, 11 Sep 2026 12:52:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,44 +35,84 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] xfs: kill xfs_trans_set/clear_context() helpers
-To: Christoph Hellwig <hch@infradead.org>
-CC: Brian Foster <bfoster@redhat.com>, <brauner@kernel.org>,
-	<djwong@kernel.org>, <cem@kernel.org>, <akpm@linux-foundation.org>,
-	<vbabka@kernel.org>, <surenb@google.com>, <mhocko@suse.com>,
-	<brendan.jackman@linux.dev>, <hannes@cmpxchg.org>, <ziy@nvidia.com>,
-	<david@kernel.org>, <qi.zheng@linux.dev>, <shakeel.butt@linux.dev>,
-	<ljs@kernel.org>, <linux-xfs@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Linux MM
-	<linux-mm@kvack.org>
-References: <20260903133756.2006032-1-wangkefeng.wang@huawei.com>
- <20260910140742.833170-1-wangkefeng.wang@huawei.com>
- <aqLqeTsbKBMEsl-G@bfoster> <93256043-c590-4001-bd7f-41ba36055b94@huawei.com>
- <aqOp035i41XIrDXg@infradead.org>
+Subject: Re: [PATCH v3 1/7] proc/task_mmu: remove unnecessary helpers
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
+ willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
+ xueyuan.chen21@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Usama Arif <usama.arif@linux.dev>
+References: <20260910234737.1340642-1-surenb@google.com>
+ <20260910234737.1340642-2-surenb@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <aqOp035i41XIrDXg@infradead.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260910234737.1340642-2-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemk300003.china.huawei.com (7.202.195.93)
 
-
-
-On 9/11/2026 3:12 PM, Christoph Hellwig wrote:
-> On Fri, Sep 11, 2026 at 08:57:53AM +0800, Kefeng Wang wrote:
->> Another question is the target repository for merging this patch.
->> Both this patch and the previous bug fix are based on the mm-new
->> branch. Merging into xfs separately (if an independent branch exists) might
->> cause conflicts.
+On 9/11/26 01:47, Suren Baghdasaryan wrote:
+> When per-vma locks were behind a config option, a number of helper
+> functions were needed to simplify the locking code. Now that these
+> locks are universally available, we can do a little cleanup.
+> Remove lock_vma_range(), unlock_vma_range(), query_vma_setup(),
+> query_vma_teardown() helpers.
 > 
-> Your first follow up fixes a xfs bug that can have somewhat nasty
-> consequences.  So I'd suggest you send us a standalone series that
-> we can get into 7.3 and -stable with as few dependencies as possible.
-> mm-new can get rebased on top of that, and then we can delay the pure
-> cleanups for xfs until after that is merged
+> No functional change intended.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Reviewed-by: Liam R. Howlett (Oracle) <liam@infradead.org>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Acked-by: Usama Arif <usama.arif@linux.dev>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
 
+I think you CCed me only on this mail correctly (the other ones went to my old
+RH address, I thought that one would bounce)
 
-Thank you for your suggestion. I rebase on v7.3-rc2 and resend them.
-https://lore.kernel.org/linux-xfs/20260911104227.2028941-1-wangkefeng.wang@huawei.com/T/#t
+-- 
+Cheers,
 
+David
