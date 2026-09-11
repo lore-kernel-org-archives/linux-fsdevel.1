@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917903E49E2;
-	Fri, 11 Sep 2026 15:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FC53E3C4F;
+	Fri, 11 Sep 2026 15:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789140820; cv=none; b=DJFpRLHAOqhTKnJTExmFH6BVMI1v2Tz0zWS2xbY46y1EpPNSnPmWF+vpoYR2n0manW7srsqemCM9S/lgWmwulaK0bYExnF8dVAKLDBL76Eb1ausArjlrcnD2dWvcxnVS3fJZ1JZxLQDXBkeGV0SNGMc4He8ZJRfxA42vvU+phts=
+	t=1789140859; cv=none; b=GHpzaQV/3tLYa2SKgk2hWCzvKlsPMyabin5yaAyKfQzADkmA6qItf/H5RnJJ1qIQWTYYmkTx7AtujVT9VOUFTeca1cdF+6VEhfHzLdFPaLW8kPNpU2eofr6nyw2B2O+GYf4v/jpY0nTCclQZoQwX/+bVplAa1o6n+ukS5231SOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789140820; c=relaxed/simple;
-	bh=G2KMCzFlA5oNkYSTmJT/nzBx5bRs6R2Y/lMaPfAROBU=;
+	s=arc-20240116; t=1789140859; c=relaxed/simple;
+	bh=9CWsRu5UTuC+V7kUVb+FTKee9W5f4L6Ugqrn8cKi9pQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oy7EWS2HuSsU/7CJpQZOGCkb7HNpKya4PQJF/wbqZ5448iAkiYRK2cF2pqU5OQgJSeh1TW9Z4rDs7yNzf1t8BK18w6DX2Ib1RUVTQ2+pCs0LuD6qGTiRTbNdeEkITPTBWQkdT5V9c8RQXpQR7I/CaKD62znwJzQJn8xOPIwUkbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=StSZwZPs; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=rStP/UPUBxUp/V5PC8RrwtTEg1tRm7gGVk+zMMZApgLfvwg3GTmCI2fUlyf21b8y5GOj/yyc/fI1CaoWe8PsE0uV9AsqgKvkiGGU1s/mYhSgtxBe+vcErVpE9PL/cJp2bYfa5BlmjfzAKg/C9l8/NOO3wMPLv9Whqpixeqrltog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ks+jkqFp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="StSZwZPs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89931F000FF;
-	Fri, 11 Sep 2026 15:33:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ks+jkqFp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 515C41F000FF;
+	Fri, 11 Sep 2026 15:34:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789140819;
-	bh=aF7Nxwvxz+Lpi7RwrS2E2i/AXxZY4vMNQyRAn9DKm5M=;
+	s=k20260515; t=1789140857;
+	bh=E/mAvtzivA9U9X6tGPYFmDfSejRVU7lyr0+4Ivk47GE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=StSZwZPsx9Eq1nxx/2p/O0vcQVU7Ig0LZHAbQ9v6d9oXTZQ1hO9ThN0Mcggm9hA1h
-	 HhjmjAkjpT3kyuyB1dRU1kXW8NUma3pAL79hDWDVs2y4i45Rq40PDAPvSpBcM8NsDb
-	 X/xTHb4HbBqMdgBc52URyYRb5fZBTnvq02Vv0fk7elUQkKTuq/8zhPCJ2uXtr6vFSF
-	 qwmLnu4CG/fqq8EeboQsqDiwOfvrQdR3rhawM2T7hpbnftWjU219TeVPpV4fjYj77C
-	 JWnFwpeYJA9d89Pcrpi3wj1vBJewgngY0LLVBFwVviisrPlxxhOdjhxDQMlyNIyLd5
-	 QYwmet90Vkzpw==
-Message-ID: <db06ebd6-8538-4154-9267-9e818cf8113e@kernel.org>
-Date: Fri, 11 Sep 2026 17:33:31 +0200
+	b=ks+jkqFpPwmWZ66/YPo1VZOvJ9HduIIKb5D/770pWEebkf7dlklTq02Y621vjUQKD
+	 Tfy7zNaCHzRd1kglFb2yEjnGGp+iZqRGG0DWdQK6IO0RHZMD5ES5VbMZRYfy82/vBn
+	 o/104GLutpfb9SHkCcPYXlb2KpfJOwYN0ITmFEPS1cNEeT/agBhikMjyMp9bojhpXN
+	 6Kr0RKj7Qnc9x29zWRlQ7KglAzHf6IShts0QtJ5RAdKu+LdpjimrvATnMbhTq5TZyR
+	 bYLQNb5FX83l1ZY29eXM9IHmUmw4tIdGKhon9DEize/OzBqbSuV+MLPf3byMohLzZ0
+	 0oZoRFn5DjbLg==
+Message-ID: <6fc3240e-8c4c-4178-a1a6-c7c876b92ee3@kernel.org>
+Date: Fri, 11 Sep 2026 17:34:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,15 +35,15 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/7] proc/task_mmu: clarify shmem mapping walk
- conditions in smap_gather_stats()
+Subject: Re: [PATCH v3 4/7] proc/task_mmu: remove special-casing of
+ smap_gather_stats() start parameter
 To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
 Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
  willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
  xueyuan.chen21@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
 References: <20260910234737.1340642-1-surenb@google.com>
- <20260910234737.1340642-4-surenb@google.com>
+ <20260910234737.1340642-5-surenb@google.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -90,25 +90,58 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260910234737.1340642-4-surenb@google.com>
+In-Reply-To: <20260910234737.1340642-5-surenb@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/11/26 01:47, Suren Baghdasaryan wrote:
-> smap_gather_stats() optimizes stats gathering by skipping the walk for
-> shmem mappings in certain conditions. Update the comment to clarify
-> these conditions and use vma_is_cow_mapping() for COW identification
-> instead of open-coding it.
-> Instead of using (start != 0) condition to identify partial walks, use
-> more semantically correct (start > vma->vm_start) check.
+> smap_gather_stats() interprets its start parameter to mean vma->vm_start
+> when it's set to 0. Eliminate this special interpretation and pass
+> vma->vm_start explicitly when needed.
+> 
+> Since smap_gather_stats() operates within a single VMA, we can replace
+> walk_page_vma()/walk_page_range() calls with walk_page_range_vma()
+> which is simpler and also can be called while holding per-VMA lock.
 > 
 > No functional change intended.
 > 
-> Suggested by: David Hildenbrand (Arm) <david@kernel.org>
+> Suggested by: Lorenzo Stoakes <ljs@kernel.org>
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Reviewed-by: Liam R. Howlett (Oracle) <liam@infradead.org>
 > ---
+>  fs/proc/task_mmu.c | 29 ++++++++++++++++-------------
+>  1 file changed, 16 insertions(+), 13 deletions(-)
+> 
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 3c40c9cbb9c9..ecce7ce116cb 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -1246,21 +1246,27 @@ get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+>  	return &smaps_shmem_walk_vma_lock_ops;
+>  }
+>  
+> -/*
+> - * Gather mem stats from @vma with the indicated beginning
+> - * address @start, and keep them in @mss.
+> +/**
+> + * smap_gather_stats() - Gather mem stats from @vma.
+> + * @priv: proc maps private state.
+> + * @vma: The VMA to gather stats for.
+> + * @mss: The accumulated stats.
+> + * @start: The address from which to start.
+>   *
+> - * Use vm_start of @vma as the beginning address if @start is 0.
+> + * This gathers stats for the whole of the VMA unless the lock was dropped
+> + * and VMA grew or got merged and we found it again, in which case we only
+> + * gather stats for the remainder of the VMA range.
+>   */
+>  static void smap_gather_stats(struct proc_maps_private *priv,
+>  			      struct vm_area_struct *vma,
+> -			      struct mem_size_stats *mss, unsigned long start)
+> +			      struct mem_size_stats *mss,
+> +			      unsigned long start)
 
-Thanks!
+Two tabs while at it :P
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
