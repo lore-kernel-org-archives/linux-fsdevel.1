@@ -1,65 +1,65 @@
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890FB279DC3
-	for <linux-fsdevel@vger.kernel.org>; Sat, 12 Sep 2026 19:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851CD34A79D
+	for <linux-fsdevel@vger.kernel.org>; Sat, 12 Sep 2026 22:00:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789241473; cv=none; b=NgiCgC2zIc2CtKhThm0AU83YBxHo+0sd2u9rMMhNgZKlYNuK+O+0kiDV8Y+lZzUIqSX1ZnZPzuWODv5Q0PqTtG4xC9r5S46xunJiFZbB1orTUyOdxw6irBgR5sOxNyX0eWi3Pbg5JyOJGtcFr15FxhZlaqa1euliraORxrcWhJs=
+	t=1789250421; cv=none; b=gSPWfx4WQ4vd/e5VqeKB3blIojAW9OHG6H/LthYmuO77xYHcIra28TtfJoK5ZMKae/CPWihFX3ukMtrcoCwSn0FIdgE6MH8+kMub0SLRtWeIGORflDR3UuR1ZUh0Mm8+ZnSWP71zSVAy8sgn4i5SOy6tbY8jYIKZ1i1UULWEdYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789241473; c=relaxed/simple;
-	bh=8lx6LVjmp56AOVJzWPzpXm0AcxXitfBUG6x5hr2rDNo=;
+	s=arc-20240116; t=1789250421; c=relaxed/simple;
+	bh=VSjoq7DHQbKtAdXTo08YR1Ci+Z/OuPpj5YnrQdVytbE=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=AHyTH4gKRrTq7UzaMk1cvAZh/Ms/t7oMaftcdB2a038w0h+lGISeg3lJ23J/SFLsHk7t3J0FnYZNhEywu6rt3M9WmzO4fkp4OSHNc7rG/piEHZFMCH0ZblE6EnCyZuRRsEFbFdfKAvdYuu1p44RV6g1i/+tv58AYC4OPkh2j858=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cASTkCIS; arc=none smtp.client-ip=74.125.225.140
+	 MIME-Version:Content-Type; b=IG2mFzq59OUqvBHxm0eF5Ok+cUXEdqcO0qThD3lvm3GmNVVFg1i8p6KQmTDJZJQa7pPcB8PahAX3900F+fp4qvh0JLWgZ4ZBPLPBfGpw4G05kCRsIPEapyKcBE16I6N+lK9O1Wsh+V56WzN+r8Hr5MQjPKxSP1mVq3DhXXzE+fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Tvpxxhm9; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cASTkCIS"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b6so3695715e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 12 Sep 2026 12:31:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Tvpxxhm9"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cc9f581c4so2884745e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 12 Sep 2026 15:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789241469; x=1789846269; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789250418; x=1789855218; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rLVkHvOWbB51eDgPhMWwdk82cYQfFBh7T+AR6YqhuhI=;
-        b=cASTkCISqxn0Cm1ulRhj+JxX5QI4UA+ajahSea0+E4wUt4K1YH0Fo+gSIdyXMyIvN3
-         ll4D0KqzN93TgixPbmfii2bxwxgBUX0DubiQH3bsycG5irRMHcFUrKemH7m0dOrmOvbd
-         4TCd1gQEfWuerCZQHCBfxmqj7R7g8zC1G1u3+6DcLbB1LCGknkazwPLicdjCaqj1vjIF
-         tKqsPKyTMS8hN2D0TO5dsOttMfbEaQNCDMz3EuSS0kfyq0Vb+Kunfu7dNrEudbWGG/7b
-         ZImk6wNNGoz8LysdAh7Thizj6zfqkxY7yhnV+0z8aPcXHWAyhfPZ2ZEeA+CqzEgZlMvB
-         YiTQ==
+        bh=ShFFlTNrkhtcTY1WEEF9s6hCAewZPx0n3fIe5hLvRZo=;
+        b=Tvpxxhm9rJ8WYRsBiT/xjrzlhS8DbT5GvMsIGw4HPVU5QKIJmMRgcsppKv9nv2phYu
+         Smm/6rEmmKyBtuARBmoOEVXmW5ZriVYBlP7EEQ5PKrRkG742u4jbetZ/Dfqp9yyn60+3
+         SKhPb2LbNnF9MLFn2nUFE29SIgp+5w/pG9aboVgbVSmhCsSjzx3/3b9Q+/C5gM3QGpnc
+         CIdR2WGwKyN/4T2f6Ds7cHMU4y8vdDgqRtdmwmapMz3PA5SIOaMtgB+8hAkpwk/+HNEF
+         gYeASik22FtEXcjOZFnKZEEZ0z2+femILPQUMSHbk2C14J9qhK4aKSwtCDujKL42xvcG
+         e1XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789241469; x=1789846269;
+        d=1e100.net; s=20251104; t=1789250418; x=1789855218;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rLVkHvOWbB51eDgPhMWwdk82cYQfFBh7T+AR6YqhuhI=;
-        b=QNKORqa8N3AVM3pP9Qs1OZTzLJMyr1kBQyUXW+S/X51Uqtr9IwMVatMyqUp8tB56gJ
-         1MvgZ4LktM7Vwbo41r3WwrqmxCfakYJYbjJyCgF0g5NumGnnYMSDhnOusDCt+a5VSnPM
-         wEBq49cO/lGue2oLrVc8Uh2QQsgZHy8EVpyMtePFKHuGKeLXDCtcjZIS5GOjt+xod6nB
-         PE66AUAObN+ay+QvozfnZzwx+KHxQDLq3zr7VTla6qMv9J0JfqdMqMW3bZH0IWj8PdXa
-         ToitZOjRlvApkT2RMrbDaVsedk/lJmrk/lScY+GBUCvxTqmuKAZ0R0cqaUgFL14fBMqp
-         hdXQ==
-X-Forwarded-Encrypted: i=1; AKwUvByufes2FTzNsSx8Er/KRYBn9kLuFFNf3MgDOU4uKpebCg2lfo8zIQ2aeHqIdId0XFIfmR7XeUuur8FJrnmM@vger.kernel.org
-X-Gm-Message-State: AFuF++nair0yVwI/1JHp0I2M4rZhFIqMgwrsd2CvNohp6SJYbAS80BpY
-	FiENk9BOWUDbJpqnfOQrsOzhWvcE/eLyf2yzJgoX1ZExiZHPnhb7wC1dP4BbBbFQjw==
-X-Gm-Gg: AYBFou0tj3NIYpg3i/LSKIjMKNK5ZRluQeWBxq+q6QksQazUP1ilwWJo0Mcmyj8hmod
-	vr6vXVvVQA2CKI/8JTte/f/dqDa2y6Fx4BruZVwC3EkFFESwQOFJ42eE5SYMZcj2zBjOBDuSlOI
-	F0kBSbrgD/AWXmVyDowqrz+kmop9XV/G57MZxPm4nJwMC/wpFb/2TV/QZNQ7cg+HbgzKZmhysVo
-	eVEQo+9i62Y9eenuUhtENppTY8HD0ik/WJzfF9PIIHCk7EOcyl7IjPrv1SXjz+CVeukcu4KxUov
-	mx9BeYaPSsXwrY3F4+5sUBTR9DcMCN8F+TA/Fd80Y8VPO/vdTKw0YnaW+pjMYUtbNDmPM16Lgmz
-	xzN27md3yRP0XYR3nlt5DvIs3TcfEjD9y3j5/MJmUPD81Zf/eeaXxpRtwX6hWpC4tFOZZXHZThX
-	rbQ0q1iwPRIZd3nOpxjoXeB6ZZSuU7Uzli5hlSLtoHbVTij6f2XBPwBjLwOzTDOUDK3MCzopXVD
-	aK/rfrzsEhKxIT/7e1D
-X-Received: by 2002:a05:600c:540e:b0:49e:6692:27fd with SMTP id 5b1f17b1804b1-49e66922810mr158471375e9.2.1789241468146;
-        Sat, 12 Sep 2026 12:31:08 -0700 (PDT)
+        bh=ShFFlTNrkhtcTY1WEEF9s6hCAewZPx0n3fIe5hLvRZo=;
+        b=BArr98hMxBTXakTVB9aR6NndKyfl3xmR54yJkmCTR1+WLWQugxvOKaRY1AJP0RwqN/
+         a+S+6sbujwAgEciuVuTr3t0S/gMh/k8A9JVQ2yxAzJV0ix6ni2xS/JLA/xtoFVK/Wz3K
+         zQ6KpMGJZ7LGjLZ06R7jlvJpMdc+tplE6mLreUrD275G1JEaQhaxi5Ib/mXrWu7AKp0E
+         gYKnhd4pBgajM5i0qqzgHODP7ihee3PhUYHUFzCucx1FY2NwSMkL4NatySe6gzu5UsS+
+         i3gz4J05ZmjEk6z/eYLDStKhu2WQCLmmX9g32FHBWSCgK2n01mH4FA1YkSyrhAhn3PFs
+         dy9g==
+X-Forwarded-Encrypted: i=1; AKwUvBx7R6qn0i9CZwizDGm0zCYat38SIiMJjpix2FJ4nfnnFRYl7PtMM1SomOhEb8Zb+xgUi1sladp3wscqFA+i@vger.kernel.org
+X-Gm-Message-State: AFuF++ngGKVVABwj6znh895WHm0FCo7WKjI5DoRHnYaZiycBGA6VSIMZ
+	ccq9VIDm9eO2AdomvHRDPr+IHGkDoLDEhcoXIbIpZWZevIieMKXQjWQMoyweMUWBHg==
+X-Gm-Gg: AYBFou28J3Ux8GrMbmtIhTlgHVR/ClC3w/WoH8/ztGHuOYlhRMPjydHtQkGqekxt3gI
+	8FPRtcziJwKObZ2zLHpxhjD+pQVcKySVOIQWyGGkDlB0PoKOdInYZw2wfas04ljw/JoTrc1dBZ/
+	B2GRS7H5CiUUVM5XOWUaw/i5EsCYwR2qvm3T1X06QPvyQ76OktAtZWm0ldyfsxwzNFAKcp0+bcH
+	t6qd8MceVPI0hL5Fac2afvqmoj5VjxWwk0yc3FxP9KIRCpEA2L4WFh2AjbSym3Xm03tfFFAfJwJ
+	iI5j8tlc4f+wJwbhq20YGYxXS8De6UX97nJu11v0na+GJbRU5nx9qN0goAETJr+SdUQXjC0ZHpm
+	3JSEuSaj04s/hZ9NvdpONOjgbENGd9m942Q4vRo0Uy5dfUKZIP2BBI9nZ9LQaPBBmc9JXCiB76V
+	1ErRl3GdVN8E8F+rTXe4LiZYzp8pjBnl1OMAuyqQnI9yRCI5BYDWObrPv1Zbb7zUzLfxxcgxKVe
+	V1iELr5b/PTgbs7zhpe
+X-Received: by 2002:a05:600c:3115:b0:49d:1e79:35d6 with SMTP id 5b1f17b1804b1-49e61094b9bmr117724205e9.14.1789250416975;
+        Sat, 12 Sep 2026 15:00:16 -0700 (PDT)
 Received: from darker.lan (104.157.125.91.dyn.plus.net. [91.125.157.104])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb34f1f7sm14806240f8f.24.2026.09.12.12.31.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e64221639sm67265195e9.4.2026.09.12.15.00.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 12:31:06 -0700 (PDT)
-Date: Sat, 12 Sep 2026 12:30:55 -0700 (PDT)
+        Sat, 12 Sep 2026 15:00:16 -0700 (PDT)
+Date: Sat, 12 Sep 2026 14:59:23 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
@@ -89,11 +89,11 @@ cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 04/26] mm/fbatch: lru bit set, no extra ref, while
- folio on per-cpu fbatch
-In-Reply-To: <296bf543-23e0-417a-a729-c222392a1777@kernel.org>
-Message-ID: <3f712e41-78a8-5622-67dc-f462d2c97d11@google.com>
-References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com> <61e15506-940f-3532-5fc9-4086f7612c10@google.com> <296bf543-23e0-417a-a729-c222392a1777@kernel.org>
+Subject: Re: [PATCH v2 05/26] mm/fbatch: lru_add_del_folio()+folio_add_lru()
+ after clear_lru()
+In-Reply-To: <af864862-90f9-4b16-a06e-1c189c4c4d6b@kernel.org>
+Message-ID: <5c943056-cf6b-788f-aa45-b7c0da28ecf2@google.com>
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com> <b2e312f3-6909-5496-195f-ab71b45970ac@google.com> <af864862-90f9-4b16-a06e-1c189c4c4d6b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -103,230 +103,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
 On Wed, 9 Sep 2026, Vlastimil Babka (SUSE) wrote:
-> On 9/9/26 11:49, Hugh Dickins wrote:
-> > Treat folios on a per-cpu fbatch as if they were already on the lruvec:
-> > with PG_lru set, without holding an extra reference. This will enable
-> > the removal of most lru_add_drain() and lru_add_drain_all() calls soon.
+> On 9/9/26 11:51, Hugh Dickins wrote:
+> > Most callers of folio_test_clear_lru() then proceed to remove the folio
+> > from its lru, and add it back at the end when they're done (if still in
+> > use). But isolate_migratepages_block() and check_move_unevictable_pages()
+> > sometimes decide against, and release immediately with a folio_set_lru().
 > > 
-> > Recognize such a folio by 0x02 set in the folio->lru.next pointer by
-> > folio_add_lru(). Then lruvec_del_folio() (aided by "lru_add_del_folio")
+> > Which usually works fine: but there's now a small chance that while they
+> > held the folio with lru bit cleared, an lru_add fbatch drain came along,
+> > and had to skip that folio because its lru bit was transiently cleared
+> > (previously, the lru_add fbatch drain relied on finding lru bit never yet
+> > set). This risks leaving that folio off lru, unreclaimable until freed.
 > 
-> I admit I find the name lru_add_del_folio() quite confusing. What it does is
-> AFAIU try to delete from a folio_batch, which is not necessarily the lru_add
-> one?
+> So this makes the previous patch a somewhat bisection hazard? I guess it's
+> acceptable given it's not fatal.
 
-It is to delete from the lru_add fbatch: that's the one where a folio
-is put into the LRU system initially, and it's the one which has this
-special LRU_NEXT_BATCHED linkage to the fbatch, not any proper next,prev
-linkage into a real LRU list.
+Not what I would call a bisection hazard. Yes, the preceding patch
+is not perfect, but more reviewable that way, and then come corrections
+to edge cases best considered by themselves. Nobody bisecting unrelated
+issues would get held up by this gap, and it won't crash any bisections.
 
-Which is not to say that that folio could not also occur in some of the
-other fbatches (for this or other CPUs) at the same time: it might,
-because of the un-refcoount-raised folio getting freed and reused;
-and it might, as the same instance of the folio, be acted upon by one
-of the other LRU manipulation functions. Those latter tend to have
-"!folio_test_lru" checks in, but now the lru_add ones do have lru set;
-they tend to be reached through a real LRU list of folios (e.g. deciding
-to deactivate something found on an active list), but I don't think that's
-necessarily the case.
-
-As to be name: I did try out several alternatives, but was most satisfied
-by "lru_add_del_folio". I'll certainly grant that it's amusing, and maybe
-too confusing if it were to be a widely-used API; but it mostly ends up
-just nestling inside lruvec_del_folio().
-
-> I don't have an alternative proposal ready though, naming is hard.
 > 
-> > can pretend to unlink it, and folio_batch_move_lru()'s lru_add case can
-> > check whether one of the others has already moved it to lruvec.
-> > 
-> > (That bit is also used in a transient way by set_page_pfmemalloc(), to
-> > inform interested callers whether page_is_pfmemalloc(): but those callers
-> > are in networking, not putting folios on LRU; and accept that any use of
-> > the page->lru field already erases page_is_pfmemalloc() information.)
-> > 
-> > Let folio->lru.next point to the lru_add fbatch entry, but this is now
-> > just for debugging: it seemed to be important for folio_batch_move_lru()
-> > to distinguish fresh from stale entries, but then it turned out that it
-> > has to processs them identically.
-> > 
-> > Activate, deactivates and move_tail, holding no reference on the folio,
-> > might come to act on a stale folio when the fbatch is drained: but it's
-> > acquired by try_get and test_clear_lru, so safe even when suboptimal.
-> > 
-> > Reclaim is not an exact science, and there have been no complaints of
-> > missed actions since 5.11 commit fc574c23558c ("mm/swap.c: serialize
-> > memcg changes in pagevec_lru_move_fn") introduced the TestClearPageLRU
-> > protocol: so don't expect complaints of a few surprisingly taken actions.
+> > Fix such cases by trying lru_add_del_folio() (which only takes action and
+> > returns true if the folio was on an lru_add fbatch), then folio_add_lru()
+> 
+> Oh ok, that's one detail I didn't realize on the previous patch, and
+> explains the name of the function. But it's still IMHO confusing.
+> 
+> > if it succeeded: invalidating the old fbatch slot, appending in a new one.
 > > 
 > > Signed-off-by: Hugh Dickins <hughd@google.com>
 > 
-> Tricky, and I guess my questions below will betray I didn't grasp all the
-> nuances...
+> In general, LGTM.
+> Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Many thanks for looking: it is the core, and the hardest to review.
-> 
-> > ---
-> >  include/linux/mm_inline.h |  25 ++++++++
-> >  include/linux/mm_types.h  |   6 +-
-> >  mm/folio.c                | 119 +++++++++++++-------------------------
-> >  mm/huge_memory.c          |   6 +-
-> >  4 files changed, 74 insertions(+), 82 deletions(-)
-> > 
-> > diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-> > index 621c8653d8f7..8420b1276535 100644
-> > --- a/include/linux/mm_inline.h
-> > +++ b/include/linux/mm_inline.h
-> > @@ -343,6 +343,29 @@ static inline void folio_migrate_refs(struct folio *new, const struct folio *old
-> >  }
-> >  #endif /* CONFIG_LRU_GEN */
-> >  
-> > +enum {
-> > +	LRU_NEXT_NEVER_TAIL = 0,	/* Used by a tail's compound_head */
-> > +	LRU_NEXT_BATCHED = 1,		/* Not used by any aligned pointer */
-> > +	NR_LRU_NEXT_FLAGS
-> > +};
-> > +
-> > +static __always_inline
-> > +bool lru_add_del_folio(struct folio *folio)
-> > +{
-> > +	unsigned long lru_next = READ_ONCE(folio->lru_next);
-> > +
-> > +	/* BUG_ON(folio_test_lru(folio) && folio_ref_count(folio)); */
-> 
-> Maybe do it as VM_WARN_ON_ONCE() and then it's acceptable for mainline and
-> gets excercised by bots?
-
-All I want there is the comment; but I thought the most concise and
-helpful way to write the comment would be to write it as a BUG_ON().
-I'm not keen on bloating inlines with assertions, and _ONCEs have
-their cost on top - all mitigated by the VM_, true. I can change
-it if asked, but all I want to put there myself is the comment.
+Thanks.
 
 > 
-> > +	if (!(lru_next & BIT(LRU_NEXT_BATCHED)))
-> > +		return false;
-> > +
-> > +	WRITE_ONCE(folio->lru.next, LIST_POISON1);
-> > +	/* BUG_ON(folio->lru_next & BIT(LRU_NEXT_BATCHED)); */
-> 
-> Is this a test for unexpected LIST_POISON1 definitions (in which case
-> BUILD_BUG_ON would work?) or a test for a race that should not happen,
-> however with a very tiny detection window?
+> Nit below:
 
-Again, it's just a comment, that things will go wrong if someone one
-day decides to redefine LIST_POISON1 in a way which conflicts. Yes,
-if it were uncommented, then I'd prefer to put a BUILD_BUG_ON instead.
-
-> > --- a/mm/folio.c
-> > +++ b/mm/folio.c
-> > @@ -152,57 +152,34 @@ static void folio_batch_move_lru(struct folio_batch *fbatch, move_fn_t move_fn)
-> >  	int i;
-> >  	struct lruvec *lruvec = NULL;
-> >  	unsigned long flags = 0;
-> > -	struct folio_batch free_fbatch;
-> > -	bool is_lru_add = (move_fn == lru_add);
-> > -
-> > -	/*
-> > -	 * If we're adding to the LRU, preemptively filter dead folios. Use
-> > -	 * this dedicated folio batch for temp storage and deferred cleanup.
-> > -	 */
-> > -	if (is_lru_add)
-> > -		folio_batch_init(&free_fbatch);
-> >  
-> >  	for (i = 0; i < folio_batch_count(fbatch); i++) {
-> >  		struct folio *folio = fbatch->folios[i];
-> >  
-> > -		/* block memcg migration while the folio moves between lru */
-> > -		if (!is_lru_add && !folio_test_clear_lru(folio))
-> > -			continue;
-> > -
-> > -		/*
-> > -		 * Filter dead folios by moving them from the add batch to the temp
-> > -		 * batch for freeing after this loop.
-> > -		 *
-> > -		 * We're bypassing normal cleanup. Clear flags that are not
-> > -		 * applicable to dead folios.
-> > -		 *
-> > -		 * Since the folio may be part of a huge page, unqueue from
-> > -		 * deferred split list to avoid a dangling list entry.
-> > -		 */
-> > -		if (is_lru_add && folio_ref_freeze(folio, 1)) {
-> > -			__folio_clear_active(folio);
-> > -			__folio_clear_unevictable(folio);
-> > -			folio_unqueue_deferred_split(folio);
-> > +		if (!folio_try_get(folio)) {
-> >  			fbatch->folios[i] = NULL;
-> > -			folio_batch_add(&free_fbatch, folio);
-> >  			continue;
+> > diff --git a/mm/vmscan.c b/mm/vmscan.c
+> > index f11491ee9ed5..4e8d5cc34f07 100644
+> > --- a/mm/vmscan.c
+> > +++ b/mm/vmscan.c
+> > @@ -8093,17 +8093,19 @@ void check_move_unevictable_folios(struct folio_batch *fbatch)
+> >  			folio_clear_unevictable(folio);
+> >  			lruvec_add_folio(lruvec, folio);
+> >  			pgrescued += nr_pages;
+> > +		} else if (lru_add_del_folio(folio)) {
+> > +			lruvec_unlock_irq(lruvec);
+> > +			folio_add_lru(folio);
+> > +			lruvec = NULL;
 > >  		}
+> > -		folio_set_lru(folio);
+> > +		if (lruvec)
+> > +			folio_set_lru(folio);
+> >  	}
 > >  
-> > +		if (!folio_test_clear_lru(folio))
-> > +			continue;
-> > +
-> > +		/* Do not add to LRU if it has already been added */
-> > +		if (move_fn == lru_add && !lru_add_del_folio(folio))
-> > +			goto restore_lru;
-> > +
-> >  		folio_lruvec_relock_irqsave(folio, &lruvec, &flags);
-> >  		move_fn(lruvec, folio);
-> >  
-> > +		/* Do add to LRU if not already there (move_fn skipped) */
-> > +		if (lru_add_del_folio(folio))
-> > +			lruvec_add_folio(lruvec, folio);
+> > -	if (lruvec) {
+> > -		__count_vm_events(UNEVICTABLE_PGRESCUED, pgrescued);
+> > -		__count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
+> > +	if (lruvec)
+> >  		lruvec_unlock_irq(lruvec);
+> > -	} else if (pgscanned) {
+> > -		count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
+> > -	}
+> > +	count_vm_events(UNEVICTABLE_PGRESCUED, pgrescued);
+> > +	count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
 > 
-> AFAICS the previous code didn't do anything like this (and move_fn could
-> skip or not all the same?) , and I wonder if it's now (sorry) load-bearing,
-> or an optimization?
+> AFAIU this is done because we can no longer rule out that !lruvec means
+> pgrescued is 0.
+> But we can still distinguish the cheaper __count_vm_events vs
+> count_vm_events? Probably all the same on x86, but I hear on arm64 this_cpu*
+> ops have a cost worth proposing rather elaborate schemes to deal with...
 
-Good question, an optimization or essential? I'd have to ask for more
-time, to give you a definitive answer on that. What I can easily do is
-give the thinking behind it. We're the lucky one who got to clear lru
-bit, it's conceivable that a racing task (particularly or necessarily?
-when the folio has got freed and reused meanwhile) wanting to put this
-folio on real LRU failed to clear lru bit and so skipped this entry,
-and in that case it is our responsibilty to do so (usually the move_fn
-does an lruvec del and add which accomplishes that, but not when it
-skipped the folio as having unsuitable flags).
+Yes, it was just looking a bit baroque to still be deciding whether to
+use the __count or the count there. Could be done of course, and with
+"if (pgrescued)" and "if (pgscanned)"; but I haven't noticed anywhere
+else in the source where we go to such lengths to use __count versus
+count, and I don't think this is on anyone's hotpath (IIRC this is
+just SHM_UNLOCK).
 
-Those lines were not in my initial attempt, and I never noticed any
-badness from not having them (folio unreclaimable and unmigratable
-until freed, I presume); but when working on the mlock+munlock I
-became more aware of this need for the lru-bit-clearer to do the
-work others are expecting. (And I do not pretend that munlock is
-complete in that respect yet: no more imperfect than before,
-I think, but more work to do if perfection is needed.)
+Now you've got me worried, no, fractionally worried, about Shakeel's
+recent __count to count fix to NR_MLOCK.
 
-> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > index afbb5974bd22..c7510d875433 100644
-> > --- a/mm/huge_memory.c
-> > +++ b/mm/huge_memory.c
-> > @@ -3995,8 +3995,12 @@ static int __folio_freeze_and_split_unmapped(struct folio *folio, unsigned int n
-> >  		}
-> >  
-> >  		/* lock lru list/PageCompound, ref frozen by page_ref_freeze */
-> > -		if (do_lru)
-> > +		if (do_lru) {
-> >  			lruvec = folio_lruvec_lock(folio);
-> > +			/* Move from fbatch to lruvec before lru_add_split_folio()s */
-> > +			if (lru_add_del_folio(folio))
-> > +				lruvec_add_folio(lruvec, folio);
-> 
-> This is not mentioned in the changelog. Why is it necessary now?
-> 
-> > +		}
-> >  
-> >  		ret = __split_unmapped_folio(folio, new_order, split_at, xas,
-> >  					     mapping, split_type);
+I am much more familiar with x86, and have noticed the recent tussles
+over improving arm64 this_cpus, so that confirms you're right; but I'd
+look for juicier low-hanging fruit than this, if we're going to
+embark on an "if (x) __count() else count()" spree.
 
-It caught me by surprise too,
-I was very lucky that our internal testing crashed without that, it's a
-narrow race when we're not batching large folios. But you only have to
-look at lru_add_split_folio() to see, that it does (very reasonably)
-expect a folio with the lru bit set to have sensible next,prev.
-(WHereas most others isolate a folio before working on it, hugepage
-splitting is peculiar in having a mode where folio is left on lru,
-but frozen to refcount zero while the work is done).
-
-Thanks! More replies later...
 Hugh
