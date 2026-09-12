@@ -1,90 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C7C4BEE5F;
-	Sat, 12 Sep 2026 05:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9192EBDE9;
+	Sat, 12 Sep 2026 07:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789192672; cv=none; b=P0sR7VrzdGNb6LTZR+vyEZmf9C2WHY/2bENZAPscg9DMR3wj+c1uplglAV/oeMbtwE1Hszx0kCLjSSxMHIZEtyCuABFrAOMLpnfL+326EIDk38RUm6DL3aaJC7ruI39crWk66OB3ghy8flobWFg97+4vdbQ1woQwHvoq+DMzC/I=
+	t=1789197643; cv=none; b=QUF4veTzZccORkJZ6T05RNa7/r6OpmSC7DfQ1IaccsJC6npbuR3JICC8NPYJCMFr5+xWJ41JQ5RK6FxsITEcat6J5i1fBJvTRTwR6HGCkBaGHmidEevQyr4yTYiGjcQcTneHGB+bWQLMexWKFu6++2tz9t27TFik8lvtIrGfCA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789192672; c=relaxed/simple;
-	bh=Rcj9FY1u7DeFsZyQHQT3wFpcx6FB1JM6CIJykUWQ+LI=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=ShGlaNYJyNM0wcsHB1+hhZj1IUF+QNPFyBaYComuJjJ+DjR2I8ZkWNF9h/gE6BvnhrhSdbPCEMKFj2ry1gvN4beMpG0RJYhkZJ+9zyD5ENclcB+lGqF0p4uyDAodNakqk/YzUveFvzqK1u5YpPQjaJajerYEyP170euPceWHJmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=W9QWPMBr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789197643; c=relaxed/simple;
+	bh=u8ivYwxK+2BIM0DzoW3aB5C7wCGYriQe/fCxpUC+Tmo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fgEKXqymMA+L2f1rthKpr3Xh+OD59emhgUYHNAnplFfSZik94yxoZ2XDei05+xeJ/beMA3g6gkxR5sfc4OIYEGxuDrptkjkISute97nf7NEEIC6gNue5IHUACMCZBpL9hGvoaL4zU85tryFhOvCCR4sOMCAAqR//bNP0FNj0yxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=TblNxtxB; arc=none smtp.client-ip=62.210.214.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="W9QWPMBr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CBBD1F000FF;
-	Sat, 12 Sep 2026 05:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1789192670;
-	bh=U0SBV4CnGKvvNIIMNW/AkFFYrokvu33qARejmqNfK7k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=W9QWPMBrCBYQPao72IDryRFjPwSSSzrFQQnrmLzru4nkSfY7n6kvfdGou8tEUsaBz
-	 YXnJ7trlUURtUmQ5q92Z9tjACJ6M2DwkICOvZNuFJCGLzkDH1br2fjmd7x47mEvCDa
-	 ftdLLENxCy+9QbpE3RoB2EsWDrkbkAkX7SPqo58c=
-Date: Fri, 11 Sep 2026 22:57:49 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>, "Liam R. Howlett"
- <liam@infradead.org>, Yury Norov <ynorov@nvidia.com>, Chris Li
- <sparse@chrisli.org>, Alice Ryhl <aliceryhl@google.com>, Andrew Ballance
- <andrewjballance@gmail.com>, linux-sparse@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, maple-tree@lists.infradead.org
-Subject: Re: [PATCH 1/3] compiler.h: add ASSERT_STATIC_STORAGE()
-Message-Id: <20260911225749.8727d23eb76b93141f08e574@linux-foundation.org>
-In-Reply-To: <20260911221444.1523311-2-ynorov@nvidia.com>
-References: <20260911221444.1523311-1-ynorov@nvidia.com>
-	<20260911221444.1523311-2-ynorov@nvidia.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="TblNxtxB"
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by submarine.notk.org (Postfix) with ESMTPS id 8622F14C2D6;
+	Sat, 12 Sep 2026 09:20:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
+	s=2; t=1789197637;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dW41XwRFtq+O0RRRVs3avgWhzaMEj/gxt+nXVXX5eHU=;
+	b=TblNxtxBcJrUuhFvy/DHnW8cXnEWRxowX/lEeBIiy88g/ZDWBxtW2DTUhaFFVXhfD+6nS5
+	ttbaOwOjzY6KZJIFVnE/+3Jv0dgjrwRMiw5n9Fel5HzDCAVtPAmFa+6mqADDbvvTkX4NuN
+	8+AcC1TqvVHnOGTuq75lD/jOURdsD1av2alQL9MyFy8vFGnKEBHKPY6FHCoPtOIhQnLDAr
+	fEkCLfRqhD+zGGIvsorzB1OOofnr4WbJqvmFNnR9dlhAwlr4Ae/VONri3zwR+ej8V2MeJG
+	oJ9HkkL+NXm62Edih7thZbpV4usOpIk3FqrWX5ITAaxLxiKbiyXWo4xB0LEEvQ==
+Received: from gaia.codewreck.org (localhost.lan [127.0.0.1])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTP id afb269bf;
+	Sat, 12 Sep 2026 07:20:33 +0000 (UTC)
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: 
+Cc: v9fs@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	David Howells <dhowells@redhat.com>,
+	Michael Mulqueen <mike@method-b.uk>,
+	stable@vger.kernel.org,
+	Dominique Martinet <asmadeus@codewreck.org>
+Subject: [PATCH] 9p: Fix v9fs_issue_write() to update i_size and remote_i_size
+Date: Sat, 12 Sep 2026 07:19:41 +0000
+Message-ID: <20260912071940.3-2-asmadeus@codewreck.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 11 Sep 2026 18:14:41 -0400 Yury Norov <yury.norov@gmail.com> wrote:
+From: David Howells <dhowells@redhat.com>
 
-> Static lock initializers rely on a persistent object address when lockdep
-> assigns a lock-class key. Using such an initializer for an automatic local
-> object can compile successfully but disable lockdep on the first lock
-> acquisition.
-> 
-> Add ASSERT_STATIC_STORAGE() for declaration macros that require
-> static storage duration. It declares an unused static pointer initialized
-> with the object's address. An automatic local object's address is not a
-> valid static initializer, so the compiler rejects it.
-> 
-> Mirror the helper in tools/include/linux/compiler.h because the userspace
-> radix-tree tests include the kernel IDA and Maple Tree headers with the
-> tools compiler definitions.
-> 
-> For example:
-> 
->   void example(void)
->   {
->           int object;
->           ASSERT_STATIC_STORAGE(object);
->   }
-> 
-> GCC reports:
-> 
->   error: initializer element is not constant
->     name##_storage_check = &(name)
->                            ^
->   note: in expansion of macro 'ASSERT_STATIC_STORAGE'
->     ASSERT_STATIC_STORAGE(object);
-> 
-> File-scope objects and static local objects remain valid. The helper takes
-> an object identifier and must be used as a declaration after that object
-> has been declared.
-> 
+Fix v9fs_issue_write() to update i_size and remote_i_size to the new size
+of the server file if we made it larger, using the start fpos and the count
+returned by p9_client_write() to calculate the new minimum file size.
 
-Thanks, I'll queue it.
+This assumes that if the 9P server makes a short write (say it hits
+ENOSPC), a reduced count is returned.
 
-Sashiko wants the same treatment for a few other macros:
-	https://sashiko.dev/#/patchset/20260911221444.1523311-1-ynorov@nvidia.com
+Fixes: 5fb70e7275a6 ("netfs, 9p: Implement helpers for new write code")
+Reported-by: Michael Mulqueen <mike@method-b.uk>
+Closes: https://lore.kernel.org/r/fbb9e395-1e07-4212-8f70-23f3cd498074@method-b.uk/
+Cc: stable@vger.kernel.org
+Signed-off-by: David Howells <dhowells@redhat.com>
+Message-ID: <2226525.1789118704@warthog.procyon.org.uk>
+Signed-off-by: Dominique Martinet <asmadeus@codewreck.org>
+---
+I'm resending this as a patch to get sashiko to run on it, please
+disregard this email and reply to the original thread (Closes link
+above) if you have concerns about it.
+(well, I guess either David or me will see it either way, but it's
+easier to follow if it's all in the same thread)
+
+
+
+ fs/9p/vfs_addr.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/fs/9p/vfs_addr.c b/fs/9p/vfs_addr.c
+index 1ac0b3dcc077..13cf87a5f90c 100644
+--- a/fs/9p/vfs_addr.c
++++ b/fs/9p/vfs_addr.c
+@@ -54,11 +54,37 @@ static void v9fs_begin_writeback(struct netfs_io_request *wreq)
+ static void v9fs_issue_write(struct netfs_io_subrequest *subreq)
+ {
+ 	struct p9_fid *fid = subreq->rreq->netfs_priv;
++	struct inode *inode = subreq->rreq->inode;
++	struct netfs_inode *ictx = netfs_inode(inode);
+ 	int err, len;
+ 
+ 	len = p9_client_write(fid, subreq->start, &subreq->io_iter, &err);
+-	if (len > 0)
++	if (len > 0) {
++		uoff_t end = subreq->start + len, i_size, remote, zp;
++		bool set = false;
++
++		spin_lock(&inode->i_lock);
++
++		/* We can read the sizes directly as we hold i_lock. */
++		i_size = inode->i_size;
++		remote = ictx->_remote_i_size;
++		zp = ictx->_zero_point;
++
++		if (end > i_size) {
++			i_size = end;
++			set = true;
++		}
++		if (end > remote) {
++			remote = end;
++			set = true;
++		}
++
++		if (set)
++			netfs_write_sizes(inode, i_size, remote, zp);
++		spin_unlock(&inode->i_lock);
++
+ 		__set_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
++	}
+ 	netfs_write_subrequest_terminated(subreq, len ?: err);
+ }
+ 
+-- 
+2.55.0
+
