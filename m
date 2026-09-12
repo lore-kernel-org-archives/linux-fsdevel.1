@@ -1,91 +1,87 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CCE4BEE43;
-	Sat, 12 Sep 2026 17:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AB13B3BEF;
+	Sat, 12 Sep 2026 18:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789234557; cv=none; b=oY4EujTELBdYvjbD3cGVdy/FJt51t+9Yi5vZfYIsCDv0T49cih4PUWlNKxR0n8IA0Ki5WhozUxl2FwtzE3T4olM4yQZZSwgEUXOGFlBR5SbT28p1EuGx1KzaS39EmM5GHkIugiS/usKMN34v+sLE/ijqiwLnqvauhnXptUV5bi0=
+	t=1789239347; cv=none; b=sXoMGYquMG/LZpgi3uUwLCAn/D9hHxc/OHlbT4t/Bb7QBCvMXGnO4OUwet0DmXSYv21fwlw1Koh/yMzDd5My83bExXES/AnaGyaTQaPDiSwiFnga49tlP6Zbl5rbmQ5AxemV/HeaBzsT4qgWTbM+nc0HomUud/w85bHb6Tg2bHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789234557; c=relaxed/simple;
-	bh=2ym46DYtEiXCcUt0q5Snjkv/IVipx/Y/0aVb/GzE2N8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CjMC7CcWGSajcDQizCHyFgZH7raRpGvm9jcn6hDHzdbfblNpqmWnBeblm80mQmld7uKgOWfuW0joj98Ym1l+zy8WAin6IZyd3hVg2UTBPIAfBLOBQOdaR44TFa/ARtrSsLlJpj1XcT86KUQVIfUzp4Pt/L4bofqyCpjpz71lwIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qVdsQMhf; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789239347; c=relaxed/simple;
+	bh=iDOMkFUoAbYyhg1V4f/tvWiNXTiKVelkPuw/jlb/jjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nK9aK6GHu/qQjnUn1FEs+6g2Y+D3C2Xmy5P4BUR4L42I5iGfyysCv+QsF4lNi3CA6rR+Ot8ed9q4ASzp4wV3xoUFKw6YKIs6391JKeF54FPSNfCuuZK1YxGRDBxx9RomKIxrb2dvaM0DzhjGceGNrT3nmx1tIUqDYIONOrekX5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LfjnJEkY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qVdsQMhf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=SkHWeSKclNj15GV7KAPfWvuOJ9MQh29mBLhr/+HSj8Q=; b=qVdsQMhfQoh+HOVWoQCmMZ3kpR
-	G0e0CrRtUTUuUYDCePSWAqwA/0IW9XulYz+aBuVBS6eVcxKN/hfsvWMgD624omXZ8rqV2RihIqALl
-	sxNE9+fxDRLtVEzOF87R8QZJZVYwWWN9kUSb9IK2KwHYO2P/CQQ6B8BLvfaNl/TwSs76NLG1eBhZ2
-	e0n861bUadhrd3GpVtUnfapY6ifDreIk8e123644wxKvqR27RWcvMEyvNMV2O/ca1L2FcpQ2A5dd/
-	KAlrvvEvMGoSBvcv1HxmRr4O+MKxxiH5bcaHbeZ9ZR0jmqItdQYvhuEtfWWI5rUIKXPdGgsjUxmCc
-	66A5Z4NQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5Rde-000000012qD-2dww;
-	Sat, 12 Sep 2026 17:35:42 +0000
-Message-ID: <01ae4e36-cc13-4420-a46b-69de5fd37fb5@infradead.org>
-Date: Sat, 12 Sep 2026 10:35:41 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LfjnJEkY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 454D81F00893;
+	Sat, 12 Sep 2026 18:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789239346;
+	bh=HUcxlcbaDdo23591UngwmMxDtqKXJFAuV7We/f5fCME=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=LfjnJEkYMJQ+GyGUVqP7t/4fiTiSokO6rlR6GqlTrgouWVIhVVCJYmfFWs8q9BCj4
+	 pOwnhu2fRfvFW7xvg4kONTzpZt8HLDKA7TNVEQQY3ecnvfFyXQyErBLfkkDd7GimVJ
+	 NWnaXQvdcI/b2IzMl8GsRdgo6DQO8XSWyGqUwToVXHJgMoO+vwpZrOtjlnjEAYmeMP
+	 Om639OoptgnZqn0J8RABvcWDK6xbG4ia24mWkA+r1QvgrbD+JhYM88PyCwMEY5+lqb
+	 EEzOjeVZFLosIHUohT+hRFBlVm4ipXoWP3tsYzUKlj01bPCJgt2ts8YNSA4OQafiXs
+	 +cpVIwR/6jYvg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 0C807CE1578; Sat, 12 Sep 2026 11:55:46 -0700 (PDT)
+Date: Sat, 12 Sep 2026 11:55:46 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, liam@infradead.org,
+	ljs@kernel.org, vbabka@kernel.org, david@kernel.org,
+	willy@infradead.org, jannh@google.com, pfalcato@suse.de,
+	xueyuan.chen21@gmail.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 0/7] read proc/pid/smaps_rollup under per-vma lock
+Message-ID: <ff6a7b3f-1624-4940-a4c5-3efd51a35eba@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260911194145.1781926-1-surenb@google.com>
+ <20260912002436.0605a85b912eb8ae406cecf0@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/vfs: Fix the struct file_system_type copy
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260912073250.51074-1-kmehltretter@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260912073250.51074-1-kmehltretter@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260912002436.0605a85b912eb8ae406cecf0@linux-foundation.org>
 
-
-
-On 9/12/26 12:32 AM, Karl Mehltretter wrote:
-> Commit dc651e25a6d2 ("fs: RCU-ify filesystems list") replaced the next
-> pointer of struct file_system_type with an hlist_node, but the copy of
-> the structure in vfs.rst still shows "struct file_system_type * next".
-> Show the hlist_node.
+On Sat, Sep 12, 2026 at 12:24:36AM -0700, Andrew Morton wrote:
+> On Fri, 11 Sep 2026 12:41:38 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
 > 
-> Fixes: dc651e25a6d2 ("fs: RCU-ify filesystems list")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
-> ---
->  Documentation/filesystems/vfs.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > proc/pid/smaps_rollup can be read using the combination of RCU and
+> > VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
+> > required to safely traverse the VMA tree and VMA lock stabilizes the
+> > VMA being processed and the pagetable walk.
+> > Note that we have to keep the logic to drop mmap_lock on contention
+> > because even when using per-VMA locks we might have to fall back to
+> > holding the mmap_lock.
 > 
-> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> index d3a93eec3945f83e057fbd6bc3ce519da03ea66f..56c68f4aefbac6f7be979f5ebc2a0aee886e13ae 100644
-> --- a/Documentation/filesystems/vfs.rst
-> +++ b/Documentation/filesystems/vfs.rst
-> @@ -117,7 +117,7 @@ members are defined:
->  		const struct fs_parameter_spec *parameters;
->  		void (*kill_sb) (struct super_block *);
->  		struct module *owner;
-> -		struct file_system_type * next;
-> +		struct hlist_node list;
->  		struct hlist_head fs_supers;
->  
->  		struct lock_class_key s_lock_key;
+> Nice.  Queued, thanks.
+> 
+> The speedups described in [6/7] are significant, although I don't know
+> how representative Paul's tests are.  Probably not very.
+> 
+> So I don't know how much improvement our users will be seeing from
+> these changes?
+> 
+> And I don't know how much usage smaps_rollup gets in the real world?
 
--- 
-~Randy
+It is used heavily in some applications for monitoring.  This should allow
+us to more tightly fence our monitoring software, leaving more CPU for
+the application.
+
+So thank you all!!!
+
+							Thanx, Paul
+
+> As I've no doubt you know, Sashiko is saying things.  About these
+> patches and about the current code.  Its pre-existing
+> clear_soft_dirty_pmd() driveby find looks significant.
+> 
+> 	https://sashiko.dev/#/patchset/20260911194145.1781926-1-surenb@google.com
