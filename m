@@ -1,65 +1,65 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851CD34A79D
-	for <linux-fsdevel@vger.kernel.org>; Sat, 12 Sep 2026 22:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937073932D0
+	for <linux-fsdevel@vger.kernel.org>; Sat, 12 Sep 2026 22:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789250421; cv=none; b=gSPWfx4WQ4vd/e5VqeKB3blIojAW9OHG6H/LthYmuO77xYHcIra28TtfJoK5ZMKae/CPWihFX3ukMtrcoCwSn0FIdgE6MH8+kMub0SLRtWeIGORflDR3UuR1ZUh0Mm8+ZnSWP71zSVAy8sgn4i5SOy6tbY8jYIKZ1i1UULWEdYc=
+	t=1789250846; cv=none; b=j0B6lXlGSHxggAGDb+BCvqb3lcmpnWzeNWAfYH9C9yWAn6dz75anDmT2X6+PrM1TI10zzNsjR8E1sbI9lhErkFs7hUMu0a1ZOEzLuu5CrdYGg9En+lkCWkT8vfoasRAC+BvJSgdbmZ+UQtHwQbMANasjexHMHw0kKbBGfoeQHy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789250421; c=relaxed/simple;
-	bh=VSjoq7DHQbKtAdXTo08YR1Ci+Z/OuPpj5YnrQdVytbE=;
+	s=arc-20240116; t=1789250846; c=relaxed/simple;
+	bh=aO0EnKRtbp4eQRdiajrWBnJhUoH5QBxQwM0G7h6ERwI=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=IG2mFzq59OUqvBHxm0eF5Ok+cUXEdqcO0qThD3lvm3GmNVVFg1i8p6KQmTDJZJQa7pPcB8PahAX3900F+fp4qvh0JLWgZ4ZBPLPBfGpw4G05kCRsIPEapyKcBE16I6N+lK9O1Wsh+V56WzN+r8Hr5MQjPKxSP1mVq3DhXXzE+fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Tvpxxhm9; arc=none smtp.client-ip=74.125.225.140
+	 MIME-Version:Content-Type; b=jzIAvmZRHGCUhxDdGpU7d3UonI50z21ztqCxIqbygogspUyl21X4aEL4taOOKOecIuST4lMaAtuNEglD2CeBzfabz6MVTvv6ZiZ0/EfvRyijATM1APlwN8XGIaYNrpr58mu9JP1fN4YHEn54Kk5U7lKzanEQRcnHTxVAcSGIrzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BRtj19Jm; arc=none smtp.client-ip=74.125.225.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Tvpxxhm9"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cc9f581c4so2884745e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 12 Sep 2026 15:00:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BRtj19Jm"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f633cd80so292062f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 12 Sep 2026 15:07:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789250418; x=1789855218; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789250843; x=1789855643; darn=vger.kernel.org;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ShFFlTNrkhtcTY1WEEF9s6hCAewZPx0n3fIe5hLvRZo=;
-        b=Tvpxxhm9rJ8WYRsBiT/xjrzlhS8DbT5GvMsIGw4HPVU5QKIJmMRgcsppKv9nv2phYu
-         Smm/6rEmmKyBtuARBmoOEVXmW5ZriVYBlP7EEQ5PKrRkG742u4jbetZ/Dfqp9yyn60+3
-         SKhPb2LbNnF9MLFn2nUFE29SIgp+5w/pG9aboVgbVSmhCsSjzx3/3b9Q+/C5gM3QGpnc
-         CIdR2WGwKyN/4T2f6Ds7cHMU4y8vdDgqRtdmwmapMz3PA5SIOaMtgB+8hAkpwk/+HNEF
-         gYeASik22FtEXcjOZFnKZEEZ0z2+femILPQUMSHbk2C14J9qhK4aKSwtCDujKL42xvcG
-         e1XA==
+        bh=Rv9y+bdGfrIVxvXFR+/Wb3gMq5lM5A+QpTE+pSCVxcc=;
+        b=BRtj19Jm3XCuIKfHnRQELeUcgfjAhTyscn/BtZ8qnMuQa6d+j51+unk7VwNUWZf+W+
+         z98zEU9F7KpbgDTYRN9CQG76ae8O5OaHYSxjk2fyPnfLbVVCgQe1GpnB+3BUoQbksT8T
+         Ct0IURHezJufjPd0Q95+dOpvacKfd4kHwQjz7dq9GAhQ0uBfy2adJ9KDnoGBzzNfdyrj
+         jq0Zjy/dG+dlM+L+FKdSBRrDRzQDL8Phc/G6LYFhl2VreS/DYy8FSgxe9JYYpLf1r0iY
+         XAmnSKFNOgWspEwTi5Ob8sPA6HyrYtkrnbUnuucJCLBcHh1ayw8MPm3n1jVkCDl7WW+y
+         rHsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789250418; x=1789855218;
+        d=1e100.net; s=20251104; t=1789250843; x=1789855643;
         h=content-type:mime-version:references:message-id:in-reply-to:subject
          :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ShFFlTNrkhtcTY1WEEF9s6hCAewZPx0n3fIe5hLvRZo=;
-        b=BArr98hMxBTXakTVB9aR6NndKyfl3xmR54yJkmCTR1+WLWQugxvOKaRY1AJP0RwqN/
-         a+S+6sbujwAgEciuVuTr3t0S/gMh/k8A9JVQ2yxAzJV0ix6ni2xS/JLA/xtoFVK/Wz3K
-         zQ6KpMGJZ7LGjLZ06R7jlvJpMdc+tplE6mLreUrD275G1JEaQhaxi5Ib/mXrWu7AKp0E
-         gYKnhd4pBgajM5i0qqzgHODP7ihee3PhUYHUFzCucx1FY2NwSMkL4NatySe6gzu5UsS+
-         i3gz4J05ZmjEk6z/eYLDStKhu2WQCLmmX9g32FHBWSCgK2n01mH4FA1YkSyrhAhn3PFs
-         dy9g==
-X-Forwarded-Encrypted: i=1; AKwUvBx7R6qn0i9CZwizDGm0zCYat38SIiMJjpix2FJ4nfnnFRYl7PtMM1SomOhEb8Zb+xgUi1sladp3wscqFA+i@vger.kernel.org
-X-Gm-Message-State: AFuF++ngGKVVABwj6znh895WHm0FCo7WKjI5DoRHnYaZiycBGA6VSIMZ
-	ccq9VIDm9eO2AdomvHRDPr+IHGkDoLDEhcoXIbIpZWZevIieMKXQjWQMoyweMUWBHg==
-X-Gm-Gg: AYBFou28J3Ux8GrMbmtIhTlgHVR/ClC3w/WoH8/ztGHuOYlhRMPjydHtQkGqekxt3gI
-	8FPRtcziJwKObZ2zLHpxhjD+pQVcKySVOIQWyGGkDlB0PoKOdInYZw2wfas04ljw/JoTrc1dBZ/
-	B2GRS7H5CiUUVM5XOWUaw/i5EsCYwR2qvm3T1X06QPvyQ76OktAtZWm0ldyfsxwzNFAKcp0+bcH
-	t6qd8MceVPI0hL5Fac2afvqmoj5VjxWwk0yc3FxP9KIRCpEA2L4WFh2AjbSym3Xm03tfFFAfJwJ
-	iI5j8tlc4f+wJwbhq20YGYxXS8De6UX97nJu11v0na+GJbRU5nx9qN0goAETJr+SdUQXjC0ZHpm
-	3JSEuSaj04s/hZ9NvdpONOjgbENGd9m942Q4vRo0Uy5dfUKZIP2BBI9nZ9LQaPBBmc9JXCiB76V
-	1ErRl3GdVN8E8F+rTXe4LiZYzp8pjBnl1OMAuyqQnI9yRCI5BYDWObrPv1Zbb7zUzLfxxcgxKVe
-	V1iELr5b/PTgbs7zhpe
-X-Received: by 2002:a05:600c:3115:b0:49d:1e79:35d6 with SMTP id 5b1f17b1804b1-49e61094b9bmr117724205e9.14.1789250416975;
-        Sat, 12 Sep 2026 15:00:16 -0700 (PDT)
+        bh=Rv9y+bdGfrIVxvXFR+/Wb3gMq5lM5A+QpTE+pSCVxcc=;
+        b=pssj7gg+AYcD30UsOL7pglh8FQUu0wP9gnCBWbWXhQO7k2DC+OZxL5MRTXh0AAAkM4
+         lTVfuBYvWoplyymgYYme/xm8LCe5FvYiOGi3GFWN3k2INY2rB2rDamc5HvBBsN9zWvxs
+         1FvJgsSuQT/lc1Yb2bdZsKI8zHSEyRMfx9lGrficQ8xXvEEmeBTDALISrYzUmMWzUJqh
+         8IFKT+pWJMgnuY0DZI2FRk8zgJ3vdMQXCvxB4K3483UQLq5px0nfPZTWpORr7uS/tOZ9
+         wCqTEQXcn/PAtkZwmhQdymYJq0oauQF7fAGEBVJHgJ1VfO5Tz8Q+eFglq0q9YMaYJ5Jq
+         H2WQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx/p8HwKN9B/EOS10lTgCyeqwGyLQVD8tXKQ9faIqNkCx6u5fun8jQa8tnR3ZnmWjXFGa2z1pZPDbW4fSM2@vger.kernel.org
+X-Gm-Message-State: AFuF++lBHT6cb4oCfm0PqMiXrgeGo6RcgHRfAf2Q0Labcp3gNHp+7dHq
+	WCuK91/6LqdQUVKmez08o/l8xtNDpLDvGgHPcltuCwFG3qHDjkm00EkAs9B0np/O1g==
+X-Gm-Gg: AYBFou1CUc9+xCEum9nvJV0rMP/DrESv7fL1v3Qbq+IrcuLmFcXYz4WDbBfPX/IQqlb
+	4pAhYNCdFO+mFgGMIjCUWXvgbpeB/c6yLEhAOGdEZXD+Y+rAssSwwuN5cLpKe42fQVLEdjNvmga
+	tJ720ZQKgwyeQG5gJPctK482hG/B3CRJJkT+mUiV0st+RgC69FIp7JpFBpmqt5Y5i8xYgizMZnn
+	WhWkzUabxgjN9j0lLVcOA1EWBVIxzXhoslQALE//p33wOiAHv/5rOycfMT4WNa84BTTXhlbgxZ6
+	h1/w06j3gWXBfvkf217VJt9Yo2ErME5SkKKryucNSOGxLAwRUrZtJSBRdUXs2y64+tJ4OXyAbP0
+	/iSIvqZpkRnZOFa9bnC4ELnVl6T8/LB6folTaZag4vyRIW9P0dE14fSo7EAZOj30tCT8wmrrv/v
+	g0twddeXTNWc2N8DokJhAuU/hqYUnmn9n5Iudpq2iPgnfxW+bIEtROBb/HaiexwGijeeHk4vq2s
+	Vz4e6AGSygBU7jfKFBK
+X-Received: by 2002:a05:6000:2f8a:b0:486:e920:6726 with SMTP id ffacd0b85a97d-486f6d5956dmr4081301f8f.51.1789250842159;
+        Sat, 12 Sep 2026 15:07:22 -0700 (PDT)
 Received: from darker.lan (104.157.125.91.dyn.plus.net. [91.125.157.104])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e64221639sm67265195e9.4.2026.09.12.15.00.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33ee5csm15513089f8f.20.2026.09.12.15.07.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 15:00:16 -0700 (PDT)
-Date: Sat, 12 Sep 2026 14:59:23 -0700 (PDT)
+        Sat, 12 Sep 2026 15:07:20 -0700 (PDT)
+Date: Sat, 12 Sep 2026 15:07:18 -0700 (PDT)
 From: Hugh Dickins <hughd@google.com>
 To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
@@ -89,11 +89,11 @@ cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>,
     Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
     linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 05/26] mm/fbatch: lru_add_del_folio()+folio_add_lru()
- after clear_lru()
-In-Reply-To: <af864862-90f9-4b16-a06e-1c189c4c4d6b@kernel.org>
-Message-ID: <5c943056-cf6b-788f-aa45-b7c0da28ecf2@google.com>
-References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com> <b2e312f3-6909-5496-195f-ab71b45970ac@google.com> <af864862-90f9-4b16-a06e-1c189c4c4d6b@kernel.org>
+Subject: Re: [PATCH v2 06/26] mm/fbatch: fbatch_drain_lazyfree(onstack fbatch)
+ before ptl unlock
+In-Reply-To: <ac4fedf1-168f-4166-8059-353f2cbf04ae@kernel.org>
+Message-ID: <9ca87753-6851-7b54-4305-75d5319b069d@google.com>
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com> <17e1a6c3-525b-1cc3-0731-349f0850e3ea@google.com> <ac4fedf1-168f-4166-8059-353f2cbf04ae@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -103,93 +103,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 
 On Wed, 9 Sep 2026, Vlastimil Babka (SUSE) wrote:
-> On 9/9/26 11:51, Hugh Dickins wrote:
-> > Most callers of folio_test_clear_lru() then proceed to remove the folio
-> > from its lru, and add it back at the end when they're done (if still in
-> > use). But isolate_migratepages_block() and check_move_unevictable_pages()
-> > sometimes decide against, and release immediately with a folio_set_lru().
+> On 9/9/26 11:53, Hugh Dickins wrote:
+> > Re-enable lazyfree batching for MADV_FREE. But it's not safe now to leave
+> > potentially stale (then reused) folios in a per-cpu fbatch for lazyfree.
+> > Instead, madvise_free_pte_range() keep an fbatch on its stack, and drain
+> > it each time before dropping pagetable lock, while the folios are secure.
 > > 
-> > Which usually works fine: but there's now a small chance that while they
-> > held the folio with lru bit cleared, an lru_add fbatch drain came along,
-> > and had to skip that folio because its lru bit was transiently cleared
-> > (previously, the lru_add fbatch drain relied on finding lru bit never yet
-> > set). This risks leaving that folio off lru, unreclaimable until freed.
-> 
-> So this makes the previous patch a somewhat bisection hazard? I guess it's
-> acceptable given it's not fatal.
-
-Not what I would call a bisection hazard. Yes, the preceding patch
-is not perfect, but more reviewable that way, and then come corrections
-to edge cases best considered by themselves. Nobody bisecting unrelated
-issues would get held up by this gap, and it won't crash any bisections.
-
-> 
-> > Fix such cases by trying lru_add_del_folio() (which only takes action and
-> > returns true if the folio was on an lru_add fbatch), then folio_add_lru()
-> 
-> Oh ok, that's one detail I didn't realize on the previous patch, and
-> explains the name of the function. But it's still IMHO confusing.
-> 
-> > if it succeeded: invalidating the old fbatch slot, appending in a new one.
+> > Ignore folio_may_be_lru_cached() and lru_cache_disabled(): limitations
+> > irrelevant to this fbatch drained under spinlock (even if RT); though
+> > in practice madvise_free_huge_pmd() does have to drain every time.
 > > 
 > > Signed-off-by: Hugh Dickins <hughd@google.com>
 > 
-> In general, LGTM.
+> It seems correct to me, so:
+> 
 > Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
 Thanks.
 
 > 
-> Nit below:
-
-> > diff --git a/mm/vmscan.c b/mm/vmscan.c
-> > index f11491ee9ed5..4e8d5cc34f07 100644
-> > --- a/mm/vmscan.c
-> > +++ b/mm/vmscan.c
-> > @@ -8093,17 +8093,19 @@ void check_move_unevictable_folios(struct folio_batch *fbatch)
-> >  			folio_clear_unevictable(folio);
-> >  			lruvec_add_folio(lruvec, folio);
-> >  			pgrescued += nr_pages;
-> > +		} else if (lru_add_del_folio(folio)) {
-> > +			lruvec_unlock_irq(lruvec);
-> > +			folio_add_lru(folio);
-> > +			lruvec = NULL;
-> >  		}
-> > -		folio_set_lru(folio);
-> > +		if (lruvec)
-> > +			folio_set_lru(folio);
-> >  	}
-> >  
-> > -	if (lruvec) {
-> > -		__count_vm_events(UNEVICTABLE_PGRESCUED, pgrescued);
-> > -		__count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
-> > +	if (lruvec)
-> >  		lruvec_unlock_irq(lruvec);
-> > -	} else if (pgscanned) {
-> > -		count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
-> > -	}
-> > +	count_vm_events(UNEVICTABLE_PGRESCUED, pgrescued);
-> > +	count_vm_events(UNEVICTABLE_PGSCANNED, pgscanned);
+> Might be that something regresses performance though. Guess we'll see.
 > 
-> AFAIU this is done because we can no longer rule out that !lruvec means
-> pgrescued is 0.
-> But we can still distinguish the cheaper __count_vm_events vs
-> count_vm_events? Probably all the same on x86, but I hear on arm64 this_cpu*
-> ops have a cost worth proposing rather elaborate schemes to deal with...
+> Also seems to me that if this patch was preparatory, the batching wouldn't
+> have to be temporarily disabled. Doesn't matter ultimately though.
 
-Yes, it was just looking a bit baroque to still be deciding whether to
-use the __count or the count there. Could be done of course, and with
-"if (pgrescued)" and "if (pgscanned)"; but I haven't noticed anywhere
-else in the source where we go to such lengths to use __count versus
-count, and I don't think this is on anyone's hotpath (IIRC this is
-just SHM_UNLOCK).
-
-Now you've got me worried, no, fractionally worried, about Shakeel's
-recent __count to count fix to NR_MLOCK.
-
-I am much more familiar with x86, and have noticed the recent tussles
-over improving arm64 this_cpus, so that confirms you're right; but I'd
-look for juicier low-hanging fruit than this, if we're going to
-embark on an "if (x) __count() else count()" spree.
+That's true, the order of patches does rather reflect the order in
+which I got to think about things - but I thought it might be easiest
+to review in this way too. I was anxious to get to the core patch (04/26)
+as quickly as possible, to find out whether the idea would fly at all;
+I could see lazyfree was a problem, but wanted to put off its solution.
 
 Hugh
