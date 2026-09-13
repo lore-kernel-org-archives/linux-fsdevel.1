@@ -1,64 +1,64 @@
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37BDE2DCF4C
-	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 14:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21BF305667
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 14:49:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789310993; cv=none; b=dnNNoeOmcKndupfCeZXOCpT9J8brkoQ8/OvfXpvIhZL0F0Kna8fwv3VWgeHOXITlM/9kS+8L35FkKAFvxDMTcqRP1U9KbrrE4x0o8oLRjHXGApOepZAWRhprRKZ49RVVaYTHOSiiYYE5p7m391oq81bsVdJK4FxS8zpIbj3b/Gs=
+	t=1789310995; cv=none; b=JtpyU8ktlsANFeDG55gV2XapShdyGiPNj/n+83+fTcY8oeBpNTM23zxghEveJBDsTslHNxWWcSXj2EO9OSXugxaGMxQvrinrn+r1RZWgQvGjJRrAuw1kZxct4K5d5esGvT3gjzm2wZfbs1mU3NYvho4NW05yF9hmrTJQ1qURs7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789310993; c=relaxed/simple;
-	bh=fqYdfhM4n383iQRBDpq26Y/X/oP3mbwZS2rLGUBKObg=;
+	s=arc-20240116; t=1789310995; c=relaxed/simple;
+	bh=f/JGvyozr5jeaQuC/YPBC4EZWLzX+hOKaQnE0gOoXKk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z7sN/4IKXUWPNrW8QTeM5OCfmuC8TLWDqGdmqaVn/TKiQqJyqVEnttKu7fJJu8zDmmTb5iXopUWqIYcvjkG+1Zv94mKnGHCrA32e0NyJ0u1H8X/YfNFhMLEMfGiCHzbif/e1tfjlcqk+NguJ1iw++FVXAPU+wn0JsxeALQqZ94E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OlIGExBY; arc=none smtp.client-ip=74.125.225.140
+	 MIME-Version; b=VPzPm/WvMXJroJ+ZLGPrPcC7aa2eRuXfwJCrw9kdhdYB6sk6qT2t49wdk3vnJLX1RcUN/SSn8r61naAJWNaTXuEASuR9+joGjmiCx4Dw+J0IwITUmlIHEIsuKCCS97Jhu3VnSspRAJhl/JLBS+cnrcyS4Mmveu7YOwaur48KhHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WLsnFoPd; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OlIGExBY"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e64ccso8940775e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 07:49:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WLsnFoPd"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ce364488dso3553005e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 07:49:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789310990; x=1789915790; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789310992; x=1789915792; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=T4XBkc/3o0TvhdU75Gq1POY2139HpfJ6MiGPK2mRXWA=;
-        b=OlIGExBYCSathE9wDoDaWXy2tD0fEennZMed0JSIO8WfQCCQ3nNYLGEpxmcmdrW6CB
-         Gn6VY6cKnVntDFw0r7faBmfG/Na4P6W3377mRVodYxd2SyZPCnXpN0+gSesM5U4oAmPA
-         g6opE48AFt08pkB74q2o4CVnak9WRnV1CiPRzWP7oPyC7VQvMEmLfe4UfKBsdLXG4LFZ
-         pOCtoI8iq3erVCjjzhY5cbsI4mkGk8WafhS2JtMnrcaEKGwFh+fB4oQ8DK5yni8XOkcX
-         cTDtIvqe74ilYr3sOPJiBqr03nCFuOOwTwNnF4f8yybGR/+Qb74+9uUD8f7obbVWQzFP
-         Zh6w==
+        bh=tEgrf0WZPqVqJ7RIhBAsuccBYx+nrV9P/xGJSXqzGyg=;
+        b=WLsnFoPdjiVo7jSLN7mGOqSUrXSE9qV29lFGYkmpWo/b4TDWRWdSZ+bluJ4KyoS0oh
+         GNyGyT3wrfynb8J2oR7XqcMWgoEdwoGGlp1V0sNJO7vkCD2kXWUVy7XYwOlPQhGoatMQ
+         o8LeOBvcuGgBx4GUfgVJWyV2fjixcLwkP3XsDNZ7tsXI+AH1FzeHPkhbOgbTWPIyBk02
+         tdEfxI3UkhkajeODBnORJaUc1op+L+WDLh7EFbqe/g/PMVmzhV6bejAUQkfbCAqJXP7S
+         XtKeV0t9eKgQIgSt44oicnVbdZvjLaL0P+lXn9/EqoRFa9Jp47BlDsHNfWP8HujH8nbI
+         dXpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789310990; x=1789915790;
+        d=1e100.net; s=20251104; t=1789310992; x=1789915792;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=T4XBkc/3o0TvhdU75Gq1POY2139HpfJ6MiGPK2mRXWA=;
-        b=Dh1g6hXbpyaife0tmnfX17x4zx0cGoGpaB4LbZ/GhB1xl8Wai6ZJxpwFAwkzXYh2/a
-         /8wPQjfJuNR3ZggUnaaKl4nyRS9x2Kxl/gA/5l+GlSGuSBckx2i7k95Q/ai5yQVylvNQ
-         fSW3HF0NSzXL9jv+5H+0MQbPBmJANYbfpBKBTyDkQqphsfNwzJapCkxUmvnL+YwaQTde
-         igIv9uthpTdVMQqZp6s1YLAP0Rz2XrO7mikqlXO/0K9Fe/Xq/EOWPHrHqqf34Fz5KE7M
-         zx+DSf6AA0sIe5JMfSN/IoaRxpq+A1chbfppXFy6KEkrwLXFJ64oNS8QrcAJghNohVOx
-         fBAg==
-X-Forwarded-Encrypted: i=1; AKwUvBwoYWSffwA+2jXNGNzQsWY8Gvzzg9xKrFDksLJvvZcxO+wAjHRqzKkhUouzHYUREFead2+hi6gqj+j6aToA@vger.kernel.org
-X-Gm-Message-State: AFuF++lkXZwIBpk0Kkm9ImbVIz535CTJq6KIhDfyP6OzbjpO5cd304+P
-	ZBz/Q9sspESnGw8B2zMKQDe/t4DZD837NT81cLalKS9UNXtjL4tYKL8V
-X-Gm-Gg: AYBFou11yALoTAeTR0wJn+OJ9/LxapHgyFQDCcWM/vyU0Z3ClWo7QAVfb+7vvmo39RM
-	jo1A8nJ6SaRXYcC3Kt8OT/lVvcwUGymMeO94zO4HqDRqjFytWkrpfuXaO6p4S5rWf/aP+ifSqcX
-	FfqvLrV0cOBp7C3ya7seADETJxrYBKKxe8//o9qDSJWOZIbm4HZSbc7MmMMs69riKy0smEWqXku
-	F+dVPEEp3X8/ekwGkYmd8jVMNjU/gFspK/gnk57cLkF2FiBVrzXwgUYsZa2vHyhthCbm0BjtaVG
-	RTntgv135wB7BRxstkWOnPC5uD32Tg/IdoKfxko6xMzIrSMCzKfrjZYkqYN3YOtkuhSxPT3qsoX
-	tGYmVG6zXnkhhsnoTd/lPJIyxeVNnypeTYPXWlct8DgzuWq2hPl0tOtVHsMHscY6qi+qmIm9ul6
-	YNlFE3ymWiNTO3FIwk1/0kLObM7JAKQOsyPh74WhEyN1iDdqMDg7ZQFgAPnVqbuVCUmUYMH0rlQ
-	ZJJQOae8Aq2u93j0Lgbh3Buepk+wzLL+7gkjJsstVU=
-X-Received: by 2002:a05:600c:3b90:b0:49c:d52e:d0ea with SMTP id 5b1f17b1804b1-49e619b397emr244436195e9.4.1789310990136;
-        Sun, 13 Sep 2026 07:49:50 -0700 (PDT)
+        bh=tEgrf0WZPqVqJ7RIhBAsuccBYx+nrV9P/xGJSXqzGyg=;
+        b=jGlL5k0XJezdIF7vQh+iqowRDljgbTsF0cavCMze5c0610w4tUz4R1g0MRnh9jwxd2
+         CLsmtnBLYvO6N8bGZ6vOOfkYLP5O6YlfP8PHVW9IrbypUzflgsl3NzErTy6R0MCUnaHb
+         km1jJIe9PQF1VfDR+8qwcceX62jwOiYq6Yug2QqRY/DLQ15RuhcFXJ037xwlbTshW9m4
+         VkIqXN5igsJBrY486i/rBYtt/+vJ8an19DlVXlN8gvCJlj/HeIReUX/oMcu7Owf8PfuV
+         xiQQmFkOV5wYwDBK5Swr4luYTzGQx/kwMUY8xYT0Gr0JoUvs4jMVEQlIeimfUlgXp/ww
+         qwCA==
+X-Forwarded-Encrypted: i=1; AKwUvBy5m92wSR3gpJt+ImEXkS09Ok4FXQEYK8bu93lXeCxRaPHhOecZFgLP35aQxlgEBEfo9OsdJyssURFg51rK@vger.kernel.org
+X-Gm-Message-State: AFuF++kJWQrwJLNhJUJJ+d06zyES8cDdU5OkY3Psxkg4Sc0MV7xNK3xu
+	lm0n/dZwWmJ83KvlpgeDjWqsX+nGpS/aVh9X+o3M66oDy1rywkryFgVZrTh8VQ==
+X-Gm-Gg: AYBFou3bYsdZeurrAXoO49QwZk7gkkNXGc2aVUj73K1pGNfNGbeoPcmhcKvBQuMzD0U
+	eR4KfHAS0TnHBc4ty9L2gXe36Ne5tUVlSbLOGR3H+32HtBOBMlCBATlbUFtU2uK+XFCbLYExbkq
+	J1pde2NPBlb9lN9iCHbfdT4kH7PCKGJjrsQ3RaBIRFsjHGZDhV1NskSbaETkZQBc4xrIJKlqLqG
+	smRQdQcFB4sE1UeylNVm03ns9A1YTzAaGZNSV/BDpTrE2cmkL+7hmebZOtdQcxmUh7dIE+4GaG3
+	bVJasza+w66VOf6PD6POARDOrfjHCcMAbrZMw9EPLPp2GfevS1gFfkDow/wN3xwqNui97kWfkj8
+	NL7yUNsDlmOcMrlJr763AGnd/9sp1oOStzaCFPNnZuBSV2CqkKVC4/a/fZxrd66K8NuIWy087Yp
+	XlnfsPJPEz9X+9tviSOU7ciTVaR8lnpOAmM13uULPxLelDvFGHprmgF7iily5Xzq5iOGVQE8liy
+	k9TM/hb65XcF4OSYFeUG3ebVQr0usunbNBcfhUJ0mA=
+X-Received: by 2002:a05:600c:5248:b0:49e:6865:904e with SMTP id 5b1f17b1804b1-49e76068364mr29300465e9.12.1789310991798;
+        Sun, 13 Sep 2026 07:49:51 -0700 (PDT)
 Received: from f.. (cst-prg-84-1.cust.vodafone.cz. [46.135.84.1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6420de77sm109534235e9.3.2026.09.13.07.49.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6420de77sm109534235e9.3.2026.09.13.07.49.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 07:49:49 -0700 (PDT)
+        Sun, 13 Sep 2026 07:49:51 -0700 (PDT)
 From: Mateusz Guzik <mjguzik@gmail.com>
 To: brauner@kernel.org
 Cc: viro@zeniv.linux.org.uk,
@@ -66,9 +66,9 @@ Cc: viro@zeniv.linux.org.uk,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH 01/10] fs: unexport backing_file_set_user_path() and make it take the ref on its own
-Date: Sun, 13 Sep 2026 16:49:08 +0200
-Message-ID: <20260913144918.1606123-2-mjguzik@gmail.com>
+Subject: [PATCH 02/10] fs: add path_create(), path_move() and path_clone()
+Date: Sun, 13 Sep 2026 16:49:09 +0200
+Message-ID: <20260913144918.1606123-3-mjguzik@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260913144918.1606123-1-mjguzik@gmail.com>
 References: <20260913144918.1606123-1-mjguzik@gmail.com>
@@ -80,51 +80,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Prep for path_* API changes, which will force the ref change.
-
-There are likely no users outside of the tree, but should there be some they
-will no longer be caught by surprise.
-
 Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
 ---
- fs/backing-file.c | 2 --
- fs/file_table.c   | 2 +-
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ fs/namei.c           | 29 +++++++++++++++++++++++++++++
+ include/linux/path.h | 14 ++++++++++++--
+ 2 files changed, 41 insertions(+), 2 deletions(-)
 
-diff --git a/fs/backing-file.c b/fs/backing-file.c
-index cc101143f921..e92410a27982 100644
---- a/fs/backing-file.c
-+++ b/fs/backing-file.c
-@@ -43,7 +43,6 @@ struct file *backing_file_open(const struct file *user_file, int flags,
- 	if (IS_ERR(f))
- 		return f;
- 
--	path_get(user_path);
- 	backing_file_set_user_path(f, user_path);
- 	error = vfs_open(real_path, f);
- 	if (error) {
-@@ -68,7 +67,6 @@ struct file *backing_tmpfile_open(const struct file *user_file, int flags,
- 	if (IS_ERR(f))
- 		return f;
- 
--	path_get(user_path);
- 	backing_file_set_user_path(f, user_path);
- 	error = vfs_tmpfile(real_idmap, real_parentpath, f, mode);
- 	if (error) {
-diff --git a/fs/file_table.c b/fs/file_table.c
-index 8dcd213c0251..f9d1b5edd6ae 100644
---- a/fs/file_table.c
-+++ b/fs/file_table.c
-@@ -71,8 +71,8 @@ EXPORT_SYMBOL_GPL(backing_file_user_path);
- void backing_file_set_user_path(struct file *f, const struct path *path)
- {
- 	backing_file(f)->user_path = *path;
-+	path_get(path);
+diff --git a/fs/namei.c b/fs/namei.c
+index ca4f5e3be99a..c8754c7ba8be 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -698,6 +698,35 @@ static __always_inline int lookup_inode_permission_may_exec(struct mnt_idmap *id
+ 	return security_inode_permission(inode, mask);
  }
--EXPORT_SYMBOL_GPL(backing_file_set_user_path);
  
- #ifdef CONFIG_SECURITY
- void *backing_file_security(const struct file *f)
++/**
++ * path_create - WRITEME
++ * @path: path to get the reference to
++ * @mnt: WRITEME
++ * @dentry: WRITEME
++ *
++ * Create a path object using the given vfsmount and dentry pair while incrementing
++ * the reference count on both.
++ */
++void path_create(struct path *path, struct vfsmount *mnt, struct dentry *dentry)
++{
++	path->mnt = mntget(mnt);
++	path->dentry = dget(dentry);
++}
++EXPORT_SYMBOL(path_create);
++
++/**
++ * path_clone - WRITEME
++ * @path: path to get the reference to
++ *
++ * Given a path increment the reference count to the dentry and the vfsmount.
++ */
++void path_clone(const struct path *src, struct path *dst)
++{
++	dst->mnt = mntget(src->mnt);
++	dst->dentry = dget(src->dentry);
++}
++EXPORT_SYMBOL(path_clone);
++
+ /**
+  * path_get - get a reference to a path
+  * @path: path to get the reference to
+diff --git a/include/linux/path.h b/include/linux/path.h
+index 7ea389dc764b..8a621e0e1921 100644
+--- a/include/linux/path.h
++++ b/include/linux/path.h
+@@ -10,8 +10,18 @@ struct path {
+ 	struct dentry *dentry;
+ } __randomize_layout;
+ 
+-extern void path_get(const struct path *);
+-extern void path_put(const struct path *);
++void path_create(struct path *, struct vfsmount *, struct dentry *);
++void path_clone(const struct path *, struct path *);
++void path_get(const struct path *);
++void path_put(const struct path *);
++
++static inline void path_move(struct path *src, struct path *dst)
++{
++	dst->mnt = src->mnt;
++	dst->dentry = src->dentry;
++	src->mnt = NULL;
++	src->dentry = NULL;
++}
+ 
+ static inline int path_equal(const struct path *path1, const struct path *path2)
+ {
 -- 
 2.53.0
 
