@@ -1,44 +1,44 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27A13F8EBE
-	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 18:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6122B3F99FA
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 18:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789325381; cv=none; b=rf7twZmYM8Ax3qz2ZRqji6O2DZgDIh/4WDj/1IXM5RMDc+Ac3uiVzI3B4mKslXSmPix6nXBgBUllmhP9v8vSywcmqOI6dSKGdt1huJ2KZwXYrJCqVtw9OQ7+clVTmQ7911f+zsdZLxLNPkvTIHA5euwL3czeFYpHlQ9CHynTtxY=
+	t=1789325386; cv=none; b=fw58CnHZnKGlVuxZdCADdozxq6mIiHKYydjJcHU1TwrzJ1QywZ9SL5p5MT3R+Qm0BKbzv5xSN2yOu2Un3+JzUjphrR4/33VhhhnHVxDTcDT5Quz3aj1dDUW04oMBXwwnCMTu/AWiz6xPiE+5/HdyZ4KMyRDzJEEdIQqNayFRpzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789325381; c=relaxed/simple;
-	bh=juPNHvpWR92dCr36HgIiioaSqiCioGjAOnDebjSe7Mk=;
+	s=arc-20240116; t=1789325386; c=relaxed/simple;
+	bh=17eTtnSWW7iGPbqJe2nrFaKLmvqhueUxRZU3/BTcefU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SJ4ypd98oOGz+bQNLLMBd7JvjETZ6O9PjzQZkTisrsv4JEJbhPW25yi8WjEWtFG8+YGbNd4e3HQY8oprDNQSaYu6tTgSac6/Ua6zuOLuz9BKdsVLcAsxlKqnWYPzy3ukEPClBRG4YXjkVjf5Ud7oKSDXiA9fdBH10jck4J72fS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=fjxZWtBm; arc=none smtp.client-ip=195.121.94.169
+	 MIME-Version; b=mpuew1vbgFnyhci1EsBzR4wIs9bff5bJwslYcQZuRSSLUhnznOWmzyA3ea/x1jXmpP+/Msw1MAyyvlDrNqWvPnB0b5xy8UH26YicHCHev6NuLeFun6Ej7wbsh1cbFoJctgSlgG6eA3+OcHWwBOXCdEyUxT+d3Pu9kSLYDorL6GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=fyJUPGma; arc=none smtp.client-ip=195.121.94.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="fjxZWtBm"
-X-KPN-MessageId: dd536b56-afa3-11f1-a059-005056abad63
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="fyJUPGma"
+X-KPN-MessageId: df7a3ed6-afa3-11f1-b2a8-005056abbe64
 Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id dd536b56-afa3-11f1-a059-005056abad63;
-	Sun, 13 Sep 2026 20:49:35 +0200 (CEST)
+	id df7a3ed6-afa3-11f1-b2a8-005056abbe64;
+	Sun, 13 Sep 2026 20:49:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=/y+qiZvJ5no0j7LSJlCXAfcdzUGAl8ZOlwquBX6X96E=;
-	b=fjxZWtBmIAiIuCUJm9JVIfJM2xJ4QfZkIkKRAHElHHWRooGpw1z3scJ7fq1N22s4O3aXx5TBe62EC
-	 C6epsT5R0rseHMh7U3HV6BSVmDhb2XlKsOgPU7ExrE2okSxiLcq+RvnZUI9Yk+WPEH7I6h8ikha1EL
-	 2ip9GoR+aQRQLJ35jGbQczdfA9ka4gJk05SRe23WuZ27F7GAgEgOJSvQgZRbKGsInl9cEpe2MG8gVe
-	 KYZ02wcrbfp6i/VvxY14UuacSSPvD3BSdJsXULkvD/0du743k5O3v5iDwzu9CogZu0dWD/38k+JtaK
-	 lPLQ422izqGxgnS5P/trebmRCsDiFIA==
-X-KPN-MID: 33|WN5pIgXInmzLTLvj6H3i2BvrAdDZK4C99Gp7o8mPo3KWYG/bQC8GqCLbSMV0Pj0
- xCEzOu5bzPayRpIR8MRSPl5ytugCuyxch/e3R6Op93u4=
+	bh=VevmlAFlgqBr1KihxzNewL9ukoTBFxyRRj2gCZd4PMo=;
+	b=fyJUPGmams0stY42r2gsJMgm4qaCkFPhHdKZPSuXitVWDuBJ/p6qbDz1K7t7bWNILqFW5BZCyJSYy
+	 GJAdGD6y7CWx/uhelrkXASECvH+BenDMRC0/rIKUdfJgkKrHDjnKEvz+pzkDtOs1d036VNKL0jbURi
+	 e3Em5Pf4BHPWp28GoDxhEgRapG5BGEtd/fpwD2Kg5J+3rKd3oGacwpUKhb/agBonyukCRruVZl9ZZb
+	 TT43Hu11B1j3Y1vU+dxQu54yUH6aofj2IIbU9aS1uUEPcRRE2jL6y6BM0Ayt5EwmE2gLdNn9Xdp8vE
+	 vkbNZTZAv7J5ZFTg43uvj29r8DPMVOQ==
+X-KPN-MID: 33|ZwGBvn9DlFIcdIEAEEll6kuRPfWpoqVVpCb0AFjpIfhy3An8W5EycFTsIZvmQtF
+ zyHAKOn5cHSSNok0dCDO6/SXqAx3OW9cTulj+HJeZlQo=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|DAqJoBDPbmQGg2vwGqVACLJ4pUCSZoEKTZCJriJsftrneTUqU60iBzDso7lHjvN
- dnFMb+pBXxEmaI51GV220kw==
+X-CMASSUN: 33|YDYG3yZu3l1PlIUtjAwE3dhDYt/ZMOcU7XmRcHFaXvvTagjHuCLdQNgOaCguAj0
+ oKKbxXfMbXxmQm0JRRv5rwA==
 Received: from daedalus.home (unknown [178.231.250.207])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id dd19800c-afa3-11f1-bd2b-005056abf0db;
-	Sun, 13 Sep 2026 20:49:35 +0200 (CEST)
+	id df44500a-afa3-11f1-bd2b-005056abf0db;
+	Sun, 13 Sep 2026 20:49:38 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Christian Brauner <brauner@kernel.org>,
 	Jeff Layton <jlayton@kernel.org>,
@@ -50,9 +50,9 @@ To: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH v6 09/12] vfs: move O_IS_MKDIR check from lookup_open() into individual filesystems
-Date: Sun, 13 Sep 2026 20:50:13 +0200
-Message-ID: <20260913185016.523376-10-jkoolstra@xs4all.nl>
+Subject: [PATCH v6 10/12] vfs: refuse O_CREAT for directories through a dangling symlink
+Date: Sun, 13 Sep 2026 20:50:14 +0200
+Message-ID: <20260913185016.523376-11-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260913185016.523376-1-jkoolstra@xs4all.nl>
 References: <20260913185016.523376-1-jkoolstra@xs4all.nl>
@@ -64,177 +64,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Individual filesystems that implement ->atomic_open() need to get the
-chance to implement O_CREAT|O_DIRECTORY or not, rather than decide
-this at the VFS level in lookup_open().
+open(O_CREAT) without O_EXCL follows a trailing symlink and, when the
+symlink target does not exist, creates it. Refuse to create through a
+dangling symlink for directories.
 
+In lookup_open() a negative target reached with nd->depth > 0 was
+arrived at by following a trailing symlink; since the dentry is negative
+the symlink is dangling. Set create_error to -EEXIST in that case
+(matching the errno returned by mkdir(2).) Reusing the existing
+create_error path strips O_CREAT for both the generic and
+->atomic_open create paths and only reports the error when the target is
+actually negative. Thus opening an existing target through a symlink,
+interior symlinks, and O_EXCL (which never follows the trailing link)
+are all unaffected.
+
+Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Reviewed-by: NeilBrown <neil@brown.name>
 Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 ---
- fs/9p/vfs_inode.c      |  5 +++++
- fs/9p/vfs_inode_dotl.c |  5 +++++
- fs/ceph/file.c         |  5 +++++
- fs/fuse/dir.c          |  5 +++++
- fs/gfs2/inode.c        |  5 +++++
- fs/namei.c             |  3 ---
- fs/nfs/dir.c           | 10 ++++++++++
- fs/smb/client/dir.c    |  5 +++++
- fs/vboxsf/dir.c        |  5 +++++
- 9 files changed, 45 insertions(+), 3 deletions(-)
+ fs/namei.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/fs/9p/vfs_inode.c b/fs/9p/vfs_inode.c
-index 3829554ca369..dd810904ff6c 100644
---- a/fs/9p/vfs_inode.c
-+++ b/fs/9p/vfs_inode.c
-@@ -776,6 +776,11 @@ v9fs_vfs_atomic_open(struct inode *dir, struct dentry *dentry,
- 	struct inode *inode;
- 	int p9_omode;
- 
-+	if (O_IS_MKDIR(flags)) {
-+		flags &= ~O_CREAT;
-+		mode = 0;
-+	}
-+
- 	if (d_in_lookup(dentry)) {
- 		struct dentry *res = v9fs_vfs_lookup(dir, dentry, 0);
- 		if (res || d_really_is_positive(dentry))
-diff --git a/fs/9p/vfs_inode_dotl.c b/fs/9p/vfs_inode_dotl.c
-index 116b29e95f21..9308184aee61 100644
---- a/fs/9p/vfs_inode_dotl.c
-+++ b/fs/9p/vfs_inode_dotl.c
-@@ -238,6 +238,11 @@ v9fs_vfs_atomic_open_dotl(struct inode *dir, struct dentry *dentry,
- 	struct v9fs_session_info *v9ses;
- 	struct posix_acl *pacl = NULL, *dacl = NULL;
- 
-+	if (O_IS_MKDIR(flags)) {
-+		flags &= ~O_CREAT;
-+		omode = 0;
-+	}
-+
- 	if (d_in_lookup(dentry)) {
- 		struct dentry *res = v9fs_vfs_lookup(dir, dentry, 0);
- 		if (res || d_really_is_positive(dentry))
-diff --git a/fs/ceph/file.c b/fs/ceph/file.c
-index bd3e3f5c269e..9235143edd9a 100644
---- a/fs/ceph/file.c
-+++ b/fs/ceph/file.c
-@@ -812,6 +812,11 @@ int ceph_atomic_open(struct inode *dir, struct dentry *dentry,
- 	      dir, ceph_vinop(dir), dentry, dentry,
- 	      d_unhashed(dentry) ? "unhashed" : "hashed", flags, mode);
- 
-+	if (O_IS_MKDIR(flags)) {
-+		flags &= ~O_CREAT;
-+		mode = 0;
-+	}
-+
- 	if (dentry->d_name.len > NAME_MAX)
- 		return -ENAMETOOLONG;
- 
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index e49b4e874b15..a3e7daba61dc 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -944,6 +944,11 @@ static int fuse_atomic_open(struct inode *dir, struct dentry *entry,
- 	struct mnt_idmap *idmap = file_mnt_idmap(file);
- 	struct fuse_conn *fc = get_fuse_conn(dir);
- 
-+	if (O_IS_MKDIR(flags)) {
-+		flags &= ~O_CREAT;
-+		mode = 0;
-+	}
-+
- 	if (fuse_is_bad(dir))
- 		return -EIO;
- 
-diff --git a/fs/gfs2/inode.c b/fs/gfs2/inode.c
-index f361876c5583..69e100a68e2c 100644
---- a/fs/gfs2/inode.c
-+++ b/fs/gfs2/inode.c
-@@ -1386,6 +1386,11 @@ static int gfs2_atomic_open(struct inode *dir, struct dentry *dentry,
- {
- 	bool excl = !!(flags & O_EXCL);
- 
-+	if (O_IS_MKDIR(flags)) {
-+		flags &= ~O_CREAT;
-+		mode = 0;
-+	}
-+
- 	if (d_in_lookup(dentry)) {
- 		struct dentry *d = __gfs2_lookup(dir, dentry, file);
- 		if (file->f_mode & FMODE_OPENED) {
 diff --git a/fs/namei.c b/fs/namei.c
-index f31046f8b3ba..a990c9c8bddf 100644
+index a990c9c8bddf..fce3aaa37365 100644
 --- a/fs/namei.c
 +++ b/fs/namei.c
-@@ -4535,9 +4535,6 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	mode = op->mode;
- 	create_error = 0;
- 
--	if (create_dir && dir_inode->i_op->atomic_open)
--		open_flag &= ~O_CREAT;
--
- 	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
- 		got_write = !mnt_want_write(nd->path.mnt);
- 		/*
-diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-index 49394123bd09..4b1404d6859e 100644
---- a/fs/nfs/dir.c
-+++ b/fs/nfs/dir.c
-@@ -2121,6 +2121,11 @@ int nfs_atomic_open(struct inode *dir, struct dentry *dentry,
- 	dfprintk(VFS, "NFS: atomic_open(%s/%llu), %pd\n",
- 			dir->i_sb->s_id, dir->i_ino, dentry);
- 
-+	if (O_IS_MKDIR(open_flags)) {
-+		open_flags &= ~O_CREAT;
-+		mode = 0;
-+	}
-+
- 	err = nfs_check_flags(open_flags);
- 	if (err)
- 		return err;
-@@ -2317,6 +2322,11 @@ int nfs_atomic_open_v23(struct inode *dir, struct dentry *dentry,
- 	 */
- 	int error = 0;
- 
-+	if (O_IS_MKDIR(open_flags)) {
-+		open_flags &= ~O_CREAT;
-+		mode = 0;
-+	}
-+
- 	if (dentry->d_name.len > NFS_SERVER(dir)->namelen)
- 		return -ENAMETOOLONG;
- 
-diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
-index 6fa6d48fdfd3..f75095a48fdb 100644
---- a/fs/smb/client/dir.c
-+++ b/fs/smb/client/dir.c
-@@ -534,6 +534,11 @@ int cifs_atomic_open(struct inode *dir, struct dentry *direntry,
- 	if (unlikely(cifs_forced_shutdown(cifs_sb)))
- 		return smb_EIO(smb_eio_trace_forced_shutdown);
- 
-+	if (O_IS_MKDIR(oflags)) {
-+		oflags &= ~O_CREAT;
-+		mode = 0;
-+	}
-+
- 	/*
- 	 * Posix open is only called (at lookup time) for file create now. For
- 	 * opens (rather than creates), because we do not know if it is a file
-diff --git a/fs/vboxsf/dir.c b/fs/vboxsf/dir.c
-index 0b9eab157432..f20b61f6d8da 100644
---- a/fs/vboxsf/dir.c
-+++ b/fs/vboxsf/dir.c
-@@ -318,6 +318,11 @@ static int vboxsf_dir_atomic_open(struct inode *parent, struct dentry *dentry,
- 	u64 handle;
- 	int err;
- 
-+	if (O_IS_MKDIR(flags)) {
-+		flags &= ~O_CREAT;
-+		mode = 0;
-+	}
-+
- 	if (d_in_lookup(dentry)) {
- 		struct dentry *res = vboxsf_dir_lookup(parent, dentry, 0);
- 		if (res || d_really_is_positive(dentry))
+@@ -4601,6 +4601,11 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+ 						    dentry, open_flag, mode);
+ 		else
+ 			create_error = -EROFS;
++		/* Refuse to create a directory through a dangling (trailing)
++		 * symlink. For regular files this has been allowed historically
++		 * on O_CREAT without O_EXCL. */
++		if (unlikely(nd->depth) && create_dir && !create_error)
++			create_error = -EEXIST;
+ 	}
+ 	if (create_error)
+ 		open_flag &= ~O_CREAT;
 -- 
 2.55.0
 
