@@ -1,53 +1,76 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F2C313267;
-	Sun, 13 Sep 2026 15:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B183B217723
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 15:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789312375; cv=none; b=modFGLe5Rn1vBwHVTWHhbVyFxyPp4R8S+S0c00MjmBeaUXrBmST/XkJSeUOxR16UIzycNtAh7/cBPwpLDSzivOvI0sHgjGWmblbWtDJgOEvU8HpAaBcLc2FGpFh69h1CkaAj9IlzAzw2thTwV+c+S3vSrNfsJqS2rkP3hQTpDY4=
+	t=1789312546; cv=none; b=PUAo/dny5RmsPSLTvP1dO8ttSjlmzs/OL0WkroYfL1TenR6jZW8z4uQJzIXZoEXyrojtzKdD8nCdNvoS5f0m/6Q4Lm8A6TUfk7M77vM1yUwushmmramb2SrnROr1Q9/vPbwQ1K3mHZweGJj+2u06ZgfgeQSHyAOs4trPUAPFV4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789312375; c=relaxed/simple;
-	bh=2H9OJSydwFT0QNUjpsXuje0raC2FTKb22KZ38jpcIec=;
+	s=arc-20240116; t=1789312546; c=relaxed/simple;
+	bh=dEKz0PzGiux9Qf8eTTrPhDJKNcQFepLZ/wXcnPI5k1Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pf/LUD/HC9VWZDMke7fKI/5gXNDNkoHJPCIBR4wULTQ6QuFz3ouxIy0xRT44ZovlMK+Fq0gJrkGIGzu8+ycYLmTEFYI2cumvLWoid0KBFQ+j6xsv441gsOifDq8iz4HPNOxMhOQWASwjI93PbWFokrkloUPSo4Hda1SYF5UnSPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=xuloV4OI; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=APvRsMcDXe6vhu4NA4OqKqeD5NL9nSv+c68jAmyeursKdXx9FuOCEuwTMyMKpO76K+JBCQBtl5vNDHHKQHUMTrtv5tSza1Vgx2W+DqT10vizlIJ18mQjJAjT8gIgUT68lONmCpUu/aG9BjpH51E6j1QXEL69vnQq/1IiP/vpovo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BpT3cc5+; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="xuloV4OI"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id D25F514C2D6;
-	Sun, 13 Sep 2026 17:12:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1789312367;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QEd+GWAVv70/aKemk+jvfc/Ph6xxglvtYq0FXfobNZc=;
-	b=xuloV4OIoCLh7Bql1n961TUSxSFIWBwCZAhc/jS591JBVIRaWod8AZBq9la+Ybsj4NIAo3
-	xIlTfo/KQ2rF6qDOlCUJN8d7wE95O4magF7IejTlBzxSOtgYX26k1WiQDLGaoSdT4PTJQr
-	ibmWvhx74omMURs6CsRlcpgYHNIMEoyN0B7xr0/nA68kUV3PLKJny37IKwxs6mbuts7rhO
-	GOehVbynQK67P3URBzmeCBf3kgyEBBSeDDvfCM9WSZO5yQfbKBeog5X/S5GHe8VdIEoAcZ
-	vDhXMiAP8Fa2W6Z5eu09+SV5ZpCTfP6XBth8bbZlEFj5Jc1reovJbolbcQW8Qw==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id ef2183fa;
-	Sun, 13 Sep 2026 15:12:40 +0000 (UTC)
-Date: Mon, 14 Sep 2026 00:12:25 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: hoobnn <853555@gmail.com>
-Cc: ericvh@kernel.org, lucho@ionkov.net, v9fs@lists.linux.dev,
-	linux_oss@crudebyte.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	sripathik@in.ibm.com, aneesh.kumar@linux.vnet.ibm.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-	David Howells <dhowells@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH] 9p: dynamically allocate directory entry names
-Message-ID: <aqa9WXmrgd_P7yxw@codewreck.org>
-References: <20260826064819.52523-1-853555@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BpT3cc5+"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e69b9e16aso10678125e9.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 08:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789312543; x=1789917343; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=K65DQ7/mv19GPFstsuzavHNy0KooVpltR7HBiL1fu1w=;
+        b=BpT3cc5+4bbaDzeVXEyIgHZLqMLad7+6W70gxJM7xfIVtYK8ohIG3JNi8bt6sBYOD1
+         nShect9D72clDLIj9XV1CdvufcC9Drt/kPafLHzS93AGgEkB6GNhBpmrvoUBETuxEWpz
+         qTIQmZtQMTSHuAHBDl1u6it7fveCvdrsImmZYh/Hx8rRSujCDPDshDeBnhXeAJ/b2Uj8
+         pHCwI9Qvm7NSJbhVZ3Z/l4ARZiDJQw9oz9CGObmk71R1GiPo0GThrxdImFQQh/SrBRy5
+         QRSx5z0+8uISpvUf7+RouevVSp0vageSF/qbB8WaL+N2EsC67nfVIvt5hHSooCg7HUE9
+         ShQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789312543; x=1789917343;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=K65DQ7/mv19GPFstsuzavHNy0KooVpltR7HBiL1fu1w=;
+        b=cnUassgYVRDDVSkixqqbolEag7W/Dt4wg+qrA9cdagYv9PaYMiVgUUSKShhLqsbZn+
+         wpdeaEkCxR3v8N5RThFAXBoXYhPD5ZZuQQyNjosXs89gsGTfutnJV6EGXRessL/NE0+j
+         Cmz3Nwaxz7X4qRt/nT5VIlkq0WleAFrFa1LV2vWg11Fui1+oqHSGmo/gBuQjrKadeifk
+         OIbr6MRDlzxY86X08H+7oojAtENcNjNecUvFDxjeFmtu3AlKx3JTrE9C6518s8znDypS
+         hTQnzY30G8/Ofjy8pOGeBbUhI2fHiyBxyRs9cOb5Odh04qHBGsZmgYf9ubDO5GYXrcFD
+         RLCA==
+X-Forwarded-Encrypted: i=1; AKwUvBxTrk7nKOHIKMkEf5u8NXpnArm3BMdBRyP2Ivcj1x8/X0mfL/wg05vczghauJFUIOXxRF8yn2TygDeB9tvR@vger.kernel.org
+X-Gm-Message-State: AFuF++naNPQ1K6ufwHIYpQRJQ6KXqlB/gU/8Rc2qWOtB/JCHZH9AYk0V
+	icuvumwqD0HXTmeKoz47V2MSOT+U8UXFncgLYzluvR4fl88OBuB3hmFA
+X-Gm-Gg: AYBFou0OTwQZ+EpH/xzIv9n8h0/+2LuTB4g5lEFsUvOCYR3/gzevDwPsxW0pUk6dFJZ
+	kQvDXie9xcgyaRMUYBxvX7Id1OgpQ8m++kEustdSAqLmoJPs56inYu80Kouqv13MHefTetC2Ryn
+	Vf78F2tkRzcHhKks9iq0rwMQDk19b6r7Z/GGl9ZGiScACDRwtDsr3sM2S7Ol0aDS6cQVAwtPW3U
+	bQDZc7iNQ7qn06enNNYY9Yd3GMEPRr0haXJ17GyHQztlryU0mqRA165zq6cNvHS3dY/o55YVTy/
+	7xRjAMX0TzmGNjBF5rHjIxaLygOMyHt7oU3Ahh6RX9QNt4mLoGd/MpcasHeAwuY6zu5/easEsFp
+	gzJeJYYa22sAHKhKElId4gPp6CPTKF2O0LlFUKIq9j3OLwMS5I92MQ6ln6RVGtvUxJyy+uC3JmW
+	SlFAy2AArmnrtCtpj5rbkyYyvktOJ4TAA2tro7GWzBZMBGxFiYdN+Ur1QY822mrhqgC7K8UK0jW
+	C2UqCcu7V5LOqu3+W7QeyrW0WacXTg4w/+I5/Bt
+X-Received: by 2002:a05:600c:3554:b0:49c:fa21:1c81 with SMTP id 5b1f17b1804b1-49e6cbfbfb1mr62189835e9.22.1789312542853;
+        Sun, 13 Sep 2026 08:15:42 -0700 (PDT)
+Received: from f (cst-prg-84-1.cust.vodafone.cz. [46.135.84.1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e60acff8bsm244462855e9.9.2026.09.13.08.15.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2026 08:15:42 -0700 (PDT)
+Date: Sun, 13 Sep 2026 17:15:33 +0200
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH 4/7] vfs: change vfs_lookup_open() to return found dentry
+ in path.dentry.
+Message-ID: <2mr6afww7r67o2hjblafhdwqffg3zicsqjkddnquunfaalolpd@yq54r5nlqftm>
+References: <20260910002934.192979-1-neilb@ownmail.net>
+ <20260910002934.192979-5-neilb@ownmail.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,58 +79,139 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260826064819.52523-1-853555@gmail.com>
+In-Reply-To: <20260910002934.192979-5-neilb@ownmail.net>
 
-
-+fsdevel@ & vfs maintainers to Cc TL;DR:
-Should the 9p .iterate_shared() dir_emit files with path
-components > NAME_LEN, as allowed in fs/readdir.c verify_dirent_name()
-only enforcing length < PATH_MAX, or should we skip any such entry given
-nothing can interact with them later anyway?
-
-
-hoobnn wrote on Wed, Aug 26, 2026 at 02:48:19PM +0800:
-> p9dirent_read() copies names into a fixed 256-byte buffer. A name that is
-> valid on the host filesystem but longer than that buffer makes strscpy()
-> fail and aborts getdents64(), hiding the remaining directory entries.
+On Thu, Sep 10, 2026 at 10:20:50AM +1000, NeilBrown wrote:
+> From: NeilBrown <neil@brown.name>
 > 
-> Keep ownership of the protocol-allocated string in p9_dirent and free it
-> after dir_emit() consumes the name.
+> The caller - nfsd - needs to know the type of object found when a
+> non-regular file was found to exist.  This is most easily done
+> by passing back the dentry.
 > 
-> Fixes: 7751bdb3a095 ("9p: readdir implementation for 9p2000.L")
-> Closes: https://github.com/microsoft/WSL/issues/41192
-> Assisted-by: Codex:gpt-5
-> Signed-off-by: hoobnn <853555@gmail.com>
+> So change calling pattern so that the path (now called "path") contains
+> the parent dentry on entry and the child dentry on exit.
+> vfs_lookup_open() will dput() the parent and caller must dput() the
+> child.
+> 
+> If lookup_open() returns -EFTYPE (from ->atomic_open()) we need to
+> use d_lookup() to find the dentry.  If ->atomic_open() didn't add a
+> dentry to the dcache we return %NULL in %path->dentry.
+> 
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/namei.c | 31 ++++++++++++++++++++++---------
+>  1 file changed, 22 insertions(+), 9 deletions(-)
+> 
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 0c787363b101..30ccc0c2f02f 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4606,7 +4606,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  
+>  /**
+>   * vfs_lookup_open - open and possibly create a regular file
+> - * @parent: directory to contain file
+> + * @path: directory to contain file
+>   * @last: final component of file name
+>   * @open_flag: O_flags
+>   * @mode: initial permissions for file
+> @@ -4619,9 +4619,15 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>   * If the fs object found is not a regular file then -EFTYPE is
+>   * returned.
+>   *
+> + * @path is updated to contain the dentry that was found if possible.
+> + * In particular, if -EFTYPE is returned, then @path.dentry will be the
+> + * object that is not a regular file, or %NULL.
+> + * Consequently the caller must be prepared for @path.dentry to be
+> + * dput(), an it must dput() whatever is in @path.dentry after the call.
+> + *
+>   * Returns: the opened struct file, or an error.
+>   */
+> -struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> +struct file *vfs_lookup_open(struct path *path, struct qstr *last,
+>  			     int open_flag, umode_t mode)
+>  {
+>  	struct file *file __free(fput) = NULL;
+> @@ -4638,7 +4644,7 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+>  	mode |= S_IFREG;
+>  	open_flag |= __O_REGULAR;
+>  
+> -	error = lookup_noperm_common(last, parent->dentry);
+> +	error = lookup_noperm_common(last, path->dentry);
+>  	if (error)
+>  		return ERR_PTR(error);
+>  
+> @@ -4646,7 +4652,7 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+>  	if (IS_ERR(file))
+>  		return file;
+>  
+> -	nd.path = *parent;
+> +	nd.path = *path;
+>  	nd.last = *last;
+>  	nd.flags = LOOKUP_OPEN;
+>  	if (open_flag & O_CREAT) {
+> @@ -4658,9 +4664,18 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+>  	op.mode = mode;
+>  	dentry = lookup_open(&nd, file, &op);
+>  
+> -	if (IS_ERR(dentry))
+> +	if (IS_ERR(dentry)) {
+> +		if (dentry == -EFTYPE) {
+> +			/* Try to determine what was found */
+> +			struct dentry *child = d_lookup(path->dentry, &nd.last);
+> +			dput(path->dentry);
+> +			path->dentry = child;
+> +			WARN_ON_ONCE(child && d_is_reg(child));
+> +		}
 
-Sorry, but pseudonyms are not allowed to contribute to the kernel:
-please use a real name here.
+Does anything prevent the child from flipping over to regular?
+
+>  		return ERR_CAST(dentry);
+> -
+> +	}
+> +	dput(path->dentry);
+> +	path->dentry = dentry;
+>  	if (d_really_is_negative(dentry)) {
+>  		error = -ENOENT;
+>  	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
+> @@ -4668,10 +4683,8 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+>  	} else if (!d_is_reg(dentry)) {
+>  		error = -EFTYPE;
+>  	} else if (!(file->f_mode & FMODE_OPENED)) {
+> -		nd.path.dentry = dentry;
+> -		error = vfs_open(&nd.path, file);
+> +		error = vfs_open(path, file);
+>  	}
+> -	dput(dentry);
+>  
+>  	if (error)
+>  		return ERR_PTR(error);
 
 
-Okay, I've just tried with a dummy server that adds a few bytes to every
-filenames, and it's weirder than I expected... The vfs only checks for
-PATH_MAX length, not NAME_MAX, so e.g. getdents64 will list the long
-file name but then any operation on that file name will fail with
-ENAMETOOLONG...
-I think it'd make sense to be more clear about this in the commit
-message.
-(The patch subject is also pretty bad, by the way, in that "dynamically
-allocate ..." sounds like it adds an extra allocation whereas it just
-reuses the one that exists, so it should be more like "9p: skip
-intermediate directory entry name copy in p9dirent_read()" and explain a
-bit more how the current readdir processing works in the commit message
-e.g. first alloc+copy in p9pdu_vreadf etc)
+I would say this is the wrong approach to the API. The path dentry
+switching is a massive hack and should be avoidable. So happens I was
+working on cleaning up the overall handling and you convinced me to post
+the patchset early, see:
 
+https://lore.kernel.org/linux-fsdevel/20260913144918.1606123-1-mjguzik@gmail.com/
 
-Anyway, code-wise:
-- p9_dirent are very temporary and are meant to get freed immediately,
-I think it's perfectly fine to skip the strscpy here and pass the
-pointer directly.
-- I'd like a second opinion on whether it's acceptable that we return a
-file whose lenght is > NAME_MAX to userspace here; we're already calling
-strlen() again in v9fs_dir_readdir_dotl() so we could just skip the
-dir_emit() call here if required.
+On top of that the routine as is has avoidable refcount traffic and it
+seems you are adding to it. Instead it can switch to vfs_open_consume.
 
+On cursory reading of the nfs patch, the following should do the trick instead: split the
+helper into 2 parts (say vfs_open_lookup + vfs_open_lookup_finish, maybe add
+vfs_open_lookup_abort should the caller decide to not go through with
+the open).
 
-Thanks,
--- 
-Dominique Martinet | Asmadeus
+Then in nfsd you could have something like this:
+struct vfs_open_lookup_arg v;
+
+vfs_open_lookup(&v, parent_path, ....);
+[ child dentry is in v->path->dentry, do arbitrary work with it]
+if (ok)
+	file = vfs_open_lookup_finish(&v);
+else
+	vfs_open_lookup_abort(&v);
+
+The new struct would hide 'struct file' and whatever else
+vfs_open_lookup might want to allocate first.
