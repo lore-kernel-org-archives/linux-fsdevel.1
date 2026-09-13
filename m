@@ -1,195 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8AE390C9A;
-	Sun, 13 Sep 2026 14:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789309792; cv=none; b=hykqm+ZcLKBBrNDpB8mB/kDUt7TWBdl1OM8pVak5+VIt5oWt1p9dDED+E98rfwi48o0u9bW0SgAhVGW1jyJ3runDl2YyQlsrd80KQ8aewyODuJUoAQXgQMtTjY1Jq/0gfJmY5UG6yxejByyxQeAfo5O8MAcTE4D9oiyC1zK/ePI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789309792; c=relaxed/simple;
-	bh=kcjV8Xyir10x3PUV8FcSeTKcU3sjD3TgbMdtdqAHfuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G/i76UrO0mwTHpml44D9Qt3vL5Uwe/5WLE0Pv3/9qIbZ/OK9NgUqcjnuLWYimEcwvI0bGb/tfc2njrKzMqBkQ/JzHN5Ia1WHpxVPw1AANQN31o+ceDd/i5pVjUNSZFYaPUjmqCRSDSfMnKT4Kp/DfheEqisQ3Sd4ksqsWJEtnDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kqCBi686; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2BC3EDE7C
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 14:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789310601; cv=pass; b=mvYYJic74vgzZhOnelyMRlz782U+dTRnAN8zKt3ZX8NSEvQgySgoMQmI/StMJS0NYkp49BcJS3cUV8Yd2LfbEByLhTjcYXJDbEAtLoAZpJZm2Tc3J4G41YO6pZYhhXkreukDIn+ZoCUKi2CP0xhGCoQYyzyRRSHm/02vtkoN26A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789310601; c=relaxed/simple;
+	bh=s50I1f+RlATnyS7ncxttVC4STee39n4jtfw1TIV5Yo8=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=ps19FSCw82rm3VcUjJLv1dS4mAFoxvdv+VE0gNNKdsagCvHYqSf/noYAFfjPntEXFaWQXZAFJ0Yra9uI9snibFZGVYf4yZgc24l4VxVeQzmw8Wg6EBtOq3vy0wLVb+I9VXkWTRTXUEwhrSI+O69qmRQmjhI/LDi7G74zcwb42e8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ifO2WhRh; arc=pass smtp.client-ip=74.125.229.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kqCBi686"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE1E41F000FF;
-	Sun, 13 Sep 2026 14:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789309789;
-	bh=DIJBQJYOZatXn8D8yoWJAnCutOw1DgwGaEIaupxWwd4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kqCBi68643CUNPTYSZqlb+T3SwJb8i58+GtsFMysLN00Jk/SPxo3cDch89NI3bl7o
-	 MMCV/qvp4M0yd6+XWWDX6FIly5gH6hvs+BooQa9uxm6b6jKmm/8OOnUMQsxSwjCMhN
-	 QafDz0l0gkJ1Koz4D6Xw6yMxywGPW9RIyzX9G5bKPFzyOYo0fdfAkP22lFhgJAwHSc
-	 vid16sEqZ1/ua1EQkhMS8Fj5gcgaykIe7JEpSNN7jpRKG90eFjDbMcmBDwEX9nezEp
-	 ZoTiTwMu1/9SmMu2FO1BtMdIhxOvR30QlTRMac/0Li9rDieoxr7u0LvVm8I/AXDWMe
-	 MJLj4BqYOJtAw==
-Date: Sun, 13 Sep 2026 22:29:43 +0800
-From: Zorro Lang <zlang@kernel.org>
-To: fstests@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] src/locktest.c: fix build failure of struct delegation
-Message-ID: <aqaxjGZ6rSR1mZCf@zlang-mailbox>
-Mail-Followup-To: fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20260813150846.280498-1-zlang@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ifO2WhRh"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b79784a6edso1140806e87.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 07:43:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789310597; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lXoK4BaeokuZv57MMRBWGCLHFlBE5D7/HT1uMYmygNxkqwzLgg2gucZEYZaetvhmlZ
+         xpCzri/8npGTmLk6hPJBrcmjdJ1rvjTqwPH10bBv63EBkx0Th4psD+xdD5S5E/pzEiu6
+         rkGdm4EdRiDXg0DjUnVuP/zvbE4vFLvapQgXF0Vb1jNJUeHv8uQi+g0wHZBAZzkSZctL
+         C/56bMnL6IhZyCUtGwvMD9G1m9Z8mLRLvpluPRe5P/er3Lc5QQ21wKEcFcxtEg7IvTPy
+         2rdnXk7vuyq1uX9BXnHFdR6KzpaA3aAe88BMrS47i9/lRNT4vYSG0ljp6JUgbD9qgNIR
+         gjhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=gDlSeCeZClgynUnsugyjmVlBCsPDuPwIPykfDcGyfzM=;
+        fh=SE68auvbvuCuglcKE/81rzH0vI9INmpj3g/c6Hs29XY=;
+        b=bHcY48E1tN+DdMdtxhnL70WhUfUh8hhW80PYT8bWlNkBCmwpNcDEjAta0CAWEUa0nH
+         zoqAbOsgrOBACsGp/URxAgrJPUvJb2d7WHxU9I2lrpJzGbZg+KoDqhqebsb5PdK//8DA
+         KFPICtp4AAo1TlX/qS+F8AJ8Z9vZvonLmcSa2qBqHHoJhQAD0RyVGk4OjKMcjRr9v4Eu
+         N8AQ2l3/60wMKZRGAQUj2UEPliqU4Ny7vKa4L97nrOU9Qd5m8idCSlYrXfwZUMX2jpD/
+         oC8s56COtOzWsgS0FqzkD3TWlFlHYqOfXsTl3UvE3Tuzb4f35PcbMo59DAK0e+96tQt0
+         MCqQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789310597; x=1789915397; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gDlSeCeZClgynUnsugyjmVlBCsPDuPwIPykfDcGyfzM=;
+        b=ifO2WhRhrXtDIb73mPmQdy4A6RBD1E89fcx/jvL0anBmS9lzobQGuGU3yN7qqxVhlz
+         4BfYnvUCMnwvUzhnBxY2K5l0eyPu+nt/1/AKJ2vBSP3V7QykXJCSt+SDZ5Mhnp20CkgY
+         MkEZAJVXlvyL2n6k8/aHehRmw36bT2IZDUeYGIyeb9Rc/8k8JMPtX5VNqsuOr3DqNW1U
+         4DZvdtzxgtO8WLDgj9aGPQcWduY7nd1Nw3087KVNT9hdaszy7xouOeX0qNaNthpW7Kly
+         mHQ27wZt3FeTifvO3vFqF2hy0w2pLbNZi202kY3+ZQbyRbSTn5fdnzO+I2px2/TqvPf/
+         ZCYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789310597; x=1789915397;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=gDlSeCeZClgynUnsugyjmVlBCsPDuPwIPykfDcGyfzM=;
+        b=smp2kgNp+pIiZHfQfoJ+UfPq+bV2ZjDa0K/O4NyePKLMcs+UURuoTH6le1AQ/WgK2b
+         DAKxI+IeFaDnVYekfwqwgvO5rwokuaBb/cdSIB2N30bOU1e85x9n4DEsetACLsLzSYOU
+         5EBI3/eCEczJwQDKCQlvZHZLCAbdxoyhcujAliJ0VVZOCXQx6TNgDHrtEvXSWoXLt9Gs
+         1qyu792PqKDmi7JxS+GdYDKHi0p2VrZEFxc6XK1ugjq8+XrEge0SvmKlbEuCNarcfbOy
+         Nvhov0sNBrzdF+ToAJu6xbVb82CjfePEs/UPIQfCMsvOBQj703FriHz0ph7h0vaw/0re
+         tQ4g==
+X-Forwarded-Encrypted: i=1; AKwUvBzWKxnr/El9jyX6vLSXRrLFlZ4fzb8I7/9tMvhVMekhA7YVWEi7P4kaIV+dnGWIKkJPzHuyQZfkzSGvYbT1@vger.kernel.org
+X-Gm-Message-State: AFuF++ngKBJQxwxba1vx5e6D0HmeZMWucWLoE87vUtL9iYkVp5pEr9IC
+	WiG0GKTPLDipM1+cW72y2cBapPFRmRw2gq+AXtLVQF+1s/j2DgDfjz/pxKE3TsdXI6cgtcHoZqT
+	lvW+ZdW4QOHXj4zK63PmtjS7k01CjIoE=
+X-Gm-Gg: AYBFou3TfrAFjLmSJtTrT7x9ddQeG9exo8TVzFYN4PthIc4z0hUEGPfbQrbkSAZpfx6
+	nV+Z8Ve+3zXrVHi4NFWgAv56I9Yd94BVZ5KTsQm2xIN6wm2+CJKACqXBJdO9IxtRKdl2rpqevAw
+	IVgjpnzYFuPK8fsFq2YAe6+TDiKiNP+C1qwfodidFRWIQkY+ET/J1l13d8D3giWqzk0aCguEz8c
+	hvmOcSHdsoADfP0eJE/YyOzYVxQon/xswF4ju/3StMEV42ezVcFtcXYLhkVX0evxtgldXP353Uw
+	0VWrChPcgivKoKRVU9rd+UjB1+bzwJ17WwUjmgraLpUTWQ7dFdb3uDJYQGmxFZQcNMD5h749zfX
+	5gsIGSlR5Q2226xc=
+X-Received: by 2002:a05:6512:108c:b0:5b7:6682:17b8 with SMTP id
+ 2adb3069b0e04-5b8a8ef6a7fmr1282624e87.37.1789310596997; Sun, 13 Sep 2026
+ 07:43:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260813150846.280498-1-zlang@kernel.org>
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Date: Sun, 13 Sep 2026 22:43:04 +0800
+X-Gm-Features: AcwNN1X5pmsda_UiZ5ntCUgJCNHKWL9vQ4K7aO1nbiEQVANFLK5Pbt5CxzkS2Uk
+Message-ID: <CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>
+Subject: [REGRESSION] kernfs: empty cgroup rmdir latency after
+ delete-notification changes
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	driver-core@lists.linux.dev, cgroups@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Aug 13, 2026 at 11:08:46PM +0800, Zorro Lang wrote:
-> Since glibc commit f2e3dacbff88 ("Add new constants from Linux 6.12,
-> 6.18 and 6.19 to bits/fcntl-linux.h"), the F_GETDELEG and F_SETDELEG
-> constants from Linux 6.19 have been added directly into <fcntl.h>.
-> However, the corresponding full definition for 'struct delegation'
-> was not included in glibc's userspace wrapper. That causes below
-> build error:
-> 
->  locktest.c:1065:16: error: variable 'deleg' has initializer but incomplete type
->   1065 |         struct delegation deleg = { .d_type = F_UNLCK };
->  ...
-> 
-> Fix this by isolating the definition of 'struct delegation' from the
-> command macros via autoconf capability probing:
-> 
-> 1. Add an AC_CHECK_TYPES check for 'struct delegation' in configure.ac.
-> 2. In locktest.c, unbind 'struct delegation' from the '#ifndef F_GETDELEG'
->    guard and wrap it with '#ifndef HAVE_STRUCT_DELEGATION' instead.
-> 
-> Signed-off-by: Zorro Lang <zlang@kernel.org>
-> ---
-> 
-> Hi,
-> 
-> fstests currently fails to build against the latest glibc, with the root
-> cause detailed in the commit log above.
-> 
-> The glibc now defines F_GETDELEG and F_SETDELEG, but leaves out the actual
-> 'struct delegation' definition. The complete struct is available in <linux/fcntl.h>,
-> but we cannot simply include both <fcntl.h> and <linux/fcntl.h> due to nasty
-> namespace redefinition conflicts.
-> 
-> I am not entirely sure if glibc will bring in 'struct delegation', so for now,
-> I chose to decouple and handle the structure definition independently via
-> autoconf.
-> 
-> Any thoughts or better suggestions on how we should handle this transition?
+Hi T.J.,
 
-Friendly ping...
+I found an increase in empty cgroup removal latency across 507d8ce13f5b
+("kernfs: Don't set_nlink for directories being removed") and eea5d2bb34ba
+("kernfs: Send IN_DELETE_SELF and IN_IGNORED"). With sched_ext disabled,
+rmdir() went from about 6.5 us to 9.6 us, an increase of 46-47%.
+The result held in two independent runs.
 
-Am I the only one seeing this? Without this patch, xfstests won't compile on
-the latest Fedora：
-  glibc-devel-2.44.9000-1.fc46.x86_64
-  gcc-16.2.1-2.fc46.x86_64
+The workload creates an empty cgroup v2 leaf under a private parent with
+the CPU controller enabled, checks it with stat(), and removes it. It
+places no tasks in the leaf and does not register any inotify watches.
+I time mkdir() and rmdir() separately; stat() is outside both timed regions.
 
-I keep running into the build error below [1].
+These are consecutive source states, not different release kernels:
+
+  base:   f917dc56060a, before both changes
+  guard:  507d8ce13f5b, the nlink race protection
+  notify: eea5d2bb34ba, plus the deletion notifications
+
+For the second run with sched_ext disabled, the medians of the nine
+sample means per boot were:
+
+                         boot A       boot B
+  base                    6.504        6.528 us/rmdir
+  guard                   6.956        6.922 us/rmdir
+  notify                  9.553        9.558 us/rmdir
+
+The first change added 6.05-6.95%; the second added a further 37.33-38.08%.
+Each run used fresh boots in base-A/guard-A/notify-A/notify-B/guard-B/base-B
+order. Each point had nine samples of 128 removals, after 16 warmups.
+I used an i7-12700KF, CPU0, full preemption, the performance governor and
+Turbo disabled. These three kernels used the same toolchain and configuration,
+apart from LOCALVERSION. I used the same control binary throughout.
+Removal sample CV stayed below 3%, and endpoint drift stayed below 2%.
+The result also held after dropping the first sample.
+A similar slowdown was also observed with sched_ext enabled, both with
+and without cgroup callbacks.
+
+Separate, untimed traces showed 26 kernfs nodes removed per leaf. The
+guard change doubled the attribute write-lock entries from 26 to 52.
+The notify change added 26 inode lookups. A return-value probe found one
+directory inode and 25 NULL results. These counts do not show how much
+time each step costs, or that a lookup returning NULL can safely be skipped.
+
+I understand that the notifications and race protection are needed.
+A local root-reuse prototype saved about 4-5%, but did not recover most
+of the increase; it is not a complete fix.
+
+A separate v7.2-A / 2f0c1cf72f46 (7.3-rc2) / v7.2-B check gave
+9.919 / 9.719 / 9.953 us/rmdir with the same control binary. Mainline was
+2.02-2.36% faster, with sample CV below 0.75% and old-end drift of 0.35%.
+Both versions still removed 26 nodes and made 26 inode lookups per leaf.
+The later name-hash change was on the measured path, but this comparison
+does not isolate its effect or repeat the exact-commit test above.
+
+Results, configuration identities and the tested workload:
+https://github.com/lcf0399/linux-regression-evidence/tree/b1eef2a0fb18babbf8e0d5832b63a655bfd28926/kernfs-empty-cgroup-removal
+
+Do you see a safe way to reduce this per-node removal work while keeping
+the notification and race fixes?
 
 Thanks,
-Zorro
-
-[1]
-locktest.c: In function 'initialize':
-locktest.c:1018:17: warning: variable 'offset' set but not used [-Wunused-but-set-variable=]
- 1018 |     int         offset = 0;
-      |                 ^~~~~~
-locktest.c: In function 'release_lease':
-locktest.c:1065:16: error: variable 'deleg' has initializer but incomplete type
- 1065 |         struct delegation deleg = { .d_type = F_UNLCK };
-      |                ^~~~~~~~~~
-locktest.c:1065:38: error: 'struct delegation' has no member named 'd_type'
- 1065 |         struct delegation deleg = { .d_type = F_UNLCK };
-      |                                      ^~~~~~
-locktest.c:1065:47: warning: excess elements in struct initializer
- 1065 |         struct delegation deleg = { .d_type = F_UNLCK };
-      |                                               ^~~~~~~
-locktest.c:1065:47: note: (near initialization for 'deleg')
-locktest.c:1065:27: error: storage size of 'deleg' isn't known
- 1065 |         struct delegation deleg = { .d_type = F_UNLCK };
-      |                           ^~~~~
-locktest.c:1065:27: warning: unused variable 'deleg' [-Wunused-variable]
-locktest.c: In function 'do_deleg':
-locktest.c:1365:12: error: variable 'deleg' has initializer but incomplete type
- 1365 |     struct delegation deleg = { .d_type = arg };
-      |            ^~~~~~~~~~
-locktest.c:1365:34: error: 'struct delegation' has no member named 'd_type'
- 1365 |     struct delegation deleg = { .d_type = arg };
-      |                                  ^~~~~~
-locktest.c:1365:43: warning: excess elements in struct initializer
- 1365 |     struct delegation deleg = { .d_type = arg };
-      |                                           ^~~
-locktest.c:1365:43: note: (near initialization for 'deleg')
-locktest.c:1365:23: error: storage size of 'deleg' isn't known
- 1365 |     struct delegation deleg = { .d_type = arg };
-      |                       ^~~~~
-locktest.c:1365:23: warning: unused variable 'deleg' [-Wunused-variable]
-locktest.c: In function 'main':
-locktest.c:1615:16: error: variable 'deleg' has initializer but incomplete type
- 1615 |         struct delegation deleg = { .d_type = F_UNLCK };
-      |                ^~~~~~~~~~
-locktest.c:1615:38: error: 'struct delegation' has no member named 'd_type'
- 1615 |         struct delegation deleg = { .d_type = F_UNLCK };
-      |                                      ^~~~~~
-locktest.c:1615:47: warning: excess elements in struct initializer
- 1615 |         struct delegation deleg = { .d_type = F_UNLCK };
-      |                                               ^~~~~~~
-locktest.c:1615:47: note: (near initialization for 'deleg')
-locktest.c:1615:27: error: storage size of 'deleg' isn't known
- 1615 |         struct delegation deleg = { .d_type = F_UNLCK };
-      |                           ^~~~~
-locktest.c:1615:27: warning: unused variable 'deleg' [-Wunused-variable]
-    [CC]    chprojid_fail
-    [CC]    detached_mounts_propagation
-gmake[2]: *** [Makefile:139: locktest] Error 1
-gmake[2]: *** Waiting for unfinished jobs....
-gmake[1]: *** [include/buildrules:30: src] Error 2
-make: *** [Makefile:65: default] Error 2
-
-> 
-> Thanks,
-> Zorro
-> 
->  configure.ac   | 4 ++++
->  src/locktest.c | 2 ++
->  2 files changed, 6 insertions(+)
-> 
-> diff --git a/configure.ac b/configure.ac
-> index feb24ddd..6d7ff3ba 100644
-> --- a/configure.ac
-> +++ b/configure.ac
-> @@ -111,6 +111,10 @@ AC_CHECK_TYPES([struct btrfs_ioctl_received_subvol_args], [], [], [[
->  #include <stddef.h>
->  #include <linux/btrfs.h>
->  ]])
-> +AC_CHECK_TYPES([struct delegation], [], [], [[
-> +#include <stddef.h>
-> +#include <fcntl.h>
-> +]])
->  AC_CHECK_HEADERS([linux/btrfs.h linux/btrfs_tree.h])
->  AC_CHECK_MEMBERS([struct btrfs_ioctl_vol_args_v2.subvolid], [], [], [[
->  #include <stddef.h>
-> diff --git a/src/locktest.c b/src/locktest.c
-> index 54ee1f07..d0264c94 100644
-> --- a/src/locktest.c
-> +++ b/src/locktest.c
-> @@ -80,7 +80,9 @@ extern int h_errno;
->  #ifndef F_GETDELEG
->  #define F_GETDELEG	(1024 + 15)
->  #define F_SETDELEG	(1024 + 16)
-> +#endif
->  
-> +#ifndef HAVE_STRUCT_DELEGATION
->  struct delegation {
->  	uint32_t d_flags;
->  	uint16_t d_type;
-> -- 
-> 2.55.0
-> 
-> 
+Chengfeng
