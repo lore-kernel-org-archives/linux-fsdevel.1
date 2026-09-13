@@ -1,74 +1,200 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58ED3CFF77;
-	Sun, 13 Sep 2026 22:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955FC37B41F
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 22:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789339349; cv=none; b=flOgmztyxbZSb084p8350yPNCSoVUdMQ3uFEGsaVw91LltpQEconEWi4vIBYACgJ2qMgSsp5g1Y1bciSZTRn62kEnSeBX0oLq5sCYpkdOVyTXsJwVf93dCP2ZS24om21YUZM8OnUXNiDROm1o7lkVCvyGg0H4r3GOC3tcYVvwhs=
+	t=1789339885; cv=none; b=p5vF2iUuIhGuvlNPuMtGCh4GcYjdaBrPfF1z8vngYxhVKNTVChDhLBl48ieZiZWt/3qqxqIpN49OBy+8Tyyb3WimlpOUb3Ly9+DdHGssqLcWbdLZOeVqnzEygQcT/3HyvdJTgeYmWAwWGiZheG0BeW36CXr71yUXVtzI+l2bLRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789339349; c=relaxed/simple;
-	bh=jum5occERbNBbaSZbMoYk6Di3daz9BkThsf8Lmvy8zc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hsNaPeIMIaVpTcJZfpB5AfGL/r3YiMi/XE/3K6+3ohF3Fafx2u9leOe16KKoQGS6b2Kt9WPrbdkikq7o+zlQADmmvgw8OSkbXGNBoY0rJXR3QaCcfpIIeY2I3zr0JTcn/zxKkgkf5t3UYfRp+WUZuBy4t0XoeSJURb9HSaS0p4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gJr0CD3u; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789339885; c=relaxed/simple;
+	bh=taYSUVIEuqqqITUnhw8NBY99cYnhlnAHuJIa+r1ooo8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V5W2NaBLyc8HQ5fEuiDEsPyCmHpaDPdJmzY3O9ke6SqGZbDU5Jc7+QVNTRfkutJI0/7ef1CiA7KuhbVdCfw9brQmnMPEIGk1WdWG64y/iQT99izR0oqmsVFzTdKuZtf1zFbDHpn9/Rsh4xAG9k351lAJpFRkVhRM7v3YT4+WyU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SxVR5iOn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gJr0CD3u"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=kJ07gVF7Q6jHByQIBcm4K70Gu0E8H+e9687JL9ra4i8=; b=gJr0CD3u3hRruvr4rq1R6BG8yM
-	QtHjW1lU983K8wX1bh8NWzU+kIdu+IMb2WY1APMat6WRRC2DmQk0QleQWVhqaAlPsBNfiyFeqoAm+
-	qIb9zV/LFJuC/l/vp5uTHk3HWhVOV3LylGZZcGCNGWJ03lJ1Cj+RGBZt8+LGjgPvvgOxY7YK4W0I7
-	/m1DvnHsrbXYAHBJmG6dkOmInIly6YodhhQuLgZaEl5MbWZF3au2P7dsgOkLrCLw2805HLHzkLkGz
-	TJjvyI12TYw2MO2bvrGJ6X3whV+NyFmXXWaa67ejHQt9fdBrrwmM6MxVlTyLHNp9EgIEhDGWDuMqK
-	064HfxNQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5stz-00000007NVn-2q4L;
-	Sun, 13 Sep 2026 22:42:23 +0000
-Date: Sun, 13 Sep 2026 23:42:23 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Mikko Rantalainen <mikko.rantalainen@peda.net>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, brauner@kernel.org,
-	viro@zeniv.linux.org.uk, jack@suse.cz, alx@kernel.org,
-	dalias@libc.org
-Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
-Message-ID: <aqcmz5uI7PgN5CT7@casper.infradead.org>
-References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SxVR5iOn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561B71F0089A
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 22:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789339883;
+	bh=9ZiTG8sjKFTT4w8nPMlVhXaGC0u1YhzWKKam1CGyYWQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=SxVR5iOntlyY/xdBsyV1rMUdC68ospWyz0cg6COeUj8kKgoG8FLcWR4Dg2675UMdW
+	 5B992E5VfQ9MMidiiJUqslikjwvNIh4pPWjq2EbzX2N23Mc2icAHyf9N6OBP7XQDIj
+	 s7RQzQvBMSk/uHpwhGQ0WK/hIc3j9pdD8FJY95+f+HYws2J0KquXACTXGfp4SNZKPz
+	 ItDmfm/Duu/YlpJYaC2n5pqkKzjqfNAlm+VXLXaQTO9pkCJOuDGnKGo9WfUxGWAQ8+
+	 4BxBPregV5W/rRMGc/xZVmcWwhX+VgvH0HF3b/p9vWo6pG/i5wpo1A6b1nbAaxrZzR
+	 gzGWNUWMfnWuw==
+Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93a222edc62so42269685a.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 15:51:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwpy0pJUpEZ/zJEEsEoHET4kCgs7cymb1NhEjkhTWbtVQH+d8NmuvpOvtdMDRz9Xy2sKivNLPemeSbcrvfn@vger.kernel.org
+X-Gm-Message-State: AFuF++nNHVCQw0im1k/cvztlRgo+L2NmGPo4Z3UhpOVkeXL6P3JL4b6l
+	b454FDtfbt7+KNMWpE56Y6BDiMvKnNuL8la9kSQk8zR5Ncyfi9tHRPinfTc3yXiG0xhQOvjWGIg
+	cUOvdIYvVmDuxY7OyZVVmqWwWC25oVag=
+X-Received: by 2002:a05:620a:2702:b0:92e:71bb:d1c0 with SMTP id
+ af79cd13be357-93a297ee80cmr26633285a.15.1789339882564; Sun, 13 Sep 2026
+ 15:51:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
+References: <20260820142956.1414337-1-qiwenjie@xiaomi.com> <3fa43eaca792bc0bbde4b82a6c1fcdd3f528b398.1787999152.git.qiwenjie@xiaomi.com>
+ <4aba05e1a2c3b61cb337d373eb9b7a8db4ddd822.1788024049.git.qiwenjie@xiaomi.com>
+ <20260829111621.41ed2bc9a0e99e3367eb96c3@linux-foundation.org>
+ <ef160933595c365f2c47597b260bc7ecd98ed7ce.1788029516.git.qiwenjie@xiaomi.com>
+ <076bb01b-6fcf-4691-be8c-0e8507c9fe64@columbia.edu> <CAGsJ_4xMK=rPXCH5OiCOYHKRQp-w+xDJQusJ_ykbuAuLZr+8bA@mail.gmail.com>
+ <1e5118a5-6b61-49d0-85e1-825e22059241@columbia.edu>
+In-Reply-To: <1e5118a5-6b61-49d0-85e1-825e22059241@columbia.edu>
+From: Barry Song <baohua@kernel.org>
+Date: Mon, 14 Sep 2026 06:51:10 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4wj6XvPB+QF+_X1BJ_8Y2sZEEFAw6RaJJz-cHaDWLkxaQ@mail.gmail.com>
+X-Gm-Features: AcwNN1WjkmO8uX5Iavm2W9nWdvLG2cwH8oYEJn3mYskY-hmIRTHjLPMkj4xTYTQ
+Message-ID: <CAGsJ_4wj6XvPB+QF+_X1BJ_8Y2sZEEFAw6RaJJz-cHaDWLkxaQ@mail.gmail.com>
+Subject: Re: [PATCH v4] mm: filemap: retain mapped dropbehind folios
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Wenjie Qi <qwjhust@gmail.com>, willy@infradead.org, jack@suse.cz, 
+	akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, axboe@kernel.dk, 
+	trond.myklebust@hammerspace.com, jaegeuk@kernel.org, chao@kernel.org, 
+	qiwenjie@xiaomi.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 13, 2026 at 10:38:14PM +0300, Mikko Rantalainen wrote:
-> However, currently Linux kernel will return EINTR in some cases for
-> close(). There is no good way for caller to recover from this case using
-> the original fd. Whatever action was actually interrupted cannot be
-> resumed or retried through this fd, because the fd has already been
-> consumed. Even worse, EINTR conventionally invites retrying an operation,
-> but retrying close() is unsafe: the same file descriptor number may
-> already refer to another file opened by another thread by the time
-> close() returns EINTR.
-> 
-> In addition, POSIX.1-2024 requires that if close() reports EINTR, the
-> descriptor must remain open. It also explicitly permits an interrupted
-> close() to return success after closing the descriptor.
+On Fri, Sep 4, 2026 at 6:36=E2=80=AFAM Tal Zussman <tz2294@columbia.edu> wr=
+ote:
+>
+> On 9/4/26 12:28 AM, Barry Song wrote:
+> > On Sun, Aug 30, 2026 at 7:59=E2=80=AFPM Tal Zussman <tz2294@columbia.ed=
+u> wrote:
+> >>
+> >> On 8/30/26 6:25 AM, Wenjie Qi wrote:
+> >> > From: Wenjie Qi <qiwenjie@xiaomi.com>
+> >> >
+> >> > Fault-around can map ready dropbehind folios without going through t=
+he
+> >> > normal page-cache lookup that clears dropbehind. A mapping represent=
+s a
+> >> > competing cached user, but writeback completion can currently unmap =
+that
+> >> > folio. A later mmap access must then fault it back in.
+> >> >
+> >> > Retain mapped folios instead. For a mapped folio,
+> >> > folio_unmap_invalidate() can call unmap_mapping_folio(), which takes
+> >> > i_mmap_rwsem and may sleep. Retaining the folio also avoids this pat=
+h when
+> >> > folio_end_dropbehind() runs in non-preemptible task context.
+> >> >
+> >> > Unmapped dropbehind folios continue through the existing invalidatio=
+n path.
+> >> >
+> >> > Fixes: fb7d3bc41493 ("mm/filemap: drop streaming/uncached pages when=
+ writeback completes")
+> >> > Cc: stable@vger.kernel.org
+> >> > Signed-off-by: Wenjie Qi <qiwenjie@xiaomi.com>
+> >> > Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> >> > Reviewed-by: Tal Zussman <tz2294@columbia.edu>
+> >> > ---
+> >> > The mapped-plus-dropbehind state was reproduced in QEMU. The patched
+> >> > kernel retained the mapped folio and continued to evict the unmapped
+> >> > dontcache folio. I did not reproduce the sleeping-in-atomic warning =
+and
+> >> > am not aware of an existing report.
+> >> >
+> >>
+> >> I was able to trigger the sleeping-while-atomic BUG on current mainlin=
+e with
+> >> some help from Claude. The reproducer itself is straightforward enough=
+, but the
+> >> configuration was a little finicky. The atomic context comes from usin=
+g
+> >> threadirqs so that virtblk_done() completes requests from the irq thre=
+ad under
+> >> local_bh_disable() and the vq spinlock with irqs off, so in_task() is =
+true but
+> >> the i_mmap_rwsem down_read() sleeps. It also needed 1 vCPU (so complet=
+ion stays
+> >> in the irq thread rather than softirq) and ext4 -o dioread_lock (so en=
+d_io runs
+> >> inline instead of on a workqueue). With v4 applied the bug is gone, so=
+:
+> >>
+> >
+> > Thanks, Tal. Then I'm getting quite confused. Since with Wenjie's
+> > patch, we are no longer going to sleep for dropbehind in `filemap.c`,
+> > do we still need all the complex logic in the block device and file
+> > system layers to move dropbehind to a workqueue task context?
+> >
+>
+> Hi Barry,
+>
+> Let me clarify. Wenjie's patch prevents sleeping in a very specific case.
+> The existing in_task() check covered most other cases, in that it just
+> doesn't do dropbehind invalidation if we're not executing in task context
+> (for example, block device writeback completing in interrupt context).
+>
+> However, dropping the invalidation defeats the point of dropbehind, as it
+> leaves the pages in the page cache. If we get rid of the task-context
+> deferral mechanism, we wouldn't sleep, but we also wouldn't invalidate.
+> Wenjie's change is largely unrelated to this.
 
-I think any filesystem / device driver / ... which returns -EINTR from
-close() is broken.  There is one exception though -- if the signal is
-fatal.  It's like read()/write() being killable; if the signal is fatal,
-the task dies before it gets to see the errno.  So it doesn't matter.
+Hi Tal,
 
-So that's my preferred solution; track down the bad kernel code that's
-doing things in close() that are "interruptible" and convert them to
-"killable".  We don't want SIGWINCH or SIGALRM interrupting close();
-that's just dumb.
+Thanks for the clarification. However, I=E2=80=99m still not convinced.
+
+If `unmap_mapping_folio()` is the only place where we might
+sleep =E2=80=94 where we might take `mapping->i_mmap_rwsem` through
+`i_mmap_lock_read()`, as Wenjian pointed out in [1] =E2=80=94 we have now
+prevented that from happening with `if (!folio_mapped(folio))`.
+
+So no mapped folio should call `folio_unmap_invalidate()`:
+
+static void filemap_end_dropbehind(struct folio *folio)
+{
+        struct address_space *mapping =3D folio->mapping;
+
+        VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
+
+        if (folio_test_writeback(folio) || folio_test_dirty(folio))
+                return;
+        if (!folio_test_clear_dropbehind(folio))
+                return;
+        if (mapping && !folio_mapped(folio))
+                folio_unmap_invalidate(mapping, folio, 0);
+}
+
+Why do we still need the `in_task()` check in
+`folio_end_dropbehind()`?
+
+void folio_end_dropbehind(struct folio *folio)
+{
+        if (!folio_test_dropbehind(folio))
+                return;
+
+        /*
+         * Hitting !in_task() should not happen off RWF_DONTCACHE writeback=
+,
+         * but can happen if normal writeback just happens to find dirty fo=
+lios
+         * that were created as part of uncached writeback, and that writeb=
+ack
+         * would otherwise not need non-IRQ handling. Just skip the
+         * invalidation in that case.
+         */
+        if (in_task() && folio_trylock(folio)) {
+                filemap_end_dropbehind(folio);
+                folio_unlock(folio);
+        }
+}
+
+Could any other operation in `folio_unmap_invalidate()` sleep for
+unmapped folios? Otherwise, it seems we don't need `in_task()` at
+all?
+
+[1] https://sashiko.dev/#/message/CAGFpFsRarmDScAQxHpCtSZxK5H4WCg4Y%3Dy0hXQ=
+LjGT804ZoWkw%40mail.gmail.com
+
+Best Regards
+Barry
