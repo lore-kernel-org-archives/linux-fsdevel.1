@@ -1,108 +1,133 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0343FD132
-	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 18:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789325426; cv=none; b=laZMDQOZYy1WYw4VqfgPIaz3dRah9E0B+I6C4o1pezRL78KYzeuvKrnl6HX5mWbpaNIlr3g7Es5SpGjqrmhBsA82ICdta1u/yCN0Ii1V/eE2R8hYG4q+qf1L/G/LgptTyJ55u4f+kuBeT1JRIn1xO6XUf52BzKTqpLeqSFtZhIg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789325426; c=relaxed/simple;
-	bh=IDCWIVvwPzVh483KqrhHhS1Jo9ADNrPQA6Q4j5SruiQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UXNql7ujDPvo7zKPo/uu3cuhyBFPfEd6/Opr22ryhUArxGqs/nODxsBQXJuVzZah6KcXsqNla2wanUjd7FPiudUP7HqHjiejvjUONsOqqnn1DyF8UrQ3cnNmFkk1SI98ERNKUhLpeJ2t7vz6hiv3hYSPYJHrRQuzrJsd9F9078I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=LEkdT6Bd; arc=none smtp.client-ip=195.121.94.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27E138886C
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 19:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.205
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789327595; cv=pass; b=JOXVvC7Kkn7KdVbY4/Gz61JGWKb7DJltZaD5OMUD4HujUXNHhx5XYBO1QWjpioxRjOUE96CCgaYyKPpr5VadfGVDxLW6LLgwbRMWum66FJmdR2fSJVxqFLzUfmi9u4julN2Ieqybq5uFWV83rx82qiV+iWOG1hbu+t5O5/RJb/M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789327595; c=relaxed/simple;
+	bh=QREsgIr79KScFcsG/Gnozu2UkRu3V+m1VR0YdJd51lA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gMW5zs6zvj3ed5CC3ZT8KciIUf5DbTcZdBnZ9+xgFiPGZagfWddSqHf4geWohxS/kNmc/DcuPGBNCvVzYLmKzcavsJ5i2dv69FjIEVcqCTpaqTi56d4D1in8ald4Pjx/fITkR0ArJQA+4fytCEeHHB+BXdvfOxTf9avvOgdi+ks=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QdXoMR+F; arc=pass smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="LEkdT6Bd"
-X-KPN-MessageId: cfcddf74-afa3-11f1-a059-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id cfcddf74-afa3-11f1-a059-005056abad63;
-	Sun, 13 Sep 2026 20:49:12 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QdXoMR+F"
+Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-5306706e89dso169101cf.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 12:26:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789327593; cv=none;
+        d=google.com; s=arc-20260327;
+        b=WhrzMBiQWtqrNo9YqReBu+iMA8599dAwgy40gRF9nLjOkwzsDpB7HJCRg0TA6aTi6u
+         rnJfniwslYqRAxtVthstTHUszpHT/OQTu8A+XYup5BMD0S6/nmduck7pdJdOjhQmdSuR
+         PcEl5TJRxLr0i/5EAf1Agm2qT03pWO/wPhgg5qSpAJmVNamqBEw11+YRMp86o2IjzWFN
+         2Tf6rCs8si7FT82EuLjZEJzOr50GeFlBjj/87ttRrLZdbEIuYf5QCaJ7uGh/Xwg37ogN
+         qK0z4EnQKjzvZxFU4Rjh64bxDln9V8qYN0/3tCDdHUO7HjC3NKVeVCSnGLjHe37IZT8n
+         2YDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=O3bm4p3XYFyhf+gjUNcp2hdrx1XIlgahhu2l/35xw9w=;
+        fh=zcI4pj21JGEnqAso1uiHgAGJjqpQJNixg4pMAGUSCHk=;
+        b=THuOF/LhGiqCLHkLa8KTX0N9ZBxWKreRv3Z8eb5Djy+whXUat32AAG2v62foZpHHPE
+         IDexec0U/b/jv0lJuSK0t3qPgso1ci6lCcMDRRAaUxTvyhEkLjw0TTjefFJW86WsYk4/
+         KqXVi4j8YYl4jQsoymTlhJjM3923J76ze4Tn3GvfeWeNeiR4j1PZRyxFzXTwVY9KrsLA
+         psTbakPoQZOCk18hMp9a0ijmhSeK7D8fnNsXwjmgN2QiOXXu6+1ET5q68Vu9vPdEIPhV
+         AmyHuRZ2//QvojA9xWHAN8Dmfjqam9bFaT98rc2n/TozpyKgPtH5Hklhs/iAMCH6hmUa
+         AzcA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=HzSnbSwHRiOGXhA5N5V5Bak1BWFtNPQDJwmZ8P6MHG4=;
-	b=LEkdT6BdTO3eHUkCPKcYswWGxnPOn1NJrTwRf7X1dRkCmmBm5weS6T4GSl4TItqwpiqDgQE5p1PsR
-	 jTi5+74Bu7HVmJiuO85cB12hlboTpNUrQ+aodhKo33KMzyEZZYCsO6w48M56gNauuVm5wNe6Ja3V8Q
-	 OkEKaaZtsHKBiGD2Ntbxk2pmGB0E6SiAB24jRvmYlDxC6/PRykwuY1pvhMFAnCQGro3tOGtsVRiQ9B
-	 mf+RSDzelBGfGZ5iENcgCEK3GcNr5eVjz1yGkSX6ER3scjO0a0Ui588qNShMql5OGHXoXbszg6o9ru
-	 cqvkpDuVzX96pUCuiDou9qvQgDejrfA==
-X-KPN-MID: 33|Im5LeJN53oxuzg0326CLs04iHcapfF+j5omCYZe0rRxsy5kEuNJBCnyRsFQzZl9
- iGC56e7kNtX76Laj/WeaMdK6ULVYnJA/Eyhc12RxQWMk=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|oqRSx64+PH58pDxUsqTkWkzMA9stfxcY16shhxbI/kMjcxiicYo/ZsWS7MZ2sEC
- Dna0QAwU2rbJXVkBpKEnV/A==
-Received: from daedalus.home (unknown [178.231.250.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id cf93a9db-afa3-11f1-bd2b-005056abf0db;
-	Sun, 13 Sep 2026 20:49:12 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Aleksa Sarai <aleksa@amutable.com>,
-	NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH v6 03/12] vfs: lookup_open(): move setting FMODE_CREATED down
-Date: Sun, 13 Sep 2026 20:50:07 +0200
-Message-ID: <20260913185016.523376-4-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260913185016.523376-1-jkoolstra@xs4all.nl>
-References: <20260913185016.523376-1-jkoolstra@xs4all.nl>
+        d=google.com; s=20251104; t=1789327593; x=1789932393; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=O3bm4p3XYFyhf+gjUNcp2hdrx1XIlgahhu2l/35xw9w=;
+        b=QdXoMR+Fdg2P7lIn19udRWn4OxrOFRMi5xL8QM+2PxLGZ2KdJ/gXhhRPY6khHqB8uN
+         D0YgNg0gotkGSSxGushhoTd6XOapHlwqenaASUtnTEB5UhRETHlU/81G1h36vN4Y0Mav
+         O4MqAW/zf4VqSE7sWPjC56vh1fzGYWP32JUwa0MyPAckEwbkZriWHx/CPlVrg3NEv+wN
+         OOukvW+UFMlNa4iM7sYxRpB6BY+XCVAXS1yluK23lW+RubtX+hB++eaC+48l3c976Os9
+         cfsqh562yPvXS1IYNN2562Hk5mzwBpajwq7DGkIA1WtBxBjGILKOg56740QCqACRS2TN
+         KlLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789327593; x=1789932393;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=O3bm4p3XYFyhf+gjUNcp2hdrx1XIlgahhu2l/35xw9w=;
+        b=JCyR8LHnNhyweL/6Wb4T+wAom07/0r8wryZbYWAK2u3fSAhlE4q/iZ6sKC4dbPsYTN
+         RE3JuKs1xjg7HG05ZCQAp6tWr5lUSmP97HFGYB7uIMQ68b9n+9QBFC2DNtJX3rtnRRix
+         5WJRIlCfF3N0cSdyJz07Iys2uUoSUB5Jr7GccuMRoo7UorQUbPuI/wHUYj2nNqXL5ZkF
+         JFZWmjF/uJ2LxeWHkPw7thgDsZoUXMU/mqMWjFLcurwap5kqlFsxZb98ToBDRTGEaEmt
+         it8eZS5NUjW2fKzZg3CnhWZGDZNJb1d3d2ImHr6thU4Cj2h1jEPh99Vw5LYatEJ4Ezjq
+         Kg6Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwS19FHSv+3FmyZX/UkHcQRDToHKn5eBmF0wJChQ8HF/4vTbQ6aEyPGJ3ABr/i/ZmcMO3RnKUs4YiauvVtN@vger.kernel.org
+X-Gm-Message-State: AFuF++m3rQAY/Ss54TFsYdkRPCNnZ9tcK21qHcFKxO/j6j3jOka8zwrJ
+	o5U4mm+a9jVa2cJo+CrkqJQ21RvfCGIf9a4QdasKD0HaSGTdOnxi8866V7bP9BoGPlUhqkI8o9l
+	bO6NZzVEAx50RrcsaqtY4/sDBRBV8mPBpVETeDFtd
+X-Gm-Gg: AYBFou00OwSZ5oclhRt/zfvDvx3LY5QmSbJcGanzQlUxmJFQxZpTU5zHqabz9HsY7TA
+	isOyVvqV5HeZlUfWGNFeFqd5aJ10ptXnUXokWpMowFst/FHDm6CvqKGbhjRx0casOkFaeK6gn87
+	05fbMEVGS11HwjnC+YwAXp/zY96dW5ILOF/vTQssJ9ZZKglK23Ou0gtvS8dw6qrbewP488XuYn4
+	bcZ3zPyPlzWEKQ9n/pSv7M9hM8c5QlIdHiZBUZy+8JYBD2b57+zRLH+ZMowgU7Ds/LJIFdLCQzJ
+	QyV9nqX0l5igIPdXNq79Py/n98JVXxYhb9OYbnLGmiGt6AJyRs9KNP2qsxsXSyU0
+X-Received: by 2002:ac8:7fc7:0:b0:517:5e32:2d14 with SMTP id
+ d75a77b69052e-530f8b121dbmr9139921cf.10.1789327587349; Sun, 13 Sep 2026
+ 12:26:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260911194145.1781926-1-surenb@google.com> <20260912002436.0605a85b912eb8ae406cecf0@linux-foundation.org>
+In-Reply-To: <20260912002436.0605a85b912eb8ae406cecf0@linux-foundation.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sun, 13 Sep 2026 12:26:16 -0700
+X-Gm-Features: AcwNN1VI8o7qgtAf7FpFyYAf_QiJM539hgJGQoLRqGdhk0b6X3b8GUp7lNPBUcA
+Message-ID: <CAJuCfpHW24Vh2RSr7qwzV0jmWz7oirrG2F4JPCuBnnk0x09NyA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/7] read proc/pid/smaps_rollup under per-vma lock
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, david@kernel.org, 
+	willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de, 
+	xueyuan.chen21@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In preparation for using vfs_create_no_perm() in lookup_open() we need
-to move setting FMODE_CREATED on the file mode to either before or after
-that call, as currently it is in the middle. If try_break_deleg() fails
-it is currently not set, but vfs_create_no_perm() includes a
-try_break_deleg().
+On Sat, Sep 12, 2026 at 12:24=E2=80=AFAM Andrew Morton
+<akpm@linux-foundation.org> wrote:
+>
+> On Fri, 11 Sep 2026 12:41:38 -0700 Suren Baghdasaryan <surenb@google.com>=
+ wrote:
+>
+> > proc/pid/smaps_rollup can be read using the combination of RCU and
+> > VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
+> > required to safely traverse the VMA tree and VMA lock stabilizes the
+> > VMA being processed and the pagetable walk.
+> > Note that we have to keep the logic to drop mmap_lock on contention
+> > because even when using per-VMA locks we might have to fall back to
+> > holding the mmap_lock.
+>
+> Nice.  Queued, thanks.
+>
+> The speedups described in [6/7] are significant, although I don't know
+> how representative Paul's tests are.  Probably not very.
+>
+> So I don't know how much improvement our users will be seeing from
+> these changes?
+>
+> And I don't know how much usage smaps_rollup gets in the real world?
+>
+>
+> As I've no doubt you know, Sashiko is saying things.  About these
+> patches and about the current code.  Its pre-existing
+> clear_soft_dirty_pmd() driveby find looks significant.
+>
+>         https://sashiko.dev/#/patchset/20260911194145.1781926-1-surenb@go=
+ogle.com
 
-Going up the call chain of lookup_open() we see that it is only used in
-open_last_lookups() if no error is returned from lookup_open(), so we
-can safely move it to after the filesystem create() call. This also
-makes more sense when reading the code as you don't have to wonder what
-the implications are of setting FMODE_CREATED before the create() call.
-
-Reviewed-by: NeilBrown <neil@brown.name>
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- fs/namei.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/fs/namei.c b/fs/namei.c
-index d8401aa3100d..f1cc3ce979ef 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4580,7 +4580,6 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	if (error)
- 		goto out_dput;
- 
--	file->f_mode |= FMODE_CREATED;
- 	if (!dir_inode->i_op->create) {
- 		error = -EACCES;
- 		goto out_dput;
-@@ -4589,6 +4588,8 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	error = dir_inode->i_op->create(idmap, dir_inode, dentry, mode);
- 	if (error)
- 		goto out_dput;
-+
-+	file->f_mode |= FMODE_CREATED;
- out:
- 	if (!IS_ERR(dentry)) {
- 		if (file->f_mode & FMODE_CREATED)
--- 
-2.55.0
-
+Thanks! I'll investigate the preexisting ones and will try to fix the
+ones that look real.
