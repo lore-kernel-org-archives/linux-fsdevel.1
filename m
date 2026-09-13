@@ -1,141 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2111A6816;
-	Sun, 13 Sep 2026 09:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56062D46A2
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 13:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789292969; cv=none; b=GExvjF2FS6EeXrEs0CgDO4m0/mAwR3iGvMMtG+bcTMWWRuqNz6Oz+sTf7zoxoqIkFNxU8cYFGfvnEUdmfdyCU6AiLJYs5BPdw0AcrNZqjyTGPL/YRwX7EXjUeJ5dga8TtMfkg+c9IZWEsHfjbyE2xYGSKaXhP9J1ww3Lp0E1N4Y=
+	t=1789304490; cv=none; b=lsb1y9w4NTfPpG23Eb8248CmU0n6p2OXQjvntVX5XvQrMZlTMPOVmzI9Lw0OSn68ojZilbNZfl9FpRFBrrvfWeRXfNSDt7gfNmnUPBYEzsaaqUh7742YnAoesSUxcXmtfigc1UyJCjE0WCoY8Mhx1CfcO2DswyWORiT8vbSCr9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789292969; c=relaxed/simple;
-	bh=mGAg4rKunkIul1QDQuUassVbQndYIl+aQxGofMURzUU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j1e5p6dHcuhzvGG3zBN5qpb7Syoo4ew9znIajUKqZavGbH5IOrAT6bSYOdasCqrTpVgVS17Lwle6H370aL1VSlW/kHfAYbLrmMPooG20oR0c3qsWEH7EwhXg1dP+jBHeruJlPWBd0XFkky/wgYgky197VPX1Tox9FjpsOaNO/Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PfBvxpKE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789304490; c=relaxed/simple;
+	bh=JPVrVorCcMNDgIRmuGMPyQWtxCu2dCz1HBfDtRksLpw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TfZLrSEop93zeO7DAoxEmIVtvoGkoPSr1g6LMEQa8Enc4WXbQKg9pQP+z8x7XV1BjToQsz23c1QsV7MYyWKxeQ4qGT3oqr67Puv+SkuBZy6xRG+ADt1+FuyGPI9Dh4qjiVWZyEMOndlY+B+CC7Sz+r0ODE4ygvLYuPICsEH7jWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EYkwsmRF; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PfBvxpKE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1DC51F000FF;
-	Sun, 13 Sep 2026 09:49:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789292967;
-	bh=Tg5IU0+H9KMkSOpIVEYusfjm6bIb4fQEllwynyz0EVc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=PfBvxpKEvpJ5VLvXhFNDyHaYXB+ow/oOmmQUHohuPRTQ5OidCuKr72NVna21Lhj74
-	 r5JNth+EicGcrCC7nWRPU3KP7VvVO3pSw3SMgGmOSz4IhFnNf6O4Pe/2yjIehooC1j
-	 V5gfQBN3V7CSTiFObippk57pdzCBTAaYjhpBs8h86PcRmrAVE5mHCe8CBXR8sdZ9lI
-	 hOiIl8GhtQRUZJhWmq4v0gpGo2yCDfi4JJ5+JCDbKJMzUMLQpHEY7eL23wcPEXXOYK
-	 YUZArZv4sXfKDhvHqKab4q5jTSS5LAjaBXREtzk2jtVz45lYaQ3li0P61UqlG1ww9i
-	 AGBthjzkxuVUQ==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Gary Guo <gary@garyguo.net>, Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda
- <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
- <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno
- Lossin <lossin@kernel.org>, Trevor
- Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>,
- Lyude Paul
- <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve
- =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, Todd Kjos
- <tkjos@android.com>, Christian
- Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, "Rafael
- J.
- Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, Leon
- Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
- Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>,
- Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski
- <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Philipp Stanner <phasta@kernel.org>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, driver-core@lists.linux.dev,
- linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, Oliver Mangold
- <oliver.mangold@pm.me>, Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH v21 4/9] rust: rename `AlwaysRefCounted` to `RefCounted`.
-In-Reply-To: <DLCHKYBQ3WF1.B8YPUTAKNM7@garyguo.net>
-References: <20260910-unique-ref-v21-0-e83257373062@kernel.org>
- <20260910-unique-ref-v21-4-e83257373062@kernel.org>
- <CAH5fLghUQW5urTfLCCDT4BhuqoFVoLUAG46TS-SxaS37bJcgWQ@mail.gmail.com>
- <DLCHKYBQ3WF1.B8YPUTAKNM7@garyguo.net>
-Date: Sun, 13 Sep 2026 11:49:12 +0200
-Message-ID: <875x09v5uv.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EYkwsmRF"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39b9184fa80so1128661a91.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 06:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789304489; x=1789909289; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Wg+stOsQjaLt9MCZZ7i9acT8UaapdZ06Alne508dFkw=;
+        b=EYkwsmRF3+BO5t+vJ6xCmjRsG/7TlATUTHRIJqMD+LIGAR9DTBWkTOQEsar1qftA0+
+         r6Br15kekM32sKC/giaZDnk27Fk7Z5xY5qgr6/zCXugXnKSm0uo8Pin02T/Fj8PH2zb5
+         ugarncRqBYGyDVz9U7p9u5qvSJ6Ad3gq4U8XY/22RNhffLNkjZohMYrF0xCDw7XlN6XL
+         toEkg7AD3AyhxQA3lSjI1toojQtac3W1NZtxl02oLxp2e5hsDqok+DRgqcentkfebAXS
+         7CHKWSE1At5DFliP35lKEeUBc+B5zFtPhthHCHKbRnSILfde16MbJp5VwyXajpRV1wiy
+         t9qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789304489; x=1789909289;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Wg+stOsQjaLt9MCZZ7i9acT8UaapdZ06Alne508dFkw=;
+        b=XpOfqnYmsvyLbJqRSN/Upkhh7/vz+VYSrLX1/J98TLGhzE4JVmWO/eXl5W7fc/VkJ3
+         r/ZSFgm64yEFV9/pwmmkWp/Vrn02tRSGEaw6HeytA3hePra6krVMvunS+blYq3DePRXg
+         zA8766wu1eiZ452nHnE01Babtfpz/dbNCDyy1Ii0WSHDs1v5RqB0Dn+uLUpW/fWqBDrt
+         bPg4NRffRk/wsoe+gmxgRGXtejJjH6ulvOgebY7BmXE3QgKR5kN3sz+g5VlTFwKy8VdO
+         La34J406wn8AusGnxRkdT8P+dPjkSs/1rV9ppptXFokMkHblxTwklEV5IUJ45b67ryFG
+         1Eww==
+X-Forwarded-Encrypted: i=1; AKwUvBxxYxagWScK1Jqi3vbJYH8GuwdBRfoEnPXAcdiDp6BaujnRP8hJW42ASNFGo1C7smGRFBhZqPfgVoF6cbWm@vger.kernel.org
+X-Gm-Message-State: AFuF++meIh3jRQ/iozA82+f9RnbVUJrQWLfv8kJtLGcjxFMztj05hDxM
+	3OLa5jxmmZDDUAzckvxFfP34LGbavNPC6xGtRx8qypL2rPz8GTOA1gFc
+X-Gm-Gg: AYBFou0kzbiyoJAt3AnjZ90JwbicYk711UETP43nrSLbVDYLw1s/VOGEpRrfOcsAX8g
+	iZ9b8x8BFZbqSEN3FLtfra4DOqYK2CqmU/8NZ2J5BaVAFtp+aTCBdZ5hagxsipQfJYM7gtNkqV1
+	9ZsVOtL5/ZiVIW3jVt5FH0pT9ggt2lGAeMq82aPb68M0r3SctEHT5M/sK+GkjjxVi1bSRjRHf/f
+	sOyoVtreymM3dzbBEghyeoBfFwGlZSwLTRgn19rjpx8UtpAeZYx/Mh3UC05K3gUOJTRR9roZxKf
+	wSb41OZlem7Pax4+FS3jZ5sUCkvz7bboZT7i69vTK+9RBlvRChBr02/cqeS7Da5IwrweEYJMlh8
+	vZPHf3iSPifok4dgh4xBOvTMxYpo5M3VV5uSBUe4zebWDBXSpHApYqKLi54ZBblJBD1vq1HrTdG
+	kvWnp7psAxlB/bgDUhvqlUaDLh69dtCqZsVmByeE4ggVF8X29AEQO9j/yYJYP8Ku8NJSDJC05bq
+	cc6LPITNQ==
+X-Received: by 2002:a17:90b:560e:b0:39b:34ef:3b2b with SMTP id 98e67ed59e1d1-39d9c0ba635mr23620029a91.14.1789304488875;
+        Sun, 13 Sep 2026 06:01:28 -0700 (PDT)
+Received: from localhost ([106.39.151.115])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d95713602sm15279336a91.11.2026.09.13.06.01.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2026 06:01:28 -0700 (PDT)
+Date: Sun, 13 Sep 2026 21:01:24 +0800
+From: Ray Lee <hburaylee@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: phillip@squashfs.org.uk, squashfs-devel@lists.sourceforge.net,
+ linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] squashfs: fix inode number description in documentation
+Message-ID: <20260913210124.0000628d@gmail.com>
+In-Reply-To: <20260910-bedrucken-wipfel-beraten-dca08f04b19c@brauner>
+References: <20260908130103.272230-1-hburaylee@gmail.com>
+	<20260910-bedrucken-wipfel-beraten-dca08f04b19c@brauner>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-"Gary Guo" <gary@garyguo.net> writes:
+On Thu, 10 Sep 2026 10:12:45 +0200
+Christian Brauner <brauner@kernel.org> wrote:
 
-> On Fri Sep 11, 2026 at 10:08 AM BST, Alice Ryhl wrote:
->> On Thu, Sep 10, 2026 at 11:01=E2=80=AFAM Andreas Hindborg <a.hindborg@ke=
-rnel.org> wrote:
->>>
->>> From: Oliver Mangold <oliver.mangold@pm.me>
->>>
->>> There are types where it may both be reference counted in some cases and
->>> owned in others. In such cases, obtaining `ARef<T>` from `&T` would be
->>> unsound as it allows creation of `ARef<T>` copy from `&Owned<T>`.
->>>
->>> Therefore, we split `AlwaysRefCounted` into `RefCounted` (which `ARef<T=
->`
->>> would require) and a marker trait to indicate that the type is always
->>> reference counted (and not `Ownable`) so the `&T` -> `ARef<T>` conversi=
-on
->>> is possible.
->>>
->>> - Rename `AlwaysRefCounted` to `RefCounted`.
->>> - Add a new unsafe trait `AlwaysRefCounted`.
->>> - Implement the new trait `AlwaysRefCounted` for the newly renamed
->>>   `RefCounted` implementations. This leaves functionality of existing
->>>   implementers of `AlwaysRefCounted` intact.
->>>
->>> Suggested-by: Alice Ryhl <aliceryhl@google.com>
->>> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
->>> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
->>> [ Andreas: Updated commit message and rebase on rust-next (7.2) ]
->>> Acked-by: Igor Korotin <igor.korotin.linux@gmail.com>
->>> Acked-by: Danilo Krummrich <dakr@kernel.org>
->>> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
->>> Reviewed-by: Gary Guo <gary@garyguo.net>
->>> Assisted-by: LLM
->>> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
->>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
->>
->> This has a lot of safety comments of the form "This does not implement
->> Ownable, *therefore* it can implement AlwaysRefcounted". But I think
->> the safety comment should instead explain that it's okay to create an
->> ARef<_> from an &_ for this type. The fact that Ownable is not
->> implemented is not sufficient argument.
->>
->> Alice
->
-> Yeah, I think for types that currently implement `AlwaysRefCounted` and d=
-oes not
-> have a new `Ownable` form, it should keep saying that "this is always ref=
-erence
-> counted".
+> On Tue, 08 Sep 2026 21:01:03 +0800, Ray Lee wrote:
+> > squashfs: fix inode number description in documentation  
+> 
+> Applied to the vfs-7.4.misc branch of the vfs/vfs.git tree.
+> Patches in the vfs-7.4.misc branch should appear in linux-next soon.
+> 
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+> 
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be
+> updated.
+> 
+> Note that commit hashes shown below are subject to change due to
+> rebase, trailer updates or similar. If in doubt, please check the
+> listed branch.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs-7.4.misc
+> 
+> [1/1] squashfs: fix inode number description in documentation
+>       https://git.kernel.org/vfs/vfs/c/bfe240aab4a1
+> 
 
-Makes sense, I will fix them.
-
-Best regards,
-Andreas Hindborg
-
-
-
+Thanks for applying!
