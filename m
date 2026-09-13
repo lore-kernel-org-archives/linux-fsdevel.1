@@ -1,33 +1,33 @@
-Received: from mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38022F8EB0
-	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 02:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9A0313267
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 02:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789265713; cv=none; b=Aagj9gc71pc6c0C2VYjqyX/hH6TSCOW/rf90qTtKVP5PyCF6FRW/fBXv+DHW5Vc0x/6VoP69anQMu9yrCzpVjL2n9RBuSPFQfXonY3cpoRoUiXoGzO6FPqEaJ9yMW8+UNr56vIvLKPaarPjF0aWZtAWJ5OYL7xKpr0k0H1NndMc=
+	t=1789265722; cv=none; b=a1QETgYytalyMWO3mFNSamrL6i3VAMtLVK3o0Tu1fmGqZ5Dp+bzaEvmT4pGDgXHv+LsTv/TrrJ77lSii3pZ1KiqfDGrNfYpdK6MdCASS/1h+BF5MLsfykNW/LdOXe0GP9/bN/3vZJVT/+hcgGoo8qmfSu1rXBOZgpXeFnTWm/7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789265713; c=relaxed/simple;
-	bh=lLMjhtX8mQSkcteJdNHfuS1BULHYOy4nyuYAaZWcCw8=;
+	s=arc-20240116; t=1789265722; c=relaxed/simple;
+	bh=pH/pHT3eyv9ohLS5X8BzRXnXn2sTO031AqbiTb+LHC4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pLkBvsIB8fhnShz1eqXmtO7KbWvcYjDI+NSK2WpGRN0QEMnE1Z4VZNmBoqTiiceaRIZmlkR2NpVhF5yiLz2NbQuGtRA+m1MbKDVKUV/El8YwgfaEFyAAT1vSE850/UIJqEn3NdKdsgU9iubcvPFFqJeFvvdGmrla7SyM5wyWu5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WfpdAdlW; arc=none smtp.client-ip=91.218.175.178
+	 MIME-Version; b=E448tvSOyStpky4oL0nsWkeZJ6XJqCeVrGNyyPAUNf5/C3+esKi+veXAlODtBAsyDrT/R+OMyKMtUV77aR5mAp0uZkG2ajHOJ+2WYggR14NqtlzBn/alezbg787ddkMkZdShje/V+X4O8XCiA1WRGWN6B3RF2FaixYlhzakDaLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=t0XbwN39; arc=none smtp.client-ip=91.218.175.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WfpdAdlW"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="t0XbwN39"
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=lLMjhtX8mQSkcteJdNHfuS1BULHYOy4nyuYAaZWcCw8=;
+DKIM-Signature: a=rsa-sha256; bh=pH/pHT3eyv9ohLS5X8BzRXnXn2sTO031AqbiTb+LHC4=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789265708; v=1; x=1789870508;
- b=WfpdAdlWBBScYJQwkKUReOvuNHQFT9ZredA9hMe/pb65w2YpBmPzjhUpylw/0CCrT0XylETe
- VT+/bjsJQZEYBhBGcvXvo/Yrx8ClCXncJXj1AOLK9eHJi+VzhHL57lAydndNZkS4ry1zuqDAgmG
- VwFeq3iCE66eYNXByJZimixk=
+ t=1789265718; v=1; x=1789870518;
+ b=t0XbwN397Ni5im13fTnmUhS1f3gUleWx7FEKPEJR8wLArAU/dxefilpEKMr6gIpuHuiFibX/
+ 02Troraj27XF94PFQr7cWub9N7Yrg3N5s1nYJOQwlpzq8iCN/kbYMKFFN5+kqQuXiuzSPr12o7a
+ YuAtOyOYxmMj9b5RN4ItJwbc=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id e3873fdc4d9fcc1f;
-	Sun, 13 Sep 2026 02:15:07 +0000
-X-Mizu-Trace-ID: e3873fdc4d9fcc1f
+Received: by smtp.migadu.com with ESMTPS id 63251dd25ef417dc;
+	Sun, 13 Sep 2026 02:15:10 +0000
+X-Mizu-Trace-ID: 63251dd25ef417dc
 X-Migadu-Flow: FLOW_OUT
 From: Shakeel Butt <shakeel.butt@linux.dev>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -38,9 +38,9 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	linux-fsdevel@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] kernfs: activate a new node without dropping kernfs_rwsem
-Date: Sat, 12 Sep 2026 19:14:51 -0700
-Message-ID: <20260913021453.21507-2-shakeel.butt@linux.dev>
+Subject: [PATCH 2/3] kernfs: allocate the new name outside kernfs_rwsem
+Date: Sat, 12 Sep 2026 19:14:52 -0700
+Message-ID: <20260913021453.21507-3-shakeel.butt@linux.dev>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260913021453.21507-1-shakeel.butt@linux.dev>
 References: <20260913021453.21507-1-shakeel.butt@linux.dev>
@@ -52,67 +52,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-kernfs_add_one() links the node in, drops the kernfs_rwsem write lock,
-then calls kernfs_activate(), which takes it again.  Roots that do not
-set KERNFS_ROOT_CREATE_DEACTIVATED, such as sysfs, therefore pay two
-write locks for every file, directory and symlink created.
+kernfs_rename_ns() calls kstrdup_const() while holding the kernfs_rwsem
+write lock.  It is the only GFP_KERNEL allocation under that lock in
+kernfs, so a rename can enter reclaim while every create, remove and
+rename in the hierarchy waits behind it.
 
-A new node has no children, so kernfs_activate() would walk only that
-node.  Call kernfs_activate_one() before dropping the lock instead.  Its
-two WARN_ON_ONCE()s still hold: the node was just linked, and nothing
-can have changed its active count yet.  This also closes the window
-where a node is linked but not yet activated.
-
-lock_stat, creating and destroying five dummy netdevs:
-
-                                 before    after
-  kernfs_rwsem write acquires     1200      830
+Copy the name before taking the lock and free the copy again if the
+rename turns out not to need it.  A rename that keeps the name, hits a
+collision or finds the node gone now does one extra kstrdup_const();
+renames are rare.  -ENOMEM is still reported at the same point as
+before, so nothing changes about which error a caller sees.
 
 Assisted-by: LLM
 Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 ---
- fs/kernfs/dir.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ fs/kernfs/dir.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 07abf59f0264..8953e8a07537 100644
+index 8953e8a07537..3bbdd9a8acc8 100644
 --- a/fs/kernfs/dir.c
 +++ b/fs/kernfs/dir.c
-@@ -30,6 +30,8 @@ static char kernfs_pr_cont_buf[PATH_MAX];	/* protected by pr_cont_lock */
- 
- #define rb_to_kn(X) rb_entry((X), struct kernfs_node, rb)
- 
-+static void kernfs_activate_one(struct kernfs_node *kn);
-+
- static bool __kernfs_active(struct kernfs_node *kn)
+@@ -1819,6 +1819,7 @@ int kernfs_rename_ns(struct kernfs_node *kn, struct kernfs_node *new_parent,
+ 		     const char *new_name, const struct ns_common *new_ns)
  {
- 	return atomic_read(&kn->active) >= 0;
-@@ -861,7 +863,6 @@ int kernfs_add_one(struct kernfs_node *kn)
- 	}
+ 	struct kernfs_node *old_parent;
++	const char *dup_name = NULL;
+ 	struct kernfs_root *root;
+ 	const char *old_name;
+ 	bool reparent;
+@@ -1828,6 +1829,9 @@ int kernfs_rename_ns(struct kernfs_node *kn, struct kernfs_node *new_parent,
+ 	if (!rcu_access_pointer(kn->__parent))
+ 		return -EINVAL;
  
- 	up_write(&root->kernfs_iattr_rwsem);
--	up_write(&root->kernfs_rwsem);
- 
- 	/*
- 	 * Activate the new node unless CREATE_DEACTIVATED is requested.
-@@ -869,9 +870,15 @@ int kernfs_add_one(struct kernfs_node *kn)
- 	 * activating the node with kernfs_activate().  A node which hasn't
- 	 * been activated is not visible to userland and its removal won't
- 	 * trigger deactivation.
-+	 *
-+	 * @kn has no children yet, so kernfs_activate() would walk only @kn.
-+	 * Do it here rather than dropping the write lock and taking it again
-+	 * for every new node.
- 	 */
--	if (!(kernfs_root(kn)->flags & KERNFS_ROOT_CREATE_DEACTIVATED))
--		kernfs_activate(kn);
-+	if (!(root->flags & KERNFS_ROOT_CREATE_DEACTIVATED))
-+		kernfs_activate_one(kn);
++	if (new_name)
++		dup_name = kstrdup_const(new_name, GFP_KERNEL);
 +
-+	up_write(&root->kernfs_rwsem);
- 	return 0;
+ 	root = kernfs_root(kn);
+ 	down_write(&root->kernfs_rwsem);
  
- out_unlock:
+@@ -1859,9 +1863,10 @@ int kernfs_rename_ns(struct kernfs_node *kn, struct kernfs_node *new_parent,
+ 	/* rename kernfs_node */
+ 	if (strcmp(old_name, new_name) != 0) {
+ 		error = -ENOMEM;
+-		new_name = kstrdup_const(new_name, GFP_KERNEL);
+-		if (!new_name)
++		if (!dup_name)
+ 			goto out;
++		new_name = dup_name;
++		dup_name = NULL;
+ 	} else {
+ 		new_name = NULL;
+ 	}
+@@ -1901,6 +1906,7 @@ int kernfs_rename_ns(struct kernfs_node *kn, struct kernfs_node *new_parent,
+ 	error = 0;
+  out:
+ 	up_write(&root->kernfs_rwsem);
++	kfree_const(dup_name);
+ 	return error;
+ }
+ 
 -- 
 2.53.0-Meta
 
