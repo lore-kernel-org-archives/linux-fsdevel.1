@@ -1,144 +1,115 @@
-Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A092F8EAE
-	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 15:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789314426; cv=pass; b=hs2qM13b3CcC/mXCZoa0dovJUTzPevFGdMtdhYzzidzxNcguoJua/R8u5VZhQlOEjIUiBGIVxS+q8oH1qqTfO4xLyLYATWkPBFmanJCWcJMSex+AGyCWCUoT9kuQmmui9YdSF7FDHSRjM7A3PmUG67V9eGUGWpOBU6CsF3+c9t0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789314426; c=relaxed/simple;
-	bh=KFkEvrKDNmPhRyOa4UUB93A5JAqNiBMds7vZAclPLSg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C7KU+n3wS4x++ofxBUhl1z2UmwBdwq94kRBtlQ55RQ6kqlzLOVxPTPDudp4Kv42mPqLGE06ZdGuIMevmKA2RGOiTNI/Tl7Ux8seAE2zwWOGClH0y2+Gw4qjfaphUg1Chh16J+p0BNzVcYbhYLac9mruhYk1mjBBpraUjKSG5SnU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B4C+vwZ6; arc=pass smtp.client-ip=74.125.230.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D641A341ABB;
+	Sun, 13 Sep 2026 15:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789314588; cv=none; b=CWViRT90b6P8n+OFvKNxmRen+N+WZ4h755ml2DNxKMVsvFpKL2wXA5SMpM6xXYm8OoQ+kqqZX4/0y+Y4AsBhrnm/EjSYfcytM6jSWKHw1VsE2pZ16EPGdfZqzQq32RPv0X/M+jKsroPin8gSo1QFKqCcw/vGtZvcL4tUihSyrLk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789314588; c=relaxed/simple;
+	bh=b575kUcLFx6W86FIDcyoHI6OwWxW++ZDO6mldLyBzFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=akIMZ9ekVw45Zuto3JrymR76gdvXAG6z9ohzzPVfKVPigdxzRmCeUmeIMUf/fWRGRwJ9tBJSArpx8UiU9rSsHGvN3yXJ/I2Pi5mc6W/26ERAJx99VWqh7QJ5MzhjZf311y2gI0GWlG6U/A1hsRdOXiCQ4le246mzxzQHETBg1Kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=nlEWD3Ah; arc=none smtp.client-ip=62.210.214.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B4C+vwZ6"
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a49bc59559so6762871fa.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 08:47:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789314423; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mfacv/BJYPa1Fa2B/g4BuBalGdJu6bnQ5hidHmjBUv00daQOWaecwIkRQawzkvyFEg
-         Y/VzSh6tRtVImdg4y13jm6ZnFLcXkS2Yfbq6b+BDUurzNFbkbM1tuJrDCFsbIWIzyUhM
-         FIRlDUxyy1Y45Oko2zZG+uQvZl0nNI2v0xdQ/GfsridsOh7ERCGMlG85ztW5DP7Jgu+o
-         UMRoKX9W3xKDzm40w+ArgZObanAvXQmgUnqnoNdDnAF8TaZOpRZ/qAE2cgs0fkX+TiOG
-         V2JYrUVY1MrYnm4wOI91WYUaEPdA2SRejRdKzE1eGXAPkz7oEhardYyxNnfEvxOMPoD9
-         flHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KFkEvrKDNmPhRyOa4UUB93A5JAqNiBMds7vZAclPLSg=;
-        fh=tCl0OEwpZO+rQ6a91ElCt+DMfAOU4KkxKA5kz7wv7pc=;
-        b=PPp4YSwlhL0hThNXszX1hGXCQUDzJh4dVKxnCziT0XBU1YlRZkwUGyXvfxh6qyFvk8
-         E7cQeQw/n1L2+/LNmS01yWD0QqvDiLwEJErBL9MpvxfLiGGSuGB1+wgxD5wc++chJrgI
-         13vZpFZucBCezqZfBG1u2+7PwAPBKgHmA/E2m/E5B52Vl044+wjJoS4gA9/pGi3GG8wf
-         4d1JXbhW3gzMBhtIBepACWHDta0Iwg9Q7LJ1Mr7dmAgO+XiG//t7FzK9ufb+Qedlp3Gk
-         vM0SwmVmA/o3ouU7V9yeUD5lJV7yGC+mfzfyiluTuIJDHrSbKh2moMV07lEVeRUUEWki
-         h3Gw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789314423; x=1789919223; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KFkEvrKDNmPhRyOa4UUB93A5JAqNiBMds7vZAclPLSg=;
-        b=B4C+vwZ6TOxVZ7ImvZoKk5Hd10wiJz36mN6RVG3XgnpDSLdPs/zcyQLzzWbiZI6TQl
-         yaFVl6djzq5UKT5MpXKBWM1xayrmauqFr0T4ZF4TmzjiXkkNtaWUoW4ERevaUrenW/VZ
-         ue1ZE57SM5/+SAmsaxUMtpSd5XR322tLxrjiBDAWs/b3+ieq18QpzkRVvxT+QprI3LKf
-         LrBerA2o/yfklNeFmLc5C71B9Np8gEvdCCvzbis7F8xU/KQwtzchU7BSA9sgzSPRHWzz
-         2aKNtA0ufxfgz6Rt/gajkkCaNpMyVxasPPkcPmDtAV56Xq30iqcrsSzAsF7mA5itvH/9
-         0Z4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789314423; x=1789919223;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KFkEvrKDNmPhRyOa4UUB93A5JAqNiBMds7vZAclPLSg=;
-        b=IDOWnr/V4FVvtUBXWsH0+VpvmKbE5lO8bXoxLG+0yR2Gc7KMps/eV/u9GktwqWahEV
-         kIU7o2A2N9BzAEeixmX2tgH89BqXmf7JPArvLDgCPwm0hDnQasS3Wk+cwoAcF14KaDhS
-         /FZhJpzmBUmTGUpfI7pY4OIdz6c/FFi6DUFaitAls39Yoq/xroGIpJ/ea21LiABGrNzQ
-         AVZ61ZPzIvmFqXHwQJPiMTtHOPsTNJr3mBuXUgpwmIeobdODJLFn+of8JWTMTq4xiTcb
-         8+rpae8ov7wn4okUmwFW0d4QyEQOEZwmenJhHp0HJVgr72P1R198AwI1ziTlNFw0SyHn
-         scQg==
-X-Forwarded-Encrypted: i=1; AKwUvBwFBdCxB8F5LJjqyzjXCKVe2T6eAH1au93bZBNAed2YKXlWb96JxSIlcsi2JZFZqF74WQj7Zc3496J4borH@vger.kernel.org
-X-Gm-Message-State: AFuF++lJhdcnVRuUeJTa9cHB+I4Xx6XUa46O2WDH6amxU0JzSThiJHSC
-	DEksPZApctt61lA++iX9gypcaoWLWyWI/sIxcGmWRQFHPZhs6PPmeYu0orn22EF5Sb8iV6Eggtb
-	ygnLmyua8yvwbC7BUXyo3xHbuYmS1NoY=
-X-Gm-Gg: AYBFou3/lm5VwLW0+9wGek5XvSC7zNlkZSEy4COJdOWfnfDsigY/8CQC6dN/x289ui1
-	2ogWNfDhHNv1x38WcZfS6DRRdAnbqPZ3dgqCHTAD7AkKISCt1lota28f2keVzbVx3K0G0VewqDM
-	/LeAJlMdGedW0w2xSk6nAAdgF0yUK66eG2zLll/RdJSE1DJ6qU8j/SDueMzOWaV7VMzrXMkyrsl
-	fgoiUnh2MT4vO4x1iEfCH1wRW28MGy0JhtVgesONte8CwjxuVHxbgg2IJXQzFjhE+hCT1affGkE
-	PQbETW5qeknh+epndeG7RrwZCbYSH7S83UMAJRDKpyhINAErx7yk1CXK2peU3Rpwe8ex1Wl4guV
-	WXZ8CcaS8OZ5pOg==
-X-Received: by 2002:a05:651c:154b:b0:3a3:7681:6d6b with SMTP id
- 38308e7fff4ca-3a5b38161b0mr10553231fa.20.1789314422665; Sun, 13 Sep 2026
- 08:47:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="nlEWD3Ah"
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by submarine.notk.org (Postfix) with ESMTPS id B757714C2D6;
+	Sun, 13 Sep 2026 17:49:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
+	s=2; t=1789314584;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZbYcnwCQHJ/1hYTl1u1L0A3/zi83h13LUtfR6PoX5Ok=;
+	b=nlEWD3AhioAbCMcVazifVtxqrCLfphBeoyugxnq3McgZR6SGaqDarsmPTP7iknD6tXmiyU
+	vf82KVz34lj5PC29tSjegp8eGGuyVHYFirY+KE7ssDR8E03WDUv2wYanCZ8HtuIayuOCE+
+	EuCkX7ZRFv22zG9TLOoQ9S20IgHIeFGjeSStmBLa3c4zgzXu9J83yKHU4Hw+HY/OZ3yet4
+	fHD/ysObJVsCG+f5sxQxGHVUXx7UbJ6uw/e5ty+cQNoRzvUYL/VvaIj35jrpC3YemnHgNm
+	RHYPZSB2r7wh9UvXC/22PsRit8dSjSZL/nSsveQ76vVdE32zhlG4VicMxJNrqg==
+Received: from localhost (gaia.codewreck.org [local])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id a21989a5;
+	Sun, 13 Sep 2026 15:49:40 +0000 (UTC)
+Date: Mon, 14 Sep 2026 00:49:24 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: David Howells <dhowells@redhat.com>, Barret Rhoden <brho@google.com>
+Cc: Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	v9fs@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] 9p: treat read return values of 0 as EOF
+Message-ID: <aqbGBMJ6bntYB1t2@codewreck.org>
+References: <akfHGcqke9qixd3Q@codewreck.org>
+ <20260702090941.1298188-1-brho@google.com>
+ <2237820.1783934942@warthog.procyon.org.uk>
+ <f7005841-80a9-4c21-a114-6cfd6ee63a58@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>
- <aqa7KgIJYGgf7INk@slm.duckdns.org>
-In-Reply-To: <aqa7KgIJYGgf7INk@slm.duckdns.org>
-From: Chengfeng Lin <lin2530632123@gmail.com>
-Date: Sun, 13 Sep 2026 23:46:50 +0800
-X-Gm-Features: AcwNN1U3jyA-1tSNpP-D9guvtV6T3al2eJNkQEtzf0t-dPsWgp_KnaGhqsq7NoI
-Message-ID: <CANGjgd=f9n7zEZS=xi71y_dY6Uk75_qgP9qVDkYBusNz9sp2sg@mail.gmail.com>
-Subject: Re: [REGRESSION] kernfs: empty cgroup rmdir latency after
- delete-notification changes
-To: Tejun Heo <tj@kernel.org>
-Cc: "T.J. Mercier" <tjmercier@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jan Kara <jack@suse.cz>, driver-core@lists.linux.dev, cgroups@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f7005841-80a9-4c21-a114-6cfd6ee63a58@google.com>
 
-Hi Tejun,
+Sorry for dropping the ball here, I haven't had any time to do 9p stuff
+at all recently and the wave of LLM generated patches hasn't helped...
 
-Thanks. I found this during research into kernel performance regressions,
-using a microbenchmark of cgroup creation and removal. This was not
-prompted by a production issue.
+Barret Rhoden wrote on Mon, Jul 27, 2026 at 01:38:16PM -0400:
+> On 7/13/26 5:29 AM, David Howells wrote:
+> > This is kind of a weird situation.  We're caching locally the content of files
+> > aren't really regular files and probably shouldn't be cached.  I'm not sure
+> > what the best way to deal with that is.  I wonder if there's some way to
+> > detect that and mark then non-cacheable.  (Assuming the server can be told not
+> > to even serve them).
+> > 
+> > Can we detect that the EOF length doesn't match i_size and set a flag to say
+> > "don't cache" in netfs_inode::flags?
+> Possibly, but could you have false positives from this?  e.g. if a file's
+> size is changed concurrently with a read returning EOF?
+> 
+> As far as detecting EOF in the first place, my patch had the 9p client doing
+> it.  Not sure, but Dominique's question might have been whether netfs should
+> have done the detecting instead?
+>
+> From what I can see, the netfs clients were responsible for setting EOF
+> (except in netfs_clear_unread()).  Some in response to an ENODATA error,
+> others due to the "did we read past the end of the file size."  Not sure
+> whose responsibility it is to detect these cases: netfs or the FSes
+> themselves.
 
-I reported it to document the added removal cost and ask whether some
-of it could be reduced while preserving the fixes. I agree that the
-roughly 3 us increase per removal does not, by itself, demonstrate a
-significant impact on real workloads.
+Right, that was my question; I honestly just don't understand the
+requirement/promises of the netfs layer.
+
+In this particular case we have two patterns to address:
+- synthetic files with stat size > actual size,
+e.g. /sys/devices/system/cpu/online
+- synthetic files with stat size = 0 (rarer),
+e.g. /sys/devices/virtual/net/br0/brforward
+
+For two at least two modes:
+- cache=none
+- cache=loose (writeback I guess)
+
+Right now, none of these work, with various degrees of not working;
+I'm not sure we can do much about some of them (e.g. stat size=0 with
+cache enabled I'm fine getting empty data), but imo
+- cache=none should just try reading as userspace request anyway and
+stop as soon as the server returns 0, that's not a 9p specific behavior
+and I wouldn't have expected having to do any special handling for it.
+(but if you tell me it's to be done in 9p case, then sure, we'll do it
+here)
+- cache=writeback + stat size > read size should also stop when the
+server returns 0 and truncate its view of the size to that; the problem
+in 9p is that we'll reset the size again to the remote size shortly
+afterwards so that will need more thinking (and overlaps with the other
+cache size bugs we have in flight), so let's focus on cache=none for now
 
 Thanks,
-Chengfeng
-
-Tejun Heo <tj@kernel.org> =E4=BA=8E2026=E5=B9=B49=E6=9C=8813=E6=97=A5=E5=91=
-=A8=E6=97=A5 23:03=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hello,
->
-> On Sun, Sep 13, 2026 at 10:43:04PM +0800, Chengfeng Lin wrote:
-> > I found an increase in empty cgroup removal latency across 507d8ce13f5b
-> > ("kernfs: Don't set_nlink for directories being removed") and eea5d2bb3=
-4ba
-> > ("kernfs: Send IN_DELETE_SELF and IN_IGNORED"). With sched_ext disabled=
-,
-> > rmdir() went from about 6.5 us to 9.6 us, an increase of 46-47%.
-> > The result held in two independent runs.
->
-> I don't want to make cgroup removal unnecessarily expensive but at the sa=
-me
-> time it's not an operation that I consider to be a hot path, so as long a=
-s
-> the operaiton can finish in a reasonable amount of time and single digit =
-us
-> definitely is, performance of rmdir usually isn't something which is high=
- in
-> priority. Can you please detail why this matters for you?
->
-> Thanks.
->
-> --
-> tejun
+-- 
+Dominique Martinet | Asmadeus
