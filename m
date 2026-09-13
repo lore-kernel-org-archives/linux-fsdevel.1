@@ -1,114 +1,159 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D0D233944;
-	Sun, 13 Sep 2026 16:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23BC37DAD5
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 18:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789317038; cv=none; b=Xz/9bebz60BEmIgJGe4QwOjMcYC0raRcRw0JyjhSwgbhMtHMquON0/H1OnGnXj0UBCS7BfDbI66dfYVmKq5o2RRYvZ7c+2Ng8zc04PcQ/Q0sqvKgahgWnWvfzQL7aIvimqFjBi46L3Zs0+MFUjE87IE6gl4fSlTrkXGBXo4Rcy8=
+	t=1789325358; cv=none; b=r8IOePM16VEkrt7NKB2aJ0Ec4sPYxDrSHL0EixfAmxSdGsMhLQzVfVtr+Bmsll6Ml6m7mVQRcrr+czUIs+Rc2b19+AYnkF9AFtKqu354qgKfKiTWvWQoKfZiU1EYktYLbqFpC2L7UlravSRihxoXbhNwXSbA96QomBEM95dNppQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789317038; c=relaxed/simple;
-	bh=2JSp6uF2+/wqGyKdfLGQ1uBv5SoCdvqLA2/UiHxvnA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NRc1zdW5UYuz0V9a3b2l672gniityA4tI0k591KqOA9RutcxqjCb8Ge2bcmju9uUoD8wofxj57YTxYvAyTX8MTQ4xVz28930NHPgBDvq8v2TNCK/UfbXlaEvz6fsjQUgS8sWxBJHwd4VkJH/j07pFnAFndABL0gGsXooI2MQSj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=uuv6UN8q; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	s=arc-20240116; t=1789325358; c=relaxed/simple;
+	bh=vnNK3pm4U0gCQYsYGeSX40DN5pna76SwFCd/QsuxnXs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hUfLZ7nkkF8xeOgNn6EhcnWIhT+WdmSjR0Lm/VSf0y/QaiS4rcpI9B011XntHqdyyb1v36Uvck2nF2rrdUboFUYJISF3e0FcEjbcI+CbxAoM7heQzM/lKVz8pU+B3+gYwbOyc1up7zw5d6AXlX/yMbB5CO9wK7QHXaIGdUroGCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=VvZLXSTL; arc=none smtp.client-ip=195.121.94.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="uuv6UN8q"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id C305C14C2D6;
-	Sun, 13 Sep 2026 18:30:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1789317030;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tvmaiIU5PddctNQD7UfqypasD+Yj4SWTiUXRtO7KUcw=;
-	b=uuv6UN8qiqJ+HmRv28s0aZ5AqKplDFCjnjryYvhy92cpG82wRZuK2Hvqjbw2dqtGL2ZBou
-	tWGgtCm396btk/IrGwlz7F0SmmGBwukXWpSjc3isOjs6cxsdiQOfXMQOQPotnAAizPeXdd
-	v82xQH0+TY8Zvh5CFaWgtsh0DqFxZ2/HMwdlScl50r1OZmBHRuzcHY/L+X0BuTMODOckls
-	nWz9LtTYCtqRlHgvnmI5ZeLfu+tRJBsJjG9rjctg09IrZ5asn+hcLHsckbCCl/gnIQ0kMw
-	rx8yy2iX7EpnKszo1ADbECNnD2DdaGC8CcYw4hHizkPXahofRv7tFngHVtM3+Q==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 266e6f96;
-	Sun, 13 Sep 2026 16:30:24 +0000 (UTC)
-Date: Mon, 14 Sep 2026 01:30:09 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Tingmao Wang <m@maowtm.org>
-Cc: Greg Kurz <groug@kaod.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-	qemu-devel@nongnu.org, Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>, v9fs@lists.linux.dev,
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>,
-	linux-security-module@vger.kernel.org, Jan Kara <jack@suse.cz>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Matthew Bobrowski <repnop@google.com>,
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="VvZLXSTL"
+X-KPN-MessageId: ca4aaee7-afa3-11f1-b2a8-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id ca4aaee7-afa3-11f1-b2a8-005056abbe64;
+	Sun, 13 Sep 2026 20:49:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=VrQ/72DWEkUD9WmDiM0L0xRV0BLDfb4wOia7BMMgbNM=;
+	b=VvZLXSTLGxAF1Dc7rn43uMJR7Ns5smVA6Td5M5RSyHRXNs8MxvezQSayTpz/9+CryXT/mHTepHmIf
+	 hC4/VvGyU9URSrMQrp9h2dbgFMsYQp2M9AZwwYQoRgi6rm59Kh4zGQFZYlAKgcr2Z/FXrUH6S/Wuvz
+	 c8vlW6NG/cBzWnuTnxqkeh72Z0dYbwr0/bpcIhzQ6OxeblYAI59cf7J+zE/sb2wZZynQ7TnEbH7q/0
+	 LO1yNuvCpVweF/1RS8p6HuwQN3lH5mJMW+i4GuPUmYUgEKlLwhlx7+JlbjQP4j+gLkFYrVG4xt0DTk
+	 fi5JdiyOailDb4BhGhRNWD+XIJFLpYA==
+X-KPN-MID: 33|u8BGK/9jJ/f7k3PruIOET9q5+fmEuHy1PH44nKUhZXutmNkVG/aUgKKoF2FZ0db
+ QuEJp5wbvsm57qlDft0IB8aEohI35ds00VRjXf9aAaDg=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|ctHD9IKRDCzRjYGqE/vENoio9NHHjxv3ciMKRj90hRaF0kdxRHRO8V4PZXYqhZY
+ LK+e1BnQj8boTOG6gLR2y9A==
+Received: from daedalus.home (unknown [178.231.250.207])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id c791f3d1-afa3-11f1-bd2b-005056abf0db;
+	Sun, 13 Sep 2026 20:49:03 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
 	Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
+	Aleksa Sarai <aleksa@amutable.com>,
+	NeilBrown <neil@brown.name>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
-	Justin Suess <utilityemal77@gmail.com>
-Subject: Re: [PATCH v2 0/7] fs/9p: Reuse inode based on path (in addition to
- qid)
-Message-ID: <aqbPkWJBrphVwOKW@codewreck.org>
-References: <aMih5XYYrpP559de@codewreck.org>
- <20250917.Eip1ahj6neij@digikod.net>
- <f1228978-dac0-4d1a-a820-5ac9562675d0@maowtm.org>
- <3061192.c3ltI2prpg@silver>
- <20251013112424.6b93659c@bahia>
- <15ccd30e-e5f2-4612-b0ac-e495748732e6@maowtm.org>
+	linux-kernel@vger.kernel.org
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: [PATCH v6 00/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Date: Sun, 13 Sep 2026 20:50:04 +0200
+Message-ID: <20260913185016.523376-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <15ccd30e-e5f2-4612-b0ac-e495748732e6@maowtm.org>
+Content-Transfer-Encoding: 8bit
 
-Tingmao Wang wrote on Tue, Jul 14, 2026 at 02:14:00AM +0100:
-> Does anyone have preferences / suggestions on whether to keep going with
-> the path-tracking based approach (perhaps subject to figuring out a way to
-> handle parent renames), or an approach where Landlock simply stores the
-> fhandle (or (i_ino, i_generation (but this is u32 whereas st_gen within 9p
-> is u64))) as the rule key?
+Hi Christian/Neil,
 
-st_gen comes from FS_IOC_GETVERSION which is exactly i_generation on at
-least ext4/btrfs/xfs, so it's not like that brings you anything
-(and it's also stored in the 9p inode's i_generation afaics?)
+Finally got back from holiday. I know Neil is also attempting to make
+changes to the same code paths as the O_CREAT|O_DIRECTORY series touch,
+so I hope, now that I have a bit more time, that I can push this
+forwards before I have to do more rebasing.
 
-My understanding is that if the underlying filesystem supports it then
-yes mountpoint + i_ino + i_generation ought to be unique when combined
-together, but that leaves you with what to do with filesystems that
-don't support it (at least tmpfs?) and 9p mounts sharing multiple
-filesystems (even if qemu has been warning about it for a while and that
-brings its own share of bugs around cache)
+This series implements new semantics for the O_CREAT|O_DIRECTORY flag
+combination for open*(2): perform a mkdir and open the resulting
+directory; return a pinning fd (which mkdir does not).
 
-If you're fine not supporting them, I think that definitely looks more
-promising, but otherwise you don't have much choice
+Most of the work happens in "vfs: add O_CREAT|O_DIRECTORY to open*(2),"
+as may be expected. Before that there is some clean-up work and
+preparation. The "vfs: short-circuit MAY_WRITE access for O_DIRECTORY
+opens" patch is also worth paying extra attention to as it
+short-circuits doomed opening of directories as writable. This check (to
+prevent one from opening directories as writable) is currently done very
+late in do_open(), after an inode has been obtained. However, when
+introducing O_CREAT|O_DIRECTORY this is unacceptable as it would create
+the directory and then still fail. This patch does however change some
+user visible error codes.
+
+Moreover, "vfs: change ->create/->mkdir operations unavailable errno"
+also changes the ->create and ->mkdir unavailable errnos to -EOPNOTSUPP.
+A previous attempt to do this more widely stranded before.[1] However,
+that regression was only for vfat and does seem specific to changing the
+return code from vfs_symlink(). We can drop this patch if needed, but it
+would be _really_ ugly.
+
+Changes from vn to v(n+1):
+v5: https://lore.kernel.org/linux-fsdevel/20260823160706.358293-1-jkoolstra@xs4all.nl/
+   - Uniformize ->create and ->mkdir unavailable errnos to -EOPNOTSUPP.
+   - Return -EOPNOTSUPP instead of -ENOENT when O_CREAT|O_DIRECTORY is
+     not supported by a ->atomic_open filesystem.
+   - Added test cases for dangling symlink and sticky directory
+     behaviour, and a test that verifies O_TMPFILE|O_CREAT is still
+     -EINVAL.
+   - Split off "vfs: lookup_open(): lock the parent as I_MUTEX_PARENT"
+     as a separate patch.
+   - Fixed the issues pointed out by Brauner in v5.
+v4: https://lore.kernel.org/linux-fsdevel/20260712175539.1565444-1-jkoolstra@xs4all.nl/
+   - rebased on 7.2, which includes my changes to auditing in
+     lookup_open() as well as Neil Brown's changes to the same function
+     for the implementation of vfs_lookup_open().
+v3: https://lore.kernel.org/linux-fsdevel/20260704164149.3480051-1-jkoolstra@xs4all.nl/
+   - address the inconsistency in calling audit_inode_child() in
+     lookup_open() versus vfs_create() in a separate series.
+   - fclog.c selftest header fix moved to separate patch.
+   - add a "with trailing slash test" success test to the included
+     selftests. 
+   - pass struct qstr by pointer to trailing_slashes() and add a comment
+     on what it does
+   - changed commit message of "vfs: add O_CREAT|O_DIRECTORY to
+     open*(2)" to address comments of Brauner
+
+[1]: https://lore.kernel.org/linux-fsdevel/90228c39-04e7-41ef-ad91-84a8bb866650@sirena.org.uk/
+
+Jori Koolstra (12):
+  fs/namei.c: use trailing_slashes()
+  vfs: prepare vfs_creat|mkdir_no_perm for reuse in lookup_open()
+  vfs: lookup_open(): move setting FMODE_CREATED down
+  vfs: move ->create check in lookup_open() to before try_break_deleg()
+  vfs: lookup_open(): use vfs_create_no_perm()
+  vfs: lookup_open(): lock the parent as I_MUTEX_PARENT
+  vfs: add O_CREAT|O_DIRECTORY to open*(2)
+  vfs: change ->create/->mkdir operations unavailable errno
+  vfs: move O_IS_MKDIR check from lookup_open() into individual
+    filesystems
+  vfs: refuse O_CREAT for directories through a dangling symlink
+  vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens
+  selftest: add tests for open*(O_CREAT|O_DIRECTORY)
+
+ fs/9p/vfs_inode.c                             |   5 +
+ fs/9p/vfs_inode_dotl.c                        |   5 +
+ fs/ceph/file.c                                |   5 +
+ fs/fuse/dir.c                                 |   5 +
+ fs/gfs2/inode.c                               |   5 +
+ fs/namei.c                                    | 247 ++++++++++-----
+ fs/nfs/dir.c                                  |  10 +
+ fs/open.c                                     |  32 +-
+ fs/smb/client/dir.c                           |   5 +
+ fs/vboxsf/dir.c                               |   5 +
+ include/linux/fcntl.h                         |   6 +
+ include/uapi/asm-generic/errno.h              |   2 +-
+ .../testing/selftests/filesystems/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/Makefile  |   2 +-
+ .../filesystems/open_o_creat_o_dir.c          | 296 ++++++++++++++++++
+ .../testing/selftests/filesystems/wrappers.h  |  11 +
+ 16 files changed, 554 insertions(+), 88 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/open_o_creat_o_dir.c
 
 
-Either way I'm afraid I don't have time to look much into it (I'm afraid
-I have to admit I didn't read your full mail, and I have to get up in 4
-hours so I should probably stop processing this 9p backlog...), and it
-doesn't look like Greg is much more reactive, so you're on your own and
-I'm really sorry about it :/
-I wish you best though!
-
-> If I find some time over the next couple of weeks I will try out the
-> second approach since it might be turning out to be the simpler option,
-> but the drawback is that it doesn't enable i/fanotify on 9pfs, which I
-> originally hoped to achieve together with fixing Landlock on 9pfs.
-
-(inotify/fanotify would need a protocol overhaul to get "right" and is a
-much bigger can of works, because if you get it to work locally then
-you'll get people to expect the server to notify clients of remote
-changes (some network filesystems can do it with leases, but 9p doesn't
-have any such mechanism);
-I can understand it is useful even if it only works within the client
-local changes but I'm not sure I want to push much here either.)
-
+base-commit: 2f0c1cf72f4682178506f513bbf015e591b1aa4a
 -- 
-Domnique
+2.55.0
+
