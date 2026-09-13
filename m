@@ -1,157 +1,149 @@
-Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2BC3EDE7C
-	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 14:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789310601; cv=pass; b=mvYYJic74vgzZhOnelyMRlz782U+dTRnAN8zKt3ZX8NSEvQgySgoMQmI/StMJS0NYkp49BcJS3cUV8Yd2LfbEByLhTjcYXJDbEAtLoAZpJZm2Tc3J4G41YO6pZYhhXkreukDIn+ZoCUKi2CP0xhGCoQYyzyRRSHm/02vtkoN26A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789310601; c=relaxed/simple;
-	bh=s50I1f+RlATnyS7ncxttVC4STee39n4jtfw1TIV5Yo8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=ps19FSCw82rm3VcUjJLv1dS4mAFoxvdv+VE0gNNKdsagCvHYqSf/noYAFfjPntEXFaWQXZAFJ0Yra9uI9snibFZGVYf4yZgc24l4VxVeQzmw8Wg6EBtOq3vy0wLVb+I9VXkWTRTXUEwhrSI+O69qmRQmjhI/LDi7G74zcwb42e8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ifO2WhRh; arc=pass smtp.client-ip=74.125.229.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812F921ABC9
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 14:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789310992; cv=none; b=Sc7wBCjMWwyQ0l4P1J9PXlpT+0QgDn4+wdBBzl2sCIJWzUkrPFv+TC8SewLHnanwNQfujmP75WF1KASgF+fUQDB9+zivDQIi2P1MTL3VWy0JLM7aXxsk1YIq7KNhlbdqBU0f9YdrsOoUG25cXurkux5sa9tTBPrupZoDB/eDf3U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789310992; c=relaxed/simple;
+	bh=U8dx4z7lnyllJ+6JAd+UOAAmPATgrg/BtWHKWvClBK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QQ/j84O/AoeNSNDOgyP8b7UBZRBGMCuknqLfqW+njgWO5ZaqDoHAJOCs119QwHlMIwL3nBuXiEPAkcllp242L2KvJKdrX92NEwkSc1OI1tElRf25tiWRvLmZmrFjaMzffMf1E4tyaZXky9zUX5ptu7kuiIwoK1iqpeVoIeO9oY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2JqyXCO; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ifO2WhRh"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b79784a6edso1140806e87.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 07:43:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789310597; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lXoK4BaeokuZv57MMRBWGCLHFlBE5D7/HT1uMYmygNxkqwzLgg2gucZEYZaetvhmlZ
-         xpCzri/8npGTmLk6hPJBrcmjdJ1rvjTqwPH10bBv63EBkx0Th4psD+xdD5S5E/pzEiu6
-         rkGdm4EdRiDXg0DjUnVuP/zvbE4vFLvapQgXF0Vb1jNJUeHv8uQi+g0wHZBAZzkSZctL
-         C/56bMnL6IhZyCUtGwvMD9G1m9Z8mLRLvpluPRe5P/er3Lc5QQ21wKEcFcxtEg7IvTPy
-         2rdnXk7vuyq1uX9BXnHFdR6KzpaA3aAe88BMrS47i9/lRNT4vYSG0ljp6JUgbD9qgNIR
-         gjhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=gDlSeCeZClgynUnsugyjmVlBCsPDuPwIPykfDcGyfzM=;
-        fh=SE68auvbvuCuglcKE/81rzH0vI9INmpj3g/c6Hs29XY=;
-        b=bHcY48E1tN+DdMdtxhnL70WhUfUh8hhW80PYT8bWlNkBCmwpNcDEjAta0CAWEUa0nH
-         zoqAbOsgrOBACsGp/URxAgrJPUvJb2d7WHxU9I2lrpJzGbZg+KoDqhqebsb5PdK//8DA
-         KFPICtp4AAo1TlX/qS+F8AJ8Z9vZvonLmcSa2qBqHHoJhQAD0RyVGk4OjKMcjRr9v4Eu
-         N8AQ2l3/60wMKZRGAQUj2UEPliqU4Ny7vKa4L97nrOU9Qd5m8idCSlYrXfwZUMX2jpD/
-         oC8s56COtOzWsgS0FqzkD3TWlFlHYqOfXsTl3UvE3Tuzb4f35PcbMo59DAK0e+96tQt0
-         MCqQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2JqyXCO"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49e717c9841so5925375e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 07:49:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789310597; x=1789915397; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gDlSeCeZClgynUnsugyjmVlBCsPDuPwIPykfDcGyfzM=;
-        b=ifO2WhRhrXtDIb73mPmQdy4A6RBD1E89fcx/jvL0anBmS9lzobQGuGU3yN7qqxVhlz
-         4BfYnvUCMnwvUzhnBxY2K5l0eyPu+nt/1/AKJ2vBSP3V7QykXJCSt+SDZ5Mhnp20CkgY
-         MkEZAJVXlvyL2n6k8/aHehRmw36bT2IZDUeYGIyeb9Rc/8k8JMPtX5VNqsuOr3DqNW1U
-         4DZvdtzxgtO8WLDgj9aGPQcWduY7nd1Nw3087KVNT9hdaszy7xouOeX0qNaNthpW7Kly
-         mHQ27wZt3FeTifvO3vFqF2hy0w2pLbNZi202kY3+ZQbyRbSTn5fdnzO+I2px2/TqvPf/
-         ZCYw==
+        d=gmail.com; s=20251104; t=1789310989; x=1789915789; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+IUVAdxsXkpHSpKAcwhzoqAkwM9BlQ0eSfO829Y7ly4=;
+        b=F2JqyXCOy/hjfUClOKPhlw7xjV9SMYgwKvih/+nV9qDRwTjg09YOD74lJ6lWs4xV4h
+         4SINZ+vIhTh/sKDy3sNsvtIuOzBsPD21ZYeVlnAEC+9aDA0bz+wKbUp3NgBbkmD05u/O
+         j2Bi3YAK6x6VOqTsq9jQpwpXawZMn51RnUOw4W1feO4QeN4nUZ1zIjdbSW9KRYVWbEe8
+         Agne02efZmsdqnJI8++wwD1DVNLsrklX/5Qc2+GYr/qgu2igP54kUFYacM+QCLPizmGk
+         hFW4nKnIgrO16wbApz49+0ueqST7PWTsfscs888mfOVF7fBHsbyaZJTr9Lf5DqVVS5Q9
+         98wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789310597; x=1789915397;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=gDlSeCeZClgynUnsugyjmVlBCsPDuPwIPykfDcGyfzM=;
-        b=smp2kgNp+pIiZHfQfoJ+UfPq+bV2ZjDa0K/O4NyePKLMcs+UURuoTH6le1AQ/WgK2b
-         DAKxI+IeFaDnVYekfwqwgvO5rwokuaBb/cdSIB2N30bOU1e85x9n4DEsetACLsLzSYOU
-         5EBI3/eCEczJwQDKCQlvZHZLCAbdxoyhcujAliJ0VVZOCXQx6TNgDHrtEvXSWoXLt9Gs
-         1qyu792PqKDmi7JxS+GdYDKHi0p2VrZEFxc6XK1ugjq8+XrEge0SvmKlbEuCNarcfbOy
-         Nvhov0sNBrzdF+ToAJu6xbVb82CjfePEs/UPIQfCMsvOBQj703FriHz0ph7h0vaw/0re
-         tQ4g==
-X-Forwarded-Encrypted: i=1; AKwUvBzWKxnr/El9jyX6vLSXRrLFlZ4fzb8I7/9tMvhVMekhA7YVWEi7P4kaIV+dnGWIKkJPzHuyQZfkzSGvYbT1@vger.kernel.org
-X-Gm-Message-State: AFuF++ngKBJQxwxba1vx5e6D0HmeZMWucWLoE87vUtL9iYkVp5pEr9IC
-	WiG0GKTPLDipM1+cW72y2cBapPFRmRw2gq+AXtLVQF+1s/j2DgDfjz/pxKE3TsdXI6cgtcHoZqT
-	lvW+ZdW4QOHXj4zK63PmtjS7k01CjIoE=
-X-Gm-Gg: AYBFou3TfrAFjLmSJtTrT7x9ddQeG9exo8TVzFYN4PthIc4z0hUEGPfbQrbkSAZpfx6
-	nV+Z8Ve+3zXrVHi4NFWgAv56I9Yd94BVZ5KTsQm2xIN6wm2+CJKACqXBJdO9IxtRKdl2rpqevAw
-	IVgjpnzYFuPK8fsFq2YAe6+TDiKiNP+C1qwfodidFRWIQkY+ET/J1l13d8D3giWqzk0aCguEz8c
-	hvmOcSHdsoADfP0eJE/YyOzYVxQon/xswF4ju/3StMEV42ezVcFtcXYLhkVX0evxtgldXP353Uw
-	0VWrChPcgivKoKRVU9rd+UjB1+bzwJ17WwUjmgraLpUTWQ7dFdb3uDJYQGmxFZQcNMD5h749zfX
-	5gsIGSlR5Q2226xc=
-X-Received: by 2002:a05:6512:108c:b0:5b7:6682:17b8 with SMTP id
- 2adb3069b0e04-5b8a8ef6a7fmr1282624e87.37.1789310596997; Sun, 13 Sep 2026
- 07:43:16 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789310989; x=1789915789;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+IUVAdxsXkpHSpKAcwhzoqAkwM9BlQ0eSfO829Y7ly4=;
+        b=ij5LIPmuDESxzngAgwDi3aZy0L+yVp53KJ5du9AyCOzHj9JQqhMhgLGHY5MlS4a077
+         TChj01v4rSMBTJWzLOlq/1lEHJfSf8qH4a0b/E0kHqrBKdabU1J1aelvQkmGgIS0jwOd
+         VivEowFhGckJEhc5ac+tyHKPQmiP6vSgdvwAu15o+6UjN+30/UhhkDHmtJtKfzugP6Ik
+         7y11bV2CEaiP0qMYkbM2Y8y9Vufx75EvRtUEvba5JM7ilRzyjcoRk2MnpKfpBR1hdFeT
+         4OctmahjotrV2qBFl+whrKEOTs/gd+mIU0VFcXyNuuY5uDBPDfkrsY2H40hWkYPhOMVq
+         CdQw==
+X-Forwarded-Encrypted: i=1; AKwUvBxsbhwEQfOPJFCRqjZz24JtvclYSAYrALIvCeWAVI7CtmvVxaQ6Oyg0mh9Xc+TxIXEUmVB/k3DQ56pZ1RlR@vger.kernel.org
+X-Gm-Message-State: AFuF++lIXZ4iUoEfQWGB9U1dFkjbBv3KGJZ/gvdHEKs8drKUiJ64y1J+
+	WVcgC4n/zOFdoXFIRHbAcidDtguuX1k87gB5FPh4Km67R/frAXIzhJmf
+X-Gm-Gg: AYBFou35IjMDulCYkt0c79BprJYmwOI6F7Ja5MVi9+xR+vlzPE+T2lkytE0HRNZOPzW
+	naA1VfuNPdL0iUfYIYldMlg9eqk0/OIemNU9U9aB2hFnn0Jtfk+ofHyLJLxAwhTkJsj0jVGl1Lz
+	2ajbNRGkZZKvvOxjIDS3T6ZORAO7XtyaAKQdaQc63kVJUYmbw4d5M0B6DwTUrKEUgK1ZeCs3Es2
+	n5HTxUjJ+unfiLoHg1BmdHX2vGAs3isV3q6SVhSuFHFCOU8mJ21B0ovThpxfBnkEm2j28jhIX8J
+	0D6fe1AwvtcgMuFKjUuNqnn5dBDFC7RWeFdIcrrf9M/Qrd/obssyXUdc2IHKAmchWQLJQJBbWke
+	SynrExp4lH8yCbizfkfNvBvVFrDPqtw0termaDHFBOy2ug7EeEHaFsw/+mMkF9t+bImHvmJK6r5
+	/2xUdj5BfEx0gwkM/oES5jPepLNJYAKHz+j1RE+lnfb5axPuw2uSElPfoaw6YGg503nqZ/ebnue
+	u06Upp1Jxa7J6G5s+d2ZC0uYf1clB4RLUCtLDajKHMmnMhErDvuJQ==
+X-Received: by 2002:a05:600d:864d:10b0:499:bf8c:cfd1 with SMTP id 5b1f17b1804b1-49e61983764mr96141535e9.2.1789310988499;
+        Sun, 13 Sep 2026 07:49:48 -0700 (PDT)
+Received: from f.. (cst-prg-84-1.cust.vodafone.cz. [46.135.84.1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6420de77sm109534235e9.3.2026.09.13.07.49.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2026 07:49:47 -0700 (PDT)
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: brauner@kernel.org
+Cc: viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: [PATCH 00/10] Towards safer path_* API
+Date: Sun, 13 Sep 2026 16:49:07 +0200
+Message-ID: <20260913144918.1606123-1-mjguzik@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Chengfeng Lin <lin2530632123@gmail.com>
-Date: Sun, 13 Sep 2026 22:43:04 +0800
-X-Gm-Features: AcwNN1X5pmsda_UiZ5ntCUgJCNHKWL9vQ4K7aO1nbiEQVANFLK5Pbt5CxzkS2Uk
-Message-ID: <CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>
-Subject: [REGRESSION] kernfs: empty cgroup rmdir latency after
- delete-notification changes
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
-	driver-core@lists.linux.dev, cgroups@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi T.J.,
+Currently the handling is highly error-prone with consumers allowed to
+arbitrarily manipulate references, notably with path_get().
 
-I found an increase in empty cgroup removal latency across 507d8ce13f5b
-("kernfs: Don't set_nlink for directories being removed") and eea5d2bb34ba
-("kernfs: Send IN_DELETE_SELF and IN_IGNORED"). With sched_ext disabled,
-rmdir() went from about 6.5 us to 9.6 us, an increase of 46-47%.
-The result held in two independent runs.
+In the past this resulted in preventable bugs.
 
-The workload creates an empty cgroup v2 leaf under a private parent with
-the CPU controller enabled, checks it with stat(), and removes it. It
-places no tasks in the leaf and does not register any inotify watches.
-I time mkdir() and rmdir() separately; stat() is outside both timed regions.
+The end goal, not yet achieved with this patchset, will provide an
+invariant that a populated 'struct path' has precisely one set of
+references on it.
 
-These are consecutive source states, not different release kernels:
+While consumers can still cause leaks by neglecting to path_put(), the
+footgun of path_get() can be eliminated.
 
-  base:   f917dc56060a, before both changes
-  guard:  507d8ce13f5b, the nlink race protection
-  notify: eea5d2bb34ba, plus the deletion notifications
+With this patchset instead of hand-rolling a path copy and issuing
+path_get() on it, callers can resort to path_clone() instead.
 
-For the second run with sched_ext disabled, the medians of the nine
-sample means per boot were:
+Almost all path_get() consumers get converted, most of which with
+coccinelle.
 
-                         boot A       boot B
-  base                    6.504        6.528 us/rmdir
-  guard                   6.956        6.922 us/rmdir
-  notify                  9.553        9.558 us/rmdir
+Few instances are left until I figure out a nice way to sort them out.
 
-The first change added 6.05-6.95%; the second added a further 37.33-38.08%.
-Each run used fresh boots in base-A/guard-A/notify-A/notify-B/guard-B/base-B
-order. Each point had nine samples of 128 removals, after 16 warmups.
-I used an i7-12700KF, CPU0, full preemption, the performance governor and
-Turbo disabled. These three kernels used the same toolchain and configuration,
-apart from LOCALVERSION. I used the same control binary throughout.
-Removal sample CV stayed below 3%, and endpoint drift stayed below 2%.
-The result also held after dropping the first sample.
-A similar slowdown was also observed with sched_ext enabled, both with
-and without cgroup callbacks.
+Overall almost entirety of this patchset is a NOP.
 
-Separate, untimed traces showed 26 kernfs nodes removed per leaf. The
-guard change doubled the attribute write-lock entries from 26 to 52.
-The notify change added 26 inode lookups. A return-value probe found one
-directory inode and 25 NULL results. These counts do not show how much
-time each step costs, or that a lookup returning NULL can safely be skipped.
+Mateusz Guzik (10):
+  fs: unexport backing_file_set_user_path() and make it take the ref on
+    its own
+  fs: add path_create(), path_move() and path_clone()
+  fs: use path_clone() in path_init()
+  fs: use path_clone() and path_move() in vfs_open*
+  fs: use path_clone() in backing_file_set_user_path()
+  Coccinelle-based conversion of path_* consumers to use the new
+    primitives
+  autofs: use path_create()
+  fsnotify: use path_clone()
+  proc: use path_clone()
+  nfsd: use path_clone()
 
-I understand that the notifications and race protection are needed.
-A local root-reuse prototype saved about 4-5%, but did not recover most
-of the increase; it is not a complete fix.
+ drivers/block/loop.c               |  3 +-
+ fs/autofs/dev-ioctl.c              |  3 +-
+ fs/autofs/expire.c                 |  4 +--
+ fs/backing-file.c                  |  2 --
+ fs/devpts/inode.c                  |  6 ++--
+ fs/failfs.c                        |  3 +-
+ fs/fhandle.c                       |  3 +-
+ fs/file_attr.c                     |  6 ++--
+ fs/file_table.c                    |  3 +-
+ fs/fs_struct.c                     |  6 ++--
+ fs/namei.c                         | 44 ++++++++++++++++++++++++------
+ fs/namespace.c                     |  3 +-
+ fs/nfsd/export.c                   |  6 ++--
+ fs/nfsd/nfs4xdr.c                  |  8 +++---
+ fs/notify/fanotify/fanotify.c      |  6 ++--
+ fs/notify/fanotify/fanotify_user.c |  3 +-
+ fs/nsfs.c                          |  3 +-
+ fs/open.c                          | 10 ++-----
+ fs/overlayfs/params.c              |  3 +-
+ fs/pidfs.c                         |  3 +-
+ fs/proc/base.c                     |  6 ++--
+ fs/proc/fd.c                       |  3 +-
+ fs/smb/server/vfs.c                |  3 +-
+ fs/xfs/xfs_handle.c                |  3 +-
+ include/linux/path.h               | 14 ++++++++--
+ kernel/trace/bpf_trace.c           |  3 +-
+ security/apparmor/task.c           |  3 +-
+ security/keys/big_key.c            |  3 +-
+ security/landlock/fs.c             |  3 +-
+ security/landlock/syscalls.c       |  3 +-
+ 30 files changed, 87 insertions(+), 85 deletions(-)
 
-A separate v7.2-A / 2f0c1cf72f46 (7.3-rc2) / v7.2-B check gave
-9.919 / 9.719 / 9.953 us/rmdir with the same control binary. Mainline was
-2.02-2.36% faster, with sample CV below 0.75% and old-end drift of 0.35%.
-Both versions still removed 26 nodes and made 26 inode lookups per leaf.
-The later name-hash change was on the measured path, but this comparison
-does not isolate its effect or repeat the exact-commit test above.
+-- 
+2.53.0
 
-Results, configuration identities and the tested workload:
-https://github.com/lcf0399/linux-regression-evidence/tree/b1eef2a0fb18babbf8e0d5832b63a655bfd28926/kernfs-empty-cgroup-removal
-
-Do you see a safe way to reduce this per-node removal work while keeping
-the notification and race fixes?
-
-Thanks,
-Chengfeng
