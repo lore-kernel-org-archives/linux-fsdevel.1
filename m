@@ -1,193 +1,144 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3589933A00C
-	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 15:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789313290; cv=none; b=oK/VLnq/1j5kdXQYHtpQqxfml0swPp6nrSC3WzZqry6PiitsDj3HgPmqM25GElZRUyGIBZvH92IuH8le2zBWjDF3W/bpM+6uaem4BTMcXNzK0EMDkULieyz/66jXvgGdJWAgn1xbCmFK4cq9OLgnv/dX4DC6uK5w6FHmRrhNAQc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789313290; c=relaxed/simple;
-	bh=bHQ5l798sqezizXE5HsuyyFe+ixcfQm/HgbjmsP9wq0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uMCoYFkAmR/xPUQ0lzWOHoW3qSJ5RGRtc9VKCzPf7jP6nNc99BIMw7HO4SEst5JyiFwvBgnLeXIKh3BxnpFneTDzsXPpq+zzpvASFYAF1z8a0yEawjCV+vwcedcmEWMWMOmBAk3dnOBGh/GkLueXcW1jipvV2+hT3it0U5jEK6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hsW9Yi3+; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A092F8EAE
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 15:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789314426; cv=pass; b=hs2qM13b3CcC/mXCZoa0dovJUTzPevFGdMtdhYzzidzxNcguoJua/R8u5VZhQlOEjIUiBGIVxS+q8oH1qqTfO4xLyLYATWkPBFmanJCWcJMSex+AGyCWCUoT9kuQmmui9YdSF7FDHSRjM7A3PmUG67V9eGUGWpOBU6CsF3+c9t0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789314426; c=relaxed/simple;
+	bh=KFkEvrKDNmPhRyOa4UUB93A5JAqNiBMds7vZAclPLSg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C7KU+n3wS4x++ofxBUhl1z2UmwBdwq94kRBtlQ55RQ6kqlzLOVxPTPDudp4Kv42mPqLGE06ZdGuIMevmKA2RGOiTNI/Tl7Ux8seAE2zwWOGClH0y2+Gw4qjfaphUg1Chh16J+p0BNzVcYbhYLac9mruhYk1mjBBpraUjKSG5SnU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B4C+vwZ6; arc=pass smtp.client-ip=74.125.230.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hsW9Yi3+"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e620fa473so5785825e9.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 08:28:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B4C+vwZ6"
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a49bc59559so6762871fa.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 08:47:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789314423; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mfacv/BJYPa1Fa2B/g4BuBalGdJu6bnQ5hidHmjBUv00daQOWaecwIkRQawzkvyFEg
+         Y/VzSh6tRtVImdg4y13jm6ZnFLcXkS2Yfbq6b+BDUurzNFbkbM1tuJrDCFsbIWIzyUhM
+         FIRlDUxyy1Y45Oko2zZG+uQvZl0nNI2v0xdQ/GfsridsOh7ERCGMlG85ztW5DP7Jgu+o
+         UMRoKX9W3xKDzm40w+ArgZObanAvXQmgUnqnoNdDnAF8TaZOpRZ/qAE2cgs0fkX+TiOG
+         V2JYrUVY1MrYnm4wOI91WYUaEPdA2SRejRdKzE1eGXAPkz7oEhardYyxNnfEvxOMPoD9
+         flHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KFkEvrKDNmPhRyOa4UUB93A5JAqNiBMds7vZAclPLSg=;
+        fh=tCl0OEwpZO+rQ6a91ElCt+DMfAOU4KkxKA5kz7wv7pc=;
+        b=PPp4YSwlhL0hThNXszX1hGXCQUDzJh4dVKxnCziT0XBU1YlRZkwUGyXvfxh6qyFvk8
+         E7cQeQw/n1L2+/LNmS01yWD0QqvDiLwEJErBL9MpvxfLiGGSuGB1+wgxD5wc++chJrgI
+         13vZpFZucBCezqZfBG1u2+7PwAPBKgHmA/E2m/E5B52Vl044+wjJoS4gA9/pGi3GG8wf
+         4d1JXbhW3gzMBhtIBepACWHDta0Iwg9Q7LJ1Mr7dmAgO+XiG//t7FzK9ufb+Qedlp3Gk
+         vM0SwmVmA/o3ouU7V9yeUD5lJV7yGC+mfzfyiluTuIJDHrSbKh2moMV07lEVeRUUEWki
+         h3Gw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789313287; x=1789918087; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hv5wJEJwW/NHhugCpei+2makQ+3zrOmtS2wiUS3+qsY=;
-        b=hsW9Yi3+gAc54kY9MstSjwCa/2LeUX6JOCgmMxIZ98p+nwJVeoOpFDAxbBeG70HdpV
-         lekE9/iIjLMpR+ko0keC/1SSL2DByHWN2LqPXgCQ92v4TvOg+6bHPSXSGQmhBqfLOLNP
-         O2MfXG0k28OSgVqPY0Yry9gtiUrj5xXjAbXHSbDaKxiT69DdYG7cESWjxRFZ910DfzHc
-         UQrjdm5lFG5nf0jO768oCeyNucIBrrPMhwnLCHYVnPttLjRhfdvdaG8fHGLtt6c268nm
-         N1DJUFfeH4GYUH1j9HWNVggZXJVTV2rCsisJUU0T40LvqSHPuovCPuCJxJ6CdqxL9C9O
-         2JIA==
+        d=gmail.com; s=20251104; t=1789314423; x=1789919223; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KFkEvrKDNmPhRyOa4UUB93A5JAqNiBMds7vZAclPLSg=;
+        b=B4C+vwZ6TOxVZ7ImvZoKk5Hd10wiJz36mN6RVG3XgnpDSLdPs/zcyQLzzWbiZI6TQl
+         yaFVl6djzq5UKT5MpXKBWM1xayrmauqFr0T4ZF4TmzjiXkkNtaWUoW4ERevaUrenW/VZ
+         ue1ZE57SM5/+SAmsaxUMtpSd5XR322tLxrjiBDAWs/b3+ieq18QpzkRVvxT+QprI3LKf
+         LrBerA2o/yfklNeFmLc5C71B9Np8gEvdCCvzbis7F8xU/KQwtzchU7BSA9sgzSPRHWzz
+         2aKNtA0ufxfgz6Rt/gajkkCaNpMyVxasPPkcPmDtAV56Xq30iqcrsSzAsF7mA5itvH/9
+         0Z4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789313287; x=1789918087;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hv5wJEJwW/NHhugCpei+2makQ+3zrOmtS2wiUS3+qsY=;
-        b=Jnja5Ir31q5QbuEylQh40GQHkw4oJNWU2/O+HVE9Z9ipiBfZxAM8tm6AE6cNXMGDiG
-         iNYB4DkOJIXP0K6PdKYTvgP23QLD1RLhTcTtMfv7F9xEGCii6umKHkxgmcY2TM6mRlLe
-         iVk0M61yIuDP5xXtpXgPrNanOKmmDiZI44M5WmZRlJClqCop88ewqGZr67GpHI3qrQ9o
-         xgHdB3n78Uj4jXE9PapBKIvkxodAmfR+sFlsjJJ83saAyo4eQGPGgXRQh/DXtphe7AzV
-         roBK1TtOsL25AQ7l1XexsJtPNskDbSO9Xg/7uGCHBmWArI3Zle7LEf56EQamGZGueZdG
-         i0bg==
-X-Forwarded-Encrypted: i=1; AKwUvBy6jXWWzM6nqQA+zdwtjqEqkluioj7NFIBQlAYlXvorOWmIykLlc0OelITF4SKD7KbTgR5iA27oelJNAC9f@vger.kernel.org
-X-Gm-Message-State: AFuF++kNsPjviLhA82e7iDXUgfcV4H+dqvByiNI4ZDDoTmmn+ZjbgBPI
-	mETHbs547L8RBZuyI61XWNjtbb0YicEKSBrZl+LIW/eOjl5w50U8/TaQ
-X-Gm-Gg: AYBFou2X1v1ZJqf53nyyZJ87sPrJ3+xeG461XiHLSy2gUypbCdF/WiJpianAS8RimlU
-	p4wnuDHux+yxbwCMyxw+4AV7ogHEkhO6IaKee9E8hiTkGjV57hLHjPUM+TayY3AQ7KSZh6gaXDF
-	SocmirokQfCbBN+TmlPQUpde6MuKOVXIAPE/h4I8qpjaIKVmpUvw/OEAo4csUtCRwZG1EGS1Kxn
-	rHZ5Jp/DLdtsxcPHg52/YYrQEQiB4RYgqKwR2Ait3XWRSV0idAbpYkGL/T4PBnJnt6yo7RMCcf5
-	Xay4IX7mIKOspBzZlKulFwY+TLJEKEu0aRsDG2XzBzW5XGN9IUYzp23+twNRhGuZdklH22mqXf2
-	HS3XLHlEM3P0hWwRiumg619L5EfRnAXLJaW51sJK37UwuklUfSYRs5ddROUo6DS2QXiyoPk+uUr
-	szVgtdpEQ0pJ80HFkJZFsRfxi4G+VOIiXtIo3oHnBerRYvxFKxVklDtzp9ojmj2EE1LLzFI7uTo
-	uiMYulgZQCJNphaWZ8TlyTZoaeBcm8hsfU0wLgyjK3yQA==
-X-Received: by 2002:a05:600c:4e13:b0:49c:dada:f581 with SMTP id 5b1f17b1804b1-49e6ca28d5emr64869905e9.0.1789313287145;
-        Sun, 13 Sep 2026 08:28:07 -0700 (PDT)
-Received: from DESKTOP-IR7J1S9.localdomain ([105.97.0.94])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486f301121asm15226206f8f.0.2026.09.13.08.28.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 08:28:06 -0700 (PDT)
-From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+7ff3adde89dd795ad4c4@syzkaller.appspotmail.com,
-	kmsan-dev@googlegroups.com,
-	glider@google.com,
-	dvyukov@google.com,
-	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-Subject: [PATCH] dcache: fully initialize the inline name in __d_alloc()
-Date: Sun, 13 Sep 2026 16:28:02 +0100
-Message-ID: <20260913152802.13413-1-drifabdelmalekmohamedsaid@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1789314423; x=1789919223;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KFkEvrKDNmPhRyOa4UUB93A5JAqNiBMds7vZAclPLSg=;
+        b=IDOWnr/V4FVvtUBXWsH0+VpvmKbE5lO8bXoxLG+0yR2Gc7KMps/eV/u9GktwqWahEV
+         kIU7o2A2N9BzAEeixmX2tgH89BqXmf7JPArvLDgCPwm0hDnQasS3Wk+cwoAcF14KaDhS
+         /FZhJpzmBUmTGUpfI7pY4OIdz6c/FFi6DUFaitAls39Yoq/xroGIpJ/ea21LiABGrNzQ
+         AVZ61ZPzIvmFqXHwQJPiMTtHOPsTNJr3mBuXUgpwmIeobdODJLFn+of8JWTMTq4xiTcb
+         8+rpae8ov7wn4okUmwFW0d4QyEQOEZwmenJhHp0HJVgr72P1R198AwI1ziTlNFw0SyHn
+         scQg==
+X-Forwarded-Encrypted: i=1; AKwUvBwFBdCxB8F5LJjqyzjXCKVe2T6eAH1au93bZBNAed2YKXlWb96JxSIlcsi2JZFZqF74WQj7Zc3496J4borH@vger.kernel.org
+X-Gm-Message-State: AFuF++lJhdcnVRuUeJTa9cHB+I4Xx6XUa46O2WDH6amxU0JzSThiJHSC
+	DEksPZApctt61lA++iX9gypcaoWLWyWI/sIxcGmWRQFHPZhs6PPmeYu0orn22EF5Sb8iV6Eggtb
+	ygnLmyua8yvwbC7BUXyo3xHbuYmS1NoY=
+X-Gm-Gg: AYBFou3/lm5VwLW0+9wGek5XvSC7zNlkZSEy4COJdOWfnfDsigY/8CQC6dN/x289ui1
+	2ogWNfDhHNv1x38WcZfS6DRRdAnbqPZ3dgqCHTAD7AkKISCt1lota28f2keVzbVx3K0G0VewqDM
+	/LeAJlMdGedW0w2xSk6nAAdgF0yUK66eG2zLll/RdJSE1DJ6qU8j/SDueMzOWaV7VMzrXMkyrsl
+	fgoiUnh2MT4vO4x1iEfCH1wRW28MGy0JhtVgesONte8CwjxuVHxbgg2IJXQzFjhE+hCT1affGkE
+	PQbETW5qeknh+epndeG7RrwZCbYSH7S83UMAJRDKpyhINAErx7yk1CXK2peU3Rpwe8ex1Wl4guV
+	WXZ8CcaS8OZ5pOg==
+X-Received: by 2002:a05:651c:154b:b0:3a3:7681:6d6b with SMTP id
+ 38308e7fff4ca-3a5b38161b0mr10553231fa.20.1789314422665; Sun, 13 Sep 2026
+ 08:47:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>
+ <aqa7KgIJYGgf7INk@slm.duckdns.org>
+In-Reply-To: <aqa7KgIJYGgf7INk@slm.duckdns.org>
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Date: Sun, 13 Sep 2026 23:46:50 +0800
+X-Gm-Features: AcwNN1U3jyA-1tSNpP-D9guvtV6T3al2eJNkQEtzf0t-dPsWgp_KnaGhqsq7NoI
+Message-ID: <CANGjgd=f9n7zEZS=xi71y_dY6Uk75_qgP9qVDkYBusNz9sp2sg@mail.gmail.com>
+Subject: Re: [REGRESSION] kernfs: empty cgroup rmdir latency after
+ delete-notification changes
+To: Tejun Heo <tj@kernel.org>
+Cc: "T.J. Mercier" <tjmercier@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jan Kara <jack@suse.cz>, driver-core@lists.linux.dev, cgroups@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot reported:
+Hi Tejun,
 
-    BUG: KMSAN: uninit-value in dentry_string_cmp fs/dcache.c:291 [inline]
-    BUG: KMSAN: uninit-value in dentry_cmp fs/dcache.c:322 [inline]
-    BUG: KMSAN: uninit-value in __d_lookup_rcu+0x37d/0x5e0 fs/dcache.c:2522
+Thanks. I found this during research into kernel performance regressions,
+using a microbenchmark of cgroup creation and removal. This was not
+prompted by a production issue.
 
-     dentry_string_cmp fs/dcache.c:291 [inline]
-     dentry_cmp fs/dcache.c:322 [inline]
-     __d_lookup_rcu+0x37d/0x5e0 fs/dcache.c:2522
-     lookup_fast+0x194/0xa40 fs/namei.c:1854
-     lookup_fast_for_open fs/namei.c:4545 [inline]
-     open_last_lookups fs/namei.c:4579 [inline]
-     path_openat+0x9ef/0x6540 fs/namei.c:4856
-     do_file_open+0x2aa/0x680 fs/namei.c:4888
-     do_sys_openat2+0x17c/0x390 fs/open.c:1395
-     do_sys_open fs/open.c:1401 [inline]
-     __do_sys_openat fs/open.c:1417 [inline]
-     __se_sys_openat fs/open.c:1412 [inline]
-     __x64_sys_openat+0x240/0x300 fs/open.c:1412
-     x64_sys_call+0x2445/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:258
-     do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-     do_syscall_64+0x15d/0x3c0 arch/x86/entry/syscall_64.c:94
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+I reported it to document the added removal cost and ask whether some
+of it could be reduced while preserving the fixes. I agree that the
+roughly 3 us increase per removal does not, by itself, demonstrate a
+significant impact on real workloads.
 
-Uninit was stored to memory at:
-     copy_name fs/dcache.c:3031 [inline]
-     __d_move+0xd29/0x21f0 fs/dcache.c:3099
-     d_move+0x71/0xf0 fs/dcache.c:3147
-     vfs_rename+0x2619/0x2770 fs/namei.c:6085
-     filename_renameat2+0xa59/0x1230 fs/namei.c:6188
-     __do_sys_rename fs/namei.c:6232 [inline]
-     __se_sys_rename+0xc5/0x5c0 fs/namei.c:6228
-     __x64_sys_rename+0x78/0xb0 fs/namei.c:6228
-     x64_sys_call+0x329/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:83
-     do_syscall_x64 arch/x86/entry/syscall_64.c:63
-     do_syscall_64+0x15d/0x3c0 arch/x86/entry/syscall_64.c:94
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Thanks,
+Chengfeng
 
-Uninit was created at:
-     slab_post_alloc_hook mm/slub.c:4617 [inline]
-     slab_alloc_node mm/slub.c:4939 [inline]
-     kmem_cache_alloc_lru_noprof+0x376/0x1230 mm/s
-     __d_alloc+0x52/0x9f0 fs/dcache.c:1902
-     d_alloc+0x57/0x300 fs/dcache.c:1981
-     lookup_one_qstr_excl+0x19d/0x7a0 fs/namei.c:1806
-     __start_renaming+0x341/0x850 fs/namei.c:3888
-     filename_renameat2+0x625/0x1230 fs/namei.c:6163
-     __do_sys_rename fs/namei.c:6232 [inline]
-     __se_sys_rename+0xc5/0x5c0 fs/namei.c:6228
-     __x64_sys_rename+0x78/0xb0 fs/namei.c:6228
-     x64_sys_call+0x329/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:83
-     do_syscall_x64 arch/x86/entry/syscall_64.c:63
-     do_syscall_64+0x15d/0x3c0 arch/x86/entry/syscall_64.c:94
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The race happens between a concurrent open() and rename() of the same
-path.  __d_alloc() initializes only the name itsel
-of the inline buffer; the tail in between is left uninitialized.
-copy_name(), called from rename(), copies the enti
-including that uninitialized tail - into the moved dentry.  Meanwhile
-__d_lookup_rcu(), called from open(), is an optimi
-it checks d_name.hash_len first and leaves the seqcount retry to its
-caller, so a lookup of the old (longer) name racin
-compares with a stale length.  While copy_name() is rewriting the name
-in place, the walker can transiently step past the
-terminating NUL and read bytes from the uninitialized tail, which KMSAN
-reports.
-
-The race is benign by design - the read stays in bounds and the lookup
-result is discarded by the seqcount retry - but th
-is real.  Fix it by zeroing the entire inline buffer in __d_alloc(),
-so every byte a racy walker can touch is defined;
-past a mid-rewrite name now simply stops at a NUL.
-
-Reported-by: syzbot+7ff3adde89dd795ad4c4@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7ff3adde89dd795ad4c4
-Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
----
- fs/dcache.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 1b1a81f10da6..2de1bc76dc8e 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1910,12 +1910,17 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
- 		return NULL;
- 
- 	/*
--	 * We guarantee that the inline name is always NUL-terminated.
--	 * This way the memcpy() done by the name switching in rename
--	 * will still always have a NUL at the end, even if we might
--	 * be overwriting an internal NUL character
-+	 * Fully initialize the inline name buffer.  copy_name() and
-+	 * swap_names() copy d_shortname in its entirety, so any
-+	 * uninitialized tail would propagate to the other dentry, and
-+	 * __d_lookup_rcu() may transiently read any byte of the inline
-+	 * name while rename() rewrites it in place.
-+	 *
-+	 * This also keeps the inline name NUL-terminated: the name
-+	 * switching in rename will still always have a NUL at the end,
-+	 * even if we might be overwriting an internal NUL character.
- 	 */
--	dentry->d_shortname.string[DNAME_INLINE_LEN-1] = 0;
-+	memcpy(dentry->d_shortname.string, 0, DNAME_INLINE_LEN);
- 	if (unlikely(!name)) {
- 		name = &slash_name;
- 		dname = dentry->d_shortname.string;
--- 
-2.43.0
-
+Tejun Heo <tj@kernel.org> =E4=BA=8E2026=E5=B9=B49=E6=9C=8813=E6=97=A5=E5=91=
+=A8=E6=97=A5 23:03=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hello,
+>
+> On Sun, Sep 13, 2026 at 10:43:04PM +0800, Chengfeng Lin wrote:
+> > I found an increase in empty cgroup removal latency across 507d8ce13f5b
+> > ("kernfs: Don't set_nlink for directories being removed") and eea5d2bb3=
+4ba
+> > ("kernfs: Send IN_DELETE_SELF and IN_IGNORED"). With sched_ext disabled=
+,
+> > rmdir() went from about 6.5 us to 9.6 us, an increase of 46-47%.
+> > The result held in two independent runs.
+>
+> I don't want to make cgroup removal unnecessarily expensive but at the sa=
+me
+> time it's not an operation that I consider to be a hot path, so as long a=
+s
+> the operaiton can finish in a reasonable amount of time and single digit =
+us
+> definitely is, performance of rmdir usually isn't something which is high=
+ in
+> priority. Can you please detail why this matters for you?
+>
+> Thanks.
+>
+> --
+> tejun
