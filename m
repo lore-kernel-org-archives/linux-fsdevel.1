@@ -1,44 +1,44 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6122B3F99FA
-	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 18:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447613F9F50
+	for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 18:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789325386; cv=none; b=fw58CnHZnKGlVuxZdCADdozxq6mIiHKYydjJcHU1TwrzJ1QywZ9SL5p5MT3R+Qm0BKbzv5xSN2yOu2Un3+JzUjphrR4/33VhhhnHVxDTcDT5Quz3aj1dDUW04oMBXwwnCMTu/AWiz6xPiE+5/HdyZ4KMyRDzJEEdIQqNayFRpzo=
+	t=1789325388; cv=none; b=H7Hj+xu7vG3dfVIF1JAN4t++hYHdV6Ig90wMRQZuGBAVEMdghvwqIc3IvivSl8C+PrGQPVEyRBqRvJMHrJenf5GIwXcbyUewilyboZoCw9ELYooD2D7djnPPEPW9orIZEDTlpfN7PToCqoxUMUiEmmx+F9TC7aWnSnKszFcuAqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789325386; c=relaxed/simple;
-	bh=17eTtnSWW7iGPbqJe2nrFaKLmvqhueUxRZU3/BTcefU=;
+	s=arc-20240116; t=1789325388; c=relaxed/simple;
+	bh=xTMn6Xtc95suaBBQjPM3n6PoFjJzRupWsASzDVEqQBs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mpuew1vbgFnyhci1EsBzR4wIs9bff5bJwslYcQZuRSSLUhnznOWmzyA3ea/x1jXmpP+/Msw1MAyyvlDrNqWvPnB0b5xy8UH26YicHCHev6NuLeFun6Ej7wbsh1cbFoJctgSlgG6eA3+OcHWwBOXCdEyUxT+d3Pu9kSLYDorL6GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=fyJUPGma; arc=none smtp.client-ip=195.121.94.167
+	 MIME-Version; b=qWaAbqYjMn8ieUOIyRpIP3K2UEqLHPIHLHFkT7DVIHoKfRkL8kJvtJa5aYw/glZqT8Zs86zm/lsQG2tQEKijkvGrav0Ccp3qZp+4jeYobAyyuVChDKBaPmGwWWDwtcNo0GeuG6Z9NWdoz07YQ3tZkUN3dq8tyPMRxIrfBP6mA90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=p1+8X0Jf; arc=none smtp.client-ip=195.121.94.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="fyJUPGma"
-X-KPN-MessageId: df7a3ed6-afa3-11f1-b2a8-005056abbe64
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="p1+8X0Jf"
+X-KPN-MessageId: e1a1d730-afa3-11f1-83b4-005056ab378f
 Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id df7a3ed6-afa3-11f1-b2a8-005056abbe64;
-	Sun, 13 Sep 2026 20:49:38 +0200 (CEST)
+	id e1a1d730-afa3-11f1-83b4-005056ab378f;
+	Sun, 13 Sep 2026 20:49:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=VevmlAFlgqBr1KihxzNewL9ukoTBFxyRRj2gCZd4PMo=;
-	b=fyJUPGmams0stY42r2gsJMgm4qaCkFPhHdKZPSuXitVWDuBJ/p6qbDz1K7t7bWNILqFW5BZCyJSYy
-	 GJAdGD6y7CWx/uhelrkXASECvH+BenDMRC0/rIKUdfJgkKrHDjnKEvz+pzkDtOs1d036VNKL0jbURi
-	 e3Em5Pf4BHPWp28GoDxhEgRapG5BGEtd/fpwD2Kg5J+3rKd3oGacwpUKhb/agBonyukCRruVZl9ZZb
-	 TT43Hu11B1j3Y1vU+dxQu54yUH6aofj2IIbU9aS1uUEPcRRE2jL6y6BM0Ayt5EwmE2gLdNn9Xdp8vE
-	 vkbNZTZAv7J5ZFTg43uvj29r8DPMVOQ==
-X-KPN-MID: 33|ZwGBvn9DlFIcdIEAEEll6kuRPfWpoqVVpCb0AFjpIfhy3An8W5EycFTsIZvmQtF
- zyHAKOn5cHSSNok0dCDO6/SXqAx3OW9cTulj+HJeZlQo=
+	bh=2PSPPEoGvrfvVZ6TTPZf20x7aN1ff0yNDpWtXOdoUoI=;
+	b=p1+8X0Jfp6d6++DF1K/RXsxxKj2osx15SkI2q53lQtXVlFoI1w6y+8Lki5aqSqquqYXTBepVZLJat
+	 LxCSqvdqUMBuriYeW1/c/rD+q4XXBzZJpZ4drLHSHhuv/fqte9e5W5j9U5MiES7T+yxr8cLUN1aCr4
+	 2DFCtscTPPy8XFFItOrOCra/DpUcFM7e+Z2TkLnKHPfS6j3kdp+S4WklY39G4wGzw6o0dznJGqy0rH
+	 bFTd8zVbkTeXN0J0AJSm7i0fdguaJTNOfoPsiPiYNOC/jR6u00usWUuaiBd9D5JD9iXQfZMRSLH7Nu
+	 wB1RbOiwIGy8FSvX4S1GGprBonhrvyg==
+X-KPN-MID: 33|46oqDKJdgWIbw8NdzWltlJ025bVsM19F8dn5TEgzi0o/jh2nxOeNo1IwJFKcRti
+ NTWIejy2WsRdNjoG87yjANTl9N0NqhngTrttfYqnhARM=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|YDYG3yZu3l1PlIUtjAwE3dhDYt/ZMOcU7XmRcHFaXvvTagjHuCLdQNgOaCguAj0
- oKKbxXfMbXxmQm0JRRv5rwA==
+X-CMASSUN: 33|hkCPKSVq2auj0IBpub8LXc4zSTrEJgitzmHQtqzXvC5kZ1v3mpK3aYjDbI2I+Au
+ 99aICGj6I8gw7WTd7NbuZCA==
 Received: from daedalus.home (unknown [178.231.250.207])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id df44500a-afa3-11f1-bd2b-005056abf0db;
-	Sun, 13 Sep 2026 20:49:38 +0200 (CEST)
+	id e167be68-afa3-11f1-bd2b-005056abf0db;
+	Sun, 13 Sep 2026 20:49:42 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Christian Brauner <brauner@kernel.org>,
 	Jeff Layton <jlayton@kernel.org>,
@@ -50,9 +50,9 @@ To: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Jori Koolstra <jkoolstra@xs4all.nl>
-Subject: [PATCH v6 10/12] vfs: refuse O_CREAT for directories through a dangling symlink
-Date: Sun, 13 Sep 2026 20:50:14 +0200
-Message-ID: <20260913185016.523376-11-jkoolstra@xs4all.nl>
+Subject: [PATCH v6 11/12] vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens
+Date: Sun, 13 Sep 2026 20:50:15 +0200
+Message-ID: <20260913185016.523376-12-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260913185016.523376-1-jkoolstra@xs4all.nl>
 References: <20260913185016.523376-1-jkoolstra@xs4all.nl>
@@ -64,43 +64,51 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-open(O_CREAT) without O_EXCL follows a trailing symlink and, when the
-symlink target does not exist, creates it. Refuse to create through a
-dangling symlink for directories.
+Requesting write access on a directory can never succeed. Rather
+than performing a path-walk to determine whether the target is
+actually a directory (-EISDIR) or not (-ENOTDIR), or does not exist
+(-ENOENT), etc., we short-circuit to -ENOTDIR.
 
-In lookup_open() a negative target reached with nd->depth > 0 was
-arrived at by following a trailing symlink; since the dentry is negative
-the symlink is dangling. Set create_error to -EEXIST in that case
-(matching the errno returned by mkdir(2).) Reusing the existing
-create_error path strips O_CREAT for both the generic and
-->atomic_open create paths and only reports the error when the target is
-actually negative. Thus opening an existing target through a symlink,
-interior symlinks, and O_EXCL (which never follows the trailing link)
-are all unaffected.
+Currently O_WRONLY for directories is only blocked in may_open(),
+which happens after we have the inode for the target, so after any
+create via O_CREAT|O_DIRECTORY.
+
+The advantage of short-circuiting is that we don't have to add even more
+logic to lookup_open() to differentiate -EISDIR/-ENOTDIR. Also, for
+filesystems that define ->atomic_open, handling this cannot even be done
+at the VFS level, as we can't know ahead what the result of the lookup
+will be.
 
 Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
 Reviewed-by: NeilBrown <neil@brown.name>
 Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 ---
- fs/namei.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ fs/open.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/fs/namei.c b/fs/namei.c
-index a990c9c8bddf..fce3aaa37365 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4601,6 +4601,11 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 						    dentry, open_flag, mode);
- 		else
- 			create_error = -EROFS;
-+		/* Refuse to create a directory through a dangling (trailing)
-+		 * symlink. For regular files this has been allowed historically
-+		 * on O_CREAT without O_EXCL. */
-+		if (unlikely(nd->depth) && create_dir && !create_error)
-+			create_error = -EEXIST;
- 	}
- 	if (create_error)
- 		open_flag &= ~O_CREAT;
+diff --git a/fs/open.c b/fs/open.c
+index 189af02a2425..6cb5e2ad781f 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -1319,9 +1319,16 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+ 
+ 	op->intent = flags & O_PATH ? 0 : LOOKUP_OPEN;
+ 
++	/*
++	 * Requesting write access on a directory can never succeed. Rather
++	 * than performing a path-walk to determine whether the target is
++	 * actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
++	 * to -ENOTDIR.
++	 */
++	if ((flags & O_DIRECTORY) && !(flags & __O_TMPFILE) && (acc_mode & MAY_WRITE))
++		return -ENOTDIR;
++
+ 	if (flags & O_CREAT) {
+-		if ((flags & O_DIRECTORY) && (acc_mode & MAY_WRITE))
+-			return -EISDIR;
+ 		op->intent |= LOOKUP_CREATE;
+ 		if (flags & O_EXCL) {
+ 			op->intent |= LOOKUP_EXCL;
 -- 
 2.55.0
 
