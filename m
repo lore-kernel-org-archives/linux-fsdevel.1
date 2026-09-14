@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E93C3F6C55;
-	Mon, 14 Sep 2026 13:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9A54756DC;
+	Mon, 14 Sep 2026 13:37:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789392406; cv=none; b=mnWL2xckVb+VASo2gm2JQ7W/SJX8JIQxHWdO1jGsVHBSCjTaV8tozglzgKYMBHUtzJRFBLE5Af77tiuHTqg9zcXPd0G+1fnrqnFjoTXv6YCPpjwuyCT6j/bGUaPnTLjC6jquAoHltyGggYURwSvAn4fQIPgTF1Qio/UdbZFWweU=
+	t=1789393068; cv=none; b=N10L4FP8ookRQefEIStVO0q+Tk0VSp5Q6BlSc+RwA4dWSA9guvQKdyl1okWUDTKtonF2ldPusOGXda1Bz0P6Dbl+MJ8xJnKPQC/h2G6/+LmnH4vZmtQtXZCfAFhBDtM+bro77+ZmxDGM0Lw/41G03Ru91iNQ+pUOYGzcVZK8XPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789392406; c=relaxed/simple;
-	bh=HmzjIkuVxdHGaHtRTI9i57ZzwPB6ndCm/BZ1g0ko5YQ=;
+	s=arc-20240116; t=1789393068; c=relaxed/simple;
+	bh=FCQVqNyQ6TJ+8EFvDQbM94PSYoBPLvDmtg5bAHSycps=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mEx3v/nakeK3puOfiLA3kbtgaS9NpabAg/ChZ6xHPbdOPu0IrtW/TN/XjwjR39dC19GH2fW/xKWqgcJCzZcI1fwqBkHUSdzqN9jqkFgEAB1pi4Li5HiCtdTRhS1UjjMCyHbLdiyx5BkpOBo1oXTkrz4kvJadcY4DnsRnoJyfYLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LVfA7IiV; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=qJrutGrIl6+T90Q0Re+kT2zlXzqHec8owGU+/KIqKTNxhJQionlbP9rd4LRZAjhHLP4WX+Ye1LYJymGpp0tjdDbTwtbF8PpGO+p9yEHU4XbIb37piDLM/ljpDkvpVebPbSYUiQBS9SFU75RqSGJTgQOVniK3oQKWrmU0xLYcdSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dzWThbVG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVfA7IiV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DD861F000FF;
-	Mon, 14 Sep 2026 13:26:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dzWThbVG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F7921F000FF;
+	Mon, 14 Sep 2026 13:37:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789392404;
-	bh=YlYwFRzA7o/DVEj1e1cnP7ktHjtNeLhR3AAaGHH8Ug0=;
+	s=k20260515; t=1789393067;
+	bh=teIDwwfXFah8NBFRWQRZ+eTRmrLAr0rfuoGSkmAAKdA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=LVfA7IiVasTAzRSrRiQszUUtDWQYqay80S/mtUAUne2QZDkIdnbFlLxSzuw89mGL2
-	 kzFDYBDe3UKTXgb2xTp5/yrZ00NOM8y1SB3368cKIYF98nTIPL2FKjONdAtxkxUEuv
-	 5eGR1Q1I2RYvrXYTaGWW6KJWotvtq7YNnFqeRz7jffklbi9fqKi9Uzsn5YosJfcQLt
-	 j4p23sZ8KdrtPEGIdDa6u0v/vp3uWj7kUL0H9qWQdLZKrKbU5g6b59w8EXk5VIyasd
-	 9ibkY0UkNJyk5bb+Zf2ReOn1IQYH8x1PxVPvY0Ce5u+/9OmmwJ3w6Dmb3gQHicSR3Y
-	 E1XcXKJKkRGJg==
-Message-ID: <37f9a01c-4f6f-429d-b221-73ceffd55369@kernel.org>
-Date: Mon, 14 Sep 2026 15:26:32 +0200
+	b=dzWThbVGDiP+7Kh8Mlz1jnGM9uDygrrjPE0PznQPTZeVLeOHQQlSlJWZOsJOs45GF
+	 0M3ZJK/UHFqpgFIn641k4+JS6FomgiWbSlwEFgmxqW/sLcDbLuBDYrd48YgMxV3hnT
+	 fW+WwewWkWuc2f2sdLu2PHIMXhJpCUJcwYUqSmDF6X5/LpE4P1c2tiVnBGZPtJeFLo
+	 QOHoDP0xqfahJpUiBNiYyltu61DX+V61cCJKBC9t9vQPXCsNCUWimBhiHPG4u7vq4E
+	 A3a1S/3q5lxM9EP8DPj5nGEAVcSD+fgtwFCeLDku8ld4Bn1g4GLsxWZVJMPFL3CO0Z
+	 doE/NDERw9ycQ==
+Message-ID: <76d8c9ee-b994-47a9-b5f3-87d257194eea@kernel.org>
+Date: Mon, 14 Sep 2026 15:37:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,33 +35,35 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/16] mm/page-flags: check page/folio->private instead
- of PG_private
-To: Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Jan Kara <jack@suse.cz>,
+Subject: Re: [PATCH v4 16/16] mm/page-flags: remove PG_private
+To: sashiko-reviews@lists.linux.dev, Qi Zheng <qi.zheng@linux.dev>,
+ Lorenzo Stoakes <ljs@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <kasong@tencent.com>,
+ Alistair Popple <apopple@nvidia.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Gregory Price <gourry@gourry.net>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Dev Jain
+ <dev.jain@arm.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Michal Hocko <mhocko@suse.com>,
+ Lance Yang <lance.yang@linux.dev>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
+ Muchun Song <muchun.song@linux.dev>, Mike Rapoport <rppt@kernel.org>,
+ Barry Song <baohua@kernel.org>, Nico Pache <nico.pache@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Jan Kara <jack@suse.cz>,
+ Baoquan He <baoquan.he@linux.dev>, linux-mm@kvack.org,
+ kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Masami Hiramatsu <mhiramat@kernel.org>, linux-fsdevel@vger.kernel.org,
+ Pratyush Yadav <pratyush@kernel.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Axel Rasmussen
- <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, linux-fsdevel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
+ Dave Young <ruirui.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
 References: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
- <20260913-remove-pg_private-v4-10-848550f7574e@nvidia.com>
+ <20260913-remove-pg_private-v4-16-848550f7574e@nvidia.com>
+ <20260914024800.087EF1F000FF@smtp.kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -108,123 +110,42 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260913-remove-pg_private-v4-10-848550f7574e@nvidia.com>
+In-Reply-To: <20260914024800.087EF1F000FF@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/14/26 04:24, Zi Yan wrote:
-> After the changes of the prior commits, page/folio->private != NULL is now
-> equivalent to checking PG_private.
+On 9/14/26 04:47, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] Silent memory leak of folio private data due to missing check for leaked `folio->private` data when a head page is freed.
+> --
 > 
-> Stop checking PG_private on pages and folios and use page/folio->private
-> instead, except swapcache and hugetlb folios, because the former uses a
-> field (swp_entry_t swap) overlapping with ->private and the latter sets its
-> flags in ->private. Exclude swapcache and hugetlb when the code is meant to
-> check PG_private only. PG_swapcache and folio->swap.val cannot be set/clear
-> as a whole, so excluding swapcache with folio_test_swapcache() is not
-> reliable. Instead, use folio_test_swapbacked(), since PG_swapbacked is
-> stable when a folio is added to/removed from swapcache. Add a helper,
-> folio_has_attached_private(), for this check.
+> commit ebe4dd474a496c46897e3f790e03a43cc0508eaf
+> Author: Zi Yan <ziy@nvidia.com>
 > 
-> folio_expected_ref_count() can be called without folio lock, so annotate
-> folio_test_private() with data_race() to avoid triggering race condition
-> checks. While at it, annotate folio->mapping too. Add data_race()
-> annotation for other lockless callers too.
-
-Shouldn't we just move the data_race() into folio_has_attached_private() and
-document there, that it can be called without the folio lock as well? Having the
-data_race in multiple callers looks odd.
-
+> mm/page-flags: remove PG_private
 > 
-> folio_set/clear_private() and Set/ClearPagePrivate() become no-ops.
-> PG_private is no longer checked at page free time.
+> folio->private != NULL indicates a folio carries private data, replacing
+> PG_private. All PG_private users are converted. Remove PG_private and
+> reserve the space as PG_folio for future use. Unused PG_private functions
+> are removed too.
+> 
+>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+>> index 08988877331ba..10f4ad075ea48 100644
+>> --- a/include/linux/page-flags.h
+>> +++ b/include/linux/page-flags.h
+> 
+> [ ... ]
+> 
+>> @@ -105,7 +101,7 @@ enum pageflags {
+>>  	PG_owner_2,		/* Owner use. If pagecache, fs may use */
+>>  	PG_arch_1,
+>>  	PG_reserved,
+>> -	PG_private,		/* If pagecache, has fs-private data */
+>> +	PG_folio,		/* Do not use: reserved for folio identification */
+> 
+> [Severity: High]
 
-You can mention here that we will clean this part up next, to remove these
-helpers entirely.
-
-[...]
-
->  	}
->  
->  	/* One reference per page table mapping. */
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index 462e89e055485..08988877331ba 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -577,7 +577,23 @@ FOLIO_FLAG(swapbacked, FOLIO_HEAD_PAGE)
->   * for its own purposes.
->   * - PG_private and PG_private_2 cause release_folio() and co to be invoked
->   */
-> -PAGEFLAG(Private, private, PF_ANY)
-> +
-> +static __always_inline bool folio_test_private(const struct folio *folio)
-> +{
-> +	return folio->private;
-> +}
-> +
-> +static __always_inline int PagePrivate(const struct page *page)
-> +{
-> +	return !!page->private;
-> +}
-> +
-> +/* no-ops during transition */
-> +static __always_inline void folio_set_private(struct folio *folio) { }
-> +static __always_inline void folio_clear_private(struct folio *folio) { }
-> +static __always_inline void SetPagePrivate(struct page *page) { }
-> +static __always_inline void ClearPagePrivate(struct page *page) { }
-> +
->  FOLIO_FLAG(private_2, FOLIO_HEAD_PAGE)
->  
->  /* owner_2 can be set on tail pages for anon memory */
-> @@ -1169,7 +1185,7 @@ static __always_inline void __ClearPageAnonExclusive(struct page *page)
->   */
->  #define PAGE_FLAGS_CHECK_AT_FREE				\
->  	(1UL << PG_lru		| 1UL << PG_locked	|	\
-> -	 1UL << PG_private	| 1UL << PG_private_2	|	\
-> +	 1UL << PG_private_2	|				\
->  	 1UL << PG_writeback	| 1UL << PG_reserved	|	\
->  	 1UL << PG_active 	|				\
->  	 1UL << PG_unevictable	| __PG_MLOCKED | LRU_GEN_MASK)
-> @@ -1193,8 +1209,28 @@ static __always_inline void __ClearPageAnonExclusive(struct page *page)
->  	(0xffUL /* order */		| 1UL << PG_has_hwpoisoned |	\
->  	 1UL << PG_large_rmappable	| 1UL << PG_partially_mapped)
->  
-> -#define PAGE_FLAGS_PRIVATE				\
-> -	(1UL << PG_private | 1UL << PG_private_2)
-> +/**
-> + * folio_has_attached_private - check if the folio has private data attached
-> + * @folio: The folio to check.
-> + *
-> + * Use this in code that may encounter swapcache or hugetlb folios but only
-> + * wants to detect attached private data. Swapcache stores swp_entry_t in
-> + * folio->swap, a union with folio->private, and hugetlb stores its own flags
-> + * in folio->private; both are excluded.
-
-This is an implementation detail that is irrelevant for callers. Move that above
-the actual checks in the code below.
-
-> + *
-> + * NOTE: For swapcache, folio->swap.val PG_swapcache are not set as a whole,
-> + * so folio_test_swapcache() is not reliable to exclude swapcache.
-> + * Use folio_test_swapbacked() instead, since it remains set when a folio is
-> + * added to/removed from swapcache.
-
-Dito, a caller of this function doesn't care.
-
-> + *
-> + * Return: true if folio->private is set and the folio is neither swapcache
-> + * nor hugetlb.
-
-Can we remove these implementation details here instead and talk about "true if
-the folio has private data attached" ?
-
-> + */
-> +static inline bool folio_has_attached_private(const struct folio *folio)
-> +{
-> +	return folio_test_private(folio) && !folio_test_swapbacked(folio) &&
-> +	       !folio_test_hugetlb(folio);
-> +}
-Apart from that LGTM.
+"High" lol
 
 -- 
 Cheers,
