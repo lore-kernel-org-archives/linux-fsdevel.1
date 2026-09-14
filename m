@@ -1,119 +1,129 @@
-Received: from mail-pz2-f25.google.com (mail-pz2-f25.google.com [74.125.228.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A8529DB64
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 02:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B63D29DB64;
+	Mon, 14 Sep 2026 02:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789354048; cv=none; b=EgxD3vh0vU1DY0aBRBAA2qPcaRKSru/KZRIYVKs13czAYuAOe/YhIijeHgII9jbteAlvT8byRVI5aa0lDpxHp8sGxA0Km53FKvacSDEiskjML2Xs6Kgrrpjhop/CvjVsRrE0N9Uvb/gc/qp/vz6e/h9M2WMmd1UL8mMCmB6mQJ4=
+	t=1789354083; cv=none; b=kMKGuD2ySnvc5Wzjw69j0Kfr8Br0/V540iGQ5pksqiB//M9Qyk2IN0NPLnqAGVcsmJRZ36LHlNVbTCQzicM+eGOXgbN6DF4M/1zxD1Ai1bFusq4q/fyO9ziZrJLz7pmd/z/6rFTeJkbPa6IH4298eCJ9AgohNCg56ykBPtWwsyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789354048; c=relaxed/simple;
-	bh=7zxqK1EC2u8mu/Y0yATQjVwM0lENPnbrRovA/y8nR4A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g430b2iu4rC0nrR8EFBd84geX5PNu6x0ooKi5QyXS59W0eO7JpUsanKhTW932XWNoE2cxwE8TEH8Fd9IkhsJRxd1q12wXym6x7qja4POcebQWLN60CW9ASx3+cMoXvSP5ORI4fcp8Frk2XzzafIkTpmYfVlxYjH4PuSqVBseFQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ngQMs7uc; arc=none smtp.client-ip=74.125.228.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789354083; c=relaxed/simple;
+	bh=IAJ6fPDFQagSBdd1b89WAP4SrwNCphxleFJBLrYbSl4=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=cAsT7/DyKM/aAUXOVKaYyjobPjp/CtBPTuY0yXewzNbvXOQ/HiEvAtqYqRKfFIgaXBdMOqz2S0yKG2QStpXSxqlvHFzxVFt0+nICAB2CCGw3U+bQyzr+Ncnajbh7IQH+B3MAaBORlhDac3QhV5llVlbJ2JrxeUGRFfa6wrmyRXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aUYWUEkw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ngQMs7uc"
-Received: by mail-pz2-f25.google.com with SMTP id 41be03b00d2f7-cc1cebad4aeso1399107a12.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 19:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789354045; x=1789958845; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9Z6OvrHx3LTUPgb6h5n2rsH+g5fMXj4Vyw5P9qxQEbA=;
-        b=ngQMs7uc0sF1Ex1vSTL4NTeugBuqw+sNqKQlxf9IHJsRxFfDPkBJWTrLqLHEX7SAiO
-         HHyd7KKcUnLQvaOrBwrX985rzkcdIpvvI3PgwAO1ZzCBsvq2BLi6hpsRIBf4rGd8TtjR
-         99uqM613ioIEMvuqnVW5VKu87vAwsR6toPvY7WV9e9EmesDeLfq1Dap7Fh4dn2nOpVTK
-         /ql837N/oVcFJAoUp55JYLtuJlzoPHJxcDxwCEvuUO8WAhrtur9papfU3jcPuS7nXAhP
-         vAnYNml4+BMKbgqLz3GJ87hS4G5rqBpXfksOkSwHQoZXoSzrtS/aGncnsukUDbXeWCQP
-         1OtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789354045; x=1789958845;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9Z6OvrHx3LTUPgb6h5n2rsH+g5fMXj4Vyw5P9qxQEbA=;
-        b=kADUJIYuirHuOytFd3ubbsZ3GDu8BSFe/cHiy97DifV0Yw5dUKQvx6m9HnUdRX8foJ
-         rWn5wzw00BUUGP1QD27/jDyC5GjbiwJkb3hToh/H6bEDmNF74mANRxiKX/ap03hn1YUD
-         1Vl8njzFyCdMsyvnIw7uicLHl91I3MjrSSCSmMiES0CV4ZHh4g2R9ZkYwNLBZbolVEtb
-         UvhSE/QahDvl8bA1AyKGtV+YO1er3grV5aUzOKqAJNWJZtfLaPjPq1MA0VUnnrAnuM6y
-         /B/Xud7hsS7ibIZUJ8yzL3oREI9gOtijUKtHupj88Gh0WSyTpqnoLnLvVihm6GLlKtxX
-         LMZw==
-X-Forwarded-Encrypted: i=1; AKwUvBxDwS3WjEWlGyo8yQcFLfkptYu6eS7majwWV4Dmy1qC8F7pTY7kChlaD24Bhd37hUDAxDFZocTkNSPgIUl1@vger.kernel.org
-X-Gm-Message-State: AFuF++loh6krU1Hav89YUdVQou8x+Zw0E6G6AdyCjDqJV/wkTya5+/he
-	CMlFrESf/MJ3s8o7zLmfROuyKyoZErceBBrUL7Y408/mg2dy7X+bVKqo
-X-Gm-Gg: AYBFou1P//t7R0icAfRYcbTssZEj7VmmGsEaAiAQNFlSEe0mq1LIVr4pmYs6YgRO2W+
-	xTsV0NXxd4faUnNpSHTMYnpwQQ2PDoub+lRtotkA67LdpjqlVGjD0gEwXzHoeMr3ocCb8/J37Jy
-	fX/xEmxTV0xbcFENb34oXG2BhlEYwCV0Klw+w9J7Sbyp42fDOnAO1jRLD1UkOvB39qZB+pmlVLN
-	yU7QubEJblv75uXoku+wSEgTcqcG8mBFVYNlIGJPwNWmpptx8alNKVMJ1ff5c0GJR2V/GCtgiSd
-	KAcnLL77qRonS8gOjo9jkHQZJYJYIzqXCTAKdlSJK9rJA2xeW8yUvrgTmji4r3xP3jLc2f/ot2E
-	n/AzwJpXJiEJ7X2kkTMPpvnwvg0WmoAL5gqwJ30pcy5vH8j9ZEW99iDTGZvWof6BQ8CfZOGZl8m
-	RlnbsGazpe4xemDdijRiPn29A3z6r1UBUB8ZFhsR8n+IpaA6npqrCeK99GtRWB5ybIE4kR/g+Ei
-	cc9skDbLR+l7fhdBxVSR75p+/l+5SkSjA==
-X-Received: by 2002:a17:90b:1343:b0:38e:4cb:51f with SMTP id 98e67ed59e1d1-39debfb227cmr1756193a91.11.1789354044855;
-        Sun, 13 Sep 2026 19:47:24 -0700 (PDT)
-Received: from Alone ([2407:1400:aa0f:8050:5aba:c339:8cc7:e5f5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39dbca4c9a5sm3718447a91.0.2026.09.13.19.47.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 19:47:24 -0700 (PDT)
-From: Chhabilal Dangal <yogeshdangal66@gmail.com>
-To: shuah@kernel.org
-Cc: linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Chhabilal Dangal <yogeshdangal66@gmail.com>
-Subject: [PATCH] selftests/proc: Skip setns-dcache without UNIX sockets
-Date: Mon, 14 Sep 2026 08:32:05 +0545
-Message-ID: <20260914024705.706372-1-yogeshdangal66@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aUYWUEkw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 087EF1F000FF;
+	Mon, 14 Sep 2026 02:47:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789354081;
+	bh=AXLI3k9/pMTK/BtsjTVMEyDksi2gFy8I9idpjBEt+8w=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=aUYWUEkwRAc/MPD1E8wD6u4bTIsbzSq0kvntl9FVDaEATIYAy4I4sIHXFRhg9t4Yz
+	 04T63Uk3AKoDRg5NkaKSEjHUhOI2lbC8ikAkEKvl4oLWjLlij9tg1sMybkHau92g4w
+	 i3lIV7y5nDKFszslBx9YR0befexyZn9Vr1fRxtdL1d8YPb2I927c60O5OWDxlgwQWC
+	 iLso1LRAbVRq0e23KFOTaH+/kqOtLqBi3rSyUQuZVP+dNpzy+Hg3aD3BwD7OI5jIoU
+	 CW38fNAoU1X6qNgr88GSJx29l8IxFbmBXdbF6TD/ns1HI3wJQltPrXO1+RIlLwDk4I
+	 VHxM1iKtfDtGA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v4 16/16] mm/page-flags: remove PG_private
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Qi Zheng" <qi.zheng@linux.dev>, "Lorenzo Stoakes" <ljs@kernel.org>, "Shakeel
+ Butt" <shakeel.butt@linux.dev>, "Johannes Weiner" <hannes@cmpxchg.org>, "Kairui
+ Song" <kasong@tencent.com>, "Alistair Popple" <apopple@nvidia.com>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Gregory Price" <gourry@gourry.net>, "Baolin
+ Wang" <baolin.wang@linux.alibaba.com>, "David Hildenbrand" <david@kernel.org>,
+ =?utf-8?b?TWF0dGhldyBXaWxjb3ggKE9yYWNsZSk=?= <willy@infradead.org>, "Dev
+ Jain" <dev.jain@arm.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Vlastimil
+ Babka" <vbabka@kernel.org>, "Suren Baghdasaryan" <surenb@google.com>, "Liam
+ R. Howlett" <liam@infradead.org>, "Michal Hocko" <mhocko@suse.com>, "Lance
+ Yang" <lance.yang@linux.dev>, "Ying Huang" <ying.huang@linux.alibaba.com>, "Zi
+ Yan" <ziy@nvidia.com>, "Muchun Song" <muchun.song@linux.dev>, "Mike
+ Rapoport" <rppt@kernel.org>, "Barry Song" <baohua@kernel.org>, "Nico Pache" <nico.pache@linux.dev>, "Usama
+ Arif" <usama.arif@linux.dev>
+Cc: "Steven Rostedt" <rostedt@goodmis.org>, "Jan Kara" <jack@suse.cz>, "Baoquan
+ He" <baoquan.he@linux.dev>, linux-mm@kvack.org, kexec@lists.infradead.org, linux-kernel@vger.kernel.org, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, linux-fsdevel@vger.kernel.org, "Pratyush
+ Yadav" <pratyush@kernel.org>, "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Mathieu
+ Desnoyers" <mathieu.desnoyers@efficios.com>, "Dave Young" <ruirui.yang@linux.dev>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <20260913-remove-pg_private-v4-16-848550f7574e@nvidia.com>
+References: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
+ <20260913-remove-pg_private-v4-16-848550f7574e@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Sep 2026 02:47:59 +0000
+Message-Id: <20260914024800.087EF1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-setns-dcache uses an AF_UNIX socket to distinguish network namespaces.
-When CONFIG_UNIX is disabled, socket(AF_UNIX, ...) returns
--EAFNOSUPPORT, but the test reports the unsupported configuration as a
-failure.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] Silent memory leak of folio private data due to missing check for =
+leaked `folio->private` data when a head page is freed.
+--
 
-Treat EAFNOSUPPORT as a skip instead.
+commit ebe4dd474a496c46897e3f790e03a43cc0508eaf
+Author: Zi Yan <ziy@nvidia.com>
 
-The change was verified with CONFIG_UNIX=n under QEMU, where the test
-now exits with KSFT_SKIP, and with CONFIG_UNIX=y on the host, where the
-test continues to pass.
+mm/page-flags: remove PG_private
 
-Fixes: 1fde6f21d90f ("proc: fix /proc/net/* after setns(2)")
-Signed-off-by: Chhabilal Dangal <yogeshdangal66@gmail.com>
----
- tools/testing/selftests/proc/setns-dcache.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+folio->private !=3D NULL indicates a folio carries private data, replacing
+PG_private. All PG_private users are converted. Remove PG_private and
+reserve the space as PG_folio for future use. Unused PG_private functions
+are removed too.
 
-diff --git a/tools/testing/selftests/proc/setns-dcache.c b/tools/testing/selftests/proc/setns-dcache.c
-index 60ab197a7..f4e958068 100644
---- a/tools/testing/selftests/proc/setns-dcache.c
-+++ b/tools/testing/selftests/proc/setns-dcache.c
-@@ -17,7 +17,7 @@
-  * Test that setns(CLONE_NEWNET) points to new /proc/net content even
-  * if old one is in dcache.
-  *
-- * FIXME /proc/net/unix is under CONFIG_UNIX which can be disabled.
-+ * Skip if CONFIG_UNIX is disabled.
-  */
- #undef NDEBUG
- #include <assert.h>
-@@ -59,6 +59,8 @@ int main(void)
- 	}
- 	/* Distinguisher between two otherwise empty net namespaces. */
- 	if (socket(AF_UNIX, SOCK_STREAM, 0) == -1) {
-+		if (errno == EAFNOSUPPORT)
-+			return 4;
- 		return 1;
- 	}
- 
--- 
-2.55.0
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index 08988877331ba..10f4ad075ea48 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
 
+[ ... ]
+
+> @@ -105,7 +101,7 @@ enum pageflags {
+>  	PG_owner_2,		/* Owner use. If pagecache, fs may use */
+>  	PG_arch_1,
+>  	PG_reserved,
+> -	PG_private,		/* If pagecache, has fs-private data */
+> +	PG_folio,		/* Do not use: reserved for folio identification */
+
+[Severity: High]
+With the removal of PG_private, does the free path for head pages fail to
+validate whether private data is leaked?
+
+Previously, the memory management subsystem checked for PG_private during p=
+age
+freeing (via PAGE_FLAGS_CHECK_AT_FREE) to catch filesystem leaks, and issue=
+d a
+bad_page() warning if it was still set.=20
+
+While tail pages are explicitly checked for leaked private data in the free
+path:
+
+	if (tail_page->private) {
+		bad_page(tail_page, "nonzero private");
+		...
+
+The head page's private field appears to be unconditionally zeroed without
+validation in __free_pages_prepare() in mm/page_alloc.c:
+
+	page_cpupid_reset_last(page);
+	page->flags.f &=3D ~PAGE_FLAGS_CHECK_AT_PREP;
+	page->private =3D 0;
+	reset_page_owner(page, order);
+
+Can this silently mask bugs where filesystems leak private data (like an
+un-detached buffer_head)? Should we add a check for page->private !=3D NULL
+for head pages before unconditionally zeroing it?
+
+>  	PG_private_2,		/* If pagecache, has fs aux data */
+>  	PG_reclaim,		/* To be reclaimed asap */
+>  	PG_swapbacked,		/* Page is backed by RAM/swap */
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260913-remove-pg_=
+private-v4-0-848550f7574e@nvidia.com?part=3D16
