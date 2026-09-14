@@ -1,182 +1,128 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2747647A88C;
-	Mon, 14 Sep 2026 13:53:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE60046C4C5;
+	Mon, 14 Sep 2026 13:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789393987; cv=none; b=TpJs+UzsST2YipnWB7SqsfBCF6JIszkc46UENmKd7zB+P2E98VxbMACO1DyyoyidMLemSnXInH9kFyr4eACB5mjY9zx9m9+bOOViU/4SDH7zpAAnRHbTUKlcu9lzMTZzUNxO/m7VHAUl4ASjfL//c4/P3OnriQJqUIpSAhpvZkM=
+	t=1789394237; cv=none; b=sqZxaMpz/0uI1++WkuZJiTpwgIOd13P6Pvl74jOu3RF5E2uLLO450S//PgsbOR8XO47285J1oUdgiysijhDf3fP9cdaEqOHIuoSqydt/ljoKftpDDNP/TenF8HHDyY3B7odCmPcHYlDO1/t544t1lnMiS0H0tk6NjfN+00bTdo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789393987; c=relaxed/simple;
-	bh=mlUfEIFV9BaRgiX9mO66IzROChje335W/BiQA2GTbVs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KgAqGJlEW5MSCOHtXW/lRuU6M+LNgyVw+s1GX6wA95gwSrSrVsdVKZKG6UwGuTnN62FzcCAEIS62I0EH3AM2pIrAP2QLpthvhRezU8dKH9T18KhxLaGWr7whbmVVkjpRS9zEXnTCSdUR9pH7/Xj5+D7DcPU7xJctU0DdblgDTkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FeR2gWYH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789394237; c=relaxed/simple;
+	bh=HGlYVddOLYKv650ZKhm+9atcEI4BlwBVnvlFLb1GRek=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iQZjSbjzNCGAbQp+66XJkGQW46NHxlQehtl5MvEGimGIqPhdrTzfvsUR7fkxprg2NBqA0YLm/7MBFFQA+GX8+UPohF9HDL2/rYPL7818OWuCCxnkcWdYv0yddZaLvJZcW2vn6ZxFXk8r7k8l5qHd2EZcncmkzCb778MA/mVLFvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K20TONwx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FeR2gWYH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D7411F008A6;
-	Mon, 14 Sep 2026 13:52:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K20TONwx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B49541F000FF;
+	Mon, 14 Sep 2026 13:57:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789393980;
-	bh=/SYe9Unw6oYBV280W7G2r7SKUU5ZsVcjnBx/IJ+taGs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FeR2gWYH2doCt/XQ+7nwX9eFl4C5EtBE/49Z9o/3dj2X/alfYxFIx+MdmA7j6KAQl
-	 VXW4qgCwQEItXzSW4NWs0UK3KZ0wVLUQWOZp/d+Xukp7BFPm7HdmjjOH3CYjE6zo3T
-	 VEDy/tBxeiLTCwg/lAg4AtLHq7kQTepJHdxl2E4JOIBnIMaaG3bH7GRgsak3ouMHfW
-	 naRij2M6tcst8O4c+nHE9hkEwMnpqgRaUwVxu9Zk/AWfqu/9mLSnuHjSLtqVIfci1I
-	 N4NMjbxPwK4XJ4nx6FvQL7Q/guN3WkMarQVJfw3CzDBCmpLEJwsmvfTMI2Tsv1dIcD
-	 c5IMfflTnLc3w==
-Date: Mon, 14 Sep 2026 15:52:56 +0200
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	djwong@kernel.org
-Subject: Re: [PATCH v3] man/man2: introduce man page for
- file_getattr/file_setattr syscalls
-Message-ID: <aqf6qS4_CvLhg1o3@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20260914111107.1735564-1-aalbersh@kernel.org>
- <aqfeV11OEqtb6nkt@devuan>
+	s=k20260515; t=1789394235;
+	bh=Q3jTCo5Zrmr3wVVQs4J2MuJx8Av/2jYs7lg8QKqp49E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=K20TONwxzBEU1Zu7mkOTxd5YED8e+Y59q7/Yo0oiBrkANvddumCkJS+TvSxyNaeIF
+	 H45l9C8qjM7zl5GyjASyOdXb6m8/wN+FaFnD2IaNwzKJOyajVYG3F8spJMUf2M/1oc
+	 yE1+/JgGFYg5HMgg1xYmgJ2j3Am/tt+OrGB9kq9EG/CU6kFxYHpCzaEPe3qRa+EZSx
+	 eHv08z08nJgSYyJ3itkk5py9mOenvfgjWjLJ4vwXKO3M90FrXVf1oz0280tjyTghcA
+	 AixxEX7dmnMCpPNluxp6KPGtAoYGKi8oG8WkCbbWBEO11HtFE/kEFNPxuHOyZ/UB4q
+	 5Q6xl0UDo3zMw==
+Message-ID: <9f28f634-9015-4b62-a197-0414122ddd4c@kernel.org>
+Date: Mon, 14 Sep 2026 15:57:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqfeV11OEqtb6nkt@devuan>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/12] mm/sparse: rename __highest_present_section_nr to
+ __highest_used_section_nr
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+ Baoquan He <baoquan.he@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-6-008fc8d579fe@kernel.org>
+ <178937914266.4188640.6188797346240816067.b4-review@b4>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <178937914266.4188640.6188797346240816067.b4-review@b4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Alejandro,
+On 9/14/26 11:45, Mike Rapoport wrote:
+>>  /*
+>> - * There are a number of times that we loop over NR_MEM_SECTIONS,
+>> - * looking for section_present() on each.  But, when we have very
+>> - * large physical address spaces, NR_MEM_SECTIONS can also be
+>> - * very large which makes the loops quite long.
+>> - *
+>> - * Keeping track of this gives us an easy way to break out of
+>> - * those loops early.
+>> + * Looping over all memory sections is expensive, especially if NR_MEM_SECTIONS
+> ... all possible ... maybe?
 
-On 2026-09-14 14:43:36, Alejandro Colomar wrote:
-> Hi Andrey,
-> 
-> > Date: 2026-09-14 13:11:05+0200
-> > From: Andrey Albershteyn <aalbersh@kernel.org>
-> >
-> > Add manual pages for file_getattr() and file_setattr() syscalls and
-> > struct file_attr used as input/output argument.
-> > 
-> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > Link: https://lore.kernel.org/all/20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org/
-> > 
-> > ---
-> > Changes from v2:
-> > - a few grammar fixes
-> > - styling fixes
-> > - sashiko.dev fixes (wrong AT_FDCWD combined with AT_EMPTY_PATH
-> >   description, unused "dfd")
-> 
-> I'd appreciate if you didn't use sashiko for manual pages.
-> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIBUTING.d/ai>
-> 
-> > - dropped requirement to zero fattr before using file_setattr()
-> > - Pathname -> path
-> > - Dropped description of why FS_IOC_ aren't usable with special files
-> > - Fixed backslashes in the code examples
-> 
-> It'd be very useful to see the range-diff too.
-> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIBUTING.d/patches/range-diff>
-> 
-> And it'd also be good to get the new versions of patches as replies to
-> the first mail in v1.  That would allow one to find the entire
-> discussion in one thread, with one subthread.
-> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIBUTING.d/patches/sendmail>
-
-ok sure
-
-[...]
-> > +If
-> > +.I size
-> > +is larger than the kernel's structure size,
-> > +the extra bytes are zeroed.
-> 
-> Hmmm, this seems to contradict the explanation from above.  I'll quote:
-> 
-> 	Userspace applications should zero-initialize
-> 	.I struct file_attr
-> 	before calling
-> 	.BR file_getattr ()
-> 	to ensure that fields not filled in by older kernels
-> 	will have predictable values.
-> 
-> So, if old kernels zero any bytes between the (small) size supported by
-> the kernel and the (large) size used by the user, why would the user
-> need to zero them?  Isn't the kernel doing exactly that?
-
-that's right, I removed this in file_setattr() but probably
-forgot to remove it here.
-
-[...]
-> > +.SH DESCRIPTION
-> > +The
-> > +.BR file_setattr ()
-> > +system call sets filesystem file attributes
-> > +on the file.
-> > +.P
-> > +As with
-> > +.BR openat (2),
-> > +if
-> > +.I path
-> > +is relative,
-> > +then it is interpreted relative to the directory
-> > +referred to by the file descriptor
-> > +.I dirfd
-> > +(or the current working directory of the calling process,
-> > +if
-> > +.I dirfd
-> > +is the special value
-> > +.BR AT_FDCWD ).
-> > +If
-> > +.I path
-> > +is absolute,
-> > +then
-> > +.I dirfd
-> > +is ignored.
-> 
-> How about saying that the parameters 'dirfd', 'path', and 'flags' are
-> interpreted like in file_getattr(2), and we save some paragraphs?
-> 
-> We'd also save the user from checking whether there's a tiny detail that
-> differs, or if they are identical.
-> 
-> I have a long term plan of removing a lot of paragraphs in manual pages,
-> by saying that some syscalls or functions behave exactly like others, at
-> least for some parameters.
-
-Sounds good, I will reference file_getattr then
-
-[...]
-> > +error.
-> > +.SH VERSIONS
-> > +.SS Structure size
-> > +The structure size is defined by
-> > +.B FILE_ATTR_SIZE_VER*
-> > +which is also a version of the structure being used.
-> 
-> Why do those macros exist?  I expect users should just use sizeof(),
-> right?  In fact, the example program doesn't show its use at all.
-> Should we remove that macro entirely?
-
-You're right, this is not necessary, the sizeof() is enough.
-
-> 
-> > +The
-> > +.I size
-> > +parameter passed to
-> > +.BR file_getattr (2)
-> > +and
-> > +.BR file_setattr (2)
-> > +indicates the version of
-> > +.I struct file_attr\fP.
-> > +.SS FILE_ATTR_SIZE_VER0
-> > +Size is 24 bytes.
-> 
-> This implementation detail seems unnecessary for programmers.
-> '24' is something programmers shouldn't know, IMO.
-
-Yes, I will remove mentions of FILE_ATTR_SIZE_VER0
+Ack, thanks!
 
 -- 
-- Andrey
+Cheers,
+
+David
