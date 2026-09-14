@@ -1,199 +1,162 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lb2.peda.net (peda.net [130.234.6.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D141A923;
-	Mon, 14 Sep 2026 09:01:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8814F38F255;
+	Mon, 14 Sep 2026 09:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.234.6.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789376497; cv=none; b=aWDoxLeQWDBphBA5ZI8EnBR3EPnW+MpVHiod5Vlc6MI6gwZcFs1OBczhY7KeNM+DJI+H+ML1eLttwpuDkPVljz3tSXjosFjZRyU2yfil0Ol+vBt7gRmL4rfFr4Qq9BsthvRoTh5NpbcZUhFzIDtleBeyuUoc4rI0Dhp7HA7mVmg=
+	t=1789376868; cv=none; b=B2NoWqVoQug3O0/l/L2gDPEGIh5im0TEw08Zih6M7DJ6fuZHQlGF1vikBvMYJ+pfoJGlQIpONT6TB/RdKHvidZjaCfpYGEqYRp4Fj9OdtCAdIZ6kYsb3AWns/ZW4YqgRz99qBO9ZP5xyiOkA5vl2C+AYuQJ5i6l72bkBZwjsng8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789376497; c=relaxed/simple;
-	bh=PEzOD6S5CyMByQ2MXcdGumahPXVc7qvnwo7wKWAKbT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZbaVl24yu4YEb70TEpPD00zHTeCCqrKj9bAfjYLfb576b+liM0RAYM7i5OwZGLxNobxOwZ8rCsaaEaq9sovoRnyoAzFfI+QedmjaqSXX/MbqgWe58OnKn3Mxs8p4P6QQMqmbsgJVbss5z5itCWfiTzF/G5nEkTKUnfmGDGnXnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oXbHbJ6D; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Tgeuv6K2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SeSnDu9f; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HgMkR57B; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1789376868; c=relaxed/simple;
+	bh=wjv+OXvVznW9rx3f8jRp1nNUlFIajNw4AjfpWlMy56s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RHA3dyL2oKjEw9IIYN0sl3he9W0Hv37ge6o0zLXFtwtE3bwSSc+pRPvMUb2hm1N7bdRHDkRRUQy452pwBRrjPHI6oJdw7DtuoYtK7E45OM1/XBwJq+LXqf5KJMeUBr8V/t+BhoDErSwxuruk/RHS/ZSvhNh0IcDRcSyE6CMUCjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=peda.net; spf=pass smtp.mailfrom=peda.net; dkim=pass (2048-bit key) header.d=peda.net header.i=@peda.net header.b=KFbuuQd6; arc=none smtp.client-ip=130.234.6.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=peda.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peda.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oXbHbJ6D";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Tgeuv6K2";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SeSnDu9f";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HgMkR57B"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CD0D5215D3;
-	Mon, 14 Sep 2026 09:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789376484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uO2cZ4yvyojqT3bcC/z89RDmjYcG9uAvt6+OditBDxY=;
-	b=oXbHbJ6DvzeVLSiMmn1Wxw85Lcci72u+WlWNnC4uAlLmokjIxfg2i9DHMXXhLL0LSg066+
-	j4zXWDghgb6xgVERrKm0wPxZRf2v+5OdBkuQwFNbiiNyEVWglUZTzotf9vhD3CGYicLG3E
-	ytsN99ryaTDuzPKgW+q5zwwcIsK1+Q8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789376484;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uO2cZ4yvyojqT3bcC/z89RDmjYcG9uAvt6+OditBDxY=;
-	b=Tgeuv6K2ZNwGxPONsext5ReuzxnDDLaQOFHKpvR5aK/7XA17zc/SLh78l3kQy7VwVSw1fk
-	9AhHDNyZGltixUCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789376479; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uO2cZ4yvyojqT3bcC/z89RDmjYcG9uAvt6+OditBDxY=;
-	b=SeSnDu9fZv9tHOYPFA99ICWaLSCStewk+anikdV8z510wtl48IkmvRyEm+aHu8LXom06KK
-	jQ4Juo9HNdQ4GelBUnLQ7NMc6QJFVnyNM6E0pa6ZPTBa/7E6iwQl5petRn459v7r99KZUO
-	/RCQkzf3/LMTA1lpt6ItNc8dasA5ScU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789376479;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uO2cZ4yvyojqT3bcC/z89RDmjYcG9uAvt6+OditBDxY=;
-	b=HgMkR57B8pa06/YMV99S95arqQYHHmecp59Vdjplke/3fhmmAqZFa5h3JxAY4g2+Z2gxBn
-	xlxuQOA/6+8I+1BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B7881368C;
-	Mon, 14 Sep 2026 09:01:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id otzxJd+3p2q7NgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 14 Sep 2026 09:01:19 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 23286A12E4; Mon, 14 Sep 2026 11:01:11 +0200 (CEST)
-Date: Mon, 14 Sep 2026 11:01:11 +0200
-From: Jan Kara <jack@suse.cz>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 10/10] nfsd: use path_clone()
-Message-ID: <z4bixf6gwuwyvckfxoi6337kubqe57sxj2pzcjw6fio3v5em3w@kydo2igkcdss>
-References: <20260913144918.1606123-1-mjguzik@gmail.com>
- <20260913144918.1606123-11-mjguzik@gmail.com>
+	dkim=pass (2048-bit key) header.d=peda.net header.i=@peda.net header.b="KFbuuQd6"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=peda.net; s=default;
+	t=1789376861; bh=wjv+OXvVznW9rx3f8jRp1nNUlFIajNw4AjfpWlMy56s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KFbuuQd63qtuiLPwxyJi36aJltIOH76pgjcisqdm0sIFyiGU/bgTUzE5Qx4FsVduz
+	 jnYpkM59PYfms+FRFRdA5Laj0Lcq9f2jt+uAxVVaSICxhUdvhAsP+TVXhQQRydy1Re
+	 0pAd3j7mAVi9T63WChve+gt3lCEoIbmT3k7XpCtdADIrWv1H/SLjGNqSpm7WrnmYqZ
+	 KUuP6XoHGO6Kw1xfyA/t92um3M7cSCVBjG2/JlPbVO1vl0ah7Y2ZpqKWLgdkSaitds
+	 8VOGPQLTZ0ION6P1b+78Y/HtSY2ExxmKWnT4pY7BBpfj5QYpBZc804qhzgCwSfYxx/
+	 vQGkr1vmwgsLg==
+Received: from [86.60.167.233] (86-60-167-233.dynamic.lounea.fi [86.60.167.233])
+	by lb2.peda.net (lb2.peda.net) with ESMTPSA id 8FD68D60113;
+	Mon, 14 Sep 2026 12:07:41 +0300 (EEST)
+Message-ID: <bcdb8f85-d53a-4824-8e34-8d190ec7f4b2@peda.net>
+Date: Mon, 14 Sep 2026 12:07:41 +0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260913144918.1606123-11-mjguzik@gmail.com>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-kernel@vger.kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk,
+ jack@suse.cz, alx@kernel.org, dalias@libc.org
+References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
+ <aqcmz5uI7PgN5CT7@casper.infradead.org>
+From: Mikko Rantalainen <mikko.rantalainen@peda.net>
+Autocrypt: addr=mikko.rantalainen@peda.net; keydata=
+ xjMEWvlVlRYJKwYBBAHaRw8BAQdAJneRuA4reN56nwM7GyQ8Gwkhc4ANBia0NFNcU/qwP63N
+ Lk1pa2tvIFJhbnRhbGFpbmVuIDxtaWtrby5yYW50YWxhaW5lbkBwZWRhLm5ldD7ClgQTFggA
+ JwUCWvlY9wIbAwUJXfwPAAULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAhCRC4w4yaqAoqKxYh
+ BNKwvdN4KAGSgYZmbbjDjJqoCiornGsA+wWoUBgH7S20W4KkYvr5OipJ5FBH0vbHDEvv26V+
+ WYt5AQCbgxKfVQD1g9gp67xb2NWkMKccy/5R0oYl7uGBDKHNBc44BGftb9gSCisGAQQBl1UB
+ BQEBB0CXgySU7HDsuvqYVVlXWZvvGTyjxz4iEQSemOwJ8BU7EgMBCAfCfgQYFggAJhYhBNKw
+ vdN4KAGSgYZmbbjDjJqoCiorBQJn7W/YAhsMBQkX8l8AAAoJELjDjJqoCiorklIBANBBccGb
+ g8cV5dSjL2oUNnJKK3ZgkBSfWjk21cISIMIxAP4xRcw/3Kk0sCRbKNFXyGtIk4OQrvYBaAij
+ qKI0ItEoBg==
+In-Reply-To: <aqcmz5uI7PgN5CT7@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun 13-09-26 16:49:17, Mateusz Guzik wrote:
-> No functional changes.
+Matthew Wilcox (2026-09-14 01:42 Europe/Helsinki):
+> On Sun, Sep 13, 2026 at 10:38:14PM +0300, Mikko Rantalainen wrote:
+>> However, currently Linux kernel will return EINTR in some cases for
+>> close(). There is no good way for caller to recover from this case using
+>> the original fd. Whatever action was actually interrupted cannot be
+>> resumed or retried through this fd, because the fd has already been
+>> consumed. Even worse, EINTR conventionally invites retrying an operation,
+>> but retrying close() is unsafe: the same file descriptor number may
+>> already refer to another file opened by another thread by the time
+>> close() returns EINTR.
+>>
+>> In addition, POSIX.1-2024 requires that if close() reports EINTR, the
+>> descriptor must remain open. It also explicitly permits an interrupted
+>> close() to return success after closing the descriptor.
 > 
-> Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
-
-It would be good to CC NFSD folks on this so they are aware this is
-happening (along with at least the cover letter and the patch introducing
-the helpers). But the change looks good to me. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/nfsd/export.c  | 6 ++----
->  fs/nfsd/nfs4xdr.c | 8 ++++----
->  2 files changed, 6 insertions(+), 8 deletions(-)
+> I think any filesystem / device driver / ... which returns -EINTR from
+> close() is broken.  There is one exception though -- if the signal is
+> fatal.  It's like read()/write() being killable; if the signal is fatal,
+> the task dies before it gets to see the errno.  So it doesn't matter.
 > 
-> diff --git a/fs/nfsd/export.c b/fs/nfsd/export.c
-> index e5a0f1ababe6..84ea833816b5 100644
-> --- a/fs/nfsd/export.c
-> +++ b/fs/nfsd/export.c
-> @@ -233,8 +233,7 @@ static inline void expkey_update(struct cache_head *cnew,
->  	struct svc_expkey *new = container_of(cnew, struct svc_expkey, h);
->  	struct svc_expkey *item = container_of(citem, struct svc_expkey, h);
->  
-> -	new->ek_path = item->ek_path;
-> -	path_get(&item->ek_path);
-> +	path_clone(&item->ek_path, &new->ek_path);
->  }
->  
->  static struct cache_head *expkey_alloc(void)
-> @@ -1533,8 +1532,7 @@ static void svc_export_init(struct cache_head *cnew, struct cache_head *citem)
->  
->  	kref_get(&item->ex_client->ref);
->  	new->ex_client = item->ex_client;
-> -	new->ex_path = item->ex_path;
-> -	path_get(&item->ex_path);
-> +	path_clone(&item->ex_path, &new->ex_path);
->  	new->ex_fslocs.locations = NULL;
->  	new->ex_fslocs.locations_count = 0;
->  	new->ex_fslocs.migrated = 0;
-> diff --git a/fs/nfsd/nfs4xdr.c b/fs/nfsd/nfs4xdr.c
-> index 7d1b2d6f57f2..65a805501b75 100644
-> --- a/fs/nfsd/nfs4xdr.c
-> +++ b/fs/nfsd/nfs4xdr.c
-> @@ -2966,14 +2966,14 @@ static __be32 nfsd4_encode_pathname4(struct xdr_stream *xdr,
->  				     const struct path *root,
->  				     const struct path *path)
->  {
-> -	struct path cur = *path;
-> +	struct path cur;
->  	struct dentry **components = NULL;
->  	unsigned int ncomponents = 0;
->  	__be32 err = nfserr_jukebox;
->  
->  	dprintk("nfsd4_encode_components(");
->  
-> -	path_get(&cur);
-> +	path_clone(path, &cur);
->  	/* First walk the path up to the nfsd root, and store the
->  	 * dentries/path components in an array.
->  	 */
-> @@ -3216,11 +3216,11 @@ static __be32 fattr_handle_absent_fs(u32 *bmval0, u32 *bmval1, u32 *bmval2, u32
->  
->  static int nfsd4_get_mounted_on_ino(struct svc_export *exp, u64 *pino)
->  {
-> -	struct path path = exp->ex_path;
-> +	struct path path;
->  	struct kstat stat;
->  	int err;
->  
-> -	path_get(&path);
-> +	path_clone(&exp->ex_path, &path);
->  	while (follow_up(&path)) {
->  		if (path.dentry != path.mnt->mnt_root)
->  			break;
-> -- 
-> 2.53.0
-> 
+> So that's my preferred solution; track down the bad kernel code that's
+> doing things in close() that are "interruptible" and convert them to
+> "killable".  We don't want SIGWINCH or SIGALRM interrupting close();
+> that's just dumb.
+
+Am I reading this correctly as a proposed VFS invariant: ->flush() must
+not return an interruption result which could become visible as EINTR
+to a surviving userspace caller of close()? A fatal signal is the
+exception because the task will die before observing the return value.
+
+That seems like a reasonable invariant, but I couldn't find it
+documented anywhere. Documentation/filesystems/vfs.rst currently says
+only:
+
+    flush
+        called by the close(2) system call to flush a file
+
+without specifying allowed return values or signal semantics.
+
+I had originally approached this from the userspace contract. close(2)
+guarantees relinquishing the descriptor, but does not provide a general
+synchronization guarantee. In particular, successful close() does not
+mean regular-file data has reached storage. Applications which require
+that guarantee need an explicit synchronization operation such as
+fsync() or fdatasync() before close().
+
+The close(2) documentation does say that later close-time operations,
+including flushing data to a filesystem or device, *can* report errors.
+But I don't read it as guaranteeing that all such work completes or that
+all outstanding errors are discovered before close() returns.
+
+That's why I was thinking EINTR should simply be converted to success
+by close() implementation.
+
+So I think the important distinction is:
+
+1. userspace is not generally promised completion of arbitrary
+   close-time work; but
+
+2. if a subsystem deliberately performs synchronous work in ->flush(),
+   the kernel may nevertheless require that work to complete for the
+   subsystem's own semantics.
+
+If (2) is the intended VFS rule, then I agree that converting EINTR to
+success in close() would hide a bug rather than fix it. The bug would
+be an ->flush() implementation allowing an ordinary signal to abandon
+work which it intended to perform synchronously.
+
+Would it make sense to document that invariant explicitly, e.g. that
+->flush() must not return -EINTR or -ERESTART* due to an ordinary
+non-fatal signal?
+
+If those results should be considered implementation bugs, perhaps a
+useful diagnostic would also be something along these lines:
+
+---
+retval = filp_flush(file, current->files);
+
+WARN_ONCE(retval == -EINTR ||
+          retval == -ERESTARTSYS ||
+          retval == -ERESTARTNOINTR ||
+          retval == -ERESTARTNOHAND ||
+          retval == -ERESTART_RESTARTBLOCK,
+          "close: ->flush %ps returned interrupt error %d\n",
+          file->f_op->flush, retval);
+---
+
+That would leave the existing userspace ABI unchanged while making
+remaining offending implementations easier to find and fix.
+
+I also considered retrying filp_flush() inside close(), but I don't
+think that can be done generically. ->flush() is not documented as
+safe to restart from the beginning after partial execution, and
+an interruptible wait could immediately encounter the same
+still-pending signal again. So fixing the interruptibility at the
+offending wait seems safer if the above invariant is indeed
+the intended one.
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Mikko
+
