@@ -1,280 +1,124 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8B142DA4D;
-	Mon, 14 Sep 2026 10:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B338343802E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 10:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789381347; cv=none; b=KVZ+07RdQKIlhgKK5DP505vPbyallWPBhNwJamikCZbXincs3hdwyG2l3nLO3p0bs0k0pKGJy23NBLQHZVgbqWCw1FARHHQtX8qF8QP45LTTy+rTEeKa2cTPOoSBp+9b6K2fUBGWscCjNNQJpPO1cjdryiMb+8zhor9QiVjmnZ4=
+	t=1789381887; cv=none; b=YILrKtJStKLESx//oTTHi0dgds0SpO8kb3mF5WkskanZ7u2bmqJ66L1hh32rc1a8Zp8Wrag4/Bf7vvWPwVk+u8K+ZVWV2CgMogLEGgan8qQD/Pjvf7Fe4LFtVbgg3/MOMbMKhK9bK0tht/Rq+HIBHvj2KEYzigWFLHj8PR/vmsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789381347; c=relaxed/simple;
-	bh=RY4GIHwuDLaly0IG8Q+6XwSaYgk4kiPit01Exqz4TjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=avyBSHv82868sGKOViwZFvODM7lGFJDA7nqbnby7rB7xl+EmAXyere8i/YsvP2yl+CR/GMFgGfnHEMX8D02NgNjBGcA+4aOw5v9vfd3QlyrA+HXHn9ADOOneOt8OF+qpoNemhxek3Q30cAVSovII8K9LoCvI+mlxhe7PeY8Jex0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=p2wi7jCq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g4fW+si0; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=3YH9x2Re; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ekt6QP9Q; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1789381887; c=relaxed/simple;
+	bh=rdZAz7cRFj3PdwDON/U2rLzIrTQddJNCfUz4fMn1Cgw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cSbKb5Xmk0AF3EGh44uRKlrJVkmjegSfuXwFRaLDWNGgGVTLhz1GXze+CUZf1cW7Q25UQ0q7q0Ud+HKVF8ZjvMBNqtt84OnrzbBClfcIndP2Uut87oqqa/KkxrqSGSlj97VW/wTGyntq3TYN3syj3SxZoVVboxc6r+JUOW+gBec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=KViTsalb; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="p2wi7jCq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g4fW+si0";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="3YH9x2Re";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ekt6QP9Q"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 173C521ADA;
-	Mon, 14 Sep 2026 10:22:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789381340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=luzLayfa4rHXL45QFB+GJQv0hHmRfCd3gxDCrJhimew=;
-	b=p2wi7jCqQxMtDtt0SsJX+NDu1YtSlcItEir5Cv21ks6QnEMwGVCmcDrkR5kJTSI6nYgRcV
-	pGq810eVTVfxv2SY5kw3iByF5JkocvR69W3AxecpcAsdrut6/sHHYR2VvwsKWLDOB5/chg
-	P6uECxmfOOYvoB/zhKWFS1s00tCq8t8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789381340;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=luzLayfa4rHXL45QFB+GJQv0hHmRfCd3gxDCrJhimew=;
-	b=g4fW+si0DbGfirJ5Db7Wx8lw1R/j3jX/4JhaoyHqCn44N2t47tkSsfgEddDjhEtFkVBFc5
-	WHIYkg8AvLpEjWDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789381336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=luzLayfa4rHXL45QFB+GJQv0hHmRfCd3gxDCrJhimew=;
-	b=3YH9x2ReN5DpSz5W5vfPn8wUxsHwFU5gl/qOIfVTasOSV3oj5HCsgPUPOUoh24VxCykh3r
-	Xh/gXjjqkGMbhisDJSHhIfeW5Nn6WVk10BMjUfYWDDW/2Q5Ak0is5ZwZr9QTjk/dPecUPM
-	beaT68eD94/xZVzXU3dX19wHad9n/6A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789381336;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=luzLayfa4rHXL45QFB+GJQv0hHmRfCd3gxDCrJhimew=;
-	b=ekt6QP9QmhOVCfSgVrF8QGUctm83k9cFrXM4te530+y1kMuSZQr1wXBMtz8zApT85TR4UB
-	BkbCxFvK25UeQTDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DDAFE13515;
-	Mon, 14 Sep 2026 10:22:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2tYaNtfKp2ogFAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 14 Sep 2026 10:22:15 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6A623A12E4; Mon, 14 Sep 2026 12:22:07 +0200 (CEST)
-Date: Mon, 14 Sep 2026 12:22:07 +0200
-From: Jan Kara <jack@suse.cz>
-To: Barry Song <baohua@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Tal Zussman <tz2294@columbia.edu>, 
-	Wenjie Qi <qwjhust@gmail.com>, willy@infradead.org, akpm@linux-foundation.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, axboe@kernel.dk, trond.myklebust@hammerspace.com, 
-	jaegeuk@kernel.org, chao@kernel.org, qiwenjie@xiaomi.com
-Subject: Re: [PATCH v4] mm: filemap: retain mapped dropbehind folios
-Message-ID: <3pclzpr4f5qisxwqhjguk4zz7vwdbahzbjbgqryq2f5mpklddk@f5do4mayzzot>
-References: <20260829111621.41ed2bc9a0e99e3367eb96c3@linux-foundation.org>
- <ef160933595c365f2c47597b260bc7ecd98ed7ce.1788029516.git.qiwenjie@xiaomi.com>
- <076bb01b-6fcf-4691-be8c-0e8507c9fe64@columbia.edu>
- <CAGsJ_4xMK=rPXCH5OiCOYHKRQp-w+xDJQusJ_ykbuAuLZr+8bA@mail.gmail.com>
- <1e5118a5-6b61-49d0-85e1-825e22059241@columbia.edu>
- <CAGsJ_4wj6XvPB+QF+_X1BJ_8Y2sZEEFAw6RaJJz-cHaDWLkxaQ@mail.gmail.com>
- <65a2c7df-0d2e-46de-9580-01e9c35a7e32@columbia.edu>
- <CAGsJ_4zS+UehT4wuTuTVjK3s3mhzp+dku8M-Of9cF=CN82aRow@mail.gmail.com>
- <hbki3yc23dr5fkre5phwx2ev6yjfn3ooodan37uo3at53y3gs2@kjyxyb34s5bi>
- <CAGsJ_4xNLEhrCZR-7ZAxBnYV8BDzuQT29yT419mObVRGH71AVg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="KViTsalb"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39b2ad83dc6so1964792a91.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 03:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1789381883; x=1789986683; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ARAL3oS9Pm8E23aBV6jU2rxP85qSTEkId7/k0Cw8UTQ=;
+        b=KViTsalbXH6bgmEF6t60cJrv7a+HuvUdDkqqXGRa6iyeOlUPPkZmyrJrPVmgzwsX/l
+         XNpFTInsrTFjpWYHKCM5/wiW0h0ugjwtuJm2vkgmIKg4OmBcafSUNUPR1839kEoiqDDe
+         BomAzM2WIfXRF0zivOoVWK2UeO7C7liDgJoKgYoCpOSqQoyNIp7MYY7e6xdAlSkRydlC
+         eYdzuJXz41hL1Ec33L6ne+V+Dr2CZ+tT8nEq88em7Pbmth2FX7dS+A/E2Ubg3pKmMVk5
+         pzk/omJS9Uu4aH4SugTdmjrq0+x/eVYYqCuVPiTEffaEZaretdcE4txKQoBbZlFlMJOK
+         t9ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789381883; x=1789986683;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ARAL3oS9Pm8E23aBV6jU2rxP85qSTEkId7/k0Cw8UTQ=;
+        b=I+jy9rRpHeNYCLefXDVrkjD5okT7FgnzpbfbD3xsqtgP2FEzVODZi055GhIEerspuT
+         xCmTT5n9xmMedg9ZVgpEnXAPV2RCyrFkN5SnBDySc8WA58hPYcp/wptog3Mj7rwwbfi6
+         GatAfTR4xau5qTyhG2c/qV1VoqU5r6SQ3IcDQBZbHAHYSW7om+43ZQB5QA8RClwIVkaB
+         pc3bZKaTFaQPSTMeYrHRXZfnWFuz1hEWlmUy4dcYop37rZIQRUCEuaqZNB4E5GfKDZro
+         CM+jiiuxhHV0S4FYueJMpaX3gNfcYrvdtwpsQwy2GYgZMZarQ6ThZo9R+HAkXuFyLCaU
+         WKlg==
+X-Forwarded-Encrypted: i=1; AKwUvBwW00EMByhBavLXdB1687Ssd83d8NoD22aG0ooGw9wy76IcJKXv78mepXEokumzDSSxMJP7DH1GJHrBUcJ+@vger.kernel.org
+X-Gm-Message-State: AFuF++mDVp0g/tap+eQJdZBoZG1MN373a1Ymk/sCarusRdGlux1yEoJw
+	ak37w2ui6jSWX6C/n2wC1eQR6KlTo1Y9LAKFN3Fo/LB5+LE3U7Ymg54MxounZk41C9s=
+X-Gm-Gg: AYBFou3pwfYrfYiMyG7WbPb8KJVyQpzbDdKQ83y1xBoRlCC9PlXS0sVcNeej89kXUAj
+	MgwqfwqtfbBLujMX1vpEprqIZ5EAJ3Zx0SbJc1d8DeyoXM185a4ruHioCKgkNLXrjowIhCZzTlC
+	d+CiCm2f0yxZbDNMJv6yUzVXL4k/IjLiYibG7txshflJLOSBN5NpHOTv1NdaN4+X+d6P9abrRsl
+	hb8qba/8vE9J5FSXGbgigvn3OONDUzJ75CXAwGLCheWLIm8vaZulYbgQ5YO9kPHfbFiaaW2WhwO
+	rdh3nlj41UsU60vLuexod7LKtTRULdd4MN1pU7IkLtREnJjTu7PpsaRKKp3WvOKlO1CmF1Egrse
+	oIaw4KcTJPbW/yEwl0xL6jK+ZABcJ5gAZJ4IKtZn9chvS9vp0BVydO6kH60ulGPsJ1zNopqpY3n
+	Z69hJIwO3e5qoYDfYTUURrS83xz+mMeaHXCMm4AXyHWzWPAIIsmzpOjhWzo9Ovb7w0Pg1piL+Ub
+	Q==
+X-Received: by 2002:a17:90b:1c90:b0:39d:f660:fa9c with SMTP id 98e67ed59e1d1-39df660fademr1021701a91.10.1789381882933;
+        Mon, 14 Sep 2026 03:31:22 -0700 (PDT)
+Received: from localhost ([106.38.226.99])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d9587c157sm20168973a91.16.2026.09.14.03.31.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 03:31:22 -0700 (PDT)
+From: Julian Sun <sunjunchao@bytedance.com>
+To: linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: axboe@kernel.dk,
+	hannes@cmpxchg.org,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	muchun.song@linux.dev,
+	willy@infradead.org,
+	jack@suse.cz,
+	rostedt@goodmis.org,
+	tj@kernel.org,
+	akpm@linux-foundation.org
+Subject: [PATCH v4 0/3] memcg,writeback: flush foreign bdev mappings separately
+Date: Mon, 14 Sep 2026 18:31:16 +0800
+Message-Id: <20260914103119.1708452-1-sunjunchao@bytedance.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGsJ_4xNLEhrCZR-7ZAxBnYV8BDzuQT29yT419mObVRGH71AVg@mail.gmail.com>
-X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,columbia.edu,gmail.com,infradead.org,linux-foundation.org,vger.kernel.org,kvack.org,kernel.dk,hammerspace.com,kernel.org,xiaomi.com];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[columbia.edu:email,infradead.org:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
 
-On Mon 14-09-26 17:42:59, Barry Song wrote:
-> On Mon, Sep 14, 2026 at 5:33 PM Jan Kara <jack@suse.cz> wrote:
-> >
-> > On Mon 14-09-26 09:09:32, Barry Song wrote:
-> > > On Mon, Sep 14, 2026 at 7:34 AM Tal Zussman <tz2294@columbia.edu> wrote:
-> > > >
-> > > > On 9/13/26 6:51 PM, Barry Song wrote:
-> > > > > On Fri, Sep 4, 2026 at 6:36 AM Tal Zussman <tz2294@columbia.edu> wrote:
-> > > > >>
-> > > > >> On 9/4/26 12:28 AM, Barry Song wrote:
-> > > > >> > On Sun, Aug 30, 2026 at 7:59 PM Tal Zussman <tz2294@columbia.edu> wrote:
-> > > > >> >>
-> > > > >> >> On 8/30/26 6:25 AM, Wenjie Qi wrote:
-> > > > >> >> > From: Wenjie Qi <qiwenjie@xiaomi.com>
-> > > > >> >> >
-> > > > >> >> > Fault-around can map ready dropbehind folios without going through the
-> > > > >> >> > normal page-cache lookup that clears dropbehind. A mapping represents a
-> > > > >> >> > competing cached user, but writeback completion can currently unmap that
-> > > > >> >> > folio. A later mmap access must then fault it back in.
-> > > > >> >> >
-> > > > >> >> > Retain mapped folios instead. For a mapped folio,
-> > > > >> >> > folio_unmap_invalidate() can call unmap_mapping_folio(), which takes
-> > > > >> >> > i_mmap_rwsem and may sleep. Retaining the folio also avoids this path when
-> > > > >> >> > folio_end_dropbehind() runs in non-preemptible task context.
-> > > > >> >> >
-> > > > >> >> > Unmapped dropbehind folios continue through the existing invalidation path.
-> > > > >> >> >
-> > > > >> >> > Fixes: fb7d3bc41493 ("mm/filemap: drop streaming/uncached pages when writeback completes")
-> > > > >> >> > Cc: stable@vger.kernel.org
-> > > > >> >> > Signed-off-by: Wenjie Qi <qiwenjie@xiaomi.com>
-> > > > >> >> > Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > > > >> >> > Reviewed-by: Tal Zussman <tz2294@columbia.edu>
-> > > > >> >> > ---
-> > > > >> >> > The mapped-plus-dropbehind state was reproduced in QEMU. The patched
-> > > > >> >> > kernel retained the mapped folio and continued to evict the unmapped
-> > > > >> >> > dontcache folio. I did not reproduce the sleeping-in-atomic warning and
-> > > > >> >> > am not aware of an existing report.
-> > > > >> >> >
-> > > > >> >>
-> > > > >> >> I was able to trigger the sleeping-while-atomic BUG on current mainline with
-> > > > >> >> some help from Claude. The reproducer itself is straightforward enough, but the
-> > > > >> >> configuration was a little finicky. The atomic context comes from using
-> > > > >> >> threadirqs so that virtblk_done() completes requests from the irq thread under
-> > > > >> >> local_bh_disable() and the vq spinlock with irqs off, so in_task() is true but
-> > > > >> >> the i_mmap_rwsem down_read() sleeps. It also needed 1 vCPU (so completion stays
-> > > > >> >> in the irq thread rather than softirq) and ext4 -o dioread_lock (so end_io runs
-> > > > >> >> inline instead of on a workqueue). With v4 applied the bug is gone, so:
-> > > > >> >>
-> > > > >> >
-> > > > >> > Thanks, Tal. Then I'm getting quite confused. Since with Wenjie's
-> > > > >> > patch, we are no longer going to sleep for dropbehind in `filemap.c`,
-> > > > >> > do we still need all the complex logic in the block device and file
-> > > > >> > system layers to move dropbehind to a workqueue task context?
-> > > > >> >
-> > > > >>
-> > > > >> Hi Barry,
-> > > > >>
-> > > > >> Let me clarify. Wenjie's patch prevents sleeping in a very specific case.
-> > > > >> The existing in_task() check covered most other cases, in that it just
-> > > > >> doesn't do dropbehind invalidation if we're not executing in task context
-> > > > >> (for example, block device writeback completing in interrupt context).
-> > > > >>
-> > > > >> However, dropping the invalidation defeats the point of dropbehind, as it
-> > > > >> leaves the pages in the page cache. If we get rid of the task-context
-> > > > >> deferral mechanism, we wouldn't sleep, but we also wouldn't invalidate.
-> > > > >> Wenjie's change is largely unrelated to this.
-> > > > >
-> > > > > Hi Tal,
-> > > > >
-> > > > > Thanks for the clarification. However, I’m still not convinced.
-> > > > >
-> > > > > If `unmap_mapping_folio()` is the only place where we might
-> > > > > sleep — where we might take `mapping->i_mmap_rwsem` through
-> > > > > `i_mmap_lock_read()`, as Wenjian pointed out in [1] — we have now
-> > > > > prevented that from happening with `if (!folio_mapped(folio))`.
-> > > > >
-> > > > > So no mapped folio should call `folio_unmap_invalidate()`:
-> > > > >
-> > > > > static void filemap_end_dropbehind(struct folio *folio)
-> > > > > {
-> > > > >          struct address_space *mapping = folio->mapping;
-> > > > >
-> > > > >          VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
-> > > > >
-> > > > >          if (folio_test_writeback(folio) || folio_test_dirty(folio))
-> > > > >                  return;
-> > > > >          if (!folio_test_clear_dropbehind(folio))
-> > > > >                  return;
-> > > > >          if (mapping && !folio_mapped(folio))
-> > > > >                  folio_unmap_invalidate(mapping, folio, 0);
-> > > > > }
-> > > > >
-> > > > > Why do we still need the `in_task()` check in
-> > > > > `folio_end_dropbehind()`?
-> > > > >
-> > > > > void folio_end_dropbehind(struct folio *folio)
-> > > > > {
-> > > > >          if (!folio_test_dropbehind(folio))
-> > > > >                  return;
-> > > > >
-> > > > >          /*
-> > > > >           * Hitting !in_task() should not happen off RWF_DONTCACHE writeback,
-> > > > >           * but can happen if normal writeback just happens to find dirty folios
-> > > > >           * that were created as part of uncached writeback, and that writeback
-> > > > >           * would otherwise not need non-IRQ handling. Just skip the
-> > > > >           * invalidation in that case.
-> > > > >           */
-> > > > >          if (in_task() && folio_trylock(folio)) {
-> > > > >                  filemap_end_dropbehind(folio);
-> > > > >                  folio_unlock(folio);
-> > > > >          }
-> > > > > }
-> > > > >
-> > > > > Could any other operation in `folio_unmap_invalidate()` sleep for
-> > > > > unmapped folios? Otherwise, it seems we don't need `in_task()` at
-> > > > > all?
-> >
-> > We do need it. folio_unmap_invalidate() calls filemap_release_folio() which
-> > calls into ->release_folio() handler and generally filesystems are allowed
-> > to sleep in this handler. Now usually they don't actually sleep there but
-> > they definitely grab a lot of irq unsafe locks there as Tal writes below.
-> 
-> Hi Jan,
-> 
-> Thanks very much for your explanation. That makes a lot of
-> sense to me.
-> 
-> Then, based on the above, I am getting into another confusion and
-> have another question. If `release_folio()` is actually allowed
-> to sleep, and some filesystem might sleep there in the future,
-> wouldn't Wenjie's patch [1] make sense in that case, as it
-> guarantees that `->release_folio()` is always called in a
-> sleepable context, while `in_task()` does not provide such a
-> guarantee?
-> 
-> https://lore.kernel.org/linux-mm/20260820142956.1414337-1-qiwenjie@xiaomi.com/
+Bdev inodes are routinely shared by multiple memcgs. Recording their
+owner wb as foreign can cause dirty throttling in one memcg to trigger
+writeback of unrelated file data belonging to that wb.
 
-Well, adding the folio_mapped() check makes sense as well as Matthew
-explained - we shouldn't be dropping mapped folios(). But yes, now that
-you've made me look into this I don't think dropping the in_task() check
-here is correct and we still need to make sure that *at least* we are in
-non-interrupt context and preferably to keep fs maintainer's sanity in a
-sleepable context. Matthew?
+On one production machine, bdev mapping snapshots showed as little
+as about 10 MiB of dirty data. A queue snapshot of its owner wb showed
+599 foreign-flush works, with an average requested writeback budget of
+43 GiB per work.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+In other words, a small amount of foreign dirtying in the bdev mapping
+can trigger owner-wide writeback requests, whose budgets averaged
+43 GiB in this queue snapshot.
+
+Following Jan's suggestion, this series records foreign bdev targets
+separately and flushes their mappings instead of their owner wbs. This
+preserves a way for dirty throttling to initiate bdev writeback while
+avoiding owner-wide writeback triggered by these records. The existing
+foreign-wb mechanism remains unchanged for other inodes.
+
+Tracking is best effort: each memcg keeps a bounded set of device
+numbers without persistent device or inode references. Closed devices
+and devices with a busy open_mutex are skipped. Device removal and
+device-number reuse may race with lookup.
+
+Flushes run asynchronously on a dedicated workqueue to isolate these
+frequently triggered tasks from existing workqueue users. If workqueue
+allocation fails, the existing foreign-wb mechanism remains in use.
+
+Julian Sun (3):
+  block: introduce bdev_flush_by_dev()
+  memcg,writeback: flush foreign bdev mappings separately from owner wbs
+  writeback: record bdev targets in foreign writeback tracepoints
+
+ block/bdev.c                     |  24 +++++++
+ include/linux/blkdev.h           |   1 +
+ include/linux/memcontrol.h       |  15 ++++
+ include/trace/events/writeback.h |  22 +++---
+ mm/memcontrol.c                  | 113 ++++++++++++++++++++++++++++---
+ 5 files changed, 157 insertions(+), 18 deletions(-)
