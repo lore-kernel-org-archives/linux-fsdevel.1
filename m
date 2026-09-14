@@ -1,112 +1,297 @@
-Received: from lb2.peda.net (lb2.peda.net [130.234.6.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079D22D7380;
-	Mon, 14 Sep 2026 06:37:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.234.6.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9304331EC0;
+	Mon, 14 Sep 2026 07:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789367825; cv=none; b=nS2bdaSF1GJdemC0Jm6kHl6mNjss+wbFY83FIZoeFdZh3+s0VsL/+IF/9YRscgpRgTSVuU9V4kLIN7EK2Jj9ghVcMJv9HxkPvIuzAg7Mgh3GUalclv55WDmDGSBNeM0kXIFhTyxztQ10wUyOug3a9kPaCDFkglaYOR9U/0z1x70=
+	t=1789371710; cv=none; b=iZXyzWqyGTpUHcqFZOqZGO4IB3S/nilpI5KksBE+f9ahN1eRbvU97HxnicCi5Jhbh/3tKPJUr9t6W3nuaXNFrDPmxT6P8Utkjm2gwgTwz7u6FoF2n33LAPWm4cavrA7vOD2Sv+JTFaqZL5ZLVCXj1gCB77T9A1vlwL0rDV8ttv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789367825; c=relaxed/simple;
-	bh=8N42BmCblJVZfeWu1cm73VCY2czk8tZtyc88nGTs5zE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g8qsx/zz9rJ8iUKPEg2b6n8CN5J37KdYkberobyQ5vw5lM+ElOgRyafgrpifDwj8Lm4xEICf6AB0WspbEL6MSRDMXmROfk51TlwKS1eKv45kjtIolbQUJy+lCx4t6iX18v3UXG2rTy8r+zZFBwwrhBWBGPQYmLRUdFoFH+qAqOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=peda.net; spf=pass smtp.mailfrom=peda.net; dkim=pass (2048-bit key) header.d=peda.net header.i=@peda.net header.b=MykX7Eu4; arc=none smtp.client-ip=130.234.6.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=peda.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peda.net
+	s=arc-20240116; t=1789371710; c=relaxed/simple;
+	bh=ht8/FRXAETsEd4KPkHqSgSvq92iODxU7+XfH9PRcdCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P4RQwf9g6TVftWe4iaUiba+iGEUSQ3YXX3FPDd9J7mz4zzDIdVUoDGZdyB7BUQt2Th4VtidhAPQkI5XeI+Qj4207Xg+ITUHYQxidOYI1sv19+pECSSQ4B0LWx2zuyYDDN9wwsDQJ7H8XZ0tK7e7X9kiXe8sYdnWjE57702O0Hig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QDsi3vq4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ssAYlhQB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tC6ipI+1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oLSy3K5q; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=peda.net header.i=@peda.net header.b="MykX7Eu4"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=peda.net; s=default;
-	t=1789367819; bh=8N42BmCblJVZfeWu1cm73VCY2czk8tZtyc88nGTs5zE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MykX7Eu48WTDqBURwwpcGBIjj2NPoEV00/TaG4Lhlc3mK1V+CdD9KqlIke4bz31II
-	 +G7pf4ZPIEpZBuYft+h7dnFQ9Ah4UV1iabclce4AyHoED6GHRy1mVoc2bsuSs8npVm
-	 p1zeoPc3SVq52Yfi5ibDyjRT77tU0e26eXCLMJ82SCp8WhbJQODcSxmA30Fyi8fsDA
-	 oG9Yp3Fn05pOu9D5IUA6N/dWBgf0PR8D9/4z1P4/LOK+08Msc3zLkwpXieVe1hzL56
-	 05Ha+0V88sSGn5MTu6X3fpDQgpxqd1Vc+VUDHL61OgpC6eogjpCgPqZM3aDLlH22O8
-	 WhZFFwvXmSAOQ==
-Received: from [86.60.167.233] (86-60-167-233.dynamic.lounea.fi [86.60.167.233])
-	by lb2.peda.net (lb2.peda.net) with ESMTPSA id 26BDED60144;
-	Mon, 14 Sep 2026 09:36:59 +0300 (EEST)
-Message-ID: <0e27e9dc-3520-436e-aa69-af9e938ab1bf@peda.net>
-Date: Mon, 14 Sep 2026 09:36:58 +0300
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QDsi3vq4";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ssAYlhQB";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tC6ipI+1";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oLSy3K5q"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 538BF1F79C;
+	Mon, 14 Sep 2026 07:41:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789371702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4rrrR4P0V2oM3SBISC3miDX72YkqcrX041vhM2jZlFA=;
+	b=QDsi3vq4psEoC2yKJfQZnleSS2pJNEucVoxCyMr2ppxz+ljF6JyYS4KJVlboyNzh3ClwUM
+	+TYDOlov728UaVt0a/OdAQyZ4rYccWCJWEq2kGaqXn2upaPBJ6TgU0ViSQ1fEJsfUFp7Tp
+	mKu+S5bcgsGPzAq4fd11uUzGdU1l7XI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789371702;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4rrrR4P0V2oM3SBISC3miDX72YkqcrX041vhM2jZlFA=;
+	b=ssAYlhQBpd8Zaj1B0+UA7Y4sMxpszvGajwjkH2/p1Yb2a8y8x0kpRjal3cXvhAQ2iAojSi
+	EBH8kOAkzIp56DCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=tC6ipI+1;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=oLSy3K5q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789371698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4rrrR4P0V2oM3SBISC3miDX72YkqcrX041vhM2jZlFA=;
+	b=tC6ipI+1yqeETm1nkFri4Q9FopEcj5W5buTT5dXH5vTS7tX/rt1QEroCLfsBNRgaGaI3kq
+	ndqTMy2TliyKZUyVov+3Dn8DNEZqRppkJAyR6ZLPBaUzFWMFXBfVqv6ALUN/otGhs29FKE
+	QXPxUt+hTcIzlNMe7k92+37NGIEofy8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789371698;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4rrrR4P0V2oM3SBISC3miDX72YkqcrX041vhM2jZlFA=;
+	b=oLSy3K5qVjHo13DTNgKTJ5T/2gRvY42xLYlFyMygGzj+G94vjE4T+JDZlJSkXiMAN/Eish
+	g46k0kom05fLKqCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A13913515;
+	Mon, 14 Sep 2026 07:41:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8itBCjKlp2rGWQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 14 Sep 2026 07:41:38 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 9D9ABA079B; Mon, 14 Sep 2026 09:41:29 +0200 (CEST)
+Date: Mon, 14 Sep 2026 09:41:29 +0200
+From: Jan Kara <jack@suse.cz>
+To: Farhad Alemi <farhad.alemi@berkeley.edu>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [BUG] WARNING in thaw_super_locked
+Message-ID: <zl6u576no5nt44zfslopjeqpdohbdxe3wc6xi64pgimchky4wp@uryxferm7nw2>
+References: <CA+0ovChM9=2RkQngMbBhyqiHn-f6bECUvocDvzbZm8AohRiVYg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
-To: Rich Felker <dalias@libc.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk,
- jack@suse.cz, alx@kernel.org
-References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
- <20260913205358.GX25906@brightrain.aerifal.cx>
-From: Mikko Rantalainen <mikko.rantalainen@peda.net>
-Autocrypt: addr=mikko.rantalainen@peda.net; keydata=
- xjMEWvlVlRYJKwYBBAHaRw8BAQdAJneRuA4reN56nwM7GyQ8Gwkhc4ANBia0NFNcU/qwP63N
- Lk1pa2tvIFJhbnRhbGFpbmVuIDxtaWtrby5yYW50YWxhaW5lbkBwZWRhLm5ldD7ClgQTFggA
- JwUCWvlY9wIbAwUJXfwPAAULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAhCRC4w4yaqAoqKxYh
- BNKwvdN4KAGSgYZmbbjDjJqoCiornGsA+wWoUBgH7S20W4KkYvr5OipJ5FBH0vbHDEvv26V+
- WYt5AQCbgxKfVQD1g9gp67xb2NWkMKccy/5R0oYl7uGBDKHNBc44BGftb9gSCisGAQQBl1UB
- BQEBB0CXgySU7HDsuvqYVVlXWZvvGTyjxz4iEQSemOwJ8BU7EgMBCAfCfgQYFggAJhYhBNKw
- vdN4KAGSgYZmbbjDjJqoCiorBQJn7W/YAhsMBQkX8l8AAAoJELjDjJqoCiorklIBANBBccGb
- g8cV5dSjL2oUNnJKK3ZgkBSfWjk21cISIMIxAP4xRcw/3Kk0sCRbKNFXyGtIk4OQrvYBaAij
- qKI0ItEoBg==
-In-Reply-To: <20260913205358.GX25906@brightrain.aerifal.cx>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+0ovChM9=2RkQngMbBhyqiHn-f6bECUvocDvzbZm8AohRiVYg@mail.gmail.com>
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: 538BF1F79C
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
 
-Rich Felker (2026-09-13 23:53 Europe/Helsinki):
-> On Sun, Sep 13, 2026 at 10:38:14PM +0300, Mikko Rantalainen wrote:
->> In addition, POSIX.1-2024 requires that if close() reports EINTR, the
->> descriptor must remain open. It also explicitly permits an interrupted
->> close() to return success after closing the descriptor.
->>
->> This patch is about implementing the second option to be compatible with
->> both POSIX.1-2024 and real-world applications.
-> ...
+Hello!
+
+On Fri 11-09-26 08:51:25, Farhad Alemi wrote:
+> We are reporting the following crash (reproducer attached):
+> Linux version 7.3.0-rc2 50d05c7c76c96b90462f24debacca971d2e86713
+> Build Config: UpstreamAppArmorKASAN (KASAN + UBSAN, panic_on_warn=1)
+
+I think this should be fixed by fe967191e585 ("fs: don't return -EINVAL for
+successful nested thaw") in 7.3-rc3.
+
+								Honza
+
 > 
-> I don't think there is serious concern about userspace regressions
-> making this change. It would not be changing the meaning of any
-> existing result code or adding a new error condition applications need
-> to be aware of (like the EINPROGRESS mess).
+> [   50.331769][ T9500] sb->s_writers.freeze_kcount == 0
+> [   50.331782][ T9500] WARNING: fs/super.c:2172 at
+> thaw_super_locked+0x437/0x960, CPU#1: repro/9500
+> [   50.337664][ T9500] Modules linked in:
+> [   50.338411][ T9500] CPU: 1 UID: 0 PID: 9500 Comm: repro Not tainted
+> 7.3.0-rc2-00099-g50d05c7c76c9 #1 PREEMPT(full)
+> [   50.340359][ T9500] Hardware name: QEMU Standard PC (Q35 + ICH9,
+> 2009), BIOS 1.17.0-debian-1.17.0-1ubuntu1 04/01/2014
+> [   50.342404][ T9500] RIP: 0010:thaw_super_locked+0x437/0x960
+> [   50.342962][ T9500] Code: ff 90 0f 0b 90 41 bf ea ff ff ff e9 7f 02
+> 00 00 e8 be 5c 7b ff 90 0f 0b 90 41 bf ea ff ff ff e9 6b 02 00 00 e8
+> aa 5c 7b ff 90 <0f> 0b 90 41 bf ea ff ff ff e9 57 02 00 00 e8 96 5c 7b
+> ff 90 0f 0b
+> [   50.344752][ T9500] RSP: 0018:ffffc90008eafa68 EFLAGS: 00010293
+> [   50.345341][ T9500] RAX: ffffffff824c3fd6 RBX: ffff88810a876000
+> RCX: ffff88802a25cc80
+> [   50.346063][ T9500] RDX: 0000000000000000 RSI: 0000000000000000
+> RDI: 0000000000000000
+> [   50.346777][ T9500] RBP: ffff88810a876378 R08: ffff88810a87608f
+> R09: 1ffff1102150ec11
+> [   50.347500][ T9500] R10: dffffc0000000000 R11: ffffed102150ec12
+> R12: 0000000000000001
+> [   50.348223][ T9500] R13: 0000000000000000 R14: ffff88810a87637c
+> R15: 0000000000000001
+> [   50.348941][ T9500] FS:  00000000028c2400(0000)
+> GS:ffff8881da588000(0000) knlGS:0000000000000000
+> [   50.349778][ T9500] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   50.350384][ T9500] CR2: 000055c32878aae0 CR3: 000000010adda000
+> CR4: 0000000000752ef0
+> [   50.351219][ T9500] PKRU: 55555554
+> [   50.351570][ T9500] Call Trace:
+> [   50.351913][ T9500]  <TASK>
+> [   50.352195][ T9500]  filesystems_thaw_callback+0x1b8/0x2f0
+> [   50.352713][ T9500]  __iterate_supers+0x2ce/0x420
+> [   50.353193][ T9500]  ? __pfx_filesystems_thaw_callback+0x10/0x10
+> [   50.353784][ T9500]  ? __pfx___iterate_supers+0x10/0x10
+> [   50.354334][ T9500]  ? schedule+0x16e/0x2b0
+> [   50.354806][ T9500]  pm_suspend+0x58c/0x760
+> [   50.355245][ T9500]  state_store+0x206/0x290
+> [   50.355693][ T9500]  ? __pfx_sysfs_kf_write+0x10/0x10
+> [   50.356209][ T9500]  kernfs_fop_write_iter+0x3af/0x540
+> [   50.356698][ T9500]  vfs_write+0x61d/0xb90
+> [   50.357098][ T9500]  ? __pfx_vfs_write+0x10/0x10
+> [   50.357544][ T9500]  ? do_sys_openat2+0x14e/0x200
+> [   50.357997][ T9500]  ? kmem_cache_free+0x182/0x650
+> [   50.358460][ T9500]  ksys_write+0x150/0x270
+> [   50.358866][ T9500]  ? __pfx_ksys_write+0x10/0x10
+> [   50.359604][ T9500]  do_syscall_64+0x155/0x510
+> [   50.360070][ T9500]  ? trace_irq_disable+0x3b/0x140
+> [   50.360560][ T9500]  ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [   50.361196][ T9500]  ? clear_bhb_loop+0x30/0x80
+> [   50.361655][ T9500]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [   50.362218][ T9500] RIP: 0033:0x42e806
+> [   50.362588][ T9500] Code: 47 ba 04 00 00 00 48 c7 c0 f0 ff ff ff 64
+> 89 10 48 c7 c2 ff ff ff ff c9 48 89 d0 c3 0f 1f 84 00 00 00 00 00 48
+> 8b 45 10 0f 05 <48> 89 c2 48 3d 00 f0 ff ff 77 0f c9 48 89 d0 c3 66 2e
+> 0f 1f 84 00
+> [   50.364338][ T9500] RSP: 002b:00007ffec5fbaa00 EFLAGS: 00000202
+> ORIG_RAX: 0000000000000001
+> [   50.365096][ T9500] RAX: ffffffffffffffda RBX: 0000000000000001
+> RCX: 000000000042e806
+> [   50.365817][ T9500] RDX: 0000000000000003 RSI: 00000000004880f9
+> RDI: 0000000000000004
+> [   50.366529][ T9500] RBP: 00007ffec5fbaa10 R08: 0000000000000000
+> R09: 0000000000000000
+> [   50.367283][ T9500] R10: 0000000000000000 R11: 0000000000000202
+> R12: 00007ffec5fbaba8
+> [   50.368042][ T9500] R13: 00007ffec5fbabb8 R14: 0000000000000002
+> R15: 00000000004af120
+> [   50.368775][ T9500]  </TASK>
+> [   50.369071][ T9500] Kernel panic - not syncing: kernel: panic_on_warn set ...
+> [   50.369727][ T9500] CPU: 1 UID: 0 PID: 9500 Comm: repro Not tainted
+> 7.3.0-rc2-00099-g50d05c7c76c9 #1 PREEMPT(full)
+> [   50.370770][ T9500] Hardware name: QEMU Standard PC (Q35 + ICH9,
+> 2009), BIOS 1.17.0-debian-1.17.0-1ubuntu1 04/01/2014
+> [   50.371772][ T9500] Call Trace:
+> [   50.372100][ T9500]  <TASK>
+> [   50.372373][ T9500]  vpanic+0x56d/0xa60
+> [   50.372745][ T9500]  ? __pfx__printk+0x10/0x10
+> [   50.373177][ T9500]  ? __pfx_vpanic+0x10/0x10
+> [   50.373593][ T9500]  ? is_bpf_text_address+0x292/0x2b0
+> [   50.374086][ T9500]  ? is_bpf_text_address+0x26/0x2b0
+> [   50.374586][ T9500]  panic+0xc5/0xd0
+> [   50.374938][ T9500]  ? __pfx_panic+0x10/0x10
+> [   50.375357][ T9500]  __warn+0x315/0x4c0
+> [   50.375725][ T9500]  ? thaw_super_locked+0x437/0x960
+> [   50.376198][ T9500]  ? thaw_super_locked+0x437/0x960
+> [   50.376687][ T9500]  __report_bug+0x273/0x580
+> [   50.377135][ T9500]  ? thaw_super_locked+0x437/0x960
+> [   50.377628][ T9500]  ? __pfx___report_bug+0x10/0x10
+> [   50.378137][ T9500]  ? thaw_super_locked+0x437/0x960
+> [   50.378604][ T9500]  report_bug+0x16b/0x220
+> [   50.379010][ T9500]  ? thaw_super_locked+0x437/0x960
+> [   50.379479][ T9500]  ? thaw_super_locked+0x439/0x960
+> [   50.379951][ T9500]  handle_bug+0x9c/0x200
+> [   50.380350][ T9500]  exc_invalid_op+0x1a/0x50
+> [   50.380870][ T9500]  asm_exc_invalid_op+0x1a/0x20
+> [   50.381338][ T9500] RIP: 0010:thaw_super_locked+0x437/0x960
+> [   50.381890][ T9500] Code: ff 90 0f 0b 90 41 bf ea ff ff ff e9 7f 02
+> 00 00 e8 be 5c 7b ff 90 0f 0b 90 41 bf ea ff ff ff e9 6b 02 00 00 e8
+> aa 5c 7b ff 90 <0f> 0b 90 41 bf ea ff ff ff e9 57 02 00 00 e8 96 5c 7b
+> ff 90 0f 0b
+> [   50.383638][ T9500] RSP: 0018:ffffc90008eafa68 EFLAGS: 00010293
+> [   50.384194][ T9500] RAX: ffffffff824c3fd6 RBX: ffff88810a876000
+> RCX: ffff88802a25cc80
+> [   50.384929][ T9500] RDX: 0000000000000000 RSI: 0000000000000000
+> RDI: 0000000000000000
+> [   50.385692][ T9500] RBP: ffff88810a876378 R08: ffff88810a87608f
+> R09: 1ffff1102150ec11
+> [   50.386447][ T9500] R10: dffffc0000000000 R11: ffffed102150ec12
+> R12: 0000000000000001
+> [   50.387164][ T9500] R13: 0000000000000000 R14: ffff88810a87637c
+> R15: 0000000000000001
+> [   50.387916][ T9500]  ? thaw_super_locked+0x436/0x960
+> [   50.388413][ T9500]  ? thaw_super_locked+0x436/0x960
+> [   50.388920][ T9500]  filesystems_thaw_callback+0x1b8/0x2f0
+> [   50.389463][ T9500]  __iterate_supers+0x2ce/0x420
+> [   50.389916][ T9500]  ? __pfx_filesystems_thaw_callback+0x10/0x10
+> [   50.390474][ T9500]  ? __pfx___iterate_supers+0x10/0x10
+> [   50.391077][ T9500]  ? schedule+0x16e/0x2b0
+> [   50.391503][ T9500]  pm_suspend+0x58c/0x760
+> [   50.391933][ T9500]  state_store+0x206/0x290
+> [   50.392346][ T9500]  ? __pfx_sysfs_kf_write+0x10/0x10
+> [   50.393100][ T9500]  kernfs_fop_write_iter+0x3af/0x540
+> [   50.393612][ T9500]  vfs_write+0x61d/0xb90
+> [   50.394039][ T9500]  ? __pfx_vfs_write+0x10/0x10
+> [   50.394494][ T9500]  ? do_sys_openat2+0x14e/0x200
+> [   50.394946][ T9500]  ? kmem_cache_free+0x182/0x650
+> [   50.395406][ T9500]  ksys_write+0x150/0x270
+> [   50.395808][ T9500]  ? __pfx_ksys_write+0x10/0x10
+> [   50.396264][ T9500]  do_syscall_64+0x155/0x510
+> [   50.396691][ T9500]  ? trace_irq_disable+0x3b/0x140
+> [   50.397157][ T9500]  ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [   50.397706][ T9500]  ? clear_bhb_loop+0x30/0x80
+> [   50.398141][ T9500]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [   50.398702][ T9500] RIP: 0033:0x42e806
+> [   50.399085][ T9500] Code: 47 ba 04 00 00 00 48 c7 c0 f0 ff ff ff 64
+> 89 10 48 c7 c2 ff ff ff ff c9 48 89 d0 c3 0f 1f 84 00 00 00 00 00 48
+> 8b 45 10 0f 05 <48> 89 c2 48 3d 00 f0 ff ff 77 0f c9 48 89 d0 c3 66 2e
+> 0f 1f 84 00
+> [   50.400946][ T9500] RSP: 002b:00007ffec5fbaa00 EFLAGS: 00000202
+> ORIG_RAX: 0000000000000001
+> [   50.401732][ T9500] RAX: ffffffffffffffda RBX: 0000000000000001
+> RCX: 000000000042e806
+> [   50.402465][ T9500] RDX: 0000000000000003 RSI: 00000000004880f9
+> RDI: 0000000000000004
+> [   50.403178][ T9500] RBP: 00007ffec5fbaa10 R08: 0000000000000000
+> R09: 0000000000000000
+> [   50.403894][ T9500] R10: 0000000000000000 R11: 0000000000000202
+> R12: 00007ffec5fbaba8
+> [   50.404618][ T9500] R13: 00007ffec5fbabb8 R14: 0000000000000002
+> R15: 00000000004af120
+> [   50.405337][ T9500]  </TASK>
+> [   50.405933][ T9500] Kernel Offset: disabled
+> [   50.406477][ T9500] Rebooting in 86400 seconds..
 > 
-> But I'm also not sure how helpful the change would be. It's already
-> possible to patch this up in userspace, and as you noted, we already
-> do that in musl and so does Bionic. So the main practical effect of
-> this change would be just forcing the right behavior on glibc systems
-> even when glibc doesn't want to fix it. Maybe that's a good idea? I'm
-> not sure. I think it would be best to have everyone on the same page
-> that this should be fixed, with both glibc fixing it so it's right on
-> old-kernel/new-glibc, and the kernel fixing it so it's right on
-> new-kernel/old-glibc. That would also avoid hard feelings from a
-> unilateral action perceived as dictatorial.
+> Regards,
 
-I think there are two important questions:
-
-
-(1) What is the caller truly expected to do for EINTR? They cannot
-retry which would be the typical response to EINTR.
-
-(2) If caller cannot retry because file was already closed, can caller
-have any valuable information from EINTR return instead of success?
-I think it's pretty safe assumption that success from close() would
-be handled correctly by the caller.
-
-
-I'm currently thinking that the answer to (1) is "???" and answer to
-(2) is best you can do is to log "Some unknown action interrupted
-some unknown background process while closing file XYZ, pretending
-everything went well." because anything else would assume some
-specific implementation of close() on Linux.
-
-As I see it, the fact that avoiding EINTR return value when the file
-is already closed fixing POSIX.1-2024 compatibility and glibc is just
-a bonus for a change that makes sense otherwise, too.
 
 -- 
-Mikko
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
