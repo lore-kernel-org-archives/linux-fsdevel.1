@@ -1,84 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E079640EBB6;
-	Mon, 14 Sep 2026 08:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A230636606A;
+	Mon, 14 Sep 2026 08:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789376015; cv=none; b=cWOW+apMp09nS1mAUWSBlahqglQAr9UzphIc7aGMhCNNBINTpQD1zdAGsiRgEIfRw4tXFun82ZS8TRIBr4I3EAvv/i1CBUY98hBro8JNe2Gc4prculjbgsbQXSF9+VQQUlaODVfogOAdUppXQ7NtOtRnrLgw75S/qPp8cITWdFg=
+	t=1789376228; cv=none; b=ZnuNgGxVz++O3NrUFxrIi6+apXABNCunUSVSDpX6KVTXS1Wf38Raz2kJdQBo14kIFeMwQCdlId4TPbfODYN72zv+zhZYZUpaYGnVn55CocTMgKZ1xod7QCenalRFN3T0dAVh0/ZgPhSnWPbJORAz0Tthb09fV09WKo/KOX17IuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789376015; c=relaxed/simple;
-	bh=2/QPqyyGci2C3ahz4RkgnHjD5wDyxAb1g79QR0gXQNo=;
+	s=arc-20240116; t=1789376228; c=relaxed/simple;
+	bh=J4WSmnOksRwBCmfc6I0bWG6/1EEqrqO0K+BBI+cCwp4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ujfo60XT2j3hxNa3EA9b43HoqRigO7VMOzlC7GwljZ4MnGKtQXDHECNajfkc6fLfVhi/Aht/nhKDFcN5V3njrRQWgquNUcewTfxRWuimz2f2oWdfrRbXSiM8jKYkqDVVvnpIzjtZcVXBGota9VVKth5biOy8ZxRgJoZNHXMboPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IN8+8F/R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DFMTfNGM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OFM2Wc2L; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=M9A/G52L; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZluRwGjtoUl01YcHNP6bVI8+4mTa3BUvuIimArvX0sn+tra2iXX2CkjcYuBMWG+rLjPbXJcEiwZDKkFzW2WHi/61Yuw2Jdqg6LroMU1OS1ZyUZt/3RqmvhFhHnlK0i0XbNXwIHWe5ourIfTQ9MCwPjPf5leabZ5ahkg4ySUsZhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wKtqzwRI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CUnZTxSq; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vC0ieGZQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EzpCZ3Ld; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IN8+8F/R";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DFMTfNGM";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OFM2Wc2L";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="M9A/G52L"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wKtqzwRI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CUnZTxSq";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vC0ieGZQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EzpCZ3Ld"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D472E21B03;
-	Mon, 14 Sep 2026 08:53:14 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5C2CC1F38D;
+	Mon, 14 Sep 2026 08:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789375999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789376215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7fkfs27SEfag3YWNxjnmJi7blS0vIHEFAEl3bfsZExw=;
-	b=IN8+8F/Rcy692g8YziViPLkzwLLFsJDWZeKrQlObOLNin3UOPy0LQ1khHfmGqlQRPhqJM/
-	7nSFhBBm96FJxhJPWToSxR2I9bDZ8NMHACTTlDwUgm4AJ8rZGL74LyvgJRG7ESZ19sEw65
-	LYa3NAkzs0KKaU/BtV2i65Tvn4N/I9Q=
+	bh=YGrsKBDCYygO26F0zTaCL4mzIKYcG4BnzRtitvCGKeg=;
+	b=wKtqzwRIDPiPtwlZG642cvH79huuYOaE6eTlnzc/IBOf+ZbKBDG69zpPyPqs88lwVN/S/N
+	IQNqxjoX9Ecsjw0YzBRWLhpVzlZHDXuoVuJTno3W9MvbbOPb/8GC5wlXmHTgQnutPzjdgr
+	ugoAbmc843WGnnsY34e7Jhrce+1hXdc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789375999;
+	s=susede2_ed25519; t=1789376215;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7fkfs27SEfag3YWNxjnmJi7blS0vIHEFAEl3bfsZExw=;
-	b=DFMTfNGMtqLBjzSx95f2WPLejkPSgFqATIxLwjCCngnI+NhC+qKoQz/7ZfNYfE3bPZDKIG
-	BWoyKBmmN7kvAQDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=YGrsKBDCYygO26F0zTaCL4mzIKYcG4BnzRtitvCGKeg=;
+	b=CUnZTxSq/fFV/56cZTrtrJuMwo2EpugZNlj1TFxriNL3fKE4AD7b6ZGnp//ra1Z+D/CeDQ
+	ZPkpAnZ6eD+InBCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=vC0ieGZQ;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=EzpCZ3Ld
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789375994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789376211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7fkfs27SEfag3YWNxjnmJi7blS0vIHEFAEl3bfsZExw=;
-	b=OFM2Wc2LW/F05zo+8WP3oMBPVpsn4eRK62uRx0Pt+KwmsczdVCH759Oy15iJhe8rj9n+F6
-	4hry47T0Ybfu9wQTq+m/Gv3yeP1+ToTbJGhwlP3a39PO/nB413+VnqEhtC9nA3h9Ttj+Xl
-	Yt2Nw5ZzLaaoN5GwHGD+3iIpMC10UTQ=
+	bh=YGrsKBDCYygO26F0zTaCL4mzIKYcG4BnzRtitvCGKeg=;
+	b=vC0ieGZQAGGnyO7iBv4JeFpYBTjECmzn3EzuXcmpNimYQSdtIDNLxHRDXugdEhm6egKFqm
+	uMSdP2aBtYOMasjHtenahTkvmfbYlqS/zaxp6HgyuafdUEYeTcNwh/vWK9DX9JffKWMQZT
+	t+IrL69bYmhul1cidYacAGvpZn7aecE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789375994;
+	s=susede2_ed25519; t=1789376211;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7fkfs27SEfag3YWNxjnmJi7blS0vIHEFAEl3bfsZExw=;
-	b=M9A/G52LiKgaciRSQhrLjz0OFI7OcghoIZ614oIexmApg3nfQmT5F9Dbz8o3mIRJprKGS7
-	wdld7qqeK34R39CA==
+	bh=YGrsKBDCYygO26F0zTaCL4mzIKYcG4BnzRtitvCGKeg=;
+	b=EzpCZ3Ld5XjdQlfjbX67tq1cV7MnPiH1+Z99i2HjvluNIsxk4tqqlzNIN0beHBifzGmXNf
+	FZYh2/Cfm0lB9XDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE6E5136A1;
-	Mon, 14 Sep 2026 08:53:14 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 354481368C;
+	Mon, 14 Sep 2026 08:56:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id J1WSKvq1p2qyLgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 14 Sep 2026 08:53:14 +0000
+	id BA3/DNK2p2pWMgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 14 Sep 2026 08:56:50 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 401F4A12E4; Mon, 14 Sep 2026 10:53:06 +0200 (CEST)
-Date: Mon, 14 Sep 2026 10:53:06 +0200
+	id B5DD7A12E4; Mon, 14 Sep 2026 10:56:49 +0200 (CEST)
+Date: Mon, 14 Sep 2026 10:56:49 +0200
 From: Jan Kara <jack@suse.cz>
 To: Mateusz Guzik <mjguzik@gmail.com>
 Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
 	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 00/10] Towards safer path_* API
-Message-ID: <pm4tszxmbzodnxbsc3paaaogobweqlgbnleyoeukzs23rdnzr6@caobahbhkrl7>
+Subject: Re: [PATCH 04/10] fs: use path_clone() and path_move() in vfs_open*
+Message-ID: <nyrvahdkedtar25wx4kc4tekn4ywj2tzrbyzpyc5iauuxw2n4x@47mgvg6guhf5>
 References: <20260913144918.1606123-1-mjguzik@gmail.com>
+ <20260913144918.1606123-5-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -87,108 +89,79 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260913144918.1606123-1-mjguzik@gmail.com>
-X-Spam-Score: -3.80
+In-Reply-To: <20260913144918.1606123-5-mjguzik@gmail.com>
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 5C2CC1F38D
+X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:email];
+	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+	DKIM_TRACE(0.00)[suse.cz:+]
 X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-On Sun 13-09-26 16:49:07, Mateusz Guzik wrote:
-> Currently the handling is highly error-prone with consumers allowed to
-> arbitrarily manipulate references, notably with path_get().
+On Sun 13-09-26 16:49:11, Mateusz Guzik wrote:
+> No functional changes.
 > 
-> In the past this resulted in preventable bugs.
-> 
-> The end goal, not yet achieved with this patchset, will provide an
-> invariant that a populated 'struct path' has precisely one set of
-> references on it.
-> 
-> While consumers can still cause leaks by neglecting to path_put(), the
-> footgun of path_get() can be eliminated.
-> 
-> With this patchset instead of hand-rolling a path copy and issuing
-> path_get() on it, callers can resort to path_clone() instead.
-> 
-> Almost all path_get() consumers get converted, most of which with
-> coccinelle.
-> 
-> Few instances are left until I figure out a nice way to sort them out.
-> 
-> Overall almost entirety of this patchset is a NOP.
+> Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
 
-I like most of the changes. Just the changes to path_init() kind of leave a
-bad taste because they leave struct path assignment there for the RCU
-lookup mode. But I don't see a nicer way of dealing with it.
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
+> ---
+>  fs/open.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 > 
-> Mateusz Guzik (10):
->   fs: unexport backing_file_set_user_path() and make it take the ref on
->     its own
->   fs: add path_create(), path_move() and path_clone()
->   fs: use path_clone() in path_init()
->   fs: use path_clone() and path_move() in vfs_open*
->   fs: use path_clone() in backing_file_set_user_path()
->   Coccinelle-based conversion of path_* consumers to use the new
->     primitives
->   autofs: use path_create()
->   fsnotify: use path_clone()
->   proc: use path_clone()
->   nfsd: use path_clone()
-> 
->  drivers/block/loop.c               |  3 +-
->  fs/autofs/dev-ioctl.c              |  3 +-
->  fs/autofs/expire.c                 |  4 +--
->  fs/backing-file.c                  |  2 --
->  fs/devpts/inode.c                  |  6 ++--
->  fs/failfs.c                        |  3 +-
->  fs/fhandle.c                       |  3 +-
->  fs/file_attr.c                     |  6 ++--
->  fs/file_table.c                    |  3 +-
->  fs/fs_struct.c                     |  6 ++--
->  fs/namei.c                         | 44 ++++++++++++++++++++++++------
->  fs/namespace.c                     |  3 +-
->  fs/nfsd/export.c                   |  6 ++--
->  fs/nfsd/nfs4xdr.c                  |  8 +++---
->  fs/notify/fanotify/fanotify.c      |  6 ++--
->  fs/notify/fanotify/fanotify_user.c |  3 +-
->  fs/nsfs.c                          |  3 +-
->  fs/open.c                          | 10 ++-----
->  fs/overlayfs/params.c              |  3 +-
->  fs/pidfs.c                         |  3 +-
->  fs/proc/base.c                     |  6 ++--
->  fs/proc/fd.c                       |  3 +-
->  fs/smb/server/vfs.c                |  3 +-
->  fs/xfs/xfs_handle.c                |  3 +-
->  include/linux/path.h               | 14 ++++++++--
->  kernel/trace/bpf_trace.c           |  3 +-
->  security/apparmor/task.c           |  3 +-
->  security/keys/big_key.c            |  3 +-
->  security/landlock/fs.c             |  3 +-
->  security/landlock/syscalls.c       |  3 +-
->  30 files changed, 87 insertions(+), 85 deletions(-)
-> 
+> diff --git a/fs/open.c b/fs/open.c
+> index a84b55301719..e11d1342ff74 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -1102,8 +1102,7 @@ int vfs_open(const struct path *path, struct file *file)
+>  {
+>  	int ret;
+>  
+> -	file->__f_path = *path;
+> -	path_get(&file->f_path);
+> +	path_clone(path, &file->__f_path);
+>  	ret = do_dentry_open(file, NULL);
+>  	if (!ret) {
+>  		/*
+> @@ -1125,9 +1124,7 @@ int vfs_open_consume(struct path *path, struct file *file)
+>  {
+>  	int ret;
+>  
+> -	file->__f_path = *path;
+> -	path->mnt = NULL;
+> -	path->dentry = NULL;
+> +	path_move(path, &file->__f_path);
+>  	ret = do_dentry_open(file, NULL);
+>  	if (!ret) {
+>  		fsnotify_open(file);
 > -- 
 > 2.53.0
 > 
