@@ -1,198 +1,125 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCB844780F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 19:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9748472528
+	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 19:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789414174; cv=none; b=oa7szGfb/mHU1HpQz3iQxptp2yw9ooV8jMcLum9xHmATUr23vFP/mkVI0eDUWQUKFhcaxtyZF3xd3DyqQMSIL1uhOoqsD7G3y00u35ih338nq2KwwmBpOoHd1VAvjPoVifhO4LnBl9Lcf9FPgy0EeF3CxG4Rns/MSpiJ1rtC8Us=
+	t=1789415724; cv=none; b=X03sddgABoH7oS6fKVIqX6XH+fMQh7afwhM7++yerftxctXV1EifvDiZHiEVGDGYK5nDkta5u3gB15ugRRheX32Baea/yMwplqJv28CGwomuYC1J7EYfb8qQGq/PRznLiyTUTljPo0WI+EADF8PpvlWAOdCcVyTKLn6NSZH7TvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789414174; c=relaxed/simple;
-	bh=7BfBo4bSrQKPySmGfB8WjDBoz0v+gox7MbGpfymR+zw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rvf5rb0rtPs5ppJ5dIsxS9xJnbUW6ypOXX2r3iTPt7DZ95zbhk4WuMxzjvdfrwXkYkY0mcD2/UbrSw9EuDIHs2vzWhFjfUwnPCh0b+VK3mVzaSxnocQe5qLRqDHM0Tu8EvFTbo4Gl+45+N9cBzkRmQt76Qa4Ktxacdir1IDT6bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=syGmAkW6; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789415724; c=relaxed/simple;
+	bh=Laxp0Q4fdbSsx/bSE8DTPChd1Qoi2LY7exp/DnLxEmU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Tuj7LRg14RXJEGrpbJ3g2DxGtDOCFg59XpVHnYF2IfOXHUOt3Fw+UJluJ/qhIUGmTdKvv+uqgp/b0kXsoAxf6jTJ/W1FzP3+3gHVWkQFRQ+SKxFLYRAnztL/O1FvImweflxi/9LLjrXU9MFUT0S+IxWrlDwykGxzz19zAzMPtl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZWWB0ai2; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="syGmAkW6"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b5so16022135e9.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 12:29:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZWWB0ai2"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so40500635e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 12:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789414171; x=1790018971; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZxJ4bLJ7cXBKPY/voOIJSEHogHuTv+PG+lQi8LKJRVc=;
-        b=syGmAkW6xxdg5UmFnnErn0Qiba7fOvpanWJPB3QgrRa9xm30n0TPWC4lTRtMEYbk0R
-         uKvIPWLtrKDu3BBbc4qzOqieJEJMyRra/XGnudMZUWEN8zgqQU5MwplSlFpJHKoqCK9a
-         B7c8Xe6qsgtWh4WAhYBaYW5J4LqJPwnbCiiPZoJ7auyYyCH+F6mxeDcNPDApdDE1IPDM
-         vp5plOBaipUqKrNBFAvOyt1bAdl8tmi27KZ87asSlF3CEmJwoYEwS2Lmtm/Ob0nEqND9
-         MeEMUYSDAz8jQnoQrhtvpAAGfLilkRkNSfvlkBBxnOmzBPhjLaQiy0b42SfslBo8Uk+T
-         e6Qw==
+        d=google.com; s=20251104; t=1789415721; x=1790020521; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Laxp0Q4fdbSsx/bSE8DTPChd1Qoi2LY7exp/DnLxEmU=;
+        b=ZWWB0ai2E8LEiUs9dj7YmK8iWFC9gI6JB3A5pYaQrwS7PuRQnm4TfTsi3tSWkIZ/xw
+         LQhje18rNeUA3tz7+5HBt7vDbnnmFl6skKUYmWYAHRVzPUMtFO29XFum/e/ae7AuUJ6d
+         BNWJkh8AtPb024c1+bPWZf70JOWyCRLoWwVcjjO7h4o606IQKmTh7xV0pNghACpehWg2
+         uwEGTI/s/A9Yr+zyjYR8d3Oux/sZ1T/nVhnXwNFCmI6+bOaFh8PW+kCUAs72g5LEPM6+
+         DfO6I8IGYheougyRGiiLg8xvnecFuATVWZ+Fh11GW87PsG1ORd3kLW4Qbq3wZYG7XZk7
+         BmQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789414171; x=1790018971;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZxJ4bLJ7cXBKPY/voOIJSEHogHuTv+PG+lQi8LKJRVc=;
-        b=jYPG3v7NC4LkaJplByiJw5KWY4hTpyUzb9OLooooHIfDxThTsE2xPRpZ/gZ/rRh1Bs
-         /jGYggddY8LJFXO5+bdkaonpJmc/KjkXCXQXF+6UtXWcETUtuSnkHvzlLSrGnl50OZM5
-         qCNko/3rCiHsF/HMBxC1SqAJ3u/mRRGNQive1aPtIC91B4ejqyDRZyqtetx7W3GoDohF
-         ExC70hj02hFQlvH534OQn7hkWLXnNxgRF7t4gF8SlAo0kXeYvxDu+A8G8mQc5iSvIXqH
-         mcMvBuoiNDrRmgur1Z8dR4PXtCLAp4hWKn0sMVViRii/9Pu6kFvxquGOXxa1dy3tlPMN
-         SA/g==
-X-Forwarded-Encrypted: i=1; AKwUvBxZ0aggPobC0Il6uNfVZjGh9AmU+yGQYR2OgqOkwKk+omDDEGXP69T8T1fOZ0Fj4mBu1GvXg1UPT0dIGKIL@vger.kernel.org
-X-Gm-Message-State: AFuF++m0plbPgdZZigjfeW8yDYxyD3ei6MoV/UKGBD9UX6aJgULKgAtc
-	Cft5qFh8LN7fC2Li6LN/cFLEx9haxolxgqz/pd38yJTAJ36uKHQMATtJ
-X-Gm-Gg: AYBFou2ljgcRaE8vevbObYXYrzcZkpxAyHW92Rlu03gNXljZtIcQKtKjMKC5XtH+UHH
-	uMQTrC9DIu7zdSX/UNnYwlqpb7/hPvC0kQLL5B2jxIf44OjdNlOBtnXgPIjlZr5fYC0/iSop7KZ
-	8IhTWY00cbtCTtWC3L6X12IofGyeeqGZC2N04RPwsYFau6larZsACNCIaTt110VFdSE7+91Q3gD
-	F/2ORp4e0VpMORPdAxO3CRuafDzJZ+GfFWKqNzUxd7jU/NkPp8TdMG+xV9hD7sdw1X7envxjxg/
-	k9fosVhpprwgZngazfxm+DqIAzrgHFdhSdzkEyRo/y3Tq7bTBz/9qWgk2bGqDZu12DYNvU0sFhc
-	Lw+0U/cbLsJeCOeRb4Bn8Nw5hQ0pz6q6YtzvsrbbxiS97kkAFjIU4x6MankLqffrJV9tJG+xhKO
-	RXtpVg8wHKidzXis+vzeg5QJ4hxIyNeSu31bG19ZYglemzledCnnWF+30GmHsWw1WTU2OfYefEA
-	gu9uMfKFKMw67QuCIc9uXZGacvGwwWFMD7PDQstc5jspqLUfA==
-X-Received: by 2002:a05:600c:34c1:b0:49c:e3c3:5efd with SMTP id 5b1f17b1804b1-49e7a67e4d5mr105035245e9.9.1789414171099;
-        Mon, 14 Sep 2026 12:29:31 -0700 (PDT)
-Received: from DESKTOP-IR7J1S9.localdomain ([105.102.196.87])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e7d66e77csm14496205e9.5.2026.09.14.12.29.29
+        d=1e100.net; s=20260707; t=1789415721; x=1790020521;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Laxp0Q4fdbSsx/bSE8DTPChd1Qoi2LY7exp/DnLxEmU=;
+        b=Zre0AbnIygL+3g6ITUYCW3ixXHv/7To64fD6k4WT1OCxbrs/FC4riYXZYkayrwUzH2
+         BAz+MGtycXpDMdn3N7v5CoUn3knM1oAkOh9HT526pNOsK4YH80ukwcity7+iFIrhg3Qs
+         iUs2dRfQeREL1hBD6GDf5ByFnj/FvB2ZF9eKt1UCPM3hJ5ddej3Ja31CeQor9u7aWunn
+         AcHwPbwnbfSn6oi63qkBgSau1HOESDTPR8RppcNJGarY1PTKT3rljKVuCwMha5FAeTdI
+         Ct1ckSAGqOS0BsEQeGlOKTLiyg1f8Q7IkaUnq10OaNG/bYmm5z9sZRD4fJXxuAqXsfYV
+         odGA==
+X-Forwarded-Encrypted: i=1; AKwUvByo+xOIFwsqUkbRi++a4IrToySA9AiUy2jAdUl4VwZDzCcx8sOZDTh1TZMDuMii5AbxwiVjSQA/5DQySN9Z@vger.kernel.org
+X-Gm-Message-State: AFuF++kHcMI7ADLhrJdY7W3D6fv/pX4YvE8hiLRQimr+ij8owdMNxSgf
+	kAgi5+ubXS/mJ736j8bo9kzj6fWZ7MqKIaLqpY+kZ01LYMFuuOCfoZbY6FY43MCFUw==
+X-Gm-Gg: AYBFou3tJon4ogpHyn1WJ9wOiYYzwOpWN+t4p8eq7My9tGMsL9K+GUskscqAEXTzRuf
+	GWN0svbKacOvzNEG7TQrdGeSIm4WxbV2lhcZKbj4C/4Nzlwn3v3qLlwoCB48vh71noMo2ziRrXQ
+	LBrtFEJWTZH4/eRI2IEJKLXS76H5bz1FsunCIsGsmwaRKRAR+HXcZ7Ocv2Xhw0/P4zH59HWOltN
+	wZHLosuz2Zx3roWBHjemb45wdlr4crJlVjdaHM1UADcNbkiPHojeDq2tKWFLFWAAELebnpPHGsy
+	7TKmEyZy0JEFtdzTBhRxFmmVroC3ZRsBGgI4tsfLzjJ8ia8LLoa0LECyfXB/UtpB3HQp2CAUvvr
+	Th0lpd1/sFg9EHcAbel7GwK6XmCf7wgv4F8/oV5ErwAuxXzcL9QaKMYl4Qz3Q33v83uKXSgKY0B
+	fjTCcd0xWCUU7lP/kI9Tm36+TLsdzmYNOHPtWS0mE5mcp1YO5KIiBHyCwIGgQkeZnFC9BJueuQe
+	ghzGKEaTNW6a2aLInvQuA==
+X-Received: by 2002:a05:600c:3b1d:b0:49e:74b6:740f with SMTP id 5b1f17b1804b1-49e7a685a5cmr49653885e9.17.1789415720432;
+        Mon, 14 Sep 2026 12:55:20 -0700 (PDT)
+Received: from darker.lan (104.157.125.91.dyn.plus.net. [91.125.157.104])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e6f1sm28315322f8f.6.2026.09.14.12.55.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 12:29:30 -0700 (PDT)
-From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+7ff3adde89dd795ad4c4@syzkaller.appspotmail.com,
-	glider@google.com,
-	dvyukov@google.com,
-	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-Subject: [PATCH v2] dcache: fully initialize the inline name in __d_alloc()
-Date: Mon, 14 Sep 2026 20:29:26 +0100
-Message-ID: <20260914192926.1591-1-drifabdelmalekmohamedsaid@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260913152802.13413-1-drifabdelmalekmohamedsaid@gmail.com>
-References: <20260913152802.13413-1-drifabdelmalekmohamedsaid@gmail.com>
+        Mon, 14 Sep 2026 12:55:19 -0700 (PDT)
+Date: Mon, 14 Sep 2026 12:55:08 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+    Ackerley Tng <ackerleytng@google.com>, 
+    Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>, 
+    Baolin Wang <baolin.wang@linux.alibaba.com>, 
+    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
+    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+    Christoph Lameter <cl@gentwo.org>, 
+    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
+    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
+    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+    Marcelo Tosatti <mtosatti@redhat.com>, 
+    Matthew Wilcox <willy@infradead.org>, 
+    Mel Gorman <mgorman@techsingularity.net>, 
+    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
+    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
+    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Shakeel Butt <shakeel.butt@linux.dev>, 
+    Suren Baghdasaryan <surenb@google.com>, 
+    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
+    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 07/26] mm/fbatch: LRU_NEXT_ACTIVATE bit to optimize
+ folio_activate()
+In-Reply-To: <bbf33dc0-6812-f204-188f-f2176a4faf4c@google.com>
+Message-ID: <60bac57a-e486-c0af-1a8e-583fd6e939cc@google.com>
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com> <c44a34f8-ea3c-48cd-27d5-02df129be685@google.com> <ddab52d0-48c7-4d2c-b403-45f11e041654@kernel.org> <bbf33dc0-6812-f204-188f-f2176a4faf4c@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-syzbot reported:
+On Sat, 12 Sep 2026, Hugh Dickins wrote:
+...
+> I have kept the address for debugging, and do put it to some use in
+> the paranoid vmstats patch 27/26. On 32-bit, with 4-byte pointers,
+> this LRU_NEXT_ACTIVATE bit does then leave one pointer covering two
+> adjacent entries, when it's deciding whether the folio points back
+> to this lru_add entry. Is it possible for two adjacent entries to
+> hold the same folio (and so perhaps miscount the stat)? Yes, it is
+> possible (if that folio is freed and reused and readded immediately);
+> but so unlikely that it's of no importance when gathering stats.
 
-    BUG: KMSAN: uninit-value in dentry_string_cmp fs/dcache.c:291 [inline]
-    BUG: KMSAN: uninit-value in dentry_cmp fs/dcache.c:322 [inline]
-    BUG: KMSAN: uninit-value in __d_lookup_rcu+0x37d/0x5e0 fs/dcache.c:2522
+It doesn't matter at all, it doesn't affect the choices made here,
+but I do want to correct my estimation of the likelihood of identical
+adjacent entries. Perhaps the most common occurrence would be, not
+when freed+reused+readded, but when isolate_migratepages_block() does
+that little lru_add_del_folio() + folio_add_lru() dance. It could be
+that the entry it "deletes" (by breaking the linkage from folio to
+fbatch) is the one most recently added to that fbatch, then
+folio_add_lru() will fill the next slot with that same folio.
 
-     dentry_string_cmp fs/dcache.c:291 [inline]
-     dentry_cmp fs/dcache.c:322 [inline]
-     __d_lookup_rcu+0x37d/0x5e0 fs/dcache.c:2522
-     lookup_fast+0x194/0xa40 fs/namei.c:1854
-     lookup_fast_for_open fs/namei.c:4545 [inline]
-     open_last_lookups fs/namei.c:4579 [inline]
-     path_openat+0x9ef/0x6540 fs/namei.c:4856
-     do_file_open+0x2aa/0x680 fs/namei.c:4888
-     do_sys_openat2+0x17c/0x390 fs/open.c:1395
-     do_sys_open fs/open.c:1401 [inline]
-     __do_sys_openat fs/open.c:1417 [inline]
-     __se_sys_openat fs/open.c:1412 [inline]
-     __x64_sys_openat+0x240/0x300 fs/open.c:1412
-     x64_sys_call+0x2445/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:258
-     do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-     do_syscall_64+0x15d/0x3c0 arch/x86/entry/syscall_64.c:94
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Uninit was stored to memory at:
-     copy_name fs/dcache.c:3031 [inline]
-     __d_move+0xd29/0x21f0 fs/dcache.c:3099
-     d_move+0x71/0xf0 fs/dcache.c:3147
-     vfs_rename+0x2619/0x2770 fs/namei.c:6085
-     filename_renameat2+0xa59/0x1230 fs/namei.c:6188
-     __do_sys_rename fs/namei.c:6232 [inline]
-     __se_sys_rename+0xc5/0x5c0 fs/namei.c:6228
-     __x64_sys_rename+0x78/0xb0 fs/namei.c:6228
-     x64_sys_call+0x329/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:83
-     do_syscall_x64 arch/x86/entry/syscall_64.c:63
-     do_syscall_64+0x15d/0x3c0 arch/x86/entry/syscall_64.c:94
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Uninit was created at:
-     slab_post_alloc_hook mm/slub.c:4617 [inline]
-     slab_alloc_node mm/slub.c:4939 [inline]
-     kmem_cache_alloc_lru_noprof+0x376/0x1230 mm/s
-     __d_alloc+0x52/0x9f0 fs/dcache.c:1902
-     d_alloc+0x57/0x300 fs/dcache.c:1981
-     lookup_one_qstr_excl+0x19d/0x7a0 fs/namei.c:1806
-     __start_renaming+0x341/0x850 fs/namei.c:3888
-     filename_renameat2+0x625/0x1230 fs/namei.c:6163
-     __do_sys_rename fs/namei.c:6232 [inline]
-     __se_sys_rename+0xc5/0x5c0 fs/namei.c:6228
-     __x64_sys_rename+0x78/0xb0 fs/namei.c:6228
-     x64_sys_call+0x329/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:83
-     do_syscall_x64 arch/x86/entry/syscall_64.c:63
-     do_syscall_64+0x15d/0x3c0 arch/x86/entry/syscall_64.c:94
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The race happens between a concurrent open() and rename() of the same
-path.  __d_alloc() initializes only the name itsel
-of the inline buffer; the tail in between is left uninitialized.
-copy_name(), called from rename(), copies the enti
-including that uninitialized tail - into the moved dentry.  Meanwhile
-__d_lookup_rcu(), called from open(), is an optimi
-it checks d_name.hash_len first and leaves the seqcount retry to its
-caller, so a lookup of the old (longer) name racin
-compares with a stale length.  While copy_name() is rewriting the name
-in place, the walker can transiently step past the
-terminating NUL and read bytes from the uninitialized tail, which KMSAN
-reports.
-
-The race is benign by design - the read stays in bounds and the lookup
-result is discarded by the seqcount retry - but th
-is real.  Fix it by zeroing the entire inline buffer in __d_alloc(),
-so every byte a racy walker can touch is defined;
-past a mid-rewrite name now simply stops at a NUL.
-
-Reported-by: syzbot+7ff3adde89dd795ad4c4@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7ff3adde89dd795ad4c4
-Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
----
-v2:
-  - Screwed up by using memcpy in v1, fixed it here by using memset, only change
- fs/dcache.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 1b1a81f10da6..730571e92af8 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1910,12 +1910,17 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
- 		return NULL;
- 
- 	/*
--	 * We guarantee that the inline name is always NUL-terminated.
--	 * This way the memcpy() done by the name switching in rename
--	 * will still always have a NUL at the end, even if we might
--	 * be overwriting an internal NUL character
-+	 * Fully initialize the inline name buffer.  copy_name() and
-+	 * swap_names() copy d_shortname in its entirety, so any
-+	 * uninitialized tail would propagate to the other dentry, and
-+	 * __d_lookup_rcu() may transiently read any byte of the inline
-+	 * name while rename() rewrites it in place.
-+	 *
-+	 * This also keeps the inline name NUL-terminated: the name
-+	 * switching in rename will still always have a NUL at the end,
-+	 * even if we might be overwriting an internal NUL character.
- 	 */
--	dentry->d_shortname.string[DNAME_INLINE_LEN-1] = 0;
-+	memset(dentry->d_shortname.string, 0, DNAME_INLINE_LEN);
- 	if (unlikely(!name)) {
- 		name = &slash_name;
- 		dname = dentry->d_shortname.string;
--- 
-2.43.0
-
+Hugh
