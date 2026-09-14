@@ -1,270 +1,342 @@
-Received: from mail-oo2-f8.google.com (mail-oo2-f8.google.com [74.125.231.136])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277893955D1
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 19:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA8F393DEB
+	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 19:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789413460; cv=none; b=ZJMZZuGHsZmy2evS4iYoi15bsaC8YR+hqaUKITSXhW1rCKdxvubCBoFCsiRV/kskbnGfWyuRiD4JIJzikPoeeJ2LtdbuTAl3T9oNqluRrmMC4eookjYHU+2VhUNInqtFuY448vZigz2WkAYPXKTG1xLBa3PbPOXyXkW1/eFgTVY=
+	t=1789413972; cv=none; b=jKTw/xara7C/Gj3Y1Ch7Cm91ROFc+3iNOk5HVQmjF4QyFww8vtyMwUTiCphNkdixDDfXpOh9KSssNqBiFfyem1jPvqddLTqpWdZLwfEOxSggunowtH01BQDTOjeaTFYFyvQYjSockwG3esQxMAwkJoI346yPJzHsWIdH9EmjIOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789413460; c=relaxed/simple;
-	bh=yom6kTnMguYwNWk6qOj/thh6qLO8yOVxYIgU9rjyRy8=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=VcOO7FUJ3fdSiQXjA7agK006yc5pBhWQwrvEeAq8C92Mryh4KEL9pK8p1bKKFNLGcuSLH4jQXVnAKe6WYC6EZnye7/8HLYJY/6oNNmgApbdoEpvwiR6S4meVU5UHKSVvfZH0s9xj0HbC0bZLHtYvBFctcP4g4Dl/ylRvVW+sBlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo2-f8.google.com with SMTP id 006d021491bc7-6b1bf394d3bso549783eaf.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 12:17:37 -0700 (PDT)
+	s=arc-20240116; t=1789413972; c=relaxed/simple;
+	bh=5DbRj/iYqndjmb8Q45VZ6RZRXuNb2x8vDoqW8HnYWiQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fssW+BizYiMZ1JJ990oJJdcVFF25ugSBxNmfDvocyJtrTM74so3piMZkU0SdfQ37RUrehbDdsxEJe3iKn+tVr3BuTLbBprKG32LxYeFrfvpauMXqs6CjBJHCKQlJG7vaVu6hQLzhXmzwjMwiqRTL7r2+BFfE18Ru4aj8cApDHg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=UNKx3QWA; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="UNKx3QWA"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-8706dfdcd4fso36804417b3.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 12:26:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1789413967; x=1790018767; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IEQPgJ9nFW6WOZIE7dLVwT5VkA5qAfJb83CJ9iXYDR8=;
+        b=UNKx3QWAwzgTfX4q9IXzHPv3yr7JEjZKvujXhzup968pMCl0ddwB0HWLcr/yBoymRI
+         11Iu7ueMbMy5OE0rCyYurE8fXXoE9DetOxOG4BuGKaIGrVuJZh3cRgWFQx1aKLdV4FfD
+         LOtgwJmKWd8V8dsaiV/ZkQ/h2kckNPLKWx6AG1h58O/MdXKL6VIxP13F6Xl6Cm81Yq84
+         u89hgOCK+gE551t34bsOXZnak3KE44bb7og8UOf881HUJ4EEpQCNKFHiUUeQQAPhHpJY
+         niqpT9MYSCgKch2WzIVrFeCTko1UpVGSp4XWKrrNO80BOE2AcYbAsIbL10DlwrW9UG66
+         Gslw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789413457; x=1790018257;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20251104; t=1789413967; x=1790018767;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=ekHSujZ932WooFHmacuU20SolwiHbECmUQMmL2g+luU=;
-        b=OkOxS24y8hVEbNyWFwPkuVOSPiQcO47yDOTvKhwlxYj3xtO5p1GhFck6QLGtmEaFnd
-         OWLMZzyR8R8XLrku+a/4niFHFm6V8ZPVEyn+rOiqeZ+5HeL/jpc1OB8dKYYWjGtXrtnS
-         q8J9Z/E1d3ZrR3YhteAXQ4fbuMhj7FJl4KExBOPVugJVxOSG68g+ZP9dWK3PSSyL6Ghm
-         hlHGjuUKH4Bg6kG6Wtja0Gu0TmucVQ1QPulfUpGiVXOR7oYp0Oi5hItfeUP1Cu2O7wQg
-         o6bq8dWc1BA6jf2OOUxIWYxm2z8I5pNNbrWu5QtblFFwDX8e5Lhh50QAVDrSndiOfDiJ
-         yj3Q==
-X-Forwarded-Encrypted: i=1; AKwUvByzgajdylGtVkvpM3pR4ZUf1qdms/dzWWtRgN7dpNsLJghq4hQ8GRot12dl7QYCMw8eCDX8LJEElyJGqOby@vger.kernel.org
-X-Gm-Message-State: AFuF++kj1iqlw8TdZGjnfS/HJtbAld7pv9IFBGMSychQzlhOax/fii5i
-	VoY+0O80nEu0e8LPyGenbtuFv/YU8Tj/qE2RFRgNGcCc2YCzES4u2szLUek/Bh7AoL7uxTtJKZq
-	R3PQtJZ7nr8aWKcQ2iRHqh5ZJweFx6+kSzIPPVVerm4+rrWqjz+tVg9YL0uk=
+        bh=IEQPgJ9nFW6WOZIE7dLVwT5VkA5qAfJb83CJ9iXYDR8=;
+        b=fkgvnnegGZLUDSEaloXh90eXQGx1nwPPWvoG3ypKfmpwoTVLQtQSugej8dztWu4B3+
+         r8BTc9iLZTnY0V4iJj0hav51NAgNijLka5VFQ8LoxM215KXxRX4Jfn9kATCTuSWSi65G
+         TdzS/0AcWW60RR52rZQlsY0r2HyTQ5bWpqDYLYxONfb8xFLbA5iXJxtlbDhmSWeLwUiu
+         U2vPiwIGqsT+fDRwIq0gwhgv+dwAqi4m2G1y3Xq4p/WnopD8bYAKsDJypdhNKX2FpuzV
+         4R7jY94a8fDXRA9kevsDpHbWJdMU/u4u3xyhIJ0qLcxmAmdxnxjM4lViD+TXY5A+p32A
+         w3FA==
+X-Forwarded-Encrypted: i=1; AKwUvBzXNor9o86YLDLobnZH0g12ZRoxKHGQ8qkdo8tf8swnxEqm2hUvkOB7SIHUIS+AJY8OzG0unyoYOlUhwdH3@vger.kernel.org
+X-Gm-Message-State: AFuF++lCnGn9E0FbCHHKgkwzHNjqmK8JapLRjKIHG+85O3OhD9QWB93v
+	P/2Md/rVmMjF6W4wRU1FPOoYSOcLVva1yO+1SdsL9+P1rbTO6INaueEXkzntBATdMoY=
+X-Gm-Gg: AYBFou3EGMjdSpeV5JDdsqaS/SYEkodj2KLy4UBm8vv3qq3FmwkcapAXOOfWwm48Qyj
+	XQmgt1B4mn3dVILfRaAHm2LL/Kla//KABh9fbECEDUpxDTwA21TqMGwTHYSNQ+mnlKe51UlGSio
+	VjnwO/d0f2X2OX3yVv9qqQye0wgsWq+sNTkcoztUnxm6Un35HMs9hHgTEc2h4euNwJgkd+1TKuO
+	gjBY7ORlZGYv1g32E/we8mXMbzU8gI2P4fy+i/TK0jy54w2fffRs11uTtMJmz0Gty0h4W/YCApN
+	ROdGpTCiA9Na7L3bxqpD0Y/8vL6MRjLznU3QrxPLGk4L//aDA9rtFoDtw5MiZL9QC9u18Cf4L5P
+	7tAbGjXPnTaFZNzumU6GgMtOtwEGefKT/RFCHrbnK112bBl/NtOUm9c5EHAUQyxIxVrloWJTgqs
+	5U0BGrs8d04krSzeKEwnNANeh7pvbkVnSKodHnOeIt5wF3tt63RlzcNvRbA8tdmgI0HbF424uRg
+	6gEnEpGdWfi9kDYJ10zOMXztEBoc34IGfulz7kpJPTHwjHGTXsKtZ15AD37g5ckOqNMgXP1OIMl
+	NSKM+Vp6lwiRM9GBhydD/JCiMxO4
+X-Received: by 2002:a05:690c:e3c1:b0:845:1064:5c03 with SMTP id 00721157ae682-88d1fbd5731mr13241967b3.23.1789413966589;
+        Mon, 14 Sep 2026 12:26:06 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:df87:8743:655b:3824])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-884894fd624sm40027897b3.46.2026.09.14.12.26.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 12:26:05 -0700 (PDT)
+Message-ID: <d66b55454add2f2a48a6dabdb4569051bebb5d42.camel@dubeyko.com>
+Subject: Re: [PATCH v4 1/2] hfsplus: fix recursive tree_lock in
+ hfsplus_file_extend()
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
+	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
+Date: Mon, 14 Sep 2026 12:26:03 -0700
+In-Reply-To: <20260912132407.16856-2-ngocthang2710.1999@gmail.com>
+References: <c6b841becc5b1709a9f54a1c0efd0a14f02ad97b.camel@dubeyko.com>
+	 <20260912132407.16856-1-ngocthang2710.1999@gmail.com>
+	 <20260912132407.16856-2-ngocthang2710.1999@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:221f:b0:6a1:77ce:1b09 with SMTP id
- 006d021491bc7-6c53ee55e0cmr3296277eaf.6.1789413456943; Mon, 14 Sep 2026
- 12:17:36 -0700 (PDT)
-Date: Mon, 14 Sep 2026 12:17:36 -0700
-In-Reply-To: <6a1b9770.fd5edf16.2e7427.0008.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aa84850.f81106d8.2ab401.0053.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in page_cache_ra_order
-From: syzbot <syzbot+8bd419f88e25ab12cb75@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
-	jack@suse.cz, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, ntfs3@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
-	willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+On Sat, 2026-09-12 at 20:24 +0700, Nguyen Ngoc Thang wrote:
+> hfs_bmap_reserve() calls hfsplus_file_extend() on tree->inode with
+> tree->tree_lock already held. For the extents overflow B-tree's own
+> inode, growing it can call hfsplus_ext_read_extent() ->
+> hfs_find_init()
+> on that same tree, taking tree_lock a second time (lockdep: "possible
+> recursive locking ... &tree->tree_lock/1"). This happens two ways:
+>=20
+> =C2=A0- the fork already claims more blocks than its eight extents
+> =C2=A0=C2=A0 describe (a corrupted on-disk fork), so hfsplus_ext_read_ext=
+ent()
+> =C2=A0=C2=A0 is called immediately to look up the rest; or
+> =C2=A0- the fork's eight extents get exhausted during this call, and
+> =C2=A0=C2=A0 inserting a new overflow extent record for the file would ne=
+ed
+> =C2=A0=C2=A0 the same lookup.
+>=20
+> Per the HFS+ format the extents overflow file is fully described by
+> its eight fork extents and can never legitimately have overflow
+> extents of its own, so both cases mean it cannot grow any further.
+>=20
+> Move the check into hfsplus_ext_read_extent() itself, the one place
+> that actually re-enters hfs_find_init(), rather than duplicating it
+> at
+> each caller, and report -ENOSPC.
+>=20
+> For the second case, don't allocate blocks on the chance the fork
+> still has room and undo it if not: hfsplus_ext_fork_full() tests the
+> fork first. If it does have a free extent slot, any free space works,
+> same as before. If it's already full, the only way to grow is a
+> contiguous extension of the last extent, so only search for free
+> space starting exactly at the block right after it, and fail with
+> -ENOSPC immediately if that block isn't free -- nothing gets
+> allocated in that case, so there's nothing to undo. The prior
+> allocate-then-free-on-failure code stays at the insert_extent label
+> as a backstop, in case this reasoning has a gap.
+>=20
+> Reported-by: syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
+> Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+> Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+> ---
+> =C2=A0fs/hfsplus/extents.c | 59 +++++++++++++++++++++++++++++++++++++++++=
+-
+> --
+> =C2=A01 file changed, 55 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
+> index eb7c11524d18..236f2d9a7a2d 100644
+> --- a/fs/hfsplus/extents.c
+> +++ b/fs/hfsplus/extents.c
+> @@ -84,6 +84,17 @@ static u32 hfsplus_ext_lastblock(struct
+> hfsplus_extent *ext)
+> =C2=A0	return be32_to_cpu(ext->start_block) + be32_to_cpu(ext-
+> >block_count);
+> =C2=A0}
+> =C2=A0
+> +/* True if all eight extents of a fork are in use (no free slot
+> left) */
+> +static bool hfsplus_ext_fork_full(struct hfsplus_extent *ext)
 
-HEAD commit:    704340f1cd0d Merge tag 'x86_urgent_for_7.3-rc4' of git://g..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14118df9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
-dashboard link: https://syzkaller.appspot.com/bug?extid=8bd419f88e25ab12cb75
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=154788c9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=134788c9580000
+static inline?
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/a1f812f889ad/disk-704340f1.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/8aa4ccae83ac/vmlinux-704340f1.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/8f86a50bf181/bzImage-704340f1.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/54fd657ced87/mount_0.gz
+> +{
+> +	int i;
+> +
+> +	for (i =3D 0; i < 8; ext++, i++)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+8bd419f88e25ab12cb75@syzkaller.appspotmail.com
-
-ntfs3(loop1): ino=1f, mi_enum_attr
-ntfs3(loop1): Mark volume as dirty due to NTFS errors
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz.1.68/6182 is trying to acquire lock:
-ffff88803364abd0 (mapping.invalidate_lock#3){.+.+}-{4:4}, at: filemap_invalidate_lock_shared include/linux/fs.h:1089 [inline]
-ffff88803364abd0 (mapping.invalidate_lock#3){.+.+}-{4:4}, at: do_page_cache_ra mm/readahead.c:347 [inline]
-ffff88803364abd0 (mapping.invalidate_lock#3){.+.+}-{4:4}, at: page_cache_ra_order+0x2b1/0x4a0 mm/readahead.c:558
-
-but task is already holding lock:
-ffff88803364aee0 (&ni->ni_lock/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1247 [inline]
-ffff88803364aee0 (&ni->ni_lock/5){+.+.}-{4:4}, at: ntfs_readdir+0x717/0xf70 fs/ntfs3/dir.c:541
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #1 (&ni->ni_lock/5){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:561 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:580
-       ni_lock fs/ntfs3/ntfs_fs.h:1247 [inline]
-       attr_data_get_block+0x1cd/0x2c0 fs/ntfs3/attrib.c:976
-       ntfs_iomap_begin+0x4f0/0xf30 fs/ntfs3/inode.c:978
-       iomap_iter_next include/linux/iomap.h:382 [inline]
-       ntfs_iomap_next+0x5b6/0x880 fs/ntfs3/inode.c:2319
-       iomap_iter+0xe2/0xec0 fs/iomap/iter.c:122
-       iomap_readahead+0xa4a/0xe80 fs/iomap/buffered-io.c:751
-       ntfs_readahead+0x193/0x210 fs/ntfs3/inode.c:880
-       read_pages+0x193/0x5a0 mm/readahead.c:174
-       page_cache_ra_unbounded+0x679/0x8f0 mm/readahead.c:315
-       do_page_cache_ra mm/readahead.c:348 [inline]
-       page_cache_ra_order+0x2c1/0x4a0 mm/readahead.c:558
-       filemap_get_pages+0x493/0x1e80 mm/filemap.c:2714
-       filemap_read+0x429/0x11e0 mm/filemap.c:2824
-       __kernel_read+0x4d3/0x970 fs/read_write.c:532
-       integrity_kernel_read+0x89/0xd0 security/integrity/iint.c:28
-       ima_calc_file_hash_tfm security/integrity/ima/ima_crypto.c:222 [inline]
-       ima_calc_file_hash+0x45d/0x8a0 security/integrity/ima/ima_crypto.c:280
-       ima_collect_measurement+0x521/0xa10 security/integrity/ima/ima_api.c:300
-       process_measurement+0x1282/0x1c20 security/integrity/ima/ima_main.c:425
-       ima_file_check+0xe1/0x130 security/integrity/ima/ima_main.c:685
-       security_file_post_open+0xb3/0x260 security/security.c:2755
-       do_open fs/namei.c:4839 [inline]
-       path_openat+0x148a/0x1d60 fs/namei.c:5000
-       do_file_open+0x23e/0x4a0 fs/namei.c:5029
-       do_sys_openat2+0x115/0x200 fs/open.c:1417
-       do_sys_open fs/open.c:1423 [inline]
-       __do_sys_openat fs/open.c:1439 [inline]
-       __se_sys_openat fs/open.c:1434 [inline]
-       __x64_sys_openat+0x138/0x170 fs/open.c:1434
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (mapping.invalidate_lock#3){.+.+}-{4:4}:
-       check_prev_add kernel/locking/lockdep.c:3209 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
-       validate_chain kernel/locking/lockdep.c:3952 [inline]
-       __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
-       lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
-       down_read+0x97/0x200 kernel/locking/rwsem.c:1574
-       filemap_invalidate_lock_shared include/linux/fs.h:1089 [inline]
-       do_page_cache_ra mm/readahead.c:347 [inline]
-       page_cache_ra_order+0x2b1/0x4a0 mm/readahead.c:558
-       do_sync_mmap_readahead+0x4d6/0x7c0 mm/filemap.c:3443
-       filemap_fault+0x7e2/0x13c0 mm/filemap.c:3597
-       __do_fault+0x138/0x2a0 mm/memory.c:5565
-       do_shared_fault mm/memory.c:6064 [inline]
-       do_fault mm/memory.c:6138 [inline]
-       do_pte_missing+0x659/0x28f0 mm/memory.c:4700
-       handle_pte_fault mm/memory.c:6558 [inline]
-       __handle_mm_fault mm/memory.c:6707 [inline]
-       handle_mm_fault+0xf64/0x28c0 mm/memory.c:6876
-       do_user_addr_fault+0x746/0x1340 arch/x86/mm/fault.c:1394
-       handle_page_fault arch/x86/mm/fault.c:1483 [inline]
-       exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
-       asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
-       stac arch/x86/include/asm/smap.h:-1 [inline]
-       filldir+0x29f/0x630 fs/readdir.c:286
-       dir_emit include/linux/fs.h:3607 [inline]
-       ntfs_dir_emit fs/ntfs3/dir.c:388 [inline]
-       ntfs_read_hdr+0x8a7/0xc10 fs/ntfs3/dir.c:429
-       ntfs_readdir+0x9ab/0xf70 fs/ntfs3/dir.c:589
-       iterate_dir+0x2f1/0x4e0 fs/readdir.c:110
-       __do_sys_getdents fs/readdir.c:319 [inline]
-       __se_sys_getdents+0xf1/0x270 fs/readdir.c:304
-       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
-       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&ni->ni_lock/5);
-                               lock(mapping.invalidate_lock#3);
-                               lock(&ni->ni_lock/5);
-  rlock(mapping.invalidate_lock#3);
-
- *** DEADLOCK ***
-
-locks held by syz.1.68/6182: 3, last CPU#0:
- #0: ffff88803c3c2328 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x252/0x320 fs/file.c:1259
- #1: ffff88803364b1a8 (&type->i_mutex_dir_key#8){++++}-{4:4}, at: iterate_dir+0x215/0x4e0 fs/readdir.c:103
- #2: ffff88803364aee0 (&ni->ni_lock/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1247 [inline]
- #2: ffff88803364aee0 (&ni->ni_lock/5){+.+.}-{4:4}, at: ntfs_readdir+0x717/0xf70 fs/ntfs3/dir.c:541
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 6182 Comm: syz.1.68 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_circular_bug+0x2e2/0x300 kernel/locking/lockdep.c:2087
- check_noncircular+0x12f/0x150 kernel/locking/lockdep.c:2219
- check_prev_add kernel/locking/lockdep.c:3209 [inline]
- check_prevs_add kernel/locking/lockdep.c:3328 [inline]
- validate_chain kernel/locking/lockdep.c:3952 [inline]
- __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
- lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
- down_read+0x97/0x200 kernel/locking/rwsem.c:1574
- filemap_invalidate_lock_shared include/linux/fs.h:1089 [inline]
- do_page_cache_ra mm/readahead.c:347 [inline]
- page_cache_ra_order+0x2b1/0x4a0 mm/readahead.c:558
- do_sync_mmap_readahead+0x4d6/0x7c0 mm/filemap.c:3443
- filemap_fault+0x7e2/0x13c0 mm/filemap.c:3597
- __do_fault+0x138/0x2a0 mm/memory.c:5565
- do_shared_fault mm/memory.c:6064 [inline]
- do_fault mm/memory.c:6138 [inline]
- do_pte_missing+0x659/0x28f0 mm/memory.c:4700
- handle_pte_fault mm/memory.c:6558 [inline]
- __handle_mm_fault mm/memory.c:6707 [inline]
- handle_mm_fault+0xf64/0x28c0 mm/memory.c:6876
- do_user_addr_fault+0x746/0x1340 arch/x86/mm/fault.c:1394
- handle_page_fault arch/x86/mm/fault.c:1483 [inline]
- exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
- asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
-RIP: 0010:filldir+0x29f/0x630 fs/readdir.c:288
-Code: df 49 29 ef 48 b8 00 f0 ff ff ff 7f 00 00 49 39 c7 4c 0f 47 f8 bf 07 00 00 00 44 89 f6 e8 e9 35 7f ff 0f 01 cb 48 8b 44 24 20 <49> 89 47 08 48 bd 00 00 00 00 00 fc ff df 48 8b 44 24 40 48 89 03
-RSP: 0018:ffffc90004cf7ab0 EFLAGS: 00050293
-RAX: 00000000000009e8 RBX: 0000200000002050 RCX: ffff888026543e80
-RDX: 0000000000000000 RSI: 0000000000000005 RDI: 0000000000000007
-RBP: 0000000000000020 R08: 0000000000000000 R09: 0000000000000000
-R10: dffffc0000000000 R11: ffffed1004ca87d1 R12: ffff88803ae8a000
-R13: 0000000000000005 R14: 0000000000000005 R15: 0000200000002030
- dir_emit include/linux/fs.h:3607 [inline]
- ntfs_dir_emit fs/ntfs3/dir.c:388 [inline]
- ntfs_read_hdr+0x8a7/0xc10 fs/ntfs3/dir.c:429
- ntfs_readdir+0x9ab/0xf70 fs/ntfs3/dir.c:589
- iterate_dir+0x2f1/0x4e0 fs/readdir.c:110
- __do_sys_getdents fs/readdir.c:319 [inline]
- __se_sys_getdents+0xf1/0x270 fs/readdir.c:304
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fe25947e159
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fe258a9c028 EFLAGS: 00000246 ORIG_RAX: 000000000000004e
-RAX: ffffffffffffffda RBX: 00007fe259706180 RCX: 00007fe25947e159
-RDX: 0000000020002078 RSI: 0000200000001fc0 RDI: 0000000000000007
-RBP: 00007fe25951503b R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fe259706218 R14: 00007fe259706180 R15: 00007ffeaad84d78
- </TASK>
-ntfs3(loop1): ino=1f, mi_enum_attr
-----------------
-Code disassembly (best guess):
-   0:	df 49 29             	fisttps 0x29(%rcx)
-   3:	ef                   	out    %eax,(%dx)
-   4:	48 b8 00 f0 ff ff ff 	movabs $0x7ffffffff000,%rax
-   b:	7f 00 00
-   e:	49 39 c7             	cmp    %rax,%r15
-  11:	4c 0f 47 f8          	cmova  %rax,%r15
-  15:	bf 07 00 00 00       	mov    $0x7,%edi
-  1a:	44 89 f6             	mov    %r14d,%esi
-  1d:	e8 e9 35 7f ff       	call   0xff7f360b
-  22:	0f 01 cb             	stac
-  25:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
-* 2a:	49 89 47 08          	mov    %rax,0x8(%r15) <-- trapping instruction
-  2e:	48 bd 00 00 00 00 00 	movabs $0xdffffc0000000000,%rbp
-  35:	fc ff df
-  38:	48 8b 44 24 40       	mov    0x40(%rsp),%rax
-  3d:	48 89 03             	mov    %rax,(%rbx)
+I am introducing the special constant for the 8 extents of the fork in
+HFS+ iomap patchset. How can we handle this? Because I would like to
+see the named constant instead of hardcoded value.
 
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+> +	=09
+> if (!ext->block_count)
+> +			return false;
+> +	return true;
+> +}
+> +
+> =C2=A0static int __hfsplus_ext_write_extent(struct inode *inode,
+> =C2=A0		struct hfs_find_data *fd)
+> =C2=A0{
+> @@ -217,6 +228,15 @@ static int hfsplus_ext_read_extent(struct inode
+> *inode, u32 block)
+> =C2=A0	=C2=A0=C2=A0=C2=A0 block < hip->cached_start + hip->cached_blocks)
+> =C2=A0		return 0;
+> =C2=A0
+> +	/*
+> +	 * The extents overflow file is fully described by its own
+> fork
+> +	 * extents; looking up an overflow extent for it would re-
+> enter
+> +	 * hfs_find_init() on the extents tree, whose tree_lock may
+> already
+> +	 * be held by the caller.
+> +	 */
+
+The comment is not fully correct. We should not be here for the case of
+Extents Overflow file because there is no forks other than in
+superblock. It's not about the lock issue. We simply should not be here
+at all.
+
+> +	if (inode->i_ino =3D=3D HFSPLUS_EXT_CNID)
+
+Maybe, we need to introduce something like is_extents_btree() method?
+What do you think?
+
+> +		return -ENOSPC;
+> +
+> =C2=A0	res =3D hfs_find_init(HFSPLUS_SB(inode->i_sb)->ext_tree, &fd);
+> =C2=A0	if (!res) {
+> =C2=A0		res =3D __hfsplus_ext_cache_extent(&fd, inode, block);
+> @@ -465,13 +485,30 @@ int hfsplus_file_extend(struct inode *inode,
+> bool zeroout)
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	len =3D hip->clump_blocks;
+> -	start =3D hfsplus_block_allocate(sb, sbi->total_blocks, goal,
+> &len);
+> -	if (start >=3D sbi->total_blocks) {
+> -		start =3D hfsplus_block_allocate(sb, goal, 0, &len);
+> -		if (start >=3D goal) {
+> +	if (inode->i_ino =3D=3D HFSPLUS_EXT_CNID &&
+> +	=C2=A0=C2=A0=C2=A0 hip->alloc_blocks =3D=3D hip->first_blocks &&
+> +	=C2=A0=C2=A0=C2=A0 hfsplus_ext_fork_full(hip->first_extents)) {
+
+It looks like complicated condition and it deserves a static inline
+function, from my point of view.
+
+> +		/*
+> +		 * No free slot is left in the fork, and the extents
+> overflow
+> +		 * file can't record an overflow extent of its own:
+> the only
+> +		 * way to grow it is a contiguous extension of the
+> last
+> +		 * extent, so only accept free space starting
+> exactly at
+> +		 * goal instead of allocating anywhere and having to
+> undo it.
+> +		 */
+
+Maybe, instead of this long comment we need to introduce a dedicated
+method for processing Extents Overflow file allocation case?
+
+> +		start =3D hfsplus_block_allocate(sb, goal + 1, goal,
+> &len);
+
+Maybe, I am missing something here. But goal + 1 sounds like we request
+to allocate only one block. Is it correct? If yes, why only one block?
+Usually, we need to try to allocate a clumpSize.
+
+> +		if (start !=3D goal) {
+> =C2=A0			res =3D -ENOSPC;
+> =C2=A0			goto out;
+> =C2=A0		}
+> +	} else {
+> +		start =3D hfsplus_block_allocate(sb, sbi-
+> >total_blocks, goal, &len);
+> +		if (start >=3D sbi->total_blocks) {
+> +			start =3D hfsplus_block_allocate(sb, goal, 0,
+> &len);
+> +			if (start >=3D goal) {
+> +				res =3D -ENOSPC;
+> +				goto out;
+> +			}
+> +		}
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	if (zeroout) {
+> @@ -526,6 +563,20 @@ int hfsplus_file_extend(struct inode *inode,
+> bool zeroout)
+> =C2=A0	return res;
+> =C2=A0
+> =C2=A0insert_extent:
+> +	/*
+> +	 * The fork-full precheck above keeps the extents overflow
+> file's
+> +	 * own inode from ever landing here with blocks already
+> allocated;
+> +	 * this is a backstop, so still free what was allocated
+> rather
+> +	 * than leak it.
+> +	 */
+> +	if (inode->i_ino =3D=3D HFSPLUS_EXT_CNID) {
+> +		if (hfsplus_block_free(sb, start, len))
+
+Can we be here at all? If start !=3D goal, then we cannot allocate at
+all. And we can be here only if we have empty slot it the fork. Am I
+right?
+
+Additional comment:
+
+checkpatch.pl --strict flags one alignment style issue:
+fs/hfsplus/extents.c:575: pr_err("can't free extent: start %u, count
+%u\n",
+                      start, len);
+continuation should align with the open paren =E2=80=94 cosmetic only
+
+Thanks,
+Slava.
+
+> +			pr_err("can't free extent: start %u, count
+> %u\n",
+> +				start, len);
+> +		res =3D -ENOSPC;
+> +		goto out;
+> +	}
+> +
+> =C2=A0	hfs_dbg("insert new extent\n");
+> =C2=A0	res =3D hfsplus_ext_write_extent_locked(inode);
+> =C2=A0	if (res)
