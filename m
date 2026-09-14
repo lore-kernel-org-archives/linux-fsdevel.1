@@ -1,172 +1,249 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8353B1009
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 20:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789417757; cv=none; b=uM9RhdDbFJ/7lmk7l/or9kWXHgN35+JZOgX1ueYuM5ICMLhpIzRGI10v1T+/QdUuFeoLQlOK7N1+JT4BjfiLG3WBnjMkABNPe9yAuPneaCFDjXNzoRPl7iijDyFQoYE4LgEbdsiAAJ4Gau8QqNxlESemFBT+glK3JPD9BZdWYV4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789417757; c=relaxed/simple;
-	bh=V8mhYwrBMYJn0Atprf4OLURmdEZN1k4wCeZYck4YItU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CGCGXPmnPZrbfs12JS2v3yDy2EbWchB23uh3tzkLiRaXky1oFeoCcKpfm/ID9FJoIg0h0xsoW1Wno5Fpd381uAlBTyLJhFhk0/NP28BNnHtUSIrJaecjeOkBXvRqXKTAAEV3eT/qKnBv7f9ns4R+dwjfChwiczU6wdgyb2ihbvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eFH2LnWU; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0223A1CEA
+	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 20:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789419571; cv=pass; b=p9jY0Bw5svGoe51nzCjtTRdfdtJ1IB0sZS8VUc180FexmQ7oH6X1uviiptmtwZghWZjKzuJN9HGuWu6jr+1AIbnBvQwMS+pMh7OVl3Zvrh+fdNH+KuhhtmPZXu2uqF/o0Akcxh/7q/YxV85mzpW/Q8ZOREbN7Ltgwlqt+gM+HNI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789419571; c=relaxed/simple;
+	bh=j7u3CVocYfNSz6ykANmlSKsGM16yN6Y/4fPWJSUINcg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XZ0DLNLEjy+3OpSHeOZKz55JnjKs8vfSzfAEwlpO8mIXCR6KGNv8QUYe+BFlC47iPzv8dAH/BlujcUDzyExJCsLjUiWidNx33XN2b8ey61Jp7F9MxE76jUA+lUeswuTTYQIPlA4dKFyob9D/JCAN21CS4G00rhWKUgcNcybzJJ4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nVIWYqIF; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eFH2LnWU"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2dd4b917769so191625ad.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 13:29:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nVIWYqIF"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c1670dad7a8so673651166b.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 13:59:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789419568; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kXGbtje1P7DnxxaX25j6R/lFS20AkBx+GW9FmCMMF63mnysZyuxcWgZoP7EB4tNExZ
+         oITtYcmEDLcmqdyND7KL/Wr5ZQCJQ6jScp+dXRlAo+aZWALQ6ycW0i0bVMTyeGKntGyj
+         xsBWCqVLXWKTDAMSR7ehbaEVKuOGWes5WRjxZKn+c4dfiTGCx9nB8GVhXED5+Bt9ZSwA
+         Anipuv81CSGvIli4RgCEIT6warDNOePdl9fbp4F10rdA4r7pE/8OT72dwthrzFESubvr
+         yA/4TGRsn8K8AGFm+VB0JkMJcHwBcDkQEbPyqbkBN1FZOWkuU5Zt7MsqoIFDeIJmXFVX
+         97pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7LSg5RdUyrJ+d+U0WBwd0ySTQ6Z5VZa5bGOIanx2lvk=;
+        fh=FSuxSicbT3G/9oOTjC8NrTG4flsRMkrvdBHswBPDZRM=;
+        b=rGZhSCghQEj5gP3SwtJzXSiM/PBzleWp7vElW7J5tjbTdJMSvaFSgL6LP1/qFDqW6W
+         13Fp+bpcSPT+KCS7Yg9Dw2GPEslB2+hksZACe4lPBln13N8ytl33uLkZzUbnMdP5TyfG
+         d8MJdg3t5+2psGNRInlL9CAdlvPcp4RtFlPXeqEAVjirNKcwWLjq7/wZVRmPTFJudl8T
+         iKTT0mnJiLQAcVeshEuCFbexoSCwwca74cqcmN0qP9xEG+BpGnBKoXByUEX0Nn87NCiv
+         iYeioCzumOksBAi0Vhw7aqruXdLL9W0yHnWrjhmFe1aQHZz9mIgDXiJOiUdcOQXNTnLa
+         SMGg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789417754; x=1790022554; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=M1RB04FVKilnMj3CUMQjbhrQYe/qiVYK3aULFxVnZe0=;
-        b=eFH2LnWUDN17cBc6Jt9SLxjlisyLFXIqXmP5FlhdsYeIo4k3/6NF5CewZL3/3X6vTu
-         gkm0wZHS2ZAci77GTi2NjriSQczz2tqrPQ5DWYyjBoFVb2oLLx6SIXoJ9gCE7XKVfNPv
-         KmBMtr06zkjjrW+7YdjOoJNAnFwXCCzCvIdiiaR0QWmerOlfc4IJyObNJVaN2Did40Z0
-         YjliKDeEsRbEFz9I0Mablv3T9jxC/vu1h4dF8aMxRP8E4ZzWCLYWr+qimbaABuAlCvb0
-         O+yhD45MlChNrqH+bXY0L1YaJeJiksL2nTfv0WjffMASuTkNmmN4wk8SuOvfq9pzaokx
-         ySmA==
+        d=gmail.com; s=20251104; t=1789419568; x=1790024368; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7LSg5RdUyrJ+d+U0WBwd0ySTQ6Z5VZa5bGOIanx2lvk=;
+        b=nVIWYqIFnX26CKQeY6NMWP+RgaIiLlJnjeRRgDQtOEm+YfIFWWnDM0+XpuyT/LmW9S
+         I/HrVOtJCqPrir1zKI7OqJsgA5uezQKJxx1xhu1iQB3WLLdzs6sPvt7T9ACMWjo0ee5H
+         xXKwfnnlUdQykcsMCOOQ7ADoB+LsjFJdQTdw4FS/W1VsS4YNf2Vm4IAEtCC7fuSRkgTe
+         YjQ/yzELwEpxn2QsxPJTvSLFNe02uXQS+AwO9mTpDYaXyeJx09q4kirlx6gwJqTr2heH
+         mxj4fREfaQTKkkVFcKKDV+pGlh4Ef/a06XtnYQ2q/u5LHoU85DUwBOiH6Yn5N7LfKL2x
+         hpXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789417754; x=1790022554;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=M1RB04FVKilnMj3CUMQjbhrQYe/qiVYK3aULFxVnZe0=;
-        b=v2TP/+D+hrxSb3eYtBAPlmVWc4X5peyh0H+aYEiuzOhZlv8FEgZpshPDvrwnLo0psJ
-         bbm7kqhd7VJFTK1DShhxAhMH/1Vx8DqWboycS/J7Gts4fbORp9wucGZSIGOTgxDN0fT/
-         fi4BMB8BRJOGMITVnpOQVNyxtvleX30EURt8h+LHWaXkMY0VSJrBGZC9IwMNIgarwFzP
-         PZ6dXwIykmX5t50ZkwjD5xTm/rKzfyxCvXlzd60vHmnq8beBoluYYhIf+KGf6nSWp1cH
-         iciOgfQXLS1XYgega9ZX5Gf7X3bSXiyGombtatWh2zDBAQppAXt0f//gAdgUZfHo/d66
-         vwhg==
-X-Forwarded-Encrypted: i=1; AKwUvBxNDyfc5D3fFltXmEp4Y0gF17cdvdBrPg1z+13lhvVdBFCTy4EgnsKYshw6yi0n3YtMDRvleGc6u27eiHYJ@vger.kernel.org
-X-Gm-Message-State: AFuF++l8pzwRC+TvVvan9JG2ZR5WynjLNz/1vhDLrgjQe09hXPdG4Xnt
-	vVPcdxFmn/RMAt//ofhtt6WHHDdU/uUoy6Ymay/1sjIBbimE43lfCdV09bytuSvS0g==
-X-Gm-Gg: AYBFou0K0eVtejaQ1ddQZynNDXn++fJsHp1KIjhngNyAr60HtXi/yDsa5KP8cP7bpLD
-	zDY1fU0gn0D995tcCDYAvZJscCDsFtCmRBCetdC3nXrvWFL637yal59FkOVwBqAOZtfwlhCAexh
-	U22V9Qo0fIMljpD/k10e7NAYlCUBVo2fW946QCxRvIMz020/zkHXgqtmtlp9Lb+QkTgnUKNAdZi
-	qqWaNevPn9NYS4pBftcg9XkeWpMxLtwcPdKjjUM4dFW2DvAA0aO/3P3QoPBp132aJyfLl3SRxKZ
-	cVyLK8AAGK+fMWRbFq61rR1hsfl9vLvt8Q8Lw73u7fJEgD9MoKVyqAkbW/PFxjYjHRWnsiLzTsj
-	FSxVZWu8Rwg/eKfw/b5+UP+YFFYL8eLTPE/MvMqlpHexOGmvPDBG3Dj4yCaZeADxpyCy9g9mEhQ
-	Wqb43QrGfv1Ol/UHGHzmN4G/dyZ57m84RarNUC60ijIYx0vJSqbc7hw3BIPSGaHT1AsZCDD5IJ8
-	KQ6/q37s6QYN4RSRI+6EFZr4viAIKjWO4jD2A==
-X-Received: by 2002:a17:903:1b63:b0:2d5:cad1:a2e8 with SMTP id d9443c01a7336-2dd76b014dcmr2269015ad.6.1789417754079;
-        Mon, 14 Sep 2026 13:29:14 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2e51:8:9e:b709:96a2:f1d6])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365b348cbsm27582654c88.3.2026.09.14.13.29.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 13:29:12 -0700 (PDT)
-Date: Mon, 14 Sep 2026 13:29:06 -0700
-From: Isaac Manjarres <isaacmanjarres@google.com>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: =?utf-8?B?6auY57+U?= <gaoxiang17@xiaomi.com>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Xiang Gao <gxxa03070307@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?utf-8?B?5Y2w6Zev?= <yinchuang1@xiaomi.com>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Lorenzo Stoakes (Arm)" <ljs@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [External Mail]Re: [RFC] bpf: account ring buffer backing pages
- separately from Lost RAM
-Message-ID: <aqhZEuQTu394hYB6@google.com>
-References: <20260815091819.3651099-1-gaoxiang17@xiaomi.com>
- <04f3ce2f-67f5-4829-9551-a69b9df29854@kernel.org>
- <CAEf4BzbwZkoacX-iP1j4+p8YNbWsq0pc3eTermh2uT5ir66zbw@mail.gmail.com>
- <8d2e20842c24460296e4c83e6dc0dde3@xiaomi.com>
- <CAEf4BzYQvhSVN=Hggg5FHzFdkRr4UNBD6yXaBsOaAwbsRpXpsw@mail.gmail.com>
- <aqSNkbhIuaB5D0H0@google.com>
- <CAEf4BzbAOgwQqsRQnY4yxvubLtioQNL_BBHer4ExvNF7Rvvu4w@mail.gmail.com>
+        d=1e100.net; s=20260707; t=1789419568; x=1790024368;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7LSg5RdUyrJ+d+U0WBwd0ySTQ6Z5VZa5bGOIanx2lvk=;
+        b=ZVwkpA7AfHaoDTGvlKtgdSvUHtsAZ2R4CDyn8ClSS/TNlZK+KTiboBWvDvW2IK/7iq
+         gFm+PaYiWvlVOG+iFbtQqKegEI8W+sMYU3SSiUbubUfj3DvOStZOUmAI+TShQZUl0Yqv
+         pNUlC+WsGCDEix/7gUqYerLI8BQRIyxCybxTGS7GNl/QoKbF9CUkM8bYdRXFipjer3XT
+         u4Ijytky+J4IGMLHjB0PmozU4RJ/8PIAR0JyJVgBn4wiN6vvO71kRHtwrJudhlpdJqjR
+         P9OT56ntnfLiJVDhR6eAqQNWVFcSsjr+VTYbA6Q7BuHBBDhTeoXpr+FCT6niDr6VewJO
+         zDrQ==
+X-Forwarded-Encrypted: i=1; AKwUvByPARZKxdyIMTB6vXJ2evEMy0HTtn2DvaRBTxMm6eb9oncIDMqcyPhx3LWth3lMpvCmhnxeiKAI3I2T4A4P@vger.kernel.org
+X-Gm-Message-State: AFuF++lDm1J7ksNRwvgiAWyrTnorseBpQwgHJr4v1iVwxkme9/CJ8Zt/
+	qOFp2zAbuo7HPzMr+NL93VCrJuhJm/vuSTF6UNp/DJjLqi4g1O2O17q5ltzj9//xOi71k4o5WCN
+	UJlAtkaXTN+47i8kp5nNG3hUz+civW32F/A==
+X-Gm-Gg: AYBFou1kAfOcJ6zrtvtmLZBobJ2k6g/Iciz0cbE5bxevgoHcePZY9bSV+THTul55I2O
+	SQvil9hSF2GrnL6Asm8BHsbHUxtkzHvMpmePS+t5SLEEyAoA62b4huz82cR7sx+VxifizGvTMGu
+	P8wfw4h7Yr/FYJqkyarMldsbToUChTpq6wrdjkXcobYLiN8hbVuber7AJCg9Ee3ijC8jDJaKkkv
+	KNmmJE22a3+CAcU+tDlEnLghg2EYyyVuwHc/PnSXRgpRC8Z173pWYfwOs9RE7Bx6IEATCql08VP
+	pZQ30CRvIgduc8edbf+AKfjNmykDpcpBH7fc0pickpPpe1IxjNcik+oqhLQfdT3i9Uos1x8oM9k
+	bMPcE4wjO
+X-Received: by 2002:a17:907:930d:b0:c27:420b:7c82 with SMTP id
+ a640c23a62f3a-c29b876e022mr286157366b.48.1789419567915; Mon, 14 Sep 2026
+ 13:59:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEf4BzbAOgwQqsRQnY4yxvubLtioQNL_BBHer4ExvNF7Rvvu4w@mail.gmail.com>
+References: <20260910002934.192979-1-neilb@ownmail.net> <20260910002934.192979-5-neilb@ownmail.net>
+ <2mr6afww7r67o2hjblafhdwqffg3zicsqjkddnquunfaalolpd@yq54r5nlqftm> <178933378203.207413.6142548185484898062@noble.neil.brown.name>
+In-Reply-To: <178933378203.207413.6142548185484898062@noble.neil.brown.name>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Mon, 14 Sep 2026 22:59:14 +0200
+X-Gm-Features: AcwNN1Vo9_WgDFAN78Ox2ZEC0TlJ_qNc6EDOHH1iRPNXfhxDrKnXqyUtshK7RNI
+Message-ID: <CAGudoHG59N0Fen0-Wh+yz+OMA_HcX+Bu-dx+7J0QnypyK_b3ZQ@mail.gmail.com>
+Subject: Re: [PATCH 4/7] vfs: change vfs_lookup_open() to return found dentry
+ in path.dentry.
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-nfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 11, 2026 at 05:04:55PM -0700, Andrii Nakryiko wrote:
-> On Fri, Sep 11, 2026 at 4:24 PM Isaac Manjarres
-> <isaacmanjarres@google.com> wrote:
-> >
-> > On Wed, Aug 19, 2026 at 10:24:28AM -0700, Andrii Nakryiko wrote:
-> > > On Tue, Aug 18, 2026 at 6:46 AM 高翔 <gaoxiang17@xiaomi.com> wrote:
-> > > >
-> > > > Thanks for the pointer. Understood — no new NR_* counter or
-> > > > /proc/meminfo entry.
-> > > >
-> > > >
-> > > > The remaining question is on the consumer side: Android's Lost RAM
-> > > > accounting would need to enumerate all live BPF ringbuf maps
-> > > > (BPF_MAP_GET_NEXT_ID) and read each map's fdinfo memlock to sum them.
-> > > >
+On Sun, Sep 13, 2026 at 11:09=E2=80=AFPM NeilBrown <neilb@ownmail.net> wrot=
+e:
+>
+> On Mon, 14 Sep 2026, Mateusz Guzik wrote:
+> > On Thu, Sep 10, 2026 at 10:20:50AM +1000, NeilBrown wrote:
+> > > From: NeilBrown <neil@brown.name>
 > > >
-> > > For BPF ringbufs specifically, you should be fine just iterating all
-> > > map with BPF_MAP_GET_NEXT_ID, getting its FD with
-> > > BPF_BTF_GET_FD_BY_ID, and then passing that fd to
-> > > BPF_OBJ_GET_INFO_BY_FD to get map's size.
+> > > The caller - nfsd - needs to know the type of object found when a
+> > > non-regular file was found to exist.  This is most easily done
+> > > by passing back the dentry.
 > > >
-> > Hi Andrii,
+> > > So change calling pattern so that the path (now called "path") contai=
+ns
+> > > the parent dentry on entry and the child dentry on exit.
+> > > vfs_lookup_open() will dput() the parent and caller must dput() the
+> > > child.
+> > >
+> > > If lookup_open() returns -EFTYPE (from ->atomic_open()) we need to
+> > > use d_lookup() to find the dentry.  If ->atomic_open() didn't add a
+> > > dentry to the dcache we return %NULL in %path->dentry.
+> > >
+> > > Signed-off-by: NeilBrown <neil@brown.name>
+> > > ---
+> > >  fs/namei.c | 31 ++++++++++++++++++++++---------
+> > >  1 file changed, 22 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/fs/namei.c b/fs/namei.c
+> > > index 0c787363b101..30ccc0c2f02f 100644
+> > > --- a/fs/namei.c
+> > > +++ b/fs/namei.c
+> > > @@ -4606,7 +4606,7 @@ static struct dentry *lookup_open(struct nameid=
+ata *nd, struct file *file,
+> > >
+> > >  /**
+> > >   * vfs_lookup_open - open and possibly create a regular file
+> > > - * @parent: directory to contain file
+> > > + * @path: directory to contain file
+> > >   * @last: final component of file name
+> > >   * @open_flag: O_flags
+> > >   * @mode: initial permissions for file
+> > > @@ -4619,9 +4619,15 @@ static struct dentry *lookup_open(struct namei=
+data *nd, struct file *file,
+> > >   * If the fs object found is not a regular file then -EFTYPE is
+> > >   * returned.
+> > >   *
+> > > + * @path is updated to contain the dentry that was found if possible=
+.
+> > > + * In particular, if -EFTYPE is returned, then @path.dentry will be =
+the
+> > > + * object that is not a regular file, or %NULL.
+> > > + * Consequently the caller must be prepared for @path.dentry to be
+> > > + * dput(), an it must dput() whatever is in @path.dentry after the c=
+all.
+> > > + *
+> > >   * Returns: the opened struct file, or an error.
+> > >   */
+> > > -struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > > +struct file *vfs_lookup_open(struct path *path, struct qstr *last,
+> > >                          int open_flag, umode_t mode)
+> > >  {
+> > >     struct file *file __free(fput) =3D NULL;
+> > > @@ -4638,7 +4644,7 @@ struct file *vfs_lookup_open(struct path *paren=
+t, struct qstr *last,
+> > >     mode |=3D S_IFREG;
+> > >     open_flag |=3D __O_REGULAR;
+> > >
+> > > -   error =3D lookup_noperm_common(last, parent->dentry);
+> > > +   error =3D lookup_noperm_common(last, path->dentry);
+> > >     if (error)
+> > >             return ERR_PTR(error);
+> > >
+> > > @@ -4646,7 +4652,7 @@ struct file *vfs_lookup_open(struct path *paren=
+t, struct qstr *last,
+> > >     if (IS_ERR(file))
+> > >             return file;
+> > >
+> > > -   nd.path =3D *parent;
+> > > +   nd.path =3D *path;
+> > >     nd.last =3D *last;
+> > >     nd.flags =3D LOOKUP_OPEN;
+> > >     if (open_flag & O_CREAT) {
+> > > @@ -4658,9 +4664,18 @@ struct file *vfs_lookup_open(struct path *pare=
+nt, struct qstr *last,
+> > >     op.mode =3D mode;
+> > >     dentry =3D lookup_open(&nd, file, &op);
+> > >
+> > > -   if (IS_ERR(dentry))
+> > > +   if (IS_ERR(dentry)) {
+> > > +           if (dentry =3D=3D -EFTYPE) {
+> > > +                   /* Try to determine what was found */
+> > > +                   struct dentry *child =3D d_lookup(path->dentry, &=
+nd.last);
+> > > +                   dput(path->dentry);
+> > > +                   path->dentry =3D child;
+> > > +                   WARN_ON_ONCE(child && d_is_reg(child));
+> > > +           }
 > >
-> > Thanks for the suggestion on this! I did want to express a couple of
-> > concerns with this:
-> >
-> > Scalability
-> >
-> > I counted the number of maps on one of our devices, and there are 112
-> > maps, meaning that there will be between 224-336 syscalls with this
-> > approach. eBPF is becoming more popular, so I'm concerned about how well
-> > this will scale, if we have to invoke 2-3 syscalls per map.
-> >
-> > I had a test program that implemented your suggestion, and it took about
-> > 2 ms to identify 39/112 ringbufs. As the number of maps in the system
-> > grows, I'm concerned that the latency associated with computing the
-> > memory usage from ringbufs will become even more expensive. This is
-> > something we had an issue with before on Android, where we had to
-> > iterate through various sysfs files to gather wakeupsource metrics [1].
-> >
-> > To improve on this, I was wondering if we could expose the ringbuf
-> > memory usage and potentially other bpf stats through bpffs
-> > (/sys/fs/bpf/stats)? This counter could be a lightweight counter that is
-> > incremented/decremented on ringbuf allocation/freeing so that when it is
-> > read, there aren't any expensive computations.
-> >
-> > For this specific metric, we could just use a counter to track how much
-> > memory is being used by ringbufs and have userspace read that. That also
-> > brings me to my next point.
-> >
-> 
-> I just don't see a good enough reason to single out ringbuf maps
-> specifically. other map types also use memory, why would they be
-> excluded?
+> > Does anything prevent the child from flipping over to regular?
+>
+> Yes.  An inode is never allow to changes its type.
+> And while you hold a reference on a positive dentry, the inode is that
+> dentry is not allowed to change (a negative dentry may become positive,
+> but a positive dentry must keep the same inode).
+>
 
-I was looking at ringbuf maps specifically because they allocate memory
-for the ringbuf via alloc_pages() and aren't attributed to any counter
-that is exposed to userspace. The other maps use either the slab
-allocator or vmalloc() to allocate memory, and those entries are visible
-via /proc/meminfo.
+Let me restate: what prevents the repeated lookup from finding a
+different dentry, which also happens to be regular?
 
-> If you are worried about too many syscalls, look into map iterator
-> program types (grep for SEC("iter/bpf_map") in selftests). That will
-> be super fast and way more generic than what you propose. You can ping
-> such program in bpffs and that will be you custom /sys/fs/bpf/stats
-> implementation that you have full control and customizability of
-> 
+I don't see any locks held here to prevent it, so AFAICS in the time
+window between lookup_open() and d_lookup() someone else could have
+for example unlinked the target and linked something else.
 
-Thanks for the suggestion; I'll look into this and let you know if I
-have any questions!
+But that's a side remark, the real criticism was later in the e-mail
+and it is present in the quotation below.
 
---Isaac
+> > I would say this is the wrong approach to the API. The path dentry
+> > switching is a massive hack and should be avoidable. So happens I was
+> > working on cleaning up the overall handling and you convinced me to pos=
+t
+> > the patchset early, see:
+> >
+> > https://lore.kernel.org/linux-fsdevel/20260913144918.1606123-1-mjguzik@=
+gmail.com/
+> >
+> > On top of that the routine as is has avoidable refcount traffic and it
+> > seems you are adding to it. Instead it can switch to vfs_open_consume.
+> >
+> > On cursory reading of the nfs patch, the following should do the trick =
+instead: split the
+> > helper into 2 parts (say vfs_open_lookup + vfs_open_lookup_finish, mayb=
+e add
+> > vfs_open_lookup_abort should the caller decide to not go through with
+> > the open).
+> >
+> > Then in nfsd you could have something like this:
+> > struct vfs_open_lookup_arg v;
+> >
+> > vfs_open_lookup(&v, parent_path, ....);
+> > [ child dentry is in v->path->dentry, do arbitrary work with it]
+> > if (ok)
+> >       file =3D vfs_open_lookup_finish(&v);
+> > else
+> >       vfs_open_lookup_abort(&v);
+> >
+> > The new struct would hide 'struct file' and whatever else
+> > vfs_open_lookup might want to allocate first.
+> >
+>
