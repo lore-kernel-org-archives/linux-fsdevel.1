@@ -1,167 +1,142 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A092C49481D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 17:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D7645199D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 17:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789405558; cv=pass; b=mHSROVOCRTOWfXyKc/rAzhxJ2OKhm1UFvhwC8K9atg76J3VmZwzthwW8VfIR7qDQiLk6g481ZkdA2eDrBEgOSlhsjpGtBGxXG2AMznDyMf+YMdA8hBtA92YYcWOMLegUdPZlwFtL9OiHUF7DWB51YD0HSROTEdWqcoiJGjmhqK0=
+	t=1789407508; cv=pass; b=eGopnXEqi5d7jwdNj1gSxSs7yFrPg89mwYv+PT4HaYdSBAhGLBqLWXNeEdrs51t+NWuWcyMKIhtm4R7Tuc4W7qfbtqndvMMyx1wO+ucOwUH0GGqBB/ERtJ0ShVF8H6vJksEDzTSTwI0UetoDDW6UdKd3JGkXYivUpEoi9GWEONE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789405558; c=relaxed/simple;
-	bh=jUNXLbhXWn3k3vtDnvsdLvoggUO4T9CBTRnFjm1YrVs=;
+	s=arc-20240116; t=1789407508; c=relaxed/simple;
+	bh=sEeztLbuGFyF1dhhheCGiQ+SCiNVAWKx2wrJ88/WhXE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ea+zgpkzoWfCsiK6M9E7jdU0N8CZcWd7ySCVaHTWFSEZdhEeBCPQZ1HT0JEg1MpkiFreM4lUwxGUwESOWr+R6EZ2GlJm4U7SrXq9NaJTJEY6M8Axt4K3K5tIXIeEEBTZLDZbhfIzi1XbEPS9nTyPIxcx1kEbLaWZZVH5vP8NhTw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=a1fBxC47; arc=pass smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=SkwQ4DQjHMrjTcm4e8PYZTNk2xJmvky242CU8cbUcHfkIBsCHMwDfUSToNZ9yEf9lNFQUYBTaezK3USrIeoHhmSqYJb5IavKVTnv7woU1GMnBkr4Q+Vr3MjMkxgwnDAt0TLSpauTVd6vsPEPX4qIQnhnCNjWRooEpriwZv9fPIs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HDygBD2R; arc=pass smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="a1fBxC47"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747ed1368so21425605ad.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 10:05:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789405553; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HDygBD2R"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843c2790ccso1365976f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 10:38:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789407504; cv=none;
         d=google.com; s=arc-20260327;
-        b=h5SvCYQNQ7TqxW941xDlvoefPALMi1QwAbd2SfQ3WwOH7DoAMsSjCVbOuvWq7NYlMO
-         TEGmdi8yjEO1BNmb9IzUFT3tyDbVgF0bmN0ldpmM9hoH+DLfknAMFpGtgeESrVpNO+UO
-         PALvuHibC3P+Ftj5Uga/cLu3RSVMTT16LyGpy+q0BcdhQIIGIjj9YAmpm6Bxi99bFxSc
-         8cRbrWbfD4nY1jSOG1lJl4gyr99AOlYduCsIFo7gHt/ujQjVNgYjedcB2Gn3TiDwl/o8
-         6GKGZgMwHEKdysRLk3wxCJ/DFEuHFzp2N9NQVaMbibgmrZubJN6H55sDAeCibWlYAJyL
-         ASHA==
+        b=XY3TQ3c6e94owcPwK3uH+mpRu5Lowa3kkeOMNslyYayNl2TEgJAgSuhxD8RoFizoUu
+         ZNGiNutEgv1uBDPTGzuM6NMDwXgDbtBBHuW7I4t000q1FYUv7vT7Sn0tYHrLJpLh1J8P
+         n0nVshm0VVvb9a0tzDYCc34etGiTwbYfwSWTkjrzMkDz+2kv5QDWyMwAGvgji40GLF6H
+         tZdbyAQdzyFUtCTxLlpsys6IkZtJSR2GJgDuYewSa+tNfy1g+oskgq/BzAYxdavB6ZJw
+         NczvauTyl2KkZoowQRGAL7i6uFVnqxi1ratCBjrhX/U2uBaPSCLxHgMqm9cJ7UVQWFQW
+         rM/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=avx3LuQUj0eIvtk4vMhq4fafE3JrorX2BSEZUs9YMHI=;
-        fh=XYdeeGtKYJUbc4XtXTLqmmIgSN5HaT072R6wFtVijvY=;
-        b=W+3SKUdzyQ1ubpYXOoDWPy4LtiHSF7s7R2qQF6tEaWBTM5034E5JhLvj+anbHoK/Hq
-         yDtytdKS6MPde+FICiBeMZ/arfJbaSt14R8EbhN7PYJwtGAk5KpDjY+E5IGd6dThMlPy
-         BmUh3ikZbji5B43C5FRNXFRxG3UEjgDZXbiFpTuA6w7NeXHccI9ldvHOUc/9aEiusAdM
-         FedfeiWsSvQRv46WEFl3hY7IVtSmq2vvai8Z1tHoABtwyx82BKjmoju9yfbGz2xjmDjs
-         HYvhfLHGB6/YAcbcG6P9uVGjBBIqAq4ZVMeWwKS+8H3ahbCDNr06ClNcrMs5KRNy0vFP
-         qHhg==;
+        bh=sEeztLbuGFyF1dhhheCGiQ+SCiNVAWKx2wrJ88/WhXE=;
+        fh=ToZapcPAr6jhUwlzlv9YSD47on9bFNc1eSUAOvI33OM=;
+        b=WfM12tyoiEsGPTyfkbEcfh1p+BrJYAbKuA0cb9NM2CcqoCdm2X081tvmfB0hxbhgxf
+         3SiZSaYWTIn/zzV3AM2POaTnQly4jioF06BuClrF3SnCmuvWGM2YinsghX0SNi9O9tK+
+         EK2+sBOdrt1vnKKH4gCQcZ9TYP77vA4v45duZ33L7lcVOdakvbSZUAiRn5DZTLHid3Zd
+         ZFHYUDThBYUZ6+bfKLKvxraGQrLdkra9un+dngo1/HXIJZsBz4LNBTFEe9cFgHoZYwzR
+         V/AeomYijV7z4lhWFn4edRzzgICEndQ+hI/OU/iOpjL2jHuJulWEHpbJu2IAG4n9jtol
+         Estw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1789405553; x=1790010353; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789407504; x=1790012304; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=avx3LuQUj0eIvtk4vMhq4fafE3JrorX2BSEZUs9YMHI=;
-        b=a1fBxC470vf3gxUdvMqxfHcMHafJCFiwxvZ/34cxN5DMhy5NefppljZG3+7bfXsvBp
-         kTcTa71VdbJ9ubCpfuDGkg/TmTtaHiWP4bLh5MTjx2JUpl+tcyOsVsdzJMUknGwxAih2
-         mDcxs6pqVHw6A6ce0jhz16k9evy5J/1vGA39mGNoMWGJavGmXv0VyNqJkWVYqQ1IdWef
-         o5yM3BsjYetzoV0xWaA6d5iFaMmEFxsCNch0sgNZbQfF8RCQ+Xdte8v7OmFCq5Dl9/oL
-         c3FShJpn/SiNI6MH3I9OzvW29aUWIxa5d5SDLSHjcrxoRSSgKOXMA0xjkmy1dRA32cKU
-         f9CA==
+        bh=sEeztLbuGFyF1dhhheCGiQ+SCiNVAWKx2wrJ88/WhXE=;
+        b=HDygBD2RnIGBEFUkBnGQNxgr7HoHVNy+43GUFsz9zqgnrv/HxutFFfexWt4vGltbF8
+         /qdG45CBlAUyPxPGruZXXPPgC6pNETH+IPX5LdeOCMhDPFhmY/ToLARtdRZa8DkBWU1/
+         HF5v7bmoI1IEF9hFZA7MTCzkLzOBpGNWCT8q9tzMUi49+os5UxbGzCuvpGy+xuzmFLmi
+         bkC1dAi1iDYVK+0q8gElQ2iG4gTzb6f/QVm6ikrnkb97EUTZx9udZdtEvONjKOXbpyZ5
+         W8pEuZV+XYCnm/SE9E0cOd4h5S6SlQLkbk+X/axQnGYkQOzdb8258RF3eHXHwfS9hSaK
+         /z6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789405553; x=1790010353;
+        d=1e100.net; s=20251104; t=1789407504; x=1790012304;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=avx3LuQUj0eIvtk4vMhq4fafE3JrorX2BSEZUs9YMHI=;
-        b=H7vbJmZulSw4NxjJqqhwSfsGIJqXvI2VUzpHmDeKPI5CzPmtpmpjsM8jVHeyMcoD2B
-         0CvEzjTvBIPvUsrtV6KldIq77wpVL7swAn2yv8CAixdq1aLcnnWtgpV31js8J7+p4NBp
-         f4o8aCdjBb0oT0TM9dPZ2eSekbn8F6JL9BA0DArokFKmoNrKk96rq69HDmoDb/7xmDzj
-         xIXGGLNzskBy1bA9j8j63djKrrg+0YOkdte0vXVA+q3acRFHzzIu+no5ZZLwvLr7XrCW
-         eUOjXWc+491VcJjUA0cQTJcqIRnnfqJRawL9mTAEPSSpNrgJiS50TNM5QG4IdeQdAF37
-         OOzg==
-X-Forwarded-Encrypted: i=1; AKwUvBzcQmz2nXVQVK9quc87mEKgNR5yuZVCYVv9uYZV9IexRgDGrxfix8SPmUlP4tR50xU/Z52F2qA6gU5g7DcD@vger.kernel.org
-X-Gm-Message-State: AFuF++m9+2/5cULYEOw/erwrS4vXN2ZYrt4TkYhsg91MLaZ0iYZA0OY0
-	8xXlNejHwTqp7yKW0Xi67RtBUbX5vIIt04JUJpH0BWJIkPRgWCs2rKgTjKE7NP5/S/i77jqs5qY
-	p5l7qnlU5zGLmuNf+vpB9KCvqSEw9dVpVOpKGFbXq
-X-Gm-Gg: AYBFou0v+k0JbBHQJGTA1ja0XRFBgpZC+MK4AMde3j9SyYXTFlz8JUhaVU3jsBxb0t5
-	I1azxfT+7MkciOnCKCBL5MqJJvz5I7GmgvRb6RSgy8Uy6v5sEfZwiRn0wkrBW3CpJiJpVsvooEm
-	TBQR88qtHeLN2EpqBL44GPr4wTmcT8CU6MtJqytrOlhLsVRWQZ0X2rsG70L9J5UmNa2bm/sRuoN
-	SMYbcFpBxjksc9cGW2Q1o03aveL+1vRnH/p1M9wZ9p+mGp4dI+PcIZPUaq81kuzxAu/O+GPGEid
-	9mnYlSIm2rz+5mslsVIKs7Mfj4wRFshfKWwhH1vv3c1XKhjIC9tQpl9Ml7cIff5y9Iq32GSFXYK
-	pXBSfobg21cY=
-X-Received: by 2002:a17:903:2cf:b0:2db:56da:6a0e with SMTP id
- d9443c01a7336-2dd6c5f140dmr73526135ad.9.1789405552920; Mon, 14 Sep 2026
- 10:05:52 -0700 (PDT)
+        bh=sEeztLbuGFyF1dhhheCGiQ+SCiNVAWKx2wrJ88/WhXE=;
+        b=lE17kD37QTksWThxSj+cvQq0117cOR+tLpVdUk0sfa4cBjmQg2pJwF/rr4jR0wTlZC
+         G+BKFLyA04+IwdwL//Gbiu5k9kYM98HN5lORaUkpG2d2M+zcieUJFrP/4ejhoQEqS8JC
+         sbCotGHtMhcTJMEo2Pe/DiNZKKorSPfvQRhC2izAwOcpDOZ436mgfCBMeToGinm4yF4Q
+         gLu6yd4blbUglQfoQ5gzvBz4hpsubrYyLZI/OrvguUGX9yNfxxvi1rZ+9fVG1H5kx7kJ
+         lgRQ3KQXQ/K/taoDOqjyi5TwPITgw4k4GwLI0mRFYcofHL3hruKYqrATjjh86TLEbT4q
+         y+fA==
+X-Forwarded-Encrypted: i=1; AKwUvByR2bmbA5pXj/cQsILGCDN1axv+Wgas1vW7Gajm9ofezCKz3ZJyLKlx5ibvJRgsNiix9t7SKaUTPzkRbSRK@vger.kernel.org
+X-Gm-Message-State: AFuF++n7Itbw67G33zZNHUsjQTDOnqXrzA+mkp+0j/PZkTgPcYdOUPbw
+	4KDWOAOmSVulucWF/uY36MuX9VQzFMBW7egmr7OKHpnXvNtwTspRe7N7xpt9lhZqAAwLtMwRLtR
+	RSwh1Kwq2ZW9MWwvaiTwPFZh0DRp7eK4=
+X-Gm-Gg: AYBFou3pvaS870zY0OdWrW4KK7DUVIqUyjycS9xzcn0OilyFDRWeXexgnwygcjLv4j8
+	paPPzRzdk6zYvRS30S9qV/dCYvxHMEgvJWURoLcXE1x7aDF3RaLhknYcS7n7mlTIfnHR6LNM7h0
+	wmu7koZ/w3bwb6dAfd+LNZULFgSIMft0KBvqEXndav0l6cb19gA+KYe8VBW2SSGQSYL8e3xcavD
+	kupeeHXLWrewE596AppaFhCDI7pMqEth5MzkhPb8ZDFhL3QCzg2IwA+aydvIHrEKlZxD0RYqDcK
+	tBWOGKx8+Etg0IBiRV/3fYHwrWboPMMb8ccWjGMChjTujf67pDHV6msxJDUCGmaxczoL5hY/yof
+	6a+WlXpU8doM=
+X-Received: by 2002:a05:6000:41c3:b0:484:3310:710c with SMTP id
+ ffacd0b85a97d-48702b30ad7mr9667975f8f.24.1789407504318; Mon, 14 Sep 2026
+ 10:38:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260907-selinux-pokemem-v3-0-0bafbaeafe50@google.com> <20260910-wohnbau-bezwangen-wegziehen-7a32dcf237b1@brauner>
-In-Reply-To: <20260910-wohnbau-bezwangen-wegziehen-7a32dcf237b1@brauner>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 14 Sep 2026 13:05:39 -0400
-X-Gm-Features: AcwNN1Wk1GrQXU1YfDdXmUukQFqj25lXZKtxh5blfh1kI19p2jakplNL0VfIjvw
-Message-ID: <CAHC9VhTE82bRRSXSUuMOdrfoMh=xOb5hDvqiKWzBKD1urab3hA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] proc,security,selinux: let SELinux block
- FOLL_FORCE for /proc/self/mem
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jann Horn <jannh@google.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jeff Xu <jeffxu@google.com>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, Ondrej Mosnacek <omosnace@redhat.com>, 
-	selinux@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
+References: <20260911121341.178028-1-alex@ghiti.fr> <20260911121341.178028-4-alex@ghiti.fr>
+In-Reply-To: <20260911121341.178028-4-alex@ghiti.fr>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Mon, 14 Sep 2026 10:38:11 -0700
+X-Gm-Features: AcwNN1VP2kc_faYmAYrbA6jzrQN4BV6EV-vGstKi49hd1f6QiPh8-BHVVwhcRhE
+Message-ID: <CAKEwX=OpSG=fsw_7UsyA753cUTPTAjN3E8iRcfCzdO=Pw-xjAA@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] mm: zswap: drop cold writeback folios via swap dropbehind
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosry@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kairui Song <ryncsn@gmail.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Wei Xu <weixugc@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Kunwu Chan <kunwu.chan@gmail.com>, 
+	Tal Zussman <tz2294@columbia.edu>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 10, 2026 at 3:48=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> On Mon, 07 Sep 2026 23:00:15 +0200, Jann Horn wrote:
-> > proc,security,selinux: let SELinux block FOLL_FORCE for /proc/self/mem
-> >
-> > The goal of this series is to let SELinux prevent the use of FOLL_FORCE
-> > when a process writes into /proc/self/mem and the system is configured
-> > with PROC_MEM_FORCE_ALWAYS (which used to be the default behavior, and
-> > is still used by current Android devices).
-> >
-> > [...]
+On Fri, Sep 11, 2026 at 5:17=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> wro=
+te:
 >
-> Let's move this on a shared branch that both the vfs tree and the lsm
-> tree pull. That's the standard way of handling dependencies between two
-> subsystems that want to route code that touches both of them. Branch is
-> stable.
+> zswap writeback decompresses an entry into a fresh swap cache folio and
+> writes it back. The folio is cold by construction, yet it is left on the
+> LRU for reclaim to find and free later, wasting a reclaim scan and keepin=
+g
+> cold memory resident longer than necessary.
+>
+> Allocate the folio off the LRU and mark it PG_dropbehind so the swap
+> dropbehind path frees it from the swap cache once writeback completes.
+>
+> __swap_cache_alloc_folio() evaluates a refault on the new folio, and
+> workingset_refault() sets PG_active when it looks recent. Until now
+> folio_add_lru() consumed that flag and __page_cache_release() cleared it
+> once the folio left the LRU. This folio never reaches the LRU, so nothing
+> would clear PG_active and the folio would be freed with a
+> PAGE_FLAGS_CHECK_AT_FREE flag set, tripping bad_page() under
+> CONFIG_DEBUG_VM. Clear it after allocation.
+>
+> That is a workaround: the refault should not be evaluated on a writeback
+> buffer at all. A fix for that is on the mailing list [1].
+>
+> Link: https://lore.kernel.org/linux-mm/20260911092012.92399-1-alex@ghiti.=
+fr/ [1]
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> Reviewed-by: Kunwu Chan <kunwu.chan@gmail.com>
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
 
-For some reason (/me looks at gmail) your email never hit my inbox, I
-only noticed it now while reviewing Jann's patchset.
+LGTM!
 
-Christian, can you explain why you merged LSM code that I haven't
-ACK'd?  We've talked about this in the past and I think I've been
-fairly clear about it; I wouldn't merge VFS code without an
-ACK/Reviewed-by/etc. from you or Al, I've been expecting the same
-consideration from you.
-
-While I don't have a problem with a topic branch for this, can you
-also explain why this topic branch should live in the VFS tree?  There
-are more changes under security/ than fs/, and unless I've misread
-Jann's cover letter, this entire patchset is focused around enabling
-LSM/SELinux controls and not necessarily anything really new from a
-VFS perspective.
-
-> ---
->
-> Applied to the vfs-7.4.shared.lsm.foll_force branch of the vfs/vfs.git tr=
-ee.
-> Patches in the vfs-7.4.shared.lsm.foll_force branch should appear in linu=
-x-next soon.
->
-> Please report any outstanding bugs that were missed during review in a
-> new review to the original patch series allowing us to drop it.
->
-> It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> patch has now been applied. If possible patch trailers will be updated.
->
-> Note that commit hashes shown below are subject to change due to rebase,
-> trailer updates or similar. If in doubt, please check the listed branch.
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> branch: vfs-7.4.shared.lsm.foll_force
->
-> [1/3] proc: refactor /proc/$pid/mem to use struct as private_data
->       https://git.kernel.org/vfs/vfs/c/d5662602d178
-> [2/3] proc: query LSMs for introspective mem access (if PROC_MEM_FORCE_AL=
-WAYS)
->       https://git.kernel.org/vfs/vfs/c/9f90f96af73d
-> [3/3] selinux: require PROCESS__PTRACE for FOLL_FORCE introspection
->       https://git.kernel.org/vfs/vfs/c/5dac8c291d9b
-
---=20
-paul-moore.com
+Reviewed-by: Nhat Pham <nphamcs@gmail.com>
