@@ -1,117 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8A74399F8;
-	Mon, 14 Sep 2026 10:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4753643BDDF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 10:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789382319; cv=none; b=UgElIJzfWvM1kl6+luDTWRCL5VcmAXCH2djuDTm2+nV8tfUEk/GKJdE4VgDpunf2SLqJTV/LmbQ/awW03ATcUUFsWX44aj0G00jJ6+gp8gEyzoGFuzEVbLV4IY6sgrwez21DZkaX8jBUhutPdpeyT/3arKTvIBIuvO/4kW9EBTk=
+	t=1789382420; cv=none; b=UdznM19bclsyFuYzicaXq5lcDoyHZ5RqXad4S9c/mng50xKGRls+/YhCkwhgp43uZlLvPt7YtkD7akUa8Nm2cK/XOzpROkNlcxbeJG0TN8Q01TRAz5QkK68lRflVo10qbVX3/Yl4JSXv1zgAsWhaqZF3iJMXTY4KGWI94Tb4s74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789382319; c=relaxed/simple;
-	bh=F0v9qy32XwrpR4t/I8gQx7bXO0OJcrylM1IXrgTlA+Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pb6nvRsQFWcBIZVVBzrMbCANHtbl5Dn1N+UOyi+K5Ie9EWEmoIhenBDWB+tVoKAmwpNn4rjlpKAP/mJJksDMMUwg7cBrf+dC7t+x84NvrPR3zEr9qipZkzPzrSj719IHrOe+bxjieinAD0yipYp/tYAJqdga3LH4/qV01KauQ1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ctkBDj2o; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789382420; c=relaxed/simple;
+	bh=xgPntlbUpUFdBKAdzHkHSWMx81IV6Nzl3C+5WbHu6IY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Zkze7/A4W4ApOJQsSzX3eysok63cu/RBoZePgB3Ewq78GR3N3IJHc34mMa53BRAwdKj35BQgV89NI+AFg66NAsK8JqsxgGSwDNE8TH9IcptBH/yFpnrGEFtMRw9MJqmIvzAW/FVKVr/EmlfTqD8V2XRW2ZOpNyXf4mT4Amz1h5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SvXKsK8t; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ctkBDj2o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456821F000FF;
-	Mon, 14 Sep 2026 10:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789382316;
-	bh=wxIXOATk5FhrxMumaqsjd//lfDHJpwYqEyQwUB+eAxM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ctkBDj2of/0yY1ZCeqTf2CkovUmeZu8zOO1SBiBVw11JNgCFxqoVU02D1SlOVIrgc
-	 nTvH4H79+jki0DSlPszf70mxlpTXqMJmBRgV+A1UBLF47eS/lJl/eQscGj29MryduT
-	 1K883kqZDPIFT7O3XOP3JolNlf/VN+jvwEBCG5Icamfhbv/Hh37yLcN+xHzRNGkbK/
-	 HzvKxtoM8tv9j4/V4udWdo2O9mNz4qSaCL2W7SxQTdxNbvFOFCgWnSFhrxnydcuK8o
-	 UnNrN0nFl64FBdVcBqV1hFEYtSKkxfRKHmdUDGVTVqfcd9IGgZDL2A2ualdzWlr4Lv
-	 clwfQNOBom2bg==
-Message-ID: <cdffaae3-dc7e-4307-984a-8fbb55beb931@kernel.org>
-Date: Mon, 14 Sep 2026 12:38:29 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SvXKsK8t"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so34000645e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 03:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789382416; x=1789987216; darn=vger.kernel.org;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5Xb+w0dynq41gwCQksdLejtfZNR3cXeKsUIjY7qGZw8=;
+        b=SvXKsK8t+WV0RpHErUkUkA6UZ2+URVR1nznKEaNxuig5hAhOlg8s5P2pflJx0TNOMh
+         Zp8qmPR+fSvmlUHUFemyyAbUak02eW25GcPQzf9vdpR2VRGgPRdpdqxBMVNPDsw4xUJJ
+         emSFe8OZoB9I767BXeg+YGd+St+LJoqsJpQiuV18J20TgOD7wf++7bczmxX6UhXZUOED
+         tPwKubv3X5y7s7s4LNjHu9KNEf4dQey/oOAjfpGcixe49NOBaSbFe3RbZkCViNsAVK9m
+         Um2888wmRe9xPdjKLh2TBiNskO2OYAEIpHrIw8UvpczUPRMlmpvnUdHNRc3mAwvP4OOF
+         jETw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789382416; x=1789987216;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5Xb+w0dynq41gwCQksdLejtfZNR3cXeKsUIjY7qGZw8=;
+        b=CJj5reZRAIrX6B4V3LrGyBnhPKlHl2F4XbC3XBHxZs/nlscCd0arEfIruLqwrVvsET
+         f3GyRzzhk7bcAIuUaONexD6oF8WL6Xo/6glhRSm8rsAwp38tLYmXyNHgkyNKiDoLmORj
+         z8KcHKTmCT5n6IAIJS8/d/tHnDLy/jD63uKQ+csxDW9LRVhO9s2QXdiTbwcIcVbTAcp0
+         JJN95+CHbJ4hhH3mOaRE6xNMEo6998f27YRWtMgcqAFFvWEPTp4PQyBUkpka0Mma4hQL
+         heYpdLaVwQ1ZqwmDcvGD7MJMkQrY47lAodX5UX2Vw6YDtQCR8vde1S4FVplQkYhrxTCx
+         HS7w==
+X-Gm-Message-State: AFuF++nRvR2jSEFQJLdh1O3FvrIo4FZdZM7trvMKV47wGaXgc6eEw02y
+	rhYACJLnpR7XhfQZG1SPCvxrcH+CV7pZkbjzV9FPeR5+YX97xeAKayea
+X-Gm-Gg: AYBFou0T+zEmzFzL/PdTVpHLZIqiQRvR9YkZUMaBHMRLbpvmQuWjr/tazuPtUlynTOl
+	bgusAQluLLUAoQAJF7BAQiqjqAxOYIMN0PgBj+T2bj9cb123/jxnasoHBunOlF3+aPXSWD53Ea+
+	onkNjci24by2ZjtTJLC2JfEqCxdfI1IiYNEynimOMsrm3I7rkc80KKqeAUsOZt0saWUtxyRPNI5
+	XLaa/umuAzNtY4KsAD4nNY9HI7MUz3Vtfzsygo0/PWKMGHmVQgf4ntOr+jEir+mK6IJ2ZzT4ig6
+	eOK7PigT1JNiLHQlfk0gjuY7iZK9Fa9iQ0t3D4uJKQpHjDUYtiuJlDpgl5KeL8w3xbzylH/Vg/5
+	cScDi/ffxpMEI/opA64DIPC3p096ajDsjiVZJprXrLLsIoV82em0eD2VCKCsHAekPe7BLkg/KUW
+	MVBCOHmS2rtwwQ6z0si0mSq/pe6bUtVq4mdGlaBThpcccoBDbLWERrRzIedh7YkHy3yoNJ
+X-Received: by 2002:a05:600c:19cf:b0:49e:73d3:78ad with SMTP id 5b1f17b1804b1-49e7a6859femr22078775e9.18.1789382416215;
+        Mon, 14 Sep 2026 03:40:16 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e7723d458sm105653065e9.0.2026.09.14.03.40.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 03:40:15 -0700 (PDT)
+Date: Mon, 14 Sep 2026 13:40:12 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Chao Shi <coshi036@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org
+Subject: [bug report] buffer: allow a buffer_head to point at memory outside
+ the page cache
+Message-ID: <aqfPDKwYQ3pNtVH_@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/7] proc/task_mmu: remove special-casing of
- smap_gather_stats() start parameter
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
- willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
- xueyuan.chen21@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20260911194145.1781926-1-surenb@google.com>
- <20260911194145.1781926-5-surenb@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260911194145.1781926-5-surenb@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 9/11/26 21:41, Suren Baghdasaryan wrote:
-> smap_gather_stats() interprets its start parameter to mean vma->vm_start
-> when it's set to 0. Eliminate this special interpretation and provide two
-> separate functions for a partial and complete VMA walk.
-> 
-> Since smap_gather_stats() operates within a single VMA, we can replace
-> walk_page_vma()/walk_page_range() calls with walk_page_range_vma()
-> which is simpler and also can be called while holding per-VMA lock.
-> 
-> No functional change intended.
-> 
-> Suggested by: Lorenzo Stoakes <ljs@kernel.org>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
+Hello Chao Shi,
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Commit 8deae2284976 ("buffer: allow a buffer_head to point at memory
+outside the page cache") from Aug 6, 2026, leads to the following
+Smatch complaint:
 
--- 
-Cheers,
+    fs/buffer.c:1118 __bh_submit()
+    warn: variable dereferenced before check 'bh->b_folio' (see line 1109)
 
-David
+fs/buffer.c
+  1108	
+  1109		if (folio_test_dropbehind(bh->b_folio) && op_is_write(opf))
+                                          ^^^^^^^^^^^
+Dereferenced here.
+
+  1110			bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
+  1111	
+  1112		if (IS_ENABLED(CONFIG_FS_ENCRYPTION))
+  1113			buffer_set_crypto_ctx(bio, bh, GFP_NOIO);
+  1114	
+  1115		bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
+  1116		bio->bi_write_hint = write_hint;
+  1117	
+  1118		if (bh->b_folio)
+  1119			bio_add_folio_nofail(bio, bh->b_folio, bh->b_size,
+  1120					     bh_offset(bh));
+  1121          else
+  1122                  bio_add_virt_nofail(bio, bh->b_data, bh->b_size);
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This is dead code.
+
+  1123  
+  1124          bio->bi_end_io = end_bio;
+  1125          bio->bi_private = bh;
+
+This email is a free service from the Smatch-CI project [smatch.sf.net].
+
+regards,
+dan carpenter
