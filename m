@@ -1,233 +1,297 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B77619E97B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 01:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789348187; cv=none; b=RK4aidmcMQnboCWwX1ybkViJoILnRWjKrk6qJNkq7C8y5wiegeLqBKBpzo8Z2wXqUYhead/gEMWst34xOYHxGHNtG9B63nDePHR1ikldZxc8yJ86OEOIs9C0s1Qi7gVb0bY4h1uS1R6UY6JMkChOIPAaZQv1MBPI47LqZSMnTRg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789348187; c=relaxed/simple;
-	bh=n1xjytiEmtJb2DX0y2NLkgCfVqlqN7ZA1i7C3afS57I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kyR7EP+LvH0ubVkO3Cq3QHY0w1NkNhFjKJ9QvwtOfqPgpyUW/CJ7bgQRhCBR8EqmdS367oTewHOtINVprimosAsr7kXyrjSgxv/QXkUpggI8faFQehOLWFvqIn+VkJ/zQQpINZ3pM6jby1znJ4fY4Z+3dp3IYBLUru8MRiavads=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTuybQ7E; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD6817BCA;
+	Mon, 14 Sep 2026 02:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789352152; cv=fail; b=Xdzbv0Y7dBbTeLf9SNEBlBB4yUMt8O/H0SbpAKtQ7+WIFnpkHFgvzdIgDpA/+Km98MD6lrlRX9jzRHCvkNpNBz64PMqkSLknNVt23W0DZBZYOS8REQZqUHmAbO+jeCgqeEvteZt+Vc72ehJQkVuqwBdDQ4Z4dWRWBoubRB4xc64=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789352152; c=relaxed/simple;
+	bh=q5XAd6Rehk8ZrllzstZzlYsBwl8C15+gCU4M9murk/A=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Tw0XZH6bIXMOIFmKKx/kzte6+qiFa++q9lTsJ7/5pNyRDlglRSR46Yfa56a+vmVT/yC37uAH0cTrfwSqzwheHe74FaIlpID6Zr3FnFOlDAB8Ec870bQNcnaRL/TzkeS/TjA+C9GvdxsVUJUdOqr3rL2flrKnWGrTBBzW+E8JeEs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6X98Bpy; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTuybQ7E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDA21F0089E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 01:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789348184;
-	bh=4ndSNsr2rSjtlZsOTZb7f4dR7eAAlwrJ58BLG0WJdXg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=bTuybQ7E+iX/pUYoWBlgygEgotFdfAUox8Ij5d0cWr2Q7XAQ6VX66cVl32BlQ/I8Y
-	 zMWbxJM6djY+Uh+WhuF7VUqkfDzQLMUCD1OeIPz/fiaZWrklyzR4CvxE34aXGP78cW
-	 gR7sNf9vwuphZzMvaxW61lIBCL4NVrfCcEjjsG5h1XvV+15kQIe+z9a+//QfGHYNLj
-	 25IMJsavUfUwu8CO8UhF3NqAKHbuH1zvn7YK+w4cU2fXR5ERa9WRYTffN3vXcGmi6j
-	 a7KWhFZSXR0KaXUzLaMKwzJXPKi4JtCo31oRvBPk9S/pyRbPWRDeb+S4fZ/qn91NT+
-	 YDG+aD1DV8VTg==
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-93a00298c53so113275985a.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 13 Sep 2026 18:09:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxWe8CazpEhPUg5C5aAw0YmPXLxVKKFVUFFlMZd4DMLnwo/8WqcpEBr4N/jAWz0UsNgvhlj6c5vhEqTf8V6@vger.kernel.org
-X-Gm-Message-State: AFuF++mc6tih2e8f0U6q+IO8DB3HNB6J8lxFh1rSYG2Q8yYycXW7oP1u
-	awyvqV28wGfI/O3Q7l0to8pK25EuxGxvcz6k5sZOZrxRO7bXAUrCW/ao3XwQvJA0URQ9pSkQehd
-	w5ME3y8NRfTdtJ4KYFfkHTJ+5S1c+a+I=
-X-Received: by 2002:a05:620a:2707:b0:939:bd4e:b2fe with SMTP id
- af79cd13be357-93a29a12d15mr69398285a.40.1789348183191; Sun, 13 Sep 2026
- 18:09:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6X98Bpy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789352151; x=1820888151;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=q5XAd6Rehk8ZrllzstZzlYsBwl8C15+gCU4M9murk/A=;
+  b=I6X98Bpy2m9IbzZ288bZdmDKhs/HZEwF6DHJ5rWwgK8GM0IhoczfiksH
+   b7maD6k5pHefg46MKMDY5/L9Kc+T9p3ORVKTxPlDOoIJSSKogUbnDIKzT
+   wXhfAGuZ/mDXVKDC2Du7iKXSdN9qlH2cVuaxlSOb6y58MI6P5vd+4dsFi
+   AAlEphu1N2uGhpxvy/UtKF8bbRZ4lLombr+J0iv48hHHXa0CGL0z5KULt
+   2I8ZOf2Hs20eOtP0xNZFcXkb8INo9+SIvidfv03Eq9JhsnHcHN1EB4NMJ
+   fNcV+5pkKDjp5Ekw3L/nWZLNloXTyIEs7nFoD3FkUAq8EKltLATPO8eRt
+   g==;
+X-CSE-ConnectionGUID: eUZ4KGDVTo6DO9fMwKtqPA==
+X-CSE-MsgGUID: Ecyt6HuQQRCe/tF5cNR07A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="101059989"
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="101059989"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 19:15:50 -0700
+X-CSE-ConnectionGUID: rBy4U8e0Rqmd5aKpu0Py7g==
+X-CSE-MsgGUID: A2H3aEG7QlGNHflVwNbTEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="269881041"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 19:15:49 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Sun, 13 Sep 2026 19:15:48 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46 via Frontend Transport; Sun, 13 Sep 2026 19:15:48 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.50) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Sun, 13 Sep 2026 19:15:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tkc42XIktgWbY9OQ3espcnn4tNq+nm3DOmqErbQVzk9pmyPrG+o9SCff7D7bTAHXFxRAoLDfjVajKoT0l2amvGMxLdEqU0y+s5InPw+ujV1FxvVrqznHIpnejEsvj6NO1kfmCfvwuQiFA1cRQO7lEVZfS4PCqBGwR5N4Kybp6d2c3oqA7rOeVNe9K6bmyWynaLthZcDWXqWueH9M9DNFVexMrFW1MxFU3EZJGkAFQQlwvkrHykt9HKqzr0ggwExVJXyJVCO7TnBezZRzhF+zg1lZsCN8y8c5inzc/x0P/LHB65WGDKa11fZjX0wbgnhHgDN7dRbwCWJ0rNo9Ggjf/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E0ixxxGYMo3fHST95mKjEv2XfkcW8B0vh+CJT92b0bQ=;
+ b=l8eD3H5oIq2iDVHii4luz/3j6op9DPMKLd4BE9heFO0kDOSMJrOPaAHjCZdB4ZZC76iUUlYzqHqfiVsX5RVxrh6OUSneXjcA/R0cvqxcI/YfHUGGDmbpj9t6/RHctbTL9qztbv/3wCcI1RLNScC/3N8YUvOkaDqByZBIDY6L1JCt/GcJp2pvNYaMI92Z36xn/kGDcoSR4tfVpDTps4ormoNqAhK2r68g5U7vcy4PWEVufDGFrQgEi6vAvzjCA3Aiiq8BA6zZo3UVQWgevXTF7exwRa+uqC6GDVICjn2rO+HeJw/EG8aMizdKNKL2eXaAaQpNvDWR2ToYQN/NbgoX3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB6020.namprd11.prod.outlook.com (2603:10b6:8:61::19) by
+ PH7PR11MB6032.namprd11.prod.outlook.com (2603:10b6:510:1d3::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
+ 2026 02:15:38 +0000
+Received: from DM4PR11MB6020.namprd11.prod.outlook.com
+ ([fe80::3058:1480:e4ac:5765]) by DM4PR11MB6020.namprd11.prod.outlook.com
+ ([fe80::3058:1480:e4ac:5765%4]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
+ 02:15:38 +0000
+Date: Mon, 14 Sep 2026 10:02:12 +0800
+From: Chen Yu <yu.c.chen@intel.com>
+To: Kayra Cizmeci <kayracizmeci@gmail.com>
+CC: <tim.c.chen@linux.intel.com>, <brauner@kernel.org>, <bsegall@google.com>,
+	<dietmar.eggemann@arm.com>, <imv4bel@gmail.com>, <jack@suse.cz>,
+	<juri.lelli@redhat.com>, <kees@kernel.org>, <kprateek.nayak@amd.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <mgorman@suse.de>, <mingo@redhat.com>,
+	<peterz@infradead.org>, <qyousef@layalina.io>,
+	<ricardo.neri-calderon@linux.intel.com>, <rostedt@goodmis.org>,
+	<srikar@linux.ibm.com>, <sshegde@linux.ibm.com>,
+	<vincent.guittot@linaro.org>, <vineethr@linux.ibm.com>,
+	<viro@zeniv.linux.org.uk>, <vschneid@redhat.com>, <wanglu.priv@gmail.com>,
+	<yi1.lai@intel.com>, <zhanxusheng1024@gmail.com>, <zhanxusheng@xiaomi.com>,
+	<ziqianlu@bytedance.com>, <chen.yu@linux.dev>
+Subject: Re: [PATCH 1/4] sched/cache: Keep nr_pref_llc_running in the
+ runnable domain
+Message-ID: <aqdVpO66OfmHvvqB@chenyu-dev>
+References: <f3b70dd40e29b309ff3449a95a4af4513ad0ef70.camel@linux.intel.com>
+ <20260910220331.1209469-1-kayracizmeci@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260910220331.1209469-1-kayracizmeci@gmail.com>
+X-ClientProxiedBy: TP0P295CA0045.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:4::16) To DM4PR11MB6020.namprd11.prod.outlook.com
+ (2603:10b6:8:61::19)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260820142956.1414337-1-qiwenjie@xiaomi.com> <3fa43eaca792bc0bbde4b82a6c1fcdd3f528b398.1787999152.git.qiwenjie@xiaomi.com>
- <4aba05e1a2c3b61cb337d373eb9b7a8db4ddd822.1788024049.git.qiwenjie@xiaomi.com>
- <20260829111621.41ed2bc9a0e99e3367eb96c3@linux-foundation.org>
- <ef160933595c365f2c47597b260bc7ecd98ed7ce.1788029516.git.qiwenjie@xiaomi.com>
- <076bb01b-6fcf-4691-be8c-0e8507c9fe64@columbia.edu> <CAGsJ_4xMK=rPXCH5OiCOYHKRQp-w+xDJQusJ_ykbuAuLZr+8bA@mail.gmail.com>
- <1e5118a5-6b61-49d0-85e1-825e22059241@columbia.edu> <CAGsJ_4wj6XvPB+QF+_X1BJ_8Y2sZEEFAw6RaJJz-cHaDWLkxaQ@mail.gmail.com>
- <65a2c7df-0d2e-46de-9580-01e9c35a7e32@columbia.edu>
-In-Reply-To: <65a2c7df-0d2e-46de-9580-01e9c35a7e32@columbia.edu>
-From: Barry Song <baohua@kernel.org>
-Date: Mon, 14 Sep 2026 09:09:32 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4zS+UehT4wuTuTVjK3s3mhzp+dku8M-Of9cF=CN82aRow@mail.gmail.com>
-X-Gm-Features: AcwNN1UFRWFTcqC6hN8ctMIRvI1_rCC0AM5x7mAixBPPm5RLTzvAhNItNpawqdI
-Message-ID: <CAGsJ_4zS+UehT4wuTuTVjK3s3mhzp+dku8M-Of9cF=CN82aRow@mail.gmail.com>
-Subject: Re: [PATCH v4] mm: filemap: retain mapped dropbehind folios
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: Wenjie Qi <qwjhust@gmail.com>, willy@infradead.org, jack@suse.cz, 
-	akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, axboe@kernel.dk, 
-	trond.myklebust@hammerspace.com, jaegeuk@kernel.org, chao@kernel.org, 
-	qiwenjie@xiaomi.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB6020:EE_|PH7PR11MB6032:EE_
+X-MS-Office365-Filtering-Correlation-Id: e45d6d69-0e01-47ab-75d3-08df1206114f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|10067099003|4143699003|22082099003|18002099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info: IDnM9ym4xfLpy1uH1vWb/eBjZIaTeOi31X/D7YbLv6pVW/1kAIW32ieIFOpIWpXOA0XAJuEJp8sCQjxlnf7qFh+LHRJCzmP9glpu+rd54j2bXJ2bVYtOWwW3mYSMYMNzrtSrIatVFPnpGrLqJkmJ1zGinvjbYNjDYaaOQMYZxoPYbbySKguWyvZmXwkU+cDe+Hmz/B6tcg8R8XoHqMgffROs6a1qkg80vYpcYSibn8kKcXQ8vQDON3LJ7HKXMidPVFq3jy57Haj9vrnzig43zn0ALVRdhHS+kFUvRSJ3k5krX3PG8jCP1kXtbvVujq72a2GaMsyAFJGwVEKgH04vbarFbiY5n+7Vf67NQav3iDnjWBKT/ootstAl8P/aFE7F7AXODY5CLFQMjIS7opGRKR42u5wV0YQGnUJS5nlhx4lMZU3iJA9+767AhUANjHM9Ec+hnULa9hgO4mQrF/V1Ewp9DrWVlmDP3FsLvAyH7R7DXIpy/S/kncBk8KQ0dAaRS2frVCNYAYlHVelFMAd+FSBdBk+oTIZdDt3eKm2LcZEHDD/7jGYo3+Kyr0nSFCYyidmKuQidRK7sIZC3gVGr0IKFCvDEWyRfsKi+TfHKdGunkavC+JF8ZTdVh5bJpMZUlS4yklbx4+Bk2Hkm2Gz6j1DINSASE8MH7xdCvRXn818=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6020.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(10067099003)(4143699003)(22082099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8M978x7aUWsB5UmzhE3chcLtHDcW8lvcfDND9xsn485znMLeamQAI7Cf4Vmy?=
+ =?us-ascii?Q?T5k6uwgAlTP1XEaOneBnqSxMmcMW+kbxyiP0Csq4AjputSuDxP3zTa/xHQ6i?=
+ =?us-ascii?Q?Jb3JQoHdKHmEwQRw8ByLllG2uJYcG1mtxLOzQ6rQSNDl2n9egDGd4va0UTme?=
+ =?us-ascii?Q?J5XRkpEmEKQ0N464AEQSkwrLmV3rSFmP1pEMZLu7TwAhTne5jV0LVRMV2kvS?=
+ =?us-ascii?Q?+fu3OKWEbn9/sbG1SFTvwgeIjPPkfIzZmKOoGPy6+3O979T1PyKm+0HVvDg7?=
+ =?us-ascii?Q?75OnZP4PZtg9lOyTMAe0rpHvmwUODwv+63RH2ZAWN+XoBGI6e3/Vp0cEBoQq?=
+ =?us-ascii?Q?QeHVdiOOWwwq8/Px9kPYkcmFvwF4EEykADeFBsBLKjpCtQAxDmmEuxyIKPrk?=
+ =?us-ascii?Q?/tINRDuALBI1SHt6/O7/Xa4x4bG1vIx8wPB/gxEPjx2nWUs77GiotNcqtBqD?=
+ =?us-ascii?Q?g395IsbDEtR7rGsATv0o3XY9d1eHl3gbIFSXZ2PSk4Krm2z+UqUTM28UjjNq?=
+ =?us-ascii?Q?XU+FY9f5e7jC1dOIKHnKlEi6rvaUu793Xjb3KYfgr8FoNKdf9SFIl7M+nd/J?=
+ =?us-ascii?Q?9tUXo0fRLkZtxVDcIsIW+IRQ9slGGkw6bdFE+JjBl2yWXmY8vWrLjWt+PsqO?=
+ =?us-ascii?Q?34oQXAEOL9MYBer2BU4IgDW+2TiG1I9mwg/K2Hzut00uq17DhIWm+WDAV5hH?=
+ =?us-ascii?Q?6rCrv1okjiM3ZFSzSElepMu6awXTnInZBkpampPO5T7vHNny2YaWNtatYCte?=
+ =?us-ascii?Q?mHRssCPWuwLmwwtc2nLt1Q0P0fmKTn17j21RricKOEXuc9ezsbaam6NuDhGG?=
+ =?us-ascii?Q?lmBSGswoqB04evt62yG85P9FV6bzxlK917ek6hH1vkXy/aYoRnaOjXUaDc9r?=
+ =?us-ascii?Q?lR/rIHSHcjoj6DKHEj4TAtMkZp045jw1dQ+ABJWvbDf2LR5B8ceRL4KC2ipw?=
+ =?us-ascii?Q?SgseAhCaT65d2piarY9LgkAFGZNBs9a48oDr4amN7JDvEUNFxXu7OlHid6WX?=
+ =?us-ascii?Q?JiuoSgZexlQh2Wxvw+5pS613TEG7kITp0qUPNTH+7Dh06QVpE4G0QRbchezr?=
+ =?us-ascii?Q?wuGbGJ6bZdRb5xAtlZklHEWA1EJrbY3CS+Skdhe0VuGs/fEx5ari+1tEcj9I?=
+ =?us-ascii?Q?0rXhoAkN2ddQ6p3V9+MNKMQOyfzXSwGQMH14uopWY+HvvEAt5i0vDZqpUS0Z?=
+ =?us-ascii?Q?gl7ZNhOkmLjmoGNnYiy+brnLMoFsbnTmklk0p9osJsQLcv5TUmPT/gqArAGi?=
+ =?us-ascii?Q?Y7s8rG/6nj+kIBPUdZ0uKu8KFBM1tIoqob4SvniddyCW+dQ8RzxA/E2jpg1I?=
+ =?us-ascii?Q?7utP8OR3kvrBe5NQ5IKAc1qjWb7Q5ZtblxclfmBoA7Y83zLTvos4MKWk6F5N?=
+ =?us-ascii?Q?L287aKX8gJdrYhZ8HNayHufQEEBLbfFnrm9p+yVzD0aTnqmjif/JSz/ZBrf8?=
+ =?us-ascii?Q?oGAhsY6BA0Qjonupk78/BY/G0p8h5ur4Hlfh/pb0B+lRzXSE2Vwp4VhHXBaO?=
+ =?us-ascii?Q?P9dFnlJqjgiNSevZ5BO2CCsNNfEqMkSDpuoslreuoGVNhyWwcN85EGEJRcO2?=
+ =?us-ascii?Q?h0dje5v+RKOoutJ4rSrwnuwIW+3tDCuaO14aIbfC7wTXMYfopBBS+hmKK5IW?=
+ =?us-ascii?Q?fc+G8Qjx5Vk4JgZT33JP0+Hov/vH1hktulAaG3Tn7Ev3U7Q7DeHARJhvhV+Y?=
+ =?us-ascii?Q?2A/2TZ8ytyPTJh8rINbYS+sv1X/3vhP6dk+yHrq3N5VzcbnZtPYlGsOYL7po?=
+ =?us-ascii?Q?zEMXAmFOEw=3D=3D?=
+X-Exchange-RoutingPolicyChecked: qa7+al3OJq96+J4uz7ecv2iKCNmEeIsdSXVoiTWNDqeC45w6U9R24ezE09tNh/0cMMiBF/trRK/ELw0edU8fpPg1Das579BdePB9xShIJKy4PVeDRdWZxDy5JV6SnDketDb0AiCcoucanlOCTa1Huencrwqyyt2aXyBviLDTaBGMSu+Noi3KbXjNl+brmWwl3PKswfsNb5XedQJQF8vY4ShUwTP7mtZb+GFq+Qt8KNydVjM1ptOOS5faK/woRNOMC4MSrXAydz26AYQlgIRHBbzQt5aAqdiYnTx7HA7s2r161t8VZ+UOWTcN+yXxeEYszOVkTCRq8tTYFYuqUgFH7A==
+X-MS-Exchange-CrossTenant-Network-Message-Id: e45d6d69-0e01-47ab-75d3-08df1206114f
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6020.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 02:15:38.2592
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 96jqXR9ABz5gaYS7FPwPyljfh1Sh2mhdn1vsB52b5Pw+5HVbIL9JGjTqCINXz5OLebKCEk9Z9wLmWsuNRcdPow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6032
+X-OriginatorOrg: intel.com
 
-On Mon, Sep 14, 2026 at 7:34=E2=80=AFAM Tal Zussman <tz2294@columbia.edu> w=
-rote:
+Hi Kayra,
+
+On Fri, Sep 11, 2026 at 01:03:30AM +0300, Kayra Cizmeci wrote:
+> Hello Tim,
+> 
+> > So moving the accounting next to (or after) the h_nr_runnable update
+> > would make task_pref_llc_runnable() return false and skip the
+> > decrement, leaving nr_pref_llc_running too high.
+> 
+> What I really wanted wasn't getting the accounting next to or after the h_nr_runnable. 
+> If we are updating h_nr_runnable in some way that means we don't need
+> its check since it's already getting updated. And if it's getting updated
+> that means on that branch we know how our check should behave since we 
+> are a subset of it. We can skip the delayed check on that way since we are
+> trying to behave as h_nr_runnable's subset.
+> 
+> >        if (entity_is_task(se))
+> >                pref_llc_running_dec(...);      /* sched_delayed still 0 */
+> >        se->sched_delayed = 1;
+> >        ...
+> >        for_each_sched_entity(se)
+> >                cfs_rq->h_nr_runnable--;        /* sched_delayed already 1 */
+> 
+> For example:
+> 
+> In this code the h_nr_runnable is updated the same way regarding what is sched_delayed.
+> That means if we want to behave as a subset of it, we don't need the check delayed,
+> since we check the delayed to be a subset but if h_nr_runnable is decreasing/increasing
+> we should look into our checks.
 >
-> On 9/13/26 6:51 PM, Barry Song wrote:
-> > On Fri, Sep 4, 2026 at 6:36=E2=80=AFAM Tal Zussman <tz2294@columbia.edu=
-> wrote:
-> >>
-> >> On 9/4/26 12:28 AM, Barry Song wrote:
-> >> > On Sun, Aug 30, 2026 at 7:59=E2=80=AFPM Tal Zussman <tz2294@columbia=
-.edu> wrote:
-> >> >>
-> >> >> On 8/30/26 6:25 AM, Wenjie Qi wrote:
-> >> >> > From: Wenjie Qi <qiwenjie@xiaomi.com>
-> >> >> >
-> >> >> > Fault-around can map ready dropbehind folios without going throug=
-h the
-> >> >> > normal page-cache lookup that clears dropbehind. A mapping repres=
-ents a
-> >> >> > competing cached user, but writeback completion can currently unm=
-ap that
-> >> >> > folio. A later mmap access must then fault it back in.
-> >> >> >
-> >> >> > Retain mapped folios instead. For a mapped folio,
-> >> >> > folio_unmap_invalidate() can call unmap_mapping_folio(), which ta=
-kes
-> >> >> > i_mmap_rwsem and may sleep. Retaining the folio also avoids this =
-path when
-> >> >> > folio_end_dropbehind() runs in non-preemptible task context.
-> >> >> >
-> >> >> > Unmapped dropbehind folios continue through the existing invalida=
-tion path.
-> >> >> >
-> >> >> > Fixes: fb7d3bc41493 ("mm/filemap: drop streaming/uncached pages w=
-hen writeback completes")
-> >> >> > Cc: stable@vger.kernel.org
-> >> >> > Signed-off-by: Wenjie Qi <qiwenjie@xiaomi.com>
-> >> >> > Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> >> >> > Reviewed-by: Tal Zussman <tz2294@columbia.edu>
-> >> >> > ---
-> >> >> > The mapped-plus-dropbehind state was reproduced in QEMU. The patc=
-hed
-> >> >> > kernel retained the mapped folio and continued to evict the unmap=
-ped
-> >> >> > dontcache folio. I did not reproduce the sleeping-in-atomic warni=
-ng and
-> >> >> > am not aware of an existing report.
-> >> >> >
-> >> >>
-> >> >> I was able to trigger the sleeping-while-atomic BUG on current main=
-line with
-> >> >> some help from Claude. The reproducer itself is straightforward eno=
-ugh, but the
-> >> >> configuration was a little finicky. The atomic context comes from u=
-sing
-> >> >> threadirqs so that virtblk_done() completes requests from the irq t=
-hread under
-> >> >> local_bh_disable() and the vq spinlock with irqs off, so in_task() =
-is true but
-> >> >> the i_mmap_rwsem down_read() sleeps. It also needed 1 vCPU (so comp=
-letion stays
-> >> >> in the irq thread rather than softirq) and ext4 -o dioread_lock (so=
- end_io runs
-> >> >> inline instead of on a workqueue). With v4 applied the bug is gone,=
- so:
-> >> >>
-> >> >
-> >> > Thanks, Tal. Then I'm getting quite confused. Since with Wenjie's
-> >> > patch, we are no longer going to sleep for dropbehind in `filemap.c`=
-,
-> >> > do we still need all the complex logic in the block device and file
-> >> > system layers to move dropbehind to a workqueue task context?
-> >> >
-> >>
-> >> Hi Barry,
-> >>
-> >> Let me clarify. Wenjie's patch prevents sleeping in a very specific ca=
-se.
-> >> The existing in_task() check covered most other cases, in that it just
-> >> doesn't do dropbehind invalidation if we're not executing in task cont=
-ext
-> >> (for example, block device writeback completing in interrupt context).
-> >>
-> >> However, dropping the invalidation defeats the point of dropbehind, as=
- it
-> >> leaves the pages in the page cache. If we get rid of the task-context
-> >> deferral mechanism, we wouldn't sleep, but we also wouldn't invalidate=
-.
-> >> Wenjie's change is largely unrelated to this.
-> >
-> > Hi Tal,
-> >
-> > Thanks for the clarification. However, I=E2=80=99m still not convinced.
-> >
-> > If `unmap_mapping_folio()` is the only place where we might
-> > sleep =E2=80=94 where we might take `mapping->i_mmap_rwsem` through
-> > `i_mmap_lock_read()`, as Wenjian pointed out in [1] =E2=80=94 we have n=
-ow
-> > prevented that from happening with `if (!folio_mapped(folio))`.
-> >
-> > So no mapped folio should call `folio_unmap_invalidate()`:
-> >
-> > static void filemap_end_dropbehind(struct folio *folio)
-> > {
-> >          struct address_space *mapping =3D folio->mapping;
-> >
-> >          VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
-> >
-> >          if (folio_test_writeback(folio) || folio_test_dirty(folio))
-> >                  return;
-> >          if (!folio_test_clear_dropbehind(folio))
-> >                  return;
-> >          if (mapping && !folio_mapped(folio))
-> >                  folio_unmap_invalidate(mapping, folio, 0);
-> > }
-> >
-> > Why do we still need the `in_task()` check in
-> > `folio_end_dropbehind()`?
-> >
-> > void folio_end_dropbehind(struct folio *folio)
-> > {
-> >          if (!folio_test_dropbehind(folio))
-> >                  return;
-> >
-> >          /*
-> >           * Hitting !in_task() should not happen off RWF_DONTCACHE writ=
-eback,
-> >           * but can happen if normal writeback just happens to find dir=
-ty folios
-> >           * that were created as part of uncached writeback, and that w=
-riteback
-> >           * would otherwise not need non-IRQ handling. Just skip the
-> >           * invalidation in that case.
-> >           */
-> >          if (in_task() && folio_trylock(folio)) {
-> >                  filemap_end_dropbehind(folio);
-> >                  folio_unlock(folio);
-> >          }
-> > }
-> >
-> > Could any other operation in `folio_unmap_invalidate()` sleep for
-> > unmapped folios? Otherwise, it seems we don't need `in_task()` at
-> > all?
-> >
->
-> So I think you're right about the sleeping aspect, but the problem is
-> that this still gets called from interrupt context. folio_unmap_invalidat=
-e()
-> grabs a number of locks in a non-IRQ safe way. Just at a glance, the
-> spin_lock(&mapping->host->i_lock) call could lead to a deadlock, since ot=
-her
-> paths don't call it with interrupts disabled. And xa_unlock_irq() enables
-> interrupts unconditionally, which would be incorrect from hardirq I belie=
-ve.
 
-That makes sense to me. If that's the case, it seems the
-comment above
+I had a try according to your suggestion. It seems that the code becomes more complex
+and brings more headache :-( due to several corner cases. The current version is a simpler
+version with less code IMO. But I agree it looks a little hard to catch up with, so I added
+some comments around account_llc_dequeue() and adjusted the code sequence of clear_delayed()
+to make it easier to understand. Tim, could you please help check if this makes sense?
 
-`if (in_task() && folio_trylock(folio))`
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index e64d9ad7a108..89311bbadfac 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -1609,8 +1609,58 @@ static void account_llc_dequeue(struct rq *rq, struct task_struct *p)
+ 	if (p->pref_llc_queued) {
+ 		/*
+ 		 * Skipped if still delayed (set_delayed() already removed it);
+-		 * clearing pref_llc_queued below also stops clear_delayed()
+-		 * from re-adding it.
++		 *
++		 * The nr_pref_llc_running varies with h_nr_runnable, it involves
++		 * set_delayed(), clear_delayed(), account_llc_enqueued() and account_llc_dequeue().
++		 * The following shows two typical cases of how nr_pref_llc_running is maintained
++		 * during enqueue/dequeue.
++		 *
++		 * case 1 - wakeup a delayed task
++		 *
++		 * CPU0                                       CPU1
++		 * __dequeue_task [fake dequeue]
++		 *   set_delayed
++		 *     rq0->nr_pref_llc_running--
++		 *     p->se.sched_delayed = 1
++		 *
++		 *                                     try_to_wake_up(p)
++		 *                                       enqueue_task_fair
++		 *                                         requeue_delayed_entity
++		 *                                           clear_delayed
++		 *                                             rq0->nr_pref_llc_running++
++		 *
++		 *
++		 * case 2 - LB for delayed task
++		 *
++		 * CPU0                                       CPU1
++		 * __dequeue_task [fake dequeue]
++		 *   set_delayed
++		 *     rq0->nr_pref_llc_running--
++		 *     p->se.sched_delayed = 1
++		 *
++		 *
++		 *                                     --------- load balance ---------
++		 *                                     detach_task(p, rq0, migrate_load)
++		 *                                       account_llc_dequeue
++		 *                                         ** DO-NOT-DECREASE **
++		 *                                         rq0->nr_pref_llc_running
++		 *
++		 *                                     attach_task(p, rq1)
++		 *                                       account_llc_enqueue
++		 *                                         ** DO-NOT-INCREASE **
++		 *                                         rq1->nr_pref_llc_running
++		 *
++		 *                                     pick_eevdf
++		 *                                       __dequeue_task  [real dequeue]
++		 *                                         account_llc_dequeue(DEQUEUE_DELAYED)
++		 *                                           ** DO-NOT-DECREASE **
++		 *                                           rq1->nr_pref_llc_running
++		 *                                           p->pref_llc_queued = 0;
++		 *
++		 *                                         clear_delayed
++		 *                                           p->se.sched_delayed = 0;
++		 *                                           ** DO-NOT-INCREASE as pref_llc_queued=0 **
++		 *                                           rq1->nr_pref_llc_running
+ 		 */
+ 		pref_llc_running_dec(rq, p);
+ 		/*
+@@ -6415,23 +6465,18 @@ static __always_inline void return_cfs_rq_runtime(struct cfs_rq *cfs_rq);
+ 
+ static void set_delayed(struct sched_entity *se)
+ {
+-	/*
+-	 * Drop a task leaving the runnable set. Must run before sched_delayed
+-	 * is set, or task_pref_llc_runnable() would already exclude it;
+-	 * clear_delayed() mirrors this after clearing the flag.
+-	 */
+-	if (entity_is_task(se))
+-		pref_llc_running_dec(rq_of(cfs_rq_of(se)), task_of(se));
+-
+-	se->sched_delayed = 1;
+-
+ 	/*
+ 	 * Delayed se of cfs_rq have no tasks queued on them.
+ 	 * Do not adjust h_nr_runnable since __dequeue_task()
+ 	 * will account it for blocked tasks.
+ 	 */
+-	if (!entity_is_task(se))
++	if (!entity_is_task(se)) {
++		se->sched_delayed = 1;
+ 		return;
++	}
++
++	pref_llc_running_dec(rq_of(cfs_rq_of(se)), task_of(se));
++	se->sched_delayed = 1;
+ 
+ 	for_each_sched_entity(se) {
+ 		struct cfs_rq *cfs_rq = cfs_rq_of(se);
+-- 
+2.43.0
 
-is no longer relevant at all.
-
-BTW, if we use `spin_lock_irqsave(&mapping->host->i_lock)` in
-other places and also restore IRQs when unlocking the xarray, then
-we shouldn't need the `in_task()` check anymore, should we?
-
-Best Regards
-Barry
