@@ -1,110 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E828749B1F0;
-	Mon, 14 Sep 2026 15:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2599480342;
+	Mon, 14 Sep 2026 15:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789399885; cv=none; b=MPtYa/vSBpUJu/b/H4bbVLjyCBuST7Meb59IGLSJuWm/A/rRpAA+XxdfoXowWtwXMWq+EmjUqXYfOTt1QB1YSRu6MwhIukoo+9PDnJE8c57nQhWixY5rnKIMZHTttlS+di5vN34uTaQkzO3x09zvQFIngeNI/I/eg2KZBsRft64=
+	t=1789400117; cv=none; b=ssTKrLa+EvBFNhY+bl7rGCuab2C0UU32QfunpsspDLR8uXw3DwC11C6D8GcZCWCRnLSeHConqcMHXMIQpTcAjHCMb2tphr+ucCeXdveUkDSenK9s0r9H8L3z/3+HmoKBSj3lqlbrCKK37ALko8G8El0NdWGav1K56YMGQPWEDdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789399885; c=relaxed/simple;
-	bh=W+U/rCt6aUK3pukanrLOxptv8XEN9hA8AU/asIRljhY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=N3/2aRX56Z5onoaLhFB+7vlg+FgkmrKkbFKXrTrP5yFi/lt3ysX3iQNgNNGuhG1tjPDTq2JHDLGmt6g0Rr4caMK4WtzZ03Pi+g5a4JqVySjJ1Zm8Tv2EzpisBZ/sI0AZ7tTNNBWvPbVvmOlDaww2+3MgiSERrhIfpxyL8Rzyth8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbCEKtn4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789400117; c=relaxed/simple;
+	bh=QEwTrQOBdzKdxZGNZMMX8FKVxlRuYQfyokl0gvnP9cs=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
+	 MIME-Version:Content-Type; b=AiD5454kM92m4jVBxitnaAnX1VojZ6z+i2dIzTzIg8vUAL/L/POpKX5MBqgAvYDT8VhPao6pplJa2nimu67/qhc1zoZGvYoveuOvm+5Vzllo3yW4myV7xySoGmN3YAype+ohhjVJ8nf4oyqcxTZ0wx7j/DOQ3scbWjyrBoJqo3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=GvPcpyW7; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbCEKtn4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73F361F0089A;
-	Mon, 14 Sep 2026 15:31:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789399883;
-	bh=nR/vh4GvI0WOU5I3SDjzgrYVoTA8r4/N125W3zwVcoM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=RbCEKtn4AO+w1y1Nm4+9OPjd3F5HeNMHAg3uez+4FdxFCGDSSpv7EiKf+nOYlAqRD
-	 WpbEgLLqAW4/l8pXzRAprjeTjPg5iYhCGnBEarYYppZgnkrHtBmnFS9mupbuYxw5uF
-	 9IaiI70goJcN/QHzRT88UUSpAI4Re7c2DETfrByKeR3s4TjTlq6nG8lVpXAeCBJkvv
-	 0JK4xXezKzgYlQ+Oc3bwKs3QN943NILxYGwTYwEDkh+jk8qAJukkZVAb2U57/OORtM
-	 maeohl2NdOmJIEX01jxCO7utzNVfC1W0jyXsjrJ+AH6xFXa9Zfjke3MaE5gkTOu/bL
-	 U9AI6BB36tibg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D092A3924A79;
-	Mon, 14 Sep 2026 15:30:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="GvPcpyW7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
+	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=4J6QASSGNg3Ko0M2ZupQEjGTnNDRPX7fYEgsr98nOrE=; b=GvPcpyW7IKjfQ5Kp6/1v4UWP1f
+	XmcJCtUiir+C6KVOA/XcDgavxWjwQjxu4q/jDCShra5GTeR9ri9aIKh9rnxv+y3negs99POmxPyBR
+	lf7tK8zOrp0wI6njzNzyvrmRf/YMYanJ1ojIcwq4BsBSVWt36XvLC+S2AsJlp7Y+2bIPS9hMvZamj
+	MgW7RurPTkhyfi1qIkNUXuWuATPFH6vcLfFYsnDUWARi5aO2FPqs1M63V4OxoZWRLJS5hM377+WyW
+	uHtlI0UpdAqa9MD8SnK1TS/kzE5F/JO0fAlhGItjgrPTTRBWYvK0B+vhBeK7ljFYHy0ZgWIsWQ4xY
+	RPQ1phdQ==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.5)
+	id 1x68i8-00000001PA2-0s92;
+	Mon, 14 Sep 2026 12:35:12 -0300
+Message-ID: <cb00f905be2ff39e1fbb91d78686b1c4@manguebit.org>
+From: Paulo Alcantara <pc@manguebit.org>
+To: David Howells <dhowells@redhat.com>, Christian Brauner <brauner@kernel.org>
+Cc: dhowells@redhat.com, Frank Sorenson <sorenson@redhat.com>, Namjae Jeon
+ <linkinjeon@kernel.org>, netfs@lists.linux.dev,
+ linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] netfs: Fix netfs_read_gaps() to use separate sink folios
+In-Reply-To: <3228134.1789399227@warthog.procyon.org.uk>
+References: <3228134.1789399227@warthog.procyon.org.uk>
+Date: Mon, 14 Sep 2026 12:35:11 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [PATCH v4 00/16] Remove PG_private by using
- page/folio->private checks instead
-From: patchwork-bot+f2fs@kernel.org
-Message-Id: 
- <178939981839.647967.9641554131485178993.git-patchwork-notify@kernel.org>
-Date: Mon, 14 Sep 2026 15:30:18 +0000
-References: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
-In-Reply-To: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
-To: Zi Yan <ziy@nvidia.com>
-Cc: david@kernel.org, willy@infradead.org, akpm@linux-foundation.org,
- muchun.song@linux.dev, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com,
- dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev,
- usama.arif@linux.dev, gourry@gourry.net, ying.huang@linux.alibaba.com,
- apopple@nvidia.com, hannes@cmpxchg.org, qi.zheng@linux.dev,
- shakeel.butt@linux.dev, kasong@tencent.com, mark.rutland@arm.com,
- irogers@google.com, jack@suse.cz, linux-doc@vger.kernel.org,
- amarkuze@redhat.com, peterz@infradead.org, kexec@lists.infradead.org,
- dave.hansen@linux.intel.com, ruirui.yang@linux.dev, adrian.hunter@intel.com,
- linux-mm@kvack.org, hongbohbli@tencent.com, hpa@zytor.com,
- guochunhai@vivo.com, skhan@linuxfoundation.org, tz2294@columbia.edu,
- baoquan.he@linux.dev, matthew.brost@intel.com, anna@kernel.org,
- sstabellini@kernel.org, zbestahu@gmail.com, rakie.kim@sk.com,
- minchan@kernel.org, richard@nod.at, x86@kernel.org,
- ceph-devel@vger.kernel.org, ebiggers@kernel.org,
- alexander.shishkin@linux.intel.com, mingo@redhat.com, slava@dubeyko.com,
- weixugc@google.com, yukuai@fygo.io, xen-devel@lists.xenproject.org,
- xiang@kernel.org, magiclinan@didiglobal.com, mhiramat@kernel.org,
- joshua.hahnjy@gmail.com, xiao@kernel.org, byungchul@sk.com,
- james.clark@linaro.org, acme@kernel.org, linux-raid@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, bp@alien8.de, rostedt@goodmis.org,
- linux-mtd@lists.infradead.org, axelrasmussen@google.com,
- jefflexu@linux.alibaba.com, namhyung@kernel.org, jaegeuk@kernel.org,
- yuanchu@google.com, idryomov@gmail.com, osalvador@suse.de, jgross@suse.com,
- pratyush@kernel.org, linux-nfs@vger.kernel.org, tytso@mit.edu,
- oleksandr_tyshchenko@epam.com, song@kernel.org, corbet@lwn.net,
- pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-perf-users@vger.kernel.org,
- senozhatsky@chromium.org, tglx@kernel.org, jolsa@kernel.org,
- linux-fsdevel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- linux-trace-kernel@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- trondmy@kernel.org
+Content-Type: text/plain
 
-Hello:
+David Howells <dhowells@redhat.com> writes:
 
-This series was applied to jaegeuk/f2fs.git (dev)
-by Jaegeuk Kim <jaegeuk@kernel.org>:
+>     
+> Fix netfs_read_gaps() to use separate folios rather than re-using a single
+> sink folio to discard the unwanted data so that cifs checksum checking sees
+> all the data that was fetched.
+>
+> Fixes: 7f84a7b9892d ("netfs: Make netfs_read_folio() handle streaming-write pages")
+> Reported-by: Frank Sorenson <sorenson@redhat.com>
+> Closes: https://lore.kernel.org/r/a385053c-1c4a-4060-a3bb-befa007ddb33@redhat.com/
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> Tested-by: Frank Sorenson <sorenson@redhat.com>
+> cc: Paulo Alcantara <pc@manguebit.org>
+> cc: Namjae Jeon <linkinjeon@kernel.org>
+> cc: netfs@lists.linux.dev
+> cc: linux-cifs@vger.kernel.org
+> cc: linux-fsdevel@vger.kernel.org
 
-On Sun, 13 Sep 2026 22:23:58 -0400 you wrote:
-> Hi all,
-> 
-> This patchset removes PG_private to make space for upcoming PG_folio for
-> identifying pages from a folio (more details in Note below). Instead of
-> checking PG_private, all code is changed to check page/folio->private !=
-> NULL instead.
-> 
-> [...]
-
-Here is the summary with links:
-  - [f2fs-dev,v4,06/16] f2fs: stop using PG_private
-    https://git.kernel.org/jaegeuk/f2fs/c/60105162524e
-  - [f2fs-dev,v4,07/16] f2fs: convert the ->private flag helpers to folio-only
-    (no matching commit)
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Reviewed-by: Paulo Alcantara <pc@manguebit.org>
