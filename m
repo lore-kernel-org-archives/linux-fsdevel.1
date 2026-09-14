@@ -1,147 +1,167 @@
-Received: from mail-oa2-f8.google.com (mail-oa2-f8.google.com [74.125.231.72])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D542A45D92E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 16:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789403907; cv=none; b=s5JUypLWrrxxyZr9qra+wtnolvagmsdfRvCmVjb5U/QuDFvOL0PuzpVIGddIPgC3PM/gdP3ZajJhaaV54/N7xUgD1Kgza6Ce3KHLjDNlQ1WMTyjY85o3FrTBgbuOPKQ12o1PNEs4+Tq/GwAzVdPEpwwBTS5dapMuf5tWaUuaYGA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789403907; c=relaxed/simple;
-	bh=xn7LQ0PXlxIeeF8zzyZvPpHydODrJ+C406gP7HxEXJk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=aDErsubvwoJXAxYJXv3LtIOOeOSmn9aA5pYXyv8lw7CY9QILVP4VeEtJA/T0Xm+NawS3zrCykJr9KehhzXmQVl4GrtWBWhFwH0yKdYuRXwysN84BMEbceOfLVZhiza+4ZYucKZY4ROKfTw3uTIxOt2+1yr63qU+2nTVXSZ/+fkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa2-f8.google.com with SMTP id 586e51a60fabf-46683b030d9so1095032fac.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 09:38:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A092C49481D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 17:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789405558; cv=pass; b=mHSROVOCRTOWfXyKc/rAzhxJ2OKhm1UFvhwC8K9atg76J3VmZwzthwW8VfIR7qDQiLk6g481ZkdA2eDrBEgOSlhsjpGtBGxXG2AMznDyMf+YMdA8hBtA92YYcWOMLegUdPZlwFtL9OiHUF7DWB51YD0HSROTEdWqcoiJGjmhqK0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789405558; c=relaxed/simple;
+	bh=jUNXLbhXWn3k3vtDnvsdLvoggUO4T9CBTRnFjm1YrVs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ea+zgpkzoWfCsiK6M9E7jdU0N8CZcWd7ySCVaHTWFSEZdhEeBCPQZ1HT0JEg1MpkiFreM4lUwxGUwESOWr+R6EZ2GlJm4U7SrXq9NaJTJEY6M8Axt4K3K5tIXIeEEBTZLDZbhfIzi1XbEPS9nTyPIxcx1kEbLaWZZVH5vP8NhTw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=a1fBxC47; arc=pass smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="a1fBxC47"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747ed1368so21425605ad.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 10:05:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789405553; cv=none;
+        d=google.com; s=arc-20260327;
+        b=h5SvCYQNQ7TqxW941xDlvoefPALMi1QwAbd2SfQ3WwOH7DoAMsSjCVbOuvWq7NYlMO
+         TEGmdi8yjEO1BNmb9IzUFT3tyDbVgF0bmN0ldpmM9hoH+DLfknAMFpGtgeESrVpNO+UO
+         PALvuHibC3P+Ftj5Uga/cLu3RSVMTT16LyGpy+q0BcdhQIIGIjj9YAmpm6Bxi99bFxSc
+         8cRbrWbfD4nY1jSOG1lJl4gyr99AOlYduCsIFo7gHt/ujQjVNgYjedcB2Gn3TiDwl/o8
+         6GKGZgMwHEKdysRLk3wxCJ/DFEuHFzp2N9NQVaMbibgmrZubJN6H55sDAeCibWlYAJyL
+         ASHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=avx3LuQUj0eIvtk4vMhq4fafE3JrorX2BSEZUs9YMHI=;
+        fh=XYdeeGtKYJUbc4XtXTLqmmIgSN5HaT072R6wFtVijvY=;
+        b=W+3SKUdzyQ1ubpYXOoDWPy4LtiHSF7s7R2qQF6tEaWBTM5034E5JhLvj+anbHoK/Hq
+         yDtytdKS6MPde+FICiBeMZ/arfJbaSt14R8EbhN7PYJwtGAk5KpDjY+E5IGd6dThMlPy
+         BmUh3ikZbji5B43C5FRNXFRxG3UEjgDZXbiFpTuA6w7NeXHccI9ldvHOUc/9aEiusAdM
+         FedfeiWsSvQRv46WEFl3hY7IVtSmq2vvai8Z1tHoABtwyx82BKjmoju9yfbGz2xjmDjs
+         HYvhfLHGB6/YAcbcG6P9uVGjBBIqAq4ZVMeWwKS+8H3ahbCDNr06ClNcrMs5KRNy0vFP
+         qHhg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1789405553; x=1790010353; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=avx3LuQUj0eIvtk4vMhq4fafE3JrorX2BSEZUs9YMHI=;
+        b=a1fBxC470vf3gxUdvMqxfHcMHafJCFiwxvZ/34cxN5DMhy5NefppljZG3+7bfXsvBp
+         kTcTa71VdbJ9ubCpfuDGkg/TmTtaHiWP4bLh5MTjx2JUpl+tcyOsVsdzJMUknGwxAih2
+         mDcxs6pqVHw6A6ce0jhz16k9evy5J/1vGA39mGNoMWGJavGmXv0VyNqJkWVYqQ1IdWef
+         o5yM3BsjYetzoV0xWaA6d5iFaMmEFxsCNch0sgNZbQfF8RCQ+Xdte8v7OmFCq5Dl9/oL
+         c3FShJpn/SiNI6MH3I9OzvW29aUWIxa5d5SDLSHjcrxoRSSgKOXMA0xjkmy1dRA32cKU
+         f9CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789403905; x=1790008705;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1789405553; x=1790010353;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LAzyC7Lu5MFRo20mDnBb8gws1b+bAcif7S6636vTpgE=;
-        b=zrS8ZfQZ91FyJf9IGesCtpygUuYEob8/xLhG4QwdCsA2kWB4f2Jg8Z786VmM3eEmZB
-         Vnntqtw5b9HUv5FfKo1EMbyuiNfTtsMaSJSYCJJKQOrzsRD6STiEb7CGInGu3pmPYxKa
-         3Pv8d5oloaUXKjrACdrbUHhFvzQxwdVftmbBk9vGCWtDlOuAOXkqtjl2hyoMlncz8sye
-         kFvaNp/ALXdkP+lDe2DzhvNiGX7f2jgj+fG3xvx28mywbAUCgRNZJ2xpji6qwsXcTiFv
-         Ln+bIxkcMJ29PtklvNphNGwgBnV22Mm6DircuCYK3QN/H9UeOkMTGlQaY6h2Kfgc8mLt
-         NeNw==
-X-Forwarded-Encrypted: i=1; AKwUvBz5vItMDA8xpzRj3hMBXVbEad5RJyLoup/M0RNd2cr7b+TeGMXlRhb45M6vmqIexPwkjiMsxbJipJmqo7kc@vger.kernel.org
-X-Gm-Message-State: AFuF++mQ7SwFRyxU/0Kbtac4sTfW9CbF/VrK7rNkFMMDDnJ/oLer5NNl
-	wb2ofpSRoJmPJJOl65NHrgWx6m8vRjRFAAxKtVhd43XiPmdgFGmdGFYnZUhwYgjfDAqYaCHDT0u
-	/1wl3H0k0xJwYPoGHc7FHZ8zQLbggFgzL3D/EALa/TISMZi0A4J8r/WUqwPQ=
+        bh=avx3LuQUj0eIvtk4vMhq4fafE3JrorX2BSEZUs9YMHI=;
+        b=H7vbJmZulSw4NxjJqqhwSfsGIJqXvI2VUzpHmDeKPI5CzPmtpmpjsM8jVHeyMcoD2B
+         0CvEzjTvBIPvUsrtV6KldIq77wpVL7swAn2yv8CAixdq1aLcnnWtgpV31js8J7+p4NBp
+         f4o8aCdjBb0oT0TM9dPZ2eSekbn8F6JL9BA0DArokFKmoNrKk96rq69HDmoDb/7xmDzj
+         xIXGGLNzskBy1bA9j8j63djKrrg+0YOkdte0vXVA+q3acRFHzzIu+no5ZZLwvLr7XrCW
+         eUOjXWc+491VcJjUA0cQTJcqIRnnfqJRawL9mTAEPSSpNrgJiS50TNM5QG4IdeQdAF37
+         OOzg==
+X-Forwarded-Encrypted: i=1; AKwUvBzcQmz2nXVQVK9quc87mEKgNR5yuZVCYVv9uYZV9IexRgDGrxfix8SPmUlP4tR50xU/Z52F2qA6gU5g7DcD@vger.kernel.org
+X-Gm-Message-State: AFuF++m9+2/5cULYEOw/erwrS4vXN2ZYrt4TkYhsg91MLaZ0iYZA0OY0
+	8xXlNejHwTqp7yKW0Xi67RtBUbX5vIIt04JUJpH0BWJIkPRgWCs2rKgTjKE7NP5/S/i77jqs5qY
+	p5l7qnlU5zGLmuNf+vpB9KCvqSEw9dVpVOpKGFbXq
+X-Gm-Gg: AYBFou0v+k0JbBHQJGTA1ja0XRFBgpZC+MK4AMde3j9SyYXTFlz8JUhaVU3jsBxb0t5
+	I1azxfT+7MkciOnCKCBL5MqJJvz5I7GmgvRb6RSgy8Uy6v5sEfZwiRn0wkrBW3CpJiJpVsvooEm
+	TBQR88qtHeLN2EpqBL44GPr4wTmcT8CU6MtJqytrOlhLsVRWQZ0X2rsG70L9J5UmNa2bm/sRuoN
+	SMYbcFpBxjksc9cGW2Q1o03aveL+1vRnH/p1M9wZ9p+mGp4dI+PcIZPUaq81kuzxAu/O+GPGEid
+	9mnYlSIm2rz+5mslsVIKs7Mfj4wRFshfKWwhH1vv3c1XKhjIC9tQpl9Ml7cIff5y9Iq32GSFXYK
+	pXBSfobg21cY=
+X-Received: by 2002:a17:903:2cf:b0:2db:56da:6a0e with SMTP id
+ d9443c01a7336-2dd6c5f140dmr73526135ad.9.1789405552920; Mon, 14 Sep 2026
+ 10:05:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:616:b0:6c2:b9f8:b1f0 with SMTP id
- 006d021491bc7-6c53f44bc24mr2045585eaf.7.1789403904771; Mon, 14 Sep 2026
- 09:38:24 -0700 (PDT)
-Date: Mon, 14 Sep 2026 09:38:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aa82300.a211d2ce.1a5198.0295.GAE@google.com>
-Subject: [syzbot] [exfat?] WARNING in vfat_update_dotdot_de
-From: syzbot <syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com>
-To: hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com
+References: <20260907-selinux-pokemem-v3-0-0bafbaeafe50@google.com> <20260910-wohnbau-bezwangen-wegziehen-7a32dcf237b1@brauner>
+In-Reply-To: <20260910-wohnbau-bezwangen-wegziehen-7a32dcf237b1@brauner>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 14 Sep 2026 13:05:39 -0400
+X-Gm-Features: AcwNN1Wk1GrQXU1YfDdXmUukQFqj25lXZKtxh5blfh1kI19p2jakplNL0VfIjvw
+Message-ID: <CAHC9VhTE82bRRSXSUuMOdrfoMh=xOb5hDvqiKWzBKD1urab3hA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] proc,security,selinux: let SELinux block
+ FOLL_FORCE for /proc/self/mem
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jann Horn <jannh@google.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jeff Xu <jeffxu@google.com>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Ondrej Mosnacek <omosnace@redhat.com>, 
+	selinux@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Thu, Sep 10, 2026 at 3:48=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+> On Mon, 07 Sep 2026 23:00:15 +0200, Jann Horn wrote:
+> > proc,security,selinux: let SELinux block FOLL_FORCE for /proc/self/mem
+> >
+> > The goal of this series is to let SELinux prevent the use of FOLL_FORCE
+> > when a process writes into /proc/self/mem and the system is configured
+> > with PROC_MEM_FORCE_ALWAYS (which used to be the default behavior, and
+> > is still used by current Android devices).
+> >
+> > [...]
+>
+> Let's move this on a shared branch that both the vfs tree and the lsm
+> tree pull. That's the standard way of handling dependencies between two
+> subsystems that want to route code that touches both of them. Branch is
+> stable.
 
-syzbot found the following issue on:
+For some reason (/me looks at gmail) your email never hit my inbox, I
+only noticed it now while reviewing Jann's patchset.
 
-HEAD commit:    5225b8eec4c9 mailmap: update entry for Jens Axboe
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11cd61f9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5e4e3a0e188a497e
-dashboard link: https://syzkaller.appspot.com/bug?extid=b0aebd03565f5774f7f8
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11b455f9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13a1b615580000
+Christian, can you explain why you merged LSM code that I haven't
+ACK'd?  We've talked about this in the past and I think I've been
+fairly clear about it; I wouldn't merge VFS code without an
+ACK/Reviewed-by/etc. from you or Al, I've been expecting the same
+consideration from you.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/fdabe739a017/disk-5225b8ee.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/ef60d7040756/vmlinux-5225b8ee.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/ccb7b942e430/bzImage-5225b8ee.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/be5074fab5f0/mount_0.gz
-  fsck result: failed (log: https://syzkaller.appspot.com/x/fsck.log?x=16cd61f9580000)
+While I don't have a problem with a topic branch for this, can you
+also explain why this topic branch should live in the VFS tree?  There
+are more changes under security/ than fs/, and unless I've misread
+Jann's cover letter, this entire patchset is focused around enabling
+LSM/SELinux controls and not necessarily anything really new from a
+VFS perspective.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
+> ---
+>
+> Applied to the vfs-7.4.shared.lsm.foll_force branch of the vfs/vfs.git tr=
+ee.
+> Patches in the vfs-7.4.shared.lsm.foll_force branch should appear in linu=
+x-next soon.
+>
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+>
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be updated.
+>
+> Note that commit hashes shown below are subject to change due to rebase,
+> trailer updates or similar. If in doubt, please check the listed branch.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs-7.4.shared.lsm.foll_force
+>
+> [1/3] proc: refactor /proc/$pid/mem to use struct as private_data
+>       https://git.kernel.org/vfs/vfs/c/d5662602d178
+> [2/3] proc: query LSMs for introspective mem access (if PROC_MEM_FORCE_AL=
+WAYS)
+>       https://git.kernel.org/vfs/vfs/c/9f90f96af73d
+> [3/3] selinux: require PROCESS__PTRACE for FOLL_FORCE introspection
+>       https://git.kernel.org/vfs/vfs/c/5dac8c291d9b
 
-loop0: rw=8912896, sector=102, nr_sectors = 1 limit=63
-syz.0.17: attempt to access beyond end of device
-loop0: rw=8912896, sector=103, nr_sectors = 1 limit=63
-syz.0.17: attempt to access beyond end of device
-loop0: rw=8390657, sector=98, nr_sectors = 1 limit=63
-Buffer I/O error on dev loop0, logical block 98, lost sync page write
-------------[ cut here ]------------
-!buffer_uptodate(bh)
-WARNING: fs/buffer.c:991 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:991, CPU#0: syz.0.17/6146
-Modules linked in:
-CPU: 0 UID: 0 PID: 6146 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
-RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:991
-Code: 4c 89 f7 e8 a9 01 d8 ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 74 52 fb ff e8 ef 00 68 ff eb 8c e8 e8 00 68 ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 da 00 68 ff 90 0f 0b 90 e9 cf fd ff ff
-RSP: 0018:ffffc90003b57858 EFLAGS: 00010293
-RAX: ffffffff825fc9c8 RBX: ffff888076b98460 RCX: ffff888020348000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-RBP: dffffc0000000001 R08: ffff888076b98467 R09: 1ffff1100ed7308c
-R10: dffffc0000000000 R11: ffffed100ed7308d R12: ffff88806768a434
-R13: 0000000000000000 R14: ffff8880544440b0 R15: ffff88807688ba08
-FS:  00007fa0804ca6c0(0000) GS:ffff888124cd2000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffdc870d998 CR3: 0000000035986000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- mmb_mark_buffer_dirty+0x2c/0x1f0 fs/buffer.c:624
- vfat_update_dotdot_de+0x90/0x1c0 fs/fat/namei_vfat.c:917
- vfat_rename_exchange fs/fat/namei_vfat.c:1140 [inline]
- vfat_rename2+0xe3e/0x1c90 fs/fat/namei_vfat.c:1171
- vfs_rename+0xbd9/0xef0 fs/namei.c:6208
- filename_renameat2+0x533/0x9a0 fs/namei.c:6326
- __do_sys_renameat2 fs/namei.c:6355 [inline]
- __se_sys_renameat2+0x5a/0x2c0 fs/namei.c:6350
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fa07f59e159
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fa0804ca028 EFLAGS: 00000246 ORIG_RAX: 000000000000013c
-RAX: ffffffffffffffda RBX: 00007fa07f826090 RCX: 00007fa07f59e159
-RDX: ffffffffffffff9c RSI: 0000200000000480 RDI: ffffffffffffff9c
-RBP: 00007fa07f63503b R08: 0000000000000002 R09: 0000000000000000
-R10: 00002000000004c0 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fa07f826128 R14: 00007fa07f826090 R15: 00007ffc6d0e6af8
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+--=20
+paul-moore.com
