@@ -1,317 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5887248CD48;
-	Mon, 14 Sep 2026 15:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A53E47728D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 15:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789399076; cv=none; b=GFRhjG4aHrR/USHygWkRD68B23fCDRfQVhE2ANwFy7joN6o6tafDitwVaf3XzN8m6nLtYzVJheGC/jriXbCOh4f7HnEBN2suhDjhtXZNnGCtCsHHImSSlbXfcBp9caczamC/78DLkDFR5g3UolrQqX43ArX7HbPFyJxTW7TG+o4=
+	t=1789399240; cv=none; b=Hbml7QK3qjncRQ6wlGlfveYxZsofB28kf0+TzI1zDc+Sid+i187CREJykAOoiTskqSpxMKxKqZ1LjcWF4F214K0NOo2NT6nqs+DQhFVZJQeks9/4y7ZM3sEMWzY/xgeXwYvywAepafeLhbZWmNwc6nRnloCdRy85/FaFSqvd5Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789399076; c=relaxed/simple;
-	bh=3AnqccC2jTUlmIOHAi2JESa1NkBfZlWIxg9a+l0jjPI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KNhoI8Qh/rgfmOs3FfvRb8sPY8gsnnAA2x/FpAUgq6NIMRkLU3GsLtP86Rnjt6Atb6DK+SIdUVOURrrU/EyGjET+vA7u8HBq7Qrwv9/6NMELBbrGiswJC/TnM6dSAYPxkQcFIWDUVKTudyISszkwuz2Ee55UhONcy0VRoj60sLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SJBEb+Gi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789399240; c=relaxed/simple;
+	bh=R86u+dZCTodjcBLgcHb8H8d3EJ/CATkpdjV43fjKhuE=;
+	h=From:To:cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=lKq19lo/vRUOLJNarozPcgWK9AKy5uJeB2Cu2OB0aT3oBCDVBjrLaV6pam6lvktoF4T+b6fctA2Z9bLHKJBHYH24bVlUBfHmzwRPlpHVmtRznGqEQ3KauFsniF+pvyn+RqhWhdlaWbtDnD5QW1xkBtOzThZWDoOLVE2SvKQiBr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=giBXtuTX; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SJBEb+Gi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FFF01F00893;
-	Mon, 14 Sep 2026 15:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789399072;
-	bh=fJh5Pnd5DL/qwxE+WalsUTaJGJt6FooGZcWLpPNnk7E=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=SJBEb+GiYUKwq78ymyy9xZi5YxHSsl3+R12Wq1y0Nsf2/hsIt5f6VR12jG9FLsmoK
-	 IEzLRYU4gHRuR3B6UrSWiBzVaqEaDWCvCvmqwrdKIuMYP29tsdN9RjYMUy4sBEBwEO
-	 Qwmm0RQ5msDwyuLQ8+6UzfG1pCgJHdctl691Lrfe7MYxV0tWZUErIIggyXeia5YmMK
-	 h6wnFZurT6Z7hw2RrQcbTH/vH7UDNmre0Tsy8MF/iVuJWyzO05woCfsOn57z0QCf6a
-	 f3RqU+jD2hnz3/Do3nZKKt1jW7hJNKGt/eLLxEZU7UV2k/yAbKikokP9YsJLwlWHCM
-	 dm/lMP+3dWi7A==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Mon, 14 Sep 2026 15:58:00 +0100
-Subject: [PATCH v2 40/40] mm/vma: introduce and use vma[_flags]_can_gup()
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="giBXtuTX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789399237;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=buKLTSUlaD4MqKKVAvbS9GtGxrepxqulB+fMUyn6usY=;
+	b=giBXtuTXajDCTFxD+A+7goVJ05Sx0PXG0T0m8BioyIQHEpIcJzpNMfISLxivB30ogen9nT
+	GTMqS3yk+Z2dkEYSBh3b9ZIjJ3OX0i3uVHu6ZAYG/O2LuKJFaacfw9GWkRrrrtTU2OGXfW
+	0yKZP4PKSFimZn0DSDwa0Trg0RRLEcI=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-128-2hvwp7MEMrK3cNaxMzw_7w-1; Mon,
+ 14 Sep 2026 11:20:33 -0400
+X-MC-Unique: 2hvwp7MEMrK3cNaxMzw_7w-1
+X-Mimecast-MFC-AGG-ID: 2hvwp7MEMrK3cNaxMzw_7w_1789399232
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 29E89189F3A3;
+	Mon, 14 Sep 2026 15:20:32 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.32.54])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 33C97180056E;
+	Mon, 14 Sep 2026 15:20:28 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+cc: dhowells@redhat.com, Frank Sorenson <sorenson@redhat.com>,
+    Paulo Alcantara <pc@manguebit.org>,
+    Namjae Jeon <linkinjeon@kernel.org>, netfs@lists.linux.dev,
+    linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: [PATCH] netfs: Fix netfs_read_gaps() to use separate sink folios
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-40-7d9781ed5361@kernel.org>
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
-In-Reply-To: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
- Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
- fuse-devel@lists.linux.dev, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6501; i=ljs@kernel.org;
- h=from:subject:message-id; bh=3AnqccC2jTUlmIOHAi2JESa1NkBfZlWIxg9a+l0jjPI=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLJWcG/RLrydJciw/BS79IsveW9n+2r99rmurBlodmpS+
- RRx76h1HaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZhIkjvDP93oPv7KUwVZyzmP
- /Y5JN7v5L+H3keK5W5RUpgfrJzE0uzMynHype2puUKfCJhPhXQtYMu7XXi1Km15XEbP4QomOrJw
- oLwA=
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3228133.1789399227.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Sep 2026 16:20:27 +0100
+Message-ID: <3228134.1789399227@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-GUP cannot be used for VMAs which set VMA_IO_BIT - because memory-mapped
-I/O must not be accessed on the user's behalf - or VMA_PFNMAP_BIT - because
-PFN maps have no folios which the kernel is permitted to access.
+    =
 
-Rather than keeping these checks open-coded, abstract them to
-vma_flags_can_gup() and its VMA wrapper vma_can_gup().
+Fix netfs_read_gaps() to use separate folios rather than re-using a single
+sink folio to discard the unwanted data so that cifs checksum checking see=
+s
+all the data that was fetched.
 
-A number of other places make the same check to decide whether a mapping
-can be populated or accessed as GUP would, so update those too.
-
-While here, drop a reference to 'special' and replace a use of the
-deprecated VMA flags API in vma_dump_size().
-
-No functional change intended.
-
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Fixes: 7f84a7b9892d ("netfs: Make netfs_read_folio() handle streaming-writ=
+e pages")
+Reported-by: Frank Sorenson <sorenson@redhat.com>
+Closes: https://lore.kernel.org/r/a385053c-1c4a-4060-a3bb-befa007ddb33@red=
+hat.com/
+Signed-off-by: David Howells <dhowells@redhat.com>
+Tested-by: Frank Sorenson <sorenson@redhat.com>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: Namjae Jeon <linkinjeon@kernel.org>
+cc: netfs@lists.linux.dev
+cc: linux-cifs@vger.kernel.org
+cc: linux-fsdevel@vger.kernel.org
 ---
- fs/coredump.c      |  4 ++--
- include/linux/mm.h | 29 +++++++++++++++++++++++++++++
- mm/gup.c           |  7 +++----
- mm/hmm.c           |  3 +--
- mm/memory.c        | 14 ++++++++------
- mm/mempolicy.c     |  3 ++-
- 6 files changed, 45 insertions(+), 15 deletions(-)
+ fs/netfs/buffered_read.c |   34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/fs/coredump.c b/fs/coredump.c
-index fb21fb6703dd..9f729c594c47 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -1616,8 +1616,8 @@ static unsigned long vma_dump_size(struct vm_area_struct *vma,
- 		return 0;
+diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
+index 424df70a5c30..105194de6e13 100644
+--- a/fs/netfs/buffered_read.c
++++ b/fs/netfs/buffered_read.c
+@@ -482,15 +482,14 @@ static int netfs_read_gaps(struct file *file, struct=
+ folio *folio)
+ 	struct netfs_group *group =3D netfs_folio_group(folio);
+ 	struct netfs_folio *finfo =3D netfs_folio_info(folio);
+ 	struct netfs_inode *ctx =3D netfs_inode(mapping->host);
+-	struct folio *sink =3D NULL;
+-	struct bio_vec *bvec;
++	struct bio_vec *bvec =3D NULL;
+ 	unsigned int from =3D finfo->dirty_offset;
+ 	unsigned int to =3D from + finfo->dirty_len;
+-	unsigned int off =3D 0, i =3D 0;
++	unsigned int off =3D 0;
+ 	size_t flen =3D folio_size(folio);
+ 	size_t nr_bvec =3D flen / PAGE_SIZE + 2;
+ 	size_t part;
+-	int ret;
++	int ret, i =3D 0, sink_from =3D -1, sink_to =3D -1;
+ =
+
+ 	_enter("%lx", folio->index);
+ =
+
+@@ -515,24 +514,23 @@ static int netfs_read_gaps(struct file *file, struct=
+ folio *folio)
+ 	if (!bvec)
+ 		goto discard;
+ =
+
+-	sink =3D folio_alloc(GFP_KERNEL, 0);
+-	if (!sink) {
+-		kfree(bvec);
+-		goto discard;
+-	}
+-
+ 	trace_netfs_folio(folio, netfs_folio_trace_read_gaps);
+ =
+
+-	rreq->direct_bv =3D bvec;
+-	rreq->direct_bv_count =3D nr_bvec;
+ 	if (from > 0) {
+ 		bvec_set_folio(&bvec[i++], folio, from, 0);
+ 		off =3D from;
  	}
- 
--	/* Do not dump I/O mapped devices or special mappings */
--	if (vma->vm_flags & VM_IO)
-+	/* Do not dump memory-mapped I/O, which may have side effects on read. */
-+	if (vma_test(vma, VMA_IO_BIT))
- 		return 0;
- 
- 	/* By default, dump shared memory if mapped from an anonymous file. */
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 5860a3b4dba9..1249e04d7b98 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1777,6 +1777,35 @@ static inline bool vma_is_persistent(const struct vm_area_struct *vma)
- 	return vma_flags_is_persistent(&vma->flags);
- }
- 
-+/**
-+ * vma_flags_can_gup() - Do the specified VMA flags permit GUP to access the
-+ * mapping's pages?
-+ * @flags: The VMA flags to test.
-+ *
-+ * GUP cannot obtain pages from a PFN map (VMA_PFNMAP_BIT), which may have no
-+ * struct pages behind it, and must not provide access to memory-mapped I/O
-+ * (VMA_IO_BIT).
-+ *
-+ * Returns: true if GUP may access pages from the mapping, otherwise false.
-+ */
-+static inline bool vma_flags_can_gup(const vma_flags_t *flags)
-+{
-+	return !vma_flags_test_any(flags, VMA_IO_BIT, VMA_PFNMAP_BIT);
-+}
++	sink_from =3D i;
+ 	while (off < to) {
++		struct folio *sink =3D folio_alloc(GFP_KERNEL, 0);
 +
-+/**
-+ * vma_can_gup() - May GUP obtain pages from @vma?
-+ * @vma: The VMA to test.
-+ *
-+ * See vma_flags_can_gup() for details.
-+ *
-+ * Returns: true if GUP may access pages from the mapping, otherwise false.
-+ */
-+static inline bool vma_can_gup(const struct vm_area_struct *vma)
-+{
-+	return vma_flags_can_gup(&vma->flags);
-+}
-+
- /**
-  * vma_kernel_pagesize - Default page size granularity for this VMA.
-  * @vma: The user mapping.
-diff --git a/mm/gup.c b/mm/gup.c
-index f166acf794e3..8e9ef5ee7498 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -1204,7 +1204,7 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
- 	int foreign = (gup_flags & FOLL_REMOTE);
- 	bool vma_anon = vma_is_anonymous(vma);
- 
--	if (vm_flags & (VM_IO | VM_PFNMAP))
-+	if (!vma_can_gup(vma))
- 		return -EFAULT;
- 
- 	if ((gup_flags & FOLL_ANON) && !vma_anon)
-@@ -1955,7 +1955,7 @@ int __mm_populate(unsigned long start, unsigned long len, int ignore_errors)
- 		 * range with the first VMA. Also, skip undesirable VMA types.
- 		 */
- 		nend = min(end, vma->vm_end);
--		if (vma->vm_flags & (VM_IO | VM_PFNMAP))
-+		if (!vma_can_gup(vma))
- 			continue;
- 		if (nstart < vma->vm_start)
- 			nstart = vma->vm_start;
-@@ -2017,8 +2017,7 @@ static long __get_user_pages_locked(struct mm_struct *mm, unsigned long start,
- 			break;
- 
- 		/* protect what we can, including chardevs */
--		if ((vma->vm_flags & (VM_IO | VM_PFNMAP)) ||
--		    !(vm_flags & vma->vm_flags))
-+		if (!vma_can_gup(vma) || !(vm_flags & vma->vm_flags))
- 			break;
- 
- 		if (pages) {
-diff --git a/mm/hmm.c b/mm/hmm.c
-index 2f1e98c6b644..e9569b82a1f0 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -595,8 +595,7 @@ static int hmm_vma_walk_test(unsigned long start, unsigned long end,
- 	struct hmm_range *range = hmm_vma_walk->range;
- 	struct vm_area_struct *vma = walk->vma;
- 
--	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)) &&
--	    vma->vm_flags & VM_READ)
-+	if (vma_can_gup(vma) && vma_test(vma, VMA_READ_BIT))
- 		return 0;
- 
- 	/*
-diff --git a/mm/memory.c b/mm/memory.c
-index 02e9d5d2e279..9e4a70421a6b 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -2417,11 +2417,11 @@ static bool vm_mixed_zeropage_allowed(struct vm_area_struct *vma)
- 	 * be problematic as soon as the zeropage gets replaced by a different
- 	 * page due to vma->vm_ops->pfn_mkwrite, because what's mapped would
- 	 * now differ to what GUP looked up. FSDAX is incompatible to
--	 * FOLL_LONGTERM and VM_IO is incompatible to GUP completely (see
--	 * check_vma_flags).
-+	 * FOLL_LONGTERM and memory-mapped I/O is incompatible to GUP completely
-+	 * (see vma_can_gup()).
- 	 */
- 	return vma->vm_ops && vma->vm_ops->pfn_mkwrite &&
--	       (vma_is_fsdax(vma) || vma->vm_flags & VM_IO);
-+	       (vma_is_fsdax(vma) || vma_test(vma, VMA_IO_BIT));
- }
- 
- static int validate_page_before_insert(struct vm_area_struct *vma,
-@@ -7116,7 +7116,8 @@ int follow_pfnmap_start(struct follow_pfnmap_args *args)
- 	if (unlikely(address < vma->vm_start || address >= vma->vm_end))
- 		goto out;
- 
--	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
-+	/* Only mappings GUP cannot handle are followed here. */
-+	if (vma_can_gup(vma))
- 		goto out;
- retry:
- 	pgdp = pgd_offset(mm, address);
-@@ -7316,8 +7317,9 @@ static int __access_remote_vm(struct mm_struct *mm, unsigned long addr,
- 			}
- 
- 			/*
--			 * Check if this is a VM_IO | VM_PFNMAP VMA, which
--			 * we can access using slightly different code.
-+			 * GUP failed, perhaps because this is a mapping it
-+			 * cannot handle (see vma_can_gup()) - such mappings may
-+			 * provide access via vm_ops->access() instead.
- 			 */
- 			bytes = 0;
- #ifdef CONFIG_HAVE_IOREMAP_PROT
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 044ffb4f4128..2fd759e348ca 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -2013,7 +2013,8 @@ SYSCALL_DEFINE5(get_mempolicy, int __user *, policy,
- 
- bool vma_migratable(struct vm_area_struct *vma)
- {
--	if (vma->vm_flags & (VM_IO | VM_PFNMAP))
-+	/* Pages which GUP cannot obtain cannot be migrated either. */
-+	if (!vma_can_gup(vma))
- 		return false;
- 
- 	/*
++		if (!sink)
++			goto discard;
+ 		part =3D min_t(size_t, to - off, PAGE_SIZE);
+-		bvec_set_folio(&bvec[i++], sink, part, 0);
++		bvec_set_folio(&bvec[i], sink, part, 0);
+ 		off +=3D part;
++		sink_to =3D i;
++		i++;
+ 	}
+ 	if (to < flen)
+ 		bvec_set_folio(&bvec[i++], folio, flen - to, to);
+@@ -553,8 +551,10 @@ static int netfs_read_gaps(struct file *file, struct =
+folio *folio)
+ 		folio_mark_uptodate(folio);
+ 	}
+ =
 
--- 
-2.55.0
+-	if (sink)
+-		folio_put(sink);
++	if (sink_to >=3D 0)
++		for (; sink_from <=3D sink_to; sink_from++)
++			folio_put(bvec_folio(&bvec[sink_from]));
++	kfree(bvec);
+ 	folio_unlock(folio);
+ 	netfs_put_request(rreq, netfs_rreq_trace_put_return);
+ 	return ret < 0 ? ret : 0;
+@@ -563,6 +563,10 @@ static int netfs_read_gaps(struct file *file, struct =
+folio *folio)
+ 	netfs_put_failed_request(rreq);
+ alloc_error:
+ 	folio_unlock(folio);
++	if (sink_to >=3D 0)
++		for (; sink_from <=3D sink_to; sink_from++)
++			folio_put(bvec_folio(&bvec[sink_from]));
++	kfree(bvec);
+ 	return ret;
+ }
+ =
 
