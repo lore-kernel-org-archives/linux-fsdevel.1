@@ -1,154 +1,182 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2316F470440;
-	Mon, 14 Sep 2026 13:39:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2747647A88C;
+	Mon, 14 Sep 2026 13:53:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789393150; cv=none; b=h0InP65seUBrb3iMYn79C3qaTMLPzD2cAPrhKNarNP3gusN6t4/ym2MBQV83QhFHzCkN70N7D6DFqwAgDEXNk3SFbPl06caSYVZjCz/uzKWm6w3Am4CDvvBIu7zjD8yz4ZoyjOlqnY2IKQ5XpgrtUy4+Si+RhsZrs1USvd+kZGo=
+	t=1789393987; cv=none; b=TpJs+UzsST2YipnWB7SqsfBCF6JIszkc46UENmKd7zB+P2E98VxbMACO1DyyoyidMLemSnXInH9kFyr4eACB5mjY9zx9m9+bOOViU/4SDH7zpAAnRHbTUKlcu9lzMTZzUNxO/m7VHAUl4ASjfL//c4/P3OnriQJqUIpSAhpvZkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789393150; c=relaxed/simple;
-	bh=ZA936ApCEhckz5J+rWQzpOatwmkdAJ3FLoJd2POVcn4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hUzcP1x0+XpA+3yPYguQiUKxNX4LXd28RpibHVst3Zl+qXft7tw5SS9kAbiRbU7QGwWNcAVNCUW9/xEBEoEQeTiU6ygswcoRct2kVGar2/fj+AEbY/nnx03CvnK5ZiBuhUv90RQc+50evZEEcsOnCGw3eT+csx3P7JDHJzsxX5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QbM1o6vT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789393987; c=relaxed/simple;
+	bh=mlUfEIFV9BaRgiX9mO66IzROChje335W/BiQA2GTbVs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KgAqGJlEW5MSCOHtXW/lRuU6M+LNgyVw+s1GX6wA95gwSrSrVsdVKZKG6UwGuTnN62FzcCAEIS62I0EH3AM2pIrAP2QLpthvhRezU8dKH9T18KhxLaGWr7whbmVVkjpRS9zEXnTCSdUR9pH7/Xj5+D7DcPU7xJctU0DdblgDTkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FeR2gWYH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QbM1o6vT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F0AC1F000FF;
-	Mon, 14 Sep 2026 13:38:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FeR2gWYH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D7411F008A6;
+	Mon, 14 Sep 2026 13:52:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789393148;
-	bh=9BCqD8kAZuJn9pHsxZwwfpeEhm7EpPULp00Tm/xS4r8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=QbM1o6vTrDEZV6964roF4n6AhcrTROnyGsSuuU07RFZAt5GA0529PbdCzvBeerMPP
-	 dSXsFcCmoiGOIJ9z0rdabhNGzfShcpecqZa792W8o53k1tNCcxbKMYTIn76NlPYivS
-	 o6lNDIpaoY4pSXfq84dX3tgv4rzDYcq/oivh1LMOc+h5jcsT6fxNz/kcQ9s6wAEREs
-	 c6ehcEF/Vx42vqZaLgOSZ9pL/yopB6aAiEYwqR0LdkCDaakbCzQpTp33BHJxMppKGm
-	 9guiCSmyCYsCh4oinrfdMK2WTTZgm5S+2CSEaxCKN4lZYkmGVMLt1tLKR5UkN5r4hT
-	 uZV8w+oGxTQqg==
-Message-ID: <a4132624-c602-4d93-86fb-7d9369646223@kernel.org>
-Date: Mon, 14 Sep 2026 15:38:55 +0200
+	s=k20260515; t=1789393980;
+	bh=/SYe9Unw6oYBV280W7G2r7SKUU5ZsVcjnBx/IJ+taGs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FeR2gWYH2doCt/XQ+7nwX9eFl4C5EtBE/49Z9o/3dj2X/alfYxFIx+MdmA7j6KAQl
+	 VXW4qgCwQEItXzSW4NWs0UK3KZ0wVLUQWOZp/d+Xukp7BFPm7HdmjjOH3CYjE6zo3T
+	 VEDy/tBxeiLTCwg/lAg4AtLHq7kQTepJHdxl2E4JOIBnIMaaG3bH7GRgsak3ouMHfW
+	 naRij2M6tcst8O4c+nHE9hkEwMnpqgRaUwVxu9Zk/AWfqu/9mLSnuHjSLtqVIfci1I
+	 N4NMjbxPwK4XJ4nx6FvQL7Q/guN3WkMarQVJfw3CzDBCmpLEJwsmvfTMI2Tsv1dIcD
+	 c5IMfflTnLc3w==
+Date: Mon, 14 Sep 2026 15:52:56 +0200
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
+	djwong@kernel.org
+Subject: Re: [PATCH v3] man/man2: introduce man page for
+ file_getattr/file_setattr syscalls
+Message-ID: <aqf6qS4_CvLhg1o3@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20260914111107.1735564-1-aalbersh@kernel.org>
+ <aqfeV11OEqtb6nkt@devuan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 16/16] mm/page-flags: remove PG_private
-To: Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Baoquan He <baoquan.he@linux.dev>, Pasha Tatashin
- <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Jan Kara <jack@suse.cz>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- kexec@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-References: <20260913-remove-pg_private-v4-0-848550f7574e@nvidia.com>
- <20260913-remove-pg_private-v4-16-848550f7574e@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <20260913-remove-pg_private-v4-16-848550f7574e@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqfeV11OEqtb6nkt@devuan>
 
-On 9/14/26 04:24, Zi Yan wrote:
-> folio->private != NULL indicates a folio carries private data, replacing
-> PG_private. All PG_private users are converted. Remove PG_private and
-> reserve the space as PG_folio for future use. Unused PG_private functions
-> are removed too.
+Hi Alejandro,
+
+On 2026-09-14 14:43:36, Alejandro Colomar wrote:
+> Hi Andrey,
 > 
-> Assisted-by: LLM
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> To: Andrew Morton <akpm@linux-foundation.org>
-> To: Baoquan He <baoquan.he@linux.dev>
-> To: Mike Rapoport <rppt@kernel.org>
-> To: Pasha Tatashin <pasha.tatashin@soleen.com>
-> To: Pratyush Yadav <pratyush@kernel.org>
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> To: Jan Kara <jack@suse.cz>
-> To: David Hildenbrand <david@kernel.org>
-> To: Steven Rostedt <rostedt@goodmis.org>
-> To: Masami Hiramatsu <mhiramat@kernel.org>
-> Cc: Dave Young <ruirui.yang@linux.dev>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Lorenzo Stoakes <ljs@kernel.org>
-> Cc: "Liam R. Howlett" <liam@infradead.org>
-> Cc: Vlastimil Babka <vbabka@kernel.org>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> Cc: kexec@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Cc: linux-trace-kernel@vger.kernel.org
-> ---
+> > Date: 2026-09-14 13:11:05+0200
+> > From: Andrey Albershteyn <aalbersh@kernel.org>
+> >
+> > Add manual pages for file_getattr() and file_setattr() syscalls and
+> > struct file_attr used as input/output argument.
+> > 
+> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> > Link: https://lore.kernel.org/all/20250630-xattrat-syscall-v6-0-c4e3bc35227b@kernel.org/
+> > 
+> > ---
+> > Changes from v2:
+> > - a few grammar fixes
+> > - styling fixes
+> > - sashiko.dev fixes (wrong AT_FDCWD combined with AT_EMPTY_PATH
+> >   description, unused "dfd")
+> 
+> I'd appreciate if you didn't use sashiko for manual pages.
+> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIBUTING.d/ai>
+> 
+> > - dropped requirement to zero fattr before using file_setattr()
+> > - Pathname -> path
+> > - Dropped description of why FS_IOC_ aren't usable with special files
+> > - Fixed backslashes in the code examples
+> 
+> It'd be very useful to see the range-diff too.
+> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIBUTING.d/patches/range-diff>
+> 
+> And it'd also be good to get the new versions of patches as replies to
+> the first mail in v1.  That would allow one to find the entire
+> discussion in one thread, with one subthread.
+> <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/CONTRIBUTING.d/patches/sendmail>
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+ok sure
+
+[...]
+> > +If
+> > +.I size
+> > +is larger than the kernel's structure size,
+> > +the extra bytes are zeroed.
+> 
+> Hmmm, this seems to contradict the explanation from above.  I'll quote:
+> 
+> 	Userspace applications should zero-initialize
+> 	.I struct file_attr
+> 	before calling
+> 	.BR file_getattr ()
+> 	to ensure that fields not filled in by older kernels
+> 	will have predictable values.
+> 
+> So, if old kernels zero any bytes between the (small) size supported by
+> the kernel and the (large) size used by the user, why would the user
+> need to zero them?  Isn't the kernel doing exactly that?
+
+that's right, I removed this in file_setattr() but probably
+forgot to remove it here.
+
+[...]
+> > +.SH DESCRIPTION
+> > +The
+> > +.BR file_setattr ()
+> > +system call sets filesystem file attributes
+> > +on the file.
+> > +.P
+> > +As with
+> > +.BR openat (2),
+> > +if
+> > +.I path
+> > +is relative,
+> > +then it is interpreted relative to the directory
+> > +referred to by the file descriptor
+> > +.I dirfd
+> > +(or the current working directory of the calling process,
+> > +if
+> > +.I dirfd
+> > +is the special value
+> > +.BR AT_FDCWD ).
+> > +If
+> > +.I path
+> > +is absolute,
+> > +then
+> > +.I dirfd
+> > +is ignored.
+> 
+> How about saying that the parameters 'dirfd', 'path', and 'flags' are
+> interpreted like in file_getattr(2), and we save some paragraphs?
+> 
+> We'd also save the user from checking whether there's a tiny detail that
+> differs, or if they are identical.
+> 
+> I have a long term plan of removing a lot of paragraphs in manual pages,
+> by saying that some syscalls or functions behave exactly like others, at
+> least for some parameters.
+
+Sounds good, I will reference file_getattr then
+
+[...]
+> > +error.
+> > +.SH VERSIONS
+> > +.SS Structure size
+> > +The structure size is defined by
+> > +.B FILE_ATTR_SIZE_VER*
+> > +which is also a version of the structure being used.
+> 
+> Why do those macros exist?  I expect users should just use sizeof(),
+> right?  In fact, the example program doesn't show its use at all.
+> Should we remove that macro entirely?
+
+You're right, this is not necessary, the sizeof() is enough.
+
+> 
+> > +The
+> > +.I size
+> > +parameter passed to
+> > +.BR file_getattr (2)
+> > +and
+> > +.BR file_setattr (2)
+> > +indicates the version of
+> > +.I struct file_attr\fP.
+> > +.SS FILE_ATTR_SIZE_VER0
+> > +Size is 24 bytes.
+> 
+> This implementation detail seems unnecessary for programmers.
+> '24' is something programmers shouldn't know, IMO.
+
+Yes, I will remove mentions of FILE_ATTR_SIZE_VER0
 
 -- 
-Cheers,
-
-David
+- Andrey
