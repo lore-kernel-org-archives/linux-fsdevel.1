@@ -1,457 +1,112 @@
-Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C51F3B777C;
-	Mon, 14 Sep 2026 06:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from lb2.peda.net (lb2.peda.net [130.234.6.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079D22D7380;
+	Mon, 14 Sep 2026 06:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.234.6.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789366555; cv=none; b=ddwZVD7wq2gWrTWPeSjrPZa3RtwrKxbgBX61UUQ/4DLPoIL7Zy/Pf5VagQkySYrPO4ZieRGTyzdnB09Ow0pdm3IwpKprxFIqdnahQW41XT3IG417Zf8uWr/0WYo/av+lywmlTQm1QX2vyQcajJc2CW3OVaQj4dfo2V8OlYbSaVM=
+	t=1789367825; cv=none; b=nS2bdaSF1GJdemC0Jm6kHl6mNjss+wbFY83FIZoeFdZh3+s0VsL/+IF/9YRscgpRgTSVuU9V4kLIN7EK2Jj9ghVcMJv9HxkPvIuzAg7Mgh3GUalclv55WDmDGSBNeM0kXIFhTyxztQ10wUyOug3a9kPaCDFkglaYOR9U/0z1x70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789366555; c=relaxed/simple;
-	bh=C63JGwt3r2MzGq97jEKhLYlX+zaKnfqtHMCYCSMOg64=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i1WHxBCkhG2q1R8twv2v100Pxj12ZuW4CPzAeY7IwqWLqVSw5uaxbakY1KbhLlYj2AFqMB7XTL6Ly4ElkxGVlX+L5bdtm1ZEWd1dnNG3lthc7tsCqqumyFc1QUeTIb4fS5jUK4458ovynOAHd8hQVEO/4oAatKYiKuMbgMj069M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hjvyv6rgLz2CZLy;
-	Mon, 14 Sep 2026 14:15:35 +0800 (CST)
-Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hjvyv6W5Tz2CZLy;
-	Mon, 14 Sep 2026 14:15:35 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp2.hygon.cn (Postfix) with ESMTPS id E9145310BECC;
-	Mon, 14 Sep 2026 14:11:21 +0800 (CST)
-Received: from hsj-2U-Workstation.hygon.cn (172.19.24.226) by
- cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Mon, 14 Sep 2026 14:15:34 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
-CC: <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>,
-	<jack@suse.cz>, <dev.jain@arm.com>, <ljs@kernel.org>, <adobriyan@gmail.com>,
-	<akpm@linux-foundation.org>, <hpa@zytor.com>, <ryan.roberts@arm.com>,
-	<mjguzik@gmail.com>, <joel.granados@kernel.org>, <jannh@google.com>,
-	<oleg@redhat.com>, <aleksa@amutable.com>, <legion@kernel.org>,
-	<kees@kernel.org>, <joannelkoong@gmail.com>, <tj@kernel.org>,
-	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <sandeen@redhat.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Huang Shijie
-	<huangsj@hygon.cn>
-Subject: [RFC PATCH 3/3] fs/proc: split the inode list
-Date: Mon, 14 Sep 2026 14:14:49 +0800
-Message-ID: <20260914061449.4024632-4-huangsj@hygon.cn>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260914061449.4024632-1-huangsj@hygon.cn>
-References: <20260914061449.4024632-1-huangsj@hygon.cn>
+	s=arc-20240116; t=1789367825; c=relaxed/simple;
+	bh=8N42BmCblJVZfeWu1cm73VCY2czk8tZtyc88nGTs5zE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g8qsx/zz9rJ8iUKPEg2b6n8CN5J37KdYkberobyQ5vw5lM+ElOgRyafgrpifDwj8Lm4xEICf6AB0WspbEL6MSRDMXmROfk51TlwKS1eKv45kjtIolbQUJy+lCx4t6iX18v3UXG2rTy8r+zZFBwwrhBWBGPQYmLRUdFoFH+qAqOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=peda.net; spf=pass smtp.mailfrom=peda.net; dkim=pass (2048-bit key) header.d=peda.net header.i=@peda.net header.b=MykX7Eu4; arc=none smtp.client-ip=130.234.6.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=peda.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peda.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=peda.net header.i=@peda.net header.b="MykX7Eu4"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=peda.net; s=default;
+	t=1789367819; bh=8N42BmCblJVZfeWu1cm73VCY2czk8tZtyc88nGTs5zE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MykX7Eu48WTDqBURwwpcGBIjj2NPoEV00/TaG4Lhlc3mK1V+CdD9KqlIke4bz31II
+	 +G7pf4ZPIEpZBuYft+h7dnFQ9Ah4UV1iabclce4AyHoED6GHRy1mVoc2bsuSs8npVm
+	 p1zeoPc3SVq52Yfi5ibDyjRT77tU0e26eXCLMJ82SCp8WhbJQODcSxmA30Fyi8fsDA
+	 oG9Yp3Fn05pOu9D5IUA6N/dWBgf0PR8D9/4z1P4/LOK+08Msc3zLkwpXieVe1hzL56
+	 05Ha+0V88sSGn5MTu6X3fpDQgpxqd1Vc+VUDHL61OgpC6eogjpCgPqZM3aDLlH22O8
+	 WhZFFwvXmSAOQ==
+Received: from [86.60.167.233] (86-60-167-233.dynamic.lounea.fi [86.60.167.233])
+	by lb2.peda.net (lb2.peda.net) with ESMTPSA id 26BDED60144;
+	Mon, 14 Sep 2026 09:36:59 +0300 (EEST)
+Message-ID: <0e27e9dc-3520-436e-aa69-af9e938ab1bf@peda.net>
+Date: Mon, 14 Sep 2026 09:36:58 +0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
- (172.23.18.114)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
+To: Rich Felker <dalias@libc.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-kernel@vger.kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk,
+ jack@suse.cz, alx@kernel.org
+References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
+ <20260913205358.GX25906@brightrain.aerifal.cx>
+From: Mikko Rantalainen <mikko.rantalainen@peda.net>
+Autocrypt: addr=mikko.rantalainen@peda.net; keydata=
+ xjMEWvlVlRYJKwYBBAHaRw8BAQdAJneRuA4reN56nwM7GyQ8Gwkhc4ANBia0NFNcU/qwP63N
+ Lk1pa2tvIFJhbnRhbGFpbmVuIDxtaWtrby5yYW50YWxhaW5lbkBwZWRhLm5ldD7ClgQTFggA
+ JwUCWvlY9wIbAwUJXfwPAAULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAhCRC4w4yaqAoqKxYh
+ BNKwvdN4KAGSgYZmbbjDjJqoCiornGsA+wWoUBgH7S20W4KkYvr5OipJ5FBH0vbHDEvv26V+
+ WYt5AQCbgxKfVQD1g9gp67xb2NWkMKccy/5R0oYl7uGBDKHNBc44BGftb9gSCisGAQQBl1UB
+ BQEBB0CXgySU7HDsuvqYVVlXWZvvGTyjxz4iEQSemOwJ8BU7EgMBCAfCfgQYFggAJhYhBNKw
+ vdN4KAGSgYZmbbjDjJqoCiorBQJn7W/YAhsMBQkX8l8AAAoJELjDjJqoCiorklIBANBBccGb
+ g8cV5dSjL2oUNnJKK3ZgkBSfWjk21cISIMIxAP4xRcw/3Kk0sCRbKNFXyGtIk4OQrvYBaAij
+ qKI0ItEoBg==
+In-Reply-To: <20260913205358.GX25906@brightrain.aerifal.cx>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The global s_inode_list_lock is heavily contended in procfs
-on a 384-CPU, 12-NUMA-node Hygon machine running Hadoop TestDFSIO:
-  #hadoop jar xxxx.jar TestDFSIO -read -nrFiles 1000 -size 100MB
+Rich Felker (2026-09-13 23:53 Europe/Helsinki):
+> On Sun, Sep 13, 2026 at 10:38:14PM +0300, Mikko Rantalainen wrote:
+>> In addition, POSIX.1-2024 requires that if close() reports EINTR, the
+>> descriptor must remain open. It also explicitly permits an interrupted
+>> close() to return success after closing the descriptor.
+>>
+>> This patch is about implementing the second option to be compatible with
+>> both POSIX.1-2024 and real-world applications.
+> ...
+> 
+> I don't think there is serious concern about userspace regressions
+> making this change. It would not be changing the meaning of any
+> existing result code or adding a new error condition applications need
+> to be aware of (like the EINPROGRESS mess).
+> 
+> But I'm also not sure how helpful the change would be. It's already
+> possible to patch this up in userspace, and as you noted, we already
+> do that in musl and so does Bionic. So the main practical effect of
+> this change would be just forcing the right behavior on glibc systems
+> even when glibc doesn't want to fix it. Maybe that's a good idea? I'm
+> not sure. I think it would be best to have everyone on the same page
+> that this should be fixed, with both glibc fixing it so it's right on
+> old-kernel/new-glibc, and the kernel fixing it so it's right on
+> new-kernel/old-glibc. That would also avoid hard feelings from a
+> unilateral action perceived as dictatorial.
 
-The hadoop will create lot of threads during the test.
-The perf shows it consuming ~90% of the lock hotspot in procfs.
-The lock is hit from both directions:
-   -- inode creation (~49%) :
-           getdents64 ->
-              proc_readfd_common ->
-	         new_inode ->
-		   inode_sb_list_add()
+I think there are two important questions:
 
-   -- inode eviction (~41%):
-           process exit ->
-	      release_task ->
-	         proc_invalidate_siblings_dcache ->
-		     evict ->
-		        inode_sb_list_del()
 
-This patch spreads the inode list across per-shard locks for procfs:
-   --- Add "shards" pointer shares a union with s_inodes.
-       Guard all shard accesses with an explicit s_inode_list_sharded
-       field in super_block.
+(1) What is the caller truly expected to do for EINTR? They cannot
+retry which would be the typical response to EINTR.
 
-   --- Add inode_list_add()/inode_list_del() callbacks to super_operations;
-       procfs implements them to round-robin inodes
-       onto nr_shards = DIV_ROUND_UP(num_possible_cpus(), 32)
-       shards allocated at mount time, each protected by its own spinlock.
+(2) If caller cannot retry because file was already closed, can caller
+have any valuable information from EINTR return instead of success?
+I think it's pretty safe assumption that success from close() would
+be handled correctly by the caller.
 
-   --- evict_inodes(), generic_shutdown_super()
-       iterate the shards when the super_block inode list is sharded.
-       struct inode_shard is cacheline-aligned to avoid false
-       sharing between shard locks on different NUMA nodes.
 
-This reduces the s_inode_list_lock hotspot from ~90% to ~1% in above
-TestDFSIO. And we can improve the hadoop exec performance over 50%.
+I'm currently thinking that the answer to (1) is "???" and answer to
+(2) is best you can do is to log "Some unknown action interrupted
+some unknown background process while closing file XYZ, pretending
+everything went well." because anything else would assume some
+specific implementation of close() on Linux.
 
-Signed-off-by: Huang Shijie <huangsj@hygon.cn>
----
- fs/inode.c                     | 80 ++++++++++++++++++++++------------
- fs/proc/inode.c                | 53 ++++++++++++++++++++++
- fs/proc/internal.h             |  2 +
- fs/proc/root.c                 |  6 +++
- fs/super.c                     | 40 +++++++++++++----
- include/linux/fs/super_types.h | 22 +++++++++-
- include/linux/proc_fs.h        |  1 +
- 7 files changed, 167 insertions(+), 37 deletions(-)
+As I see it, the fact that avoiding EINTR return value when the file
+is already closed fixing POSIX.1-2024 compatibility and glibc is just
+a bonus for a change that makes sense otherwise, too.
 
-diff --git a/fs/inode.c b/fs/inode.c
-index ba7da39be4a3..687c2e299258 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -635,6 +635,10 @@ void inode_sb_list_add(struct inode *inode)
- {
- 	struct super_block *sb = inode->i_sb;
- 
-+	if (sb->s_inode_list_sharded && sb->s_op->inode_list_add) {
-+		sb->s_op->inode_list_add(sb, inode);
-+		return;
-+	}
- 	spin_lock(&sb->s_inode_list_lock);
- 	list_add(&inode->i_sb_list, &sb->s_inodes);
- 	spin_unlock(&sb->s_inode_list_lock);
-@@ -646,6 +650,10 @@ static inline void inode_sb_list_del(struct inode *inode)
- 	struct super_block *sb = inode->i_sb;
- 
- 	if (!list_empty(&inode->i_sb_list)) {
-+		if (sb->s_inode_list_sharded && sb->s_op->inode_list_del) {
-+			sb->s_op->inode_list_del(sb, inode);
-+			return;
-+		}
- 		spin_lock(&sb->s_inode_list_lock);
- 		list_del_init(&inode->i_sb_list);
- 		spin_unlock(&sb->s_inode_list_lock);
-@@ -879,41 +887,57 @@ void evict_inodes(struct super_block *sb)
- {
- 	struct inode *inode;
- 	LIST_HEAD(dispose);
-+	struct list_head *head;
-+	spinlock_t *lock;
-+	unsigned int nr, i;
-+	const bool sharded = sb->s_inode_list_sharded;
- 
--again:
--	spin_lock(&sb->s_inode_list_lock);
--	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--		if (icount_read_once(inode))
--			continue;
-+	nr = sharded ? sb->nr_shards : 1;
- 
--		spin_lock(&inode->i_lock);
--		if (icount_read(inode)) {
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
--		if (inode_state_read(inode) & (I_NEW | I_FREEING | I_WILL_FREE)) {
--			spin_unlock(&inode->i_lock);
--			continue;
-+	for (i = 0; i < nr; i++) {
-+		if (sharded) {
-+			head = &sb->shards[i].list;
-+			lock = &sb->shards[i].lock;
-+		} else {
-+			head = &sb->s_inodes;
-+			lock = &sb->s_inode_list_lock;
- 		}
- 
--		inode_state_set(inode, I_FREEING);
--		inode_lru_list_del(inode);
--		spin_unlock(&inode->i_lock);
--		list_add(&inode->i_lru, &dispose);
-+again:
-+		spin_lock(lock);
-+		list_for_each_entry(inode, head, i_sb_list) {
-+			if (icount_read_once(inode))
-+				continue;
- 
--		/*
--		 * We can have a ton of inodes to evict at unmount time given
--		 * enough memory, check to see if we need to go to sleep for a
--		 * bit so we don't livelock.
--		 */
--		if (need_resched()) {
--			spin_unlock(&sb->s_inode_list_lock);
--			cond_resched();
--			dispose_list(&dispose);
--			goto again;
-+			spin_lock(&inode->i_lock);
-+			if (icount_read(inode)) {
-+				spin_unlock(&inode->i_lock);
-+				continue;
-+			}
-+			if (inode_state_read(inode) & (I_NEW | I_FREEING | I_WILL_FREE)) {
-+				spin_unlock(&inode->i_lock);
-+				continue;
-+			}
-+
-+			inode_state_set(inode, I_FREEING);
-+			inode_lru_list_del(inode);
-+			spin_unlock(&inode->i_lock);
-+			list_add(&inode->i_lru, &dispose);
-+
-+			/*
-+			 * We can have a ton of inodes to evict at unmount time given
-+			 * enough memory, check to see if we need to go to sleep for a
-+			 * bit so we don't livelock.
-+			 */
-+			if (need_resched()) {
-+				spin_unlock(lock);
-+				cond_resched();
-+				dispose_list(&dispose);
-+				goto again;
-+			}
- 		}
-+		spin_unlock(lock);
- 	}
--	spin_unlock(&sb->s_inode_list_lock);
- 
- 	dispose_list(&dispose);
- }
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index b7634f975d98..d412018b73d9 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -65,6 +65,7 @@ static struct inode *proc_alloc_inode(struct super_block *sb)
- 	ei->sysctl_entry = NULL;
- 	INIT_HLIST_NODE(&ei->sibling_inodes);
- 	ei->ns_ops = NULL;
-+	ei->shard_idx = 0;
- 	return &ei->vfs_inode;
- }
- 
-@@ -80,6 +81,56 @@ static void proc_free_inode(struct inode *inode)
- 	kmem_cache_free(proc_inode_cachep, PROC_I(inode));
- }
- 
-+static void proc_inode_list_add(struct super_block *sb, struct inode *inode)
-+{
-+	struct proc_fs_info *fs_info = proc_sb_info(sb);
-+	struct proc_inode *ei = PROC_I(inode);
-+	struct inode_shard *shard;
-+	unsigned int idx, seq;
-+
-+	seq = atomic_fetch_inc(&fs_info->shard_seq);
-+	idx = seq % sb->nr_shards;
-+	ei->shard_idx = idx;
-+	shard = &sb->shards[idx];
-+
-+	spin_lock(&shard->lock);
-+	list_add(&inode->i_sb_list, &shard->list);
-+	spin_unlock(&shard->lock);
-+}
-+
-+static void proc_inode_list_del(struct super_block *sb, struct inode *inode)
-+{
-+	struct proc_inode *ei = PROC_I(inode);
-+	struct inode_shard *shard = &sb->shards[ei->shard_idx];
-+
-+	spin_lock(&shard->lock);
-+	list_del_init(&inode->i_sb_list);
-+	spin_unlock(&shard->lock);
-+}
-+
-+#define PROC_LIST_ALIGN	32
-+int proc_init_inode_shards(struct super_block *sb)
-+{
-+	struct inode_shard *shards;
-+	unsigned int nr_shards;
-+	int i;
-+
-+	nr_shards = DIV_ROUND_UP(num_possible_cpus(), PROC_LIST_ALIGN);
-+	shards = kcalloc(nr_shards, sizeof(*shards), GFP_KERNEL);
-+	if (!shards)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < nr_shards; i++) {
-+		INIT_LIST_HEAD(&shards[i].list);
-+		spin_lock_init(&shards[i].lock);
-+	}
-+
-+	sb->shards = shards;
-+	sb->nr_shards = nr_shards;
-+	sb->s_inode_list_sharded = true;
-+	return 0;
-+}
-+
- static void init_once(void *foo)
- {
- 	struct proc_inode *ei = (struct proc_inode *) foo;
-@@ -191,6 +242,8 @@ const struct super_operations proc_sops = {
- 	.evict_inode	= proc_evict_inode,
- 	.statfs		= simple_statfs,
- 	.show_options	= proc_show_options,
-+	.inode_list_add	= proc_inode_list_add,
-+	.inode_list_del	= proc_inode_list_del,
- };
- 
- enum {BIAS = -1U<<31};
-diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-index 04bd6c9e65a7..edbe357263c2 100644
---- a/fs/proc/internal.h
-+++ b/fs/proc/internal.h
-@@ -127,6 +127,7 @@ struct proc_inode {
- 	struct hlist_node sibling_inodes;
- 	const struct proc_ns_operations *ns_ops;
- 	struct inode vfs_inode;
-+	unsigned int shard_idx;
- } __randomize_layout;
- 
- /*
-@@ -317,6 +318,7 @@ void proc_init_kmemcache(void);
- void proc_invalidate_siblings_dcache(struct hlist_head *inodes, spinlock_t *lock);
- void set_proc_pid_nlink(void);
- extern struct inode *proc_get_inode(struct super_block *, struct proc_dir_entry *);
-+extern int proc_init_inode_shards(struct super_block *);
- extern void proc_entry_rundown(struct proc_dir_entry *);
- 
- /*
-diff --git a/fs/proc/root.c b/fs/proc/root.c
-index 99adddfeb4a4..4bd916b88cdf 100644
---- a/fs/proc/root.c
-+++ b/fs/proc/root.c
-@@ -275,6 +275,10 @@ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
- 	s->s_time_gran = 1;
- 	s->s_fs_info = fs_info;
- 
-+	ret = proc_init_inode_shards(s);
-+	if (ret)
-+		return ret;
-+
- 	if (fs_info->pidonly == PROC_PIDONLY_ON)
- 		s->s_iflags |= SB_I_RESTRICTED_VARIANT;
- 
-@@ -359,6 +363,8 @@ static void proc_kill_sb(struct super_block *sb)
- 	struct proc_fs_info *fs_info = proc_sb_info(sb);
- 
- 	kill_anon_super(sb);
-+	if (sb->s_inode_list_sharded)
-+		kfree(sb->shards);
- 	if (fs_info) {
- 		put_pid_ns(fs_info->pid_ns);
- 		put_cred(fs_info->mounter_cred);
-diff --git a/fs/super.c b/fs/super.c
-index 4b1314545522..38a452e78ca2 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -726,7 +726,16 @@ EXPORT_SYMBOL(retire_super);
- 
- static bool sb_inodes_empty(struct super_block *sb)
- {
--	return list_empty(&sb->s_inodes);
-+	unsigned int i;
-+
-+	if (!sb->s_inode_list_sharded)
-+		return list_empty(&sb->s_inodes);
-+
-+	for (i = 0; i < sb->nr_shards; i++)
-+		if (!list_empty(&sb->shards[i].list))
-+			return false;
-+
-+	return true;
- }
- 
- /**
-@@ -788,14 +797,29 @@ void generic_shutdown_super(struct super_block *sb)
- 			 * iput_final() or such crashes cleanly.
- 			 */
- 			struct inode *inode;
--
--			spin_lock(&sb->s_inode_list_lock);
--			list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--				inode->i_op = VFS_PTR_POISON;
--				inode->i_sb = VFS_PTR_POISON;
--				inode->i_mapping = VFS_PTR_POISON;
-+			struct list_head *head;
-+			spinlock_t *lock;
-+			unsigned int nr, i;
-+			const bool sharded = sb->s_inode_list_sharded;
-+
-+			nr = sharded ? sb->nr_shards : 1;
-+			for (i = 0; i < nr; i++) {
-+				if (sharded) {
-+					head = &sb->shards[i].list;
-+					lock = &sb->shards[i].lock;
-+				} else {
-+					head = &sb->s_inodes;
-+					lock = &sb->s_inode_list_lock;
-+				}
-+
-+				spin_lock(lock);
-+				list_for_each_entry(inode, head, i_sb_list) {
-+					inode->i_op = VFS_PTR_POISON;
-+					inode->i_sb = VFS_PTR_POISON;
-+					inode->i_mapping = VFS_PTR_POISON;
-+				}
-+				spin_unlock(lock);
- 			}
--			spin_unlock(&sb->s_inode_list_lock);
- 		}
- 	}
- 	/*
-diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-index ecd96aeb1cee..6d6aae2d1fbc 100644
---- a/include/linux/fs/super_types.h
-+++ b/include/linux/fs/super_types.h
-@@ -130,8 +130,20 @@ struct super_operations {
- 
- 	/* Report a filesystem error */
- 	void (*report_error)(const struct fserror_event *event);
-+
-+	void (*inode_list_add)(struct super_block *sb, struct inode *inode);
-+	void (*inode_list_del)(struct super_block *sb, struct inode *inode);
- };
- 
-+/*
-+ * Sharded inode list used by procfs to spread s_inode_list_lock contention
-+ * across per-shard locks.
-+ */
-+struct inode_shard {
-+	struct list_head	list;
-+	spinlock_t		lock;
-+} ____cacheline_aligned_in_smp;
-+
- struct super_block {
- 	struct list_head			s_list;		/* Keep this first */
- 	dev_t					s_dev;		/* search index; _not_ kdev_t */
-@@ -269,9 +281,17 @@ struct super_block {
- 	 */
- 	int s_stack_depth;
- 
-+	bool					s_inode_list_sharded;
-+
- 	/* s_inode_list_lock protects s_inodes */
- 	spinlock_t				s_inode_list_lock ____cacheline_aligned_in_smp;
--	struct list_head			s_inodes;	/* all inodes */
-+	union {
-+		struct list_head			s_inodes;	/* all inodes */
-+		struct {
-+			struct inode_shard		*shards;	/* used by procfs */
-+			unsigned int			nr_shards;
-+		};
-+	};
- 
- 	spinlock_t				s_inode_wblist_lock;
- 	struct list_head			s_inodes_wb;	/* writeback inodes */
-diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-index 47d7deaeed8f..37eed34f3a93 100644
---- a/include/linux/proc_fs.h
-+++ b/include/linux/proc_fs.h
-@@ -70,6 +70,7 @@ struct proc_fs_info {
- 	const struct cred *mounter_cred;
- 	enum proc_hidepid hide_pid;
- 	enum proc_pidonly pidonly;
-+	atomic_t shard_seq;
- 	struct rcu_head rcu;
- };
- 
 -- 
-2.53.0
-
+Mikko
 
