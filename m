@@ -1,260 +1,197 @@
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FED41441B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 08:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E079640EBB6;
+	Mon, 14 Sep 2026 08:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789375857; cv=none; b=iR0jXqQFUvtOJD0RTwJVN4zge7LizDcmcOKcwtfRvueI4a4JaouWAWNwOYmla9xvHVoj5K/DNP0lp2ncA2b8hxS3s59EwrlSxirtS2jPabS+o5OD97tp8spyLBGlln8USZv9KSCMai/IESEffhJlLZtPXBXCW9lvg+t2ed6Y4Zs=
+	t=1789376015; cv=none; b=cWOW+apMp09nS1mAUWSBlahqglQAr9UzphIc7aGMhCNNBINTpQD1zdAGsiRgEIfRw4tXFun82ZS8TRIBr4I3EAvv/i1CBUY98hBro8JNe2Gc4prculjbgsbQXSF9+VQQUlaODVfogOAdUppXQ7NtOtRnrLgw75S/qPp8cITWdFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789375857; c=relaxed/simple;
-	bh=4kmKGPl8jrWtWetJGovz3XHXjjaAKGy6v1BRtuq+Sr0=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=GQSf7bWoZ9KbyNfgyhA00XU9hXYluuvFNWm2LaxdxQZWFOAM+Pux7RSp/UjqRa/xoEZO97vH0TMXLTGhiNTsAdToFQbuS7ZA60TerY8p9P0L22GhOxRNBJF/G/uTuIVW5O+OQnvNNOXAxSrWWtLGcHTLqUHKwZ7L9TGH8/uqVlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-6c27804563dso2619509eaf.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 01:50:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789375842; x=1789980642;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=BqDut2NvegO8zSRLp9JVh14GmyI892vgOxBKkgFiEtc=;
-        b=qgp+Sk/UKfvYNgUYHrL6F/psYxq5+EdYuuer4sJfoo7ZM5UQaJOXZF6XNQE58ohDdf
-         p8SpJQccyQ+k3jWiknafpXZMuTH/XztAa+zdMumAMn4F7KVZyyNK85rdjpifzlk4m8+U
-         S57/QQ5qvyXr7LZrC+xClnSSpS+UGnutdVlF6JMv1iEH7oHno5Vf2aNuhjcAWI81WgYL
-         psvF9taAt40Z3KmaHHkfaq67oCPCDjC5DqZEqqjZ6PW7CgKAtGyvQ0prpvuzTPZRgWUc
-         vaEAm95lVqK9WTHnXsipe/HT7lSFvHjtG8WoxUoGMJ5lwwI6RYGtT6NEukV9+1evFTPj
-         u2dA==
-X-Forwarded-Encrypted: i=1; AKwUvBxriSOHIiBVRXLwpu+54qh9MvLjREr8gxecaD7ig5YbjWZLloVi2uBhd2hc89upF2CIpXGxG4yMwlMhFMoT@vger.kernel.org
-X-Gm-Message-State: AFuF++nsW39OsIOTMdBsuW3Q55qGfKn10/qlGeor1Wgsein2JZPTuVa+
-	TMQTFawIHqTa3h6x7nOG6TdviJfJSOV3+w9RMdh96dJQq2WxhPJj9J4pEW11olZg85+B7NGO0QS
-	dv/hVtxI6irIbbL0DHBVH7aGNud5uowyKNuanbIc0MizEwBvAGoxFCpq0sGA=
+	s=arc-20240116; t=1789376015; c=relaxed/simple;
+	bh=2/QPqyyGci2C3ahz4RkgnHjD5wDyxAb1g79QR0gXQNo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ujfo60XT2j3hxNa3EA9b43HoqRigO7VMOzlC7GwljZ4MnGKtQXDHECNajfkc6fLfVhi/Aht/nhKDFcN5V3njrRQWgquNUcewTfxRWuimz2f2oWdfrRbXSiM8jKYkqDVVvnpIzjtZcVXBGota9VVKth5biOy8ZxRgJoZNHXMboPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IN8+8F/R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DFMTfNGM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OFM2Wc2L; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=M9A/G52L; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IN8+8F/R";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DFMTfNGM";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OFM2Wc2L";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="M9A/G52L"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D472E21B03;
+	Mon, 14 Sep 2026 08:53:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789375999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7fkfs27SEfag3YWNxjnmJi7blS0vIHEFAEl3bfsZExw=;
+	b=IN8+8F/Rcy692g8YziViPLkzwLLFsJDWZeKrQlObOLNin3UOPy0LQ1khHfmGqlQRPhqJM/
+	7nSFhBBm96FJxhJPWToSxR2I9bDZ8NMHACTTlDwUgm4AJ8rZGL74LyvgJRG7ESZ19sEw65
+	LYa3NAkzs0KKaU/BtV2i65Tvn4N/I9Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789375999;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7fkfs27SEfag3YWNxjnmJi7blS0vIHEFAEl3bfsZExw=;
+	b=DFMTfNGMtqLBjzSx95f2WPLejkPSgFqATIxLwjCCngnI+NhC+qKoQz/7ZfNYfE3bPZDKIG
+	BWoyKBmmN7kvAQDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789375994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7fkfs27SEfag3YWNxjnmJi7blS0vIHEFAEl3bfsZExw=;
+	b=OFM2Wc2LW/F05zo+8WP3oMBPVpsn4eRK62uRx0Pt+KwmsczdVCH759Oy15iJhe8rj9n+F6
+	4hry47T0Ybfu9wQTq+m/Gv3yeP1+ToTbJGhwlP3a39PO/nB413+VnqEhtC9nA3h9Ttj+Xl
+	Yt2Nw5ZzLaaoN5GwHGD+3iIpMC10UTQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789375994;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7fkfs27SEfag3YWNxjnmJi7blS0vIHEFAEl3bfsZExw=;
+	b=M9A/G52LiKgaciRSQhrLjz0OFI7OcghoIZ614oIexmApg3nfQmT5F9Dbz8o3mIRJprKGS7
+	wdld7qqeK34R39CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE6E5136A1;
+	Mon, 14 Sep 2026 08:53:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id J1WSKvq1p2qyLgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 14 Sep 2026 08:53:14 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 401F4A12E4; Mon, 14 Sep 2026 10:53:06 +0200 (CEST)
+Date: Mon, 14 Sep 2026 10:53:06 +0200
+From: Jan Kara <jack@suse.cz>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 00/10] Towards safer path_* API
+Message-ID: <pm4tszxmbzodnxbsc3paaaogobweqlgbnleyoeukzs23rdnzr6@caobahbhkrl7>
+References: <20260913144918.1606123-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:16ab:b0:6c2:e131:676a with SMTP id
- 006d021491bc7-6c5401806e8mr729341eaf.28.1789375842729; Mon, 14 Sep 2026
- 01:50:42 -0700 (PDT)
-Date: Mon, 14 Sep 2026 01:50:42 -0700
-In-Reply-To: <20260914061449.4024632-1-huangsj@hygon.cn>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aa7b562.3aa11909.1a03b8.007c.GAE@google.com>
-Subject: [syzbot ci] Re: fs/proc: split the inode list for procfs
-From: syzbot ci <syzbot+cic7fceedca4fbf785@syzkaller.appspotmail.com>
-To: adobriyan@gmail.com, akpm@linux-foundation.org, aleksa@amutable.com, 
-	brauner@kernel.org, dev.jain@arm.com, ebiggers@kernel.org, 
-	fangbaoshun@hygon.cn, hpa@zytor.com, huangsj@hygon.cn, jack@suse.cz, 
-	jannh@google.com, joannelkoong@gmail.com, joel.granados@kernel.org, 
-	kees@kernel.org, legion@kernel.org, libaokun@linux.alibaba.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, ljs@kernel.org, 
-	mjguzik@gmail.com, oleg@redhat.com, ryan.roberts@arm.com, sandeen@redhat.com, 
-	tj@kernel.org, viro@zeniv.linux.org.uk, yingzhiwei@hygon.cn, 
-	zhongyuan@hygon.cn
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260913144918.1606123-1-mjguzik@gmail.com>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
 
-syzbot ci has tested the following series
+On Sun 13-09-26 16:49:07, Mateusz Guzik wrote:
+> Currently the handling is highly error-prone with consumers allowed to
+> arbitrarily manipulate references, notably with path_get().
+> 
+> In the past this resulted in preventable bugs.
+> 
+> The end goal, not yet achieved with this patchset, will provide an
+> invariant that a populated 'struct path' has precisely one set of
+> references on it.
+> 
+> While consumers can still cause leaks by neglecting to path_put(), the
+> footgun of path_get() can be eliminated.
+> 
+> With this patchset instead of hand-rolling a path copy and issuing
+> path_get() on it, callers can resort to path_clone() instead.
+> 
+> Almost all path_get() consumers get converted, most of which with
+> coccinelle.
+> 
+> Few instances are left until I figure out a nice way to sort them out.
+> 
+> Overall almost entirety of this patchset is a NOP.
 
-[v1] fs/proc: split the inode list for procfs
-https://lore.kernel.org/all/20260914061449.4024632-1-huangsj@hygon.cn
-* [RFC PATCH 1/3] fs/drop_caches: do not scan procfs in drop_pagecache_sb()
-* [RFC PATCH 2/3] fs/super: introduce a helper sb_inodes_empty()
-* [RFC PATCH 3/3] fs/proc: split the inode list
+I like most of the changes. Just the changes to path_init() kind of leave a
+bad taste because they leave struct path assignment there for the RCU
+lookup mode. But I don't see a nicer way of dealing with it.
 
-and found the following issue:
-KASAN: slab-out-of-bounds Read in hook_sb_delete
+								Honza
 
-Full report is available here:
-https://ci.syzbot.org/series/736afa16-0dc2-40e7-9a6c-74db419044d7
-
-***
-
-KASAN: slab-out-of-bounds Read in hook_sb_delete
-
-tree:      vfs
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
-base:      15aa70de9f706fb0e3852f636b8a0a9d5bc048ab
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/cd4bf6c8-aad6-4b38-b003-31dcd0a8a4bf/config
-
-ima: No TPM chip found, activating TPM-bypass!
-Loading compiled-in module X.509 certificates
-Loaded X.509 cert 'Build time autogenerated kernel key: affe42cfbb2369724f6c4c4a3fe3f0b2fe4692dc'
-ima: Allocated hash algorithm: sha256
-ima: No architecture policies found
-evm: Initialising EVM extended attributes:
-evm: security.selinux (disabled)
-evm: security.SMACK64 (disabled)
-evm: security.SMACK64EXEC (disabled)
-evm: security.SMACK64TRANSMUTE (disabled)
-evm: security.SMACK64MMAP (disabled)
-evm: security.apparmor
-evm: security.ima
-evm: security.capability
-evm: HMAC attrs: 0x1
-PM:   Magic number: 10:739:371
-usb usb44-port5: hash matches
-udc dummy_udc.27: hash matches
-dummy_udc dummy_udc.27: hash matches
-usb usb12-port1: hash matches
-netconsole: network logging started
-gtp: GTP module loaded (pdp ctx size 128 bytes)
-rdma_rxe: loaded
-cfg80211: Loading compiled-in X.509 certificates for regulatory database
-Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
-Loaded X.509 cert 'wens: 61c038651aabdcf94bd0ac7ff06c7248db18c600'
-clk: Disabling unused clocks
-ALSA device list:
-  #0: Dummy 1
-  #1: Loopback 1
-  #2: Virtual MIDI Card 1
-md: Waiting for all devices to be available before autodetect
-md: If you don't use raid, use raid=noautodetect
-md: Autodetecting RAID arrays.
-md: autorun ...
-md: ... autorun DONE.
-EXT4-fs (sda1): mounted filesystem b4773fba-1738-4da0-8a90-0fe043d0a496 ro with ordered data mode. Quota mode: none.
-VFS: Mounted root (ext4 filesystem) readonly on device 8:1.
-devtmpfs: mounted
-VFS: Pivoted into new rootfs
-Freeing unused kernel image (initmem) memory: 27172K
-Write protecting the kernel read-only data: 223232k
-Freeing unused kernel image (text/rodata gap) memory: 1552K
-Freeing unused kernel image (rodata/data gap) memory: 804K
-x86/mm: Checked W+X mappings: passed, no W+X pages found.
-x86/mm: Checking user space page tables
-x86/mm: Checked W+X mappings: passed, no W+X pages found.
-Failed to set sysctl parameter 'max_rcu_stall_to_panic=1': parameter not found
-Run /sbin/init as init process
-==================================================================
-BUG: KASAN: slab-out-of-bounds in _raw_spin_lock+0x2e/0x40
-Read of size 1 at addr ffff88810eea9ce0 by task init/1
-
-CPU: 0 UID: 0 PID: 1 Comm: init Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150
- print_address_description+0x55/0x1e0
- print_report+0x58/0x70
- kasan_report+0x117/0x150
- __kasan_check_byte+0x2a/0x40
- lock_acquire+0x7d/0x350
- _raw_spin_lock+0x2e/0x40
- hook_sb_delete+0x15d/0xd10
- security_sb_delete+0x76/0x110
- generic_shutdown_super+0xb2/0x3d0
- kill_anon_super+0x3b/0x70
- proc_kill_sb+0x47/0x180
- deactivate_locked_super+0xbc/0x110
- cleanup_mnt+0x3d3/0x460
- mntput_no_expire_slowpath+0xa58/0xbf0
- __fput+0x6a4/0xa50
- task_work_run+0x1d9/0x270
- exit_to_user_mode_loop+0x204/0x770
- ret_from_fork+0x593/0xb70
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-
-Allocated by task 1:
- kasan_save_track+0x3e/0x80
- __kasan_kmalloc+0x93/0xb0
- __kmalloc_flags_noprof+0x532/0x7a0
- __alloc_empty_sheaf+0x28/0x40
- __pcs_replace_empty_main+0x43b/0x6c0
- kmem_cache_alloc_noprof+0x399/0x600
- bio_alloc_bioset+0x271/0xc60
- ext4_mpage_readpages+0x12a7/0x1c40
- read_pages+0x193/0x5a0
- page_cache_ra_unbounded+0x754/0x9d0
- page_cache_ra_order+0xb47/0xee0
- filemap_get_pages+0x86d/0x1ec0
- filemap_read+0x426/0x11e0
- ext4_file_read_iter+0x553/0xad0
- __kernel_read+0x4ca/0x960
- integrity_kernel_read+0x89/0xd0
- ima_calc_file_hash+0x451/0x890
- ima_collect_measurement+0x51b/0xa00
- process_measurement+0x1272/0x1c10
- ima_file_mmap+0x1b0/0x200
- security_mmap_file+0x773/0xa20
- vm_mmap_pgoff+0x134/0x4e0
- elf_load+0x237/0x6a0
- load_elf_interp+0x4da/0xb50
- load_elf_binary+0x1bda/0x28d0
- bprm_execve+0x930/0x1590
- kernel_execve+0x8c3/0x9c0
- try_to_run_init_process+0x13/0x60
- kernel_init+0xb2/0x1d0
- ret_from_fork+0x514/0xb70
- ret_from_fork_asm+0x1a/0x30
-
-The buggy address belongs to the object at ffff88810eea9c00
- which belongs to the cache kmalloc-128 of size 128
-The buggy address is located 96 bytes to the right of
- allocated 128-byte region [ffff88810eea9c00, ffff88810eea9c80)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10eea9
-flags: 0x17ff00000000000(node=0|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 017ff00000000000 ffff888100041a00 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2c40(GFP_NOFS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 18944299736
- post_alloc_hook+0x1f9/0x250
- get_page_from_freelist+0x2209/0x2280
- __alloc_frozen_pages_noprof+0x217/0x5a0
- allocate_slab+0x7d/0x620
- refill_objects+0x2d5/0x350
- __pcs_replace_empty_main+0x2c8/0x6c0
- __kmalloc_noprof+0x47b/0x720
- tomoyo_commit_ok+0x29/0x1d0
- tomoyo_update_domain+0x4ea/0x7e0
- tomoyo_update_mount_acl+0x11c/0x2d0
- tomoyo_write_file+0xae4/0xc50
- tomoyo_supervisor+0xff8/0x1560
- tomoyo_mount_permission+0x670/0x9e0
- security_sb_mount+0xe4/0x320
- path_mount+0xbc/0x1050
- init_mount+0xc3/0x110
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffff88810eea9b80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff88810eea9c00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffff88810eea9c80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-                                                       ^
- ffff88810eea9d00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff88810eea9d80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
-
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
+> 
+> Mateusz Guzik (10):
+>   fs: unexport backing_file_set_user_path() and make it take the ref on
+>     its own
+>   fs: add path_create(), path_move() and path_clone()
+>   fs: use path_clone() in path_init()
+>   fs: use path_clone() and path_move() in vfs_open*
+>   fs: use path_clone() in backing_file_set_user_path()
+>   Coccinelle-based conversion of path_* consumers to use the new
+>     primitives
+>   autofs: use path_create()
+>   fsnotify: use path_clone()
+>   proc: use path_clone()
+>   nfsd: use path_clone()
+> 
+>  drivers/block/loop.c               |  3 +-
+>  fs/autofs/dev-ioctl.c              |  3 +-
+>  fs/autofs/expire.c                 |  4 +--
+>  fs/backing-file.c                  |  2 --
+>  fs/devpts/inode.c                  |  6 ++--
+>  fs/failfs.c                        |  3 +-
+>  fs/fhandle.c                       |  3 +-
+>  fs/file_attr.c                     |  6 ++--
+>  fs/file_table.c                    |  3 +-
+>  fs/fs_struct.c                     |  6 ++--
+>  fs/namei.c                         | 44 ++++++++++++++++++++++++------
+>  fs/namespace.c                     |  3 +-
+>  fs/nfsd/export.c                   |  6 ++--
+>  fs/nfsd/nfs4xdr.c                  |  8 +++---
+>  fs/notify/fanotify/fanotify.c      |  6 ++--
+>  fs/notify/fanotify/fanotify_user.c |  3 +-
+>  fs/nsfs.c                          |  3 +-
+>  fs/open.c                          | 10 ++-----
+>  fs/overlayfs/params.c              |  3 +-
+>  fs/pidfs.c                         |  3 +-
+>  fs/proc/base.c                     |  6 ++--
+>  fs/proc/fd.c                       |  3 +-
+>  fs/smb/server/vfs.c                |  3 +-
+>  fs/xfs/xfs_handle.c                |  3 +-
+>  include/linux/path.h               | 14 ++++++++--
+>  kernel/trace/bpf_trace.c           |  3 +-
+>  security/apparmor/task.c           |  3 +-
+>  security/keys/big_key.c            |  3 +-
+>  security/landlock/fs.c             |  3 +-
+>  security/landlock/syscalls.c       |  3 +-
+>  30 files changed, 87 insertions(+), 85 deletions(-)
+> 
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
