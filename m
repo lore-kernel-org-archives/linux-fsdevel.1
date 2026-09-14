@@ -1,227 +1,117 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B6043B3E6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 10:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8A74399F8;
+	Mon, 14 Sep 2026 10:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789381896; cv=none; b=R4fgx4/EHnQ4ZKAJuXhbZGYOWBzGyzVncezejimKbMxZkwvWT4bnTwgPX3L0yPiqvk9I5cThyoafW1gnQ6WNTMsKdbjRCeFvYtB/7VHz7MJgczXIlDMKTZ2pgi03rpWHlIuJhBurPKdlHhFJ1e3mm+ndSRMqDkzwWZjxB6HxS/o=
+	t=1789382319; cv=none; b=UgElIJzfWvM1kl6+luDTWRCL5VcmAXCH2djuDTm2+nV8tfUEk/GKJdE4VgDpunf2SLqJTV/LmbQ/awW03ATcUUFsWX44aj0G00jJ6+gp8gEyzoGFuzEVbLV4IY6sgrwez21DZkaX8jBUhutPdpeyT/3arKTvIBIuvO/4kW9EBTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789381896; c=relaxed/simple;
-	bh=Ff4KaGAo6d0f5FAv0xjxQH70E0Aoh32KPm/lqQuB1v4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XmEpRRAq8tJZbmawfyUBxCCnRw4QaQtItesOztk05Hjj5J9DVMOlVb1akPYGI8IXX3e4rUY7d/Pp6OWdWkfxy3PZHzhLj0hrWunLO8Ds23h7oQ7JkCNG/roAXm7V/LmXQXyHKQdKr1ATNVUYIFB45CZQQy0CXERevJT8ZPGA0SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=S2KGBdXd; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1789382319; c=relaxed/simple;
+	bh=F0v9qy32XwrpR4t/I8gQx7bXO0OJcrylM1IXrgTlA+Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pb6nvRsQFWcBIZVVBzrMbCANHtbl5Dn1N+UOyi+K5Ie9EWEmoIhenBDWB+tVoKAmwpNn4rjlpKAP/mJJksDMMUwg7cBrf+dC7t+x84NvrPR3zEr9qipZkzPzrSj719IHrOe+bxjieinAD0yipYp/tYAJqdga3LH4/qV01KauQ1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ctkBDj2o; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="S2KGBdXd"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747ed1368so16602355ad.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 03:31:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1789381893; x=1789986693; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GAJNn0bp38fgX07/g9hgwBPHQPi1l+UFyT95Gb09AgE=;
-        b=S2KGBdXdovdIVZaypnJxioeoKukwFXkVOek+vbBCAsxyHoEfZzQiFTYOlTB5Nx4zhX
-         /xef3nU9VxGXcJbKlBJLmJnlauTmE7HEsGid1F+Zfnzn2JjCe+CdZGherUF9xdaU/2EF
-         KZepIun4k2wyEt0cdfXuwpFohWIxd778fnMqjU6NPowFMUQzyxGd/nathogt5suCZnp3
-         3K/5CaIvOKuwyla4bNoa/34PLk7yqKHNey7GahAAzrSIXP5+lVjhvNBIk+qsWgjrZqb8
-         xz7OM2MJ6fnKS81RVnhC0jq1HZeBd63ZSLAXPd8Bl7gOngfjrQqhjUTZqB9x3sIOfIMB
-         qSlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789381893; x=1789986693;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GAJNn0bp38fgX07/g9hgwBPHQPi1l+UFyT95Gb09AgE=;
-        b=hrtCjU34KEtyADH6wKtENkUS4kOeZrZV/4RoEyjnvATYILXiVQtDSBhOfgNDFOIZh1
-         m+XrAW74eQS7Tu3xmWg1rSpoZkXskAmj+D3JdEYGBZ41hc/keaWmGoNc26b/kY2l4udE
-         60ZIsWd7c+Ui+OdGCAwILixbHlLmiTsica/N06n9ipfVUqxKiUv9tSwLdnjHYWGNP6h6
-         ElAcAUTs0RBHMC1Htj6Xik67C1NcfIAYXcALZpQka3JD39aaZb/f6YtY93OMnJihlNvA
-         eQy26e9kXmxUxisbmetIVq4jtrxbWni981YrD0/zrj189hx5QeD1cAqAPKxMia29hu4g
-         f2oA==
-X-Forwarded-Encrypted: i=1; AKwUvByhzJR/dN/JlD+VlIDyZ61kvNaRZKOiAHtbC0iOwUTLLz4tihCIFqT4lMkJcB+8hgZdpOLx0g9YenvSkl/+@vger.kernel.org
-X-Gm-Message-State: AFuF++lslsMPETJT2FLW4PdElHnCFHQmHCoMztt/BdVqVZcN7Pxm6RAJ
-	FlWSmWtLRv97ZV32f1GIUbd7cubN+ru0TvGXNDyGUPeCUSJWYHJM83jSIx94hMNkU+E=
-X-Gm-Gg: AYBFou3LWukHSNV4dnjCxVkHD446naD7gw1xAowFRIx1cLdJbdUuCKaKJl7l1VzT4Ra
-	iYyo5Q5pToRLR76zbpjVChDfldmS8e4TD0Ooc4JBZi9rkB51z0u4xaVwUOU0uCLX7lCV61rQxwN
-	n1kDoI/6UEYhUwAdeL5yBQFI6rZmJxV7cvz8ad0GtsqBd8lKdPHATMfJ7AppN1RScVTsKJo8TOR
-	+NBLiqQJPGsFesIQoFRyslSWfr0NJmrRpSsfysCNBBejOvw+ZjXdnh/oeAh/zeRdgNtK+B29YWh
-	ys4Q6fDtbKylE8x38pVhJ1wXxXtytBpI4Fs3dptf8w5FHpALVtEN0JdxfIxT1NWqUQs6/fNT5Cm
-	STo1flziezKMsYZDRlbrB7/M7bqoCny5TRH41E6dNAn7QEqdtsFDpvAgPc63h8DRwCaCmh70R8X
-	CEX2GVDUbfzURZ4nkjJkEk+lfOJxALBRYYhPBqaQvPjE/2XAVy50QPomSLTfBioKlw7hfVGfpxJ
-	QM=
-X-Received: by 2002:a17:902:d54b:b0:2d8:d4d0:792c with SMTP id d9443c01a7336-2dd6c7128bamr41635625ad.16.1789381892803;
-        Mon, 14 Sep 2026 03:31:32 -0700 (PDT)
-Received: from localhost ([106.38.226.165])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd69745cb5sm10165335ad.43.2026.09.14.03.31.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 03:31:32 -0700 (PDT)
-From: Julian Sun <sunjunchao@bytedance.com>
-To: linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: axboe@kernel.dk,
-	hannes@cmpxchg.org,
-	mhocko@kernel.org,
-	roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev,
-	muchun.song@linux.dev,
-	willy@infradead.org,
-	jack@suse.cz,
-	rostedt@goodmis.org,
-	tj@kernel.org,
-	akpm@linux-foundation.org
-Subject: [PATCH v4 3/3] writeback: record bdev targets in foreign writeback tracepoints
-Date: Mon, 14 Sep 2026 18:31:19 +0800
-Message-Id: <20260914103119.1708452-4-sunjunchao@bytedance.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260914103119.1708452-1-sunjunchao@bytedance.com>
-References: <20260914103119.1708452-1-sunjunchao@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ctkBDj2o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456821F000FF;
+	Mon, 14 Sep 2026 10:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789382316;
+	bh=wxIXOATk5FhrxMumaqsjd//lfDHJpwYqEyQwUB+eAxM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ctkBDj2of/0yY1ZCeqTf2CkovUmeZu8zOO1SBiBVw11JNgCFxqoVU02D1SlOVIrgc
+	 nTvH4H79+jki0DSlPszf70mxlpTXqMJmBRgV+A1UBLF47eS/lJl/eQscGj29MryduT
+	 1K883kqZDPIFT7O3XOP3JolNlf/VN+jvwEBCG5Icamfhbv/Hh37yLcN+xHzRNGkbK/
+	 HzvKxtoM8tv9j4/V4udWdo2O9mNz4qSaCL2W7SxQTdxNbvFOFCgWnSFhrxnydcuK8o
+	 UnNrN0nFl64FBdVcBqV1hFEYtSKkxfRKHmdUDGVTVqfcd9IGgZDL2A2ualdzWlr4Lv
+	 clwfQNOBom2bg==
+Message-ID: <cdffaae3-dc7e-4307-984a-8fbb55beb931@kernel.org>
+Date: Mon, 14 Sep 2026 12:38:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/7] proc/task_mmu: remove special-casing of
+ smap_gather_stats() start parameter
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org,
+ willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de,
+ xueyuan.chen21@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260911194145.1781926-1-surenb@google.com>
+ <20260911194145.1781926-5-surenb@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260911194145.1781926-5-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add dev to track_foreign_dirty and flush_foreign so traces can
-distinguish foreign-wb tracking from the bdev-only path. Append the
-field to each event and print it as major:minor; zero denotes the
-normal foreign-wb path.
+On 9/11/26 21:41, Suren Baghdasaryan wrote:
+> smap_gather_stats() interprets its start parameter to mean vma->vm_start
+> when it's set to 0. Eliminate this special interpretation and provide two
+> separate functions for a partial and complete VMA walk.
+> 
+> Since smap_gather_stats() operates within a single VMA, we can replace
+> walk_page_vma()/walk_page_range() calls with walk_page_range_vma()
+> which is simpler and also can be called while holding per-VMA lock.
+> 
+> No functional change intended.
+> 
+> Suggested by: Lorenzo Stoakes <ljs@kernel.org>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
 
-Signed-off-by: Julian Sun <sunjunchao@bytedance.com>
----
- include/trace/events/writeback.h | 22 ++++++++++++++--------
- mm/memcontrol.c                  |  9 ++++++---
- 2 files changed, 20 insertions(+), 11 deletions(-)
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
-index 13ee076ccd16..ffd1b8df4231 100644
---- a/include/trace/events/writeback.h
-+++ b/include/trace/events/writeback.h
-@@ -273,9 +273,9 @@ TRACE_EVENT(inode_switch_wbs,
- 
- TRACE_EVENT(track_foreign_dirty,
- 
--	TP_PROTO(struct folio *folio, struct bdi_writeback *wb),
-+	TP_PROTO(struct folio *folio, struct bdi_writeback *wb, dev_t dev),
- 
--	TP_ARGS(folio, wb),
-+	TP_ARGS(folio, wb, dev),
- 
- 	TP_STRUCT__entry(
- 		__array(char,		name, 32)
-@@ -284,6 +284,7 @@ TRACE_EVENT(track_foreign_dirty,
- 		__field(u64,		cgroup_ino)
- 		__field(u64,		page_cgroup_ino)
- 		__field(unsigned int,	memcg_id)
-+		__field(dev_t,		dev)
- 	),
- 
- 	TP_fast_assign(
-@@ -295,34 +296,37 @@ TRACE_EVENT(track_foreign_dirty,
- 		__entry->ino		= inode ? inode->i_ino : 0;
- 		__entry->memcg_id	= wb->memcg_css->id;
- 		__entry->cgroup_ino	= __trace_wb_assign_cgroup(wb);
-+		__entry->dev		= dev;
- 
- 		rcu_read_lock();
- 		__entry->page_cgroup_ino = cgroup_ino(folio_memcg(folio)->css.cgroup);
- 		rcu_read_unlock();
- 	),
- 
--	TP_printk("bdi %s[%llu]: ino=%llu memcg_id=%u cgroup_ino=%llu page_cgroup_ino=%llu",
-+	TP_printk("bdi %s[%llu]: ino=%llu memcg_id=%u cgroup_ino=%llu page_cgroup_ino=%llu dev=%u:%u",
- 		__entry->name,
- 		__entry->bdi_id,
- 		__entry->ino,
- 		__entry->memcg_id,
- 		__entry->cgroup_ino,
--		__entry->page_cgroup_ino
-+		__entry->page_cgroup_ino,
-+		MAJOR(__entry->dev), MINOR(__entry->dev)
- 	)
- );
- 
- TRACE_EVENT(flush_foreign,
- 
- 	TP_PROTO(struct bdi_writeback *wb, unsigned int frn_bdi_id,
--		 unsigned int frn_memcg_id),
-+		 unsigned int frn_memcg_id, dev_t dev),
- 
--	TP_ARGS(wb, frn_bdi_id, frn_memcg_id),
-+	TP_ARGS(wb, frn_bdi_id, frn_memcg_id, dev),
- 
- 	TP_STRUCT__entry(
- 		__array(char,		name, 32)
- 		__field(u64,		cgroup_ino)
- 		__field(unsigned int,	frn_bdi_id)
- 		__field(unsigned int,	frn_memcg_id)
-+		__field(dev_t,		dev)
- 	),
- 
- 	TP_fast_assign(
-@@ -330,13 +334,15 @@ TRACE_EVENT(flush_foreign,
- 		__entry->cgroup_ino	= __trace_wb_assign_cgroup(wb);
- 		__entry->frn_bdi_id	= frn_bdi_id;
- 		__entry->frn_memcg_id	= frn_memcg_id;
-+		__entry->dev		= dev;
- 	),
- 
--	TP_printk("bdi %s: cgroup_ino=%llu frn_bdi_id=%u frn_memcg_id=%u",
-+	TP_printk("bdi %s: cgroup_ino=%llu frn_bdi_id=%u frn_memcg_id=%u dev=%u:%u",
- 		__entry->name,
- 		__entry->cgroup_ino,
- 		__entry->frn_bdi_id,
--		__entry->frn_memcg_id
-+		__entry->frn_memcg_id,
-+		MAJOR(__entry->dev), MINOR(__entry->dev)
- 	)
- );
- #endif
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index aac8c893d7d2..0784f6e40aec 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -3938,14 +3938,15 @@ void mem_cgroup_track_foreign_dirty_slowpath(struct folio *folio,
- 	struct address_space *mapping = folio_mapping(folio);
- 	struct inode *bdev_inode = mapping ? mapping->host : NULL;
- 
--	trace_track_foreign_dirty(folio, wb);
--
- 	if (memcg_bdev_frn_flusher && bdev_inode &&
- 	    sb_is_blkdev_sb(bdev_inode->i_sb)) {
-+		trace_track_foreign_dirty(folio, wb, bdev_inode->i_rdev);
- 		mem_cgroup_track_foreign_bdev(memcg, bdev_inode->i_rdev);
- 		return;
- 	}
- 
-+	trace_track_foreign_dirty(folio, wb, 0);
-+
- 	/*
- 	 * Pick the slot to use.  If there is already a slot for @wb, keep
- 	 * using it.  If not replace the oldest one which isn't being
-@@ -4020,6 +4021,7 @@ void mem_cgroup_flush_foreign(struct bdi_writeback *wb)
- 		spin_lock_irqsave(&memcg->frn_lock, flags);
- 		if (!ctx->inflight && ctx->dev) {
- 			ctx->inflight = true;
-+			trace_flush_foreign(wb, 0, 0, ctx->dev);
- 			queue_work(memcg_bdev_frn_flusher, &ctx->work);
- 		}
- 		spin_unlock_irqrestore(&memcg->frn_lock, flags);
-@@ -4037,7 +4039,8 @@ void mem_cgroup_flush_foreign(struct bdi_writeback *wb)
- 		if (time_after64(frn->at, now - intv) &&
- 		    atomic_read(&frn->done.cnt) == 1) {
- 			frn->at = 0;
--			trace_flush_foreign(wb, frn->bdi_id, frn->memcg_id);
-+			trace_flush_foreign(wb, frn->bdi_id, frn->memcg_id,
-+					    0);
- 			cgroup_writeback_by_id(frn->bdi_id, frn->memcg_id,
- 					       WB_REASON_FOREIGN_FLUSH,
- 					       &frn->done);
 -- 
-2.39.5
+Cheers,
 
+David
