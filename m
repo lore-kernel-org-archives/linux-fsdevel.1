@@ -1,200 +1,297 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C538371076
-	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 18:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789411530; cv=none; b=gH4o9hAGSAvR09Sf98+YVKSzSpXRCKagAJCysS2DgEAMmO9bvBxutImvliKoBG09E+Nmf6oYi+H+IRVG2BiAlkP0H3SD4yOfRYQzlCM0c5v1rHX7T5LxQ6DbwVVx5nZqjOpcLByeKBghbKicmoxuI5zpQdbvUI4lIjTPteIAHlk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789411530; c=relaxed/simple;
-	bh=PSTLDA5BHqtvmwoYu6NWI6X7ONa5mXD1T2lvby3YmXM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XqJ/ttap5khbx1Kx0a3m5KiuwQ81jETBzHdeKHG6aZnbqUVgLwRdpP5KXqfzCBckpiGtmLT/KNjlpTLXCkb5MM3A97NS53W0gFT3ezgtE1iByzCWQY7oElg2i+0YsFznXVgycTTr2GW0yZjLzP4Hp2CTh+8+hJ+vXsP4N0Bbj6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=lFDA23OS; arc=none smtp.client-ip=74.125.224.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B8C3C1088
+	for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 19:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789412501; cv=pass; b=ZpMh5eoRJoLF3JgtRTb+/Ty5VQknQHFRdvkTlLdK9uXtc/TTD1Qlk7u+Pqu4y+FDQBGHRILOpqkZ+2OrdrmMHO0zgqKVkJT33CpXUkt44yf0vDmeHT9xRLM93rJBYKRE8m1YODKhNHCAvBOdFmShgNSTyOCq2yTHRLUU5G1eqcA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789412501; c=relaxed/simple;
+	bh=tEqRa+DsXLUgwM55dRsOm8XIccM+IQ7pzEYsSC9u7A4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ToXzx2xDBgh/WYFqoa2CsFYhxdmy5y9Gb/w8Vg5tqbQkMFvA6CGAqzC1zENxcLSbWom+XQCRJEOcki7WhEhn8vB0DYy5yZwE6QtJsygm7P98bsGMOZlCrP/U8/OhJEYYCkyQsd4Ej1qc1SaXP44o9k+bg5GT4tqoAkgQNATeNOM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gmdgZh2W; arc=pass smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="lFDA23OS"
-Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d4ddd179eso19395137b3.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 11:45:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gmdgZh2W"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f62ccdb1so802798f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 14 Sep 2026 12:01:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789412482; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HKwty8SvrBt6isjUce+Pp5E3B1upmi9J6rblzZENHlOHStLj785vZpG6f7o24JC7jI
+         pzl1fFdSHjryNMmnLXFjHVbTkxODITeh63qsbGocdJUhdzxxvaEgcXMJSybXLUdMxqaO
+         SG6aluDdHfR2IhsiFqk5HS6IQfXp4jCHLXB8Zc49sq70gcBzrW+WY7y09czjwBPEQM8k
+         kAsKQU/D0P9t8s9Gofxw0Rkw4odnmUyJ7MbDeDBJ5unUIC2Vuo8FPAp1RL2lrvC3uLFA
+         +/G0eKo+UCKNpsNEa5yUP5KUQ05MiOGn8EBGfxkdvH3wYTQ11R3t9d+NHen+286rIaLI
+         BPtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kcWr29ciRXo/Ssy/W3GMAIMRBylURTjvxgSXaybDMn0=;
+        fh=nZ4BhWeZWifuIjPdDM/iATRbxN1+qmZNGKa+EpYnEcM=;
+        b=oHVQ5GvhIEML2zlwrUZqm5goSJpG/UzgEZUz82V3hZmrttyJCneYCpV/qNMwn+EP2B
+         3sSUOdssF4Ix8ajQFEJVNwmWgK55ARjg7muiWxhejGr1yukPQxJ/bHc90haUz6DoxYtx
+         M3lUjxpwZ8F9RJzp7UCwpPOQYdQoySWfuEX62tvBnzOURdoeHfFhei3Ir2AbJVqLRyu/
+         sfQ2VGd9dUrkrOauWVteE3VmGqC+1ZdCs3Jcw1sAEiFniw6RkaJeov1QjdwRzkGfF09/
+         dk5noAjqyMc00UL9ewr+zjMqwlEWGZS7h1U44l3lzlYXhy2WGqMc19KMwz+taSELkN0w
+         tMlw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1789411526; x=1790016326; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=99ti4HqO2yqDTib0U20tCsH8joNtnCFUu7flAkJsqBw=;
-        b=lFDA23OSia8vxP0ZPKnQ7NHXNuTjsH8tpT8U9sggPAcSz45k0VBvwWlLRARZi5+Vn2
-         tMI5s1f3OWb90UWVsB5vlxrfWFJm785al6fCzcivtZBU63x6ZxsTyxzm0GjCf1WBXekv
-         ixM++2FIoD5kVJvJH5A7MQkv1GyqXrBcCMH7lCxB2mnOBe55JinFZO3sj/jGk65A4biL
-         KiqBmcKbn4rY2VdY/7LWhQJNUg4B77JQwSvX3oKzqO7vupHF7WHBUOMwxD6RyqG/D4Zh
-         +UYGLBaPRc6miL7waDbQXJE4ZgPJNYbqwChPgz+kkWYz4n6FwiZg+bgNJdMZqzXBZG6s
-         4Rqw==
+        d=gmail.com; s=20251104; t=1789412482; x=1790017282; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kcWr29ciRXo/Ssy/W3GMAIMRBylURTjvxgSXaybDMn0=;
+        b=gmdgZh2WwB7TU1kRO8iSENZpNQ6sIpswBklNM34kRAArJ9aZysmuP0detAheSU4DFD
+         FW+7M57oDZ05DSIJAB2fm1eybxSekBbYkYuIYo92xhvMDiMdPvfRe1TDl9MfpugCMQdY
+         iv4PNu8l0Xpf6ifsFwSehWpISnM0urCT4M+6X0EXK5VT6Wy8GUDMaz4Nx/ccY1/lZC87
+         H5+O1XCucYwTpOXduuwh/nK5l2cWs7auiGQISwLyGWfc18+31lB6KLshdLN8Le1t5XNq
+         2OyrB3M5XfuXdHtZOqgOr+POBgtmqB8s59oiX16hTsjOoeooZR+0an2dMHkwtzuohhr5
+         ZgbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789411526; x=1790016326;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=99ti4HqO2yqDTib0U20tCsH8joNtnCFUu7flAkJsqBw=;
-        b=CyWbcfwmpIdGBSLW+jqj3CX5gfUEZmsSMIXMnIn64+CV146te/g7eZkAam5bbNdTiq
-         HxoeleULZ/Y/m02AoyzNP7lb9XWziurfEM9hzYkhRQiDmPv3WT4cYxWut6NkAv3nlpEU
-         EBG9PwXWw+OoAv88mlpnGLUk8CjXz0Q4q8rwHfKVEXTRZjYyBrw4PU2vwh8kt/zi7WGs
-         ShcTrYXbotXe2SLkn+xhcHH+J/l6teHdT3E7MATYYnXbJ+6qTE/uq/Gdoztxj/tbVlDd
-         gXDCFjo5NdKacww7mBkIS2wgHvk0mK0nAvxlS9W8z65cELUX144HXUyNQERbCav/JyD2
-         Lbug==
-X-Forwarded-Encrypted: i=1; AKwUvBwQlLwstelmECjwmi/LpHVChlm68mph3R9Kp4e4Rb0fYTgx3qUKOZuZWT4lggR0Nryx4xg8nEmQMhi5fDom@vger.kernel.org
-X-Gm-Message-State: AFuF++kW5E9/TU48ZQEE4fOfn/3tbtcwzCmSGWkfBa9lrj3rTLg47bhW
-	UlAHOLxC6bLVOC3R9dQbECXWCxQiSKIo+DaufKqCnJ1txCNIeTD7/FFDxRQJSjq4+TI=
-X-Gm-Gg: AYBFou0J6jqE8EnnfKHhz+CllJST/6uULdbb9Vce6dl3xJASeoBpLM8ysvcY2zJCcnx
-	AT6nl1fD37ACDeskcK7rb8EWpmyHDwgw3WhvDb6eVyOMGP2unmSitR6Fs0wHrdXRVABxkCt+xDe
-	LN8bkInVQThM/I3PC4/Lrd4ZYDv/rKniQWNDW8xvp2F1K/+xKNGYNFOsW2a6TSGr5/5gFNf0CV3
-	Wq5hXNzViVR0o/y2U8auL8JSULekJQTzyePKdlc/1TGWYquwLnpHBeJRiD018vDKfES4+el6hRn
-	cunaOf6Z2QDUwDQhDritPAHjM5/9UOsWDKy2aWICEJGri0Gr93ffGBkYnaE7ipD0cS9GBsHNQgR
-	7FJJpQ4nngpJ40H1u2a5CC8P7nN/3t9cvDK8mCt6JQEVk+xMOoiL7vOMgl+J6IGv7ub7uBeJ6wI
-	sF545Zh+w3cE8Bz2xQ37quZ89KQZPDJWnM9df1Hmme3gqJDiXddNMLn1ud7Wnr8LRk5zbqlizIQ
-	fUTYrjudSzcgwsuudLi032woZk6Ffq0stEkrLf2nYxo/mVgjVbJPA4l65f5kZ9umkhJCqJkXb/e
-	gtcfeRn1penN7USDaLkmMxF2sOPe+5ZmVH9I0O9RV1sqFEQfXS2LvM1T2d4qOD4k
-X-Received: by 2002:a05:690c:e1d3:20b0:859:9c98:b8b4 with SMTP id 00721157ae682-88d2436e836mr13399897b3.31.1789411526083;
-        Mon, 14 Sep 2026 11:45:26 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:df87:8743:655b:3824? ([2600:1700:6476:1430:df87:8743:655b:3824])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8848711b85esm39733337b3.24.2026.09.14.11.45.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 11:45:25 -0700 (PDT)
-Message-ID: <6a7b33d28aad91599495082a00c8f869e0afa5da.camel@dubeyko.com>
-Subject: Re: [PATCH] xfstests: exclude hfs/hfsplus from generic/339 run
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Theodore Tso <tytso@mit.edu>
-Cc: Christoph Hellwig <hch@infradead.org>, zlang@redhat.com, 
-	fstests@vger.kernel.org, glaubitz@physik.fu-berlin.de,
- vdubeyko@coreweave.com, 	linux-fsdevel@vger.kernel.org, frank.li@vivo.com
-Date: Mon, 14 Sep 2026 11:45:24 -0700
-In-Reply-To: <aqQR6cujdVg5qCFp@mit.edu>
-References: <20260910000449.747189-2-slava@dubeyko.com>
-	 <aqJ--AqubS-CWiV-@infradead.org> <aqKzDpccJgkmzC5E@mit.edu>
-	 <f156a3665404751b29fd21d9ee136f2d66d5fe87.camel@dubeyko.com>
-	 <aqQR6cujdVg5qCFp@mit.edu>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+        d=1e100.net; s=20260707; t=1789412482; x=1790017282;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kcWr29ciRXo/Ssy/W3GMAIMRBylURTjvxgSXaybDMn0=;
+        b=akoNEZOCJQyAnHbFm4troWSTk3dUhbsRnGc/M/8U6VY0LVuO7Z7cjnlFZL/OZ9Q5AL
+         D2GiqurQn5ThCriRI7p/ANpCKFQhMVvfaQjU1TFnBjo2GgMhJKqPWs7gVOiXJP07So+z
+         0n3W7ZOb3sFOjou/8chTysIEKL80y/3Zd1Cp+LclyGAqDPqGZPbnYn815Sg9RrZam8Br
+         GJFhDT3qvbkRO3dSYjQxy+MuUrMGZm1qVuUerRxJio3qN5edG4n4aLxM9gnG7KpsE95u
+         FdXKTBc/LUVmLejgkl50WaPKkvJZfE8vix3Z7B/hMGY1qR3l00dZ49qf7Ya+oz3yFLgA
+         H5AA==
+X-Forwarded-Encrypted: i=1; AKwUvBxFTVeFms1EVppjNsxLzOn/2ttd27bgaHHNh2Nt9jp2jGm6+rmZmdpltgcv23VCpaec11U73tfgnGYMb55G@vger.kernel.org
+X-Gm-Message-State: AFuF++mQ8kHEOZ1p23888svc4ZuCILjkHqKv/iIS159OxM3ymqcLJBR+
+	E4KbsqiEyh/+ACVG1Iu7M5DRrwYcUMSdsjLC4DyJefbXzo2+c/g+7SGBVG9gJ8vmzwgbhhHsDKc
+	FVRzXJWzNzcZueiMYXbWyxBIeqlXwHms=
+X-Gm-Gg: AYBFou0so9hjVM6UM2cgxNrsJZRGV03iHjztj0Kwatfi/LggRlW+uRRPevQ+1cd2qc0
+	9mI+3Bii3D5BzV71DnehVont5qDHtJukVmkv1ci58R4t/1yuofvZSLYEvKaZIZfqZ91Y0BCuXQe
+	mlQ8G5mxO8K87WO35fNFPQvZY2ddfoSqC2UVMssefF/q2CegDe4KwxdPm7ycaeDbXFk3TtVYoCx
+	x5tynpmc16NWHFx9C7PdjGh/yoOnDkRb2iu7xZCwxw1/Iw0qiYKWI5vAEKBguod4h9caIB1pY69
+	IHl3H7iPk84XHaUnlKzWVjd179xCbl2G9OohnQ9uOpUj2ClZjmFIqoQ5YQ7kirSZBi8xf3YlG4Q
+	WVCtsGbT/RzOkAs8N/S3GodaB4zgg1ZrG1Xa5KXu5CC6touAk
+X-Received: by 2002:a05:6000:4803:b0:485:7d6d:e0e0 with SMTP id
+ ffacd0b85a97d-48705a39405mr1037299f8f.3.1789412481801; Mon, 14 Sep 2026
+ 12:01:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+ <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
+ <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+ <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
+ <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
+ <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
+ <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com> <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
+In-Reply-To: <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 14 Sep 2026 12:01:09 -0700
+X-Gm-Features: AcwNN1VFoc_2eKOenFa2PrLINBfqq7xz_q3LPSvn75t1DU2-aSfT1Pyeo05pSnY
+Message-ID: <CAJnrk1aHdBm4CofvKfx7B3H-uF2xRXZUQs47J_4xeRmRZ4hcZg@mail.gmail.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: James Houghton <jthoughton@google.com>
+Cc: Yosry Ahmed <yosry@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, 
+	Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-09-11 at 10:48 -0400, Theodore Tso wrote:
-> On Thu, Sep 10, 2026 at 02:14:08PM -0500, Viacheslav Dubeyko wrote:
-> >=20
-> > Could we have any generic way to detect that file system could not
-> > support some Unicode characters?
->=20
-> We do have unicode tables which are optionally compiled in if the
-> file
-> system requires it.=C2=A0 But those tables are from Unicode 12.1, and the
-> latest version of Unicode is 17.0.=C2=A0 Most of the new characters added
-> between Unicode 12.1 and Unicode 17.0 are for dead languages that
-> archeologists and academics care about, and new Emoji's.=C2=A0 So functio=
-n
-> will let you know if a Unicode character was considered valid as of
-> 2019.
+On Fri, Aug 21, 2026 at 6:39=E2=80=AFPM James Houghton <jthoughton@google.c=
+om> wrote:
+>
+> On Fri, Aug 21, 2026 at 12:41=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> w=
+rote:
+> >
+> > On Thu, Aug 20, 2026 at 4:39=E2=80=AFPM Joanne Koong <joannelkoong@gmai=
+l.com> wrote:
+> > > Would you be able to share the test you're using? I've been trying to
+> > > repro it locally without much luck.
+> >
+> > The exact test uses some internal testing libraries, we're looking
+> > into whether we can translate it to a standalone C repro.
+> >
+> > From a high-level, the test:
+> > - Creates a VM with 260 MB (256 MB for testing + 4 MB margin) in a
+> > cgroup, backed by shmem THPs. The VM is not a fully fledged VM, just a
+> > KVM VM running bare metal code (so 4 MB is enough margin).
+> > - Enables zswap in the cgroup.
+> > - Tells the VM to write to 256 MB of its memory.
+> > - Checks the cgroup shmem usage and that no swap occurred (no limit).
+> > - Sets the cgroup limit to half the VM memory.
+> > - Checks the cgroup shmem usage and swap again, usage should be ~half
+> > and so is swap.
+> > - Tells the VM to read the 256 MB of memory again. This should cause a
+> > lot of thrashing and reclaim, but no OOM kills as all guest memory is
+> > reclaimable.
+> >
+> > With the ratelimited flushing, the test started flaking 5-10% of the
+> > time due to OOM kills.
+>
+> Hi Joanne, Yosry,
+>
+> I've attached a reproducer for you (as a patch that should apply to
+> Linus's tree).
+>
+> In tools/testing/selftests/kvm, `make` should build it. Instructions
+> for running it (like setting up swap/etc.) are in the comment at the
+> top of the file.
+>
+> As part of the patch, I've also included a sysctl to dynamically tune
+> whether or not the memcg stats flush is rate-limited. You should find
+> that when it is rate-limited, OOMs occur, and when it is not, OOMs do
+> not occur.
+>
+> This reproducer behaves slightly differently than our internal
+> version. This version, when run with `-b 512M` anyway, seems to OOM
+> simply by setting memory.max, whereas our internal version would OOM
+> upon re-accessing the memory. Not really a meaningful difference, but
+> just wanted to point it out.
 
-Only God knows which language will be dead next. :)
+Thanks again for the repro, James.
 
->=20
-> You're asking a different question, though which is for hfs/hfsplus,
-> what character are deemed valid by fsck.hfs, right?=C2=A0 And as far as I
-> know, there is no way to answer that question in the hfs kernel code.
-> What you could do is to try creating a filename containing a
-> particular character, and see if the kernel rejects it.=C2=A0 Ext4 and
-> f2fs
-> will reject such characters if and only if Unicode strict mode is
-> enbled.=C2=A0 But that's not going to help for hfs unless you add that
-> support into the kernel....
+I added some instrumentation to prepare_scan_control() and have been
+seeing that the OOM gets triggered in this pathway:
+a) the memcg is created with memory.max set to unlimited. 512 M gets
+faulted in. The new anon folios get put on the inactive list. Nothing
+reclaims them yet
+b) userspace then sets memory.max to half of memory.current (~271M
+from ~542 M currently used). This causes memory_max_write() to trigger
+reclaim logic
+c) the folios have already moved to the active list (my
+instrumentation shows 122684 active vs. 179 inactive) when reclaim
+does the scanning, which means the only way for pages to be reclaimed
+is for pages to get deactivated from the active list back to the
+inactive list.
+d) prepare_scan_control() (which decides if the pages get deactivated)
+reads the LRU sizes from rstat. This memcg hasn't been flushed yet
+(the 2s flusher hasn't yet triggered since when the memcg was
+created), so the NR_INACTIVE_ANON and NR_ACTIVE_ANON stats are all
+still zero. The real values are all still sitting in per-cpu buffers
+that haven't yet been flushed. My instrumentation shows:
+        inactive_anon       rstat: 0    actual: 179
+        active_anon          rstat: 0    actual: 122684  (~479 MB)
+e) the deactivation logic in prepare_scan_control() is:
 
-Yeah, sounds like pretty complicated way. Likely, probably, HFS+ code
-is missing some piece of Unicode functionality. So, I am checking this
-right now.=20
+                refaults =3D lruvec_page_state(target_lruvec,
+                                WORKINGSET_ACTIVATE_ANON);
+                if (refaults !=3D target_lruvec->refaults[WORKINGSET_ANON] =
+||
+                        inactive_is_low(target_lruvec, LRU_INACTIVE_ANON))
+                        sc->may_deactivate |=3D DEACTIVATE_ANON;
+                else
+                        sc->may_deactivate &=3D ~DEACTIVATE_ANON;
 
->=20
-> 					- Ted
->=20
-> P.S.=C2=A0 A problem which we haven't really solved is how to add support
-> for multiple Unicode versions at the same time.=C2=A0 So if someone
-> imported Unicode 17.0 into the kernel, ext4 and f2fs really require
-> Unicode 12.1.=C2=A0 Short of supporting both Unicode tables in the
-> sources,
-> someone would probably have to figure some mechanism (perhaps using
-> Agentic Engineering) to collapse the two Unicode tables into one, so
-> you can answer the question, is a particular Unicode valid in 12.1 vs
-> 17.0, and handling the Unicode canonicalization rules for Unicode
-> 12.1
-> and 17.0 based on some API.=C2=A0 This is the other reason why no one has
-> bothered updating Unicode, since it would be tricky.
->=20
-> P.P.S.=C2=A0 There is reason why, over a decade ago, when I was talking t=
-o
-> an internationalization expert at an Internet Engineering Task Force,
-> late at night, at a bar, the expert said jokingly (and when said
-> expert was very well lubricated), after reviewing all of the
-> engineering challeges of getting I18N correct, "It would be easier to
-> teach them all English."=C2=A0 :-)
+The if check fails:
+     refaults !=3D prev refaults: 0 !=3D 0      (false)
+     inactive_is_low(): both LRU inactive and active values are 0: 0 *
+inactive_ratio < 0     ( false)
 
-Yes, it sounds like much easier way. :) Maybe, I have a professional
-deformation but I cannot imagine other than English for programming
-languages. Even that I needed to learn my first programming language as
-a subset of BASIC programming language with commands abbreviated from
-Russian words. :) This is one of the example of dead language (I mean
-BASIC not Russian). :)
+DEACTIVATE_ANON gets cleared
+
+f) pages don't get moved from the active list to the inactive list, so
+reclaim ends up freeing nothing. memory_max_write() goes through all
+MAX_RECLAIM_RETRIES and OOMs, even though there's 479 MB reclaimable
+(but it's all on the active list).
+
+I saw that the skipped_deactivate retry did fire (on 858 of 4264
+scans), but not enough to get the memory.current back under the halved
+memory.max, so memory_max_write() still exhausted MAX_RECLAIM_RETRIES
+and OOMed.
+
+
+imo I think the best fix would be
+a) for non-root memcgs, revert back to the non-ratelimited version
+(mem_cgroup_flush_stats())
+b) for root-memcgs (which if flushed will flush every cgroup on the
+machine), don't use rstat at all and use the existing node counters
+instead (which is what the non-memcg case already uses).
+mod_lruvec_state() always updates the node vmstat and the memcg lruvec
+stat in the same call. For the root lruvec, the node counter reflects
+the same value and doesn't need any flushing. It has an error bound of
+125 pages/cpu at most, but this is tighter than what we currently have
+with the ratelimited version.
+
+commit 90a6f2a8f442 ("memcg: use ratelimited stats flush in the
+reclaim") was what switched vmscan to using ratelimited flushing. The
+reason for this was to fix the stalls from concurrent reclaimers
+contending on the rstat lock. For the Cloudflare case, kswapd threads
+were contending on the rstat lock on 8 numa-node machines. That's the
+global path (eg sc->target_mem_cgroup is NULL,
+mem_cgroup_flush_stats() turns it into root, so this flush essentially
+ends up flushing every cgroup on the machine), which gets addressed by
+adding the fix in b), which takes kswapd and global direct reclaim off
+rstat entirely. For the non-root memcg case, the flushing is bounded
+by the MEMCG_CHARGE_BATCH * num_online_cpus() threshold (a non-root
+memcg's stats_updates only accumulates its own subtree's updates, so
+it takes a lot longer for it to be exceeded than the root's does).
+
+I ran some benchmarks to get a rough idea of what a) costs. I set up a
+workload that allocates 512M of anon memory in a memcg with memory.max
+set to half of that to trigger reclaim continuously. I varied the
+number of threads touching the memory, so that N of them hit
+memory.max and enter direct reclaim on the same memcg at once. I used
+bpftrace to measure the time spent inside css_rstat_flush() and
+shrink_node() and used those two numbers to get a percentage for how
+much of reclaim is spent in flushing. These are the numbers I saw:
+
+# threads      flush as % of shrink_node()
+1                ratelimited: 1.10%       non-ratelimited: 2.22%
+16              ratelimited: 0.36%       non-ratelimited: 2.87%
+64              ratelimited: 0.16%       non-ratelimited: 2.52%
+
+Between the ratelimited and the non-ratelimited runs, walltime and
+pgsteal were pretty much indistinguishable (42.7s vs 43.6s at 16
+threads and 41.7 s vs 42.4s at 64, with the ranges overlapping, and
+pgsteal within 0.2%).
+
+I also measured the lock contention. At 16 and 64 threads, 15-20% of
+__css_rstat_lock() acquisitions hit a contended trylock with the
+non-ratelimited version. At 16 threads, the mean flush time rises
+about 8% and at 64 it roughly triples from the single-thread case
+(26us at 1 thread, 42 us at 16, 87us at 64)  but I didn't see any
+effect of this on wall time or pgsteal between the non-ratelimited and
+the ratelimited version, and the percentage of reclaim time spent
+flushing stayed at 2-3%. I think that's because css_rstat_flush()
+takes and drops the lock once per cpu rather than holding it across
+the walk.
+
+I also ran it with 32 actively churning sub-cgroups under the reclaim
+target, since css_rstat_flush() walks the descendants that have
+pending updates. I saw that per-flush cost rises slightly (~24 us to
+27 us) but the share of reclaim time spent flushing went down rather
+than up (4.1% to 3.2%), because reclaim gets more expensive faster
+than flushing does. I don't have a ratelimited baseline at 32 children
+though, because with the ratelimited version, all the runs I tried
+OOMed. I think this is an alternative repro to the OOM issue but
+doesn't need/have KVM dependencies, so if this would be useful to
+clean up and send as a standalone C repro, please let me know.
+
+(Also btw (this is a bit tangential to this OOM issue, but somewhat
+semi-related), I don't think the WORKINGSET_ACTIVATE_{ANON,FILE} stats
+checking really does anything in practice. On my benchmark runs, the
+"refaults !=3D prev_refaults" check evaluates to false in pretty much
+every scan. Even with flushing working properly, it didn't trigger on
+1673718 of 1674912 samples, even though the cgroup was thrashing the
+whole time (a separate run of the same workload counted 6371860 anon
+refaults vs 6523 activations). I think it's because reclaim is
+scanning faster than the refaults counter advances, so it'll almost
+always see no change. I'm not sure how much this matters in practice,
+but I think effectively in that check above in prepare_scan_control(),
+deactivation relies entirely on the inactive_is_low() check.)
+
+What do you all think about adding a) and b) as the fix for this issue?
 
 Thanks,
-Slava.=20
-
->=20
-> Mercifully, we only need to solve a very tiny subset of the I18N
-> problem in the kernel.=C2=A0 :-)=C2=A0=C2=A0 :-)=C2=A0=C2=A0 :-)
+Joanne
