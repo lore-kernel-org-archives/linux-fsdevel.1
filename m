@@ -1,267 +1,256 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A5C423E99;
-	Mon, 14 Sep 2026 22:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21792FE057;
+	Mon, 14 Sep 2026 22:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789423220; cv=none; b=o1UkGrcDXDWeDknYQWkGzYoDKIWNBXhhmDmZLQrfXzzZF/7ggwCv45Xm64fnnfJy5NHX9izH3+nDugQReq6PMfjJGot5lIIGe99yiEYQCQ8WUnU1/0QA5y7hF+2RRqGZLU9gEyO6F3mmTZ0f/cGyEU7nie8O6TiY28PydX06XoI=
+	t=1789424709; cv=none; b=EZazaEvdHaG/35RzAkpROMAl76uFadaV2ENBX1IawKtbdveXbKTiDk3n+BZtMc9Z3Q9ii8FUBPg897d5KVMFfZJogNn8gX0g1VM/t7Ec3M4OppiWsgyH0Y/RZrjW5NIvMUC3R2NH8oGrXDx4WWi8+N+lb9Ouks0EZ++bIF5ofyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789423220; c=relaxed/simple;
-	bh=U7Po3XIGmD5WnXqODiveJImEONA04vUf7bVEZasXpzg=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=MzCY/gQ0vgoK1Wr/3n4FRyl2ZU0jitFN/RkLee9GHLeHwv9EGiQPzeQGGRLIGcn+eysu0EdFtDiIcMVfCTI4FLbpArgv18e9soHbKpO+3JfDKtI8h4faTeqktcCl2TazHnoVyxNfypiKu3/CHIhMHG4H1GfP7OWVFt0yEOjGQbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ncIxh6Y/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GgGqNKrV; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1789424709; c=relaxed/simple;
+	bh=lRwyLDKclG5PTkKiaCP0WfETw35RY2cC30b8ggFxCpg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Wlg9lGHUjSkJxhkjebnTRkuUb0SaSyyEL3e4bWCTSYO8dl322qE+XpCAlB0Hy3xjpJaToU4OeNj2b1R8PW2Zc1INzHs8NTp8XP/ToBsE3BbQiROMgB+9wnOlFS6L2RBc5StJnsuV6MUAUqWm6Y2A83SnU3TI4Njl1PAFLbYATvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=epD2xGM4; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ncIxh6Y/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GgGqNKrV"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id E93D67A0126;
-	Mon, 14 Sep 2026 18:00:16 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Mon, 14 Sep 2026 18:00:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1789423216; x=1789509616; bh=+/O8cbNK7AneUbK5Khhf+8X4M22FDfN6jAN
-	vhHXMEtg=; b=ncIxh6Y/mmjJ9anGMcT1UxYIdtFQGIsJNQatei7dj+EM2PVW16r
-	46mWcEGw7E3wnG5yR6Dahu+lCD3Nz9txkr7BEgBW9NWvkJl2WChb72SzjrwMJuNO
-	ugYj9Q0aAC6qvA/ROjzMuPBRARuWG4ceQ6iqNTngEZT2uH2eqHy8M0YiuNtKvUGC
-	jGOsAdayUPX7MyxGUrpiV6LCgDFtYY5JmoUfp2qJ9HNu/K0590+peVQs+iy4rVKS
-	FfsIl6obmilAcFo4MuRLx9FkUrxI6KoEhjj2RdWDQWVkpV86xSF9Ralsgtb9DgM6
-	KgIadJE0uYBePe+dX+SX8GTjL4ORMMiJIWg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789423216; x=
-	1789509616; bh=+/O8cbNK7AneUbK5Khhf+8X4M22FDfN6jANvhHXMEtg=; b=G
-	gGqNKrVZzNaXTzvwvnm3tVqF2fvyNOWpPyJ/+TqfL8HIhr2LLj2LFGVUOF1j3v3x
-	jeBxDTYYD+Dp6W/qvPrueadnjjkY0HnwPD/PiaXRPZbnOcZ8Q84SoC2ah1aLPECt
-	x5TSCpKrCNF4zMKLJn+yOgtome8M8joDPUoAlVYwHEJ2klmbcQtV85XLAasQ6aeL
-	LHWB0GaY014vWljdJcB1F7Xw/GWYB61/JyBcsGZra5s5qeyYfIc+Ok3TcmWZsK6M
-	tUrjGewtUtjESGFk+PYtSxJ5jQKaJGHnYdj242wnuaUpOG8mXQVVKgrwlv6nXCnV
-	Rpb1XbU4GruhrY3+uV8zw==
-X-ME-Sender: <xms:cG6oanKKjFzyiAdXYDIubUldEqX011r_nrmU6C_Ff50R8OyebEPivA>
-    <xme:cG6oaqNZurdu8qrdnAKEQfe8KQN2CLlowJ-Veewmw8SiLmFkk3L3888saYNcMCHxq
-    1xO6hsN6gFINvIO5Aif3N9md_2G5PQIC8JJtbkTiSbm4-bNH5A>
-X-ME-Received: <xmr:cG6oal5asTbQQN8pvrXiD4n_YO3GekLci1QMVAV1u5urtIef7PIbzCTi2V5_gEsiEg>
-X-ME-Proxy-Cause: dmFkZTF5ra8BkwsnAzYDhslg7HdOA3tTnHthlvzeQuHExsImqvTgVv9/gOouS2+xoVvdKO
-    57spt1qyTccCTZKBGZ9pvgYVm/2Glg2TAz4q8IZKT1a23BO2k+CmuposyGjfGrQvBy/3hd
-    Iegl71s4i6f0albXieII/mcSxTgFyjCN7SOtUIBwUrB7kMtxQPCekkSGiyj8pYVyx6hg/V
-    cuwWE/Q7cWa1HMUsb08ugZ8LxP7GvsF4Y2U1Uu9FNYtYLSltKTMwTNvJwmqtcctipl8d5l
-    GB/HwcKc6t/GvHxd/1btSPE1eh2zDDO/MeYB8JvQjuAmyTAnS2sTtiYlK+c7VRuRdfr0E9
-    2CYQE7cVESGl4tdozHHslg5xJz82EWVsJLXEn9vmgG/oCi0VIpeIu3NALl8HsFvgslV8/U
-    7zNiGGrpH1BiFLIeCNaTMF+u+HmA+21S10OHgSFXykYyJLgHL5mLOwJSNyLOIWC0OR2vlx
-    GqOR3dpRk1tEL4ypaZiDKYAfF0tDGibwVSjIZvng7jK6p25m/N32VgZGsUf1wZtUAne+TQ
-    vPph0EFrY8vtmHM3//9bUDMDYdth9XhBp61NmKiEBbOj0A85tERRP0ci1wD6cU2oUHz8XO
-    05Al2oRDH2WqkPWv83J0YE2heYgWQQKOa+FzWCMnl6PSborzPmdo1DFishuQ
-X-ME-Proxy: <xmx:cG6oas4LRehjSseb6Jy7U1tR7nOe4bN9pLcrOEFydhJlRuRgEDt3bw>
-    <xmx:cG6oajGpJ5yTa4OPozs4559vu1pIf-vQEcv5xS5ESLTYoy3lxLdisQ>
-    <xmx:cG6oasUNyXbCOyKTmJnVBPFQlSZK7Rowu34ZhlD0bk7tnz7Wr_BYdg>
-    <xmx:cG6oanUrWUCMR2IGHnoifGJ4427Ik8-D20S4fxFlybU4O5NlxsqJDw>
-    <xmx:cG6oaptJyjQ2qsrfWu0eDCzTagaUTPv8JSOyTFB7bM7UIypF-C5aBlmd>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Sep 2026 18:00:13 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="epD2xGM4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789424707; x=1820960707;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=lRwyLDKclG5PTkKiaCP0WfETw35RY2cC30b8ggFxCpg=;
+  b=epD2xGM4map3pLIvRr4pMWmFo6pSUfdMkFf7VCNOvqVn/QghRUJZG2Qb
+   3zBZWtX7+952kDxdneVxadKUMFNTgFrGkCzybitWCBZdD/DJukNgsEvnD
+   74EhJpKvOLws4Ifu2e7MfeW5oKFTao805Wl+D6GcCZvzs8CXx7oAGsAs+
+   FZqy9jDgU71JhL7lmndfv4GV5lP6eMe/NtuYApyxSw6cuJKyvkiB++Pv6
+   Px85fM7L12G9l+HeuxIayVSNxWuzd5E/nHk7Rj//2OpFRY2CNjq6Tjw79
+   5rVe83syKtAzxDIXu1HsJ7ciTkm7f5/t0/6uSkE7jIbm/2iMwB5FYGQ+K
+   w==;
+X-CSE-ConnectionGUID: fu6d7j+YTnuzUs3sPa7UwA==
+X-CSE-MsgGUID: 3TvUinnZQSe5ckL0IlbwMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93608054"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="93608054"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 15:25:06 -0700
+X-CSE-ConnectionGUID: o6rW3JWLR0yDEFjVHAANFA==
+X-CSE-MsgGUID: AxBYWUm+TPqDVSYWsw29zQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="274710260"
+Received: from unknown (HELO [10.241.243.185]) ([10.241.243.185])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 15:25:05 -0700
+Message-ID: <025bdcdef34170b1ffcc673c6b59cb51abc8fef5.camel@linux.intel.com>
+Subject: Re: [PATCH 1/4] sched/cache: Keep nr_pref_llc_running in the
+ runnable domain
+From: Tim Chen <tim.c.chen@linux.intel.com>
+To: Chen Yu <yu.c.chen@intel.com>, Kayra Cizmeci <kayracizmeci@gmail.com>
+Cc: brauner@kernel.org, bsegall@google.com, dietmar.eggemann@arm.com, 
+	imv4bel@gmail.com, jack@suse.cz, juri.lelli@redhat.com, kees@kernel.org, 
+	kprateek.nayak@amd.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, mgorman@suse.de, 
+	mingo@redhat.com, peterz@infradead.org, qyousef@layalina.io, 
+	ricardo.neri-calderon@linux.intel.com, rostedt@goodmis.org,
+ srikar@linux.ibm.com, 	sshegde@linux.ibm.com, vincent.guittot@linaro.org,
+ vineethr@linux.ibm.com, 	viro@zeniv.linux.org.uk, vschneid@redhat.com,
+ wanglu.priv@gmail.com, 	yi1.lai@intel.com, zhanxusheng1024@gmail.com,
+ zhanxusheng@xiaomi.com, 	ziqianlu@bytedance.com, chen.yu@linux.dev
+Date: Mon, 14 Sep 2026 15:25:05 -0700
+In-Reply-To: <aqdVpO66OfmHvvqB@chenyu-dev>
+References: <f3b70dd40e29b309ff3449a95a4af4513ad0ef70.camel@linux.intel.com>
+	 <20260910220331.1209469-1-kayracizmeci@gmail.com>
+	 <aqdVpO66OfmHvvqB@chenyu-dev>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Mateusz Guzik" <mjguzik@gmail.com>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Chuck Lever" <cel@kernel.org>,
- "Jeff Layton" <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 4/7] vfs: change vfs_lookup_open() to return found dentry
- in path.dentry.
-In-reply-to:
- <CAGudoHG59N0Fen0-Wh+yz+OMA_HcX+Bu-dx+7J0QnypyK_b3ZQ@mail.gmail.com>
-References: <20260910002934.192979-1-neilb@ownmail.net>
-  <20260910002934.192979-5-neilb@ownmail.net>
-  <2mr6afww7r67o2hjblafhdwqffg3zicsqjkddnquunfaalolpd@yq54r5nlqftm>
-  <178933378203.207413.6142548185484898062@noble.neil.brown.name>
-  <CAGudoHG59N0Fen0-Wh+yz+OMA_HcX+Bu-dx+7J0QnypyK_b3ZQ@mail.gmail.com>
-Date: Tue, 15 Sep 2026 08:00:10 +1000
-Message-id: <178942321010.207413.739445924462882192@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
 
-On Tue, 15 Sep 2026, Mateusz Guzik wrote:
-> On Sun, Sep 13, 2026 at 11:09=E2=80=AFPM NeilBrown <neilb@ownmail.net> wrot=
-e:
-> >
-> > On Mon, 14 Sep 2026, Mateusz Guzik wrote:
-> > > On Thu, Sep 10, 2026 at 10:20:50AM +1000, NeilBrown wrote:
-> > > > From: NeilBrown <neil@brown.name>
-> > > >
-> > > > The caller - nfsd - needs to know the type of object found when a
-> > > > non-regular file was found to exist.  This is most easily done
-> > > > by passing back the dentry.
-> > > >
-> > > > So change calling pattern so that the path (now called "path") contai=
-ns
-> > > > the parent dentry on entry and the child dentry on exit.
-> > > > vfs_lookup_open() will dput() the parent and caller must dput() the
-> > > > child.
-> > > >
-> > > > If lookup_open() returns -EFTYPE (from ->atomic_open()) we need to
-> > > > use d_lookup() to find the dentry.  If ->atomic_open() didn't add a
-> > > > dentry to the dcache we return %NULL in %path->dentry.
-> > > >
-> > > > Signed-off-by: NeilBrown <neil@brown.name>
-> > > > ---
-> > > >  fs/namei.c | 31 ++++++++++++++++++++++---------
-> > > >  1 file changed, 22 insertions(+), 9 deletions(-)
-> > > >
-> > > > diff --git a/fs/namei.c b/fs/namei.c
-> > > > index 0c787363b101..30ccc0c2f02f 100644
-> > > > --- a/fs/namei.c
-> > > > +++ b/fs/namei.c
-> > > > @@ -4606,7 +4606,7 @@ static struct dentry *lookup_open(struct nameid=
-ata *nd, struct file *file,
-> > > >
-> > > >  /**
-> > > >   * vfs_lookup_open - open and possibly create a regular file
-> > > > - * @parent: directory to contain file
-> > > > + * @path: directory to contain file
-> > > >   * @last: final component of file name
-> > > >   * @open_flag: O_flags
-> > > >   * @mode: initial permissions for file
-> > > > @@ -4619,9 +4619,15 @@ static struct dentry *lookup_open(struct namei=
-data *nd, struct file *file,
-> > > >   * If the fs object found is not a regular file then -EFTYPE is
-> > > >   * returned.
-> > > >   *
-> > > > + * @path is updated to contain the dentry that was found if possible.
-> > > > + * In particular, if -EFTYPE is returned, then @path.dentry will be =
-the
-> > > > + * object that is not a regular file, or %NULL.
-> > > > + * Consequently the caller must be prepared for @path.dentry to be
-> > > > + * dput(), an it must dput() whatever is in @path.dentry after the c=
-all.
-> > > > + *
-> > > >   * Returns: the opened struct file, or an error.
-> > > >   */
-> > > > -struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > > > +struct file *vfs_lookup_open(struct path *path, struct qstr *last,
-> > > >                          int open_flag, umode_t mode)
-> > > >  {
-> > > >     struct file *file __free(fput) =3D NULL;
-> > > > @@ -4638,7 +4644,7 @@ struct file *vfs_lookup_open(struct path *paren=
-t, struct qstr *last,
-> > > >     mode |=3D S_IFREG;
-> > > >     open_flag |=3D __O_REGULAR;
-> > > >
-> > > > -   error =3D lookup_noperm_common(last, parent->dentry);
-> > > > +   error =3D lookup_noperm_common(last, path->dentry);
-> > > >     if (error)
-> > > >             return ERR_PTR(error);
-> > > >
-> > > > @@ -4646,7 +4652,7 @@ struct file *vfs_lookup_open(struct path *paren=
-t, struct qstr *last,
-> > > >     if (IS_ERR(file))
-> > > >             return file;
-> > > >
-> > > > -   nd.path =3D *parent;
-> > > > +   nd.path =3D *path;
-> > > >     nd.last =3D *last;
-> > > >     nd.flags =3D LOOKUP_OPEN;
-> > > >     if (open_flag & O_CREAT) {
-> > > > @@ -4658,9 +4664,18 @@ struct file *vfs_lookup_open(struct path *pare=
-nt, struct qstr *last,
-> > > >     op.mode =3D mode;
-> > > >     dentry =3D lookup_open(&nd, file, &op);
-> > > >
-> > > > -   if (IS_ERR(dentry))
-> > > > +   if (IS_ERR(dentry)) {
-> > > > +           if (dentry =3D=3D -EFTYPE) {
-> > > > +                   /* Try to determine what was found */
-> > > > +                   struct dentry *child =3D d_lookup(path->dentry, &=
-nd.last);
-> > > > +                   dput(path->dentry);
-> > > > +                   path->dentry =3D child;
-> > > > +                   WARN_ON_ONCE(child && d_is_reg(child));
-> > > > +           }
-> > >
-> > > Does anything prevent the child from flipping over to regular?
-> >
-> > Yes.  An inode is never allow to changes its type.
-> > And while you hold a reference on a positive dentry, the inode is that
-> > dentry is not allowed to change (a negative dentry may become positive,
-> > but a positive dentry must keep the same inode).
-> >
+On Mon, 2026-09-14 at 10:02 +0800, Chen Yu wrote:
+> Hi Kayra,
 >=20
-> Let me restate: what prevents the repeated lookup from finding a
-> different dentry, which also happens to be regular?
+> On Fri, Sep 11, 2026 at 01:03:30AM +0300, Kayra Cizmeci wrote:
+> > Hello Tim,
+> >=20
+> > > So moving the accounting next to (or after) the h_nr_runnable update
+> > > would make task_pref_llc_runnable() return false and skip the
+> > > decrement, leaving nr_pref_llc_running too high.
+> >=20
+> > What I really wanted wasn't getting the accounting next to or after the=
+ h_nr_runnable.=20
+> > If we are updating h_nr_runnable in some way that means we don't need
+> > its check since it's already getting updated. And if it's getting updat=
+ed
+> > that means on that branch we know how our check should behave since we=
+=20
+> > are a subset of it. We can skip the delayed check on that way since we =
+are
+> > trying to behave as h_nr_runnable's subset.
+> >=20
+> > >        if (entity_is_task(se))
+> > >                pref_llc_running_dec(...);      /* sched_delayed still=
+ 0 */
+> > >        se->sched_delayed =3D 1;
+> > >        ...
+> > >        for_each_sched_entity(se)
+> > >                cfs_rq->h_nr_runnable--;        /* sched_delayed alrea=
+dy 1 */
+> >=20
+> > For example:
+> >=20
+> > In this code the h_nr_runnable is updated the same way regarding what i=
+s sched_delayed.
+> > That means if we want to behave as a subset of it, we don't need the ch=
+eck delayed,
+> > since we check the delayed to be a subset but if h_nr_runnable is decre=
+asing/increasing
+> > we should look into our checks.
+> >=20
 >=20
-> I don't see any locks held here to prevent it, so AFAICS in the time
-> window between lookup_open() and d_lookup() someone else could have
-> for example unlinked the target and linked something else.
-
-Sorry for misunderstanding - Chuck reported that problem too.
-I think I have a solution involving a small change in the ->atomic_open
-contract.=20
-
+> I had a try according to your suggestion. It seems that the code becomes =
+more complex
+> and brings more headache :-( due to several corner cases. The current ver=
+sion is a simpler
+> version with less code IMO. But I agree it looks a little hard to catch u=
+p with, so I added
+> some comments around account_llc_dequeue() and adjusted the code sequence=
+ of clear_delayed()
+> to make it easier to understand. Tim, could you please help check if this=
+ makes sense?
 >=20
-> But that's a side remark, the real criticism was later in the e-mail
-> and it is present in the quotation below.
+> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+> index e64d9ad7a108..89311bbadfac 100644
+> --- a/kernel/sched/fair.c
+> +++ b/kernel/sched/fair.c
+> @@ -1609,8 +1609,58 @@ static void account_llc_dequeue(struct rq *rq, str=
+uct task_struct *p)
+>  	if (p->pref_llc_queued) {
+>  		/*
+>  		 * Skipped if still delayed (set_delayed() already removed it);
+> -		 * clearing pref_llc_queued below also stops clear_delayed()
+> -		 * from re-adding it.
+> +		 *
+> +		 * The nr_pref_llc_running varies with h_nr_runnable, it involves
+> +		 * set_delayed(), clear_delayed(), account_llc_enqueued() and account_=
+llc_dequeue().
+> +		 * The following shows two typical cases of how nr_pref_llc_running is=
+ maintained
+> +		 * during enqueue/dequeue.
+> +		 *
+> +		 * case 1 - wakeup a delayed task
 
-Sorry I missed that :-(
+I assume both CPU0 and CPU1 in preferred LLC, and task woken on
+CPU1.  Should say so.
 
->=20
-> > > I would say this is the wrong approach to the API. The path dentry
-> > > switching is a massive hack and should be avoidable. So happens I was
-> > > working on cleaning up the overall handling and you convinced me to post
-> > > the patchset early, see:
+> +		 *
+> +		 * CPU0                                       CPU1
+> +		 * __dequeue_task [fake dequeue]
+> +		 *   set_delayed
+> +		 *     rq0->nr_pref_llc_running--
+> +		 *     p->se.sched_delayed =3D 1
+> +		 *
+> +		 *                                     try_to_wake_up(p)
+> +		 *                                       enqueue_task_fair
+> +		 *                                         requeue_delayed_entity
+> +		 *                                           clear_delayed
+> +		 *                                             rq0->nr_pref_llc_runnin=
+g++
 
-"massive hack" is in the eye of the beholder.  Updating a path->dentry
-while walking down a path component is a common pattern in in namei.c.
+							       rq1->nr_pref_llc_running++
+> +		 *
+> +		 *
+> +		 * case 2 - LB for delayed task
+
+LB for delayed task from a preferred LLC to a non-preferred LLC.
+
+> +		 *
+> +		 * CPU0                                       CPU1
+> +		 * __dequeue_task [fake dequeue]
+> +		 *   set_delayed
+> +		 *     rq0->nr_pref_llc_running--
+> +		 *     p->se.sched_delayed =3D 1
+> +		 *
+> +		 *
+> +		 *                                     --------- load balance --------=
+-
+> +		 *                                     detach_task(p, rq0, migrate_loa=
+d)
+> +		 *                                       account_llc_dequeue
+> +		 *                                         ** DO-NOT-DECREASE **
+> +		 *                                         rq0->nr_pref_llc_running
+
+						The above block should be under CPU 0
+
+> +		 *
+> +		 *                                     attach_task(p, rq1)
+> +		 *                                       account_llc_enqueue
+> +		 *                                         ** DO-NOT-INCREASE **
+> +		 *                                         rq1->nr_pref_llc_running
+> +		 *
+> +		 *                                     pick_eevdf
+> +		 *                                       __dequeue_task  [real dequeue=
+]
+> +		 *                                         account_llc_dequeue(DEQUEUE=
+_DELAYED)
+> +		 *                                           ** DO-NOT-DECREASE **
+> +		 *                                           rq1->nr_pref_llc_running
+> +		 *                                           p->pref_llc_queued =3D 0;
+> +		 *
+> +		 *                                         clear_delayed
+> +		 *                                           p->se.sched_delayed =3D 0=
+;
+> +		 *                                           ** DO-NOT-INCREASE as pre=
+f_llc_queued=3D0 **
+> +		 *                                           rq1->nr_pref_llc_running
+>  		 */
 
 
-> > >
-> > > https://lore.kernel.org/linux-fsdevel/20260913144918.1606123-1-mjguzik@=
-gmail.com/
-> > >
-> > > On top of that the routine as is has avoidable refcount traffic and it
-> > > seems you are adding to it. Instead it can switch to vfs_open_consume.
+Thanks for describing the operation scenario.
+However the above cases are not comprehensive and a bit long for comment.
 
-That argument is somewhat less "in the eye of the beholder".
 
-> > >
-> > > On cursory reading of the nfs patch, the following should do the trick =
-instead: split the
-> > > helper into 2 parts (say vfs_open_lookup + vfs_open_lookup_finish, mayb=
-e add
-> > > vfs_open_lookup_abort should the caller decide to not go through with
-> > > the open).
-> > >
-> > > Then in nfsd you could have something like this:
-> > > struct vfs_open_lookup_arg v;
-> > >
-> > > vfs_open_lookup(&v, parent_path, ....);
-> > > [ child dentry is in v->path->dentry, do arbitrary work with it]
-> > > if (ok)
-> > >       file =3D vfs_open_lookup_finish(&v);
-> > > else
-> > >       vfs_open_lookup_abort(&v);
-> > >
-> > > The new struct would hide 'struct file' and whatever else
-> > > vfs_open_lookup might want to allocate first.
-> > >
-> >
->=20
+>  		pref_llc_running_dec(rq, p);
+>  		/*
+> @@ -6415,23 +6465,18 @@ static __always_inline void return_cfs_rq_runtime=
+(struct cfs_rq *cfs_rq);
+> =20
+>  static void set_delayed(struct sched_entity *se)
+>  {
+> -	/*
+> -	 * Drop a task leaving the runnable set. Must run before sched_delayed
+> -	 * is set, or task_pref_llc_runnable() would already exclude it;
+> -	 * clear_delayed() mirrors this after clearing the flag.
+> -	 */
+> -	if (entity_is_task(se))
+> -		pref_llc_running_dec(rq_of(cfs_rq_of(se)), task_of(se));
+> -
+> -	se->sched_delayed =3D 1;
+> -
+>  	/*
+>  	 * Delayed se of cfs_rq have no tasks queued on them.
+>  	 * Do not adjust h_nr_runnable since __dequeue_task()
+>  	 * will account it for blocked tasks.
+>  	 */
+> -	if (!entity_is_task(se))
+> +	if (!entity_is_task(se)) {
+> +		se->sched_delayed =3D 1;
+>  		return;
+> +	}
+> +
+> +	pref_llc_running_dec(rq_of(cfs_rq_of(se)), task_of(se));
+> +	se->sched_delayed =3D 1;
 
-Thanks for the suggestion.  I'll consider it and the patch set you
-mentioned above.
+This change looks good and make the code cleaner.
 
-Thanks,
-NeilBrown
+Tim
+
+> =20
+>  	for_each_sched_entity(se) {
+>  		struct cfs_rq *cfs_rq =3D cfs_rq_of(se);
