@@ -1,344 +1,332 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAF04A2A42
-	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 13:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D031A3029
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 14:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789480757; cv=none; b=eGBfq7WlF8ZjGvcP2xrWL0cdP1TvKRH0T8NmzG9J9kroPZK+j6oliEnDOtSKOWT5xa9vPCj08kqotBT9JAU5OA5EKv2ufx8Pvib5Hef8H2cJel2xZ4yJT79bWa0EG20zBKO/mhVnK4t7JE3jMqVGG6p9Vyuum1QGHrqztB0i2BA=
+	t=1789481256; cv=none; b=dsqA7TAK5kYlyS2S417I+BYgfpSspGA/W17ND+jTG36uBTqf9G4P/+Y/jOkq9GdMNro6R1r3QM6KiNWGPSdH8zEYpK4hoS/fky7Gz8cV5lzsvqan9elugvRzmhVeXZ5VCLmQUm597FAGH16Xc702aN/18ZVTOkRxW3ISTVeYMcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789480757; c=relaxed/simple;
-	bh=VccP23xYPWhOACpU8So4rSoHxSYpZHeJZu88MLLsMz0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BXXJE5G5ynhLQJ+KQqvjOd3jc8OpOwSD1otO2pAaK8bZDU+Bla/pOu3mn7kDLjdMtJ3JNx1ExILtZdfXYDuorjM7T9JouggXiFcyLTuYPqix9L9pxTDWJ0HvrXxSRIOKIZ1NDUHQbPMiJo+M40iFO2gQWHuURN5Seb8ngp+MzZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AVjaXmr7; arc=none smtp.client-ip=74.125.227.141
+	s=arc-20240116; t=1789481256; c=relaxed/simple;
+	bh=wgTJ5pu45nxh4zZZnUYWJtKDFRA3SiPjN9jUXlPWY6k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qyJpZ9abS6/Nxw4r1sMotWlAxaakZhj56po2kfT4cjMMu824uwcw2tCyEa7elZwRvJc+cIjXp6Nma/NNP/2jqKKZOp+aLm/y+GSEwbb36uM6J0Jb1Ir2EFJ5+IpmOYcmloUnA2bxs68iZRtjh56q0WPcooKgQfOJZUWBJbayPPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d6MlYjSO; arc=none smtp.client-ip=74.125.228.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AVjaXmr7"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d91ede8035so37537625ad.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 06:59:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d6MlYjSO"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469e25400so2630313b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 07:07:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789480755; x=1790085555; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xt1pn2hZDDCJHs47h/vFTcvzZQctrx3Ka/dgj8KHcQs=;
-        b=AVjaXmr7c7L4zitbfsQXjjAidBJKjIfen/CDd39AgIL0g6hbxzDdN1HMtU020eijVR
-         56qCzRBB0JhMjM7isGh8p7b/KpuZdIc3eMi+2/2Fsgd2hA2w4hGw5hkX/rTq3FFJfXoT
-         o0hNO8jTySc+Um6UHovuDTpsOSpRtMwE26KvTjquGr4SOHsmFFFrKcgqalaz9gwWV/zA
-         cRknBQXP9n7k9hrfCE+BsqD+9fR9WopHaRY/yi4uz15yvtqKTibTh1h53FuZEQhMWgsl
-         NcvOFbL27wunkMQaDzzK+YS8QA723UnBu9bHIne/bCOYcZdaMiiaGNgTBWJ8CcGhAu+A
-         gjXg==
+        d=gmail.com; s=20251104; t=1789481253; x=1790086053; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ABrBd0rY1VCR3oRUOszqkQ9MHRbZxymi6zJSZ+kr70g=;
+        b=d6MlYjSOnTKUhwilwQic2Q5uqbrQPQgMxTiiCscN3tf5pzJrvtWX/VR1nttsVoIe9H
+         hSpldgSzGCusMo0FGaZQNSAcfVr0rqI+6RFlyLrY32oFrSCZbmliVywh6k4KR07jqjyd
+         JORQ2Q6j1rsPZ6EbGeGqdbmgPcRGNK5guMKaYjQHC/k0+g5EYgh6Eg3onawXB3S2NcES
+         drwe0z8RQ+tDMMEzgqBDGHC7cwLhQPHHntV3bJi/TzjGVM/LGG9pY/c17unBQK7BvePT
+         3q5WHcbJkDK5OoIZ4CRvIpe5vL5Z2GNqp3ntt+lT+/dFA6jbHgonMmBzPNDR6pHSnv2J
+         iFWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789480755; x=1790085555;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xt1pn2hZDDCJHs47h/vFTcvzZQctrx3Ka/dgj8KHcQs=;
-        b=GX36sHmZSgsd4ALqkgavTyzsfvF8f1QW2GJvPh+KHH/YBTl4vFWgZkiiFxJewFlP2Q
-         5yDWQn5DvBfZCGlAuyL8LW77zlorS6GfyPbX1uOYa8w1SUwsrHKjykzSlM8UXPD6qYSP
-         r1pegj4meWw5JJN7XVH9P+sUG6tAWIyEf7Rxyn5+r1uze3+uRnrAWOJCARa/WeZF9SLf
-         zN+NhkZjJMN5MN/X7khJsP+BFdY0rngNk2NqLTE/w29ucUZ7l5cst7BqZ85bA7gZZ/g2
-         8NNTvTOBO28vRP5ZUcG8elf4pa5njuUM16BEX9Iks//iR6NRbIWXWFaQvDknE2XY9G78
-         t7rg==
-X-Forwarded-Encrypted: i=1; AKwUvByI4b0Mdo+0jJnog09zRi2GcF281V09+2jG1p/VUL0HTURT30JnjmJf01WwMzAKC2kUBXgcjhzzpphoiHod@vger.kernel.org
-X-Gm-Message-State: AFuF++kmqhoCS4pnXDfqLwB+Rs0J14VFYGfF7pgAd8fqF0vJkht+MMm2
-	214PZfOyHSZg7kWgSakjJe7mtHe4fFoGm/hiRg7RMqxttxrAwy/6QzFU
-X-Gm-Gg: AYBFou08SJU/hBzW/SPGYkaVmHWdtSY5vzv8KsDad7sgkox+y7PuWiS3MaUmS4LUw8v
-	QcSyFL3RFUv1yPC8TYaJ8ycYAxLszgiYDfpb8zqIxYRgcn8yzV1xZcIPF+UwDWyXtAFCJdY0+Ij
-	y7RuKcv533/7AomIWtHTwzhsqW1CE/XkUS/9MD6PJocN6JUwSfD4Nb2bpKrDQfEiHhDlM7R4JTk
-	eg5gQIgyHwxY9nBovAjCf+BXXk7Q9OG6xW+i+VUozacJrn6f5pFg4qj5V/5YI7aie1N70imUxTC
-	4cq0BgvcNh/K8c/w6A9hH9MOQ9TsE2hSaYtYroirISSblrVTKH47oQYXhbP1acaqD3bCQGRdEv1
-	oqDsuH8vGHy0S0xPvRAL1NaPR4z9np+eBANkQxKPwxvReMDReFJf6fP97T9G6jePfgBf6/gxChh
-	oK7JrIWutnbXGApoJify/Rzl33FKgTp400tuibjWrmzEEH4BJ/ye165KlQDcg/a3oO8PRuwmGNK
-	ERzV7xQSNoIvbRJEDxrns+5zam+zJd+pPHT0HJ/XsU0fuBVOdBftU3RTivx8BoSSg3nqKhAeNka
-	p3jqKxTE4ksfF4z1peARvViyOA==
-X-Received: by 2002:a17:902:db0a:b0:2dc:fdde:30c5 with SMTP id d9443c01a7336-2dd6c73459fmr139178655ad.17.1789480754318;
-        Tue, 15 Sep 2026 06:59:14 -0700 (PDT)
-Received: from DESKTOP-TJS95SS.tail460ce2.ts.net (36-232-230-153.dynamic-ip.hinet.net. [36.232.230.153])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd34c7f976sm65270435ad.81.2026.09.15.06.59.11
+        d=1e100.net; s=20260707; t=1789481253; x=1790086053;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ABrBd0rY1VCR3oRUOszqkQ9MHRbZxymi6zJSZ+kr70g=;
+        b=1F8B3CL5ZZJiMBVKCX3okSTSGC3Tu5VpFzoVwnkNBDCD3rhf02LT4HlbtwPlFONDBK
+         RDhoiHGFICSm1feJudxNpKVDtVYkm5R2di+ISQWE0lgPp9w5n9aRAWHPrzEVhTIGa0IG
+         ZdnqaFUUQbKx6XucCmRdnE2UmLPZUJMe/o1byLcRx/fi2i4D7nluizMaNRtRtbbP1kyY
+         BTlamsUnjMMsdZiFL7CROCnTSXoby05Y308vSQdy4AoJ0y/deF5xCfxnpIClj19wPTr4
+         IbIim9KFgxKdjUIAlSYBmJHx82ggtP5N56SmonTJbMniPaxNrPVuc6OYct0Zzl6S3NBo
+         ohww==
+X-Forwarded-Encrypted: i=1; AKwUvByJDbI1qeFUMe3QSK17L5xpJKP5cn4nUJEN+jDLf28AsdWJRnqhUlPYikpaxxKRFxrBEylXjVQ0RSWxaPp6@vger.kernel.org
+X-Gm-Message-State: AFuF++lbvmC7wxW/dreg/FfYCUpkKwP0yGEfaFfJGkMYOxj3TLb+I63f
+	t06L6uq9mRAvhA4XJpDC8c+gBHzCHTU/Hd3tFMSKukJobrEQJnCsmB52
+X-Gm-Gg: AYBFou1EphVOM+3j42FmzjwUAA5dUm3RUEQqZU4alFEJcJ7+ddxy/bIXIs3rkpsNrtw
+	Ib5PCLF5eEL4d+sMfss0IyWPe3u695H4ZAzSsd33K1WK1bQj104FBw+9WI+//ZMWDd+hakUYn6T
+	QDbqT6JlpO61JEvFy5nwVTlA4UmbXudn3SqaVhbhRi2UfVlhRSbZKQ00JoO5atS5kiO4S4dOYez
+	U2oemlBv31DZx2oC8mKi+QhgUWYbeHjJgqDl82fouB70RL0wmJjz6EX6Hy8QdDFnLygT2O+ykzQ
+	zCOv1/BbZj/VYfiGuJpmY8LuVV5smp56uNHldmRXjE3X4TyXXLPJV7aKBVFMcByBv54LioKGlQw
+	etUDvdYtLyQm5S746p+1xucGiSdJ+GS9HKvXSI+DKQKtYEtI6Lh08w1MSI4Yk9rAUd/DGq7G7OD
+	o5+Cl36C42GmzQD2X9VsZ2rSZbiIyzD/jk35oe+XCQYzBVbyF6LAL/ZwcK07mWH2BnuAtzALGnV
+	sCN5Jj7d42d1VhdBQ==
+X-Received: by 2002:a05:6a00:18a9:b0:858:b809:6ec0 with SMTP id d2e1a72fcca58-86f869a920dmr15306871b3a.23.1789481252784;
+        Tue, 15 Sep 2026 07:07:32 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2405:4802:1d4a:e90:2bac:b2b4:e60b:1459])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b2a5c052csm6454025b3a.58.2026.09.15.07.07.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 06:59:13 -0700 (PDT)
-From: Yuan-Hao Hsu <aa9736195201@gmail.com>
-To: Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Jaegeuk Kim <jaegeuk@kernel.org>,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Chao Yu <chao@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
+        Tue, 15 Sep 2026 07:07:32 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] mm/readahead: use large folios in page_cache_ra_unbounded()
-Date: Tue, 15 Sep 2026 21:59:09 +0800
-Message-ID: <20260915135909.1007-1-aa9736195201@gmail.com>
+	linux-kernel@vger.kernel.org,
+	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Subject: Re: [PATCH v4 1/2] hfsplus: fix recursive tree_lock in hfsplus_file_extend()
+Date: Tue, 15 Sep 2026 21:07:26 +0700
+Message-ID: <20260915140726.17414-1-ngocthang2710.1999@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <d66b55454add2f2a48a6dabdb4569051bebb5d42.camel@dubeyko.com>
+References: <d66b55454add2f2a48a6dabdb4569051bebb5d42.camel@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Forced readahead still allocates one folio per page.  Everything that
-reaches page_cache_ra_unbounded() gets mapping_min_folio_order()
-folios, which is order 0 on ext4, xfs and btrfs:
+Hi Slava,
 
- - fadvise(POSIX_FADV_WILLNEED), readahead(2) and madvise(MADV_WILLNEED)
-   on a file mapping, through force_page_cache_ra()
- - every read() on a file after fadvise(POSIX_FADV_RANDOM), and every
-   read() when ra_pages is 0, through the do_forced_ra path of
-   page_cache_sync_ra()
- - the "standalone, small random read" path of page_cache_sync_ra()
- - the merkle tree readahead of generic_readahead_merkle_tree()
+Thanks a lot for the detailed review, this caught a real bug. Replies
+inline, v5 diff at the bottom.
 
-Both the ramp-up path (page_cache_ra_order()) and the write path
-(__filemap_get_folio()) allocate the largest folio that fits the range
-and its alignment.  The same 1 GiB file read sequentially ends up 97%
-in order-9 folios; read after POSIX_FADV_RANDOM it is 262,144 order-0
-folios.  RocksDB (PosixRandomAccessFile::Hint(kRandom), ::Prefetch()),
-WiredTiger (WT_FS_OPEN_ACCESS_RAND) and MappedByteBuffer.load() in the
-JDK all take these paths.
+> static inline?
+>
+> > +{
+> > +     int i;
+> > +
+> > +     for (i = 0; i < 8; ext++, i++)
+>
+> I am introducing the special constant for the 8 extents of the fork in
+> HFS+ iomap patchset. How can we handle this? Because I would like to
+> see the named constant instead of hardcoded value.
 
-Allocate the largest folio that fits instead: bounded by the mapping's
-maximum order, by what is left of the request and by the alignment of
-the index, never below the minimum order.  Nothing beyond the request is
-read; for a forced read the request is exactly what the caller asked
-for.  If an allocation fails, or filemap_add_folio() returns -ENOMEM,
-do not ask for that order again during this request.  If
-filemap_add_folio() returns -EEXIST for a large folio, something sits
-within the range it would cover but the index itself may still be free,
-so retry with a smaller folio and only skip the index once the minimum
-size collides, as before.  ra_alloc_folio() already does the
-allocation, the PG_readahead mark and the accounting for
-page_cache_ra_order(); move it up unchanged and use it here too, so
-the mark goes on the folio that contains the mark index in both
-places.
+Added HFSPLUS_EXTENT_COUNT in hfsplus_fs.h and used it here. I don't
+know what name you're using in the iomap patchset -- happy to rename
+to match once you let me know, so we don't end up with two constants
+for the same thing when that series lands.
 
-1 GiB file on ext4, cold cache, x86-64 4K pages, medians of 15 runs:
+I kept hfsplus_ext_fork_full() itself as plain "static", not "static
+inline": it's not a single-line wrapper, and the compiler already
+inlines small static functions like this at -O2, so an explicit
+"inline" in a .c file (as opposed to a header) doesn't buy us
+anything here. I did make the new one-line is_extents_btree() helper
+below "static inline", since that one really is just a trivial
+predicate wrapper.
 
-                                          folios      minor faults to
-                                     before  after   mmap it afterwards
-  readahead(2), 2 MiB at a time     262,144    512    16,384 ->    512
-  POSIX_FADV_RANDOM, 1 MiB pread()  262,144  1,024    16,384 ->  1,024
-  2000 random 256 KiB pread()       105,996  9,346     6,671 ->  2,055
-  madvise(MADV_WILLNEED), 8 MiB       2,048      4       128 ->      4
-  sequential read() (unchanged)       1,433  1,433       761 ->    761
+> The comment is not fully correct. We should not be here for the case of
+> Extents Overflow file because there is no forks other than in
+> superblock. It's not about the lock issue. We simply should not be here
+> at all.
 
-ext4 on a loop device over tmpfs, so that cold reads cost CPU only:
+You're right, fixed. The comment now says: "Per the HFS+ format, the
+extents overflow file is fully described by its own eight fork
+extents and can never have an overflow extent of its own recorded in
+the tree; this function should never legitimately be reached for it."
 
-  fio psync randread bs=256k fadvise_hint=random:
-        2,142 -> 2,977 MB/s, sys 57.0% -> 48.2%
-  fio psync randread bs=64k fadvise_hint=random:
-        1,051 -> 1,434 MB/s, sys 50.9% -> 45.1%
-  4 processes reading the same file with POSIX_FADV_RANDOM, 64 KiB:
-        6.9 s -> 1.1 s total, 552 -> 121 ms sys per process
-  20000 random 4 KiB pread() (order stays 0):
-        665 -> 580 ms
+> Maybe, we need to introduce something like is_extents_btree() method?
+> What do you think?
 
-A warm read() of the 1 GiB file costs 92.5 ms when the cache was filled
-through POSIX_FADV_RANDOM and 82.8 ms when it was filled by a sequential
-read; after this patch both are 77-80 ms.
+Done -- added is_extents_btree() and used it at all three call sites
+in this patch (hfsplus_ext_read_extent(), the fork-full check in
+hfsplus_file_extend(), and the insert_extent backstop).
 
-fs-verity on ext4 (300 MiB file, drop_caches, read, mmap, WILLNEED,
-FADV_RANDOM) verifies with merkle tree folios of order 0 to 3.  No
-change with CONFIG_TRANSPARENT_HUGEPAGE=n, where
-mapping_max_folio_order() is 0.
+> It looks like complicated condition and it deserves a static inline
+> function, from my point of view.
 
-Link: https://lore.kernel.org/r/aS4K3jGkJErj94R_@casper.infradead.org
-Link: https://lore.kernel.org/r/aS9uod21hG_qq7Rd@casper.infradead.org
-Assisted-by: LLM sparse
-Signed-off-by: Yuan-Hao Hsu <aa9736195201@gmail.com>
+Extracted into hfsplus_ext_file_needs_contig_grow().
+
+> Maybe, instead of this long comment we need to introduce a dedicated
+> method for processing Extents Overflow file allocation case?
+
+Extracted into hfsplus_ext_file_grow(), replacing the inline comment
+with a doc comment on the function itself.
+
+> Maybe, I am missing something here. But goal + 1 sounds like we request
+> to allocate only one block. Is it correct? If yes, why only one block?
+> Usually, we need to try to allocate a clumpSize.
+
+You're right, and this was an actual bug, not just a readability
+issue. I traced hfsplus_block_allocate(): the `size` argument bounds
+both where the scan stops *and* the returned run length via
+`len = min(size - start, len)`. With `size = goal + 1` and
+`start = goal`, that clamps `len` to 1 no matter what clump_blocks
+was, so this path only ever allocated a single block. Fixed to use
+`goal + *len` (the original clump_blocks) as the bound instead, in
+hfsplus_ext_file_grow(). That keeps the "must start exactly at goal"
+rejection (still checked via `start != goal` by the caller) while
+allowing a full clump to be granted when the space is there.
+
+> Can we be here at all? If start != goal, then we cannot allocate at
+> all. And we can be here only if we have empty slot it the fork. Am I
+> right?
+
+The other way around: this branch is taken when
+hfsplus_ext_fork_full() returns true, i.e. there is *no* free slot
+left in the fork. If there is a free slot, we fall through to the
+regular allocate-anywhere path and hfsplus_add_extent() just records
+it in that slot -- no special-casing needed. I renamed the condition
+to hfsplus_ext_file_needs_contig_grow() to make that unambiguous.
+
+> checkpatch.pl --strict flags one alignment style issue [...]
+> continuation should align with the open paren — cosmetic only
+
+Fixed.
+
+Thanks again for catching the goal+1 bug in particular -- v5 below.
+
 ---
- mm/readahead.c | 123 ++++++++++++++++++++++++++++++-------------------
- 1 file changed, 75 insertions(+), 48 deletions(-)
+Changes since v4:
+ - Fix hfsplus_file_extend() requesting only 1 block instead of a
+   full clump when growing the extents overflow file's fork
+   (goal + 1 -> goal + len in the block_allocate() call).
+ - Add HFSPLUS_EXTENT_COUNT instead of hardcoding 8.
+ - Add is_extents_btree() instead of repeating the i_ino comparison.
+ - Extract hfsplus_ext_file_needs_contig_grow() and
+   hfsplus_ext_file_grow() out of hfsplus_file_extend().
+ - Fix comment on the HFSPLUS_EXT_CNID guard in
+   hfsplus_ext_read_extent() to state the real reason.
+ - Fix checkpatch --strict alignment nit on pr_err() continuation.
+(all per Slava's review)
 
-diff --git a/mm/readahead.c b/mm/readahead.c
-index 6e5563290287..d9ad081c72fd 100644
---- a/mm/readahead.c
-+++ b/mm/readahead.c
-@@ -204,6 +204,47 @@ static struct folio *ractl_alloc_folio(struct readahead_control *ractl,
- 	return folio;
+diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
+index eb7c11524d18..f3a4b8fd567f 100644
+--- a/fs/hfsplus/extents.c
++++ b/fs/hfsplus/extents.c
+@@ -84,6 +84,23 @@ static u32 hfsplus_ext_lastblock(struct hfsplus_extent *ext)
+ 	return be32_to_cpu(ext->start_block) + be32_to_cpu(ext->block_count);
  }
- 
-+static inline int ra_alloc_folio(struct readahead_control *ractl, pgoff_t index,
-+		pgoff_t mark, unsigned int order, gfp_t gfp)
+
++/* True if the inode is the extents overflow file's own inode */
++static inline bool is_extents_btree(struct inode *inode)
 +{
-+	int err;
-+	struct folio *folio = ractl_alloc_folio(ractl, gfp, order);
++	return inode->i_ino == HFSPLUS_EXT_CNID;
++}
 +
-+	if (!folio)
-+		return -ENOMEM;
-+	mark = round_down(mark, 1UL << order);
-+	if (index == mark)
-+		folio_set_readahead(folio);
-+	err = filemap_add_folio(ractl->mapping, folio, index, gfp);
-+	if (err) {
-+		folio_put(folio);
-+		return err;
-+	}
++/* True if all extents of a fork are in use (no free slot left) */
++static bool hfsplus_ext_fork_full(struct hfsplus_extent *ext)
++{
++	int i;
 +
-+	ractl->_nr_pages += 1UL << order;
-+	ractl->_workingset |= folio_test_workingset(folio);
-+	return 0;
++	for (i = 0; i < HFSPLUS_EXTENT_COUNT; ext++, i++)
++		if (!ext->block_count)
++			return false;
++	return true;
++}
++
+ static int __hfsplus_ext_write_extent(struct inode *inode,
+ 		struct hfs_find_data *fd)
+ {
+@@ -217,6 +234,15 @@ static int hfsplus_ext_read_extent(struct inode *inode, u32 block)
+ 	    block < hip->cached_start + hip->cached_blocks)
+ 		return 0;
+
++	/*
++	 * Per the HFS+ format, the extents overflow file is fully
++	 * described by its own eight fork extents and can never have an
++	 * overflow extent of its own recorded in the tree; this function
++	 * should never legitimately be reached for it.
++	 */
++	if (is_extents_btree(inode))
++		return -ENOSPC;
++
+ 	res = hfs_find_init(HFSPLUS_SB(inode->i_sb)->ext_tree, &fd);
+ 	if (!res) {
+ 		res = __hfsplus_ext_cache_extent(&fd, inode, block);
+@@ -392,6 +418,34 @@ static int hfsplus_free_extents(struct super_block *sb,
+ 	}
+ }
+
++/*
++ * True when growing the extents overflow file's own inode needs the
++ * contiguous-only special case below: its fork's eight extents are
++ * all in use, so there is no free slot left to record a new extent
++ * for it.
++ */
++static bool hfsplus_ext_file_needs_contig_grow(struct inode *inode,
++					       struct hfsplus_inode_info *hip)
++{
++	return is_extents_btree(inode) &&
++	       hip->alloc_blocks == hip->first_blocks &&
++	       hfsplus_ext_fork_full(hip->first_extents);
 +}
 +
 +/*
-+ * The largest folio that fits at @index: it must be naturally aligned
-+ * and must not extend past the @remaining pages left of the request.
-+ * Nothing beyond the request is read; for a forced read (WILLNEED,
-+ * readahead(2), FMODE_RANDOM) the request is all the caller asked for.
-+ * This is the policy page_cache_ra_order() and __filemap_get_folio()
-+ * already use.
++ * Allocate blocks to grow the extents overflow file itself once its
++ * fork is full (see hfsplus_ext_file_needs_contig_grow()). Per the
++ * HFS+ format this file can never record an overflow extent of its
++ * own, so the only way to grow it further is a contiguous extension
++ * of the last extent already in the fork: search for up to *len free
++ * blocks starting exactly at goal, and return a start block other
++ * than goal if the block at goal itself isn't free.
 + */
-+static unsigned int ra_unbounded_order(pgoff_t index, unsigned long remaining,
-+				       unsigned int min_order,
-+				       unsigned int max_order)
++static u32 hfsplus_ext_file_grow(struct super_block *sb, u32 goal, u32 *len)
 +{
-+	unsigned int order = min_t(unsigned int, max_order, ilog2(remaining));
-+
-+	if (index)
-+		order = min_t(unsigned int, order, __ffs(index));
-+	return max(order, min_order);
++	return hfsplus_block_allocate(sb, goal + *len, goal, len);
 +}
 +
- /**
-  * page_cache_ra_unbounded - Start unchecked readahead.
-  * @ractl: Readahead control.
-@@ -215,6 +256,9 @@ static struct folio *ractl_alloc_folio(struct readahead_control *ractl,
-  * not the function you want to call.  Use page_cache_async_readahead()
-  * or page_cache_sync_readahead() instead.
-  *
-+ * Folios as large as the mapping allows are used, but the request is
-+ * not extended to fit them.
-+ *
-  * Context: File is referenced by caller, and ractl->mapping->invalidate_lock
-  * must be held by the caller at least in shared mode.  Mutexes may be held by
-  * caller.  May sleep, but will not reenter filesystem to reclaim memory.
-@@ -227,6 +271,8 @@ void page_cache_ra_unbounded(struct readahead_control *ractl,
- 	gfp_t gfp_mask = readahead_gfp_mask(mapping);
- 	unsigned long mark = ULONG_MAX, i = 0;
- 	unsigned int min_nrpages = mapping_min_folio_nrpages(mapping);
-+	unsigned int min_order = mapping_min_folio_order(mapping);
-+	unsigned int max_order = mapping_max_folio_order(mapping);
- 
- 	/*
- 	 * Partway through the readahead operation, we will have added
-@@ -247,19 +293,13 @@ void page_cache_ra_unbounded(struct readahead_control *ractl,
- 	index = mapping_align_index(mapping, index);
- 
- 	/*
--	 * As iterator `i` is aligned to min_nrpages, round_up the
--	 * difference between nr_to_read and lookahead_size to mark the
--	 * index that only has lookahead or "async_region" to set the
--	 * readahead flag.
-+	 * Folios start at multiples of min_nrpages, so round_up the
-+	 * index that only has lookahead or "async_region" to mark the
-+	 * folio that gets the readahead flag.
- 	 */
--	if (lookahead_size <= nr_to_read) {
--		unsigned long ra_folio_index;
--
--		ra_folio_index = round_up(readahead_index(ractl) +
--					  nr_to_read - lookahead_size,
--					  min_nrpages);
--		mark = ra_folio_index - index;
--	}
-+	if (lookahead_size <= nr_to_read)
-+		mark = round_up(readahead_index(ractl) + nr_to_read -
-+				lookahead_size, min_nrpages);
- 	nr_to_read += readahead_index(ractl) - index;
- 	ractl->_index = index;
- 
-@@ -268,6 +308,7 @@ void page_cache_ra_unbounded(struct readahead_control *ractl,
- 	 */
- 	while (i < nr_to_read) {
- 		struct folio *folio = xa_load(&mapping->i_pages, index + i);
-+		unsigned int order;
- 		int ret;
- 
- 		if (folio && !xa_is_value(folio)) {
-@@ -285,26 +326,34 @@ void page_cache_ra_unbounded(struct readahead_control *ractl,
- 			continue;
- 		}
- 
--		folio = ractl_alloc_folio(ractl, gfp_mask,
--					mapping_min_folio_order(mapping));
--		if (!folio)
--			break;
--
--		ret = filemap_add_folio(mapping, folio, index + i, gfp_mask);
--		if (ret < 0) {
--			folio_put(folio);
--			if (ret == -ENOMEM)
-+		order = ra_unbounded_order(index + i, nr_to_read - i,
-+					   min_order, max_order);
-+		for (;;) {
-+			ret = ra_alloc_folio(ractl, index + i, mark, order,
-+					     gfp_mask);
-+			if (!ret || order == min_order)
- 				break;
-+			/*
-+			 * -ENOMEM: memory is too fragmented for a folio this
-+			 * large, or the memcg would not take it; don't ask
-+			 * for that order again during this request.
-+			 * -EEXIST: something already sits within the range
-+			 * this folio would cover, but the index itself may
-+			 * still be free in front of it.
-+			 */
-+			if (ret == -ENOMEM)
-+				max_order = order - 1;
-+			order--;
-+		}
-+		if (ret == -ENOMEM)
-+			break;
-+		if (ret) {
- 			read_pages(ractl);
- 			ractl->_index += min_nrpages;
- 			i = ractl->_index - index;
- 			continue;
- 		}
--		if (i == mark)
--			folio_set_readahead(folio);
--		ractl->_workingset |= folio_test_workingset(folio);
--		ractl->_nr_pages += min_nrpages;
--		i += min_nrpages;
-+		i += 1UL << order;
- 	}
- 
- 	/*
-@@ -456,28 +505,6 @@ static unsigned long get_next_ra_size(struct file_ra_state *ra,
-  * it approaches max_readahead.
-  */
- 
--static inline int ra_alloc_folio(struct readahead_control *ractl, pgoff_t index,
--		pgoff_t mark, unsigned int order, gfp_t gfp)
--{
--	int err;
--	struct folio *folio = ractl_alloc_folio(ractl, gfp, order);
--
--	if (!folio)
--		return -ENOMEM;
--	mark = round_down(mark, 1UL << order);
--	if (index == mark)
--		folio_set_readahead(folio);
--	err = filemap_add_folio(ractl->mapping, folio, index, gfp);
--	if (err) {
--		folio_put(folio);
--		return err;
--	}
--
--	ractl->_nr_pages += 1UL << order;
--	ractl->_workingset |= folio_test_workingset(folio);
--	return 0;
--}
--
- void page_cache_ra_order(struct readahead_control *ractl,
- 		struct file_ra_state *ra)
+ int hfsplus_free_fork(struct super_block *sb, u32 cnid,
+ 		struct hfsplus_fork_raw *fork, int type)
  {
+@@ -465,13 +519,21 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
+ 	}
 
-base-commit: 704340f1cd0dcef829eb62f5b48ae95a2ce17bdf
--- 
-2.43.0
+ 	len = hip->clump_blocks;
+-	start = hfsplus_block_allocate(sb, sbi->total_blocks, goal, &len);
+-	if (start >= sbi->total_blocks) {
+-		start = hfsplus_block_allocate(sb, goal, 0, &len);
+-		if (start >= goal) {
++	if (hfsplus_ext_file_needs_contig_grow(inode, hip)) {
++		start = hfsplus_ext_file_grow(sb, goal, &len);
++		if (start != goal) {
+ 			res = -ENOSPC;
+ 			goto out;
+ 		}
++	} else {
++		start = hfsplus_block_allocate(sb, sbi->total_blocks, goal, &len);
++		if (start >= sbi->total_blocks) {
++			start = hfsplus_block_allocate(sb, goal, 0, &len);
++			if (start >= goal) {
++				res = -ENOSPC;
++				goto out;
++			}
++		}
+ 	}
 
+ 	if (zeroout) {
+@@ -526,6 +588,20 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
+ 	return res;
+
+ insert_extent:
++	/*
++	 * The fork-full precheck above keeps the extents overflow file's
++	 * own inode from ever landing here with blocks already allocated;
++	 * this is a backstop, so still free what was allocated rather
++	 * than leak it.
++	 */
++	if (is_extents_btree(inode)) {
++		if (hfsplus_block_free(sb, start, len))
++			pr_err("can't free extent: start %u, count %u\n",
++			       start, len);
++		res = -ENOSPC;
++		goto out;
++	}
++
+ 	hfs_dbg("insert new extent\n");
+ 	res = hfsplus_ext_write_extent_locked(inode);
+ 	if (res)
+diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+index 1e5b58e6a13f..7c53832f2784 100644
+--- a/fs/hfsplus/hfsplus_fs.h
++++ b/fs/hfsplus/hfsplus_fs.h
+@@ -24,6 +24,9 @@
+ #define HFSPLUS_TYPE_DATA 0x00
+ #define HFSPLUS_TYPE_RSRC 0xFF
+
++/* Number of extent slots in a fork (hfsplus_extent_rec, hfs_common.h) */
++#define HFSPLUS_EXTENT_COUNT 8
++
+ typedef int (*btree_keycmp)(const hfsplus_btree_key *,
+ 		const hfsplus_btree_key *);
+
+--
+Thanks,
+Nguyen Ngoc Thang
