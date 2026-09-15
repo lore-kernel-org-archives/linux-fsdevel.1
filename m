@@ -1,119 +1,127 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-60.ptr.blmpb.com (va-2-60.ptr.blmpb.com [209.127.231.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1408481661;
-	Tue, 15 Sep 2026 15:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686344AE112
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 15:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.60
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789486109; cv=none; b=hn0dWDjiFOCabd3Dake1nND25NGXtAz/Q0ooFMDXnqJAupa/RreZcx996epDDc2oj0eMjIW1GjfvJn1buGuErHk0dDKo5f1gEApej8ABwW7+XR1vsqxY1uOH+3e8oF6qz3v3ZvuQmIiepxXuzpYe6fgeNQSDcMAg4z4jQUDK6hk=
+	t=1789487040; cv=none; b=mt4Ey03beRw7/2jJ+mvDY2polChF12FYZzZyn8dVhcNis0A4YvFg2748p3+ezIh+J2y2VubIc9bvsfndMqZxzbnwAIxx3+tlFsKn4aPmCOVIOc1P5yawUAuTn8x1RtI/Vx+08TF824X2ipoVOojAtjN5zV8v8nDA0PEA66ZkTSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789486109; c=relaxed/simple;
-	bh=Da+69ad+lHJO0M7ZV8wHDbzIyOjJRsbZ7DtN3XNdzJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dMXtl5qvIbyHABiJZXLOFRtDTMxmJ1jqnj0BzMaYephu7tMR7h88eFefejNfW9Ssiruir4zepNvh2Wtld1Ov1FDfdOXblV9yqvghYxDC6G8FGu8/eX1GWaZkhwkKmBiE/bhE8/ZiQPyFocVzzQMDV/UsSfuVvOwq4jlveowTsDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=splJMSXx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789487040; c=relaxed/simple;
+	bh=X0OA0zd3t2u7iXfF0yPqLYpX2BIJuMIZZ+1R/TrabeE=;
+	h=Date:In-Reply-To:Mime-Version:References:Content-Type:Cc:From:
+	 Subject:Message-Id:To; b=TPdmlcehNPariG5A5br9HiHhnDHpLoEnYGKi1DEucwRxbiqIVDZ4U+LUioF9LSJL7ehS+LtxiaJuDCppph7o8uhAB2pC1U13oCKwwQhQQSyH0N0/KhIXF4HXSaxYJe3gAkOUYatz5vUNdtekBpMDVROxOwDDCFXvr/NrUAQzWts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=Yxfwj8cU; arc=none smtp.client-ip=209.127.231.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="splJMSXx"
+	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="Yxfwj8cU"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=QEW88ZQnSuhZNPj3vkXIV8NZ1wmCRrjqEwOa3KU5UvU=; b=splJMSXxhNub0eAzI8FujE44l6
-	r4XyiRYshHMUnl86YfqkEb/+1g/xAqFKnDS7oAtZRCdHl+ol9kwgKqFB+vMzPAwuouJv8NHBQGCRw
-	ef2KBchTH6801R2hPBb1AX1QZh8Z8RB2Sd0bKZVDcCy7FXjJhXbuyfSQWFn5T3Cp60+xexWLaChrR
-	YL2q1jTyNaoVC852BBCLZGXqr2Pfyqj76IVCbXOf5H0lCDwBq/lyowLowr/y27glmiEEhjSu3WE0l
-	b+D1Naua42STbyZlsM3JJ7SlqmHdDAEOU3ArukM5LPYIp61pQ0jNFnCNajqePYwIFrDLMwRajzQl0
-	5GnonEZA==;
-Received: from [38.23.173.23] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6V53-000000079xT-0yw0;
-	Tue, 15 Sep 2026 15:28:21 +0000
-Date: Tue, 15 Sep 2026 11:28:19 -0400
-From: "Liam R. Howlett" <liam@infradead.org>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Ballance <andrewjballance@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
-	Eliot Courtney <ecourtney@nvidia.com>, maple-tree@lists.infradead.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Yury Norov <ynorov@nvidia.com>
-Subject: Re: [PATCH] lib: fix lock initialization in region allocation
- benchmark
-Message-ID: <tniaziqadej6t3f6herhfzsxu3di7deewfbgfpr57mlsurbbak@mkzuybcvjj24>
-References: <20260911155244.1406122-1-ynorov@nvidia.com>
+ s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1789487022;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=d0n1MM6xxPsL/QERF+JcaetyUJsQd2U/h4AXxBLwz/w=;
+ b=Yxfwj8cUnFaenowRxaFu7ujBz88KmMiwrPqOyEtY6KZc4/KQz4cV/ZtjypgMIhf0dG2Uad
+ 6g6MGTRY3tKrIxSxXvqAu5qt3BMoccdgG3hBtOlsZsePr6nKRM5o7U1EdtYm6DEbWtVQBI
+ WM92Ay6NSYf0X2LK2355OATd/dEsYA0u/CMQBtXoHf4B21rN+d/C7OtAPByvu/uEEG++16
+ pp4Rn4USo8LFuLM6R4KRW0n1ICP901jwzGYtcrg68abH3D+RbEZOATqpUFQANlaz7XtIEB
+ w0JSFBa6avJtYocfqxxBYQXyT6MyxrO7G73aMh85L3A+71SaK3HzCkh+IVHoSA==
+Date: Tue, 15 Sep 2026 23:43:32 +0800
+In-Reply-To: <20260915064950.GA13417@lst.de>
+User-Agent: Mozilla Thunderbird
+X-Lms-Return-Path: <lba+26aa967ad+4153f6+vger.kernel.org+yukuai@fygo.io>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260911155244.1406122-1-ynorov@nvidia.com>
+Mime-Version: 1.0
+X-Original-From: yu kuai <yukuai@fygo.io>
+Content-Transfer-Encoding: quoted-printable
+References: <cover.1789237876.git.yukuai@fygo.io> <ef547fdb7a6c8e39a25a1b9473c444f24a0f03be.1789237876.git.yukuai@fygo.io> <20260915064950.GA13417@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Reply-To: yukuai@fygo.io
+Cc: "Jens Axboe" <axboe@kernel.dk>, "Josef Bacik" <josef@toxicpanda.com>, 
+	"Tejun Heo" <tj@kernel.org>, "Johannes Weiner" <hannes@cmpxchg.org>, 
+	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	"Jonathan Corbet" <corbet@lwn.net>, 
+	"Shuah Khan" <skhan@linuxfoundation.org>, 
+	"Randy Dunlap" <rdunlap@infradead.org>, "Coly Li" <colyli@fygo.io>, 
+	"Kent Overstreet" <kent.overstreet@linux.dev>, 
+	"Alasdair Kergon" <agk@redhat.com>, "Mike Snitzer" <snitzer@kernel.org>, 
+	"Mikulas Patocka" <mpatocka@redhat.com>, 
+	"Benjamin Marzinski" <bmarzins@redhat.com>, "Song Liu" <song@kernel.org>, 
+	"Li Nan" <magiclinan@didiglobal.com>, "Xiao Ni" <xiao@kernel.org>, 
+	"Andreas Gruenbacher" <agruenba@redhat.com>, 
+	"Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, 
+	"Andrew Morton" <akpm@linux-foundation.org>, 
+	"Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, 
+	"Kemeng Shi" <shikemeng@huaweicloud.com>, 
+	"Nhat Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>, 
+	"Barry Song" <baohua@kernel.org>, 
+	"Youngjun Park" <youngjun.park@lge.com>, 
+	"Nathan Chancellor" <nathan@kernel.org>, 
+	"Nick Desaulniers" <ndesaulniers@google.com>, 
+	"Bill Wendling" <morbo@google.com>, 
+	"Justin Stitt" <justinstitt@google.com>, 
+	"Nilay Shroff" <nilay@linux.ibm.com>, "Tao Cui" <cuitao@kylinos.cn>, 
+	<linux-block@vger.kernel.org>, <cgroups@vger.kernel.org>, 
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-bcache@vger.kernel.org>, <dm-devel@lists.linux.dev>, 
+	<linux-raid@vger.kernel.org>, <gfs2@lists.linux.dev>, 
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>, 
+	<llvm@lists.linux.dev>
+From: "yu kuai" <yukuai@fygo.io>
+Subject: Re: [PATCH v2 2/3] blk-cgroup: store blkcg in bio instead of blkg
+Message-Id: <06e3c977-461c-4469-80ec-b9f54aa51eea@fygo.io>
+To: "Christoph Hellwig" <hch@lst.de>, "Yu Kuai" <yukuai@kernel.org>, 
+	"yu kuai" <yukuai@fygo.io>
+Received: from [192.168.1.104] ([39.182.0.142]) by smtp.larksuite.com with ESMTPS; Tue, 15 Sep 2026 15:43:40 +0000
 
-On 26/09/11 11:52AM, Yury Norov wrote:
-> The Maple Tree benchmark uses MTREE_INIT() for a stack-allocated tree.
-> Its static spinlock initializer leaves lockdep to use the lock address
-> as the class key. Since the address is on the stack, the first allocation
-> triggers "INFO: trying to register non-static key" and disables lockdep.
-> 
-> The IDA benchmark has the same problem through IDA_INIT(), but runs after
-> Maple Tree and therefore encounters an already disabled lockdep.
-> 
-> Use mt_init_flags() and ida_init() to initialize the locks with persistent
-> lock-class keys. Keep initialization outside the timed allocation paths.
-> 
-> Fixes: f4806cc63cc6 ("lib: test bitmap vs IDA vs Maple Tree performance for region allocations")
-> Closes: https://lore.kernel.org/oe-lkp/202609101106.771b567e-lkp@intel.com
-> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+Hi,
 
-Acked-by: Liam R. Howlett (Oracle) <liam@infradead.org>
+=E5=9C=A8 2026/9/15 14:49, Christoph Hellwig =E5=86=99=E9=81=93:
+> On Sun, Sep 13, 2026 at 02:54:39PM +0800, Yu Kuai wrote:
+>> @@ -6243,10 +6245,17 @@ static void bfq_insert_request(struct blk_mq_hw_=
+ctx *hctx, struct request *rq,
+>>   	bool idle_timer_disabled =3D false;
+>>   	blk_opf_t cmd_flags;
+>>   	LIST_HEAD(free);
+>>  =20
+>>   #ifdef CONFIG_BFQ_GROUP_IOSCHED
+>> +	/*
+>> +	 * Pin the blkg used to look up bfqg.  If this is the first IO for
+>> +	 * the blkcg on this queue, create the bfqg before holding bfqd->lock.
+>> +	 */
+>> +	if (rq->bio && !bio_flagged(rq->bio, BIO_BLKG_REF))
+>> +		bio_blkg(rq->bio);
+> Can rq->bio be NULL here?  flush or empty passthrough request should
+> never enter the scheuler.
+Yes, rq->bio should never be NULL.
+>
+>>   	if (!cgroup_subsys_on_dfl(io_cgrp_subsys) && rq->bio)
+>>   		bfqg_stats_update_legacy_io(q, rq);
+> But I guess given that the code below checks it, we should at least
+> be consistent, so I guess it is better to keep it for now.
+>
+>>  =20
+>>   static inline void dm_bio_record(struct dm_bio_details *bd, struct bio=
+ *bio)
+>>   {
+>>   	bd->bi_bdev =3D bio->bi_bdev;
+>> -	bd->bi_flags =3D bio->bi_flags;
+>> +	/* Restoring an ownership bit cannot recreate the associated reference=
+. */
+>> +	bd->bi_flags =3D bio->bi_flags & ~(1U << BIO_BLKG_REF);
+> I have a bit of a hard time parsing this, the line also is overly
+> long.
 
-> ---
->  lib/region_alloc_benchmark.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/lib/region_alloc_benchmark.c b/lib/region_alloc_benchmark.c
-> index e88b4cf55c62..a644f3d5431a 100644
-> --- a/lib/region_alloc_benchmark.c
-> +++ b/lib/region_alloc_benchmark.c
-> @@ -78,11 +78,13 @@ static size_t __init ida_size(unsigned long nr_ids)
->  
->  static unsigned long __init benchmark_ida(unsigned long cap)
->  {
-> -	struct ida ida = IDA_INIT(ida);
-> +	struct ida ida;
->  	unsigned long cnt, idx, off, nr_ids = 0;
->  	ktime_t alloc_time, free_time;
->  	int id = -ENOSPC;
->  
-> +	ida_init(&ida);
-> +
->  	alloc_time = ktime_get();
->  	for (cnt = 0; cnt <= cap; cnt++) {
->  		for (off = 0; off < reg_sz[cnt]; off++) {
-> @@ -125,12 +127,14 @@ static unsigned long __init benchmark_ida(unsigned long cap)
->  
->  static unsigned long __init benchmark_maple_tree(unsigned long cap)
->  {
-> -	struct maple_tree mt = MTREE_INIT(mt, MT_FLAGS_ALLOC_RANGE);
-> +	struct maple_tree mt;
->  	unsigned long cnt, idx;
->  	ktime_t alloc_time, free_time;
->  	size_t sz;
->  	int ret;
->  
-> +	mt_init_flags(&mt, MT_FLAGS_ALLOC_RANGE);
-> +
->  	alloc_time = ktime_get();
->  	for (cnt = 0; cnt <= cap; cnt++) {
->  		ret = mtree_alloc_range(&mt, &idx, xa_mk_value(cnt + 1),
-> -- 
-> 2.53.0
-> 
-> 
-> -- 
-> maple-tree mailing list
-> maple-tree@lists.infradead.org
-> https://lists.infradead.org/mailman/listinfo/maple-tree
+This is an issue found by AI, if the new flag is recorded to bi_flags, and =
+the flag can be
+restored to new bio by dm_bio_restore() without actually acquire a blkg ref=
+erence. And I
+checked this is the only place to read/write bi_flags directly in driver.
+
+--=20
+Thanks,
+Kuai
