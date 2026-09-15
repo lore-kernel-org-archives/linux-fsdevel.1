@@ -1,122 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE8746A5E1;
-	Tue, 15 Sep 2026 09:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5204946C4AF;
+	Tue, 15 Sep 2026 09:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789462912; cv=none; b=sPxwk2nIa2lvhiL0ARyGAN1pIPVGUz6cXvPcwpy2hPbYOGG4CkeDKCnPvS2jd7rlUc2dLUbKuz8vqDGP+oW24U1S4V0ngvWjTrwlAJqVd9qDmomJgjUplmQ9Hnu4ZPGQv6ql+/lsDfvbr6lGgft83jQER+iGFO49PTbBuHBTQHI=
+	t=1789463983; cv=none; b=CKkZ7J3qpZJkovgqmv9Kq1MAy4v8LZJ7cPlSXy9P12xs+afXHIz11IdJmUUGEEFY/2AI9N2fsZsk4t4yfNI8broXJVcCznng7zGm7fC1I/oBI54pRPGY8u8vjiw6HMR//mMQNHyztbjc+ZFh5uhZzaB+u4b4talHO/c2m/ujEaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789462912; c=relaxed/simple;
-	bh=aRyUL2XU+gxp4Mn1Uiq547yTXErqRLkcmDZ746FHE1E=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=eKa3Svwbvoa+c4xohqOeiI5hqVMgQQUoqfxJhqnaOT9v+tvAzyZVjSXLAXiP3DAAq6d9BFE4k3ZIDOQiP9xn4IWFc37Ec4jBFkx/jfSTrrFSkXY4v91VA64JR4TVU9zfDzIcRb2bu8cADCMRs4xDIn7N3ZLrwoSv6T76i9PDcRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nHs+4okT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789463983; c=relaxed/simple;
+	bh=atXfnM0HGFzNdiaoXC0xldQViYj+oXPhnhdhrh23qSU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PbNXLv+v0iarkNLKPACttg456RDQcGEWYJQ6N8DEM41F0p0HaW1LdLPrBhmm7M+CUFHahrdD0tYcKXFd4Htq+/nRDyaC5ActwjfLgzxC3YiJVVnE6cQYiagTuVQIC8juD5gMVWrnxXYH13pyp1G1yqBbLPOTmai25U+WgYXm12Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ne36Z5E0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHs+4okT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B9451F000FF;
-	Tue, 15 Sep 2026 09:01:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ne36Z5E0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8564B1F000FF;
+	Tue, 15 Sep 2026 09:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789462910;
-	bh=exObQpVPCz+CYWwPcxHV0eYvHDRpab6T8xfQK+9Wolc=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=nHs+4okTqlsr/veDUcsDRkgqzRvHrYeS7z7WOEYv6LKZ95EUEM94YPMgS1m0ollGq
-	 L/MVyePpk1zV7RUrhyprB6BD9MRmWIwwveGibN/SRM7NkrTwB0Gj6vvi9K9gUlSiVl
-	 01HSYpmuNTkOfc59KnL7VLMY+yhdyVAnZY3z1eVVXDx53cwmVrcSQa8lQIbf5AjXpC
-	 uJdCXMtrzGomyFTX+XBpQep2ViZ6+S7zEY22ToVOT7sY8CKYD6C1t2N9wSvzGCQXv5
-	 /eMOFnLzyYNGhbu7davJym+Gen/NsgU3MhX12j+u2d9BZ+dFbIHTzqIqbJ6sS9OB2S
-	 cRPp1mOD8tCkQ==
-Content-Type: multipart/mixed; boundary="===============3167789660122054062=="
+	s=k20260515; t=1789463981;
+	bh=9WB1e/2MQV+b7qkpkJIoykj9JwyVRXM7+/yJBvrMtOA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ne36Z5E0okmsrSkA9AWinJI6ebJIl58mipyEkrPsaDOJ/ieGL0xltqR4Jwi9rgoMN
+	 3GZfMmiMEAGhIpLhDuG+IQXOa2GdggfbRoaV03z2+F4qQE0S7/42f/meL9IPQELO1I
+	 fFRpRUPkSx/qY0SPDsRLCH4UVJzL425lMbb6DbeFBQV3I5o7ptser7WGm+tyqp+vj9
+	 q68JoQrkx+Owk6y3IIHgwqjlytv3nU70huLEZu6wuqIIUmBBCv9jwfqhuAzyRHrJdk
+	 9QE/Q+1q/hXfMndQCXHPqZCMnkbt2hM6DADCt7KFdrbghMP7VMmpbNRMayjv4r8spI
+	 HiErzATK+pYoA==
+Date: Tue, 15 Sep 2026 11:19:34 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: "Zhou, Yun" <yun.zhou@windriver.com>
+Cc: Christoph Hellwig <hch@infradead.org>, 
+	Kefeng Wang <wangkefeng.wang@huawei.com>, brauner@kernel.org, djwong@kernel.org, akpm@linux-foundation.org, 
+	vbabka@kernel.org, surenb@google.com, mhocko@suse.com, brendan.jackman@linux.dev, 
+	hannes@cmpxchg.org, ziy@nvidia.com, david@kernel.org, qi.zheng@linux.dev, 
+	shakeel.butt@linux.dev, ljs@kernel.org, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] xfs: fix NOFS state corruption in btree split worker
+Message-ID: <aqkKPU8HNkt_uV-m@nidhogg.toxiclabs.cc>
+References: <20260902134417.c44503a1d65533f81fb1c391@linux-foundation.org>
+ <20260903133756.2006032-1-wangkefeng.wang@huawei.com>
+ <aqJEWmUN3Jsajoyl@infradead.org>
+ <38377447-ffa2-43ef-bbfa-43d05decda1e@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <9e4c6c05feaa894234b5941f694c04db8da58169ab1165ff1a6579ce63dff8f2@mail.kernel.org>
-In-Reply-To: <20260915080255.48929-6-tasos.papagiannnis@gmail.com>
-References: <20260915080255.48929-6-tasos.papagiannnis@gmail.com>
-Subject: Re: [PATCH bpf-next v7 5/5] selftests/bpf: Test mm_struct user memory kfuncs with linux_binprm
-From: bot+bpf-ci@kernel.org
-To: tasos.papagiannnis@gmail.com,bpf@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,linux-kernel@vger.kernel.org,linux-mm@kvack.org,david@kernel.org,akpm@linux-foundation.org,andrii@kernel.org,ast@kernel.org,brauner@kernel.org,daniel@iogearbox.net,eddyz87@gmail.com,kpsingh@kernel.org,ljs@kernel.org,matt@bobrowski.net,memxor@gmail.com,song@kernel.org,sun.jian.kdev@gmail.com,utilityemal77@gmail.com,viro@zeniv.linux.org.uk,tasos.papagiannnis@gmail.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Tue, 15 Sep 2026 09:01:49 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <38377447-ffa2-43ef-bbfa-43d05decda1e@windriver.com>
 
---===============3167789660122054062==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Tue, Sep 15, 2026 at 03:09:57PM +0800, Zhou, Yun wrote:
+> 
+> 
+> On 9/10/26 13:47, Christoph Hellwig wrote:
+> > Adding Yun Zhou, whoch touched this area recently.
+> > 
+> > On Thu, Sep 03, 2026 at 09:37:56PM +0800, Kefeng Wang wrote:
+> > > xfs_btree_split_worker() calls xfs_trans_set_context() and
+> > > xfs_trans_clear_context() on the caller's transaction, overwriting
+> > > tp->t_pflags with the worker's NOFS state. When the caller already has
+> > > PF_MEMALLOC_NOFS set (e.g. xfs_end_ioend_write, xfs_dio_write_end_io),
+> > > the corrupted tp->t_pflags causes xfs_trans_free() to erroneously clear
+> > > the caller's NOFS protection.
+> > > 
+> > > Use memalloc_nofs_save/restore with a local variable instead so
+> > > tp->t_pflags is never touched.
+> > 
+> > Looks good:
+> > 
+> > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > 
+> > Btw, if you have some spare time, it would be nice to kill
+> > xfs_trans_set_context/xfs_trans_clear_context as follow up given that
+> > they keep causing confusion.
+> 
+> Yes, you finished reviewing this patch [1] in July. However, I'm not sure
+> about its current status. Perhaps I should ping Carlos to check?
+> 
+> [1]
+> https://lore.kernel.org/all/20260720050522.3101824-1-yun.zhou@windriver.com/
 
-> diff --git a/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
-> new file mode 100644
-> index 0000000000000..07ca96d9db45f
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
-> @@ -0,0 +1,122 @@
+Ok, now I see why Kefeng Wang re-sent these patches...
 
-[ ... ]
+The first submission in July slipped through the cracks (I was on vacation
+that specific week FWIW). Feel free to give me a heads up if something
+don't get pulled in 1 or 2 weeks.
 
-> +static const char expected_arg0[] = "first";
-> +static const char expected_arg1[] = "second-argument";
-> +static const char expected_env0[] = "SOME_ENV=a";
-> +static const char expected_env1[] = "OTHER_ENV=something";
+This one though is buried in a multi-subsystem series because you sent
+the patch In-Reply-To one of the emails in that thread.
+Please don't send patches as In-Reply-To something else, specially to a
+multi-subsystem series because it's really easy to skip such patches.
 
-[ ... ]
+And then I got a "Re-Send" series with zero information why it has
+been re-sent, and one of the patches in that series was already picked
+up by Andrew. So I can't simply merge that here and mess up with what
+Andrew already planned.
 
-> +	char arg0[32] = {};
-> +	char arg1[32] = {};
-> +	char env0[32] = {};
-> +	char env1[32] = {};
-> +	u64 offset = 0;
+If this patch can be merged before:
 
-[ ... ]
+commit 14ec230f93fa928090507cfdc67ca67e928d0c9f		(linux-mm)
+Author: Kefeng Wang <wangkefeng.wang@huawei.com>
+Date:   Wed Sep 2 21:16:50 2026 +0800
 
-> +	/* arg0 is at bprm->p */
-> +	str_arg0_ret = bpf_copy_from_user_mm_str(arg0, sizeof(arg0),
-> +						 (void *)(bprm->p + offset),
-> +						 mm, BPF_F_PAD_ZEROS);
-> +	if (str_arg0_ret != sizeof(expected_arg0))
-> +		return 0;
-> +	offset += str_arg0_ret;
-> +
-> +	/* arg1 is at bprm->p + sizeof(arg0) */
-> +	str_arg1_ret = bpf_copy_from_user_mm_str(arg1, sizeof(arg1),
-> +						 (void *)(bprm->p + offset),
-> +						 mm, BPF_F_PAD_ZEROS);
+    xfs: remove dead kswapd flag inheritance from btree split worker
 
-Do the offset comments describe the right quantities? Looking at the
-buffer declarations, arg0 is a 32-byte array (char arg0[32]) while
-expected_arg0 is a 6-byte string ("first"). The comment says arg1 is at
-bprm->p + sizeof(arg0), which would be +32, but the code advances offset
-by str_arg0_ret, which is sizeof(expected_arg0) = 6:
+then please re-send it, otherwise wait for the above patch to land in
+Linus's tree, rebase and re-send.
 
-  offset += str_arg0_ret;  /* str_arg0_ret is 6, not 32 */
-
-The same pattern continues for the env0 and env1 comments - they name the
-destination buffers (32 bytes each) rather than the expected strings (11
-and 20 bytes). Should these reference the expected_* arrays instead?
-
-> +	if (str_arg1_ret != sizeof(expected_arg1))
-> +		return 0;
-> +	offset += str_arg1_ret;
-> +
-> +	/* env0 is at bprm->p + sizeof(arg0) + sizeof(arg1) */
-> +	str_env0_ret = bpf_copy_from_user_mm_str(env0, sizeof(env0),
-> +						 (void *)(bprm->p + offset),
-> +						 mm, BPF_F_PAD_ZEROS);
-> +	if (str_env0_ret != sizeof(expected_env0))
-> +		return 0;
-> +	offset += str_env0_ret;
-> +
-> +	/* env1 is at bprm->p + sizeof(arg0) + sizeof(arg1) + sizeof(env0) */
-> +	str_env1_ret = bpf_copy_from_user_mm_str(env1, sizeof(env1),
-> +						 (void *)(bprm->p + offset),
-> +						 mm, BPF_F_PAD_ZEROS);
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/34946192265
---===============3167789660122054062==--
+Cheers,
+Carlos
