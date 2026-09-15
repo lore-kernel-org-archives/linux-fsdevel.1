@@ -1,119 +1,152 @@
-Received: from pdx-out-005.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-005.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.13.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A936D4B3364;
-	Tue, 15 Sep 2026 16:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.13.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B12414A08
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 16:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789488134; cv=none; b=a3iEZjtgWE2aNIBKI52RhmpPD2k1ZTILfgERNyQCyJ9TAv6aks9Shks3dZaBcUWB7uyKeVPP7HXki5gUJoOlT9fqY/8mcZVmgMv5p81BhS3gjATysN1j+xva0ZC9IqLme3TIZGE0pzJJiyf3xESW9oaVSwKGO8CScSvssDiWmCg=
+	t=1789488482; cv=none; b=qxcoRDuE0K+CS3vDMv41Cplz2zBfg4DMygegERtT913yTl4H8v3kDi+LJxrlASaiQhkIuQ0hkjojmMDloh2tGe4FRRubf6NQ1nFOTfqCJs4m18ctMjsBU8nKi8Al1QjoNl0SZ9xYyD8LhBWRZwjhCm07gogVCL7IhbFRGJun9kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789488134; c=relaxed/simple;
-	bh=tSXDKJA3syhrSNEZG47C+W2QQY3zaHqZ9KSolvwTOyU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ILqYAU5IL+OABsN9ZLjSl3xnFvTXnDNN/ZA8+iEMQpQdNzBwVgGY1+zHhKJBr/X1BNv3M1Epzlar0V5DhhQICxOIcR6Is/TAKgMadpUPxG1mGZb9bFcj3XeDwU6Eb91XQlQ6Uhm/EvSDMcMuOUe2lMuqaN2bZd8693+UUywL/AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it; spf=pass smtp.mailfrom=amazon.it; dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b=s3Si+wro; arc=none smtp.client-ip=52.13.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+	s=arc-20240116; t=1789488482; c=relaxed/simple;
+	bh=TaD3IKHcoZf0PQ+wUUh3mHvOgYZf6uXYuUZRFHNcE+Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YxFWP81a9IO7a/AXfxEISINe0bGDqPj/RI3weyO9RbiHR7tQOCk7hfMB5bwBsBsjVAUFsHeCmgh4vZYu6V8UjbkgWAuH7X9DT4asfkETHFVZq0AVe3oXcpq7VHz4VkcRzepHNbPjpAwOp9RIkiWhdJuuuADhCPiH17do6zQAZk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Qi0beMd5; arc=none smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.it header.i=@amazon.it header.b="s3Si+wro"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Qi0beMd5"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c2953a01240so287666b.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 09:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.it; i=@amazon.it; q=dns/txt; s=amazoncorp2;
-  t=1789488131; x=1821024131;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=zH2AffRhpysneQJNXQPa9UtiFiIZCjOUG9PhR8vSPsI=;
-  b=s3Si+wronE6HXXBco3LTJ3Oaoxey4fZJD0WwbYWgquyN3Po72L+YXVlJ
-   36Yy6m/pK5SY7ZghBopPgp//FC9pupuVrnWLW/JBKG2nGacyzY4hqI5t2
-   Nv6FCVl7GdTX7cVgQb5lJRKDAUlTExN0Zx+l313t2vVTLjsopshFudnZt
-   dwHNe30SvPRONKs0MTEap2zc7wLBKe1FE9ndO2nGOpdC2UCLm0rrB11+F
-   5uOwfqqYdkrxic9TvRq+xMf9bV4Dp5mGD4LdqKg8xGoNFH15+SUx9GvDM
-   VcuhQrNclyi+6ItqBLWkQJxo54UW1XlKjTfsL/y74y9sO/ehY3vGcUDlX
-   Q==;
-X-CSE-ConnectionGUID: u92piRZrSFapAw+TyK//UQ==
-X-CSE-MsgGUID: YKI+s6tzTVW5liA/y0xZ6g==
-X-IronPort-AV: E=Sophos;i="6.27,103,1787011200"; 
-   d="scan'208";a="28716152"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-005.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 16:02:08 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.51:27276]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.19.159:2525] with esmtp (Farcaster)
- id 15f7d0fc-d5b9-43a9-b411-4c5574972f7d; Tue, 15 Sep 2026 16:02:08 +0000 (UTC)
-X-Farcaster-Flow-ID: 15f7d0fc-d5b9-43a9-b411-4c5574972f7d
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46;
- Tue, 15 Sep 2026 16:02:08 +0000
-Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
- (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46; Tue, 15 Sep 2026
- 16:02:03 +0000
-From: Salvatore Dipietro <dipiets@amazon.it>
-To: <akpm@linux-foundation.org>, <hannes@cmpxchg.org>
-CC: <abuehaze@amazon.com>, <alisaidi@amazon.com>, <blakgeof@amazon.com>,
-	<brauner@kernel.org>, <brendan.jackman@linux.dev>, <david@redhat.com>,
-	<dgc@kernel.org>, <dipietro.salvatore@gmail.com>, <dipiets@amazon.it>,
-	<djwong@kernel.org>, <hch@infradead.org>, <hch@lst.de>,
-	<jackmanb@google.com>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-xfs@vger.kernel.org>, <mhocko@suse.com>, <ritesh.list@gmail.com>,
-	<rvvandan@amazon.com>, <stable@vger.kernel.org>, <surenb@google.com>,
-	<vbabka@kernel.org>, <vbabka@suse.cz>, <willy@infradead.org>,
-	<ziy@nvidia.com>
-Subject: Re: [PATCH v5] mm/page_alloc: avoid direct compaction for costly __GFP_NORETRY allocations
-Date: Tue, 15 Sep 2026 16:00:42 +0000
-Message-ID: <20260915160042.1265958-1-dipiets@amazon.it>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260911093209.d9181d5950778897935f6bcb@linux-foundation.org>
-References: <20260911093209.d9181d5950778897935f6bcb@linux-foundation.org>
+        d=linux-foundation.org; s=google; t=1789488478; x=1790093278; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cj8iWYGkmy9fr6Sp+MjBMi0cvssqzarl8Tgut8FUMEc=;
+        b=Qi0beMd5t8m+Cply2TK1f1p2aG5c4gjP3sPDt1xJeFNYwojCO/mnLMMg3Jp3PGHbwG
+         nd6obIWFCfradrTgFNlMuTke/SHzuSXZR9IZJSTnaPwnZqrLMj/NnbdyFd6vEioXEzfo
+         Xi2E+1F05vW5UFTKwrUL/Y+Ts7RapCe7o1QP4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789488478; x=1790093278;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=cj8iWYGkmy9fr6Sp+MjBMi0cvssqzarl8Tgut8FUMEc=;
+        b=WTxaMVZD7IEG2RQhObBNOddk/R+s37IYYOVH5PWzkk38wCDgi1qMcjHuof3+sWYfvZ
+         DEa6BIU3hNgpVoHhbjB1hY9h7DI8zM7xEtHkoBWqhCQEE0q3DyEY0amIB9bfym7pxOab
+         dHBRJOI4h5SK7gQ4gJ+CL2XTq5G8Z7HHsuCwA8O7cSDpRnYaVD4VUK7Mq7NENdDYYtaD
+         A/zusfk08w26hugZ7YjMEHLb+i8aohDlRbDOhcZ/RiRdL0ZcD4WxM4RF3nrcXxm5pdFv
+         kVAQWS8oHJbwJDkzU+NDisZYfIGSL8xYQTkVzPKrqzpf4YrHIWSfCItwEe0yD/NVjC2g
+         lNLg==
+X-Forwarded-Encrypted: i=1; AKwUvBx8DmlaKA2JTHtgqPNMbeFIfjyGIlsiO021NzFmZXPQDYrBLFrEt89mVQsNfZ7WvqYQPZg25+vGtgyfoVF9@vger.kernel.org
+X-Gm-Message-State: AFuF++kvnSQJh8Ysmorh0XmY1i9luudUIYzbcuKUAcPhsIkm5HRtkGlE
+	95Ca6GeDFQE9F11GTXNjkOnVruyAw8bbsCsNwU7g9t+7bKuxJ9m7glIn9SyAnkWV6mpgHjf8L1W
+	tPfp4utM=
+X-Gm-Gg: AYBFou3t2vydZfeoP+MjQQqfZj+bm474n5TI3AS8CzjlSsYh+8R2aX1+cBD9u3fQKLP
+	rFRumBGkKGZbx+Rq14lkspoocYi58r708Pt6wHgtiYEGGoZhHZhRpPAc3jPB8wrW/yVkoib1Qr5
+	6tkUV73SC8M0gPKY/PyzdL8HCj/cFGjBT/60DU+rUBb4/FouJzWsFoHVsa3V1Vb16ML3ufmY8B5
+	M/IaCYfEBIaSpgAp7P68pOcwXDFC6NZa2mA1N2ZpNZVMih6cvkrVlAYtfJk8Ein15kx4uOe+q0P
+	+n3LMds/4MEa3bQjl12cYvDnAH7HtCNmLSvEALJlUTg5bZOelMJcuZvEC4rRl/D2vJxTdwStws/
+	c2+mrkz03D/zwDbIDhbh2S8SN4bAuCknYzKIOH+h/JHAWa3A50K+6WVA1v8VE5bjz78YzFyZ+Qn
+	MnKF79TbmbdaDinWSAqdDutwTXT2bo37ByajFIM30vJWZMTJcsfpOlfNbS1/UHpGLcBZpU04uDS
+	SZOpSIDSuuBpnjv9y/PyHsZZCRlbJL0iFQIsTrB4NBZWawx
+X-Received: by 2002:a17:906:7951:b0:c26:19de:9ac8 with SMTP id a640c23a62f3a-c29b86f9999mr579581566b.32.1789488477598;
+        Tue, 15 Sep 2026 09:07:57 -0700 (PDT)
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com. [74.125.228.76])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c29de4add55sm927066b.33.2026.09.15.09.07.57
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2026 09:07:57 -0700 (PDT)
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a99cd5115bso5810716a12.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 09:07:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzEWqImhCe9RJIG55wbww+FkCdZUaRAX4gw5kVPZUtiFEsRhHxzXb61OvpXOxUcgUy4YfpqmxzicftUCLTU@vger.kernel.org
+X-Received: by 2002:a17:907:cd0d:b0:c29:439b:d5c1 with SMTP id
+ a640c23a62f3a-c29b86141b9mr553591866b.16.1789488168046; Tue, 15 Sep 2026
+ 09:02:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
+In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 15 Sep 2026 09:02:31 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjeamU=_RYT9cR3dZJ2N-Teo-N1+aYh7jwhrB=iWXD0cg@mail.gmail.com>
+X-Gm-Features: AcwNN1WK06t9f9BcKFBIanysXcyUXK4eRICuH4x14s60AdlpF6ijCATIYaYAAvQ
+Message-ID: <CAHk-=wjeamU=_RYT9cR3dZJ2N-Teo-N1+aYh7jwhrB=iWXD0cg@mail.gmail.com>
+Subject: Re: [PATCH RFC POC 00/50] file: handle files on syscall exit
+To: Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>, 
+	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Oleg Nesterov <oleg@redhat.com>, linux-alpha@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-um@lists.infradead.org, Jens Axboe <axboe@kernel.dk>, io-uring@vger.kernel.org, 
+	netdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, bpf@vger.kernel.org, 
+	David Airlie <airlied@redhat.com>, virtualization@lists.linux.dev, kvm@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-hyperv@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, 15 Sept 2026 at 04:31, Christian Brauner <brauner@kernel.org> wrote:
+>
+> TL;DR, this lets arch code handle fd install and cleanup. fd_prepare()
+> allocates a descriptor like get_unused_fd_flags() does and records it in
+> a slot on the task. fd_stage() attaches the file to that slot and
+> returns the number.
 
-On Fri, 11 Sep 2026 09:32:00 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+Honestly, I am *not* a fan. At all.
 
-> does any of this look real?
+I think this adds complexity rather than removing it.
 
-The mechanism seems real, but it only shows up with vm.defrag_mode=1,
-which is off by default.
+The diffstat tells a story:
 
-With defrag_mode=1, a costly __GFP_NORETRY allocation that used to fail
-cleanly can now succeed by fragmenting another migratetype's pageblock,
-which seems like the wrong trade for a caller whose premise is a cheap
-lower-order fallback. Johannes, do we want to keep it strict?
-If so, we could add a condition like below. It is equally
-applicable to v4 and v5. Happy to send it separately or in v6.
+>  106 files changed, 962 insertions(+), 861 deletions(-)
 
-	/*
-	 * Reclaim/compaction cannot run, so defrag_mode's strategy
-	 * of enforcing ALLOC_NOFRAGMENT cannot be fulfilled. Allow
-	 * fallbacks rather than failing the allocation outright.
-	 * Not for costly __GFP_NORETRY: those have a cheap lower
-	 * order fallback, so failing beats fragmenting.
-	 */
-	if (defrag_mode && (alloc_flags & ALLOC_NOFRAGMENT) &&
-	    !(costly_order && (gfp_mask & __GFP_NORETRY)) &&
-	    (gfp_mask & __GFP_KSWAPD_RECLAIM)) {
-		alloc_flags &= ~ALLOC_NOFRAGMENT;
-		goto retry;
-	}
+in how this adds a hundred lines more than it deletes.
 
+But to make things worse, it adds them in bad places: low-level
+architecture assembly code.
 
-Salvatore
+Those extra lines are *not* making complicated code simpler. Quite the
+reverse. They are taking fairly straightforward "just deal with errors
+with normal cleanup in the place where it makes sense" and makes the
+*straightforward* case simpler, while making the big picture more
+complicated and subtle, and adding new code to places that are not
+simple and just blindly do somethign that makes no sense in that
+context.
 
+IOW: it's more code, and it's more abstraction, and it DOES NOT HELP.
 
+And yes, most of the well-maintained modern platforms (read: x86 and
+arm64) use the generic infrastructure and they don't show that
+low-level asm effect. So for those cases, it's mainly just  that added
+conceptual complexity and a new odd rule - and makes a *successful*
+system call go through that "extra work" and indirection phase that it
+didn't use to go through.
 
+So it just spreads out the work, and moves it to a less obvious place.
 
+All for the very questionable advantage that you can now randomly add
+a file descriptor without the few lines of fairly straightforward
+rollback.
 
-AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
+IOW, I do not see a single real upside to this, and I see immediate
+downsides to it, and a more abstract complicated machinery.
 
+I do *not* see why we woudl want to make this be a "every system call
+exit" kind of thing. If there are places that think it's complicated
+to do, they could have *their* local little stack of fd's pending. Why
+force it onto the low-level system call entry for every system call
+when there are only a small handful of actual real cases (the vfs
+itself, and random ioctl's by odd driver subsystems).
 
-
+              Linus
