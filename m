@@ -1,260 +1,241 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F084B0CBA;
-	Tue, 15 Sep 2026 12:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65F23B71B0
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 13:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789475977; cv=none; b=BQabYyIfz5/TG5ywbVHRm7rB9p30UZo1dkzfHNR3dVaJDZjASkVGzk3nTi5jGu5OyjTIiyEM4umVGllCT6zIrcVI05UZ0CF3aKD7aXHhXumwMqZG2I6IsJwea9Dgt7bTU2805odHJe9hR1RptorjjQxDwe+ImR0G088Ew7GA12M=
+	t=1789477702; cv=none; b=Yf4PQtvq5P0X+07KXM/7YavUDLBPsO+LZt34lS1SkQVQ3sokTsXxLIxTltK3c8QNVng+oOjKVfn5obf1AfJTuJ1uCMFLETWsupYQ7pWE4qkvkBY0XiosbViJUAzXFr01dWwsz/LVWCZvDDEqegZ0/cjtrNLbzI/h3nKY5pjfY8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789475977; c=relaxed/simple;
-	bh=lq0lngLduJ8mrV1/1eiEUfTOeeHqY0gl9RVWMP4lI98=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=OsKRxz7HZJHr+rEA/iqBtURdAgMSQotoWn/wjiVCYWOmEabgN003BDuxDv+uIbUheGn+khZ/+Bq48hA+P3F0RmPhwM/GxF9cfp23PUcJo3KIbgUXnXgqtSy88yCFyoM2s9jCOA2IqYElfz6+eMoo69U1R7JI12LvfSTe8EHRZNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=LRGFUVnE; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1789477702; c=relaxed/simple;
+	bh=XU+2dnON3tB/nnqmlBy7PP4DEKnLSGjRoJgv0p+i0e8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cj0TtLRQz2bTpdk1IP19OyEPT+w4uFZYXCPBnci7KZTGW4ZGpb6sGkZdEw5z8cItj5/dPxoKsEPzpj6bxlp6E7Cuq8Ti2XmM/hH7KIzgUa7xwBE1KdvcINhCk6KWpnH8wZzgkO+3pDIPCNUGJxDGTfjzKyT3f0q5i+EjtsfkndI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lAGtosHP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="LRGFUVnE"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=ee6kjmbWRCPeHlhXi3JMY359javdTigKTF/zq5fK0vQ=;
-	b=LRGFUVnEkvR1LI1Y50Bwuo6Ckh0gYGC7iXD6ubPLbDvKogNVshK6k0YvVfuq/smUJdXEC8UZr
-	Ukgor+71FN7lpwC9z6A54X7jOyil/PNcFsj5rNoGmWENMkYvVM/ngNL+SDemj/WcyS/cXrIleZD
-	9svGpNDSWXbapv5uUClWwXY=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4hkhBJ2SLszcb3H;
-	Tue, 15 Sep 2026 20:28:08 +0800 (CST)
-Received: from whupemo200006.china.huawei.com (unknown [7.152.185.252])
-	by mail.maildlp.com (Postfix) with ESMTPS id 278A040579;
-	Tue, 15 Sep 2026 20:39:18 +0800 (CST)
-Received: from [10.174.178.219] (10.174.178.219) by
- whupemo200006.china.huawei.com (7.152.185.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 15 Sep 2026 20:39:16 +0800
-Subject: Re: [PATCH RFC v4 23/25] fs: start all kthreads in nullfs
-To: Christian Brauner <brauner@kernel.org>
-CC: <linux-fsdevel@vger.kernel.org>, Linus Torvalds
-	<torvalds@linux-foundation.org>, <linux-kernel@vger.kernel.org>, Alexander
- Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Jann Horn
-	<jannh@google.com>
-References: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
- <20260601-work-kthread-nullfs-v4-23-77ee053060e0@kernel.org>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <15174353-3f4a-a1ca-5bd1-ea2a4c77828e@huawei.com>
-Date: Tue, 15 Sep 2026 20:39:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lAGtosHP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 079841F000FF;
+	Tue, 15 Sep 2026 13:08:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789477700;
+	bh=tjgLUop72ZMvf0h92huxyx+PE6o+OUOeA3B67aAkAJE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lAGtosHPT8bQQHdHedEA82sBRcvEs3tM49nVDjy5CxbMGop9XwEdcCFmAHewy8xhV
+	 lqHD9QgMJBJOLy9oduSs5wDkeZpMoeT7EIjwx8dqetXoXZoRD4qM0a6nTeisgAh/7a
+	 WdTzRDf2r28CVnki9XxnCTOwZtG8LLs5gXKofrjfKIcTUOANxwfM+wdSRr4gnFl3YF
+	 aOJGlp4IxJ8QzGFKjExM1LsD2tXaWO7XUKVLHDzL59aPewyIoVR9WZBisBBgJjFR2O
+	 oC+FxcHlcIUXuhLLA28EIG7QAI1Vd+JB66hLEaiz7QGm9xpKgNKLLn+vgKroUvjgvf
+	 d4EI3K3ex5MfA==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.ams.internal (Postfix) with ESMTP id A9902198003A;
+	Tue, 15 Sep 2026 09:08:09 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Tue, 15 Sep 2026 09:08:16 -0400
+X-ME-Sender: <xms:OUOpaoohDrvyZdMAv3BPSTqKZ3EwSFK1v6xeT7Fhr2cOPnwI3EaXDw>
+    <xme:OUOpatVAjgiVezhqwjrruUmqPHwzpXybZ8aBoNe6d0UDW2E1u1WP4HMNS74KzkTBo
+    VpKdcBI_BdlNUGUp1c886jmRowZ3Sajf0h_qn_ccoZHG14sa-mU4w9c>
+X-ME-Received: <xmr:OUOpagIOMzypL5NqY7x1Isf-AbgluKlNv1fFYR052KcVUr5cPKdSdsvWVrI>
+X-ME-Proxy-Cause: dmFkZTGBwKK+2xwAnE7Nssghb1/SceAcmQ+4ywIAoFrTlislToHtIv8OmG+4NsbsKAXvcf
+    UX6cRBjc80nWIknxGObjdDxbScPZQabPCAe3OX00a7onnc54qK4hOE8AR/EWB4wi/Nye97
+    OvMk7+uHW6ShYCAo0+Ba7DJ7JC4XBBW4+UFWxhrsQbs9OTmsUcfqOGJZj2WMC2dVv6zq0s
+    J6y7i24qWBikceH5CMyBGbLKiFXaff8mNpAp9X4rOSZM6nNOGc7G4i2DST4cL9UnmXg22A
+    cZl+hrpQH8Uao3fk9/rsQQ4MR8GopSdsyVdAlO4o00a8fAIgChTEjjeAF43IoApGnFvCjc
+    NmPXJJKhd9vSE/abZ8epf9nO345U38qzMWorDQY75NAOI/pCRfxGb/0kw/Ed4sTjhwqk7j
+    7eUGmH9xej+bNAkAJbCp/3BqMox7rHVFOaxBHh6o15OTTQZPRzCHIdbgVTwbpffP2953Su
+    X4peartElqpBPur1xD6G+uCr2JFQuvqa390Z8csCX3cJbf8Ak8sYGcv5lCRbxWONdVMNKl
+    NqtP8tih8iA3fhvMBNUpOoDOVUEx/C6o/NNjJN0qIEnrmrQ0KUq401HM56Hss9U4JbXwSn
+    qMUv76AlYpWq9JIeqKXGd83ecti/2bF/6ZtkFn7+bkZCMPOwRHr4d5VK+IgA
+X-ME-Proxy: <xmx:OUOpagiKiXANC8dYaGhAfZLjTQ4zfKJ3v5KjBZNHA7h-wUgVEvbadg>
+    <xmx:OUOpaom746o2T__gb-FYFjQ56UeeBfnHp3-sDK9BMv2soZ-0JeRypg>
+    <xmx:OUOparHPrELkf3NiInnlkfUl51_6S-QUsZKTMTEnRGPkmI663w8ltA>
+    <xmx:OUOpatRqm-PJBL36gxjY6GjwgsjdVCOuJoeY4MtKlJq6gA9rUpyodw>
+    <xmx:OUOpan43kOMGLJ9R5slFZzX9DAK82GGV_4MhasX0GL5dyiIx4BZoqRmV>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Sep 2026 09:08:07 -0400 (EDT)
+Date: Tue, 15 Sep 2026 14:08:06 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Hugh Dickins <hughd@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ 	Ackerley Tng <ackerleytng@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ 	Alexandre Ghiti <alex@ghiti.fr>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ 	Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>,
+ 	Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ 	Christoph Lameter <cl@gentwo.org>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ 	David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>,
+ Jan Kara <jack@suse.cz>, 	Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, 	Kairui Song <ryncsn@gmail.com>,
+ Lance Yang <lance.yang@linux.dev>, 	Leonardo Bras <leobras.c@gmail.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, 	Marcelo Tosatti <mtosatti@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ 	Mel Gorman <mgorman@techsingularity.net>,
+ Miaohe Lin <linmiaohe@huawei.com>, 	Michal Hocko <mhocko@suse.com>,
+ Minchan Kim <minchan@kernel.org>, 	Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ 	Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Rik van Riel <riel@surriel.com>,
+ 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ 	Suren Baghdasaryan <surenb@google.com>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ 	Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>,
+ Zach O'Keefe <zokeefe@google.com>, 	Zi Yan <ziy@nvidia.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 07/26] mm/fbatch: LRU_NEXT_ACTIVATE bit to optimize
+ folio_activate()
+Message-ID: <aqk7PbBfhO1GV2sa@thinkstation>
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+ <c44a34f8-ea3c-48cd-27d5-02df129be685@google.com>
+ <aqLaa4QvXMbQaIWG@thinkstation>
+ <84fecd13-f1e4-7d40-94c9-963f5c2f7aee@google.com>
+ <5bd863e9-30a3-c01a-dc8c-c3802b864a6c@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260601-work-kthread-nullfs-v4-23-77ee053060e0@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- whupemo200006.china.huawei.com (7.152.185.252)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5bd863e9-30a3-c01a-dc8c-c3802b864a6c@google.com>
 
-Hi Christian,
-
-On 2026/6/1 21:56, Christian Brauner wrote:
-> Point init_task's fs_struct (root and pwd) at a private nullfs instance
-> instead of the mutable rootfs. All kthreads now start isolated in nullfs
-> and must use scoped_with_init_fs() for any path resolution.
+On Mon, Sep 14, 2026 at 01:19:37PM -0700, Hugh Dickins wrote:
+> On Sat, 12 Sep 2026, Hugh Dickins wrote:
+> > On Thu, 10 Sep 2026, Kiryl Shutsemau wrote:
+> > > On Wed, Sep 09, 2026 at 02:55:41AM -0700, Hugh Dickins wrote:
+> ...
+> > > > diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+> > > > index 8420b1276535..8f5efadf9c7c 100644
+> > > > --- a/include/linux/mm_inline.h
+> > > > +++ b/include/linux/mm_inline.h
+> > > > @@ -346,6 +346,7 @@ static inline void folio_migrate_refs(struct folio *new, const struct folio *old
+> > > >  enum {
+> > > >  	LRU_NEXT_NEVER_TAIL = 0,	/* Used by a tail's compound_head */
+> > > >  	LRU_NEXT_BATCHED = 1,		/* Not used by any aligned pointer */
+> > > > +	LRU_NEXT_ACTIVATE,
+> > > >  	NR_LRU_NEXT_FLAGS
+> > > >  };
+> > > >  
+> > > > @@ -358,6 +359,9 @@ bool lru_add_del_folio(struct folio *folio)
+> > > >  	if (!(lru_next & BIT(LRU_NEXT_BATCHED)))
+> > > >  		return false;
+> > > >  
+> > > > +	if (lru_next & BIT(LRU_NEXT_ACTIVATE))
+> > > > +		folio_set_active(folio);
+> > > > +
+> > > >  	WRITE_ONCE(folio->lru.next, LIST_POISON1);
+> > > >  	/* BUG_ON(folio->lru_next & BIT(LRU_NEXT_BATCHED)); */
+> > > >  
+> > > > diff --git a/mm/folio.c b/mm/folio.c
+> > > > index a18d8ef6afd5..0b75c3b69d5a 100644
+> > > > --- a/mm/folio.c
+> > > > +++ b/mm/folio.c
+> > > > @@ -256,15 +256,32 @@ static void lru_activate(struct lruvec *lruvec, struct folio *folio)
+> > > >  
+> > > >  void folio_activate(struct folio *folio)
+> > > >  {
+> > > > +	unsigned long lru_next;
+> > > > +
+> > > >  	if (folio_test_active(folio) || folio_test_unevictable(folio) ||
+> > > >  	    !folio_test_lru(folio))
+> > > >  		return;
+> > > >  
+> > > >  	/*
+> > > > -	 * XXX: It is curiously difficult to recreate safely the old
+> > > > -	 * __lru_cache_activate_folio() optimization (folio_set_active()
+> > > > -	 * directly if it's on the local lru_add fbatch): revisit later.
+> > > > +	 * This optimization is intended for the common case of folio
+> > > > +	 * having been recently added to this CPU's lru_add fbatch.
+> > > > +	 * But since other CPUs can now take it at any instant (after
+> > > > +	 * a folio_test_clear_lru()), and we may be migrated to another
+> > > > +	 * CPU, it is simplest just to extend the optimization to all CPUs.
+> > > > +	 *
+> > > > +	 * folio_set_active() would be unsafe without the lruvec lock, and
+> > > > +	 * a folio_test_clear_lru() here might cause a racing drain of the
+> > > > +	 * lru_add fbatch to skip its lru_add(): so use try_cmpxchg().
+> > > >  	 */
+> > > > +	lru_next = READ_ONCE(folio->lru_next);
+> > > > +	while (lru_next & BIT(LRU_NEXT_BATCHED)) {
+> > > > +		if (lru_next & BIT(LRU_NEXT_ACTIVATE))
+> > > > +			return;
+> > > > +		if (try_cmpxchg(&folio->lru_next, &lru_next,
+> > > > +				lru_next | BIT(LRU_NEXT_ACTIVATE)))
+> > > > +			return;
+> > > 
+> > > Hm. What prevents the folio from becoming unevictable under us here?
+> > > I don't see anything.
+> > > 
+> > > __folio_add_lru() wouldn't like it:
+> > > 
+> > > 	VM_BUG_ON_FOLIO(folio_test_active(folio) &&
+> > > 			folio_test_unevictable(folio), folio);
+> > > 
+> > > folio_lru_list() has the VM_BUG() too.
+> > 
+> > You're right, thank you. I thought I had deleted all such VM_BUG_ONs:
+> > and indeed I had, but only in a patch I later decided was too much for
+> > this series (removing PG_unevictable, using !folio_evictable() in some
+> > places, or folio_test_unevictable() testing another POISON in lru_next).
+> > 
+> > That excuse is not enough for this series! Yes, I must send a fixup,
+> > but not today.
+> > 
+> > > 
+> > > I am not sure what the right fix is.
+> > > 
+> > > Maybe lru_add_del_folio() should only call folio_set_active() on
+> > > !folio_test_unevictable() folios?
 > 
-> PID 1 is moved from nullfs into the initramfs by init_userspace_fs().
-> Usermodehelper threads use userspace_init_fs via the umh flag in
-> copy_fs(). All subsystems that need init's filesystem state for path
-> resolution already use scoped_with_init_fs() from earlier commits in
-> this series.
+> I was writing the commit message to a 7.1/26 fixup patch,
+> when I found I just could not describe any possible race here.
 > 
-> This isolates kthreads from userspace filesystem state and makes it
-> hard to perform filesystem operations from kthread context.
+> (And I was using your first suggestion, above: in the longer term I
+> prefer what I chose below, but decided it was better not to get into
+> that now: deleting various VM_BUG_ON_FOLIOs is better argued elsewhere.
+> There's another of them in folio_migrate_flags().)
 > 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/namespace.c | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
+> folio_activate() has just checked !folio_test_unevictable(), so
+> it would have to be a race with something which sets the unevictable
+> flag on this folio at the same time as we find it's LRU_NEXT_BATCHED.
 > 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index fe919abd2f01..43ca4838d451 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -6173,12 +6173,14 @@ static void __init init_mount_tree(void)
->  	struct path root;
->  
->  	/*
-> -	 * We create two mounts:
-> +	 * We create three mounts:
->  	 *
->  	 * (1) nullfs with mount id 1
->  	 * (2) mutable rootfs with mount id 2
-> +	 * (3) private nullfs for kthreads (SB_KERNMOUNT)
->  	 *
-> -	 * with (2) mounted on top of (1).
-> +	 * with (2) mounted on top of (1). The init_task's root and pwd
-> +	 * are pointed at (3) so all kthreads start isolated in nullfs.
->  	 */
->  	nullfs_mnt = vfs_kern_mount(&nullfs_fs_type, 0, "nullfs", NULL);
->  	if (IS_ERR(nullfs_mnt))
-> @@ -6218,12 +6220,14 @@ static void __init init_mount_tree(void)
->  		init_mnt_ns.nr_mounts++;
->  	}
+> !folio_evictable() might become true at any instant,
+> but folio_test_unevictable()?
+> 
+> I cannot see what the racer could be: can you? I can see lru_add()
+> making it unevictable afterwards; and I can see folio migration
+> (successful or not) carrying unevictable forwards (or setting it
+> on a freshly allocated folio). But I cannot see any risky race
+> for folio_activate() or folio_mark_accessed() here.
 
-|	LOCK_MOUNT_EXACT(mp, &root);
-|	if (unlikely(IS_ERR(mp.parent)))
-|		panic("VFS: Failed to mount rootfs on nullfs");
-|	scoped_guard(mount_writer)
-|		attach_mnt(real_mount(mnt), mp.parent, mp.mp);
+I was thinking of race with mlock() plus a failed compaction (assuming
+compact_unevictable_allowed is 1):
 
->  
-> +	nullfs_mnt = kern_mount(&nullfs_fs_type);
-> +	if (IS_ERR(nullfs_mnt))
-> +		panic("VFS: Failed to create private nullfs instance");
-> +	root.mnt	= nullfs_mnt;
-> +	root.dentry	= nullfs_mnt->mnt_root;
+	CPU0						CPU1
+folio_activate()
+  folio_test_unevictable() == false
+  folio_test_lru() == true
+						__mlock_folio()
+						  folio_set_unevictable()
+						  <moves to LRU_UNEVICTABLE>
+						...
+						compact_zone()
+						  isolate_migratepages()
+						    isolate_migratepages_block()
+						      folio_test_clear_lru()
+						      lruvec_del_folio()
+						  <migration fails>
+						  putback_movable_pages()
+						    folio_putback_lru()
+						      __folio_add_lru() // !active, unevictable
+						        lru_next |= BIT(LRU_NEXT_BATCHED);
+						        folio_set_lru()
+  lru_next = READ_ONCE(lru_next)
+  // lru_next has LRU_NEXT_BATCHED
+  try_cmpxchg(lru_next | LRU_NEXT_ACTIVATE) == true
 
-The following lockdep splat can be triggered on mainline, which is built
-with arm64's defconfig plus
-
-	CONFIG_SHRINKER_DEBUG
-	CONFIG_PROVE_LOCKING
-	CONFIG_FTRACE
-
-.  Reverting this patch (as pointed out by AI) makes this warn disappear.
-Please have a look :-) .
-
-Thanks,
-Zenghui
-
----8<---
-
- ======================================================
- WARNING: possible circular locking dependency detected
- 7.3.0-rc3+ #17 Not tainted
- ------------------------------------------------------
- rasdaemon/4449 is trying to acquire lock:
- ffff80008246cb78 (namespace_sem){++++}-{4:4}, at: lock_mount_exact+0x4c/0x308
-
- but task is already holding lock:
- ffff002080496980 (&sb->s_type->i_mutex_key#17){++++}-{4:4}, at: lock_mount_exact+0x3c/0x308
-
- which lock already depends on the new lock.
-
-
- the existing dependency chain (in reverse order) is:
-
- -> #3 (&sb->s_type->i_mutex_key#17){++++}-{4:4}:
-        down_read+0x48/0x164
-        lookup_slow+0x30/0x68
-        lookup_noperm_unlocked+0x58/0x5c
-        debugfs_change_name+0xd4/0x33c
-        shrinker_debugfs_rename+0xa8/0x118
-        setup_bdev_super+0x130/0x260
-        get_tree_bdev_flags+0x12c/0x1ec
-        get_tree_bdev+0x14/0x20
-        ext4_get_tree+0x18/0x24
-        vfs_get_tree+0x28/0xec
-        path_mount+0x3ec/0xbb8
-        __arm64_sys_mount+0x190/0x2d8
-        invoke_syscall+0x54/0x110
-        el0_svc_common.constprop.0+0x40/0xe0
-        do_el0_svc+0x1c/0x28
-        el0_svc+0x4c/0x3a4
-        el0t_64_sync_handler+0xa0/0xe4
-        el0t_64_sync+0x198/0x19c
-
- -> #2 (shrinker_mutex){+.+.}-{4:4}:
-        __mutex_lock+0x90/0x870
-        mutex_lock_nested+0x24/0x30
-        shrinker_alloc+0x158/0x4a0
-        sget_fc+0x2fc/0x7b8
-        get_tree_nodev+0x2c/0xb8
-        nullfs_fs_get_tree+0x18/0x24
-        vfs_get_tree+0x28/0xec
-        vfs_kern_mount.part.0+0xcc/0x130
-        mnt_init+0x12c/0x470
-        vfs_caches_init+0x120/0x294
-        start_kernel+0x824/0x93c
-        __primary_switched+0x88/0x90
-
- -> #1 (&type->s_umount_key#2/1){+.+.}-{4:4}:
-        down_write_nested+0x34/0xcc
-        sget_fc+0x14c/0x7b8
-        get_tree_nodev+0x2c/0xb8
-        nullfs_fs_get_tree+0x18/0x24
-        vfs_get_tree+0x28/0xec
-        vfs_kern_mount.part.0+0xcc/0x130
-        mnt_init+0x2b0/0x470			-> kern_mount()
-        vfs_caches_init+0x120/0x294
-        start_kernel+0x824/0x93c
-        __primary_switched+0x88/0x90
-
- -> #0 (namespace_sem){++++}-{4:4}:
-        __lock_acquire+0x1490/0x21b8
-        lock_acquire+0x1d8/0x404
-        down_write+0x38/0xd0
-        lock_mount_exact+0x4c/0x308
-        finish_automount+0x70/0x134
-        __traverse_mounts+0xd4/0x22c
-        step_into_slowpath+0x2ec/0x390
-        path_openat+0x2b0/0x8d4
-        do_file_open+0x98/0x158
-        do_sys_openat2+0x78/0xfc
-        __arm64_sys_openat+0x70/0xbc
-        invoke_syscall+0x54/0x110
-        el0_svc_common.constprop.0+0x40/0xe0
-        do_el0_svc+0x1c/0x28
-        el0_svc+0x4c/0x3a4
-        el0t_64_sync_handler+0xa0/0xe4
-        el0t_64_sync+0x198/0x19c
-
- other info that might help us debug this:
-
- Chain exists of:
-   namespace_sem --> shrinker_mutex --> &sb->s_type->i_mutex_key#17
-
-  Possible unsafe locking scenario:
-
-        CPU0                    CPU1
-        ----                    ----
-   lock(&sb->s_type->i_mutex_key#17);
-                                lock(shrinker_mutex);
-                                lock(&sb->s_type->i_mutex_key#17);
-   lock(namespace_sem);
-
-  *** DEADLOCK ***
-
- locks held by rasdaemon/4449: 1, last CPU#95:
-  #0: ffff002080496980 (&sb->s_type->i_mutex_key#17){++++}-{4:4}, at: lock_mount_exact+0x3c/0x308
-
- stack backtrace:
- CPU: 95 UID: 0 PID: 4449 Comm: rasdaemon Not tainted 7.3.0-rc3+ #17 PREEMPT
- Hardware name: Huawei TaiShan 2280 V2/BC82AMDDA, BIOS 1.05 09/18/2019
- Call trace:
-  show_stack+0x18/0x24 (C)
-  dump_stack_lvl+0x90/0xd0
-  dump_stack+0x18/0x24
-  print_circular_bug+0x294/0x378
-  check_noncircular+0x164/0x178
-  __lock_acquire+0x1490/0x21b8
-  lock_acquire+0x1d8/0x404
-  down_write+0x38/0xd0
-  lock_mount_exact+0x4c/0x308
-  finish_automount+0x70/0x134
-  __traverse_mounts+0xd4/0x22c
-  step_into_slowpath+0x2ec/0x390
-  path_openat+0x2b0/0x8d4
-  do_file_open+0x98/0x158
-  do_sys_openat2+0x78/0xfc
-  __arm64_sys_openat+0x70/0xbc
-  invoke_syscall+0x54/0x110
-  el0_svc_common.constprop.0+0x40/0xe0
-  do_el0_svc+0x1c/0x28
-  el0_svc+0x4c/0x3a4
-  el0t_64_sync_handler+0xa0/0xe4
-  el0t_64_sync+0x198/0x19c
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
