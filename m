@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C810A42AF9D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 16:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A1533DEF7
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 16:30:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789489607; cv=none; b=O4089LxXFMCk48xW/cobTzymWg/irZ4Owh5+BS5pngCjI2FiOGxoaHOTB+H1+BKTS/F60BfZxIfYfW3yFVFiqQ/wYVOsu7yVRkw2OeqE8GEmSIRDf/gwbLjLRLaa4OIegh2O/oJ8gh35vpnjWZ7+wX8jcCGvtz7grXLDazozxjs=
+	t=1789489833; cv=none; b=NcFIAr4Ri4FBiaTA5LiYgaugQfsmbQ9Z4xlaK8iWV6GLkGLevA9UjA1tyR+MiCkWzYSuz2v1318PXZjrL7/3HnO8mBZEwHyOeRBzaISGHDTylZj8GGJk1yv9zRud+t1A9TlbigqpvaYHiZseIiXtVsGJ7TYcscrkIcsu1Md+IzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789489607; c=relaxed/simple;
-	bh=kqx4XSzosXM/FuHozyi3YkQxepdc8QGC58mjew05E5k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QTsQ+i3+QZkho4xYNG6Q4O4oOrnk/sCw1hwRBEmQxqTnR7ZDySh7AUHIRO2yUc2oV0QJV3GuoGAWB5xckdAcNtXEhMMTKxEcInCOWIzqKXACbYrSMluQTPQ09GQgmlsyRzH8trttPN4gugHznqac0Ec1e7fV3KGDOLFvdtk6408=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+J0anu9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789489833; c=relaxed/simple;
+	bh=hFPtwixBRU5C73Mm8F5z6LrifwBlnSEGH5U3F3aaifw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZANcei+m8vx3YOZ/M9T4WkRLU9wi5cpfEBp9sxe0eCjAeCQ7ZvKO6luwvUrl/pTD2zmbpjmtVFqdjEHRtQOmEMO95kQK7xoQoe3hiAfIHA6HfuIM5NcFYOrhI/IBlT14VCysJME+5ITetoi8wrpVgYwGqhU5Aqs4KkGvVmgfNjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mtVWeMz0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+J0anu9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B581A1F000FF;
-	Tue, 15 Sep 2026 16:26:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mtVWeMz0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 883A81F000FF;
+	Tue, 15 Sep 2026 16:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789489605;
-	bh=O1/T+YthcYQiQcvgOlcg2zbQ/FH+7l6CzfyhXlvMrGk=;
+	s=k20260515; t=1789489832;
+	bh=hArmy0s1DYARQYgiC6jKoJJZ2kFLjizxdMLebyW+LO4=;
 	h=From:To:Cc:Subject:Date;
-	b=n+J0anu9jfmEi/EUH2N2Gu0+ltsbzQJe4Krwfaxgk84Q67X19N9nIuWGsQgeI6oB5
-	 QjiYVvgNtbM6rRb+RmSWmMi9+3gHk+yag6A8eQ4gPKO9kTZk8AsWjP/VbjB7vmXf/Y
-	 hWkbzi6fl5245TTKyKgNTvsWDHIgTl0trkScdxaWL7QOkaYfMl6eh16ne7hWKjnxm6
-	 3f6HGgnB5B5XGpvbSZGIf2RHLOa+GvH1cqMgTXG+lVWtRL99TCqtFqSqPBBVahPpFv
-	 1Am5MjvXR9KLVsr8iK/p6yvnO4a5UyvB5UJTSTLEv+i7Yz69gIMtAoAJk0TJOBwbtS
-	 sH3I2mWXkoU4A==
+	b=mtVWeMz0sxhUaGG43AjQ9wTRQB0NzNUayja2MGgoObL9wJBXdJE7Hc8pGsPIc1nAs
+	 O/lQfFdhUYFqUQLVc7PUyEbbRkgenU8dLBHH5jZ2FB4eEDajT3T1BYFC3LG+zHlXnQ
+	 ZWkaOXrp6iinYAJuRlvC2GvBNRPioboIhmo+rTrxwPxHiNJ9ldOoXe/87L4QsOA+AI
+	 zndyeo9+5Zx8qZqBSc/13+iQv4ouSLxeBtl38HqYEWqTjWG7+9LPMuXTMnFr73vHNh
+	 MZ9sJ0UMVuuH8sXuCLc8tmRWnvEQ3A8ofAMHesWorGhGRo9e9+SgS8a97+UPPnwj81
+	 UAi3CQTtkbi1A==
 From: hubcap@kernel.org
 To: linux-fsdevel@vger.kernel.org
-Cc: Mike Marshall <hubcap@omnibond.com>
-Subject: [PATCH] orangefs_super: don't wait on service operation on system shutdown.
-Date: Tue, 15 Sep 2026 12:26:33 -0400
-Message-ID: <20260915162637.499735-1-hubcap@kernel.org>
+Cc: Mike Marshall <hubcap@omnibond.com>,
+	lkp@intel.com
+Subject: [PATCH] orangefs: use ssize_t instead of size_t for error codes...
+Date: Tue, 15 Sep 2026 12:30:25 -0400
+Message-ID: <20260915163027.500798-1-hubcap@kernel.org>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -42,44 +43,57 @@ Content-Transfer-Encoding: 8bit
 
 From: Mike Marshall <hubcap@omnibond.com>
 
-If someone reboots the system while an orangefs filesystem is still
-mounted, don't wait for the completion of an unmount service operation
-that's never going to return.
+strscpy can return size or errno.
 
 Signed-off-by: Mike Marshall <hubcap@omnibond.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202604071606.asPgJ8Fk-lkp@intel.com/
 ---
- fs/orangefs/super.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ fs/orangefs/orangefs-debugfs.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/fs/orangefs/super.c b/fs/orangefs/super.c
-index 4ec7329b41f6..e6eedb2faef7 100644
---- a/fs/orangefs/super.c
-+++ b/fs/orangefs/super.c
-@@ -383,6 +383,24 @@ static int orangefs_unmount(int id, __s32 fs_id, const char *devname)
+diff --git a/fs/orangefs/orangefs-debugfs.c b/fs/orangefs/orangefs-debugfs.c
+index 9f94919a6bc6..fec7c1e864d2 100644
+--- a/fs/orangefs/orangefs-debugfs.c
++++ b/fs/orangefs/orangefs-debugfs.c
+@@ -238,7 +238,7 @@ void orangefs_debugfs_init(int debug_mask)
+ static void orangefs_kernel_debug_init(void)
  {
- 	struct orangefs_kernel_op_s *op;
- 	int r;
-+
-+	/*
-+	 * If someone reboots linux without unmounting orangefs first,
-+	 * don't bother firing off an unmount service operation that
-+	 * will never complete, or the whole system shutdown
-+	 * stalls for ORANGEFS_DEFAULT_OP_TIMEOUT_SECS.
-+	 */
-+
-+	if (!__is_daemon_in_service() ||
-+		system_state == SYSTEM_HALT ||
-+		system_state == SYSTEM_POWER_OFF ||
-+		system_state == SYSTEM_RESTART) {
-+			gossip_debug(GOSSIP_SUPER_DEBUG,
-+				"%s: dirty unmount.\n",
-+				__func__);
-+			return 0;
-+	}
-+
- 	op = op_alloc(ORANGEFS_VFS_OP_FS_UMOUNT);
- 	if (!op)
- 		return -ENOMEM;
+ 	static char k_buffer[ORANGEFS_MAX_DEBUG_STRING_LEN] = { };
+-	size_t len =
++	ssize_t len =
+ 		strscpy(k_buffer, kernel_debug_string, sizeof(k_buffer) - 1);
+ 
+ 	if (len > 0) {
+@@ -246,7 +246,8 @@ static void orangefs_kernel_debug_init(void)
+ 		k_buffer[len + 1] = '\0';
+ 	} else {
+ 		strscpy(k_buffer, "none\n");
+-		pr_info("%s: overflow 1!\n", __func__);
++		if (len <0)
++			pr_info("%s: overflow 1!\n", __func__);
+ 	}
+ 
+ 	debugfs_create_file_aux_num(ORANGEFS_KMOD_DEBUG_FILE, 0444, debug_dir, k_buffer,
+@@ -337,7 +338,7 @@ static int help_show(struct seq_file *m, void *v)
+ static void orangefs_client_debug_init(void)
+ {
+ 	static char c_buffer[ORANGEFS_MAX_DEBUG_STRING_LEN] = { };
+-	size_t len =
++	ssize_t len =
+ 		strscpy(c_buffer, client_debug_string, sizeof(c_buffer) - 1);
+ 
+ 	if (len > 0) {
+@@ -345,7 +346,8 @@ static void orangefs_client_debug_init(void)
+ 		c_buffer[len + 1] = '\0';
+ 	} else {
+ 		strscpy(c_buffer, "none\n");
+-		pr_info("%s: overflow! 2\n", __func__);
++		if (len <0)
++			pr_info("%s: overflow! 2\n", __func__);
+ 	}
+ 
+ 	client_debug_dentry = debugfs_create_file_aux_num(
 -- 
 2.55.0
 
