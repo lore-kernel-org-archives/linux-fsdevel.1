@@ -1,170 +1,184 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B5045D91C;
-	Tue, 15 Sep 2026 08:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B617B48A2A9
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 08:34:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789460604; cv=none; b=gM2CuRcLL+lZnAQwXG0X3v8HFsgQoBXDzRL2crerV9MfoMQFeJ9AvwpKXGab5JvsL1eILL1IrkatgKrRi4t/QIfINqaKBfzG9/GI5AZOI2k/lSEuA5ZYSeTV/RSQZfL3nXVIlJYNxwMNr5BaKUwz7feqIKLdLbvPWR52AYRtsZA=
+	t=1789461255; cv=none; b=rffxnrBZ6br69cNpXWFpwA3XWwKllH0vrZFZiOXXjL3bqwKiCLJfdL+t1AHbjBMxU+AcdNwpFgPWic8cHJFjcTJI7ywikulSGmh/XTx0EPIOUEY34s+R+ua+GLd3BkR2mc9U54q6clOuGohT9gWitRDfu6Fm1jKuIFKc9KGxlQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789460604; c=relaxed/simple;
-	bh=Q6hjAE+9q8egGVVb02CPWb1wLjOusvGxKkXCzWLChHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kCzpDxx8cXiQnx8vYFQFzW5b4fcdNVscnHBsUfKYs5EjS4p15M0rVszAu9qHnXhJ/t494tehcec0rcZfuVbLOzurCXdljD6a3gwMO9zV2O31MN4S6vvYNRNFHm3j2nzSuxtELkWOoYg6d9GZTjn2Hjs6JdZ04q+xC5ZY3jBXqDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ipzJcm8I; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789461255; c=relaxed/simple;
+	bh=mMnIRUx9uBCAogbRbbeRXnqqhUuA70DoXdIBREBFHxM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lsusStEvDfpjt4QIBTmiT5bo5klPy27KBMxnA8QKcA+XQKHgFHbHD3xIXGFWNHUCCiOdPU7PuyaDFvPpDXcj8Jw21WgjpjW0+QInnrgJpW3ICmQjpcTpDeaurJpkYEi/sz+hRohkwY7fpzmBcdA0hipU61haEjB4FmJVu6XGbVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Ip5cVX3N; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ipzJcm8I"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=GLQ264WxN6wDQzABD1f2vOcHnnY8r7L3wdbiMWb63xA=; b=ipzJcm8I1ST/GUt421dYmJnfyI
-	vMJ7fwLPm50oqJU0jqpXgWe24q407KlTdH7SXHQr7TDXrJ0cM1tEYBnW9xuMF681fSZbRWEhC0xLD
-	6pneXq40+9I4oviAF01pBkAh9+iexFHZvr8Q0AJ9eQUZ1IpxpzGhf4HDVrlwFQYzTx+rlpPRZqXIS
-	bi5aWaDAYx9YdPtSyaz9+cEy9G45/haDccskEkn/nT4u1JIUGIvbu/z3wOp8oYMS5UFYrgQZ3LkKc
-	D4oDDw5Avnj0AUqbEB+wgK/erFclXrfrCAUd2232oXhxiftApCzjDlcWbdLgQanaRy0SwbWde3WVp
-	73UWs78A==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1x6ORS-00000006QWi-1bHr;
-	Tue, 15 Sep 2026 08:23:04 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id F1FDF3012C6; Tue, 15 Sep 2026 10:23:00 +0200 (CEST)
-Date: Tue, 15 Sep 2026 10:23:00 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Kees Cook <kees@kernel.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	wireguard@lists.zx2c4.com, netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	rcu@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-rt-devel@lists.linux.dev, llvm@lists.linux.dev,
-	Yury Norov <yury.norov@gmail.com>
-Subject: Re: [PATCH 01/17] locking/mutex: assert static storage for
- DEFINE_MUTEX()
-Message-ID: <20260915082300.GV4121339@noisy.programming.kicks-ass.net>
-References: <20260915030336.1192299-1-ynorov@nvidia.com>
- <20260915030336.1192299-2-ynorov@nvidia.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Ip5cVX3N"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d8fb334e72so29155565ad.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 01:34:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1789461252; x=1790066052; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vwYuAUVTEM1KZY8XIMf3dOzuS7TDv0+6YLYzPNZ/wUM=;
+        b=Ip5cVX3N28zPJTWC1Di5w4pkmN0nB5Gto/nBoZ2F5TmhCc3X+QjzbTSx1zVfj1LJa2
+         EPDo7sU4SEy0m+Im2nnuMMev124T0D9fBxDAr9btY33qT5929l7HyQS+vOQKRDWOPCos
+         PTzr+ziGt4U2maKgE12QLzqZNMDltAeRyOJKlzdB+rikOhfPd0LG89pX5pszsEI1o7WC
+         TeP5x79aCxbPMJnln+newI2IAblnQctppRquuroYzzEVnn1RtVvS5IEQw52AvlD6Nzje
+         pOXKrzIAWGkrO7OZmM+O+RUX3bNa+4qdVLy97SmJn1r4OmnUCDH/eXUkI4bbAXwIQVxQ
+         T2IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789461252; x=1790066052;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vwYuAUVTEM1KZY8XIMf3dOzuS7TDv0+6YLYzPNZ/wUM=;
+        b=zwevoKgkuTQ/ZeQN2T3/+LmNgCoP9r0vxQGUY52c7NPdXMZofU/9vLbF+X+hS2XdKG
+         TCMbzP/bI8mAnFoIdEgZIwL3YjdfH7Ag+tqjYVNlaVqKoJ/VmvvLRVG49BOwNR9FQWVI
+         l5h2j3Vqgv4MfJzuN98tJRf7fjEl22rm8lsdNWxgdNOq2IhBbyNDSHUCGWhwVyKCimzP
+         BwoKhTdOphZJB/VG308AemfXpILAYQYyfq5BkyQKLvVMJV15R3/LUaqjpZdEmyvlY2Av
+         ucdPlWYbddqc7RaNWkaVvpN5TVhod7uzDgEMmayZZzbpoqKrkD72JqOOXjHPKZx/3fcP
+         ykMA==
+X-Forwarded-Encrypted: i=1; AKwUvBxFTqNz/8XYxUfTUHL1zXeblxqPDhwMGi9VBlnJi5DeDQ5gtaK5DUfaUd+041qOUbAQiOCGMxJFs8dcbVdS@vger.kernel.org
+X-Gm-Message-State: AFuF++ngiErJ6YWCWA5U/1LSrTncTdM4zb/QqUYiZ3AdqLMeDwMJsOVJ
+	0ch8iyXmetN8+9UhPIxvbga8qL7OS6rLm0wjm8pf3fVkf7ffFFliBzS2CQnobqz193U=
+X-Gm-Gg: AYBFou2PINrgDfzxER1HMSqGT9b2ocs4s2FjaBkwo2tCD0vJADLXeDgl/B1saZ64nAI
+	edGmndj9WZl/JJzEIrLbZADWomVG0BfwuywX46Q9PciKbUozbNwttMtmIyjtWZ0Q6RcdID4XM3l
+	PQPXeLYkt9gm/q7NoLoB9d0wGJ/tlYMOFETu4X/6t9TQ/w5DeubmPA7D+v5EP+Tfr+1nUroW5cx
+	srfBgth65QTJYebkuEUpOZtyltz4Up+JukV5TQ5X2+tHSbs3oD56Wb+a8ht7H/1AH43oQm/Vm3J
+	xPw5AFM6KhGKztPdxUQyau2Vxw7acYcitD3ir9JAyJ2aAVG1kc2kBSWXHTROp4nZ7/f0RU6azNs
+	2fi8umNMOwcyRNi7vu8rvg7JjjV9RJkz5Zq0l8fu/LfDX7pJCWFdCfIRfH5O+vHs2GOKKSBzH9V
+	siHYlmrE65quKbf3gq0DUIjdMGEI7CiAPNs3QcAPAUhRUiDpIJTMdZz3LjXTwgB/qhBslxZVhF
+X-Received: by 2002:a17:902:fc4c:b0:2d9:123c:8c49 with SMTP id d9443c01a7336-2dd6c6db8b7mr146833195ad.14.1789461251905;
+        Tue, 15 Sep 2026 01:34:11 -0700 (PDT)
+Received: from localhost ([106.38.226.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2cca268csm62498695ad.1.2026.09.15.01.34.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2026 01:34:11 -0700 (PDT)
+From: Julian Sun <sunjunchao@bytedance.com>
+To: linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Cc: axboe@kernel.dk,
+	hannes@cmpxchg.org,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	muchun.song@linux.dev,
+	willy@infradead.org,
+	jack@suse.cz,
+	tj@kernel.org,
+	akpm@linux-foundation.org
+Subject: [PATCH v5 0/3] memcg,writeback: flush foreign bdev mappings separately
+Date: Tue, 15 Sep 2026 16:34:03 +0800
+Message-Id: <20260915083406.3471036-1-sunjunchao@bytedance.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260915030336.1192299-2-ynorov@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 14, 2026 at 11:03:19PM -0400, Yury Norov wrote:
-> DEFINE_MUTEX() uses a static lock initializer whose lockdep class key
-> requires a persistent object address. Reject automatic local declarations
-> with ASSERT_STATIC_STORAGE(), in both the regular and PREEMPT_RT variants.
-> Align the VMA and memblock tools stubs with the kernel declaration.
-> 
-> The two automatic mutexes in the WireGuard allowedips selftests already
-> call mutex_init(). Replace their redundant static initializers with plain
-> struct mutex declarations.
-> 
-> Assisted-by: OpenAI Codex
-> Signed-off-by: Yury Norov <ynorov@nvidia.com>
-> ---
->  drivers/net/wireguard/selftest/allowedips.c | 4 ++--
->  include/linux/mutex.h                       | 7 +++++--
->  tools/testing/memblock/linux/mutex.h        | 8 ++++++--
->  tools/testing/vma/include/dup.h             | 5 ++++-
->  4 files changed, 17 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/net/wireguard/selftest/allowedips.c b/drivers/net/wireguard/selftest/allowedips.c
-> index 3e857e6fb627..ecb2908228e7 100644
-> --- a/drivers/net/wireguard/selftest/allowedips.c
-> +++ b/drivers/net/wireguard/selftest/allowedips.c
-> @@ -257,7 +257,7 @@ static __init bool randomized_test(void)
->  	u8 ip[16], mutate_mask[16], mutated[16];
->  	struct wg_peer **peers, *peer;
->  	struct horrible_allowedips h;
-> -	DEFINE_MUTEX(mutex);
-> +	struct mutex mutex;
->  	struct allowedips t;
->  	bool ret = false;
->  
-> @@ -499,7 +499,7 @@ bool __init wg_allowedips_selftest(void)
->  	struct allowedips_node *iter_node;
->  	bool success = false;
->  	struct allowedips t;
-> -	DEFINE_MUTEX(mutex);
-> +	struct mutex mutex;
->  	struct in6_addr ip;
->  	size_t i = 0, count = 0;
->  	__be64 part;
+Hi,
 
-This should probably be a separate patch.
+This series avoids owner-wide foreign writeback triggered by dirtying
+shared bdev inodes. Instead, it tracks bdev targets separately and
+schedules writeback of their mappings.
 
-> diff --git a/include/linux/mutex.h b/include/linux/mutex.h
-> index 734048c02f4f..2f2d95f3097c 100644
-> --- a/include/linux/mutex.h
-> +++ b/include/linux/mutex.h
-> @@ -11,6 +11,7 @@
->  #ifndef __LINUX_MUTEX_H
->  #define __LINUX_MUTEX_H
->  
-> +#include <linux/compiler.h>
->  #include <asm/current.h>
->  #include <linux/list.h>
->  #include <linux/spinlock_types.h>
-> @@ -84,7 +85,8 @@ do {									\
->  		__DEP_MAP_MUTEX_INITIALIZER(lockname) }
->  
->  #define DEFINE_MUTEX(mutexname) \
-> -	struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
-> +	struct mutex mutexname = __MUTEX_INITIALIZER(mutexname);	\
-> +	ASSERT_STATIC_STORAGE(mutexname)
+Problem
+=======
 
-My tree no has ASSERT_STATIC_STORAGE. Please repost when that lands?
+Bdev inodes are commonly shared by many memcgs. Dirtying their pages
+can cause the owner wb to be tracked as foreign, triggering writeback
+of the entire wb rather than just the bdev mapping.
+
+In production, almost all the foreign dirtying we traced came from bdev
+inodes. Across our observations, a bdev mapping had as little as about
+10 MiB of dirty pages, yet foreign flushes targeted the entire owner
+wb. On one machine, we observed 599 such works queued on one wb, with
+an average request budget of about 43 GiB per work.
+
+Measured impact
+===============
+
+The synthetic test used a VM with 4 vCPUs, 8 GiB RAM, ext4 and cgroup
+v2, with device write bandwidth capped at 200 MiB/s. Background fio
+repeatedly overwrote a 256 MiB file using buffered I/O, while
+foreground fio performed sequential direct writes. Four memcgs
+generated metadata and buffered writes to trigger foreign flushes.
+
+We measured completed block writes to the background fio file,
+including final sync, and foreground fio bandwidth, latency and
+completion time.
+
+Across three runs per kernel, mean background file write I/O decreased
+by 72.7%, foreground bandwidth increased by 23.0%, and completion time
+decreased by 18.8%.
+
+Metric                         Baseline    Patched     Change
+Background file write I/O (GiB)    6.154      1.680     -72.7%
+Foreground bandwidth (MiB/s)      150.29     184.81     +23.0%
+Foreground completion time (s)   109.203     88.652     -18.8%
+Foreground mean latency (ms)      212.84     172.74     -18.8%
+
+How it helps
+============
+
+Frequent writeback of the file overwritten by background fio reduces
+the opportunity to coalesce buffered writes in the page cache.
+Several overwrites of the same page can otherwise result in a single
+write of its latest contents. Flushing between updates instead writes
+the same page repeatedly, generating more device I/O for the same
+application writes.
+
+This additional I/O makes the device reach its performance limit
+more easily and competes with foreground I/O for device bandwidth.
+
+The benefit is expected to be most pronounced when these conditions
+occur together on the same device:
+
+1. Limited device bandwidth, as with an HDD, makes the additional
+   writeback I/O more likely to saturate the device.
+2. Multiple cgroups perform buffered overwrites. Frequent foreign
+   writeback reduces write coalescing and increases device I/O.
+3. Concurrent direct I/O bypasses the page cache and competes directly
+   with writeback I/O for device bandwidth.
+
+Approach
+========
+
+Following Jan's suggestion, this series records foreign bdev targets
+separately and flushes their mappings instead of their owner wbs. This
+preserves a way for dirty throttling to initiate bdev writeback while
+avoiding owner-wide writeback triggered by these records. The existing
+foreign-wb mechanism remains unchanged for other inodes.
+
+Tracking is best effort: each memcg keeps a bounded set of device
+numbers without persistent device or inode references. Closed devices
+and devices with a busy open_mutex are skipped. Device removal and
+device-number reuse may race with lookup.
+
+Flushes run asynchronously on a dedicated workqueue to isolate these
+frequently triggered tasks from existing workqueue users. If workqueue
+allocation fails, the existing foreign-wb mechanism remains in use.
+
+Thanks.
+
+Julian Sun (3):
+  block: introduce bdev_flush_by_dev()
+  memcg,writeback: flush foreign bdev mappings separately from owner wbs
+  writeback: record bdev targets in foreign writeback tracepoints
+
+ block/bdev.c                     |  24 +++++++
+ include/linux/blkdev.h           |   1 +
+ include/linux/memcontrol.h       |  15 ++++
+ include/trace/events/writeback.h |  22 +++---
+ mm/memcontrol.c                  | 113 ++++++++++++++++++++++++++++---
+ 5 files changed, 157 insertions(+), 18 deletions(-)
+
+-- 
+2.39.5
