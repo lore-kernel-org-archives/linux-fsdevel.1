@@ -1,132 +1,155 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F974CC262
-	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 19:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E86B3B994A;
+	Tue, 15 Sep 2026 20:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789499360; cv=none; b=RHcsyJSw9rSly07KTcXw0bS/fvwQWIaslbioMgUD8GLBuY/J7krZgyn6sm93qrbLScZRfulUpPgIcfnwj79g0e3sqhfix1XEAPPSNZcMTt+7b4VFCMJo7bJwT0vW/YAqD4TzHmrt1I4LluiLgT//Tgd5bzVL3DelaVA01/sYX1M=
+	t=1789504815; cv=none; b=IEfCk4K/hLy9qQGV5GLpOm1zrqh9J//w99uiy1H6oQ/E3OPWMSrbCar+ON3DnKKB3NhqDwnw4mRoE+sQm6TKhiHUlFuExUoAjNAEbJ4qIgxhtOf5XYzRsLxF2tKJRTFwt1QWP68Y90S+6QbM9UHC8XNGcKSTXdB9lUG5Qhv/7CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789499360; c=relaxed/simple;
-	bh=AGk4y8oFpNibhByHKIxcRS7KnQx6z20Q8VC6dFl1tNo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hnIAgyP1zJWwMh+oASX7eBNLG2/uXWWdbsJ3eWkPmftfkCcgZ2LdPrlJ+L63lYr/96dpt5Ap2H1iwqcqmox3XRJ2x17anLsmoaQadw2fIafBZ9aAdqAuedwbPFSqMa/FDibQka4yomUPIKUwHGnqbNivGhuHVozmesnQbGJsH7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=baTWZZT4; arc=none smtp.client-ip=74.125.228.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1789504815; c=relaxed/simple;
+	bh=H7sqdoHpd2FSG6L//bvppNmxpX0j0UX5TBTUv3u03t4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a/aR4nJZbdl3QFm2AitjaiIA3Y5Bt0NLd1THG8f5TBK7avNTPzl3HeZY7We3ff3MStYEqkjJGRA0KE3HlO3WuaZO/rLdydAY54QpEflbUB1dN5iESmlQiDZ8s3od63jJQeBkbviIf0AuPNTAAUMGnaqYKnyQaIaSyiStjz+Egiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=d/B1jdDY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LsdBuJU+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FomyFzkd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7Qqhmj89; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="baTWZZT4"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a99c5de614so228798a12.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 12:09:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1789499356; x=1790104156; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XFFk9jJtDswBQpA8QWIooO6lLG4HdlvPT/LqykRjG+U=;
-        b=baTWZZT41Mv8fDUUIY4M4JQ+wtO0Rab8v2A0NMhMTLiJ4v6n/hoXUwlpLEMx0TDvb6
-         Bt+bbrXfbbYG9SMuWIH2KBKPQvqc5jGOvVog52rTdBAdksZR8BAcUhDfKTgECzvoeNaL
-         JEcnR4jlud/KFQ6Todj+LBBhx6jDH35va1Njg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789499356; x=1790104156;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=XFFk9jJtDswBQpA8QWIooO6lLG4HdlvPT/LqykRjG+U=;
-        b=oAJx5kFTum1aHjLTZGqbKp226WR8PkchkWYb3hHAQW1HNC+L+5opm4Fnd5Xl0DPpDc
-         jugA285tKAjXsO7JKtQMzxKOwaEEynnOyNtRcOuJhU0EPU0CYkq2pidaRZbsdNrAtmgs
-         LLs1PGCX3DiBS8b6VbtdizZYtFaVk3HSatGvZPkJYDg+Rp//YZmHaplNCUhBuyMggB7W
-         4vqnCHYeIGBq+qb56/8gLU92bxcJizLJUJjYOlr/C1hiJ4cDsS9yZnvOD2IKHFZwn9R0
-         PWVFrfG13y/02IZeHTEQguZfHr8+N7IN2WOxzMjVMrwmI3onRj+1BoFLHqA8v/ZlqrCd
-         bRsw==
-X-Forwarded-Encrypted: i=1; AKwUvBxJLaQR3MECoLFJnL0Jx9P3dOrlITEssNjLl/P6v/CQQ48do80TY7tqBsm6gU5bOa9SPgwaxk0d196BwImK@vger.kernel.org
-X-Gm-Message-State: AFuF++lIwLLJ3M5m8k8d2lARlhNJETY+NW0dwTsG1Efad+hNm+VVlPrS
-	HqhhccJVSAUNgRs1ULaJZ24S40E8irBUwfeB9RDzb/TLpU65+fAXz+/uPCjqDprlkZ1Bc8DhvHX
-	jXqXaU1M=
-X-Gm-Gg: AYBFou27ZhdP2ems5x0KPvgaxW+4ltmHdcMeY6MStK416YwnHDHNfImVEnldh+u8+1D
-	zks+9Fx5cgNl7pzrqKwQlR66wQhZtefzaHcppFIClyosj0WioMpTqwhje0krsYHMLNcW+1VQKUB
-	6R1Q2OCuFttP5VCiyvtPtqkZXVNBmkNLZWuKegd6CRJ4SMcYYwfjSdRFvKbuEnXO0KmJ0+1KSMH
-	5wfL2FxkVA0LoGgbsCSDjmmIhQqAB6rRZLOI5umOxd44Ht9tdrwhgu1KrXv8i9qFeVM2ckojuxY
-	Fni90OPNbaLnC1eYZ7/87m3COjlyW4qQ1LvYuqCLZBZMylDsqFAQU1+/M4W+HsTxFGAJN8MQ3Sa
-	PfMskvNE903lMD0leuzCZeUzDkGukDgV8r1YNFQpjPU49M+W5qf4zngFVwWROeAF2ewde4tmqf+
-	cc7GyjEmTbBr26WfMxQTxJaRp254od9gdh9JBpmkxWmFiO/RWWa+fCKPLNzj8Q7MdaqdgZnCZDP
-	y5B1o1CV11hl/zO9i69SIVLFVdIIPhi5/Qos2veEY6GRA+X+A==
-X-Received: by 2002:a05:6402:21c7:b0:69a:b38d:403c with SMTP id 4fb4d7f45d1cf-6a9f61f87aamr11698667a12.7.1789499356004;
-        Tue, 15 Sep 2026 12:09:16 -0700 (PDT)
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com. [74.125.228.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aa1cfe07e4sm157962a12.2.2026.09.15.12.09.15
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 12:09:15 -0700 (PDT)
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254fa663c2so22197566b.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 12:09:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBy4i3riVKR7HYt9Pg3C6uECQwRBO8eCI7PVHYcRh2s3t0rdCSd12Iy95ER1zsGswWoKvEf7BiWlXs6afbDl@vger.kernel.org
-X-Received: by 2002:a17:906:7309:b0:c25:47a4:fedc with SMTP id
- a640c23a62f3a-c29b839a057mr1176039766b.2.1789499355710; Tue, 15 Sep 2026
- 12:09:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="d/B1jdDY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LsdBuJU+";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FomyFzkd";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7Qqhmj89"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EAD911FFBA;
+	Tue, 15 Sep 2026 20:40:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789504807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=efWP/Ao7lVqQt3ZG5A3u/jPr1sBU0pFDIR9eFUcnesA=;
+	b=d/B1jdDYPeQ89aeZHQcMAjD5rONhO9jYWhrf7fM2EjyhL5CkoaeVtIEDWyz9LiROc2TKan
+	suwSz4ab9msE1MhJoQJ7wXc4ehjYkT84vw4alPDf8d1JvnGGN27pzKSVbT2VezHVkO3Msr
+	TnGiHcBpPK7NAJvUGNaSI4k8Qd0NumU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789504807;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=efWP/Ao7lVqQt3ZG5A3u/jPr1sBU0pFDIR9eFUcnesA=;
+	b=LsdBuJU+6lEUc8nySmqukGCKnfzucHOtelMRSJPxKLoyEQAT2eTvsSlo2jLMpJ55Eb9LSH
+	92Q8L7XWGst/s7Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789504802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=efWP/Ao7lVqQt3ZG5A3u/jPr1sBU0pFDIR9eFUcnesA=;
+	b=FomyFzkdV4eQt7COT7Te9sTma/Hop5w7zjTGMaFwJBII3xUzfx5UM0+3MZht7e5sFxxQ8N
+	AbNUyupH8dgsJcAHe+S57MBLv1H6yeE3QKhyWckS8ORYAB8oP4lA/5nsKT5gFGpdLQzE5k
+	BXImaHKgMurWt3/N3vpMoBsNxP2WWTY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789504802;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=efWP/Ao7lVqQt3ZG5A3u/jPr1sBU0pFDIR9eFUcnesA=;
+	b=7Qqhmj89HqAXXJf47JAvCatNjEUAd4WqDKndZDTEl/qDjhucSTAZra9jrefO5t7z5mSkl3
+	OYB7K9m79EL+jtAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C47C513432;
+	Tue, 15 Sep 2026 20:40:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GmPgJyKtqWokOgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 15 Sep 2026 20:40:02 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 49542A13D6; Tue, 15 Sep 2026 22:40:02 +0200 (CEST)
+Date: Tue, 15 Sep 2026 22:40:02 +0200
+From: Jan Kara <jack@suse.cz>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] vfs: clean up indenting in lookup_open()
+Message-ID: <hftpz62zoc7rjn3xdcaqgnujjnicpgv6betqbqfyvp45tynmep@l7m75b46jxpz>
+References: <aql0YTgwtRI0VZyG@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
- <CAG48ez1RsdT=O=-0city3vjgWhDvY424KtTmrCJntWy5ds3HBQ@mail.gmail.com>
-In-Reply-To: <CAG48ez1RsdT=O=-0city3vjgWhDvY424KtTmrCJntWy5ds3HBQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 15 Sep 2026 12:08:57 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi3Kkqgfg6zUTHpQoZNL2VOB4vYqpi6RX0WNO++29UtyQ@mail.gmail.com>
-X-Gm-Features: AcwNN1VCm0LMG7z3Jned014oJh6WBcf4uOx0OBk98_hrtHKbrhcQiMMJ_A-fmB0
-Message-ID: <CAHk-=wi3Kkqgfg6zUTHpQoZNL2VOB4vYqpi6RX0WNO++29UtyQ@mail.gmail.com>
-Subject: Re: [PATCH RFC POC 00/50] file: handle files on syscall exit
-To: Jann Horn <jannh@google.com>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	Oleg Nesterov <oleg@redhat.com>, linux-alpha@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-um@lists.infradead.org, Jens Axboe <axboe@kernel.dk>, io-uring@vger.kernel.org, 
-	netdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, bpf@vger.kernel.org, 
-	David Airlie <airlied@redhat.com>, virtualization@lists.linux.dev, kvm@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-hyperv@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aql0YTgwtRI0VZyG@stanley.mountain>
+X-Spam-Level: 
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[xs4all.nl,zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
 
-On Tue, 15 Sept 2026 at 10:52, Jann Horn <jannh@google.com> wrote:
->
-> Is this mainly about stuff like "we installed a file descriptor and
-> then the following put_user() failed"? Because if so, I think a nicer
-> fix would be to have a policy of "if userspace provides unwritable
-> memory to a syscall, just keep going and pretend the access worked",
-> and maybe have a sysctl that kills the process when this happens to
-> emphasize that userspace should not be doing this.
+On Tue 15-09-26 19:37:53, Dan Carpenter wrote:
+> These lines are indented too far.  Delete a tab.
+> 
+> Signed-off-by: Dan Carpenter <error27@gmail.com>
 
-We've done that before, where we just ignore put_user() errors and the
-user gets whatever the user gets.
+Looks good. Feel free to add:
 
-It is maybe not optimal, but it's fine. You can find quite a lot of
-unchecked put_user() calls with a pattern like
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-        git grep '^[[:space:]]*put_user(.*);'
+								Honza
 
-and some of them are in core code - see the two in kernel/fork.c, for example.
-
-One of them says "if userspace has not set up a proper pointer then
-tough luck". The other one doesn't even bother with a comment.
-
-The scheduler has two cases too, although one of them is admittedly
-for another error case.
-
-So yes, saying "if you pass bogus arguments, you get what you get" is
-a valid model. It's perhaps not the *preferred* model, but it's not
-wrong.
-
-It *would* be wrong to take code that already has error handling and
-remove the error handling, though.
-
-                  Linus
+> ---
+>  fs/namei.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 1dd4ec7d0e62..48b28ed44a9e 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4636,9 +4636,9 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  	if (create_dir) {
+>  		struct dentry *res = vfs_mkdir_no_perm(idmap, dir_inode, dentry,
+>  						       mode, &delegated_inode);
+> -			error = PTR_ERR_OR_ZERO(res);
+> -			if (!error)
+> -				dentry = res;
+> +		error = PTR_ERR_OR_ZERO(res);
+> +		if (!error)
+> +			dentry = res;
+>  	} else {
+>  		error = vfs_create_no_perm(idmap, dentry, mode, &delegated_inode);
+>  	}
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
