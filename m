@@ -1,71 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97D241A504;
-	Tue, 15 Sep 2026 11:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576FF485CEC;
+	Tue, 15 Sep 2026 11:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789473141; cv=none; b=CuBLtBF5VCBK4zscqB0FmHq/4PMqZYPBS2xjPzqReJ/ogiqdpIwwLYEWIsviDz7rUAuaTlQzjNnMQ4PLlOR6bXt7lghY/cbO2hOT8k1tj/MVYgkOZ3QQVYOq8P93OwM2T0sk6fSIR87aO2nAhmolCDb8f+JgCHl0GEf21G3nHOE=
+	t=1789473193; cv=none; b=bdFcCDXz7NCxA83NaoRbLnD3z5RNm/hjrhhUhVdPl+cmQ2rjO1HtNGc/7Y6hj4YcNjAVeYnY4Z0TNuYmE6mDmGHv39ygsq7K0HEvXzg+IOEw1rJHXA36At4edVYyX/CWsJGsCKq6rSApHACKIzmM4ViZBMSxpyHCycs6LPFX1PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789473141; c=relaxed/simple;
-	bh=ekDoF5aUkaIqLM1AvgKs+prcUXxdZryD2GdHfQi8iAA=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=SFy9DQbhI8cLINzzSCbtKGDENwPKJVzVPAu6JkfqvuTzgNYtUSuKuLlkOuHn0gp8Sq0tlceMgHFzmeAx7Z8L6c87+9ZwfiMfp7zRHtIHj49vz3Xhhk7BPDc0td2IruAZeMF206gLwnZ89KpIZgCaqffU2QmpWFROlwvm3iAfOWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gD24zazr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789473193; c=relaxed/simple;
+	bh=SB6i1TkRgK612AfnnsVY4olctcc75HncKfHTvnrtP8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l4x273fZ3gbqee1PyVhTLdUSjhtGkvgkh6lN4y99ofVl4SU4PyH3GXCrgd2O2TPSeJN/JFmvxZFoHdZQTTvV3zqZnr29mNOi4JwMG95iSEiFrF3is/4NabPDseXZxoARcZDKbo2gFgIAAlfgYT2y/Nm/nmNUDkBKn5I83wzj8wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QNPd/XH1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gD24zazr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F289F1F000FF;
-	Tue, 15 Sep 2026 11:52:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QNPd/XH1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4987C1F000FF;
+	Tue, 15 Sep 2026 11:53:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789473139;
-	bh=ekDoF5aUkaIqLM1AvgKs+prcUXxdZryD2GdHfQi8iAA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gD24zazrk8TigMiCd5ASn+dm6txgjVpHa5zvxMTtUFRuPgLF3PTUXkAm0k3tzbTVQ
-	 kW4KsfY0HBGQif9CYx1pshd5pTSxWeoqAtmTVWdPBVqC5Vn35qXuEvnFfVWf0GTUKh
-	 RUU6SoJAkl5L0Kq8QF9Rmz6Bec1Ua+EO9EvYsJxPA1pHKVceE0vbNalGCUnepaasCe
-	 DK9cR0VwmXUnDDchOmLvDyG+u5nXi3gO659qnVPIeiexcntK9tyLliM401L/8g63N3
-	 plW5ukJMt7+DcxaIYWdMgQ+GjvsoPq80PE5u4Yrt6L+3cW6+83I52c5iJrh0Haefuc
-	 0OjHhKSvx0zPw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC POC 02/50] entry: commit fds on syscall exit
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Linus Torvalds" <torvalds@linux-foundation.org>, "Christian Brauner" <brauner@kernel.org>
-Cc: linux-um@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-hexagon@vger.kernel.org, linux-csky@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, virtualization@lists.linux.dev,
- =?utf-8?b?Q2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxlKQ==?= <brauner@kernel.org>, "Peter
- Zijlstra" <peterz@infradead.org>, "Alexander Viro" <viro@zeniv.linux.org.uk>, "Michael
- S. Tsirkin" <mst@redhat.com>, linux-hyperv@vger.kernel.org, "Oleg Nesterov" <oleg@redhat.com>, "Eugenio
- Perez" <eperezma@redhat.com>, linux-mm@kvack.org, linux-gpio@vger.kernel.org, linux-openrisc@vger.kernel.org, linux-sh@vger.kernel.org, linux-m68k@lists.linux-m68k.org, kexec@lists.infradead.org, "Jan
- Kara" <jack@suse.cz>, io-uring@vger.kernel.org, sparclinux@vger.kernel.org, "David
- Airlie" <airlied@redhat.com>, kvm@vger.kernel.org, linux-alpha@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-snps-arc@lists.infradead.org, "Jens
- Axboe" <axboe@kernel.dk>, "Ingo Molnar" <mingo@redhat.com>, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, "Jann
- Horn" <jannh@google.com>, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-2-4d5217d6b246@kernel.org>
-References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
- <20260915-work-fd-reserve-unify-folded-v1-2-4d5217d6b246@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Sep 2026 11:52:17 +0000
-Message-Id: <20260915115217.F289F1F000FF@smtp.kernel.org>
+	s=k20260515; t=1789473191;
+	bh=O+zWMO5Xj19Spqy4WM07OMJbwgwnSpgue67uWDwSOUU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QNPd/XH14WcSYKnNvM7q+LytEQem8r/FvdydoZcTNCdGHDv/EIHHUA2sDBVJ2Ibbm
+	 uuZACDN3/b2+aLg8wqPezWewbs1PJqeEvqT2ZC0/9n25AiI40rDMd6izD3iyEqiDfu
+	 b/vO5ztX3g9OwJsGrKUI9HUFeF3yh339aeyxExWXQRWvKC0k2IzEEIsCFSIxBamO9j
+	 Xf8lXLAJQ/DHpyC/CylNHk2iGUbegYUwHxYErmK9TNtAnGwwLJX1/b77wIqRmUZw8z
+	 UpFu07t3FGt2RU5uhK6DhRxMLuBtD17uYk2IGHF31qvpXAB0lMQ/NYrE674bk+gT0H
+	 ZBwgATDzmL6EA==
+Date: Tue, 15 Sep 2026 13:53:06 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Safety 1 <git.userk@gmail.com>
+Cc: kees@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Safety 1 <176830914+JokerPython3@users.noreply.github.com>
+Subject: Re: [PATCH] fs/proc: avoid unused ctl_table entry in init_header
+Message-ID: <lzl6lem6igc7abqild6haypxnkr636wasu466hyvgc7k3mcuht@23rchp73jxv6>
+References: <20260909163214.245399-1-176830914+JokerPython3@users.noreply.github.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rdhlkomltylbjfx6"
+Content-Disposition: inline
+In-Reply-To: <20260909163214.245399-1-176830914+JokerPython3@users.noreply.github.com>
 
-> Reserving a descriptor with fd_prepare() marks the task with
-> SYSCALL_WORK_FD_SLOTS. The syscall exit path already tests the
-> syscall work bits so a syscall that deferred nothing pays nothing new
-> and one that did takes the slow path. syscall_exit_work() commits the
-> reservations before audit and ptrace.
+
+--rdhlkomltylbjfx6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 09, 2026 at 07:32:14PM +0300, Safety 1 wrote:
+> The entry variable in init_header() is only used by
+> list_for_each_table_entry() for iteration and is never read. With
+> -Werror=3Dunused-but-set-variable, this causes the build to fail.
+That makes no sense. entry++ implies a read. Additionally that entry should=
+ be
+removed once the code is optimized compiled. So there is no need for this.
+
 >=20
-> Architectures without the generic entry code grow TIF_FD_SLOTS bit in
-> their syscall exit work in the following patches.
+> Use the table size directly for the loop since the entry value is
+> not needed here.
 >=20
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Tested with: make -j$(nproc)
+> Signed-off-by: Safety 1 <176830914+JokerPython3@users.noreply.github.com>
+This is just wrong.
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+> ---
+>  fs/proc/proc_sysctl.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>=20
+> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+> index 04a382178..ddc510def 100644
+> --- a/fs/proc/proc_sysctl.c
+> +++ b/fs/proc/proc_sysctl.c
+> @@ -206,9 +206,7 @@ static void init_header(struct ctl_table_header *head,
+>  	head->node =3D node;
+>  	INIT_HLIST_HEAD(&head->inodes);
+>  	if (node) {
+> -		const struct ctl_table *entry;
+> -
+> -		list_for_each_table_entry(entry, head) {
+> +		for (size_t i =3D 0; i < head->ctl_table_size; i++) {
+>  			node->header =3D head;
+>  			node++;
+>  		}
+>=20
+> base-commit: 893e11787f78e43b534e252249ac3fff4d1333f8
+> --=20
+> 2.55.0
+>=20
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260915-work-fd-re=
-serve-unify-folded-v1-0-4d5217d6b246@kernel.org?part=3D2
+--rdhlkomltylbjfx6
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqpMZYACgkQupfNUreW
+QU/jQQv+MtKl9izwUR4ANXAF8uCgHtcB/HncUj77+lIpsOC9ucKhIuVS6aLqxlea
+uaCMe1wJcP8l9x5flbR357XWTd8k+fQgX5t48kIG6KJu6G0F4YYuELBY3mIXaz1p
+coiqrqjaGBtj6PjalttUTyhPMCfkvyyyPR+sNq2YbyQqujQvdu0+hch+LSN+fCEo
+0ifG+9Mb6uyCV+YHgG5Ak7N1Tc1mpyhw2kB3TI+NYnhVBVNt/fM4fpYZiDfTWX8k
+3at5aqWdHwQKD/1M1prAf5Zla4mGpQw7a37wqOU7DHkBqo1rlX9sQuHMeYwj4OEE
+SGr3WEqG1afkKnzlEzNgQKR6xlvRIwcZWl8201e2Lx7EbK6H4+VTEKqfFPvvt3fa
+9kJGDeuW+QAHZTIR3oXJ8YVMw+cj97Ctrp/r1BRUdvXPr1H+8ZaswIF+GxAbzfUd
+Y86EU5tXVcVGPQ1e2SioUVDGVNUVMXTKWqHeZRHoIkO/FrfiVG2r1dR+nM6gGeRw
+i53Lzb/W
+=2kLQ
+-----END PGP SIGNATURE-----
+
+--rdhlkomltylbjfx6--
