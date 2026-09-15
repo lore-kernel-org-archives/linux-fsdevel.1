@@ -1,108 +1,149 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF51F4156F0
-	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 11:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B694649DBAA;
+	Tue, 15 Sep 2026 11:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789471934; cv=none; b=qv+Ak/SzFC48EElsMZmTjT+jPutfAXaZ6q5s3CEE2ZLz/MR4wmrJg9eBIDlg5f6W3kcBnaq3uryPRNEoQQ7BWmIYx4okG1pwCbPGtkXzMmoFPikWPmciIUN4HpSAsk/06rWEBN3UUo6rcjSFfzE1dO8WYUvimBCSNO5ziOwyEJQ=
+	t=1789471936; cv=none; b=CjW7fyiugtGAGtyRHZLJ4pMytXcL1Iu1HnqsGQ6fTCf7SQ0xtzWq5U/0cgkEF3k4OMFtqULWe0RFpQtOJ4Cc0AB6q8wNSvtIWBpy1sLilYnA1+vLyBRJc577XTBFhcdyBnm7ZLFhTE/fPCZ6U0T7K7kWcSiCsOaEMCUscIPEzac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789471934; c=relaxed/simple;
-	bh=IhQH8rXDBJnnCDiNzjUrT9gJ/kgPuB87MEOyHh/gTqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=amVR/KmUdkUCTE0WujAxbBp3UiuOFOSmHDoOeg/OJJpBCft7KC2bBGx9ZSXy1TnhUbALn0xHVwCI7XdtkEvyJW5kX5tJQyn0XUkPpWkrHny07Hi+pVmEQgu2C4tom1P3Ke9KIt0pcT3vUYLmkYfMsGRpOgVG4+6YGVuCixMirmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bobrowski.net; spf=pass smtp.mailfrom=bobrowski.net; dkim=pass (2048-bit key) header.d=bobrowski.net header.i=@bobrowski.net header.b=Ts4PUw1V; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bobrowski.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bobrowski.net
+	s=arc-20240116; t=1789471936; c=relaxed/simple;
+	bh=a9znqAkO+hvOtZefxwIBQ5T2UBtQYyo8n09NKXNA7dw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bcnmGEq/gJOESOg0YH7Khy8f2bQJO+8UVDWC9kdZO+kEe1y9GLsuL7Ea5QOfR7rwnfHj25nr0kGnfOsZaRkgiPd6jBlgXzZPlMY1lL6uDzj153rPekV2sgCb6vc6bYRJhkZyERG04/Nyu6SRvaSB3u0FJPgMFT9vlS7UVRItbmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUEfB7kz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bobrowski.net header.i=@bobrowski.net header.b="Ts4PUw1V"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747f01363so22469605ad.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 04:32:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bobrowski.net; s=google; t=1789471932; x=1790076732; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NRdFWvI5Xtf+HxtHvvZT0bDvI1yyYtPfHeYAbp/3rHk=;
-        b=Ts4PUw1VrKr8oYKDMT4/YF6EXSiZr6C92lryHPbx4JqE+NjKqQGxH/b/z/BtjNhHys
-         v8/vB3vSFK6JXdWD/slhN1OwouAhXHxuxfQNi86JHLf0MaEnjIFYvPUdYYKx2UVJOMa7
-         ZxTydJifoxchWbxplbRfcgDFWBBjWll2bJHgFbjdnN5xvQ33w598FL4E1aaXrzCRSllV
-         KBgnLasROCIjc7fc5p4BZj+GHi6lgz7ZpCgOXtTPYzeQpDDwc40Nl5Y+n3Vxau6oXx0c
-         ne3SZ82S1Sv5cOdSQRrRmnlvbWbwtPvzuDXbg7+FcE1lqoZRdShRZEhIWc03YH7Qr2JM
-         RgSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789471932; x=1790076732;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NRdFWvI5Xtf+HxtHvvZT0bDvI1yyYtPfHeYAbp/3rHk=;
-        b=hqN6B/8Gs6WuXOOOU3RhPPn3BGSLX27mxnjLBFhd9W7+77gtlt/rJaV56Q2XKf8+fA
-         +kP5SFLa91HfXv+UjtcrtN/dL61lXODdrzAz8GP+XCSZTJjKAUYpXQixiOSPbBjENY5S
-         hYTyv7srY/IFxYE+3GI3/IyebK99wPHhhSq4wTaxbVUMdDA8Kt7otHAgzaeV5bVhLdR9
-         HFr56E0LnNbFYjTQFEVB6eukr1jr8wP25fhrsa3msS/ukldbkuPuAcu2iRPmTRDJlrII
-         CdB2kdS/EXJMNQOzlgjUlYMRgrc5jLudv1K+NEGUMRCmLzR6Thh7xyGDQ6TZIfoSPCOD
-         CZ3A==
-X-Gm-Message-State: AFuF++lCLHZ4d5HSlSsqVPI06Rl87lz+4195jsiWVg56usyNT8xAJKmG
-	Q7jPlAYGzMjGZhX8wYP7eim+9h07VI1xTlpx7DQY5ctF1Y1lp2oc/n9juIAyt3+z6KZS
-X-Gm-Gg: AYBFou33HS+ni/SKfPIycldtz7Aa9kfmu8GTSwJnWHgHuwWKVpJL9zM4z+XY9OWgTH7
-	FS3lb1NT4eiyD8HNqIZkrDfIYJGidBmG58aVVQ2avuh2Et02UhcrkZ6sJCd5/IQVPrJEL1Awvpd
-	Z2Re80/ho2E+hChzj+U8xsOBouSAGzd3Gpwh6FnDhz1vFsX1cnG5FriLoZTddd7FPkX/URojtaM
-	7bVnFx/DTEar3OobTC+kVLuFmEpZ25WT27aadgO0Ba+gImxsgyvay2oD8NfRIhWqF6EsfVEguRJ
-	ronfCx7/QYbFgYmmy3lKbTgTOW1sJvyEXOZ/Rr6PKOrHvvtjGPMenYvh4hf4CFX54O13XMOYrLy
-	7NR5TfMlNqLD9l7KjJ4Tx9hLfqySJ2v6EEAs41hof5AMvQ9wu9NcvXBrATem3hMV3D2j+t0cFbE
-	bA7FAoh5AwWNxb8tke+6pux513J+ELk7guUZO0f0YyYqJx8WQLkCXUyEfSys4jJulEv6fMkjYvB
-	fGB3U3SDgYKs8VUdGhq0nTNNv2U
-X-Received: by 2002:a17:902:cec5:b0:2d9:484:861d with SMTP id d9443c01a7336-2dd6c6ea2fdmr126626625ad.10.1789471931973;
-        Tue, 15 Sep 2026 04:32:11 -0700 (PDT)
-Received: from lima-development ([120.21.204.88])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2ce959a4sm66724695ad.24.2026.09.15.04.32.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 04:32:11 -0700 (PDT)
-Date: Tue, 15 Sep 2026 07:32:02 -0400
-From: Matt Bobrowski <matt@bobrowski.net>
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH] fanotify: Re-add Matt Bobrowski as a reviewer
-Message-ID: <aqksshysCSPhDbhE@lima-development>
-References: <20260915094719.2034706-1-jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUEfB7kz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FD8B1F000FF;
+	Tue, 15 Sep 2026 11:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789471934;
+	bh=E/WcE2lGsMFSob/cBMgO+hea6aPl2xaxNOKxSHdhki0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=GUEfB7kz965znZtfpHqb8eIiCiLO6486hnBmkQwRyzaxNwEFt42WOgfKGny2AO9jY
+	 DpqE0IKoYZQ3CDqUbNbcjMdJnHniI4Fwuvms6GgbMB9wf1VAHv7229/U9I1vFe9NJ2
+	 qY36omvqqIoX9NFkJOdvBvJQPo9mZFT+l30lGkj4F5tMWGVWdBHQTO1lqNMxuFrqVO
+	 OfO8kqQ7j1k9tC1TlYJ8bqUqsF+G/mO7jEhf7l0Ip9oOnDoxcn+y9v2WqMllKuuodC
+	 iV25Lg90bMELqmrBnnnzxEgH4HOX9MN+zPjb9ZEZ2BQQYFgld28sSUlqTUgIhK2Mo5
+	 y/yD7KaWeZ/WQ==
+From: Christian Brauner <brauner@kernel.org>
+Date: Tue, 15 Sep 2026 13:30:53 +0200
+Subject: [PATCH RFC POC 07/50] csky: commit fds on syscall exit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260915094719.2034706-1-jack@suse.cz>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260915-work-fd-reserve-unify-folded-v1-7-4d5217d6b246@kernel.org>
+References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
+In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>, 
+ Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ Oleg Nesterov <oleg@redhat.com>, linux-alpha@vger.kernel.org, 
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+ linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, 
+ linux-um@lists.infradead.org, Jens Axboe <axboe@kernel.dk>, 
+ io-uring@vger.kernel.org, netdev@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-gpio@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ bpf@vger.kernel.org, David Airlie <airlied@redhat.com>, 
+ virtualization@lists.linux.dev, kvm@vger.kernel.org, 
+ kexec@lists.infradead.org, linux-hyperv@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2976; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=a9znqAkO+hvOtZefxwIBQ5T2UBtQYyo8n09NKXNA7dw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSt1KmReJL5+9/LafuaZn07vvD2NNsTS/r9pju0zTneI
+ MsZ4PDocUcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBE4p0Z/vsI/l1WJ+2YWb1+
+ rv5bmZs79nw5b7JPKv5J5eJeHt8sXQeG/zUtrlyha6a8POM74Rhn8++6CEYXZZkjm45o/epqCbm
+ 3lRkA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Tue, Sep 15, 2026 at 11:47:19AM +0200, Jan Kara wrote:
-> Matt has resurfaced and I have his working email again. Re-add him as a
-> reviewer since he hopes to have more time for that now.
+Add TIF_FD_SLOTS and test it after the untraced system call has
+stored its return value. A task that reserved descriptors joins the
+traced path, where syscall_trace_exit() commits them before audit and
+the ptrace exit stop.
 
-Thank you Jan!
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ arch/csky/include/asm/thread_info.h | 2 ++
+ arch/csky/kernel/entry.S            | 9 +++++++++
+ arch/csky/kernel/ptrace.c           | 4 ++++
+ 3 files changed, 15 insertions(+)
 
-Acked-by: Matt Bobrowski <matt@bobrowski.net>
+diff --git a/arch/csky/include/asm/thread_info.h b/arch/csky/include/asm/thread_info.h
+index fdd4f8ad45ac..59109ce64695 100644
+--- a/arch/csky/include/asm/thread_info.h
++++ b/arch/csky/include/asm/thread_info.h
+@@ -61,6 +61,7 @@ static inline struct thread_info *current_thread_info(void)
+ #define TIF_SYSCALL_TRACEPOINT	5       /* syscall tracepoint instrumentation */
+ #define TIF_SYSCALL_AUDIT	6	/* syscall auditing */
+ #define TIF_NOTIFY_SIGNAL	7	/* signal notifications exist */
++#define TIF_FD_SLOTS		8	/* syscall prepared descriptors */
+ #define TIF_POLLING_NRFLAG	16	/* poll_idle() is TIF_NEED_RESCHED */
+ #define TIF_MEMDIE		18      /* is terminating due to OOM killer */
+ #define TIF_RESTORE_SIGMASK	20	/* restore signal mask in do_signal() */
+@@ -73,6 +74,7 @@ static inline struct thread_info *current_thread_info(void)
+ #define _TIF_SYSCALL_TRACEPOINT	(1 << TIF_SYSCALL_TRACEPOINT)
+ #define _TIF_SYSCALL_AUDIT	(1 << TIF_SYSCALL_AUDIT)
+ #define _TIF_NOTIFY_SIGNAL	(1 << TIF_NOTIFY_SIGNAL)
++#define _TIF_FD_SLOTS		(1 << TIF_FD_SLOTS)
+ #define _TIF_UPROBE		(1 << TIF_UPROBE)
+ #define _TIF_POLLING_NRFLAG	(1 << TIF_POLLING_NRFLAG)
+ #define _TIF_MEMDIE		(1 << TIF_MEMDIE)
+diff --git a/arch/csky/kernel/entry.S b/arch/csky/kernel/entry.S
+index 3261f46f2244..6ff3074b9787 100644
+--- a/arch/csky/kernel/entry.S
++++ b/arch/csky/kernel/entry.S
+@@ -80,6 +80,15 @@ ENTRY(csky_systemcall)
+ 	jsr     syscallid
+ #endif
+ 	stw     a0, (sp, LSAVE_A0)      /* Save return value */
++	/* descriptors reserved by the syscall are committed in syscall_trace_exit() */
++	mov     r9, sp
++	bmaski  r10, THREAD_SHIFT
++	andn    r9, r10
++	ldw     r10, (r9, TINFO_FLAGS)
++	lrw	r9, _TIF_FD_SLOTS
++	and	r10, r9
++	cmpnei	r10, 0
++	bt      1f
+ 	jmpi    ret_from_exception
+ 
+ csky_syscall_trace:
+diff --git a/arch/csky/kernel/ptrace.c b/arch/csky/kernel/ptrace.c
+index ee2867a1576e..b19fef9d396d 100644
+--- a/arch/csky/kernel/ptrace.c
++++ b/arch/csky/kernel/ptrace.c
+@@ -4,6 +4,7 @@
+ #include <linux/audit.h>
+ #include <linux/elf.h>
+ #include <linux/errno.h>
++#include <linux/file.h>
+ #include <linux/kernel.h>
+ #include <linux/mm.h>
+ #include <linux/ptrace.h>
+@@ -335,6 +336,9 @@ asmlinkage int syscall_trace_enter(struct pt_regs *regs)
+ 
+ asmlinkage void syscall_trace_exit(struct pt_regs *regs)
+ {
++	if (test_thread_flag(TIF_FD_SLOTS))
++		fd_slots_commit(regs);
++
+ 	audit_syscall_exit(regs);
+ 
+ 	if (test_thread_flag(TIF_SYSCALL_TRACE))
 
-> Signed-off-by: Jan Kara <jack@suse.cz>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> I'll merge this through my tree.
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 627595e245f3..6b698f8e52e8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9975,6 +9975,7 @@ F:	net/core/failover.c
->  FANOTIFY
->  M:	Jan Kara <jack@suse.cz>
->  R:	Amir Goldstein <amir73il@gmail.com>
-> +R:	Matt Bobrowski <matt@bobrowski.net>
->  L:	linux-fsdevel@vger.kernel.org
->  S:	Maintained
->  F:	fs/notify/fanotify/
-> -- 
-> 2.51.0
-> 
+-- 
+2.53.0
+
