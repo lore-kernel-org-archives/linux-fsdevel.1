@@ -1,89 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7117E3B9D9A;
-	Tue, 15 Sep 2026 06:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E13D367F41;
+	Tue, 15 Sep 2026 06:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789452862; cv=none; b=EkRUCtC2fAlkKpTESrR5Hv4mK0BUs1ZHRQblxMrlRCDwtjwauOeh0QCCM4wXy0mR306ZNp2AIieCnMrJyVw7QbGivua5jNZsFDJa4IrRRYL3ZMyZJImND1CvGb5XrEyZ1EI4HoD7XbRTBUONYlxpz0aonGMD63cUj+keTo0QkbU=
+	t=1789454999; cv=none; b=su9L5/oIBEKZ81ZbmVcgDJeTQPARnWjVF1q+vjDjeD7131G+MvAOQJjhCVXks4jnxh9lvyQGOmboThe6cXb87qy4iZtPPAIsngANDH2xiYjF6BL14B0TrBK1tQUhriOPnDXTSNFIBo1a9zCk7Cz/kyHTnYkK4nMyclt74Mmx8X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789452862; c=relaxed/simple;
-	bh=P4a1orb1XWvuNrlS5k4wAp2Y4mWeduQCihTuKgxCm84=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=KoArAksakQNxI2aUE6VTEzI+2hHkrB59I04qQlqitwkKkb4vEhysPlFL2tHs4p7xfpRJQvod8nCUHldjB/qLOJUpALoKB8f6T7WDoluOM7heIGkYCrGnBzHLtgZtIx5qEfxlddPM69Av/3/5eHYUXbYDSUzyyTaVnRYKHvJtIPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Cwwjt4nJ; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Cwwjt4nJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3910C1F000FF;
-	Tue, 15 Sep 2026 06:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1789452861;
-	bh=/xezU87Zq2Y1vT/o2bvpMtCWCufr1oupAxWYAhAbPVE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Cwwjt4nJYsaMpOAFBS96BKI8N+2+sK8qyZMEoJg8kDgjYtNT2BKKpZlwOV4sgpN7S
-	 855KBpJ5y+VTkRCRPDpDh2agL14R3mMuAGVEDtM5DfVAxwgvZ+edoZhOW3rum1Pzlo
-	 n7aEuG9bgOKttiqPyGo3uJh5NElBpjAtfEeOQXnI=
-Date: Mon, 14 Sep 2026 23:14:18 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Matthew Wilcox <willy@infradead.org>, Peter
- Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will
- Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>, Waiman Long
- <longman@redhat.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo
- <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, "Paul E. McKenney"
- <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
- Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Uladzislau
- Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan
- <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, Onur
- =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Kees Cook <kees@kernel.org>,
- Joel Granados <joel.granados@kernel.org>, Anna-Maria Behnsen
- <anna-maria@linutronix.de>, Thomas Gleixner <tglx@kernel.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
- <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, Mike
- Rapoport <rppt@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Lorenzo
- Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn
- <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, "Michael S. Tsirkin"
- <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?ISO-8859-1?Q?P=E9rez?=
- <eperezma@redhat.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Bill
- Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- wireguard@lists.zx2c4.com, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, rcu@vger.kernel.org,
- virtualization@lists.linux.dev, linux-rt-devel@lists.linux.dev,
- llvm@lists.linux.dev, Yury Norov <yury.norov@gmail.com>
-Subject: Re: [PATCH 00/17] Treewide: enforce static storage for object
- initializers
-Message-Id: <20260914231418.b15ec01f7225cf460f6e515a@linux-foundation.org>
-In-Reply-To: <20260915030336.1192299-1-ynorov@nvidia.com>
-References: <20260915030336.1192299-1-ynorov@nvidia.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1789454999; c=relaxed/simple;
+	bh=s1i3seGVTsVpKoGeCYiSmRwSO5Mr/3c/9nV9mUMLiUs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H5A5LO56tnlhzbG8NDaRkZ3KUaXGEe5Miqlxa6OQOGX3MtnjGs2fFuhBcKSE4SUrlqxFD9IeTZmKhJAf7zwK0prL7Qjfuz5Z7oTzQ5BAGvCmqy9EtmHkL3czWHuZXN/RSqysWtkG0imQ6wEGAGm1KsNEL3iPgJZKHJbSfeeHiBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BB37468C4E; Tue, 15 Sep 2026 08:49:50 +0200 (CEST)
+Date: Tue, 15 Sep 2026 08:49:50 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Yu Kuai <yukuai@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>,
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Song Liu <song@kernel.org>, Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Yu Kuai <yukuai@fygo.io>,
+	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>,
+	Tao Cui <cuitao@kylinos.cn>, linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-bcache@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] blk-cgroup: store blkcg in bio instead of blkg
+Message-ID: <20260915064950.GA13417@lst.de>
+References: <cover.1789237876.git.yukuai@fygo.io> <ef547fdb7a6c8e39a25a1b9473c444f24a0f03be.1789237876.git.yukuai@fygo.io>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ef547fdb7a6c8e39a25a1b9473c444f24a0f03be.1789237876.git.yukuai@fygo.io>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, 14 Sep 2026 23:03:18 -0400 Yury Norov <ynorov@nvidia.com> wrote:
+On Sun, Sep 13, 2026 at 02:54:39PM +0800, Yu Kuai wrote:
+> @@ -6243,10 +6245,17 @@ static void bfq_insert_request(struct blk_mq_hw_ctx *hctx, struct request *rq,
+>  	bool idle_timer_disabled = false;
+>  	blk_opf_t cmd_flags;
+>  	LIST_HEAD(free);
+>  
+>  #ifdef CONFIG_BFQ_GROUP_IOSCHED
+> +	/*
+> +	 * Pin the blkg used to look up bfqg.  If this is the first IO for
+> +	 * the blkcg on this queue, create the bfqg before holding bfqd->lock.
+> +	 */
+> +	if (rq->bio && !bio_flagged(rq->bio, BIO_BLKG_REF))
+> +		bio_blkg(rq->bio);
 
-> Declaration macros that statically initialize embedded locks require static
-> storage when lockdep is enabled. Automatic objects must use runtime
-> initialization so lockdep receives a persistent class key.
-> 
-> For automatic local objects, lockdep cannot use the lock address as a persistent
-> class key and reports "INFO: trying to register non-static key" before disabling
-> itself.
+Can rq->bio be NULL here?  flush or empty passthrough request should
+never enter the scheuler.
 
-So why haven't we been buried in reports about this warning coming out?
+>  	if (!cgroup_subsys_on_dfl(io_cgrp_subsys) && rq->bio)
+>  		bfqg_stats_update_legacy_io(q, rq);
+
+But I guess given that the code below checks it, we should at least
+be consistent, so I guess it is better to keep it for now.
+
+>  
+>  static inline void dm_bio_record(struct dm_bio_details *bd, struct bio *bio)
+>  {
+>  	bd->bi_bdev = bio->bi_bdev;
+> -	bd->bi_flags = bio->bi_flags;
+> +	/* Restoring an ownership bit cannot recreate the associated reference. */
+> +	bd->bi_flags = bio->bi_flags & ~(1U << BIO_BLKG_REF);
+
+I have a bit of a hard time parsing this, the line also is overly
+long.
+
