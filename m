@@ -1,55 +1,61 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACA23B71A6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 14:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0973E3D6472
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 15:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789483102; cv=none; b=rPOShz/OW67me9YgdrhFdyDutlRMnldc1nKzxeG3tcmS4oI2P7mN2hQYTcO2STAOAGuHygvKJH7yMnKBCyyM+vz67A8Wv28W6wHbHKKd5JYFQ9ruC6IrQgjR7VUOSjClPdr6JiLBe4gNMOf7pfwRmzXNtcTxuYkMoA2ItGhlAuw=
+	t=1789484577; cv=none; b=fUN1geumpyksQ8rOzK19UMUXEuOXa1WZklxrUEaz3eBvJhJkxwVbwaUy1GuwSHTFAEiZDEbZyKDDm5qNJQWHhBu3Ez6ohYThFPQ5sFDWGhvoKgidfULo9OF7h2F03+97enXrXUXN2gAFU7YzQL1eVnCtNaRjJhiwm8FpPMeSw0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789483102; c=relaxed/simple;
-	bh=3sMwBj6EjpnIrW/YR3z/pEEMTvg1+HdBxjrQkcnDtp4=;
+	s=arc-20240116; t=1789484577; c=relaxed/simple;
+	bh=yL9gjDzcdbDEXhuKZE8yM1jk8TwvDCeRrm+Vd8ZiE5k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mK6lqQwf7HYh5OJqtEd6+KSHZ3s71w5gi5A83f8vW9p9HynV8iz8JSbqVujaGMTj2/acgSIr19d+2reMFq4BxRwMwdcVBNd7kQujemT57RHtL0RQDebCHvTANaw1Ln+sdddFWYL4J6tH/M0ekCKIwJOAo2pnxb7/mcmLF5TbrLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=H6hRwvbC; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	 Content-Type:Content-Disposition:In-Reply-To; b=N152+3tnPi6eVVvD2rZCCY9Otilq03qLp+TDCKez4Uc8+ILMLq0RSwTu5FfSpQmvHkq/keW3HZ808Oc2VojUIdrChN3i715aMVTmqr7MX1LwJoYQQn9GqQKsPwpvw+p3W5dEJhJ1jcWRu7iqAyF2LwPn7jh86ncFiJoYZHpHLqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P8aj+hkZ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="H6hRwvbC"
-X-KPN-MessageId: 12677b7b-b113-11f1-bfbc-00505699b430
-Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 12677b7b-b113-11f1-bfbc-00505699b430;
-	Tue, 15 Sep 2026 16:38:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=iPBqovkglEv0AxkNg3xAZJuxtCsm++aFDQ+7iUhryAE=;
-	b=H6hRwvbCswId+aT1A/vy38KSFElUOfhVJuFPrwOHI3UyM++QkTaDxvnYNBMc04jyS/1uIgGLCb9dW
-	 hGCjPoBpgzs+EzHQXwvnyltU+hgyzdwO5iKQPr+04w+T89ndR28MAgEunp/jX2lvlZXHr9ZvKe5/oC
-	 aUE/eJ56W2kKmge6Bc4bVTnPU1mUxeK/VHjLCVQsvjg5LLvnj8Z/qmVfvWpOuqID6xbS4lAJP+heCi
-	 Rs73G6ROHlzMiohfV7vRxd/xEz9SYHHXl0CO6jfiDj06ifIfu8F+kFLf+xyPiLZ3WEfhJqm2cofXvf
-	 NXOa/j+5lT3bfp0KmlR3EFJgT/WEMKQ==
-X-KPN-MID: 33|ATKdb7AXREEm7alqU6HuTsDyxI+kHOHxtlCbpw7rhwy84dcZvdBn/7lyupQRHcK
- OSTS7kdpbaI52qLPZiOLMzMrEKj+QnMWj+ERr4awtgA4=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|JTvtUtOH1oSL1LiKbqEWSp+1QgWJwXyDMYVvZMj2ow1Vqpo9yaYK2NR+0i5hZRi
- 0Wwx8ud9EPu32WrWej1egvg==
-Received: from localhost (unknown [178.226.150.234])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 11ff81e6-b113-11f1-8ddf-00505699d6e5;
-	Tue, 15 Sep 2026 16:38:09 +0200 (CEST)
-Date: Tue, 15 Sep 2026 16:38:03 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 4/7] vfs: change vfs_lookup_open() to return found dentry
- in path.dentry.
-Message-ID: <aqlXZ7Gunepk_4uV@lt-jori.localdomain>
-References: <20260910002934.192979-1-neilb@ownmail.net>
- <20260910002934.192979-5-neilb@ownmail.net>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P8aj+hkZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789484575;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YHyk6+IrqQOJoNBANVy6H3eTJp4wkRbqnNOpZl37PNY=;
+	b=P8aj+hkZGxxcFPiS8ZW1YNQCT/8MK0dowL+F1UA6R93chrS7XufgqIKUF77vxnYXqgAAAb
+	rxFsVWpn/Tm2J0BABwjS5lPiDmz5Mx8+bzb5f62a0vIyKuje+WyS0F0KUw8/SIfPRR3pC1
+	fplzoJT73zGer3ck6uYzSH9qo2ybeiI=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-628-t8xWsI1wOhS3uKw5owlbRQ-1; Tue,
+ 15 Sep 2026 11:02:51 -0400
+X-MC-Unique: t8xWsI1wOhS3uKw5owlbRQ-1
+X-Mimecast-MFC-AGG-ID: t8xWsI1wOhS3uKw5owlbRQ_1789484569
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 52A711955E91;
+	Tue, 15 Sep 2026 15:02:48 +0000 (UTC)
+Received: from fedora (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D9361195604C;
+	Tue, 15 Sep 2026 15:02:44 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue, 15 Sep 2026 17:02:48 +0200 (CEST)
+Date: Tue, 15 Sep 2026 17:02:43 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
+	io-uring@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 2/6] fork: refuse new threads while a coredump is in
+ progress
+Message-ID: <aqleExxTBcHsonQe@redhat.com>
+References: <20260915-work-coredump-fixes-v1-0-f354ca41780c@kernel.org>
+ <20260915-work-coredump-fixes-v1-2-f354ca41780c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -58,122 +64,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260910002934.192979-5-neilb@ownmail.net>
+In-Reply-To: <20260915-work-coredump-fixes-v1-2-f354ca41780c@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Thu, Sep 10, 2026 at 10:20:50AM +1000, NeilBrown wrote:
-> From: NeilBrown <neil@brown.name>
-> 
-> The caller - nfsd - needs to know the type of object found when a
-> non-regular file was found to exist.  This is most easily done
-> by passing back the dentry.
-> 
-> So change calling pattern so that the path (now called "path") contains
-> the parent dentry on entry and the child dentry on exit.
-> vfs_lookup_open() will dput() the parent and caller must dput() the
-> child.
-> 
-> If lookup_open() returns -EFTYPE (from ->atomic_open()) we need to
-> use d_lookup() to find the dentry.  If ->atomic_open() didn't add a
-> dentry to the dcache we return %NULL in %path->dentry.
-> 
-> Signed-off-by: NeilBrown <neil@brown.name>
-> ---
->  fs/namei.c | 31 ++++++++++++++++++++++---------
->  1 file changed, 22 insertions(+), 9 deletions(-)
-> 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 0c787363b101..30ccc0c2f02f 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4606,7 +4606,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->  
->  /**
->   * vfs_lookup_open - open and possibly create a regular file
-> - * @parent: directory to contain file
-> + * @path: directory to contain file
->   * @last: final component of file name
->   * @open_flag: O_flags
->   * @mode: initial permissions for file
-> @@ -4619,9 +4619,15 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
->   * If the fs object found is not a regular file then -EFTYPE is
->   * returned.
->   *
-> + * @path is updated to contain the dentry that was found if possible.
-> + * In particular, if -EFTYPE is returned, then @path.dentry will be the
-> + * object that is not a regular file, or %NULL.
-> + * Consequently the caller must be prepared for @path.dentry to be
-> + * dput(), an it must dput() whatever is in @path.dentry after the call.
-> + *
->   * Returns: the opened struct file, or an error.
->   */
-> -struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> +struct file *vfs_lookup_open(struct path *path, struct qstr *last,
->  			     int open_flag, umode_t mode)
->  {
->  	struct file *file __free(fput) = NULL;
-> @@ -4638,7 +4644,7 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
->  	mode |= S_IFREG;
->  	open_flag |= __O_REGULAR;
->  
-> -	error = lookup_noperm_common(last, parent->dentry);
-> +	error = lookup_noperm_common(last, path->dentry);
->  	if (error)
->  		return ERR_PTR(error);
->  
-> @@ -4646,7 +4652,7 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
->  	if (IS_ERR(file))
->  		return file;
->  
-> -	nd.path = *parent;
-> +	nd.path = *path;
->  	nd.last = *last;
->  	nd.flags = LOOKUP_OPEN;
->  	if (open_flag & O_CREAT) {
-> @@ -4658,9 +4664,18 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
->  	op.mode = mode;
->  	dentry = lookup_open(&nd, file, &op);
->  
-> -	if (IS_ERR(dentry))
-> +	if (IS_ERR(dentry)) {
-> +		if (dentry == -EFTYPE) {
-> +			/* Try to determine what was found */
-> +			struct dentry *child = d_lookup(path->dentry, &nd.last);
-> +			dput(path->dentry);
-> +			path->dentry = child;
-> +			WARN_ON_ONCE(child && d_is_reg(child));
-> +		}
->  		return ERR_CAST(dentry);
-> -
-> +	}
-> +	dput(path->dentry);
-> +	path->dentry = dentry;
->  	if (d_really_is_negative(dentry)) {
->  		error = -ENOENT;
->  	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
-> @@ -4668,10 +4683,8 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
->  	} else if (!d_is_reg(dentry)) {
->  		error = -EFTYPE;
->  	} else if (!(file->f_mode & FMODE_OPENED)) {
-> -		nd.path.dentry = dentry;
-> -		error = vfs_open(&nd.path, file);
-> +		error = vfs_open(path, file);
+On 09/15, Christian Brauner wrote:
+>
+> Say a SQPOLL thread is a member of a thread-group that coredumps.
+> The coredump code uses zap_process() and sends SIGKILL. The SQPOLL
+> thread uses io_sqd_handle_event() and calls get_signal(). It removes
+> SIGKILL from the pending set and returns. The SQPOLL thread breaks out
+> of the loop and drains its own task work.
+>
+> Any pending io_req_task_submit() with REQ_F_FORCE_ASYNC creates a new
+> worker when no other worker is free. So it ends up calling
+> create_io_thread() from a thread whose fatal signal is gone. That means
+> copy_process() allows the creation.
+
+Hmm, thats bad ;)
+
+But then ...
+
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -2491,8 +2491,8 @@ __latent_entropy struct task_struct *copy_process(
+>  		goto bad_fork_core_free;
 >  	}
-> -	dput(dentry);
->  
->  	if (error)
->  		return ERR_PTR(error);
-> -- 
-> 2.50.0.107.gf914562f5916.dirty
-> 
+>
+> -	/* Let kill terminate clone/fork in the middle */
+> -	if (fatal_signal_pending(current)) {
+> +	/* Let kill or a coredump in progress terminate clone/fork */
+> +	if (fatal_signal_pending(current) || current->signal->core_state) {
+>  		retval = -EINTR;
+>  		goto bad_fork_core_free;
 
-OK, so if I understand the problem correctly: the current implementation
-does not work for the purposes of NFS because ->atomic_open() may return
-EFTYPE on O_REGULAR and then you still don't know what that found dentry
-was.
+this change is not enough? Don't we have a similar race with exec?
 
-An arugument with such specific calling conventions feels kinda yucky
-and easier to get wrong. Why not an out enum arg that specifies the
-found dentry type? Seems at least a bit cleaner. What do you think?
+de_thread() kills all other threads and counts them too. Shouldn't it
+also check signal->group_exec_task ?
 
-Best,
-Jori.
+Oleg.
+
