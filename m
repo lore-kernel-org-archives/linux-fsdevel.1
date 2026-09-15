@@ -1,82 +1,82 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD664398F2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 17:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C463F4BB5D2
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 17:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.141
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789493083; cv=pass; b=QtBtL49dvwI3JzV3T3fJBCQXY3AQ3mraodSV0dxa52IEkfv+1BDa4zeaexkXbKqNZPDNXFRi3MGxIPQ5VrZhjlh8yhtP9Hnihqf49rHa1XmnNpr70BbPro12GnkKTYATePN0YVGqj61xmfz6wm9THoSr4fivJWWrekaDHGy6GDg=
+	t=1789494305; cv=pass; b=j2JpRK6MU7R11DcSebwLmr8pUG/KpCSNj9BmhOBiKIJTrMFmxFCQy+h6sK7paS9oiy5tn+NGB0LZ3X6twIInqhGUbfjFSZK5O+h46Qp6jYuLWdSi95bwx0ZF/nICUNutzA8um9qhwp8mRK4yDkHDQ/X55Z4Zz34Hr3Js9jtk2m0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789493083; c=relaxed/simple;
-	bh=YK5Wharn3MvhXziVkzSATMwWQgMc1QJoA1IBgFlVnow=;
+	s=arc-20240116; t=1789494305; c=relaxed/simple;
+	bh=qLsONXS3rVfAxLm2IhQyHKIDHJvREIlv8BIgfU7zuFc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=urZVuqKBfTIa76F7POlkNIyrIdgdsiLIT0rPbhUC4PhvAU3XfipH0fsR/svZeNGuZBClRU5j9R9FbYpcEL0UESS8LwWyszX+MZTMRPwjajzZyKbhXR4rpt2yZCSL/uQPWkK+gi/NIyUILfFw243YcTIfkKoNS5HMcjJt2h31bYI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=BBMAX2bw; arc=pass smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=kryoVTP+MkkysqPNrH32l/lX3TX32gEsG+q2i+LX5bA0jlBbQpwF7vmo3lkoYfdvoc73GXd3xerS5VFpwQj4ytBRL4z6TXHcGHWIppF0zFURX2Q0LrL/z0ou7qxIj5yjuzLt2xY64mE3do6SegCpyl78WXrOx/7uftdQmZfCgX8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=adknD9V7; arc=pass smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="BBMAX2bw"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2dd58e1e2c7so426975ad.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 10:24:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789493080; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="adknD9V7"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2dd84862f2bso6955ad.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 10:45:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789494302; cv=none;
         d=google.com; s=arc-20260327;
-        b=F/6OEQfSc4GBX64wNrWv+tGIiHEL5xpMRUCR9X1qktFdOOADSNxqE6xVVmJtJxdpdc
-         qlGlfeW8VMOe37aC0TQSQwt5wtzSDt42eH41IOVV7xsmRRE6c1pgTF7NJoGBYujB/W9G
-         WxFRQMcpJSIDi7PnW2Eeenfbf1PxL8C8RI6PuRdFKS9SFL6Y4+KDE9qL18acNu3+jZMT
-         LFU2q1tJYuKdJa2dq676K4IcWIdT9Z7fbhMXQclCjLlF5aFrIxRptLWgxQ7QT/YwBYOm
-         JTSwKVcxDoPKHofUCUwY7B42Qtcbh6me8eqgtj7DR0mPQUlJH+GhgTeZMYixlPQZRODW
-         m1OQ==
+        b=VZvvXT3ci1PpICd5WQNu4AUO8ew8le0MGXF8hftG39bwWC6h78RLctAX/XzjSaxy26
+         TkixQqLMRtwikTGxGGMcg3RualzmjYuoSyfEn6czCDX78GiHEY0ojNT1xZM9kRQSZdkJ
+         TzeP1PzRlQdiru4y+J3K2DxgvgyjxZ/w6U8JWTwOvCuHXnaiIkEmqVXEoBhESLbiND9E
+         1ZDNe65HPbgJJ0/EQur+6Ic0zjnfCPAYplztxrqOq2yt9DPSUpMzMZDTNoTOZ0CoxQqe
+         +Zu1JVDB+mriBEZYrgOfa1TEUcXpn2NFfW0c5yOnUNuHH/u/nZt0viFPMVH9ZvZt8uMv
+         MjcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=o7oag7tiLT9gQ7HZpXwTqWFezAuLM/E3QUVZxySQWaQ=;
-        fh=0uVedNZH+ARrmiEsIUaQqE4fb6YqiDARim6K5gdTX0g=;
-        b=oEmXGgmjfPPUoUS5Qmsg98VF4bTrthdSGPTlkxbU8OI/dNwDTq/oX2m8qhPZ5BrdhU
-         IEp84vl1cyz4QHzCgfB51wQE6BZNYS8I6Hy0wz+Ux3qxdwMVvkigBlHjXhTipntW7y3u
-         cEno0PSStskfPY7GrlIrOnsma+pFNza6TDK4yJC59qU+yBWvqLzUtt/domTiKpobBluD
-         rtfjydJgGYBvy48TOFQLqgx14IPiD2GV9/Yqxw+d2nZpghcuVP3SSab/DCFhom4BNoMU
-         idLSv5C1HBNkzZFNC2gn1x0kdckwqL/a05rXxEHVjKqcby3gKmoyxInNW24p9DySqzig
-         0TMQ==;
+        bh=xmRfP1DMByF3Rtx2gmf0os+22aeO/oOugKejrIEnKoE=;
+        fh=rgu4C+q+KcR9rQ6icSUtNnDUYCLkR1Poy3X3kd7QKgY=;
+        b=CcjU+WDzaxCptbbS8L6WuLo6M5F7cbfE8klKScY2VaNfq7lDI6dhipACKVQXokvD0v
+         cN1c1g9YR67DKxsqTQ8dT2dFdGumy7esXV8FSvilA9Hxjexv0fzd/+uJdfog3QCP6Kxy
+         9VXqS67g8JRy5VTWotc1b2Pm2jShlx1zvclckvEPziEweIoGi/JX30s7aDjWnGBP+Q7j
+         kEKs6PCrp3rKF/eMPRySfb/hVgjQ372mbs9drxdzZDPQUDwKdFsx4F5P0io3uPnxo790
+         B9GMtCWbDZmjvLbXHYriR6iZEtVBSxJ1i6ocYZdSe52dae4n4KqwrNzvjJhQ6jeaVcaV
+         wdxQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1789493080; x=1790097880; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789494302; x=1790099102; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=o7oag7tiLT9gQ7HZpXwTqWFezAuLM/E3QUVZxySQWaQ=;
-        b=BBMAX2bw5EeGurrd/QnGsKlGFtaRiTPpaxZKh+yLe47ZwOYOprejq/jhzZSgYGhMuj
-         1Ng6/qZd82evfIFQR1isM0C2li89khhnvDdPgC9a6CzBa9zDLQxvYNnyOTkzzYIfDCWt
-         YtKhqCqcWfIZMWr/xQjwtVaLSydxOsurYv7DFTPN2wQ58zTC/5iUYlfEuDFQ4KsglHC+
-         +77XxEAGDtKWu54YWvZamSpIqK+jpIIuut8NDMBVtplQMWQzAp+RtzKD/KXm0Epivsoh
-         ozsTGTcCAC55j50oK3bV+F3h1ivhrwYl8WFdALqQY/PB8rrp7EfLLTxDeQTvd6pugT0S
-         xqNQ==
+        bh=xmRfP1DMByF3Rtx2gmf0os+22aeO/oOugKejrIEnKoE=;
+        b=adknD9V7jyfpjRwECoSNo/2J63D9lwfwgVKhMURNsK+MXIgq7zUXIcJw8yNWHtFOz/
+         8jLS1PjaWnzesfXxKaCKoFVhIRc3Sf386mrhFELwYZ0EGfG/T6KbFhSfphIHQNZT/hxx
+         bLyOiHiEHuG/CJxE9YWiZHnWf4yfVAL1j/M39bzKBd1S7b6ZAg+MJ57y93l/UqjXALYC
+         MHj6wU0X+2++2m/LbniE/vIZd+6uUPw/lRiRzHl4NCzruJ9l5QnduNUDvZ/5JdzR/zE4
+         Nxs09BqJV/Tgr2n5Ilvzacv4mYgHllpxMw56rdBgBUmvIEDv8Y8ebw0gyMaQmXqHBHqO
+         3hBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789493080; x=1790097880;
+        d=1e100.net; s=20260707; t=1789494302; x=1790099102;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=o7oag7tiLT9gQ7HZpXwTqWFezAuLM/E3QUVZxySQWaQ=;
-        b=lHz9u425CU/5y2TDWCBdzC8V3ImK3lCLC02lgCY3Ezg/LDia8aJ+20YwKJaclu3LON
-         yt8YNlHS2kXjfCrJJ5HZ54sju9yod9cCVKE7jQBFpZ2d+z2YnDFbXqwLcVwaMrB+YFa9
-         PtC4Hyq453EjtK0+GSSFgniXEVFmz53CVHv1m0AMNtlhj4vPwUMFEdgOjqfPK2stJm6X
-         qrAURwwWVITAYcZ6pDXmgPQo+jcyBJYoPmXzXFcO9DtNcMOGyXWHPOqlFYFvvUkcppWB
-         B72KeKKMXu9RfuR2P15q2rOrAKVR8oCFg4WFXCjLOZGdh3B3RHdAnjGKsSrMKVpBnnj/
-         43zA==
-X-Forwarded-Encrypted: i=1; AKwUvBxlliD9mWIB14gtyDVQO0EDK0PrEponVliGGf5ddWSmyU6MVrVrMgeYXKh0uFbF2Ug7IefNc3h4h3Zv7TeE@vger.kernel.org
-X-Gm-Message-State: AFuF++lA/fmf9WRVgZ0eTTjPWNQoTngwt13q1AYViMPNpO8CGNfPkatU
-	lMdLumLJFbrppl8FyuE8XTNV1tBbMzHdmrG6YKH572P1cEiO0lSheaeZhtfD8/3bemz9bXqBoyu
-	5m/Y1NFk6KDBYDrwxX86XOxd16L7JtijJ1qIWo6UB
-X-Gm-Gg: AYBFou2rPh6MqEQf/tuVCnPj4W67G8DLb02Yikg8rPG7RmxlnBQ3x/+lCcMKRjNfGK/
-	ftqtH6xjYKLwEF1cpcCTSxCgUg0StBhou3NskRWRbiDux7QRgMLqXrWIGrrmDXuSntq+p7c4XVB
-	B5TpQ91uzHmB6oqsCKK+3k5b8ztFYloDyD/R4LcyaLtTo6i/8YHpjhrgdfisC33vdYEwHIecWpZ
-	GDTlt139mkjHdpKAxwJxRE2VlS5MmB4dc2D16iJ47ssx3kLVgP7ejOrGnNn0/GKG18Etf0rhm8j
-	ZVfxjnr9d6uNUXEbTsKAE/9fgmA3mCKW7h0CAdb7brFfWolnT97z75KwUZbGKaqjSxDog/4C81j
-	CWyLyhgNpx39oCQxdekrpkA==
-X-Received: by 2002:a17:903:17c3:b0:2d8:d4d0:7930 with SMTP id
- d9443c01a7336-2dd6c774465mr154307025ad.20.1789493080252; Tue, 15 Sep 2026
- 10:24:40 -0700 (PDT)
+        bh=xmRfP1DMByF3Rtx2gmf0os+22aeO/oOugKejrIEnKoE=;
+        b=PxDMhVKNZY8nJ1mIb5pfqOqGk1s2zIJ6Jn+xUVZZxc/RtV2x3Uq/W4nhc2TO9b8CI7
+         fn7EUCXmRrQPnlD+tnPn3gLO2QuaPK+AKYXdiRck32THM1OC0GhfnvjKSW9+eNWNQoGT
+         w3ZJrxo/gv8+75Jxdt7XTIdQW4r227gnRaqiCGZVtRyJ8WYxjOZ/GV+G8VJMKIhIkFuJ
+         XEMQhOSoy6IUi5C8nOdLFqo4nlMMpB7VA7iuNAtN4BVLuq+6JxbXkkO3zhZTyJBop7hm
+         v/bimiHq1VjqRXd2RNQr1Qy1oPp450091/d7egs2FXgUrYc6MdRrZxVHFdArgKIaKoN4
+         TtxQ==
+X-Forwarded-Encrypted: i=1; AKwUvBylN8+ubSiul6CMGCnL7XlRDSSNze3HC+aZs4u4TESzJrAR4MhaYSmGXLk9MNkyrPiF9Gn34t9DGId1n/o8@vger.kernel.org
+X-Gm-Message-State: AFuF++kyxWVvYG231EHpxwgYvKYadMjPk/1JxSYMXMJf9NKLU/IL1hNC
+	INUV1Q+beK7VTwzTciUMWC4G65V8NwciERt34pbJzOuTj3TI2WGBVVmXNd30tNy9Zvr7gTTyLmW
+	rl+00YCVEtqgYZKliZruP4qjrVzYTuyM2QZ/VeKWA
+X-Gm-Gg: AYBFou0l339cDXpQ4yZs0GjORrvjQJl6+SzQHrLIv3yELh6j8KAGPtxDWuffxKAoC7D
+	IdOXJd6FCOmjRYTrib0gevFrUwKy3YgRXTzUaLLmPQmxVUzK4ToiVi+YdVuqvOSr6AV2syhruU8
+	vPi7RmHfEifjI0mGkFme6qwtSVmkux2fSdPS5rCyllL0M+Uk50iQtAIO4BWvpjGDsGzhcw7nvFZ
+	r9v6zdyT00NX1a6JdsFobRw9lKQNIcOkn+wdPx8PO15zZKdyoJ8slZ/hKHwzc+coRrxXf2voB+l
+	ScOR7nKzwkSsj1mFb5lwOww1RY4Xdf3NwvAZMDENMsWhElIjAMeVZP4RjLEcHK8Wef3ofeHOVLR
+	GzA+8g3baK+WkoZ00vOwNO0x5gyMKCf+yUtPRu/NMmQ==
+X-Received: by 2002:a17:902:e948:b0:2dd:3a08:d47b with SMTP id
+ d9443c01a7336-2dd89d9ed00mr120845ad.13.1789494301281; Tue, 15 Sep 2026
+ 10:45:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -86,13 +86,13 @@ MIME-Version: 1.0
 References: <20260907-selinux-pokemem-v3-0-0bafbaeafe50@google.com>
  <20260907-selinux-pokemem-v3-2-0bafbaeafe50@google.com> <aql6gyQJoxEjx0xY@shallyn-amd>
 In-Reply-To: <aql6gyQJoxEjx0xY@shallyn-amd>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 15 Sep 2026 13:24:27 -0400
-X-Gm-Features: AcwNN1WSVv7LZW6UVyRb9JR3csRFIsKvXqH5B9SYVb6JqyH17r20MARaxjq7-ak
-Message-ID: <CAHC9VhTjo+znkxBmvseCH1K3aJN18ZO7+6QGE-a+Sy6XN=uaMQ@mail.gmail.com>
+From: Jann Horn <jannh@google.com>
+Date: Tue, 15 Sep 2026 19:44:23 +0200
+X-Gm-Features: AcwNN1XRdfxLKSy49OGqywbafRdvs8vOvOcncc58q2Uu2XpqGH8ksJIePZ107Ts
+Message-ID: <CAG48ez3THXFA=jF_R-wRNsEA=BfD8X1=pHm7dtVnbOto+rXW3w@mail.gmail.com>
 Subject: Re: [PATCH v3 2/3] proc: query LSMs for introspective mem access (if PROC_MEM_FORCE_ALWAYS)
 To: "Serge Hallyn (AMD)" <sergeh@kernel.org>
-Cc: Jann Horn <jannh@google.com>, James Morris <jmorris@namei.org>, 
+Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
 	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
 	Jeff Xu <jeffxu@google.com>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
@@ -104,150 +104,9 @@ Cc: Jann Horn <jannh@google.com>, James Morris <jmorris@namei.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 15, 2026 at 1:04=E2=80=AFPM Serge Hallyn (AMD) <sergeh@kernel.o=
+On Tue, Sep 15, 2026 at 7:04=E2=80=AFPM Serge Hallyn (AMD) <sergeh@kernel.o=
 rg> wrote:
 > On Mon, Sep 07, 2026 at 11:00:17PM +0200, Jann Horn wrote:
-> > If the system is running with PROC_MEM_FORCE_ALWAYS, LSMs currently hav=
-e no
-> > good opportunity to block a process from overwriting read-only code in =
-its
-> > own address space through FOLL_FORCE writes via /proc/self/mem.
-> > The security_ptrace_access_check() LSM hook is bypassed when a process
-> > opens /proc/self/mem because this is considered "introspection".
-> >
-> > This causes a hole in SELinux EXECMEM enforcement, which tries to ensur=
-e
-> > that a process cannot create executable anonymous pages.
-> >
-> > PROC_MEM_FORCE_PTRACE prevents that and ensures that such FOLL_FORCE
-> > accesses are only possible when the LSM allows ptrace() attachment; but=
- it
-> > is unclear how quickly PROC_MEM_FORCE_PTRACE can be deployed in
-> > environments running lots of third-party code, such as Android.
-> >
-> > So, introduce a new LSM hook that can forbid FOLL_FORCE specifically fo=
-r
-> > such "introspective" accesses.
-> >
-> > Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> > Signed-off-by: Jann Horn <jannh@google.com>
-> > ---
-> >  fs/proc/base.c                | 14 ++++++++++++--
-> >  include/linux/lsm_hook_defs.h |  1 +
-> >  include/linux/security.h      |  7 +++++++
-> >  security/security.c           | 25 +++++++++++++++++++++++++
-> >  4 files changed, 45 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/fs/proc/base.c b/fs/proc/base.c
-> > index bec6197329dc..295b21203c7f 100644
-> > --- a/fs/proc/base.c
-> > +++ b/fs/proc/base.c
-> > @@ -851,6 +851,11 @@ static int __mem_open(struct inode *inode, struct =
-file *file, unsigned int mode)
-> >  /* private_data for proc_mem_operations */
-> >  struct mem_private {
-> >       struct mm_struct *mm;
-> > +     /*
-> > +      * Was the ptrace access check on open bypassed because the opene=
-r used
-> > +      * the same MM (introspection)?
-> > +      */
-> > +     bool opened_by_owner;
-> >  };
-> >
-> >  static int mem_open(struct inode *inode, struct file *file)
-> > @@ -864,12 +869,14 @@ static int mem_open(struct inode *inode, struct f=
-ile *file)
-> >       priv->mm =3D proc_mem_open(inode, PTRACE_MODE_ATTACH);
-> >       if (IS_ERR_OR_NULL(priv->mm))
-> >               return priv->mm ? PTR_ERR(priv->mm) : -ESRCH;
-> > +     priv->opened_by_owner =3D priv->mm =3D=3D current->mm;
-> >       file->private_data =3D no_free_ptr(priv);
-> >       return 0;
-> >  }
-> >
-> >  static bool proc_mem_foll_force(struct file *file, struct mm_struct *m=
-m)
-> >  {
-> > +     struct mem_private *priv =3D file->private_data;
-> >       struct task_struct *task;
-> >       bool ptrace_active =3D false;
-> >
-> > @@ -884,10 +891,13 @@ static bool proc_mem_foll_force(struct file *file=
-, struct mm_struct *mm)
-> >                                       READ_ONCE(task->parent) =3D=3D cu=
-rrent;
-> >                       put_task_struct(task);
-> >               }
-> > -             return ptrace_active;
-> > +             if (!ptrace_active)
-> > +                     return false;
-> > +             break;
-> >       default:
-> > -             return true;
-> > +             break;
-> >       }
-> > +     return security_mem_foll_force(file->f_cred, priv->opened_by_owne=
-r) =3D=3D 0;
-> >  }
-> >
-> >  static ssize_t mem_rw(struct file *file, char __user *buf,
-> > diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_def=
-s.h
-> > index 65c9609ec207..12f84a1e6fab 100644
-> > --- a/include/linux/lsm_hook_defs.h
-> > +++ b/include/linux/lsm_hook_defs.h
-> > @@ -36,6 +36,7 @@ LSM_HOOK(int, 0, binder_transfer_file, const struct c=
-red *from,
-> >  LSM_HOOK(int, 0, ptrace_access_check, struct task_struct *child,
-> >        unsigned int mode)
-> >  LSM_HOOK(int, 0, ptrace_traceme, struct task_struct *parent)
-> > +LSM_HOOK(int, 0, mem_foll_force, const struct cred *subject, bool open=
-ed_by_owner)
-> >  LSM_HOOK(int, 0, capget, const struct task_struct *target, kernel_cap_=
-t *effective,
-> >        kernel_cap_t *inheritable, kernel_cap_t *permitted)
-> >  LSM_HOOK(int, 0, capset, struct cred *new, const struct cred *old,
-> > diff --git a/include/linux/security.h b/include/linux/security.h
-> > index 153e9043058f..e8bc2e644241 100644
-> > --- a/include/linux/security.h
-> > +++ b/include/linux/security.h
-> > @@ -338,6 +338,7 @@ int security_binder_transfer_file(const struct cred=
- *from,
-> >                                 const struct cred *to, const struct fil=
-e *file);
-> >  int security_ptrace_access_check(struct task_struct *child, unsigned i=
-nt mode);
-> >  int security_ptrace_traceme(struct task_struct *parent);
-> > +int security_mem_foll_force(const struct cred *subject, bool opened_by=
-_owner);
-> >  int security_capget(const struct task_struct *target,
-> >                   kernel_cap_t *effective,
-> >                   kernel_cap_t *inheritable,
-> > @@ -676,6 +677,12 @@ static inline int security_ptrace_traceme(struct t=
-ask_struct *parent)
-> >       return cap_ptrace_traceme(parent);
-> >  }
-> >
-> > +static inline int security_mem_foll_force(const struct cred *subject,
-> > +                                       bool opened_by_owner)
-> > +{
-> > +     return 0;
-> > +}
-> > +
-> >  static inline int security_capget(const struct task_struct *target,
-> >                                  kernel_cap_t *effective,
-> >                                  kernel_cap_t *inheritable,
-> > diff --git a/security/security.c b/security/security.c
-> > index 71aea8fdf014..2cde1efdb7a6 100644
-> > --- a/security/security.c
-> > +++ b/security/security.c
-> > @@ -595,6 +595,31 @@ int security_ptrace_traceme(struct task_struct *pa=
-rent)
-> >       return call_int_hook(ptrace_traceme, parent);
-> >  }
-> >
 > > +/**
 > > + * security_mem_foll_force() - Check if FOLL_FORCE is allowed
 > > + * @subject: credentials using which /proc/$pid/mem was opened
@@ -275,15 +134,11 @@ bject.
 > Given this, would it make more sense to call the hook something
 > like `security_mem_foll_force_self()` and only call it in the
 > opened_by_owner=3D=3Dtrue case?
-
-Sometimes we can't avoid it, but in general I'd like to see us avoid
-calling LSM hooks conditionally, I'd much prefer the hook
-implementation (either at the LSM framework level or the individual
-LSM) do the conditional check.  See my comments on the previous
-revision.
-
+>
 > I only suggest it because it seems to lower the cognitive load
 > when looking at this code, so it might make it easier to maintain.
 
---=20
-paul-moore.com
+I agree with you, and that is what I did in the previous versions. :P
+
+But given that two relevant maintainers disagreed with me, I changed
+it in this version.
