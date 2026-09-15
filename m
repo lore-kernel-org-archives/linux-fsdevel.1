@@ -1,113 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576FF485CEC;
-	Tue, 15 Sep 2026 11:53:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8E04A9D4D;
+	Tue, 15 Sep 2026 11:54:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789473193; cv=none; b=bdFcCDXz7NCxA83NaoRbLnD3z5RNm/hjrhhUhVdPl+cmQ2rjO1HtNGc/7Y6hj4YcNjAVeYnY4Z0TNuYmE6mDmGHv39ygsq7K0HEvXzg+IOEw1rJHXA36At4edVYyX/CWsJGsCKq6rSApHACKIzmM4ViZBMSxpyHCycs6LPFX1PY=
+	t=1789473248; cv=none; b=CZpZhMt72gSR+bWtaxghE7o3rP/L3fpVOLc5ydKGzY5XJgmx1r2aLMTbsIf02V3yQpIkbSe/HhUI9k31IFOX4JulEfdb+3uHjrjgGHd6knXh6bZiESDMRK7z7L+spxqxzGSSrn1gWNk7ihxq9XKOK0cSW2HYf3NKskx51gP+aRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789473193; c=relaxed/simple;
-	bh=SB6i1TkRgK612AfnnsVY4olctcc75HncKfHTvnrtP8U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l4x273fZ3gbqee1PyVhTLdUSjhtGkvgkh6lN4y99ofVl4SU4PyH3GXCrgd2O2TPSeJN/JFmvxZFoHdZQTTvV3zqZnr29mNOi4JwMG95iSEiFrF3is/4NabPDseXZxoARcZDKbo2gFgIAAlfgYT2y/Nm/nmNUDkBKn5I83wzj8wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QNPd/XH1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789473248; c=relaxed/simple;
+	bh=AG30xjDiMKCtDyqoUWBdTqe2A6YC7BdfmCSY6YO8TME=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=l2QSUYSF17+lhmXIk3R583PfvO4uYhGziXMrcUdf3K2r3op6OT/N71OZO0jiD0Xx8rtth8+bXMj0mXCfFQbGUNg4Qt2xira1EGen6h5MyYLq8u89194Uqrc0PlvMTsd5cfwYE+6hFYS1s3qR6MeOyy+TLAsBOJ934Et07U5+SWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jxGdVbxm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QNPd/XH1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4987C1F000FF;
-	Tue, 15 Sep 2026 11:53:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jxGdVbxm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F0B31F00893;
+	Tue, 15 Sep 2026 11:54:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789473191;
-	bh=O+zWMO5Xj19Spqy4WM07OMJbwgwnSpgue67uWDwSOUU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QNPd/XH14WcSYKnNvM7q+LytEQem8r/FvdydoZcTNCdGHDv/EIHHUA2sDBVJ2Ibbm
-	 uuZACDN3/b2+aLg8wqPezWewbs1PJqeEvqT2ZC0/9n25AiI40rDMd6izD3iyEqiDfu
-	 b/vO5ztX3g9OwJsGrKUI9HUFeF3yh339aeyxExWXQRWvKC0k2IzEEIsCFSIxBamO9j
-	 Xf8lXLAJQ/DHpyC/CylNHk2iGUbegYUwHxYErmK9TNtAnGwwLJX1/b77wIqRmUZw8z
-	 UpFu07t3FGt2RU5uhK6DhRxMLuBtD17uYk2IGHF31qvpXAB0lMQ/NYrE674bk+gT0H
-	 ZBwgATDzmL6EA==
-Date: Tue, 15 Sep 2026 13:53:06 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Safety 1 <git.userk@gmail.com>
-Cc: kees@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Safety 1 <176830914+JokerPython3@users.noreply.github.com>
-Subject: Re: [PATCH] fs/proc: avoid unused ctl_table entry in init_header
-Message-ID: <lzl6lem6igc7abqild6haypxnkr636wasu466hyvgc7k3mcuht@23rchp73jxv6>
-References: <20260909163214.245399-1-176830914+JokerPython3@users.noreply.github.com>
+	s=k20260515; t=1789473246;
+	bh=AG30xjDiMKCtDyqoUWBdTqe2A6YC7BdfmCSY6YO8TME=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=jxGdVbxmN8Kp7YM+vv1k+Lwtl83KHaJbgpKLbkY5B9ndglNTkZCcuaHvygk/C/p23
+	 gtc5IvLgRXflsaT/JbeYSUg8MT7dnkGaEESjkiYYG1vk2eMg5A4bJo85Hl9wv/nzeS
+	 eGLkK/gZnGZt5sYUblxipqPSDfZOU6WkQWeqEOXj7sSr5LV4NAo/AueirSWL/XnsKl
+	 hRst8P2ASZag12PNEDM5uHg4yR4m5hctoI8grNV4iMcvJNyl1ZXEvQ3SkS6D43rgW5
+	 SD5U4o/63gzEV7FOsh2ZQJJdmW/ba916cBMFpTju6k1xEUWXrbdXF1KZviyBg5srWx
+	 +dlhemDHcpIKQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC POC 12/50] nios2: commit fds on syscall exit
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Christian Brauner" <brauner@kernel.org>, "Linus Torvalds" <torvalds@linux-foundation.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-um@lists.infradead.org, linux-hexagon@vger.kernel.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, virtualization@lists.linux.dev, "Jens
+ Axboe" <axboe@kernel.dk>, linux-hyperv@vger.kernel.org, io-uring@vger.kernel.org, "Michael
+ S. Tsirkin" <mst@redhat.com>, linux-arm-kernel@lists.infradead.org, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, linux-csky@vger.kernel.org, sparclinux@vger.kernel.org,
+ =?utf-8?b?Q2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxlKQ==?= <brauner@kernel.org>, linux-gpio@vger.kernel.org, "Ingo
+ Molnar" <mingo@redhat.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-m68k@lists.linux-m68k.org, "David
+ Airlie" <airlied@redhat.com>, dri-devel@lists.freedesktop.org, "Eugenio
+ Perez" <eperezma@redhat.com>, bpf@vger.kernel.org, linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org, linux-alpha@vger.kernel.org, linux-fsdevel@vger.kernel.org, "Jan
+ Kara" <jack@suse.cz>, "Peter Zijlstra" <peterz@infradead.org>, kexec@lists.infradead.org, "Jann
+ Horn" <jannh@google.com>, linux-openrisc@vger.kernel.org, "Oleg Nesterov" <oleg@redhat.com>, kvm@vger.kernel.org
+In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-12-4d5217d6b246@kernel.org>
+References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
+ <20260915-work-fd-reserve-unify-folded-v1-12-4d5217d6b246@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Sep 2026 11:54:04 +0000
+Message-Id: <20260915115405.0F0B31F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rdhlkomltylbjfx6"
-Content-Disposition: inline
-In-Reply-To: <20260909163214.245399-1-176830914+JokerPython3@users.noreply.github.com>
 
-
---rdhlkomltylbjfx6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Sep 09, 2026 at 07:32:14PM +0300, Safety 1 wrote:
-> The entry variable in init_header() is only used by
-> list_for_each_table_entry() for iteration and is never read. With
-> -Werror=3Dunused-but-set-variable, this causes the build to fail.
-That makes no sense. entry++ implies a read. Additionally that entry should=
- be
-removed once the code is optimized compiled. So there is no need for this.
-
+> Add TIF_FD_SLOTS and test it once the untraced system call has had
+> its return code translated into the r2 and r7 pair userspace sees.
 >=20
-> Use the table size directly for the loop since the entry value is
-> not needed here.
->=20
-> Tested with: make -j$(nproc)
-> Signed-off-by: Safety 1 <176830914+JokerPython3@users.noreply.github.com>
-This is just wrong.
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> ---
->  fs/proc/proc_sysctl.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-> index 04a382178..ddc510def 100644
-> --- a/fs/proc/proc_sysctl.c
-> +++ b/fs/proc/proc_sysctl.c
-> @@ -206,9 +206,7 @@ static void init_header(struct ctl_table_header *head,
->  	head->node =3D node;
->  	INIT_HLIST_HEAD(&head->inodes);
->  	if (node) {
-> -		const struct ctl_table *entry;
-> -
-> -		list_for_each_table_entry(entry, head) {
-> +		for (size_t i =3D 0; i < head->ctl_table_size; i++) {
->  			node->header =3D head;
->  			node++;
->  		}
->=20
-> base-commit: 893e11787f78e43b534e252249ac3fff4d1333f8
-> --=20
-> 2.55.0
->=20
+Sashiko has reviewed this patch and found no issues. It looks great!
 
---rdhlkomltylbjfx6
-Content-Type: application/pgp-signature; name="signature.asc"
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260915-work-fd-re=
+serve-unify-folded-v1-0-4d5217d6b246@kernel.org?part=3D12
 
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqpMZYACgkQupfNUreW
-QU/jQQv+MtKl9izwUR4ANXAF8uCgHtcB/HncUj77+lIpsOC9ucKhIuVS6aLqxlea
-uaCMe1wJcP8l9x5flbR357XWTd8k+fQgX5t48kIG6KJu6G0F4YYuELBY3mIXaz1p
-coiqrqjaGBtj6PjalttUTyhPMCfkvyyyPR+sNq2YbyQqujQvdu0+hch+LSN+fCEo
-0ifG+9Mb6uyCV+YHgG5Ak7N1Tc1mpyhw2kB3TI+NYnhVBVNt/fM4fpYZiDfTWX8k
-3at5aqWdHwQKD/1M1prAf5Zla4mGpQw7a37wqOU7DHkBqo1rlX9sQuHMeYwj4OEE
-SGr3WEqG1afkKnzlEzNgQKR6xlvRIwcZWl8201e2Lx7EbK6H4+VTEKqfFPvvt3fa
-9kJGDeuW+QAHZTIR3oXJ8YVMw+cj97Ctrp/r1BRUdvXPr1H+8ZaswIF+GxAbzfUd
-Y86EU5tXVcVGPQ1e2SioUVDGVNUVMXTKWqHeZRHoIkO/FrfiVG2r1dR+nM6gGeRw
-i53Lzb/W
-=2kLQ
------END PGP SIGNATURE-----
-
---rdhlkomltylbjfx6--
