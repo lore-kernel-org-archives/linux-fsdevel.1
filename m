@@ -1,191 +1,139 @@
-Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CD14315F;
-	Tue, 15 Sep 2026 00:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CDA23909C;
+	Tue, 15 Sep 2026 01:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789431034; cv=none; b=d0mMuSzlDzaXiFJdmtGg5aVFrJTOoVMgvh6E3T1T5xln9inanRFvA1YkztMoG0+8JEi/SkvfcTI7LIAWjvbA/VCgVl+urFyx+hJPpjxEw2oN0KLrNQ6qbtXWoVBkIrPBX1Mkd6Dfl6QrovTuvdmyS5nTLaOV65hP7bpUIBl82MQ=
+	t=1789434498; cv=none; b=eAeXtVci/shNTXsJXqUOSi2SH8Re4gVFXeQd7Rmm3Gc7A1/m/QMbzE46bcO28hcVA2Ye/BZZpv/Wz7zVqjU63MMHs7ArCobcKQ4YgjEsl1dvDTHbZ9bkY3pa498g7+UvAc3tRB2xET9UNh0/VGlyDPgVc/0mmOsvtJy4npGKorA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789431034; c=relaxed/simple;
-	bh=oHwqrZxYs4hCbu+BUVQVXlmJwOUiV1yWBH+O+ePNbrM=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=Kylos7p4QdqzhXoiYe2qVIqtdxURIlhq33o2YSck5Dfm9InyO3h6P17g13qK0TuO3Kme7D0xjQbw2hcTPOI49pmNp0Xnl86+eDBKzypKFu72c38FbsRbjjXE4VUJbmDaAe4kRdHa9t6ddIg3poZ96iSfv7Os3cLYPmYxKCOiSbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=LBgbp6P2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OnUklduP; arc=none smtp.client-ip=202.12.124.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1789434498; c=relaxed/simple;
+	bh=mUsymsCuQS3SvFkPbdMe4P0yrNvNhFRlUiTaViL3wpk=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=B+Hb5mZVOoyryXHDedn9vFejF6KS/VIgSsh5bFueoD3v3vHA0BWkO0DfTUdusxYSterbKN4JMClimR8dVXE8vM1fVZIvKomCfGyUaTFYscoYGQkDKraZCm3BNSwFN+55joc3xBQI8Upi0lX/SCDYjw+zKb2HU7qIFjgaO6DQVpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=JlZVB02S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="LBgbp6P2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OnUklduP"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id A75701D0011F;
-	Mon, 14 Sep 2026 20:10:31 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Mon, 14 Sep 2026 20:10:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1789431031; x=1789517431; bh=K9WPKmG5eDark38n1P4B4BF/gYyB1q5uByK
-	+D5Y71nw=; b=LBgbp6P20FaiaUZmoyF/o/fqvD+smGwfxWgkOu5oq+QY1/bsuf4
-	ZaUvGtQlyrrhmwP4md+T2FEWVeY+WpfEUMKdvzKevVk2XCIMQJEtuIJeunF6qCcA
-	2XwiJrwsHkAr8v7OnOuY2UkZw2+GoRaoXqOoQGtxc0PQHwySRrQUwD/5T8UieOYP
-	dbYCY1VHDqJMwWsxvl6NiyY6Bs5p8b29LgKX8smgObK89aQiTgiS7v1Mgy8NjXOM
-	O6Tln/MJTyYQlZ7oJqQnRyTN6YEvAW5f83t95m9X01VA2dNfVcy6IKLjyUsNGJ+L
-	ohQ6pezvAdCsst5GuoSFQwUICXAE8QzfMqQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789431031; x=
-	1789517431; bh=K9WPKmG5eDark38n1P4B4BF/gYyB1q5uByK+D5Y71nw=; b=O
-	nUklduPNj2v8NnW5PEm44B5W+wsDwR4gxbYjj69vopzmY382oJJcq+gp9YAegzA0
-	VVuy2GjSwOXIjKettuYOkZkLhbYlutxc1HVhiKPm6shWB69NlH+yK05iHc6Sod5V
-	sWavWYs/MQTQ6NfcZjE7aQdKsL+TwnrW2ddKUd/cpg+4w+oEEUGbAKvEeFeurlwC
-	UPVSR/eI2nESc88HyP2IVCPExpKbOiZhVHZhLtyBscn+mjVZZL9v5foECH1UeZtd
-	Jy8dn7FLA/uAmWSZPY51M1WpiSHknm0zcGq7+UXcoSLi6MrU6paCquX7W+F2jUcE
-	QNSTZgIwfTmeyns6tmHlw==
-X-ME-Sender: <xms:94yoaoyKCyJ4vuMNiSJU3T9HSmrO5tT5Jta_WSaTgeYcAXruLffCaA>
-    <xme:94yoaujJQf3gpggUQw5Pxv9w5D9-L1RlIkeevVXMdaR_k5yM2acFlN-gwt-0Y4axb
-    ycxjS9Yhc4qW9XcWCOHFga5yGg6TyqaGt-4VLdChtlUapCTbA>
-X-ME-Received: <xmr:94yoaslDjS3Dq6900RPSHjyoILVRojAN5dupwm9WyKNOagYHPhTRf7lu2lHZbGX0QloDUavqEDOsAXeNP26vYt9kxwX-LzU>
-X-ME-Proxy-Cause: dmFkZTFHP3SBaVgCadVUdEMPrnvXcy3TZzFBfr4DO6e0aM1IZ4mL4jv2BW0bX6etXRPIrO
-    hiUpTq6G7cA2PuKluMBY2CmiD9Pp3mksl7rOxrlGDXEVuxnjRLvEcm/H3Hbc7Wiw12wkrZ
-    Rx5BzV2jYSpzhfe2TvqLuRzw9KBB+VmxZXns63i8X+Ig0pwF/60hOdZ++4mVgLKslJzMiQ
-    CfT37gwZD8HhC85q/VSENSWs3U3O4rWC3a2dXrM3/ICJXGztdegpB3CbYwlr3XaxQP7AQd
-    1mvp10qwfsRb+mkXHpyEbH5R6kWxEpnt95Jb8RzzuoGYDOvy7LCeExW2NlZvBGDzUOyKCr
-    0L3DA7Dc42VTS/EARgGeGJAjmc9d7nM+iK/RdX0XtGiuymYWiULg6aL92JrAiiGlaYhCpJ
-    OFx4tbJHL3HfEAwuREgDTN7zKDZleiYxMO4PqetmsmlpAkzmKDHGXAqsoKCuTyEWRNgfqG
-    6MNskjYeR0AmUEhXuNI8l287nZiTYbVodfGOddYmAhHxBQmQHmEOxZoevugBmV2++2mcwb
-    ijPlzl9etzVYL24eevqyRbyo0Kn8zXH3D6VH5D7eo4i5+DLKHdPgRiKGkQYpr0wpc2lhHv
-    EhYZSo4kRS82eNRA+s0CJD0uK1snIrVti+AlxvCgth/S6VfGamMGGy08TKkw
-X-ME-Proxy: <xmx:94yoasjgB6qc912KMPiw_wG2L_i_CmDagY6yn1J9zbINdHmrZPWe4Q>
-    <xmx:94yoao05Y2kBj9yq51iMu_S-qN9ePU7h89PVrepYXNCyJpPAAMMYJg>
-    <xmx:94yoatKOPaspLlHexdhk_3MPQCXw3ltPiqjGqFHOCex-c3-2Q24cYg>
-    <xmx:94yoagzX-HDrHatgEfgTE-s_YqJ5Ab8u78h2IJpvG7L-e_E2jsS4Pg>
-    <xmx:94yoaiJtUXoiThw0jQUOsGQUKVZK_1hq30kgCy2TVqGb9fUEOpQHRKWl>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Sep 2026 20:10:29 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JlZVB02S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 648761F000FF;
+	Tue, 15 Sep 2026 01:08:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1789434496;
+	bh=1++7fS8iWKOMzhlKxfG6KZTpRByEnFekp/pb13YE7fg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=JlZVB02SRB8SlrjnhgKRH7erLp6/lF0bjE2LaEmvv4g/ygzNEN9Df4GzyzKOq1GRm
+	 MXZBeGQXDG+eEGW474o2elhJDXFweuH5LsbgShtKZ8tWHgw7BwYQ9PSDiWCSrWxS8a
+	 XDSL8c0/AB3jDnSpmNCqPc3psNggeGWzB7Ii5XXU=
+Date: Mon, 14 Sep 2026 18:08:11 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato
+ <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dennis Dalessandro
+ <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
+ <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya
+ Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
+ Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
+ <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert
+ <dgilbert@interlog.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter
+ <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel
+ <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
+ <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov
+ <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner
+ <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
+ <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rik van Riel
+ <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
+ <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, Oliver Upton
+ <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul
+ Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda
+ <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
+ <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
+ <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Chris
+ Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng Shi
+ <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He
+ <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, Johannes
+ Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
+ <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Chengming
+ Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, Miklos
+ Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
+ selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH v2 00/40] mm: make VMA flag semantics explicit,
+ eliminate VM_SPECIAL
+Message-Id: <20260914180811.057cba8fcc48d6e0b53a2683@linux-foundation.org>
+In-Reply-To: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Mateusz Guzik" <mjguzik@gmail.com>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- "Mateusz Guzik" <mjguzik@gmail.com>
-Subject: Re: [PATCH 02/10] fs: add path_create(), path_move() and path_clone()
-In-reply-to: <178943070662.207413.9700024518083440241@noble.neil.brown.name>
-References: <20260913144918.1606123-1-mjguzik@gmail.com>
-  <20260913144918.1606123-3-mjguzik@gmail.com>
-  <178943070662.207413.9700024518083440241@noble.neil.brown.name>
-Date: Tue, 15 Sep 2026 10:10:27 +1000
-Message-id: <178943102713.207413.2253649379310238579@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, 15 Sep 2026, NeilBrown wrote:
-> On Mon, 14 Sep 2026, Mateusz Guzik wrote:
-> > Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
-> > ---
-> >  fs/namei.c           | 29 +++++++++++++++++++++++++++++
-> >  include/linux/path.h | 14 ++++++++++++--
-> >  2 files changed, 41 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/fs/namei.c b/fs/namei.c
-> > index ca4f5e3be99a..c8754c7ba8be 100644
-> > --- a/fs/namei.c
-> > +++ b/fs/namei.c
-> > @@ -698,6 +698,35 @@ static __always_inline int lookup_inode_permission_m=
-ay_exec(struct mnt_idmap *id
-> >  	return security_inode_permission(inode, mask);
-> >  }
-> > =20
-> > +/**
-> > + * path_create - WRITEME
-> > + * @path: path to get the reference to
-> > + * @mnt: WRITEME
-> > + * @dentry: WRITEME
-> > + *
-> > + * Create a path object using the given vfsmount and dentry pair while i=
-ncrementing
-> > + * the reference count on both.
-> > + */
-> > +void path_create(struct path *path, struct vfsmount *mnt, struct dentry =
-*dentry)
-> > +{
-> > +	path->mnt =3D mntget(mnt);
-> > +	path->dentry =3D dget(dentry);
-> > +}
-> > +EXPORT_SYMBOL(path_create);
-> > +
-> > +/**
-> > + * path_clone - WRITEME
-> > + * @path: path to get the reference to
-> > + *
-> > + * Given a path increment the reference count to the dentry and the vfsm=
-ount.
-> > + */
-> > +void path_clone(const struct path *src, struct path *dst)
-> > +{
-> > +	dst->mnt =3D mntget(src->mnt);
-> > +	dst->dentry =3D dget(src->dentry);
-> > +}
-> > +EXPORT_SYMBOL(path_clone);
-> > +
-> >  /**
-> >   * path_get - get a reference to a path
-> >   * @path: path to get the reference to
-> > diff --git a/include/linux/path.h b/include/linux/path.h
-> > index 7ea389dc764b..8a621e0e1921 100644
-> > --- a/include/linux/path.h
-> > +++ b/include/linux/path.h
-> > @@ -10,8 +10,18 @@ struct path {
-> >  	struct dentry *dentry;
-> >  } __randomize_layout;
-> > =20
-> > -extern void path_get(const struct path *);
-> > -extern void path_put(const struct path *);
-> > +void path_create(struct path *, struct vfsmount *, struct dentry *);
-> > +void path_clone(const struct path *, struct path *);
-> > +void path_get(const struct path *);
-> > +void path_put(const struct path *);
-> > +
-> > +static inline void path_move(struct path *src, struct path *dst)
->=20
-> Oh ...  this is backwards.  At least is it backwards compared to
-> memmove().  I understand different people will read "move" differently
-> and would prefer to avoid it.
-> Can we do without it?  You only seem to use it in one place.
->=20
-> How would you feel about:
->=20
->  struct path path_move_from(struct path *src)
->  {
-> 	struct path ret =3D *src;
-> 	src->mnt =3D NULL;
-> 	src->dentry =3D NULL;
-> 	return ret;
->  }
->=20
-> and then use
->=20
->  file->__f_path =3D path_move_from(path);
->=20
-> ??
+On Mon, 14 Sep 2026 15:57:20 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
 
-And then of course there is path_clone() which looks backwards to me.
-Can we just change path_get() to return the path, like a lot of
-FOO_get() functions do, and use
-   newpath =3D path_clone(old_path);
-??
+> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
+> properties:
+> 
+> ...
+> 
+> It's all rather a mess.
+> 
+> This series brings some order to things by both limiting what drivers can
+> do with VMA flags and switching to using predicates that describe
+> behaviour, not arbitrary flags.
 
-Thanks,
-NeilBrown
+That's a lot of patches.
 
+Review is thin and I expect this won't improve a lot.  Lots of "no
+functional changes" changes.
+
+Perhaps it would be helpful if you were to identify those patches which
+you'd like to see reviewers focus on?
+
+>  1153 insertions(+), 582 deletions(-)
+
+It's funny how often cleanup patches do this.
+
+All queued up, thanks.
