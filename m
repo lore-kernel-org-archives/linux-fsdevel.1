@@ -1,98 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65F23B71B0
-	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 13:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F70A377A97
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 13:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789477702; cv=none; b=Yf4PQtvq5P0X+07KXM/7YavUDLBPsO+LZt34lS1SkQVQ3sokTsXxLIxTltK3c8QNVng+oOjKVfn5obf1AfJTuJ1uCMFLETWsupYQ7pWE4qkvkBY0XiosbViJUAzXFr01dWwsz/LVWCZvDDEqegZ0/cjtrNLbzI/h3nKY5pjfY8s=
+	t=1789478317; cv=none; b=pLH8ZiDU4xV7BcO/zyFwa+x1k6vELisxmd2FmRVw0+dfVGpmE40GNXcK0EnxW4klHWlK0vDrr9hZpgwmLJ7Wzz8YtYockR+0hqAr7iCaLUG9+FsDZdTcgZY8ncEDEK7+3m5Fr+XS/rRAdiqR9EgC5pk+bD5d7oYTdLgSZkX+TF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789477702; c=relaxed/simple;
-	bh=XU+2dnON3tB/nnqmlBy7PP4DEKnLSGjRoJgv0p+i0e8=;
+	s=arc-20240116; t=1789478317; c=relaxed/simple;
+	bh=C85AxaI2KKqPIO1eZUj7tU5xfApIIKnN+SlmpFxVzaM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cj0TtLRQz2bTpdk1IP19OyEPT+w4uFZYXCPBnci7KZTGW4ZGpb6sGkZdEw5z8cItj5/dPxoKsEPzpj6bxlp6E7Cuq8Ti2XmM/hH7KIzgUa7xwBE1KdvcINhCk6KWpnH8wZzgkO+3pDIPCNUGJxDGTfjzKyT3f0q5i+EjtsfkndI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lAGtosHP; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=U2Ayso/VSZSA5WiBK8qh8t6h6QIyW7IYzgK56/iMcMUzKoElRLTU6x7981AWQzQJyiDWvZfGjGWcJgjDW8sYFes9f1g9qwak2psFYrGMVxDtKcffjLY2aW+g5r9Sf9u844dqth/MPdSw9oqc7+3PcVeoei1N9PVSje1nj4/jcuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ZCMfxcIE; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lAGtosHP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 079841F000FF;
-	Tue, 15 Sep 2026 13:08:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789477700;
-	bh=tjgLUop72ZMvf0h92huxyx+PE6o+OUOeA3B67aAkAJE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lAGtosHPT8bQQHdHedEA82sBRcvEs3tM49nVDjy5CxbMGop9XwEdcCFmAHewy8xhV
-	 lqHD9QgMJBJOLy9oduSs5wDkeZpMoeT7EIjwx8dqetXoXZoRD4qM0a6nTeisgAh/7a
-	 WdTzRDf2r28CVnki9XxnCTOwZtG8LLs5gXKofrjfKIcTUOANxwfM+wdSRr4gnFl3YF
-	 aOJGlp4IxJ8QzGFKjExM1LsD2tXaWO7XUKVLHDzL59aPewyIoVR9WZBisBBgJjFR2O
-	 oC+FxcHlcIUXuhLLA28EIG7QAI1Vd+JB66hLEaiz7QGm9xpKgNKLLn+vgKroUvjgvf
-	 d4EI3K3ex5MfA==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.ams.internal (Postfix) with ESMTP id A9902198003A;
-	Tue, 15 Sep 2026 09:08:09 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Tue, 15 Sep 2026 09:08:16 -0400
-X-ME-Sender: <xms:OUOpaoohDrvyZdMAv3BPSTqKZ3EwSFK1v6xeT7Fhr2cOPnwI3EaXDw>
-    <xme:OUOpatVAjgiVezhqwjrruUmqPHwzpXybZ8aBoNe6d0UDW2E1u1WP4HMNS74KzkTBo
-    VpKdcBI_BdlNUGUp1c886jmRowZ3Sajf0h_qn_ccoZHG14sa-mU4w9c>
-X-ME-Received: <xmr:OUOpagIOMzypL5NqY7x1Isf-AbgluKlNv1fFYR052KcVUr5cPKdSdsvWVrI>
-X-ME-Proxy-Cause: dmFkZTGBwKK+2xwAnE7Nssghb1/SceAcmQ+4ywIAoFrTlislToHtIv8OmG+4NsbsKAXvcf
-    UX6cRBjc80nWIknxGObjdDxbScPZQabPCAe3OX00a7onnc54qK4hOE8AR/EWB4wi/Nye97
-    OvMk7+uHW6ShYCAo0+Ba7DJ7JC4XBBW4+UFWxhrsQbs9OTmsUcfqOGJZj2WMC2dVv6zq0s
-    J6y7i24qWBikceH5CMyBGbLKiFXaff8mNpAp9X4rOSZM6nNOGc7G4i2DST4cL9UnmXg22A
-    cZl+hrpQH8Uao3fk9/rsQQ4MR8GopSdsyVdAlO4o00a8fAIgChTEjjeAF43IoApGnFvCjc
-    NmPXJJKhd9vSE/abZ8epf9nO345U38qzMWorDQY75NAOI/pCRfxGb/0kw/Ed4sTjhwqk7j
-    7eUGmH9xej+bNAkAJbCp/3BqMox7rHVFOaxBHh6o15OTTQZPRzCHIdbgVTwbpffP2953Su
-    X4peartElqpBPur1xD6G+uCr2JFQuvqa390Z8csCX3cJbf8Ak8sYGcv5lCRbxWONdVMNKl
-    NqtP8tih8iA3fhvMBNUpOoDOVUEx/C6o/NNjJN0qIEnrmrQ0KUq401HM56Hss9U4JbXwSn
-    qMUv76AlYpWq9JIeqKXGd83ecti/2bF/6ZtkFn7+bkZCMPOwRHr4d5VK+IgA
-X-ME-Proxy: <xmx:OUOpagiKiXANC8dYaGhAfZLjTQ4zfKJ3v5KjBZNHA7h-wUgVEvbadg>
-    <xmx:OUOpaom746o2T__gb-FYFjQ56UeeBfnHp3-sDK9BMv2soZ-0JeRypg>
-    <xmx:OUOparHPrELkf3NiInnlkfUl51_6S-QUsZKTMTEnRGPkmI663w8ltA>
-    <xmx:OUOpatRqm-PJBL36gxjY6GjwgsjdVCOuJoeY4MtKlJq6gA9rUpyodw>
-    <xmx:OUOpan43kOMGLJ9R5slFZzX9DAK82GGV_4MhasX0GL5dyiIx4BZoqRmV>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 15 Sep 2026 09:08:07 -0400 (EDT)
-Date: Tue, 15 Sep 2026 14:08:06 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Hugh Dickins <hughd@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- 	Ackerley Tng <ackerleytng@google.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- 	Alexandre Ghiti <alex@ghiti.fr>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- 	Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>,
- 	Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
- 	Christoph Lameter <cl@gentwo.org>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- 	David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>,
- Jan Kara <jack@suse.cz>, 	Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, 	Kairui Song <ryncsn@gmail.com>,
- Lance Yang <lance.yang@linux.dev>, 	Leonardo Bras <leobras.c@gmail.com>,
- Lorenzo Stoakes <ljs@kernel.org>, 	Marcelo Tosatti <mtosatti@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- 	Mel Gorman <mgorman@techsingularity.net>,
- Miaohe Lin <linmiaohe@huawei.com>, 	Michal Hocko <mhocko@suse.com>,
- Minchan Kim <minchan@kernel.org>, 	Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>,
- 	Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
- Rik van Riel <riel@surriel.com>,
- 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- 	Suren Baghdasaryan <surenb@google.com>,
- Vlastimil Babka <vbabka@kernel.org>,
- 	Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>,
- Zach O'Keefe <zokeefe@google.com>, 	Zi Yan <ziy@nvidia.com>,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 07/26] mm/fbatch: LRU_NEXT_ACTIVATE bit to optimize
- folio_activate()
-Message-ID: <aqk7PbBfhO1GV2sa@thinkstation>
-References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
- <c44a34f8-ea3c-48cd-27d5-02df129be685@google.com>
- <aqLaa4QvXMbQaIWG@thinkstation>
- <84fecd13-f1e4-7d40-94c9-963f5c2f7aee@google.com>
- <5bd863e9-30a3-c01a-dc8c-c3802b864a6c@google.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ZCMfxcIE"
+X-KPN-MessageId: c8f241b3-b107-11f1-9e92-005056999439
+Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id c8f241b3-b107-11f1-9e92-005056999439;
+	Tue, 15 Sep 2026 15:17:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=9Z03RuXEi8a/JpV6tVitUAYgKsoXy7L10aHolgRHyME=;
+	b=ZCMfxcIELYP+YvN1usUIbp+DN6zQBo/eWw16xkx6wmmSL9OzhAZWeYse2QHqaNJ4mFAWLzZHWXPk0
+	 cetEpqO0B2qxQo/Pmgwcdl5wP/1/apEMN+gzGm6XIl6jA7Nbc9jPe8qbjOj75NpASi66cCgSI5xOZZ
+	 M6Dggpjc4QHJahmhFs/+N8jWbEkvEzKTSL/qSdv/bcAhFh7uSGFagEvoHGkCrg2IUn8vuuvaqtqQvc
+	 mW1ioTZwiNGfmemQi+1Q7b2rKJmFq3fE54FFlPrwY63yaRVlP+BDRBbAuZQ1CZROYQFTvWd5POdnZi
+	 6C3SPz80i4yfbgVSL5fCx5tdQCBF2lg==
+X-KPN-MID: 33|pecNOwnZRGodLUIR7cgAA8b23tYG1k2YFG/98fWul3IU5PPH9e0T4KvRa3QcHu3
+ Jv1SOT7PmptkozDQHaptOGevsAa5R+WUYC6iy5ZgnCm8=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|hQ7tDhQuPKbSK3JQGVSeNwViOFm7SunQshzsLTl986HffIopVIo4AKrAz73gQLk
+ qMUDtFl26svgZFMuUa8KgsQ==
+Received: from localhost (unknown [178.226.150.234])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id c8d223e9-b107-11f1-8804-00505699b758;
+	Tue, 15 Sep 2026 15:17:21 +0200 (CEST)
+Date: Tue, 15 Sep 2026 15:17:15 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH 1/7] vfs: add some allowed open flags to vfs_lookup_open()
+Message-ID: <aqlCL3yl5p9kTrjt@lt-jori.localdomain>
+References: <20260910002934.192979-1-neilb@ownmail.net>
+ <20260910002934.192979-2-neilb@ownmail.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -101,141 +57,38 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5bd863e9-30a3-c01a-dc8c-c3802b864a6c@google.com>
+In-Reply-To: <20260910002934.192979-2-neilb@ownmail.net>
 
-On Mon, Sep 14, 2026 at 01:19:37PM -0700, Hugh Dickins wrote:
-> On Sat, 12 Sep 2026, Hugh Dickins wrote:
-> > On Thu, 10 Sep 2026, Kiryl Shutsemau wrote:
-> > > On Wed, Sep 09, 2026 at 02:55:41AM -0700, Hugh Dickins wrote:
-> ...
-> > > > diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-> > > > index 8420b1276535..8f5efadf9c7c 100644
-> > > > --- a/include/linux/mm_inline.h
-> > > > +++ b/include/linux/mm_inline.h
-> > > > @@ -346,6 +346,7 @@ static inline void folio_migrate_refs(struct folio *new, const struct folio *old
-> > > >  enum {
-> > > >  	LRU_NEXT_NEVER_TAIL = 0,	/* Used by a tail's compound_head */
-> > > >  	LRU_NEXT_BATCHED = 1,		/* Not used by any aligned pointer */
-> > > > +	LRU_NEXT_ACTIVATE,
-> > > >  	NR_LRU_NEXT_FLAGS
-> > > >  };
-> > > >  
-> > > > @@ -358,6 +359,9 @@ bool lru_add_del_folio(struct folio *folio)
-> > > >  	if (!(lru_next & BIT(LRU_NEXT_BATCHED)))
-> > > >  		return false;
-> > > >  
-> > > > +	if (lru_next & BIT(LRU_NEXT_ACTIVATE))
-> > > > +		folio_set_active(folio);
-> > > > +
-> > > >  	WRITE_ONCE(folio->lru.next, LIST_POISON1);
-> > > >  	/* BUG_ON(folio->lru_next & BIT(LRU_NEXT_BATCHED)); */
-> > > >  
-> > > > diff --git a/mm/folio.c b/mm/folio.c
-> > > > index a18d8ef6afd5..0b75c3b69d5a 100644
-> > > > --- a/mm/folio.c
-> > > > +++ b/mm/folio.c
-> > > > @@ -256,15 +256,32 @@ static void lru_activate(struct lruvec *lruvec, struct folio *folio)
-> > > >  
-> > > >  void folio_activate(struct folio *folio)
-> > > >  {
-> > > > +	unsigned long lru_next;
-> > > > +
-> > > >  	if (folio_test_active(folio) || folio_test_unevictable(folio) ||
-> > > >  	    !folio_test_lru(folio))
-> > > >  		return;
-> > > >  
-> > > >  	/*
-> > > > -	 * XXX: It is curiously difficult to recreate safely the old
-> > > > -	 * __lru_cache_activate_folio() optimization (folio_set_active()
-> > > > -	 * directly if it's on the local lru_add fbatch): revisit later.
-> > > > +	 * This optimization is intended for the common case of folio
-> > > > +	 * having been recently added to this CPU's lru_add fbatch.
-> > > > +	 * But since other CPUs can now take it at any instant (after
-> > > > +	 * a folio_test_clear_lru()), and we may be migrated to another
-> > > > +	 * CPU, it is simplest just to extend the optimization to all CPUs.
-> > > > +	 *
-> > > > +	 * folio_set_active() would be unsafe without the lruvec lock, and
-> > > > +	 * a folio_test_clear_lru() here might cause a racing drain of the
-> > > > +	 * lru_add fbatch to skip its lru_add(): so use try_cmpxchg().
-> > > >  	 */
-> > > > +	lru_next = READ_ONCE(folio->lru_next);
-> > > > +	while (lru_next & BIT(LRU_NEXT_BATCHED)) {
-> > > > +		if (lru_next & BIT(LRU_NEXT_ACTIVATE))
-> > > > +			return;
-> > > > +		if (try_cmpxchg(&folio->lru_next, &lru_next,
-> > > > +				lru_next | BIT(LRU_NEXT_ACTIVATE)))
-> > > > +			return;
-> > > 
-> > > Hm. What prevents the folio from becoming unevictable under us here?
-> > > I don't see anything.
-> > > 
-> > > __folio_add_lru() wouldn't like it:
-> > > 
-> > > 	VM_BUG_ON_FOLIO(folio_test_active(folio) &&
-> > > 			folio_test_unevictable(folio), folio);
-> > > 
-> > > folio_lru_list() has the VM_BUG() too.
-> > 
-> > You're right, thank you. I thought I had deleted all such VM_BUG_ONs:
-> > and indeed I had, but only in a patch I later decided was too much for
-> > this series (removing PG_unevictable, using !folio_evictable() in some
-> > places, or folio_test_unevictable() testing another POISON in lru_next).
-> > 
-> > That excuse is not enough for this series! Yes, I must send a fixup,
-> > but not today.
-> > 
-> > > 
-> > > I am not sure what the right fix is.
-> > > 
-> > > Maybe lru_add_del_folio() should only call folio_set_active() on
-> > > !folio_test_unevictable() folios?
+On Thu, Sep 10, 2026 at 10:20:47AM +1000, NeilBrown wrote:
+> From: NeilBrown <neil@brown.name>
 > 
-> I was writing the commit message to a 7.1/26 fixup patch,
-> when I found I just could not describe any possible race here.
+> vfs_lookup_open() must allow:
+>   O_LARGEFILE so that large files can be opened.
+>   O_NONBLOCK so that break_lease() can be asked to return -EWOULDBLOCK.
 > 
-> (And I was using your first suggestion, above: in the longer term I
-> prefer what I chose below, but decided it was better not to get into
-> that now: deleting various VM_BUG_ON_FOLIOs is better argued elsewhere.
-> There's another of them in folio_migrate_flags().)
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/namei.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> folio_activate() has just checked !folio_test_unevictable(), so
-> it would have to be a race with something which sets the unevictable
-> flag on this folio at the same time as we find it's LRU_NEXT_BATCHED.
+> diff --git a/fs/namei.c b/fs/namei.c
+> index d95249dd527c..c9ac703110f8 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4632,7 +4632,8 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+>  	int error = 0;
+>  
+>  	WARN_ONCE(mode & ~S_IALLUGO, "mode must only have permission bits");
+> -	WARN_ONCE(open_flag & ~(O_ACCMODE|O_CREAT|O_EXCL|O_TRUNC|__O_REGULAR),
+> +	WARN_ONCE(open_flag & ~(O_ACCMODE|O_CREAT|O_EXCL|O_TRUNC|__O_REGULAR|
+> +				O_NONBLOCK|O_LARGEFILE),
+>  		  "open_flag has unsupported flags");
+>  
+>  	mode |= S_IFREG;
 > 
-> !folio_evictable() might become true at any instant,
-> but folio_test_unevictable()?
+> base-commit: 9189e6a6f89e32d3a604b221ea64e67e1a35957c
+> -- 
+> 2.50.0.107.gf914562f5916.dirty
 > 
-> I cannot see what the racer could be: can you? I can see lru_add()
-> making it unevictable afterwards; and I can see folio migration
-> (successful or not) carrying unevictable forwards (or setting it
-> on a freshly allocated folio). But I cannot see any risky race
-> for folio_activate() or folio_mark_accessed() here.
 
-I was thinking of race with mlock() plus a failed compaction (assuming
-compact_unevictable_allowed is 1):
-
-	CPU0						CPU1
-folio_activate()
-  folio_test_unevictable() == false
-  folio_test_lru() == true
-						__mlock_folio()
-						  folio_set_unevictable()
-						  <moves to LRU_UNEVICTABLE>
-						...
-						compact_zone()
-						  isolate_migratepages()
-						    isolate_migratepages_block()
-						      folio_test_clear_lru()
-						      lruvec_del_folio()
-						  <migration fails>
-						  putback_movable_pages()
-						    folio_putback_lru()
-						      __folio_add_lru() // !active, unevictable
-						        lru_next |= BIT(LRU_NEXT_BATCHED);
-						        folio_set_lru()
-  lru_next = READ_ONCE(lru_next)
-  // lru_next has LRU_NEXT_BATCHED
-  try_cmpxchg(lru_next | LRU_NEXT_ACTIVATE) == true
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
