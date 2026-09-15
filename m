@@ -1,209 +1,231 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5823947B8;
-	Tue, 15 Sep 2026 07:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.178.238
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789459007; cv=fail; b=ayqtCb3HG9D73FU2xo/1FA3cqJgoevFdYDUvuh4EjcF1+sdbGAj8/RY5NNveUBZcGV6FkIeRyXSM+zA/7djkGyVFr47wA9L5IJ90lWPVw4RHdnhWFQTiXWPv6h6+J63lCfQQ6SkNAtwLK3vmhiI9ckyhFFwtqPM0l3ANeqqIUeo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789459007; c=relaxed/simple;
-	bh=4iZ+8T7oCczMuBq/HL8h7ehiY6dcMg1LF8aT/tGenhs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cUWUDCOagqQsRjWi27c5XFPA+pwK5q3Bx5g96CL8W9yjeIR9aW3/BlRX7WwV6x2iKIXKyT6sTBIQuTrzUnJbaVk3g9aBban3cZGVsgsKDlgrAyft3ezHxxdbq2fyWcUnjGz0p/M3ERSp3ZnLOzvh89hGWZCNrgIlT3OxVEbhYnI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=qJXwduYZ; arc=fail smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975772857FA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 08:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789459410; cv=none; b=an2/lhSGk7SQA5Qp4W+yxAN7Wf5M8vaw8mzd7mQ/17mEwxVXLcWD7ng2QpczmVI9AgouEEPaES10+Rxotbw3lm1g32WqPzshr8Tb6ellj2YjhxZmS9X2KMTmjckUCTkZTAXBDxPlAuwPWHhBvK85/gko5oV8pEyEHo6T/FFrNeE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789459410; c=relaxed/simple;
+	bh=FhX8H7e8fEhgdrkXZXQss1k8Dm7Bjee7uAFe8zKnEr8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WxVb1WWzK3U36VVkRiYFyBw41MASmDDpTvdhIgr6eWjk6DhJH4xv0PRNc8gWsb12at6vBfjHHsK07e6nWJOJZu9r1nEYk5ypF6gdG2vCrTLnLtFw20KOeepBj4xh8JwywOKenGBW3mSG6y/pl4u/iGwZ79UQpRnjVHSVyUpkkTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SjLzdz1b; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="qJXwduYZ"
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68F6asQQ2946957;
-	Tue, 15 Sep 2026 07:10:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=DVqg976GR3x4ouGVyl1R3iooAyYL8euywhCsAVMxd3w=; b=
-	qJXwduYZYOaCXraSq5mBUGMrfGW3W+vdQEmHUGh09IaNGaeJBHe8Mqcr0e5pbgw/
-	cRnt333cZvw8JBRk0zicYkg4t7rN2oNt5AzfrbeYljTQhxRMGXkBaeiPsYaO1QSi
-	MPmFNUDYOurWFMK3lUXCVTBwooLL3EDGreSbEDmMwwKusx+mZlOG6TI83JaQdYZg
-	KOoGMxYFBmZx+yXTJ54/UAAQI0dO44jltumeiqHAqCfqggm6YiMpREVcxloOlf0c
-	vlgcwoa0wPkNZuFQmLcxOIIXO31ppaFSARmKVD7uiGLlf7ANRVulRXXiIGH/OEUp
-	Ieh9b9hwHfHlNj4TH+bBHw==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020128.outbound.protection.outlook.com [52.101.201.128])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gmxxnnhpj-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 15 Sep 2026 07:10:10 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S7cKuED+widYZIUGKwcnlj3GmXvaFuamwMFDMMp7ld5+DWfwldbNmprJg8LoWm97eoIkUj38dLcUXBw5wYLdC3LpuhDX766Zu3XdKqyakg0OAmHk6RkmNTatOdlZ49hqxwIAhKlUyv9lQbU16KKmxaxB/Meu6Tinui/20yR390orU5bs4Y0uIL/dER/0nLlmJZ/0UZpwfETgW/T0Ok9juqbsOHfyJR8/cXZRtu/7Ke+05cGbAjiTNCydR3RLzWNKAzRBQ7bswEvpGLgIe4pWyVdFXnDj7XmvFsnzcueNYzuxcDZ6WHPTO2IAqzZRNYSvXdIuF/E3GBUQEmaTG5vdMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DVqg976GR3x4ouGVyl1R3iooAyYL8euywhCsAVMxd3w=;
- b=LnmRL0/jzdpJi+vB2QFzHuYiJ+imVYC7/Qw/3JK/sxg1kNNSCV+lnGLPgH7lSON8iNRTzOa6GoQQ2/guxg5E4yn/rx2yiIcFxH+8ZcyHFGGAziLOWhrtDmaCD+qfpTZp3ivfsEJvQ5AahnoHQUOSMy5uVvMQEgvjjyCXQYXwIVyzzsyr+X8Db6DNXYOHb/MFQyapPvrx+N5DmW18oigbWmdf1SPXTwy4HgPZhasWp35qaCLZi42EoD8uhQ+AW6Ix9gybUBbaAyAIh18NiQfcL6cZr3KNuvv4Utpvxl2JjdvBzTZEfC7zZVbnTyybsjzgxeSFvtQrCdg5X/H70bVrUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH0PR11MB5332.namprd11.prod.outlook.com (2603:10b6:610:bf::17)
- by IA4PR11MB9177.namprd11.prod.outlook.com (2603:10b6:208:569::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Tue, 15 Sep
- 2026 07:10:08 +0000
-Received: from CH0PR11MB5332.namprd11.prod.outlook.com
- ([fe80::8f86:8d08:45bf:ec13]) by CH0PR11MB5332.namprd11.prod.outlook.com
- ([fe80::8f86:8d08:45bf:ec13%6]) with mapi id 15.21.0406.007; Tue, 15 Sep 2026
- 07:10:08 +0000
-Message-ID: <38377447-ffa2-43ef-bbfa-43d05decda1e@windriver.com>
-Date: Tue, 15 Sep 2026 15:09:57 +0800
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH] xfs: fix NOFS state corruption in btree split worker
-To: Christoph Hellwig <hch@infradead.org>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc: brauner@kernel.org, djwong@kernel.org, cem@kernel.org,
-        akpm@linux-foundation.org, vbabka@kernel.org, surenb@google.com,
-        mhocko@suse.com, brendan.jackman@linux.dev, hannes@cmpxchg.org,
-        ziy@nvidia.com, david@kernel.org, qi.zheng@linux.dev,
-        shakeel.butt@linux.dev, ljs@kernel.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-References: <20260902134417.c44503a1d65533f81fb1c391@linux-foundation.org>
- <20260903133756.2006032-1-wangkefeng.wang@huawei.com>
- <aqJEWmUN3Jsajoyl@infradead.org>
-Content-Language: en-US
-From: "Zhou, Yun" <yun.zhou@windriver.com>
-In-Reply-To: <aqJEWmUN3Jsajoyl@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SL2P216CA0094.KORP216.PROD.OUTLOOK.COM (2603:1096:101:3::9)
- To CH0PR11MB5332.namprd11.prod.outlook.com (2603:10b6:610:bf::17)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SjLzdz1b"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e66390995so15453465e9.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 01:03:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789459405; x=1790064205; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kcapaBho2kR7enVDRwYTAMH/Ad+5izpm6YLmaU/7cvE=;
+        b=SjLzdz1bE0wvfdO7ErkQqxsSvwybG9pBrGUTKP5nyKSXosj7GoreONLt0WBzVretyQ
+         T/o7gMWmbc7E1s6oTI/hg1VGBoIGMCb6B8TFf84q9bga3A8KrOLL3acDE0BLOv2LJ54e
+         mVmiG7yMnEyc2VhSTJ90qzOBgV4xZmFMhzYt3MYTq3iUlZbT1Y7dBP/z8QlwD86gCjtk
+         +iwVngEImM/OJbzVLZTV415ikxrOniCsBCmM2IYiZppnFN2OXUV2bCfNakC6+o/LQxPQ
+         m6XmvCvM9G+KAsu7Wsj8X+DJfTlagMCilf8VMKqJKqQ+En8YPI8CPM7GRXNgUCITMIvs
+         5jPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789459405; x=1790064205;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kcapaBho2kR7enVDRwYTAMH/Ad+5izpm6YLmaU/7cvE=;
+        b=IvmH9IrYy+X4zzLBXDW4vD0oiZmMYi7V5UlUdj/wKuLkEigVibNe1PsW+0geT2x0I/
+         GEoOGbQ8Pt9JqnKrG5Iqn+G1DQ7i5IOO0yoOwqxHGWxGLrENJDoA2kHkQkfhCB8I2KRg
+         FrCgE9CdHX6aJ7Hcu5Y4xNBDCkW9DEnyqjDTPdrmpvZrnwrxqobtyn/F1DikAOfyprNS
+         lgBB0fxR6objFWXR7Cf35wZ64gWj1CbPrI7425VWhZZvL52i64a7DTwzrYNtq71oO6JY
+         8y32ppo6mdOmjSuVd2xyGGzHIEIi+ljvc57rhb3nG70BR8lXRsdAoOQuJa6qEq1nZL8u
+         yUVA==
+X-Gm-Message-State: AFuF++m4KMdLLnVSYb0kPy/Vw/M1G5oJr0KmjUiK1D6SCRA5qoHWAsxV
+	NkSMfHYQGjiOLOoy/r+BJcuwzfHkyLKRbABjY/bkLaEXZV6pXV/GjT2+
+X-Gm-Gg: AYBFou1RSrEriXXwFoQk3ALz2Xrf1GvF55t8gzvuK6izrg+mxEW7WeTt7/K7o6z1CVb
+	3GtNYGs1gEExyFqA854oXn373znWxcCODAt0ztgYnebQERHOKpyNnc61RkzbdsD6VnYKOVXtvq8
+	1z+7+ZSaw4FL/aleiyo34G2JUhfFYtQ0z+mfwnNQYPghhXfTdz+SWvfaOfvjs5K1Y/odDOowkvm
+	4QbIHaIhOEMh1G6NejyguzxLZGrz8Kh4eldNCEoO+L6aEqUFMOPyzruhpsMMlGbxFX83VYaIGLZ
+	UY4tl6I4fu1+cb7AB8qvQfE+hHQkOjeEp3+UJ6wqT4tL3odEhO5cHwX+ZMy6osqQhqru8aiVhfN
+	1ouq+5afIhFiuCdduRYlvAD6+2IewMGRak6TkL9Kapq2JX1LUbIaDtYF8K3eN8muY4cFM+Yg8ap
+	ZopRWNEQZhsIJIEL+0qy5KqvKyZSMAFbO4OXcRr/A8LUOx7aCwxabLqvXqcMoQzNU0SPJBDFV8+
+	Uhz2Npv+r/YFAM=
+X-Received: by 2002:a05:600c:19ca:b0:49c:fc6c:bdfa with SMTP id 5b1f17b1804b1-49e7a66aa96mr72885625e9.17.1789459405211;
+        Tue, 15 Sep 2026 01:03:25 -0700 (PDT)
+Received: from dell-desktop ([2a02:587:4b4e:8500:290c:210b:1c76:5710])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb35c071sm33764675f8f.33.2026.09.15.01.03.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2026 01:03:24 -0700 (PDT)
+From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+To: bpf@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	david@kernel.org,
+	akpm@linux-foundation.org,
+	andrii@kernel.org,
+	ast@kernel.org,
+	brauner@kernel.org,
+	daniel@iogearbox.net,
+	eddyz87@gmail.com,
+	kpsingh@kernel.org,
+	ljs@kernel.org,
+	matt@bobrowski.net,
+	memxor@gmail.com,
+	song@kernel.org,
+	sun.jian.kdev@gmail.com,
+	utilityemal77@gmail.com,
+	viro@zeniv.linux.org.uk,
+	tasos.papagiannnis@gmail.com
+Subject: [PATCH bpf-next v7 0/5] bpf: Add user memory access kfuncs for mm_struct
+Date: Tue, 15 Sep 2026 11:02:50 +0300
+Message-ID: <20260915080255.48929-1-tasos.papagiannnis@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5332:EE_|IA4PR11MB9177:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4df308d6-f6a9-4a16-8fc5-08df12f85fba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|56012099006|11063799006|4143699003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	ia1vA+/71tApKpP8MIQLHK56nA/qs0ECRtJVOvJV2h7uR3NyCVKyzDYLzI8OrgZreUMVCokBIf2zmvW3Ja/DP14Wv8DTwlNHKKU6xeF7ErCLDYr8LXmFzdDA6MWI/e5Z7czpaBf2xsC6KWkVnAhFMP/Ap1zVpDHMwYwZwPziaMPoON88xz6bKWygEWW1HSExCZhJ4+yxTRa23DPsAo+oU8Dbsa9V7FlJOGHaV5Zs6YWlwT4MQf5xyB9nTOfng+LjFSXg0QdUXKmHdqJvBYf1E88BNeITmQpzt/BudzlRwxICt+vs6NN3rDDaplRsRH4sCKvME5LK8NZI4eGkDIYab/z0ZSAVHYCBuwfb5rCTKF3AXdBUtfAtJnS+0e+mAWixNa0NSK31HXlz3F4ikfDzCrid4aoNzjsSWEt/hGSKLhFxNc0AVoiKNCZh+rVMSEKKZetQUSpYEoNHH7CfEKVTy9dT0eTXIqokIzBwngQbr51BYIphZS6oEGozT5L3Sc/keEhWdNVGg6XYOrNyapi99iAcefi5jP+PUHIXe5dWt10xvVT6ZJQLuv97L6rZkBdtCcD2VdYM7If+BUMvQil+2sJ/ItcpmsdzOI9RDbxCCD3sGTi+5f6Rf1WiLfCvGmwdD1S22988zPQcHahSIXelKTvz5mQRnN+Ca/9zkitfv/w=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB5332.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(56012099006)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aUJDZHZnTkppVkx6UnNhWktjL3VoaVA5M0dOM3FySjRrelIyY0VXTXh6Y1l1?=
- =?utf-8?B?b3d0ZVR3TkZCbFFHMUpMR3lhd0FhS09SenBoRTl1dU1hYmVici91TkNudzFo?=
- =?utf-8?B?N2hhUFpzUk00L2Y1TkI0VWs1V0RrT004ZW1EV3JnKzV3N2dRR204NmNhYjJF?=
- =?utf-8?B?QjZWVGhPUGxWbXlFRGV4aW1FaEtUUmpxN2dtTWZ1STE5ZW1LKzhEMEJRbjNa?=
- =?utf-8?B?TzhzWFRBcGs5UGoyeW9aa3IrSjhhVWpsSjRPQ2F1VnJrQ0pMelpJd3F4ck9M?=
- =?utf-8?B?MnIxUmt1ZHZYT0VrQXl1WlV1azJqckNaSVp1SlNxTko3SHBOeE5OVm1nWDRJ?=
- =?utf-8?B?VHphbmRxNGY4cFpFdTB2aEtteXBacUlqaUliQUhocEp2Q24zTUt5bGtlK3lC?=
- =?utf-8?B?dHRFRWVwaStFK2grTFVMYjMyS2x3dTlPdXM4bkM0dlRGVVNlVzJMMmlEZVVk?=
- =?utf-8?B?VWdMckFvYk1yZWxuZkp0L0JGZUl4REphTG84V3dBR0Y4Q1F1RDRQbmxtM0xk?=
- =?utf-8?B?NVZ5dkI4M0xCaUFhLzMrdHZEY1pvSDV4cWpocDNhUWxKL1I4SVRxVFo5Q0VV?=
- =?utf-8?B?c2xyb05nbmI5WlUxVW5tZ2hzZEFUWlBxYk5nV0Exd3YxNTNqbWdBMVVoTGtq?=
- =?utf-8?B?SEk1ZDhoajFVc0pDaTRsK3A0TEtXSWlLZmhReDJuZS85Q3B2UXg1am1UTVFB?=
- =?utf-8?B?SVk5ai9FZ2RFY2V6UGpETkhrOG5EVFBrdllTTFE3VzNVNVV1d2J4NmhYaFRt?=
- =?utf-8?B?VGQvM01LSlpFNVNhSXQyYWhGK3hOcE4yVnFEU0p4bHh0SjFlNGV3MHR6bVd1?=
- =?utf-8?B?WE95ZXZsWkZmMmRQbGc4c1ZwRG9EWk9YWkV2S1lIU1doeTZ1NXZjT3VkcDU1?=
- =?utf-8?B?NHp1cVpwbmE0RStKQU9RMFFnSHp0ZzI5NFQzOS9oczhuYURJb3JRWXVUc0tM?=
- =?utf-8?B?cGI2UXYzY21VbnFVbzNET2R2a0I5V3B2cXZiRDEvUGxZdldlM21uTURuZ2t6?=
- =?utf-8?B?WFpUM29YY2Q0YWJhd1ZYMEkxZis2cUMxVklUeFRtODB2UnR4QXp6R3Rid0pN?=
- =?utf-8?B?YnV6a2xLSUxqakNUUkJZL2FYV0JoaGQzbmhsSHpCaDJKd2xYZ1RoNjJhTklB?=
- =?utf-8?B?a1VTTGZpM3duZi9oSXZFT2lkdHJ6Qzl4VUY3U2ZPMHcxTU15OTBBMCtrSWhz?=
- =?utf-8?B?dzErbFB5US8xdExjRzVYanB2a2ZKb3dHU29IQ2ttVlQyNjVBcGpjTlpsbm55?=
- =?utf-8?B?LzFWMEtidUZxYVFnczhEeFdFK2pPUnpOajUrdldsb3lTb3hRaVp2N2IxSG5i?=
- =?utf-8?B?OGh1NVVXdkZKS2JaTWJ3c3YxaUZJbU9YOE0xaTZJSWdGQlNycDJodVVoZ0VY?=
- =?utf-8?B?SmFqb3dacWtvQis5QVpCakZxWlExTHRROW5HblROUDlrNWk0SDZJRDhaNHJm?=
- =?utf-8?B?YkwzdVg4cE5JTUNVazVzYVZadzZjUDFPQmUwT1RIcU1NelkvLzl3SjdEU29Y?=
- =?utf-8?B?WlU2LzBWaFpmNzVnb2dPQXR4bGpEY1lJcDR5Qys4ZkNUR25jNHdDeDRyOFpp?=
- =?utf-8?B?TE4ycUxnUVZvYW9sMU8yZGdSd3ViUFRpdU1vRVk4ZGYzZDZSemROUk5IRDdK?=
- =?utf-8?B?TEo4aE9xSGZUbE9rVUpoODBGU3VZem1SeE5vMXF5aStySnRDdEhmOWQweEJH?=
- =?utf-8?B?VlFJSEZCMzB4d29VbXl0UFZrVEdDMW1WV1p1cGlKNjdjekJsU05tWDNVQk1T?=
- =?utf-8?B?KzVhRENGQTNoSTRQYlhMUE40WnliWXhZcFhQZndDaW0rOEk1ZVhqamU0alZx?=
- =?utf-8?B?ek52YlJqMFkwQURFRHA0Y0RJNGxKV3Y3QnV3SmxhaU9KWndha1BtdVhWOEdF?=
- =?utf-8?B?d0t6OTVxdmlaWVhCQ21BYXZta1BrUzRUVDQ4M0h3TlNLM3NIYXN1TGpwYkxP?=
- =?utf-8?B?YzFGYitqcXJvem9KZHl4QjFna1Z1cjY4VHVYNk1STzRLUy9TdUpjdWJLc1hv?=
- =?utf-8?B?UUMvZ3ZOaW9kdDFINFBDMFI5bHJCam42VG8vSWk3T21PbC9GdlNRcnk3YnZj?=
- =?utf-8?B?eVFvYUVzbi81WFo4UEVVS0p6ai9UdjdqNzBidnlvMmp3SUNSZkhpUHkvUXhG?=
- =?utf-8?B?NUR6NjBDZzFEQ3MyTC9Tclp3OC9kOEpmeW1OVGQ3aGZMZVV0bTZjMEVrL3p4?=
- =?utf-8?B?U0hpc1NjTGpXVlBsS0NpOEhPbXdLMGc1cmE2VlkyT2VGNnNVVHFXN2J2aDZ6?=
- =?utf-8?B?TWt1TUxIVEJEMngxZkwwc051VXlSaEFCRzBseXNsL29SUTR6KytDT3djNXpD?=
- =?utf-8?B?S2VvcTRTSVBueGRlRnpxSDlia3FuU0JwMHBsL09BaXE2bmNpQzhNUT09?=
-X-Exchange-RoutingPolicyChecked:
-	AZpbsy/7xFtHx/Sv2/C1lUNMfprswr0z6AOw/1B/PnWeweEod9FNRxdhvZ3/w3TbITTWmt9D0YzZ35QP+aoduB1yw8j0/RjUqgsqrALogIQBfs02sa4dv9j3u/GMDTXo7RgFLmJyRxOkDrf6FoeqsriJ26zE5Zgf87kvcML1VKSxVGbW31hQYOZ4BDzZf8VBlLt7c7q17nGxIOsZpt9xppusLmq+ULiTKJzV6I04z+4skst3/Dxi0TOTuSymAOeQluhs5NoqYk+zu1DY3jwI/r6zloqzErEG988Xb8SrHyz7DXaRR0J1/Lgjhn9PTPsX7qzv6MPBTwy7WQ79m5xmGA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4df308d6-f6a9-4a16-8fc5-08df12f85fba
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5332.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 07:10:08.0223
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hTRfg5omUth/lkESvenfnqjozRe1vXo6oDtMA2TGBFmh7Zjomandd74WVlW/9d4bVXhH/XJGeV8PAZow+qaeyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9177
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDEwMSBTYWx0ZWRfX1rJUDr7ByspJ
- jmpq4i9438N+pooXVBD0oDv75U4PkeNB8vN1ksaSXmvenILm4Oo2+Cefjdo/R4XT/QU5QuK+snM
- AewPehUROjUjHDby/UeVxfBIcz8TjM29J8bilhdnp/f/VTW+n+XA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDEwMSBTYWx0ZWRfXxBLUoRBTtbK9
- lQ1E9EGFCWoqdHe1wdHSlDFyYrSnPGBtshlyfoCz88g5RErFE0g0IIeL3BQjSBcEjKYRFhGSZaO
- T+0NFrvXpDNPRxxJ5NQBPsatx98/Vq78Z8RF0M7vPJb4cNMOn1X7g98ue+KjYgNOuUstnVbJOyV
- RiJYMp4+17TXn+eacfknLYg48iKHL4ksR+58aRg08djto4Kf4oSYl9uWz0l8AziKpO7eaYsu5kP
- MH4MS/C1dGybuzy3lf3TZBDGpwfE5AdYnNBfka6CnLXWBUC8Xki1zaK88EHcVPgjBP9gSa4P+Tu
- X3EJqYVYQZJv2TjjLD4UVuqvp9wvWULd8D4stzuB6rBjlHkZ1f/Uw8B/sOJyUT3iEklr3ojKQqC
- 6UdfzfuvWnCaHrCyGDLLuvQ+U0itFM+TlmpCWY1apmCOsojUYbL3lBx/L/s7p6+lEKpv0YtsKSf
- vLJePfh0I+giIL0ycQA==
-X-Proofpoint-GUID: KjWHkw3ntzdR0Kr38oGE2KFQfxVNvuSc
-X-Proofpoint-ORIG-GUID: KjWHkw3ntzdR0Kr38oGE2KFQfxVNvuSc
-X-Authority-Analysis: v=2.4 cv=R4mWitRX c=1 sm=1 tr=0 ts=6aa8ef52 cx=c_pps
- a=4KArvT8Zi35IyF0Kdx8dHw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
- a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=Ho_WGFeys7JuTpoeC9gA:9 a=QEXdDO2ut3YA:10
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-15_02,2026-09-14_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 spamscore=0 clxscore=1011
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609150101
+Content-Transfer-Encoding: 8bit
+
+On MMU systems, during exec, argument and environment strings are copied
+into the new address space held by struct linux_binprm before that address
+space is installed on the task_struct. Existing BPF user memory helpers
+operate on the current address space or one associated with a task_struct.
+Because no task_struct refers to the new address space at this point,
+programs cannot access these strings from the bprm_check_security LSM
+hook.
+
+This series adds two sleepable BPF kfuncs for copying bytes or
+NUL-terminated strings from a trusted struct mm_struct. It also marks
+linux_binprm->mm as trusted-or-null, allowing BPF LSM programs to pass it
+to the kfuncs after a NULL check and inspect exec arguments before
+allowing the exec to continue.
+
+To make the trusted-or-null annotation safe, the exec paths are hardened
+to clear bprm->mm before dropping the reference it owns.
+
+On NOMMU systems, exec argument and environment strings remain in
+bprm->page[] until they are transferred to the new process stack. They
+cannot be accessed through bprm->mm at the bprm_check_security hook.
+The new kfuncs remain available on NOMMU for address ranges represented
+by a supplied struct mm_struct.
+
+The series adds selftests covering both kfuncs while reading argument and
+environment strings from linux_binprm during exec.
+
+Changes in v7:
+- Use execvpe() instead of a hardcoded /bin/true path in the
+  copy_from_user_bprm selftest while retaining the controlled environment.
+- Remove the unused bpf_misc.h include.
+- Rewrap the invalid-flags kfunc call to stay within 80 columns.
+- Fix indent in mm patches.
+
+Changes in v6:
+- Drop redundant extern keywords and CONFIG_BPF_SYSCALL guards from the
+  remote memory copy declarations.
+- Drop the explicit bpf_copy_from_user_mm() prototype and share copy 
+  logic through inlineable static internal helpers instead of calling 
+  between kfunc/helper entry points.
+- Validate flags and zero-length requests before acquiring the task's
+  mm, preserving existing behavior and ensuring internal helpers are 
+  called only with a live mm.
+- Drop the verifier relaxation for unchecked reads through trusted-or-null
+  pointers and its tests.
+- Fix the existing LSM selftest to explicitly NULL-check bprm->mm after
+  marking the field trusted-or-null.
+
+Changes in v5:
+- Move the shared wrappers to mm/util.c and handle zero-length requests
+  at the entry points.
+
+Changes in v4:
+- Add negative verifier tests for atomic RMW and load-acquire accesses
+  through trusted-or-null BTF pointers.
+- Preserve explicit nullability-marking coverage for tracepoint
+  arguments, dentry->d_inode, and sched_ext .dispatch.
+- Use the already-nullable mmap_file argument for the negative store
+  test, avoiding dependency on the later linux_binprm->mm marking.
+- Clarify the bprm->mm lifetime invariant and move its lifetime fix
+  before the mm_struct kfunc patch.
+- Reword the trusted-or-null read change in imperative mood and remove
+  its redundant before-and-after summary.
+- Document that the existing task-based user-memory interfaces delegate
+  to the new mm-based implementations, reorder the string-copy kfuncs to
+  remove an unnecessary declaration, and annotate the remaining
+  declaration with __bpf_kfunc.
+
+Changes in v3:
+- Replace the linux_binprm-specific kfuncs with generic struct mm_struct
+  kfuncs, as suggested by Andrii Nakryiko.
+- Move the kfuncs next to the existing user memory helpers and make the
+  task-based variants delegate to the new mm-based implementations, as
+  suggested by Andrii Nakryiko.
+- Clear bprm->mm before dropping its reference on exec error paths.
+- Mark linux_binprm->mm as trusted-or-null.
+- Allow fault-protected reads through trusted-or-null BTF pointers to
+  preserve compatibility with existing BPF programs, as suggested by
+  Andrii Nakryiko.
+- Add verifier and runtime selftests for trusted-or-null BTF pointer
+  reads.
+- Rename __copy_remote_vm_str() to __copy_remote_mm_str(), as suggested
+  by Andrii Nakryiko.
+- Clarify that reading exec strings through bprm->mm is limited to MMU
+  systems, while the generic mm-based kfuncs remain available on NOMMU.
+
+Changes in v2:
+- Register the kfuncs on NOMMU systems and return -EOPNOTSUPP when called,
+  as suggested by Justin Suess.
+- Add selftest coverage for reading environment strings, as suggested by
+  Justin Suess.
+- Clarify that copy_remote_mm_str() leaves the destination untouched when
+  called with a zero-length buffer.
+- Use sizeof() instead of hardcoded argument lengths in the selftests.
+- Use ~0ULL for invalid-flags checks in the selftests.
+
+v6:
+https://lore.kernel.org/all/20260908135302.74963-1-tasos.papagiannnis@gmail.com/
+
+v5:
+https://lore.kernel.org/bpf/20260907165220.52431-1-tasos.papagiannnis@gmail.com/
+
+v4:
+https://lore.kernel.org/bpf/20260904145340.40212-1-tasos.papagiannnis@gmail.com/
+
+v3:
+https://lore.kernel.org/bpf/20260831092305.42062-1-tasos.papagiannnis@gmail.com/
+
+v2:
+https://lore.kernel.org/bpf/20260820131801.68759-1-tasos.papagiannnis@gmail.com/
+
+v1:
+https://lore.kernel.org/bpf/20260812111140.7762-1-tasos.papagiannnis@gmail.com/
+
+Anastasios Papagiannis (5):
+  mm: Add copy_remote_mm_str()
+  exec: Clear bprm->mm before dropping its reference
+  bpf: Add user memory access kfuncs for mm_struct
+  bpf: Mark linux_binprm->mm as trusted-or-null
+  selftests/bpf: Test mm_struct user memory kfuncs with linux_binprm
+
+ fs/exec.c                                     |   7 +-
+ include/linux/mm.h                            |   8 +-
+ kernel/bpf/helpers.c                          | 130 ++++++++++++++++--
+ kernel/bpf/verifier.c                         |   5 +
+ mm/internal.h                                 |   3 +
+ mm/memory.c                                   |  41 +-----
+ mm/nommu.c                                    |  41 +-----
+ mm/util.c                                     |  62 +++++++++
+ .../bpf/prog_tests/copy_from_user_bprm.c      |  72 ++++++++++
+ .../selftests/bpf/progs/copy_from_user_bprm.c | 122 ++++++++++++++++
+ tools/testing/selftests/bpf/progs/lsm.c       |   5 +-
+ 11 files changed, 399 insertions(+), 97 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
+ create mode 100644 tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
 
 
+base-commit: 5ef40d69b38a93bc9951dadb1a15c85c597e1a40
+-- 
+2.55.0
 
-On 9/10/26 13:47, Christoph Hellwig wrote:
-> Adding Yun Zhou, whoch touched this area recently.
-> 
-> On Thu, Sep 03, 2026 at 09:37:56PM +0800, Kefeng Wang wrote:
->> xfs_btree_split_worker() calls xfs_trans_set_context() and
->> xfs_trans_clear_context() on the caller's transaction, overwriting
->> tp->t_pflags with the worker's NOFS state. When the caller already has
->> PF_MEMALLOC_NOFS set (e.g. xfs_end_ioend_write, xfs_dio_write_end_io),
->> the corrupted tp->t_pflags causes xfs_trans_free() to erroneously clear
->> the caller's NOFS protection.
->>
->> Use memalloc_nofs_save/restore with a local variable instead so
->> tp->t_pflags is never touched.
-> 
-> Looks good:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> Btw, if you have some spare time, it would be nice to kill
-> xfs_trans_set_context/xfs_trans_clear_context as follow up given that
-> they keep causing confusion.
-
-Yes, you finished reviewing this patch [1] in July. However, I'm not 
-sure about its current status. Perhaps I should ping Carlos to check?
-
-[1] 
-https://lore.kernel.org/all/20260720050522.3101824-1-yun.zhou@windriver.com/
-
-Thanks,
-Yun
