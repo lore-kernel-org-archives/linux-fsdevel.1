@@ -1,121 +1,103 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E044D4071DE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 16:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E644341CB4D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 16:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789489060; cv=none; b=iaJsKuLt1H/uDI80Uv8eP8BECfBVrgZ0Wir87/U783u+By9Vqg4M3x/NCqpKn7vwNlGfNbGPeyMtpXplcoigUXbXaohZMofZx/D6G+YBdOywKTy7aC1ucvnTTOpMYDmNUIuaNn5t4Gl2l/wxw/Zp4Dx3kaLir0mCyjct2elBkws=
+	t=1789489332; cv=none; b=l23a0jdp3cyrQ8tTxlw21cg0e7Gvu9dRPpUTtlOW3NL5J3IajHeuyGr+/6B4JJAvZn89htzFjtO8OIq722eZELpp0XxqtrMKz1Zcot1uvgXHvckV7jzH5oxqBuIgUzXtRCVN4dVovmaFcv3n5DydVCJeMja67nnAEJfe859fdPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789489060; c=relaxed/simple;
-	bh=cJFv5mLfQ+9Fzjda7I53xSLIzgCeDtC5OhcBV6QuJ1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=egFfKoGNBLpJcQHjud07u1ZVZutBu26Z7+GPsSGQtixeC4Lc0p/fwstTegkmRTifTVcpAFZRlf26t0fQsblMTohmBAufdh1Wbq1Gs4ZiyY+tv4Y8OtWxTDhmg2PxWv9JJk38ppGrZppomnEneUerIjIW0pbvQsNDL7McaxIYmxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=fS188pRZ; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1789489332; c=relaxed/simple;
+	bh=zUoHmxowTOoPQ2cy17B58MgmVupxgZDzShWKibnW/tU=;
+	h=From:To:cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=hoYLNve3GSpR2UQjda7cGOx3LeHJHuHvX/JvxINt5voaPv24SPHwSVHhRZ6VshX3YVr2Y/kKvAGFaJuLyLWQ9hf4oViKcoMK29C4ih78R6lmxt6giS/AuwsoIkl+KwqGMVr9cuy32ndIcUKqTAvSc/E+h5fgCfxB1aVmfSS7UfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a4YQMsw4; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="fS188pRZ"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-93a10f9a2easo94271885a.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 09:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1789489056; x=1790093856; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dXoaSOzLcSniPHeJqnrgZd+b23tx7/MvhGFOoQXutdY=;
-        b=fS188pRZsdThyEpLvlNZN99q+hwl3CD+Kr2Wcvt/OecrNMB6fo474ehP2cESjPm/GR
-         ruEMIrrjiBE5+BG/jlseEmTdlx9lOKKM9IAPmrK/sdqftum3P1otF9eO0XhT2ITE9d/o
-         KC2XYTJutZa5vsEHhm69/g4W7CH9TesEMUU9dsBndWo0W8RaY/r4g49ULSc6SpQ1M34V
-         FpgwcjBi+gujZZJny/7+PkxWQy/tZWYRWAVo6hpzF4P/tDKoAKUe9tdOzHuvcIB0LF0E
-         YGHtdrmbl89RPPk2qN4bPBZvcO/iMoYthZo/+vkJW9VEfehRrtCfcOFcehK7mW1C1YT6
-         RkWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789489056; x=1790093856;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dXoaSOzLcSniPHeJqnrgZd+b23tx7/MvhGFOoQXutdY=;
-        b=u3oBKymSmdIABrMuAJBuY5CtjKMSszCSfnvfRrWgZ9G1ORJPHtwE8/sllaDWucoL2Q
-         UIzHDaZj0TDzfMrptLgmw811VcTX97bCUPQmt5ZPAI2AG/unchSBfZFxtAmgK/+3KJXl
-         RTsh7HYNjOFaIQoEl0OTXGE6+SytbkdtwGY2LFObGug9o9F2ydSnKE8h+RD2C130gpTK
-         xziDvp7w31oE99FI0nhPfdJgyC28f8PDESvSSAV4PT8h/5PL10zxqyG93r4Gs3WMRLhN
-         hQzBzycDxDab/D+P7rfq9whYVBQGrQru80ZckMyv7tnGNk8o1DI6lpEKDC6RG/M5ufPb
-         2Hhw==
-X-Forwarded-Encrypted: i=1; AKwUvBzQAC7Uu+qx/q/k59MEdChCPFM/QZVt3Ym54d5wq0IQqbutDCrpZTz64leKF+MhMZUnR7aHYzV9ni7Bo61j@vger.kernel.org
-X-Gm-Message-State: AFuF++nNy0hMzul5YvkG7IYNF2iQneqbea8HoHa/GIkTGkwcG7+D7Mds
-	sywBIqRFLdiNC/7GYg1Mh+KXpjLw5oaTeCbpzHxMTSeaLoIG47ypIQ/+pyZks5+EJag=
-X-Gm-Gg: AYBFou1evVa3NCcZ7o3mK1CUsvc59Y2eJMscMsQ3KBLBNjL8yBnAt9BM4AOaEW+6+Lc
-	kfkBd5ytMzcurJc11HAxEBs1JD11lvnPpyzvBQqBt6T0Ktr5zkW5PpsCd82664j2E11X5UXzHpV
-	ArPWA78bk4IIIys6iWxLUnzq1vEOSjJ/77zeIBzunN/IUSP8ymAkDgBM4SIatDCoTRpaQL1gTF1
-	JOWK3VrjW1tCiLgRtn38mjLQETnysAwZxQcZXZ+OKIWPjT7SItWe6jUZdpuvlUuuvLc+KI7yKOx
-	v9RCw5xotaZT+jY5SSFjW0e8OOlXlytVBCUL+5HGSSpPcyYtJzPJRQdG6eMS3sf4WJRjV7VGEPS
-	wwH4nWb4DDvzZbeaI0f+sZonltnW/O9Ui27f/gHTTdGEz8mQUg+9Hg3jng9yUuvP6AEN9ff0Y3o
-	DZOs145U2BPmQUNKrpnd/kVDUgwN15LHOCaD/nYzewtUeqFaJZHhtn2KZcRxPvZLX9DFsWDw==
-X-Received: by 2002:a05:620a:2607:b0:939:b7f4:c7dd with SMTP id af79cd13be357-93a3477ff9cmr603922085a.47.1789489055702;
-        Tue, 15 Sep 2026 09:17:35 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9123bddd5e1sm2362876d6.3.2026.09.15.09.17.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 09:17:35 -0700 (PDT)
-Date: Tue, 15 Sep 2026 12:17:34 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Salvatore Dipietro <dipiets@amazon.it>
-Cc: akpm@linux-foundation.org, abuehaze@amazon.com, alisaidi@amazon.com,
-	blakgeof@amazon.com, brauner@kernel.org, brendan.jackman@linux.dev,
-	david@redhat.com, dgc@kernel.org, dipietro.salvatore@gmail.com,
-	djwong@kernel.org, hch@infradead.org, hch@lst.de,
-	jackmanb@google.com, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-xfs@vger.kernel.org, mhocko@suse.com, ritesh.list@gmail.com,
-	rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
-	vbabka@kernel.org, vbabka@suse.cz, willy@infradead.org,
-	ziy@nvidia.com
-Subject: Re: [PATCH v5] mm/page_alloc: avoid direct compaction for costly
- __GFP_NORETRY allocations
-Message-ID: <aqlvnm8AKp5f_UhG@cmpxchg.org>
-References: <20260911093209.d9181d5950778897935f6bcb@linux-foundation.org>
- <20260915160042.1265958-1-dipiets@amazon.it>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a4YQMsw4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789489329;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=k6lBh8pJhBpFKoIVnL+XIIXSywvf+aT6pBCJuoStQpg=;
+	b=a4YQMsw4bRnowSi6JxQZI/L2qjTMRrSs/JykpyceIVBCaay7EOSzSNSQyxjHbBcve3Qb97
+	lOAhNymP1cYAqY+fvXEsJYc1aQTbZfHeTpQB5+nJgZ3WmhxWc3QiKxgl0dBy2lU3X+y9lU
+	yPXefkplDUJAYiHsrj4uiDiXNXPu7AE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-81-u3xgUX1QNwmOEvKVb1IIaQ-1; Tue,
+ 15 Sep 2026 12:22:05 -0400
+X-MC-Unique: u3xgUX1QNwmOEvKVb1IIaQ-1
+X-Mimecast-MFC-AGG-ID: u3xgUX1QNwmOEvKVb1IIaQ_1789489324
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 282DB195605E;
+	Tue, 15 Sep 2026 16:22:04 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.32.54])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9E1263003EFB;
+	Tue, 15 Sep 2026 16:22:00 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+cc: dhowells@redhat.com, Paulo Alcantara <pc@manguebit.org>,
+    Marc Dionne <marc.dionne@auristor.com>,
+    linux-afs@lists.infradead.org, netfs@lists.linux.dev,
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] netfs, afs: Fix symlink reading
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260915160042.1265958-1-dipiets@amazon.it>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3912794.1789489319.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Sep 2026 17:21:59 +0100
+Message-ID: <3912795.1789489319@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Tue, Sep 15, 2026 at 04:00:42PM +0000, Salvatore Dipietro wrote:
-> 
-> On Fri, 11 Sep 2026 09:32:00 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
-> 
-> > does any of this look real?
-> 
-> The mechanism seems real, but it only shows up with vm.defrag_mode=1,
-> which is off by default.
-> 
-> With defrag_mode=1, a costly __GFP_NORETRY allocation that used to fail
-> cleanly can now succeed by fragmenting another migratetype's pageblock,
-> which seems like the wrong trade for a caller whose premise is a cheap
-> lower-order fallback. Johannes, do we want to keep it strict?
+Fix the reading of symlinks from the cache in afs by making netfslib trim
+the amount read down to i_size.  The problem is that afs sets the size of
+the iterator to the size of the buffer (PAGE_SIZE) so that the cache can
+round the read size up to the cache's DIO size.
 
-Yes, avoiding the fallback is a good idea. The user already
-communicated they can handle failure and have fallback options.
+Note that this also impacts the reading of AFS mountpoints as they're just
+stored as symlinks with an odd file mode.
 
-> If so, we could add a condition like below. It is equally
-> applicable to v4 and v5. Happy to send it separately or in v6.
-> 
-> 	/*
-> 	 * Reclaim/compaction cannot run, so defrag_mode's strategy
-> 	 * of enforcing ALLOC_NOFRAGMENT cannot be fulfilled. Allow
-> 	 * fallbacks rather than failing the allocation outright.
-> 	 * Not for costly __GFP_NORETRY: those have a cheap lower
-> 	 * order fallback, so failing beats fragmenting.
-> 	 */
-> 	if (defrag_mode && (alloc_flags & ALLOC_NOFRAGMENT) &&
-> 	    !(costly_order && (gfp_mask & __GFP_NORETRY)) &&
+Fixes: c0410adf3da6 ("afs: Fix the locking used by afs_get_link()")
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: Marc Dionne <marc.dionne@auristor.com>
+cc: linux-afs@lists.infradead.org
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+---
+ fs/netfs/read_collect.c |    5 +++++
+ 1 file changed, 5 insertions(+)
 
-It would be possible to remove the costly_order gate here and just
-bail on __GFP_NORETRY. But no strong feelings.
+diff --git a/fs/netfs/read_collect.c b/fs/netfs/read_collect.c
+index 5cf22087d243..a94197ef0181 100644
+--- a/fs/netfs/read_collect.c
++++ b/fs/netfs/read_collect.c
+@@ -435,6 +435,11 @@ static void netfs_rreq_assess_single(struct netfs_io_=
+request *rreq)
+ 		netfs_single_mark_inode_dirty(rreq->inode);
+ 	}
+ =
+
++	/* To do DIO, the cache has to round the size up, so we need to undo
++	 * the rounding.
++	 */
++	rreq->transferred =3D min(rreq->transferred, rreq->i_size);
++
+ 	if (rreq->iocb) {
+ 		rreq->iocb->ki_pos +=3D rreq->transferred;
+ 		if (rreq->iocb->ki_complete) {
+
