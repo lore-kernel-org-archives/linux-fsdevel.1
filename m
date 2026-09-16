@@ -1,95 +1,196 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332DF43F08F;
-	Wed, 16 Sep 2026 12:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60CC3C10BB;
+	Wed, 16 Sep 2026 12:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789561286; cv=none; b=pS/82EUkQolnr8PFvNs8j0qpGIz5G/f67i5nQjfffJNrzixFLqFG+xI0EGO7z+pLGeDwbaIUNKCFWpxDiAxyNpl/NNli4XKv+vf4CZ1VkAgIZQfK1i7cKfqOkDyRAWy9kq/Pe5D7UDeUwxIJAPOVjZBWWWP+f+ZR1LGqMbF49AQ=
+	t=1789561569; cv=none; b=sDOCPlsQPYjWaJWoaigDurSdE58HMyfg+FH9mJh25vAbd+GFhFRDhDESTSvHUzoeQrwPmGxb/HayukJglR5VhT/pC8gG1EFbZa5zDTyQIG7Nbs5qFI7hwVXhZmdMvZvqCPHytWgNcHH8hSQYIUWhZDzEbt5GcWs427ZJZz0ewl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789561286; c=relaxed/simple;
-	bh=/jteFgX1YOvdk5JZCTp3G+lpKYjefdP8eKq1t2FGD2g=;
+	s=arc-20240116; t=1789561569; c=relaxed/simple;
+	bh=vqKzd4dFbs4KkWmzBQWA30bj92AdJcXvaN1CNUW+S94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UD5bAwCLWehQF4rMRpi7sqtbRQiAOCARqfOS+wMrYzAyRqoAhfwXsdhnV7EJdgTEDU7K/oy3SSLKJc/lUf2M6LG7VsZJ8GJBNr6gdjhwSSJKWb5H0eAo8LlIm5R3GxCbt9TD9em71wsHc+QGeu1FOrZQK6Ai3j7zkeWEdpEiFYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=h7Ic2OjV; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=X+7LJBvFBk3II9xybt6fw8be2tV0GLRGeBvv7TiXVDzV9kqDbkPJK8dvGkRzctdQ+osLo4Bm39lS8LKLo+If1Vxm1Vorne4SMK6++b0zReNl9x1ErNDoF+tkCXEIojNZy72xeM2yaCRPO38jlEss65gqlJ11iSeTDT2G6eszeC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GfyQ5/X9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="h7Ic2OjV"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id 12F3D14C2D6;
-	Wed, 16 Sep 2026 14:21:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1789561274;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JhiKPY/PLmj1TpqDhYwo2ZZ9AYyR+pNOB9rK/mSR2gQ=;
-	b=h7Ic2OjVFqZdGJEJbvmEtdElc9wmAGGPLXgiOi65D7NDBSOs8CHJNsvjmlzuXbChQ64MB1
-	pfPCqvxqs7HgIxlfYu5UVGaP7IeytbpelvWvu+6t3Z+oCH7uTZ4/QxtvT04TjVrFAf3KJv
-	Y3IUAw0hjaurGok9xDFbS+d32Two4cg3Z7erBQjgYh1nz3wBJzhFjA+JcfcU+maaAEwidW
-	YVgM989GbVdCKaomXLW7NffrxPic0ae7H/9+l0JyuveV0sSvEQd4MWMr2uA6u6BGGgzc9B
-	BasT87KFjvXtvbeq2TR8km1JI5j7Bg8CDPSaJexgXdiKOjDxNgcY7y7Zsi6UMg==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id f032830c;
-	Wed, 16 Sep 2026 12:21:07 +0000 (UTC)
-Date: Wed, 16 Sep 2026 21:20:52 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: hoobnn <853555@gmail.com>
-Cc: ericvh@kernel.org, Jan Kara <jack@suse.cz>, lucho@ionkov.net,
-	v9fs@lists.linux.dev, linux_oss@crudebyte.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, sripathik@in.ibm.com,
-	aneesh.kumar@linux.vnet.ibm.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>,
-	David Howells <dhowells@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH] 9p: dynamically allocate directory entry names
-Message-ID: <aqqJpAh4E59nwe3k@codewreck.org>
-References: <20260826064819.52523-1-853555@gmail.com>
- <aqa9WXmrgd_P7yxw@codewreck.org>
- <vz5bum547fqyxf5z4m3x7tuqkuq52jlopm65t7hvynqeulh7i3@2t4wnhfxs7qv>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GfyQ5/X9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C66221F000FF;
+	Wed, 16 Sep 2026 12:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789561567;
+	bh=2+uaFqrDymEEOiN3IjYKAAj/z0Ac6x8hPL7hYAiwI1k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GfyQ5/X9+Uilp6CpniQxYB1cRpGh7aONVysAq5AFzMSj0kLcEHWWL0JmgmLqwOhQr
+	 fq2bRXAtPHa/bPev4EK9oQ3ShRLXFpE+FUKrtbGt7MQ+O6MWejQhC53S0HnIXj0c//
+	 HB0kArS03ryQUu44vIFWYYlT7ORidgy6lHmdSeyemOLOe/nsnFI29rjrlA0ucVkgAw
+	 hnmBRZbJqd4q1Vti07FMi+Ekb6pC4ZbukVvC5pbYPvqNRRUpJeVHUULlJKljQk0c7e
+	 /M/Aoue9tPtoofTWYVdGD/BGdFVsJK8JwxTSfJa8EKGPjMZEiwyRNenIPM10oRrIJl
+	 Qxbikl/Gzpf8w==
+Date: Wed, 16 Sep 2026 14:26:01 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	"Eric W . Biederman" <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH v1 17/30] sysctl: net: use sysctl_field in SCTP
+ sysctls
+Message-ID: <2ywlit7st4wqghx2lav6qc5bbcxbaln445fghjnwj5n7dg2w4v@ajhrrgm5ck4r>
+References: <CAHk-=wjUmLrJd4KM4xvJHUN4P0r8oSu5LyvG4JipnhxizBrE9Q@mail.gmail.com>
+ <cover.1788018958.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vudzi3v3ggrs4vyi"
 Content-Disposition: inline
-In-Reply-To: <vz5bum547fqyxf5z4m3x7tuqkuq52jlopm65t7hvynqeulh7i3@2t4wnhfxs7qv>
-
-Jan Kara wrote on Wed, Sep 16, 2026 at 11:47:00AM +0200:
-> On Mon 14-09-26 00:12:25, Dominique Martinet wrote:
-> > +fsdevel@ & vfs maintainers to Cc TL;DR:
-> > Should the 9p .iterate_shared() dir_emit files with path
-> > components > NAME_LEN, as allowed in fs/readdir.c verify_dirent_name()
-> > only enforcing length < PATH_MAX, or should we skip any such entry given
-> > nothing can interact with them later anyway?
-> 
-> So my take on this is that I'd refuse any entries larger than NAME_MAX
-> (255). As you say it is very likely something in userspace or other parts
-> of the kernel (fs drivers, ...) will break with such names so I don't think
-> there's a good reason to provoke these bugs. For example POSIX states
-> readdir(2) should be returning component of at most NAME_MAX length and
-> although we don't take POSIX very seriously in the kernel in this case I
-> don't think there's a good enough reason to deviate from it.
-
-Thanks for taking the time to confirm this! Let's go with that direction
-then.
+In-Reply-To: <cover.1788018958.git.legion@kernel.org>
 
 
-@hoobnn: as said in my previous mail I can't take your patch unless you
-give me a name, but the idea behind the patch is trivial so if I don't
-hear back from you in say ~2 weeks I'll send a patch under my name that
-reimplements what you did, plus check the strlen() result that's already
-done in v9fs_dir_readdir_dotl() so entries > NAME_MAX are skipped over.
+--vudzi3v3ggrs4vyi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If you reply then there's no hurry on my end and you can take your time,
-please send a v2 of this as two patches, one skipping the extra copy
-into p9_dirent as done here and one for the limit
+On Sat, Aug 29, 2026 at 06:14:43PM +0200, Alexey Gladkov wrote:
+> On Wed, Aug 26, 2026 at 01:29:00PM -0700, Linus Torvalds wrote:
+> > I detest this series.
+> >=20
+> > Maybe it makes technical sense, but as long as it makes no human
+> > visual sense, I'm NAK'ing it as being garbage.
+>=20
+> You are right that my approach added too many macros and made the tables
+> harder to read. Sorry.
+>=20
+> > On Wed, 26 Aug 2026 at 12:43, Alexey Gladkov <legion@kernel.org> wrote:
+> > >
+> >  [..]
+> >=20
+> > The whole series is full of complete illegible noise like this:
+> >=20
+> > > +static const struct sysctl_field sctp_net_table[] =3D {
+> > > +       SYSCTL_FIELD_CUSTOM("rto_min", 0644, sizeof(unsigned int),
+> > > +                        sctp_rto_min_data, proc_sctp_do_rto_min),
+> > > +       SYSCTL_FIELD_CUSTOM("rto_max", 0644, sizeof(unsigned int),
+> > > +                        sctp_rto_max_data, proc_sctp_do_rto_max),
+> > > +       SYSCTL_FIELD_INT_MINMAX("pf_retrans", 0644, sctp_pf_retrans_d=
+ata,
+> > > +                            SYSCTL_ZERO, sctp_ps_retrans_data),
+> > > +       SYSCTL_FIELD_INT_MINMAX("ps_retrans", 0644, sctp_ps_retrans_d=
+ata,
+> > > +                            sctp_pf_retrans_data, sctp_ps_retrans_ma=
+x_data),
+> > > +       SYSCTL_FIELD_STATIC_UINT_MINMAX("rto_initial", 0644,
+> > > +                                    sctp_rto_initial_data,
+> > > +                                    SYSCTL_UINT_ONE, &timer_max),
+> > [...]
+> >=20
+> > where apparently the indentation has been decided by a rodent on crack
+> > who was given an Ouija board and instructed to ask his dead ancestors
+> > what indentation to use.
+> >=20
+> > So no.
+> >=20
+> > That kind of complete random code is simply not acceptable.
+> >=20
+> > I don't know what the correct answer is, but it is *not* this series.
+> > It needs to be consistent and visually parseable by humans *without*
+> > asking your dead ancestors for help.
+> >=20
+> > And it's not just the indentation. That SYSCTL_FIELD_CUSTOM() thing
+> > needs to be usable and able to do some minimal type checking - not
+> > just passed a random sizeof() in a random argumentt. I'd suggest
+> > passing the actual type, and then checking that the type *matches* the
+> > data pointer it is passed too.
+> >=20
+> > The old code may be ugly too, and have various other warts, but at
+> > least it had somewhat legible and understandable initializers:
+> >=20
+> >         {
+> >                 .procname       =3D "prsctp_enable",
+> >                 .data           =3D &init_net.sctp.prsctp_enable,
+> >                 .maxlen         =3D sizeof(int),
+> >                 .mode           =3D 0644,
+> >                 .proc_handler   =3D proc_dointvec,
+> >         },
+> >=20
+> > is at least something that can be read by a human and those things had
+> > consistent whitespace rather than some quantum randomness.
+> >=20
+> > And this is also just complete line noise that only makes the code wors=
+e:
+> >=20
+> >     +#define SCTP_DATA(type, field)                                    =
+     \
+> >     +static type *sctp_ ## field ## _data(const struct sysctl_context *=
+ctx) \
+> >     +{                                                                 =
+     \
+> >     +       return &ctx->ns.net_ns->sctp.field;                        =
+     \
+> >     +}
+> >     +
+> >     +#define SCTP_CUSTOM_DATA(field)
+> >              \
+> >     +static void *sctp_ ## field ## _data(const struct sysctl_context *=
+ctx) \
+> >     +{                                                                 =
+     \
+> >     +       return &ctx->ns.net_ns->sctp.field;                        =
+     \
+> >     +}
+> >     +
+> >     +SCTP_CUSTOM_DATA(rto_min)
+> >     +SCTP_CUSTOM_DATA(rto_max)
+> >     +SCTP_DATA(int, pf_retrans)
+> >     +SCTP_DATA(int, ps_retrans)
+> >     +SCTP_DATA(unsigned int, rto_initial)
+> >     [...]
+> >=20
+> > If we're doing these kinds of changes, the end result has to look
+> > *BETTER* than the thing it replaces, not worse.
+> >=20
+> > Yes, a few of the patches did look better. But the majority of them
+> > only looked worse. Some of it should be easy to fix: use consistent
+> > whitespace, and use sane argument ordering.
+> >=20
+> > But honestly, the old setup didn't *rely* on argument ordering, and
+> > used named initializers to make things more legible and robust.
+> >=20
+> > So I suspect that should be what you should aim for in the new setup
+> > too, and that probably means "completely different approach".
+> >=20
+> >                Linus
+> >=20
+>=20
+> I tried an alternative based on offsets. The following four patches add t=
+he
+> infrastructure and convert IPC, SCTP, and MPLS as examples.
 
--- 
-Dominique
+The last 4 patches landed intertwined with the initial 30+ that you sent. W=
+ill
+you send a V2 with just the latest 4?
+
+Best
+
+--vudzi3v3ggrs4vyi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqqitkACgkQupfNUreW
+QU+6wQv6AqxGWYVfHZbEd1DZWpU7WYk31ueivIhgI7eDpIOgZyLtSrIYuDrwXdmH
+AgP7clqPAX5Xvguwr554gR/XHUxIg3NIw8g5yt7ImHjzq9/nHZmBCV87PwBuCxUw
+QilDL7UyaDi4TIPrg87Lmb6womYmbbsSXNZOkcXoIVtR+a7sQ1X1j5ofmPhRHoio
+JL+q1YFJ8A7RLcNFwgmaweVRKJ4mlEjTGkCA9J4YVw7R/1hegpX+MOh9yDkmnPBx
+pMsGa73x6+agxf4q6CjLLCElnXUfVOtiA2RembMk64mTHEJpZe9pPEMXL+uTBbQw
+GPd2baoT8jNYOGgzO5limXYqkNLRW99TYjVpfTxknHdEEUMN2ghr0LKpBxin4zef
+Rv/0qY5CW31lI897hrrGzzmMR7FYIihBQd6747BVFQmkrfjWCFlAO47L2OKWpfAZ
+9EeTQPYAARwCsnJfvEBbAJiofRG7vVxc1L/H1wGX6LZ59xr/Yj43hPyFc6GTbK73
+zFwYnihR
+=HG5X
+-----END PGP SIGNATURE-----
+
+--vudzi3v3ggrs4vyi--
