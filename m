@@ -1,118 +1,137 @@
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D3B4D795F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 22:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789598798; cv=none; b=tVmr2dJERya5tDgbyqj1GSvbwwRhnNzScCClgPTFrIuVX3CZgyg9YCvFoCMY0fz7dUiYhka5jOms16xCQDGRlKPAH3ia+pqCG6m69VLhstc00ym1zBD1lTV0Vdl0cmZmChNrvQm+RC8Jclcuw9vvniWxVqfwvu8TI9d2hUCx9xw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789598798; c=relaxed/simple;
-	bh=LCKg0MXz47Q9n7t/K46oO0BkUTa0dHYB5QwrbZcHbVE=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=gOtEZueJaN3Ti69SBZ3LBlawYN6UJZUaL21nhpGy9282rIXmhRCWHTCi8bpVtymxUPB714VRDdgUI6q8x5Qj/P87yJTNp6iB2zsgaEreLMJMSIOlLwetiG9tRH+oj8fCcYNEMniJr28W5hHsJojarLSy2H3oeDs59JIXtAf2cYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-80497c6ec88so366641a34.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 15:46:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E4E4BF92A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 23:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789600585; cv=pass; b=cI70fWC8DgVX+VPlkJ1RCbym1YJTJgAJxdhReLukD5ilstT7AmP/2u2rIhOMazm5Tl7D9CM/mXmlNx0lrimfTnwJjBHD4uB8mBMGBXsmuNG1xeZky+S94rmyMlHbicMsmqJdpiBFiyBk4Xx5X6yK8GF98/x69ssgAjgsVTxTLHQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789600585; c=relaxed/simple;
+	bh=PGqCNKVZCKuQE7jwiEPuuSZ/IDgGiFbjWnBb1wGsCq8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=b55ocFl9ouFjlXfEJyyU4qNd1HRuI1eZ24umkqiKOXLjvJsngEvJXRcxW8EvsVfxXKvTef/TCl6FaaB8qZvG3m1F54g5gx0rTFK3zWMIquFTo6UvwMndAtTaHj/X5UmZVgy77+G35Vj+J6WCzImopP5dv7oIdg741AXciQIf44Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=UNsMKJo2; arc=pass smtp.client-ip=74.125.230.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="UNsMKJo2"
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a59fa3112cso2413711fa.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 16:16:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789600581; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bRToW9NABUisR+Yj4ohvmnby1QmD4EjziCTGsAd+EVIzwp0yzgN7mIAQ9JYqLacGCw
+         tInnyIUiC0/mx6hCl52W4Uv+52/eEPpxS6wLdsV8E7JupCWsruanlyr8Q/jTSiEo6NOl
+         AO68vCjHtuMvlMA0shHTmMX9GStWlJpzTrlKOBGI6lWd+tCa3VsAwbJbesEHY24X6onk
+         SYfIoSbJ2SPKhmZgXyHkD0hXDN0y3Qa0ZCYSZfUCSvz0tKeLtNj8B1fPQnaGXjIu9Mrc
+         kFQ0nxwCeNNRb/WisR9TnHPQYTVOe3ohw5LK3Bu9lpm6ryxh890oPDBvzb/fKhAIbXAC
+         IAnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=XuO1Ijt2sJ14x5nHlyhOYgW7+udniPE80quffc8DQvg=;
+        fh=b6H1OgoLgKq7w2wDRWdV4++rKqAmwx7MnQcbq+mIoSs=;
+        b=R85Q/xW7/tVYiOyDB4kI97ToEw8NFqS/Q3Ejk1rpkoRK60CEinIdBL3412GMpNM/rn
+         ETAxZAEcf/Yu+9RPtV4skqZlatj8zxghI83tkcD/Xhm43bNdanYOswAQuiaIXNlXYzAX
+         clRO2v9ukPev+Sc67TzJx+uqFXqWm9GeI0OLTCmUWXcQm6r1UwYBUDcJOmERdhtvFyWl
+         oPMXkS+4YIzbHcWzbY0DYv9iQ4qwrtLiuY+AGOfibLlvYpXvDXklBxGhSs/jG1AoXmRc
+         GCYOisrccH4Ly7iIiuU+guld2OuGVun+l7L6sTNMadkKKhyXaeAmUlI4ZqZQ5Qf4bkxW
+         PAhg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1789600581; x=1790205381; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=XuO1Ijt2sJ14x5nHlyhOYgW7+udniPE80quffc8DQvg=;
+        b=UNsMKJo2T6wCVhfzR26gvQPxMH2MFDhqPuI/hzcovTS5zs6CWJ+2olJEkH57SFtFCf
+         zWTufsKEyJSmXcNom+NICA6udCi/cb6EsKlWZe5IH8uEJkMIWsASwxE/u8dk1qB395Vp
+         O6r3li8izs13s3JHUW5DyGOwh1qssoK5icXYBlWJ86W3FyuOvi79ZxLw2qbw75a5hHTs
+         22bvvOfGSRs/aUIaMEuwfjYbO7vHKzOxF2dcy7k9baG8XFnC0ON6gi383zGpQ9WYaZxK
+         BLW3thCFFj3D8q0pRX68Rr5xvKK7/Ws6dIzEQyJVqtSFpvZ/ZcmS2CgJY6PYlmtlWZD3
+         ODsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789598787; x=1790203587;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=LcizwlFxn2dDfjlSrFy6ssnr9nUP1n7/qJEJqqsStLE=;
-        b=Je31xaqNXXTs9Prbuj4AYXS7rzKtAwxzUQeO1/BhSPJjoaJkun7sCgZctR1ub1dowQ
-         4aWljsbM789FnjGbHK7D/tjf3J2ASYVCn2z884c+xUjW84UDvbItMqXrjfz9y8PeDkq9
-         FCbXd4MOtRWekYXX5XskETguBx5bHLYj9eSomGhAWkgWGkPqcjE79VvqAXAevN+j8P15
-         UWYMPq0dwXejijziF29MyqWvcjOQpluNcR6MVGx8jCqYkyVaCk63m76jzW+LCGCALANp
-         +xYobxAg3fNQc19QJQp/q23iELM1ejEnj1Zu/od5uUQSuM0A8d0XYPjTXF/itYTuiaM4
-         P1fQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxljL5pi9VE8Eei3pu6h19HCHxNIpOsrvEeK0CVd1dJCfIW1nQPAACjgvw6s/ThBTlecquvRixtZnb5n8bZ@vger.kernel.org
-X-Gm-Message-State: AFuF++mdXQnNqAwTn6ztztxYlZNfk29f0jQZ7g99XijxIWUdtthk/HOq
-	S7lbiZcTE3iFE0iQQaPRhH2vlJMIVee8hF8BCc8JhZmUg3JqnOCalXNvjqrmAUuJe65eNCBsQJK
-	vuc+dl+KSQBAJwuK2zsqBRF91+Za5bvZNUSRyfwHO6psR+ukpFvoqhdrlavA=
+        d=1e100.net; s=20260707; t=1789600581; x=1790205381;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XuO1Ijt2sJ14x5nHlyhOYgW7+udniPE80quffc8DQvg=;
+        b=HPhd+LQ4ZnWlBoZcbE+ZFeNN5E20ivAOR64OBM+1hs1D8+YfNxogkNsTbWnsbR+D1Z
+         /9jFyHuIAM3vo/AE0lu0MkyrhNFeRasg3a63lp0JfOr2GBCW6RwjjXJC+EL1OeZCKgYb
+         VfoZAtPllAgeNDO/Sz3QozAiuEyYGoNREAK+50esgWjRyk+PlZ/nJZ+57839DwxvwGqL
+         feE7n8Y0pCNy7Kb8h3XB8+GD4oYlhPxsoWAqCRv7cDcICjT2Q7ps2ml/6GpumbSN0obg
+         fa540Yiauht0pQI88rwaGV7dwFL8tM6mB/f8ZZVf1zkkqiweE2r8L3TIw4+oSsKrpuif
+         Kalw==
+X-Forwarded-Encrypted: i=1; AKwUvByE8my+Vo44/0KbcKhW4apO9gKsyH1OnBbEH9j/9lMPai67laIsg96aueOcLlUcVn0VRGxdHehJKwDgJHql@vger.kernel.org
+X-Gm-Message-State: AFuF++k3Ml3WaQofY9nM5mmi8E1JFBD+xy6RD5ls9KF2TPwQnK6pJg6c
+	0UwLAI1ffeSloeVPvtOXBs2RKOiQyW2JYDqAoG0CkJWh1QxomIEPBMKxkJFMgnaRIjSwVXrOJ/H
+	CIpF5nVPKqKclvwZf7O+nPAl5tsvmojqTjXTzLImt
+X-Gm-Gg: AYBFou2/CHJwcwG5HnSnSkdFasRJimxkg4NSP0HqnyPx4HbCkp3pdJr51FtQsiY1OaP
+	QD9lDX3ZSqDwfrAFgJ4LW42bCuIBtGaZsevwMg57n7sfYQQUx7429sv0ICGqrU4j9fOSKkvbV7a
+	DOv7eP9zgMRp350YTK+LK5zR/pAcRhM9IwEDBKFqFX3HOXifu80FRKaZd/LQ2jBqABFR6+F8aWg
+	YLKgfElx6UydN1ZMpwTZsqT9RE+qLAt/LF6BX48F6lB07fJq/47cMsgI4HvixmT6oOoupgglZRs
+	sBkgDFLCBGFztIcYWqW00hfCchFZb77oJ/xbIBMqfSdGo/B/oDFJ
+X-Received: by 2002:a05:6512:1192:b0:5b6:1a7c:59cb with SMTP id
+ 2adb3069b0e04-5b8b6643a3amr1205595e87.37.1789600581075; Wed, 16 Sep 2026
+ 16:16:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1897:b0:6b7:46fc:1d7 with SMTP id
- 006d021491bc7-6c7d41de430mr4519967eaf.54.1789598787523; Wed, 16 Sep 2026
- 15:46:27 -0700 (PDT)
-Date: Wed, 16 Sep 2026 15:46:27 -0700
-In-Reply-To: <6aa8be26.a211d2ce.1a5198.02a4.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aab1c43.71f81b7d.278072.0001.GAE@google.com>
-Subject: Re: [syzbot] [iomap?] WARNING in iomap_read_inline_data (2)
-From: syzbot <syzbot+079e16bc964fb91acb4a@syzkaller.appspotmail.com>
-To: brauner@kernel.org, djwong@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
+References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
+ <aqcmz5uI7PgN5CT7@casper.infradead.org> <20260913235145.GY25906@brightrain.aerifal.cx>
+ <eeb50cae-87af-4a40-b9c6-f4fa9981425e@peda.net>
+In-Reply-To: <eeb50cae-87af-4a40-b9c6-f4fa9981425e@peda.net>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Wed, 16 Sep 2026 16:16:09 -0700
+X-Gm-Features: AcwNN1XX9temToosIZFGFf0_oya4M6aRcGTN4rFbjsWI4-f9wQoGiIGursSmD04
+Message-ID: <CALCETrUgLj4Dz0s6PMofViJwausRWCvNvJphxWHUeWCCaRBtQg@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
+To: Mikko Rantalainen <mikko.rantalainen@peda.net>
+Cc: Rich Felker <dalias@libc.org>, Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, brauner@kernel.org, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, alx@kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot has found a reproducer for the following issue on:
+On Mon, Sep 14, 2026 at 2:44=E2=80=AFAM Mikko Rantalainen
+<mikko.rantalainen@peda.net> wrote:
 
-HEAD commit:    9b87fdc9af2f Merge tag 'sched_ext-for-7.3-rc3-fixes' of gi..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=110993f9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8c5c3949d762a91f
-dashboard link: https://syzkaller.appspot.com/bug?extid=079e16bc964fb91acb4a
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=150993f9580000
+> NFS and devices make the question more interesting, though. Some
+> implementations put meaningful state transitions into their close path.
+> Tape devices are an obvious historical example: depending on the
+> device/mode, close may write filemarks, flush tape buffers, rewind, etc.
+> Those operations are not necessarily replaceable by fsync() before
+> close().
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+079e16bc964fb91acb4a@syzkaller.appspotmail.com
+I realize this would be complex and maybe a can of worms, but maybe we
+should have a new improved syscall here.  close() is indeed deeply
+problematic.
 
-------------[ cut here ]------------
-size > iomap->length
-WARNING: fs/iomap/buffered-io.c:431 at iomap_read_inline_data+0x901/0xc10 fs/iomap/buffered-io.c:431, CPU#1: syz-executor183/6038
-Modules linked in:
-CPU: 1 UID: 0 PID: 6038 Comm: syz-executor183 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:iomap_read_inline_data+0x901/0xc10 fs/iomap/buffered-io.c:431
-Code: ff ff ff e8 31 37 51 ff 48 c7 c6 20 6b 0a 8c 48 89 ef e8 52 d9 a4 ff 90 0f 0b e8 4a 7a c4 ff e9 46 f7 ff ff e8 10 37 51 ff 90 <0f> 0b 90 48 b8 00 00 00 00 00 fc ff df 4c 89 fa 48 c1 ea 03 80 3c
-RSP: 0000:ffffc90003357538 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffffc90003357790 RCX: 0000000000000000
-RDX: ffff888029fa4b00 RSI: ffffffff82bae840 RDI: ffff888029fa4b00
-RBP: ffffea0001030f80 R08: 0000000000000006 R09: 0000000000000005
-R10: 0000000000000014 R11: 0000000000000000 R12: 0000000000000014
-R13: ffffc900033577b8 R14: ffffc900033577e8 R15: ffffc900033577c0
-FS:  00007f4d0baf66c0(0000) GS:ffff8880d5c59000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f4d0a2f1000 CR3: 0000000059e5c000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- iomap_read_folio_iter+0xc35/0xfd0 fs/iomap/buffered-io.c:571
- iomap_read_folio+0x392/0x980 fs/iomap/buffered-io.c:676
- ntfs_read_folio+0x298/0x4b0 fs/ntfs3/inode.c:856
- filemap_read_folio+0xfc/0x3b0 mm/filemap.c:2520
- filemap_fault+0x24b8/0x3130 mm/filemap.c:3689
- __do_fault+0x10b/0x440 mm/memory.c:5565
- do_read_fault mm/memory.c:6000 [inline]
- do_fault+0xb3f/0x1830 mm/memory.c:6134
- do_pte_missing mm/memory.c:4700 [inline]
- handle_pte_fault mm/memory.c:6558 [inline]
- __handle_mm_fault+0x150b/0x2f60 mm/memory.c:6707
- handle_mm_fault+0x363/0xa20 mm/memory.c:6876
- do_user_addr_fault+0x59c/0x12f0 arch/x86/mm/fault.c:1343
- handle_page_fault arch/x86/mm/fault.c:1483 [inline]
- exc_page_fault+0x6f/0xd0 arch/x86/mm/fault.c:1536
- asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
-RIP: 0033:0x7f4d0cb0af39
-Code: 00 ba 04 00 00 00 be 00 10 00 00 48 89 df e8 7e 3e 02 00 8b 3d e0 4b 0c 00 b9 04 00 00 00 31 f6 ba 00 10 00 00 e8 87 34 02 00 <0f> b6 03 88 44 24 0f 8b 05 be 4b 0c 00 85 c0 74 c6 be 00 10 00 00
-RSP: 002b:00007f4d0baf6200 EFLAGS: 00010207
-RAX: 0000000000000000 RBX: 00007f4d0a2f1000 RCX: 00007f4d0cb2e3ca
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
-RBP: 0000000000000021 R08: 0000000000000003 R09: 0000000000000000
-R10: 0000000000000004 R11: 0000000000000246 R12: ffffffffffffffd0
-R13: 0000000000000002 R14: 00007ffe1da2f580 R15: 00007ffe1da2f668
- </TASK>
+On the one hand, we have the actual task of closing an fd in the sense
+of removing it from the table.  This should really be doable without
+blocking or without side effects (except possibly for zapping
+old-style POSIX locks -- it doesn't really make sense to be able to
+close all fds to a file while still keeping it locked, especially
+since we report the pid of the lock-holding process).
 
+On the other hand, close has actual *meaningful* effects, many of
+which you've mentioned in your email.  IMO it would be really nice to
+be able to explicitly *do* those effects separately from closing the
+fd, maybe even asynchronously via io_uring.
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Would it be so bad to have a new operation to do (possibly with
+moderately fine control) the close work and another one to just
+release fd- and process-associated locks and drop the fd?
+
+(Hmm, for OFD locks, it really does make sense to unlock when the OFD
+goes away.  For old-style locks, maybe we want a way to release an fd
+without dropping the lock if it's not the last reference to the
+underlying file in the process.  But maybe specifying and implementing
+that would be a nightmare.)
+
+--Andy
