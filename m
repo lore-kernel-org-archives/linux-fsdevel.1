@@ -1,374 +1,261 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012019.outbound.protection.outlook.com [52.101.53.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6000E3D9522;
-	Wed, 16 Sep 2026 18:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789581842; cv=fail; b=JyR2rn9K2QqDndg8uUthHKJFrNMpFEFPrbYWRnYE0tCAY8Ls7GvIWtIucCGpNbgwRsB0fT1bQIikm93AFSKfb4KlsAV4x43iBMjymfl6yyIq65oyI2JWXQYYnCySzUJWe4fip9bITwYMYXZ6+lceZ6Ol3DjFhKvlKJZd6Nd9TB8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789581842; c=relaxed/simple;
-	bh=nE3zI2IP0+ajUZC7MqMfjxKhhIe33rg6J7TypDS5gRo=;
-	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
-	 In-Reply-To:MIME-Version; b=RG4hdeeuDFLcbp8nVemTVtNrRq4jnVKZofWGQiuUKrlOwdW+6dfFZnM/eHo6MVx28JbN5v9zdsUel0XM87rCpDQkwnMoYrT2qBoC7AjY2pXCLOvzGAMZtcaTJpsiwGdoF7h/ow8vIaKQEs+gX6jbfOu+3c7IOsASudshl7/acMk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=XC5yBv8Y; arc=fail smtp.client-ip=52.101.53.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC16E5437C7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 18:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789583641; cv=none; b=j7RmeQ/TZdfsNfoug6b8FZHUBUA1G3bhWUwiSDKm3N8ytbQazEz8IHIkgsJ76nVCqKOdTpP4oAVBpaOsfPVu1aBjnEaT1sxv4U20zSkGevUXYwUwvSP1ShlX9TCut1k5rtQHzYgz1QA3JrW6U0qaWYZqBnNObhIuT2u67hpjTbk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789583641; c=relaxed/simple;
+	bh=kCZFspvHZ9tRLjdxKXZWCpHLq8aaBrTCKUoD7EZAf1g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uXhzdvRNZnuUju1Ri0MS35LH4dOYHTBSIe25DVS7FjVsWPfZ9jwn7pwVAFphPpmgVAW17xfhrR2/nf3zu1VcnhlfvDvY8j64CqtlZ4fbIxqtG7+et0cNko/vHhC6j4lFmAJen3NcVc1tx3F9+7iQE8/fv3/7nRUbwgBZTYCxH0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=t+kBPlb+; arc=none smtp.client-ip=74.125.224.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="XC5yBv8Y"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eejKA9zwZ/cfat6jhHTQ5/wRlbtsIOblZt67jMbntNkPrtG1imr+diB4UO1ZbzCVBB28AU2oDXwTatRqOOEymnB1oOfkewXoKqylA3qX4iDAogy7Yvmt9G3TEkTOkkNO/xRSiG6X18ZhUucS7WmvUxz/AqsX9JtBYetqhWvUIIQCILVALJNj420tNFGJfnm+t0VU55snNDckYygMeAsSnL//JcJqA6UW1GtsHWzH7BZuM3tLwoDW0GFXAXv872cKKgwjcrRmbeR8v4RIMyYWOVz9e3ibQLK++tPNkN8yJ1tPbgDVXNHVSAJBE34v/CZtdmsDOdsFbsOomK6ATQ7N6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rhqjECNnIKQ3HxZfI2X4MMoijUlUGWqWsh+UQjuFs1Y=;
- b=cZQIpcrae3OCxubnSNDaBFRFaMLpy4OYHpC6iGCNAlFZb0sX9LEcrsefH4z2+kwLU6rPPVr/ITUN69EmGSM2ifgj1TtTk8VFfKXKGY2hLfF2tb12evpzTBgm0mWUb4FUNUaIbhL91SB+bxfBNgBOgLr0hKpN7QYnPWR0CO6m31GuT6guGbar06Sx+JKGJl/QfIf9VL7512pXITAB9L0Oc6OhOaO845FFrM/9mT+sOXNm+lnTn85mF8ZfSVG2/mGHJV6kFybUnRyhxXaifx56M7rpZDUyVIZpoLEJK19q+jbxRtEjy7oEStr4noN3pkvfTP1C8hDKXq6IRgQUoPiU6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rhqjECNnIKQ3HxZfI2X4MMoijUlUGWqWsh+UQjuFs1Y=;
- b=XC5yBv8YZieHGkuGHwW9ojGJLNG5FVlAHpQb87cih3K9mEOeabtposINoKbdqk9VdG72vfJvLEYP9AQVJOxMJvlVFvja2IOalFvRmdTqhfBYAqEVgLShYQVhrVrAwwwc2eB6ix/jAsPWL6sD0X//AcIQlg+USbumZCt6p3rf5GXqJlbscgajwkK2ral5GZoIYgC2R1F7z45j5Q58NiW8iqFaLYJmZPkWSqFwnGNeyWTFCxsvqG7dMDAf1cLzlBeLvopFVJDlIz5d8iWAwfAQUpWF1TH3JGWFYBGpzzGKXXcJ9g6J5ye0Whzib8F25cfbwAlNkGj55x6UuOGesNzFbw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by SN7PR12MB8818.namprd12.prod.outlook.com (2603:10b6:806:34b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Wed, 16 Sep
- 2026 18:03:28 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0428.009; Wed, 16 Sep 2026
- 18:03:28 +0000
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="t+kBPlb+"
+Received: by mail-yx2-f13.google.com with SMTP id 00721157ae682-85d4ddd17a0so10911737b3.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 11:33:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1789583622; x=1790188422; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kCZFspvHZ9tRLjdxKXZWCpHLq8aaBrTCKUoD7EZAf1g=;
+        b=t+kBPlb+sYWlxw6U7veBMpcQR4IDn3qj36nXmr8vnA9Lu21/LKbuUGgRrx42xwXa3I
+         wqeXKSqlEfVNL90+F5oUFExWmM9riBtmBaM05AW9N01UyZ4V4jLkjP1w8ZfBY4XO7Avs
+         EAHI5EULZ1RIA+t/lJ1+gW69EG1t81nFxOMx/RmudFX92T+mk5DVaQuEg160e1eBg9Mn
+         ryR9Xk1iD1ArhhEE5trEwmXtrrRCxsGDgEk6Qy5TBP79AuiwL3S/jsEoZI/Ddvh0+eDd
+         DrJp7dz0rP35cnHJRfz923LtYERY80AyI9Rjl8CQ75eZbKAssZfHzVN+wx4ILd7JjEJX
+         ZmpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789583622; x=1790188422;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=kCZFspvHZ9tRLjdxKXZWCpHLq8aaBrTCKUoD7EZAf1g=;
+        b=LCQh1wQiTiMXD028nwMn3I22MJ/EUyfhnaZIeDarMzt5sDNlvCGeOiLcbKQNuL3yyR
+         8/RhhXWSmrwwVFL/Cb6wTOomurgre0nnXe45FMSKhGT1DDZzx+pc+Wk5E85JVAGR8M7K
+         Wt8c69NPewOTjJXMvubji3ZYrTO1Gzbw7yIUZ+CxM8veKU+k8RtENiULWOkzclP88W9q
+         FH/nyTyvF56ECAqlqHB6c7HpssuWTuxV90oyV5raVkxTy/THcQX26JRIbxPMFSItN6OT
+         qPxWzmzSHVDaY7o45cPTcYbRrX2gAu1BRwoxZIg3CcLNTfVYZxn4L0MZ7bq0LzZP9tJa
+         Q5Cg==
+X-Gm-Message-State: AFuF++nU4rXzzBJF3YU7xNxCvcXqgI3iuxtCUEl9BBQ+Mn9NlUXfOTOI
+	NeotvhZQOvezJF4bVWcxsSXZTlTgtzFnkeuF6oFWJgn439FL/EfZKnB4RGfhva3wuS2MTgYKNXX
+	Q/aud5dBhTA==
+X-Gm-Gg: AYBFou3KvhSkwVySlA8RutgrfYPr5ztPX74J3H0X33EwgvAeYNPuldtH/qUKQ3Z8Jmz
+	ni73uEbJv/zQ/v6dfD0NaQOoD24OozXniZVlbgJVEL51SGQUXgtpmEbdHdHNPYo7Ct9vmtxyvjB
+	zrjD731jbgmKoMNblD/ZK2yw5WfgYhdjrAi7Cuyb7ObOltw2f/Vdoi3PKzO5Jli6kx3Xi2TC2AN
+	ONzPx3M8mElbifTVBmuHc8ffmKdlPimCr5k4bNXbkf0MS1I7LInmxTM5dG/VbYUURK2N1HBlVo2
+	eJ7Znk1xs0g2xreJtOy6WOPhDEdVHko1ekOByVReX01wcrfU/nFwkx5qotNKh+yVKjLoy2mBSgi
+	TzLXuDLhudtshMKPz/SMY+g3W8d++8MVBusibBnuAJ8nUgBEKk1u/jfhUQbTKxuyxV1Key2iTuv
+	6i5sBnVw0RZuGv3wpFRjBVGWVBkjQCK2TmHmUXV6PS0a5aArXlIZ2rDPniaewNC6LUKRYJGZQ+G
+	j6UCL8YNfV60WqqZb1ahoxLuiTuQuMths2fXXqvKeLNMCjhJIr3oGrNk3rLb2SBoLFkGDb3HdHs
+	QnBFJeZfdaD8RB+snb3x6E3yMIgoEBOOcY0vGgZtJIfBBtKFDPPRk17NJJ+Sjmmj
+X-Received: by 2002:a05:690e:1918:b0:671:3e63:2e91 with SMTP id 956f58d0204a3-671632d88a4mr1650293d50.36.1789583622221;
+        Wed, 16 Sep 2026 11:33:42 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:f547:a2c0:72f7:6671? ([2600:1700:6476:1430:f547:a2c0:72f7:6671])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6715f6df1a6sm1653225d50.8.2026.09.16.11.33.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 11:33:41 -0700 (PDT)
+Message-ID: <fb6a6e2ff419fc197c793d9a98fccd2d1332e49d.camel@dubeyko.com>
+Subject: Re: [PATCH 1/1] hfs: don't let internal B-tree inodes leak into the
+ VFS open path
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: 1sh1ro <yangguikun19@qq.com>, John Paul Adrian Glaubitz
+	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Mateusz
+ Guzik	 <mjguzik@gmail.com>, Christian Brauner <brauner@kernel.org>, 
+	stable@vger.kernel.org
+Date: Wed, 16 Sep 2026 11:33:38 -0700
+In-Reply-To: <tencent_6BAAD177CBC8B253A2297594808F7D546606@qq.com>
+References: <20260916080000.0-hfs-fix@localhost>
+	 <tencent_6BAAD177CBC8B253A2297594808F7D546606@qq.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 16 Sep 2026 14:03:26 -0400
-Message-Id: <DLGXT0ERY79Z.3C5DYVJVX6S9Z@nvidia.com>
-Cc: <linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
- <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>,
- <liam@infradead.org>, <vbabka@kernel.org>, <rppt@kernel.org>,
- <surenb@google.com>, <mhocko@suse.com>, <hughd@google.com>,
- <baolin.wang@linux.alibaba.com>, <willy@infradead.org>,
- <bfoster@redhat.com>, <joannelkoong@gmail.com>, <djwong@kernel.org>,
- <yi.zhang@huawei.com>, <yizhang089@gmail.com>, <yangerkun@huawei.com>,
- <chengzhihao1@huawei.com>, <wangkefeng.wang@huawei.com>, <yukuai@fnnas.com>
-To: "Jan Kara" <jack@suse.cz>, "Zhang Yi" <yi.zhang@huaweicloud.com>
-From: "Zi Yan" <ziy@nvidia.com>
-Subject: Re: [PATCH v3 1/3] mm/truncate: fix data loss when splitting
- straddling large folios fails
-X-Mailer: aerc 0.22.0
-References: <20260916092450.654408-1-yi.zhang@huaweicloud.com>
- <20260916092450.654408-2-yi.zhang@huaweicloud.com>
- <xl2rtnntlxoxoozkddgrlkcsgukcngvvcwazm7gb7q5g32yxir@ef5ltcwueboh>
-In-Reply-To: <xl2rtnntlxoxoozkddgrlkcsgukcngvvcwazm7gb7q5g32yxir@ef5ltcwueboh>
-X-ClientProxiedBy: BN0PR04CA0057.namprd04.prod.outlook.com
- (2603:10b6:408:e8::32) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SN7PR12MB8818:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2e232e5-2150-454f-1c48-08df141ccf51
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|18002099003|22082099003|3023799007|10067099003|4143699003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	5mz8pk5bXR6xYx5j1pAn8sMWOGHfH00fskhSL7i3ZZl6teVsXXzAN43Fk93ODH535GNvUEwSBXE2QgHVIKce8AMaSebsAnHA9z9zsGMphXmH4MLsLZTBVR1h6/ngXOMoHwAsfGVjFOEiIQeeKJHDpqImJhZvTyOiszlW96DpvJ9eHpBJSdYtfWtmUd3k/dzaKaL3EXqdfl4fdS2kBrrDGOB7lDP4FPx1E1/o/vJrKJ/HrGQ92EMqMTlIwen+3ykx0hqoAMGMABmYi3h35/nsag9+B/sfcviEzp9QJyit4Mt6Nv+oTkA281rE84VH23XchITsWf0OKR6AxTtL29CBrmoAwzytJ4W2XwknYvMgKCooEYOT8R4dObQlEMTH4KIXpniPFsjOdSbpISbyF8PHbGnKSTEfHSa/j728QB1R+wffY72TiWkVHB4y3JgvPwJHXzsnUNgS4fy9U0sJi4VhfVmC6Vqy5+A/L8HVe3mZfR3axgZgnkubcnTSjPc6Zyjhevls8Mksf64wZC5lvLKZpD+4QzSmGtYpJAbpRieYYs4Ss6zBoN0oVa/88sMo7JBic7RTbC2iJECyxdhxFwdrVXVR8ir+pPPoJWlQjqf6Vn/WP6YLVekk7RatjBt8jED8DhtmVIZz2Bjbgr+JJuhI82oTt83y1EfJpQpSYy/LGyw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(18002099003)(22082099003)(3023799007)(10067099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dkUwWWpzT3dCalAwLzVjbG1LcDdOdll1Q25hakdTTXlvc1ljVXFYc3RzN3Qr?=
- =?utf-8?B?VVcrNUUxaGV0UXdoWnZ1MzBseGxmZFNZbElSL2sxYkthVnN6ZWxQWXZLOTlV?=
- =?utf-8?B?cmtTa01tN0RUN3ErVWlHejNZMjJjanBhak03bWQyU1hhL1lvVCsxTXBocHhX?=
- =?utf-8?B?TjlVK2xqZGJBT1pTdXBNcG1FZ1U1RVV2TGFMYmpWUFpjVzBaVUtzRERxeDhk?=
- =?utf-8?B?VzVUZ0pjWitqZFE5VHJES3pKazRKUTh4TTlQdTNGaWJzQ09QaGVCVDllRGY0?=
- =?utf-8?B?SFMwalRlTkh4ZU1RRlpPUDNIWEhHWXBrMHpsT3pqdnQ5UDBTb0RZOGQwRmZv?=
- =?utf-8?B?QVIwWmF1R002QkNHQUlmRHdJRkg0eW1nNVBTMUpFaWlyMmVnSm0ybmdkQU81?=
- =?utf-8?B?ZjhuWVlaM3hvUzYxdUxoVU10ODY1UDc3Q2VPNks1cXdFMVhBQmpBL3VYeUFM?=
- =?utf-8?B?SFRkaTE1QjlpS01UbnJjSWFZbGZjWEhGV0lDSmxJRUF4WmFzTmNzeHh0RXgx?=
- =?utf-8?B?ank5MDU5bzlPWHVhdGlCZVFES1pOelZVV241aTl4UmgySjZ2ZFhWbGdvRUw2?=
- =?utf-8?B?dUFSbkJyeUxlZXRlb1ZMVzF2LzlrUzJCbkRyTXNDelg0d3Z3V2UzOVlBOC9R?=
- =?utf-8?B?THlBRXBvdzcvRmJuOWtGVTl0SWxjSU16SkkxY1IzeDRUQ1RZcFYvT2ZaTTJY?=
- =?utf-8?B?NXdnZTZORDB3QVJTQTFFYXdwaWlyelNrcXNvS1h6cjA4M3VLMmEzdC9DcDQv?=
- =?utf-8?B?VFRVQndzeHFVODJPdVlteWdtaERVK0JRcnZZc3orUXJLaTBCMmJObXdvMWxJ?=
- =?utf-8?B?RWswbjNsNHQxSWFRcGJ4Z1dDTmZ5R0h4WnVzdUJJSjVPSWFEQVA0Ump3RkR2?=
- =?utf-8?B?SmxpcHMwNFVnSS8zZmhDWVgydTlsNHJwSjZtUFcreTZSSEhkVThZdTZrenFa?=
- =?utf-8?B?c29NMXlKdS9QRUI2MGJWWDhiWFRUaEl6SUU5TS8yd3BCaW1VczBHeS9qbGM3?=
- =?utf-8?B?WnVEZ0FTUVhoaHdneE0zZ2xPZHIra2ZEejVvVTBtaE5URExQOU9iTnYxM3l3?=
- =?utf-8?B?S3ltdnI2cTRsWE0wMzVucE9FUko0L1RpcDduUnc4bDBDMDBkemRIekZRQURM?=
- =?utf-8?B?V1YyYnVGZXdTRlBPOGtGS2gwY0NhcTZkYS9vcWptV2VxMXFXSlRiaU92Z3Ex?=
- =?utf-8?B?Rm9ESXA3bTN1UDRGZmVxN2lBMkVieWFNdmhQKzNUUlUvKytTZDlBYnhMZmNK?=
- =?utf-8?B?VG1FanNDTHVMSUNIb1JSUXU4K3VoWUtSeHFYRUh1bjJMRk1ZNXEvYzQrdWdv?=
- =?utf-8?B?SGl2OUtWNGdhR0E0dnpkWFZYZEJ2UjZpdTlYNm9vdHhrSzFwamRvSWFSMm4y?=
- =?utf-8?B?R3g4emhHTlRKajFoV0V2amxZUE1iTjNET2FqUk5GMThhMnNqOHFERmhGRGFO?=
- =?utf-8?B?QU9EVmJNSDVBNlNHMmJiV1Z4Wk5TdFRnNWlvbUhHUmhXZk9QdUdYaXJPcHha?=
- =?utf-8?B?RHpMNEM5cG5Yd3hhYnY0Y0dleGVnUEdsTkxBNGlKcGxxZzh0NkpPT0hhbGNw?=
- =?utf-8?B?WnhNS21ZaEY5QXhhQjJhTllNMEhmdDdpK3BOaHhXSXlIb00ya3BkdWR2Nmds?=
- =?utf-8?B?TEM4TUFFb2JQb0ZwOHlLcWEwcFh3RTRiQlBmdzN6YVc2L1g2RWVsdlRTY0Q2?=
- =?utf-8?B?OTFvS3dnYStpc1VOODY0RkZHZXpSK1pMVXBoWnRLTXdrdkFIREg0eUtOME9W?=
- =?utf-8?B?a0M2bjU0UDcvWHc0T2YvZGJTbk1qN1lUbW00N2F4MkNITDlTODYzSms4czZt?=
- =?utf-8?B?TjEvRDJDQ3RqUzlQcHNFUUpGUjRoMGVFYVE2K3FBL2dVYXdHenlndHRDdDFq?=
- =?utf-8?B?eDA3Tkh4NXE5UnlVNjZaWWJBZStmb0Zhd2pHNmkxWEdRRnVrNWM0bW9lNU5O?=
- =?utf-8?B?czVzMkp6THQ2cGk1dWIwL2E3d3ErcVlMbGlLcWFvSFp5a3NGeG1kMlFrOUtO?=
- =?utf-8?B?OGR5Z2ZXZ3pNcy85Z0R1bWxIZWIxS1VLbThoR0VwT1hYb0sxTTMzU2RlVEo0?=
- =?utf-8?B?VnV1eXV6dGRjS2lQR2tXQmpKRC83RHp3akkxYnJaUUk3Zko0b0RPM1IzV3Ir?=
- =?utf-8?B?ZExqTWxSUzRRZFA0TVcrRnJaVmNUUmh1TXJrQllCcis2RE5iNTNGcUI3cVhI?=
- =?utf-8?B?eVh5M214YXBWTDZTMTNHbFUzQUptYldzbUFRVEMrVFQwZXh6bUxnMU9tYTVN?=
- =?utf-8?B?OGZFOE95T2hrTXMxSDlJMnlXcTZicHA4YmNNRDUrNDdmeUxMT3E4M1p6U1FE?=
- =?utf-8?Q?mehb4ScisI2OBPo/p5?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2e232e5-2150-454f-1c48-08df141ccf51
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2026 18:03:28.1016
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nnDZNoMGYTXpFczhU8cWhh+xGpMGkK8zrwmxXZmGC29lGop3JaJppc3P3PER5cmZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8818
 
-On Wed Sep 16, 2026 at 8:02 AM EDT, Jan Kara wrote:
-> On Wed 16-09-26 17:24:48, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>=20
->> truncate_inode_partial_folio() splits a large folio so that the caller's
->> truncate loop can drop the in-range sub-folios while keeping the
->> out-of-range tail. The first split at the punch start edge is
->> non-uniform, which leaves the sub-folio at the truncation end edge as
->> large as possible, this means it may still straddle the range, holding
->> both zeroed in-range and valid out-of-range data. The function then
->> attempts a second split at offset + length to isolate that tail.
->>=20
->> If the second split fails the straddling sub-folio stays merged. The
->> function returned true unconditionally on all exit paths of the success
->> block, telling the caller it was fully handled. The caller kept its
->> default end and the truncate loop truncated every sub-folio below it,
->> including the merged straddler, discarding the valid out-of-range tail.
->>=20
->> For example, a 4-page order-2 folio punched from offset 0 to the middle
->> of the last page:
->>=20
->>   truncate_inode_pages_range()
->>     truncate_inode_partial_folio()      # same_folio =3D=3D true
->>       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->>       folio2 =3D p2-3 # straddles: p2 zeroed, p3 tail valid
->>       2nd split of folio2 fails / cannot lock
->>       return true                       # BUG: caller keeps default end
->>     end =3D 3
->>     loop truncates p0, p1, p2-3        # p3's valid tail is lost
->>=20
->> This became reachable after commit 7460b470a131 ("mm/truncate: use
->> folio_split() in truncate operation") replaced the atomic split_folio()
->> with folio_split(), whose non-uniform split can partially split a folio
->> and leave the end edge merged.
->>=20
->> It has gone unnoticed because a dirty large folio normally carries the
->> filesystem's private data, for example buffer_head, so
->> filemap_release_folio() -> iomap_release_folio() returns false on a
->> dirty folio and folio_split() aborts with -EBUSY before any split,
->> leaving the straddler safely unsplit. The bug is only reachable on paths
->> that produce dirty large folios without filesystem private data, and it
->> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
->> attached.
->>=20
->> Rework the contract so the caller is told the page range to discard:
->>=20
->>   - Add pgoff_t *pstart and *pend out-parameters that receive the page
->>     range fully covered by [lstart, lend] after any split (or none),
->>     i.e. the pages wholly within the range and safe to discard.
->>=20
->>   - Adjust the ordering of the validate check when splitting folio2.
->>     folio2->index is only reliable after the reference count and lock
->>     have been successfully acquired, since it may have been split
->>     concurrently, or freed and recycled to an unrelated mapping. On any
->>     failure to obtain a reliable end position, fall back to
->>     folio->index, which is safe but leaves the sub-folios split off at
->>     the offset edge in the page cache.
->>=20
->>   - Rename the byte-range parameters start/end to lstart/lend to better
->>     express their semantics.
->>=20
->> Callers in truncate_inode_pages_range() and shmem_undo_range() pass
->> &pstart for the folio at the start edge and &pend for the folio at the
->> end edge, so the truncate loop drops exactly the fully covered pages and
->> never touches a straddling folio that still holds valid out-of-range
->> data.
->>=20
->> Suggested-by: Brian Foster <bfoster@redhat.com>
->> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
->> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operati=
-on")
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->
-> The changes mostly look good to me but I have some confusion around the
-> folio2 splitting below.
->
->> @@ -259,32 +271,62 @@ bool truncate_inode_partial_folio(struct folio *fo=
-lio, loff_t start, loff_t end)
->>  		 * for shmem truncate
->>  		 */
->>  		struct folio *folio2;
->> +		pgoff_t end, aligned_end =3D (pos + offset + length) >>
->> +					   PAGE_SHIFT;
->> =20
->> -		if (offset + length =3D=3D size)
->> -			goto no_split;
->> +		if (pstart)
->> +			*pstart =3D round_up(pos + offset, PAGE_SIZE) >>
->> +				  PAGE_SHIFT;
->> +
->> +		if (offset + length =3D=3D size) {
->> +			end =3D aligned_end;
->> +			goto out;
->> +		}
->> =20
->>  		split_at2 =3D folio_page(folio,
->>  				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
->>  		folio2 =3D page_folio(split_at2);
->> =20
->> +		/*
->> +		 * folio2 may become stale due to a concurrent split or
->> +		 * freeing, so validate it before and after taking its lock.
->> +		 * If it fails, we can't get an accurate end position and fall
->> +		 * back to folio->index, which may leave sub-folios split off
->> +		 * at the offset edge in the page cache this round.
->> +		 */
->> +		end =3D folio->index;
->>  		if (!folio_try_get(folio2))
->> -			goto no_split;
->> -
->> -		if (!folio_test_large(folio2))
->>  			goto out;
->> =20
->> +		if (folio2->mapping !=3D folio->mapping ||
->> +		    !folio_test_large(folio2))
->> +			goto out_put;
->> +
->>  		if (!folio_trylock(folio2))
->> -			goto out;
->> +			goto out_put;
->> =20
->> -		/* make sure folio2 is large and does not change its mapping */
->> -		if (folio_test_large(folio2) &&
->> -		    folio2->mapping =3D=3D folio->mapping)
->> -			folio_split_or_unmap(folio2, split_at2, min_order);
->> +		if (page_folio(split_at2) !=3D folio2) {
->> +			folio_unlock(folio2);
->> +			goto out_put;
->> +		}
->> +		if (!folio_test_large(folio2)) {
->> +			end =3D aligned_end;
->> +			folio_unlock(folio2);
->> +			goto out_put;
->> +		}
->
-> So I always found this folio2 lookup and revalidation somewhat suspicious
-> and now that we're digging into it I'll ask: As you note in the changelog=
-,
-> by the time we compute split_at2 the page can be already freed and reused
-> because it was split off from the original 'folio'. It can be for example=
- a
-> slab page or anything else. So is it guaranteed that page_folio() actuall=
-y
+On Wed, 2026-09-16 at 17:09 +0800, 1sh1ro wrote:
+> hfs_btree_open() creates the extents and catalog B-tree inodes with
+> iget_locked() and never assigns them a file type, so both stay cached
+> with i_mode =3D=3D 0 after mount.
+>=20
+> A crafted HFS image whose catalog contains a record whose DirID/FlNum
+> aliases HFS_EXT_CNID (3) or HFS_CAT_CNID (4) makes hfs_lookup() ->
+> hfs_iget() -> iget5_locked() return that already-cached internal
+> inode
+> (hfs_test_inode() only compares i_ino), without running
+> hfs_read_inode().=C2=A0 The typeless inode then reaches the generic open
+> path and, with CONFIG_DEBUG_VFS=3Dy, deterministically panics:
+>=20
+> =C2=A0 VFS_BUG_ON_INODE(!IS_ANON_FILE(inode)): inode:... fs:hfs mode:0
+> opflags:0xc flags:0x0 state:0x0 count:2
+> =C2=A0 ------------[ cut here ]------------
+> =C2=A0 kernel BUG at fs/namei.c:4271!
+> =C2=A0 RIP: 0010:may_open+0x2ba/0x480 fs/namei.c:4271
+> =C2=A0 Call Trace:
+> =C2=A0=C2=A0 do_open fs/namei.c:4698 [inline]
+> =C2=A0=C2=A0 path_openat+0x1600/0x3de0 fs/namei.c:4863
+> =C2=A0=C2=A0 __x64_sys_openat+0x13f/0x1f0 fs/open.c:1385
+>=20
+> Fix it in two steps:
+>=20
+> =C2=A0- give the B-tree inodes an S_IFREG type in hfs_btree_open(), so th=
+e
+> =C2=A0=C2=A0 "every cached inode has a valid S_IFMT type" VFS invariant h=
+olds
+> =C2=A0=C2=A0 regardless of what is on disk;
+>=20
+> =C2=A0- refuse, in hfs_iget(), catalog records that address the reserved
+> =C2=A0=C2=A0 B-tree CNIDs so a malformed image cannot alias internal obje=
+cts
+> =C2=A0=C2=A0 into dentries at all.=C2=A0 Returning NULL follows the exist=
+ing
+> =C2=A0=C2=A0 convention for unaddressable records: hfs_fill_super() turns=
+ it
+> =C2=A0=C2=A0 into a mount failure and hfs_lookup() into -EACCES.
+>=20
+> Without CONFIG_DEBUG_VFS the assertion compiles away and the same
+> crafted image silently makes a typeless inode openable, so this is
+> not
+> merely a debug-config nuisance.
+>=20
+> Found by syzkaller-style fuzzing of v7.2-rc7; still reproducible on
+> current mainline.
+>=20
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: 1sh1ro <yangguikun19@qq.com>
+> ---
+> =C2=A0fs/hfs/btree.c | 8 ++++++++
+> =C2=A0fs/hfs/inode.c | 11 +++++++++++
+> =C2=A02 files changed, 19 insertions(+)
+>=20
+> diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+> index 2eb37a2f64e8..bd69ace8f309 100644
+> --- a/fs/hfs/btree.c
+> +++ b/fs/hfs/btree.c
+> @@ -43,6 +43,14 @@ struct hfs_btree *hfs_btree_open(struct
+> super_block *sb, u32 id, btree_keycmp ke
+> =C2=A0=C2=A0=C2=A0 if (!tree->inode)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto free_tree;
+> =C2=A0=C2=A0=C2=A0 BUG_ON(!(inode_state_read_once(tree->inode) & I_NEW));
+> +
+> +=C2=A0=C2=A0 /* B-tree inodes are internal objects that must never be ex=
+posed
+> +=C2=A0=C2=A0=C2=A0 * through directory entries.=C2=A0 Give them a REG ty=
+pe so the VFS
+> +=C2=A0=C2=A0=C2=A0 * invariant "every cached inode has a valid S_IFMT ty=
+pe" holds
+> even
+> +=C2=A0=C2=A0=C2=A0 * when a corrupted image contains catalog records ali=
+asing these
+> +=C2=A0=C2=A0=C2=A0 * reserved CNIDs.
+> +=C2=A0=C2=A0=C2=A0 */
+> +=C2=A0=C2=A0 tree->inode->i_mode =3D S_IFREG;
 
-For a slab or unrelated page, folio->mapping check rejects them.
+In HFS+ we call hfsplus_iget() in hfs_btree_open() [1] and it assign
+the S_IFREG in hfsplus_system_read_inode() [2]. But in HFS we call
+iget_locked() instead. I think we need to call hfs_iget() there and to
+have something like hfs_system_read_inode() that will assign S_IFREG to
+the i_mode. But current fix doesn't look like right solution now. Could
+you please explore this direction for the fix?
 
-> returns something sensible? What guarantees we properly detect the "reuse
+Thanks,
+Slava.
 
-No, but folio_try_get() prevents non ref'd folios.
+> =C2=A0=C2=A0=C2=A0 {
+> =C2=A0=C2=A0=C2=A0 struct hfs_mdb *mdb =3D HFS_SB(sb)->mdb;
+> =C2=A0=C2=A0=C2=A0 HFS_I(tree->inode)->flags =3D 0;
+> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+> index ac4a9055c5c0..bb759345f1fc 100644
+> --- a/fs/hfs/inode.c
+> +++ b/fs/hfs/inode.c
+> @@ -432,6 +432,17 @@ struct inode *hfs_iget(struct super_block *sb,
+> struct hfs_cat_key *key, hfs_cat_
+> =C2=A0=C2=A0=C2=A0 default:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+> =C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0 /* Refuse catalog records that address the internal B-tree
+> objects:
+> +=C2=A0=C2=A0=C2=A0 * a crafted image can otherwise make hfs_lookup() ret=
+urn the
+> cached
+> +=C2=A0=C2=A0=C2=A0 * typeless B-tree inode, which then reaches may_open(=
+) with
+> +=C2=A0=C2=A0=C2=A0 * i_mode =3D=3D 0 and trips VFS_BUG_ON_INODE() there.=
+=C2=A0 NULL follows
+> the
+> +=C2=A0=C2=A0=C2=A0 * existing convention for unaddressable records (moun=
+t failure /
+> +=C2=A0=C2=A0=C2=A0 * -EACCES).
+> +=C2=A0=C2=A0=C2=A0 */
+> +=C2=A0=C2=A0 if (cnid =3D=3D HFS_EXT_CNID || cnid =3D=3D HFS_CAT_CNID)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+> +
+> =C2=A0=C2=A0=C2=A0 inode =3D iget5_locked(sb, cnid, hfs_test_inode, hfs_r=
+ead_inode,
+> &data);
+> =C2=A0=C2=A0=C2=A0 if (inode && (inode_state_read_once(inode) & I_NEW))
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unlock_new_inode(inode);
+> --
+> 2.39.5
 
-> for something else" case in all possible cases for which the page can be
-> reused? I understand this is mostly a preexisting issue so maybe these
-> questions are more for MM guys than you...
-
-I agree with you that trying to split a unlocked and not ref'd folio2 is
-flaky. And it almost does a __filemap_get_folio() like you proposed
-below.
-
->
-> So for me as an filesystem guy I'd appreciate some comment in this code
-> explaining why grabbing folio2 this way is actually safe. The really safe
-> way of getting to folio2 would be to use
->   __filemap_get_folio(mapping, (offset+length) >> PAGE_SHIFT, FGP_LOCK, 0=
-)
-> but I suppose we don't use the mapping lookup as it is more expensive?
-
-__filemap_get_folio() is a better version of the existing folio2 finding
-code. When I wrote the code, I never thought about using
-__filemap_get_folio(), but I probably should have done it.
-
-BTW,
-__filemap_get_folio(mapping, folio->index + (offset+length) >> PAGE_SHIFT,
-		FGP_LOCK | FGP_NOWAIT, 0)
-might be better:
-1. folio->index is needed to get the right folio2,
-2. nowait can us nonblocking.
-
-
->> +
->> +		/* Split failed: back off to the head of the straddler */
->> +		if (folio_split_or_unmap(folio2, split_at2, min_order))
->> +			end =3D folio2->index;
->> +		else
->> +			end =3D aligned_end;
->> =20
->>  		folio_unlock(folio2);
->> -out:
->> +out_put:
->>  		folio_put(folio2);
->> -no_split:
->> +out:
->> +		if (pend)
->> +			*pend =3D end;
->>  		return true;
->>  	}
->>  	if (folio_test_dirty(folio))
->> @@ -413,11 +455,8 @@ void truncate_inode_pages_range(struct address_spac=
-e *mapping,
->>  	folio =3D __filemap_get_folio(mapping, lstart >> PAGE_SHIFT, FGP_LOCK,=
- 0);
->>  	if (!IS_ERR(folio)) {
->>  		same_folio =3D lend < folio_next_pos(folio);
->> -		if (!truncate_inode_partial_folio(folio, lstart, lend)) {
->> -			start =3D folio_next_index(folio);
->> -			if (same_folio)
->> -				end =3D folio->index;
->> -		}
->> +		truncate_inode_partial_folio(folio, lstart, lend, &start,
->> +					     same_folio ? &end : NULL);
->>  		folio_unlock(folio);
->>  		folio_put(folio);
->>  		folio =3D NULL;
->> @@ -427,8 +466,8 @@ void truncate_inode_pages_range(struct address_space=
- *mapping,
->>  		folio =3D __filemap_get_folio(mapping, lend >> PAGE_SHIFT,
->>  						FGP_LOCK, 0);
->>  		if (!IS_ERR(folio)) {
->> -			if (!truncate_inode_partial_folio(folio, lstart, lend))
->> -				end =3D folio->index;
->> +			truncate_inode_partial_folio(folio, lstart, lend,
->> +						     NULL, &end);
->>  			folio_unlock(folio);
->>  			folio_put(folio);
->>  		}
->> --=20
->> 2.52.0
->>=20
-
-
-
-
---=20
-Best Regards,
-Yan, Zi
+[1]
+https://elixir.bootlin.com/linux/v7.3-rc3/source/fs/hfsplus/btree.c#L286
+[2]
+https://elixir.bootlin.com/linux/v7.3-rc3/source/fs/hfsplus/super.c#L60
 
