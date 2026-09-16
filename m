@@ -1,151 +1,221 @@
-Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946E64FECC8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 13:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A159C3E317F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 14:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789566870; cv=none; b=i7Ht98vP7h6WKMXjsKZENdgbG0A+b45A/saPUqSBNONJzfzpPLNqj964MyhduAsRtv5kwm2pNusFC1mhvTjcxmfGnGfudhD9PxGI7Q5KIH1KnHqgdLZI3IrWlsr/J0M64WabO6JOd7J8kctLrr9JkG0NA8t2+CXDefQHLk8qRUY=
+	t=1789567330; cv=none; b=CqqFaLTIQ/aT8Z1Rnx1THLZ35/tprpSyg0e7f3cBHbRVXyZDME2r5eLgRilHi8wp/muSJUZVOyKpUzWJzKG0yWyVj9qlgSMIXnY3KH3F4IOnDuUVo2xgMFQKeiy2SNs5mog83tkDT90S7aS69xzM/z7VR72n9j9+WqpPfz2Howk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789566870; c=relaxed/simple;
-	bh=jC/eT3Fgr/1jGBrC1VIZPt9+PlqYd+hn/B8/vrobjbo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JAvwLtRo1eEybWALfOUZEN92Brg5GJyZXlBBIhDMALEWlMyjxJwQz+hYZoFC3UV96XoCSQG7TbtRr2zyI6ZszhaWVH234XLJGEy3CYU9AXNT5A/pxA+XSlseCErWGtl4bh0Ha7og02nwNVA5ARwdXBglXaLO6pyCV6bDzmo96BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K0NCIdSm; arc=none smtp.client-ip=74.125.227.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789567330; c=relaxed/simple;
+	bh=b2xft+OKM2lLyQoaD18uV1GzD7Aiiqrxm6TJCdgd2P8=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=gZp0J3sbT3XP5D4LzdOdUESBvtL1IuQi5FZdPiTcoTiKbLDPo2n4Y9qoIUNpQAL+MoIwDRGXx8sTzaBuYED4xOrSBvk8jyejfjyfxdGQigBH3aiYBGhsuwJLa7ECpVdr36Odme8WlKzTmXCweS+lnDuxgwm1BK3Mw/3zVZL9Q9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=njiP/rxj; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K0NCIdSm"
-Received: by mail-pj2-f1.google.com with SMTP id d9443c01a7336-2cb3f5bb19aso21302865ad.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 06:54:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="njiP/rxj"
+X-KPN-MessageId: 2e5aacfe-b1d7-11f1-8f57-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 2e5aacfe-b1d7-11f1-8f57-005056992ed3;
+	Wed, 16 Sep 2026 16:01:57 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 2e59d1aa-b1d7-11f1-a07b-0050569981f5;
+	Wed, 16 Sep 2026 16:01:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789566862; x=1790171662; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ImWlbvVcHi4iWjIU7vTeQNiHcv8LdakD2zLIePBrQbQ=;
-        b=K0NCIdSmFO4cgBpDTzSLvdpksxO9lbypHHgNpfEEtLGCIbyWVlPq+3MvtBrkCQ4fLa
-         sUDwl3Kx/T4c7GYz2GsZcYmNLlDYkLhQmu5wKMwEIOdsIhjVFIrAuXJwKuUbaFYQtXKt
-         vKEOSD02ElnnziJWNJhvun9REhSS2wrAK/XyCnJ4z2fcXBuBB5ewiRyKGjroOmiBgjuO
-         3O1sc07O1IUWl6IPuMKSpPbyvs49EyzFg6qre1BlettVwmd4U7r/AxX06zZJ2av4lhGO
-         znQJ5RbgD3cUn4tLIHBCCCmylGEwGzUcsOEpNlHBikPpAMW6oW8h6W8O1Tx/aGqSwfLJ
-         n+mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789566862; x=1790171662;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ImWlbvVcHi4iWjIU7vTeQNiHcv8LdakD2zLIePBrQbQ=;
-        b=KP4i3DfAkoQNEKaHY8/gVrxz5/PdV/T20PSp86zDCRE75k5j1TGhH6wVXI1jRp7ql2
-         c/OEWB5sAlkbCDX94PKHsNFs6scRQjQDtG4SI/WUmglka0qYzicWd6/096/tOjA0nYg/
-         LSpo9L7n/CUwc8EPC8/FLsF6J2ZRS6U2KkHcKViWRC8LdB4B+3+chTecKO/Hw/6b6GN7
-         hceU+3bbWx/JlCHu2569HrJR0zXt7/MS6KavFb1zL+zNauW4TKPQPtPuP9II+zBa3yct
-         mkwomRf/qgXDYLVEP67OHIAimep8EXrkxLEw2I5EsFky4ATZyh4kJvbOZGS0V/+sX6/P
-         rKhA==
-X-Forwarded-Encrypted: i=1; AKwUvBwVKn0KRTlpd5Ls7xhZn3YgFFvDcHd4zHMShpaRxepRg7pyvzrwdenTZZiwuJb84df6tI8WcGdaqL8nT0yW@vger.kernel.org
-X-Gm-Message-State: AFuF++l9bWo4zmMn/QL6zW4iC67Xhjj8JX9zmOdG85i0xfacpcHpKlYh
-	Kj9hLSzQlxtz7REyznrlxJjeC0ktqaiFpsoO0EWq6c6qNrELv/u6Bz1g
-X-Gm-Gg: AYBFou2YiakH2P05ArSA2veRVta8IZvnMuE+z7rSStjR9V1GRvDmjW1AuSaX3kX1tLf
-	OYu0cK5o1PG1ksw5poUs0chffBc2ZkZ33lnmw+usnrdb/NxS2iMKXkkicraLIgo5RhPSRQi3clW
-	JgVQ+z+rv+EtA6TC7UfcRqvztuKiMbxe8419S7M8YtwQJNXMoV7XBsfgRPmd9YT2uRoIqS0xWl8
-	r4QBACC15tE0x/g0vV0CO/AW/infYOqD25BZJQb8oRnRu60aZTTW6EK9Zeksf5j6jJ5qXdwiHVn
-	cYcW7mh7kBiB50BB+FGhGZvO++f5j0S4UmWPSFnNvv26aUSRL/twBHfjA0/t4vZcCHKF7yPoIYt
-	UXJ2+ga/ov6Xc5EqJ/j7JA0AIc+J52cls2Xp7DcgMHoVj1FmFvzGaI84HRUaXdBfjp3NXNs9Zc5
-	0FZHbwSzK28bLAhjPpopQTah9tmZbdMlEPY/Ft5vzLATJNoe/6cnclK6Sk9HgCgpABSkQlE1ccX
-	HPBaiRTLFaN174yCr6ThJWW0onkselhdQ/h12kEs+L2HHGQ
-X-Received: by 2002:a17:902:f64b:b0:2c8:f34c:82c0 with SMTP id d9443c01a7336-2dd8dd0b0b9mr58603325ad.2.1789566862228;
-        Wed, 16 Sep 2026 06:54:22 -0700 (PDT)
-Received: from localhost.localdomain ([38.60.126.44])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd89f0592asm12070425ad.62.2026.09.16.06.54.17
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 16 Sep 2026 06:54:21 -0700 (PDT)
-From: Haobin Wu <853555@gmail.com>
-To: ericvh@kernel.org,
-	lucho@ionkov.net,
-	asmadeus@codewreck.org,
-	v9fs@lists.linux.dev
-Cc: linux_oss@crudebyte.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	aneesh.kumar@linux.vnet.ibm.com,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	jack@suse.cz,
-	willy@infradead.org,
-	dhowells@redhat.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Subject: [PATCH v2 2/2] 9p: skip directory entries with names longer than NAME_MAX
-Date: Wed, 16 Sep 2026 21:54:03 +0800
-Message-ID: <20260916135403.15789-3-853555@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260916135403.15789-1-853555@gmail.com>
-References: <20260916135403.15789-1-853555@gmail.com>
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=KNPF855LWyArwiBTo/NsLgkSqeHprkbCNAzYgmKihk4=;
+	b=njiP/rxjV4DV8RpS3k0wfi1drWVXVrMQZqKAwjkS7nlJVvwr/zp2Gt3YFLc2kcCwkA10+PxHM40e6
+	 uXtdPQG0PcgaczR0WPPdlCzscxyHxKjuittwRKn6cT0L7bG/hOy3Ce3vZmwKpjWxHSqoDyuKI3Daw8
+	 TudRJkg1N+LGETgFZg5SqYJbp2ju6zm1yXRGvOXJWcTaVW0Zjd6byWJ8evWA0o+MgtX2/2PQUU8IR+
+	 r5j1meM2ICepAFKYbhlMNdG0ViW73oW27uECOinzByDQbCiXMIch4wWDDxYEyBiHdpn+teodSrx4Ec
+	 5abbuftLBdfOpvjy/f6Xs9rZQoR5i5Q==
+X-KPN-MID: 33|C9zVEll4OUbKdsU5tNMIxsF3gEx17Vmw5PRawJ5JCL7AUMeW9ifqCtdXsNM3HFB
+ 6tTtNH1dUxlb77I1rfKLM/97GQWY73zLQfL/FaT+W9Ck=
+X-CMASSUN: 33|WSRBIeDpSsFYrliGnJ5yNIoq6U1lWyF+Pja11w6edSIvBSHUwA4F3WLUCJrWz3g
+ XLED+gCp3/aeJUBgdLfmGxQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 2e4af220-b1d7-11f1-8edc-00505699eff2;
+	Wed, 16 Sep 2026 16:01:57 +0200 (CEST)
+Date: Wed, 16 Sep 2026 16:01:57 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>, Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org
+Message-ID: <2052084198.1190749.1789567317791@kpc.webmail.kpnmail.nl>
+In-Reply-To: <178950702008.207413.8966334050259525793@noble.neil.brown.name>
+References: <20260910002934.192979-1-neilb@ownmail.net>
+ <20260910002934.192979-5-neilb@ownmail.net>
+ <aqlXZ7Gunepk_4uV@lt-jori.localdomain>
+ <178950702008.207413.8966334050259525793@noble.neil.brown.name>
+Subject: Re: [PATCH 4/7] vfs: change vfs_lookup_open() to return found
+ dentry in path.dentry.
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-The 9p wire format carries directory entry names of up to 65535 bytes
-and nothing on the client checks them against NAME_MAX. Since the
-previous patch, v9fs_dir_readdir_dotl() passes such names straight to
-dir_emit(), and the VFS only rejects names of PATH_MAX bytes or more in
-verify_dirent_name(), as -EIO, which again fails the whole getdents64()
-call.
 
-A name between NAME_MAX and PATH_MAX is therefore returned to userspace
-even though every later operation on it fails with -ENAMETOOLONG, and
-POSIX requires readdir() to only return components of at most NAME_MAX
-bytes. Nothing can use such an entry, so skip it instead of returning it
-or failing the listing, reusing the strlen() result that was already
-computed for dir_emit().
+> Op 15-09-2026 23:17 CEST schreef NeilBrown <neilb@ownmail.net>:
+> 
+>  
+> On Wed, 16 Sep 2026, Jori Koolstra wrote:
+> > On Thu, Sep 10, 2026 at 10:20:50AM +1000, NeilBrown wrote:
+> > > From: NeilBrown <neil@brown.name>
+> > > 
+> > > The caller - nfsd - needs to know the type of object found when a
+> > > non-regular file was found to exist.  This is most easily done
+> > > by passing back the dentry.
+> > > 
+> > > So change calling pattern so that the path (now called "path") contains
+> > > the parent dentry on entry and the child dentry on exit.
+> > > vfs_lookup_open() will dput() the parent and caller must dput() the
+> > > child.
+> > > 
+> > > If lookup_open() returns -EFTYPE (from ->atomic_open()) we need to
+> > > use d_lookup() to find the dentry.  If ->atomic_open() didn't add a
+> > > dentry to the dcache we return %NULL in %path->dentry.
+> > > 
+> > > Signed-off-by: NeilBrown <neil@brown.name>
+> > > ---
+> > >  fs/namei.c | 31 ++++++++++++++++++++++---------
+> > >  1 file changed, 22 insertions(+), 9 deletions(-)
+> > > 
+> > > diff --git a/fs/namei.c b/fs/namei.c
+> > > index 0c787363b101..30ccc0c2f02f 100644
+> > > --- a/fs/namei.c
+> > > +++ b/fs/namei.c
+> > > @@ -4606,7 +4606,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+> > >  
+> > >  /**
+> > >   * vfs_lookup_open - open and possibly create a regular file
+> > > - * @parent: directory to contain file
+> > > + * @path: directory to contain file
+> > >   * @last: final component of file name
+> > >   * @open_flag: O_flags
+> > >   * @mode: initial permissions for file
+> > > @@ -4619,9 +4619,15 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+> > >   * If the fs object found is not a regular file then -EFTYPE is
+> > >   * returned.
+> > >   *
+> > > + * @path is updated to contain the dentry that was found if possible.
+> > > + * In particular, if -EFTYPE is returned, then @path.dentry will be the
+> > > + * object that is not a regular file, or %NULL.
+> > > + * Consequently the caller must be prepared for @path.dentry to be
+> > > + * dput(), an it must dput() whatever is in @path.dentry after the call.
+> > > + *
+> > >   * Returns: the opened struct file, or an error.
+> > >   */
+> > > -struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > > +struct file *vfs_lookup_open(struct path *path, struct qstr *last,
+> > >  			     int open_flag, umode_t mode)
+> > >  {
+> > >  	struct file *file __free(fput) = NULL;
+> > > @@ -4638,7 +4644,7 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > >  	mode |= S_IFREG;
+> > >  	open_flag |= __O_REGULAR;
+> > >  
+> > > -	error = lookup_noperm_common(last, parent->dentry);
+> > > +	error = lookup_noperm_common(last, path->dentry);
+> > >  	if (error)
+> > >  		return ERR_PTR(error);
+> > >  
+> > > @@ -4646,7 +4652,7 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > >  	if (IS_ERR(file))
+> > >  		return file;
+> > >  
+> > > -	nd.path = *parent;
+> > > +	nd.path = *path;
+> > >  	nd.last = *last;
+> > >  	nd.flags = LOOKUP_OPEN;
+> > >  	if (open_flag & O_CREAT) {
+> > > @@ -4658,9 +4664,18 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > >  	op.mode = mode;
+> > >  	dentry = lookup_open(&nd, file, &op);
+> > >  
+> > > -	if (IS_ERR(dentry))
+> > > +	if (IS_ERR(dentry)) {
+> > > +		if (dentry == -EFTYPE) {
+> > > +			/* Try to determine what was found */
+> > > +			struct dentry *child = d_lookup(path->dentry, &nd.last);
+> > > +			dput(path->dentry);
+> > > +			path->dentry = child;
+> > > +			WARN_ON_ONCE(child && d_is_reg(child));
+> > > +		}
+> > >  		return ERR_CAST(dentry);
+> > > -
+> > > +	}
+> > > +	dput(path->dentry);
+> > > +	path->dentry = dentry;
+> > >  	if (d_really_is_negative(dentry)) {
+> > >  		error = -ENOENT;
+> > >  	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
+> > > @@ -4668,10 +4683,8 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
+> > >  	} else if (!d_is_reg(dentry)) {
+> > >  		error = -EFTYPE;
+> > >  	} else if (!(file->f_mode & FMODE_OPENED)) {
+> > > -		nd.path.dentry = dentry;
+> > > -		error = vfs_open(&nd.path, file);
+> > > +		error = vfs_open(path, file);
+> > >  	}
+> > > -	dput(dentry);
+> > >  
+> > >  	if (error)
+> > >  		return ERR_PTR(error);
+> > > -- 
+> > > 2.50.0.107.gf914562f5916.dirty
+> > > 
+> > 
+> > OK, so if I understand the problem correctly: the current implementation
+> > does not work for the purposes of NFS because ->atomic_open() may return
+> > EFTYPE on O_REGULAR and then you still don't know what that found dentry
+> > was.
+> > 
+> > An arugument with such specific calling conventions feels kinda yucky
+> > and easier to get wrong. Why not an out enum arg that specifies the
+> > found dentry type? Seems at least a bit cleaner. What do you think?
+> 
+> I'm alternating between an out dentry arg separate from path, and
+> reliably returning one of -EISDIR, -ELOOP, and -EFTYPE.  Those are
+> all well defined error codes that are used for exactly this sort of
+> thing.
 
-Suggested-by: Dominique Martinet <asmadeus@codewreck.org>
-Link: https://lore.kernel.org/all/vz5bum547fqyxf5z4m3x7tuqkuq52jlopm65t7hvynqeulh7i3@2t4wnhfxs7qv/
-Assisted-by: Claude:claude-fable-5-1
-Signed-off-by: Haobin Wu <853555@gmail.com>
----
- fs/9p/vfs_dir.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+It's only internal callers anyway, so I would take the leeway with some
+errno proliferation. Seems fine to me, especially since NFS needs exactly
+this info.
 
-diff --git a/fs/9p/vfs_dir.c b/fs/9p/vfs_dir.c
-index af00b79d801e..ad6fdc99883d 100644
---- a/fs/9p/vfs_dir.c
-+++ b/fs/9p/vfs_dir.c
-@@ -173,6 +173,7 @@ static int v9fs_dir_readdir_dotl(struct file *file, struct dir_context *ctx)
- 		}
- 
- 		while (rdir->head < rdir->tail) {
-+			size_t namelen;
- 
- 			err = p9dirent_read(fid->clnt, rdir->buf + rdir->head,
- 					    rdir->tail - rdir->head,
-@@ -182,10 +183,14 @@ static int v9fs_dir_readdir_dotl(struct file *file, struct dir_context *ctx)
- 				return -EIO;
- 			}
- 
--			if (!dir_emit(ctx, curdirent.d_name,
--				      strlen(curdirent.d_name),
--				      QID2INO(&curdirent.qid),
--				      curdirent.d_type)) {
-+			namelen = strlen(curdirent.d_name);
-+			if (namelen > NAME_MAX) {
-+				p9_debug(P9_DEBUG_VFS,
-+					 "skipping entry with %zu byte name\n",
-+					 namelen);
-+			} else if (!dir_emit(ctx, curdirent.d_name, namelen,
-+					     QID2INO(&curdirent.qid),
-+					     curdirent.d_type)) {
- 				kfree(curdirent.d_name);
- 				return 0;
- 			}
--- 
-2.54.0 (Apple Git-157)
+> My current thought is to modify ->atomic_open to respond to __O_REGULAR
+> either by calling finish_no_open() so the caller can inspect the dentry
+> directly, or to return one of those three errors as appropriate.
+> VFS code can map them all to -EFTYPE for syscalls, and nfsd can use the
+> raw error code.
 
+Personally, I like this last idea the most. Still, I wish there was a more
+general way to signal XYZ problem happened during function call without any
+worrying about collisions on the very limited errno space. I understand that
+you can decouple the local error codes returned by not directly forwarding
+any errnos from called functions, but this is often impracticable or at
+least requires an ugly errno translate.
+
+Interested on perspectives from kernel veterans here what is wisdom, I've ran
+into this myself too.
+
+Jori. 
+
+> 
+> Thanks,
+> NeilBrown
