@@ -1,139 +1,170 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF884AB3DF;
-	Wed, 16 Sep 2026 15:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6F14B2CA0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 15:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789573990; cv=none; b=WDWCM2BTh9MvYREyt6ljAqttfQ+WxxfiB0iBsizOx51+H/KTaTcUcPb31MWwDtKpi/I63zZ4NPL5wVwy7QoAXfm/hINsy30F9j17UGiGFd7wbfak277a9DJh4IrV+YXeBAF3T+eCVJbdJ1XicW2H0UqnSXBYZ91Wyae+uDkQE2s=
+	t=1789574327; cv=none; b=txqBnVVFfKZ9HUPgvNURPwFOjlkIpd3j61Ak27EAgX+B10QxHcSVMT/pHQkL0d8v9fpC8OZV1uacuzXAKVGXDdBQsQehOysGD8pmgWZuIVXmlVstR4gjOVy5hFn4znXvOAtZ9tjVmI+AWjyyBzVQ2w2YEYva4bdz0renkCPZftw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789573990; c=relaxed/simple;
-	bh=dataTan/ZXK5BwZivXrAZme5lbqY0TVdliRvlvdywFM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=psncD3jn0oUavVkVx6HDUO/EtjndDO583N2QSIKvrI1nrFOr8CxSTO6FkLoe9x/yKbOp5E38RZzdsp9xkGFATcOFPJ4sq3xBFotS98H4krg6YXUqKGS1lLElqL5Dtfrocf20IUKxX+aWa80o0eZOsYF47NVn7VNF8AZkGGgvsGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=VifcbxNy; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1789574327; c=relaxed/simple;
+	bh=+6aMjHH+Jl+Ml/kjCyAc+ni40OSaFZs1senFwZLmkis=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IkvYLJOf9xvJ4jYD8vwecZZmcdV7T+Ic29C7p7+X6JOaxLH7lrWtnyhx06mQiB/ExILnUtitL0E21eikBHN0b8AYMvVgvqoSAQM/5oxGXOA2iuUUnGicUcGJgf/+q4SSigYYYI3BDuvNbA+vEScJKpGQsgZFQYMrWzjT6BG81Tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=mxy947Qa; arc=none smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="VifcbxNy"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=jW3EbuhQ9iZIHmNBC87FNoVwi6iyoQcMLiW7EUWxFww=; b=VifcbxNyGWbunNuYnrn0caisFm
-	smWTwAuo5gkP12+INmGZ80i5mq1Rp8MXF2yTL/teQ0iRTrakUedv4BKazS4wgadjERv0nElms+2z6
-	OAklmn4YlC+5/ShBtYDKQf7pumDg88tcJRfJt++YxyGWHlhaiRPLGePjhH6KP09UwWCLUT9qR8N/x
-	3Md2uc+j2bDDgzaJOU4DOKpLCnwt3CDOzX80+QHOS2B6AiaFNkZC+V6/5X5GvhgC5NafoiBxyGigz
-	7/9zZwibf/6w5bPwLXWrrbZzNQR8+7TWwnjL7QNiK48PtAi+rnSkTjyBDe1LmI7sxN6v/caGVAbnr
-	tQWHZA6A==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1x6rwR-005HHv-22;
-	Wed, 16 Sep 2026 15:53:00 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Wed, 16 Sep 2026 08:51:02 -0700
-Subject: [PATCH v2] splice: pass a poll key when waking pipe readers and
- writers
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="mxy947Qa"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-9104e54b1abso10415776d6.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 08:58:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1789574314; x=1790179114; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bjcBGUR39i2CtxsYZA+y8R1kv00jh+PXwHXxQnV1eiQ=;
+        b=mxy947Qail07AL9t2Ag0dSp7kFCQr+bAzVIypiyzW0zASsfINssXUmISG1WGaiaxL9
+         zMAIp6+RhmhTn4fPH+98BVQ7RIBBHGYvMJyFE+4/n6rubXroqjT1ofD3x7gSLqKAsZIL
+         Sq92DQFsU8zhBvSCtlYaBNSrEQh18Awe6Omn32t82761kFBwE7EL0rqpnQ4QvucznX+z
+         o8o1c48JZ+9pIgd8xih/5XrUvEGwFXbv3XaphihX05pMeqPSiqKen08/YeZdeXsOBFdD
+         Tvnxc2uOOrhqL56m59ngfpsIWwWFEH4NN1GvRoGx6uZ82TmniIt7+/aD/m5d6CO3Xwhi
+         bGRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789574314; x=1790179114;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bjcBGUR39i2CtxsYZA+y8R1kv00jh+PXwHXxQnV1eiQ=;
+        b=wfEOotbfeF4uFfBDB3gIs34Ad/j1Sg8+/vcQbNEqpmHA+CpRSLEQ486qi+GBj2LiB0
+         g8EAh1JEr+OjissibCtQu1cY3tRkrP2Ycrz3NGHOjSBHZgIjU9eJwJuLpN11oH4pSl7Q
+         hFtn679UrlTO2Ij2NZSWfSatdreiefVAOt12kUv16AdcnFtpwnCtf8QOucGPk+mZ/sWM
+         OJoeTgtzRH3vpaDcZnbBLlZBJ0JGsL3M2/wXhaADu0deVU+VgOf97N/50sH/tSYDF6n2
+         FF4LUHfd+EX6bZ9+2eD4VHU3qZX9oi1Df21IZSr73Pr7d3/fcKZtafoWqad0mmmX6g72
+         Z0bg==
+X-Forwarded-Encrypted: i=1; AKwUvBylFTx9A2CTl83N8OYG8Bcn3nu9m9hicZgI57q7vNh45SLWw6yeCjH4pG/3g8YJH5kHvaCn1X5q2l+HZtph@vger.kernel.org
+X-Gm-Message-State: AFuF++mYzHg+dEjx4X365BjzGvoEJPVPh5wq5jv+kwGcmd3BeFQ6GjD9
+	w789iqvhb3GChMtt0ZvIvtNqy337eghKtD/PueuIeLLyDLy0oaG37RVNe/r4mbv6xcQ=
+X-Gm-Gg: AYBFou2UlGzyFEyS3V1M6wa2yDRdjlY+DExAV6xUnsKGJpM/g7j0RrnMV2kZONISsI+
+	ftJAerEHCxQTbx0hFFGQjTrO41NT1cUdVaXqUA1t1Ok9UY9CwU03Rz/blxiyc5fst/PRUcA8+nD
+	1IwOCmKi4mTXLkg2+ViUmO6TzZ1KMHJXoh+V1fBscl+pBHcsqSSFduzHfMTuk/UPp6QUit1Gccr
+	HkenfVx3E5v85JVbtsM6Pth7DrpJrBwgISNKYISElhS8Q3QMZDWevtYcG22eMZUSpgwZ4U7YNMV
+	4gGBWSDWNEa6nTn6itzlVyrFQYC6zc48ht6FmDsoLo8+t8tuZyT/csZZQaqCJoIpc9E5KQV81yn
+	JhXcWVf9Tz6MK5hr79F6CW6Fdy+LW+EZq5gNx5WlUQnpo/6Skw/CFkvaNLni7mIhSA4dK3Q6iG6
+	56anTyjtvCOaDPVQo8cpm2Ete17WbSobnDGiJLMl8hnULDaHAXlaTjsgHEcemH0cAkFPM01A==
+X-Received: by 2002:a05:6214:1248:b0:90e:96d1:40d3 with SMTP id 6a1803df08f44-9123d7a5b32mr54271566d6.20.1789574313980;
+        Wed, 16 Sep 2026 08:58:33 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9123be609dcsm28537916d6.15.2026.09.16.08.58.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 08:58:32 -0700 (PDT)
+Date: Wed, 16 Sep 2026 11:58:29 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Salvatore Dipietro <dipiets@amazon.it>, akpm@linux-foundation.org,
+	abuehaze@amazon.com, alisaidi@amazon.com, blakgeof@amazon.com,
+	brauner@kernel.org, brendan.jackman@linux.dev, david@redhat.com,
+	dgc@kernel.org, dipietro.salvatore@gmail.com, djwong@kernel.org,
+	hch@infradead.org, hch@lst.de, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-xfs@vger.kernel.org, mhocko@suse.com, ritesh.list@gmail.com,
+	rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
+	willy@infradead.org, ziy@nvidia.com
+Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly
+ __GFP_NORETRY allocations
+Message-ID: <aqq8pWI0u1IZNWHT@cmpxchg.org>
+References: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
+ <20260910114602.926944-1-dipiets@amazon.it>
+ <aqQlUr-1h07G8JWM@cmpxchg.org>
+ <8d6a8a63-4adc-458a-b548-a47bf5ff8eb7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260916-b4-splice-poll-key-v2-1-da9ff83469c3@debian.org>
-X-B4-Tracking: v=1; b=H4sIAOW6qmoC/22Nyw6CMBBFf4XM2jEtL8GV/2FY0HaAUUJJi0RC+
- HcLxp3Lk9x7zgqeHJOHa7SCo5k92yFAfIpAd/XQErIJDLGIc1HKDFWKfuxZE4627/FJCyp9MZk
- RRjR5AeE4Omr4fUjv1Zf9Sz1IT7tpX3TsJ+uWozrLffcL5P8Cs0SJaVLUskwySY26GVJcD2frW
- qi2bfsA4awsBMcAAAA=
-X-Change-ID: 20260915-b4-splice-poll-key-bc7d5d0d0f68
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: mjguzik@gmail.com, oleg@redhat.com, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-team@meta.com, 
- Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2173; i=leitao@debian.org;
- h=from:subject:message-id; bh=dataTan/ZXK5BwZivXrAZme5lbqY0TVdliRvlvdywFM=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqqrtX73Ed3WFzwAeUU78TPui5Ecu6XlT5bGZmV
- Atu9D2naQCJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaqq7VwAKCRA1o5Of/Hh3
- beTyEACm0JQJZzhE1jkmPsFN/BSz1iwkDtk4C6LrtO1KfyNWr0MwKB8zuMPmX8LESWPbC96Fd73
- FhMqhlLddNhuY/Y5PSTWVsmBE+qznJrmIm7rktFYdYcArHmjnpXRB7oxmOwifhXXpCIiSFgOx6J
- Kvp4K5pS7GwtqbICmgiPcOP+BVatardgv3n69CSYVf6iiXEwpuW2YpgolFTJ5IClQf5AT97RFss
- 4ybXiquG3KXfzmDc1DcU5za7iE3YnsdRUW4OapFwO0/hZvdgrVAMVqsGnY5KCK+6UspB8TqhYUQ
- 6e8bzaCL7WQUGEA/GRkIOMgicAK4pSElqW7hWv+N3K7knwFfcCbIgLnxlCf6KTM9PLqHXIFk+Ax
- WBAbjbh18P9kSmBTSsixCZRJBoNS7S/bbyxQbFerZyP/GThK5WLe+WC6sVi8V4VKB9nhdkdqMXR
- iGrRFBMRRiAocxfY5NZGse0KNkHP+nctqGOCMhI/Umb/78tliI/kwUuZn4p2/6bnrhsfMPU1TOn
- /OwLHP2EWyRjWBMnlPGT1QudlVRf/N1yIBiRFdPVHqU1Kg2IpTMLCkH8SoLxan5j8vHnsltuDGH
- GI1DUadzVM9nHrCsRikFEbSgMOFmyndqqvCalWlEODsO3YZ26oPs3BQjGA6AY3Bg4dPQEH8dsIc
- 57mDtTRYVS3yoDA==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8d6a8a63-4adc-458a-b548-a47bf5ff8eb7@kernel.org>
 
-wakeup_pipe_readers() and wakeup_pipe_writers() wake the pipe wait queues
-with a NULL key.  ep_poll_callback() and pollwake() only filter on the
-registered event mask when a key is supplied, so every epoll, poll() and
-select() waiter on the pipe is woken, whether or not it asked for the
-event that occurred.
+On Wed, Sep 16, 2026 at 01:24:31PM +0200, Vlastimil Babka (SUSE) wrote:
+> On 9/11/26 17:59, Johannes Weiner wrote:
+> > The access to
+> > MIGRATE_HIGHATOMIC that it points out is in itself too generous. This
+> > seems like a real but separate bug. It will allow GFP_TRANSHUGE_LIGHT
+> > into the highatomic reserves as well, for example.
+> 
+> I don't follow this part. For ALLOC_HIGHATOMIC you need __GFP_HIGH in
+> alloc_flags_nonblocking(). So GFP_TRANSHUGE_LIGHT won't get the access, no?
 
-anon_pipe_read() and anon_pipe_write() already pass EPOLLIN | EPOLLRDNORM
-and EPOLLOUT | EPOLLWRNORM when waking the same wait queues.  Do the same
-here.
+rmqueue_buddy() has this:
 
-This is not visible in common pipe use: ordinary pipelines move data with
-read()/write(), which already passes the key.
+			/*
+			 * If the allocation fails, allow OOM handling and
+			 * order-0 (atomic) allocs access to HIGHATOMIC
+			 * reserves as failing now is worse than failing a
+			 * high-order atomic allocation in the future.
+			 */
+			if (!page && (alloc_flags & (ALLOC_OOM|ALLOC_NON_BLOCK)))
+				page = __rmqueue_smallest(zone, order, MIGRATE_HIGHATOMIC);
 
-While here, both helpers open-code wq_has_sleeper(); use it instead.
+It says "atomic", but it's checking only ALLOC_NON_BLOCK, which is
+broader than GFP_ATOMIC. alloc_flags_nonblocking();
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
-Acked-by: Oleg Nesterov <oleg@redhat.com>
----
-Changes in v2:
-- Use wq_has_sleeper() helper, as suggested by Oleg Nesterov
-- Link to v1: https://patch.msgid.link/20260916-b4-splice-poll-key-v1-1-438a19351efb@debian.org
----
- fs/splice.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+	if (gfp_mask & __GFP_DIRECT_RECLAIM)
+		return 0;
 
-diff --git a/fs/splice.c b/fs/splice.c
-index 9d8f63e2fd1ab..65f9090c3438c 100644
---- a/fs/splice.c
-+++ b/fs/splice.c
-@@ -177,9 +177,9 @@ static const struct pipe_buf_operations user_page_pipe_buf_ops = {
+	if (gfp_mask & __GFP_NOMEMALLOC)
+		return 0;
+
+	alloc_flags |= ALLOC_NON_BLOCK;
+
+	if (order > 0 && (gfp_mask & __GFP_HIGH))
+		alloc_flags |= ALLOC_HIGHATOMIC;
+
+So this can apply to random !direct_reclaim requests, no?
+
+I have to correct myself on GFP_TRANSHUGE_LIGHT because it happens to
+include __GFP_NOMEMALLOC, and so won't actually get ALLOC_NON_BLOCK.
+
+But what about random GFP_NOWAIT and & ~__GFP_DIRECT_RECLAIM sites?
+Those explicitly don't get watermark exemptions already, and weren't
+the intent of the rmqueue_buddy() exemption above.
+
+Something like this?
+
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 12fac9084c48..c79cc7aa4dff 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -3246,7 +3246,8 @@ struct page *rmqueue_buddy(struct zone *preferred_zone, struct zone *zone,
+ 			 * reserves as failing now is worse than failing a
+ 			 * high-order atomic allocation in the future.
+ 			 */
+-			if (!page && (alloc_flags & (ALLOC_OOM|ALLOC_NON_BLOCK)))
++			if (!page && ((alloc_flags & ALLOC_OOM) ||
++				      ((alloc_flags & ALLOC_MASK_ATOMIC) == ALLOC_MASK_ATOMIC)))
+ 				page = __rmqueue_smallest(zone, order, MIGRATE_HIGHATOMIC);
  
- static void wakeup_pipe_readers(struct pipe_inode_info *pipe)
- {
--	smp_mb();
--	if (waitqueue_active(&pipe->rd_wait))
--		wake_up_interruptible(&pipe->rd_wait);
-+	if (wq_has_sleeper(&pipe->rd_wait))
-+		wake_up_interruptible_poll(&pipe->rd_wait,
-+					   EPOLLIN | EPOLLRDNORM);
- 	kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
- }
+ 			if (!page) {
+diff --git a/mm/page_alloc.h b/mm/page_alloc.h
+index b9259deddb59..11714ddca254 100644
+--- a/mm/page_alloc.h
++++ b/mm/page_alloc.h
+@@ -60,6 +60,9 @@
+ /* Flags that allow allocations below the min watermark. */
+ #define ALLOC_RESERVES (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE|ALLOC_HIGHATOMIC|ALLOC_OOM)
  
-@@ -413,9 +413,9 @@ EXPORT_SYMBOL(nosteal_pipe_buf_ops);
- 
- static void wakeup_pipe_writers(struct pipe_inode_info *pipe)
- {
--	smp_mb();
--	if (waitqueue_active(&pipe->wr_wait))
--		wake_up_interruptible(&pipe->wr_wait);
-+	if (wq_has_sleeper(&pipe->wr_wait))
-+		wake_up_interruptible_poll(&pipe->wr_wait,
-+					   EPOLLOUT | EPOLLWRNORM);
- 	kill_fasync(&pipe->fasync_writers, SIGIO, POLL_OUT);
- }
- 
++/* Flag combination from GFP_ATOMIC */
++#define ALLOC_MASK_ATOMIC (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE)
++
+ /*
+  * Structure for holding the mostly immutable allocation parameters passed
+  * between functions involved in allocations, including the alloc_pages*
 
----
-base-commit: 587858367581b9c55c3690f4e63382ad622719d4
-change-id: 20260915-b4-splice-poll-key-bc7d5d0d0f68
+> Unless I'm mistaken about that MIGRATE_HIGHATOMIC part, it seems all sashiko
+> concerns can be dismissed and then indeed v4 is the better version.
 
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
-
+It looks like a real issue to me, but one that already exists
+independent of Salvatore's change.
