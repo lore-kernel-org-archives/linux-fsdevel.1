@@ -1,101 +1,190 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1F14E3EF7;
-	Wed, 16 Sep 2026 16:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28BA495ADA;
+	Wed, 16 Sep 2026 16:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789576087; cv=none; b=gLR/Y91AHydTy+HnD2JWAM31lRgtzmkzDi9YFEKnIV851yq8vyosYU0fSvPXQO9hXhVzs/JYzc50JjUv6SkSKU9Rb3+IYS80QDr3+28+dNAKp4U1IfMAAGKqVNwHRuaUcDqLQpga8vEqf7QbyApUPijTh47KJiAdhui9hkMoQ20=
+	t=1789576504; cv=none; b=ECI5541sS4r5ea7m6fbN4HXQl4Pd2UIMDMaG5PNFpNm3wqLZheso8jBZe84KbDLAMPgGptc9xsNv5pOhRlTxjBXxnb31Sa+UQisjyh/kRYkP0beaiQGLydbbnm6cZJpkV8TNRT+wYMhzRC8F6qNmc52akGCi6kWDlbLOOMRXMAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789576087; c=relaxed/simple;
-	bh=v+YH3yZPXX23orZuHsSIFyNBZE+otvtheGPJKsk4S7k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M0uU6KBeEHfogfiqPdnF8el+4zw6dxG1mchl6L/xOjw481Y3rfLJ08xv1domCjUp9bK88eGtCiyG/TUWFVeF+YEehBULQbWSBlV23GktvFrNWjMpcKQvFnd5W5AusOmITNHK2gKyjUUtPlNuG2vbGFZzegrbhdu+ju4oKBiqKQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MYoC32Ma; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789576504; c=relaxed/simple;
+	bh=VwFNI6/7CDbLpIgbrA2FvbFm9cHagLP4+yu+czc8LIo=;
+	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
+	 Content-Type; b=HVaMIdp2Tb+pQEw8LGDy2HjwSnK3Lb5mdVM3YChL8Sx6mDokwEMGA1P/1LPClyAz3Q+RTkEGxEHjrgpDEe9hV6d897nHYmaK3qGudzb80/iqLA56P92DbwIbpSgEF6/OZ0L69LAnyfp50nghyzjyJGnp6H59EVNE+8gBeY1x/ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=aY/OhHzd; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=sYi6gYY+; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MYoC32Ma"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=XeMuHz9L3o84HRGeotYyUHn6FZauhqILbGmQBe2dDms=; b=MYoC32Mabv+JwyI5UU+dcCFhDU
-	1KhbGSiCxO2o+794mXo5pj31oJzpuTSaDCRUz++LppEHEYuSFp3rJF38uRQhDqybWIAZpBj9RsrPQ
-	fNeKt9eGgjasvXYESP550Qj6JCqYGVVqNKFF4g054Kv5NESOoK01pVOtJGqA1cFFRJU/u16osc4iv
-	98dIBU38gw25pwifsotx6OVfUatuMOMePjcXGj6Orb0E2oVLRRzDJBniHETHJMq52ygYLUUgZIYX/
-	mSm+WDHueQYoRFUJ+a2UAZnaq9hZdqZ6n4R54r8c4C+WvXIEfcfrxXDnlOtKWGNGZWmqahUBALfmF
-	g9fQcz7A==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6sU2-00000005LUz-1s9o;
-	Wed, 16 Sep 2026 16:27:42 +0000
-Date: Wed, 16 Sep 2026 17:27:42 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: akpm@linux-foundation.org, David Hildenbrand <david@kernel.org>,
-	Boris Burkov <boris@bur.io>, Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>, Usama Arif <usama.arif@linux.dev>,
-	Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [RFC PATCH 0/5] mm: sub-folio dirty tracking for PTE-mapped mmap
- writes
-Message-ID: <aqrDfoFFr8o0Mf0G@casper.infradead.org>
-References: <20260903182943.662461-1-kirill@shutemov.name>
- <ap6LFvuOuWf_BkGi@thinkstation>
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="aY/OhHzd";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="sYi6gYY+"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1789576483; bh=asvvqezsk0xdwWXAIJR1xyj
+	WRr4hzYflU1xpxJJzlQw=; b=aY/OhHzdEzJVN9O0/JvTyfDM/qAVy2/bmF6zphlE8u4rR8Utp3
+	5YIyCdIOyhG+pkJqX/BoRW0ZEvvc6r8dyxCJZiapPt4MVDrWjt+0WCe4bXqwOMzZoBnl9pe2uHg
+	RytT2ROfkoTbVmWDgTpKRJn7gzLSVhnVIn/sCYGceCigHhK/C1Sziako4twALr0q7LZDukGOY/i
+	Z70JQ/1S/EughJOwf6KJuCIcuP/ZNLGH8svdtiJwIthi4/GjyuOjG3hFMlL6dfkang9UR9zITa/
+	A2hMsolRzg3F7/ksMPmVYmAfbaugfpe6GftOgFVj8mOT+N8jOt8YTfrg2JApiBJWQtA==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1789576483; bh=asvvqezsk0xdwWXAIJR1xyj
+	WRr4hzYflU1xpxJJzlQw=; b=sYi6gYY+Nq33pisneyhiC0kmbaii2zlRVF8kY0q6zUa25gGLEr
+	FXrmJCHf1/k1N8UawHeuPUjea9ANPlhYUYBw==;
+Date: Wed, 16 Sep 2026 17:34:44 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: joel.granados@kernel.org
+CC: include@grrlz.net, kees@kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sysctl: Use replace **void with **char in proc_put_*
+In-Reply-To: <20260916-lklm-sysctl-void-vs-char-v1-1-c3f8b2eb8b1e@kernel.org>
+Message-ID: <BEC35EDB-CFB7-4F33-ABA4-6669D053148F@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ap6LFvuOuWf_BkGi@thinkstation>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 07, 2026 at 11:15:15AM +0100, Kiryl Shutsemau wrote:
-> Boris pointed me to Matthew's proposal to remove ->dirty_folio:
+On 16 September 2026 12:44:28 BST, Joel Granados <joel.granados@kernel.org>
+wrote:
+>Replace **void argument with **char in the proc_put_* functions. These
+>are leftovers from before commit 32927393dc1c ("sysctl: pass kernel
+>pointers to ->proc_handler") where a cast to char __user** from void
+>_user** was needed before the put_user call.
+>
+>Suggested-by: Bradley Morgan <include@grrlz.net>
+>Signed-off-by: Joel Granados <joel.granados@kernel.org>
+>---
+> kernel/sysctl.c | 34 +++++++++++++++-------------------
+> 1 file changed, 15 insertions(+), 19 deletions(-)
+>
+>diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+>index 25577ffc2801267cc69df60a1064ada9efd4b97d..1fefe18bf84e790433a1abf71a4b158f3c1f729f 100644
+>--- a/kernel/sysctl.c
+>+++ b/kernel/sysctl.c
+>@@ -332,7 +332,7 @@ static int proc_get_long(char **buf, size_t *size,
+>  * In case of success @buf and @size are updated with the amount of bytes
+>  * written.
+>  */
+>-static void proc_put_long(void **buf, size_t *size, unsigned long val, bool neg)
+>+static void proc_put_long(char **buf, size_t *size, unsigned long val, bool neg)
+> {
+> 	int len;
+> 	char tmp[TMPBUFLEN], *p = tmp;
+>@@ -347,15 +347,12 @@ static void proc_put_long(void **buf, size_t *size, unsigned long val, bool neg)
+> }
+> #undef TMPBUFLEN
 > 
-> https://lore.kernel.org/all/aoyWln-Gt-yvZQkE@casper.infradead.org
-
-Thanks, Boris ;-)
-
-> I agree that the current ->dirty_folio() makes little sense and that
-> dirtying the folio can be bundled into ->page_mkwrite(), as they are
-> matched 1-to-1.
+>-static void proc_put_char(void **buf, size_t *size, char c)
+>+static void proc_put_char(char **buf, size_t *size, char c)
+> {
+> 	if (*size) {
+>-		char **buffer = (char **)buf;
+>-		**buffer = c;
+>-
+>+		**buf = c;
+> 		(*size)--;
+>-		(*buffer)++;
+>-		*buf = *buffer;
+>+		(*buf)++;
+> 	}
+> }
 > 
-> My proposal makes the distinction between making the folio writable and
-> making it dirty meaningful. ->page_mkwrite() allocates whatever is needed
-> on the filesystem side to track dirty state and drive writeback for the
-> *folio*, while ->dirty_folio_range() marks part of the folio dirty.
-
-Why do you think that's a meaningful distinction?  We create a writable
-PTE because we've taken a page fault for write.  There's probably a few
-naoseconds where the PTE is writable+clean before it becomes
-writable+dirty, but even then sometimes we do both pte_mkwrite() and
-pte_mkdirty() as an optimisation in the write fault path.
-
-> We can still drop ->dirty_folio(). A filesystem can provide
-> ->dirty_folio_range() if it wants fine-grained (sub-folio) dirty
-> tracking.
+>@@ -680,12 +677,12 @@ static int apply_conv_on_vec(const union proc_vec_conv conv,
+> 			     const struct ctl_table *table,
+> 			     const enum proc_vec_type data_type,
+> 			     const size_t data_size, const int conv_dir,
+>-			     const size_t buf_nbyte, void *buf,
+>+			     const size_t buf_nbyte, char *buf,
+> 			     size_t *buf_left_final)
+> {
+> 	int vec_left, err = 0;
+> 	size_t buf_left, nr_conv = 0;
+>-	char *data, *data_stage = NULL, *p;
+>+	char *data, *data_stage = NULL;
+> 	bool is_unsigned = data_type == PROC_VEC_UINT || data_type == PROC_VEC_ULONG;
 > 
-> A separate question is whether we want to avoid installing a writable PMD
-> entry for filesystems that want fine-grained dirty tracking. I have a
-> patch for this, but it deserves a separate discussion once we agree that we
-> want this for PTE-mapped folios first.
+> 	buf_left = buf_nbyte;
+>@@ -694,7 +691,6 @@ static int apply_conv_on_vec(const union proc_vec_conv conv,
+> 	if (SYSCTL_USER_TO_KERN(conv_dir)) {
+> 		if (buf_left > PAGE_SIZE - 1)
+> 			buf_left = PAGE_SIZE - 1;
+>-		p = buf;
 > 
-> Any feedback?
+> 		if (table->maxlen > data_size) {
+> 			data_stage = kmemdup(table->data, table->maxlen, GFP_KERNEL);
+>@@ -712,11 +708,11 @@ static int apply_conv_on_vec(const union proc_vec_conv conv,
+> 		bool neg = false;
+> 
+> 		if (SYSCTL_USER_TO_KERN(conv_dir)) {
+>-			proc_skip_spaces(&p, &buf_left);
+>+			proc_skip_spaces(&buf, &buf_left);
+> 
+> 			if (!buf_left)
+> 				break;
+>-			err = proc_get_long(&p, &buf_left, &lval, &neg,
+>+			err = proc_get_long(&buf, &buf_left, &lval, &neg,
+> 					    proc_wspace_sep,
+> 					    sizeof(proc_wspace_sep), NULL);
+> 			if (!err && neg && is_unsigned)
+>@@ -740,7 +736,7 @@ static int apply_conv_on_vec(const union proc_vec_conv conv,
+> 
+> 	if (SYSCTL_USER_TO_KERN(conv_dir)) {
+> 		if (!err && buf_left)
+>-			proc_skip_spaces(&p, &buf_left);
+>+			proc_skip_spaces(&buf, &buf_left);
+> 		if (!nr_conv) {
+> 			err = err ? : -EINVAL;
+> 			goto out;
+>@@ -1221,6 +1217,7 @@ int proc_do_large_bitmap(const struct ctl_table *table, int dir,
+> 	unsigned long *bitmap = *(unsigned long **) table->data;
+> 	unsigned long *tmp_bitmap = NULL;
+> 	char tr_a[] = { '-', ',', '\n' }, tr_b[] = { ',', '\n', 0 }, c = 0;
+>+	char *p = buffer;
+> 
+> 	if (!bitmap || !bitmap_len || !left || (*ppos && SYSCTL_KERN_TO_USER(dir))) {
+> 		*lenp = 0;
+>@@ -1228,7 +1225,6 @@ int proc_do_large_bitmap(const struct ctl_table *table, int dir,
+> 	}
+> 
+> 	if (SYSCTL_USER_TO_KERN(dir)) {
+>-		char *p = buffer;
+> 		size_t skipped = 0;
+> 
+> 		if (left > PAGE_SIZE - 1) {
+>@@ -1315,16 +1311,16 @@ int proc_do_large_bitmap(const struct ctl_table *table, int dir,
+> 						   bit_a + 1) - 1;
+> 
+> 			if (!first)
+>-				proc_put_char(&buffer, &left, ',');
+>-			proc_put_long(&buffer, &left, bit_a, false);
+>+				proc_put_char(&p, &left, ',');
+>+			proc_put_long(&p, &left, bit_a, false);
+> 			if (bit_a != bit_b) {
+>-				proc_put_char(&buffer, &left, '-');
+>-				proc_put_long(&buffer, &left, bit_b, false);
+>+				proc_put_char(&p, &left, '-');
+>+				proc_put_long(&p, &left, bit_b, false);
+> 			}
+> 
+> 			first = 0; bit_b++;
+> 		}
+>-		proc_put_char(&buffer, &left, '\n');
+>+		proc_put_char(&p, &left, '\n');
+> 	}
+> 
+> 	if (!err) {
+>
+>---
+>base-commit: 99156fbf3562bed74aa57d93b0b3eeec7c7f1ca6
+>change-id: 20260916-lklm-sysctl-void-vs-char-40a0aab31c3e
+>
+>Best regards,
+>
+Hmm, looks okay 
 
-It's very odd to be optimising for shared-writable-mmap.  This is a
-horrid model for I/O.  https://cs.brown.edu/people/acrotty/pubs/p13-crotty.pdf
+Reviewed-by: Bradley Morgan <brads@mainlining.org>
 
+--- Thanks!
+https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
