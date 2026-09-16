@@ -1,166 +1,244 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa2-f10.google.com (mail-oa2-f10.google.com [74.125.231.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B116B342538;
-	Wed, 16 Sep 2026 00:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E576435DA41
+	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 02:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789519270; cv=none; b=dUY0FdVr0exrJEzroe7SUjafV7yxgyq4cojbwdJhxhwpDYNhT6/tZDIfCeW1EZ9KpHzn+UWcAoF1aT4LIikTLyOcZOlZ2RSM9V2ITBrf5SU4MwtaDUPgR+17DZMeAB26R9hFvkPA0PJeSCTTXM2u6OF6fdCc1wq8fgtjMWuXsxA=
+	t=1789524942; cv=none; b=lsP6QxVhzJfBZJhALYaDgQWZQdzDhvp1P8ZGS92li24kZ6b/hsFE8VhjAO9Qus7R+NwElpaPtRQh8yYWapQAPiYkiw3nl52/J3yYC0gVjjuLBkbGk0bO9AqxA37z8XX04Yg2EKDM1GkiEz3F8QT1V1kah9b1n1F9bBczl5ucPDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789519270; c=relaxed/simple;
-	bh=PiYQJkAGkuJBIyzKHKtgcR6WQgdtYuoTQCzilchGnWs=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=t7H5uJX4wCQHoxL/0fZS3oKhXLd5fBMXQJ2HGsYsaMFBOmrif/3xEGFfxUzZ7o7ign6+boHVuURfhPUAB7pcmo1P0t1mIRnDMmMZHF5g8cyV2HKanlppZV8BhBeZ3yoGp5Of4KfGFnBYTD+yCRPh6ZgV6kulCosOcuUv5KRU0uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=sOZbLu5e; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="sOZbLu5e"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To
-	:From:Date:MIME-Version:From:Reply-To;
-	bh=NheJufshGj64fhQKNC2c1j1k0ck6W8lDGbWhTay9uUc=; b=sOZbLu5ewE2w8rWxU4D/CswcOx
-	vscT/TR8V1ChxhajcNhxsAxXX1GdIm1/RSRx7ubFcr0dhqE/e/Aer1+4AVYBL2AlOv1C4Q4APfSgV
-	bRUb14/0B5DwqRLMIYou200gkuWYkYtB9Mb8rQ6eSfBtDTDYS7QqI4UH9SzM8KxR8GhZrq7sMc/Bd
-	DSCwoISx0sN0zEwd5oiMfAhueKhCXJO8CRKnmS91PYW62IzBRAnIGt97wWKyLxiNvisbUFbYC3vBs
-	gLqbtDk2oQLAcdruS5xD7b4sKxqWd7Y/XGluJ1o57LoXxm07Kd4Y5Oari8tZ2vtnzM3eg77XVBp+Z
-	mnfwUndg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
-	by fanzine2.igalia.com with esmtps 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1x6dhc-002hgB-1A; Wed, 16 Sep 2026 02:40:43 +0200
-Received: from webmail.service.igalia.com ([192.168.21.45])
-	by mail.igalia.com with esmtp (Exim)
-	id 1x6dha-0087zL-Kq; Wed, 16 Sep 2026 02:40:43 +0200
-Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
-	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
-	(envelope-from <mfo@igalia.com>)
-	id 1x6dha-00000002ADJ-2w79;
-	Wed, 16 Sep 2026 02:40:42 +0200
+	s=arc-20240116; t=1789524942; c=relaxed/simple;
+	bh=2H60UeEyFUGtJ2Hs4Q/9QGKw7hhhE6EVirUtBXZOGQk=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Nq23a4eZaQCY4Y12JTCXXKYxAGPoL1Morw5jIRaS1ii9Ke5rrc75Zq6ylma9OJ3wDeyESvzUMb3QRg3/mtgNW6TMRdH67SuDTDqJYt8k/W6k1+a31RghQzLpF4mFWXak+wRALk/eFx4PF/Ul5W2Bx3U9tpKhCImJPLv37mtab9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa2-f10.google.com with SMTP id 586e51a60fabf-46ae9734a12so1377224fac.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 15 Sep 2026 19:15:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789524934; x=1790129734;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KW8L0IZy9f8Ym6HcpkcmLukANbz/LCl2l9Bg0IabelI=;
+        b=XcxronuET4EeD9LV65qGWYkhw7XRg5q7Z124TI7qUGexbGSrvARKYWJBOdqwlv1wLT
+         iX+ZzSWqUxN9QYYzD6PwDvTGyp6Ih1Be4z7Iwbwavixee7YBrD9FY6sx+unNEVSP9OYw
+         LF03/JHt/RMlwCqYEzA1hIZgBluCYXOcKeu2iy5VjFXZGAPFLjBYI5j8gTP+HPxqPofs
+         uR9s/3Fcg0FusqSoJXYlv/xdWabyCwbhc2OIby+2PqlqG6Gdaet/Rw6bQF2qoISzjhun
+         72D5YpIsoszqNjmxb50dkIHkoko7tVCOTZp5nfArAIEoXvNWglKu8d5bvsacIw3NDklU
+         /F+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxsGmnAXrLXtLQfsFaQ9Su6rdj6AZcXk7L2CXNgD6xlrKCZ27Q0Z0147MYNts42jJF9d3O42zGVheD2/RRi@vger.kernel.org
+X-Gm-Message-State: AFuF++kMzGAzLGQTkZULmpqjhZwspELHY76Ns4AJQAHnv76HsMYr2bA2
+	bgCrcL9YniC6eS0Zo8IaJMJdnPPges+vneqr0cqrrZm3Sive1d5dleUPbiIpgzi2TwquubHass2
+	x4hrh4PQtIdaP9cn7ERvTs2QSKFglxkPsQOwcju7X9182B1/vyTfTNvP4cNQ=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 15 Sep 2026 21:40:42 -0300
-From: Mauricio Faria de Oliveira <mfo@igalia.com>
-To: Joel Granados <joel.granados@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- kernel-dev@igalia.com, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, fsverity@lists.linux.dev,
- keyrings@vger.kernel.org, bpf@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
- lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, linux-sctp@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
- bridge@lists.linux.dev, mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
- virtualization@lists.linux.dev
-Subject: Re: [PATCH RFC v3 00/13] sysctl: add module aliases
-In-Reply-To: <uufwu7rqyxf7h55lgavcwrnylnq5gdbd7o5d7mfugrxpblds2d@adra5c2z22gg>
-References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
- <bpnqwggtidgiec5akns3fa5edbsvl7xf55dxabtwng2xspy4pn@ue554aii2ngk>
- <53155340c897560bfc67e61ba9568fd6@igalia.com>
- <mokz5pdtwswkyab4byfq7q7m6ac2g6ceoi6jflyxmaszaibzqa@su6m4kamtdpy>
- <b1a6cec17e7c828fcebe310ca2a0d25b@igalia.com>
- <rywhz6soawf5dzyui5g7dnbufsgpxr7ma7honuhejwgncemzrm@f32at7hl6ugm>
- <6e93af907298022f077126f1be7bd386@igalia.com>
- <uufwu7rqyxf7h55lgavcwrnylnq5gdbd7o5d7mfugrxpblds2d@adra5c2z22gg>
-Message-ID: <cdc75421500371a8839fe5347af5c103@igalia.com>
-X-Sender: mfo@igalia.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Report: NO, Score=-2.1, Tests=ALL_TRUSTED=-3,BAYES_50=0.8,KAM_DMARC_NONE=0.125,KAM_DMARC_STATUS=0.005
-X-Spam-Score: -20
-X-Spam-Bar: --
+X-Received: by 2002:a05:6808:170c:b0:4c5:12a4:ec8a with SMTP id
+ 5614622812f47-4ca4c2828e9mr1113235b6e.36.1789524934451; Tue, 15 Sep 2026
+ 19:15:34 -0700 (PDT)
+Date: Tue, 15 Sep 2026 19:15:34 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aa9fbc6.4c28b7d0.c1bba.0043.GAE@google.com>
+Subject: [syzbot] [fs?] possible deadlock in uvcg_format_bma_controls_store
+From: syzbot <syzbot+50560f9ba016e97e2023@syzkaller.appspotmail.com>
+To: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-09-10 04:29, Joel Granados wrote:
-> On Wed, Sep 09, 2026 at 02:29:30PM -0300, Mauricio Faria de Oliveira wrote:
->> On 2026-09-09 11:07, Joel Granados wrote:
->> > On Fri, Sep 04, 2026 at 02:45:23PM -0300, Mauricio Faria de Oliveira wrote:
->> >> On 2026-09-04 10:41, Joel Granados wrote:
->> >> > On Thu, Aug 20, 2026 at 06:22:13PM -0300, Mauricio Faria de Oliveira wrote:
->> >> >> On 2026-08-20 09:51, Joel Granados wrote:
->> >> >> > On Wed, Aug 19, 2026 at 03:16:13PM -0300, Mauricio Faria de Oliveira wrote:
->> >> >> >> This series adds 'sysctl:' aliases to modules that register sysctl tables; e.g.:
->> > <... snip ...>
->> >> > use the correct call moving forward?
->> >>
->> >> This scheme currently covers all modules, AFAIK, as it is wrapped in the
->> >> functions that register sysctl tables.
->> >>
->> >> On moving forward: usage of such functions in a way that breaks a
->> >> requirement of this series (e.g., failing to specify the template
->> >> table/path parameter(s), or not having constant initializers) hits a
->> >> build error, as the requirements are actually from the compiler.
->> >>
->> >> >> I guess that a different design could use MODULE_SYSCTL_TABLE() as
->> >> >> MODULE_DEVICE_TABLE(), declared per table instead of wrapped into
->> >> >> register sysctl functions.
->> >> >> However, it seems to require moving the value of the path argument (or
->> >> >> its template) into the macro and still referencing it in the function
->> >> >> (or its instantiation of the template), which adds obfuscation, to all
->> >> >> callers.
->> >> >>
->> >> >> What do you think?
->> >> > It might be that having it inside the module subsys is more work, but I
->> >> > believe that there is the right place to have it. I still don't see that
->> >> > adding a module specific arg to the sysctl register is a good thing.
->> >>
->> >> Ok, cool. I can work on a different design.
->> >>
->> >> Please just let me know whether you are OK with the remaining (above),
->> >> and I'll be happy to tackle this.
->> >
->> > What is "the remaining"?
->> 
->> I meant the rest of the email, addressing the points/questions you
->> raised.
-> 
-> * The dependency on a sysctl path to load a module still is
->   backwards to me. It should be: I need feature A, I load modules
->   M{1,2,3} for A and I set sysctl S{1,2,3...}. Not sure why sysctl tools
->   do it the other way around.
+Hello,
 
-Right, but note:
-- the feature may, or may not, be built as a module (unknown to sysctl
-tool).
-- there is no simple way to identify which module provides a sysctl,
-today.
+syzbot found the following issue on:
 
-Let's compare this with device-id module aliases: userspace doesn't know
-whether a driver is built-in or a module, but it can load the module, if
-any, based on the device-id, not the module name.
+HEAD commit:    3026c6e4f223 Merge tag 'slab-for-7.3-rc2' of git://git.ker..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11f1e901580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5e4e3a0e188a497e
+dashboard link: https://syzkaller.appspot.com/bug?extid=50560f9ba016e97e2023
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-> * The fact that the invariance is in the sysctl path and not the module
->   identifier maybe points to a deeper issue.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-It does seem that the invariance in the sysctl path is correct, as that
-doesn't change with the variable of whether the code is built-in or a
-module.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/98fa15ee8f48/disk-3026c6e4.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/36b1db5cf167/vmlinux-3026c6e4.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/3f745756a36c/bzImage-3026c6e4.xz
 
-A similar comparison with device-id module aliases applies, IIUIC.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+50560f9ba016e97e2023@syzkaller.appspotmail.com
 
-> * I still believe that this is better placed outside the sysctl
->   subsys as it does not cater solely to module loading.
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Tainted: G             L     
+------------------------------------------------------
+syz.3.8436/729 is trying to acquire lock:
+ffffffff8fc11b68 (gadget_subsys.su_mutex){+.+.}-{4:4}, at: uvcg_format_bma_controls_store+0x55/0x2b0 drivers/usb/gadget/function/uvc_configfs.c:1707
 
-Understood; your point about a module-specific argument in sysctl
-register functions precisely confirmed that this approach is misplaced.
+but task is already holding lock:
+ffff888028d20770 (&p->frag_sem){++++}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
+ffff888028d20770 (&p->frag_sem){++++}-{4:4}, at: configfs_write_iter+0x238/0x430 fs/configfs/file.c:229
 
-I'll try a different design, more similar to MODULE_DEVICE_TABLE().
-Maybe the only requirement from sysctl is for struct
-ctl_table.procname's offset to be zero (for file2alias). And apparently
-something with the path string in a table declaration macro. We'll see.
+which lock already depends on the new lock.
 
-Thanks again for reviewing and providing constructive feedback. That's
-very appreciated.
 
-> 
-> Best
+the existing dependency chain (in reverse order) is:
 
--- 
-Mauricio
+-> #4 (&p->frag_sem){++++}-{4:4}:
+       down_write_killable+0xa6/0x240 kernel/locking/rwsem.c:1643
+       configfs_rmdir+0x3b0/0x950 fs/configfs/dir.c:1543
+       vfs_rmdir+0x3e6/0x6a0 fs/namei.c:5515
+       filename_rmdir+0x292/0x520 fs/namei.c:5572
+       __do_sys_unlinkat fs/namei.c:5747 [inline]
+       __se_sys_unlinkat+0x71/0x1a0 fs/namei.c:5740
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #3 (&sb->s_type->i_mutex_key#27){++++}-{4:4}:
+       down_write+0x96/0x200 kernel/locking/rwsem.c:1631
+       inode_lock include/linux/fs.h:1024 [inline]
+       configfs_depend_item_unlocked+0x153/0x420 fs/configfs/dir.c:1268
+       usbg_make_tpg+0x1e0/0x550 drivers/usb/gadget/function/f_tcm.c:1692
+       target_fabric_make_tpg+0xa8/0x6d0 drivers/target/target_core_fabric_configfs.c:947
+       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
+       vfs_mkdir+0x40c/0x620 fs/namei.c:5410
+       filename_mkdirat+0x285/0x510 fs/namei.c:5443
+       __do_sys_mkdir fs/namei.c:5470 [inline]
+       __se_sys_mkdir+0x34/0x150 fs/namei.c:5467
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (tpg_instances_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       tcm_alloc_inst+0x65/0x1a0 drivers/usb/gadget/function/f_tcm.c:2687
+       try_get_usb_function_instance drivers/usb/gadget/functions.c:28 [inline]
+       usb_get_function_instance+0xe3/0x2f0 drivers/usb/gadget/functions.c:44
+       function_make+0x127/0x360 drivers/usb/gadget/configfs.c:626
+       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
+       vfs_mkdir+0x40c/0x620 fs/namei.c:5410
+       filename_mkdirat+0x285/0x510 fs/namei.c:5443
+       __do_sys_mkdir fs/namei.c:5470 [inline]
+       __se_sys_mkdir+0x34/0x150 fs/namei.c:5467
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (func_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       try_get_usb_function_instance drivers/usb/gadget/functions.c:18 [inline]
+       usb_get_function_instance+0x2e/0x2f0 drivers/usb/gadget/functions.c:44
+       function_make+0x127/0x360 drivers/usb/gadget/configfs.c:626
+       configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
+       vfs_mkdir+0x40c/0x620 fs/namei.c:5410
+       filename_mkdirat+0x285/0x510 fs/namei.c:5443
+       __do_sys_mkdir fs/namei.c:5470 [inline]
+       __se_sys_mkdir+0x34/0x150 fs/namei.c:5467
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (gadget_subsys.su_mutex){+.+.}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3209 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+       validate_chain kernel/locking/lockdep.c:3952 [inline]
+       __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
+       lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       uvcg_format_bma_controls_store+0x55/0x2b0 drivers/usb/gadget/function/uvc_configfs.c:1707
+       flush_write_buffer fs/configfs/file.c:207 [inline]
+       configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x612/0xba0 fs/read_write.c:687
+       ksys_write+0x150/0x270 fs/read_write.c:739
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  gadget_subsys.su_mutex --> &sb->s_type->i_mutex_key#27 --> &p->frag_sem
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(&p->frag_sem);
+                               lock(&sb->s_type->i_mutex_key#27);
+                               lock(&p->frag_sem);
+  lock(gadget_subsys.su_mutex);
+
+ *** DEADLOCK ***
+
+locks held by syz.3.8436/729: 4, last CPU#1:
+ #0: ffff88802cacd270 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x246/0x320 fs/file.c:1259
+ #1: ffff88801d716460 (sb_writers#16){.+.+}-{0:0}, at: file_start_write include/linux/fs.h:2753 [inline]
+ #1: ffff88801d716460 (sb_writers#16){.+.+}-{0:0}, at: vfs_write+0x22b/0xba0 fs/read_write.c:683
+ #2: ffff888076ff2c80 (&buffer->mutex#2){+.+.}-{4:4}, at: configfs_write_iter+0x7e/0x430 fs/configfs/file.c:226
+ #3: ffff888028d20770 (&p->frag_sem){++++}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
+ #3: ffff888028d20770 (&p->frag_sem){++++}-{4:4}, at: configfs_write_iter+0x238/0x430 fs/configfs/file.c:229
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 729 Comm: syz.3.8436 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e2/0x300 kernel/locking/lockdep.c:2087
+ check_noncircular+0x12f/0x150 kernel/locking/lockdep.c:2219
+ check_prev_add kernel/locking/lockdep.c:3209 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+ validate_chain kernel/locking/lockdep.c:3952 [inline]
+ __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
+ lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
+ __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+ __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+ uvcg_format_bma_controls_store+0x55/0x2b0 drivers/usb/gadget/function/uvc_configfs.c:1707
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fee74b9e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fee7597e028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007fee74e25fa0 RCX: 00007fee74b9e159
+RDX: 0000000000000002 RSI: 0000200000000300 RDI: 0000000000000003
+RBP: 00007fee74c3503b R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fee74e26038 R14: 00007fee74e25fa0 R15: 00007ffd3a9e87e8
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
