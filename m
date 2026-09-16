@@ -1,78 +1,115 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7274908C5
-	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 22:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88874BFE74
+	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 22:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789598409; cv=none; b=tp8Et3NKz1j2t8RKT9xxSolgd2TmqXyen7mEPL2FMpIkToqTOMzzCyRYh1r2cQJ5zpoLeSPI6I5v/R6bcnDi+K02bWwvOEeJknfYHmbZSm4b1t9x8WcwS+naDDyaR6YWwdREFdgj0GadGs4lqcPY96LcTjUj6WGi0l3RcDUIIO4=
+	t=1789598466; cv=none; b=CHOW4sGyrtn4Je29NXmVpoixXr4EnAKd8gipNbeo3h1GGkw7xq6jnd6Eg5THEtoysxEmy4vvs7+/9EV/pMVFdgM3Wvpjqa8rPGpEAMOyNtEGWSCtJq+BD+9YFwg2L4PEGGBoo0ABX9LgpDRj9/DXkB6s2AVcchR5ppgtNd/fO7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789598409; c=relaxed/simple;
-	bh=aY0C3UZNWISVo+SEYdMA+dpLR2TC50hIsVNTH/1tMWI=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=QIEW3jgM/fY3Q119uX9I7ECqRzllqS2F2T6w69eyCkfkHSk/ITlsMAsVNsSf+uYFopTgcrXGUrOHvvT70evE5NgBvWc5vEPSTP7FH2cqJc60Cujxdvsze7XUzoIo1OW0HwjEj85qgwzz5Y3UVXKYWwMOh1/RVqsS1GCma0ybuhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4b5bfffcc2dso172126b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 15:40:03 -0700 (PDT)
+	s=arc-20240116; t=1789598466; c=relaxed/simple;
+	bh=wmJV7UlkNABprPy5JGp8YnLyxdnU3PP/y/DAmlXHOHo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rrep2VdCBG47M1LnumSSqCNfScfMdnRCGN/7BW66IgSC5SPtopZjxAmXWTTRHWpinCGqkAD1InZJQAtb48QPSR0MqlJWyKxeaSwa2JEDGd8QdC+cNZBSq+awfWHmswKCVLSwscezRojEUCiyrGZaY5sO+i6YDeXTkl4fWr60UjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E+ca20Tl; arc=none smtp.client-ip=74.125.228.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E+ca20Tl"
+Received: by mail-pz2-f43.google.com with SMTP id 41be03b00d2f7-cc1cea4bfb6so80652a12.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 15:40:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789598453; x=1790203253; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=t5VttPhmwrMHoUqXXmaUFtTG8MKFE+6yQbb1G29GHpw=;
+        b=E+ca20TlYAKR7jADSMiSZdYQPNm07r5fQRGxm+goZ6cRTf72Ry5XTX2BKs4GQuvWFG
+         jPr005C2MfVFWe/fbn4bzlob7KhOvKMxsYaxXGMarh6EPnwz+Qrdyp6JYHPzHfjwRwU8
+         89EKzHODEQeI5uilkq960hbBH10vazjBH7mmfouG4VQsQqlMRG2XKboNOMYv2J+3TTx6
+         SIfrkiTK9KITVaq48lacaJMZJMGwNqETnEb14sodkN/Fi7UV69rJI/i6eYg96uk7Pw5s
+         zfeUEK8WNdsg5djewlNlhHfr8OpY/RFcikY+kbLLPfg4xQlBaQhX4HHn4++G/Kp1J01m
+         lGAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789598402; x=1790203202;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=eWbhpWk71ccWdwuOVmq402NHgmE8BaqjoYuvIsrzF3g=;
-        b=gDrAuyuSjM3cI+L7wKHK6gWPCm8yjSwv1/JkhiDUVfqZqB7rdk9D35NDNYAGTbR3B+
-         dslatxyVoXn/5KmjhRwbd7FBO2hSsBAaXIqqtWY05PoMpab9eiUJKc0dm8iXVd6CSJdH
-         6qtfz0l5wB2nUbyzv5Svi/Bh67qo1n2ibp12UtxgO03re27WYM2uPeh1CTkrKQEC5mX8
-         S+Hz0pIZqu7d38syeipEib1bv3D0ummu0ptL7n5wyv1w7To224P7JMt/v0xRmDRfQyLx
-         HkHsMVIU1Ltexp2+qBC1ZUzstpoLZhxzdbQ7/cKc9CJ2QLGinrDJi6IUKAWaapbO4f4Q
-         Miag==
-X-Forwarded-Encrypted: i=1; AKwUvBxqFbG05hhAaEQtAUgCwVSe6TeAktWwW3ODsHHDVVmGwW231syJwAeoXUyGEbCT2pLuMmB6xLpQfzhNl1b6@vger.kernel.org
-X-Gm-Message-State: AFuF++nM4fh+zMWZBE5hVQEW5xDlooU/81tAyfjvyR33cJETpN0W0PSu
-	67XNtkyexSzn9VysRStuPn11gvuKlBUnjIt53ZmHB462DXAb1nsDh/rKAB57rhzUMUNPJKc0gm9
-	qUU7lpKWJzWMUvg29ogWGELOB8XzI4JR90de9VTX6HUL40ZmpCJPijPDYCwg=
+        d=1e100.net; s=20260707; t=1789598453; x=1790203253;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t5VttPhmwrMHoUqXXmaUFtTG8MKFE+6yQbb1G29GHpw=;
+        b=KtUan/d1zG5ACziNqLpfjaMX7c6vbS3tTumCieW2T0f1FL/V7dGXSUqjn73JlbxBZo
+         z8jS1Y/SKv6KQMaG5lXTz6mSW0MayoF6LgdCIcBpSjLhC4JAzfmQWvKIXu1uAo9MaYrQ
+         VAXZWj/Tg78WAGGbV8/3jAX27UaV4ThK3hSZsp5Z0i3rVB99HsRqJ9tIqw10R8aWYRXx
+         QuZexZxt6LQAO6NFJQbBEhqvGktmLW7IzRsga0yGgiLY2U29wFDh1KdKqxnWgBMjGyd5
+         FZZpJEPnM1VPG+n6yNVog03ByTs3JH2LaHfBDlCuroZC6wdFyWjc3tv/wGFPUPDzPeOb
+         H7RA==
+X-Gm-Message-State: AFuF++kTaIWfOOasTinw4Rws8Xt+j7TERcKbEByVrE8+m428WR+yA0Uk
+	qfnG3GvRLpjAdN+0k5Lvhm/jM28sCjljcEmhHiUjG0L5r25Xbeo0PqMI
+X-Gm-Gg: AYBFou08aZUVkionDvP/AIJcLg8S1r9WDJ2zCwGki4Z4YbYcSwA/FH3o99F4ERfn8h2
+	qggDzfsLdX9t14QvoVpQDslHsGBN09sWzncwJfn5D3yFe2eaTR1H9v+RIDPcBThdM7W5K1nSg8t
+	eCJgwqwJU4gRVDxRGdZ2DFf6oJZzIf0bk/Xv+EBFbyD8TFWNIJVdcb7QD8rBIXdljlQdWXcoRpF
+	a/xjIAHi5OnT8LTSfxcpwGJoqEZAtPVw+JfyYKHADMPy1wUsd4YSqEC5UBMuPksqOexBwCB3ax1
+	sPzxWe9wcbsYyMB+h+LjBDMh8oUOATYO8rKd+IOdhwH1NFeZ5rWZjFTDYRP7EJregtmqR2TR9B2
+	i3BdOOFZlS86hwtJe6xKGK3hp5/uPUDkoRytEfh8i2x5LHiduCBM9vEMRJZTPg4i4ToVYq/k3Ev
+	9RjVaTPl0M4NY5bI1xY4pOIJnxO5iUiIzHaTaG8vCraaYz3gXrCxSxtheYjixoWS+COTUwjusts
+	wdB4mcB1fPMkiVDF3WJffqxlG7gzEK+v+d0tWe+1aTVZ7HBXWMenBXk6bfn
+X-Received: by 2002:a17:90b:4ece:b0:39d:ba21:fd90 with SMTP id 98e67ed59e1d1-39e1e491176mr13405869a91.16.1789598453080;
+        Wed, 16 Sep 2026 15:40:53 -0700 (PDT)
+Received: from bazzite ([2804:1830:101:9875:e21:c5c7:50e5:d44d])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bfb05e604sm8941720eec.12.2026.09.16.15.40.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 15:40:52 -0700 (PDT)
+From: Davy Felipe <davyfelipe34@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Davy Felipe <davyfelipe34@gmail.com>
+Subject: [PATCH] hfs: return -EPERM for unsupported setattr changes
+Date: Wed, 16 Sep 2026 19:40:16 -0300
+Message-ID: <20260916224016.266800-1-davyfelipe34@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:5087:b0:4b8:4703:db8b with SMTP id
- 5614622812f47-4cb69b976f2mr1049869b6e.20.1789598402258; Wed, 16 Sep 2026
- 15:40:02 -0700 (PDT)
-Date: Wed, 16 Sep 2026 15:40:02 -0700
-In-Reply-To: <6a1b9770.fd5edf16.2e7427.0008.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aab1ac2.71f81b7d.278072.0000.GAE@google.com>
-Subject: Re: [syzbot] [ntfs3?] possible deadlock in page_cache_ra_order
-From: syzbot <syzbot+8bd419f88e25ab12cb75@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, almaz.alexandrovich@paragon-software.com, 
-	gality369@gmail.com, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot has bisected this issue to:
+hfs_inode_setattr() rejects unsupported UID, GID and mode changes,
+but returns the value stored in error when the filesystem is not
+mounted with the quiet option.
 
-commit d62cf685d12e95cc0a4122c43cd9f0eb8bba0b4c
-Author: ZhengYuan Huang <gality369@gmail.com>
-Date:   Mon Apr 27 07:26:50 2026 +0000
+At this point error is zero, as execution has already passed a
+successful setattr_prepare() call. As a result, unsupported attribute
+changes are incorrectly reported to userspace as successful even
+though the inode remains unchanged.
 
-    fs/ntfs3: hold ni_lock across readdir metadata walk
+Return -EPERM for these operations while preserving the existing
+behavior for quiet mounts.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1540dbf9580000
-start commit:   704340f1cd0d Merge tag 'x86_urgent_for_7.3-rc4' of git://g..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=1740dbf9580000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1340dbf9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
-dashboard link: https://syzkaller.appspot.com/bug?extid=8bd419f88e25ab12cb75
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=154788c9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=134788c9580000
+A chown test on an HFS image reproduces the problem. Without the fix,
+chown 1234:1234 returns success while ownership remains 0:0. With the
+fix, the same operation fails with EPERM and ownership remains
+unchanged.
 
-Reported-by: syzbot+8bd419f88e25ab12cb75@syzkaller.appspotmail.com
-Fixes: d62cf685d12e ("fs/ntfs3: hold ni_lock across readdir metadata walk")
+Signed-off-by: Davy Felipe <davyfelipe34@gmail.com>
+---
+ fs/hfs/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+index 2aef3c36a150..cce3a7bb95e9 100644
+--- a/fs/hfs/inode.c
++++ b/fs/hfs/inode.c
+@@ -663,7 +663,7 @@ int hfs_inode_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	     ((S_ISDIR(inode->i_mode) &&
+ 	       (attr->ia_mode != inode->i_mode)) ||
+ 	      (attr->ia_mode & ~HFS_VALID_MODE_BITS)))) {
+-		return hsb->s_quiet ? 0 : error;
++		return hsb->s_quiet ? 0 : -EPERM;
+ 	}
+ 
+ 	/* map file permissions to the closest allowable permissions in HFS */
+-- 
+2.55.0
+
