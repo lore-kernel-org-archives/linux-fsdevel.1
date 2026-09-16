@@ -1,228 +1,333 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E6A4D09E0;
-	Wed, 16 Sep 2026 11:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFCF39937C;
+	Wed, 16 Sep 2026 12:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789559564; cv=none; b=IfdD5+bYuj8Gu+/hsjzKOrUPxC5cKF4f2SvPRndFPX7XihknOZpLUVySAiZR/LHOSfafmkdbS6c3j7xpRxwfoWMnre9UlgltRRi7IElr6D9vDD4YJehLOK8LSjdR6cEazWSqbeMSmRvbeJCLInlUClXql82Km2YPa5pKHZeLC4k=
+	t=1789560603; cv=none; b=gbs+fAE+pYJ5N5yZZi4bwMeKbnWqmK0368+U4+iGd1NDZgAQhTWQHJFxOG7nbq6jMyBNty4za9+pkMAWrxEfBDZV7vcMVQfd6VdqpmfzZRKzNrNe3hibiGPoaf5Ip1Ki5y13HsDXqSwbmT2GIgc856HIeaNPknbIOCDT46VCCPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789559564; c=relaxed/simple;
-	bh=xAwNp8PjbXoLFaCa2Mn2IYQOxtVDUm0M9shdOQ6Hn9w=;
+	s=arc-20240116; t=1789560603; c=relaxed/simple;
+	bh=AfSEswlCLRdBhKXBn5vkb9ejpwkPsuTDmPP3Axe+f7Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YZEy4i05Fh+2j1wQNn5foFXUrvrNx3ljrSj31l8FwGdQ5Owp1o8tbN0CjnBcSj4nAoFV/AdeNnupkgLEshRr6cxQOK8NSahW/dkGkP6EONV83jI9Vkqf+jA2yw/G4MAt0Us7t3cmvQtnNqo9fkeVypAxIGrwIlOyChwCZt8LoAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gtV4UnVa; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=s9XkhtUkikMbDHQxplt+HuF3X0hNbLstO47H9wyj7seXsv8Dwrohp8hvY7JioTSUereuiVucn9iJUUd3hto7P8Fhk4uGG6pQYr0PWThqcjj0lFpYNMtGwVsljQqY+LUkn9hmc90dMTD7ScUo6J+uhoDv5HqW0GDrxe5J184tf3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SQzgqKj7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ii9UL340; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=h4lTgrcS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=drprDADX; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gtV4UnVa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 955911F000FF;
-	Wed, 16 Sep 2026 11:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789559550;
-	bh=Vzrt3qIu8htngP8L6pa7ISBaAmwNdL2PIvmwNtw4WRI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gtV4UnVaObhYP1DzPxoQ41GvxTAdyYfj108NOlJ/uVsrOH42758RCke3VRxaTgIA/
-	 tTCRCKy4tnMhnhVJj1RaR9MMqhRzVCjEZge1YuxB3Swe4VAkbOXlkxmy5UAqcelPg5
-	 QIRzrJUwpXtn3Kp0u21UTCfNOhed/aZH0zXx5bhDMfBVEcI6z7CjlLb4KjBrE51Rr0
-	 Xitt15hlNP5QP4GSFvIF2AkRCsirqD0QtNLT2rBZ7xHtGpVQDshzfJElkckjrF1akv
-	 4nl8ZYSVyx+iYP5SeRCdah38HYSjhLhj9Ty8/N++kdYQmFN6+AlFoI7GIlDuWYXSib
-	 RMAbusE2lTsNg==
-Date: Wed, 16 Sep 2026 13:52:25 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Bradley Morgan <include@grrlz.net>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] sysctl: Use replace **void with **char in proc_put_*
-Message-ID: <fxrwmefwe6fciz5szyn5hr2ucxq2vspahrgcdzuv3nt6v4ifxz@pmqrjxnvagow>
-References: <20260916-lklm-sysctl-void-vs-char-v1-1-c3f8b2eb8b1e@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SQzgqKj7";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ii9UL340";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="h4lTgrcS";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="drprDADX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E73E81FE5D;
+	Wed, 16 Sep 2026 12:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789560587; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D85vXBe2xfk1jvSWs9TcMey2V3KKLMoyz3bWz1rk7eI=;
+	b=SQzgqKj7lsf2UAcZl4s6jxmS3A9EcIP48QnkWkH5uJB7nLt0OSGd0HBtKtZJp3VCnxOD+X
+	0T1OIq6Uv3JtwGfGX1k01qAagOOWDn49od7h+lcstDyBMU1y07mnLTv1oLA+PvRI19RPZ/
+	SdieQeijm6/QDJgPmbZloi3vnFO3+X0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789560587;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D85vXBe2xfk1jvSWs9TcMey2V3KKLMoyz3bWz1rk7eI=;
+	b=Ii9UL340WKjT4dH6mhNsOgZQXueEg1OOvbp0RTHkrvOmG2okjBZ/XspMz+9mPrH8dh74tT
+	LHuc4DG7kr6axGAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=h4lTgrcS;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=drprDADX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789560582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D85vXBe2xfk1jvSWs9TcMey2V3KKLMoyz3bWz1rk7eI=;
+	b=h4lTgrcS795S9e5ofKlTaEjGmbVI2CkNtSx/AtITpaUCyI/SCevJy38l6BjHP+1VGltIk+
+	jchB4o4X0wR2jn8CsL137siGXmvL74GQax7VWBFq38mODg3zU02r8IVylbVQf9Dbvj3XiE
+	C8N38rLTvs3SkbJUoOuuaGfp0V1OTrg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789560582;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D85vXBe2xfk1jvSWs9TcMey2V3KKLMoyz3bWz1rk7eI=;
+	b=drprDADXBAHHVtDPk/j7Gyn+5Kqcv1TvhWJ7bBltu38WJ0A34FsbiLt/LsK3v+KTaI6AxQ
+	V1ArPhoThqRmuDDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F11C11348F;
+	Wed, 16 Sep 2026 12:09:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OVrVIQSHqmp0SAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 16 Sep 2026 12:09:40 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 81E26A13D5; Wed, 16 Sep 2026 14:02:35 +0200 (CEST)
+Date: Wed, 16 Sep 2026 14:02:35 +0200
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, akpm@linux-foundation.org, 
+	david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, 
+	rppt@kernel.org, surenb@google.com, mhocko@suse.com, hughd@google.com, 
+	baolin.wang@linux.alibaba.com, willy@infradead.org, jack@suse.cz, ziy@nvidia.com, 
+	bfoster@redhat.com, joannelkoong@gmail.com, djwong@kernel.org, yi.zhang@huawei.com, 
+	yizhang089@gmail.com, yangerkun@huawei.com, chengzhihao1@huawei.com, 
+	wangkefeng.wang@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v3 1/3] mm/truncate: fix data loss when splitting
+ straddling large folios fails
+Message-ID: <xl2rtnntlxoxoozkddgrlkcsgukcngvvcwazm7gb7q5g32yxir@ef5ltcwueboh>
+References: <20260916092450.654408-1-yi.zhang@huaweicloud.com>
+ <20260916092450.654408-2-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="psh5yc6hlbgix2jo"
-Content-Disposition: inline
-In-Reply-To: <20260916-lklm-sysctl-void-vs-char-v1-1-c3f8b2eb8b1e@kernel.org>
-
-
---psh5yc6hlbgix2jo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260916092450.654408-2-yi.zhang@huaweicloud.com>
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: E73E81FE5D
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim,huawei.com:email];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL77qb5igscudnz1iomstzbaxb)];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[kvack.org,vger.kernel.org,linux-foundation.org,kernel.org,infradead.org,google.com,suse.com,linux.alibaba.com,suse.cz,nvidia.com,redhat.com,gmail.com,huawei.com,fnnas.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email]
+X-Spam-Flag: NO
 
-On Wed, Sep 16, 2026 at 01:44:28PM +0200, Joel Granados wrote:
-> Replace **void argument with **char in the proc_put_* functions. These
-> are leftovers from before commit 32927393dc1c ("sysctl: pass kernel
-> pointers to ->proc_handler") where a cast to char __user** from void
-> _user** was needed before the put_user call.
->=20
-> Suggested-by: Bradley Morgan <include@grrlz.net>
-> Signed-off-by: Joel Granados <joel.granados@kernel.org>
-> ---
->  kernel/sysctl.c | 34 +++++++++++++++-------------------
->  1 file changed, 15 insertions(+), 19 deletions(-)
->=20
-> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> index 25577ffc2801267cc69df60a1064ada9efd4b97d..1fefe18bf84e790433a1abf71=
-a4b158f3c1f729f 100644
-> --- a/kernel/sysctl.c
-> +++ b/kernel/sysctl.c
-> @@ -332,7 +332,7 @@ static int proc_get_long(char **buf, size_t *size,
->   * In case of success @buf and @size are updated with the amount of bytes
->   * written.
->   */
-> -static void proc_put_long(void **buf, size_t *size, unsigned long val, b=
-ool neg)
-> +static void proc_put_long(char **buf, size_t *size, unsigned long val, b=
-ool neg)
->  {
->  	int len;
->  	char tmp[TMPBUFLEN], *p =3D tmp;
-> @@ -347,15 +347,12 @@ static void proc_put_long(void **buf, size_t *size,=
- unsigned long val, bool neg)
->  }
->  #undef TMPBUFLEN
-> =20
-> -static void proc_put_char(void **buf, size_t *size, char c)
-> +static void proc_put_char(char **buf, size_t *size, char c)
->  {
->  	if (*size) {
-> -		char **buffer =3D (char **)buf;
-> -		**buffer =3D c;
+On Wed 16-09-26 17:24:48, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
+> 
+> truncate_inode_partial_folio() splits a large folio so that the caller's
+> truncate loop can drop the in-range sub-folios while keeping the
+> out-of-range tail. The first split at the punch start edge is
+> non-uniform, which leaves the sub-folio at the truncation end edge as
+> large as possible, this means it may still straddle the range, holding
+> both zeroed in-range and valid out-of-range data. The function then
+> attempts a second split at offset + length to isolate that tail.
+> 
+> If the second split fails the straddling sub-folio stays merged. The
+> function returned true unconditionally on all exit paths of the success
+> block, telling the caller it was fully handled. The caller kept its
+> default end and the truncate loop truncated every sub-folio below it,
+> including the merged straddler, discarding the valid out-of-range tail.
+> 
+> For example, a 4-page order-2 folio punched from offset 0 to the middle
+> of the last page:
+> 
+>   truncate_inode_pages_range()
+>     truncate_inode_partial_folio()      # same_folio == true
+>       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
+>       folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
+>       2nd split of folio2 fails / cannot lock
+>       return true                       # BUG: caller keeps default end
+>     end = 3
+>     loop truncates p0, p1, p2-3        # p3's valid tail is lost
+> 
+> This became reachable after commit 7460b470a131 ("mm/truncate: use
+> folio_split() in truncate operation") replaced the atomic split_folio()
+> with folio_split(), whose non-uniform split can partially split a folio
+> and leave the end edge merged.
+> 
+> It has gone unnoticed because a dirty large folio normally carries the
+> filesystem's private data, for example buffer_head, so
+> filemap_release_folio() -> iomap_release_folio() returns false on a
+> dirty folio and folio_split() aborts with -EBUSY before any split,
+> leaving the straddler safely unsplit. The bug is only reachable on paths
+> that produce dirty large folios without filesystem private data, and it
+> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
+> attached.
+> 
+> Rework the contract so the caller is told the page range to discard:
+> 
+>   - Add pgoff_t *pstart and *pend out-parameters that receive the page
+>     range fully covered by [lstart, lend] after any split (or none),
+>     i.e. the pages wholly within the range and safe to discard.
+> 
+>   - Adjust the ordering of the validate check when splitting folio2.
+>     folio2->index is only reliable after the reference count and lock
+>     have been successfully acquired, since it may have been split
+>     concurrently, or freed and recycled to an unrelated mapping. On any
+>     failure to obtain a reliable end position, fall back to
+>     folio->index, which is safe but leaves the sub-folios split off at
+>     the offset edge in the page cache.
+> 
+>   - Rename the byte-range parameters start/end to lstart/lend to better
+>     express their semantics.
+> 
+> Callers in truncate_inode_pages_range() and shmem_undo_range() pass
+> &pstart for the folio at the start edge and &pend for the folio at the
+> end edge, so the truncate loop drops exactly the fully covered pages and
+> never touches a straddling folio that still holds valid out-of-range
+> data.
+> 
+> Suggested-by: Brian Foster <bfoster@redhat.com>
+> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
+> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operation")
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+
+The changes mostly look good to me but I have some confusion around the
+folio2 splitting below.
+
+> @@ -259,32 +271,62 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
+>  		 * for shmem truncate
+>  		 */
+>  		struct folio *folio2;
+> +		pgoff_t end, aligned_end = (pos + offset + length) >>
+> +					   PAGE_SHIFT;
+>  
+> -		if (offset + length == size)
+> -			goto no_split;
+> +		if (pstart)
+> +			*pstart = round_up(pos + offset, PAGE_SIZE) >>
+> +				  PAGE_SHIFT;
+> +
+> +		if (offset + length == size) {
+> +			end = aligned_end;
+> +			goto out;
+> +		}
+>  
+>  		split_at2 = folio_page(folio,
+>  				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
+>  		folio2 = page_folio(split_at2);
+>  
+> +		/*
+> +		 * folio2 may become stale due to a concurrent split or
+> +		 * freeing, so validate it before and after taking its lock.
+> +		 * If it fails, we can't get an accurate end position and fall
+> +		 * back to folio->index, which may leave sub-folios split off
+> +		 * at the offset edge in the page cache this round.
+> +		 */
+> +		end = folio->index;
+>  		if (!folio_try_get(folio2))
+> -			goto no_split;
 > -
-> +		**buf =3D c;
->  		(*size)--;
-> -		(*buffer)++;
-> -		*buf =3D *buffer;
-> +		(*buf)++;
->  	}
->  }
-> =20
-> @@ -680,12 +677,12 @@ static int apply_conv_on_vec(const union proc_vec_c=
-onv conv,
->  			     const struct ctl_table *table,
->  			     const enum proc_vec_type data_type,
->  			     const size_t data_size, const int conv_dir,
-> -			     const size_t buf_nbyte, void *buf,
-> +			     const size_t buf_nbyte, char *buf,
->  			     size_t *buf_left_final)
->  {
->  	int vec_left, err =3D 0;
->  	size_t buf_left, nr_conv =3D 0;
-> -	char *data, *data_stage =3D NULL, *p;
-> +	char *data, *data_stage =3D NULL;
->  	bool is_unsigned =3D data_type =3D=3D PROC_VEC_UINT || data_type =3D=3D=
- PROC_VEC_ULONG;
-> =20
->  	buf_left =3D buf_nbyte;
-> @@ -694,7 +691,6 @@ static int apply_conv_on_vec(const union proc_vec_con=
-v conv,
->  	if (SYSCTL_USER_TO_KERN(conv_dir)) {
->  		if (buf_left > PAGE_SIZE - 1)
->  			buf_left =3D PAGE_SIZE - 1;
-> -		p =3D buf;
-> =20
->  		if (table->maxlen > data_size) {
->  			data_stage =3D kmemdup(table->data, table->maxlen, GFP_KERNEL);
-> @@ -712,11 +708,11 @@ static int apply_conv_on_vec(const union proc_vec_c=
-onv conv,
->  		bool neg =3D false;
-> =20
->  		if (SYSCTL_USER_TO_KERN(conv_dir)) {
-> -			proc_skip_spaces(&p, &buf_left);
-> +			proc_skip_spaces(&buf, &buf_left);
-> =20
->  			if (!buf_left)
->  				break;
-> -			err =3D proc_get_long(&p, &buf_left, &lval, &neg,
-> +			err =3D proc_get_long(&buf, &buf_left, &lval, &neg,
->  					    proc_wspace_sep,
->  					    sizeof(proc_wspace_sep), NULL);
->  			if (!err && neg && is_unsigned)
-> @@ -740,7 +736,7 @@ static int apply_conv_on_vec(const union proc_vec_con=
-v conv,
-> =20
->  	if (SYSCTL_USER_TO_KERN(conv_dir)) {
->  		if (!err && buf_left)
-> -			proc_skip_spaces(&p, &buf_left);
-> +			proc_skip_spaces(&buf, &buf_left);
->  		if (!nr_conv) {
->  			err =3D err ? : -EINVAL;
+> -		if (!folio_test_large(folio2))
 >  			goto out;
-> @@ -1221,6 +1217,7 @@ int proc_do_large_bitmap(const struct ctl_table *ta=
-ble, int dir,
->  	unsigned long *bitmap =3D *(unsigned long **) table->data;
->  	unsigned long *tmp_bitmap =3D NULL;
->  	char tr_a[] =3D { '-', ',', '\n' }, tr_b[] =3D { ',', '\n', 0 }, c =3D =
-0;
-> +	char *p =3D buffer;
-> =20
->  	if (!bitmap || !bitmap_len || !left || (*ppos && SYSCTL_KERN_TO_USER(di=
-r))) {
->  		*lenp =3D 0;
-> @@ -1228,7 +1225,6 @@ int proc_do_large_bitmap(const struct ctl_table *ta=
-ble, int dir,
+>  
+> +		if (folio2->mapping != folio->mapping ||
+> +		    !folio_test_large(folio2))
+> +			goto out_put;
+> +
+>  		if (!folio_trylock(folio2))
+> -			goto out;
+> +			goto out_put;
+>  
+> -		/* make sure folio2 is large and does not change its mapping */
+> -		if (folio_test_large(folio2) &&
+> -		    folio2->mapping == folio->mapping)
+> -			folio_split_or_unmap(folio2, split_at2, min_order);
+> +		if (page_folio(split_at2) != folio2) {
+> +			folio_unlock(folio2);
+> +			goto out_put;
+> +		}
+> +		if (!folio_test_large(folio2)) {
+> +			end = aligned_end;
+> +			folio_unlock(folio2);
+> +			goto out_put;
+> +		}
+
+So I always found this folio2 lookup and revalidation somewhat suspicious
+and now that we're digging into it I'll ask: As you note in the changelog,
+by the time we compute split_at2 the page can be already freed and reused
+because it was split off from the original 'folio'. It can be for example a
+slab page or anything else. So is it guaranteed that page_folio() actually
+returns something sensible? What guarantees we properly detect the "reuse
+for something else" case in all possible cases for which the page can be
+reused? I understand this is mostly a preexisting issue so maybe these
+questions are more for MM guys than you...
+
+So for me as an filesystem guy I'd appreciate some comment in this code
+explaining why grabbing folio2 this way is actually safe. The really safe
+way of getting to folio2 would be to use
+  __filemap_get_folio(mapping, (offset+length) >> PAGE_SHIFT, FGP_LOCK, 0)
+but I suppose we don't use the mapping lookup as it is more expensive?
+
+								Honza
+
+> +
+> +		/* Split failed: back off to the head of the straddler */
+> +		if (folio_split_or_unmap(folio2, split_at2, min_order))
+> +			end = folio2->index;
+> +		else
+> +			end = aligned_end;
+>  
+>  		folio_unlock(folio2);
+> -out:
+> +out_put:
+>  		folio_put(folio2);
+> -no_split:
+> +out:
+> +		if (pend)
+> +			*pend = end;
+>  		return true;
 >  	}
-> =20
->  	if (SYSCTL_USER_TO_KERN(dir)) {
-> -		char *p =3D buffer;
->  		size_t skipped =3D 0;
-> =20
->  		if (left > PAGE_SIZE - 1) {
-> @@ -1315,16 +1311,16 @@ int proc_do_large_bitmap(const struct ctl_table *=
-table, int dir,
->  						   bit_a + 1) - 1;
-> =20
->  			if (!first)
-> -				proc_put_char(&buffer, &left, ',');
-> -			proc_put_long(&buffer, &left, bit_a, false);
-> +				proc_put_char(&p, &left, ',');
-> +			proc_put_long(&p, &left, bit_a, false);
->  			if (bit_a !=3D bit_b) {
-> -				proc_put_char(&buffer, &left, '-');
-> -				proc_put_long(&buffer, &left, bit_b, false);
-> +				proc_put_char(&p, &left, '-');
-> +				proc_put_long(&p, &left, bit_b, false);
->  			}
-> =20
->  			first =3D 0; bit_b++;
+>  	if (folio_test_dirty(folio))
+> @@ -413,11 +455,8 @@ void truncate_inode_pages_range(struct address_space *mapping,
+>  	folio = __filemap_get_folio(mapping, lstart >> PAGE_SHIFT, FGP_LOCK, 0);
+>  	if (!IS_ERR(folio)) {
+>  		same_folio = lend < folio_next_pos(folio);
+> -		if (!truncate_inode_partial_folio(folio, lstart, lend)) {
+> -			start = folio_next_index(folio);
+> -			if (same_folio)
+> -				end = folio->index;
+> -		}
+> +		truncate_inode_partial_folio(folio, lstart, lend, &start,
+> +					     same_folio ? &end : NULL);
+>  		folio_unlock(folio);
+>  		folio_put(folio);
+>  		folio = NULL;
+> @@ -427,8 +466,8 @@ void truncate_inode_pages_range(struct address_space *mapping,
+>  		folio = __filemap_get_folio(mapping, lend >> PAGE_SHIFT,
+>  						FGP_LOCK, 0);
+>  		if (!IS_ERR(folio)) {
+> -			if (!truncate_inode_partial_folio(folio, lstart, lend))
+> -				end = folio->index;
+> +			truncate_inode_partial_folio(folio, lstart, lend,
+> +						     NULL, &end);
+>  			folio_unlock(folio);
+>  			folio_put(folio);
 >  		}
-> -		proc_put_char(&buffer, &left, '\n');
-> +		proc_put_char(&p, &left, '\n');
->  	}
-> =20
->  	if (!err) {
->=20
-> ---
-> base-commit: 99156fbf3562bed74aa57d93b0b3eeec7c7f1ca6
-Forgot to mention that this sits on top of the partial_ctlvec changes
-which are included in next-20260915.
-
-> change-id: 20260916-lklm-sysctl-void-vs-char-40a0aab31c3e
->=20
-> Best regards,
-> --=20
-> Joel Granados <joel.granados@kernel.org>
->=20
->=20
-
---psh5yc6hlbgix2jo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqqgvAACgkQupfNUreW
-QU+mVgv/T/ABIDC/HvfIYc1feG/R1nrevUewjIUzy58CcXK8vczJYx+5+H0Bv4Q1
-F1mEq69x2IWLYt7gbB1fn+lyY2LMtAVcExlmK/W1JoFkWsfgKZJxDQci+Kt9ffv6
-XyM+tQvu65fqQi0qLvhCvZsomGsXLILLHu9y2TD3gPgpFjeBfkfKqXhEoZU4I2pH
-zgFlEF3S4f33ObAtitfizYN5aIx3Rmfxwi4uOyZiRw86m6ho07N0QfecFm/yTVMc
-gFr8gHrDA1oH775iT4pJajmjZ8kMZivMFz4Vk0gGoab+3gl9KL3N0sHu6c3OGjNx
-Iw8wSFZjbuJFk5cSRulwWKcKPIN8WqMK8RARl+TiD6SksZ25JlNpnPR2n3gSeYLj
-xQaLFO5JZr+g6sw3xyOjmCfdJKtX06EkUDqtVAsm8nLzkmBJ/jrqb5wFal729zkq
-zytAQrGOP6PGWGuKOiki/i45BbroatOxaDIYPkfHW92hm/FRa34Cf2pZE/3lNyRD
-5HlTdLwX
-=Ay2R
------END PGP SIGNATURE-----
-
---psh5yc6hlbgix2jo--
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
