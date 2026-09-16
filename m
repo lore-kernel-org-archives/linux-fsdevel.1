@@ -1,41 +1,42 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5215D354AE3;
-	Wed, 16 Sep 2026 12:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14B337EFF1;
+	Wed, 16 Sep 2026 13:02:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789563310; cv=none; b=poUAO+2cR2WZcKTyYAcw3zaYnNl1ZtrTbOAWrW7oCFeGgezPNi7v185xMWeJvJDBWuGx7lF7skOdKykQ5aNGIFWthCPU5tIm0DQYS8CdZHJtKjtiRsHzx8peAFaGc58gJ+DPJdxYaOAEOOGz4oGQNjTUr6A7HQQwka44X7JviO8=
+	t=1789563780; cv=none; b=hkCr3YtHYfRdSDqs0OydK4bj+YCFU5px2M7lVToM/ZjBMz5tOanYS9laOFZLBuEGQ+ENkV69qlPvcC8pkkGI/2c9bIwf/SDEP0sCAiIQUz1+2CIeR2KCxEpUxAqq5Zj9tIvdUCnjfV+Vehfob6QR+jXHI2OTpWPFIBiiRotgr68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789563310; c=relaxed/simple;
-	bh=o3HXw3Mv/4rCCbM+5kPCF3F8lTAWafj/kNeojieFM6A=;
+	s=arc-20240116; t=1789563780; c=relaxed/simple;
+	bh=Dg6XjoTti4BW7q8X8VJWSfaXqAoeaS1PnmT6DxOiryI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=We4nkLJQuFGXTQId0MkbKKz+drvHR/eU1lqyWtqJ6eDE1xsrZq8Lsnd4Lq8fXmw1mPDAePqqpuIED8EOrupaF6SS7/RH/uosiO3jqP5dFkBPZ3inGEKqa5FwEq5iOS8eeVYGbkDPplXimVrnEz0bPLT79ReGduUMZMGKtUWK8gY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kL2FeXHk; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=KpgoX/jCB29s3xVjaYTw7owHJ5qBRdX+ISwKiuUtop1mJ9v7tcr52ygN/UsjtXGQ904oYYINWhAE5KZXItWbkJHe0wFM0OABkhwYS4wHPXwt2qyCeJVMttqZ1fLkG3fI5XALKlQ2J4sAblH46qwfrCDxmwJxuDPSj1bpObnodak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YtFeZrsn; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kL2FeXHk"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YtFeZrsn"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3+6Kr80JG4BpC+G12cdr/A75Y8Inn6C+PumT0UpV3iA=; b=kL2FeXHkacHaFxdFGZoyyMtDG7
-	qVtQ95V5o5JnWtfqovZodaKZTyDq7rRGm4juqrkFIfvNv7/FRNCmx/rgv9+9cBzJmxNDsORbe5YO4
-	EBjLOt9S7vviqc9E+5Rj3TsFZvqTNdkmiZmfP+bgfg2iqI9I3FJ2YxWo5tVYQClwBxaAJSafk/QBp
-	7UD9D0JS7VJoOky5XYBLvsIObwPtcOsNPXtuoJV/FJewNWmwuQtWz8kjSATnhWXXjFwoQbRr/Thc0
-	Fw2sAxshJ56i6FiSwe5n2WDyQvK376fO1967y4rHuxtN5tz/Ii5es595YxihBgb+CjRx1na6Z7xab
-	Xd/UpRJg==;
+	bh=bywUojkkDxv7YhCqZv+tPm5XeEwqdNL7YKjmi3qlnMo=; b=YtFeZrsnU+A7BU1JaX4MyXUmv0
+	Afu3u0xlzKl09/oYqpikzQAlV95NIXZVXjc0zFmWkjmIgY73Q37I8wvWN0GbTkXOjuuNQ2PjHAp/o
+	TSIp1/ZpiG+WTquDJjQCFQZ9TDty73m7pQijpYxw//tytzQqs7rqvrs5BOInr+ho68tZOsra2OE+u
+	RzQpdzqBLqC7ZkvTRIdt9tWetnBoa4CFxkc2J1jtvmvyR/STiXUfZa0cAxDtDcO254OOsE+Piectw
+	zYpreQeVIdF4Vsz4cACf3CfOOuR6eTqOBfgKt+GqYfiTbsDnLcMtQt6vKWnoMso93wLRnPkfh5A7S
+	2mfphi+g==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6p9t-00000004Tte-28nx;
-	Wed, 16 Sep 2026 12:54:41 +0000
+	id 1x6pHY-00000004VjY-1lcM;
+	Wed, 16 Sep 2026 13:02:36 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 80F96300328; Wed, 16 Sep 2026 14:54:40 +0200 (CEST)
-Date: Wed, 16 Sep 2026 14:54:40 +0200
+	id F144A300328; Wed, 16 Sep 2026 15:02:35 +0200 (CEST)
+Date: Wed, 16 Sep 2026 15:02:35 +0200
 From: Peter Zijlstra <peterz@infradead.org>
-To: Tim Chen <tim.c.chen@linux.intel.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+To: Chen Yu <yu.c.chen@intel.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Dietmar Eggemann <dietmar.eggemann@arm.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
@@ -50,16 +51,18 @@ Cc: Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
 	Srikar Dronamraju <srikar@linux.ibm.com>,
 	Vineeth Remanan Pillai <vineethr@linux.ibm.com>,
 	Ricardo Neri-Calderon <ricardo.neri-calderon@linux.intel.com>,
-	Chen Yu <yu.c.chen@intel.com>, Lu Wang <wanglu.priv@gmail.com>,
-	Hyunwoo Kim <imv4bel@gmail.com>,
+	Lu Wang <wanglu.priv@gmail.com>, Hyunwoo Kim <imv4bel@gmail.com>,
 	Zhan Xusheng <zhanxusheng@xiaomi.com>,
 	Zhan Xusheng <zhanxusheng1024@gmail.com>,
 	Yi Lai <yi1.lai@intel.com>, linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 3/4] sched/cache: Decouple sched_cache_group from mm
-Message-ID: <20260916125440.GF776954@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH 4/4] sched/cache: Introduce task_struct->sched_cache_grp
+Message-ID: <20260916130235.GG776954@noisy.programming.kicks-ass.net>
 References: <cover.1789061845.git.tim.c.chen@linux.intel.com>
- <cb678eddae708e2865ec69a04edf999119c2168a.1789061845.git.tim.c.chen@linux.intel.com>
+ <4532ec4fd5beb829bccb85822a19360fa4191fe6.1789061845.git.tim.c.chen@linux.intel.com>
+ <20260910191901.GW776954@noisy.programming.kicks-ass.net>
+ <72bd9014ee83d5833bc1c78379ead84458045867.camel@linux.intel.com>
+ <aqgF7JHKxQaE0W4b@chenyu-dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -68,141 +71,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cb678eddae708e2865ec69a04edf999119c2168a.1789061845.git.tim.c.chen@linux.intel.com>
+In-Reply-To: <aqgF7JHKxQaE0W4b@chenyu-dev>
 
-On Thu, Sep 10, 2026 at 10:46:11AM -0700, Tim Chen wrote:
+On Mon, Sep 14, 2026 at 10:34:20PM +0800, Chen Yu wrote:
+> On Thu, Sep 10, 2026 at 03:50:56PM -0700, Tim Chen wrote:
+> > On Thu, 2026-09-10 at 21:19 +0200, Peter Zijlstra wrote:
+> > > On Thu, Sep 10, 2026 at 10:46:12AM -0700, Tim Chen wrote:
+> > > > @@ -882,6 +882,20 @@ static int exec_mmap(struct linux_binprm *bprm)
+> > > > +
+> > > > +		old_grp = rcu_dereference_protected(tsk->sched_cache_grp, true);
+> > > > +
+> > > 
+> > > Also: rcu_dereference_protected(.c = true) is another offence, that's
+> > > just wrong.
+> 
+> Got it, will fix it.
+> If I understand correctly, the "c" should never pass an explicit const value?
 
-> +static void sched_cache_group_free_rcu(struct rcu_head *rcu)
-> +{
-> +	struct sched_cache_group *grp =
-> +		container_of(rcu, struct sched_cache_group, rcu);
-> +
-> +	/* free_percpu() may be called from atomic context. */
+Right, that is a bit of an anti-pattern. The 'c' thing is there to
+validate your claim of this in fact being an update side, eg. you
+holding the write lock and all that.
 
-That comment is misleading at best. This is rcu-free context. And
-free_percpu() is not allowed from actual atomic context on RT.
+> The original idea was that, in exec_mmap(), the current running task is the only
+> writer to change tsk->sched_cache_grp, so the condition is true,
+> 
+> To fix it, it might be turned into the following for now:
+> rcu_dereference_protected(tsk->sched_cache_grp, tsk == current);
+> like deref_curr_numa_group().
+> 
+> In the future if task tagging is supported, the race condition of multiple
+> updates would require a pi_lock for this task, and it will become:
+> rcu_dereference_protected(tsk->sched_cache_grp, lockdep_is_held(&p->pi_lock));
+> like what we have done in the prctl based cache aware scheduling patch set:
+> https://lore.kernel.org/lkml/50fe2db1a62ea2376a87d0c14778b1ff456d11ec.1787955777.git.tim.c.chen@linux.intel.com/
 
-> +	free_percpu(grp->pcpu_sched);
-> +	kfree(grp);
-> +}
-> +
-> +void sched_cache_group_put(struct sched_cache_group *grp)
-> +{
-> +	if (!grp || !refcount_dec_and_test(&grp->refcnt))
-> +		return;
-> +
-> +	call_rcu(&grp->rcu, sched_cache_group_free_rcu);
-> +}
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index 32213801ea39..b5a823f0a622 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
+Right, it might also make sense to have a helper, like:
 
-> @@ -1669,18 +1677,35 @@ void mm_init_sched(struct mm_struct *mm,
->  		epoch = rq->cpu_epoch;
->  	}
->  
-> -	raw_spin_lock_init(&mm->sc_stat.lock);
-> -	mm->sc_stat.epoch = epoch;
-> -	mm->sc_stat.cpu = -1;
-> -	mm->sc_stat.next_scan = jiffies;
-> -	mm->sc_stat.nr_running_avg = 0;
-> -	mm->sc_stat.footprint = 0;
-> +	raw_spin_lock_init(&grp->lock);
-> +	grp->epoch = epoch;
-> +	grp->cpu = -1;
-> +	grp->next_scan = jiffies;
-> +	grp->nr_running_avg = 0;
-> +	grp->footprint = 0;
-> +	refcount_set(&grp->refcnt, 1);
->  	/*
-> -	 * The update to mm->sc_stat should not be reordered
-> -	 * before initialization to mm's other fields, in case
-> +	 * The update to grp->pcpu_sched should not be reordered
-> +	 * before initialization to grp's other fields, in case
->  	 * the readers may get invalid mm_sched_epoch, etc.
->  	 */
-> -	smp_store_release(&mm->sc_stat.pcpu_sched, _pcpu_sched);
-> +	smp_store_release(&grp->pcpu_sched, _pcpu_sched);
-> +	/*
-> +	 * Publish the group last.  Not every reader qualifies it by
-> +	 * grp->pcpu_sched - can_migrate_llc_task() only checks that the
-> +	 * pointer is non-NULL before reading grp->footprint and
-> +	 * grp->nr_running_avg - so a reachable group must already be
-> +	 * fully initialized.
-> +	 */
-> +	mm->sched_cache_grp = grp;
+#define rcu_deref_sched_cache_grp(tsk) \
+	rcu_dereference_protected((tsk)->sched_cache_grp, (tsk) == current)
 
-If it is a publish it needs to be store-release.
+such that you don't have to keep repeating this thing over and over.
+Also consider if rcu_dereference_protected() makes sense, I tend to
+unconditionally use rcu_dereference_*check().
 
-> +	return 0;
-> +}
-> +
-> +void mm_destroy_sched(struct mm_struct *mm)
-> +{
-> +	if (mm->sched_cache_grp)
-> +		sched_cache_group_put(mm->sched_cache_grp);
-> +	mm->sched_cache_grp = NULL;
->  }
->  
->  /* because why would C be fully specified */
-> @@ -1738,7 +1763,7 @@ static int get_pref_llc(struct task_struct *p, struct mm_struct *mm)
->  	if (!mm)
->  		return -1;
->  
-> -	mm_sched_cpu = READ_ONCE(mm->sc_stat.cpu);
-> +	mm_sched_cpu = READ_ONCE(mm->sched_cache_grp->cpu);
->  	if (mm_sched_cpu != -1) {
->  		mm_sched_llc = llc_id(mm_sched_cpu);
->  
-> @@ -1781,11 +1806,15 @@ void account_mm_sched(struct rq *rq, struct task_struct *p, s64 delta_exec)
->  	/*
->  	 * init_task, kthreads and user thread created
->  	 * by user_mode_thread() don't have mm.
-> +	 *
-> +	 * A kthread can temporarily adopt an mm via kthread_use_mm(),
-> +	 * so p->mm alone does not imply a user task.
-
-This seems like a related but distinct fix, no?
-
->  	 */
-> -	if (!mm || !mm->sc_stat.pcpu_sched)
-> +	if (!mm || p->flags & PF_KTHREAD || !mm->sched_cache_grp ||
-> +	    !mm->sched_cache_grp->pcpu_sched)
->  		return;
-
-Is this susceptible to TOCTOU ?
-
->  
-> -	pcpu_sched = per_cpu_ptr(mm->sc_stat.pcpu_sched, cpu_of(rq));
-> +	pcpu_sched = per_cpu_ptr(mm->sched_cache_grp->pcpu_sched, cpu_of(rq));
->  
->  	scoped_guard (raw_spinlock, &rq->cpu_epoch_lock) {
->  		__update_mm_sched(rq, pcpu_sched);
-> @@ -1798,11 +1827,11 @@ void account_mm_sched(struct rq *rq, struct task_struct *p, s64 delta_exec)
->  	 * If this process hasn't hit task_cache_work() for a while invalidate
->  	 * its preferred state.
->  	 */
-> -	if ((long)(epoch - READ_ONCE(mm->sc_stat.epoch)) > llc_epoch_affinity_timeout ||
-> +	if ((long)(epoch - READ_ONCE(mm->sched_cache_grp->epoch)) > llc_epoch_affinity_timeout ||
->  	    invalid_llc_nr(mm, p, cpu_of(rq)) ||
->  	    exceed_llc_capacity(mm, cpu_of(rq))) {
-> -		if (READ_ONCE(mm->sc_stat.cpu) != -1)
-> -			WRITE_ONCE(mm->sc_stat.cpu, -1);
-> +		if (READ_ONCE(mm->sched_cache_grp->cpu) != -1)
-> +			WRITE_ONCE(mm->sched_cache_grp->cpu, -1);
->  	}
->  
->  	mm_sched_llc = get_pref_llc(p, mm);
-
-Perhaps it makes sense to have a local:
-
-	struct sched_cache_group *scg = READ_ONCE(mm->sched_cache_grp);
-
-because as is, the compiler is free to keep re-loading that. I mean,
-dumb, but allowed. Also the local variable will shorten some of those
-long expressions.
-
-
-Somewhat applicable to the rest of the patch too, where it makes sense
-and all that.
+The only architecture where it really makes a difference is Alpha, and
+nobody cares about that anymore.
