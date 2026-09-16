@@ -1,139 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFBA2BEC23
-	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 17:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC8147DF95
+	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 17:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789578578; cv=none; b=l1Ck1NYH/Va49lZNpW9CZq17Y1Wvz9cTBNVKvoGxz6F2dwFJOe70mKREIfwtfmU7ia4gf/ooSMSORLa2L2vt1IS8K0hN5u+pkxax9gmItejTAWVUyCZjKZwhBvyR55jesUkrIEFRRVS/rsLEgLImYb1URHsyBwrjPC6eOI8l+HM=
+	t=1789578919; cv=none; b=JWiPWje6Ib7+SV9Ru6GIN989ySi3r4eh2CIP/Mz8p11mT16e9YVVkIKB6zJUHkKjFBO8qSv8UUGDk4c8kwJwDMEEfUrW6B+pbxGo85wHKykcYWWvtZWqdMhdjd6kNcbBBIO6tPpMPOfL15x61ta6N3HZh8RFY8CIUusNoydaTY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789578578; c=relaxed/simple;
-	bh=wzoOAZtHWO1VK42/OD6jmwXxNw2aPfhujFb1VZifudM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/kep6oi3lQvLVPE2WL0XDy48nFbIs3qagF1S5+gBTWE8Z0kGz/uuu8dZhGDOjbY9iYCog4M3WyyCwrR3qtMb27zNys4Fuhd2sPpI/VbeSmw8De5L7eadZaa7z0oB9s9EleCA7u5aVq/9RxtnrGEhnzObCYqFpwq/9HPeDnThMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LWqerj0a; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789578919; c=relaxed/simple;
+	bh=A+U0jlBemz92XWR1C9KXngYLR2hMO+q63YxsFIbVEm8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=oiwhFESQzzPHkx66Op5nLHAz4/Jum1sFknOeMBQDbjlPJWx9lq1BD6xkR+n61ku7G+jNW03UjcJk+Y3nCSokSS71D/Q3aNrBrx/QP1zh3K66frffOShhj+TbIb0x6G1UPZVVqP1kOoT4iwpKImcwXbJvYa1v/Wbvz6CpuH+kc+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=mquM40OU; arc=none smtp.client-ip=74.125.224.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LWqerj0a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B33741F00898;
-	Wed, 16 Sep 2026 17:09:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789578567;
-	bh=EYIPtNMDNyQ/6WY1hk2JBEVGtLHLfjG619n8HAgX2tw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LWqerj0asUBl5mtWNWo7n/nykCqCU502c2DJydmt2eMm7kzsEvMm9nPaKCKnYxFle
-	 PtJ4nQtsfIWJrDtrDFpS4Ro3cO7+E5Fo7fC8y+ZE08Li+lRcdurVqgRlxM41vlWpvH
-	 cPFaiYckAIS3XUTkkwbCtKT5yzSJ0NY15pBcj2+2sZVOK4jJmWZqJQwXpWUKBouDjU
-	 VborlYuABqOtgaJHC4/qx6LFR/W6ZJAk+SXmbugszPA5iXmBsKbQslwn32WDORnPt0
-	 q9Fhq5vhndQDxsJfruuRYAWGkZu+moIPwHBUWk5lffpo36mq4f0+8Ghe3NzOOOCcYJ
-	 cFCxxhMTRfWWA==
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 37F4F198003A;
-	Wed, 16 Sep 2026 13:09:20 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Wed, 16 Sep 2026 13:09:24 -0400
-X-ME-Sender: <xms:P82qaiwtHNsjl1hytDOaqAe2_6EnrUrcXt0YfqaFCHBsC1kn_e4gAw>
-    <xme:P82qavHnQFv0mIWxMbXrNw6e8CuhjHis_cEvFycaQtXEPGUBUZOZG0Nowg2VtLybu
-    XKviAE09c-CjE4SKlyODnQZNoS8yGD-pLu1VLsUt1Cbqhw279yV4rZc>
-X-ME-Received: <xmr:P82qai6IeaGYtne0hJP-GQQZwYeGGBBW7KK-J8g6wGh258to265jQr29PBk>
-X-ME-Proxy-Cause: dmFkZTFV2UCcZr2GlXxYscRnpO5twby6pXhiHVdxeWgqRFx4KTYs3c1z/LJtw2pl3bmLGT
-    SjKcaugx9MWXu+xOcXXwd3VtNepswxZmDVEUvi4lQHUKvURxNnarwj9loY6NXKq6Cmax9y
-    wvcU8EkW3DVn16heKoIFJ9UsUjMtAoXK96bkebfHJeZRVjxqjgNOj5/kPQYwVdE6TQ023p
-    CCMxllIHDMNupE3Ac77/LjqyVd4CZI78dRY4ZeB+OTMw0dQ5oQfzfZU3NzQDR3P7wW0c4C
-    MR6zFt8bbwxRh8gyLQ4m2aFbkZWXqUilZTaeerE8U5TZFrY9Tu74f8LWMkHwlcVPKSEYI2
-    ELt8rO+LmPoGRacMpaFK8VJNEhSga/OemsP/etzQg1NA43uDvwJZ0Q2iamr6+cOrrJOhhZ
-    Ob/D4EoB7s9eGmNKK9Wz6Ql53fVTRhZz9hsfNDrz/iRxFYhzq1Oet95QNfTfSTAx8qRS12
-    XoveBvdLrXUqsJgzaNLg5Xp6q9CDIweabgLMlRM8sT2kuNZr1P11u9NUfzslS40hwlG4mM
-    BBJQCOEnxSthIZ6iy2lRp+l50IFyD/wYYuipel/bc7f2gdEIMGPIcUiJ0nRIi3ODY3yYAB
-    l0dUjaHDx59hhDtjphJgpyQSHZMQNDMPfPiHlFmeY+TovoCEGh26+KFTIK+g
-X-ME-Proxy: <xmx:P82qauV7CdE5fVc-RlAU-sFYarVXpHS9ezru3zj4s_TpDtcO4BmE0w>
-    <xmx:P82qavJfqmCsNrsZp8GNVrYoFUI_uoM5FdBIHd_xHZAV57bSfl6d6Q>
-    <xmx:P82qauQ2vQD3aUgol4h2WHHUmis3y1dwQGiZabPW3M1vGPioub3tXQ>
-    <xmx:P82qaiBnhXmiTuoavJ0sd348dWGmzObwLtYoGHBva5EB2kMbIk800w>
-    <xmx:P82qak-gvAifzihzhevXQjss8iKtVSzDLmJGWJhmOTU4yAarpr4l6OnL>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Sep 2026 13:09:18 -0400 (EDT)
-Date: Wed, 16 Sep 2026 18:09:17 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: akpm@linux-foundation.org, David Hildenbrand <david@kernel.org>, 
-	Boris Burkov <boris@bur.io>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
-	Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [RFC PATCH 0/5] mm: sub-folio dirty tracking for PTE-mapped mmap
- writes
-Message-ID: <aqrJAX6nMTIo6Vnn@thinkstation>
-References: <20260903182943.662461-1-kirill@shutemov.name>
- <ap6LFvuOuWf_BkGi@thinkstation>
- <aqrDfoFFr8o0Mf0G@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="mquM40OU"
+Received: by mail-yx2-f43.google.com with SMTP id 00721157ae682-85d4ddd179eso11152757b3.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 10:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1789578913; x=1790183713; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=A+U0jlBemz92XWR1C9KXngYLR2hMO+q63YxsFIbVEm8=;
+        b=mquM40OU8vAERJTo6NESYSUZNFUreyJWW/Pxjin+NDC8g+UTeTgLTdgXqVeUEchKFr
+         2mYQT+dQNXgHWfdNglZIgJ4xcqbUGw8AV03WDgDqbDJ1UCedhJCnkFoEKJ1Z6wXVDsRm
+         239bx3uThskJlJ6Q2od2sNMsEUrTdp/BhYrTswfv3GFnCQiGVOhFon7HPneO1sQJlwOL
+         3Ag/dg8Q3DFkj1Sfgf6wgsy46pQWatsfym5HBEmMSoiT/r0RW01FG9YK8mxQ7PMct6wd
+         adZRvFTz/yuWSr0jd9sMQJ8h+aTgVpELrp4LLcACUuIDeFika1C9Jv3dpPk35QuZQ246
+         lFeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789578913; x=1790183713;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=A+U0jlBemz92XWR1C9KXngYLR2hMO+q63YxsFIbVEm8=;
+        b=TYzVXY8jfWzIygRphfdbsnT+yXNrtK/425tbz2VR2jCmb4rDB81be3Scze9wF1sf1r
+         juyl2AuSJTlB/4M/2FVqIBP6G6F7grYuuPy5EQnNF2wlR2a2pmfwDeuOsQ+GzQ7AsQ4t
+         8Sp+nzUql2VQUJ9l3ZjNvKumiII6uXhODqnANiBiVSl2YMDLufuZYoHppLW0atI1JIw6
+         OaWU8LbeyMBwtvFsgGvGoPo4hmdzzav9Azg1ovY7wZy0d/g9iP3hib8IBHaHXZZAfOL2
+         FHzyrfNFE7BXuKH0a2r+aELFG38keA5LaOGbagooILbtmNG3Ev4sNnvXAQs28VPNpIed
+         R3sA==
+X-Forwarded-Encrypted: i=1; AKwUvBxYkxnLuMuGq7Tj6sfxl0aN+1xM2qTvbzq3h00KLg8HeIRtuYytJxg7vWeFAb2C127MDKWMvWWbSJU9+G3e@vger.kernel.org
+X-Gm-Message-State: AFuF++k56QsqdAluWIa/xq/oFCVX4Q8jDsu+l/QoLl5QjWYw3gCmwSWp
+	D9ugWZLd1UxY3lwiJYN8NlTb4P2wtba3tB6EBDhAQepHtJKZvLEfcmVdMHbeSrtYtQ4=
+X-Gm-Gg: AYBFou29z1R2tFW/shNoBglOUMFEwDIwi5FqHyNlvKg3jkKlOH/CPy9WuQF3Xzlxwfo
+	Qk79Sl7KFb20y0hGZ1VHNRlVpFba1UI8wKOpGN71YdT15JCRb77AntNx7ct0AN5H5DNI7yrxmw8
+	X83VmW8uykb2BnuseUwI7Zf82rU2es6eX1a2J5a18XJoAcG4cK7jJ10YOWiFJWYJ+kwrMP7+u8J
+	mUI7L2m7/D1HIF7Lyp8W+KIr5jb/zc82a4eUcAwFro7fRuyb5Icnl6LN+JW41TJ10G6xBHhZtIw
+	dELNpd79571VoknM783vhwSOWqBCmderuku2x/H0m8LRNdVs7u57U8mlevwph/GN/x/it6ccJtX
+	ONNqDJrlN202kMcdCGng9pi51z16Z/PNY6ZOiZk5JjTkvDOF6JAXwNO+zKEATW6pBg2me38bvSi
+	U0TGDGw6rUGycrf+ZJ1CcKeYDfHqr+oXrTDuU0Ye7h4c8qUtf4jVx3uO/UTXC74azskbcJ5lzbM
+	PM6fOJ7F8PhaVrKDcBAaISuyIBTsgd0UG143/lD/vA/ywf1ZwKTbirHWlY0wk7LSRrX47tp5f58
+	edX/uRyNVb37pSIp+rPrz6APRBcKVhkUxOylBfAtH9AEARVcwtjYEGXbGoM9dk8F
+X-Received: by 2002:a05:690c:84:b0:86c:c7a8:2ebd with SMTP id 00721157ae682-8922a9fba9bmr14494777b3.34.1789578913520;
+        Wed, 16 Sep 2026 10:15:13 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:f547:a2c0:72f7:6671? ([2600:1700:6476:1430:f547:a2c0:72f7:6671])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-891efc0dfcbsm10099737b3.26.2026.09.16.10.15.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 10:15:12 -0700 (PDT)
+Message-ID: <2f3de27f1a824fed104918fc2756c33663ae978c.camel@dubeyko.com>
+Subject: Re: [PATCH v4 2/2] hfsplus: validate b-tree fork extents at mount
+ time
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
+	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
+Date: Wed, 16 Sep 2026 10:15:11 -0700
+In-Reply-To: <7d1b09519cddf5124def5fdda42a5a3c8ba4ef11.camel@dubeyko.com>
+References: <cbc98010b9f6657e162cfcc6ac5ba6032e7b729d.camel@dubeyko.com>
+		 <20260915141543.24335-1-ngocthang2710.1999@gmail.com>
+	 <7d1b09519cddf5124def5fdda42a5a3c8ba4ef11.camel@dubeyko.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqrDfoFFr8o0Mf0G@casper.infradead.org>
 
-On Wed, Sep 16, 2026 at 05:27:42PM +0100, Matthew Wilcox wrote:
-> On Mon, Sep 07, 2026 at 11:15:15AM +0100, Kiryl Shutsemau wrote:
-> > Boris pointed me to Matthew's proposal to remove ->dirty_folio:
-> > 
-> > https://lore.kernel.org/all/aoyWln-Gt-yvZQkE@casper.infradead.org
-> 
-> Thanks, Boris ;-)
-> 
-> > I agree that the current ->dirty_folio() makes little sense and that
-> > dirtying the folio can be bundled into ->page_mkwrite(), as they are
-> > matched 1-to-1.
-> > 
-> > My proposal makes the distinction between making the folio writable and
-> > making it dirty meaningful. ->page_mkwrite() allocates whatever is needed
-> > on the filesystem side to track dirty state and drive writeback for the
-> > *folio*, while ->dirty_folio_range() marks part of the folio dirty.
-> 
-> Why do you think that's a meaningful distinction?  We create a writable
-> PTE because we've taken a page fault for write.  There's probably a few
-> naoseconds where the PTE is writable+clean before it becomes
-> writable+dirty, but even then sometimes we do both pte_mkwrite() and
-> pte_mkdirty() as an optimisation in the write fault path.
+On Tue, 2026-09-15 at 16:48 -0700, Viacheslav Dubeyko wrote:
+> Hi Nguyen Ngoc,
+>=20
+> Please, don't move your answers from the code where I left my
+> questions. I really cannot follow to your answers and the whole
+> discussion is broken. I cannot follow to your answers. I am simply
+> rejecting the whole email.
+>=20
 
-This is true for the PTE that the fault was for. But we don't necessarily
-want to dirty the other 511 pages at the same time.
+Could you please send the formal patch v5 and we can re-start the
+discussion from this point? It's really hard to continue discussion if
+the questions and answers have been moved from the code context. And it
+really complicates the review if you mess the discussion and new code
+together. Please, send new state of the code as a formal patch but not
+the part of the discussion. This mixture blows my mind.
 
-The basic idea is to make the whole folio writable at fault and shift
-dirtying to be per-PTE on write to it.
-
-> > We can still drop ->dirty_folio(). A filesystem can provide
-> > ->dirty_folio_range() if it wants fine-grained (sub-folio) dirty
-> > tracking.
-> > 
-> > A separate question is whether we want to avoid installing a writable PMD
-> > entry for filesystems that want fine-grained dirty tracking. I have a
-> > patch for this, but it deserves a separate discussion once we agree that we
-> > want this for PTE-mapped folios first.
-> > 
-> > Any feedback?
-> 
-> It's very odd to be optimising for shared-writable-mmap.  This is a
-> horrid model for I/O.  https://cs.brown.edu/people/acrotty/pubs/p13-crotty.pdf
-
-Sure.
-
-But not everybody got the memo[1] :P
-
-I think it worth considering if we want to make large folio adoption
-smoother.
-
-[1] https://www.reddit.com/r/bcachefs/comments/1vepk4a/comment/p1sn4v1/
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Thanks,
+Slava.
