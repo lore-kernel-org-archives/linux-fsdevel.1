@@ -1,221 +1,209 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A159C3E317F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 16 Sep 2026 14:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9C650EBFF;
+	Wed, 16 Sep 2026 14:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789567330; cv=none; b=CqqFaLTIQ/aT8Z1Rnx1THLZ35/tprpSyg0e7f3cBHbRVXyZDME2r5eLgRilHi8wp/muSJUZVOyKpUzWJzKG0yWyVj9qlgSMIXnY3KH3F4IOnDuUVo2xgMFQKeiy2SNs5mog83tkDT90S7aS69xzM/z7VR72n9j9+WqpPfz2Howk=
+	t=1789568806; cv=none; b=HlenP0yMWSE2dTZ/M3TPwa/kzjp+r07T542cid1nmYNZ2RL818yhDu+EBLB3w3NENjjWDVfIwuqOreGj0TgcUubsnjyX9XHe/qTKymqSXBWC39VYa5um3Wov56eqpvO+/qT8bIvI2HeCgnbBNT6/VbH4xcF1YrxovxxSovAUqbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789567330; c=relaxed/simple;
-	bh=b2xft+OKM2lLyQoaD18uV1GzD7Aiiqrxm6TJCdgd2P8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=gZp0J3sbT3XP5D4LzdOdUESBvtL1IuQi5FZdPiTcoTiKbLDPo2n4Y9qoIUNpQAL+MoIwDRGXx8sTzaBuYED4xOrSBvk8jyejfjyfxdGQigBH3aiYBGhsuwJLa7ECpVdr36Odme8WlKzTmXCweS+lnDuxgwm1BK3Mw/3zVZL9Q9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=njiP/rxj; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1789568806; c=relaxed/simple;
+	bh=SRRj8Lp8tzYtrQyCSb79OsOMUaN+jBDusAL0HrXiVAk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lfK5DVzDXbda9SSTGy94tNuPIe7dtj/FpkhHO+qRW9gtQVCotQhOLoL9ph9eO/sE+wVogXBD+oXyVjjxdpwz3fRW604c+cZW1G6GJ7LOK+4kCc7Uo4yhxZEjdEbOLvNmQbRAkpDZa3FgE4fkS3TV9PZvvM1LtbZjt7j8ylfWGT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HqH7Eo+v; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="njiP/rxj"
-X-KPN-MessageId: 2e5aacfe-b1d7-11f1-8f57-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 2e5aacfe-b1d7-11f1-8f57-005056992ed3;
-	Wed, 16 Sep 2026 16:01:57 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 2e59d1aa-b1d7-11f1-a07b-0050569981f5;
-	Wed, 16 Sep 2026 16:01:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=KNPF855LWyArwiBTo/NsLgkSqeHprkbCNAzYgmKihk4=;
-	b=njiP/rxjV4DV8RpS3k0wfi1drWVXVrMQZqKAwjkS7nlJVvwr/zp2Gt3YFLc2kcCwkA10+PxHM40e6
-	 uXtdPQG0PcgaczR0WPPdlCzscxyHxKjuittwRKn6cT0L7bG/hOy3Ce3vZmwKpjWxHSqoDyuKI3Daw8
-	 TudRJkg1N+LGETgFZg5SqYJbp2ju6zm1yXRGvOXJWcTaVW0Zjd6byWJ8evWA0o+MgtX2/2PQUU8IR+
-	 r5j1meM2ICepAFKYbhlMNdG0ViW73oW27uECOinzByDQbCiXMIch4wWDDxYEyBiHdpn+teodSrx4Ec
-	 5abbuftLBdfOpvjy/f6Xs9rZQoR5i5Q==
-X-KPN-MID: 33|C9zVEll4OUbKdsU5tNMIxsF3gEx17Vmw5PRawJ5JCL7AUMeW9ifqCtdXsNM3HFB
- 6tTtNH1dUxlb77I1rfKLM/97GQWY73zLQfL/FaT+W9Ck=
-X-CMASSUN: 33|WSRBIeDpSsFYrliGnJ5yNIoq6U1lWyF+Pja11w6edSIvBSHUwA4F3WLUCJrWz3g
- XLED+gCp3/aeJUBgdLfmGxQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 2e4af220-b1d7-11f1-8edc-00505699eff2;
-	Wed, 16 Sep 2026 16:01:57 +0200 (CEST)
-Date: Wed, 16 Sep 2026 16:01:57 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>, Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org
-Message-ID: <2052084198.1190749.1789567317791@kpc.webmail.kpnmail.nl>
-In-Reply-To: <178950702008.207413.8966334050259525793@noble.neil.brown.name>
-References: <20260910002934.192979-1-neilb@ownmail.net>
- <20260910002934.192979-5-neilb@ownmail.net>
- <aqlXZ7Gunepk_4uV@lt-jori.localdomain>
- <178950702008.207413.8966334050259525793@noble.neil.brown.name>
-Subject: Re: [PATCH 4/7] vfs: change vfs_lookup_open() to return found
- dentry in path.dentry.
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HqH7Eo+v"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 69451C5CD63;
+	Wed, 16 Sep 2026 14:27:22 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5A66560337;
+	Wed, 16 Sep 2026 14:26:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 04CC811C7B048;
+	Wed, 16 Sep 2026 16:26:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789568797; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=u95/IOetWw7YhA6piQhl/mbWIjAVJEKTMn5W6ZdL9Wo=;
+	b=HqH7Eo+vWLt21fAPLhP5Q3NNlH6qNXBsaP4ZPq2hfGA+CCnS7ljdSNB3oiygLzbNqbTwGw
+	JezCMt5qoLZh8vxDrnLTugO/eRFv3DaU3ycyopzO/j9HLPHTlBJWoe07RVS4jC5pNxPpT2
+	nIRZYyuoWoLjECiCwmT1mNW7OmBIS2pJ89cb136JM3WYyyTFxQc4F3OOc1U/u7LGgI8B1Y
+	20zhXxWx25654NSr1dSfIDVxL7cll0YrQdelPJWS84ScNA6oa/CCcNwodzt0YXB0mBw0gZ
+	OHUTS2szFLKhlhVPIhO1r7V3oBOMjotOmOP0kZqOMZA2FYMvJcrUyGHd6dl4MQ==
+From: "Miguel Gazquez (Schneider Electric)" <miguel.gazquez@bootlin.com>
+Date: Wed, 16 Sep 2026 16:26:27 +0200
+Subject: [PATCH 5.10.y] iomap: iomap: fix memory corruption when recording
+ errors during writeback
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Message-Id: <20260916-cve-2022-50406-v1-1-f4423f258ceb@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ7CMAxE0atUs8aVEyVGcBXEAowLZlFQAhWo6
+ t0JsHwjzZ9RrbhVbLsZxSavfhsbwqqDXg7j2chPzYgchTdBSCejhkiZEwuJDMoxZU15jXa6Fxv
+ 89QvukPvA/Rv7/16fx6vp41vDsnwAHQrQVXoAAAA=
+X-Change-ID: 20260916-cve-2022-50406-66fc0245c457
+To: stable@vger.kernel.org, Christoph Hellwig <hch@infradead.org>, 
+ "Darrick J. Wong" <darrick.wong@oracle.com>, linux-xfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Dave Chinner <dchinner@redhat.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ "Darrick J. Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org, 
+ "Miguel Gazquez (Schneider Electric)" <miguel.gazquez@bootlin.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789568793; l=6409;
+ i=miguel.gazquez@bootlin.com; s=20250708; h=from:subject:message-id;
+ bh=gXWECteyyuXK9ElQ+OQbY8mSmzeAtl/FSRC5hX+2z88=;
+ b=n/JjlMTn1esm4ViCTJE8e28O7wtPHMuUZ81A57dUVU1l3Ve4Ep1O5A0kVjndJJRg9QTXOQwYt
+ tX7LS6spkKABzgTTQHrPNQGSHvRDzxQou162V1rHboUx7thzHzxAHcH
+X-Developer-Key: i=miguel.gazquez@bootlin.com; a=ed25519;
+ pk=k/2KI9jkmayaF0ghZ8QYUH9Wm/kFHDhl8QoZ0RHbr4w=
+X-Last-TLS-Session-Version: TLSv1.3
 
+From: "Darrick J. Wong" <djwong@kernel.org>
 
-> Op 15-09-2026 23:17 CEST schreef NeilBrown <neilb@ownmail.net>:
-> 
->  
-> On Wed, 16 Sep 2026, Jori Koolstra wrote:
-> > On Thu, Sep 10, 2026 at 10:20:50AM +1000, NeilBrown wrote:
-> > > From: NeilBrown <neil@brown.name>
-> > > 
-> > > The caller - nfsd - needs to know the type of object found when a
-> > > non-regular file was found to exist.  This is most easily done
-> > > by passing back the dentry.
-> > > 
-> > > So change calling pattern so that the path (now called "path") contains
-> > > the parent dentry on entry and the child dentry on exit.
-> > > vfs_lookup_open() will dput() the parent and caller must dput() the
-> > > child.
-> > > 
-> > > If lookup_open() returns -EFTYPE (from ->atomic_open()) we need to
-> > > use d_lookup() to find the dentry.  If ->atomic_open() didn't add a
-> > > dentry to the dcache we return %NULL in %path->dentry.
-> > > 
-> > > Signed-off-by: NeilBrown <neil@brown.name>
-> > > ---
-> > >  fs/namei.c | 31 ++++++++++++++++++++++---------
-> > >  1 file changed, 22 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/fs/namei.c b/fs/namei.c
-> > > index 0c787363b101..30ccc0c2f02f 100644
-> > > --- a/fs/namei.c
-> > > +++ b/fs/namei.c
-> > > @@ -4606,7 +4606,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
-> > >  
-> > >  /**
-> > >   * vfs_lookup_open - open and possibly create a regular file
-> > > - * @parent: directory to contain file
-> > > + * @path: directory to contain file
-> > >   * @last: final component of file name
-> > >   * @open_flag: O_flags
-> > >   * @mode: initial permissions for file
-> > > @@ -4619,9 +4619,15 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
-> > >   * If the fs object found is not a regular file then -EFTYPE is
-> > >   * returned.
-> > >   *
-> > > + * @path is updated to contain the dentry that was found if possible.
-> > > + * In particular, if -EFTYPE is returned, then @path.dentry will be the
-> > > + * object that is not a regular file, or %NULL.
-> > > + * Consequently the caller must be prepared for @path.dentry to be
-> > > + * dput(), an it must dput() whatever is in @path.dentry after the call.
-> > > + *
-> > >   * Returns: the opened struct file, or an error.
-> > >   */
-> > > -struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > > +struct file *vfs_lookup_open(struct path *path, struct qstr *last,
-> > >  			     int open_flag, umode_t mode)
-> > >  {
-> > >  	struct file *file __free(fput) = NULL;
-> > > @@ -4638,7 +4644,7 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > >  	mode |= S_IFREG;
-> > >  	open_flag |= __O_REGULAR;
-> > >  
-> > > -	error = lookup_noperm_common(last, parent->dentry);
-> > > +	error = lookup_noperm_common(last, path->dentry);
-> > >  	if (error)
-> > >  		return ERR_PTR(error);
-> > >  
-> > > @@ -4646,7 +4652,7 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > >  	if (IS_ERR(file))
-> > >  		return file;
-> > >  
-> > > -	nd.path = *parent;
-> > > +	nd.path = *path;
-> > >  	nd.last = *last;
-> > >  	nd.flags = LOOKUP_OPEN;
-> > >  	if (open_flag & O_CREAT) {
-> > > @@ -4658,9 +4664,18 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > >  	op.mode = mode;
-> > >  	dentry = lookup_open(&nd, file, &op);
-> > >  
-> > > -	if (IS_ERR(dentry))
-> > > +	if (IS_ERR(dentry)) {
-> > > +		if (dentry == -EFTYPE) {
-> > > +			/* Try to determine what was found */
-> > > +			struct dentry *child = d_lookup(path->dentry, &nd.last);
-> > > +			dput(path->dentry);
-> > > +			path->dentry = child;
-> > > +			WARN_ON_ONCE(child && d_is_reg(child));
-> > > +		}
-> > >  		return ERR_CAST(dentry);
-> > > -
-> > > +	}
-> > > +	dput(path->dentry);
-> > > +	path->dentry = dentry;
-> > >  	if (d_really_is_negative(dentry)) {
-> > >  		error = -ENOENT;
-> > >  	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL)) {
-> > > @@ -4668,10 +4683,8 @@ struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > >  	} else if (!d_is_reg(dentry)) {
-> > >  		error = -EFTYPE;
-> > >  	} else if (!(file->f_mode & FMODE_OPENED)) {
-> > > -		nd.path.dentry = dentry;
-> > > -		error = vfs_open(&nd.path, file);
-> > > +		error = vfs_open(path, file);
-> > >  	}
-> > > -	dput(dentry);
-> > >  
-> > >  	if (error)
-> > >  		return ERR_PTR(error);
-> > > -- 
-> > > 2.50.0.107.gf914562f5916.dirty
-> > > 
-> > 
-> > OK, so if I understand the problem correctly: the current implementation
-> > does not work for the purposes of NFS because ->atomic_open() may return
-> > EFTYPE on O_REGULAR and then you still don't know what that found dentry
-> > was.
-> > 
-> > An arugument with such specific calling conventions feels kinda yucky
-> > and easier to get wrong. Why not an out enum arg that specifies the
-> > found dentry type? Seems at least a bit cleaner. What do you think?
-> 
-> I'm alternating between an out dentry arg separate from path, and
-> reliably returning one of -EISDIR, -ELOOP, and -EFTYPE.  Those are
-> all well defined error codes that are used for exactly this sort of
-> thing.
+Every now and then I see this crash on arm64:
 
-It's only internal callers anyway, so I would take the leeway with some
-errno proliferation. Seems fine to me, especially since NFS needs exactly
-this info.
+Unable to handle kernel NULL pointer dereference at virtual address 00000000000000f8
+Buffer I/O error on dev dm-0, logical block 8733687, async page read
+Mem abort info:
+  ESR = 0x0000000096000006
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x06: level 2 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000006
+  CM = 0, WnR = 0
+user pgtable: 64k pages, 42-bit VAs, pgdp=0000000139750000
+[00000000000000f8] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000, pmd=0000000000000000
+Internal error: Oops: 96000006 [#1] PREEMPT SMP
+Buffer I/O error on dev dm-0, logical block 8733688, async page read
+Dumping ftrace buffer:
+Buffer I/O error on dev dm-0, logical block 8733689, async page read
+   (ftrace buffer empty)
+XFS (dm-0): log I/O error -5
+Modules linked in: dm_thin_pool dm_persistent_data
+XFS (dm-0): Metadata I/O Error (0x1) detected at xfs_trans_read_buf_map+0x1ec/0x590 [xfs] (fs/xfs/xfs_trans_buf.c:296).
+ dm_bio_prison
+XFS (dm-0): Please unmount the filesystem and rectify the problem(s)
+XFS (dm-0): xfs_imap_lookup: xfs_ialloc_read_agi() returned error -5, agno 0
+ dm_bufio dm_log_writes xfs nft_chain_nat xt_REDIRECT nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip6t_REJECT
+potentially unexpected fatal signal 6.
+ nf_reject_ipv6
+potentially unexpected fatal signal 6.
+ ipt_REJECT nf_reject_ipv4
+CPU: 1 PID: 122166 Comm: fsstress Tainted: G        W          6.0.0-rc5-djwa #rc5 3004c9f1de887ebae86015f2677638ce51ee7
+ rpcsec_gss_krb5 auth_rpcgss xt_tcpudp ip_set_hash_ip ip_set_hash_net xt_set nft_compat ip_set_hash_mac ip_set nf_tables
+Hardware name: QEMU KVM Virtual Machine, BIOS 1.5.1 06/16/2021
+pstate: 60001000 (nZCv daif -PAN -UAO -TCO -DIT +SSBS BTYPE=--)
+ ip_tables
+pc : 000003fd6d7df200
+ x_tables
+lr : 000003fd6d7df1ec
+ overlay nfsv4
+CPU: 0 PID: 54031 Comm: u4:3 Tainted: G        W          6.0.0-rc5-djwa #rc5 3004c9f1de887ebae86015f2677638ce51ee7405
+Hardware name: QEMU KVM Virtual Machine, BIOS 1.5.1 06/16/2021
+Workqueue: writeback wb_workfn
+sp : 000003ffd9522fd0
+ (flush-253:0)
+pstate: 60401005 (nZCv daif +PAN -UAO -TCO -DIT +SSBS BTYPE=--)
+pc : errseq_set+0x1c/0x100
+x29: 000003ffd9522fd0 x28: 0000000000000023 x27: 000002acefeb6780
+x26: 0000000000000005 x25: 0000000000000001 x24: 0000000000000000
+x23: 00000000ffffffff x22: 0000000000000005
+lr : __filemap_set_wb_err+0x24/0xe0
+ x21: 0000000000000006
+sp : fffffe000f80f760
+x29: fffffe000f80f760 x28: 0000000000000003 x27: fffffe000f80f9f8
+x26: 0000000002523000 x25: 00000000fffffffb x24: fffffe000f80f868
+x23: fffffe000f80fbb0 x22: fffffc0180c26a78 x21: 0000000002530000
+x20: 0000000000000000 x19: 0000000000000000 x18: 0000000000000000
 
-> My current thought is to modify ->atomic_open to respond to __O_REGULAR
-> either by calling finish_no_open() so the caller can inspect the dentry
-> directly, or to return one of those three errors as appropriate.
-> VFS code can map them all to -EFTYPE for syscalls, and nfsd can use the
-> raw error code.
+x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+x14: 0000000000000001 x13: 0000000000470af3 x12: fffffc0058f70000
+x11: 0000000000000040 x10: 0000000000001b20 x9 : fffffe000836b288
+x8 : fffffc00eb9fd480 x7 : 0000000000f83659 x6 : 0000000000000000
+x5 : 0000000000000869 x4 : 0000000000000005 x3 : 00000000000000f8
+x20: 000003fd6d740020 x19: 000000000001dd36 x18: 0000000000000001
+x17: 000003fd6d78704c x16: 0000000000000001 x15: 000002acfac87668
+x2 : 0000000000000ffa x1 : 00000000fffffffb x0 : 00000000000000f8
+Call trace:
+ errseq_set+0x1c/0x100
+ __filemap_set_wb_err+0x24/0xe0
+ iomap_do_writepage+0x5e4/0xd5c
+ write_cache_pages+0x208/0x674
+ iomap_writepages+0x34/0x60
+ xfs_vm_writepages+0x8c/0xcc [xfs 7a861f39c43631f15d3a5884246ba5035d4ca78b]
+x14: 0000000000000000 x13: 2064656e72757465 x12: 0000000000002180
+x11: 000003fd6d8a82d0 x10: 0000000000000000 x9 : 000003fd6d8ae288
+x8 : 0000000000000083 x7 : 00000000ffffffff x6 : 00000000ffffffee
+x5 : 00000000fbad2887 x4 : 000003fd6d9abb58 x3 : 000003fd6d740020
+x2 : 0000000000000006 x1 : 000000000001dd36 x0 : 0000000000000000
+CPU: 1 PID: 122167 Comm: fsstress Tainted: G        W          6.0.0-rc5-djwa #rc5 3004c9f1de887ebae86015f2677638ce51ee7
+ do_writepages+0x90/0x1c4
+ __writeback_single_inode+0x4c/0x4ac
+Hardware name: QEMU KVM Virtual Machine, BIOS 1.5.1 06/16/2021
+ writeback_sb_inodes+0x214/0x4ac
+ wb_writeback+0xf4/0x3b0
+pstate: 60001000 (nZCv daif -PAN -UAO -TCO -DIT +SSBS BTYPE=--)
+ wb_workfn+0xfc/0x580
+ process_one_work+0x1e8/0x480
+pc : 000003fd6d7df200
+ worker_thread+0x78/0x430
 
-Personally, I like this last idea the most. Still, I wish there was a more
-general way to signal XYZ problem happened during function call without any
-worrying about collisions on the very limited errno space. I understand that
-you can decouple the local error codes returned by not directly forwarding
-any errnos from called functions, but this is often impracticable or at
-least requires an ugly errno translate.
+This crash is a result of iomap_writepage_map encountering some sort of
+error during writeback and wanting to set that error code in the file
+mapping so that fsync will report it.  Unfortunately, the code
+dereferences folio->mapping after unlocking the folio, which means that
+another thread could have removed the page from the page cache
+(writeback doesn't hold the invalidation lock) and give it to somebody
+else.
 
-Interested on perspectives from kernel veterans here what is wisdom, I've ran
-into this myself too.
+At best we crash the system like above; at worst, we corrupt memory or
+set an error on some other unsuspecting file while failing to record the
+problems with *this* file.  Regardless, fix the problem by reporting the
+error to the inode mapping.
 
-Jori. 
+NOTE: Commit 598ecfbaa742 lifted the XFS writeback code to iomap, so
+this fix should be backported to XFS in the 4.6-5.4 kernels in addition
+to iomap in the 5.5-5.19 kernels.
 
-> 
-> Thanks,
-> NeilBrown
+Fixes: e735c0079465 ("iomap: Convert iomap_add_to_ioend() to take a folio") # 5.17 onward
+Fixes: 598ecfbaa742 ("iomap: lift the xfs writeback code to iomap") # 5.5-5.16, needs backporting
+Fixes: 150d5be09ce4 ("xfs: remove xfs_cancel_ioend") # 4.6-5.4, needs backporting
+Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Signed-off-by: Miguel Gazquez (Schneider Electric) <miguel.gazquez@bootlin.com>
+---
+ fs/iomap/buffered-io.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 5ad3bf906b35..d0a141816f12 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -1434,7 +1434,7 @@ iomap_writepage_map(struct iomap_writepage_ctx *wpc,
+ 	if (!count)
+ 		end_page_writeback(page);
+ done:
+-	mapping_set_error(page->mapping, error);
++	mapping_set_error(inode->i_mapping, error);
+ 	return error;
+ }
+ 
+
+---
+base-commit: 1797d8bf8d0c2e74defad605d14e3553d43a3caf
+change-id: 20260916-cve-2022-50406-66fc0245c457
+
+Best regards,
+--  
+Miguel Gazquez (Schneider Electric) <miguel.gazquez@bootlin.com>
+
