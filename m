@@ -1,125 +1,104 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD0B476CD2;
-	Wed, 16 Sep 2026 08:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE69A48EBEA;
+	Wed, 16 Sep 2026 09:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789547893; cv=none; b=qh51nH2LmXyEA7XUJFWJw7811Vm6P+UaMXdwG8yoybKGVrNRDL3DZ2R63/pcPNjwoAr5XYcnb36PAmsxll+CKxbDbV5mrjHC8bE7KVE6jR5p/N/AsU1mQ0xXmlrMsJyz/o+nUG0g5W7bZ3/UFP1KVLwDlay+0l9mxsLx0E7B2fU=
+	t=1789549356; cv=none; b=S0IHWFPyX2AtiYnMESpWQjd+zB0p2Ou6fSt+9+kNHelEjiCm+VD4NRIonqTWZRw4/qcpc7iFuqtX22KLAlJ15JSLKT3DUrpKJoqjH2iiWHJacYD7JLE0lrRka4NcN5l7HeOB2BOSABvSJq5+BXADRL9s1t7wJRKAPhfE7IlwItU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789547893; c=relaxed/simple;
-	bh=1P6BcVTjsa9hD38aaby1HdGhOKx9VU6Mn+xrQ2vBZZU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gvaeijHx9H4bkH5PupPHlDrEfnbWHUiQC96jkWLfhH1dMJRfpOcKnmTbC54kTUlnDlkGV0vIfFllNGGBhwPSQOrVkugrFHicoXVM1VdMDXR/7FIhSmBuGW+5/Ao7WyAZ1wTwtDR9LvMmZkm4ywoeX+N5e1mjhGJsYQiejyR/pqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=m3W77v29; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1789549356; c=relaxed/simple;
+	bh=8vauvep3m4UJB6lx3WfhIXSt5pAt3GydhtesLfAT/Ak=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t1EF8WWuV97uh7/+SjR2UBDBw0KQ8jhvGGeqR68xXIZZHD4/NbxPU7V2K6xNn108R7Xbs4QqkuM7Pw9di4AcjAaGue/rYR4B4CtBEyCLZAo/nhQ+fFXP90eh9JkBXVcN5p0uDdp25k4TDdpc/ocTm9pQXJlcdi8in8ETqKUJjPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wu0pWfdD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="m3W77v29"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=ZxTEjD838HejWjewRG4roQBMhM3Naoy/Z6g4rRdYtfU=; b=m3W77v29NpPllDh+6IVF6VVMLr
-	x57nZfZGED76Ox6yKf9Hecpj8lSZa9x0HzjqZBVgdfMcSn3qZOXl/TKBg2w/5SfEhqQilDx10AKbU
-	B9tLTy250h6XTszGqKrQtViHBSjfp1S5CieMS1qmpO2r3TR7oNswbXb9IFrlcurdV+a8La9ee8164
-	iI7klTAg4xDF+ruzm//75TbU3SgGeQWKlPmtZmvB4PqwrTAU2/jdR5Zus514j4MxS49TAkUFwdVM6
-	9JLIK56HjEZq54s2DUhyYp1ObVma3dkjmIMCGSarGWuAqghkcWgayhrApKnQhNP6FnCnQ2cdcO/EG
-	R+K+ji8w==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1x6l9P-0052jD-2g;
-	Wed, 16 Sep 2026 08:37:56 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Wed, 16 Sep 2026 01:37:44 -0700
-Subject: [PATCH] splice: pass a poll key when waking pipe readers and
- writers
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wu0pWfdD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7DE81F000FF;
+	Wed, 16 Sep 2026 09:01:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789549318;
+	bh=ztMMMMv7bxzK6KlzZ8FgpSfa4Wm0mxmludXZFP2zroQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Wu0pWfdD20WkmcJlHU0fRgfxFv5iUvN0ccfoP7F0VMVMYwoHsEoDYfn+nZMvEzV1m
+	 KgsAJCb4zn+2o0fvKGnbBgVbre5Es7my0jYMg1cdlyvgH0yxuNUuZnAuZrzuEwSaZF
+	 1yXsXOcY+4mY1yMSu//HjBM/KuFq2cuIsI8Ci83ETN+356JpDar6y/fUY4GlCRgC0N
+	 +o1s2o/YNhIVKXnP5KjUeBL1NTnQNOaFH1DEQN2ZwHIrNc+TnmM6Ln6fgymfBBoCWZ
+	 IGr8qm2BKp7AH7SO5nZrhRqHVCpNWTmOdiwF6Ins4wLxpoEYYHgWxPfMkHNfAg+wWW
+	 nENUQt62KGCVA==
+Date: Wed, 16 Sep 2026 11:01:51 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Jann Horn <jannh@google.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jeff Xu <jeffxu@google.com>, =?utf-8?B?VGhpw6liYXVk?= Weksteen <tweek@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
+Subject: Re: [PATCH v3 0/3] proc,security,selinux: let SELinux block
+ FOLL_FORCE for /proc/self/mem
+Message-ID: <20260916-begossen-tischbein-abgemacht-e7dada3d1e56@brauner>
+References: <20260907-selinux-pokemem-v3-0-0bafbaeafe50@google.com>
+ <20260910-wohnbau-bezwangen-wegziehen-7a32dcf237b1@brauner>
+ <CAHC9VhTE82bRRSXSUuMOdrfoMh=xOb5hDvqiKWzBKD1urab3hA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260916-b4-splice-poll-key-v1-1-438a19351efb@debian.org>
-X-B4-Tracking: v=1; b=H4sIAFdVqmoC/yXMTQqDMBBA4avIrDsQxb/2KsVFk4w6GjRkrLSId
- zfq8lu8t4FQYBJ4JRsEWll4niLSRwKm/0wdIdtoyFRWqmdaoM5RvGND6GfncKQ/alPZwiqr2rK
- GGPpALf+u6bu5LV89kFnOE+z7AWW1Kbd2AAAA
-X-Change-ID: 20260915-b4-splice-poll-key-bc7d5d0d0f68
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: mjguzik@gmail.com, oleg@redhat.com, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-team@meta.com, 
- Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1679; i=leitao@debian.org;
- h=from:subject:message-id; bh=1P6BcVTjsa9hD38aaby1HdGhOKx9VU6Mn+xrQ2vBZZU=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqqlVgB9GJVLPI6NZC/aO3sdG4D12zaboZUk8XM
- lxctJgJtlGJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaqpVYAAKCRA1o5Of/Hh3
- bQTjD/9Mt3Tp8PpQhJKSni28lLQgSBD8XyryXSN+9DR6/lB5Lz82OA+/k9Q6q8fVhrHmCvctOZi
- JjsUnB3g95OOY326/MutIx/ZXMH9wjjrNbWsEKzyfO8wo725ide7vJA7nrFmL84YazyPqEJKVjx
- brZjs2CADxKsryWNP3CN3FMgEdjX3pFux5T2FldDwMZtDFYD9+iRjHAAeObvG3XKQ6BsLumVsyC
- uf6WJrwV/vZH91P6mcbmA65gPcoB0SjrOWDQpGr2ZSpwDuIPf0/39vUBR0tUv08im0lgRxuJrGz
- C5fHNkaCXGwOz1bj/teDZgg86ZF0SMFG92PnRefC51zeXKVAFhI2Myh+zGtcR98Y16eQACdalhR
- nj/apnkCCk4dLVWXTMz4To703Ywp8OCMZXfllj5LVxj9nUXw8IAUB7MffVZ54wPJTOgI7ZKvCD+
- 0tD/03QwqVRsYFmf9McB2o/Z3sT+MXCTv1ycjqd9GCTxDTABR/CysKg1XhnPTrtKD+iIL4hz5VX
- WV05Zx0c+zJxWb+cgX5Kja2pU6Axth3Fg4t+i7D5Cw4JqLolrdVY8B9F3lWyWc6Vwv4tksY2xof
- A1cyuLstWn/nblJUdhjKAdcT11tbQ+sqiIYUcXeqsz4sVr2vfomXGNzvqokxLzJCM4CeIJxOZhT
- xCkKbcIuFTtMn3A==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHC9VhTE82bRRSXSUuMOdrfoMh=xOb5hDvqiKWzBKD1urab3hA@mail.gmail.com>
 
-wakeup_pipe_readers() and wakeup_pipe_writers() wake the pipe wait queues
-with a NULL key.  ep_poll_callback() and pollwake() only filter on the
-registered event mask when a key is supplied, so every epoll, poll() and
-select() waiter on the pipe is woken, whether or not it asked for the
-event that occurred.
+On Mon, Sep 14, 2026 at 01:05:39PM -0400, Paul Moore wrote:
+> On Thu, Sep 10, 2026 at 3:48 AM Christian Brauner <brauner@kernel.org> wrote:
+> > On Mon, 07 Sep 2026 23:00:15 +0200, Jann Horn wrote:
+> > > proc,security,selinux: let SELinux block FOLL_FORCE for /proc/self/mem
+> > >
+> > > The goal of this series is to let SELinux prevent the use of FOLL_FORCE
+> > > when a process writes into /proc/self/mem and the system is configured
+> > > with PROC_MEM_FORCE_ALWAYS (which used to be the default behavior, and
+> > > is still used by current Android devices).
+> > >
+> > > [...]
+> >
+> > Let's move this on a shared branch that both the vfs tree and the lsm
+> > tree pull. That's the standard way of handling dependencies between two
+> > subsystems that want to route code that touches both of them. Branch is
+> > stable.
+> 
+> For some reason (/me looks at gmail) your email never hit my inbox, I
+> only noticed it now while reviewing Jann's patchset.
 
-anon_pipe_read() and anon_pipe_write() already pass EPOLLIN | EPOLLRDNORM
-and EPOLLOUT | EPOLLWRNORM when waking the same wait queues.  Do the same
-here.
+Oh weird?
 
-This is not visible in common pipe use: ordinary pipelines move data with
-read()/write(), which already passes the key.
+> Christian, can you explain why you merged LSM code that I haven't
+> ACK'd?  We've talked about this in the past and I think I've been
+> fairly clear about it; I wouldn't merge VFS code without an
+> ACK/Reviewed-by/etc. from you or Al, I've been expecting the same
+> consideration from you.
+> 
+> While I don't have a problem with a topic branch for this, can you
+> also explain why this topic branch should live in the VFS tree?  There
+> are more changes under security/ than fs/, and unless I've misread
+> Jann's cover letter, this entire patchset is focused around enabling
+> LSM/SELinux controls and not necessarily anything really new from a
+> VFS perspective.
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- fs/splice.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+See the reply on the bpf thread. I think this just a misunderstanding. I
+was under the impression that with minor tweaks v2 was already acked by
+lsm people.
 
-diff --git a/fs/splice.c b/fs/splice.c
-index 9d8f63e2fd1ab..c048183215343 100644
---- a/fs/splice.c
-+++ b/fs/splice.c
-@@ -179,7 +179,8 @@ static void wakeup_pipe_readers(struct pipe_inode_info *pipe)
- {
- 	smp_mb();
- 	if (waitqueue_active(&pipe->rd_wait))
--		wake_up_interruptible(&pipe->rd_wait);
-+		wake_up_interruptible_poll(&pipe->rd_wait,
-+					   EPOLLIN | EPOLLRDNORM);
- 	kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
- }
- 
-@@ -415,7 +416,8 @@ static void wakeup_pipe_writers(struct pipe_inode_info *pipe)
- {
- 	smp_mb();
- 	if (waitqueue_active(&pipe->wr_wait))
--		wake_up_interruptible(&pipe->wr_wait);
-+		wake_up_interruptible_poll(&pipe->wr_wait,
-+					   EPOLLOUT | EPOLLWRNORM);
- 	kill_fasync(&pipe->fasync_writers, SIGIO, POLL_OUT);
- }
- 
+In general, if a subsystems hooks into the vfs layer and filesystems
+that are directly maintained by the vfs layer then the vfs tree provides
+the shared branch. This is not at all specific to security. It's just
+more pronounced for notify or security because hooks are accepted
+layering violations that place constraints on how vfs code itself is
+organized.
 
----
-base-commit: 587858367581b9c55c3690f4e63382ad622719d4
-change-id: 20260915-b4-splice-poll-key-bc7d5d0d0f68
-
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
-
+I think this is just a misunderstanding that would've been easy to
+clarify without the kerfuffle.
