@@ -1,104 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE69A48EBEA;
-	Wed, 16 Sep 2026 09:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A6E3BB69A;
+	Wed, 16 Sep 2026 09:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789549356; cv=none; b=S0IHWFPyX2AtiYnMESpWQjd+zB0p2Ou6fSt+9+kNHelEjiCm+VD4NRIonqTWZRw4/qcpc7iFuqtX22KLAlJ15JSLKT3DUrpKJoqjH2iiWHJacYD7JLE0lrRka4NcN5l7HeOB2BOSABvSJq5+BXADRL9s1t7wJRKAPhfE7IlwItU=
+	t=1789549822; cv=none; b=CvSj85aRspnfzFQ6ub5RJ+cViJxRTAgODnYTyVPwYGPD4zJlRabGYSP0qQc0HYn2amxQNE06CARo9Nlaz7wQNUhMZQbjcKi+mK3v6hZnsTK+jF/IQMU+vKwcomvYkEBsDZQPl9g/joKvFezuHz1hwRnoTU+7BDnBeuWHBYL6/iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789549356; c=relaxed/simple;
-	bh=8vauvep3m4UJB6lx3WfhIXSt5pAt3GydhtesLfAT/Ak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t1EF8WWuV97uh7/+SjR2UBDBw0KQ8jhvGGeqR68xXIZZHD4/NbxPU7V2K6xNn108R7Xbs4QqkuM7Pw9di4AcjAaGue/rYR4B4CtBEyCLZAo/nhQ+fFXP90eh9JkBXVcN5p0uDdp25k4TDdpc/ocTm9pQXJlcdi8in8ETqKUJjPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wu0pWfdD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789549822; c=relaxed/simple;
+	bh=3l4L+12TqPxPoIbkfReRDGgXM9Hl0sPvjnQqrdSEvtU=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=JUPV00LEjLr8Fe5C/Dx58qVLQQsnQ7tXXJ/zidcIM2TPaIygc+sY+pZo/nZvassbUiFFcBdNwc6QoUkXKHjMqS8heLOfsVAauQ41C9RyhmoxrnzFO0aLS+yInHg70ZlkJylmL9HPblJB4A2JqxTqSt6+1JVaTlaHNND5sZ+VbHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=CwusOGzY; arc=none smtp.client-ip=162.62.58.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wu0pWfdD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7DE81F000FF;
-	Wed, 16 Sep 2026 09:01:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789549318;
-	bh=ztMMMMv7bxzK6KlzZ8FgpSfa4Wm0mxmludXZFP2zroQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Wu0pWfdD20WkmcJlHU0fRgfxFv5iUvN0ccfoP7F0VMVMYwoHsEoDYfn+nZMvEzV1m
-	 KgsAJCb4zn+2o0fvKGnbBgVbre5Es7my0jYMg1cdlyvgH0yxuNUuZnAuZrzuEwSaZF
-	 1yXsXOcY+4mY1yMSu//HjBM/KuFq2cuIsI8Ci83ETN+356JpDar6y/fUY4GlCRgC0N
-	 +o1s2o/YNhIVKXnP5KjUeBL1NTnQNOaFH1DEQN2ZwHIrNc+TnmM6Ln6fgymfBBoCWZ
-	 IGr8qm2BKp7AH7SO5nZrhRqHVCpNWTmOdiwF6Ins4wLxpoEYYHgWxPfMkHNfAg+wWW
-	 nENUQt62KGCVA==
-Date: Wed, 16 Sep 2026 11:01:51 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Jann Horn <jannh@google.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jeff Xu <jeffxu@google.com>, =?utf-8?B?VGhpw6liYXVk?= Weksteen <tweek@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, Ondrej Mosnacek <omosnace@redhat.com>, selinux@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org
-Subject: Re: [PATCH v3 0/3] proc,security,selinux: let SELinux block
- FOLL_FORCE for /proc/self/mem
-Message-ID: <20260916-begossen-tischbein-abgemacht-e7dada3d1e56@brauner>
-References: <20260907-selinux-pokemem-v3-0-0bafbaeafe50@google.com>
- <20260910-wohnbau-bezwangen-wegziehen-7a32dcf237b1@brauner>
- <CAHC9VhTE82bRRSXSUuMOdrfoMh=xOb5hDvqiKWzBKD1urab3hA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="CwusOGzY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1789549799; bh=uexswBwLq71x1NaD3JnEGJZAfUbja5b9Uucd3D81usM=;
+	h=From:To:Cc:Subject:Date;
+	b=CwusOGzYZZtUjVWPzJHZvRpI2fOpxNTfChQ5hHhzZEniEab32TtHHJp5U02GV1SGY
+	 TEvsKbW1bo6LHmOJm++5lLv5XWyIBI6v3oFeqoUZ83s+ZOASx1MQupt21a6wTfvUHW
+	 NQlBtND6awuRHL39IbKHUkPpRC85ot92ZjkikjNc=
+Received: from WIN-U8J9BGQPJ22 ([61.136.26.125])
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id 277B8E5A; Wed, 16 Sep 2026 17:09:55 +0800
+X-QQ-mid: xmsmtpt1789549795tlfyoknkz
+Message-ID: <tencent_24D928451FEFA8A35482EFFA9132A7305307@qq.com>
+X-QQ-XMAILINFO: MqG4KXyEKpQymgVBiGLJdwL6G/klle7eS9J0OwljW0bjYLKOWnWf0aFNP+9weE
+	 V3O0Q8/a6Bp4QUTNwehf/0bdNXzsyuwFH8gFo4ZUgapNDNuctbcyeMpqPo302noVjzW55xTK/5KN
+	 NPPhVt6B+e0u8owURMVI7IkmuK0J8IZoEh/WfY2F19faaOFzlns3OhcK54+A9CM9VKUakYPRUHeg
+	 PpRcCCe9jEODtqSwsT69WhXMl4LJX4eOHFq61FQLnHhg2QspDPzpepV6jM7Xdzq1e4iDJv8wQOai
+	 RtmxsXYGKekV7YFL5529S+mSb+3ZlyFZuhDCgb7vwPu/T4TqRUmEIgFGM5csV6RTi6Wrstzqjac7
+	 ktVkNhEX9LAbbbyji18zk+XNTB73cyORuqXUm/zJpoRY2KNLco+bQ0bALVmAOQ2jUvbUyqCteD0Q
+	 0lrEstFq1xFhFOWbUBdDWpnkSDvH6nVR+TBrZ4NfPgF/M4l/sAdo17Us5pcHCO0pdqnF2W5OhcHE
+	 QvDCpo8552k7mQOifTuGs2YII9kfx5cMOZ/dYksX1rxZXW3UgYxCNy3Q+RzgvLJEeBF+aSrrzzjW
+	 K3Q/+xD98GD50LTTSJU1p+NPTDpLXeIqdMc2aVcGGItih+Ecoqv7pNSRIQ6s9xuh30ifdLBYfs+R
+	 2WFS36K9QVQjWPMXeWYl9Msv8uZ6gdCqBpt43HjZLRe/om7IpJ3VWn/Fam7FF2dvybJ4Cl46IFGL
+	 wEmx/7Ek9YCUExn33zhRo9KqKngiX4AmDjiO7jYOUpuyujzRaXRUQaywPJz0abCHnDFOxRj1Fhfh
+	 xSdvowzm8jEoG+jr2O6bVOI9Sj6eeZ5j0vK4TRFQD5PJPYTrQlqXPxE01rT+V8HJONO4DcC1oQX7
+	 /R5nb6SCWRlWOl8uYlzZLP+HfxUjTtgqEjlQECUWNhDP+ObsNwgHyEcgA2PjVoslC6p/4OVS7htf
+	 x60vkg0OGqg8Ze769SvBSBrPF0sXg2nwqcyHafC7exfg5waj9VKK3/91JHSOZlVE5AHoWMBuTnbn
+	 crpO9X/8tNLwKazggLjPQ7+1i4brpKH9hgrdR60+mgtZmmI93Ry1sAdSshv3d16v5DoMUxtQ==
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+From: 1sh1ro <yangguikun19@qq.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: 1sh1ro <yangguikun19@qq.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [BUG][PATCH 0/1] hfs: crafted image aliases typeless internal B-tree inode into VFS open path -> kernel BUG in may_open()
+Date: Wed, 16 Sep 2026 17:09:53 +0800
+X-OQ-MSGID: <20260916080000.0-hfs-fix@localhost>
+X-Mailer: git-send-email 2.53.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHC9VhTE82bRRSXSUuMOdrfoMh=xOb5hDvqiKWzBKD1urab3hA@mail.gmail.com>
 
-On Mon, Sep 14, 2026 at 01:05:39PM -0400, Paul Moore wrote:
-> On Thu, Sep 10, 2026 at 3:48 AM Christian Brauner <brauner@kernel.org> wrote:
-> > On Mon, 07 Sep 2026 23:00:15 +0200, Jann Horn wrote:
-> > > proc,security,selinux: let SELinux block FOLL_FORCE for /proc/self/mem
-> > >
-> > > The goal of this series is to let SELinux prevent the use of FOLL_FORCE
-> > > when a process writes into /proc/self/mem and the system is configured
-> > > with PROC_MEM_FORCE_ALWAYS (which used to be the default behavior, and
-> > > is still used by current Android devices).
-> > >
-> > > [...]
-> >
-> > Let's move this on a shared branch that both the vfs tree and the lsm
-> > tree pull. That's the standard way of handling dependencies between two
-> > subsystems that want to route code that touches both of them. Branch is
-> > stable.
-> 
-> For some reason (/me looks at gmail) your email never hit my inbox, I
-> only noticed it now while reviewing Jann's patchset.
+Hi,
 
-Oh weird?
+While fuzzing mainline v7.2-rc7 (KASAN + lockdep + CONFIG_DEBUG_VFS=y)
+we hit a deterministic panic-class kernel BUG in the generic VFS open
+path, reachable through the HFS filesystem with a single crafted image:
 
-> Christian, can you explain why you merged LSM code that I haven't
-> ACK'd?  We've talked about this in the past and I think I've been
-> fairly clear about it; I wouldn't merge VFS code without an
-> ACK/Reviewed-by/etc. from you or Al, I've been expecting the same
-> consideration from you.
-> 
-> While I don't have a problem with a topic branch for this, can you
-> also explain why this topic branch should live in the VFS tree?  There
-> are more changes under security/ than fs/, and unless I've misread
-> Jann's cover letter, this entire patchset is focused around enabling
-> LSM/SELinux controls and not necessarily anything really new from a
-> VFS perspective.
+  VFS_BUG_ON_INODE(!IS_ANON_FILE(inode)): inode:ffff8880206c5740
+    fs:hfs mode:0 opflags:0xc flags:0x0 state:0x0 count:2
+  ------------[ cut here ]------------
+  kernel BUG at fs/namei.c:4271!
+  RIP: 0010:may_open+0x2ba/0x480 fs/namei.c:4271
+  Call Trace:
+   do_open fs/namei.c:4698 [inline]
+   path_openat+0x1600/0x3de0 fs/namei.c:4863
+   do_file_open+0x216/0x470 fs/namei.c:4892
+   do_sys_openat2+0xe8/0x250 fs/open.c:1368
+   __x64_sys_openat+0x13f/0x1f0 fs/open.c:1385
 
-See the reply on the bpf thread. I think this just a misunderstanding. I
-was under the impression that with minor tweaks v2 was already acked by
-lsm people.
+Root cause (verified against source):
 
-In general, if a subsystems hooks into the vfs layer and filesystems
-that are directly maintained by the vfs layer then the vfs tree provides
-the shared branch. This is not at all specific to security. It's just
-more pronounced for notify or security because hooks are accepted
-layering violations that place constraints on how vfs code itself is
-organized.
+  1. hfs_btree_open() (fs/hfs/btree.c) creates the extents/catalog
+     B-tree inodes with iget_locked(sb, HFS_EXT_CNID / HFS_CAT_CNID)
+     and never assigns a file type; hfs_inode_read_fork() does not
+     touch i_mode either.  Both internal inodes therefore stay cached
+     with i_mode == 0 after every mount.
 
-I think this is just a misunderstanding that would've been easy to
-clarify without the kerfuffle.
+  2. A crafted catalog record whose DirID/FlNum equals 3 or 4 makes
+     hfs_lookup() -> hfs_iget() -> iget5_locked() return that cached
+     inode (hfs_test_inode() only compares i_ino), bypassing
+     hfs_read_inode() entirely.
+
+  3. openat() on the resulting dentry reaches may_open() with no
+     S_IFMT bits set, hits the 'default:' case added by the
+     CONFIG_DEBUG_VFS series (1e7ab6f67824) and panics.
+
+Note on visibility: with !CONFIG_DEBUG_VFS the assertion compiles away,
+so the same image merely yields an openable typeless inode - which is
+presumably why this has never shown up on syzbot.  Current mainline
+(7.3-rc) still carries the unfixed hfs code; the issue is not
+regressed, it is simply old.
+
+Patch [1/1] fixes it in two steps:
+
+  - hfs_btree_open(): give the internal B-tree inodes an S_IFREG type,
+    restoring the VFS "valid inode type" invariant for every cached
+    inode no matter what the image contains;
+
+  - hfs_iget(): refuse catalog records addressing the reserved B-tree
+    CNIDs (NULL per the existing convention: mount failure / -EACCES).
+
+A self-contained syzkaller reproducer (embeds the crafted image,
+triggers in under a second) and the full C repro are available on
+request.
+
+Environment:
+
+  Kernel: 7.2.0-rc7-00232-gdcb68831eac7 (v7.2-rc7 based)
+  Config: KASAN (inline), KCOV, lockdep, CONFIG_DEBUG_VFS=y, SMP PREEMPT
+  QEMU (KVM), x86_64
+
+Best regards,
+1sh1ro
+
