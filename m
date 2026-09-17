@@ -1,42 +1,48 @@
-Received: from mx.itxnorge.no (itx-kvm-14.itxnorge.no [91.189.121.228])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950C33859D4;
-	Thu, 17 Sep 2026 15:16:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.189.121.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD3C5519B0;
+	Thu, 17 Sep 2026 15:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789658209; cv=none; b=FsBYzzx1hzv/ctdM4rAYDZZQN63T1pxVTdzKsvgd5iYiqKDoHDRCmrj0Ne3Ztbf+BMS6Qois9KBR/fUdm5khFUm04qPXerdkxvXrhLhXXpRyFC2EpiXzlUjH7w+wuaRgWIiE4gJaHwbbto2oGozgEPivjCTzHWhapd7YZrBWmak=
+	t=1789658275; cv=none; b=OynIga36ensEY6/iRtl+apLOZWdbInw7T0GXaph46JwF8mxJ2p55eNHCpmt+7LOmGRi0l0DZGOpZ1ajZckZkrFhFUhjNB7TymIR+l7CSCTTJucJgV+j+JnrR6hucz4aPX2QTw/qGmKilSrW942NxNVHRmGE5a+Wavr5Gibas1Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789658209; c=relaxed/simple;
-	bh=ctArWGu44S3wRR5JrZsCQaWBlGMqztUdNyeGuW/ZhnA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pm766+WBs6KjnmNhuV2YFrdteY2XalDlEAb50dM/p+ycK8p73DZTcw/NTEhg/wn8ox2qG0sw05DMsz5nOPEWjLdB51aIAeFxaX+/5IpBHDrKbeNBAGyDBr2EOvW+QiarJ9hSlJHedq+IptgwZvSKou8l7NhIev86QQrgbhQUNTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=itx.no; spf=pass smtp.mailfrom=itx.no; dkim=pass (1024-bit key) header.d=itx.no header.i=@itx.no header.b=LtRirBrs; arc=none smtp.client-ip=91.189.121.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=itx.no
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=itx.no
+	s=arc-20240116; t=1789658275; c=relaxed/simple;
+	bh=rvt5CIJrbHWd4sAELtIQYAu7Ai57ZGbhmp3jblOMiF4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OPdqQNbeAlR7BVRguPQivFtt4ZCB9h3bIdYiuzapuIJ+tjibqMKCKvccJ/8CV8rXyr9p/INnHE8nfpzzdpFi07hkI3p0U1+RPdT2hewi7DN6rCSTV3MMoaSZYI2ejiJnUaorgh6xQ4k5aApzEaylfzaH9tqQdXkqabuvCW4l4io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R71uWnyy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=itx.no header.i=@itx.no header.b="LtRirBrs"
-From: Stian Halseth <stian@itx.no>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=itx.no; s=mx.itx.no;
-	t=1789658180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RmUlCX8Jqu1rhSBhVQ90b9ktotpN47dsHDJt9sDAdTE=;
-	b=LtRirBrsK6/3TgPp4manmjmL+PHPaD25/9NUg0Kts0RMbsmWZftfO+P650H1ZqMHZ+D6N8
-	WeNEiYDx8VyE3e5TpbCdBsIYCnBAM3dw2e6PVn5smozE0OkwrsTlcHgkdQP251rFWpw28J
-	GeM/BFFki82zMk4Z4aap1wlPaUuibZE=
-To: brauner@kernel.org,
-	viro@zeniv.linux.org.uk
-Cc: jack@suse.cz,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R71uWnyy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA0021F0089B;
+	Thu, 17 Sep 2026 15:17:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789658238;
+	bh=ZmdxHkFnLeNovaDlMjskd3RcaNWFmWcNEgKv1LFLFLc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=R71uWnyyuQkmN1/3pjxhHb0mi9GhS3rTmMlbCu5LtHvlLesdIyvOX5yW58WC1CyiI
+	 4uxOjqJ7FFSABz2LvqPbDw7IPyoxHTnzl08+AAhRN27NeQ0dTwxrohLkubV0YWqGUW
+	 thb8G7CXhdX4daEsF9Jz/i3G43zTvL8aN3Y1EcFkAPZ2Q5gyeh5OYpizQ8C/EpoQu8
+	 OuWt3k+qFuEzXwJ3UXN0oEI4l/cEtL7XTQqCCHZoe56zoZAG8vUi+CYeDrN8sxl18S
+	 6rpYltMCXT3qJNLfjvEwJ3f0Ha28eMmqiSMQ8J6z7HQhxNv7y+BcWivm9gb2gn7ala
+	 u/zcJ9MnbV0rg==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Enzo Matsumiya <ematsumiya@suse.de>,
+	linux-cifs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	schwab@suse.de,
-	fweimer@redhat.com,
-	Stian Halseth <stian@itx.no>
-Subject: [PATCH 0/2] fs: honor FOP_UNSIGNED_OFFSET in llseek and positional I/O
-Date: Thu, 17 Sep 2026 17:16:12 +0200
-Message-ID: <20260917151614.376867-1-stian@itx.no>
+	Steve French <stfrench@microsoft.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.1.y 1/3] cifs: Scripted clean up fs/smb/client/fscache.h
+Date: Thu, 17 Sep 2026 11:17:14 -0400
+Message-ID: <20260917151716.693532-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026091635-bolt-hunchback-845c@gregkh>
+References: <2026091635-bolt-hunchback-845c@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,44 +51,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Two generic VFS bugs found while fixing pldd(1) on sparc64, where
-userspace is mapped above 2^63 so file positions on /proc/PID/mem have
-the top bit set.
+From: David Howells <dhowells@redhat.com>
 
-FOP_UNSIGNED_OFFSET declares a file's offsets unsigned, and vfs_llseek(),
-rw_verify_area() and the mmap path honor it.  Two sets of syscall
-wrappers do not:
+[ Upstream commit bc3de356aae666de5d8b5131545be87cf7754431 ]
 
-  1. sys_llseek() takes a negative result from vfs_llseek() for an error
-     and returns it truncated to int without filling *result.
-  2. pread64/pwrite64/preadv/pwritev reject a negative position before
-     looking up the file.
+Remove externs, correct argument names and reformat declarations.
 
-Both patches only change behavior for a file with FOP_UNSIGNED_OFFSET
-and a position with the top bit set.  Today that is /proc/PID/mem,
-/dev/mem, the sparc ADI driver and the DRM/accel device files; for all
-of them lseek() followed by read() at that position already works, so
-the wrappers now match it.
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Steve French <sfrench@samba.org>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: Enzo Matsumiya <ematsumiya@suse.de>
+cc: linux-cifs@vger.kernel.org
+cc: linux-fsdevel@vger.kernel.org
+cc: linux-kernel@vger.kernel.org
+Acked-by: Enzo Matsumiya <ematsumiya@suse.de>
+Signed-off-by: Steve French <stfrench@microsoft.com>
+Stable-dep-of: cf4d35896621 ("smb: client: fix uid/gid override in getattr with posix extensions")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/smb/client/fscache.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Tested on an UltraSPARC T4: pread(), preadv(), pwrite(), pwritev() and
-lseek() on /proc/PID/mem at positions above 2^63 return the correct data
-and offset; a negative position on a regular file or a pipe still fails
-with EINVAL and position 0 on a pipe with ESPIPE, as before; and the
-stock pldd(1) works again.  On other architectures the change is a no-op
-for every file without FOP_UNSIGNED_OFFSET, and userspace addresses
-never set the top bit, so the new paths are only reachable by passing
-a bogus position to /proc/PID/mem or /dev/mem, which then fails in the
-driver instead of the wrapper.
-
-The glibc side is https://sourceware.org/bugzilla/show_bug.cgi?id=34641;
-
-Stian Halseth (2):
-  fs: fix llseek() result for files with unsigned offsets
-  fs: allow positional I/O on files with unsigned offsets
-
- fs/read_write.c | 38 +++++++++++++++++++-------------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
-
+diff --git a/fs/smb/client/fscache.h b/fs/smb/client/fscache.h
+index c691b98b442a6..e89d26c6e0862 100644
+--- a/fs/smb/client/fscache.h
++++ b/fs/smb/client/fscache.h
+@@ -38,12 +38,12 @@ struct cifs_fscache_inode_coherency_data {
+ /*
+  * fscache.c
+  */
+-extern int cifs_fscache_get_super_cookie(struct cifs_tcon *);
+-extern void cifs_fscache_release_super_cookie(struct cifs_tcon *);
++int cifs_fscache_get_super_cookie(struct cifs_tcon *tcon);
++void cifs_fscache_release_super_cookie(struct cifs_tcon *tcon);
+ 
+-extern void cifs_fscache_get_inode_cookie(struct inode *inode);
+-extern void cifs_fscache_release_inode_cookie(struct inode *);
+-extern void cifs_fscache_unuse_inode_cookie(struct inode *inode, bool update);
++void cifs_fscache_get_inode_cookie(struct inode *inode);
++void cifs_fscache_release_inode_cookie(struct inode *inode);
++void cifs_fscache_unuse_inode_cookie(struct inode *inode, bool update);
+ 
+ static inline
+ void cifs_fscache_fill_coherency(struct inode *inode,
 -- 
-2.43.0
+2.53.0
 
