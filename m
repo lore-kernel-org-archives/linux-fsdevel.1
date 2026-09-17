@@ -1,146 +1,380 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175803ED13B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 22:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBB742A165
+	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 22:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789682997; cv=pass; b=JCOj7xAoCawPGCSVD2JlJJHnITkutGUw/hfqjTDsn4ljhvfR7y5AqBlZ689oVcyiuCcRY2jwAkW9G5PA3/7NU65eOH2KpzIKTMpiAn8EYtGFkmlD1Z4D06Aobn9DjPpkeO5IfiLSosIlDE+Hdt3r0ijjmBjMPYd6Tb7zrFSUde4=
+	t=1789683278; cv=pass; b=OwzUmlrocLEEn+XJlbIH4m6+yRoLYeDAbZFvUGK52fJQu6Pl1DdEyRzTuoYwuVM8VUx08WL4WGz9HFoz9SCB3U0tn05EWrHBHGKaI9fTgYDkda8DfUs5aqzvKVPOG+TozdX7BaaafQiT2Z/NYOfhMjL5scyH7MuFIgGuBPPF6jM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789682997; c=relaxed/simple;
-	bh=J6SyjgSH6kKttxlcaQY5Q56ih5xn1TTo0a++egsS52Y=;
+	s=arc-20240116; t=1789683278; c=relaxed/simple;
+	bh=33JrJP0eBoMTWOsObcZUnprsGVGyOvYEXvVWS++emGU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oWdPPp0ZQ90pEnIM8hno9E41U0s7nfOuhRRHJfdnAA8G2vZ5w/Q1AT+QgQ83LoVNC0VP020oqsHvhY5GQcOfMtbKEx1NTCcH+uS4/px+8AvVObE+8NvfeEBYtQRsaTmV2+uPwiC8mLl1l9F1db8g6xC/zWTw4Dln9emiWowEA/0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lswfejBb; arc=pass smtp.client-ip=74.125.227.171
+	 To:Cc:Content-Type; b=SKJDzA2jp/RMqUMAfyWRYqPJYjvpV5p+Vj7Rsdb6TmDauIAcCBCc5AJiR4HpIJFXP0M3XOSw3em8/3LoclTI+i18aXM2SPjWqkbF5V0ZriUmJt3U7mZLLBsBVJdTCUUg3M2lxzKhOr4gsGju8eJV6XVLVkT9ylV4o374qMsKwY0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k3kDpzW4; arc=pass smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lswfejBb"
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-398beb616f5so36855a91.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 15:09:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789682995; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k3kDpzW4"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-398a1676000so110418a91.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 15:14:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789683276; cv=none;
         d=google.com; s=arc-20260327;
-        b=SOdfhQ1yWHiRsAcDK291G1v8gevC013EqbCJa76uaEGi5yBM74sVpC3rh3HlFh7eMP
-         aGfyBujS/msgn4wLJgBLDxc0QIGussmkChlx/cz2s8xwuNyevYfNYqw0VHKcmzDYISEw
-         YJjEi/JcqKiT5JFF9eDA2JNyxmlan7ujgjYvO1+qFIp3JlkvfL4fn/v9uCX3L5dLZbqb
-         qx/lQ/eIIymupISOYBwgm04s7PVpgYlBl9z2LgC1NdneaEmwFWVVng1cMvlrjMeI0OTE
-         hxY+9P6A7Hj8wMxrMzE6cNNEkeY+Q5OrQW7aP4dOTtn2PJnPftfbeg4mQ30W4t9Gy56O
-         eBYA==
+        b=OaPMHkuxnUte6TAtWBtU9BvtwSVLG/jbL8CZqrmA+UsekJ9/5HW/lTeckGxP1L07zc
+         FhmRXjVuwqT0nUDBH9iiLXPdjn8ttxd0x6qWSdpdNNRtG6iS4kU0duqr5UnPfZRV0qwh
+         wiRCVYDvLu6h23SbCfF1ZmW1rwkOjZssWdLY/nYpx01Tft6n+X/RxqMPVCmeq4P1jn5P
+         XqIIFBw4WA/08A7vhPOMYEf0yUuS6NGQD4WsMB5Qux2lXrnA1O3On2dna+ccqFV5z2K+
+         qfaRvVHIIsWFoI5xqF2G6DdhGN4UYFUX66+AcTM381I/3lyJsEjWvQRcyVgXoQIs4LOR
+         w8lA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=wQRtY5QKl9FkRvfYTUErV4Q5sEVG3iTso9QeFHxPq6U=;
-        fh=GmKO5i/3MSqsnaVoVRddnxnEpTE1OG1y+Ak7v9FGSF4=;
-        b=jUtxaPhi1AGBRnFqd4Rwa2BDdN9i9qEY/K9ySNmxk2TsiYA4lpgiMIzz7J1+60MLvL
-         N2wmSQWkUXa3Ne/qi8FocRiMlONT2mrFsTfKECoOzdQauzFIEQx5TBpr4YQ/pgeLMlJx
-         uP0sDm3XCO/4AyevOrqXgRwkR9VNij6LR+7J3v9OkLnVF4knb2gzB3FcSfJYc9B7Y6cX
-         VkrHVN6aY5BNldMVEn8DGxuAgtMNYxDGc4BoLRGEg4OheJ6r35hhd9o0yu3YmLnJbKvn
-         K4XELPYokXjaVQ5m3GdpSX4/Q5YDbhPN9nSxVRJa9+lSNKgeeS8sgPt9ZRjXqQ5NNUki
-         ATSg==;
+        bh=wVkLWZwDcftHWkygPUCtZEPadhVhHno/qCcQeOr4QFc=;
+        fh=EvmdszJ5sKtrItZ/g02WMFpyvzcT360Yik0EkpgVXVo=;
+        b=n+OqtVN91y264VDvFv4fE428P9N6vnd0f0A73WGepXhiOLRyJ7NW+sgmvcaT8A0FD5
+         zO7jUazqz1rBGdmDhy5JA4xL5LtaLrYOXn7VJg6lInCgYfHG4WfhVJLNdRb8fSA9/uOH
+         G8x1O8qU0hXx30PCm5rMvZRgaMSLW/tBAqsUKwYtRFLWyoEc7jFYPT9qg8hye0Arh90J
+         13Fq5dtGCeK9axPfb5OCpB45JjMA/+P7OTex8sxRFgcth8A5H372daPTRn4F1s+9sCi3
+         ldFXrPFBSVkHJkjW5FH/cIRh3XDhlH0TjsNyFIYY8CCC5ooU2KrFBDurh8MeaKEehXA2
+         JbnQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789682995; x=1790287795; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789683276; x=1790288076; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=wQRtY5QKl9FkRvfYTUErV4Q5sEVG3iTso9QeFHxPq6U=;
-        b=lswfejBbnFiro7zTvnv7ohsJkWJ7rkQ1ar3et/tAPsK7KCiI/9CXgArI/dsb9GWkUN
-         VSTQAo1g+yFzRB4fjqbtjJ65hNPnRMAfD+XHLB1mb8sWHr9PcIVo1mls15WPx2ZrQbO4
-         4xVmL/J7G0kXnneNoyXTLdPF80TGG4m03Url4JcYatOduQdzvKLUsP/7DQYqXPn7fNeb
-         ZyDPOMdhIILHCL6/nCNgE9NkxpcYL6193RXoDeW27Z49FA81Y8B5lT5TDqjVaP5UVhob
-         3Z81S4P+evxtrrBvnImQCgC2NoVLOYQR2BOm2TEYEr3sT8Q9ji3/6W3qqb6ffHF3InIC
-         eiYA==
+        bh=wVkLWZwDcftHWkygPUCtZEPadhVhHno/qCcQeOr4QFc=;
+        b=k3kDpzW4vKUzzrFj57AwwCBiREk823rOjan43sFdP/3nZarIjD6UXejVsp6S3DJ6bw
+         DWp6M8uIvr+GH3ulXwRqbnXJZa0/faHb+CCGptCIen6JGk4hdlpnXW8LXAsPAZKH8fE3
+         XsKW0Sbu8b/RshFyV4XXLD9HCCfKxOxXo3npy+0FFqeBjvQ0Y3JsL7LOf7kcTqQXf+kA
+         nyU+d9h14etwa9XgUCWZ18k6MjGIdTsonnFgqx194x3zZ8UV2ZfXyEnvvR0amCmKQUBK
+         bDJOLWmp91AtfXD4zXFA1vFTrM1z7+AY/K+j/ZDyqN4OsoA2+crdcu7h468Zqc0x4F6n
+         mIEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789682995; x=1790287795;
+        d=1e100.net; s=20260707; t=1789683276; x=1790288076;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wQRtY5QKl9FkRvfYTUErV4Q5sEVG3iTso9QeFHxPq6U=;
-        b=f6LetSn6YaiOgh7B1mQHpH7emMzxcqzzxgKrpwEQJq1KAucqx2WNcNO8DRLkhJYPve
-         I+/yBKr9sEcINGOiNk5KD0JSfvVAAFlMg348cYPvKXld99WHKcL5BcDJDLPT6moHYC2n
-         TgC2/BYTfEGrmXysdxeKNX/0xjgExAxfY+Tu11cGqgusS6b2BtH1hnwRqoR4aElaOq+J
-         DDJXaRxd6Pj/J5jZn9wXzCwO4o14hZ0bLZxk7w55u0gF1LOU4ijldcsF+Lic1Yudm1T1
-         ukGUPSEUp2fRVceudhbnkb4VIqBYBc7JcvRX7Nr46f8Ui3ixt2wKueEEEMmYFS0FwPPw
-         GFyg==
-X-Forwarded-Encrypted: i=1; AKwUvByvPQfQzAyUYmNySalccibSt6D0kYc+C4nqB8MIeP8BwF70eq3IBfElV5nKu2QZR6kp+5VVt1is4wDxWiYd@vger.kernel.org
-X-Gm-Message-State: AFuF++nF47fB9BZeplEAWBasWt6OxO/kqw/C5MeeiNf7rYMXFfOmdVJP
-	RWSLrb5B7QjGfIkcqTUzn64J2SDzcR0szr1Fdejc25NZ7780cmbV2warxEWvNL4ctq6CvyrhYRa
-	f8WnQ67pnIBURPGdJxEyjilao9Hzyjr8=
-X-Gm-Gg: AYBFou3j5Z0y3yIWQheUVZNdSeurL+8YXaVogZZbCbu5fB5dXQ37gLwnpN6tCu1njR8
-	zqrU28+Z2xuAjmz3s+vTsce1kUlxgCYVg60CdRKdH4C5rOwvguPoIygO03vrxFiQ+db1Zk7A6KK
-	90IpMlFZgmBEAR1uwuszOoWCews0kQelX2lUMazJQMS10FuvFGjRDUfGWUYyfkwsD5jJfB84TLf
-	E3OLP2cjjod4U8WUMUQkLs8u7fmJ90e1gTedHJVdYXIxRhJN4+bj+NdS8PrIJ8KG1pAXb4Z3tBh
-	9D4VZfMEIHoxn2rLRklF+XzUzRDaI2I64RT+0iO6Wj6rZFuo+OVyvdz30uRFa4K1wWYgtB0nWTT
-	g06UBNccZSkDiZwSW69zRT0/t3C85lbHWHlHJA7UVowfdlYWSt2Tv
-X-Received: by 2002:a17:90b:5143:b0:39b:5622:d645 with SMTP id
- 98e67ed59e1d1-39e5513d689mr482743a91.0.1789682995305; Thu, 17 Sep 2026
- 15:09:55 -0700 (PDT)
+        bh=wVkLWZwDcftHWkygPUCtZEPadhVhHno/qCcQeOr4QFc=;
+        b=pOPquZiHZqldZWDLqnVR3sHb1SIIyCKkbtmuRVBPRqLXNtsVA/eXn4dSKSVnNjUpDj
+         t1rrBkiHXZUOxBWjnI+WIrYcCSVQuu1p+sH3Hu7MnhHTTpZUaWO4XC/mEnaRXsZyMg8u
+         krh2W4AJJRJqhiN1vLJXkuwcxJxIfMV/PT79ifjjLbCYJK7GdmlZdvUG1JKXDQq6tEBG
+         rkFWZ1QwjqT6Qu/lj81HLQgBCKhYL/79fJMv6N+LvvdS+zwN0ZLhIjYFvjSQfrRNpyPB
+         LYgKdARaAluWJM0kYiWLSXCrmZ5LgcLgDbM9qor3tup/HpOHEcVNwXaxhYWGpMO55OmC
+         HbIw==
+X-Forwarded-Encrypted: i=1; AKwUvBwmEbca/3wbGu1UiJqMjQHTzgCQIPdCAYgwduKKoIVlwNkpygTLhskPKEXcA4CTm+r/21hsXn5DPdTnAuth@vger.kernel.org
+X-Gm-Message-State: AFuF++lTRA1AB84fAirpw2wNaUsMAcmHQSUBdc7gunk1ocHNjhMqsRQE
+	my97LbKT3ebFcx8F9GW3VATdzYVZ2Huk75XmgTyMoZ/cxr4FjXWgwa7Up+7NdRYyUCzKHDmlRRo
+	YglwHIPAPOx6u7c5dRJ4SzeAbgW4qCqs=
+X-Gm-Gg: AYBFou3XaEtsoT89XGf36tRoOL8o/riQdyO2R/gXvA6ig4hEmg0lm7ULFs5pdcc9F9w
+	JjEtL55Tjhns2s+V0hV9mZWvyaYZelm/O9tvs/8CMM50yLTVN42JlmTYDvrPZllMsR2JlRJB+Su
+	kzhf78HaF5lBmNgMJtoCNrYYU+72ovR5CA7LNE0DzaDk0IA8Vqnh5zhFSiOIFWC/TG9vO+GeoNA
+	6jxYbaXUpWsIiw5hHXKtjFIrPHGx3QXh0ifTCcboeLAZwlJb0ceojjxAHwokKbTke9nvVglWpgH
+	5yMKSy5anEto48iTJj3PHWTyUynzl6DRNCC5TodpXiGZfVVWHw3ra2oImmsxMb1ZOYB+Yrdk7Ms
+	jHhg1nFe73nLB2wtRVrm11jVwRT0zmlt88HB9zylQX4ltdS9I4tTa
+X-Received: by 2002:a17:90b:53c3:b0:39d:f130:8f13 with SMTP id
+ 98e67ed59e1d1-39e54e3c624mr985500a91.21.1789683276095; Thu, 17 Sep 2026
+ 15:14:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260915080255.48929-1-tasos.papagiannnis@gmail.com> <20260915080255.48929-3-tasos.papagiannnis@gmail.com>
-In-Reply-To: <20260915080255.48929-3-tasos.papagiannnis@gmail.com>
+References: <20260915080255.48929-1-tasos.papagiannnis@gmail.com> <20260915080255.48929-6-tasos.papagiannnis@gmail.com>
+In-Reply-To: <20260915080255.48929-6-tasos.papagiannnis@gmail.com>
 From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Thu, 17 Sep 2026 15:09:41 -0700
-X-Gm-Features: AcwNN1WTXc_NwWK6MQi-iRZUsTUWGjz1v6pzQXRB3O-GWxbyeKhFKxC4Xn1Cz6w
-Message-ID: <CAEf4BzbfScpCi+x+QTdLifbaXPOR=DJ-7nM7F-Lki7vzD9L4OA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v7 2/5] exec: Clear bprm->mm before dropping its reference
-To: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>, brauner@kernel.org
+Date: Thu, 17 Sep 2026 15:14:22 -0700
+X-Gm-Features: AcwNN1V6otsO6IWksnCzkd743-EAl1OOZ6ho93SkT0O5q69xaMVQFn98PY1WbH0
+Message-ID: <CAEf4BzZui5ywrdEz1Sz+XuSEOyFVBnGR_F0SU0vNuhBpaGpqGQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v7 5/5] selftests/bpf: Test mm_struct user memory
+ kfuncs with linux_binprm
+To: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
 Cc: bpf@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, david@kernel.org, 
 	akpm@linux-foundation.org, andrii@kernel.org, ast@kernel.org, 
-	daniel@iogearbox.net, eddyz87@gmail.com, kpsingh@kernel.org, ljs@kernel.org, 
-	matt@bobrowski.net, memxor@gmail.com, song@kernel.org, 
-	sun.jian.kdev@gmail.com, utilityemal77@gmail.com, viro@zeniv.linux.org.uk
+	brauner@kernel.org, daniel@iogearbox.net, eddyz87@gmail.com, 
+	kpsingh@kernel.org, ljs@kernel.org, matt@bobrowski.net, memxor@gmail.com, 
+	song@kernel.org, sun.jian.kdev@gmail.com, utilityemal77@gmail.com, 
+	viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Tue, Sep 15, 2026 at 1:03=E2=80=AFAM Anastasios Papagiannis
 <tasos.papagiannnis@gmail.com> wrote:
 >
-> Once mmput() drops the final reference to bprm->mm, the pointer must no
-> longer remain accessible through struct linux_binprm.
+> Add a sleepable BPF LSM program attached to bprm_check_security to test
+> bpf_copy_from_user_mm() and bpf_copy_from_user_mm_str() on CONFIG_MMU
+> kernels.
 >
-> The successful exec path and the bprm initialization error path already
-> clear bprm->mm when ownership is transferred or released. Do the same in
-> free_bprm() before calling mmput().
+> Starting at bprm->p, verify that bpf_copy_from_user_mm() can copy the
+> contiguous NUL-separated argument and environment data. Then use
+> bpf_copy_from_user_mm_str() to read each argument and environment string
+> separately, advancing the offset by the length returned from each call.
 >
-> This is required for BPF kfuncs where bprm->mm is either NULL or points
-> to a live mm_struct to ensure safe access.
+> Skip the test on !CONFIG_MMU. In that configuration, exec argument and
+> environment strings remain in bprm->page[] until the binary loader
+> transfers them to the new process stack, so they are not accessible
+> through bprm->mm at the bprm_check_security hook.
 >
 > Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
-> Reviewed-by: Sun Jian <sun.jian.kdev@gmail.com>
 > ---
->  fs/exec.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  .../bpf/prog_tests/copy_from_user_bprm.c      |  72 +++++++++++
+>  .../selftests/bpf/progs/copy_from_user_bprm.c | 122 ++++++++++++++++++
+>  2 files changed, 194 insertions(+)
+>  create mode 100644 tools/testing/selftests/bpf/prog_tests/copy_from_user=
+_bprm.c
+>  create mode 100644 tools/testing/selftests/bpf/progs/copy_from_user_bprm=
+.c
 >
-
-Christian, you ok if we take this through bpf-next? ack?
-
-> diff --git a/fs/exec.c b/fs/exec.c
-> index 745f6eb5279e..4ddd403fd91c 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1456,9 +1456,12 @@ void bprm_drop_loader(struct linux_binprm *bprm)
->
->  static void free_bprm(struct linux_binprm *bprm)
->  {
-> -       if (bprm->mm) {
-> +       struct mm_struct *mm =3D bprm->mm;
+> diff --git a/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c=
+ b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
+> new file mode 100644
+> index 000000000000..ef351cda9348
+> --- /dev/null
+> +++ b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
+> @@ -0,0 +1,72 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +
-> +       if (mm) {
->                 acct_arg_size(bprm, 0);
-> -               mmput(bprm->mm);
-> +               bprm->mm =3D NULL;
-> +               mmput(mm);
->         }
->         if (bprm->user_ns)
->                 put_user_ns(bprm->user_ns);
+> +#include <errno.h>
+> +#include <sys/wait.h>
+> +#include <unistd.h>
+> +
+> +#include <test_progs.h>
+> +
+> +#include "copy_from_user_bprm.skel.h"
+> +
+> +void test_copy_from_user_bprm(void)
+> +{
+> +       char arg0[] =3D "first";
+> +       char arg1[] =3D "second-argument";
+> +       char env0[] =3D "SOME_ENV=3Da";
+> +       char env1[] =3D "OTHER_ENV=3Dsomething";
+> +       struct copy_from_user_bprm *skel;
+> +       pid_t child;
+> +       int status;
+> +
+> +       skel =3D copy_from_user_bprm__open_and_load();
+> +       if (!ASSERT_OK_PTR(skel, "open_and_load"))
+> +               return;
+> +
+> +       /*
+> +        * On !CONFIG_MMU, exec strings are held in bprm->page[] rather t=
+han
+> +        * being mapped in bprm->mm.
+> +        */
+> +       if (!skel->kconfig->CONFIG_MMU) {
+> +               printf("%s:SKIP: test requires CONFIG_MMU\n", __func__);
+> +               test__skip();
+> +               goto out;
+> +       }
+
+I'm not sure I'd bother with this !CONFIG_MMU support, tbh
+
+> +
+> +       if (!ASSERT_OK(copy_from_user_bprm__attach(skel), "attach"))
+> +               goto out;
+> +
+> +       child =3D fork();
+> +       if (!ASSERT_GE(child, 0, "fork"))
+> +               goto out;
+> +
+> +       if (!child) {
+> +               char *const argv[] =3D { arg0, arg1, NULL };
+> +               char *const envp[] =3D { env0, env1, NULL };
+> +
+> +               skel->bss->monitored_pid =3D getpid();
+> +               execvpe("true", argv, envp);
+> +               _exit(errno);
+> +       }
+> +
+> +       if (!ASSERT_EQ(waitpid(child, &status, 0), child, "waitpid"))
+> +               goto out;
+> +
+> +       if (ASSERT_TRUE(WIFEXITED(status), "child_exited"))
+> +               ASSERT_EQ(WEXITSTATUS(status), EPERM, "exec_errno");
+> +
+> +       ASSERT_EQ(skel->bss->bprm_argc, 2, "bprm_argc");
+> +       ASSERT_EQ(skel->bss->bprm_envc, 2, "bprm_envc");
+> +       ASSERT_EQ(skel->bss->data_len_match, 1, "data_len_match");
+> +       ASSERT_EQ(skel->bss->invalid_flags_ret, -EINVAL, "invalid_flags_r=
+et");
+> +       ASSERT_EQ(skel->bss->copy_ret, 0, "copy_ret");
+> +       ASSERT_EQ(skel->bss->str_arg0_ret, sizeof(arg0), "str_arg0_ret");
+> +       ASSERT_EQ(skel->bss->str_arg1_ret, sizeof(arg1), "str_arg1_ret");
+> +       ASSERT_EQ(skel->bss->str_env0_ret, sizeof(env0), "str_env0_ret");
+> +       ASSERT_EQ(skel->bss->str_env1_ret, sizeof(env1), "str_env1_ret");
+> +       ASSERT_EQ(skel->bss->data_match, 1, "data_match");
+> +       ASSERT_EQ(skel->bss->str_args_match, 1, "str_args_match");
+> +       ASSERT_EQ(skel->bss->str_envs_match, 1, "str_envs_match");
+> +
+> +out:
+> +       copy_from_user_bprm__destroy(skel);
+> +}
+> diff --git a/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c b/to=
+ols/testing/selftests/bpf/progs/copy_from_user_bprm.c
+> new file mode 100644
+> index 000000000000..07ca96d9db45
+> --- /dev/null
+> +++ b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
+> @@ -0,0 +1,122 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include "vmlinux.h"
+> +
+> +#include <bpf/bpf_helpers.h>
+> +#include <bpf/bpf_tracing.h>
+> +#include <errno.h>
+> +
+> +char _license[] SEC("license") =3D "GPL";
+> +
+> +static const char expected_data[] =3D "first\0second-argument\0"
+> +                                   "SOME_ENV=3Da\0OTHER_ENV=3Dsomething"=
+;
+> +static const char expected_arg0[] =3D "first";
+> +static const char expected_arg1[] =3D "second-argument";
+> +static const char expected_env0[] =3D "SOME_ENV=3Da";
+> +static const char expected_env1[] =3D "OTHER_ENV=3Dsomething";
+> +
+> +int monitored_pid;
+> +int bprm_argc;
+> +int bprm_envc;
+> +int data_len_match;
+> +int invalid_flags_ret;
+> +int copy_ret;
+> +int str_arg0_ret;
+> +int str_arg1_ret;
+> +int str_env0_ret;
+> +int str_env1_ret;
+> +int data_match;
+> +int str_args_match;
+> +int str_envs_match;
+> +
+> +extern bool CONFIG_MMU __kconfig __weak;
+> +
+> +extern int bpf_copy_from_user_mm(void *dst, u32 dst__sz,
+> +                                const void *unsafe_ptr__ign,
+> +                                struct mm_struct *mm, u64 flags) __ksym;
+> +
+> +extern int bpf_copy_from_user_mm_str(void *dst, u32 dst__sz,
+> +                                    const void *unsafe_ptr__ign,
+> +                                    struct mm_struct *mm, u64 flags) __k=
+sym;
+> +
+
+these should be already coming from vmlinux.h, no need to explicitly
+define them, please drop (and CONFIG_MMU parts as well)
+
+> +SEC("lsm.s/bprm_check_security")
+> +int BPF_PROG(check_exec_args, struct linux_binprm *bprm)
+> +{
+> +       u32 pid =3D bpf_get_current_pid_tgid() >> 32;
+> +       char data[sizeof(expected_data)] =3D {};
+> +       struct mm_struct *mm;
+> +       char arg0[32] =3D {};
+> +       char arg1[32] =3D {};
+> +       char env0[32] =3D {};
+> +       char env1[32] =3D {};
+> +       u64 offset =3D 0;
+> +       u64 data_len;
+> +
+> +       if (!CONFIG_MMU)
+> +               return 0;
+> +
+> +       if (pid !=3D monitored_pid)
+> +               return 0;
+> +
+> +       mm =3D bprm->mm;
+> +       if (!mm)
+> +               return 0;
+> +
+> +       bprm_argc =3D bprm->argc;
+> +       bprm_envc =3D bprm->envc;
+> +
+> +       /* this is the total size of args and envs starting from bprm->p =
+*/
+> +       data_len =3D bprm->exec - bprm->p;
+> +       data_len_match =3D data_len =3D=3D sizeof(expected_data);
+> +
+> +       invalid_flags_ret =3D bpf_copy_from_user_mm(data, sizeof(data),
+> +                                                 (void *)bprm->p, mm, ~0=
+ULL);
+> +
+> +       copy_ret =3D bpf_copy_from_user_mm(data, sizeof(data), (void *)bp=
+rm->p,
+> +                                        mm, 0);
+
+single line (limit is 120, not 80), please reformat the rest if it
+fits under 120
+
+> +       if (copy_ret)
+> +               return 0;
+> +
+> +       data_match =3D
+> +               !__builtin_memcmp(data, expected_data, sizeof(expected_da=
+ta));
+
+nit: keep single line
+
+> +
+> +       /* arg0 is at bprm->p */
+> +       str_arg0_ret =3D bpf_copy_from_user_mm_str(arg0, sizeof(arg0),
+> +                                                (void *)(bprm->p + offse=
+t),
+> +                                                mm, BPF_F_PAD_ZEROS);
+> +       if (str_arg0_ret !=3D sizeof(expected_arg0))
+> +               return 0;
+> +       offset +=3D str_arg0_ret;
+> +
+> +       /* arg1 is at bprm->p + sizeof(arg0) */
+> +       str_arg1_ret =3D bpf_copy_from_user_mm_str(arg1, sizeof(arg1),
+> +                                                (void *)(bprm->p + offse=
+t),
+> +                                                mm, BPF_F_PAD_ZEROS);
+> +       if (str_arg1_ret !=3D sizeof(expected_arg1))
+> +               return 0;
+> +       offset +=3D str_arg1_ret;
+> +
+> +       /* env0 is at bprm->p + sizeof(arg0) + sizeof(arg1) */
+> +       str_env0_ret =3D bpf_copy_from_user_mm_str(env0, sizeof(env0),
+> +                                                (void *)(bprm->p + offse=
+t),
+> +                                                mm, BPF_F_PAD_ZEROS);
+> +       if (str_env0_ret !=3D sizeof(expected_env0))
+> +               return 0;
+> +       offset +=3D str_env0_ret;
+> +
+> +       /* env1 is at bprm->p + sizeof(arg0) + sizeof(arg1) + sizeof(env0=
+) */
+> +       str_env1_ret =3D bpf_copy_from_user_mm_str(env1, sizeof(env1),
+> +                                                (void *)(bprm->p + offse=
+t),
+> +                                                mm, BPF_F_PAD_ZEROS);
+> +       if (str_env1_ret !=3D sizeof(expected_env1))
+> +               return 0;
+> +
+> +       str_args_match =3D
+> +               !__builtin_memcmp(arg0, expected_arg0, sizeof(expected_ar=
+g0)) &&
+> +               !__builtin_memcmp(arg1, expected_arg1, sizeof(expected_ar=
+g1));
+> +       str_envs_match =3D
+> +               !__builtin_memcmp(env0, expected_env0, sizeof(expected_en=
+v0)) &&
+> +               !__builtin_memcmp(env1, expected_env1, sizeof(expected_en=
+v1));
+
+I'd put env1, env2, etc into global variables and do comparison in user spa=
+ce
+
+not that this is broken, but there is no point doing this in BPF code
+
+> +
+> +       return data_match && str_args_match && str_envs_match ? -EPERM : =
+0;
+> +}
 > --
 > 2.55.0
 >
