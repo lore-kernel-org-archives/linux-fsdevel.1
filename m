@@ -1,93 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3B336EAB0;
-	Thu, 17 Sep 2026 10:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CF73D413F;
+	Thu, 17 Sep 2026 10:18:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789639754; cv=none; b=pV9XaJQE1YdVb1i1RyUhGCT1xiI0dZJizcX+74D3cDsvIUq9X5jiZlagfkj0rvqYGT7vcDo6L3e3G3xzVm/rqvsmwoGgzwNwbiBtaVMSo4XzdMjMOiokgqy1alJdWBQ1g9wTRr2VTXaXeZzJ35el93lnL5gjoa7/TrF+k3Be/Ss=
+	t=1789640338; cv=none; b=ebL5cMhkO0DCToR0wIeXP2tjCuz5k8vG8sdTjeAYH/2HiSRBuTvuHUEEVwFzodLqpB9RuawxDR13fgP1lhvIspGZT9wfqpJ0AblxAZmRl77E+JRsKz06HkQGIHBPpwAh0A/RV8GLKXDzX7Qlq/UR8uF+vUA0thicFV4KU29tYws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789639754; c=relaxed/simple;
-	bh=2X37nh7K5uVquc+LvQVufKLrvahJ/uPC5JXRwMnPEgo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Y7ffUDCwIQvEdaTNwex1fTW5k/oxei52S0qtZYVdWJYAFG8IR2IaR8Tu8m/hyQw0f87XGScJrnsuNDkjdMxmFb3muLWSTIJ/g4JmC3eaolexDvtpkgpo4xCQHuRrN5uXL4gNIRD7oUgyPfGP8BPQH6fGutG50QhUnzYB89YhOzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UCKHVYT4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789640338; c=relaxed/simple;
+	bh=dnqgWmMlMT3rhhJvrxIw2SeqmOcqcGDKcUrL5VfGsu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AnSyUch7u7/ZM5dDYTmA16Iu4zNPeo+lQgsjPVAA+Sw/UZyUcHznZbG+Fiw6YZ9EDHfumYly1f0TieG8mvww6GYrHKekxdl17OHA+urI9Mr2iA0LbjAJFsqiawU3RpC6ot7HezSv0WsXqz0RLK/4Ua7NeykGX4jtDkRdnddEvPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cpiILKlj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UCKHVYT4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 859471F000FF;
-	Thu, 17 Sep 2026 10:09:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cpiILKlj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9C31F000FF;
+	Thu, 17 Sep 2026 10:18:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789639753;
-	bh=0aMOmJdQxMNrdF46i58nol3JmFvCWCcIPMuGuEg79b0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=UCKHVYT4kzDe/1nQP1C7+Q9WDxQ32Mb+uWSm0mOCF/nohyQRwpvyZcRZrXkAoOyFD
-	 Fj7zMGLBU5bVlEewRso97kXKzTfilgUHnEBUsC9IvLcWsiSEJQtjCnhhRzA4r4fqKI
-	 CHJsEw6qtGb556u/MAlAbZYWdOpGsAxJjWFQwU87kFNOn/3FZBjqjpMOgVhsbQmRR7
-	 xKS6pA6eT8mfCSCkCX9aC2QzDNrmcxEVT5sbvIgKQ5A8XFf+hgVIRHIfFtOkTao0Ue
-	 nG5qakaj6QWXBZjmViqutu9lqM75Y6kchm98J0qn73iRmaSJRRBfnNIbBRyHbEs9G4
-	 ELvHjnuzucRsA==
+	s=k20260515; t=1789640337;
+	bh=8t5/A3M/pTDCbWt4AC8flokRJa2n9cF5txLr5EGOSNg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cpiILKljPqDnMX/zM7jjXCFTWHbyn9UZrWBGgCRNpLjBQOugDiA5HE3ufmU6yloKl
+	 mQ42/tcYXDuGnwFmRzjYE6HbJvMWAg2cr5X4aJ7iIVJ86MQ3WRor3gpLinsceG1ik3
+	 /fkJYPczmlUiFUTtTV9msnykNWdZl2tH4INQD0x/pemuC2Z5GBcwMuhCQdtLGEHQV1
+	 jJvUpsOrR3FhyZkBtL1K3tc1aoSgPpt6vlmJaRQl9NPpAPwDzOFLZNGZFqrLVUrOdz
+	 s9zDHsAuhoAxfIlGLhfTo4kvN4zYrD6MW/4rGo/A5frjG6OmPFyTBuI+EVR9BO0LWs
+	 1lLsuS17H+8jg==
+Date: Thu, 17 Sep 2026 12:18:53 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Tejun Heo <tj@kernel.org>, Christian Brauner <brauner@kernel.org>, 
- Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260911182815.1992483-1-shakeel.butt@linux.dev>
-References: <20260911182815.1992483-1-shakeel.butt@linux.dev>
-Subject: Re: [PATCH v2 0/4] kernfs: don't hold kernfs_rwsem across
- dir_emit()
-Message-Id: <20260917-gewesen-favorisieren-zurechnen-8a2d2c23a5ed@brauner>
-Date: Thu, 17 Sep 2026 12:09:07 +0200
+To: syzbot <syzbot+listec583fa4257875d46833@syzkaller.appspotmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] Monthly fs report (Sep 2026)
+Message-ID: <20260917-ticken-spinnen-feilschen-d7e283e8ea2a@brauner>
+References: <6aa38496.6e6c5f9e.28f11f.003f.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1479; i=brauner@kernel.org;
- h=from:subject:message-id; bh=2X37nh7K5uVquc+LvQVufKLrvahJ/uPC5JXRwMnPEgo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSt3uPaNGPJNImHb7/mizzknPXL0Pbtsb1d+4S6F+92a
- sg78TT5a0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEHJ8x/JV5zRo8nceum5vl
- ee6M2U2iYnd1xGa/Xl1xanXRHYGLPdsZGebZvNwe+njjxFLhZStnXjrzQ33TVo3qCJngs0eVzwh
- 8nMYAAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6aa38496.6e6c5f9e.28f11f.003f.GAE@google.com>
 
-On Fri, 11 Sep 2026 11:28:11 -0700, Shakeel Butt wrote:
-> kernfs: don't hold kernfs_rwsem across dir_emit()
+On Thu, Sep 10, 2026 at 09:33:26PM -0700, syzbot wrote:
+> Hello fs maintainers/developers,
 > 
-> kernfs_fop_readdir() takes kernfs_rwsem for reading and holds it for the
-> whole listing, dir_emit() included.  dir_emit() copies into a userspace
-> buffer, so it can fault, and under memory pressure that fault goes to
-> reclaim.
+> This is a 31-day syzbot report for the fs subsystem.
+> All related reports/information can be found at:
+> https://syzkaller.appspot.com/upstream/s/fs
 > 
-> [...]
+> During the period, 3 new issues were detected and 3 were fixed.
+> In total, 46 issues are still open and 642 have already been fixed.
+> There are also 30 low-priority issues.
+> 
+> Some of the still happening issues:
+> 
+> Ref  Crashes Repro Title
+> <1>  10972   Yes   KASAN: use-after-free Read in hpfs_get_ea
+>                    https://syzkaller.appspot.com/bug?extid=fa88eb476e42878f2844
 
-Applied to the vfs-7.4.kernfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.kernfs branch should appear in linux-next soon.
+hpfs
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+> <2>  8730    Yes   INFO: task hung in __iterate_supers
+>                    https://syzkaller.appspot.com/bug?extid=b10aefdd9ef275e9j368d
+> <3>  2032    Yes   INFO: task hung in user_get_super (2)
+>                    https://syzkaller.appspot.com/bug?extid=ba09f4a317431df6cddf
+> <4>  2002    Yes   INFO: task hung in lookup_slow (3)
+>                    https://syzkaller.appspot.com/bug?extid=7cfc6a4f6b025f710423
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+ext4/vfat/sysv/9p
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+> <5>  33      Yes   general protection fault in __simple_recursive_removal (2)
+>                    https://syzkaller.appspot.com/bug?extid=cc460646984184ad435a
+> <6>  26      Yes   KASAN: slab-use-after-free Read in lockref_get (2)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.kernfs
+Both <5> and <6> are ic2 core races and fixed in v7.3-rc1 by b15b548d52b4.
+They were tagged with another syzbot id. In any case, no fs bug so:
 
-[1/4] kernfs: don't repeat or skip an entry when readdir resumes
-      https://git.kernel.org/vfs/vfs/c/5ebcb578adee
-[2/4] kernfs: resume readdir on the full entry key
-      https://git.kernel.org/vfs/vfs/c/45126ed80bb1
-[3/4] kernfs: don't hold kernfs_rwsem across dir_emit()
-      https://git.kernel.org/vfs/vfs/c/341c65579de5
-[4/4] selftests: cover readdir resuming at a removed entry
-      https://git.kernel.org/vfs/vfs/c/a4354906005d
+So both should get:
 
+#syz fix: i2c: core: fix debugfs UAF on adapter removal
+
+
+> <7>  25      Yes   INFO: rcu detected stall in sys_close (7)
+>                    https://syzkaller.appspot.com/bug?extid=393022c13d02e1f680e3
+
+NOT FS: taprio qdisc hrtimer storm via RTM_NEWQDISC.
+
+> <8>  25      Yes   VFS: Close: file count is zero (use-after-free) (2)
+>                    https://syzkaller.appspot.com/bug?extid=592c653b056459925299
+
+NOT FS: That's a gaudio_cleanup() thing with a fix on-list. Remove it
+from the fs list, please.
+
+> <9>  22      Yes   INFO: task hung in writeback_iter (3)
+>                    https://syzkaller.appspot.com/bug?extid=1e3ff4b07c16ca0f6fe2
+
+FIXED: The mdb_bh versus bitmap folio deadlock was fixed by f26da7e0381c in v7.3-rc1.
+This is just reproed in multiple fses and thus kept open. Kill it.
+
+> <10> 22      No    possible deadlock in uvcg_mjpeg_bma_controls_show
+>                    https://syzkaller.appspot.com/bug?extid=2b082cefcfb1439289ef
+
+NOT FS: Deadlock in USB
