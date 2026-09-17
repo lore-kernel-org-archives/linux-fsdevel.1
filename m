@@ -1,140 +1,89 @@
-Received: from mx.itxnorge.no (itx-kvm-14.itxnorge.no [91.189.121.228])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C7C49D584;
-	Thu, 17 Sep 2026 18:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.189.121.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635C64B44C4;
+	Thu, 17 Sep 2026 18:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789670366; cv=none; b=ZcjkLETZLYlu2j1D60+3UQQMnqupodggWI91KqM2z/UQdBRNVP1K7JYLK2w9Gi8s2UGWAkhXVAWS3540PQ54U+vwE+UjFEvKzBVXLjme5OsiNSSIkbkWeavvllz4GDXKYo40d7IlELLUYyaj1uOwNKzyCIioFU0K+TDYfyLyMj4=
+	t=1789671106; cv=none; b=uenHcuFEW+riS7bc4gH4zsfIS5HK4SPpZOM8wFLxa/MHu5PwdsahPSIiX7a4lJ7XlxdMSrzx6MxvcAwbjGgrO7no66uSqMqy4qDcfku06sg/2j6KPZB9xxSwR100CjYBMDem8xt3AZzhME5D8qVQpWB3Hwhhwk1DyivQAAoIsJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789670366; c=relaxed/simple;
-	bh=3qgheNDpDoNpwe7qjMFsjA+BUMFJzCUNCnyNbURUnh4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ocGEXrEh2HPImgU6hkm5rid6pUOCRksfUHhsV5dU5duNJsCVGSqRwygRDb03rbgyCYy4KkA1UVIErS07NYiq/g78YH77OzCNlur8lCy9N9xigtd6yKUMxawUpr4WwpbhW7fQ2VEN3zz/A+lZytqYpqj4A3ULB4sUDKUfbskxpUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=itx.no; spf=pass smtp.mailfrom=itx.no; dkim=pass (1024-bit key) header.d=itx.no header.i=@itx.no header.b=jBKG/+XA; arc=none smtp.client-ip=91.189.121.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=itx.no
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=itx.no
+	s=arc-20240116; t=1789671106; c=relaxed/simple;
+	bh=/U6tYkqyTy1GhCAYUmvTT6ATpz6cRT5ZgtsoflMiZCk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZivbQbD22lh91XHzPt6dq4+fBeEFrIDPcd0V/kWVpCGKWyD8+DI476Mth9VGDgCcYfnSLBjV907dveUUWQdyzmDhXQwRUn7QZasauxsWTYJySKjbDkPEOxmWhW8Knioe1UMeeh1moDtgcnvGsKqHELFvEprK4xUhQOu0J+mJLDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VofvtApo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=itx.no header.i=@itx.no header.b="jBKG/+XA"
-Message-ID: <079e850678d07392c3bf067e7fff5a21f6ce5308.camel@itx.no>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=itx.no; s=mx.itx.no;
-	t=1789670361;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3qgheNDpDoNpwe7qjMFsjA+BUMFJzCUNCnyNbURUnh4=;
-	b=jBKG/+XAvxh4SdlR4QOqtzixele8zu8KNkSpMlfv5iY/dOVfO0Ak8Q4Uhou16Xd3xu4U/J
-	CHN+IM+MtBYmh5DL6sTmBcs0Kd18oBOJR4MmUKijXCzz04Jvhp7/eBebzuGWaKDZ9QTcf8
-	Befj8JHYuxwapIIlbIBrtNztj1MuE98=
-Subject: Re: [PATCH 0/2] fs: honor FOP_UNSIGNED_OFFSET in llseek and
- positional I/O
-From: Stian Halseth <stian@itx.no>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	sparclinux@vger.kernel.org, schwab@suse.de
-Date: Thu, 17 Sep 2026 20:39:19 +0200
-In-Reply-To: <7077da32d9aaa1d748bbc39e9416974ccf6aa8ea.camel@itx.no>
-References: <20260917151614.376867-1-stian@itx.no>
-	 <lhuo6dv50l2.fsf@oldenburg.str.redhat.com>
-	 <7077da32d9aaa1d748bbc39e9416974ccf6aa8ea.camel@itx.no>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-IZYTIJt0pRmKUHdmKceO"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VofvtApo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A63451F000FF;
+	Thu, 17 Sep 2026 18:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789671105;
+	bh=Lj0LMgTtt+osem8mNMcd2tUw8wBDK0PxZPwdgNixz5o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=VofvtApoodJcnpBUg8gKMSP1kTo8JKmrdxfkH8RLpf4qK0iGn37r2DZCBqHo80k2S
+	 WNZOR9Xcr/0iuTDmJpgr3NFpxiL/jRNOEfTQj/QeSK2ri2BFOAOXctxi5HR9r8t03G
+	 iUGUbso8muxwH6MnuHC9hkgJ4g69NiFz8yeSYqiQ=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	linux-afs@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: [PATCH 6.12 0868/1102] afs: Fix incorrect free in candidate cleanup in afs_lookup_server()
+Date: Thu, 17 Sep 2026 16:13:31 +0100
+Message-ID: <20260917151602.348171222@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260917151539.408551884@linuxfoundation.org>
+References: <20260917151539.408551884@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+6.12-stable review patch.  If anyone has any objections, please let me know.
+
+------------------
+
+From: David Howells <dhowells@redhat.com>
+
+commit 044d596094af4b769fb8e1173dff0d08bd68db6c upstream.
+
+Fix afs_lookup_server() to not free an existing server's endpoint state
+when cleaning up a candidate server.  The candidate record doesn't have an
+endpoint state yet at this point, so the free for that can just be removed.
+
+Fixes: 4882ba78574e ("afs: Fix afs_server ref accounting")
+Link: https://sashiko.dev/#/patchset/20260729160108.2031453-1-dhowells%40redhat.com
+Signed-off-by: David Howells <dhowells@redhat.com>
+Link: https://patch.msgid.link/20260902121024.3328255-4-dhowells@redhat.com
+cc: Marc Dionne <marc.dionne@auristor.com>
+cc: linux-afs@lists.infradead.org
+cc: linux-fsdevel@vger.kernel.org
+cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ fs/afs/server.c |    1 -
+ 1 file changed, 1 deletion(-)
+
+--- a/fs/afs/server.c
++++ b/fs/afs/server.c
+@@ -241,7 +241,6 @@ struct afs_server *afs_lookup_server(str
+ out:
+ 	afs_put_addrlist(alist, afs_alist_trace_put_server_create);
+ 	if (candidate) {
+-		kfree(rcu_access_pointer(server->endpoint_state));
+ 		kfree(candidate);
+ 		afs_dec_servers_outstanding(cell->net);
+ 	}
 
 
---=-IZYTIJt0pRmKUHdmKceO
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-Hi again, a small clarification to my last reply.
-
-On Thu, 2026-09-17 at 18:45 +0200, Stian Halseth wrote:
-> Hi,
->=20
-> On Thu, 2026-09-17 at 18:01 +0200, Florian Weimer wrote:
-> > * Stian Halseth:
-> >=20
-> > > Tested on an UltraSPARC T4: pread(), preadv(), pwrite(),
-> > > pwritev()
-> > > and
-> > > lseek() on /proc/PID/mem at positions above 2^63 return the
-> > > correct
-> > > data
-> > > and offset; a negative position on a regular file or a pipe still
-> > > fails
-> > > with EINVAL and position 0 on a pipe with ESPIPE, as before; and
-> > > the
-> > > stock pldd(1) works again.=A0 On other architectures the change is
-> > > a
-> > > no-op
-> > > for every file without FOP_UNSIGNED_OFFSET, and userspace
-> > > addresses
-> > > never set the top bit, so the new paths are only reachable by
-> > > passing
-> > > a bogus position to /proc/PID/mem or /dev/mem, which then fails
-> > > in
-> > > the
-> > > driver instead of the wrapper.
-> >=20
-> > For lseek, aren't some file offsets (the top 4095 bytes or so just
-> > before 2**64) ambiguous as error indicators?=A0 You would have to use
-> > _llseek when accessing /proc/PID/mem.
->=20
-> Yes, for lseek, anything in the top MAX_ERRNO bytes below 2^64 cannot
-> be separated from -errno.=A0
->=20
-> For that reason _llseek is the interface that can be exact.
->=20
-> Patch 1 ensures that _llseek works for everything except that 4095-
-> byte
-> window. The patch does _not_ change the fact that _llseek can't
-> return
-> an offset in said window.
->=20
-> I think fixing the window requires llseek to report errors separately
-> from the offset. A bigger change, I would need some feedback before
-> attempting to implement that.
->=20
-> That being said, I _think_ the window is unreachable in practice, and
-> that no architecture maps user memory there.=A0
->=20
-> I could add a sentense to patch 1 noting the limitation, or look at
-> the
-> larger change if the VFS maintainers think it's worth it.
->=20
-> On the glibc side: 64-bit glibc uses lseek except on sparc64 and
-> ppc64,
-> which use _llseek, so those two get the exact result with patch 1,
-> and the rest carry the lseek ambiguity for that top window
-> regardless.
-Just to clarify:
-With patch 1, _llseek for ppc64 and sparc64 behaves just like lseek for
-the other arches, correct for every offset outside of that top window.
->=20
-> Best regards,
-> Stian
->=20
-> >=20
-> > Thanks,
-> > Florian
-> >=20
-
---=-IZYTIJt0pRmKUHdmKceO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTK1ph9OaYoND1R57zoeAEuJe36VgUCaqwz1wAKCRDoeAEuJe36
-Vp1QAP9KscPEuOKpQ66mMIyZFCDq+cqLPvG4EWc5NB97BekUXAD/TMgXYRZc1Pad
-mf4SBGlYdxlHFcA+/4Tgz941hTB1ig8=
-=vogw
------END PGP SIGNATURE-----
-
---=-IZYTIJt0pRmKUHdmKceO--
