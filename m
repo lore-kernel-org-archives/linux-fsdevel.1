@@ -1,291 +1,626 @@
-Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB7D48A8C8
-	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 08:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.235
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789634244; cv=pass; b=PySgkBog0sN2/YfYJ7s7UshlB/Ae3HfIVDTxIqLYYavtVZnt68O9bLW/1IhTM48+w0e4skRy2YFlNm5d22+Rcbgy8g8rbKQirdRu29Aj+A5YGWDMGgG0K0sVFiGOjskFx7nKCOysfYep0X49CMe/2tilm2iNzUTgJkUOa8oZL0o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789634244; c=relaxed/simple;
-	bh=kBt/lsmHB1LyfCEjsXo+nfsL6J4j+X6MlkrToinPe6Y=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=fD0qRIGMg6IYFBLvvKsMER42q0ddxKqD3L5S6ufbxN7+dDlS7f+IpLgex0HNkH4gjKPTJXTDZMO6xUNEpyDyw/cE7tHYlEGNGFeYuC2r7uRaQaU+WBD+PEdDik3N1rNYeEIDL2hYauNI53eJHldBanP+buxQa/VRACiKLRp1u3c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qfpw7jsF; arc=pass smtp.client-ip=74.125.230.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C679499F10;
+	Thu, 17 Sep 2026 08:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789634995; cv=none; b=NtNPM+R3ee/BSuQ3AmPdv97qmTJuKAlP+9gu91wly/CMHcTJaLV0+RIAWpUoBq23cI7Aib1taAAPAyyyDl/NXyUJAc4dRQ5Zz8OCoGqA7toyKJpjyvwdKqlY37OxOAqY0lxPnJ5ZzVeNDiBFvuvR/XjEOJqMz6LZlycxhyV1mck=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789634995; c=relaxed/simple;
+	bh=LGA9oJxVcxa84JbM3xMuAJVHMLtVDY+QwYbdSJCAbjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fSgWCt2J/yNH/mpAkpGTyIx4eSZjRehiaxzLNrtuGRV4M6YJ6MMiX2tr5IWlmA6Lq4O9D0mNlYHPfDIkbvZk6a63zRpBejI27NNxLsRsyGnZrSmZ1Zz0CLaVrbuGuI5NU7tFsO8K5CKPfKTL0RMJnENVZIlB8hsiTFSuivznGoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kxDyCvLn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qfpw7jsF"
-Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-52fb76ef1d0so4318181cf.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 01:37:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789634227; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PwnY9syP/3koSvgyRfEiDmoRmhGLor3hm8m1QtW32hZLeLpaLr3hy9pvMYRXc4Q7Zm
-         5E/RijStq48yFdEWB20b+wPAr+8RBAi3Ne0sanbsJ0vOQZSMTK6DuGVDsBbTYXiDwtQd
-         S8Gkeyzcjb1HNdVBziTWmav4/k/I6Y4RawDsSZJ8Xll4xL/f4RquWXHYhhlqtTTaqdgc
-         Q3LJhQ88X8/7K2bn68lZmNxAOGgcacIyxq+QrVtftMmuPKQ3iqJComXokdUYT+vHJVj7
-         uCcHS6g5gOB/YcuyAUJP+r3Ec/9qb/e8H7xMeuB8UPiXMnztC6Keq2zMx6zt4ShynTgN
-         sCLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=DSywNGd0PivnRhp7RJFiAn20BUh8Ya6uXvMwa7fJTPg=;
-        fh=O/qXp8Errp16mWv9CRUt1DGHH8loxr0tRB92sibkZC8=;
-        b=O2bJQhcPz3Kb4uZet0RyNzIDQ+NOaEipiwdARqaSPijJe7Vgof4Nb00Yjf2767hpDf
-         ffy61p+OsyF24G68Rjr9tkc9l0PNkx8GjT/zm7anIe61J0xAjavKeon9NT92K88aK9kP
-         3E6zbP1QDy3/CcdML9vfb81J6IhdlIuiDoHcla1BbIGaQOmNPAjJ75/KAqauojNReRDH
-         dO3fWnNeONrPMWMMI364bK2+4MKzOTfxABe2UocfCEnVdmqdqeDekJuuda3TC2HLnlZ9
-         2sycjYyuUrpIMXFytLODyK9Ye1pZWsUCMdc0nIsNYSoQkV7+N7WTesWyf4ft9tEU1f5c
-         DVkw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789634227; x=1790239027; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DSywNGd0PivnRhp7RJFiAn20BUh8Ya6uXvMwa7fJTPg=;
-        b=qfpw7jsF4mZM5O3CATuIDFTphP8E6YTvS3NKBQqQfXLe9AZ0Z6rtJqg9SuyN8niYJ6
-         iuzkBsyCKqxNQvfpyS5SMN1PexKTYSGwrSSKiwzneAMHpx8UCEoK0huCEgAu02EKay42
-         IT0yi7ic6M3ALSHF9YJb8HW5UGjXJTFw8z8vZUA12O2P8LTqwOpVhsU2zjLDdjytE2j+
-         PRF8rn/y0D9uQoEa3DDHHR1J/9AlyvZ6MouLW/M2JNzdMNFdRYPkj/lRomX2hSZ54yiY
-         bvDKDSEC/7PBLpxdsN3e4f8vus19PDcewr72DjOesWbZ23TSNp+HYyCpLm0cNj0TqSI4
-         d1IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789634227; x=1790239027;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=DSywNGd0PivnRhp7RJFiAn20BUh8Ya6uXvMwa7fJTPg=;
-        b=xDqc/wzAecRFIjjviaqJabLflPcADcxbmQhd8qypNaUWk4lfc5iyJpXJ4gC2fMMTKP
-         hwo333q654eeoqqbs3OIJZTQoSfiH60X1V2dmUjVEfjp61mA3FevKg6xuuWk1+L/ezHm
-         FefHUYe5iS7u/ZRIwFUG1oeopoNL5ND8eujhblMlHd6vUB2HvUAuzm/oMS+46QV6iuVE
-         l7H5EP6RgVd0ONLv9f+fiYNQ98UjFoXtFvHndZi4zXoNSxW07wBQfygy6k+7w9k4t1Nh
-         fAa9MkHUzC7qcIRWcrsZTBiREzPnKyoHzCnVgarS+y3k67L17pDBtUyEUJGyqWHF8T6Z
-         kcyg==
-X-Forwarded-Encrypted: i=1; AKwUvBxsXUL6sJ2mB2ttNKlUlRRedZZqND/UKX4H2ku2dJZqVh3Z2c2yXw/l9y/30RgTQh/FXU9OUj2zSm971PBm@vger.kernel.org
-X-Gm-Message-State: AFuF++kGS7ORseldUgoF1cyL2Oji6b+Es3cgkqHSoQBNEqTLJWoXaqdk
-	5v8dLVm7f8/fmRCkt+M5iOX6013fsxq+64kybaQNGa8I0jxv3xFpA4KlTfcoa4Xau7jQ58y2K40
-	odk1NSYjjLOh0D1eo0ozEvGHrvRQrGkoZqhYl
-X-Gm-Gg: AYBFou0zIQskoD3MdXeJcspzwxTwWoxs5CpBv4BncPw31fuMsloH5s8HMS/cKl56e6g
-	88TtLweV8MlEsIXXrb43Is0x87GsS7oFUcrNZL4X/SYnzv8np5QehXG3g/qUfACdp77W57r+TxI
-	0yXRUR1oxt6oHiLoRbVDlgCxXUYRovTNZlmLidnOY2A1ceh+VXcQsf8Eb9f3llZ+uzkWQHkVZcj
-	GryrdxRlaEtNwR+hEI1lp7gG2h7DYNBLB2m5EnbpKmr+L8dk9kXM5Ql4eas3zYv01apQhNBxRh0
-	ke0BrZoIDpalJrebWq2FQzfYd30eXyEV28xBuJARA1QhmgnWpCU1Aszo
-X-Received: by 2002:a05:622a:d2:b0:531:803:2a48 with SMTP id
- d75a77b69052e-5327eee89a2mr102193491cf.41.1789634226911; Thu, 17 Sep 2026
- 01:37:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kxDyCvLn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E86C21F000FF;
+	Thu, 17 Sep 2026 08:49:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789634981;
+	bh=xCY9xH2my2ZnWedJPgq/0TqPw8q3Z6WWbTIkvwNYddc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kxDyCvLnMnzBnJzFQz4yjaU0fYLwlj8qKXZleBVaEJywAYykaWGMp8RLDUbiCYxR4
+	 MIFtAm1qjzUVH5dv0Q4SZw8u8jalnuENXTV9TjbxRdFj0WYCpGUkETWmQAClZ6K48H
+	 dGhnNfEggRqodxZZQi9TQ14szc8PAKZpIRGr6tbtkKJ2HMGsj+JOC9CBOMDHOrafj9
+	 kFRDBedtmCm723sXEGd5+KY+SOmfBOAJwkNY34hVHhdqFE4Cf++MyBLOoJfefx+aRa
+	 uFOP1cUVPoAjhoTE3nagfnflHKuivDypE1MsmdCM4qCiYaC/C5QVaQsEZ+AXjVuFdE
+	 8E+g02bsLio3Q==
+Date: Thu, 17 Sep 2026 10:49:36 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: NeilBrown <neil@brown.name>, Chris Mason <mason@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Jens Axboe <axboe@kernel.dk>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org, io-uring@vger.kernel.org
+Subject: user workers as coredumpers [Re: [PATCH 1/6] coredump: don't switch
+ a dumper that has no files] table
+Message-ID: <20260917-zahnpasta-aufweichen-flackern-1182320f5c81@brauner>
+References: <20260915-work-coredump-fixes-v1-1-f354ca41780c@kernel.org>
+ <20260916194837.3732307-1-mason@kernel.org>
+ <20260917-staunen-sparsam-infusion-83238c68d21f@brauner>
+ <178960987412.207413.3957049392884487413@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: dave mad maxXx <davemadmaxxx@gmail.com>
-Date: Thu, 17 Sep 2026 05:37:32 -0300
-X-Gm-Features: AcwNN1UOyjXjIRM2-nQ_fLD6Po8ADIjBSdT9MDKwMqIgRcWvhdx6Wr8GfSEi4Yo
-Message-ID: <CADy8qZiJmfdwm11aV7z1mr+fjFJQ0kN8Wp6yBub0_0EP3uCssg@mail.gmail.com>
-Subject: Re: [syzbot] BUG: unable to handle kernel paging request in __hfsplus_brec_find
-To: syzbot+f957cf00261d1c41fafd@syzkaller.appspotmail.com
-Cc: syzkaller-bugs@googlegroups.com, Viacheslav Dubeyko <slava@dubeyko.com>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000602a38065ba9b07e"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <178960987412.207413.3957049392884487413@noble.neil.brown.name>
 
---000000000000602a38065ba9b07e
-Content-Type: text/plain; charset="UTF-8"
+On Thu, Sep 17, 2026 at 11:51:14AM +1000, NeilBrown wrote:
+> On Thu, 17 Sep 2026, Christian Brauner wrote:
+> > > When I reproduced this one, it ended up deadlocking with the fix applied.
+> > > 
+> > > vhost worker (the dumper)          sibling thread
+> > > =========================          ==============
+> > > get_signal() -> vfs_coredump()
+> > >   coredump_close_files()
+> > >     hands sibling a new table ---> switch_files_struct()
+> > >     coredump_wait_inactive()         put_files_struct(old table)
+> > >       waits for sibling's switch       last close of the vhost fd
+> > >                                      vhost_net_release()
+> > >                                        __vhost_worker_flush(): waits
+> > > 
+> > > AI suggests making the vhost thread requeue the signal for someone more
+> > > suitable?
+> > 
+> > Afaict, this is conceptually a generic problem with letting coredump
+> > close files for any type of user worker where the worker is the dumper
+> > and the sibling thread closes the fd that causes it to be stopped and
+> > waits for it to exit. So this needs thinking and we should drop coredump
+> > closing files for now.
+> > 
+> 
+> It appears to me that there is already infrastructure in place to handle
+> the generic problem.  vhost_task has a "handle_sigkill" function which
+> cleans up on sig kill so that siblings won't keep waiting for it.
+> get_signal() detects PF_USER_WORKER tasks and lets them complete
+> normally rather than aborting them, so that handle_sigkill can be called.
+> 
+> So the problem is "simply" an ordering problem. vfs_coredump() closes
+> files before handle_sigkill can run.
+> Maybe handle_sigkill() could be passed to (a version of) get_signal(),
+> or maybe get_signal() could indicate to the PF_USER_WORKER caller that
+> vfs_coredump() still needs to be run.
 
-Hi,
+Oh good, it's worse. This isn't specific to this patchset. This class of
+bugs I mentioned is reproducible on current mainline with SQPOLL:
 
-I am investigating the HFS+ crash reported by syzbot in
-__hfsplus_brec_find() and would like to share the current results of a
-function-by-function reconstruction of the failure path.
+  io-wq worker (the dumper)               SQPOLL thread
+  =========================               =============
+  io_wq_worker()                          io_sq_thread()
+    get_signal()                            io_sqd_handle_event()
+      vfs_coredump()
+        coredump_wait()
+          zap_threads()
+            zap_process(): SIGKILL ---->      get_signal(): SIGKILL, returns
+          wait_for_completion_state(        io_uring_cancel_generic(true, sqd)
+            &core_state->startup)             io_uring_clean_tctx()
+          waits for every thread to             io_wq_put_and_exit()
+          reach coredump_task_exit()              io_wq_exit_workers()
+                                                    wait_for_completion(
+                                                      &wq->worker_done)
+                                                    waits for the worker's
+                                                    io_worker_exit(), which
+                                                    runs after get_signal()
 
-The public report shows the fault address:
+Here's a selftest to reproduce it:
 
-fffffffffffffffb
+From 3099604cb701a7a5242986653add8c52d4b6d2c6 Mon Sep 17 00:00:00 2001
+From: Christian Brauner <brauner@kernel.org>
+Date: Thu, 17 Sep 2026 10:20:49 +0200
+Subject: [PATCH] selftests/coredump: test a user worker as the coredumping
+ thread
 
-On 64-bit Linux this value is consistent with the encoding of
-ERR_PTR(-EIO). I am treating that correspondence as an important clue,
-not as proof that -EIO originated at any particular call site.
+A tracer can clear the signal mask of an io-wq worker or an SQPOLL
+thread with PTRACE_SETSIGMASK and inject a coredump signal. The worker
+then runs vfs_coredump() itself. Cover that:
 
-STATIC AUDIT
+- a child keeps a ring, an idle io-wq worker and with SQPOLL the SQPOLL
+  thread alive
 
-The audit identified two concrete producer-to-consumer gaps in
-fs/hfsplus/brec.c. In both cases, hfs_bnode_find() can supply a value
-that is assigned to fd->bnode without an IS_ERR() check before
-fd->bnode is subsequently consumed as a struct hfs_bnode pointer.
+- seize the chosen thread, stop it with SIGSTOP, clear its mask and
+  detach with SIGSEGV
 
-The first site is in hfs_brec_insert(), after a successful node split
-and during the parent-node lookup. A second related site exists in
-hfs_brec_update_parent().
+- require the thread group to be gone in bounded time, by the dump or
+  by SIGKILL
 
-hfs_bnode_find() has error-return paths using ERR_PTR(), including
--EIO. This makes error-pointer propagation through these unchecked
-assignments a mechanism worth testing. However, the existence of these
-paths alone does not establish that either site produced the error
-pointer in the original syzbot execution.
+The io-wq worker of an SQPOLL ring fails: the SQPOLL thread waits for
+its workers to exit before it parks, the dumping worker waits for the
+SQPOLL thread to park and the group is stuck in D state.
 
-RUNTIME REACHABILITY
+This reproduces the following hang when SQPOLL becomes the coredumper:
 
-I then tested the relevant control flow in an isolated QEMU HFS+ environment.
+  io-wq worker (the dumper)               SQPOLL thread
+  =========================               =============
+  io_wq_worker()                          io_sq_thread()
+    get_signal()                            io_sqd_handle_event()
+      vfs_coredump()
+        coredump_wait()
+          zap_threads()
+            zap_process(): SIGKILL ---->      get_signal(): SIGKILL, returns
+          wait_for_completion_state(        io_uring_cancel_generic(true, sqd)
+            &core_state->startup)             io_uring_clean_tctx()
+          waits for every thread to             io_wq_put_and_exit()
+          reach coredump_task_exit()              io_wq_exit_workers()
+                                                    wait_for_completion(
+                                                      &wq->worker_done)
+                                                    waits for the worker's
+                                                    io_worker_exit(), which
+                                                    runs after get_signal()
 
-A clean HFS+ filesystem and a workload creating many long catalog
-names naturally caused a Catalog B-tree node split and reached the
-parent lookup in hfs_brec_insert(). No control-flow manipulation was
-needed to reach that branch.
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ tools/testing/selftests/coredump/.gitignore   |   1 +
+ tools/testing/selftests/coredump/Makefile     |   4 +-
+ .../selftests/coredump/coredump_worker_test.c | 427 ++++++++++++++++++
+ 3 files changed, 431 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/coredump/coredump_worker_test.c
 
-This established runtime reachability of the exact branch containing
-the first unchecked hfs_bnode_find() assignment.
+diff --git a/tools/testing/selftests/coredump/.gitignore b/tools/testing/selftests/coredump/.gitignore
+index c198f2ca5872..e32f6e9006f6 100644
+--- a/tools/testing/selftests/coredump/.gitignore
++++ b/tools/testing/selftests/coredump/.gitignore
+@@ -3,3 +3,4 @@ stackdump_test
+ coredump_socket_test
+ coredump_socket_protocol_test
+ coredump_signal_test
++coredump_worker_test
+diff --git a/tools/testing/selftests/coredump/Makefile b/tools/testing/selftests/coredump/Makefile
+index bfb53f512d8e..9459ba3692c1 100644
+--- a/tools/testing/selftests/coredump/Makefile
++++ b/tools/testing/selftests/coredump/Makefile
+@@ -5,7 +5,8 @@ TEST_GEN_PROGS := stackdump_test \
+ 		  coredump_socket_test \
+ 		  coredump_socket_protocol_test \
+ 		  coredump_close_files_test \
+-		  coredump_signal_test
++		  coredump_signal_test \
++		  coredump_worker_test
+ TEST_FILES := stackdump
+ 
+ include ../lib.mk
+@@ -15,3 +16,4 @@ $(OUTPUT)/coredump_socket_test: coredump_test_helpers.c
+ $(OUTPUT)/coredump_socket_protocol_test: coredump_test_helpers.c
+ $(OUTPUT)/coredump_close_files_test: coredump_test_helpers.c
+ $(OUTPUT)/coredump_signal_test: coredump_test_helpers.c
++$(OUTPUT)/coredump_worker_test: coredump_test_helpers.c
+diff --git a/tools/testing/selftests/coredump/coredump_worker_test.c b/tools/testing/selftests/coredump/coredump_worker_test.c
+new file mode 100644
+index 000000000000..81cadde0e752
+--- /dev/null
++++ b/tools/testing/selftests/coredump/coredump_worker_test.c
+@@ -0,0 +1,427 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * A user worker as the coredumping thread.
++ *
++ * io-wq workers and SQPOLL threads are threads of the process that never
++ * return to userspace. They block every signal but SIGKILL and SIGSTOP,
++ * but a tracer can replace that mask with PTRACE_SETSIGMASK and inject a
++ * coredump signal. get_signal() then runs vfs_coredump() in the worker.
++ * The worker's own exit bookkeeping runs only after the dump, so a
++ * zapped sibling that waits for it in its exit path deadlocks with the
++ * dumper and the whole thread group is stuck in D state.
++ *
++ * Inject SIGSEGV into a chosen thread and require that the thread group
++ * is gone in bounded time, either because the dump completed or because
++ * SIGKILL still works. A failure leaves the stuck process behind.
++ */
++#include <ctype.h>
++#include <dirent.h>
++#include <fcntl.h>
++#include <sys/mman.h>
++#include <sys/ptrace.h>
++#include <sys/resource.h>
++#include <sys/stat.h>
++#include <sys/syscall.h>
++#include <sys/wait.h>
++#include <unistd.h>
++#include <linux/io_uring.h>
++
++#include "coredump_test.h"
++
++#ifndef PTRACE_SETSIGMASK
++#define PTRACE_SETSIGMASK 0x420b
++#endif
++
++/* The dump of the tiny child takes well under a second. */
++#define EXIT_TIMEOUT_MS 5000
++
++FIXTURE_SETUP(coredump)
++{
++	FILE *file;
++	int ret;
++
++	self->pid_coredump_server = -ESRCH;
++	self->fd_tmpfs_detached = -1;
++	file = fopen("/proc/sys/kernel/core_pattern", "r");
++	ASSERT_NE(NULL, file);
++
++	ret = fread(self->original_core_pattern, 1, sizeof(self->original_core_pattern), file);
++	ASSERT_TRUE(ret || feof(file));
++	ASSERT_LT(ret, sizeof(self->original_core_pattern));
++
++	self->original_core_pattern[ret] = '\0';
++
++	ret = fclose(file);
++	ASSERT_EQ(0, ret);
++}
++
++FIXTURE_TEARDOWN(coredump)
++{
++	const char *reason;
++	FILE *file;
++	int ret;
++
++	file = fopen("/proc/sys/kernel/core_pattern", "w");
++	if (!file) {
++		reason = "Unable to open core_pattern";
++		goto fail;
++	}
++
++	ret = fprintf(file, "%s", self->original_core_pattern);
++	if (ret < 0) {
++		reason = "Unable to write to core_pattern";
++		goto fail;
++	}
++
++	ret = fclose(file);
++	if (ret) {
++		reason = "Unable to close core_pattern";
++		goto fail;
++	}
++
++	return;
++fail:
++	/* This should never happen */
++	fprintf(stderr, "Failed to cleanup coredump test: %s\n", reason);
++}
++
++/* A raw ring, no liburing. */
++struct uring {
++	int fd;
++	struct io_uring_params params;
++	void *sq;
++	size_t sq_len;
++	struct io_uring_sqe *sqes;
++	size_t sqes_len;
++	unsigned int *sq_tail, *sq_mask, *sq_array;
++	unsigned int *cq_head, *cq_tail, *cq_mask;
++	struct io_uring_cqe *cqes;
++};
++
++static int uring_setup(struct uring *r, unsigned int flags)
++{
++	size_t cq_len;
++
++	memset(r, 0, sizeof(*r));
++	r->params.flags = flags;
++	if (flags & IORING_SETUP_SQPOLL)
++		r->params.sq_thread_idle = 2000;
++	r->fd = syscall(__NR_io_uring_setup, 8, &r->params);
++	if (r->fd < 0)
++		return -1;
++	if (!(r->params.features & IORING_FEAT_SINGLE_MMAP))
++		return -1;
++
++	r->sq_len = r->params.sq_off.array + r->params.sq_entries * sizeof(unsigned int);
++	cq_len = r->params.cq_off.cqes + r->params.cq_entries * sizeof(struct io_uring_cqe);
++	if (cq_len > r->sq_len)
++		r->sq_len = cq_len;
++	r->sq = mmap(NULL, r->sq_len, PROT_READ | PROT_WRITE,
++		     MAP_SHARED | MAP_POPULATE, r->fd, IORING_OFF_SQ_RING);
++	if (r->sq == MAP_FAILED)
++		return -1;
++	r->sqes_len = r->params.sq_entries * sizeof(struct io_uring_sqe);
++	r->sqes = mmap(NULL, r->sqes_len, PROT_READ | PROT_WRITE,
++		       MAP_SHARED | MAP_POPULATE, r->fd, IORING_OFF_SQES);
++	if (r->sqes == MAP_FAILED)
++		return -1;
++
++	r->sq_tail = r->sq + r->params.sq_off.tail;
++	r->sq_mask = r->sq + r->params.sq_off.ring_mask;
++	r->sq_array = r->sq + r->params.sq_off.array;
++	r->cq_head = r->sq + r->params.cq_off.head;
++	r->cq_tail = r->sq + r->params.cq_off.tail;
++	r->cq_mask = r->sq + r->params.cq_off.ring_mask;
++	r->cqes = r->sq + r->params.cq_off.cqes;
++	return 0;
++}
++
++/* Submit one sqe, wait for its completion and return the result. */
++static int uring_submit_wait(struct uring *r, const struct io_uring_sqe *sqe)
++{
++	unsigned int tail = *r->sq_tail, idx = tail & *r->sq_mask;
++	unsigned int flags = IORING_ENTER_GETEVENTS;
++	int i;
++
++	r->sqes[idx] = *sqe;
++	r->sq_array[idx] = idx;
++	__atomic_store_n(r->sq_tail, tail + 1, __ATOMIC_RELEASE);
++
++	if (r->params.flags & IORING_SETUP_SQPOLL)
++		flags |= IORING_ENTER_SQ_WAKEUP;
++
++	for (i = 0; i < 100; i++) {
++		if (syscall(__NR_io_uring_enter, r->fd, 1, 1, flags, NULL, 0) < 0 &&
++		    errno != EINTR)
++			return -1;
++		if (__atomic_load_n(r->cq_tail, __ATOMIC_ACQUIRE) != *r->cq_head) {
++			unsigned int head = *r->cq_head;
++			int res = r->cqes[head & *r->cq_mask].res;
++
++			__atomic_store_n(r->cq_head, head + 1, __ATOMIC_RELEASE);
++			return res;
++		}
++		flags &= ~IORING_ENTER_SQ_WAKEUP;
++		usleep(10 * 1000);
++	}
++	return -1;
++}
++
++static bool uring_available(unsigned int flags)
++{
++	struct io_uring_params params = { .flags = flags };
++	int fd;
++
++	fd = syscall(__NR_io_uring_setup, 2, &params);
++	if (fd < 0)
++		return false;
++	close(fd);
++	return true;
++}
++
++/*
++ * Keep a ring, an idle io-wq worker and with SQPOLL an SQPOLL thread
++ * alive. The last worker of a ring never exits on its idle timeout.
++ */
++static void worker_child(bool sqpoll, int fd_ipc)
++{
++	struct rlimit rl = { RLIM_INFINITY, RLIM_INFINITY };
++	struct io_uring_sqe sqe = {};
++	static char buf[64];
++	struct uring ring;
++	int memfd;
++
++	if (setrlimit(RLIMIT_CORE, &rl))
++		_exit(EXIT_FAILURE);
++
++	memfd = memfd_create("coredump_worker", 0);
++	if (memfd < 0 || write(memfd, "hello", 5) != 5)
++		_exit(EXIT_FAILURE);
++
++	if (uring_setup(&ring, sqpoll ? IORING_SETUP_SQPOLL : 0))
++		_exit(EXIT_FAILURE);
++
++	/* IOSQE_ASYNC forces the read through io-wq so a worker appears. */
++	sqe.opcode = IORING_OP_READ;
++	sqe.fd = memfd;
++	sqe.addr = (__u64)(uintptr_t)buf;
++	sqe.len = sizeof(buf);
++	sqe.flags = IOSQE_ASYNC;
++	if (uring_submit_wait(&ring, &sqe) != 5)
++		_exit(EXIT_FAILURE);
++
++	if (write_nointr(fd_ipc, "1", 1) != 1)
++		_exit(EXIT_FAILURE);
++	close(fd_ipc);
++
++	for (;;)
++		pause();
++}
++
++/* Find the thread of @pid whose comm starts with @prefix. */
++static pid_t find_thread(pid_t pid, const char *prefix)
++{
++	char path[64], comm[64];
++	pid_t tid = -1;
++	struct dirent *de;
++	ssize_t bytes;
++	DIR *dir;
++	int fd;
++
++	snprintf(path, sizeof(path), "/proc/%d/task", pid);
++	dir = opendir(path);
++	if (!dir)
++		return -1;
++
++	while (tid < 0 && (de = readdir(dir))) {
++		if (!isdigit(de->d_name[0]))
++			continue;
++		snprintf(path, sizeof(path), "/proc/%d/task/%s/comm", pid, de->d_name);
++		fd = open(path, O_RDONLY | O_CLOEXEC);
++		if (fd < 0)
++			continue;
++		bytes = read(fd, comm, sizeof(comm) - 1);
++		close(fd);
++		if (bytes <= 0)
++			continue;
++		comm[bytes] = '\0';
++		if (!strncmp(comm, prefix, strlen(prefix)))
++			tid = atoi(de->d_name);
++	}
++	closedir(dir);
++	return tid;
++}
++
++/*
++ * Attach, stop the thread with SIGSTOP, drop the signal mask that
++ * copy_process() gave it and resume it with SIGSEGV instead.
++ */
++static bool inject_coredump_signal(pid_t pid, pid_t tid)
++{
++	__u64 mask = 0;
++	int status;
++
++	if (ptrace(PTRACE_SEIZE, tid, NULL, NULL))
++		return false;
++	if (syscall(SYS_tgkill, pid, tid, SIGSTOP))
++		return false;
++	if (waitpid(tid, &status, __WALL) != tid)
++		return false;
++	if (!WIFSTOPPED(status) || WSTOPSIG(status) != SIGSTOP)
++		return false;
++	if (ptrace(PTRACE_SETSIGMASK, tid, sizeof(mask), &mask))
++		return false;
++	return !ptrace(PTRACE_DETACH, tid, NULL, (void *)(long)SIGSEGV);
++}
++
++/* Reap @pid within @timeout_ms, -1 when it is still there. */
++static int wait_exit(pid_t pid, int *status, int timeout_ms)
++{
++	int i;
++
++	for (i = 0; i < timeout_ms / 10; i++) {
++		pid_t ret = waitpid(pid, status, WNOHANG);
++
++		if (ret == pid)
++			return 0;
++		if (ret < 0)
++			return -1;
++		usleep(10 * 1000);
++	}
++	return -1;
++}
++
++static void log_threads(struct __test_metadata *const _metadata, pid_t pid)
++{
++	char path[64], line[256], comm[64] = {};
++	struct dirent *de;
++	DIR *dir;
++	FILE *f;
++
++	snprintf(path, sizeof(path), "/proc/%d/task", pid);
++	dir = opendir(path);
++	if (!dir)
++		return;
++	while ((de = readdir(dir))) {
++		if (!isdigit(de->d_name[0]))
++			continue;
++		snprintf(path, sizeof(path), "/proc/%d/task/%s/status", pid, de->d_name);
++		f = fopen(path, "r");
++		if (!f)
++			continue;
++		while (fgets(line, sizeof(line), f)) {
++			line[strcspn(line, "\n")] = '\0';
++			if (!strncmp(line, "Name:", 5))
++				snprintf(comm, sizeof(comm), "%s", line + 6);
++			else if (!strncmp(line, "State:", 6))
++				TH_LOG("tid %s (%s) %s", de->d_name, comm, line + 7);
++		}
++		fclose(f);
++	}
++	closedir(dir);
++}
++
++enum dumper {
++	DUMPER_MAIN,
++	DUMPER_WORKER,
++	DUMPER_SQPOLL,
++};
++
++static void run_dumper(struct __test_metadata *const _metadata, bool sqpoll,
++		       enum dumper dumper)
++{
++	bool killed = false;
++	char path[64], c;
++	int ipc[2], status, fd;
++	pid_t pid, tid;
++
++	ASSERT_TRUE(set_core_pattern("/tmp/coredump.file.%p"));
++	ASSERT_EQ(pipe2(ipc, O_CLOEXEC), 0);
++
++	pid = fork();
++	ASSERT_GE(pid, 0);
++	if (pid == 0) {
++		close(ipc[0]);
++		worker_child(sqpoll, ipc[1]);
++	}
++	close(ipc[1]);
++	ASSERT_EQ(read_nointr(ipc[0], &c, 1), 1);
++	close(ipc[0]);
++
++	switch (dumper) {
++	case DUMPER_MAIN:
++		tid = pid;
++		break;
++	case DUMPER_WORKER:
++		tid = find_thread(pid, "iou-wrk-");
++		break;
++	case DUMPER_SQPOLL:
++		tid = find_thread(pid, "iou-sqp-");
++		break;
++	}
++	ASSERT_GT(tid, 0);
++	ASSERT_TRUE(inject_coredump_signal(pid, tid));
++
++	if (wait_exit(pid, &status, EXIT_TIMEOUT_MS)) {
++		/* No dump. Whatever happened, SIGKILL must still work. */
++		log_threads(_metadata, pid);
++		kill(pid, SIGKILL);
++		killed = true;
++		ASSERT_EQ(wait_exit(pid, &status, EXIT_TIMEOUT_MS), 0) {
++			TH_LOG("thread group %d is stuck after SIGSEGV to tid %d",
++			       pid, tid);
++		}
++	}
++
++	ASSERT_TRUE(WIFSIGNALED(status));
++	if (killed) {
++		TH_LOG("tid %d did not dump, the group was killed instead", tid);
++		ASSERT_EQ(WTERMSIG(status), SIGKILL);
++		return;
++	}
++	ASSERT_EQ(WTERMSIG(status), SIGSEGV);
++	ASSERT_TRUE(WCOREDUMP(status));
++
++	snprintf(path, sizeof(path), "/tmp/coredump.file.%d", pid);
++	fd = open(path, O_RDONLY | O_CLOEXEC);
++	unlink(path);
++	ASSERT_GE(fd, 0);
++	ASSERT_TRUE(check_coredump_extent(fd));
++	close(fd);
++}
++
++/* The mechanics: an injected SIGSEGV into a normal thread dumps core. */
++TEST_F(coredump, main_thread_dumper)
++{
++	if (!uring_available(0))
++		SKIP(return, "io_uring is not available");
++	run_dumper(_metadata, false, DUMPER_MAIN);
++}
++
++TEST_F(coredump, plain_worker_dumper)
++{
++	if (!uring_available(0))
++		SKIP(return, "io_uring is not available");
++	run_dumper(_metadata, false, DUMPER_WORKER);
++}
++
++TEST_F(coredump, sqpoll_thread_dumper)
++{
++	if (!uring_available(IORING_SETUP_SQPOLL))
++		SKIP(return, "io_uring SQPOLL is not available");
++	run_dumper(_metadata, true, DUMPER_SQPOLL);
++}
++
++/*
++ * The SQPOLL thread leaves its loop on the zap and waits for its io-wq
++ * workers to exit before it parks. The dumping worker never does.
++ */
++TEST_F(coredump, sqpoll_worker_dumper)
++{
++	if (!uring_available(IORING_SETUP_SQPOLL))
++		SKIP(return, "io_uring SQPOLL is not available");
++	run_dumper(_metadata, true, DUMPER_WORKER);
++}
++
++TEST_HARNESS_MAIN
+-- 
+2.53.0
 
-DIRECTED ERROR-POINTER EXPERIMENT
-
-Only after the natural control flow reached that parent-lookup point,
-I deliberately injected:
-
-fd->bnode = ERR_PTR(-EIO)
-
-The unprotected execution then faulted at:
-
-fffffffffffffffb
-
-This is the same numerical fault address shown in the public syzbot report.
-
-I want to be explicit about the interpretation of this experiment: the
-ERR_PTR(-EIO) value in this test was deliberately injected. Therefore
-this is NOT a natural reproduction of the syzbot bug and does NOT
-demonstrate that hfs_bnode_find() naturally returned -EIO in the
-original report.
-
-What the experiment demonstrates is narrower: if ERR_PTR(-EIO) reaches
-fd->bnode at this reachable producer-to-consumer gap, the resulting
-invalid pointer can produce the same fault-address value observed by
-syzbot.
-
-NAIVE CONTAINMENT AND CLEANUP BEHAVIOR
-
-An initial diagnostic attempt added an IS_ERR() check after assigning
-hfs_bnode_find() directly to fd->bnode and returned the corresponding
-error.
-
-That guard detected the injected -EIO, but the kernel subsequently
-faulted again at fffffffffffffffb, this time through the cleanup path
-ending in hfs_bnode_put().
-
-The reason was that fd->bnode still retained ERR_PTR(-EIO). The caller
-cleanup eventually executed hfs_find_exit(), which calls
-hfs_bnode_put(fd->bnode) without treating ERR_PTR as a valid state.
-
-This led to an additional source-level observation: fd->bnode appears
-to have an effective cleanup contract of containing either a valid
-hfs_bnode pointer or NULL, not an ERR_PTR value. Existing HFS+ code
-also contains a safe pattern in which the hfs_bnode_find() result is
-first held in a temporary pointer, checked with IS_ERR(), and only
-then assigned to fd->bnode.
-
-NEW_NODE OWNERSHIP
-
-The split path also has a live new_node reference returned by
-hfs_bnode_split(). Therefore simply returning on a failed parent
-lookup would not be sufficient; the diagnostic error exit must also
-account for that reference.
-
-DIAGNOSTIC PATCH 40P
-
-Based on those observations, I developed 40P as a diagnostic
-containment patch. It modifies the two unchecked hfs_bnode_find()
-sites identified in the audit.
-
-At each site, the hfs_bnode_find() result is first stored in a
-temporary pointer. If IS_ERR() is true, the patch:
-
-1. obtains the error with PTR_ERR();
-2. ensures fd->bnode is NULL rather than retaining the error pointer;
-3. releases the live new_node reference with hfs_bnode_put(new_node);
-4. returns the error;
-5. assigns the temporary pointer to fd->bnode only after it has passed
-the error check.
-
-Under the same directed ERR_PTR(-EIO) condition, this diagnostic
-version contained the tested error-pointer propagation without leaving
-fd->bnode poisoned for the later cleanup path.
-
-40P is a diagnostic patch only. It is not intended as an upstream fix.
-Its purpose is to test and constrain the causal path while preserving
-the local cleanup state observed in the source.
-
-CURRENT EVIDENCE BOUNDARY
-
-The evidence currently supports the following statements:
-
-- The public syzbot report contains the fault address fffffffffffffffb.
-- That value is consistent with ERR_PTR(-EIO).
-- Two unchecked hfs_bnode_find() -> fd->bnode producer-to-consumer
-gaps were identified in brec.c.
-- hfs_bnode_find() can return error pointers, including -EIO on an error path.
-- hfs_brec_insert() and the relevant post-split parent-lookup branch
-are naturally runtime-reachable in the controlled HFS+ workload.
-- A deliberately injected ERR_PTR(-EIO) at that reachable point
-produces the same numerical fault-address value.
-- A naive IS_ERR()+return is insufficient because fd->bnode can remain
-poisoned and be consumed during cleanup.
-- 40P contains that directed condition while maintaining fd->bnode as
-NULL on the tested error exit and releasing new_node.
-
-The evidence does NOT yet establish:
-
-- that the original syzbot execution naturally obtained -EIO from
-hfs_bnode_find() at this site;
-- that either of these two unchecked assignments is the complete root
-cause of the public crash;
-- or where the first naturally occurring invalid/error state
-originates in the syzbot execution.
-
-NEXT DIAGNOSTIC QUESTION
-
-I am continuing to move the observation point backward around the
-Catalog B-tree split and parent lookup, with the goal of separating:
-
-1. the point where an error pointer can be prevented from propagating; and
-2. the point where the relevant error state first arises naturally.
-
-I would appreciate feedback on whether these two hfs_bnode_find()
-sites are the appropriate boundary for continued instrumentation, and
-whether there are specific HFS+ B-tree invariants, parent-node state
-transitions, or error-propagation rules around
-hfs_bnode_split()/parent lookup that should be checked next.
-
-#syz test
-
-The 40P diagnostic patch is attached as plain text so its whitespace
-is preserved reliably.
-
-Thanks,
-David Maximiliano Hermitte
-
---000000000000602a38065ba9b07e
-Content-Type: application/octet-stream; 
-	name="VQBIT_HFSPLUS_40P_DIAGNOSTIC.patch"
-Content-Disposition: attachment; 
-	filename="VQBIT_HFSPLUS_40P_DIAGNOSTIC.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <>
-X-Attachment-Id: 
-
-LS0tIGEvZnMvaGZzcGx1cy9icmVjLmMKKysrIGIvZnMvaGZzcGx1cy9icmVjLmMKQEAgLTE1OCw3
-ICsxNTgsMTkgQEAKIAkJCWhmc19idHJlZV9pbmNfaGVpZ2h0KHRyZWUpOwogCQkJbmV3X25vZGUt
-PnBhcmVudCA9IHRyZWUtPnJvb3Q7CiAJCX0KLQkJZmQtPmJub2RlID0gaGZzX2Jub2RlX2ZpbmQo
-dHJlZSwgbmV3X25vZGUtPnBhcmVudCk7CisJCXsKKwkJCXN0cnVjdCBoZnNfYm5vZGUgKnBhcmVu
-dDsKKworCQkJcGFyZW50ID0gaGZzX2Jub2RlX2ZpbmQodHJlZSwgbmV3X25vZGUtPnBhcmVudCk7
-CisJCQlpZiAoSVNfRVJSKHBhcmVudCkpIHsKKwkJCQlpbnQgZXJyID0gUFRSX0VSUihwYXJlbnQp
-OworCisJCQkJZmQtPmJub2RlID0gTlVMTDsKKwkJCQloZnNfYm5vZGVfcHV0KG5ld19ub2RlKTsK
-KwkJCQlyZXR1cm4gZXJyOworCQkJfQorCQkJZmQtPmJub2RlID0gcGFyZW50OworCQl9CiAKIAkJ
-LyogY3JlYXRlIGluZGV4IGRhdGEgZW50cnkgKi8KIAkJY25pZCA9IGNwdV90b19iZTMyKG5ld19u
-b2RlLT50aGlzKTsKQEAgLTQ2Miw3ICs0NzQsMTkgQEAKIAkJCWhmc19idHJlZV9pbmNfaGVpZ2h0
-KHRyZWUpOwogCQkJbmV3X25vZGUtPnBhcmVudCA9IHRyZWUtPnJvb3Q7CiAJCX0KLQkJZmQtPmJu
-b2RlID0gaGZzX2Jub2RlX2ZpbmQodHJlZSwgbmV3X25vZGUtPnBhcmVudCk7CisJCXsKKwkJCXN0
-cnVjdCBoZnNfYm5vZGUgKnBhcmVudF9ub2RlOworCisJCQlwYXJlbnRfbm9kZSA9IGhmc19ibm9k
-ZV9maW5kKHRyZWUsIG5ld19ub2RlLT5wYXJlbnQpOworCQkJaWYgKElTX0VSUihwYXJlbnRfbm9k
-ZSkpIHsKKwkJCQlpbnQgZXJyID0gUFRSX0VSUihwYXJlbnRfbm9kZSk7CisKKwkJCQlmZC0+Ym5v
-ZGUgPSBOVUxMOworCQkJCWhmc19ibm9kZV9wdXQobmV3X25vZGUpOworCQkJCXJldHVybiBlcnI7
-CisJCQl9CisJCQlmZC0+Ym5vZGUgPSBwYXJlbnRfbm9kZTsKKwkJfQogCQkvKiBjcmVhdGUgaW5k
-ZXgga2V5IGFuZCBlbnRyeSAqLwogCQloZnNfYm5vZGVfcmVhZF9rZXkobmV3X25vZGUsIGZkLT5z
-ZWFyY2hfa2V5LCAxNCk7CiAJCWNuaWQgPSBjcHVfdG9fYmUzMihuZXdfbm9kZS0+dGhpcyk7Cg==
---000000000000602a38065ba9b07e--
