@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23CC50AC2A;
-	Thu, 17 Sep 2026 14:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B62569F0C;
+	Thu, 17 Sep 2026 14:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789653723; cv=none; b=ReAEebedfd2e5XYXW+Eix8fYJJrhAtqsMk9DzCbKFyHMU4pUXG29/grsrfbjcaFQ57BsWhhLaFU5fz+9DO7h6UFTp+0nAdVHz6Iw8+IV7Weyf+ja7RoiK1jYQO6tVaiscpFU9/8WtirPxqjmfltS8Mbb66o4MesE/NvgiR9pxBs=
+	t=1789653733; cv=none; b=DpUu6cW9Q4yaUmrmfC1y+PiyABiuND6hoCywkPPaR6Ntq7SNVGbd0fR/KlCkrXnu8k0kNhURHiuCavg0VyOFnceCAwWxdRiq5vZNHV9Xo4nRY1rYZpeystsC8KD97QuDIrIAR00m7Fgh6ETqxZBlGkofvhuOQJgPpml5tc9WjTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789653723; c=relaxed/simple;
-	bh=lQMKk2FfrmIBo6UkuuUFnWE+EqqClsSINE4QoCEgWEc=;
+	s=arc-20240116; t=1789653733; c=relaxed/simple;
+	bh=M6hDV8cW9iySlwr5e1Ieu8Zqt6sbe/AK6hc2ZoCGLPk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fAaPaQNMabSiMpawXNN8AmiEcfJMF2prU9KniNVtHUTeSNdaojF908E9d9Bcz343o7n8xpaZ6N8zGHPeJFxmeE31Eh3BcEfJ1ulF6c3xRebpgyzjGhDBGqO8Gt2n71vlyzvnT1DvXPNGJZVyanH8EzGN36xLPxtCwxTbCOaj+LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RZ1Dpm6H; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=gTOF4FWwYkrIkBSQqh/Ms/yoZRF/PYQNxmMqaOOiIw84z1zluA0guL6b/JmxCap1pcaKIQgBA+/ZwqAGGAY3tARTEFykRwMfIENIKnNzIZDwH7rFoAORBEBnnIk2p0rU9s8bcrMCTj/xKDN+5/Qm+JzPNshMZTVGndMdgSz9qFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=APi4JzDS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RZ1Dpm6H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E841F00893;
-	Thu, 17 Sep 2026 14:02:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="APi4JzDS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B311F00893;
+	Thu, 17 Sep 2026 14:02:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789653721;
-	bh=lwODbMOOACwDLb6t8YRwxNeoE9tIv1q/lFCYjZi6Sqc=;
+	s=k20260515; t=1789653731;
+	bh=rF7CdMLVPvmv5//zwYFoLYOrzmF58EOEgydkuzxIxQs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RZ1Dpm6Hyo52jLSMT5R5MxtGfGUQR3s81yohbHwN3GICQ1fe8QabIjAfjx3kbC0FH
-	 DmmChzBox2JnVueXSWuUH8Iaq4ZgPnB9MPaEKLvKVH6diTy/IjyQeJOw5d23eFz6a/
-	 vlm69VfE/72BHTCwiTiGrUfhHBd3+ahdlDshSyRC3MKyJAoP+XutL4Em/3UVZ5ocSD
-	 N8QZQ0kz0Yink/NtaXnRAHaM7W1wbSI7wsVlfZbBTKJ+AOSU1uUm8idQbAwTsg/KSD
-	 bnBXVeWtKl+Ttho5tyam875BDi1qfUOSQc6lBmmj47NO3Ci93xLDjaHA+Wx7jAqqlq
-	 5ylWmtxPNTMYQ==
+	b=APi4JzDS+0MQazr+qeQStzYiUGungghaZX794swKv/xoIlgJWBOGd+JMJzbtJKMgT
+	 eFisnZBV+WEAUHzpYHyguD2Vh7R5XuiWkjohqfzvpqMuQqrmV602psLwdfbQ/vKdcz
+	 9xYUhv/4dmoxcCAUAYzC5uXcfL5nocbh7hbJiSl5csiIJQnHLjSLmcfUwW7kxULgE8
+	 4sbSZ4YJ/wgIYzaOTTlChr+lvCKv+ZbjM8/DxJiODWdTT3hWw1JGC9WhTHx7+xUKmg
+	 wURtMCSY7ZuJrEtB/JCpVo7KTvYmaDsEGph9YEWD9cSc4ecA1Ldu0NKTKao6NyPPSj
+	 1y9c7PwTyattg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org
 Cc: David Howells <dhowells@redhat.com>,
@@ -38,11 +38,11 @@ Cc: David Howells <dhowells@redhat.com>,
 	Steve French <stfrench@microsoft.com>,
 	Sasha Levin <sashal@kernel.org>
 Subject: [PATCH 6.6.y 1/3] cifs: Scripted clean up fs/smb/client/fscache.h
-Date: Thu, 17 Sep 2026 10:01:56 -0400
-Message-ID: <20260917140158.504356-1-sashal@kernel.org>
+Date: Thu, 17 Sep 2026 10:02:06 -0400
+Message-ID: <20260917140208.505903-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026091653-repaying-rockslide-b109@gregkh>
-References: <2026091653-repaying-rockslide-b109@gregkh>
+In-Reply-To: <2026091634-finch-unglazed-c530@gregkh>
+References: <2026091634-finch-unglazed-c530@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -66,7 +66,7 @@ cc: linux-fsdevel@vger.kernel.org
 cc: linux-kernel@vger.kernel.org
 Acked-by: Enzo Matsumiya <ematsumiya@suse.de>
 Signed-off-by: Steve French <stfrench@microsoft.com>
-Stable-dep-of: cd2b2b57921d ("smb: client: fix WSL reparse point uid/gid override")
+Stable-dep-of: cf4d35896621 ("smb: client: fix uid/gid override in getattr with posix extensions")
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
  fs/smb/client/fscache.h | 10 +++++-----
