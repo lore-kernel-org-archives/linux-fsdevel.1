@@ -1,405 +1,130 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248424DA539
-	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 11:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472D138F638;
+	Thu, 17 Sep 2026 11:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789645138; cv=none; b=e7tm+MHFMsmNq8oVSunG4OPN/VGwxP5wEljkkcMpOGaqcln/8OfpXCq1uin1F87nYu14eKRW7l8hGgGnITbM0TDpwWH8nPmHENsawwebxUkP6Fs+8q0oukoqX8Tw6G6zEIwxms9jjgaZldw+IHi+b1WKymYefZY1iPT11KEIvC0=
+	t=1789645249; cv=none; b=gz16T8rTcOUVnnehN6bLPd9B+f5WeU6E8gMfZGS4E8TWhA2ueWM2eYvIliaJoVDnNKys3539tLjSqBXRWDO8OhnX3bs3qh/1PW2P6ukJa4aF8/f19zfy/LvNs2Y6GKY3bJn1w8KUejyQbZ6pjz73IeKSZ1y32/3Rgk1HJR1kydo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789645138; c=relaxed/simple;
-	bh=1LSgm1kMO5s/yefz9Us0QM31TaVFnEv1jCNWvGFWin8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dxR/52rKdJTL9ePlW7lWuvZwLQF5F76PS7nGsP+IiyXB/Pvq1cooKpEwIQL1KCZNiKfjdNi8w9cKcLhGfcpAogTFdW0+stoOvpzbwI8vbAYfMsOd5EaGR7X9HuEnxa4Je1SXftTQI8WB+Bdlf+g+rPMgmYx9XcRWx6LU25V0q8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hn8narJf; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789645249; c=relaxed/simple;
+	bh=BApzGHIqAjiErWcRlmmivBGBfFVBONt4ktRgWMUzDCk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ksfZ0YXW8SbGflRHkz7BYirbdjoKwlsZnAW1q/kIU3Pht6wmvE9yQWOekEj0U9v/MWeaO+0DP52RO7BQ47DkE+FrRZqg5n1GZCqJN6NHBVZ3HGIbMrvlwIZUNMbbI2vFphAAeFld2nyUAzzocVZP7GKADOyZ7z0ZtFZsSO8c9RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mDBBHK/I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hn8narJf"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8693af0d7c4so781612b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 04:38:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789645134; x=1790249934; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Qax2Y7ONpWhvJcoWb2lMaau5W7EezZJfLvrgASjSPV0=;
-        b=Hn8narJfwmCZXe+d+kCxGTuVCOILJSKsQIjgm8nwebXI1FMR0m7+8f5cGAz4nuASIS
-         jbnZqdaEtp+HbU9i3lUVPfjOHrBsCLA+yAqoGV0KW25hHteGKo6xCoiFMqVsaysKoaQ5
-         es2LPKoaMF0ZF1NrmjGp/AWEfGEixLEtUfjgdFPZrQD43KxGKEjY128NKheJO+tbiSY0
-         e23d7Oi/RVSE5i1NBsYRM5kxY1ZUrbr343MQJqkd3v5zTXetNe8xjUJo8SZejHib98z/
-         gEwFS8Cr+s0nvxman+qCiU3duK8OYy/OI6+HZ7gqGht0ddu5Qxjdcg22cZW5MMJV3aA5
-         KPiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789645134; x=1790249934;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Qax2Y7ONpWhvJcoWb2lMaau5W7EezZJfLvrgASjSPV0=;
-        b=ztXyI8AC3WFt+vYH51a8NkcgfrJxLF9JmKsAit/TPG77RHmd5jxAYmRcV4F+duRHpi
-         gtfjqwIeINZk59kv6a9nAw8/xAGmZRYV4X+V2L/XkKbSb/ANsrDgP563AptbGRhm/5N/
-         1kDvRlpc8A/kgKz5baZiPAfKkcehvdFNJINrZW7/N+hLDfJG/u+glBgrtig2FJ+7VDCS
-         /beZEy+fCzICA4bv2geKzNOtDek55zHbpy6UjuOkPMC9UT8SGdpfY4n2toCOHKNpCYry
-         AyO242uJ127l3kTrvZr9GdYkFljq4eNAYlWxeDkfRwBUgYJHbT5W96eqXLzLaB/YychF
-         tCUA==
-X-Forwarded-Encrypted: i=1; AKwUvBz65nmovfhjwpfc6dEF4c/uHfruwYvJltXprxU9K0SYbHEZWGLNnogTeJetMR/buAEyiUPyMh8K0qVbxI7Y@vger.kernel.org
-X-Gm-Message-State: AFuF++nr1fF1FBD9I/0Ek/QvkLBl2BeJIib7KjyDG7GwY2JbQgSpeg04
-	iVqpEUFDtmCK0rOh16bFXAu0Vkqp/Q3zUGZM26JoHKOwSOquO0TfNL+G
-X-Gm-Gg: AYBFou31OhGPEMUZbmR3B/MxnwihmoOolVOaZxy38AIAH42BRTWGv4bRAWUiFPSMmIF
-	ItYX1mmIxiS1oeksrJbn/WjVVMrhdNHmXQ14Hkc1fPifC9admpONFpBPDD2A3bGqnafLaXGFYxA
-	fxYFrkMUpbCgan9GXW2Qt+L8Q/dE1g2LVNTjh1rkx6fcrMVhIh+IggGeNzbLkge/Xd4EwkTVbTo
-	YjzaiOfeqI4Ij9ZtWcIsWkzev2xvKeeRdTk5jipSeXBWtS5on8b0omxvQ7GZAa8n5lxR4yuS49e
-	EK9AckVYk+lQ6rMXuo047dtmE0sPKpCBoesmuAtfW5I+TSokmGw4DU06JVF4ZC1YDr9PdItJ8qm
-	QaKf6CiVXOU2NB1Ed65xPHImKRlwyw6u8CLkqXSzGyphTC3XfRduzl1IxyUWhxGz8Ev6kPqN9oU
-	5xa+s9onaPzHF8QD+zWhlqmHIMrY2amO9inqi27ZGPwlTrBPOR57dPVdplHMvoZ7raiCxwDM0zf
-	eWZDbSA+s9Az/e1PbY=
-X-Received: by 2002:a05:6a00:1813:b0:871:b1b0:e49b with SMTP id d2e1a72fcca58-872378b3d61mr12425061b3a.10.1789645134016;
-        Thu, 17 Sep 2026 04:38:54 -0700 (PDT)
-Received: from [100.125.248.95] ([124.70.231.46])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87201733075sm2650941b3a.40.2026.09.17.04.38.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2026 04:38:53 -0700 (PDT)
-Message-ID: <9d931f5e-cb34-4721-9def-7aeeda48700c@gmail.com>
-Date: Thu, 17 Sep 2026 19:38:35 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mDBBHK/I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A09061F000FF;
+	Thu, 17 Sep 2026 11:40:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789645243;
+	bh=BApzGHIqAjiErWcRlmmivBGBfFVBONt4ktRgWMUzDCk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mDBBHK/IhHEPd17SZQYudlv622AFtJid39i0LAeTPe5KX2n4jjfEibNrHMdEGP/lt
+	 eUgQ97JZr9jtSS+gOZV9ctH5mVpR5Wezp3sekSSbMJ5cOeo6kdk0KT15/6B49AIGEy
+	 W3xTRN8TOmbFo/L3aM1LzCnmwuDCeyPl4is4tqU7CxU3Ioxbh6x+wbfLlNfNi4Nbut
+	 a7/lNdUCvCwU4aCE2PFX04HuH+W5hEeEwQfpeBZl00atZiv1MQM4dBxsjASoERsnQh
+	 U2zQOve9t2ri7i6jgJuS/I7mx5ZPVMsb+fxhyacjpxeRyQ3wCmjEdg7jvg80HHafvW
+	 7dUndTZsEPJPw==
+Date: Thu, 17 Sep 2026 12:40:08 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v2 01/40] mm/vma: fix mmap_prepare file handling, remove
+ file_doesnt_need_get
+Message-ID: <aqvRKarObW1Zy-QD@gremlin>
+References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+ <20260914-b4-mmap-prepare-vma-flag-sanify-v2-1-7d9781ed5361@kernel.org>
+ <aquz9Z9JrK_H_E0g@kernel.org>
+ <aqu5jtMV2gyZFrSe@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] mm/truncate: fix data loss when splitting
- straddling large folios fails
-To: Zi Yan <ziy@nvidia.com>, Jan Kara <jack@suse.cz>,
- Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
- willy@infradead.org, bfoster@redhat.com, joannelkoong@gmail.com,
- djwong@kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, yukuai@fnnas.com
-References: <20260916092450.654408-1-yi.zhang@huaweicloud.com>
- <20260916092450.654408-2-yi.zhang@huaweicloud.com>
- <xl2rtnntlxoxoozkddgrlkcsgukcngvvcwazm7gb7q5g32yxir@ef5ltcwueboh>
- <DLGXT0ERY79Z.3C5DYVJVX6S9Z@nvidia.com>
-Content-Language: en-US
-From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <DLGXT0ERY79Z.3C5DYVJVX6S9Z@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqu5jtMV2gyZFrSe@gremlin>
 
-On 9/17/2026 2:03 AM, Zi Yan wrote:
-> On Wed Sep 16, 2026 at 8:02 AM EDT, Jan Kara wrote:
->> On Wed 16-09-26 17:24:48, Zhang Yi wrote:
->>> From: Zhang Yi <yi.zhang@huawei.com>
->>>
->>> truncate_inode_partial_folio() splits a large folio so that the caller's
->>> truncate loop can drop the in-range sub-folios while keeping the
->>> out-of-range tail. The first split at the punch start edge is
->>> non-uniform, which leaves the sub-folio at the truncation end edge as
->>> large as possible, this means it may still straddle the range, holding
->>> both zeroed in-range and valid out-of-range data. The function then
->>> attempts a second split at offset + length to isolate that tail.
->>>
->>> If the second split fails the straddling sub-folio stays merged. The
->>> function returned true unconditionally on all exit paths of the success
->>> block, telling the caller it was fully handled. The caller kept its
->>> default end and the truncate loop truncated every sub-folio below it,
->>> including the merged straddler, discarding the valid out-of-range tail.
->>>
->>> For example, a 4-page order-2 folio punched from offset 0 to the middle
->>> of the last page:
->>>
->>>    truncate_inode_pages_range()
->>>      truncate_inode_partial_folio()      # same_folio == true
->>>        1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->>>        folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
->>>        2nd split of folio2 fails / cannot lock
->>>        return true                       # BUG: caller keeps default end
->>>      end = 3
->>>      loop truncates p0, p1, p2-3        # p3's valid tail is lost
->>>
->>> This became reachable after commit 7460b470a131 ("mm/truncate: use
->>> folio_split() in truncate operation") replaced the atomic split_folio()
->>> with folio_split(), whose non-uniform split can partially split a folio
->>> and leave the end edge merged.
->>>
->>> It has gone unnoticed because a dirty large folio normally carries the
->>> filesystem's private data, for example buffer_head, so
->>> filemap_release_folio() -> iomap_release_folio() returns false on a
->>> dirty folio and folio_split() aborts with -EBUSY before any split,
->>> leaving the straddler safely unsplit. The bug is only reachable on paths
->>> that produce dirty large folios without filesystem private data, and it
->>> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
->>> attached.
->>>
->>> Rework the contract so the caller is told the page range to discard:
->>>
->>>    - Add pgoff_t *pstart and *pend out-parameters that receive the page
->>>      range fully covered by [lstart, lend] after any split (or none),
->>>      i.e. the pages wholly within the range and safe to discard.
->>>
->>>    - Adjust the ordering of the validate check when splitting folio2.
->>>      folio2->index is only reliable after the reference count and lock
->>>      have been successfully acquired, since it may have been split
->>>      concurrently, or freed and recycled to an unrelated mapping. On any
->>>      failure to obtain a reliable end position, fall back to
->>>      folio->index, which is safe but leaves the sub-folios split off at
->>>      the offset edge in the page cache.
->>>
->>>    - Rename the byte-range parameters start/end to lstart/lend to better
->>>      express their semantics.
->>>
->>> Callers in truncate_inode_pages_range() and shmem_undo_range() pass
->>> &pstart for the folio at the start edge and &pend for the folio at the
->>> end edge, so the truncate loop drops exactly the fully covered pages and
->>> never touches a straddling folio that still holds valid out-of-range
->>> data.
->>>
->>> Suggested-by: Brian Foster <bfoster@redhat.com>
->>> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
->>> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operation")
->>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->>
->> The changes mostly look good to me but I have some confusion around the
->> folio2 splitting below.
->>
->>> @@ -259,32 +271,62 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
->>>   		 * for shmem truncate
->>>   		 */
->>>   		struct folio *folio2;
->>> +		pgoff_t end, aligned_end = (pos + offset + length) >>
->>> +					   PAGE_SHIFT;
->>>   
->>> -		if (offset + length == size)
->>> -			goto no_split;
->>> +		if (pstart)
->>> +			*pstart = round_up(pos + offset, PAGE_SIZE) >>
->>> +				  PAGE_SHIFT;
->>> +
->>> +		if (offset + length == size) {
->>> +			end = aligned_end;
->>> +			goto out;
->>> +		}
->>>   
->>>   		split_at2 = folio_page(folio,
->>>   				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
->>>   		folio2 = page_folio(split_at2);
->>>   
->>> +		/*
->>> +		 * folio2 may become stale due to a concurrent split or
->>> +		 * freeing, so validate it before and after taking its lock.
->>> +		 * If it fails, we can't get an accurate end position and fall
->>> +		 * back to folio->index, which may leave sub-folios split off
->>> +		 * at the offset edge in the page cache this round.
->>> +		 */
->>> +		end = folio->index;
->>>   		if (!folio_try_get(folio2))
->>> -			goto no_split;
->>> -
->>> -		if (!folio_test_large(folio2))
->>>   			goto out;
->>>   
->>> +		if (folio2->mapping != folio->mapping ||
->>> +		    !folio_test_large(folio2))
->>> +			goto out_put;
->>> +
->>>   		if (!folio_trylock(folio2))
->>> -			goto out;
->>> +			goto out_put;
->>>   
->>> -		/* make sure folio2 is large and does not change its mapping */
->>> -		if (folio_test_large(folio2) &&
->>> -		    folio2->mapping == folio->mapping)
->>> -			folio_split_or_unmap(folio2, split_at2, min_order);
->>> +		if (page_folio(split_at2) != folio2) {
->>> +			folio_unlock(folio2);
->>> +			goto out_put;
->>> +		}
->>> +		if (!folio_test_large(folio2)) {
->>> +			end = aligned_end;
->>> +			folio_unlock(folio2);
->>> +			goto out_put;
->>> +		}
->>
->> So I always found this folio2 lookup and revalidation somewhat suspicious
->> and now that we're digging into it I'll ask: As you note in the changelog,
->> by the time we compute split_at2 the page can be already freed and reused
->> because it was split off from the original 'folio'. It can be for example a
->> slab page or anything else. So is it guaranteed that page_folio() actually
-> 
-> For a slab or unrelated page, folio->mapping check rejects them.
-> 
->> returns something sensible? What guarantees we properly detect the "reuse
-> 
-> No, but folio_try_get() prevents non ref'd folios.
-> 
->> for something else" case in all possible cases for which the page can be
->> reused? I understand this is mostly a preexisting issue so maybe these
->> questions are more for MM guys than you...
-> 
-> I agree with you that trying to split a unlocked and not ref'd folio2 is
-> flaky. And it almost does a __filemap_get_folio() like you proposed
-> below.
-> 
+On Thu, Sep 17, 2026 at 10:57:57AM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Thu, Sep 17, 2026 at 12:33:41PM +0300, Mike Rapoport wrote:
+> > But the patch iteslf needs to be fixed :)
+> >
+> > It seems to be the change that broke the CI.
+> >
+> > The rest is from LLM, take it with a grain of salt :)
+>
+> Ack will assess + respin
 
-I think this is indeed a pre-existing issue, as Sashiko pointed out:
+Apologies to everybody's inbox but this will need a respin to resolve a conflict
+in a subsequent commit.
 
- > [Severity: Critical]
- > Does this speculative lookup handle the reallocation race correctly 
-if the
- > folio is reallocated to a different file offset?
- >
- > After the first split, the tail pages are added to the page cache and
- > unlocked. During speculative lookup, the tail page could be concurrently
- > reclaimed, freed, and reallocated as a new large folio in the same 
-mapping
- > but at a completely different file offset.
- >
- > The validation checks earlier and the page_folio check here will all pass
- > because the physical page split_at2 is part of the new allocation.
- >
- > However, the file index of the folio is not verified. If this 
-unrelated large
- > folio fails to split, the fallback path assigns its index to end here:
- >
- >     if (folio_split_or_unmap(folio2, split_at2, min_order))
- >         end = folio2->index;
- >
- > This unrelated file offset is then returned to the caller via pend, which
- > can cause the hole punch loop to truncate an unrelated segment of the 
-file.
- >
- > Should we verify that the file index of folio2 matches the expected index
- > (e.g. folio2->index + folio_page_idx(folio2, split_at2) == 
-expected_index)
- > before using it?
+This was to fix a sashiko report (not a bug anywhere in production, but could
+lead to bugs in future by accident), and got sashiko + [another AI]-reviewed
+before sending all of which missed it :)) the robot overloads are not quite in
+charge yet ;)
 
-the current mapping check on the folio2 and the folio !=
-page_folio(split_at) check in __folio_split() are not able to catch this
-problem, which could then cause folio2 to be split at the wrong
-position. Does that sound right?
+Fix is simple - update flags at the right time. The error was pre-empting
+setting everything rather than just map->vm_file.
 
->>
->> So for me as an filesystem guy I'd appreciate some comment in this code
->> explaining why grabbing folio2 this way is actually safe. The really safe
->> way of getting to folio2 would be to use
->>    __filemap_get_folio(mapping, (offset+length) >> PAGE_SHIFT, FGP_LOCK, 0)
->> but I suppose we don't use the mapping lookup as it is more expensive?
-> 
-> __filemap_get_folio() is a better version of the existing folio2 finding
-> code. When I wrote the code, I never thought about using
-> __filemap_get_folio(), but I probably should have done it.
-> 
-> BTW,
-> __filemap_get_folio(mapping, folio->index + (offset+length) >> PAGE_SHIFT,
-> 		FGP_LOCK | FGP_NOWAIT, 0)
-> might be better:
-> 1. folio->index is needed to get the right folio2,
-> 2. nowait can us nonblocking.
-> 
-> 
+Will look through other sashiko stuff then respin a bit later.
 
-Following your suggestion, I reworked my existing patch to use
-__filemap_get_folio(), and it ends up looking roughly like the
-following(not tested yet). What do you think?
-
-Besides, if the issue Sashiko pointed out does indeed exist, I can
-extract the __filemap_get_folio() change into a separate patch to fix it
-on its own.
-
-Thanks,
-Yi.
-
-diff --git a/mm/truncate.c b/mm/truncate.c
-index 23c90f00b530..b5e5bdf5f9ef 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -279,51 +279,46 @@ bool truncate_inode_partial_folio(struct folio 
-*folio, loff_t lstart,
-  			*pstart = round_up(pos + offset,
-  					   min_nrbytes) >> PAGE_SHIFT;
-
--		if (offset + length == size) {
--			end = aligned_end;
-+		end = aligned_end;
-+		if (offset + length == size)
-  			goto out;
--		}
--
--		split_at2 = folio_page(folio,
--				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
--		folio2 = page_folio(split_at2);
-
-  		/*
--		 * folio2 may become stale due to a concurrent split or
--		 * freeing, so validate it before and after taking its lock.
--		 * If it fails, we can't get an accurate end position and fall
--		 * back to folio->index, which may leave sub-folios split off
--		 * at the offset edge in the page cache this round.
-+		 * After the first split at the start edge, the folio at the
-+		 * end edge may be freed and reused concurrently.
-+		 * __filemap_get_folio() looks up the straddler at
-+		 * aligned_end and returns it locked and ref'd with the
-+		 * mapping validated.
-  		 */
--		end = folio->index;
--		if (!folio_try_get(folio2))
-+		folio2 = __filemap_get_folio(folio->mapping, aligned_end,
-+					     FGP_LOCK | FGP_NOWAIT, 0);
-+		if (IS_ERR(folio2)) {
-+			/*
-+			 * No sub-folio straddles the boundary when aligned_end
-+			 * is empty so discarding up to it is safe.  Otherwise
-+			 * the straddler is locked by someone else and we
-+			 * cannot obtain a reliable end position, so we fall
-+			 * back to folio->index.  This is safe but may leave
-+			 * pages split off at the offset edge lingering in the
-+			 * page cache this round.
-+			 */
-+			if (PTR_ERR(folio2) != -ENOENT)
-+				end = folio->index;
-  			goto out;
--
--		if (folio2->mapping != folio->mapping ||
--		    !folio_test_large(folio2))
--			goto out_put;
--
--		if (!folio_trylock(folio2))
--			goto out_put;
--
--		if (page_folio(split_at2) != folio2) {
--			folio_unlock(folio2);
--			goto out_put;
--		}
--		if (!folio_test_large(folio2)) {
--			end = aligned_end;
--			folio_unlock(folio2);
--			goto out_put;
-  		}
-
--		/* Split failed: back off to the head of the straddler */
-+		/* Already at the minimum order, nothing to split */
-+		if (folio_order(folio2) == min_order)
-+			goto out_put;
-+
-+		split_at2 = folio_page(folio2, (aligned_end - folio2->index));
-+
-+		/* Split failed, keep the straddler intact */
-  		if (folio_split_or_unmap(folio2, split_at2, min_order))
-  			end = folio2->index;
--		else
--			end = aligned_end;
-
--		folio_unlock(folio2);
-  out_put:
-+		folio_unlock(folio2);
-  		folio_put(folio2);
-  out:
-  		if (pend)
-
-
+--
+Cheers, Lorenzo
