@@ -1,380 +1,138 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBB742A165
-	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 22:14:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789683278; cv=pass; b=OwzUmlrocLEEn+XJlbIH4m6+yRoLYeDAbZFvUGK52fJQu6Pl1DdEyRzTuoYwuVM8VUx08WL4WGz9HFoz9SCB3U0tn05EWrHBHGKaI9fTgYDkda8DfUs5aqzvKVPOG+TozdX7BaaafQiT2Z/NYOfhMjL5scyH7MuFIgGuBPPF6jM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789683278; c=relaxed/simple;
-	bh=33JrJP0eBoMTWOsObcZUnprsGVGyOvYEXvVWS++emGU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SKJDzA2jp/RMqUMAfyWRYqPJYjvpV5p+Vj7Rsdb6TmDauIAcCBCc5AJiR4HpIJFXP0M3XOSw3em8/3LoclTI+i18aXM2SPjWqkbF5V0ZriUmJt3U7mZLLBsBVJdTCUUg3M2lxzKhOr4gsGju8eJV6XVLVkT9ylV4o374qMsKwY0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k3kDpzW4; arc=pass smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D625E478E28;
+	Thu, 17 Sep 2026 22:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789685588; cv=none; b=rXPBaz9Djxud8wfdwSFhLnGrUkjYml9HoN4SXXdDB6jp6kGwi+1I0MfF4Eh+My7XyaBoTQ58MXncErDWvZtyot75bCTF/wM51CN1U/lr7zl5AYJWQKEx8Myw/o3sYfnuyApa9iQGPBjaUeN50RAxHdvxJsZPaiZK9bUjZR6dGuw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789685588; c=relaxed/simple;
+	bh=C6CjS0eJj6GvLZ5QhSihKjGN9kpySYKWLlROoRXAZJM=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=tRSgBhKlX4Jw1QTbNiCt3ehvJUuJlMdWY8DxAnXdgm8WTJi1rL52X/fiEnnqKWgo/DPgQaQwLcqDMzm8mnD5Pvg+jvM7Ahto8ja/DEd5zsTVrSiZrxV19jQC6FqMdhK1S5NGlhcYyTX2ia72gdPFP/mqtu+aN0nJmOgVOHvs9eA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=blq+sEHg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k3kDpzW4"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-398a1676000so110418a91.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 15:14:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789683276; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OaPMHkuxnUte6TAtWBtU9BvtwSVLG/jbL8CZqrmA+UsekJ9/5HW/lTeckGxP1L07zc
-         FhmRXjVuwqT0nUDBH9iiLXPdjn8ttxd0x6qWSdpdNNRtG6iS4kU0duqr5UnPfZRV0qwh
-         wiRCVYDvLu6h23SbCfF1ZmW1rwkOjZssWdLY/nYpx01Tft6n+X/RxqMPVCmeq4P1jn5P
-         XqIIFBw4WA/08A7vhPOMYEf0yUuS6NGQD4WsMB5Qux2lXrnA1O3On2dna+ccqFV5z2K+
-         qfaRvVHIIsWFoI5xqF2G6DdhGN4UYFUX66+AcTM381I/3lyJsEjWvQRcyVgXoQIs4LOR
-         w8lA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wVkLWZwDcftHWkygPUCtZEPadhVhHno/qCcQeOr4QFc=;
-        fh=EvmdszJ5sKtrItZ/g02WMFpyvzcT360Yik0EkpgVXVo=;
-        b=n+OqtVN91y264VDvFv4fE428P9N6vnd0f0A73WGepXhiOLRyJ7NW+sgmvcaT8A0FD5
-         zO7jUazqz1rBGdmDhy5JA4xL5LtaLrYOXn7VJg6lInCgYfHG4WfhVJLNdRb8fSA9/uOH
-         G8x1O8qU0hXx30PCm5rMvZRgaMSLW/tBAqsUKwYtRFLWyoEc7jFYPT9qg8hye0Arh90J
-         13Fq5dtGCeK9axPfb5OCpB45JjMA/+P7OTex8sxRFgcth8A5H372daPTRn4F1s+9sCi3
-         ldFXrPFBSVkHJkjW5FH/cIRh3XDhlH0TjsNyFIYY8CCC5ooU2KrFBDurh8MeaKEehXA2
-         JbnQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="blq+sEHg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B6E31F000FF;
+	Thu, 17 Sep 2026 22:53:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789683276; x=1790288076; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=wVkLWZwDcftHWkygPUCtZEPadhVhHno/qCcQeOr4QFc=;
-        b=k3kDpzW4vKUzzrFj57AwwCBiREk823rOjan43sFdP/3nZarIjD6UXejVsp6S3DJ6bw
-         DWp6M8uIvr+GH3ulXwRqbnXJZa0/faHb+CCGptCIen6JGk4hdlpnXW8LXAsPAZKH8fE3
-         XsKW0Sbu8b/RshFyV4XXLD9HCCfKxOxXo3npy+0FFqeBjvQ0Y3JsL7LOf7kcTqQXf+kA
-         nyU+d9h14etwa9XgUCWZ18k6MjGIdTsonnFgqx194x3zZ8UV2ZfXyEnvvR0amCmKQUBK
-         bDJOLWmp91AtfXD4zXFA1vFTrM1z7+AY/K+j/ZDyqN4OsoA2+crdcu7h468Zqc0x4F6n
-         mIEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789683276; x=1790288076;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wVkLWZwDcftHWkygPUCtZEPadhVhHno/qCcQeOr4QFc=;
-        b=pOPquZiHZqldZWDLqnVR3sHb1SIIyCKkbtmuRVBPRqLXNtsVA/eXn4dSKSVnNjUpDj
-         t1rrBkiHXZUOxBWjnI+WIrYcCSVQuu1p+sH3Hu7MnhHTTpZUaWO4XC/mEnaRXsZyMg8u
-         krh2W4AJJRJqhiN1vLJXkuwcxJxIfMV/PT79ifjjLbCYJK7GdmlZdvUG1JKXDQq6tEBG
-         rkFWZ1QwjqT6Qu/lj81HLQgBCKhYL/79fJMv6N+LvvdS+zwN0ZLhIjYFvjSQfrRNpyPB
-         LYgKdARaAluWJM0kYiWLSXCrmZ5LgcLgDbM9qor3tup/HpOHEcVNwXaxhYWGpMO55OmC
-         HbIw==
-X-Forwarded-Encrypted: i=1; AKwUvBwmEbca/3wbGu1UiJqMjQHTzgCQIPdCAYgwduKKoIVlwNkpygTLhskPKEXcA4CTm+r/21hsXn5DPdTnAuth@vger.kernel.org
-X-Gm-Message-State: AFuF++lTRA1AB84fAirpw2wNaUsMAcmHQSUBdc7gunk1ocHNjhMqsRQE
-	my97LbKT3ebFcx8F9GW3VATdzYVZ2Huk75XmgTyMoZ/cxr4FjXWgwa7Up+7NdRYyUCzKHDmlRRo
-	YglwHIPAPOx6u7c5dRJ4SzeAbgW4qCqs=
-X-Gm-Gg: AYBFou3XaEtsoT89XGf36tRoOL8o/riQdyO2R/gXvA6ig4hEmg0lm7ULFs5pdcc9F9w
-	JjEtL55Tjhns2s+V0hV9mZWvyaYZelm/O9tvs/8CMM50yLTVN42JlmTYDvrPZllMsR2JlRJB+Su
-	kzhf78HaF5lBmNgMJtoCNrYYU+72ovR5CA7LNE0DzaDk0IA8Vqnh5zhFSiOIFWC/TG9vO+GeoNA
-	6jxYbaXUpWsIiw5hHXKtjFIrPHGx3QXh0ifTCcboeLAZwlJb0ceojjxAHwokKbTke9nvVglWpgH
-	5yMKSy5anEto48iTJj3PHWTyUynzl6DRNCC5TodpXiGZfVVWHw3ra2oImmsxMb1ZOYB+Yrdk7Ms
-	jHhg1nFe73nLB2wtRVrm11jVwRT0zmlt88HB9zylQX4ltdS9I4tTa
-X-Received: by 2002:a17:90b:53c3:b0:39d:f130:8f13 with SMTP id
- 98e67ed59e1d1-39e54e3c624mr985500a91.21.1789683276095; Thu, 17 Sep 2026
- 15:14:36 -0700 (PDT)
+	d=linux-foundation.org; s=korg; t=1789685586;
+	bh=n2lwDIWkeFYzgSRZvfTcjiNWTjkHsJ7RpCepH/lAHRg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=blq+sEHgAElfZA9X3EQAQ9ZlGWOeuUx/GzEM8ysiMT6PGSSN07TMYIUM0AQuu+85M
+	 Lbr7rsJgDCLbt6HZBoFrM/VEATI9bQod/jZ7pNVEz9OVVC5uqFdOAIkd0wCppxYIAL
+	 /zVK/kE+enmxOObLdnKnC74anYPnIsFBrd46+hQk=
+Date: Thu, 17 Sep 2026 15:53:05 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Julian Sun <sunjunchao@bytedance.com>
+Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, axboe@kernel.dk,
+ hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev,
+ shakeel.butt@linux.dev, muchun.song@linux.dev, willy@infradead.org,
+ jack@suse.cz, tj@kernel.org
+Subject: Re: [PATCH v6 0/3] memcg,writeback: flush foreign bdev mappings
+ separately
+Message-Id: <20260917155305.7a63e01ba3ed34ed0aea537f@linux-foundation.org>
+In-Reply-To: <20260917065759.2643940-1-sunjunchao@bytedance.com>
+References: <20260917065759.2643940-1-sunjunchao@bytedance.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260915080255.48929-1-tasos.papagiannnis@gmail.com> <20260915080255.48929-6-tasos.papagiannnis@gmail.com>
-In-Reply-To: <20260915080255.48929-6-tasos.papagiannnis@gmail.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Thu, 17 Sep 2026 15:14:22 -0700
-X-Gm-Features: AcwNN1V6otsO6IWksnCzkd743-EAl1OOZ6ho93SkT0O5q69xaMVQFn98PY1WbH0
-Message-ID: <CAEf4BzZui5ywrdEz1Sz+XuSEOyFVBnGR_F0SU0vNuhBpaGpqGQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v7 5/5] selftests/bpf: Test mm_struct user memory
- kfuncs with linux_binprm
-To: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
-Cc: bpf@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, david@kernel.org, 
-	akpm@linux-foundation.org, andrii@kernel.org, ast@kernel.org, 
-	brauner@kernel.org, daniel@iogearbox.net, eddyz87@gmail.com, 
-	kpsingh@kernel.org, ljs@kernel.org, matt@bobrowski.net, memxor@gmail.com, 
-	song@kernel.org, sun.jian.kdev@gmail.com, utilityemal77@gmail.com, 
-	viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 15, 2026 at 1:03=E2=80=AFAM Anastasios Papagiannis
-<tasos.papagiannnis@gmail.com> wrote:
->
-> Add a sleepable BPF LSM program attached to bprm_check_security to test
-> bpf_copy_from_user_mm() and bpf_copy_from_user_mm_str() on CONFIG_MMU
-> kernels.
->
-> Starting at bprm->p, verify that bpf_copy_from_user_mm() can copy the
-> contiguous NUL-separated argument and environment data. Then use
-> bpf_copy_from_user_mm_str() to read each argument and environment string
-> separately, advancing the offset by the length returned from each call.
->
-> Skip the test on !CONFIG_MMU. In that configuration, exec argument and
-> environment strings remain in bprm->page[] until the binary loader
-> transfers them to the new process stack, so they are not accessible
-> through bprm->mm at the bprm_check_security hook.
->
-> Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
-> ---
->  .../bpf/prog_tests/copy_from_user_bprm.c      |  72 +++++++++++
->  .../selftests/bpf/progs/copy_from_user_bprm.c | 122 ++++++++++++++++++
->  2 files changed, 194 insertions(+)
->  create mode 100644 tools/testing/selftests/bpf/prog_tests/copy_from_user=
-_bprm.c
->  create mode 100644 tools/testing/selftests/bpf/progs/copy_from_user_bprm=
-.c
->
-> diff --git a/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c=
- b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
-> new file mode 100644
-> index 000000000000..ef351cda9348
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
-> @@ -0,0 +1,72 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <errno.h>
-> +#include <sys/wait.h>
-> +#include <unistd.h>
-> +
-> +#include <test_progs.h>
-> +
-> +#include "copy_from_user_bprm.skel.h"
-> +
-> +void test_copy_from_user_bprm(void)
-> +{
-> +       char arg0[] =3D "first";
-> +       char arg1[] =3D "second-argument";
-> +       char env0[] =3D "SOME_ENV=3Da";
-> +       char env1[] =3D "OTHER_ENV=3Dsomething";
-> +       struct copy_from_user_bprm *skel;
-> +       pid_t child;
-> +       int status;
-> +
-> +       skel =3D copy_from_user_bprm__open_and_load();
-> +       if (!ASSERT_OK_PTR(skel, "open_and_load"))
-> +               return;
-> +
-> +       /*
-> +        * On !CONFIG_MMU, exec strings are held in bprm->page[] rather t=
-han
-> +        * being mapped in bprm->mm.
-> +        */
-> +       if (!skel->kconfig->CONFIG_MMU) {
-> +               printf("%s:SKIP: test requires CONFIG_MMU\n", __func__);
-> +               test__skip();
-> +               goto out;
-> +       }
+On Thu, 17 Sep 2026 14:57:56 +0800 Julian Sun <sunjunchao@bytedance.com> wrote:
 
-I'm not sure I'd bother with this !CONFIG_MMU support, tbh
+> Hi,
+> 
+> This series avoids owner-wide foreign writeback triggered by dirtying
+> shared bdev inodes. Instead, it tracks bdev targets separately and
+> schedules writeback of their mappings.
+> 
+> Problem
+> =======
+> 
+> Bdev inodes are commonly shared by many memcgs. Dirtying their pages
+> can cause the owner wb to be tracked as foreign, triggering writeback
+> of the entire wb rather than just the bdev mapping.
+> 
+> In production, almost all the foreign dirtying we traced came from bdev
+> inodes. Across our observations, a bdev mapping had as little as about
+> 10 MiB of dirty pages, yet foreign flushes targeted the entire owner
+> wb. On one machine, we observed 599 such works queued on one wb, with
+> an average request budget of about 43 GiB per work.
+> 
+> Measured impact
+> ===============
+> 
+> The synthetic test used a VM with 4 vCPUs, 8 GiB RAM, ext4 and cgroup
+> v2, with device write bandwidth capped at 200 MiB/s. Background fio
+> repeatedly overwrote a 256 MiB file using buffered I/O, while
+> foreground fio performed sequential direct writes. Four memcgs
+> generated metadata and buffered writes to trigger foreign flushes.
+> 
+> We measured completed block writes to the background fio file,
+> including final sync, and foreground fio bandwidth, latency and
+> completion time.
+> 
+> Across three runs per kernel, mean background file write I/O decreased
+> by 72.7%, foreground bandwidth increased by 23.0%, and completion time
+> decreased by 18.8%.
+> 
+> Metric                         Baseline    Patched     Change
+> Background file write I/O (GiB)    6.154      1.680     -72.7%
+> Foreground bandwidth (MiB/s)      150.29     184.81     +23.0%
+> Foreground completion time (s)   109.203     88.652     -18.8%
+> Foreground mean latency (ms)      212.84     172.74     -18.8%
 
-> +
-> +       if (!ASSERT_OK(copy_from_user_bprm__attach(skel), "attach"))
-> +               goto out;
-> +
-> +       child =3D fork();
-> +       if (!ASSERT_GE(child, 0, "fork"))
-> +               goto out;
-> +
-> +       if (!child) {
-> +               char *const argv[] =3D { arg0, arg1, NULL };
-> +               char *const envp[] =3D { env0, env1, NULL };
-> +
-> +               skel->bss->monitored_pid =3D getpid();
-> +               execvpe("true", argv, envp);
-> +               _exit(errno);
-> +       }
-> +
-> +       if (!ASSERT_EQ(waitpid(child, &status, 0), child, "waitpid"))
-> +               goto out;
-> +
-> +       if (ASSERT_TRUE(WIFEXITED(status), "child_exited"))
-> +               ASSERT_EQ(WEXITSTATUS(status), EPERM, "exec_errno");
-> +
-> +       ASSERT_EQ(skel->bss->bprm_argc, 2, "bprm_argc");
-> +       ASSERT_EQ(skel->bss->bprm_envc, 2, "bprm_envc");
-> +       ASSERT_EQ(skel->bss->data_len_match, 1, "data_len_match");
-> +       ASSERT_EQ(skel->bss->invalid_flags_ret, -EINVAL, "invalid_flags_r=
-et");
-> +       ASSERT_EQ(skel->bss->copy_ret, 0, "copy_ret");
-> +       ASSERT_EQ(skel->bss->str_arg0_ret, sizeof(arg0), "str_arg0_ret");
-> +       ASSERT_EQ(skel->bss->str_arg1_ret, sizeof(arg1), "str_arg1_ret");
-> +       ASSERT_EQ(skel->bss->str_env0_ret, sizeof(env0), "str_env0_ret");
-> +       ASSERT_EQ(skel->bss->str_env1_ret, sizeof(env1), "str_env1_ret");
-> +       ASSERT_EQ(skel->bss->data_match, 1, "data_match");
-> +       ASSERT_EQ(skel->bss->str_args_match, 1, "str_args_match");
-> +       ASSERT_EQ(skel->bss->str_envs_match, 1, "str_envs_match");
-> +
-> +out:
-> +       copy_from_user_bprm__destroy(skel);
-> +}
-> diff --git a/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c b/to=
-ols/testing/selftests/bpf/progs/copy_from_user_bprm.c
-> new file mode 100644
-> index 000000000000..07ca96d9db45
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
-> @@ -0,0 +1,122 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include "vmlinux.h"
-> +
-> +#include <bpf/bpf_helpers.h>
-> +#include <bpf/bpf_tracing.h>
-> +#include <errno.h>
-> +
-> +char _license[] SEC("license") =3D "GPL";
-> +
-> +static const char expected_data[] =3D "first\0second-argument\0"
-> +                                   "SOME_ENV=3Da\0OTHER_ENV=3Dsomething"=
-;
-> +static const char expected_arg0[] =3D "first";
-> +static const char expected_arg1[] =3D "second-argument";
-> +static const char expected_env0[] =3D "SOME_ENV=3Da";
-> +static const char expected_env1[] =3D "OTHER_ENV=3Dsomething";
-> +
-> +int monitored_pid;
-> +int bprm_argc;
-> +int bprm_envc;
-> +int data_len_match;
-> +int invalid_flags_ret;
-> +int copy_ret;
-> +int str_arg0_ret;
-> +int str_arg1_ret;
-> +int str_env0_ret;
-> +int str_env1_ret;
-> +int data_match;
-> +int str_args_match;
-> +int str_envs_match;
-> +
-> +extern bool CONFIG_MMU __kconfig __weak;
-> +
-> +extern int bpf_copy_from_user_mm(void *dst, u32 dst__sz,
-> +                                const void *unsafe_ptr__ign,
-> +                                struct mm_struct *mm, u64 flags) __ksym;
-> +
-> +extern int bpf_copy_from_user_mm_str(void *dst, u32 dst__sz,
-> +                                    const void *unsafe_ptr__ign,
-> +                                    struct mm_struct *mm, u64 flags) __k=
-sym;
-> +
+Thanks.
 
-these should be already coming from vmlinux.h, no need to explicitly
-define them, please drop (and CONFIG_MMU parts as well)
+As I understand it, this is basically ext4-specific.
 
-> +SEC("lsm.s/bprm_check_security")
-> +int BPF_PROG(check_exec_args, struct linux_binprm *bprm)
-> +{
-> +       u32 pid =3D bpf_get_current_pid_tgid() >> 32;
-> +       char data[sizeof(expected_data)] =3D {};
-> +       struct mm_struct *mm;
-> +       char arg0[32] =3D {};
-> +       char arg1[32] =3D {};
-> +       char env0[32] =3D {};
-> +       char env1[32] =3D {};
-> +       u64 offset =3D 0;
-> +       u64 data_len;
-> +
-> +       if (!CONFIG_MMU)
-> +               return 0;
-> +
-> +       if (pid !=3D monitored_pid)
-> +               return 0;
-> +
-> +       mm =3D bprm->mm;
-> +       if (!mm)
-> +               return 0;
-> +
-> +       bprm_argc =3D bprm->argc;
-> +       bprm_envc =3D bprm->envc;
-> +
-> +       /* this is the total size of args and envs starting from bprm->p =
-*/
-> +       data_len =3D bprm->exec - bprm->p;
-> +       data_len_match =3D data_len =3D=3D sizeof(expected_data);
-> +
-> +       invalid_flags_ret =3D bpf_copy_from_user_mm(data, sizeof(data),
-> +                                                 (void *)bprm->p, mm, ~0=
-ULL);
-> +
-> +       copy_ret =3D bpf_copy_from_user_mm(data, sizeof(data), (void *)bp=
-rm->p,
-> +                                        mm, 0);
+I don't think btrfs or xfs mess with the bdev address_space at all? 
+But google tells me that "roughly 70% to 80% of all Linux machines use
+ext4 as their primary or root file system", so there is that.
 
-single line (limit is 120, not 80), please reformat the rest if it
-fits under 120
+> Approach
+> ========
+> 
+> Following Jan's suggestion, this series records foreign bdev targets
+> separately and flushes their mappings instead of their owner wbs. This
+> preserves a way for dirty throttling to initiate bdev writeback while
+> avoiding owner-wide writeback triggered by these records. The existing
+> foreign-wb mechanism remains unchanged for other inodes.
+> 
+> Tracking is best effort: each memcg keeps a bounded set of device
+> numbers without persistent device or inode references. Closed devices
+> and devices with a busy open_mutex are skipped. Device removal and
+> device-number reuse may race with lookup.
 
-> +       if (copy_ret)
-> +               return 0;
-> +
-> +       data_match =3D
-> +               !__builtin_memcmp(data, expected_data, sizeof(expected_da=
-ta));
+This part looks plain nasty.  Why are we messing with dev_t's and
+risking these races?
 
-nit: keep single line
+At the very least, this description should explain the reasoning behind
+this decision at some length.
 
-> +
-> +       /* arg0 is at bprm->p */
-> +       str_arg0_ret =3D bpf_copy_from_user_mm_str(arg0, sizeof(arg0),
-> +                                                (void *)(bprm->p + offse=
-t),
-> +                                                mm, BPF_F_PAD_ZEROS);
-> +       if (str_arg0_ret !=3D sizeof(expected_arg0))
-> +               return 0;
-> +       offset +=3D str_arg0_ret;
-> +
-> +       /* arg1 is at bprm->p + sizeof(arg0) */
-> +       str_arg1_ret =3D bpf_copy_from_user_mm_str(arg1, sizeof(arg1),
-> +                                                (void *)(bprm->p + offse=
-t),
-> +                                                mm, BPF_F_PAD_ZEROS);
-> +       if (str_arg1_ret !=3D sizeof(expected_arg1))
-> +               return 0;
-> +       offset +=3D str_arg1_ret;
-> +
-> +       /* env0 is at bprm->p + sizeof(arg0) + sizeof(arg1) */
-> +       str_env0_ret =3D bpf_copy_from_user_mm_str(env0, sizeof(env0),
-> +                                                (void *)(bprm->p + offse=
-t),
-> +                                                mm, BPF_F_PAD_ZEROS);
-> +       if (str_env0_ret !=3D sizeof(expected_env0))
-> +               return 0;
-> +       offset +=3D str_env0_ret;
-> +
-> +       /* env1 is at bprm->p + sizeof(arg0) + sizeof(arg1) + sizeof(env0=
-) */
-> +       str_env1_ret =3D bpf_copy_from_user_mm_str(env1, sizeof(env1),
-> +                                                (void *)(bprm->p + offse=
-t),
-> +                                                mm, BPF_F_PAD_ZEROS);
-> +       if (str_env1_ret !=3D sizeof(expected_env1))
-> +               return 0;
-> +
-> +       str_args_match =3D
-> +               !__builtin_memcmp(arg0, expected_arg0, sizeof(expected_ar=
-g0)) &&
-> +               !__builtin_memcmp(arg1, expected_arg1, sizeof(expected_ar=
-g1));
-> +       str_envs_match =3D
-> +               !__builtin_memcmp(env0, expected_env0, sizeof(expected_en=
-v0)) &&
-> +               !__builtin_memcmp(env1, expected_env1, sizeof(expected_en=
-v1));
+Surely it's cleaner and safer to grab a ref on something (the bdev
+inode?) and hang onto that object.  Use it for these operations, let it
+go at the appropriate time.  Clearly there's something wrong with that
+approach, but what?
 
-I'd put env1, env2, etc into global variables and do comparison in user spa=
-ce
+> Flushes run asynchronously on a dedicated workqueue to isolate these
+> frequently triggered tasks from existing workqueue users. If workqueue
+> allocation fails, the existing foreign-wb mechanism remains in use.
 
-not that this is broken, but there is no point doing this in BPF code
+Unclear what this means.  If a kmalloc/etc fails then we fall back to
+the current (mainline) behavior?  Fair enough, failure of small
+kmallocs are so rare.  The main problem is testing the failure-path
+code!
 
-> +
-> +       return data_match && str_args_match && str_envs_match ? -EPERM : =
-0;
-> +}
-> --
-> 2.55.0
->
+
+Also, and most importantly, what the heck is "frn"?  Would the world
+end if you did s/frn/foreign/g?
+
