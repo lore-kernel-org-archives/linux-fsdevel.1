@@ -1,145 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74D1318B9C;
-	Thu, 17 Sep 2026 15:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A5D391842
+	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 16:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789660427; cv=none; b=uhcp2jhSBQcz/wVRJvuglVnK39bT+Dr93rvvN6VQ1SDh5uGCmqm+LOzJl/ljVrDIJAHghDB4SQqjlJ0ZdR7fASuNYtVeNy1uELjaXUX0oZOj+cZPm0t4ux6oi/YEG8qF1hIkO4VooJ2w3l7tTeXFlZfnDmAY77GiF2EyonN8274=
+	t=1789660886; cv=none; b=YE2Fz/Dym47BUCcDMz+gwA+zqN8N01wPLiWi6vISrra4+szH6xsTtWI5cGyZQYMwzvu62OT6vSWDNwq0PGeF3pEwzBIF3NxdzBlrWdRB3W4oI0TfBKgSzRFu3wAaWVglBfPJ/FE5F6FDAvTTB7G/4n0l5HlRfhLkM3efYBqNodk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789660427; c=relaxed/simple;
-	bh=/xmXYAcuNAr95IKROiQPWV01/V791kz9eZxN3gck8Ys=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WpXz40Nz2Vwb6zY5/jYOtU0qsf7Im99kW191qqBspasMZORh26kIjhY9dO0MqG8PEujHl1H8sK+QN53ozDurMDfWPBXPb14PorUlWQegbVg+fj6mm6UoyEAlNkgDrdbHY+bOdh3ubi9yQoLxEAvZO4PHHcz0GYKeb+rvM3ddG4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u0SEa65F; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789660886; c=relaxed/simple;
+	bh=Zl7XEDEzyGFjQ8NnXy+A8Z96YlY800L0M+pR+Mfnr7c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=m506AS/DQmt3cF8ymQb1ENJKzvtOzOTKuJEnzsJ1G8Wwn9pkljRlZyzgVcDgVsBWILJH70iKP4alJyqvU/OedMrWi/2MuCStSlz7ZRCUX+txOl/WCj1AvqNOBQ9pxPP00rEED4ql8zopmMI9xCbY0Ju0XlUSzqrLHSU5EUWiHOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=b3SGjnQa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u0SEa65F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05D0E1F000FF;
-	Thu, 17 Sep 2026 15:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789660425;
-	bh=vLW8eeE0olxV8fDthJcxn06d+l1mJ4kSJIGtpjWFDic=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=u0SEa65F580MLbFESzcmSpNn34Kn8sy904NaH7bHXf3HN9fo5ju5OtbpDOHAV8SCB
-	 DCQ0vIVQcUvcYTHr8XgSL7MSjFg4DQ9+S39RM7hTyGv1yAW98uYYbFDS+dbcP0SIbA
-	 WZ2Ccq7GnP+vHMEkoLec18xFBi8FKcIQImfHEsc0=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Chengfeng Ye <nicoyip.dev@gmail.com>,
-	Qi Zhang <marsy12010123@gmail.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	linux-afs@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: [PATCH 7.2 589/733] afs: Clear stale peer app data after address list changes
-Date: Thu, 17 Sep 2026 16:14:57 +0100
-Message-ID: <20260917151407.103832568@linuxfoundation.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260917151350.597953846@linuxfoundation.org>
-References: <20260917151350.597953846@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b3SGjnQa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789660883;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AxqSSuC6j5VlzBVquLjSQshKehqZsLbhTW+tuSGZqqk=;
+	b=b3SGjnQaE/eT97eSayHaCdn57dIs0bi8f+fvnNROGasIFDfQn6rRKaRnxp/jfl9Hcx1M/i
+	1Qw9/SJc/JScj6kZULdHHfn0qbSEBInIYZVwd3nVNJKWakAkaA8DHk7Yq2nWKM3vIoUCIC
+	N36B44e8BJ/aDXZ16Gr4MkQty5wGihg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-186-rncYLlFTPy2Lq00Orktw_w-1; Thu,
+ 17 Sep 2026 12:01:19 -0400
+X-MC-Unique: rncYLlFTPy2Lq00Orktw_w-1
+X-Mimecast-MFC-AGG-ID: rncYLlFTPy2Lq00Orktw_w_1789660878
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DD834193E8AD;
+	Thu, 17 Sep 2026 16:01:17 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 860F018004D2;
+	Thu, 17 Sep 2026 16:01:15 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Stian Halseth <stian@itx.no>
+Cc: brauner@kernel.org,  viro@zeniv.linux.org.uk,  jack@suse.cz,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  sparclinux@vger.kernel.org,  schwab@suse.de
+Subject: Re: [PATCH 0/2] fs: honor FOP_UNSIGNED_OFFSET in llseek and
+ positional I/O
+In-Reply-To: <20260917151614.376867-1-stian@itx.no> (Stian Halseth's message
+	of "Thu, 17 Sep 2026 17:16:12 +0200")
+References: <20260917151614.376867-1-stian@itx.no>
+Date: Thu, 17 Sep 2026 18:01:13 +0200
+Message-ID: <lhuo6dv50l2.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-7.2-stable review patch.  If anyone has any objections, please let me know.
+* Stian Halseth:
 
-------------------
+> Tested on an UltraSPARC T4: pread(), preadv(), pwrite(), pwritev() and
+> lseek() on /proc/PID/mem at positions above 2^63 return the correct data
+> and offset; a negative position on a regular file or a pipe still fails
+> with EINVAL and position 0 on a pipe with ESPIPE, as before; and the
+> stock pldd(1) works again.  On other architectures the change is a no-op
+> for every file without FOP_UNSIGNED_OFFSET, and userspace addresses
+> never set the top bit, so the new paths are only reachable by passing
+> a bogus position to /proc/PID/mem or /dev/mem, which then fails in the
+> driver instead of the wrapper.
 
-From: Chengfeng Ye <nicoyip.dev@gmail.com>
+For lseek, aren't some file offsets (the top 4095 bytes or so just
+before 2**64) ambiguous as error indicators?  You would have to use
+_llseek when accessing /proc/PID/mem.
 
-commit ba0623fc19a424f4745394c499f9f28a8d88d397 upstream.
-
-afs_fs_probe_fileserver() fetches the current endpoint state under
-server->fs_lock, but leaves old_alist as NULL.  Consequently,
-afs_set_peer_appdata() treats every address list replacement as initial
-setup and only binds the new peers; it never unbinds peers removed from
-the old list.
-
-An address refresh can therefore proceed as follows.  CPU 0 replaces
-server S's list and drops Pold without clearing Pold->app_data.  The
-server destroyer then clears only S's current peers and lets S reach its
-RCU callback.  After the callback frees S, CPU 1 handles a callback
-through an RxRPC connection that still pins Pold, reads Pold->app_data,
-and calls afs_use_server() on the freed object.
-
-KASAN reported:
-
-  BUG: KASAN: slab-use-after-free in afs_find_server+0x3c/0xa0
-  Read of size 4 at addr ffff8881013e1af0 by task krxrpcio/7001/74
-  Call Trace:
-   afs_find_server+0x3c/0xa0
-   afs_rx_new_call+0x15c/0x390
-   rxrpc_new_incoming_call+0x97c/0x1730
-   rxrpc_input_packet.constprop.0+0xd03/0xec0
-   rxrpc_io_thread+0x967/0x1640
-  Allocated by task 93:
-   afs_lookup_server+0x1a7/0x14c0
-   afs_alloc_server_list+0x43f/0xb60
-   afs_create_volume+0x923/0x1490
-   afs_get_tree+0x1c6/0x10a0
-  Freed by task 0:
-   kfree+0x131/0x3c0
-   rcu_core+0x50a/0x1850
-  Last potentially related work creation:
-   __call_rcu_common.constprop.0+0x71/0xa10
-   afs_put_server+0x213/0x2b0
-
-Preserve old->addresses for the peer app-data update so that removed
-peers are cleared before the endpoint state is replaced.  Also advance
-both cursors when the old and new lists share a peer; activating the
-old/new comparison without this would otherwise loop forever on the
-shared entry.
-
-Fixes: 40e8b52fe8c8 ("afs: Use the per-peer app data provided by rxrpc")
-Signed-off-by: Chengfeng Ye <nicoyip.dev@gmail.com>
-Signed-off-by: Qi Zhang <marsy12010123@gmail.com>
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://patch.msgid.link/20260902121024.3328255-5-dhowells@redhat.com
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: linux-afs@lists.infradead.org
-cc: linux-fsdevel@vger.kernel.org
-cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- fs/afs/addr_list.c |    5 ++++-
- fs/afs/fs_probe.c  |    1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
-
---- a/fs/afs/addr_list.c
-+++ b/fs/afs/addr_list.c
-@@ -394,8 +394,11 @@ void afs_set_peer_appdata(struct afs_ser
- 		struct rxrpc_peer *pn = new_alist->addrs[n].peer;
- 		struct rxrpc_peer *po = old_alist->addrs[o].peer;
- 
--		if (pn == po)
-+		if (pn == po) {
-+			n++;
-+			o++;
- 			continue;
-+		}
- 		if (pn < po) {
- 			rxrpc_kernel_set_peer_data(pn, data);
- 			n++;
---- a/fs/afs/fs_probe.c
-+++ b/fs/afs/fs_probe.c
-@@ -258,6 +258,7 @@ int afs_fs_probe_fileserver(struct afs_n
- 					lockdep_is_held(&server->fs_lock));
- 	if (old) {
- 		estate->responsive_set = old->responsive_set;
-+		old_alist = old->addresses;
- 		if (!new_alist)
- 			new_alist = old->addresses;
- 	}
-
+Thanks,
+Florian
 
