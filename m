@@ -1,302 +1,103 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D828A4ACC8C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 11:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788CE35DA41
+	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 11:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789645716; cv=none; b=CCU8xgwu0wNxnW2x96rgRN4nrMHNySA1mgubSshzAsdNyhY2AbU8OUo0JgAqrnjBEQXMfNvVmbbd0Z+vLCC/0tJg7GNh++vigfGhr9G2TET4KyKQ4S5RqhwwZmyw4QT07UmIAa+6AjE+CTmqTZ5RCgtw0VY1hcNtFvnyjL64LXo=
+	t=1789645761; cv=none; b=SyoE2Bp/w+3l89BJfvx4WZo3y4Ym7QLOgJMPwpix7itfb15RUqQYsHAHKxz3m0w6FPnR8N278o9rghfANLTugziGYWbh2JBPiB0lOJ5hAcb+pzVDWH5D27VOaBlGEjZtSDraP4aqcRYraXYNaWCQUqE7UP9wJVqtdmlojBO4Lqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789645716; c=relaxed/simple;
-	bh=40S5Rsrxf9rWkVmZASWWlCuWh4sMf9Qidfv4Hhq2I9o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N+adOS7iQoWFNzE4tu8PJ8E+hcGOWhCISVtzozX8ExHjX3nnpLFQTb0GWdFdP9zNaGbmpo74pOIb8FZQRHAdzPnJQhUk1UGNWqsXZQUd+cGV+dOJHBBfrc0Ivu0svORpspClDLvop5mkPiRgSDCGBJT74FIrSm0JMZWPSnWaXNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HDbpNIpx; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789645761; c=relaxed/simple;
+	bh=Gs6Gj/4Jt74JeqAJDh+JoR7UbdeGtOfpNe7/uSrLo68=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HYM/ebZrqc/jWEvnqLebpJo4Rs6J9ZdS9lsu+VdE+LAyBqZVeZC0rURf/6plxrpvGAqFKi7UcKgz1fNGJMLFozzAJIVzbKX8Q454jfsVbeCKwn0Si4KML/3hNjZTrJuW6meig2Q2NcC7ZzyWa9Z3uBqE3eOACMaygTBeq8AOaX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikqsW1YW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HDbpNIpx"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d93ff61046so6593105ad.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 04:48:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789645713; x=1790250513; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0XIXiLce8oloEY4uUyIzwGoSl4i1s4G1pZ5kG8wUw3I=;
-        b=HDbpNIpxrcBjqA/Chvc9mLkeMpKwsF8DsjoEjf4P9ByPYcSa0CAj8XuvTxQqcJPEkB
-         8K44R7MPfB5jqamNBkOUis8qt/ibVHyCQabfYwvxdELmWLJJUIinVn2bFcri1250ipNo
-         o31mQ7LBJgZPq0u2Znb0NRZIEohAQk5L/6ljujLOM14R18umYjJYCyYo4ULl+sv4UIBD
-         HpnekR8lkJ98aP/K6rSKUEk7t4GvDeXqMMXk+x/otLpjahnAge60gCR4ML94s32XxiEJ
-         lqlCiv9ig5FsWRQN2ycKM0LEL9niwLJYTUNh8m7K1KEAaKfaxR8/gxoWO/jjYMpLckhy
-         XjSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789645713; x=1790250513;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0XIXiLce8oloEY4uUyIzwGoSl4i1s4G1pZ5kG8wUw3I=;
-        b=N7r9+kbW5g7LeKOkH7eBeP+pgRrCs2NdGJPMtOGmyeZbEx1G76OtMsILlJ7PqJRZsr
-         0z7NYnuqefSjDVdDjHn3sIZ3Wxx2rMdtbyldCrzDeyOCa76aO9/IB4zsKxNwyRzHSwGv
-         QM/7FgmZXMwzC7btOwhs6hT+ENawcQ/nC8fabBXBHt3s4rZ60QyvjELbNuo7Pxwn7jkH
-         xJv5FktCtrnzmKdH62Tbq/iDVfK8CIz059mKTAUnio1kHc/8dCZdC/2cZhg+Lnuu2VKg
-         KkIg4Fq/jtsneTFJrnXPYptNd/2S4WwwQXGaiQJCO2OaAnI3dW4bsCANNt1TiiDYscNQ
-         Gimw==
-X-Forwarded-Encrypted: i=1; AKwUvBxcYhJzbYvYkVLccB4nH6JPAycnbkL/9oHimXUYX/7ANWLdvcA3TIsGr32UeQewjjHWPl5KF5yRK6K53OC4@vger.kernel.org
-X-Gm-Message-State: AFuF++n3Is/jF+UpRqozZ+YRLuahUnwR/FXZtMnM45YpZNgEqM3GuASY
-	5nxuetuxSIixGMU6Ap3V/tYIplx7cnUtJZu6vJXYpPSezkX51ZPbVnUd
-X-Gm-Gg: AYBFou2uYzL8mN4KZQVDtdPNREW3pqvgJc30PG6rLBN+4Ct7Ca4pA2nD+hP4sQpoZR+
-	0X94jgnmJ8dzWj1y8DUrmFayaqs5DHzkh7+TWZ42lifs5hkWty9Ui8XT8/8zctcukZKO8+hDlqk
-	6/B8+hQyujfSWoGHFy+F3nVcxxdoRnSs+L8wAl/U3cfm4F6ZZkNZxZBBe0/x8fSxaJhjnlDUfh0
-	h4JdiZzzswbHvuTlYvLoCYieakue7mtZ1kgK8kpbZTUley6cSZjUeW+K+we+5GHXYfHgXGrz6AF
-	yNKpXOmwJoTCDYJOj7OiMAAuRrAp/tAnRPVIPZ9XCG0pSqk8b3233uT5nxEK5PtgqypaiZq701o
-	D+pKAz6EAOoOzRwdJ8cuA7eM293VCwX9HvIBQYxX0I1q0TUfe5I6aoeEYg4TvCCWcrdTpIcvZR7
-	ASpg6pwTvAHfJYly0L7ObZzk33QzG3uvnVPKNAPdc9qhROed56N0lTDFvAKP0AP1Jb27aMIK0o5
-	aptCrdYldJjBWAjcac=
-X-Received: by 2002:a17:902:f549:b0:2d8:d4cc:5bb1 with SMTP id d9443c01a7336-2dd8e5244bbmr129000285ad.17.1789645712939;
-        Thu, 17 Sep 2026 04:48:32 -0700 (PDT)
-Received: from [100.125.248.95] ([124.70.231.46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd89d8e6a3sm25444085ad.7.2026.09.17.04.48.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2026 04:48:32 -0700 (PDT)
-Message-ID: <fd49e71a-34e9-4e72-9510-1b1692bbfca3@gmail.com>
-Date: Thu, 17 Sep 2026 19:48:11 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikqsW1YW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97D1E1F000FF;
+	Thu, 17 Sep 2026 11:49:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789645760;
+	bh=J3ZIZ/qKrVelEBNP9YMT1TYlLZFDGrvUdK6MBy39Xgg=;
+	h=From:Subject:Date:To:Cc;
+	b=ikqsW1YWggMJuUPKhdS7fuS/aGAupDls190huv3ebZglr59oro5qpYcQg1VTRcfmt
+	 UltELb82ejVbfMV1wAWL/Y8iZVYgz+GcTKUVBXnMvTbCgC7OTFd2f3wpmdkx9Gvp0O
+	 A/060v4+IQBIlzJgDkUCAcZGl/Fs22XKWw0w4P1wKjPQhYQsXeQJE6mbC74T25HtR0
+	 89qgS/DdorxvPuvklOY22mKIJMDF8SPzSez0ujUXjfpYZg8jGgsNS0ZKHIVBOKYAXw
+	 1kUDbAGxhqjcRSpnybFoJ96fGhwc8KZSLD8dx04dgHaCIvkuvo3ahrkV2pYtBn2Fna
+	 DMC7XdjNMYq5g==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/2] Revert "put_mnt_ns(): leave mounts connected"
+Date: Thu, 17 Sep 2026 13:49:02 +0200
+Message-Id: <20260917-work-put_mnt_ns-revert-v1-0-34d9b8679e68@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] mm/truncate: fix data loss when splitting
- straddling large folios fails
-To: Brian Foster <bfoster@redhat.com>, Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
- willy@infradead.org, jack@suse.cz, ziy@nvidia.com, joannelkoong@gmail.com,
- djwong@kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, yukuai@fnnas.com
-References: <20260916092450.654408-1-yi.zhang@huaweicloud.com>
- <20260916092450.654408-2-yi.zhang@huaweicloud.com> <aqrUGRd0JClEZNzN@bfoster>
-Content-Language: en-US
-From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <aqrUGRd0JClEZNzN@bfoster>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/0WMQQrCMBBFr1Jm7YQ0BINeRaQkcWqjmJZMWoXSu
+ 5vYhcv3+e+twJQCMZybFRItgcMYC7SHBvxg450w3AqDkuooT63B95ieOM25e8XcRcYiUcrofK+
+ 0bo2WxkORp0R9+PzCl+vOPLsH+Vxr9eEsE7pkox/qVLvi3xV7V9QXbNsXOs+VhKgAAAA=
+X-Change-ID: 20260917-work-put_mnt_ns-revert-bcf24417407c
+To: linux-fsdevel@vger.kernel.org
+Cc: "To: Alexander Viro" <viro@zeniv.linux.org.uk>, 
+ "To: Jan Kara" <jack@suse.cz>, "To: Noah Orlando" <Noah.Orlando@deshaw.com>, 
+ Michael Vogt <michael@amutable.com>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2241; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Gs6Gj/4Jt74JeqAJDh+JoR7UbdeGtOfpNe7/uSrLo68=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWStvrwnlIXhgdEdwXvn767pbq58vZHBjrtJfbel3ZYv4
+ t+Dp7660VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRj9aMDPf8t5fI/lz9zKxE
+ Pdl3xt+ky4z3TZo+et0oWH74y7vfHBIM/0vuMwlV/11ucFZnKeN/t628anPzkt8eP6Rlar9kz12
+ 775wA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 9/17/2026 1:38 AM, Brian Foster wrote:
-> On Wed, Sep 16, 2026 at 05:24:48PM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> truncate_inode_partial_folio() splits a large folio so that the caller's
->> truncate loop can drop the in-range sub-folios while keeping the
->> out-of-range tail. The first split at the punch start edge is
->> non-uniform, which leaves the sub-folio at the truncation end edge as
->> large as possible, this means it may still straddle the range, holding
->> both zeroed in-range and valid out-of-range data. The function then
->> attempts a second split at offset + length to isolate that tail.
->>
->> If the second split fails the straddling sub-folio stays merged. The
->> function returned true unconditionally on all exit paths of the success
->> block, telling the caller it was fully handled. The caller kept its
->> default end and the truncate loop truncated every sub-folio below it,
->> including the merged straddler, discarding the valid out-of-range tail.
->>
->> For example, a 4-page order-2 folio punched from offset 0 to the middle
->> of the last page:
->>
->>    truncate_inode_pages_range()
->>      truncate_inode_partial_folio()      # same_folio == true
->>        1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->>        folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
->>        2nd split of folio2 fails / cannot lock
->>        return true                       # BUG: caller keeps default end
->>      end = 3
->>      loop truncates p0, p1, p2-3        # p3's valid tail is lost
->>
->> This became reachable after commit 7460b470a131 ("mm/truncate: use
->> folio_split() in truncate operation") replaced the atomic split_folio()
->> with folio_split(), whose non-uniform split can partially split a folio
->> and leave the end edge merged.
->>
->> It has gone unnoticed because a dirty large folio normally carries the
->> filesystem's private data, for example buffer_head, so
->> filemap_release_folio() -> iomap_release_folio() returns false on a
->> dirty folio and folio_split() aborts with -EBUSY before any split,
->> leaving the straddler safely unsplit. The bug is only reachable on paths
->> that produce dirty large folios without filesystem private data, and it
->> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
->> attached.
->>
->> Rework the contract so the caller is told the page range to discard:
->>
->>    - Add pgoff_t *pstart and *pend out-parameters that receive the page
->>      range fully covered by [lstart, lend] after any split (or none),
->>      i.e. the pages wholly within the range and safe to discard.
->>
->>    - Adjust the ordering of the validate check when splitting folio2.
->>      folio2->index is only reliable after the reference count and lock
->>      have been successfully acquired, since it may have been split
->>      concurrently, or freed and recycled to an unrelated mapping. On any
->>      failure to obtain a reliable end position, fall back to
->>      folio->index, which is safe but leaves the sub-folios split off at
->>      the offset edge in the page cache.
->>
->>    - Rename the byte-range parameters start/end to lstart/lend to better
->>      express their semantics.
->>
->> Callers in truncate_inode_pages_range() and shmem_undo_range() pass
->> &pstart for the folio at the start edge and &pend for the folio at the
->> end edge, so the truncate loop drops exactly the fully covered pages and
->> never touches a straddling folio that still holds valid out-of-range
->> data.
->>
->> Suggested-by: Brian Foster <bfoster@redhat.com>
->> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
->> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operation")
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->>   mm/internal.h |  4 +--
->>   mm/shmem.c    | 13 +++-----
->>   mm/truncate.c | 89 ++++++++++++++++++++++++++++++++++++---------------
->>   3 files changed, 71 insertions(+), 35 deletions(-)
->>
-> ...
->> diff --git a/mm/truncate.c b/mm/truncate.c
->> index b58ba940be47..bec6d881d022 100644
->> --- a/mm/truncate.c
->> +++ b/mm/truncate.c
-> ...
->> @@ -259,32 +271,62 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
->>   		 * for shmem truncate
->>   		 */
->>   		struct folio *folio2;
->> +		pgoff_t end, aligned_end = (pos + offset + length) >>
->> +					   PAGE_SHIFT;
->>   
->> -		if (offset + length == size)
->> -			goto no_split;
->> +		if (pstart)
->> +			*pstart = round_up(pos + offset, PAGE_SIZE) >>
->> +				  PAGE_SHIFT;
->> +
->> +		if (offset + length == size) {
->> +			end = aligned_end;
->> +			goto out;
->> +		}
->>   
->>   		split_at2 = folio_page(folio,
->>   				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
->>   		folio2 = page_folio(split_at2);
->>   
->> +		/*
->> +		 * folio2 may become stale due to a concurrent split or
->> +		 * freeing, so validate it before and after taking its lock.
->> +		 * If it fails, we can't get an accurate end position and fall
->> +		 * back to folio->index, which may leave sub-folios split off
->> +		 * at the offset edge in the page cache this round.
->> +		 */
->> +		end = folio->index;
->>   		if (!folio_try_get(folio2))
->> -			goto no_split;
->> -
->> -		if (!folio_test_large(folio2))
->>   			goto out;
->>   
->> +		if (folio2->mapping != folio->mapping ||
->> +		    !folio_test_large(folio2))
->> +			goto out_put;
->> +
-> 
-> Hi Zhang,
-> 
-> The only thing that sticks out to me in this version is the
-> !folio_test_large() check above. If we split (or something happens) such
-> that folio2 is no longer large, wouldn't it be more likely to catch it
-> here and fail to update end like we do in the same check a bit further
-> down after the folio lock? Maybe I'm missing something here, but it
-> seems a little odd for the same condition to return two possible states
-> like this. Otherwise I like the changes you've made and the rest of the
-> patch LGTM.
-> 
-> Brian
+Keeping every mount of a dying namespace attached to its parent changes
+who owns it. An attached but unmounted mount is owned by its parent: the
+parent's final mntput() is what drops the child's reference and takes
+its superblock down. Before that commit only the namespace root was in
+that position and every other mount dropped its own reference in
+namespace_unlock().
 
-Yes, you're right! That check should be dropped, I got myself
-confused with all these complicated checks. Fortunately Jan and Zi Yan
-suggested using __filemap_get_folio(), and with that I think we can
-get rid of all these convoluted checks.
+That ownership rule turns any reference from a child's superblock back
+to one of its ancestors into a cycle. The obvious case is a loop device:
 
-Thanks,
-Yi.
+    unshare -m sh -c 'mount -o loop /var/tmp/img /var/tmp/mp'
 
-> 
->>   		if (!folio_trylock(folio2))
->> -			goto out;
->> +			goto out_put;
->>   
->> -		/* make sure folio2 is large and does not change its mapping */
->> -		if (folio_test_large(folio2) &&
->> -		    folio2->mapping == folio->mapping)
->> -			folio_split_or_unmap(folio2, split_at2, min_order);
->> +		if (page_folio(split_at2) != folio2) {
->> +			folio_unlock(folio2);
->> +			goto out_put;
->> +		}
->> +		if (!folio_test_large(folio2)) {
->> +			end = aligned_end;
->> +			folio_unlock(folio2);
->> +			goto out_put;
->> +		}
->> +
->> +		/* Split failed: back off to the head of the straddler */
->> +		if (folio_split_or_unmap(folio2, split_at2, min_order))
->> +			end = folio2->index;
->> +		else
->> +			end = aligned_end;
->>   
->>   		folio_unlock(folio2);
->> -out:
->> +out_put:
->>   		folio_put(folio2);
->> -no_split:
->> +out:
->> +		if (pend)
->> +			*pend = end;
->>   		return true;
->>   	}
->>   	if (folio_test_dirty(folio))
->> @@ -413,11 +455,8 @@ void truncate_inode_pages_range(struct address_space *mapping,
->>   	folio = __filemap_get_folio(mapping, lstart >> PAGE_SHIFT, FGP_LOCK, 0);
->>   	if (!IS_ERR(folio)) {
->>   		same_folio = lend < folio_next_pos(folio);
->> -		if (!truncate_inode_partial_folio(folio, lstart, lend)) {
->> -			start = folio_next_index(folio);
->> -			if (same_folio)
->> -				end = folio->index;
->> -		}
->> +		truncate_inode_partial_folio(folio, lstart, lend, &start,
->> +					     same_folio ? &end : NULL);
->>   		folio_unlock(folio);
->>   		folio_put(folio);
->>   		folio = NULL;
->> @@ -427,8 +466,8 @@ void truncate_inode_pages_range(struct address_space *mapping,
->>   		folio = __filemap_get_folio(mapping, lend >> PAGE_SHIFT,
->>   						FGP_LOCK, 0);
->>   		if (!IS_ERR(folio)) {
->> -			if (!truncate_inode_partial_folio(folio, lstart, lend))
->> -				end = folio->index;
->> +			truncate_inode_partial_folio(folio, lstart, lend,
->> +						     NULL, &end);
->>   			folio_unlock(folio);
->>   			folio_put(folio);
->>   		}
->> -- 
->> 2.52.0
->>
-> 
+mount(8) opens the image from inside the new namespace, so the loop
+device's backing file pins that namespace's copy of the root mount.
+When the namespace dies the loop mount stays attached to that copy and
+is owned by it. The copy can't reach zero because the backing file
+holds it. The backing file is only put once the ext4 superblock
+releases the block device and autoclear runs, and that needs the loop
+mount to go first. Nothing breaks the cycle. The superblock, the loop
+device and, since the root copy keeps all of its children.
+
+systemd-sysext sets up its loop devices in a private mount namespace and
+relies on autoclear when that namespace goes away, which is how this was
+found. Anything that holds a file on an ancestor from a mounted
+filesystem has the same problem. That includes ecryptfs lower paths,
+erofs file-backed mounts, fuse passthrough backing files.
+
+That's a bigger fix and not an -rc change. Revert.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (2):
+      Revert "selftests/filesystems: add mntns cleanup test"
+      Revert "put_mnt_ns(): leave mounts connected"
+
+ fs/namespace.c                                     |  2 +-
+ tools/testing/selftests/Makefile                   |  1 -
+ .../selftests/filesystems/mntns_cleanup/.gitignore |  2 -
+ .../selftests/filesystems/mntns_cleanup/Makefile   |  6 ---
+ .../filesystems/mntns_cleanup/mntns_cleanup_test.c | 58 ----------------------
+ 5 files changed, 1 insertion(+), 68 deletions(-)
+---
+base-commit: fd73f4a6659897191fa0d40695fe370925dd3780
+change-id: 20260917-work-put_mnt_ns-revert-bcf24417407c
 
