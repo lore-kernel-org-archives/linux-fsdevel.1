@@ -1,244 +1,107 @@
-Received: from lb2.peda.net (peda.net [130.234.6.153])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAE44A9D7B;
-	Thu, 17 Sep 2026 10:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.234.6.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DF94B1D03;
+	Thu, 17 Sep 2026 10:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789641483; cv=none; b=DZ+mJ9VIiSBVw8FVMgBApXTMm9+Te66EoLGE01iblpXQvQ0AICKkX72E6fSRyuuZdUUPd0K/qxTURNGQ7YHK9eaNXmkdfx0g2hdDN4rfhpQmqyh4uwjPZKZ01UN3fWm0P5TOkZH3lOUeq0mOwn1dsJeKsfRiTI05HvCJc2KHMOc=
+	t=1789641527; cv=none; b=CCH6WRYf75pxaiIq2Zv5z3G37LPQhYAZKh/ZVDC9X9O4rSMB/IK9CFldJC4dBe610bo1oxQ4I3WBQvKXw4h6CbrAgUazOVPEHv3kPot/98lCxGmtJpnZrqLaWqAei7f8gKVJvSo9lbpDOZMt4CYzFYEAKy8dMlbzOKQ9dFfsXqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789641483; c=relaxed/simple;
-	bh=dtNsTvNZA1X8xqjH5mtH9VdmYHTq9RZ3fsjGDyJ9kOk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FeK/p26f7EElLl2ghGaaWOipuW3qcLbMG9zvr/TMJdYvA2VXh4gUycMIUY55C35VnqM2DrxaInWwrYKU3lBiRYtTqGZ3YOPzKbI64UMXCnBqUjuIyjWW5Ccn1QrumVgiWYzNM3JGN7Bf3TjW7z8MPjQ/F/oSe2QIN641lLXnnIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=peda.net; spf=pass smtp.mailfrom=peda.net; dkim=pass (2048-bit key) header.d=peda.net header.i=@peda.net header.b=cLN8yhoU; arc=none smtp.client-ip=130.234.6.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=peda.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peda.net
+	s=arc-20240116; t=1789641527; c=relaxed/simple;
+	bh=+e8ivKlnBMQPp/74A265SdtXA1ySKPgZK0U0ocD3K9s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JmLSl861fI8mc/CBVOg/7XsQjtWj0nmq9yVLYt510XGJ4qbbqRPGDLBBEJ3kFBM2+sQd9QSNOpoxoZ8xpCzdIsq+O54aMNk7JYEyO8ifQ6X3KBmomoynUpqwuMP0Es7jIA2x3wbx09I5GfxhJeaVA9ZzOKVutjXGwRSe8vLJc9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kIyzUvYD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=peda.net header.i=@peda.net header.b="cLN8yhoU"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=peda.net; s=default;
-	t=1789641473; bh=dtNsTvNZA1X8xqjH5mtH9VdmYHTq9RZ3fsjGDyJ9kOk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cLN8yhoUfsmD/EIQORzEWi6FoUFFAprUl3dODmOLGUd5W2PnuHSFXKau8G8svkmI5
-	 JOEHKzvSMg7koB0HD3ABY/KHqR8HZE+N64zMtrKTnzrp2pcgepGMSVSsJJ3/052fJV
-	 CslQDSir8/0W7/vF565Eoceo58k2V2L4K6coUrB9y/xZpsfa2ZxymDa8H6FJZx6vQe
-	 4a1zhyETKeq/CfdsS9yY7PoW2UfMrwPQ6cAUil7YjHd/2HWyoj10gGEza72VRITIZF
-	 GA5uH+2GCvJbZK+tndcPw1oW3PjxPMMxUpR+svZInfhwMihx6fdiLl5AFVgpk9eHnH
-	 Gtrj+YiEbe5og==
-Received: from [130.234.82.94] (semyol-329-b.ktl.jyu.fi [130.234.82.94])
-	by lb2.peda.net (lb2.peda.net) with ESMTPSA id 19914D600CC;
-	Thu, 17 Sep 2026 13:37:53 +0300 (EEST)
-Message-ID: <f61886ed-3026-4db7-ae22-b882264141bd@peda.net>
-Date: Thu, 17 Sep 2026 13:37:52 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kIyzUvYD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240D01F000FF;
+	Thu, 17 Sep 2026 10:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789641520;
+	bh=5BdtM5RFjq45N3Wq6rpkk8N4Ygx17v9QoRxQrf6BQWw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=kIyzUvYDykmTGvB2Q60URskBsFUxQ4nb8cLoP/wkLsveMoYw91RBGkC+si3yWl+AJ
+	 YTcbJMItLSsa8StskZl+MAi8Y3ZJC65E2m8KhSNwDKETRGa9UIKiHlmI0fR3vKtGi/
+	 Rfm9MLEtLZx4UlRbA6p5aSbRAlEOa9Gr4I8nzj50+f82zFD+XE3sk+O0cfz23A3a4K
+	 muuJvtP6lOHCFwM4ofBw11BoP+mVaJqF6wn2OMLfw6cBg7QSGgI70UzUEtP1tWOZY8
+	 SajEaJ3ZJ1XL2XgT2UkIYqpg+ijVz4vls8BkzzvnDMx/zAmCXtDoErw/3g179krBfP
+	 WbwfbL02sx00g==
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Aleksa Sarai <aleksa@amutable.com>,
+	NeilBrown <neil@brown.name>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v6 00/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Date: Thu, 17 Sep 2026 12:38:33 +0200
+Message-ID: <20260917-feilschen-tauschen-fahnenflucht-7d41b8b49511@brauner>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260913185016.523376-1-jkoolstra@xs4all.nl>
+References: <20260913185016.523376-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
-Content-Language: en-US
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Rich Felker <dalias@libc.org>, Matthew Wilcox <willy@infradead.org>,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk,
- jack@suse.cz, alx@kernel.org
-References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
- <aqcmz5uI7PgN5CT7@casper.infradead.org>
- <20260913235145.GY25906@brightrain.aerifal.cx>
- <eeb50cae-87af-4a40-b9c6-f4fa9981425e@peda.net>
- <CALCETrUgLj4Dz0s6PMofViJwausRWCvNvJphxWHUeWCCaRBtQg@mail.gmail.com>
-From: Mikko Rantalainen <mikko.rantalainen@peda.net>
-In-Reply-To: <CALCETrUgLj4Dz0s6PMofViJwausRWCvNvJphxWHUeWCCaRBtQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2639; i=brauner@kernel.org; h=from:subject:message-id; bh=+e8ivKlnBMQPp/74A265SdtXA1ySKPgZK0U0ocD3K9s=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWStPqx1yO9EvWdO0EvlCxtF1prE9qx7UPV53g/nNN6uj xcfsgct7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiI2DpGhgdyN3a0dUQLWtX1 9OTLxPe0PD0bPLf+z93917+vctZp1GVkuFd4RWzJRxe9v7rWH88yN1us5n/M4sv+YN67b2qSa46 w8QMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-On 9/17/26 02:16, Andy Lutomirski wrote:
-> On Mon, Sep 14, 2026 at 2:44 AM Mikko Rantalainen
-> <mikko.rantalainen@peda.net> wrote:
+On Sun, 13 Sep 2026 20:50:04 +0200, Jori Koolstra wrote:
+> Finally got back from holiday. I know Neil is also attempting to make
+> changes to the same code paths as the O_CREAT|O_DIRECTORY series touch,
+> so I hope, now that I have a bit more time, that I can push this
+> forwards before I have to do more rebasing.
 > 
->> NFS and devices make the question more interesting, though. Some
->> implementations put meaningful state transitions into their close path.
->> Tape devices are an obvious historical example: depending on the
->> device/mode, close may write filemarks, flush tape buffers, rewind, etc.
->> Those operations are not necessarily replaceable by fsync() before
->> close().
+> This series implements new semantics for the O_CREAT|O_DIRECTORY flag
+> combination for open*(2): perform a mkdir and open the resulting
+> directory; return a pinning fd (which mkdir does not).
 > 
-> I realize this would be complex and maybe a can of worms, but maybe we
-> should have a new improved syscall here.  close() is indeed deeply
-> problematic.
-> 
-> On the one hand, we have the actual task of closing an fd in the sense
-> of removing it from the table.  This should really be doable without
-> blocking or without side effects (except possibly for zapping
-> old-style POSIX locks -- it doesn't really make sense to be able to
-> close all fds to a file while still keeping it locked, especially
-> since we report the pid of the lock-holding process).
-> 
-> On the other hand, close has actual *meaningful* effects, many of
-> which you've mentioned in your email.  IMO it would be really nice to
-> be able to explicitly *do* those effects separately from closing the
-> fd, maybe even asynchronously via io_uring.
-> 
-> Would it be so bad to have a new operation to do (possibly with
-> moderately fine control) the close work and another one to just
-> release fd- and process-associated locks and drop the fd?
+> [...]
 
-I think introducing yet another syscall would be bad replacement
-for the *inability to decide the exact semantics* we want to use for
-the current syscalls, especially close().
+Applied to the vfs-7.4.lookup branch of the vfs/vfs.git tree.
+Patches in the vfs-7.4.lookup branch should appear in linux-next soon.
 
-It's pretty clear that close() is poorly defined right now. The only
-thing that we know for sure is that it releases the file descriptor
-and in case of Linux, this happens for sure unless EBADF is returned.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-It doesn't matter if you get EIO, EINTR or some other more or less
-important sounding error code, the file descriptor will be closed
-anyway. It's never possible to workaround the issue using the file
-descriptor passed to close() after getting an error because the
-file descriptor is not usable no matter the error code.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-So all these extra errors happen because of practically undocumented
-side-effects which may or may not be optional (that is, even POSIX
-defines flushing to maybe happen with some unspecified timeout) and
-the close() may return before the flush is complete even though it
-apparently should be somewhat synchronous according to POSIX.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-However, an implementation doing nothing (logically using zero
-length timeout for the best-effort part to maximize performance)
-would still appear to be POSIX compatible without *ever* doing
-anything else but releasing the file descriptor.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.4.lookup
 
-That said, I would assume that for real-world compatibility,
-close() must be able to report at least ENOSPC and EIO because
-of existing userland code. Otherwise existing programs failing
-to call fsync() or fdatasync() could cause silent data loss
-too often in practice.
-
-I still think that close() should never emit any error code that
-even suggests that the caller should retry. This is because there
-is no way to ever retry the close() call on Linux because
-the file descriptor is always released.
-
-Returning error from close() makes about same amount of sense
-as returning an error code from free().
-
-As a result, close() should internally convert any error codes
-suggesting a retry requirement such as EINTR, ERESTART* into
-either success or EIO depending on how the caller is expected
-to handle the case.
-
-And even then, considering that kernel-internal close_files(),
-do_close_on_exec() and close_range() all call filp_close()
-without ever checking the return value, any implementation
-of filp_close() (basically ->flush()) returning error
-that suggests that retry would be *required* is probably buggy.
-
-So even the internal interface filp_close() is poorly defined.
-What the caller is expected to do if EINTR, ERESTART* is
-returned? Currently in-kernel clients do nothing and userland
-programs receive EINTR without any real documentation what is
-supposed to happen next. The best we have is a suggestion
-to *maybe* log it somewhere and pretend it was success or
-failure basically randomly because the correct intepretation
-is never defined anywhere.
-
-The only thing we know for sure on Linux, is that returned
-EINTR does not allow restart attempt which would be the
-correct action to take according to latest POSIX spec.
-
-That's why I think the only sensible thing is to convert
-EINTR into success if file descriptor is always released as
-in current kernel implementation.
-
-We don't have EMAYBESOMEWHATFAILED which would better describe
-the current implementation causing EINTR.
-
-If any kernel driver or subsystem is returning EINTR, ERESTART*
-for filp_close(), there's practically no way *any caller* would
-ever retry. Therefore any code emitting those errors for
-filp_close() is highly probably a bug and would probably need
-to be changed to either zero or EIO or some other error code
-that actually makes sense for a call where nobody is going to
-retry, ever.
-
-If we could decide on actual semantics of close() first, then
-we can tell if the "rewind tape synchronously on close()" is
-a bug or feature.
-
-I'd prefer style where close() would always release the file
-handle and do nothing else. And fsync(fildes) should be
-defined to handle the side-effects that historically were
-*sometimes* caused by call to close().
-
-I see no problem using fsync(fildes) on tape device to mean
-complete all the writing and rewind the tape. If that results in
-error, the client can retry as many time as needed. And close()
-would just signal, I'm done trying / I accept the results.
-
-Then close() would *always* be successful if you pass a valid
-file descriptor to it. This would make a lot of sense for
-a syscall that's supposed to release resources.
-
-The POSIX style may result in state where file descriptor can
-never be relased if the kernel keeps returning EINTR. That might
-be even worse than the current Linux implementation which closes
-the file even in case of EINTR, even if the returned value
-does not make sense considering the file descriptor was actually
-closed, as requested.
-
-As a result, EINTR should never be returned from close() on Linux
-because there is no sensible way to proceed after that, other
-than pretend it was "success but spelled weirdly".
-
-
-Here's my suggestion for improved semantics for close():
-
-   close(int fildes)
-
-     Close the file descriptor fildes, or return EBADF if
-     given fildes didn't refer to any open file.
-
-     The return value *may* be EIO or ENOSPC if the kernel
-     immediately knows that writing the buffer will fail.
-     The file descriptor is closed even in this case.
-
-     Otherwise, 0 (success) is returned.
-
-     If calling code needs to know if EIO or ENOSPC happens
-     before all the data has been stored in permanent storage,
-     the calling code must use fsync() or fdatasync()
-     with the file descriptor before calling close().
-
-
-(I would love to also include "closing the file descriptor
-immediately releases all locks acquired via the file descriptor"
-but I'm not sure if that's compatible with the current implementation.)
-
-As a result, close() would then *never* return anything else but
-success (zero), EIO or NOSPC. And both EIO and NOSPC would be
-returned immediately (if status is known) before waiting even
-a millisecond for any kind of flush synchronously.
-
-Any other error from internal kernel interfaces would need to
-be translated into one of the above status codes.
-
-As far as I can tell this new semantics would be compatible with
-POSIX definition and highly probably with existing userspace
-code, too. Racy client code that doesn't call fsync or fdatasync
-would still be racy; the race might become more visible, which
-could be positive or negative depending on if the author of
-the client code were then better aware about the race.
-
-And a shell script using a tape drive could just add
-`sync /path/to/tape/device` before the user rips the tape out,
-if needed to workaround "close() no longer rewinds the tape"
-in random binary. Kernel could still start rewinding the
-tape on close() but close() would immediately return instead
-of waiting for the rewind be complete and the user could
-wait for the process to complete using `sync`.
-
--- 
-Mikko
-
+[01/12] fs/namei.c: use trailing_slashes()
+        https://git.kernel.org/vfs/vfs/c/614d27b66efd
+[02/12] vfs: prepare vfs_creat|mkdir_no_perm for reuse in lookup_open()
+        https://git.kernel.org/vfs/vfs/c/2eacbb993f65
+[03/12] vfs: lookup_open(): move setting FMODE_CREATED down
+        https://git.kernel.org/vfs/vfs/c/db4a1ea6a55e
+[04/12] vfs: move ->create check in lookup_open() to before try_break_deleg()
+        https://git.kernel.org/vfs/vfs/c/27ab83a2c268
+[05/12] vfs: lookup_open(): use vfs_create_no_perm()
+        https://git.kernel.org/vfs/vfs/c/900d6abddd54
+[06/12] vfs: lookup_open(): lock the parent as I_MUTEX_PARENT
+        https://git.kernel.org/vfs/vfs/c/0567a62f5ea1
+[07/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+        https://git.kernel.org/vfs/vfs/c/596e3a392d61
+[08/12] vfs: change ->create/->mkdir operations unavailable errno
+        https://git.kernel.org/vfs/vfs/c/dc6315c50724
+[09/12] vfs: move O_IS_MKDIR check from lookup_open() into individual filesystems
+        https://git.kernel.org/vfs/vfs/c/885bf5afa273
+[10/12] vfs: refuse O_CREAT for directories through a dangling symlink
+        https://git.kernel.org/vfs/vfs/c/c7a93442a9b2
+[11/12] vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens
+        https://git.kernel.org/vfs/vfs/c/093f13c7a954
+[12/12] selftest: add tests for open*(O_CREAT|O_DIRECTORY)
+        https://git.kernel.org/vfs/vfs/c/76208ee704c2
