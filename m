@@ -1,379 +1,372 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C614DE715;
-	Thu, 17 Sep 2026 12:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32E94DE737
+	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 12:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789646664; cv=none; b=SNVnHVP1p+Nf9rGLtFyIfAwdkz7BSXtbh+PmE0uj1T4g950oj7n0oxOPANAMUR6qn+opuqYJ9SDE8eE/hZNcr1AUjjruzRemKuUH3W/9DE9KPQOKbX69c3aj1eMrqnaneRzm93ID8nN73Kj934uuf51g6se/gnMu8ZuUcLrVGac=
+	t=1789646818; cv=none; b=E9lmS5P/CRIv0zGU8QiWanNn+TTUDlIIdZ/qUATuh2OwHF+LT4yoL/hhEcKKkKTDQxfYtsvOlJBLtJ8NlsIRw4t+mM79PBxlhfHg3gbV6d6hdHeD+HDF9cO8Ljt8ob4601KTOKGEaYVtTYEWMhtEi0jcub06U2eSV7IrnaGc4K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789646664; c=relaxed/simple;
-	bh=5GLgoDbnmmPI1tOFYDp7omvJ9OrhE99PJ5vY2WcIHBA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SoDum08V5r9UZcPagOVd5IeNMvt0vPLjHTrzmR1QlZimiEdpkF7RbVituU6xy9bKBlME2uxNBV0zPE/m1AZGTZNMnGHeeGe51UTYJGF3Id74zJ8XTYNU8YPJVyBLOaGCbzglsunIX6r9KRwCu+vUtLKXFeUTheiTEwvBVl3KaSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hlvYP5VSGzYQv4C;
-	Thu, 17 Sep 2026 20:03:53 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 5DC9540561;
-	Thu, 17 Sep 2026 20:04:00 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgDntSgt16tqjrSRAg--.24695S3;
-	Thu, 17 Sep 2026 20:03:59 +0800 (CST)
-Message-ID: <453d0054-4f53-452a-9737-cd37d30a7d44@huaweicloud.com>
-Date: Thu, 17 Sep 2026 20:03:57 +0800
+	s=arc-20240116; t=1789646818; c=relaxed/simple;
+	bh=StBpJWd/VVZadMemPg0N6ly9UjpENDNlvjIjrr7PqdE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IyiXrbrH+OVJJbAbNr3Kb7Oc/MnQrKJnzarPMa18MggnmqB+jxcK2aQnxtGofOChHHLqK1RRCsoUmQ/gO8Jl1YICQ3i0O1AmTIinEkfVHkQVBjLj4w9ejeOCzMCsZP9AQQ7KAbd5zleFD+PeNDykvuadpJINFGatcB5gaOAzpf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sJRWd3nE; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sJRWd3nE"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8674704dab1so915984b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 05:06:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789646803; x=1790251603; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tD8UqmnCVELsxGnBEoprB+Biz+rR68f6UG50cm0VM2g=;
+        b=sJRWd3nEeZSuC51B3W3DPFy4zz5KlL7HyX7afGCDHu0OKWtNafKvZdCAQ8Gqqa8Xb8
+         T+mYolaaxESdbg+vwEa+xxOXhdkjQQhTPZcIGlp7CwX+FB3Km1WawLbHj/el9P3lTOFh
+         UUW6ywKnmvBRq+O1TS39ksWqNugPU3P64KbzVCKOOHELjkQXlad2sf8Y79E9HioJRG+N
+         2lt5LLgIUFlPv9ylrMWoptWEh0YFu6UVq/ikhcbtly6HKI4bNy2SgZp+FlHjhnRlGrHl
+         OqvvWUj9lePgWd8xjLP+hkGWRclrKlh8V368WAwimdebtztXNehTiEZZGELHomhm0eKy
+         Of1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789646803; x=1790251603;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tD8UqmnCVELsxGnBEoprB+Biz+rR68f6UG50cm0VM2g=;
+        b=DoXrwmJwFqm7zialHsrrUofKKGvXO93XJ7BLqsHkK6gPu+wlr36En8ZaxNBdAs2W/y
+         0LThMlK7bq09oxC59TGtw5FG8eYxlWuju5CcnW0uA7H4NKhx42R8ztar4LqmkR/nV53s
+         BQCI499iRcOVYB9wJDEADOc377qCmX5x5YrRsNTvLc2Fj8i3GMzdtYS3whkwrS68Y8sn
+         oN3x7kbGVK9yJZrPmmP0cxdoOPm8A0b3sbot/26B5Fk8ZMH0xReXpA0sFmrAORMd7spb
+         Un9PVMfYOt19NzNJMjJld+8RYcKFoCB8pXdpWKriMpQVdRTX5ifUiCJ1oEswq9CFIRa3
+         AeWg==
+X-Forwarded-Encrypted: i=1; AKwUvBx0W/uJpenkGJjkuBRItRAMZVlQdWAK0c+nnreeigTO9h4yZ4boEiluvAy/TviAZwdbZA73684XiMrFc6yW@vger.kernel.org
+X-Gm-Message-State: AFuF++lIq2E+VHLbks49TNO1QZH0FdnIU2I8CMOCJJive04DqknKNazr
+	IB+qwNGmtlOs17eNLv1+IE2dlm8ykppee3+9ejxWh1JtsFZjvazutbh3
+X-Gm-Gg: AYBFou2eahLQRlXiDBjtoPQBYTF/UUw4x5rYyvmU584y2GJda1KcHcK7PaJYnXRYvsV
+	CS2vHOAsObF63nkRKrtnG8/SNE8lFMo7PURGmjcKzLb1ncuDoGQJ6/W9ZUiiE36Ll1ODaxT8SoV
+	K2cmnXUsEgYbZDljz+W3xuW0YXN1eBzaOi4EVoM4PZNcXmLuS6RKTbF0dcDi8VrXmXXTovwX2pe
+	nQ8RwOE2Rq0x0QGcxTpqMZP0lZrl8i/JV9oRcA/jjXSL7Cp6yjb4b7k77IBPuWPi54tIr+g69bk
+	jRqIYuyl9NYilvjNNmv7VWlZcOxAypvv7SI375nRvq8B9HeFPo/g9RfgubK03nAWtquBPgvm83H
+	lww6ocxZIkUYleH0wgtQtMDAPM5P8l79aC1UiNrUuupRTlOSMBqbwd7Ls6we+ZeJzj58QkOIV4I
+	vbls4RhJMqmkAAJqXeHbtCxvHBVinOFVuXNwOJWZ4Uq6yujNdRpzm0P6ZhA5evz79bePIwPCvzQ
+	TgHY4zCe8IfDaingg==
+X-Received: by 2002:a05:6a00:440e:b0:874:708d:b640 with SMTP id d2e1a72fcca58-874708db9e3mr82833b3a.33.1789646803076;
+        Thu, 17 Sep 2026 05:06:43 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2405:4802:1d4a:e90:1f83:29c5:6e01:c73a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87201b2ad8fsm2728031b3a.46.2026.09.17.05.06.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 05:06:42 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Subject: [PATCH v5] hfsplus: fix recursive tree_lock and validate b-tree fork extents at mount
+Date: Thu, 17 Sep 2026 19:06:37 +0700
+Message-ID: <20260917120637.18959-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] mm/truncate: fix data loss when splitting
- straddling large folios fails
-To: Zhang Yi <yizhang089@gmail.com>, Zi Yan <ziy@nvidia.com>,
- Jan Kara <jack@suse.cz>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
- willy@infradead.org, bfoster@redhat.com, joannelkoong@gmail.com,
- djwong@kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, yukuai@fnnas.com
-References: <20260916092450.654408-1-yi.zhang@huaweicloud.com>
- <20260916092450.654408-2-yi.zhang@huaweicloud.com>
- <xl2rtnntlxoxoozkddgrlkcsgukcngvvcwazm7gb7q5g32yxir@ef5ltcwueboh>
- <DLGXT0ERY79Z.3C5DYVJVX6S9Z@nvidia.com>
- <9d931f5e-cb34-4721-9def-7aeeda48700c@gmail.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <9d931f5e-cb34-4721-9def-7aeeda48700c@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgDntSgt16tqjrSRAg--.24695S3
-X-Coremail-Antispam: 1UD129KBjvAXoWfGFyDWr4UuFyfKry5JrW5ZFb_yoW8Gr1xXo
-	WrK3y3tw1Fqr1UGa1UAw1DJr15X3Z8Jr9rJr13Cr47AF4Iq34jy3yxJr9rtayxJr18Gr1D
-	GryUJr1ayFW7Jr1fn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUY77kC6x804xWl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK
-	8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
-	AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF
-	7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	4xRDUUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On 9/17/2026 7:38 PM, Zhang Yi wrote:
-> On 9/17/2026 2:03 AM, Zi Yan wrote:
->> On Wed Sep 16, 2026 at 8:02 AM EDT, Jan Kara wrote:
->>> On Wed 16-09-26 17:24:48, Zhang Yi wrote:
->>>> From: Zhang Yi <yi.zhang@huawei.com>
->>>>
->>>> truncate_inode_partial_folio() splits a large folio so that the caller's
->>>> truncate loop can drop the in-range sub-folios while keeping the
->>>> out-of-range tail. The first split at the punch start edge is
->>>> non-uniform, which leaves the sub-folio at the truncation end edge as
->>>> large as possible, this means it may still straddle the range, holding
->>>> both zeroed in-range and valid out-of-range data. The function then
->>>> attempts a second split at offset + length to isolate that tail.
->>>>
->>>> If the second split fails the straddling sub-folio stays merged. The
->>>> function returned true unconditionally on all exit paths of the success
->>>> block, telling the caller it was fully handled. The caller kept its
->>>> default end and the truncate loop truncated every sub-folio below it,
->>>> including the merged straddler, discarding the valid out-of-range tail.
->>>>
->>>> For example, a 4-page order-2 folio punched from offset 0 to the middle
->>>> of the last page:
->>>>
->>>>    truncate_inode_pages_range()
->>>>      truncate_inode_partial_folio()      # same_folio == true
->>>>        1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->>>>        folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
->>>>        2nd split of folio2 fails / cannot lock
->>>>        return true                       # BUG: caller keeps default end
->>>>      end = 3
->>>>      loop truncates p0, p1, p2-3        # p3's valid tail is lost
->>>>
->>>> This became reachable after commit 7460b470a131 ("mm/truncate: use
->>>> folio_split() in truncate operation") replaced the atomic split_folio()
->>>> with folio_split(), whose non-uniform split can partially split a folio
->>>> and leave the end edge merged.
->>>>
->>>> It has gone unnoticed because a dirty large folio normally carries the
->>>> filesystem's private data, for example buffer_head, so
->>>> filemap_release_folio() -> iomap_release_folio() returns false on a
->>>> dirty folio and folio_split() aborts with -EBUSY before any split,
->>>> leaving the straddler safely unsplit. The bug is only reachable on paths
->>>> that produce dirty large folios without filesystem private data, and it
->>>> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
->>>> attached.
->>>>
->>>> Rework the contract so the caller is told the page range to discard:
->>>>
->>>>    - Add pgoff_t *pstart and *pend out-parameters that receive the page
->>>>      range fully covered by [lstart, lend] after any split (or none),
->>>>      i.e. the pages wholly within the range and safe to discard.
->>>>
->>>>    - Adjust the ordering of the validate check when splitting folio2.
->>>>      folio2->index is only reliable after the reference count and lock
->>>>      have been successfully acquired, since it may have been split
->>>>      concurrently, or freed and recycled to an unrelated mapping. On any
->>>>      failure to obtain a reliable end position, fall back to
->>>>      folio->index, which is safe but leaves the sub-folios split off at
->>>>      the offset edge in the page cache.
->>>>
->>>>    - Rename the byte-range parameters start/end to lstart/lend to better
->>>>      express their semantics.
->>>>
->>>> Callers in truncate_inode_pages_range() and shmem_undo_range() pass
->>>> &pstart for the folio at the start edge and &pend for the folio at the
->>>> end edge, so the truncate loop drops exactly the fully covered pages and
->>>> never touches a straddling folio that still holds valid out-of-range
->>>> data.
->>>>
->>>> Suggested-by: Brian Foster <bfoster@redhat.com>
->>>> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
->>>> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operation")
->>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->>>
->>> The changes mostly look good to me but I have some confusion around the
->>> folio2 splitting below.
->>>
->>>> @@ -259,32 +271,62 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
->>>>            * for shmem truncate
->>>>            */
->>>>           struct folio *folio2;
->>>> +        pgoff_t end, aligned_end = (pos + offset + length) >>
->>>> +                       PAGE_SHIFT;
->>>>   -        if (offset + length == size)
->>>> -            goto no_split;
->>>> +        if (pstart)
->>>> +            *pstart = round_up(pos + offset, PAGE_SIZE) >>
->>>> +                  PAGE_SHIFT;
->>>> +
->>>> +        if (offset + length == size) {
->>>> +            end = aligned_end;
->>>> +            goto out;
->>>> +        }
->>>>             split_at2 = folio_page(folio,
->>>>                   PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
->>>>           folio2 = page_folio(split_at2);
->>>>   +        /*
->>>> +         * folio2 may become stale due to a concurrent split or
->>>> +         * freeing, so validate it before and after taking its lock.
->>>> +         * If it fails, we can't get an accurate end position and fall
->>>> +         * back to folio->index, which may leave sub-folios split off
->>>> +         * at the offset edge in the page cache this round.
->>>> +         */
->>>> +        end = folio->index;
->>>>           if (!folio_try_get(folio2))
->>>> -            goto no_split;
->>>> -
->>>> -        if (!folio_test_large(folio2))
->>>>               goto out;
->>>>   +        if (folio2->mapping != folio->mapping ||
->>>> +            !folio_test_large(folio2))
->>>> +            goto out_put;
->>>> +
->>>>           if (!folio_trylock(folio2))
->>>> -            goto out;
->>>> +            goto out_put;
->>>>   -        /* make sure folio2 is large and does not change its mapping */
->>>> -        if (folio_test_large(folio2) &&
->>>> -            folio2->mapping == folio->mapping)
->>>> -            folio_split_or_unmap(folio2, split_at2, min_order);
->>>> +        if (page_folio(split_at2) != folio2) {
->>>> +            folio_unlock(folio2);
->>>> +            goto out_put;
->>>> +        }
->>>> +        if (!folio_test_large(folio2)) {
->>>> +            end = aligned_end;
->>>> +            folio_unlock(folio2);
->>>> +            goto out_put;
->>>> +        }
->>>
->>> So I always found this folio2 lookup and revalidation somewhat suspicious
->>> and now that we're digging into it I'll ask: As you note in the changelog,
->>> by the time we compute split_at2 the page can be already freed and reused
->>> because it was split off from the original 'folio'. It can be for example a
->>> slab page or anything else. So is it guaranteed that page_folio() actually
->>
->> For a slab or unrelated page, folio->mapping check rejects them.
->>
->>> returns something sensible? What guarantees we properly detect the "reuse
->>
->> No, but folio_try_get() prevents non ref'd folios.
->>
->>> for something else" case in all possible cases for which the page can be
->>> reused? I understand this is mostly a preexisting issue so maybe these
->>> questions are more for MM guys than you...
->>
->> I agree with you that trying to split a unlocked and not ref'd folio2 is
->> flaky. And it almost does a __filemap_get_folio() like you proposed
->> below.
->>
-> 
-> I think this is indeed a pre-existing issue, as Sashiko pointed out:
-> 
->> [Severity: Critical]
->> Does this speculative lookup handle the reallocation race correctly if the
->> folio is reallocated to a different file offset?
->>
->> After the first split, the tail pages are added to the page cache and
->> unlocked. During speculative lookup, the tail page could be concurrently
->> reclaimed, freed, and reallocated as a new large folio in the same mapping
->> but at a completely different file offset.
->>
->> The validation checks earlier and the page_folio check here will all pass
->> because the physical page split_at2 is part of the new allocation.
->>
->> However, the file index of the folio is not verified. If this unrelated large
->> folio fails to split, the fallback path assigns its index to end here:
->>
->>     if (folio_split_or_unmap(folio2, split_at2, min_order))
->>         end = folio2->index;
->>
->> This unrelated file offset is then returned to the caller via pend, which
->> can cause the hole punch loop to truncate an unrelated segment of the file.
->>
->> Should we verify that the file index of folio2 matches the expected index
->> (e.g. folio2->index + folio_page_idx(folio2, split_at2) == expected_index)
->> before using it?
-> 
-> the current mapping check on the folio2 and the folio !=
-> page_folio(split_at) check in __folio_split() are not able to catch this
-> problem, which could then cause folio2 to be split at the wrong
-> position. Does that sound right?
-> 
->>>
->>> So for me as an filesystem guy I'd appreciate some comment in this code
->>> explaining why grabbing folio2 this way is actually safe. The really safe
->>> way of getting to folio2 would be to use
->>>    __filemap_get_folio(mapping, (offset+length) >> PAGE_SHIFT, FGP_LOCK, 0)
->>> but I suppose we don't use the mapping lookup as it is more expensive?
->>
->> __filemap_get_folio() is a better version of the existing folio2 finding
->> code. When I wrote the code, I never thought about using
->> __filemap_get_folio(), but I probably should have done it.
->>
->> BTW,
->> __filemap_get_folio(mapping, folio->index + (offset+length) >> PAGE_SHIFT,
->>         FGP_LOCK | FGP_NOWAIT, 0)
->> might be better:
->> 1. folio->index is needed to get the right folio2,
->> 2. nowait can us nonblocking.
->>
->>
-> 
-> Following your suggestion, I reworked my existing patch to use
-> __filemap_get_folio(), and it ends up looking roughly like the
-> following(not tested yet). What do you think?
-> 
-> Besides, if the issue Sashiko pointed out does indeed exist, I can
-> extract the __filemap_get_folio() change into a separate patch to fix it
-> on its own.
-> 
-> Thanks,
-> Yi.
-> 
+hfs_bmap_reserve() calls hfsplus_file_extend() on tree->inode with
+tree->tree_lock already held. For the extents overflow B-tree's own
+inode, growing it can call hfsplus_ext_read_extent() -> hfs_find_init()
+on that same tree, taking tree_lock a second time (lockdep: "possible
+recursive locking ... &tree->tree_lock/1"). This happens two ways:
 
-Sorry, the previous diff format was incorrect, reposting it.
+ - the fork already claims more blocks than its eight extents
+   describe (a corrupted on-disk fork), so hfsplus_ext_read_extent()
+   is called immediately to look up the rest; or
+ - the fork's eight extents get exhausted during this call, and
+   inserting a new overflow extent record for the file would need
+   the same lookup.
 
-diff --git a/mm/truncate.c b/mm/truncate.c
-index 23c90f00b530..b5e5bdf5f9ef 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -279,51 +279,46 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
- 			*pstart = round_up(pos + offset,
- 					   min_nrbytes) >> PAGE_SHIFT;
+Per the HFS+ format the extents overflow file is fully described by
+its eight fork extents and can never legitimately have overflow
+extents of its own, so both cases mean it cannot grow any further.
 
--		if (offset + length == size) {
--			end = aligned_end;
-+		end = aligned_end;
-+		if (offset + length == size)
+Add is_extents_btree() and use it at the one place that actually
+re-enters hfs_find_init(), hfsplus_ext_read_extent(), to report
+-ENOSPC instead of recursing.
+
+For the second case, don't allocate blocks on the chance the fork
+still has room and undo it if not: hfsplus_fork_full() tests the
+fork first (its last extent is occupied). If it does have a free
+slot, any free space works, same as before. If it's already full,
+the only way to grow is a contiguous extension of the last extent,
+so only search for free space starting exactly at the block right
+after it, and fail with -ENOSPC immediately if that block isn't
+free. A WARN_ON_ONCE() backstop stays at the insert_extent label:
+the fork-full check below should make it unreachable for this
+inode, so warn loudly if that invariant ever breaks instead of
+recursing on tree_lock again.
+
+To back that invariant, hfsplus_check_fork() now validates each
+b-tree's fork extents at mount time, from hfs_btree_open(). It
+catches:
+
+ - block_count == 0 but start_block != 0: garbage left in a slot
+   that should be blank (this is what the syzbot-reported image has
+   in the extents overflow file's fork, slots 3 and 6);
+ - start_block + block_count > sbi->total_blocks: an extent pointing
+   past the end of the volume, or overflowing u32;
+ - a non-zero extent following a zero one: a hole in the used range;
+ - the sum of the used extents' block_count disagreeing with the
+   fork's own declared total_blocks.
+
+If the first extent itself fails these checks, the b-tree's location
+on disk is unknown and there is nothing to recover, so hfs_btree_open()
+fails as it already does for the other structural checks in that
+function, and the mount fails.
+
+If only a later extent is affected, the tree can still be opened (its
+first extent, and hence its root node, is fine); mark it corrupt and
+let the caller decide. hfsplus_fill_super() forces the volume
+read-only in that case, and hfsplus_reconfigure() checks the same
+per-tree flag on remount instead of re-deriving it, refusing to go
+back to read-write. attr_tree may be NULL (volumes without an
+attributes fork), so both checks guard for that. The corruption state
+is tracked as a HFSPLUS_I_CORRUPT_TREE bit on the b-tree's own inode,
+next to the existing per-tree HFSPLUS_I_*_DIRTY flags, since one inode
+already maps to one tree.
+
+This mount-time check is what makes the WARN_ON_ONCE() above
+unreachable in practice: a fuzzed or damaged fork like the one in the
+syzbot report is now caught here before any write ever reaches it.
+
+Reported-by: syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+---
+ fs/hfsplus/btree.c      | 13 +++++++
+ fs/hfsplus/extents.c    | 83 +++++++++++++++++++++++++++++++++++++++--
+ fs/hfsplus/hfsplus_fs.h |  6 +++
+ fs/hfsplus/super.c      | 13 +++++++
+ 4 files changed, 111 insertions(+), 4 deletions(-)
+
+diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+index 2ea8cd5658e1..7f922e424a36 100644
+--- a/fs/hfsplus/btree.c
++++ b/fs/hfsplus/btree.c
+@@ -274,6 +274,7 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+ 	struct inode *inode;
+ 	struct page *page;
+ 	unsigned int size;
++	int res;
+ 
+ 	tree = kzalloc_obj(*tree);
+ 	if (!tree)
+@@ -293,6 +294,18 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+ 		goto free_inode;
+ 	}
+ 
++	res = hfsplus_check_fork(sb, HFSPLUS_I(tree->inode)->first_extents,
++				 HFSPLUS_I(tree->inode)->alloc_blocks);
++	if (res == -EIO) {
++		pr_err("%s (cnid 0x%x) fork's first extent is corrupt\n",
++		       hfs_btree_name(id), id);
++		goto free_inode;
++	} else if (res) {
++		pr_warn("%s (cnid 0x%x) fork has corrupt extents, forcing read-only.\n",
++			hfs_btree_name(id), id);
++		set_bit(HFSPLUS_I_CORRUPT_TREE, &HFSPLUS_I(tree->inode)->flags);
++	}
++
+ 	mapping = tree->inode->i_mapping;
+ 	page = read_mapping_page(mapping, 0, NULL);
+ 	if (IS_ERR(page))
+diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
+index eb7c11524d18..5b6839918eef 100644
+--- a/fs/hfsplus/extents.c
++++ b/fs/hfsplus/extents.c
+@@ -84,6 +84,54 @@ static u32 hfsplus_ext_lastblock(struct hfsplus_extent *ext)
+ 	return be32_to_cpu(ext->start_block) + be32_to_cpu(ext->block_count);
+ }
+ 
++static inline bool is_extents_btree(struct inode *inode)
++{
++	return inode->i_ino == HFSPLUS_EXT_CNID;
++}
++
++static bool hfsplus_extent_valid(struct hfsplus_extent *ext, u32 total_blocks)
++{
++	u32 start = be32_to_cpu(ext->start_block);
++	u32 count = be32_to_cpu(ext->block_count);
++
++	if (!count)
++		return start == 0;
++
++	return start + count > start && start + count <= total_blocks;
++}
++
++/*
++ * Returns 0 if the fork's extents are consistent, -EUCLEAN if only
++ * extents past the first are corrupt (safe to mount read-only), or
++ * -EIO if the first extent is corrupt or the fork has no used extent.
++ */
++int hfsplus_check_fork(struct super_block *sb, struct hfsplus_extent *ext,
++		       u32 total_blocks)
++{
++	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
++	bool seen_hole = false;
++	u32 used_blocks = 0;
++	int i;
++
++	for (i = 0; i < 8; i++, ext++) {
++		u32 count = be32_to_cpu(ext->block_count);
++
++		if (!hfsplus_extent_valid(ext, sbi->total_blocks) ||
++		    (seen_hole && count))
++			return i ? -EUCLEAN : -EIO;
++
++		if (count)
++			used_blocks += count;
++		else
++			seen_hole = true;
++	}
++
++	if (!used_blocks)
++		return -EIO;
++
++	return used_blocks == total_blocks ? 0 : -EUCLEAN;
++}
++
+ static int __hfsplus_ext_write_extent(struct inode *inode,
+ 		struct hfs_find_data *fd)
+ {
+@@ -217,6 +265,9 @@ static int hfsplus_ext_read_extent(struct inode *inode, u32 block)
+ 	    block < hip->cached_start + hip->cached_blocks)
+ 		return 0;
+ 
++	if (is_extents_btree(inode))
++		return -ENOSPC;
++
+ 	res = hfs_find_init(HFSPLUS_SB(inode->i_sb)->ext_tree, &fd);
+ 	if (!res) {
+ 		res = __hfsplus_ext_cache_extent(&fd, inode, block);
+@@ -392,6 +443,11 @@ static int hfsplus_free_extents(struct super_block *sb,
+ 	}
+ }
+ 
++static bool hfsplus_fork_full(struct hfsplus_extent *ext)
++{
++	return ext[7].block_count != 0;
++}
++
+ int hfsplus_free_fork(struct super_block *sb, u32 cnid,
+ 		struct hfsplus_fork_raw *fork, int type)
+ {
+@@ -465,13 +521,23 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
+ 	}
+ 
+ 	len = hip->clump_blocks;
+-	start = hfsplus_block_allocate(sb, sbi->total_blocks, goal, &len);
+-	if (start >= sbi->total_blocks) {
+-		start = hfsplus_block_allocate(sb, goal, 0, &len);
+-		if (start >= goal) {
++	if (is_extents_btree(inode) && hip->alloc_blocks == hip->first_blocks &&
++	    hfsplus_fork_full(hip->first_extents)) {
++		/* Full fork, no overflow extent possible: goal or nothing */
++		start = hfsplus_block_allocate(sb, goal + len, goal, &len);
++		if (start != goal) {
+ 			res = -ENOSPC;
  			goto out;
--		}
--
--		split_at2 = folio_page(folio,
--				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
--		folio2 = page_folio(split_at2);
-
- 		/*
--		 * folio2 may become stale due to a concurrent split or
--		 * freeing, so validate it before and after taking its lock.
--		 * If it fails, we can't get an accurate end position and fall
--		 * back to folio->index, which may leave sub-folios split off
--		 * at the offset edge in the page cache this round.
-+		 * After the first split at the start edge, the folio at the
-+		 * end edge may be freed and reused concurrently.
-+		 * __filemap_get_folio() looks up the straddler at
-+		 * aligned_end and returns it locked and ref'd with the
-+		 * mapping validated.
- 		 */
--		end = folio->index;
--		if (!folio_try_get(folio2))
-+		folio2 = __filemap_get_folio(folio->mapping, aligned_end,
-+					     FGP_LOCK | FGP_NOWAIT, 0);
-+		if (IS_ERR(folio2)) {
-+			/*
-+			 * No sub-folio straddles the boundary when aligned_end
-+			 * is empty so discarding up to it is safe.  Otherwise
-+			 * the straddler is locked by someone else and we
-+			 * cannot obtain a reliable end position, so we fall
-+			 * back to folio->index.  This is safe but may leave
-+			 * pages split off at the offset edge lingering in the
-+			 * page cache this round.
-+			 */
-+			if (PTR_ERR(folio2) != -ENOENT)
-+				end = folio->index;
- 			goto out;
--
--		if (folio2->mapping != folio->mapping ||
--		    !folio_test_large(folio2))
--			goto out_put;
--
--		if (!folio_trylock(folio2))
--			goto out_put;
--
--		if (page_folio(split_at2) != folio2) {
--			folio_unlock(folio2);
--			goto out_put;
--		}
--		if (!folio_test_large(folio2)) {
--			end = aligned_end;
--			folio_unlock(folio2);
--			goto out_put;
  		}
-
--		/* Split failed: back off to the head of the straddler */
-+		/* Already at the minimum order, nothing to split */
-+		if (folio_order(folio2) == min_order)
-+			goto out_put;
++	} else {
++		start = hfsplus_block_allocate(sb, sbi->total_blocks, goal, &len);
++		if (start >= sbi->total_blocks) {
++			start = hfsplus_block_allocate(sb, goal, 0, &len);
++			if (start >= goal) {
++				res = -ENOSPC;
++				goto out;
++			}
++		}
+ 	}
+ 
+ 	if (zeroout) {
+@@ -526,6 +592,15 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
+ 	return res;
+ 
+ insert_extent:
++	/* Can't happen: the fork-full check above rules this out */
++	if (WARN_ON_ONCE(is_extents_btree(inode))) {
++		if (hfsplus_block_free(sb, start, len))
++			pr_err("can't free extent: start %u, count %u\n",
++			       start, len);
++		res = -ENOSPC;
++		goto out;
++	}
 +
-+		split_at2 = folio_page(folio2, (aligned_end - folio2->index));
+ 	hfs_dbg("insert new extent\n");
+ 	res = hfsplus_ext_write_extent_locked(inode);
+ 	if (res)
+diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+index 1e5b58e6a13f..af36f2faf286 100644
+--- a/fs/hfsplus/hfsplus_fs.h
++++ b/fs/hfsplus/hfsplus_fs.h
+@@ -227,10 +227,14 @@ struct hfsplus_inode_info {
+ #define HFSPLUS_I_EXT_DIRTY	2	/* has changes in the extent tree */
+ #define HFSPLUS_I_ALLOC_DIRTY	3	/* has changes in the allocation file */
+ #define HFSPLUS_I_ATTR_DIRTY	4	/* has changes in the attributes tree */
++#define HFSPLUS_I_CORRUPT_TREE	5	/* tree's fork had corrupt extents at open time */
+ 
+ #define HFSPLUS_IS_RSRC(inode) \
+ 	test_bit(HFSPLUS_I_RSRC, &HFSPLUS_I(inode)->flags)
+ 
++#define HFSPLUS_TREE_IS_CORRUPT(tree) \
++	test_bit(HFSPLUS_I_CORRUPT_TREE, &HFSPLUS_I((tree)->inode)->flags)
 +
-+		/* Split failed, keep the straddler intact */
- 		if (folio_split_or_unmap(folio2, split_at2, min_order))
- 			end = folio2->index;
--		else
--			end = aligned_end;
-
--		folio_unlock(folio2);
- out_put:
-+		folio_unlock(folio2);
- 		folio_put(folio2);
- out:
- 		if (pend)
-
+ static inline struct hfsplus_inode_info *HFSPLUS_I(struct inode *inode)
+ {
+ 	return container_of(inode, struct hfsplus_inode_info, vfs_inode);
+@@ -440,6 +444,8 @@ int hfsplus_free_fork(struct super_block *sb, u32 cnid,
+ 		      struct hfsplus_fork_raw *fork, int type);
+ int hfsplus_file_extend(struct inode *inode, bool zeroout);
+ void hfsplus_file_truncate(struct inode *inode);
++int hfsplus_check_fork(struct super_block *sb, struct hfsplus_extent *ext,
++		       u32 total_blocks);
+ 
+ /* inode.c */
+ extern const struct address_space_operations hfsplus_aops;
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index ff7d6b3336a6..b6a85c153cf3 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -400,6 +400,14 @@ static int hfsplus_reconfigure(struct fs_context *fc)
+ 			pr_warn("filesystem is marked journaled, leaving read-only.\n");
+ 			sb->s_flags |= SB_RDONLY;
+ 			fc->sb_flags |= SB_RDONLY;
++		} else if (HFSPLUS_TREE_IS_CORRUPT(sbi->ext_tree) ||
++				HFSPLUS_TREE_IS_CORRUPT(sbi->cat_tree) ||
++				(sbi->attr_tree &&
++				 HFSPLUS_TREE_IS_CORRUPT(sbi->attr_tree))) {
++			/* Corruption is only ever detected at mount, in hfs_btree_open() */
++			pr_warn("a b-tree fork was corrupt at mount time, leaving read-only.\n");
++			sb->s_flags |= SB_RDONLY;
++			fc->sb_flags |= SB_RDONLY;
+ 		}
+ 	}
+ 	return 0;
+@@ -564,6 +572,11 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	}
+ 	sb->s_xattr = hfsplus_xattr_handlers;
+ 
++	if (HFSPLUS_TREE_IS_CORRUPT(sbi->ext_tree) ||
++	    HFSPLUS_TREE_IS_CORRUPT(sbi->cat_tree) ||
++	    (sbi->attr_tree && HFSPLUS_TREE_IS_CORRUPT(sbi->attr_tree)))
++		sb->s_flags |= SB_RDONLY;
++
+ 	inode = hfsplus_iget(sb, HFSPLUS_ALLOC_CNID);
+ 	if (IS_ERR(inode)) {
+ 		pr_err("failed to load allocation file\n");
+-- 
+2.43.0
 
