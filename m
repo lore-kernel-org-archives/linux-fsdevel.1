@@ -1,288 +1,87 @@
-Received: from smtp-bc08.mail.infomaniak.ch (smtp-bc08.mail.infomaniak.ch [45.157.188.8])
+Received: from mx.itxnorge.no (itx-kvm-14.itxnorge.no [91.189.121.228])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4BF594803
-	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 15:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAAC4973AE;
+	Thu, 17 Sep 2026 15:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.189.121.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789657296; cv=none; b=gUYAfFuUTxwJzHl+kADuL1UeXV9imZrS/CVGPHWQc1y8tRAJe+z9T/eKh6uoJ8oZfVgpCIm83+kWjF+ivQd9UHtXgMIcGYBqd7njLA26OjTlmwa/UWsNxfriykkkRI/wsvtynaA1pcF/iiOSpSc58d44DlsTNj7jCOT3a9SOl3c=
+	t=1789658195; cv=none; b=YXjV0LiFA6ijhdHUGAcQHkMDfM5lHsu/HLJ+FWoPkova/69WO/NURDF/5cc2Bv6MtyEF9uOqHMjQEBpn0OxTC1PB8Dq/ZVjgo3saR804wmBouW0CIyL3uL6S+HJ3nN+felBN2Efc3IKdb6ltmwp9aqZ2L1/sSRvk8WwgQEO6Nek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789657296; c=relaxed/simple;
-	bh=5nE39/imSlDB2IgcyOzV3DtB3+adDOPOTTkPE7I5Q3E=;
+	s=arc-20240116; t=1789658195; c=relaxed/simple;
+	bh=g5d/ZvnrH1p6X1A9QkzjV8LjMSa0qXCx8idfmxZgFoI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n0iAMb6qb98xke2YtcvBR0z/HFjBCIgEvEDcB3iRcbycPB2IS1cmNUQybUsAwmsO6KPgFwiEwLfL68TWEaZWcoOHtOpAC4V5VY9fs82tcu91jlboxHNgb5n89EVJ94mJTLwxDtDVYmn4D4tpTMUbSkakWuF5lulaRWpsWI6ngY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=tGoWdSZ/; arc=none smtp.client-ip=45.157.188.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	 MIME-Version; b=FOHC59/RCEsQOpIybA+pMSDre6w4aRjAhIw4/P0NJXBCxxgL9GXDudld+G/Ilrcz5Dysh3CVUQvbI6peqDrXdrD2U0+E/yE4TaKJJwQAeF1ohCJETD0olVoQGr35MAlteQcB7W0jnN84I1icoMyYo1/ud2K3SFgVB2F6/JxU29Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=itx.no; spf=pass smtp.mailfrom=itx.no; dkim=pass (1024-bit key) header.d=itx.no header.i=@itx.no header.b=VnuuY0Lt; arc=none smtp.client-ip=91.189.121.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=itx.no
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=itx.no
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="tGoWdSZ/"
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hlzMg5hfWz1BBZ;
-	Thu, 17 Sep 2026 16:55:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1789656943;
-	bh=iIriynrEu5LwJNNlh0oydDdRqnA/sdfPPXQmxmJmFHs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tGoWdSZ/WeEXt6dtuIqJwoakoP9xiqamZ5GKsP1tn667tVF/NIL6x7m76f7jx8zut
-	 xgfpTvZ6rW/SPsU4OYSjnfmGdBCeTF+lFG9l58WBrKydQG3bh40goqCWnYQthMqcCv
-	 rS+n5kmPJeslje/7bJiVMP/iqqE4CjUPN+CsSXjQ=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4hlzMf3yQRz14t;
-	Thu, 17 Sep 2026 16:55:42 +0200 (CEST)
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: stable@vger.kernel.org
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	John Johansen <john.johansen@canonical.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+	dkim=pass (1024-bit key) header.d=itx.no header.i=@itx.no header.b="VnuuY0Lt"
+From: Stian Halseth <stian@itx.no>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=itx.no; s=mx.itx.no;
+	t=1789658184;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KjXTfCrcBFbMR2l8YsQQ9ormReP0ZwV7qfL01A0yITk=;
+	b=VnuuY0LtDlj8M1oiEmg+HBDJy1m/UE53OqoqBZRXIt4bvtMNpW5sQdvGc+cMe5C7jQ8fWy
+	PHFgxIRAsTK7fa8Tg2/L1n8TXBe7hbqtfA2DlKIftyzOsK2qmBKI6sSOw1NFbx9w46+QGw
+	ZVm0afi9QZixMyUKNQz+l6Qbw/Kp75w=
+To: brauner@kernel.org,
+	viro@zeniv.linux.org.uk
+Cc: jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jann Horn <jannh@google.com>,
-	Kees Cook <keescook@chromium.org>,
-	Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 5.15.y 2/2] selftests/landlock: Add tests for whiteout object creation
-Date: Thu, 17 Sep 2026 16:55:22 +0200
-Message-ID: <88432dfe86f2aaa9ae499587fd7acff9d34a338b.1789655723.git.mic@digikod.net>
-In-Reply-To: <2026090319-sprinkler-mandolin-e566@gregkh>
-References: <2026090319-sprinkler-mandolin-e566@gregkh>
+	sparclinux@vger.kernel.org,
+	schwab@suse.de,
+	fweimer@redhat.com,
+	Stian Halseth <stian@itx.no>
+Subject: [PATCH 1/2] fs: fix llseek() result for files with unsigned offsets
+Date: Thu, 17 Sep 2026 17:16:13 +0200
+Message-ID: <20260917151614.376867-2-stian@itx.no>
+In-Reply-To: <20260917151614.376867-1-stian@itx.no>
+References: <20260917151614.376867-1-stian@itx.no>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
 
-From: Günther Noack <gnoack@google.com>
+sys_llseek() treats a negative result from vfs_llseek() as an error and
+returns it truncated to int instead of storing it in *result.  For a
+file with FOP_UNSIGNED_OFFSET a valid offset can have the top bit set,
+so the seek succeeds but userspace gets a bogus return value and an
+untouched result buffer.  ksys_lseek() has no such check and returns
+the offset as is.
 
-[ Upstream commit ee890889b30b22f9a21636061def7a04e4f89380 ]
+Store the offset when the file has unsigned offsets too, still treating
+a value in the errno range as an error so a real failure from
+->llseek() is reported.
 
-Add tests to check that whiteout object creation is guarded by
-LANDLOCK_ACCESS_FS_MAKE_REG, in the cases where these are created from
-userspace:
+On sparc64, where userspace is mapped above 2^63 and glibc's lseek()
+uses _llseek, this makes lseek() on /proc/PID/mem return the offset it
+seeked to instead of its low 32 bits.
 
-* Conventional creation with mknod()
-* Linking or renaming an existing whiteout object
-* renameat2() with RENAME_WHITEOUT,
-  which creates a new whiteout object in the source location
-* renameat2() with RENAME_EXCHANGE,
-  with one of the renamed objects being a whiteout object
-
-Signed-off-by: Günther Noack <gnoack@google.com>
-Link: https://patch.msgid.link/20260813093157.1436894-4-gnoack@google.com
-[mic: Update commit message as requested]
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-[mic: Backport: add enforce_fs() and the missing s3 fixture paths, and
-adapt tests to ABI 1 without REFER]
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
+Signed-off-by: Stian Halseth <stian@itx.no>
 ---
- tools/testing/selftests/landlock/fs_test.c | 150 +++++++++++++++++++++
- 1 file changed, 150 insertions(+)
+ fs/read_write.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
-index 47fc4392f412..f5c965e9aa80 100644
---- a/tools/testing/selftests/landlock/fs_test.c
-+++ b/tools/testing/selftests/landlock/fs_test.c
-@@ -62,6 +62,8 @@ static const char dir_s3d1[] = TMP_DIR "/s3d1";
- /* dir_s3d2 is a mount point. */
- static const char dir_s3d2[] = TMP_DIR "/s3d1/s3d2";
- static const char dir_s3d3[] = TMP_DIR "/s3d1/s3d2/s3d3";
-+static const char file1_s3d3[] = TMP_DIR "/s3d1/s3d2/s3d3/f1";
-+static const char file2_s3d3[] = TMP_DIR "/s3d1/s3d2/s3d3/f2";
+diff --git a/fs/read_write.c b/fs/read_write.c
+index e8c14e2..36f3d8e 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -441,7 +441,7 @@ SYSCALL_DEFINE5(llseek, unsigned int, fd, unsigned long, offset_high,
+ 			whence);
  
- /*
-  * layout1 hierarchy:
-@@ -249,6 +251,7 @@ static void create_layout1(struct __test_metadata *const _metadata)
- 	clear_cap(_metadata, CAP_SYS_ADMIN);
- 
- 	ASSERT_EQ(0, mkdir(dir_s3d3, 0700));
-+	create_file(_metadata, file1_s3d3);
- }
- 
- static void remove_layout1(struct __test_metadata *const _metadata)
-@@ -265,6 +268,8 @@ static void remove_layout1(struct __test_metadata *const _metadata)
- 	EXPECT_EQ(0, remove_path(file1_s2d2));
- 	EXPECT_EQ(0, remove_path(file1_s2d1));
- 
-+	EXPECT_EQ(0, remove_path(file2_s3d3));
-+	EXPECT_EQ(0, remove_path(file1_s3d3));
- 	EXPECT_EQ(0, remove_path(dir_s3d3));
- 	set_cap(_metadata, CAP_SYS_ADMIN);
- 	umount(dir_s3d2);
-@@ -595,6 +600,27 @@ static void enforce_ruleset(struct __test_metadata *const _metadata,
- 	}
- }
- 
-+static void enforce_fs(struct __test_metadata *const _metadata,
-+		       const __u64 access_fs, const struct rule rules[])
-+{
-+	int ruleset_fd;
-+
-+	if (rules) {
-+		ruleset_fd = create_ruleset(_metadata, access_fs, rules);
-+	} else {
-+		const struct landlock_ruleset_attr ruleset_attr = {
-+			.handled_access_fs = access_fs,
-+		};
-+
-+		ruleset_fd = landlock_create_ruleset(&ruleset_attr,
-+						     sizeof(ruleset_attr), 0);
-+		ASSERT_LE(0, ruleset_fd);
-+	}
-+
-+	enforce_ruleset(_metadata, ruleset_fd);
-+	EXPECT_EQ(0, close(ruleset_fd));
-+}
-+
- TEST_F_FORK(layout1, proc_nsfs)
- {
- 	const struct rule rules[] = {
-@@ -1941,6 +1967,118 @@ TEST_F_FORK(layout1, rename_file)
- 			       RENAME_EXCHANGE));
- }
- 
-+TEST_F_FORK(layout1, rename_whiteout_denied)
-+{
-+	/* The affected file is a FIFO. */
-+	ASSERT_EQ(0, unlink(file1_s3d3));
-+	ASSERT_EQ(0, mknod(file1_s3d3, S_IFIFO | 0600, 0));
-+
-+	/* Deny MAKE_REG, but allow MAKE_FIFO. */
-+	enforce_fs(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, NULL);
-+
-+	/*
-+	 * Try to rename a file with RENAME_WHITEOUT.
-+	 * file1_s3d3 is in dir_s3d2 (tmpfs), so it supports RENAME_WHITEOUT.
-+	 * Denied, because whiteout creation is guarded with MAKE_REG.
-+	 */
-+	EXPECT_EQ(-1, renameat2(AT_FDCWD, file1_s3d3, AT_FDCWD, file2_s3d3,
-+				RENAME_WHITEOUT));
-+	EXPECT_EQ(EACCES, errno);
-+}
-+
-+static bool is_whiteout(const char *const path)
-+{
-+	struct stat st;
-+
-+	if (stat(path, &st) == -1)
-+		return false;
-+
-+	return S_ISCHR(st.st_mode) && st.st_rdev == makedev(0, 0);
-+}
-+
-+static bool is_fifo(const char *const path)
-+{
-+	struct stat st;
-+
-+	return stat(path, &st) == 0 && S_ISFIFO(st.st_mode);
-+}
-+
-+TEST_F_FORK(layout1, rename_whiteout_allowed)
-+{
-+	const struct rule rules[] = {
-+		{
-+			.path = dir_s3d3,
-+			.access = LANDLOCK_ACCESS_FS_MAKE_REG,
-+		},
-+		{},
-+	};
-+
-+	/* The affected file is a FIFO. */
-+	ASSERT_EQ(0, unlink(file1_s3d3));
-+	ASSERT_EQ(0, mknod(file1_s3d3, S_IFIFO | 0600, 0));
-+
-+	/* Allow MAKE_REG below dir_s3d3. */
-+	enforce_fs(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, rules);
-+
-+	/*
-+	 * Rename a file with RENAME_WHITEOUT within the same directory.
-+	 * Allowed, because MAKE_REG is granted for the whiteout object which
-+	 * gets created in the source location.
-+	 */
-+	EXPECT_EQ(0, renameat2(AT_FDCWD, file1_s3d3, AT_FDCWD, file2_s3d3,
-+			       RENAME_WHITEOUT));
-+
-+	/* A whiteout object took the place of the moved FIFO. */
-+	EXPECT_TRUE(is_whiteout(file1_s3d3));
-+	EXPECT_TRUE(is_fifo(file2_s3d3));
-+}
-+
-+TEST_F_FORK(layout1, rename_whiteout_exchange_denied)
-+{
-+	const char *const whiteout_s3d3 = file2_s3d3;
-+
-+	/* The exchanged files are a FIFO and an existing whiteout object. */
-+	ASSERT_EQ(0, unlink(file1_s3d3));
-+	ASSERT_EQ(0, mknod(file1_s3d3, S_IFIFO | 0600, 0));
-+	ASSERT_EQ(0, mknod(whiteout_s3d3, S_IFCHR | 0600, makedev(0, 0)));
-+
-+	/* Deny MAKE_REG, but allow MAKE_FIFO. */
-+	enforce_fs(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, NULL);
-+
-+	/* Exchanging the whiteout object is denied without MAKE_REG. */
-+	EXPECT_EQ(-1, renameat2(AT_FDCWD, file1_s3d3, AT_FDCWD, whiteout_s3d3,
-+				RENAME_EXCHANGE));
-+	EXPECT_EQ(EACCES, errno);
-+}
-+
-+TEST_F_FORK(layout1, rename_whiteout_exchange_allowed)
-+{
-+	const char *const whiteout_s3d3 = file2_s3d3;
-+	const struct rule rules[] = {
-+		{
-+			.path = dir_s3d3,
-+			.access = LANDLOCK_ACCESS_FS_MAKE_REG,
-+		},
-+		{},
-+	};
-+
-+	/* The exchanged files are a FIFO and an existing whiteout object. */
-+	ASSERT_EQ(0, unlink(file1_s3d3));
-+	ASSERT_EQ(0, mknod(file1_s3d3, S_IFIFO | 0600, 0));
-+	ASSERT_EQ(0, mknod(whiteout_s3d3, S_IFCHR | 0600, makedev(0, 0)));
-+
-+	/* Allow MAKE_REG below dir_s3d3. */
-+	enforce_fs(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, rules);
-+
-+	/* Exchanging the whiteout object is allowed with MAKE_REG. */
-+	EXPECT_EQ(0, renameat2(AT_FDCWD, file1_s3d3, AT_FDCWD, whiteout_s3d3,
-+			       RENAME_EXCHANGE));
-+
-+	/* The FIFO and the whiteout object swapped places. */
-+	EXPECT_TRUE(is_whiteout(file1_s3d3));
-+	EXPECT_TRUE(is_fifo(whiteout_s3d3));
-+}
-+
- TEST_F_FORK(layout1, rename_dir)
- {
- 	const struct rule rules[] = {
-@@ -2128,6 +2266,18 @@ TEST_F_FORK(layout1, make_char)
- 		       makedev(1, 3));
- }
- 
-+TEST_F_FORK(layout1, make_whiteout)
-+{
-+	/*
-+	 * Creates a whiteout object (creation guarded by MAKE_REG).
-+	 *
-+	 * Contrary to the other character devices, this does not require
-+	 * CAP_MKNOD, cf. vfs_mknod().
-+	 */
-+	test_make_file(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, S_IFCHR,
-+		       makedev(0, 0));
-+}
-+
- TEST_F_FORK(layout1, make_block)
- {
- 	/* Creates a /dev/loop0 device. */
+ 	retval = (int)offset;
+-	if (offset >= 0) {
++	if (offset >= 0 || (unsigned_offsets(fd_file(f)) && offset < -MAX_ERRNO)) {
+ 		retval = -EFAULT;
+ 		if (!copy_to_user(result, &offset, sizeof(offset)))
+ 			retval = 0;
+-- 
+2.43.0
+
