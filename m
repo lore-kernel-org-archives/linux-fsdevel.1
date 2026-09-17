@@ -1,514 +1,473 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1064B95D5;
-	Thu, 17 Sep 2026 09:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789639143; cv=none; b=Oyi/y0Sr5v6QXBuR1r8qnhjQCP8SpfLZmiJy5FCvuG3UaFFoWrkbCC3lxvkIZhb+2hEc0z1L5/nY13FAG56cYembITokTIQyfniXu4Eg7UENAe7Wg0TuRVo+c+4AlGzpTkoTjbvYlBMVMb5LV/vKgUkv7d8WKMG5d8FcOaXXQF4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789639143; c=relaxed/simple;
-	bh=ccAWjPrqm/+fJH1kwsxIbs7sDP3hDfScO9gKhhxAowc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E4bspyK4lNtY4LVh2I3MweyBSgKVimDsg8sp/PFt9NZg+1yMi/yb7SJRHRAJY2BFAHCOjF5MLSS0zRgYtbTcAsIYMMw2HWDrNw7ESCJZcgCTTtm8OMHfOKvo9dMphd4A1+75lYPw5Mpkh8C6EDqKjya78fEyZ/x+dDOWTtRJJfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=isWuVbzY; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E599B43CEDD
+	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 10:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789639639; cv=pass; b=hMp0b+M3WAOFqWqnqwUBZ0AT3z2AKzOZnSi1AtJ/wqq6eS90em/TjK0jSmQyaEKjdjrD17L63/M/jkPXaWl49Z6EoRmEmC1Jvz77sk99HR8aUcmrSoIR8D3TwTzACHSSGgwgo4l8sJ00F110w6h+67PFxh0aatnfSq+KTE3/0tY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789639639; c=relaxed/simple;
+	bh=jwj8B3HPruDjYfZ7APyAFvVem8IIOrgvFJywLOyTVRI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rpQSIeRe+gBluh2btbtdXh+KetAtygHhMQF1hAUgxQxEqp/robBJi7KRKfiRRwYwfFNVQd2ev4nWcDl9k+9mHdhKf9WkQvENqhh/gabbwxPVoPrEeTuIq9zcpdBxnVWxHTTQDZDiwMNXEpQfBDfcsM7pxgiOvMLnsv54t5C2IKA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wqie/D1j; arc=pass smtp.client-ip=74.125.230.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="isWuVbzY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5EA31F000FF;
-	Thu, 17 Sep 2026 09:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789639111;
-	bh=+BDLANgER3p3HCZqlKV0tx0X7HCIS+iB0o+b0askj3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=isWuVbzYwxoFIjftdz46VsdsgIIBJV/b2LFp6yM/02MDef4JKOZ9kOY1TdyIDc/30
-	 LACHzBzlm2BZ7ZOfu1upP63i+JmISIZXPneX5AaM6s6sXOqC/ZT3q2tHw6G9TORbm7
-	 uyaMxHhO41rX8i22FRkG4N96szBjkfGYtWxPNRGGp83Dz+M2BsVrcKY1QuGp+175a6
-	 GdHO1K1vaVn9nk+3axcRLy03cQ50PecCQ3m2wtlKX0jMOaKSdnV/poXR+30OeMTy4R
-	 toRwR56CeJ6OD7Yas8T8+ZGTJWFYL2CdfHMF3AuIgVkwuKi/mHFb1uIScsd0fWlS0G
-	 GskLPjj+/FY4Q==
-Date: Thu, 17 Sep 2026 10:57:57 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v2 01/40] mm/vma: fix mmap_prepare file handling, remove
- file_doesnt_need_get
-Message-ID: <aqu5jtMV2gyZFrSe@gremlin>
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
- <20260914-b4-mmap-prepare-vma-flag-sanify-v2-1-7d9781ed5361@kernel.org>
- <aquz9Z9JrK_H_E0g@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wqie/D1j"
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a2ff148dfdso4726621fa.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 03:07:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789639626; cv=none;
+        d=google.com; s=arc-20260327;
+        b=g8WjOer6pMPJMB1IC1f1PbAK2X6ptMKQl/8zK73GA/McsMb3MQR0mOpjJxkoJ6CK6I
+         XrpKUs+TmYj+/iNsyqcI1KXs+ehl+dHI/eY4ZFAP7Qq81nCi+rrUmM5q6ja/X18FpIYK
+         UqvY5aUCVqv+A/UvjanCanKw3CFhKJTUdLxhVPYJ6gTIFju+F7/7FXCFbrC3ruMhCQFE
+         hTuaz//sXpuBfYCR1PSvo2uNK5s1ITP2i8m0QUfuMcrsnjBRKFcNqrxlM2gycWKAV5YN
+         x8BeaiZn66iShQSYSPy3SIuOT46+xINek8weGFzBuKUTLxupd06xN1xPerNfamvb2etG
+         6I/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=xqC5WMei4eaKFTK8Q60/nFvFgccYW1qYc0L8nbCKzW8=;
+        fh=JwVzH7AXGYHVSmjw8ic162QsUZTP8T++58dwqAY9b7E=;
+        b=dLqn1eBLJ9XMvPVE9DDXMnRDqNj/rRw5m508HM6nEEovVsoRZb18pCyKus+DpEeicJ
+         s0wF03d5ipNNaA3NAtBG+tmjzH6bzGPHrtAsg4wrKLy5WwwgL2Y2k72KlGB0Pe3Atfa3
+         eT8MOms8NeMyhRwWO3EBPwhhbhPOxFRxuGNz6uQZIL6gb5kUuDsBLa+EPBk6rrPJp0oV
+         WRKvDNFilQ4jW1rL7Qi/SPLorflRVHnOoyPxRgGMEyq9OuyjsPD16dHSfryOLsgvSEgc
+         Mg1MG+C0716XuozIfkg8eLtjhmLCw0eMjAM5yL9hi6BCqUlfHhN52h/yLn9rnVNZVCdu
+         5tBQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789639626; x=1790244426; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xqC5WMei4eaKFTK8Q60/nFvFgccYW1qYc0L8nbCKzW8=;
+        b=Wqie/D1j3rTCVGKQjvJzXgF/x2njB9JGp2KZq5VE9oi2eXsFNlagCs4cQaew06ZqY9
+         7aGNf1X8ikv4mQM8Lu981f1uqqS8u5312zxilvHkdQFvFTKgh/TAoCRjLqcayE+4S1kg
+         pEgivcbAcSiLVaLlQoRSTJXcSc2vhR9luMJTjcp7sFOnPTBTbmUcTGPCD/W+wXFJvdYU
+         IOThCj2OT/Wr6UONKX7ezTnjFOAIWdi157e+uWtpaZUl+EULuEui4g5fD4g4qVcxjxaR
+         BnSkGYh1Lx13XOeMI0nmSElLSb3TkM+c4+q17wfXbk3hTyK5gw5mBocaD+I/Ycd1YQzJ
+         RHcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789639626; x=1790244426;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=xqC5WMei4eaKFTK8Q60/nFvFgccYW1qYc0L8nbCKzW8=;
+        b=hVLQ/U/HJn41PZg0GKG4lTzMhvq0P0zDATlrN9FLC5W+q2nILftN24xxQs/oYeIVI6
+         gxuN6dHSadtr3wt3x3x2aFdptO8tXtC2z27NUYUT9aImkwZH7uAT1IdBJGaeYddYDhuw
+         0VzymOTUEHySYqbdMgerllXf+IZUBPg7elB/Y+r3G6WYq9VIceE0jaOt/xiAeXF5defG
+         E9qvDpaB9HyWDWiz0oITWkd1k8f7tuHpsFoyUMD7ZqKEPaZ/kN/8+4Mxx7yNfDEGr3Qt
+         J2/PBn7ThrBClreIRDmIQp7S2zdK2cYNbhsXQfvreieI0EqDo31P2atPzEE0WoqNUPGM
+         B9eg==
+X-Forwarded-Encrypted: i=1; AKwUvBzeb9/vA+UBSwFspR5JdbRMLxbBYwhlkmSSRBtDjDL2MYYZfG7S2F/ijytYAwWNe6FUFzOKj6GFdmts5St/@vger.kernel.org
+X-Gm-Message-State: AFuF++lZGAUjNtTi34K0SkdmS4dzNeq+zfO1zvQPZPN97fCdTyfuUwkP
+	Zdx/MZtPtOA9vY+dAZVufTQYaaUlnQF02RBK85Uzaee+8hn3rRwFndUAro3RxXAaLOuAyCtdAwZ
+	IS+JZfkhfnyBgh+xu5W5WVGlIhJb7iXg=
+X-Gm-Gg: AYBFou1tGl47m4+/MjRrziTnPXpzzHk9+sfmDcsEVYJvoK1NkfWmdGDUX9FqR/MOeug
+	K5lO4VuG9oQuekoGkZlJU1EYgOUYVzKdl7N1qdmh7xVgrPcnCIs93W0aSMy0LygZ4bQYAgsQe5y
+	5qAWxq7Z4a3OVb1t8jjTZN/AteGaVn30EQwSaM867ce6HWM3Jz5aK/4DYB4/wTT12LgpyqOHaxj
+	gzvzCf8L1LiXH0gXD+TAUc1Ijo2V/xb+yt+Oc7xclPk2ABnyEVRepFZTcZ/0pwpaMrfg9cDGU4G
+	wDWjtGkLal/okHJU05I1CuBPi2mUvabbRKGm0wpCLljxZR3w3ukjZzdC1YZ+wkLA1IwlNt+YmeA
+	yL+s0+mk7Vn0Qsw==
+X-Received: by 2002:a05:651c:19a3:b0:3a3:7681:6d6b with SMTP id
+ 38308e7fff4ca-3a5dca034a5mr11708051fa.20.1789639625120; Thu, 17 Sep 2026
+ 03:07:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aquz9Z9JrK_H_E0g@kernel.org>
+References: <CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>
+ <aqa7KgIJYGgf7INk@slm.duckdns.org> <CANGjgd=f9n7zEZS=xi71y_dY6Uk75_qgP9qVDkYBusNz9sp2sg@mail.gmail.com>
+ <CABdmKX2Oer9wrxWdR8s48Czro8H51HY+S_mfnUj-RvhjCM1RgA@mail.gmail.com>
+ <CANGjgdmKg1_QyzhCSh03T4RStw5_znnhqmFFS8TVwQbm-sZZbA@mail.gmail.com> <CABdmKX3g7+GTfSBKB42Tr2CDusCNXb5+oPc7TcC1RpVndUzVpw@mail.gmail.com>
+In-Reply-To: <CABdmKX3g7+GTfSBKB42Tr2CDusCNXb5+oPc7TcC1RpVndUzVpw@mail.gmail.com>
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Date: Thu, 17 Sep 2026 18:06:52 +0800
+X-Gm-Features: AcwNN1Uxpz_f7e3lbLo7xRKU16-2Dq7ZoY20JkyUCDtztrWX0uQOsS_qI1Nxn_A
+Message-ID: <CANGjgdkwEsP8ahDX5sVORfKLF52JmvEev9BcWPeTJT2XzyWJAQ@mail.gmail.com>
+Subject: Re: [REGRESSION] kernfs: empty cgroup rmdir latency after
+ delete-notification changes
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Tejun Heo <tj@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jan Kara <jack@suse.cz>, 
+	driver-core@lists.linux.dev, cgroups@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
+Content-Type: multipart/mixed; boundary="00000000000021c0d8065baaf2d1"
 
-On Thu, Sep 17, 2026 at 12:33:41PM +0300, Mike Rapoport wrote:
-> On Mon, Sep 14, 2026 at 03:57:21PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > The map->file_doesnt_need_get flag is confusing and the existing
-> > implementation has holes.
-> >
-> > Drivers are permitted to change the owning file of a mapping. If they do
-> > so, they are required to take a reference on that file.
-> >
-> > The mmap() operation which ultimately invokes __mmap_region() is guaranteed
-> > to drop the refcount for the original file the mapping was made under, but
-> > this is not true for the replaced file.
-> >
-> > This has been addressed so far by tracking map->file_doesnt_need_get, which
-> > is rather poorly named and unfortunately fails to correctly track whether
-> > or not an additional put were needed in a number of cases.
-> >
-> > Make life easier by removing this flag, and instead drop the reference for
-> > both mmap_prepare and the deprecated mmap callback in a new function
-> > put_map().
-> >
-> > Track whether this needs to be done by aligning mmap_state with
-> > vm_area_desc and store the original file in the map->file field, keeping
-> > the updated file in map->vm_file.
-> >
-> > In order to have the same behaviour for both types of hooks, only drop the
-> > reference __mmap_new_file_vma() itself took in its error path, deferring
-> > the replaced file's reference to put_map().
-> >
-> > To make this work correctly, map->vm_file has to be updated before any
-> > error handling, so update __mmap_new_file_vma() and call_mmap_prepare() to
-> > set this field first.
-> >
-> > Also when mmap_prepare() changes the file and is then merged, the reference
-> > count also must be decremented, so update the logic to call put_map() in
-> > this case too.
-> >
-> > Also update __compat_vma_mmap() to manually perform this step for stacked
-> > file systems using the compatibility layer, and update
-> > compat_set_vma_from_desc() to replace vma_set_file() with a correct
-> > refcount/file update.
-> >
-> > No in-tree driver is impacted by the incorrect implementation of this
-> > currently (no driver that does this is mergeable for one), so this does not
-> > need to be a fix.
->
-> But the patch iteslf needs to be fixed :)
->
-> It seems to be the change that broke the CI.
->
-> The rest is from LLM, take it with a grain of salt :)
+--00000000000021c0d8065baaf2d1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Ack will assess + respin
+Hi T.J.,
+
+Thanks for explaining the locking issues. I tried a variation on your
+first idea, using a separate inode_ever_requested field. In one four-boot
+run, rmdir() was 22.36-22.72% faster and the continuous
+mkdir() -> stat() -> rmdir() sequence was 7.35-9.01% shorter.
+The tradeoff is an extra 8 bytes per kernfs_node in this build.
+
+The watcher shortcut raises a separate concern: it also skips
+clear_nlink(). An open FD can keep an inode alive without any watchers,
+so that inode would still need its link count cleared.
+
+The attached patch sets inode_ever_requested to true before calling
+iget_locked().
+It never clears the field, even after allocation failure or eviction.
+A false value allows removal to skip the lookup; a true value retains
+the existing lookups and link-count handling for every superblock.
+It does not modify kn->flags or acquire a new lock during initialization.
+
+Creation and removal still need the existing lifetime locking;
+READ_ONCE()/WRITE_ONCE() do not provide that protection. I checked the
+five kernfs_get_inode() call sites. Four use kernfs_rwsem with Shakeel's
+fix applied; cgroup_may_write() instead relies on cgroup_mutex.
+Those lifetime assumptions still need review.
+
+I tested on 2f0c1cf72f46 (7.3-rc2):
+
+  A: baseline + Shakeel's file-handle decoding read-lock fix [1]
+  B: A + the attached prototype, without the old INODE_INITED changes
+
+Four fresh boots ran in A1 -> B1 -> B2 -> A2 order:
+
+                                      A1       B1       B2       A2
+  original rmdir (us)                 9.758    7.541    7.563    9.741
+  mkdir -> first stat -> rmdir (us)  30.023   27.317   27.356   29.526
+
+The workload still removes empty cgroups, with no tasks or watches.
+The stat() in the sequence is the first directory stat().
+I used the same binaries on the bare-metal i7-12700KF, CPU0, with
+sched_ext disabled, full preemption, the performance governor and Turbo
+disabled. Both kernels used GCC 15.2 and the same config except LOCALVERSIO=
+N.
+Each value is the median of nine sample means, with 16 warmups per sample.
+The original test measured 128 removals per sample; the sequence test
+measured 32 sequences, without pauses between operations. For these two
+metrics, CV stayed below 1.96% and boot drift stayed below 1.66%.
+The improvement ranges compare each B boot against each A boot.
+Both improvements held after dropping the first sample from each boot.
+
+Separate traces showed ilookup() calls falling from 26 to 1 per removal,
+or from 26 to 2 when one file FD was held open. Required clear_nlink()
+calls and deletion lock counts were unchanged. Held-FD link-count checks,
+notification positive controls and bounded open/remove checks passed.
+
+I also tested first opens racing removal on fresh, unwatched files:
+176 cases without tracing and 176 with tracing on each kernel,
+including ordered controls.
+Tracing confirmed 96 new inodes on each kernel. In B, the marker was false
+on entry and true before iget_locked(). All successfully opened FDs
+reported nlink=3D0 after removal.
+I did not capture a remover waiting on the first lookup's read lock.
+Eviction/recreation, distinct superblocks, other kernfs users and
+weak-memory architectures remain untested.
+
+kernfs_node grew from 136 to 144 bytes, and objects per 4 KiB slab fell
+from 30 to 28. Simply reordering the fields does not avoid the size
+increase in this build. I have not found a safe way to avoid this extra
+memory cost. First-file stat() timing was too variable to quantify its
+overhead. This is a prototype for review, not a finished fix.
+
+Results, test sources and the patch are available at [2].
+
+These results are from a microbenchmark. I have not measured the impact
+on a real application. Given the extra memory cost and remaining
+correctness questions, do you think this direction is worth pursuing?
+
+[1] [PATCH v2 3/4] kernfs: don't lose IN_DELETE_SELF
+    when decoding a file handle
+https://lists.openwall.net/linux-kernel/2026/09/05/828
+
+[2] Prototype results and reproduction
+https://github.com/lcf0399/linux-regression-evidence/tree/b9ce1d1b34aa1fe5b=
+5bf6b49dc334f36a7aa8bfd/kernfs-empty-cgroup-removal/bare-metal/inode-reques=
+ted
+
+Thanks,
+Chengfeng
+
+T.J. Mercier <tjmercier@google.com> =E4=BA=8E2026=E5=B9=B49=E6=9C=8816=E6=
+=97=A5=E5=91=A8=E4=B8=89 06:01=E5=86=99=E9=81=93=EF=BC=9A
 
 >
-> mm-ci mm-unstable red build - bisect analysis
-> ==============================================
+> On Mon, Sep 14, 2026 at 11:08=E2=80=AFAM Chengfeng Lin <lin2530632123@gma=
+il.com> wrote:
+> >
+> > Hi T.J.,
+> >
+> > Thanks for the patch. Your changes reduced rmdir() latency by
+> > 21.87-22.86% in the same empty-cgroup benchmark, with sched_ext disable=
+d.
+> >
+> > I tested these two states on 2f0c1cf72f46 (7.3-rc2):
+> >
+> >   A: baseline + Shakeel's file-handle decoding read-lock fix [1]
+> >   B: A + your INODE_INITED changes, without modifying your code
+> >
+> > I used the original binary on the bare-metal i7-12700KF, pinned to CPU0=
+,
+> > with full preemption, the performance governor and Turbo disabled.
+> > Both kernels used GCC 15.2 and the same config except LOCALVERSION.
+> >
+> > The clean timing sequence used four fresh boots: A1 -> B1 -> B2 -> A2.
+> >
+> >                      A1       B1       B2       A2
+> >   rmdir (us)        9.727    7.600    7.548    9.784
+> >
+> > Each value is the median of nine sample means. Each sample contains
+> > 128 measured removals after 16 warmups. All four B/A comparisons showed
+> > the improvement above. Removal CVs were below 2.03%. The drift between
+> > boots was +0.59% for A and -0.68% for B. The improvement held after
+> > dropping the first sample from each boot.
+> >
+> > Separate, untimed traces showed the same 26 kernfs nodes per removal,
+> > but ilookup() calls fell from 26 to 1. Deletion lock counts were unchan=
+ged.
+> > Basic checks of file/directory deletion notifications and link counts
+> > with FDs held open passed on both kernels.
+> >
+> > I also timed the full mkdir() -> stat() -> rmdir() sequence using a
+> > separate binary on the same kernels. The latest continuous follow-up us=
+ed
+> > four fresh boots, with nine samples per boot. Each sample had 16 warmup=
+s
+> > and 32 measured sequences, with no pauses between them. The full sequen=
+ce
+> > fell from 30.07-30.65 us to 27.97-28.34 us, a 5.77-8.76% reduction.
+> > The maximum CV was 1.76%, and boot drift stayed below 2% in both states=
+.
+> > In the earlier continuous follow-up with 128 operations per sample, the
+> > full sequence was 5.15-6.52% shorter, but CVs of 4.52-6.46% were too hi=
+gh
+> > to establish a stable overall improvement percentage.
+> >
+> > Untimed tracing placed the added write lock in first stat(), during ino=
+de
+> > initialization. The patch skips lookups for nodes whose inodes were nev=
+er
+> > initialized; it does not move those lookups into stat(). The individual
+> > mkdir() and stat() timings remained too variable to quantify their chan=
+ges.
+> >
+> > I also checked whether the benefit persisted with less frequent operati=
+ons.
+> > For this diagnostic, I added 50 and 200 ms pauses between sequences,
+> > outside the timers. I kept 16 warmups and 32 measured sequences per sam=
+ple.
+> > rmdir() still saved 2.10-2.58 us, but its baseline rose from about 10 u=
+s
+> > to 18 us, reducing the percentage gain. The full sequence was 0.66-2.85=
+%
+> > shorter, with a maximum CV of 1.53%.
+> >
+> > I included [1] because the file-handle path on this base lacks
+> > kernfs_rwsem protection. Source review suggests a possible wait cycle
+> > when that path recreates an evicted inode. Initialization waits for
+> > kernfs_iattr_rwsem, while removal holds it and waits for I_NEW to clear=
+.
+> > I have not reproduced this possible deadlock in the kernel.
+> > Does the base for your diff already include [1] or equivalent locking?
+> >
+> > [1] [PATCH v2 3/4] kernfs: don't lose IN_DELETE_SELF
+> >     when decoding a file handle
+> > https://lists.openwall.net/linux-kernel/2026/09/05/828
+> >
+> > Results and reproducers:
+> > https://github.com/lcf0399/linux-regression-evidence/tree/f101b1b9c0d3d=
+fce07f81b11ca2da2c252150e4c/kernfs-empty-cgroup-removal/bare-metal/inode-in=
+ited
+> >
+> > Thanks,
+> > Chengfeng
 >
-> Bad commit: 2a937a04babf1 "mm/vma: fix mmap_prepare file handling, remove
-> file_doesnt_need_get" - first patch of Lorenzo Stoakes' 40-patch series
-> "mm: make VMA flag semantics explicit, eliminate VM_SPECIAL" (v2).
-> https://lore.kernel.org/all/20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org
+> Thanks for testing. I was also not aware of Shakeel's fix [1] so it
+> was not in my base; I used 2d3090a8aeb5 ("Merge tag 'v7.1-p5' of
+> git://git.kernel.org/pub/scm/linux/kernel/git/herbert/crypto-2.6").
 >
-> Symptom: tools/testing/selftests/mm/pfnmap.c triggers
-> "BUG: Bad page map in process pfnmap" during __zap_vma_range()/vm_normal_page(),
-> seen on process exit/munmap. CI's run-mm-selftests.sh greps guest dmesg for
-> BUG|WARNING and fails the job regardless of the test's own exit code.
+> I think you are correct about the deadlock. The synchronization
+> requirements here are more difficult than I initially realized.
+> kernfs_iattr_rwsem can't be used because of the deadlock you
+> mentioned. Additionally, kn->flags is non-atomic and only modified
+> under down_write(&root->kernfs_rwsem). Inode allocation runs under a
+> read lock (or locklessly before Shakeel's fix), so setting a flag
+> there races with writers and risks lost updates on other flags.
+> Grabbing a write lock in kernfs_init_inode() would add contention to
+> normal lookup and stat paths. So I'm not seeing a simple way forward
+> with the KERNFS_INODE_INITED idea.
 >
-> Root cause:
-> In call_mmap_prepare() (mm/vma.c), the commit reordered:
+> This is a more straightforward but even less exact way:
 >
->     map->vma_flags = desc->vma_flags;
+> @@ -1526,8 +1527,12 @@ static void kernfs_clear_inode_nlink(struct
+> kernfs_node *kn)
+>         lockdep_assert_held_read(&root->kernfs_supers_rwsem);
 >
-> to run BEFORE call_action_prepare(). For PFN-remap mmap_prepare drivers
-> (e.g. /dev/mem), VMA_PFNMAP_BIT/VMA_IO_BIT are only added to
-> desc->vma_flags inside remap_pfn_range_prepare(), which runs as part of
-> call_action_prepare(). Snapshotting vma_flags too early means VM_PFNMAP/
-> VM_IO get silently dropped from the resulting VMA, while the PTEs are
-> still installed as pte_special (real PFN remap).
+>         list_for_each_entry(info, &root->supers, node) {
+> -               struct inode *inode =3D ilookup(info->sb, kernfs_ino(kn))=
+;
+> +               struct inode *inode;
 >
-> vm_normal_page() then sees a pte_special PTE in a VMA lacking
-> VM_PFNMAP/VM_MIXEDMAP and calls print_bad_page_map(), producing the
-> splat. Confirmed: crash log shows vm_flags:080000d1, missing VM_PFNMAP
-> (0x400).
+> +               if (!fsnotify_sb_has_watchers(info->sb))
+> +                       continue;
+> +
+> +               inode =3D ilookup(info->sb, kernfs_ino(kn));
 >
-> This is a plain ordering bug in this one commit - not a driver-conversion
-> or vma_can_gup()/predicate-logic issue.
+> I'm not sure that's really worth a few microseconds though.
 >
-> Bisect method: built/booted via virtme-ng, ran pfnmap selftest directly,
-> restricted to range 2a937a04babf1~1..0a80aa0fb08f1 (the 40-commit series;
-> tip = mm-unstable-2026-09-17). Pre-series commit: clean. First commit of
-> series: already reproduces the bug. All scratch worktrees/branches and
-> bisect state removed after; mm-unstable-2026-09-17/mm-new-2026-09-17 and
-> mmotm remote untouched.
->
-> Diagnosis only - no fix proposed/applied.
->
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
-> >  mm/internal.h |  1 +
-> >  mm/util.c     |  5 +++-
-> >  mm/vma.c      | 95 ++++++++++++++++++++++++++++++++++-------------------------
-> >  mm/vma.h      |  6 ++--
-> >  4 files changed, 64 insertions(+), 43 deletions(-)
-> >
-> > diff --git a/mm/internal.h b/mm/internal.h
-> > index 0dca33db068f..fe576d468af4 100644
-> > --- a/mm/internal.h
-> > +++ b/mm/internal.h
-> > @@ -7,6 +7,7 @@
-> >  #ifndef __MM_INTERNAL_H
-> >  #define __MM_INTERNAL_H
-> >
-> > +#include <linux/file.h>
-> >  #include <linux/fs.h>
-> >  #include <linux/khugepaged.h>
-> >  #include <linux/mm.h>
-> > diff --git a/mm/util.c b/mm/util.c
-> > index bf0513d1d3d0..016932780925 100644
-> > --- a/mm/util.c
-> > +++ b/mm/util.c
-> > @@ -1228,8 +1228,11 @@ int __compat_vma_mmap(struct vm_area_desc *desc,
-> >
-> >  	/* Perform any preparatory tasks for mmap action. */
-> >  	err = mmap_action_prepare(desc);
-> > -	if (err)
-> > +	if (err) {
-> > +		if (desc->vm_file != vma->vm_file)
-> > +			fput(desc->vm_file);
-> >  		return err;
-> > +	}
-> >  	/* Update the VMA from the descriptor. */
-> >  	compat_set_vma_from_desc(vma, desc);
-> >  	/* Complete any specified mmap actions. */
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index 55917d097933..a319a9fc2f29 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -24,7 +24,8 @@ struct mmap_state {
-> >  		vm_flags_t vm_flags;
-> >  		vma_flags_t vma_flags;
-> >  	};
-> > -	struct file *file;
-> > +	struct file *file;	/* mmap()-specified file. */
-> > +	struct file *vm_file;	/* May be updated by mmap_prepare. */
-> >  	pgprot_t page_prot;
-> >
-> >  	/* User-defined fields, perhaps updated by .mmap_prepare(). */
-> > @@ -43,8 +44,6 @@ struct mmap_state {
-> >
-> >  	/* Determine if we can check KSM flags early in mmap() logic. */
-> >  	bool check_ksm_early :1;
-> > -	/* If .mmap_prepare changed the file, we don't need to pin. */
-> > -	bool file_doesnt_need_get :1;
-> >  };
-> >
-> >  #define MMAP_STATE(name, mm_, vmi_, addr_, len_, pgoff_, anon_pgoff_, vma_flags_, file_) \
-> > @@ -58,6 +57,7 @@ struct mmap_state {
-> >  		.pglen = PHYS_PFN(len_),				\
-> >  		.vma_flags = vma_flags_,				\
-> >  		.file = file_,						\
-> > +		.vm_file = file_,					\
-> >  		.page_prot = vma_flags_to_page_prot(vma_flags_),	\
-> >  	}
-> >
-> > @@ -70,7 +70,7 @@ struct mmap_state {
-> >  		.vma_flags = (map_)->vma_flags,				\
-> >  		.pgoff = (map_)->pgoff,					\
-> >  		.anon_pgoff = (map_)->anon_pgoff,			\
-> > -		.file = (map_)->file,					\
-> > +		.file = (map_)->vm_file,				\
-> >  		.prev = (map_)->prev,					\
-> >  		.middle = vma_,						\
-> >  		.next = (vma_) ? NULL : (map_)->next,			\
-> > @@ -2447,7 +2447,7 @@ void mm_drop_all_locks(struct mm_struct *mm)
-> >   */
-> >  static bool accountable_mapping(struct mmap_state *map)
-> >  {
-> > -	const struct file *file = map->file;
-> > +	const struct file *file = map->vm_file;
-> >
-> >  	/*
-> >  	 * hugetlb has its own accounting separate from the core VM
-> > @@ -2496,7 +2496,7 @@ static void vms_abort_munmap_vmas(struct vma_munmap_struct *vms,
-> >
-> >  static void update_ksm_flags(struct mmap_state *map)
-> >  {
-> > -	map->vma_flags = ksm_vma_flags(map->mm, map->file, map->vma_flags);
-> > +	map->vma_flags = ksm_vma_flags(map->mm, map->vm_file, map->vma_flags);
-> >  }
-> >
-> >  static void set_desc_from_map(struct vm_area_desc *desc,
-> > @@ -2506,7 +2506,7 @@ static void set_desc_from_map(struct vm_area_desc *desc,
-> >  	desc->end = map->end;
-> >
-> >  	desc->pgoff = map->pgoff;
-> > -	desc->vm_file = map->file;
-> > +	desc->vm_file = map->vm_file;
-> >  	desc->vma_flags = map->vma_flags;
-> >  	desc->page_prot = map->page_prot;
-> >  }
-> > @@ -2586,6 +2586,10 @@ static int __mmap_setup(struct mmap_state *map, struct vm_area_desc *desc,
-> >  	return 0;
-> >  }
-> >
-> > +static bool map_same_file(struct mmap_state *map)
-> > +{
-> > +	return map->vm_file == map->file;
-> > +}
-> >
-> >  static int __mmap_new_file_vma(struct mmap_state *map,
-> >  			       struct vm_area_struct *vma)
-> > @@ -2593,20 +2597,23 @@ static int __mmap_new_file_vma(struct mmap_state *map,
-> >  	struct vma_iterator *vmi = map->vmi;
-> >  	int error;
-> >
-> > -	vma->vm_file = map->file;
-> > -	if (!map->file_doesnt_need_get)
-> > -		get_file(map->file);
-> > +	vma->vm_file = map->vm_file;
-> > +	if (map_same_file(map))
-> > +		get_file(map->vm_file);
-> >
-> > -	if (!map->file->f_op->mmap)
-> > +	if (!map->vm_file->f_op->mmap)
-> >  		return 0;
-> >
-> >  	error = mmap_file(vma->vm_file, vma);
-> > +	map->vm_file = vma->vm_file;
-> > +
-> >  	if (error) {
-> >  		UNMAP_STATE(unmap, vmi, vma, vma->vm_start, vma->vm_end,
-> >  			    map->prev, map->next);
-> > -		fput(vma->vm_file);
-> > -		vma->vm_file = NULL;
-> > +		if (map_same_file(map))
-> > +			fput(map->vm_file);
-> >
-> > +		vma->vm_file = NULL;
-> >  		vma_iter_set(vmi, vma->vm_end);
-> >  		/* Undo any partial mapping done by a device driver. */
-> >  		unmap_region(&unmap);
-> > @@ -2623,7 +2630,6 @@ static int __mmap_new_file_vma(struct mmap_state *map,
-> >  			!vma_flags_test(&map->vma_flags, VMA_MAYWRITE_BIT) &&
-> >  			vma_test(vma, VMA_MAYWRITE_BIT));
-> >
-> > -	map->file = vma->vm_file;
-> >  	map->vma_flags = vma->flags;
-> >
-> >  	return 0;
-> > @@ -2631,7 +2637,7 @@ static int __mmap_new_file_vma(struct mmap_state *map,
-> >
-> >  static void map_set_anon(struct mmap_state *map)
-> >  {
-> > -	map->file = NULL;
-> > +	map->vm_file = NULL;
-> >  	map->vm_ops = NULL;
-> >  	map->pgoff = map->addr >> PAGE_SHIFT;
-> >  }
-> > @@ -2643,7 +2649,7 @@ static bool map_is_private(const struct mmap_state *map)
-> >
-> >  static bool map_is_anon(const struct mmap_state *map)
-> >  {
-> > -	return map_is_private(map) && !map->file;
-> > +	return map_is_private(map) && !map->vm_file;
-> >  }
-> >
-> >  /*
-> > @@ -2688,7 +2694,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
-> >  	}
-> >
-> >  	/* Invoke callbacks. */
-> > -	if (map->file)
-> > +	if (map->vm_file)
-> >  		error = __mmap_new_file_vma(map, vma);
-> >  	else if (!is_anon)
-> >  		error = shmem_zero_setup(vma);
-> > @@ -2797,36 +2803,34 @@ static int call_mmap_prepare(struct mmap_state *map,
-> >  	int err;
-> >
-> >  	/* Invoke the hook. */
-> > -	err = vfs_mmap_prepare(map->file, desc);
-> > -	if (err)
-> > -		return err;
-> > -
-> > -	/* It's invalid for mmap_preprare hooks to clear vm_ops. */
-> > -	if (!desc->vm_ops)
-> > -		return -EINVAL;
-> > -
-> > -	err = call_action_prepare(map, desc);
-> > +	err = vfs_mmap_prepare(map->vm_file, desc);
-> >  	if (err)
-> >  		return err;
-> >
-> >  	/* Update fields permitted to be changed. */
-> >  	map->pgoff = desc->pgoff;
-> > -	if (desc->vm_file != map->file) {
-> > -		map->file_doesnt_need_get = true;
-> > -		map->file = desc->vm_file;
-> > -	}
-> > +	if (desc->vm_file != map->vm_file)
-> > +		map->vm_file = desc->vm_file;
-> >  	map->vma_flags = desc->vma_flags;
-> >  	map->page_prot = desc->page_prot;
-> >  	/* User-defined fields. */
-> >  	map->vm_ops = desc->vm_ops;
-> >  	map->vm_private_data = desc->private_data;
-> >
-> > +	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
-> > +	if (!desc->vm_ops)
-> > +		return -EINVAL;
-> > +
-> > +	err = call_action_prepare(map, desc);
-> > +	if (err)
-> > +		return err;
-> > +
-> >  	/*
-> >  	 * MAP_PRIVATE-/dev/zero mappings are an ancient way of getting
-> >  	 * anonymous mappings. Rather than allowing these mappings to be odd
-> >  	 * outliers, simply make them truly anonymous.
-> >  	 */
-> > -	if (map_is_private(map) && file_is_dev_zero(map->file))
-> > +	if (map_is_private(map) && file_is_dev_zero(map->vm_file))
-> >  		map_set_anon(map);
-> >
-> >  	return 0;
-> > @@ -2845,7 +2849,7 @@ static void set_vma_user_defined_fields(struct vm_area_struct *vma,
-> >   */
-> >  static bool can_set_ksm_flags_early(struct mmap_state *map)
-> >  {
-> > -	struct file *file = map->file;
-> > +	struct file *file = map->vm_file;
-> >
-> >  	/* Anonymous mappings have no driver which can change them. */
-> >  	if (!file)
-> > @@ -2868,6 +2872,20 @@ static bool can_set_ksm_flags_early(struct mmap_state *map)
-> >  	return false;
-> >  }
-> >
-> > +static void put_map(struct mmap_state *map)
-> > +{
-> > +	/*
-> > +	 * An error occurred or the VMA was merged.
-> > +	 *
-> > +	 * If the file was changed by the driver (which is required to increment
-> > +	 * the replacement file's reference count), drop its reference count.
-> > +	 *
-> > +	 * On error, the caller always drops the original file regardless.
-> > +	 */
-> > +	if (map->vm_file && !map_same_file(map))
-> > +		fput(map->vm_file);
-> > +}
-> > +
-> >  static unsigned long __mmap_region(struct file *file, unsigned long addr,
-> >  		unsigned long len, vma_flags_t vma_flags,
-> >  		unsigned long pgoff, struct list_head *uf)
-> > @@ -2922,7 +2940,10 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
-> >
-> >  	__mmap_complete(&map, vma);
-> >
-> > -	if (have_mmap_prepare && allocated_new) {
-> > +	if (!allocated_new) {
-> > +		/* Merged, so need to drop refcount. */
-> > +		put_map(&map);
-> > +	} else if (have_mmap_prepare) {
-> >  		error = mmap_action_complete(vma, &desc.action,
-> >  					     /*is_compat=*/false);
-> >  		if (error)
-> > @@ -2936,13 +2957,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
-> >  	if (map.charged)
-> >  		vm_unacct_memory(map.charged);
-> >  abort_munmap:
-> > -	/*
-> > -	 * This indicates that .mmap_prepare has set a new file, differing from
-> > -	 * desc->vm_file. But since we're aborting the operation, only the
-> > -	 * original file will be cleaned up. Ensure we clean up both.
-> > -	 */
-> > -	if (map.file_doesnt_need_get)
-> > -		fput(map.file);
-> > +	put_map(&map);
-> >  	vms_abort_munmap_vmas(&map.vms, &map.mas_detach);
-> >  	return error;
-> >  }
-> > diff --git a/mm/vma.h b/mm/vma.h
-> > index e97bd2dfa786..f15faa83f3d6 100644
-> > --- a/mm/vma.h
-> > +++ b/mm/vma.h
-> > @@ -394,8 +394,10 @@ static inline void compat_set_vma_from_desc(struct vm_area_struct *vma,
-> >
-> >  	/* Mutable fields. Populated with initial state. */
-> >  	vma_set_pgoff(vma, desc->pgoff);
-> > -	if (desc->vm_file != vma->vm_file)
-> > -		vma_set_file(vma, desc->vm_file);
-> > +	if (desc->vm_file != vma->vm_file) {
-> > +		fput(vma->vm_file);
-> > +		vma->vm_file = desc->vm_file;
-> > +	}
-> >  	vma->flags = desc->vma_flags;
-> >  	vma->vm_page_prot = desc->page_prot;
-> >
-> >
-> > --
-> > 2.55.0
-> >
->
-> --
-> Sincerely yours,
-> Mike.
+> > T.J. Mercier <tjmercier@google.com> =E4=BA=8E2026=E5=B9=B49=E6=9C=8814=
+=E6=97=A5=E5=91=A8=E4=B8=80 00:17=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > On Sun, Sep 13, 2026 at 8:47=E2=80=AFAM Chengfeng Lin <lin2530632123@=
+gmail.com> wrote:
+> > > >
+> > > > Hi Tejun,
+> > > >
+> > > > Thanks. I found this during research into kernel performance regres=
+sions,
+> > > > using a microbenchmark of cgroup creation and removal. This was not
+> > > > prompted by a production issue.
+> > > >
+> > > > I reported it to document the added removal cost and ask whether so=
+me
+> > > > of it could be reduced while preserving the fixes. I agree that the
+> > > > roughly 3 us increase per removal does not, by itself, demonstrate =
+a
+> > > > significant impact on real workloads.
+> > > >
+> > > > Thanks,
+> > > > Chengfeng
+> > > >
+> > > > Tejun Heo <tj@kernel.org> =E4=BA=8E2026=E5=B9=B49=E6=9C=8813=E6=97=
+=A5=E5=91=A8=E6=97=A5 23:03=E5=86=99=E9=81=93=EF=BC=9A
+> > > > >
+> > > > > Hello,
+> > > > >
+> > > > > On Sun, Sep 13, 2026 at 10:43:04PM +0800, Chengfeng Lin wrote:
+> > > > > > I found an increase in empty cgroup removal latency across 507d=
+8ce13f5b
+> > > > > > ("kernfs: Don't set_nlink for directories being removed") and e=
+ea5d2bb34ba
+> > > > > > ("kernfs: Send IN_DELETE_SELF and IN_IGNORED"). With sched_ext =
+disabled,
+> > > > > > rmdir() went from about 6.5 us to 9.6 us, an increase of 46-47%=
+.
+> > > > > > The result held in two independent runs.
+> > > > >
+> > > > > I don't want to make cgroup removal unnecessarily expensive but a=
+t the same
+> > > > > time it's not an operation that I consider to be a hot path, so a=
+s long as
+> > > > > the operaiton can finish in a reasonable amount of time and singl=
+e digit us
+> > > > > definitely is, performance of rmdir usually isn't something which=
+ is high in
+> > > > > priority. Can you please detail why this matters for you?
+> > > > >
+> > > > > Thanks.
+> > > > >
+> > > > > --
+> > > > > tejun
+> > >
+> > > Hi Chengfeng and Tejun,
+> > >
+> > > We use this kernfs IN_DELETE_SELF feature on Android where multiple
+> > > cgroups are created and removed frequently on a per-application basis=
+,
+> > > but we hadn't noticed a significant delay due to the inotify
+> > > functionality during cgroup removal. It's probably masked by much
+> > > larger delays (milliseconds) we regularly see due to unreleated issue=
+s
+> > > with cgroup locks like priority inversion with cgroup_mutex, and
+> > > contention for cgroup_threadgroup_rwsem.
+> > >
+> > > As far as what we can do, I think avoiding inode lookups for kernfs
+> > > nodes that never had an inode created should improve the situation. I=
+t
+> > > doesn't eliminate the locking overhead, which I don't think can easil=
+y
+> > > be eliminated. The code below doesn't deal with inode eviction either=
+,
+> > > but at least files which are never accessed won't introduce the inode
+> > > lookup overhead.
+> > >
+> > > diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+> > > index 4f9ade82b08a..3ec9f79b1aa2 100644
+> > > --- a/fs/kernfs/dir.c
+> > > +++ b/fs/kernfs/dir.c
+> > > @@ -1523,6 +1523,9 @@ static void kernfs_clear_inode_nlink(struct
+> > > kernfs_node *kn)
+> > >         struct kernfs_root *root =3D kernfs_root(kn);
+> > >         struct kernfs_super_info *info;
+> > >
+> > > +       if (!(kn->flags & KERNFS_INODE_INITED))
+> > > +               return;
+> > > +
+> > >         lockdep_assert_held_read(&root->kernfs_supers_rwsem);
+> > >
+> > >         list_for_each_entry(info, &root->supers, node) {
+> > > diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+> > > index 38b28aa7cd02..f8b4a8b8ade4 100644
+> > > --- a/fs/kernfs/inode.c
+> > > +++ b/fs/kernfs/inode.c
+> > > @@ -208,6 +208,10 @@ static void kernfs_init_inode(struct kernfs_node
+> > > *kn, struct inode *inode)
+> > >         set_default_inode_attr(inode, kn->mode);
+> > >         kernfs_refresh_inode(kn, inode);
+> > >
+> > > +       down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+> > > +       kn->flags |=3D KERNFS_INODE_INITED;
+> > > +       up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+> > > +
+> > >         /* initialize inode according to type */
+> > >         switch (kernfs_type(kn)) {
+> > >         case KERNFS_DIR:
+> > > diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
+> > > index e21b2f7f4159..87f074ce19d3 100644
+> > > --- a/include/linux/kernfs.h
+> > > +++ b/include/linux/kernfs.h
+> > > @@ -113,6 +113,7 @@ enum kernfs_node_flag {
+> > >         KERNFS_EMPTY_DIR        =3D 0x1000,
+> > >         KERNFS_HAS_RELEASE      =3D 0x2000,
+> > >         KERNFS_REMOVING         =3D 0x4000,
+> > > +       KERNFS_INODE_INITED     =3D 0x8000,
+> > >  };
+> > >
+> > > -T.J.
 
---
-Cheers, Lorenzo
+--00000000000021c0d8065baaf2d1
+Content-Type: text/x-patch; charset="US-ASCII"; name="0004-inode-requested.patch"
+Content-Disposition: attachment; filename="0004-inode-requested.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <>
+X-Attachment-Id: 
+
+LS0tIGEvZnMva2VybmZzL2Rpci5jCisrKyBiL2ZzL2tlcm5mcy9kaXIuYwpAQCAtMTUyNCw2ICsx
+NTI0LDEwIEBACiAKIAlsb2NrZGVwX2Fzc2VydF9oZWxkX3JlYWQoJnJvb3QtPmtlcm5mc19zdXBl
+cnNfcndzZW0pOwogCisJLyogTm8gaW5vZGUgY2FuIGV4aXN0IGlmIGNyZWF0aW9uIGhhcyBuZXZl
+ciBiZWVuIHJlcXVlc3RlZC4gKi8KKwlpZiAoIVJFQURfT05DRShrbi0+aW5vZGVfZXZlcl9yZXF1
+ZXN0ZWQpKQorCQlyZXR1cm47CisKIAlsaXN0X2Zvcl9lYWNoX2VudHJ5KGluZm8sICZyb290LT5z
+dXBlcnMsIG5vZGUpIHsKIAkJc3RydWN0IGlub2RlICppbm9kZSA9IGlsb29rdXAoaW5mby0+c2Is
+IGtlcm5mc19pbm8oa24pKTsKIAotLS0gYS9mcy9rZXJuZnMvaW5vZGUuYworKysgYi9mcy9rZXJu
+ZnMvaW5vZGUuYwpAQCAtMjQ3LDYgKzI0NywxNiBAQAogewogCXN0cnVjdCBpbm9kZSAqaW5vZGU7
+CiAKKwkvKgorCSAqIENhbGxlcnMgbXVzdCBzZXJpYWxpemUgaW5vZGUgY3JlYXRpb24gYWdhaW5z
+dCBub2RlIHJlbW92YWwsCisJICogdXNpbmcga2VybmZzX3J3c2VtIG9yIHRoZSBvd25pbmcgc3Vi
+c3lzdGVtJ3MgbGlmZXRpbWUgbG9jay4KKwkgKiBDb25jdXJyZW50IHJlYWRlcnMgbWF5IHNldCB0
+aGlzIGluZGVwZW5kZW50IGhpbnQgdG8gdHJ1ZS4KKwkgKiBTZXQgaXQgYmVmb3JlIGlnZXRfbG9j
+a2VkKCksIGFuZCBrZWVwIGl0IHNldCBvbiBmYWlsdXJlIG9yCisJICogZXZpY3Rpb246IGEgZmFs
+c2UgcG9zaXRpdmUgb25seSBjYXVzZXMgYW4gZXh0cmEgbG9va3VwLgorCSAqLworCWlmICghUkVB
+RF9PTkNFKGtuLT5pbm9kZV9ldmVyX3JlcXVlc3RlZCkpCisJCVdSSVRFX09OQ0Uoa24tPmlub2Rl
+X2V2ZXJfcmVxdWVzdGVkLCB0cnVlKTsKKwogCWlub2RlID0gaWdldF9sb2NrZWQoc2IsIGtlcm5m
+c19pbm8oa24pKTsKIAlpZiAoaW5vZGUgJiYgKGlub2RlX3N0YXRlX3JlYWRfb25jZShpbm9kZSkg
+JiBJX05FVykpCiAJCWtlcm5mc19pbml0X2lub2RlKGtuLCBpbm9kZSk7Ci0tLSBhL2luY2x1ZGUv
+bGludXgva2VybmZzLmgKKysrIGIvaW5jbHVkZS9saW51eC9rZXJuZnMuaApAQCAtMjE3LDYgKzIx
+Nyw5IEBACiAJdW5zaWduZWQgaW50CQloYXNoOwkvKiBucyArIG5hbWUgaGFzaCAqLwogCXVuc2ln
+bmVkIHNob3J0CQlmbGFnczsKIAl1bW9kZV90CQkJbW9kZTsKKworCS8qIENvbnNlcnZhdGl2ZSBo
+aW50OyBuZXZlciByZXNldCBkdXJpbmcgdGhpcyBub2RlJ3MgbGlmZXRpbWUuICovCisJYm9vbAkJ
+CWlub2RlX2V2ZXJfcmVxdWVzdGVkOwogCiAJdW5pb24gewogCQlzdHJ1Y3Qga2VybmZzX2VsZW1f
+ZGlyCQlkaXI7Cg==
+--00000000000021c0d8065baaf2d1--
