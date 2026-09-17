@@ -1,107 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DF94B1D03;
-	Thu, 17 Sep 2026 10:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC24E4D37DB
+	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 11:28:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789641527; cv=none; b=CCH6WRYf75pxaiIq2Zv5z3G37LPQhYAZKh/ZVDC9X9O4rSMB/IK9CFldJC4dBe610bo1oxQ4I3WBQvKXw4h6CbrAgUazOVPEHv3kPot/98lCxGmtJpnZrqLaWqAei7f8gKVJvSo9lbpDOZMt4CYzFYEAKy8dMlbzOKQ9dFfsXqc=
+	t=1789644496; cv=none; b=BnxcXIrmfC/CkoDMoHiILRrXJXhYzXZVouzpYoDIAcxyLw1b5sKirCt5Gozwltwkl36NFfiE6q8LkKcI7uFHDwDrbuDYDMA+LfXjJO+mpMXvL6k8oNGsLIzcaR4a02zgVMEckazdnptdCc/CLgIWFd6+JANMVb28362YvezfDGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789641527; c=relaxed/simple;
-	bh=+e8ivKlnBMQPp/74A265SdtXA1ySKPgZK0U0ocD3K9s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JmLSl861fI8mc/CBVOg/7XsQjtWj0nmq9yVLYt510XGJ4qbbqRPGDLBBEJ3kFBM2+sQd9QSNOpoxoZ8xpCzdIsq+O54aMNk7JYEyO8ifQ6X3KBmomoynUpqwuMP0Es7jIA2x3wbx09I5GfxhJeaVA9ZzOKVutjXGwRSe8vLJc9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kIyzUvYD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789644496; c=relaxed/simple;
+	bh=rkbgMLuM3vm0QjSeOouBx6sDtJtxGAt8tN51h/k1Emg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ka7T++7KliafTPRAd5K38U1K+JlRsdPOK7JOT32qg/GsHzUUHZtoNCV6jaCB17aQcecPBU6MfcLA4lpnqnPtMy2YNL/rC/GjODozqWt/NwySUvkTG082krrMFQ3jYgzw6W6kFpSq2HOX3qAromnKjF4Y/sqNMxYkVViy7Eiy+mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cBiVsMop; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kIyzUvYD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240D01F000FF;
-	Thu, 17 Sep 2026 10:38:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789641520;
-	bh=5BdtM5RFjq45N3Wq6rpkk8N4Ygx17v9QoRxQrf6BQWw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kIyzUvYDykmTGvB2Q60URskBsFUxQ4nb8cLoP/wkLsveMoYw91RBGkC+si3yWl+AJ
-	 YTcbJMItLSsa8StskZl+MAi8Y3ZJC65E2m8KhSNwDKETRGa9UIKiHlmI0fR3vKtGi/
-	 Rfm9MLEtLZx4UlRbA6p5aSbRAlEOa9Gr4I8nzj50+f82zFD+XE3sk+O0cfz23A3a4K
-	 muuJvtP6lOHCFwM4ofBw11BoP+mVaJqF6wn2OMLfw6cBg7QSGgI70UzUEtP1tWOZY8
-	 SajEaJ3ZJ1XL2XgT2UkIYqpg+ijVz4vls8BkzzvnDMx/zAmCXtDoErw/3g179krBfP
-	 WbwfbL02sx00g==
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Aleksa Sarai <aleksa@amutable.com>,
-	NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v6 00/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-Date: Thu, 17 Sep 2026 12:38:33 +0200
-Message-ID: <20260917-feilschen-tauschen-fahnenflucht-7d41b8b49511@brauner>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260913185016.523376-1-jkoolstra@xs4all.nl>
-References: <20260913185016.523376-1-jkoolstra@xs4all.nl>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cBiVsMop"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e8185e037so3897025e9.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 04:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1789644493; x=1790249293; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cPQWIr4fS6DSXVaIcQLRpggCO3UERblx+k2pBWKEiyY=;
+        b=cBiVsMopEYxIp2v4ZQ0BZHIhPOhv1WkhfZIuu4HsqqQK2T4j917iiq1KN5c/fsjADH
+         Lb/DrZRbp2YE8jKyKg5brHB8Ei8fXa9RRsZYJOu9PUMNXzPqiuM3h4y48c4CxnqggowI
+         n9DZLWnAay7DQn4gweYncMCfKk8vjh+xGoxaFlpQF5t1SeWlXGSrVkG/lR8LmI6At+OT
+         csDVDcxzQJx+0jpORA4Dm24qTlXpudp0AMa3Giks29Rq7Zdn7cEI92OQDOoXbs34Nl4U
+         nIxCQyu9PJWh+fO+c4nhXpeAdIWHLIegu4mkkX+nSSnf5HlFlhml2wWtXm6vKZBOhzmk
+         RjpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789644493; x=1790249293;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cPQWIr4fS6DSXVaIcQLRpggCO3UERblx+k2pBWKEiyY=;
+        b=SGOK9cIx99rXu3ykqtWWKtWc+/j82/Bw9lFWSWjEwpJtwotgjRMMmDrVk+WbGNqQZ9
+         dBwo1y2liAY+NOAEwzA3Z0RMYISWNe689WH68DX9+ik1+0IVJP9aWw4u9pXGKWN7KYo0
+         6JlukCTxsiEnHArffDwXhixkB51Qu3qPk2yqRWjTtzQFACUobP41ITFaMgKthLNdHd2J
+         9MmGRirDYZNBYb5PqDfcspskLTgjG0GHg9wq3P/rGwuHhnhLtP9B/PUgrOk73kPLcTjH
+         ZhkVng8UhyDCYC9QVL5lLYZohGCnq4pMA/ISmOSYesqXkbnNvXm2tCStHdatzSz5usy9
+         9vMA==
+X-Forwarded-Encrypted: i=1; AKwUvBxB2cvSOEcmIznGpuo5qBZWoKj9J9Yh+Up3l3Zq98/KLARE3391FGIvtbyflCKm07XQtFxYjEU+MfIpUvw/@vger.kernel.org
+X-Gm-Message-State: AFuF++lqBstiZ+oqdDGQhbOLGH/aAW027sTX7ZVDIOEWTxRlZ6WWuYRK
+	wlImNmPtFFJjosTp/rF9Yx/YQ8zgVO0/+2nFP2RV6esabWvFMYnK+BtMXxpU2dQeZbU=
+X-Gm-Gg: AYBFou2Sk5v23Bz3ZllBomiOInUQFiYYcjLX9GyG7RLnjDLFz2qvGq5VNeSucNlaWDU
+	qaQlcR8c62N+wsEfG9psMWd4cDcy6obhDJnnZsm+PDRcb4LGxgJ+t8oLSbIoP0psBD0UuqztHub
+	q/MAwklmKlnqcJC9/xd/000ZB43dxVCuGheHq3hf4HrWpFsDcAaAGuYfpzYoD9PLX9VEl65Wl2I
+	wf8z1N9cXBojw68GOV9pB8Ga2Ald8cj4RdQjmgThZ5xmCjqgaxRd/AM/ffGyZN2t85gd90ro+fN
+	1U10rB1eRLV8xvYjJgk7ZpTaIE3xnFqfQLUcKCdRcP5NNx4mhDgyKTnLAyYPDsv54uSQXlZigT5
+	rh9MRtn1V54zOSUuQ9KCwWe0Rji6XsWONv+wQiWIUt++FMHIPTlcRDWJqdiU8zl9o16+UEZ4OMg
+	A5eaGuq9L+imVIOXdQU4c3m9RvUXiv3vzIbGoEo4m9edTeaRDD57qwa3I3rvh3jPqZVyj+vbK51
+	w==
+X-Received: by 2002:a05:600c:8a17:20b0:49f:bd0d:59f5 with SMTP id 5b1f17b1804b1-49fbd0d59fbmr28486785e9.18.1789644492945;
+        Thu, 17 Sep 2026 04:28:12 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bf34440sm14542597f8f.25.2026.09.17.04.28.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 04:28:12 -0700 (PDT)
+Date: Thu, 17 Sep 2026 13:28:09 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: bcrl@kvack.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, tytso@mit.edu, adilger.kernel@dilger.ca,
+	libaokun@linux.alibaba.com, ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com, yi.zhang@huawei.com, sforshee@kernel.org,
+	akpm@linux-foundation.org, rostedt@goodmis.org,
+	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+	senozhatsky@chromium.org, kees@kernel.org, tglx@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org
+Subject: Re: [PATCH v3 2/8] lib/vsprintf: Use acquire/release for ptr_key
+ publication
+Message-ID: <aqvOybiwt5ZTBjAG@pathway.suse.cz>
+References: <20260902074805.398540-1-ruanjinjie@huawei.com>
+ <20260902074805.398540-3-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2639; i=brauner@kernel.org; h=from:subject:message-id; bh=+e8ivKlnBMQPp/74A265SdtXA1ySKPgZK0U0ocD3K9s=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWStPqx1yO9EvWdO0EvlCxtF1prE9qx7UPV53g/nNN6uj xcfsgct7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiI2DpGhgdyN3a0dUQLWtX1 9OTLxPe0PD0bPLf+z93917+vctZp1GVkuFd4RWzJRxe9v7rWH88yN1us5n/M4sv+YN67b2qSa46 w8QMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260902074805.398540-3-ruanjinjie@huawei.com>
 
-On Sun, 13 Sep 2026 20:50:04 +0200, Jori Koolstra wrote:
-> Finally got back from holiday. I know Neil is also attempting to make
-> changes to the same code paths as the O_CREAT|O_DIRECTORY series touch,
-> so I hope, now that I have a bit more time, that I can push this
-> forwards before I have to do more rebasing.
+On Wed 2026-09-02 15:47:59, Jinjie Ruan wrote:
+> Replace the smp_wmb() + WRITE_ONCE() and READ_ONCE() + smp_rmb() barrier
+> pair with smp_store_release()/smp_load_acquire() on filled_random_ptr_key.
 > 
-> This series implements new semantics for the O_CREAT|O_DIRECTORY flag
-> combination for open*(2): perform a mkdir and open the resulting
-> directory; return a pinning fd (which mkdir does not).
+> This expresses the publish/subscribe pattern more clearly and allows
+> architectures with native acquire/release instructions (e.g. arm64's
+> STLR/LDAR) to avoid the cost of full one-way barriers (DMB ISHST/ISHLD).
 > 
-> [...]
+> No functional change intended.
+> 
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Assisted-by: DeepSeek:DeepSeek-V3
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-Applied to the vfs-7.4.lookup branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.lookup branch should appear in linux-next soon.
+JFYI, this patch has been committed into printk/linux.git,
+branch for-7.3.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.lookup
-
-[01/12] fs/namei.c: use trailing_slashes()
-        https://git.kernel.org/vfs/vfs/c/614d27b66efd
-[02/12] vfs: prepare vfs_creat|mkdir_no_perm for reuse in lookup_open()
-        https://git.kernel.org/vfs/vfs/c/2eacbb993f65
-[03/12] vfs: lookup_open(): move setting FMODE_CREATED down
-        https://git.kernel.org/vfs/vfs/c/db4a1ea6a55e
-[04/12] vfs: move ->create check in lookup_open() to before try_break_deleg()
-        https://git.kernel.org/vfs/vfs/c/27ab83a2c268
-[05/12] vfs: lookup_open(): use vfs_create_no_perm()
-        https://git.kernel.org/vfs/vfs/c/900d6abddd54
-[06/12] vfs: lookup_open(): lock the parent as I_MUTEX_PARENT
-        https://git.kernel.org/vfs/vfs/c/0567a62f5ea1
-[07/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-        https://git.kernel.org/vfs/vfs/c/596e3a392d61
-[08/12] vfs: change ->create/->mkdir operations unavailable errno
-        https://git.kernel.org/vfs/vfs/c/dc6315c50724
-[09/12] vfs: move O_IS_MKDIR check from lookup_open() into individual filesystems
-        https://git.kernel.org/vfs/vfs/c/885bf5afa273
-[10/12] vfs: refuse O_CREAT for directories through a dangling symlink
-        https://git.kernel.org/vfs/vfs/c/c7a93442a9b2
-[11/12] vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens
-        https://git.kernel.org/vfs/vfs/c/093f13c7a954
-[12/12] selftest: add tests for open*(O_CREAT|O_DIRECTORY)
-        https://git.kernel.org/vfs/vfs/c/76208ee704c2
+Best Regards,
+Petr
