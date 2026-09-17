@@ -1,152 +1,344 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443EE497396;
-	Thu, 17 Sep 2026 18:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07AE372EE4;
+	Thu, 17 Sep 2026 21:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789671109; cv=none; b=apvt9tbrvwEapDnfhUAJ7+QEpMPmlRelCrCMWEW+ph5TQSRfXyQqVRyXKoneeZiVUH6ERk4cn9UrhnDOpIJPABD+niMyq4cJw1N8Sq+6l4Z/yFpJgw0D2Sbfzf2v7uQzxR74CWDMGopw6RaRCADCjjATutybdfv1FhL/1LT3a+E=
+	t=1789680216; cv=none; b=g2bgpnAi/Vv5ixUWGSG0TYXrtqSobRkAou/zvGOIOf77JoZPMxRxAySaehDpgk/7M+OCOq7xFFpXobOZBgrOyj+j6S/nL/P+IHI6rx022qm2r7mTTzuan0Dxmhc5hEES8awYujd0+hzxA1iKvn1N7lqt7AOSJqZ3C5wTATAAd8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789671109; c=relaxed/simple;
-	bh=ttT2acPESAEe9IEFqqv0NMM/wVWSwILlYS6mPQhIaVs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oHGAx0u1cyytXLrdC6BnTNsey+vE4A/JBxKMV7McKjRBtrahLZnlBvnWgp8R1Fh5WWupa45xz7pRxtzuGPQpOm3vFSr9YAyBMCcVtSSTwOGPPLLScxtFR2+aGPkMKPNS8+QDmvEmdbD4IYXpPKdWK+7XcqZxYtLOVq32dpfNFnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DHciUaQi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789680216; c=relaxed/simple;
+	bh=A7lL4KAfhIJBbzpbVryrOoEGdPkviEAu9tdoSX0n4Ds=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=N40tQlDZP0IAp0gSzyUzDVp4y7zAOsnximH2X5/zqZunIP/f4p48s+2mp9LtyMP5xxoe5IOZOmRmsFVw6bjyda3UParxu5zf9KQ0MGPmGgWrFGy0saesl/w26ge+OU+eieRdAZoTEa76Y4tQXwqEvoEaAxacJqfxGhvXcJQzIJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=VUF866Xg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DHciUaQi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A32691F000FF;
-	Thu, 17 Sep 2026 18:51:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789671108;
-	bh=zkE36zXjgpUoXR6qQPGpAlQzx5cmJWNfAx/70J4Nbfg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DHciUaQioobDg2d8hIlYtxzPmHeu5FGEqnB5k5fUR9ViS2moteEIXNxPLVp15PSP9
-	 VXbVbdq0ae9y1kN6XYFxMHsZSAnU78C39DPVOwiW3nrte5dsl0MjcakLHh3cPqnX9Y
-	 X7fJDLebZM/f9ye9s7UsgLaNITuhYVxBsjJ3bBTI=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Chengfeng Ye <nicoyip.dev@gmail.com>,
-	Qi Zhang <marsy12010123@gmail.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	linux-afs@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: [PATCH 6.12 0869/1102] afs: Clear stale peer app data after address list changes
-Date: Thu, 17 Sep 2026 16:13:32 +0100
-Message-ID: <20260917151602.374192129@linuxfoundation.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260917151539.408551884@linuxfoundation.org>
-References: <20260917151539.408551884@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="VUF866Xg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5062D1F000FF;
+	Thu, 17 Sep 2026 21:23:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1789680214;
+	bh=NUNrBmtamoGTZdnjr2/yL2y2w6DcpJMvTMICnOHXcqc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=VUF866Xg25rkEYuIAeRh8+Jby3Nsgi0QqQgf+tcoe0C7lFWZo2kW07wobdbQTXONa
+	 IrDTi0vtFdOje+nXofZ7qVIuq8UFrLKFeRBPgY0JvevdHLKjcg92+cAb0Z4/yQgheh
+	 XekOEPMPEkzPT/6xM5Mwlpf+y3YNL1+GloA5Mf1w=
+Date: Thu, 17 Sep 2026 14:23:29 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato
+ <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dennis Dalessandro
+ <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
+ <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya
+ Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
+ Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
+ <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert
+ <dgilbert@interlog.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter
+ <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel
+ <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
+ <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov
+ <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner
+ <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
+ <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rik van Riel
+ <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
+ <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, Oliver Upton
+ <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul
+ Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda
+ <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
+ <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
+ <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Chris
+ Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng Shi
+ <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He
+ <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, Johannes
+ Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
+ <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Chengming
+ Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, Miklos
+ Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
+ selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>, Emil Tsalapatis
+ <emil@etsalapatis.com>
+Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit,
+ eliminate VM_SPECIAL
+Message-Id: <20260917142329.369cd6539261d590600ce7ec@linux-foundation.org>
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+On Thu, 17 Sep 2026 17:22:09 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
 
-------------------
+> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
+> properties:
+> 
+> * Is this kernel-owned, whether MMIO, kernel-allocated pages, or ordinary
+>   pages a driver maps itself?
+> * Can it be expanded or merged?
+> * Is this a 'weird' case like mlock where migration might race and we
+>   'have' to set invalid flags to notify?
+> * Is it another 'weird' case where we just want to stop GUP from touching
+>   it?
+> 
+> ...
+> 
+> This series brings some order to things by both limiting what drivers can
+> do with VMA flags and switching to using predicates that describe
+> behaviour, not arbitrary flags.
 
-From: Chengfeng Ye <nicoyip.dev@gmail.com>
+Thanks, I've updated mm.git's mm-unstable branch to this version.
 
-commit ba0623fc19a424f4745394c499f9f28a8d88d397 upstream.
+> v3:
+> * Fixed up bug in patch 1 as reported by Mike - have to delay setting
+>   map->vma_flags until after action prepare, though map->vm_file needs to
+>   be set before for correct reference count management.
+> * Updated 4/40 to add a symmetric vm_end check as well as vm_start in case
+>   of a dangerously insane driver, as per Sashiko.
+> * Updated 8/40 to check if a driver did something REALLY stupid like having
+>   a NULL discontig_kernel_page_ops ptr, as per Sashiko.
+> * Updated 15/40 to trivially synchronise userland test comments.
+> * Updated 17/40 to correctly duplicate code to the userland VMA tests as
+>   per Sashiko.
 
-afs_fs_probe_fileserver() fetches the current endpoint state under
-server->fs_lock, but leaves old_alist as NULL.  Consequently,
-afs_set_peer_appdata() treats every address list replacement as initial
-setup and only binds the new peers; it never unbinds peers removed from
-the old list.
+Here's how v3 altered mm.git:
 
-An address refresh can therefore proceed as follows.  CPU 0 replaces
-server S's list and drops Pold without clearing Pold->app_data.  The
-server destroyer then clears only S's current peers and lets S reach its
-RCU callback.  After the callback frees S, CPU 1 handles a callback
-through an RxRPC connection that still pins Pold, reads Pold->app_data,
-and calls afs_use_server() on the freed object.
 
-KASAN reported:
+ mm/internal.h                   |    4 ++-
+ mm/memory.c                     |    2 -
+ mm/vma.c                        |   34 +++++++++++++++++-------------
+ mm/vma.h                        |    3 +-
+ tools/testing/vma/include/dup.h |   24 ++++++++++++++++-----
+ 5 files changed, 45 insertions(+), 22 deletions(-)
 
-  BUG: KASAN: slab-use-after-free in afs_find_server+0x3c/0xa0
-  Read of size 4 at addr ffff8881013e1af0 by task krxrpcio/7001/74
-  Call Trace:
-   afs_find_server+0x3c/0xa0
-   afs_rx_new_call+0x15c/0x390
-   rxrpc_new_incoming_call+0x97c/0x1730
-   rxrpc_input_packet.constprop.0+0xd03/0xec0
-   rxrpc_io_thread+0x967/0x1640
-  Allocated by task 93:
-   afs_lookup_server+0x1a7/0x14c0
-   afs_alloc_server_list+0x43f/0xb60
-   afs_create_volume+0x923/0x1490
-   afs_get_tree+0x1c6/0x10a0
-  Freed by task 0:
-   kfree+0x131/0x3c0
-   rcu_core+0x50a/0x1850
-  Last potentially related work creation:
-   __call_rcu_common.constprop.0+0x71/0xa10
-   afs_put_server+0x213/0x2b0
-
-Preserve old->addresses for the peer app-data update so that removed
-peers are cleared before the endpoint state is replaced.  Also advance
-both cursors when the old and new lists share a peer; activating the
-old/new comparison without this would otherwise loop forever on the
-shared entry.
-
-Fixes: 40e8b52fe8c8 ("afs: Use the per-peer app data provided by rxrpc")
-Signed-off-by: Chengfeng Ye <nicoyip.dev@gmail.com>
-Signed-off-by: Qi Zhang <marsy12010123@gmail.com>
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://patch.msgid.link/20260902121024.3328255-5-dhowells@redhat.com
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: linux-afs@lists.infradead.org
-cc: linux-fsdevel@vger.kernel.org
-cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- fs/afs/addr_list.c | 5 ++++-
- fs/afs/fs_probe.c  | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/fs/afs/addr_list.c b/fs/afs/addr_list.c
-index 63bf096b721a..73195d76b481 100644
---- a/fs/afs/addr_list.c
-+++ b/fs/afs/addr_list.c
-@@ -394,8 +394,11 @@ void afs_set_peer_appdata(struct afs_server *server,
- 		struct rxrpc_peer *pn = new_alist->addrs[n].peer;
- 		struct rxrpc_peer *po = old_alist->addrs[o].peer;
+--- a/mm/internal.h~b
++++ a/mm/internal.h
+@@ -244,6 +244,7 @@ static inline void vma_close(struct vm_a
+ static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
+ {
+ 	const unsigned long prev_start = vma->vm_start;
++	const unsigned long prev_end = vma->vm_end;
+ 	const vma_flags_t prev_flags = vma->flags;
+ 	int err;
  
--		if (pn == po)
-+		if (pn == po) {
-+			n++;
-+			o++;
- 			continue;
-+		}
- 		if (pn < po) {
- 			rxrpc_kernel_set_peer_data(pn, data);
- 			n++;
-diff --git a/fs/afs/fs_probe.c b/fs/afs/fs_probe.c
-index a91ad1938d07..8c62334dbfe7 100644
---- a/fs/afs/fs_probe.c
-+++ b/fs/afs/fs_probe.c
-@@ -258,6 +258,7 @@ int afs_fs_probe_fileserver(struct afs_net *net, struct afs_server *server,
- 					lockdep_is_held(&server->fs_lock));
- 	if (old) {
- 		estate->responsive_set = old->responsive_set;
-+		old_alist = old->addresses;
- 		if (!new_alist)
- 			new_alist = old->addresses;
+@@ -263,9 +264,10 @@ static inline int mmap_file(struct file
+ 	if (unlikely(err))
+ 		return err;
+ 
+-	err = mmap_hook_validate(prev_start, &prev_flags, vma);
++	err = mmap_hook_validate(prev_start, prev_end, &prev_flags, vma);
+ 	if (unlikely(err)) {
+ 		vma->vm_start = prev_start;
++		vma->vm_end = prev_end;
+ 		vma_close(vma);
  	}
--- 
-2.55.0
-
-
+ 
+--- a/mm/memory.c~b
++++ a/mm/memory.c
+@@ -2653,7 +2653,7 @@ int map_discontig_kernel_pages_prepare(s
+ 		action->map_kernel_discontig.ops;
+ 
+ 	/* At minimum need to be able to get pages. */
+-	if (WARN_ON_ONCE(!ops->get))
++	if (WARN_ON_ONCE(!ops || !ops->get))
+ 		return -EINVAL;
+ 
+ 	__map_kernel_pages_prepare(desc);
+--- a/mm/vma.c~b
++++ a/mm/vma.c
+@@ -2797,15 +2797,15 @@ static int mmap_validate_vma_flags(const
+ }
+ 
+ /* Check to ensure a driver hasn't done something crazy. */
+-static int mmap_validate(unsigned long prev_start,
+-			 unsigned long curr_start,
++static int mmap_validate(unsigned long prev_start, unsigned long prev_end,
++			 unsigned long curr_start, unsigned long curr_end,
+ 			 const vma_flags_t *prev_flags,
+ 			 const vma_flags_t *curr_flags)
+ {
+ 	bool was_maywrite, is_maywrite;
+ 
+-	/* Drivers cannot alter the address of the VMA. */
+-	if (WARN_ON_ONCE(prev_start != curr_start))
++	/* Drivers cannot alter the range of the VMA. */
++	if (WARN_ON_ONCE(prev_start != curr_start || prev_end != curr_end))
+ 		return -EINVAL;
+ 
+ 	was_maywrite = vma_flags_test(prev_flags, VMA_MAYWRITE_BIT);
+@@ -2843,7 +2843,8 @@ int mmap_prepare_validate(const struct v
+ 	    WARN_ON_ONCE(desc->action.type != MMAP_NOTHING))
+ 		return -EINVAL;
+ 
+-	return mmap_validate(prev_desc->start, desc->start,
++	return mmap_validate(prev_desc->start, prev_desc->end,
++			     desc->start, desc->end,
+ 			     &prev_desc->vma_flags, &desc->vma_flags);
+ }
+ 
+@@ -2851,19 +2852,22 @@ int mmap_prepare_validate(const struct v
+  * mmap_hook_validate() - Ensure the driver hasn't violated invariants in
+  * its f_op->mmap hook.
+  * @prev_start: The start of the mapping prior to the mmap hook.
++ * @prev_end: The end of the mapping prior to the mmap hook.
+  * @prev_flags: The VMA flags set for the VMA prior to the mmap hook.
+  * @vma: The VMA after the hook has been applied.
+  *
+  * Returns: 0 on success, otherwise an error.
+  */
+-int mmap_hook_validate(unsigned long prev_start,
++int mmap_hook_validate(unsigned long prev_start, unsigned long prev_end,
+ 		       const vma_flags_t *prev_flags,
+ 		       const struct vm_area_struct *vma)
+ {
+ 	const unsigned long start = vma->vm_start;
++	const unsigned long end = vma->vm_end;
+ 	const vma_flags_t *flags = &vma->flags;
+ 
+-	return mmap_validate(prev_start, start, prev_flags, flags);
++	return mmap_validate(prev_start, prev_end, start, end, prev_flags,
++			     flags);
+ }
+ 
+ static int call_action_prepare(struct mmap_state *map,
+@@ -2900,15 +2904,9 @@ static int call_mmap_prepare(struct mmap
+ 	if (err)
+ 		return err;
+ 
+-	/* Update fields permitted to be changed. */
+-	map->pgoff = desc->pgoff;
++	/* Update first so file refcount tracked correctly. */
+ 	if (desc->vm_file != map->vm_file)
+ 		map->vm_file = desc->vm_file;
+-	map->vma_flags = desc->vma_flags;
+-	map->page_prot = desc->page_prot;
+-	/* User-defined fields. */
+-	map->vm_ops = desc->vm_ops;
+-	map->vm_private_data = desc->private_data;
+ 
+ 	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
+ 	if (!desc->vm_ops)
+@@ -2923,6 +2921,14 @@ static int call_mmap_prepare(struct mmap
+ 	if (err)
+ 		return err;
+ 
++	/* Update fields permitted to be changed. */
++	map->pgoff = desc->pgoff;
++	map->vma_flags = desc->vma_flags;
++	map->page_prot = desc->page_prot;
++	/* User-defined fields. */
++	map->vm_ops = desc->vm_ops;
++	map->vm_private_data = desc->private_data;
++
+ 	/*
+ 	 * MAP_PRIVATE-/dev/zero mappings are an ancient way of getting
+ 	 * anonymous mappings. Rather than allowing these mappings to be odd
+--- a/mm/vma.h~b
++++ a/mm/vma.h
+@@ -786,7 +786,7 @@ void vm_area_free(struct vm_area_struct
+ int mmap_prepare_validate(const struct vm_area_desc *prev_desc,
+ 			  const struct vm_area_desc *desc);
+ 
+-int mmap_hook_validate(unsigned long prev_start,
++int mmap_hook_validate(unsigned long prev_start, unsigned long prev_end,
+ 		       const vma_flags_t *prev_flags,
+ 		       const struct vm_area_struct *vma);
+ 
+@@ -851,6 +851,7 @@ static inline int mmap_prepare_validate(
+ }
+ 
+ static inline int mmap_hook_validate(unsigned long prev_start,
++				     unsigned long prev_end,
+ 				     const vma_flags_t *prev_flags,
+ 				     const struct vm_area_struct *vma)
+ {
+--- a/tools/testing/vma/include/dup.h~b
++++ a/tools/testing/vma/include/dup.h
+@@ -1667,22 +1667,36 @@ static inline bool vma_is_kernel_owned(c
+ 	return vma_flags_is_kernel_owned(&vma->flags);
+ }
+ 
++static inline bool vma_flags_is_fixed_mapping(const vma_flags_t *flags)
++{
++	/*
++	 * VMA_PFNMAP_BIT should imply VMA_DONTEXPAND_BIT, but some callers set
++	 * only the former.
++	 */
++	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_DONTEXPAND_BIT);
++}
++
++static inline bool vma_is_fixed_mapping(const struct vm_area_struct *vma)
++{
++	return vma_flags_is_fixed_mapping(&vma->flags);
++}
++
+ static inline bool vma_flags_can_merge(const vma_flags_t *flags)
+ {
+ 	/*
+-	 * VMA merging assumes that the properties of a VMA completely describe
+-	 * the properties of that VMA.
++	 * VMA merging assumes that a VMA's flags and fields completely describe
++	 * its state.
+ 	 *
+ 	 * However, kernel-owned mappings may have established state upon mapping
+ 	 * not embodied in any attribute of the VMA.
+ 	 *
+-	 * Additionally, PFN maps encode the source PFN of the range in
+-	 * vma->vm_pgoff, which may otherwise cause spurious merges.
++	 * Additionally, private (CoW) PFN maps encode the source PFN of the
++	 * range in vma->vm_pgoff, which may otherwise cause spurious merges.
+ 	 */
+ 	if (vma_flags_is_kernel_owned(flags))
+ 		return false;
+ 	/* VMA explicitly marked as being unmergeable. */
+-	if (vma_flags_test(flags, VMA_DONTEXPAND_BIT))
++	if (vma_flags_is_fixed_mapping(flags))
+ 		return false;
+ 
+ 	return true;
+_
 
