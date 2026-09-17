@@ -1,174 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF9D4E1C88;
-	Thu, 17 Sep 2026 12:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D384E4315
+	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 12:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789646864; cv=none; b=A17KEeE8EtZbFFmXV4yVdbFHgc2Swqyiq303J0quBDuJM6pkuYlw2opoNn/QXjE0b1bc+MjlXKc4zyQ0qmOGMnZnoZQqV6f448PylwhQnwrM7Y8zdvdkQM8dWIJVrajCC20T2upMo5NHqnOGKMFvRSyc5N4rVGz5S2VAKwBYd0Q=
+	t=1789647764; cv=none; b=Wmx/f+1MsDr6GMf8+iYjbt/pNhRTjzWJp6vZKyQGTN04Ae5dBG61hdQ0ktPWC88rUu5YVBFYIWHSxQ54ofGQk+Bs3T5QdUNSNUaGriirA2WabLcXb71q2/gHsvWDTrisANIp4BId2eEW+rWal4cpiB71uy3Xze09wuwiqIcG6iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789646864; c=relaxed/simple;
-	bh=c8tD0lS9s775XHUm8X8GiBymBT1XGdd+cjg+vokAayE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fJBKwUAsEVm7HKRjy3JY1sVOYhOAobLtY1V61bTOFys7TmgT4jyvT/ADLvIm76y97FSm7jnBPL6FwrqVndZR3K/sARndzIBL71WE0Saw5ySEaT508FleF5uzCcciMWu10/sgUTv7MIlvH4orncCaIfYm9Ek2i/GRdtiLaWNr5+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K58NCglN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789647764; c=relaxed/simple;
+	bh=OJmskDiFOgBotmQnXQAOWrnTyjAq3r/ZPkOzXCktDOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i15kc+XFuNdc1HKa3jf90gFKd8My4Mtfi4op5nhdKxqiHSkR6JtbV3TvNERYXHvrMzcX6YhIMcbYMHjHIeP7PMDj08ErMiprvMS6mKPhat9sg/ilwMbMHvv11rpIrQKHrnWIWUUuJOYbD3DaiW4KRDyH213q1vrhB0gDQupxudM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W8MWUiGW; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K58NCglN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 556061F00893;
-	Thu, 17 Sep 2026 12:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789646847;
-	bh=iMer4Wj/tXsJyZhOk2Q/evNupOvB9rMxehBb5u+wCF8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K58NCglN8CbhU0YFU/xGV5wF/HIlHlNiyeYVNTFK33M5Fs4s3vzwQ08I4ZNLA6PVr
-	 4cbjY96BXua8KKYTAZtCmWseSTHYGSEQfBY8JR4YN1rxQcVPVlfuJq4k9rXSZNzKB6
-	 UTlBP9gkl8bAixKFD4EXN9jeGfVVFc+KkSZtZuU7qpi4MhfsncHNzmfNNhiXemc5T2
-	 hHjhcKrel70KJyudXWN7q31VeARLc8gwn1GsxlQ/19tvo8BDYIrWHVrkWJ7LZMFcTu
-	 KAlF/8t2dQCAaf/pUcyuPlzrEvKkoqf3/vtCaaoWnp+F5EuE9dNjxfpTp7+/FLw68X
-	 U2MJJ6Aym8Tng==
-Date: Thu, 17 Sep 2026 14:07:22 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Zenghui Yu <yuzenghui@huawei.com>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH RFC v4 23/25] fs: start all kthreads in nullfs
-Message-ID: <20260917-atemtechnik-bleichen-befassen-9a57db01baf0@brauner>
-References: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
- <20260601-work-kthread-nullfs-v4-23-77ee053060e0@kernel.org>
- <15174353-3f4a-a1ca-5bd1-ea2a4c77828e@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W8MWUiGW"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6b885ef8so4399585e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 05:22:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789647757; x=1790252557; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=p0zmU2W+3BnffNO8O4v0JPRgPOvlhktXL05mpLnU1xo=;
+        b=W8MWUiGWkLnPE3LZwZMs+M6hjewk3bifMXlRxyzDreqvti1vU2oOe8kuHIJilh+a4j
+         avmi0gE2ouNHVuMutBqsR46ibWdW2hMSUIg+O7ewEblQDSqXn5oywiAzmcEOAAbnHJh9
+         CowIX7j0Z9oM0FI7AJhmCimPMAgxALlDijVAFCnLuHoqmAoi4nozpd09gBGC/BiDrVMP
+         v8CWYPOQj7wYPLWd3xvspz5rrIP7ZmsQlXq/fr57voEYreoEfZ0jpBHODcwFTuLtahTp
+         5Ork4vvRYVxbjDbbXem88rlm5er/r+K8QtAMln4o0OqF8zBcjtvMGd0fo9MP/8kOij+L
+         7TVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789647757; x=1790252557;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=p0zmU2W+3BnffNO8O4v0JPRgPOvlhktXL05mpLnU1xo=;
+        b=yoAQyyodGd8jALd1EIHF9QR0DMhzckrpY07WgsxfodK+DdQhkYDlNAtb0M0qeGPmRi
+         rKmSXxcpIS26wEUVEkUROk4NMyGjo2IHWfGRLJdcrtp6/6xAAQK01kWkq50x7nbpEsPk
+         yhiGrQEvkMRahJtLsDeEJYFP5Bfdx0cGK4TZHwGLlkmpKo6B9uhtgRpdoo0sHke0X8z1
+         NHUj9H2SKeBYbNjD8JcBRNp1Ogt8cHOjBuxqB86Xs0B7399R0HrMTG9K7Vlv0V+N+Z42
+         6EWRwCzfNQQXgnPv/g+7xeoqxVl+mA0g8NfTamN8RniZ27PbWcn/++E5/hmNbG3yMyeL
+         LcRQ==
+X-Gm-Message-State: AFuF++kpvJBsGaWyTpnq3uYTSiLtUsZDAvIElhozLQAFstKJG3+SiUwc
+	O+ZcaTJDSHjKTXGT7hYviYZxSMErDXCBKwY62i10Yj6KXiBw/r12JJ/Z
+X-Gm-Gg: AYBFou2cWCd5PWzvh4zLb9+7fHBN6VQ6T2gJk+OeFgD/i06kY1njhz5Ef7O/AMsjXXN
+	eUbqZ7HSCW4scvjCLmiYtKhqiZFjx3aQ+59v5QTgixUVGeGdbYZmejYApxhRN6znj/NQvvRF3Vg
+	+CkbLoGdlguLWYr8/RMpBLcxQfM26ULk8/Oh1ADrfcQRh5XRq4565VnEPPFc1gbjvQInHwHT3n8
+	LZ4b6wBHfbJSihKOoJKjvteH30fCW905+AuTFKlD7aFdckexH0nCTlt6iege3+xwv+RdkLj9+/k
+	yE28D70WU7XgVwH44FGAknTS31GLSlE0FJe3/d8zdfZzCaegwp74v4NdmGBeew9zWV2qd+lyUP1
+	2XatAjpoq4KrvzxSjZtfgnzFYnEVtjNLDn/Vg+GZVeou0auD+fWFq2lwwgWO16El831owy7uor2
+	WySTMwXLEue09EufI1bZxdrErR0ytm4BjmuBNgMDhtqOM/vzSQ26G/xVmce49Nssn8LKyLcGvqi
+	mZ6rhIy8HsgfSOYQnRfe3sA957I7p6bLyY4
+X-Received: by 2002:a05:600c:4ed4:b0:49c:de80:b833 with SMTP id 5b1f17b1804b1-49eac462571mr73688225e9.2.1789647756735;
+        Thu, 17 Sep 2026 05:22:36 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bef7678sm15969081f8f.2.2026.09.17.05.22.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 05:22:36 -0700 (PDT)
+Date: Thu, 17 Sep 2026 13:22:31 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, linuxppc-dev@lists.ozlabs.org,
+ linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org, wine-devel@list.winehq.org,
+ linux-xfs@vger.kernel.org, io-uring@vger.kernel.org, bpf@vger.kernel.org,
+ linux-mm@kvack.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] file: declare the FD_PREPARE() variable with
+ __cleanup() directly
+Message-ID: <20260917132231.26314015@pumpkin>
+In-Reply-To: <20260917-work-file-fd_prepare-v1-2-b87534ca49f3@kernel.org>
+References: <20260917-work-file-fd_prepare-v1-0-b87534ca49f3@kernel.org>
+	<20260917-work-file-fd_prepare-v1-2-b87534ca49f3@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="m5zqlu75hgmbkw4c"
-Content-Disposition: inline
-In-Reply-To: <15174353-3f4a-a1ca-5bd1-ea2a4c77828e@huawei.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Thu, 17 Sep 2026 11:09:43 +0200
+Christian Brauner <brauner@kernel.org> wrote:
 
---m5zqlu75hgmbkw4c
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+> The whole CLASS_INIT() detour isn't needed. Use __cleanup() directly and
+> give the destructor a private name.
 
-> The following lockdep splat can be triggered on mainline, which is built
-> with arm64's defconfig plus
+It also makes the code enormously easier to read.
+
+David
+
 > 
-> 	CONFIG_SHRINKER_DEBUG
-> 	CONFIG_PROVE_LOCKING
-> 	CONFIG_FTRACE
+> No functional changes.
 > 
-> .  Reverting this patch (as pointed out by AI) makes this warn disappear.
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  include/linux/file.h | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/file.h b/include/linux/file.h
+> index 2b864f457211..926cc58d0b7f 100644
+> --- a/include/linux/file.h
+> +++ b/include/linux/file.h
+> @@ -146,9 +146,6 @@ struct fd_prepare {
+>  	struct file *__file; /* do not access directly */
+>  };
+>  
+> -/* Typedef for fd_prepare cleanup guards. */
+> -typedef struct fd_prepare class_fd_prepare_t;
+> -
+>  /*
+>   * Accessors for fd_prepare class members.
+>   * _Generic() is used for zero-cost type safety.
+> @@ -160,7 +157,7 @@ typedef struct fd_prepare class_fd_prepare_t;
+>  	(_Generic((_fdf), struct fd_prepare: (_fdf).__file))
+>  
+>  /* Do not use directly. */
+> -static __always_inline void class_fd_prepare_destructor(const struct fd_prepare *fdf)
+> +static __always_inline void __fd_prepare_cleanup(const struct fd_prepare *fdf)
+>  {
+>  	if (unlikely(fdf->__fd >= 0)) {
+>  		put_unused_fd(fdf->__fd);
+> @@ -199,10 +196,10 @@ static __always_inline struct fd_prepare __fd_prepare(int fd, struct file *file)
+>   * @_file_owned: struct file to take ownership of (can be expression)
+>   */
+>  #define FD_PREPARE(_fdf, _fd_flags, _file_owned)			\
+> -	CLASS_INIT(fd_prepare, _fdf, ({					\
+> +	struct fd_prepare _fdf __cleanup(__fd_prepare_cleanup) = ({	\
+>  		int __fd = get_unused_fd_flags(_fd_flags);		\
+>  		__fd_prepare(__fd, __fd < 0 ? NULL : (_file_owned));	\
+> -	}))
+> +	})
+>  
+>  /* Do not use directly. */
+>  static __always_inline int __fd_publish(struct fd_prepare *fdf)
+> 
 
-This is benign and caused by holding LOCK_MOUNT_EXACT() for longer than
-necessary. I'm adding the appended fix to vfs.fixes.
-
---m5zqlu75hgmbkw4c
-Content-Type: text/x-diff; charset=utf-8
-Content-Disposition: attachment;
-	filename="0001-fs-don-t-create-the-private-nullfs-mount-under-names.patch"
-
-From a6bd269dceeb76f92d5e8d378fed2482dd208085 Mon Sep 17 00:00:00 2001
-From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 17 Sep 2026 13:20:25 +0200
-Subject: [PATCH] fs: don't create the private nullfs mount under namespace_sem
-
-init_mount_tree() mounts the mutable rootfs on top of nullfs via
-LOCK_MOUNT_EXACT(). That declares a pinned mountpoint with a cleanup
-attribute in the scope of the whole function so the nullfs root inode
-lock and namespace_sem are only dropped when init_mount_tree() returns.
-
-This became a problem when the private nullfs instance for kthreads was
-added. kern_mount() allocates a new superblock and alloc_super() takes
-the new s_umount with SINGLE_DEPTH_NESTING and then shrinker_mutex via
-shrinker_alloc(). Doing that with namespace_sem held teaches lockdep the
-dependency
-
-    namespace_sem -> s_umount/1 -> shrinker_mutex
-
-With CONFIG_SHRINKER_DEBUG shrinker_debugfs_rename() takes the debugfs
-directory inode lock under shrinker_mutex every time a block device is
-mounted and lock_mount_exact() takes namespace_sem under the inode lock
-of the mountpoint for every mount. So mounting anything on debugfs,
-e.g. the tracefs automount on /sys/kernel/debug/tracing, closes the
-cycle:
-
-    WARNING: possible circular locking dependency detected
-    7.3.0-rc3+ #17 Not tainted
-    ------------------------------------------------------
-    rasdaemon/4449 is trying to acquire lock:
-    (namespace_sem){++++}-{4:4}, at: lock_mount_exact+0x4c/0x308
-
-    but task is already holding lock:
-    (&sb->s_type->i_mutex_key#17){++++}-{4:4}, at: lock_mount_exact+0x3c/0x308
-
-    which lock already depends on the new lock.
-    ...
-    Chain exists of:
-      namespace_sem --> shrinker_mutex --> &sb->s_type->i_mutex_key#17
-
-This can't actually deadlock. init_mount_tree() runs single-threaded
-during early boot before any other task exists and nothing allocates a
-superblock under namespace_sem after that. But lockdep can't know that
-and disables itself for the rest of the boot.
-
-Move mounting the rootfs on top of nullfs into a helper so the locks
-are dropped when it returns.
-
-Fixes: 32750c77e811 ("fs: start all kthreads in nullfs")
-Reported-by: Zenghui Yu <yuzenghui@huawei.com>
-Closes: https://lore.kernel.org/15174353-3f4a-a1ca-5bd1-ea2a4c77828e@huawei.com
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/namespace.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
-
-diff --git a/fs/namespace.c b/fs/namespace.c
-index ae5dc64f8b45..5e41021eaa63 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -6184,6 +6184,21 @@ struct mnt_namespace init_mnt_ns = {
- 	.poll		= __WAIT_QUEUE_HEAD_INITIALIZER(init_mnt_ns.poll),
- };
- 
-+static void __init mount_rootfs_on_nullfs(struct vfsmount *mnt,
-+					  struct vfsmount *nullfs_mnt)
-+{
-+	struct path root = {
-+		.mnt	= nullfs_mnt,
-+		.dentry	= nullfs_mnt->mnt_root,
-+	};
-+
-+	LOCK_MOUNT_EXACT(mp, &root);
-+	if (unlikely(IS_ERR(mp.parent)))
-+		panic("VFS: Failed to mount rootfs on nullfs");
-+	scoped_guard(mount_writer)
-+		attach_mnt(real_mount(mnt), mp.parent, mp.mp);
-+}
-+
- static void __init init_mount_tree(void)
- {
- 	struct vfsmount *mnt, *nullfs_mnt;
-@@ -6215,15 +6230,7 @@ static void __init init_mount_tree(void)
- 	mnt_root		= real_mount(nullfs_mnt);
- 	init_mnt_ns.root	= mnt_root;
- 
--	/* Mount mutable rootfs on top of nullfs. */
--	root.mnt		= nullfs_mnt;
--	root.dentry		= nullfs_mnt->mnt_root;
--
--	LOCK_MOUNT_EXACT(mp, &root);
--	if (unlikely(IS_ERR(mp.parent)))
--		panic("VFS: Failed to mount rootfs on nullfs");
--	scoped_guard(mount_writer)
--		attach_mnt(real_mount(mnt), mp.parent, mp.mp);
-+	mount_rootfs_on_nullfs(mnt, nullfs_mnt);
- 
- 	pr_info("VFS: Finished mounting rootfs on nullfs\n");
- 
--- 
-2.53.0
-
-
---m5zqlu75hgmbkw4c--
