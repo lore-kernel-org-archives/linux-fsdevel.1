@@ -1,261 +1,302 @@
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A594DBD62;
-	Thu, 17 Sep 2026 11:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D828A4ACC8C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 11:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789645414; cv=none; b=DKQ7H/JWiBy6o/cPnL5QZJVy5kbcZ/E3KCjUe+Whq1IYECDmzHj1+x7wiDcVzG5ptLmF+V98BhOst79Rs2dwv+Ep+3tGXa9vVSrnbchfLmELiskz4fbrihsttUadIooy1UoPiQtn82siujfyv6N2IJ81IGWs+GqKAhZqK2oVSyo=
+	t=1789645716; cv=none; b=CCU8xgwu0wNxnW2x96rgRN4nrMHNySA1mgubSshzAsdNyhY2AbU8OUo0JgAqrnjBEQXMfNvVmbbd0Z+vLCC/0tJg7GNh++vigfGhr9G2TET4KyKQ4S5RqhwwZmyw4QT07UmIAa+6AjE+CTmqTZ5RCgtw0VY1hcNtFvnyjL64LXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789645414; c=relaxed/simple;
-	bh=+oALyQfyCBImWc42oRDoUs+yaA7/NIOCeIZKNtpZWdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KfSENvIiBpW02fr9b19pj8daf+UGV+YuMwalH1Bl0ufET1RgZQdfJDC1jeotdZ95b0qNsFqFpcwIXjqLmD8UdosyoD/pc+ySUXItdw5Ozqagd8I2xUC/CSyOzdkMz+fUwHPlqL/CuZ644PCOjvvzbbeooKPS3NjK4UHt2myUfZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=giGAT/00; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZXPDk0xY; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1789645716; c=relaxed/simple;
+	bh=40S5Rsrxf9rWkVmZASWWlCuWh4sMf9Qidfv4Hhq2I9o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N+adOS7iQoWFNzE4tu8PJ8E+hcGOWhCISVtzozX8ExHjX3nnpLFQTb0GWdFdP9zNaGbmpo74pOIb8FZQRHAdzPnJQhUk1UGNWqsXZQUd+cGV+dOJHBBfrc0Ivu0svORpspClDLvop5mkPiRgSDCGBJT74FIrSm0JMZWPSnWaXNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HDbpNIpx; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="giGAT/00";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZXPDk0xY"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 655411D00065;
-	Thu, 17 Sep 2026 07:43:20 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 17 Sep 2026 07:43:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1789645400; x=1789731800; bh=1qcRLqhjP+
-	2RUdyDaTkqVzJJt8ARHYyVImCNVpe5Y50=; b=giGAT/00Fqq0KtWwuUhwKR31/4
-	09TToFwhGuSPM8d5m9syzAxi16Z+dnLqMpL217yzhSocXSGMOs2IQoCwuVa2cADU
-	YPfPaj4fo5o5HW2fJOKLmDYXgwsqRQgt3xiWl+rl7nfAi3GRQB1+yCFBDpDFCubH
-	uLTenQUCrOsxS2rK5sMhbUhroKaxl2jbEgmAxRas24cF3KBjUNvk3G01+V4dmtS9
-	uAKsujZF6Pat8YufeO0lEHZVz1LeJ+wKiP/tvCo+PC5LFBpwK6AeoTUcldX4Tsb9
-	BlVQu4GIPRtjirSJRWXh2tpdcnJ7UeX03S27d8O6Kaze2kjq2cgr2WS8CfDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1789645400; x=1789731800; bh=1qcRLqhjP+2RUdyDaTkqVzJJt8ARHYyVImC
-	NVpe5Y50=; b=ZXPDk0xY93VzQiM97E3hNyZSbjLaVPaVe64NlqIOf27LIsG70wp
-	CbtKEIIaEl1ygzgXgPaWMMCYKbSoKGAkVtdOAFlkRyJ/B1WqJeStlZ9wQ+YwB6mY
-	bHTRvIMZH/PLoe5f2agWMLY/tFm4IdsMx4PYTSkMa7lsRFV0qAZmkMQBVlg1sRvt
-	q2kJJKSBf6EdgooyQcu/QLuC9Nnsj325xscplciqu6tehrOJFTwKolRkYe8vGRTY
-	uvXIpi1CSekVDzENDno39oSkkcciyrNsABPgaa1mgofG9+V5pzyyPbdVebevxj3i
-	iwxDtVVZv1m7O+ZbiwasN1Pt5lCWbA9PZ1w==
-X-ME-Sender: <xms:WNKraq4Lsr_UdvGZY6FmDTtU6lEw2oAX1o20LHBCP5zgg98BURb-Ww>
-    <xme:WNKralP-httnh4g02S5WQJDvzNu6BmEu6_FZTuNuzH8B-PsvyTeNJuVKfnXWgHdQ7
-    T2XTMF-FF_hrdknI9hRR7_skHwqHdvoCBMHfWFHkIM1TgdonAE>
-X-ME-Received: <xmr:WNKrauHfq8oQBxQTJAdsJzfS2O814PKEYg6-l3lKcUm4BH1KNLhxL0cE2BdW>
-X-ME-Proxy-Cause: dmFkZTGUCFJKPkuyaHetYCQGL7XSAIw73MfN7gRe0J8jXuosYkk6bIjLisxZNWbf1nRjr9
-    xZp2qe8TaGOVKjkNJqJMGEd/AcQAuhR6XiI8PyTzQ0JmGFKVF1OBdVN/b5RyRjjhFvl8kh
-    h2TKuUDx/7t7p3DkmlxWPzzuU77xh810DMskM1BIe1X97ekDr+eeMgBW+dv0EbJq5VF4FU
-    Wa+xTFQFQio6zdyH1HKLRS9a5SupnNWJl6D8rhMpigr0pPfKQIDc4TxX8B9HBF36G9vbL/
-    bQpwadOIMZmyfZR6YAHhjdrCb0rCrWYWUGlYDFBpBuzjTrRZllZSthzXavcQZi7kBrZ8H9
-    8afp0t41sixGVgoVfCaA+6oiAP5ly0g2jFj1VNJ+7/GGknRIXXxjOezJnyBslFPqpX3nsK
-    tnakKUZKw2GH3Y9HXxY5VDhW8cxQIChnH71O0i0QsqdsS4xe+zneveWcMKPIQghRAZ9t9L
-    taQ1076KfQkk5Pv2ba4Qq6qc/Wl8ifJg9cwXv9CswEFJXdqLeJ+uafICcrA1v6B+iv6DYi
-    mFhVHLc2sHBh9/4yS4pZURwNjkRkjQ2goygUYKEci4nosrp1b4utsUf52ekiohguQcb3Y1
-    fcMyYFEOq2gw/2/KrGlfviblju6w8RqRdwQ8YhYQyKfbYbh29mVG05UkfJdA
-X-ME-Proxy: <xmx:WNKrap0geuIOiS9KMk7XweCraYOFb_rUFqHyWvjjb7vM9PR1pqXbQA>
-    <xmx:WNKralGOLqQEt_D2Ic-wAurU49Or962CvLD31girPObdynwFEP6dRw>
-    <xmx:WNKraqwlyEcwZHJVSOSZqbeLaiXwHiyaGbFyJH6qzMEFlOywSUGAgg>
-    <xmx:WNKrasnVXhmdIlsUBhg_GYM4sI4Yn9o7wzI6XV_uilZKh4pnVqrb6w>
-    <xmx:WNKrai1KwpXza7SN_7QijIqE_J1fjbOPBf01vLy8H5sN58K56uUsvuOo>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Sep 2026 07:43:19 -0400 (EDT)
-Date: Thu, 17 Sep 2026 12:36:23 +0100
-From: Greg KH <greg@kroah.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: stable@vger.kernel.org, David Howells <dhowells@redhat.com>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Enzo Matsumiya <ematsumiya@suse.de>, linux-cifs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Steve French <stfrench@microsoft.com>
-Subject: Re: [PATCH 6.12.y 1/5] cifs: Scripted clean up
- fs/smb/client/cifs_unicode.h
-Message-ID: <2026091711-fervor-scribing-aace@gregkh>
-References: <2026090351-popper-penpal-d0a0@gregkh>
- <20260907114742.2872537-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HDbpNIpx"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d93ff61046so6593105ad.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 04:48:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789645713; x=1790250513; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0XIXiLce8oloEY4uUyIzwGoSl4i1s4G1pZ5kG8wUw3I=;
+        b=HDbpNIpxrcBjqA/Chvc9mLkeMpKwsF8DsjoEjf4P9ByPYcSa0CAj8XuvTxQqcJPEkB
+         8K44R7MPfB5jqamNBkOUis8qt/ibVHyCQabfYwvxdELmWLJJUIinVn2bFcri1250ipNo
+         o31mQ7LBJgZPq0u2Znb0NRZIEohAQk5L/6ljujLOM14R18umYjJYCyYo4ULl+sv4UIBD
+         HpnekR8lkJ98aP/K6rSKUEk7t4GvDeXqMMXk+x/otLpjahnAge60gCR4ML94s32XxiEJ
+         lqlCiv9ig5FsWRQN2ycKM0LEL9niwLJYTUNh8m7K1KEAaKfaxR8/gxoWO/jjYMpLckhy
+         XjSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789645713; x=1790250513;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0XIXiLce8oloEY4uUyIzwGoSl4i1s4G1pZ5kG8wUw3I=;
+        b=N7r9+kbW5g7LeKOkH7eBeP+pgRrCs2NdGJPMtOGmyeZbEx1G76OtMsILlJ7PqJRZsr
+         0z7NYnuqefSjDVdDjHn3sIZ3Wxx2rMdtbyldCrzDeyOCa76aO9/IB4zsKxNwyRzHSwGv
+         QM/7FgmZXMwzC7btOwhs6hT+ENawcQ/nC8fabBXBHt3s4rZ60QyvjELbNuo7Pxwn7jkH
+         xJv5FktCtrnzmKdH62Tbq/iDVfK8CIz059mKTAUnio1kHc/8dCZdC/2cZhg+Lnuu2VKg
+         KkIg4Fq/jtsneTFJrnXPYptNd/2S4WwwQXGaiQJCO2OaAnI3dW4bsCANNt1TiiDYscNQ
+         Gimw==
+X-Forwarded-Encrypted: i=1; AKwUvBxcYhJzbYvYkVLccB4nH6JPAycnbkL/9oHimXUYX/7ANWLdvcA3TIsGr32UeQewjjHWPl5KF5yRK6K53OC4@vger.kernel.org
+X-Gm-Message-State: AFuF++n3Is/jF+UpRqozZ+YRLuahUnwR/FXZtMnM45YpZNgEqM3GuASY
+	5nxuetuxSIixGMU6Ap3V/tYIplx7cnUtJZu6vJXYpPSezkX51ZPbVnUd
+X-Gm-Gg: AYBFou2uYzL8mN4KZQVDtdPNREW3pqvgJc30PG6rLBN+4Ct7Ca4pA2nD+hP4sQpoZR+
+	0X94jgnmJ8dzWj1y8DUrmFayaqs5DHzkh7+TWZ42lifs5hkWty9Ui8XT8/8zctcukZKO8+hDlqk
+	6/B8+hQyujfSWoGHFy+F3nVcxxdoRnSs+L8wAl/U3cfm4F6ZZkNZxZBBe0/x8fSxaJhjnlDUfh0
+	h4JdiZzzswbHvuTlYvLoCYieakue7mtZ1kgK8kpbZTUley6cSZjUeW+K+we+5GHXYfHgXGrz6AF
+	yNKpXOmwJoTCDYJOj7OiMAAuRrAp/tAnRPVIPZ9XCG0pSqk8b3233uT5nxEK5PtgqypaiZq701o
+	D+pKAz6EAOoOzRwdJ8cuA7eM293VCwX9HvIBQYxX0I1q0TUfe5I6aoeEYg4TvCCWcrdTpIcvZR7
+	ASpg6pwTvAHfJYly0L7ObZzk33QzG3uvnVPKNAPdc9qhROed56N0lTDFvAKP0AP1Jb27aMIK0o5
+	aptCrdYldJjBWAjcac=
+X-Received: by 2002:a17:902:f549:b0:2d8:d4cc:5bb1 with SMTP id d9443c01a7336-2dd8e5244bbmr129000285ad.17.1789645712939;
+        Thu, 17 Sep 2026 04:48:32 -0700 (PDT)
+Received: from [100.125.248.95] ([124.70.231.46])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd89d8e6a3sm25444085ad.7.2026.09.17.04.48.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Sep 2026 04:48:32 -0700 (PDT)
+Message-ID: <fd49e71a-34e9-4e72-9510-1b1692bbfca3@gmail.com>
+Date: Thu, 17 Sep 2026 19:48:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260907114742.2872537-1-sashal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] mm/truncate: fix data loss when splitting
+ straddling large folios fails
+To: Brian Foster <bfoster@redhat.com>, Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
+ liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
+ willy@infradead.org, jack@suse.cz, ziy@nvidia.com, joannelkoong@gmail.com,
+ djwong@kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, yukuai@fnnas.com
+References: <20260916092450.654408-1-yi.zhang@huaweicloud.com>
+ <20260916092450.654408-2-yi.zhang@huaweicloud.com> <aqrUGRd0JClEZNzN@bfoster>
+Content-Language: en-US
+From: Zhang Yi <yizhang089@gmail.com>
+In-Reply-To: <aqrUGRd0JClEZNzN@bfoster>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 07, 2026 at 07:47:38AM -0400, Sasha Levin wrote:
-> From: David Howells <dhowells@redhat.com>
+On 9/17/2026 1:38 AM, Brian Foster wrote:
+> On Wed, Sep 16, 2026 at 05:24:48PM +0800, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> truncate_inode_partial_folio() splits a large folio so that the caller's
+>> truncate loop can drop the in-range sub-folios while keeping the
+>> out-of-range tail. The first split at the punch start edge is
+>> non-uniform, which leaves the sub-folio at the truncation end edge as
+>> large as possible, this means it may still straddle the range, holding
+>> both zeroed in-range and valid out-of-range data. The function then
+>> attempts a second split at offset + length to isolate that tail.
+>>
+>> If the second split fails the straddling sub-folio stays merged. The
+>> function returned true unconditionally on all exit paths of the success
+>> block, telling the caller it was fully handled. The caller kept its
+>> default end and the truncate loop truncated every sub-folio below it,
+>> including the merged straddler, discarding the valid out-of-range tail.
+>>
+>> For example, a 4-page order-2 folio punched from offset 0 to the middle
+>> of the last page:
+>>
+>>    truncate_inode_pages_range()
+>>      truncate_inode_partial_folio()      # same_folio == true
+>>        1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
+>>        folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
+>>        2nd split of folio2 fails / cannot lock
+>>        return true                       # BUG: caller keeps default end
+>>      end = 3
+>>      loop truncates p0, p1, p2-3        # p3's valid tail is lost
+>>
+>> This became reachable after commit 7460b470a131 ("mm/truncate: use
+>> folio_split() in truncate operation") replaced the atomic split_folio()
+>> with folio_split(), whose non-uniform split can partially split a folio
+>> and leave the end edge merged.
+>>
+>> It has gone unnoticed because a dirty large folio normally carries the
+>> filesystem's private data, for example buffer_head, so
+>> filemap_release_folio() -> iomap_release_folio() returns false on a
+>> dirty folio and folio_split() aborts with -EBUSY before any split,
+>> leaving the straddler safely unsplit. The bug is only reachable on paths
+>> that produce dirty large folios without filesystem private data, and it
+>> was caught on the upcoming ext4 iomap buffered I/O path when no ifs is
+>> attached.
+>>
+>> Rework the contract so the caller is told the page range to discard:
+>>
+>>    - Add pgoff_t *pstart and *pend out-parameters that receive the page
+>>      range fully covered by [lstart, lend] after any split (or none),
+>>      i.e. the pages wholly within the range and safe to discard.
+>>
+>>    - Adjust the ordering of the validate check when splitting folio2.
+>>      folio2->index is only reliable after the reference count and lock
+>>      have been successfully acquired, since it may have been split
+>>      concurrently, or freed and recycled to an unrelated mapping. On any
+>>      failure to obtain a reliable end position, fall back to
+>>      folio->index, which is safe but leaves the sub-folios split off at
+>>      the offset edge in the page cache.
+>>
+>>    - Rename the byte-range parameters start/end to lstart/lend to better
+>>      express their semantics.
+>>
+>> Callers in truncate_inode_pages_range() and shmem_undo_range() pass
+>> &pstart for the folio at the start edge and &pend for the folio at the
+>> end edge, so the truncate loop drops exactly the fully covered pages and
+>> never touches a straddling folio that still holds valid out-of-range
+>> data.
+>>
+>> Suggested-by: Brian Foster <bfoster@redhat.com>
+>> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
+>> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operation")
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> ---
+>>   mm/internal.h |  4 +--
+>>   mm/shmem.c    | 13 +++-----
+>>   mm/truncate.c | 89 ++++++++++++++++++++++++++++++++++++---------------
+>>   3 files changed, 71 insertions(+), 35 deletions(-)
+>>
+> ...
+>> diff --git a/mm/truncate.c b/mm/truncate.c
+>> index b58ba940be47..bec6d881d022 100644
+>> --- a/mm/truncate.c
+>> +++ b/mm/truncate.c
+> ...
+>> @@ -259,32 +271,62 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
+>>   		 * for shmem truncate
+>>   		 */
+>>   		struct folio *folio2;
+>> +		pgoff_t end, aligned_end = (pos + offset + length) >>
+>> +					   PAGE_SHIFT;
+>>   
+>> -		if (offset + length == size)
+>> -			goto no_split;
+>> +		if (pstart)
+>> +			*pstart = round_up(pos + offset, PAGE_SIZE) >>
+>> +				  PAGE_SHIFT;
+>> +
+>> +		if (offset + length == size) {
+>> +			end = aligned_end;
+>> +			goto out;
+>> +		}
+>>   
+>>   		split_at2 = folio_page(folio,
+>>   				PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
+>>   		folio2 = page_folio(split_at2);
+>>   
+>> +		/*
+>> +		 * folio2 may become stale due to a concurrent split or
+>> +		 * freeing, so validate it before and after taking its lock.
+>> +		 * If it fails, we can't get an accurate end position and fall
+>> +		 * back to folio->index, which may leave sub-folios split off
+>> +		 * at the offset edge in the page cache this round.
+>> +		 */
+>> +		end = folio->index;
+>>   		if (!folio_try_get(folio2))
+>> -			goto no_split;
+>> -
+>> -		if (!folio_test_large(folio2))
+>>   			goto out;
+>>   
+>> +		if (folio2->mapping != folio->mapping ||
+>> +		    !folio_test_large(folio2))
+>> +			goto out_put;
+>> +
 > 
-> [ Upstream commit 696ca7d95658224ba807813101d0d5714d1d8aa4 ]
+> Hi Zhang,
 > 
-> Remove externs, correct argument names and reformat declarations.
+> The only thing that sticks out to me in this version is the
+> !folio_test_large() check above. If we split (or something happens) such
+> that folio2 is no longer large, wouldn't it be more likely to catch it
+> here and fail to update end like we do in the same check a bit further
+> down after the folio lock? Maybe I'm missing something here, but it
+> seems a little odd for the same condition to return two possible states
+> like this. Otherwise I like the changes you've made and the rest of the
+> patch LGTM.
 > 
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> cc: Steve French <sfrench@samba.org>
-> cc: Paulo Alcantara <pc@manguebit.org>
-> cc: Enzo Matsumiya <ematsumiya@suse.de>
-> cc: linux-cifs@vger.kernel.org
-> cc: linux-fsdevel@vger.kernel.org
-> cc: linux-kernel@vger.kernel.org
-> Acked-by: Enzo Matsumiya <ematsumiya@suse.de>
-> Signed-off-by: Steve French <stfrench@microsoft.com>
-> Stable-dep-of: b8e5dc4f95e5 ("smb: client: clear setuid/setgid bit on write with cifsacl/modefromsid/posix extensions")
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  fs/smb/client/cifs_unicode.h | 17 +++++++++--------
->  fs/smb/client/inode.c        | 26 ++++++++++++++------------
->  2 files changed, 23 insertions(+), 20 deletions(-)
+> Brian
+
+Yes, you're right! That check should be dropped, I got myself
+confused with all these complicated checks. Fortunately Jan and Zi Yan
+suggested using __filemap_get_folio(), and with that I think we can
+get rid of all these convoluted checks.
+
+Thanks,
+Yi.
+
 > 
-> diff --git a/fs/smb/client/cifs_unicode.h b/fs/smb/client/cifs_unicode.h
-> index e137a0dfbbe9a..d69b64422fe98 100644
-> --- a/fs/smb/client/cifs_unicode.h
-> +++ b/fs/smb/client/cifs_unicode.h
-> @@ -56,19 +56,20 @@
->  
->  #ifdef __KERNEL__
->  int cifs_from_utf16(char *to, const __le16 *from, int tolen, int fromlen,
-> -		    const struct nls_table *cp, int map_type);
-> +		    const struct nls_table *codepage, int map_type);
->  int cifs_utf16_bytes(const __le16 *from, int maxbytes,
->  		     const struct nls_table *codepage);
-> -int cifs_strtoUTF16(__le16 *, const char *, int, const struct nls_table *);
-> +int cifs_strtoUTF16(__le16 *to, const char *from, int len,
-> +		    const struct nls_table *codepage);
->  char *cifs_strndup_from_utf16(const char *src, const int maxlen,
->  			      const bool is_unicode,
->  			      const struct nls_table *codepage);
-> -extern int cifsConvertToUTF16(__le16 *target, const char *source, int maxlen,
-> -			      const struct nls_table *cp, int mapChars);
-> -extern int cifs_remap(struct cifs_sb_info *cifs_sb);
-> -extern __le16 *cifs_strndup_to_utf16(const char *src, const int maxlen,
-> -				     int *utf16_len, const struct nls_table *cp,
-> -				     int remap);
-> +int cifsConvertToUTF16(__le16 *target, const char *source, int srclen,
-> +		       const struct nls_table *cp, int map_chars);
-> +int cifs_remap(struct cifs_sb_info *cifs_sb);
-> +__le16 *cifs_strndup_to_utf16(const char *src, const int maxlen,
-> +			      int *utf16_len, const struct nls_table *cp,
-> +			      int remap);
->  #endif
->  
->  wchar_t cifs_toupper(wchar_t in);
-> diff --git a/fs/smb/client/inode.c b/fs/smb/client/inode.c
-> index b67b316538b83..8c422b3c73662 100644
-> --- a/fs/smb/client/inode.c
-> +++ b/fs/smb/client/inode.c
-> @@ -3115,13 +3115,14 @@ cifs_setattr_unix(struct dentry *direntry, struct iattr *attrs)
->  		rc = cifs_set_file_size(inode, attrs, xid, full_path, direntry);
->  		if (rc != 0)
->  			goto out;
-> +		attrs->ia_valid &= ~(ATTR_CTIME | ATTR_MTIME);
->  	}
->  
->  	/* skip mode change if it's just for clearing setuid/setgid */
->  	if (attrs->ia_valid & (ATTR_KILL_SUID|ATTR_KILL_SGID))
->  		attrs->ia_valid &= ~ATTR_MODE;
->  
-> -	args = kmalloc(sizeof(*args), GFP_KERNEL);
-> +	args = kmalloc_obj(*args);
->  	if (args == NULL) {
->  		rc = -ENOMEM;
->  		goto out;
-> @@ -3217,6 +3218,7 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
->  	struct inode *inode = d_inode(direntry);
->  	struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
->  	struct cifsInodeInfo *cifsInode = CIFS_I(inode);
-> +	unsigned int sbflags = cifs_sb->mnt_cifs_flags;
->  	struct cifsFileInfo *wfile;
->  	struct cifs_tcon *tcon;
->  	const char *full_path;
-> @@ -3231,7 +3233,7 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
->  	cifs_dbg(FYI, "setattr on file %pd attrs->ia_valid 0x%x\n",
->  		 direntry, attrs->ia_valid);
->  
-> -	if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_NO_PERM)
-> +	if (sbflags & CIFS_MOUNT_NO_PERM)
->  		attrs->ia_valid |= ATTR_FORCE;
->  
->  	rc = setattr_prepare(&nop_mnt_idmap, direntry, attrs);
-> @@ -3265,7 +3267,7 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
->  	rc = 0;
->  
->  	if ((attrs->ia_valid & ATTR_MTIME) &&
-> -	    !(cifs_sb->mnt_cifs_flags & CIFS_MOUNT_NOSSYNC)) {
-> +	    !(sbflags & CIFS_MOUNT_NOSSYNC)) {
->  		rc = cifs_get_writable_file(cifsInode, FIND_WR_ANY, &wfile);
->  		if (!rc) {
->  			tcon = tlink_tcon(wfile->tlink);
-> @@ -3291,8 +3293,8 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
->  	if (attrs->ia_valid & ATTR_GID)
->  		gid = attrs->ia_gid;
->  
-> -	if ((cifs_sb->mnt_cifs_flags & CIFS_MOUNT_CIFS_ACL) ||
-> -	    (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_MODE_FROM_SID)) {
-> +	if ((sbflags & CIFS_MOUNT_CIFS_ACL) ||
-> +	    (sbflags & CIFS_MOUNT_MODE_FROM_SID)) {
->  		if (uid_valid(uid) || gid_valid(gid)) {
->  			mode = NO_CHANGE_64;
->  			rc = id_mode_to_cifs_acl(inode, full_path, &mode,
-> @@ -3303,9 +3305,9 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
->  				goto cifs_setattr_exit;
->  			}
->  		}
-> -	} else
-> -	if (!(cifs_sb->mnt_cifs_flags & CIFS_MOUNT_SET_UID))
-> +	} else if (!(sbflags & CIFS_MOUNT_SET_UID)) {
->  		attrs->ia_valid &= ~(ATTR_UID | ATTR_GID);
-> +	}
->  
->  	/* skip mode change if it's just for clearing setuid/setgid */
->  	if (attrs->ia_valid & (ATTR_KILL_SUID|ATTR_KILL_SGID))
-> @@ -3314,8 +3316,8 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
->  	if (attrs->ia_valid & ATTR_MODE) {
->  		mode = attrs->ia_mode;
->  		rc = 0;
-> -		if ((cifs_sb->mnt_cifs_flags & CIFS_MOUNT_CIFS_ACL) ||
-> -		    (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_MODE_FROM_SID) ||
-> +		if ((sbflags & CIFS_MOUNT_CIFS_ACL) ||
-> +		    (sbflags & CIFS_MOUNT_MODE_FROM_SID) ||
->  		    posix) {
->  			rc = id_mode_to_cifs_acl(inode, full_path, &mode,
->  						INVALID_UID, INVALID_GID);
-> @@ -3338,7 +3340,7 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
->  			dosattr = cifsInode->cifsAttrs | ATTR_READONLY;
->  
->  			/* fix up mode if we're not using dynperm */
-> -			if ((cifs_sb->mnt_cifs_flags & CIFS_MOUNT_DYNPERM) == 0)
-> +			if ((sbflags & CIFS_MOUNT_DYNPERM) == 0)
->  				attrs->ia_mode = inode->i_mode & ~S_IWUGO;
->  		} else if ((mode & S_IWUGO) &&
->  			   (cifsInode->cifsAttrs & ATTR_READONLY)) {
-> @@ -3349,7 +3351,7 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
->  				dosattr |= ATTR_NORMAL;
->  
->  			/* reset local inode permissions to normal */
-> -			if (!(cifs_sb->mnt_cifs_flags & CIFS_MOUNT_DYNPERM)) {
-> +			if (!(sbflags & CIFS_MOUNT_DYNPERM)) {
->  				attrs->ia_mode &= ~(S_IALLUGO);
->  				if (S_ISDIR(inode->i_mode))
->  					attrs->ia_mode |=
-> @@ -3358,7 +3360,7 @@ cifs_setattr_nounix(struct dentry *direntry, struct iattr *attrs)
->  					attrs->ia_mode |=
->  						cifs_sb->ctx->file_mode;
->  			}
-> -		} else if (!(cifs_sb->mnt_cifs_flags & CIFS_MOUNT_DYNPERM)) {
-> +		} else if (!(sbflags & CIFS_MOUNT_DYNPERM)) {
->  			/* ignore mode change - ATTR_READONLY hasn't changed */
->  			attrs->ia_valid &= ~ATTR_MODE;
->  		}
-> -- 
-> 2.53.0
-> 
+>>   		if (!folio_trylock(folio2))
+>> -			goto out;
+>> +			goto out_put;
+>>   
+>> -		/* make sure folio2 is large and does not change its mapping */
+>> -		if (folio_test_large(folio2) &&
+>> -		    folio2->mapping == folio->mapping)
+>> -			folio_split_or_unmap(folio2, split_at2, min_order);
+>> +		if (page_folio(split_at2) != folio2) {
+>> +			folio_unlock(folio2);
+>> +			goto out_put;
+>> +		}
+>> +		if (!folio_test_large(folio2)) {
+>> +			end = aligned_end;
+>> +			folio_unlock(folio2);
+>> +			goto out_put;
+>> +		}
+>> +
+>> +		/* Split failed: back off to the head of the straddler */
+>> +		if (folio_split_or_unmap(folio2, split_at2, min_order))
+>> +			end = folio2->index;
+>> +		else
+>> +			end = aligned_end;
+>>   
+>>   		folio_unlock(folio2);
+>> -out:
+>> +out_put:
+>>   		folio_put(folio2);
+>> -no_split:
+>> +out:
+>> +		if (pend)
+>> +			*pend = end;
+>>   		return true;
+>>   	}
+>>   	if (folio_test_dirty(folio))
+>> @@ -413,11 +455,8 @@ void truncate_inode_pages_range(struct address_space *mapping,
+>>   	folio = __filemap_get_folio(mapping, lstart >> PAGE_SHIFT, FGP_LOCK, 0);
+>>   	if (!IS_ERR(folio)) {
+>>   		same_folio = lend < folio_next_pos(folio);
+>> -		if (!truncate_inode_partial_folio(folio, lstart, lend)) {
+>> -			start = folio_next_index(folio);
+>> -			if (same_folio)
+>> -				end = folio->index;
+>> -		}
+>> +		truncate_inode_partial_folio(folio, lstart, lend, &start,
+>> +					     same_folio ? &end : NULL);
+>>   		folio_unlock(folio);
+>>   		folio_put(folio);
+>>   		folio = NULL;
+>> @@ -427,8 +466,8 @@ void truncate_inode_pages_range(struct address_space *mapping,
+>>   		folio = __filemap_get_folio(mapping, lend >> PAGE_SHIFT,
+>>   						FGP_LOCK, 0);
+>>   		if (!IS_ERR(folio)) {
+>> -			if (!truncate_inode_partial_folio(folio, lstart, lend))
+>> -				end = folio->index;
+>> +			truncate_inode_partial_folio(folio, lstart, lend,
+>> +						     NULL, &end);
+>>   			folio_unlock(folio);
+>>   			folio_put(folio);
+>>   		}
+>> -- 
+>> 2.52.0
+>>
 > 
 
-The two cifs series backports conflicts, so I'll drop both :(
