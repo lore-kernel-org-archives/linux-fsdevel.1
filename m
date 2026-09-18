@@ -1,247 +1,180 @@
-Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
+Received: from mail-wr2-f39.google.com (mail-wr2-f39.google.com [74.125.225.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C8A517BB8
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 16:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789749310; cv=pass; b=GJ6H5QtOTU37pgCqGW1xbbYZo7qUUbqUYZrIrXKIzMVqMdYY2yP0lA16Zum4ThTKqajR9AKhnU3coG4qwhr+q0Mjtv0bHoKnjyN7nJKV0mBGTweYjn9ypEBWC967B6DKAY1NIgrkZjUCWpPs7Whx4LlwUeSQup0m7zBGL/uocAM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789749310; c=relaxed/simple;
-	bh=wR1qnAOPr2JlxiqwO2LvCp7/qCpIaepQf2TkTNr/c4I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MJH4v1j2s1e1YpVtfF8UsH7nB2yoiCi9V7vzlPtIwSVI52nHUOH1BtWP6fW6Wla3hJPxhLOlMChEjiBYwqTDF5pbEoVi+MeIqXERfynVTDr7J3vjy80/pC8ryZ6Oiewmu4ix/AMt9DU1+gBHL48IYBHEf4ruAtJO1P0f1vBVRR8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=pass smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=NoI6xruU; arc=pass smtp.client-ip=74.125.231.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8D15187FA
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 16:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.103
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789750012; cv=none; b=ovMV2nMAm+1O1HoTqixXtupN85W2dW4eXRvpcYzMdoLCzZds60ZZ4d6lINIsYQiRV+F5WFRKrWb/jABdGdNx2IdT8utVGwOLMWFhci4mUHWKjoa5LQrvL7lNiIM9T0THOsHBqobIsVsi+NNG7faYpkNjE3t5NCFwh65E1OAOIs4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789750012; c=relaxed/simple;
+	bh=wKMEjBLMtgcuZryZ1Ys60OL4D/gso7hVRXG0PKiZqjg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Br9i4E0kIWEA4FPCQMCNM4udAbLgq6HdFexXJMtZ4k1EGYZc4w1QcXV6N+wmi5UpPPZ/1Aq/Xc0cyZJwjsfC4ThbBYxcAMTDwVp+FhondUhgzlfiBwqqbXCI3TyqWBFPOB3XZrWdJ5Vbyj0HKkCKoLTAUdntbp8/upkdCCfMlGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bUjSi4R/; arc=none smtp.client-ip=74.125.225.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="NoI6xruU"
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-46435ac2de3so39049fac.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 09:35:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789749306; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HKnY2rkTET9O2ROzHe6/080BEy8A6yMGItZUsd5wQGZVe8TuCQVE9OR5Ujjw5nE9CD
-         QL+0C7XR9g2B9nClOjd1vmD1Bv8neI7SoVr2OncZU/j64dbJiIuSVozoYODT9sLu55om
-         V48gMXGjvlHuMN/NV4hLyI5THiwTz2s2YRmoM2ycNkMjISZGAoUKovUE6keZ3wV65wH3
-         7QUkjg7oRn1gnFwfS8FqpjFDGh1O5ekMtOFPEe9XQxQOCVIQqJO694/XJvwtLghYPuOu
-         j99YWp4jD6DadYcydS/abKLluTyxssAXM5Ejgbx3jnkidovx8o+cwjDvS9jbDS46M/WL
-         KnJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=7k3KPdfLP+6kHTG7FvG3EoHrOg/e4JFozgZAg52Q8hY=;
-        fh=yHUB6t4iXaezPaeVFXrwdb1Z/yS07PYnzJ6l72Vi1H0=;
-        b=JHwj26jp59od5Wk+qlhAQVOHi3fn+P/XNC5HsishFqRwPLj9mw8zr/JlkFwF8aW78r
-         T98dQthM1ZqsG8AEMHpLKjokgdI3zAB6B/PnvI51SBo+HhXgJ1AZugwlyWdytwwwytjX
-         9GiHNatZwQU6/aBGfRak2693IdFdBvuO78xPZFze/4pobnSv+6Lu4Qd28iqe9hY7diDB
-         0q6KOhbBl7VVi/eWAaRaLX+U0iVFBmiezaYjPgGdba8G/H31ctQ3duXYUEr8jt6jAmHs
-         iFemJ5eOIQCSkbidODVz6jLbxuCvLwXkPzvJWTfXiAZr8kynPzavtCrwY0dqs5karxI+
-         81aQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bUjSi4R/"
+Received: by mail-wr2-f39.google.com with SMTP id ffacd0b85a97d-482f633ece3so748131f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 09:46:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1789749306; x=1790354106; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7k3KPdfLP+6kHTG7FvG3EoHrOg/e4JFozgZAg52Q8hY=;
-        b=NoI6xruUa3QnHyPp1HtUE3/ztU7lc0gnA93hQe2LlCNgxjPTmzbS1HQeht+btbIeOr
-         dHnpEx+62w9zf1cpLlQ4/1JLaPW3qunMuJv+ZqMLp2PKLGomaRGO+ueDCc8dd/YWQEsc
-         9Or3euMwfRLN6Fywonj/wrDJ4+aS1j4MAL6rCeKa7uMUFohbr+lYJ9qzwDGc+VG4vnXo
-         CD4udzqslDOxHCdK3dzu3VFZMgn7S10Vc3XH+inu1VyubwDfE9IwpFOInv8MYOm6VKzX
-         vlCVWxUvJ9z05LF9gQ1rpXT5bf0AAUpteoGbfS50+zIC9CjsBlRtuXR/Df2LGdSI8Rbd
-         g3Wg==
+        d=gmail.com; s=20251104; t=1789750008; x=1790354808; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7otw+sAMt71PNBKElWj0ae0gBS5tnkAn3QFMjtVJGHE=;
+        b=bUjSi4R/BmY86PhE+0uls2LFddbG7rje3EZa8EmpGtOkSLeBODSsAqr8gkRZ+mebrU
+         dgbQ0oq8DdorB+DaMVTx84kyXvF4u857L8FYGpqfoSmpQEr5+4+3KTLjht3W54TKgrFO
+         Tx6NKfyLYF0cRVwqSwBgdOoiCiGo/Iae+rY5XuvaWyc/Booip0m8RnIO5ptTd3gNR78a
+         Sm/GAtbHb22b+xl829j2vJ/pgB7iMLALYLMwEe6eVZEsUA0cgqJtDxcWj9ZIGC4PZV+J
+         ZoAPs8y8fZXdv/eX14baBqxzPXLkMnPs23GW5mUJtDUrJD0AGNDyKJI5kKk/QLK63Dx4
+         ujuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789749306; x=1790354106;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7k3KPdfLP+6kHTG7FvG3EoHrOg/e4JFozgZAg52Q8hY=;
-        b=EFGXfKGPkPO2xbeFxX11ifqPeA4Xy2g6AHF/XVzjwe7H9SBFTaPW8I6z4ClS6Qc/jF
-         b4+HgLHzmAKjZfiS2ZASGYss80+Uxh8Y08QYOLgluWBAvEpoLI9EUjZf8brPfJ0a/X1W
-         OPWP8TcwemfEYhwHZ2Geb5lHzsAA2C5Cxw7ON4U9HaKU6V3qw2k2oDd3N9LmZ/sbfiB6
-         6Jsq2mkZhRr18FPgVXhHWyhc3HHkAdCrPIMHA3i8ae0BmOVJJguS7ece6Lhx0wzRqbXu
-         yQDak/+kFBSYp6QxvdwF//obIHy8MBFlJKvInZEZ2drfbsFuXpFD+qA2Mv1sOWpPWBFf
-         VSEg==
-X-Forwarded-Encrypted: i=1; AKwUvBzYJVaic+S/2keO9byxnIkL4uAa9Bxmc0mMz3yCkDwvtEI6O85V93737BY2LLgyMjGZTVpXKiPOmQasHGPS@vger.kernel.org
-X-Gm-Message-State: AFuF++mJt/ICJUceC56POl2kHZy3pZrUTMTGw8vRC/852I6lfd8nLn/J
-	8kVPPc15BXYVvkSPWCYZAU1Yy/ykS/H2gfE+V8DyKESFFA4qkeBiEfx7XFFfcgcObMtD4jsjL1u
-	h1ua2Jx0WPpqPv2BCTm5qhLFnYOCWMsaUMUvYUcIyyw==
-X-Gm-Gg: AYBFou2NPYJsB8FGk0WfW6Ihx+ZzXeyCu4EYmX802/AFG2lIs5bkFV5i10XHJI2iGtV
-	6DIfBnVgIMe7m/GC9yGk7iPKu15WJH7YeipcjB/X3Pq3coWeAZJj/4SVf7h90BWeIapKsKcugod
-	hfid7LisGD36/DbYSNar14Cp0dhghcBB5EzYP91n+pX/r0JHlg80SoMogPsKbChqikyRAAMrRjU
-	3w6wtiE/or6e6o0snC7Jb9vrA2bsTnoSeXEok/GVw5jKXQwPC2ssXjp7J/DnPAYjAct7GdUNmLO
-	s1NHD/45KaYlpI1lCHDo6or3BhsFfmiX3voZbt5ke9wuHdFQmtZWZQZh
-X-Received: by 2002:a05:6870:1764:b0:467:dcf4:90ec with SMTP id
- 586e51a60fabf-486e2a9a3b3mr3380435fac.0.1789749306413; Fri, 18 Sep 2026
- 09:35:06 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789750008; x=1790354808;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7otw+sAMt71PNBKElWj0ae0gBS5tnkAn3QFMjtVJGHE=;
+        b=eErukSfwJykvBhDaE1IfvBSueHCtJAkdQ7NflBwgVyAdB32OSBV6Us+xr9dtMrEI3g
+         8PH1olveeaV4VD965QZnmdahkUxU9L/IQ4GHG0ouABBQYdm0hwUV6WpFAbBFwsKygpTM
+         qok2SLc+gpw/T0ephRfMmn1IkC1oK0ZjwBCry+y3xZI+LBJlusBUZVjSHBy/4KrfD2g2
+         xlPnon2/mJkspAAwTURVWCISvnMXvnOmQVcvBgglYMCAtoty6rM3UzB6rFhmY4HHVT/n
+         LP0/PgyOIZr2HF48aahn9BBfJoiwSUilDhsjF5EYbptbSfvywx9c+kUAA+OwdrGcIoz6
+         3Aog==
+X-Gm-Message-State: AFuF++m0aT590zvR0n2IkbJ4YCWrQ5fTTb7fktYJ1iIoa3Ea2qq+YzVc
+	uqIBuLkH/uKfTmk+C7qkVOWKko/KM28qk5ZW7gXqnhdtNwfS8gxaZXsh
+X-Gm-Gg: AYBFou3jorbQ2YworS1W1tyN1/66ED1kDMRPEnBAMmuA81Qfkf0hOLUaKgmyop6IS16
+	PQbvYmdwvzrbVtxfOBHVQ25fLHb+h6q5Jqb2o12LIhIQigYA4zGqPnni0wKB5W1gdJ/voYs0EQc
+	qBE0So581kqjJ4jTFzBYp/4R+4ZRjb9GajFQrIxYp3ttES/kIr7W0k87sTrg5wCEzS/vKItNdOf
+	fndOgSeUOE9GSeQXht+VI5LOvXDYAI/7IY9nfTZKWqiQknF4tH/GFFUycO2CJaKcDGXEMIi1wLH
+	Cn+2rFC7BvGfgCOfOTY5z6dQiLTkOoXu06bMpcx4I7EBDSYAwdRkTwfqvyVx1uNel/cZ3b1Xqsy
+	lj45SU4JpjOp7gEaaf8jLIKez+Ulh4b/rnmv4XFWM0QTOIB9b1xXZ58bf6ZUoHGlbV0GhLeNrql
+	xE6TkM6PxRdLgV39u5ZPn7qvPsU4nkPOikGkDQ/2eJgJf1cHKURQoMxI856wG/Kndl3hCVJhNrQ
+	O5ymqw/mrhf9A7YcT0WRb1U1bZJvRk4xlMGNCpaCBKXeUU6BdTbmR0mlrUrnysj4j10
+X-Received: by 2002:a05:6000:178a:b0:487:1266:5be7 with SMTP id ffacd0b85a97d-4871e26674emr4855205f8f.26.1789750007431;
+        Fri, 18 Sep 2026 09:46:47 -0700 (PDT)
+Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48720072efcsm5135585f8f.25.2026.09.18.09.46.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 09:46:46 -0700 (PDT)
+From: Palla Raghunath <raghunathpalla.0209@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shuah Khan <shuah@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	raghunathpalla.0209@gmail.com,
+	syzbot+e8ebfecec06a009dd2d3@syzkaller.appspotmail.com,
+	stable@vger.kernel.org,
+	=?UTF-8?q?=EC=9D=B4=EC=83=81=ED=98=B8?= <kudo3228@gmail.com>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	Deepanshu Kartikey <kartikey406@gmail.com>
+Subject: [PATCH RESEND] romfs: reject directory entry chains that do not move forward
+Date: Fri, 18 Sep 2026 17:46:41 +0100
+Message-Id: <20260918164645.9230-1-raghunathpalla.0209@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260918-eisbrecher-toilette-worum-eb11f777c563@brauner>
-In-Reply-To: <20260918-eisbrecher-toilette-worum-eb11f777c563@brauner>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Fri, 18 Sep 2026 09:34:54 -0700
-X-Gm-Features: AcwNN1Xhi6Kedo_6EsGig6cljqOfV2aiGbokGBGiv2ywdnLo17BYIk248JetsE0
-Message-ID: <CADUfDZrjhhvKHh=7KoEvczqrRjcwnJC4p8jh5N4kpOS=Q2RTFQ@mail.gmail.com>
-Subject: Re: ublk: consequences of a dead server are only failing on the last
- /dev/ublkcN release
-To: Christian Brauner <brauner@kernel.org>
-Cc: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
-	linux-block@vger.kernel.org, Chris Mason <mason@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 18, 2026 at 3:47=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> Hi,
->
-> Chris scanned a new series of mine for me and he reported some
-> interesting behavior that I dug into.
->
-> A ublk request that was handed to the server is only failed once the
-> last reference to /dev/ublkcN is dropped. So holding the file open keeps
-> the request alive.
->
-> This causes any waiter to be stuck in D state and blocks STOP_DEV.
->
-> I'm attaching two reproducers:
->
-> (1) ublk_inherited_fd_test.c   the general case, no vfork involved
-> (2) vfork_ublk_test.c          the holder of the reference is the waiter =
-itself
->
-> Re (1):
->
-> A single-threaded ublk server fork()s a helper. The helper inherits the
-> fdtable including /dev/ublkcN. Now another process opens /dev/ublkbN and
-> writes 4 kb then fsync()s. The servers gets a WRITE and _exit()s without
-> completing it - say it crashes:
->
->   - The writer sleeps in folio_wait_writeback() in D state.
->   - STOP_DEV issued from another process never returns.
->
->     The control command runs on an io-wq worker of that process, which
->     calls ublk_stop_dev() -> del_gendisk() -> bdev_mark_dead() ->
->     filemap_write_and_wait_range() and ends up waiting on the page that
->     won't be written back.
->
->     Said process can't exit and io_wq_put_and_exit() waits for the
->     worker.
->
-> This can only be undone if the helper is SIGKILLed:
->
->   # ublk0 up, server 119
->   # helper 123 forked by the server, holds the inherited fds
->   # WRITER fsync
->   # server 119 died with the WRITE in hand
->   # 2s after the server died:
->   # writer pid 124, state D:
->   #   folio_wait_bit_common
->   #   folio_wait_writeback
->   #   __filemap_fdatawait_range
->   #   file_write_and_wait_range
->   #   blkdev_fsync
->   #   do_fsync
->   # STOP_DEV from pid 125 has not returned after 5s:
->   # STOP_DEV issuer thread 126:
->   #   folio_wait_bit_common
->   #   folio_wait_writeback
->   #   __filemap_fdatawait_range
->   #   filemap_write_and_wait_range
->   #   bdev_mark_dead
->   #   blk_report_disk_dead
->   #   __del_gendisk
->   #   del_gendisk
->   #   ublk_stop_dev_unlocked.part.0
->   #   ublk_ctrl_uring_cmd
->   #   io_uring_cmd
->   #   io_wq_submit_work
->   #   io_worker_handle_work
->   #   io_wq_worker
->   # killing helper 123
->   # WRITER fsync returned -1 errno 5
->   # STOP_DEV returned after the helper died
->
-> What happens to a device after a server crash depends on whoever else
-> holds /dev/ublkcN open: A forked helper, a process that got the fd via
-> SCM_RIGHTS, or a vfork child.
->
-> I'm not sure whether that's intended semantics but it surely has
-> confusion potential and should probably be at least documented.
->
-> I suppose failing outstanding requests on server crash is intentionally
-> not done for recover reasons or whatever. But maybe STOP_DEV should be
-> made to work.
->
-> Re (2):
->
-> vfork() makes it really ugly. Say a single-threaded ublk server vfork()s
-> a child. The child opens /dev/ublkbN, writes some stuff and closes the
-> fd. Since close(2) runs bdev_release() -> sync_blockdev() it waits for
-> the write.
->
-> The write gets dispatched to the server's task work. But the server
-> sleeps in wait_for_vfork_done() until the child execs or exits.
->
-> But the child cannot exec or exit because close(2) doesn't return.
->
-> ublk makes this more hairy though. Even a SIGKILL sent to the server aka
-> the parent won't help. The vfork()ed child hangs on the close(2).
->
-> So that stays in D state forever with an undeletable device:
->
->     server, after SIGKILL: gone
->     child:
->       State:  D (disk sleep)
->       folio_wait_bit_common
->       folio_wait_writeback
->       __filemap_fdatawait_range
->       filemap_write_and_wait_range
->       bdev_release
->       blkdev_release
->       __fput
->       fput_close_sync
->       __x64_sys_close
->
-> Unrelated, but also a potential issue:
->
-> The commit 7fc4da6a304b ("ublk: scan partition in async way") made
-> partition scans run from a workqueue that holds disk->open_mutex while
-> the server serves its reads and START_DEV returns before it's finished.
->
-> Any server that treats START_DEV's return as a signal that the disk is
-> ready and doesn't serve requests hangs every open() of /dev/ublkbN on
-> uninterruptible on open_mutex. You can combine that with (1) and (2).
+romfs_lookup() and romfs_readdir() walk a directory's entry chain by
+following ri.next, and stop only once the offset is zero or past the end
+of the image. Nothing stops an entry from pointing at itself, so on a
+crafted image a lookup of a name that is not present spins forever.
 
-Indeed, we've also encountered this issue in our ublk server that was
-opening /dev/ublkb* to call ioctl(BLKROSET). (UBLK_ATTR_READ_ONLY only
-works to configure the read-only status *before* a ublk device is
-started, so the ioctl is needed to configure it when recovering a ublk
-device.)
+That loop has no cond_resched() and no signal check, so the task cannot
+be killed, and it spins with i_rwsem held and the dentry left in the
+in-lookup state. A second lookup of the same name then waits forever in
+d_alloc_parallel(), and it is that waiter the hung task watchdog
+reports, which makes this look like a dcache problem:
 
-The open("/dev/ublkbN") blocks on performing the partition scan (or on
-open_mutex while ublk_partition_scan_work() performs the partition
-scan), which blocks on performing a read to the block device, which
-depends on the ublk server to pick up and complete the read. If the
-ublk server process is killed before it can complete the read, the
-process exit will deadlock: the thread calling open("/dev/ublkbN") is
-blocked on the read, so the process is unable to complete to exit and
-release the /dev/ublkc* files, and so ublk_abort_queue() will never be
-called to fail the outstanding read.
+  INFO: task syz-executor239:5636 blocked for more than 143 seconds.
+   d_alloc_parallel+0xd13/0x16c0 fs/dcache.c:2839
+   __lookup_slow+0x82/0x2f0 fs/namei.c:1904
 
-We worked around the issue by forking blockdev --set{ro,rw}
-/dev/ublkb* subprocesses to perform the open("/dev/ublkbN") +
-ioctl(BLKROSET). That way, /dev/ublkb* and /dev/ublkc* are never
-opened by the same process. But it definitely seems like a footgun.
-User processes ideally shouldn't be able to trigger a kernel deadlock,
-though this only applies to ublk servers with CAP_SYS_ADMIN since the
-partition scan is disabled for unprivileged ublk devices.
+Require the chain to move forward and return -EIO if it does not. File
+headers are laid out in increasing order and both loops already treat
+the chain as a bounded forward-only walk, so this only enforces what
+they assume. In romfs_readdir() a cycle never advances ctx->pos and has
+getdents() repeat entries forever, so check there too.
 
-Best,
-Caleb
+The hard link chain bounded by commit d30b5a954e0a ("romfs: detect hard
+link cycles") is a separate one. Sangho Lee posted a fix for this chain
+in July 2026 that validates it at inode instantiation; it has had no
+replies.
+
+Reported-by: syzbot+e8ebfecec06a009dd2d3@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=e8ebfecec06a009dd2d3
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+---
+ fs/romfs/super.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/fs/romfs/super.c b/fs/romfs/super.c
+index 7f783d6173e8..846b57f265ef 100644
+--- a/fs/romfs/super.c
++++ b/fs/romfs/super.c
+@@ -143,7 +143,7 @@ static int romfs_readdir(struct file *file, struct dir_context *ctx)
+ {
+ 	struct inode *i = file_inode(file);
+ 	struct romfs_inode ri;
+-	unsigned long offset, maxoff;
++	unsigned long offset, maxoff, next;
+ 	int j, ino, nextfh;
+ 	char fsname[ROMFS_MAXFN];	/* XXX dynamic? */
+ 	int ret;
+@@ -191,7 +191,16 @@ static int romfs_readdir(struct file *file, struct dir_context *ctx)
+ 			    romfs_dtype_table[nextfh & ROMFH_TYPE]))
+ 			goto out;
+ 
+-		offset = nextfh & ROMFH_MASK;
++		/* likewise, a chain that does not move forward would have
++		 * getdents() repeat entries forever
++		 */
++		next = nextfh & ROMFH_MASK;
++		if (next && next <= offset) {
++			offset = maxoff;
++			ctx->pos = offset;
++			goto out;
++		}
++		offset = next;
+ 	}
+ out:
+ 	return 0;
+@@ -203,7 +212,7 @@ static int romfs_readdir(struct file *file, struct dir_context *ctx)
+ static struct dentry *romfs_lookup(struct inode *dir, struct dentry *dentry,
+ 				   unsigned int flags)
+ {
+-	unsigned long offset, maxoff;
++	unsigned long offset, maxoff, next;
+ 	struct inode *inode = NULL;
+ 	struct romfs_inode ri;
+ 	const char *name;		/* got from dentry */
+@@ -245,8 +254,15 @@ static struct dentry *romfs_lookup(struct inode *dir, struct dentry *dentry,
+ 			break;
+ 		}
+ 
+-		/* next entry */
+-		offset = be32_to_cpu(ri.next) & ROMFH_MASK;
++		/* next entry; the chain must move forward, or a corrupt image
++		 * will keep us here forever
++		 */
++		next = be32_to_cpu(ri.next) & ROMFH_MASK;
++		if (next && next <= offset) {
++			ret = -EIO;
++			goto error;
++		}
++		offset = next;
+ 	}
+ 
+ 	return d_splice_alias(inode, dentry);
+-- 
+2.34.1
+
