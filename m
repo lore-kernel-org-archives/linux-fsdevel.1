@@ -1,83 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C29509EEC
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 15:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7B74D179B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 15:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789745328; cv=none; b=TCJQJOdGlyptcVHbUyFu8eY5toONeUBhqYqm8K53I2FXfZdv3W/0DdQVCROIHoIubZl+JTZzuY29tM8RIzPXZ+ewpTRKDav/tXGv4duY8vNFNXH9h5hte31idVSsQq5BScG8D4XhsN6qB6P+riymHvJQbPyPK/3PF/LBCIz5ZuI=
+	t=1789745604; cv=none; b=o8TjuDMrZT5IMLIm9Hy1VoP4b8QEXE+DtHOFgw3UiwS5bPlR4gxM+mPVndsnIug8USIyxIViYz7pCB1wuyHKI+RlbaWqY2j1sleXNlxY60UayqOdpXP9uCTVZnXUDt7q0brrSivdXhGI2UleMzq5AUQ9sIbdzWAbFK1xuE4mVD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789745328; c=relaxed/simple;
-	bh=8ILAL3bayvoxsTKdCfsUP+/fgfT9t+6NzeYaooULTAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SdSJRvBns5U1mlwW0pOmMF6b7Gglc9Hdr3uv6AwCriH4b0NibA/+WpMX1Y7vvzIt/9n+fDJf6/d5u7VmcINtEBc7b4PEnwKs8oP0+ZX9rz7NbPKHAZYPK7eIObwFURP8Xi7hnYa363ZJAOOLAHDc0ScOooWxgFuw7OvBBv59Qik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H7jsBmCY; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1789745604; c=relaxed/simple;
+	bh=jBs4oYy2jX63TwbsrfniBkxZwk5PB6Cf2fYjn0xxSX0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=f9qL/t1+ugeclnZo9rFxoKekLzrEL11mZfyBAnDfUEWBt2YoXD4S2VZEu89mcZu9atkExzK+zY2zlsrgoUoJaWWXWTed1wb3OJFn/PzEWzay4esirFpEh+Ohl8dgJqOoFPDOFkOSvY94LwIP2Hx9x02q6DLKj+EWOJMSU8MmnYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qN/AnMTm; arc=none smtp.client-ip=209.85.214.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H7jsBmCY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789745326;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KTa5dNBMtLMbqJuICHOdAxEdGAM6oHsJ+w/pWPbR580=;
-	b=H7jsBmCYsZDzJZUEUCyAXJjo97/VOLULuOAgQVWvyZNZo3rzIGHyzqc0YDEaLJAi8ochVn
-	ZitbUEQRwjh0r16gZb4nfYHuJPuvOiFCGkGsO7xaRV7h95cx386sclB/BQx5sX7Q+kH8I3
-	pw3bPhiYn4giHO1Qd014yyRAjeoUdx8=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-247-oVWIackBOVqwZoBNA5lM6g-1; Fri,
- 18 Sep 2026 11:28:44 -0400
-X-MC-Unique: oVWIackBOVqwZoBNA5lM6g-1
-X-Mimecast-MFC-AGG-ID: oVWIackBOVqwZoBNA5lM6g_1789745322
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6884E1935DF7;
-	Fri, 18 Sep 2026 15:28:41 +0000 (UTC)
-Received: from fedora (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 1ADB130001A2;
-	Fri, 18 Sep 2026 15:28:37 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Fri, 18 Sep 2026 17:28:41 +0200 (CEST)
-Date: Fri, 18 Sep 2026 17:28:36 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
-	io-uring@vger.kernel.org
-Subject: Re: [PATCH v2 4/7] coredump: parse a snapshot of core_pattern
-Message-ID: <aq1YpFX4ZNsgWbfR@redhat.com>
-References: <20260917-work-coredump-fixes-v2-0-f3787fcda051@kernel.org>
- <20260917-work-coredump-fixes-v2-4-f3787fcda051@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qN/AnMTm"
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2d6df0a1e18so15771005ad.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 08:33:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789745601; x=1790350401; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3o3afKIhDxvUwFzaGiZkLeSCGdh09AvtFvmwbyAEPcg=;
+        b=qN/AnMTmkA7/iLLeDTlfpwlHBM8GOb1DZpcO8W9F8hxl3luHFpLjNpKni2Ltbz3ELk
+         j2BvYYodnAt7jPFKnhviwL6L/uSk2Iy9Dm1IqdvZn8+jYnJlkApuw8rV5lArKwVrczIT
+         RjeKF6sWyd2rHPxfJhZZWkrYjs8E2R0Uyq/TZmhNJjaK+dZYLIJ6QhGCxJ0jhmT1ynt0
+         76GMjV7IjSVqFrL4PIZ1yoO/50PMHa5NNrQRoI7Gh15NQoMcolvl0AXQJRjMkzH0wZp/
+         Kl3YN04HfCtwRVy4qTYtjExcbheyT7UKycwv70yH3RDiQMM68aUQPBAtiIqwv7p6D+eO
+         qvvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789745601; x=1790350401;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3o3afKIhDxvUwFzaGiZkLeSCGdh09AvtFvmwbyAEPcg=;
+        b=f/H8yB8kiXS/zsqc1NP0UsyVev+HiB4xxDfScR3Dt23ODxKfKn7uHjK9DN6wkueFQr
+         ytBkJAzhs6plX0wlRYq2vVKEpsR7+6tEmE6R6seGSc5Kjf43oYcKRWiqs4KK96IY2kSU
+         QeyBEMKBMwj4GJ7Njhj5qglfBsWswG1rPWcLgHq62ocsV/LGiiq530/FGem9PxNpFdNE
+         4KA9QgSnQpobbLjZOGVtpPpvMnb4gXUSCBtMNXQ8mcpIZrxTsrgusU+5xUGChXHZS8gD
+         3on41rsqEQhG9lTM1IJfHUl3J6NVyFBP7zH4peg2AZYZMLATzxijphfqMk9vDezszWyM
+         5CtA==
+X-Forwarded-Encrypted: i=1; AKwUvBybQJ0WAxluKMQHv55RxYvQ9Q+Uex5JPqZHFyQ4Rn4JJjGGjrM5rU2DAyIwPdDxN7enSojBSWhmfHbt9iSz@vger.kernel.org
+X-Gm-Message-State: AFuF++n5dk+6Tq4zNvlEtFThntTMXLCz0g02aiw8C0IU+1GIQTHYy2dr
+	rtPIneCarAH+JcfqqzU9ju6XVtfMMIV83OHepiAAPXr4TEF9CY1Ygv40sJRN6OkGH41iQVUH6u5
+	KKT47jw==
+X-Received: from pldu4.prod.google.com ([2002:a17:903:1084:b0:2dd:24d6:a74e])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:a9cb:b0:2dd:c053:e668
+ with SMTP id d9443c01a7336-2ddc053e68amr2809575ad.46.1789745601208; Fri, 18
+ Sep 2026 08:33:21 -0700 (PDT)
+Date: Fri, 18 Sep 2026 08:33:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260917-work-coredump-fixes-v2-4-f3787fcda051@kernel.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
+Message-ID: <20260918153318.758387-1-surenb@google.com>
+Subject: [PATCH v5 0/7] read proc/pid/smaps_rollup under per-vma lock
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, david@kernel.org, 
+	willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de, 
+	xueyuan.chen21@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, surenb@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 09/17, Christian Brauner wrote:
+proc/pid/smaps_rollup can be read using the combination of RCU and
+VMA read locks, similar to proc/pid/{maps|smaps|numa_maps}. RCU is
+required to safely traverse the VMA tree and VMA lock stabilizes the
+VMA being processed and the pagetable walk.
+Note that we have to keep the logic to drop mmap_lock on contention
+because even when using per-VMA locks we might have to fall back to
+holding the mmap_lock.
 
-> +	/* Publish the validated pattern whole. */
-> +	scoped_guard(spinlock, &core_pattern_lock) {
-> +		changed = strncmp(pattern, core_pattern, CORENAME_MAX_SIZE);
-> +		strscpy(core_pattern, pattern);
+The first 5 patches are cleanups making later change simpler. The main
+change is in patch 6. Patch 7 extends existing proc-maps-race tearing
+test to verify smaps_rollup content.
 
-Perhaps
-		if (changed)
-			strscpy(core_pattern, pattern);
+Changes since v4 [1]:
+Patch 2:
+- Fixed warnings with CONFIG_PROC_PAGE_MONITOR=n
+- Fixed a typo in the changelog
+Patch 3:
+- Add Reviewed-by and Acked-by, per Lorenzo Stoakes and
+  David Hildenbrand
+Patch 3:
+- Add Reviewed-by and Acked-by, per Lorenzo Stoakes and
+  David Hildenbrand
 
-will look more consistent... but this is purely cosmetic.
+[1] https://lore.kernel.org/all/20260911194145.1781926-1-surenb@google.com/
 
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+Suren Baghdasaryan (7):
+  proc/task_mmu: remove unnecessary helpers
+  proc/task_mmu: remove unnecessary inlines in function definitions
+  proc/task_mmu: clarify shmem mapping walk conditions in
+    smap_gather_stats()
+  proc/task_mmu: remove special-casing of smap_gather_stats() start
+    parameter
+  proc/task_mmu: change proc_get_vma() to stop returning gate VMA at the
+    end
+  proc/task_mmu: read proc/pid/smaps_rollup under per-vma lock
+  selftests/proc: add /proc/pid/smaps_rollup tearing tests
+
+ fs/proc/task_mmu.c                            | 341 ++++++++----------
+ tools/testing/selftests/proc/proc-maps-race.c | 186 +++++++++-
+ 2 files changed, 336 insertions(+), 191 deletions(-)
+
+
+base-commit: 854157fc9d011b8dd5a1a86a237447e28d681eb9
+-- 
+2.55.0.1082.g2b9226bbc0-goog
 
