@@ -1,73 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3AF492502;
-	Fri, 18 Sep 2026 10:18:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFD04D7D22;
+	Fri, 18 Sep 2026 10:21:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789726746; cv=none; b=Kctz+kaTFLpnJCvIxBIE+2F9dcZmH33nElszwX2zCiwgbMBt44l89Zoc1hr5xZUvfzylVpR3ujwq1T9MTjDzy9WBgCEZqhydT5DMDVPlLfGRxms40+TXOygz1XUErgdd3OIAulNTDOFiYXf9cZ+k2pp8rYHK97/Xptf/2Uudk7Y=
+	t=1789726866; cv=none; b=QpdC8Eb2pzO326yf2qm+24YVbmAtHdgDHJ8hjTrRmkmq/rQ5Q1Odf/K5RkhLA9bLJK9EtH/xQv11mdXALYWj5DYdcJKmlfSqBYMIT+O3J8nvFegrVudbLf/dHNBzvrWrKDOaq5coryQBuSagRL9S1IKw6ly0t24+WwNrkLp5y+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789726746; c=relaxed/simple;
-	bh=Rqnh50ypEVFT5a+D28kaRAZjWeTUwOVoXD4Kp4ZAXkM=;
+	s=arc-20240116; t=1789726866; c=relaxed/simple;
+	bh=ojRb2OtGZV+lNR54MP8W9kUbXEoKZ+Rzr9bvDWAKmSI=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ry/MPo6oVhFYAIMCKKOBaK/kTiyXdKROXNyaAdfBnRvcC/OE5sG8kknKDIBcUvhIJYIMWZW+YjFwhKvsgt8oUhhOPixdYqlCHMVAGsP0onPh71E9DndCUpn0QPywCPT2QflPNSSwEnn7dp79ZAZ4o9k6jTuzs1EzVIAWwjRrheo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nih+Cgdh; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=dPJW5JRN3Q5KQAvFSuK7PuGWUnudl71pUMKwQAHKZ35AQ+Tch2FMPcYd/GSC05UkCLGZo2FnzwDnphj7cbmsiXmQKhITxIrRJhedN1NSK0AQ8/X8J3Wo51jV2XbFMp9x3WjG2jCdfXtXXfaIAc+5u7ZAJN5I41OLI9qL5gwGI3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=fail (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VbhnGqJb reason="signature verification failed"; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nih+Cgdh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A10E1F00898;
-	Fri, 18 Sep 2026 10:18:54 +0000 (UTC)
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbhnGqJb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482D31F00893;
+	Fri, 18 Sep 2026 10:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789726737;
-	bh=NK4q4bMTc4NtuqUZq2p2ouZ93CvhS6B9qDA0XHB+AQs=;
+	s=k20260515; t=1789726865;
+	bh=ojRb2OtGZV+lNR54MP8W9kUbXEoKZ+Rzr9bvDWAKmSI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Nih+CgdhGnLO8TOeDlPBdKPirdBoHe0i3bMXikC3kG5yEMeDAdT/7gzT4yWuBpvZx
-	 W7cUWDlxizNzUCQLwfXs94uynL6mjAM7ePcKxhgXkPT+1qBU4XiAVkZUxCID7DY2Jb
-	 +goXUKIBVWZDUgSR4iPriXVvwYXN8d8X9H82/VSmmMSLI/OoaAUWelD4FsQaZZammh
-	 eYyGUgPR2fj74PNv1XQ3/oKvNKleNUqhIx12OPwpZiHqNhqR9DXO1fQvv8HQ/XlO0M
-	 vmZ3I07NIFGVT6o1Dcu0cuUd02YdMq7cV0HFTHOA46CJjQwBsUjh8NbSWls+LhVb5U
-	 tjgTt00+qSZbw==
+	b=VbhnGqJbr+ybtK3Fnwjub4nxRMAkKMpEzatb5UyqR56xMFB6wzCkyGzg4dZWPmT3+
+	 X+snAKFCSsw9hS3uDDtXyaV+a120iBx6doKN2SXy7kWsE6Ghr43NePclsslWz3X5jO
+	 umM+Y1oZRe63NELb54DdiEkz9d+zMmZueH0FDcyiLWVV9cdWUYTG7WaCOZvG2X/7g/
+	 a9oPJYB+Dy64zxGyUYebphSZ5ylo5LJpeevfZI8VBPaG8K99ZpvTAK5Kx+JWQnO/hy
+	 0N1qcxBpGbuzeUsqKEcZ7LzQMrQi37y/VFurlQHxRKvV4Yc12NiNYAuI+ZMxmxdW8s
+	 JCL5q8jJo+Sfg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 08/17] LoongArch: kexec_file: Fix a modified_cmdline
- leak
+Subject: Re: [PATCH v5 07/17] LoongArch: kexec_file: Fix elf_headers memory
+ leak in retry loop
 Reply-To: sashiko-reviews@lists.linux.dev
-To: rafael@kernel.org, mingo@redhat.com, leitao@debian.org, graf@amazon.com, ritesh.list@gmail.com, coxu@redhat.com, sshegde@linux.ibm.com, catalin.marinas@arm.com, bp@alien8.de, blum@kernel.org, chao.gao@intel.com, linuxppc-dev@lists.ozlabs.org, chenhuacai@kernel.org, jbouron@amazon.com, eric.devolder@oracle.com, palmer@rivosinc.com, akpm@linux-foundation.org, linux-kernel@vger.kernel.org, hbathini@linux.ibm.com, rppt@kernel.org, james.morse@arm.com, will@kernel.org, maddy@linux.ibm.com, chleroy@kernel.org, dave.hansen@linux.intel.com, sourabhjain@linux.ibm.com, mpe@ellerman.id.au, baoquan.he@linux.dev, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, gshan@redhat.com, gregkh@linuxfoundation.org, lizhengyu3@huawei.com, adityag@linux.ibm.com, tglx@kernel.org, guodongtai@kylinos.cn, "Jinjie
- Ruan" <ruanjinjie@huawei.com>, me@linux.beauty, hpa@zytor.com, x86@kernel.org, piliu@redhat.com, ardb@kernel.org, takahiro.akashi@linaro.org, npiggin@gmail.com, maqianga@uniontech.com, mclapinski@google.com, yeoreum.yun@arm.com, kernel@xen0n.name, vishal.l.verma@intel.com, bgwin@google.com, driver-core@lists.linux.dev, seanjc@google.com, kas@kernel.org, tangyouling@kylinos.cn, pasha.tatashin@soleen.com, zhangtianyang@loongson.cn, ruanjinjie@huawei.com, ruirui.yang@linux.dev, kees@kernel.org, thuth@redhat.com, linux-arm-kernel@lists.infradead.org, liukexin@kylinos.cn, dakr@kernel.org, pratyush@kernel.org, robh@kernel.org, mark.rutland@arm.com, loongarch@lists.linux.dev
+To: leitao@debian.org, seanjc@google.com, kees@kernel.org, thuth@redhat.com, tglx@kernel.org, loongarch@lists.linux.dev, will@kernel.org, hbathini@linux.ibm.com, rppt@kernel.org, akpm@linux-foundation.org, chao.gao@intel.com, hpa@zytor.com, guodongtai@kylinos.cn, takahiro.akashi@linaro.org, maddy@linux.ibm.com, pratyush@kernel.org, "Jinjie
+ Ruan" <ruanjinjie@huawei.com>, zhangtianyang@loongson.cn, lizhengyu3@huawei.com, blum@kernel.org, x86@kernel.org, eric.devolder@oracle.com, catalin.marinas@arm.com, ruirui.yang@linux.dev, me@linux.beauty, adityag@linux.ibm.com, ruanjinjie@huawei.com, vishal.l.verma@intel.com, mark.rutland@arm.com, sourabhjain@linux.ibm.com, linux-kernel@vger.kernel.org, rafael@kernel.org, chenhuacai@kernel.org, pasha.tatashin@soleen.com, palmer@rivosinc.com, ritesh.list@gmail.com, kernel@xen0n.name, robh@kernel.org, dakr@kernel.org, james.morse@arm.com, mingo@redhat.com, tangyouling@kylinos.cn, mclapinski@google.com, linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, jbouron@amazon.com, sshegde@linux.ibm.com, graf@amazon.com, bgwin@google.com, bp@alien8.de, linux-mm@kvack.org, chleroy@kernel.org, piliu@redhat.com, maqianga@uniontech.com, gshan@redhat.com, yeoreum.yun@arm.com, coxu@redhat.com, mpe@ellerman.id.au, dave.hansen@linux.intel.com, npiggin@gmail.com, baoquan.he@linux.dev, kas@ker
+ nel.org, liukexin@kylinos.cn, ardb@kernel.org, driver-core@lists.linux.dev, linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org
 Cc: kexec@lists.infradead.org
-In-Reply-To: <20260918100442.3841135-9-ruanjinjie@huawei.com>
+In-Reply-To: <20260918100442.3841135-8-ruanjinjie@huawei.com>
 References: <20260918100442.3841135-1-ruanjinjie@huawei.com>
- <20260918100442.3841135-9-ruanjinjie@huawei.com>
+ <20260918100442.3841135-8-ruanjinjie@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Sep 2026 10:18:54 +0000
-Message-Id: <20260918101854.7A10E1F00898@smtp.kernel.org>
+Date: Fri, 18 Sep 2026 10:21:01 +0000
+Message-Id: <20260918102102.482D31F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 
-> load_other_segments() allocates modified_cmdline and stores it in
-> image->arch.cmdline_ptr.  machine_kexec_prepare() then copies it to
-> KEXEC_CMDLINE_ADDR and overwrites the pointer, so the heap buffer is
-> leaked on every successful kexec_file_load().
+> If load_other_segments() fails after image->elf_headers is assigned,
+> the memory lifecycle is safely managed by the global kimage object
+> and will be freed in arch_kimage_file_post_load_cleanup().
 >=20
-> Free the buffer after the copy.
+> However, during a retry loop in efi_kexec_load(), a subsequent iteration
+> will allocate a new buffer and overwrite image->elf_headers. This
+> permanently leaks the stale memory from the previous iteration before
+> the global cleanup can track it.
+>=20
+> Fix this by explicitly freeing the stale `image->elf_headers` buffer
+> before assigning the newly allocated headers.
 >=20
 > Cc: Huacai Chen <chenhuacai@kernel.org>
 > Cc: WANG Xuerui <kernel@xen0n.name>
-> Cc: Kexin Liu <liukexin@kylinos.cn>
 > Cc: Youling Tang <tangyouling@kylinos.cn>
-> Cc: Qiang Ma <maqianga@uniontech.com>
-> Cc: Tianyang Zhang <zhangtianyang@loongson.cn>
-> Cc: George Guo <guodongtai@kylinos.cn>
+> Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> Cc: Sourabh Jain <sourabhjain@linux.ibm.com>
+> Cc: Kees Cook <kees@kernel.org>
 > Cc: stable@vger.kernel.org
-> Fixes: d162feec6b6e ("LoongArch: Add preparatory infrastructure for kexec=
-_file")
+> Link: https://sashiko.dev/#/patchset/20260729031235.2840255-1-ruanjinjie%=
+40huawei.com
+> Fixes: 55d990f0084c ("LoongArch: Add EFI binary support for kexec_file")
 > Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260918100442.3841=
-135-1-ruanjinjie@huawei.com?part=3D8
+135-1-ruanjinjie@huawei.com?part=3D7
 
