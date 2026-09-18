@@ -1,38 +1,38 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B7D42CB0D;
-	Fri, 18 Sep 2026 10:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFDD49A3A7;
+	Fri, 18 Sep 2026 10:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789725866; cv=none; b=nqiyudFPY2yd2OXI59SuAY74iA5s+A1ZTD4TQuodNSW7DQRrGR3IXqLbY9Obbw4g8WMJPddSO/WQke+SCyCxCzAlbg1sfHztftuD7j5Pn+g/N6h1rPMPhUQ3cyfz3+DEvrN5zyMY//ARy5WS9UoxPPkbzdD1as2ibOb3Ty65yPs=
+	t=1789725869; cv=none; b=d9CQzyDnEtI+Px2dTuxDCUMSPbg1DKJpDNOT4CmRluPZqcgiD9s4l68D9qxhjPpBfTHU6JZuBYOgdx9uIxmw1Sx+55ZPhA4M93SnPvwUuBn+421dxhbGf+R6jlNVF7iRAWep250/suW8sI80oKOtches8prjkJ6GGGwOEFnvj14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789725866; c=relaxed/simple;
-	bh=Ygfamq+zVCgcwFeC3h6mtl26Diwqy0m0fQ1dYnRCot0=;
+	s=arc-20240116; t=1789725869; c=relaxed/simple;
+	bh=yiGxQ7QIQdwQ3p4Fr0ygdVNI7N08QTdXriOuGM/62Gk=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZkCP7UvKEVXU85ftIvPLMBSKfODBLTxTrkFcejCUvY5G2kG2CR0UevgjYreA279hFtnPnmrWMLAEFvCIkvXgxJNy5RSHi54y3A6PLhNAkeKB+sFyqDhVi5OEkZE/h4stBMByr1FkHd8hhSK5u47M8vV4401Fx6ZP9fRZ2w0ATTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=h20MzYgr; arc=none smtp.client-ip=113.46.200.222
+	 MIME-Version:Content-Type; b=P//VuA0fJ7kblwX60gxTfYLjA+k+5TMdsg0ja9RavcsAzZATz5B6xq2t+UfxD42+myZB5qsZCAL0mLKJmILQbwaD+oZki2wGhRjA08rKyVTkKQXPzFwIUKzAbmRdUy+sViO/lFIY50SEWIAsYxvw0Bx4Y0x6j4cccwd1Gmi1hcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=cXqqzSbx; arc=none smtp.client-ip=113.46.200.216
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="h20MzYgr"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="cXqqzSbx"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=20ZJiQbk77XpGyt2zLlFzhTV8L6cgd0AT+Mg72ZNP+o=;
-	b=h20MzYgrtfLEEV4IsF22m8M0aeU+9fIDiLpJWraCVTgEvlTBvhYu0irkyY7dZ8KlR25j3eFDX
-	uDHiuEi34Vyc2FyCL6c39JSfjX+M3Cz00j/vkUz1PTc66H//7kIYPJQEJrTEE3IZKzXvZCqcFXg
-	laCNtc/NvKopW2lnm4CTtD4=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4hmScK00bdzLlX1;
-	Fri, 18 Sep 2026 17:53:20 +0800 (CST)
+	bh=RK4VHRefALxjC8rB7K7w3VAwG6W6KlTC58IWMIYwUgI=;
+	b=cXqqzSbxz3lvEuOS9efT6kFVnZWykzECj9tiFIF8xUH5zySw0l0wtrrPJavS5/6c0ugtHU44w
+	TQx608nHzqqoqjifoGQQm3bSkj4dVZdXvljaZRoir8tVoNs8JWQj9Dkf8ZWXUzNH3gtlFlTVTbj
+	f2PJ9QOpTcwTuI1J8MwWSoI=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4hmSbN1YwLz1T4MQ;
+	Fri, 18 Sep 2026 17:52:32 +0800 (CST)
 Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id DC0BB40586;
-	Fri, 18 Sep 2026 18:04:20 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 8D05940591;
+	Fri, 18 Sep 2026 18:04:16 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
  (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 18 Sep
- 2026 18:04:19 +0800
+ 2026 18:04:14 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
 	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <maddy@linux.ibm.com>,
@@ -58,9 +58,9 @@ To: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
 	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
 	<driver-core@lists.linux.dev>, <kexec@lists.infradead.org>,
 	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>
-Subject: [PATCH v5 08/17] LoongArch: kexec_file: Fix a modified_cmdline leak
-Date: Fri, 18 Sep 2026 18:04:33 +0800
-Message-ID: <20260918100442.3841135-9-ruanjinjie@huawei.com>
+Subject: [PATCH v5 05/17] arm64: kexec_file: Fix elf_headers memory leak in retry loop
+Date: Fri, 18 Sep 2026 18:04:30 +0800
+Message-ID: <20260918100442.3841135-6-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260918100442.3841135-1-ruanjinjie@huawei.com>
 References: <20260918100442.3841135-1-ruanjinjie@huawei.com>
@@ -75,47 +75,47 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
  kwepemk200008.china.huawei.com (7.202.194.74)
 
-load_other_segments() allocates modified_cmdline and stores it in
-image->arch.cmdline_ptr.  machine_kexec_prepare() then copies it to
-KEXEC_CMDLINE_ADDR and overwrites the pointer, so the heap buffer is
-leaked on every successful kexec_file_load().
+If load_other_segments() fails after image->elf_headers is assigned,
+the memory lifecycle is safely managed by the global kimage object
+and will be freed in arch_kimage_file_post_load_cleanup().
 
-Free the buffer after the copy.
+However, during a retry loop in image_load(), a subsequent iteration
+will allocate a new buffer and overwrite image->elf_headers. This
+permanently leaks the stale memory from the previous iteration before
+the global cleanup can track it.
 
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>
-Cc: Kexin Liu <liukexin@kylinos.cn>
-Cc: Youling Tang <tangyouling@kylinos.cn>
-Cc: Qiang Ma <maqianga@uniontech.com>
-Cc: Tianyang Zhang <zhangtianyang@loongson.cn>
-Cc: George Guo <guodongtai@kylinos.cn>
+Fix this by explicitly freeing the stale `image->elf_headers` buffer
+before assigning the newly allocated headers.
+
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Breno Leitao <leitao@debian.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: Baoquan He <bhe@redhat.com>
 Cc: stable@vger.kernel.org
-Fixes: d162feec6b6e ("LoongArch: Add preparatory infrastructure for kexec_file")
+Fixes: 108aa503657e ("arm64: kexec_file: try more regions if loading segments fails")
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- arch/loongarch/kernel/machine_kexec.c | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/kernel/machine_kexec_file.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/loongarch/kernel/machine_kexec.c b/arch/loongarch/kernel/machine_kexec.c
-index 1883cae93bc3..19ccc91b6f2a 100644
---- a/arch/loongarch/kernel/machine_kexec.c
-+++ b/arch/loongarch/kernel/machine_kexec.c
-@@ -14,6 +14,7 @@
- #include <linux/mm.h>
- #include <linux/of_fdt.h>
- #include <linux/reboot.h>
-+#include <linux/slab.h>
- #include <linux/sched.h>
- #include <linux/sched/task_stack.h>
- 
-@@ -56,6 +57,7 @@ int machine_kexec_prepare(struct kimage *kimage)
- 		 */
- 		memcpy((void *)KEXEC_CMDLINE_ADDR, (void *)kimage->arch.cmdline_ptr,
- 					strlen((char *)kimage->arch.cmdline_ptr) + 1);
-+		kfree((void *)kimage->arch.cmdline_ptr);
- 		kimage->arch.cmdline_ptr = (unsigned long)KEXEC_CMDLINE_ADDR;
- 	} else {
- 		/* Find the command line */
+diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
+index e48f29167b38..2f750e5f4fcc 100644
+--- a/arch/arm64/kernel/machine_kexec_file.c
++++ b/arch/arm64/kernel/machine_kexec_file.c
+@@ -112,6 +112,10 @@ int load_other_segments(struct kimage *image,
+ 			vfree(headers);
+ 			goto out_err;
+ 		}
++
++		if (unlikely(image->elf_headers))
++			vfree(image->elf_headers);
++
+ 		image->elf_headers = headers;
+ 		image->elf_load_addr = kbuf.mem;
+ 		image->elf_headers_sz = headers_sz;
 -- 
 2.34.1
 
