@@ -1,83 +1,100 @@
-Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [45.157.188.10])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6E6501296
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 13:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC011E0DD8;
+	Fri, 18 Sep 2026 13:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789739768; cv=none; b=NWeJnla+w3gwAmzTMAEy9IECPQRJoD5gqzy0L9MEPAgHpWI/k0Xg7jAJLcfgpIRqARNoOHtB7804FwB/iecOi4r6zS4b3USCOxIKqpDGkL/LntcxPA6hFphnUL4vYIabKyJtUGGkkNKPR0KVP/Wyhlkfu07YiXn24+UInlD3SVE=
+	t=1789739874; cv=none; b=CHrk+RI7WGRxM75qxKmEXBtSHUI27eQ7gho9HXnK3ZR913Kouqd75UXzlig5Ds1uXfXzhUtmtfK8xaLqWK7fDg9yOakRohHBOnie7yACKf4nnCUDnydAtIa/aS6rD6rVa0S7Mgo5w3J0dblxJ/xMRVtGcfppdlkQXOwlwPO9uko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789739768; c=relaxed/simple;
-	bh=oLmGdDlmT9FsQ8Nns5gbaXtz/Y7Q4xu35sluIs2bD/s=;
+	s=arc-20240116; t=1789739874; c=relaxed/simple;
+	bh=SL6DyRDnOizhao/pI5jXngSsSBV1IzDJXG0yU+8v2PU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BkAu3ZXLCuGC7C1RufB7ZCRmImlSFDs0/tyjBGJIK8juQaLwOemzD37hn6efAbxCHPOP9lP1lWwgwg8vD6l1WFpyyC/+jPRJ0l1Oj1q1sHXM3QDB8LAkaN75E7TDOpX+8eTR5QLRWqwXwrHTYfWGfk8Eu9OgNWRos8+xZ/ieNJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=tQJui7wD; arc=none smtp.client-ip=45.157.188.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="tQJui7wD"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hmZ0H3QBFzlvx;
-	Fri, 18 Sep 2026 15:55:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1789739759;
-	bh=GBaWyZsNpf6Mq6Ba//QGR2wROdsbPFqMBuqnMq9IDG0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tQJui7wDq4/ekdYf4Z5P+itPMeWB1+eROfLneiMxKaPJjblrptTytYohso+/Nyzk7
-	 QWxKnpqxdzJUEDI2PBQLWODCAVNnBkbsnBWrbTKLnMFQHQScgMKs2TORQgP47xjU/7
-	 +iJ2yS5CzCPRdvYorvW2Xemgv8+2KR89FfS0C/Ss=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4hmZ091z8BzcBq;
-	Fri, 18 Sep 2026 15:55:53 +0200 (CEST)
-Date: Fri, 18 Sep 2026 15:55:51 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Sasha Levin <sashal@kernel.org>
-Cc: stable@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	Christian Brauner <brauner@kernel.org>, John Johansen <john.johansen@canonical.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Kentaro Takeda <takedakn@nttdata.co.jp>, Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, 
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>, 
-	Konstantin Meskhidze <konstantin.meskhidze@huawei.com>, Paul Moore <paul@paul-moore.com>, Shuah Khan <shuah@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 5.15.y 2/2] selftests/landlock: Add tests for whiteout
- object creation
-Message-ID: <20260918.ineeFoh3ooHi@digikod.net>
-References: <88432dfe86f2aaa9ae499587fd7acff9d34a338b.1789655723.git.mic@digikod.net>
- <2026-09-17-daily-reply-0015-landlock-whiteout-tests-hold@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=X21wb1PDAh2HFxmWdD5MAkCR9GcPX/6EJns2i1J9S2KcJWP0wAV9jCfQa+7gMvgDk00ibko9T9NQUGis40plJvDnaB0CtU1U4StPVJs6jspCpOkHucwKDdVhnqJ5dDr5kpRivHHe1m3YmJQqwVf6cFP3WrGlKmiqDxZsdiTuAjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A183668BEB; Fri, 18 Sep 2026 15:57:47 +0200 (CEST)
+Date: Fri, 18 Sep 2026 15:57:47 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, hch@lst.de,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	vdubeyko@coreweave.com, willy@infradead.org, brauner@kernel.org,
+	djwong@kernel.org
+Subject: Re: [PATCH v4 7/7] hfsplus: switch address_space_operations on
+ iomap-based support
+Message-ID: <20260918135747.GA18697@lst.de>
+References: <20260914233941.2966421-1-slava@dubeyko.com> <20260914233941.2966421-8-slava@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026-09-17-daily-reply-0015-landlock-whiteout-tests-hold@kernel.org>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <20260914233941.2966421-8-slava@dubeyko.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Thu, Sep 17, 2026 at 08:52:42PM -0400, Sasha Levin wrote:
-> > [ Upstream commit ee890889b30b22f9a21636061def7a04e4f89380 ]
-> >
-> > Add tests to check that whiteout object creation is guarded by
-> > LANDLOCK_ACCESS_FS_MAKE_REG, in the cases where these are created from
-> > userspace:
-> 
-> I am holding these until the newer trees are covered. 7.2 and 6.18 already
-> carry 672fa082d48b ("landlock: Require LANDLOCK_ACCESS_FS_MAKE_REG for whiteout
-> creation") but not ee890889b30b ("selftests/landlock: Add tests for whiteout
-> object creation"), and taking a fix on 6.12 and older while 6.18 lacks it is
-> the wrong order.
-> 
-> 7.2 can take the upstream commit as is, but 6.18 cannot: it has no enforce_fs()
-> and dc75f8904694 ("selftests/landlock: Simplify ruleset creation and
-> enforcement in fs_test") does not apply there.
-> 
-> Could you send a 6.18.y version? The 6.12, 6.6, 6.1 and 5.15 patches themselves
-> look good and I will take them once 6.18 is in hand.
+On Mon, Sep 14, 2026 at 04:39:41PM -0700, Viacheslav Dubeyko wrote:
+>  /* Compare two extents keys, returns 0 on same, pos/neg for difference */
+>  int hfsplus_ext_cmp_key(const hfsplus_btree_key *k1,
+> @@ -275,6 +276,8 @@ int hfsplus_map_extent(struct inode *inode, u32 ablock, int create,
+>  		*max_blocks = hfsplus_ext_find_block(hip->first_extents,
+>  						     ablock,
+>  						     dblock);
+> +		if (!*max_blocks)
+> +			return -EIO;
 
-I sent the 6.18.y version here:
-https://lore.kernel.org/stable/22492930911630bb9724ed1c34248143f8913f68.1789655724.git.mic@digikod.net/
+What is this for?  It feels like something that should go into a
+well-documented prep patch.
 
-and the 7.2.y version here:
-https://lore.kernel.org/stable/732f5f5e0f5bb22d5717577d9c382b00c87725c4.1789655724.git.mic@digikod.net/
+> @@ -342,7 +348,7 @@ int hfsplus_get_block(struct inode *inode, sector_t iblock,
+>  
+>  	if (create) {
+>  		set_buffer_new(bh_result);
+> -		hip->phys_size += sb->s_blocksize;
+> +		hip->phys_size = (loff_t)(iblock + 1) << sb->s_blocksize_bits;
+
+How is this change related to iomap?
+
+>  	if (inode->i_size > hip->phys_size) {
+> -		struct address_space *mapping = inode->i_mapping;
+> -		struct folio *folio;
+> -		void *fsdata = NULL;
+> -		loff_t size = inode->i_size;
+> +		if (S_ISREG(inode->i_mode)) {
+> +			res = hfsplus_iomap_cont_expand(inode, hip->phys_size,
+> +							inode->i_size);
+> +			if (res)
+> +				return;
+> +
+> +			mark_inode_dirty(inode);
+> +		} else {
+> +			struct address_space *mapping = inode->i_mapping;
+> +			struct folio *folio;
+> +			void *fsdata = NULL;
+> +
+> +			res = hfsplus_write_begin(NULL, mapping,
+> +						  inode->i_size, 0,
+> +						  &folio, &fsdata);
+> +			if (res)
+> +				return;
+> +
+> +			res = generic_write_end(NULL, mapping,
+> +						inode->i_size, 0, 0,
+> +						folio, fsdata);
+> +			if (res < 0)
+> +				return;
+> +
+> +			mark_inode_dirty(inode);
+> +		}
+
+Is this for symlinks?  Any reason you can't pull in
+
+  iomap: add iomap_symlink_write
+
+that has been posted on fsdevel and use iomap for symlinks as well?
+
