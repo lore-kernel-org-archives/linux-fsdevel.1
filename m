@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A354F93B3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 13:47:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969994F85D3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 13:47:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789739246; cv=none; b=pUtKHgSNM+p4/K8LgKqwgcBB4x3MCf5ZAAuu3H0J7Ry2g8Ouzp/dRq/nIH/Yvt+Ow3XggX9eIFK/xjhiB7+4f46Hz3fzfrHx2xMkNILpGHoWee53had3cIFkUAs+n1jdrWy+FBdAs9/8Kt8Aqa++Vp3/JhjvJcyyMmddh9bzvJk=
+	t=1789739278; cv=none; b=L755Oc2quG7c5G7kdX2NN+cS2GL5n8Wny9/S7qYPL752rPn7KzVYGe876m4O360WqRLIb6OqxyP4JHw8tMKzprYcfoCS07NQE8JZGXm0F2bcjMQG2hrkHMb6FgtJAfWRp8lKA3+gMn9latwWoEGpmzqsUrjabOy9eXBOJX8EenY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789739246; c=relaxed/simple;
-	bh=NP4whSnqaZ2VBngE/e8wB2yHxsTbGNa+qsx2e5Ijrbg=;
+	s=arc-20240116; t=1789739278; c=relaxed/simple;
+	bh=PCvEdByuMUNgPq9Rzg5LeoUr5eG6SItq7JoIoD/+P+I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OftwhqjB/gWVUisWlhAQowpvatoAN1WIO98ss1MSG6o+ZyqbeujX0ActQ4P+7FfX3xpyFx30xKXBMu11EtoBni/p5UYrGzlVEF13GMTC8CzEt+5/1MaPeyC1nlnJEEx73Mhy66JAIYvoaqkSuGKXwfOMoCQX4GVNx4vwCRRyp40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F9ZUhBUH; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=hatJcb39lPdZO/JS7oxCQlKe4ZXK7CZBOXSBikLM8Et/h8yco4AmieXJcvMJEkbjs+Ub97MR7yveuPviNcXVJsJSqHh79GzSk4B/dydhAyivzcF1c5VNGN9yjzscrvCgowuLY5aPO5epUR4oL9URFHmJKkrEerb9Ih1VAP07Pr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QUpaQHft; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F9ZUhBUH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F29A1F00898;
-	Fri, 18 Sep 2026 13:47:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QUpaQHft"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D98461F000FF;
+	Fri, 18 Sep 2026 13:47:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789739245;
-	bh=zDB8ZNrlloa4K4BhhwSa+v9ApPYQhDBrcYUmm+5KlB4=;
+	s=k20260515; t=1789739277;
+	bh=yILN2EwZ/0v4lXtVvce4s3I7nOORRQ+NlRxjxqFOxvI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=F9ZUhBUHGtWbiYQJVewlMYWp6udci2KIiFZLV4F7Cxb0UcEtK9ErRh/K0jtkgbpzi
-	 8czAX5BPGeqlacdyzDKafNHDHbtZdPv/ngZU5UcI/ERMTB6iwzpB+mnt7/iD+PIK52
-	 Aw0IVWIxLOeb6jZwmtaCrvYB9AGdTS1qEFBeekYfe8GxFz7IvfsHeJD6nVvO6hfsgK
-	 MHj2AspFZHalCqpmD0C2+zmzFZEOyMbCRyR6x6awZa1lZNc+YvYIM3isj9p1OyGjzd
-	 YqhPXY5IEKN/uyEGBcjf1b7m6sLMKamDtFfnF/AfWv1ncitJ5NNZbvfK4UBXQKGaJi
-	 Nq3A15d1BYm5w==
-Message-ID: <813a2644-fa9f-4ee7-8655-ca69ef0e8a98@kernel.org>
-Date: Fri, 18 Sep 2026 15:47:18 +0200
+	b=QUpaQHftxoWl/jsyC1b4ijl1sL7hKSWsQ3JDH7yrKcgvtu7Jubp2xWLpClMnlcUZW
+	 3Un8QvcLUbu+0apj3clB7R0dLGPQoN/QVkB6QzbUJiVM5eI0LscJ22SXtgBUPPzRMD
+	 GBypmrNwZnJ9opSMyJLhSCYFaFHI71MZx8RWZDs3z3Nvdm1/s2kQOw9+ml883kz4nO
+	 gtZcdRkTyQBKkauwgfnRfF+SvlHup0MNyr1RbLLTEo6RCbi3K/lmrl3R3hJjJnYRr1
+	 eeNppMEQ+nSEDmtmU+qTtRsULABG9qAm84EyC+vYW7QMR1eu9tkkidjtwAbpQhCohQ
+	 I/LI8lz6jN4kg==
+Message-ID: <190a2427-40e9-4b9c-ae2c-955dbeead526@kernel.org>
+Date: Fri, 18 Sep 2026 15:47:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,18 +35,17 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 11/15] filemap: Add hwpoison handling to filemap_read()
-To: Matthew Wilcox <willy@infradead.org>, Pedro Falcato <pfalcato@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jane Chu
- <jane.chu@oracle.com>, linux-mm@kvack.org,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+Subject: Re: [PATCH v9 13/15] hugetlb: Set mapping folio order
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Jane Chu <jane.chu@oracle.com>,
+ linux-mm@kvack.org
+Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
  Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
  <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
  linux-fsdevel@vger.kernel.org, Christian Brauner <christian@brauner.io>,
- Jiaqi Yan <jiaqiyan@google.com>
+ Jiaqi Yan <jiaqiyan@google.com>, Gregory Price <gourry@gourry.net>
 References: <20260805210557.1118966-1-willy@infradead.org>
- <20260805210557.1118966-12-willy@infradead.org>
- <an2e1j3C_4DA5KXK@pedro-suse.lan> <an3xv6Hae6g3aHCh@casper.infradead.org>
+ <20260805210557.1118966-14-willy@infradead.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -93,36 +92,61 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <an3xv6Hae6g3aHCh@casper.infradead.org>
+In-Reply-To: <20260805210557.1118966-14-willy@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/13/26 18:33, Matthew Wilcox wrote:
-> On Thu, Aug 13, 2026 at 11:55:44AM +0100, Pedro Falcato wrote:
->>> +static size_t adjust_range_hwpoison(const struct folio *folio, size_t offset,
->>> +		size_t bytes)
->>> +{
->>> +	const struct page *page = folio_page(folio, offset / PAGE_SIZE);
->>> +	size_t safe_bytes;
->> 						    offset >> PAGE_SHIFT would probably be more idiomatic
+On 8/5/26 23:05, Matthew Wilcox (Oracle) wrote:
+> hugetlbfs currently uses an fs-specific way to determine the size of
+> the folios in its page cache.  Thanks to the support of block sizes
+> larger than page sizes, we now support this as part of the page cache.
+> It's somewhat more efficient as we have this information directly in the
+> mapping rather than going from inode->i_sb->s_fs_info.  We can convert
+> the rest of the hugetlb code to use this at our leisure; this is needed
+> now so that we can use filemap_get_pages() unmodified.
 > 
-> $ git grep '/ PAGE_SIZE' mm fs |wc -l
-> 116
-> $ git grep '>> PAGE_SHIFT' mm fs |wc -l
-> 656
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Reviewed-by: Gregory Price <gourry@gourry.net>
+> Reviewed-by: Jane Chu <jane.chu@oracle.com>
+> ---
+>  fs/hugetlbfs/inode.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
 > 
-> it seems relatively common.  Personally I find / easier to understand
-> because I sometimes get confused between left and right shifts.  I
-> don't think I've ever been confused between multiply and divide ;-)
+> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+> index dbca3f713bbf..8d15413a67ee 100644
+> --- a/fs/hugetlbfs/inode.c
+> +++ b/fs/hugetlbfs/inode.c
+> @@ -883,6 +883,16 @@ static struct inode *hugetlbfs_get_root(struct super_block *sb,
+>  	return inode;
+>  }
+>  
+> +static void hugetlbfs_init_regular_inode(struct inode *inode)
+> +{
+> +	struct hstate *hstate = hstate_inode(inode);
+> +	unsigned int order = huge_page_order(hstate);
+> +
+> +	inode->i_op = &hugetlbfs_inode_operations;
+> +	inode->i_fop = &hugetlbfs_file_operations;
+> +	mapping_set_folio_order_range(inode->i_mapping, order, order);
+> +}
+> +
+>  /*
+>   * Hugetlbfs is not reclaimable; therefore its i_mmap_rwsem will never
+>   * be taken from reclaim -- unlike regular filesystems. This needs an
+> @@ -926,8 +936,7 @@ static struct inode *hugetlbfs_get_inode(struct super_block *sb,
+>  			init_special_inode(inode, mode, dev);
+>  			break;
+>  		case S_IFREG:
+> -			inode->i_op = &hugetlbfs_inode_operations;
+> -			inode->i_fop = &hugetlbfs_file_operations;
+> +			hugetlbfs_init_regular_inode(inode);
+>  			break;
+>  		case S_IFDIR:
+>  			inode->i_op = &hugetlbfs_dir_inode_operations;
 
-Linus once explained why ">> PAGE_SHIFT" is preferable when the type of the
-function might be signed, as the shift generates better code.
+Yeah, that's very nice.
 
-I personally find "offset / PAGE_SIZE" more intuitive, but I also have sympathy
-for PHYS_PFN() to abstract the operation.
-
-(SIZE_TO_PAGES would be a bit mouthful so I wouldn't ever dare suggesting to
-introduce a new helper)
+Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
