@@ -1,64 +1,64 @@
 Received: from mail-pj2-f8.google.com (mail-pj2-f8.google.com [74.125.227.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D3F37C0E6
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 02:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4523CDBD3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 02:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789699760; cv=none; b=ApdDicbYTRpRCunJBfOjfPiQF5tF2bzPpuldzQybzD1z/8HbgDO/fVlclB2Cbxs4j+F2/zVb7zXzL1iH0SeRuy4C1YdhLEwYgXCNQSrQsO2no1dH7WFhibCDkTjzae62FrV2i1TwY0WhHQ4jC1AGoW8ALFw+02SCcweoZn64QU8=
+	t=1789699762; cv=none; b=ehdlRcr4/rDlSInoHnZpEzrLm850B2WpsK2DmpyO2HzhQ8gKuhbv2CGOZ++1wIVxcW/eyQx2XhmQmLjYiecWAx0Zc9w6c74Vkdxo3S3Em19EPmR8dsCY0Rroo8/6bsyUrEGUmBydDsYepjYRbNKRzyYF8frI4sy1g4tZyEfV30Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789699760; c=relaxed/simple;
-	bh=yjmkwbpeQMdmXCBXESN5xDVi7K/v6oHuMoxkmkDC8Mo=;
+	s=arc-20240116; t=1789699762; c=relaxed/simple;
+	bh=7mZyvLsdD7rZFz20RtO0OYHMdBvBnkDzPt/82DlOJfo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J3WJRKbxg4rmlkky+lWSoPogrpwS83h3yA+cc2IKoJXaFeDLcX8Xc7BB2LdsxbAoGK0C4wYDqpDzsXI/BcFHJce61qltrqEpFzOB8xf0iyJILGfEczMDBIrWbsX0j3+0YAumXxBKBEr9kx9tCTVJgUnShns1/8jucwJDZkM6GG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pLbTDcyT; arc=none smtp.client-ip=74.125.227.136
+	 MIME-Version; b=KZ3cu32pkYT9QPG3oMk2fM8shF1e6cF9lpaTQZamoaDwi8d0kwxr9S3UxVyfMTSoAt3XuC6pWIjB3AMFxMdijgK7hn8rQ92hXxVivAHpIVKaWYH79XlrZGfd7rDQ2UBonn8QinKcy0cyGEF45trtWfOhBQUtCzQrNxFfkitq2Ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n9GCvagV; arc=none smtp.client-ip=74.125.227.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pLbTDcyT"
-Received: by mail-pj2-f8.google.com with SMTP id 98e67ed59e1d1-38fd9408220so78465a91.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 19:49:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n9GCvagV"
+Received: by mail-pj2-f8.google.com with SMTP id d9443c01a7336-2d8fcda61c8so1056705ad.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 19:49:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789699748; x=1790304548; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789699753; x=1790304553; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=V75GajmH07UG7qaYgZOmgqCDwlXfTM0MKIoEOxgI2Ys=;
-        b=pLbTDcyTqZcIG23zZ9lxfWQEgWBDANU6JTQx8JZoukMh7lkhCcDxoCfbjnnOsE4zi5
-         hU4lQOCCY3pDdDV3efw4H+0OJeKoaExMdWCuzy3zWFDgSASbR7YoRqiJlbmDn0MA8CQj
-         JNY8REx5LPg2WSzZKeJ0re3paEP2W7l6ZIWu7jdmQrHtGyflrX8x0pV95U5enJa7wITR
-         dyZP6rFgbDFOzG9qcStX91hZ3mxM9leej63S3P7J395uIaSMS2TZsQmS4niLELAZdbiz
-         P/QQzo2P7kATC9FtBm9IUiH1xI+jV2W1cZIieALdJP4exRNaSS7dxei39exRvZpUfdmd
-         EDZA==
+        bh=zt8G0xpIOOhfoNc/LpRJ6HNqd0QOLFO5B7X1F4wwr9s=;
+        b=n9GCvagV4vzLOItApOQYz25/x/JPn5IyIANJKNYuUakigjbbk3G/p3jAk61QXVs6PF
+         pTwKFM1QOpCVkIJKWgHeRrZhYzMVJgwnAMrkz+AzzJw4PApVE/NNnviquQKEGuyiM1/4
+         1NkP4mxZjlWmwqLyPROy50C/fmW0yDNi07rI4yBb4IjY8Xma/fkXcSRUnMrM+X/dP0ls
+         WQSURO18KI3OJOYvPTg3V0H72Rb2ul0RvWWdOYDQfp3J30dKgIZ3K0kHTeFtCF0ofLgY
+         bQWk3++paG2OU6hPkI4AGhP4BYZqrM5mTabqohBWKNBq+CK1dTiJZOTS/pr8JxlXoHrN
+         2R8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789699748; x=1790304548;
+        d=1e100.net; s=20260707; t=1789699753; x=1790304553;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V75GajmH07UG7qaYgZOmgqCDwlXfTM0MKIoEOxgI2Ys=;
-        b=E/jCPmOO24twVcyGDZ4onfFwjlRrWC6Vq0YDEwcq9ax0qKYwtNlkmzKtu4LvrH/uLb
-         b02N421Fq1yuaCEi8eKOUCRr3b4bLQGWU2PVgMwSB6JMJC2cNpVhx9VDF3bTOF6aZHXH
-         2fJ1Zx3JitPB/VgWsO7PoF4rRdCC3W7QL8+ZEqEprqmFpMXvsuxU2DoQSE1BuRoW/bHR
-         MaFDasqVkYQ2mH9feHMLZmkwThgG17FMqyqK6xi3V4kQNV23mVExYSDkOiuwuWnXVKqg
-         5T2zcm1HjpDiRvyXD/Tcigf5USTjUTKuMA8YZPYWebFYctb9NPzRXsM3r+NkFakO/Bnk
-         5z2A==
-X-Forwarded-Encrypted: i=1; AKwUvBwhh03BOoTnlnn+UNLkQ0pZfXUh+bZU+5jgUCJSuDp/J82S1Pavczr/y4DJ4bYuWWZiApgsQjHMHF6aWWiB@vger.kernel.org
-X-Gm-Message-State: AFuF++n9qoIeiLm5pfsPdrDZR8q0bOo+fHjI44BEwFasK5J9nCk/UswV
-	y2aKSgTX+heEuDJgIj+pAyHZuYHkJIJZBXr/x5znv5+eq/ApiPzBEwX+
-X-Gm-Gg: AYBFou3QB/DiM9j/bm2rwVEn3AjB/9i1n8CY4xmB2djIT9PBPs4qx5kLD+OqBxUoYyE
-	zeb9Xzboa+46gpEwU9BXmEQ4lXcDTvyMrFe9gAMFq3hpGw+RjP1eDIKhCiiBWyKtAMtyzoP2jOF
-	odHHgkm2pOmDxXPrI6ll787KlVxrEWN/vpB8l5pKYjtzQeHneGGREnElJvNYftZuM8TfMoZd8Ld
-	0wobVe6Z73grV6CUpyehMZveA7zEXL2AOBJ8KTuarbeZGRlukGHXlehi7B+Hso9SO0G+yiIIBB3
-	0kBAA3nIT/bGN42YoawD5fD/sO1Hm33CQr3NzjvmhQI7zSsm1Lb7uulo6kgrkmg4hHVzVwQWZV/
-	+YM5C/Hm962D6LN8XhRtGQO+dSrzUoNxLOinhoJgjBpyqZrBftjSrELDk/axgAmCWL7oLM/wIwc
-	akzin+kiEO4ViwMDkaD6koJNx3D9nW+0y+YBPxTWtdn6/VUOZPYOj9tOout4IcAg7M8XWW6ik9O
-	9nENaLP17YmYFOE6J5TJJebmsBZqfpkcN9rf+FYnjZtbNAO
-X-Received: by 2002:a17:90b:2649:b0:39e:3713:c2e4 with SMTP id 98e67ed59e1d1-39e54dce754mr2452791a91.14.1789699748336;
-        Thu, 17 Sep 2026 19:49:08 -0700 (PDT)
+        bh=zt8G0xpIOOhfoNc/LpRJ6HNqd0QOLFO5B7X1F4wwr9s=;
+        b=leUZvhJxISLOtsAnf9XHwL/mfFf3bKCeDoY15zJtaAnzkI50IQKJplbX00NWqiqZT4
+         6e9sa2A+t3VBnsFQM7jQXA9UBfFzS9EsXZW0Lc46Xa8b/DaZNFLamklyC0+ggniZZ6Xi
+         MOym2lcc5uvcbEpb6vr+J25c4Hv7Zx0ZhiCX9VyC6YlJ5/G+0VOPEUqHBWRylvk4Gkel
+         AWesIl8mr/JGBJYOgi5/h5A7et9LTnqeAjshW9+vkKOe1ZIZGTu9QlQGTY22KI7CN9Er
+         6f83YvU2M3aVjkBZjK2/CWZte/MdakNcC+pFojl9M3bqeYupVZBGoKOJWGOKvRVZjELM
+         8STA==
+X-Forwarded-Encrypted: i=1; AKwUvBwmuGcYyCLJC+DOBv7FaeEbdh1cUAtkQEWm/iN3VuPsR9WtQeP/dACOzQ8dX7qxnwGzRm+8fAl8ggcT0Bbb@vger.kernel.org
+X-Gm-Message-State: AFuF++nByN4Zzh8jCjYOzOcgdKCZIIpGluiVNtB0I4QkocaZDTPNcg/W
+	NXlQmHQrgCjw1KCreeRIS3K8IFvyIyucFzRMEOLVif4kTR/dT70ydPGb
+X-Gm-Gg: AYBFou39w4QsJ6ikZu0uC4bT5QfDOl/6mlsTiPgrpq9zkV/iGHU0yYS3cf73Wkf9Dj4
+	EWy+SlDWsMQ3zbqpUFtcSGRclT8h9rtLaG/fatT3VVAjbUnw7H8sy2JR2TIShmLEFjyliZrXMFe
+	HGm7uArzk9GffCLL6BY7w7J9pZJL2BcBLIkETE2b9nSmzc1aXAxnYCyD0UqqjAqxqX3qlMqFy5L
+	MC6lCIuHMT3QeE/NEVrC1NJQ7OViCRdXlXhelnbZE7wAFcfDfUyVSnhsB5aKgfl5DmgZsti7Xty
+	kR0cmj8yNChBi1yHL7YEj7IU4QF4aui9GLVTYx9f8O9ycfE1AcZZJmWNzhOuOECZgpja+TqSreg
+	u8aruaG2t65hAiPOXJLUzs9U+1PgBHv3DCAE+7d4wqGSkEIxuuvapcX3bIXVpqLu/LXlB7LGtAb
+	7lrdBW2ug+jQGIGELKc/4EkaEVYRKDI8DmuZxxtNAp3G6bhcle+WEUf6gWeeAljo3+EhOFBXiH1
+	MDkOq/R2hCwHXTCyIB05rgWCmzS1F9bMACtVtXszeZtscXT
+X-Received: by 2002:a17:903:46d0:b0:2d6:3c2f:6a4 with SMTP id d9443c01a7336-2ddb1b04363mr24129965ad.13.1789699753092;
+        Thu, 17 Sep 2026 19:49:13 -0700 (PDT)
 Received: from localhost.localdomain ([38.60.126.44])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c287b023bsm388217eec.23.2026.09.17.19.49.03
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c287b023bsm388217eec.23.2026.09.17.19.49.08
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 17 Sep 2026 19:49:08 -0700 (PDT)
+        Thu, 17 Sep 2026 19:49:12 -0700 (PDT)
 From: Haobin Wu <853555@gmail.com>
 To: ericvh@kernel.org,
 	lucho@ionkov.net,
@@ -79,9 +79,9 @@ Cc: linux_oss@crudebyte.com,
 	dhowells@redhat.com,
 	viro@zeniv.linux.org.uk,
 	brauner@kernel.org
-Subject: [PATCH v3 2/3] 9p: skip directory entries with names longer than NAME_MAX
-Date: Fri, 18 Sep 2026 10:48:50 +0800
-Message-ID: <20260918024851.51229-3-853555@gmail.com>
+Subject: [PATCH v3 3/3] 9p: skip over-long directory entry names for legacy 9p2000 too
+Date: Fri, 18 Sep 2026 10:48:51 +0800
+Message-ID: <20260918024851.51229-4-853555@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260918024851.51229-1-853555@gmail.com>
 References: <20260918024851.51229-1-853555@gmail.com>
@@ -93,59 +93,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The 9p wire format carries directory entry names of up to 65535 bytes
-and nothing on the client checks them against NAME_MAX. Since the
-previous patch, v9fs_dir_readdir_dotl() passes such names straight to
-dir_emit(), and the VFS only rejects names of PATH_MAX bytes or more in
-verify_dirent_name(), as -EIO, which again fails the whole getdents64()
-call.
+The legacy 9p2000 and 9p2000.u readdir path, v9fs_dir_readdir(), parses
+each entry with p9stat_read() and, unlike the 9p2000.L path, never had
+a 256-byte name limit: a name of any length up to the wire maximum was
+handed to dir_emit(). getdents64() therefore returned names longer than
+NAME_MAX that no later syscall can use, and failed with -EIO for names
+of PATH_MAX bytes or more.
 
-A name between NAME_MAX and PATH_MAX is therefore returned to userspace
-even though every later operation on it fails with -ENAMETOOLONG, and
-POSIX requires readdir() to only return components of at most NAME_MAX
-bytes. Nothing can use such an entry, so skip it instead of returning it
-or failing the listing, reusing the strlen() result that was already
-computed for dir_emit(). Log the skipped entry at P9_DEBUG_ERROR, the
-same level as the strscpy() failure message this replaces.
+Apply the same NAME_MAX check as the previous patch does for
+v9fs_dir_readdir_dotl(), so both protocol variants behave the same.
 
-Suggested-by: Dominique Martinet <asmadeus@codewreck.org>
-Link: https://lore.kernel.org/all/vz5bum547fqyxf5z4m3x7tuqkuq52jlopm65t7hvynqeulh7i3@2t4wnhfxs7qv/
+Note that this is a behaviour change for 9p2000 and 9p2000.u: entries
+with names longer than NAME_MAX used to be listed and are now skipped.
+
+Suggested-by: Christian Schoenebeck <linux_oss@crudebyte.com>
+Link: https://lore.kernel.org/all/3910569.MHq7AAxBmi@weasel/
 Signed-off-by: Haobin Wu <853555@gmail.com>
 ---
- fs/9p/vfs_dir.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ fs/9p/vfs_dir.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/fs/9p/vfs_dir.c b/fs/9p/vfs_dir.c
-index af00b79d801e..08d1a3429654 100644
+index 08d1a3429654..31de9ac913f0 100644
 --- a/fs/9p/vfs_dir.c
 +++ b/fs/9p/vfs_dir.c
-@@ -173,6 +173,7 @@ static int v9fs_dir_readdir_dotl(struct file *file, struct dir_context *ctx)
+@@ -119,6 +119,8 @@ static int v9fs_dir_readdir(struct file *file, struct dir_context *ctx)
+ 			rdir->tail = n;
  		}
- 
  		while (rdir->head < rdir->tail) {
 +			size_t namelen;
- 
- 			err = p9dirent_read(fid->clnt, rdir->buf + rdir->head,
- 					    rdir->tail - rdir->head,
-@@ -182,10 +183,14 @@ static int v9fs_dir_readdir_dotl(struct file *file, struct dir_context *ctx)
++
+ 			err = p9stat_read(fid->clnt, rdir->buf + rdir->head,
+ 					  rdir->tail - rdir->head, &st);
+ 			if (err <= 0) {
+@@ -126,8 +128,16 @@ static int v9fs_dir_readdir(struct file *file, struct dir_context *ctx)
  				return -EIO;
  			}
  
--			if (!dir_emit(ctx, curdirent.d_name,
--				      strlen(curdirent.d_name),
--				      QID2INO(&curdirent.qid),
--				      curdirent.d_type)) {
-+			namelen = strlen(curdirent.d_name);
+-			over = !dir_emit(ctx, st.name, strlen(st.name),
+-					QID2INO(&st.qid), dt_type(&st));
++			namelen = strlen(st.name);
 +			if (namelen > NAME_MAX) {
 +				p9_debug(P9_DEBUG_ERROR,
 +					 "skip dentry: name length %zu > NAME_MAX\n",
 +					 namelen);
-+			} else if (!dir_emit(ctx, curdirent.d_name, namelen,
-+					     QID2INO(&curdirent.qid),
-+					     curdirent.d_type)) {
- 				kfree(curdirent.d_name);
++				over = false;
++			} else {
++				over = !dir_emit(ctx, st.name, namelen,
++						 QID2INO(&st.qid), dt_type(&st));
++			}
+ 			p9stat_free(&st);
+ 			if (over)
  				return 0;
- 			}
 -- 
 2.54.0 (Apple Git-157)
 
