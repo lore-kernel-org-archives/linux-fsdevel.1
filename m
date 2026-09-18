@@ -1,52 +1,46 @@
 Received: from kylie.crudebyte.com (kylie.crudebyte.com [5.189.157.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691113F20EC;
-	Fri, 18 Sep 2026 12:08:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A8249739D;
+	Fri, 18 Sep 2026 12:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.157.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789733291; cv=none; b=XkP7A2DEEq/E5aqv2hea7B+/IrUKyn+KnYCEBvCqvX2QVLmx93iYQxfG0/UFtmx90JNmdv1bf2pNCsm+YutaPQXB0pYwl8QbFXBrxeRLdrh+wRK3e/xacw4Otf01zg7KsRAwPWJNLLJ/OfHamoVJ3y4bNBJncpXNLsL0a3plwiM=
+	t=1789733369; cv=none; b=MlvMy45+Jr0mIlmL43Ko/YyIdOvbw9Ygss1UxiYLQ/E/YdPDCHd41l5Y8hDQ+lXxwXUOuWQ3kK2MB3CnUbFo25PK8ZQMtAc6KZxfCnEhmUrUlM8RhjWXN4bVHeWSvTM0ciqu8pUtuVUSTCxNj7EVYcjAivUPXMZCmeQPzu+AHX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789733291; c=relaxed/simple;
-	bh=CBNdfcanxD/+KYaITnKl3ebz92hnYqbaEBluH3NlCfY=;
+	s=arc-20240116; t=1789733369; c=relaxed/simple;
+	bh=czk23+e2hQaKbTFSaBuofQ9W33Za6GwAKFjnRLTEs+I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T/HEA75zwEas5XL0iznS8Gt8SYZ6lG9CnZyzSbKB6V308MBvOk0WHhaLzhz5ZLeoVaWZnk3GazfK1lp3GweqLjbiZTjLA9BfoQbTM0s6MyWUvbiXi3UPRyEaNyeYPbeu/YCv+0xhcjGaCYGxMmZ8X/lLOFNSc/f9qfOI74KEikY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=hMPM5cBH; arc=none smtp.client-ip=5.189.157.229
+	 MIME-Version:Content-Type; b=AKUJoASSEWMXbSDhjQWbAyLWEVE4ZbWu1xEDh1XE2YfORabhGMI2uSOS2Cn3XB0TZ2NsJgeKvO8XqC4hOWg9ZKG1dfuYpioq9+0L0T/MAhXLCanTqNgV8AYwGkGVEkXE9Aq/fF+oW+6vqDEYjUeXmgyYcATvvvqu/t6J+L/M+oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=U/ETbljm; arc=none smtp.client-ip=5.189.157.229
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crudebyte.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="hMPM5cBH"
+	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="U/ETbljm"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Content-ID:Content-Description;
-	bh=quA5j3Pb23IBKCt15zgzAbZkRT7gO4hK1CKPt5Jekk0=; b=hMPM5cBH4h9g9jRrfZfIu7gMub
-	7zhloY0R1IFkA7E3qnQDj/bPPhbac+S5ckq0qdcIPxU1BR7QQlqQBiJODjhyMvCF/qxNZUpAHiJdK
-	JtCviHD9YIL497CgKqfvB2WS8DTuqAK+d9fNH0CII3mjSv9brSPbhjbNDPhN8cISS5sJQ98kL41c3
-	O+DUt80j9zQ3njFJx6VUssW8D1IwceDzbm2pQSIbpXrdNvuF8/6Gl0eLSpxR/nY2oYXtE+LuVivEb
-	YlrM5W/repD3WFcjbkveNHD0hq63vTZRtYnBbmqWbqTAmmNmGWdwBg1g+cyu0nE2eBTe6r0l4PYXf
-	JsnrS8k4h6yX7W5eozw7wnh7y0J529pbdHrjdflId3RaG22bqevtzMdv7DbsDxgwhdPiaNiDf20gy
-	/4TxtispRPNuk7t2gglA84axEA2CuhAMLCBwIhjsD6deuQ6iK3D82pNc/Qpz5cbZhHkLRBQgwUOPc
-	uF2tILEvt4LVyGxfRLmWbb1mQXPhIvvUMTFin87lBz1wz37bv2iIlC0bK6SGUuVHwxNczXOXWfGGK
-	tZ51avsDjpOXYForYUPvVZeTYFKf9pH7Xi8gx5vtFp2XZbUtmEZ+BwsOJSfkvBXERDRiNv5yTmmrq
-	TFcouvqGwRmwmV9znLVZ6kDeEO7+dhgIyvHN8CKeo=;
+	bh=EyFsSkcm3oVE5Ugihsgv+e4vsyqxkIDHvVjlIpyeGu0=; b=U/ETbljm2dlG0K++MXk26LfurX
+	J5IZUqwlQV0i8RfkwlkRFe/VazmreZpp+vklauGcDLFufglRj0jgm3s8btaYl/UuraQxhvPbpBdKP
+	CuIL/L87pDBNj9j4h/5DDPxxFL047oQ8ISPNT8Mx4PD6JrxFyWylBSAMG9pirri6tejLVtCQRIVU3
+	N6dk0mrlzDuHuhZmVnBOOSp8KYxioq8hKbwt/reW0z+Z1v/61jxcdHtx1RdyT5oOG1OcpVPhq0Xr9
+	2qYgwRiFwh3VElfjHR5U8li04UcNNOuhdLuN+mE1rfj65q0PnJs9qgGXOXv89KArdZcOcE38YbSw3
+	IpL9ya6npq0oJ9/D/GCC+zAlDTCxPXRSVRSOZ3R9XBcCmuLXIAnpnsa60VzwXkqBdbQ/HIU6qclCc
+	N5Yp83+LUK6KSyrMkqIwJQgnPdFjDSjKXIjLN5UhlkrBdvLDJ1KUPCwdeR4FMjf8qKKwwsPz9gcV0
+	T9BEvx0x5vVk1RmYF1fhYlUCgAGmz1vUiETlgVMFtBmoYkFqgRQnpVjbVudaamINBqZE5KBgm3bXp
+	9x9KeaoR2xUUt2Bs+/YTNgH+3Jm10oz9ds/pugDPfbaA/AJf84FOMP0rP031qRUJHZZZkTuInJR+B
+	MU+7c4mFpzxny1Z+draGypE/1w4JoFVWwe6+ZE/oM=;
 From: Christian Schoenebeck <linux_oss@crudebyte.com>
-To: ericvh@kernel.org, lucho@ionkov.net, asmadeus@codewreck.org,
- v9fs@lists.linux.dev, Haobin Wu <853555@gmail.com>
-Cc: jack@suse.cz, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- aneesh.kumar@linux.vnet.ibm.com, willy@infradead.org, dhowells@redhat.com,
- viro@zeniv.linux.org.uk, brauner@kernel.org
-Subject:
- Re: [PATCH v3 3/3] 9p: skip over-long directory entry names for legacy 9p2000
- too
-Date: Fri, 18 Sep 2026 14:08:00 +0200
-Message-ID: <2050867.PYKUYFuaPT@weasel>
-In-Reply-To: <20260918024851.51229-4-853555@gmail.com>
-References:
- <20260918024851.51229-1-853555@gmail.com>
- <20260918024851.51229-4-853555@gmail.com>
+To: v9fs@lists.linux.dev, Remi Pommarel <repk@triplefau.lt>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Remi Pommarel <repk@triplefau.lt>
+Subject: Re: [PATCH v7 0/4] 9p: Performance improvements for build workloads
+Date: Fri, 18 Sep 2026 14:09:23 +0200
+Message-ID: <23246408.EfDdHjke4D@weasel>
+In-Reply-To: <cover.1779355927.git.repk@triplefau.lt>
+References: <cover.1779355927.git.repk@triplefau.lt>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,79 +50,60 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
 
-On Friday, 18 September 2026 04:48:51 CEST Haobin Wu wrote:
-> The legacy 9p2000 and 9p2000.u readdir path, v9fs_dir_readdir(), parses
-> each entry with p9stat_read() and, unlike the 9p2000.L path, never had
-> a 256-byte name limit: a name of any length up to the wire maximum was
-> handed to dir_emit(). getdents64() therefore returned names longer than
-> NAME_MAX that no later syscall can use, and failed with -EIO for names
-> of PATH_MAX bytes or more.
+On Thursday, 21 May 2026 11:40:28 CEST Remi Pommarel wrote:
+> This patchset introduces several performance optimizations for the 9p
+> filesystem when used with cache=loose option (exclusive or read only
+> mounts). These improvements particularly target workloads with frequent
+> lookups of non-existent paths and repeated symlink resolutions.
 > 
-> Apply the same NAME_MAX check as the previous patch does for
-> v9fs_dir_readdir_dotl(), so both protocol variants behave the same.
+> The very state of the art benchmark consisting of cloning a fresh
+> hostap repository and building hostapd and wpa_supplicant for hwsim
+> tests (cd tests/hwsim; time ./build.sh) in a VM running on a 9pfs rootfs
+> (with trans=virtio,cache=loose options) has been used to test those
+> optimizations impact.
 > 
-> Note that this is a behaviour change for 9p2000 and 9p2000.u: entries
-> with names longer than NAME_MAX used to be listed and are now skipped.
-
-That sentence is a bit misleading, isn't it?
-
-Name length 256..4095:
-  - before: listed, but unusable (ENAMETOOLONG)
-  - now: entry skipped, fetch continues
-
-Name length >=4096:
-  - before: aborts the entire fetch (similar to 9p2000.L side)
-  - now: entry skipped, fetch continues
-
-But yes, it would be a user-space change nevertheless, so ...
- 
-> Suggested-by: Christian Schoenebeck <linux_oss@crudebyte.com>
-> Link: https://lore.kernel.org/all/3910569.MHq7AAxBmi@weasel/
-> Signed-off-by: Haobin Wu <853555@gmail.com>
-> ---
->  fs/9p/vfs_dir.c | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
+> For reference, the build takes 0m56.492s on my laptop natively while it
+> completes in 2m18.702sec on the VM. This represents a significant
+> performance penalty considering running the same build on a VM using a
+> virtiofs rootfs (with "--cache always" virtiofsd option) takes around
+> 1m32.141s. This patchset aims to bring the 9pfs build time close to
+> that of virtiofs, rather than the native host time, as a realistic
+> expectation.
 > 
-> diff --git a/fs/9p/vfs_dir.c b/fs/9p/vfs_dir.c
-> index 08d1a3429654..31de9ac913f0 100644
-> --- a/fs/9p/vfs_dir.c
-> +++ b/fs/9p/vfs_dir.c
-> @@ -119,6 +119,8 @@ static int v9fs_dir_readdir(struct file *file, struct
-> dir_context *ctx) rdir->tail = n;
->  		}
->  		while (rdir->head < rdir->tail) {
-> +			size_t namelen;
-> +
->  			err = p9stat_read(fid->clnt, rdir->buf + rdir->head,
->  					  rdir->tail - rdir->head, &st);
->  			if (err <= 0) {
-> @@ -126,8 +128,16 @@ static int v9fs_dir_readdir(struct file *file, struct
-> dir_context *ctx) return -EIO;
->  			}
+> This first three patches in this series focus on keeping negative
+> dentries in the cache, ensuring that subsequent lookups for paths known
+> to not exist do not require redundant 9P RPC calls. This optimization
+> reduces the time needed for the compiler to search for header files
+> across known locations. The two first patches introduce a new mount
+> option, ndentrycache, which specifies the number of ms to keep the
+> dentry in the cache. Using ndentrycache without value (i.e. keeping the
+> negative dentry indifinetly) shrunk build time to 1m46.198s. The third
+> patch enable the negative dentry caching for 24 hours by default on
+> cache=loose.
 > 
-> -			over = !dir_emit(ctx, st.name, strlen(st.name),
-> -					QID2INO(&st.qid), dt_type(&st));
-> +			namelen = strlen(st.name);
-> +			if (namelen > NAME_MAX) {
+> The fourth patch extends page cache usage to symlinks by allowing
+> p9_client_readlink() results to be cached. Resolving symlink is
+> apparently something done quite frequently during the build process and
+> avoiding the cost of a 9P RPC call round trip for already known symlinks
+> helps reduce the build time to 1m26.602s, outperforming the virtiofs
+> setup.
+> 
+> Here is summary of the different hostapd/wpa_supplicant build times:
+> 
+>   - Baseline (no patch): 2m18.702s
+>   - negative dentry caching (patches 1-3): 1m46.198s (23% improvement)
+>   - Above + symlink caching (patches 1-4): 1m26.302s (an additional 18%
+>     improvement, 37% in total)
+> 
+> With this ~37% performance gain, 9pfs with cache=loose can compete with
+> virtiofs for (at least) this specific scenario. Although this benchmark
+> is not the most typical, I do think that these caching optimizations
+> could benefit a wide range of other workflows as well.
 
-... maybe better if (namelen >= PATH_MAX) here for legacy 9p2000(.u)?
-
-> +				p9_debug(P9_DEBUG_ERROR,
-> +					 "skip dentry: name length %zu > NAME_MAX\n",
-> +					 namelen);
-> +				over = false;
-
-Nit: alternative would be init over = false and dropping explicit assignment 
-inside loop branch here. But that's already personal taste level.
+Just for the records: this series has been merged via 1bc18858358d (Sun Jun 21 
+2026, merge tag '9p-for-7.2-rc1').
 
 /Christian
 
-> +			} else {
-> +				over = !dir_emit(ctx, st.name, namelen,
-> +						 QID2INO(&st.qid), dt_type(&st));
-> +			}
->  			p9stat_free(&st);
->  			if (over)
->  				return 0;
 
 
