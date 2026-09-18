@@ -1,44 +1,61 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF17430ACF0;
-	Fri, 18 Sep 2026 14:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABB03ADB92
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 14:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789740723; cv=none; b=dw09K4kxCco0PL3/Q3L68YB0IbfbabJEAvunm9gS15abV72VLlRSyzMG2A2s+Daf1kimZfyS4yhL20I9h0G159Y5QCIMekYybX7cEGVGjxY6KWenKpt8Cdne/l3NYAeajg6LYZFMu/eBnaNlGWxZI4VJDvqoseTOwjaIEK1egiw=
+	t=1789741456; cv=none; b=A6/2lc2QN2BWxE6BxgLnpq7UYPTuAxitZi/1InJE5nq1jlRcnuS81BRCa8F+ZxADP5HABKimmfHHPF6Uk7gRkgeqrcqrz6mQ15AyUw1aGFGKrYMKcqAK1h3fRdAd6IR98f1SQhivVnpAvXKRT79OfZ/fqEOVNxan6o4aFDzxaJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789740723; c=relaxed/simple;
-	bh=4lbu+lUwv2h7pPq9Ni2xAFVJgGIU26IjQvSl5kinP0k=;
+	s=arc-20240116; t=1789741456; c=relaxed/simple;
+	bh=1H1osbXaC7JZx474r3JdopArxaI4SmiR3L4D7z0R4JA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EGycHzBXK40VcGo340O+n5aWTeu0waMK65KPa1OiiDTibif8NGeYYVSq4oBJKygy6+XRUqmGi7gBSIu3u2EY+TWPCRkqVa4Bdy2ULeMo1vsgd1zJ6fJgf9K+ogsCI8hZbxNYMBipALKQn6372he0nrkUKlIDX1eKkQ2rV+7cXYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MFAyq4g2; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=lrT4SMAXFZ6SDUoFaB+ioRmEtw2tq8A3d6PkeA/AFpyWt7J4IcMDyEHyRFo25PCX0A4VBNKfGl0o63HK0Ch78GqrbxoxEF+qKyhuQGPwicioxUG/5NvZwBPOOyWJTSAJyITuYZjVsNtItyVO8rZH7mnIi1VVJLQtc+Wa8fxbB1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fi6FJ5BL; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MFAyq4g2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=7zpUXQYM3IC1SGJWSr4tMCIc0axKt/dfQzxPs2S33yI=; b=MFAyq4g2ymlShmuYjQIbBcSIfa
-	BNej6XtEGp24e6Po8p7yzao5S64Rp27+Hp1OXW6/XsDOOAXcPlWN6tA9wtpWy8NhPYgHn1/BeWve4
-	0dccChVw0XJDsw/gHGVw1XQeTSk90n6ECiq7oDQwQTKGyRveJ0TtFgx5n0kHmMlNUg+rhn+mWuvDI
-	PIwhg+tBWz7oD3qekqBjF7byWLlziwdgcNpEGOnkdJzIUb4DKkixjZKkV1x/L+eo64ZT4I/Dhjc36
-	r9NPMRNQAmk5fm0M+jtIdyyyH0x1nylr3kj2dvyfj4GtBAYLgqOsYk9mTfouebfoxAjAyQbFrSSzD
-	Eq3P17Ww==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x7ZJo-0000000Efyw-2cdU;
-	Fri, 18 Sep 2026 14:12:00 +0000
-Date: Fri, 18 Sep 2026 07:12:00 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jeremy Bingham <jbingham@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz,
-	djwong@kernel.org, viro@zeniv.linux.org.uk, hch@infradead.org
-Subject: Re: [PATCH v4 2/3] minix: add iomap functions and definitions
-Message-ID: <aq1GsO6dkS747OEb@infradead.org>
-References: <cover.1787770110.git.jbingham@gmail.com>
- <e7ab836149f814b04017905dca2e07a4c94078db.1787770110.git.jbingham@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fi6FJ5BL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789741454;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=COGJ2JvndcwpiY85nNJ0ortnJmNdGWOwG92Ky7RrAcw=;
+	b=Fi6FJ5BL/3t1jXtWseT7SXTOCqEvyneSqAT/cijAWhQ0FIhJI8plAPBjuwoqEDQy628se+
+	prBQjqF3rjiS0g7mau3pWbGi2owDSgODZ1SCdraF2+TTu1rMMyltXQlrsDFPF29iGtDS3h
+	6u/5GZGgal5zsMK5xqDKzzSK8Qx6SgA=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-655-_WEziOAXOlWM0WqjR88tKg-1; Fri,
+ 18 Sep 2026 10:24:12 -0400
+X-MC-Unique: _WEziOAXOlWM0WqjR88tKg-1
+X-Mimecast-MFC-AGG-ID: _WEziOAXOlWM0WqjR88tKg_1789741450
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 811BE188307C;
+	Fri, 18 Sep 2026 14:24:09 +0000 (UTC)
+Received: from fedora (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 6FDD5195604D;
+	Fri, 18 Sep 2026 14:24:05 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri, 18 Sep 2026 16:24:09 +0200 (CEST)
+Date: Fri, 18 Sep 2026 16:24:04 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
+	io-uring@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] signal: don't retarget shared signals in a dying
+ thread group
+Message-ID: <aq1JhBwfJKSKNNCU@redhat.com>
+References: <20260917-work-coredump-fixes-v2-0-f3787fcda051@kernel.org>
+ <20260917-work-coredump-fixes-v2-6-f3787fcda051@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,70 +64,20 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e7ab836149f814b04017905dca2e07a4c94078db.1787770110.git.jbingham@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20260917-work-coredump-fixes-v2-6-f3787fcda051@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Wed, Aug 26, 2026 at 02:41:56PM -0700, Jeremy Bingham wrote:
-> This patch also wires iomap.c into itree_v1.c and itree_v2.c, similarly
-> to how itree_common.c is included in those files, and exports version
-> specific versions of minix_iomap_begin and iomap_ops.
+On 09/17, Christian Brauner wrote:
+>
+> --- a/kernel/signal.c
+> +++ b/kernel/signal.c
+> @@ -3117,6 +3117,10 @@ static void retarget_shared_pending(struct task_struct *tsk, sigset_t *which)
+>  	sigset_t retarget;
+>  	struct task_struct *t;
+>
+> +	/* Nobody dequeues them in a dying group, see get_signal(). */
+> +	if (tsk->signal->flags & SIGNAL_GROUP_EXIT)
+> +		return;
 
-Can we keep the iomap code out of this double build mess?  Just define
-some low-level helper in it, but keep everything else in an only
-once build iomap.c
-
-> Also updates 'unsigned' to 'unsigned int' a few places that got picked
-> up by checkpatch.pl.
-
-If you want to do these cleanups please split them into a separate
-patch.
-
-> +++ b/fs/minix/iomap.c
-> @@ -0,0 +1,122 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * iomap functions for minix.
-> + */
-
-Not really a very useful comment :)  OTOH this lacks a copyright
-statement for your work.
-
-> +static int minix_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
-> +	unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
-
-This mostly does not need the iomap.  It basically returns a physical
-block and a trystate of HOLE/FOUND/ALLOCATED.  If you change the
-interface to that you can keep it in itree_common by directly morphing
-the existing block lookup into that, or even do it as a prep patch,
-which first refactors get_block to this interface, and then do the
-iomap mapping on top of that, and in a place that only gets built
-once.
-
-> +/*
-> + * minix_iomap_end ends up being a nop; since minix doesn't have any extents or
-> + * transactions to worry about, there isn't anything to update here. The on-disk
-> + * indirect blocks get dirtied in minix_iomap_begin.
-> + */
-> +static int minix_iomap_end(struct inode *inode, loff_t offset, loff_t length,
-> +	ssize_t written, unsigned int flags, struct iomap *iomap)
-> +{
-> +	return 0;
-> +}
-
-In which case we can just drop it.  Note that for the next version
-against 7.3-rc should also move from the begin/end calls to the
-single next one using the DEFINE_IOMAP_ITER_NEXT helper macro.
-
-> -static inline unsigned minix_blocks_needed(unsigned bits, unsigned blocksize)
-> +static inline unsigned int minix_blocks_needed(unsigned int bits, unsigned int blocksize)
-
-Overly long line.  I'd much rather generate the baseless checkpath.pl
-complaint and leave the plain unsgineds in place.  There is absolutely
-no technical downside in using that notation.
-
-> +static inline const struct iomap_ops *minix_iomap_ops_ver(struct inode *inode)
-> +{
-> +	return (INODE_VERSION(inode) == MINIX_V1) ?
-
-No need for the braces.
+Acked-by: Oleg Nesterov <oleg@redhat.com>
 
