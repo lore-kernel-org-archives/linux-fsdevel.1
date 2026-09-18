@@ -1,82 +1,86 @@
-Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC334C225E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 09:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FFD3D7D8D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 09:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789722094; cv=none; b=tdtj9qENCvhXQWrE/WxfIWOU0f8IQOCFHU7hVfEckSlEHJaxmwR/XN4dXpEli2qQjVsq9WXtZRLG3t8OR899NFBVR6jfUL1W1pD6pX8QjUmWH0aZAy09bz7QyxgVIeuqA0YvShFTxc8NkeTRnDBcjdlkx7A1ldwRJLyS1yYLnLQ=
+	t=1789722679; cv=none; b=O/MXDtETpRdx4fCqetm6BSRYP1yGPbVwZsAEMG5KroVtBQ2wsZJUGHFm05O6p6VanCvkAQPimcJBvUpCsFPqP4x2FAiKS4PIHYMj74b9Ckvng+omnMsoV3NxLF19SWMpJT8OK2x58rH6ohe9cL2GcovTKbjleEM2j3NLHGGRdUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789722094; c=relaxed/simple;
-	bh=pGHwGOEYsCw+OGodsstX6r4iAlcNRjIs2c1MMPMN/d0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cGJS6RYBIcDTFz8qh44vyBqtLSNE87ud/RPMnr1zlx322qP5SEbSsbV5GjbwQSberBcjcPEbww4aV+7irWx0fOmQyx7ORF+IUjKw/ZRt1kvYYpWjCsnRWSQHgBfBAIkPkT+vDKSJVkGlxx+qEh5oDlZ5B47HS6fnvIMYuYRmjZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZBxBtSF; arc=none smtp.client-ip=74.125.228.42
+	s=arc-20240116; t=1789722679; c=relaxed/simple;
+	bh=N8gcGlhbhPcsyAylvjuJEfdtlvvs1cgODZctSBueXDg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ai/hgzFBCjyxhtmR4xiyMnRsLlNTbBGdkszjVZGqfNavR/OPDGI7vob4lSRP2GE5Gh3fxL8VTbXw1zJxCS8Anz+wz++9noOY9iBw1tjAwZRn4lz8MtvMZEejgEZ7IAgdko7P/VAVsGttrNqrmRh8S2SOrZfif7XLDHD7yhGlXMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qm/SB2h4; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZBxBtSF"
-Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc433d52421so234059a12.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 02:01:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qm/SB2h4"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e2406so2572825e9.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 02:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789722086; x=1790326886; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZFQT/IvY7xA2uKVNTdweNHiwRFsZK0kZIx7+X8cb4AY=;
-        b=nZBxBtSFpPB19dUysdqiuKMxUMn3D2zM920478MMLJSvco4Znaqhh+zLWkLjZ+m/OE
-         MY2Ro6Al35keiY3FWHxXgT08g3M3hZceCicpnVAC7/sx93XzvYeJYra7OMRLIZoHWCiZ
-         FReH8oPakDiOGxPs7hfHFGDU3medWeAUA/UJI27S7qGH8CDR13vM9RJpnkO7ytDL5EYp
-         d6HUDNNxMN1u8qvULdfZbENSS87JAZEl461V1GOVK4Sxehu21BrHc5yWxQSCAYuzoB9O
-         a5aJYJXPiaPuktqSWzAoo3P2V1O990nSA43vQ8q86TGqWH1BbLThAmMo6yLEBds37WB6
-         uJiQ==
+        d=gmail.com; s=20251104; t=1789722675; x=1790327475; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SHLSHkTPbt9kkxq29Sn3Lw/rKmJD8RTBCnKLHusuNiA=;
+        b=qm/SB2h49H169CQH3xuQMEhJUiTo/iUHgkCwzwnUEtEuYQGwXibhFzcummvwESxoLK
+         0MmfmXnSgXCkb2uLVqZOu/8+YDDDeEPLgSYVPShPLdA6Xm3Z7vcry6Dl9LwyeAlvrAT0
+         Md6GZmKTzhLhIhsBIemtpurqcw/+Cv58dTrtLfurxbMyyjzlff24omx9eBDSx2AugzUn
+         zwyvRXSyqAGJo2b5rZtPkGQ7T+RbZZFdtkX1Qr2wGRU61NvIcbWmpzW0FZ+qYjqkgRMR
+         IZMlIVGdCwPHQa8yfRUQFyuFcanrLcT2R6ZYpSmW1cDEBgDJFtDLNea2ecExWsCCbwt1
+         hDSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789722086; x=1790326886;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZFQT/IvY7xA2uKVNTdweNHiwRFsZK0kZIx7+X8cb4AY=;
-        b=g66qXRWZLFyWaRDWT2yTdSD8TLXyQE3g6L3cpfaGI7330+k7RLwKQTPItHZe2Y4DYK
-         dZOdV17rUHEUCAlskULJM/Xl2Ihj7zy2mkrfOpoSQ7vdY2M17nCyq3tHLDXhmPtZAnbE
-         EPoH9KKSHdHd26KkR81YI+s+CImhMGs045ul9qywKURmiqNfVvyX6vfjKUATILLv1VFE
-         4ePvW51ZAzW6fyJDEAGn/PHNGCVU9c+eJqa7GMl1VDeFs7FPWvltLwC1JBBK/yy5Zddn
-         QaeJwJNvKLK/tWmFN08ebGDTiqMgVEdfp/HPiXa9i6TVbaZ7VeF3JT16tA0STeqj8hkV
-         Sp3A==
-X-Forwarded-Encrypted: i=1; AKwUvByqze/5yWH1IHYhDa8iUQ4KKU+yIKYXos/lqRuXiAzGWkDMSVStW17eIiv1pHwhJnrdZX0zNTBmFViEi5jt@vger.kernel.org
-X-Gm-Message-State: AFuF++nab/LrVgttAoKjRk2HLZKIT/tQI50YPTI9yop8g/piZ36TdA8i
-	H1eAthAaWLsdZTlvDp3vJkpyJbFjQhhHHvCG1a2K1JAI63VhQwhSXlop
-X-Gm-Gg: AYBFou11ceG5IfCbfUgSstvWwNyQglsdUCi+bCo3zUeNfIOpW6rjJMZAGBOA34dsB7M
-	J4zhOP+JPBCxsWY3ff4h5q/TeTOWUZMKrCld6kN5DOu8EtmCrSFWxDXpyDsLyy7f07tSW/lhNut
-	L3NdAJ3ZbwQoXgnDent5JCAqkXbaOh04vjDo43LdroIL04XxdQykQXD0cNX3FQjeFelteg5lnIP
-	Iyw8EkWoErCAhDaxgatyMaPpEKoU5pYaDQ6dbqZqCvjbuWGHGeTZnQ7+w+nwAcrb/kA0nQyzDbP
-	s0sb6t76p4vpx9kb+N1I3u3Z4WHWQLc2rF6HwsBkP+PoAFF/IkXnVsBAVXlqpnEhdeE5pR/JKR9
-	7MHGS7ovswoU/HYURNPh/S1/Hotdi9dOelviMHaI7H7pPlNIwM/ZOXjqymR+/qA6NI+hZlkquuI
-	V4GkpE8rsrI5lhbrKiuWoxxz5Z1WkzC6FWi4QMrMwItZS94S8xw15l7+2Yv4WKNCWIrVLFU2ur9
-	ubbWNi4tiGAlFhWcbkEVYokRqXvZTn56ffGRb5wgiHHZDIN6fUbAMKWI3FTatXdtdBKwfVfpbtB
-	OU60l3PVVEMv5PheItUa5YTRVSM1uNJ8A+BNN1Cv10qfRtFumDuq3m84qzXjx/3cV39mDwhCTRL
-	xVSINbA==
-X-Received: by 2002:a05:6a20:6f03:b0:3d1:c0e2:936b with SMTP id adf61e73a8af0-3dd8c33618fmr4197125637.7.1789722085968;
-        Fri, 18 Sep 2026 02:01:25 -0700 (PDT)
-Received: from cs-1047136853211-default.asia-southeast1-a.c.t54fbfa9bf0658dcb-tp.internal (96.177.21.34.bc.googleusercontent.com. [34.21.177.96])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-875dc8fa40fsm504491b3a.15.2026.09.18.02.01.23
+        d=1e100.net; s=20260707; t=1789722675; x=1790327475;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SHLSHkTPbt9kkxq29Sn3Lw/rKmJD8RTBCnKLHusuNiA=;
+        b=oIQieqyUhlEHEyjAB1t9KY8JxaGL2WlZEHOAOW1CHR/fnrbms+Ltci4Us1udtuwjTX
+         /GN+fdKXe1/n8hac0mMPEi/Cmh0hCRmRQnmJdY7dHa64UxDb1JhyegBcLHJ6jFG6RM/b
+         5kzZVgi5sqUtaoSThCRn1BWaMwMaRgTggf3zDljtB2JkxlJGC/mMXSJicyv5cbihO6cs
+         cWX5wfX+zCAMzB9GDI4+znNgUBVnHmx6xZR3eLmKrvpvlxMIOjXt0K+4IoaCjJT7hYRr
+         v60PL/Lev6P1Mfgl+6tzTE6EGR23WZUNRPHaiNkoQvs3Z1dLUW6oP71v82/0ksQq6Cte
+         2lZQ==
+X-Gm-Message-State: AFuF++nDglrL1BEy0GfNCsGx7yq3jUohEe8snn635PcaiAsnw2uD2uAZ
+	YimeHMipvzqY/tNv/EtKKX/VzvetfbZNgidVurFxUxDDhNed87dn5IwK
+X-Gm-Gg: AYBFou2aSuh0tugN9eJiRQaMmXy+k6X1/dY+JExBccijGKY8rVOsDQ+ezqapqzQlFo3
+	xCnFafePqYoC9pX7tosgOYZMUvAyRL15kpNwHnlElEdZ8hlg3ace0NTmHA2Aq6yCF0pacj8sTaQ
+	CVMIl30N/bLp4Dk8KMF/2nRRobUGYByInPbgQgTb6mVj5IKUrfZgb+lm9kV19rZqIs6YiT2GZYU
+	b9GYF2eaKeMKt//DKoXsc0dc51MT6XxOd1ma/UBCfL2ARz9/bx/uw50lXvFD666mlMtfuCuWC5x
+	w81prW9v9zHVAYXtzTb+nfgScgIdyIoY+5lCVMCpP+N+2cbV0Hxzh2CS48sUzgKfMmX9T4FKNfb
+	QM+iVmdSC+JCqxvX8wTM2OUs0+ldArR6BwA7U/zrk6W3IqrqAUTc7PxZz1SOpNOVXKIlmfGG1Ce
+	dTT+iAHJ7xkRzBQZvIf4KZCwNLPyeoIzdsScDPuXqUpyPXAnv6KJEHso5Ntc50WVX2vPW9Pm6w/
+	4siFU1Nj+ZC3e3NBLEURtaK0w==
+X-Received: by 2002:a05:600c:1d06:b0:49e:8222:3451 with SMTP id 5b1f17b1804b1-49fc5001358mr26352405e9.14.1789722674633;
+        Fri, 18 Sep 2026 02:11:14 -0700 (PDT)
+Received: from dell-desktop ([2a02:587:4b4e:8500:290c:210b:1c76:5710])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd1d0978sm138774275e9.2.2026.09.18.02.11.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 02:01:25 -0700 (PDT)
-From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-To: Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>,
-	Gabriel Krisman Bertazi <krisman@suse.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	io-uring@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+        Fri, 18 Sep 2026 02:11:13 -0700 (PDT)
+From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+To: bpf@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
-Subject: [PATCH v4 3/3] io_uring: add fremovexattr and flistxattr support
-Date: Fri, 18 Sep 2026 09:00:10 +0000
-Message-ID: <20260918090010.1688-4-aditya.ansh182@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260918090010.1688-1-aditya.ansh182@gmail.com>
-References: <20260918090010.1688-1-aditya.ansh182@gmail.com>
+	linux-mm@kvack.org,
+	david@kernel.org,
+	akpm@linux-foundation.org,
+	andrii@kernel.org,
+	ast@kernel.org,
+	brauner@kernel.org,
+	daniel@iogearbox.net,
+	eddyz87@gmail.com,
+	kpsingh@kernel.org,
+	ljs@kernel.org,
+	matt@bobrowski.net,
+	memxor@gmail.com,
+	song@kernel.org,
+	sun.jian.kdev@gmail.com,
+	utilityemal77@gmail.com,
+	viro@zeniv.linux.org.uk,
+	tasos.papagiannnis@gmail.com
+Subject: [PATCH bpf-next v8 0/5] bpf: Add user memory access kfuncs for mm_struct
+Date: Fri, 18 Sep 2026 12:10:53 +0300
+Message-ID: <20260918091058.297740-1-tasos.papagiannnis@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -85,186 +89,154 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for IORING_OP_FREMOVEXATTR and IORING_OP_FLISTXATTR. This
-enables xattr listing and removal operations to be executed in an
-asynchronous fashion.
+On MMU systems, during exec, argument and environment strings are copied
+into the new address space held by struct linux_binprm before that address
+space is installed on the task_struct. Existing BPF user memory helpers
+operate on the current address space or one associated with a task_struct.
+Because no task_struct refers to the new address space at this point,
+programs cannot access these strings from the bprm_check_security LSM
+hook.
 
-Signed-off-by: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
----
- include/uapi/linux/io_uring.h       |  2 +
- io_uring/opdef.c                    | 18 +++++++
- io_uring/xattr.c                    | 83 +++++++++++++++++++++++++++++
- io_uring/xattr.h                    |  6 +++
- tools/include/uapi/linux/io_uring.h |  2 +
- 5 files changed, 111 insertions(+)
+This series adds two sleepable BPF kfuncs for copying bytes or
+NUL-terminated strings from a trusted struct mm_struct. It also marks
+linux_binprm->mm as trusted-or-null, allowing BPF LSM programs to pass it
+to the kfuncs after a NULL check and inspect exec arguments before
+allowing the exec to continue.
 
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index 1f300f6b85d7..45de6dd6e3c4 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -318,6 +318,8 @@ enum io_uring_op {
- 	IORING_OP_PIPE,
- 	IORING_OP_NOP128,
- 	IORING_OP_URING_CMD128,
-+	IORING_OP_FREMOVEXATTR,
-+	IORING_OP_FLISTXATTR,
- 
- 	/* this goes last, obviously */
- 	IORING_OP_LAST,
-diff --git a/io_uring/opdef.c b/io_uring/opdef.c
-index cf3aa2242cd7..14a511f7a9df 100644
---- a/io_uring/opdef.c
-+++ b/io_uring/opdef.c
-@@ -591,6 +591,16 @@ const struct io_issue_def io_issue_defs[] = {
- 		.prep			= io_uring_cmd_prep,
- 		.issue			= io_uring_cmd,
- 	},
-+	[IORING_OP_FREMOVEXATTR] = {
-+		.needs_file		= 1,
-+		.prep			= io_fremovexattr_prep,
-+		.issue			= io_fremovexattr,
-+	},
-+	[IORING_OP_FLISTXATTR] = {
-+		.needs_file		= 1,
-+		.prep			= io_flistxattr_prep,
-+		.issue			= io_flistxattr,
-+	},
- };
- 
- const struct io_cold_def io_cold_defs[] = {
-@@ -849,6 +859,14 @@ const struct io_cold_def io_cold_defs[] = {
- 		.sqe_copy		= io_uring_cmd_sqe_copy,
- 		.cleanup		= io_uring_cmd_cleanup,
- 	},
-+	[IORING_OP_FREMOVEXATTR] = {
-+		.name			= "FREMOVEXATTR",
-+		.cleanup		= io_xattr_cleanup,
-+	},
-+	[IORING_OP_FLISTXATTR] = {
-+		.name			= "FLISTXATTR",
-+		.cleanup		= io_xattr_cleanup,
-+	},
- };
- 
- const char *io_uring_get_opcode(u8 opcode)
-diff --git a/io_uring/xattr.c b/io_uring/xattr.c
-index 5303df3f247f..f2d6b1904058 100644
---- a/io_uring/xattr.c
-+++ b/io_uring/xattr.c
-@@ -195,3 +195,86 @@ int io_setxattr(struct io_kiocb *req, unsigned int issue_flags)
- 	io_xattr_finish(req, ret);
- 	return IOU_COMPLETE;
- }
-+
-+int io_fremovexattr_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-+{
-+	struct io_xattr *ix = io_kiocb_to_cmd(req, struct io_xattr);
-+	const char __user *name;
-+	int ret;
-+
-+	INIT_DELAYED_FILENAME(&ix->filename);
-+	ix->ctx.kname = NULL;
-+	ix->ctx.kvalue = NULL;
-+
-+	if (READ_ONCE(sqe->off) || READ_ONCE(sqe->addr2) || READ_ONCE(sqe->len) ||
-+	    READ_ONCE(sqe->xattr_flags) || READ_ONCE(sqe->buf_index) ||
-+	    READ_ONCE(sqe->splice_fd_in) || READ_ONCE(sqe->addr3) ||
-+	    READ_ONCE(sqe->__pad2[0]))
-+		return -EINVAL;
-+
-+	name = u64_to_user_ptr(READ_ONCE(sqe->addr));
-+
-+	ix->ctx.kname = kmalloc_obj(*ix->ctx.kname);
-+	if (!ix->ctx.kname)
-+		return -ENOMEM;
-+
-+	ret = import_xattr_name(ix->ctx.kname, name);
-+	if (ret) {
-+		kfree(ix->ctx.kname);
-+		ix->ctx.kname = NULL;
-+		return ret;
-+	}
-+
-+	req->flags |= REQ_F_NEED_CLEANUP;
-+	req->flags |= REQ_F_FORCE_ASYNC;
-+	return 0;
-+}
-+
-+int io_fremovexattr(struct io_kiocb *req, unsigned int issue_flags)
-+{
-+	struct io_xattr *ix = io_kiocb_to_cmd(req, struct io_xattr);
-+	int ret;
-+
-+	WARN_ON_ONCE(issue_flags & IO_URING_F_NONBLOCK);
-+
-+	ret = file_removexattr(req->file, ix->ctx.kname);
-+	io_xattr_finish(req, ret);
-+	return IOU_COMPLETE;
-+}
-+
-+int io_flistxattr_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-+{
-+	struct io_xattr *ix = io_kiocb_to_cmd(req, struct io_xattr);
-+
-+	INIT_DELAYED_FILENAME(&ix->filename);
-+	ix->ctx.kname = NULL;
-+	ix->ctx.kvalue = NULL;
-+
-+	if (READ_ONCE(sqe->addr) || READ_ONCE(sqe->off) ||
-+	    READ_ONCE(sqe->buf_index) || READ_ONCE(sqe->splice_fd_in) ||
-+	    READ_ONCE(sqe->addr3) || READ_ONCE(sqe->__pad2[0]))
-+		return -EINVAL;
-+
-+	ix->ctx.value = u64_to_user_ptr(READ_ONCE(sqe->addr2));
-+	ix->ctx.size = READ_ONCE(sqe->len);
-+	ix->ctx.flags = READ_ONCE(sqe->xattr_flags);
-+
-+	if (ix->ctx.flags)
-+		return -EINVAL;
-+
-+	req->flags |= REQ_F_NEED_CLEANUP;
-+	req->flags |= REQ_F_FORCE_ASYNC;
-+	return 0;
-+}
-+
-+int io_flistxattr(struct io_kiocb *req, unsigned int issue_flags)
-+{
-+	struct io_xattr *ix = io_kiocb_to_cmd(req, struct io_xattr);
-+	int ret;
-+
-+	WARN_ON_ONCE(issue_flags & IO_URING_F_NONBLOCK);
-+
-+	ret = file_listxattr(req->file, ix->ctx.value, ix->ctx.size);
-+	io_xattr_finish(req, ret);
-+	return IOU_COMPLETE;
-+}
-diff --git a/io_uring/xattr.h b/io_uring/xattr.h
-index 9b459d2ae90c..d2487b49a5d2 100644
---- a/io_uring/xattr.h
-+++ b/io_uring/xattr.h
-@@ -13,3 +13,9 @@ int io_fgetxattr(struct io_kiocb *req, unsigned int issue_flags);
- 
- int io_getxattr_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
- int io_getxattr(struct io_kiocb *req, unsigned int issue_flags);
-+
-+int io_fremovexattr_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
-+int io_fremovexattr(struct io_kiocb *req, unsigned int issue_flags);
-+
-+int io_flistxattr_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
-+int io_flistxattr(struct io_kiocb *req, unsigned int issue_flags);
-diff --git a/tools/include/uapi/linux/io_uring.h b/tools/include/uapi/linux/io_uring.h
-index 1f300f6b85d7..45de6dd6e3c4 100644
---- a/tools/include/uapi/linux/io_uring.h
-+++ b/tools/include/uapi/linux/io_uring.h
-@@ -318,6 +318,8 @@ enum io_uring_op {
- 	IORING_OP_PIPE,
- 	IORING_OP_NOP128,
- 	IORING_OP_URING_CMD128,
-+	IORING_OP_FREMOVEXATTR,
-+	IORING_OP_FLISTXATTR,
- 
- 	/* this goes last, obviously */
- 	IORING_OP_LAST,
+To make the trusted-or-null annotation safe, the exec paths are hardened
+to clear bprm->mm before dropping the reference it owns.
+
+On NOMMU systems, exec argument and environment strings remain in
+bprm->page[] until they are transferred to the new process stack. They
+cannot be accessed through bprm->mm at the bprm_check_security hook.
+The new kfuncs remain available on NOMMU for address ranges represented
+by a supplied struct mm_struct.
+
+The series adds selftests covering both kfuncs while reading argument and
+environment strings from linux_binprm during exec.
+
+Changes in v8:
+- Removed CONFIG_BPF_SYSCALL #ifdefs from mm/memory.c and mm/nommu.c.
+- Reformatted the selftest to use 120-character lines.
+- Removed the CONFIG_MMU check from the selftests.
+- Removed the extern declarations from the selftests, as they already 
+  exist in vmlinux.h.
+- Moved the checks to user space in the selftests.
+
+Changes in v7:
+- Use execvpe() instead of a hardcoded /bin/true path in the
+  copy_from_user_bprm selftest while retaining the controlled environment.
+- Remove the unused bpf_misc.h include.
+- Rewrap the invalid-flags kfunc call to stay within 80 columns.
+- Fix indent in mm patches.
+
+Changes in v6:
+- Drop redundant extern keywords and CONFIG_BPF_SYSCALL guards from the
+  remote memory copy declarations.
+- Drop the explicit bpf_copy_from_user_mm() prototype and share copy 
+  logic through inlineable static internal helpers instead of calling 
+  between kfunc/helper entry points.
+- Validate flags and zero-length requests before acquiring the task's
+  mm, preserving existing behavior and ensuring internal helpers are 
+  called only with a live mm.
+- Drop the verifier relaxation for unchecked reads through trusted-or-null
+  pointers and its tests.
+- Fix the existing LSM selftest to explicitly NULL-check bprm->mm after
+  marking the field trusted-or-null.
+
+Changes in v5:
+- Move the shared wrappers to mm/util.c and handle zero-length requests
+  at the entry points.
+
+Changes in v4:
+- Add negative verifier tests for atomic RMW and load-acquire accesses
+  through trusted-or-null BTF pointers.
+- Preserve explicit nullability-marking coverage for tracepoint
+  arguments, dentry->d_inode, and sched_ext .dispatch.
+- Use the already-nullable mmap_file argument for the negative store
+  test, avoiding dependency on the later linux_binprm->mm marking.
+- Clarify the bprm->mm lifetime invariant and move its lifetime fix
+  before the mm_struct kfunc patch.
+- Reword the trusted-or-null read change in imperative mood and remove
+  its redundant before-and-after summary.
+- Document that the existing task-based user-memory interfaces delegate
+  to the new mm-based implementations, reorder the string-copy kfuncs to
+  remove an unnecessary declaration, and annotate the remaining
+  declaration with __bpf_kfunc.
+
+Changes in v3:
+- Replace the linux_binprm-specific kfuncs with generic struct mm_struct
+  kfuncs, as suggested by Andrii Nakryiko.
+- Move the kfuncs next to the existing user memory helpers and make the
+  task-based variants delegate to the new mm-based implementations, as
+  suggested by Andrii Nakryiko.
+- Clear bprm->mm before dropping its reference on exec error paths.
+- Mark linux_binprm->mm as trusted-or-null.
+- Allow fault-protected reads through trusted-or-null BTF pointers to
+  preserve compatibility with existing BPF programs, as suggested by
+  Andrii Nakryiko.
+- Add verifier and runtime selftests for trusted-or-null BTF pointer
+  reads.
+- Rename __copy_remote_vm_str() to __copy_remote_mm_str(), as suggested
+  by Andrii Nakryiko.
+- Clarify that reading exec strings through bprm->mm is limited to MMU
+  systems, while the generic mm-based kfuncs remain available on NOMMU.
+
+Changes in v2:
+- Register the kfuncs on NOMMU systems and return -EOPNOTSUPP when called,
+  as suggested by Justin Suess.
+- Add selftest coverage for reading environment strings, as suggested by
+  Justin Suess.
+- Clarify that copy_remote_mm_str() leaves the destination untouched when
+  called with a zero-length buffer.
+- Use sizeof() instead of hardcoded argument lengths in the selftests.
+- Use ~0ULL for invalid-flags checks in the selftests.
+
+v7:
+https://lore.kernel.org/bpf/20260915080255.48929-1-tasos.papagiannnis@gmail.com/
+
+v6:
+https://lore.kernel.org/all/20260908135302.74963-1-tasos.papagiannnis@gmail.com/
+
+v5:
+https://lore.kernel.org/bpf/20260907165220.52431-1-tasos.papagiannnis@gmail.com/
+
+v4:
+https://lore.kernel.org/bpf/20260904145340.40212-1-tasos.papagiannnis@gmail.com/
+
+v3:
+https://lore.kernel.org/bpf/20260831092305.42062-1-tasos.papagiannnis@gmail.com/
+
+v2:
+https://lore.kernel.org/bpf/20260820131801.68759-1-tasos.papagiannnis@gmail.com/
+
+v1:
+https://lore.kernel.org/bpf/20260812111140.7762-1-tasos.papagiannnis@gmail.com/
+
+Anastasios Papagiannis (5):
+  mm: Add copy_remote_mm_str()
+  exec: Clear bprm->mm before dropping its reference
+  bpf: Add user memory access kfuncs for mm_struct
+  bpf: Mark linux_binprm->mm as trusted-or-null
+  selftests/bpf: Test mm_struct user memory kfuncs with linux_binprm
+
+ fs/exec.c                                     |   7 +-
+ include/linux/mm.h                            |   8 +-
+ kernel/bpf/helpers.c                          | 130 ++++++++++++++++--
+ kernel/bpf/verifier.c                         |   5 +
+ mm/internal.h                                 |   3 +
+ mm/memory.c                                   |  43 +-----
+ mm/nommu.c                                    |  43 +-----
+ mm/util.c                                     |  62 +++++++++
+ .../bpf/prog_tests/copy_from_user_bprm.c      |  65 +++++++++
+ .../selftests/bpf/progs/copy_from_user_bprm.c |  69 ++++++++++
+ tools/testing/selftests/bpf/progs/lsm.c       |   5 +-
+ 11 files changed, 339 insertions(+), 101 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/copy_from_user_bprm.c
+ create mode 100644 tools/testing/selftests/bpf/progs/copy_from_user_bprm.c
+
+
+base-commit: 961b8946acb482b6d7a39c266d623e5f9c4e873f
 -- 
-2.47.3
+2.55.0
 
