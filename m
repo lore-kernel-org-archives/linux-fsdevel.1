@@ -1,31 +1,64 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4ED4F3EA8;
-	Fri, 18 Sep 2026 13:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90CF4FD29B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 13:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789738781; cv=none; b=py45NHG3wRuaIqVwhGKgyznOihD/sLBDKLik8X5ld9PNmuN++6lwBCGIOMiMobPfdkzgLyP0DD0K6VIbvMbLxrqrAsBHFSt89JLyl725nDibGLTaaqLni+/QvSM456P9sMd//2vwU4OtckF9kRrulL1W96BiWfGvz9I7dWMTkRo=
+	t=1789738921; cv=none; b=GqOy0SVoMi7nMrX6acbsiVOHwWo2N5EXr1vzlUhb2hg7S5nyOL6669ea7Onb9rZqhzGLGSHs3A/2VGEQXOuAXStEO+s+KFV5IbF1h3UDS9f+AsV+TQGpMW4WO3CLJCEqiS4jhI7/2JJJs/NLwTpPKZcKZ+t+cjj235MkhIqhZSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789738781; c=relaxed/simple;
-	bh=wFcWsLONtbUvs7sxc+0S1oVLrs8sf7OqU8z8dXRIRgs=;
+	s=arc-20240116; t=1789738921; c=relaxed/simple;
+	bh=sNMGJrjxGOQII/cy/jQVIut5noFDYuUvTYdYnxLVNGw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EFqC0au5PiU71f8Ssl/9TAAz0cbQ/BrIgI542HP1yRaSh6YxfAbiqkVM0NH6g2joxSm1gFLGACcNqjXuvbcuSAdNSIop+5mvsLV87z30QiOSiwvZYU239nAVqz2tcdAsuxDNH9pypHQXryYaQ02C/6qneDxR1iSxar0X+drVmx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8BBDC68BEB; Fri, 18 Sep 2026 15:39:35 +0200 (CEST)
-Date: Fri, 18 Sep 2026 15:39:35 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, hch@lst.de,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	vdubeyko@coreweave.com, willy@infradead.org, brauner@kernel.org,
-	djwong@kernel.org
-Subject: Re: [PATCH v4 6/7] hfsplus: introduce iomap-based file_operations
-Message-ID: <20260918133935.GF18107@lst.de>
-References: <20260914233941.2966421-1-slava@dubeyko.com> <20260914233941.2966421-7-slava@dubeyko.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZoOP2C639sSk5HM0w8UcM+kCtOW1MDe49OhAp5+TMtoxnLirxi2Ph7VlxpRbjaRqB8dUVmJsSSbFsN/sORiJdNqulhVipo5KwXQLH9v2duQWyXPyj7tQlZn+n+Pwlb4KVkXqHTpJv6Lz3fhhk+v9Wf++mR2TRDp1mNaSkgIA5vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CVcW4316; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CVcW4316"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789738914;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T1G7pn6seS/SOuHvOw8pJc1Knwr72Zy5SeN7YDV021M=;
+	b=CVcW4316g12O3q1B9/AUQsSArIEqPRvpmnPsXPW0GekElhB7JC3UwrVUGxko3fvL5kFFGS
+	hSDP8pRivNifAa3EnucBwIS2NDD4b9ftdHxT46Ar7VznlGPok+nGZHP2FP5PQLEhwtq2Hz
+	ueNs4fxyiLuxJ/cvVb97UtQSOMTgDes=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-179-H0K6Lj2APcaU4-gCZgc4kA-1; Fri,
+ 18 Sep 2026 09:41:50 -0400
+X-MC-Unique: H0K6Lj2APcaU4-gCZgc4kA-1
+X-Mimecast-MFC-AGG-ID: H0K6Lj2APcaU4-gCZgc4kA_1789738909
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D66E819776A8;
+	Fri, 18 Sep 2026 13:41:47 +0000 (UTC)
+Received: from fedora (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 3B334180034C;
+	Fri, 18 Sep 2026 13:41:44 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri, 18 Sep 2026 15:41:47 +0200 (CEST)
+Date: Fri, 18 Sep 2026 15:41:42 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
+	io-uring@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] fork: refuse new threads while a coredump or an
+ exec is in progress
+Message-ID: <aq0_lvHDViIpX_Mu@redhat.com>
+References: <20260917-work-coredump-fixes-v2-0-f3787fcda051@kernel.org>
+ <20260917-work-coredump-fixes-v2-1-f3787fcda051@kernel.org>
+ <aq0VLTyxNatFmLOK@redhat.com>
+ <20260918-irrsinn-pickt-vermummen-d7167c397398@brauner>
+ <20260918-disput-maden-parkdeck-2bc22dd90398@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,61 +67,28 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260914233941.2966421-7-slava@dubeyko.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260918-disput-maden-parkdeck-2bc22dd90398@brauner>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Mon, Sep 14, 2026 at 04:39:40PM -0700, Viacheslav Dubeyko wrote:
-> This patch
+On 09/18, Christian Brauner wrote:
+>
+> I think this works but they also need to check ->in_execve as the
+> exec'ing thread is obviously never signaled:
+>
+> @@ -2709,6 +2707,10 @@ struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node)
+>                 .user_worker    = 1,
+>         };
+>
+> +       /* A creator past its fatal signal or in execve gets no thread. */
+> +       if ((current->flags & PF_SIGNALED) || current->in_execve)
+> +               return ERR_PTR(-EINTR);
 
-Patch descriptions are not supposed to start with "this patch".
-By the time this fets into git, it isn't a patch any more :)
+Ah, I forgot to mention...
 
-> @@ -55,7 +58,6 @@ int hfsplus_file_fsync(struct file *file, loff_t start, loff_t end,
->  	error = file_write_and_wait_range(file, start, end);
->  	if (error)
->  		return error;
-> -	inode_lock(inode);
->  
->  	/*
->  	 * Sync inode metadata into the catalog and extent trees.
-> @@ -114,15 +116,184 @@ int hfsplus_file_fsync(struct file *file, loff_t start, loff_t end,
->  	if (!test_bit(HFSPLUS_SB_NOBARRIER, &sbi->flags))
->  		blkdev_issue_flush(inode->i_sb->s_bdev);
->  
-> +	return error;
-> +}
+Can we shift io_uring_task_cancel() up, after setting bprm->point_of_no_return
+but before de_thread() ?
 
-Changing fsync locking feels like something that should move
-into a well-documented prep patch.
+I know nothing about io_uring, not sure this would be enough...
 
-> +/*
-> + * hfsplus_fallback_buffered_write() - fall back to buffered I/O for the
-
-Pointless function name in the comment.
-
-> + * tail of a write that iomap_dio_rw() could not perform directly
-> + * (unaligned tail, or no blocks could be mapped without allocation
-> + * outside the direct path).
-> + */
-> +static ssize_t hfsplus_fallback_buffered_write(struct kiocb *iocb,
-> +						struct iov_iter *from)
-> +{
-
-Can this use direct_write_fallback()?
-
-> +	struct hfsplus_sb_info *sbi = HFSPLUS_SB(inode->i_sb);
-> +	loff_t total_capacity;
-> +	ssize_t ret;
-> +	int err;
-> +
-> +	inode_lock(inode);
-> +
-> +	ret = generic_write_checks(iocb, iter);
-> +	if (ret <= 0)
-> +		goto unlock;
-> +
-> +	total_capacity = (loff_t)sbi->total_blocks << sbi->alloc_blksz_shift;
-> +	if (iocb->ki_pos >= total_capacity) {
-
-This is weird.  The total capacity should not matter for a write.
+Oleg.
 
