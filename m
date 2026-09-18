@@ -1,202 +1,124 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B583343B4AA
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 10:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EA54AB3A7
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 10:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789727873; cv=none; b=DmFAIkNHj2OslKHUt3RltMdH5SNT8T678RkwTRsHr26ITdmcPWQ/Ms2SeWayhe2+cYodOMvVSiqcoZ8cTAiYAf15SpM2Y1IKKGSGufVWCW16xm4uHHiIor2uFli0vIP4/TNcy1HY31jtqe0NX9Tzwr1FgZ2MeB07yXCB9/2jbU8=
+	t=1789728062; cv=none; b=AfAueXRWVvC708Ni00DYQ8MzJ7oER9qszxdyL2UoPsjzmOi+XMXQGi7O88FJdDzCK6FS/KieSIOg84IbReMtUbqU7TqkUKMQI8H+boktVYy9PCe+f6IzNHJSOGdtGiJaIyD/nNE842I93ybt/u4Oj7z/fGMORhafBY7ByG6ihLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789727873; c=relaxed/simple;
-	bh=yOS3d4wTGcZPRtNJ9LMKVyw9RDQA99oAW5sFCDHVBEM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=L+wnboYYv1EWGBMY+qqMUIYEcSDKkLLxfdeOMsmZEaHQ9yzVC1s4LBj19y4yfduRWb4oJXvQpbVxHK6IACX54wq+K4KIjhLq5Wyl6kQqauz3puVe4qSHHGNs2oWrizg2fU9IE8zcmEsxiKgUkfwOqmY31HT9EMwV+quhxZXSBOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sNrEe+yR; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789728062; c=relaxed/simple;
+	bh=+difSxvjkcc8DCKltwjQVkR0VCgiAM/fWSzRXSJxKFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GUx918sntq0Nv1CqbyxPh0dXNGMFWSJtSoWdZ5FWNvsL0PTsukaSamCjDo/P/HL0KfSAYAM086O5wsuFdrSF1y3buPEZXQG9OxpneHUYCjsgoV90JlJXGU0ws4k5pbNoXU0b1aJDtRLFQ7KEXwDm8Tt43bn2t+j8fjEizWh6wFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X/L65tvw; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sNrEe+yR"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747eb79f7so3735655ad.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 03:37:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789727870; x=1790332670; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YVsKGSa3rHCzWBEjCEqt42KvrxZBP4vaoDmHjFdo8/I=;
-        b=sNrEe+yRPjGKPHEDYH4rYeKSZ3+QwBo9kk3t07eQsXEUEdb9osY/Qg2TVHvcIV5NXS
-         WioADyGuTp9l4jf/kGZdoFGH+R94ADW5s4ZB85IaQ1sr2wmsacE6Mlgb88EChy+KmBNf
-         VyHLt9OOpVNjoLs8oRHYcd1NJl1W4FnnZAHFfPrT3miyBv01QBoddPS/GDK/PEXjsm6U
-         +SEB+JKuPYmsbfEM+vWzKmE8shyyMYN48Bb7aM0MCKIlCXwr/W1T/nr02761wnOhz6RU
-         3FXiBWP+jVvZlWbveq50Buxwm64y6D34ZkuaUKUEKRLUwT2L4s/Qc35AEuLhHLvhU8Cj
-         kKng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789727870; x=1790332670;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YVsKGSa3rHCzWBEjCEqt42KvrxZBP4vaoDmHjFdo8/I=;
-        b=xaSehK+ijQDD6nCHANzcN30vO1nNJLyAc4Eyegggtlcs0ZdQ7MAKZXb9Oe/skbEi63
-         vtmoTmkLNlkjnQ9YOQNA8XDjytvBmS2azuvJY/EekJJtHfNWdpVpjFHpjBOLxMO92YhS
-         TeLaGJCc4/tKdaW3SMjZJvJqzWewWf0fNkY6tFQr0bxlkEg1CQicfX96JkcMUM1Qj5Y4
-         HLWpf/nro38p30ALDEmpoCSkb187Afk8/4JDq+9vL25x7qaOI12yaKbQEouhPq73ZzDj
-         RjpDeykGu2/EnLZ8MIedU839GHC+uD0s8GZmhJ1qCTvFeP0fC+ussUa25X0CRrmquzbP
-         /k/w==
-X-Gm-Message-State: AFuF++ml+9xQVVNuc4h6XsIm0SuMVItlUdDA2+43Rdbovcai++zsP4B3
-	8EN0SEw/dJh9VfYYqpJtwrXX2x7OuOxem84a/6L2GNQwXIyBZhigqs3/CFHQgs7UXNM=
-X-Gm-Gg: AYBFou2Gs3djxiYpN3itHQP8T0HQcCzdmhu1asfBMT36dKkV3MCYRXIkaT/s90wxYWf
-	bhrEuyRetKZjhYYMfUmpDofGQVTHxZ5l2g1HRzJalxT+mL19hYHiMqjMoPMAMb6eyRqcHZm/Mps
-	1a6w71KDmfAYb0hyFDmLHmZIPYIJ/6Fb0mbzx0HC8YdmT/UvbfBB6/Z47m8FUwQ8SpIuRv03SXn
-	tlTJ/IQtoCRVGYRDuCzb29q6s2tZTByic0TzaIJc6ELkyTewdCbbSq+Qoycz3z1/gUoXEb99Yq9
-	QkBwLwS3CH1aU27fA+51/CaQf+CxXr5Qj1e05q6IOqiTvIysg3GdqykWgyygifL5BYXwQkqgFYS
-	JrIOyTkbhkIGFg8ab53hS7u+o2qaRWTafJeCgZt9zvkKq0AvApRrHr7bDeSEG1FuLa4sy78Ycg6
-	jbzlhE6xge8e1vZ1S4/Xy+RYMaykJsb27vpx+6qNypxy4r4pL4Z2j7VKkCipwmgJA8fW8FMiLTZ
-	qwPe3cC7pta1dN+O0tZikMsD6C18lPnYh7IQhb+plsF4OhdO7h9/Z8yk3FyojMytrZMyLleZpUx
-	3PqZkIZwBtEiSUyhG/SRz73q0ddpLtbd9Mapq6uOUc+Fev4vktAWrsUd3G2OyU27nd4ckBjujQ=
-	=
-X-Received: by 2002:a17:903:2445:b0:2dd:ad73:c986 with SMTP id d9443c01a7336-2ddb1bbe32cmr40862315ad.30.1789727870172;
-        Fri, 18 Sep 2026 03:37:50 -0700 (PDT)
-Received: from spider.bream-herring.ts.net ([103.252.203.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddb760dd35sm5749815ad.80.2026.09.18.03.37.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 03:37:49 -0700 (PDT)
-From: Matthias Goergens <matthias.goergens@gmail.com>
-To: linux-fsdevel@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz
-Cc: linux-kernel@vger.kernel.org,
-	hch@infradead.org,
-	djwong@kernel.org,
-	david@fromorbit.com,
-	amir73il@gmail.com,
-	ansgar.loesser@kom.tu-darmstadt.de,
-	Matthias Goergens <matthias.goergens@gmail.com>
-Subject: [PATCH v4 2/2] vfs: add FILE_DEDUPE_RANGE_REPORT_PROGRESS flag to FIDEDUPERANGE
-Date: Fri, 18 Sep 2026 18:37:38 +0800
-Message-ID: <94348cc10b4f6f7f8e2a58ee385d5349560c0c9f.1789653814.git.matthias.goergens@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1789653814.git.matthias.goergens@gmail.com>
-References: <aoQcvGw4UmkMKmUz@infradead.org> <cover.1789653814.git.matthias.goergens@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X/L65tvw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789728057;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HpWpYd7ykBa+pqh/CyPARHr2i0q4gvAGEWlcw4oSuPo=;
+	b=X/L65tvwrdlT13sfOkrqh3KefZ8T3Q+q2auEtabUXDI6fTaadByDYEIzwld5xEYhaOxAmU
+	RsUHvB1LQ4Q9Yq/+CMWSXhRj+TO+cshWagT77NB4USyYKl6xLYmr9zolp47yBppPbPm13S
+	qT7FaxUlNVxo/8hBIiiT65HlJwFtw2Q=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-691-ZK5aK-O7OAKAcpsQdMVDLw-1; Fri,
+ 18 Sep 2026 06:40:54 -0400
+X-MC-Unique: ZK5aK-O7OAKAcpsQdMVDLw-1
+X-Mimecast-MFC-AGG-ID: ZK5aK-O7OAKAcpsQdMVDLw_1789728052
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C7B9D196F76F;
+	Fri, 18 Sep 2026 10:40:51 +0000 (UTC)
+Received: from fedora (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 185AC195604D;
+	Fri, 18 Sep 2026 10:40:46 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri, 18 Sep 2026 12:40:51 +0200 (CEST)
+Date: Fri, 18 Sep 2026 12:40:45 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
+	io-uring@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] fork: refuse new threads while a coredump or an
+ exec is in progress
+Message-ID: <aq0VLTyxNatFmLOK@redhat.com>
+References: <20260917-work-coredump-fixes-v2-0-f3787fcda051@kernel.org>
+ <20260917-work-coredump-fixes-v2-1-f3787fcda051@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917-work-coredump-fixes-v2-1-f3787fcda051@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Deduplication tools such as duperemove, bees and rmlint find matching
-ranges in two files, call FIDEDUPERANGE on each match and advance their
-file offsets by the bytes_deduped the kernel returns. They rely on that
-value to know where to continue.
+On 09/17, Christian Brauner wrote:
+>
+> Say a SQPOLL thread is a member of a thread-group that coredumps.
+> The coredump code uses zap_process() and sends SIGKILL. The SQPOLL
+> thread uses io_sqd_handle_event() and calls get_signal(). It removes
+> SIGKILL from the pending set and returns. The SQPOLL thread breaks out
+> of the loop and drains its own task work.
+>
+> Any pending io_req_task_submit() with REQ_F_FORCE_ASYNC creates a new
+> worker when no other worker is free. So it ends up calling
+> create_io_thread() from a thread whose fatal signal is gone.
 
-The kernel does not give them a value they can act on.
-vfs_dedupe_file_range() passes REMAP_FILE_CAN_SHORTEN, so
-generic_remap_checks() rounds a request whose length is not block
-aligned down to a block multiple unless it ends at both files' EOF, but
-the ioctl then reports the length it asked for (the request, capped at 1
-GiB per call) in bytes_deduped, not the shortened one. The caller cannot
-tell that the tail of its request was left alone. Measured with rmlint
-2.10.3 on btrfs with 4 KiB blocks: rmlint --dedupe on a 100000-byte file
-against a 250000-byte file with the same prefix issues one call and is
-told bytes_deduped=100000 with status SAME, while FIEMAP shows 24 shared
-blocks, 98304 bytes. rmlint's loop ends because bytes_deduped equals the
-file size, so it reports the pair fully deduplicated with 1696 bytes not
-shared. duperemove (process_dedupes()) and bees advance the same way,
-and jdupes advances by its own requested length without reading the
-field, so all of them skip such a tail without noticing.
+Oh.. Can we fix this in the io_uring/ code somehow? The very fact that
+copy_process() can be called after get_signal() returns SIGKILL looks
+very wrong to me. See below.
 
-Add a flag that a caller sets to get a value it can act on. With
-FILE_DEDUPE_RANGE_REPORT_PROGRESS set in file_dedupe_range.flags,
-bytes_deduped in each destination's info is the length the filesystem
-reports as deduplicated when status is FILE_DEDUPE_RANGE_SAME, and 0
-when status is FILE_DEDUPE_RANGE_DIFFERS or an error. A caller advances
-by it as it advances today, and must treat 0 as "stop or subdivide"
-rather than retry unchanged. One cause of a SAME result of 0 is a
-request shorter than a block that does not end at both files' EOF,
-which the generic range preparation shortens to nothing before any
-remapping. On DIFFERS the kernel has no usable progress or mismatch
-offset to report, so it reports 0 and leaves subdividing the range to
-the caller, as rmlint already does.
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -2491,8 +2491,10 @@ __latent_entropy struct task_struct *copy_process(
+>  		goto bad_fork_core_free;
+>  	}
+>
+> -	/* Let kill terminate clone/fork in the middle */
+> -	if (fatal_signal_pending(current)) {
+> +	/* Let kill or a group exit, exec or coredump abort clone/fork */
+> +	if (fatal_signal_pending(current) ||
+> +	    (current->signal->flags & SIGNAL_GROUP_EXIT) ||
+> +	    current->signal->group_exec_task || current->in_execve) {
 
-The default cannot change. Reporting the shortened length by default
-was done once, in commit 4a57a8400075 ("vf/remap: return the amount of
-bytes actually deduplicated"), and reverted the next day because
-generic/517 expected the old value and the effect on deployed callers
-was unknown. That effect is now known: duperemove re-queues a request
-while its status is 0 and has no check for bytes_deduped == 0, so a 0
-with status SAME on a sub-block request would make it re-issue the
-same request forever.
+Well, the comment doesn't explain why should we care about exec or coredump,
+if we forget about the problem above fatal_signal_pending() must be true.
 
-Without the flag nothing changes. Unknown flag bits are rejected. The
-flags field is an anonymous union with the old reserved2 name, so
-existing source that spells .reserved2 keeps compiling and the layout
-is unchanged. Kernels since 4.5, when the VFS took over the ioctl,
-reject a non-zero field with -EINVAL, so a new caller cannot get the
-old semantics by accident and can fall back to a call without the
-flag.
+At least, can we move these additional checks into create_io_thread() ?
+To not uglify copy_process()...
 
-Suggested-by: Darrick J. Wong <djwong@kernel.org>
-Link: https://lore.kernel.org/linux-fsdevel/20260805071414.3414870-1-matthias.goergens@gmail.com/
-Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
----
-See the cover letter for the changes since v3. Note for C++ callers: a
-positional initialiser of struct file_dedupe_range now needs braces
-around the union member under -Wmissing-braces; designated initialisers
-with either .reserved2 or .flags are unaffected.
+Hmm... get_signal() sets PF_SIGNALED before it checks PF_USER_WORKER, so
+perhaps something like below can work?
 
- fs/remap_range.c        | 4 +++-
- include/uapi/linux/fs.h | 8 +++++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+And perhaps io_should_retry_thread() should check PF_SIGNALED too?
 
-diff --git a/fs/remap_range.c b/fs/remap_range.c
-index 26afbbbfb10c2..63f1b6f90c161 100644
---- a/fs/remap_range.c
-+++ b/fs/remap_range.c
-@@ -503,7 +503,7 @@ int vfs_dedupe_file_range(struct file *file, struct file_dedupe_range *same)
- 	if (!(file->f_mode & FMODE_READ))
- 		return -EINVAL;
+Oleg.
+
+--- x/kernel/fork.c
++++ x/kernel/fork.c
+@@ -2700,6 +2700,9 @@ struct task_struct *create_io_thread(int
+ 		.user_worker	= 1,
+ 	};
  
--	if (same->reserved1 || same->reserved2)
-+	if (same->reserved1 || (same->flags & ~FILE_DEDUPE_RANGE_REPORT_PROGRESS))
- 		return -EINVAL;
- 
- 	off = same->src_offset;
-@@ -555,6 +555,8 @@ int vfs_dedupe_file_range(struct file *file, struct file_dedupe_range *same)
- 			info->status = FILE_DEDUPE_RANGE_DIFFERS;
- 		else if (deduped < 0)
- 			info->status = deduped;
-+		else if (same->flags & FILE_DEDUPE_RANGE_REPORT_PROGRESS)
-+			info->bytes_deduped = deduped;
- 		else
- 			info->bytes_deduped = len;
- 
-diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-index 34c6f219462a5..4e40855e1ef8e 100644
---- a/include/uapi/linux/fs.h
-+++ b/include/uapi/linux/fs.h
-@@ -178,13 +178,19 @@ struct file_dedupe_range_info {
- 	__u32 reserved;		/* must be zero */
- };
- 
-+/* flags for struct file_dedupe_range */
-+#define FILE_DEDUPE_RANGE_REPORT_PROGRESS (1U << 0)
++	if (current->flags && PF_SIGNALED)
++		return -EINTR;
 +
- /* from struct btrfs_ioctl_file_extent_same_args */
- struct file_dedupe_range {
- 	__u64 src_offset;	/* in - start of extent in source */
- 	__u64 src_length;	/* in - length of extent */
- 	__u16 dest_count;	/* in - total elements in info array */
- 	__u16 reserved1;	/* must be zero */
--	__u32 reserved2;	/* must be zero */
-+	union {
-+		__u32 reserved2;	/* must be zero (older callers) */
-+		__u32 flags;		/* in - FILE_DEDUPE_RANGE_* flags */
-+	};
- 	struct file_dedupe_range_info info[];
- };
+ 	return copy_process(NULL, 0, node, &args);
+ }
  
--- 
-2.55.0
 
