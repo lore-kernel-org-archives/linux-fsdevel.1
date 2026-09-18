@@ -1,122 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65491501291;
-	Fri, 18 Sep 2026 15:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC983BB9FD
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 15:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789744515; cv=none; b=TZ69P3KCfjEboCmg5ZJtYOxmUPaX7NdSztGjPY6e8FxH6uHTOjHlbASChBSI2QyUwhabkvaSi/GcuHrfEb6c7iS/lmsu3ZiNkjxuV2TcuIjb6hl5eMuODIxfMgxZD8T/2oqlhemnglJJG53cHhK1+VpGXt303tM4GTvSt3PyDR0=
+	t=1789744667; cv=none; b=TBuUNrQzdrVt0sJfOeMgZ8OhYiLdkiiJjgANVlS5MeeRNOrE8skuryim+OpsKiSN7XzuZ+vXONtJtarNxvLAs9EvkIQNdyqoGTeFjObmtMO1UFfRu+9LMZ5g26fOZ+JZ8XD7cukJU9qBR/eJWu7VY20T5OE+f1PfiepTuBMvU9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789744515; c=relaxed/simple;
-	bh=CvgWex6KlusCUqyWTNIjyIfUF64Sdse64MrVF6yTZLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVW+rak2yRSlfhMwd+ROavmnFje2ZDYo0g8vRn0Fq814V5ho6NN9KldMLjUWSFTewsWNa7SnPVeT4MnIKzNcglZeIJ581DJ05DYt+sENU9llMnqmsPCujIY1TMsNvgYMrfvNWt85aEIXu700W5pc0jQuF1lIGZNmqH0ihWmjsh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALXpnp1G; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789744667; c=relaxed/simple;
+	bh=lCzf76+NJFiZBWowe56JipIaRmY6y097OMCOguKq84Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uBPhaTTDF0r4uybiTEFEOwHO6OLf6bVwIzsQQb08x06WdQqnRwXgno7QmM26MEL1zF637T0kVdgb5egKhOc8S4wnsnRzjmtfVtEON2eQY6DrX7ST+BWwUpkJgpeDUOuWJIJDjBGc53vS5PJvqkrIBBA9ylCgNJNla8jLO0OwoGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MAau96Qc; arc=none smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALXpnp1G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8F781F000FF;
-	Fri, 18 Sep 2026 15:15:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789744513;
-	bh=D/F6D1NMbwjNTV7KUzsWnd2D24VgFEgesLpZdXDwK78=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ALXpnp1GHZGwryIUe3HRJsdfB2RX/g4ef7xnnB6/pGLV1iAWyFzmsR5PIapv6H17q
-	 jj0UwoN+pu/t44md9aeZl9dKsdth73UiY7msfLcpTSW98gTyKG3GMRHLZU8Sk0H1fd
-	 Ut7nYF8fKH6Cc8L/Aom3goTKn31Lrvh+s3V+zMcnRoduUNeg9ZdIi+rwT5qGY44bxU
-	 hP+VoPIKc6IB2IdsVHYpP0p7rXLMOWuseQReBCxLLue5iPVlWCaolHYqUVD29J0Gjh
-	 3CfxbMl8eBIeQ8Cm/1x91vcAlbhIMxuX3scvMP9eig4RKFD4hzU+9AxMZyF3lEvmhv
-	 z9yKshBOgxgJQ==
-Date: Fri, 18 Sep 2026 17:15:08 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org, 
-	io-uring@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] fork: refuse new threads while a coredump or an
- exec is in progress
-Message-ID: <20260918-indiz-halbkreis-puzzeln-424924a9f781@brauner>
-References: <20260917-work-coredump-fixes-v2-0-f3787fcda051@kernel.org>
- <20260917-work-coredump-fixes-v2-1-f3787fcda051@kernel.org>
- <aq0VLTyxNatFmLOK@redhat.com>
- <20260918-irrsinn-pickt-vermummen-d7167c397398@brauner>
- <20260918-disput-maden-parkdeck-2bc22dd90398@brauner>
- <aq0_lvHDViIpX_Mu@redhat.com>
- <20260918-elstern-potenzieren-marotten-71ebd0744753@brauner>
- <20260918-oliven-lebst-wohltat-c633868711f1@brauner>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MAau96Qc"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c25ef7a3ce9so116703466b.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 08:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789744663; x=1790349463; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7cqdA0O8Ahj4mmcXHJ140W7PNv8oloRpbbh1DU0ab2Y=;
+        b=MAau96Qcy437Rhkb8qb17CTu/aCU/UUHNgKUJPbxMde8RMu3sRQHlxHTf/cb99qzY/
+         O5jyEgt72sKg5WOvC1qFIwrRrZ3/wmt3HXEZ09Oht9so+sUPKzIICQ9XaogQOZbqdBL7
+         zEDreqNkdyjdcz38U2FuWBJk8V5R8InTTzk8DPBi/O8z6jd44XWhbxbp/6SgZq8Oq5vq
+         l6HrAkyumm+GZM1a54A2T/uscFhJzQZLmnG0LBKJbWKKhl6qxLorBEkg3vTZyxwaIHkd
+         +neg5o1voE/b4rmCie9MACURh8yiBzvFRLtWRFKp33u8QoCYYvDJ1EZHBxXj6YIWzcE5
+         /1LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789744663; x=1790349463;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7cqdA0O8Ahj4mmcXHJ140W7PNv8oloRpbbh1DU0ab2Y=;
+        b=JuOKpeMATySKBs0Havh1z0ichUdgbpVs8WD/FJSS+X9Tvocxo6I00YkiA347TFFtQt
+         U5v7WvICa5XimwbsZ1OQCtCuYM5qxpyKRv/myaok2v5egVuHmiUmPy31XP/S6TX5assu
+         +WlJE62Tn8+QXHWkN9uSYz8gMVtm4vNW+p/Ef0fX0eNBOlz4AAH8Iqlaj1e7q9pfAoDA
+         Ma/68fHGhJXLc8CjfiJUcuwFWnrTppOybSxWFwxuojKJRVDIii1BAZh+e2SQkTZNaytT
+         4U3JoaoTNGOssioTLPtSKCjmGKU3g6O7mdVG9lYLW4pgmW83OlL4LvZRVoKhQ3lI+rMS
+         2sBA==
+X-Forwarded-Encrypted: i=1; AKwUvBxDG0FKOBi85bxeTu3F9RvTzHE11TKkcNvd1EaSNmgF7sY099E1WtUZwzJXuqSUMH8KM30eTWfHC5HNP1qH@vger.kernel.org
+X-Gm-Message-State: AFuF++njGCo+3R9M+wUE6IM0mOflJHnpe+ZgwBMF/LkJ7Npmffcg5v26
+	VCRj5UwNq7VOcppN/YEEI57qUh9qWS5EUUaYQC/OZFEO2wSV+w2P4a5/
+X-Gm-Gg: AYBFou3s+5o/200/AHBSUHXId7iWa9QHoDpc0Cf85vXZeZduOvvs7ujgIR/9oCqR/XH
+	bqZ0M2aUFCq3jIMSQsSPFyYcSrcvvn4bkislwB/HOdC1Tm858BAD0XZ1s82z0k/KN0CfVSeRRYv
+	z2AkGx+kPDo/TRNvuh4saclQRfoK5GQON6kIbwL020fvi2lYtRCRnJ0R4ATygOEKo8EaW6zC8AL
+	JzFB0c/hxvzoDSziuhDR3Dsg5dX89BP/lhf90yYdOieUaSOohV57FBWqDxPbkrzXPC+EfsTkPhT
+	RFyA8/oW+vv5GUfxltHyM1iNBlyi+kdr32NTqMdxuLQZcSfvzUJBRT/3YoNW9c30itTpPFPWawI
+	SswqP+4Knb2jFwwJkz4MVJs531QnMxjTKr+pJM+X2qj9XMcIzw6PSGSuZ6Bm+2I+9SEj+8AWTbc
+	e5QVjKDLMz4MvWiIIoDlvbjisy4Meak1d35id9QErr1KMclfXU5K2BNrdQi1E3TrSQJoVdKjF9m
+	HdrwDW/P2X4xzcV4x0rbDia9jx5pPG3DXGI
+X-Received: by 2002:a17:907:960d:b0:c29:d3ad:4f72 with SMTP id a640c23a62f3a-c2a157da677mr272170666b.16.1789744663392;
+        Fri, 18 Sep 2026 08:17:43 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a1bb42643sm74893366b.26.2026.09.18.08.17.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 08:17:42 -0700 (PDT)
+Date: Fri, 18 Sep 2026 16:17:41 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: Andy Lutomirski <luto@amacapital.net>, Mikko Rantalainen
+ <mikko.rantalainen@peda.net>, Rich Felker <dalias@libc.org>, Matthew Wilcox
+ <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, alx@kernel.org
+Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
+Message-ID: <20260918161741.1d95bd4f@pumpkin>
+In-Reply-To: <lhu5x02vhtk.fsf@oldenburg.str.redhat.com>
+References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
+	<aqcmz5uI7PgN5CT7@casper.infradead.org>
+	<20260913235145.GY25906@brightrain.aerifal.cx>
+	<eeb50cae-87af-4a40-b9c6-f4fa9981425e@peda.net>
+	<CALCETrUgLj4Dz0s6PMofViJwausRWCvNvJphxWHUeWCCaRBtQg@mail.gmail.com>
+	<f61886ed-3026-4db7-ae22-b882264141bd@peda.net>
+	<CALCETrVnE2unnjHokG=bGLEXAeC0U8QRx_wb8fQDh-Fe5O6PBg@mail.gmail.com>
+	<lhu5x02vhtk.fsf@oldenburg.str.redhat.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260918-oliven-lebst-wohltat-c633868711f1@brauner>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 18, 2026 at 05:00:50PM +0200, Christian Brauner wrote:
-> On Fri, Sep 18, 2026 at 04:29:41PM +0200, Christian Brauner wrote:
-> > On Fri, Sep 18, 2026 at 03:41:42PM +0200, Oleg Nesterov wrote:
-> > > On 09/18, Christian Brauner wrote:
-> > > >
-> > > > I think this works but they also need to check ->in_execve as the
-> > > > exec'ing thread is obviously never signaled:
-> > > >
-> > > > @@ -2709,6 +2707,10 @@ struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node)
-> > > >                 .user_worker    = 1,
-> > > >         };
-> > > >
-> > > > +       /* A creator past its fatal signal or in execve gets no thread. */
-> > > > +       if ((current->flags & PF_SIGNALED) || current->in_execve)
-> > > > +               return ERR_PTR(-EINTR);
-> > > 
-> > > Ah, I forgot to mention...
-> > > 
-> > > Can we shift io_uring_task_cancel() up, after setting bprm->point_of_no_return
-> > > but before de_thread() ?
-> > > 
-> > > I know nothing about io_uring, not sure this would be enough...
-> > 
-> > From my reading of this code it works.
-> > The cancel runs task work and any create_worker_cb() queued before the
-> > exec can still create an io-wq worker. If that happens before
-> > de_thread(), that worker just becomes a sibling that de_thread() kills
-> > and waits for. After the cancel nothing new can be queued.
-> 
-> Right, one more thing to think about with this...
-> 
-> zap_process() skips every thread that has PF_POSTCOREDUMP set.
-> do_exit() sets PF_POSTCOREDUMP in synchronize_group_exit() and calls
-> io_uring_files_cancel() right after that.
-> 
-> That runs task work, create_worker_cb() runs and creates a new io-wq
-> worker. If a thread started a coredump rgith before that worker gets
-> created from a thread with PF_POSTCOREDUMP set which zap_processes()
-> doesn't see. So two ways of fixing this:
-> 
-> (1) mask off PF_POSTCOREDUMP in copy_process() -> probably the wrong
->     place
-> (2) key on PF_SIGNALED | PF_POSTCOREDUMP
-> 
-> I think (2) is probably correct:
-> 
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index a28fd3976cc0..94a652d933c8 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -2707,8 +2707,8 @@ struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node)
->                 .user_worker    = 1,
->         };
-> 
-> -       /* A creator past its fatal signal gets no thread. */
-> -       if (current->flags & PF_SIGNALED)
-> +       /* A creator past its fatal signal or its coredump point gets no thread. */
-> +       if (current->flags & (PF_SIGNALED | PF_POSTCOREDUMP))
->                 return ERR_PTR(-EINTR);
-> 
->         return copy_process(NULL, 0, node, &args);
-> 
-> Better ideas?
+On Fri, 18 Sep 2026 14:56:39 +0200
+Florian Weimer <fweimer@redhat.com> wrote:
 
-I guess we could move io_uring_files_cancel() before
-synchronize_group_exit() but that feels sketchy.
+> * Andy Lutomirski:
+> 
+> > I think I mostly agree with your analysis except that I really don't
+> > like the ENOSPC.  The kernel actually has the ability to commit to
+> > having space for pending writes on an fd *without syncing*, then I
+> > think that capability should be expose to userspace.  fsync is a
+> > pretty poor alternative for code that just wants to make sure that, in
+> > the absence of a bug, crash or physical failure, the data won't be
+> > lost.  
+> 
+> It's something we might want to call from fflush.
+> 
+> As a replacement, dup3/close doesn't quite work because it releases
+> POSIX advisory locks on the original descriptor (as they are per
+> process, not per descriptor).
+
+POSIX advisory locks are completely broken by design.
+They just don't work for threaded processes at all.
+
+Thread 1	thread 2	thread 3
+open
+lock
+		open
+		close
+				open
+				lock - succeeds
+
+The same could easily happen if a single threaded process opens
+the same file multiple times.
+
+David
+
+> 
+> Thanks,
+> Florian
+> 
+> 
+
