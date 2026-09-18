@@ -1,117 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC8A3BB138;
-	Fri, 18 Sep 2026 14:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A061AC45D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 14:55:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789742199; cv=none; b=Ka/y1FHvE6MxB/5RoMKCHQFrQ25jZC244UW3/151CuQMoNoeouNk8WZmOVj98raVtN0fuAHLlVnoVAJH6ZE61enFgfOkV6P+aUpH+bZ2bdIhDuHkNNx2wtMtR1EnoECA6Y5rqTWevFzwI5Ga7RXyGJWPRmhzaNRtGqg60iwvgZc=
+	t=1789743358; cv=none; b=MQfUcSST8Pe+6ZmLITO5rFQAdoQ5OfLf7mDYfYbCPHifsOgAqvAjoomJujzdZD/bcOcbdcstma64b1K4fdYU/L5IsCi0iHn//rFLAVowMISjSY3Mk+3X4lyuQQiR2SS9d7utYTQNobQyYOYy/8eG5d8laNMTHSXtNtygvm48qfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789742199; c=relaxed/simple;
-	bh=XRKgRLZGoiA4AKB7jnw/P9eV3f9O4BqfOKxhqxlfDY4=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=qUi3vr20kuaoGZM3q2nguNElra+7bEV1pGqw3a9e4UhXDJpSBVBlRLeQKvEvvixnId6mVOrHgpthhKindYKmIfT3k2djXvKML568yPMkU5Iy8PnJ0x2ltik9yoqr20C9lfCy5p4BZ/OfzRrujZKkIwrVslAv7qO/Q+ziKociur0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UPkbxp3f; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789743358; c=relaxed/simple;
+	bh=SEltdDyfocBjIbVQfU9Lz5DYNVbfP/4uaiY3W6LZcdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KZlLYJfMrlKRg14jFWt03PkmWgUITh+TrPx5NazNamJP7T0SPdUB43BOlRWMaNyAzoDqlkmsX2/oAETrebp4qjl2/PPlLfXm8zjJPEJ9+lIgxb+Axds3wzy6yJ83k+/Ilm1RSn439/dirSNcuv0mKnmvvl0dJjKC80fAVTbPs+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B+xvZQrY; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UPkbxp3f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FC31F000FF;
-	Fri, 18 Sep 2026 14:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789742197;
-	bh=WjVfs8qTNBrB/D3OacnguDihU7OuPlCzMGTvdv4MHYA=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=UPkbxp3fGuG6BMe9mZzqqiwcubZg5zyteypZqxXXPpDhwC0nFiPtqtHae+e32h1SI
-	 6lZ88BHqer2H/xlCxUmzohKbUFQXI03uZ2GFq6micz8WLcAEty7DyCpKuVst7xyiWZ
-	 U9uWFnorF4uodW/b2Ui4qLZFW8Tn8iPjXXOVaR2UqXhdbmQXGr2U+IA1MRSv0ghK+m
-	 jUj2yaa6tzk9HuAGH99o/7ViPHuDgg4+tZ624Ht2+6w4UpMWLloBMka3Ebf8cAbtp9
-	 oThlalCpeYgRphdQzqZKRDic/6BZO5QWvJBxJtaSwcOik9ca/qgm5q7qxIr9sWyQSz
-	 rcUrJnoBcQTfw==
-Content-Type: multipart/mixed; boundary="===============0526606943701778729=="
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B+xvZQrY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789743353;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=193Eukm5kz/lh19QRcN0hlB5xjOPp1QwF8rk3uoxO/g=;
+	b=B+xvZQrYgGFVTHcwK16Hw6gDUutM+7vu607luD0MO/SM2wKCQw5Ifvej3C5v0itR8kAor0
+	FyiJ6sAQYQqYKhE6rcoZck/0aQooc80LAh6Qc49KUZ2/Jns/ewV5G6+0LF/9m9822GXsse
+	a9B0ndrihcx3cd9oruMdYPDKH8veD3k=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-342-2AFqT8aRN9WgKt31jB8-4Q-1; Fri,
+ 18 Sep 2026 10:55:47 -0400
+X-MC-Unique: 2AFqT8aRN9WgKt31jB8-4Q-1
+X-Mimecast-MFC-AGG-ID: 2AFqT8aRN9WgKt31jB8-4Q_1789743345
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 49CBC1935DC9;
+	Fri, 18 Sep 2026 14:55:45 +0000 (UTC)
+Received: from fedora (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 61DD01956095;
+	Fri, 18 Sep 2026 14:55:41 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri, 18 Sep 2026 16:55:44 +0200 (CEST)
+Date: Fri, 18 Sep 2026 16:55:39 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
+	io-uring@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 5/7] io-wq: order the exit bit against worker creation
+ task work
+Message-ID: <aq1Q652euXxJVf36@redhat.com>
+References: <20260917-work-coredump-fixes-v2-0-f3787fcda051@kernel.org>
+ <20260917-work-coredump-fixes-v2-5-f3787fcda051@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <2b6908175c7fee960d1db94820dd61d11ba182feb41d5aa76b00cf059d4d3671@mail.kernel.org>
-In-Reply-To: <20260918131757.42802-2-tasos.papagiannnis@gmail.com>
-References: <20260918131757.42802-2-tasos.papagiannnis@gmail.com>
-Subject: Re: [PATCH bpf-next v9 1/5] mm: Add copy_remote_mm_str()
-From: bot+bpf-ci@kernel.org
-To: tasos.papagiannnis@gmail.com,bpf@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,linux-kernel@vger.kernel.org,linux-mm@kvack.org,david@kernel.org,akpm@linux-foundation.org,andrii@kernel.org,ast@kernel.org,brauner@kernel.org,daniel@iogearbox.net,eddyz87@gmail.com,kpsingh@kernel.org,ljs@kernel.org,matt@bobrowski.net,memxor@gmail.com,song@kernel.org,sun.jian.kdev@gmail.com,utilityemal77@gmail.com,viro@zeniv.linux.org.uk,tasos.papagiannnis@gmail.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Fri, 18 Sep 2026 14:36:36 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917-work-coredump-fixes-v2-5-f3787fcda051@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
---===============0526606943701778729==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-
-> diff --git a/mm/util.c b/mm/util.c
-> index bf0513d1d3d08..75c0fc2061aa0 100644
-> --- a/mm/util.c
-> +++ b/mm/util.c
-> @@ -1061,6 +1061,66 @@ int get_cmdline(struct task_struct *task, char *buffer, int buflen)
->  	return res;
->  }
+On 09/17, Christian Brauner wrote:
 >
-> +/**
-> + * copy_remote_mm_str - copy a string from a remote address space.
-> + * @mm:         the remote address space
-> + * @addr:       start address to read from
-> + * @buf:        destination buffer
-> + * @len:        number of bytes to copy
-> + * @gup_flags:  flags modifying lookup behaviour
-> + *
-> + * The caller must hold a reference on @mm.
-> + *
-> + * Return: number of bytes copied from @addr (source) to @buf (destination),
-> + * not including the trailing NUL. If @len is zero, return 0 without accessing
-> + * @buf. Otherwise, @buf is always NUL-terminated. On any error, return
-> + * -EFAULT.
-> + */
-> +int copy_remote_mm_str(struct mm_struct *mm, unsigned long addr,
-> +		void *buf, int len, unsigned int gup_flags)
-> +{
-> +	if (unlikely(len == 0))
-> +		return 0;
-> +
-> +	return __copy_remote_mm_str(mm, addr, buf, len, gup_flags);
-> +}
+> --- a/io_uring/io-wq.c
+> +++ b/io_uring/io-wq.c
+> @@ -1324,6 +1324,8 @@ static bool io_task_work_match(struct callback_head *cb, void *data)
+>  void io_wq_exit_start(struct io_wq *wq)
+>  {
+>  	set_bit(IO_WQ_BIT_EXIT, &wq->state);
+> +	/* Pairs with task_work_add() in io_queue_worker_create(). */
+> +	smp_mb__after_atomic();
+>  }
 
-The documentation says "The caller must hold a reference on @mm" but
-doesn't specify which reference count. Should this clarify that the
-caller needs an mm_users reference (mmget/mmget_not_zero) rather than
-just mm_count (mmgrab)?
+Acked-by: Oleg Nesterov <oleg@redhat.com>
 
-The implementation takes mmap_read_lock_killable(mm) and accesses the
-address space through vma_lookup() and get_user_page_vma_remote() in
-__copy_remote_mm_str():
-
-mm/memory.c:__copy_remote_mm_str() {
-    ...
-    if (mmap_read_lock_killable(mm))
-        return -EFAULT;
-
-    addr = untagged_addr_remote(mm, addr);
-    ...
-    while (len) {
-        ...
-        vma = vma_lookup(mm, addr);
-        ...
-        ret = get_user_page_vma_remote(mm, addr, gup_flags, &page, &vma);
-        ...
-    }
-    ...
-}
-
-An mmgrab()-only caller would race with address space teardown in
-__mmput()->exit_mmap() once mm_users reaches zero.
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/35351393336
---===============0526606943701778729==--
