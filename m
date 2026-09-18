@@ -1,32 +1,44 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC011E0DD8;
-	Fri, 18 Sep 2026 13:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF17430ACF0;
+	Fri, 18 Sep 2026 14:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789739874; cv=none; b=CHrk+RI7WGRxM75qxKmEXBtSHUI27eQ7gho9HXnK3ZR913Kouqd75UXzlig5Ds1uXfXzhUtmtfK8xaLqWK7fDg9yOakRohHBOnie7yACKf4nnCUDnydAtIa/aS6rD6rVa0S7Mgo5w3J0dblxJ/xMRVtGcfppdlkQXOwlwPO9uko=
+	t=1789740723; cv=none; b=dw09K4kxCco0PL3/Q3L68YB0IbfbabJEAvunm9gS15abV72VLlRSyzMG2A2s+Daf1kimZfyS4yhL20I9h0G159Y5QCIMekYybX7cEGVGjxY6KWenKpt8Cdne/l3NYAeajg6LYZFMu/eBnaNlGWxZI4VJDvqoseTOwjaIEK1egiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789739874; c=relaxed/simple;
-	bh=SL6DyRDnOizhao/pI5jXngSsSBV1IzDJXG0yU+8v2PU=;
+	s=arc-20240116; t=1789740723; c=relaxed/simple;
+	bh=4lbu+lUwv2h7pPq9Ni2xAFVJgGIU26IjQvSl5kinP0k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X21wb1PDAh2HFxmWdD5MAkCR9GcPX/6EJns2i1J9S2KcJWP0wAV9jCfQa+7gMvgDk00ibko9T9NQUGis40plJvDnaB0CtU1U4StPVJs6jspCpOkHucwKDdVhnqJ5dDr5kpRivHHe1m3YmJQqwVf6cFP3WrGlKmiqDxZsdiTuAjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id A183668BEB; Fri, 18 Sep 2026 15:57:47 +0200 (CEST)
-Date: Fri, 18 Sep 2026 15:57:47 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, hch@lst.de,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	vdubeyko@coreweave.com, willy@infradead.org, brauner@kernel.org,
-	djwong@kernel.org
-Subject: Re: [PATCH v4 7/7] hfsplus: switch address_space_operations on
- iomap-based support
-Message-ID: <20260918135747.GA18697@lst.de>
-References: <20260914233941.2966421-1-slava@dubeyko.com> <20260914233941.2966421-8-slava@dubeyko.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=EGycHzBXK40VcGo340O+n5aWTeu0waMK65KPa1OiiDTibif8NGeYYVSq4oBJKygy6+XRUqmGi7gBSIu3u2EY+TWPCRkqVa4Bdy2ULeMo1vsgd1zJ6fJgf9K+ogsCI8hZbxNYMBipALKQn6372he0nrkUKlIDX1eKkQ2rV+7cXYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MFAyq4g2; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MFAyq4g2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7zpUXQYM3IC1SGJWSr4tMCIc0axKt/dfQzxPs2S33yI=; b=MFAyq4g2ymlShmuYjQIbBcSIfa
+	BNej6XtEGp24e6Po8p7yzao5S64Rp27+Hp1OXW6/XsDOOAXcPlWN6tA9wtpWy8NhPYgHn1/BeWve4
+	0dccChVw0XJDsw/gHGVw1XQeTSk90n6ECiq7oDQwQTKGyRveJ0TtFgx5n0kHmMlNUg+rhn+mWuvDI
+	PIwhg+tBWz7oD3qekqBjF7byWLlziwdgcNpEGOnkdJzIUb4DKkixjZKkV1x/L+eo64ZT4I/Dhjc36
+	r9NPMRNQAmk5fm0M+jtIdyyyH0x1nylr3kj2dvyfj4GtBAYLgqOsYk9mTfouebfoxAjAyQbFrSSzD
+	Eq3P17Ww==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x7ZJo-0000000Efyw-2cdU;
+	Fri, 18 Sep 2026 14:12:00 +0000
+Date: Fri, 18 Sep 2026 07:12:00 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jeremy Bingham <jbingham@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz,
+	djwong@kernel.org, viro@zeniv.linux.org.uk, hch@infradead.org
+Subject: Re: [PATCH v4 2/3] minix: add iomap functions and definitions
+Message-ID: <aq1GsO6dkS747OEb@infradead.org>
+References: <cover.1787770110.git.jbingham@gmail.com>
+ <e7ab836149f814b04017905dca2e07a4c94078db.1787770110.git.jbingham@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,66 +47,70 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260914233941.2966421-8-slava@dubeyko.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <e7ab836149f814b04017905dca2e07a4c94078db.1787770110.git.jbingham@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, Sep 14, 2026 at 04:39:41PM -0700, Viacheslav Dubeyko wrote:
->  /* Compare two extents keys, returns 0 on same, pos/neg for difference */
->  int hfsplus_ext_cmp_key(const hfsplus_btree_key *k1,
-> @@ -275,6 +276,8 @@ int hfsplus_map_extent(struct inode *inode, u32 ablock, int create,
->  		*max_blocks = hfsplus_ext_find_block(hip->first_extents,
->  						     ablock,
->  						     dblock);
-> +		if (!*max_blocks)
-> +			return -EIO;
+On Wed, Aug 26, 2026 at 02:41:56PM -0700, Jeremy Bingham wrote:
+> This patch also wires iomap.c into itree_v1.c and itree_v2.c, similarly
+> to how itree_common.c is included in those files, and exports version
+> specific versions of minix_iomap_begin and iomap_ops.
 
-What is this for?  It feels like something that should go into a
-well-documented prep patch.
+Can we keep the iomap code out of this double build mess?  Just define
+some low-level helper in it, but keep everything else in an only
+once build iomap.c
 
-> @@ -342,7 +348,7 @@ int hfsplus_get_block(struct inode *inode, sector_t iblock,
->  
->  	if (create) {
->  		set_buffer_new(bh_result);
-> -		hip->phys_size += sb->s_blocksize;
-> +		hip->phys_size = (loff_t)(iblock + 1) << sb->s_blocksize_bits;
+> Also updates 'unsigned' to 'unsigned int' a few places that got picked
+> up by checkpatch.pl.
 
-How is this change related to iomap?
+If you want to do these cleanups please split them into a separate
+patch.
 
->  	if (inode->i_size > hip->phys_size) {
-> -		struct address_space *mapping = inode->i_mapping;
-> -		struct folio *folio;
-> -		void *fsdata = NULL;
-> -		loff_t size = inode->i_size;
-> +		if (S_ISREG(inode->i_mode)) {
-> +			res = hfsplus_iomap_cont_expand(inode, hip->phys_size,
-> +							inode->i_size);
-> +			if (res)
-> +				return;
-> +
-> +			mark_inode_dirty(inode);
-> +		} else {
-> +			struct address_space *mapping = inode->i_mapping;
-> +			struct folio *folio;
-> +			void *fsdata = NULL;
-> +
-> +			res = hfsplus_write_begin(NULL, mapping,
-> +						  inode->i_size, 0,
-> +						  &folio, &fsdata);
-> +			if (res)
-> +				return;
-> +
-> +			res = generic_write_end(NULL, mapping,
-> +						inode->i_size, 0, 0,
-> +						folio, fsdata);
-> +			if (res < 0)
-> +				return;
-> +
-> +			mark_inode_dirty(inode);
-> +		}
+> +++ b/fs/minix/iomap.c
+> @@ -0,0 +1,122 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * iomap functions for minix.
+> + */
 
-Is this for symlinks?  Any reason you can't pull in
+Not really a very useful comment :)  OTOH this lacks a copyright
+statement for your work.
 
-  iomap: add iomap_symlink_write
+> +static int minix_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+> +	unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
 
-that has been posted on fsdevel and use iomap for symlinks as well?
+This mostly does not need the iomap.  It basically returns a physical
+block and a trystate of HOLE/FOUND/ALLOCATED.  If you change the
+interface to that you can keep it in itree_common by directly morphing
+the existing block lookup into that, or even do it as a prep patch,
+which first refactors get_block to this interface, and then do the
+iomap mapping on top of that, and in a place that only gets built
+once.
+
+> +/*
+> + * minix_iomap_end ends up being a nop; since minix doesn't have any extents or
+> + * transactions to worry about, there isn't anything to update here. The on-disk
+> + * indirect blocks get dirtied in minix_iomap_begin.
+> + */
+> +static int minix_iomap_end(struct inode *inode, loff_t offset, loff_t length,
+> +	ssize_t written, unsigned int flags, struct iomap *iomap)
+> +{
+> +	return 0;
+> +}
+
+In which case we can just drop it.  Note that for the next version
+against 7.3-rc should also move from the begin/end calls to the
+single next one using the DEFINE_IOMAP_ITER_NEXT helper macro.
+
+> -static inline unsigned minix_blocks_needed(unsigned bits, unsigned blocksize)
+> +static inline unsigned int minix_blocks_needed(unsigned int bits, unsigned int blocksize)
+
+Overly long line.  I'd much rather generate the baseless checkpath.pl
+complaint and leave the plain unsgineds in place.  There is absolutely
+no technical downside in using that notation.
+
+> +static inline const struct iomap_ops *minix_iomap_ops_ver(struct inode *inode)
+> +{
+> +	return (INODE_VERSION(inode) == MINIX_V1) ?
+
+No need for the braces.
 
