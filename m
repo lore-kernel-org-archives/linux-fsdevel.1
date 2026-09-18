@@ -1,82 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A538F4B1D1C;
-	Fri, 18 Sep 2026 10:25:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5EC2931CE;
+	Fri, 18 Sep 2026 10:26:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789727133; cv=none; b=SiiZ5YLFNSjd8jurIXEKvfRZaEsXjjIB+KVGUdWjFPR5PL2cRkZN2+U8/WwBpgwyVs3KmeoXrZjgObbMazuOcmGN7VyUfbRIPUOA8GT1w/uWXF7uIKz5QSE/gg+hppoDEmqiXrS1L25q9VGcdYMNDPYFWhwBevCB8x9ycKzbbR4=
+	t=1789727208; cv=none; b=KZUKz4PBSJDg3SuVTlVVXRI8mkHl+pkIE9S2bwTQ9JmFsLakxSUAlpTq64A/FSDua6OAQ/KnF8SrFLSJJY98uly/TdQ4qzW6RbQKZBRBqvq4HZ9jTYzF58u2uxiXxC3ZKi+AsPQFOxojZglC4vKXoBcc77CPdbFjUKXXa/jQH9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789727133; c=relaxed/simple;
-	bh=XCX7OD0MFSj63jeBdnj32V2m69meKqvW8/7zSh3AOsY=;
+	s=arc-20240116; t=1789727208; c=relaxed/simple;
+	bh=YYRcMyhB+Nej5aB6tF0sD+lIuvpvABvcw+09Rps8EHM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Pc/q5UfVJGzw/aNKzd1z/Anekhj2vCnE/oQziv9s+pDObaiR9qGWIsnvKguHAmMlEpZGJQzes2r01N2Wr2/Ty1b345hrBHk2cw9JBJdmUzaYiXkisa+TUJHACHNxBQgpR4EHK2gMCQVVcAL2WugSUeI1tQ95RpEX8Dd3mvXJ1wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=fail (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bgn07gul reason="signature verification failed"; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=aIqQtnAqzg7uNCO9JPr1pV0KYYQOi2RqMof+xe2Z5RxKw+Hh7yCvI2IePbgrSG0zl58olFk9ilI23E1VmgXa8ZJAuBnDNrX/xyZtCQLKBXX9ItYdLGcW8ha71f1/xhmqbKO+TjMBwcwtUiYc7gajix/qBDI8IgGrxl01tgmi7O8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=fail (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eupBYsTA reason="signature verification failed"; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bgn07gul"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170481F000FF;
-	Fri, 18 Sep 2026 10:25:27 +0000 (UTC)
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eupBYsTA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5197B1F000FF;
+	Fri, 18 Sep 2026 10:26:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789727130;
-	bh=XCX7OD0MFSj63jeBdnj32V2m69meKqvW8/7zSh3AOsY=;
+	s=k20260515; t=1789727207;
+	bh=5+RK1cJzE7vYEJNH4KMTogSsel/5JlapcOCdBl4VlP4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bgn07gul2XbQMTEsRc4NB0SooXCoVClfKj7xYlHbS0pB2k+p9hs37drFAnbcjmF6s
-	 4uQTP4i4RTHhMXyDNCKCVqtp09Vt4jf/2sZpt6hXCITDDYmNLKHl/7GEuioB10pBbq
-	 KgC8pFhunF4pZVF52aAyqYLmVje7onyZnDtkoMo7M+n8lrWgnW2qD56PzJwaioLm4S
-	 fHUW0/h/VQS1YQuMks/Kfw+mvY5dmMgMBMzsknhX/LGDPMoVKKagSg7iLX1wTh+7zx
-	 SfTRxREogXbxKWtWO3h7HjVP9J++VI67o4Pb8NZxEUTXLM29u8MBaqpCcwe6O9eeSz
-	 2AjhZSXEB/PNg==
+	b=eupBYsTA6h+6JQa2ShdpohTKsfpx+UdpDggKnPH+KXXFxsygHGJ3gVN7254T/GPMe
+	 CCJuO2D+n0H9tMNb5k6YwM/32ifMNPqfHtQSFOCBaZj6dRWQ1vzKk3XpZyXdNfGkx7
+	 B0Js2Z4P3IKPLnB+2SOz682eQuD+4qtrx8oYjMSHCPVu5RKdrncN8SQoPWtTZHGmte
+	 Q4tbyvx8n9a4FX/eeC0AihF8aWsPxSvZDHDagwVODDYyAxhyaTW+yVRyV2j2QDDIoa
+	 SpZ4/7ywTZa0GyrUoyi/T60ERtnAj0Y2RgtK2FOpO+4su/jwnsmyzw4AjMeXvnu3vY
+	 TSIYXJPdwk56A==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 14/17] elf: Introduce elf64_phdr_size() helper
+Subject: Re: [PATCH v5 13/17] crash: Assert device_hotplug_lock in
+ crash_get_memory_ranges_nolock()
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jinjie Ruan" <ruanjinjie@huawei.com>, lizhengyu3@huawei.com, dave.hansen@linux.intel.com, mark.rutland@arm.com, bgwin@google.com, npiggin@gmail.com, mingo@redhat.com, mclapinski@google.com, thuth@redhat.com, ruirui.yang@linux.dev, sourabhjain@linux.ibm.com, linuxppc-dev@lists.ozlabs.org, catalin.marinas@arm.com, dakr@kernel.org, linux-kernel@vger.kernel.org, vishal.l.verma@intel.com, pasha.tatashin@soleen.com, robh@kernel.org, sshegde@linux.ibm.com, chao.gao@intel.com, rppt@kernel.org, seanjc@google.com, chleroy@kernel.org, liukexin@kylinos.cn, linux-mm@kvack.org, takahiro.akashi@linaro.org, piliu@redhat.com, akpm@linux-foundation.org, pratyush@kernel.org, ruanjinjie@huawei.com, kees@kernel.org, hpa@zytor.com, rafael@kernel.org, ritesh.list@gmail.com, blum@kernel.org, linux-arm-kernel@lists.infradead.org, coxu@redhat.com, maddy@linux.ibm.com, eric.devolder@oracle.com, palmer@rivosinc.com, tglx@kernel.org, adityag@linux.ibm.com, kas@kernel.org, chenhuacai@kernel.org, yeoreum.yun@
- arm.com, maqianga@uniontech.com, gshan@redhat.com, guodongtai@kylinos.cn, gregkh@linuxfoundation.org, x86@kernel.org, zhangtianyang@loongson.cn, jbouron@amazon.com, bp@alien8.de, tangyouling@kylinos.cn, loongarch@lists.linux.dev, james.morse@arm.com, ardb@kernel.org, mpe@ellerman.id.au, leitao@debian.org, will@kernel.org, baoquan.he@linux.dev, hbathini@linux.ibm.com, me@linux.beauty, graf@amazon.com, linux-fsdevel@vger.kernel.org, kernel@xen0n.name, driver-core@lists.linux.dev
+To: akpm@linux-foundation.org, me@linux.beauty, takahiro.akashi@linaro.org, linuxppc-dev@lists.ozlabs.org, driver-core@lists.linux.dev, maddy@linux.ibm.com, hpa@zytor.com, yeoreum.yun@arm.com, lizhengyu3@huawei.com, loongarch@lists.linux.dev, mark.rutland@arm.com, blum@kernel.org, gregkh@linuxfoundation.org, rafael@kernel.org, kas@kernel.org, pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org, chenhuacai@kernel.org, palmer@rivosinc.com, robh@kernel.org, ardb@kernel.org, linux-arm-kernel@lists.infradead.org, seanjc@google.com, tglx@kernel.org, thuth@redhat.com, tangyouling@kylinos.cn, adityag@linux.ibm.com, x86@kernel.org, pratyush@kernel.org, kernel@xen0n.name, liukexin@kylinos.cn, bgwin@google.com, ritesh.list@gmail.com, will@kernel.org, dakr@kernel.org, chao.gao@intel.com, sshegde@linux.ibm.com, ruirui.yang@linux.dev, zhangtianyang@loongson.cn, hbathini@linux.ibm.com, jbouron@amazon.com, sourabhjain@linux.ibm.com, kees@kernel.org, gshan@redhat.com, mclapinski@google.com, rppt@
+ kernel.org, guodongtai@kylinos.cn, coxu@redhat.com, piliu@redhat.com, ruanjinjie@huawei.com, maqianga@uniontech.com, mingo@redhat.com, linux-mm@kvack.org, mpe@ellerman.id.au, chleroy@kernel.org, graf@amazon.com, linux-fsdevel@vger.kernel.org, bp@alien8.de, eric.devolder@oracle.com, vishal.l.verma@intel.com, james.morse@arm.com, catalin.marinas@arm.com, npiggin@gmail.com, baoquan.he@linux.dev, "Jinjie
+ Ruan" <ruanjinjie@huawei.com>, dave.hansen@linux.intel.com, leitao@debian.org
 Cc: kexec@lists.infradead.org
-In-Reply-To: <20260918100442.3841135-15-ruanjinjie@huawei.com>
+In-Reply-To: <20260918100442.3841135-14-ruanjinjie@huawei.com>
 References: <20260918100442.3841135-1-ruanjinjie@huawei.com>
- <20260918100442.3841135-15-ruanjinjie@huawei.com>
+ <20260918100442.3841135-14-ruanjinjie@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Sep 2026 10:25:26 +0000
-Message-Id: <20260918102527.170481F000FF@smtp.kernel.org>
+Date: Fri, 18 Sep 2026 10:26:43 +0000
+Message-Id: <20260918102644.5197B1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 
-> Add a common helper to compute the total size of an ELF64 header
-> (Ehdr + program headers) from the number of program headers.
-> Replace open-coded calculations in powerpc, x86, vmcore,
-> and crash_core.
+> crash_get_memory_ranges_nolock() walks memblock, which memory hotplug
+> modifies under device_hotplug_lock.  A caller that does not hold the lock
+> can race with memblock_double_array() and iterate a freed regions array.
 >=20
-> On ppc64, struct elfhdr maps to elf64_hdr, so the powerpc change
-> is a pure cleanup.
+> Add device_hotplug_lock_assert_held() and call it at the top of the
+> function so that such callers are caught by lockdep.
 >=20
-> No functional change intended.
->=20
-> Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Nicholas Piggin <npiggin@gmail.com>
-> Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-> Cc: Thomas Gleixner <tglx@kernel.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Baoquan He <baoquan.he@linux.dev>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Cc: Pratyush Yadav <pratyush@kernel.org>
-> Cc: Dave Young <ruirui.yang@linux.dev>
-> Cc: Kees Cook <kees@kernel.org>
-> Cc: Sourabh Jain <sourabhjain@linux.ibm.com>
 > Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260918100442.3841=
-135-1-ruanjinjie@huawei.com?part=3D14
+135-1-ruanjinjie@huawei.com?part=3D13
 
