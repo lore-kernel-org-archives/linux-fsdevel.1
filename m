@@ -1,73 +1,77 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7412E49739A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 08:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544FF364934
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 09:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789721534; cv=none; b=MQ3AmxxxYJykmggFIuU+8e9Sv6/3aZjQseBill22zisagtukgB/RKLYC8nxKyw0mfMpJmlFAe3qvRimVusyUfXgG1YLljve5y3aKEk54cZwk86Zd/sAe4zrzqw1kxMCAgCfL8Twytx2DGdVHLVhbAD3jumL9xFalzbHkfx6LFAU=
+	t=1789722058; cv=none; b=rod0XqvJkxUpgszftc6VaRDhylkOV6ud8ajnuTXc1hC8L7FLPeU5cOumDENd8eUgT63LG9PuQIZiSCRrSEV0GZ20l+k7er8+uymEF+4BOWr2btMojOk7XPfur1vPq3f3xdLELmWI3l2Et0djrNaCXKSn3tf9+tL9LvoiHET8njU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789721534; c=relaxed/simple;
-	bh=y+BnAAozpYhhFlk0zWtnIJ9ZjQg831PHf3+20180TuI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FpJ0EmgJlUxXBMpm5WS2/xeUmE1waSqX/GH6vuDiGrOMYX15dvpOAcZ/mNlKK+nm92G/VCbHhSx0e6REAfMt4KZWbZeYdFLKxIzYwmmBSxcsFlLVXbFmJfpcOQmdDEWP6sUlnkYMQmOGjrvezmYTXJVguPVvlZKX5x0Ewg1PtLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ibwGW4fK; arc=none smtp.client-ip=74.125.227.141
+	s=arc-20240116; t=1789722058; c=relaxed/simple;
+	bh=m4ZbhDJfV7md//ofsICU2QzhHI6k8KTOEZrwq/uln6I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hsIW5TwkGisQgm23BygfRrl/lhsAUehf9q51adO/WukGqqh8o82vP6UCZaE8+nbYWqll9oHgq3EtniWo7PFWMsurfo6VGPBQgK3cElfmc6J2cK0d5+M0g9eOjM1uedRXsJXyUd84dCaFFU8dNpWEjF9LLdksfrMft+FqZ/vyRX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bGOUtPAy; arc=none smtp.client-ip=74.125.228.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ibwGW4fK"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d8fdc579daso5503015ad.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 01:52:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bGOUtPAy"
+Received: by mail-pz2-f41.google.com with SMTP id d2e1a72fcca58-868cfc5c244so290232b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 02:00:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789721533; x=1790326333; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789722056; x=1790326856; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=a/PzL4UemwPCscHYaoYsX505aZOB74TtICtM5jQVGvg=;
-        b=ibwGW4fKaCO8NwxMf45FOU1DxYOMJZy4ud9+806x7x3p2d8PFZiTx9xwpN0tQszP5j
-         w/iQDblWThTUUaZP7cd+hccCWcqhCgLirJ/vPS3O8c4OtR9xiRbZjCMtwdaY+AiojkvF
-         uxKLBJY+Ja6Woqx5RTpmnq4TX7t/gqrC9hCUOj6jIm8szifc9LP4ZKBaQUsuuyQGzcSo
-         uoj4FUQ4ce6Zy1c6KVKQ7jeHiCJzaTYOgHb0D3KSiJyy0+3PZMgglgTPz96rgoUyd5Bm
-         3coQgFSt6ol6vK2VRHgvP1irV6j7hQJZto+Vsq9bzEirz/864dx2SrDyS/uP8RYs8eAv
-         yRRw==
+        bh=2mNPvRwIoYtv1U+zE4RruJ91hXpp045j5mrIpQ+qMH4=;
+        b=bGOUtPAy5/q+HGtPN53C53D1sNJqfHaM38CaEKc7/l8rYTuGtv0uNTHb0x4KWG2DKE
+         kTiZKEpmZFpx47jAPGkW3Mg9LU/Pgu7lFZQ9/jLhHQKhbgRTtaQreoUPtN2hzjmcurXd
+         D98BeJkq5xwmt0LINEeMclsjZDir9eB6cB1hPp/eYcu0A+OS/ElsM9w+x5CWJ6FMM44m
+         5P02ueRlltMNf++5gJrPNCwGa98SEldZ1M+hwtk3siYWEh7pvKMbXAVe2McSrfhlAQ2Y
+         7W5Ld+NrKd2MY2nln50spZcyDs/IWWvN853dAj/N7kQBp9A7IJFiv4Ipp9e4IlocrdrY
+         J1yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789721533; x=1790326333;
+        d=1e100.net; s=20260707; t=1789722056; x=1790326856;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=a/PzL4UemwPCscHYaoYsX505aZOB74TtICtM5jQVGvg=;
-        b=Vod/BG4y+3HT8z+yMDQ+mMi8P1a7h7EAxy6owh/58tovamCBPAuXZ5S9vJco+cR4a+
-         Ji85A3tl5Kbjj4EA6gXKktzA9MMg3lD1hgRiUDdS+bjloYSZp/V6ABqnG3K7vPl4c7IU
-         4r7vHPzSWSCAlwF7dgtexsyD7Tf5R+Mv53BGHThdZ4+CrP27XolXAxQ6GzzIrGN0pH76
-         n1pbXtPkJOLUgmQLmxcsZjshZVRwLzqc/jvNi2uPzFhBMseKKjO98PpqMW8gW2tLQm4E
-         a1TRVu5R2IG9dwwOgPiqlV8TQsrUYK987sSU4bMwh8yir/tZzJvbTGS3ec8tMwcirUW8
-         OJQA==
-X-Forwarded-Encrypted: i=1; AKwUvBxdiB5GUuKMZezON/sDLM7vrmmSC3zO2Cg+pn9nBB0Bxz+n1srPhpm3JDYLpOWFRYIjiRUGk2XGZDNeqlcx@vger.kernel.org
-X-Gm-Message-State: AFuF++miGaLQrJxMigNmp+85E9piM+7c7dRE6z3f1CXKhJtz48bNbA9h
-	HcN9C80HkfezsHdLm7pOSp3aiWbGltSAzlJhev3rGEMWv4sFsBveLADb
-X-Gm-Gg: AYBFou2sr9OZiGPZtNLezrUDGziG8tpLRbRfghE9Vb2uAJbSr+1oz/jz15024PW6zJz
-	cSFa3gc7egUEZSrKuVkaInV1XdEXJTdAWKrZyjfp+muSpR27uSkcSspVCpSwPVbXp40Qfr7OU/0
-	31Juatv3OdmVaPWmQfihm1v5rxRGHxQcsdrHE6z5Ap3yk6cgKDggySWKwmYo82Vp67JFQGXdT8y
-	SVx8CYjjHeaFe2uk9SRUO/j26h+hZIE13nhgcmjIV+AD043Z8k65xEwV2yA7aoY6ZbarzgLn3O+
-	DS35qhEqX0NFur75cp63LSJEUncYiJKNWQPLL5X7gAdzAJgIe7UuQJ/2V+OyrtQKoum8eU7zodQ
-	NpqGSHfUYAwKWZ2Yu5RmYveJoHuEKShMAoeKMxuQHfTsttdEfezPpov2MIlwyjWi8+/oVFfak0N
-	MEXwSDsUgJm7rVkomKZyk1x8zw44xNXhxoCqv6phXWaTvmJNyqIw0oYsi9+LzQpzfSvcCJY/FWE
-	W4+xI6PzhOs90VxaRca8LNjX6UfHGBe
-X-Received: by 2002:a17:90b:2f50:b0:39e:14db:437c with SMTP id 98e67ed59e1d1-39e54cc2a95mr4621976a91.4.1789721532545;
-        Fri, 18 Sep 2026 01:52:12 -0700 (PDT)
-Received: from thangnn-Dell.vingroup.local ([202.60.105.126])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e5a0e860asm2516236a91.1.2026.09.18.01.52.10
+        bh=2mNPvRwIoYtv1U+zE4RruJ91hXpp045j5mrIpQ+qMH4=;
+        b=KiIMKkruakheniuNtoeildpKK3e6UkjesbPXeYHepWA9HCOsUBaGI5koXVeo3Tind0
+         SapjwLBtem3LUnwO20eF1u1aRfAXoR2YaMncgDk17m4cHaIhIGm3sPC9/PzPzqSdvdAx
+         SNJEbu9BBtisLn9chMBtY8o5SpWtekECmF0N3ASUd+Bj11O7/EDNaSQqF/gCvGFF1SMD
+         cxZQEbdKjbPIddrYAZjCq1KnXJF4W9o9YPb2aq4Cu7jDFNc8MLt3/38mjuJgGC/zygXZ
+         /x9nwcsr9S3p7UNk0EazDp3FEYOrhPPF473uqELNjm1GHzIj17CLSQQ2mSXKprK6fpG/
+         9mLg==
+X-Forwarded-Encrypted: i=1; AKwUvBz3GU8KIPAYNrSvAq34hHsWZ9F8b28ty1QfKNFJ7cYjtboUkktFOfKQ1YNtpuPeOJGwcFjsDBaiON2V1UKd@vger.kernel.org
+X-Gm-Message-State: AFuF++lY5bFwlJkchT2D5nq52cAoXzOwb2j/jiutTg6hNEO9tXvKWUR3
+	BgL4+higlYMPvO7XC9zvwLMu6TUFLESqypr8JgaZAKEHj1UtxJAqgo8u
+X-Gm-Gg: AYBFou33L2OadLDIGBJUJvjYN27Xq4f2Rpmps1hdwp4atDGvDw1F8urqoXtD3ri/c+E
+	RFfGsp8K9MBDfPl79WTZrYnAnMulpGnlbr70Cyi/IJg6eMt7bKh9dj9sSSiayJjxE/9HGgcfZdu
+	xqRkXQtZmyPrEg74UNgRPX+wYjt/UDUC4K2CWgWrdsWA9iFBIvE3MFtOHPbYoBe2vJwMDZsUvD7
+	ayBKxNfZo+HwhFqM68AuDWGWh4cqE4fNORRwDfMSOMnQKyLemQmFmZ8E2oVxJhv65+ZR1zbGu7A
+	nCibZuk9cJh7sUV4cPAmRoEP5vXL4As1pYgrP4ZF0bxuMksXQc4x0rD9XBT8J0YJIaLZGgwSE+2
+	Kp6oQS+Qif0AJkS2XQNevkvUOczj0UH9slHpTU4DvYhELtC/yMu84UPgVlImlv+VSPqe3/sIDf+
+	upPyu+YZQOFg+C0LeN62iFq8yK+mMX6lCXzy1pNsRIiOyDhTDRQCZud8g0mdg9MsVL+S69wdMY8
+	XZtfVOFvFAeFIOxOkjMo5XCDa9m+gKUjjeudyGxkrAqfec7Ccw1GY2EUy5gqxFJujnsdVWXH1Xu
+	c6bgzBUGf8sZWXme8BOTOBAf1S12L1N9Y8WpKhXR8qQCs/DFzIMssAkatoINZMAol4GA78zxn0K
+	Gxr84Gw==
+X-Received: by 2002:a05:6a00:3a20:b0:845:e440:d0ca with SMTP id d2e1a72fcca58-874db6f70aamr3110164b3a.8.1789722055106;
+        Fri, 18 Sep 2026 02:00:55 -0700 (PDT)
+Received: from cs-1047136853211-default.asia-southeast1-a.c.t54fbfa9bf0658dcb-tp.internal (96.177.21.34.bc.googleusercontent.com. [34.21.177.96])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-875dc8fa40fsm504491b3a.15.2026.09.18.02.00.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 01:52:12 -0700 (PDT)
-From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
+        Fri, 18 Sep 2026 02:00:54 -0700 (PDT)
+From: Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	Gabriel Krisman Bertazi <krisman@suse.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	io-uring@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com,
-	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-Subject: [PATCH v6] hfsplus: validate b-tree fork extents at mount and inode read
-Date: Fri, 18 Sep 2026 15:51:56 +0700
-Message-ID: <20260918085156.920842-1-ngocthang2710.1999@gmail.com>
+	Aditya Prakash Srivastava <aditya.ansh182@gmail.com>
+Subject: [PATCH v4 0/3] io_uring: add fremovexattr and flistxattr support
+Date: Fri, 18 Sep 2026 09:00:07 +0000
+Message-ID: <20260918090010.1688-1-aditya.ansh182@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -77,152 +81,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Validate fork extents during inode reading and mount time to catch
-on-disk corruptions early, returning appropriate errors and marking
-the tree as corrupted.
+This series completes io_uring's FD-based xattr operations by adding
+support for:
+- IORING_OP_FREMOVEXATTR
+- IORING_OP_FLISTXATTR
 
-v6:
- - Move fork validation logic into inode read fork function.
- - Refactor extent validation helpers, use volume_blocks, count == 0,
-   and introduce HFSPLUS_EXTENT_LAST_IDX named constant.
- - Return error from hfsplus_inode_read_fork() to allow hfsplus_iget()
-   to catch on-disk corruption and propagate error correctly.
+This allows asynchronous xattr removal and listing.
 
-Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
----
- fs/hfsplus/extents.c | 41 ++++++++++++++++++++++++++++
- fs/hfsplus/inode.c   | 65 ++++++++++++++++++++++++++------------------
- 2 files changed, 79 insertions(+), 27 deletions(-)
+New test cases have been added to the liburing test suite
+(test/xattr.c) and verified to pass. A separate userspace patch
+implementing the matching prep helpers, sanitizers, and test cases
+has been updated and submitted in parallel.
 
-diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
-index eb7c11524d18..eaf3bed7ede8 100644
---- a/fs/hfsplus/extents.c
-+++ b/fs/hfsplus/extents.c
-@@ -16,6 +16,47 @@
- #include "hfsplus_fs.h"
- #include "hfsplus_raw.h"
- 
-+/* Index of the last extent in the fork */
-+#define HFSPLUS_EXTENT_LAST_IDX 7
-+
-+static inline bool is_extents_btree(struct inode *inode)
-+{
-+    return inode->i_ino == HFSPLUS_EXT_CNID;
-+}
-+
-+static bool hfsplus_extent_valid(struct hfsplus_extent *ext, u32 volume_blocks)
-+{
-+    u32 start = be32_to_cpu(ext->start_block);
-+    u32 count = be32_to_cpu(ext->block_count);
-+
-+    if (count == 0)
-+	return start == 0;
-+
-+    return start + count <= volume_blocks;
-+}
-+
-+/*
-+ * Returns 0 if fork extents are consistent, -EUCLEAN if extents
-+ * past the first are corrupt, or -EIO if the first extent is corrupt.
-+ */
-+int hfsplus_check_fork(struct super_block *sb, struct hfsplus_extent *ext, u32 volume_blocks)
-+{
-+    bool non_zero_seen = false;
-+    int i;
-+
-+    for (i = 0; i <= HFSPLUS_EXTENT_LAST_IDX; i++, ext++) {
-+	u32 count = be32_to_cpu(ext->block_count);
-+
-+	if (!hfsplus_extent_valid(ext, volume_blocks) || (non_zero_seen && count == 0))
-+	    return i ? -EUCLEAN : -EIO;
-+
-+	if (count > 0)
-+	    non_zero_seen = true;
-+    }
-+
-+    return 0;
-+}
-+
- /* Compare two extents keys, returns 0 on same, pos/neg for difference */
- int hfsplus_ext_cmp_key(const hfsplus_btree_key *k1,
- 			const hfsplus_btree_key *k2)
-diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
-index 2ce6de574fa6..aa201f4e80d5 100644
---- a/fs/hfsplus/inode.c
-+++ b/fs/hfsplus/inode.c
-@@ -559,34 +559,45 @@ void hfsplus_delete_inode(struct inode *inode)
- 	hfsplus_mark_mdb_dirty(sb);
- }
- 
--void hfsplus_inode_read_fork(struct inode *inode, struct hfsplus_fork_raw *fork)
-+int hfsplus_inode_read_fork(struct inode *inode, struct hfsplus_fork_raw *fork)
- {
--	struct super_block *sb = inode->i_sb;
--	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
--	struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
--	u32 count;
--	int i;
--
--	memcpy(&hip->first_extents, &fork->extents, sizeof(hfsplus_extent_rec));
--	for (count = 0, i = 0; i < 8; i++)
--		count += be32_to_cpu(fork->extents[i].block_count);
--	hip->first_blocks = count;
--	memset(hip->cached_extents, 0, sizeof(hfsplus_extent_rec));
--	hip->cached_start = 0;
--	hip->cached_blocks = 0;
--
--	hip->alloc_blocks = be32_to_cpu(fork->total_blocks);
--	hip->phys_size = inode->i_size = be64_to_cpu(fork->total_size);
--	hip->fs_blocks =
--		(inode->i_size + sb->s_blocksize - 1) >> sb->s_blocksize_bits;
--	inode_set_bytes(inode, hip->fs_blocks << sb->s_blocksize_bits);
--	hip->clump_blocks =
--		be32_to_cpu(fork->clump_size) >> sbi->alloc_blksz_shift;
--	if (!hip->clump_blocks) {
--		hip->clump_blocks = HFSPLUS_IS_RSRC(inode) ?
--			sbi->rsrc_clump_blocks :
--			sbi->data_clump_blocks;
--	}
-+    struct super_block *sb = inode->i_sb;
-+    struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
-+    struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
-+    u32 count;
-+    int i, ret;
-+
-+    /* Validate fork extents to catch on-disk corruption early */
-+    ret = hfsplus_check_fork(sb, fork->extents, sbi->total_blocks);
-+    if (ret) {
-+	pr_err("hfsplus: fork check failed for inode %lu (err=%d)\n", inode->i_ino, ret);
-+	set_bit(HFSPLUS_I_CORRUPT_TREE, &hip->flags);
-+	sb->s_flags |= SB_RDONLY;
-+	return ret; /* Return error directly to the caller */
-+    }
-+
-+    memcpy(&hip->first_extents, &fork->extents, sizeof(hfsplus_extent_rec));
-+    for (count = 0, i = 0; i <= HFSPLUS_EXTENT_LAST_IDX; i++)
-+	count += be32_to_cpu(fork->extents[i].block_count);
-+    hip->first_blocks = count;
-+    memset(hip->cached_extents, 0, sizeof(hfsplus_extent_rec));
-+    hip->cached_start = 0;
-+    hip->cached_blocks = 0;
-+
-+    hip->alloc_blocks = be32_to_cpu(fork->total_blocks);
-+    hip->phys_size = inode->i_size = be64_to_cpu(fork->total_size);
-+    hip->fs_blocks =
-+	(inode->i_size + sb->s_blocksize - 1) >> sb->s_blocksize_bits;
-+    inode_set_bytes(inode, hip->fs_blocks << sb->s_blocksize_bits);
-+    hip->clump_blocks =
-+	be32_to_cpu(fork->clump_size) >> sbi->alloc_blksz_shift;
-+    if (!hip->clump_blocks) {
-+	hip->clump_blocks = HFSPLUS_IS_RSRC(inode) ?
-+	    sbi->rsrc_clump_blocks :
-+	    sbi->data_clump_blocks;
-+    }
-+
-+    return 0;
- }
- 
- void hfsplus_inode_write_fork(struct inode *inode,
+- Patch 1 syncs the tools/ directory's io_uring.h UAPI header to
+  align it with kernel mainline prior to introducing the new opcodes.
+- Patch 2 makes the necessary VFS-layer list/remove helpers
+  non-static and declares them in fs/internal.h.
+- Patch 3 implements the io_uring operational support (opcodes,
+  opdefs, preparation, and issue handlers) and invokes these helpers.
+
+Changes since v3:
+- Split the tools/ UAPI header sync of pre-existing mainline opcodes
+  into a separate precursor patch (Patch 1) (Suggested by Gabriel).
+- Robustify io_fremovexattr_prep by initializing kname and kvalue
+  to NULL to avoid potential garbage-pointer crashes in the
+  io_xattr_cleanup path (Reported by Gabriel).
+- Add strict validation to both fremovexattr and flistxattr to
+  zero-check and reject all unused SQE fields (Reported by Gabriel).
+- Reset ix->ctx.kname to NULL on error inside io_fremovexattr_prep.
+
+Changes since v2:
+- Revert unnecessary formatting changes to filename_listxattr in
+  Patch 1 (now Patch 2).
+
+Changes since v1:
+- Omit path-based opcodes to prioritize optimal FD-based variants.
+- Limit exported VFS helpers to only file_listxattr and
+  file_removexattr.
+- Rewrite standalone test program into a standard liburing testcase.
+
+Aditya Prakash Srivastava (3):
+  tools: sync io_uring.h UAPI header
+  fs: make file_listxattr and file_removexattr helpers non-static
+  io_uring: add fremovexattr and flistxattr support
+
+ fs/internal.h                       |   2 +
+ fs/xattr.c                          |   3 +-
+ include/uapi/linux/io_uring.h       |   2 +
+ io_uring/opdef.c                    |  18 ++
+ io_uring/xattr.c                    |  83 +++++++
+ io_uring/xattr.h                    |   6 +
+ tools/include/uapi/linux/io_uring.h | 342 ++++++++++++++++++++++++++--
+ 7 files changed, 438 insertions(+), 18 deletions(-)
+
 -- 
-2.43.0
-
+2.47.3
