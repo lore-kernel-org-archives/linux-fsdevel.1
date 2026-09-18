@@ -1,73 +1,86 @@
-Received: from mail-pj2-f4.google.com (mail-pj2-f4.google.com [74.125.227.132])
+Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38E13D75A1
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 02:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FEC39282C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 02:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789699260; cv=none; b=V9zSunHoabZlGZ4voA99xrv7IIN/gvTb5qmWqe/fm6s0WrfqJq9RC81+BS4NU26RNROaqVHItojHfJbGzb40D2iPXWS/pw7EZXhSr9QV907QS7rKkJierOcInUCCk5yTa10lJIogVfC24l9kB+iTjMMg1GONlEW5UNiWPcz6imQ=
+	t=1789699748; cv=none; b=m/0xF2R+WGwQigntzIeDlAQtMYshZq/Vl2mq5a8QGPf4NZuqTnR4HEEderx7/QIkyUBPrUkmLKOZFFdebJpqrRqvItaQU02m/b2WHL/8xH3LeqvanxCfkN6/qu+4CVLEXKQ3Sxnqz9B2iDpXVPCrGVBoDNGaUr1NEL8WRdMLCB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789699260; c=relaxed/simple;
-	bh=4RtBTcAG3ZyoV+Wuhgih7ZMjV1Rc/AqLjGt6M9kijLI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LkPBTcE8giFd70kVmJ0mBs2/l2Y7bt9dfmmLF5yZzGM4urC50duIdDFZ6jiElbjT3FSAKxAf9C38GOPlLOrBayEVXBaOkeIES5e7RVhOq8aAVU0aEBAw3K9VCMhSFO7c98NeyYv5mQeT34i/CoTpVQYMAb++XQ15aJ4P/zY1ZJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gxnDuCxX; arc=none smtp.client-ip=74.125.227.132
+	s=arc-20240116; t=1789699748; c=relaxed/simple;
+	bh=gc/XI5HxEC4PKxsI5/WSreIkFC8b7uoh9stcxnuKnN4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DJuXHgcTYXiH7xuRBr440hXrYX1bOT5Zp8Xv4CCarB29JozZ41XGgbynFMxis/2A2glRKBjHBhs0shKf7OWPlDsDM8EK3kJhZSLDp18QMXvYQNACqU1qn47/kHZGN2ZC4l1/jUdG6mmMKcYtF8Jevz2XQm4QiR30N47/zKW0Yzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PVMYQA2S; arc=none smtp.client-ip=74.125.227.129
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gxnDuCxX"
-Received: by mail-pj2-f4.google.com with SMTP id 98e67ed59e1d1-3896ccc93b5so70120a91.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 19:40:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PVMYQA2S"
+Received: by mail-pj2-f1.google.com with SMTP id 98e67ed59e1d1-39e59dca659so81349a91.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 19:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789699246; x=1790304046; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789699738; x=1790304538; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XcNnKNj86Fl8cPyJbGiSdq718Tdcgp6e3IuiJ+1OzoA=;
-        b=gxnDuCxXib/psCR5ccDtdIC349PPy0/RSVSoGpWEOpb9bg1l1D9tDRlTjlDwyVBJwz
-         Q/104m+Aam3tpLL3GDFh7bdxhp35L6kgDs6if1zpsAL93NLB+IReapqLuLZS0grP7Aal
-         gb23wIXA0eAPTX4RBDKkNLEX5Vv14viRJR6KRKTrWzWu0LW1fYSWCp8kwJ2x3Zcw9cNL
-         nbwIQGn+mnrXJKWuXzvy6Iq/HzeuhTVddSW8g3qOAYETE1Zm1zmBpe2sa3AIE1ZYZAdJ
-         0ShItum2vAY6IjNpnxQ6pNxIvHBrm+sFID/WvLSDZSbvY2LA1+ZqIU/wMsunh37hqI2V
-         ovsg==
+        bh=XPm43STPG/fDQDyOfj6yzMa2YKT8zVqw0iMraAd7aOE=;
+        b=PVMYQA2SjI2PA3tDMrhmFbvRVwwy6fSs3TC4aAGiWQ1VIR0zI5W3AGNMF/miisvfTv
+         2YzYvgKBqAM/6h3tmaTFemQSwv2ucThf+syMWtaf5fsvaQST6A11dycyVz9yBw/RpjcV
+         oaDhSb03ww4rGccuZ2bB14G9HeuqR21+AyhwQrKm5KQdAcgQbsWPD7hmVGq6fa6qU5xF
+         +IVtA9/F54LERdWaMtCNkDyyLg4lTojJJGqJhT4cStwA31gDKKiLVDKKgOlHTCNWRDQR
+         EfhsbOZtsgrZ9XdQXxZI8xKCYgxqgfCIBZE068bOzcf9W5E/X9tkN6FVP679moW5FQHw
+         piLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789699246; x=1790304046;
+        d=1e100.net; s=20260707; t=1789699738; x=1790304538;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XcNnKNj86Fl8cPyJbGiSdq718Tdcgp6e3IuiJ+1OzoA=;
-        b=FwUVzJXDSSBugTUoYdMU+0kpLyciUtcWlt+LDZggxjA45VE3/8jE9zRRMH4P6wsFk6
-         rvpq4QPea5zNCxYFC1sFWrMOLQ6W99KF0oqBJyQh+IzTz5I2ABTDh64ikARdHmxomdWa
-         2lsUFdxUkepWI4tLV628u2JQAyXEK25J5Mfb9h+BIaM9Nf4kfx1HebBCR2466soK4r/2
-         c1VeXx8k93cutduzmwQdMc3dZ2NrPHqDJX/7KvX1uLW9l3Jm8/8fD9WNGQMYTWfdWFcl
-         qyqLE5HurJ+ZP2I3JsNhU5hcm9xGFuyqM0s/GiK+usXvGvscNCN71ID78XVxGCFuFHO6
-         f1Rw==
-X-Forwarded-Encrypted: i=1; AKwUvBxMPZgxJsw6chfPzPTThH3abTW8Ft1ln7qvYMwUhjZ3IJ1yWezQZvebxyTCNvE0lwEcNYz2HOjSTmsQ7T3h@vger.kernel.org
-X-Gm-Message-State: AFuF++kyFjKDGnsDXDEXAZhBcK5p2Xn+FoqVgkXos8GQ7sR5wphCRvXC
-	et7jizqTfGh40+N/AGWhY7NfPmSvPhU6VijabumPVcc8r5QVyz8idYkr
-X-Gm-Gg: AYBFou2f5r551usqRzU8z+WoIoLWmig9d89vPvJtvg+hVJAHsiQEmYb1d7Asi5T9Iau
-	cHogj62lEZIsjRJmuGeref2wq/V35AI085a2xbPjJzlz29rMbuJUe7AaIOJxnfy3Jn6Zo8SryTC
-	jfrx6IGp1Xm5idp37/V6aT3D6BtZXOhbzVx6YaBQqSgQWwbNwiXFXxH965EdwnOCV+sEwNzpv9/
-	a0ZF2oo648sn7acUSrxHDbu6TB/SOX67+9KpShl6jfveNy6h+iquiSLDLCQXe281OsctEL4tA+Z
-	Ru0M2lQxaKrEeMmpiSfpq/MHAiT4Tukz86n3KuSyrNn4LeDWfesiBcCNYNjQdmaFqKwZg/9EKF2
-	8Js4y9TOrIAlmLp7mblgdO3HRHHKMZgYpQCtRgSP5Wpye1jLix3BUgZ93y/IeWKjTqJBWZH3TdU
-	cUJtUSKUYc7u4R+7vS53ecHwo+BTRTGTbj07p2baQvw0RjSFrxe5xlO9q/xI5TiXx+MMI7OybUE
-	+wfacJ9kKb8exhj/LNVVnEhpKSaxaexI7GzTcQlepFry3RKX0seb617k5dxjBMkdk+/rSEvlDPw
-	PqafPBkYyjzctnRbhaP38+24vF1OKqbya56m3qGwQnNVqICzqNfplcQLukqwgrp3qQ==
-X-Received: by 2002:a17:90b:52cf:b0:398:9c39:520f with SMTP id 98e67ed59e1d1-39e54bd0941mr2438544a91.15.1789699246338;
-        Thu, 17 Sep 2026 19:40:46 -0700 (PDT)
-Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c287aab5fsm316111eec.22.2026.09.17.19.40.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 19:40:46 -0700 (PDT)
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>
-Subject: [PATCH] netfs: remove unused fscache_internal.h header
-Date: Thu, 17 Sep 2026 19:40:37 -0700
-Message-ID: <20260918024040.338737-1-enelsonmoore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=XPm43STPG/fDQDyOfj6yzMa2YKT8zVqw0iMraAd7aOE=;
+        b=qxaQthn8i0K3AqJbo5yxCImWj1wZ4Hf//11Qxh2PI3b1RlhjkQ5X7cNrxqjLtpVSCL
+         1vFmo8UhHgvlp01qVVCGPQtB8CiG58W65kCyN/+5i4tWi3MAp+ZYIQtoCX5x+12VtjBU
+         /otONDh8e8+t0oLlbSebiAi7RkZgbhxNdZSxKgj5AAxvL6/Uzy0UxXrzioqP33VhFUWS
+         zWPaLVEgqSFCbjTWz6lNRheefBSKzTOj6gz173rac/3qbb2AAAf9z+cPuuB+QOwtl0IT
+         YcWbygiyANcoj3n/asZ8XHu4VRSJx+1YH4MatgTIf0S/X97YrilkKN6qBXQrspB/O6Eo
+         +kFA==
+X-Forwarded-Encrypted: i=1; AKwUvBwIU4NyQjugRHdt0zPY4koK8A7BhEZcLn78xZGnQeGQSHlaVzFDvt1GwXGd1+H6oCXZeMK+zy4Jl8qz2JTL@vger.kernel.org
+X-Gm-Message-State: AFuF++nkPtd1JpqrnP7/aqurM/jVtldJx5q5UifT97HHh8xpjTnaI+Tg
+	aGlaUzwKtxqJBqrU/i6yDk7gfECIszCZw4WrvODBpBRaxlxTrJReU93P
+X-Gm-Gg: AYBFou3IjzOM/XUlKxo9+Gu2Ex7evtzJryTEFXx3XKcVXxao76y1iW/WUYvuvVPNBB6
+	u6o2DFSyUvznE+F7qf/WcozkkPrV8CWmNlU1T6t3Du2zMNnrnQxG4jlPXsBYbbK53iJWolJyq9/
+	X2mLyj+ETF5C6zJPVwORP/YYNwylsBghvulu5XkElaOSlOSNEVdgrFJcP1GzmgCTlnYh91bQYRK
+	3gZSL4AJITQdrlMqhZcdaxU/JWNFpL7OovHIKbzlmJB2t+SmuYAwHHoeQWFF5fztIz7euSZacxe
+	90kAb+Vnfu6oW1uEOH53bBpqqH/yaVnCyotIwk6oaw8+qv4S2TpgjGUd8O/zZ33N9O2ExpECrfE
+	05mU9UWTkxzgHzYR7tc2ldWCkzfeEg6xOaQGGYySWOWpgW6zHC8FkObGkutTCyddaXhlNW8gxEH
+	pANLnaoh7KPvCyipBruZ5mA2WxNBtztO4MlLcrY7QLnlqOa30omShPpKtoyeyQLmbwwT5Qa58Dk
+	62Ad66ONOIilRZ4Xv6bZP4BjQ8xPzJEZDQQxp6iwz4KiMD4
+X-Received: by 2002:a17:90b:2d87:b0:39d:e54c:8658 with SMTP id 98e67ed59e1d1-39e54d8ecdemr4317714a91.5.1789699738525;
+        Thu, 17 Sep 2026 19:48:58 -0700 (PDT)
+Received: from localhost.localdomain ([38.60.126.44])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c287b023bsm388217eec.23.2026.09.17.19.48.54
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 17 Sep 2026 19:48:58 -0700 (PDT)
+From: Haobin Wu <853555@gmail.com>
+To: ericvh@kernel.org,
+	lucho@ionkov.net,
+	asmadeus@codewreck.org,
+	v9fs@lists.linux.dev
+Cc: linux_oss@crudebyte.com,
+	jack@suse.cz,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	aneesh.kumar@linux.vnet.ibm.com,
+	willy@infradead.org,
+	dhowells@redhat.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Subject: [PATCH v3 0/3] 9p: handle long directory entry names in readdir
+Date: Fri, 18 Sep 2026 10:48:48 +0800
+Message-ID: <20260918024851.51229-1-853555@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,35 +89,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fs/netfs/fscache_internal.h has been unused since commit 915cd30cdea8
-("netfs, fscache: Combine fscache with netfs"). Remove it.
+A host directory entry whose name is longer than 255 bytes currently
+makes 9p's readdir fail with -EIO and hides every entry after it, which
+is how this was noticed on WSL (Plan 9 shares of Windows drives).
 
-Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
----
- fs/netfs/fscache_internal.h | 14 --------------
- 1 file changed, 14 deletions(-)
- delete mode 100644 fs/netfs/fscache_internal.h
+Patch 1 drops the copy into the fixed 256-byte p9_dirent::d_name and
+uses the string p9pdu_vreadf() already allocated, so the listing no
+longer aborts.
 
-diff --git a/fs/netfs/fscache_internal.h b/fs/netfs/fscache_internal.h
-deleted file mode 100644
-index a09b948fcef2..000000000000
---- a/fs/netfs/fscache_internal.h
-+++ /dev/null
-@@ -1,14 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/* Internal definitions for FS-Cache
-- *
-- * Copyright (C) 2021 Red Hat, Inc. All Rights Reserved.
-- * Written by David Howells (dhowells@redhat.com)
-- */
--
--#include "internal.h"
--
--#ifdef pr_fmt
--#undef pr_fmt
--#endif
--
--#define pr_fmt(fmt) "FS-Cache: " fmt
+Patch 2 then skips entries whose name is longer than NAME_MAX in the
+9p2000.L readdir instead of returning them to userspace, as discussed
+with Dominique and Jan on v1: the VFS only enforces PATH_MAX in
+verify_dirent_name(), and nothing can operate on such a name afterwards
+anyway.
+
+Patch 3 applies the same limit to the legacy 9p2000/9p2000.u readdir.
+It is a separate commit because it changes behaviour there: such names
+used to be listed.
+
+On patch 3, to be explicit about why this is a behaviour change: the
+256-byte limit lives in p9dirent_read(), whose only caller is the
+9p2000.L path. v9fs_dir_readdir() parses with p9stat_read(), where
+p9_wstat::name comes from the 's' conversion (kmalloc(len + 1), no
+NAME_MAX check), so legacy really did emit over-long names.
+
+Changes since v2:
+- Patch 2: say why the entry is skipped in the debug message and log it
+  at P9_DEBUG_ERROR, the level of the strscpy() message it replaces
+  (Christian, Dominique).
+- New patch 3: same NAME_MAX limit in v9fs_dir_readdir() for legacy
+  9p2000(.u), as its own commit (Christian, Dominique).
+- Dropped the Assisted-by: trailers.
+
+Changes since v1:
+- Use my real name in From/Signed-off-by (Dominique).
+- Split into two patches (Dominique).
+- Reworded the subject and commit message of patch 1 to describe the
+  existing readdir path and clarify that no allocation is added
+  (Dominique).
+- New patch 2 skipping entries longer than NAME_MAX (Dominique, Jan).
+- Dropped the bouncing sripathik@in.ibm.com address from Cc.
+
+v2: https://lore.kernel.org/all/20260916135403.15789-1-853555@gmail.com/
+v1: https://lore.kernel.org/all/20260826064819.52523-1-853555@gmail.com/
+
+Haobin Wu (3):
+  9p: skip intermediate directory entry name copy in p9dirent_read()
+  9p: skip directory entries with names longer than NAME_MAX
+  9p: skip over-long directory entry names for legacy 9p2000 too
+
+ fs/9p/vfs_dir.c         | 31 +++++++++++++++++++++++++------
+ include/net/9p/client.h |  2 +-
+ net/9p/protocol.c       | 12 ++----------
+ 3 files changed, 28 insertions(+), 17 deletions(-)
+
+
+base-commit: 028ef9c96e96197026887c0f092424679298aae8
 -- 
-2.43.0
+2.54.0 (Apple Git-157)
 
