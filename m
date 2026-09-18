@@ -1,90 +1,82 @@
-Received: from mail-pj2-f8.google.com (mail-pj2-f8.google.com [74.125.227.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4523CDBD3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 02:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FEB331EB0;
+	Fri, 18 Sep 2026 04:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789699762; cv=none; b=ehdlRcr4/rDlSInoHnZpEzrLm850B2WpsK2DmpyO2HzhQ8gKuhbv2CGOZ++1wIVxcW/eyQx2XhmQmLjYiecWAx0Zc9w6c74Vkdxo3S3Em19EPmR8dsCY0Rroo8/6bsyUrEGUmBydDsYepjYRbNKRzyYF8frI4sy1g4tZyEfV30Q=
+	t=1789705078; cv=none; b=iN8NvXJwOS3njSTcVxKHPgAMvCsQl4J04/i27zzYU4kxJZECxBu80e76OK6FqfzR05xJHPbXCCLiPuegktET86NsRFIiXAxTFdofcq8xZ5FOo6JSMK8p038Cpk7vzk6busfUcu/QnGs3HrvSQxDwyvjBqlP+iFgj5/imxgTs4gE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789699762; c=relaxed/simple;
-	bh=7mZyvLsdD7rZFz20RtO0OYHMdBvBnkDzPt/82DlOJfo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KZ3cu32pkYT9QPG3oMk2fM8shF1e6cF9lpaTQZamoaDwi8d0kwxr9S3UxVyfMTSoAt3XuC6pWIjB3AMFxMdijgK7hn8rQ92hXxVivAHpIVKaWYH79XlrZGfd7rDQ2UBonn8QinKcy0cyGEF45trtWfOhBQUtCzQrNxFfkitq2Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n9GCvagV; arc=none smtp.client-ip=74.125.227.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789705078; c=relaxed/simple;
+	bh=hAKfeURgimH+zD5v3mZSGKclYtLi5kuQXJoRur/UxdQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M+B35J+r2cqVzhdIuSg6kwqrG9v3Mq0KdT0rSKMx6EBnXElftmnGatRpVSopnHAcG9ANu2n9/FAfX/b9wZvxk/zDXasxA2zMu2NYQwG4ie4N9g2PErWX4D43fkz3HZI74aXAdY4UQ+Qj0TT70+Nx1CbbyQCrO48lEUJs0+E7q2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dZdUIubP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n9GCvagV"
-Received: by mail-pj2-f8.google.com with SMTP id d9443c01a7336-2d8fcda61c8so1056705ad.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 19:49:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789699753; x=1790304553; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zt8G0xpIOOhfoNc/LpRJ6HNqd0QOLFO5B7X1F4wwr9s=;
-        b=n9GCvagV4vzLOItApOQYz25/x/JPn5IyIANJKNYuUakigjbbk3G/p3jAk61QXVs6PF
-         pTwKFM1QOpCVkIJKWgHeRrZhYzMVJgwnAMrkz+AzzJw4PApVE/NNnviquQKEGuyiM1/4
-         1NkP4mxZjlWmwqLyPROy50C/fmW0yDNi07rI4yBb4IjY8Xma/fkXcSRUnMrM+X/dP0ls
-         WQSURO18KI3OJOYvPTg3V0H72Rb2ul0RvWWdOYDQfp3J30dKgIZ3K0kHTeFtCF0ofLgY
-         bQWk3++paG2OU6hPkI4AGhP4BYZqrM5mTabqohBWKNBq+CK1dTiJZOTS/pr8JxlXoHrN
-         2R8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789699753; x=1790304553;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zt8G0xpIOOhfoNc/LpRJ6HNqd0QOLFO5B7X1F4wwr9s=;
-        b=leUZvhJxISLOtsAnf9XHwL/mfFf3bKCeDoY15zJtaAnzkI50IQKJplbX00NWqiqZT4
-         6e9sa2A+t3VBnsFQM7jQXA9UBfFzS9EsXZW0Lc46Xa8b/DaZNFLamklyC0+ggniZZ6Xi
-         MOym2lcc5uvcbEpb6vr+J25c4Hv7Zx0ZhiCX9VyC6YlJ5/G+0VOPEUqHBWRylvk4Gkel
-         AWesIl8mr/JGBJYOgi5/h5A7et9LTnqeAjshW9+vkKOe1ZIZGTu9QlQGTY22KI7CN9Er
-         6f83YvU2M3aVjkBZjK2/CWZte/MdakNcC+pFojl9M3bqeYupVZBGoKOJWGOKvRVZjELM
-         8STA==
-X-Forwarded-Encrypted: i=1; AKwUvBwmuGcYyCLJC+DOBv7FaeEbdh1cUAtkQEWm/iN3VuPsR9WtQeP/dACOzQ8dX7qxnwGzRm+8fAl8ggcT0Bbb@vger.kernel.org
-X-Gm-Message-State: AFuF++nByN4Zzh8jCjYOzOcgdKCZIIpGluiVNtB0I4QkocaZDTPNcg/W
-	NXlQmHQrgCjw1KCreeRIS3K8IFvyIyucFzRMEOLVif4kTR/dT70ydPGb
-X-Gm-Gg: AYBFou39w4QsJ6ikZu0uC4bT5QfDOl/6mlsTiPgrpq9zkV/iGHU0yYS3cf73Wkf9Dj4
-	EWy+SlDWsMQ3zbqpUFtcSGRclT8h9rtLaG/fatT3VVAjbUnw7H8sy2JR2TIShmLEFjyliZrXMFe
-	HGm7uArzk9GffCLL6BY7w7J9pZJL2BcBLIkETE2b9nSmzc1aXAxnYCyD0UqqjAqxqX3qlMqFy5L
-	MC6lCIuHMT3QeE/NEVrC1NJQ7OViCRdXlXhelnbZE7wAFcfDfUyVSnhsB5aKgfl5DmgZsti7Xty
-	kR0cmj8yNChBi1yHL7YEj7IU4QF4aui9GLVTYx9f8O9ycfE1AcZZJmWNzhOuOECZgpja+TqSreg
-	u8aruaG2t65hAiPOXJLUzs9U+1PgBHv3DCAE+7d4wqGSkEIxuuvapcX3bIXVpqLu/LXlB7LGtAb
-	7lrdBW2ug+jQGIGELKc/4EkaEVYRKDI8DmuZxxtNAp3G6bhcle+WEUf6gWeeAljo3+EhOFBXiH1
-	MDkOq/R2hCwHXTCyIB05rgWCmzS1F9bMACtVtXszeZtscXT
-X-Received: by 2002:a17:903:46d0:b0:2d6:3c2f:6a4 with SMTP id d9443c01a7336-2ddb1b04363mr24129965ad.13.1789699753092;
-        Thu, 17 Sep 2026 19:49:13 -0700 (PDT)
-Received: from localhost.localdomain ([38.60.126.44])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c287b023bsm388217eec.23.2026.09.17.19.49.08
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 17 Sep 2026 19:49:12 -0700 (PDT)
-From: Haobin Wu <853555@gmail.com>
-To: ericvh@kernel.org,
-	lucho@ionkov.net,
-	asmadeus@codewreck.org,
-	v9fs@lists.linux.dev
-Cc: linux_oss@crudebyte.com,
-	jack@suse.cz,
-	netdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dZdUIubP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1E811F000FF;
+	Fri, 18 Sep 2026 04:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789705076;
+	bh=WWxabFUVlB3kxXBm4kFTC6I3NzI8FakdyNfET9iDosQ=;
+	h=From:To:Cc:Subject:Date;
+	b=dZdUIubP7WawPPBoUISGeGIF5ET69n9vHrkUVvspPnrH7fxHweJj2pqEOElVx2vIL
+	 0gFC5UbRFw2yyrUHY8PuEWsj3Mk6WHImCplwTlI60/XUI76P7v6YKqCFuBRQ3z6vC8
+	 D4IfiDdtb9OpF9KJwyaUUmE0WCWrChqkCcnscAtjBVSlbLeT1gn8kIAGDPn7QXBRDy
+	 uyVZJ/cSvCjKvvkrk1SWqjkP71K7D2BHoKJ257aiaDDnQ+ozchaBZMGL59Cyc8YNCA
+	 cgNPGGgrw2vZkS3Mn+lrb1xgQs6YmdMPOv5u8KaDeiJ+0j1eeksXZuaT4qd7J9F0+p
+	 3erBVRFc7D2AQ==
+From: Yu Kuai <yukuai@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Song Liu <song@kernel.org>,
+	Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: Yu Kuai <yukuai@fygo.io>,
+	Christoph Hellwig <hch@lst.de>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Tao Cui <cuitao@kylinos.cn>,
+	linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	linux-bcache@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org,
+	gfs2@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	aneesh.kumar@linux.vnet.ibm.com,
-	willy@infradead.org,
-	dhowells@redhat.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Subject: [PATCH v3 3/3] 9p: skip over-long directory entry names for legacy 9p2000 too
-Date: Fri, 18 Sep 2026 10:48:51 +0800
-Message-ID: <20260918024851.51229-4-853555@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260918024851.51229-1-853555@gmail.com>
-References: <20260918024851.51229-1-853555@gmail.com>
+	linux-mm@kvack.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v3 0/3] blk-cgroup: store blkcg in bio before blkcg_mutex conversion
+Date: Fri, 18 Sep 2026 12:17:41 +0800
+Message-ID: <20260918041744.1526924-1-yukuai@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -93,58 +85,148 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The legacy 9p2000 and 9p2000.u readdir path, v9fs_dir_readdir(), parses
-each entry with p9stat_read() and, unlike the 9p2000.L path, never had
-a 256-byte name limit: a name of any length up to the wire maximum was
-handed to dir_emit(). getdents64() therefore returned names longer than
-NAME_MAX that no later syscall can use, and failed with -EIO for names
-of PATH_MAX bytes or more.
+From: Yu Kuai <yukuai@fygo.io>
 
-Apply the same NAME_MAX check as the previous patch does for
-v9fs_dir_readdir_dotl(), so both protocol variants behave the same.
+This is v3 of the preparatory series for the blkcg_mutex conversion
+proposed in the related series [1]. That conversion moves queue-local
+blkg topology synchronization from q->queue_lock to q->blkcg_mutex,
+which is awkward while bios directly store queue-local blkg references.
 
-Note that this is a behaviour change for 9p2000 and 9p2000.u: entries
-with names longer than NAME_MAX used to be listed and are now skipped.
+Storing a blkg also ties a bio to one request_queue. A remapped bio must
+drop that reference and recreate the association for the new queue even
+when no blkcg policy needs it. Dying blkgs add another complication:
+they disappear from the per-blkcg lookup tree before all pinned bio
+references drain.
 
-Suggested-by: Christian Schoenebeck <linux_oss@crudebyte.com>
-Link: https://lore.kernel.org/all/3910569.MHq7AAxBmi@weasel/
-Signed-off-by: Haobin Wu <853555@gmail.com>
----
- fs/9p/vfs_dir.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+Patch 1 makes request_queue the authoritative lookup owner. A
+queue-owned rhashtable keyed by the blkcg CSS ID keeps dying blkgs
+discoverable until their references drain, while q->blkg_list remains
+available for ordered walks.
 
-diff --git a/fs/9p/vfs_dir.c b/fs/9p/vfs_dir.c
-index 08d1a3429654..31de9ac913f0 100644
---- a/fs/9p/vfs_dir.c
-+++ b/fs/9p/vfs_dir.c
-@@ -119,6 +119,8 @@ static int v9fs_dir_readdir(struct file *file, struct dir_context *ctx)
- 			rdir->tail = n;
- 		}
- 		while (rdir->head < rdir->tail) {
-+			size_t namelen;
-+
- 			err = p9stat_read(fid->clnt, rdir->buf + rdir->head,
- 					  rdir->tail - rdir->head, &st);
- 			if (err <= 0) {
-@@ -126,8 +128,16 @@ static int v9fs_dir_readdir(struct file *file, struct dir_context *ctx)
- 				return -EIO;
- 			}
- 
--			over = !dir_emit(ctx, st.name, strlen(st.name),
--					QID2INO(&st.qid), dt_type(&st));
-+			namelen = strlen(st.name);
-+			if (namelen > NAME_MAX) {
-+				p9_debug(P9_DEBUG_ERROR,
-+					 "skip dentry: name length %zu > NAME_MAX\n",
-+					 namelen);
-+				over = false;
-+			} else {
-+				over = !dir_emit(ctx, st.name, namelen,
-+						 QID2INO(&st.qid), dt_type(&st));
-+			}
- 			p9stat_free(&st);
- 			if (over)
- 				return 0;
+Patch 2 stores and pins the queue-independent blkcg CSS in each bio.
+Queue-local blkgs are created lazily by policy users, then pinned until
+the bio changes devices or releases its cgroup state. Completion and
+accounting paths which do not create a blkg remain lookup-only.
+
+Patch 3 moves async bio punt state from blkg to blkcg, so punting alone
+does not instantiate a queue-local blkg.
+
+Changes since v2:
+
+  - Rebase onto the latest for-7.4/block branch.
+  - In patch 2, clarify why dm_bio_record() excludes BIO_BLKG_REF and
+    add Nilay Shroff's Reviewed-by.
+  - In patch 3, replace scoped spinlock guards with explicit
+    spin_lock()/spin_unlock(), drop the redundant teardown check, and
+    rely on zero-initialization for async_bios before publication, as
+    suggested by Nilay Shroff and Christoph Hellwig.
+
+Changes since v1:
+
+  - Rebase onto the latest block-7.3 branch.
+  - In patch 2, require every blkg rhashtable lookup to run inside an
+    explicit RCU read-side critical section. Annotate blkg_lookup_any(),
+    blkg_lookup(), and recursive wrappers with __must_hold_shared(RCU)
+    so Clang thread-safety analysis verifies the contract.
+  - In patch 2, exclude BIO_BLKG_REF from the flags saved by
+    dm_bio_record(), since restoring an ownership bit cannot recreate
+    the associated blkg reference.
+  - In patch 3, use scoped spinlock guards for async_bios and annotate
+    the list with __guarded_by().
+  - Add Nilay Shroff's Reviewed-by to patch 1.
+
+Changes since RFC v3:
+
+  - Drop the RFC prefix.
+  - Add Christoph Hellwig's Reviewed-by to patch 1.
+  - Add Tao Cui's Reviewed-by to patch 2.
+  - In patch 2, relax blkg_lookup_any()/blkg_lookup() to also allow
+    q->queue_lock as an alternative to the RCU read lock.
+
+Changes since RFC v2:
+
+  - Drop the old patch 1 and send it separately as a bugfix for 7.3 and
+    -stable, as suggested by Christoph Hellwig.
+  - Rebase onto the latest for-7.3/block branch.
+  - In the new patch 1, note that the remaining q->blkg_list walkers are
+    cgroupfs/sysfs slow paths and can move to rhashtable iteration after
+    the queue_lock-to-blkcg_mutex conversion.
+  - In the new patch 1, explain the list_empty case in blkg_release(), and
+    add an RCU lockdep assertion plus documentation that blkg_lookup_any()
+    does not acquire a reference.
+
+Changes since RFC v1:
+
+  - Add patch 1 to wait for every old blkg to leave q->blkg_list before a
+    shared request_queue is rebound, instead of treating root_blkg == NULL
+    as completion of asynchronous blkg teardown.
+  - Add patch 2 to replace the per-blkcg radix tree and lookup hint with a
+    request_queue rhashtable keyed by blkcg->css.id, as suggested by
+    Christoph Hellwig. Keep dying pinned blkgs in the hash until
+    blkg_release() so bio-owned references remain discoverable.
+  - Fold the v1 helper-only patch into patch 3, as suggested by Jan Kara
+    and Christoph Hellwig, and make bio_blkcg() naturally return NULL for
+    an unassociated bio.
+  - Rework patch 3 so blkg_lookup_create() acquires the bio-owned
+    reference, falls back to a live parent when creation or tryget fails,
+    and updates bi_blkcg when the returned blkg belongs to an ancestor.
+  - Make bio_blkg_lookup() lookup-only: it returns NULL unless BIO_BLKG_REF
+    is already set. Use bio_blkg() in the BFQ and IOCOST merge paths which
+    may need to create a blkg, while keeping blk_cgroup_bio_start() and
+    completion paths lookup-only.
+  - Move CSS online-reference handling into
+    bio_associate_blkcg_from_css(), including fallback to the root blkcg,
+    so bio_associate_blkcg() does not take a redundant reference.
+  - Keep the v1 async bio punt conversion as patch 4 and document that
+    async_bio_lock protects async_bios.
+
+Previous versions:
+  - v2: https://lore.kernel.org/r/cover.1789237876.git.yukuai@fygo.io
+  - v1: https://lore.kernel.org/r/20260823133045.970199-1-yukuai@kernel.org
+  - RFC v3:
+    https://lore.kernel.org/r/20260818070641.756747-1-yukuai@kernel.org
+  - RFC v2:
+    https://lore.kernel.org/r/20260811064744.1139446-1-yukuai@kernel.org
+  - RFC v1:
+    https://lore.kernel.org/r/20260804065313.2092022-1-yukuai@kernel.org
+
+Related series:
+  [1] RFC v2 blk-cgroup: protect blkgs with blkcg_mutex
+      https://lore.kernel.org/r/20260724123037.3004560-1-yukuai@kernel.org
+
+Yu Kuai (3):
+  blk-cgroup: use a request_queue rhashtable for blkg lookup
+  blk-cgroup: store blkcg in bio instead of blkg
+  blk-cgroup: move async bio punt state to blkcg
+
+ Documentation/admin-guide/cgroup-v2.rst |   2 +-
+ block/bfq-cgroup.c                      |  18 +-
+ block/bfq-iosched.c                     |  19 +-
+ block/bio.c                             |  22 +-
+ block/blk-cgroup-fc-appid.c             |  10 +-
+ block/blk-cgroup-rwstat.h               |   2 +-
+ block/blk-cgroup.c                      | 346 ++++++++++++++----------
+ block/blk-cgroup.h                      |  93 +++++--
+ block/blk-core.c                        |   9 +-
+ block/blk-crypto-fallback.c             |   2 +-
+ block/blk-iocost.c                      |  12 +-
+ block/blk-iolatency.c                   |  11 +-
+ block/blk-ioprio.c                      |   2 +-
+ block/blk-throttle.c                    |   3 +-
+ block/blk-throttle.h                    |   2 +-
+ drivers/md/bcache/request.c             |   2 +-
+ drivers/md/dm-bio-record.h              |   5 +-
+ drivers/md/dm.c                         |   2 +-
+ drivers/md/md.c                         |   2 +-
+ fs/gfs2/lops.c                          |   3 +-
+ include/linux/bio.h                     |  26 +-
+ include/linux/blk_types.h               |   9 +-
+ include/linux/blkdev.h                  |   2 +
+ include/linux/writeback.h               |   2 +-
+ mm/page_io.c                            |  12 +-
+ 25 files changed, 381 insertions(+), 237 deletions(-)
+
+
+base-commit: af78ca007be5f63dc34b8180c8063c1113697192
 -- 
-2.54.0 (Apple Git-157)
-
+2.51.0
