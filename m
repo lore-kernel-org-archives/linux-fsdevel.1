@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D7D4F68DD
-	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 13:44:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A354F93B3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 13:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789739060; cv=none; b=EbYaAw1AnCngqyZaLC7DkYnBjI85SpzBkidacVIGfDU/D5fwHhe4Zli3xulR2YXm/itL/IveKitV/zod1eGJTqMOqv0Map6qnm3f2Ov/oRFBWYCrNsk+vrYzTTO6WSq7/a3kNdaD6bLqgCoXlPK9Bd6aaFhg/3imxJBayH1j/vM=
+	t=1789739246; cv=none; b=pUtKHgSNM+p4/K8LgKqwgcBB4x3MCf5ZAAuu3H0J7Ry2g8Ouzp/dRq/nIH/Yvt+Ow3XggX9eIFK/xjhiB7+4f46Hz3fzfrHx2xMkNILpGHoWee53had3cIFkUAs+n1jdrWy+FBdAs9/8Kt8Aqa++Vp3/JhjvJcyyMmddh9bzvJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789739060; c=relaxed/simple;
-	bh=cX8UauR/QDljYc3RnJcjIWvV7coDt5BcRoOjPV4eCtU=;
+	s=arc-20240116; t=1789739246; c=relaxed/simple;
+	bh=NP4whSnqaZ2VBngE/e8wB2yHxsTbGNa+qsx2e5Ijrbg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZwteRLVLIQxxIz4/i1R4ZQlegQzd7u8qYinkMrueazm1FiatFmN1Z32DmWACJFJ7LXpK6m5AdY7dZu8ZMneI89E4bFTxW+fE0lXhNIS/fjy4PGb5xs/WqI/MFG18542FJfV6/uFWooOIjiNwBQtBw1Lw8c05Y7ispf6MiGpI0UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HsKUSyLM; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=OftwhqjB/gWVUisWlhAQowpvatoAN1WIO98ss1MSG6o+ZyqbeujX0ActQ4P+7FfX3xpyFx30xKXBMu11EtoBni/p5UYrGzlVEF13GMTC8CzEt+5/1MaPeyC1nlnJEEx73Mhy66JAIYvoaqkSuGKXwfOMoCQX4GVNx4vwCRRyp40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F9ZUhBUH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HsKUSyLM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0225C1F000FF;
-	Fri, 18 Sep 2026 13:44:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F9ZUhBUH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F29A1F00898;
+	Fri, 18 Sep 2026 13:47:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789739058;
-	bh=a9VPaOBm5A7r04UHfa3NhklcbPIGLG2u7NqH+Abrs+k=;
+	s=k20260515; t=1789739245;
+	bh=zDB8ZNrlloa4K4BhhwSa+v9ApPYQhDBrcYUmm+5KlB4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HsKUSyLMN/sYAQw7E49ibbB3T8ByiDDqcQDimeQKcDEKhP4tMRx5LC8I7GUrGejaX
-	 60RYN1Tgt1M0rILU9w5IiH5w9mnR24HwpP3urETACDOo87RmfIdy6kRqS+iR1zhNKG
-	 vrnSDPaxVveRqi2SBYmIQi1LIJ3YnMFtedH6nwiAyz/BQ+o8exiMFZsX04VqkOhcQC
-	 5kJbLaNtnQ8hMOCuOv1KAZU93zEjO/f0WUIkNtCwM+CGelVVZ5eyfAEFrIknKW7T2+
-	 xjLFUuFEVfk+zNulLbszGiWq8TPCwoOy6JzH0GakRuyKqkM8YFAu0QfBaeMMPfz5JZ
-	 uUWOja6unBl4g==
-Message-ID: <7608c80e-645b-4d07-bba3-ef45ee36fba4@kernel.org>
-Date: Fri, 18 Sep 2026 15:44:12 +0200
+	b=F9ZUhBUHGtWbiYQJVewlMYWp6udci2KIiFZLV4F7Cxb0UcEtK9ErRh/K0jtkgbpzi
+	 8czAX5BPGeqlacdyzDKafNHDHbtZdPv/ngZU5UcI/ERMTB6iwzpB+mnt7/iD+PIK52
+	 Aw0IVWIxLOeb6jZwmtaCrvYB9AGdTS1qEFBeekYfe8GxFz7IvfsHeJD6nVvO6hfsgK
+	 MHj2AspFZHalCqpmD0C2+zmzFZEOyMbCRyR6x6awZa1lZNc+YvYIM3isj9p1OyGjzd
+	 YqhPXY5IEKN/uyEGBcjf1b7m6sLMKamDtFfnF/AfWv1ncitJ5NNZbvfK4UBXQKGaJi
+	 Nq3A15d1BYm5w==
+Message-ID: <813a2644-fa9f-4ee7-8655-ca69ef0e8a98@kernel.org>
+Date: Fri, 18 Sep 2026 15:47:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,19 +35,18 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 08/15] hugetlb: Use the has_hwpoisoned flag
-To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v9 11/15] filemap: Add hwpoison handling to filemap_read()
+To: Matthew Wilcox <willy@infradead.org>, Pedro Falcato <pfalcato@suse.de>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Jane Chu
  <jane.chu@oracle.com>, linux-mm@kvack.org,
  Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
  Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
  <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
  linux-fsdevel@vger.kernel.org, Christian Brauner <christian@brauner.io>,
- Jiaqi Yan <jiaqiyan@google.com>, "Gregory Price (Meta)" <gourry@gourry.net>
+ Jiaqi Yan <jiaqiyan@google.com>
 References: <20260805210557.1118966-1-willy@infradead.org>
- <20260805210557.1118966-9-willy@infradead.org>
- <a51a6236-8881-4479-8f04-39676e0e1f14@kernel.org>
- <an3uN4TAAZ2miXhe@casper.infradead.org>
+ <20260805210557.1118966-12-willy@infradead.org>
+ <an2e1j3C_4DA5KXK@pedro-suse.lan> <an3xv6Hae6g3aHCh@casper.infradead.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -94,153 +93,36 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <an3uN4TAAZ2miXhe@casper.infradead.org>
+In-Reply-To: <an3xv6Hae6g3aHCh@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-I'm a terrible person and it took me way too long to get back to this :(
-
-> 
-> You make it sound so easy ;-)
-
-Heh, as long as you hold a folio reference it really is :)
-
-> 
-> If we don't hold a reference on the folio, then the folio (whether it's
-> hugetlb or not) can be split.  And then folio_test_hwpoison() can hit
-> the assertion that it's now a tail page.
-
-Right. I am/was missing the connection to "generic_file_read_iter() in hugetlbfs".
-
-> 
->> Then you write:
->>
->> "This closes a gap where a page in a previously-poisoned hugetlb folio
->> could be observed to not have the hwpoison bit set."
->>
->> When does the race you describe become relevant? When freeing the hugetlb folio
->> or when demoting it? in both cases, we should be holding the hugetlb lock that
->> nasty hwpoison code could sync with (if it doesn't already do that).
-> 
-> Before this patch series, we don't always hold the hugetlb lock when
-> splitting a hugetlb folio that contains hwpoison.  And we don't want
-> to have to grab the hugetlb lock if we can avoid it -- unprivileged
-> userspace can hammer these paths hard, and I don't want to see this
-> lock be contended.
-
-Right. But doesn't at least the pagecache always hold a folio reference when
-testing for hwpoison?
-
-I mean, there is other code that might need care (PFN walkers like memory
-offlining), but I was surprised to see pagecache code require a rework of
-lockless hwpoison checking.
-
-I'm sure I am missing something.
-
-> 
->> I can understand that we want something that covers both scenarios: an
->> indication whether any large folio has any hwpoisoned page. Such a unification
->> would be good.
-> 
-> Right, and after this patch, we now have that.  Any unknowing part of
-> the kernel can test folio_has_hwpoisoned_page() (assuming it has a
-> refcount on the folio).
-> 
->> But then, special-casing hugetlb *again* through folio_test_huge_poison(),
->> that's rather odd, no?
-> 
-> Oh, I'm not happy about it.  But we need an atomic way to determine if
-> a page belongs to a hugetlb folio with hwpoison detected.  Short of a
-> complete rearchitecture of how we handle hwpoison, this is the best I've
-> come up with.
-
-(did I express how much I hate the hwpoison infrastructure and how it's racy
-left and right? :) )
-
-> 
->> (what on earth is "huge_poison" is this supposed to be "hugetlb_poison" ? Why
->> "poison" and not "hwpoison"? Really odd)
-> 
-> We're inconsistent in our naming on both of these things.  It doesn't
-> help that somebody decided to reuse the term "poison" to mean
-> "uninitialised struct page".
-
-Right, but let's be consistent with hugetlb and with hwpoison. ;)
-
-> 
->> I'd expect that we actually get rid of folio_test_hwpoison entirely and
->> exclusively work on per-page state and has_hwpoison. But IIUC, now it's some
->> mixture of folio checks, page checks, folio_has, mixed with some hugetlb oddity.
-> 
-> If we could get rid of HVO, we could do it entirely on struct page.
-
-That's what I hope we will achieve at some point.
-
-> Or, as above, entirely rearchitecture hwpoison handling to not be based
-> around pages or folios any more.
-> 
->> I am not quite clear whether the change you propose here is actually required
->> for the remainder of this series?
->>
->> 	[PATCH v9 00/15] Use generic_file_read_iter() in hugetlbfs
->>
->> IOW, do we really need all this hugetlb hwpoison handling just to accomplish
->> that, or could some of that (bigger hwpoison rework) be done separately?
-> 
-> Blame Sashiko!  I'm going to ignore it in future, but it's really good
-> at nerd-sniping "hey all of this is already broken and you could fix it
-> as part of this series".
-
-Right, and this is only the tip of the iceberg, because the entire hwpoison
-infrastructure is a complete hacked-on racy piece of ... engineering excellence.
-
-To summarize my question: is it possible to separate for this series the
-pagecache part (Use generic_file_read_iter() in hugetlbfs) from all the hugetlb
-hwpoison rework?
-
-OTOH, if it's really not avoidable, please let me know.
-
-> 
->>
->>> +/*
->>> + * Since we cannot split a hugetlb folio, we want to insert a poison
->>> + * entry into the page table for the whole folio even if only one page
->>> + * is poisoned.  Otherwise, we've split down to the PTE level and we only
->>> + * want to poison the precise page
->>> + */
->>> +static bool ttu_create_hwpoison(const struct folio *folio,
->>> +		const struct page *page, enum ttu_flags flags)
+On 8/13/26 18:33, Matthew Wilcox wrote:
+> On Thu, Aug 13, 2026 at 11:55:44AM +0100, Pedro Falcato wrote:
+>>> +static size_t adjust_range_hwpoison(const struct folio *folio, size_t offset,
+>>> +		size_t bytes)
 >>> +{
->>> +	if (!(flags & TTU_HWPOISON))
->>> +		return false;
->>
->> Why not keep the flag in the caller? Really looks weird given that we have two
->> users and one of them doesn't even need the check and must fake it.
+>>> +	const struct page *page = folio_page(folio, offset / PAGE_SIZE);
+>>> +	size_t safe_bytes;
+>> 						    offset >> PAGE_SHIFT would probably be more idiomatic
 > 
-> try_to_unmap_one() is already 200 lines and contains some tricky code flow.
-> I'm trying to at least make the problem not-worse.  I think we should
-> pull out even more code into helpers, but not in this patch series.
-
-Note that this code now was partly reworked such that this helper will soon no
-longer be required.
-
-[...]
-
->>> @@ -2423,7 +2436,6 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
->>>  	struct mmu_notifier_range range;
->>>  	enum ttu_flags flags = (enum ttu_flags)(long)arg;
->>>  	unsigned long pfn;
->>> -	unsigned long hsz = 0;
->>
->> While these size changes are reasonable, they make this patch harder to review
->> and are not even described in the patch desription.
+> $ git grep '/ PAGE_SIZE' mm fs |wc -l
+> 116
+> $ git grep '>> PAGE_SHIFT' mm fs |wc -l
+> 656
 > 
-> I suppose.  Do you want me to take them out?
+> it seems relatively common.  Personally I find / easier to understand
+> because I sometimes get confused between left and right shifts.  I
+> don't think I've ever been confused between multiply and divide ;-)
 
-Cleaner, yes.
+Linus once explained why ">> PAGE_SHIFT" is preferable when the type of the
+function might be signed, as the shift generates better code.
 
+I personally find "offset / PAGE_SIZE" more intuitive, but I also have sympathy
+for PHYS_PFN() to abstract the operation.
 
-Again, sorry for being so terribly slow.
+(SIZE_TO_PAGES would be a bit mouthful so I wouldn't ever dare suggesting to
+introduce a new helper)
 
 -- 
 Cheers,
