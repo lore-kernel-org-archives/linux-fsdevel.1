@@ -1,86 +1,308 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A45360EE4;
-	Fri, 18 Sep 2026 00:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0966A37B02A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 01:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789692792; cv=none; b=DMhC5YRPDyUTCNdjoginjFj8oaK3J4TzDPuGKcw6ZrrqH41TNp7I0uUwT3Xy1zWQfJv31KwIzivF3JyRfY12ZMEo+S5Zdq2LAoF163lYxy2is9h4B3AtfZLqTRcXB0xvVQ6Y933kqnSoW3oqhVETE1KI4acts6779MKjMkRLxcc=
+	t=1789693516; cv=none; b=ssg+/RvAp24wL41BhA0T4GGjnf05gCueRaDvGhs/qG6Ks2bjuMl1rxZQdDFSDGCSS42wb/GhAq7lE8fJdbDW/CiFTDuie61rl6ZhJGOO/zORFXejB5l3F4Yr/4nmBerQArdq0iQ5mvpmn3DjLJ+uUF2Kczdq5yEpqazA+8Y3oRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789692792; c=relaxed/simple;
-	bh=ZhN1vky93wRevgNcgWoe0i5jCckTDopm9ui/ofeo7Aw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EKHeqxXRFowh+zOoxVqnbevOwOUsYfcZrhfhX1LDQm0lDuG03A7A7uluDdJ2iG8eWOwPQhMWM3zTJAWthmTN+IWU5We9Tuj6eLmNAUqX1v/o5738+885zy2RMW1S4/qG5SByKjqA2z42+TR45xc0ez2/4ZLbvmAy8oyM1ZKMExM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V7/AKb/8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789693516; c=relaxed/simple;
+	bh=j2rehNhGzbbVg012X8emIbS0OZcDIEKmHWgB+ZLmCRQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XSv8cYlQ0fhIRfg+b4my5+ZnlSEK5qZxNJ/uu465pt/tN5/qIvYTHhUj2RBnNkjsgxJCypP6OeK51jSmRoKQNLTN7lAYjISDU1vR61HKtAkaRyEBadMvvZVnMCSe2ZJEZOo3K3CA57yoHoDQlD0uqzTK9tlcoGnK6oJPAWMBmI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bobrowski.net; spf=pass smtp.mailfrom=bobrowski.net; dkim=pass (2048-bit key) header.d=bobrowski.net header.i=@bobrowski.net header.b=YDkmzPjY; arc=none smtp.client-ip=74.125.231.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bobrowski.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bobrowski.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V7/AKb/8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A03311F00899;
-	Fri, 18 Sep 2026 00:53:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789692789;
-	bh=3P8470NtfppKxM6NzTXLW3NnoZTqQRukdD4i+mf0CHs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=V7/AKb/8EzDJPDeSXk6+5l0AL1mYIwAFfT56ZiXxXo+ejczeNhk5fZ98SLpl03mVs
-	 MT2JnDSNKqN/qJaPunkJyn6copOvBpGTrhTn20nXE2PVJSRa1rBnd8/HYivJdLChOr
-	 XooDYnKECy0emizFZ8DlCbcNxdFFI7vrg0B2xIFlgVLd1s/Rl1cvKI9e+nT+h4BuRT
-	 7Wyt0K3/hgZvtd85y+hGzXzFBCrgzhzFZzpQrqugRWa96qx6RQjSsPCF3Jgl/HxYpP
-	 xGSO/0OxBfraKUGsouTmJ2Gwc4OWzvizHvJpIeqHJqL3E0qD9ZfkGzD8vCUgjCrHsT
-	 hD8vNc5tbI0sw==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org
-Cc: Sasha Levin <sashal@kernel.org>,
-	=?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	John Johansen <john.johansen@canonical.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jann Horn <jannh@google.com>,
-	Kees Cook <keescook@chromium.org>,
-	Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 5.15.y 2/2] selftests/landlock: Add tests for whiteout object creation
-Date: Thu, 17 Sep 2026 20:52:42 -0400
-Message-ID: <2026-09-17-daily-reply-0015-landlock-whiteout-tests-hold@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <88432dfe86f2aaa9ae499587fd7acff9d34a338b.1789655723.git.mic@digikod.net>
-References: <88432dfe86f2aaa9ae499587fd7acff9d34a338b.1789655723.git.mic@digikod.net>
+	dkim=pass (2048-bit key) header.d=bobrowski.net header.i=@bobrowski.net header.b="YDkmzPjY"
+Received: by mail-oo2-f43.google.com with SMTP id 006d021491bc7-6b1ae6b2010so130601eaf.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 17 Sep 2026 18:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bobrowski.net; s=google; t=1789693506; x=1790298306; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=luKWt0kKmWjdQ8jTRpB2Q7txnP5JpBdLjM73GX2ZxbI=;
+        b=YDkmzPjYCBQL8f70e3DsLAYmJKZTsdk9HXOk/JelhYR8ZIxiP11s437PnfLqXn1X1Y
+         M4fi9v4ORtfyxA4pjgSkDL4ZJVgve8gceWTf0sgqiaojA8Bhp75vtyAemlP3PCt+v15d
+         P1Gg8W9eBAKXx7ZNXsyGHSSzttDW+9MKyXTXBpJPfhTWada2sc5mXhM7Cx67unYJC3nA
+         0FlgTC9xkIVvPYQ6K/tw6JXOVMZCx8WJLetEhunPIVvy/Evl48A+XWA+aDmnt8/ItX05
+         /hKl+4JYUuY0XJHYjH3XnqQ9cVvMvDr1zjGjq3OHtcgIu+eBIrEG9Ig6Ys5H0Fh7DuM7
+         2+Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789693506; x=1790298306;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=luKWt0kKmWjdQ8jTRpB2Q7txnP5JpBdLjM73GX2ZxbI=;
+        b=P++qSVnU5J2zKSANlm+yvIHFyEZMEOm4HgKxzGtvwGbXT1cIn5YFAnu9P74UuA1fZr
+         gvNtsjIRIMv/+3LXx6/4xzCAoAHIq3TQMJr7zkxHSIhbt2ZLXC92hvbIbRqbnsNdFy5p
+         oOqQju4JMcpI9SYFpvUeEE3s/lVC0rgGScVCSGWTDoJJxYeV21W32LQJXIfL1wDwBZMy
+         AdrRY4P3+frXAbPqviAv1FLsgO45TuVNurW2eRYc06VV7NcTp/lD6dKmPeCbRyLRWs2D
+         lOVLtqhGKvCJMDkMhpzVWffnRSA07ugGzSdXKLh+aexMvgtTy4qf6AZEqQonyfWC/37Z
+         DJvg==
+X-Forwarded-Encrypted: i=1; AKwUvBwbQHi9rGCpooyVoGJYeNSmT1O1JQ4E3+YKhPtUA0DyIvIU8I4h/Zo7XP9PyLwK86fqhA756B6ITiJLg/Zq@vger.kernel.org
+X-Gm-Message-State: AFuF++mgxs0ooI4GW380vBCkxioz2G7Q52TrC0Dz6+AP+mErDvCO96TN
+	tmj4B/u8aM5WeuFtJC+F4bjzhy/yx/APOoqJSiOUUL57zBFFMv6G5ItJQJ5cyCVX1/38
+X-Gm-Gg: AYBFou3A+NqIfcF/beHHvVXfei8tcOWEM6QzyvrdZMz6OCVQ84hYEFKFnOYi7/GcjE/
+	ApG/Jn/F2OSLvpRHvKSlw1lewYBObBEf+K2yTfHyFLO3kQUJ1xRIWs5USGErGqUlCc2gPPoMPUB
+	sPizXmjEHV1tv2OBZNj01IwVu+Sobx79QKNOWmh+9phMgdmQm+uWNqyrhBRmokNzN83cvXEsfBF
+	JWSoMDyiNEy3ocd6y58fNUgbQONc+Lrg8UGYr9CfF5PZG7BTf8LiHlLGNn16Pqa+dVkWfvMfPaj
+	p7Kkf0lryyDMAl3NdHPSigUGkjKWC2XqyFt25YYxE5nhxLgb7wgf6cMEK+7O6+/PxdXsBGQcD3N
+	Oyhq9HBd0rGEyssGpD0JiY6sCPi/7B62W1dwhzoOtgEdOrXhqlHhy6nP5ZHfIIBhqi/W3Kgt2Ew
+	OVly8+aAq5VQpdmXf7kev28awg4fPldT2CmU5DKsghJnI=
+X-Received: by 2002:a05:6820:2019:b0:6bd:5506:aae0 with SMTP id 006d021491bc7-6ca9a748585mr824155eaf.22.1789693505875;
+        Thu, 17 Sep 2026 18:05:05 -0700 (PDT)
+Received: from lima-development ([75.104.94.190])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4870b53dfdasm343751fac.11.2026.09.17.18.04.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 18:05:05 -0700 (PDT)
+Date: Thu, 17 Sep 2026 21:04:37 -0400
+From: Matt Bobrowski <matt@bobrowski.net>
+To: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+Cc: bpf@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, david@kernel.org,
+	akpm@linux-foundation.org, andrii@kernel.org, ast@kernel.org,
+	brauner@kernel.org, daniel@iogearbox.net, eddyz87@gmail.com,
+	kpsingh@kernel.org, ljs@kernel.org, memxor@gmail.com,
+	song@kernel.org, sun.jian.kdev@gmail.com, utilityemal77@gmail.com,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH bpf-next v7 3/5] bpf: Add user memory access kfuncs for
+ mm_struct
+Message-ID: <aqyOJVeiJrglQ7Up@lima-development>
+References: <20260915080255.48929-1-tasos.papagiannnis@gmail.com>
+ <20260915080255.48929-4-tasos.papagiannnis@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260915080255.48929-4-tasos.papagiannnis@gmail.com>
 
-> [ Upstream commit ee890889b30b22f9a21636061def7a04e4f89380 ]
->
-> Add tests to check that whiteout object creation is guarded by
-> LANDLOCK_ACCESS_FS_MAKE_REG, in the cases where these are created from
-> userspace:
+On Tue, Sep 15, 2026 at 11:02:53AM +0300, Anastasios Papagiannis wrote:
+> On CONFIG_MMU kernels, when security_bprm_check() runs, the argument and
+> environment strings for the exec have been copied into bprm->mm. The new
+> address space is not associated with a task_struct until exec_mmap(), so
+> existing BPF user memory helpers cannot access it.
+> 
+> Add bpf_copy_from_user_mm() and bpf_copy_from_user_mm_str() kfuncs. Both
+> take a struct mm_struct pointer directly, allowing callers to access
+> trusted address spaces that are not associated with a task_struct.
+> 
+> bpf_copy_from_user_mm() has similar semantics to
+> bpf_copy_from_user_task(). bpf_copy_from_user_mm_str() copies one
+> NUL-terminated string and returns its size including the NUL terminator.
+> It accepts BPF_F_PAD_ZEROS to clear unused destination bytes on success.
+> 
+> Refactor the task-based helpers and the new mm-based kfuncs to share
+> static internal implementations. The task-based interfaces validate their
+> arguments before acquiring and holding a reference to the task's mm for
+> the copy. No behavior change is intended for the existing task-based
+> interfaces.
+> 
+> Register both new kfuncs and mark them KF_SLEEPABLE because accessing a
+> remote address space can fault.
 
-I am holding these until the newer trees are covered. 7.2 and 6.18 already
-carry 672fa082d48b ("landlock: Require LANDLOCK_ACCESS_FS_MAKE_REG for whiteout
-creation") but not ee890889b30b ("selftests/landlock: Add tests for whiteout
-object creation"), and taking a fix on 6.12 and older while 6.18 lacks it is
-the wrong order.
+Thank you for employing my suggestions. I think this looks much better to me
+now. Feel free to add:
 
-7.2 can take the upstream commit as is, but 6.18 cannot: it has no enforce_fs()
-and dc75f8904694 ("selftests/landlock: Simplify ruleset creation and
-enforcement in fs_test") does not apply there.
+Reviewed-by: Matt Bobrowski <matt@bobrowski.net> 
 
-Could you send a 6.18.y version? The 6.12, 6.6, 6.1 and 5.15 patches themselves
-look good and I will take them once 6.18 is in hand.
-
--- 
-Thanks,
-Sasha
+> Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+> ---
+>  kernel/bpf/helpers.c | 130 +++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 118 insertions(+), 12 deletions(-)
+> 
+> diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+> index 051b6654e57c..f6b3eee6098a 100644
+> --- a/kernel/bpf/helpers.c
+> +++ b/kernel/bpf/helpers.c
+> @@ -679,9 +679,44 @@ const struct bpf_func_proto bpf_copy_from_user_proto = {
+>  	.arg3_type	= ARG_ANYTHING,
+>  };
+>  
+> +static int __bpf_copy_from_user_mm(void *dst, u32 size,
+> +				   const void __user *user_ptr,
+> +				   struct mm_struct *mm)
+> +{
+> +	int ret;
+> +
+> +	ret = access_remote_vm(mm, (unsigned long)user_ptr, dst, size, 0);
+> +	if (ret == size)
+> +		return 0;
+> +
+> +	memset(dst, 0, size);
+> +	/* Return -EFAULT for partial read */
+> +	return ret < 0 ? ret : -EFAULT;
+> +}
+> +
+> +static int __bpf_copy_from_user_mm_str(void *dst, u32 size,
+> +				       const void __user *user_ptr,
+> +				       struct mm_struct *mm, u64 flags)
+> +{
+> +	int ret;
+> +
+> +	ret = copy_remote_mm_str(mm, (unsigned long)user_ptr, dst, size, 0);
+> +	if (ret < 0) {
+> +		if (flags & BPF_F_PAD_ZEROS)
+> +			memset(dst, 0, size);
+> +		return ret;
+> +	}
+> +
+> +	if (flags & BPF_F_PAD_ZEROS)
+> +		memset(dst + ret, 0, size - ret);
+> +
+> +	return ret + 1;
+> +}
+> +
+>  BPF_CALL_5(bpf_copy_from_user_task, void *, dst, u32, size,
+>  	   const void __user *, user_ptr, struct task_struct *, tsk, u64, flags)
+>  {
+> +	struct mm_struct *mm;
+>  	int ret;
+>  
+>  	/* flags is not used yet */
+> @@ -691,13 +726,16 @@ BPF_CALL_5(bpf_copy_from_user_task, void *, dst, u32, size,
+>  	if (unlikely(!size))
+>  		return 0;
+>  
+> -	ret = access_process_vm(tsk, (unsigned long)user_ptr, dst, size, 0);
+> -	if (ret == size)
+> -		return 0;
+> +	mm = get_task_mm(tsk);
+> +	if (!mm) {
+> +		memset(dst, 0, size);
+> +		return -EFAULT;
+> +	}
+>  
+> -	memset(dst, 0, size);
+> -	/* Return -EFAULT for partial read */
+> -	return ret < 0 ? ret : -EFAULT;
+> +	ret = __bpf_copy_from_user_mm(dst, size, user_ptr, mm);
+> +	mmput(mm);
+> +
+> +	return ret;
+>  }
+>  
+>  const struct bpf_func_proto bpf_copy_from_user_task_proto = {
+> @@ -3659,6 +3697,68 @@ __bpf_kfunc int bpf_copy_from_user_str(void *dst, u32 dst__sz, const void __user
+>  	return ret + 1;
+>  }
+>  
+> +/**
+> + * bpf_copy_from_user_mm() - Copy data from an address space
+> + * @dst:             Destination address, in kernel space
+> + * @dst__sz:         Number of bytes to copy
+> + * @unsafe_ptr__ign: Source address in the address space
+> + * @mm:              Address space to copy from
+> + * @flags:           Reserved for future use; must be zero
+> + *
+> + * Copies data from the user address space associated with @mm. The destination
+> + * is zeroed if an attempted copy cannot be completed in full. Unsupported
+> + * flags return -EINVAL without modifying @dst.
+> + *
+> + * Return: 0 on success, -EINVAL if @flags is non-zero, or -EFAULT if the copy
+> + * fails or is partial.
+> + */
+> +__bpf_kfunc int bpf_copy_from_user_mm(void *dst, u32 dst__sz,
+> +				      const void __user *unsafe_ptr__ign,
+> +				      struct mm_struct *mm, u64 flags)
+> +{
+> +	if (unlikely(flags))
+> +		return -EINVAL;
+> +
+> +	if (unlikely(!dst__sz))
+> +		return 0;
+> +
+> +	return __bpf_copy_from_user_mm(dst, dst__sz, unsafe_ptr__ign, mm);
+> +}
+> +
+> +/**
+> + * bpf_copy_from_user_mm_str() - Copy a string from an address space
+> + * @dst:             Destination address, in kernel space. This buffer must be
+> + *                   at least @dst__sz bytes long
+> + * @dst__sz:         Maximum number of bytes to copy, including the trailing NUL
+> + * @unsafe_ptr__ign: Source address in the address space
+> + * @mm:              Address space to copy from
+> + * @flags:           The only supported flag is BPF_F_PAD_ZEROS
+> + *
+> + * Copies a NUL-terminated string from the user address space associated with
+> + * @mm. If the string is too long, @dst is still NUL-terminated unless @dst__sz
+> + * is zero.
+> + *
+> + * If the flags are valid and BPF_F_PAD_ZEROS is set, the unused portion of
+> + * @dst is cleared on success and all of @dst is cleared on a copy failure.
+> + * Unsupported flags return -EINVAL without modifying @dst.
+> + *
+> + * Return: The number of copied bytes including the NUL terminator on success,
+> + * or a negative error code on failure.
+> + */
+> +__bpf_kfunc int bpf_copy_from_user_mm_str(void *dst, u32 dst__sz,
+> +					  const void __user *unsafe_ptr__ign,
+> +					  struct mm_struct *mm, u64 flags)
+> +{
+> +	if (unlikely(flags & ~BPF_F_PAD_ZEROS))
+> +		return -EINVAL;
+> +
+> +	if (unlikely(dst__sz == 0))
+> +		return 0;
+> +
+> +	return __bpf_copy_from_user_mm_str(dst, dst__sz, unsafe_ptr__ign,
+> +					   mm, flags);
+> +}
+> +
+>  /**
+>   * bpf_copy_from_user_task_str() - Copy a string from an task's address space
+>   * @dst:             Destination address, in kernel space.  This buffer must be
+> @@ -3682,6 +3782,7 @@ __bpf_kfunc int bpf_copy_from_user_task_str(void *dst, u32 dst__sz,
+>  					    const void __user *unsafe_ptr__ign,
+>  					    struct task_struct *tsk, u64 flags)
+>  {
+> +	struct mm_struct *mm;
+>  	int ret;
+>  
+>  	if (unlikely(flags & ~BPF_F_PAD_ZEROS))
+> @@ -3690,17 +3791,20 @@ __bpf_kfunc int bpf_copy_from_user_task_str(void *dst, u32 dst__sz,
+>  	if (unlikely(dst__sz == 0))
+>  		return 0;
+>  
+> -	ret = copy_remote_vm_str(tsk, (unsigned long)unsafe_ptr__ign, dst, dst__sz, 0);
+> -	if (ret < 0) {
+> +	mm = get_task_mm(tsk);
+> +	if (!mm) {
+>  		if (flags & BPF_F_PAD_ZEROS)
+>  			memset(dst, 0, dst__sz);
+> -		return ret;
+> +		else
+> +			*(char *)dst = '\0';
+> +		return -EFAULT;
+>  	}
+>  
+> -	if (flags & BPF_F_PAD_ZEROS)
+> -		memset(dst + ret, 0, dst__sz - ret);
+> +	ret = __bpf_copy_from_user_mm_str(dst, dst__sz, unsafe_ptr__ign,
+> +					  mm, flags);
+> +	mmput(mm);
+>  
+> -	return ret + 1;
+> +	return ret;
+>  }
+>  
+>  /* Keep unsigned long in prototype so that kfunc is usable when emitted to
+> @@ -4925,6 +5029,8 @@ BTF_ID_FLAGS(func, bpf_iter_bits_new, KF_ITER_NEW)
+>  BTF_ID_FLAGS(func, bpf_iter_bits_next, KF_ITER_NEXT | KF_RET_NULL)
+>  BTF_ID_FLAGS(func, bpf_iter_bits_destroy, KF_ITER_DESTROY)
+>  BTF_ID_FLAGS(func, bpf_copy_from_user_str, KF_SLEEPABLE)
+> +BTF_ID_FLAGS(func, bpf_copy_from_user_mm, KF_SLEEPABLE)
+> +BTF_ID_FLAGS(func, bpf_copy_from_user_mm_str, KF_SLEEPABLE)
+>  BTF_ID_FLAGS(func, bpf_copy_from_user_task_str, KF_SLEEPABLE)
+>  BTF_ID_FLAGS(func, bpf_get_kmem_cache)
+>  BTF_ID_FLAGS(func, bpf_iter_kmem_cache_new, KF_ITER_NEW | KF_SLEEPABLE)
+> -- 
+> 2.55.0
+> 
