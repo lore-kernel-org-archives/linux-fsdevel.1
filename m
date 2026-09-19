@@ -1,71 +1,71 @@
 Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C55B37F011
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 18:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C40A3859CB
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 18:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789841404; cv=none; b=BsIZWLvIf4ak/beY1aKROKIf9GRhZ0WqsqasR/EdWQpV/wwGezRjAVc8QRUCJA9QYQjrpnR8VphbuvhyEfMkrnuNjHLcf9XYkTbXkJn07Gvh8uKDy1RkpolqoYQTHB1lY+jhHu9AGlI6bi/MDHARwO89UiYvPuaA72CuKoG5bEc=
+	t=1789841404; cv=none; b=dtnG+BJx4JrpSAVn7yA6T/i7GdPz6/zfVlAVf8QkrAEsFuXynAj/ur9zTe634xZa4UWecfUqHWP0NGpl/N7f8eTruXr8X6+tq8JN+ksDZCkxO5oF5nauas8KvhfS3Afjl8FUFIbOXw7Ky+5nhli5BX1MsJDZ2L0Gg13DHXGaKX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789841404; c=relaxed/simple;
-	bh=9fga065swnGZFhkxLqcDw2eL9TSjYMuP6kGkdbXxN1E=;
+	bh=b1Eqor/XA/1dclmoeTJ6useLZPuzRaNCBOEbwaWnw8g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hYDWZQX8kfdq+5Q7CxzjYL+E/gblgVQIhkzqZWKSWtzXUh+Fe8WIbHBUnDTkQ2oaOOYWvGIc31cWtG0Ef/Q3cKOnCF3QGI3PnsOpTB5iz8FVFKSAJ2djorh5Q2SQCYl7X7a99H71P1SEjJgmoJ+UFWtpzAoeOSsGSyjgprXIdkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FVJUp/G2; arc=none smtp.client-ip=74.125.228.43
+	 MIME-Version; b=qnEFHezivYH3GeyEtU2+4hwCfk+bzzOVJbUMOUIoIURDdykQ4mdehEqRD0vTQdD6Vuy+Akg1MAK0x9qxbXgy3lcr7n33lS98s6ES3RmcZgpG5oxLQpYR9iqjn7aE3eJcKwFxKaPo8KY3s4b5kqyJhBPX24wkPBXdm+X4tNOujw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oeAMenRZ; arc=none smtp.client-ip=74.125.228.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FVJUp/G2"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469a34907so1983082b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 11:10:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oeAMenRZ"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-8692a856865so1692687b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 11:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1789841402; x=1790446202; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=QEqihKQUEKRrqjsohNMETPXFyalbXU71edcLsvmgqxw=;
-        b=FVJUp/G2g3dEpsJDInplThwjBYeDIuVHEWkIG5HG6SkvxQRGsZSrG+u6rvU9x51uBp
-         ljp9o+RePArVBYqymg4vpldo8YvCRoE8mykk6N+wt1dspSowD6ONLIIG5IaxlO6tW+++
-         Uwd543kHq1pWgTx4K9hwRX8mz58B5WhIdTd8ju8TV04/nQLDrC3lYynrXg8C9aQ5QhA4
-         90opTG8EBZtxAygnqGGPJglYlk0MFWPG774/LHGBUjLik/kMKBcg0afNJQIVZfB0N/S7
-         /UVcDyW2ql+j1JvpIV+kuck1iUpnTp/1dKM2qqtQx3qfHmrVPwYxGLvH+F2V5FFowTaY
-         sjaw==
+        bh=giTwKDIwEU84jfLK5hnKcSoBAczq+bG+LFpvE2zAxq8=;
+        b=oeAMenRZ7xVPh0avtvjRAr6BQ/MJNMqmvqxnPX0jSvo2PrjdwrTNFtOeUwit0Pr3dz
+         HrCWojO7Foe6IWJjlAWx5Otnk0LqYX+sdFovVhWLbQu2JD3/lcr+5UHKOpikHsW6r7Bo
+         1Tb5sSa7dTcraUeA4Dx1U//V7A0bQUZdA/VuM7I6toFUNj5xPrbq+fPJIJSTAwE51sfH
+         uGtDVqs8Tv3wZ20WBmM8qaLpSgE0fcAou71VJDqIBZ5dCN5UMhAtv8VVxjWuqV3alw9L
+         MEqueXMhjG+c8RHCvrXNEYxNo8JU/Q1MGxQqgbjW1/P1pWcSFDyPfEa5E5q8p69sZQiW
+         CHtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1789841402; x=1790446202;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QEqihKQUEKRrqjsohNMETPXFyalbXU71edcLsvmgqxw=;
-        b=B3lvf7njfajwCKiaGJJl/i6giMkOAI4yckcQS7Z9QZ6RMrFPJt0ncQqfdW33NUePzJ
-         XMYr0fB1ZRl7cvDYBO0F9h8i+JQblozZ5RlX1D5kdjgSykJrbYtK1WLlRh3bQXwkCqzo
-         EdFqvhwqwGdw3ZDwEGg1okX2Gpzl2H1lZqb0axhS86wjMryf0mkQxfhFQDAe28R4baoh
-         3OXUer6tThV48uB547Pg3mMzhCYQVlnJZPYUVqwmEXUJ0XnCkddifUSQ1a3eK7PHb8mc
-         19/Rw+QKBfwnH/Kwsj+/EZvk8E8hAMrwFxv4DMHKZ10bcXJoAmUPC/tjRdMYTvjgMgaW
-         EwPQ==
-X-Gm-Message-State: AFuF++m16nJJsVMo1slKbtlEzFKGOLhRk6c5pw9l1Km3BWKavACRb9f9
-	62L4O3lcj7/FquuvOfsebTvmTh/9lr8gDElNX6sV9GLXP/LFXMggbl7b1QM5/lEc
-X-Gm-Gg: AYBFou3b+FWpJEcAqiYClDPprhWWQWOFIZ49sWMt2aZTJNKMSus3JAo2Xeem+m6wy9F
-	AU62xMv/ZyeDmyuXz5zeA3deLVOl82zxknwzc/EKCjm1oIhMwXRAR/aAZUAstu3AnyJdXek3swd
-	6e7aOWTKRA+N05/IDxqi/jG4WP0IwrwOp3ZEMsTwKKsHBwtIz0cxsbEdcVvoN+kAuMmuimIB9Aa
-	Nc5F6TI/qUcFmg+W+UHe90morClV7nzkUg/L0qFR6Qlx4GIwWyDN3P0m2lPEt01CWxxoXV4EuYE
-	rPxbGZnpxw1kEErOeVyW3m3/K5WxvIVDc0jnWGts0ZyZ53mUgfMnr48AwGSKpmfIJiz+FISOhka
-	53PDENV1dVVQjXnkqrDkfeW4saC3nTsfcaedXQOmsQxrqidK1O1THnTaPodUgLvo+ZGIrgliWV3
-	JIbMG8Tyt5FIaatIn4V5ANboyI4lnw24ozwllbhmNTLvHCFPjnnHbQKTHhN4zhzRcwl/kxvr5r+
-	RPTOGEX6UY/sm3U2sgYMR70JzfKsFCo9h62luA0tgWvUoZFEBDjNWFKHwK9gV72xSRogwGZ+2qK
-	1PtVgSd8WhF3N2P7HNkb
-X-Received: by 2002:a05:6a00:2e20:b0:857:7337:5db8 with SMTP id d2e1a72fcca58-874dd9f1d6cmr9505601b3a.22.1789841401814;
-        Sat, 19 Sep 2026 11:10:01 -0700 (PDT)
+        bh=giTwKDIwEU84jfLK5hnKcSoBAczq+bG+LFpvE2zAxq8=;
+        b=xgDzd2qsu+D4O0GoO47D//wAt/xzQLtKtfaA2lFrt6b2O1tYU/myBaestQfOc0iPDd
+         YlaJ5Pt9hjWoKzyg5Tdc8LZDHkg0Tf1Fu/uXbN7ayr5/EC7ht2aNJ2bjHrz7PKxuxi6/
+         2nvDgJySVOwjkCzfZHPK+rVKxgw6Sze8+yMWhYrFK1+sTgzds1JGaRVz7Dy/DkZS6tcW
+         vMXEkYWBjvX9hF8IRokw1M25ZrZ4/ziXhmZpbUDc8fFyrW9wLB5bVd+o0Yk9ZKo2Bkuv
+         VJkox7AAXgl5lN+h/srwzPAkkeGwneKsQwwd1xC+qEJWMeTiOL36pkeBO7ay0MTWLcj0
+         OPuw==
+X-Gm-Message-State: AFuF++kOtQiHHd65YX7a4ONgUsGBSgVJliPEcPm8xX9kQMGCsOHJatPq
+	ZWtwu6qM2OjeR2rjdlzqrm+PstzDmuLNtGeJvKmELJ9p6eqbv8TVXCkuutFMym9A
+X-Gm-Gg: AYBFou2Yfg2x0ErG0BppsUI0uqrkTpJVbMCRZtBV+0pliQk5Nxa7k+otjEL50T/xs0f
+	q+TbBf5UnkbKWpsv/qOUDLa/QfJazmN8xc6kBK097DWkK93uKPI0+QU3lBmBq9EFlUvoZXgS95T
+	fmCRLlRRFzQK4bfLMX0Xrd32s+kfNb0xkAvYzAlHkaboOW9wqg0//viGkC/Mtppo9c0cFoBx/T+
+	nZZ9ocT6vxxKYPh/2ZfXPAUUChfdU30vsRIN5WJiUhriKs38THtYIJiESBgtG3g20FMqToN5Voa
+	laxLjZcrIlD1+o45Nf8oBw+vi3m9q96pPwcp9uzpMI7YPLfx4dSJFOa0Ru1erK33kBsMT3PCcFo
+	OcKp20xCZZX8OLYzkDxxPEgjC97eUIojEa7qNTEx8ttZ1uQjDMR3A0a+MNwpKBp8k8v2kY6ljFd
+	EZ+tDo2qbjeDuJuGssjIXwZeNREDn7OqekvV5ZeTMWC2RWKc47YZ1SJHAh/W0AtZ67KRXufsdqE
+	rEEJeyLa6VVx586tor8RYAHC63p1matsK2iEx/magVHTmJQI7/dUngYg7k6EET3w32T9M2VeCJW
+	mRWP6cdYJA==
+X-Received: by 2002:a05:6a00:1d99:b0:873:5267:dfd0 with SMTP id d2e1a72fcca58-874dbee3a93mr8677777b3a.5.1789841402439;
+        Sat, 19 Sep 2026 11:10:02 -0700 (PDT)
 Received: from phui-2.c.googlers.com.com (67.51.127.34.bc.googleusercontent.com. [34.127.51.67])
         by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-877a94f8c39sm1190168b3a.28.2026.09.19.11.10.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 11:10:01 -0700 (PDT)
+        Sat, 19 Sep 2026 11:10:02 -0700 (PDT)
 From: Hui Peng <benquike@gmail.com>
 To: David Sterba <dsterba@suse.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] affs: check affs_bread() return value in affs_truncate()
-Date: Sat, 19 Sep 2026 18:09:56 +0000
-Message-ID: <20260919180958.1362943-3-benquike@gmail.com>
+Subject: [PATCH 3/3] affs: validate the allocation goal in affs_alloc_block()
+Date: Sat, 19 Sep 2026 18:09:57 +0000
+Message-ID: <20260919180958.1362943-4-benquike@gmail.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 In-Reply-To: <20260919180958.1362943-1-benquike@gmail.com>
 References: <20260919180958.1362943-1-benquike@gmail.com>
@@ -77,55 +77,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The extension block walk at the end of affs_truncate() does not check
-the result of affs_bread():
+affs_alloc_block() applies the same too-permissive range test that
+affs_free_block() did, and then performs the same arithmetic:
 
-	while (ext_key) {
-		ext_bh = affs_bread(sb, ext_key);
-		size = AFFS_SB(sb)->s_hashsize;
+	if (!goal || goal > sbi->s_partition_size) {
 		...
-			affs_free_block(sb, be32_to_cpu(AFFS_BLOCK(sb, ext_bh, i)));
-		affs_free_block(sb, ext_key);
-		ext_key = be32_to_cpu(AFFS_TAIL(sb, ext_bh)->extension);
+		goal = sbi->s_reserved;
+	}
 
-ext_key comes from the on-disk extension chain, and affs_bread() returns
-NULL for any block outside [s_reserved, s_partition_size) as well as on
-a read error. AFFS_BLOCK() and AFFS_TAIL() then dereference it, so a
-crafted image with an out-of-range extension pointer gives a NULL
-pointer dereference while truncating.
+	blk = goal - sbi->s_reserved;
+	bmap = blk / sbi->s_bmap_bits;
+	bm = &sbi->s_bitmap[bmap];
 
-Every other affs_bread() caller in fs/affs/amigaffs.c already checks for
-NULL; this loop is the outlier. Bail out of the walk on failure.
+	if (bm->bm_free)
 
-Breaking out rather than returning keeps the affs_free_prealloc() call
-at the end of the function. The remaining extension blocks are leaked in
-the on-disk bitmap, which is the correct trade-off against dereferencing
-NULL - the image is already corrupt at that point, and the error is
-reported.
+A goal strictly between 0 and s_reserved passes the test, underflows the
+subtraction and indexes sbi->s_bitmap far out of bounds, and a goal equal
+to s_partition_size overruns it by one entry.
+
+Unlike the free path this is not driven directly by on-disk data - goal
+is derived from inode state (i_lastalloc, the last allocated block, or
+0) - and I have no reproducer for it. It is the same defect in the
+sibling function though, so fix it the same way, with the helper that
+already defines the valid block range.
+
+Keep the `if (goal)` guard around the warning so that a first allocation
+with goal == 0, which is the normal case, stays silent.
 
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Assisted-by: LLM
 Signed-off-by: Hui Peng <benquike@gmail.com>
 ---
-affs_validblock() was factored out of affs_bread() by commit d5de9fd594eb
-("fs/affs: add validation block function") in v4.11, but the predicate it
-replaced was inline in affs_bread() since the start of git history, so
-the NULL return has always been possible here.
+Behaviour change worth noting: goal == 0 previously took this branch via
+the `!goal` test and now takes it via affs_validblock() returning false
+(0 < s_reserved for any mountable image, since the root block alone puts
+s_reserved at 2). The outcome, goal = sbi->s_reserved, is identical.
 
-diff --git a/fs/affs/file.c b/fs/affs/file.c
---- a/fs/affs/file.c
-+++ b/fs/affs/file.c
-@@ -971,6 +971,11 @@
+No reproducer for this one - please treat it as hardening rather than a
+security fix, and drop the Fixes: tag if you would rather it did not go
+to stable on its own.
+
+diff --git a/fs/affs/bitmap.c b/fs/affs/bitmap.c
+--- a/fs/affs/bitmap.c
++++ b/fs/affs/bitmap.c
+@@ -133,7 +133,7 @@
+ 		return ++AFFS_I(inode)->i_lastalloc;
+ 	}
  
- 	while (ext_key) {
- 		ext_bh = affs_bread(sb, ext_key);
-+		if (!ext_bh) {
-+			affs_error(sb, "truncate",
-+				   "Cannot read extension block %u", ext_key);
-+			break;
-+		}
- 		size = AFFS_SB(sb)->s_hashsize;
- 		if (size > blkcnt - blk)
- 			size = blkcnt - blk;
+-	if (!goal || goal > sbi->s_partition_size) {
++	if (!affs_validblock(sb, goal)) {
+ 		if (goal)
+ 			affs_warning(sb, "affs_balloc", "invalid goal %d", goal);
+ 		//if (!AFFS_I(inode)->i_last_block)
 -- 
 2.43.0
