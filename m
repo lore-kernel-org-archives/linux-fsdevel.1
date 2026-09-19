@@ -1,71 +1,71 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB9E2DCBFA
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F133338DC50
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789856756; cv=none; b=LdxvJksJfxThVDWzIbRzsqZQ4xOJ0BGoe+rzGd+g6ZLUbjPnZnDI+o9Px8Lpv8JqXmtPMNsIkRZ6ZDJ0/cYv6Cjf+3Z+MGxLdg+j/mLPga955McRXXI5Qfa5UOiCa4PpxMoHo1CthQQAQ9Ox4VIcgW4Wi2zL5xCj4Ojn8JIzED4=
+	t=1789856758; cv=none; b=KRvsjUQi9LyuCWfpFxNf1dV0UoroSFhyjesICXxRuhpAghV0N0qgcrDj4ZKZH8kYvFeg03dbzoFT1aXlNTrnzuZdBF4JOug988/FAjQmmFri+JEJXdAInovLfx1AN2722eK/5uiATb1hyPTrdsQk4zkVjKN7e3gLLPVUeHCHZFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789856756; c=relaxed/simple;
-	bh=faL+bR5mJnSWT26nhaPYUm2+3mYzOwFTDhie3L0DR5k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EaRaek8LpvgWlHnBACWDnspJhxqadjJPfVUjzxsNtpE8h44przPS9dYte1H5ecbuNILDnHT8EEdL8rWocUZ5C0P6fJXSWJClEBpaG75cfgvGDI4GuDjLRNABCHhGSXqvv87Nfns2qbOJDMwBZWlK1ojjIHfjME637d6IQ5LayRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pCXXmqLN; arc=none smtp.client-ip=74.125.227.171
+	s=arc-20240116; t=1789856758; c=relaxed/simple;
+	bh=3uk51tS1mYUgZHNG/UdKJaqCGmFIXOIh/0REyH694DE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SLq0smBw7PnT9IJPZ2qutpXV9SxkTuqCihjlCv8aSmoi3iZVc2yg5vEk9ToAbSH/qHOfCVWvp1LP3ZMEOtRp/HhI+ujIyHR1gmX12sWumSq9jKa71//KQVuovQdlEgYBGUZhYYe4jpQoyFSWIQBCTCJnwL5RZwIbrwAcUYfRjBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fAEGlIOD; arc=none smtp.client-ip=74.125.228.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pCXXmqLN"
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-39dacf053eeso1357233a91.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:25:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAEGlIOD"
+Received: by mail-pz2-f41.google.com with SMTP id d2e1a72fcca58-8692a856865so1784985b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789856755; x=1790461555; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789856756; x=1790461556; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UCU2eYD+vuETO4K8lnp/r7HglPCO3ep+/mQxmmKXzzg=;
-        b=pCXXmqLNU1Y4AqX3xn8fjGN0L9QsCYRAODVJn/VbuOFTTiJPV0Usdoc2/7uolEylwK
-         Zql0cQK3uMp19FfzvdmXi5v1Pe0+b+JFk6YzYbAuhKCojTLwzpSRcyFUdNgSy32f9txl
-         vh1RpcAUlu5UyKp6gjxes9X01+qN5Bv9DwSe29nneHJ+WJDVMgIEeQbB/1Hvw34HY9TM
-         kH9uYTU6U2LulzHsbWy9YWBMlpQhJxWmCxZepZrwrWAWIXMsntS4npYZGifJc2j5Lqru
-         RQXnWBXegFcCCPK3QI2MHxAAqE0z+Mw8Sez8EumPfA3EBteLGzyQO3MB9Njc6CG7L6Jh
-         fDww==
+        bh=KOoxuMhgY6m8DdTXUHscRdC+zhj/Vf9kYVS3vMLfy/w=;
+        b=fAEGlIODIBTu1WF0ZFe50otQcDoMDsZi0gnl5b9Yi+vpk+MGzbkYMzsaOezuZZQ7jt
+         vDMAIbaHARjmDs0CXXqoOdL1EVIPUMZKaaYaz/4v+uxdhnlab+vdUrwNCUxtcFrZPLq8
+         O+tDBNb3JcCbKPPs+a8SL/e4gmwfZUQKcFe+qqsmiQxsJOrODSbOpelnliGhN3TgCAF6
+         BXm1m+671g50YemFwz2xOWe/H8Hgw1nRI17DVa4TOhHLXCOtEXVr7u98iC15O3SZfE0K
+         ZfbTmWSTpwowmny/ZLJHxOOO22CcB3ysNKLuyDGKyfLXQ6e11DLo8s2Gj5BDN+99CY4k
+         AogQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789856755; x=1790461555;
+        d=1e100.net; s=20260707; t=1789856756; x=1790461556;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=UCU2eYD+vuETO4K8lnp/r7HglPCO3ep+/mQxmmKXzzg=;
-        b=OOGYmntl3xk8AvzZ454ox44BYLefQ5cF8Cisxt4a8jIUsQ5Sz1TdNxOS9KM18mCuTo
-         IUXSMqaUIfDRUJUf4TbuO6rCR2XMKQM59aaKCBNR6kr1dugAYw8zS6boCWwimVSWlyuE
-         6U4Op9WoKjUey8f/bFO9tKAnK2ivgNTrwtHA++zXwyRIW3vhjpsvvfy57UC5er0L7Nhg
-         N8MX08rl7jo/fPEhoF2UOIDKnbVP340X3W5ndh49qUT+mqVTadlQKwjYsKPRIvE9sPDm
-         FYGMZeZhvvffosK2oLZGfaBpUDwfDSj5EEMKj6jnQvVZ7AAvqLGmF/gRHObkfJ784fOp
-         fbaQ==
-X-Gm-Message-State: AFuF++mhaG9u9MlaFSlGxO4hcBM3Gac/m9nQZdmKiofZx8V6/4hNAoJf
-	ZiQKqx7fht2b2r+GFc3ahjwpQB1TgCDxgKiZVvY5vcRB5zMP3NBfz2tu
-X-Gm-Gg: AYBFou0hzwNuN2R8NOJ9tf/qxWUjGhj8XBjY81vzxO4LkHGQbsGB/MKy6rU+GWLGmFq
-	d6wPinAkCRfgWIP8lOWeGYB8NeHT63/oZPkECYSP8QZCa7ux/Ea2Or1RbkaagvZUyXv+VZawTrh
-	CK+amcAyKUoCGI+Bn+IO5/cER1SyerMLc8fOELEz/uDzWwFj8o/+SJg+D3y5X7QX8Ju3Yez8c64
-	Cea9+uC9iMqneo8Ml3eogtJirpfvBqZlrfyMZXymNo1H3U3V7n70lPSlnSMy7qCqz4orrxgDIhl
-	xvC9BiptRQ+k5yR3rn9GollK4rWhTMsPI2zo+UcOEBsjuhenFh7UqyrlHm8PpsuCbsOAFZRVpMh
-	sMBZ+7urA7HtplgGNNOssJGTtSCs3QZhqMQDJs9X8Ktlvc0AwL4wxKWs7vVzJEmDQeojCATh1bF
-	UZfmAt/obmUnVqvuxae4dreAvgOwHvSzpkgtNJlinaSlyz1EEc2sAsCkROzi5oLPfP6fn5sDuwC
-	FjHQPvsVv7YHoW1LeYgCt2En9k9grUTY7q7KRlav3Gf/abmUEiT3hy+jNerRdNl9/5iy8HAgWuC
-	6DeFMCiYOQ==
-X-Received: by 2002:a17:90b:3e85:b0:39d:fe64:5725 with SMTP id 98e67ed59e1d1-39e54d37ademr11329220a91.5.1789856754923;
-        Sat, 19 Sep 2026 15:25:54 -0700 (PDT)
+        bh=KOoxuMhgY6m8DdTXUHscRdC+zhj/Vf9kYVS3vMLfy/w=;
+        b=IAOAFNWlMA493HRbIWzImbjHAY4ZnpO90Ente3qJbxfLOLzzSdoeYhO4v/YCNb5+0r
+         lq1XC+2euhdWP86PwUQ6nzZbqqQPmghrfWQ6ytdvFBugvf3rw+/GVR4L0OhjTGazQY1r
+         mxT+i6N4eLReuSmlC7ZwaeKN3C03sBBvFZv7cqXHvXwUeKgqPYnoBTbZUGgfUdIG+HGd
+         gaFUBYBKOZxPrC3s/pw/lwDUqMsvfONg9+P1ik9NVp4b9LcFPByFjAo3dg4PBiTn0OMU
+         eznaxm7lGDGpegAyiKkBiEsQdW14qLTGQ+snoGOiYPl4JOrvF3xT3RtNJjPK2kNjWtyr
+         kfaA==
+X-Gm-Message-State: AFuF++mZe11hjrjbarPKtNgOjv9IqsTGHphXqdGF15UFugVwQYUiS6qM
+	Tz34CFTAKuoLuOT78kOqKKOAM1t83d8+cZhiKyhwVctiXyHSeq8NFqRO
+X-Gm-Gg: AYBFou1BFd2kPnJLBUbTOVzEFeEu14pApjaFfHJzpceReZhZt6yweRtrnLyoQRNsFQI
+	Nq3P3SJkYTl9MU7ccG4yfj+Xu2mV08zLf5BSx5hi/7wrNm9Ghbk3nH7GewtQcjTkspP1eh8Fpe+
+	ku5jA7cusxZL0BPBimFb0FCwKK7zbg0TGuCUQxRrdGI7oY4aFLbmUHEbisxl5vdPYFXmzmqwrfI
+	jR5wgql8tRHGzsjHceuulbRzLb8lfse7magXODkq/4laRROItiioGy8dSA1Ir1ff8Z8tIvweLsW
+	rTZpVcOilD2F5YJ4pw/+1o6IoHVncMzcUP7fgsh1xUHNXwD3OrwkpF1QI3XCnaVEmqjAkVkQ234
+	Gfhe1HK99rYgediDLo4+Wc1hygzOq/pV11gn9c0MClDTLFvNCg+8F+3H6B39+AtAPcFj1E6XXzX
+	V7jjOFKG7EZl8nOxwo7JMvbjX1UEygf9YF0zhG2JRsbI9dfOsdOUgOPw8KadA2+v7JKSNrh3o0R
+	zBb/uxabV8acjgQsPjG10a2pR+inRCzpfmxkb+uDbwKxt9R48zqz19fG5KWdsoiI087kmK6yvpR
+	io7eS5m7uw==
+X-Received: by 2002:a05:6300:2208:b0:3dd:a197:cf1d with SMTP id adf61e73a8af0-3dda197d752mr4625102637.65.1789856756331;
+        Sat, 19 Sep 2026 15:25:56 -0700 (PDT)
 Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6cb372b7sm6363277a91.15.2026.09.19.15.25.54
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc72aefc0a6sm1360118a12.28.2026.09.19.15.25.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 15:25:54 -0700 (PDT)
+        Sat, 19 Sep 2026 15:25:55 -0700 (PDT)
 From: Hui Peng <benquike@gmail.com>
-To: jack@suse.cz,
-	brauner@kernel.org,
-	viro@zeniv.linux.org.uk
+To: luisbg@kernel.org,
+	salah.triki@gmail.com,
+	brauner@kernel.org
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] isofs: reject short directory records in isofs_read_level3_size()
-Date: Sat, 19 Sep 2026 22:25:52 +0000
-Message-ID: <20260919222553.3792320-1-benquike@gmail.com>
+Subject: [PATCH] befs: check NULL return from befs_bt_get_key() and fix keysize in befs_btree_read()
+Date: Sat, 19 Sep 2026 22:25:55 +0000
+Message-ID: <20260919222555.3792599-1-benquike@gmail.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -75,63 +75,124 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In isofs_read_level3_size(), check that de_len is at least sizeof(struct
-iso_directory_record) + de->name_len[0] before advancing or inspecting
-Rock Ridge extensions so corrupted ISO9660 directory records cannot
-trigger out-of-bounds reads or infinite loops.
+Fix two issues in fs/befs/:
+
+1. In befs_btree_find() and befs_btree_read() (fs/befs/btree.c), check
+   for a NULL return from befs_bt_get_key() when a corrupted B+tree node
+   has out-of-bounds key offsets or lengths.
+2. In befs_btree_read() and befs_readdir() (fs/befs/linuxvfs.c), set
+   keysize from the actual copied string length rather than the raw
+   buffer size so uninitialized stack bytes are not passed to filldir().
 
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Assisted-by: LLM
 Signed-off-by: Hui Peng <benquike@gmail.com>
 ---
-diff --git a/fs/isofs/inode.c b/fs/isofs/inode.c
-index 337836a0a170..6007439a085a 100644
---- a/fs/isofs/inode.c
-+++ b/fs/isofs/inode.c
-@@ -1173,7 +1173,9 @@ static int isofs_read_level3_size(struct inode *inode)
- 	struct buffer_head *bh = NULL;
- 	unsigned long block, offset, block_saved, offset_saved;
- 	int i = 0;
-+	unsigned int empty_blocks = 0;
- 	int more_entries = 0;
-+	int ret = -EIO;
- 	struct iso_directory_record *tmpde = NULL;
- 	struct iso_inode_info *ei = ISOFS_I(inode);
+diff --git a/fs/befs/btree.c b/fs/befs/btree.c
+index aa24f1daccdd..67633e5f27fe 100644
+--- a/fs/befs/btree.c
++++ b/fs/befs/btree.c
+@@ -219,6 +219,19 @@ befs_bt_read_node(struct super_block *sb, const befs_data_stream *ds,
+ 	node->head.all_key_length =
+ 	    fs16_to_cpu(sb, node->od_node->all_key_length);
  
-@@ -1205,9 +1207,15 @@ static int isofs_read_level3_size(struct inode *inode)
- 			bh = NULL;
- 			++block;
- 			offset = 0;
-+			if (++empty_blocks > 100)
-+				goto out;
- 			continue;
- 		}
- 
-+		if (de_len < sizeof(struct iso_directory_record))
-+			goto out;
-+		empty_blocks = 0;
++	{
++		size_t keylen_off = round_up(sizeof(befs_btree_nodehead) +
++					     node->head.all_key_length, 8);
++		size_t total_needed = keylen_off +
++			(size_t)node->head.all_key_count * (sizeof(fs16) + sizeof(fs64));
++		if (off >= node->bh->b_size ||
++		    total_needed > node->bh->b_size - off) {
++			brelse(node->bh);
++			node->bh = NULL;
++			return BEFS_ERR;
++		}
++	}
 +
- 		block_saved = block;
- 		offset_saved = offset;
- 		offset += de_len;
-@@ -1246,10 +1254,11 @@ static int isofs_read_level3_size(struct inode *inode)
- 		if (i > 100)
- 			goto out_toomany;
- 	} while (more_entries);
-+	ret = 0;
- out:
- 	kfree(tmpde);
- 	brelse(bh);
--	return 0;
-+	return ret;
- 
- out_nomem:
- 	brelse(bh);
-@@ -1264,6 +1273,7 @@ static int isofs_read_level3_size(struct inode *inode)
- 	printk(KERN_INFO "%s: More than 100 file sections ?!?, aborting...\n"
- 		"isofs_read_level3_size: inode=%llu\n",
- 		__func__, inode->i_ino);
-+	ret = 0;
- 	goto out;
+ 	befs_debug(sb, "<--- %s", __func__);
+ 	return BEFS_OK;
  }
+@@ -343,6 +356,8 @@ befs_find_key(struct super_block *sb, struct befs_btree_node *node,
+ 	/* if node can not contain key, just skip this node */
+ 	last = node->head.all_key_count - 1;
+ 	thiskey = befs_bt_get_key(sb, node, last, &keylen);
++	if (!thiskey)
++		return BEFS_BT_NOT_FOUND;
  
+ 	eq = befs_compare_strings(thiskey, keylen, findkey, findkey_len);
+ 	if (eq < 0) {
+@@ -360,6 +375,8 @@ befs_find_key(struct super_block *sb, struct befs_btree_node *node,
+ 		befs_debug(sb, "first: %d, last: %d, mid: %d", first, last,
+ 			   mid);
+ 		thiskey = befs_bt_get_key(sb, node, mid, &keylen);
++		if (!thiskey)
++			return BEFS_BT_NOT_FOUND;
+ 		eq = befs_compare_strings(thiskey, keylen, findkey,
+ 					  findkey_len);
+ 
+@@ -417,6 +434,7 @@ befs_btree_read(struct super_block *sb, const befs_data_stream *ds,
+ 	int cur_key;
+ 	fs64 *valarray;
+ 	char *keystart;
++	ssize_t copy_len;
+ 	u16 keylen;
+ 	int res;
+ 
+@@ -487,6 +505,10 @@ befs_btree_read(struct super_block *sb, const befs_data_stream *ds,
+ 	valarray = befs_bt_valarray(this_node);
+ 
+ 	keystart = befs_bt_get_key(sb, this_node, cur_key, &keylen);
++	if (!keystart) {
++		brelse(this_node->bh);
++		goto error_alloc;
++	}
+ 
+ 	befs_debug(sb, "Read [%llu,%d]: keysize %d",
+ 		   (long long unsigned int)node_off, (int)cur_key,
+@@ -499,9 +521,9 @@ befs_btree_read(struct super_block *sb, const befs_data_stream *ds,
+ 		goto error_alloc;
+ 	}
+ 
+-	strscpy(keybuf, keystart, keylen + 1);
++	copy_len = strscpy(keybuf, keystart, keylen + 1);
++	*keysize = (copy_len < 0) ? keylen : copy_len;
+ 	*value = fs64_to_cpu(sb, valarray[cur_key]);
+-	*keysize = keylen;
+ 
+ 	befs_debug(sb, "Read [%llu,%d]: Key \"%.*s\", Value %llu", node_off,
+ 		   cur_key, keylen, keybuf, *value);
+@@ -678,7 +700,7 @@ befs_bt_get_key(struct super_block *sb, struct befs_btree_node *node,
+ 	char *keystart;
+ 	fs16 *keylen_index;
+ 
+-	if (index < 0 || index > node->head.all_key_count) {
++	if (index < 0 || index >= node->head.all_key_count) {
+ 		*keylen = 0;
+ 		return NULL;
+ 	}
+@@ -691,6 +713,12 @@ befs_bt_get_key(struct super_block *sb, struct befs_btree_node *node,
+ 	else
+ 		prev_key_end = fs16_to_cpu(sb, keylen_index[index - 1]);
+ 
++	if (fs16_to_cpu(sb, keylen_index[index]) < prev_key_end ||
++	    fs16_to_cpu(sb, keylen_index[index]) > node->head.all_key_length) {
++		*keylen = 0;
++		return NULL;
++	}
++
+ 	*keylen = fs16_to_cpu(sb, keylen_index[index]) - prev_key_end;
+ 
+ 	return keystart + prev_key_end;
+diff --git a/fs/befs/linuxvfs.c b/fs/befs/linuxvfs.c
+index ee0cbae521b9..de3be4d61c80 100644
+--- a/fs/befs/linuxvfs.c
++++ b/fs/befs/linuxvfs.c
+@@ -222,7 +222,7 @@ befs_readdir(struct file *file, struct dir_context *ctx)
+ 	befs_off_t value;
+ 	int result;
+ 	size_t keysize;
+-	char keybuf[BEFS_NAME_LEN + 1];
++	char keybuf[BEFS_NAME_LEN + 1] = { 0 };
+ 
+ 	befs_debug(sb, "---> %s name %pD, inode %llu, ctx->pos %lld",
+ 		  __func__, file, inode->i_ino, ctx->pos);
