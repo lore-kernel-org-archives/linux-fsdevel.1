@@ -1,70 +1,71 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5FD394EBD
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D362F397925
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789856787; cv=none; b=NjW/WFrfHSYpHKlrddA+vK2ZIcLu1aBh04/d5uE7ON+ecynKBm4tJyyKGN9LqVCNf3i9d2SrEvyxmQJhhqcY5ecC7H6msyOOu3xale3l60eutr+ggq2ao0RfeOoMXVFvA2kqdvR+KrfML4m4Ravw/iDhPq6lCulW/m6rGdBL+mo=
+	t=1789856788; cv=none; b=Kv6bMn/IN4XRn/R669mOu2j+vds9Q6Gs/nGogmxpic1U7VnZbD0iW14G7jvWSAkwhJN+BP1bCPkOWA5glu6io/33RR5n+SibycqEJ6v52sz7QeInLcstRzRTv/wP3hOkNUCdkiTmcS/J3QXXlOPxZXEkRYlVSRnxYjkqnOH5Uwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789856787; c=relaxed/simple;
-	bh=l+cZ5RnQezSJqBE/UyFFt7hxjbdQOSwBbQXYOdjohsk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bvDKNSbU/tZyvjUo92R/5ZIcdESg/Fb2IAlgpoKNcYakvVzZHow1n1qXHtpIOMaibqwjVtk/3kIkllkWnsGRozDEZH5kLf7YozSN/o7Ro+D1eQCZYetNtia3rw+bzafR7eECcsi4ufCdeNuS10fuHTN9QaWS4sAOavIA9/86Z7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TomsMDiA; arc=none smtp.client-ip=74.125.228.43
+	s=arc-20240116; t=1789856788; c=relaxed/simple;
+	bh=zR4t99CYAsLI0djHo2z8cz0yCPrSn67PlOAYDuXCYpo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FXpgBEHftEqxS3m3a870TAzeRA5sGb9YN6r8LJH0QFI+EimLeq7eeJSAgu1Bu69KGuUyqhwTWpnqwRqwg9waTLpx+29LZl4jnLI9MYpLWEUWKFGAopI46aEcwFALUsLo3kYJT1lS0FnaaiHNZbmMZV7KJhTZw7nHODbzlcqvw0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1EbJvpA; arc=none smtp.client-ip=74.125.227.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TomsMDiA"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469d249c6so1640822b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:26:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1EbJvpA"
+Received: by mail-pj2-f43.google.com with SMTP id d9443c01a7336-2d747ee1f38so18232825ad.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789856784; x=1790461584; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789856782; x=1790461582; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SJTdXVhPRFNVOuFEoF0cnUAxxkqxs0nKM5uVJ7VwjD0=;
-        b=TomsMDiAC/w6OOQW/s8+XG04BoWE5+lZLVMpXuzovAc4NIczIH9mOxFAZw97Pmp3JF
-         TT5eTJ0lSf7ewhSJq4UXr4+GHkH+YDZYQWNXT2wCD9QVaj15vhWQEgTCU1aX8NUrQaGA
-         +yjZcsMGAuaA6BFLzj3e1fBiJt0X4RxN6z/1F5aIG5DDZEme7uwHcwfKpeT+xvad4xQl
-         gXQjO4WuCwqDvMo/VIwKcsqT4jBBJqkwyj/+8BQDAkK/Zktyt1Ngan7zMv3lCkT+rLB3
-         B8YkvHUTHf/bqk3Jp/zG19KAwTNLWtquX4nkPDDh0ZRQoT9MiKvUlC9kmeIZm5FlpIwY
-         6VqA==
+        bh=ZibClg4eBO/Uuu2Z7cDjM1jfMqw59kTdM9Cu8D3vcV4=;
+        b=K1EbJvpA7w5hrzmglx5fXfPq4VdGntEkuMY4f8huxZY1D+juB/ChQBBWTGOwh4BqrV
+         v8JZylslDC/VppGKsdt9o1xkHYy3YhYXydteQ+b6iyUL1rs4m/ntaeS+gWj4xb+a6OcK
+         /3UjIKU50Un0dSHUILymKtAXEIH42ce5B6ygbZ3OiSZDr9ImTqGa/CCwF9KpF4M0+tOb
+         EufNbcnyTNxFaamWegwy4+p955B901zthH/jxvRvXHaNLE8HoI8K1bOwiBEHBUvmlLJt
+         D7mvzAm1So3O/YtoUfKFQ2i/TJTsK+wcvKhctdyhTJmys9X2RTOfDX7nvxqgwatMbxUV
+         EazA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789856784; x=1790461584;
+        d=1e100.net; s=20260707; t=1789856782; x=1790461582;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SJTdXVhPRFNVOuFEoF0cnUAxxkqxs0nKM5uVJ7VwjD0=;
-        b=nQl4XabBOQA03UaHMrfPWb/uvh7ZVbronIaBIDweeEZAssLQ2MwoOU4g6aF9dMHsJd
-         XASTNZLIY+80MfVw91AEBJ3BHpSxIxrDYoebGxu2LQtK+NR7d/jfzgzpjUNAKLqX+BU9
-         J/uPRYdNydh6zJiEYQ1OjDyZ9bp0kq+xe3/PehWU3pAd9qFJQlpdrW+yETZEEe7f/RlB
-         xznqN/EPkNMbHS+O/+juxiTKPqQgRBPME2tzj3+aG2t9CgVE6xXWYZSFD0t138GCW2QW
-         iAFSUeM5oyzVtbMe65zAYjL08lXb/UVTjUuboop/XxKCHAilHRtZXjCMTZ10UeDkoIcY
-         LgUw==
-X-Gm-Message-State: AFuF++nFYjYJPo7vBwCFP32FTZBkWENw/GZ1IN48Aka/9KX5FOoavfnt
-	WuGFfiwLonJawGjY4QIzCmAc6QBYb90ybaXTAaB8Cw4JLUu5pPSmGcDQ
-X-Gm-Gg: AYBFou1umXorlxzjd59I3I0nUlWlmKpYnYxwAnQ60UL+MpV+y69HwdS4Porsb4raUvx
-	2fHox/PjE+e1vlOz7k2wh37n7QG5j5BrKMIi9f7JwRUU3Is1FI6o71ib/OyBKxXX13t/2QttKV9
-	JNwoi2/51F+xJjr0fo7QJiNyLbFJtLBQy2PfmCmrxp4gtKKZawjXDCg7ePgW7A/i3KE4szbWW58
-	T/cQLpee0TysIrUki8AZBs4Z2Evq43SBpi0zG1AZ7fGv7Hnh5Qk08aWpZGnCiqDmF861D15Jiev
-	ed8nlsd1XQbSlCZz/dmaUbwmyb69lAOZqiDQTPoZjnxoz6THWBoZyCARDkz52AD8PHA6dMTRveN
-	/IhmC2VSRlhi5UnpplCWZ9jwwS9sddmBmTMl0FwJ4k62wrK9HKvIziRfsPrbaOHIyZHouleeYXS
-	g8F2yaX+41M8ahR5nx7GL5wt0H4kVhGjU2VcWThbblMtOMTDzRgiIjrwxdbVKFpQGhKWmlPnTZL
-	cZwfF15elPqJK8qzR/q+ctRy2EEAmKNhNXRbzBKZ1IDMyltKBAbKEzCI5DZae/UwkE5+7DLHAlh
-	3v9TSm+ian+x4UXdrxNT
-X-Received: by 2002:a05:6300:278b:10b0:3dd:a196:53a8 with SMTP id adf61e73a8af0-3dda19654d7mr3108334637.74.1789856784240;
-        Sat, 19 Sep 2026 15:26:24 -0700 (PDT)
+        bh=ZibClg4eBO/Uuu2Z7cDjM1jfMqw59kTdM9Cu8D3vcV4=;
+        b=0sOokP1tIy/zO3ZE9/lToUk9K1sAMlYNSRcdmTA+59ByZLaXsITTeiY8nbLtbU6UUv
+         yQiemm3uvFXa6PUEA3ub/6b7bvangE6f6yvgzBpZMt2fkyJcUIQz1nZCAbAyRIprFNLV
+         JA5bgOzK9UNFqAeMI8GFDzhv/giSLj6LmZGNtOg2G6gcOiIBNC124rhDZTcFWritOTO9
+         CcLUWranAwNvgq2SZkj2p1+sqYI/8YAYAt2n1pvXYAokBJ9wfISDK+lun7dJUomMej0X
+         PxrddPKdg9OZ+ORYB4nUq8CqtUdZwwkXaBR4oHuUEBeHRuegAhMxP/XjnxuYUK6w4gXn
+         YU4Q==
+X-Gm-Message-State: AFuF++kmx476m5NUuPji3EfzDjpOcjrnWHXu8UrZsNnsvc2dVztaqyWf
+	BUOegppBOw1G+vzbUEHLvzSMQgCHWS3YRgu0JUL6kvybc7aiH1YpaPMn
+X-Gm-Gg: AYBFou1gvO5SSf1c6Gqm+Tjb02gow/HwUggUVfhemA5cJbDHD3IV6MA+DSHXcql1/8l
+	T2kPfHp/oLSMfM1CGad0REm6p5M3xgbkGGbP1Sb/fcIXUVOqDsL6apEDuSghvoETQpaorj30/Tl
+	x3jndL/1ujvjUHD9O6Js2Z/mj1oLGr19uXWr8dIDUckAwQXY5eLjuTd8X6yZwe4mZ3O5e+LnzXH
+	JsvbBuWXVALtpSwVGRgLb8HXBCw/GkTYu7J38iTqSzAX+2NFxqaZUfrzUdiZf/RWMtX8Kbo3IPa
+	w0TzCNy4w86c/HJrXnO4KYMioBLVnxm4Ot0HMEwgSiqghOnonNeVdncetf8QbMEYwFfCIZdEK1y
+	yL4M2mMEV4JNxHR/NWa04UILcBvJvx43jwDn+vyaj5yEsVV2srt9d9lHW2JQOc59tTDR4eVJQpO
+	zdPHhvSvoWSRhiAhgAQKO6b1bRQHY51w6VDzRZrQwHwSbCMrIv8uc+2aFOALh9bJ5XTypMQ9CGZ
+	TYUBJnA8sKEL5kPlniG+y6PQW4LrYnZUf56MxNGWxMhW/d1nLA2IXtpgW/etFzmt1N6yfcmmb5r
+	f0zvHgodQQ==
+X-Received: by 2002:a17:903:3def:b0:2dd:c053:e663 with SMTP id d9443c01a7336-2ddc053e67emr36745395ad.41.1789856782175;
+        Sat, 19 Sep 2026 15:26:22 -0700 (PDT)
 Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc72ae8bf29sm1346750a12.12.2026.09.19.15.26.23
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d7120sm13436875ad.63.2026.09.19.15.26.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 15:26:23 -0700 (PDT)
+        Sat, 19 Sep 2026 15:26:21 -0700 (PDT)
 From: Hui Peng <benquike@gmail.com>
-To: al@alarsen.net,
-	brauner@kernel.org
+To: brauner@kernel.org,
+	jack@suse.cz,
+	jlayton@kernel.org
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] qnx4: validate xblk_num_xtnts and rootdir size in qnx4_block_map() and mount
-Date: Sat, 19 Sep 2026 22:26:23 +0000
-Message-ID: <20260919222623.3797296-1-benquike@gmail.com>
+Subject: [PATCH] minix: validate s_imap_blocks and s_zmap_blocks in minix_check_superblock()
+Date: Sat, 19 Sep 2026 22:26:21 +0000
+Message-ID: <20260919222621.3796976-1-benquike@gmail.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -74,36 +75,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In qnx4_block_map() and qnx4_fill_super() (fs/qnx4/inode.c), check that
-xblk->xblk_num_xtnts is between 1 and QNX4_MAX_XTNTS_PER_XBLK (60),
-return 0 instead of (unsigned long)-EIO on error, and validate the root
-directory inode size on mount to prevent out-of-bounds reads past the
-512-byte buffer_head.
+In minix_check_superblock() and minix_fill_super() (fs/minix/inode.c),
+verify that s_imap_blocks and s_zmap_blocks are large enough to cover
+s_ninodes + 1 and s_zones, and check the return value of
+sb_set_blocksize() to prevent out-of-bounds bitmap array reads in
+minix_count_free_inodes() and minix_new_inode().
 
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Assisted-by: LLM
 Signed-off-by: Hui Peng <benquike@gmail.com>
 ---
-diff --git a/fs/qnx4/inode.c b/fs/qnx4/inode.c
-index 42fcd500fad2..f6eb08cac09b 100644
---- a/fs/qnx4/inode.c
-+++ b/fs/qnx4/inode.c
-@@ -104,12 +104,15 @@ unsigned long qnx4_block_map( struct inode *inode, long iblock )
- 				bh = sb_bread(inode->i_sb, i_xblk - 1);
- 				if ( !bh ) {
- 					QNX4DEBUG((KERN_ERR "qnx4: I/O error reading xtnt block [%ld])\n", i_xblk - 1));
--					return -EIO;
-+					return 0;
- 				}
- 				xblk = (struct qnx4_xblk*)bh->b_data;
--				if ( memcmp( xblk->xblk_signature, "IamXblk", 7 ) ) {
-+				if (memcmp(xblk->xblk_signature, "IamXblk", 7) ||
-+				    xblk->xblk_num_xtnts == 0 ||
-+				    xblk->xblk_num_xtnts > QNX4_MAX_XTNTS_PER_XBLK) {
- 					QNX4DEBUG((KERN_ERR "qnx4: block at %ld is not a valid xtnt\n", qnx4_inode->i_xblk));
--					return -EIO;
-+					brelse(bh);
-+					return 0;
- 				}
- 			}
- 			block = try_extent(&xblk->xblk_xtnts[ix], &offset);
+diff --git a/fs/minix/inode.c b/fs/minix/inode.c
+index daf83e4ff25c..b0857dfc1b46 100644
+--- a/fs/minix/inode.c
++++ b/fs/minix/inode.c
+@@ -185,15 +185,15 @@ static bool minix_check_superblock(struct super_block *sb)
+ 		return false;
+ 	}
+ 
+-	if (sbi->s_ninodes < 1 || sbi->s_firstdatazone <= 4 ||
+-	    sbi->s_firstdatazone >= sbi->s_nzones)
++	if (sbi->s_ninodes == 0 || sbi->s_ninodes == UINT_MAX ||
++	    sbi->s_firstdatazone <= 4 || sbi->s_firstdatazone >= sbi->s_nzones)
+ 		return false;
+ 
+ 	/* Apparently minix can create filesystems that allocate more blocks for
+ 	 * the bitmaps than needed.  We simply ignore that, but verify it didn't
+ 	 * create one with not enough blocks and bail out if so.
+ 	 */
+-	block = minix_blocks_needed(sbi->s_ninodes, sb->s_blocksize);
++	block = minix_blocks_needed((u64)sbi->s_ninodes + 1, sb->s_blocksize);
+ 	if (sbi->s_imap_blocks < block) {
+ 		printk("MINIX-fs: file system does not have enough "
+ 		       "imap blocks allocated. Refusing to mount.\n");
+@@ -201,7 +201,7 @@ static bool minix_check_superblock(struct super_block *sb)
+ 	}
+ 
+ 	block = minix_blocks_needed(
+-			(sbi->s_nzones - sbi->s_firstdatazone + 1),
++			(u64)sbi->s_nzones - sbi->s_firstdatazone + 1,
+ 			sb->s_blocksize);
+ 	if (sbi->s_zmap_blocks < block) {
+ 		printk("MINIX-fs: file system does not have enough "
