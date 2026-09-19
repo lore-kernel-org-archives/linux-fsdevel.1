@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFFB156C6A;
-	Sat, 19 Sep 2026 00:14:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAE51A6820;
+	Sat, 19 Sep 2026 00:14:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789776873; cv=none; b=J6dynlLecBt9TgKGjht5piZxvWL/0AzPLL1a3s7DTcvJQUFqI4Dp1Kmwn9SFyWyEReNclg/3JLaujHoWazMFtnhBm1m5bmZEvENv3axB+SriJtC95LFpfQzSfQuo+seIW9Ef1HPyfoF1pLjOhx5uVCMEDUX60ncPrBytu8+Dfe0=
+	t=1789776873; cv=none; b=ozu8X3i0N1QDhUiJglovgraWsCP90/uVasY4/j6Q9YB0Xxlb6hpeTi6Iow0bpJsFplfIWKQmCwr8EtnPtylZRY2SD3tMV3csvaOJKT+sx1mOwLEZ8SeXG38bL/h5CaVReR1tCpVvtFvOs8qpG2BCrBekX8TuGZPTPCL/qh0uvwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789776873; c=relaxed/simple;
-	bh=v+ZaxiWnoeOv5V1TUsSJCEIwiuynh2GEfQw75nHBCPg=;
+	bh=fr7VPXtKblPhkPqqP5ucNKM/5+paNqhvrB9Sk9BtLp4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=t/rUX4gQYfHDUFzKkPt1blViZa+wMp0IRiRftIoT1vxWWzqzoR41m8f6DbF+3X0NInHGsCoSj6aFYloieieqmA20FFLeRmFNgR+77KA9+K1A6J7CeO64xrvZfZJGamv5nQK/0fcKYKciVIP1Yw1DaVXxE5S5w3gr/EfzwxVYBN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jIgIWE7k; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=aZr7yyzRKkDAOzb+o1hW24CpNFr8qhqmkzfVhDZn4yHObWG63HDc6084MGGDHA5K6uTDZE+rxTBCvtptiI9GlDJZ2PS+kjgTEP7FxlKp+uX9SO+KXI5NrM6UihmZuwLaH9Qizt0uOZ+QhY6XdYGONgjU1MTOFjbjGJGrqX2fpSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D8AK6HPR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jIgIWE7k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 296C11F0089D;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D8AK6HPR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EDC51F008BC;
 	Sat, 19 Sep 2026 00:14:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1789776871;
-	bh=nrf4PVA632AohFceVt31TLXePWhHXHnaJl6XXJyTHyQ=;
+	bh=h5NxlKx0hY7bVJxUx2DOkeDYxRslcd+bfH1GUZvOswU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jIgIWE7k+IFqTPqk+PY0hieYs1SkOr8XSkPbd6KxPLzZeKZcumqn+c4ipEUgzpACu
-	 28cU7Wyz90ofHiyL1/zvg3rsRutr47K5QB2F5PDrSFDBjNazhHZnsaKS1/SEUfsk5r
-	 HT5HQKoPVOXp34FSpngGM5GhH/6nxXVeoLE0gKRuPGB2JUsmLVnEO67GSEZcxV5mpt
-	 5rjvIZGs06SutHmWJP5nVDxZz2dCc+++uREOfpeAN94RpTf4C+Di2agYKSlxc5R4iP
-	 yaxNMX5jR5oYE6EfCAA3NZOplzcwn91MGBYx6pIpi0v2+wbbcbBlvlCBXzvSncPMGa
-	 n31krMUnRukoA==
+	b=D8AK6HPRzdxPRb7PEb5uX9ohbnvQL2nzxUmeWfJz3++eiefsH7FxUPv4YvAucIdsJ
+	 6vMyiFkfPY2+mRzQGmjGRCXZjRZbEwD3NXFl2ZWI1rtVtt5IpAqvolG0eCqCzyLx1V
+	 0rT73HNzRzhYdwZ39ExbOoskQW+bJ6R6zDZihb5Px11p7URAHKq9RqhQwa9b6GjAxf
+	 S7TtoYYoKwEqXymTDYqNr0fIMgxFYk8rqNWdU1E/4+9P1p5sraNRn4kVcjpSBWwzab
+	 IRvWR8iz5qzy7ZoS0BBWvCwcraT0QDTcYLSrtMuIhrcgcfAgoiTSiEB14mwIlWxRmY
+	 /NXN4rVgQyXFA==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id D3B49CE17C1; Fri, 18 Sep 2026 17:14:30 -0700 (PDT)
+	id D9E6ECE1854; Fri, 18 Sep 2026 17:14:30 -0700 (PDT)
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
 	Frederic Weisbecker <frederic@kernel.org>,
@@ -40,10 +40,10 @@ Cc: linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
 	kernel-team@meta.com,
 	"Paul E. McKenney" <paulmck@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 04/12] io-uring/rw: Use accessor for hrtimer_sleeper ->task field
-Date: Fri, 18 Sep 2026 17:14:20 -0700
-Message-Id: <20260919001428.3133388-4-paulmck@kernel.org>
+	Dmitry Ilvokhin <d@ilvokhin.com>
+Subject: [PATCH 06/12] timers: Use accessor for hrtimer_sleeper ->task field in sleep_timeout.c
+Date: Fri, 18 Sep 2026 17:14:22 -0700
+Message-Id: <20260919001428.3133388-6-paulmck@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <5dca353c-6b3f-4d01-8808-bef2c0dd7af7@paulmck-laptop>
 References: <5dca353c-6b3f-4d01-8808-bef2c0dd7af7@paulmck-laptop>
@@ -64,36 +64,45 @@ is no reason to let the compiler introduce additional confusion, and to
 this end, the hrtimer_sleeper_task_get() was introduced, use of which also
 has the benefit of avoiding open-code access to hrtimer_sleeper innards.
 
-Therefore, apply this accessor to the io_hybrid_iopoll_delay() function.
+Therefore, apply this accessor to schedule_hrtimeout_range_clock().
 
 KCSAN located this issue.
 
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>
+Reviewed-by: Dmitry Ilvokhin <d@ilvokhin.com>
 Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>
 Cc: Frederic Weisbecker <frederic@kernel.org>
 Cc: Thomas Gleixner <tglx@kernel.org>
-Cc: <io-uring@vger.kernel.org>
 Cc: <linux-aio@kvack.org>
 Cc: <linux-fsdevel@vger.kernel.org>
+Cc: <io-uring@vger.kernel.org>
 Cc: <netdev@vger.kernel.org>
 ---
- io_uring/rw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/time/sleep_timeout.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 95106dd1d7eb..3f4cbdb8b2be 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -1285,7 +1285,7 @@ static u64 io_hybrid_iopoll_delay(struct io_ring_ctx *ctx, struct io_kiocb *req)
- 	set_current_state(TASK_INTERRUPTIBLE);
- 	hrtimer_sleeper_start_expires(&timer, mode);
+diff --git a/kernel/time/sleep_timeout.c b/kernel/time/sleep_timeout.c
+index 3c90574bd904..ad8c415851ae 100644
+--- a/kernel/time/sleep_timeout.c
++++ b/kernel/time/sleep_timeout.c
+@@ -212,7 +212,7 @@ int __sched schedule_hrtimeout_range_clock(ktime_t *expires, u64 delta,
+ 	hrtimer_set_expires_range_ns(&t.timer, *expires, delta);
+ 	hrtimer_sleeper_start_expires(&t, mode);
  
--	if (timer.task)
-+	if (hrtimer_sleeper_task_get(&timer))
- 		io_schedule();
+-	if (likely(t.task))
++	if (likely(hrtimer_sleeper_task_get(&t)))
+ 		schedule();
  
- 	hrtimer_cancel(&timer.timer);
+ 	hrtimer_cancel(&t.timer);
+@@ -220,7 +220,7 @@ int __sched schedule_hrtimeout_range_clock(ktime_t *expires, u64 delta,
+ 
+ 	__set_current_state(TASK_RUNNING);
+ 
+-	return !t.task ? 0 : -EINTR;
++	return !hrtimer_sleeper_task_get(&t) ? 0 : -EINTR;
+ }
+ EXPORT_SYMBOL_GPL(schedule_hrtimeout_range_clock);
+ 
 -- 
 2.40.1
 
