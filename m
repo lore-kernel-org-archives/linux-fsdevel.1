@@ -1,119 +1,108 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+Received: from mail-qk2-f1.google.com (mail-qk2-f1.google.com [74.125.230.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D362F397925
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789856788; cv=none; b=Kv6bMn/IN4XRn/R669mOu2j+vds9Q6Gs/nGogmxpic1U7VnZbD0iW14G7jvWSAkwhJN+BP1bCPkOWA5glu6io/33RR5n+SibycqEJ6v52sz7QeInLcstRzRTv/wP3hOkNUCdkiTmcS/J3QXXlOPxZXEkRYlVSRnxYjkqnOH5Uwk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789856788; c=relaxed/simple;
-	bh=zR4t99CYAsLI0djHo2z8cz0yCPrSn67PlOAYDuXCYpo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FXpgBEHftEqxS3m3a870TAzeRA5sGb9YN6r8LJH0QFI+EimLeq7eeJSAgu1Bu69KGuUyqhwTWpnqwRqwg9waTLpx+29LZl4jnLI9MYpLWEUWKFGAopI46aEcwFALUsLo3kYJT1lS0FnaaiHNZbmMZV7KJhTZw7nHODbzlcqvw0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1EbJvpA; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE8B2F691D
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.193
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789858736; cv=pass; b=U53Hl62WEz7+bRGYby+yi8zG6bBsH7ZOosTGbLyNsU4/6uvGjdVe9n8GD8kPDRAg/daSAPQTIPTSSOYscLHqWRPsxDKMb2w6OPe9YRdhRzSLl3kAsMwl6BNtYYpw5vbB8ytlkE45TYzhVLNMkFOdiCGChnW+l4p3SZrAQd7u6cg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789858736; c=relaxed/simple;
+	bh=RQijCnM38kd84LmZ1RXAL+gIdYjwTqwiGYmr5NZm5cU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DiKiRcBlZCSSQ7BGoVCBuaVPzl07pMLsKO9l8Gy8NZer1cBj7/Zs1sCkMfAfeo0qm35CMT8/cVgJznyZbHYQkN8lgU8rVwcxU9+svowAVtxhEyhqvIjNAocOHWZGZqNEy/Pjs6HFvR2C8+O8WzFXoq5o0mkGQwXmXup5F1vemuk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRLdDzwJ; arc=pass smtp.client-ip=74.125.230.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1EbJvpA"
-Received: by mail-pj2-f43.google.com with SMTP id d9443c01a7336-2d747ee1f38so18232825ad.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:26:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRLdDzwJ"
+Received: by mail-qk2-f1.google.com with SMTP id d75a77b69052e-530178f21ffso21802261cf.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:58:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789858734; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EdSGsWeKMpPHEOkGTutrrDKk1A0BzMYgWbRhcJKtpZHsk2POrDvjBj5JsJcqBFbVtD
+         2V9agE6YqDlJ4yEdasyjxmNQoEZI42DB7CF42NaiWVA4KGdIXv8wd2tNR0iHLUpX+aDy
+         qRNcfDp3COYvedvDBxSePvF6fvefYQ2Pwfk9zv1x61pd8ia74e3vVW/jW2WqfcdWHSjE
+         hKEGj7nmeSsRuSbNTPZtrNR7LEvpXHEZpEYbLTx2N/XWeey5ofsY/V9Zi269XcdiNDIt
+         9OqZOP7/X0W6KGmXdToh3Nb1B0I3JhJVn9FeMP5H+Kq9CT+1uui4jt+cZrN2RF5kXWTW
+         KwBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=RQijCnM38kd84LmZ1RXAL+gIdYjwTqwiGYmr5NZm5cU=;
+        fh=+NkYY+iaMAqFYLkmAYWWjbkIDEnd1Fz8mCzkTV9nMI4=;
+        b=Ndz69/mONLUCpPFVvu6xyex0N0NuiaWzJ5c5FcUIZdkl1/44Q7l5qtmIqe/kAkXgGu
+         9AKWefutXJ8WXiVuwoWa8BYVr1WAprR6Ew9237tyLeYIL2RBpakbdcAkJe9hcVleTCBz
+         SJvfsVRsSskhO5b/hOr6cmTZPRyNb8MScpeOkiv+S9DZjB7ozgOCAOFPsAE3rctiTXaY
+         31sJXUeaHb7qw7esQGIpTw+40Ypx6wcj0vzV0MD7eS0anV+n2SM7DzMO7fMWvHDG+OX7
+         lynIN2EXxRktaIzuDlG/xlQzp7nJRMnZPTQC5J4jiYIBfOrOLhzk1quWxqZUimmdZJ4J
+         kQgA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789856782; x=1790461582; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZibClg4eBO/Uuu2Z7cDjM1jfMqw59kTdM9Cu8D3vcV4=;
-        b=K1EbJvpA7w5hrzmglx5fXfPq4VdGntEkuMY4f8huxZY1D+juB/ChQBBWTGOwh4BqrV
-         v8JZylslDC/VppGKsdt9o1xkHYy3YhYXydteQ+b6iyUL1rs4m/ntaeS+gWj4xb+a6OcK
-         /3UjIKU50Un0dSHUILymKtAXEIH42ce5B6ygbZ3OiSZDr9ImTqGa/CCwF9KpF4M0+tOb
-         EufNbcnyTNxFaamWegwy4+p955B901zthH/jxvRvXHaNLE8HoI8K1bOwiBEHBUvmlLJt
-         D7mvzAm1So3O/YtoUfKFQ2i/TJTsK+wcvKhctdyhTJmys9X2RTOfDX7nvxqgwatMbxUV
-         EazA==
+        d=gmail.com; s=20251104; t=1789858734; x=1790463534; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RQijCnM38kd84LmZ1RXAL+gIdYjwTqwiGYmr5NZm5cU=;
+        b=YRLdDzwJnWsp6SgFZtEMKwiaXonQu+DYtCJ/sFoTbjRRWLh0cj9j/mWeFltSOIhuRh
+         O+0dwqfCErdLWRjwW2d4ewNmt78q2bSmm3+J+eRtudrCiTOBKNqcGShVYu16bUQ96SvD
+         wpMGKukgY5NxcsGoL8wO1L3FJi9p8GjGAOfIPPk5N4RLsMLSSM10mPtQW7QjziSpqKjn
+         dfn+h2PQTVjmbJSmZM0mFHHfdik+Sa5iGJYT45I2FcPo1GVb9/Jsi+rArHQzr+yEp1hu
+         s5s8u7rsvsdraooB4Z+1LwvYgvzsbZZ7VtFSXZ7wJji1KRdRGhmzn/EqTd2TADtvTmGT
+         2+JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789856782; x=1790461582;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZibClg4eBO/Uuu2Z7cDjM1jfMqw59kTdM9Cu8D3vcV4=;
-        b=0sOokP1tIy/zO3ZE9/lToUk9K1sAMlYNSRcdmTA+59ByZLaXsITTeiY8nbLtbU6UUv
-         yQiemm3uvFXa6PUEA3ub/6b7bvangE6f6yvgzBpZMt2fkyJcUIQz1nZCAbAyRIprFNLV
-         JA5bgOzK9UNFqAeMI8GFDzhv/giSLj6LmZGNtOg2G6gcOiIBNC124rhDZTcFWritOTO9
-         CcLUWranAwNvgq2SZkj2p1+sqYI/8YAYAt2n1pvXYAokBJ9wfISDK+lun7dJUomMej0X
-         PxrddPKdg9OZ+ORYB4nUq8CqtUdZwwkXaBR4oHuUEBeHRuegAhMxP/XjnxuYUK6w4gXn
-         YU4Q==
-X-Gm-Message-State: AFuF++kmx476m5NUuPji3EfzDjpOcjrnWHXu8UrZsNnsvc2dVztaqyWf
-	BUOegppBOw1G+vzbUEHLvzSMQgCHWS3YRgu0JUL6kvybc7aiH1YpaPMn
-X-Gm-Gg: AYBFou1gvO5SSf1c6Gqm+Tjb02gow/HwUggUVfhemA5cJbDHD3IV6MA+DSHXcql1/8l
-	T2kPfHp/oLSMfM1CGad0REm6p5M3xgbkGGbP1Sb/fcIXUVOqDsL6apEDuSghvoETQpaorj30/Tl
-	x3jndL/1ujvjUHD9O6Js2Z/mj1oLGr19uXWr8dIDUckAwQXY5eLjuTd8X6yZwe4mZ3O5e+LnzXH
-	JsvbBuWXVALtpSwVGRgLb8HXBCw/GkTYu7J38iTqSzAX+2NFxqaZUfrzUdiZf/RWMtX8Kbo3IPa
-	w0TzCNy4w86c/HJrXnO4KYMioBLVnxm4Ot0HMEwgSiqghOnonNeVdncetf8QbMEYwFfCIZdEK1y
-	yL4M2mMEV4JNxHR/NWa04UILcBvJvx43jwDn+vyaj5yEsVV2srt9d9lHW2JQOc59tTDR4eVJQpO
-	zdPHhvSvoWSRhiAhgAQKO6b1bRQHY51w6VDzRZrQwHwSbCMrIv8uc+2aFOALh9bJ5XTypMQ9CGZ
-	TYUBJnA8sKEL5kPlniG+y6PQW4LrYnZUf56MxNGWxMhW/d1nLA2IXtpgW/etFzmt1N6yfcmmb5r
-	f0zvHgodQQ==
-X-Received: by 2002:a17:903:3def:b0:2dd:c053:e663 with SMTP id d9443c01a7336-2ddc053e67emr36745395ad.41.1789856782175;
-        Sat, 19 Sep 2026 15:26:22 -0700 (PDT)
-Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d7120sm13436875ad.63.2026.09.19.15.26.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 15:26:21 -0700 (PDT)
-From: Hui Peng <benquike@gmail.com>
-To: brauner@kernel.org,
-	jack@suse.cz,
-	jlayton@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] minix: validate s_imap_blocks and s_zmap_blocks in minix_check_superblock()
-Date: Sat, 19 Sep 2026 22:26:21 +0000
-Message-ID: <20260919222621.3796976-1-benquike@gmail.com>
-X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
+        d=1e100.net; s=20260707; t=1789858734; x=1790463534;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RQijCnM38kd84LmZ1RXAL+gIdYjwTqwiGYmr5NZm5cU=;
+        b=uEjIm+br0p5EjJOItTtTZB1bEHOUggols5NoI1ilqsbPWp4dcVavuKHXoY0+iQ3jlU
+         QJjxbWlLQ5KbgS8Ay1JKB3lJ2ol/1MmEDIuY1w0/vgX1TVym+xO78yUIC01Oh2ZMGWei
+         h8V0FFVfsurIjIAvzyfi9Dz6s5mX/cp9oyNN2hrLMg45i8ws+hWS1RjjXUVz0Ie0sMIb
+         /GXObezURWIoobO8Ll1vLCmkMh3A2lqQO4DigWPs444rWIlwMjof9DulUjIMwaLqdbRK
+         LjhTIVoT2zisbhlnqrc6o7R2FO3BOel1wQkvP51Y6GYfAPfUc1Jwyjo9TlwMK89UepBa
+         LJbQ==
+X-Gm-Message-State: AFuF++ndoG6g4ofL3gJjwpjCapW7ZnJgJiIe8K/83h37cn6o0BM417gR
+	gpQvCXuZe9GswyqEtnA/KntAgrNP3aWoNH2mbW7up69WGRgDGBbU+Kbz7zdlPStIBqh3da9da2k
+	gD81qMBXtNmfZxStg1pvoAVw05rDklZweO8j0LG8=
+X-Gm-Gg: AYBFou1XuN8pa8RI4s241l3R+eSjTbtvQWFb8hVi2UTwfun/JnP9eMpNhRycLymuqrM
+	DC7POTWGwDo7MFUw6h6abjTGgjDJbMTcerTeEieRv7L0UKtjjTXM/YrH1xgZBfPaLC0ragO+3px
+	L4dMpM/bUjULW4KEjCC3NjSVA60qOM2HB9KrckE/A97D/Rfv5/BufohVqbECWf4MmHVQbiSQUKp
+	3oFK2GwQXRh6Bpbjpscn/wQXJtxinBE+we0S0Y4jzWHrTviJ4+PK6Sw1/2luak5XHaHTQRi4pJT
+	8Ye0zagFx5mIToFXVQn96bGUg1YCUbwRSeipicbf4nrIdRdrEyoyuiBOtVbx5WQIobcEbdkjVJm
+	u2fSdGn/aZ0SjZ1dMNTl179/LTPh1YVZzOvFBKPKE
+X-Received: by 2002:a05:622a:124f:b0:52c:dde9:5cd5 with SMTP id
+ d75a77b69052e-532b721df24mr44243301cf.21.1789858734241; Sat, 19 Sep 2026
+ 15:58:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260918062338.1039303-1-enelsonmoore@gmail.com> <iguoigeao5itgylh6kmzwiiuwk4pqra32vpqvyv2ingitchs4w@pctwdteu52mh>
+In-Reply-To: <iguoigeao5itgylh6kmzwiiuwk4pqra32vpqvyv2ingitchs4w@pctwdteu52mh>
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Date: Sat, 19 Sep 2026 15:58:43 -0700
+X-Gm-Features: AcwNN1XsokaSX4-T44Ybl-iAtEVcfG9beFAQg0T-pGbsVZXksgEBV3WUmfNnUZA
+Message-ID: <CADkSEUhL1bH7BRS-cTxA7UHfqdGB=y4RQnoH6aV+d1L2iDQ+qQ@mail.gmail.com>
+Subject: Re: [PATCH] sysctl: quiet unused variable warning in fs/proc/proc_sysctl.c:init_header()
+To: Joel Granados <joel.granados@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Kees Cook <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In minix_check_superblock() and minix_fill_super() (fs/minix/inode.c),
-verify that s_imap_blocks and s_zmap_blocks are large enough to cover
-s_ninodes + 1 and s_zones, and check the return value of
-sb_set_blocksize() to prevent out-of-bounds bitmap array reads in
-minix_count_free_inodes() and minix_new_inode().
+Hi, Joel,
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Assisted-by: LLM
-Signed-off-by: Hui Peng <benquike@gmail.com>
----
-diff --git a/fs/minix/inode.c b/fs/minix/inode.c
-index daf83e4ff25c..b0857dfc1b46 100644
---- a/fs/minix/inode.c
-+++ b/fs/minix/inode.c
-@@ -185,15 +185,15 @@ static bool minix_check_superblock(struct super_block *sb)
- 		return false;
- 	}
- 
--	if (sbi->s_ninodes < 1 || sbi->s_firstdatazone <= 4 ||
--	    sbi->s_firstdatazone >= sbi->s_nzones)
-+	if (sbi->s_ninodes == 0 || sbi->s_ninodes == UINT_MAX ||
-+	    sbi->s_firstdatazone <= 4 || sbi->s_firstdatazone >= sbi->s_nzones)
- 		return false;
- 
- 	/* Apparently minix can create filesystems that allocate more blocks for
- 	 * the bitmaps than needed.  We simply ignore that, but verify it didn't
- 	 * create one with not enough blocks and bail out if so.
- 	 */
--	block = minix_blocks_needed(sbi->s_ninodes, sb->s_blocksize);
-+	block = minix_blocks_needed((u64)sbi->s_ninodes + 1, sb->s_blocksize);
- 	if (sbi->s_imap_blocks < block) {
- 		printk("MINIX-fs: file system does not have enough "
- 		       "imap blocks allocated. Refusing to mount.\n");
-@@ -201,7 +201,7 @@ static bool minix_check_superblock(struct super_block *sb)
- 	}
- 
- 	block = minix_blocks_needed(
--			(sbi->s_nzones - sbi->s_firstdatazone + 1),
-+			(u64)sbi->s_nzones - sbi->s_firstdatazone + 1,
- 			sb->s_blocksize);
- 	if (sbi->s_zmap_blocks < block) {
- 		printk("MINIX-fs: file system does not have enough "
+On Fri, Sep 18, 2026 at 4:05=E2=80=AFAM Joel Granados <joel.granados@kernel=
+.org> wrote:
+> I'm probably compiling in a different way but I don't see that warning.
+> Can you please tell me how you compile, what are you are in. What
+> version of compiler are you running?
+
+I'm using GCC 16.2, which probably explains it, since newer GCC
+versions have gotten more clever at detecting unused variables.
+
+Ethan
