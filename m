@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A9029408;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5117D13D891;
 	Sat, 19 Sep 2026 00:14:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789776872; cv=none; b=ja8osaq8aZ5QWXJ6VZAo7cP2oLVMgDchJla6FRKLyJSh70EfHD0fUhW0wfqkmoyoDYZmTdIGE+LugvE+3ehWpEZlXCAko48ejk9F6R0hh9845MbZ88WTTyhFLjkuUWAmyOk4ptEmIqmYidoU6bLJqogSjUfDR5eGKZS9n/G0Mew=
+	t=1789776872; cv=none; b=d4J289mqtjBU20Z4TgdlFMcWnQ0ga7kA0ObUVsTOQ5wvvVoEVH/t/xNKaJ4Aw/oYm0X21WYsHiixKh0mX6u2yaL9vbQBKKi3HPE5HJJYapKKqiOaV5EX8byS8GZDFGFU38z1ASIK3IPdKPNGRQ4sU9YBa3Pa4D7Gd7+TZOspLSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789776872; c=relaxed/simple;
-	bh=nt7/BSWdripBRTKDMq3InC764hYuSGBv4Yo8ir8jnhU=;
+	bh=/t3p1MK2MQCYAfYT4vQ6UOuagLKqaozUfy/bsZc2/ho=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=f6zZvg0Bhqpa2Qnc75bn49A5BId0HzcJtIKDMTcinNdlBtu3oiR1rFTKR4S2f1KmMpg5cLAv6O37FVvs2+EH/FByFZRiynAetfl/AX7+F5iTi3haWlrrPebrjqhnnVetcFuZCCfpzDmlnJFzDSui3hAqSvSp2zj1MSm/GMNg3CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k4MuIS11; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=rNkg1uPibo6duwyYo45bu06qf5j9co7tNBzTYlI4MK1eeSj+pmpe6vlL80W8E+aB3AH4tRq0MglF7vCC5WunG4XSkAsh6NcWj5eOZ1qP7yivtCcn7X2RE9cGSxvszt8XwJbfayGBIIQXo+p0iUzL148LCjDci6jtGlLE/SSzQ/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UW1Q+ye9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k4MuIS11"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12C4D1F00898;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UW1Q+ye9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CA361F00899;
 	Sat, 19 Sep 2026 00:14:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1789776871;
-	bh=hoBSL3WNFBNf1nDaxXUlvtVGda29bsX4DWIaXzlgvEY=;
+	bh=wGeXmGSU0hQFjCRhnOoobLOSq8+j0qaPj9BL2WAHKUE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=k4MuIS11PSFCRtCdlz6pD2ba+SS23IAIAMtEbxYak1w/oNioutE9AcChRgZzWHOXB
-	 Nt6s6sSs0bf0vLmml6AKofvEiD/J3mbMPoMHp9Y9GNMc2zSGxdKHxOFQo0/dgfcOiH
-	 NOugpeTJjar4JQznB7NcScFPw32FooDV5LTo4XMXHMp7B0PvnaGB4cdoo7/RMCEkl+
-	 hrk9E7MgqzrNFIAEyfsCimR+chnjdB9hg1yK9HzhmhQHBRZ8nMmXWbEKBKXvLj5g5+
-	 XdvlMWy5iZhD6RDKGF+NifXQixTxsaRkniZO/GwoCGwBiHww+aJgpIiHwigMjKE4ew
-	 KF/uRZm3CGF1w==
+	b=UW1Q+ye9Z84bwOQHXz39fQegOb+4TNv/11c/6UuUtyKNil05sL/Tw31oPb4eMTKEW
+	 PPt9sNMy3Xsik/0p7zoHoXEQf8l+m0D7glOQBesQTvywKQRYSjrxK1eJH7xQWn4tFy
+	 86ru/tik9cvRPWYHdUk7AVZohq0MXwM2uziXHk1gqVp2HQTOF7vYpCF6PLonHupRN3
+	 gtJS5DVAUQ2+3yMuM/np153WxaSrbRSZPsStwxD+I/li6I+DBeK1w39D4fkTb14tUI
+	 Zs/0iHyJQf38JfVHpKJckfjqLw3H3aJ0QmOYzK6k/jF/sKRNHu59GlYLXrWMU7XXRD
+	 sQhtpkz2sZPSQ==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id CD1E1CE178A; Fri, 18 Sep 2026 17:14:30 -0700 (PDT)
+	id D09AECE17BD; Fri, 18 Sep 2026 17:14:30 -0700 (PDT)
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
 	Frederic Weisbecker <frederic@kernel.org>,
@@ -40,13 +40,18 @@ Cc: linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
 	kernel-team@meta.com,
 	"Paul E. McKenney" <paulmck@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Christian Brauner <brauner@kernel.org>,
-	Benjamin LaHaise <bcrl@kvack.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: [PATCH 02/12] aio: Use accessor for hrtimer_sleeper ->task field
-Date: Fri, 18 Sep 2026 17:14:18 -0700
-Message-Id: <20260919001428.3133388-2-paulmck@kernel.org>
+	Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>
+Subject: [PATCH 03/12] wait: Use accessor for hrtimer_sleeper ->task field
+Date: Fri, 18 Sep 2026 17:14:19 -0700
+Message-Id: <20260919001428.3133388-3-paulmck@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <5dca353c-6b3f-4d01-8808-bef2c0dd7af7@paulmck-laptop>
 References: <5dca353c-6b3f-4d01-8808-bef2c0dd7af7@paulmck-laptop>
@@ -67,13 +72,21 @@ is no reason to let the compiler introduce additional confusion, and to
 this end, the hrtimer_sleeper_task_get() was introduced, use of which also
 has the benefit of avoiding open-code access to hrtimer_sleeper innards.
 
+Therefore, apply this accessor to the __wait_event_hrtimeout() macro.
+
 KCSAN located this issue.
 
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Acked-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
-Cc: Benjamin LaHaise <bcrl@kvack.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ben Segall <bsegall@google.com>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Valentin Schneider <vschneid@redhat.com>
+Cc: K Prateek Nayak <kprateek.nayak@amd.com>
 Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>
 Cc: Frederic Weisbecker <frederic@kernel.org>
 Cc: Thomas Gleixner <tglx@kernel.org>
@@ -82,22 +95,22 @@ Cc: <linux-fsdevel@vger.kernel.org>
 Cc: <io-uring@vger.kernel.org>
 Cc: <netdev@vger.kernel.org>
 ---
- fs/aio.c | 2 +-
+ include/linux/wait.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/aio.c b/fs/aio.c
-index d78acc69f487..8130d9e637ea 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -1402,7 +1402,7 @@ static long read_events(struct kioctx *ctx, long min_nr, long nr,
- 		w.min_nr = min_nr - ret;
- 
- 		ret2 = prepare_to_wait_event(&ctx->wait, &w.w, TASK_INTERRUPTIBLE);
--		if (!ret2 && !t.task)
-+		if (!ret2 && !hrtimer_sleeper_task_get(&t))
- 			ret2 = -ETIME;
- 
- 		if (aio_read_events(ctx, min_nr, nr, event, &ret) || ret2)
+diff --git a/include/linux/wait.h b/include/linux/wait.h
+index 7e215330199c..c2af98b0074d 100644
+--- a/include/linux/wait.h
++++ b/include/linux/wait.h
+@@ -556,7 +556,7 @@ do {										\
+ 	}									\
+ 										\
+ 	__ret = ___wait_event(wq_head, condition, state, 0, 0,			\
+-		if (!__t.task) {						\
++		if (!hrtimer_sleeper_task_get(&__t)) {				\
+ 			__ret = -ETIME;						\
+ 			break;							\
+ 		}								\
 -- 
 2.40.1
 
