@@ -1,71 +1,71 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6B33164B7
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 20:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C943A393DC0
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 20:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789849257; cv=none; b=gWRYzE3voN5hziAkXZiQJ6akAcnzJV2yiIdGHCq/blEDx4L/v2gQDSwMnr2Us2bxmmvn/h+ncwVXUvn7ZtRKhnHkWu4k3rKUeIsTwnxOgOGxWYOrfSkHF/sEF8WkOjf/VRa/IlNUsm7PHMvdAFJZW2pDc75GCuAGBKD7EY/a8R4=
+	t=1789850892; cv=none; b=OYojgRM516Q8gBDv0OJ56L9eF5qXEvQzyVtZ/UGos1SoDNO2Ph25gczBg2QqIlHmXXbndg5PqtXILnOtD0wdNBNWBmBpHI6z56iIws9oktz6LBH7JjGAXnCG+/HBnITg01oyHyo6q1kiJuaw9jTb0Avse24rsowb66VBAOlT7T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789849257; c=relaxed/simple;
-	bh=9tXgFRdGNbY568yh3mm8gcBNUYcrFVVuPwDtoorSm9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p3W0ii8jY444cVnmxNUSf/2EW0OKo1Tw34pYgRIoqAvIXJ6dpnpE4Hsd0T1YkzTKuXOlPFTvmPHK/5KVRhzZr0aslv/SvCWHc1nbROcgqnAoxc6BB9uuNEO7pZkmdgQMER5mJ8Zce0tz8KRoMYaVArVrm/dgAgD+o1yOtyokJik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bpVjX1iA; arc=none smtp.client-ip=74.125.228.12
+	s=arc-20240116; t=1789850892; c=relaxed/simple;
+	bh=WHFKCdJIxJZts25V574gufTxt/e+kvWyiWNqWg4+FaI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jku2IwFysjhDc5R7EahepfT6b2W1r24RWlwg/0i+b06M5u3zP0PtXWDRjYacW3dNfaVYkB4CIIUlz9a0F6LxHKHMCd9kPrc++EjnJWv448DOpizyAfJVK69YDbTGP+zdg+L9vOFSE9DZr9alCzqs9LVAOJ9/V3lMo/jCjHTxpdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cb0SpgOk; arc=none smtp.client-ip=74.125.227.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bpVjX1iA"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4d04d740cso1119869a12.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 13:20:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cb0SpgOk"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-39e03468a5fso1647084a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 13:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789849256; x=1790454056; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789850890; x=1790455690; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LpJqRoGvSP4j/JMvJGn7hs5Aen0UlxRTT14Hmtdeid4=;
-        b=bpVjX1iA1TilQ/IdUW+eBOQRd3z+YhAKGfUPCUKhVc169eseE3z4XlrUDyVwzFR8mO
-         eCD+RQ8jCSmuyN6It8q5YPNJ4ub+vzKvBsEmk/X52qyqLWdrpq4dQjGniKDK8AWgBTAC
-         b+LqvdKVcNsHpVpiEmHzlNnAYpQAxoe56PFwBFOwlHwSWM9tiMiYLBr7OE+6SUU0mzwv
-         AVyPNxn2/x0QsXRrWeT9ab/SCtmIagVL9Cvc/ErCIYm+gvAQsSta3dH+m3RVAALHBnMc
-         66YyZ9ipVtJiYWF9YgIq0MPHwn1rqe8jpwn2ttFPgJ+Pqe30bbR2J99TFkztssH4Jpjv
-         C7Zg==
+        bh=UklQyeMvhqLuej0je0ggi0hTj3VJTG/i2EoA/FxL8jY=;
+        b=cb0SpgOkmSpx4HbI+vXW9P+Sy8sbUPwjOyXOs8dOCOqmceKIRpPDLumdTUjeuMK/Lo
+         EDPOvc2eISYzH0sl8SQ35AGjeSqBz6FIbbKf9xh+Otc5xr7tqoo+HtTtIPIDM2LxK4Ct
+         +J9kLPVG2pOyxFnD8hWZtW3JtY1Wo6t/oddpt2SJJUEWTAko0MKS3KStTcf0mNe4aP3O
+         HHKeAFE+1/3Elb3vT05k0XiHZYHZ568cbiHHPOQER4GljuNlvNPSJEBjSVMktkz2EqjI
+         FVOTyOrTImqq6fUvwB9vTHudhQvhBV+xTJ7sShb0/VrG0pkD1j9n2acXsX6E/tH18XRW
+         e4/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789849256; x=1790454056;
+        d=1e100.net; s=20260707; t=1789850890; x=1790455690;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LpJqRoGvSP4j/JMvJGn7hs5Aen0UlxRTT14Hmtdeid4=;
-        b=PXOZhxNs66D6ATVIIdsdErxoSgdu7sSsu+0aLnFIy65W5KxMjoPZ0FRCbq3aBHLStZ
-         JcDpY10l37lzIGD/5bqarrugnFsOyHrV0cyJhHj5uYFCVSzWKo9pnhJqOEjQit4htxTd
-         /HwVrhCYnlD9ZovM3DPAkxGRUMViABd67nPqp8VQUmTAe7qlxUfmYHClP/lij5/Et0pO
-         bfzzPXWoWMra4J37nvrA+qKZ4Aiail3SLX2NR1yRYyjY7Uyhlh1zjZQaW9Hdu8YucwBt
-         oJKRCPIxNcCpkUFwX/LMIJZb6rJ6i8bhJFK+5LbAGkM+MG+ZnGrg+4wWq/oekzUJnvMb
-         Bz/A==
-X-Forwarded-Encrypted: i=1; AKwUvBx/SH0uZUI+HbA+7DTnlr/uQ+OCRaP+AEO2F7bO5BjRGGwjdOkf1uLyzhTnBiboxk2tnIgyvM3vTgej/mzW@vger.kernel.org
-X-Gm-Message-State: AFuF++mXhzV4vMuPBM+24JoUQSBFfSvUuExotcvwV0Fk21kVqpzYek2e
-	UGiN/1Kih78+GaS50WkadOPC7NdR0n8u9KPZyn8GZcFVXihFxQTjfOTz
-X-Gm-Gg: AYBFou0LGBslHZV76mh5BsWmbqt+EWc9vF/eqJvI03I1+AvYGIzt7uIzUEUKV98epy2
-	rzhq/nzTHj7loixGLKEmkEaVzwzumv5IvzQbdMYnVUcl7nOubIlS86XsSdGt4LLhu7iPHlAAtyd
-	Cf+Ai+6agaT4TaCXpGRuB7kesZDulEWnNwfXdcOdZao1Bgu1K7WAYH+SYzgB4xqQFPpDgZPwB4o
-	W5udw8LYOQSLKZbAbEq4aNcAhyAVwreJZKiNrGLTogE2r85owg68or4PgDxcojJdWQVq/+6v+0i
-	ErfeVN9+UqXWbjybaCDGwMmBIA3lvLY0g67opYC9jZwWPoGVAvxAE+XnZIs4p7ytO2cyvdJkt2H
-	bxAWJ4rrKXstPz+9QQEkjIBhYFvjUw7V4ykPho/SoaGPnA2z6Jn4LKxrWzd4a12pQGdPE0rfXFZ
-	bbXP6ZgsgL7DWDQQYU9Qqg4Y2Cg38AbJe2MrCbajSPNpgGVKldzHMqv6WkEK6Yf/Tb5uph/Inxx
-	P6OPOlANliq42SMn9Jjawi1dbmDSi4mcxjSt5c3TZEtXaHRdM0v5TcIUYHGy349zXwRsNiyjX5V
-	jmqqWr+LIQ==
-X-Received: by 2002:a17:90b:586f:b0:39e:6a81:f34d with SMTP id 98e67ed59e1d1-39e6a81fcedmr5281928a91.39.1789849255516;
-        Sat, 19 Sep 2026 13:20:55 -0700 (PDT)
+        bh=UklQyeMvhqLuej0je0ggi0hTj3VJTG/i2EoA/FxL8jY=;
+        b=HoeoISCiweIymVG8q1N9/hqdPyIn3bwq8XaII6K34CLmda4TmKYi2bznnXBpwWy0fs
+         acKGSNZE0tYmiaoHerkooLgcAtzWWKqiOKvXOw5ummAZIErJews2rK+T+cOfexCfUOBn
+         EP6zro2nTKhAkmdpGx3vFYm9qd7BzsiDp547xjKqC/tRMVAPIOfNd9r9yLAjqwzkzHnP
+         w3M7+0aT48RykCsiulsMBPR29weN8XAboIQVBmxhxZC6j+PQWKRNaW8W1g0IGuREw40/
+         nWmPQBKBG+v6jQ0qFH3FfLSaXIn6c1LfApzM9JCOkErvJ2VJCwPRpyeLNJ6DJjeXKwmj
+         GT8g==
+X-Forwarded-Encrypted: i=1; AKwUvByIPLI3xXe7fGM55Qxs8t9XIhiVJ2MqWyLQTlINNsFfztH7BqXZgIyzekgwQQMfMSNugIvlbuEelnmm1Hkc@vger.kernel.org
+X-Gm-Message-State: AFuF++n/kIjcW/Udvc8YUbYTXQUG7RPrRGVoJW9J5KLRs9GaQMtsj3UQ
+	ihkkabPV7vqmVy2uIvfXBSqwsJa3wQKfhaVepyJODMYKmKvXxuNun8jG
+X-Gm-Gg: AYBFou3QVWICvYDmLC4yDgjrEYmb6W68wchRmq85FWapQUwlwaQRG7PukE/nOGt3pVc
+	aJi8MAzpUddD1ZJgY6LN+WhiS9c7flAXCsKHFJU7vb7t/N/k13KguRxk4Z/OIQncarA1D43WNn8
+	QfAx9nTpDd8cq+iO9JywA+ZAVFupmeAGwAaqU8sxX5fuVNRjgF5lxD3F6ooCby2l5+BuwC6vwS+
+	yjNU3RCftHcfZ+qGc5CW/2GmbR7Mh9vhKo2mLAVECsIQcFX/VFHwoipPUbsMIgr73EHNIGl63wI
+	Z73kHFP6NR6iahSAr3dlT2DtPiTaUYlc2CH20qMqPPWhZ9ipdomk9dAjnSKtvF+52v1r9eifc9+
+	iPl0gHJ2bsoK51wkkSiHH+GWnSroDpvOHfw0BGJyY4lFDyXVX7li4zrtm1zdhmRXo04liRbfAX+
+	W673Dv8Pn6J0Gg964adMTKvpj9rI4WiE31lTdLxeS09z8ICPFqxNMYKbEdd3Q4cd2X2kX7Gfi4Q
+	S6HmqGBeprYGgYILQDx4N/7m+KgddXOrxXAOKiKZvssd+dtTA2QVUHmhzBJMlGwLDHZ12eREnTt
+	OQ6PbLUjUFORZ3DdMGOW
+X-Received: by 2002:a17:90b:4b45:b0:39d:f7dc:61e4 with SMTP id 98e67ed59e1d1-39e54b204c5mr10849177a91.9.1789850890079;
+        Sat, 19 Sep 2026 13:48:10 -0700 (PDT)
 Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6cb400c3sm5950593a91.17.2026.09.19.13.20.54
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6ca50694sm6848858a91.2.2026.09.19.13.48.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 13:20:54 -0700 (PDT)
+        Sat, 19 Sep 2026 13:48:09 -0700 (PDT)
 From: Hui Peng <benquike@gmail.com>
-To: Bob Copeland <me@bobcopeland.com>
-Cc: linux-karma-devel@lists.sourceforge.net,
+To: Ian Kent <raven@themaw.net>
+Cc: autofs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] omfs: fix inverted check and use-after-brelse in omfs_dir_is_empty()
-Date: Sat, 19 Sep 2026 20:20:53 +0000
-Message-ID: <20260919202053.2435593-1-benquike@gmail.com>
+Subject: [PATCH] autofs: fix sbi->pipe file reference leak in autofs_kill_sb()
+Date: Sat, 19 Sep 2026 20:48:08 +0000
+Message-ID: <20260919204808.2812930-1-benquike@gmail.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -75,90 +75,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-omfs_dir_is_empty() scans the directory's hash bucket table for an
-occupied slot (~0 marks an empty bucket) and then returns:
+When autofs_fill_super() fails before clearing AUTOFS_SBI_CATATONIC (for
+example, when find_get_pid() fails on an invalid pgrp mount option, or
+when an fs_context is closed before mounting), deactivate_locked_super()
+invokes autofs_kill_sb() -> autofs_catatonic_mode(sbi).
 
-        for (i = 0; i < nbuckets; i++, ptr++)
-                if (*ptr != ~0)
-                        break;
+Because AUTOFS_SBI_CATATONIC is still set in sbi->flags,
+autofs_catatonic_mode() returns early without calling fput(sbi->pipe),
+permanently leaking the pipe struct file reference.
 
-        brelse(bh);
-        return *ptr != ~0;
+Explicitly release sbi->pipe in autofs_kill_sb() if it is still non-NULL
+after autofs_catatonic_mode().
 
-That return statement has three bugs at once:
-
-  1. The sense is backwards. Its only caller is omfs_remove():
-
-         if (S_ISDIR(inode->i_mode) &&
-             !omfs_dir_is_empty(inode))
-                 return -ENOTEMPTY;
-
-     When the directory is NOT empty the loop breaks on the first
-     occupied bucket, so *ptr != ~0 is true, omfs_dir_is_empty() returns
-     1 ("empty"), -ENOTEMPTY is skipped, and rmdir unlinks the directory
-     while leaving its children allocated and unreachable.
-
-  2. When the directory IS empty the loop runs to i == nbuckets, leaving
-     ptr one u64 past the end of the bucket array - which for a standard
-     block size is one u64 past the end of bh->b_data itself. Both the
-     out-of-bounds read and the emptiness verdict then depend on whatever
-     sits in memory after the buffer.
-
-  3. Either way, ptr points into bh->b_data and is dereferenced after
-     brelse(bh) has dropped the buffer reference.
-
-With KASAN enabled, rmdir of an empty directory reports:
-
- ==================================================================
- BUG: KASAN: use-after-free in omfs_remove+0x265/0x270
- Read of size 8 at addr ffff88811a145000 by task init/1
-
- CPU: 1 UID: 0 PID: 1 Comm: init Tainted: G    B D  7.3.0-rc3 #1
- Call Trace:
-  <TASK>
-  dump_stack_lvl+0x70/0xa0
-  print_report+0x153/0x4c6
-  kasan_report+0xf1/0x120
-  omfs_remove+0x265/0x270
-  vfs_rmdir+0x2e6/0x810
-  filename_rmdir+0x3bf/0x530
-  __x64_sys_rmdir+0x4b/0x70
-  do_syscall_64+0xda/0x4b0
-  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-  </TASK>
- ==================================================================
-
-All the information needed is already in the loop counter: the directory
-is empty iff the scan reached nbuckets without breaking. Return
-`i == nbuckets`, which neither touches the buffer after brelse() nor
-reads past the end of the array, and gives omfs_remove() the polarity it
-expects.
-
-Fixes: a3ab7155ea21 ("omfs: add directory routines")
+Fixes: ebc921ca9b92 ("autofs: copy autofs4 to autofs")
 Assisted-by: LLM
 Signed-off-by: Hui Peng <benquike@gmail.com>
 ---
-Note that nbuckets itself is bounded: omfs_iget() sets inode->i_size to
-sbi->s_sys_blocksize for OMFS_DIR inodes (not from the on-disk i_size),
-and omfs_fill_super() rejects s_sys_blocksize < OMFS_DIR_START, so the
-loop always stays within the single block read by omfs_bread().
-
-Because bug (1) causes rmdir on a normal, non-corrupted filesystem to
-delete a non-empty directory rather than return -ENOTEMPTY, this may be
-worth a stable backport even though I originally hit it via a KASAN image
-test. Left Cc: stable off for you to judge.
-
-diff --git a/fs/omfs/dir.c b/fs/omfs/dir.c
---- a/fs/omfs/dir.c
-+++ b/fs/omfs/dir.c
-@@ -232,7 +232,7 @@
- 			break;
+diff --git a/fs/autofs/inode.c b/fs/autofs/inode.c
+--- a/fs/autofs/inode.c
++++ b/fs/autofs/inode.c
+@@ -51,6 +51,10 @@ void autofs_kill_sb(struct super_block *sb)
+ 	if (sbi) {
+ 		/* Free wait queues, close pipe */
+ 		autofs_catatonic_mode(sbi);
++		if (sbi->pipe) {
++			fput(sbi->pipe);
++			sbi->pipe = NULL;
++		}
+ 		put_pid(sbi->oz_pgrp);
+ 	}
  
- 	brelse(bh);
--	return *ptr != ~0;
-+	return i == nbuckets;
- }
- 
- static int omfs_remove(struct inode *dir, struct dentry *dentry)
 -- 
 2.43.0
