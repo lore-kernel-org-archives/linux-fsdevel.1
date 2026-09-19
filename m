@@ -1,95 +1,95 @@
-Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
+Received: from mail-oo2-f41.google.com (mail-oo2-f41.google.com [74.125.231.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B8222E3F0
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 17:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C3937F31C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 18:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789840305; cv=pass; b=om/PWskVf7+E9LnC0/5QlKIeEmPzHlmJjaAlfcZvwhgzVId6N/KMC1318DWDle4V9R9rZmpyYvFfyL3gCBj+6LXRdqsjCdq6tFUAczPErzm+uT23+X2DRb/SIWwnXFU7Sc+rQQgqzXhIq+lJtoz/TqR4eb40aW1AmV2N3LJiOTU=
+	t=1789840981; cv=pass; b=YmSaBJAUb/u1U8y0DnyXZtgbczTpMV97rCUBjLYRdtu7OYFIncOqvLGGbt+SUEEJM+iVZU1IoZKez1w5Bjvcb96rt4JJpKfYEJAz8j+cs3m5Va2WyuQ5Y1Q3bgrnExrkW5xDBbbjUseiz9UXaFlL7BgLqi8xJDYqcUUHTQD/dp4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789840305; c=relaxed/simple;
-	bh=fZC5KOxygQCvgzX23m5hmGIytJqdAkOFo+4PrqktGnk=;
+	s=arc-20240116; t=1789840981; c=relaxed/simple;
+	bh=ZnIxT/qMr1gdbVRylwtNaFD3JyKemoHZb1UvE3gbJzg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EsydKVlMej8sZwWg9XX/ETBQP0koV9AAWrIJMVj8N7e8L8lSbh9O4B9JrTofSpokVfC2hU5ZGABG2oEYAv9LWvcy8mO8Yn1EZUs7O+YVCYOb/CHiJUxhAmyZOpHa5LSlzq/6mk6PKheNf+7dFRDha97+UtIEab4Q6fZsSesEReA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IV68DmfZ; arc=pass smtp.client-ip=74.125.231.204
+	 To:Cc:Content-Type; b=lV3ALhcRmoTU/tlcH7yMNdpNQM/M9Q/0AMKy8CAa06ttpM0xT1yPllzE/Dzde8ooaB1sepEJbdJQqgX8bf2Qc19VHHEoe93/Pe9dvwndC3YtLP8l+ej3s7IgKEETwEwzL5BHGBl2wtXXdG9nzmbUizhMsFzSMeegxpVmFG/VHwE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RqCIAJli; arc=pass smtp.client-ip=74.125.231.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IV68DmfZ"
-Received: by mail-oi2-f12.google.com with SMTP id 46e09a7af769-7f4f0d298caso746467a34.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 10:51:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789840303; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RqCIAJli"
+Received: by mail-oo2-f41.google.com with SMTP id 006d021491bc7-6bcc0c495efso981321eaf.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 11:02:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789840977; cv=none;
         d=google.com; s=arc-20260327;
-        b=ZgzERqkgDkL+lUREHYVxTNYa+9I+clcQxcCbvwvae3b6H+IzFB/dHzY6BXssiq7kRQ
-         qNeA6g8jl9QiutAkjMzl+Wnp+4UGRLD+3ii3ETqNMaqaeuf23yzXyMtOKC4roQou9/u7
-         B2st5/xa7Fqg8Uxqh8PGHZ1DkvLF+2ExGZrDo3syh9knGeMZu5MAyM1Z5Dg71qS0jdOB
-         cBaL8LKRxM+D/rFtOLX+NuSBubCc2bE80HT0kiovrydPn0NAwifDshNBuIxbcE7wxgh7
-         kS9WPc+laCxXkaAcSrQLe+61zOm7ImR1TgjYHBj8Iw9oJe3ageLMPiy9/jOqEsoo9eSb
-         DkYQ==
+        b=d1UxJgtnHQA7F8v0nmInDQISj26wzWm8yeseK0vOPCPI1BrHVt29MimWVzLFJ96Gjv
+         w1yy5Qwp5vYhvvxpxSUuWwcvr4nM0pPUFFGGZ1v4XNLm3CZwmLgrT6MlT9hthbAExmjx
+         ibfvz2UpyWNffDXeSg7XVrWFaPP9Yj9GBlL4UBgnCEv3cYohucSaSXKoJxjTL7JuuLAM
+         VxyheQ+vuDDjx36yDQqjWH00JL5f2xxhFOU8qtnGkADU8vwXVhPNxc5VDYZK9D9HKWnD
+         iZVioyqYCW0bgN2fxeyUCeGa+TS64y/Ot51squrN0Qe+WNL+9i6Ka94YqPNLQp8Eu8IG
+         /LoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Okip5gnBeaXNXEAYrkxX3LEziZrA3SBraWS/ZdG+Lro=;
+        bh=NDKPZzjFZ5Bv8sDLp41bGNciktq2X5zHxI+b3pe3hs4=;
         fh=yOiudSuk+B/rR47n2F7nA/XPr/J7mTeztq57UTMxu4Y=;
-        b=SftluDPH6g48rZItHzex+03iD7p+WXqerxygW/F5LhKsxoA9Oj6afk/GPlj/bjyUJ3
-         FALF/dJ6YP93ERqXwS9wNc2r+kIYrMvE7+M/uQFjW6/QUd/DF0dd0ELK+zn0eOqYsE7F
-         Au+ywpxog7iYXEr7iVA5S5+inExY9pDP3CD/H+EOIrVK6VJ2NoGxj1YhUoej9BDhSI4z
-         xr86Ifiyp4Tp7Te3dveOyAhHKNZZjHEvUWZLLy96NMWMgceUvxCWqo+KDfAAYyApbKOe
-         4pVTJ5lfC/1PtNwgQ8kDQT2vYfBXt5geqC1picYoqjV3fFRqGx+ueHT09MaUtd4gEKdJ
-         Htaw==;
+        b=PeET+OLeYmHAipGW8gDG0TaRSoUI7qhlJTAYM77fVd8OPOzFLI22IHkqHZ9MHd4mQB
+         XEQ9o74R6auA6R+3V5QvGX52mw9Nc57E6NnZ0R4PU7PnyoTF79mhWWS+1qZMLpNhYQw2
+         TJsyhS8FIo3naSwUQFbUSex5FjmvMBfh4UoS1lA24TxfUgG19wcjB3qILUb+eBE64WUE
+         y2mTJ5KA8XoR0wAoxHeKoRbJnci9kv4y77XwApb50cf9uyuDrb40QgrJCJFfjP/gitq2
+         99//Vyijo3et9EggzCZ2ZLJKVDPycuYFpMruwXU2R6HzbFkWXYHlyvb3spyxTXzQ3+La
+         bLlg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789840303; x=1790445103; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789840977; x=1790445777; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Okip5gnBeaXNXEAYrkxX3LEziZrA3SBraWS/ZdG+Lro=;
-        b=IV68DmfZK8+4+yd92UQw0Me6cu0dGUxiNqgOhipiFesmkesBCBFy3mp+PySd9dBZb0
-         LsjcWFPXnljZ2UtngeLWMQzyosyjoj9Eo/w07G8mCRrR31H4+5/a3XP5WaXSVKOxThuw
-         PAuDTiMktFwa7tcMfzB1n6KpJB6yxrkhd1I5mTSIc6Cv4bwVetF4XN4YpN5Q5HtPC6ZA
-         k2NTRpvsqajqTwqw/HTjKCLkuEf+M+eDDGWh1eaNBRYj7PGoCnrNomJiZVYxGcn4HmVL
-         MqUDPGLCx/5nKA9EtGduhfftJzyOTldiySgcpoPoUy3fRZEV1MbdkUBfGT61Wm4BkbBl
-         IFpw==
+        bh=NDKPZzjFZ5Bv8sDLp41bGNciktq2X5zHxI+b3pe3hs4=;
+        b=RqCIAJliHegb50OkBHm0bSinDzC6IXdxVS4KfIA6aSfD6TZCJA51CAIgaZwK+AIF/6
+         bdnUuTDIKUgPR2yFwkOgPzRSwyhwJUKcPhoW/wqVTPLsAkpoYB+b5n8IR3VzHB8yDOtq
+         JcV/as89DaXawq3qmTrPbiSdnlJtqkB2EX+ku2m7SjRQfkFToXjqrHyvp8Gw6p+7GTWb
+         /Ea7DU/Q5A1yh+Q3SEC06587ZbdC69JBDejvDjem5MkCT7UhrNJL7YoX2guVuv7qC6XM
+         JcT6WH5Ymjh1IblmpJr3twcyVPaMBk6vmLKvbFRRCUDRmqGFchEzDM9JCUIUn1/PjRFv
+         NaEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789840303; x=1790445103;
+        d=1e100.net; s=20260707; t=1789840977; x=1790445777;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Okip5gnBeaXNXEAYrkxX3LEziZrA3SBraWS/ZdG+Lro=;
-        b=q3bo1bQJrz2QEySxBEOwYATTojMf4dkXuutRXXReyUujQx6XqEtfC7hxhvIKeVu9yE
-         3962wYISdMxD+ZYHpnpRJYz2Jqwr2Cdm7ed4TgRxesIsSFPxQD1jUynmuOnpETYjl9T+
-         s3gFnRi9qon6Fk1WN8n0GWrupoRa6hiNBhSb1E4wKH56BEJD3l61PaZjoDd3xcXsuTai
-         EB+XzNLZSqOrm8NaGzlR50firQ8R/8CcyJMJrZAKxRyN5Guz4HDQF7wGIVNsZoN1YsXp
-         g7xYhP8OflMIsdrYq7B1/t5acsBg0acJDAwvguCXgdaaEn/zG4P+NjKdpvhCU7ClR3n4
-         EZQA==
-X-Gm-Message-State: AFuF++kFE2GCQ5PmVYl/1yjVbI833Q58dJABQye0ehhP7plb6BTIvK0s
-	eSgDEdmjERW0AsHwpjPfAqlHWgybax19is8dNcskwFIUlOjoG+bhgomnu6m36AgtANal9CL5ftc
-	uFUEWc0yvYZtgZ9rEBUtO3w0+DH9+TeM=
-X-Gm-Gg: AYBFou1f7UOT5vxOEfi4Nrg+RzJ1bEKhdMspCER0c3ADMzcdoB9BNgcCXqOXjnnVLFE
-	dvVUYrlkmJVHWhdRvqZx4e7Jl4NSedPPFWwfFo4FgbqcClOBrCzLDcmzjR9Ff0nR5N76g7t8bz9
-	IWnfVPWkYH2DRv4b9N7tdd+EAvfzO3vEgZzGcR7qPc9P7cu+vM2M7ZY33hzzBDFimQ+TgkJLkJn
-	e3vh2AVMlcvx/DJktRw6Car7zOAo+VnsVhV29r2LcjZ4sZYuccPX0y9D458SfHm87CzLVm0d5yp
-	9p6gmh6KbAXgP8XtslZqp99ldVncTT4HDE2PVdOnEpQPztIUwxrMenrcJyzoOHaTh89oiuFaNhS
-	jbhWSjnXztLmvGB0MAIsimPUhrGF/dSlSwmvLQFyp
-X-Received: by 2002:a05:6820:1846:b0:6ca:5253:9644 with SMTP id
- 006d021491bc7-6ca9d14b2a8mr4883427eaf.62.1789840302770; Sat, 19 Sep 2026
- 10:51:42 -0700 (PDT)
+        bh=NDKPZzjFZ5Bv8sDLp41bGNciktq2X5zHxI+b3pe3hs4=;
+        b=laK13R6kiuao6owRS/qNNZQvhWAejQZyg/RSdbyyjh7Aa6sdB406UxdjWL+a/FSCmh
+         PhkwM3ZkgYbh4GG8u6K8nyqUelS58QlW5Q6GIx8eLP52er0BYbnobxfWa+bzHDZX8l/G
+         4+hXD5fm2Oby9GT9cQpC8SU8EWbD6BBv0fCnz7ssAaD5HPGsDnuIkUlvL74MxjQrsYbQ
+         jPKnr7bimgzH9YuJz8N0wk1dpaU/z03dM26ynUWN6A5eQon4OKtvzY+7BSghz7Tf29TE
+         +kWM78I8/ZLtKfeOy73j9IUsYF5mS9XvB8gWtKcK5ybGkfh+wdeaVm8fPk6WZljMBhTF
+         KxPw==
+X-Gm-Message-State: AFuF++nuXKvHjoHyHZVX5cvZCV+5oh0oL9MHrjEfzGdqPX/S6wmOAIFx
+	M00ZQX2x4xuzr68qCCEdBNBSmJMnVLjiBfjWwS/h0Z67DohBE1UBoTzSBU3Hcbfv0jenypfZn0f
+	smwoEe51WH2/y3x5N5wUwkIDHO2PLjrs=
+X-Gm-Gg: AYBFou2+r/AAx9mE8bqSf1ygyZ/hU1KGQo/XvTYuOdzwTmW9xbhDZO2AnlyQYrWbwYo
+	WtDlF8+HVZLPg/ZTLkoRSPUJbKA4c119vOLTQCniUVJSh3VbxbmjsACIEGq2XGaXIAwAmxgwkVd
+	r7mbinbqPLoWxKqhveQ7sU+GKlt6QbLv57EVpG4RRstaN9XW/8gtyFnU0MGNfFkZp47sAWKcNLQ
+	15lzrdZAYYEY2aqPOrSgXmdbOB7V3PTYii//4nu9fU5G5ro7qn2Ane2Z8c6PXcNDqcHxgqrGV9f
+	zVk2jqvJcg/SAgznCmr8Fz5uZ6lVs5puv/evxJhb+5H+o7EnDfSps1Z/16jcRu1jqVYzAMn+VQ8
+	wcIaQp9VYTP6Jpsdqr2XaA4wPVnnbvSgBLtITJ2B7
+X-Received: by 2002:a05:6820:222a:b0:6b4:117e:543 with SMTP id
+ 006d021491bc7-6ca9aa41fd6mr5401676eaf.21.1789840976828; Sat, 19 Sep 2026
+ 11:02:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1787770110.git.jbingham@gmail.com> <e7ab836149f814b04017905dca2e07a4c94078db.1787770110.git.jbingham@gmail.com>
- <aq1GsO6dkS747OEb@infradead.org>
-In-Reply-To: <aq1GsO6dkS747OEb@infradead.org>
+References: <cover.1787770110.git.jbingham@gmail.com> <668bd5f317e3bf8eaee0254ca79e595395b6e332.1787770110.git.jbingham@gmail.com>
+ <aq1UW699LW2pxvHU@infradead.org>
+In-Reply-To: <aq1UW699LW2pxvHU@infradead.org>
 From: Jeremy Bingham <jbingham@gmail.com>
-Date: Sat, 19 Sep 2026 10:51:32 -0700
-X-Gm-Features: AcwNN1UwXGt1i0ZpfillThgf-DVm5Bruym7sGY4z8Lhyzj-X1ZGxgnRAU8IUmNA
-Message-ID: <CAMyBmMA5bOaGK0TfPMGpmfR6oD0k9EdS4_R3RoJ7d5QTjm0bqg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] minix: add iomap functions and definitions
+Date: Sat, 19 Sep 2026 11:02:46 -0700
+X-Gm-Features: AcwNN1WZl_zWUcTPKwWMEvYAQm5b_50lhzbDf2T03tQlLz_DhKb6TapJfNS5Vdo
+Message-ID: <CAMyBmMCJC6F=y5_3sbC+2t+6NZVkD2ve2xOhxLDeLPfe7YBJUQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] minix: finish wiring in iomap functions
 To: Christoph Hellwig <hch@infradead.org>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz, djwong@kernel.org, 
@@ -97,110 +97,56 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 18, 2026 at 7:12=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
+I've seen all the comments on formatting and will be fixing them, but
+I'll just note that once and not keep repeating myself.
+
+On Fri, Sep 18, 2026 at 8:10=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
 g> wrote:
 >
-> On Wed, Aug 26, 2026 at 02:41:56PM -0700, Jeremy Bingham wrote:
-> > This patch also wires iomap.c into itree_v1.c and itree_v2.c, similarly
-> > to how itree_common.c is included in those files, and exports version
-> > specific versions of minix_iomap_begin and iomap_ops.
+> On Wed, Aug 26, 2026 at 02:41:57PM -0700, Jeremy Bingham wrote:
+> > Wire in the new iomap functionality in one pass. Per Christoph Hellwig'=
+s
+> > feedback, there are no longer direct I/O operations. Without that, only
+> > write_iter in minix_file_operations needs a custom function. That and
+> > exporting minix_setattr for minix_symlink_inode_operations are the only
+> > changes in file.c.
 >
-> Can we keep the iomap code out of this double build mess?  Just define
-> some low-level helper in it, but keep everything else in an only
-> once build iomap.c
-
-OK. I went back and forth a bunch on how to best do this, because it's *suc=
-h* a
-mess. I had a lot of reservations about the way I had done it, but
-it's so all around
-messy I ended up there. When I refactor it I'll either move that function t=
-o
-itree_common.c or craft a way to get that depth information out.
-
-> > Also updates 'unsigned' to 'unsigned int' a few places that got picked
-> > up by checkpatch.pl.
+> Commit history just goes into the cover letter.  In genral you don't
+> need to enumerate all low-level changes either.  Explain the high-level
+> change, what motivated it, and anything that looks a bit unusual and
+> unexpected for that high-level change.
 >
-> If you want to do these cleanups please split them into a separate
-> patch.
+> Note that you probably want to merge this into the previous patch
+> adding the actual iomap ops instead of leaving them dangling between
+> thet two patches.
 
-Noted. I did submit a patch like that back in I think late June or
-early July, but got
-told (politely) to knock it off. I had kept these cleanups because of
-checkpatch.pl
-griping, but as you said below there's no technical downside to leaving it.
+Indeed, and thank you for letting me know that this ought to be merged
+into the previous patch. I didn't want to run afoul of making the
+patch too big.
 
-> > +++ b/fs/minix/iomap.c
-> > @@ -0,0 +1,122 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * iomap functions for minix.
-> > + */
+> > +
+> > +     if (ret > 0)
+> > +             ret =3D generic_write_sync(iocb, ret);
+> > +
+> > +unlock:
+> > +     inode_unlock(inode);
 >
-> Not really a very useful comment :)  OTOH this lacks a copyright
-> statement for your work.
+> For most file systems we try to have the generic_write_sync outside
+> the inode lock to not do the expensive sync with the inode locked.
+> generic_file_write_iter also doesn't have the inode locked, so you
+> should probably sync after dropping the lock here as swell.
 
-I didn't want to be presumptuous. I'll add that in.
+That makes sense. I'll rearrange that.
 
-> > +static int minix_iomap_begin(struct inode *inode, loff_t offset, loff_=
-t length,
-> > +     unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
->
-> This mostly does not need the iomap.  It basically returns a physical
-> block and a trystate of HOLE/FOUND/ALLOCATED.  If you change the
-> interface to that you can keep it in itree_common by directly morphing
-> the existing block lookup into that, or even do it as a prep patch,
-> which first refactors get_block to this interface, and then do the
-> iomap mapping on top of that, and in a place that only gets built
-> once.
+> If you're looking for another project, we could probably also have
+> a iomap version of the directories in pagecache used by minix, ext2
+> and co eventually.
 
-I'll address this in the refactor mentioned above. I don't think I can
-entirely get rid of
-or refactor get_block() unfortunately because of the directory
-operations, but I'll see
-what I can do.
+That does sound worth working on. I don't love having the directory
+operations using a completely different framework than everything
+else, but since minix was not the only filesystem afffected by that I
+left it be.
 
-> > +/*
-> > + * minix_iomap_end ends up being a nop; since minix doesn't have any e=
-xtents or
-> > + * transactions to worry about, there isn't anything to update here. T=
-he on-disk
-> > + * indirect blocks get dirtied in minix_iomap_begin.
-> > + */
-> > +static int minix_iomap_end(struct inode *inode, loff_t offset, loff_t =
-length,
-> > +     ssize_t written, unsigned int flags, struct iomap *iomap)
-> > +{
-> > +     return 0;
-> > +}
->
-> In which case we can just drop it.  Note that for the next version
-> against 7.3-rc should also move from the begin/end calls to the
-> single next one using the DEFINE_IOMAP_ITER_NEXT helper macro.
-
-Conveniently I had just updated my test VM kernel to 7.3-rc and
-verified that the
-module still builds unchanged, so everything's in place for that.
-Thank you for the
-head's up.
-
-> > -static inline unsigned minix_blocks_needed(unsigned bits, unsigned blo=
-cksize)
-> > +static inline unsigned int minix_blocks_needed(unsigned int bits, unsi=
-gned int blocksize)
->
-> Overly long line.  I'd much rather generate the baseless checkpath.pl
-> complaint and leave the plain unsgineds in place.  There is absolutely
-> no technical downside in using that notation.
->
-> > +static inline const struct iomap_ops *minix_iomap_ops_ver(struct inode=
- *inode)
-> > +{
-> > +     return (INODE_VERSION(inode) =3D=3D MINIX_V1) ?
->
-> No need for the braces.
-
-All simple, all noted.
-
-Thanks,
+Thanks again, and I'll start getting this turned around post-haste.
 
 -j
