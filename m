@@ -1,267 +1,283 @@
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f8.google.com (mail-oi2-f8.google.com [74.125.231.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43876394496;
-	Sat, 19 Sep 2026 01:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9943C1A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 02:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789783144; cv=none; b=Q+U7XK7S8+GTHNUfMAEfv9c8Vwg4F1zF+eW0cS/kLrM0oO36qAgDeeraDT5b3FTyXLV/+a+O98jlgOdrV9TTarklKGWG4CgZScclk1VNyPLKMvsTe93aOc3GgCy8CI/EkwI21BTLf2+ugIXlPldxU0ol+qHJ6S1UXEoSsRjzCfQ=
+	t=1789784138; cv=none; b=cpTWin5fKgoZ/ckwD28VxauwP7wwFRcVKXyl3ly/BB38kxfpqZiPgDJPCbNtArN7r4LO7/Ev4TN87cv6Rs8YFbAfvBURZWYpmiF09B19qZMKdhPV94Ufw76DC8t8iTfFB5b+rXWO1rYWyyPO8pRV5E39Ialny/70FYWWIzHG0wU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789783144; c=relaxed/simple;
-	bh=Vd0Nq0t19M2YgeBBDprTT9iaP7BrVuOAuA3eDx+q/Rc=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=OJ/sfp+hC/SFD/uQ0QJ6rcVTg32Li5tzYvcC/cDk9qo1qoerQvFR0jx1qxfHeqM/qfDypBYfy46COzBarIlqBz3XqCjPrp6gUA4OzHt+S+3tkIOvDLNg7EqAgl0XnzJT9GzJUBzH+Ga57JSOEd8k2UJ4WKwNN5uz6eDJCCU8zMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=e/Crfu9x; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hxtJnL29; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="e/Crfu9x";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hxtJnL29"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfout.stl.internal (Postfix) with ESMTP id A5AD91D00104;
-	Fri, 18 Sep 2026 21:58:59 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Fri, 18 Sep 2026 21:58:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1789783139; x=1789869539; bh=nh/C4Q5BiOdNTmfqGZnkHCJ3NXU++0bpGH5
-	Fc/yEaCw=; b=e/Crfu9xFJH3DGXlXaJf7kxVqMtBHeNtAIYHY80hxwWkQ1PAi7d
-	cmOu7J6TF6FAnVoMjZ7l3VtaSo7eu1rePEVdSGwVJ48QgBkm7FS80GabB5r+HySG
-	cr9rslHUVAaRqp3kQMYh0sDm2f3UgZpMATbLjhmmZwS6MCOdO1JpL4yi+CkX3Djk
-	OW/JCCxDn3UjOQCFzBm3J9TXl0znRo8XvVPBJtPzoI4IFEXpObUaWqsFvWBKwJiX
-	hYsQ18sR8n+pO7dqKikKmUUNuJHCLHjqGn0T/vb1HKc1hskvWoB2Y9WdeE/b2adZ
-	w7zuQLyQBYPNRtZqmdfengCxTyDbGs4pszA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789783139; x=
-	1789869539; bh=nh/C4Q5BiOdNTmfqGZnkHCJ3NXU++0bpGH5Fc/yEaCw=; b=h
-	xtJnL29rd8MegqIHK+Bww6hugcnWmKauvdiv2MEwSQyGmN2fuyLV3JGKe8gG2RGa
-	YYV7nlfg35h2fZG8/f1b+ZgLz7ZpFNmysTMoO6NVYKN7SGfHLXL0SSsE9ddKk26v
-	SaFZNLik+e8+8wbOHkStbUK/kcY/FuImOw37EUA0i+OqTd3OX2LCNz+FjatNnWcR
-	W+SnR9NpLxwBlT/LlaZPx2MNizAZBnI2vMYeljpoAiAsUZkKcZottwl+w6WS0j2k
-	JzpKgh9eMMv9qi6PepFXWqEEltsf7PEc4oHYBCitHuaj11vPaXHSoNrijj8xNYQM
-	WtG8dv7Ri+SZNaWTHcJRA==
-X-ME-Sender: <xms:Y-ytalY-zW7zvjB6t4v8sfjnP9eS3k0pmZZq4xU8u5x-FFu714ZDyA>
-    <xme:Y-ytarfJFS08frCVGIJ-r-pqPixImaUpJx5r8gLYXPHeS3WXu8575mXj7qe-Jx1YO
-    IbItx-aQEzbqfH3CDsy795t83TE3litHrXs0MBWTELsigCkXLI>
-X-ME-Received: <xmr:Y-ytauIKwv9Fdxtuo2AukY-_NPrLR640rO2cQkU2sibob80YW3HKeIgf_bCgeYDUo8obGPYircbVAw1-GVX9f-60ff9SsIc>
-X-ME-Proxy-Cause: dmFkZTE6QpaXc9yL6AgFKDlkYKF7YCqmm6eIFjQLv/9/Bcjfmgfipz2uUqgaA7IG2xhyxY
-    4Yo5/Z6GoTitUvnjJu1Y9ugn5RG1oiZBFSEMiZXcsGg1+U4BNKcDyrRhgPJZJrS3+9Qn8y
-    xCY+ZzJyoRRAh/FMV6baelt0EpFENJYWAdhWXiL28Y5KyoFQDwm0EVdopnX6KUdX7SMOcx
-    h1OlqpVqTjh4lYSY/zcstp/InDIeejZ1PIsFdUez0ajhtHvkcq9qEjtIOtZ39HIK33Rc7W
-    a97Y6Eqw2U7A4RdAen9qqErcyKDkJPrVJYlIjZY+032BS4GvLwWY9kxQjCrbgc9NOT3Lan
-    JdJXk/G6TywAA76eIXa7KuC/p6CgyLnsTMbG4oM79JaPU10CtG5oHkS/cXVEZVEPeNQpK9
-    mtbCXt6aNH+z5kUBKCDPsiJQUxXwQubwThy8sRA9BIzsWRZkJsPap5q3hP/+onq/Gj3kn6
-    KeS5mf5dO35ZE8GPPXnpZ7aXDgfbAp5OuqEwL0TcUV3Si/xiZF6rvyYP4OMN/M6jdQA2Tc
-    xhZF7vQjDJWE6L3AXm9VVdVAmHuBdhcixnQb1ux7uWOPHjhtNwp0SVkJqaeZAJi5eBMN/i
-    ZGersgbtztoTY6wt3bCME42XsrEXB0QGdFK98rD+lWAXm9bhy7xsnTU/LGeg
-X-ME-Proxy: <xmx:Y-ytagLMprT-YSlH4qw5awR1SlnGUFIVfSHjkMk40o-ZmF4JogxfcA>
-    <xmx:Y-ytalU3ZbxT5fe9LegaTgzxsyr7_oXkiojLpGo_DezSxdGMZ0rJzw>
-    <xmx:Y-ytahnr4r-zPV0qWKI8rsj07bom4iuPr7KFtf6D5qKXU_FkV1chnA>
-    <xmx:Y-ytajngpX4bqSy5sOr3NF_0C--yDTa33DNiysYRNWgiM6knGEK2Bw>
-    <xmx:Y-ytan-r5zHm9QyCLJBpvlsvenkuQ4LxBE7lIJG4sKW9VAIpSu7u2_l6>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 18 Sep 2026 21:58:56 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1789784138; c=relaxed/simple;
+	bh=Wy8+Pw1gQmFFBV9FC2byyz/R2RAkHytLCIqgfgJNq/8=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=m8fSHgRO6c4GRU+XPw+R2V9dUOEQH2wrj0J+O1lYom0IKUk2uodo8Zt+NdgWUIZpel/ilM22Co8C1XL25hlOmin/8BczjjEde7SUJYSmbxRQRbuFrj+C8ZQkSf4u+N2zJZsmonU9lcUC4czSUQWXrfw2ma9FjCX29Jcr9vk9XFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f8.google.com with SMTP id 46e09a7af769-804d58d09e9so388633a34.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 18 Sep 2026 19:15:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789784135; x=1790388935;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WcNyjs+p1qdhWL9OvECznb7Rg039M9i00b1BFMLdAOY=;
+        b=QYKDYmdw7vL/HfQMpYLFcgKdNhE87oSg3KCNcKEydfHPR0m8WSAA55s12308Tmcdt8
+         LPWheFSVIh3bEQlim8yGKRv7NAx9D/4u5cesoAjgWRJmO1sTaO4wa/2HGHCCukTK71wB
+         41Cgr4zCjX2akXxhnIyq+V6r0NwsAkb17QQSS8b170Kjig/2zEmKp4Ztky+X4kOBrRYA
+         QLElVM4Pkmx0Vdfd0aIqtPlv+2/Am05BW1UMs3AWqkq/LjYgPZZrAWkcp70Q++vtVj9I
+         z/hiyH4AhH0F73SjxcSzMLRXqCZo94EeNSCivKYSNffvnKe3Caq3yyKPtr3nyd42Cwti
+         f72g==
+X-Gm-Message-State: AFuF++n7rLD4d5Mze4hQCde+wllhb5mzNMSqqZTQsAtP7bGPLanq3FW3
+	2Xz45AkUiLd/AbYKtjJCgVzFOnGrmz1vd8iHOxZEji431T0N7pUVCWn1oxUBGx4svm4wjRShJ+r
+	l8/tOTdEb1gVKyc8YhSi/AwnChIl1mgH6Lax9Wm1QQbD8S8gpS8PicQ1tmmIK6A==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Chuck Lever" <cel@kernel.org>,
- "Jeff Layton" <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 4/7] vfs: change vfs_lookup_open() to return found dentry
- in path.dentry.
-In-reply-to: <2052084198.1190749.1789567317791@kpc.webmail.kpnmail.nl>
-References: <20260910002934.192979-1-neilb@ownmail.net>
-  <20260910002934.192979-5-neilb@ownmail.net>
-  <aqlXZ7Gunepk_4uV@lt-jori.localdomain>
-  <178950702008.207413.8966334050259525793@noble.neil.brown.name>
-  <2052084198.1190749.1789567317791@kpc.webmail.kpnmail.nl>
-Date: Sat, 19 Sep 2026 11:58:52 +1000
-Message-id: <178978313273.207413.10091995194620648480@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+X-Received: by 2002:a05:6820:2915:b0:6b7:46fa:16af with SMTP id
+ 006d021491bc7-6ca9d14e709mr3706311eaf.68.1789784135476; Fri, 18 Sep 2026
+ 19:15:35 -0700 (PDT)
+Date: Fri, 18 Sep 2026 19:15:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aadf047.71f81b7d.15fa6d.0002.GAE@google.com>
+Subject: [syzbot] [fs?] KASAN: slab-use-after-free Read in seq_printf
+From: syzbot <syzbot+bc6b37960b1d13f68f9f@syzkaller.appspotmail.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 17 Sep 2026, Jori Koolstra wrote:
-> > Op 15-09-2026 23:17 CEST schreef NeilBrown <neilb@ownmail.net>:
-> >=20
-> > =20
-> > On Wed, 16 Sep 2026, Jori Koolstra wrote:
-> > > On Thu, Sep 10, 2026 at 10:20:50AM +1000, NeilBrown wrote:
-> > > > From: NeilBrown <neil@brown.name>
-> > > >=20
-> > > > The caller - nfsd - needs to know the type of object found when a
-> > > > non-regular file was found to exist.  This is most easily done
-> > > > by passing back the dentry.
-> > > >=20
-> > > > So change calling pattern so that the path (now called "path") contai=
-ns
-> > > > the parent dentry on entry and the child dentry on exit.
-> > > > vfs_lookup_open() will dput() the parent and caller must dput() the
-> > > > child.
-> > > >=20
-> > > > If lookup_open() returns -EFTYPE (from ->atomic_open()) we need to
-> > > > use d_lookup() to find the dentry.  If ->atomic_open() didn't add a
-> > > > dentry to the dcache we return %NULL in %path->dentry.
-> > > >=20
-> > > > Signed-off-by: NeilBrown <neil@brown.name>
-> > > > ---
-> > > >  fs/namei.c | 31 ++++++++++++++++++++++---------
-> > > >  1 file changed, 22 insertions(+), 9 deletions(-)
-> > > >=20
-> > > > diff --git a/fs/namei.c b/fs/namei.c
-> > > > index 0c787363b101..30ccc0c2f02f 100644
-> > > > --- a/fs/namei.c
-> > > > +++ b/fs/namei.c
-> > > > @@ -4606,7 +4606,7 @@ static struct dentry *lookup_open(struct nameid=
-ata *nd, struct file *file,
-> > > > =20
-> > > >  /**
-> > > >   * vfs_lookup_open - open and possibly create a regular file
-> > > > - * @parent: directory to contain file
-> > > > + * @path: directory to contain file
-> > > >   * @last: final component of file name
-> > > >   * @open_flag: O_flags
-> > > >   * @mode: initial permissions for file
-> > > > @@ -4619,9 +4619,15 @@ static struct dentry *lookup_open(struct namei=
-data *nd, struct file *file,
-> > > >   * If the fs object found is not a regular file then -EFTYPE is
-> > > >   * returned.
-> > > >   *
-> > > > + * @path is updated to contain the dentry that was found if possible.
-> > > > + * In particular, if -EFTYPE is returned, then @path.dentry will be =
-the
-> > > > + * object that is not a regular file, or %NULL.
-> > > > + * Consequently the caller must be prepared for @path.dentry to be
-> > > > + * dput(), an it must dput() whatever is in @path.dentry after the c=
-all.
-> > > > + *
-> > > >   * Returns: the opened struct file, or an error.
-> > > >   */
-> > > > -struct file *vfs_lookup_open(struct path *parent, struct qstr *last,
-> > > > +struct file *vfs_lookup_open(struct path *path, struct qstr *last,
-> > > >  			     int open_flag, umode_t mode)
-> > > >  {
-> > > >  	struct file *file __free(fput) =3D NULL;
-> > > > @@ -4638,7 +4644,7 @@ struct file *vfs_lookup_open(struct path *paren=
-t, struct qstr *last,
-> > > >  	mode |=3D S_IFREG;
-> > > >  	open_flag |=3D __O_REGULAR;
-> > > > =20
-> > > > -	error =3D lookup_noperm_common(last, parent->dentry);
-> > > > +	error =3D lookup_noperm_common(last, path->dentry);
-> > > >  	if (error)
-> > > >  		return ERR_PTR(error);
-> > > > =20
-> > > > @@ -4646,7 +4652,7 @@ struct file *vfs_lookup_open(struct path *paren=
-t, struct qstr *last,
-> > > >  	if (IS_ERR(file))
-> > > >  		return file;
-> > > > =20
-> > > > -	nd.path =3D *parent;
-> > > > +	nd.path =3D *path;
-> > > >  	nd.last =3D *last;
-> > > >  	nd.flags =3D LOOKUP_OPEN;
-> > > >  	if (open_flag & O_CREAT) {
-> > > > @@ -4658,9 +4664,18 @@ struct file *vfs_lookup_open(struct path *pare=
-nt, struct qstr *last,
-> > > >  	op.mode =3D mode;
-> > > >  	dentry =3D lookup_open(&nd, file, &op);
-> > > > =20
-> > > > -	if (IS_ERR(dentry))
-> > > > +	if (IS_ERR(dentry)) {
-> > > > +		if (dentry =3D=3D -EFTYPE) {
-> > > > +			/* Try to determine what was found */
-> > > > +			struct dentry *child =3D d_lookup(path->dentry, &nd.last);
-> > > > +			dput(path->dentry);
-> > > > +			path->dentry =3D child;
-> > > > +			WARN_ON_ONCE(child && d_is_reg(child));
-> > > > +		}
-> > > >  		return ERR_CAST(dentry);
-> > > > -
-> > > > +	}
-> > > > +	dput(path->dentry);
-> > > > +	path->dentry =3D dentry;
-> > > >  	if (d_really_is_negative(dentry)) {
-> > > >  		error =3D -ENOENT;
-> > > >  	} else if (!(file->f_mode & FMODE_CREATED) && (open_flag & O_EXCL))=
- {
-> > > > @@ -4668,10 +4683,8 @@ struct file *vfs_lookup_open(struct path *pare=
-nt, struct qstr *last,
-> > > >  	} else if (!d_is_reg(dentry)) {
-> > > >  		error =3D -EFTYPE;
-> > > >  	} else if (!(file->f_mode & FMODE_OPENED)) {
-> > > > -		nd.path.dentry =3D dentry;
-> > > > -		error =3D vfs_open(&nd.path, file);
-> > > > +		error =3D vfs_open(path, file);
-> > > >  	}
-> > > > -	dput(dentry);
-> > > > =20
-> > > >  	if (error)
-> > > >  		return ERR_PTR(error);
-> > > > --=20
-> > > > 2.50.0.107.gf914562f5916.dirty
-> > > >=20
-> > >=20
-> > > OK, so if I understand the problem correctly: the current implementation
-> > > does not work for the purposes of NFS because ->atomic_open() may return
-> > > EFTYPE on O_REGULAR and then you still don't know what that found dentry
-> > > was.
-> > >=20
-> > > An arugument with such specific calling conventions feels kinda yucky
-> > > and easier to get wrong. Why not an out enum arg that specifies the
-> > > found dentry type? Seems at least a bit cleaner. What do you think?
-> >=20
-> > I'm alternating between an out dentry arg separate from path, and
-> > reliably returning one of -EISDIR, -ELOOP, and -EFTYPE.  Those are
-> > all well defined error codes that are used for exactly this sort of
-> > thing.
->=20
-> It's only internal callers anyway, so I would take the leeway with some
-> errno proliferation. Seems fine to me, especially since NFS needs exactly
-> this info.
->=20
-> > My current thought is to modify ->atomic_open to respond to __O_REGULAR
-> > either by calling finish_no_open() so the caller can inspect the dentry
-> > directly, or to return one of those three errors as appropriate.
-> > VFS code can map them all to -EFTYPE for syscalls, and nfsd can use the
-> > raw error code.
->=20
-> Personally, I like this last idea the most. Still, I wish there was a more
-> general way to signal XYZ problem happened during function call without any
-> worrying about collisions on the very limited errno space. I understand that
-> you can decouple the local error codes returned by not directly forwarding
-> any errnos from called functions, but this is often impracticable or at
-> least requires an ugly errno translate.
->=20
-> Interested on perspectives from kernel veterans here what is wisdom, I've r=
-an
-> into this myself too.
+Hello,
 
-I'm not aware of any patterns that are used in the kernel to address this
-issue.  I don't think it comes up all that much, and people create
-ad hoc solution that work for their case.
+syzbot found the following issue on:
 
-Sometimes this is a positive value returned in place of a negative
-errno, though that doesn't work with ERR_PTR().
+HEAD commit:    c3d85c669d09 Merge tag 'ksmbd-for-7.3-rc4' of git://git.ke..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=134fb7f9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=84649d3ff8d550cb
+dashboard link: https://syzkaller.appspot.com/bug?extid=bc6b37960b1d13f68f9f
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-It might be useful to have a MAX_USED_ERRNO so that any number between
-that and MAX_ERRNO can be re-purposed locally, and some automatic
-conversion to EINVAL or similar could happen at syscall-return.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-I think that mostly people manage with the error codes we have, and put
-up with occasional overloading.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ca331c4b913d/disk-c3d85c66.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f92fda9de386/vmlinux-c3d85c66.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/cab83c4f0b39/bzImage-c3d85c66.xz
 
-NeilBrown
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+bc6b37960b1d13f68f9f@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-use-after-free in string_nocheck lib/vsprintf.c:648 [inline]
+BUG: KASAN: slab-use-after-free in string+0x471/0x4d0 lib/vsprintf.c:730
+Read of size 1 at addr ffff88807ec60758 by task syz.2.6295/19648
+
+CPU: 0 UID: 0 PID: 19648 Comm: syz.2.6295 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2026
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ string_nocheck lib/vsprintf.c:648 [inline]
+ string+0x471/0x4d0 lib/vsprintf.c:730
+ vsnprintf+0x422/0x1300 lib/vsprintf.c:2949
+ seq_vprintf fs/seq_file.c:392 [inline]
+ seq_printf+0x1a4/0x250 fs/seq_file.c:407
+ input_devices_seq_show+0x1bf/0x1130 drivers/input/input.c:1178
+ seq_read_iter+0xbce/0x1270 fs/seq_file.c:273
+ seq_read+0x344/0x4d0 fs/seq_file.c:163
+ pde_read fs/proc/inode.c:308 [inline]
+ proc_reg_read+0x240/0x330 fs/proc/inode.c:320
+ vfs_read+0x1e4/0xb40 fs/read_write.c:572
+ ksys_read+0x12a/0x250 fs/read_write.c:716
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f585059e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f5851388028 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 00007f5850825fa0 RCX: 00007f585059e159
+RDX: 0000000000002020 RSI: 00002000000028c0 RDI: 0000000000000003
+RBP: 00007f585063506b R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f5850826038 R14: 00007f5850825fa0 R15: 00007fff7b0fc418
+ </TASK>
+
+Allocated by task 18319:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5414 [inline]
+ __kmalloc_noprof+0x32f/0x840 mm/slub.c:5439
+ _kmalloc_noprof include/linux/slab.h:995 [inline]
+ sk_prot_alloc+0x10b/0x2a0 net/core/sock.c:2252
+ sk_alloc+0x36/0xe80 net/core/sock.c:2308
+ __netlink_create+0x5e/0x2c0 net/netlink/af_netlink.c:627
+ netlink_create+0x29b/0x610 net/netlink/af_netlink.c:685
+ __sock_create+0x339/0x860 net/socket.c:1676
+ sock_create net/socket.c:1734 [inline]
+ __sys_socket_create net/socket.c:1771 [inline]
+ __sys_socket+0x14d/0x260 net/socket.c:1818
+ __do_sys_socket net/socket.c:1832 [inline]
+ __se_sys_socket net/socket.c:1830 [inline]
+ __x64_sys_socket+0x72/0xb0 net/socket.c:1830
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5650:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free mm/slub.c:6508 [inline]
+ kfree+0x22b/0x6d0 mm/slub.c:6801
+ sk_prot_free net/core/sock.c:2291 [inline]
+ __sk_destruct+0x88c/0xab0 net/core/sock.c:2391
+ sk_destruct+0xc8/0xf0 net/core/sock.c:2419
+ __sk_free+0xf4/0x3e0 net/core/sock.c:2430
+ sk_free+0x61/0x90 net/core/sock.c:2441
+ deferred_put_nlk_sk+0xbe/0x110 net/netlink/af_netlink.c:715
+ rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+ rcu_core+0x5f0/0x1260 kernel/rcu/tree.c:2919
+ handle_softirqs+0x1e6/0x9d0 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0x16a/0x210 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+
+Last potentially related work creation:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xa7/0xc0 mm/kasan/generic.c:556
+ __call_rcu_common.constprop.0+0xa5/0x9b0 kernel/rcu/tree.c:3181
+ netlink_release+0xb3b/0x2000 net/netlink/af_netlink.c:797
+ __sock_release+0xb3/0x260 net/socket.c:735
+ sock_close+0x1c/0x30 net/socket.c:1526
+ __fput+0x3ff/0xb50 fs/file_table.c:512
+ task_work_run+0x150/0x240 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
+ exit_to_user_mode_loop+0x1d8/0x700 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:343 [inline]
+ do_syscall_64+0x661/0x790 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff88807ec60000
+ which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 1880 bytes inside of
+ freed 2048-byte region [ffff88807ec60000, ffff88807ec60800)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff88807ec63000 pfn:0x7ec60
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000240(workingset|head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000240 ffff88801c035000 ffffea0000ab6010 ffffea000091a410
+raw: ffff88807ec63000 0000000000080006 00000000f5000000 0000000000000000
+head: 00fff00000000240 ffff88801c035000 ffffea0000ab6010 ffffea000091a410
+head: ffff88807ec63000 0000000000080006 00000000f5000000 0000000000000000
+head: 00fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 13, tgid 13 (kworker/u8:1), ts 67461498561
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x110d/0x35d0 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x2eb/0x3300 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab mm/slub.c:3462 [inline]
+ new_slab+0xa9/0x6e0 mm/slub.c:3513
+ refill_objects+0xe3/0x410 mm/slub.c:7417
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ __do_kmalloc_node mm/slub.c:5413 [inline]
+ __kmalloc_node_track_caller_noprof+0x6a8/0x870 mm/slub.c:5545
+ kmalloc_reserve+0xe8/0x350 net/core/skbuff.c:637
+ __alloc_skb+0x185/0x710 net/core/skbuff.c:715
+ alloc_skb include/linux/skbuff.h:1384 [inline]
+ nlmsg_new include/net/netlink.h:1055 [inline]
+ inet6_ifinfo_notify+0x77/0x140 net/ipv6/addrconf.c:6216
+ addrconf_notify+0xb54/0x1ba0 net/ipv6/addrconf.c:3796
+ notifier_call_chain+0x99/0x3f0 kernel/notifier.c:85
+ call_netdevice_notifiers_info+0xbe/0x110 net/core/dev.c:2275
+ netif_state_change+0x165/0x380 net/core/dev.c:1625
+ linkwatch_do_dev net/core/link_watch.c:186 [inline]
+ linkwatch_do_dev+0xe0/0x120 net/core/link_watch.c:166
+ __linkwatch_run_queue+0x3a9/0x900 net/core/link_watch.c:240
+page last free pid 25 tgid 25 ts 67435951267 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0x79f/0x10f0 mm/page_alloc.c:2962
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x47/0xf0 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x1a0/0x1f0 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x69/0x90 mm/kasan/common.c:350
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ __kmalloc_cache_noprof+0x278/0x6d0 mm/slub.c:5559
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ nsim_fib6_rt_create drivers/net/netdevsim/fib.c:547 [inline]
+ nsim_fib6_rt_insert drivers/net/netdevsim/fib.c:752 [inline]
+ nsim_fib6_event drivers/net/netdevsim/fib.c:856 [inline]
+ nsim_fib_event drivers/net/netdevsim/fib.c:889 [inline]
+ nsim_fib_event_work+0x1573/0x6330 drivers/net/netdevsim/fib.c:1493
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
+ process_scheduled_works kernel/workqueue.c:3479 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Memory state around the buggy address:
+ ffff88807ec60600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88807ec60680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff88807ec60700: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                    ^
+ ffff88807ec60780: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88807ec60800: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
