@@ -1,72 +1,71 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C453955E3
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A003C2DCBFA
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789856760; cv=none; b=inQJqv6/KS/HvOxNJyakAJbbdzIClcBhclUwDR/S8xTinK93Jb92wDs6I9mdBUi4Qm74LCb0gMAD2SVxjiOyOpyRxSQsKw2i8r0Rgl1cPIlRh2N1En0Fgsfpto+XV4AV1QvfZpAO5CshHjbOuPV8allQmBt9Jh5awLTRhFxZ8r8=
+	t=1789856763; cv=none; b=SnEomi9BFzXfYw+ariXobT/DEN2paMXsrsx3BOq1MilLVDoI1O895mF6kZif7U5jZhXvKAKCt3mhQTjsNBmFm8DrzucZduMkcrnRqJe6z2keVTtXLcvIxX/dF0zjYAIDAy/5HikpnHaqtW3Tu8S8zqIcXcttlP+yCYQNNW6eno0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789856760; c=relaxed/simple;
-	bh=xNQwH62g/JqmUeU/ubF+uzPeD2Dq1WT1mt5tcvgWD3Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dcQt/Fgv8KjCh5dDKSZQfaz5oBkcmOGsbzRrIYRnGjKcjpkFZ2wvtPfAzTL0nH3Pms4uukzy2YsWpBYpbV32Z0x7+QrDGtTgw1vDHcd4TU0Q6t85x+YJmiMTSBLZHlmQVHxNE8/P7f9XmUjWx4KM4K5LL6XEI2M7g8gTXYZkfvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rtc1kIvD; arc=none smtp.client-ip=74.125.227.140
+	s=arc-20240116; t=1789856763; c=relaxed/simple;
+	bh=60mSr7VmLncSpBLK0V49HhhYVT+MiALOWI330LNHscA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EpjneoyosvpKfA6v698HwejAe75aHnrqqdrkXj7t655eg/Cm67vTG+Y9CCN/cU3kaJLuzB4aEmGCGf7LyuYoACmCltcKoO8U4SyjDXmTdzyZCpkPKukydCHCsTASkWCRmF9kW3M01GcMajj5vohWK1Odr8Ja42V8eAo2nGrcNWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHPHE1yF; arc=none smtp.client-ip=74.125.228.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rtc1kIvD"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747f0135fso17996135ad.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:25:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHPHE1yF"
+Received: by mail-pz2-f42.google.com with SMTP id d2e1a72fcca58-86dd69a1b15so645305b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:25:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789856758; x=1790461558; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789856759; x=1790461559; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=a/MNqjqxirQpmsC9DWQIwWbU2XOq2TVyvQ9irLpQkP0=;
-        b=rtc1kIvDi5yN3JbpdmA+ZEqyf9ZXOh0CseaTtarRv+nY+rOn/x0Rk5Puk1j3U3kAZo
-         JeRzINJj05UgNQlsAGjgHMzDS1ZH0SEHuFhsNizxE906/nDIjsSo8fdof2GQN7xxcuQz
-         kNVM0xdYy5xOLyEp3yG1zaUbLmF9hRQV+7p+6qbyc+FfRRpk9LXZ8Rhz/EbleqNaDRJC
-         o9WCeTk1aCU4Tylky+xSmkDhBfqKY2ACzbEXt30sw6J0d2UKi+ThtsMlINr7MLcs8poA
-         QgF1xCB/XY6jkkDB7vt8kNfUniq/kuN2kLOTZrgZvVU7GdStZnMnb1viWLP2CK1Q6ST1
-         z6NA==
+        bh=cFtD2Fqt5nkn8b39jheUImgKcDaYIWTzHGAKFQwaEGE=;
+        b=RHPHE1yFP1wo/rAUf3rCMOtmb02CgbFjC2Do+fVDuQiTIdaCPxEZ9OG30o5Ykzr+jG
+         lar/jHUZOcoViCoVwvwkZcJX9OE+4rmcDnJlarxolXDz7GNKmv14EUJmqvrJkdXlGbAJ
+         4RaRVJ4ZMnwdkpuTSlKNGH+6PtFGxTh4SBwOjzymy4ACEfnROuFmCnm5b/AiJ6kNCJN4
+         8df5wv8255EPwRABMz+hmR5ubGjTCGD9qKpoX6S+GJaz6sfeJBbTNxinzudYO+5O3iYq
+         x/M7e5zY5XHtds6lWFd7HrmCyynbup9poupldFG+qZUB1hkZXuF6SjmOwyXRpMgBR6pv
+         BHIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789856758; x=1790461558;
+        d=1e100.net; s=20260707; t=1789856759; x=1790461559;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=a/MNqjqxirQpmsC9DWQIwWbU2XOq2TVyvQ9irLpQkP0=;
-        b=HoL2TdX7P3BTdHkSoliCgotcXJ2J1iBuZoZDbZtOyKM3i6Ap52auX8aKLbZ3sybAUl
-         8/RkcfQIyf7ZtzyDmd54yrp8dGFPCOfPETMaIT3Qv4836JM4X3nyxBe3lVboBxpDI93V
-         8yVU0PbcBOE77mblD/F6e6o4+jC3LcMYhpv+X4tSy8bLHiq06mkVoosqidoLnz8Dp47F
-         UP2FsCjBicEVk7VtEpJ0htpqdLsse7WOqQ4BQkzsGNO9mna5jAQcJSX/kcRsUhvky4Kj
-         JIYbVDUiX1X3L85+hJ6pWhH/18YjZyqpxPpHD38gn0SW69vz0MHHrH+3KIQW8hjqTUPb
-         7FQA==
-X-Gm-Message-State: AFuF++nwLqGRoBBDjdEqT7qjuW9mSe1EV8fQjGfq9VBekuJVxPk+zaYT
-	v77CjYvbpSuEJgGmbwXR1HFFWyV73Aaus0tKMx/MAm2BBbyEHf53xgjj
-X-Gm-Gg: AYBFou0wtfQWZkM0QGq//UXgJTx+dxATTLic8a23xdDFMyBwbiKX5iPsLGr+q6xBHm6
-	klICdoJK5CBYxe73XEEgv30wnfOqUVwQ0iS7/Z4qEJQDwjGcBqWDtB5wiDkCMz4SeD+FlHhAJI9
-	fo2lTX1VtCWLNn1fdMs+4ziHPFe61TIrUzWtSEBEcFFUb0VLRCeBOqG+CDVlxzdao7w0tL3+z1T
-	fGjf/Awop3W/EFK/owFNtnYHFMcKmVqckzRAjuDgeGAFwRoAFBxxqXNBw6d1OCxmWvvQUKHgxn7
-	JJtNcN4JXe0LHqFrzOmtUASNL02b1UBT+Hs/MCno9ZD80w4FW6+Y6ESStgRD2HGd/dlV2tsgEq+
-	sfnxRgrV79gxWT7oyoXG/p84GrfMeZYuyoY2aRxAAF1u5xnbE45z+mNLZmQOw9PO7eLaatwvM3Z
-	gFebhu1qsJP+hIuPrFjiVq+bL7FBJywtu8r6uiAgqOYNPE4rxL0CAZVkt2SsPl6ltrQJCp+/CkF
-	aCt1qx6tl8eIXvwBw9rF1iXWjQLlQKVCVY6sZ9/oxc4GZ3bYHkEKter3lhZoIpg307WKk12KBr/
-	3qHT8AH5tw==
-X-Received: by 2002:a17:903:324f:b0:2dd:c053:9c6c with SMTP id d9443c01a7336-2ddc0539d9cmr52572835ad.34.1789856757711;
-        Sat, 19 Sep 2026 15:25:57 -0700 (PDT)
+        bh=cFtD2Fqt5nkn8b39jheUImgKcDaYIWTzHGAKFQwaEGE=;
+        b=e3KwfuS3TFJMbFSHfOV0JXrvyRB5VJ8cGUegsxcB8Dxj2Va7gO8S3ij5L8xYoqBBla
+         kttlDtv4kqy0/AWlWJHm1Yt/HuAe1GrhF+4yVT5fX7tB8blzU5YKMP5spv9nlYqBI+5L
+         c9UPRcAsF9taew3xCeTkO9wvRvmrfjowFKvTrg1Z+Q5TZZvm15rwRdAaVzb9UZ5JR8Ta
+         eRqJb6s+a7s/WEZk8PDmedHPHQCLG6jab0t8VgcDMgosyBI70P3U86kl5aa9swtoB7bI
+         nAeSv48tGzhsRey3WqkrxcOSMKaPApSNBHceuZBattMTdXDSlfVfpkYDhZfxwZGnrymI
+         Idng==
+X-Gm-Message-State: AFuF++nsohiZQVSzHoSLjt/2DH2CeGwGkDcKN9Ad8aNXjdHQCtC77khO
+	GmRSmep5HKD3Ipp7ZXpm4DTcS1gUixCnvktRfak2QPVl+09KnTFjiiaK
+X-Gm-Gg: AYBFou0euldsSTlY/oSLVUGXonXRsOA1Bdk4wyrSxGTv/rY2iYgWVaCsWYy2mVpsoRe
+	P6vtw9H8w5iJw514hPzaHDhWJTI8R4XlZTVJGrxmNC7zLbReHzv5yZa/RYVnTW0CHAiA5/DvhfS
+	bU43tR9/ORM0DhYp09b7V2y4GS6YTcef5VgEioNINxKZln8kBZqqFdJk//6apptJsbxdzxjiiGD
+	kT5InViUyUjAKO55lrkpRmRmSPS3qs+R01g7V+WS4XbPMvFnfoH0vfwrYbSpRp3+uBLnWNkDhrr
+	Nl35j5EVfIJsucw2sPTWyFzOHW1B6enGf0s8vJ2aZwZTp+E9J4zcJ5B1nIQjWwDyhnxxqntAFn/
+	sPQIeQfAy++xwF5cA5MEp7Tx+uvPvFeqZ0QIExGG3Ptz7m1ilMvlULBSKYCF0a7qhDmw1VYYUbw
+	JRjNXBezJSbaeupzCWaZUOAzyvMXasNCP41u5A1QQXFs1sR5OSSguM7nmmHC8m82gme/ORDiA85
+	J9wOM02OIc/0Yu83N83v1/Wk0BXygsGJrQ4ygs0pOneuC5NcbZ1P00AjjqXxGDUnwUX4yBUc9TU
+	J1L83lao6w==
+X-Received: by 2002:a05:6a21:9086:b0:3dd:a196:ffd1 with SMTP id adf61e73a8af0-3dda1970073mr3971679637.33.1789856759099;
+        Sat, 19 Sep 2026 15:25:59 -0700 (PDT)
 Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17888f2sm13411685ad.20.2026.09.19.15.25.56
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc72aefc0a6sm1360139a12.28.2026.09.19.15.25.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 15:25:57 -0700 (PDT)
+        Sat, 19 Sep 2026 15:25:58 -0700 (PDT)
 From: Hui Peng <benquike@gmail.com>
 To: brauner@kernel.org,
 	jack@suse.cz,
-	dlemoal@kernel.org,
-	jlayton@kernel.org
+	kees@kernel.org
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] qnx6: validate di_filelevels in qnx6_iget() and fix mount error handling
-Date: Sat, 19 Sep 2026 22:25:56 +0000
-Message-ID: <20260919222556.3792829-1-benquike@gmail.com>
+Subject: [PATCH] ufs: fix cylinder structures slab-OOB write, div-by-zero, and error cleanup
+Date: Sat, 19 Sep 2026 22:25:57 +0000
+Message-ID: <20260919222558.3792924-1-benquike@gmail.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -76,108 +75,117 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix two issues in fs/qnx6/:
+Fix three superblock validation bugs in fs/ufs/super.c:
 
-1. In qnx6_iget(), reject raw_inode->di_filelevels > QNX6_PTR_MAX_LEVELS
-   so computing the maximum block count does not trigger shift-out-of-
-   bounds undefined behavior or out-of-bounds block pointer array walks.
-2. In qnx6_fill_super() and qnx6_mmi_fill_super(), prevent MS_SILENT
-   from bypassing superblock magic validation and ensure sbi->sb_buf is
-   released exactly once on failure.
+1. In ufs_read_cylinder_structures(), allocate u_space according to the
+   actual cylinder group summary size and bounds-check s_ncg and
+   s_cssize to prevent a 1024..4096-byte memcpy into a kmalloc-16
+   buffer.
+2. In ufs_fill_super(), validate uspi->s_inopf, uspi->s_ipg, and
+   uspi->s_fpg against zero to prevent hardware divide-by-zero (#DE)
+   traps.
+3. On the ufs_fill_super() failure path after d_make_root(), clear or
+   avoid leaving sb->s_root populated when sbi is freed so
+   ufs_put_super() does not dereference NULL sb->s_fs_info.
 
-Fixes: 5d026c724220 ("fs: initial qnx6fs addition")
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Assisted-by: LLM
 Signed-off-by: Hui Peng <benquike@gmail.com>
 ---
-diff --git a/fs/qnx6/inode.c b/fs/qnx6/inode.c
-index 6de49333acad..04214b829e10 100644
---- a/fs/qnx6/inode.c
-+++ b/fs/qnx6/inode.c
-@@ -144,8 +144,10 @@ static unsigned qnx6_block_map(struct inode *inode, unsigned no)
- 		levelptr = (no >> bitdelta) & mask;
- 		ptr = ((__fs32 *)bh->b_data)[levelptr];
+diff --git a/fs/ufs/super.c b/fs/ufs/super.c
+index 3569ac92b065..7d2eb3cbdcf0 100644
+--- a/fs/ufs/super.c
++++ b/fs/ufs/super.c
+@@ -455,7 +455,7 @@ static int ufs_read_cylinder_structures(struct super_block *sb)
+ {
+ 	struct ufs_sb_info *sbi = UFS_SB(sb);
+ 	struct ufs_sb_private_info *uspi = sbi->s_uspi;
+-	unsigned char * base, * space;
++	unsigned char *base = NULL, *space;
+ 	unsigned size, blks, i;
  
--		if (!qnx6_check_blockptr(ptr))
-+		if (!qnx6_check_blockptr(ptr)) {
-+			brelse(bh);
- 			return 0;
-+		}
+ 	UFSD("ENTER\n");
+@@ -465,17 +465,21 @@ static int ufs_read_cylinder_structures(struct super_block *sb)
+ 	 * on the device. 
+ 	 */
+ 	size = uspi->s_cssize;
++	if (!size || size < (size_t)uspi->s_ncg * sizeof(struct ufs_csum))
++		goto failed;
+ 	blks = (size + uspi->s_fsize - 1) >> uspi->s_fshift;
+ 	base = space = kmalloc(size, GFP_NOFS);
+ 	if (!base)
+ 		goto failed; 
+ 	sbi->s_csp = (struct ufs_csum *)space;
+ 	for (i = 0; i < blks; i++) {
++		size_t copy_len = min_t(size_t, size - (space - base),
++					uspi->s_fsize);
+ 		struct buffer_head *bh = sb_bread(sb, uspi->s_csaddr + i);
+ 		if (!bh)
+ 			goto failed;
+-		memcpy(space, bh->b_data, uspi->s_fsize);
+-		space += uspi->s_fsize;
++		memcpy(space, bh->b_data, copy_len);
++		space += copy_len;
+ 		brelse (bh);
+ 	}
  
- 		block = qnx6_get_devblock(s, ptr);
+@@ -595,15 +599,19 @@ static void ufs_put_super_internal(struct super_block *sb)
+ 	size = uspi->s_cssize;
+ 	blks = (size + uspi->s_fsize - 1) >> uspi->s_fshift;
+ 	base = space = (char*) sbi->s_csp;
+-	for (i = 0; i < blks; i++, space += uspi->s_fsize) {
++	for (i = 0; i < blks; i++) {
++		size_t copy_len = min_t(size_t, size - (space - base),
++					uspi->s_fsize);
+ 		struct buffer_head *bh = sb_bread(sb, uspi->s_csaddr + i);
+ 
+ 		if (unlikely(!bh)) { // better than an oops...
+ 			ufs_panic(sb, __func__,
+ 				"can't write part of cylinder group summary");
++			space += copy_len;
+ 			continue;
+ 		}
+-		memcpy(bh->b_data, space, uspi->s_fsize);
++		memcpy(bh->b_data, space, copy_len);
++		space += copy_len;
+ 		mark_buffer_dirty(bh);
  		brelse(bh);
-@@ -397,12 +399,14 @@ static int qnx6_fill_super(struct super_block *s, struct fs_context *fc)
- 		sbi->sb_buf = bh1;
- 		sbi->sb = (struct qnx6_super_block *)bh1->b_data;
- 		brelse(bh2);
-+		bh2 = NULL;
- 		pr_info("superblock #1 active\n");
- 	} else {
- 		/* superblock #2 active */
- 		sbi->sb_buf = bh2;
- 		sbi->sb = (struct qnx6_super_block *)bh2->b_data;
- 		brelse(bh1);
-+		bh1 = NULL;
- 		pr_info("superblock #2 active\n");
  	}
- mmi_success:
-@@ -463,6 +467,8 @@ static int qnx6_fill_super(struct super_block *s, struct fs_context *fc)
- out1:
- 	iput(sbi->inodes);
- out:
-+	if (sbi->sb_buf && sbi->sb_buf != bh1 && sbi->sb_buf != bh2)
-+		brelse(sbi->sb_buf);
- 	brelse(bh1);
- 	brelse(bh2);
- outnobh:
-@@ -560,6 +566,13 @@ struct inode *qnx6_iget(struct super_block *sb, unsigned ino)
- 	memcpy(&ei->di_block_ptr, &raw_inode->di_block_ptr,
- 				sizeof(raw_inode->di_block_ptr));
- 	ei->di_filelevels = raw_inode->di_filelevels;
-+	if (ei->di_filelevels > QNX6_PTR_MAX_LEVELS) {
-+		pr_err("invalid filelevels (%u) in inode %u\n",
-+		       ei->di_filelevels, ino);
-+		folio_release_kmap(folio, raw_inode);
-+		iget_failed(inode);
-+		return ERR_PTR(-EIO);
+@@ -1179,6 +1187,11 @@ static int ufs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	uspi->s_nspfshift = uspi->s_fshift - UFS_SECTOR_BITS;
+ 	uspi->s_nspb = uspi->s_nspf << uspi->s_fpbshift;
+ 	uspi->s_inopf = uspi->s_inopb >> uspi->s_fpbshift;
++	if (!uspi->s_inopf || !uspi->s_ipg) {
++		ufs_error(sb, __func__, "invalid fs_inopb (%u) or fs_ipg (%u)\n",
++			  uspi->s_inopb, uspi->s_ipg);
++		goto failed;
 +	}
- 
- 	if (S_ISREG(inode->i_mode)) {
- 		inode->i_fop = &generic_ro_fops;
-diff --git a/fs/qnx6/super_mmi.c b/fs/qnx6/super_mmi.c
-index b8afb6f388b2..28cb9322278e 100644
---- a/fs/qnx6/super_mmi.c
-+++ b/fs/qnx6/super_mmi.c
-@@ -51,10 +51,9 @@ struct qnx6_super_block *qnx6_mmi_fill_super(struct super_block *s, int silent)
- 	sb1 = (struct qnx6_mmi_super_block *)bh1->b_data;
- 	sbi = QNX6_SB(s);
- 	if (fs32_to_cpu(sbi, sb1->sb_magic) != QNX6_SUPER_MAGIC) {
--		if (!silent) {
-+		if (!silent)
- 			pr_err("wrong signature (magic) in superblock #1.\n");
--			goto out;
--		}
-+		goto out;
+ 	uspi->s_bpf = uspi->s_fsize << 3;
+ 	uspi->s_bpfshift = uspi->s_fshift + 3;
+ 	uspi->s_bpfmask = uspi->s_bpf - 1;
+@@ -1211,18 +1224,23 @@ static int ufs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	inode = ufs_iget(sb, UFS_ROOTINO);
+ 	if (IS_ERR(inode)) {
+ 		ret = PTR_ERR(inode);
+-		goto failed;
++		goto failed_put_cyl;
+ 	}
+ 	sb->s_root = d_make_root(inode);
+ 	if (!sb->s_root) {
+ 		ret = -ENOMEM;
+-		goto failed;
++		goto failed_put_cyl;
  	}
  
- 	/* checksum check - start at byte 8 and end at byte 512 */
-@@ -64,15 +63,16 @@ struct qnx6_super_block *qnx6_mmi_fill_super(struct super_block *s, int silent)
- 		goto out;
- 	}
+ 	UFSD("EXIT\n");
+ 	return 0;
  
--	/* calculate second superblock blocknumber */
--	offset = fs32_to_cpu(sbi, sb1->sb_num_blocks) + QNX6_SUPERBLOCK_AREA /
--					fs32_to_cpu(sbi, sb1->sb_blocksize);
--
- 	/* set new blocksize */
- 	if (!sb_set_blocksize(s, fs32_to_cpu(sbi, sb1->sb_blocksize))) {
- 		pr_err("unable to set blocksize\n");
- 		goto out;
- 	}
-+
-+	/* calculate second superblock blocknumber */
-+	offset = fs32_to_cpu(sbi, sb1->sb_num_blocks) + QNX6_SUPERBLOCK_AREA /
-+					fs32_to_cpu(sbi, sb1->sb_blocksize);
-+
- 	/* blocksize invalidates bh - pull it back in */
- 	brelse(bh1);
- 	bh1 = sb_bread(s, 0);
++failed_put_cyl:
++	if (!sb_rdonly(sb))
++		ufs_put_super_internal(sb);
+ failed:
++	dput(sb->s_root);
++	sb->s_root = NULL;
+ 	if (ubh)
+ 		ubh_brelse_uspi (uspi);
+ 	kfree (uspi);
