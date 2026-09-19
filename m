@@ -1,152 +1,125 @@
-Received: from mail-oo2-f41.google.com (mail-oo2-f41.google.com [74.125.231.169])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C3937F31C
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 18:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789840981; cv=pass; b=YmSaBJAUb/u1U8y0DnyXZtgbczTpMV97rCUBjLYRdtu7OYFIncOqvLGGbt+SUEEJM+iVZU1IoZKez1w5Bjvcb96rt4JJpKfYEJAz8j+cs3m5Va2WyuQ5Y1Q3bgrnExrkW5xDBbbjUseiz9UXaFlL7BgLqi8xJDYqcUUHTQD/dp4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789840981; c=relaxed/simple;
-	bh=ZnIxT/qMr1gdbVRylwtNaFD3JyKemoHZb1UvE3gbJzg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lV3ALhcRmoTU/tlcH7yMNdpNQM/M9Q/0AMKy8CAa06ttpM0xT1yPllzE/Dzde8ooaB1sepEJbdJQqgX8bf2Qc19VHHEoe93/Pe9dvwndC3YtLP8l+ej3s7IgKEETwEwzL5BHGBl2wtXXdG9nzmbUizhMsFzSMeegxpVmFG/VHwE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RqCIAJli; arc=pass smtp.client-ip=74.125.231.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2285432AAA8
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 18:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789841402; cv=none; b=ebec2aPqHTUKEiqsrJ29jULuMNWbUMO26XNJ2G1ZeJRcTjsvbOSCtJqR/t+o3hHkWMG/ovTbzgssnb9ycg5QUreDQBsMzfwq5BmttQTXbD1X7F3mtgw7P41NJVAke5BAG/OSiQUEr0fPhpuls+l/VpUhy1fLaKSW10drkLROpZk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789841402; c=relaxed/simple;
+	bh=gHqFe6eGXXFB8sKeBRGQ/axF1hls+iHKOBOScQ/BUUo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vBvOZHP7d4FjkqgVZ4ai7VtpT/EcGcYg9zqQXXwu1NHHe22j4mtodNejpCJzHNE3WYRde+lm4ABgttrqfwpwM7Bsj3gjXAzqUZtXzN05Tbp9dIXZF1YZMJejc1cgfZKkVO42N8uLaU+kUBi3HPMWXEW4td4fvoHy9KqITDyK/Wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DTmS+qsc; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RqCIAJli"
-Received: by mail-oo2-f41.google.com with SMTP id 006d021491bc7-6bcc0c495efso981321eaf.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 11:02:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789840977; cv=none;
-        d=google.com; s=arc-20260327;
-        b=d1UxJgtnHQA7F8v0nmInDQISj26wzWm8yeseK0vOPCPI1BrHVt29MimWVzLFJ96Gjv
-         w1yy5Qwp5vYhvvxpxSUuWwcvr4nM0pPUFFGGZ1v4XNLm3CZwmLgrT6MlT9hthbAExmjx
-         ibfvz2UpyWNffDXeSg7XVrWFaPP9Yj9GBlL4UBgnCEv3cYohucSaSXKoJxjTL7JuuLAM
-         VxyheQ+vuDDjx36yDQqjWH00JL5f2xxhFOU8qtnGkADU8vwXVhPNxc5VDYZK9D9HKWnD
-         iZVioyqYCW0bgN2fxeyUCeGa+TS64y/Ot51squrN0Qe+WNL+9i6Ka94YqPNLQp8Eu8IG
-         /LoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NDKPZzjFZ5Bv8sDLp41bGNciktq2X5zHxI+b3pe3hs4=;
-        fh=yOiudSuk+B/rR47n2F7nA/XPr/J7mTeztq57UTMxu4Y=;
-        b=PeET+OLeYmHAipGW8gDG0TaRSoUI7qhlJTAYM77fVd8OPOzFLI22IHkqHZ9MHd4mQB
-         XEQ9o74R6auA6R+3V5QvGX52mw9Nc57E6NnZ0R4PU7PnyoTF79mhWWS+1qZMLpNhYQw2
-         TJsyhS8FIo3naSwUQFbUSex5FjmvMBfh4UoS1lA24TxfUgG19wcjB3qILUb+eBE64WUE
-         y2mTJ5KA8XoR0wAoxHeKoRbJnci9kv4y77XwApb50cf9uyuDrb40QgrJCJFfjP/gitq2
-         99//Vyijo3et9EggzCZ2ZLJKVDPycuYFpMruwXU2R6HzbFkWXYHlyvb3spyxTXzQ3+La
-         bLlg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DTmS+qsc"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8674704dab1so2585266b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 11:10:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789840977; x=1790445777; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NDKPZzjFZ5Bv8sDLp41bGNciktq2X5zHxI+b3pe3hs4=;
-        b=RqCIAJliHegb50OkBHm0bSinDzC6IXdxVS4KfIA6aSfD6TZCJA51CAIgaZwK+AIF/6
-         bdnUuTDIKUgPR2yFwkOgPzRSwyhwJUKcPhoW/wqVTPLsAkpoYB+b5n8IR3VzHB8yDOtq
-         JcV/as89DaXawq3qmTrPbiSdnlJtqkB2EX+ku2m7SjRQfkFToXjqrHyvp8Gw6p+7GTWb
-         /Ea7DU/Q5A1yh+Q3SEC06587ZbdC69JBDejvDjem5MkCT7UhrNJL7YoX2guVuv7qC6XM
-         JcT6WH5Ymjh1IblmpJr3twcyVPaMBk6vmLKvbFRRCUDRmqGFchEzDM9JCUIUn1/PjRFv
-         NaEg==
+        d=gmail.com; s=20251104; t=1789841400; x=1790446200; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+leKu+1qBvaX9SQAflmbpFDOda53LtTnr+DkqjC8UBo=;
+        b=DTmS+qscF21PdkVlYwgnWOn8fZRCur/iLWteTYa1MIfMOHIe1pW9GV0UI4AQQ3WPtb
+         //MUHEjkkLvPPcX7AmrCj3LFX8kg+KPaVcxKwCLJN2HmMRCEZwyVFaDFVvGxIBTGZEY3
+         QksaXQ8wLF25Uv6I1b+TcpLAeQU29HXQmgcCqn21EstvqJH41fVnSyBOqU48TGYfuCcI
+         p8YZVXQBddX7aYOXmGqeGaqqtAFKlslS/5yVj6dzB91ZIWEoZFlFQNLSFzK7YgWZDn9E
+         v+k1qUglOSmIG20fXlAqdMFRNYhIJa3sco6+94Fx4tCAdHZzSoMeC2sp19qiqUPzHXfM
+         mkYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789840977; x=1790445777;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NDKPZzjFZ5Bv8sDLp41bGNciktq2X5zHxI+b3pe3hs4=;
-        b=laK13R6kiuao6owRS/qNNZQvhWAejQZyg/RSdbyyjh7Aa6sdB406UxdjWL+a/FSCmh
-         PhkwM3ZkgYbh4GG8u6K8nyqUelS58QlW5Q6GIx8eLP52er0BYbnobxfWa+bzHDZX8l/G
-         4+hXD5fm2Oby9GT9cQpC8SU8EWbD6BBv0fCnz7ssAaD5HPGsDnuIkUlvL74MxjQrsYbQ
-         jPKnr7bimgzH9YuJz8N0wk1dpaU/z03dM26ynUWN6A5eQon4OKtvzY+7BSghz7Tf29TE
-         +kWM78I8/ZLtKfeOy73j9IUsYF5mS9XvB8gWtKcK5ybGkfh+wdeaVm8fPk6WZljMBhTF
-         KxPw==
-X-Gm-Message-State: AFuF++nuXKvHjoHyHZVX5cvZCV+5oh0oL9MHrjEfzGdqPX/S6wmOAIFx
-	M00ZQX2x4xuzr68qCCEdBNBSmJMnVLjiBfjWwS/h0Z67DohBE1UBoTzSBU3Hcbfv0jenypfZn0f
-	smwoEe51WH2/y3x5N5wUwkIDHO2PLjrs=
-X-Gm-Gg: AYBFou2+r/AAx9mE8bqSf1ygyZ/hU1KGQo/XvTYuOdzwTmW9xbhDZO2AnlyQYrWbwYo
-	WtDlF8+HVZLPg/ZTLkoRSPUJbKA4c119vOLTQCniUVJSh3VbxbmjsACIEGq2XGaXIAwAmxgwkVd
-	r7mbinbqPLoWxKqhveQ7sU+GKlt6QbLv57EVpG4RRstaN9XW/8gtyFnU0MGNfFkZp47sAWKcNLQ
-	15lzrdZAYYEY2aqPOrSgXmdbOB7V3PTYii//4nu9fU5G5ro7qn2Ane2Z8c6PXcNDqcHxgqrGV9f
-	zVk2jqvJcg/SAgznCmr8Fz5uZ6lVs5puv/evxJhb+5H+o7EnDfSps1Z/16jcRu1jqVYzAMn+VQ8
-	wcIaQp9VYTP6Jpsdqr2XaA4wPVnnbvSgBLtITJ2B7
-X-Received: by 2002:a05:6820:222a:b0:6b4:117e:543 with SMTP id
- 006d021491bc7-6ca9aa41fd6mr5401676eaf.21.1789840976828; Sat, 19 Sep 2026
- 11:02:56 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789841400; x=1790446200;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+leKu+1qBvaX9SQAflmbpFDOda53LtTnr+DkqjC8UBo=;
+        b=0rJSK2gATdU3jdEgsDM4jYYkpLgBncVk36WX6hOcAljFUa7ol3YiaEBSWMD64OZBCJ
+         9F3s9h2FXjSvgNvCctp3AT0kGWZNW2UBrPRInb8j6r/1uOexuEylXMxNTucs35fK6Amj
+         /2+cKPXlus2W/Oa9ucVInMNZx4pU+Ugqhdm0t3j/+SK7y62rA9CWhO8tsLjIYJMu/uIR
+         LTJzL1/crblldFC5BsQniDQl2+bx5HewjEPRY0CBNDTu/92/yG3rQclotowxYUo7DgCM
+         deT0dBuf1HByglqKZ7g4PDZGmReHkRlfgg0kMlfHjd/DlPortgr/nGrlzdBaOKX/+fd+
+         2BRg==
+X-Gm-Message-State: AFuF++ll8UsUWJVyppVP9SDSypiHtTo89bsGBMfso9kqn5+PTECSrd9M
+	3nPvCx9HvHTveiOVCLnsCnPRlvkJ31oP6yeHA4ze0izpLbHpldM2bjs2
+X-Gm-Gg: AYBFou2f6tTF5re9vXCRkUfll6lgmmoVygE/HCEbYqvxqyQB0YtJITdrBUNWurOyDJn
+	kdZqC16DDw7FnJflk+cI5v+aQHSWn6GAWwHqguXFTOnzzwejUKEejd1uItRl/QWXy2+fju2LZF/
+	r2ONMGwPUEx0eUEZGXeI6AWPm+zHl701XS7I0GszHFySbroXmiYcfo+c2Hh5LZDbDVC5SbFGXIS
+	0lXX+NWmAzg/8qDGNw88GMxz4+XbEMMCu0Rqhsi7KoUG1ubiZvSA9AHJiLUF919QUhxOd/UO1dd
+	ioVFIyrw9VOIaXhjboOQycfy+oVtoAN2/Vl85rGmz9J7MFSl4CzbQvSYpm2jtvpmN3dQwUGo9om
+	kwRYBz+ebPoCiTBcZ8d1MWFv04FI8sbxZejusGKYoTf004D83S8/0U25MPy8n44mfTsWJb4QyHu
+	u/EaP/WWzPcsA+smOwIDUZNvB/ZyPm7REmo+kqrOqdB3p3x8Q8UZHvPUrHiNyfgd1DfOavwrSVn
+	sghu1FL0z9nnK2xs7ZuEi6kfTiNLJOvG19Z7qOkejqVTHkhou8vDSXZI6ohErvtXED8BNmJizhT
+	4lkF+P3tMQ==
+X-Received: by 2002:a05:6a00:856:b0:869:d8e5:dc01 with SMTP id d2e1a72fcca58-874dbde4f84mr9919960b3a.4.1789841400356;
+        Sat, 19 Sep 2026 11:10:00 -0700 (PDT)
+Received: from phui-2.c.googlers.com.com (67.51.127.34.bc.googleusercontent.com. [34.127.51.67])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-877a94f8c39sm1190168b3a.28.2026.09.19.11.09.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 11:09:59 -0700 (PDT)
+From: Hui Peng <benquike@gmail.com>
+To: David Sterba <dsterba@suse.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] affs: fix out-of-bounds bitmap access on crafted images
+Date: Sat, 19 Sep 2026 18:09:54 +0000
+Message-ID: <20260919180958.1362943-1-benquike@gmail.com>
+X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1787770110.git.jbingham@gmail.com> <668bd5f317e3bf8eaee0254ca79e595395b6e332.1787770110.git.jbingham@gmail.com>
- <aq1UW699LW2pxvHU@infradead.org>
-In-Reply-To: <aq1UW699LW2pxvHU@infradead.org>
-From: Jeremy Bingham <jbingham@gmail.com>
-Date: Sat, 19 Sep 2026 11:02:46 -0700
-X-Gm-Features: AcwNN1WZl_zWUcTPKwWMEvYAQm5b_50lhzbDf2T03tQlLz_DhKb6TapJfNS5Vdo
-Message-ID: <CAMyBmMCJC6F=y5_3sbC+2t+6NZVkD2ve2xOhxLDeLPfe7YBJUQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] minix: finish wiring in iomap functions
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz, djwong@kernel.org, 
-	viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-I've seen all the comments on formatting and will be fixing them, but
-I'll just note that once and not keep repeating myself.
+While fuzzing AFFS with KASAN I hit an out-of-bounds read roughly 8.45 MB
+past sbi->s_bitmap, triggered by truncating a file on a crafted image.
+Tracking it down turned up three separate problems, all dating back to
+the start of git history.
 
-On Fri, Sep 18, 2026 at 8:10=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
-g> wrote:
->
-> On Wed, Aug 26, 2026 at 02:41:57PM -0700, Jeremy Bingham wrote:
-> > Wire in the new iomap functionality in one pass. Per Christoph Hellwig'=
-s
-> > feedback, there are no longer direct I/O operations. Without that, only
-> > write_iter in minix_file_operations needs a custom function. That and
-> > exporting minix_setattr for minix_symlink_inode_operations are the only
-> > changes in file.c.
->
-> Commit history just goes into the cover letter.  In genral you don't
-> need to enumerate all low-level changes either.  Explain the high-level
-> change, what motivated it, and anything that looks a bit unusual and
-> unexpected for that high-level change.
->
-> Note that you probably want to merge this into the previous patch
-> adding the actual iomap ops instead of leaving them dangling between
-> thet two patches.
+The root cause is that affs_free_block() and affs_alloc_block() each
+open code their own block range test, and both get it wrong in the same
+two ways: neither rejects a block below s_reserved, so the subsequent
+`block - s_reserved` underflows, and both use `> s_partition_size` where
+the last valid block is s_partition_size - 1.
 
-Indeed, and thank you for letting me know that this ought to be merged
-into the previous patch. I didn't want to run afoul of making the
-patch too big.
+AFFS already has affs_validblock() expressing the correct range, and
+affs_bread() and friends have gated on it since 2005 - so these two
+functions were happily operating on blocks the rest of the filesystem
+has always refused to touch. Patches 1 and 3 simply make them use it.
+Patch 2 is unrelated except that I found it on the same path: the
+extension block walk in affs_truncate() never checks affs_bread() for
+NULL, which a crafted extension chain turns into a NULL dereference.
 
-> > +
-> > +     if (ret > 0)
-> > +             ret =3D generic_write_sync(iocb, ret);
-> > +
-> > +unlock:
-> > +     inode_unlock(inode);
->
-> For most file systems we try to have the generic_write_sync outside
-> the inode lock to not do the expensive sync with the inode locked.
-> generic_file_write_iter also doesn't have the inode locked, so you
-> should probably sync after dropping the lock here as swell.
+  1/3 is the one with the reproducer and the KASAN splat.
+  2/3 is a straightforward missing NULL check.
+  3/3 is the sibling of 1/3 with no reproducer - closer to hardening.
 
-That makes sense. I'll rearrange that.
+I kept them separate rather than folding 3/3 into 1/3 because the
+reachability stories are quite different and I did not want the
+unreproducible one to hold up the other. Equally happy to squash if you
+would rather have one patch.
 
-> If you're looking for another project, we could probably also have
-> a iomap version of the directories in pagecache used by minix, ext2
-> and co eventually.
+I also deliberately left out two extra defensive checks I had written
+(a post-division `bmap >= s_bmap_count` test, and an early return when
+sbi->s_bitmap is NULL); both are provably unreachable once 1/3 lands.
+The reasoning is spelled out under the --- in 1/3.
 
-That does sound worth working on. I don't love having the directory
-operations using a completely different framework than everything
-else, but since minix was not the only filesystem afffected by that I
-left it be.
+Per Documentation/process/threat-model.rst these are regular bugs rather
+than vulnerabilities, since mounting an image is privileged, so there is
+no stable Cc and I have posted in the open.
 
-Thanks again, and I'll start getting this turned around post-haste.
+Built with CONFIG_AFFS_FS=y, no new warnings; checkpatch clean.
 
--j
+Hui Peng (3):
+  affs: reject out-of-range blocks in affs_free_block()
+  affs: check affs_bread() return value in affs_truncate()
+  affs: validate the allocation goal in affs_alloc_block()
+
+ fs/affs/bitmap.c | 4 ++--
+ fs/affs/file.c   | 5 +++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+-- 
+2.43.0
