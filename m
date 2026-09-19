@@ -1,173 +1,144 @@
-Received: from mx01.bremer-it.com (mx01.bremer-it.com [85.215.132.167])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64AD323416;
-	Sat, 19 Sep 2026 14:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.215.132.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBF919CD0A;
+	Sat, 19 Sep 2026 15:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789829169; cv=none; b=VNPZxI14MBEW9ANy/onuFKC7+N7VeXYGP6xEol0L9S9JyUZHOfaNZcwZyjUIW7sun2lEDwoEBLIWjQEjct8K5QqVSg3u9aGh+oZ/VHsk9xfI1CUAuuRkWXryrvYCn5hhRls+8EQ44DK5figZA2bpPCv1fCRneZMJm+DMnQnvRx8=
+	t=1789830390; cv=none; b=segRBTkTWZltSw5vnkNjq2iS3LD9cDdNndWXPAjmRbQ2Z2cML7u1xmaB6eNhXyR64haOWswX/Q7lGMDnM7vogOAOa5x1vVHRvJ9iwAmZzegzHOMPOdESmVLU0bML5uvfXQ0XzoQaHIdL2u6xTLgPsoIlEIp9KzjvgGki0rUun4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789829169; c=relaxed/simple;
-	bh=ywPs7uRsJtG72xMwxi2u3pqbatu6MNgLiO0EYm3JaJY=;
+	s=arc-20240116; t=1789830390; c=relaxed/simple;
+	bh=NpUWm8hyKk1UnzYiX/6WSmpR37UXuUGnDVdN3XjCOQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZUc8R6s5YsFBupnTnf0v0SiQz/zJdO6UU8F91Zr4sFRzEgpEfALDOV51sZ6t7Gyb2/B48VbGQPOFmXeNMv6DYa5R/TVBytzXgoDYUtxls0Rh/YWGgyM0Ii5fTen4HQsRs0clle/f3RBiResatpwm/5pzX6w8UuxMLBTFiQWAd2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=barelysecure.org; spf=pass smtp.mailfrom=barelysecure.org; dkim=pass (2048-bit key) header.d=barelysecure.org header.i=@barelysecure.org header.b=oSsDvW5T; arc=none smtp.client-ip=85.215.132.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=barelysecure.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=barelysecure.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=KBpYTlsZkfKm9X3A0IVOridj2t30Hd9Zw8wP+gIWxnfundslfdPeqmnUVcvn4MLaj4BuN+iZWgLX53ksxsIXwJ2RLQnNvlcIrhYJul9sUDvhikV6Yc8KxPKgneyaxuII64y0FzTqIiD/KNuATmu5gStGHMNgmLQPl2CJ+iacxZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZ7NEov0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=barelysecure.org header.i=@barelysecure.org header.b="oSsDvW5T"
-Received: from cashel.logfs.org (c-98-33-96-243.hsd1.ca.comcast.net [98.33.96.243])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by mx01.bremer-it.com (Postfix) with ESMTPSA id BFC9220B84;
-	Sat, 19 Sep 2026 16:46:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=barelysecure.org;
-	s=dkim68; t=1789829164;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PetF/HLtIXChJE/5lpvDpFt7S49VsIiNWMkHshV1HaY=;
-	b=oSsDvW5TF97ZZ9SnJGDIBbSGmG9SYHbOrFq+VSbGmrePOTEHKHsqqcWT/fhckAQ1hl/0/D
-	2gfMAXc7nSL/8MClT3/UnrcqluXvDV43r6SAzwdilS54yLVmImhYtVU6yIEbAbIlyWa6mR
-	vhN66J01SeQbEYnRIps5+agFORN8FNAppZNLYe9mk4su5s0PNJ9Q827xMV24sXWA2bL5qj
-	I7dKwSE4f4oSGNftf0LyIiYFjbKZWvpG3s+U+F25ijGHrGlxc0BUkLAv3DsqmFhG/pkRKc
-	2gDNXt/7p6xwyi0YG+RiuT7dJcEbe/4gl5cUY3i8WhNrFQ+Pgf5JCdA/Y382iQ==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=joern@lazybastard.org smtp.mailfrom=joern@barelysecure.org
-Date: Sat, 19 Sep 2026 07:45:57 -0700
-From: =?iso-8859-1?Q?J=F6rn?= Engel <joern@barelysecure.org>
-To: Chris Roy <iam@thechris.in>
-Cc: Richard Weinberger <richard@nod.at>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	syzbot <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>,
-	dakr@kernel.org, driver-core@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com,
-	linux-mtd@lists.infradead.org, miquel.raynal@bootlin.com,
-	vigneshr@ti.com, Adarsh Das <adarshdas950@gmail.com>
-Subject: Re: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
-Message-ID: <aq6gJTYTpTr8sYPj@cashel.logfs.org>
-References: <CAE2Bdm3NuEHshrG6K2boKAnCQUvT5SX79cP9nPgS2s1afzY1hg@mail.gmail.com>
- <6aab0f82.e91c2013.3bdb06.0009.GAE@google.com>
- <CAE2Bdm2wzxj-J0TM8F+3SVnu0W3HeiROW97U4qvBeyHKdHJFmg@mail.gmail.com>
- <2026091753-broadness-bootie-b683@gregkh>
- <CAE2Bdm14hif17B8RTAE+PhWEps5Fzh=WPurZeSNp9C6TqCKumg@mail.gmail.com>
- <aqwuWWMwdIcx3704@cashel.logfs.org>
- <mu82xsi6.76ee613a-07fb-48b1-9336-99e8780e8b6e@nod.at>
- <CAE2Bdm3FqBPAMxqKoz_h1cw+OXpm=LJHdJjsME_Jy966tqhq_A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZ7NEov0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8E8F1F000FF;
+	Sat, 19 Sep 2026 15:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789830388;
+	bh=6E/2ltl35xPsVBq7dCp8kX3P3iYtwP2nwvmHYrMGiao=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mZ7NEov07DW0ZDR9skjWGGxQUM0tilYV9cJ7x872u31P1qu1yVnwdU0E77jSYzczU
+	 Rq0n7dEgh+A9eWTU+kdQxDU5tKshnvcxTa3XN1JDv7zPJ7mxY5KgfDql95Wg5316wn
+	 kqxgLNkCZWg1I6A6O0IhltPcOlOLcVqsjbFRvGscwxEQOwDG8XewmgyU6Ujr9SqTuc
+	 zEYCMum6E9yTv2amUuljbVi6GJTLEO9nOY5NLyIChsn3u7MRozdIRj+bylE4/Ua89o
+	 aFiTM/yy7p1O+kilDkoW7RGJH5LX4eZ8RZkWZXZPSrDaZInSmA804tyjxuFh+fgV9t
+	 5tO9QHfxFsFFQ==
+Date: Sat, 19 Sep 2026 16:05:57 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH v2 00/40] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+Message-ID: <aq6kzpK7wPl3iFGe@gremlin>
+References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+ <20260914180811.057cba8fcc48d6e0b53a2683@linux-foundation.org>
+ <0b064fe6-ddb3-4f26-a1f2-2e9dd88d590f@kernel.org>
+ <CAJuCfpFBichJH4OcmSHTb1rOuQBT6k5pXeua9_KgpWjDBKvsYw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAE2Bdm3FqBPAMxqKoz_h1cw+OXpm=LJHdJjsME_Jy966tqhq_A@mail.gmail.com>
-X-Spam-Level: *
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.40 / 14.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	BAYES_SPAM(0.00)[40.45%];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[7cab6a19619f1b8efc00];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	ASN(0.00)[asn:7922, ipnet:98.32.0.0/11, country:US];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_ZERO(0.00)[0];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[barelysecure.org:s=dkim68];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	LOCAL_OUTBOUND(0.00)[];
-	FREEMAIL_CC(0.00)[nod.at,linuxfoundation.org,syzkaller.appspotmail.com,kernel.org,lists.linux.dev,vger.kernel.org,googlegroups.com,lists.infradead.org,bootlin.com,ti.com,gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[barelysecure.org:from_smtp,barelysecure.org:from_mime];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Server: server01
-X-Rspamd-Queue-Id: BFC9220B84
-X-Spamd-Bar: +
+In-Reply-To: <CAJuCfpFBichJH4OcmSHTb1rOuQBT6k5pXeua9_KgpWjDBKvsYw@mail.gmail.com>
 
-On Sat, Sep 19, 2026 at 02:22:15PM +0530, Chris Roy wrote:
-> 
-> +struct block2mtd_setup_work {
-> +	struct work_struct work;
-> +	struct completion done;
-> +	char *val;
-> +	int ret;
-> +};
+On Fri, Sep 18, 2026 at 01:31:24PM -0700, Suren Baghdasaryan wrote:
+> On Fri, Sep 18, 2026 at 1:21â€¯PM David Hildenbrand (Arm)
+> <david@kernel.org> wrote:
+> >
+> > On 9/15/26 03:08, Andrew Morton wrote:
+> > > On Mon, 14 Sep 2026 15:57:20 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+> > >
+> > >> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
+> > >> properties:
+> > >>
+> > >> ...
+> > >>
+> > >> It's all rather a mess.
+> > >>
+> > >> This series brings some order to things by both limiting what drivers can
+> > >> do with VMA flags and switching to using predicates that describe
+> > >> behaviour, not arbitrary flags.
+> > >
+> > > That's a lot of patches.
+> > >
+> > > Review is thin and I expect this won't improve a lot.  Lots of "no
+> > > functional changes" changes.
+> >
+> > I'll expect to go through all of them. Might just take a bit ;)
+>
+> ditto
 
-Finding good names is probably a fetish of mine, so "val" is mildly
-disturbing to me.  It's not an objectively bad name, just something
-where I'd spend another five minutes trying to come up with something
-better.
+Thanks guys!
 
-> +/* Runs block2mtd_setup2() on setup_wq, blocking until it completes */
-> +static int block2mtd_setup_defer(const char *val)
-> +{
-> +	struct block2mtd_setup_work *w;
-> +	int ret;
-> +
-> +	w = kzalloc(sizeof(*w), GFP_KERNEL);
-> +	if (!w)
-> +		return -ENOMEM;
-
-Is this check necessary?  I'm in the camp of "malloc should never return
-NULL".  That condition is so rare that it is effectively impossible to
-trust callers with error handling.  So the right approach is to crash
-(or kernel panic here) instead of returning an error.
-
-Looking into sources I see this:
-static inline void *kzalloc(size_t s, gfp_t gfp)
-> {
-> 	void *p = kmalloc(s, gfp);
-> 
-> 	memset(p, 0, s);
-> 	return p;
-> }
-
-We have at least one example of explicitly not checking the return
-value.  But we have other prominent examples of checking as well.  Looks
-like the kernel is still undecided whether checks are necessary or not.
-
-> -	return block2mtd_setup2(val);
-...
-> -		return block2mtd_setup2(val);
-...
-> +		ret = block2mtd_setup2(val);
-...
->  		ret = block2mtd_setup2(block2mtd_paramline);
-
-That's quite a few calls to the same function.  If setup gets that
-complicated, that's a strong indication that we're doing things wrong.
-Typically we get into such a mess one well-intentioned change at a time.
-Find a bug, fix it by adding another caller, repeat.
-
-It isn't obvious how we could improve things.  Sometimes it's lack of
-infrastructure and the entire complicated setup-dance should be moved to
-common code.  Driver can then call a single function to deal with
-everything.
-
-But if there's only a single driver using such infrastructure, maybe the
-driver is doing things wrong and should copy whatever other drivers are
-doing.  The problem shouldn't be unique to a single driver, so we should
-find the best solution and then use it everywhere.
-
-I don't know the correct answer here.  If you feel motivated to dig
-deeper, please do!  If not, I'd rather leave the mess in place than come
-up with a half-hearted attempt of a solution.
-
-Jörn
+>
+> >
+> > --
+> > Cheers,
+> >
+> > David
 
 --
-You cannot suppose that Moliere ever troubled himself to be original in the
-matter of ideas. You cannot suppose that the stories he tells in his plays
-have never been told before. They were culled, as you very well know.
--- Andre-Louis Moreau in Scarabouche
+Cheers, Lorenzo
