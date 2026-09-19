@@ -1,71 +1,70 @@
 Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0522343897
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:26:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0BA393DC0
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:26:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789856764; cv=none; b=RH0X+Mqh9zHP7JgXw+vo10knPS67gqFUlsSqnFUc/lOJl7lFUZyirgk2K1ZabPptjK7RcZrZtzHWm9V3lZyuA+/MpMSdYjvmiH9ncOLJKM2qS8Hkxi/wzx2vkmh4OsMRtbYzx74LgS8TNRWZGcwB8eyQa8wiT0Y6SXAjRjgNYJc=
+	t=1789856764; cv=none; b=ebc12FQku64o/2mgZ+6tC52VSHD2i/XAVyKYySeDnFUxtGPPoBJ57snX3XdLOptwGE3h7T94sKmOiLvS++V1hMwAvsGJcZXk9zOKin8uf0N+scWan6hjIgZoXSVS7XCzg0rziyIZQsICW27YlgRIyd+ipQ9u4vOy/28vFAGJ4DI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789856764; c=relaxed/simple;
-	bh=On7nT1+UD5RkfkNRUFPhkk0A9cf/HTVYnuSICtWWV7w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ezRZVlUj7p4oiP7/zFmwfbjGVOjeEMyVFoQnl75CLp67iYnX6UUQUaJQ+MCytnTozbYdanr1rxW0dMs/hIHXFK6YmVeV0COSgOV8PdMWYV5beAZn+nIGm5JhNzu0C3pmLCWfk0Vix4pHe5GPknNfyN/AWbg6WrKIoAfxPIPFlGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b45qmjUt; arc=none smtp.client-ip=74.125.227.141
+	bh=kmvLVl6fNpTzlloPojavr2VRqjhvKz6lutasv3yqTt4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TL0yySDARGdqy8y9FhfFTT1bE0+BceCVr+cGiQ64KRcSSGnAqrzGARC2rBy/NSjqWyj0IgLCq6m0+uQNXJKkBtF9GGOwwipV6tPxrOtYqlHYFIOch8gQppVESQSW0g4n9pwLqPlRSpOc+DThRicm97VbcF+VK5Q+6pgY3mm6r3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ekZZcoRJ; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b45qmjUt"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccafb751so1548428a91.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:26:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ekZZcoRJ"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d91a931f66so11937635ad.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 15:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789856760; x=1790461560; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789856761; x=1790461561; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8ruoN6IwDeYMkJLCbc5KiLZHVo6kh43xiZeYEpvlWRA=;
-        b=b45qmjUtH0sgzwaVNJgMJvwty2kP6Zpg/SvDzjik6zKGouwMQUFvcjmm0m0+2KQ1RD
-         55gBoMfHDf2YQxx5dRr/G8s+CWEZEu8UNfVXcvAmEsEVXA6Qxz1GUocvyLmdbaqIltiA
-         vJg/j243pnsDz5nvMxWIBjRCd4p+J5Ox6j6XbNAoS5BWo53galOJGBoidU8xnFVSHL7P
-         SlZBUVbfEuFRf6jJl+nzP3CNrT2Ojr28iSSBywvw1a8z6o8qiUzolTSJ5EcTd764qzKy
-         VSuF37k0WnVZKdolJqgoUEsYNS/oswNLSAkwFLp1mOdsiwrd7mV4C1712KXWRJ3Icylq
-         LDOA==
+        bh=57LGgaZ85OdGnj6rToiVIYTXeRS90SMHsMWqvOLknbg=;
+        b=ekZZcoRJUBpVUrQ3xrPhfaa8+M6pnQKrZLFoa7DYGf3we+dtYgtJtlCJ6TI0XMCY82
+         XwQ4t5c6A3pfOzsoU7X6c2353zsUQ6mXHImX5JvyVfyA+bZg/RrJlmkqx0Bf4J3sE409
+         Qw55CTM0OYoZDF0mZCt7OoF4lFkmfO8sUmABfs+1YoCWY/LVUCJFA+s3su7nASq/i97X
+         MSZK7d6GK1dK5Djd9FDs8hFx8P8ZEU2LK6YVdnQeYOcSfFSSm9jDuQut2eybQqgtBF7i
+         sgs9tOwDQW5kgSTznbsjyYW94pHKqzkV0q6/Gbw4d8WsBJoxztT51n6tmUMOkg72hVOo
+         NbXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789856760; x=1790461560;
+        d=1e100.net; s=20260707; t=1789856761; x=1790461561;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8ruoN6IwDeYMkJLCbc5KiLZHVo6kh43xiZeYEpvlWRA=;
-        b=qAHeUFmsf3noxJCZYSWrecoW2C4J8zmyVKUmIBZWcyB2yV2vtdliJ29XhHT360jxUa
-         M1/ozLWGgP0Sr8znsLk0OOtsa9jV/FOauMeVptc/FmrlEpKTYBxbgQCedD7iPgMtk/y6
-         kFkJ59tquW5/id5sVjHudqKrDLvOKOC41foMSevHldYactCGZh3mq84SMMTuih37qyG7
-         stsRqGrbzXfNKTGrPwnHqYIEhcmed98FzLFUX0BC6Sc5vR/vu8tn5v6wgr2YsazKdODq
-         sbjB8nT+HUkdQnZESoSWHV4VspTWZUwBgywudnys7utA/xxhYJjTG/ZqYMSlL69DLB2I
-         o9hQ==
-X-Gm-Message-State: AFuF++kf7ziTyaMP46FiiJp1ZjN/n0cCpCnrud2/C486HsQYZNI36/aq
-	tFyhIBupPU9p86hXzKl3W9uFrZXqcCvyBO/DT1FiNGCg8+aFhpY1MU70
-X-Gm-Gg: AYBFou0OPbmq+inK3s/D+YNtVht5BvhY5hahzrr1tWaYB2xQjMZowPNbeo9qxIgViDK
-	0Obwik/rUWL/doaQErRjzurzPkEyjSGR9xFnr761CtXgCiS8/gCYIkFocuAEEmxrWI8N0I8J/6o
-	alo7vrMJsUoCBpUU57XVsnKvwQ76JeOUkswJ0lXr9yK4GLfNuyffil305tnMxKrPew+US92FI/M
-	vMFDPZStUbO8pL3SHB4L6dRCMjE6Ow5rGTm9sJRKiMU5hV0rqsNUkdHrYyjMpxdnwsEbu/qreHs
-	mAcl/y5WOZZ1s6tfMA7T6qO3EWjNoEXvWtwblYa+OD67kWdTXWA33VqJyTri447qtC5dI7lp1tU
-	bGpqnJfM0s9xEHd8wgOw5tT5nceLWU+iqDxGZP0mYzAZDpoOIG2O1eVQlmLYS7eujc5T7BdmNgB
-	1yt936KNkz8aMqs1JyFT78y/WNSoj934Ix8mr2g5ujXpWhz1njWlfTzQ9il5OpkuMaMAD/Bj/6w
-	gLnU+c5O3UXSx5ITYsSTLOafD8OtjSvZ7nuPhmTldNiZgaFfsBWUTBu53afPMiI0pUtw7LqkYOl
-	3bDpxQ7f6A==
-X-Received: by 2002:a17:90b:5251:b0:39e:6a7f:eeef with SMTP id 98e67ed59e1d1-39e6a7ff09amr6705396a91.20.1789856760014;
-        Sat, 19 Sep 2026 15:26:00 -0700 (PDT)
+        bh=57LGgaZ85OdGnj6rToiVIYTXeRS90SMHsMWqvOLknbg=;
+        b=IrVe74ZqINg0vGiZXztauE/UB5ZnClxV5TvjU+1Ynt6U6TW12hVK9Pr8NH/eFH85Lt
+         8E2b9FJiuleXRAAHpVvhV9jgLfxFgiS8TDGwKWpBiKJXl5A6KV2sJga3PNzPSf6hbfVJ
+         X8l4E1sD1Dr35TydejkWdNuhKozGW6N2EyvrXB/HcT2DS16xT8b1HLlqeTkf9zLS/V2V
+         gZu48ZXa/WuzU6hJj27nDKhcdz2fKQ5P712vSfrwzfWv9RJCKEP9gOatAq3Q3CERoT2g
+         Gim9aI2IlHlorz9divBqgCtsJK4ed9LEgy0zpuqOECZk6Sgt97k4NXGiSvsBOwDRLiNQ
+         cdKg==
+X-Gm-Message-State: AFuF++kUi8/xb7OXB+3ifLLqaaCR6nnYk2vYoTEsli3+lgYWh44cbo+9
+	ASZL8sDmRodLrTERICY/CMv7UewFXAYAPmCsWJ9NjUT1H/MyhT2eZQ6pWFYqc9s8
+X-Gm-Gg: AYBFou3rXTSxPUviwRr/wmIx4MiRDy811zK/Yqs284wecgfyOYvtPKyaAA87nsocZX/
+	Yvq1No8ZLk7Sf0nofdQlgXutTbbecR3IN12riprTi3f/RKbk/0bCY26naSLsD5sqKwfrHnVlsPa
+	9OvcnfyG0vJxaZUaooiXiOOhmv3nLFx3OO3y78lq/UBVk2ZHtcxawOBik4o9l0qjFPTqVwCpZpz
+	Vm7EQZQUo8GHSTgTV/OMWkb+0tEfYZ9D0F6ZI4gno3J+QYGfhQbbRosBRDCe1qyE/1en/NaHXXh
+	be3NytZ73swgdX/UnyIWcxJbKy3cnipFBM4IRsCBnZQrng/OC7RlCQdXpHs+pQ1qZrHw7ROtVTC
+	sUH8rG3e50sbJOIXtnKyOPkZeyTHMLkxiT8d8/vfP3F8oTAj1gTm3zJb7hvmznbntJzT9bcyWiL
+	vmAr0JAD8i5NxMKkOLfHrlPwrVd+VgkzUXJmt3ab7ULUnivF674R307YNTidudiTA3Ig2eWgoYe
+	YRmOJK1iHUoHntVzgWoyTEoIlb/G3IuU1eIpYL/RN5QFjHR2DnpFMBI+IkPKqXSDmWioAlXm/pG
+	+y1nIWZIvw4=
+X-Received: by 2002:a17:903:19e5:b0:2d6:f6ba:263d with SMTP id d9443c01a7336-2ddb1ad9adamr114334675ad.7.1789856761227;
+        Sat, 19 Sep 2026 15:26:01 -0700 (PDT)
 Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6ca50694sm7118589a91.2.2026.09.19.15.25.59
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc180395fsm13049925ad.81.2026.09.19.15.26.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 15:25:59 -0700 (PDT)
+        Sat, 19 Sep 2026 15:26:00 -0700 (PDT)
 From: Hui Peng <benquike@gmail.com>
-To: aivazian.tigran@gmail.com,
-	brauner@kernel.org,
-	viro@zeniv.linux.org.uk
+To: jack@suse.com,
+	brauner@kernel.org
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] bfs: fix destination block offset in bfs_move_blocks() and check sb_getblk()
-Date: Sat, 19 Sep 2026 22:25:59 +0000
-Message-ID: <20260919222559.3793249-1-benquike@gmail.com>
+Subject: [PATCH] udf: validate vat20->lengthHeader and VAT inode size in udf_load_vat()
+Date: Sat, 19 Sep 2026 22:26:00 +0000
+Message-ID: <20260919222600.3793513-1-benquike@gmail.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -75,39 +74,50 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In bfs_move_blocks() (fs/bfs/file.c), compute the destination block
-number as start + i (instead of start + dblock, which shifts the
-destination past the allocated extent when dblock > 0) and check for
-NULL return from sb_getblk() before memcpy().
+In udf_load_vat() (fs/udf/super.c), validate that vat20->lengthHeader is
+at least sizeof(struct virtualAllocationTable20) and does not exceed the
+mapped buffer or VAT inode size so computing the VAT table pointer and
+entry count cannot underflow or read out of bounds.
 
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Assisted-by: LLM
 Signed-off-by: Hui Peng <benquike@gmail.com>
 ---
-diff --git a/fs/bfs/file.c b/fs/bfs/file.c
-index d33d6bde992b..e6916c2b2671 100644
---- a/fs/bfs/file.c
-+++ b/fs/bfs/file.c
-@@ -40,6 +40,10 @@ static int bfs_move_block(unsigned long from, unsigned long to,
- 	if (!bh)
- 		return -EIO;
- 	new = sb_getblk(sb, to);
-+	if (!new) {
-+		brelse(bh);
-+		return -EIO;
-+	}
- 	memcpy(new->b_data, bh->b_data, bh->b_size);
- 	mark_buffer_dirty(new);
- 	bforget(bh);
-@@ -54,9 +58,9 @@ static int bfs_move_blocks(struct super_block *sb, unsigned long start,
+diff --git a/fs/udf/super.c b/fs/udf/super.c
+index 2ba5973ef4dd..2f0f087bcced 100644
+--- a/fs/udf/super.c
++++ b/fs/udf/super.c
+@@ -1252,6 +1252,15 @@ static int udf_load_vat(struct super_block *sb, int p_index, int type1_index)
+ 			(sbi->s_vat_inode->i_size - 36) >> 2;
+ 	} else if (map->s_partition_type == UDF_VIRTUAL_MAP20) {
+ 		vati = UDF_I(sbi->s_vat_inode);
++		if (sbi->s_vat_inode->i_size <
++			sizeof(struct virtualAllocationTable20) ||
++		    (vati->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB &&
++		     vati->i_lenAlloc <
++			sizeof(struct virtualAllocationTable20))) {
++			udf_err(sb, "Too short VAT inode size %lld\n",
++				sbi->s_vat_inode->i_size);
++			return -EFSCORRUPTED;
++		}
+ 		if (vati->i_alloc_type != ICBTAG_FLAG_AD_IN_ICB) {
+ 			int err = 0;
  
- 	dprintf("%08lx-%08lx->%08lx\n", start, end, where);
- 	for (i = start; i <= end; i++)
--		if(bfs_move_block(i, where + i, sb)) {
-+		if (bfs_move_block(i, where + i - start, sb)) {
- 			dprintf("failed to move block %08lx -> %08lx\n", i,
--								where + i);
-+							where + i - start);
- 			return -EIO;
- 		}
- 	return 0;
+@@ -1269,8 +1278,15 @@ static int udf_load_vat(struct super_block *sb, int p_index, int type1_index)
+ 
+ 		map->s_type_specific.s_virtual.s_start_offset =
+ 			le16_to_cpu(vat20->lengthHeader);
+-		if (map->s_type_specific.s_virtual.s_start_offset
+-		    > sbi->s_vat_inode->i_size) {
++		if (map->s_type_specific.s_virtual.s_start_offset <
++			sizeof(struct virtualAllocationTable20) ||
++		    map->s_type_specific.s_virtual.s_start_offset >
++			sb->s_blocksize ||
++		    map->s_type_specific.s_virtual.s_start_offset >
++			sbi->s_vat_inode->i_size ||
++		    (vati->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB &&
++		     map->s_type_specific.s_virtual.s_start_offset >
++			vati->i_lenAlloc)) {
+ 			udf_err(sb, "Corrupted VAT header length %u (VAT inode size %lld)\n",
+ 				map->s_type_specific.s_virtual.s_start_offset,
+ 				sbi->s_vat_inode->i_size);
