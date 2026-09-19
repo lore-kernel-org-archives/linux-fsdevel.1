@@ -1,71 +1,71 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C943A393DC0
-	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 20:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCFD38E8B2
+	for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 20:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789850892; cv=none; b=OYojgRM516Q8gBDv0OJ56L9eF5qXEvQzyVtZ/UGos1SoDNO2Ph25gczBg2QqIlHmXXbndg5PqtXILnOtD0wdNBNWBmBpHI6z56iIws9oktz6LBH7JjGAXnCG+/HBnITg01oyHyo6q1kiJuaw9jTb0Avse24rsowb66VBAOlT7T4=
+	t=1789850897; cv=none; b=hYRU+CJkSizy+feeFHxljjEKyu5BTI0UBR94SF/MOXAP3mwdU4ksTQw0dKqtiOuMmbPhbTZLVnVO7MfmRyKk7l0Mh98dj0jRxhhIs/xGGZjA8jjSJ5o9O0mzBa7vKOoWknKQbDMIJv2887RzmWGmWGwpiJ+zqstpL0Ovn9eVt+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789850892; c=relaxed/simple;
-	bh=WHFKCdJIxJZts25V574gufTxt/e+kvWyiWNqWg4+FaI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jku2IwFysjhDc5R7EahepfT6b2W1r24RWlwg/0i+b06M5u3zP0PtXWDRjYacW3dNfaVYkB4CIIUlz9a0F6LxHKHMCd9kPrc++EjnJWv448DOpizyAfJVK69YDbTGP+zdg+L9vOFSE9DZr9alCzqs9LVAOJ9/V3lMo/jCjHTxpdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cb0SpgOk; arc=none smtp.client-ip=74.125.227.171
+	s=arc-20240116; t=1789850897; c=relaxed/simple;
+	bh=Xb6YmybDYOpffDEcr8Qpz3o3baljqAvw1OLCUNDOILc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VEunWgX5gk6Jf+bTBc+k/Hr/v9YdNQxpqyDZ8+LDiTJa0kBEmawrvXvgZTk9KOk7Q8Ep2dB+6suHkbJqhMD1QgiogqHY3zQk1Gx2qrhOSidTq4DVpAdFH/TlP5IrUGo45cIzw5cmbFJ4H+EL8XVW4f0U/oPBZYw3YHoaiEDbjwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AuWKQ04+; arc=none smtp.client-ip=74.125.228.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cb0SpgOk"
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-39e03468a5fso1647084a91.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 13:48:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AuWKQ04+"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469e25400so1376706b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 13:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789850890; x=1790455690; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789850892; x=1790455692; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UklQyeMvhqLuej0je0ggi0hTj3VJTG/i2EoA/FxL8jY=;
-        b=cb0SpgOkmSpx4HbI+vXW9P+Sy8sbUPwjOyXOs8dOCOqmceKIRpPDLumdTUjeuMK/Lo
-         EDPOvc2eISYzH0sl8SQ35AGjeSqBz6FIbbKf9xh+Otc5xr7tqoo+HtTtIPIDM2LxK4Ct
-         +J9kLPVG2pOyxFnD8hWZtW3JtY1Wo6t/oddpt2SJJUEWTAko0MKS3KStTcf0mNe4aP3O
-         HHKeAFE+1/3Elb3vT05k0XiHZYHZ568cbiHHPOQER4GljuNlvNPSJEBjSVMktkz2EqjI
-         FVOTyOrTImqq6fUvwB9vTHudhQvhBV+xTJ7sShb0/VrG0pkD1j9n2acXsX6E/tH18XRW
-         e4/g==
+        bh=G8coy9Idjf1Xbt6E4H3MvvQY7vOxDVZhrZENv3R8zOc=;
+        b=AuWKQ04+RdJ1Ccrl2bfOx/J6pBmZwjkvWyVFE2lCtBa0Kmwqc5Li7Q0uTAHPGLTn42
+         0ZPVphfxoPP7+Bz7aXPoFBUeFYubdUtpSKhgGsQQ5r0hrpH/KZf5HbpTKydSQ/hsMIoy
+         YGNvLBqjOpiDoUVq/qU751zsPPkTmIGrN7jFaj23e7S0y70BoW9GoVQWTFx+xq/s5jcV
+         5thcgj1uthL4XK1AFYvjR33SX+rWJKSc3S3CK3/UJRGcu1aM49RM4wCdiIoVbQnZJxwo
+         IXHqzcMURdTzpWtdQPfOKGN1M9xR93ucFGRGcH2HJcw0N0tpZLNYJrdGxU5T0isB48xA
+         4zdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789850890; x=1790455690;
+        d=1e100.net; s=20260707; t=1789850892; x=1790455692;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=UklQyeMvhqLuej0je0ggi0hTj3VJTG/i2EoA/FxL8jY=;
-        b=HoeoISCiweIymVG8q1N9/hqdPyIn3bwq8XaII6K34CLmda4TmKYi2bznnXBpwWy0fs
-         acKGSNZE0tYmiaoHerkooLgcAtzWWKqiOKvXOw5ummAZIErJews2rK+T+cOfexCfUOBn
-         EP6zro2nTKhAkmdpGx3vFYm9qd7BzsiDp547xjKqC/tRMVAPIOfNd9r9yLAjqwzkzHnP
-         w3M7+0aT48RykCsiulsMBPR29weN8XAboIQVBmxhxZC6j+PQWKRNaW8W1g0IGuREw40/
-         nWmPQBKBG+v6jQ0qFH3FfLSaXIn6c1LfApzM9JCOkErvJ2VJCwPRpyeLNJ6DJjeXKwmj
-         GT8g==
-X-Forwarded-Encrypted: i=1; AKwUvByIPLI3xXe7fGM55Qxs8t9XIhiVJ2MqWyLQTlINNsFfztH7BqXZgIyzekgwQQMfMSNugIvlbuEelnmm1Hkc@vger.kernel.org
-X-Gm-Message-State: AFuF++n/kIjcW/Udvc8YUbYTXQUG7RPrRGVoJW9J5KLRs9GaQMtsj3UQ
-	ihkkabPV7vqmVy2uIvfXBSqwsJa3wQKfhaVepyJODMYKmKvXxuNun8jG
-X-Gm-Gg: AYBFou3QVWICvYDmLC4yDgjrEYmb6W68wchRmq85FWapQUwlwaQRG7PukE/nOGt3pVc
-	aJi8MAzpUddD1ZJgY6LN+WhiS9c7flAXCsKHFJU7vb7t/N/k13KguRxk4Z/OIQncarA1D43WNn8
-	QfAx9nTpDd8cq+iO9JywA+ZAVFupmeAGwAaqU8sxX5fuVNRjgF5lxD3F6ooCby2l5+BuwC6vwS+
-	yjNU3RCftHcfZ+qGc5CW/2GmbR7Mh9vhKo2mLAVECsIQcFX/VFHwoipPUbsMIgr73EHNIGl63wI
-	Z73kHFP6NR6iahSAr3dlT2DtPiTaUYlc2CH20qMqPPWhZ9ipdomk9dAjnSKtvF+52v1r9eifc9+
-	iPl0gHJ2bsoK51wkkSiHH+GWnSroDpvOHfw0BGJyY4lFDyXVX7li4zrtm1zdhmRXo04liRbfAX+
-	W673Dv8Pn6J0Gg964adMTKvpj9rI4WiE31lTdLxeS09z8ICPFqxNMYKbEdd3Q4cd2X2kX7Gfi4Q
-	S6HmqGBeprYGgYILQDx4N/7m+KgddXOrxXAOKiKZvssd+dtTA2QVUHmhzBJMlGwLDHZ12eREnTt
-	OQ6PbLUjUFORZ3DdMGOW
-X-Received: by 2002:a17:90b:4b45:b0:39d:f7dc:61e4 with SMTP id 98e67ed59e1d1-39e54b204c5mr10849177a91.9.1789850890079;
-        Sat, 19 Sep 2026 13:48:10 -0700 (PDT)
+        bh=G8coy9Idjf1Xbt6E4H3MvvQY7vOxDVZhrZENv3R8zOc=;
+        b=Np6N6DUSqZedIbsij7aLcJEWtl5jD676Ho3a+q57CA8ZCPpK5EZk8B2HxbeQ1feQAk
+         U0JZ2u+4Hou/Gjk4mTa9aojCb41Ha3xptUwuNcKY9dC8Yvh2JTxxq3T6jUT0kJoXBAUt
+         pLmR3qjuUPcVXAsQrOhxVwP3Jpnjr/vzsd3uiVeuXqDYzbCL1O3UQtT30L+L6h8TURrU
+         Ib1N2OtpGRw+fUX9s958JiM/Xw5dySBjj/g3A55rZhW9J0xG3NQwHpU7YYJ/cwg1nff4
+         TjHaJ6UYvLzjdEm2P7J9SlA2ooCITt3bSS/d1VtU+WK8FcNNsISgj+5pj2oRc6eZwgQf
+         Il0g==
+X-Forwarded-Encrypted: i=1; AKwUvBwhjx+0mVWiKpDbUA2ShB3pby6tG11BgD+7YttRz4Rcd32im8gKkZy0uYttPTtWHIEVUSB+JR9TJSlvpjDN@vger.kernel.org
+X-Gm-Message-State: AFuF++mxhto6zi4lhbGTyU6Y9LTP2RNc/v3sKoFKRv586tczOZPQQ2Up
+	R8P0JsEavxn6qQu6fv5drOhJEpyVyHohGLadtS+qKmvlxUvQ8gQPbIGtBDZTxMJd
+X-Gm-Gg: AYBFou2LnZAqfO8CNxtOwV0956DWfykiG4Qa2lQJcXMkpTxM3Z1mnCGEzk6OK6/s+d7
+	BKkKjE8wz/NsXNW43WCtwT6ZcmSr6SyzVTvjyDBvGJ3OcCWdEGok2zqzdCoibS4XmxuVPPDmf+6
+	l8H3H4N6KMXmBF4J9jkDWxqbekgTsMFo4txKzzYfDIxzm6BSIBcn6Jtc23cc8VlyX1kww4FQx4K
+	kgKse/efKUpARoz5GBC4CALw09rtF+BJXCweI1lnc8QD+u+uby6Dbf8OJop690T1YyDN5nBwHqR
+	/8J4bpg4ENeM++T6tYbKgms9IWDXL1bWNwdblbeLBF0HQPsfbtvWtefs6wXqsanRZfcxAQ1WBvi
+	t8CiKc3uRrRKN82AoppTTvQuLmgfOJVhmUSRolC/3Z/MN69XkupzyqvWoug4qHc6q6yxXEahLcb
+	YxlqRMyJsp1dn0O1wfs18jvXN/SGMEJsLtU5sxwFtV4cpTRHXGFFeX41FBofBjyDACQKkMiZoNG
+	VcThh8RNujGrb14zb5USXV++FHzQ7uwg8ymURV/o0mR7hNeAMKO7e6Xj8iM53JiuPJJkfWXwrZG
+	moPaQTi65Q==
+X-Received: by 2002:a05:6a00:1a0f:b0:877:b053:2e12 with SMTP id d2e1a72fcca58-877b05337a5mr2996714b3a.10.1789850892092;
+        Sat, 19 Sep 2026 13:48:12 -0700 (PDT)
 Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6ca50694sm6848858a91.2.2026.09.19.13.48.09
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-877a9b18689sm1299910b3a.40.2026.09.19.13.48.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 13:48:09 -0700 (PDT)
+        Sat, 19 Sep 2026 13:48:11 -0700 (PDT)
 From: Hui Peng <benquike@gmail.com>
-To: Ian Kent <raven@themaw.net>
-Cc: autofs@vger.kernel.org,
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] autofs: fix sbi->pipe file reference leak in autofs_kill_sb()
-Date: Sat, 19 Sep 2026 20:48:08 +0000
-Message-ID: <20260919204808.2812930-1-benquike@gmail.com>
+Subject: [PATCH] fat: avoid freeing clusters on failed directory validation or read-only mounts
+Date: Sat, 19 Sep 2026 20:48:10 +0000
+Message-ID: <20260919204810.2813594-1-benquike@gmail.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -75,35 +75,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When autofs_fill_super() fails before clearing AUTOFS_SBI_CATATONIC (for
-example, when find_get_pid() fails on an invalid pgrp mount option, or
-when an fs_context is closed before mounting), deactivate_locked_super()
-invokes autofs_kill_sb() -> autofs_catatonic_mode(sbi).
+In fat_fill_inode(), set_nlink(inode, fat_subdirs(inode)) is called
+before fat_validate_dir(inode). If a directory has zero valid
+subdirectories (so fat_subdirs(inode) returns 0) and fat_validate_dir()
+subsequently returns -EIO (due to a missing or malformed '.'/'..'
+entry), fat_build_inode() calls iput(inode) with inode->i_nlink == 0 and
+inode->i_start still populated.
 
-Because AUTOFS_SBI_CATATONIC is still set in sbi->flags,
-autofs_catatonic_mode() returns early without calling fput(sbi->pipe),
-permanently leaking the pipe struct file reference.
+fat_evict_inode() then checks !inode->i_nlink without checking
+is_bad_inode(inode) or sb_rdonly(inode->i_sb) and calls
+fat_truncate_blocks(inode, 0), freeing the cluster chain on disk even on
+a read-only (MS_RDONLY) mount.
 
-Explicitly release sbi->pipe in autofs_kill_sb() if it is still non-NULL
-after autofs_catatonic_mode().
+Validate the directory before setting i_nlink in fat_fill_inode(), mark
+the inode bad on error in fat_build_inode(), and guard cluster
+truncation and metadata writeback in fat_evict_inode() with
+!is_bad_inode(inode) && !sb_rdonly(inode->i_sb).
 
-Fixes: ebc921ca9b92 ("autofs: copy autofs4 to autofs")
+Fixes: a3082d526f2d ("fat: add simple validation for directory inode")
 Assisted-by: LLM
 Signed-off-by: Hui Peng <benquike@gmail.com>
 ---
-diff --git a/fs/autofs/inode.c b/fs/autofs/inode.c
---- a/fs/autofs/inode.c
-+++ b/fs/autofs/inode.c
-@@ -51,6 +51,10 @@ void autofs_kill_sb(struct super_block *sb)
- 	if (sbi) {
- 		/* Free wait queues, close pipe */
- 		autofs_catatonic_mode(sbi);
-+		if (sbi->pipe) {
-+			fput(sbi->pipe);
-+			sbi->pipe = NULL;
+diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+--- a/fs/fat/inode.c
++++ b/fs/fat/inode.c
+@@ -535,11 +535,11 @@ int fat_fill_inode(struct inode *inode, struct msdos_dir_entry *de)
+ 			return error;
+ 		MSDOS_I(inode)->mmu_private = inode->i_size;
+ 
+-		set_nlink(inode, fat_subdirs(inode));
+-
+ 		error = fat_validate_dir(inode);
+ 		if (error < 0)
+ 			return error;
++
++		set_nlink(inode, fat_subdirs(inode));
+ 	} else { /* not a directory */
+ 		inode->i_generation |= 1;
+ 		inode->i_mode = fat_make_mode(sbi, de->attr,
+@@ -610,6 +610,7 @@ struct inode *fat_build_inode(struct super_block *sb,
+ 	inode_set_iversion(inode, 1);
+ 	err = fat_fill_inode(inode, de);
+ 	if (err) {
++		make_bad_inode(inode);
+ 		iput(inode);
+ 		inode = ERR_PTR(err);
+ 		goto out;
+@@ -688,12 +689,14 @@ static void fat_free_eofblocks(struct inode *inode)
+ static void fat_evict_inode(struct inode *inode)
+ {
+ 	truncate_inode_pages_final(&inode->i_data);
+-	if (!inode->i_nlink) {
+-		inode->i_size = 0;
+-		fat_truncate_blocks(inode, 0);
+-	} else {
+-		mmb_sync(&MSDOS_I(inode)->i_metadata_bhs);
+-		fat_free_eofblocks(inode);
++	if (!is_bad_inode(inode) && !sb_rdonly(inode->i_sb)) {
++		if (!inode->i_nlink) {
++			inode->i_size = 0;
++			fat_truncate_blocks(inode, 0);
++		} else {
++			mmb_sync(&MSDOS_I(inode)->i_metadata_bhs);
++			fat_free_eofblocks(inode);
 +		}
- 		put_pid(sbi->oz_pgrp);
  	}
  
+ 	mmb_invalidate(&MSDOS_I(inode)->i_metadata_bhs);
 -- 
 2.43.0
