@@ -1,29 +1,30 @@
 Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BD31379EDA;
-	Sun, 20 Sep 2026 07:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 084C33CB56F;
+	Sun, 20 Sep 2026 07:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789889540; cv=none; b=Fn1iwOTMPPo1U8mPfbdZefeenHTbzveujAqqpCINuJmFtmAMp47zO7wiSbzYR7yUI8TZ5Odwt6gjN3XZr0ZiytvcYTVImlFzlMmwGnev5fFZnhgdq85SKFbtYGuAXO8nkrCoSzHe00uQA27QurbGEDo83cLE5Mj8IFEYIVw61zk=
+	t=1789889544; cv=none; b=WZOG+Shzj5grdHtU3Wz1cz9EtxkLLBgmVnarnt1JNYKrYvJkFDSh1M4kv/Zx7vEqEC8ZguRRJFV2DcjgtIZM7XqA4RgzY2pYQlentvjfFcUr6HA4pJzFNRxUnJkD1qCyMsGV5KystvfDxJETSVvEy4gJM+3J+V7+/JnieDBIjFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789889540; c=relaxed/simple;
-	bh=/AZJWN61dYa9iudJVU/NcJv7GUx3e4HXR3dAeMOZVjU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pxOgMSGHTFPLKGGSi0n2Dl2qykL/HxxL9Prk4tLjvtoiuKnYWf0rPhQqgkpDEUEfcdLtnbo726m5K7q2zZ5uMqV5Dmc2J2qcr3Hnbet7Dum6LrzZnoFUxroszWzGcL9KQSIcTHesXFbXZGzaHaDyVbNykSQi65gnpCvKtIOQylc=
+	s=arc-20240116; t=1789889544; c=relaxed/simple;
+	bh=T+5+dqdAyAzrONNyBf6pIH6zZmTMzQ+XFmCxvUTtTUA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ttoLT+do7G8ChJGnJVtYDdoNpskQv1kw3GbdfDX5xwfHj0dTGnh2ifwN2RYCiTiysgHZNRBKgT08TiDPAsHcgmAHoG25Wl/9+fz8f0iKVwTVC+Cw/scstyB7FMeJqOlKbUBONOEMTv3imWGIoH2ESMMEgNPY9yW5NB1/BR4Yiko=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
 Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hndNG1Km2zTSdj;
-	Sun, 20 Sep 2026 15:31:58 +0800 (CST)
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hndNN1Kt4zTSdl;
+	Sun, 20 Sep 2026 15:32:04 +0800 (CST)
 Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hndNF1lWdzTSdj;
-	Sun, 20 Sep 2026 15:31:57 +0800 (CST)
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hndNM4wCxzTSdl;
+	Sun, 20 Sep 2026 15:32:03 +0800 (CST)
 Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp2.hygon.cn (Postfix) with ESMTPS id 6F1073027FCF;
-	Sun, 20 Sep 2026 15:27:32 +0800 (CST)
+	by maildlp2.hygon.cn (Postfix) with ESMTPS id DDDE93027FCF;
+	Sun, 20 Sep 2026 15:27:38 +0800 (CST)
 Received: from hsj-2U-Workstation.hygon.cn (172.19.24.226) by
  cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Sun, 20 Sep 2026 15:31:54 +0800
+ 15.2.1544.36; Sun, 20 Sep 2026 15:32:01 +0800
 From: Huang Shijie <huangsj@hygon.cn>
 To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
 CC: <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>,
@@ -35,10 +36,12 @@ CC: <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>,
 	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <sandeen@redhat.com>,
 	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Huang Shijie
 	<huangsj@hygon.cn>
-Subject: [RFC PATCH v2 0/3] fs/proc: split the inode list for procfs
-Date: Sun, 20 Sep 2026 15:28:08 +0800
-Message-ID: <20260920072811.2064247-1-huangsj@hygon.cn>
+Subject: [RFC PATCH v2 2/3] fs/super: introduce a helper sb_inodes_empty()
+Date: Sun, 20 Sep 2026 15:28:10 +0800
+Message-ID: <20260920072811.2064247-3-huangsj@hygon.cn>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260920072811.2064247-1-huangsj@hygon.cn>
+References: <20260920072811.2064247-1-huangsj@hygon.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,52 +53,39 @@ Content-Type: text/plain
 X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
  (172.23.18.114)
 
-The global s_inode_list_lock is heavily contended in procfs
-on a 384-CPU, 12-NUMA-node Hygon machine running Hadoop TestDFSIO:
-  #hadoop jar xxxx.jar TestDFSIO -read -nrFiles 1000 -size 100MB
+Introduce a helper sb_inodes_empty() which is used to
+detect if the inodes list is empty.
 
-The hadoop will create lot of threads during the test.
-The perf shows it consuming ~90% of the lock hotspot in procfs.
-The lock is hit from both directions:
-   -- inode creation (~49%) :
-           getdents64 ->
-              proc_readfd_common ->
-	         new_inode ->
-		   inode_sb_list_add()
+Signed-off-by: Huang Shijie <huangsj@hygon.cn>
+---
+ fs/super.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-   -- inode eviction (~41%):
-           process exit ->
-	      release_task ->
-	         proc_invalidate_siblings_dcache ->
-		     evict ->
-		        inode_sb_list_del()
-
-This patch set tries to resolve this issue by:
-    patch 1: "fs/drop_caches: skip filesystems without page cache"
- 	add a new flag for filesystems without page cache.
-    patch 2: Add a new helper to detect the empty inode list    
-    patch 3: split the inode list.
-
-
-After this patch set, the above TestDFSIO can get over 50% better performance
-in exec time. And the procfs lock hotspot becomes nearly 1%.
-
-Huang Shijie (3):
-  fs/drop_caches: skip filesystems without page cache
-  fs/super: introduce a helper sb_inodes_empty()
-  fs/proc: split the inode list
-
- fs/drop_caches.c               |   3 +
- fs/inode.c                     |  79 ++++++++++------
- fs/proc/inode.c                |  53 +++++++++++
- fs/proc/internal.h             |   2 +
- fs/proc/root.c                 |   8 +-
- fs/super.c                     |  45 +++++++--
- include/linux/fs/super_types.h |  17 ++++
- include/linux/proc_fs.h        |   1 +
- security/landlock/fs.c         | 162 ++++++++++++++++++---------------
- 9 files changed, 260 insertions(+), 110 deletions(-)
-
+diff --git a/fs/super.c b/fs/super.c
+index 9d4025213521..e25ded0bc9a2 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -710,6 +710,11 @@ void retire_super(struct super_block *sb)
+ }
+ EXPORT_SYMBOL(retire_super);
+ 
++static bool sb_inodes_empty(struct super_block *sb)
++{
++	return list_empty(&sb->s_inodes);
++}
++
+ /**
+  *	generic_shutdown_super	-	common helper for ->kill_sb()
+  *	@sb: superblock to kill
+@@ -760,7 +765,7 @@ void generic_shutdown_super(struct super_block *sb)
+ 		 */
+ 		fscrypt_destroy_keyring(sb);
+ 
+-		if (CHECK_DATA_CORRUPTION(!list_empty(&sb->s_inodes), NULL,
++		if (CHECK_DATA_CORRUPTION(!sb_inodes_empty(sb), NULL,
+ 				"VFS: Busy inodes after unmount of %s (%s)",
+ 				sb->s_id, sb->s_type->name)) {
+ 			/*
 -- 
 2.53.0
 
