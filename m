@@ -1,221 +1,162 @@
-Received: from mail-oi2-f43.google.com (mail-oi2-f43.google.com [74.125.231.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13AA31F986
-	for <linux-fsdevel@vger.kernel.org>; Sun, 20 Sep 2026 11:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAD143DED9;
+	Sun, 20 Sep 2026 12:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789904123; cv=none; b=BEfynbea2KB+5bYIkuzytAaV9mIqO7y5kOWSPGbKmSUPJoodefpp+56w+kGjYl88w5Qi83BbgKynee7DOcbrkCSxfpYaABoZmri7+sY3xChl7UAfxyUGieE/mOkPoEz7Yx4d3Dx9UIHRAgNy3tilvcA8fPm8sbqB7UhOyLE0YBY=
+	t=1789907893; cv=none; b=o2A09PuuUssap0htTyZVCcT4R9mu6IZC6zhYTDMH2ULwHkGxAh/zeD1N3nBo8lWsBBmVoVErpoxC//TLAPboaBTkPLRMHf+Iis2w2RhvVrHnhYuJzswIEbAZ508vE6dPQKXPIBxBRMhjcFN08OzSxFBumMyAKfy5JqHfDQJCa98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789904123; c=relaxed/simple;
-	bh=4YHIigWkF9a5Jv7iJgamRA5tV52bAV/n0ACpMqozVw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WlImhVJfbCxkadBpqbVFu5FeAGFQVHNzmpHg5J9/UAaVireVGx5s0uRFkPtiIV0F1KVCum0kV2Wcc5SeX+aj+8SE9eKl3foK4Zk4EZUcGLj8ioWgkmbVQULEMx1Tra9c8TqjBp94qV/DyPrLcNCvISpYSbseko4cXdkVnGJvtlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y44ONVtW; arc=none smtp.client-ip=74.125.231.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789907893; c=relaxed/simple;
+	bh=qqllzSvWdnqpBfqHONybq1LFWlpsTlV7xqOhXtAC8ag=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=uMJum5bmEr6snpyd9bk3S3EuOerunDjoj3clghVxsMsjiY/ioZuvEANauJH9O6q2V8YC6d8sUFmRDZKDQfd+biqq8kAxctvjXJgVy1dinMpC/LHudgL+d2QxePOWN+pagZPOJ5OOBhOoHsoMbmxm5WmzjaTAgjUGWCLwPe1wdS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VzRdHciK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y44ONVtW"
-Received: by mail-oi2-f43.google.com with SMTP id 46e09a7af769-80032c08611so1462503a34.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 20 Sep 2026 04:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789904117; x=1790508917; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LF4c2IX0PuWCqHGJHWTgMYep+t831LFkVRZbjTIZtkU=;
-        b=Y44ONVtWajdOU0bNfOt607H71HYOswjvGNcuVYfTmoVL356v5HafvqDBg+7ypJPccd
-         31bTfVDhrQ+lkXdEiTT3ZwieKFgcg5JCg99ikgmgdEB6SICviK5rGh01eIfg+2tDuSB8
-         /TuvM6TVEjPCk3YgwGKmi2vV7aHmChfVeIVWyIqvS5mJ5TnoyN8LHtNRKfmnYtyW8vWB
-         0nczept2HAevNjPtbshkMfE+pkpKU/yEtthoBqKqnvbnlRfPZwx1DvYr4lHIN4+esmjC
-         mDHmRM+S1PYEK4eZbbqnTmyHbZ0axcZa5AN2NFbP7XYK/vuNCpIVR2BM5LJn9cGd6qxm
-         Lviw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789904117; x=1790508917;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=LF4c2IX0PuWCqHGJHWTgMYep+t831LFkVRZbjTIZtkU=;
-        b=PW6yQ9xOU01LvxLQyBfHlUKAckTnhA6AayMeKZcY2S1hdgr7bF+k1FfKvLBP8Rc9/p
-         KElbhRaLGC4+z6wDkstIO8IiakvJhYdlstgoxNTTrhzgBa1UwrSPkiEZeajVzWDhEAll
-         9Tor6PIYJlRvdxuaTZAyYclSWqc+RUjHmYI2QC7yqEUFEY+iA70vPlCVSmoKlSyFrXAp
-         T5PQDhpER+wG2bpZPffgTZYKONxr+fpCLCstAPCqvfmEfDhY3W4IKSRPo+g6isA4rOR/
-         U88jRYy3Pdz/i6g4xYn64EreeJYN04wBvajm5AChmEo+Nh7TywY8tsMWmKvdRGxTS/Pb
-         D0Vw==
-X-Forwarded-Encrypted: i=1; AKwUvBwZ8/ew+rNiHym7W87dhem0NpGutFTJLWr7G1K5mINsmqxZxTr3i8ZQULt6RLzLkYFuCLKvrrB+XDULRIW9@vger.kernel.org
-X-Gm-Message-State: AFuF++nQyGMU+QRQEFHePXew5xQalLZrRnCH3kcgZJKsjTvDwRX/eDvN
-	Do9jQ5Rxc7+0CYpdvg+ERAYGtQETpG0k4PvyVgNCeR2qg7Nch3ZLmCWi
-X-Gm-Gg: AYBFou3jLS/R5nihuZktFRSjx77nLikfaCw87VKpp4L/VoqSL6Nz82H0kxefBwTXit7
-	7iemCt7RDzQo+EspWL8+zGdzNAnJ83IWxgxq7+3nE+BSR3XXnZUZrE/7lMM/CAD3+bPioAHLhsA
-	ezt46HjY/T36k0OkwYXyCW4ONuiXOKk7tCWRlqXI4W88+eKtslRPtbX+/IqfLm8gnXfDmcA3R0E
-	Ou3GGljyU3KwYm0IOBfVnDbf+6vMclJsoSw8SfbqKVVycf5atQK5+B42mSI+57k92A0d5F+Mt9O
-	6woM8o67KWmwIbe+/F4ArEBjMTqj3cU8dcYD+x65XjN85FQBh6KLCJMAANn1Nyl48ktC0+6BtMB
-	9CevWlUnS0aIKNEAaXtYbgb/IVBWNAYjZeMyBuCSrsE2A89FgDTgIemWVqzH53DIVCnwaG2s3vW
-	YICtTPCAV20JiSaMwUREaJZEjV8oUIud44a/+BNrYDP3hcEviOQjC5CwLksYTY5ic78AGulZclb
-	9ZiYJ1SdybXpqGnpcis+loXRbTyOFLkVoO3dtvDCnQkmZGHWMwE8KzP74HjbssFt67JtZDMpNIc
-	2vLh
-X-Received: by 2002:a05:6830:a148:10b0:812:3ec6:58a2 with SMTP id 46e09a7af769-8123ec6662emr648065a34.12.1789904116720;
-        Sun, 20 Sep 2026 04:35:16 -0700 (PDT)
-Received: from fedora-laptop ([172.245.82.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8118551d4b3sm2905282a34.1.2026.09.20.04.35.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 04:35:16 -0700 (PDT)
-Date: Sun, 20 Sep 2026 06:35:10 -0500
-From: Ming Lei <tom.leiming@gmail.com>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	Chris Mason <mason@kernel.org>
-Subject: Re: ublk: consequences of a dead server are only failing on the last
- /dev/ublkcN release
-Message-ID: <aq_E7nsEMFKpBlpr@fedora-laptop>
-References: <20260918-eisbrecher-toilette-worum-eb11f777c563@brauner>
- <CADUfDZrjhhvKHh=7KoEvczqrRjcwnJC4p8jh5N4kpOS=Q2RTFQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VzRdHciK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C40FE1F00893;
+	Sun, 20 Sep 2026 12:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789907877;
+	bh=mJsWGBtB6Jmto8DEzZ2y0wDci2YhQdizpVycyPmDhK0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=VzRdHciKS1keY3iQi9SFZNCz1KV7/Ah55tDvKdZXTr5m8bGGeqn/s033sD58PhgIy
+	 TfPrqGNOi7LjtXtgCutOGzPRAJZd45t5n4H1V1kR2NE5cgppgASisfIOm18ItWwGqG
+	 YKByiV76Sx5uB6EYvm6oCPDQVNUH149ja80rHzVGxq5cSuvq1CWo+PaQJwNeBx4T/U
+	 rb8FTL7vE18NDxitJ1BDuusxWO458ObxKwLqApe8wdYKsbM7CR+QvG2s+LzyBaxSvv
+	 sMbO1bEWWfhj7wK8bPK9jgyjryTqIilpQREp60zmEBFiaP/SyD5LMSX3wZVFyymDM2
+	 p2zEN6UTMbCow==
+Date: Sun, 20 Sep 2026 02:37:56 -1000
+Message-ID: <73204ebd8b41871c263e99196ee7fbf1@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Julian Sun <sunjunchao@bytedance.com>
+Cc: linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	axboe@kernel.dk,
+	hannes@cmpxchg.org,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	muchun.song@linux.dev,
+	willy@infradead.org,
+	jack@suse.cz,
+	tj@kernel.org,
+	akpm@linux-foundation.org
+Subject: Re: [PATCH v6 2/3] memcg,writeback: flush foreign bdev mappings
+ separately from owner wbs
+In-Reply-To: <20260917070119.2648123-1-sunjunchao@bytedance.com>
+References: <20260917065759.2643940-1-sunjunchao@bytedance.com>
+	<20260917070119.2648123-1-sunjunchao@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADUfDZrjhhvKHh=7KoEvczqrRjcwnJC4p8jh5N4kpOS=Q2RTFQ@mail.gmail.com>
 
-On Fri, Sep 18, 2026 at 09:34:54AM -0700, Caleb Sander Mateos wrote:
-> On Fri, Sep 18, 2026 at 3:47 AM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > Hi,
-> >
-> > Chris scanned a new series of mine for me and he reported some
-> > interesting behavior that I dug into.
-> >
-> > A ublk request that was handed to the server is only failed once the
-> > last reference to /dev/ublkcN is dropped. So holding the file open keeps
-> > the request alive.
-> >
-> > This causes any waiter to be stuck in D state and blocks STOP_DEV.
-> >
-> > I'm attaching two reproducers:
-> >
-> > (1) ublk_inherited_fd_test.c   the general case, no vfork involved
-> > (2) vfork_ublk_test.c          the holder of the reference is the waiter itself
-> >
-> > Re (1):
-> >
-> > A single-threaded ublk server fork()s a helper. The helper inherits the
-> > fdtable including /dev/ublkcN. Now another process opens /dev/ublkbN and
-> > writes 4 kb then fsync()s. The servers gets a WRITE and _exit()s without
-> > completing it - say it crashes:
-> >
-> >   - The writer sleeps in folio_wait_writeback() in D state.
-> >   - STOP_DEV issued from another process never returns.
-> >
-> >     The control command runs on an io-wq worker of that process, which
-> >     calls ublk_stop_dev() -> del_gendisk() -> bdev_mark_dead() ->
-> >     filemap_write_and_wait_range() and ends up waiting on the page that
-> >     won't be written back.
-> >
-> >     Said process can't exit and io_wq_put_and_exit() waits for the
-> >     worker.
-> >
-> > This can only be undone if the helper is SIGKILLed:
-> >
-> >   # ublk0 up, server 119
-> >   # helper 123 forked by the server, holds the inherited fds
-> >   # WRITER fsync
-> >   # server 119 died with the WRITE in hand
-> >   # 2s after the server died:
-> >   # writer pid 124, state D:
-> >   #   folio_wait_bit_common
-> >   #   folio_wait_writeback
-> >   #   __filemap_fdatawait_range
-> >   #   file_write_and_wait_range
-> >   #   blkdev_fsync
-> >   #   do_fsync
-> >   # STOP_DEV from pid 125 has not returned after 5s:
-> >   # STOP_DEV issuer thread 126:
-> >   #   folio_wait_bit_common
-> >   #   folio_wait_writeback
-> >   #   __filemap_fdatawait_range
-> >   #   filemap_write_and_wait_range
-> >   #   bdev_mark_dead
-> >   #   blk_report_disk_dead
-> >   #   __del_gendisk
-> >   #   del_gendisk
-> >   #   ublk_stop_dev_unlocked.part.0
-> >   #   ublk_ctrl_uring_cmd
-> >   #   io_uring_cmd
-> >   #   io_wq_submit_work
-> >   #   io_worker_handle_work
-> >   #   io_wq_worker
-> >   # killing helper 123
-> >   # WRITER fsync returned -1 errno 5
-> >   # STOP_DEV returned after the helper died
-> >
-> > What happens to a device after a server crash depends on whoever else
-> > holds /dev/ublkcN open: A forked helper, a process that got the fd via
-> > SCM_RIGHTS, or a vfork child.
-> >
-> > I'm not sure whether that's intended semantics but it surely has
-> > confusion potential and should probably be at least documented.
-> >
-> > I suppose failing outstanding requests on server crash is intentionally
-> > not done for recover reasons or whatever. But maybe STOP_DEV should be
-> > made to work.
-> >
-> > Re (2):
-> >
-> > vfork() makes it really ugly. Say a single-threaded ublk server vfork()s
-> > a child. The child opens /dev/ublkbN, writes some stuff and closes the
-> > fd. Since close(2) runs bdev_release() -> sync_blockdev() it waits for
-> > the write.
-> >
-> > The write gets dispatched to the server's task work. But the server
-> > sleeps in wait_for_vfork_done() until the child execs or exits.
-> >
-> > But the child cannot exec or exit because close(2) doesn't return.
-> >
-> > ublk makes this more hairy though. Even a SIGKILL sent to the server aka
-> > the parent won't help. The vfork()ed child hangs on the close(2).
-> >
-> > So that stays in D state forever with an undeletable device:
-> >
-> >     server, after SIGKILL: gone
-> >     child:
-> >       State:  D (disk sleep)
-> >       folio_wait_bit_common
-> >       folio_wait_writeback
-> >       __filemap_fdatawait_range
-> >       filemap_write_and_wait_range
-> >       bdev_release
-> >       blkdev_release
-> >       __fput
-> >       fput_close_sync
-> >       __x64_sys_close
-> >
-> > Unrelated, but also a potential issue:
-> >
-> > The commit 7fc4da6a304b ("ublk: scan partition in async way") made
-> > partition scans run from a workqueue that holds disk->open_mutex while
-> > the server serves its reads and START_DEV returns before it's finished.
-> >
-> > Any server that treats START_DEV's return as a signal that the disk is
-> > ready and doesn't serve requests hangs every open() of /dev/ublkbN on
-> > uninterruptible on open_mutex. You can combine that with (1) and (2).
-> 
-> Indeed, we've also encountered this issue in our ublk server that was
-> opening /dev/ublkb* to call ioctl(BLKROSET). (UBLK_ATTR_READ_ONLY only
-> works to configure the read-only status *before* a ublk device is
-> started, so the ioctl is needed to configure it when recovering a ublk
-> device.)
+Hello, Julian.
 
-It is supposed that ublk server doesn't deal with /dev/ublkbN directly.
+On Thu, Sep 17, 2026 at 03:01:18PM +0800, Julian Sun wrote:
+> Bdev foreign flushes can be triggered frequently. Use a dedicated
+> workqueue to avoid interfering with tasks on existing workqueues. If
+> allocation fails, retain the existing foreign-wb path.
 
-We can add control commands for updating parameter runtime, or UBLK_CMD_SET_PARAMS
-may be enough before ublk device is started.
+Work items on an unbound workqueue don't interfere with each other beyond
+max_active, so this isn't a reason for a dedicated workqueue. Wanting a
+separate max_active pool for up to four long-blocking items per memcg is,
+if that's the intent. Can you update the rationale?
 
+> Use fixed per-memcg slots, with a shared lock protecting device records
+> and in-flight state. Tracking is best effort: record only dev_t without
+> holding device or inode references. Skip closed devices or devices whose
+> open_mutex is busy. Device removal and device-number reuse may race with
+> lookup.
 
-Thanks, 
-Ming
+Andrew asked why dev_t rather than a reference. The reasons you gave in the
+thread belong here: the record is written under i_pages with IRQs off,
+dropping a bdev reference can sleep, and a memcg that never throttles would
+pin the device indefinitely.
+
+It'd also help to say who this affects. Only filesystems that keep metadata
+in the bdev page cache, so ext4 and the other buffer_head users but not
+xfs, btrfs or f2fs. And that the decision is still blind to how much of the
+memcg's dirty memory is actually in the bdev, so one dirty bitmap block
+still flushes the whole mapping each time the memcg throttles.
+
+> Fixes: 97b27821b485 ("writeback, memcg: Implement foreign dirty flushing")
+
+This is new development rather than a fix. Maybe drop the tag? Patch 1
+doesn't carry one, so a stable pick of this patch alone wouldn't build
+anyway.
+
+> +static void mem_cgroup_track_foreign_bdev(struct mem_cgroup *memcg, dev_t dev)
+
+This lands above the "Foreign dirty flushing" overview, which now says
+nothing about the bdev path. Can you move it below the overview and add a
+sentence there?
+
+> +	/*
+> +	 * Tracking is best effort, so losing hints when all slots are occupied
+> +	 * is expected.
+> +	 */
+> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
+> +		ctx = &memcg->bdev_frn[i];
+> +		if (ctx->inflight)
+> +			continue;
+> +		if (slot < 0)
+> +			slot = i;
+> +		if (!ctx->dev) {
+> +			slot = i;
+> +			break;
+> +		}
+> +	}
+
+When all four are occupied this always evicts slot 0, and the comment says
+the new hint is dropped, which isn't what happens.
+
+Why not follow the cgwb_frn style? A timestamp per slot gives oldest-first
+replacement here, expiry in mem_cgroup_flush_foreign() so a record from
+long ago doesn't fire a flush when the memcg finally throttles, and
+re-arming when the mapping is dirtied while a flush is in flight, which the
+worker currently forgets when it clears the slot. It could also drop
+frn_lock. An atomic in-flight flag on the work gives the same guarantee
+done.cnt does, and a torn read of dev or the stamp only costs a wrong
+best-effort flush, which is already the deal.
+
+> +	if (memcg_bdev_frn_wq && bdev_inode &&
+> +	    sb_is_blkdev_sb(bdev_inode->i_sb)) {
+> +		mem_cgroup_track_foreign_bdev(memcg, bdev_inode->i_rdev);
+> +		return;
+> +	}
+
+Patch 3 moves the trace call below this. Might as well put it there here.
+
+> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
+> +		struct bdev_frn_flush_ctx *ctx = &memcg->bdev_frn[i];
+> +		unsigned long flags;
+> +
+> +		spin_lock_irqsave(&memcg->frn_lock, flags);
+> +		if (!ctx->inflight && ctx->dev) {
+> +			ctx->inflight = true;
+> +			queue_work(memcg_bdev_frn_wq, &ctx->work);
+> +		}
+> +		spin_unlock_irqrestore(&memcg->frn_lock, flags);
+> +	}
+
+If the lock stays, one acquisition around the loop is enough.
+
+> +#ifdef CONFIG_CGROUP_WRITEBACK
+> +	memcg_bdev_frn_wq = alloc_workqueue("memcg_bdev_frn_flusher",
+> +					    WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
+> +	WARN_ON(!memcg_bdev_frn_wq);
+> +#endif
+
+WQ_MEM_RECLAIM is for work items that memory reclaim depends on to make
+forward progress. Nothing waits on these flushes. The throttled task just
+sleeps and re-evaluates, and the bdi flusher remains the path that's
+guaranteed to make progress. Can you drop the flag?
+
+Thanks.
+
+--
+tejun
