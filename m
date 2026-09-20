@@ -1,128 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C6D3AFCF0
-	for <linux-fsdevel@vger.kernel.org>; Sun, 20 Sep 2026 15:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA8443A7FF
+	for <linux-fsdevel@vger.kernel.org>; Sun, 20 Sep 2026 16:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789917323; cv=none; b=pZqNr73s+rc4Clw28G+VdJ2t6k2b+ggTv/Yrxcjd1jnZfCaOuKTtdupgj2/0gouzFz5VF093QhJudc7/s+zuPuIdL9AJflCHX/WlzKgCFhpO8Q89LsAHm1T0xgicPGpY1P2QlfzzSMGlL5NnJvQWIYqOM3EWiyV911o2Athb8tw=
+	t=1789920252; cv=none; b=DXwu3RW8nt+G9/sVpSPrT2dTi4A/k314xc//SymAHYd3+uWGc87l9L32lp63yukXDIWUf9V8v4clhkKfgAI2L5ptX59IkNmFVoe0d7LbAYoUftIimNKijkNtYTPscYpOHWgdS8YTfPo3eO7Hcf8lRwk0OfU+z11lVampVpag0sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789917323; c=relaxed/simple;
-	bh=GzgnvIUZuTISolfks6jtEGpq+PCFa+IpBleh23SiJ0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eLZQ5cRcBEXyu9WkaiWwb7iHNaAMlJU5HP8MgBllQwy3X9DzLrAj7xyDFwyRIXULxh8NRkR60jH5AsAbscdf5j4zSaz2o+aRQvzwNRO4WHI3Zl+rxdI/0AhOVxxo2nWiDca3BvBjA9U3ID9aWeVdIzYmILReb/jvUCLk/v8hZks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=htm0S7lQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1789920252; c=relaxed/simple;
+	bh=+aaiYQQ2qcjqfQdzimKTHPW58R6WBjn4aL2a2uwKvkg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tMZT3EOWduV9apKLEYoZmEB0POTFI5Gpg6KFGaId6iiq4kAP9VRJGGLGoFLPjuOGRlFi9mb9Ot5Ppcdg7u7P0EDZPa+Wgb2ZCa3VoPcKdELcAT8nX9cQHyEwzjbfF1Bx1mWn84n58xzoq77QIZ+mhempN62FCsboF52D4PN2iVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TXYQf/2P; arc=none smtp.client-ip=74.125.228.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="htm0S7lQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789917320;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jPP3HBXD0HVoCCj/kBuPA6/lcgb/IF+n7p3Pg2EkF+g=;
-	b=htm0S7lQxePtjOgHqz8YM9IzTV62G8f9d4w9J3VegL3c7wUIXyejnPwuALpOoJ5oWaP99r
-	avwVryqdOYfMOaVHVBvnV737dJxsFuWulTRbDWWSkzsJ5UfvpdgVuE+x0b66khq6tJptr/
-	DIUZSmZlDwKjH5uh8ctOfVpJtrNH3Nc=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-189-GlfUHkt8N1uLLTONHapGaQ-1; Sun,
- 20 Sep 2026 11:15:17 -0400
-X-MC-Unique: GlfUHkt8N1uLLTONHapGaQ-1
-X-Mimecast-MFC-AGG-ID: GlfUHkt8N1uLLTONHapGaQ_1789917315
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A6C3118009E7;
-	Sun, 20 Sep 2026 15:15:14 +0000 (UTC)
-Received: from fedora (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 9D0F21956095;
-	Sun, 20 Sep 2026 15:15:10 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Sun, 20 Sep 2026 17:15:14 +0200 (CEST)
-Date: Sun, 20 Sep 2026 17:15:09 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: NeilBrown <neil@brown.name>, Chris Mason <mason@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
-	io-uring@vger.kernel.org
-Subject: Re: user workers as coredumpers [Re: [PATCH 1/6] coredump: don't
- switch a dumper that has no files] table
-Message-ID: <aq_4fY6GVtK47Njq@redhat.com>
-References: <20260915-work-coredump-fixes-v1-1-f354ca41780c@kernel.org>
- <20260916194837.3732307-1-mason@kernel.org>
- <20260917-staunen-sparsam-infusion-83238c68d21f@brauner>
- <178960987412.207413.3957049392884487413@noble.neil.brown.name>
- <20260917-zahnpasta-aufweichen-flackern-1182320f5c81@brauner>
- <20260918-tonart-umgeladen-gesponnen-519fca5172bd@brauner>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TXYQf/2P"
+Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc1cea4ae2cso1838133a12.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 20 Sep 2026 09:04:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789920247; x=1790525047; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6OoHD91mHLtLX07CJ5QjtOSeSuco+48Y9f/A2eKWQpk=;
+        b=TXYQf/2PukPllDVZoZL8+kHEXVK2E+Ej9SBQLDRG8giba4Qenq+RYTVSTBUy8DiNzo
+         E06PoWkkjhU7HndUPHdGL8vNd+37FqRMB4g3jwe7hnWsjpYjowbh2Fo9tS2rPOX1/NX6
+         Mln94NpECNc5nWOhdZ+BvChz5sZvSXDhRXvhN5kWlpFuizK/IhPAaqJO2aMpuYR0XS3c
+         q4Nxu7eYHA1+HCfQIg7Oh65QxVXnvX7bIf4Kqtcx0Q1t4P0JkEXNpuMBUcpNHa95ExTm
+         JTjY0XrO1b1811LSuEa/Q2ZQ2geZr5Gj5o+46eha4x3H7tfJXVKu7OC7JEexLQLPUx3D
+         dkZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789920247; x=1790525047;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6OoHD91mHLtLX07CJ5QjtOSeSuco+48Y9f/A2eKWQpk=;
+        b=PsWmWOWsWKhTAwr1GwbwtJTfurMcFZRAl9Ma15h4C/hKM/qogISyZuxzYLGZDFVZck
+         zJ4cu4c4f6HWCg+vUoIkwiKylObuGXujcSTu0jo7v//RtJO2S6835K5LAIMFGGbZIW6x
+         773WYRfAQtLsOLb/eaYl7C+REVzGzQfwFmh6Ncwal5LIO5cd0GEqD7Ux2ILM0PV45EDM
+         3gV3EIt0KTW8aT34kjSJcXx+hb99CAlfU848qthcB3vS1KXaUGqJcioDYonqWAsL9pVT
+         ZpUY25u3f4ZSaiwt6IzLzO8GBOmvHA+826JR+wFuLHwopTdSSYBIfMr9ctv8iqTwz6r8
+         qrDQ==
+X-Gm-Message-State: AFuF++lS/Mb1T6sCCCa4qKGjlW71kzvZyF659iUA9xPGce5By75wLlNp
+	WkU/mSGH5eqg8KyXyRecJ0UulTZMaE3V9yDhk1lpLVQjnb4MtTmpxG5K
+X-Gm-Gg: AYBFou1IpOTtW14kfY7wIq+WUDSGhYunbtR83h788D1u52QZOEFtqv0EVr8VkflogSF
+	dc0cmAj/Twa7y4Fxlc7o0DJZJ7LYdActSpphSnOWbnrW1dprky+pYrf+0xP/1cDDcETvoLmC/OB
+	wHsiHACl1tUZuKKzR/rlT//rTWisE5FO0Ou5bfjrBafYQhrZyn6vTaS/2kaChpgy/2aVIABORiD
+	24eaF1oqI62Wz0aVVDQx2iVecZT4WUuYv6uhPFe7+iT+bLj76v0HYDpvNDy01HRZUpiH/SyPUy/
+	8COjQ2cdENIzGKSJKbjjoz47ln3dYA0AY79enaxFp5ySOtJorQJBAcZ7DI4XaHeh+tQRn6zVm35
+	TZDhfwqAeJg6rbGjvw3YjHu3pk/ouPcmTofSa7ZLLUg3uG2FxXIzTDp5AQG//8DrqMKmWN8cEE7
+	lgDSmwS8kAYp0Jfw0ddByeVW0yUOK1frboyI1pa1wRpRNS+ARSbKX5P05PqMYDeBsLGa398byM9
+	56yvpQIH0u+JQpKniSPkUIyZxZVJw3vM4V/rpiTUw2BDnZ2Nmx2ZV6xKg==
+X-Received: by 2002:a17:90b:2743:b0:392:ca3b:370a with SMTP id 98e67ed59e1d1-39e54cadd7amr13494250a91.2.1789920247343;
+        Sun, 20 Sep 2026 09:04:07 -0700 (PDT)
+Received: from bazzite ([138.122.221.5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c3311a111sm11108715eec.6.2026.09.20.09.04.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Sep 2026 09:04:07 -0700 (PDT)
+From: Davy Felipe <davyfelipe34@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Davy Felipe <davyfelipe34@gmail.com>
+Subject: [PATCH] hfs: propagate extent B-tree insertion errors
+Date: Sun, 20 Sep 2026 13:02:13 -0300
+Message-ID: <20260920160213.285316-1-davyfelipe34@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260918-tonart-umgeladen-gesponnen-519fca5172bd@brauner>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Transfer-Encoding: 8bit
 
-On 09/18, Christian Brauner wrote:
->
-> So I thought a bit about this yesterday and had some brief discussions
-> bout this as well. I think we should kill this whole bug class by
-> ensuring that PF_USER_WORKERs never participate in a coredump.
+hfs_brec_insert() may fail while inserting a new extent record, but
+__hfs_ext_write_extent() currently ignores its return value and clears
+HFS_FLG_EXT_DIRTY and HFS_FLG_EXT_NEW as if the insertion had
+succeeded.
 
-Agreed,
+Propagate the error returned by hfs_brec_insert() and only clear the
+extent flags after a successful insertion.
 
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -3021,6 +3021,21 @@ bool get_signal(struct ksignal *ksig)
->  		 */
->  		current->flags |= PF_SIGNALED;
->
-> +		/*
-> +		 * PF_USER_WORKER threads will catch and exit on fatal signals
-> +		 * themselves. They have cleanup that must be performed, so we
-> +		 * cannot call do_exit() on their behalf. Note that ksig won't
-> +		 * be properly initialized, PF_USER_WORKER's shouldn't use it.
-> +		 *
-> +		 * They must not dump core either. The dumper waits for every
-> +		 * other thread in the group to exit, and a sibling's exit path
-> +		 * may in turn wait for this worker's own exit, which only runs
-> +		 * after get_signal() returns: io_sq_thread() ends up in
-> +		 * io_wq_exit_workers() and waits there for its io-wq workers.
-> +		 */
-> +		if (current->flags & PF_USER_WORKER)
-> +			goto out;
+Fault injection of -EIO into the extent B-tree insertion path confirmed
+that __hfs_ext_write_extent() returned success despite the insertion
+failure. With the error propagated, the failure is returned to the
+caller instead.
 
-This probably makes sense anyway... but see below.
+Signed-off-by: Davy Felipe <davyfelipe34@gmail.com>
+---
+ fs/hfs/extent.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Perhaps it makes sense to change ptrace(PTRACE_SETSIGMASK) to fail if
-child->flags & PF_USER_WORKER ?
-
-Currently get_signal() from PF_USER_WORKER can only return SIGKILL,
-I think we should keep this rule.
-
-
-
-I don't think your change can fix all problems. Suppose we have a main
-thread T and a PF_USER_WORKER sub-thread W.
-
-Some signal, say, SIGHUP has a handler. Debugger unblocks SIGHUP for W.
-
-Now, kill(SIGHUP, T) can choose W as a target, complete_signal() can
-choose any thread if wants_signal(t) is true. W will "drop" this signal,
-its signal handler won't be called.
-
-
-In the longer term it would be nice to rework this logic somehow to not
-rely on ->blocked...
-
-Oleg.
+diff --git a/fs/hfs/extent.c b/fs/hfs/extent.c
+index f066a99a863b..77ba0f63fcb9 100644
+--- a/fs/hfs/extent.c
++++ b/fs/hfs/extent.c
+@@ -121,7 +121,10 @@ static int __hfs_ext_write_extent(struct inode *inode, struct hfs_find_data *fd)
+ 		res = hfs_bmap_reserve(fd->tree, fd->tree->depth + 1);
+ 		if (res)
+ 			return res;
+-		hfs_brec_insert(fd, HFS_I(inode)->cached_extents, sizeof(hfs_extent_rec));
++		res = hfs_brec_insert(fd, HFS_I(inode)->cached_extents,
++				      sizeof(hfs_extent_rec));
++		if (res)
++			return res;
+ 		HFS_I(inode)->flags &= ~(HFS_FLG_EXT_DIRTY|HFS_FLG_EXT_NEW);
+ 	} else {
+ 		if (res)
+-- 
+2.55.0
 
