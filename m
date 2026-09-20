@@ -1,164 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD873403EE;
-	Sun, 20 Sep 2026 04:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02B238A717
+	for <linux-fsdevel@vger.kernel.org>; Sun, 20 Sep 2026 05:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789876969; cv=none; b=JkpSuwxfLc4AVGblIpFacc4H6EjPq+AosG46CXFVvmHAvK5WOmg4A5kNJfDKiaKxWyU1/eFmHVkm2UK6eUiZ1ErUm9zxr0UjyKDxHYOiYf0OTSKrAi60ps8uJD/tlvv2fxC45+5HvFdgjKqYPL7hp9SYtitBH4dzUigq4YpTQUM=
+	t=1789882295; cv=none; b=iNAJ2eF7uOeTU/8SRax2C+Iytb7GaF5SZAsUJRBxRbBQ8XUdLNBQHsnjzg4gVRkymstTvJCwpAioSho2nWhaouz8cr4b/dBYoyyEMfpSfEFj0WUOvbzkWFD6eI7fZ+6iZKsP3ZBoXcXFZQ77UdLwMYCW+Y/Aij1unwtL/3/X61A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789876969; c=relaxed/simple;
-	bh=62W5ZuCh/4sQIRC782XN1XPCGdVbOLk4wECiWwkOaEI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VwTRvLk7eDqkyu2rTBZUqAkcz1pHFy/RCFT7uC06K4KoVss/DkHDczWvFPC/L5FVS76Epk5sTEJgyC+P6wAHcuuaC+qedvUAJhJG49n/fMXvV3RP+v1GFg1518xkgg0qURSuoZBO3tfHIjkelcXaJ0oZNJMPxVsU3DZS6TO27CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eftTij0f; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789882295; c=relaxed/simple;
+	bh=4nYfcu2yOnB9ehXKXNgt68xjqSzcMg3/d5rGA9RWG58=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rmIPmvtrlRLk2jrAiIgxs+qMxTlVt0coZK++MEOCs49Ouf2RMIO8jNBqkOdJSqjktAbLkdKaRqW7y8/x+opmJDEI97ChMQEiTpWBVKF7oZ+zQ8LtUL2MI3QceCMcjlCKLWIKwxhBe4O3eUfId4uxbnpLxtN17Menh39qX8Lki8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UsHr1W2E; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eftTij0f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54D691F000FF;
-	Sun, 20 Sep 2026 04:02:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789876967;
-	bh=wLKvOVUl3mXTCwAVDSdJDie0+ZuJUX8NTiy+w2yN39c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=eftTij0fP06uNK6xpKKnfNI1SvHZxswJHuX8CWLAiUoI/sTKJMM5l5qLZ7I2IG5Yf
-	 5IpuBWDks2SlJpy5E4LK3EWECy0NnFNQ0Sy64uoKIYjJBlWa1g76ngeUMpzH5puA8G
-	 4TnjxJQPUiN8Spdiy8yCHcXsjniMeMIlyoAsd03sA62AxijvC/hgdDb/1nskskgdKx
-	 MMF+bjoaSFWUO9kKYgJX/TxZNxNzh/E8mBKWK7Qze4hY7AbdYtJuhjY/8VdH8K6jH1
-	 64/pypRQwDw9NRRxz1fGyvsa7bQvmyBl5mbtSBst4ABtVrp6zWrVjJ+or9DUD620li
-	 n2IPTFiZKoegQ==
-Message-ID: <f68323da-e90f-46a4-b3ce-70d26de115e6@kernel.org>
-Date: Sun, 20 Sep 2026 13:02:44 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UsHr1W2E"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-398b1e63c49so2248504a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 19 Sep 2026 22:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789882293; x=1790487093; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HeIcUM27bIR09Yxk3XNFQ/HPswV01UPRZT+6P1SLhJk=;
+        b=UsHr1W2Eavr0MAkVquwXYzWArXiLXjKxWP0QJJX7J5kddV4EHqwD0Ux7OtB/h2aoLn
+         IErWdxPfe6001ueZo0GUPj0RAhSAM9f2G/qYLZwYdVv5iCFu0JRbAeqljdLKqoUh6Jpy
+         xzlPjMOK5SvERsBiM/WBEr2olAffqQ/74bwoaUQA6F1AlT7ANIxImO5+NNyH1HU4gGye
+         5h/Zd7HALDSXI5sPqRUad3KnGayho8PV8Fr8U69Nl9Qr7p3rTPnWTy26IvuxxqjYST4f
+         a1hh5rEXGxzBZs4Vqw/iSEvMa4X1iQlvl8rBQ1gD+veeUl12kikO3Qos1s/FEJ7WF8tN
+         OAdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789882293; x=1790487093;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HeIcUM27bIR09Yxk3XNFQ/HPswV01UPRZT+6P1SLhJk=;
+        b=LjeCOx35c6OSG+/D2Jg9s4gzTqKxDJefgC7rS78tzFKnU6bCQUBubm6SKFC6gVMZBx
+         /oopPnPEXZ6WMPPrR958rwab4hOQE2IVxaB2mx8ERjAGPVGaAu8gvVDiOrJMa8EH9uRa
+         hniNvEuSVIzlfMbPXXODKx5Fo+Wzq9QBQ4/HNZQl+yxy5y2ehPCS72SP7tbqgHf65u7o
+         83wT1rypMmtmdtMOm4yqHeB4Rp+YDRB7pElhrG8XQMfajBnx9qeGe43EYvXavdAtf3fV
+         UdYwJP6VDQTKrDAhST0sYwY+Sa5iNqXiEFG+Zb3xElLaFzYK0QjsLAsAuzGCpFi1eN0i
+         d2KQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwoVFAnrTgtzbkYr2eYqBgmhwXAusI2R5c8FgRs+g/BHgBh8hY/sfM4mXoGF25JLER/QpNnLHhBfzZoMi5H@vger.kernel.org
+X-Gm-Message-State: AFuF++mQcI91BuKv3LnAPu3EyzpVAuibb52H3SViybNlMYSnf/abb3Uu
+	q2nAOGNCrGa5s0eyJOr+69f75G6Y0pfQuRIbULB1l8PsPnTHlKoAKix7vONmedFf
+X-Gm-Gg: AYBFou09e3nY6fv4OC6jTVBzKtiDCVUHcZ85elC1MZQQunkryaHrO8ouEi1Qiff39WY
+	DjxZoNB+Gmg7futyYEavhWSq8jvnhzpvX6gcNJxnlarX5qcjpq+N4Hbw/Mb78wNhX8UBJ0EnDPP
+	AkBBgrx/kuq4L+FR5i+37tgUL/qRYdZ4I0uNoiR16eucxYyMJ2CUXRj3OJqHoN6M5IV+I5C3CJ0
+	AeFIhNStMYU7CvA4dSMcJqLxRGRAcQ2q7FUHNrcx3OI2g92GMPM8K6KfIbS62HbwJGtITudCBAc
+	bv8W04ugJzNFMCHmWVGO/S4r7u/vkRgiE9/xDwoDKvQ1Pg8z2DOkGTYRWecuCjjSm5hLzJvXFTk
+	h+Q765D7cUFt9tScHFezDGZeFSsh4492Bs+pxZ7/Kp+BxquILcV4HFFN+lj63xAlK0hhQ7Y3QcE
+	wB4z3f/G614l1E40sGbFY/BzNK1B8qwNO9BtzVVNW6V9SCcCYYQ/5bpW+wLhL+PVQj1CFj6kgS0
+	IN9iIYv
+X-Received: by 2002:a17:90b:5403:b0:39f:6c3d:d4ed with SMTP id 98e67ed59e1d1-39f6c3dd7eemr3573628a91.30.1789882293114;
+        Sat, 19 Sep 2026 22:31:33 -0700 (PDT)
+Received: from RyzenBox.localdomain ([137.59.96.253])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144d55cef9bsm10438475c88.10.2026.09.19.22.31.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 22:31:32 -0700 (PDT)
+From: Omkar Chandorkar <omkar0926@gmail.com>
+X-Google-Original-From: Omkar Chandorkar <gotenksIN@aospa.co>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Namjae Jeon <linkinjeon@samba.org>,
+	Steve French <sfrench@samba.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Tom Talpey <tom@talpey.com>,
+	linux-cifs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Omkar Chandorkar <gotenksIN@aospa.co>
+Subject: [PATCH v2 0/2] ksmbd: Windows 11 SMB 3.1.1 interoperability fixes
+Date: Sun, 20 Sep 2026 11:01:24 +0530
+Message-ID: <20260920053126.28654-1-gotenksIN@aospa.co>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] qnx6: validate di_filelevels in qnx6_iget() and fix mount
- error handling
-To: Hui Peng <benquike@gmail.com>, brauner@kernel.org, jack@suse.cz,
- jlayton@kernel.org
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260919222556.3792829-1-benquike@gmail.com>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20260919222556.3792829-1-benquike@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/20/26 07:25, Hui Peng wrote:
-> Fix two issues in fs/qnx6/:
-> 
-> 1. In qnx6_iget(), reject raw_inode->di_filelevels > QNX6_PTR_MAX_LEVELS
->    so computing the maximum block count does not trigger shift-out-of-
->    bounds undefined behavior or out-of-bounds block pointer array walks.
-> 2. In qnx6_fill_super() and qnx6_mmi_fill_super(), prevent MS_SILENT
->    from bypassing superblock magic validation and ensure sbi->sb_buf is
->    released exactly once on failure.
+This patch series resolves SMB 3.1.1 protocol interoperability defects
+in ksmbd affecting Windows 11 clients, rebased on top of the latest
+ksmbd-for-next tree.
 
-Please split this into 2 patches, one patch for each problem you fix.
+Patch 1: smb: compress: relax trailing flags in chained decompression
+Windows 11 leaves residual uninitialized bits in trailing compression
+chunk headers during chained writes (e.g. copying .vhdx files).
+smb_decompress_chained() previously rejected any trailing header whose
+flags did not equal 0x0000, causing connection drops (ECONNRESET) and
+Windows error 0x8007003B. Relax this check to accept non-chained trailing
+payloads while preserving validation on segment lengths and bounds.
 
-> 
-> Fixes: 5d026c724220 ("fs: initial qnx6fs addition")
-> Assisted-by: LLM
-> Signed-off-by: Hui Peng <benquike@gmail.com>
-> ---
-> diff --git a/fs/qnx6/inode.c b/fs/qnx6/inode.c
-> index 6de49333acad..04214b829e10 100644
-> --- a/fs/qnx6/inode.c
-> +++ b/fs/qnx6/inode.c
-> @@ -144,8 +144,10 @@ static unsigned qnx6_block_map(struct inode *inode, unsigned no)
->  		levelptr = (no >> bitdelta) & mask;
->  		ptr = ((__fs32 *)bh->b_data)[levelptr];
->  
-> -		if (!qnx6_check_blockptr(ptr))
-> +		if (!qnx6_check_blockptr(ptr)) {
-> +			brelse(bh);
->  			return 0;
-> +		}
->  
->  		block = qnx6_get_devblock(s, ptr);
->  		brelse(bh);
-> @@ -397,12 +399,14 @@ static int qnx6_fill_super(struct super_block *s, struct fs_context *fc)
->  		sbi->sb_buf = bh1;
->  		sbi->sb = (struct qnx6_super_block *)bh1->b_data;
->  		brelse(bh2);
-> +		bh2 = NULL;
->  		pr_info("superblock #1 active\n");
->  	} else {
->  		/* superblock #2 active */
->  		sbi->sb_buf = bh2;
->  		sbi->sb = (struct qnx6_super_block *)bh2->b_data;
->  		brelse(bh1);
-> +		bh1 = NULL;
->  		pr_info("superblock #2 active\n");
->  	}
->  mmi_success:
-> @@ -463,6 +467,8 @@ static int qnx6_fill_super(struct super_block *s, struct fs_context *fc)
->  out1:
->  	iput(sbi->inodes);
->  out:
-> +	if (sbi->sb_buf && sbi->sb_buf != bh1 && sbi->sb_buf != bh2)
-> +		brelse(sbi->sb_buf);
->  	brelse(bh1);
->  	brelse(bh2);
->  outnobh:
-> @@ -560,6 +566,13 @@ struct inode *qnx6_iget(struct super_block *sb, unsigned ino)
->  	memcpy(&ei->di_block_ptr, &raw_inode->di_block_ptr,
->  				sizeof(raw_inode->di_block_ptr));
->  	ei->di_filelevels = raw_inode->di_filelevels;
-> +	if (ei->di_filelevels > QNX6_PTR_MAX_LEVELS) {
-> +		pr_err("invalid filelevels (%u) in inode %u\n",
-> +		       ei->di_filelevels, ino);
-> +		folio_release_kmap(folio, raw_inode);
-> +		iget_failed(inode);
-> +		return ERR_PTR(-EIO);
-> +	}
->  
->  	if (S_ISREG(inode->i_mode)) {
->  		inode->i_fop = &generic_ro_fops;
-> diff --git a/fs/qnx6/super_mmi.c b/fs/qnx6/super_mmi.c
-> index b8afb6f388b2..28cb9322278e 100644
-> --- a/fs/qnx6/super_mmi.c
-> +++ b/fs/qnx6/super_mmi.c
-> @@ -51,10 +51,9 @@ struct qnx6_super_block *qnx6_mmi_fill_super(struct super_block *s, int silent)
->  	sb1 = (struct qnx6_mmi_super_block *)bh1->b_data;
->  	sbi = QNX6_SB(s);
->  	if (fs32_to_cpu(sbi, sb1->sb_magic) != QNX6_SUPER_MAGIC) {
-> -		if (!silent) {
-> +		if (!silent)
->  			pr_err("wrong signature (magic) in superblock #1.\n");
-> -			goto out;
-> -		}
-> +		goto out;
->  	}
->  
->  	/* checksum check - start at byte 8 and end at byte 512 */
-> @@ -64,15 +63,16 @@ struct qnx6_super_block *qnx6_mmi_fill_super(struct super_block *s, int silent)
->  		goto out;
->  	}
->  
-> -	/* calculate second superblock blocknumber */
-> -	offset = fs32_to_cpu(sbi, sb1->sb_num_blocks) + QNX6_SUPERBLOCK_AREA /
-> -					fs32_to_cpu(sbi, sb1->sb_blocksize);
-> -
->  	/* set new blocksize */
->  	if (!sb_set_blocksize(s, fs32_to_cpu(sbi, sb1->sb_blocksize))) {
->  		pr_err("unable to set blocksize\n");
->  		goto out;
->  	}
-> +
-> +	/* calculate second superblock blocknumber */
-> +	offset = fs32_to_cpu(sbi, sb1->sb_num_blocks) + QNX6_SUPERBLOCK_AREA /
-> +					fs32_to_cpu(sbi, sb1->sb_blocksize);
-> +
->  	/* blocksize invalidates bh - pull it back in */
->  	brelse(bh1);
->  	bh1 = sb_bread(s, 0);
+Patch 2: ksmbd: fix FSCTL_PIPE_TRANSCEIVE file lookup and response handling
+When querying the share list (e.g. browsing \\server or running
+'net view \\server'), Windows 11 issues NetrShareEnum over \PIPE\srvsvc
+using SMB2_IOCTL with FSCTL_PIPE_TRANSCEIVE. Named pipe handles exist in
+sess->rpc_handle_list rather than the regular file table. While
+commit a3bcea7c819a ("ksmbd: exempt FSCTL_PIPE_TRANSCEIVE from the
+generic file-id lookup") exempted FSCTL_PIPE_TRANSCEIVE from the generic
+file ID lookup, the response PersistentFileId and VolatileFileId were
+left unpopulated (violating MS-SMB2 section 2.2.32), and invalid RPC
+handles were not rejected under rpc_lock.
+Fix this by validating the RPC handle under rpc_lock and populating the
+resolved response file IDs before dispatching the transceive request.
 
+Changes in v2:
+- Rebased series onto git.kernel.org linkinjeon/smb.git #ksmbd-for-next
+  at commit 4bb07a7d5852 ("smb/server: rename smb2_file_alt_name_info to
+  smb2_file_name_info").
+- Dropped the compound CREATE + CHANGE_NOTIFY response handling patch
+  from v1 because upstream already merged compound prefix response
+  dispatching in commit 906a62216339 ("smb/server: send compound prefix
+  before async pending response") and compound FID resolution in commit
+  524efc568ea5 ("smb/server: support compound fid in notify requests").
+- Refined the FSCTL_PIPE_TRANSCEIVE patch to populate response FileId
+  fields per MS-SMB2 section 2.2.32 and validate RPC pipe handles under
+  rpc_lock.
+
+Tooling and AI disclosure:
+AI tooling (OpenCode:gpt-6-astra) was utilized to assist in protocol
+trace analysis, specification cross-referencing ([MS-SMB2], [MS-SRVS]),
+and drafting. All changes were manually audited, static-checked,
+compiled, and verified against live Windows 11 clients.
+
+Omkar Chandorkar (2):
+  smb: compress: relax trailing flags in chained decompression
+  ksmbd: fix FSCTL_PIPE_TRANSCEIVE file lookup and response handling
+
+ fs/smb/common/compress/compress.c | 16 +++++++++++-----
+ fs/smb/server/smb2pdu.c           | 23 ++++++++++++++++++++++-
+ 2 files changed, 33 insertions(+), 6 deletions(-)
 
 -- 
-Damien Le Moal
-Western Digital Research
+2.55.0
+
