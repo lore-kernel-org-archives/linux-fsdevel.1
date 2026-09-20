@@ -1,47 +1,82 @@
-Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27C3F2ED16D;
-	Sun, 20 Sep 2026 07:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203DE3939B1;
+	Sun, 20 Sep 2026 09:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789889550; cv=none; b=NuUBRVyv2Wv+BDZvsNAGuYBMabjV/sYsPnyh3JglUtQboUCmhmwmhC5SD7h9yRvunbf/mq/f/sF8+rPB3T42cuiagO3t5xuhG0NHEIiGeEtq7mN6NtXofvPgbSaCcogNG0ehKGUfXl67hNr0p11GIspEWjGlYP8Xwj1socEtjk4=
+	t=1789896245; cv=none; b=c3Iy+87PN5v50nRxnovGQRoZVgbQUgRRag6w2UjkCt4v/RcwApQbcEtN8lKxR6ExmP8EDM5YWlcxs/HnlwLlG0KGm0ntTb3XrMp02RJpJIZZRIX9oCr83FLLz0PozcbEsvo0Ct5Ujp8bLLYzeferyh9ZcndroMYlpkuBIaMfR9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789889550; c=relaxed/simple;
-	bh=Kkiek51qVj9DW5/fqAOQNt+g1cLwVAN6yPf5s5V4MCk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DmeqEtevODYoIGr9s5uf+QdVPyDn1IlYTd5snqOo4ryZXNXpuSUnaxsUxpd6ou7O7oti5fjKFGTn0HbWkB6sv1y74Q/LuswOsl/vwJXpCuRJmd46jzLQx4+Oxs3MZsjyxLDpPKBygAvPSFYy8TbPOmtynJ2J+MmY9m2vVQ2sm7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hndNV1L6QzTSdp;
-	Sun, 20 Sep 2026 15:32:10 +0800 (CST)
-Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hndNR2HQDzTSdm;
-	Sun, 20 Sep 2026 15:32:07 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp1.hygon.cn (Postfix) with ESMTPS id 102D7156D;
-	Sun, 20 Sep 2026 15:32:06 +0800 (CST)
-Received: from hsj-2U-Workstation.hygon.cn (172.19.24.226) by
- cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Sun, 20 Sep 2026 15:32:04 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
-CC: <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>,
-	<jack@suse.cz>, <dev.jain@arm.com>, <ljs@kernel.org>, <adobriyan@gmail.com>,
-	<akpm@linux-foundation.org>, <hpa@zytor.com>, <ryan.roberts@arm.com>,
-	<mjguzik@gmail.com>, <joel.granados@kernel.org>, <jannh@google.com>,
-	<oleg@redhat.com>, <aleksa@amutable.com>, <legion@kernel.org>,
-	<kees@kernel.org>, <joannelkoong@gmail.com>, <tj@kernel.org>,
-	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <sandeen@redhat.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Huang Shijie
-	<huangsj@hygon.cn>
-Subject: [RFC PATCH v2 3/3] fs/proc: split the inode list
-Date: Sun, 20 Sep 2026 15:28:11 +0800
-Message-ID: <20260920072811.2064247-4-huangsj@hygon.cn>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260920072811.2064247-1-huangsj@hygon.cn>
-References: <20260920072811.2064247-1-huangsj@hygon.cn>
+	s=arc-20240116; t=1789896245; c=relaxed/simple;
+	bh=NpsBroT/8a5poSPRtpeGWM1uOydviiavJJhsTPwpqa4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DuKBw6Kq42CSNYqZ/26tSaWzFTVeCmbS9sMGwmPk9Il+bs9ZNGbTXipRL2SbHG/BHrBjZSZJfnp4qUC3sPNtsrWg0UJ9SGy3CbSgErCHFMP7l04gDA24bP3YA//v4oCemEC74NrgcQ0ur5qH1kao3LeRUoO6TO8y+purMi6IApM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RjGRP7gw; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RjGRP7gw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA1B1F000FF;
+	Sun, 20 Sep 2026 09:23:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789896243;
+	bh=5Zw9rJKZMZuSI+1jUTLBTxzKxPkXx7fMF487IMc+57k=;
+	h=From:To:Cc:Subject:Date;
+	b=RjGRP7gw9J6P3KEqUaIB6cDxXJQhT8hzei8Jwh2Nn3InDNpo9Mho80D9CpQxhAVRK
+	 aBhXNLlHPQyd5p8OwuBQl5Iqrm0/6w5/yYfvlQIGUEQtf7jxe/WRjimLserbyQntBH
+	 TpxqEqB6k9BLGNGVl/gqE2RN+JqoOryIYV34aohaGRE/08b5kWBFErEa/nb8/oFK7u
+	 Yxti2M6U7/nf8NyXNH1gxEb0rmt2pFWMxr+9p3Kfc/FFEDxjmiKtBYrOtK4pn2F7Sh
+	 SzXiC4mt2ivvlO4ppZ0xGS/h8g7W7WplY1cCuGW6ztDxmtgwK1t+BJrwUfmJEY/fCA
+	 0h34u9P82y+2A==
+From: Yu Kuai <yukuai@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Song Liu <song@kernel.org>,
+	Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: Yu Kuai <yukuai@fygo.io>,
+	Christoph Hellwig <hch@lst.de>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Tao Cui <cuitao@kylinos.cn>,
+	linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-bcache@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org,
+	gfs2@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v4 0/3] blk-cgroup: store blkcg in bio before blkcg_mutex conversion
+Date: Sun, 20 Sep 2026 17:23:48 +0800
+Message-ID: <20260920092351.2434283-1-yukuai@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,596 +84,160 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
- (172.23.18.114)
 
-The global s_inode_list_lock is heavily contended in procfs
-on a 384-CPU, 12-NUMA-node Hygon machine running Hadoop TestDFSIO:
-  #hadoop jar xxxx.jar TestDFSIO -read -nrFiles 1000 -size 100MB
+From: Yu Kuai <yukuai@fygo.io>
 
-The perf shows it consuming ~90% of the lock hotspot.
-The lock is hit from both directions:
-   -- inode creation (~49%) :
-           getdents64 ->
-              proc_readfd_common ->
-	         new_inode ->
-		   inode_sb_list_add()
+This is v4 of the preparatory series for the blkcg_mutex conversion
+proposed in the related series [1]. That conversion moves queue-local
+blkg topology synchronization from q->queue_lock to q->blkcg_mutex,
+which is awkward while bios directly store queue-local blkg references.
 
-   -- inode eviction (~41%)
-           process exit ->
-	      release_task ->
-	         proc_invalidate_siblings_dcache ->
-		     evict ->
-		        inode_sb_list_del()
+Storing a blkg also ties a bio to one request_queue. A remapped bio must
+drop that reference and recreate the association for the new queue even
+when no blkcg policy needs it. Dying blkgs add another complication:
+they disappear from the per-blkcg lookup tree before all pinned bio
+references drain.
 
-This patch spreads the inode list across per-shard locks for procfs:
-   --- Add three fields in super_block:
-        shards   : the pointer for the array of inode_shard.
-        nr_shards: the size of the array
-	s_inode_list_sharded: whether or not to use a sharded inode list
+Patch 1 makes request_queue the authoritative lookup owner. A
+queue-owned rhashtable keyed by the blkcg CSS ID keeps dying blkgs
+discoverable until their references drain, while q->blkg_list remains
+available for ordered walks.
 
-        struct inode_shard is cacheline-aligned to avoid false
-        sharing between shard locks on different NUMA nodes.
+Patch 2 stores and pins the queue-independent blkcg CSS in each bio.
+Queue-local blkgs are created lazily by policy users, then pinned until
+the bio changes devices or releases its cgroup state. Completion and
+accounting paths which do not create a blkg remain lookup-only.
 
-   --- Add inode_list_add()/inode_list_del() callbacks to super_operations;
-       procfs implements them to round-robin inodes
-       onto nr_shards = DIV_ROUND_UP(num_possible_cpus(), 32)
-       shards allocated at mount time, each protected by its own spinlock.
+Patch 3 moves async bio punt state from blkg to blkcg, so punting alone
+does not instantiate a queue-local blkg.
 
-   --- For procfs, the "unmount" will call evict_inodes(),
-       generic_shutdown_super() and hook_sb_delete() which will
-       iterate the shards when the super_block inode list is sharded.
-       Change these functions to work with the sharded inode list.
+Changes since v3:
 
-This reduces the s_inode_list_lock hotspot from ~90% to ~1% in TestDFSIO.
-And we can improve the hadoop performance over 50%.
+  - In patch 2, have blk_cgroup_bio_start() look up an online blkg under
+    RCU and hold a temporary reference for accounting. 
+  - In patch 2, dm may restore bi_flags without restoring that reference,
+    instead of fix this problem in dm, drop the blkg pin after
+    blk-throttle for bio-based drivers. This is safe because
+    blk-throttle is the only policy and blkg is not longer needed.
+  - Add Nilay Shroff's and Christoph Hellwig's Reviewed-by to patch 3.
 
-Signed-off-by: Huang Shijie <huangsj@hygon.cn>
----
- fs/inode.c                     |  79 ++++++++++------
- fs/proc/inode.c                |  53 +++++++++++
- fs/proc/internal.h             |   2 +
- fs/proc/root.c                 |   6 ++
- fs/super.c                     |  40 ++++++--
- include/linux/fs/super_types.h |  16 ++++
- include/linux/proc_fs.h        |   1 +
- security/landlock/fs.c         | 162 ++++++++++++++++++---------------
- 8 files changed, 250 insertions(+), 109 deletions(-)
+Changes since v2:
 
-diff --git a/fs/inode.c b/fs/inode.c
-index ba7da39be4a3..80acb9113487 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -635,6 +635,10 @@ void inode_sb_list_add(struct inode *inode)
- {
- 	struct super_block *sb = inode->i_sb;
- 
-+	if (sb->s_inode_list_sharded && sb->s_op->inode_list_add) {
-+		sb->s_op->inode_list_add(sb, inode);
-+		return;
-+	}
- 	spin_lock(&sb->s_inode_list_lock);
- 	list_add(&inode->i_sb_list, &sb->s_inodes);
- 	spin_unlock(&sb->s_inode_list_lock);
-@@ -646,6 +650,10 @@ static inline void inode_sb_list_del(struct inode *inode)
- 	struct super_block *sb = inode->i_sb;
- 
- 	if (!list_empty(&inode->i_sb_list)) {
-+		if (sb->s_inode_list_sharded && sb->s_op->inode_list_del) {
-+			sb->s_op->inode_list_del(sb, inode);
-+			return;
-+		}
- 		spin_lock(&sb->s_inode_list_lock);
- 		list_del_init(&inode->i_sb_list);
- 		spin_unlock(&sb->s_inode_list_lock);
-@@ -879,41 +887,56 @@ void evict_inodes(struct super_block *sb)
- {
- 	struct inode *inode;
- 	LIST_HEAD(dispose);
-+	struct list_head *head;
-+	spinlock_t *lock;
-+	unsigned int nr, i;
-+	const bool sharded = sb->s_inode_list_sharded;
- 
-+	nr = sharded ? sb->nr_shards : 1;
- again:
--	spin_lock(&sb->s_inode_list_lock);
--	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--		if (icount_read_once(inode))
--			continue;
--
--		spin_lock(&inode->i_lock);
--		if (icount_read(inode)) {
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
--		if (inode_state_read(inode) & (I_NEW | I_FREEING | I_WILL_FREE)) {
--			spin_unlock(&inode->i_lock);
--			continue;
-+	for (i = 0; i < nr; i++) {
-+		if (sharded) {
-+			head = &sb->shards[i].list;
-+			lock = &sb->shards[i].lock;
-+		} else {
-+			head = &sb->s_inodes;
-+			lock = &sb->s_inode_list_lock;
- 		}
- 
--		inode_state_set(inode, I_FREEING);
--		inode_lru_list_del(inode);
--		spin_unlock(&inode->i_lock);
--		list_add(&inode->i_lru, &dispose);
-+		spin_lock(lock);
-+		list_for_each_entry(inode, head, i_sb_list) {
-+			if (icount_read_once(inode))
-+				continue;
- 
--		/*
--		 * We can have a ton of inodes to evict at unmount time given
--		 * enough memory, check to see if we need to go to sleep for a
--		 * bit so we don't livelock.
--		 */
--		if (need_resched()) {
--			spin_unlock(&sb->s_inode_list_lock);
--			cond_resched();
--			dispose_list(&dispose);
--			goto again;
-+			spin_lock(&inode->i_lock);
-+			if (icount_read(inode)) {
-+				spin_unlock(&inode->i_lock);
-+				continue;
-+			}
-+			if (inode_state_read(inode) & (I_NEW | I_FREEING | I_WILL_FREE)) {
-+				spin_unlock(&inode->i_lock);
-+				continue;
-+			}
-+
-+			inode_state_set(inode, I_FREEING);
-+			inode_lru_list_del(inode);
-+			spin_unlock(&inode->i_lock);
-+			list_add(&inode->i_lru, &dispose);
-+
-+			/*
-+			 * We can have a ton of inodes to evict at unmount time given
-+			 * enough memory, check to see if we need to go to sleep for a
-+			 * bit so we don't livelock.
-+			 */
-+			if (need_resched()) {
-+				spin_unlock(lock);
-+				cond_resched();
-+				dispose_list(&dispose);
-+				goto again;
-+			}
- 		}
-+		spin_unlock(lock);
- 	}
--	spin_unlock(&sb->s_inode_list_lock);
- 
- 	dispose_list(&dispose);
- }
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index b7634f975d98..aeaf2e94e7ba 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -65,6 +65,7 @@ static struct inode *proc_alloc_inode(struct super_block *sb)
- 	ei->sysctl_entry = NULL;
- 	INIT_HLIST_NODE(&ei->sibling_inodes);
- 	ei->ns_ops = NULL;
-+	ei->shard_idx = 0;
- 	return &ei->vfs_inode;
- }
- 
-@@ -80,6 +81,56 @@ static void proc_free_inode(struct inode *inode)
- 	kmem_cache_free(proc_inode_cachep, PROC_I(inode));
- }
- 
-+static void proc_inode_list_add(struct super_block *sb, struct inode *inode)
-+{
-+	struct proc_fs_info *fs_info = proc_sb_info(sb);
-+	struct proc_inode *ei = PROC_I(inode);
-+	struct inode_shard *shard;
-+	unsigned int idx, seq;
-+
-+	seq = atomic_fetch_inc(&fs_info->shard_seq);
-+	idx = seq % sb->nr_shards;
-+	ei->shard_idx = idx;
-+	shard = &sb->shards[idx];
-+
-+	spin_lock(&shard->lock);
-+	list_add(&inode->i_sb_list, &shard->list);
-+	spin_unlock(&shard->lock);
-+}
-+
-+static void proc_inode_list_del(struct super_block *sb, struct inode *inode)
-+{
-+	struct proc_inode *ei = PROC_I(inode);
-+	struct inode_shard *shard = &sb->shards[ei->shard_idx];
-+
-+	spin_lock(&shard->lock);
-+	list_del_init(&inode->i_sb_list);
-+	spin_unlock(&shard->lock);
-+}
-+
-+#define PROC_LIST_ALIGN	32
-+int proc_init_inode_shards(struct super_block *sb)
-+{
-+	struct inode_shard *shards;
-+	unsigned int nr;
-+	int i;
-+
-+	nr = DIV_ROUND_UP(num_possible_cpus(), PROC_LIST_ALIGN);
-+	shards = kcalloc(nr, sizeof(*shards), GFP_KERNEL);
-+	if (!shards)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < nr; i++) {
-+		INIT_LIST_HEAD(&shards[i].list);
-+		spin_lock_init(&shards[i].lock);
-+	}
-+
-+	sb->shards = shards;
-+	sb->nr_shards = nr;
-+	sb->s_inode_list_sharded = true;
-+	return 0;
-+}
-+
- static void init_once(void *foo)
- {
- 	struct proc_inode *ei = (struct proc_inode *) foo;
-@@ -191,6 +242,8 @@ const struct super_operations proc_sops = {
- 	.evict_inode	= proc_evict_inode,
- 	.statfs		= simple_statfs,
- 	.show_options	= proc_show_options,
-+	.inode_list_add	= proc_inode_list_add,
-+	.inode_list_del	= proc_inode_list_del,
- };
- 
- enum {BIAS = -1U<<31};
-diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-index 04bd6c9e65a7..edbe357263c2 100644
---- a/fs/proc/internal.h
-+++ b/fs/proc/internal.h
-@@ -127,6 +127,7 @@ struct proc_inode {
- 	struct hlist_node sibling_inodes;
- 	const struct proc_ns_operations *ns_ops;
- 	struct inode vfs_inode;
-+	unsigned int shard_idx;
- } __randomize_layout;
- 
- /*
-@@ -317,6 +318,7 @@ void proc_init_kmemcache(void);
- void proc_invalidate_siblings_dcache(struct hlist_head *inodes, spinlock_t *lock);
- void set_proc_pid_nlink(void);
- extern struct inode *proc_get_inode(struct super_block *, struct proc_dir_entry *);
-+extern int proc_init_inode_shards(struct super_block *);
- extern void proc_entry_rundown(struct proc_dir_entry *);
- 
- /*
-diff --git a/fs/proc/root.c b/fs/proc/root.c
-index d45f5af5ab53..fb5d68da85f4 100644
---- a/fs/proc/root.c
-+++ b/fs/proc/root.c
-@@ -275,6 +275,10 @@ static int proc_fill_super(struct super_block *s, struct fs_context *fc)
- 	s->s_time_gran = 1;
- 	s->s_fs_info = fs_info;
- 
-+	ret = proc_init_inode_shards(s);
-+	if (ret)
-+		return ret;
-+
- 	if (fs_info->pidonly == PROC_PIDONLY_ON)
- 		s->s_iflags |= SB_I_RESTRICTED_VARIANT;
- 
-@@ -359,6 +363,8 @@ static void proc_kill_sb(struct super_block *sb)
- 	struct proc_fs_info *fs_info = proc_sb_info(sb);
- 
- 	kill_anon_super(sb);
-+	if (sb->s_inode_list_sharded)
-+		kfree(sb->shards);
- 	if (fs_info) {
- 		put_pid_ns(fs_info->pid_ns);
- 		put_cred(fs_info->mounter_cred);
-diff --git a/fs/super.c b/fs/super.c
-index e25ded0bc9a2..e44db4505238 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -712,7 +712,16 @@ EXPORT_SYMBOL(retire_super);
- 
- static bool sb_inodes_empty(struct super_block *sb)
- {
--	return list_empty(&sb->s_inodes);
-+	unsigned int i;
-+
-+	if (!sb->s_inode_list_sharded)
-+		return list_empty(&sb->s_inodes);
-+
-+	for (i = 0; i < sb->nr_shards; i++)
-+		if (!list_empty(&sb->shards[i].list))
-+			return false;
-+
-+	return true;
- }
- 
- /**
-@@ -774,14 +783,29 @@ void generic_shutdown_super(struct super_block *sb)
- 			 * iput_final() or such crashes cleanly.
- 			 */
- 			struct inode *inode;
--
--			spin_lock(&sb->s_inode_list_lock);
--			list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--				inode->i_op = VFS_PTR_POISON;
--				inode->i_sb = VFS_PTR_POISON;
--				inode->i_mapping = VFS_PTR_POISON;
-+			struct list_head *head;
-+			spinlock_t *lock;
-+			unsigned int nr, i;
-+			const bool sharded = sb->s_inode_list_sharded;
-+
-+			nr = sharded ? sb->nr_shards : 1;
-+			for (i = 0; i < nr; i++) {
-+				if (sharded) {
-+					head = &sb->shards[i].list;
-+					lock = &sb->shards[i].lock;
-+				} else {
-+					head = &sb->s_inodes;
-+					lock = &sb->s_inode_list_lock;
-+				}
-+
-+				spin_lock(lock);
-+				list_for_each_entry(inode, head, i_sb_list) {
-+					inode->i_op = VFS_PTR_POISON;
-+					inode->i_sb = VFS_PTR_POISON;
-+					inode->i_mapping = VFS_PTR_POISON;
-+				}
-+				spin_unlock(lock);
- 			}
--			spin_unlock(&sb->s_inode_list_lock);
- 		}
- 	}
- 	/*
-diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-index 1a596caf58a8..f06f293b46be 100644
---- a/include/linux/fs/super_types.h
-+++ b/include/linux/fs/super_types.h
-@@ -130,8 +130,20 @@ struct super_operations {
- 
- 	/* Report a filesystem error */
- 	void (*report_error)(const struct fserror_event *event);
-+
-+	void (*inode_list_add)(struct super_block *sb, struct inode *inode);
-+	void (*inode_list_del)(struct super_block *sb, struct inode *inode);
- };
- 
-+/*
-+ * Sharded inode list which is used to spread s_inode_list_lock contention
-+ * across per-shard locks.
-+ */
-+struct inode_shard {
-+	struct list_head	list;
-+	spinlock_t		lock;
-+} ____cacheline_aligned_in_smp;
-+
- struct super_block {
- 	struct list_head			s_list;		/* Keep this first */
- 	dev_t					s_dev;		/* search index; _not_ kdev_t */
-@@ -269,6 +281,10 @@ struct super_block {
- 	 */
- 	int s_stack_depth;
- 
-+	bool					s_inode_list_sharded;
-+	struct inode_shard			*shards;
-+	unsigned int				nr_shards;
-+
- 	/* s_inode_list_lock protects s_inodes */
- 	spinlock_t				s_inode_list_lock ____cacheline_aligned_in_smp;
- 	struct list_head			s_inodes;	/* all inodes */
-diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-index 47d7deaeed8f..37eed34f3a93 100644
---- a/include/linux/proc_fs.h
-+++ b/include/linux/proc_fs.h
-@@ -70,6 +70,7 @@ struct proc_fs_info {
- 	const struct cred *mounter_cred;
- 	enum proc_hidepid hide_pid;
- 	enum proc_pidonly pidonly;
-+	atomic_t shard_seq;
- 	struct rcu_head rcu;
- };
- 
-diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-index 330a1871bf94..8360a6a8a3ad 100644
---- a/security/landlock/fs.c
-+++ b/security/landlock/fs.c
-@@ -1383,98 +1383,114 @@ static void hook_inode_free_security_rcu(void *inode_security)
- static void hook_sb_delete(struct super_block *const sb)
- {
- 	struct inode *inode, *prev_inode = NULL;
-+	unsigned int nr, i;
- 
- 	if (!landlock_initialized)
- 		return;
- 
--	spin_lock(&sb->s_inode_list_lock);
--	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
--		struct landlock_object *object;
-+	nr = sb->s_inode_list_sharded ? sb->nr_shards : 1;
- 
--		/* Only handles referenced inodes. */
--		if (!icount_read_once(inode))
--			continue;
-+	for (i = 0; i < nr; i++) {
-+		struct list_head *head;
-+		spinlock_t *lock;
- 
--		/*
--		 * Protects against concurrent modification of inode (e.g.
--		 * from get_inode_object()).
--		 */
--		spin_lock(&inode->i_lock);
--		/*
--		 * Checks I_FREEING and I_WILL_FREE  to protect against a race
--		 * condition when release_inode() just called iput(), which
--		 * could lead to a NULL dereference of inode->security or a
--		 * second call to iput() for the same Landlock object.  Also
--		 * checks I_NEW because such inode cannot be tied to an object.
--		 */
--		if (inode_state_read(inode) &
--		    (I_FREEING | I_WILL_FREE | I_NEW)) {
--			spin_unlock(&inode->i_lock);
--			continue;
-+		if (sb->s_inode_list_sharded) {
-+			head = &sb->shards[i].list;
-+			lock = &sb->shards[i].lock;
-+		} else {
-+			head = &sb->s_inodes;
-+			lock = &sb->s_inode_list_lock;
- 		}
- 
--		rcu_read_lock();
--		object = rcu_dereference(landlock_inode(inode)->object);
--		if (!object) {
--			rcu_read_unlock();
--			spin_unlock(&inode->i_lock);
--			continue;
--		}
--		/* Keeps a reference to this inode until the next loop walk. */
--		__iget(inode);
--		spin_unlock(&inode->i_lock);
-+		spin_lock(lock);
-+		list_for_each_entry(inode, head, i_sb_list) {
-+			struct landlock_object *object;
- 
--		/*
--		 * If there is no concurrent release_inode() ongoing, then we
--		 * are in charge of calling iput() on this inode, otherwise we
--		 * will just wait for it to finish.
--		 */
--		spin_lock(&object->lock);
--		if (object->underobj == inode) {
--			object->underobj = NULL;
--			spin_unlock(&object->lock);
--			rcu_read_unlock();
-+			/* Only handles referenced inodes. */
-+			if (!icount_read_once(inode))
-+				continue;
- 
- 			/*
--			 * Because object->underobj was not NULL,
--			 * release_inode() and get_inode_object() guarantee
--			 * that it is safe to reset
--			 * landlock_inode(inode)->object while it is not NULL.
--			 * It is therefore not necessary to lock inode->i_lock.
-+			 * Protects against concurrent modification of inode (e.g.
-+			 * from get_inode_object()).
- 			 */
--			rcu_assign_pointer(landlock_inode(inode)->object, NULL);
-+			spin_lock(&inode->i_lock);
- 			/*
--			 * At this point, we own the ihold() reference that was
--			 * originally set up by get_inode_object() and the
--			 * __iget() reference that we just set in this loop
--			 * walk.  Therefore there are at least two references
--			 * on the inode.
-+			 * Checks I_FREEING and I_WILL_FREE  to protect against a race
-+			 * condition when release_inode() just called iput(), which
-+			 * could lead to a NULL dereference of inode->security or a
-+			 * second call to iput() for the same Landlock object.  Also
-+			 * checks I_NEW because such inode cannot be tied to an object.
- 			 */
--			iput_not_last(inode);
--		} else {
--			spin_unlock(&object->lock);
--			rcu_read_unlock();
--		}
-+			if (inode_state_read(inode) &
-+			    (I_FREEING | I_WILL_FREE | I_NEW)) {
-+				spin_unlock(&inode->i_lock);
-+				continue;
-+			}
-+
-+			rcu_read_lock();
-+			object = rcu_dereference(landlock_inode(inode)->object);
-+			if (!object) {
-+				rcu_read_unlock();
-+				spin_unlock(&inode->i_lock);
-+				continue;
-+			}
-+			/* Keeps a reference to this inode until the next loop walk. */
-+			__iget(inode);
-+			spin_unlock(&inode->i_lock);
- 
--		if (prev_inode) {
--			/*
--			 * At this point, we still own the __iget() reference
--			 * that we just set in this loop walk.  Therefore we
--			 * can drop the list lock and know that the inode won't
--			 * disappear from under us until the next loop walk.
--			 */
--			spin_unlock(&sb->s_inode_list_lock);
- 			/*
--			 * We can now actually put the inode reference from the
--			 * previous loop walk, which is not needed anymore.
-+			 * If there is no concurrent release_inode() ongoing, then we
-+			 * are in charge of calling iput() on this inode, otherwise we
-+			 * will just wait for it to finish.
- 			 */
--			iput(prev_inode);
--			cond_resched();
--			spin_lock(&sb->s_inode_list_lock);
-+			spin_lock(&object->lock);
-+			if (object->underobj == inode) {
-+				object->underobj = NULL;
-+				spin_unlock(&object->lock);
-+				rcu_read_unlock();
-+
-+				/*
-+				 * Because object->underobj was not NULL,
-+				 * release_inode() and get_inode_object() guarantee
-+				 * that it is safe to reset
-+				 * landlock_inode(inode)->object while it is not NULL.
-+				 * It is therefore not necessary to lock inode->i_lock.
-+				 */
-+				rcu_assign_pointer(landlock_inode(inode)->object, NULL);
-+				/*
-+				 * At this point, we own the ihold() reference that was
-+				 * originally set up by get_inode_object() and the
-+				 * __iget() reference that we just set in this loop
-+				 * walk.  Therefore there are at least two references
-+				 * on the inode.
-+				 */
-+				iput_not_last(inode);
-+			} else {
-+				spin_unlock(&object->lock);
-+				rcu_read_unlock();
-+			}
-+
-+			if (prev_inode) {
-+				/*
-+				 * At this point, we still own the __iget() reference
-+				 * that we just set in this loop walk.  Therefore we
-+				 * can drop the list lock and know that the inode won't
-+				 * disappear from under us until the next loop walk.
-+				 */
-+				spin_unlock(lock);
-+				/*
-+				 * We can now actually put the inode reference from the
-+				 * previous loop walk, which is not needed anymore.
-+				 */
-+				iput(prev_inode);
-+				cond_resched();
-+				spin_lock(lock);
-+			}
-+			prev_inode = inode;
- 		}
--		prev_inode = inode;
-+		spin_unlock(lock);
- 	}
--	spin_unlock(&sb->s_inode_list_lock);
- 
- 	/* Puts the inode reference from the last loop walk, if any. */
- 	if (prev_inode)
+  - Rebase onto the latest for-7.4/block branch.
+  - In patch 2, release BIO_BLKG_REF after bio accounting and before
+    entering a bio-based driver's ->submit_bio(), instead of filtering
+    the flag in dm_bio_record(). Add Nilay Shroff's Reviewed-by.
+  - In patch 3, replace scoped spinlock guards with explicit
+    spin_lock()/spin_unlock(), drop the redundant teardown check, and
+    rely on zero-initialization for async_bios before publication, as
+    suggested by Nilay Shroff and Christoph Hellwig.
+
+Changes since v1:
+
+  - Rebase onto the latest block-7.3 branch.
+  - In patch 2, require every blkg rhashtable lookup to run inside an
+    explicit RCU read-side critical section. Annotate blkg_lookup_any(),
+    blkg_lookup(), and recursive wrappers with __must_hold_shared(RCU)
+    so Clang thread-safety analysis verifies the contract.
+  - In patch 2, exclude BIO_BLKG_REF from the flags saved by
+    dm_bio_record(), since restoring an ownership bit cannot recreate
+    the associated blkg reference.
+  - In patch 3, use scoped spinlock guards for async_bios and annotate
+    the list with __guarded_by().
+  - Add Nilay Shroff's Reviewed-by to patch 1.
+
+Changes since RFC v3:
+
+  - Drop the RFC prefix.
+  - Add Christoph Hellwig's Reviewed-by to patch 1.
+  - Add Tao Cui's Reviewed-by to patch 2.
+  - In patch 2, relax blkg_lookup_any()/blkg_lookup() to also allow
+    q->queue_lock as an alternative to the RCU read lock.
+
+Changes since RFC v2:
+
+  - Drop the old patch 1 and send it separately as a bugfix for 7.3 and
+    -stable, as suggested by Christoph Hellwig.
+  - Rebase onto the latest for-7.3/block branch.
+  - In the new patch 1, note that the remaining q->blkg_list walkers are
+    cgroupfs/sysfs slow paths and can move to rhashtable iteration after
+    the queue_lock-to-blkcg_mutex conversion.
+  - In the new patch 1, explain the list_empty case in blkg_release(), and
+    add an RCU lockdep assertion plus documentation that blkg_lookup_any()
+    does not acquire a reference.
+
+Changes since RFC v1:
+
+  - Add patch 1 to wait for every old blkg to leave q->blkg_list before a
+    shared request_queue is rebound, instead of treating root_blkg == NULL
+    as completion of asynchronous blkg teardown.
+  - Add patch 2 to replace the per-blkcg radix tree and lookup hint with a
+    request_queue rhashtable keyed by blkcg->css.id, as suggested by
+    Christoph Hellwig. Keep dying pinned blkgs in the hash until
+    blkg_release() so bio-owned references remain discoverable.
+  - Fold the v1 helper-only patch into patch 3, as suggested by Jan Kara
+    and Christoph Hellwig, and make bio_blkcg() naturally return NULL for
+    an unassociated bio.
+  - Rework patch 3 so blkg_lookup_create() acquires the bio-owned
+    reference, falls back to a live parent when creation or tryget fails,
+    and updates bi_blkcg when the returned blkg belongs to an ancestor.
+  - Make bio_blkg_lookup() lookup-only: it returns NULL unless BIO_BLKG_REF
+    is already set. Use bio_blkg() in the BFQ and IOCOST merge paths which
+    may need to create a blkg, while keeping blk_cgroup_bio_start() and
+    completion paths lookup-only.
+  - Move CSS online-reference handling into
+    bio_associate_blkcg_from_css(), including fallback to the root blkcg,
+    so bio_associate_blkcg() does not take a redundant reference.
+  - Keep the v1 async bio punt conversion as patch 4 and document that
+    async_bio_lock protects async_bios.
+
+Previous versions:
+  - v3: https://lore.kernel.org/r/20260918041744.1526924-1-yukuai@kernel.org
+  - v2: https://lore.kernel.org/r/cover.1789237876.git.yukuai@fygo.io
+  - v1: https://lore.kernel.org/r/20260823133045.970199-1-yukuai@kernel.org
+  - RFC v3:
+    https://lore.kernel.org/r/20260818070641.756747-1-yukuai@kernel.org
+  - RFC v2:
+    https://lore.kernel.org/r/20260811064744.1139446-1-yukuai@kernel.org
+  - RFC v1:
+    https://lore.kernel.org/r/20260804065313.2092022-1-yukuai@kernel.org
+
+Related series:
+  [1] RFC v2 blk-cgroup: protect blkgs with blkcg_mutex
+      https://lore.kernel.org/r/20260724123037.3004560-1-yukuai@kernel.org
+
+Yu Kuai (3):
+  blk-cgroup: use a request_queue rhashtable for blkg lookup
+  blk-cgroup: store blkcg in bio instead of blkg
+  blk-cgroup: move async bio punt state to blkcg
+
+ Documentation/admin-guide/cgroup-v2.rst |   2 +-
+ block/bfq-cgroup.c                      |  18 +-
+ block/bfq-iosched.c                     |  19 +-
+ block/bio.c                             |  22 +-
+ block/blk-cgroup-fc-appid.c             |  10 +-
+ block/blk-cgroup-rwstat.h               |   2 +-
+ block/blk-cgroup.c                      | 355 ++++++++++++++----------
+ block/blk-cgroup.h                      |  93 +++++--
+ block/blk-core.c                        |  17 +-
+ block/blk-crypto-fallback.c             |   2 +-
+ block/blk-iocost.c                      |  12 +-
+ block/blk-iolatency.c                   |  11 +-
+ block/blk-ioprio.c                      |   2 +-
+ block/blk-throttle.c                    |   3 +-
+ block/blk-throttle.h                    |   2 +-
+ drivers/md/bcache/request.c             |   2 +-
+ drivers/md/dm.c                         |   2 +-
+ drivers/md/md.c                         |   2 +-
+ fs/gfs2/lops.c                          |   3 +-
+ include/linux/bio.h                     |  26 +-
+ include/linux/blk_types.h               |   9 +-
+ include/linux/blkdev.h                  |   2 +
+ include/linux/writeback.h               |   2 +-
+ mm/page_io.c                            |  12 +-
+ 24 files changed, 396 insertions(+), 234 deletions(-)
+
+
+base-commit: 6aff7d30932eda1aa3e96364e73ec6fbcfbefe1a
 -- 
-2.53.0
-
-
+2.51.0
