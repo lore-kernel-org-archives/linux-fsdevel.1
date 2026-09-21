@@ -1,174 +1,174 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C710947F2C3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D1847F2C3
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790026379; cv=none; b=SVehSMdf1muV7uVy1+4EsReZhEaCTU0O19eemsDWA0gTRnXoHmjy2VYYMOWds7tD7d1alkZY5T9Vr+3SmP80x/EnAbCA2A/RC0v1DBtZR5hFGzzzDOV5dcLtIFk/wREW/G6ll/sYhyiytE4PJTRM1ZSzbovAWnHKtmVKl6se6dk=
+	t=1790026395; cv=none; b=b+x/q+x6+bnFm2mB9ZEmNIr9oY1qx6bwS+CkTlBtmaUwBusjShcmgYCpOgJ/kbVzsV7torbNIyK9TGYu7lX5fRVa3A2eWpAlwX5xzRUgMzXEWwjGL9OHWNuIzdImHXZM1Mp9yXqm3SfG5azs8szMFMXtG4Jfc6f4EENxckMx9W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790026379; c=relaxed/simple;
-	bh=P50WY6C9MgQ6OG27cP9WeUf6kJFpTfhGxOceRTInE9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s3fY6RVnDE18khaojRVS9AHvalzP5FNmIGHXWKry7mzjrGisYXzGCoWI5xsLu2T0RbW+2k48lVOh3Dr+fbW2dEKuIE8AGC++pk4llXeWGLXknlk017NQGYZk+bFwXU5jNKLdCboXUrAlfckBZafg2x0w9DElcNHCgWMlZnbVaIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TUxn7DaT; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1790026395; c=relaxed/simple;
+	bh=PfkfUgBBH4+gt9nP0fAfRVLhu+EQ/uA/stjuvdTdtYE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cWh++JKLIBYSSxVuo6++AtgIN6cxLIR2eqSIKR0aBzWF4M6QMHxBDmDijlvy84uaSibVrErod14ETfBsAQIO5XHEINUe9OxmhCRyFZecySs/QuqSd+zWQqsJlUDFx8XD0dzGIRG2Bn9BCwgN3P/L/yAG8KrjIsHU6AYNY9NS0Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=0cB0l3vl; arc=none smtp.client-ip=74.125.224.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TUxn7DaT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pvz5d1nkszGRqC60BnhQHEmnkgXMWAbP6TdaFQ4ccNw=; b=TUxn7DaTfka06pTTkO0kWqVrYo
-	ZqrIHsV8WlJZZaftmU22W2YS6T8/7qWGstaUpya0CjN88jRKFAmS27x7R1q2vomy5MO44Sk111T6Q
-	naaeXMmuHb3T9nSP1dSdYqn+8e3BEU3SZRukZlO/l2gQLvtWf0m9BTW1SOudXgJYFf+zwxDQN1SKo
-	xE/YgsNg8lFhYDEhc4XRbG72UXEV3j/XH9RZq7m4/2kio2gpRrLUd0F9EDKMlT3TBTDeR9jqWXm4a
-	gg8n7l235hGnOxligthF5wOABST1+kk5h/V1UjfM+9bXW1rcjvLGsUvlHMph9QwCAY3rcECeqZ0zY
-	AUscQK/Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8lcu-00000005bQT-02LM;
-	Mon, 21 Sep 2026 21:32:41 +0000
-Date: Mon, 21 Sep 2026 22:32:39 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jane Chu <jane.chu@oracle.com>, linux-mm@kvack.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>,
-	Jiaqi Yan <jiaqiyan@google.com>,
-	"Gregory Price (Meta)" <gourry@gourry.net>
-Subject: Re: [PATCH v9 08/15] hugetlb: Use the has_hwpoisoned flag
-Message-ID: <arGidwZQrrWVPAoj@casper.infradead.org>
-References: <20260805210557.1118966-1-willy@infradead.org>
- <20260805210557.1118966-9-willy@infradead.org>
- <a51a6236-8881-4479-8f04-39676e0e1f14@kernel.org>
- <an3uN4TAAZ2miXhe@casper.infradead.org>
- <7608c80e-645b-4d07-bba3-ef45ee36fba4@kernel.org>
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="0cB0l3vl"
+Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-671563fb8beso3307804d50.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:33:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790026393; x=1790631193; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/vtBA2br0mdFH+MTeFUpCL6R+w/dADsqHz7aoBQi8r8=;
+        b=0cB0l3vlpUrUVYW2gP6CZRD3gkhHC6U9Irno7iioMwA6ecHOVLxm5v1l9PuWksUQ+6
+         acfuF6kshORtq2qPYXkN3YP7SD4BsS8rhOKtIoP6/wRRltL3Qt1nyxpKLP7TYYOXTpGS
+         TWPJirgPIuSzDzAIiaZqLm8omf1VXMjUbMcavUOzfJEl2k2mKKLUsO3GlFWZ9coB+B33
+         Qaic1hSr+K5g5d2/rlALVIqfEbQ1CIX4uB31B/kRruzXv7uLK+ObxNMWZL8r8gmzFwqn
+         KYpoylcOBYYPZDDYHya8AIXUZSUhRv/wjoDkDyQVQKy4j3AmeRy5uD57V4cIZseMr2h/
+         aJag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790026393; x=1790631193;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=/vtBA2br0mdFH+MTeFUpCL6R+w/dADsqHz7aoBQi8r8=;
+        b=Q4hkACj2u/E3vcprpWzbvLnl0haVLdVJs2GsI3SZVTTzOHOVg7HHUxY+B9BZJGQvYp
+         9zCy+agZrgg0ANGVuW858QFCjNeUu1w2fNCWP85nxr22rT9wE5do0HvFtWFF+wyMu502
+         111WB100oG+xEPaDVVM8Fb1603firNiSp+MD6Tom0vLQkWDkZR2d1Bs4AlZ5Be8hNcwW
+         Ms2Jec5gA3/Xu9k4CLCSse0ClHZY5PI2LYv/eDYxSLmbYOKJrU7kbRvb9S4SiUhT6YVs
+         K0Xm1mEnyekJIYHtHv4T039Km4Pl7oguZUlTinAZK4KMEjZxnCcIuyZs3Evi0LJ5VTdO
+         5EJQ==
+X-Gm-Message-State: AFuF++lLSUpUkZj5UxzBmzoT3niv7OCHlEpwLZwiSmPnEwk1mHSzLcC+
+	CLa6X1sQUM+j3S/Y56ghUNy8fqtggoMUOBYBq0awU9GjmgVT5/qfYoHT0c1jbB7r33Y=
+X-Gm-Gg: AYBFou29LeEIbv2GOv471fKmWZaz60w1xgNf2Qj9pzKh87DV+4f5HBUcPzTJpQwWMz9
+	KehI1bK0aLN3fYroCAB3MTy/AR+hcdt/Wyq29m1tTmTCYjvS0k+ZamZerTkVMTKpl3Ipx+pERiE
+	DNP1ngi/SePLOqhypGKSKdhQTS7wPYJt1P5yWbmAtkWk4EKCQ7sj/BBc1y5UXB4OqykRlPAHxml
+	EqbUnckj6Hh+OwMSy91HVH15IToiXEq3UNfYFBhwRcOEusbprlMGF/oOrrUGtjRng6NGjLbSdDs
+	JsOc7pnU9cWDjsZvAVZXY+3MWOCV0MP0gN8XGnjy2CtN882kPOrjt+8fYUkOk0hMQ8D/2vcdAdR
+	AR2Dtv1u/s6t8K26H5CX6wrz56nTBoQsMxGspXHFVCOHuYRa6ftnCtNRPhlyrBuakTm6fXsYJ6l
+	oSj6iN64dzqV9eVhqdrEv6JD3yBDPDU437SzA95gfkgeMTh9M8SDXYnlPA9XlDHUfzL4WIrlpVu
+	kLXnJSt9/FnPJWz3tpXn6A6ct3VbSitLK8UZcjJ+ENpXQJjD6nYyyEv5ZsjaOSWuHOHQOdzkEpO
+	7qWNMeEF2hFP960aGOOFnTM66sCX3MleSt+uwVm7aH7Vsj4tYlHVPD2v86JMqk90
+X-Received: by 2002:a05:690e:4382:b0:670:f743:6eb0 with SMTP id 956f58d0204a3-672c55186a2mr73689d50.98.1790026393256;
+        Mon, 21 Sep 2026 14:33:13 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:8475:e6ce:2d2c:ddc2? ([2600:1700:6476:1430:8475:e6ce:2d2c:ddc2])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-672c50bb1d8sm145972d50.20.2026.09.21.14.33.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 14:33:12 -0700 (PDT)
+Message-ID: <1164821496f54d2fe03af44283d48db707a5e391.camel@dubeyko.com>
+Subject: Re: [PATCH] hfs: validate drAlBlkSiz and fs_ablocks in hfs_mdb_get()
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Hui Peng <benquike@gmail.com>, glaubitz@physik.fu-berlin.de, 
+	frank.li@vivo.com, brauner@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 21 Sep 2026 14:33:11 -0700
+In-Reply-To: <20260919222605.3794529-1-benquike@gmail.com>
+References: <20260919222605.3794529-1-benquike@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7608c80e-645b-4d07-bba3-ef45ee36fba4@kernel.org>
 
-On Fri, Sep 18, 2026 at 03:44:12PM +0200, David Hildenbrand (Arm) wrote:
-> I'm a terrible person and it took me way too long to get back to this :(
-> 
-> > 
-> > You make it sound so easy ;-)
-> 
-> Heh, as long as you hold a folio reference it really is :)
-> 
-> > 
-> > If we don't hold a reference on the folio, then the folio (whether it's
-> > hugetlb or not) can be split.  And then folio_test_hwpoison() can hit
-> > the assertion that it's now a tail page.
-> 
-> Right. I am/was missing the connection to "generic_file_read_iter() in hugetlbfs".
+On Sat, 2026-09-19 at 22:26 +0000, Hui Peng wrote:
+> In hfs_mdb_get() (fs/hfs/mdb.c), reject images with allocation block
+> size (drAlBlkSiz) of 0 or not a multiple of HFS_SECTOR_SIZE (512), or
+> with fs_ablocks =3D=3D 0, preventing a divide-by-zero trap and out-of-
+> bounds
+> bitmap scans on crafted HFS images.
+>=20
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Assisted-by: LLM
+> Signed-off-by: Hui Peng <benquike@gmail.com>
+> ---
+> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
+> index 277de712f9d4..9e78c561a3f1 100644
+> --- a/fs/hfs/mdb.c
+> +++ b/fs/hfs/mdb.c
+> @@ -204,6 +204,11 @@ int hfs_mdb_get(struct super_block *sb)
+> =C2=A0	/* These parameters are read from the MDB, and never written
+> */
+> =C2=A0	HFS_SB(sb)->part_start =3D part_start;
+> =C2=A0	HFS_SB(sb)->fs_ablocks =3D be16_to_cpu(mdb->drNmAlBlks);
+> +	if (!HFS_SB(sb)->fs_ablocks) {
 
-We might be able to split this into two series at this point.  Is that
-worth me spending time on doing?  Originally I was going to use
-is_page_hwpoison() in filemap, then it became obvious that this was
-inefficient when we had a reference to the folio, and so we ended up with
-is_ref_page_hwpoison().
+This check doesn't look like checking that it's "not a multiple of
+HFS_SECTOR_SIZE (512)". Could you make your check more accurate?
 
-> > Before this patch series, we don't always hold the hugetlb lock when
-> > splitting a hugetlb folio that contains hwpoison.  And we don't want
-> > to have to grab the hugetlb lock if we can avoid it -- unprivileged
-> > userspace can hammer these paths hard, and I don't want to see this
-> > lock be contended.
-> 
-> Right. But doesn't at least the pagecache always hold a folio reference when
-> testing for hwpoison?
-> 
-> I mean, there is other code that might need care (PFN walkers like memory
-> offlining), but I was surprised to see pagecache code require a rework of
-> lockless hwpoison checking.
-> 
-> I'm sure I am missing something.
+Also, if you started this check, then let's check that all these fields
+are consistent:
 
-It's just how everything evolved.
+	__be16 drNmAlBlks;		/* number of allocation blocks
+*/
+	__be32 drAlBlkSiz;		/* bytes in an allocation
+block */
 
-> > Oh, I'm not happy about it.  But we need an atomic way to determine if
-> > a page belongs to a hugetlb folio with hwpoison detected.  Short of a
-> > complete rearchitecture of how we handle hwpoison, this is the best I've
-> > come up with.
-> 
-> (did I express how much I hate the hwpoison infrastructure and how it's racy
-> left and right? :) )
+	__be16 drFreeBks;		/* number of free allocation
+blocks */
 
-Yes, and you'll have the chance to do it again on Wednesday ;-)
+Could you please add these checks?
 
-> >> (what on earth is "huge_poison" is this supposed to be "hugetlb_poison" ? Why
-> >> "poison" and not "hwpoison"? Really odd)
-> > 
-> > We're inconsistent in our naming on both of these things.  It doesn't
-> > help that somebody decided to reuse the term "poison" to mean
-> > "uninitialised struct page".
-> 
-> Right, but let's be consistent with hugetlb and with hwpoison. ;)
+Thanks,
+Slava.
 
-I'll take another look ...
-
-> >> I'd expect that we actually get rid of folio_test_hwpoison entirely and
-> >> exclusively work on per-page state and has_hwpoison. But IIUC, now it's some
-> >> mixture of folio checks, page checks, folio_has, mixed with some hugetlb oddity.
-> > 
-> > If we could get rid of HVO, we could do it entirely on struct page.
-> 
-> That's what I hope we will achieve at some point.
-
-I'm not sure that's a realistic hope in the next few years.  Even if
-we get struct page down to 8 bytes, that's 2MB of memory per 1GiB allocation
-(assuming 4KiB pages).  Always a tempting target for someone looking for
-memory savings.
-
-I would prefer an out-of-line tree that doesn't rely on a bit in struct
-page.  Maybe a bit in struct folio wuld be fine (which tells you whether
-it's OK to skip the tree search).
-
-> > Or, as above, entirely rearchitecture hwpoison handling to not be based
-> > around pages or folios any more.
-> > 
-> >> I am not quite clear whether the change you propose here is actually required
-> >> for the remainder of this series?
-> >>
-> >> 	[PATCH v9 00/15] Use generic_file_read_iter() in hugetlbfs
-> >>
-> >> IOW, do we really need all this hugetlb hwpoison handling just to accomplish
-> >> that, or could some of that (bigger hwpoison rework) be done separately?
-> > 
-> > Blame Sashiko!  I'm going to ignore it in future, but it's really good
-> > at nerd-sniping "hey all of this is already broken and you could fix it
-> > as part of this series".
-> 
-> Right, and this is only the tip of the iceberg, because the entire hwpoison
-> infrastructure is a complete hacked-on racy piece of ... engineering excellence.
-> 
-> To summarize my question: is it possible to separate for this series the
-> pagecache part (Use generic_file_read_iter() in hugetlbfs) from all the hugetlb
-> hwpoison rework?
-> 
-> OTOH, if it's really not avoidable, please let me know.
-
-I think Sashiko will whine and complain incessantly if we drop the
-race elimination patches off the front.  I can try it, but is it worth
-doing?  Eliminating the races seems like good engineering anyway.
-
-> > try_to_unmap_one() is already 200 lines and contains some tricky code flow.
-> > I'm trying to at least make the problem not-worse.  I think we should
-> > pull out even more code into helpers, but not in this patch series.
-> 
-> Note that this code now was partly reworked such that this helper will soon no
-> longer be required.
-
-Rebasing it on current Linus simplified this a lot.
-
+> +		brelse(bh);
+> +		HFS_SB(sb)->mdb_bh =3D NULL;
+> +		return -EINVAL;
+> +	}
+> =C2=A0	HFS_SB(sb)->fs_div =3D HFS_SB(sb)->alloc_blksz >> sb-
+> >s_blocksize_bits;
+> =C2=A0	HFS_SB(sb)->clumpablks =3D be32_to_cpu(mdb->drClpSiz) /
+> =C2=A0				 HFS_SB(sb)->alloc_blksz;
