@@ -1,109 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8208044062C;
-	Mon, 21 Sep 2026 22:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FC436F405;
+	Mon, 21 Sep 2026 22:53:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790030074; cv=none; b=LMLXVDoXejoGfVuhQg+whVNU7EZs3YiN/NBkK8CnIAeQrEhChtX6pW9QZNv+bI53bsf1R/4sbdedylaXB2qytRWD0EIVVx4b0Ehg6yLH3JgpbcIWgdlHf6umk9ty3LNOkcAFc6KvnFsJWS+92NGNkNIMGAlEYFZuLnHB+puyCEU=
+	t=1790031186; cv=none; b=UL+frGKmU6NLuhR1SXVB4h83d5ZNnJjcKIwaYzf8z1alL212CQDc2aPLOcxYScY96cuzrif95WcthQbZPOzXpdxxLbUJ36FcO1liiHtIweqFxaJzw0gcnl0Yt8PbXTvMfeNCAPSMNWKAu1jFIm+vDd5PHv64XSVtHKg2VRni8JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790030074; c=relaxed/simple;
-	bh=wxdd4aRE/wxIATjOmI2ulFK1irn2dZLFgW3E7+ehEKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pb9GXRRXkq7oLkb3PvIpbXX+5cBdbMz73tHrpFZTUTPM+wIT5ifDziYtrVYDXqLTr2FI0woaeD6SCf+ccY3m8UJYVWfx55fDkCR0xU8QmdgpK0FFk/JZz5lFmz3i618c3qkjUbSmYPxNaRTPaX0tWiLG/98E2gp9ULwnoa3z0as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MWis54ER; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790031186; c=relaxed/simple;
+	bh=Mf5GJife6VZoabI9QINny6v+W6UXRMvScQI+ADs8ylE=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=AwRVI+2654UYwiRvGhkWSJWzBY1ril1we9l5HCw1DuHLt/JdljCCgwRO9rbeGxT7LCicdUSsx8iN75Wqrm7sg9Gllh7WbjOtAuNowEWyRf4JPf7tAfZRW0O6nSwlC/zsS3CENKQhBj9OD0B4hfgZxRNwJjAYZW+4eqnCBJweB4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=YzqYCbK6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MWis54ER"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 0C1681F000FF;
-	Mon, 21 Sep 2026 22:34:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790030073;
-	bh=UKwQax2euo3fH0Wc12uFGQaKUN+XldVi7Z0vDTxU1q0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MWis54ERXQmA2L2GYCjQvOFLzKJRodC5Ti5ImayPVQbMvXMJzqzfKscf7ecSuWQ/W
-	 M8bbhWjJbtAd2k9X4TuowrePTT6q66S8nYxJeWyd6JYExIkaI4F59rvl6g9yIMyWD6
-	 XQKZWGySAeMvy1rtnAdg44E1lYew0SgkHxTf2FO/IAO3kqkr81ouchYhPCuIbQAyKm
-	 OIOL8sOc7mxVFXpQrD0h8w3zoMzKM0H1m1vOWNAHkerx04K0v/K2B9c+qPkQsNnq0D
-	 bSBhekRog0CVVSGaUT5QbR6WGfOUz1+d1ypZq74hUEk8lfAZDAi+ZnQVstUQYmGaMD
-	 j39FbLOlTpGDQ==
-Date: Mon, 21 Sep 2026 15:34:32 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Brian Foster <bfoster@redhat.com>,
-	Damien Le Moal <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Dave Chinner <dchinner@redhat.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 3/3] iomap: don't lose a failed direct I/O bio's error
- when zeroing the tail
-Message-ID: <20260921223432.GO6283@frogsfrogsfrogs>
-References: <20260921083133.2960-1-parri.andrea@gmail.com>
- <20260921083133.2960-4-parri.andrea@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="YzqYCbK6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A90921F00893;
+	Mon, 21 Sep 2026 22:53:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1790031184;
+	bh=vr/gx0Gk1vpjpHWM5sT+D++JQRExEkJQGlPWeyGVKCo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=YzqYCbK6VIEv4Im4C6xgjIzbiK246j5gGNTbeA/gxJmKzhCvtWP2kvF+17L0uRaHe
+	 9vPeZg02uN09f8r+AS+I/MvdRcZkvexqG2w4jVdQpqn3c32VGwxf7ayQ15zilHy7G1
+	 chR39CDncH1ayD3EMiA0ehzS0yV4nyaQlejUFI2o=
+Date: Mon, 21 Sep 2026 15:53:03 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Kairui Song <kasong@tencent.com>, Qi Zheng
+ <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Barry Song
+ <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie
+ <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He
+ <baoquan.he@linux.dev>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner
+ <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Jan Kiszka
+ <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, Oscar
+ Salvador <osalvador@suse.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, Seongjun Hong <hsj0512@snu.ac.kr>
+Subject: Re: [PATCH v2 00/13] mm/sparse: remove SECTION_MARKED_PRESENT and
+ further cleanups
+Message-Id: <20260921155303.0ac97f17e4bda6140079dc9c@linux-foundation.org>
+In-Reply-To: <20260921-b4-sparsemem_cleanups-v2-0-54d81d65e125@kernel.org>
+References: <20260921-b4-sparsemem_cleanups-v2-0-54d81d65e125@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260921083133.2960-4-parri.andrea@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 21, 2026 at 10:31:33AM +0200, Andrea Parri wrote:
-> iomap_dio_bio_iter() falls through to the sub-block tail zeroing when
-> the data bio submission fails, so that the rest of the block is still
-> zeroed and stale data is not exposed.  The zeroing result is assigned to
-> ret, which overwrites the submission error with the successful zeroing
-> result (zero) and the failed write is reported as success.
+On Mon, 21 Sep 2026 21:58:52 +0200 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
+
+> SECTION_MARKED_PRESENT is really only needed during boot, where we
+> can instead just rely on SECTION_IS_EARLY_BIT by setting that flag
+> earlier.
 > 
-> Store the zeroing result separately and only use it when the data path
-> did not already fail.
-> 
-> Fixes: 10553a91652d9 ("iomap: fix iomap_dio_zero() for fs bs > system page size")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
-> ---
->  fs/iomap/direct-io.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-> index 8b4039d16ce89..8ae3fe64e475c 100644
-> --- a/fs/iomap/direct-io.c
-> +++ b/fs/iomap/direct-io.c
-> @@ -581,9 +581,14 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
->  	    ((dio->flags & IOMAP_DIO_WRITE) && pos >= i_size_read(inode))) {
->  		/* zero out from the end of the write to the end of the block */
->  		pad = pos & (fs_block_size - 1);
-> -		if (pad)
-> -			ret = iomap_dio_zero(iter, dio, pos,
-> -					     fs_block_size - pad);
-> +		if (pad) {
-> +			ssize_t zerror;
+> Some preparations for doing that conversion and some cleanups in the same
+> (sparse) area.
 
-Why ssize_t?  iomap_dio_zero returns int, right?  I may have missed
-something in my absence, but AFAICT it should be:
+Added to mm-new, thanks.
 
-			int ret2 = iomap_dio_zero(...);
 
-			if (ret2 && !ret)
-				ret = ret2;
-
---D
-
-> +
-> +			zerror = iomap_dio_zero(iter, dio, pos,
-> +						fs_block_size - pad);
-> +			if (!ret)
-> +				ret = zerror;
-> +		}
->  	}
->  out:
->  	/* Undo iter limitation to current extent */
-> -- 
-> 2.53.0
-> 
