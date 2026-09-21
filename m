@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E42486439
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DB44AB1AE
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:16:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790000172; cv=none; b=rvHirT+XqcC8EHejgLR+Pb93O2WZWzVLIg2O9UeaB7kGKlVyhejtL1qwWNLQmi1UgSZklW+nLn5HogNIQK8x96aHA9DSLhhlKGsFWfx3e/E4KFSHZcZOHDUoxd5Fez/MNoxNw/yziE1zCnesxSk45Z481JEfPHtBzbfIo3DM4c0=
+	t=1790000175; cv=none; b=b/e9+SzuUG7ha5+zD2yZZEuewL2MnuaLjjNErnMZs5nQPK3zL6MvcgtbKXFXDzFEjrtvhCjEuDTbhV+qm3rLWl+DA6NlnYkrZY1EiQGbVe7NyX6uRvHmZt4N2Us0wHnn+dMr1l8yN1SCHW9pxwpTp8mvaVHfPujZciEJON3YsMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790000172; c=relaxed/simple;
-	bh=7oWeiAl6iaHMBViAHYW/To3IQibFR+OEdH1pVILvtv4=;
+	s=arc-20240116; t=1790000175; c=relaxed/simple;
+	bh=veCcwByUAU83EykJ2Pn0jdM6Nbpn9bLOO6qNb3vIiQU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HPPDIvE3npznUVsmmoscLvJBZMQtEoFDwpABELPFkyZ7F+S4IJMJESmRcyCBr/wL3lgm/UEMC9JE++Abihsr5ZFf3K8KePZhNQgSkU9OdX1+lZAkm39hlwG1IlJdIduPylZqgXdsKe79D24w1USCJ0/QIvOlb50tDcS5vbK7NKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YHzfhbBE; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=U4ieO4wIsE3TPsiGKk2/d4PrpqtUjAsXnOJ18kNquHrJDkb/skcYZPC5v6V8VFicc4OOkDtER8lCyNynWrsT3RnEs0Kt1czr9otjxYCrPQ568eLKCtJjTBdjlhbGNDmhoab9fN5RiWYTC1nPIOl004VPToUDAw3UnMqCCgkW/MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2vYDmVF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YHzfhbBE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5FB81F00893;
-	Mon, 21 Sep 2026 14:16:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2vYDmVF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6878F1F00898;
+	Mon, 21 Sep 2026 14:16:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790000168;
-	bh=xRSzc9VjfQvQHFj//gCSD7rKwglaIPUFSM5j1lDLybM=;
+	s=k20260515; t=1790000171;
+	bh=0yD1HO/xNYp1hHOm1dPZrrMVSnwzIW4wo+BRf2JXu9Q=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=YHzfhbBExtMmLmBcoAiFlDj/l0IddaCce3UsMG6SMZzO12a9lpkMpttNhRXeOWs+U
-	 avV4L8S+HEH1TIOvuz0hW3/KcY1LuYhLfzUqWds5r8L7sK4Y7LZSUX9lq2alPy9We6
-	 Vy5KvWtW/q8cGaK7q2lAl2hGYGZUvIgSTtQC+ahu/2mELkAds1j9FflFF+p+ztVDUb
-	 uR3P07QKP0KeW5XtRXF5imFop+h2C+Vf9a845O69L0D8zviVdubEzZA7bYkZ7SA764
-	 r2GHMNjbxbOe6D/OT9JoRvq8zzLrfKSktB1QX9BY2AaoprxO4CPFfBrq0U4CBF28ro
-	 qkDV0/mDrj5mw==
+	b=T2vYDmVF5KoMJUib2AJ8eNK+9mch4XXaKzm4U3MsbeyAUeuiy1QuQb0dBbAosdVw4
+	 Ay0mSwd6jBqGYRk37ZxYq++sqGQLeKlTxtAYi8rXT+v9/MtUClC/anhsIGe3hmvS7j
+	 u/NU4xPzvEuoqIl2XG/gcYcu99GRgpDJSHfLIbOGXOSwxD2jDNTpKyE1vaZ/o+/IQA
+	 D6U5MiDoFrMzXNLhBFLZHbFMx5PGE6yqHcZ9qii4akdgV5Zd/X4fVZCVO4EQNN242e
+	 bQfQFVMyjnaaV1LYHl8hQd4WRJnJPWk4VfIUcya7lwQFHLP73u4ux5J78bZXwlTAtE
+	 DrV7t98TYExpA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 21 Sep 2026 16:15:37 +0200
-Subject: [PATCH 09/10] file: add CLOSE_RANGE_CLOEXEC_ONLY
+Date: Mon, 21 Sep 2026 16:15:38 +0200
+Subject: [PATCH 10/10] selftests/core: test CLOSE_RANGE_CLOEXEC_ONLY
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260921-work-file-close_range_except-v1-9-c20d0b49270d@kernel.org>
+Message-Id: <20260921-work-file-close_range_except-v1-10-c20d0b49270d@kernel.org>
 References: <20260921-work-file-close_range_except-v1-0-c20d0b49270d@kernel.org>
 In-Reply-To: <20260921-work-file-close_range_except-v1-0-c20d0b49270d@kernel.org>
 To: Jann Horn <jannh@google.com>, linux-fsdevel@vger.kernel.org, 
@@ -46,158 +46,545 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Neil Brown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5926; i=brauner@kernel.org;
- h=from:subject:message-id; bh=7oWeiAl6iaHMBViAHYW/To3IQibFR+OEdH1pVILvtv4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRttOF5cOje56P/OGa8VLj6eX/l8r/fr5e+fPshTXdJs
- sic/fpW0ztKWRjEuBhkxRRZHNpNwuWW81RsNsrUgJnDygQyhIGLUwAmck2MkaH7wLEDqmzXL54N
- sfwnILkuclXHzehiKaGpd4veLZ147U4cw//YT22s5uskst2XTfBQNJEwC3M4eiJEbc+DEK6glo/
- fDjMDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15291; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=veCcwByUAU83EykJ2Pn0jdM6Nbpn9bLOO6qNb3vIiQU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRttOFR2VDC01Edrt9xJfcg68vVMlwM8157SL0QE3x8t
+ XGRvWJaRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwESWfWT4n/DlZL+88uzSnWK/
+ Jto/Z+LILJjJ6XP0+WrJD/8Ej1qzljD8T/s9bf051fLwB2pTb3+t1p954YXYhh52nc7/6YefaW3
+ 9wwAA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-CLOSE_RANGE_CLOEXEC marks a range close-on-exec. Nothing happens to
-these fds unless an exec happens. Add CLOSE_RANGE_CLOEXEC_ONLY which
-closes the close-on-exec file descriptors in the range.
+Cover closing what is marked:
 
-When combined with CLOSE_RANGE_EXCEPT it names the close-on-exec file
-descriptors that are supposed to survive. Every close-on-exec fd outside
-of the range is closed. File descriptors without that flag are left
-alone. Whatever the caller deliberately passes down, stdio, LISTEN_FDS,
-an inherited pipe, remains where it is.
+- close-on-exec descriptors in the range go, the ones outside stay, and
+  a range above the table closes nothing
 
-The handful of close-on-exec descriptors the caller still needs for the
-exec such as the executable, an error pipe, sit in a specific range.
-That is what a task between clone(CLONE_FILES) and execve() actually
-wants:
+- with CLOSE_RANGE_EXCEPT it is the other way around, and the kept ones
+  keep their flag, for a window in the middle, at the top and at the
+  bottom
 
-	clone(CLONE_FILES | CLONE_VM | CLONE_VFORK)
-	child: close_range(lo, hi, CLOSE_RANGE_UNSHARE |
-				   CLOSE_RANGE_CLOEXEC_ONLY |
-				   CLOSE_RANGE_EXCEPT)
-	child: rearrange descriptors in the now private table
-	child: execve()
+- descriptors without close-on-exec are never touched, in or out of the
+  range
 
-Between the clone and the close_range() the child holds no reference of
-its own on any file because copy_files() only bumps the fdtable
-refcount. So a close() in the parent takes effect immediately. The
-unshare also never takes a reference on the fds it leaves behind either.
+- a range that cannot hold an open descriptor keeps nothing, one that
+  covers everything keeps everything, in place and in a clone
 
-The range is expressed in the parent's numbering. So a caller that
-cannot name the file descriptors it keeps contiguously picks a range
-wide enough to cover them, unshares, and tidies up with a second
-close_range() on the table it now owns alone. That one is cheap. To keep
-nothing, name a range that cannot hold an open descriptor, e.g.
-close_range(~0U, ~0U, ...).
+- the unshare form leaves the table it was cloned from alone, with and
+  without CLOSE_RANGE_EXCEPT
 
-CLOSE_RANGE_CLOEXEC and CLOSE_RANGE_CLOEXEC_ONLY are mutually exclusive.
+- the unshare form keeps the descriptors without the flag that sit in
+  the range it drops from, and hands the dropped slots out again
+
+- a kept range above the last descriptor without close-on-exec still
+  comes back, so the clone is sized off the range too
+
+Also check that asking for CLOSE_RANGE_CLOEXEC at the same time is
+refused, whatever else is asked for, and that the bounds are still
+checked.
+
+The extra cases came out of the same walk with the close-on-exec mask
+on top: a marked and an unmarked descriptor on each side of every window
+position, and the size of the clone when only unmarked ones are left in
+the range it drops from.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/file.c                        | 30 +++++++++++++++++++++++++++---
- include/uapi/linux/close_range.h |  5 +++++
- 2 files changed, 32 insertions(+), 3 deletions(-)
+ tools/testing/selftests/core/close_range_test.c | 481 ++++++++++++++++++++++++
+ 1 file changed, 481 insertions(+)
 
-diff --git a/fs/file.c b/fs/file.c
-index 8952efd2cf3a..37f0ba740c39 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -843,18 +843,29 @@ static inline void __range_cloexec(struct files_struct *cur_fds,
- 	spin_unlock(&cur_fds->file_lock);
+diff --git a/tools/testing/selftests/core/close_range_test.c b/tools/testing/selftests/core/close_range_test.c
+index caeb2f1ea800..20ecb65e529b 100644
+--- a/tools/testing/selftests/core/close_range_test.c
++++ b/tools/testing/selftests/core/close_range_test.c
+@@ -1063,6 +1063,487 @@ TEST(close_range_except_unshare)
+ 		EXPECT_NE(-1, fcntl(open_fds[i], F_GETFD));
  }
  
-+/* Next open descriptor in [fd, max_fd], or the next close-on-exec one. */
-+static inline unsigned int next_open_fd(struct fdtable *fdt, unsigned int fd,
-+					unsigned int max_fd,
-+					struct fd_range *range)
++TEST(close_range_cloexec_only)
 +{
-+	if (range->flags & FD_RANGE_CLOEXEC_ONLY)
-+		return find_next_and_bit(fdt->open_fds, fdt->close_on_exec,
-+					 max_fd + 1, fd);
-+	return find_next_bit(fdt->open_fds, max_fd + 1, fd);
++	int i, ret;
++	int open_fds[101];
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++		int fd;
++
++		/* Odd slots are close-on-exec, even ones are not. */
++		fd = open("/dev/null", O_RDONLY | (i % 2 ? O_CLOEXEC : 0));
++		ASSERT_GE(fd, 0) {
++			if (errno == ENOENT)
++				SKIP(return, "Skipping test since /dev/null does not exist");
++		}
++
++		open_fds[i] = fd;
++	}
++
++	ret = sys_close_range(open_fds[10], open_fds[20],
++			      CLOSE_RANGE_CLOEXEC_ONLY);
++	if (ret < 0) {
++		if (errno == ENOSYS)
++			SKIP(return, "close_range() syscall not supported");
++		if (errno == EINVAL)
++			SKIP(return, "close_range() doesn't support CLOSE_RANGE_CLOEXEC_ONLY");
++	}
++	ASSERT_EQ(0, ret);
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++		bool closed = i % 2 && i >= 10 && i <= 20;
++
++		EXPECT_EQ(!closed, fcntl(open_fds[i], F_GETFD) != -1);
++	}
++
++	/* A range above the table closes nothing. */
++	ASSERT_EQ(0, sys_close_range(UINT_MAX, UINT_MAX,
++				     CLOSE_RANGE_CLOEXEC_ONLY));
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++		bool closed = i % 2 && i >= 10 && i <= 20;
++
++		EXPECT_EQ(!closed, fcntl(open_fds[i], F_GETFD) != -1);
++	}
++
++	/* Do what an exec would do to the rest. */
++	ASSERT_EQ(0, sys_close_range(0, UINT_MAX, CLOSE_RANGE_CLOEXEC_ONLY));
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++)
++		EXPECT_EQ(!(i % 2), fcntl(open_fds[i], F_GETFD) != -1);
 +}
 +
- /* Next open descriptor in [fd, max_fd] that @range selects. */
- static inline unsigned int next_fd_to_close(struct fdtable *fdt,
- 					    unsigned int fd, unsigned int max_fd,
- 					    struct fd_range *range)
++TEST(close_range_cloexec_only_except)
++{
++	int i, ret;
++	int open_fds[101];
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++		int fd;
++
++		fd = open("/dev/null", O_RDONLY | (i % 2 ? O_CLOEXEC : 0));
++		ASSERT_GE(fd, 0) {
++			if (errno == ENOENT)
++				SKIP(return, "Skipping test since /dev/null does not exist");
++		}
++
++		open_fds[i] = fd;
++	}
++
++	ret = sys_close_range(open_fds[10], open_fds[20],
++			      CLOSE_RANGE_CLOEXEC_ONLY | CLOSE_RANGE_EXCEPT);
++	if (ret < 0) {
++		if (errno == ENOSYS)
++			SKIP(return, "close_range() syscall not supported");
++		if (errno == EINVAL)
++			SKIP(return, "close_range() doesn't support CLOSE_RANGE_CLOEXEC_ONLY");
++	}
++	ASSERT_EQ(0, ret);
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++		bool kept = !(i % 2) || (i >= 10 && i <= 20);
++		int flags = i % 2 ? FD_CLOEXEC : 0;
++
++		/* The kept ones keep their flag, so exec still drops them. */
++		EXPECT_EQ(kept ? flags : -1, fcntl(open_fds[i], F_GETFD));
++	}
++
++	/* A range that cannot hold an open descriptor keeps nothing. */
++	ASSERT_EQ(0, sys_close_range(UINT_MAX, UINT_MAX,
++				     CLOSE_RANGE_CLOEXEC_ONLY |
++				     CLOSE_RANGE_EXCEPT));
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++)
++		EXPECT_EQ(!(i % 2), fcntl(open_fds[i], F_GETFD) != -1);
++}
++
++TEST(close_range_cloexec_only_except_bounds)
++{
++	int i, c, ret, status;
++	pid_t pid;
++	int open_fds[101];
++	struct __clone_args args = {
++		.exit_signal = SIGCHLD,
++	};
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++		int fd;
++
++		fd = open("/dev/null", O_RDONLY | (i % 2 ? O_CLOEXEC : 0));
++		ASSERT_GE(fd, 0) {
++			if (errno == ENOENT)
++				SKIP(return, "Skipping test since /dev/null does not exist");
++		}
++
++		open_fds[i] = fd;
++	}
++
++	/* A range covering everything keeps everything. */
++	ret = sys_close_range(0, UINT_MAX,
++			      CLOSE_RANGE_CLOEXEC_ONLY | CLOSE_RANGE_EXCEPT);
++	if (ret < 0) {
++		if (errno == ENOSYS)
++			SKIP(return, "close_range() syscall not supported");
++		if (errno == EINVAL)
++			SKIP(return, "close_range() doesn't support CLOSE_RANGE_CLOEXEC_ONLY");
++	}
++	ASSERT_EQ(0, ret);
++
++	struct {
++		unsigned int fd, max_fd;
++	} cases[] = {
++		/* A window at the top keeps the marked ones in it. */
++		{ open_fds[80], UINT_MAX },
++		/* One at the bottom keeps the marked ones in it. */
++		{ 0, open_fds[20] },
++		/* One that cannot hold a descriptor keeps none of them. */
++		{ UINT_MAX, UINT_MAX },
++	};
++
++	for (c = 0; c < ARRAY_SIZE(cases); c++) {
++		pid = sys_clone3(&args, sizeof(args));
++		ASSERT_GE(pid, 0);
++
++		if (pid == 0) {
++			ret = sys_close_range(cases[c].fd, cases[c].max_fd,
++					      CLOSE_RANGE_CLOEXEC_ONLY |
++					      CLOSE_RANGE_EXCEPT);
++			if (ret)
++				exit(EXIT_FAILURE);
++
++			for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++				unsigned int fd = open_fds[i];
++				bool kept = !(i % 2) || (fd >= cases[c].fd &&
++							 fd <= cases[c].max_fd);
++				int flags = i % 2 ? FD_CLOEXEC : 0;
++
++				if (fcntl(fd, F_GETFD) != (kept ? flags : -1))
++					exit(EXIT_FAILURE);
++			}
++
++			/* stdio is neither marked nor gone. */
++			if (fcntl(STDERR_FILENO, F_GETFD) & FD_CLOEXEC)
++				exit(EXIT_FAILURE);
++
++			exit(EXIT_SUCCESS);
++		}
++
++		EXPECT_EQ(waitpid(pid, &status, 0), pid);
++		EXPECT_EQ(true, WIFEXITED(status));
++		EXPECT_EQ(0, WEXITSTATUS(status));
++	}
++
++	/* Each fork had a table of its own. */
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++)
++		EXPECT_NE(-1, fcntl(open_fds[i], F_GETFD));
++}
++
++TEST(close_range_cloexec_only_unshare)
++{
++	int i, ret, status;
++	pid_t pid;
++	int open_fds[101];
++	struct __clone_args args = {
++		.flags = CLONE_FILES,
++		.exit_signal = SIGCHLD,
++	};
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++		int fd;
++
++		fd = open("/dev/null", O_RDONLY | (i % 2 ? O_CLOEXEC : 0));
++		ASSERT_GE(fd, 0) {
++			if (errno == ENOENT)
++				SKIP(return, "Skipping test since /dev/null does not exist");
++		}
++
++		open_fds[i] = fd;
++	}
++
++	/* A range covering everything keeps everything. */
++	ret = sys_close_range(0, UINT_MAX,
++			      CLOSE_RANGE_CLOEXEC_ONLY | CLOSE_RANGE_EXCEPT);
++	if (ret < 0) {
++		if (errno == ENOSYS)
++			SKIP(return, "close_range() syscall not supported");
++		if (errno == EINVAL)
++			SKIP(return, "close_range() doesn't support CLOSE_RANGE_CLOEXEC_ONLY");
++	}
++	ASSERT_EQ(0, ret);
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++)
++		ASSERT_NE(-1, fcntl(open_fds[i], F_GETFD));
++
++	pid = sys_clone3(&args, sizeof(args));
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		ret = sys_close_range(open_fds[10], open_fds[20],
++				      CLOSE_RANGE_UNSHARE |
++				      CLOSE_RANGE_CLOEXEC_ONLY);
++		if (ret)
++			exit(EXIT_FAILURE);
++
++		for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++			bool closed = i % 2 && i >= 10 && i <= 20;
++
++			if (closed == (fcntl(open_fds[i], F_GETFD) != -1))
++				exit(EXIT_FAILURE);
++		}
++
++		exit(EXIT_SUCCESS);
++	}
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++
++	/* A range at the top keeps the descriptors without the flag in it. */
++	pid = sys_clone3(&args, sizeof(args));
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		ret = sys_close_range(open_fds[50], UINT_MAX,
++				      CLOSE_RANGE_UNSHARE |
++				      CLOSE_RANGE_CLOEXEC_ONLY);
++		if (ret)
++			exit(EXIT_FAILURE);
++
++		for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++			bool closed = i % 2 && i >= 50;
++
++			if (closed == (fcntl(open_fds[i], F_GETFD) != -1))
++				exit(EXIT_FAILURE);
++		}
++
++		/* The first slot left behind is the next one handed out. */
++		if (dup(0) != open_fds[51])
++			exit(EXIT_FAILURE);
++
++		exit(EXIT_SUCCESS);
++	}
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++
++	/* The shared table the child unshared from is untouched. */
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++)
++		EXPECT_NE(-1, fcntl(open_fds[i], F_GETFD));
++}
++
++TEST(close_range_cloexec_only_except_unshare)
++{
++	int i, ret, status;
++	pid_t pid;
++	int open_fds[101];
++	struct __clone_args args = {
++		.flags = CLONE_FILES,
++		.exit_signal = SIGCHLD,
++	};
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++		int fd;
++
++		fd = open("/dev/null", O_RDONLY | (i % 2 ? O_CLOEXEC : 0));
++		ASSERT_GE(fd, 0) {
++			if (errno == ENOENT)
++				SKIP(return, "Skipping test since /dev/null does not exist");
++		}
++
++		open_fds[i] = fd;
++	}
++
++	/* A range covering everything keeps everything. */
++	ret = sys_close_range(0, UINT_MAX,
++			      CLOSE_RANGE_CLOEXEC_ONLY | CLOSE_RANGE_EXCEPT);
++	if (ret < 0) {
++		if (errno == ENOSYS)
++			SKIP(return, "close_range() syscall not supported");
++		if (errno == EINVAL)
++			SKIP(return, "close_range() doesn't support CLOSE_RANGE_CLOEXEC_ONLY");
++	}
++	ASSERT_EQ(0, ret);
++
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++)
++		ASSERT_NE(-1, fcntl(open_fds[i], F_GETFD));
++
++	pid = sys_clone3(&args, sizeof(args));
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		ret = sys_close_range(open_fds[10], open_fds[20],
++				      CLOSE_RANGE_UNSHARE |
++				      CLOSE_RANGE_CLOEXEC_ONLY |
++				      CLOSE_RANGE_EXCEPT);
++		if (ret)
++			exit(EXIT_FAILURE);
++
++		for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++			bool kept = !(i % 2) || (i >= 10 && i <= 20);
++			int flags = i % 2 ? FD_CLOEXEC : 0;
++
++			if (fcntl(open_fds[i], F_GETFD) != (kept ? flags : -1))
++				exit(EXIT_FAILURE);
++		}
++
++		exit(EXIT_SUCCESS);
++	}
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++
++	/* A window that cannot hold a descriptor keeps none of the marked. */
++	pid = sys_clone3(&args, sizeof(args));
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		ret = sys_close_range(UINT_MAX, UINT_MAX,
++				      CLOSE_RANGE_UNSHARE |
++				      CLOSE_RANGE_CLOEXEC_ONLY |
++				      CLOSE_RANGE_EXCEPT);
++		if (ret)
++			exit(EXIT_FAILURE);
++
++		for (i = 0; i < ARRAY_SIZE(open_fds); i++)
++			if ((i % 2) == (fcntl(open_fds[i], F_GETFD) != -1))
++				exit(EXIT_FAILURE);
++
++		if (fcntl(STDERR_FILENO, F_GETFD) == -1)
++			exit(EXIT_FAILURE);
++
++		exit(EXIT_SUCCESS);
++	}
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++
++	/* One that covers everything keeps everything, in a clone too. */
++	pid = sys_clone3(&args, sizeof(args));
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		ret = sys_close_range(0, UINT_MAX,
++				      CLOSE_RANGE_UNSHARE |
++				      CLOSE_RANGE_CLOEXEC_ONLY |
++				      CLOSE_RANGE_EXCEPT);
++		if (ret)
++			exit(EXIT_FAILURE);
++
++		for (i = 0; i < ARRAY_SIZE(open_fds); i++)
++			if (fcntl(open_fds[i], F_GETFD) != (i % 2 ? FD_CLOEXEC : 0))
++				exit(EXIT_FAILURE);
++
++		exit(EXIT_SUCCESS);
++	}
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++
++	/* The shared table the child unshared from is untouched. */
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++)
++		EXPECT_NE(-1, fcntl(open_fds[i], F_GETFD));
++}
++
++TEST(close_range_cloexec_only_except_unshare_sizing)
++{
++	int i, ret, status;
++	pid_t pid;
++	int open_fds[200];
++	struct __clone_args args = {
++		.flags = CLONE_FILES,
++		.exit_signal = SIGCHLD,
++	};
++
++	/* All close-on-exec, so the kept range alone sizes the clone. */
++	for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++		int fd;
++
++		fd = open("/dev/null", O_RDONLY | O_CLOEXEC);
++		ASSERT_GE(fd, 0) {
++			if (errno == ENOENT)
++				SKIP(return, "Skipping test since /dev/null does not exist");
++		}
++
++		open_fds[i] = fd;
++	}
++
++	ret = sys_close_range(0, UINT_MAX,
++			      CLOSE_RANGE_CLOEXEC_ONLY | CLOSE_RANGE_EXCEPT);
++	if (ret < 0) {
++		if (errno == ENOSYS)
++			SKIP(return, "close_range() syscall not supported");
++		if (errno == EINVAL)
++			SKIP(return, "close_range() doesn't support CLOSE_RANGE_CLOEXEC_ONLY");
++	}
++	ASSERT_EQ(0, ret);
++
++	pid = sys_clone3(&args, sizeof(args));
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		ret = sys_close_range(open_fds[150], open_fds[160],
++				      CLOSE_RANGE_UNSHARE |
++				      CLOSE_RANGE_CLOEXEC_ONLY |
++				      CLOSE_RANGE_EXCEPT);
++		if (ret)
++			exit(EXIT_FAILURE);
++
++		for (i = 0; i < ARRAY_SIZE(open_fds); i++) {
++			bool kept = i >= 150 && i <= 160;
++
++			if (kept != (fcntl(open_fds[i], F_GETFD) != -1))
++				exit(EXIT_FAILURE);
++		}
++
++		/* Nothing set close-on-exec on stdio. */
++		if (fcntl(STDERR_FILENO, F_GETFD) == -1)
++			exit(EXIT_FAILURE);
++
++		exit(EXIT_SUCCESS);
++	}
++
++	EXPECT_EQ(waitpid(pid, &status, 0), pid);
++	EXPECT_EQ(true, WIFEXITED(status));
++	EXPECT_EQ(0, WEXITSTATUS(status));
++}
++
++TEST(close_range_cloexec_only_einval)
++{
++	int ret;
++
++	/* A range covering everything keeps everything, so this only probes. */
++	ret = sys_close_range(0, UINT_MAX,
++			      CLOSE_RANGE_CLOEXEC_ONLY | CLOSE_RANGE_EXCEPT);
++	if (ret < 0) {
++		if (errno == ENOSYS)
++			SKIP(return, "close_range() syscall not supported");
++		if (errno == EINVAL)
++			SKIP(return, "close_range() doesn't support CLOSE_RANGE_CLOEXEC_ONLY");
++	}
++	ASSERT_EQ(0, ret);
++
++	EXPECT_EQ(-1, sys_close_range(3, UINT_MAX, CLOSE_RANGE_CLOEXEC |
++						   CLOSE_RANGE_CLOEXEC_ONLY));
++	EXPECT_EQ(EINVAL, errno);
++
++	/* The other flags do not make the pair acceptable. */
++	EXPECT_EQ(-1, sys_close_range(3, UINT_MAX, CLOSE_RANGE_UNSHARE |
++						   CLOSE_RANGE_CLOEXEC |
++						   CLOSE_RANGE_CLOEXEC_ONLY |
++						   CLOSE_RANGE_EXCEPT));
++	EXPECT_EQ(EINVAL, errno);
++
++	/* The bounds are checked with the new flag too. */
++	EXPECT_EQ(-1, sys_close_range(4, 3, CLOSE_RANGE_CLOEXEC_ONLY |
++					    CLOSE_RANGE_EXCEPT));
++	EXPECT_EQ(EINVAL, errno);
++}
++
+ TEST(close_range_bitmap_corruption)
  {
--	fd = find_next_bit(fdt->open_fds, max_fd + 1, fd);
-+	fd = next_open_fd(fdt, fd, max_fd, range);
- 	/* Hop over the window the range keeps. */
- 	if ((range->flags & FD_RANGE_EXCEPT) &&
- 	    fd >= range->from && fd <= range->to) {
- 		if (range->to >= max_fd)
- 			return max_fd + 1;
--		fd = find_next_bit(fdt->open_fds, max_fd + 1, range->to + 1);
-+		fd = next_open_fd(fdt, range->to + 1, max_fd, range);
- 	}
- 	return fd;
- }
-@@ -911,6 +922,12 @@ static inline void __range_close(struct files_struct *files,
-  * With CLOSE_RANGE_EXCEPT the range names what to leave alone instead:
-  * every open file descriptor outside of [@fd, @max_fd] is closed, or
-  * marked close-on-exec with CLOSE_RANGE_CLOEXEC.
-+ *
-+ * With CLOSE_RANGE_CLOEXEC_ONLY only file descriptors that have
-+ * close-on-exec set are closed. Together with CLOSE_RANGE_EXCEPT the
-+ * range names the close-on-exec file descriptors to keep. To keep none
-+ * of them, name a range that cannot hold an open file descriptor, e.g.
-+ * close_range(~0U, ~0U, ...).
-  */
- SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
- 		unsigned int, flags)
-@@ -920,7 +937,12 @@ SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
- 	struct fd_range range = {fd, max_fd};
- 
- 	if (flags & ~(CLOSE_RANGE_UNSHARE | CLOSE_RANGE_CLOEXEC |
--		      CLOSE_RANGE_EXCEPT))
-+		      CLOSE_RANGE_EXCEPT | CLOSE_RANGE_CLOEXEC_ONLY))
-+		return -EINVAL;
-+
-+	/* One marks close-on-exec, the other closes what is marked. */
-+	if (hweight32(flags & (CLOSE_RANGE_CLOEXEC |
-+			       CLOSE_RANGE_CLOEXEC_ONLY)) > 1)
- 		return -EINVAL;
- 
- 	if (fd > max_fd)
-@@ -928,6 +950,8 @@ SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
- 
- 	if (flags & CLOSE_RANGE_EXCEPT)
- 		range.flags |= FD_RANGE_EXCEPT;
-+	if (flags & CLOSE_RANGE_CLOEXEC_ONLY)
-+		range.flags |= FD_RANGE_CLOEXEC_ONLY;
- 
- 	if ((flags & CLOSE_RANGE_UNSHARE) && atomic_read(&cur_fds->count) > 1) {
- 		struct fd_range *drop = &range;
-diff --git a/include/uapi/linux/close_range.h b/include/uapi/linux/close_range.h
-index 39eddb3ab613..7da9ed95258a 100644
---- a/include/uapi/linux/close_range.h
-+++ b/include/uapi/linux/close_range.h
-@@ -9,6 +9,7 @@
- #undef CLOSE_RANGE_UNSHARE
- #undef CLOSE_RANGE_CLOEXEC
- #undef CLOSE_RANGE_EXCEPT
-+#undef CLOSE_RANGE_CLOEXEC_ONLY
- 
- enum close_range_flags {
- 	/* Unshare the file descriptor table before closing file descriptors. */
-@@ -19,12 +20,16 @@ enum close_range_flags {
- 
- 	/* Act on every file descriptor outside of the given range instead. */
- 	CLOSE_RANGE_EXCEPT	= (1U << 3),
-+
-+	/* Only close file descriptors that have the FD_CLOEXEC bit set. */
-+	CLOSE_RANGE_CLOEXEC_ONLY	= (1U << 4),
- };
- 
- /* Keep #ifdef working and let glibc skip its own definitions. */
- #define CLOSE_RANGE_UNSHARE		CLOSE_RANGE_UNSHARE
- #define CLOSE_RANGE_CLOEXEC		CLOSE_RANGE_CLOEXEC
- #define CLOSE_RANGE_EXCEPT		CLOSE_RANGE_EXCEPT
-+#define CLOSE_RANGE_CLOEXEC_ONLY	CLOSE_RANGE_CLOEXEC_ONLY
- 
- #endif /* _UAPI_LINUX_CLOSE_RANGE_H */
- 
+ 	pid_t pid;
 
 -- 
 2.53.0
