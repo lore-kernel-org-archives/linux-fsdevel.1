@@ -1,80 +1,57 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FE14BEE59
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 15:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842C34BFE6B;
+	Mon, 21 Sep 2026 15:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790005059; cv=none; b=meiiq6rCRVrNYgr7Y6jV9Ti3GkN83wzMWw8eeMsXqvlFOMeOJfdBvfNPGY5KrPDQZAqDZG/Iy+nicilvZ2oL9tR+kTQr192rVxb2pi4uhhIYF7ECOKgWldSsJRkMsLGMKriKt3mLzEAEFVuOovY2tzDFSZqquR1LaQMlV41gl0Y=
+	t=1790005076; cv=none; b=REqvDG2LjSznbPOQ76F7g/XTiuSqs97HA+PXdtyz6+yGJXOhFt26aQnggutgEq8xWv2QnP5mOyg5jnGEyfCNHJ1k+O3hmorFrvkimSfF6hTsBJrY1aCCiwyxbnzZ30RTXTBkhv0tOX8RKDn5D1wF1YN9v/Xg4dVDxuH/7fTY/ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790005059; c=relaxed/simple;
-	bh=tNY8mp7Zd9XSXR2DbfXcW8LgeX+dz5snbtzbNJsAzuw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kHw2+Ma903H5jf9RzH7nNFQ6F4Jf30k6qTEQAUh3gmPz+4cB2Jbs/0v4WKBvCfXJMGbopmyPCP2eRHkrj2jpRGpJYzSZ/JAhwRfeCmVDfe0J7854dHOerkGTvMG3wgyxTQYyR75I9YrKQ9dou9RvmoRx1sSvy+HfpoU+eVKyErA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=YTLr/zOr; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="YTLr/zOr"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so17732345e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 08:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=trailofbits.com; s=google; t=1790005055; x=1790609855; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/rARZR2bhx+oYDBih3ESVQmEAJ7+6xRagAey+ssOdNk=;
-        b=YTLr/zOrn3iTTERVcK5huDLlcWDnSS040Ht6O9I7Tf5ab+otg4vMDXHs5zjHFFVA27
-         PlAzAz41ZiCOhKklrSXPjEb0j1aq7RGNvMLmIWjTp6QzsDtLfQJ5e3vgkmyGLTX7fLiB
-         ZUB9nMHu6gf7Jm/RBLdyvqTdQCIyeg3kcALWiUAGdh4voC0r9a6CcnGMAMmF4QOsCuvr
-         s2g9r1tsUyiWjvqqZGVBKJ/mIYoZAoMlD5Riybi0jyNnenvImaVUOsRNNLsFlVR7E7dW
-         0GrgQEDfjVUnAoDdu64r0hevb7f0csZJH68mQk2JzyrSwm7MNf+WwCam8pOLfBZKP5tm
-         YZ9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790005055; x=1790609855;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/rARZR2bhx+oYDBih3ESVQmEAJ7+6xRagAey+ssOdNk=;
-        b=ceRfxBkAwcNOORAkoBbX4I5J9Xdsq7CJ9k5pt7W2bh9CreqncoaeQLTwUH0jJGHQ6V
-         OaAhKOUJenOw4iz6Z5ifwE7jKQxO5rM2FUVW1ycGbovjab5yPGjMhz7WGN7b/pDNei92
-         bot3FT37c8MNZoP3KfXn0MFp2rpWenlufYhOPTpex6eE9NeycOVbkOh943dUiPycoa+c
-         F1klL/K4jzRmsIC0iP6yW9/Aj/yDLiAfYKuffY6+zd979isjCZIXvJl0Xe4AWPp2FEvP
-         ff209pWPu7IEYXRL46sdeMlBnEW3wLfNY/cyhA13GTfs7J57VtWHypJa+tt1wBKSdy8W
-         6HqA==
-X-Forwarded-Encrypted: i=1; AKwUvBw8QSPjQfbATynqxi+bo1cVmWis6OjKPnemh0QO5AQUaTO7uMJ/L7cnBTq/VQqJwjWsLQlI3wMKjLVw7we7@vger.kernel.org
-X-Gm-Message-State: AFuF++lTHYBmxmMcTHfp/5ZfCgeUFEH5jDwys60YnLNR/Rl7GIZBRLpY
-	UO/SJOmHNlK8DKxm7GfowdaRO6duZGQg/yE7JpOV0N3SoVYgzRc9qx1wFu1CfciAyPQ=
-X-Gm-Gg: AYBFou3/p5PSN9iMqaYm8GZDFu/4v7ujxfeq9XYn3qePAfrNbkZCN9h4tbifamFQfBO
-	SSF9ZEOwod7AAJX0bE12QlvMScjrzo2m4oFrjv6QBYMy/wV0uqW3G7ekgZJXCRMaKc0QUn7Ysiu
-	01KtTXKruWT3K4isod074iIASwhb8kv48LOocL3ROMTtHUWNC9LhRq8LzObnJ89R94xYC9jPWj3
-	+0e35gW261aG36SVxlbyrGShUpBUs9akSoWkAWrCYqrEQPUbtprn3w879SZ2QRteUKhvRnUdVrY
-	VoSGdk+cs7CgE3cJdYGIRYwN8Padz4LJqMUj35yhnxdhBIfi58V+O9IhC4pv4MAzwI/wyW6Xcbm
-	FAbfWNszr+toJL8/lAfUmabgvBbfVWUjrW/sWRgFc9L+bb08EtpKWrBDplWHOS3EZd/lXynTcC1
-	BM2JwV2zkSlbicvC1gotwjSM2N1gMwjyVzoXJ4PKRQ/eaweJI+F+Snu13wut+mgnEMmChhfo1ap
-	rcst0Q=
-X-Received: by 2002:a05:600c:83cf:b0:49f:ce78:3562 with SMTP id 5b1f17b1804b1-49fce783698mr82645135e9.19.1790005054514;
-        Mon, 21 Sep 2026 08:37:34 -0700 (PDT)
-Received: from localhost ([2a02:168:9d56:1:e1c4:67b1:23e:28ed])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49fcd0f7b9bsm237438295e9.5.2026.09.21.08.37.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 08:37:33 -0700 (PDT)
-From: Bruno Produit <bruno.produit@trailofbits.com>
-To: Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>
-Cc: Kyle Zeng <kylebot@openai.com>,
-	linux-fsdevel@vger.kernel.org,
+	s=arc-20240116; t=1790005076; c=relaxed/simple;
+	bh=G5bDhEAGtL4WetoIn196tHpjn9pkbZHdl7wylSvJY0g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OkBe3z9B8WYhMlLjHBSECpKhwpjnSXWCsX9mXlULIMQ9O8AyTt0i0p2eDAXS0RVgS/1hWvDcW2znHNnERRNZTVKGd8H/IsQpGh6TNwQWppXw4Cuy2QwHZoppp6JYuzEli4e3U6hG4maQ9lhwpyh3GCa28LDAa34n2rzXjBl3Ayw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id A4475581499;
+	Mon, 21 Sep 2026 15:13:19 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1A0323ECFE;
+	Mon, 21 Sep 2026 15:13:07 +0000 (UTC)
+From: Alexandre Ghiti <alex@ghiti.fr>
+To: Johannes Weiner <hannes@cmpxchg.org>,
+	Yosry Ahmed <yosry@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>
+Cc: Kairui Song <ryncsn@gmail.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Wei Xu <weixugc@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Kunwu Chan <kunwu.chan@gmail.com>,
+	Tal Zussman <tz2294@columbia.edu>,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Dominik Czarnota <dominik.czarnota@trailofbits.com>,
-	stable@vger.kernel.org,
-	Bruno Produit <bruno.produit@trailofbits.com>,
-	syzbot+d729df28d933979e017a@syzkaller.appspotmail.com,
-	syzbot+2eac7d175baf21e6a5d5@syzkaller.appspotmail.com,
-	syzbot+7155b2fe09e033c91381@syzkaller.appspotmail.com,
-	syzbot+adeb387cede15eb11607@syzkaller.appspotmail.com,
-	syzbot+ae7f2423f3648100506d@syzkaller.appspotmail.com
-Subject: [PATCH v2] hfs/hfsplus: serialize B-tree close against folio release
-Date: Mon, 21 Sep 2026 17:37:29 +0200
-Message-ID: <20260921153729.600313-1-bruno.produit@trailofbits.com>
+	linux-fsdevel@vger.kernel.org,
+	Alexandre Ghiti <alex@ghiti.fr>
+Subject: [PATCH v6 0/3] mm: zswap: free cold writeback folios promptly
+Date: Mon, 21 Sep 2026 17:13:01 +0200
+Message-ID: <20260921151306.625134-1-alex@ghiti.fr>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -83,89 +60,186 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alex@ghiti.fr
+X-GND-Cause: dmFkZTFQEKlht+YIrcaTAFbBnx61mYGElJSN/TDs9wb5Yw/MIniGq++jckvHEXjwpBJRuuD1HdYHZTep935Idam3fumpwXBryWWeP0w8BVREUivVnbrvuQgxRhCZSilw7Vha0RiBKgWJe0jn2EeQYqHYzuof1xFB040bBPwCnmVpchBqDIwQg5Td++/IofK3lUNPgzsrQB/PbL5qnmu7FOzqi/oO6657zjnGawFdQ3oI933OCbdtjMYABP4DSC9PoPyLNL9Jm3z4Lk3gFTiVMU0Tt5LlxvKoCNHFQNbCIYZ5Ln+A1PVRWUAcCdsWCzTZkydMZzu0aWRs/BzLiH+xAIxoUH+iSdfWTnXXEk2fXjU6yHurjXGu+4GsfbG969+j68nrcf42kX9/tXgxVvBI+yzjYd5d7wYV8bO52lYByWJX4nn+Jwedi6GC1TWZ00zu2iFzrXaGoJ5S3Ly/e+OQy2tHj38CQfVpcxnOeRNi9pD6qtqxMlv4kcZa9qanXd7POExukyuR2tQozZkb1x2W4J+65DD7VUBP0x8Zb75kqg3NoowHMN5UZYl4rHxe/UXQcCTrTbCj4TK6Bbn9zOx/RoYlTdLMUp3G/J67FQ09NCwmZ8QG1D64BrVxWSyMbMSS+bLBgNFSUoS3vFXwCSOzPYbks+izmj9YvpxrwSIQ8MMgguBrIA
+X-GND-State: clean
+X-GND-Score: -100
 
-B-tree nodes with a zero reference count remain in the node hash until
-folio reclaim or tree teardown frees them.  The folio release callbacks
-remove nodes while holding hash_lock, but hfs_btree_close() walks and
-frees the same hash without that lock.  Reclaim can therefore unhash and
-free a node after close has loaded its pointer, causing a use-after-free
-or double-free. 
+When zswap writes an entry back, it allocates an order-0 swap cache folio,
+decompresses into it, and issues the write. The folio is cold by
+construction, yet today it is left on the LRU for page reclaim to find and
+free later. That wastes a reclaim scan and keeps cold memory resident
+longer than necessary.
 
-The following syzkaller crashes seem to be the same UAF in 
-{hfs,hfsplus}_btree_close() (or {hfs,hfsplus}_bnode_unhash()) and follow 
-the same pattern, but do not contain a reproducer to confirm. 
+Rather than implement this in zswap, extend the existing dropbehind
+mechanism to swap cache folios and have zswap opt into it (Yosry). A
+PG_dropbehind folio is already dropped from its cache once writeback
+completes instead of being left for reclaim; for a swap cache folio that
+"drop" is removing it from the swap cache.
 
-Detach each node with hfs_bnode_unhash() while holding hash_lock before
-inspecting and freeing it.  Drop the lock before hfs_bnode_free() so a
-large tree is not freed while holding a spinlock.  Apply the same fix to
-the matching HFS+ implementation.
+  Patch 1 - move LRU insertion out of the swap cache allocator into its
+            callers, so zswap writeback can allocate off the LRU.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Reported-by: syzbot+d729df28d933979e017a@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=d729df28d933979e017a
-Reported-by: syzbot+2eac7d175baf21e6a5d5@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=2eac7d175baf21e6a5d5
-Reported-by: syzbot+7155b2fe09e033c91381@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7155b2fe09e033c91381
-Reported-by: syzbot+adeb387cede15eb11607@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=adeb387cede15eb11607
-Reported-by: syzbot+ae7f2423f3648100506d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=ae7f2423f3648100506d
-Assisted-by: Codex:gpt-5.6-sol
-Reported-by: Kyle Zeng <kylebot@openai.com>
-Signed-off-by: Kyle Zeng <kylebot@openai.com>
-Signed-off-by: Bruno Produit <bruno.produit@trailofbits.com>
----
- fs/hfs/btree.c     | 7 +++++--
- fs/hfsplus/btree.c | 7 +++++--
- 2 files changed, 10 insertions(+), 4 deletions(-)
+  Patch 2 - drop dropbehind swap cache folios on writeback completion.
 
-diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
-index 41b4e8fc9..4f0ddc76e 100644
---- a/fs/hfs/btree.c
-+++ b/fs/hfs/btree.c
-@@ -310,14 +310,17 @@ void hfs_btree_close(struct hfs_btree *tree)
- 		return;
- 
- 	for (i = 0; i < NODE_HASH_SIZE; i++) {
-+		spin_lock(&tree->hash_lock);
- 		while ((node = tree->node_hash[i])) {
--			tree->node_hash[i] = node->next_hash;
-+			hfs_bnode_unhash(node);
-+			spin_unlock(&tree->hash_lock);
- 			if (atomic_read(&node->refcnt))
- 				pr_err("node %d:%d still has %d user(s)!\n",
- 				       node->tree->cnid, node->this,
- 				       atomic_read(&node->refcnt));
- 			hfs_bnode_free(node);
--			tree->node_hash_cnt--;
-+			spin_lock(&tree->hash_lock);
- 		}
-+		spin_unlock(&tree->hash_lock);
- 	}
- 	iput(tree->inode);
-diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-index 2ea8cd565..bd4dbdbc8 100644
---- a/fs/hfsplus/btree.c
-+++ b/fs/hfsplus/btree.c
-@@ -417,15 +417,18 @@ void hfs_btree_close(struct hfs_btree *tree)
- 		return;
- 
- 	for (i = 0; i < NODE_HASH_SIZE; i++) {
-+		spin_lock(&tree->hash_lock);
- 		while ((node = tree->node_hash[i])) {
--			tree->node_hash[i] = node->next_hash;
-+			hfs_bnode_unhash(node);
-+			spin_unlock(&tree->hash_lock);
- 			if (atomic_read(&node->refcnt))
- 				pr_crit("node %d:%d "
- 						"still has %d user(s)!\n",
- 					node->tree->cnid, node->this,
- 					atomic_read(&node->refcnt));
- 			hfs_bnode_free(node);
--			tree->node_hash_cnt--;
-+			spin_lock(&tree->hash_lock);
- 		}
-+		spin_unlock(&tree->hash_lock);
- 	}
- 	iput(tree->inode);
+  Patch 3 - zswap allocates its writeback folio off the LRU and marks it
+            dropbehind, opting into the mechanism above.
+
+Note: patch 1 also appears as patch 1 of the zswap writeback refault
+series [1]. It is the same patch. Both series need it and both are meant
+to apply on their own, so it is posted in each; whichever lands first, the
+other should drop it.
+
+This version is based on mm-stable. v4 was based on Linus' tree because
+Tal Zussman's BIO_COMPLETE_IN_TASK work had not reached the mm tree yet;
+it has since, so that detour is no longer needed. Thanks to Matthew and
+Barry for pointing that series out!
+
+v1: https://lore.kernel.org/linux-mm/20260718093723.153324-1-alex@ghiti.fr/
+v2: https://lore.kernel.org/linux-mm/20260727143618.1582318-1-alex@ghiti.fr/
+v3: https://lore.kernel.org/linux-mm/20260818163221.589352-1-alex@ghiti.fr/
+v4: https://lore.kernel.org/linux-mm/20260825135209.3135169-1-alex@ghiti.fr/
+v5: https://lore.kernel.org/linux-mm/20260911121341.178028-1-alex@ghiti.fr/
+
+[1] https://lore.kernel.org/linux-mm/20260911092012.92399-1-alex@ghiti.fr/
+
+Changes in v6:
+- No functional change: this version only updates changelogs and collects
+  tags.
+- Patch 1: fix the changelog. The first paragraph describes the behaviour
+  before the patch, so it must name swap_cache_alloc_folio(), not the
+  __swap_cache_alloc_folio() this patch introduces, and the last paragraph
+  now says the helper is renamed as well as that the LRU insertion is
+  deferred (Kairui).
+- Patch 2: fix the changelog. The swap cluster lock is a spinlock taken
+  with interrupts disabled and does not sleep; the folio lock is what the
+  drop blocks on, and that is why the completion needs task context. Also
+  spell out why it blocks instead of using folio_trylock() (Barry).
+- Collect Reviewed-by tags. Thanks to Kairui, Barry and Nhat for the
+  reviews! Kairui's tag on patch 1 was given on the posting of the zswap
+  writeback refault series [1], which carries the same patch.
+
+Changes in v5:
+- Rebase from Linus' tree onto mm-stable, which now carries Christoph's
+  swap_io_ctx work. __swap_writepage() takes a swap_io_ctx and the bio is
+  built by swap_bdev_submit_write() from a batch of folios, so patch 2 sets
+  BIO_COMPLETE_IN_TASK there instead of in the old per-folio async helper.
+  The bio can hold several folios, so the flag is set if any of them is
+  dropbehind; only the asynchronous branch needs it, as SWP_SYNCHRONOUS_IO
+  already completes in task context. Patch 3 follows the new
+  __swap_writepage() + swap_write_submit() pair.
+- Patch 3: clear PG_active on the writeback folio after allocation.
+  __swap_cache_alloc_folio() evaluates a refault, which can set PG_active;
+  with the folio kept off the LRU nothing clears it again and the folio is
+  freed with a PAGE_FLAGS_CHECK_AT_FREE flag set. This goes away once the
+  refault evaluation moves out of the swap cache allocator in [1].
+- Patch 2: rename remove_mapping_reclaim() to remove_mapping_set_shadow().
+  Storing the workingset eviction shadow is the only thing that sets it
+  apart from remove_mapping(), so name it after that rather than after the
+  caller that historically did it (Nhat).
+- Patch 3: the success path now returns directly, so the "if (ret)" in the
+  error path is dead and the label is only reached on failure. Drop the
+  check and rename the label from "out" to "err". Thanks Yosry for
+  spotting this!
+- Patch 1: take the version from the zswap writeback refault series [1],
+  which is where it has seen the most review. The changelog now describes
+  both users of the change instead of only this one, and it picks up the
+  stale swap_cache_alloc_folio() comment fix in mm/swapfile.c (Kunwu). The
+  two copies are now identical apart from the base they apply to.
+- Collect Reviewed-by tags. Thanks to Kunwu and Nhat for the careful
+  reviews, and to Usama for the ack on patch 1!
+
+Changes in v4:
+- Rebase on BIO_COMPLETE_IN_TASK: set it on dropbehind swap writeback like
+  the file dropbehind paths do, and drop the folio directly from
+  folio_end_writeback(). This removes the per-CPU llist, the workqueue and
+  the reuse of folio->lru as the list node.
+- zswap now drops its folio reference before starting writeback, so the
+  swap cache holds the only one and remove_mapping() sees the refcount it
+  expects. This fixes the drop on synchronous-IO devices and the race
+  Sashiko reported, where the drop could run before zswap released its
+  reference and fall back to the LRU. Verified on zram (the only
+  SWP_SYNCHRONOUS_IO backend I have): over ~6.7M writebacks per run, 99.999%
+  of the folios are dropped, and the refcount fallback fires 37-50 times.
+- Use remove_mapping_reclaim() rather than adding a boolean argument to
+  remove_mapping(), which keeps the calling code readable (David). This also
+  leaves the existing remove_mapping() callers untouched.
+- Patch 1: correct the changelog. The folio has to stay off the LRU because
+  folio_add_lru() leaves a reference in the per-CPU LRU batch, not because
+  of the free-time page-flag checks. Measured on zram, adding the folio to
+  the LRU instead drops the freed rate from 99.999% to 2.7%.
+
+Changes in v3:
+- Drop the synchronous-IO special case in zswap writeback (Yosry, Nhat).
+- Use mem_cgroup_tryget()/mem_cgroup_put(): struct mem_cgroup is only
+  defined under CONFIG_MEMCG, so css_tryget()/css_put() failed to build
+  with CONFIG_MEMCG=n.
+
+Changes in v2:
+- Make swap dropbehind a generic core-mm mechanism that zswap opts into,
+  rather than a zswap-specific implementation (Yosry).
+- Allocate off the LRU by moving folio_add_lru() out of the swap cache
+  allocator into its callers; rename it to __swap_cache_alloc_folio()
+  (Kairui).
+- Skip the folio in the free path if it is still under writeback (Nhat).
+
+Results
+-------
+Paired baseline vs series on async swap (NVMe). Each
+workload runs confined to a memory cgroup (memory.max) small enough to force
+zswap shrinker writeback.
+
+Kernel build (defconfig, make -j4; memory.max = 600M):
+
+  metric            baseline       series      delta
+  pgrotated           441028         2521     -99.4%
+  pgsteal_direct     3524343      2869004     -18.6%
+  pgscan_direct      8393791      7765008      -7.5%
+  zswpwb              705129       699019      -0.9%
+  build time (s)        1155         1114      -3.6%
+
+Of the 699019 folios written back, 698990 (99.996%) were freed promptly on
+writeback completion; only 28 fell back to reclaim.
+
+MySQL/OLTP (sysbench, 10 tables x 1M rows, 512M buffer pool, 8 threads, 300s;
+memory.max = 256M):
+
+  metric            baseline       series      delta
+  transactions/s      153.87       163.30      +6.1%
+  p95 latency (ms)    157.42       145.82      -7.4%
+  avg latency (ms)     52.09        49.05      -5.9%
+  pgrotated           743738        22460     -97.0%
+  pgsteal_direct     6886490      5445278     -20.9%
+  pgscan_direct     13462510     10820730     -19.6%
+
+Future work
+-----------
+Barry suggested extending this to MADV_PAGEOUT and general reclaim. I
+prototyped dropbehind for all reclaimed swap folios and it regressed
+sysbench OLTP throughput by ~15% on NVMe swap: dropping the swap cache
+immediately turns cheap in-cache refaults into disk reads and collapses
+swap readahead clustering. Neither blk-wbt, mq-deadline nor a PG_workingset
+gate recovered it. MADV_PAGEOUT alone may still be worth it, since there
+userspace has explicitly declared the range cold, but I have not measured
+that case in isolation yet.
+
+Alexandre Ghiti (3):
+  mm: swap: move LRU insertion out of the swap cache allocator
+  mm: swap: drop dropbehind swap cache folios on writeback completion
+  mm: zswap: drop cold writeback folios via swap dropbehind
+
+ include/linux/swap.h |  6 +++++
+ mm/filemap.c         | 19 ++++++++++++++
+ mm/page_io.c         |  9 +++++++
+ mm/swap.h            |  6 ++---
+ mm/swap_state.c      | 62 ++++++++++++++++++++++++++++++++++++++------
+ mm/swapfile.c        |  2 +-
+ mm/vmscan.c          | 49 +++++++++++++++++++++++++++-------
+ mm/zswap.c           | 36 +++++++++++++++++--------
+ 8 files changed, 156 insertions(+), 33 deletions(-)
+
+
+base-commit: 0d9ff90a5422cc7509258aaaba1e7481df4d332a
+-- 
+2.53.0-Meta
+
