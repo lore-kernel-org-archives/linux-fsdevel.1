@@ -1,76 +1,114 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5943ADBA2;
-	Mon, 21 Sep 2026 08:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81A73B14AC
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 08:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789978967; cv=none; b=tPR0S5TbkDSCgGkywEyOt9535JUc2xl2/n6y0Osn6SgOqFsxTIEQ20dSf0KWSsKebdhPjTbh9Sc3fi2jFRwoai8bJhrB+Hb55UEuaeABdcxneyeN3mUr7o86qMg0aVI40iewuhwrOjvADAyI9c/4pwW+UD4tEn5xsrFTZN2EtpE=
+	t=1789979528; cv=none; b=i5Pod+Oi63hsIw0iYzJi7aA4GBqf45bYMiANXeRhbeffH3tlyXDXMaE8Cls7CtfBAuyCg+PyqZ1B4BLDcEj0CNdhQrmWX3mDRVfOrFn/jHIIL1AAIhmY/VBwlQClqe950uWkkOL8T7g4zBwaVdsgIjaX6MyR26DVUtqZ18XBVKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789978967; c=relaxed/simple;
-	bh=f0PWFQhau7H1t+kAwksDAgLgoeg/2x1qOVl/fF8u5rM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LJVf23Iyd9Mreubkl+9n3aBSq19bc2OvQrMJlNAtOrSHQMwneZSnFc2FHZfGN3mt3FqBkUNd877yAaTeSGSt12UNnKE7py9X8oCbu7SrEJhg7sVTBHAEAN67GSBlGxSiwj+5XhoWzFBAYbVM4aTmL5xujVKJbRkilaXM0TAT5wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 05CDC68B05; Mon, 21 Sep 2026 10:22:41 +0200 (CEST)
-Date: Mon, 21 Sep 2026 10:22:40 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: 0wnerD1ed <l7z@0b1t.tech>
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>, Tal Zussman <tz2294@columbia.edu>,
-	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 13/16] xfs: add support for lazy direct read bounce
- buffering
-Message-ID: <20260921082240.GA19833@lst.de>
-References: <20260909060924.1102037-1-hch@lst.de> <20260909060924.1102037-14-hch@lst.de> <arDN1UdZIydNLUjz@shinmob> <CAKTh27_szTVmVmV26ASynzdJUwQEe49wCxMNq5ifRH9z7tiykA@mail.gmail.com>
+	s=arc-20240116; t=1789979528; c=relaxed/simple;
+	bh=FpulTvokzqTeYJ3OxmxU/rNnFJQPKqgmcY5hN5CfRuM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jtaTGIy3WpMco8VNcb+BGckGtYgJnKtN9C4U4hxTJpAzeNGczuVDlQWxv1P6XVlY35xFhpN/d6Yp9ViuG2+5kH4wG+SlLCTWnBxrTdQF17b2h714TymQZ+2EKogtppLcCoinrsTujzYufoCo7Jp+hvB+h6zkAWls1+c1cUlwblg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RgeWXc7T; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RgeWXc7T"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d8239so19084495e9.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 01:32:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789979525; x=1790584325; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=b4yvBlT2oLUB9GwD1lafs/1zu+WTyBTei4mStM1E9qs=;
+        b=RgeWXc7TJJdM4IP3yNb4OxJR8gpgeUpY8O8JeOwOmFkm+SCAWv8s0Z4noFVsBazhfw
+         Z11O4BU5SJbq6p5Yo9tfSlhwWmhYwBbeZWMukpFNlraMJzv52hadT7QBpNMRe1l5h2eB
+         aZpC+1RftVfvulgcHnZxvYlpbG/OLTlcHuDBR4rAp2xXpBr8Ju/tLRqVxRPSiUKze9tt
+         h1zl7dTAkVxzuivHCw3VbCK3rqv28HNMl4f1jm4IAcu1ul7AVkNXWbNZaA853T/iJ3+w
+         pPDv8Emql11DOGhA4+HQ1E5073c7iKeJgPMVxj7hSlhaZwik+ieXIRdYJDNEapM7oA2Q
+         9kqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789979525; x=1790584325;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=b4yvBlT2oLUB9GwD1lafs/1zu+WTyBTei4mStM1E9qs=;
+        b=oPIGe9mFjth7eag5pFwnGMlGTKiPmnNBtC1rqN1GDW2y2jq3IKDk9rmdwdi7c1vC1t
+         nREFSyrKK5IpP/fI0cyXrp/KOi17gve38Gb4aYjIW9PynJXRlLFQA9UTkFeqZXldLI5T
+         IUPExK1NVdiEymr7nv2jWUcxe7BmzY8/6/DhVsxL92Cx7BfkLS9U9X4izrwZVVcCvZeZ
+         PeHWpr7ERGRGNRRjYOS9i8RUpIvezGB4L6l13VXna8MZmGxysFBZbH5eD++XGviPgIqe
+         eCkDf8AwuV3kammgKhSQNmQihaF/LwnukxZFvXSW9jc6uFU6azsY7KK5ZkT8mXI/Zg2P
+         YGCA==
+X-Forwarded-Encrypted: i=1; AKwUvByEMFoON4XNBLL1+EwjLE4mu1A8OfEJg+YNbsS2FblAZ9GRfgfH60n9yVMJtAX9LWiJD9vnGdVupbtuQnZc@vger.kernel.org
+X-Gm-Message-State: AFuF++mLLYtpFpiUX1mAfwjkNbrGFpmbvwqy6NlJEZI7FUup6DLkYd58
+	t/9a6TVw3PWRPihF/7fdqMpO683AQHWZ51W8N5cxQJj8gAnEs5xc+wfI
+X-Gm-Gg: AYBFou1YtD1h5RcogxuRanWovJoiAaHPWjQdgFsE3cupufKykx6eRILwqEXd+61m/lv
+	ZbO7orb7gGpdS6sDGiuv8QLTThENDdjCKZcytfMWyPAHzxmPK+n7TxjAXv/objod0d9cyNgmr7z
+	nV0owXvS+bHj6pNf271s8aq5fMYtEX1AjSFqnfc3NhUPfKGkzbEigD+eO1gEkhZIbT/1UAAWUpz
+	qcvJiN87vUmiXdvTkLMRdwgrR7Bg53tk2WtlKrQki6DFmB+5YMaz+MCbtn/NsqanpUE4Aubhw5m
+	zb8D2M+xqoh+f7QsTODiYP3n1g+KTfc8ukA5TAbZ+R7A7FQtqyU0a6OjVfieIp4wqh/4dDz9Lsr
+	oQ/YuJz3qsDDzrtCMaWeqmR6bhO3jzozqkL+4X+90I4J9AWM1d13WLcqPfrx/hUE2rt0/mRLpiB
+	tyn8K1GVrlcKJJTjAAh7Z1q6BGTAZyPc5yzEnQdYNmrrLI7Fc75dIOp4G+slTqxIBmcYzdkHL9a
+	EUqfHgtuefhJ+W9VBL5NEqxO28uBKhl1/IBApVQzFcV
+X-Received: by 2002:a05:600c:674f:b0:49d:4ef:bf70 with SMTP id 5b1f17b1804b1-49fc56aef4fmr130546835e9.10.1789979524541;
+        Mon, 21 Sep 2026 01:32:04 -0700 (PDT)
+Received: from andreayoga.wind3.hub ([31.189.116.68])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd10d174sm222806105e9.11.2026.09.21.01.32.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 01:32:04 -0700 (PDT)
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Brian Foster <bfoster@redhat.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Pankaj Raghav <p.raghav@samsung.com>,
+	Dave Chinner <dchinner@redhat.com>
+Cc: linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andrea Parri <parri.andrea@gmail.com>
+Subject: [PATCH 0/3] iomap: fix error handling regressions
+Date: Mon, 21 Sep 2026 10:31:30 +0200
+Message-ID: <20260921083133.2960-1-parri.andrea@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKTh27_szTVmVmV26ASynzdJUwQEe49wCxMNq5ifRH9z7tiykA@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 21, 2026 at 04:05:52PM +0800, 0wnerD1ed wrote:
-> Thanks for the report. I've taken a look at the v3 series. block/046
-> deliberately uses iovec lengths of 1, one logical block, and one logical
-> block minus 1 to create the partial extraction state that exposed the
-> original double unpin.
-> 
-> Patch 13 stops passing IOMAP_DIO_BOUNCE to iomap_dio_rw(), so the
-> request now goes through the ordinary bio_iov_iter_get_pages() path
-> first. That path validates each iovec against bdev_dma_alignment(),
-> and the one-byte first iovec is rejected with EINVAL before it is
-> pinned and before xfs_ioend_submit_read() can select lazy or always
-> bounce mode.
+Fix three independent error handling regressions in iomap:
 
-Yeah, and this is supposed to be rejected.
+ - clear the writeback context after a failed ->writeback_submit() call,
+   preventing an already completed ioend from being submitted again;
+ - preserve an iomap iteration error when iomap_fiemap() has a pending
+   extent to emit; and
+ - preserve a direct I/O data path error when sub-block tail zeroing
+   succeeds.
 
-> Setting csum/read_bounce to always therefore would not make this
-> particular request reach the new bounce implementation. Patch 16 also
-> removes bio_iov_iter_bounce_read(), including the special bvec layout
-> that block/046 was written to exercise. Changing the helper to use
-> aligned input and forcing always mode would test the replacement iomap
-> implementation, but it would not preserve coverage of the original
-> regression.
-> 
-> I have prepared a minimal local blktests change that keeps block/046
-> active on kernels using the legacy implementation and marks it not run
-> when the mounted XFS instance exposes the new csum/read_bounce
-> interface. That preserves the existing fixed-versus-vulnerable
-> coverage without treating EINVAL as a successful result. A separate
-> test could cover the new lazy and always implementations with aligned
-> input and an oracle appropriate to those paths.
+The fixes have no ordering dependencies and can be applied or backported
+independently.  Each issue was reproduced before and after its respective
+fix.
 
-Sounds good, although trying to exploit things with two small bio_vec
-in general sounds like a good idea..
+Andrea Parri (3):
+  iomap: don't resubmit an ioend after ->writeback_submit() failed
+  iomap: don't lose a fiemap iteration error when emitting the last
+    extent
+  iomap: don't lose a failed direct I/O bio's error when zeroing the
+    tail
+
+ fs/iomap/direct-io.c | 11 ++++++++---
+ fs/iomap/fiemap.c    |  8 ++++----
+ fs/iomap/ioend.c     | 10 +++++++++-
+ 3 files changed, 21 insertions(+), 8 deletions(-)
+
+
+base-commit: 93f51579e7df248780214094418f205253383cc5
+-- 
+2.53.0
