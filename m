@@ -1,83 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE08147A0C2;
-	Mon, 21 Sep 2026 10:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715643B8950;
+	Mon, 21 Sep 2026 10:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789987928; cv=none; b=jmOBe14X82EScC8rlcEdJYcWqygTmDRq8N1GbvuLt6vvRb+Pk59uaIhi/lRnpBeGuuQFcXbS/9+Dgj9vYdJdT3ja6HWb5WsH9DdaITV0kfoUS9Geni51UVvMtlqQdxqq9C/jgU+jVklzvjww8AcKEhrIYuweCzqf5ZnR8SqL1Qs=
+	t=1789988142; cv=none; b=gNmuxRAjC+O39wAqBM+Y58I/Vpea4hnriF8wp44VYE0tQ4fTsZtwa3Rry4x2o7QIglwIGxJ4E8bWEgrl+EwlTTxfsFcU8McPbqqjF9GMP0Q0srXR5kQw5wBmixPy9DhCHU3HblYEJzjgDXW+b39RuHDWQcCE32vH/kTvUBXp53Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789987928; c=relaxed/simple;
-	bh=2yOjYAIF6je5Usz2jDPKonU9S52y0hEoyOxYx5vVbgk=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=CDjDK7nrdORfni3Vy1/FCPLIqepmGWYWKAP4yLSCMBsxFm3LVM3nQleeCaAkWzpdMvVlWAd88xG6/KnnpgFYeu5+KaV1djLDlnBMG+DgflLmqL/0LE35gwx04Fa/AyAQyNgQtfQ4GS1pvuZIQFii8Tj4JY8m3CoFoXLDq1KFgpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2/ARBWL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789988142; c=relaxed/simple;
+	bh=0lV9mzOvMXOJsCm50AL0k4mE1WiMkBEe5vE/lWq7H1U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZLJCASvktMT5FuJcBITLOLC1KuNn57X4gOYfwr/DYT/To9uFIm5LT9jkiopDSm3ACNX+rHEMCW+lvR0KI5opTDTXNuwLlbPInFpxRx+C0/jh987RRMslDcNKnej5EJ8a9O52hZWOrepnzkCQNzuZaKAVHMMAh94HejCrUHmF26o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PSSOTLFo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2/ARBWL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A5001F000FF;
-	Mon, 21 Sep 2026 10:52:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PSSOTLFo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 155F41F000FF;
+	Mon, 21 Sep 2026 10:55:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789987926;
-	bh=lKLJe92aVR8cHrhFneRg88j7sXG35q2Vmlm5uDiLVCA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=T2/ARBWLeGHSlrpe4bAuhGSmBr44RpxAcaS/cxFBl4fXDBa3EI5IlTzo24WpaT1Hq
-	 qZOfLdgZPnNhOq20bPiPe/39LIway+9pUZTzPtxojeCaI3l1ryq5eRd2fbxJEubTKA
-	 lH4Twe0HbBXnS089Sv0Xn9Gx0U//qlfNk+tqGJX83vwg2llOcXApa9MV5DYBgtVctS
-	 bxkhQeGvJ21vi0su0SkSt/zm0POeIFDdrEKGRBe/FH/5FU8DXCp+R2FsGhhWZ0suHk
-	 +MD2sD9GH75WQMXAEzreFe+cNwnprmgXVUe3lRD+9SAgKev1wo1fhBkPTJI4INcD+l
-	 TIAXZ5Ufb4j3A==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] vmcore: report the release of the crashed kernel
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Breno Leitao" <leitao@debian.org>, "Baoquan He" <baoquan.he@linux.dev>, "Mike
- Rapoport" <rppt@kernel.org>, "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Pratyush
- Yadav" <pratyush@kernel.org>, "Dave Young" <ruirui.yang@linux.dev>, "Andrew
- Morton" <akpm@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, kexec@lists.infradead.org, kernel-team@meta.com
-In-Reply-To: <20260921-kdump_print-v1-1-e445fec3177c@debian.org>
-References: <20260921-kdump_print-v1-1-e445fec3177c@debian.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Sep 2026 10:52:05 +0000
-Message-Id: <20260921105205.9A5001F000FF@smtp.kernel.org>
+	s=k20260515; t=1789988141;
+	bh=XrZuJjYH4FBtiknCE3rWWFSJ54YNsVCSIBI9DrJnVGQ=;
+	h=From:To:Cc:Subject:Date;
+	b=PSSOTLFof3UyB0LHBgWJnnFTbJef1b5Bqa4d9p2gHSb/ePoDzypv3b0qzJwl9CQd4
+	 2BirKxJ7iZZxcQMFZgfsNVN07BG7fbmAfBxC+rdRcPeb+pXjG5jyIGbUrQ8wVvLXBa
+	 RdrpMxhWg2M0oTLQFX1Il99gBYrD+MwMoRYtf9MEdE1TdJSxf5fd/LXFKvV/+2H3SH
+	 Ol5xcvea7gIxFO3tFJNquH4GVzHEaap2VaaQ7+Mh4+xRevU2QcrJkZKRnX+Oj28xf4
+	 fbuKIF7L1EJep+MtW91+gZDN6402QbenEUU7IkbSxFgX3T8c7m2dHyaCeloPlyzGWi
+	 UBPckg5RBdRFg==
+From: Alexey Gladkov <legion@kernel.org>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: =?UTF-8?q?Ondrej=20Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <kees@kernel.org>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Serge Hallyn <serge@hallyn.com>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 0/6] sysctl: add typed field descriptors
+Date: Mon, 21 Sep 2026 12:54:47 +0200
+Message-ID: <cover.1789987960.git.legion@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> kdump runs in a very small environment and cut-down set of drivers, and
-> it can die before the dump lands: it runs out of memory, a device hangs
-> on reset, or a watchdog fires while the dump is still being written out.
-> This happens about a single high digit percentage on most of big scale
-> datacenters.
->=20
-> When that happens the only evidence left is what the capture kernel
-> printed to the console, and that does not say which kernel crashed.
->=20
-> A fleet typically pins one kdump image and boots it after crashes from
-> many different production kernels, and it is useful to understand what
-> are the combination of crashed kernel panic and succesful kdump
-> collection.
->=20
-> Whether the dump completes at all tends to depend on the kernel that
-> died: memory pinned, devices in flight, dump size.
->=20
-> The release is already recorded.  crash_save_vmcoreinfo_init() puts
-> OSRELEASE=3D in the VMCOREINFO note, and by the time vmcore_init() has run
-> parse_crash_elf_headers() that note sits in elfnotes_buf.  Walk the notes
-> for it and print:
->=20
->   vmcore: dump is from kernel 7.3.0-rc3-next-20260917
->=20
-> Given this is cheap and useful, I think it is worth adding to vmcore, to
-> improve kdump monitoring.
->=20
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+Hi,
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+Some sysctl users allocate a private copy of an otherwise static ctl_table
+for every namespace or device, then rewrite data and limit pointers before
+registration.  Besides the per-instance allocation, these fixups are often
+addressed by table index, so changing the table can silently associate an
+entry with the wrong data or limits.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260921-kdump_prin=
-t-v1-1-e445fec3177c@debian.org?part=3D1
+This series adds struct sysctl_field as an alternative descriptor for such
+tables.  A field records the value type and an offset into an object
+selected at registration time.  The type-specific offset helpers are small
+wrappers around offsetof() and only add a compile-time check of the
+referenced member type.  The sysctl core derives the handler, size, data
+and limits, and builds a temporary ctl_table when invoking existing
+handler, permission and BPF interfaces.
+
+A struct sysctl_context identifies the object shared by the whole
+registration and is copied into the table header.  Subsystems which need
+more than a namespace can embed it as the first member of a larger context
+and select the object to which field offsets apply.
+
+Existing ctl_table users are unchanged, and subsystems can migrate one
+table at a time.  Converted tables remain static and read-only instead of
+being copied and patched for every instance.
+
+Compared with the previous RFC [1], this drops the per-field accessor
+functions and the macros which generated them.  The first two patches
+prepare the sysctl core without changing its external behaviour.  The third
+patch adds the new descriptor, followed by conversions of the IPC, mqueue
+and ucount tables as small users of the interface.
+
+This is only the first part of the conversion.  Network sysctls and the
+other subsystem-specific users will be submitted as separate follow-up
+series so they can be reviewed by their respective maintainers without
+making this initial series excessively large.
+
+[1] https://lore.kernel.org/all/cover.1787770053.git.legion@kernel.org/
+
+Alexey Gladkov (6):
+  proc: sysctl: address table entries by index
+  sysctl: add unsigned int limit constants
+  sysctl: add typed field descriptors
+  sysctl: ipc: use typed fields for IPC namespace sysctls
+  sysctl: mq: use typed fields for IPC namespace sysctls
+  sysctl: use typed fields for ucount limits
+
+ fs/proc/inode.c        |   2 +-
+ fs/proc/internal.h     |   2 +-
+ fs/proc/proc_sysctl.c  | 601 ++++++++++++++++++++++++++++++-----------
+ include/linux/sysctl.h | 150 +++++++++-
+ ipc/ipc_sysctl.c       | 188 ++++++-------
+ ipc/mq_sysctl.c        | 104 +++----
+ kernel/sysctl.c        |   3 +
+ kernel/ucount.c        |  64 ++---
+ 8 files changed, 750 insertions(+), 364 deletions(-)
+
+
+base-commit: 587858367581b9c55c3690f4e63382ad622719d4
+-- 
+2.55.0
 
