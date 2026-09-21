@@ -1,112 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B923C3E1729
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 20:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CA23EDAB5;
+	Mon, 21 Sep 2026 20:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790020805; cv=none; b=q6txqGNs0PGKcWA/YdPSmjN2UW3dji56AuWWdh4q7t8Dpeqkoj1Z7BxgQqmc428ZSaiZgM4fJtI/oyUkUmIRimbLsJjL6CuPkyhYihlCrshWJw/xs8l/na0O8NRrZPbKgNiNz8V/AT5kx5I8Odvi0BBCeuYk3EFlDupA5WH9JHk=
+	t=1790020809; cv=none; b=bsl4jZ9o70jVc+sSV/KyiQl7gbb9jLSUWTpWNS2V1OiZ411W2sPtn/79kTt1nDSYCL1hkRDe+1wNagmUe/Eqn3Knhi3afOrtXIZNzDzGnxwQ/AeU2HO1/RG7mFSh8LcFSLvxj9BO96o+57jdWgotaCIWKFimvHpivPf/Hs7oKzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790020805; c=relaxed/simple;
-	bh=oibKvVVhPVKq6HaFrc3MJTlwNCEu7DEW4mS8DM+sD3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B/CfMdSI99Ml+V3yfv2FplQt3+l0Xt5J8VGenhdHxrYn23XAE5GFrHIBZC0ZFYne2OjyvCmH/S1D2KpoA45Js8x0czRUbYNzS827yPyX1m+17WHRD8LdaZ7T948X67eWKGrKZDmPD8LcticRiQiejbguQ2NloUYwOXFrR2VOusY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=U3eb7FeQ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790020809; c=relaxed/simple;
+	bh=4Bu7wqp5LPQ6WPOQiawfPpDIShUPnK46ZronN3GEgM8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=txtA52RgPR7Jf3/PZMAYzukzaGXpZSDMx+UA5PGFjR+uMc/uzVUNEHR0yDKphyY5MC+bCnLwsCHI5wVNLvHcrrFBLZxSam+HcNDgF+pt+GdNkvs48FLbETfliay9YDJ+aNxujdlVLcfm3RqZLFm7NrIZmsArD/kIueWvqdg+U5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OSjBem8+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="U3eb7FeQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790020798;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kSjpsnGB6PkMlYt3gFNBn+l9/iXfVXQ9UfiCD3HwhPU=;
-	b=U3eb7FeQOv19GKccW6NiSB9be3dZo2j86Iqd4fjUirtjP3Lsv/yvUT4eEy9aMYD+HCrolJ
-	HQPaFMg6Av67EZJLnQwDngSpG3s2vzDp4frNBhCKfTvL9LtqRO7pUC2Ovl4C+oJouw+BDz
-	ITS5OSaf0+g1FBq0Ooreys8ifdgSciI=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-90-Cl5toB87Mx-6IDyPy9kzbg-1; Mon,
- 21 Sep 2026 15:59:56 -0400
-X-MC-Unique: Cl5toB87Mx-6IDyPy9kzbg-1
-X-Mimecast-MFC-AGG-ID: Cl5toB87Mx-6IDyPy9kzbg_1790020795
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 41E6518558B4;
-	Mon, 21 Sep 2026 19:59:55 +0000 (UTC)
-Received: from fedora (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D76DF1800361;
-	Mon, 21 Sep 2026 19:59:38 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon, 21 Sep 2026 21:59:54 +0200 (CEST)
-Date: Mon, 21 Sep 2026 21:59:37 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Ye Liu <ye.liu@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>, Ye Liu <liuye@kylinos.cn>,
-	Michal Hocko <mhocko@suse.com>, SJ Park <sj@kernel.org>,
-	Gregory Price <gourry@gourry.net>, Lorenzo Stoakes <ljs@kernel.org>,
-	peterz@infradead.org, paulmck@kernel.org, mingo@redhat.com,
-	rostedt@goodmis.org, jpoimboe@kernel.org, mic@digikod.net,
-	tglx@kernel.org, linmiaohe@huawei.com, nao.horiguchi@gmail.com,
-	rafael@kernel.org, gnoack3000@gmail.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, rientjes@google.com,
-	shakeel.butt@linux.dev, xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev, will@kernel.org, boqun@kernel.org,
-	frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	tony.luck@intel.com, reinette.chatre@intel.com, x86@kernel.org,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	pavel@kernel.org, lance.yang@linux.dev, mhiramat@kernel.org,
-	pmladek@suse.com, longman@redhat.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, dietmar.eggemann@arm.com, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
-	mark.rutland@arm.com, Dave.Martin@arm.com, james.morse@arm.com,
-	babu.moger@amd.com
-Subject: Re: [PATCH v4 03/15] mm/ksm: convert process iterator to
- for_each_process_rculock
-Message-ID: <arGMqePU2L4q33o_@redhat.com>
-References: <20260921092101.89285-1-ye.liu@linux.dev>
- <20260921092101.89285-4-ye.liu@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OSjBem8+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB861F000FF;
+	Mon, 21 Sep 2026 19:59:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790020803;
+	bh=Pji+QYSqpVzdYzmgiKoCCOu4eSAGWJQKP9RUR89ehLg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=OSjBem8+kNwkxg3Bvo4XRxOymzwX9733IZOf4gdzSAwBDvnhPjONwtPsLSXraRCNR
+	 0s7PpCuNdOSpuu87AcmpoVy4Qg4EhLWp2bKMEJ9QfMc6HeSyalwdDiDde/3j3MjeTg
+	 a7MNs4pRqI4KcPwlb2nSPiH5E9MYyONCxFqDji24j9e01IDiUdnLuNo0RpNLthmZ16
+	 zdnK+h0A0qn09aC/3UZ+HqXs1lUWNhK4cAiumIMY9DtycZzY8kWpCbL9fsWtg6riRm
+	 OT1KR9Mey2IKNe797hS1q+l7MxJ8fVSIgmtrnLdkShDkQNQYRo9hGUjL31NOnB45dN
+	 Awqg81sHr5UHg==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Date: Mon, 21 Sep 2026 21:58:57 +0200
+Subject: [PATCH v2 05/13] mm/sparse: cleanup sparse_init_one_section()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260921092101.89285-4-ye.liu@linux.dev>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260921-b4-sparsemem_cleanups-v2-5-54d81d65e125@kernel.org>
+References: <20260921-b4-sparsemem_cleanups-v2-0-54d81d65e125@kernel.org>
+In-Reply-To: <20260921-b4-sparsemem_cleanups-v2-0-54d81d65e125@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, 
+ Oscar Salvador <osalvador@suse.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-fsdevel@vger.kernel.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1310; i=david@kernel.org;
+ h=from:subject:message-id; bh=4Bu7wqp5LPQ6WPOQiawfPpDIShUPnK46ZronN3GEgM8=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLI29rTesbSdd69Fy4mRefHe5Y16LOYVYoUWf8UFVrAoh
+ i2efY+po5SFQYyDQVZMkSUo+L7By5fraqvd+Jhh5rAygQxh4OIUgInM1WD4Kzb5q0i+l4H29A9t
+ KSKqG4/5OZccfn/yRuPDKbnKpbfFHjP8M77advOK4RTJGoPddqZNl/Py5gUw+8zYVyA4x/P6tI/
+ RPAA=
+X-Developer-Key: i=david@kernel.org; a=openpgp;
+ fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-On 09/21, Ye Liu wrote:
->
-> --- a/mm/ksm.c
-> +++ b/mm/ksm.c
-> @@ -3280,8 +3280,7 @@ void collect_procs_ksm(const struct folio *folio, const struct page *page,
->  		struct anon_vma *av = rmap_item->anon_vma;
->  
->  		anon_vma_lock_read(av);
-> -		rcu_read_lock();
-> -		for_each_process(tsk) {
-> +		for_each_process_rculock(tsk) {
->  			struct anon_vma_chain *vmac;
->  			const unsigned long addr = rmap_item->address & PAGE_MASK;
->  			const unsigned long index = rmap_item->linear_page_index;
-> @@ -3298,7 +3297,6 @@ void collect_procs_ksm(const struct folio *folio, const struct page *page,
->  				}
->  			}
->  		}
-> -		rcu_read_unlock();
+Let's avoid the "pnum" terminology.
 
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+Acked-by: Oscar Salvador <osalvador@suse.de>
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+---
+ mm/sparse.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mm/sparse.h b/mm/sparse.h
+index 530692cdd516f..4ee507c34b98d 100644
+--- a/mm/sparse.h
++++ b/mm/sparse.h
+@@ -20,7 +20,7 @@ void sparse_sections_init(void);
+ int sparse_index_init(unsigned long section_nr, int nid);
+ 
+ static inline void sparse_init_one_section(struct mem_section *ms,
+-		unsigned long pnum, struct page *mem_map,
++		unsigned long section_nr, struct page *mem_map,
+ 		struct mem_section_usage *usage, unsigned long flags)
+ {
+ 	unsigned long coded_mem_map;
+@@ -32,7 +32,7 @@ static inline void sparse_init_one_section(struct mem_section *ms,
+ 	 * page_to_pfn() on !CONFIG_SPARSEMEM_VMEMMAP can simply subtract it
+ 	 * from the page pointer to obtain the PFN.
+ 	 */
+-	coded_mem_map = (unsigned long)(mem_map - section_nr_to_pfn(pnum));
++	coded_mem_map = (unsigned long)(mem_map - section_nr_to_pfn(section_nr));
+ 	VM_WARN_ON_ONCE(coded_mem_map & ~SECTION_MAP_MASK);
+ 
+ 	ms->section_mem_map &= ~SECTION_MAP_MASK;
+
+-- 
+2.43.0
 
