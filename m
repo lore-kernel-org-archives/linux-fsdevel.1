@@ -1,273 +1,186 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AA24E4305
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB3F4F68B4
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790025447; cv=none; b=pa0e4nTzgDmRr5QpGv1HKXmXO9UrGB9VbJz0SCvxkoMvAz2afEGsXT/KjSos5tNGBJ3dr1NTWPPm2SgzaAe74FTkEfbr1A6QGJWqyqRZ2F/xBds7RcIBKqf+uViw+anhgF4vyRYu/ZeCLVeY3R9VQ7jc+lOsjUqhJU4747En2MQ=
+	t=1790025547; cv=none; b=YzRVvFLTRB5tAUQaUOoG0suZkO4Qxv2U2cl/GcJJst8M3yafsaEN9P8+AmnMiBq+uJClSb1NhQMvzufxVa4jtqcsfxVifVakL2LJ5nsz/60t5QwJbHpOqCqWdRv1QgmXBJMA5eGwxAt9Mc756ssMIasuWLJexwrvlQFycCuhxzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790025447; c=relaxed/simple;
-	bh=9E01pAg8oT9htHnqU80DkB8JhgUU71Qq3V8l9lt9LRE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wn8xBdn9lo11eVP207ce5DuIWi9yP5Onf/gnGlX3jI9obVKpZ+hIAjcihr32kipFzKYGWPE1UXccSMGM9svke5AVGi2DwIzF54s8v/Z3USHCR3xYkwqUHj9WvcwSdU8zQWdS2HCSvMma7lLUgHFwGqgarFGzjpAotNOcamxYR5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZVhiJk7W; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790025547; c=relaxed/simple;
+	bh=daI+uoJTwAJNPFsiYNIKF4nGANBOMqaEr2zEXBBJpic=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=IHka8iR7PSezVO4w2LM9MMbM0UpEkIaMDL2TtPJJFDGaW9fNVwDs51IUyL8cOdH6mnlZ6bRSjHOBck4wTah9L8yvkOT426my1s5vy6yUDMgwbN5zjZ8ZjAvyqREGYPt7YRkPkhr3ZkqlYvXDzeyLxyOvDOgdtDh4GbfQZCpEM1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=q/4q9lll; arc=none smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZVhiJk7W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790025444;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=BTGLw0u5wZsYdLeba0o67Y/uJV4wahD4Zjze/EY0qik=;
-	b=ZVhiJk7WCopfqOnKVLwp8fx/12g98Cc8YqNxMWvfFaLD5N6NtYdqlzDrF0pXNFRTnVHbia
-	iBTR0vt7Gh4ir3E7zDbmqILaMk0fJteCVZo05df8YlyVEczUOhm4bvsPWrWuBr1B3ZAjQc
-	sMKmx9hHwROaCKXCh1ehH+yZx94t/GQ=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-144-O7KXu9-qM42wMXQejxamoQ-1; Mon,
- 21 Sep 2026 17:17:20 -0400
-X-MC-Unique: O7KXu9-qM42wMXQejxamoQ-1
-X-Mimecast-MFC-AGG-ID: O7KXu9-qM42wMXQejxamoQ_1790025439
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BB3721802670;
-	Mon, 21 Sep 2026 21:17:18 +0000 (UTC)
-Received: from pasta.redhat.com (unknown [10.44.48.10])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 60D0F1956095;
-	Mon, 21 Sep 2026 21:17:13 +0000 (UTC)
-From: Andreas Gruenbacher <agruenba@redhat.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Christoph Hellwig <hch@infradead.org>
-Cc: Andreas Gruenbacher <agruenba@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	gfs2@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs/gfs2: prevent premature evict in prune_icache_sb
-Date: Mon, 21 Sep 2026 23:17:11 +0200
-Message-ID: <20260921211712.1563575-1-agruenba@redhat.com>
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="q/4q9lll"
+Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d43ac6072so35123147b3.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790025545; x=1790630345; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jWxX95kFbMSLZvLmrVlSWvwPBFxFPw+F25Fx/dZ/knc=;
+        b=q/4q9lll0ka7ayWEjV1wpKXUF8cQSFYIDbaVQClQNOaOXBADCMb0EVDqluz70nT3qJ
+         H6KwT7EZSpHrBNf92pkQvB4SEnxYCXf/w47WbSJo6Vq+Q+Fip3hWD64jPYfPZnZ+41Tl
+         p+0arIFtsfaWj0iogRivxXDhcwgbviK57x/84QlHyIZxMbu1gTqUVfIDydhvHJQE+ff/
+         b23CCnXjZ85koD5uxQ0Gdh04DOUU735+/evdAoV/qNsl4EtQ78iy2swNUnX6v7I2brdF
+         KjPkZxGIh6lXq0ln1WRetGk5n8pqyDWweWGFoWaz+0iP057Ln/r+0mRfWHBzHB3Sfnqp
+         2BRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790025545; x=1790630345;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=jWxX95kFbMSLZvLmrVlSWvwPBFxFPw+F25Fx/dZ/knc=;
+        b=0CnCTEeLijfRhqiz6gukqimMu7aONALqPXIhRxSCLaOc+AqlC3qNcngm6/Wwt4i60h
+         EnrWBMJTQ9sk3ZP5oxCh4cErq7aAjKzQHnfNO/gB4jjadJHd4jceH9Ho5BKDLB1v06j/
+         Mry8sNU61GIHmsrSBGFXGf245xgnvFcznaLHs2/njJx2kVox+8KyMjGGqp+GjnbxHP2e
+         KHp41tfTqVV6BPGicIeHtHspNpoP9AlVWfYHBr0kGoK8xPFc/Xx4booFJ3aKZ//A6iXl
+         bKo9CHS87UKShXEp5eClV6IeU+3BZFSc0AKsPou+KiiY8I/6e+AjnKYpLhDXSWThqQH+
+         s09Q==
+X-Gm-Message-State: AFuF++meqqE2W6y+k1uuTm/ROHrfnSIJ9wdPCJXDgyKBa+/cz1u9CzHm
+	6WPo74bu1h97VzBuMrj8IYIwtFFpVwi7B/08sBu7Xu6BgdBAQ+bPUbzsxULoolXC8do=
+X-Gm-Gg: AYBFou1vwwR/4UPxxQKtPtzaP03NeUSOOk53UtcMiAyA4X63yYlYkkwF6iPJe0WYBtJ
+	AgjEMVXGOtl8bWRN+PUCqDkEYKL4vySKeqbBH3E95EVitgnWPzzntzRGyfkKT4WAEmfhgrCq62D
+	ZLFCrAt859ljn7J92kkFY8hV8+tScPPmRwysL68fknoUVPOjW2N0TKIpL9FDRzyCpFoShxdfa0J
+	dIYBLDBNJEkFSEZw4X1sK+B5w6uG29U8rVxUNj4ARexbnw+IGrmWAEsbRDycQMtEeMGpgUHgaV4
+	4r5pO3mApFs47kxd4pHf7vQ4Thn8EVKcTQ1+oj+Fc4GhYPddjh7W87qIp8Z/Pt7WjDMD/uIo5pD
+	oFtJsMTwC70lT6gQCqUvsu9eOX1rlwsW8vqw8Zv9rHTGOnKiI7l9Fsl+T57tlkOR5j9nQYCG3oQ
+	mPHVZ9L/BvraqzYIbgFyYskjJ7GnVJrc996qFO6thut/IBGLk7T+4da8icrfwGv8KlIQDQME+yS
+	0TmcgDHv9U3gN9l1e4Y5SxCoAUagzk7NcD5yqr0UH2X5lXVrcOh2/ST3iTzigyA373hBBJnOPFM
+	9to05OgQd7zvfjI3ETtyzYPLiZG7vqU6Tp8uLBals4McUACWGi96hdz/sS0UHhiT
+X-Received: by 2002:a05:690c:560d:b0:890:659e:3c84 with SMTP id 00721157ae682-897363672ffmr39041997b3.57.1790025544875;
+        Mon, 21 Sep 2026 14:19:04 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:8475:e6ce:2d2c:ddc2? ([2600:1700:6476:1430:8475:e6ce:2d2c:ddc2])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a23c738beasm1587077b3.13.2026.09.21.14.19.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 14:19:03 -0700 (PDT)
+Message-ID: <4fdba50ccb0327d7dedaa937774d0c6ae7b77919.camel@dubeyko.com>
+Subject: Re: [PATCH] hfs: propagate extent B-tree insertion errors
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Davy Felipe <davyfelipe34@gmail.com>, John Paul Adrian Glaubitz
+	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 21 Sep 2026 14:19:02 -0700
+In-Reply-To: <20260920160213.285316-1-davyfelipe34@gmail.com>
+References: <20260920160213.285316-1-davyfelipe34@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Introduce a new I_NOPRUNE i_state flag for preventing prune_icache_sb()
-from pruning specific inodes.
+On Sun, 2026-09-20 at 13:02 -0300, Davy Felipe wrote:
+> hfs_brec_insert() may fail while inserting a new extent record, but
+> __hfs_ext_write_extent() currently ignores its return value and
+> clears
+> HFS_FLG_EXT_DIRTY and HFS_FLG_EXT_NEW as if the insertion had
+> succeeded.
+>=20
+> Propagate the error returned by hfs_brec_insert() and only clear the
+> extent flags after a successful insertion.
+>=20
+> Fault injection of -EIO into the extent B-tree insertion path
+> confirmed
+> that __hfs_ext_write_extent() returned success despite the insertion
+> failure. With the error propagated, the failure is returned to the
+> caller instead.
 
-prune_icache_sb() prunes clean inodes under memory pressure ("direct
-reclaim").  An inode is considered clean when none of the i_state flags
-are set; the assumption is that evicting inodes that don't have any
-i_state flags set will be fairly cheap.
+How HFS driver behaves when we return error from hfs_brec_insert()? Are
+we capable to properly process it? I assume that everything should work
+well. But have you tested failure use-case?=20
 
-Unfortunately, on gfs2, inodes can be clean in the sense that they won't
-require writing back to disk, but they may still have outstanding
-revokes (as indicated by the GLF_LFLUSH inode glock flag).  To evict one
-of those inodes, those outstanding revokes need to be written out first.
+>=20
+> Signed-off-by: Davy Felipe <davyfelipe34@gmail.com>
+> ---
+> =C2=A0fs/hfs/extent.c | 5 ++++-
+> =C2=A01 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/fs/hfs/extent.c b/fs/hfs/extent.c
+> index f066a99a863b..77ba0f63fcb9 100644
+> --- a/fs/hfs/extent.c
+> +++ b/fs/hfs/extent.c
+> @@ -121,7 +121,10 @@ static int __hfs_ext_write_extent(struct inode
+> *inode, struct hfs_find_data *fd)
+> =C2=A0		res =3D hfs_bmap_reserve(fd->tree, fd->tree->depth +
+> 1);
+> =C2=A0		if (res)
+> =C2=A0			return res;
+> -		hfs_brec_insert(fd, HFS_I(inode)->cached_extents,
+> sizeof(hfs_extent_rec));
+> +		res =3D hfs_brec_insert(fd, HFS_I(inode)-
+> >cached_extents,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(hfs_extent_rec));
+> +		if (res)
+> +			return res;
+> =C2=A0		HFS_I(inode)->flags &=3D
+> ~(HFS_FLG_EXT_DIRTY|HFS_FLG_EXT_NEW);
+> =C2=A0	} else {
+> =C2=A0		if (res)
 
-This requires flushing the log, which is already an expensive operation.
-When in data=ordered mode, all the ordered data needs to be written out
-before the log can be flushed, which makes things even worse.
+We ignore potential errors from hfs_bnode_write(). Should we start
+processing it too?
 
-As previously discussed [*], we are currently also running into the
-following warning in iomap_writepages() when flushing ordered data:
+	} else {
+		if (res)
+			return res;
+		hfs_bnode_write(fd->bnode, HFS_I(inode)-
+>cached_extents, fd->entryoffset, fd->entrylength);
+		HFS_I(inode)->flags &=3D ~HFS_FLG_EXT_DIRTY;
+	}
 
-    /*
-     * Writeback from reclaim context should never happen except in the case
-     * of a VM regression so warn about it and refuse to write the data.
-     */
-    if (WARN_ON_ONCE((current->flags & (PF_MEMALLOC | PF_KSWAPD)) ==
-                    PF_MEMALLOC))
-            return -EIO;
-
-So we need to prevent prune_icache_sb() from evicting inodes that have
-any outstanding revokes.  This patch achieves that by introducing a new
-I_NOPRUNE i_state flag.  When that new flag (or any other flag) is set,
-prune_icache_sb() will skip those inodes.
-
-In the filesystem code, we set and clear the I_NOPRUNE flag in sync with
-the GLF_LFLUSH inode glock flag.
-
-An alternative approach might be to allow filesystems to refuse evicting
-inodes that prune_icache_sb() has already selected.  This could be
-achieved by changing the ->evict_inode super operation to return a
-lru_status code or similar.  prune_icache_sb() would then have to
-resurrect inodes that were already marked I_FREEING and put them back
-onto the lru list.  This approach doesn't seem obviously better than
-introducing I_NOPRUNE, so I haven't pursued this any further.
-
-[*] https://lore.kernel.org/linux-fsdevel/CAHc6FU4tz8-HmEf2_XKT0NT8N=rv5OMcY79PxTACkXAVLOAUpg@mail.gmail.com/
-
-Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
----
- fs/gfs2/incore.h   |  3 +++
- fs/gfs2/inode.c    |  2 +-
- fs/gfs2/log.c      | 43 +++++++++++++++++++++++++++++++++++++++++--
- fs/gfs2/lops.c     |  2 +-
- fs/gfs2/trans.c    |  4 ++--
- include/linux/fs.h |  3 ++-
- 6 files changed, 50 insertions(+), 7 deletions(-)
-
-diff --git a/fs/gfs2/incore.h b/fs/gfs2/incore.h
-index 61465777826a..e37e5d057608 100644
---- a/fs/gfs2/incore.h
-+++ b/fs/gfs2/incore.h
-@@ -379,6 +379,9 @@ static inline u64 glock_number(const struct gfs2_glock *gl)
- 	return gl->gl_name.ln_number;
- }
- 
-+void glock_set_lflush(struct gfs2_glock *gl);
-+void glock_clear_lflush(struct gfs2_glock *gl);
-+
- enum {
- 	GIF_QD_LOCKED		= 1,
- 	GIF_SW_PAGED		= 3,
-diff --git a/fs/gfs2/inode.c b/fs/gfs2/inode.c
-index 9fce2d3e8e7d..22b5b404b8d5 100644
---- a/fs/gfs2/inode.c
-+++ b/fs/gfs2/inode.c
-@@ -466,7 +466,7 @@ static void gfs2_final_release_pages(struct gfs2_inode *ip)
- 	truncate_inode_pages(&inode->i_data, 0);
- 
- 	if (atomic_read(&gl->gl_revokes) == 0) {
--		clear_bit(GLF_LFLUSH, &gl->gl_flags);
-+		glock_clear_lflush(gl);
- 		clear_bit(GLF_DIRTY, &gl->gl_flags);
- 	}
- }
-diff --git a/fs/gfs2/log.c b/fs/gfs2/log.c
-index 78bba8cc10b8..1f0bb3da4df6 100644
---- a/fs/gfs2/log.c
-+++ b/fs/gfs2/log.c
-@@ -24,6 +24,7 @@
- #include "incore.h"
- #include "bmap.h"
- #include "glock.h"
-+#include "glops.h"
- #include "log.h"
- #include "lops.h"
- #include "meta_io.h"
-@@ -760,6 +761,44 @@ void gfs2_ordered_del_inode(struct gfs2_inode *ip)
- 	spin_unlock(&sdp->sd_ordered_lock);
- }
- 
-+void glock_set_lflush(struct gfs2_glock *gl)
-+{
-+	struct inode *inode;
-+
-+	set_bit(GLF_LFLUSH, &gl->gl_flags);
-+
-+	if (gl->gl_ops != &gfs2_inode_glops)
-+		return;
-+
-+	spin_lock(&gl->gl_lockref.lock);
-+	inode = gl->gl_object;
-+	if (inode && !(GFS2_I(inode)->i_diskflags & GFS2_DIF_SYSTEM)) {
-+		spin_lock(&inode->i_lock);
-+		inode_state_set(inode, I_NOPRUNE);
-+		spin_unlock(&inode->i_lock);
-+	}
-+	spin_unlock(&gl->gl_lockref.lock);
-+}
-+
-+void glock_clear_lflush(struct gfs2_glock *gl)
-+{
-+	struct inode *inode;
-+
-+	clear_bit(GLF_LFLUSH, &gl->gl_flags);
-+
-+	if (gl->gl_ops != &gfs2_inode_glops)
-+		return;
-+
-+	spin_lock(&gl->gl_lockref.lock);
-+	inode = gl->gl_object;
-+	if (inode && !(GFS2_I(inode)->i_diskflags & GFS2_DIF_SYSTEM)) {
-+		spin_lock(&inode->i_lock);
-+		inode_state_clear(inode, I_NOPRUNE);
-+		spin_unlock(&inode->i_lock);
-+	}
-+	spin_unlock(&gl->gl_lockref.lock);
-+}
-+
- void gfs2_add_revoke(struct gfs2_sbd *sdp, struct gfs2_bufdata *bd)
- {
- 	struct buffer_head *bh = bd->bd_bh;
-@@ -772,14 +811,14 @@ void gfs2_add_revoke(struct gfs2_sbd *sdp, struct gfs2_bufdata *bd)
- 	bd->bd_blkno = bh->b_blocknr;
- 	gfs2_remove_from_ail(bd); /* drops ref on bh */
- 	bd->bd_bh = NULL;
--	set_bit(GLF_LFLUSH, &gl->gl_flags);
-+	glock_set_lflush(gl);
- 	list_add(&bd->bd_list, &sdp->sd_log_revokes);
- }
- 
- void gfs2_glock_remove_revoke(struct gfs2_glock *gl)
- {
- 	if (atomic_dec_return(&gl->gl_revokes) == 0) {
--		clear_bit(GLF_LFLUSH, &gl->gl_flags);
-+		glock_clear_lflush(gl);
- 		gfs2_glock_put_async(gl);
- 	}
- }
-diff --git a/fs/gfs2/lops.c b/fs/gfs2/lops.c
-index 6dabe73ad790..8363c02f8b9e 100644
---- a/fs/gfs2/lops.c
-+++ b/fs/gfs2/lops.c
-@@ -127,7 +127,7 @@ static void gfs2_unpin(struct gfs2_sbd *sdp, struct buffer_head *bh,
- 	list_add(&bd->bd_ail_st_list, &tr->tr_ail1_list);
- 	spin_unlock(&sdp->sd_ail_lock);
- 
--	clear_bit(GLF_LFLUSH, &bd->bd_gl->gl_flags);
-+	glock_clear_lflush(bd->bd_gl);
- 	trace_gfs2_pin(bd, 0);
- 	unlock_buffer(bh);
- 	atomic_dec(&sdp->sd_log_pinned);
-diff --git a/fs/gfs2/trans.c b/fs/gfs2/trans.c
-index 65cbe06e301a..7a9da7253246 100644
---- a/fs/gfs2/trans.c
-+++ b/fs/gfs2/trans.c
-@@ -222,7 +222,7 @@ void gfs2_trans_add_data(struct gfs2_glock *gl, struct buffer_head *bh)
- 	gfs2_assert(sdp, bd->bd_gl == gl);
- 	set_bit(TR_TOUCHED, &tr->tr_flags);
- 	if (list_empty(&bd->bd_list)) {
--		set_bit(GLF_LFLUSH, &bd->bd_gl->gl_flags);
-+		glock_set_lflush(bd->bd_gl);
- 		set_bit(GLF_DIRTY, &bd->bd_gl->gl_flags);
- 		gfs2_pin(sdp, bd->bd_bh);
- 		tr->tr_num_databuf_new++;
-@@ -287,7 +287,7 @@ void gfs2_trans_add_meta(struct gfs2_glock *gl, struct buffer_head *bh)
- 	set_bit(TR_TOUCHED, &tr->tr_flags);
- 	if (!list_empty(&bd->bd_list))
- 		goto out_unlock;
--	set_bit(GLF_LFLUSH, &bd->bd_gl->gl_flags);
-+	glock_set_lflush(bd->bd_gl);
- 	set_bit(GLF_DIRTY, &bd->bd_gl->gl_flags);
- 	mh = (struct gfs2_meta_header *)bd->bd_bh->b_data;
- 	if (unlikely(mh->mh_magic != cpu_to_be32(GFS2_MAGIC))) {
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index d10897b3a1e3..270aa3dead91 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -740,7 +740,8 @@ enum inode_state_flags_enum {
- 	I_CREATING		= (1U << 15),
- 	I_DONTCACHE		= (1U << 16),
- 	I_SYNC_QUEUED		= (1U << 17),
--	I_PINNING_NETFS_WB	= (1U << 18)
-+	I_PINNING_NETFS_WB	= (1U << 18),
-+	I_NOPRUNE		= (1U << 19)
- };
- 
- #define I_DIRTY_INODE (I_DIRTY_SYNC | I_DIRTY_DATASYNC)
--- 
-2.55.0
-
+Thanks,
+Slava.
