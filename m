@@ -1,114 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0C94BB263;
-	Mon, 21 Sep 2026 15:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FE14BEE59
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 15:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790005047; cv=none; b=Lt8Rax6LqqPU4C1SLnE9MurZRP2/DCVMqe+amxN3yooBpqTPwT1YdBhXon8QmO8ld38kb3OMngKY6tLZRi8schEXRRuAzd1N/lK1E62FuowQRPeH8iy8xjggY8U5bkE9Ja0pLIJWU8hoaP2sYNbC6oZGXIHst1oq6i1U7xFesJk=
+	t=1790005059; cv=none; b=meiiq6rCRVrNYgr7Y6jV9Ti3GkN83wzMWw8eeMsXqvlFOMeOJfdBvfNPGY5KrPDQZAqDZG/Iy+nicilvZ2oL9tR+kTQr192rVxb2pi4uhhIYF7ECOKgWldSsJRkMsLGMKriKt3mLzEAEFVuOovY2tzDFSZqquR1LaQMlV41gl0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790005047; c=relaxed/simple;
-	bh=sVX/odQFahh31pyaqtyDX/W3pagjOxkPg/oRTe+1pts=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FJvlxgJobuY37KEIr9K8Zu7Jyuk/j9/U8BEUO6H2VocyYT4URGBd3BjijQfh2q4lyY4/XAy/8KJXW2a+ErEOalqIdgnYcaYoEKQ21lGsjcfhXAUvyIxwg0HnD6NmJq0dg2Ve8NON3wBwBfjmxQ0yhSJmKAfTBeyr3hKg3pUNFnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPrU51ml; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790005059; c=relaxed/simple;
+	bh=tNY8mp7Zd9XSXR2DbfXcW8LgeX+dz5snbtzbNJsAzuw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kHw2+Ma903H5jf9RzH7nNFQ6F4Jf30k6qTEQAUh3gmPz+4cB2Jbs/0v4WKBvCfXJMGbopmyPCP2eRHkrj2jpRGpJYzSZ/JAhwRfeCmVDfe0J7854dHOerkGTvMG3wgyxTQYyR75I9YrKQ9dou9RvmoRx1sSvy+HfpoU+eVKyErA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=YTLr/zOr; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPrU51ml"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD0D1F000FF;
-	Mon, 21 Sep 2026 15:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790005046;
-	bh=q2YbpZhKOEqqIeJ5MNm1/eFCzIuKS177EebPyER5xvM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BPrU51ml8vIIactwj07Dux0oNzdKbmhqw8T059UZuEphfKvsGpj3D6+eZegKgLggZ
-	 uSASuds/lCo4gwSwJXnywGj7axOHtzwjBRwVQoRIvM/x+9CaVLhZvO7ppPN/IMjyyM
-	 8bxJ9ilC+IkQ3TxwozhB0Lq7obXKnCUfuAfbc7HKUzPSEUczlEnJjdKCpd3vjsuoFt
-	 sCBLYesnrNi8JtszD+fWtkS0/H7kbqZnAlq8XczHWUZKU+auCCD5MESftiE0lqrjOk
-	 jiNdlqok/FPZGRyKlNfeXBbuGApkfza15d3cU3X81dC2KsdDDnfEK1QJvP7ZgBgTk0
-	 3mrUQb/LyjeNg==
-Message-ID: <70cae945-3a4a-40db-96ac-5ce66a3fa186@kernel.org>
-Date: Mon, 21 Sep 2026 17:37:14 +0200
+	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="YTLr/zOr"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so17732345e9.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 08:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=trailofbits.com; s=google; t=1790005055; x=1790609855; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/rARZR2bhx+oYDBih3ESVQmEAJ7+6xRagAey+ssOdNk=;
+        b=YTLr/zOrn3iTTERVcK5huDLlcWDnSS040Ht6O9I7Tf5ab+otg4vMDXHs5zjHFFVA27
+         PlAzAz41ZiCOhKklrSXPjEb0j1aq7RGNvMLmIWjTp6QzsDtLfQJ5e3vgkmyGLTX7fLiB
+         ZUB9nMHu6gf7Jm/RBLdyvqTdQCIyeg3kcALWiUAGdh4voC0r9a6CcnGMAMmF4QOsCuvr
+         s2g9r1tsUyiWjvqqZGVBKJ/mIYoZAoMlD5Riybi0jyNnenvImaVUOsRNNLsFlVR7E7dW
+         0GrgQEDfjVUnAoDdu64r0hevb7f0csZJH68mQk2JzyrSwm7MNf+WwCam8pOLfBZKP5tm
+         YZ9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790005055; x=1790609855;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/rARZR2bhx+oYDBih3ESVQmEAJ7+6xRagAey+ssOdNk=;
+        b=ceRfxBkAwcNOORAkoBbX4I5J9Xdsq7CJ9k5pt7W2bh9CreqncoaeQLTwUH0jJGHQ6V
+         OaAhKOUJenOw4iz6Z5ifwE7jKQxO5rM2FUVW1ycGbovjab5yPGjMhz7WGN7b/pDNei92
+         bot3FT37c8MNZoP3KfXn0MFp2rpWenlufYhOPTpex6eE9NeycOVbkOh943dUiPycoa+c
+         F1klL/K4jzRmsIC0iP6yW9/Aj/yDLiAfYKuffY6+zd979isjCZIXvJl0Xe4AWPp2FEvP
+         ff209pWPu7IEYXRL46sdeMlBnEW3wLfNY/cyhA13GTfs7J57VtWHypJa+tt1wBKSdy8W
+         6HqA==
+X-Forwarded-Encrypted: i=1; AKwUvBw8QSPjQfbATynqxi+bo1cVmWis6OjKPnemh0QO5AQUaTO7uMJ/L7cnBTq/VQqJwjWsLQlI3wMKjLVw7we7@vger.kernel.org
+X-Gm-Message-State: AFuF++lTHYBmxmMcTHfp/5ZfCgeUFEH5jDwys60YnLNR/Rl7GIZBRLpY
+	UO/SJOmHNlK8DKxm7GfowdaRO6duZGQg/yE7JpOV0N3SoVYgzRc9qx1wFu1CfciAyPQ=
+X-Gm-Gg: AYBFou3/p5PSN9iMqaYm8GZDFu/4v7ujxfeq9XYn3qePAfrNbkZCN9h4tbifamFQfBO
+	SSF9ZEOwod7AAJX0bE12QlvMScjrzo2m4oFrjv6QBYMy/wV0uqW3G7ekgZJXCRMaKc0QUn7Ysiu
+	01KtTXKruWT3K4isod074iIASwhb8kv48LOocL3ROMTtHUWNC9LhRq8LzObnJ89R94xYC9jPWj3
+	+0e35gW261aG36SVxlbyrGShUpBUs9akSoWkAWrCYqrEQPUbtprn3w879SZ2QRteUKhvRnUdVrY
+	VoSGdk+cs7CgE3cJdYGIRYwN8Padz4LJqMUj35yhnxdhBIfi58V+O9IhC4pv4MAzwI/wyW6Xcbm
+	FAbfWNszr+toJL8/lAfUmabgvBbfVWUjrW/sWRgFc9L+bb08EtpKWrBDplWHOS3EZd/lXynTcC1
+	BM2JwV2zkSlbicvC1gotwjSM2N1gMwjyVzoXJ4PKRQ/eaweJI+F+Snu13wut+mgnEMmChhfo1ap
+	rcst0Q=
+X-Received: by 2002:a05:600c:83cf:b0:49f:ce78:3562 with SMTP id 5b1f17b1804b1-49fce783698mr82645135e9.19.1790005054514;
+        Mon, 21 Sep 2026 08:37:34 -0700 (PDT)
+Received: from localhost ([2a02:168:9d56:1:e1c4:67b1:23e:28ed])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49fcd0f7b9bsm237438295e9.5.2026.09.21.08.37.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Sep 2026 08:37:33 -0700 (PDT)
+From: Bruno Produit <bruno.produit@trailofbits.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: Kyle Zeng <kylebot@openai.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dominik Czarnota <dominik.czarnota@trailofbits.com>,
+	stable@vger.kernel.org,
+	Bruno Produit <bruno.produit@trailofbits.com>,
+	syzbot+d729df28d933979e017a@syzkaller.appspotmail.com,
+	syzbot+2eac7d175baf21e6a5d5@syzkaller.appspotmail.com,
+	syzbot+7155b2fe09e033c91381@syzkaller.appspotmail.com,
+	syzbot+adeb387cede15eb11607@syzkaller.appspotmail.com,
+	syzbot+ae7f2423f3648100506d@syzkaller.appspotmail.com
+Subject: [PATCH v2] hfs/hfsplus: serialize B-tree close against folio release
+Date: Mon, 21 Sep 2026 17:37:29 +0200
+Message-ID: <20260921153729.600313-1-bruno.produit@trailofbits.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm: madvise: drop MADV_PAGEOUT folios at swap writeback
- completion
-To: Alexandre Ghiti <alex@ghiti.fr>, akpm@linux-foundation.org
-Cc: willy@infradead.org, jack@suse.cz, liam@infradead.org, ljs@kernel.org,
- vbabka@kernel.org, jannh@google.com, chrisl@kernel.org, kasong@tencent.com,
- shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev,
- baohua@kernel.org, youngjun.park@lge.com, qi.zheng@linux.dev,
- shakeel.butt@linux.dev, axelrasmussen@google.com, yuanchu@google.com,
- weixugc@google.com, hannes@cmpxchg.org, mhocko@kernel.org, yosry@kernel.org,
- chengming.zhou@linux.dev, kunwu.chan@gmail.com, tz2294@columbia.edu,
- hch@lst.de, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260921152449.629486-1-alex@ghiti.fr>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260921152449.629486-1-alex@ghiti.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/21/26 17:24, Alexandre Ghiti wrote:
-> On an asynchronous swap device MADV_PAGEOUT only marks the folio
-> PG_reclaim and rotates it to the tail of the inactive list once its
-> writeback completes, so the memory is not actually freed until a later
-> reclaim scan removes the by then clean swap cache folio.
-But we have the same behavior when just reclaiming memory ordinarily? It's added
-to the swapcache and only the next scan actually frees up the memory.
+B-tree nodes with a zero reference count remain in the node hash until
+folio reclaim or tree teardown frees them.  The folio release callbacks
+remove nodes while holding hash_lock, but hfs_btree_close() walks and
+frees the same hash without that lock.  Reclaim can therefore unhash and
+free a node after close has loaded its pointer, causing a use-after-free
+or double-free. 
 
-Wouldn't we memory we reclaim ... just gone, like in the sync case?
+The following syzkaller crashes seem to be the same UAF in 
+{hfs,hfsplus}_btree_close() (or {hfs,hfsplus}_bnode_unhash()) and follow 
+the same pattern, but do not contain a reproducer to confirm. 
 
--- 
-Cheers,
+Detach each node with hfs_bnode_unhash() while holding hash_lock before
+inspecting and freeing it.  Drop the lock before hfs_bnode_free() so a
+large tree is not freed while holding a spinlock.  Apply the same fix to
+the matching HFS+ implementation.
 
-David
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+d729df28d933979e017a@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=d729df28d933979e017a
+Reported-by: syzbot+2eac7d175baf21e6a5d5@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=2eac7d175baf21e6a5d5
+Reported-by: syzbot+7155b2fe09e033c91381@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=7155b2fe09e033c91381
+Reported-by: syzbot+adeb387cede15eb11607@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=adeb387cede15eb11607
+Reported-by: syzbot+ae7f2423f3648100506d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=ae7f2423f3648100506d
+Assisted-by: Codex:gpt-5.6-sol
+Reported-by: Kyle Zeng <kylebot@openai.com>
+Signed-off-by: Kyle Zeng <kylebot@openai.com>
+Signed-off-by: Bruno Produit <bruno.produit@trailofbits.com>
+---
+ fs/hfs/btree.c     | 7 +++++--
+ fs/hfsplus/btree.c | 7 +++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+index 41b4e8fc9..4f0ddc76e 100644
+--- a/fs/hfs/btree.c
++++ b/fs/hfs/btree.c
+@@ -310,14 +310,17 @@ void hfs_btree_close(struct hfs_btree *tree)
+ 		return;
+ 
+ 	for (i = 0; i < NODE_HASH_SIZE; i++) {
++		spin_lock(&tree->hash_lock);
+ 		while ((node = tree->node_hash[i])) {
+-			tree->node_hash[i] = node->next_hash;
++			hfs_bnode_unhash(node);
++			spin_unlock(&tree->hash_lock);
+ 			if (atomic_read(&node->refcnt))
+ 				pr_err("node %d:%d still has %d user(s)!\n",
+ 				       node->tree->cnid, node->this,
+ 				       atomic_read(&node->refcnt));
+ 			hfs_bnode_free(node);
+-			tree->node_hash_cnt--;
++			spin_lock(&tree->hash_lock);
+ 		}
++		spin_unlock(&tree->hash_lock);
+ 	}
+ 	iput(tree->inode);
+diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+index 2ea8cd565..bd4dbdbc8 100644
+--- a/fs/hfsplus/btree.c
++++ b/fs/hfsplus/btree.c
+@@ -417,15 +417,18 @@ void hfs_btree_close(struct hfs_btree *tree)
+ 		return;
+ 
+ 	for (i = 0; i < NODE_HASH_SIZE; i++) {
++		spin_lock(&tree->hash_lock);
+ 		while ((node = tree->node_hash[i])) {
+-			tree->node_hash[i] = node->next_hash;
++			hfs_bnode_unhash(node);
++			spin_unlock(&tree->hash_lock);
+ 			if (atomic_read(&node->refcnt))
+ 				pr_crit("node %d:%d "
+ 						"still has %d user(s)!\n",
+ 					node->tree->cnid, node->this,
+ 					atomic_read(&node->refcnt));
+ 			hfs_bnode_free(node);
+-			tree->node_hash_cnt--;
++			spin_lock(&tree->hash_lock);
+ 		}
++		spin_unlock(&tree->hash_lock);
+ 	}
+ 	iput(tree->inode);
