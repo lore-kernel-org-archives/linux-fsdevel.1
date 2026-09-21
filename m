@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC1E2F7EE6
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:16:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F3C4AAC4C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790000164; cv=none; b=uazTNbjgQTNuqkdJfW6yjGnyEHpRqTNxxm7yHvf4GZUgpc5OoMv9TYHNPEiSZUn+k/hef9JvkvGTn5a6dE33gK9KL00wg/mHbeeMzij1uEcaYLvLksHnoixFVAyV6T4XjqFmFSJOk5eR4Q2GjR6geswXw+gwEWQTUJe6S0PN1WA=
+	t=1790000170; cv=none; b=gx9WB+092s8KHiA/Ukj7urjVhqXaYYT/a9BtUaTcKVFLJSyQjhRxdKgT9Thgdtg4NabqPRkb3/EailNFwHh1tVFQKQN0NxBS1yD9gRFP0Zwa7soHXgt6fJC+GzMoxUxBGmYm5snHyLTT9LFILuUK46W7PnM5MAL6E5OnSICtsOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790000164; c=relaxed/simple;
-	bh=LaGKGRJ6s+8YoiZf7OoN/3UIM9PEsgkcuAFhG6X+IJQ=;
+	s=arc-20240116; t=1790000170; c=relaxed/simple;
+	bh=a/xpl/Ta7AOr4QRFOQtZ4jaF44Kf3E0y4H6XcxGZkT0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iQiBXUo/L9Vzgq/SImo2YCMz3CRXf/c775vAAb5plFFqea1P1h7+U/xsMPBDrORluP2ty6uy3oNQvd6kkMtiKBUZPRGtmqCuVefmWWILJ3Ee5qacFNyFCZTWnpjcYm2D4bU1oiTzUmfPLeWkeomw0TdOXPzO/SHviZj71ZjLRI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fYA7Vog8; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=bdO5cYJU3hrXj32WsHZcWuPfYK5BRDXy/Wf7e/wdw5CTzGjt/oRzpXzD604JqCy8o/Ir3+U50UnfLPX+xLm2keHkY+UJlHLGrXFZAD54bOPCI9Z8J+6Zv6knl5DIU4PkwHnPBmo3CFAjls2M9OO9f/bc39IWsup2ZnYAQ6pontM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJkOOBXD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fYA7Vog8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65C91F00898;
-	Mon, 21 Sep 2026 14:15:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJkOOBXD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE2E1F00899;
+	Mon, 21 Sep 2026 14:16:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790000160;
-	bh=UqpToeeyv35mVbG5u0V8+vW/w6+gaYJoImkqmiQj5HE=;
+	s=k20260515; t=1790000166;
+	bh=c0Kua6sqiXGLtDzHFPh3TNHun44BAU4np/PHk7YmaCI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=fYA7Vog8BmxpWLuFMm2Aq2ziXOvpgQkaGWogueqTz79Ggib05novxzDbZA/V1BrKp
-	 VPBV+/07XqeOnFFFfI4RbZQvvPQiBg7NUVgogSrPcYRNt3Wr8g208EiNIx1ELUFyqf
-	 obW3CSbKzoNfqUrufrCOcbUa0rhYf2XUx12vnoJO+seDq048FRaIOPT4rIhUaCoau0
-	 yT8GF79A3tirYYmpgAY6GxTLgj6EyVF5Pi5S7LpNPnEjuAfPZZbo61CWGAd0hMbaPa
-	 VkakH+nl7J1uA2hYqB0/9g+B6rw0gRMyH6Mj12oPE864rBx2jbkxiatVknT8jgbSDK
-	 t1VeG7OiuWKyw==
+	b=DJkOOBXDtD/DyNBuGUnBAgOBFBuLkBLsjqD0mTNPVezvyAD7oBlziiUdtGlMon2fu
+	 xx1fC//R+JhAvrVT5DMFq3lX7mSRFvbMhbenfO2UgG8+jC4DxWTshHNSVFfou3AINn
+	 lWGoSRgX7FauOXg/LMpxyJpc2PTOuQ6rQ9fCIxAzQjmQU5e6rU4QpHH1Dwx4TgXJ74
+	 0WYRMH4//zQOlLFOZU8QQQzBNRPdDQmMRix1KOugiKvwkJgSeoM+wQOQMSXIjLLS7Z
+	 M9HRnHXHQhqX2w5QhvYm1laV4zINP7B3ZvBtAQ5y0uas0INHftDk05M+DkW+OPgiib
+	 Q8DymXQS1iAaw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 21 Sep 2026 16:15:34 +0200
-Subject: [PATCH 06/10] file: add CLOSE_RANGE_EXCEPT
+Date: Mon, 21 Sep 2026 16:15:36 +0200
+Subject: [PATCH 08/10] file: let dup_fd() drop only close-on-exec
+ descriptors
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260921-work-file-close_range_except-v1-6-c20d0b49270d@kernel.org>
+Message-Id: <20260921-work-file-close_range_except-v1-8-c20d0b49270d@kernel.org>
 References: <20260921-work-file-close_range_except-v1-0-c20d0b49270d@kernel.org>
 In-Reply-To: <20260921-work-file-close_range_except-v1-0-c20d0b49270d@kernel.org>
 To: Jann Horn <jannh@google.com>, linux-fsdevel@vger.kernel.org, 
@@ -46,198 +47,120 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Neil Brown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6475; i=brauner@kernel.org;
- h=from:subject:message-id; bh=LaGKGRJ6s+8YoiZf7OoN/3UIM9PEsgkcuAFhG6X+IJQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRttOF5zbhVPOpw47mm1jURVTtEhYIu5ShJegqd9Fx8p
- SfnbZ9tRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQcuRn+Z7iUqe5vYOv9K6G9
- 5u4394UX9p5oelB5VvHAKj9W1wbRtYwMl54tuiAa/vow+0SjTSnfWRVif/YUdgYwlZb98hSf1yn
- ECwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3763; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=a/xpl/Ta7AOr4QRFOQtZ4jaF44Kf3E0y4H6XcxGZkT0=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRttOF5bqq9Zq+zYcwP+9LPv9e+Lwyr+uLw/dbvLU9vf
+ yjwfeB8paOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi4ZMY/ieIaH40N7xqOTGo
+ /6fcdw6TktATa2v+yBgkcMxtOS3yQYSR4dYOxuMG078nHY75VjsxSPcQT6qVl3VgeEqe4ZwrrwP
+ 3cgMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-close_range() operates on [fd, max_fd]. Add CLOSE_RANGE_EXCEPT. This new
-flag instructs it to operate on all file descriptors outside of the
-range instead.
+Add FD_RANGE_CLOEXEC_ONLY. When set dup_fd() leaves everything behind
+except for fds that are close-on-exec. Without FD_RANGE_EXCEPT the
+clone loses the close-on-exec descriptors in the range. With it the
+clone keeps the range and loses the close-on-exec descriptors everywhere
+else. Descriptors without the flag are carried over either way.
 
-Without any other flags that means it closes everything except the file
-descriptors in the specified range. Together with CLOSE_RANGE_CLOEXEC it
-marks every file descriptor except the ones in the range as
-close-on-exec. With CLOSE_RANGE_UNSHARE dup_fd() never takes a reference
-on what is dropped.
-
-A task between clone(CLONE_FILES | CLONE_VM | CLONE_VFORK) and execve()
-that has the descriptors for the child in one window can shed the rest
-of the shared table in one call:
-
-	close_range(lo, hi, CLOSE_RANGE_UNSHARE | CLOSE_RANGE_EXCEPT)
-
-Nothing outside of the window is referenced by the child at any point.
+Nothing passes the flag yet.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/file.c                        | 76 +++++++++++++++++++++++++++++++---------
- include/uapi/linux/close_range.h |  5 +++
- 2 files changed, 64 insertions(+), 17 deletions(-)
+ fs/file.c               | 43 ++++++++++++++++++++++++++++++++++---------
+ include/linux/fdtable.h |  3 +++
+ 2 files changed, 37 insertions(+), 9 deletions(-)
 
 diff --git a/fs/file.c b/fs/file.c
-index ae7d021398dd..39651c7a992e 100644
+index 39651c7a992e..8952efd2cf3a 100644
 --- a/fs/file.c
 +++ b/fs/file.c
-@@ -794,34 +794,67 @@ static inline unsigned last_fd(struct fdtable *fdt)
+@@ -365,7 +365,8 @@ static unsigned long fd_range_word(struct fd_range *range, unsigned int i)
  }
  
- static inline void __range_cloexec(struct files_struct *cur_fds,
--				   unsigned int fd, unsigned int max_fd)
-+				   struct fd_range *range)
+ /* Bits of word @i that dup_fd() leaves behind. */
+-static unsigned long dup_fd_dropped_word(unsigned int i, struct fd_range *range)
++static unsigned long dup_fd_dropped_word(struct fdtable *fdt, unsigned int i,
++					 struct fd_range *range)
  {
- 	struct fdtable *fdt;
-+	unsigned int last;
+ 	unsigned long dropped;
  
--	/* make sure we're using the correct maximum value */
- 	spin_lock(&cur_fds->file_lock);
- 	fdt = files_fdtable(cur_fds);
--	max_fd = min(last_fd(fdt), max_fd);
--	if (fd <= max_fd)
--		bitmap_set(fdt->close_on_exec, fd, max_fd - fd + 1);
-+	/* make sure we're using the correct maximum value */
-+	last = last_fd(fdt);
-+	if (!(range->flags & FD_RANGE_EXCEPT)) {
-+		if (range->from <= last)
-+			bitmap_set(fdt->close_on_exec, range->from,
-+				   min(range->to, last) - range->from + 1);
-+	} else {
-+		if (range->from > 0)
-+			bitmap_set(fdt->close_on_exec, 0,
-+				   min(range->from - 1, last) + 1);
-+		if (range->to < last)
-+			bitmap_set(fdt->close_on_exec, range->to + 1,
-+				   last - range->to);
-+	}
- 	spin_unlock(&cur_fds->file_lock);
+@@ -374,6 +375,8 @@ static unsigned long dup_fd_dropped_word(unsigned int i, struct fd_range *range)
+ 	dropped = fd_range_word(range, i);
+ 	if (range->flags & FD_RANGE_EXCEPT)
+ 		dropped = ~dropped;
++	if (range->flags & FD_RANGE_CLOEXEC_ONLY)
++		dropped &= fdt->close_on_exec[i];
+ 	return dropped;
  }
  
--static inline void __range_close(struct files_struct *files, unsigned int fd,
--				 unsigned int max_fd)
-+/* Next open descriptor in [fd, max_fd] that @range selects. */
-+static inline unsigned int next_fd_to_close(struct fdtable *fdt,
-+					    unsigned int fd, unsigned int max_fd,
-+					    struct fd_range *range)
-+{
-+	fd = find_next_bit(fdt->open_fds, max_fd + 1, fd);
-+	/* Hop over the window the range keeps. */
-+	if ((range->flags & FD_RANGE_EXCEPT) &&
-+	    fd >= range->from && fd <= range->to) {
-+		if (range->to >= max_fd)
-+			return max_fd + 1;
-+		fd = find_next_bit(fdt->open_fds, max_fd + 1, range->to + 1);
-+	}
-+	return fd;
-+}
+@@ -393,15 +396,37 @@ static unsigned int sane_fdtable_size(struct fdtable *fdt, struct fd_range *rang
+ 
+ 	if (last == fdt->max_fds)
+ 		return NR_OPEN_DEFAULT;
+-	/* Only words up to the last open descriptor can hold a kept one. */
+-	i = last / BITS_PER_LONG + 1;
+-	while (i--) {
+-		unsigned long dropped = dup_fd_dropped_word(i, range);
++	if (!range)
++		return ALIGN(last + 1, BITS_PER_LONG);
 +
-+static inline void __range_close(struct files_struct *files,
-+				 struct fd_range *range)
- {
- 	struct file *file;
- 	struct fdtable *fdt;
--	unsigned n;
-+	unsigned int fd, max_fd;
++	if (range->flags & FD_RANGE_CLOEXEC_ONLY) {
++		/* The close-on-exec bits decide what is dropped, walk the words. */
++		i = last / BITS_PER_LONG + 1;
++		while (i--) {
++			unsigned long dropped = dup_fd_dropped_word(fdt, i, range);
++
++			if (fdt->open_fds[i] & ~dropped)
++				return (i + 1) * BITS_PER_LONG;
++		}
++		return NR_OPEN_DEFAULT;
++	}
  
- 	spin_lock(&files->file_lock);
- 	fdt = files_fdtable(files);
--	n = last_fd(fdt);
--	max_fd = min(max_fd, n);
+-		if (fdt->open_fds[i] & ~dropped)
+-			return (i + 1) * BITS_PER_LONG;
 +	if (range->flags & FD_RANGE_EXCEPT) {
-+		/* Outside of the range means the whole table. */
-+		fd = 0;
-+		max_fd = last_fd(fdt);
-+	} else {
-+		fd = range->from;
-+		max_fd = min(range->to, last_fd(fdt));
-+	}
- 
--	for (fd = find_next_bit(fdt->open_fds, max_fd + 1, fd);
-+	for (fd = next_fd_to_close(fdt, fd, max_fd, range);
- 	     fd <= max_fd;
--	     fd = find_next_bit(fdt->open_fds, max_fd + 1, fd + 1)) {
-+	     fd = next_fd_to_close(fdt, fd + 1, max_fd, range)) {
- 		file = file_close_fd_locked(files, fd);
- 		if (file) {
- 			spin_unlock(&files->file_lock);
-@@ -849,21 +882,30 @@ static inline void __range_close(struct files_struct *files, unsigned int fd,
-  * This closes a range of file descriptors. All file descriptors
-  * from @fd up to and including @max_fd are closed.
-  * Currently, errors to close a given file descriptor are ignored.
-+ *
-+ * With CLOSE_RANGE_EXCEPT the range names what to leave alone instead:
-+ * every open file descriptor outside of [@fd, @max_fd] is closed, or
-+ * marked close-on-exec with CLOSE_RANGE_CLOEXEC.
-  */
- SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
- 		unsigned int, flags)
- {
- 	struct task_struct *me = current;
- 	struct files_struct *cur_fds = me->files, *fds = NULL;
-+	struct fd_range range = {fd, max_fd};
- 
--	if (flags & ~(CLOSE_RANGE_UNSHARE | CLOSE_RANGE_CLOEXEC))
-+	if (flags & ~(CLOSE_RANGE_UNSHARE | CLOSE_RANGE_CLOEXEC |
-+		      CLOSE_RANGE_EXCEPT))
- 		return -EINVAL;
- 
- 	if (fd > max_fd)
- 		return -EINVAL;
- 
-+	if (flags & CLOSE_RANGE_EXCEPT)
-+		range.flags |= FD_RANGE_EXCEPT;
-+
- 	if ((flags & CLOSE_RANGE_UNSHARE) && atomic_read(&cur_fds->count) > 1) {
--		struct fd_range range = {fd, max_fd}, *drop = &range;
-+		struct fd_range *drop = &range;
- 
- 		/*
- 		 * If the caller requested all fds to be made cloexec we always
-@@ -884,10 +926,10 @@ SYSCALL_DEFINE3(close_range, unsigned int, fd, unsigned int, max_fd,
++		/* Only the range is carried over. */
++		if (last > range->to) {
++			last = find_last_bit(fdt->open_fds, range->to + 1);
++			if (last > range->to)
++				return NR_OPEN_DEFAULT;
++		}
++		if (last < range->from)
++			return NR_OPEN_DEFAULT;
++	} else if (last >= range->from && last <= range->to) {
++		/* The last open descriptor goes, the kept ones sit below the range. */
++		last = find_last_bit(fdt->open_fds, range->from);
++		if (last == range->from)
++			return NR_OPEN_DEFAULT;
  	}
+-	return NR_OPEN_DEFAULT;
++	return ALIGN(last + 1, BITS_PER_LONG);
+ }
  
- 	if (flags & CLOSE_RANGE_CLOEXEC) {
--		__range_cloexec(cur_fds, fd, max_fd);
-+		__range_cloexec(cur_fds, &range);
- 	} else if (!fds) {
--		/* If we unshared, dup_fd() left the range behind already. */
--		__range_close(cur_fds, fd, max_fd);
-+		/* If we unshared, dup_fd() already left behind what we'd close. */
-+		__range_close(cur_fds, &range);
- 	}
+ /*
+@@ -487,7 +512,7 @@ struct files_struct *dup_fd(struct files_struct *oldf, struct fd_range *range)
+ 		struct file *f = rcu_dereference_raw(*old_fds++);
  
- 	if (fds) {
-diff --git a/include/uapi/linux/close_range.h b/include/uapi/linux/close_range.h
-index b1b637d74deb..39eddb3ab613 100644
---- a/include/uapi/linux/close_range.h
-+++ b/include/uapi/linux/close_range.h
-@@ -8,6 +8,7 @@
-  */
- #undef CLOSE_RANGE_UNSHARE
- #undef CLOSE_RANGE_CLOEXEC
-+#undef CLOSE_RANGE_EXCEPT
- 
- enum close_range_flags {
- 	/* Unshare the file descriptor table before closing file descriptors. */
-@@ -15,11 +16,15 @@ enum close_range_flags {
- 
- 	/* Set the FD_CLOEXEC bit instead of closing the file descriptor. */
- 	CLOSE_RANGE_CLOEXEC	= (1U << 2),
+ 		if (!(fd % BITS_PER_LONG))
+-			dropped = dup_fd_dropped_word(fd / BITS_PER_LONG, range);
++			dropped = dup_fd_dropped_word(old_fdt, fd / BITS_PER_LONG, range);
+ 		if (f && !(dropped & BIT_MASK(fd))) {
+ 			get_file(f);
+ 		} else {
+diff --git a/include/linux/fdtable.h b/include/linux/fdtable.h
+index d6c6c7a3400d..afdfaad381df 100644
+--- a/include/linux/fdtable.h
++++ b/include/linux/fdtable.h
+@@ -104,6 +104,9 @@ int unshare_files(void);
+ enum fd_range_flags {
+ 	/* Leave behind all descriptors outside of the specified range. */
+ 	FD_RANGE_EXCEPT		= (1U << 0),
 +
-+	/* Act on every file descriptor outside of the given range instead. */
-+	CLOSE_RANGE_EXCEPT	= (1U << 3),
++	/* Only select descriptors that have close-on-exec set. */
++	FD_RANGE_CLOEXEC_ONLY	= (1U << 1),
  };
  
- /* Keep #ifdef working and let glibc skip its own definitions. */
- #define CLOSE_RANGE_UNSHARE		CLOSE_RANGE_UNSHARE
- #define CLOSE_RANGE_CLOEXEC		CLOSE_RANGE_CLOEXEC
-+#define CLOSE_RANGE_EXCEPT		CLOSE_RANGE_EXCEPT
- 
- #endif /* _UAPI_LINUX_CLOSE_RANGE_H */
- 
+ struct fd_range {
 
 -- 
 2.53.0
