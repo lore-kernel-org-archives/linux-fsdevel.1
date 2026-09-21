@@ -1,81 +1,173 @@
-Received: from mail-43166.protonmail.ch (mail-43166.protonmail.ch [185.70.43.166])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853F8472552
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 17:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E45B4C10D1;
+	Mon, 21 Sep 2026 17:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790011276; cv=none; b=ZPvjWDZWrkdn/k1if9M22t5B1zr7nYvSooW++lb2gdQ0Fs/oqIC6aSMgYUx0Sl4oAgDJfQhfX2YlxIOA0N4AY2Sfpf26lGXAt5MahmGONF8eA0g8vy8SsFXp4uN6fVyEIdc07dztx3di7vSXM/0SyPaphPYe9eDeVHpLoAuT8Wk=
+	t=1790013483; cv=none; b=T0LwsbojI20UAoXb7qesBiKE5MtdLMmSBfaLQuz5pDpm8Jug3VNj13OD0CzVWXjkc3IBA53V/BiyHGOxF69UavTzQMagt+B7LcvN6VdSO4VVIaRbgK28U5cydAWJjvXDMiOv7aeAavnmfQFiGoL15BGWyFBPVVacuFS7r1p6g7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790011276; c=relaxed/simple;
-	bh=Uv0eeKd3R2D4y6Rl9kBc6B5RCJGTlD1u4KnKOcSJQZ4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mrY97iU2gWlQN27NWK5JWvDtSPH6GF4KcpfyYyd7pB9PMsylCqF94WX6yRHBuUaq4bZ6XptLKToFfTKlo/YIe5afOVFIFIp8haQEs9SgHIF+gh4S8Cqtgxb4mbQJtVjUyITbJuQksYAbxCGRLjXadFE7yd4/cz7Dezgr7wgZbeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=OOS3uq//; arc=none smtp.client-ip=185.70.43.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1790013483; c=relaxed/simple;
+	bh=ACnVqDRu9L4EX0PIQzq+ln5rZQhr/h9DYNn8XFGJUm8=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PSmAaMr63TIImloQBey7PlsTzEu9Q8Lea+xGZucoESd88z9lbuC64RO2MNlEHcx0b3zct4FZsVNfqWFyaq89h0YkUr1avJWWg65J7n7er8nJW/dEUCh0JGUMxhAlxF1RbFgZpJzbHGOuM386a9jGJlXJ9Ast31TuzXMsq2kMcbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/sDK9og; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="OOS3uq//"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=fh2yy5twsngxzavak2slksus6i.protonmail; t=1790011270; x=1790270470;
-	bh=2qLzXrp017LtSYCFpuPchYznFD5Li67tAD86jKPOLSw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=OOS3uq//oMKu3dpJ8a29uZz4Xgz3+2CwEoK55Tx+FRE3SUXOnMFRuU5ElZ2YKUjTj
-	 TroGPndHrvJ5/Nyz5qXTTWiZgv5LrIBSNDIP03P0yl/5uOZQyB+bKxHvKHuvesQBeJ
-	 mWP42OJe8ZtG4OEK7Ke2CW45BbApYY9GcpKC8FIchppDEMWcQvd2eovic1a6L52rd5
-	 OThQ7/nQYdLU1jAIT//XyXrRF1PjsDa+omFdweIptO578i+pABdDHukQIKA5e/PjUc
-	 yDetJS/zyxcPabt9lZmS78iVk5JhFoRdrYJL4q4DuuSsO05TNyIvZGZ9ftC54v59Pc
-	 xEFmfs3c1tbSw==
-Date: Mon, 21 Sep 2026 17:21:06 +0000
-To: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>
-From: Paolo De Donato <dedo.paolo.24@proton.me>
-Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: R: Information about bind mounts and simultaneous access to /dev/ptmx and /dev/pts/ptmx
-Message-ID: <u0blsUQK3V0VROdoD27_YvnNNzSTvaNeV2j31wJtxqZYCUQyH9Mqg0_djDpXqqhJhJWUm4w5fakh-0whJsG3zhibJsc9C_E5tQUzQNBkYIM=@proton.me>
-In-Reply-To: <OL6NOlULLLkBGa0xCeh8WaHQwIqYDyatnuI7X2kfZRVGNtRGHbaarbdGEC9QUCfrYoEtX-k7B1gVRUg1iN4WJE2ES7QU1cgnRMuz9J5KdXo=@proton.me>
-References: <QyCOf8W8P-XlVQEK451kiApqyxPqPQzth8sY0CNnbkUKXoTzkY-jbKI10jr6bjP_8IfsvYqkHnhmGTlL12HQgfzZ4CiVakdps9kiNuH6rTM=@proton.me> <OL6NOlULLLkBGa0xCeh8WaHQwIqYDyatnuI7X2kfZRVGNtRGHbaarbdGEC9QUCfrYoEtX-k7B1gVRUg1iN4WJE2ES7QU1cgnRMuz9J5KdXo=@proton.me>
-Feedback-ID: 61544309:user:proton
-X-Pm-Message-ID: 30fb6ca93baa3092ad0fb1b703ee15207e678e03
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/sDK9og"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 904521F000FF;
+	Mon, 21 Sep 2026 17:58:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790013481;
+	bh=VrEKRxhpsxO4YB1Z88WoC1VfhzGFQ3EMsTjDujrRO+w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=R/sDK9ogDpGJxJewL8iIUth9DWQnev+2MEzZXFhD0YypTxIon+lddkV/B5MiXsboO
+	 byMrkKP0wfUx7XngMjTu9nAl2JaQK7zF3Phju/+ez58bU954kYLbxc8z3/4Vc0WgzQ
+	 KOftHb5AUK5N9gFffvyEvRM47sRdl27CRx18LUuqQktKtMjB9/XICkbjwojAmHMCx0
+	 IOUpxI7tR5Dak2iI8yZqV+B2DzvoXQOeYv7BXJA3uNEFbHCW1NXGE79SgsXboqYDFB
+	 G+yzrNcbI31AM4MpDGbVDD6WgYVtVj6uG6HlTqlFELJEHb+bHt6BsCAnyTE5hCf2DX
+	 y4CbMiaMOzh0w==
+Message-ID: <b15c63490f9164bf46d68ff3ec5dfc02@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Julian Sun <sunjunchao@bytedance.com>
+Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, axboe@kernel.dk, hannes@cmpxchg.org,
+ mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+ muchun.song@linux.dev, willy@infradead.org, jack@suse.cz, tj@kernel.org,
+ akpm@linux-foundation.org
+Subject: Re: [PATCH v7 2/3] memcg,writeback: flush foreign bdev mappings
+ separately from owner wbs
+Date: Mon, 21 Sep 2026 07:55:17 -1000
+In-Reply-To: <20260921120658.1627992-3-sunjunchao@bytedance.com>
+References: <20260921120658.1627992-1-sunjunchao@bytedance.com>
+ <20260921120658.1627992-3-sunjunchao@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Up
+Hello, Julian.
 
->=20
-> Dear Alexander Viro,
->=20
-> I have noticed that trying to open /dev/ptmx device file through a bind m=
-ount will always fail. More precisely, calling
->=20
->     open("/dev/ptmx", O_RDWR)
->=20
-> usually succeeds, however it will always fail if you previously launched =
-the following command:
->=20
->    # mount --bind /dev/ptmx /dev/ptmx
->=20
-> I think the root cause of this is the relationship between /dev/ptmx and =
-the devpts virtual filesystem, usually mounted at /dev/pts since all operat=
-ions on /dev/ptmx are forwarded to /dev/pts/ptmx. This issue makes unfeasib=
-le to share access to /dev/ptmx through a mount namespace, however bind mou=
-nts work as expected with /dev/pts/ptmx (if devpts has been mounted with th=
-e option ptmxmode=3D0666).
->=20
-> My question is if it is safe to give full access to both /dev/ptmx and /d=
-ev/pts/ptmx (through ptmxmode=3D0666) at the same time, or if there are som=
-e racing conditions that would make simultaneous access insecure. Documenta=
-tion at https://docs.kernel.org/filesystems/devpts.html and man 4 pts say n=
-othing about this scenario, but I think this information will be very helpf=
-ul for all people that needs having pseudoterminal access inside a mount na=
-mespace.
->=20
-> Bests,
-> Paolo
+This is an AI review. The series was built here, and the bdev reference
+across a racing last close and disk removal, the slot races, and the
+css_free ordering were traced and look correct. Two behavioral notes and
+some description and comment fixups.
+
+On Mon, Sep 21, 2026 at 08:06:57PM +0800, Julian Sun wrote:
+> Use fixed per-memcg slots. Tracking is best effort: record only dev_t
+
+The slot policy this version adopted, oldest-first replacement, expiry
+after dirty_expire_interval, and re-arming when the mapping is dirtied
+while a flush is in flight, isn't stated anywhere. Can you add a sentence?
+
+> If allocation fails, retain the existing foreign-wb path.
+
+Andrew found this unclear on v6 and the subject is still implied. Something
+like "If the workqueue can't be allocated at boot, bdev inodes keep using
+the existing foreign-wb path."?
+
+> This primarily affects filesystems that keep metadata in the bdev page
+> cache, such as ext4 and other buffer_head users, rather than the usual
+
+The branch keys on sb_is_blkdev_sb(), so buffered writers of raw block
+devices are covered too whenever the bdev inode's wb belongs to another
+cgroup. Worth a mention.
+
+> +struct bdev_frn_flush_ctx {
+> +	struct work_struct work;
+> +	dev_t dev;			/* for bdev inode, device hint */
+> +	u64 at;				/* last recorded dirtying time in jiffies */
+> +	atomic_t inflight;
+> +};
+
+It sits next to memcg_cgwb_frn and is memcg's, so maybe memcg_bdev_frn?
+"for bdev inode, device hint" doesn't say what the value is. Following the
+sibling's comments, "dev_t of the foreign bdev inode", and @inflight could
+use one too.
+
+> + * For non-bdev inodes, when a foreign page - a page whose memcg and
+> + * writeback ownerships don't match - is dirtied,
+> + * mem_cgroup_track_foreign_dirty() records the inode owning bdi_writeback
+> + * on the page owning memcg. When balance_dirty_pages() decides that the
+> + * memcg needs to sleep due to high dirty ratio, it calls
+>   * mem_cgroup_flush_foreign() which queues writeback on the recorded
+>   * foreign bdi_writebacks which haven't expired.  Both the numbers of
+>   * recorded bdi_writebacks and concurrent in-flight foreign writebacks are
+>   * limited to MEMCG_CGWB_FRN_CNT.
+
+The flush sentence and the slot limit apply to both paths now, so the "For
+non-bdev inodes" scoping reads wrong. Maybe keep the original paragraph and
+let the new one state only the difference: separate MEMCG_CGWB_FRN_CNT
+slots keyed by dev_t, flushing only the bdev mapping, same expiry.
+
+> + * These wb/bdev_inodes records only remember IDs and don't hold any object
+> + * references. As being wrong occasionally doesn't matter, updates and
+> + * accesses to the records are lockless and racy.
+
+The paragraph above already says the bdev records hold no references, and
+"wb/bdev_inodes records" doesn't parse. "Both kinds of records only
+remember IDs ..." would do.
+
+> +	if (memcg_bdev_frn_wq && bdev_inode &&
+> +	    sb_is_blkdev_sb(bdev_inode->i_sb)) {
+> +		mem_cgroup_track_foreign_bdev(memcg, bdev_inode->i_rdev);
+> +		return;
+> +	}
+>
+>  	trace_track_foreign_dirty(folio, wb);
+
+With this patch alone, foreign dirtying of a bdev folio no longer hits
+track_foreign_dirty at all and patch 3 adds the call back inside the
+branch. Can you keep the tracepoint firing on the bdev path here so that
+patch 3 only adds the argument? Also, @bdev_inode can't be NULL:
+__folio_mark_dirty() checked folio->mapping under the same lock and
+folio_account_dirtied() already dereferenced mapping->host.
+
+> +static void bdev_frn_flush_work(struct work_struct *work)
+> +{
+> +	struct bdev_frn_flush_ctx *ctx =
+> +		container_of(work, struct bdev_frn_flush_ctx, work);
+> +
+> +	bdev_flush_by_dev(ctx->dev);
+> +
+> +	atomic_set(&ctx->inflight, 0);
+> +}
+
+The in-flight window is now just the submission of the bdev mapping, and
+mem_cgroup_flush_foreign() runs on every throttle-loop iteration, so a
+memcg that keeps dirtying and throttling requeues the flush back to back.
+A folio the flush redirties, e.g. a buffer locked by a jbd2 checkpoint
+write, re-stamps the slot on its own. The old record stayed in flight for
+the whole owner-wb work. With a journal the write cadence of hot metadata
+is still bounded by the commit interval, but for nojournal ext4 and other
+buffer_head users it's bounded only by the throttle pause, for every
+tenant of the filesystem while any tenant throttles. Not measured. The
+description covers the target size but not the cadence.
+
+Each pass also goes through wbc_attach_fdatawrite_inode() and
+wbc_detach_inode(), so it votes in the bdev inode's wb-switch detection
+like the owner-wb flush did, at the higher pass rate. Whether the bdev
+inode ends up switching wbs more often is an open question.
+
+> +		if (memcg_bdev_frn_wq && time_after64(ctx->at, now - intv) &&
+> +		    atomic_cmpxchg(&ctx->inflight, 0, 1) == 0) {
+
+Records are only created when the workqueue exists and @at stays 0
+otherwise, so the wq test can't be false with a live record. Fine as
+documentation, but the cover lists it as a fix.
+
+> +		INIT_WORK(&ctx->work, bdev_frn_flush_work);
+> +		atomic_set(&ctx->inflight, 0);
+
+memcg is zero-allocated, so the atomic_set() isn't needed.
+
+On patch 1, the kerneldoc's "does not wait for all I/O to complete"
+understates it, the flush waits for nothing.
+
+Thanks.
+
+--
+tejun
