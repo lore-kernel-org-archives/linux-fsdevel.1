@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935E04A260B;
-	Mon, 21 Sep 2026 13:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676864A260E;
+	Mon, 21 Sep 2026 13:46:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789998361; cv=none; b=b7LE+qgJMWehe1eAFbtCesu16Tf32CbUXSga7Nkvdh5E2OCZm4qCx/XgmaXbGBAJ+5/jgnJrnmRVXzCXOfLi8TgveipPjyM6odUMshEkxADeDMReSH8FHKs2GiGBoQbftu2byZy4DXnxTOtSKkuKM55D3bP/A3dVJRRTEthoNjc=
+	t=1789998365; cv=none; b=rkS5yOZP7M/hk4JIMmnablm5rNVVkLeUD8XEyVa5BlIdz1GDSbWQmcvILmM8Me9g5hJHNqR4QXzt9u1p/Syz14H84E3ZIJ5aBym02PxR8Judy3Iu1B1IX80WC6FCuYiiTvtjeMySk1AoSANt+NESxLzEcvikCBp+ILQtnWDpwyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789998361; c=relaxed/simple;
-	bh=yCrptVQSCLxgp40maZKNV7rkyMoVZAxnjWKhpjaLvr0=;
+	s=arc-20240116; t=1789998365; c=relaxed/simple;
+	bh=N9+t6kg9G5schzNoEgToZQtBo5+eN+aMw/ZqCZtP+xs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gn0KeL/zikmHhWpDEiyqmDS8xkWL2Izk4B6vS70eYesoThPqzI2ZglcHFyLFz2UA1DH3Dluw04OPdT2rzbbjNAaHGQL8HTuPXxx/eaWxsT3E7HBypJDrSJnQneBtKIhOy7ClSkmPk/Y7RID0L/Rh9MLu1j/VxdaUtrcfoeFi0JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Icz+xHLQ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=EnaHulnTDevZStlRWanpwEGOoy3kHochdbgNeDEkN6w9cvUj/WrXfDYVtKYmtLC1OO3wgKik0OgRqfnIifZR+GW8PXvpaZvI55axexJxVC1tBRTaUJzD8mnEdH0spVFvPhqA4decHCLbVwa4gm3fErjO779xVYPtZYtKqt/n2MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aj1MZ6b0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Icz+xHLQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 610E51F000FF;
-	Mon, 21 Sep 2026 13:45:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aj1MZ6b0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFC801F00893;
+	Mon, 21 Sep 2026 13:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789998360;
-	bh=XxgAqAUyM3r1AMPXMQ8hoig8LfHIWtySTBDxI0y9Hk8=;
+	s=k20260515; t=1789998363;
+	bh=XK+vFPcoNOWpEsInXI2i4g3mZjN5dJruLtFC6744UCg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Icz+xHLQDbSSHi+N16YU2y1GynY0LZOE3JZDzMAEEJb1D9m6KWdZXk6U6V/zR4B+b
-	 7BQ0M3FukLH+6GiiG/lrkgJnTx7AD7Sb6I6vnfmSz5HLp5Dix+bFsCqut5L3GjA84M
-	 H81IAH19uXN6Xpky01tPMlFxnH0Fpg0k8NQlnf0R0XcS9UWA8CYZGJPPB9dFi/5Pmk
-	 7xDw0is63fwMPgi2HR6RClWMOqNiQzerzUvn5Zll65iyjGHicysJEoPvNi8FAxlajD
-	 iJ+9qqED0JN0fTAPWDJA+iFMly2UY9vjm5b0x3DmUfPelnNqQ6VHRnVMnsqCYGF42n
-	 6q6C1ZI5oYsmg==
+	b=Aj1MZ6b0DckcbN8ZWhMcy3sQmM5nKsMEjWSoa3mKzl4IzTTdqYMEkUXOnPbs/V8z1
+	 Mx4jZ9zAiATVYJt5FPaI8JLIJKQrvVpq0b+xhEky4JsfoHwxRqlljaIeQYJlALdHJy
+	 4gXFul/htFtIbwAHHvJ7UFvWrIEfQwsVShk8nfiSPeJTeyzDDh2P/QlvKGFh9Fg9ys
+	 ho6lcgL2qG881lUJPTANEunTFLV+Mi6Z+65BhopjaMu7+eyZY4ncZAu/A8vkwRE017
+	 Jdsab31+dou4Pm1UlIjSVp5JFnPRrUoXRpUiIkO2yuS/6kDm+mP4AdzUBBPFat3VVz
+	 sLGUqsBTeskMA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 21 Sep 2026 15:45:04 +0200
-Subject: [PATCH v3 15/17] fork: use SIG_KERNEL_ONLY_MASK for the user
- worker signal mask
+Date: Mon, 21 Sep 2026 15:45:05 +0200
+Subject: [PATCH v3 16/17] signal: enforce the user worker signal mask in
+ __set_task_blocked()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260921-work-coredump-fixes-v3-15-8e4adb1619e6@kernel.org>
+Message-Id: <20260921-work-coredump-fixes-v3-16-8e4adb1619e6@kernel.org>
 References: <20260921-work-coredump-fixes-v3-0-8e4adb1619e6@kernel.org>
 In-Reply-To: <20260921-work-coredump-fixes-v3-0-8e4adb1619e6@kernel.org>
 To: Oleg Nesterov <oleg@redhat.com>, Chris Mason <mason@kernel.org>, 
@@ -49,44 +49,76 @@ Cc: Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-mm@kvack.org, io-uring@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=988; i=brauner@kernel.org;
- h=from:subject:message-id; bh=yCrptVQSCLxgp40maZKNV7rkyMoVZAxnjWKhpjaLvr0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtNLkbfG+y84Npu9ZWagY+7p2WIyKbz3Sfa/8+x/vSD
- zafPhYr3lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjARaRNGhrcXY7ZsTZ6jNNM8
- 5+Da9zJOzt/TT616dPpe/LnU5El8RdsZ/grymgnb7Ti1aX/FebM0wdDwrOML/9l++xg9x/7uwxI
- md04A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2674; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=N9+t6kg9G5schzNoEgToZQtBo5+eN+aMw/ZqCZtP+xs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtNLm7ceqfa/vOperqasXWKHp+9/O/vtt16TmBg9pyW
+ /pKTn9h7ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIUQnD/xy1itCSJL+A5vvr
+ bc6IHL/CpDexIOn7wa2JkpYVJu8LNjH801vYraC/epZrb8Lti8vr70eH/N73ct8GxiZ2sbvaHq3
+ X+AA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-For a user worker copy_process() blocks every signal except for SIGKILL
-and SIGSTOP. Use SIG_KERNEL_ONLY_MASK instead of open-coding it.
+User workers block every signal except for SIGKILL and SIGSTOP in
+copy_process(). So complete_signal() never picks a thread that blocks
+the signal and get_signal() never dequeues such a thread. Net effect is
+that user workers only exit on SIGKILL or stop on SIGSTOP.
+
+Before we fixed it a tracer could unblock a signal. For example, by
+unblocking SIGHUP a installing a handler complete_signal() could end up
+picking a user worker for a process-directed SIGHUP. Which effectively
+means the handler never runs.
+
+After blocking PTRACE_SETSIGMASK what remains is the in-kernel
+sigprocmask() and force_sig_info_to_task() changes.
+
+The in-kernel sigprocmask() users block more signals for a critical
+section and restore the saved mask afterwards. cifs used to do that in
+__smb_send_rqst() and ocfs2 in ocfs2_block_signals(). Both were
+reachable from an io-wq worker. Both only add SIGKILL and SIGSTOP to the
+user workers's and then put the fork-time mask back.
+
+force_sig_info_to_task() unblocks a signal so a target can't hide from
+the signal. A synchronous signal forced onto a user worker is accepted
+currently so let's leave that alone.
+
+Make it a rule that a user worker's signal mask can never drop below
+the copy_process() deafult. SIGKILL and SIGSTOP have the same rule in
+the other direction. rt_sigprocmask(), set_current_blocked() and
+PTRACE_SETSIGMASK strip them from whatever mask userspace asks for.
+
+Do the same for user worker mask in __set_task_blocked(). Add the
+fork-time mask back into the new set for a user worker and warn if that
+changed anything. Warn when a caller unblocks a signal for a user worker.
 
 No functional changes.
 
+Link: https://lore.kernel.org/r/aq_4fY6GVtK47Njq@redhat.com
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- kernel/fork.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ kernel/signal.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index fd2829b0a8b6..be5980d0dd9f 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -2146,12 +2146,9 @@ __latent_entropy struct task_struct *copy_process(
- 	if (args->kthread)
- 		p->flags |= PF_KTHREAD;
- 	if (args->user_worker) {
--		/*
--		 * Mark us a user worker, and block any signal that isn't
--		 * fatal or STOP
--		 */
-+		/* A user worker takes only the signals nobody can block. */
- 		p->flags |= PF_USER_WORKER;
--		siginitsetinv(&p->blocked, sigmask(SIGKILL)|sigmask(SIGSTOP));
-+		siginitsetinv(&p->blocked, SIG_KERNEL_ONLY_MASK);
- 	}
- 	if (args->io_thread)
- 		p->flags |= PF_IO_WORKER;
+diff --git a/kernel/signal.c b/kernel/signal.c
+index c3bad983dd37..137002445b0d 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -3212,6 +3212,16 @@ long do_no_restart_syscall(struct restart_block *param)
+ 
+ static void __set_task_blocked(struct task_struct *tsk, const sigset_t *newset)
+ {
++	sigset_t floor, floored;
++
++	/* A user worker never unblocks anything but SIGKILL and SIGSTOP. */
++	if (unlikely(tsk->flags & PF_USER_WORKER)) {
++		siginitsetinv(&floor, SIG_KERNEL_ONLY_MASK);
++		sigorsets(&floored, newset, &floor);
++		WARN_ON_ONCE(!sigequalsets(&floored, newset));
++		newset = &floored;
++	}
++
+ 	if (task_sigpending(tsk) && !thread_group_empty(tsk)) {
+ 		sigset_t newblocked;
+ 		/* A set of now blocked but previously unblocked signals. */
 
 -- 
 2.53.0
