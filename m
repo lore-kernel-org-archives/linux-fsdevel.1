@@ -1,160 +1,157 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8082431E822
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 16:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790008481; cv=pass; b=kaptWFA8WMNMXCo9yrYaEI14eN6bR5uOm6f+FJTr8FhFHBcJrWOnNkIIC1W82TuVk8ZnBbwOw2JLIIPJwYWNni+mGhQFZb5LVfF12tZ0Odx4EM9B13fqtfd3blmmKDZy8D8j0u5O7FGYHCr9gYJ00PM2QxadeXsR5QvcRly6qNA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790008481; c=relaxed/simple;
-	bh=kuiDxrSEIN8J9ezICDNKd0tquVfXLiCXEOA4Ftd6YBU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QTpyAb/lFCrRoJjWDla/be99IWy4Ybp0BG4I06ho3H1O1MFho3mVTT2xkOkushC5ZVOfoYJTDzxg4ApRve+U0QpSNnsD2Cfyw/5X8qgOc6+t8z/4DkBl8M8hHcderaygx5NvXkYrEM0c99khdEr7tY9lMyqmttubu0wNe+8b8wM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FBLkmBzt; arc=pass smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7364CCDF5
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 16:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790009304; cv=none; b=j0+KAZqwpAXF6aUApNim2UIbLlc5yjVgOuk2KBXgfyUvNuk/jxu2O+ID9FXNRek07EJXTnHqNVKNONeFKCsHxazKJ8kd8AUv2mCQmS89mh9lzLsJtT+/YkAL4e4EOO1m8RwkbHaEuPLN1UrLza+LBcS18B9s+UXT7z+gy+TXy54=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790009304; c=relaxed/simple;
+	bh=Y281zkM/Qmo9OSGui1K8yVeXfs0hDkEf9zNmUTSMONA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cnf20qFtLB71O1hnMiOVqTg3qE2/B44DSMZAzVCLm/mHKPDRUkxrloUzsnP1yOHhFfnzhcsgP+q0H/rnDNBeYj0bfezi4+quxvnTfIKFkZVapHNZTCWy/UMlENKb9uPMyzkFlmmoLHfRhWwlNWQdMCd+KT9KEPkB69xzxA7SJmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=TuEzdBM1; arc=none smtp.client-ip=74.125.228.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snu.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FBLkmBzt"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2db33db4de9so203055ad.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 09:34:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790008478; cv=none;
-        d=google.com; s=arc-20260327;
-        b=L6PglZWr58hD8QeqUjnr310tR3/ubnlAQ3f037T8v2UzWyZmHL4X4LODDjpAbTt/cB
-         QximGCYtnbcN7ip6EZOXSUUdanQauJMpO93iPOJbUQEM6uH3Bkg7IYKBJjVxDnsSjThe
-         HV30l2QdSfndID9CZz2cIDuWr3pA49FGKnqXa5qcbDJgsbb1iCo2UywRPTsWtRB2txEQ
-         qkB8hR09MeaXzYQuZAoZD8pDDVPQmj6295at45rXag8GiilfTJOQQriPhIB+AlPuZYvk
-         4QIEoUmCTqUPHLYqknv39S5KXFwbHcE4euDptDZAQzWnbTFQbC0JJmGjuOxjClIEcvZM
-         BFYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kliKxOI53d9NkLdHEKkAIfr8jGGob78nnqNash+0m78=;
-        fh=O9JqZhOSuA+41b32rqMntnC2Ig7mb+8IjuRt+QcNG4I=;
-        b=LgTrKBUHF7IN21H9abcIXpphLsaLhRJUEv9laMuYJB5W8+ZzT3bY32amqToneC6ApG
-         7Vv2xA6WOwKdFUwBQ/GgcqR/YlEAGwkSEYv6v9Zm7vWRbZ2Ds6CQlCOaRWnH0yVP7EHI
-         fJzJ3OzlaBe1l8ztZ/x5Z3aLjqJZWBlrW6W6Djl4d1DJCGHDFodbAEfj6AvR1MPEKNZy
-         nfD7eNhawkbYHFUKYRi59Q/I7TeiONrbDZ/Vf7C+68AL8a5opClBSAIQ36kMjlFJwAsr
-         qDoYbF8ScKW3iRfdIaxMA5KvhP2k1Mp9y92QX6d9KLy90LxN09tRoz75BJpGz1l0SVnJ
-         n+wA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b="TuEzdBM1"
+Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc4d04d73b8so2715058a12.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 09:48:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790008478; x=1790613278; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=snu.ac.kr; s=google; t=1790009298; x=1790614098; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=kliKxOI53d9NkLdHEKkAIfr8jGGob78nnqNash+0m78=;
-        b=FBLkmBztRNkV4OQki9A4fg83iZrGQejbt73vDAazxfwB29HMmWGoGWCV7tgXdQ+PXd
-         l5KCxfbe2zo1z/nkrDVygE6EIQL6ySWQ3aJYazwKPq24aAJp8qvUj/jLCZ2Wx46lcMt2
-         mq5JwQ/NLin5ueRe3syzP3G3YGWy2YupV6TH5api3AO/ZQ8rAKFMKmaicOD9ZyAikaDq
-         0T0i45V19wseCJdvoz/Fc7j+88TWMJNK1WWFi6sZncavBOeDolGOwOVRTXVk0mEiz3AQ
-         NrqeB+xlVyVSD1IKG5wwO3hjm5SmYtIWgZYhMLTzoOkgzqkvPPtn69WQJzgWM6SNphs/
-         xY7Q==
+        bh=PmR+gFnwjwx9HRJSW244xTdy4CpVHKmXxMQ0vpvGnEg=;
+        b=TuEzdBM1RqSjnQfGCo4oUzwJm20gls065kDY/IYkqBJzXpgjEyw1gGVn3pbsKWzIg/
+         qGBMKJg7dcMMy2inkFUMCXM7LQI5NrcN/NhItzXo2MtTxz7iBnze0QNDoeOf0HFGhyRP
+         LCg8LApIkh+fNqsBBTsWrYTA/KwP/K60N0x5E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790008478; x=1790613278;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1790009298; x=1790614098;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kliKxOI53d9NkLdHEKkAIfr8jGGob78nnqNash+0m78=;
-        b=fK8EQVTwe6bVrc6xuEM563yMx+NsYv5ukggKWfeqAYWlqFNKwMOXOpE5lX3qzOQYqJ
-         VSCU+/lAdklhm1N9Ik2rpA9m6oFZJgFPpowGtfcRYWruQe1Wt3Vq8jgQeoxQr2Tv+ww5
-         lEB2/gOUbaIDHywBCNRDN/1ZTklYDaRpcD9DbIhgfez5pCc65sp7240URy7dhfYCd2Gl
-         9QDhUB4BrrDk8njxKHBICBBjcdn7MhfV9MmmG+fqqLC15J+DuukpNeFstm01hJs4HVuP
-         egagNmjU5aWNiXOpGC8l0wRbg54a8+Rd5Gnz8aG+XWhU/hCqtwwmHRjn1UEEKFTGuDYe
-         3IwA==
-X-Gm-Message-State: AFuF++ksmsSf6KxXMm5UGG323+9KqZzmaG1RDgIcwUpm7kqkTnJlQ+L9
-	OQxsYcmBMWHgr/BqPvvdn2ywwF6NdSy722fz6NaFfGtrFIl93vEYnowMv0chBXWOZEeo3hW95gR
-	VzM233Cg9ARmS28WbBWwTDSJC0Wy3+hPF5/2HPLhW
-X-Gm-Gg: AYBFou3MTTcAMzDr/w5TEr6G9Ic93l5d+UN+V7+e3dwUCAlJd+DJ1waBdxyn3CUcU7K
-	sNdlQdO/dHBhlIUNQyefsluuaH601f/AUub9/WD7RMtPtv3eQ/zvB+Oo288YN7XTuitrszXjyjN
-	2GZIykpPbhqKD6ja1PcYHB733tP/HJQvnPL9Mzo11fvGm0x19EEw96N5LRoGlwrIGYPn1dfEpqf
-	XkKFHOKPBuW5Vs6ch834Z6mvkudzvEruynmkt5J0cnSTtetStaeMgaO9XsSc/N39vaLst80JJ3c
-	Z4B2FmD3BCbfOa9TbvEjS0hYmXD0tJi34+dOmoqxXvEqDxNTap0LLSiJ8rWevL9faTSxoJU93gv
-	B0vB++/nusO0Expu6c+paljvfw4dHxsfHlRZReGsf
-X-Received: by 2002:a17:902:f70d:b0:2db:a1c:be59 with SMTP id
- d9443c01a7336-2deb4653afcmr12695365ad.7.1790008477460; Mon, 21 Sep 2026
- 09:34:37 -0700 (PDT)
+        bh=PmR+gFnwjwx9HRJSW244xTdy4CpVHKmXxMQ0vpvGnEg=;
+        b=IX7ogZHbCZtCUD+e0xNW/9qTZlHEcydwhGTFD+a9wV90TtYamfXMfUjg4Z7fWpTJJ0
+         VEEIsCF27I8qsLvc+CHHT92h5cCj1fXUSt7mz6HDcxAUwPVb1BCqJUFmvgcWUO9aXO0J
+         /jE4Jgk+TU6bC/05ZdTN9QYt6PImRnZWfAqV/3WEd4H8azaDcJtDXJz33VTIABdlNe/k
+         yyVUueTS1Xzk8K4X0/NoonUwixq1WjVXTHsGiFS1b+76X9ftG33JfVszkt5j+Pn5pOo9
+         +yhRExdtR9/z5UZxqrabT2oRQYpju3ALrtSOtI0W4RjxhP9ISEMXuPb1qJg4bjOg1uUF
+         ZHOg==
+X-Forwarded-Encrypted: i=1; AKwUvBxhdBAOtMeAjz3/1Oh9jUx9qn/x7oYacONMSEaWMJTt/w7Qc1gpSbFzWPPmEIC684gYfF2p9DE2dvBEPv+D@vger.kernel.org
+X-Gm-Message-State: AFuF++m+BjzjowiseSvPCoxBk4HeBs8srLRNzMMDPLMkClNFenc3GOL7
+	0xBFMBuju3dXNkxI980lcFQjfsnYv4fIV4OSPiVOeQ5fR3SQi6Q1oSI/Y6DUu9Xcl4vCeGpeVPO
+	cdAhepk9NVw==
+X-Gm-Gg: AYBFou1Rh9kA1KP9KZjk2eOhAtVglyW3p/AlfVjZCzz+mpJ6SgV0WIG55UxsXizpLWX
+	8+mxTyrOHnHz607M91oI74M9JwY3lu9wx71k1xzkjF3e6DHYq+AozfufjSWI/7BvSaIv8NlKifO
+	kItlUQg7wUy1MWnQJVqP8hqZ5BKqxyuUdHaua0dJRtL3ZkN6/GOGrWF6o+8DlMYmQMQDD1uFLYN
+	ksIFsqqHMys8nNG6k4OaL7YiacNpgnEn6hoDaMxWI7I85HM5lgpPrTzhkSpu3M3GLBWrhafpJlg
+	lUW7tNWe3AFQUY3lSZ5UJVJ9NeSG77Fxw2gS9DgaVgNhpp8Hm1CQClpp11JczH5NhwPYgSvq9Ac
+	qXTwcw7PpzqlXl4mEVUaNl3LxQxGmx5EvS+21qhJeMktHgRO1E9I20OEiRmz3d2a+ezCeZTIVac
+	ub/M8f6d4zBxQ62dl0SAxifRWBr/V/Cn/iY7Q6tztocsCP6PJmNs5Ksaxl9I9POhD9Cg==
+X-Received: by 2002:a17:90a:d888:b0:39e:4c7f:8b16 with SMTP id 98e67ed59e1d1-39e54cf8bdbmr17750548a91.27.1790009297592;
+        Mon, 21 Sep 2026 09:48:17 -0700 (PDT)
+Received: from 1c1aead48890 ([49.142.45.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0673209b7sm148455a91.16.2026.09.21.09.48.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 09:48:16 -0700 (PDT)
+Date: Mon, 21 Sep 2026 16:48:10 +0000
+From: Seongjun Hong <hsj0512@snu.ac.kr>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Oscar Salvador <osalvador@suse.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jan Kiszka <jan.kiszka@siemens.com>, 
+	Kieran Bingham <kbingham@kernel.org>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 09/12] mm/sparse: remove SECTION_MARKED_PRESENT
+Message-ID: <vpz5zqg5nwbpolxbkip45vxxdt3lni7j2haal7q42skc3b57tu@uh4cec4x32dq>
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-9-008fc8d579fe@kernel.org>
+ <aqK9S1hBpPnujgz9@gremlin>
+ <eb5b465b-c256-4454-84de-517aefcd6d59@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260921-work-file-close_range_except-v1-0-c20d0b49270d@kernel.org>
-In-Reply-To: <20260921-work-file-close_range_except-v1-0-c20d0b49270d@kernel.org>
-From: Jann Horn <jannh@google.com>
-Date: Mon, 21 Sep 2026 18:34:00 +0200
-X-Gm-Features: AcwNN1VeasSVEMVLdNaPQEsL5yQFDdVZirlUdYDc2hCuV-bTIiAE646ed6GAv40
-Message-ID: <CAG48ez1Otqb1DTYOqUCZUoxQBbawxkNqhjY7TcO8n=Pdf2VVWw@mail.gmail.com>
-Subject: Re: [PATCH 00/10] files,close_range: add CLOSE_RANGE_{CLOEXEC_ONLY,EXCEPT}
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Neil Brown <neil@brown.name>, 
-	Jeff Layton <jlayton@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eb5b465b-c256-4454-84de-517aefcd6d59@kernel.org>
 
-On Mon, Sep 21, 2026 at 4:15=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> close_range(CLOSE_RANGE_CLOEXEC) marks a range of file descriptors
-> close-on-exec. It only marks them. The file descriptors are only ever
-> closed during an exec. This series adds two new flags to extend the
-> abilities of close_range():
->
-> (1) CLOSE_RANGE_EXCEPT
->
->     While regular close_range() operates on all file descriptors in the
->     range [fd, max_fd] and not on any others, CLOSE_RANGE_EXCEPT makes
->     close_range() operate on all file descriptors outside of the range.
->
->     When combined with CLOSE_RANGE_UNSHARE dup_fd() never takes a
->     reference on what is dropped.
->
->     A task between clone(CLONE_FILES | CLONE_VM | CLONE_VFORK) and
->     execve() that has the descriptors for the child in one window can
->     shed the rest of the shared table in one call:
->
->             close_range(lo, hi, CLOSE_RANGE_UNSHARE | CLOSE_RANGE_EXCEPT)
->
->     Nothing outside of the window is referenced by the child at any point=
-.
->
-> (2) CLOSE_RANGE_CLOEXEC_ONLY closes the close-on-exec file descriptors
->     in the range
->
->     Whatever the caller deliberately passes down, stdio, LISTEN_FDS, an
->     inherited pipe, remains where it is.
->
->     The handful of close-on-exec descriptors the caller still needs for t=
-he
->     exec such as the executable, an error pipe, can sit in a specific
->     range. A task between clone(CLONE_FILES) and execve() may do:
->
->             clone(CLONE_FILES | CLONE_VM | CLONE_VFORK)
->             child: close_range(lo, hi, CLOSE_RANGE_UNSHARE |
->                                        CLOSE_RANGE_CLOEXEC_ONLY |
->                                        CLOSE_RANGE_EXCEPT)
->             child: rearrange descriptors in the now private table
->             child: execve()
->
->     Between the clone and the close_range() the child holds no reference =
-of
->     its own on any file because copy_files() only bumps the fdtable
->     refcount. So a close() in the parent takes effect immediately. The
->     unshare also never takes a reference on the fds it leaves behind eith=
-er.
+Hi David,
 
-Nice, I think with this we'll finally have a way for a thread in a
-multi-threaded process to fork+exec without keeping O_CLOEXEC FDs open
-longer than concurrently running threads expect.
-We probably can't make the UAPI better without introducing some
-entirely new syscall that operates on file descriptor bitmasks /
-lists.
+I'm sorry for the delayed response.
 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Thu, Sep 10, 2026 at 05:11:36PM +0200, David Hildenbrand (Arm) wrote:
+> >> +++ b/scripts/gdb/linux/mm.py
+> >> @@ -76,7 +76,7 @@ class x86_page_ops():
+> >>              self.SECTION_IS_EARLY = 1 << int(gdb.parse_and_eval('SECTION_IS_EARLY_BIT'))
+> >>          except:
+> >>              self.SECTION_HAS_MEM_MAP = 1 << 0
+> >> -            self.SECTION_IS_EARLY = 1 << 3
+> >> +            self.SECTION_IS_EARLY = 1 << 2
+> > 
+> > Seems a bit strage given the code is:
+> > 
+> >         try:
+> >             self.SECTION_HAS_MEM_MAP = 1 << int(gdb.parse_and_eval('SECTION_HAS_MEM_MAP_BIT'))
+> >             self.SECTION_IS_EARLY = 1 << int(gdb.parse_and_eval('SECTION_IS_EARLY_BIT'))
+> >         except:
+> >             self.SECTION_HAS_MEM_MAP = 1 << 0
+> >             self.SECTION_IS_EARLY = 1 << 2
+> > 
+> > Whereas other variables must be available with no try, e.g.:
+> > 
+> >         self.PAGE_OFFSET = int(gdb.parse_and_eval("page_offset_base"))
+> >         self.VMEMMAP_START = int(gdb.parse_and_eval("vmemmap_base"))
+> >         self.PHYS_BASE = int(gdb.parse_and_eval("(unsigned long) phys_base"))
+> > 
+> > etc.
+> > 
+> > Is there some weirdness with gdb? Or is it maybe because there are some configs
+> > without these symbols maybe?
+> 
+> TBH, I have absolutely no idea and I was asking myself the same thing (but
+> decided that I couldn't care less about a python gdb script).
+> 
+> This code was added in February:
+> 
+> commit 55f8b4518d14b7436f70defe27faba4eca0cd4e1
+> Author: Seongjun Hong <hsj0512@snu.ac.kr>
+> Date:   Mon Feb 2 12:42:41 2026 +0900
+> 
+>     scripts/gdb: implement x86_page_ops in mm.py
+> 
+>     Implement all member functions of x86_page_ops strictly following the
+>     logic of aarch64_page_ops.
+> 
+>     This includes full support for SPARSEMEM and standard page translation
+>     functions.
+> 
+>     This fixes compatibility with 'lx-' commands on x86_64, preventing
+>     AttributeErrors when using lx-pfn_to_page and others.
+> 
+> @Seongjun, why are these conditional and the others not? Trying to support older
+> kernels?
 
-For patches 1,3,4,5,6,8,9,10 (everything except the selftests):
+No. TBH I didn't look at the gdb script carefully at that time and just 
+wanted to avoid a symbol lookup failure. 
 
-Reviewed-by: Jann Horn <jannh@google.com>
+It would be better if we remove the try statement.
+
+Thanks! :)
+
+--
+Best regards,
+Seongjun Hong
