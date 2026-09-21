@@ -1,190 +1,214 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mta0.migadu.com (out-251.mta0.migadu.com [91.218.175.251])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B1845DF70
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 09:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BB3469829
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 09:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.251
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789982353; cv=none; b=EdQp0CifjRzZaeiB//OdDbFyiEFADryWkJKRWdZw4sTwowAXJ/TuvvZYarVg6MiKwKq9/ZkU66HSoNqsZsI9th3odswdv9o411WleSGp+lX3/3EeXh+aa9bKaiYMemPuloJwKpvB8KuCmBi4FyxbYv+y+cyQMMzxXg4VRXv84+4=
+	t=1789982484; cv=none; b=b0LvZqPs9ctrgdo+sY4co4SyJB7x/8wwjX/idzmBLA+Ur//U8CKi7KmNetKjuVe4UgsqwlKpIseBV0+QnQpo6IBjO3uKSN+/qoUAWXavNuEamaZ5/vgAylvJV0G29vgQDV/ILJrZ3c+gHan0vXzyLEcFGak/2xJxPoq0pxSzyOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789982353; c=relaxed/simple;
-	bh=487whN/ep3N2STbygC0sdA1IIhi1sdLZN0hb0tTo+do=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BwAXmet9cpuSCRdC24ludSWrqdBlBKin1KdqYKhxIfYPpNAn073USXGoXynsepX87GVKrkLpNj/g6YA5rT66O87IKUwhLXiDLxpiVqHx2hsgyStQe1SQtId+S4Zq/0qwDnySRX3pTqZQySjBJXv7UN2crszZu7p0W7P/KAr5dow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFcDn9DR; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789982484; c=relaxed/simple;
+	bh=SoD6rbNlmdBhL/S9+WOTUPuzd+nRVogzcLA/JJFQNZM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=dLcm78XhmiT/kN7qPtJ3+qp6dPSxic71RCdTf7i1WYVqGp8F42vCpytx7iPzJtyvxvoWtEmA9Vh0QbpdQGOPytIN7vld5cFQRqNbsArj3yBjtlbJ6blk1h+Y9s0tp7WuyBX5G6khDRevxZcoGa797/O5YZFX3IhVQiWb3+zv3us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bPUBDz2V; arc=none smtp.client-ip=91.218.175.251
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFcDn9DR"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485ac898fa4so2343902f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 02:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789982349; x=1790587149; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MGiXLlnO4e+UrjavjSVvmX2UYt3SrnKyX7o77pnTk5E=;
-        b=HFcDn9DRX52z4pi9uX2bxrNrX04T/pV/rTmqZb80qHkUPlkQHmWeYERRZt1mNUm0De
-         WXHBsXDe3Nf3Xvd3sTHLc+V96YXPoctVie/4crz7J391f5jgz0LbjLB7/pStRO0RyrlH
-         8YY9qK2IaYMk50J7GQnTo+3qwj3HqVqUwIhByBluE3DB42ojXeaNKe7jPmKxGqm5zAqi
-         HUj1Yw9Hy1baRu9YGjFMg0Y3OCctpYiAa3Eoeqfc3qJQIdLWoum7CtzDDuKEMgaRDbSI
-         uBf8ZXE46N6vk1AUhVTC+a3F0lJqc8aBeF3ueDnTpsUPkJtbXDoPBfB15UaEyxE1ztv1
-         CS1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789982349; x=1790587149;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MGiXLlnO4e+UrjavjSVvmX2UYt3SrnKyX7o77pnTk5E=;
-        b=h2+XjzHxw/bglx728Yyb7HQBdaNiiEw/71H9L+5xZTcqltXtkSu1XdU5il6dNWAzP0
-         /gVfJPTIafIbuGgztlS4lYNdoE+MgAoQmR164uay5zfObj3El5G/vr2/3gm5HrIx5EEu
-         6GTHNFiS0uFLEJIQCTWi6cf+gS+s47pOqpmKs0heExbZnfakAE0mIdGQCDZ7F8wlNmbZ
-         4gNAziQnKxaURsU2OCMeejodbFSJdwFRWqtkaYbZTAi7jWBpbYASVLdjkq6qvaB0L6QG
-         3fS7NclRFe6JuB5ZiCh0Pa7u3j9tmEj1FOIgvaj/4GnkwEJbZc1xnNF1y24afvUDCbxp
-         OY7A==
-X-Forwarded-Encrypted: i=1; AKwUvBy/3TrSkPopQuPPnG7eGaVEb4fDyn4g8xZQKeL9Jik0wBPHTNUtt4m9jPEiLd8Rj8e3w1lgdE+UcW0UsIKr@vger.kernel.org
-X-Gm-Message-State: AFuF++k8kt4SmCIlemChlWeGEfePsjWeQUsFrdBDTFwecpCU+bp69jnM
-	kKrxuiZ3ZbPiPXLaX6fFXRxu1luqSQ+/szkh2rrCiKNfwsoKuDmnJwn5
-X-Gm-Gg: AYBFou20c9qE7hAvuoQH424QCGQTHV3v1BWGL+meieRRIHpUYBFrXZzWKbbtfQzvz5V
-	41ZOi1D11O45uFAgxSvwS5Ki72Ya+eY3OCtLG/3Jc1YH8Sz4KAQmVu2XkflA0El1IwLqKghVxnJ
-	oy0PBxmUiWhgvtsP3KRE6jycJEp9bNCHnAwDdg1te7pOm9Yr/araJrOmpQFeklpoWEbaZrZ/Zfk
-	iRIde8JsW/dSM6KHkzu8gOkJBlKEJSph52tjz7wv5Qeow47Rc4SjTXyEv54AO8yyLwjWzrHk830
-	/984KWWFVJIjx6ityjh82iR160Q3e0JeRlnTRX2BcpNyE1ssSyAAn8t2J7bpN8hbTXV2yyiNOgX
-	QFQ+m5oRpwkCWGz2nERK6hjLYGpUkE9s39SuzUkKMTO5YZxEMcoP7DMmNyldOdINnqFdyhbF7ZS
-	Itou8KRsBjrFCUZLcLwGU76+ndhJrOQwPnrxmgKt2/uBtDGvTcivlPy8CFyj2vkfPJI+0cOJT9v
-	GC1dLy5tjWKwQLuV0xBSPLgSRj9GT2P4kJz
-X-Received: by 2002:a05:6000:24c2:b0:487:d79:7cf7 with SMTP id ffacd0b85a97d-4871e377accmr13347203f8f.52.1789982349132;
-        Mon, 21 Sep 2026 02:19:09 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4872459d409sm20519075f8f.33.2026.09.21.02.19.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 02:19:08 -0700 (PDT)
-Date: Mon, 21 Sep 2026 10:19:07 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Mikko Rantalainen <mikko.rantalainen@peda.net>, Matthew Wilcox
- <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- brauner@kernel.org, viro@zeniv.linux.org.uk, alx@kernel.org,
- dalias@libc.org
-Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
-Message-ID: <20260921101907.162d3533@pumpkin>
-In-Reply-To: <wb5ulikmcromcpolaf7icazadijmadrspctqe3ffgnm3bffdwe@t4oz5ond537b>
-References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
-	<aqcmz5uI7PgN5CT7@casper.infradead.org>
-	<bcdb8f85-d53a-4824-8e34-8d190ec7f4b2@peda.net>
-	<cf83be66-e540-4abf-b377-7e344d62a1dd@peda.net>
-	<wb5ulikmcromcpolaf7icazadijmadrspctqe3ffgnm3bffdwe@t4oz5ond537b>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bPUBDz2V"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=SoD6rbNlmdBhL/S9+WOTUPuzd+nRVogzcLA/JJFQNZM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789982480; v=1; x=1790587280;
+ b=bPUBDz2VIyGxyOartNajvdI+c+JjY7hBzrcjVlofzPUL37v9FEcKoJqURJ+2UuSja2hv7j/h
+ PmlAHbUFkOIMZTdyjDVpYocVAyStm7FniK73fDL63jeUrpUu/tN6Glsm7osTxofWvzw2iwtdgsy
+ UEvtC8siMo/2TMxAN9LtXYvg=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id b70590be7f446065;
+	Mon, 21 Sep 2026 09:21:19 +0000
+X-Mizu-Trace-ID: b70590be7f446065
+X-Migadu-Flow: FLOW_OUT
+From: Ye Liu <ye.liu@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	David Hildenbrand <david@kernel.org>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	SJ Park <sj@kernel.org>,
+	Gregory Price <gourry@gourry.net>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	rientjes@google.com,
+	shakeel.butt@linux.dev,
+	xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev,
+	will@kernel.org,
+	boqun@kernel.org,
+	frederic@kernel.org,
+	neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com,
+	josh@joshtriplett.org,
+	urezki@gmail.com,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	tony.luck@intel.com,
+	reinette.chatre@intel.com,
+	x86@kernel.org,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	pavel@kernel.org,
+	lance.yang@linux.dev,
+	mhiramat@kernel.org,
+	pmladek@suse.com,
+	longman@redhat.com,
+	mathieu.desnoyers@efficios.com,
+	jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev,
+	dietmar.eggemann@arm.com,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	mark.rutland@arm.com,
+	Dave.Martin@arm.com,
+	james.morse@arm.com,
+	babu.moger@amd.com
+Subject: [PATCH v4 00/15] sched: introduce for_each_process_rculock and for_each_thread_rculock
+Date: Mon, 21 Sep 2026 17:20:46 +0800
+Message-Id: <20260921092101.89285-1-ye.liu@linux.dev>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 21 Sep 2026 10:49:23 +0200
-Jan Kara <jack@suse.cz> wrote:
+From: Ye Liu <liuye@kylinos.cn>
 
-> Hi!
-> 
-> On Mon 14-09-26 15:40:01, Mikko Rantalainen wrote:
-> > Mikko Rantalainen (2026-09-14 12:07 Europe/Helsinki):  
-> > > ---
-> > > retval = filp_flush(file, current->files);
-> > > 
-> > > WARN_ONCE(retval == -EINTR ||
-> > >           retval == -ERESTARTSYS ||
-> > >           retval == -ERESTARTNOINTR ||
-> > >           retval == -ERESTARTNOHAND ||
-> > >           retval == -ERESTART_RESTARTBLOCK,
-> > >           "close: ->flush %ps returned interrupt error %d\n",
-> > >           file->f_op->flush, retval);
-> > > ---
-> > > 
-> > > That would leave the existing userspace ABI unchanged while making
-> > > remaining offending implementations easier to find and fix.
-> > > 
-> > > I also considered retrying filp_flush() inside close(), but I don't
-> > > think that can be done generically. ->flush() is not documented as
-> > > safe to restart from the beginning after partial execution, and
-> > > an interruptible wait could immediately encounter the same
-> > > still-pending signal again. So fixing the interruptibility at the
-> > > offending wait seems safer if the above invariant is indeed
-> > > the intended one.  
-> > 
-> > Another thing I noticed is that there are already several paths where
-> > the kernel calls filp_close() and intentionally ignores its return value.
-> > 
-> > For example, close_files() does:
-> > 
-> >     filp_close(file, files);
-> > 
-> > without checking the result. The same is true for do_close_on_exec(),
-> > and close_range() explicitly says:
-> > 
-> >     Currently, errors to close a given file descriptor are ignored.
-> > 
-> > So I don't think a ->flush() implementation can rely on returning EINTR
-> > and having somebody retry the interrupted operation. There are valid
-> > close paths where nobody will ever see that return value, even when the
-> > process itself continues running.
-> > 
-> > This seems to strengthen Matthew's point: if some work performed by  
-> > ->flush() is required for correctness, that work has to tolerate these  
-> > close paths without depending on userspace retry. Returning an
-> > interruption result cannot be the recovery mechanism.
-> > 
-> > I'm therefore leaning towards treating an observable -EINTR/-ERESTART*
-> > from ->flush() as suspicious in general, rather than just special-casing
-> > the close(2) syscall. The fatal-signal case is harmless because the task
-> > will not observe the result, but close-on-exec and close_range() show
-> > that unobserved filp_close() errors are already part of normal operation
-> > as well.
-> > 
-> > That also makes me think documenting the intended ->flush() contract
-> > would be useful: if required close-time work must not depend on the
-> > caller retrying filp_close(), that seems like an important invariant for
-> > implementations to know.
-> > 
-> > What guarantees must file_operations::flush provide when its caller may
-> > have no way to act on its return value?
-> > 
-> > In any case, I'm now thinking that returning EINTR for close() is a bug
-> > when file descriptor is already freed. I think the only question is how
-> > it should be solved. I initially thought it should just be mapped to
-> > success. Maybe it should be logged as subsystem bug *and* mapped to
-> > success for userspace instead?  
-> 
-> I agree that nobody can sanely assume returning EINTR from open(2) helps
-> anything (or that userspace is able to do anything based on that).
+Introduce for_each_process_rculock(), for_each_thread_rculock() and
+for_each_process_thread_rculock() macros that combine the existing
+iteration macros with scoped_guard(rcu), so that the RCU read lock
+is automatically acquired before iteration and released when the
+loop exits — including via break, goto, or return.
 
-What about opens of serial ports waiting for modem signals or opens
-of tape drives waiting for rewind, finding tape marks etc?
+The rest of the series converts manual rcu_read_lock()/
+rcu_read_unlock() and guard(rcu)() pairs across mm/, kernel/, fs/,
+lib/ and security/ to use the new macros.
 
-> Generally any error (perhaps outside EBADF) from close(2) is at best
-> informative telling you that something is unhealthy but userspace cannot
-> sensibly do anything about it.
+Suggested by Michal Hocko for the oom_kill path [2].
 
-The program can exit with error to indicate that the output file is
-likely to be invalid.
-Although the last thing anybody wants is a pile of AI generated patches
-saying that a program forgot to check the return from close().
+Signed-off-by: Ye Liu <liuye@kylinos.cn>
 
-David
+---
+Changes since v3 [4]:
+  - Fix patch 5 (cpu/hotplug): title and commit message incorrectly
+    said "thread iterator" and "for_each_thread_rculock" while the
+    code converts for_each_process() to for_each_process_rculock().
 
-> OTOH this "something is unhealthy" message
-> does carry some value for possible debugging of the issues by sysadmin so
-> I'm not sure just ignoring the errors is the right way to go.
-> 
-> This raises a question: Are you actually seeing some case where you can see
-> EINTR returned? Because IMO the best fix is to just fix the .flush method
-> that can return EINTR to do that only in case of fatal signal and then you
-> don't have to be doing this special-casing in VFS.
-> 
-> 								Honza
-> 
+Note: Patches 4, 11, and 13 received automated reviews from sashiko-bot
+in the v3 thread [4] that were verified as false positives:
 
+  - Patch 4: claimed the folio lock is dropped before collect_procs(),
+    leading to a NULL deref on folio->mapping; the lock is held in all
+    call paths.
+  - Patch 11: claimed mixing goto/scope-based cleanup in
+    alloc_retstack_tasklist(); the goto free label handles memory
+    cleanup, not lock management.
+  - Patch 13: claimed mixing goto/scope-based cleanup in
+    __set_oom_adj(); goto err_unlock manages oom_adj_mutex while
+    scoped_guard(rcu) manages the RCU read lock — different resources.
+
+Changes since v2 [3]:
+  - Split the kernel/ patch into per-subsystem patches, as the
+    combined patch could not be applied (Peter Zijlstra, Steven
+    Rostedt).
+  - Move changelog below the --- separator so it is excluded from
+    the commit message (Lorenzo Stoakes).
+  - Indent loop body in macro definitions to show scoped_guard
+    scope (Lorenzo Stoakes).
+
+Changes since v1 [1]:
+  - Rename macros from *_rcu to *_rculock, as suggested by Steven
+    Rostedt and acked by Thomas Gleixner, to avoid confusion with
+    existing *_rcu() list iterators that expect the caller to hold
+    the RCU read lock.
+  - Improve the comment on for_each_process_thread_rculock() to
+    document that 'break' only exits the inner loop and 'goto' is
+    needed to exit both loops (Thomas Gleixner).
+  - Rename the stale 'unlock:' label to 'out:' in hung_task.c, as
+    noted by Günther Noack.
+  - Clarify in patch 4 that page_pgoff() is safe outside the RCU
+    read-side critical section (SJ Park).
+  - CC all relevant maintainers on every patch (Lorenzo Stoakes).
+  - Drop the mm: prefix from patch 1, as the macros are in
+    include/linux/sched/signal.h (Michal Hocko).
+
+[1] https://lore.kernel.org/all/20260904083001.553587-1-ye.liu@linux.dev/
+[2] https://lore.kernel.org/all/20260813092933.562028-1-ye.liu@linux.dev/
+[3] https://lore.kernel.org/all/20260907081334.1152889-1-ye.liu@linux.dev/
+[4] https://lore.kernel.org/all/20260911075800.491472-1-ye.liu@linux.dev/
+
+Ye Liu (15):
+  sched: introduce for_each_process_rculock and for_each_thread_rculock
+  mm/oom_kill: convert process/thread iterators to for_each_*_rculock
+  mm/ksm: convert process iterator to for_each_process_rculock
+  mm/memory-failure: convert process iterator to
+    for_each_process_rculock
+  cpu/hotplug: convert process iterator to for_each_process_rculock
+  freezer: convert thread iterator to for_each_thread_rculock
+  hung_task: convert process/thread iterators to for_each_*_rculock
+  locking/lockdep: convert process/thread iterators to
+    for_each_*_rculock
+  rcu: convert process/thread iterator to
+    for_each_process_thread_rculock
+  sched: convert process/thread iterators to for_each_*_rculock
+  tracing/fgraph: convert process/thread iterator to
+    for_each_process_thread_rculock
+  unwind: convert process/thread iterator to
+    for_each_process_thread_rculock
+  fs: convert process/thread iterators to for_each_*_rculock
+  lib: convert process iterator to for_each_process_rculock
+  security/landlock: convert thread iterator to for_each_thread_rculock
+
+ fs/proc/base.c               |  4 +---
+ fs/resctrl/rdtgroup.c        |  8 ++------
+ include/linux/sched/signal.h | 26 ++++++++++++++++++++++++++
+ kernel/cpu.c                 |  4 +---
+ kernel/freezer.c             |  4 +---
+ kernel/hung_task.c           | 11 ++++-------
+ kernel/locking/lockdep.c     |  4 +---
+ kernel/rcu/update.c          |  4 +---
+ kernel/sched/core.c          |  3 +--
+ kernel/sched/debug.c         |  4 +---
+ kernel/trace/fgraph.c        |  8 ++------
+ kernel/unwind/deferred.c     |  3 +--
+ lib/is_single_threaded.c     |  5 +----
+ mm/ksm.c                     |  4 +---
+ mm/memory-failure.c          | 16 ++++------------
+ mm/oom_kill.c                | 20 +++++---------------
+ security/landlock/tsync.c    |  8 ++------
+ 17 files changed, 55 insertions(+), 81 deletions(-)
+
+--
+2.25.1
