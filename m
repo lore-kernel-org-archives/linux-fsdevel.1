@@ -1,168 +1,150 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011039.outbound.protection.outlook.com [52.101.52.39])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F4E3769E9;
-	Mon, 21 Sep 2026 23:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790032353; cv=fail; b=IeuZMvgSBPyDmBw+B8fHql9SxPyhFT11eDA3Ondbk0iQgxgJ0vbhDRskXQQ+Pdw8FtAusILXyLCrbSaukvWpdFrwGuC5cDJgLbkVTaGoriKZ48afajveHKwTAljpNAY1KJwA+V1PSC1GzgrbCzv9mDfijHUjP86xDWFxQXNNjdM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790032353; c=relaxed/simple;
-	bh=4nzRHBYJ1qst4GVgT9QgPvGZrluvcvZwat08Bv3rEGg=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To:MIME-Version; b=VN0vqzrmeH/J4Nrd7xcqZNZ1lbIeXQH4tL91nY0ssSXxXKKt6qchEtZPg+ZIkSb0wj5o2uNvgU+AlidI1emDGDQ6mrymzvNaS9+TtLJn5kO9zS0o7NRN+rYK3JLI44wuyJU4gnnuiDkF8PdA6AuXEHTLjGlc/yqJj/mk9xovTFI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sJxCoAXB; arc=fail smtp.client-ip=52.101.52.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AD547DF94;
+	Mon, 21 Sep 2026 23:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790033015; cv=none; b=N+ws8jv1Ephtnlet/YKMfBw0QVtAOh+B+OpgKCNGnAqVR8+OjL0qFhOMxg1ZcQ05N92JTJeEYECszXG89YUGmY8JyJebdptBejFR7gRx1Mdu7w2btXHlNZ74+fP3HPqhUTARomMTbzl/LZzzawfGdKkRiLQZEXGJEmvfTb8thtA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790033015; c=relaxed/simple;
+	bh=SMF3JTCy12tMkh7LP9QsPNpLnwOfmZrlhdz3vWkH4HU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TLcTB1Mejgt1OIr7Vqk0E5+mWgfwSOfl/lmy+zQCXCXv3Z8Z4UmsO3Cl7cztdUhDEavMGO+Nv2JI9W7fV6hNrCRK1/WOM5lFC68wT8/ko4aFXXKfO7zmESUzQleABV8SzYYNmsPCZn/9qqEwxlRZwGwW8ZI9waSO+2KAjI9qd/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VsOq4jUJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sJxCoAXB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s/v3FLR2F3ZTzYLNpdFVhrlH7ra9ECx8KvRakoun3+0tbt8Wn4wVbNSUEJLeI55qzem1+xAwChvLJDDCp5RS3NUadFG31UkiA4sqLibBl3uRS6GUKCv2bSR8li2ruF+qhx9VmlAEwoZOAxDmRmSeHYagH9SNcWx7hzjG70uLEx96YRYtaZJGraSYXrutzcj2eAZ9zaZvqqIVDu/YQwyqQ3vqb1GGo6JlEQEgIWGDu7O5iK5xm0F0rF6omWl30nSXrz2bppUfm+t+KNrMs4rX36YBZlq5F4bj1j1Eu61Gz4JQcVoCdrfN3hppGGPbhAioIQaJqmAzFccF+j7a4N4vLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jua0BlwKAEkzKH4lCwOEOVuTyaRsXhSCBkaVFIbAl/w=;
- b=u9AjVPKCsOZgfj/81MkTGqZOuoUfQM+SFlBgw0dEDcvrhUU9byjuNp+0KSvOswo8EVM8J7ujHehjp/f+fnIxNkqTOAi6Uawi35abwU/W9EA2+i45FfUOjAlLWyjxqZVLxgoZYDpga+VoFe9mKmFEuGh9/YFubQ8ED6m+Txhoi7AuhSdHJRAM8KxIDBnoDGai65rU7f52JHJwYNOYrdpp1C1vg5zALF69OMfWs7JUd71v55wUQc3y68tL4G/H0XturX04QSV5r4j3RswMlsQ0NcYIUlwLXbBuOhVATB6kSl/GaQBb6qo+4WaIr++FunqExIpnTbeu3P0iAco5FdbieA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jua0BlwKAEkzKH4lCwOEOVuTyaRsXhSCBkaVFIbAl/w=;
- b=sJxCoAXB8/z96Bp8VnCNB04hVM/SJ/XlR8pX3hh42g1As87EDSuYAUnaZc4lGk4zyyNwz/oN6EC2xFfs8CxhJY6fMcPdp1eZnSq3vME7zZNMlAF/gHw4KaaO1n0kRm+xQcwkxylRGFKTMIkNmKdSJEP3VRlZcZHbaQQ+VUR13SkG2yJ7zj9P7bPgQ3WUaoDUsoEOU+VaVzBsz7IotNw4fqi/dIPm0+Pd1I+DLwJTD2U2Q6oajNh+ADe3gz5D9HsecPvGm3kWKowBu18BjGdrxosAQ4Tcfpqf2C29waimlNLRv2No1ziQwLRAIC+C7fyLw3eTrxE9r1eB/Qqi4MrDCw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by DS7PR12MB5792.namprd12.prod.outlook.com (2603:10b6:8:77::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Mon, 21 Sep
- 2026 23:12:19 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0428.015; Mon, 21 Sep 2026
- 23:12:19 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Sep 2026 19:12:17 -0400
-Message-Id: <DLLDI7J2Z7L3.142FJJM03D1IV@nvidia.com>
-Subject: Re: [PATCH v2 01/13] mm/sparse: move mem_section init to
- sparse_extreme_init()
-Cc: <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-cxl@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <linux-fsdevel@vger.kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R.
- Howlett" <liam@infradead.org>, "Vlastimil Babka" <vbabka@kernel.org>, "Mike
- Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan" <surenb@google.com>,
- "Michal Hocko" <mhocko@suse.com>, "Kairui Song" <kasong@tencent.com>, "Qi
- Zheng" <qi.zheng@linux.dev>, "Shakeel Butt" <shakeel.butt@linux.dev>,
- "Barry Song" <baohua@kernel.org>, "Axel Rasmussen"
- <axelrasmussen@google.com>, "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu"
- <weixugc@google.com>, "Baoquan He" <baoquan.he@linux.dev>, "Baolin Wang"
- <baolin.wang@linux.alibaba.com>, "Brendan Jackman"
- <brendan.jackman@linux.dev>, "Johannes Weiner" <hannes@cmpxchg.org>, "Jan
- Kiszka" <jan.kiszka@siemens.com>, "Kieran Bingham" <kbingham@kernel.org>,
- "Oscar Salvador" <osalvador@suse.de>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20260921-b4-sparsemem_cleanups-v2-0-54d81d65e125@kernel.org>
- <20260921-b4-sparsemem_cleanups-v2-1-54d81d65e125@kernel.org>
-In-Reply-To: <20260921-b4-sparsemem_cleanups-v2-1-54d81d65e125@kernel.org>
-X-ClientProxiedBy: BN9PR03CA0293.namprd03.prod.outlook.com
- (2603:10b6:408:f5::28) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VsOq4jUJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60E8F1F000FF;
+	Mon, 21 Sep 2026 23:23:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790033013;
+	bh=Mi8Whz8fBeA3TakUMBe/3d5D0jQRsBe/GVENydPqRxc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VsOq4jUJcbukzkixpIPpN6J6et3/8yD0xicFSkalFapwRsPh+YemxJqNXdy4DvfAj
+	 oo0yGBmnOVyNtT/blMloMMZija1QjrRLwAo9znr2mIE2s3szPFFTwTEuvT4TsTyRV1
+	 C8ugLpJ5m8lYQ9OHbiLmlAOuovineqU7W9Ev4banNcwezizuZT2hhRj1WKwmtgCUMs
+	 Vc+qijkOT7n4lTD5mkA3TjKgEy4Y4u433tz1wjqb/NC4A1wOeAqHdgltYDLBMwC6Rl
+	 rye5D0r7NV0115Ib7kIJwTXZIpXY6fPZfuKLZTa7CnEhi+KpYtnVyRpnB/X3rvdbgF
+	 pQYgNyhrcjb8A==
+Date: Tue, 22 Sep 2026 09:23:23 +1000
+From: Dave Chinner <dgc@kernel.org>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, cem@kernel.org,
+	jack@suse.cz, axboe@kernel.dk, kbusch@kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	gost.dev@samsung.com
+Subject: Re: [PATCH v5 0/8] xfs write streams
+Message-ID: <arG8a7Vcy6_qZi0e@dread>
+References: <CGME20260921093229epcas5p387ee10f88335ddc5fc930ca919769a60@epcas5p3.samsung.com>
+ <20260921093147.59935-1-joshi.k@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DS7PR12MB5792:EE_
-X-MS-Office365-Filtering-Correlation-Id: 612ec6fb-0758-419f-b27c-08df1835c8c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|10067099003|11063799006|56012099006|4143699003|22082099003|18002099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	vYW0hAdwmmaj5achqY3kLTxcncYueQXXcjcOijyyprbAzutldnMoJbpwYZO63k3IBOEz0opdiDBoYnpOUx4hz0SzJuMv45MRxf/zpCp3y9N65a3QfhzkTvAu1mGWohPrwwmiivlKhnr2MMHeJ5xQEzVtsgHxskuS+ErsDXpN8HqDY4n6yDa9zcErl27Nk0oINBfpmwq3tLZ13pyuS95dB6euwhqpmil8OCEXK/jsJuP5h0aKTvZPRLJWVQu7vdYgOF8a/+9w7JBcrs4IWij2KdliYFO5De06Ygsg00y6H6bDYIH+jCIqIZUQfo2OPzXbyS3VJi0IvjKl1UAdUxIzmDt0+3ZafcDdc3+Lk0JzsvAJ1j9uxNTM+yIGYbuMXuWV4TBt8kqOhIrFXJRfw0DBD9+j03tCYVibALppi2XiDd71RFSf6QhZj5vUuOUw5FnOq6eV9F0g+89ucx4qSv+ntGzZLQuPj4eMUP/nsZsu80o7W9/RdfYJpW6UXlW4/TeSahOcN7doRF5pM3PpmAiBrmZx6uhW/CXkLufMK8nZG/XIDi5pfIwv/pGMHyC/5YR2zurQLiYXlIX51U4qEVrNnIdbIimOGCONA5JBa9WedHlFatkYzgYaXqrGQc4aQwLWnKerbtnG68H99WHceaaUtNEIPusn15+V5uUvpQzZc8PYT0/GrflJgVc9q3FAWug/877RVHRXNXb2H6R+lR9rag==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(10067099003)(11063799006)(56012099006)(4143699003)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NnE4RUI3Vm9PZ1BpUmsxNlpYZUtvSTk1RGlEd2RXMEFTbm1DRXFYT2E0L01Q?=
- =?utf-8?B?TFJhdGJncHlzSy91eFZjdEFiWlc5dStTd3o2Y014a2kya2xnTk5pK0F6UDh2?=
- =?utf-8?B?UlF6RGRaOEZTVGdSaFhqQ0IzaHdsUXcwUkFIWG1obUN2UjNDcDZXV2pzcDBa?=
- =?utf-8?B?WUFEd0NYZHJLSVdPZlVpejMvMUR5dlUxRlF5R0xscXpaUGZDVmwxKzE2VDAz?=
- =?utf-8?B?VjRvNnZBdytaVXl6aGlud09OY2pURlUyS01wLzFkM29WUGgzcnhCZzNkemR1?=
- =?utf-8?B?OHh3L0R0RkZja0pJVzk2REZObFRqT1N4bFd0OTlNZEIyYVcyeHhnaXNDZEcy?=
- =?utf-8?B?SjBIdGpmaFBLdlV5bDAxK1JaVzNibElHWFpHQjNYWXdVaEpZMytPTGRWSUxK?=
- =?utf-8?B?YVJkUlRBc0Y2YWhRZ25TdUhyS1NVYTJUMzhMaDA3d3ZIM0R4d3BGV09URGw3?=
- =?utf-8?B?N1V2anA5K1lsSnNscGtvbWxhbzYvTDRLaHZGSGNFd3VTUU54bUtXT2FrU0tB?=
- =?utf-8?B?bnNNTmduZy9RTmIzcE8vRkwzVVE2bXlIazdzNnlVZWgwSnArbWpLa3ZrN2VT?=
- =?utf-8?B?SzdPR1pGVTlmWlRZTUtBeXIvbTlMclZUV1dXWURMQVRuQWJ5UU5HTDFiNUhT?=
- =?utf-8?B?RDNjVEtEdmxaa1k5S0s4M1FJZnF0Q0x4NTJYTGFmQmpTMUJ3MUxMcE9BNFV4?=
- =?utf-8?B?MC9oUUZYUVpKSm8za3RSZjV3ZjkveFlwWC85Zmpjd3lEcTBnRTRFMk9KR2M2?=
- =?utf-8?B?UDBNeWFoUC9tbnp5bUhUU214NFk5R1RLcG1SalRLZEE4dGNDa2tZYldKYlF2?=
- =?utf-8?B?bmlFektRZzFxSDBPUGhyWW9XeUtMN3J1Qi9ZTGZ4VlZJOXJoWmJkOHNRaU11?=
- =?utf-8?B?NjhJQzYySTZoNzJ1bXRldVVlK1J2UmxyTkttSXdZUzZKeGhDTkhlV1RxZlJm?=
- =?utf-8?B?VHpaak9WM0tlUkFkOUN2NHg4STlVdmFHcjBIbDFRZ1dwMG9mZVkwVFljWEtv?=
- =?utf-8?B?ejdrdURORzZIZHJEbWNpZGdaa0Vsc1cyZk1MY2RRVDZLMXZneTA2MS8yRGts?=
- =?utf-8?B?SjJ1NVlXK0Y0ZC83Mm9QYlNvYkNKRUdHMlROKzVNdWVJSGhidEV6NmpwNDVB?=
- =?utf-8?B?dlY5VG9iSkFXanl3VExsTXh6QVpRU25hZGhzNC9KK1dHcDU0ekhNSGFRekxh?=
- =?utf-8?B?clozRHNMRWhwVDFUOFora1ZoUmFzS2FJVWNIVEx4SkN1c0dJME0wcGVpb0F4?=
- =?utf-8?B?aUovRFlvb2NOZjZod0lGYTNsS3ZHQ3BzK3JLMlIyYkJTSlNMWGFrWklYanpV?=
- =?utf-8?B?NkhhNkpGY0FIdzV2RENiVFlUYzlLU0dtL25VSmQ5cFZEUmc0NFM0YkY1K1Ix?=
- =?utf-8?B?Ym9OUkNZa2ZSWHNBK0RicXNEd3RGVkVPMWZaem9PQno3YlYxVXcxMTQreCtz?=
- =?utf-8?B?RURQVjFOV1BOZWlUcThJSnlNSytReit6bENpOUlwWmMyOEdNQWtEVWhDc3B1?=
- =?utf-8?B?c2hsdnBkNmhra2xwdW9VMUZNWDl3U1hHZzVIU0JkcjcxRlBtODJXVWtWNFg4?=
- =?utf-8?B?MW41WFFJT0llOVBNVkk3MDR1ZWNmYkdxUkZmVVcvYWhRWGZxRG9lcXdGKzc0?=
- =?utf-8?B?b2dKemhGMTdORnoxb1lXRUxSYUlRT3k4allwTEtQMTVPaFBHcndCdWR1b1JQ?=
- =?utf-8?B?cmtnWUJxVmwxR210cFhDNVRmVVlCcGpVSkZYWGlJRlVtUWpBUkpQTDF4THNp?=
- =?utf-8?B?OENMY3gxNGIva3JjK3dHNnpFdlRGTFZXdEZ3b2FuVkYzWExJMXczWHdjOXRv?=
- =?utf-8?B?Rml5Q0VMSzJhRVdldzNaV08wang4U0tzZHdOV0JUZ25Wbnhwdk5PQmNXb1Zy?=
- =?utf-8?B?aitnbkd6dS8rWnNNUTVOOGh2YVl5TEM2MmFBMWNnQmFoSzBONEE1M0lOTHhO?=
- =?utf-8?B?eElzQjJOTnptM2NmUDl6UXIwQWdsMkl2ZzJSSFN4dDJXdWdRak1xRWVnOGpE?=
- =?utf-8?B?Z2hSRWkwZ0dQU3RKQmlNTUd6a2hsVVcvY04rNVU0SlJDbEh3SGdCUEd0b00r?=
- =?utf-8?B?WEFXNS91aDdTTlBWU3UzVGtacXVyNGd4dTRtRFNSaWU0OCtmVlBrcDR2TXhH?=
- =?utf-8?B?ZlZnNlpUSWRGTjduVGh2eXdUaFpPWEJTZXhTZGVSb2ZlRVVGSmpDNWl1QlBB?=
- =?utf-8?B?NjI3b1pVcE5NL0Jzbmd3dHFxbVdnZmg3aFVhWElxT2NOaS9uOWhxcnVTQzYr?=
- =?utf-8?B?bVBqdi9oU2tTbkd2b25sMlhvM1VReWJVRjRxeUVQdS9IUkV3eGowMERYclBn?=
- =?utf-8?Q?S+2VNE7ZHjKntZxt2x?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 612ec6fb-0758-419f-b27c-08df1835c8c3
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2026 23:12:19.1874
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PxGSYT9+pDH6u4dnXO6lx4PjCPtvaF1WfrykK1JkF7oBwEZSwkQKS1uZhW2AI2Pu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5792
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260921093147.59935-1-joshi.k@samsung.com>
 
-On Mon Sep 21, 2026 at 3:58 PM EDT, David Hildenbrand (Arm) wrote:
-> Let's just avoid another pair of ifdef inside a function. While at it,
-> switch to INTERNODE_CACHE_BYTES by just defining a fallback in cache.h
-> as well, given that the x86 variant already provides one.
->
-> Acked-by: Oscar Salvador <osalvador@suse.de>
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  include/linux/cache.h |  1 +
->  mm/sparse.c           | 19 ++++++++++++-------
->  2 files changed, 13 insertions(+), 7 deletions(-)
->
-LGTM.
+On Mon, Sep 21, 2026 at 03:01:39PM +0530, Kanchan Joshi wrote:
+> This series introduces a generic interface [2,3] for write stream management on
+> files.
+> It enables spatial isolation (at sw and hw level) and concurrency improvments [1]
+> in xfs by
+> (a) steering each write stream to its own set of allocation groups (patch #5)
+>     and realtime groups (patch #6).
+> (b) connecting xfs write streams to block write streams (FDP capable NVMe).
+> 
+> Write streams allow the abstraction provider (fs, block, raid etc.) to
+> leverage application's intent (file relationships/lifecycle).
+> - application: reserves a stream and sets it on the files it wants
+>   placed together.
+> - xfs: maps streams to AGs/RGs; allocates without interleaving; gains
+>   higher concurrency due to reduced lock contention.
+> - hardware: maps streams to underlying allocation unit; reduces device
+>   internal write amplification, improved life, predictable QoS.
+> 
+> Also
+> - A stream is handed out using an fd. The filesystem is free to map streams
+>   onto its own geometry, and the reservation/fd machinery is generic
+>  (fs/write_streams.c) so other filesystems can reuse it.
+> 
+> - Since high-level write stream (in xfs) and logical placement can work
+>   without the low-level write streams (in block device), series has a general
+>   value beyond the hardware that provides spatial isolation. Patches 1-7 are
+>   software only and work on any block device; patch 8 aligns the stream
+>   count to the hardware streams when the device has them.
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+So, how would I set up a stream that directs all writes to AG 1, and
+returns ENOSPC to write operations if that AG is full?
 
---=20
-Best Regards,
-Yan, Zi
+What about having several streams, each pointing at a different,
+known AG that the application directly controls (i.e. a known 1:1
+mapping between stream_fd and agno)?
 
+This is functionality that we could use in xfs_fsr to get rid of all
+the historic tmpdir/tmpfile heuristics that allow it to "control"
+locality of the data placement of files that it defragments. We also
+need such control of data placement to empty AGs for shrink
+operations. Yes, this only occurred to me a couple of days ago, but
+now that I've made the connection between write streams and fs
+allocation policy direction, it seems like a natural fit.
+
+FWIW, that also means that, for XFS, write streams need to be
+applicable to directories, so that directory block allocation also
+gets placed according to the stream ID, and that new inodes in that
+directory are created in the same AG as the stream ID points to.
+This directly allows us to rebuild directories using FICLONE/UNSHARE
+tricks and have all the indoes, data and metadata placed in the AG
+we desire (i.e. necessary functionality for online shrink).
+
+So:
+
+> [2]
+> ### Application interface
+> 
+> Three new ioctls:
+>       FS_IOC_WRITE_STREAM_GET_MAX  number of streams the filesystem offers
+>       FS_IOC_WRITE_STREAM_ALLOC    reserve a stream, returns an fd
+>       FS_IOC_WRITE_STREAM_SET      set or clear a stream on a file
+
+How does this interface enable such usage of write streams to direct
+purely filesystem level allocation policy requirements? I don't see
+how I can use this API to direct where in the filesystem to map the
+stream to. I can see that there is a 'set' command, but all it has
+is a flags field. There's nothing passed to the ALLOC command to
+allow the application to indicate to the filesystem where it wants
+the new stream to point to.
+
+IOWs, it appears taht there is no way to provide the FS with any
+sort of direction as to how the stream should be set up. If we want
+a FS specific stream (e.g. an AG) then we don't want it mapped to a
+hardware stream, and we don't want it mapped to some random set of
+AGs (like this patchset implements). The only real reason for
+filesystem level write streams is to expose allocation locality
+control to applications, so it seems kinda silly to have an API that
+prevents any real application level control...
+
+Indeed, how do we ask for a fs-level write stream instead of a
+hardware-level write stream? They are different things, and have
+different use cases (obviously!) so there definitely needs to be
+some level of though put into this. And, FWIW, the write stream id
+will probably need to be a u32 if we are going to support FS level
+write streams, as we can have more than 65536 AGs in a
+filesystem....
+
+> - Usage model: application needs to get a handle (fd) for a write stream
+>   before being able to use it. This avoids multi-application conflicts.
+
+Why can't multiple applications use the same write stream locality
+mapping independently? If the application wants an exclusive write
+stream (i.e. exclusive access to a set of AGs in the filesystem),
+then surely that's a flag for the ALLOC API, right?
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+dgc@kernel.org
