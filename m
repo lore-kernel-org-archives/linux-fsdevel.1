@@ -1,149 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E1A5158BB
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:57:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62B5517BAA;
+	Mon, 21 Sep 2026 22:01:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790027823; cv=none; b=UReOzYS92SvIye+BMloJBR+Bgp3TKT93pZKW3qmCtXbpzhzDVHzDygqBVsv3/NbzOm21fYp9ZgmK+3CsXx6SaLV7kgp6wR4U3AIMRc4q9b7a1DM96JaTktkXou4DSTYcM4V+2wmqUpbiZ0OhnlM7Mt1A/0H4EbVK0vdhEFAMPms=
+	t=1790028106; cv=none; b=H9lmc0RfqAOaQwwkUzAqkZ6xcmH+jf9iT/SWIPhEi73j7nX0bk68BKZtunHJ3+YUULDjWIipy/sqHNpfpswVBurHEwtj79YiwYW3deYPKFWXrr0tPKjFri7Dbu9LilFD36bLbKpIshP5+HeYwsVgNexUyf9BTF1CsGFSPymG8CI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790027823; c=relaxed/simple;
-	bh=SzM2SvHPjiWBwoSeU0UqgGIeTyIUlBCr8zzL/bbLfb4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f0ZyTO5+IjoxgNcEvMXJsjzHb86zIUS/Qjz5oRC5esCMhoVt6D01cecK8oYr/3XonKOagDRX47gU5mGwXaWlMYIXxbMZObAE9k4syqHTVAoQqafZJShVlq0riO08OEqFeSEki5LVsCj13vJi8pWxs1bl3lk2/Pc3dkOeyOBHtWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWLymRA4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790028106; c=relaxed/simple;
+	bh=g772JZu5Ugt62u3TwjLFm2h33jZ8NQVOl1wKG2ANzPk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hZ56vI+Kc8npNMkpbSUJuocOxrbs0NNQg+OkafKMCdibyPeTTmlYCREvJJj6oColtf03zch3USoqGlMtHbtZMKEqfkHTU3Nhz6+scva4GaXiJbxxhQPOXKVF5Xd2i4DQYKHMHzdMiAILrne4G4QmXeXHtqjcL2ADSw6spRe/rMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OJ/HLKSu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWLymRA4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C7EF1F008A3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:57:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OJ/HLKSu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6287C1F000FF;
+	Mon, 21 Sep 2026 22:01:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790027821;
-	bh=qSVVL7TW61oF74m7rSQbYkMlEzrUZT28aAJlLtjv558=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=UWLymRA4dRaUVCNgxbyFuI0sgH1RptweTBoHL1aoPAuEMPHD2GwK9pr0Y2/F8IjtC
-	 AzsMOelpBRu0ibT+YgaKcQhY81MQunCrgiY+70Hj0oQsicaHoDvg6wzTkgWnekys1o
-	 nH7DX+jrIEledtA+S+0dPk5Gq2D1lzBOG37kumVi5PzgS9UymwW6pillHTZq/mv/oL
-	 g3c/aJpf021oj019kcIeqxkxwSe2KcGcCKuIfazdIUADNGLvQU2/+s9zuMNrre1uHN
-	 nMEU85phY2UHu8nW59GB50G6dPJ9t6WeC20yS8fp5o1FO1Na3An/OIR6q4HgDIOiXW
-	 TZ3uhGwcAxTCg==
-Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93910ad2273so417761985a.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:57:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByRHKrd6+t9ayFZ7CwR8iwVywGsIP6G8Yi+2zw7d5koZ4EYZatuKU4IZTLzpm+3VHBPw/EvL8/BsqdE9GtK@vger.kernel.org
-X-Gm-Message-State: AFuF++l5nnNp/foe/kssd5HcMz0bGJY0oe5/HnSsLTD2KvcobXFfa4dH
-	2ip8rsH8wU9SvQFpqSbyOXviVJQF/sMte1LPb/BxbE887GzH4/Sbh9HLkHYeQ5+dZB/aoDq/rFY
-	QpVkCwus4ebrdAzc1ZAL0BPA5gtlRGw0=
-X-Received: by 2002:a05:620a:2893:b0:937:d6e8:59b0 with SMTP id
- af79cd13be357-93c15d69efdmr230732985a.10.1790027820912; Mon, 21 Sep 2026
- 14:57:00 -0700 (PDT)
+	s=k20260515; t=1790028102;
+	bh=JP1mJjwKrY1zm80E+e1Ejj6Y1oTsfyKHyqpS8mqGfzI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=OJ/HLKSu0E20UTtT7OaCbUHb8xih6+CzoNIYw8Ta6Pt4ee6G2hFWetr97NQeJqXKg
+	 vnOk7e1Adn5T2Ax0Y50EULK19ATfYO5/qsN4dXBQTQJ09nhJBSZrGaX+1/iXUl9H+C
+	 6XXwFp+SK3Wamjss4B70VsZLmmAEM812AvSWIvTs0xwZuCTHqnIXAXt+2b/aw8KgMd
+	 YOSIotScIEoSP0vMH9mo0Bm0On87t6SsI197vN1zM/lQGCbuKXuVIV47Kf7bnhwZkQ
+	 zvV5OkBy+0WMfLzNkeasoJMuKIz+IklkCw2AhetRQH6Re0gdlSLLIoV/wii/fikWKj
+	 3KQkRX6LRqjpg==
+Message-ID: <e8b51a7b-a2fc-459f-81d8-49d6b0235829@kernel.org>
+Date: Tue, 22 Sep 2026 00:01:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260921152449.629486-1-alex@ghiti.fr> <70cae945-3a4a-40db-96ac-5ce66a3fa186@kernel.org>
-In-Reply-To: <70cae945-3a4a-40db-96ac-5ce66a3fa186@kernel.org>
-From: Barry Song <baohua@kernel.org>
-Date: Tue, 22 Sep 2026 05:56:49 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4y8-wD0yMV8GCtCz5MfNrOKqUaTd+UgH=8MoP_nuvPnGg@mail.gmail.com>
-X-Gm-Features: AcwNN1VSw5Rr4NROqiaRDFlkbhVNl6ttklStB_B4KIyo7Yo7DDoF7gUuyR6ZS_s
-Message-ID: <CAGsJ_4y8-wD0yMV8GCtCz5MfNrOKqUaTd+UgH=8MoP_nuvPnGg@mail.gmail.com>
-Subject: Re: [PATCH] mm: madvise: drop MADV_PAGEOUT folios at swap writeback completion
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, akpm@linux-foundation.org, willy@infradead.org, 
-	jack@suse.cz, liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, 
-	jannh@google.com, chrisl@kernel.org, kasong@tencent.com, 
-	shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev, 
-	youngjun.park@lge.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
-	hannes@cmpxchg.org, mhocko@kernel.org, yosry@kernel.org, 
-	chengming.zhou@linux.dev, kunwu.chan@gmail.com, tz2294@columbia.edu, 
-	hch@lst.de, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hfs: validate drAlBlkSiz and fs_ablocks in hfs_mdb_get()
+To: Viacheslav Dubeyko <slava@dubeyko.com>, Hui Peng <benquike@gmail.com>,
+ glaubitz@physik.fu-berlin.de, frank.li@vivo.com, brauner@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260919222605.3794529-1-benquike@gmail.com>
+ <1164821496f54d2fe03af44283d48db707a5e391.camel@dubeyko.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <1164821496f54d2fe03af44283d48db707a5e391.camel@dubeyko.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 21, 2026 at 11:37=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/21/26 17:24, Alexandre Ghiti wrote:
-> > On an asynchronous swap device MADV_PAGEOUT only marks the folio
-> > PG_reclaim and rotates it to the tail of the inactive list once its
-> > writeback completes, so the memory is not actually freed until a later
-> > reclaim scan removes the by then clean swap cache folio.
-> But we have the same behavior when just reclaiming memory ordinarily? It'=
-s added
-> to the swapcache and only the next scan actually frees up the memory.
->
-> Wouldn't we memory we reclaim ... just gone, like in the sync case?
+On 21/09/2026 23:33, Viacheslav Dubeyko wrote:
+> On Sat, 2026-09-19 at 22:26 +0000, Hui Peng wrote:
+>> In hfs_mdb_get() (fs/hfs/mdb.c), reject images with allocation block
+>> size (drAlBlkSiz) of 0 or not a multiple of HFS_SECTOR_SIZE (512), or
+>> with fs_ablocks == 0, preventing a divide-by-zero trap and out-of-
+>> bounds
+>> bitmap scans on crafted HFS images.
+>>
+>> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+>> Assisted-by: LLM
+>> Signed-off-by: Hui Peng <benquike@gmail.com>
+>> ---
+>> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
+>> index 277de712f9d4..9e78c561a3f1 100644
+>> --- a/fs/hfs/mdb.c
+>> +++ b/fs/hfs/mdb.c
+>> @@ -204,6 +204,11 @@ int hfs_mdb_get(struct super_block *sb)
+>>  	/* These parameters are read from the MDB, and never written
+>> */
+>>  	HFS_SB(sb)->part_start = part_start;
+>>  	HFS_SB(sb)->fs_ablocks = be16_to_cpu(mdb->drNmAlBlks);
+>> +	if (!HFS_SB(sb)->fs_ablocks) {
+> 
+> This check doesn't look like checking that it's "not a multiple of
+> HFS_SECTOR_SIZE (512)". Could you make your check more accurate?
 
-For synchronous I/O, such as zswap and zram, the memory is released
-immediately after sync I/O is done.
+In case you were not aware of: this patch is result of huge AI
+semi-autonomous work, basically close to spam posting style. Whatever
+you review you might be actually talking to an slop-agent, thus wasting
+your time.
 
-For asynchronous I/O, such as NVMe, the swapcache is currently
-expected to be rotated back to the tail of the LRU and wait for
-another scan. Alexandre once mentioned that when he tried handling
-async I/O the same way as sync I/O=E2=80=94releasing the memory once the I/=
-O
-completed=E2=80=94he saw some regression. So, delaying the release until a
-later scan may allow swapcache hits before the folios are eventually
-reclaimed.
-
-But we actually have a problem here: this rotation, which puts
-writeback folios at the tail of the LRU, is not reliable at all.
-
-`folio_rotate_reclaimable()` would only work reliably if the endio
-happens after the folio has been put back on the LRU head, rather than
-while it is still isolated.
-
-But nowadays NVMe is very fast. If we isolate N pages and perform
-shrink on them, M pages may finish writeback during the isolation,
-while the remaining N-M pages are still under writeback. M can easily
-be more than 50% of N.
-
-As a result, we can end up with the following cold/hot inversion:
-
-LRU head
------ M pages whose writeback completed during isolation
------ other pages
------ N-M pages that are successfully rotated to the LRU tail
-LRU tail
-
-Now we can see that the M pages were expected to be reclaimed, but
-they are not only left unreclaimed, but are effectively promoted to
-the LRU head.
-
-For MGLRU, commit 359a5e1416ca ("mm: multi-gen LRU: retry folios
-written back while isolated") added the following code to reclaim
-those M pages that finish writeback during isolation by retrying
-`shrink_folio_list()` on them:
-
-                /* retry folios that may have missed
-folio_rotate_reclaimable() */
-                if (!skip_retry && !folio_test_active(folio) &&
-!folio_mapped(folio) &&
-                    !folio_test_dirty(folio) && !folio_test_writeback(folio=
-)) {
-                        list_move(&folio->lru, &clean);
-                        continue;
-                }
-
-This somehow resolves the cold/hot inversion, but leaves the M and
-N-M pages with inconsistent behavior: some are actually reclaimed,
-while others remain at the tail of the LRU.
-
-For the active/inactive LRU and `MADV_PAGEOUT`, we don't have a
-mechanism to restore the missed reclaim opportunity. Ridong's patch[1]
-addresses this cold/hot inversion in the active/inactive LRU reclaim
-path. To my knowledge, there has never been a patch to address the
-same cold/hot inversion in `MADV_PAGEOUT`.
-
-BTW, if `MADV_PAGEOUT` is an explicit hint from userspace to reclaim
-the memory, would it make sense to skip the later scan and reclaim the
-folios immediately once the I/O completes?
-
-[1] https://lore.kernel.org/linux-mm/20260920132519.3369946-1-ridong.chen@l=
-inux.dev/
-
-Best Regards
-Barry
+Best regards,
+Krzysztof
