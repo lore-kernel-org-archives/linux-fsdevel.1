@@ -1,184 +1,343 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98C0431E65
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 20:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790022171; cv=pass; b=KDKRd+NuRP1imM2QbJit47BrGmh62FkgcT/711sCQ96cStFANYVzaT8iRG+Ui9LNkiyR8akSD9ncrJDQg9kDgXqcauRyoTR3KHe/2UP9URGYOkyTKVtnMSCdhmZYRa9sG752920ziQyHLu7NMLaOK9z3bfo1nyXr6yN7kz4M0/w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790022171; c=relaxed/simple;
-	bh=5AoAm7kCydoLQsr+i6jrfa1JthOko596jNaE8bcwdh0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n/9jz6YVjsCdggChRCezG4hHihsKWJfem5hZy14ivhSmm7t8D/sRdqf/kmtjpZKmzHVWKfE9JWJKW56dwhgpSeDd0katxr5wAU/GLaXdNmOfxVppLzrWnZRxiSggy/fGGSzjJ35dlGfO6Rqnqdb3P7fa0qzIfQK95ea3UMMes9g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NZPUSklz; arc=pass smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6762F4F4036
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790024868; cv=none; b=uMsLtsHvq50qMbuS2I2lQRe7KEjwwrFDyYpoZpLmIjlN5t03XIX1t3b4ipW+7roQi4LbnfOpFu2ie+auqkSU5JoZK32TvBO4SJWIfmsW/TcEOTYMy0Ss9BrR6NY0rA1NdAyTN+z4ESZTMzmG2uykVb0NMl+3rSSSSAsEnQD8r8o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790024868; c=relaxed/simple;
+	bh=4zEwxvPktaYAQHztURrFu0k5JWF/RLn0MTu1GkhsvO4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=B6a3RUipPeLe/cjuL9fz41sEe8WvhZQV3mV8AMvAVSWKSmEfee94ejp1j1yLz6pGwzioXZkYsTEjGMbDRMF5yenOrGRrAd8w0aJt/l0UB+sflP3B/xz+BqiPsCjl3sQnyRmo2fEt8e8sjNUA5sfIyv5iJmmAJmTvqnsXW12TRV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=qYIKW8C1; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NZPUSklz"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2d8facae850so11225ad.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 13:22:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790022169; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MLSMnDnfznZmJb8joOCMu30FOflMbFi6aWeHfXzYQbOLhMhCDagx5sRzX1sHTotMKf
-         1ihjqcfNCdQB60bi4fhltNS9xo8LwqnIGsc9kpvlWthidyumw/7pNydRafGGUZ7mNp/5
-         W/Db+r/AMaAKHhbF3bUyxp2PbBOUgIxekCUl027bJsLJ4vhHhDjd3Ny+D1dMaXpEDuV4
-         CA6YvX1azfI8GyEe488wNSBabNvWkaowQ9+6G+Rhpj9FQAXIj6Aj+Nohl6A6LbxlruAm
-         yDjFjMzwmqEzKujQ76f1fhbaupqJOyvSiIoFdnHBZZvnG8SBqybGUR8l3Ny16V2K91d6
-         ERog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZZjuQxZbTYuwf9RVKp56gufP8tt1Juurh+o7CdzjxoY=;
-        fh=EoJMXULwcNdYqhtNpZCMKNl6w+cGMpZ9WMjNVFfYRX8=;
-        b=dKW4WOoyetRxWrqvmNUZ7RGBhWyvG/RnwlTtpu+Vt6bymkxiox95+t8EorqY9rpUdX
-         gB+fnK9aWZku9gxAsweKoummqxbcgPM+Ot8lwQtjj1hTcKZhA7e+XGJTC8OPs6k5JwqC
-         4suf0SnQc/2E6Xr2pgmIdhtIblDtlTLmEbwoaLWm2TnkC2SnsmdHOkfLRTHP31RwYDDE
-         Qqa9Fert8Bai2U5eZVIWw7oa1SFLLt8h7QzVcYaWHWdKOladBdrQwY6lfqfQHAvMKD3A
-         fdeln4/gwT72UlSAZawojIvTl2eoPWqxtvQWHqKRV98sxFUWTxyw+F7rLIEB/fQkCYyr
-         eZDA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="qYIKW8C1"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-87c938111a7so2454917b3.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790022169; x=1790626969; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZZjuQxZbTYuwf9RVKp56gufP8tt1Juurh+o7CdzjxoY=;
-        b=NZPUSklzX91cqloY9UWtg2FDsu0QfMamuJIYh37mCQ9uf8iUvDG0RLPZntzjk1dmtD
-         j30Y3/Xf33ZxYFl6lIwIMluHu7nOiazNqy/dpeU9I8gUZtgdHC3CXbY6//v3bB87r+08
-         grxj/3LDypylKj77WsDYjH5dtlSXr6AJWE24kb1caw3yYTfO0IQjz7vGOeCV1cSNR3E0
-         JHrAj6AIC+7RYM+jMWLd0KQJ2JdAucmtx5xouyALxCr2ybiboglaHeksRYJhqo5wClAs
-         UBu7Y6CRvu0ujbQHCqQIoHNsMpTGP6QF7M2O4Vjso6zCq4anfXZgyG2Wyn6sY/32aSCv
-         m8BQ==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790024865; x=1790629665; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Dpe0IKufbiRfhpiAWaY7OFMMPAcVyG0Lh2Ykv/Q/Mwg=;
+        b=qYIKW8C18Ac5Ths8GaP2mbQAfsUgUt8VwTrup1kVMSuSMqcgGzDyUkgNGGKzXXSrJE
+         09biDRQPpaBA57r4H0dWZ+8qxUg7Tmgs9egZkF5rFgf+wf/ryc2CHFjfofdgF3OUTb66
+         Ig49HbCLBTRF+r3kZHf5vkBMzggdQ1E+wkaNxX/CFRbNbWPDjLoBcsjb5Mg998OTU+Ve
+         F/29k0wsGlSsc0ODq0RoDtauFP4LOlEB4nqg1vlam5DU/HjaRtnYGrHA/v1Sq82fu7e5
+         KXBW/BAnMS+tmqhmJc6gw+CGt8eb6OnB7nnLiJmXyByclMdMo1YrLcQjbG2pFaFTKr7W
+         pJFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790022169; x=1790626969;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZZjuQxZbTYuwf9RVKp56gufP8tt1Juurh+o7CdzjxoY=;
-        b=az8b3sn0jomGmsy7td6eCw95vrspO8HMzqOkptH+YilJQwvlxtlZklGJt/3baQ4u/J
-         AFYnRcTdD+x5uvcP14u1UJdD2VP75+dO97TVCc+m4HIzHPS/5KkR2HikvY40irCrz+0v
-         0s5Ac68tGBKIUefOH6SdzQgMLFPAPeZwsvgzkaZ5+MbI+VR9uAd2NRQVBWQVk3zp025n
-         weBj9WfVUdBuvuT+f44DajxHI2HwZJaimSLbL62GH06G0kOgBB4MBz8ky2IRNzetSOpU
-         2bzOyfgpB2N9tqUGUOnJ/4Fju2aquQiK6QggRenY+DRpzaMXQF5c1sX/u07NIKr048QU
-         zsDQ==
-X-Forwarded-Encrypted: i=1; AKwUvBza8L7QPyxSI8v0m1J06OK9tPubDohnkXoXVHjrmOfOu/8wtFBD8shcnUGLsCWVrMZwKnXUrOvq3eZh1GGo@vger.kernel.org
-X-Gm-Message-State: AFuF++lRaIbMdhDsIRaQDe5aW1DSfNR1cL67q5531KL4/1ACFFqX93hL
-	bIYn9EsGMybw2nirqTqTcdJDy4pBydodyFbFN5DDbVesjdLk6GNsbpIMDk5wOAEJjECPMqga3ni
-	pQ/Dy26u1+XRuqLXWxZcg3m7HypWwNgcmF5/zHV+j
-X-Gm-Gg: AYBFou0osF7Uv0EBOZnn7WmyYzxzSARKKtPbnoFpcTds2l1gczVWBcMbsEuUfPd1ASx
-	S4hS+pIC5zxiOoMfqaFSY4nyOVHS+/avBTBzatG8X7X7RZtrrhQerEs/HzlKD/khMqJTqrat9Ro
-	0OIi5D4T81XfAzZMaWkr5zqD9cwpPDIFUlsrkQ8DJ0tyYzBQKxOSWVvUsezCwVS/v0By2d10zQz
-	9rcZYOHCmLks1dJOnIB/DzfurLaegazMy7qPm7Yfew2ySGpe/lOPOJ61AaFCQzyVVoip9TJ5wA/
-	LquGc1nWCoX5RQ7PevMOEj6rXlY0LzSPZVbDcGNQmqwitIYcv8A7LbA9n03ML35FZ6for7D3sQG
-	mGUg94uB7RbumEqQ/LBe5ylJnr5k7d/uw6e7iLtV/
-X-Received: by 2002:a17:902:d98b:b0:2dd:280b:cdfc with SMTP id
- d9443c01a7336-2df5b83676fmr449455ad.17.1790022168357; Mon, 21 Sep 2026
- 13:22:48 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790024865; x=1790629665;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Dpe0IKufbiRfhpiAWaY7OFMMPAcVyG0Lh2Ykv/Q/Mwg=;
+        b=aiZHSMAHM2rl8dZRbieacvK6QH06pOIDFAhpb83yNZx7PuBGfP5PbAwujTkUgB9jdr
+         nq6wZMCdec+UMNjny55KWqFC4jeqXC6dKshz1sFsMBc7S4gkL6s8n25hzSHilmYVsFF+
+         D9EqOla2x1rcFtzWLHVwtkEXUiGOrR5YReJFDebyKS9Rb8AKI+agxQOjzyO17/OqvACH
+         iJL4ketNbCu6p2dK29+LTZIAkxX2ZhcqW/pTnWJe8RSqPA4/pVRWcewdEABZTDiJPyxR
+         Hc7M7KeikjNqgQYlU1JdH499tIkw+VyPAO5oAYO+Iyn8aJlcgL8BovK5Hr+muYvymGjt
+         fB+w==
+X-Forwarded-Encrypted: i=1; AKwUvBzJCN3aJgsZNN8g2p2T8thlUDtvhsoxHaFGxSAqfjYUiY5EWgXwhSK+MGViViqswe9FQHFOHAcMQ/U0ggca@vger.kernel.org
+X-Gm-Message-State: AFuF++kaKqThHJ/yunCh3TlUgBZK658uBrHS35OQByIkxEXniq6KcRmg
+	HhBOkUJaWVM+aDWadM5ZAdQZ9zkFB5pDEc4xxUrGSV20dU7v4Xvo6WWYfuqX7SoR3X8=
+X-Gm-Gg: AYBFou15898sAYwgDLqTNzbP0fKy2ij463uq7WRN/1Jw6Tdh+5tyupK+O/UJd/gqtU2
+	6eQSBYD9qHDWvq+679jGDw7yROHfF4+qFGHr7lowuDSDCfrHh7dzQZNE7w+Afoxf7VhteNBXfIg
+	0jmBYuPIl5LqPNKeVsqynVitM+NiDt9ms52EFpW8P9+lPsGmZrbJRGuDb5BK0AdXVT7eMtNmarn
+	DPT7kuA48cl+Uj6ZLe5XpGNtuzTPDq+A1o4zdcxXdnDkPFYlLr+kkN7ukjVOM0l9pw48hiFKQLm
+	86F0hC9aoCk5wSzrqrv04bUa0DEzCWxqWKdYe7AaZ9bZOhHXwcHkWp6YANT6fSAd7lSI0nUSms9
+	7izTAthxB4ALg6/cZU+FB7CJ1i/2X0sxyJCYffoRqctffAxcDsGNn2+doXAv/A55A3hvTQ/5JBU
+	1mH/WdV3HpI5aSoCI/Qvaol8MZly+oPC/LB70/nJvH0k8+mwZ8vCPre8y8CgkbEVq6d6jDwLrXQ
+	Uh0W69MaCf/5ZbKxFIletd+ghAueQpuxSPXG4Pe0MVomLz8ZuWTTVca6CClqE/l780wmbRGiR9r
+	AUbCY14OJbR/btm2kGnfeqBhK7Q40PrEh6pHhFTxZbnhYCQqgulgTar7cYZDIlpE
+X-Received: by 2002:a05:690c:e0d0:20b0:873:5c7b:c130 with SMTP id 00721157ae682-8a1f8681a6dmr3368127b3.24.1790024864898;
+        Mon, 21 Sep 2026 14:07:44 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:8475:e6ce:2d2c:ddc2? ([2600:1700:6476:1430:8475:e6ce:2d2c:ddc2])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a23e9685f6sm1452227b3.35.2026.09.21.14.07.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 14:07:44 -0700 (PDT)
+Message-ID: <3c8e684e71a769765ab4c0459e53e65ca40a63ef.camel@dubeyko.com>
+Subject: Re: [PATCH v6] hfsplus: validate b-tree fork extents at mount and
+ inode read
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
+	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
+Date: Mon, 21 Sep 2026 14:07:40 -0700
+In-Reply-To: <20260918085156.920842-1-ngocthang2710.1999@gmail.com>
+References: <20260918085156.920842-1-ngocthang2710.1999@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260831-pidfd-get-paths-v2-0-c59ea6a21b72@black-desk.cn>
- <20260831-tauwetter-werkbank-dramen-b37eb4025283@brauner> <CAC1kPDMK_D4nhyRmBHg6KC7SmmCkH73Xtc5DhXeJbSvf3LcqcQ@mail.gmail.com>
-In-Reply-To: <CAC1kPDMK_D4nhyRmBHg6KC7SmmCkH73Xtc5DhXeJbSvf3LcqcQ@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Mon, 21 Sep 2026 22:22:11 +0200
-X-Gm-Features: AcwNN1UtR6M4RsRB1V4M9ZXr6hSPfcvgRf-Sf3BDBnWgXtSIC5rk0Yng7pQuhSw
-Message-ID: <CAG48ez1T5-tUHVK_iHsgUtWa-inVdrZxA3E-ZCW0iENJvasKfg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] pidfd: add task path ioctls
-To: Chen Linxuan <me@black-desk.cn>, Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Kees Cook <kees@kernel.org>, John Johansen <john.johansen@canonical.com>, 
-	Georgia Garcia <georgia.garcia@canonical.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 2, 2026 at 8:47=E2=80=AFAM Chen Linxuan <me@black-desk.cn> wrot=
-e:
-> On Mon, Aug 31, 2026 at 4:49=E2=80=AFPM Christian Brauner <brauner@kernel=
-.org> wrote:
-> > On 2026-08-31 10:59 +0800, Chen Linxuan wrote:
-> > > Obtaining a target task's executable, working directory, or root
-> > > currently requires walking procfs symlinks such as /proc/<pid>/exe,
-> > > /proc/<pid>/cwd, and /proc/<pid>/root.  That makes the operation depe=
-nd
-> > > on procfs being mounted and visible to the caller, even when it alrea=
-dy
-> > > holds a pidfd for the target.
-> > >
-> > > This series adds PIDFD_GET_EXE, PIDFD_GET_CWD, and PIDFD_GET_ROOT. Ea=
-ch
-> > > ioctl takes no argument and returns a close-on-exec O_PATH file
-> > > descriptor referencing the corresponding task path.  The new ioctls u=
-se
-> > > the same ptrace permission check and nonzero-argument rejection as th=
-e
-> > > existing pidfd namespace ioctls.
-> > >
-> > > The target task is sampled while holding its exec_update_lock. This
-> > > keeps the access decision and the task-state read in the same exec
-> > > critical section, preventing a concurrent execve() from changing the
-> > > credentials or target state between the check and the use.
-> > >
-> > > The first patch factors out helpers for acquiring referenced task pat=
-hs
-> > > and reuses them in procfs and AppArmor.  The second patch introduces
-> > > scoped cleanup for privileged pidfd task access and separates namespa=
-ce
-> > > lookup from namespace fd creation.  The final patch uses these pieces=
- to
-> > > implement the three new ioctls.
-> > >
-> > > Signed-off-by: Chen Linxuan <me@black-desk.cn>
-> > > ---
-> >
-> > I really have difficulties forming an opinion on this. So this sounds
-> > very useful but it has implications.
-> >
-> > Right now, pidfd ioctls are available even in situations where the task
-> > in question would not be accessible via procfs, e.g., when procfs is
-> > mounted with "hidepid" options or similar. So this would expand the
->
-> One point regarding hidepid: for callers that can pass
-> PTRACE_MODE_READ_FSCREDS, hidepid does not provide an additional
-> restriction. With hidepid=3D1 or hidepid=3D2, has_pid_permissions() falls
-> back to ptrace_may_access(..., PTRACE_MODE_READ_FSCREDS), and
-> hidepid=3Dptraceable uses that check directly. In addition, the
-> /proc/<pid>/{exe,cwd,root} links independently perform the same
-> PTRACE_MODE_READ_FSCREDS check in call_proc_get_link(), regardless of
-> the hidepid mode.
->
-> So for these specific path lookups, hidepid does not block a caller who
-> would already pass the check used by the proposed pidfd ioctls.
+On Fri, 2026-09-18 at 15:51 +0700, Nguyen Ngoc Thang wrote:
+> Validate fork extents during inode reading and mount time to catch
+> on-disk corruptions early, returning appropriate errors and marking
+> the tree as corrupted.
+>=20
+> v6:
+> =C2=A0- Move fork validation logic into inode read fork function.
+> =C2=A0- Refactor extent validation helpers, use volume_blocks, count =3D=
+=3D 0,
+> =C2=A0=C2=A0 and introduce HFSPLUS_EXTENT_LAST_IDX named constant.
+> =C2=A0- Return error from hfsplus_inode_read_fork() to allow
+> hfsplus_iget()
+> =C2=A0=C2=A0 to catch on-disk corruption and propagate error correctly.
 
-Agreed, I think with regards to hidepid there should be no issue here.
+This patch looks like the small portion of the whole fix. As far as I
+can see, this patch has lost necessary portion of fixes that we had
+before.
 
-If I try to come up with scenarios in which this could introduce
-additional danger, the main one I can think of would be: A task T1 is
-running inside a pid namespace and has a unix domain socket connection
-to a task T2 outside the namespace, with both running as the same
-EUID; T1 sets SO_PASSPIDFD on its socket to obtain a pidfd pointing to
-T2 on the next message sent by T2, then T1 uses that to get access to
-the mount namespace of T2.
+>=20
+> Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+> ---
+> =C2=A0fs/hfsplus/extents.c | 41 ++++++++++++++++++++++++++++
+> =C2=A0fs/hfsplus/inode.c=C2=A0=C2=A0 | 65 ++++++++++++++++++++++++++-----=
+-----------
+> --
+> =C2=A02 files changed, 79 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
+> index eb7c11524d18..eaf3bed7ede8 100644
+> --- a/fs/hfsplus/extents.c
+> +++ b/fs/hfsplus/extents.c
+> @@ -16,6 +16,47 @@
+> =C2=A0#include "hfsplus_fs.h"
+> =C2=A0#include "hfsplus_raw.h"
+> =C2=A0
+> +/* Index of the last extent in the fork */
+> +#define HFSPLUS_EXTENT_LAST_IDX 7
 
-Christian, is there some mechanism that already protects against using
-something like SO_PASSPIDFD to get a pidfd to a process in a parent
-namespace?
-Otherwise, should we add something like a "pid_vnr(pid) !=3D 0" check
-either in these new operations or in SO_PASSPIDFD?
+I think we need to place this declaration into hfsplus_fs.h.
+
+> +
+> +static inline bool is_extents_btree(struct inode *inode)
+> +{
+> +=C2=A0=C2=A0=C2=A0 return inode->i_ino =3D=3D HFSPLUS_EXT_CNID;
+> +}
+> +
+> +static bool hfsplus_extent_valid(struct hfsplus_extent *ext, u32
+> volume_blocks)
+> +{
+> +=C2=A0=C2=A0=C2=A0 u32 start =3D be32_to_cpu(ext->start_block);
+> +=C2=A0=C2=A0=C2=A0 u32 count =3D be32_to_cpu(ext->block_count);
+> +
+> +=C2=A0=C2=A0=C2=A0 if (count =3D=3D 0)
+> +	return start =3D=3D 0;
+> +
+> +=C2=A0=C2=A0=C2=A0 return start + count <=3D volume_blocks;
+> +}
+> +
+> +/*
+> + * Returns 0 if fork extents are consistent, -EUCLEAN if extents
+> + * past the first are corrupt, or -EIO if the first extent is
+> corrupt.
+> + */
+> +int hfsplus_check_fork(struct super_block *sb, struct hfsplus_extent
+> *ext, u32 volume_blocks)
+> +{
+> +=C2=A0=C2=A0=C2=A0 bool non_zero_seen =3D false;
+> +=C2=A0=C2=A0=C2=A0 int i;
+> +
+> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i <=3D HFSPLUS_EXTENT_LAST_IDX; i++, ex=
+t++) {
+> +	u32 count =3D be32_to_cpu(ext->block_count);
+> +
+> +	if (!hfsplus_extent_valid(ext, volume_blocks) ||
+> (non_zero_seen && count =3D=3D 0))
+> +	=C2=A0=C2=A0=C2=A0 return i ? -EUCLEAN : -EIO;
+> +
+> +	if (count > 0)
+> +	=C2=A0=C2=A0=C2=A0 non_zero_seen =3D true;
+> +=C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0=C2=A0 return 0;
+> +}
+
+This logic doesn't look like the fork check.
+
+struct hfsplus_fork_raw {
+	__be64 total_size;
+	__be32 clump_size;
+	__be32 total_blocks;
+	hfsplus_extent_rec extents;
+} __packed;
+
+We need to be sure that total_size, total_blocks are consistent with
+the extents state. Also, we can check the clump_size that it is
+reasonable one.
+
+> +
+> =C2=A0/* Compare two extents keys, returns 0 on same, pos/neg for
+> difference */
+> =C2=A0int hfsplus_ext_cmp_key(const hfsplus_btree_key *k1,
+> =C2=A0			const hfsplus_btree_key *k2)
+> diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
+> index 2ce6de574fa6..aa201f4e80d5 100644
+> --- a/fs/hfsplus/inode.c
+> +++ b/fs/hfsplus/inode.c
+> @@ -559,34 +559,45 @@ void hfsplus_delete_inode(struct inode *inode)
+> =C2=A0	hfsplus_mark_mdb_dirty(sb);
+> =C2=A0}
+> =C2=A0
+> -void hfsplus_inode_read_fork(struct inode *inode, struct
+> hfsplus_fork_raw *fork)
+> +int hfsplus_inode_read_fork(struct inode *inode, struct
+> hfsplus_fork_raw *fork)
+
+This patch hasn't any logic of checking the error code of
+hfsplus_inode_read_fork().
+
+> =C2=A0{
+> -	struct super_block *sb =3D inode->i_sb;
+> -	struct hfsplus_sb_info *sbi =3D HFSPLUS_SB(sb);
+> -	struct hfsplus_inode_info *hip =3D HFSPLUS_I(inode);
+> -	u32 count;
+> -	int i;
+> -
+> -	memcpy(&hip->first_extents, &fork->extents,
+> sizeof(hfsplus_extent_rec));
+> -	for (count =3D 0, i =3D 0; i < 8; i++)
+> -		count +=3D be32_to_cpu(fork->extents[i].block_count);
+> -	hip->first_blocks =3D count;
+> -	memset(hip->cached_extents, 0, sizeof(hfsplus_extent_rec));
+> -	hip->cached_start =3D 0;
+> -	hip->cached_blocks =3D 0;
+> -
+> -	hip->alloc_blocks =3D be32_to_cpu(fork->total_blocks);
+> -	hip->phys_size =3D inode->i_size =3D be64_to_cpu(fork-
+> >total_size);
+> -	hip->fs_blocks =3D
+> -		(inode->i_size + sb->s_blocksize - 1) >> sb-
+> >s_blocksize_bits;
+> -	inode_set_bytes(inode, hip->fs_blocks << sb-
+> >s_blocksize_bits);
+> -	hip->clump_blocks =3D
+> -		be32_to_cpu(fork->clump_size) >> sbi-
+> >alloc_blksz_shift;
+> -	if (!hip->clump_blocks) {
+> -		hip->clump_blocks =3D HFSPLUS_IS_RSRC(inode) ?
+> -			sbi->rsrc_clump_blocks :
+> -			sbi->data_clump_blocks;
+> -	}
+> +=C2=A0=C2=A0=C2=A0 struct super_block *sb =3D inode->i_sb;
+> +=C2=A0=C2=A0=C2=A0 struct hfsplus_sb_info *sbi =3D HFSPLUS_SB(sb);
+> +=C2=A0=C2=A0=C2=A0 struct hfsplus_inode_info *hip =3D HFSPLUS_I(inode);
+> +=C2=A0=C2=A0=C2=A0 u32 count;
+> +=C2=A0=C2=A0=C2=A0 int i, ret;
+> +
+> +=C2=A0=C2=A0=C2=A0 /* Validate fork extents to catch on-disk corruption =
+early */
+> +=C2=A0=C2=A0=C2=A0 ret =3D hfsplus_check_fork(sb, fork->extents, sbi->to=
+tal_blocks);
+
+We need to check the whole fork but not only extents.
+
+> +=C2=A0=C2=A0=C2=A0 if (ret) {
+> +	pr_err("hfsplus: fork check failed for inode %lu
+> (err=3D%d)\n", inode->i_ino, ret);
+> +	set_bit(HFSPLUS_I_CORRUPT_TREE, &hip->flags);
+> +	sb->s_flags |=3D SB_RDONLY;
+
+NO, we cannot set SB_RDONLY in this method. It can be done in
+hfsplus_fill_super() or hfsplus_reconfigure().
+
+> +	return ret; /* Return error directly to the caller */
+> +=C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0=C2=A0 memcpy(&hip->first_extents, &fork->extents,
+> sizeof(hfsplus_extent_rec));
+> +=C2=A0=C2=A0=C2=A0 for (count =3D 0, i =3D 0; i <=3D HFSPLUS_EXTENT_LAST=
+_IDX; i++)
+> +	count +=3D be32_to_cpu(fork->extents[i].block_count);
+
+Looks like a mess and improper formatting of the code. What's happen
+here?
+
+Thanks,
+Slava.
+
+> +=C2=A0=C2=A0=C2=A0 hip->first_blocks =3D count;
+> +=C2=A0=C2=A0=C2=A0 memset(hip->cached_extents, 0, sizeof(hfsplus_extent_=
+rec));
+> +=C2=A0=C2=A0=C2=A0 hip->cached_start =3D 0;
+> +=C2=A0=C2=A0=C2=A0 hip->cached_blocks =3D 0;
+> +
+> +=C2=A0=C2=A0=C2=A0 hip->alloc_blocks =3D be32_to_cpu(fork->total_blocks)=
+;
+> +=C2=A0=C2=A0=C2=A0 hip->phys_size =3D inode->i_size =3D be64_to_cpu(fork=
+->total_size);
+> +=C2=A0=C2=A0=C2=A0 hip->fs_blocks =3D
+> +	(inode->i_size + sb->s_blocksize - 1) >> sb-
+> >s_blocksize_bits;
+> +=C2=A0=C2=A0=C2=A0 inode_set_bytes(inode, hip->fs_blocks << sb->s_blocks=
+ize_bits);
+> +=C2=A0=C2=A0=C2=A0 hip->clump_blocks =3D
+> +	be32_to_cpu(fork->clump_size) >> sbi->alloc_blksz_shift;
+> +=C2=A0=C2=A0=C2=A0 if (!hip->clump_blocks) {
+> +	hip->clump_blocks =3D HFSPLUS_IS_RSRC(inode) ?
+> +	=C2=A0=C2=A0=C2=A0 sbi->rsrc_clump_blocks :
+> +	=C2=A0=C2=A0=C2=A0 sbi->data_clump_blocks;
+> +=C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0=C2=A0 return 0;
+> =C2=A0}
+> =C2=A0
+> =C2=A0void hfsplus_inode_write_fork(struct inode *inode,
