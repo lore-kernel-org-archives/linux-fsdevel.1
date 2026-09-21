@@ -1,65 +1,65 @@
-Received: from mail-qk2-f41.google.com (mail-qk2-f41.google.com [74.125.230.233])
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAED4A4821
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB674A485B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790001454; cv=none; b=duzwcqnKONFZ6hapwTOkMBn+j3Ft+kMQzLRaMi0n7jgAK2VSyiaxNG5sGFq+z7I8Jdpsci2UfG2wVlgpcaQkHy5wg9f8ZNZFbYjMD7f79RMeCcODunZMxAAD1N2nB+ISCWHLOneBBwqHa14TZnNyKJ+4d/zVLKUPNSR4jgirD44=
+	t=1790001502; cv=none; b=t4X1a6cZ0dBBBtWjLfZy/eqd27eqSk0WDBQ17O6k0B3cesvIkF///B5Iidmbyv12L+2Xj74ZmHwCu0hJ7hVnwZAe5N7Bp9d7iIy+NpktwvKvSuxSoYSkH6EvSfGw4o96D6Ey0gbJkW9JxC8W+R6BOFdsaXxAEEhMTnDdAiUKavg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790001454; c=relaxed/simple;
-	bh=vu2KvWKFFA3N0wzDMJWi0oZ02CuH0BR9UkXp9PpwQsc=;
+	s=arc-20240116; t=1790001502; c=relaxed/simple;
+	bh=WD2Yp3+EWE2mTGIAQwbqodX+js0JKlX9BFhVIlsMEPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aLGqmj2Lj1HIgjLvw0ngR/mP0nWq0JGBNeFBGEV0CBhtr2AWedGJDJ3umZFejpr5ESxzCHrs8sBN/2MpZU1acSNZdM4+T8rio+8aqIrY2E+3KucddrZtumKIBpsnHSfq6Y/uUi6CaJ39w1ENNPrceC3qhSPnoRw9uM+uReu5Cug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=gGjAZSOE; arc=none smtp.client-ip=74.125.230.233
+	 Content-Type:Content-Disposition:In-Reply-To; b=WZBSBA32ZjkalIa4y88Tq0QbqSCSgFlqyQSXSKjgLJtQYEYgk8AmKnZU9ojiBC6jtVkcs+DUpKK2m8Yal9wX+SDDUJpuaYCl3W3a42Hjo70AO/vSUg3oIV4RDzTwyasb3eLbZ6gwfIe8mwN9xiAySUz+mEUnXdBO+OiOQzTBm+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=oqtCdEvM; arc=none smtp.client-ip=74.125.230.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="gGjAZSOE"
-Received: by mail-qk2-f41.google.com with SMTP id d75a77b69052e-532d63f434fso5243231cf.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 07:37:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="oqtCdEvM"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-910399d8b09so12292346d6.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 07:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1790001450; x=1790606250; darn=vger.kernel.org;
+        d=cmpxchg.org; s=google; t=1790001500; x=1790606300; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=2vUrOHpknLsQODHI2VwdgOODmPETkIBd14WWg0Q6gUI=;
-        b=gGjAZSOEjIaxKx0rdVUPsz0SmRs3cCI08XIo7lwjSMAEXPTKAEcXmZWfEfW9Jht7oH
-         7A3f7/UR2wrlWGhIMjUyeXMBZhb5+HiqYfFUa5XaNIDDTPJNjSKEVqr3fIplf2Dh1O4r
-         1pSWQgbLLvt78yRTbyF6TGbE6SfDlihfWkHWPU0Me9nFoF2KFgjUy/k3G+sZ7dOCAS0E
-         i34EpHTE0RXK+DzLa4XGsx7b26hET134pWpl/hCSYa57CnNu4VhKTr2l0FvCSvYjCBHf
-         EpxF/E8EooECmNpNhBWyzFr7BRvmBk3c62TWnATpVP9a87EVkhOh6xZP7zc0OZjDm+AA
-         ln2w==
+        bh=1QYjUrUl2qml9sF2K+z/e51JYen5+cjRMt5pW8NsvQc=;
+        b=oqtCdEvMQNUL8GQdomNeE+mERuYN6IIEB+RW7v5q0dx5rrI3tz6qZpTzYMgj2IELeI
+         Tlzww7+taQ+v2fsUhpExKDeHTkfAe1LHaI9K8NvrMUEskYfYTJ+hbpJDbnTrNM+a27Rg
+         hg/X9V5TMcNNNayMC4D2LbdDRrzbzJbKdgwsva/q/73HkRuELFiwSIwJwM6mYI4hbgUI
+         YpHBG01WACyZbclEu1wO5xpO5L7Mq3gY/xUGzB+J1hEbuvTZv3pKRjgVEcnU/y87bAlY
+         mnIKmZfjQXzIwzKlTjtARlTx3mgspj5J+bTG0jU6FTL3hYMXQ5hMY1185FfvfXcmD4os
+         WxOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790001450; x=1790606250;
+        d=1e100.net; s=20260707; t=1790001500; x=1790606300;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2vUrOHpknLsQODHI2VwdgOODmPETkIBd14WWg0Q6gUI=;
-        b=uXH2KkK5YbJo5ExSad+0MqrHu265CCPoijNftHcQ+rmJR8QhWcFesF1+LN1IbPidvY
-         gmiGY5813adfT41i/vK2MCNUjprDkY7ME6wO6OyoHYoPWOzf6mjVO6uV3hdkXK+MUyCL
-         UFR2pCo2H7g8yGjet7dnJUmVfniQ8J7oLFh/5uOtWYy1TeB/+LJ98uPUlm/f1rVgtuE2
-         jZHIoTGL7oms/E/SfwgHKgnew0mGCa+TLV1w7Yg39wwdJP5uK/rUtekBP9MU1PQZfFcn
-         1V2P8LEhBQKY252W3eFacQKX5Tdha7R0XK5l2RNnTcnIoKsKFN1nyGNXvcqhvwV9Wc8c
-         O1ow==
-X-Forwarded-Encrypted: i=1; AKwUvBwYV9PNkzDy+ktQXvFFb7Xii4wx1Sli+jXhM9XxqYQiUd3QqRneur8IDlz01q8M1U4vbP07kq/KIF7b6cil@vger.kernel.org
-X-Gm-Message-State: AFuF++mYTlD2Nu/MI/kokUrRyFj3urLWa5nnSVF+ql9kB0KU6va4/lYN
-	n56JW0POKNltNGtIIv3tSsO6nvHRDM7QwShFZcowoqrZZkxZ4CXWIotGOJd3fh1iTfY=
-X-Gm-Gg: AYBFou2InnM1awr5e3MKUtEBjktTUkVUzqtlemf9JxBJvgGr9rE5HFl/tMuViNOUacV
-	aAU02oDf57mHc3YroNsbIh7GRizyiCrpkhBEQUCAiLhu9fSZuLa09Io7A/gK0y+R2J6PorzBZHi
-	PcRKkB0JIzNHav+N2o98TLs16yw1T5fRBSfv8fQXFkgCkBv3vfMEa0zxzw/uIvutzeH40kFVVpy
-	eJ1ZrF52m+Gmvd9bRCtbmcMquojwPmy2MSzBMSKabk6r81DQIE9YVyB+EFOUgDzzVwZFWhxVlZ7
-	hPIMhKlkLCnSogYAimtr9ZAIyfTF1Nm90JHYMlDkYCVbQ6yYfNqah28CMWswzBExYlTRLOkqCMI
-	kh4PiKflLjiOZrxh2WLOZrjkgdAVT0JAATid5wmMMToBIvnTk0PYud8hW0q+6ETT5ABIg77CTrY
-	n6PXXxNN4YK+tjNTptEK+f2Eazsgp5Su2IoplFoNLANQuSz5Lyepci95rYndteZR0i4LTa
-X-Received: by 2002:ac8:5e4f:0:b0:532:ca19:afc1 with SMTP id d75a77b69052e-532d8d8a849mr9913591cf.29.1790001450247;
-        Mon, 21 Sep 2026 07:37:30 -0700 (PDT)
+        bh=1QYjUrUl2qml9sF2K+z/e51JYen5+cjRMt5pW8NsvQc=;
+        b=ZuTGlvtSe7apSjIIYh9duqmf5zE/oFYMC0tF/ysmePtmKh8OYk1AxbF6TEQr/Gftgq
+         qI5E4ir+8oqD1GRXvOPV2zWQ1yqELajTUzyuP86DOodX//7jLG/HMNqLgSiw+EG/jfeM
+         9H7BlhcbVhI8XXiH3Fhi9zra31fbrml7ch9Pq7Y92rou1QTJTK8utIbnEVJTrw0o0SSe
+         PempwznWA7jlZ1BCyWb+39HGdRzBKdRkOdy0UWbV7WnQ78KxV+kOVi/AH6b24sJZPJoF
+         z2av7gNqXl/bm+KWAox96P+ZoR9qlYhtB5lOfdD9mQzVi9iEqWRijcC1ijV9hP8HBoH+
+         W7+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwrB1B3HR1SXGX4wORxSsiAnAhj916Bb6IXt05rLtV79k38Z20IVdhnTEG2kx4AaQY2QvJ60FLonyYaW96J@vger.kernel.org
+X-Gm-Message-State: AFuF++nr/yrILKMOsk/FFRwsIB+swLiOiIqCv8iTvz0hRywWCGy2GLHR
+	iowL30ea/pep0W91T7EkUzPfi0LeJei61ljmsJVw9rvbEaZ7Slia6kH3sAOUiXxDMBY=
+X-Gm-Gg: AYBFou0tpTTy9HZ1hr0r/vdG8c02EShMm/ESxVsII/8oRMgc/IMMTqbJ3CLNZ6TmVqp
+	bPkCWCBPThGPA74CZqik/wkPO10bve0UDfxiDyOgkrxOImDCEqpgHvEQ2EYUZq/0YHNso42jSzL
+	Cr0pCOvy4xzsJX8ZBZhmTih/u3hT+UPnAHztqYgAJH1+Hqn5sTAwXJ8g6+YV+JUnnQnq0+FUSzG
+	EQMDHguSzdZPcrUUVWpOtvn/QigFgjWe3loQ4NJyW/MrctoK6EWTZVptDtrcR/PXWLJ3t+5pWbt
+	TSVpJUaBANfTxoqrKlPyiKd/n9SMeDY0ZriLdNDfI4X8bktvvGuUMz8CnJqx2EKwczYiOl4mYsm
+	1J37iF9Ovvpsb4WwzDHtFgo79FH0zco8C3AsRWtKQSTxZFQ/zC+eDxmZ0FiO4cR2k2FxO9y8A3F
+	GYgbKT5pBuESbrFmjopLD0TNxSZ3kggZ2hT6v7wSJkaiPXDDoEYO654rFv40F0JZhvUR3x3g==
+X-Received: by 2002:a05:6214:f25:b0:910:3c08:fc6c with SMTP id 6a1803df08f44-913fc8c6d74mr9199966d6.22.1790001499563;
+        Mon, 21 Sep 2026 07:38:19 -0700 (PDT)
 Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532ae511210sm65434551cf.2.2026.09.21.07.37.28
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91260a85c7bsm68848416d6.32.2026.09.21.07.38.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 07:37:29 -0700 (PDT)
-Date: Mon, 21 Sep 2026 10:37:25 -0400
+        Mon, 21 Sep 2026 07:38:18 -0700 (PDT)
+Date: Mon, 21 Sep 2026 10:38:18 -0400
 From: Johannes Weiner <hannes@cmpxchg.org>
 To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Cc: Matt Fleming <matt@readmodwrite.com>,
@@ -72,15 +72,16 @@ Cc: Matt Fleming <matt@readmodwrite.com>,
 	linux-xfs@vger.kernel.org, mhocko@suse.com, ritesh.list@gmail.com,
 	rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
 	willy@infradead.org, ziy@nvidia.com
-Subject: Re: [PATCH v4] mm/page_alloc: avoid direct compaction for costly
- __GFP_NORETRY allocations
-Message-ID: <arFBJdYaRx_iJNDA@cmpxchg.org>
+Subject: [PATCH 1/2] mm: page_alloc: do not give all non-blocking requests
+ reserve access
+Message-ID: <arFBWvzXPYrKuIYi@cmpxchg.org>
 References: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
  <20260910114602.926944-1-dipiets@amazon.it>
  <aqQlUr-1h07G8JWM@cmpxchg.org>
  <8d6a8a63-4adc-458a-b548-a47bf5ff8eb7@kernel.org>
  <aqq8pWI0u1IZNWHT@cmpxchg.org>
  <9f415dc7-adad-4161-b20d-7c3173f50ff3@kernel.org>
+ <arFBJdYaRx_iJNDA@cmpxchg.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,59 +90,65 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9f415dc7-adad-4161-b20d-7c3173f50ff3@kernel.org>
+In-Reply-To: <arFBJdYaRx_iJNDA@cmpxchg.org>
 
-On Fri, Sep 18, 2026 at 09:05:40AM +0200, Vlastimil Babka (SUSE) wrote:
-> On 9/16/26 17:58, Johannes Weiner wrote:
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index 12fac9084c48..c79cc7aa4dff 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -3246,7 +3246,8 @@ struct page *rmqueue_buddy(struct zone *preferred_zone, struct zone *zone,
-> >  			 * reserves as failing now is worse than failing a
-> >  			 * high-order atomic allocation in the future.
-> >  			 */
-> > -			if (!page && (alloc_flags & (ALLOC_OOM|ALLOC_NON_BLOCK)))
-> > +			if (!page && ((alloc_flags & ALLOC_OOM) ||
-> > +				      ((alloc_flags & ALLOC_MASK_ATOMIC) == ALLOC_MASK_ATOMIC)))
-> >  				page = __rmqueue_smallest(zone, order, MIGRATE_HIGHATOMIC);
-> >  
-> >  			if (!page) {
-> > diff --git a/mm/page_alloc.h b/mm/page_alloc.h
-> > index b9259deddb59..11714ddca254 100644
-> > --- a/mm/page_alloc.h
-> > +++ b/mm/page_alloc.h
-> > @@ -60,6 +60,9 @@
-> >  /* Flags that allow allocations below the min watermark. */
-> >  #define ALLOC_RESERVES (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE|ALLOC_HIGHATOMIC|ALLOC_OOM)
-> >  
-> > +/* Flag combination from GFP_ATOMIC */
-> > +#define ALLOC_MASK_ATOMIC (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE)
-> > +
-> >  /*
-> >   * Structure for holding the mostly immutable allocation parameters passed
-> >   * between functions involved in allocations, including the alloc_pages*
-> 
-> Should work.
-> 
-> > 
-> >> Unless I'm mistaken about that MIGRATE_HIGHATOMIC part, it seems all sashiko
-> >> concerns can be dismissed and then indeed v4 is the better version.
-> > 
-> > It looks like a real issue to me, but one that already exists
-> > independent of Salvatore's change.
-> 
-> But Salvatore's change (v4, not v5 IIUC) will make it worse because
-> __GFP_DIRECT_RECLAIM + __GFP_NORETRY costly order opportunistic attempts
-> with fallback will start eating the highatomic reserves too?
->
-> In that case the fix for this should probably be part of the same PR to
-> Linus and be also stable with Fixes: 281dd25c1a01
+281dd25c1a01 ("mm/page_alloc: let GFP_ATOMIC order-0 allocs access
+highatomic reserves") accidentally gave all non-blocking allocation
+requests access to highatomic reserves, which includes GFP_NOWAIT and
+other sites clearing __GFP_DIRECT_RECLAIM.
 
-Yes, agreed on both.
+While this improved atomic request success rate, it's unintentionally
+broad and can actually worsen highatomic requests by squandering the
+reserves on requests that don't need it.
 
-Sorry for the delay - while poking around I found another oddity in
-how the reserves are accessed.
+There are concurrent efforts to clear __GFP_DIRECT_RECLAIM altogether
+for costly order __GFP_NORETRY requests, which would have then also
+fall into this exemption and deplete reserves even faster.
 
-I'll reply with two patches that I think we want to go in as fixes,
-whether Salvatore's patch goes ahead or not.
+What GFP_ATOMIC has over the others is __GFP_HIGH, which
+alloc_flags_slowpath() translates to ALLOC_MIN_RESERVE.
+
+Narrow the exemption to contexts that have both ALLOC_NON_BLOCK |
+ALLOC_MIN_RESERVE.
+
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Fixes: 281dd25c1a01 ("mm/page_alloc: let GFP_ATOMIC order-0 allocs access highatomic reserves")
+Cc: stable@vger.kernel.org
+Signed-off-by: Johannes Weiner <hannes@cmpxchg.org>
+---
+ mm/page_alloc.c | 4 +++-
+ mm/page_alloc.h | 3 +++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 12fac9084c48..7b46d0ac3a56 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -3246,7 +3246,9 @@ struct page *rmqueue_buddy(struct zone *preferred_zone, struct zone *zone,
+ 			 * reserves as failing now is worse than failing a
+ 			 * high-order atomic allocation in the future.
+ 			 */
+-			if (!page && (alloc_flags & (ALLOC_OOM|ALLOC_NON_BLOCK)))
++			if (!page &&
++			    ((alloc_flags & ALLOC_OOM) ||
++			     (alloc_flags & ALLOC_MASK_ATOMIC) == ALLOC_MASK_ATOMIC))
+ 				page = __rmqueue_smallest(zone, order, MIGRATE_HIGHATOMIC);
+ 
+ 			if (!page) {
+diff --git a/mm/page_alloc.h b/mm/page_alloc.h
+index b9259deddb59..ad89f83d1dab 100644
+--- a/mm/page_alloc.h
++++ b/mm/page_alloc.h
+@@ -60,6 +60,9 @@
+ /* Flags that allow allocations below the min watermark. */
+ #define ALLOC_RESERVES (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE|ALLOC_HIGHATOMIC|ALLOC_OOM)
+ 
++/* Flags that mean GFP_ATOMIC */
++#define ALLOC_MASK_ATOMIC (ALLOC_NON_BLOCK|ALLOC_MIN_RESERVE)
++
+ /*
+  * Structure for holding the mostly immutable allocation parameters passed
+  * between functions involved in allocations, including the alloc_pages*
+-- 
+2.55.0
+
