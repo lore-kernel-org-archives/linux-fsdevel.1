@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676864A260E;
-	Mon, 21 Sep 2026 13:46:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845DE4A2630;
+	Mon, 21 Sep 2026 13:46:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789998365; cv=none; b=rkS5yOZP7M/hk4JIMmnablm5rNVVkLeUD8XEyVa5BlIdz1GDSbWQmcvILmM8Me9g5hJHNqR4QXzt9u1p/Syz14H84E3ZIJ5aBym02PxR8Judy3Iu1B1IX80WC6FCuYiiTvtjeMySk1AoSANt+NESxLzEcvikCBp+ILQtnWDpwyg=
+	t=1789998368; cv=none; b=S0Ykn0LLO7L6OE18AQ+Fs/xb61Flzxuy8gE7c4jUGqiGJK5J+Fd9R7kcOEGtowSjl1zORwy/bCOMjd9txHpNZNkRRN7lucQEnZsQWkRUAE93qrMWEi3PGZT92+skN5+JAyQgGpUL349jp5OI37ro/xrhDl8s2usUCx1ban9GHEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789998365; c=relaxed/simple;
-	bh=N9+t6kg9G5schzNoEgToZQtBo5+eN+aMw/ZqCZtP+xs=;
+	s=arc-20240116; t=1789998368; c=relaxed/simple;
+	bh=lj99++MiJpzbFK4wClDD2ih1T3hXCm3XRQc2cRY0Hok=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EnaHulnTDevZStlRWanpwEGOoy3kHochdbgNeDEkN6w9cvUj/WrXfDYVtKYmtLC1OO3wgKik0OgRqfnIifZR+GW8PXvpaZvI55axexJxVC1tBRTaUJzD8mnEdH0spVFvPhqA4decHCLbVwa4gm3fErjO779xVYPtZYtKqt/n2MU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aj1MZ6b0; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=OOWj+qceIMN/qAuHXbKWh/mqNkERzgN3eQV+PdBZQ1W9IHnc3Qyeo5kdSlzBGi16ZNtrPf6PJj+fa6ZvXN7zpdXMDWy592pSJotMGLMZCDlTgrqpT5+aLkHNGqZqGdl12c/Vb+MXl6FoO0LgtQ90wZ5BgcDR+20JYl0y0qfT1Zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fqY+nvrE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aj1MZ6b0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFC801F00893;
-	Mon, 21 Sep 2026 13:46:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fqY+nvrE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 352091F00898;
+	Mon, 21 Sep 2026 13:46:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789998363;
-	bh=XK+vFPcoNOWpEsInXI2i4g3mZjN5dJruLtFC6744UCg=;
+	s=k20260515; t=1789998367;
+	bh=iAGZ6PU49QMZkoSdNCCgv05Mtfg8cEoYV92BD8cI+30=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Aj1MZ6b0DckcbN8ZWhMcy3sQmM5nKsMEjWSoa3mKzl4IzTTdqYMEkUXOnPbs/V8z1
-	 Mx4jZ9zAiATVYJt5FPaI8JLIJKQrvVpq0b+xhEky4JsfoHwxRqlljaIeQYJlALdHJy
-	 4gXFul/htFtIbwAHHvJ7UFvWrIEfQwsVShk8nfiSPeJTeyzDDh2P/QlvKGFh9Fg9ys
-	 ho6lcgL2qG881lUJPTANEunTFLV+Mi6Z+65BhopjaMu7+eyZY4ncZAu/A8vkwRE017
-	 Jdsab31+dou4Pm1UlIjSVp5JFnPRrUoXRpUiIkO2yuS/6kDm+mP4AdzUBBPFat3VVz
-	 sLGUqsBTeskMA==
+	b=fqY+nvrEB5A3kmuky5pBIBfQfBbIM9TbNDC9pClgfbUCBHbJqnshrb3SA7ZZGGKIu
+	 L1Z4vbKkEzc35WOaTsdzqk9BBB6M8OJiPPMGm1Xg3p25+9cGjFX+XP/nQLCcy883/1
+	 QZW3s3xH5pslUlITzgj03Hr1P4SHHiAAg7dDERsQRqLr95e+ZFE7P2QjPu/qV0SOCK
+	 yyD7ytnHBk/XHkz7Sj071IDmYXoOJjmIhNIq6gflzyPN3fbD6FnCNZjXkfbhZ+fZjE
+	 ldgVI2nOFjsTD8n8qikO5NlyHJvVl5/dEmMXmV5X6+4rTn0V/EzzR1ZiPkR61jpbjL
+	 9yZ31tmAsfY0A==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 21 Sep 2026 15:45:05 +0200
-Subject: [PATCH v3 16/17] signal: enforce the user worker signal mask in
- __set_task_blocked()
+Date: Mon, 21 Sep 2026 15:45:06 +0200
+Subject: [PATCH v3 17/17] fs: close files from the highest descriptor down
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260921-work-coredump-fixes-v3-16-8e4adb1619e6@kernel.org>
+Message-Id: <20260921-work-coredump-fixes-v3-17-8e4adb1619e6@kernel.org>
 References: <20260921-work-coredump-fixes-v3-0-8e4adb1619e6@kernel.org>
 In-Reply-To: <20260921-work-coredump-fixes-v3-0-8e4adb1619e6@kernel.org>
 To: Oleg Nesterov <oleg@redhat.com>, Chris Mason <mason@kernel.org>, 
@@ -49,76 +48,161 @@ Cc: Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
  linux-mm@kvack.org, io-uring@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2674; i=brauner@kernel.org;
- h=from:subject:message-id; bh=N9+t6kg9G5schzNoEgToZQtBo5+eN+aMw/ZqCZtP+xs=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtNLm7ceqfa/vOperqasXWKHp+9/O/vtt16TmBg9pyW
- /pKTn9h7ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIUQnD/xy1itCSJL+A5vvr
- bc6IHL/CpDexIOn7wa2JkpYVJu8LNjH801vYraC/epZrb8Lti8vr70eH/N73ct8GxiZ2sbvaHq3
- X+AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5081; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=lj99++MiJpzbFK4wClDD2ih1T3hXCm3XRQc2cRY0Hok=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtNLnL9vDs5WVFOWaNX43Yha5uOhD6gfGj//blH3We8
+ yZGMz/b3FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRskUMPxmL+GKPTJ+SXnZp
+ Pr/e5u283jvfb/t17MmH+QseXTF+nrKbkWGjsdXzOS4nbx733u0w9ZHLVGWfJw/3MYYlrHub8n/
+ i+RxeAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-User workers block every signal except for SIGKILL and SIGSTOP in
-copy_process(). So complete_signal() never picks a thread that blocks
-the signal and get_signal() never dequeues such a thread. Net effect is
-that user workers only exit on SIGKILL or stop on SIGSTOP.
+close_files(), __range_close() and close_cloexec_files() walk the
+descriptor table from the lowest descriptor up. They used to call
+filp_close(), which left the final __fput() to task work. task work is a
+LIFO list, so the releases ran after the walk had finished and in the
+opposite direction, highest descriptor first.
 
-Before we fixed it a tracer could unblock a signal. For example, by
-unblocking SIGHUP a installing a handler complete_signal() could end up
-picking a user worker for a process-directed SIGHUP. Which effectively
-means the handler never runs.
+This dumb ordering is relevant for a bunch of broken but long-standing
+cases. It matters whenever the ->flush() or ->release() of one file
+waits for something that only the release of another file of the same
+table provides. Then one of the two orders deadlocks and the other one
+doesn't:
 
-After blocking PTRACE_SETSIGMASK what remains is the in-kernel
-sigprocmask() and force_sig_info_to_task() changes.
+    exit, fd 3 is one end of a pipe    peer
+    -------------------------------    ----
+                                       splice(socket -> pipe)
+                                         pipe_lock()
+                                         waits for data or EOF
+    close_files()
+      fd 3: pipe_release()
+        mutex_lock(&pipe->mutex)         held by the peer
+      fd 5: the socket, not reached      would be the peer's EOF
 
-The in-kernel sigprocmask() users block more signals for a critical
-section and restore the saved mask afterwards. cifs used to do that in
-__smb_send_rqst() and ocfs2 in ocfs2_block_signals(). Both were
-reachable from an io-wq worker. Both only add SIGKILL and SIGSTOP to the
-user workers's and then put the fork-time mask back.
+Programs create the thing that guards or wakes another thing first.
+Hence, it gets the lower descriptor which is the layout that breaks:
 
-force_sig_info_to_task() unblocks a signal so a target can't hide from
-the signal. A synchronous signal forced onto a user worker is accepted
-currently so let's leave that alone.
+(1) a tap device released before the AF_LLC socket that holds a
+    reference to it
+(2) an unlinked fsdax file evicted before the pipe that holds its
+    vmspliced pages
+(3) an overlayfs directory whose release queues up behind an unlink that
+    waits for a splice into the same directory
 
-Make it a rule that a user worker's signal mask can never drop below
-the copy_process() deafult. SIGKILL and SIGSTOP have the same rule in
-the other direction. rt_sigprocmask(), set_current_blocked() and
-PTRACE_SETSIGMASK strip them from whatever mask userspace asks for.
+The exiting task is unkillable in all of them. All of that crap can
+obviously also become a bug if you reorder the file descriptors.
 
-Do the same for user worker mask in __set_task_blocked(). Add the
-fork-time mask back into the new set for a user worker and warn if that
-changed anything. Warn when a caller unblocks a signal for a user worker.
+Continue walking all three tables from the highest descriptor down. That
+restores the order the deferred puts had. ->flush() moves with the
+release. So it now runs highest descriptor first as well.
 
-No functional changes.
+None of this fixes the underlying defects. For every one of these pairs
+the mirrored layout deadlocked before and deadlocks
+again now:
 
-Link: https://lore.kernel.org/r/aq_4fY6GVtK47Njq@redhat.com
+(1') splice() holding pipe->mutex across unbounded socket and tty I/O
+(2') AF_LLC keeping a netdev reference without a NETDEV_UNREGISTER handler
+(3') uninterruptible wait in dax_break_layout_final()
+(4') ovl_splice_write() sleeping under the inode lock
+
+It all predates the synchronous close and each should really get fixed.
+
+Reported-by: Chris Mason <mason@kernel.org>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- kernel/signal.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ fs/file.c | 55 +++++++++++++++++++++++++++++--------------------------
+ 1 file changed, 29 insertions(+), 26 deletions(-)
 
-diff --git a/kernel/signal.c b/kernel/signal.c
-index c3bad983dd37..137002445b0d 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -3212,6 +3212,16 @@ long do_no_restart_syscall(struct restart_block *param)
+diff --git a/fs/file.c b/fs/file.c
+index 76e328edf630..7f8d0afd8807 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -497,24 +497,21 @@ static struct fdtable *close_files(struct files_struct *files)
+ 	 * files structure.
+ 	 */
+ 	struct fdtable *fdt = rcu_dereference_raw(files->fdt);
+-	unsigned int i, j = 0;
++	unsigned int j = fdt->max_fds / BITS_PER_LONG;
++
++	/* Highest fd first, the order the deferred puts ran in. */
++	while (j--) {
++		unsigned long set = fdt->open_fds[j];
  
- static void __set_task_blocked(struct task_struct *tsk, const sigset_t *newset)
- {
-+	sigset_t floor, floored;
+-	for (;;) {
+-		unsigned long set;
+-		i = j * BITS_PER_LONG;
+-		if (i >= fdt->max_fds)
+-			break;
+-		set = fdt->open_fds[j++];
+ 		while (set) {
+-			if (set & 1) {
+-				struct file *file = fdt->fd[i];
+-				if (file) {
+-					filp_close_sync(file, files);
+-					cond_resched();
+-				}
++			unsigned int bit = __fls(set);
++			struct file *file = fdt->fd[j * BITS_PER_LONG + bit];
 +
-+	/* A user worker never unblocks anything but SIGKILL and SIGSTOP. */
-+	if (unlikely(tsk->flags & PF_USER_WORKER)) {
-+		siginitsetinv(&floor, SIG_KERNEL_ONLY_MASK);
-+		sigorsets(&floored, newset, &floor);
-+		WARN_ON_ONCE(!sigequalsets(&floored, newset));
-+		newset = &floored;
-+	}
++			set ^= 1UL << bit;
++			if (file) {
++				filp_close_sync(file, files);
++				cond_resched();
+ 			}
+-			i++;
+-			set >>= 1;
+ 		}
+ 	}
+ 
+@@ -801,10 +798,14 @@ static inline void __range_close(struct files_struct *files, unsigned int fd,
+ 	n = last_fd(fdt);
+ 	max_fd = min(max_fd, n);
+ 
+-	for (fd = find_next_bit(fdt->open_fds, max_fd + 1, fd);
+-	     fd <= max_fd;
+-	     fd = find_next_bit(fdt->open_fds, max_fd + 1, fd + 1)) {
+-		file = file_close_fd_locked(files, fd);
++	/* Highest fd first, see close_files(). */
++	for (n = max_fd + 1; n > fd; ) {
++		unsigned int cur = find_last_bit(fdt->open_fds, n);
 +
- 	if (task_sigpending(tsk) && !thread_group_empty(tsk)) {
- 		sigset_t newblocked;
- 		/* A set of now blocked but previously unblocked signals. */
++		if (cur >= n || cur < fd)
++			break;
++		n = cur;
++		file = file_close_fd_locked(files, cur);
+ 		if (file) {
+ 			spin_unlock(&files->file_lock);
+ 			filp_close_sync(file, files);
+@@ -908,20 +909,22 @@ void close_cloexec_files(struct files_struct *files)
+ 
+ 	/* exec unshares first */
+ 	spin_lock(&files->file_lock);
+-	for (i = 0; ; i++) {
++	fdt = files_fdtable(files);
++	/* Highest fd first, see close_files(). */
++	for (i = fdt->max_fds / BITS_PER_LONG; i--; ) {
+ 		unsigned long set;
+-		unsigned fd = i * BITS_PER_LONG;
++
+ 		fdt = files_fdtable(files);
+-		if (fd >= fdt->max_fds)
+-			break;
+ 		set = fdt->close_on_exec[i];
+ 		if (!set)
+ 			continue;
+ 		fdt->close_on_exec[i] = 0;
+-		for ( ; set ; fd++, set >>= 1) {
++		while (set) {
++			unsigned int bit = __fls(set);
++			unsigned fd = i * BITS_PER_LONG + bit;
+ 			struct file *file;
+-			if (!(set & 1))
+-				continue;
++
++			set ^= 1UL << bit;
+ 			file = fdt->fd[fd];
+ 			if (!file)
+ 				continue;
 
 -- 
 2.53.0
