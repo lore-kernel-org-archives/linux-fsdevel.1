@@ -1,176 +1,350 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2E949A3DC;
-	Mon, 21 Sep 2026 09:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CBA477E22
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 09:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789982929; cv=none; b=acpyy6ZXnHuo/bglX5iP+YPnmBGw+2uBydQLi4Z8QCqujtaETkfJ1yeTJXShP1+UpaaQZrd0+4iMF/sigAOTEeQ0paFyiuMGqopmLIw2ILPbTQHVNOJBUFc70KpmI1k6+Dy/BBwmndUovD7A56cQEnXqzmyFs/wdQ+R3pwgkTNI=
+	t=1789983157; cv=none; b=QKuPsvY6i6kuy77ulPnduHGTsdOycEJu7LbFu4tDckzokGWQdKsHROKRovsYkYjwLE9np9YAbv9coFzfASUaAPYu+CTuD3TcpfA+FoYoh8XvaKAepGvq0UBO0x4LniadSDIe1UXBx53lEQLA79EqQn1a2Z/9eqWoukKmMf1y0Ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789982929; c=relaxed/simple;
-	bh=2ja0iXhncaSOLX4279w1X4woaAq7vhERXDmpS9kJ4oI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ih8zIlNSwccfcSU66qdyvXz0L541S8A6VJreZ+HsySScI3WUuruiGq1D8ycNLCyIp06j/de3lzZL7fa0FEK4dGvYsIzN0ecZMWtPmth2wWEA1EuGgWhaFsWjOeWgj+BnhnGGJedQBMwy9aWBD+nTS96KpdnBjPQ+Kr3dUMfq0JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=LbpNXzuF; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1789983157; c=relaxed/simple;
+	bh=yejVs+D654tTvqK1udD/Pz/0gEmeh9SZV4OI+iLF8Zk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 References; b=GljpZ/Nuq4PMzwhBqJm7PXh/lWNpqXYj0rjewec5wOaOV7Y3qzV/hI/ziiHEh6QmCMQ9ln8z5tPWksmI5pI+Hx78b8jQAjidHkFFsga7G/74LeN2qJn2eYgwitl16Jg5A09cxunSUQLrI79qXqPgi+ZZtUOmpY7GlviNaJ/Tg6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=j1M1x06v; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="LbpNXzuF"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68L7ZbnX672354;
-	Mon, 21 Sep 2026 09:27:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=G1939M
-	Elcb2kM01/7HPbHzZLx6pN/KmlSSE/eI9FBUg=; b=LbpNXzuFadRu4xefU1BRaQ
-	h06fCzfQKzfgJVO+GdlysRBuw3CYS0h9INHzdvY3mycdGE8B4aCXmajbflhXM83m
-	ptcP7kCNPw7U5yE7EQVhYZbolmvC65PE01R+sPRX1TAwDsp3zu59hoqOFt/AvSFu
-	5pqA8S4gXwqDoq7dFjtx3V6977yRg6lME+gwPDU4gqT+I3OVD5aSSVh7R8w6dn0T
-	kiKHMCbbohscsdNiKn1Zx2pPlBr3PIYgVRxD/D5LlFRG64591dn0jOnilV2QvhBv
-	bToDpdeuPAeQZrnWFVRBLnCUhYPuTDfHfi8SVj+Rm2GBZJhlYSmRWoRw9xze2Cvw
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gske17ksg-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 21 Sep 2026 09:27:30 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68L7HTui924403;
-	Mon, 21 Sep 2026 09:27:29 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4gt4qq4sv7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 21 Sep 2026 09:27:29 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68L9RTIS62783920
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 21 Sep 2026 09:27:29 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EAD7558063;
-	Mon, 21 Sep 2026 09:27:28 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2F3D55804B;
-	Mon, 21 Sep 2026 09:27:14 +0000 (GMT)
-Received: from [9.61.138.180] (unknown [9.61.138.180])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 21 Sep 2026 09:27:13 +0000 (GMT)
-Message-ID: <37de70f6-67f8-466f-a267-03584973dd3a@linux.ibm.com>
-Date: Mon, 21 Sep 2026 14:57:12 +0530
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="j1M1x06v"
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260921093231epoutp01e33b89ab7b594a882162983e7fbca502~XTDE6JMQV0554705547epoutp01c
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 09:32:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260921093231epoutp01e33b89ab7b594a882162983e7fbca502~XTDE6JMQV0554705547epoutp01c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1789983151;
+	bh=EMaHfMKNFjV9FQj1SxYOSOK1upDOwH3qB1HwFNS66xU=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=j1M1x06vGBOJQcwTYuxuKI0caC+/YAHPakwmBc6M7MJD/EwQoKDk+FJOPvtskF0Xk
+	 5B28VC+MRxxHEd3eKaARStLb6HCNej+CiBY7oRd44/HTpoNbmQ9zMflcYM0kaAEeen
+	 wHw9OPVU+HUEU8BpyI0dVb8lSlxZNcf8jQJ4HVoo=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20260921093230epcas5p3616900193d5855cc393ec2d8572b9b31~XTDEiA1rh2777527775epcas5p3q;
+	Mon, 21 Sep 2026 09:32:30 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.95]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4hpJ0t0nFHz6B9mB; Mon, 21 Sep
+	2026 09:32:30 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260921093229epcas5p387ee10f88335ddc5fc930ca919769a60~XTDDdvneJ2556525565epcas5p38;
+	Mon, 21 Sep 2026 09:32:29 +0000 (GMT)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260921093227epsmtip1179220e572af23e4275c76b3e376a9d1~XTDB4R5mu0528305283epsmtip1_;
+	Mon, 21 Sep 2026 09:32:27 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: brauner@kernel.org, hch@lst.de, djwong@kernel.org, dgc@kernel.org,
+	cem@kernel.org, jack@suse.cz, axboe@kernel.dk, kbusch@kernel.org
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
+Subject: [PATCH v5 0/8] xfs write streams
+Date: Mon, 21 Sep 2026 15:01:39 +0530
+Message-Id: <20260921093147.59935-1-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] blk-cgroup: store blkcg in bio instead of blkg
-To: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Josef Bacik <josef@toxicpanda.com>, Tejun Heo <tj@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap
- <rdunlap@infradead.org>, Coly Li <colyli@fygo.io>,
-        Kent Overstreet <kent.overstreet@linux.dev>,
-        Alasdair Kergon
- <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Benjamin Marzinski <bmarzins@redhat.com>, Song Liu <song@kernel.org>,
-        Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
-        Andreas Gruenbacher <agruenba@redhat.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
-        Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-        Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
-        Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>,
-        Youngjun Park <youngjun.park@lge.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Bill Wendling
- <morbo@google.com>,
-        Justin Stitt <justinstitt@google.com>
-Cc: Yu Kuai <yukuai@fygo.io>, Christoph Hellwig <hch@lst.de>,
-        Tao Cui <cuitao@kylinos.cn>, linux-block@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-bcache@vger.kernel.org,
-        dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
-        gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, llvm@lists.linux.dev
-References: <20260920092351.2434283-1-yukuai@kernel.org>
- <20260920092351.2434283-3-yukuai@kernel.org>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260920092351.2434283-3-yukuai@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: -Xd8a0RVEhrxDFm6gn4h3GOonDYckOi9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIxMDEzMCBTYWx0ZWRfXyA4xNH3cYzqc
- l3LhAHGkDdB9wr6wJVvzkOiW0PLTrY+6N2xnfwVvAXBEgUZUUlnqQoZ9S/t2ec53rKELusYcvWT
- di0gP2G3AgYQrqIZGwv4XAk6ZTbicrvfmdi3M2UDvbThVuKLxf2bVg5EnsFXBr4KXrs6etQpgoD
- euKLu2Q+XaIsRVuhlHm+asbpr7zvK5ks3HxoZmC3tfKIKTo9gLj/L+nXXm8Qa6LpaYS6fCQWKwA
- rPtKbOsDw0UQzNsyd8H9bnPf3SqR3/y1I/PXuxjss5kLLxairvDG61ZUizIHrj9aHnJa9muRUGp
- 7oMtV5GSfddGruww+e3uDCJcaCC0OqzGH5jLo19DzokCNvtkRFr5gRuQY3TQAjpzacqfLjYt61q
- p4U3ri+iYIaoZm7NV0kKr27cQE0po2JDzt0VLOolD+KbjSIIi30aCQOJhnnHY4hngd24Su44C9I
- iTTkkhvJogiX4hApA1A==
-X-Authority-Analysis: v=2.4 cv=O/KsLx9W c=1 sm=1 tr=0 ts=6ab0f883 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=yt32EUx3BFOMUVNgjeUA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIxMDEzMCBTYWx0ZWRfX5rV0t/6BeebN
- XqLIK4QGbSN4xT9UKi23paOxlW7Ykt3xnAjLGUCmr0jYvC/s6nTF8lOI7DuZlUqbCJZ4FsSaWjL
- tAtASM6ortzkp/bMC84v/5e+hKTSbak=
-X-Proofpoint-GUID: STTiMO6o3fOhik_S7E0XjsEtuaK9UoBW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-21_03,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 phishscore=0 impostorscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609210130
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260921093229epcas5p387ee10f88335ddc5fc930ca919769a60
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260921093229epcas5p387ee10f88335ddc5fc930ca919769a60
+References: <CGME20260921093229epcas5p387ee10f88335ddc5fc930ca919769a60@epcas5p3.samsung.com>
 
-On 9/20/26 2:53 PM, Yu Kuai wrote:
-> From: Yu Kuai<yukuai@fygo.io>
-> 
-> A bio currently stores and pins a queue-local blkg. This forces bio
-> association and remap paths to look up or create a blkg even when no
-> blkcg policy will use the bio, and ties the stored state to the current
-> block device.
-> 
-> Store and reference the queue-independent blkcg in the bio instead. Add
-> helpers that lazily look up or create the queue-local blkg when a policy
-> needs it, and pin the result until the bio changes devices or releases
-> its cgroup state. Look up and pin existing blkgs under RCU, taking the
-> queue lock only when a blkg may need to be created.
-> 
-> Keep completion and accounting users lookup-only when they do not create
-> a blkg themselves. In particular, blk_cgroup_bio_start() only accounts a
-> bio when an online blkg already exists. This avoids creating a blkg
-> from the unconditional accounting hook when no policy is enabled.
-> 
-> Protect every rhashtable lookup with an RCU read-side critical section.
-> Annotate the lookup helpers and recursive wrappers with
-> __must_hold_shared(RCU) so Clang can verify that contract.
-> 
-> Before entering a bio-based driver's ->submit_bio(), drop the pinned blkg
-> after blk_cgroup_bio_start() has completed bio accounting. blk-throttle is
-> the only policy supported by bio-based queues, so no queue-local blkg
-> state needs to enter stacking drivers. The queue-independent blkcg
-> association remains attached to the bio.
-> 
-> If blkg creation fails while walking down the hierarchy, use the closest
-> available ancestor and update the bio's blkcg association before
-> recording the blkg reference. This keeps later CSS ID hash lookups
-> matched with the pinned blkg.
-> 
-> Signed-off-by: Yu Kuai<yukuai@fygo.io>
+This series introduces a generic interface [2,3] for write stream management on
+files.
+It enables spatial isolation (at sw and hw level) and concurrency improvments [1]
+in xfs by
+(a) steering each write stream to its own set of allocation groups (patch #5)
+    and realtime groups (patch #6).
+(b) connecting xfs write streams to block write streams (FDP capable NVMe).
 
-Looks good to me.
+Write streams allow the abstraction provider (fs, block, raid etc.) to
+leverage application's intent (file relationships/lifecycle).
+- application: reserves a stream and sets it on the files it wants
+  placed together.
+- xfs: maps streams to AGs/RGs; allocates without interleaving; gains
+  higher concurrency due to reduced lock contention.
+- hardware: maps streams to underlying allocation unit; reduces device
+  internal write amplification, improved life, predictable QoS.
 
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+Also
+- A stream is handed out using an fd. The filesystem is free to map streams
+  onto its own geometry, and the reservation/fd machinery is generic
+ (fs/write_streams.c) so other filesystems can reuse it.
 
+- Since high-level write stream (in xfs) and logical placement can work
+  without the low-level write streams (in block device), series has a general
+  value beyond the hardware that provides spatial isolation. Patches 1-7 are
+  software only and work on any block device; patch 8 aligns the stream
+  count to the hardware streams when the device has them.
+
+- write-stream is different from existing 'filestream' allocator which
+  maintains directory-to-AG associations in a global MRU cache. That
+  requires state managment and memory (and its reclaim). Proposed AG-set
+  based steering relies on simple, statless/lockless airthmatic that aligns
+  more with the default allocator heuristics.
+
+[1]
+### Performance
+
+1. On regular NVMe
+
+a. Inter-stream concurrency
+---------------------------
+fio: 4k write, direct IO, 16 jobs, 1 directory, 16 files * 8GiB, iodepth 32
+xfs: 16 AGs, 4 write-streams
+
+base: 41 KIOPS
+write-stream AG-set: 227 KIOPS (+453%)
+here, 16 files are assigned 4 distinct write-streams (4 files/stream)
+
+b. Intra-stream concurrency
+----------------------------
+fio: 4k write, direct IO, 4 jobs, 1 directory, 4 files * 8GiB, iodepth 32
+xfs: 16 AGs, 4 write-streams, write-stream AG-set size = 4
+
+base: 59 KIOPS
+write-stream AG-set: 112 KIOPS (+89%)
+here, 4 files are assigned single write-stream
+
+2. On FDP-capable NVMe:
+RocksDB YCSB
+WAF (base vs write-stream): 35% Reduction
+
+
+[2]
+### Application interface
+
+Three new ioctls:
+      FS_IOC_WRITE_STREAM_GET_MAX  number of streams the filesystem offers
+      FS_IOC_WRITE_STREAM_ALLOC    reserve a stream, returns an fd
+      FS_IOC_WRITE_STREAM_SET      set or clear a stream on a file
+
+### Comparison with Write Hints (RWH_WRITE_LIFE_*)
+
+- Semantics: Write Hints describe 'data temperature' (e.g.,short/long/extreme),
+  implying a lifetime. Write Streams describe 'data placement'
+  (e.g., Bin 1/Bin 2), implying only separation.
+
+- Scalability: Write Hints are limited to a small, fixed enum (6 values).
+  Write streams are dynamic, provider-dependent values that can scale much
+  higher.
+
+- Discovery: The existing write-hint interface is advisory and decoupled
+  from underlying capabilties; application has no way to probe support
+  and cannot deterministically know which hints are valid. OTOH, write-streams
+  provide explicit discovery.
+
+- Usage model: application needs to get a handle (fd) for a write stream
+  before being able to use it. This avoids multi-application conflicts.
+
+Note: within the kernel, the separation between two constructs
+(write-hint and write-stream) had started from 6.16 itself.
+
+### Changelog
+
+since v4:
+https://lore.kernel.org/linux-xfs/20260717125538.508925-1-joshi.k@samsung.com/
+
+- stream reservation and fd handling moved to generic code, and the
+  stream id moved to struct inode from xfs inode (Darrick, Christoph)
+- stream id no longer shows in uapi: OPEN becomes ALLOC and returns
+  fd for any (unreserved) stream; OPEN_EXACT and GET are gone (Christoph)
+- ALLOC requires CAP_SYS_ADMIN (Christoph)
+- write stream and write life time hint are mutually exclusive at both
+  setters
+- stream pool lives on the buftarg (Christoph), which gives the realtime
+  device streams of its own: new patch to enable RT support (Christoph, Darrick)
+- software streams come first and work on any device; hardware streams
+  are enabled in the last (Christoph)
+
+since v3:
+https://lore.kernel.org/linux-block/20260616180555.33338-1-joshi.k@samsung.com/
+- add fd-based interface to open/set the write stream (Christoph)
+- move from single multiplexed ioctl to 4 distinct ioctls (Christoph)
+- add mutual exclusion checks against existing write-hint, filestream (Christoph)
+- uint16_t for write-stream within iomap and other streamlining (Darrick)
+
+since v2:
+https://lore.kernel.org/linux-fsdevel/20260309052944.156054-1-joshi.k@samsung.com/
+- xfs default allocator optimization using fixed-size generic AG set (Dave)
+- reuse the above to simplify the write-stream AG set handling
+- streamline the uapi; Use union for GET_MAX and GET/SET (Darrick)
+- uint16_t for write-stream within xfs inode and other cleanups (Darrick)
+
+since v1:
+https://lore.kernel.org/linux-fsdevel/20260216052540.217920-1-joshi.k@samsung.com/
+- swich from fcntl based to ioctl-based interface (Christian)
+- new patch (#4) that makes xfs allocator use the write streams for AG
+  selection
+- new patch (#5) that introduces software write streams in xfs.
+
+[3]
+### Interface example
+/*
+ * Minimal write-stream example.
+ *
+ *      cc -Wall -o ws-example ws-example.c
+ *      sudo ./ws-example /mnt/xfs        # data device
+ *      sudo ./ws-example /mnt/xfs rt     # realtime volume
+ *
+ * Reserves two streams.  a.dat gets the first; b.dat and c.dat share the
+ * second.  Each file then takes one 4K write, so a.dat is placed apart from
+ * b.dat and c.dat, which are placed together.
+ *
+ * With "rt" the files are made realtime first.
+ */
+
+#include <sys/ioctl.h>
+#include <err.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <linux/fs.h>
+
+struct fs_write_stream_set {
+        __s32   stream_fd;      /* IN: stream to set, -1 to clear */
+        __u32   flags;          /* IN: FS_WRITE_STREAM_SET_* */
+};
+
+#define FS_WRITE_STREAM_SET_CLEAR       (1U << 0)
+
+#define FS_IOC_WRITE_STREAM_GET_MAX     _IOR(0x15, 3, __u32)
+#define FS_IOC_WRITE_STREAM_ALLOC       _IO(0x15, 4)    /* returns an fd */
+#define FS_IOC_WRITE_STREAM_SET         _IOW(0x15, 5, struct fs_write_stream_set)
+
+static char buf[4096];
+
+/* create @name; with @rt, put it on the realtime volume */
+static int create_file(const char *dir, const char *name, int rt)
+{
+        struct fsxattr fa;
+        char path[512];
+        int fd;
+
+        snprintf(path, sizeof(path), "%s/%s", dir, name);
+
+        fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0644);
+        if (fd < 0)
+                err(1, "%s", path);
+        if (!rt)
+                return fd;
+
+        if (ioctl(fd, FS_IOC_FSGETXATTR, &fa))
+                err(1, "FSGETXATTR %s", name);
+        fa.fsx_xflags |= FS_XFLAG_REALTIME;
+        if (ioctl(fd, FS_IOC_FSSETXATTR, &fa))
+                err(1, "FSSETXATTR %s (no realtime volume?)", name);
+        return fd;
+}
+
+/* set @stream_fd on @fd, write 4K */
+static void write_on_stream(int fd, const char *name, int stream_fd)
+{
+        struct fs_write_stream_set set = { .stream_fd = stream_fd, .flags = 0 };
+
+        if (ioctl(fd, FS_IOC_WRITE_STREAM_SET, &set))
+                err(1, "SET %s", name);
+        if (write(fd, buf, sizeof(buf)) != sizeof(buf))
+                err(1, "write %s", name);
+        fsync(fd);
+        close(fd);
+}
+
+int main(int argc, char **argv)
+{
+        __u32 max = 0;
+        int rt, fa, fb, fc, s1, s2;
+
+        if (argc < 2 || argc > 3 || (argc == 3 && strcmp(argv[2], "rt")))
+                errx(2, "usage: %s <dir-on-xfs> [rt]", argv[0]);
+        rt = argc == 3;
+
+        fa = create_file(argv[1], "a.dat", rt);
+        fb = create_file(argv[1], "b.dat", rt);
+        fc = create_file(argv[1], "c.dat", rt);
+
+        /* query and reserve through a file on the device being placed on */
+        if (ioctl(fa, FS_IOC_WRITE_STREAM_GET_MAX, &max))
+                err(1, "GET_MAX");
+        printf("max streams: %u\n", max);
+        if (max < 2)
+                errx(1, "need at least 2 streams");
+
+        /* ALLOC returns the stream fd as the ioctl return value */
+        s1 = ioctl(fa, FS_IOC_WRITE_STREAM_ALLOC);
+        if (s1 < 0)
+                err(1, "ALLOC");
+        s2 = ioctl(fa, FS_IOC_WRITE_STREAM_ALLOC);
+        if (s2 < 0)
+                err(1, "ALLOC");
+
+        write_on_stream(fa, "a.dat", s1);
+        write_on_stream(fb, "b.dat", s2);
+        write_on_stream(fc, "c.dat", s2);
+
+        /* closing a stream fd releases the stream */
+        close(s1);
+        close(s2);
+
+        puts("a.dat on stream 1; b.dat and c.dat on stream 2");
+        puts("confirm AG/RG steering using xfs_bmap");
+        return 0;
+}
+
+Anuj Gupta (4):
+  fs: add write-stream management ioctls
+  fs: add generic write-stream management
+  xfs: implement software write-stream management
+  xfs: support write streams on realtime volumes
+
+Kanchan Joshi (4):
+  fs: add i_write_stream, exclusive with the write life time hint
+  xfs: write stream based AG placement
+  iomap: introduce and propagate write_stream
+  xfs: support hardware write streams
+
+ fs/Makefile                   |   2 +-
+ fs/fcntl.c                    |   7 ++
+ fs/inode.c                    |   1 +
+ fs/iomap/direct-io.c          |   1 +
+ fs/iomap/ioend.c              |   3 +
+ fs/write_streams.c            | 138 ++++++++++++++++++++++++++++++++++
+ fs/xfs/libxfs/xfs_bmap.c      |  58 +++++++++++++-
+ fs/xfs/xfs_buf.c              |  35 +++++++++
+ fs/xfs/xfs_buf.h              |   6 ++
+ fs/xfs/xfs_inode.c            |  69 +++++++++++++++++
+ fs/xfs/xfs_inode.h            |   4 +
+ fs/xfs/xfs_ioctl.c            |  80 ++++++++++++++++++++
+ fs/xfs/xfs_iomap.c            |   1 +
+ fs/xfs/xfs_rtalloc.c          |  27 +++++++
+ fs/xfs/xfs_super.c            |  12 +++
+ include/linux/fs.h            |   2 +-
+ include/linux/iomap.h         |   1 +
+ include/linux/write_streams.h |  33 ++++++++
+ include/uapi/linux/fs.h       |  15 ++++
+ 19 files changed, 491 insertions(+), 4 deletions(-)
+ create mode 100644 fs/write_streams.c
+ create mode 100644 include/linux/write_streams.h
+
+-- 
+2.25.1
 
