@@ -1,97 +1,70 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A69130566B;
-	Mon, 21 Sep 2026 06:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0172388891;
+	Mon, 21 Sep 2026 06:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789973413; cv=none; b=elPD+S5z5w3l8Zh0wFlsPrS4bT2LLhx4E2q09rJAYHdwe3qpuAM9oxB+AfZhmXjknVOq/FiM1+M69AA6FLZwhFpr5nHkgjO6D70N6ViSi4x6QrXBvMCJfcwku0aeoHYgEtMJvwmjewuR0bosGLyNSWejSLCxfbOB1OsuY14xgeM=
+	t=1789973821; cv=none; b=qx6jYE5hnnglCjAWGxGviE99aXxqWY9mUGasfhxA4M+shG5cDKpDu6YFDnumHh0VAmqG7qNMGLpk/JinVLTmWltybKdKvGbE7qznmGmeBeLnlqx6K9D3Vj/cGwX1175b+7cIVlLjQV1IooO2vdQUPfTMo4FlCGBEecimP267dwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789973413; c=relaxed/simple;
-	bh=q51AK/Lc/hX9X0Z1EINHLTJQrj7k3dDpc0fhP1dzZA4=;
+	s=arc-20240116; t=1789973821; c=relaxed/simple;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D0KUsibKNpe/48/ESQYSrj1NdOvJVUFAi3EfiygtMr31D4H7UivsMAWd5t1h0HSPquTwuF7LV514ddk/S6a5wJN7F5F+rN6n7BbI7n1BYnhNPTbOCeAwq5BD7/V6NaP9E4qOXgiyFudLKFwzq75jiAxYmD7JQYoxdFRL3w1lMGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QfUOxR48; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QfUOxR48"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=F9tFljIe5F2jT9DGsbXjRKKiG/p5HJJkbKxnQ2MIpwA=; b=QfUOxR48yb8sHs6Y3HD7wmLeSJ
-	LTe58fT7wZFwujLVqEfKJBmwPwA4Hdwywg+PzDESPHGyje+mYKOrSB5eMzaKRRNKBAle4Du5nPCVH
-	x90p0DkGtP0rtueQ0kx+diHcj2vpQudkOQSWPBwZvL6IlEVUYVs38HD0ywLm6D/jREcy7rt6A32Oy
-	zjvdh5nz9WhFIDCaXji+KG75c7TF1r/TjiXWKSVZgazsRPOJ/pMBLyIIflszB6gi20nMm9SJA3iai
-	3UbsCw4X4sYFyuO5WBrQuT58Wc4G+W+G3gkpmeO62WiCHM17LJxq+6H/q/gHBB1jDKDotGPBXwKLd
-	nFqK1v6Q==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x8Xqo-000000017Fa-2T1U;
-	Mon, 21 Sep 2026 06:50:06 +0000
-Date: Sun, 20 Sep 2026 23:50:06 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jeremy Bingham <jbingham@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, brauner@kernel.org,
-	jkoolstra@xs4all.nl, jack@suse.cz, djwong@kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v4 2/3] minix: add iomap functions and definitions
-Message-ID: <arDTnjK84EGsIeYE@infradead.org>
-References: <cover.1787770110.git.jbingham@gmail.com>
- <e7ab836149f814b04017905dca2e07a4c94078db.1787770110.git.jbingham@gmail.com>
- <aq1GsO6dkS747OEb@infradead.org>
- <CAMyBmMA5bOaGK0TfPMGpmfR6oD0k9EdS4_R3RoJ7d5QTjm0bqg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=H3lIVPXz2wzIyRuXQ55IsKWIy5Kt/7USW7JzumHk4lhOoHvTutQCEpNtwFHMUwUSmoMyXIUxmNYysQGgAyEfrV+OnuWItArNbP1H9qYieNX63bodzR1DhlDiQ6cqRYtLG9AiQcN56iXtFPVIPKH9t8vKo45tu58ydta5CWIK4I4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id CB10D6732A; Mon, 21 Sep 2026 08:56:51 +0200 (CEST)
+Date: Mon, 21 Sep 2026 08:56:51 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Yu Kuai <yukuai@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>,
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Song Liu <song@kernel.org>, Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Yu Kuai <yukuai@fygo.io>,
+	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>,
+	Tao Cui <cuitao@kylinos.cn>, linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-bcache@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v4 2/3] blk-cgroup: store blkcg in bio instead of blkg
+Message-ID: <20260921065651.GA13875@lst.de>
+References: <20260920092351.2434283-1-yukuai@kernel.org> <20260920092351.2434283-3-yukuai@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMyBmMA5bOaGK0TfPMGpmfR6oD0k9EdS4_R3RoJ7d5QTjm0bqg@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20260920092351.2434283-3-yukuai@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Sat, Sep 19, 2026 at 10:51:32AM -0700, Jeremy Bingham wrote:
-> On Fri, Sep 18, 2026 at 7:12 AM Christoph Hellwig <hch@infradead.org> wrote:
-> >
-> > On Wed, Aug 26, 2026 at 02:41:56PM -0700, Jeremy Bingham wrote:
-> > > This patch also wires iomap.c into itree_v1.c and itree_v2.c, similarly
-> > > to how itree_common.c is included in those files, and exports version
-> > > specific versions of minix_iomap_begin and iomap_ops.
-> >
-> > Can we keep the iomap code out of this double build mess?  Just define
-> > some low-level helper in it, but keep everything else in an only
-> > once build iomap.c
-> 
-> OK. I went back and forth a bunch on how to best do this, because it's *such* a mess.
+Looks good:
 
-Agreed.
-
-> I had a lot of reservations about the way I had done it, but
-> it's so all around
-> messy I ended up there. When I refactor it I'll either move that function to
-> itree_common.c or craft a way to get that depth information out.
-
-It might be worthwhile to kill this mess off first.  AFAICS it was
-written at a time when branch predictors where much worse than
-today.  So having a branch for te two cases much lower down in the code
-should be just fine with modern CPUs. 
-
-> 
-> > > Also updates 'unsigned' to 'unsigned int' a few places that got picked
-> > > up by checkpatch.pl.
-> >
-> > If you want to do these cleanups please split them into a separate
-> > patch.
-> 
-> Noted. I did submit a patch like that back in I think late June or
-> early July, but got
-> told (politely) to knock it off. I had kept these cleanups because of
-> checkpatch.pl
-> griping, but as you said below there's no technical downside to leaving it.
-
-checkpatch.pl is a little weird sometimes unfortunately.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
