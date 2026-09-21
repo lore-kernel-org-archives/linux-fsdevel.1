@@ -1,214 +1,111 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012026.outbound.protection.outlook.com [40.93.195.26])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CBF48822D;
-	Mon, 21 Sep 2026 11:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789988799; cv=fail; b=J0+JSpmHvD0IlDpqo5Hb4av2CtNQNccLxUIDFPeXIXHpgduGVz3aa9LC8EJ5nUmk1lOdoa8zn7BhxdAkuL9p7u/y23C62AZoOvGEa1mKZJlHBZQZIOwBU319O+tjwHuz/ZriIAXzdEbZwclHUF7upksJJJVcIJn3Tdf7kJwm+uE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789988799; c=relaxed/simple;
-	bh=IVnvkru0YCZB8RLmZPZjG1PeCTZjQJY2V1qp8IR/RgU=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=eSpuXs368M0aqieusygzDz/rNcF1mmgHKmsla3Nb9OtfScuJtzCTSVK5lijhz8kX5cpvm4Gw912NeKIx0eKQGfAaTp5A+tA4OxjhdGD/sKmWR99sjtcbtquTgiN5Z97jxFXr0GguM9Du5ZzvY00b06ZGrX+BQ25Xy1AHJH3dg4A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Q/77PTfD; arc=fail smtp.client-ip=40.93.195.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544BF489FC2;
+	Mon, 21 Sep 2026 11:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789989616; cv=none; b=EqG1O9s7xranp5Hfk+oULJhdLu0sTmXRRNy6XXgSUffWQPA/iZfEynUgiKlU+DMWllB/V82Td+pr3Y1qQp3yJQRjwobMmVPVswBMc52vSJsIG3ajWHTg5p8QgGJ0Ui+zjtpq5LMAH7LdrAPCiJT+a4iJBwEDgWG+Ei50SlrIpkY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789989616; c=relaxed/simple;
+	bh=JE+a3ZMzDdJl5jQ/otJS5RrxcfVulQNaMMDFJuME2Ec=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RbgYImGsYsjpkPe+eoh6nN8tgNdbecknIf8ew04wlwJ4c3ilNGKnFLcnXHEgemnPwTv+ryq9+juPyy58Tw5vNEoxI99e0UiROLIEIBphLlGUsSWu0Pv2ZVHE1RVAIiyywqPHZZQdb1GMYlkWKY8pSMiLFXRxtL+aGglOQ4qAf88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4G+eyVJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Q/77PTfD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AIMr0ERwAi+Ca1aNYEZw0UoCk2QxhCGUYYh38AiNXr6Ty7v7O9fWqufTl0u7c9ob5DUex5RXqjEC0zLJ8ul6Po75wtOB+V+JREP8X72OwFUhk1N2B5fWpgTrbJj33cjQBvnjPbr7o9Oi9OWyEqsN4+yeMAB4n2L0sJ+/ydxwjDnD0heM4tzJDFiWhsqH1wKZg8ha1H2XIsOoor9Dot5YccSgu0NeXg4w0kyT5jbyrGPBAe2NZfEi6HVwEzIeo4PsdyQjoGcs9k0YIrl6FS7Kauk4JnRkirQtbqJ6j4hTHR/flEeebLmY4leWeblzc8Q2Q4P/C4mcOyt+lf05aa6tPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zu/eVncv/yvLsWTBEpI36HkuAh9Agzp0WaiR5ddGahQ=;
- b=tXU3jSi6AoQuaaTUk0ErS62FMfL8LtO7c0rsTcwNOykUl40CsHh+DRmgu44TrzWvBzVIDw+3Z5220cXSfXE1tf+Fx7x2misAWwQO8dQqHrRABjK5tzh+uBBQFMDtl2Cb++Z2DKtEOMBJEe4/Au6KEt4uyGPDXS4W+J7AKxamvdQRuI+LiFEq07mTdHEABZzROKwgT88ahF7W48/FDXWYI1SepksGOf8lEKRgYpu1ei75uowAbkNQTMsVk//OzhXKhK9CJogUH/pvRZ5SVsh62A4cM2P8Vrh0wHSSwe2LZs1jp8S8qJnU7xeZ06TTPdz0ejrSBGrmFxSSU5DT4l38jA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zu/eVncv/yvLsWTBEpI36HkuAh9Agzp0WaiR5ddGahQ=;
- b=Q/77PTfDbCktygNrpNxaoFyJibL3Y6XiyFt7lt2YJpqW/WE1LKyLPZFup0/1okockGw6KbPOXNIC40rsxVgl5+T4t04GqstpaFlblR7eEiBGiGspSodXGf9BmQr7g05nkXoqz6xt5aGmGzz0UAS18exQ8q+miRU1D2+cpaszyt8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS0PR12MB7771.namprd12.prod.outlook.com (2603:10b6:8:138::6) by
- SAWPR12MB999165.namprd12.prod.outlook.com (2603:10b6:806:4e1::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Mon, 21 Sep
- 2026 11:05:16 +0000
-Received: from DS0PR12MB7771.namprd12.prod.outlook.com
- ([fe80::9a3e:791f:33b6:3d8c]) by DS0PR12MB7771.namprd12.prod.outlook.com
- ([fe80::9a3e:791f:33b6:3d8c%4]) with mapi id 15.21.0428.015; Mon, 21 Sep 2026
- 11:05:16 +0000
-Message-ID: <d50d001c-f71e-41ac-924b-3de5aac2a89a@amd.com>
-Date: Mon, 21 Sep 2026 13:05:04 +0200
-User-Agent: Mozilla Thunderbird
-From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH 3/4] mm: add shared read-only vmemmap support for FS-DAX
-To: Muchun Song <muchun.song@linux.dev>
-Cc: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>, Dan Williams <djbw@kernel.org>,
- David Hildenbrand <david@kernel.org>, linux-mm@kvack.org,
- nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-cxl@vger.kernel.org,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Mike Rapoport <rppt@kernel.org>, Oscar Salvador <osalvador@suse.de>,
- Ira Weiny <iweiny@kernel.org>, Jan Kara <jack@suse.cz>,
- Matthew Wilcox <willy@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Qi Zheng <qi.zheng@linux.dev>
-References: <20260903122128.12264-1-songmuchun@bytedance.com>
- <20260903122128.12264-4-songmuchun@bytedance.com>
- <4bc1f4de-40ad-46f0-8d37-4c4e0cad0ad6@amd.com>
- <8EA6782C-7A3D-411F-91CD-031AB97CD024@linux.dev>
-Content-Language: en-US
-In-Reply-To: <8EA6782C-7A3D-411F-91CD-031AB97CD024@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0033.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:17a::16) To DS0PR12MB7771.namprd12.prod.outlook.com
- (2603:10b6:8:138::6)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4G+eyVJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39521F000FF;
+	Mon, 21 Sep 2026 11:20:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789989614;
+	bh=2kg/TXvOegdx6UJZ/kLCIs+vBCNA4Z77iTJNVCR7wKs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=a4G+eyVJTj1TD1yFXh40Wkj0vOwJyfJ2dJgvMdbOqEoy7IPUeeVXA2y4WnmvAAsni
+	 Pq8AH9usOFsni9gXpy/Unnufp1BGPGx7zs6/EO/vakHJibOhWrChcyP3VuzN1TYA1U
+	 CS7zm8uAomtHruXfTx06DLt0EiOdWmWaODscqnC5Eg3JXqBjPXDpK4w7axzRsAsEeh
+	 QT0x7Ze8s1jer8ePBOvkNbfljBK0RLTixj1BljoQrSESB/HEm/FlGU3WIr0snFvqMQ
+	 qkTERjAvODAyy5CSiADhF3/hgIKCmISmQLAAAvhBBGwZyX1rJFEQPoLlapT09UK+Au
+	 BEfcyT/CrGpxg==
+Date: Mon, 21 Sep 2026 13:20:09 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: NeilBrown <neil@brown.name>, Chris Mason <mason@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org, io-uring@vger.kernel.org
+Subject: Re: user workers as coredumpers [Re: [PATCH 1/6] coredump: don't
+ switch a dumper that has no files] table
+Message-ID: <20260921-programm-rentner-faltblatt-ec5ed7719d55@brauner>
+References: <20260915-work-coredump-fixes-v1-1-f354ca41780c@kernel.org>
+ <20260916194837.3732307-1-mason@kernel.org>
+ <20260917-staunen-sparsam-infusion-83238c68d21f@brauner>
+ <178960987412.207413.3957049392884487413@noble.neil.brown.name>
+ <20260917-zahnpasta-aufweichen-flackern-1182320f5c81@brauner>
+ <20260918-tonart-umgeladen-gesponnen-519fca5172bd@brauner>
+ <aq_4fY6GVtK47Njq@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7771:EE_|SAWPR12MB999165:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c3a2f1a-5c82-494e-628e-08df17d03767
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|11063799006|56012099006|4143699003|10067099003|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	EmFY5bu9d8bk5NxGVAWsPbjh6ljZuySVUOMoQ96DXGP5ZCdcU7aY+F8uY0NtHKobOKftpEaE8Uu03/iaZSiDNmXwinrpnPToVDqO1afNqxzO/MnpNLtJooxr0yx9VU6EcBCtHNZwM7RGiJUU8sCnxtvqTrdKytAHPc1J0025PFFmztd4PmdeRdi+FArmYLrdg2dVCSMAXPk5ZaSpnfwAR7RtHZfoH5lNVp9qpI1+bDVz6dUqfK2PEsMhNq7rEkE3FSot6ebeuKQiwOP5N7ZMf0A173C1Z4pk7Rtre3ZqQPNLbTa3HEqZO2/oFVlrkKHrDEo2Q9dVBLXuTuWbbtY2/G6pfg2o/r5VX4NtLNtiSknfaSLnha3SgA40kihmq5UhigL41Yg6tSOuuogZBhZRB49pUJHHxG8XSZzqw6++ZvQQuzBbuAV/hHn8uF9H2oviZFUDm+A/tUW9T4HuMoe6Os9VnvktcHRQR2l5F91185js4lh6dc+1ynslw1IjyheO5CQScCuPoitPb5qRnScXZr6Q4pIRner9RSe9T9MU59Gi2YlXenxIg2wJfa7aR80KNFY7aFVmdSVg1M3MXuw8KQUcXpeJL6O8lB4htTdizYbNKrn9zNGSH9Cn/QjKheVQ1UafciJoWdU6h7rEgTKnjXkikpdQfstgbRUpI/zrLdc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7771.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(11063799006)(56012099006)(4143699003)(10067099003)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cGVXa215d2c3bExIQmpuM0JrMXRnUUxVR0RUL2I0NSsvUGtYVys4WUYrYWMy?=
- =?utf-8?B?Y1ZOejhudjRxMHVNd2pVeDEyb01ZaWdkQ3RlWStFSG1LV1lmK0tpbXZZVENl?=
- =?utf-8?B?VExEVFZkZXJTZjA3NzIyZ3BIYUFRbGx5eE1VSVMyQUNwSU5lblJFYTdtZ3Ji?=
- =?utf-8?B?OE1DMFFtVUtRSnhXcjJ6TXB3M1VXck9oYXVjR2RweFcvRElkOUJRMUpHd0FU?=
- =?utf-8?B?YTBWaUFWdDFLUWZRYmhhMVFQL3lVeEZZRHhJUVA4NU55N3VJa1ZnR2lJeGYy?=
- =?utf-8?B?TmdwMDA4SzZYbFd2a0RBYy9HdkJBY0szMzhtUnVCSklyQm1CaDJIWUVRbEk0?=
- =?utf-8?B?NXR0SmpqWGsxRUp1T3RQcFlTV1djbmFCNWgxcXdvRys3azcvQzk3S1VxUHFz?=
- =?utf-8?B?WGpNaHAxVlVYYmdSU29FQlVlYU8ycnE0T0Qxek1yZHdQeGwwM2ZtbFFWd3Mw?=
- =?utf-8?B?b1JPU0tkZlF5Vk5mVC8xajJWandRdkpyTXdINmswYmM5N2EwRkVVRjBLRjNV?=
- =?utf-8?B?RHF1VjhBWkRtSHJHM0VKem1EamlIeFVvNUhZV0ZZbkpaelR2MFM2clQyNmhO?=
- =?utf-8?B?TVVQOG1yWG9Ba2liUERCbFRkVlloMjFYZ1Brc2FtVUlwR3NOU2J3MHp1NEhm?=
- =?utf-8?B?RmtWUDBURjQxQit1bDZJdmlkKzdEV0ZlWnc5aU5EenR1bVVISG1yMkxGVk1H?=
- =?utf-8?B?dnp4cmFYUXZqNkpjUmg0di8rQmRYZUJWQ3hzMG4wRWVBMU1laEF1RDEwZ2Nu?=
- =?utf-8?B?MlRXeUp0blNidmxIUStlUTg5WDJqSHU4dEhMWVFLaVAyUTlBMDFXakk5cmhT?=
- =?utf-8?B?Qkw4S25pRWpYOFRlaVBaaXc1TGFpbGhiRjd2NlRpbnkyK0pnVnc1Z3pNQUtk?=
- =?utf-8?B?anduNUFrS3ZxK29LdEtxY3dYcE8rZ1lDZzI1RUF0S0tONldBcHlXbXkxdVBZ?=
- =?utf-8?B?WGg3cER6a2luRTNkSFA3RllnWlZSTHRxbjdkNnc1NE8rS1hYdUxldG5WRS9k?=
- =?utf-8?B?enBYd0ptOEpNQ3h3bjNMc1BCMjhPaUhsbmduSEJ6TmQ0RFJtd29Ia0ttN09M?=
- =?utf-8?B?RWp1Q1NaejQrRFgwOFlhdDBkUzA5c1hySGVxSjAxYnZ4K21MSGtCZnlTT204?=
- =?utf-8?B?UHRPcUVpTFpNMUo3OElCMXMwRTdBWnZXL2lBSHFhRVpWMWtwbnBxM2JJSDlE?=
- =?utf-8?B?alY0Tko2dVZHbm84dHBtVGdiSVZtTmhiYnU2R2paU1N3RWhiWFh4UjRLOXRI?=
- =?utf-8?B?OHBCaDFuckRhS20wd2IzV3VSRTQwYzY0Y1BSUGl6TEw4TXNFYjZXVjdrUDIv?=
- =?utf-8?B?U3JCWUt3aFFWeFF2TDBweGpGM1E2bW94OUEzL2dvMGZZMTRkMVg1SHN6dVNG?=
- =?utf-8?B?dXMzbzgrSTBmTFIwbUpSZWFscHZScEZpQTBITUk2K3pTZFlZdGRUcVQvTWha?=
- =?utf-8?B?OGJlV1doUTA2QW9rL3dFdHgvT1ZPNEQrRWFRZk9RaUl5bHNJZVNzeGVQVkZR?=
- =?utf-8?B?Vmk0Sit6YW1wVUk2V1RZVERDWDdSaThJZ3NhMVBoc0J3UUdpaVpjckhOU1VV?=
- =?utf-8?B?b2lWTWRLMjZLdVBkS0xpUy9NMkhlcE83TzRBSFUrRjkzNER2YXRyOE1Cb0k1?=
- =?utf-8?B?SG1CVWNvcW93M3RWc3pBVUhoYlM2OUJqUjVnNVRQK0s1YzdSRFdldGJBNTIw?=
- =?utf-8?B?VTR4UmJ0THNwRVp3Sm1hQmFRNDA1SnhjUzNNSzFvWGRybVhCanJScnM1Z2xr?=
- =?utf-8?B?eG4rekZFaHFzQnZrRGszMVYwSFowc0QxbDFPRGRJcTQ0d00xM0o2OEVXZ3du?=
- =?utf-8?B?T002RnFTaWFoVDIvZXlOV2dmSG40aDZUUGFjU2xFVUdOMnlZc1Q4SFNSaS9v?=
- =?utf-8?B?eDhISnMraEhsdllDQWZWeEhiWWEzTGljc21BVEVLQ3RBUW5jWEtWZWZJbk80?=
- =?utf-8?B?QW85R3F1SytVMHFobUNmQTNiWTh0RmdkNCtockt4Mlc3QkNZUE1iL2hDRFFE?=
- =?utf-8?B?VUNLTjAvbE8zV0FIMXFBVndzVGtJcUZRNkhMQTU4emVFZHlSc1ZENWY4VnlO?=
- =?utf-8?B?bU8wTXBjZlc4Z0NCcUpLLy96QUI3NDRBMDhvcEdRRVFjTTQrUmxWbllGUXVR?=
- =?utf-8?B?MWJoN2F1NGRFZHJKRVBsb1N6N2JQa3FwSmhBYTRRWW0rN2x0RDJlR1MyYm1I?=
- =?utf-8?B?V3lkK3JVd3BrRFRMZXhxcGpXWUs4Rjc0VWRjWDFwaDk0ZzhaNVBVaExNTXpz?=
- =?utf-8?B?RUZZVndiVDNGVWQ4dW9iYU1ybEI1aHVqL2ZBQXJPeFo1ZEpRd0ptRzk2bEVt?=
- =?utf-8?B?RzhBYmFLYjZyYkpJWE5jaHhsMTVROUgrY01XSER0L3BiVWtZQ3ZQUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c3a2f1a-5c82-494e-628e-08df17d03767
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7771.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2026 11:05:16.1433
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7okIOoS8dnd/nCFNjl5SiCH5j7ZqJ81rNIXUww3XGzy4O2zG5+rSms8GKlM20R9t5nHyO3Ajj8cyHwtivujj/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAWPR12MB999165
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aq_4fY6GVtK47Njq@redhat.com>
 
->>> FS-DAX registers persistent-memory ranges as ZONE_DEVICE memory, and the
->>> kernel normally allocates and initializes vmemmap storage for every
->>> advertised PFN up front. Sparse pmem images and workloads that only use the
->>> DAX direct-access path may never need writable per-PFN state for most of
->>> that range, but still pay the memory and initialization cost.
->>>
->>> Add an opt-in dev_pagemap mode that populates FS-DAX vmemmap PTEs from a
->>> shared read-only metadata page. The shared page is initialized with the
->>> common ZONE_DEVICE and dev_pagemap state, so every PFN still has a valid
->>> struct page representation while private metadata allocation is deferred.
->>>
->>> This relies on sizeof(struct page) being a power of two, so each vmemmap
->>> page contains a naturally aligned and repeatable set of struct page slots.
->>> It also requires architecture support for runtime vmemmap remapping,
->>> because shared mappings must be replaced with private writable pages before
->>> a PFN can enter userspace mappings.
->>>
->>> The initial implementation is deliberately limited to a single
->>> memory-block-aligned range. That is not a fundamental requirement, but keeps
->>> the registration and teardown paths simple; support for multiple ranges or
->>> less strict alignment can be added later.
->>>
->>> Provide vmemmap_materialize_page() to replace shared mappings in the
->>> requested metadata range with private writable copies. A later patch will
->>> call it from the FS-DAX fault path.
->>>
->>> No caller enables the mode yet.
->>>
->>> Signed-off-by: Muchun Song<songmuchun@bytedance.com>
->>> ---
->>>   include/linux/memremap.h | 11 ++++++-
->>>   mm/memremap.c            | 38 ++++++++++++++++++++++--
->>>   mm/mm_init.c             | 11 +++++++
->>>   mm/sparse-vmemmap.c      | 64 +++++++++++++++++++++++++++++++++++++---
->>>   4 files changed, 116 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
->>> index e3c2ccf872a8..21c9b6aeef67 100644
->>> --- a/include/linux/memremap.h
->>> +++ b/include/linux/memremap.h
->>> @@ -9,6 +9,7 @@
->>>     struct resource;
->>>   struct device;
->>> +struct page;
->>>     /**
->>>    * struct vmem_altmap - pre-allocated storage for vmemmap_populate
->>> @@ -108,7 +109,8 @@ struct dev_pagemap_ops {
->>>    	void (*folio_split)(struct folio *head, struct folio *tail);
->>>   };
->>>   -#define PGMAP_ALTMAP_VALID (1 << 0)
->>> +#define PGMAP_ALTMAP_VALID BIT(0)
->>> +#define PGMAP_VMEMMAP_OPTIMIZATION BIT(1)
->> I liked the overall idea.
->>
->> Minor naming suggestion I have:
->>
->> 'PGMAP_VMEMMAP_OPTIMIZATION' feel too generic to me.
->>
->> Maybe something on the lines to reflect the actual optimization:
->>
->> |PGMAP_SHARED_VMEMMAP or PGMAP_VMEMMAP_ON_DEMAND or some_other_name?|
-> Maybe PGMAP_VMEMMAP_SHARED? It describes the shared vmemmap backing
-> more precisely. I prefer SHARED over ON_DEMAND.
->
-> If you are OK with this, I will keep it for the next version.
+On Sun, Sep 20, 2026 at 05:15:09PM +0200, Oleg Nesterov wrote:
+> On 09/18, Christian Brauner wrote:
+> >
+> > So I thought a bit about this yesterday and had some brief discussions
+> > bout this as well. I think we should kill this whole bug class by
+> > ensuring that PF_USER_WORKERs never participate in a coredump.
+> 
+> Agreed,
+> 
+> > --- a/kernel/signal.c
+> > +++ b/kernel/signal.c
+> > @@ -3021,6 +3021,21 @@ bool get_signal(struct ksignal *ksig)
+> >  		 */
+> >  		current->flags |= PF_SIGNALED;
+> >
+> > +		/*
+> > +		 * PF_USER_WORKER threads will catch and exit on fatal signals
+> > +		 * themselves. They have cleanup that must be performed, so we
+> > +		 * cannot call do_exit() on their behalf. Note that ksig won't
+> > +		 * be properly initialized, PF_USER_WORKER's shouldn't use it.
+> > +		 *
+> > +		 * They must not dump core either. The dumper waits for every
+> > +		 * other thread in the group to exit, and a sibling's exit path
+> > +		 * may in turn wait for this worker's own exit, which only runs
+> > +		 * after get_signal() returns: io_sq_thread() ends up in
+> > +		 * io_wq_exit_workers() and waits there for its io-wq workers.
+> > +		 */
+> > +		if (current->flags & PF_USER_WORKER)
+> > +			goto out;
+> 
+> This probably makes sense anyway... but see below.
+> 
+> Perhaps it makes sense to change ptrace(PTRACE_SETSIGMASK) to fail if
+> child->flags & PF_USER_WORKER ?
 
-Yes, PGMAP_VMEMMAP_SHARED sounds better.
+Yes, see my other mail.
 
-Thanks,
+> Currently get_signal() from PF_USER_WORKER can only return SIGKILL,
+> I think we should keep this rule.
 
-Pankaj
+Yes, agreed.
 
+> I don't think your change can fix all problems. Suppose we have a main
+> thread T and a PF_USER_WORKER sub-thread W.
+> 
+> Some signal, say, SIGHUP has a handler. Debugger unblocks SIGHUP for W.
+> 
+> Now, kill(SIGHUP, T) can choose W as a target, complete_signal() can
+> choose any thread if wants_signal(t) is true. W will "drop" this signal,
+> its signal handler won't be called.
+> 
+> 
+> In the longer term it would be nice to rework this logic somehow to not
+> rely on ->blocked...
+
+Agreed.
