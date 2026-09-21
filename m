@@ -1,74 +1,76 @@
-Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
+Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D1847F2C3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396964FDA4A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790026395; cv=none; b=b+x/q+x6+bnFm2mB9ZEmNIr9oY1qx6bwS+CkTlBtmaUwBusjShcmgYCpOgJ/kbVzsV7torbNIyK9TGYu7lX5fRVa3A2eWpAlwX5xzRUgMzXEWwjGL9OHWNuIzdImHXZM1Mp9yXqm3SfG5azs8szMFMXtG4Jfc6f4EENxckMx9W8=
+	t=1790026811; cv=none; b=C+CTalsu21hE/4wm/nCT/zSMxhbBJUukVApO7tarNDN1Wn7+4b5eLRtqlPG1QIRaTJ+xicytM7GdptpiGZhcwZjDFn9/vT5PPEN6x2GbqxTgJXcgLMToUwgnD0KJkzeORKSOSJCZRPZ7cZeje6uu0vsMRjyUfCkrbTkXxPabhqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790026395; c=relaxed/simple;
-	bh=PfkfUgBBH4+gt9nP0fAfRVLhu+EQ/uA/stjuvdTdtYE=;
+	s=arc-20240116; t=1790026811; c=relaxed/simple;
+	bh=V+kt2d8U/x65DFgOkgisM1oMehGAd1wlyUmDVd74TPU=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cWh++JKLIBYSSxVuo6++AtgIN6cxLIR2eqSIKR0aBzWF4M6QMHxBDmDijlvy84uaSibVrErod14ETfBsAQIO5XHEINUe9OxmhCRyFZecySs/QuqSd+zWQqsJlUDFx8XD0dzGIRG2Bn9BCwgN3P/L/yAG8KrjIsHU6AYNY9NS0Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=0cB0l3vl; arc=none smtp.client-ip=74.125.224.171
+	 Content-Type:MIME-Version; b=Q2wcm3r+/MyNn8f0qBuuclxbn3cH5JFtkrPaQ9wC7Et8eQ+Fs12J+Rg/mHfU8T7Zfc+lYR/Trdcv96253sJUXewnHoGuPvjzvCyCmwvF6x5brFlmSAJOPzFqZg97n4lAIqnxcILOedVHda2GsuBHVzDHkO1kOCf6fkkeiBfU8BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=eLASdjWi; arc=none smtp.client-ip=74.125.224.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="0cB0l3vl"
-Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-671563fb8beso3307804d50.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:33:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="eLASdjWi"
+Received: by mail-yx2-f13.google.com with SMTP id 00721157ae682-85d43f9b11bso27187077b3.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790026393; x=1790631193; darn=vger.kernel.org;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790026809; x=1790631609; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/vtBA2br0mdFH+MTeFUpCL6R+w/dADsqHz7aoBQi8r8=;
-        b=0cB0l3vlpUrUVYW2gP6CZRD3gkhHC6U9Irno7iioMwA6ecHOVLxm5v1l9PuWksUQ+6
-         acfuF6kshORtq2qPYXkN3YP7SD4BsS8rhOKtIoP6/wRRltL3Qt1nyxpKLP7TYYOXTpGS
-         TWPJirgPIuSzDzAIiaZqLm8omf1VXMjUbMcavUOzfJEl2k2mKKLUsO3GlFWZ9coB+B33
-         Qaic1hSr+K5g5d2/rlALVIqfEbQ1CIX4uB31B/kRruzXv7uLK+ObxNMWZL8r8gmzFwqn
-         KYpoylcOBYYPZDDYHya8AIXUZSUhRv/wjoDkDyQVQKy4j3AmeRy5uD57V4cIZseMr2h/
-         aJag==
+        bh=BCmBBmjaqTB26TFv+AtYS+4yAVk+NMOU3PHM053ZFwA=;
+        b=eLASdjWiKU8Q9Sz26V9C1iF2GtzzrC8scDtW286hWPua3LYQlAv4VmK+U4EXjelkp5
+         eMgDCWwdgRayk4UrxLLnBIUcuZJ2wn9QxVvIEZUruKV7n/XI3gkUAEblwc05l8G/IDIP
+         tsw3WTaDJBGDXhwVgaYwSetvDafI7J7PYoQsCNcsWMoWju4bwX4/ueZ6ZPXFy6hetI0s
+         NrNyqhBk14GoMiMDJ2LaFq9P6m0bq56sZ6VBr+pkW5rFJj6bQnP+8cuI6tcMiDbncxM8
+         uMKIIuUyY1177uoZXqWEa2iyIZ85+E0AU01O6Iy1wm7YVd4RShScTkyyD5DsmrtmzkeV
+         GAlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790026393; x=1790631193;
+        d=1e100.net; s=20260707; t=1790026809; x=1790631609;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=/vtBA2br0mdFH+MTeFUpCL6R+w/dADsqHz7aoBQi8r8=;
-        b=Q4hkACj2u/E3vcprpWzbvLnl0haVLdVJs2GsI3SZVTTzOHOVg7HHUxY+B9BZJGQvYp
-         9zCy+agZrgg0ANGVuW858QFCjNeUu1w2fNCWP85nxr22rT9wE5do0HvFtWFF+wyMu502
-         111WB100oG+xEPaDVVM8Fb1603firNiSp+MD6Tom0vLQkWDkZR2d1Bs4AlZ5Be8hNcwW
-         Ms2Jec5gA3/Xu9k4CLCSse0ClHZY5PI2LYv/eDYxSLmbYOKJrU7kbRvb9S4SiUhT6YVs
-         K0Xm1mEnyekJIYHtHv4T039Km4Pl7oguZUlTinAZK4KMEjZxnCcIuyZs3Evi0LJ5VTdO
-         5EJQ==
-X-Gm-Message-State: AFuF++lLSUpUkZj5UxzBmzoT3niv7OCHlEpwLZwiSmPnEwk1mHSzLcC+
-	CLa6X1sQUM+j3S/Y56ghUNy8fqtggoMUOBYBq0awU9GjmgVT5/qfYoHT0c1jbB7r33Y=
-X-Gm-Gg: AYBFou29LeEIbv2GOv471fKmWZaz60w1xgNf2Qj9pzKh87DV+4f5HBUcPzTJpQwWMz9
-	KehI1bK0aLN3fYroCAB3MTy/AR+hcdt/Wyq29m1tTmTCYjvS0k+ZamZerTkVMTKpl3Ipx+pERiE
-	DNP1ngi/SePLOqhypGKSKdhQTS7wPYJt1P5yWbmAtkWk4EKCQ7sj/BBc1y5UXB4OqykRlPAHxml
-	EqbUnckj6Hh+OwMSy91HVH15IToiXEq3UNfYFBhwRcOEusbprlMGF/oOrrUGtjRng6NGjLbSdDs
-	JsOc7pnU9cWDjsZvAVZXY+3MWOCV0MP0gN8XGnjy2CtN882kPOrjt+8fYUkOk0hMQ8D/2vcdAdR
-	AR2Dtv1u/s6t8K26H5CX6wrz56nTBoQsMxGspXHFVCOHuYRa6ftnCtNRPhlyrBuakTm6fXsYJ6l
-	oSj6iN64dzqV9eVhqdrEv6JD3yBDPDU437SzA95gfkgeMTh9M8SDXYnlPA9XlDHUfzL4WIrlpVu
-	kLXnJSt9/FnPJWz3tpXn6A6ct3VbSitLK8UZcjJ+ENpXQJjD6nYyyEv5ZsjaOSWuHOHQOdzkEpO
-	7qWNMeEF2hFP960aGOOFnTM66sCX3MleSt+uwVm7aH7Vsj4tYlHVPD2v86JMqk90
-X-Received: by 2002:a05:690e:4382:b0:670:f743:6eb0 with SMTP id 956f58d0204a3-672c55186a2mr73689d50.98.1790026393256;
-        Mon, 21 Sep 2026 14:33:13 -0700 (PDT)
+        bh=BCmBBmjaqTB26TFv+AtYS+4yAVk+NMOU3PHM053ZFwA=;
+        b=pBd7+0IC/j73mSvNPxV7G/nTTJFQsw4rIS67+5H7+ChEqxwNjnL4IZkQhgqE5mHim1
+         eipyVrqkBu5BZw+RrPkQEiKsy/HItA5pzFMDTN748NLN9UnJCO6W3x3TcJRl4EuR9ho2
+         O+GimL04HvLq41M7j25RAaHqFalUSJAZ2Nx9JqEGPB7zj1jdTEozZxadEYouFgVVzho5
+         1+0oc0FLBxsFGDsXy0psK8k7YK5sUAbpqmLw2iuTU/BEYFGo+m5qMY/NkLweJYtSJlvr
+         jy5mA59CuMECitdeUhb4/HR3R7Vl4BdndcPlLOa/RGLAVQGjw/zOtSVPoZ4Rtrz8nR51
+         kYLg==
+X-Gm-Message-State: AFuF++lz12JEwx68kVTc4QV630is6JdI3w3ROrM8QndD1Gi3vWfsRnBg
+	GLrujw7DwYm+h1b1LsS1x8y9/QzooyN18Xx4MG+7m+qFDHjjN2GNPcCTileUirbwyvc=
+X-Gm-Gg: AYBFou1jK/p5uh6A2JLtqC/1fR7M/qt5hrXkbaTKf3Q+TZxRl3j3l3GE5zSLyLey7MQ
+	Uurq/mMgBL1pipP1moZApxXOJfmnbUKBMBQ1RcDhvOMk7pfCsKx02MidTe42RrRE0Obmc3O2y/U
+	wbERDGQax3snbqNnm7w8NiROZSHwl4f5DbSR/0UEsT3Ol8B3DHHHOtbIDHs1Gt9pkUMpLxjnoRB
+	Jdt8sz7ybtgRyFPQrXxRKR3tFBQSsbpYuMRjM5bc3JbzIbofEn993lr5lmyq9oDXHSC3DKFmnax
+	sA8+LDzoZUMFqa7YKFwIOPGq7wHwfH+LURNXqGClLttGiTl5JEdxGBMFKEb0JPX4uvm41g6hlXQ
+	uWcfwTT5xaXsJZ5Y6gsyE+accwYoRBXnyvks0cYa2n205/G/65qIp8IYMFxAdmT+BoLqht7mSEm
+	S+6eIzTpJfRpFsp5ZLZFq6fAAOOJ2yGetzu6BEBkSluzawc3AyXAZO7ld3rpyCbIgK1gO5sTcCc
+	u3hPsSZLBL1q2GrIOB4aQudGPzVsJ4KjCZI9Rj3qghvCaA/69kfI5HKKTXF+8Jxs3SdTt9CXcZc
+	WQQ1idNKdltnfHhaYj8J9p6H1EaMV161H0e6cRoGS1iQOCTDGaqFdggWhwhr6yVy
+X-Received: by 2002:a05:690c:d91:b0:81e:5d2e:89c8 with SMTP id 00721157ae682-8973070ba7amr36395567b3.14.1790026809156;
+        Mon, 21 Sep 2026 14:40:09 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:8475:e6ce:2d2c:ddc2? ([2600:1700:6476:1430:8475:e6ce:2d2c:ddc2])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-672c50bb1d8sm145972d50.20.2026.09.21.14.33.12
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a237ca8bdbsm1829747b3.3.2026.09.21.14.40.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 14:33:12 -0700 (PDT)
-Message-ID: <1164821496f54d2fe03af44283d48db707a5e391.camel@dubeyko.com>
-Subject: Re: [PATCH] hfs: validate drAlBlkSiz and fs_ablocks in hfs_mdb_get()
+        Mon, 21 Sep 2026 14:40:08 -0700 (PDT)
+Message-ID: <354fecd37eb8f647abc86e6f620b980197e3043d.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: fix xattr entrylength OOB read and NULL
+ hidden_dir on R/W remount
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Hui Peng <benquike@gmail.com>, glaubitz@physik.fu-berlin.de, 
-	frank.li@vivo.com, brauner@kernel.org
+	frank.li@vivo.com, brauner@kernel.org, Deepanshu Kartikey
+ <kartikey406@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 21 Sep 2026 14:33:11 -0700
-In-Reply-To: <20260919222605.3794529-1-benquike@gmail.com>
-References: <20260919222605.3794529-1-benquike@gmail.com>
+Date: Mon, 21 Sep 2026 14:40:06 -0700
+In-Reply-To: <20260919222603.3794265-1-benquike@gmail.com>
+References: <20260919222603.3794265-1-benquike@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -124,51 +126,169 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Sat, 2026-09-19 at 22:26 +0000, Hui Peng wrote:
-> In hfs_mdb_get() (fs/hfs/mdb.c), reject images with allocation block
-> size (drAlBlkSiz) of 0 or not a multiple of HFS_SECTOR_SIZE (512), or
-> with fs_ablocks =3D=3D 0, preventing a divide-by-zero trap and out-of-
-> bounds
-> bitmap scans on crafted HFS images.
+> Fix three issues in fs/hfsplus/:
 >=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> 1. In __hfsplus_getxattr() (fs/hfsplus/xattr.c), verify that
+> =C2=A0=C2=A0 record_length and attr_size fit within fd.entrylength before
+> copying
+> =C2=A0=C2=A0 from the catalog or attributes btree entry so a malformed
+> attribute
+> =C2=A0=C2=A0 length cannot trigger a slab-out-of-bounds read or leak
+> uninitialized
+> =C2=A0=C2=A0 slab memory.
+> 2. In hfsplus_delete_all_attrs() (fs/hfsplus/attributes.c), return
+> early
+> =C2=A0=C2=A0 if HFSPLUS_SB(sb)->attr_tree is NULL.
+> 3. In hfsplus_reconfigure() and hfsplus_unlink() (fs/hfsplus/super.c,
+> =C2=A0=C2=A0 fs/hfsplus/dir.c), allocate hidden_dir when remounting from =
+read-
+> only
+> =C2=A0=C2=A0 to read-write and guard against NULL hidden_dir when unlinki=
+ng
+> open
+> =C2=A0=C2=A0 files.
+>=20
+> Fixes: 127e5f5ae51e ("hfsplus: rework functionality of getting,
+> setting and deleting of extended attributes")
 > Assisted-by: LLM
 > Signed-off-by: Hui Peng <benquike@gmail.com>
 > ---
-> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-> index 277de712f9d4..9e78c561a3f1 100644
-> --- a/fs/hfs/mdb.c
-> +++ b/fs/hfs/mdb.c
-> @@ -204,6 +204,11 @@ int hfs_mdb_get(struct super_block *sb)
-> =C2=A0	/* These parameters are read from the MDB, and never written
-> */
-> =C2=A0	HFS_SB(sb)->part_start =3D part_start;
-> =C2=A0	HFS_SB(sb)->fs_ablocks =3D be16_to_cpu(mdb->drNmAlBlks);
-> +	if (!HFS_SB(sb)->fs_ablocks) {
+> diff --git a/fs/hfsplus/attributes.c b/fs/hfsplus/attributes.c
+> index 7c2e589d4553..a08a9d83ccda 100644
+> --- a/fs/hfsplus/attributes.c
+> +++ b/fs/hfsplus/attributes.c
+> @@ -83,7 +83,7 @@ int hfsplus_attr_build_key(struct super_block *sb,
+> hfsplus_btree_key *key,
+> =C2=A0
+> =C2=A0hfsplus_attr_entry *hfsplus_alloc_attr_entry(void)
+> =C2=A0{
+> -	return kmem_cache_alloc(hfsplus_attr_tree_cachep,
+> GFP_KERNEL);
+> +	return kmem_cache_zalloc(hfsplus_attr_tree_cachep,
+> GFP_KERNEL);
+> =C2=A0}
+> =C2=A0
+> =C2=A0void hfsplus_destroy_attr_entry(hfsplus_attr_entry *entry)
+> diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
+> index 51fcba2e6d40..2967a93433b9 100644
+> --- a/fs/hfsplus/dir.c
+> +++ b/fs/hfsplus/dir.c
+> @@ -386,6 +386,10 @@ static int hfsplus_unlink(struct inode *dir,
+> struct dentry *dentry)
+> =C2=A0	cnid =3D (u32)(unsigned long)dentry->d_fsdata;
+> =C2=A0	if (inode->i_ino =3D=3D cnid &&
+> =C2=A0	=C2=A0=C2=A0=C2=A0 atomic_read(&HFSPLUS_I(inode)->opencnt)) {
+> +		if (!sbi->hidden_dir) {
+> +			res =3D -EIO;
+> +			goto out;
+> +		}
+> =C2=A0		str.name =3D name;
+> =C2=A0		str.len =3D sprintf(name, "temp%llu", inode->i_ino);
+> =C2=A0		res =3D hfsplus_rename_cat(inode->i_ino,
+> @@ -409,6 +413,10 @@ static int hfsplus_unlink(struct inode *dir,
+> struct dentry *dentry)
+> =C2=A0		if (inode->i_ino !=3D cnid) {
+> =C2=A0			sbi->file_count--;
+> =C2=A0			if (!atomic_read(&HFSPLUS_I(inode)-
+> >opencnt)) {
+> +				if (!sbi->hidden_dir) {
+> +					res =3D -EIO;
+> +					goto out;
+> +				}
+> =C2=A0				res =3D hfsplus_delete_cat(inode-
+> >i_ino,
+> =C2=A0							 sbi-
+> >hidden_dir,
+> =C2=A0							 NULL);
+> @@ -425,11 +433,10 @@ static int hfsplus_unlink(struct inode *dir,
+> struct dentry *dentry)
+> =C2=A0out:
+> =C2=A0	if (!res) {
+> =C2=A0		res =3D hfsplus_cat_write_inode(dir);
+> -		if (!res) {
+> +		if (!res && sbi->hidden_dir)
+> =C2=A0			res =3D hfsplus_cat_write_inode(sbi-
+> >hidden_dir);
+> -			if (!res)
+> -				res =3D
+> hfsplus_cat_write_inode(inode);
+> -		}
+> +		if (!res)
+> +			res =3D hfsplus_cat_write_inode(inode);
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	mutex_unlock(&sbi->vh_mutex);
+> diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+> index ff7d6b3336a6..3e5adfe1b4cf 100644
+> --- a/fs/hfsplus/super.c
+> +++ b/fs/hfsplus/super.c
+> @@ -401,6 +401,31 @@ static int hfsplus_reconfigure(struct fs_context
+> *fc)
+> =C2=A0			sb->s_flags |=3D SB_RDONLY;
+> =C2=A0			fc->sb_flags |=3D SB_RDONLY;
+> =C2=A0		}
+> +
+> +		if (!(fc->sb_flags & SB_RDONLY) && !sbi->hidden_dir)
+> {
+> +			struct inode *root =3D d_inode(sb->s_root);
+> +			struct qstr str =3D
+> QSTR_INIT(HFSP_HIDDENDIR_NAME,
+> +						=C2=A0=C2=A0=C2=A0
+> sizeof(HFSP_HIDDENDIR_NAME) - 1);
+> +			int err;
+> +
+> +			mutex_lock(&sbi->vh_mutex);
+> +			sbi->hidden_dir =3D hfsplus_new_inode(sb,
+> root, S_IFDIR);
+> +			if (!sbi->hidden_dir) {
+> +				mutex_unlock(&sbi->vh_mutex);
+> +				return -ENOMEM;
+> +			}
+> +			err =3D hfsplus_create_cat(sbi->hidden_dir-
+> >i_ino, root,
+> +						 &str, sbi-
+> >hidden_dir);
+> +			if (err) {
+> +				iput(sbi->hidden_dir);
+> +				sbi->hidden_dir =3D NULL;
+> +				mutex_unlock(&sbi->vh_mutex);
+> +				return err;
+> +			}
+> +			hfsplus_cat_write_inode(sbi->hidden_dir);
+> +			hfsplus_cat_write_inode(root);
+> +			mutex_unlock(&sbi->vh_mutex);
+> +		}
 
-This check doesn't look like checking that it's "not a multiple of
-HFS_SECTOR_SIZE (512)". Could you make your check more accurate?
-
-Also, if you started this check, then let's check that all these fields
-are consistent:
-
-	__be16 drNmAlBlks;		/* number of allocation blocks
-*/
-	__be32 drAlBlkSiz;		/* bytes in an allocation
-block */
-
-	__be16 drFreeBks;		/* number of free allocation
-blocks */
-
-Could you please add these checks?
+This is still ongoing fix [1]. You need to collaborate with the patch's
+author to make it finally accepted. I am ready to accept you as the
+second author of the fix. Could you guys to collaborate with the fix?
 
 Thanks,
 Slava.
 
-> +		brelse(bh);
-> +		HFS_SB(sb)->mdb_bh =3D NULL;
-> +		return -EINVAL;
-> +	}
-> =C2=A0	HFS_SB(sb)->fs_div =3D HFS_SB(sb)->alloc_blksz >> sb-
-> >s_blocksize_bits;
-> =C2=A0	HFS_SB(sb)->clumpablks =3D be32_to_cpu(mdb->drClpSiz) /
-> =C2=A0				 HFS_SB(sb)->alloc_blksz;
+> =C2=A0	}
+> =C2=A0	return 0;
+> =C2=A0}
+> diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+> index 21a1c196c71f..7f9215387cbd 100644
+> --- a/fs/hfsplus/xattr.c
+> +++ b/fs/hfsplus/xattr.c
+> @@ -657,7 +657,9 @@ ssize_t __hfsplus_getxattr(struct inode *inode,
+> const char *name,
+> =C2=A0				fd.entryoffset +
+> =C2=A0				offsetof(struct
+> hfsplus_attr_inline_data,
+> =C2=A0				length));
+> -		if (record_length > HFSPLUS_MAX_INLINE_DATA_SIZE) {
+> +		if (record_length > HFSPLUS_MAX_INLINE_DATA_SIZE ||
+> +		=C2=A0=C2=A0=C2=A0 offsetof(struct hfsplus_attr_inline_data,
+> raw_bytes) +
+> +			=C2=A0=C2=A0=C2=A0 record_length > fd.entrylength) {
+> =C2=A0			pr_err("invalid xattr record size\n");
+> =C2=A0			res =3D -EIO;
+> =C2=A0			goto out;
+
+[1]
+https://lore.kernel.org/linux-fsdevel/20260717135706.42918-1-kartikey406@gm=
+ail.com/
+
