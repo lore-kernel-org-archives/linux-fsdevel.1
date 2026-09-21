@@ -1,336 +1,223 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013016.outbound.protection.outlook.com [40.93.196.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF904BB272;
-	Mon, 21 Sep 2026 15:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790004301; cv=none; b=si/8R66MNJ2HtXztXcHR9118n5L3CG4xM/fFeIkIo8DGYNEZ8NvJBj9g9jhCvIvqKs6NvM3B7iFUTY3nzVNt2EQAXOwB5XJPfF0hbY4G0PmorJp/MFq/U/GGbtdUu+iBYVz8b5jCSJpzYi0HIqCbVZ4rwI567xLP9pyRzNo31aE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790004301; c=relaxed/simple;
-	bh=FU91mVWvx2dInXL96JKcP487FkJkGpF9GdL9XhZhdZ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DzN3TGnY9VRO+3DE9ctXKdk0igfiO3jxPGqdie/1Cg3YveotGRvaEUP3cO4SuFztrZbOeEv9Z2fTL8QNdhUNvsR9o85nRUSiMH0zFITUw+XHre5/3DfVEM4lC/TBU0IM5E+6IDh6bX+ttpaxmogClm6Xezb/P9utX/c2LuY73fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4F7773EDB6;
-	Mon, 21 Sep 2026 15:24:51 +0000 (UTC)
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: akpm@linux-foundation.org
-Cc: willy@infradead.org,
-	jack@suse.cz,
-	liam@infradead.org,
-	ljs@kernel.org,
-	david@kernel.org,
-	vbabka@kernel.org,
-	jannh@google.com,
-	chrisl@kernel.org,
-	kasong@tencent.com,
-	shikemeng@huaweicloud.com,
-	nphamcs@gmail.com,
-	baoquan.he@linux.dev,
-	baohua@kernel.org,
-	youngjun.park@lge.com,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	hannes@cmpxchg.org,
-	mhocko@kernel.org,
-	yosry@kernel.org,
-	chengming.zhou@linux.dev,
-	kunwu.chan@gmail.com,
-	tz2294@columbia.edu,
-	hch@lst.de,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexandre Ghiti <alex@ghiti.fr>
-Subject: [PATCH] mm: madvise: drop MADV_PAGEOUT folios at swap writeback completion
-Date: Mon, 21 Sep 2026 17:24:33 +0200
-Message-ID: <20260921152449.629486-1-alex@ghiti.fr>
-X-Mailer: git-send-email 2.55.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B5B32720C;
+	Mon, 21 Sep 2026 15:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790004998; cv=fail; b=XOkgiA14D6NR6fzLhcdGQcDyRIAtnTtBe0YEgsuAqawEPLtUyzBBNyyb5ioTTXIc4Xmd+Q0Wu5DeqGBzWGORV4WvANSsqnopOvdagfQhAHtufaOuxo/SeeqR8+7QYtC/6WjEAlDhLTgV18Cjcn4S+N02g/GX8fQGxCaN0FVSGPs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790004998; c=relaxed/simple;
+	bh=/+zQ2ntzpus60Q+/8rCdV8k+F1a6c+U8QQlSHaYxHrA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bSVj4MbFT2q2Js2EuwZwx5s+AWU7XebSAEZp5t0G1H7j2SM8JC6z35c0R/GvaymQ6AP0aHn8/q7h52zosal0Rg89tZwCVLiNxqCgNmH0V5yhE18NPjYSKCm0nkDyseOx38PxF8NQlh+v171FjbjOR5lNekWiGiD4yZlddu1tPr0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=blenGkJa; arc=fail smtp.client-ip=40.93.196.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="blenGkJa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=m72I2LjVLiA/yzb3hQ6SImsNTZ4QRxcXuXyHG7ddXGxcTKJZLEjHtGNMQNHN7xTwhHKxNs4cEFT1sfkndovYoTs9SMv4hCa1vZ2tXXLN8gn5/TbXRIndkHxPjNS+7/Ai+h9NtNWCqW6bB22j0RtiStTsj+8m7Jt8Sf6nrguL+kDPnwMkNTUEDRr5sUWTRQo9//MuthJah9/XPaN2silAWkgMmqJPlbfSXvP1/LX53wRgUxlH/rdfoeobE+HiAQKpHeIGtQUwAlJGlKqN2xh1ePfjeUVz0EIJfB7ITjajrkMso0n2Q9eqLb2aLjKzX5zUjPG/vqQ+6F1Yf9OdcfYtyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5dv3xH2vDzFdoqjECjxDHtmNHC6nK0SVP+RwkJFB1L8=;
+ b=n25+RbiVf95IAO6qN8v5kcuXSurVDoZxAxtn2yQhcFTrQaADRRUIgCMivNEVXO9KqgyYxZMVcrgtSJe/f6vxUzhGoBMRXy+cT29R4cGrvNSxMJ8UrciWWCu48t4+NFCuYe1S2MDgfir+o6kzENq94/vv9JaDSPaHiM8iHtM/AUqYddE7DlUQHUXsHTgbss9/vAyAFRAl7O/UEXKLACduYKL5E2V8Ll+Uqq9M46LXLm9if7C8bhbKFhRyT3Rf7XQn+EvwxWLqvPmzWTtk9dMDZ6XS54Bs+cBb1/SlUjdUr9uHd6dgvqvEbwHYuiXaZmGdNtGQAPj9uhL3IxDenHfa8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5dv3xH2vDzFdoqjECjxDHtmNHC6nK0SVP+RwkJFB1L8=;
+ b=blenGkJauq83IJxAd/yHYDnyE0h8L3S2TQJWVMv5Zpp5tLQ307wipJqpFqBrh4K2/cow72hWgKKgcu24SGZnK/veOeFctBkeLKVOoGzd9ENJCmrHGU9t+gQuaHfQmoHjJjXeLmTzALsD/fGDW5q4EEpfI3m7jxg3+9EEtJNGDXDcM3C1TD5HeCjvl+Jwk06yWKiUauGPD9NIMZVEaQBOfCbxJ0+BaWeUh1Y9dHmaVM3Wif678WQoIogUnZ4SHFP4mDBywPWWwPimBu6Jygyi0AHc/c2nt/dWb24QpoYTRoC10ISBmn1fk60dUxqab787ZoctXmLA08A+F2oE9nGi3w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by LVUPR12MB999186.namprd12.prod.outlook.com (2603:10b6:408:3a3::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Mon, 21 Sep
+ 2026 15:36:30 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0428.015; Mon, 21 Sep 2026
+ 15:36:30 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: Shakeel Butt <shakeel.butt@linux.dev>,
+ Muchun Song <muchun.song@linux.dev>, "Liam R. Howlett" <liam@infradead.org>,
+ Matthew Wilcox <willy@infradead.org>, Suren Baghdasaryan <surenb@google.com>,
+ Nico Pache <nico.pache@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>,
+ Gregory Price <gourry@gourry.net>, Kairui Song <kasong@tencent.com>,
+ David Hildenbrand <david@kernel.org>, Michal Hocko <mhocko@suse.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Barry Song <baohua@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Dev Jain <dev.jain@arm.com>,
+ Ying Huang <ying.huang@linux.alibaba.com>, Usama Arif <usama.arif@linux.dev>,
+ Mike Rapoport <rppt@kernel.org>, Jan Kara <jack@suse.cz>,
+ Jonathan Corbet <corbet@lwn.net>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+ linux-mm@kvack.org, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ kexec@lists.infradead.org, Masami Hiramatsu <mhiramat@kernel.org>,
+ Pratyush Yadav <pratyush@kernel.org>, linux-doc@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Baoquan He <baoquan.he@linux.dev>,
+ linux-kernel@vger.kernel.org, Dave Young <ruirui.yang@linux.dev>,
+ Steven Rostedt <rostedt@goodmis.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 17/17] mm/page-flags: remove PG_private
+Date: Mon, 21 Sep 2026 11:36:27 -0400
+X-Mailer: MailMate (3.0r7032)
+Message-ID: <E5E3D08D-F0C4-49E4-8763-10CC58FF4260@nvidia.com>
+In-Reply-To: <20260921025520.628971F000FF@smtp.kernel.org>
+References: <20260920-remove-pg_private-v5-0-bb68b6a21869@nvidia.com>
+ <20260920-remove-pg_private-v5-17-bb68b6a21869@nvidia.com>
+ <20260921025520.628971F000FF@smtp.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-MS-Reactions: disallow
+X-ClientProxiedBy: BN9PR03CA0644.namprd03.prod.outlook.com
+ (2603:10b6:408:13b::19) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alex@ghiti.fr
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: dmFkZTGJ0K/8e2Pztp+j2sY+ScsUkCHOW/yXvnc8RSSzpo2y7MSWBAdHH95jj7iY86IG3StSez5iGs7YBgB3H839XNyDnjW9zfMdmBkAKsASsvMhaLCmTi1AoeUnuwtG9zlqupdPYX+HawcgSm+JGIpnjCfGFBjvtLDn71zscY4rO8DWFgKDvVTpDKQQiP2J2hPdRCUiJ/zh1RIu+t22boYe0C6TNAvzTG+LsxJUOKCWUUuD2klfWozBAaYw5r8xQzoa6tJ5bmIDwEq+T5TBqqZjBFfBsK44AgPHHgTvaK8WTi7jgX5q7ZWiGPXUO4tU5ZOxX5+wULeE0Aft9rDHh5fQfgW+MdI6EzMCWnFZ+OE+cx7Iw8H7rDbuPMBm2uneJoPvZqxs3FlpdPORsdUK06Edbu5HTggLWH6kFza+POdqZVRwEgUVGKFVamC61XNbu+tQV8Gtzjr/zPBWXZnb3S1Zw0/qdwiWWoOh/i83Spb4MycZLMmVpzFmOJddpil+2FS0WZPIcsQEMmsAJIJbPs66kaDz6/3IUfu0hoDQq4JZZ2zfW9TR4aCetC9YO1wuc4V5Q+fkauY8VZ0+X46MHqwYuo10VcfHqQuwipvbN9YzyGPqaU8p4M3q61GdlTFewpKjDKO9iKhJHoV01XPBf/iiRKg5EAPZ72ju2kOUdvc/kT9OTw
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|LVUPR12MB999186:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3128daf8-4bb7-4e24-32cc-08df17f61bcc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|7416014|6133799003|10067099003|11063799006|4143699003|56012099006|5023799004|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	49tp2czc8S79zvrqeI5IBzR1qzO0uh0rTojWB8UnXjCGvq8a4Hs9GCxF49+8boPvJNERmL1Ie34bWY2aaGJY4AQqacrl7vBLgSkxGwnkY4j2x67W6w/04NeKCCV9+F/5qp3myyidm8P9ljdDaXZ1NjhHm+dyoFwJHaChR+RXaiOxY2XjRrkKw6RVWuU4/g0SwQgPS6/cy76NjhPvrBX01IBnr0v1S6hqoXUvkltfhChMIQw6OXUeuoWO6Zxma+XqakU+Kp8exc+OUgjuU9CqS+9XH43RPBdbjtY8RaIDD2bTJA6cIQhKggNW2hf06t2fKYgXuI8TKoe/y7H7TCjN2jgrgaf9if8a4HR+3ZznD4Z/56C0HosEgEN9YN/8kBj6Ntn3V6McGYzto8jsichmcug+SZ8khz+FkLxjhwSd931OSSzptDv/Se6sqQuVr4QFgD77yRqqrfAiyK6guFFcDPSN8NgDsNQmpiMtgNFOjhZ/rLfxXCoSTqHC3xllTWfchdcx8cCTVZYlZ67Q0HB4p9ekjAGS/CPR55VwpNuLwiZ4W8KZymDzqa4GZBJn7Mz5M/tSRUh+5GNHm8lLzqHElmZeQ7PYA004pWiRUoJU8WxmzMfoMWMmclSlJcItnkjg4jLgz01klX/2MValVYAd4kkec6eFUK0/wK64xr48zSY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(7416014)(6133799003)(10067099003)(11063799006)(4143699003)(56012099006)(5023799004)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MG5xYlBGSGw5U2I4UjBZeDQyb3ltb3NTWStvMVkweXg2c3YrUXVCS05NaWEw?=
+ =?utf-8?B?TWcreUN1NmdTTFZNOVJ6S1ZTQ1JBZUhWQkRubTBySHA5UUNadUxaNzFMMEJ1?=
+ =?utf-8?B?NW03eUNFV01KRVBjejZ2Z0J0QUNmMVFLZ1BLM0wySEhiZ09OMms3VjZoTmZH?=
+ =?utf-8?B?MHJoaHoxdG1yejMrOTdwOFhSelQ3KzNOMURvMTJPbmI2RFc5RUtwcnVpbC9l?=
+ =?utf-8?B?MDBNaUE1OU94Q2xhL0hYYzYvSUNIRG8zVmJFMGVXaC83TkpRODlxZTB0ZDlJ?=
+ =?utf-8?B?bE5WWDB1REpCSjFHZ1l5QmhGcTYzZ0dtNFRuaUczdFVlcE8wODk0ekd2eWVU?=
+ =?utf-8?B?UUVkMWtHRVNFRjBOSnB1bktRSEMzVC9qdmVBZ1B3YU9KSGVQSzk0NGRrNHZj?=
+ =?utf-8?B?Wnh2NlIyeUlTNEtxcEpSSjlsM3NXZCsvQ3M2ejYrVmdtRnNxVWdvTkJNaTl2?=
+ =?utf-8?B?WVlYWVZhT0l3MlBPUDAyZFFXdWU1VlBYd0ZzSlpwQXVPZ0tkejFTamdQYm5y?=
+ =?utf-8?B?Nnc4R3RXclJCS0VFdXlrY0xFZldmWDhYdlAvK3RCdlpmb2pRcyt3aXNyZ1Z3?=
+ =?utf-8?B?aml3UWVxczl5YzBCMGtac2cxYk9qRzArdVdWTGxkUmdqS3puUXN5d2djLzRw?=
+ =?utf-8?B?QlY1MUd5K1FVQXRaUmlhZEZpc2hNdFQyTkFaQW5PcGwrRU56S3hEL01MSWRw?=
+ =?utf-8?B?QThVeXkvelZ1bEpKVlNheXhYK0ltWUx3ZTBTUlZhVFIwb3ovZmxuVlI0RnpV?=
+ =?utf-8?B?WlNXYlhhVWVwdXEzV2EvN2lidEhLZ0NlRDAwaDV3RGFvRUF2YjU2OTVxZzFV?=
+ =?utf-8?B?SHdscEtTNU01eDVTbXY3MWNYREd4T2JlaVFCNXNKd0RQUTlReDIweXhBYkkr?=
+ =?utf-8?B?NndwdHZmV21VY2YwSjc3WmpUaHN3M0RwUnlEME5pNGwvb0pQUVhmZkRMcU55?=
+ =?utf-8?B?YVRjdHFkcUhEd3BxaDJmYWZ3Lzh3MHl1azNSU3dpK0N1aEZFNUM3bmxUMHoy?=
+ =?utf-8?B?TzVSVFNNODRMWkFVS0ZZQk91RWpKS0luVDYyRWtIUGphM05EdzlmV2VFYkpD?=
+ =?utf-8?B?N1U4eko2QU5qT001Y0JFanFJZzQrV3EwQVlKUkR0OTlGUTZqS1pxSk5VZ0o5?=
+ =?utf-8?B?dGZyN0F3cWp6SVdnRzl5aTJEczlDZEJHUEJrUHRNcCt3M3k1eTZ6OWpkNGk2?=
+ =?utf-8?B?NmVYcUJLYk1ncHUzekgzSVc2Vk9lWWlnZHVkYjU5ejdMeUdyRVdWcDJ5SkND?=
+ =?utf-8?B?TWxxSWVMM2lVNzRKVlNxbzhhRm8zMmNScVk2ei9FR2h2TDZxQUdNckZnazZG?=
+ =?utf-8?B?c1hWNlVEVlExR29nOUNhY2htVDYyNkVPU2RGWnhqSlJCU3E2NC9YbmFRaG9M?=
+ =?utf-8?B?dFRKYTY3V2s4UWw4NGtSTGxHdWtkTzViVlZnSnJwbnMrUjdGcTA0YVFTVXFj?=
+ =?utf-8?B?MmZHZ2lpQ1ZGbDJOODRzemlaTnAwZWJ5ampQRWZPYWZZd1FSYzdkOHVHY0ZO?=
+ =?utf-8?B?SndTbWtyNVFOdjlBbzVEblFzOURWRG1Va0RqUCtOc09vYnJrSm5DVnFETGkz?=
+ =?utf-8?B?bU95VzBEUkp6UUN2SjFRbXBwaFJmUkNGakRZRWhUc2YzVVVIM1JOcG9ITkIw?=
+ =?utf-8?B?M0dDNklWWlZFZzV2U044YTdvVVJLSG1FaWhiZitWbWtqbTZNTmY2b3Q5WEU0?=
+ =?utf-8?B?azBQamxmU29XWGJoRUlyMHlsaWc0RTVuNkRneDJyb05vNjM4VnlVdkdqSDVM?=
+ =?utf-8?B?MjRJZ09PbXg0cGhHMlg0OHFHVFhQNmkyd1Y1Z0loMEZmZkVkZFJrZ3VGTlo5?=
+ =?utf-8?B?UHdhVEt3TTVrVE94S0x4UWlYaG5ITTNNbkw2K0hJRlozMFpkUldUMFZ2STJQ?=
+ =?utf-8?B?a3F0cE5jdzEvdW9qTUZKOFRPc2hrT21mUnRSWEt1a0FUelJ0QWFpYm53QzlU?=
+ =?utf-8?B?ZVF1VGdCVXExUXpLTjA2akFZaWh1OTRqWWxkV21MMmNuaGpHWkM3SWg4ZWIx?=
+ =?utf-8?B?QmVoU2RrSmRiSHlObkUwSjJzemlYMDB6b3FlVE1BRit4VVVXY1BNSEFNVUpu?=
+ =?utf-8?B?TEFBODFvSitzYXZNTm5JUFJVVm51WVMwRVovWmQ5NE5pYzl3elNaTW00ZTlY?=
+ =?utf-8?B?OVZseWF3N2cyMlFZR1pYVmR5SWhVQ01XZmNXZzFnWHlFT1dDdUhueHNoNnJq?=
+ =?utf-8?B?a00rV2pTZzlzQTA5QVU1STZaMVd6SlBZQ3pCMnc0endESlpHN3VWWTRDUGtX?=
+ =?utf-8?B?S25KVEZVUlhsVHNiZzRhOXZiOCsyVlVpbWxhNFdadG9FN3JxOFMvdEtQMTQ0?=
+ =?utf-8?B?aFZaelByMUtQMU5XZUtSVUNiL2g0Sm9kam5OMjg2VDloUUs5VWlKUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3128daf8-4bb7-4e24-32cc-08df17f61bcc
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2026 15:36:30.7188
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5lXwUPPExatbCOknvAinav0a6N+I3lc5/SXtlrMUZR5jjCdirVDFG7LGFFB7F4HT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LVUPR12MB999186
 
-On an asynchronous swap device MADV_PAGEOUT only marks the folio
-PG_reclaim and rotates it to the tail of the inactive list once its
-writeback completes, so the memory is not actually freed until a later
-reclaim scan removes the by then clean swap cache folio. Mark those
-folios dropbehind at isolation time instead and let folio_end_writeback()
-drop them from the swap cache as each write lands.
+On 20 Sep 2026, at 22:55, sashiko-bot@kernel.org wrote:
 
-A dropbehind folio is dropped by whoever completes its writeback, so the
-reference the submitter holds has to be released before the write is
-submitted. As reclaim does before freeing a folio, flush the pending TLB
-batch first.
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [Medium] mm: silent memory leak masking due to PG_private removal
+> --
+>
+> commit aee12ed3446e69cb6eee57384ca09e768dab36dd
+> Author: Zi Yan <ziy@nvidia.com>
+>
+> mm/page-flags: remove PG_private
+>
+> This commit removes the PG_private page flag and replaces its usage with
+> checking if folio->private !=3D NULL. The space left by PG_private is
+> reserved as PG_folio for future use.
+>
+>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+>> index 7080a6a1a79e7..b0ddc652e76cc 100644
+>> --- a/include/linux/page-flags.h
+>> +++ b/include/linux/page-flags.h
+> [ ... ]
+>> @@ -1169,7 +1175,7 @@ static __always_inline void __ClearPageAnonExclusi=
+ve(struct page *page)
+>>   */
+>>  #define PAGE_FLAGS_CHECK_AT_FREE				\
+>>  	(1UL << PG_lru		| 1UL << PG_locked	|	\
+>> -	 1UL << PG_private	| 1UL << PG_private_2	|	\
+>> +	 1UL << PG_private_2	|				\
+>
+> [Severity: Medium]
+> Since PG_private is removed from PAGE_FLAGS_CHECK_AT_FREE, does this bypa=
+ss
+> the safety check that ensures a page doesn't have uncleared private data?
+>
+> Looking at __free_pages_prepare() in mm/page_alloc.c:
+>
+> 	page_cpupid_reset_last(page);
+> 	page->flags.f &=3D ~PAGE_FLAGS_CHECK_AT_PREP;
+> 	page->private =3D 0;
+> 	reset_page_owner(page, order);
+>
+> The head page's private field is silently zeroed here without any prior
+> verification that it was NULL. Previously, free_page_is_bad() would catch
+> and report leaked data via a bad_page() warning using
+> PAGE_FLAGS_CHECK_AT_FREE.
+>
+> Now, if a buggy filesystem fails to detach and free folio->private data
+> before freeing the page, will this result in silent memory leaks?
 
-Note that for dropbehind folios nr_reclaimed is now credited when the
-write is submitted rather than when the folio is actually freed, since the
-reclaimer never sees the folio again.
+Answer copied from RFC:
 
-Suggested-by: Barry Song <baohua@kernel.org>
-Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
----
-This applies on top of "[PATCH v6 0/3] mm: zswap: free cold writeback folios
-promptly":
+After the conversion, folio/page should have an elevated refcount whenever
+->private is set. That would help detect leaked private data. I tried to
+enforce ->private needs to be NULL at page free time[1], but that might
+cause trouble for certain use cases.
 
-https://lore.kernel.org/linux-mm/20260921151306.625134-1-alex@ghiti.fr/
+[1] https://lore.kernel.org/all/20260223032641.1859381-1-ziy@nvidia.com/
 
- mm/filemap.c |  7 +++++++
- mm/madvise.c | 23 ++++++++++++++++++----
- mm/page_io.c | 55 ++++++++++++++++++++++++++++++++++++++++++++++++++--
- mm/swap.h    |  2 ++
- mm/vmscan.c  | 10 ++++++++++
- mm/zswap.c   |  9 ++++-----
- 6 files changed, 95 insertions(+), 11 deletions(-)
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index e1f1bbe943ce..14fa96fca8b8 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1630,6 +1630,13 @@ void folio_end_dropbehind(struct folio *folio)
- 	if (!folio_test_dropbehind(folio))
- 		return;
- 
-+	/*
-+	 * PG_dropbehind could be set on an anonymous folio after
-+	 * folio_end_writeback() samples it (for example MADV_PAGEOUT).
-+	 */
-+	if (folio_test_anon(folio))
-+		return;
-+
- 	/*
- 	 * Hitting !in_task() should not happen off RWF_DONTCACHE writeback,
- 	 * but can happen if normal writeback just happens to find dirty folios
-diff --git a/mm/madvise.c b/mm/madvise.c
-index eeee82cf2b3f..63164f95720b 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -359,6 +359,17 @@ static inline int madvise_folio_pte_batch(unsigned long addr, unsigned long end,
- 				     FPB_MERGE_YOUNG_DIRTY);
- }
- 
-+static void madvise_mark_dropbehind(struct folio *folio)
-+{
-+	/*
-+	 * A folio already under writeback is skipped: that writeback is not
-+	 * ours to hand over, so reclaim will put the folio back on the LRU
-+	 * while its completion could be dropping it at the same time.
-+	 */
-+	if (folio_test_anon(folio) && !folio_test_writeback(folio))
-+		folio_set_dropbehind(folio);
-+}
-+
- static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
- 				unsigned long addr, unsigned long end,
- 				struct mm_walk *walk)
-@@ -439,10 +450,12 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
- 			folio_set_workingset(folio);
- 		if (pageout) {
- 			if (folio_isolate_lru(folio)) {
--				if (folio_test_unevictable(folio))
-+				if (folio_test_unevictable(folio)) {
- 					folio_putback_lru(folio);
--				else
-+				} else {
-+					madvise_mark_dropbehind(folio);
- 					list_add(&folio->lru, &folio_list);
-+				}
- 			}
- 		} else
- 			folio_deactivate(folio);
-@@ -554,10 +567,12 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
- 			folio_set_workingset(folio);
- 		if (pageout) {
- 			if (folio_isolate_lru(folio)) {
--				if (folio_test_unevictable(folio))
-+				if (folio_test_unevictable(folio)) {
- 					folio_putback_lru(folio);
--				else
-+				} else {
-+					madvise_mark_dropbehind(folio);
- 					list_add(&folio->lru, &folio_list);
-+				}
- 			}
- 		} else
- 			folio_deactivate(folio);
-diff --git a/mm/page_io.c b/mm/page_io.c
-index 52eae99de6e3..bf8238768cc9 100644
---- a/mm/page_io.c
-+++ b/mm/page_io.c
-@@ -26,9 +26,12 @@
- #include <linux/delayacct.h>
- #include <linux/zswap.h>
- #include <linux/swap_ops.h>
-+#include "internal.h"
- #include "swap.h"
- #include "swap_table.h"
- 
-+#include <trace/events/vmscan.h>
-+
- int generic_swapfile_activate(struct swap_info_struct *sis,
- 				struct file *swap_file,
- 				sector_t *span)
-@@ -248,8 +251,19 @@ int swap_writeout(struct swap_io_ctx *ctx, struct folio *folio)
- 	}
- 	rcu_read_unlock();
- 
-+	if (folio_test_dropbehind(folio)) {
-+		/*
-+		 * pageout() traces and accounts at its tail, which we can't do
-+		 * because dropbehind folios may already be freed by then.
-+		 */
-+		trace_mm_vmscan_write_folio(folio);
-+		lruvec_stat_mod_folio(folio, NR_VMSCAN_WRITE,
-+				      folio_nr_pages(folio));
-+		ret = SWAP_WRITE_DROPBEHIND;
-+	}
-+
- 	__swap_writepage(ctx, folio);
--	return 0;
-+	return ret;
- out_unlock:
- 	folio_unlock(folio);
- 	return ret;
-@@ -692,8 +706,45 @@ EXPORT_SYMBOL_GPL(swap_fs_activate);
- 
- void swap_write_submit(struct swap_io_ctx *ctx)
- {
--	if (!ctx->sio)
-+	struct swap_iocb *sio = ctx->sio;
-+	bool dropbehind = false;
-+	int p;
-+
-+	if (!sio)
- 		return;
-+
-+	for (p = 0; p < sio->nr_bvecs; p++) {
-+		if (folio_test_dropbehind(bvec_folio(&sio->bvecs[p]))) {
-+			dropbehind = true;
-+			break;
-+		}
-+	}
-+
-+	if (dropbehind) {
-+		/*
-+		 * A dropbehind folio is freed by the completion, not by the
-+		 * reclaimer, and freeing needs every deferred unmap flushed,
-+		 * not just the writable ones try_to_unmap_flush_dirty() covers
-+		 * before the IO.  The reclaimer flushes before it frees, but
-+		 * that is too late for a batch swap_add_folio() already
-+		 * submitted mid-loop.  A no-op once that flush has happened.
-+		 */
-+		try_to_unmap_flush();
-+
-+		/*
-+		 * Now that the TLB is clean, drop the submitter's reference:
-+		 * the swap cache then holds the only ones left, which is what
-+		 * __remove_mapping() expects when the completion drops the
-+		 * folio.  This has to happen before the write is submitted.
-+		 */
-+		for (p = 0; p < sio->nr_bvecs; p++) {
-+			struct folio *folio = bvec_folio(&sio->bvecs[p]);
-+
-+			if (folio_test_dropbehind(folio))
-+				folio_put(folio);
-+		}
-+	}
-+
- 	count_vm_events(NRSWPOUT, 1);
- 	ctx->sis->ops->submit_write(ctx);
- 	ctx->sio = NULL;
-diff --git a/mm/swap.h b/mm/swap.h
-index 8679cb61268e..81114ad9e44a 100644
---- a/mm/swap.h
-+++ b/mm/swap.h
-@@ -92,6 +92,8 @@ static inline int mem_cgroup_swappiness(struct mem_cgroup *memcg)
- 	return READ_ONCE(vm_swappiness);
- }
- 
-+#define SWAP_WRITE_DROPBEHIND	1
-+
- #ifdef CONFIG_SWAP
- #include <linux/swapops.h> /* for swp_offset */
- #include <linux/blk_types.h> /* for bio_end_io_t */
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index a02f942418d3..5435fa5111b3 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -613,6 +613,8 @@ typedef enum {
- 	PAGE_SUCCESS,
- 	/* folio is clean and locked */
- 	PAGE_CLEAN,
-+	/* folio will be freed after writeback, do not touch */
-+	PAGE_DROPBEHIND,
- } pageout_t;
- 
- /*
-@@ -659,6 +661,9 @@ static pageout_t pageout(struct swap_io_ctx *ctx, struct address_space *mapping,
- 	else
- 		res = swap_writeout(ctx, folio);
- 
-+	if (res == SWAP_WRITE_DROPBEHIND)
-+		return PAGE_DROPBEHIND;
-+
- 	if (res < 0)
- 		handle_write_error(mapping, folio, res);
- 	if (res == AOP_WRITEPAGE_ACTIVATE) {
-@@ -1437,6 +1442,9 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
- 					nr_pages = 1;
- 				}
- 				goto activate_locked;
-+			case PAGE_DROPBEHIND:
-+				nr_reclaimed += nr_pages;
-+				continue;
- 			case PAGE_SUCCESS:
- 				if (nr_pages > 1 && !folio_test_large(folio)) {
- 					sc->nr_scanned -= (nr_pages - 1);
-@@ -2198,6 +2206,8 @@ static unsigned int reclaim_folio_list(struct list_head *folio_list,
- 	while (!list_empty(folio_list)) {
- 		folio = lru_to_folio(folio_list);
- 		list_del(&folio->lru);
-+		if (folio_test_anon(folio))
-+			folio_clear_dropbehind(folio);
- 		folio_putback_lru(folio);
- 	}
- 	trace_mm_vmscan_reclaim_pages(pgdat->node_id, sc.nr_scanned, nr_reclaimed, &stat);
-diff --git a/mm/zswap.c b/mm/zswap.c
-index dc8425d6b21e..640936fe7464 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -1051,17 +1051,16 @@ static int zswap_writeback_entry(struct zswap_entry *entry,
- 	folio_set_dropbehind(folio);
- 
- 	/*
--	 * Drop our reference before starting writeback so the swap cache holds
--	 * the only one: the drop in folio_end_writeback() needs that for
--	 * remove_mapping_set_shadow() to succeed, otherwise the folio is
--	 * handed back to reclaim instead.
-+	 * Our reference is donated to swap_write_submit(), which drops it just
-+	 * before submitting so the swap cache holds the only one left: the drop
-+	 * in folio_end_writeback() needs that for remove_mapping_set_shadow()
-+	 * to succeed, otherwise the folio is handed back to reclaim instead.
- 	 *
- 	 * Nothing can free the folio in the meantime: we hold the folio lock
- 	 * until writeback starts, PG_writeback then blocks swap cache removal,
- 	 * and folio_end_writeback() takes its own reference before clearing
- 	 * PG_writeback and donates it to the drop.
- 	 */
--	folio_put(folio);
- 
- 	/* start writeback */
- 	__swap_writepage(&ctx, folio);
--- 
-2.53.0-Meta
+>
+>>  	 1UL << PG_writeback	| 1UL << PG_reserved	|	\
+>>  	 1UL << PG_active 	|				\
+>>  	 1UL << PG_unevictable	| __PG_MLOCKED | LRU_GEN_MASK)
+>
+> --=20
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260920-remove-p=
+g_private-v5-0-bb68b6a21869@nvidia.com?part=3D17
 
+
+Best Regards,
+Yan, Zi
