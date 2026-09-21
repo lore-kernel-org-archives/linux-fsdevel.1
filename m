@@ -1,189 +1,190 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337C8292B2E;
-	Mon, 21 Sep 2026 09:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B1845DF70
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 09:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789982048; cv=none; b=eNaPZuQafci9Hub8MOz0+KiU0QwS+3KKaWtLkY8eJAzGYr2sXzAVrsnW4zWp8D9UR5TapSx/2ZPPg1oR10GsWaiS6ddI1rlFDxE0ZQ2hi5QJ9cPZDZg5Y9UR3K7dtbpIiwA8Fkzp3Kds1KgdzhqMQu5iNDYl3KFrqWeruRFGKkg=
+	t=1789982353; cv=none; b=EdQp0CifjRzZaeiB//OdDbFyiEFADryWkJKRWdZw4sTwowAXJ/TuvvZYarVg6MiKwKq9/ZkU66HSoNqsZsI9th3odswdv9o411WleSGp+lX3/3EeXh+aa9bKaiYMemPuloJwKpvB8KuCmBi4FyxbYv+y+cyQMMzxXg4VRXv84+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789982048; c=relaxed/simple;
-	bh=cuaLljRcyBeDoEi13kcoUI7J3r+uCL6iZagm/2olB64=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=islLFMI6RwLkiNpUR0rh+ZtqDfDLLWhqia7Bqu/1GC9QO4tT/7O14/o/0oOQ8Qt7P9AL39hx4e4Uy2tYm+IAOdrV7cnJvvjP8fvVxqOHXcedNaG9Qv3HI0V1Z9k1eMSSw7He/z4DlRPrCsjRBQtviE+1XDcZesAIdZXfujGF/HU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DNa3q/Q2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=k/S1oWP1; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=knIrBfKr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tUVl2pxi; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1789982353; c=relaxed/simple;
+	bh=487whN/ep3N2STbygC0sdA1IIhi1sdLZN0hb0tTo+do=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BwAXmet9cpuSCRdC24ludSWrqdBlBKin1KdqYKhxIfYPpNAn073USXGoXynsepX87GVKrkLpNj/g6YA5rT66O87IKUwhLXiDLxpiVqHx2hsgyStQe1SQtId+S4Zq/0qwDnySRX3pTqZQySjBJXv7UN2crszZu7p0W7P/KAr5dow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFcDn9DR; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DNa3q/Q2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="k/S1oWP1";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="knIrBfKr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tUVl2pxi"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 22D071F7A6;
-	Mon, 21 Sep 2026 09:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789982041; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i/5Hx42b5N3HMo+IBhECiBj3UiF/OOn1jXG+HpXUr1U=;
-	b=DNa3q/Q2mQrdJDulb7ILXu9DQAyp4WnXQOjkCKeVKYfxB8Dy8oj381xE863wWctCCuEmWY
-	PaIRD/hmYGQ5FPDv0wa2o/B/qj6Tm37aIh9aaEHrn6YNnuNpoOimH/ooot4V8r9nEDGYtJ
-	BSjpQQ4bkh1zKAIDraG5Jfq86AZ3+o4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789982041;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i/5Hx42b5N3HMo+IBhECiBj3UiF/OOn1jXG+HpXUr1U=;
-	b=k/S1oWP1PxC9GXeq4HKLKMtStzinjSvABUTOHxH29kpIjE413Lme89yTCRz8woozTtS97B
-	IuZiIp2XStrcOXBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789982037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i/5Hx42b5N3HMo+IBhECiBj3UiF/OOn1jXG+HpXUr1U=;
-	b=knIrBfKrHxOnwGZAq+XJFyc0VZ5gOFAI1fDk4pKI5OlRdzVbArHKtfudFX6UphG9+YiVNG
-	pBGSHncjAMjlI9tXWq+yobVeE6bIbVf3i3tOVGg4/ddmQupMNmUiKO5qp8B1wZziS03nYF
-	YhI2X0Pgd8o5LpsrTpkZokMk57de/F0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789982037;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i/5Hx42b5N3HMo+IBhECiBj3UiF/OOn1jXG+HpXUr1U=;
-	b=tUVl2pxiQhApmw4qVxjXVL3Pgcp9okmZZZ02vOvWVNBV6cCNb1MKt4FxAtaIt+eBoABgTV
-	0sfppbXjKKnqCOCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE4DC13793;
-	Mon, 21 Sep 2026 09:13:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZYtQMlT1sGo7aQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 21 Sep 2026 09:13:56 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7D1C1A13D5; Mon, 21 Sep 2026 11:13:56 +0200 (CEST)
-Date: Mon, 21 Sep 2026 11:13:56 +0200
-From: Jan Kara <jack@suse.cz>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	willy@infradead.org, david@kernel.org, hannes@cmpxchg.org, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, muchun.song@linux.dev, riel@surriel.com, shakeel.butt@linux.dev, 
-	kernel-team@meta.com
-Subject: Re: [PATCH] mm: filemap: move lruvec accounting outside the xarray
- lock
-Message-ID: <uomya4f3y667udbs2oht4p5jchbqmqah564infihegebl7jvq2@7h4g2f3gbdhh>
-References: <20260916125122.2696271-1-usama.arif@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFcDn9DR"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485ac898fa4so2343902f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 02:19:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789982349; x=1790587149; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=MGiXLlnO4e+UrjavjSVvmX2UYt3SrnKyX7o77pnTk5E=;
+        b=HFcDn9DRX52z4pi9uX2bxrNrX04T/pV/rTmqZb80qHkUPlkQHmWeYERRZt1mNUm0De
+         WXHBsXDe3Nf3Xvd3sTHLc+V96YXPoctVie/4crz7J391f5jgz0LbjLB7/pStRO0RyrlH
+         8YY9qK2IaYMk50J7GQnTo+3qwj3HqVqUwIhByBluE3DB42ojXeaNKe7jPmKxGqm5zAqi
+         HUj1Yw9Hy1baRu9YGjFMg0Y3OCctpYiAa3Eoeqfc3qJQIdLWoum7CtzDDuKEMgaRDbSI
+         uBf8ZXE46N6vk1AUhVTC+a3F0lJqc8aBeF3ueDnTpsUPkJtbXDoPBfB15UaEyxE1ztv1
+         CS1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789982349; x=1790587149;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MGiXLlnO4e+UrjavjSVvmX2UYt3SrnKyX7o77pnTk5E=;
+        b=h2+XjzHxw/bglx728Yyb7HQBdaNiiEw/71H9L+5xZTcqltXtkSu1XdU5il6dNWAzP0
+         /gVfJPTIafIbuGgztlS4lYNdoE+MgAoQmR164uay5zfObj3El5G/vr2/3gm5HrIx5EEu
+         6GTHNFiS0uFLEJIQCTWi6cf+gS+s47pOqpmKs0heExbZnfakAE0mIdGQCDZ7F8wlNmbZ
+         4gNAziQnKxaURsU2OCMeejodbFSJdwFRWqtkaYbZTAi7jWBpbYASVLdjkq6qvaB0L6QG
+         3fS7NclRFe6JuB5ZiCh0Pa7u3j9tmEj1FOIgvaj/4GnkwEJbZc1xnNF1y24afvUDCbxp
+         OY7A==
+X-Forwarded-Encrypted: i=1; AKwUvBy/3TrSkPopQuPPnG7eGaVEb4fDyn4g8xZQKeL9Jik0wBPHTNUtt4m9jPEiLd8Rj8e3w1lgdE+UcW0UsIKr@vger.kernel.org
+X-Gm-Message-State: AFuF++k8kt4SmCIlemChlWeGEfePsjWeQUsFrdBDTFwecpCU+bp69jnM
+	kKrxuiZ3ZbPiPXLaX6fFXRxu1luqSQ+/szkh2rrCiKNfwsoKuDmnJwn5
+X-Gm-Gg: AYBFou20c9qE7hAvuoQH424QCGQTHV3v1BWGL+meieRRIHpUYBFrXZzWKbbtfQzvz5V
+	41ZOi1D11O45uFAgxSvwS5Ki72Ya+eY3OCtLG/3Jc1YH8Sz4KAQmVu2XkflA0El1IwLqKghVxnJ
+	oy0PBxmUiWhgvtsP3KRE6jycJEp9bNCHnAwDdg1te7pOm9Yr/araJrOmpQFeklpoWEbaZrZ/Zfk
+	iRIde8JsW/dSM6KHkzu8gOkJBlKEJSph52tjz7wv5Qeow47Rc4SjTXyEv54AO8yyLwjWzrHk830
+	/984KWWFVJIjx6ityjh82iR160Q3e0JeRlnTRX2BcpNyE1ssSyAAn8t2J7bpN8hbTXV2yyiNOgX
+	QFQ+m5oRpwkCWGz2nERK6hjLYGpUkE9s39SuzUkKMTO5YZxEMcoP7DMmNyldOdINnqFdyhbF7ZS
+	Itou8KRsBjrFCUZLcLwGU76+ndhJrOQwPnrxmgKt2/uBtDGvTcivlPy8CFyj2vkfPJI+0cOJT9v
+	GC1dLy5tjWKwQLuV0xBSPLgSRj9GT2P4kJz
+X-Received: by 2002:a05:6000:24c2:b0:487:d79:7cf7 with SMTP id ffacd0b85a97d-4871e377accmr13347203f8f.52.1789982349132;
+        Mon, 21 Sep 2026 02:19:09 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4872459d409sm20519075f8f.33.2026.09.21.02.19.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 02:19:08 -0700 (PDT)
+Date: Mon, 21 Sep 2026 10:19:07 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Mikko Rantalainen <mikko.rantalainen@peda.net>, Matthew Wilcox
+ <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ brauner@kernel.org, viro@zeniv.linux.org.uk, alx@kernel.org,
+ dalias@libc.org
+Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
+Message-ID: <20260921101907.162d3533@pumpkin>
+In-Reply-To: <wb5ulikmcromcpolaf7icazadijmadrspctqe3ffgnm3bffdwe@t4oz5ond537b>
+References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
+	<aqcmz5uI7PgN5CT7@casper.infradead.org>
+	<bcdb8f85-d53a-4824-8e34-8d190ec7f4b2@peda.net>
+	<cf83be66-e540-4abf-b377-7e344d62a1dd@peda.net>
+	<wb5ulikmcromcpolaf7icazadijmadrspctqe3ffgnm3bffdwe@t4oz5ond537b>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260916125122.2696271-1-usama.arif@linux.dev>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,linux.dev:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed 16-09-26 05:51:22, Usama Arif wrote:
-> __filemap_add_folio() inserts a folio and updates mapping->nrpages
-> while holding mapping->i_pages.xa_lock with interrupts disabled. The
-> XArray insertion and nrpages update require the lock, but the lruvec
-> statistic updates do not. With CONFIG_MEMCG, those calls also update
-> per-CPU memcg and lruvec counters and notify cgroup rstat, extending the
-> critical section.
-> 
-> Move the lruvec accounting after a successful XArray insertion and
-> after xas_unlock_irq(). The page-cache references pin the folio, while
-> the folio lock keeps folio->mapping stable and prevents removal until
-> accounting is complete. This moves one lruvec update for ordinary folios
-> and a second for PMD-mappable folios out of the serialized section.
-> 
-> In a 30-second system-wide perf lock contention -ab capture on a
-> production host, the hottest caller-stack record attributed to
-> __filemap_add_folio() had 20,867 contentions and 557.930 ms total wait.
-> That was 14% of the 3.998 seconds of aggregate lock wait in the
-> capture. Moving lruvec accuting outside of critical section should
-> help optimize it.
-> 
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+On Mon, 21 Sep 2026 10:49:23 +0200
+Jan Kara <jack@suse.cz> wrote:
 
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  mm/filemap.c | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
+> Hi!
 > 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 00fd89cf6f550..4720bbfc1a663 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -918,14 +918,6 @@ noinline int __filemap_add_folio(struct address_space *mapping,
->  
->  		mapping->nrpages += nr;
->  
-> -		/* hugetlb pages do not participate in page cache accounting */
-> -		if (!huge) {
-> -			lruvec_stat_mod_folio(folio, NR_FILE_PAGES, nr);
-> -			if (folio_test_pmd_mappable(folio))
-> -				lruvec_stat_mod_folio(folio,
-> -						NR_FILE_THPS, nr);
-> -		}
-> -
->  unlock:
->  		xas_unlock_irq(&xas);
->  
-> @@ -942,6 +934,13 @@ noinline int __filemap_add_folio(struct address_space *mapping,
->  	if (xas_error(&xas))
->  		goto error;
->  
-> +	/* hugetlb pages do not participate in page cache accounting */
-> +	if (!huge) {
-> +		lruvec_stat_mod_folio(folio, NR_FILE_PAGES, nr);
-> +		if (folio_test_pmd_mappable(folio))
-> +			lruvec_stat_mod_folio(folio, NR_FILE_THPS, nr);
-> +	}
-> +
->  	trace_mm_filemap_add_to_page_cache(folio);
->  	return 0;
->  error:
-> -- 
-> 2.53.0-Meta
+> On Mon 14-09-26 15:40:01, Mikko Rantalainen wrote:
+> > Mikko Rantalainen (2026-09-14 12:07 Europe/Helsinki):  
+> > > ---
+> > > retval = filp_flush(file, current->files);
+> > > 
+> > > WARN_ONCE(retval == -EINTR ||
+> > >           retval == -ERESTARTSYS ||
+> > >           retval == -ERESTARTNOINTR ||
+> > >           retval == -ERESTARTNOHAND ||
+> > >           retval == -ERESTART_RESTARTBLOCK,
+> > >           "close: ->flush %ps returned interrupt error %d\n",
+> > >           file->f_op->flush, retval);
+> > > ---
+> > > 
+> > > That would leave the existing userspace ABI unchanged while making
+> > > remaining offending implementations easier to find and fix.
+> > > 
+> > > I also considered retrying filp_flush() inside close(), but I don't
+> > > think that can be done generically. ->flush() is not documented as
+> > > safe to restart from the beginning after partial execution, and
+> > > an interruptible wait could immediately encounter the same
+> > > still-pending signal again. So fixing the interruptibility at the
+> > > offending wait seems safer if the above invariant is indeed
+> > > the intended one.  
+> > 
+> > Another thing I noticed is that there are already several paths where
+> > the kernel calls filp_close() and intentionally ignores its return value.
+> > 
+> > For example, close_files() does:
+> > 
+> >     filp_close(file, files);
+> > 
+> > without checking the result. The same is true for do_close_on_exec(),
+> > and close_range() explicitly says:
+> > 
+> >     Currently, errors to close a given file descriptor are ignored.
+> > 
+> > So I don't think a ->flush() implementation can rely on returning EINTR
+> > and having somebody retry the interrupted operation. There are valid
+> > close paths where nobody will ever see that return value, even when the
+> > process itself continues running.
+> > 
+> > This seems to strengthen Matthew's point: if some work performed by  
+> > ->flush() is required for correctness, that work has to tolerate these  
+> > close paths without depending on userspace retry. Returning an
+> > interruption result cannot be the recovery mechanism.
+> > 
+> > I'm therefore leaning towards treating an observable -EINTR/-ERESTART*
+> > from ->flush() as suspicious in general, rather than just special-casing
+> > the close(2) syscall. The fatal-signal case is harmless because the task
+> > will not observe the result, but close-on-exec and close_range() show
+> > that unobserved filp_close() errors are already part of normal operation
+> > as well.
+> > 
+> > That also makes me think documenting the intended ->flush() contract
+> > would be useful: if required close-time work must not depend on the
+> > caller retrying filp_close(), that seems like an important invariant for
+> > implementations to know.
+> > 
+> > What guarantees must file_operations::flush provide when its caller may
+> > have no way to act on its return value?
+> > 
+> > In any case, I'm now thinking that returning EINTR for close() is a bug
+> > when file descriptor is already freed. I think the only question is how
+> > it should be solved. I initially thought it should just be mapped to
+> > success. Maybe it should be logged as subsystem bug *and* mapped to
+> > success for userspace instead?  
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> I agree that nobody can sanely assume returning EINTR from open(2) helps
+> anything (or that userspace is able to do anything based on that).
+
+What about opens of serial ports waiting for modem signals or opens
+of tape drives waiting for rewind, finding tape marks etc?
+
+> Generally any error (perhaps outside EBADF) from close(2) is at best
+> informative telling you that something is unhealthy but userspace cannot
+> sensibly do anything about it.
+
+The program can exit with error to indicate that the output file is
+likely to be invalid.
+Although the last thing anybody wants is a pile of AI generated patches
+saying that a program forgot to check the return from close().
+
+David
+
+> OTOH this "something is unhealthy" message
+> does carry some value for possible debugging of the issues by sysadmin so
+> I'm not sure just ignoring the errors is the right way to go.
+> 
+> This raises a question: Are you actually seeing some case where you can see
+> EINTR returned? Because IMO the best fix is to just fix the .flush method
+> that can return EINTR to do that only in case of fatal signal and then you
+> don't have to be doing this special-casing in VFS.
+> 
+> 								Honza
+> 
+
