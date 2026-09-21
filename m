@@ -1,48 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544BF489FC2;
-	Mon, 21 Sep 2026 11:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DD849159B;
+	Mon, 21 Sep 2026 11:46:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789989616; cv=none; b=EqG1O9s7xranp5Hfk+oULJhdLu0sTmXRRNy6XXgSUffWQPA/iZfEynUgiKlU+DMWllB/V82Td+pr3Y1qQp3yJQRjwobMmVPVswBMc52vSJsIG3ajWHTg5p8QgGJ0Ui+zjtpq5LMAH7LdrAPCiJT+a4iJBwEDgWG+Ei50SlrIpkY=
+	t=1789991177; cv=none; b=E27eFbg0gCxRiwsfe6rdxfjgg9GcP55c1OM4m3ZNvsjnqyr0F3BJgOlYPIPYjwW1X9BvHD5OXe32vVi55sRDTLc+DihfiAJIzu5JJ4xZLEUGLmxqwJJ/5fT9L5KTGBXp1ftmIW505maiLohyIbsIbi6r2leoA7PRKGV/w33fdq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789989616; c=relaxed/simple;
-	bh=JE+a3ZMzDdJl5jQ/otJS5RrxcfVulQNaMMDFJuME2Ec=;
+	s=arc-20240116; t=1789991177; c=relaxed/simple;
+	bh=aGolHchF69pSgYYi/IrKtjjJxe6CCoPdbFiSHyQOrOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RbgYImGsYsjpkPe+eoh6nN8tgNdbecknIf8ew04wlwJ4c3ilNGKnFLcnXHEgemnPwTv+ryq9+juPyy58Tw5vNEoxI99e0UiROLIEIBphLlGUsSWu0Pv2ZVHE1RVAIiyywqPHZZQdb1GMYlkWKY8pSMiLFXRxtL+aGglOQ4qAf88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4G+eyVJ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=OpCKNAyECtlx+Z3GldHTquJAKgGLPyrh7/nIVNKVNogMl3CcEs63iDoMdJMIXv+u9QUjpfM/geu959l+iRMgjij0YCD2a3XXCLiBkbDw+/AKTRj95ZLbiz9iJMAIK5tcKXKV7YUr3Q+fpjBcnOI54xOVXtHvy1Bz8W/xNiOxC0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a3yvm8UI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4G+eyVJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39521F000FF;
-	Mon, 21 Sep 2026 11:20:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a3yvm8UI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC5401F000FF;
+	Mon, 21 Sep 2026 11:46:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789989614;
-	bh=2kg/TXvOegdx6UJZ/kLCIs+vBCNA4Z77iTJNVCR7wKs=;
+	s=k20260515; t=1789991175;
+	bh=Bv17kNAfr+GWReaGWxmR3kN67ZtV/gUAsC1CZBpezIk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=a4G+eyVJTj1TD1yFXh40Wkj0vOwJyfJ2dJgvMdbOqEoy7IPUeeVXA2y4WnmvAAsni
-	 Pq8AH9usOFsni9gXpy/Unnufp1BGPGx7zs6/EO/vakHJibOhWrChcyP3VuzN1TYA1U
-	 CS7zm8uAomtHruXfTx06DLt0EiOdWmWaODscqnC5Eg3JXqBjPXDpK4w7axzRsAsEeh
-	 QT0x7Ze8s1jer8ePBOvkNbfljBK0RLTixj1BljoQrSESB/HEm/FlGU3WIr0snFvqMQ
-	 qkTERjAvODAyy5CSiADhF3/hgIKCmISmQLAAAvhBBGwZyX1rJFEQPoLlapT09UK+Au
-	 BEfcyT/CrGpxg==
-Date: Mon, 21 Sep 2026 13:20:09 +0200
+	b=a3yvm8UIribTaWHkkdKkMq16EsJ9fl3TfsqIXKIPViYxYqNy9wilZlSiYc1SjT4np
+	 EOsca20qg96+26UeJRSqEyShE/SYBxR4rMMT1ZfEnChNxW+1lfHQ18tzLF4hGUDS7e
+	 ehMs6dPxjozJjPqfl0zKdut2mQO3kBlwPLcfI+Fc7hhiUFn0zmTWnNeZuh5oRyHzwZ
+	 sIEGJL9JYq0KphlaQ0U99eQG2065/RssXY0mn0heUILEwfFImvd48pt0bvt0DivbkV
+	 BcB8+7vBWYCV6DGw9iwhVz4PetdgZeWOoxZPBg1PAlgjVFDufOjZRe+RggvOTMmoR/
+	 wdSGD8aIgBkmw==
+Date: Mon, 21 Sep 2026 13:46:10 +0200
 From: Christian Brauner <brauner@kernel.org>
 To: Oleg Nesterov <oleg@redhat.com>
-Cc: NeilBrown <neil@brown.name>, Chris Mason <mason@kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org, io-uring@vger.kernel.org
-Subject: Re: user workers as coredumpers [Re: [PATCH 1/6] coredump: don't
- switch a dumper that has no files] table
-Message-ID: <20260921-programm-rentner-faltblatt-ec5ed7719d55@brauner>
-References: <20260915-work-coredump-fixes-v1-1-f354ca41780c@kernel.org>
- <20260916194837.3732307-1-mason@kernel.org>
- <20260917-staunen-sparsam-infusion-83238c68d21f@brauner>
- <178960987412.207413.3957049392884487413@noble.neil.brown.name>
- <20260917-zahnpasta-aufweichen-flackern-1182320f5c81@brauner>
- <20260918-tonart-umgeladen-gesponnen-519fca5172bd@brauner>
- <aq_4fY6GVtK47Njq@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
+	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org, 
+	io-uring@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] fork: refuse new threads while a coredump or an
+ exec is in progress
+Message-ID: <20260921-aufwiegen-festwagen-ozonkonzentration-ffe78eafa8fa@brauner>
+References: <20260917-work-coredump-fixes-v2-0-f3787fcda051@kernel.org>
+ <20260917-work-coredump-fixes-v2-1-f3787fcda051@kernel.org>
+ <aq0VLTyxNatFmLOK@redhat.com>
+ <20260918-irrsinn-pickt-vermummen-d7167c397398@brauner>
+ <20260918-disput-maden-parkdeck-2bc22dd90398@brauner>
+ <aq0_lvHDViIpX_Mu@redhat.com>
+ <20260918-elstern-potenzieren-marotten-71ebd0744753@brauner>
+ <20260918-oliven-lebst-wohltat-c633868711f1@brauner>
+ <arEHxPFFrRtvUSPJ@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,61 +53,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aq_4fY6GVtK47Njq@redhat.com>
+In-Reply-To: <arEHxPFFrRtvUSPJ@redhat.com>
 
-On Sun, Sep 20, 2026 at 05:15:09PM +0200, Oleg Nesterov wrote:
+On Mon, Sep 21, 2026 at 12:32:36PM +0200, Oleg Nesterov wrote:
 > On 09/18, Christian Brauner wrote:
 > >
-> > So I thought a bit about this yesterday and had some brief discussions
-> > bout this as well. I think we should kill this whole bug class by
-> > ensuring that PF_USER_WORKERs never participate in a coredump.
-> 
-> Agreed,
-> 
-> > --- a/kernel/signal.c
-> > +++ b/kernel/signal.c
-> > @@ -3021,6 +3021,21 @@ bool get_signal(struct ksignal *ksig)
-> >  		 */
-> >  		current->flags |= PF_SIGNALED;
+> > zap_process() skips every thread that has PF_POSTCOREDUMP set.
+> > do_exit() sets PF_POSTCOREDUMP in synchronize_group_exit() and calls
+> > io_uring_files_cancel() right after that.
 > >
-> > +		/*
-> > +		 * PF_USER_WORKER threads will catch and exit on fatal signals
-> > +		 * themselves. They have cleanup that must be performed, so we
-> > +		 * cannot call do_exit() on their behalf. Note that ksig won't
-> > +		 * be properly initialized, PF_USER_WORKER's shouldn't use it.
-> > +		 *
-> > +		 * They must not dump core either. The dumper waits for every
-> > +		 * other thread in the group to exit, and a sibling's exit path
-> > +		 * may in turn wait for this worker's own exit, which only runs
-> > +		 * after get_signal() returns: io_sq_thread() ends up in
-> > +		 * io_wq_exit_workers() and waits there for its io-wq workers.
-> > +		 */
-> > +		if (current->flags & PF_USER_WORKER)
-> > +			goto out;
+> > That runs task work, create_worker_cb() runs and creates a new io-wq
+> > worker. If a thread started a coredump rgith before that worker gets
+> > created from a thread with PF_POSTCOREDUMP set which zap_processes()
+> > doesn't see. So two ways of fixing this:
 > 
-> This probably makes sense anyway... but see below.
+> Christian, I got lost ;)
 > 
-> Perhaps it makes sense to change ptrace(PTRACE_SETSIGMASK) to fail if
-> child->flags & PF_USER_WORKER ?
+> TBH, I don't understand why the new io worker is really bad in this case.
 
-Yes, see my other mail.
+zap_processes() only counts threads it sends SIGKILL too. But every
+thread that later finds ->core_state decrements that count. An io-wq
+worker created from the exiting thread isn't counted and exits right
+away because the io-wq exit bit is already set. So it decrements without
+having been counted.
 
-> Currently get_signal() from PF_USER_WORKER can only return SIGKILL,
-> I think we should keep this rule.
+> But lets forget about coredump/zap_process. With the change below the
+> io_uring_files_cancel() paths will no longer be able to create a new
+> worker, even if coredump is not in progress.
+> 
+> Is it correct?
 
-Yes, agreed.
-
-> I don't think your change can fix all problems. Suppose we have a main
-> thread T and a PF_USER_WORKER sub-thread W.
-> 
-> Some signal, say, SIGHUP has a handler. Debugger unblocks SIGHUP for W.
-> 
-> Now, kill(SIGHUP, T) can choose W as a target, complete_signal() can
-> choose any thread if wants_signal(t) is true. W will "drop" this signal,
-> its signal handler won't be called.
-> 
-> 
-> In the longer term it would be nice to rework this logic somehow to not
-> rely on ->blocked...
-
-Agreed.
+Yes.
