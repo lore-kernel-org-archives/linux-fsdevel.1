@@ -1,84 +1,126 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F3D4A7C95
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0E848D885
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 14:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790000145; cv=none; b=u5rNsjdty43N15MojjT8BOo0EXsl5BJMrlX+7Qy1/xw5ZJ85rEQXLv5Q+JmfwDDhn9OSo71GM8G8qxq4TOLF8yj+5WJqguir2K0mZgVBfOoU/ZT4Tyym+r6eCGh1gAn51PJ+W3TmD+wMIAsSfx2DKccUY3e8G/23tX3Y3pRp9E8=
+	t=1790000147; cv=none; b=dsBMD8DzKzfByEDU6nldnHNJ5zD+0drlfTpDGoqWwVNwwIlW/yoJyQb12OgKNzD9+Y3hwKakfJJcslqGtyvcSGF20g2BlGjaW8Vf5ZhcUKbac5GqzrnuW+YkfrIRamponMHz8Y07G6MBrZJY2rUKfHz50aaHzjs0z2ZFl2J6uRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790000145; c=relaxed/simple;
-	bh=He3JUgJDhPmHquTyYpRnLK1Iq8NSorYwIL+s1QGdGOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BjJmy96PwQFexm7QC/kEqwH9pn7I+ZhcNIm8Oe/h00Gbho0sQHw/9QIXuqd0bnUnyzl6bj5vzf6joKbus19BG5TLcZxA2QjCiKYTqcUk3QMe7ApmveyWdCpRDDCbka42pTI64N3vHeD3dzZp6M9h6yQJwGfhxqlWIr5uwEBA89Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=I0bW4cWv; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790000147; c=relaxed/simple;
+	bh=a+3vxOkeLt21AlXl1uAe/FaYpCPjm4kRzdwaC1txkJ4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CVjbuwOzDcey2hi7oXo2U2Z9jAF/ECSh7nwEZtrrE8dfULtk7Yh0d1RTaZI+eKAOUGFbzz0rqVEo5YtguM6//9gKTGR7dELqLV6cxAoNSfvaXXj50egAI8qrOPyBaAvh9LssEnRG4vtaBMeyF2nikU5DoId7K5EOdn/0bCtoq6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OfZ0KwFg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="I0bW4cWv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790000141;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xCfJQWWrymkpBCCuzcDQp38cBUvHqaHF57c7ldLBjfY=;
-	b=I0bW4cWvc8yGLnji3k2dV/2Z2/mCQgfoOeQiozODs5w396y5GpRGGk8R0dd7gepZzdU9Kp
-	kHkMzvOje4lfjkY8ccKkGotmAXi6KWn/tpK/GUgvdOwpHNH1cRMRZKZ7Zxn6XrrRYcayEh
-	TcmNAGuqQc2OWWI3w3mpG62vcKz3pgU=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-526-nnOlowmtPSWcbtsMAlShDA-1; Mon,
- 21 Sep 2026 10:15:36 -0400
-X-MC-Unique: nnOlowmtPSWcbtsMAlShDA-1
-X-Mimecast-MFC-AGG-ID: nnOlowmtPSWcbtsMAlShDA_1790000133
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8C60D180061E;
-	Mon, 21 Sep 2026 14:15:33 +0000 (UTC)
-Received: from fedora (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 1FB2A180034F;
-	Mon, 21 Sep 2026 14:15:29 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon, 21 Sep 2026 16:15:33 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OfZ0KwFg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 327351F000FF;
+	Mon, 21 Sep 2026 14:15:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790000145;
+	bh=IJ4XjXcV0nXXfgqEKNDxHFaKiKC73zfxZQFUKjHBGB0=;
+	h=From:Subject:Date:To:Cc;
+	b=OfZ0KwFglGd1iQTUcfvzmWIhSADC/CbGQ0eN6tSUIXe7wBxioUIvmfO6TDcfN4Sid
+	 rcpCe9IpwAgASnWgPomWvsD8/nQWpZU26s4McQq8MZIhSqsRVBGzyv9CQUEeJuNoH5
+	 YeFeQ8TApnM9FqzHwS2aqeB2dbXyW6bRbsOurtyyuc1TGPJkYuk/7h43XG9J+eUCGE
+	 4Aeidt0w5g2SLAguIYkGdsTdKT8QVfDl83x9KW1k81SQT4dlCNtHcM0Pmge9Ecny4e
+	 mlPH5sXBvZa5I0fKAqcW3UHxR76KLt/2/1piX8l7f0aWdy/LzaD8KsgID3SPAvZWJa
+	 YX8w7Whx32BQg==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 00/10] files,close_range: add
+ CLOSE_RANGE_{CLOEXEC_ONLY,EXCEPT}
 Date: Mon, 21 Sep 2026 16:15:28 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Chris Mason <mason@kernel.org>, linux-fsdevel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
-	io-uring@vger.kernel.org
-Subject: Re: [PATCH v3 13/17] fork: move the coredump and exec checks into
- create_io_thread()
-Message-ID: <arE8AJIB6UeDUV8n@redhat.com>
-References: <20260921-work-coredump-fixes-v3-0-8e4adb1619e6@kernel.org>
- <20260921-work-coredump-fixes-v3-13-8e4adb1619e6@kernel.org>
+Message-Id: <20260921-work-file-close_range_except-v1-0-c20d0b49270d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260921-work-coredump-fixes-v3-13-8e4adb1619e6@kernel.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XMQQ6CMBCF4auQWTtNi5GgVzGG0HEqVQKkg0pCu
+ LsdXbr8X16+FYRTZIFTsULiV5Q4DjncrgDq2uHGGK+5obRlZY+uxveYHhhiz0j9KNwkPTW8EE8
+ zsrOWgt/Xh8pBJqbEIS5f/nz5tTz9nWlWUx++FUafEep0Ut2obv51o1/Ytg8PKNlXtAAAAA==
+X-Change-ID: 20260918-work-file-close_range_except-e100cfb38561
+To: Jann Horn <jannh@google.com>, linux-fsdevel@vger.kernel.org, 
+ Oleg Nesterov <oleg@redhat.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Neil Brown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3070; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=a+3vxOkeLt21AlXl1uAe/FaYpCPjm4kRzdwaC1txkJ4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRttOH5dGVj0cwq9nknAlXlSh5XX5iwYo/9VY7MFObnp
+ aIOmf/edpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzEv5rhD9fnP0JGi/15l68/
+ s8//iuufDNmVq+6rhDpURS+3N8ucsIaR4fmSE3GT65zSivTaX+prhjgxiHGkO177mCk8US+puNW
+ HGwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 09/21, Christian Brauner wrote:
->
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -2706,6 +2706,10 @@ struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node)
->  		.user_worker	= 1,
->  	};
->  
-> +	/* A creator past its fatal signal gets no thread. */
-> +	if (current->flags & PF_SIGNALED)
-> +		return ERR_PTR(-EINTR);
+close_range(CLOSE_RANGE_CLOEXEC) marks a range of file descriptors
+close-on-exec. It only marks them. The file descriptors are only ever
+closed during an exec. This series adds two new flags to extend the
+abilities of close_range():
 
-Acked-by: Oleg Nesterov <oleg@redhat.com>
+(1) CLOSE_RANGE_EXCEPT
+
+    While regular close_range() operates on all file descriptors in the
+    range [fd, max_fd] and not on any others, CLOSE_RANGE_EXCEPT makes
+    close_range() operate on all file descriptors outside of the range.
+
+    When combined with CLOSE_RANGE_UNSHARE dup_fd() never takes a
+    reference on what is dropped.
+
+    A task between clone(CLONE_FILES | CLONE_VM | CLONE_VFORK) and
+    execve() that has the descriptors for the child in one window can
+    shed the rest of the shared table in one call:
+
+            close_range(lo, hi, CLOSE_RANGE_UNSHARE | CLOSE_RANGE_EXCEPT)
+
+    Nothing outside of the window is referenced by the child at any point.
+
+(2) CLOSE_RANGE_CLOEXEC_ONLY closes the close-on-exec file descriptors
+    in the range
+
+    Whatever the caller deliberately passes down, stdio, LISTEN_FDS, an
+    inherited pipe, remains where it is.
+
+    The handful of close-on-exec descriptors the caller still needs for the
+    exec such as the executable, an error pipe, can sit in a specific
+    range. A task between clone(CLONE_FILES) and execve() may do:
+
+            clone(CLONE_FILES | CLONE_VM | CLONE_VFORK)
+            child: close_range(lo, hi, CLOSE_RANGE_UNSHARE |
+                                       CLOSE_RANGE_CLOEXEC_ONLY |
+                                       CLOSE_RANGE_EXCEPT)
+            child: rearrange descriptors in the now private table
+            child: execve()
+
+    Between the clone and the close_range() the child holds no reference of
+    its own on any file because copy_files() only bumps the fdtable
+    refcount. So a close() in the parent takes effect immediately. The
+    unshare also never takes a reference on the fds it leaves behind either.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (10):
+      file: let dup_fd() leave the punched hole behind
+      selftests/core: test the hole CLOSE_RANGE_UNSHARE leaves behind
+      file: rename dup_fd()'s punch_hole to range
+      file: let dup_fd() drop everything outside of the range
+      close_range: turn the flags into an enum
+      file: add CLOSE_RANGE_EXCEPT
+      selftests/core: test CLOSE_RANGE_EXCEPT
+      file: let dup_fd() drop only close-on-exec descriptors
+      file: add CLOSE_RANGE_CLOEXEC_ONLY
+      selftests/core: test CLOSE_RANGE_CLOEXEC_ONLY
+
+ fs/file.c                                       | 200 ++++-
+ include/linux/fdtable.h                         |   9 +
+ include/uapi/linux/close_range.h                |  31 +-
+ tools/testing/selftests/core/close_range_test.c | 951 ++++++++++++++++++++++++
+ 4 files changed, 1151 insertions(+), 40 deletions(-)
+---
+base-commit: 5dd1818b15d98d4a20806cd00b1b40320b06004f
+change-id: 20260918-work-file-close_range_except-e100cfb38561
 
