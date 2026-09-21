@@ -1,110 +1,140 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7284A0120
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 13:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AB74A1DF9;
+	Mon, 21 Sep 2026 13:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789998248; cv=none; b=iXFCQkhuYdBmNxByqaIhFLraXlWZYSYG0Vm4tlRY+PlR1Zu7cVd93mIIeROVv7Qb+x32Yu0UM4Gd1wadZCjEMIRs6XGR3MPfmL+9brrS/hbsVfu5yxZzQmUZ1b/YRYDhr0MeXNyZkI9SH0WArEwFsm2IEFAOvA8ZmESe2ifNeEQ=
+	t=1789998308; cv=none; b=VLUQEoDVq8AcZ4BiZhWIyqjOsFxvmGPDgVIWDwpRGDgfM9DlCRo/gclYRxz27CgL8Cqx+3JeGUgvmSr4JKqgLCo8hn9AlfeBTc9rJLZ5XSa15EyXl42kymc91WCezZf4p1HCNain8B1UllbHsPP6Ur5TqDes1BxkvuS49maXKWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789998248; c=relaxed/simple;
-	bh=Ffr27RNaF+FHzq3WbV+cwo2+VfRU0uuG7BksAI4Sf34=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aQ2F9vEPCgZXIM3Rso+ZM6QxmlugtAlhfvBfSp05at4XLsI/yjn5PefBFbF5G7T+SNhLfXDAcyq2W2XM4FTcD1lkoiPpKVpl5RazyjKcfvW7WVBt4b+X/ZKSJO7hbBXbmYTz9KLcldW8Y7073RjlJ9oKIdNEK79dK9gX9rs1x3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WQ041ULT; arc=none smtp.client-ip=74.125.228.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789998308; c=relaxed/simple;
+	bh=5cmOqATVUXTDQgM82raywtxRqKGg+wRZ/gH8Sbkxogk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pV7Jn7fOBYeai6JZa2HGJVqo5SCJcwFUZrX6A9ustiS+MIRhIc24yXcsJXjPXgVbH8isnRaoZU3O0rkT7b/awY5NrRl1WCFLGul/mvOS7Wy7+Ap/za5LOLSIyQe8kR2QwwTbQcU5XeBDkcelkBcecnwLtWxgo3l191ieXdNEa8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTElbC33; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WQ041ULT"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a6056ac81fso5132347a12.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 06:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789998245; x=1790603045; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NkeBIcnXDbJI7xttPPj+BDZba0zlv1qCEuppUmdh2T8=;
-        b=WQ041ULTmn8oIfDDAPegB0ryOuulWBW8xTH6dy/FNnuTaIROw06zad9G8VOvA9jhCO
-         nGwwGrtltQ9w/VNo6HxG32lzeR/pNHGDZmggvzI8SepHxo7M0yP04joHR59rBWJCTiRH
-         QkNZUxrc9lEEj16orPpUTEQ78mHZatBMM8chhmaT5E3YJogMM2ovjFz0bZXboWOE2ZIE
-         Osr3I6YtCh4efQp+KJAUcs5SmZvKjdKhNwDJYwBf3JWvn22WDgG4emGeXAoCo4POf/Bz
-         BiNQsLFOrAOIU/O71fdUJYRIrhmzmMfW6krL508dEfCqYqrsx93B/mV17uYZrjf+PVRS
-         VfgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789998245; x=1790603045;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NkeBIcnXDbJI7xttPPj+BDZba0zlv1qCEuppUmdh2T8=;
-        b=x1Uj8q7nhMbL8iBuewjsbFOGyUbMAk+o9OWO8GfRwu9e6XJ1kzrapBiR7ImB5gGVSo
-         O2okVxolx1CuKvl9TvxEK8NgJyoCrR4clTbuV3tQKVvDWrMkONpMqegQXIIByHBFEvMK
-         TLPoleDMvvq7EhBC+41GL0T5HL1vV5lpEmwvlywUGwCeyhpF2t45WbnhGBSbqhXfcxDB
-         kMglDsphuJmcMlMK5ujZ8NErNIumgXXiIruEzq00Lb3OrKSAy/oHO7phtDKPVxqtPl8f
-         Y4p8+auZ/nvHyRrf842R1kglDepAJkGA+NtzDL7JcQe9a3wP5eGA2nfs1WnorU2noS51
-         TH3A==
-X-Forwarded-Encrypted: i=1; AKwUvBwCBn/xFJZreKMgmZmtyOPyGc3FlobsAOMfwWHJBKaQoGW9twYUMjN3P3cLsPoiZt9P/vZ+tgSYQ7bZxgtl@vger.kernel.org
-X-Gm-Message-State: AFuF++k99JJXhrKIAFaCw0VgvrLDyRaupC5Mq43Bh8lGIy300sdaLT/5
-	4B4f9QpuAs4U5rJnqGPLP5t32uq50yitdV1cCnCEQdbhG5lW6WCXos0c
-X-Gm-Gg: AYBFou1HG4+VDbESnL+H419wrSNXOdK2otw7/L1nOh3BqZSRxzmh25IGkohGPNoOKuH
-	5TEmkuNZygTlIxNLp7AToF0gpTCfif72DDgMvpbM7ovuYhwuPBm91ZbSGnwPzCk6EbheLSASm04
-	fZbX18Y2FtYMhifX3gq0EjjM4Gqn2DPhRhad7KcsB9HYiaekv8D2kzAL4dP5wWmqO20tYdJhG42
-	nAWdX3mmsU5SwsxQydXxL4UZe84FwUcJiRuH6vjulbcmIwaFoKIAQHuYirOzDdSW63TB9kXbcYf
-	bLG1lCbIzbg9fHLcQ/SpsD12Om8zLXRLRk7gwa/p2EMbE3wUZrM+fOnR1SQgGq8n9CVOE4XQzAr
-	DGjyLsiAu77wjfIEYQERF3wIEqttvSf+UWpDO7iP6Uz4Lxnx+jy3RP3CoY5ffs6cKTabkJU9xHo
-	aP8/cjukpMT23ERJ7ygXTIORgOvMC7QUQpqoDj08IY938XG1C+GIlgIa6+YYg2suJGrRv/QKBfs
-	CEnzkHJeQeWpaLd+Ku3oNQtOC5eYaijZ2x5rNRvXw+tpg4gV7iVUxocV8LF82KWvOzW3EX5KpqD
-	5C//AGpGRKqMRertZnbvzDOMYaKaMMQlX7Ju5w==
-X-Received: by 2002:a05:6402:2355:b0:6a1:4458:7f2d with SMTP id 4fb4d7f45d1cf-6aa53104448mr8100478a12.5.1789998245342;
-        Mon, 21 Sep 2026 06:44:05 -0700 (PDT)
-Received: from [10.54.182.141] (82-132-213-26.dab.02.net. [82.132.213.26])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aa67e0d3c5sm4417232a12.22.2026.09.21.06.44.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 06:44:04 -0700 (PDT)
-Message-ID: <b3e1db34-45c8-4723-8d09-eabc28bb0988@gmail.com>
-Date: Mon, 21 Sep 2026 14:44:00 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTElbC33"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E05531F000FF;
+	Mon, 21 Sep 2026 13:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789998307;
+	bh=e4AZu4AlntNt1aYig0/jFDygUFvaCLDRa7pO2XcQvUU=;
+	h=From:Subject:Date:To:Cc;
+	b=CTElbC33WCvK21eYsu1cvCUz+/OAaKUyDjGunBjoj3Dcxwg2gIpLoNBEYjRs5e1T9
+	 1IIWTK1qe4enooe2DuMaHz8FVVp5y9mOT9febxd9ltEsejyb+9XV+Fu8oA4wFtpAT1
+	 Muk5iJN0JjbzbdQC81KDOtVfLAAuYylKYAV07yerti0WXWcszEKbFdkztbdQstg86M
+	 TVbdoVXwAtkINnL4RohkYYVqQIHk9FGD2t4pJG2uTSw040ORzznD3C04jHQjDGCcKC
+	 T3cMPMvi1ImTtpFtM3ZRmZqslphJuY815B2ZFNNxWFNAectS+lRL2d0G0F4Lb7H6Tb
+	 SXcktS3b+k98A==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH v3 00/17] coredump & signals: an impossible affair
+Date: Mon, 21 Sep 2026 15:44:49 +0200
+Message-Id: <20260921-work-coredump-fixes-v3-0-8e4adb1619e6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/16] dma-buf: introduce initial file I/O
- infrastructure
-To: Sidong Yang <sidong.yang@furiosa.ai>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- viro@zeniv.linux.org.uk, brauner@kernel.org, akpm@linux-foundation.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com, nj.shetty@samsung.com,
- joshi.k@samsung.com, anuj20.g@samsung.com, tushar.gohad@intel.com,
- william.power@intel.com, phil.cayton@intel.com, jgg@nvidia.com
-References: <cover.1785596451.git.asml.silence@gmail.com>
- <ff5dccf71e8c03d62797352c4bb5fbb7c6c759c8.1785596451.git.asml.silence@gmail.com>
- <20260808074245.85757-1-sidong.yang@furiosa.ai>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260808074245.85757-1-sidong.yang@furiosa.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32Oyw6CMBBFf4V0bUnLw1ZX/odxUcoUKkrJFFBD+
+ HcpxkQT4/LOnHtyJ+IBLXiyjyaCMFpvXbuEdBMRXau2AmrLJZOEJVu24zm9OWyodgjlcO2osXf
+ wFEqzk1oyA0KSpdkhrI+leDy9sh+KM+g+qAJRKA+0QNXqOpyCNH5L47UbBySgtfW9w8e6cORB+
+ X/MyCmjJs0zrTIuJNOHBrCFS+ywImHNmHxKxG9JskqEFEaXiuX8SzLP8xN/7AjmOQEAAA==
+X-Change-ID: 20260915-work-coredump-fixes-edf98c80fe78
+To: Oleg Nesterov <oleg@redhat.com>, Chris Mason <mason@kernel.org>, 
+ linux-fsdevel@vger.kernel.org
+Cc: Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ linux-mm@kvack.org, io-uring@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3905; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=5cmOqATVUXTDQgM82raywtxRqKGg+wRZ/gH8Sbkxogk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtNLlTxbd8XWa+Kc+KiT/E91pz+7J8Ov7qyvJXT+94z
+ khOaavV7ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjI/2eMDP+PuL2Sl6qrm/zZ
+ 2OzjVDbmL7/t903i+vJDpf3FncWnLi5iZPjJ3my/wPRveUdkuFHrju/LnFutHVxcCxeamzPGf18
+ +kREA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 8/8/26 08:42, Sidong Yang wrote:
-> On 8/1/26 16:46, Pavel Begunkov wrote:
->> +	if (dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_KERNEL,
->> +				  true, 0) < 0) {
->> +		dma_resv_unlock(dmabuf->resv);
->> +		goto retry;
->> +	}
-> 
-> Shouldn't this be <= 0? With a zero timeout dma_resv_wait_timeout()
-> returns 0 for a still pending fence; only -ERESTARTSYS is negative.
+Hey,
 
-You're right, and this chunk is gone in v6
+I asked Chris to look at the coredump code with kres and it found a few
+bugs. I started looking as well and found a few more. Here's a fixes
+series. I also used TLA+ modeling for this.
 
--- 
-Pavel Begunkov
+Fixes in here:
+
+- UAF in coredump_finish(): a parked thread can be freed before it is
+  woken
+- only SIGKILL and the freezers interrupt a dump now, cgroup v2 included
+- core_pattern is parsed from a snapshot instead of racing the sysctl
+- the io-wq exit bit wasn't ordered against worker creation task work,
+  exit could hang on worker_done
+- shared signals are no longer retargeted to the dumper, that truncated
+  cores
+- a failed fork released its files under scx_fork_rwsem, deadlock
+- a session leader's exit lost the SIGHUP for the foreground job
+- an io-wq worker of an SQPOLL ring as the dumper deadlocks the group,
+  user workers never dump now
+- PTRACE_SETSIGMASK can't unmask a user worker anymore, the only way in
+- exec cancels io_uring before de_thread(), nothing adds a thread after
+  it
+- no io threads from PF_SIGNALED or PF_POSTCOREDUMP creators, they
+  broke threads_remaining
+- descriptor tables are closed highest fd first again, the order the
+  deferred puts had
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Changes in v3:
+- Address Oleg's reviews.
+- Add a couple more fixes.
+- Link to v2: https://patch.msgid.link/20260917-work-coredump-fixes-v2-0-f3787fcda051@kernel.org
+
+Changes in v2:
+- Add fixes for retarget_shared_signal().
+- Expand fixes for signal_pending().
+- Link to v1: https://patch.msgid.link/20260915-work-coredump-fixes-v1-0-f354ca41780c@kernel.org
+
+---
+Christian Brauner (18):
+      Merge patch series "files: make closing files synchronous for close_range(), exec, exit"
+      coredump: hold RCU while releasing parked threads
+      signal: only SIGKILL and the freezers interrupt a coredumping task
+      coredump: parse a snapshot of core_pattern
+      io-wq: order the exit bit against worker creation task work
+      signal: don't retarget shared signals in a dying thread group
+      selftests/coredump: test shared signal retargeting during a dump
+      fork: release the files of a failed fork after sched_cancel_fork()
+      exit: hang up the tty before closing the files
+      ptrace: refuse to change the signal mask of a user worker
+      selftests/coredump: test a user worker as the coredumping thread
+      selftests/coredump: expect PTRACE_SETSIGMASK to be refused on a user worker
+      exec: cancel io_uring requests before de_thread()
+      fork: move the coredump and exec checks into create_io_thread()
+      fork: don't create io threads once PF_POSTCOREDUMP is set
+      fork: use SIG_KERNEL_ONLY_MASK for the user worker signal mask
+      signal: enforce the user worker signal mask in __set_task_blocked()
+      fs: close files from the highest descriptor down
+
+ fs/coredump.c                                      |  73 ++--
+ fs/exec.c                                          |  11 +-
+ fs/file.c                                          |  55 +--
+ include/linux/sched/signal.h                       |  19 +-
+ io_uring/io-wq.c                                   |   2 +
+ kernel/exit.c                                      |   5 +-
+ kernel/fork.c                                      |  20 +-
+ kernel/ptrace.c                                    |   6 +
+ kernel/signal.c                                    |  22 +
+ tools/testing/selftests/coredump/.gitignore        |   2 +
+ tools/testing/selftests/coredump/Makefile          |   6 +-
+ .../selftests/coredump/coredump_signal_test.c      | 238 +++++++++++
+ .../selftests/coredump/coredump_worker_test.c      | 447 +++++++++++++++++++++
+ 13 files changed, 832 insertions(+), 74 deletions(-)
+---
+base-commit: dadceac9d20a1c90269aafd7746f7c0c05879ad3
+change-id: 20260915-work-coredump-fixes-edf98c80fe78
 
