@@ -1,64 +1,64 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7328F455631
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 08:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513AF456297
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 08:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789979537; cv=none; b=hCGPqsC143Ps4OF56q1P0xu2yH1oqyOuAngQ/JWBWW/DaMIknRWzoQKR0PZRG46tT3WAMRZtVQbbtBdscFEH0IPFLuYPj8m6DuLboNNLaknX8adF4EDpgHnX/TEQMTLODYFHrvHsYBKKGL7+G6noZdoChKe7/ML4tgpkqPQJsH8=
+	t=1789979538; cv=none; b=cGr0E1cB9UPX+2YmUxHQnChvNXX9ykWktACu9ht/UI7RtR4l47dLhXWl0I5SLuyqQUH8xWXzHDE5R9iJeeDnN/S0pW2Bj2ipxxI+RzFATJRnY4uSKw/I2eCzqjYVnWDA9ht5eikJRLlTYb0ijeQyhdqCFIId/snB8O/Kro1S7Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789979537; c=relaxed/simple;
-	bh=5w3bKTheiRENHYbzw7Hs+HnRJrbVBZhYnmx0e7/LD9g=;
+	s=arc-20240116; t=1789979538; c=relaxed/simple;
+	bh=6b27Y5R1I/dErxQ51DVfVbmyQ/c01ct05TSMdeHMzBw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u65aaGJzu8haIWzbFyvXY8zWVRC2bpq+1XU/moO5jFintizH7K6mNX23ifGXsowD73gNTKthdhC05yiGjD5jLAMAgEqLnzBjQ4GdkQMM9JGuQWxbui0yaAF+PCoVs4W8Jqy5r2htYtJueqeo6F6N9ERw6R+9UUOCwVIaUHxDRqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qKi56HCN; arc=none smtp.client-ip=74.125.225.141
+	 MIME-Version; b=LCkZ/rZjuOIpFZNS/kWx0MQp4UJBTKnaan+bFJCNEb0Okscy8HYO9om55ZuGtf/StiQ0tXWkWxSeAikWeybrEKUUKnNhqmzKaE8bUH5LnrU2sJI/lbVtFlhRq9sxb+dXh6TcByMvdY5O0RrKkrouiUJr4WiT7c8iKdNMlJvwDYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wr8bkAIJ; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qKi56HCN"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d37b6so11883575e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 01:32:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wr8bkAIJ"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d822dso18399365e9.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 01:32:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789979534; x=1790584334; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789979535; x=1790584335; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GCFblZT5c9t+k9mTW4Xpv48TzEDBf3qgpT7BTEui24U=;
-        b=qKi56HCN+7s0FTr31iu42hX2IX7livC+h6EFyb9CQx3um7kXt0NAZThsDmeFU901+p
-         pBh8NJFG6Xtsm45LmIRHz3V9CKLsCcR4Td33ls7goS5iChWx4p8h6jb3sUT6QFUSRZfB
-         W5F9MNS3x1iRxxZD71PKU0WWG7no/5I3B+YIVT60jWfNZArlEJKmksI+bCFjh02Wp028
-         wKH8gYA1hJr6ai0xtdbvjnzH229jR0FlQFyYTP7Fql8g+NaCnuCjYv7se1LHBSlQpD0q
-         DPN3Z1D30DWd4oYZCxLagKxAsWK2jORjT5JlPKqqOMXFFOCyIjz8Kqswyx5IBG5xoYOf
-         7mMw==
+        bh=bybxefWUQq7gjGvpEQCe+hIa+5aIsa8PecK6A3/B5/4=;
+        b=Wr8bkAIJpxGgqX7bbXJuK19j7Edr9XwMNdoIknGkdxeJ6twZ6WUwpXGHb2Iyt6c9Md
+         0UZVWXt2/TlgQJZxvRNoRn+WzpnOE5dk4NGs5tAoa5pQAeiVsbndQG8KqaKMfupEI22q
+         Zgchk7acHJnevs3PtK9Y/aPW7Yb7BAGFdFSd1HN30+cNkntXFvu+Z5ZRYmbTEOq8cQ8Y
+         qabB/fGmORWROPhm/u24K6bgSz1Sdhhk9W8zbkOF4hHyCdAcKJO0p3vRNmFCblcuqOZm
+         rFYEH3k0704nL8nQ9e8ZUFM7LucKDKQ848VFFoA9Wuwobuxo/DWO1HpiSv1bk6S+ke7s
+         021Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789979534; x=1790584334;
+        d=1e100.net; s=20260707; t=1789979535; x=1790584335;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GCFblZT5c9t+k9mTW4Xpv48TzEDBf3qgpT7BTEui24U=;
-        b=bHMzJS3CFKhiazdBfomZokAa8cxD8vekm6PZyDB6Uis+ZZQyHuK/jVqLaiDWB86noI
-         t12rK19AVNYd6pgTPkhPEdnIS4w9wHdOZitPmyWOVqKHRHsg/MUoWuFZg+EHffBy2/ZX
-         +v+TIq4M3up6Cj4jRw9Of57JD8J/ONUN7yWxs2NGOd0oJQaubMfvkezNXejFCKsijfW9
-         3dQQfsElsUT2B5bs0hXSPXR98U4W7Ye97j+pqPkr1SLpQns9juQYUoOY4+PIasZYHll4
-         ID8hMLOyLfX2vtDaBj/9n61IoxI7aQkf3hnDFLGgVdQA48W0lugLLu48cWpkumyafkte
-         zPaA==
-X-Forwarded-Encrypted: i=1; AKwUvBySJ7ZDG0IrZV6/NqGU3hCjtowarUzOCCYrquhhJy/tS6wDflxgNRWXJT46zVSADr3QVC+KeIACc4qN0Rkg@vger.kernel.org
-X-Gm-Message-State: AFuF++nfo0T/jfoe5DP5R7+cA18z8CMyQUR/ANhruoPrqQRC2taN4Q89
-	hGAvtmsMLv9IID3ZyCLGwH9DffNlg4iy+SwUUvfEepg3Cf9uuFxKvvJd
-X-Gm-Gg: AYBFou2+UTSy8p2D8jcfs95Z8MKDe5aVvT+FHN2RXr1ASEbHM8HXHimnvpZgq6UijAJ
-	V4rUYMXNU71YJ/Rh9pYLo586mnk9XvhEoyMtBSPbG1QwI5akJhT6bn9K046Zy5U7TycPWb7ZcIv
-	xHMhBQxPErTGLOfma5N3gDeo9cgzV+HpUeYFfuxEcT8hopBXiBwE1UOGdpULv4zlw7O/g5MXcyv
-	9NneGZCxJI89DhbolwjBpmkYGYHXxAEd8Etdm+SV5xfC7BdQQ/wM6b8y8FCObgekTjmwM96+fcv
-	ooSWLfCfzOJkW+rm3JzCXLiMRqvAO4GGbZ29XHfmdux3DOgSta33ZDy49x5R1QQJIXXGLkucMWX
-	u6up6whf/bdrE/img6WuzP0w0ajRfhpetsGgMj3R6H8w9FCwbU3qegWC6otHR6jSO0ckvD36YLu
-	LyN8C3TuVFznEC/8nGtRGvmnTC+YuLjzf+27wYst79P/UBWHzcCZ7d3iqgmy7/U9azCUyii3ygo
-	tMVhOw+kP9Hl9H6dNAS/QmurYTtCK1w02oetpe0gG8M+g==
-X-Received: by 2002:a05:600c:4e50:b0:49c:ee20:e787 with SMTP id 5b1f17b1804b1-49fc566443fmr121010765e9.1.1789979533422;
-        Mon, 21 Sep 2026 01:32:13 -0700 (PDT)
+        bh=bybxefWUQq7gjGvpEQCe+hIa+5aIsa8PecK6A3/B5/4=;
+        b=ESHDmx1EQsFC7s07d7Pk1adf8YDtUFT+5BPyQgyc3NuXz23dVrB6jdV6xdQGdf6ZMx
+         au4IytQ+QUggZDEBpeDWtOcdyOuJgoBgxnBSJC3AQLVsguJCkMDycPrI8b1SL2xjSyV1
+         enRos6UaCMEsG+O38oSB/lg8WkA3qbpPwzR2QKacm5Nol7RZR2kAlja/sxtgTKPuOSYk
+         HCHFQBtcfyE+byoIUK166riuNuvsOlcFlNOQuhY8nbPvRC9UWF3AplzYrVlU+8pv/MyM
+         NfRKdRtBCdHT5wIBaBkng51XhMQBRmKwT6s3Mqxst6BpKh7S7wkFbloPeDdJAU/2vuAv
+         SFsA==
+X-Forwarded-Encrypted: i=1; AKwUvBwzx6Rvf+7nXRK8NXSpt+lDKBGrL2/cSfxoYNVkm2m+kcwpRqHBIPKGtMJxQR7QaJHfnKXzLG+8Hur95pc+@vger.kernel.org
+X-Gm-Message-State: AFuF++nukETU4zMNQWLFjh7l5JH7vVL6euz0pJdtfebKFOLy6AvEjXmN
+	YaV6zKc2EHq3GsddXlWks1Wn4fhmK2MB8tdZI4q65q4npJ3DZ1X4LI4yXAUxzpjzgZs=
+X-Gm-Gg: AYBFou3n/a8f/VIXMFD2qmZK60k1Fglqnyn2L/KSsNr2rz3bE0/y7Emh1LDTn8YNZsF
+	pToCkjxVDQGemi5ROT3ZuOhYhkR4x7LM/7gpi9w5LYz+hlAXXme0XI7rxZdLoHOvf44A5I4cIkm
+	L26oT90Ry5gGaHW0AnFrDjaakBpX80FvjYEQjllnB/xGNBoNcCdheBIHnx/zeSCJnSUOWVjd1nl
+	la793ScakL37bB1cf4g4z4GEMhPvV696xXCcoKDdplwLGRbdPuUR7kraLhHRvDGgc2IYxRXFrWl
+	vAKuYu78Z+wmeYzV+rvPyQg4enP/BoSfifsBGTAUfPodAbGo7uq13WSsBJH7BgVCj3BAYxUS4nh
+	WA9RirTn507jK0Gi6Zf+CNHLWK/G/T0GhDxcjHj/XgdNqPr+TRH2dNuqLD+Dr2CPt42px9LteIU
+	rXQU8O6zUh0wiwXS8Uf5XR9ghz75eyP7muIt4/9tYmnABbwsTtPDm2ZhTsqlyrsjzrr3zp8XCcW
+	C9pNY7BuxZksz87DmXSqDdXQ4SjabHYYzPR5kmw3bIS
+X-Received: by 2002:a05:600c:c8f:b0:49e:6c9b:4e94 with SMTP id 5b1f17b1804b1-49fc5743124mr136244555e9.28.1789979535490;
+        Mon, 21 Sep 2026 01:32:15 -0700 (PDT)
 Received: from andreayoga.wind3.hub ([31.189.116.68])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd10d174sm222806105e9.11.2026.09.21.01.32.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd10d174sm222806105e9.11.2026.09.21.01.32.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 01:32:13 -0700 (PDT)
+        Mon, 21 Sep 2026 01:32:15 -0700 (PDT)
 From: Andrea Parri <parri.andrea@gmail.com>
 To: Christian Brauner <brauner@kernel.org>,
 	"Darrick J . Wong" <djwong@kernel.org>,
@@ -74,9 +74,9 @@ Cc: linux-xfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Andrea Parri <parri.andrea@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH 2/3] iomap: don't lose a fiemap iteration error when emitting the last extent
-Date: Mon, 21 Sep 2026 10:31:32 +0200
-Message-ID: <20260921083133.2960-3-parri.andrea@gmail.com>
+Subject: [PATCH 3/3] iomap: don't lose a failed direct I/O bio's error when zeroing the tail
+Date: Mon, 21 Sep 2026 10:31:33 +0200
+Message-ID: <20260921083133.2960-4-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260921083133.2960-1-parri.andrea@gmail.com>
 References: <20260921083133.2960-1-parri.andrea@gmail.com>
@@ -88,54 +88,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-iomap_fiemap() emits extents one behind: iomap_fiemap_iter() flushes the
-previous extent and remembers the current one, and the remembered extent
-is written with FIEMAP_EXTENT_LAST after the iteration loop.
+iomap_dio_bio_iter() falls through to the sub-block tail zeroing when
+the data bio submission fails, so that the rest of the block is still
+zeroed and stale data is not exposed.  The zeroing result is assigned to
+ret, which overwrites the submission error with the successful zeroing
+result (zero) and the failed write is reported as success.
 
-That final flush overwrites ret, so when ->iomap_begin() fails partway
-through the iteration the error is replaced by the result of
-iomap_to_fiemap() (zero on success) and iomap_fiemap() returns success
-with a truncated extent list whose last entry is wrongly marked as the
-last extent in the file.  The pre-iomap_iter code returned the error
-from inside the loop, before flushing the pending extent.
+Store the zeroing result separately and only use it when the data path
+did not already fail.
 
-Check for the iteration error before flushing the pending extent, so
-that real errors are propagated and only a successful iteration emits
-the final FIEMAP_EXTENT_LAST extent.  -ENOENT (no mapping) is still not
-an error, and the pending extent is still emitted in that case.
-
-Fixes: 7892386d35715 ("iomap: switch iomap_fiemap to use iomap_iter")
+Fixes: 10553a91652d9 ("iomap: fix iomap_dio_zero() for fs bs > system page size")
 Cc: stable@vger.kernel.org
 Assisted-by: LLM
 Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
 ---
- fs/iomap/fiemap.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ fs/iomap/direct-io.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/fs/iomap/fiemap.c b/fs/iomap/fiemap.c
-index d11dadff82865..54b824b7edb5c 100644
---- a/fs/iomap/fiemap.c
-+++ b/fs/iomap/fiemap.c
-@@ -76,15 +76,15 @@ int iomap_fiemap(struct inode *inode, struct fiemap_extent_info *fi,
- 	while ((ret = iomap_iter(&iter, ops)) > 0)
- 		iter.status = iomap_fiemap_iter(&iter, fi, &prev);
- 
-+	/* inode with no (attribute) mapping will give ENOENT */
-+	if (ret < 0 && ret != -ENOENT)
-+		return ret;
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index 8b4039d16ce89..8ae3fe64e475c 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -581,9 +581,14 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
+ 	    ((dio->flags & IOMAP_DIO_WRITE) && pos >= i_size_read(inode))) {
+ 		/* zero out from the end of the write to the end of the block */
+ 		pad = pos & (fs_block_size - 1);
+-		if (pad)
+-			ret = iomap_dio_zero(iter, dio, pos,
+-					     fs_block_size - pad);
++		if (pad) {
++			ssize_t zerror;
 +
- 	if (prev.type != IOMAP_HOLE) {
- 		ret = iomap_to_fiemap(fi, &prev, FIEMAP_EXTENT_LAST);
- 		if (ret < 0)
- 			return ret;
++			zerror = iomap_dio_zero(iter, dio, pos,
++						fs_block_size - pad);
++			if (!ret)
++				ret = zerror;
++		}
  	}
--
--	/* inode with no (attribute) mapping will give ENOENT */
--	if (ret < 0 && ret != -ENOENT)
--		return ret;
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(iomap_fiemap);
+ out:
+ 	/* Undo iter limitation to current extent */
 -- 
 2.53.0
 
