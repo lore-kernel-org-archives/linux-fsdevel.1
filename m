@@ -1,86 +1,224 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DD849159B;
-	Mon, 21 Sep 2026 11:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B71D492188
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 11:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789991177; cv=none; b=E27eFbg0gCxRiwsfe6rdxfjgg9GcP55c1OM4m3ZNvsjnqyr0F3BJgOlYPIPYjwW1X9BvHD5OXe32vVi55sRDTLc+DihfiAJIzu5JJ4xZLEUGLmxqwJJ/5fT9L5KTGBXp1ftmIW505maiLohyIbsIbi6r2leoA7PRKGV/w33fdq8=
+	t=1789991736; cv=none; b=s5MMsKzSmzvphgUZtM9ob+GoGSXSz1GzJuv2A7Fw6bpef/pisIAYh/btZscZFh9SkFWq75IXep7u44YuQlO5ih7a5vrp8DwtegK+Haz07u7TW8Z2Hjx2OOU3TG4/XO0UoGsWcjP/kE+ZCKm9ml9z3Zr0PLTzDiV1jlBwrQWUadk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789991177; c=relaxed/simple;
-	bh=aGolHchF69pSgYYi/IrKtjjJxe6CCoPdbFiSHyQOrOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OpCKNAyECtlx+Z3GldHTquJAKgGLPyrh7/nIVNKVNogMl3CcEs63iDoMdJMIXv+u9QUjpfM/geu959l+iRMgjij0YCD2a3XXCLiBkbDw+/AKTRj95ZLbiz9iJMAIK5tcKXKV7YUr3Q+fpjBcnOI54xOVXtHvy1Bz8W/xNiOxC0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a3yvm8UI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789991736; c=relaxed/simple;
+	bh=DdTVPz1QfbBgtnVhbDH8nDBRYlMIKdCe0cBp7p+nEA4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=aKsUSw3GovXee6mqsIeuU4Qso6+PWZ+l5BGqdMGa3Ca+wOp/7zuFYyl/c8pUPbfGVDHompjHfmtMHqEjhkn1yxyIEcKcj3BlIGUQD7Ws3pUlK0AwtTonmlob5tb6EAeSCJhfA1qlnMLUMOBr/nK0dJWCPAcHHeNK6FQhfsC7k4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=cSt71z95; arc=none smtp.client-ip=74.125.228.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a3yvm8UI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC5401F000FF;
-	Mon, 21 Sep 2026 11:46:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789991175;
-	bh=Bv17kNAfr+GWReaGWxmR3kN67ZtV/gUAsC1CZBpezIk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=a3yvm8UIribTaWHkkdKkMq16EsJ9fl3TfsqIXKIPViYxYqNy9wilZlSiYc1SjT4np
-	 EOsca20qg96+26UeJRSqEyShE/SYBxR4rMMT1ZfEnChNxW+1lfHQ18tzLF4hGUDS7e
-	 ehMs6dPxjozJjPqfl0zKdut2mQO3kBlwPLcfI+Fc7hhiUFn0zmTWnNeZuh5oRyHzwZ
-	 sIEGJL9JYq0KphlaQ0U99eQG2065/RssXY0mn0heUILEwfFImvd48pt0bvt0DivbkV
-	 BcB8+7vBWYCV6DGw9iwhVz4PetdgZeWOoxZPBg1PAlgjVFDufOjZRe+RggvOTMmoR/
-	 wdSGD8aIgBkmw==
-Date: Mon, 21 Sep 2026 13:46:10 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org, 
-	io-uring@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] fork: refuse new threads while a coredump or an
- exec is in progress
-Message-ID: <20260921-aufwiegen-festwagen-ozonkonzentration-ffe78eafa8fa@brauner>
-References: <20260917-work-coredump-fixes-v2-0-f3787fcda051@kernel.org>
- <20260917-work-coredump-fixes-v2-1-f3787fcda051@kernel.org>
- <aq0VLTyxNatFmLOK@redhat.com>
- <20260918-irrsinn-pickt-vermummen-d7167c397398@brauner>
- <20260918-disput-maden-parkdeck-2bc22dd90398@brauner>
- <aq0_lvHDViIpX_Mu@redhat.com>
- <20260918-elstern-potenzieren-marotten-71ebd0744753@brauner>
- <20260918-oliven-lebst-wohltat-c633868711f1@brauner>
- <arEHxPFFrRtvUSPJ@redhat.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="cSt71z95"
+Received: by mail-pz2-f41.google.com with SMTP id d2e1a72fcca58-85469d249c4so2539142b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 04:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1789991734; x=1790596534; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4yFs7aKADwEnqQrd+7DVxwZtTJDiMzxWaAyfpMFtjl0=;
+        b=cSt71z95Pwwd+tl8Zw2fR+SC3BkLWDggRiKFaPPr0J3g2IP+7dHY6POnl0ShDX7sdG
+         1f+uI7s9An7OY0SNe5YDID7gaG0rrWtjrjebL7hnfFe7fpBm2BUc1CWleaT9GMUgVw45
+         CdKGqj44SeBfuUcsdnlh65N0nVUb+ttOKtkbrmbrdZrPEr/BuL4sh7GwWb4RpbkBcCgR
+         urgqhzKnGoYt0k/91UGasM+39x6GtwR+0N7/C3KbKbGaVC8pM6Po+UPaW6Kn3zEdVmrB
+         idikAN8BbRxf6WXAGkVE05O+fsuyFCnvrAvRni8YolBBeBAKBTTc0lGQz8tZqJFvwZhv
+         vXgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789991734; x=1790596534;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4yFs7aKADwEnqQrd+7DVxwZtTJDiMzxWaAyfpMFtjl0=;
+        b=QRRFrjqRxzNJq8+V++lyd3MZ2/FfVLNkIH//6q3Y0srresD/m1ffpQkyoHgC25hhTo
+         F9IZe5bM5eMjf2gK5f0DLN8c3qa4sNnZ7OV7DWsQZr7bJoDJW3vs5yaOMdDx0Q2haw2d
+         CS/sYIMNBKlYjFdvVb9MYDLBhCi26U+tMZkwNrq+4RHSs+pTquNAwZZSjaerb3buJOmx
+         ytAEga2oEQk9XJcn/sznMh/YvVHT4RQ7CjN/1WyHG3k9pEJYlRue0Mu4KkDo9QQstVSh
+         x+UG2yRpNL25hX1bP2mtcSuxCUXpgBkNSFr7eRC/NfD90zpiFS0plfCrcQuJeKRl3LJO
+         Mvqg==
+X-Forwarded-Encrypted: i=1; AKwUvByAEWFNcbhV2GNqaJicEE6UFJYvU4XACfmKrpRTpMiWe4dEapFiKP/QpiiXiJKkdYrMurOlDzBWFH8qK+An@vger.kernel.org
+X-Gm-Message-State: AFuF++mmj/nqGVGqjgKcIdGkXeqqQ3gPKpBcregDwVnL70MXm+ECl24k
+	+lEQex6CJLGvtF8zy5eox0FmqPty45CZs4MlpEBpSZYQxHUyfZ6SO4x44jA3XaYUBi4=
+X-Gm-Gg: AYBFou2fhe0i4k2pUESCUZbLnIbjmRQlKmDU+WuPnbDY+Mcoxjrqc2unxspO7aKlfD6
+	Qb365kIcCxSYb4inn4GrV7WjuEjz9FrW3U2Iq6866AnlxcCvocHdfR68Ucrfqfx+swKgP0Q0cP1
+	3Oohu9PIezWY2BWuOOd7BjJ3wNd4E7EMLScDKiIzrh6HaRft9hn+xBMUc9PvNZgHceYV0L4eHyW
+	Enlbrbq+PZAOq5l5++IoGBdMtl07s/zHKJjN7r+9z2zPGkDsu+AeLhLH5G4c15pwcODlT61lrnc
+	XlZXWND40rksH2k9x7vT5441ihqLWaPMXcRDKg2o2/HR2FsVopZMzTCeYFEfucWxrW+HDFR1jsQ
+	fWci+EdH3WLJ0dkSJ2WMZkfscHLFmxuBtXhzXp5/AUtErkAk2VuU8SxmLOSrxuJJcbesK46h7aS
+	BNrSgdcVVC00RMnahZbOQIJCruRZ4B5H9e/uwdUmrBiBeUgsSs6vGs5aaQV//rCxVVC8NSSB70a
+	ho=
+X-Received: by 2002:a05:6a00:2e2a:b0:878:34d7:6a26 with SMTP id d2e1a72fcca58-87834d76ddfmr7083089b3a.40.1789991733620;
+        Mon, 21 Sep 2026 04:55:33 -0700 (PDT)
+Received: from localhost ([106.38.226.134])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-877a95f915csm3093687b3a.29.2026.09.21.04.55.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 04:55:33 -0700 (PDT)
+From: Julian Sun <sunjunchao@bytedance.com>
+To: linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Cc: axboe@kernel.dk,
+	hannes@cmpxchg.org,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	muchun.song@linux.dev,
+	willy@infradead.org,
+	jack@suse.cz,
+	tj@kernel.org,
+	akpm@linux-foundation.org
+Subject: [PATCH v7 0/3] memcg,writeback: flush foreign bdev mappings separately
+Date: Mon, 21 Sep 2026 19:55:27 +0800
+Message-Id: <20260921115530.1613717-1-sunjunchao@bytedance.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20260917065759.2643940-1-sunjunchao@bytedance.com>
+References: <20260917065759.2643940-1-sunjunchao@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <arEHxPFFrRtvUSPJ@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 21, 2026 at 12:32:36PM +0200, Oleg Nesterov wrote:
-> On 09/18, Christian Brauner wrote:
-> >
-> > zap_process() skips every thread that has PF_POSTCOREDUMP set.
-> > do_exit() sets PF_POSTCOREDUMP in synchronize_group_exit() and calls
-> > io_uring_files_cancel() right after that.
-> >
-> > That runs task work, create_worker_cb() runs and creates a new io-wq
-> > worker. If a thread started a coredump rgith before that worker gets
-> > created from a thread with PF_POSTCOREDUMP set which zap_processes()
-> > doesn't see. So two ways of fixing this:
-> 
-> Christian, I got lost ;)
-> 
-> TBH, I don't understand why the new io worker is really bad in this case.
+Hi,
 
-zap_processes() only counts threads it sends SIGKILL too. But every
-thread that later finds ->core_state decrements that count. An io-wq
-worker created from the exiting thread isn't counted and exits right
-away because the io-wq exit bit is already set. So it decrements without
-having been counted.
+This series avoids owner-wide foreign writeback triggered by dirtying
+shared bdev inodes. Instead, it tracks bdev targets separately and
+schedules writeback of their mappings.
 
-> But lets forget about coredump/zap_process. With the change below the
-> io_uring_files_cancel() paths will no longer be able to create a new
-> worker, even if coredump is not in progress.
-> 
-> Is it correct?
+Problem
+=======
 
-Yes.
+Bdev inodes are commonly shared by many memcgs. Dirtying their pages
+can cause the owner wb to be tracked as foreign, triggering writeback
+of the entire wb rather than just the bdev mapping.
+
+In production, almost all the foreign dirtying we traced came from bdev
+inodes. Across our observations, a bdev mapping had as little as about
+10 MiB of dirty pages, yet foreign flushes targeted the entire owner
+wb. On one machine, we observed 599 such works queued on one wb, with
+an average request budget of about 43 GiB per work.
+
+Measured impact
+===============
+
+The synthetic test used a VM with 4 vCPUs, 8 GiB RAM, ext4 and cgroup
+v2, with device write bandwidth capped at 200 MiB/s. Background fio
+repeatedly overwrote a 256 MiB file using buffered I/O, while
+foreground fio performed sequential direct writes. Four memcgs
+generated metadata and buffered writes to trigger foreign flushes.
+
+We measured completed block writes to the background fio file,
+including final sync, and foreground fio bandwidth, latency and
+completion time.
+
+Across three runs per kernel, mean background file write I/O decreased
+by 72.7%, foreground bandwidth increased by 23.0%, and completion time
+decreased by 18.8%.
+
+Metric                         Baseline    Patched     Change
+Background file write I/O (GiB)    6.154      1.680     -72.7%
+Foreground bandwidth (MiB/s)      150.29     184.81     +23.0%
+Foreground completion time (s)   109.203     88.652     -18.8%
+Foreground mean latency (ms)      212.84     172.74     -18.8%
+
+How it helps
+============
+
+Frequent writeback of the file overwritten by background fio reduces
+the opportunity to coalesce buffered writes in the page cache.
+Several overwrites of the same page can otherwise result in a single
+write of its latest contents. Flushing between updates instead writes
+the same page repeatedly, generating more device I/O for the same
+application writes.
+
+This additional I/O makes the device reach its performance limit
+more easily and competes with foreground I/O for device bandwidth.
+
+The benefit is expected to be most pronounced when these conditions
+occur together on the same device:
+
+1. Limited device bandwidth, as with an HDD, makes the additional
+   writeback I/O more likely to saturate the device.
+2. Multiple cgroups perform buffered overwrites. Frequent foreign
+   writeback reduces write coalescing and increases device I/O.
+3. Concurrent direct I/O bypasses the page cache and competes directly
+   with writeback I/O for device bandwidth.
+
+Approach
+========
+
+Following Jan's suggestion, this series records foreign bdev targets
+separately and flushes their mappings instead of their owner wbs. This
+preserves a way for dirty throttling to initiate bdev writeback while
+avoiding owner-wide writeback triggered by these records. The existing
+foreign-wb mechanism remains unchanged for other inodes.
+
+Tracking is best effort: each memcg keeps a bounded set of device
+numbers without persistent device or inode references. Recording runs
+under mapping->i_pages with IRQs disabled, while dropping a device
+reference can sleep. A memcg that never enters dirty throttling could
+also retain an unused record and pin the device object indefinitely.
+Recording only dev_t avoids these lifetime constraints. Device removal
+and device-number reuse may cause an unintended best-effort flush,
+which is an accepted trade-off.
+
+Writeback submission may block for a long time, with up to four work
+items outstanding per memcg. A dedicated unbound workqueue provides
+a separate max_active budget so these flushes do not exhaust active
+slots on a shared workqueue and delay unrelated work. If allocation
+fails, the existing foreign-wb mechanism remains in use.
+
+This primarily affects filesystems that keep metadata in the bdev page
+cache, such as ext4 and other buffer_head users, rather than the usual
+metadata writeback paths of XFS and Btrfs. The decision still does not
+account for how much of the memcg's dirty memory belongs to the bdev:
+even a single dirty bitmap block can trigger writeback of the entire
+bdev mapping when the memcg enters dirty throttling.
+
+Changes since v6:
+- Drop open_mutex and the openers check from bdev_flush_by_dev(), and
+  add a !CONFIG_BLOCK stub.
+- Follow the existing foreign-wb tracking policy: use timestamps for
+  oldest-first replacement and expiry, and allow dirtying during an
+  in-flight flush to re-arm the record.
+- Replace frn_lock with an atomic in-flight flag.
+- Drop WQ_MEM_RECLAIM and explain the separate max_active budget.
+- Guard bdev work submission when workqueue allocation has failed.
+- Expand the dev_t lifetime rationale and filesystem scope, update
+  the foreign-dirty overview, and drop the Fixes tag.
+
+Changes since v5:
+- Fix repeated overwriting of slot 0 in patch 2 and add comments.
+
+Changes since v4:
+- Add before-and-after performance comparisons to the cover letter.
+
+Changes since v3:
+- Flush foreign-dirtied bdev inode mappings separately, as suggested
+  by Jan.
+
+Thanks.
+
+Julian Sun (3):
+  block: introduce bdev_flush_by_dev()
+  memcg,writeback: flush foreign bdev mappings separately from owner wbs
+  writeback: record bdev targets in foreign writeback tracepoints
+
+ block/bdev.c                     |  18 +++++
+ include/linux/blkdev.h           |   4 +
+ include/linux/memcontrol.h       |  12 +++
+ include/trace/events/writeback.h |  22 ++++--
+ mm/memcontrol.c                  | 124 ++++++++++++++++++++++++++++---
+ 5 files changed, 160 insertions(+), 20 deletions(-)
+
+-- 
+2.39.5
