@@ -1,132 +1,205 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513AF456297
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 08:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EA23749EB;
+	Mon, 21 Sep 2026 08:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789979538; cv=none; b=cGr0E1cB9UPX+2YmUxHQnChvNXX9ykWktACu9ht/UI7RtR4l47dLhXWl0I5SLuyqQUH8xWXzHDE5R9iJeeDnN/S0pW2Bj2ipxxI+RzFATJRnY4uSKw/I2eCzqjYVnWDA9ht5eikJRLlTYb0ijeQyhdqCFIId/snB8O/Kro1S7Ns=
+	t=1789980584; cv=none; b=ABoSzwoPj7rzT2n8DFuWLkwq1lqI7YVABx+/Hrp9Xa4duaaR/3Ql+ib0O0MhpO0QvYQRC1GPiqaKWIRHNXBkLRLEcuI5RvH44ewhVNWz3udZnUsR4eAS4XRrYuTFf4iyDTV3PC/vzCuZVXHG5zUY+GIMowdIEZ9K+kOs/FVWSM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789979538; c=relaxed/simple;
-	bh=6b27Y5R1I/dErxQ51DVfVbmyQ/c01ct05TSMdeHMzBw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LCkZ/rZjuOIpFZNS/kWx0MQp4UJBTKnaan+bFJCNEb0Okscy8HYO9om55ZuGtf/StiQ0tXWkWxSeAikWeybrEKUUKnNhqmzKaE8bUH5LnrU2sJI/lbVtFlhRq9sxb+dXh6TcByMvdY5O0RrKkrouiUJr4WiT7c8iKdNMlJvwDYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wr8bkAIJ; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789980584; c=relaxed/simple;
+	bh=6hnjXTDKgMrZ3v9hMLsWJQuM28aalrFiQWMNBkfsTUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CNlSGKlag2Z+HuzoIp6zEwULNwe3Lt4p8xaD8B9PRsHvmziWVT1QrMyIEXgl6QR80PyCwH2R54Jf9Qd2YUoR58RHniDOsJ19dVGW6qrku7aAZFkyyUnafOy0r09boKP+OOiH0GfZsCP7+tqlUqW9v2OctRAssjLH3Wj1wj5wYX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JeKAo7HA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DRWrUWPE; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r8LH/T/e; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZjbFdMhw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wr8bkAIJ"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d822dso18399365e9.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 01:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789979535; x=1790584335; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bybxefWUQq7gjGvpEQCe+hIa+5aIsa8PecK6A3/B5/4=;
-        b=Wr8bkAIJpxGgqX7bbXJuK19j7Edr9XwMNdoIknGkdxeJ6twZ6WUwpXGHb2Iyt6c9Md
-         0UZVWXt2/TlgQJZxvRNoRn+WzpnOE5dk4NGs5tAoa5pQAeiVsbndQG8KqaKMfupEI22q
-         Zgchk7acHJnevs3PtK9Y/aPW7Yb7BAGFdFSd1HN30+cNkntXFvu+Z5ZRYmbTEOq8cQ8Y
-         qabB/fGmORWROPhm/u24K6bgSz1Sdhhk9W8zbkOF4hHyCdAcKJO0p3vRNmFCblcuqOZm
-         rFYEH3k0704nL8nQ9e8ZUFM7LucKDKQ848VFFoA9Wuwobuxo/DWO1HpiSv1bk6S+ke7s
-         021Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789979535; x=1790584335;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bybxefWUQq7gjGvpEQCe+hIa+5aIsa8PecK6A3/B5/4=;
-        b=ESHDmx1EQsFC7s07d7Pk1adf8YDtUFT+5BPyQgyc3NuXz23dVrB6jdV6xdQGdf6ZMx
-         au4IytQ+QUggZDEBpeDWtOcdyOuJgoBgxnBSJC3AQLVsguJCkMDycPrI8b1SL2xjSyV1
-         enRos6UaCMEsG+O38oSB/lg8WkA3qbpPwzR2QKacm5Nol7RZR2kAlja/sxtgTKPuOSYk
-         HCHFQBtcfyE+byoIUK166riuNuvsOlcFlNOQuhY8nbPvRC9UWF3AplzYrVlU+8pv/MyM
-         NfRKdRtBCdHT5wIBaBkng51XhMQBRmKwT6s3Mqxst6BpKh7S7wkFbloPeDdJAU/2vuAv
-         SFsA==
-X-Forwarded-Encrypted: i=1; AKwUvBwzx6Rvf+7nXRK8NXSpt+lDKBGrL2/cSfxoYNVkm2m+kcwpRqHBIPKGtMJxQR7QaJHfnKXzLG+8Hur95pc+@vger.kernel.org
-X-Gm-Message-State: AFuF++nukETU4zMNQWLFjh7l5JH7vVL6euz0pJdtfebKFOLy6AvEjXmN
-	YaV6zKc2EHq3GsddXlWks1Wn4fhmK2MB8tdZI4q65q4npJ3DZ1X4LI4yXAUxzpjzgZs=
-X-Gm-Gg: AYBFou3n/a8f/VIXMFD2qmZK60k1Fglqnyn2L/KSsNr2rz3bE0/y7Emh1LDTn8YNZsF
-	pToCkjxVDQGemi5ROT3ZuOhYhkR4x7LM/7gpi9w5LYz+hlAXXme0XI7rxZdLoHOvf44A5I4cIkm
-	L26oT90Ry5gGaHW0AnFrDjaakBpX80FvjYEQjllnB/xGNBoNcCdheBIHnx/zeSCJnSUOWVjd1nl
-	la793ScakL37bB1cf4g4z4GEMhPvV696xXCcoKDdplwLGRbdPuUR7kraLhHRvDGgc2IYxRXFrWl
-	vAKuYu78Z+wmeYzV+rvPyQg4enP/BoSfifsBGTAUfPodAbGo7uq13WSsBJH7BgVCj3BAYxUS4nh
-	WA9RirTn507jK0Gi6Zf+CNHLWK/G/T0GhDxcjHj/XgdNqPr+TRH2dNuqLD+Dr2CPt42px9LteIU
-	rXQU8O6zUh0wiwXS8Uf5XR9ghz75eyP7muIt4/9tYmnABbwsTtPDm2ZhTsqlyrsjzrr3zp8XCcW
-	C9pNY7BuxZksz87DmXSqDdXQ4SjabHYYzPR5kmw3bIS
-X-Received: by 2002:a05:600c:c8f:b0:49e:6c9b:4e94 with SMTP id 5b1f17b1804b1-49fc5743124mr136244555e9.28.1789979535490;
-        Mon, 21 Sep 2026 01:32:15 -0700 (PDT)
-Received: from andreayoga.wind3.hub ([31.189.116.68])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd10d174sm222806105e9.11.2026.09.21.01.32.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 01:32:15 -0700 (PDT)
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Brian Foster <bfoster@redhat.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Dave Chinner <dchinner@redhat.com>
-Cc: linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrea Parri <parri.andrea@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH 3/3] iomap: don't lose a failed direct I/O bio's error when zeroing the tail
-Date: Mon, 21 Sep 2026 10:31:33 +0200
-Message-ID: <20260921083133.2960-4-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260921083133.2960-1-parri.andrea@gmail.com>
-References: <20260921083133.2960-1-parri.andrea@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JeKAo7HA";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DRWrUWPE";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r8LH/T/e";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZjbFdMhw"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 811B621C40;
+	Mon, 21 Sep 2026 08:49:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789980576; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c2LhYmfaEH4K/69mzOu0u/lHRbKocb6N3KsMzpZwf6c=;
+	b=JeKAo7HAisAPmCJIzn/9IbhB9/PhvDjJvrwR521c1+MgF5Jmr7MBgOvMASt/uN9hL0lUAV
+	D9PQZDMx33okKP/HVc/9beHAjw5yoQIIhS9a5vRYHiI2c7dMWjrceTSiemngfjHTV8o1RB
+	53xO6hvdUAcc+hQTzP5kt6+Lx8o5SO4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789980576;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c2LhYmfaEH4K/69mzOu0u/lHRbKocb6N3KsMzpZwf6c=;
+	b=DRWrUWPE/SkLMI4r5nujMqh1qcumvQyqdCtWXLydve7Vzbzr/sA15Rc/ObqjiG6uNpZUEX
+	G1VwMjbe8hC9MTAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789980572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c2LhYmfaEH4K/69mzOu0u/lHRbKocb6N3KsMzpZwf6c=;
+	b=r8LH/T/e79FcKo7K1qMt53C0HiYPpdxHHvzA0H7NCWHKlDjYprnjUpyNrIAfAtRn72Iv0X
+	xx0P251dr9Xt9i3fnG5u70Ofk0MI/S2HKJ7hRiBdWw4VacLe5+DGqrBM6fNc3YnJtQCX46
+	RoDNnW7MLDEHrKYIfbYiQ5UlaFXfKCc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789980572;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c2LhYmfaEH4K/69mzOu0u/lHRbKocb6N3KsMzpZwf6c=;
+	b=ZjbFdMhwCYfAwMJQCb2QUusccTaFAdV22sOIjCQEvl7deGjouUIIpLkG4qao6tBCJm9xdj
+	WldpTc9hmqeTz1Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3613F1368D;
+	Mon, 21 Sep 2026 08:49:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id I0IaBZzvsGouTgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 21 Sep 2026 08:49:32 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id BB14FA13D5; Mon, 21 Sep 2026 10:49:23 +0200 (CEST)
+Date: Mon, 21 Sep 2026 10:49:23 +0200
+From: Jan Kara <jack@suse.cz>
+To: Mikko Rantalainen <mikko.rantalainen@peda.net>
+Cc: Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, brauner@kernel.org, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, alx@kernel.org, dalias@libc.org
+Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
+Message-ID: <wb5ulikmcromcpolaf7icazadijmadrspctqe3ffgnm3bffdwe@t4oz5ond537b>
+References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
+ <aqcmz5uI7PgN5CT7@casper.infradead.org>
+ <bcdb8f85-d53a-4824-8e34-8d190ec7f4b2@peda.net>
+ <cf83be66-e540-4abf-b377-7e344d62a1dd@peda.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cf83be66-e540-4abf-b377-7e344d62a1dd@peda.net>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-iomap_dio_bio_iter() falls through to the sub-block tail zeroing when
-the data bio submission fails, so that the rest of the block is still
-zeroed and stale data is not exposed.  The zeroing result is assigned to
-ret, which overwrites the submission error with the successful zeroing
-result (zero) and the failed write is reported as success.
+Hi!
 
-Store the zeroing result separately and only use it when the data path
-did not already fail.
+On Mon 14-09-26 15:40:01, Mikko Rantalainen wrote:
+> Mikko Rantalainen (2026-09-14 12:07 Europe/Helsinki):
+> > ---
+> > retval = filp_flush(file, current->files);
+> > 
+> > WARN_ONCE(retval == -EINTR ||
+> >           retval == -ERESTARTSYS ||
+> >           retval == -ERESTARTNOINTR ||
+> >           retval == -ERESTARTNOHAND ||
+> >           retval == -ERESTART_RESTARTBLOCK,
+> >           "close: ->flush %ps returned interrupt error %d\n",
+> >           file->f_op->flush, retval);
+> > ---
+> > 
+> > That would leave the existing userspace ABI unchanged while making
+> > remaining offending implementations easier to find and fix.
+> > 
+> > I also considered retrying filp_flush() inside close(), but I don't
+> > think that can be done generically. ->flush() is not documented as
+> > safe to restart from the beginning after partial execution, and
+> > an interruptible wait could immediately encounter the same
+> > still-pending signal again. So fixing the interruptibility at the
+> > offending wait seems safer if the above invariant is indeed
+> > the intended one.
+> 
+> Another thing I noticed is that there are already several paths where
+> the kernel calls filp_close() and intentionally ignores its return value.
+> 
+> For example, close_files() does:
+> 
+>     filp_close(file, files);
+> 
+> without checking the result. The same is true for do_close_on_exec(),
+> and close_range() explicitly says:
+> 
+>     Currently, errors to close a given file descriptor are ignored.
+> 
+> So I don't think a ->flush() implementation can rely on returning EINTR
+> and having somebody retry the interrupted operation. There are valid
+> close paths where nobody will ever see that return value, even when the
+> process itself continues running.
+> 
+> This seems to strengthen Matthew's point: if some work performed by
+> ->flush() is required for correctness, that work has to tolerate these
+> close paths without depending on userspace retry. Returning an
+> interruption result cannot be the recovery mechanism.
+> 
+> I'm therefore leaning towards treating an observable -EINTR/-ERESTART*
+> from ->flush() as suspicious in general, rather than just special-casing
+> the close(2) syscall. The fatal-signal case is harmless because the task
+> will not observe the result, but close-on-exec and close_range() show
+> that unobserved filp_close() errors are already part of normal operation
+> as well.
+> 
+> That also makes me think documenting the intended ->flush() contract
+> would be useful: if required close-time work must not depend on the
+> caller retrying filp_close(), that seems like an important invariant for
+> implementations to know.
+> 
+> What guarantees must file_operations::flush provide when its caller may
+> have no way to act on its return value?
+> 
+> In any case, I'm now thinking that returning EINTR for close() is a bug
+> when file descriptor is already freed. I think the only question is how
+> it should be solved. I initially thought it should just be mapped to
+> success. Maybe it should be logged as subsystem bug *and* mapped to
+> success for userspace instead?
 
-Fixes: 10553a91652d9 ("iomap: fix iomap_dio_zero() for fs bs > system page size")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
----
- fs/iomap/direct-io.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+I agree that nobody can sanely assume returning EINTR from open(2) helps
+anything (or that userspace is able to do anything based on that).
+Generally any error (perhaps outside EBADF) from close(2) is at best
+informative telling you that something is unhealthy but userspace cannot
+sensibly do anything about it. OTOH this "something is unhealthy" message
+does carry some value for possible debugging of the issues by sysadmin so
+I'm not sure just ignoring the errors is the right way to go.
 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index 8b4039d16ce89..8ae3fe64e475c 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -581,9 +581,14 @@ static int iomap_dio_bio_iter(struct iomap_iter *iter, struct iomap_dio *dio)
- 	    ((dio->flags & IOMAP_DIO_WRITE) && pos >= i_size_read(inode))) {
- 		/* zero out from the end of the write to the end of the block */
- 		pad = pos & (fs_block_size - 1);
--		if (pad)
--			ret = iomap_dio_zero(iter, dio, pos,
--					     fs_block_size - pad);
-+		if (pad) {
-+			ssize_t zerror;
-+
-+			zerror = iomap_dio_zero(iter, dio, pos,
-+						fs_block_size - pad);
-+			if (!ret)
-+				ret = zerror;
-+		}
- 	}
- out:
- 	/* Undo iter limitation to current extent */
+This raises a question: Are you actually seeing some case where you can see
+EINTR returned? Because IMO the best fix is to just fix the .flush method
+that can return EINTR to do that only in case of fatal signal and then you
+don't have to be doing this special-casing in VFS.
+
+								Honza
+
 -- 
-2.53.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
