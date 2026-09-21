@@ -1,45 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E45B4C10D1;
-	Mon, 21 Sep 2026 17:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68590380FD2
+	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 18:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790013483; cv=none; b=T0LwsbojI20UAoXb7qesBiKE5MtdLMmSBfaLQuz5pDpm8Jug3VNj13OD0CzVWXjkc3IBA53V/BiyHGOxF69UavTzQMagt+B7LcvN6VdSO4VVIaRbgK28U5cydAWJjvXDMiOv7aeAavnmfQFiGoL15BGWyFBPVVacuFS7r1p6g7U=
+	t=1790014074; cv=none; b=tAud7Yk1SIQaPCHg5C2MKi1/CApwIXaqDH/mKz57pEMqiVJZzYP+J/ACifn+U42HVZM/uAmIDpblXC+791KKHWpRutevLz0SUU0Ltc5WuSDaTEMOo9JIVhIr2CdFGa+AqZ69rj/2sbd4vZKIJY6Urs9U2JivevbwqdcjTM5ZZ+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790013483; c=relaxed/simple;
-	bh=ACnVqDRu9L4EX0PIQzq+ln5rZQhr/h9DYNn8XFGJUm8=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PSmAaMr63TIImloQBey7PlsTzEu9Q8Lea+xGZucoESd88z9lbuC64RO2MNlEHcx0b3zct4FZsVNfqWFyaq89h0YkUr1avJWWg65J7n7er8nJW/dEUCh0JGUMxhAlxF1RbFgZpJzbHGOuM386a9jGJlXJ9Ast31TuzXMsq2kMcbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/sDK9og; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790014074; c=relaxed/simple;
+	bh=+T0UsfU3X4YjOf5Y2LRAUCr1O+PNBgrbP5i3+Ui+Rro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fB3msI5VB0FdOUblJTfeY/ifCh2p+wOFOK4/EQ93KHOBSd348HjQec4noHMHXD7syOyAGRyZ8um1lMPvkpH04KiiRWa0oa+lYX3LbdOOidl6KYwdSeBR4BYBMXaqvtHClfbs4iTwaFf3CL5kCQhiI7/q/CO3fbRS6sMqUUn1Mlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fW7KZplf; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/sDK9og"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 904521F000FF;
-	Mon, 21 Sep 2026 17:58:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790013481;
-	bh=VrEKRxhpsxO4YB1Z88WoC1VfhzGFQ3EMsTjDujrRO+w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=R/sDK9ogDpGJxJewL8iIUth9DWQnev+2MEzZXFhD0YypTxIon+lddkV/B5MiXsboO
-	 byMrkKP0wfUx7XngMjTu9nAl2JaQK7zF3Phju/+ez58bU954kYLbxc8z3/4Vc0WgzQ
-	 KOftHb5AUK5N9gFffvyEvRM47sRdl27CRx18LUuqQktKtMjB9/XICkbjwojAmHMCx0
-	 IOUpxI7tR5Dak2iI8yZqV+B2DzvoXQOeYv7BXJA3uNEFbHCW1NXGE79SgsXboqYDFB
-	 G+yzrNcbI31AM4MpDGbVDD6WgYVtVj6uG6HlTqlFELJEHb+bHt6BsCAnyTE5hCf2DX
-	 y4CbMiaMOzh0w==
-Message-ID: <b15c63490f9164bf46d68ff3ec5dfc02@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Julian Sun <sunjunchao@bytedance.com>
-Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, axboe@kernel.dk, hannes@cmpxchg.org,
- mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- muchun.song@linux.dev, willy@infradead.org, jack@suse.cz, tj@kernel.org,
- akpm@linux-foundation.org
-Subject: Re: [PATCH v7 2/3] memcg,writeback: flush foreign bdev mappings
- separately from owner wbs
-Date: Mon, 21 Sep 2026 07:55:17 -1000
-In-Reply-To: <20260921120658.1627992-3-sunjunchao@bytedance.com>
-References: <20260921120658.1627992-1-sunjunchao@bytedance.com>
- <20260921120658.1627992-3-sunjunchao@bytedance.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fW7KZplf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790014071;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ddb+dnisDk6IFrtpOihrh9CoT4KAmSKdN6ihcGxdhtE=;
+	b=fW7KZplfOvrKgDlFK4W8hDq7/ozZ6DZmoXGMprmHhsMUaL/lgccpQagwA0+cZZSrAGNvO3
+	hm+wJ2H/en3e3+Em9ZSduc3VnqY9kCnqfyKt83+cgSIgPKlx2/INUYYuyq2ND5DXza6pIa
+	hNM3YzP8QSgTqSHW5S3BDSYnpapHDZ8=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-21-rQ9njAx6OLyzvpB4FR5SlA-1; Mon,
+ 21 Sep 2026 14:07:39 -0400
+X-MC-Unique: rQ9njAx6OLyzvpB4FR5SlA-1
+X-Mimecast-MFC-AGG-ID: rQ9njAx6OLyzvpB4FR5SlA_1790014057
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 71C611955D78;
+	Mon, 21 Sep 2026 18:07:37 +0000 (UTC)
+Received: from bfoster (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8A7F2195604C;
+	Mon, 21 Sep 2026 18:07:35 +0000 (UTC)
+Date: Mon, 21 Sep 2026 14:07:33 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Andrea Parri <parri.andrea@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Damien Le Moal <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Pankaj Raghav <p.raghav@samsung.com>,
+	Dave Chinner <dchinner@redhat.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] iomap: fix error handling regressions
+Message-ID: <arFyZbS_pTpplxWw@bfoster>
+References: <20260921083133.2960-1-parri.andrea@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,127 +62,44 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20260921083133.2960-1-parri.andrea@gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hello, Julian.
+On Mon, Sep 21, 2026 at 10:31:30AM +0200, Andrea Parri wrote:
+> Fix three independent error handling regressions in iomap:
+> 
+>  - clear the writeback context after a failed ->writeback_submit() call,
+>    preventing an already completed ioend from being submitted again;
+>  - preserve an iomap iteration error when iomap_fiemap() has a pending
+>    extent to emit; and
+>  - preserve a direct I/O data path error when sub-block tail zeroing
+>    succeeds.
+> 
+> The fixes have no ordering dependencies and can be applied or backported
+> independently.  Each issue was reproduced before and after its respective
+> fix.
+> 
 
-This is an AI review. The series was built here, and the bdev reference
-across a racing last close and disk removal, the slot races, and the
-css_free ordering were traced and look correct. Two behavioral notes and
-some description and comment fixups.
+These all look reasonable to me:
 
-On Mon, Sep 21, 2026 at 08:06:57PM +0800, Julian Sun wrote:
-> Use fixed per-memcg slots. Tracking is best effort: record only dev_t
+Reviewed-by: Brian Foster <bfoster@redhat.com>
 
-The slot policy this version adopted, oldest-first replacement, expiry
-after dirty_expire_interval, and re-arming when the mapping is dirtied
-while a flush is in flight, isn't stated anywhere. Can you add a sentence?
+> Andrea Parri (3):
+>   iomap: don't resubmit an ioend after ->writeback_submit() failed
+>   iomap: don't lose a fiemap iteration error when emitting the last
+>     extent
+>   iomap: don't lose a failed direct I/O bio's error when zeroing the
+>     tail
+> 
+>  fs/iomap/direct-io.c | 11 ++++++++---
+>  fs/iomap/fiemap.c    |  8 ++++----
+>  fs/iomap/ioend.c     | 10 +++++++++-
+>  3 files changed, 21 insertions(+), 8 deletions(-)
+> 
+> 
+> base-commit: 93f51579e7df248780214094418f205253383cc5
+> -- 
+> 2.53.0
+> 
 
-> If allocation fails, retain the existing foreign-wb path.
-
-Andrew found this unclear on v6 and the subject is still implied. Something
-like "If the workqueue can't be allocated at boot, bdev inodes keep using
-the existing foreign-wb path."?
-
-> This primarily affects filesystems that keep metadata in the bdev page
-> cache, such as ext4 and other buffer_head users, rather than the usual
-
-The branch keys on sb_is_blkdev_sb(), so buffered writers of raw block
-devices are covered too whenever the bdev inode's wb belongs to another
-cgroup. Worth a mention.
-
-> +struct bdev_frn_flush_ctx {
-> +	struct work_struct work;
-> +	dev_t dev;			/* for bdev inode, device hint */
-> +	u64 at;				/* last recorded dirtying time in jiffies */
-> +	atomic_t inflight;
-> +};
-
-It sits next to memcg_cgwb_frn and is memcg's, so maybe memcg_bdev_frn?
-"for bdev inode, device hint" doesn't say what the value is. Following the
-sibling's comments, "dev_t of the foreign bdev inode", and @inflight could
-use one too.
-
-> + * For non-bdev inodes, when a foreign page - a page whose memcg and
-> + * writeback ownerships don't match - is dirtied,
-> + * mem_cgroup_track_foreign_dirty() records the inode owning bdi_writeback
-> + * on the page owning memcg. When balance_dirty_pages() decides that the
-> + * memcg needs to sleep due to high dirty ratio, it calls
->   * mem_cgroup_flush_foreign() which queues writeback on the recorded
->   * foreign bdi_writebacks which haven't expired.  Both the numbers of
->   * recorded bdi_writebacks and concurrent in-flight foreign writebacks are
->   * limited to MEMCG_CGWB_FRN_CNT.
-
-The flush sentence and the slot limit apply to both paths now, so the "For
-non-bdev inodes" scoping reads wrong. Maybe keep the original paragraph and
-let the new one state only the difference: separate MEMCG_CGWB_FRN_CNT
-slots keyed by dev_t, flushing only the bdev mapping, same expiry.
-
-> + * These wb/bdev_inodes records only remember IDs and don't hold any object
-> + * references. As being wrong occasionally doesn't matter, updates and
-> + * accesses to the records are lockless and racy.
-
-The paragraph above already says the bdev records hold no references, and
-"wb/bdev_inodes records" doesn't parse. "Both kinds of records only
-remember IDs ..." would do.
-
-> +	if (memcg_bdev_frn_wq && bdev_inode &&
-> +	    sb_is_blkdev_sb(bdev_inode->i_sb)) {
-> +		mem_cgroup_track_foreign_bdev(memcg, bdev_inode->i_rdev);
-> +		return;
-> +	}
->
->  	trace_track_foreign_dirty(folio, wb);
-
-With this patch alone, foreign dirtying of a bdev folio no longer hits
-track_foreign_dirty at all and patch 3 adds the call back inside the
-branch. Can you keep the tracepoint firing on the bdev path here so that
-patch 3 only adds the argument? Also, @bdev_inode can't be NULL:
-__folio_mark_dirty() checked folio->mapping under the same lock and
-folio_account_dirtied() already dereferenced mapping->host.
-
-> +static void bdev_frn_flush_work(struct work_struct *work)
-> +{
-> +	struct bdev_frn_flush_ctx *ctx =
-> +		container_of(work, struct bdev_frn_flush_ctx, work);
-> +
-> +	bdev_flush_by_dev(ctx->dev);
-> +
-> +	atomic_set(&ctx->inflight, 0);
-> +}
-
-The in-flight window is now just the submission of the bdev mapping, and
-mem_cgroup_flush_foreign() runs on every throttle-loop iteration, so a
-memcg that keeps dirtying and throttling requeues the flush back to back.
-A folio the flush redirties, e.g. a buffer locked by a jbd2 checkpoint
-write, re-stamps the slot on its own. The old record stayed in flight for
-the whole owner-wb work. With a journal the write cadence of hot metadata
-is still bounded by the commit interval, but for nojournal ext4 and other
-buffer_head users it's bounded only by the throttle pause, for every
-tenant of the filesystem while any tenant throttles. Not measured. The
-description covers the target size but not the cadence.
-
-Each pass also goes through wbc_attach_fdatawrite_inode() and
-wbc_detach_inode(), so it votes in the bdev inode's wb-switch detection
-like the owner-wb flush did, at the higher pass rate. Whether the bdev
-inode ends up switching wbs more often is an open question.
-
-> +		if (memcg_bdev_frn_wq && time_after64(ctx->at, now - intv) &&
-> +		    atomic_cmpxchg(&ctx->inflight, 0, 1) == 0) {
-
-Records are only created when the workqueue exists and @at stays 0
-otherwise, so the wq test can't be false with a live record. Fine as
-documentation, but the cover lists it as a fix.
-
-> +		INIT_WORK(&ctx->work, bdev_frn_flush_work);
-> +		atomic_set(&ctx->inflight, 0);
-
-memcg is zero-allocated, so the atomic_set() isn't needed.
-
-On patch 1, the kerneldoc's "does not wait for all I/O to complete"
-understates it, the flush waits for nothing.
-
-Thanks.
-
---
-tejun
