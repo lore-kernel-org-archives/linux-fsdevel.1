@@ -1,114 +1,76 @@
-Received: from mta1.migadu.com (out-116.mta1.migadu.com [95.215.58.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEAB3AF66E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 08:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5943ADBA2;
+	Mon, 21 Sep 2026 08:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789978840; cv=none; b=JD3w3Qt7u0EQHD0CoW0QKbfg2dVgyYYt14JYOhI2pFhElHyYlL6BhO9gzB6Yltn7hAPijmZ0ALZOCdLCpEJPiVzDsUlSnIBLqAr7NcEghMPONYLmU4m/+1klV3ITzDyO8kf/fMwxf0YzIV3vedF33ZKObNhrCi8Zcf1d341jXo0=
+	t=1789978967; cv=none; b=tPR0S5TbkDSCgGkywEyOt9535JUc2xl2/n6y0Osn6SgOqFsxTIEQ20dSf0KWSsKebdhPjTbh9Sc3fi2jFRwoai8bJhrB+Hb55UEuaeABdcxneyeN3mUr7o86qMg0aVI40iewuhwrOjvADAyI9c/4pwW+UD4tEn5xsrFTZN2EtpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789978840; c=relaxed/simple;
-	bh=aoprAUYmUN2jwm3AkI2t0iJil/x7yD8M/lNnyU1MNmM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k2pCsHs9GTynq88pzktWRP0tWKiCFVdgaJ2y04b4c6IOHHDCAz5a04fiMZVMf5VV9/CBjzsBzMhGu7RNH8EdZzNAFeH5frKJ3CWffHWv2k/uSl10czY7qf4R+iAI4EqDQo6z5+HUT8qmV/0G1wT2yHb+2EWQYdkjeHlxrJz+hu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pbnXMYd1; arc=none smtp.client-ip=95.215.58.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pbnXMYd1"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=aoprAUYmUN2jwm3AkI2t0iJil/x7yD8M/lNnyU1MNmM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789978836; v=1; x=1790583636;
- b=pbnXMYd1TTDYxvKVuHEhnHM68i5nflXaGYTg/MAPcW5x241s8L2cTE6Cg4McgY82bnXkB9BN
- Ds2WIlCp8hucVQ1jbqb8NZNGL43WzXy7dsPIDjJXTdF9/N3ZfhV/JkzxgPm3TtHHXmyJNA1gcNC
- CGyqPD3c+oF929v1pvjwUUyg=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 3d02c4ea80ac0ea7;
-	Mon, 21 Sep 2026 08:20:20 +0000
-X-Mizu-Trace-ID: 3d02c4ea80ac0ea7
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <86f06c26-5318-4196-b792-0662ad64f2bf@linux.dev>
-Date: Mon, 21 Sep 2026 16:20:01 +0800
+	s=arc-20240116; t=1789978967; c=relaxed/simple;
+	bh=f0PWFQhau7H1t+kAwksDAgLgoeg/2x1qOVl/fF8u5rM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LJVf23Iyd9Mreubkl+9n3aBSq19bc2OvQrMJlNAtOrSHQMwneZSnFc2FHZfGN3mt3FqBkUNd877yAaTeSGSt12UNnKE7py9X8oCbu7SrEJhg7sVTBHAEAN67GSBlGxSiwj+5XhoWzFBAYbVM4aTmL5xujVKJbRkilaXM0TAT5wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 05CDC68B05; Mon, 21 Sep 2026 10:22:41 +0200 (CEST)
+Date: Mon, 21 Sep 2026 10:22:40 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: 0wnerD1ed <l7z@0b1t.tech>
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>, Tal Zussman <tz2294@columbia.edu>,
+	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 13/16] xfs: add support for lazy direct read bounce
+ buffering
+Message-ID: <20260921082240.GA19833@lst.de>
+References: <20260909060924.1102037-1-hch@lst.de> <20260909060924.1102037-14-hch@lst.de> <arDN1UdZIydNLUjz@shinmob> <CAKTh27_szTVmVmV26ASynzdJUwQEe49wCxMNq5ifRH9z7tiykA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/17] erofs: mm/pagemap: add readahead_folio_last() to
- avoid folio->private
-Content-Language: en-US
-To: Zi Yan <ziy@nvidia.com>
-Cc: linux-mm@kvack.org, David Hildenbrand <david@kernel.org>,
- Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>,
- Gregory Price <gourry@gourry.net>, linux-kernel@vger.kernel.org,
- Muchun Song <muchun.song@linux.dev>, Gao Xiang <xiang@kernel.org>,
- Chao Yu <chao@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Mike Rapoport <rppt@kernel.org>, Nico Pache <nico.pache@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Lorenzo Stoakes
- <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Qi Zheng <qi.zheng@linux.dev>, Yue Hu <zbestahu@gmail.com>,
- Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale
- <dhavale@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Alistair Popple <apopple@nvidia.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Hongbo Li <hongbohbli@tencent.com>, Kairui Song <kasong@tencent.com>,
- "Liam R. Howlett" <liam@infradead.org>, Chunhai Guo <guochunhai@vivo.com>,
- linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
- Ying Huang <ying.huang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-References: <20260920-remove-pg_private-v5-0-bb68b6a21869@nvidia.com>
- <20260920-remove-pg_private-v5-8-bb68b6a21869@nvidia.com>
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <20260920-remove-pg_private-v5-8-bb68b6a21869@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKTh27_szTVmVmV26ASynzdJUwQEe49wCxMNq5ifRH9z7tiykA@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-
-
-On 2026/9/21 10:28, Zi Yan wrote:
-> erofs needs to traverse readahead folios in reverse order to achieve
-> maximum performance by
-> 1. reading all folios from readahead_folio();
-> 2. storing the prior folio pointer in folio->private;
-> 3. traverse from the last folio to the first one.
+On Mon, Sep 21, 2026 at 04:05:52PM +0800, 0wnerD1ed wrote:
+> Thanks for the report. I've taken a look at the v3 series. block/046
+> deliberately uses iovec lengths of 1, one logical block, and one logical
+> block minus 1 to create the partial extraction state that exposed the
+> original double unpin.
 > 
-> Add readahead_folio_last() to achieve the same function without using
-> folio->private. __readahead_advance() helper shares readahead_control
-> adjustment code among __readahead_folio(), readahead_folio_last(), and
-> __readahead_batch() by checking new private member, _forward, of
-> readahead_control.
-> 
-> It prepares for a future commit that replaces PG_private checks with
-> !folio->private checks. After switching the checks, erofs's use of
-> folio->private without bumping folio refcount can cause unexpected
-> outcomes, e.g., in filemap_release_folio(), try_to_free_buffers() becomes
-> reachable.
-> 
-> No functional change intended.
-> 
-> Assisted-by: LLM
-> To: Gao Xiang <xiang@kernel.org>
-> To: Chao Yu <chao@kernel.org>
-> To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> To: Jan Kara <jack@suse.cz>
-> Cc: Yue Hu <zbestahu@gmail.com>
-> Cc: Jeffle Xu <jefflexu@linux.alibaba.com>
-> Cc: Sandeep Dhavale <dhavale@google.com>
-> Cc: Hongbo Li <hongbohbli@tencent.com>
-> Cc: Chunhai Guo <guochunhai@vivo.com>
-> Cc: linux-erofs@lists.ozlabs.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> ---
+> Patch 13 stops passing IOMAP_DIO_BOUNCE to iomap_dio_rw(), so the
+> request now goes through the ordinary bio_iov_iter_get_pages() path
+> first. That path validates each iovec against bdev_dma_alignment(),
+> and the one-byte first iovec is rejected with EINVAL before it is
+> pinned and before xfs_ioend_submit_read() can select lazy or always
+> bounce mode.
 
-Nothing jumped out at me, feel free to add:
+Yeah, and this is supposed to be rejected.
 
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Setting csum/read_bounce to always therefore would not make this
+> particular request reach the new bounce implementation. Patch 16 also
+> removes bio_iov_iter_bounce_read(), including the special bvec layout
+> that block/046 was written to exercise. Changing the helper to use
+> aligned input and forcing always mode would test the replacement iomap
+> implementation, but it would not preserve coverage of the original
+> regression.
+> 
+> I have prepared a minimal local blktests change that keeps block/046
+> active on kernels using the legacy implementation and marks it not run
+> when the mounted XFS instance exposes the new csum/read_bounce
+> interface. That preserves the existing fixed-versus-vulnerable
+> coverage without treating EINVAL as a successful result. A separate
+> test could cover the new lazy and always implementations with aligned
+> input and an oracle appropriate to those paths.
+
+Sounds good, although trying to exploit things with two small bio_vec
+in general sounds like a good idea..
