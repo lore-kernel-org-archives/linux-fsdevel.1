@@ -1,99 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D40442E8E6;
-	Mon, 21 Sep 2026 08:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0C742E8E6;
+	Mon, 21 Sep 2026 08:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789977991; cv=none; b=Dz/wTfPzwihvVERSs3NtvUOayMYe2+SSwULWH452RbrSeUU9OJV9evo/OY75VAjmRgUAHZqMFA6bXciwGb1kApu0Pkx96WlUXqD1qd8D49sUaI1wCg99TSlY276dg7pcThe6t99ZOIvwSeeMlivA9QO78B2ZN46hU9acae64n20=
+	t=1789978387; cv=none; b=RZfEOJ4d/93MNIac6CPVyz66RIsWO1xWnPAj/YrzOrcspsULm8HmwUENu6I7aZWU8fL7i823E6qUKWsW9waETQmu8ZozdONSghHJO2XWaOXDzr/iaKRqAcbkHRDen04X9V+QwVmAxD5MSYyf4XBOVAykmIsm9WxrjezlrHS+Zf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789977991; c=relaxed/simple;
-	bh=WIQrpDCCx3ENMjfWsa2SNZRhsesCGAy+ijQXVKqbrF4=;
+	s=arc-20240116; t=1789978387; c=relaxed/simple;
+	bh=7ubHUwnQgeZwJTdMCVBpAHpRZgp5fm9qQNJUxYSkBGI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j3Woo1pmouK5t93u3OvSkZMFCtB/n24+lvWckIfYizO/nxSpjCtFgl4zMeO7TdmSovS1YSLfv1YC6xvOr7DKkv5RzSjxVxV9tUQBgzxLaRmJ17LRjPfEXgFOT5FCf2PlYqjYaFsNZaEsPmME122vt0SDlYTmwsecbsIC4GE9b48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PB/bRjpv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=V3j/k6IB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=RRb2nd6M; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aGB9y2oj; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=E52YuADLyTEmzt0LUxtf8S8o8UL2Aj+ag5iij2P59w8hb+L2v//2dy0AlU1VQV6AqqUmaebF8EAqqT/W738dxzuoooniKwxOgu4VaOfDtaRFgPih8JsmorTrWPVAlRTF1xTpiJw4SGKV7R6Nwvy1XJOV8FYHGC7tNfb8s7s1BZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2ZLdpa1L; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Xpr6TW7E; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=l0hJ/V/M; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vwJCUJg0; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PB/bRjpv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="V3j/k6IB";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="RRb2nd6M";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aGB9y2oj"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2ZLdpa1L";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Xpr6TW7E";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="l0hJ/V/M";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vwJCUJg0"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BA8D41F451;
-	Mon, 21 Sep 2026 08:06:18 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 124831F7CD;
+	Mon, 21 Sep 2026 08:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789977982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789978379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=w6xQTiJC4A3BGG4SAmqxQEE2oUyi9a4MKJpUqTuQ2l8=;
-	b=PB/bRjpvJulpMdcPRExe+EJrOHfb6btWjlhBoZk7iWU9ygSQ+g/5WA5amnvwprOwnlwXXw
-	EA/3rzmME5ET5buBn861pP1ESrArwKqPG7ej4rC1HyPCTMTYBz7f48CM59hgmKqkEyREGc
-	6gMoPz9GLNTsMNTpyYw1MsgIwwOcfR0=
+	bh=nhSxmv/SAAAv5T3gGmBqPT13cth57UvtsxdAPpNlmGs=;
+	b=2ZLdpa1LLgLQzDxr+ZeYoHDR3Nd3879OJ+kPAJqjQ/I3MYSkwzaBZ8z4jTFfJRJNbkdIOG
+	+wx1o+h77p4IKObD1t9Z0WY1th6H9pg3AnUFMSrRsTC8mfiPG5UZjOh844cHf9ipnkxIWT
+	1uttao5Lx/mg5SJcoJWDSiz7RPE2eHg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789977982;
+	s=susede2_ed25519; t=1789978379;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=w6xQTiJC4A3BGG4SAmqxQEE2oUyi9a4MKJpUqTuQ2l8=;
-	b=V3j/k6IBn+5rsUvHZcFjg+3NawNmj0iSoJXk82U00+Fb+GuxMLtdXNPlzny5VpIJxe3ZQE
-	ujeTKXag2xZwoVAw==
+	bh=nhSxmv/SAAAv5T3gGmBqPT13cth57UvtsxdAPpNlmGs=;
+	b=Xpr6TW7E4SIycmwpOesib2/mG9x20EmrlYLv3pCzhDlx7+H+ZhhTnbB+DiHLtvXU/qZYuv
+	mAJyveHF8VUcfyCg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=RRb2nd6M;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=aGB9y2oj
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="l0hJ/V/M";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=vwJCUJg0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1789977978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789978375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=w6xQTiJC4A3BGG4SAmqxQEE2oUyi9a4MKJpUqTuQ2l8=;
-	b=RRb2nd6M2AGjT42rjUtZoUh1VyDCbhS8pu6t0KkTSVZNIU8KYd0jrVwPbWDHqMucUo/ka8
-	y/ApUCmx+ZuvoWciuyp6yj9+0yS+7yyn5w2mRqWDQyD5gpDqqmU1a/KsbCvlatKAVLBc18
-	KoygRWcj7w2kkvNSXkBcC4XgteWaXIM=
+	bh=nhSxmv/SAAAv5T3gGmBqPT13cth57UvtsxdAPpNlmGs=;
+	b=l0hJ/V/MJgK59lL5Ttv1j1NErlRj/GWjdsN+MLwvJHgwC0nDUKTpb/JR5VJAwHuwStnhY2
+	QVCDwjzOqXz77DNrTHze57nhohb1MXDqbyfmv2WWWm+9I1ZwoyynoOQniDkKHl42enHY+H
+	6MlVla02ZuHs7mbmFv4kh3TqVFYa7qg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1789977978;
+	s=susede2_ed25519; t=1789978375;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=w6xQTiJC4A3BGG4SAmqxQEE2oUyi9a4MKJpUqTuQ2l8=;
-	b=aGB9y2ojkxPjjVQd6mLGf/SLxxr0G+9/jjD84hyJ4gRVKOseXAWCqs6ctxKaYBs2Cj58iA
-	GSZMb3vtMORvRKBw==
+	bh=nhSxmv/SAAAv5T3gGmBqPT13cth57UvtsxdAPpNlmGs=;
+	b=vwJCUJg0A5bEvRbRGHCA8sww2gnMoG8Yvn/W/iQmzdC8/dtqVMtZpE61ZoNGv7hdX6Z2Zy
+	ChpgcrNjrA4LJRBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A3761368D;
-	Mon, 21 Sep 2026 08:06:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1AB11368D;
+	Mon, 21 Sep 2026 08:12:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ugHVGXrlsGr4GQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 21 Sep 2026 08:06:18 +0000
+	id +/RnJQbnsGosIgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 21 Sep 2026 08:12:54 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 10B47A13D5; Mon, 21 Sep 2026 10:06:14 +0200 (CEST)
-Date: Mon, 21 Sep 2026 10:06:14 +0200
+	id 478ACA13D5; Mon, 21 Sep 2026 10:12:54 +0200 (CEST)
+Date: Mon, 21 Sep 2026 10:12:54 +0200
 From: Jan Kara <jack@suse.cz>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Kiryl Shutsemau <kas@kernel.org>, akpm@linux-foundation.org, 
-	David Hildenbrand <david@kernel.org>, Boris Burkov <boris@bur.io>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
-	Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [RFC PATCH 0/5] mm: sub-folio dirty tracking for PTE-mapped mmap
- writes
-Message-ID: <5kirwmtqsf2pjoknqjlnsognhdukv42w65drtqsiigf4hoki2u@kmecm2oqgdqk>
-References: <20260903182943.662461-1-kirill@shutemov.name>
- <ap6LFvuOuWf_BkGi@thinkstation>
- <aqrDfoFFr8o0Mf0G@casper.infradead.org>
- <aqrJAX6nMTIo6Vnn@thinkstation>
- <aqrPobWbuOdsCnMc@casper.infradead.org>
+To: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+7ff3adde89dd795ad4c4@syzkaller.appspotmail.com, glider@google.com, dvyukov@google.com
+Subject: Re: [PATCH v3] dcache: unpoison the inline name buffer in __d_alloc()
+Message-ID: <b3thqgx2tuxt3afjj3ceok2lr4aotjyzn7r6dgoozjey5c7qyd@zfr5n77z7lmz>
+References: <20260914192926.1591-1-drifabdelmalekmohamedsaid@gmail.com>
+ <20260918224204.3056-1-drifabdelmalekmohamedsaid@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -102,14 +90,14 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aqrPobWbuOdsCnMc@casper.infradead.org>
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: BA8D41F451
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+In-Reply-To: <20260918224204.3056-1-drifabdelmalekmohamedsaid@gmail.com>
 X-Spam-Level: 
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 124831F7CD
+X-Spamd-Result: default: False [-2.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
@@ -117,75 +105,158 @@ X-Spamd-Result: default: False [-4.01 / 50.00];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLuei44pbx3j4kuwi484771zm8)];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[7ff3adde89dd795ad4c4];
 	DKIM_TRACE(0.00)[suse.cz:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,appspotmail.com:email,suse.cz:dkim,suse.cz:email,suse.com:email,syzkaller.appspot.com:url]
 X-Spam-Flag: NO
+X-Spam-Score: -2.51
 
-On Wed 16-09-26 18:19:29, Matthew Wilcox wrote:
-> On Wed, Sep 16, 2026 at 06:09:17PM +0100, Kiryl Shutsemau wrote:
-> > On Wed, Sep 16, 2026 at 05:27:42PM +0100, Matthew Wilcox wrote:
-> > > On Mon, Sep 07, 2026 at 11:15:15AM +0100, Kiryl Shutsemau wrote:
-> > > > My proposal makes the distinction between making the folio writable and
-> > > > making it dirty meaningful. ->page_mkwrite() allocates whatever is needed
-> > > > on the filesystem side to track dirty state and drive writeback for the
-> > > > *folio*, while ->dirty_folio_range() marks part of the folio dirty.
-> > > 
-> > > Why do you think that's a meaningful distinction?  We create a writable
-> > > PTE because we've taken a page fault for write.  There's probably a few
-> > > naoseconds where the PTE is writable+clean before it becomes
-> > > writable+dirty, but even then sometimes we do both pte_mkwrite() and
-> > > pte_mkdirty() as an optimisation in the write fault path.
-> > 
-> > This is true for the PTE that the fault was for. But we don't necessarily
-> > want to dirty the other 511 pages at the same time.
-> > 
-> > The basic idea is to make the whole folio writable at fault and shift
-> > dirtying to be per-PTE on write to it.
+On Fri 18-09-26 23:42:04, Drif Abdelmalek Mohamed Said wrote:
+> syzbot reported:
 > 
-> Hmm.  Is that something that filesystem people want?  I suspect not.
-> I think they'd prefer to be told when we write-fault on each page.
-> But let's see if we can gather feedback from FS people.
+>     BUG: KMSAN: uninit-value in dentry_string_cmp fs/dcache.c:291 [inline]
+>     BUG: KMSAN: uninit-value in dentry_cmp fs/dcache.c:322 [inline]
+>     BUG: KMSAN: uninit-value in __d_lookup_rcu+0x37d/0x5e0 fs/dcache.c:2522
+> 
+>      dentry_string_cmp fs/dcache.c:291 [inline]
+>      dentry_cmp fs/dcache.c:322 [inline]
+>      __d_lookup_rcu+0x37d/0x5e0 fs/dcache.c:2522
+>      lookup_fast+0x194/0xa40 fs/namei.c:1854
+>      lookup_fast_for_open fs/namei.c:4545 [inline]
+>      open_last_lookups fs/namei.c:4579 [inline]
+>      path_openat+0x9ef/0x6540 fs/namei.c:4856
+>      do_file_open+0x2aa/0x680 fs/namei.c:4888
+>      do_sys_openat2+0x17c/0x390 fs/open.c:1395
+>      do_sys_open fs/open.c:1401 [inline]
+>      __do_sys_openat fs/open.c:1417 [inline]
+>      __se_sys_openat fs/open.c:1412 [inline]
+>      __x64_sys_openat+0x240/0x300 fs/open.c:1412
+>      x64_sys_call+0x2445/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:258
+>      do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>      do_syscall_64+0x15d/0x3c0 arch/x86/entry/syscall_64.c:94
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> Uninit was stored to memory at:
+>      copy_name fs/dcache.c:3031 [inline]
+>      __d_move+0xd29/0x21f0 fs/dcache.c:3099
+>      d_move+0x71/0xf0 fs/dcache.c:3147
+>      vfs_rename+0x2619/0x2770 fs/namei.c:6085
+>      filename_renameat2+0xa59/0x1230 fs/namei.c:6188
+>      __do_sys_rename fs/namei.c:6232 [inline]
+>      __se_sys_rename+0xc5/0x5c0 fs/namei.c:6228
+>      __x64_sys_rename+0x78/0xb0 fs/namei.c:6228
+>      x64_sys_call+0x329/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:83
+>      do_syscall_x64 arch/x86/entry/syscall_64.c:63
+>      do_syscall_64+0x15d/0x3c0 arch/x86/entry/syscall_64.c:94
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> Uninit was created at:
+>      slab_post_alloc_hook mm/slub.c:4617 [inline]
+>      slab_alloc_node mm/slub.c:4939 [inline]
+>      kmem_cache_alloc_lru_noprof+0x376/0x1230 mm/s
+>      __d_alloc+0x52/0x9f0 fs/dcache.c:1902
+>      d_alloc+0x57/0x300 fs/dcache.c:1981
+>      lookup_one_qstr_excl+0x19d/0x7a0 fs/namei.c:1806
+>      __start_renaming+0x341/0x850 fs/namei.c:3888
+>      filename_renameat2+0x625/0x1230 fs/namei.c:6163
+>      __do_sys_rename fs/namei.c:6232 [inline]
+>      __se_sys_rename+0xc5/0x5c0 fs/namei.c:6228
+>      __x64_sys_rename+0x78/0xb0 fs/namei.c:6228
+>      x64_sys_call+0x329/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:83
+>      do_syscall_x64 arch/x86/entry/syscall_64.c:63
+>      do_syscall_64+0x15d/0x3c0 arch/x86/entry/syscall_64.c:94
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> The race is between a concurrent open() and rename() of the same path.
+> 
+> __d_alloc() only stores the name itself and its terminating NUL, so the
+> rest of the inline buffer (d_shortname, DNAME_INLINE_LEN bytes) is left
+> uninitialized.  copy_name(), called from rename(), copies that buffer as a
+> whole, so the uninitialized tail is propagated into the dentry that is
+> being moved.  Meanwhile __d_lookup_rcu(), called from open(), is an
+> optimistic lockless lookup: it checks d_name.hash_len first and leaves the
+> seqcount retry to its caller, so it can end up comparing against a dentry
+> whose name a rename is rewriting in place, using a stale (longer) length.
+> The comparison then runs past the terminating NUL and reads bytes of the
+> uninitialized tail, which KMSAN reports.
+> 
+> The read is harmless by design: it stays inside the buffer, the name is
+> still NUL-terminated, and the result is thrown away by the seqcount retry.
+> It is not specific to KMSAN either - with CONFIG_DCACHE_WORD_ACCESS
+> enabled the very same bytes are read by read_word_at_a_time(), which is
+> __no_sanitize_or_inline and therefore invisible to KMSAN.  KMSAN builds
+> only see the instrumented byte-at-a-time dentry_string_cmp() because
+> CONFIG_DCACHE_WORD_ACCESS is disabled when KMSAN is enabled on x86:
+> 
+> commit 7cf8f44a5a1c ("x86: fs: kmsan: disable CONFIG_DCACHE_WORD_ACCESS")
+> 
+> Zeroing the inline buffer would hide the report, but it would add a
+> memset() to a hot allocation path just to initialize bytes that are never
+> used as part of a name.  Instead, tell KMSAN the inline buffer is
+> initialized: kmsan_unpoison_memory() compiles to nothing unless
+> CONFIG_KMSAN is set, and doing it at allocation time is enough for every
+> dentry, because copy_name() and swap_names() copy the whole buffer and
+> thus propagate its shadow.
+> 
+> Reported-by: syzbot+7ff3adde89dd795ad4c4@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=7ff3adde89dd795ad4c4
+> Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
 
-Well, learning about write-fault of each page is certainly a simpler model
-for filesystems to deal with. What Kirill currently does is that the fs
-learns about write-fault of the whole folio (so it prepares space for it)
-but then dirtying happens only for some pages (so under the rest of the
-folio just remain unwritten extents / delalloc reservations). Filesystems
-can accommodate that although it will currently somewhat upset ext4's
-delayed allocation reservation system. We will have there unreclaimable
-in-memory extents tracking these reservations and on inode eviction we'll
-complain they were never used.
+The --- separator should be here. I think Christian can fix this up on
+commit. Otherwise feel free to add:
 
-What might get ugly with current Kirill's approach is if some simpler
-filesystem doesn't have a concept of unwritten extents and delayed
-allocation (like old ext2 or vfat) but still allocates blocks in
-.page_mkwrite to make sure we don't hit ENOSPC / EDQUOT during writeback.
-Then it implicitely relies on current MM behavior of calling .page_mkwrite
-only on pages that cannot be evicted without writeback - if the eviction
-happens, we've just exposed uninitialized on disk data. In fact this is
-what would happen with current ext4 when you turn off delalloc and have old
-indirect-block based inode format, except that ext4 is careful enough to
-dirty all the buffers underlying the folio (and the folio itself) on its
-own so there's no data exposure, we just loose Kirill's optimization.
-
-So overall I don't find unsolvable issues with this but it will certainly
-require some tweaking on fs side.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
+
+> 
+> Changes in v3:
+> - Annotate for KMSAN instead of zeroing, as suggested in review: the read
+>   is harmless, so unpoison the inline buffer in __d_alloc() with
+>   kmsan_unpoison_memory() (a no-op unless CONFIG_KMSAN) rather than adding
+>   a memset() to the dentry allocation path.
+> - Document why only KMSAN builds report this at all: with
+>   CONFIG_DCACHE_WORD_ACCESS the same read goes through
+>   read_word_at_a_time(), which KMSAN does not instrument.
+> - Rewrite the commit message; the previous one had several truncated
+>   lines.
+> ---
+>  fs/dcache.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/fs/dcache.c b/fs/dcache.c
+> index 1b1a81f10da6..a66be85f9d01 100644
+> --- a/fs/dcache.c
+> +++ b/fs/dcache.c
+> @@ -1916,6 +1916,10 @@ static struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
+>  	 * be overwriting an internal NUL character
+>  	 */
+>  	dentry->d_shortname.string[DNAME_INLINE_LEN-1] = 0;
+> +
+> +	/* Racy __d_lookup_rcu() walk may read past the NUL; harmless */
+> +	kmsan_unpoison_memory(dentry->d_shortname.string, DNAME_INLINE_LEN);
+> +
+>  	if (unlikely(!name)) {
+>  		name = &slash_name;
+>  		dname = dentry->d_shortname.string;
+> -- 
+> 2.43.0
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
