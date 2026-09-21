@@ -1,58 +1,35 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0172388891;
-	Mon, 21 Sep 2026 06:56:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6D43AE1BD;
+	Mon, 21 Sep 2026 07:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789973821; cv=none; b=qx6jYE5hnnglCjAWGxGviE99aXxqWY9mUGasfhxA4M+shG5cDKpDu6YFDnumHh0VAmqG7qNMGLpk/JinVLTmWltybKdKvGbE7qznmGmeBeLnlqx6K9D3Vj/cGwX1175b+7cIVlLjQV1IooO2vdQUPfTMo4FlCGBEecimP267dwU=
+	t=1789974659; cv=none; b=DSotJ6hcoHwhQg7sZlmYh5ebb55z/ljcgo2ZtzYhyGs65uARhyZ4ntr4QH3Eixcbb81dqG2k88qi7Kkgo6d74KsyubZ5nQkQeKO2LkdfDGQmO3iz/BbYYocRXry/ha5DZLcI41eYAjngqHMv4MGN2MBN76fcShTkCPHNC7s9DOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789973821; c=relaxed/simple;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
+	s=arc-20240116; t=1789974659; c=relaxed/simple;
+	bh=N8cZnZCKytopLHm1s/MR5SCVYudpCEl7zW+nDZYooCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H3lIVPXz2wzIyRuXQ55IsKWIy5Kt/7USW7JzumHk4lhOoHvTutQCEpNtwFHMUwUSmoMyXIUxmNYysQGgAyEfrV+OnuWItArNbP1H9qYieNX63bodzR1DhlDiQ6cqRYtLG9AiQcN56iXtFPVIPKH9t8vKo45tu58ydta5CWIK4I4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=gE88r/9du2f65xj0JkR8QB+nnZr6nAM7J+OEvByCJeVffepppEMw/61ClAFjuLzPcIG+4eRHBMudUAxWXTtZl5NlH3OBDNkr2272sXg9rcjKj6gEEUQoYhcvN2Quw4aRLBA4rFbaOKPvmm2eQyE6HUWnHbwOLxerbVECjRGa0FY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id CB10D6732A; Mon, 21 Sep 2026 08:56:51 +0200 (CEST)
-Date: Mon, 21 Sep 2026 08:56:51 +0200
+	id 4965268B05; Mon, 21 Sep 2026 09:10:53 +0200 (CEST)
+Date: Mon, 21 Sep 2026 09:10:52 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Yu Kuai <yukuai@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>,
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Coly Li <colyli@fygo.io>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Song Liu <song@kernel.org>, Li Nan <magiclinan@didiglobal.com>,
-	Xiao Ni <xiao@kernel.org>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Yu Kuai <yukuai@fygo.io>,
-	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>,
-	Tao Cui <cuitao@kylinos.cn>, linux-block@vger.kernel.org,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-bcache@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
-	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v4 2/3] blk-cgroup: store blkcg in bio instead of blkg
-Message-ID: <20260921065651.GA13875@lst.de>
-References: <20260920092351.2434283-1-yukuai@kernel.org> <20260920092351.2434283-3-yukuai@kernel.org>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Christoph Hellwig <hch@lst.de>, 0wnerD1ed <l7z@0b1t.tech>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>, Tal Zussman <tz2294@columbia.edu>,
+	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 13/16] xfs: add support for lazy direct read bounce
+ buffering
+Message-ID: <20260921071052.GA14940@lst.de>
+References: <20260909060924.1102037-1-hch@lst.de> <20260909060924.1102037-14-hch@lst.de> <arDN1UdZIydNLUjz@shinmob>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -61,10 +38,25 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260920092351.2434283-3-yukuai@kernel.org>
+In-Reply-To: <arDN1UdZIydNLUjz@shinmob>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Looks good:
+On Mon, Sep 21, 2026 at 03:40:00PM +0900, Shin'ichiro Kawasaki wrote:
+> I found that recent blktests CI trial runs started reporting the failure of
+> the test case block/046 [1]. I confirmed that it is observed with the kernel at
+> the linux-block for-next branch. I bisected and found the this commit triggers
+> the failure. The error message "preadv returned -1 (errno 22)" was printed at
+> src/bio-bounce-read.c line 121 [2].
+> 
+> AFAIU, the test case does direct read to a null_blk with bounce buffer, and the
+> kernel side introduced some new requirements to use bounce buffer for direct
+> I/Os. Then, I guess the test case requires some refinements to meet the new
+> requirements.
+> 
+> 0wnerD1ed, may I ask your help to fix this failure? At this moment, I don't have
+> much time to dig into this.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+From my head the lazy bounce probably means we are not using
+the bounce buffer but instead now doing lazy bouncing.  I'll see
+what causes this.
 
