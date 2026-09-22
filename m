@@ -1,52 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D4333F5B6;
-	Tue, 22 Sep 2026 00:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AAB2EC54A;
+	Tue, 22 Sep 2026 00:32:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790037140; cv=none; b=DNsRqQt8gIzDFQY/yIehkWtj66PjI1z1Gz9KeD3cPIkKPw1CS2rKaunQ29KjsD4BBE/4l8W1ZYHelzpBU/zMRrT2Blc/7x42btKzvNAJ0Gw9GNUKqhNwxp3MW7Xe3Sf75i8l4zU+pA72XbhY+fakjNCJsCDY7ajbt91XtAa/yM0=
+	t=1790037142; cv=none; b=hMCTlZvGp4Z5p6pf2AGikQabdVmUPrUBPdowXM4806oeDVmtifTCzcYBQz1b2ymLIygMMDRKKloyTujsSPU7vldcwQSqPmjd3SNPT0HALBs8nWFxhvFXTZYqOdDAqMLMbCUkIbrcJwGu/41LUPZW359tRdISBQZlXQbsRbdFyI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790037140; c=relaxed/simple;
-	bh=pOlHJ5o3h0eTKEGfK5htB/gt/IweJdH5Z9ZDtcA9SHU=;
+	s=arc-20240116; t=1790037142; c=relaxed/simple;
+	bh=eXYuTenHkmviiP89DV79U/M3G01VwUN3IcB9EPfEUW4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LKXNDIITufTSXpem7p4rYBeZ9zrxriWeUbmP9jUFCnoQlekU45jxHbWeBi1eGGjrqEkp/T+aTI6/hViIXOYeoLZnSwLvo77okQmVMGNA0CNs4JM/6vWM1LAfwuXWKzrYy1tsFbmJ8BOrY1D25/F7Or3nXwEdlnK01bfKnlgL1RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FhudifD4; arc=none smtp.client-ip=192.198.163.15
+	 MIME-Version; b=B/Cl0cJA7P+cV92IVzAt56+/DDVsMXinWJ5dGbomR00gt5M+pET+BufUK/fsrZE0itwIFD/XAkEKSjBpR6W6D6SVmg/GEqBnSOrcDJsyvdVvtTICB6kLOIFrgrz0MOr7em5JjUk1BWxAY2EdX6NJySd4xnmZGFo8I/IUOgn63So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9XRyQBI; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhudifD4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9XRyQBI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790037139; x=1821573139;
+  t=1790037141; x=1821573141;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=pOlHJ5o3h0eTKEGfK5htB/gt/IweJdH5Z9ZDtcA9SHU=;
-  b=FhudifD4556rpGjT5Cp4KrW82omp9ZPr1vgjyNzZPOuv5G8pQKfah8Gq
-   8sFZTFg2ICiuXAbayqyagGQvwKtzns6NufKwl6qq3MHVW4oofmxSdj2NU
-   8I9RtsAUx1lIVonKfxFqYaEzXAJI8Vg6B5W3hmLibe0GhbY5Yxie1AD2A
-   aOvXTU7PDpNHvSl66bc/JtaFmKCvMvrwvC9yG8bhfNThVy2Nr520133Zl
-   kt0XuAnqNWFHjrmcPY1vE8eykoIROUQNVMJj0ITUiSVbO1/dnnOGqECEv
-   P/4a5rJv8y6ato2oVnDCms2OSeZvFY1PWnBnPsuqg2b6UzvLvt7phnTrr
-   w==;
-X-CSE-ConnectionGUID: 2HVDypgkSkqi9/Ni2KNgmw==
-X-CSE-MsgGUID: 6/Z09I8yR7+3cv9RoSXsaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90716718"
+  bh=eXYuTenHkmviiP89DV79U/M3G01VwUN3IcB9EPfEUW4=;
+  b=U9XRyQBIhTTNdK4VVoWiUZ89RPpp+PS1pe0RGsJRAK3ijKxClGCvELgW
+   UlwF/oAWb0hN+VeJ7cyQjwAw8Xs7uRxkbN1nzVX8c/vQvYrtCHM0r/EmQ
+   5XFenk12usnV3pkK2DgVq74McDz6kRPmsVNB+Q9/Mxb3KXuoQEOUNET7p
+   rRmZynx+sVCqPyghi7KbCQpTl976Ti7AvGmj8+r147tm11KfP1CyhFcP0
+   zGe23Xcv5FEw4k+pUegEyYgnWeqPIzpVeUxmRkNs1LVr+fGHYAAbXGLIS
+   X4s0wLTjj2ErzVEZYjF8ayu0P8gFD+feFkVraXPT9oF+WW0RfIi96Y8U7
+   A==;
+X-CSE-ConnectionGUID: wnmUxw7ORdaYBM9mx5Io/w==
+X-CSE-MsgGUID: 8nca5NqhQcGqJ8QgLNsFEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90716741"
 X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
-   d="scan'208";a="90716718"
+   d="scan'208";a="90716741"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 17:32:18 -0700
-X-CSE-ConnectionGUID: FK5iBX5YTM+jt9J2U/V1QQ==
-X-CSE-MsgGUID: dAaD2tWDQOCsMtP+fuKQ9Q==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 17:32:20 -0700
+X-CSE-ConnectionGUID: gRU2xwr9RXGJBzfMN92iYw==
+X-CSE-MsgGUID: NTHk847jRTG3cUQ0MrdRsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
-   d="scan'208";a="277671907"
+   d="scan'208";a="277671922"
 Received: from b04f130c83f2.jf.intel.com ([10.165.154.98])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Sep 2026 17:32:17 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 21 Sep 2026 17:32:19 -0700
 From: Tim Chen <tim.c.chen@linux.intel.com>
 To: Peter Zijlstra <peterz@infradead.org>,
 	Ingo Molnar <mingo@redhat.com>
-Cc: Chen Yu <yu.c.chen@intel.com>,
+Cc: Davi Chaves Azevedo <davichazbh@gmail.com>,
 	Juri Lelli <juri.lelli@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Dietmar Eggemann <dietmar.eggemann@arm.com>,
@@ -65,6 +65,7 @@ Cc: Chen Yu <yu.c.chen@intel.com>,
 	Srikar Dronamraju <srikar@linux.ibm.com>,
 	Vineeth Remanan Pillai <vineethr@linux.ibm.com>,
 	Ricardo Neri-Calderon <ricardo.neri-calderon@linux.intel.com>,
+	Chen Yu <yu.c.chen@intel.com>,
 	Lu Wang <wanglu.priv@gmail.com>,
 	Hyunwoo Kim <imv4bel@gmail.com>,
 	Zhan Xusheng <zhanxusheng@xiaomi.com>,
@@ -79,9 +80,9 @@ Cc: Chen Yu <yu.c.chen@intel.com>,
 	linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org,
 	stable@kernel.org
-Subject: [PATCH v2 5/6] sched/cache: Skip kernel thread for cache aware scheduling
-Date: Mon, 21 Sep 2026 17:37:26 -0700
-Message-Id: <058f0c6ea7b991c177a17de347fa3157f25489a7.1790035273.git.tim.c.chen@linux.intel.com>
+Subject: [PATCH v2 6/6] sched/cache: Refresh LLC capacity across CPU hotplug
+Date: Mon, 21 Sep 2026 17:37:27 -0700
+Message-Id: <6751d93e15889e624796c74db0bfe66603d60b1b.1790035273.git.tim.c.chen@linux.intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1790035273.git.tim.c.chen@linux.intel.com>
 References: <cover.1790035273.git.tim.c.chen@linux.intel.com>
@@ -93,47 +94,160 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chen Yu <yu.c.chen@intel.com>
+From: Davi Chaves Azevedo <davichazbh@gmail.com>
 
-Kernel thread should not be covered by cache aware scheduling as
-it borrows the statistics from the user space thread. Filter the
-kernel thread in account_mm_sched().
+The scheduler scales LLC capacity by the fraction of cache-sharing CPUs
+covered by a domain:
 
-In theory a kernel thread does not have any valid
-cache group, so !grp should gate the kernel thread.
-Add the PF_KTHREAD check explicitly here for safety
-reasons, to guard against future modifications and
-to pair with task_tick_cache().
+  llc_bytes = cache_size * span_weight / shared_weight
 
-Fixes: df0d98475954 ("sched/cache: Introduce infrastructure for cache-aware load balancing")
+During CPU teardown, sched_cpu_deactivate() rebuilds scheduler domains
+before cacheinfo_cpu_pre_down() removes the CPU from shared_cpu_map. The
+new domains therefore use the old sharing weight. The later call to
+sched_update_llc_bytes() looks up the departing CPU's sd_llc, which has
+already been detached, and returns without correcting the surviving CPUs.
+
+On a Ryzen 5 7535U with twelve logical CPUs sharing a 16 MiB LLC,
+offlining one SMT sibling left the remaining CPUs with:
+
+  llc_bytes = floor(16777216 * 11 / 12) = 15379114 bytes
+
+The correct capacity is still 16777216 bytes. On systems with active
+cache-aware scheduling, an underestimated capacity can cause
+exceed_llc_capacity() to reject aggregation for a process whose footprint
+would fit. Unchanged cpuset partitions sharing the physical cache can
+also retain stale capacity when a CPU comes online in another partition.
+
+Pass the cache-sharing mask already retained by cacheinfo to the
+scheduler update. Refresh every surviving CPU using its own LLC domain
+so that each partition receives the correct share. This also preserves
+the correction needed as cache-sharing maps grow during boot.
+
+Keep the existing CPU-hotplug and scheduler-domain synchronization. The
+update remains on the hotplug path; no steady-state scheduling operation
+or persistent allocation is added.
+
+Fixes: 7030513a0877 ("sched/cache: Calculate the LLC size and store it in sched_domain")
+Signed-off-by: Davi Chaves Azevedo <davichazbh@gmail.com>
+Reviewed-by: Chen Yu <yu.c.chen@intel.com>
+Tested-by: Chen Yu <yu.c.chen@intel.com>
+Reviewed-by: Tim Chen <tim.c.chen@linux.intel.com>
+Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
+Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
 Cc: stable@kernel.org #7.2.x
-Signed-off-by: Chen Yu <yu.c.chen@intel.com>
 Signed-off-by: Tim Chen <tim.c.chen@linux.intel.com>
 ---
- kernel/sched/fair.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/base/cacheinfo.c       | 11 ++++++-----
+ include/linux/sched/topology.h |  4 ++--
+ kernel/sched/topology.c        | 22 +++++++++++++---------
+ 3 files changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 3e2d236be2a3..341d2f9ed72b 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -1805,8 +1805,14 @@ void account_mm_sched(struct rq *rq, struct task_struct *p, s64 delta_exec)
- 	/*
- 	 * init_task, kthreads and user thread created
- 	 * by user_mode_thread() don't have a cache group.
--	 */
--	if (!grp || !grp->pcpu_sched)
-+	 * In theory a kernel thread does not have any valid
-+	 * cache group, because sched_cache_fork() is not
-+	 * invoked for a kernel thread - !grp should gate the
-+	 * kernel thread. Add the PF_KTHREAD check explicitly
-+	 * here for safety reasons, to guard against future
-+	 * modifications and to pair with task_tick_cache().
-+	 */
-+	if (!grp || p->flags & PF_KTHREAD || !grp->pcpu_sched)
- 		return;
+diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
+index 9f9c72727a05..7a47a392568a 100644
+--- a/drivers/base/cacheinfo.c
++++ b/drivers/base/cacheinfo.c
+@@ -1040,9 +1040,10 @@ static int cacheinfo_cpu_online(unsigned int cpu)
+ 	rc = cache_add_dev(cpu);
+ 	if (rc)
+ 		goto err;
+-	if (cpu_map_shared_cache(true, cpu, &cpu_map))
++	if (cpu_map_shared_cache(true, cpu, &cpu_map)) {
+ 		update_per_cpu_data_slice_size(true, cpu, cpu_map);
+-	sched_update_llc_bytes(cpu);
++		sched_update_llc_bytes(cpu_map);
++	}
+ 	return 0;
+ err:
+ 	free_cache_attributes(cpu);
+@@ -1059,10 +1060,10 @@ static int cacheinfo_cpu_pre_down(unsigned int cpu)
+ 		cpu_cache_sysfs_exit(cpu);
  
- 	pcpu_sched = per_cpu_ptr(grp->pcpu_sched, cpu_of(rq));
+ 	free_cache_attributes(cpu);
+-	if (nr_shared > 1)
++	if (nr_shared > 1) {
+ 		update_per_cpu_data_slice_size(false, cpu, cpu_map);
+-
+-	sched_update_llc_bytes(cpu);
++		sched_update_llc_bytes(cpu_map);
++	}
+ 
+ 	return 0;
+ }
+diff --git a/include/linux/sched/topology.h b/include/linux/sched/topology.h
+index b5d9d7c2b8ad..f96812d71c51 100644
+--- a/include/linux/sched/topology.h
++++ b/include/linux/sched/topology.h
+@@ -281,9 +281,9 @@ static inline int task_node(const struct task_struct *p)
+ }
+ 
+ #ifdef CONFIG_SCHED_CACHE
+-extern void sched_update_llc_bytes(unsigned int cpu);
++extern void sched_update_llc_bytes(const struct cpumask *cpus);
+ #else
+-static inline void sched_update_llc_bytes(unsigned int cpu) { }
++static inline void sched_update_llc_bytes(const struct cpumask *cpus) { }
+ #endif
+ 
+ #endif /* _LINUX_SCHED_TOPOLOGY_H */
+diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+index 0248227d983a..3dab0253976f 100644
+--- a/kernel/sched/topology.c
++++ b/kernel/sched/topology.c
+@@ -985,8 +985,8 @@ void sched_cache_active_set(void)
+ }
+ 
+ /*
+- * Update the bottom sched_domain's llc_bytes for @cpu and all its
+- * LLC siblings. Called from cacheinfo_cpu_online() or
++ * Update the bottom sched_domain's llc_bytes for @cpus sharing a physical
++ * LLC. Called from cacheinfo_cpu_online() or
+  * cacheinfo_cpu_pre_down() with cpu hotplug lock held.
+  *
+  * Note: get_effective_llc_bytes() returns 0 on PowerPC.
+@@ -996,17 +996,13 @@ void sched_cache_active_set(void)
+  * and does not populates the per-CPU struct cpu_cacheinfo array
+  * that get_cpu_cacheinfo_llc() reads.
+  */
+-void sched_update_llc_bytes(unsigned int cpu)
++void sched_update_llc_bytes(const struct cpumask *cpus)
+ {
+ 	struct sched_domain *sd, *sdp;
+ 	unsigned int i;
+ 
+ 	sched_domains_mutex_lock();
+ 
+-	sdp = rcu_dereference_sched_domain(per_cpu(sd_llc, cpu));
+-	if (!sdp)
+-		goto unlock;
+-
+ 	/*
+ 	 * ci->shared_cpu_map is built incrementally as CPUs come
+ 	 * online, so the first CPU in an LLC initially sees
+@@ -1014,14 +1010,22 @@ void sched_update_llc_bytes(unsigned int cpu)
+ 	 * get_effective_llc_bytes().  Re-evaluating every LLC
+ 	 * sibling on each online event corrects this once the full
+ 	 * shared_cpu_map is known.
++	 *
++	 * The departing CPU's domains have already been detached when
++	 * cacheinfo removes it. Use the surviving cache siblings instead.
++	 * They may belong to different cpuset partitions, so use each CPU's
++	 * own LLC domain to scale its share of the physical cache.
+ 	 */
+-	for_each_cpu(i, sched_domain_span(sdp)) {
++	for_each_cpu(i, cpus) {
++		sdp = rcu_dereference_sched_domain(per_cpu(sd_llc, i));
++		if (!sdp)
++			continue;
++
+ 		sd = rcu_dereference_sched_domain(cpu_rq(i)->sd);
+ 		if (sd)
+ 			sd->llc_bytes = get_effective_llc_bytes(i, sdp);
+ 	}
+ 
+-unlock:
+ 	sched_domains_mutex_unlock();
+ }
+ 
 -- 
 2.32.0
 
