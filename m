@@ -1,145 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3493D470EA8;
-	Mon, 21 Sep 2026 23:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15BD2C11E4;
+	Tue, 22 Sep 2026 00:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790034552; cv=none; b=IO5jRr+A69GokRFnOPaSUK3c2CKGHCYaJi/T5EBc4b+2XbNJo+Gf7dcBAbOZwGiZ3CjsJvL7oYsBtYfQn0bg3C6R11A7G0EHtdvMrYOSETZE3hvQDLTa4IX+DNanXXDdHp2OP5NIf9aQfwb21Vdb3TlreBzTkkSpDgg80Vqsofw=
+	t=1790037132; cv=none; b=U1e7yObdUQTI7ez+rKig9HAMuUMSRKB1qTeKH5RuwaMhIXlD8ZFwHSQpZsBNimQlAwRXfUehLXO0uDS9TxLEM8aGZw0wHN2dzTokIdCJE9hFEc7bLr6oodEERFKRdkp9xonvd9GCPLb2j2HCrajNMrpwbkvWrmMbQxhIwzKtDH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790034552; c=relaxed/simple;
-	bh=sxAkHqTPTG+FHZSO72A/k9PBbKfyid3Xe+Vt7iJNS8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LLwN54eSFCsn7ZnDtcncq3dRknoERVQTZWC8fVtFuVh8zn+GWn3+8SLQgGPa23GrWxP1w7nHKEaeoLwBINRWgrz1rIM3f5ZI+A+Oqf8d1XO2GFbIptOBTTo/m0LdlioC8OS+swRlpX2yUZEXUOTpUSkIwwDqPVgIe2rqHPbczmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BpHDygNE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790037132; c=relaxed/simple;
+	bh=Wd3ZbLadIrxogGODGsbFUG0pKS13H7GZOCBaz6h5tGk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Cr+VIJgpZ07W2jd2jAQ9LBP83xCTm4tLuknDtrA2lofM348dUY2IHCu7b8+Brd1Tsgxxi5oIqEm45pnJqKwNu2jY7YsYDUPHEJmwg7C0k2a6XgKSZzmQZOBIzhS3b8IDxp7VCb4QHDo1Exe0N2T1Pzl6MYsQ2kAyhVUIBDDBKYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e8gwRJEM; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BpHDygNE"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8A6041F000FF;
-	Mon, 21 Sep 2026 23:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790034550;
-	bh=fkWrJTpYBRZ2+QAbaTLvdz++3oPbNjmqWTJdXwsbXPI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BpHDygNEkWxOEirG4DGvgTfW1hxIVA8/sW5MxC7GGXZZvewfZ3kdD10WHma9PWIgv
-	 4Xjn9grUtitPkR9vUIZY3h5L9nr8fu7f+gdInJHiS2LwgDTlCMsy82T9VZwOhIcGsF
-	 nbDXiHAlLbUpvXnmNd35h6XpUKZ/npKZYq5bWQgS6AoB54h2VFtxNlHLrYpzg1Yj/n
-	 dKCKVoj6bNsxQLpkDh2F1alToZXj58586+3kOVhOn/T7a5ECupNEoUdFQY8KuZBtz7
-	 tKduJeHgcFUkI30V9+sHmCBXM9cXwbAJ230fpHXChmA/5bChfVsCUPDWCWinYIzvfd
-	 hmWKwAf+WO6Aw==
-Date: Mon, 21 Sep 2026 16:49:10 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Baokun Li <libaokun@linux.alibaba.com>
-Cc: fstests@vger.kernel.org, zlang@kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-	sandeen@redhat.com, dgc@kernel.org
-Subject: Re: [PATCH] generic/492: bypass the blkid cache when probing the
- label
-Message-ID: <20260921234910.GC6253@frogsfrogsfrogs>
-References: <20260920094137.2749428-1-libaokun@linux.alibaba.com>
- <20260921052719.GB6253@frogsfrogsfrogs>
- <b4a10712-1658-4fba-a037-095fab466270@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e8gwRJEM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790037131; x=1821573131;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Wd3ZbLadIrxogGODGsbFUG0pKS13H7GZOCBaz6h5tGk=;
+  b=e8gwRJEMD2FDhUkZzET52d9Xg3PWguCO3GZmlerxYbhXzecznXwhS07I
+   5iY9d0AoFCCD40XfEMadkWixXa4KJf9iDdn1qtAj3g66KUYubLW35aaWp
+   767szZ7n02SZNnos8xLuZ32sDW8VBOOJtyQSXluWp/XoWrjUAycct8Uat
+   CJlUDDDoe/TcQHjwHYhtR+S35Y7zCdCX0R5u+KGT83c2JNW89ecrY3RY9
+   pnzT2kTI6eTH4kqURpAXi3tZ1oB0hW4w+SU680lPpKvZLVpMgpYvQUioU
+   flHF3uoPBFihNA0zhAlsEqVd99/PEB3WW14Y4dMiflsEpv12Tfcrv+0kn
+   Q==;
+X-CSE-ConnectionGUID: V7jyWxyUTS+1K/ASIbzmQA==
+X-CSE-MsgGUID: fBZ5tOImTYG+eU97gKUMmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90716608"
+X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
+   d="scan'208";a="90716608"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 17:32:10 -0700
+X-CSE-ConnectionGUID: BDhRwhlWS2WlwcRAJYSMqg==
+X-CSE-MsgGUID: /lnVmbWfSv+H+9fuhFCkJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
+   d="scan'208";a="277671805"
+Received: from b04f130c83f2.jf.intel.com ([10.165.154.98])
+  by fmviesa004.fm.intel.com with ESMTP; 21 Sep 2026 17:32:08 -0700
+From: Tim Chen <tim.c.chen@linux.intel.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Qais Yousef <qyousef@layalina.io>,
+	Aaron Lu <ziqianlu@bytedance.com>,
+	Srikar Dronamraju <srikar@linux.ibm.com>,
+	Vineeth Remanan Pillai <vineethr@linux.ibm.com>,
+	Ricardo Neri-Calderon <ricardo.neri-calderon@linux.intel.com>,
+	Chen Yu <yu.c.chen@intel.com>,
+	Lu Wang <wanglu.priv@gmail.com>,
+	Hyunwoo Kim <imv4bel@gmail.com>,
+	Zhan Xusheng <zhanxusheng@xiaomi.com>,
+	Zhan Xusheng <zhanxusheng1024@gmail.com>,
+	Yi Lai <yi1.lai@intel.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Zenghui Yu <zenghui.yu@linux.dev>,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 0/6] sched/cache: Fixes for cache aware scheduling
+Date: Mon, 21 Sep 2026 17:37:21 -0700
+Message-Id: <cover.1790035273.git.tim.c.chen@linux.intel.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b4a10712-1658-4fba-a037-095fab466270@linux.alibaba.com>
 
-On Mon, Sep 21, 2026 at 05:07:48PM +0800, Baokun Li wrote:
-> Hi Darrick,
-> 
-> On 2026/9/21 13:27, Darrick J. Wong wrote:
-> > On Sun, Sep 20, 2026 at 05:41:37PM +0800, Baokun Li wrote:
-> >> blkid may serve a stale label from its cache instead of probing the
-> >> device, so the label just set via xfs_io can be missed and the output
-> >> mismatch is non-deterministic.
-> >>
-> >> Pass "-c /dev/null" so that blkid always probes the on-disk superblock
-> >> directly.  Unlike the low-level probing mode (-p), which requires
-> >> util-linux 2.16 or later, this is also supported by the legacy blkid
-> >> shipped with e2fsprogs.
-> >>
-> >> Fixes: c3c9630968a6 ("generic: test online label ioctl")
-> >> Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
-> > Seems fine to me; I guess blkid could be racing with whatever updates
-> > the cache...udev?
-> 
-> 
-> Not a race, and not related to udev.  It's a long story; details below.
-> 
-> In the xfstests-bld appliance blkid is e2fsprogs' legacy blkid and its
-> cache is /etc/blkid.tab; the only writers are blkid itself and
-> e2fsprogs' fsck (both probe with the cache enabled).  systemd's udev
-> uses libblkid's low-level probe API and never touches this file.
-> 
-> What we hit is a strictly sequential sequence that depends on two
-> "same second" coincidences.  The cache validity check (blkid_verify()
-> in lib/blkid/probe.c) is:
-> 
->     now >= TIME && mtime(seconds) <= TIME && age < 2s
-> 
-> Both sides are in seconds, and only the 2s window applies to a fresh
-> blkid process (BLKID_BID_FL_VERIFIED is not persistent).
-> 
-> mkfs only advances the device mtime and never updates the cache; the fs
-> label ioctl updates neither, so right after setting a new label a
-> cached lookup can still return the old one.
-> 
-> The trap is set by _check_scratch_fs: it runs "fsck -t ext4 ...", which
-> probes the device with the cache enabled and writes the entry back with
-> TIME=now and the current label state.
-> 
-> Here is a sequential 490/491/492 run that trips it (timestamps from a
-> CI log, ext4/bigalloc_1k):
-> 
->     M-2  09:09:44  end of 490: fsck finds the previous entry stale
->                    (age >= 2s) -> probes -> tab = {no LABEL, TIME=44}
-> 
->     M-1  09:09:45  start of 491: mkfs -> device mtime = 45
->                    (mkfs doesn't update the cache; tab stays TIME=44)
->     M    09:09:46  end of 491: unmount + _check_scratch_fs
->                    -> fsck sees mtime(45) > TIME(44) -> probes
->                    -> tab = {no LABEL, TIME=46}          <- trap
-> 
->     M    09:09:46  start of 492: mkfs -> device mtime = 46
->     M    09:09:46  mount; ioctl label="label.492" (mtime unchanged)
->     M    09:09:46  blkid(35): mtime(46) <= TIME(46), age < 2s
->                    -> cache deemed valid, no probe -> prints no LABEL
->     M+1  09:09:47  umount; blkid(39): still < 2s -> again
->     M+1  09:09:47  check reports output mismatch (two lines missing)
-> 
-> The difference between the e2fsprogs and util-linux libblkid is the
-> time granularity: the former stores seconds only (TIME="%ld",
-> bid_time = time(0), compares st_mtime <= bid_time), while the latter
-> stores usec (TIME="sec.usec") and has an nsec tie-break in the compare,
-> so the same-second case is much easier to hit with the e2fsprogs blkid.
+Hi all,
 
-[add ext4 list to cc]
+This is an update of the patches to fix cache aware scheduling issues
+found in v7.2.
 
-Perhaps xfstests-bld should use the system blkid then?  IIRC the one
-in e2fsprogs is very old and out of date.
+We collect the fixes in this series so it is easier to track. We have
+added two new fixes for issues found since v1 of this series.
 
---D
+Patch 1: alb_break_llc() compares nr_pref_llc_running with
+cfs.h_nr_runnable, but those count different sets - one follows queued
+tasks, the other drops delay-dequeued ones.  With DELAY_DEQUEUE the
+equality stops holding and active balance pulls a task off its preferred
+LLC.  So fix the counter.  Reported by Zhan Xusheng:
+https://lore.kernel.org/lkml/20260827135000.735138-1-zhanxusheng@xiaomi.com/
 
-> 
-> The patch avoids this by probing with -c /dev/null (the legacy blkid
-> has no -p).  Reproduced on ext4/bigalloc_1k: unpatched 10 of 65 runs
-> fail, patched 120/120 pass.
-> 
-> 
-> >
-> > Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-> >
-> > --D
-> 
-> 
-> Thanks for the review!
-> 
-> Cheers,
-> Baokun
-> 
-> 
+v1->v2: Minor code rearrangements in set_delayed().
+
+Patch 2 (Lu Wang): the stopper doing active load balance builds a fresh
+lb_env that doesn't inherit migration_type, so can_migrate_task() can
+move a task *out* of its preferred LLC.  A new LBF_ACTIVE_LB_LLC flag
+and picking the stopper callback at kick time keep the intent; passing
+migration_type through the stopper would muddy delayed dequeue.  v4:
+https://lore.kernel.org/lkml/20260903020656.3793626-1-wanglu.priv@gmail.com/
+
+v1->v2: No change.
+
+Patches 3-4 are for the use after free Hyunwoo Kim caught with KASAN:
+https://lore.kernel.org/lkml/apPb-Dr4nPYuHQOK@v4bel/
+account_mm_sched() reaches the stats via p->mm->sc_stat, but a task can
+be switching mm on one CPU while another is inside account_mm_sched(),
+so the mm and the stats inside it can go away underneath.  Locking the
+rq in the mm free path felt like the wrong trade, so patch 4 pulls
+sched_cache_stat out of mm_struct into a refcounted, RCU freed
+sched_cache_group - just moving code - and patch 4 does the real fix:
+each task takes its own reference (copy_mm(), exec_mmap(), dropped in
+exit_mm()), and leverage call_rcu() to to protect
+against UAF in account_mm_sched() so the group outlives any mm switch.
+Zehnghui Yu also independentaly found this issue with memory poison.
+https://lore.kernel.org/all/343a7e07-7fad-4979-9c9b-82ec038c293c@linux.dev/
+
+@Hyunwoo and @Zhenhui, will appreciated you can test these patches
+and add your Tested-by
+
+Nice side effect: the group no longer follows the address space,
+so a user defined group, or cgroup or numa_group could own it later.
+These are also the grouping by prctl RFC's first two patches, sent here
+so the fix isn't held up by that discussion.
+
+v1->v2: Put cache aware related code in process exit/fork/copy in
+its own functions
+
+Patch 5 This patch makes sure kernel threads are excluded from cache
+aware scheduling consideration.
+
+v1->v2: Split from previous patch 3 as suggested by Peter Z.
+
+Patch 6 is a new patch to fix an issue of undercomputing the LLC size
+during CPU hot plug events.  The LLC size was used for estimating
+if a process's memory footprint will fit a LLC. 
+https://lore.kernel.org/all/20260916134432.11767-1-davichazbh@gmail.com/
+
+BTW, there are two other issues in discussion currently and need
+a bit more work:
+1. Incorrect donor context being passed to task_tick_cache().  
+https://lore.kernel.org/lkml/20260909092901.2989564-1-sh_def@163.com/
+It is currently under discussion and is not included in this series.
+2. Cache aware scheduling interfering with ITMT.
+https://lore.kernel.org/lkml/20260810033742.1688718-1-yu.c.chen@intel.com/
+https://lore.kernel.org/lkml/2fe2c681-b748-41fa-8b56-1169c86cefbc@intel.com/ 
+
+Applies on sched/urgent branch. 
+
+Tim Chen and Chen Yu
+
+Chen Yu (1):
+  sched/cache: Skip kernel thread for cache aware scheduling
+
+Davi Chaves Azevedo (1):
+  sched/cache: Refresh LLC capacity across CPU hotplug
+
+Lu Wang (1):
+  sched/cache: Honor migrate_llc_task semantics in active load balance
+
+Tim Chen (3):
+  sched/cache: Keep nr_pref_llc_running in the runnable domain
+  sched/cache: Decouple sched_cache_group from mm
+  sched/cache: Introduce task_struct->sched_cache_grp
+
+ drivers/base/cacheinfo.c       |  11 +-
+ fs/exec.c                      |   1 +
+ include/linux/mm_types.h       |  15 +-
+ include/linux/sched.h          |  21 ++-
+ include/linux/sched/topology.h |   4 +-
+ kernel/exit.c                  |  28 +--
+ kernel/fork.c                  |   2 +
+ kernel/sched/build_utility.c   |   4 +
+ kernel/sched/cache_sched.c     | 106 +++++++++++
+ kernel/sched/fair.c            | 310 ++++++++++++++++++++++++---------
+ kernel/sched/sched.h           |   3 +
+ kernel/sched/topology.c        |  22 ++-
+ 12 files changed, 394 insertions(+), 133 deletions(-)
+ create mode 100644 kernel/sched/cache_sched.c
