@@ -1,269 +1,204 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC593403E3;
-	Tue, 22 Sep 2026 12:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39E8541E70
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 12:19:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790079523; cv=none; b=H5tkgSfG1dT4X8OEovSlX/ObBNlk2i+XJpmXg5LNkttOshmu0fGUshXsWiZXuvPQRpqc983djVa6hP0zFkU1cG/uZK+thfkp2I9Hv/48fWM4bxis2IrcnL4lsSa+sBhLWEpxrdJF2UWNeAgtXE51dNr4fC3yGjEhZnpXn4JMWfM=
+	t=1790079586; cv=none; b=JN/pg+d6PnV9oYLBLrdAx422W0/cVVrx+L6oUY5MW1J12ga69KU/QuLZqMgUbFr+seRy10R3/X2LNjqffHW1/uLhEgRHrkDhkte6TclvycEVlMHvfYsJxl1S5lzqh4Mkleb4Ygac07y9d/dFAC2I3f8ONWAJBsTfS8eWRqjkr2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790079523; c=relaxed/simple;
-	bh=h9apuZrWj2lrN/w3EvAP7FFMqf2ytwdn02qHiPbOQnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mQdhWBVvi5LkSwIZOB42ShlUMr/OVr9vhdnbS3aukO1HPrG7EJuHcElfWIM01E6uL4Z2RQpb6OYs4ri1NFH08yjbrv86z67I7Abx1Ao1ksTFvrbDSx3ozAiRnrdk224bkXLS8fVQ+BqOz3mViMyVjJngcb2AedrxKjwrmqhN2cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=exTlfNlr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=NurHdi+v; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KdavMFAt; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1j6dr31L; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1790079586; c=relaxed/simple;
+	bh=UPL5CHhAiMBcm4H3rZCXPaZ3rCf8n63NaMTRjPzmPP4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T5z8iD2jrptzT/AtVLSDn74glj9mTSbhEIujcpvSLI1lN4jDs1i/I0sjhHCqNI+sVuak3DKU43TeplryHMQMyxeChIQajyjNJ1sRhHIm1u+cE2/iP5hSVFJJlCGgKGxOulezx5WAm7eVHwYYNGIvh3BOz2/9MJAaAtQiRe30u54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VAPrHMK4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=c+g2hk8V; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wftS4GwG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=5V2m2iRP; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="exTlfNlr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="NurHdi+v";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KdavMFAt";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1j6dr31L"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VAPrHMK4";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="c+g2hk8V";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wftS4GwG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="5V2m2iRP"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CB0321FF20;
-	Tue, 22 Sep 2026 12:18:30 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7D38D1F896;
+	Tue, 22 Sep 2026 12:19:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790079515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2Tk4+Pw6RpU7AefGmYvZqxsKo5DjRGYdxiV/DVpLAg=;
-	b=exTlfNlrsZx6rUVP90135aynRjgiYrPV5sU+LVmAb3I+gah0VZ3ynJeqtHJCGFLhV3tLHq
-	FDsjNsE2d4xX3jUbhXUelVWFMCF6VHvi+51FDa2ux13+BuQUdjIDs9sLMgzGJMJkHoLOX8
-	1QPAm/TFusZYzML0WWHh5zk3TvorkfY=
+	t=1790079578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XXkR3+d2i2CCtM7QkyqhDWiv2qHZbVrh+hIexhYH8l4=;
+	b=VAPrHMK4MbshTZObJf7XZnwoAI9hfT4/X/PebXNgWPOob5o+Ty6H4SjlGYUhQuVTFiVQKd
+	nqV8hM4t+FyrUGUlsCzdR+8FJxL8Uk6+vDwfE9x5aWi01VOJln33oOap77bJIkD4vgkpSX
+	uTfdS//cVys15Ljj1he47JZ7dpDmIyI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790079515;
+	s=susede2_ed25519; t=1790079578;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2Tk4+Pw6RpU7AefGmYvZqxsKo5DjRGYdxiV/DVpLAg=;
-	b=NurHdi+v8YTmU5j2yIDWLME3exqqbUao/HOaEFSEYHEMc0X7XoQMGgvY12+Ajk+Bw/Wzc3
-	gFbupaEjoKDxi8DA==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XXkR3+d2i2CCtM7QkyqhDWiv2qHZbVrh+hIexhYH8l4=;
+	b=c+g2hk8VdtXF0GddGLL4Cy8xDXl0F6yVuhjrKGJPYJm735PnZs0QDrGYpheKayvbX+K1Ra
+	UmjIuwTENVX5aZDw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=KdavMFAt;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=1j6dr31L
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790079510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2Tk4+Pw6RpU7AefGmYvZqxsKo5DjRGYdxiV/DVpLAg=;
-	b=KdavMFAtqn5buFmG7X1bT4XQN6NbH73HBSH0ebH94TPP7FaC8SbCrbdVFSSuSk9tG5pn2F
-	RwljaS1a1iILWXsVs+G9dzWlr0yANy+MdtncKAqs/X/B4d8QDGWEEKjorcRlKid+s8D8Wq
-	z5uOB8zxWAfLgIJhxBhz7TZQ9HsnSSQ=
+	t=1790079574; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XXkR3+d2i2CCtM7QkyqhDWiv2qHZbVrh+hIexhYH8l4=;
+	b=wftS4GwGZCDKhJrNEH1e8JQ48TmBhy91uS8cUxqrGVWVCQ/ECovBoWhIBrN1t/Evi04FHC
+	t9HswXiSxYTOkF8XYJ3h8ymmBtXzplQp2dYz/fCADoZy+s1cdd3FcVNIXNoTliacJDKQjQ
+	hxFBiS6yLZpod5LAdfHY3XL4Z/Huja4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790079510;
+	s=susede2_ed25519; t=1790079574;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2Tk4+Pw6RpU7AefGmYvZqxsKo5DjRGYdxiV/DVpLAg=;
-	b=1j6dr31LX8lAu9k3pWVtr7O/+IGu/gaJi5+l9IPu1DchDERB2WSIyZDeEsRygnWujYd5oU
-	sZI834C3d8J6yYAA==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XXkR3+d2i2CCtM7QkyqhDWiv2qHZbVrh+hIexhYH8l4=;
+	b=5V2m2iRPfec1dzefZMhiSgLbQ2pu/7VBz6ZBfpbENuGNfmNzhqMu9UZEc9K3yBxQmUOs2N
+	dcbMzF9ZONwh86Ag==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92483136D9;
-	Tue, 22 Sep 2026 12:18:30 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 56369136D9;
+	Tue, 22 Sep 2026 12:19:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 08YfFxZysmptJgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 22 Sep 2026 12:18:30 +0000
+	id kAHYDFZysmrlJwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 22 Sep 2026 12:19:34 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 01A2CA13D4; Tue, 22 Sep 2026 14:18:21 +0200 (CEST)
-Date: Tue, 22 Sep 2026 14:18:21 +0200
+	id EA96DA13D4; Tue, 22 Sep 2026 14:19:33 +0200 (CEST)
 From: Jan Kara <jack@suse.cz>
-To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Yichong Chen <chenyichong@uniontech.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] isofs: advance to the next block when a record ends at
- the block end
-Message-ID: <h532mtcbip4jyfr4cgqqs5jydwzhrvzuniex5zdrqz3nppweho@t5ivq66e5n2l>
-References: <20260922054853.469681-1-matthias.goergens@gmail.com>
+To: <linux-fsdevel@vger.kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	Thomas Schmitt <scdbackup@gmx.net>,
+	Matthias Goergens <matthias.goergens@gmail.com>
+Subject: [PATCH] isofs: Fix handling of directories with tight blocks
+Date: Tue, 22 Sep 2026 14:19:13 +0200
+Message-ID: <20260922121912.2258134-2-jack@suse.cz>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260922054853.469681-1-matthias.goergens@gmail.com>
-X-Spam-Score: -2.51
-X-Rspamd-Queue-Id: CB0321FF20
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3113; i=jack@suse.cz; h=from:subject; bh=UPL5CHhAiMBcm4H3rZCXPaZ3rCf8n63NaMTRjPzmPP4=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqsnJAQd36v154pNPsflBoc5IzXJRCRORZDpHwO SQDCZdOp6KJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCarJyQAAKCRCcnaoHP2RA 2VSoB/kBX+YpJIFSWPvitD/L0/Y/8yvi/aS6u/Un5vELw51aTIAW/0G9HoUmPPyH1NAn9Vo+Jqs y9kKMDUSys53V3fysB1pa1gW+pFYcm4ZN2I4O7PCeLuUa9wA2wwiHV6LAWvjnVDu1I8vtfVSQlU GL41j951ZLNp1mTImByenQc/7qOJBYT28mCpauYir+9h0oVX6FZrm2RiL9HkJRELthnzNA4yYVw lOKisWm7anaHmCx6KfSfKQJTUVhVEPS7MCsn7wHleqHBTZn2vWDrHUC2Ilhe3BPgYo2Xpd20Dyl CM/jgZ4YoSWpGzNhtSvRG60Kd99ZnxwLaY51PCTRAjDJnuf1
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.51 / 50.00];
+X-Spam-Score: -1.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-1.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
 	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmx.net,gmail.com];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[archive.org:url,suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_THREE(0.00)[4];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.net]
 
-On Tue 22-09-26 13:48:53, Matthias Goergens wrote:
-> Since commit b2eb2e288604 ("isofs: Drop support of directory entries
-> straddling blocks") some ISO 9660 images list incomplete directories:
-> find returns fewer entries than before, and some of the names readdir
-> does return cannot be looked up.  The log fills with
-> 
->   iso9660: Corrupted directory entry in block 0 of inode 55232
-> 
-> and on some images the walk reads a byte past the end of a buffer:
-> 
->   BUG: KASAN: use-after-free in isofs_readdir+0x93b/0xc40
-> 
-> Affected are images with a directory record ending exactly at the end of
-> a logical block, which ECMA-119 allows and current tools produce.  On
-> the Debian 13.7.0 amd64 DVD-1, which has three, find returns 9163
-> entries instead of 9461:
-> 
->   https://cdimage.debian.org/debian-cd/13.7.0/amd64/iso-dvd/debian-13.7.0-amd64-DVD-1.iso
-> 
-> The KASAN report is from a shareware CD with one in its root directory:
-> 
->   https://archive.org/download/simtel-1-0295/SIMTEL1_0295.ISO
-> 
-> A local one, which lists 46 of its 65 files:
-> 
->   mkdir tree
->   for i in $(seq -f '%04g' 1 65); do echo hi > tree/FILE$i.TXT; done
->   xorrisofs -iso-level 1 -o boundary.iso tree/
-> 
-> genisoimage pads the tail of a block instead of filling it exactly, so
-> its images have no such records.
-> 
-> That commit removed the reassembly of records crossing a block boundary.
-> Its condition was "offset >= bufsize", so it also handled a record
-> ending exactly at the end (offset == bufsize): drop the buffer,
-> increment the block, reset the offset.  Nothing does that now, so
-> do_isofs_readdir() and isofs_find_entry() read the next record's length
-> byte from bh->b_data + bufsize, one past the buffer.  Depending on that
-> byte the walk either treats the rest of the block as padding and skips
-> the next block of entries, or fails the record as corrupt and stops.
-> 
-> Straddling records stay rejected: isofs_dir_record_valid() fails them
-> because their length exceeds the remaining space, which is what that
-> commit relied on.  One ending exactly at the end fits in its block and
-> is accepted, so it is the advance, not the reassembly, that has to come
-> back.
-> 
-> Do it at the top of the loop: do_isofs_readdir() reaches the next
-> iteration from the multi-extent branch, "." and "..", the
-> hidden/associated skip (showassoc is off by default, so no mount option
-> is needed) and the fall-through, and all of them need covering.  The
-> record was validated to end within the block, so offset never exceeds
-> bufsize.
-> 
-> Fixes: b2eb2e288604 ("isofs: Drop support of directory entries straddling blocks")
-> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+Thomas has reported that after commit b2eb2e288604 ("isofs: Drop support
+of directory entries straddling blocks") some isofs images of Fedora
+miss some entries in some directories. The problem is triggered when
+directory entries are packed in a block in such a way that they exactly
+fit the block (which BTW mkisofs doesn't do so I didn't catch this bug
+when testing with my images). Fix readdir and lookup code to properly
+transition to the next block when directory block is tightly packed.
 
-Thanks for the analysis and the fix! In fact I got notified about the
-problem last week and fixed it (sligthly differently) [1]. I've now added
-you as a reporter at least to give you some credit.
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2535353
+Reported-by: Thomas Schmitt <scdbackup@gmx.net>
+Reported-by: Matthias Goergens <matthias.goergens@gmail.com>
+Fixes: b2eb2e288604 ("isofs: Drop support of directory entries straddling blocks")
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/isofs/dir.c   | 18 +++++++-----------
+ fs/isofs/namei.c | 14 ++++++++------
+ 2 files changed, 15 insertions(+), 17 deletions(-)
 
-BTW, it is a good observation that there's yet another instance of
-directory reading code in isofs_read_level3_size(). That deserves a similar
-simplification as what commit b2eb2e288604 did (just without introducing
-the bug this time :)).
+I plan to push this fix to Linus at the end of the week.
 
-								Honza
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git/commit/?id=bda8d8d49ca14e7f3bdc39fdc4330a48b32d6b6f
-
-
-> ---
-> Not tagged for stable: b2eb2e288604 is in 7.3-rc1..rc3 and has not
-> appeared in a released kernel.
-> 
-> Validated under qemu with KASAN and UBSAN against the images above,
-> using a kernel built from the commit before b2eb2e288604 as the
-> reference for correct behaviour.
-> 
-> do_isofs_readdir(), isofs_find_entry() and isofs_read_level3_size() all
-> open-code this same block-end transition.  Happy to follow up with a
-> helper that shares it, kept out of here to keep the regression fix
-> minimal.
-> 
->  fs/isofs/dir.c   | 12 ++++++++++++
->  fs/isofs/namei.c | 12 ++++++++++++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/fs/isofs/dir.c b/fs/isofs/dir.c
-> index c7ca7603e97a..00a609c901dd 100644
-> --- a/fs/isofs/dir.c
-> +++ b/fs/isofs/dir.c
-> @@ -104,6 +104,18 @@ static int do_isofs_readdir(struct inode *inode, struct file *file,
->  	while (ctx->pos < inode->i_size) {
->  		int de_len;
->  
-> +		/*
-> +		 * The previous record was validated to end within its
-> +		 * block; if it ended exactly at the end, the next record
-> +		 * starts at the beginning of the next block.
-> +		 */
-> +		if (offset == bufsize) {
-> +			brelse(bh);
-> +			bh = NULL;
-> +			block++;
-> +			offset = 0;
-> +		}
-> +
->  		if (!bh) {
->  			bh = isofs_bread(inode, block);
->  			if (!bh)
-> diff --git a/fs/isofs/namei.c b/fs/isofs/namei.c
-> index 010682f5901a..5f5ed36d12e3 100644
-> --- a/fs/isofs/namei.c
-> +++ b/fs/isofs/namei.c
-> @@ -68,6 +68,18 @@ isofs_find_entry(struct inode *dir, struct dentry *dentry,
->  		int de_len, match, i, dlen;
->  		char *dpnt;
->  
-> +		/*
-> +		 * The previous record was validated to end within its
-> +		 * block; if it ended exactly at the end, the next record
-> +		 * starts at the beginning of the next block.
-> +		 */
-> +		if (offset == bufsize) {
-> +			brelse(bh);
-> +			bh = NULL;
-> +			block++;
-> +			offset = 0;
-> +		}
-> +
->  		if (!bh) {
->  			bh = isofs_bread(dir, block);
->  			if (!bh)
-> -- 
-> 2.55.0
-> 
+diff --git a/fs/isofs/dir.c b/fs/isofs/dir.c
+index c7ca7603e97a..5e541e765f54 100644
+--- a/fs/isofs/dir.c
++++ b/fs/isofs/dir.c
+@@ -110,25 +110,21 @@ static int do_isofs_readdir(struct inode *inode, struct file *file,
+ 				return 0;
+ 		}
+ 
+-		de = (struct iso_directory_record *) (bh->b_data + offset);
+-
+-		de_len = *(unsigned char *)de;
+-
++		de = (struct iso_directory_record *)(bh->b_data + offset);
+ 		/*
+-		 * If the length byte is zero, we should move on to the next
+-		 * CDROM sector.  If we are at the end of the directory, we
+-		 * kick out of the while loop.
++		 * If we are at the end of a block (or at its zero-padded
++		 * tail), move on to the next CDROM sector.  If we are at the
++		 * end of the directory, we'll abort the while loop.
+ 		 */
+-
+-		if (de_len == 0) {
++		if (offset >= bufsize || de->length[0] == 0) {
+ 			brelse(bh);
+ 			bh = NULL;
+-			ctx->pos = (ctx->pos + ISOFS_BLOCK_SIZE) & ~(ISOFS_BLOCK_SIZE - 1);
++			ctx->pos = round_up(ctx->pos, bufsize);
+ 			block = ctx->pos >> bufbits;
+ 			offset = 0;
+ 			continue;
+ 		}
+-
++		de_len = de->length[0];
+ 		block_saved = block;
+ 		offset_saved = offset;
+ 		offset += de_len;
+diff --git a/fs/isofs/namei.c b/fs/isofs/namei.c
+index 010682f5901a..e7efeea16451 100644
+--- a/fs/isofs/namei.c
++++ b/fs/isofs/namei.c
+@@ -74,18 +74,20 @@ isofs_find_entry(struct inode *dir, struct dentry *dentry,
+ 				return 0;
+ 		}
+ 
+-		de = (struct iso_directory_record *) (bh->b_data + offset);
+-
+-		de_len = *(unsigned char *) de;
+-		if (!de_len) {
++		de = (struct iso_directory_record *)(bh->b_data + offset);
++		/*
++		 * If we are at the end of the block or at its zero-padded
++		 * length, move to the next block.
++		 */
++		if (offset >= bufsize || de->length[0] == 0) {
+ 			brelse(bh);
+ 			bh = NULL;
+-			f_pos = (f_pos + ISOFS_BLOCK_SIZE) & ~(ISOFS_BLOCK_SIZE - 1);
++			f_pos = round_up(f_pos, bufsize);
+ 			block = f_pos >> bufbits;
+ 			offset = 0;
+ 			continue;
+ 		}
+-
++		de_len = de->length[0];
+ 		block_saved = bh->b_blocknr;
+ 		offset_saved = offset;
+ 		offset += de_len;
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.51.0
+
