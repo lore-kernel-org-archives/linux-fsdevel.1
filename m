@@ -1,198 +1,228 @@
-Received: from mail-ua2-f12.google.com (mail-ua2-f12.google.com [74.125.226.204])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC8C5372DE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 12:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.226.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9DC545294
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 12:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790080803; cv=none; b=XnfHXVNOmFLnr8i3QTK9eohlmKfEVHnXBunpkks8KBR1JoT5hfxqyDEe1AIhVSXMLQ4JVD+GL/kl12VvKlvDe2De+9X06Mml/XAw72vWgSYeiW99rJfei1yxfpDjpJ1kDjsAaegjhOyUxTX5nEp6eFF8ZdXRqwozbqM6jEu9xHo=
+	t=1790081422; cv=none; b=e1Er7NVKSvtFSRuvdj6qDKtAZYCAbsNQoFzevPRmj4jz8TF3R5NI/tvjHILKLlye/0I/iRIRuPEmAstfEMtoiPD9lCFh+rvflXI0GX4b+CTI0j5uYvmdp94cYb8B+qj9lALzXQBSgVpdBLX8iqErZ4c7dZ0KG6ma/dqGJK7zU0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790080803; c=relaxed/simple;
-	bh=wFmJBrwWil7bpAeYIpoN4GzUL1HvXOt5ldn6IIIiFHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uv+JsT0Yb8zIVSy5mU86bYClC1mSuIj1GrLxmQifRnGxXqKlQtxI0QgjSfDpL2RtdmbI8gWOvX3lZs/9SU1Iu6EFwOM1+tfsSw6Y6uRUdo5B+uCaqW/TxzNcajnKzDwHbGiPqQJW//OSIBT+CwJh8KGvjBB3Yrdb+6GobOUTH+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=O2oXCldz; arc=none smtp.client-ip=74.125.226.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	s=arc-20240116; t=1790081422; c=relaxed/simple;
+	bh=sfT0ReNI6GyVvGi6FnZ/iXBQMqAlHEwH/dc2Hs7IQHM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UMR8LleM5qxG+74L5n1kDKGVlsrvt8Z/UHZ0KT6OEPo78a7Y/eTJOExpXCPtuMLy5GMyej0fJbwDL7caH9amAHGgHqiqD+atxO2qkGiUwzEkyvryZnvJC9aCr4+yZN9eW3gB6NsOpP+cqgyuaUxbqi8ACDlyUjBjNswhglId+30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=WGRhndBl; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="O2oXCldz"
-Received: by mail-ua2-f12.google.com with SMTP id a1e0cc1a2514c-97e96a8ba8cso2705511241.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 05:40:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="WGRhndBl"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d91ede8035so49555785ad.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 05:50:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1790080799; x=1790685599; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=o9blDfaIlaDE7zWOzf7sAkl81n8mIgiGQIMLz8R8dVg=;
-        b=O2oXCldzJ3LpA4QHBbXInqG6gPFkiSS8IpezgH8R+ZrmCNrQGw2qZ3cz2HJXPR/LD3
-         nDnwu+h/q1ydJlARyj62co9tTwdWIgt6A4ziEIgZPoWy6ktNQVyLZgBsOE9UYoUt4d3f
-         ApfWcUtfyoMebnbxzEyQSfJL5IYMdQPZlYtb0=
+        d=bytedance.com; s=google; t=1790081420; x=1790686220; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2IeG2Mx3Kg57XaeZod52dBSPgeiNTM4UZ90mALN/kFk=;
+        b=WGRhndBlIXJQAj63tLNqw4hqwMgGYT/mtc1hEzePIQoOuu3WF8V7/o+zSZQUFE6n2n
+         3Q6m0pLz4KsKCE0XNS4C2JJ1ie8r0A4U1/BoxqDHyuua7rwWwzzjGKSHeCCxetSO8EN/
+         P2qDjDdW46GNoPxvXkhD1QUB56v8LHHWXDA3i1uNobVniuyCIxKx2LGraepg0SozBqXE
+         0h98Zt2RC3wJ805Rkq8j/RUnv5QDpoSAgH5p7/KtKr/ONQEt9clbcXcRgagf1E4iU0rt
+         rwq42uc0WeuGBVVCa1lZM6za0oS8f/zBFLtQesVEuevQHoPkrNwMFZCO3VlJ0nPY4PoQ
+         GcHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790080799; x=1790685599;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1790081420; x=1790686220;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=o9blDfaIlaDE7zWOzf7sAkl81n8mIgiGQIMLz8R8dVg=;
-        b=ItTo6GsbwOr1eWzvMUNMoxKBtHXGmLn/kySx3noZozn9oGJwTW2FnHpDC7ONbfoRAf
-         WsgMiJPF0J0M0SBuTLM56Hjkq67jFGyv3MAYps5k7FWo0CD215qi7zVLy+4ZG/LNuTl4
-         0aUPdhXDuFIwzyzS2paBi/tFOZYu/QSjUG/3qptz6YFaj0EMX7LVXJneT+Fo+SQwK1ZF
-         VhihWA3jLiBSoZSw2XuIWZD6phYJxifJjTARz41ahh2kpGbKF4y+3NYUZR8rOhlUVfdn
-         Zi8H9tfI98WTtfJBRBmxIB7d9h0CLYCDoysr5qEk7XEr/W61mlJVXi8V8mNI2u5FG0PN
-         75zQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxmS1EdoxRPxqvOOaLJtdF6TZZR/+JFo+1Z1EzutnPXhuUdthAPL/ye/NMnPMyhVxGI6jtkgrlSSmu2ynpo@vger.kernel.org
-X-Gm-Message-State: AFuF++mwcKEPD3w0Zyi4F2hOTDDmS5AYODdqLPxr/f7CUCj//Kz2syI9
-	0L3bnRj35+Ts451+PLMjiTw3oEE3eI96a1RKTY/cAMOcOSBp0R9rwRJ3uC5xUIyavA==
-X-Gm-Gg: AYBFou0vqE2J8Z/5XbpZvt6cieD8RPDtMTV6q/n1/5Dhv3P28E6Acnv8KyXNSolVk8e
-	G8bB+GnU4kJZB/o+wQfB5ue50YsTl2Xsvik32rTnWLB6jRWfB+2IH1/mNG0Um5EOjsEiwFig5KR
-	f3+WTgdvYAb05C6kDRQb2KB5O1Nl5ozwoHY/O2+w+TeYl7EUh1cI8yH5fY8HfAiKo4tQAV9RQKB
-	erS+fnTzpvzXkjaJl1PJfxnX/FribgIGvH4XJlOn8o54QYYt4sD03Nv+/SNF8Z2hCT7E419Zdj8
-	UCPu7pLWBBAviRfuytmwnyzpDQps10673/Bt/pAveMqeoZnnbUdQ9/j5eC+s0LhMZLmRIHcVtOP
-	BkRQ8QNNVEsW7QcA9M4eplp8CWgfYk/K+yo5Pkst/gsVomojEOHpwOC1ZZgDStalq71V3vZVRcb
-	dP3Pln7VT6qL9UGUsG5LGolKpOoMFPfc0/Z/B/EOM+jhZy19YjnCqRxp2APvnzpeMudGp4ZArhD
-	AG5
-X-Received: by 2002:a05:6122:e22b:b0:5c9:a60c:2736 with SMTP id 71dfb90a1353d-5c9b598e442mr8405960e0c.14.1790080799199;
-        Tue, 22 Sep 2026 05:39:59 -0700 (PDT)
-Received: from [172.22.22.28] ([73.62.185.64])
-        by smtp.googlemail.com with ESMTPSA id 6a1803df08f44-91402535ce1sm14566906d6.48.2026.09.22.05.39.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 05:39:53 -0700 (PDT)
-Message-ID: <d2052425-3fb4-4104-b1ed-f2d53e5a710d@ieee.org>
-Date: Tue, 22 Sep 2026 07:39:47 -0500
+        bh=2IeG2Mx3Kg57XaeZod52dBSPgeiNTM4UZ90mALN/kFk=;
+        b=BPSg5hWaa8Y3krkOh5n5vlfNm+dyzeBP5UPJv/d+Yf7J6g90TvxcYSbxKatoXNGMr8
+         f1xEBQ42IoMjcA+oRwNfPIQYf09y2Ep1oNizr6a2NB0fwf2UY3apkvr1sKtT/rHHoBqc
+         2tIPybcowtuH3Kre3y/j5Yvba0TdrH5iERNv9k+BKAllP5wpqMvi21WyfJ9D7vzH70M6
+         XZxlMWWcGq6cUab5ao6l5tRjens1wQ4PAAM7opLpzw3yod2gAY7TrmIgK86FdCIlm5ln
+         PS3fbzj392ELsMv+ntOK7S1+LFO+h0LTTOXLS9RqGD1Qt+qFDa+RdCHGIodPq/VR3D0w
+         esdg==
+X-Forwarded-Encrypted: i=1; AKwUvBw3bDb7st4M2AniBawxhJxhDctypHFhXyOcrrQhobPVbjTXtkNQxEbC1Jp1PyfN9DUwenq4ezww0VOVHh4h@vger.kernel.org
+X-Gm-Message-State: AFuF++kxUf3pBZwPs0Ago5WamQBH2AfMg6odwlUypij6kK7SU1A1yT9p
+	+Xune/R3L6GCPjOfyekGCiBGkWIVjg24Vf4xga6Y3/fbBvlcPa6mluNQey/olAaLp2U=
+X-Gm-Gg: AYBFou0XmGvR+Tl9ONQopFxQzP0K4ugRTEy5zXEK5HA/QauNCeTy2iEzTqKDGalggyd
+	DSx7lV+9df7+xg43g7DOWckW7vANnfL9aUfz431QSV1poqqQ4iV60lCLf65YBZmS0pl3rUoJYJR
+	uri5+6LREdppSqzS6ht+Q5gAn27gVUvAwPTGyMJMXIcBGu0YAGm/TofX4fPNgD/1hzMg3JjPm9T
+	aPvKzhX3+9vzMvovs+ODhNKx07QuvwqwwkYuGi8h2litXn1otxrUIsux3+BwyMyfE+jhxP0uDCZ
+	KRUYvJ24wZ+nG7Fc2aSD7dE30hkmX+B2mCgLr8sMkVTq2W19UcfZMPeqlCeL4gA/8W8pGDhw266
+	FPC2tROA+CVLr7b5/jtqB48wtmfCX8X+Gj6rhxGnV4eaagw46gpD9ZmkohGVm9wW+JedmMtdADX
+	RYTLbiTN7VTg6o2kQz8w1gNLFmrwOHQXsHrM197NUQKC+8VJh19NjfcvmK0nHHk2MypjPVhzWeb
+	p4=
+X-Received: by 2002:a17:902:f60c:b0:2dd:ad74:ac83 with SMTP id d9443c01a7336-2df60b2eb9emr14839105ad.30.1790081419763;
+        Tue, 22 Sep 2026 05:50:19 -0700 (PDT)
+Received: from localhost ([106.38.226.186])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df5d02f448sm9488505ad.34.2026.09.22.05.50.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 05:50:19 -0700 (PDT)
+From: Julian Sun <sunjunchao@bytedance.com>
+To: linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Cc: axboe@kernel.dk,
+	hannes@cmpxchg.org,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	muchun.song@linux.dev,
+	willy@infradead.org,
+	jack@suse.cz,
+	tj@kernel.org,
+	akpm@linux-foundation.org
+Subject: [PATCH v8 0/3] memcg,writeback: flush foreign bdev mappings separately
+Date: Tue, 22 Sep 2026 20:50:12 +0800
+Message-Id: <20260922125015.3435215-1-sunjunchao@bytedance.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] umh, treewide: Explicitly include linux/umh.h
- where needed
-To: Petr Pavlu <petr.pavlu@suse.com>, Tony Luck <tony.luck@intel.com>,
- Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Jens Axboe <axboe@kernel.dk>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Michal Januszewski <spock@gentoo.org>, Helge Deller <deller@gmx.de>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
- Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
- Joseph Qi <joseph.qi@linux.alibaba.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Nikolay Aleksandrov
- <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko@kernel.org>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
- drbd-dev@lists.linux.dev, linux-block@vger.kernel.org,
- greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org,
- linux-acpi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
- cgroups@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
- bridge@lists.linux.dev, netdev@vger.kernel.org, keyrings@vger.kernel.org,
- linux-security-module@vger.kernel.org
-References: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
- <20260911-module-include-kmod-v3-1-6ebccc3e0731@suse.com>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <20260911-module-include-kmod-v3-1-6ebccc3e0731@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/11/26 9:46 AM, Petr Pavlu wrote:
-> The usermode helper declarations were previously provided by linux/kmod.h
-> but commit c1f3fa2a4fde ("kmod: split off umh headers into its own file")
-> moved them to linux/umh.h in 2017.
-> 
-> Add explicit includes of linux/umh.h to files that use usermode helpers and
-> remove linux/kmod.h where it is no longer needed.
-> 
-> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
-> ---
->   arch/x86/kernel/cpu/mce/dev-mcelog.c | 2 +-
->   drivers/block/drbd/drbd_nl.c         | 1 +
->   drivers/greybus/svc_watchdog.c       | 1 +
+Hi,
 
-For Greybus:
+This series avoids owner-wide foreign writeback triggered by dirtying
+shared bdev inodes. Instead, it tracks bdev targets separately and
+schedules writeback of their mappings.
 
-Acked-by: Alex Elder <elder@riscstar.com>
+Problem
+=======
 
->   drivers/macintosh/windfarm_core.c    | 1 +
->   drivers/pnp/pnpbios/core.c           | 2 +-
->   drivers/video/fbdev/uvesafb.c        | 1 +
->   fs/coredump.c                        | 2 +-
->   fs/nfs/cache_lib.c                   | 2 +-
->   fs/nfsd/nfs4layouts.c                | 2 +-
->   fs/nfsd/nfs4recover.c                | 1 +
->   fs/ocfs2/stackglue.c                 | 1 +
->   kernel/cgroup/cgroup-v1.c            | 2 +-
->   kernel/module/kmod.c                 | 1 +
->   kernel/power/process.c               | 2 +-
->   kernel/reboot.c                      | 2 +-
->   kernel/umh.c                         | 2 +-
->   lib/kobject_uevent.c                 | 2 +-
->   net/bridge/br_stp_if.c               | 2 +-
->   security/keys/request_key.c          | 2 +-
->   security/tomoyo/common.h             | 2 +-
->   20 files changed, 20 insertions(+), 13 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/mce/dev-mcelog.c b/arch/x86/kernel/cpu/mce/dev-mcelog.c
-> index 053555206d81..af4e76babe7a 100644
-> --- a/arch/x86/kernel/cpu/mce/dev-mcelog.c
-> +++ b/arch/x86/kernel/cpu/mce/dev-mcelog.c
-> @@ -11,7 +11,7 @@
->   
->   #include <linux/miscdevice.h>
->   #include <linux/slab.h>
-> -#include <linux/kmod.h>
-> +#include <linux/umh.h>
->   #include <linux/poll.h>
->   
->   #include "internal.h"
-> diff --git a/drivers/block/drbd/drbd_nl.c b/drivers/block/drbd/drbd_nl.c
-> index b77f901fc3ef..6f5d059394b3 100644
-> --- a/drivers/block/drbd/drbd_nl.c
-> +++ b/drivers/block/drbd/drbd_nl.c
-> @@ -14,6 +14,7 @@
->   #define pr_fmt(fmt)	KBUILD_MODNAME ": " fmt
->   
->   #include <linux/module.h>
-> +#include <linux/umh.h>
->   #include <linux/drbd.h>
->   #include <linux/in.h>
->   #include <linux/fs.h>
-> diff --git a/drivers/greybus/svc_watchdog.c b/drivers/greybus/svc_watchdog.c
-> index 16e6de5e9eff..b318eb34bcca 100644
-> --- a/drivers/greybus/svc_watchdog.c
-> +++ b/drivers/greybus/svc_watchdog.c
-> @@ -7,6 +7,7 @@
->   
->   #include <linux/delay.h>
->   #include <linux/suspend.h>
-> +#include <linux/umh.h>
->   #include <linux/workqueue.h>
->   #include <linux/greybus.h>
->   
-. . .
+Bdev inodes are commonly shared by many memcgs. Dirtying their pages
+can cause the owner wb to be tracked as foreign, triggering writeback
+of the entire wb rather than just the bdev mapping.
+
+In production, almost all the foreign dirtying we traced came from bdev
+inodes. Across our observations, a bdev mapping had as little as about
+10 MiB of dirty pages, yet foreign flushes targeted the entire owner
+wb. On one machine, we observed 599 such works queued on one wb, with
+an average request budget of about 43 GiB per work.
+
+Measured impact
+===============
+
+The synthetic test used a VM with 4 vCPUs, 8 GiB RAM, ext4 and cgroup
+v2, with device write bandwidth capped at 200 MiB/s. Background fio
+repeatedly overwrote a 256 MiB file using buffered I/O, while
+foreground fio performed sequential direct writes. Four memcgs
+generated metadata and buffered writes to trigger foreign flushes.
+
+We measured completed block writes to the background fio file,
+including final sync, and foreground fio bandwidth, latency and
+completion time.
+
+Across three runs per kernel, mean background file write I/O decreased
+by 72.7%, foreground bandwidth increased by 23.0%, and completion time
+decreased by 18.8%.
+
+Metric                         Baseline    Patched     Change
+Background file write I/O (GiB)    6.154      1.680     -72.7%
+Foreground bandwidth (MiB/s)      150.29     184.81     +23.0%
+Foreground completion time (s)   109.203     88.652     -18.8%
+Foreground mean latency (ms)      212.84     172.74     -18.8%
+
+How it helps
+============
+
+Frequent writeback of the file overwritten by background fio reduces
+the opportunity to coalesce buffered writes in the page cache.
+Several overwrites of the same page can otherwise result in a single
+write of its latest contents. Flushing between updates instead writes
+the same page repeatedly, generating more device I/O for the same
+application writes.
+
+This additional I/O makes the device reach its performance limit
+more easily and competes with foreground I/O for device bandwidth.
+
+The benefit is expected to be most pronounced when these conditions
+occur together on the same device:
+
+1. Limited device bandwidth, as with an HDD, makes the additional
+   writeback I/O more likely to saturate the device.
+2. Multiple cgroups perform buffered overwrites. Frequent foreign
+   writeback reduces write coalescing and increases device I/O.
+3. Concurrent direct I/O bypasses the page cache and competes directly
+   with writeback I/O for device bandwidth.
+
+Approach
+========
+
+Following Jan's suggestion, this series records foreign bdev targets
+separately and flushes their mappings instead of their owner wbs. This
+preserves a way for dirty throttling to initiate bdev writeback while
+avoiding owner-wide writeback triggered by these records. The existing
+foreign-wb mechanism remains unchanged for other inodes.
+
+Tracking uses oldest-first replacement and expiry after
+dirty_expire_interval. Further dirtying during an ongoing flush can
+trigger another flush after it finishes.
+
+Tracking is best effort: each memcg keeps a bounded set of device
+numbers without persistent device or inode references. Recording runs
+under mapping->i_pages with IRQs disabled, while dropping a device
+reference can sleep. A memcg that never enters dirty throttling could
+also retain an unused record and pin the device object indefinitely.
+Recording only dev_t avoids these lifetime constraints. Device removal
+and device-number reuse may cause an unintended best-effort flush,
+which is an accepted trade-off.
+
+Writeback submission may block for a long time, with up to four work
+items outstanding per memcg. A dedicated unbound workqueue provides
+a separate max_active budget so these flushes do not exhaust active
+slots on a shared workqueue and delay unrelated work. If the workqueue
+cannot be allocated at boot, bdev inodes continue to use the existing
+foreign-wb path.
+
+This primarily affects filesystems that keep metadata in the bdev page
+cache, such as ext4 and other buffer_head users, rather than the usual
+metadata writeback paths of XFS and Btrfs. This also covers buffered
+writes to raw block devices. The decision still does not account for
+how much of the memcg's dirty memory belongs to the bdev: even a single
+dirty bitmap block can trigger writeback of the entire bdev mapping
+when the memcg enters dirty throttling.
+
+Changes since v7:
+- Update comments and commit messages as suggested by Tejun Heo.
+
+Changes since v6:
+- Drop open_mutex and the openers check from bdev_flush_by_dev(), and
+  add a !CONFIG_BLOCK stub.
+- Follow the existing foreign-wb tracking policy: use timestamps for
+  oldest-first replacement and expiry, and allow dirtying during an
+  in-flight flush to re-arm the record.
+- Replace frn_lock with an atomic in-flight flag.
+- Drop WQ_MEM_RECLAIM and explain the separate max_active budget.
+- Expand the dev_t lifetime rationale and filesystem scope, update
+  the foreign-dirty overview, and drop the Fixes tag.
+
+Changes since v5:
+- Fix repeated overwriting of slot 0 in patch 2 and add comments.
+
+Changes since v4:
+- Add before-and-after performance comparisons to the cover letter.
+
+Changes since v3:
+- Flush foreign-dirtied bdev inode mappings separately, as suggested
+  by Jan.
+
+Thanks.
+
+Julian Sun (3):
+  block: introduce bdev_flush_by_dev()
+  memcg,writeback: flush foreign bdev mappings separately from owner wbs
+  writeback: record bdev targets in foreign writeback tracepoints
+
+ block/bdev.c                     |  18 ++++++
+ include/linux/blkdev.h           |   4 ++
+ include/linux/memcontrol.h       |  12 ++++
+ include/trace/events/writeback.h |  22 ++++---
+ mm/memcontrol.c                  | 123 +++++++++++++++++++++++++++++++++++----
+ 5 files changed, 160 insertions(+), 19 deletions(-)
+
+-- 
+2.39.5
