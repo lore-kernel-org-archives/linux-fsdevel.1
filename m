@@ -1,160 +1,105 @@
-Received: from mta1.migadu.com (out-149.mta1.migadu.com [95.215.58.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D42036D9E7
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 03:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701B539A4CF
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 03:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790047074; cv=none; b=ZFeDJo3EZR6+HKdtPlkYE4+CuHMJo3vIDH2Rnh0SVTyAc0S/QLvr9HRyE4qZaphwV6V/G1PNtMkWIC3WrxwCx1GTFEjQG0QNjnF2mYDA9Xqm9A4Ig8WrGzS/xYL9OWpCEQTylc87J/OVXPOIeyNaEopAsS6DA+Exuy2KGbZjS5M=
+	t=1790048870; cv=none; b=YL1Mr6vb1lhR/1xza/bVRdLeUO27SWiD07QR6oMNKjzXp+aiFMcW+xQ61GX8lhJlLiYiVN35F3k0vRL6lpp1gEGYJbzfCmwO9LIILu+SMXHk95+ezSYI3f9HK9J+YXod9qtU/vq4H0jPCeDd2I5pAssjV4MkAZEBR+GmB9/gzes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790047074; c=relaxed/simple;
-	bh=n5rx4IX4GsBUDhc4Iyun+qiv1PJKF2Xxv28G7taH6Vk=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=GFPYJUhdSFTYDnT7eSfYOtDBgT+2CVoFcBib9dtc6ONcVV6V2rz6ka3Xbqg/L0iDGyKteZ9KMyi4OFSWnD9gCvtj0v4luAIrjpFWSIKOkcOwVu63BwWW3ZyAJhvlQJ/Ig9yzvJj5UJnhT1t6ojI25XBeKsf8+TqhzCWUWQOkeMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OXZdkHQ5; arc=none smtp.client-ip=95.215.58.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790048870; c=relaxed/simple;
+	bh=BvTbZzUJgxXAynlaurlQmfP5rEK52IWNgDP+DS9uOZ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ohDrLQVUGzVXMHOIFXqSW2d7hsMadWB+ahEyZbj7feTMIGvTJOJSyRcpz/ksYBZdI4A7eHTVlu9JJqJzqD4LbA016ici8V22XV6/BXKocHq5N1c8KQUejzh5DJStjF6mqreNj1vtehHzTy9zfEqer4D9YOvj7BlAGCU4j1Tix1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=C+6mZh+d; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OXZdkHQ5"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=n5rx4IX4GsBUDhc4Iyun+qiv1PJKF2Xxv28G7taH6Vk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790047070; v=1; x=1790651870;
- b=OXZdkHQ5qaXAc8/OoEikBWoNlnVFMkAHE8uQc0aWfSKRzsW5dR7OSoOIsyTDF1S9ghN2J3W4
- wOpnAEU2hdKDZCN6XJvy26vEwrP0suDl0ycExkXUeqAMApj3rHmAyPSBiS0wVvMPv/EjqjRIuII
- hUQVD8AR5oxKbvTfTiuVTL/w=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 007cbe3f9b98d031;
-	Tue, 22 Sep 2026 03:17:50 +0000
-X-Mizu-Trace-ID: 007cbe3f9b98d031
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="C+6mZh+d"
+Received: from macsyma.thunk.org (pool-108-26-156-67.bstnma.fios.verizon.net [108.26.156.67])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 68M3iHHV013743
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Sep 2026 23:44:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1790048660; bh=aaZjQCWBhAPpfjq9NOdT2vH7DRz/WSK6FD7H/vAgio8=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=C+6mZh+dphwxOhFVsiyqQAQUn58wMxjYZhrAb5ZSFSzzSuZD0pf5oTc1EuHhavnIQ
+	 YaWh0rfAUVYP20cm0ExY6re6mWLVFTjlaLYLH6jRd5GMxxmGreNHqwQ/VjWr+aeWGD
+	 bx9sT7F5v7aFX291ImkUhkcYq/N+0RpQl7VuNfKvMVUNPw8rjml3dOcMijcyNgsNtK
+	 UKUBtnYSMMcEhIlbpJWZ29FLZQ8M4QnWQ8OYuhh2RrzgiEweLyul8fAvMab/I8/AX8
+	 9LTHn4uXFTHNuThe9MDhQHCB5gPgzjvyP/Wku0XvD1GeHrIeHP/joaByqjRrwvMPH9
+	 +KALpNax6fhlQ==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 274911C81F3E; Mon, 21 Sep 2026 23:43:17 -0400 (EDT)
+Date: Mon, 21 Sep 2026 23:43:17 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Baokun Li <libaokun@linux.alibaba.com>, fstests@vger.kernel.org,
+        zlang@kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, sandeen@redhat.com, dgc@kernel.org
+Subject: Re: [PATCH] generic/492: bypass the blkid cache when probing the
+ label
+Message-ID: <arHaTLxSEk3yQxU4@mit.edu>
+References: <20260920094137.2749428-1-libaokun@linux.alibaba.com>
+ <20260921052719.GB6253@frogsfrogsfrogs>
+ <b4a10712-1658-4fba-a037-095fab466270@linux.alibaba.com>
+ <20260921234910.GC6253@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.1\))
-Subject: Re: [PATCH 3/4] mm: add shared read-only vmemmap support for FS-DAX
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <arEsjy0QwLekLVbf@localhost.localdomain>
-Date: Tue, 22 Sep 2026 11:17:27 +0800
-Cc: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Dan Williams <djbw@kernel.org>,
- David Hildenbrand <david@kernel.org>,
- linux-mm@kvack.org,
- nvdimm@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org,
- linux-cxl@vger.kernel.org,
- Vishal Verma <vishal.l.verma@intel.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Mike Rapoport <rppt@kernel.org>,
- Oscar Salvador <osalvador@suse.de>,
- Ira Weiny <iweiny@kernel.org>,
- Jan Kara <jack@suse.cz>,
- Matthew Wilcox <willy@infradead.org>,
- Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- Michal Hocko <mhocko@suse.com>,
- Qi Zheng <qi.zheng@linux.dev>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B7DD4587-81DD-4B82-934B-67B80A3A2D92@linux.dev>
-References: <20260903122128.12264-1-songmuchun@bytedance.com>
- <20260903122128.12264-4-songmuchun@bytedance.com>
- <arEsjy0QwLekLVbf@localhost.localdomain>
-To: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
-X-Mailer: Apple Mail (2.3864.700.51.1.1)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260921234910.GC6253@frogsfrogsfrogs>
 
+On Mon, Sep 21, 2026 at 04:49:10PM -0500, Darrick J. Wong wrote:
+> > The difference between the e2fsprogs and util-linux libblkid is the
+> > time granularity: the former stores seconds only (TIME="%ld",
+> > bid_time = time(0), compares st_mtime <= bid_time), while the latter
+> > stores usec (TIME="sec.usec") and has an nsec tie-break in the compare,
+> > so the same-second case is much easier to hit with the e2fsprogs blkid.
+> 
+> Perhaps xfstests-bld should use the system blkid then?  IIRC the one
+> in e2fsprogs is very old and out of date.
 
+Historically, xfstests-bld was built in environments where libblkid
+wasn't available.  This included Android's runtime (which uses the
+bionic libc), and grte (Google Runtime Environment)[1].
 
-> On Sep 21, 2026, at 21:09, Oscar Salvador (SUSE) =
-<osalvador@kernel.org> wrote:
->=20
-> On Thu, Sep 03, 2026 at 08:21:26PM +0800, Muchun Song wrote:
->> FS-DAX registers persistent-memory ranges as ZONE_DEVICE memory, and =
-the
->> kernel normally allocates and initializes vmemmap storage for every
->> advertised PFN up front. Sparse pmem images and workloads that only =
-use the
->> DAX direct-access path may never need writable per-PFN state for most =
-of
->> that range, but still pay the memory and initialization cost.
->>=20
->> Add an opt-in dev_pagemap mode that populates FS-DAX vmemmap PTEs =
-from a
->> shared read-only metadata page. The shared page is initialized with =
-the
->> common ZONE_DEVICE and dev_pagemap state, so every PFN still has a =
-valid
->> struct page representation while private metadata allocation is =
-deferred.
->>=20
->> This relies on sizeof(struct page) being a power of two, so each =
-vmemmap
->> page contains a naturally aligned and repeatable set of struct page =
-slots.
->> It also requires architecture support for runtime vmemmap remapping,
->> because shared mappings must be replaced with private writable pages =
-before
->> a PFN can enter userspace mappings.
->>=20
->> The initial implementation is deliberately limited to a single
->> memory-block-aligned range. That is not a fundamental requirement, =
-but keeps
->> the registration and teardown paths simple; support for multiple =
-ranges or
->> less strict alignment can be added later.
->>=20
->> Provide vmemmap_materialize_page() to replace shared mappings in the
->> requested metadata range with private writable copies. A later patch =
-will
->> call it from the FS-DAX fault path.
->>=20
->> No caller enables the mode yet.
-> ... =20
->> +static int pgmap_vmemmap_shared_page_alloc(struct dev_pagemap =
-*pgmap, int nid)
->> +{
->> + 	const struct range *range =3D &pgmap->range;
->> +
->> + 	if (!is_power_of_2(sizeof(struct page)) ||
->> + 	    !IS_ENABLED(CONFIG_ARCH_SUPPORTS_VMEMMAP_REMAP) ||
->> + 	    !(pgmap->flags & PGMAP_VMEMMAP_OPTIMIZATION))
->> + 		return 0;
->> +
->> + 	if (pgmap->nr_range !=3D 1 ||
->> + 	    !IS_ALIGNED(range->start | range_len(range), =
-MIN_MEMORY_BLOCK_SIZE))
->> + 		return 0;
->> +
->> + 	pgmap->vmemmap_shared_page =3D alloc_pages_node(nid, GFP_KERNEL, =
-0);
->> +
->> + 	return pgmap->vmemmap_shared_page ? 0 : -ENOMEM;
->=20
-> I yet have to look into this with more detail, but this caught my eye.
-> Should not this be a best-efford mode optimization? So, if we were
-> unable to allocate the page, could not we treat this as a normal =
-"cannot
-> be optimized, follow by-default procedure" ?
->=20
->=20
+[1] https://github.com/bazelment/lrte/blob/master/grte/grte-build
 
-My thinking is that if we fail to allocate memory here, the subsequent
-vmemmap allocation will need way more memory than just this one page.
-So it's very likely to fail anyway.
+However, as more and more tests require utilities from util-linux,
+xfstests-bld was taught to build util-linux.  And if util-linux is
+being built, then we don't use e2fsprogs-libs any more, which is where
+libblkid is built.  From build-all:
 
-Thanks,
-Muchun
+if test -z "$USE_LOCAL_E2FSLIBS" -o -d util-linux; then
+    SKIP_E2FSLIBS=yes
+fi
 
->=20
-> --=20
-> Oscar Salvador
-> SUSE Labs
+I've always built xfstesets-bld with util-linux, even though it is
+listed as an optional repository.  This is because (a) util-linux is
+needed for Android and other non-standard Linux environments, and (b)
+the version of util-linux used by earlier Debian Stable was too old
+for some of the newer tests in fstests and blktests.
 
+If you aren't building xfstests-bld with util-linux, it falls back to
+building libblkid from e2fsprogs-libs.  HOWEVER, we don't actually
+blkid, and libblkid is always built statically.  So what seems to be
+going on is that one of the programs built by xfstests-bld is using
+the older libblkid, and that results in the blkid cache being writen
+with a second granularity.
 
+I've never noticed this issue because I've always built with
+util-linux.  The way to solve this is to require building with the
+system libblkid if util-linux is not being built, and to drop
+e2fsprogs-libs from xfstests-bld.  Or just build xfstests-bld with
+util-linux.  :-)
+
+Cheers,
+
+					- Ted
