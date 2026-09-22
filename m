@@ -1,81 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEE9548578
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 13:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9F3559313;
+	Tue, 22 Sep 2026 13:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790082834; cv=none; b=FrPh3fThT5mzkXlZa44c+twJ0NiUmj8vcNcOJRwjAmMAYatR+jSOAPAqLT4V87ueU0K6FQJ3RWnTKIlHxlp9CuYU9Vq4SpAxPi5XOov0ENw9Db5l4bz03u74jdyGT0nt5UilDlY0oW7T/kvM3clIvFVr5gp206TPUiQ8DwXez34=
+	t=1790082984; cv=none; b=RkRel2pQ7pcqzzIzPS5Ql2INBZS6an/7RjYo13ejtQhfNznXhdD1TF6q+rxdjfY5zb/PyeUv4poI6kpzufhbUI6fdMUOy8ckvZqgI+IueVv20pfLJV06a5Kc7lxBUs7ifu5si/TxuWni3Ll0dEaHQGVIYi3Yfa/IStL/yX0z2jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790082834; c=relaxed/simple;
-	bh=oOui4zK6FIe70bxPh3uf6x1iuyJg4jcWicCOXddxrNQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VHM3Gbk4EKWhWfOaIqIBckCToCmEY60HRNWJgP8wYDU9SRDC5D57t9tV4/9vqfzPeIyM0GYC4Gve8yoBpCtqmNYAJb9RhyYAYHP43WXRTa82bskLQWvb7p890fbquaV0j3fn/vxRmwrdh21ywq8/v7moc5iJ1yPRT3WC1snZA+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PjH/QJ8h; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjH/QJ8h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C4CE1F00A10
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 13:13:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790082832;
-	bh=oOui4zK6FIe70bxPh3uf6x1iuyJg4jcWicCOXddxrNQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=PjH/QJ8hvA0sOl2Dpfs8o9nh3ZPYx/skwjWu6d+Lm0WirmbyAFPVzv3IqYUUEoVsV
-	 rnkr5IPkYjwet47lyZR62BE4UDJstR+kHrWs2IM0IwrENJJd1WsXYFA+4Wew743eui
-	 mQkFvGLz4awouErA26ETfEZbzyS5gC9BqfskAR7D1Iernc7qbiirkSNiZ4RtjvI+VC
-	 DDNVV12LLIXURBAzFaKK5+1Jvf++r/vR9YMUBmVHo5sOPXEBhukRf+tlxw6wyL2AQt
-	 cUC6XMW1gmTthUjE1BcG7Ii/IP3/c0wmTAKOhG2vJM6XHYfgDetPWLT4DccRMzUiUV
-	 cNGf/1KuAQfsA==
-Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6a9ab2a135dso5624561a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 06:13:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBziJMv9Ct+mQoMBea9v7G3VANvvlw1/p64ioOrgZQ6ngrx0NkDw6nrcapaUwVk88BhE+In++lvV/hD2qG58@vger.kernel.org
-X-Gm-Message-State: AFuF++mBF1KwN2fmxw6rWh6JiHXLtT17vil4ZTO0HjTW82/35wxn2hlv
-	BxsQQpK4JCXELSGTCBeuGJdXhS1pddkVqQ2Ec4bfVSXYIDP3KBAGZe+iEkB5GWINyhyURW8CEIO
-	XJmesj34zaVVcblILdLUm/LDXfwBa2zs=
-X-Received: by 2002:a05:6402:a509:10b0:6aa:96b3:9d7b with SMTP id
- 4fb4d7f45d1cf-6aa96b39e75mr2793518a12.45.1790082831228; Tue, 22 Sep 2026
- 06:13:51 -0700 (PDT)
+	s=arc-20240116; t=1790082984; c=relaxed/simple;
+	bh=Y8SIGh6YdZZ1CNW2JjI2lgNP0I2lOTxj/HFJcJxssAM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nA5t0XLtI/BfQMu4lTKsMcWtjoIdoHf8t0ONQqVF0J9ANWZqHCDL1OAnY0kKz+06jI9GxDlUreTIl862OH0a1MvbiVmF4QZmDs08Q1pAiaASUWicQSteJ1qMLzhdbZo3jbrz7qdMusiKHASpsJTuIU0CdRwGxOaZ41Emsr8gejQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A774668C4E; Tue, 22 Sep 2026 15:16:11 +0200 (CEST)
+Date: Tue, 22 Sep 2026 15:16:10 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
+Subject: Re: [PATCH v6 04/13] block: introduce dma map backed bio type
+Message-ID: <20260922131610.GA30468@lst.de>
+References: <cover.1789997898.git.asml.silence@gmail.com> <a3ee719abc440ca139f1a945fdaf43a45f0c6b57.1789997898.git.asml.silence@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260922043301.15101-1-kmehltretter@gmail.com>
-In-Reply-To: <20260922043301.15101-1-kmehltretter@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 22 Sep 2026 22:13:39 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_3w_pjF9Y4H97UrCQ5Q6wYtCmfbiFBYa4t+5HkcJOYJQ@mail.gmail.com>
-X-Gm-Features: AclHuK8pziMClaJLRmRE5rz8-0BWbIB6CDlKWZzsGG_dIfU-CEW00nSs6TQpmGs
-Message-ID: <CAKYAXd_3w_pjF9Y4H97UrCQ5Q6wYtCmfbiFBYa4t+5HkcJOYJQ@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: include the final partial cluster in sync writes
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a3ee719abc440ca139f1a945fdaf43a45f0c6b57.1789997898.git.asml.silence@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Sep 22, 2026 at 1:33=E2=80=AFPM Karl Mehltretter <kmehltretter@gmai=
-l.com> wrote:
->
-> ntfs_attrlist_repack() synchronously writes the replacement attribute
-> list before updating its mapping pairs and freeing the old run. With
-> 512-byte clusters, a 544-byte list submits a 512-byte bio, but the
-> write returns 544 and repack accepts it as complete. If the later
-> buffered update does not reach disk, the replacement list lacks its
-> final 32 bytes.
->
-> __ntfs_inode_non_resident_attr_pwrite() converts attr_len to clusters
-> with ntfs_bytes_to_cluster(), which rounds down. Before repack, its
-> synchronous callers used either cluster-aligned lengths or lengths
-> smaller than one cluster, where max_t() selects one.
->
-> Round attr_len up so repack writes the final partial cluster before
-> publishing the new mapping pairs.
->
-> Fixes: b1d732e62a5b ("ntfs: repack $MFT/$ATTRIBUTE LIST")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-Applied it to #ntfs-next.
-Thanks!
+On Mon, Sep 21, 2026 at 02:38:48PM +0100, Pavel Begunkov wrote:
+> Premapped buffers don't require a generic bio_vec since these have
+> already been dma mapped. Repurpose the bi_io_vec space to strore dmabuf
+
+s/strore/store/
+
+Can you please expland on the splitting considerations a bit?  Preferably
+both in a comment for the details, and in the commit log for how we
+arrived at them and why they are fine for now?
+
+Otherwise looks good.
+
