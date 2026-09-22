@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E602B525A6F;
-	Tue, 22 Sep 2026 10:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781945326CD;
+	Tue, 22 Sep 2026 10:22:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790072429; cv=none; b=I2QGsAyoQvO0OGKyt3dncHgL2tSBc1YmIYGiPr7vRAcGvhrqfUDEfkLuTfFDKJG01QV9p0wf6AvwbPA3Z98bR87ccr3vKQx0JAdR1+Q1UYaAagOHTOYqBoXO7aZv5k+ythzOnI8sGjNdFXbO6mh0p693PkkNPD5gf5OujAfvdmg=
+	t=1790072558; cv=none; b=LRku5kEGB5HxYE3pb/DeT42FksYXSo1hbXiFm0i8IScTBq7nhI/L6z+3LZ3WfxJZ2ouWJgoatirBhvLF6F7rbSz+6AxyRu5K7BgberY5ZJDeIycx5phkA3+kQhHl/xRPxQj2yFApgVj2B+Ev16o4rlsUaGKXQRKYASDT/Wq1x34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790072429; c=relaxed/simple;
-	bh=2pxcHxBuNUXVLmi2clbaqM0u0/WGSgVYxRAgLLbG42A=;
+	s=arc-20240116; t=1790072558; c=relaxed/simple;
+	bh=R569XAwdmmOiD7erNy5+Hyo0+62FkYyZfHWHrrTjUmY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iwb67aPwivSn5HWOe26vdszyIN7rg5UNOvkCefyTu+Kr1JT/gKGsWzQlzbz9Qv6ybUKdpA5oJiX3/ErQUyamEExxOCnzUW4ikY1duETJ7NssAHhoKEfpf32y8lIgXC3Yrng05IJ7ikKMVzDB8CnGjT5nbs0UnC60iLsHmYvJ89M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EG8irrhl; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=HeiE02S7zFrbtBDNjDy/RGQ8xJdVZHUfgdvgqxlGwiniXNllCOmFhaa5n/NtuWY5pfn3IhZqSHCXLwQEmWL0AHe83RXUojl7j8vkIZoVOkjl7ygLYWdUKnGM/77/6WwXDK3P3wqlCXo4Ucl0a56Y73mPx5vOUDTK1vRwgSSKH9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ihY+h/wb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EG8irrhl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A55571F000FF;
-	Tue, 22 Sep 2026 10:20:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ihY+h/wb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA8A61F000FF;
+	Tue, 22 Sep 2026 10:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790072425;
-	bh=wWA54+thjo72RZTenAXavughrhfStRlphPd5wFtIuK0=;
+	s=k20260515; t=1790072553;
+	bh=DN0EkF+UVww2zD+JWORW1dS7pehZEzk3ZOGPbCH+2mU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=EG8irrhleE5tGp0cIzec1UDmMwg/NeWfH/qbHqYh3X2NcQG0P6D/1wL73MVMSQsOk
-	 kIHQFMhrkHU1Mbd6HIxWWlpxfwmvYcco1naWatJJxl+Tdst/kyR/7LS4ngmKnyu3ZU
-	 7+RqqevYl9vwRXJJ7fVX0VB8+29EE5ZE0sPkcgs8w/udNwBiols12ivEUDX4VTP/Bp
-	 z5Np+m6N4bj6mxzF3UtaJu2XFnS01VT1HLTmi/x+9r2DV+cMhKZlDkK0UkIs5t9jYz
-	 zcGjvrWGN3F+T1+ZYbtBBr1JGOa0KWTRCFxNQGXp/8RB2RurPahWQSUWREShdFexmb
-	 7NtNg5XOP0nAA==
-Message-ID: <108487b7-0529-4282-b5f4-355804b4c0cf@kernel.org>
-Date: Tue, 22 Sep 2026 12:20:13 +0200
+	b=ihY+h/wbIr9rgYOMg9hmVVaut1LOYTuIrifpMlalFf74N6LgXDLXSnn910Zz74fR2
+	 LvFYMvp/3j7aVJDQtj/SqNTrpyudQKmeZPHt1ubnVVg+8srIjVkJCENRqEN74MChDf
+	 +Ec08GzZgLLY3pq+E3KpbetqEL5kRgkx8VZv+BkAvKLkazMolEzzw3ENwaGK0ZN/tz
+	 AQi6pagd6hE+NAy+Eanob4UxWff+yVMYCEpMDHw/ynqWj3Nx7gK6fUJt4gsMZfAspn
+	 pRGXUZD2aVt+239kbQMIxpM5SZujE0wc8bFmvhyuw8Cy9lfK9tsbvO5ky7faQZPaM2
+	 wFGJ8zpD9PinA==
+Message-ID: <53761d0c-e4c2-41c8-89e6-3c9916934c69@kernel.org>
+Date: Tue, 22 Sep 2026 12:22:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,22 +35,29 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm: madvise: drop MADV_PAGEOUT folios at swap writeback
- completion
-To: Barry Song <baohua@kernel.org>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, akpm@linux-foundation.org,
- willy@infradead.org, jack@suse.cz, liam@infradead.org, ljs@kernel.org,
- vbabka@kernel.org, jannh@google.com, chrisl@kernel.org, kasong@tencent.com,
- shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev,
- youngjun.park@lge.com, qi.zheng@linux.dev, shakeel.butt@linux.dev,
- axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
- hannes@cmpxchg.org, mhocko@kernel.org, yosry@kernel.org,
- chengming.zhou@linux.dev, kunwu.chan@gmail.com, tz2294@columbia.edu,
- hch@lst.de, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260921152449.629486-1-alex@ghiti.fr>
- <70cae945-3a4a-40db-96ac-5ce66a3fa186@kernel.org>
- <CAGsJ_4y8-wD0yMV8GCtCz5MfNrOKqUaTd+UgH=8MoP_nuvPnGg@mail.gmail.com>
+Subject: Re: [PATCH v2 08/13] mm/sparse: move __highest_used_section_nr
+ handling
+To: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <20260921-b4-sparsemem_cleanups-v2-0-54d81d65e125@kernel.org>
+ <20260921-b4-sparsemem_cleanups-v2-8-54d81d65e125@kernel.org>
+ <arIC7BheTHzBnLoq@localhost.localdomain>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -97,42 +104,41 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <CAGsJ_4y8-wD0yMV8GCtCz5MfNrOKqUaTd+UgH=8MoP_nuvPnGg@mail.gmail.com>
+In-Reply-To: <arIC7BheTHzBnLoq@localhost.localdomain>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 9/21/26 23:56, Barry Song wrote:
-> On Mon, Sep 21, 2026 at 11:37 PM David Hildenbrand (Arm)
-> <david@kernel.org> wrote:
+On 9/22/26 06:24, Oscar Salvador (SUSE) wrote:
+> On Mon, Sep 21, 2026 at 09:59:00PM +0200, David Hildenbrand (Arm) wrote:
+>> In preparation for removing __section_mark_present(), let's move
+>> __highest_used_section_nr handling into its callers. Verify in
+>> sparse_init_one_section() that it was properly updated.
 >>
->> On 9/21/26 17:24, Alexandre Ghiti wrote:
->>> On an asynchronous swap device MADV_PAGEOUT only marks the folio
->>> PG_reclaim and rotates it to the tail of the inactive list once its
->>> writeback completes, so the memory is not actually freed until a later
->>> reclaim scan removes the by then clean swap cache folio.
->> But we have the same behavior when just reclaiming memory ordinarily? It's added
->> to the swapcache and only the next scan actually frees up the memory.
+>> In sparse_sections_init() we can just set it to the last processed
+>> section_nr.
 >>
->> Wouldn't we memory we reclaim ... just gone, like in the sync case?
+>> No functional change intended.
+>>
+>> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 > 
-> For synchronous I/O, such as zswap and zram, the memory is released
-> immediately after sync I/O is done.
+> Acked-by: Oscar Salvador <osalvador@suse.de>
 > 
-> For asynchronous I/O, such as NVMe, the swapcache is currently
-> expected to be rotated back to the tail of the LRU and wait for
-> another scan. Alexandre once mentioned that when he tried handling
-> async I/O the same way as sync I/O—releasing the memory once the I/O
-> completed—he saw some regression. So, delaying the release until a
-> later scan may allow swapcache hits before the folios are eventually
-> reclaimed.
+>> ---
+> ...
+>> --- a/mm/sparse.h
+>> +++ b/mm/sparse.h
+>> @@ -26,6 +26,7 @@ static inline void sparse_init_one_section(struct mem_section *ms,
+>>  	unsigned long coded_mem_map;
+>>  
+>>  	BUILD_BUG_ON(SECTION_MAP_LAST_BIT > PFN_SECTION_SHIFT);
+>> +	VM_WARN_ON_ONCE(section_nr > __highest_used_section_nr);
+> 
+> I wonder, have we seen this in the wild?
 
-"may", do we have any evidence that this actually is relevant in practice?
+No, it would be highly unexpected (thus VM_WARN_ON_ONCE).
 
-We asked to reclaim memory. We wrote the memory out to disk. We unmapped it from
-the page tables. We made the workload the could, access the page immediately
-again suffer already.
-
-We should just evict them as soon as possible to free up memory.
+Thanks!
 
 -- 
 Cheers,
