@@ -1,142 +1,81 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E84135F8C9;
-	Tue, 22 Sep 2026 13:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEE9548578
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 13:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790082100; cv=none; b=Hb4xH5BDsq2HNQbg0JA1E5sFwofDxMZnRZde/i6bOOH4vvflm7Xr0281Q7GOkGDdNYvZV26ms6STISdSYSIPRskaV7+9B8OdiX00kGb8ulf+o37JZTv9dqmK371gq4otR4c8uxRDwcQjceEzZN9qZMdzuIO2INqvgXKWedA1BcM=
+	t=1790082834; cv=none; b=FrPh3fThT5mzkXlZa44c+twJ0NiUmj8vcNcOJRwjAmMAYatR+jSOAPAqLT4V87ueU0K6FQJ3RWnTKIlHxlp9CuYU9Vq4SpAxPi5XOov0ENw9Db5l4bz03u74jdyGT0nt5UilDlY0oW7T/kvM3clIvFVr5gp206TPUiQ8DwXez34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790082100; c=relaxed/simple;
-	bh=++SccuCbKBv285ysID1UIv6JMney/tvVrvoFUbNLS7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lqg8c3mziQFPmt9Mw7Ae2wFpDf0HV0noXPQTBn4BYfvJN6mAPZf3ZGwpf0YdbMRDmcIfcvaqmyc7ZQOmYPSpLsI7DOS/L/MGYhXfBwxdERH8wpmYrj29K/Fw2AreHjJvrYL3o5+ppayUOFja7I7pkidJAHzaAAT2KduT0pLwuEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Qguy9T9k; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1790082834; c=relaxed/simple;
+	bh=oOui4zK6FIe70bxPh3uf6x1iuyJg4jcWicCOXddxrNQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VHM3Gbk4EKWhWfOaIqIBckCToCmEY60HRNWJgP8wYDU9SRDC5D57t9tV4/9vqfzPeIyM0GYC4Gve8yoBpCtqmNYAJb9RhyYAYHP43WXRTa82bskLQWvb7p890fbquaV0j3fn/vxRmwrdh21ywq8/v7moc5iJ1yPRT3WC1snZA+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PjH/QJ8h; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Qguy9T9k"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=MbrkRELXNcf5gvBNbNySxsJYtwVEF+cOM6jcsoTTHSc=; b=Qguy9T9k3B7GnjxHjwC1FIPdqJ
-	N/p37OAJ9UGrIn/D6m9I1/Xhr4LvYapn8ZcAYnBfcxrxV8H5mJ6EbXHjD9cfNdXJV9Z+w5o0b1oav
-	Qmv3VzzWJOrW4XwJ1G0M9Ck7vgP6ZtLcZ/9FcMplXi+vQodyv0hAPx2rPkVGUYexO0xFIC3/f9+Jg
-	q97Ifq1Z9Hjs+iksoCo+u7rIa/8HRLlt+e8AyFkM/e6x11AWiwPWtQsXJks7qcS+oGEUi6YZBKV26
-	ej8uJw7D+d7S/0a9pDb3ecGVnuln6cFbA+NJuEGhDmCU382leMgqHo9F4ioaLA497EsVVmHrfh9+7
-	oqvSYj0w==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x907u-00000005PTh-3dni;
-	Tue, 22 Sep 2026 13:01:38 +0000
-Date: Tue, 22 Sep 2026 06:01:38 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jeremy Bingham <jbingham@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	brauner@kernel.org, jkoolstra@xs4all.nl, jack@suse.cz,
-	djwong@kernel.org
-Subject: Re: [RFC PATCH 1/1] minix: unify the v1 and v2/v3 itree code paths
-Message-ID: <arJ8Mpef2gSLvKos@infradead.org>
-References: <cover.1783324260.git.jbingham@gmail.com>
- <d9f07a9037d019043ed24d8245d9a58ce2c669f0.1783324260.git.jbingham@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjH/QJ8h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C4CE1F00A10
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 13:13:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790082832;
+	bh=oOui4zK6FIe70bxPh3uf6x1iuyJg4jcWicCOXddxrNQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=PjH/QJ8hvA0sOl2Dpfs8o9nh3ZPYx/skwjWu6d+Lm0WirmbyAFPVzv3IqYUUEoVsV
+	 rnkr5IPkYjwet47lyZR62BE4UDJstR+kHrWs2IM0IwrENJJd1WsXYFA+4Wew743eui
+	 mQkFvGLz4awouErA26ETfEZbzyS5gC9BqfskAR7D1Iernc7qbiirkSNiZ4RtjvI+VC
+	 DDNVV12LLIXURBAzFaKK5+1Jvf++r/vR9YMUBmVHo5sOPXEBhukRf+tlxw6wyL2AQt
+	 cUC6XMW1gmTthUjE1BcG7Ii/IP3/c0wmTAKOhG2vJM6XHYfgDetPWLT4DccRMzUiUV
+	 cNGf/1KuAQfsA==
+Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6a9ab2a135dso5624561a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 06:13:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBziJMv9Ct+mQoMBea9v7G3VANvvlw1/p64ioOrgZQ6ngrx0NkDw6nrcapaUwVk88BhE+In++lvV/hD2qG58@vger.kernel.org
+X-Gm-Message-State: AFuF++mBF1KwN2fmxw6rWh6JiHXLtT17vil4ZTO0HjTW82/35wxn2hlv
+	BxsQQpK4JCXELSGTCBeuGJdXhS1pddkVqQ2Ec4bfVSXYIDP3KBAGZe+iEkB5GWINyhyURW8CEIO
+	XJmesj34zaVVcblILdLUm/LDXfwBa2zs=
+X-Received: by 2002:a05:6402:a509:10b0:6aa:96b3:9d7b with SMTP id
+ 4fb4d7f45d1cf-6aa96b39e75mr2793518a12.45.1790082831228; Tue, 22 Sep 2026
+ 06:13:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d9f07a9037d019043ed24d8245d9a58ce2c669f0.1783324260.git.jbingham@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20260922043301.15101-1-kmehltretter@gmail.com>
+In-Reply-To: <20260922043301.15101-1-kmehltretter@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 22 Sep 2026 22:13:39 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_3w_pjF9Y4H97UrCQ5Q6wYtCmfbiFBYa4t+5HkcJOYJQ@mail.gmail.com>
+X-Gm-Features: AclHuK8pziMClaJLRmRE5rz8-0BWbIB6CDlKWZzsGG_dIfU-CEW00nSs6TQpmGs
+Message-ID: <CAKYAXd_3w_pjF9Y4H97UrCQ5Q6wYtCmfbiFBYa4t+5HkcJOYJQ@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: include the final partial cluster in sync writes
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think this is a good idea, and should make the code more maintainable
-forward, as well as simply your iomap conversion.
-
-A few comments:
-
-> +	/* Set the direct block and indirect block depth now that the rest of
-> +	 * the version-specific settings have been set.
-> +	 */
-
-Please use the normal kernel comment style:
-
-	/*
-	 * Set the direct block and indirect block depth now that the rest of
-	 * the version-specific settings have been set.
-	 */
-
-> +	sbi->s_direct = MINIX_DIRECT; /* Always the same. */
-
-No need for the comment I think.
-
->  	generic_fillattr(&nop_mnt_idmap, request_mask, inode, stat);
->  	if (INODE_VERSION(inode) == MINIX_V1)
-> -		stat->blocks = (BLOCK_SIZE / 512) * V1_minix_blocks(stat->size, sb);
-> +		stat->blocks = (BLOCK_SIZE / 512) * minix_blocks(stat->size, sb);
->  	else
-> -		stat->blocks = (sb->s_blocksize / 512) * V2_minix_blocks(stat->size, sb);
-> +		stat->blocks = (sb->s_blocksize / 512) * minix_blocks(stat->size, sb);
-
-v1 always sets s_blocksize to BLOCK_SIZE, so this can simply become and
-unconditional:
-
-	stat->blocks = (sb->s_blocksize / 512) * minix_blocks(stat->size, sb);
-
-> +++ b/fs/minix/itree.c
-> @@ -0,0 +1,744 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +/*
-> + *  linux/fs/minix/inode.c
-
-Please do not add (or move) file names in top of file comments,
-they are a bit pointless.  Also we usually don't have an empty line
-between the SPDX tag and the top of file comment.
-
-> +#include <linux/slab.h>
-> +#include "minix.h"
-> +
-> +#define DIRCOUNT 7
-> +#define INDIRCOUNT(sb) (1 << ((sb)->s_blocksize_bits - 2))
-> +#define MINIX_V1_BLK 512
-> +#define MINIX_V1_BLK_SHIFT 9
-> +
-> +/* The different versions of the Minix filesystem also have different block
-> + * sizes. In order to unify the itree functions and not have the split that's
-> + * been in place for decades, we're going to have two separate types for v1 and
-> + * v2/v3 block sizes. This does require having explicit version checks and
-> + * casting block pointers to v1_block_t and a few cases where there's a special
-> + * v1 version of a function that gets called where it's necessary to do it that
-> + * way.
-
-Comment usually should describe the current code and not the history.
-There's a few exception where the history really matters like for bad
-on-disk or on-wire formats set in stone.
-
-> + * files, the last master commit before they were merged and altered was
-> + * 87320be9f0d24fce67631b7eef919f0b79c3e45c.
-
-Also not needed, git log/blame will tell us easily.
-
-> +static inline int v2_block_to_path(struct inode *inode, long block, int *offsets)
-
-Overly long line.  (a few more below)
-
-> +/* same business with chain as before */
-> +static inline int splice_branch(struct inode *inode,
-> +				     Indirect *chain,
-> +				     Indirect *where,
-> +				     int num)
-
-static inline int splice_branch(struct inode *inode, Indirect *chain,
-		Indirect *where, int num)
-
-Similar for a few other functions.
-
-> +extern int minix_get_block(struct inode *inode, sector_t block,
-> +		struct buffer_head *bh, int create);
-> +extern unsigned int minix_blocks(loff_t size, struct super_block *sb);
-
-Please drop the extern for all function declarations that you touch.
-
+On Tue, Sep 22, 2026 at 1:33=E2=80=AFPM Karl Mehltretter <kmehltretter@gmai=
+l.com> wrote:
+>
+> ntfs_attrlist_repack() synchronously writes the replacement attribute
+> list before updating its mapping pairs and freeing the old run. With
+> 512-byte clusters, a 544-byte list submits a 512-byte bio, but the
+> write returns 544 and repack accepts it as complete. If the later
+> buffered update does not reach disk, the replacement list lacks its
+> final 32 bytes.
+>
+> __ntfs_inode_non_resident_attr_pwrite() converts attr_len to clusters
+> with ntfs_bytes_to_cluster(), which rounds down. Before repack, its
+> synchronous callers used either cluster-aligned lengths or lengths
+> smaller than one cluster, where max_t() selects one.
+>
+> Round attr_len up so repack writes the final partial cluster before
+> publishing the new mapping pairs.
+>
+> Fixes: b1d732e62a5b ("ntfs: repack $MFT/$ATTRIBUTE LIST")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Applied it to #ntfs-next.
+Thanks!
