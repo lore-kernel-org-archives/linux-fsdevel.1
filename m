@@ -1,58 +1,58 @@
-Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4D9382F08
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 06:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365604A5EAE
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 06:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790056952; cv=none; b=LiPRdJTaAsxifdiKapgyR3vThGc3aqK+RP5Ju4Lg3KmL5dYDIzAO4GBpOCsIjbrCrPs3MvZFGwCP/4UxF7qHk0XxA66/Ahbb0nxhj4ov+kpYQMhKMoJ5u3AjC0h2vX+KBZSAYz6Z0Mh07/H98Kgf1oSezbTC68v/W4/vYq/clvM=
+	t=1790057245; cv=none; b=eu6QeOLfZXNS03s1b9/QFXLMcNU7r4+UTU2ycBL1A10pR7eu8Qp09tpmxeRIfyf5LVXgmlXu+K7oahXi904ihJJc/wPRhc4z+Vy6VmWNhNFhJPctizv9MjXqsbVEFeVOOb0eftddYDtps8obkSxCda8c9/z/H4/z2JY6L/LtjDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790056952; c=relaxed/simple;
-	bh=/gkxxAEJ2VEsBzCj+0PCJrUAyaQRh7llGGlVQ5kUCrQ=;
+	s=arc-20240116; t=1790057245; c=relaxed/simple;
+	bh=Q/oDrKjoLV0PJ7re9Qc+KtJR5UkROXgTJNC/Syw4ETE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oNYkC+J2NbCOpGNathuEOCGYgY9qp80JQeRMU8qRreD/HFmscA0ne0bT33V+qu9CIRaeAEcpbEAsv/9GEeZ8i4fKBN/awXbAE5buiCHfZ1c+75ubigDs+yFkOxa8sv0dYDr9SozQ1CGSIi2eUBR61PV0DIPVHTbw5WRvsCKO6fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=black-desk.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.229.204
+	 To:Cc:Content-Type; b=tqM1/Dm1m96p4NpG/Shs5W5la1jjm8MpLRk45MsccNaG8c5UqVYaZa16rFukZSgP8Xs2ayIMSMmLaW9BHdTj+G87rAsJtYs+gi8QMn6tLNfF+xfxIrcTrQ7YL84eN3KCMcPY0S8TIKIq7ff7ItEYCqhvm6Ud1+rs5Khb81ph5Dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=black-desk.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=black-desk.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f1801fso3746003e87.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 23:02:29 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c169ae1cb26so82505166b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 23:07:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790056947; x=1790661747;
+        d=1e100.net; s=20260707; t=1790057242; x=1790662042;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=51dqkeK+6HTCaJdD0DRXH94PwuZHWhVc5MOITOLNdLE=;
-        b=rf/vCSdJ1UFZ5nCng+ern3C6gxDR95yE6074wJj2CG25Yi7pU7YU5zRTpBcruzYDli
-         B1Y49VY/5U/RrsNpfznU6ohPat7u7DrCyQri2PsJrcNO30q8ijdOSnmT/Sue4sQm6YHI
-         81RFzQOCVjMn7nk4WMTtthsu4q4R29yWcX6SW0OGH06Hv1Mfmu/F7D71gC1bkkG/uNwS
-         4tmaldy6c4U/DI/wTog/jDlRlfWU2iCaiSNTNYlB6xRuzr91MG8uPvxf0t++gbSfJlhI
-         IJ+ZtyK2a5+pWC2fvqBgIJUFkX8U1+MU5i6NX+jun21VE18mSHRFU7Py9uhP/YZyTg+W
-         S0TQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx4KMICoF6gSHLKEFaEdrLWO9sOUgwVKqL9UV3tX+FK5hub09q1oeXCTaa+DyX0rYhqX3NRuePAaoLy+K02@vger.kernel.org
-X-Gm-Message-State: AFuF++k0xMemtIslJpZGx1nmQVW9irialhEjlrrcvV/6GDnAzctQ2SOm
-	M0vJIWfxK5qn6cVwyn5/mdSyZTnypRwGXdogd9xHvvTMn6IvelIeyntCPLARgWqZzIWYBQ==
-X-Gm-Gg: AYBFou3xBdv2DbU2zJebIQ+MWWNoUgZdIbIdOxaMddciyGpoqNGVsbgFnp1RD1fgRRJ
-	j/Ge6m3XZUEUfrDZpmlUpGAgHN7zr+ub5Y/TNrD5UizR5lWxk26A+ztHKOsOmBZZO1uJk0leBbX
-	FzlLOZcsJ8ZpSyhjdGjKugQeL1rk5MJq6dsLL6jPV214DFKfOag6ctuCYtEkqVmf2BvXUEDEV03
-	spsAvOQzhjdU1nUl60JKycq39jRW5yAlKWP1oUPlD09NDtvoVRYIBuiBI44tI0cW3SCNxydjc+T
-	h6rl88Nl7KmV/qkKEXMj0NzzB7SitNmq2BfBgjbhw4t9WK12/hen6E5rKju/QA1fvLeXgtNZBQm
-	nYOoLR4tYmvxD3uSAJtJn37dkUTILDsqDW2G7LFSsIg/5SJblnmoBfuBNzU/tMnhnVYLqWczT8c
-	TaJO34qQoXPl7Id4aZ2EIkavI1DMTNT6F3UDKXP3kELqzYoJ2pdXvNWzI+XGO75EVAL2G1EtAKZ
-	UnoGS88YNG6Mg+7mvhrf7R0uvoCYuvRsrXKgRbHHtjhwrudRt+CGQKdnnRDurIa
-X-Received: by 2002:a05:6512:3e25:b0:5b8:d078:da8e with SMTP id 2adb3069b0e04-5b8d078e2c7mr1228633e87.28.1790056947321;
-        Mon, 21 Sep 2026 23:02:27 -0700 (PDT)
-Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com. [74.125.229.205])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d46d2072sm215807e87.17.2026.09.21.23.02.26
+        bh=Zxmsk/EJ4w4QHvprrsLgwa7ofL6yH0BsSIWlOL221Nk=;
+        b=OEQXifYEBjsAIwMS9kvMjKzbUPUb9YkuViW38gzATLDTIm9GBCTYX6+6qnM+rhOVx0
+         kdoBvBjtFpuStXUE3FTUQdUVck6jkjD1xhRsJrUih9oIB8XN8nO0KTatdwaed/0UdkwI
+         wvie72rWJQzV3cDqpYHV9S1gHVCkjQQ1r+WvV1jSRf2xPza8Pr2gm5WB6xjZnibFZ7hX
+         8XFc7s0B9kdIeWKeUja2mBejeMtPihbkyA0gNmyQpiH+rIHQtE7nirm5/qdFMVdpJXAF
+         itO3n0keAANYcM8TZcJeYPU/Ymq2c1I41AXMozVwRN5i88jzIys86SwYIVXvkz2rdFoK
+         044g==
+X-Forwarded-Encrypted: i=1; AKwUvBxh8sth8nqzRmT10cSn8dv4F8bVqLG0kmbbBfr/VIfFiMkbl3qpKo+p681ystkRr3L5ths7F8ft0B9S/jDh@vger.kernel.org
+X-Gm-Message-State: AFuF++moo97Ekjj5g4SO7hxden1LrOQaG6/cPTvX4rPogYyS+zcANH1l
+	vzav1uptNFwaCppr+n/8kwQIJ2Afwg3Boc842BmHaYv3QUqc0EykTIX3787NVnt9/atKy1gB
+X-Gm-Gg: AYBFou3EVPFrneCe/ROoEq+GmkdzdeaMixJaJGLUKynUOGlcO3JtVuEHN9CUTBrXnao
+	s496bbjE32H8hsJX989tLbJFg2OucsxCtuYmRbByDOmPXwrBS/I0sPPpvxjaSIIH9VhcckiDPPu
+	5bz4U6E/VI/Ai6N+dMVf3DggYO75g/z575VGHRMic3uUPNnn+fyeHSirS8I36KDO0s+EtRvuISJ
+	cs62m3zxL5/O0UBq9HQ2EQgUXujlL0461ozn+TwPgzqMwhOmyu5c3soN9P7dXtMXbzmMKEJ1IM4
+	PU62sAxhuKBHcBE5bG+P0QKZ0LsEGPh0QCM9JAKU3Fjycd7vHQ1GalixJKoJXuWBpYBQ1v2a/C0
+	dOrtvzkIsnzFt9oZKnLwLs7/8ySs4YKfSeyARss1SQPqQiNZ5plAqQEkxISfP3q+5F8udZz6nr3
+	Eby4AE4Scr2aeAQA2BWqoZHm2HWAmwz3DVX19JfrZ+RbSAh98jM2U/BmEUP8hr9QTk8SB+v2rJJ
+	byr2uNCfaTR/cDezndh0eBG2NFiteJ6GQqVipQVhm/JSGMF/pcgq1oU/iyM9AHH
+X-Received: by 2002:a17:906:7947:b0:c29:6bf0:eb73 with SMTP id a640c23a62f3a-c2a8d44d8f4mr132662066b.1.1790057242364;
+        Mon, 21 Sep 2026 23:07:22 -0700 (PDT)
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com. [74.125.228.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aaa44f9a77sm417622a12.17.2026.09.21.23.07.21
         for <linux-fsdevel@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 23:02:26 -0700 (PDT)
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b5e4f1801fso3745976e87.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 23:02:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBy6btwF1y9AQ9Sbxp+0bxN8t0Rz46PjDo41T0Gp6StdKXfNXZgJLVU8nkuFU26BETuHfsYIVNQeL4REYuvK@vger.kernel.org
-X-Received: by 2002:a05:6512:110a:b0:5b8:99a5:5162 with SMTP id
- 2adb3069b0e04-5b8c180e6cfmr3759117e87.26.1790056945794; Mon, 21 Sep 2026
- 23:02:25 -0700 (PDT)
+        Mon, 21 Sep 2026 23:07:22 -0700 (PDT)
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c2940ff2313so228643066b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 23:07:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBz4UNVPmjnz2vhJ4fKnM9eGb4plBkLQ2E51BnRGzqHm/GkolIFUcXH0R2pdFiHgjMne7uhMEHXeqNdwWrpC@vger.kernel.org
+X-Received: by 2002:a05:6512:220f:b0:5aa:62df:cd0f with SMTP id
+ 2adb3069b0e04-5b8d28f3a47mr500408e87.2.1790056745194; Mon, 21 Sep 2026
+ 22:59:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -60,18 +60,17 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260831-pidfd-get-paths-v2-0-c59ea6a21b72@black-desk.cn>
- <20260831-tauwetter-werkbank-dramen-b37eb4025283@brauner> <CAC1kPDMK_D4nhyRmBHg6KC7SmmCkH73Xtc5DhXeJbSvf3LcqcQ@mail.gmail.com>
- <CAG48ez1T5-tUHVK_iHsgUtWa-inVdrZxA3E-ZCW0iENJvasKfg@mail.gmail.com>
-In-Reply-To: <CAG48ez1T5-tUHVK_iHsgUtWa-inVdrZxA3E-ZCW0iENJvasKfg@mail.gmail.com>
+ <20260831-pidfd-get-paths-v2-1-c59ea6a21b72@black-desk.cn> <CAG48ez3vJrbt+qYh5b-PYxmr2txcg3DAKDRwmBwVzNhRB+8Ueg@mail.gmail.com>
+In-Reply-To: <CAG48ez3vJrbt+qYh5b-PYxmr2txcg3DAKDRwmBwVzNhRB+8Ueg@mail.gmail.com>
 From: Chen Linxuan <me@black-desk.cn>
-Date: Tue, 22 Sep 2026 14:02:14 +0800
-X-Gmail-Original-Message-ID: <CAC1kPDNamG4BpfsX0mn9E-Y+ujGTLe-oU63kJFOjxW6bDmSLnQ@mail.gmail.com>
-X-Gm-Features: AclHuK8ITwQn4waky8resdLcCFExt5UoOF-9n53imPe55RkN7kQMS7sWnKkQWLA
-Message-ID: <CAC1kPDNamG4BpfsX0mn9E-Y+ujGTLe-oU63kJFOjxW6bDmSLnQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] pidfd: add task path ioctls
+Date: Tue, 22 Sep 2026 13:58:53 +0800
+X-Gmail-Original-Message-ID: <CAC1kPDMUT6pUarj-ohTGB9=5u=7osk+8bvyyAAjStsJN6Z3sEw@mail.gmail.com>
+X-Gm-Features: AclHuK-ZUoiNUpNllD9s0TdWDgkEMFXuDsvm8kdoP44o6gMCMaHAEIjZzTqw_NM
+Message-ID: <CAC1kPDMUT6pUarj-ohTGB9=5u=7osk+8bvyyAAjStsJN6Z3sEw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] fs: Introduce task path helpers
 To: Jann Horn <jannh@google.com>
-Cc: Chen Linxuan <me@black-desk.cn>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+Cc: me@black-desk.cn, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
 	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
 	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -88,86 +87,54 @@ Cc: Chen Linxuan <me@black-desk.cn>, Christian Brauner <brauner@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2026 at 4:22=E2=80=AFAM Jann Horn <jannh@google.com> wrote:
+On Tue, Sep 22, 2026 at 3:21=E2=80=AFAM Jann Horn <jannh@google.com> wrote:
 >
-> On Wed, Sep 2, 2026 at 8:47=E2=80=AFAM Chen Linxuan <me@black-desk.cn> wr=
-ote:
-> > On Mon, Aug 31, 2026 at 4:49=E2=80=AFPM Christian Brauner <brauner@kern=
-el.org> wrote:
-> > > On 2026-08-31 10:59 +0800, Chen Linxuan wrote:
-> > > > Obtaining a target task's executable, working directory, or root
-> > > > currently requires walking procfs symlinks such as /proc/<pid>/exe,
-> > > > /proc/<pid>/cwd, and /proc/<pid>/root.  That makes the operation de=
-pend
-> > > > on procfs being mounted and visible to the caller, even when it alr=
-eady
-> > > > holds a pidfd for the target.
-> > > >
-> > > > This series adds PIDFD_GET_EXE, PIDFD_GET_CWD, and PIDFD_GET_ROOT. =
-Each
-> > > > ioctl takes no argument and returns a close-on-exec O_PATH file
-> > > > descriptor referencing the corresponding task path.  The new ioctls=
- use
-> > > > the same ptrace permission check and nonzero-argument rejection as =
-the
-> > > > existing pidfd namespace ioctls.
-> > > >
-> > > > The target task is sampled while holding its exec_update_lock. This
-> > > > keeps the access decision and the task-state read in the same exec
-> > > > critical section, preventing a concurrent execve() from changing th=
-e
-> > > > credentials or target state between the check and the use.
-> > > >
-> > > > The first patch factors out helpers for acquiring referenced task p=
-aths
-> > > > and reuses them in procfs and AppArmor.  The second patch introduce=
-s
-> > > > scoped cleanup for privileged pidfd task access and separates names=
-pace
-> > > > lookup from namespace fd creation.  The final patch uses these piec=
-es to
-> > > > implement the three new ioctls.
-> > > >
-> > > > Signed-off-by: Chen Linxuan <me@black-desk.cn>
-> > > > ---
-> > >
-> > > I really have difficulties forming an opinion on this. So this sounds
-> > > very useful but it has implications.
-> > >
-> > > Right now, pidfd ioctls are available even in situations where the ta=
-sk
-> > > in question would not be accessible via procfs, e.g., when procfs is
-> > > mounted with "hidepid" options or similar. So this would expand the
+> On Mon, Aug 31, 2026 at 4:59=E2=80=AFAM Chen Linxuan via B4 Relay
+> <devnull+me.black-desk.cn@kernel.org> wrote:
+> > Introduce helpers that acquire a referenced struct path for a task's
+> > executable, root, and working directory. Reuse them for procfs task
+> > links and AppArmor executable-path handling instead of duplicating file
+> > and path reference handling at each call site.
+> [...]
+> > +/**
+> > + * get_task_exe_path - acquire a reference to the task's executable pa=
+th
+> > + * @task: The task.
+> > + * @exe_path: The task's executable path.
+> > + *
+> > + * Returns 0 if the task has an executable path, or -ENOENT if it does=
+ not.
+> > + * The caller must release the path through path_put() on success.
+> > + */
+> > +int get_task_exe_path(struct task_struct *task, struct path *exe_path)
+> > +{
+> > +       struct file *exe_file =3D get_task_exe_file(task);
+> > +
+> > +       if (!exe_file)
+> > +               return -ENOENT;
+> > +
+> > +       *exe_path =3D exe_file->f_path;
+> > +       path_get(exe_path);
+> > +       fput(exe_file);
+> > +       return 0;
+> > +}
+> [...]
+> >  static const char *get_current_exe_path(char *buffer, int buffer_size)
+> >  {
+> > -       struct file *exe_file;
+> > -       struct path p;
+> > +       struct path p __free(path_put) =3D {};
+> >         const char *path_str;
 > >
-> > One point regarding hidepid: for callers that can pass
-> > PTRACE_MODE_READ_FSCREDS, hidepid does not provide an additional
-> > restriction. With hidepid=3D1 or hidepid=3D2, has_pid_permissions() fal=
-ls
-> > back to ptrace_may_access(..., PTRACE_MODE_READ_FSCREDS), and
-> > hidepid=3Dptraceable uses that check directly. In addition, the
-> > /proc/<pid>/{exe,cwd,root} links independently perform the same
-> > PTRACE_MODE_READ_FSCREDS check in call_proc_get_link(), regardless of
-> > the hidepid mode.
-> >
-> > So for these specific path lookups, hidepid does not block a caller who
-> > would already pass the check used by the proposed pidfd ioctls.
+> > -       exe_file =3D get_task_exe_file(current);
+> > -       if (!exe_file)
+> > +       if (get_task_exe_path(current, &p))
+> >                 return ERR_PTR(-ENOENT);
 >
-> Agreed, I think with regards to hidepid there should be no issue here.
->
-> If I try to come up with scenarios in which this could introduce
-> additional danger, the main one I can think of would be: A task T1 is
-> running inside a pid namespace and has a unix domain socket connection
-> to a task T2 outside the namespace, with both running as the same
-> EUID; T1 sets SO_PASSPIDFD on its socket to obtain a pidfd pointing to
+> This assumes that when get_task_exe_path() fails, it doesn't set
+> members of the path argument to non-NULL values. That should be noted
+> in a comment above get_task_exe_path().
 
-Does SO_PEERPIDFD matter too?
+Will be updated in V3.
 
-> T2 on the next message sent by T2, then T1 uses that to get access to
-> the mount namespace of T2.
->
-> Christian, is there some mechanism that already protects against using
-> something like SO_PASSPIDFD to get a pidfd to a process in a parent
-> namespace?
-> Otherwise, should we add something like a "pid_vnr(pid) !=3D 0" check
-> either in these new operations or in SO_PASSPIDFD?
 >
