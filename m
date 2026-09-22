@@ -1,73 +1,74 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852E8562602
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 15:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C4F563FBF
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 15:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790092532; cv=none; b=OwdVQw3eLAkC6O8n9C9+2iLWUpyUPtipdvtzVSAeYn73frXKxG8dxmrGxtPRWg8i1d+L3/XIg/mNe2dgcoX44RgN/dMjXVbzQZLrcitQj955To8IEEjPZ4t76N8nzfvpI4bGs3Vwg3lTYU+9E8zIRW5hFesL5crsRRS8UboaZeA=
+	t=1790092533; cv=none; b=SsxGE2dv6gYqm291gqF0gG94r9wP24YIpcYSgFjQoP4DGjWQs24QTPpdCqJ2RClkKLBNyLgIuEdEJVrJWIIF3Z0owppgnO0VyT9HF7qGb5P+F6iPWYU/Wo4HD1japbq1vLgrBYS1lM4IO1RJoyxt64lo/HPw38BsGOqrUrOKb1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790092532; c=relaxed/simple;
-	bh=0o1i8r1M9sy0+q3Vj2qZMykGNwX6I9ms98Xd6JXv0j4=;
+	s=arc-20240116; t=1790092533; c=relaxed/simple;
+	bh=LbyRcjRHQw/+xkQGHr8tsvAw+bO9ob1kpAT7jwfl9bI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b+uB+S3SNFAAxbXxonZ2GV/mXZFduMQrrUJkbzyn9jq3uEMhTt2l9dw3CzvI8nR0oZLKv0LpylnRbaib3OUiybqCy1CBkQ4w5M0vBf67Hlt9hd2PF/t/0zWLv3VuQqfmVuGwftWlTvIhvCGQQEY3Z6tO7j4okzQcuJh7Ur/gjCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QEZcjqFD; arc=none smtp.client-ip=74.125.228.12
+	 MIME-Version; b=Sg4gWKXDANovGl3kuNYGm1npVeGLnDrltol9byLXs4sLK6kO9rzfoHi+EbRrEcDqcFgAKVHQ31im4OjSLcucG9WjMWUUJmIeZTU2MWtEuurX5XfFmZ9TNFs7TBBpOpLcf5LLOMhqCARcOeMdulRJZ+ccX28HRv4RuOsPkM4nmcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UvMiZVH5; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QEZcjqFD"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea4c7a0so108303a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 08:55:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UvMiZVH5"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccd5cf02so36928a91.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 08:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790092530; x=1790697330; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790092532; x=1790697332; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=d51iauC8n/sRqGdtQd7OF6cXgXxpaQlDT6PnPgcL53c=;
-        b=QEZcjqFDRtjQq8ZjxExN9IoX9BiglQLnbc5cPAnuBdYJy38VZ5bw5DHBkOsAMOVCDu
-         c025H4ACvL9YMdcWqBFjNCavQhU3SRCjIJ/nIPeCuB4I+ZLczHLe3sR69xbyBWi802tH
-         FHvzSv94rHbKQezWVch6TmogE6U+zl5Mx+Kguobua/ETxTyF+7645xw2ln4ZCvqgw650
-         Ut1egrGx16tow53V9LzV+9ZP90JjTevz3xnj7nyE64sXNQ8U3QZ2F4tGXxR51qP7pmht
-         GXSRgLL+CTjn41Jo8XB5eMTxBag4FNlyp/GckEEfztTfynCfuLJmRPZTowZ0jmfu/yuZ
-         7NHg==
+        bh=vpJfO8QkHNHZKvD9yNEk2TGRf9tD9f/5UmHSoPqjBK4=;
+        b=UvMiZVH5QgqoM0tGZGzK18VNddaap+02F4EcFWY49Bp2JARAgauWxeYbkM6xlhC6yb
+         HkGG60obDttqseFY2CUBA7UD86qVlXqE8LxxBY87AlI48+55aYbjkqsh0maURgA4VLRm
+         HtBVufx6tWFQod6Fe9XamLy9awE+qRbj8cDYt1Zy7c60OWCRQrTpJocMqVB7JaKQPfZl
+         Fhy+HtBJ2h2ljYWcgEAd9dTNEC1fqHQKc7GZ8iHIRiSwOJn/StVg5oDNVxes9j/aAt34
+         TNF3bRIreOiMLkJMohqeGm1wlPqzK6ZuoaoSzCp1cxiP6qxlFWI5L/upLpxm33PopHt3
+         BhyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790092530; x=1790697330;
+        d=1e100.net; s=20260707; t=1790092532; x=1790697332;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=d51iauC8n/sRqGdtQd7OF6cXgXxpaQlDT6PnPgcL53c=;
-        b=NWxAdIBh2tf9kNNU03Ah6Z622Q7FyzJHlMhheu/Nk0gxXXBEKmisM7Zr4kFs9mq6/e
-         MLkIrfUXdwYnPnobCYn6+BBxBodH3G9PcCzn1kyYEDoSrDOGqJV+lIUSsdrhB3f5qAQn
-         sfQoF3wkS8M6hxU7qUzQQRoMyScBMb5TRrguto8csjeci+cAt9l6zRBRjnhRihypCdu6
-         ILWMzKPlhmOJ2HXkWqm0A48LItrQPzrw4ehtVU2iWgwA4dXYLaOcJxkngthEpaDMCMsR
-         2tGouLkzKAgxMNoJeCLdwekFe2BI96e18GCk8yklOghxZdXOQzlpAL4nyc8soxiOxxwT
-         jmvA==
-X-Forwarded-Encrypted: i=1; AKwUvBzBcmiLqI4XWMO/uQxm6poJthOU6V4cLSLyPyTesJHAxCe2at7WrboXzJvhPD00c0JSb7YxHfTp6Ka0NOkO@vger.kernel.org
-X-Gm-Message-State: AFuF++l5hlcJzFoKhRRSyYuz3f2htOg3STqEzDeBseOGan5G4zfApOq/
-	ecyZbLauMZQ8Nbhv8SOgwJWz+K5VjVdKnV2rSLA4UFyARLfg2KyM/eexFk7S1Idt
-X-Gm-Gg: AYBFou1oukVBYydbJUhWaKE/so+aXVMc4qVJ/EkGCW08xrWOzCx7rZ0PusnyEaY9E49
-	Bi1+fz0XPYjD33vyf6/nMMpIlunFB5BcF5JmAvi3KoGj/VwvIKPoXLWj9Hr1ES5w1blNDL5m6f/
-	eQJSSGYTgVzZhOZ5eC9ZTIWD04scaH44KlI5v3preprnZbLpe+euv9IW4gMIhuJIXI562W8fM3i
-	nYPeYfU0JSR+ZcEnqeir9B40f2mprUd9yuHsVZDecIOdzfk8E8nnbV7SQT4nAIgkPszjwlVIO1G
-	QOh8yaU8r/vbw57dNQirbKQLPxJAj5VDlYZLTP8hUfbNPoIoIMIFMTgGyD4wBcW2nDRj4E2Yg1B
-	9RLlLTr1ARIM5BSj+853XGeL8TIjlq3GidtDWpa3yWtPe5ZeLIbn432HCaIfSc61c8hIA8oPCIb
-	qeNHtkGg23CUGP70ttrj/0P70Y4XxGh75InmJfwCgeUw6SPj2LgT1zMM2nCxr4vGkLB/+zA84vb
-	EmPGn/JmIdPp3T39PnTd1BuuwdNIurclpWYGRDDCf5EgOTmPnQHZnjxyVzxpT7SAyGa/QBsisR7
-	nQ2gyZEG6GqsDMjB1RqmpjrNInIl5IlPvfWTMXYPI4QpqHB3GyCEN4IM05qWqXI=
-X-Received: by 2002:a17:90b:4e:b0:39e:6c6a:2098 with SMTP id 98e67ed59e1d1-3a073284a42mr1897290a91.57.1790092529655;
-        Tue, 22 Sep 2026 08:55:29 -0700 (PDT)
+        bh=vpJfO8QkHNHZKvD9yNEk2TGRf9tD9f/5UmHSoPqjBK4=;
+        b=DmRexTfmmTzKQIeZG0MA9VziCF7hQWUahwr8w2gPB4Ckwdqi0SZP6zrzENbGUOjQcm
+         nmu0/61Sm73HDiWA+AP5sC9rxqdK8Rg95ePreU3ZfuSI+cihPEgjziNV2sEIAIsDdDbg
+         xBdGRf1JiwHAcim99yXAUt0neqxG3SAc++0iioyBmsJfbObYNVhoeJZ6kVtk1f9Qi4cq
+         f4AVOLgXGV3xJRzbxjDuXM4oSZ4VdPEzb+oWLNThjAEhOLwdiBEQhxm87+YRW+a8WLN5
+         FyWWt4bmBKyKos8FjkRF8b/YvefXTyi/ZJgBPX0IB4QNZ/mOnMEBtkjJfosI11zvoZXC
+         qKzw==
+X-Forwarded-Encrypted: i=1; AKwUvBxZSB3JABHR5okHrv/Kl2xtSm7DgMT6q1J2IHnNc9Rimz0LmU1PoAbCsVkI7S0ANYFbFhExfUXiqnkdxI1M@vger.kernel.org
+X-Gm-Message-State: AFuF++k8eNVw2twyKrlyqi1B7VyzmdaXmITQdgMP0OM0gayWsOIGC9YY
+	nSocP9qvRe002QLkRd2jz6K/1BzEm0ldXX2+Pzf6Hsu61b4BcDLoGCK0
+X-Gm-Gg: AYBFou3ULU+MZkzt2bQIZKhM0rtQTv9a/GL0GhzpuP1yaSMuOgLEPqtPPJOdoEJfya7
+	L9lmMRWT9zqwSiwAL3KTBA7uOQWT/VNzD+tR3O2q25pqM9NisnlioFU9MEhR2c1N4fYdaT2qa/j
+	r9sUaKSmoUcyAhUIOSlN5onQcFvIKs+aGC+Or7HsELdpaueo6BXatI0k0/rG1qOUhsR4xc+gfTj
+	+CUCdHyizrWwBfC0orJLmy7B+xyq69XUX32Qr4Q/Idc68gbt4p6R7wh5wIAPoJ7k1ca7IYV+t7p
+	VAAFm7/PelhCnDf38Gi7Cm2u4ipZnsX99VpOPwf11ofmDm1+h3X+bi0h1aXvYABmQIOweffxfmZ
+	cRnSKJQuS6mvoxxEOAz3P2kPYMGz6+jkwoZ5CEjbM1s+dw8zZHGFXV8QVzzarZBP6HIqYoVdTX7
+	ukEJ7pXJSv2ehid5TvF2iwG8SGDxk1RBJGA3bWqpORpfU8Ufx23W4clH5nZ5fMm+Y0kSyhgLIRv
+	lMfy4xthEjaRcYGB9zAgw0Fc+b6g280mC82sEXUM1KzLlCcrKfCaaNKAHLy5tGQD2hYdoVubPDZ
+	0VWC5VNv1Cz54vwh+TdU8O2OAZDndBFlUnWghsotg578mnHE9w9YDI5cVit3RkiWp50f2oNtRQ=
+	=
+X-Received: by 2002:a17:90b:558d:b0:39d:8794:5564 with SMTP id 98e67ed59e1d1-3a07309f90dmr1897591a91.12.1790092531487;
+        Tue, 22 Sep 2026 08:55:31 -0700 (PDT)
 Received: from spider.bream-herring.ts.net ([103.252.203.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a07dbc5451sm83910a91.7.2026.09.22.08.55.28
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a07dbc5451sm83910a91.7.2026.09.22.08.55.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 08:55:29 -0700 (PDT)
+        Tue, 22 Sep 2026 08:55:31 -0700 (PDT)
 From: Matthias Goergens <matthias.goergens@gmail.com>
 To: Jan Kara <jack@suse.cz>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] isofs: size the name conversion buffer from a named constant
-Date: Tue, 22 Sep 2026 23:55:23 +0800
-Message-ID: <20260922155524.1993425-2-matthias.goergens@gmail.com>
+Subject: [PATCH 2/2] isofs: bound the Joliet iocharset conversion by the output buffer
+Date: Tue, 22 Sep 2026 23:55:24 +0800
+Message-ID: <20260922155524.1993425-3-matthias.goergens@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260922155524.1993425-1-matthias.goergens@gmail.com>
 References: <20260922155524.1993425-1-matthias.goergens@gmail.com>
@@ -79,147 +80,74 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-isofs_readdir() and isofs_lookup() each allocate a 1024-byte scratch
-buffer that four converters write into: get_rock_ridge_filename(),
-get_joliet_filename(), get_acorn_filename() and isofs_name_translate().
-None of them is told how big it is.
+uni16_to_x8() has no output-size parameter.  It passes
+NLS_MAX_CHARSET_SIZE to uni2char() on every iteration, which bounds what
+that one character may write but says nothing about how much of the
+buffer is left, and then writes a terminator wherever it stopped.
 
-get_joliet_filename() gets this wrong today.  It passes PAGE_SIZE as the
-output limit to utf16s_to_utf8s(), four times the buffer it is actually
-given.  That was correct until commit b2eb2e288604 ("isofs: Drop support
-of directory entries straddling blocks"), which shrank the allocation
-from a page to 1024 bytes in both callers without updating the bound.
+Nothing bounds the total.  It fits today only because the caller's input
+is bounded: de->name_len is a single byte, so at most 255 >> 1 units,
+each expanding to at most NLS_MAX_CHARSET_SIZE bytes.  The previous
+patch asserts that relationship at build time, but the conversion itself
+should not depend on it.
 
-No overflow is possible today: de->name_len is a single byte, so the
-largest name any converter can produce is 763 bytes, on the Joliet
-iocharset path ((255 >> 1) units, each expanding to at most
-NLS_MAX_CHARSET_SIZE bytes, plus a terminator).  But nothing says so,
-and joliet.c says the opposite.
+Pass the buffer size in and hand uni2char() the space that actually
+remains, stopping on -ENAMETOOLONG, as fs/hfsplus/unicode.c does.
 
-Give the buffer a name, use it at both allocation sites and as the
-Joliet bound, and have each converter assert that its own worst case
-fits.  Shrinking the buffer, or NLS_MAX_CHARSET_SIZE growing, now fails
-the build instead of silently overflowing:
-
-  fs/isofs/joliet.c:46:1: error: static assertion failed:
-    "(255 >> 1) * NLS_MAX_CHARSET_SIZE + 1 <= ISOFS_NAME_BUF_SIZE"
-
-This follows fs/ntfs3, which couples its name buffer to the on-disk
-length field the same way (fs/ntfs3/dir.c: static_assert(NTFS_NAME_LEN *
-4 < PATH_MAX)).
-
-No functional change.
+The result is unchanged for every name a valid image can carry; only a
+caller that passed a smaller buffer would now truncate rather than
+overrun.  Listings of plain, Rock Ridge, Joliet, Rock-Ridge-plus-Joliet
+and zisofs images are unchanged.
 
 Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
 ---
- fs/isofs/dir.c    | 9 ++++++++-
- fs/isofs/isofs.h  | 9 +++++++++
- fs/isofs/joliet.c | 9 ++++++++-
- fs/isofs/namei.c  | 2 +-
- fs/isofs/rock.c   | 3 +++
- 5 files changed, 29 insertions(+), 3 deletions(-)
+ fs/isofs/joliet.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/fs/isofs/dir.c b/fs/isofs/dir.c
-index c7ca7603e97a..87c64612ef7f 100644
---- a/fs/isofs/dir.c
-+++ b/fs/isofs/dir.c
-@@ -50,6 +50,13 @@ int isofs_name_translate(struct iso_directory_record *de, char *new, struct inod
- }
- 
- /* Acorn extensions written by Matthew Wilcox <willy@infradead.org> 1998 */
-+/*
-+ * isofs_name_translate() copies at most de->name_len[0] bytes one for one,
-+ * and get_acorn_filename() may append "," plus three hex digits and a NUL.
-+ * de->name_len is a single byte.
-+ */
-+static_assert(255 + 5 <= ISOFS_NAME_BUF_SIZE);
-+
- int get_acorn_filename(struct iso_directory_record *de,
- 			    char *retname, struct inode *inode)
- {
-@@ -237,7 +244,7 @@ static int isofs_readdir(struct file *file, struct dir_context *ctx)
- 	char *tmpname;
- 	struct inode *inode = file_inode(file);
- 
--	tmpname = kmalloc(1024, GFP_KERNEL);
-+	tmpname = kmalloc(ISOFS_NAME_BUF_SIZE, GFP_KERNEL);
- 	if (tmpname == NULL)
- 		return -ENOMEM;
- 
-diff --git a/fs/isofs/isofs.h b/fs/isofs/isofs.h
-index dacb9cdae4fd..2af41cc23f38 100644
---- a/fs/isofs/isofs.h
-+++ b/fs/isofs/isofs.h
-@@ -5,6 +5,15 @@
- #include <linux/iso_fs.h>
- #include <linux/unaligned.h>
- 
-+/*
-+ * Scratch buffer for converting an on-disk name to its in-kernel form.
-+ * Allocated by isofs_readdir() and isofs_lookup(), written by
-+ * get_rock_ridge_filename(), get_joliet_filename(), get_acorn_filename()
-+ * and isofs_name_translate().  Each of those asserts that its own worst
-+ * case fits, next to the code that does the writing.
-+ */
-+#define ISOFS_NAME_BUF_SIZE 1024
-+
- enum isofs_file_format {
- 	isofs_file_normal = 0,
- 	isofs_file_sparse = 1,
 diff --git a/fs/isofs/joliet.c b/fs/isofs/joliet.c
-index c0f04a1e7f69..b1f4a105ee87 100644
+index b1f4a105ee87..0832f40a9a2b 100644
 --- a/fs/isofs/joliet.c
 +++ b/fs/isofs/joliet.c
-@@ -38,6 +38,13 @@ uni16_to_x8(unsigned char *ascii, __be16 *uni, int len, struct nls_table *nls)
- 	return (op - ascii);
- }
- 
-+/*
-+ * The worst case is the iocharset path: de->name_len is a single byte, so
-+ * at most 255 >> 1 UTF-16 units, each of which uni2char() may expand to
-+ * NLS_MAX_CHARSET_SIZE bytes, plus the terminator.
-+ */
-+static_assert((255 >> 1) * NLS_MAX_CHARSET_SIZE + 1 <= ISOFS_NAME_BUF_SIZE);
-+
- int
- get_joliet_filename(struct iso_directory_record * de, unsigned char *outname, struct inode * inode)
+@@ -15,19 +15,26 @@
+  * Convert Unicode 16 to UTF-8 or ASCII.
+  */
+ static int
+-uni16_to_x8(unsigned char *ascii, __be16 *uni, int len, struct nls_table *nls)
++uni16_to_x8(unsigned char *ascii, __be16 *uni, int len, struct nls_table *nls,
++	    int outsize)
  {
-@@ -49,7 +56,7 @@ get_joliet_filename(struct iso_directory_record * de, unsigned char *outname, st
- 	if (!nls) {
- 		len = utf16s_to_utf8s((const wchar_t *) de->name,
- 				de->name_len[0] >> 1, UTF16_BIG_ENDIAN,
--				outname, PAGE_SIZE);
-+				outname, ISOFS_NAME_BUF_SIZE);
+ 	__be16 *ip, ch;
+-	unsigned char *op;
++	unsigned char *op, *end;
+ 
+ 	ip = uni;
+ 	op = ascii;
++	end = ascii + outsize - 1;	/* leave room for the terminator */
+ 
+ 	while ((ch = get_unaligned(ip)) && len) {
+ 		int llen;
+-		llen = nls->uni2char(be16_to_cpu(ch), op, NLS_MAX_CHARSET_SIZE);
++
++		if (op >= end)
++			break;
++		llen = nls->uni2char(be16_to_cpu(ch), op, end - op);
+ 		if (llen > 0)
+ 			op += llen;
++		else if (llen == -ENAMETOOLONG)
++			break;
+ 		else
+ 			*op++ = '?';
+ 		ip++;
+@@ -59,7 +66,8 @@ get_joliet_filename(struct iso_directory_record * de, unsigned char *outname, st
+ 				outname, ISOFS_NAME_BUF_SIZE);
  	} else {
  		len = uni16_to_x8(outname, (__be16 *) de->name,
- 				de->name_len[0] >> 1, nls);
-diff --git a/fs/isofs/namei.c b/fs/isofs/namei.c
-index 010682f5901a..0146aef58b10 100644
---- a/fs/isofs/namei.c
-+++ b/fs/isofs/namei.c
-@@ -153,7 +153,7 @@ struct dentry *isofs_lookup(struct inode *dir, struct dentry *dentry, unsigned i
- 	struct inode *inode;
- 	char *tmpname;
- 
--	tmpname = kmalloc(1024, GFP_USER);
-+	tmpname = kmalloc(ISOFS_NAME_BUF_SIZE, GFP_USER);
- 	if (!tmpname)
- 		return ERR_PTR(-ENOMEM);
- 
-diff --git a/fs/isofs/rock.c b/fs/isofs/rock.c
-index 2628f31bd3a5..7d95443917ea 100644
---- a/fs/isofs/rock.c
-+++ b/fs/isofs/rock.c
-@@ -204,6 +204,9 @@ static int rock_check_overflow(struct rock_state *rs, int sig)
- /*
-  * return length of name field; 0: not found, -1: to be ignored
-  */
-+/* get_rock_ridge_filename() bounds the name it builds by NAME_MAX, plus a NUL. */
-+static_assert(NAME_MAX + 1 <= ISOFS_NAME_BUF_SIZE);
-+
- int get_rock_ridge_filename(struct iso_directory_record *de,
- 			    char *retname, struct inode *inode)
- {
+-				de->name_len[0] >> 1, nls);
++				de->name_len[0] >> 1, nls,
++				ISOFS_NAME_BUF_SIZE);
+ 	}
+ 	if ((len > 2) && (outname[len-2] == ';') && (outname[len-1] == '1'))
+ 		len -= 2;
 -- 
 2.55.0
 
