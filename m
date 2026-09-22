@@ -1,191 +1,170 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1824B554088
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 14:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDD0382381;
+	Tue, 22 Sep 2026 14:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790085707; cv=none; b=Bae+Z7uK9F3Si1CcjXqK/tZI824QsKXwzVsZb0w+rmdfDYlNJWSAw1SR7c5ZMMV8tqv7Q8skMvhTtc0ec7IMctBILG2M4q975LS1Y2MPvap5DSD0x9qVtljK+kDdegWuCo5PQf0BaV5bOOFxvSP3h2SX0rWCQpKIpoPwIK+sow0=
+	t=1790087621; cv=none; b=sVzgItSCN1vfxoBXmMKwBal2SCleeY++7CnMkGz5yqTzMDNXrV6Gxbe3Zvw6VznRK13VRRClkWqgC5uSAiHLf7d5BfoEvsUvtMT2PEELo689xjvEKTt38reUuyT/Fy/Q9JseG3lsEuDpjzf2pjQ2Vh8LBbpTBQtDUY8A4ou8m5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790085707; c=relaxed/simple;
-	bh=3U4Ql79vVPopRfavLTmA8NqbKhWApnQJ1mkN1HYYhho=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Tc228kYX1kuQQHJsauRm/Z+/IDHRrh0B51vCfa5l18BmWW0xM2Joe8xeMJoYQZLZAW3SjQ504MxSfl+m2jyb2C6OqhpyfMDMrwHC7jA3PN/RY0CGsyrX4m6dzat1B4hC3v5Q7eAnTsjDwGIgbnRzQRHpHmGymsQNup7j4drdHBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AmMr1pwB; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790087621; c=relaxed/simple;
+	bh=CHqV++KS6RHB6kYz97qF6YGlEunOCipdBNB08iPcByQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ibx8S6BVgZ4I7gXjhyTAy2mylTl3eLAmBXv+IntFgG/2xdXlGYY4WrfRU5O03vBjG7BBHOD1Gtgvin9bQla54KLfWS9QaPlnIeDYPD4DWdQMKcstG8AlgvQnAIM9n5+CRjXCNyXxyXGJIdYguUwRVYdUcAVFhF6jVaqWqMt1i70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BX9biEl1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmMr1pwB"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469f20513so3476131b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 07:01:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790085705; x=1790690505; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YoKssft9l1zcAv984LexCRNeW4PIN0qjiBZ2Kra0Bhw=;
-        b=AmMr1pwBMOxJAa7hf4+COcophPdnVo/YwXW0KkVgSTjTL45LA20p20uxaR13K6L1lw
-         LHIWD5tmt+nN9I0Qhvq8NLuO938+cJEotOErXbv4GPEdI4Vokdjt/KLY5q0aRwLL9S/Y
-         5mb3tp8kxaqZABOYftrxp5uRu5KNyDOTbnIbiJ+XqP0NQOLqtZetc8aQDgf4cGjAnnhd
-         x45xlm+1vHpSAE8ZnENMWP9gMNCmfiMC7T0PO3hCEZD9qdrDkbDsqjy4ZXVj60GQhjxn
-         S2WddrfJBGJLnP9OIBbocs2ifhf1TYp3UD0XjudeSJ/FQSY/oCF6E/vlzKzmO3KobVNS
-         E6xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790085705; x=1790690505;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YoKssft9l1zcAv984LexCRNeW4PIN0qjiBZ2Kra0Bhw=;
-        b=JLdq3i6MCJYTR8DgyZRt3JU0pAleVBdIdVcJ/RWMNxkpDYFGHc5p4yKpKnP3AxmjpM
-         ljBlSvdq0jS/iGHGKXYRGuH6GdrFsBJnhWg0obYxP8M6Ksyqj42WDvVEPBAbUgoJdmrj
-         w2RpaCO2QseN/Fx41HhDaTy9In7H2ui0V9ehZnLZq7b3S5Nk6ME/pExM4zHTRQYQj+RV
-         ErdLOiRziAnHMnoeOcKnAs/nbrlNhiXpSLXHgX0HT1rsyU+SmecJ8aFseNsCYdpUoZ1j
-         T8zPAcQtgCiuiJEgIbsy/FtaXQvVuT+xOQ+/r90haCxBCN6uVjvZtMKtJp+ILf1AGjqf
-         nQdA==
-X-Forwarded-Encrypted: i=1; AKwUvBz5pzj4nsz6ybv1dpZhjCE59NMEAnGx3K1G9f2GZxdQhfeazbhvxq5NVxPQAZI5NEi0/yNm/C2anqNtcIQO@vger.kernel.org
-X-Gm-Message-State: AFuF++mMV6NcZsathV3Z1N54rjzeJNvNEzcAh8yaLZQoolB1MPgbo49b
-	8XK3vApxbP6DXVPttjWmnAzV1DvVzrORNyCDMR5IbKDkTHkvuTONyg0Y
-X-Gm-Gg: AYBFou0+nDCfl0BGzUbinh4TNSL6R2uQ9sJ5RjLdzPODk/+tbRQo9XuxgkSHwOtrWt9
-	zp11yQCwiqq6d0kLfv2R28wT2lsCYnKmmm8sKdIeD+0FC2+2qNK7hz2wqvx/EGBW0xXFlGm2/4G
-	caAO/D7ME/TcwxkCk/lA5cqVFWXfgez8rjUj9JxOdb57/K3Xv9MhcSNWuqPnyC2fe9LoCguUsJ3
-	pRsXdvsJTfXtaiOYNAZfA3Kjf9GKMPKPHKhuinfUDmWh8LsIQOg7ptHeJj4WBytM+vqwJaCE9HD
-	yl6XOHX1JA8Duehtgz6yRUnRK9Y3qTyDFA98irrSsEaNLsoFbAxAEi5rsy7ghdkzbh5oOBAjdMK
-	U+wwcgdbJD3vEMH92Z+4Vv7qxxQcS6XHQ2ezqojPAbXaA+JINInDjb7LNZnTUo4KOEdOQyThI2g
-	KLrmrFaCO9YHYSWVIZ2Y6aDoEMG5Nbdyfp9u7tZ+QIJIn46gJ1SdTlPqbuiu5jT+ZUy5/I6uLys
-	gGnNDjCtLEtUpDclJ8YtKU2NU0CcT0lLzGiQjhiTzXCKWCkSgOpnrvAAIqV8e15EksLAuXVthrV
-	BkPztpjT45vfyqYEaJYP1dUoC/34a0E++kfigVYESLun6KIQ1G3ImjVQwzCdkEo=
-X-Received: by 2002:a05:6a00:8085:b0:874:708d:b620 with SMTP id d2e1a72fcca58-87c8403d93amr1298947b3a.30.1790085705347;
-        Tue, 22 Sep 2026 07:01:45 -0700 (PDT)
-Received: from spider.bream-herring.ts.net ([103.252.203.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87c329c813fsm932803b3a.38.2026.09.22.07.01.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 07:01:44 -0700 (PDT)
-From: Matthias Goergens <matthias.goergens@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Yichong Chen <chenyichong@uniontech.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] isofs: drop support for level 3 records straddling blocks
-Date: Tue, 22 Sep 2026 22:01:37 +0800
-Message-ID: <20260922140137.1768064-3-matthias.goergens@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260922140137.1768064-1-matthias.goergens@gmail.com>
-References: <20260922140137.1768064-1-matthias.goergens@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BX9biEl1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21801F000FF;
+	Tue, 22 Sep 2026 14:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790087619;
+	bh=SX+z6NYoCWxNBGYU99ktnwwcCSe7GjbZgEJXo4djVCo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BX9biEl1MsiHmxiw5g0mwtlxHsMXdJJs7EENd2SKzhScStDGRDti4g9OlEPHw93Ix
+	 WrdBXYIVZUqDh6y4UhXrfQJaSXbUEpfMnPklbBRUI1kUaQ1OdGdIlQYaP2uiE+3K/Q
+	 nKulIl1srUyP7Zg6uugHpCEHgsh/dd2RDn7SpBdeuYDN1LcvJOUErXq/QdFuLo1U0u
+	 gl8yNWwEUhgFlk0Zulfl6iAqDpS/Fq7n2j0bDp/NkyUJlS51yQmFLsyFl9jefnguHS
+	 EmvE0IyhrPe6y8vqHqStNyadWtZ5Im7mY8iygqft8AHxZD+n/7cmuJT8b+lXXeuztX
+	 A6umjl156o2jA==
+Date: Tue, 22 Sep 2026 16:33:34 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Chris Mason <mason@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org, io-uring@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3 02/17] signal: only SIGKILL and the freezers interrupt
+ a coredumping task
+Message-ID: <20260922-bibliothek-fakten-vielzahl-78613362e349@brauner>
+References: <20260921-work-coredump-fixes-v3-0-8e4adb1619e6@kernel.org>
+ <20260921-work-coredump-fixes-v3-2-8e4adb1619e6@kernel.org>
+ <arJ6zZuI59BJnXpl@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <arJ6zZuI59BJnXpl@redhat.com>
 
-isofs_read_level3_size() is the third copy of the directory record walk
-and the last one that still reassembles a record spanning two blocks.
-Now that it validates every record with isofs_dir_record_valid(), such a
-record is rejected before the copy can run.  ECMA-119 does not allow
-directory records to straddle sector boundaries, the same assumption
-commit b2eb2e288604 ("isofs: Drop support of directory entries
-straddling blocks") relied on when it removed the equivalent code from
-readdir and lookup.
+On Tue, Sep 22, 2026 at 02:55:41PM +0200, Oleg Nesterov wrote:
+> On 09/21, Christian Brauner wrote:
+> >
+> > For quite a while now coredump has allowed either SIGKILL or freezing to
+> > interrupt an ongoing coredump. Since we seem to like it complicated
+> > "freezing" can mean a lot of things:
+> >
+> > (1) Power Management induced freezing
+> > (2) cgroup v1 freezer controller induced freezing
+> > (3) cgroup v2 freezer controller induced freezing
+> 
+> All of them do signal_wake_up() which sets TIF_SIGPENDING
+> However, zap_threads() clears this flag.
+> 
+> With the recent changes including your PF_NO_NOTIFY_SIGNAL and
+> 05/17 "signal: don't retarget shared signals in a dying thread group",
+> what else can make signal_pending() true? Apart from SIGKILL.
+> 
+> So perhaps we can simply do _something_ like
+> 
+> 	--- x/fs/coredump.c
+> 	+++ x/fs/coredump.c
+> 	@@ -508,7 +508,8 @@ static int zap_threads(struct task_struc
+> 		int nr = -EAGAIN;
+> 	 
+> 		spin_lock_irq(&tsk->sighand->siglock);
+> 	-	if (!(signal->flags & SIGNAL_GROUP_EXIT) && !signal->group_exec_task) {
+> 	+	if (!(signal->flags & SIGNAL_GROUP_EXIT) && !signal->group_exec_task
+> 	+	    && !freezing(tsk) && !(tsk->jobctl & JOBCTL_TRAP_FREEZE)) {
+> 			/* Allow SIGKILL, see prepare_signal() */
+> 			signal->core_state = core_state;
+> 			nr = zap_process(signal, exit_code);
+> 	@@ -583,7 +584,7 @@ static bool dump_interrupted(void)
+> 		 * but then we need to teach dump_write() to restart and clear
+> 		 * TIF_SIGPENDING.
+> 		 */
+> 	-	return fatal_signal_pending(current) || freezing(current);
+> 	+	return signal_pending(current);
+> 	 }
+> 	 
+> 	 static void wait_for_dump_helpers(struct file *file)
+> 
+> ?
+> 
+> At first glance the change in dump_interrupted() makes sense anyway.
+> For example, dumping to pipe can't tolerate signal_pendin() == true.
+> 
+> What do you think?
 
-Remove it here too, along with the temporary record buffer it needed,
-and fold the end-of-block case into the existing zero-length check the
-way commit bda8d8d49ca1 ("isofs: Fix handling of directories with tight
-blocks") did for the other two walkers.  That check has to cover both
-cases.  The code being removed here ran on "offset >= bufsize", so it
-was also doing the block advance for a record that ends exactly at the
-end of a block, and dropping it without replacing that is what went
-wrong last time.
+Yes. Here's what I have in the tree.
 
-Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+Subject: [PATCH v4 02/17] signal: only SIGKILL and the freezers interrupt a
+ coredumping task
+
+For quite a while now coredump has allowed either SIGKILL or freezing to
+interrupt an ongoing coredump. Since we seem to like it complicated
+"freezing" can mean a lot of things:
+
+(1) Power Management induced freezing
+(2) cgroup v1 freezer controller induced freezing
+(3) cgroup v2 freezer controller induced freezing
+
+So (1) and (2) are handled by checking freezing() but (3) isn't.
+(3) uses cgroup_freeze_task() which sets JOBCTL_TRAP_FREEZE and calls
+signal_wake_up() on every task in the cgroup. The trap isn't handled by
+the coredump code.
+
+Fixes: 76f969e8948d ("cgroup: cgroup v2 freezer")
+Cc: stable@vger.kernel.org
+Suggested-by: Oleg Nesterov <oleg@redhat.com>
+Link: https://lore.kernel.org/r/arJ6zZuI59BJnXpl@redhat.com
+Link: https://patch.msgid.link/20260921-work-coredump-fixes-v3-2-8e4adb1619e6@kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/isofs/inode.c | 38 ++++++--------------------------------
- 1 file changed, 6 insertions(+), 32 deletions(-)
+Changes in v4:
+- Gate the dump in zap_threads() on freezing() and JOBCTL_TRAP_FREEZE and
+  let dump_interrupted() test the flag, as suggested by Oleg.
+- Drop the signal_pending() hook and coredump_signal_pending().
+- Blame the cgroup v2 freezer commit as well.
+- Link to v3: https://patch.msgid.link/20260921-work-coredump-fixes-v3-2-8e4adb1619e6@kernel.org
 
-diff --git a/fs/isofs/inode.c b/fs/isofs/inode.c
-index c9bc1f479161..70097456b721 100644
---- a/fs/isofs/inode.c
-+++ b/fs/isofs/inode.c
-@@ -1174,7 +1174,6 @@ static int isofs_read_level3_size(struct inode *inode)
- 	unsigned long block, offset, block_saved, offset_saved;
- 	int i = 0;
- 	int more_entries = 0;
--	struct iso_directory_record *tmpde = NULL;
- 	struct iso_inode_info *ei = ISOFS_I(inode);
+ fs/coredump.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/fs/coredump.c b/fs/coredump.c
+index d88a65e37ee1..af09a4660341 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -508,7 +508,9 @@ static int zap_threads(struct task_struct *tsk,
+ 	int nr = -EAGAIN;
  
- 	inode->i_size = 0;
-@@ -1198,9 +1197,12 @@ static int isofs_read_level3_size(struct inode *inode)
- 				goto out_noread;
- 		}
- 		de = (struct iso_directory_record *) (bh->b_data + offset);
--		de_len = *(unsigned char *) de;
+ 	spin_lock_irq(&tsk->sighand->siglock);
+-	if (!(signal->flags & SIGNAL_GROUP_EXIT) && !signal->group_exec_task) {
++	/* A freeze requested before the dump would be lost with TIF_SIGPENDING. */
++	if (!(signal->flags & SIGNAL_GROUP_EXIT) && !signal->group_exec_task &&
++	    !freezing(tsk) && !(tsk->jobctl & JOBCTL_TRAP_FREEZE)) {
+ 		/* Allow SIGKILL, see prepare_signal() */
+ 		signal->core_state = core_state;
+ 		nr = zap_process(signal, exit_code);
+@@ -580,13 +582,8 @@ static void coredump_finish(bool core_dumped)
  
--		if (de_len == 0) {
-+		/*
-+		 * If we are at the end of a block (or at its zero-padded
-+		 * tail), move on to the next block.
-+		 */
-+		if (offset >= bufsize || de->length[0] == 0) {
- 			brelse(bh);
- 			bh = NULL;
- 			++block;
-@@ -1212,36 +1214,14 @@ static int isofs_read_level3_size(struct inode *inode)
- 			printk(KERN_NOTICE "iso9660: Corrupted directory entry in block %lu of inode %llu\n",
- 			       block, inode->i_ino);
- 			brelse(bh);
--			kfree(tmpde);
- 			return -EIO;
- 		}
+ static bool dump_interrupted(void)
+ {
+-	/*
+-	 * SIGKILL or freezing() interrupt the coredumping. Perhaps we
+-	 * can do try_to_freeze() and check __fatal_signal_pending(),
+-	 * but then we need to teach dump_write() to restart and clear
+-	 * TIF_SIGPENDING.
+-	 */
+-	return fatal_signal_pending(current) || freezing(current);
++	/* Only SIGKILL and the freezers set it after zap_threads(). */
++	return task_sigpending(current);
+ }
  
-+		de_len = de->length[0];
- 		block_saved = block;
- 		offset_saved = offset;
- 		offset += de_len;
- 
--		/* Make sure we have a full directory entry */
--		if (offset >= bufsize) {
--			int slop = bufsize - offset + de_len;
--			if (!tmpde) {
--				tmpde = kmalloc(256, GFP_KERNEL);
--				if (!tmpde)
--					goto out_nomem;
--			}
--			memcpy(tmpde, de, slop);
--			offset &= bufsize - 1;
--			block++;
--			brelse(bh);
--			bh = NULL;
--			if (offset) {
--				bh = sb_bread(inode->i_sb, block);
--				if (!bh)
--					goto out_noread;
--				memcpy((void *)tmpde+slop, bh->b_data, offset);
--			}
--			de = tmpde;
--		}
--
- 		inode->i_size += isonum_733(de->size);
- 		if (i == 1) {
- 			ei->i_next_section_block = block_saved;
-@@ -1255,17 +1235,11 @@ static int isofs_read_level3_size(struct inode *inode)
- 			goto out_toomany;
- 	} while (more_entries);
- out:
--	kfree(tmpde);
- 	brelse(bh);
- 	return 0;
- 
--out_nomem:
--	brelse(bh);
--	return -ENOMEM;
--
- out_noread:
- 	printk(KERN_INFO "ISOFS: unable to read i-node block %lu\n", block);
--	kfree(tmpde);
- 	return -EIO;
- 
- out_toomany:
+ static void wait_for_dump_helpers(struct file *file)
 -- 
-2.55.0
+2.53.0
 
