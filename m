@@ -1,111 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-91.mta0.migadu.com [91.218.175.91])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB46364EBF
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 01:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7C837F8BA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 02:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790040933; cv=none; b=VcpSYKsuaw7Q4KLAK0C4d7x/M5fXgCIWbeR5rrOReksrCUb0W1epi6/YtjDor7AerlZ4R5y4Zvs8MJgrfK1BuYJzkmlmYxzqoQSgXWGydArxcYLB84V3ubovHK6T7Sd9DazvSY9TPoOJ5dvf4+QOoIJu+Cp600KYtFIsiPX2pl8=
+	t=1790044465; cv=none; b=U6kyv+YKXBgwq6o22u6hen9mCbunkD+/wcJu7Gko3Wjh6EQsaQt/2VspH9xtt0vKEhyDNADHPHOhOWn/TEprBXTyOhp+Wy5Iw0fnNVrtHsNWC4QCesyZNfpiQn+nUpFzezoIDjVerlNIruXVlJ6UtNGRm9a3Urwq2b4+rOa5xB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790040933; c=relaxed/simple;
-	bh=j8xJQatrLDHckHQEPFHpuWazOq0+3MD11XNz2vDdfbE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e63jhvJd1WbQ5zf+wKUXUdsAd5iYNrFLJANqRlDUnH86Ka4SdvgQMDzrJdlKUPZ+xORfC8FVjpOVmu5uudREtCuIzBNcLSqERu2j8nbS8F5YqCynTT2I8CXYQrPdPmAQik1+849BGkQ7bTPuMbVcXUzesTchrSVj5nQTfO7r3AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A+YyT5do; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790044465; c=relaxed/simple;
+	bh=zmvXUaUh0x7Iq7a1F/nNLaoOJ/x9bsxphrerv34hNIk=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=gKOz+L2tgmDAc3cx1ZhUiMOoruGIL+AdJwU2ST5LrzvZJ0FGzhIkC5ShbITB4Z1CYj3dsWyyz2NQGt0099ifsdAS2Z5H66sA/RI2W2/smIfLdlvt68y4ft1EHvQYmEBdGvGW1P9BWyiHVUgsyoXK/0f+rhHQSRaMA/FvcXd9o7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Sn3LW23F; arc=none smtp.client-ip=91.218.175.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A+YyT5do"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FAA51F0089A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 01:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790040932;
-	bh=iVMZ69N6521oqcOuPGqLHxFf8ZIKTjOI5rtJziJsruo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=A+YyT5do2K+LtXp0PAETgNUG7Lf+ElKq/8tEzxcRounNo3oizErUOaSJOvXYOGd1o
-	 EUplz10rVHXe6/ZHbu9knT2yW9qcNzHWEsiCcW4U2+25XWgxu8XGoYEeaTXrqvtuPb
-	 qDP3zwQYJb5rHwbF0Q46t6Bv/9aWMgrrshqMAfzaAKB8QOUl5j1sRkvZQ8TyLfQlRx
-	 2+J/3BG8zi+ytapUpe+z/DynsXbrXSVkFduvDovNU/eu8K4eNEdJUB0xE2YDkthhf9
-	 u6/oHwUnwygvEOMO1F1rLfnmTMyd/c8t8JGIY20ISJdc7eb5e4V0A5ssNKm0T0i4Ht
-	 Eh3sQr1vSEIOw==
-Received: by mail-ed2-f16.google.com with SMTP id 4fb4d7f45d1cf-6a9984f9adcso6127820a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 18:35:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBy13Q/2W6kx7cLKbATZ89aIOI9wKWnLYmZGox7EXw6cv0Pn0kpZYGRoC5D5nG+nOVuv4C7pktCSoGlqpqxL@vger.kernel.org
-X-Gm-Message-State: AFuF++ki9TKSYKk6Kvdtbx2/LL9fIyQmpsAUJDMvktl4/zXuVX6ceIVI
-	B3AGmZuDGj4XQ2GG1Vehtqpz0dYn4Zy/bBSrRwWPvROsa9wAVKXG1qon/O83WWBr/HPn55NCzYM
-	Nl7uqTuiSSdbzqoTVOCh5pgru49K+p5M=
-X-Received: by 2002:a17:906:9f89:b0:c29:41c1:3779 with SMTP id
- a640c23a62f3a-c2a159a972emr1089843966b.11.1790040930758; Mon, 21 Sep 2026
- 18:35:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Sn3LW23F"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=zmvXUaUh0x7Iq7a1F/nNLaoOJ/x9bsxphrerv34hNIk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790044461; v=1; x=1790649261;
+ b=Sn3LW23FtZNFu8/Mbwet6R4yJXEDRqNlYfe5P2ue0ktck9vAFi6sFm1PSq9NxNM35zNIkNgj
+ mcP7G01BxxKkVQZGzjigwuFHTQ25COq2HXGPT9DhrnaR9faSEGV4CfTCVSNHC4uwko0eVH2FkRK
+ bywolCw9+YANKN8z3CLVdEpI=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 8af55bfa8c8b6846;
+	Tue, 22 Sep 2026 02:34:11 +0000
+X-Mizu-Trace-ID: 8af55bfa8c8b6846
+X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260920053126.28654-1-gotenksIN@aospa.co>
-In-Reply-To: <20260920053126.28654-1-gotenksIN@aospa.co>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 22 Sep 2026 10:35:16 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9G7o057WEQyv8QgXAL1dX9DrdGxOnLrgNkSYN073kDAQ@mail.gmail.com>
-X-Gm-Features: AcwNN1X39V-HTl8xfGexe7XHsNqintVeQVxDVSupceuxMxLNYAErQNE7PAoOgXE
-Message-ID: <CAKYAXd9G7o057WEQyv8QgXAL1dX9DrdGxOnLrgNkSYN073kDAQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] ksmbd: Windows 11 SMB 3.1.1 interoperability fixes
-To: Omkar Chandorkar <omkar0926@gmail.com>
-Cc: Namjae Jeon <linkinjeon@samba.org>, Steve French <sfrench@samba.org>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Tom Talpey <tom@talpey.com>, linux-cifs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Omkar Chandorkar <gotenksIN@aospa.co>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.1\))
+Subject: Re: [PATCH 2/4] nvdimm/pmem: avoid HWPoison flag updates for clean
+ pages
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <arEovvqEpquODZ6X@localhost.localdomain>
+Date: Tue, 22 Sep 2026 10:33:54 +0800
+Cc: Muchun Song <songmuchun@bytedance.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dan Williams <djbw@kernel.org>,
+ David Hildenbrand <david@kernel.org>,
+ linux-mm@kvack.org,
+ nvdimm@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org,
+ linux-cxl@vger.kernel.org,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Mike Rapoport <rppt@kernel.org>,
+ Oscar Salvador <osalvador@suse.de>,
+ Ira Weiny <iweiny@kernel.org>,
+ Jan Kara <jack@suse.cz>,
+ Matthew Wilcox <willy@infradead.org>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ Michal Hocko <mhocko@suse.com>,
+ Qi Zheng <qi.zheng@linux.dev>
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <E55DD139-7B33-4269-8854-3469375AD587@linux.dev>
+References: <20260903122128.12264-1-songmuchun@bytedance.com>
+ <20260903122128.12264-3-songmuchun@bytedance.com>
+ <arEovvqEpquODZ6X@localhost.localdomain>
+To: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
+X-Mailer: Apple Mail (2.3864.700.51.1.1)
 
-On Sun, Sep 20, 2026 at 2:31=E2=80=AFPM Omkar Chandorkar <omkar0926@gmail.c=
-om> wrote:
->
-> This patch series resolves SMB 3.1.1 protocol interoperability defects
-> in ksmbd affecting Windows 11 clients, rebased on top of the latest
-> ksmbd-for-next tree.
->
-> Patch 1: smb: compress: relax trailing flags in chained decompression
-> Windows 11 leaves residual uninitialized bits in trailing compression
-> chunk headers during chained writes (e.g. copying .vhdx files).
-> smb_decompress_chained() previously rejected any trailing header whose
-> flags did not equal 0x0000, causing connection drops (ECONNRESET) and
-> Windows error 0x8007003B. Relax this check to accept non-chained trailing
-> payloads while preserving validation on segment lengths and bounds.
->
-> Patch 2: ksmbd: fix FSCTL_PIPE_TRANSCEIVE file lookup and response handli=
-ng
-> When querying the share list (e.g. browsing \\server or running
-> 'net view \\server'), Windows 11 issues NetrShareEnum over \PIPE\srvsvc
-> using SMB2_IOCTL with FSCTL_PIPE_TRANSCEIVE. Named pipe handles exist in
-> sess->rpc_handle_list rather than the regular file table. While
-> commit a3bcea7c819a ("ksmbd: exempt FSCTL_PIPE_TRANSCEIVE from the
-> generic file-id lookup") exempted FSCTL_PIPE_TRANSCEIVE from the generic
-> file ID lookup, the response PersistentFileId and VolatileFileId were
-> left unpopulated (violating MS-SMB2 section 2.2.32), and invalid RPC
-> handles were not rejected under rpc_lock.
-> Fix this by validating the RPC handle under rpc_lock and populating the
-> resolved response file IDs before dispatching the transceive request.
->
-> Changes in v2:
-> - Rebased series onto git.kernel.org linkinjeon/smb.git #ksmbd-for-next
->   at commit 4bb07a7d5852 ("smb/server: rename smb2_file_alt_name_info to
->   smb2_file_name_info").
-> - Dropped the compound CREATE + CHANGE_NOTIFY response handling patch
->   from v1 because upstream already merged compound prefix response
->   dispatching in commit 906a62216339 ("smb/server: send compound prefix
->   before async pending response") and compound FID resolution in commit
->   524efc568ea5 ("smb/server: support compound fid in notify requests").
-> - Refined the FSCTL_PIPE_TRANSCEIVE patch to populate response FileId
->   fields per MS-SMB2 section 2.2.32 and validate RPC pipe handles under
->   rpc_lock.
->
-> Tooling and AI disclosure:
-> AI tooling (OpenCode:gpt-6-astra) was utilized to assist in protocol
-> trace analysis, specification cross-referencing ([MS-SMB2], [MS-SRVS]),
-> and drafting. All changes were manually audited, static-checked,
-> compiled, and verified against live Windows 11 clients.
->
-> Omkar Chandorkar (2):
->   smb: compress: relax trailing flags in chained decompression
->   ksmbd: fix FSCTL_PIPE_TRANSCEIVE file lookup and response handling
-Applied them to #ksmbd-for-next.
-Thanks!
+
+
+> On Sep 21, 2026, at 20:53, Oscar Salvador (SUSE) =
+<osalvador@kernel.org> wrote:
+>=20
+> On Thu, Sep 03, 2026 at 08:21:25PM +0800, Muchun Song wrote:
+>> pmem_mkpage_present() is called after persistent-memory poison has =
+been
+>> cleared. It only needs to clear PG_hwpoison and undo the MCE nospec =
+state
+>> for PFNs that are still marked poisoned.
+>>=20
+>> For clean PFNs, test_and_clear_pmem_poison() has no semantic effect, =
+but it
+>> still performs an atomic clear operation against struct page flags. =
+That is
+>> unnecessary today and conflicts with the FS-DAX vmemmap optimization =
+added
+>> later in the series, where clean PFNs may be backed by shared =
+read-only
+>> metadata.
+>>=20
+>> Check PageHWPoison() first so only poisoned PFNs update the page =
+state.
+>> Poison recovery keeps the same behavior, while clean PFNs no longer =
+require
+>> writable per-PFN metadata.
+>>=20
+>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>=20
+> Then change itself looks good to me, so
+>=20
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
+
+Thanks for your review.
+
+>=20
+> but any reason not to hide the PageHWPoison check within =
+test_and_clear_pmem_poison()?
+
+I indeed hadn't considered this point before. But now I find it
+unnecessary, because a patch [1] has already removed =
+test_and_clear_pmem_poison().
+
+[1] =
+https://lore.kernel.org/all/20260903053535.17611-3-kaitao.cheng@linux.dev/=
+
+
+Thanks,
+Muchun
+
+>=20
+>=20
+>=20
+> --=20
+> Oscar Salvador
+> SUSE Labs
+
+
