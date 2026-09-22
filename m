@@ -1,127 +1,182 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7382854CF5F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 13:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531BB5372D7
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 13:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790084239; cv=none; b=VenokEVr27IRzxzTFXkUYjUL6R1h9M/2wTC09WAR3bhlO6XOuOwVxvYVvc57M+4pWa4eRSCTOI2w/PUNKKFfGXGg0T+M0v3fq60+lXag+2j61kJxtayqwm/zQwdl/tPRs8nRAz8K2iH+n3Xr+qt63WTQ+6Ls+4lp7TvWfhl2eEM=
+	t=1790084897; cv=none; b=bv4CT/HXR+Mu2IVSLbxYvo1L3L534c2kHHbVMMh4aph03cD0J2sGlQdN1W+TcST7bT2ozOM/MrLGDqkXVoBu9ppaICoO2G209pSSNkvDlFHM/xTR2AJSobJ9j724p06/mxk05BE/mBT3K6nUejdHPRMngAOe/rBZJsL6w4+aU90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790084239; c=relaxed/simple;
-	bh=HQWVBZQ3a3dF/DEyKoutDX9guSe4Idp8wVDepJLrORk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jb6ASFiTbAa3WVRx5pCU9L55ggaupsl1nInOq2upA5XZo4N4FQHlmv+kLMmjxd7pcNUcP4L7VwgAm4/Ev+8oSJjH8Qj+r4pI+QBXSpgT38YPj1cJT1lAOL3ZCNhKIzXAlL1/rQKqMDQfpdeq23fnQILamu2Mv4pseX+J3OE5eqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y9bkKHtw; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790084897; c=relaxed/simple;
+	bh=w10RBxsUGtOFHpPwTlagk7zihbsxVZOw5yPuLYb1AY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SVb4qaPHsjjqC1YiPT2ZrodEprstwOPkRBQkhbkwN4WEAFN6xVHsRmTDB4zNyIec5A+cxwunvOHXePKHXjUhjWEZCqsHEjMqVjlk2mLTXpxPLkKaaAOkGMzX/jaNFi0ApYsoUv1J45ZsXXVkdGYyWbz9DiXjl9VXrqmFj1lQPnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D4Mz5ooi; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y9bkKHtw"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f5603a0so558473066b.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 06:37:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790084236; x=1790689036; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3SSB6/4UTXtVP9h0KYT7VpnYQgkILrKgn1VnZQd7YA4=;
-        b=Y9bkKHtw4enwyqHTeubDc/hx54OJBxkeUi0FqlJAnpEf91s27PXl+tasxyNLFbyoYC
-         jXUWVQ9sCr+9/vROmsNXwRmAPdfxZ4OVE0PwaoEwT/ZD28DT1Ajfppy+TwEwPDpTJ5Wd
-         8cHthTZQGvZl6HjcGPRhluw6PreSdfWmx90Epw+BhOD08wxmnBhFSvLNDefwhuD/a9LO
-         RPe57iVuZNtHqtFh8yPsPEO/Y6CvsN96wnniPDAlT9eaIGd7gSUsPbL/aHTrif98/2Fr
-         LL64vsXgF32RaTvf8BVtlGYT6IkRsiRBD4EsCr77NQzcoP8C7xS+XR639uPQ/73UojlP
-         hUuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790084236; x=1790689036;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3SSB6/4UTXtVP9h0KYT7VpnYQgkILrKgn1VnZQd7YA4=;
-        b=bhv2vyaLtoVah+3LeGOPnho2AfVd9O9uM9dlFhL+NW6dha2PPXVJGb/3CP5RFFS+3b
-         kpOBadzyJnATdMJoPeCkxp/xVtplo5cKMox4fIsZ/MMHdygZxAlxjgfPDFSZ90iDfUCu
-         djHcgHO1JzOzk36r//bGEssR2Nbh7DwVUUr5BM6E2w8TiJ7a13SMOCguE2ZlzYJm0T/D
-         sT+VxHBzWTjzOcAQ7yEM9JVsIFsSP5WkR/OpiBeiDiMIWLH7NRXzUEl7bSnmfu+nDGqw
-         VXIC/k13LM/2bpzNLgspYGmMtsH66E5DZo+0YMCyotU20bvQFjfDqv15eLvfnBn0Hfs1
-         Bn7Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwNw6TExqEcJ/SdsBV2pvJx4oZP5XuieLrU960m3AueGKBDSQJG4BnYcOHzW6lupgXq+77OOsWEApaD/s75@vger.kernel.org
-X-Gm-Message-State: AFuF++nSujTw6UjLB8ZriR+/7vz1N/tQcS8NL2dXACyGEQBxiJ5gy0ob
-	I+P5gdqGxODPi3qvGaCqpEWGCib7Z7I8TK0+5rZ+LyGNMFOIklt5GqFgeNrhLg==
-X-Gm-Gg: AYBFou3ZNjbI7xOMdnvIxTVkgQRhLy2hDWHIBYukJJtq1OxN2uarcgajBaWOmg4Tko4
-	WtG+s63IVddoZPuWPHWdDs3Z4cDh8zpcemKxVWKDIbTRZHFQFRhEOCMl6Brm4WhFBPo0+Rp42zO
-	+rDvcp7RR/FEW/n8V2VMYTvVIx8VgaIXi7RTRF4EeXVasHaqMk9B7kQPZzM0sEgAT12YCVzG1DT
-	5hsRhst5CasYg7KlWOAcj1rQy6LpByKYktHU3w5DvOCtC2E1k/57SFqVicMgH4+MN/UaRTySt0e
-	P7+iZsZgVzSmeasHsxJOFo95tWEzArG64GOOUdhYdqg6vyX023BOQf/WkbCLLki96qTF1+rtErv
-	U1j/iaVxeAKt5ZScCZQ4PaWgn2Q3sJHkztF7uGhipDZeHTMMftD0EeCUxHmVAExTk7HH8cBy3lp
-	eHgvyFK/AZrt4kBemOcyg/Grge0dp8coGgs2hghmP9WoYx6JjB//NZhQGZr1X5tgSycs5AwWAoz
-	XoPv6pOCBomPEEpXChUKb54XCcw4DBto9Fam99wvsCQ4rKDn24oSUEGMDbRlORMkLMiRwl9etbZ
-	lZlE8RIjkDWFe4eucaamq3F1JT2J
-X-Received: by 2002:a17:907:6d18:b0:c29:448b:f5d0 with SMTP id a640c23a62f3a-c2a15b86ed4mr1180156066b.33.1790084235477;
-        Tue, 22 Sep 2026 06:37:15 -0700 (PDT)
-Received: from [10.54.182.141] (82-132-213-196.dab.02.net. [82.132.213.196])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aa9b14925sm14081966b.19.2026.09.22.06.37.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 06:37:14 -0700 (PDT)
-Message-ID: <d39a6dd7-cb5a-43d6-8dcb-16eb9fc95b4d@gmail.com>
-Date: Tue, 22 Sep 2026 14:37:08 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D4Mz5ooi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790084894;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6IrbNKYXaxBgTnuatiYDHte9IqTtxWZJRiUhRvSTwak=;
+	b=D4Mz5ooivtTMOqnimMnAa2VuNeekXd4ugJKyrMbh93u7YasKZ5wsId7AItSvKSFLH5t8wx
+	lHxF/7Er9njwWWpg33RzSmJQosfi9c8YQACsHSuMZb6YYeH/xTYJT/ziwxRgtqmDZqtVUL
+	+gb4nfNs++kTe/lf9TuIc8+tGKGChKM=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-299--PafZw6uO163-ZRW7g_LJA-1; Tue,
+ 22 Sep 2026 09:48:11 -0400
+X-MC-Unique: -PafZw6uO163-ZRW7g_LJA-1
+X-Mimecast-MFC-AGG-ID: -PafZw6uO163-ZRW7g_LJA_1790084888
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6E1E8183090D;
+	Tue, 22 Sep 2026 13:48:06 +0000 (UTC)
+Received: from bfoster (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6486930001B9;
+	Tue, 22 Sep 2026 13:48:00 +0000 (UTC)
+Date: Tue, 22 Sep 2026 09:47:58 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, hughd@google.com,
+	baolin.wang@linux.alibaba.com, willy@infradead.org, jack@suse.cz,
+	ziy@nvidia.com, joannelkoong@gmail.com, djwong@kernel.org,
+	yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com,
+	chengzhihao1@huawei.com, wangkefeng.wang@huawei.com,
+	yukuai@fnnas.com
+Subject: Re: [PATCH v4 0/4] mm/truncate: fix data loss when truncating
+ straddling large folios
+Message-ID: <arKHDqdDkQajvAk6@bfoster>
+References: <20260922110703.468389-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/13] nvme-pci: implement dma-buf backed requests
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Matthew Brost <matthew.brost@intel.com>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-References: <cover.1789997898.git.asml.silence@gmail.com>
- <e80c3b1e0de004eaca6c51a2a86115ac9ed36381.1789997898.git.asml.silence@gmail.com>
- <20260922132016.GA30684@lst.de>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260922132016.GA30684@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260922110703.468389-1-yi.zhang@huaweicloud.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Hi Christoph,
-
-On 9/22/26 14:20, Christoph Hellwig wrote:
-> On Mon, Sep 21, 2026 at 02:38:50PM +0100, Pavel Begunkov wrote:
->> Enable BIO_DMABUF_MAP backed requests. On registration we map the
+On Tue, Sep 22, 2026 at 07:06:59PM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> This is now REQ_DMABUF.
+> Hello,
+> 
+> This is the fourth version fixing data loss when truncating straddling
+> large folios caught on the upcomming ext4 + iomap buffered I/O
+> conversion.
+> 
+> When truncate_inode_pages_range() punches a hole or truncates a file,
+> truncate_inode_partial_folio() splits a large folio so that the caller
+> can drop the in-range sub-folios while keeping the out-of-range tail
+> intact.  This series fixes three distinct problems in that path that
+> can each lose the valid out-of-range tail of a straddling folio, plus a
+> follow-up that clarifies the return value semantics.
+> 
+> Patch 01 aligns the truncation boundaries inwards to the mapping minimum
+> folio order in truncate_inode_pages_range().  With a non-zero min_order,
+> folio_split() stops at min_order instead of order 0, so a boundary
+> computed at page granularity can land inside a min-order-aligned
+> sub-folio and the truncate loop drops that whole chunk, valid tail
+> included, causing data loss.
+> 
+> Patch 02 looks the end-edge straddler up by its page index through
+> __filemap_get_folio() in truncate_inode_partial_folio().  After the
+> first split the straddler is unlocked and only transiently ref'd in the
+> page cache, so the page pointer derived from the original folio can be
+> freed and reallocated as a different folio in the same mapping, and the
+> mapping check cannot catch it, which may cause incorrect splitting and
+> potential data loss.
+> 
+> Patch 03 reworks the contract between truncate_inode_partial_folio() and
+> its callers.  If the second split of the straddler fails, the function
+> reported success unconditionally, and the leftover incorrect end
+> position could cause the truncate loop to drop that valid tail.  After
+> rework, it tells the caller the exact page range safe to discard via new
+> pstart/pend out-parameters, so the truncate loop never touches a
+> straddling folio that still holds valid out-of-range data.
+> 
+> Patch 04 clarifies the return value semantics to "at least one split
+> succeeded", which is all the shmem caller needs to decide whether to
+> reset its scan loop.
+> 
+> 
+> The second patch fixes a pre-existing race issue that is reachable
+> today, so it is Cc'd to stable.  Patches 01 and 03 require a dirty large
+> folio that carries no filesystem private data, so they are not reachable
+> on current filesystems.  They were found while developing the upcoming
+> ext4 iomap buffered I/O path[1].
+> 
+> Thanks,
+> Yi.
+> 
 
-Will change
+Hi Yi,
 
-> Sashiko had a few comments, which I think are correct - if we use
-> dma_map_sg to map the data, we need to use the sync_sg APIs to
-> transfer ownership.  That only matters on non-coherent architectures
-> with MMU, but we need to get it right.
+Modulo Jan's comment on patch 4, this series looks good to me. FWIW:
 
-I've seen that and fixed everything locally that should be fixed,
-apart from the sync. I wonder what we can do about that? I can
-somehow replace it with the sg variant for now, but sync'ing the
-entire possibly multi-GB mapping for, let's say, a 512B I/O, sounds
-not wise. And I can think of another place that does mix sync_single
-with sgs.
+Reviewed-by: Brian Foster <bfoster@redhat.com>
 
-> And the reset deadlock also looks plausible.
--- 
-Pavel Begunkov
+Brian
+
+> [1] https://lore.kernel.org/linux-fsdevel/a638a8fb-c184-4069-ae33-379ec12cd514@huaweicloud.com/
+> 
+> 
+> v3->v4:
+>  - Move the patch that fixes data loss when min_order is non-zero to the
+>    first patch position, aligning start and end in
+>    truncate_inode_pages_range(). (Zi Yan)
+>  - Add patch 2, fixing the invalid folio2 issue under concurrency when
+>    truncate_inode_partial_folio() splits at the end position. Use
+>    __filemap_get_folio() to obtain a reliable folio2. (Jan Kara)
+> 
+> v2->v3:
+>  - Rework the folio2 validity check logic to fix the invalid
+>    folio->index issue. (sashiko)
+>  - Clarify the pstart and pend setting logic and the corresponding
+>    comments to make it more readable. (Brian, Joanne)
+>  - Split the patch into 3 small patches. (Zi Yan)
+> 
+> v1->v2:
+>  - Export pstart as a new parameter so that the generic and shmem
+>    truncate paths don't need to recompute the start value from the
+>    return value. (Brian)
+>  - When min_order is non-zero, align [pstart, pend] to the inner
+>    boundaries of the folio to ensure they do not point into the middle
+>    of a large folio, which could otherwise cause valid data within the
+>    folio to be incorrectly cleared. (Joanne)
+> 
+> v3: https://lore.kernel.org/linux-mm/20260916092450.654408-1-yi.zhang@huaweicloud.com/
+> v2: https://lore.kernel.org/linux-mm/20260909062339.473816-1-yi.zhang@huaweicloud.com/
+> v1: https://lore.kernel.org/linux-mm/20260903115018.2034541-1-yi.zhang@huaweicloud.com/
+> 
+> 
+> Zhang Yi (4):
+>   mm/truncate: align truncation boundaries to mapping minimum folio
+>     order
+>   mm/truncate: look up the end-edge straddler by index
+>   mm/truncate: fix data loss when splitting straddling large folios
+>     fails
+>   mm/truncate: clarify return value of truncate_inode_partial_folio()
+> 
+>  mm/internal.h |   4 +-
+>  mm/shmem.c    |  13 ++---
+>  mm/truncate.c | 128 +++++++++++++++++++++++++++++++++-----------------
+>  3 files changed, 91 insertions(+), 54 deletions(-)
+> 
+> --
+> 2.54.0
+> 
 
