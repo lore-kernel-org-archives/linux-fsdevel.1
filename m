@@ -1,67 +1,69 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78D84D9F71
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 09:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1A34E4C4D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 09:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790070734; cv=none; b=g6WEfEhG5oZ/towp6pjQwvV8CW28WvyGYWcqkjQp0zK+wpA3RRkqzSbMsnhIELRXULxT4advI3BhGsWyBJQgPQvFKhrc7lAMBdM0Ap8RN/i66TDBM5QyWIeILY0ZDf2WNred2fJJryu726p62TmHwIgdvecvb2ft5+rf6Hp0fAk=
+	t=1790071106; cv=none; b=qU22pU2z3WZh/YxNMRg42E/udqexka7g7EBUlTi4IlPTmFKFJoNyktRDUOrWPhBu3p0cR4GO/4DDnJ+8NfywMRX108+pX9kO9azIWfdmqRypyENlMLSVPdlmwoPfAacpRubaHZngEmG6KeE3nJUa3/D3PrsGFGAnf8oZXBYu22Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790070734; c=relaxed/simple;
-	bh=MxiZCmJT9Dufw+rEGKKJYfTRtYNzmG5IdUw5ajtU6+I=;
+	s=arc-20240116; t=1790071106; c=relaxed/simple;
+	bh=zYbfbPSv4oN0DQRZXu+ig0WpHZAE1jueUN/5aUe+dpQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WZLw/BQLnJbPNpVrFahZQ9LWLQHOFgpSjx4xlXBJ1CHda//3OfB71ZXmjkY6LZwhXV0x/yeR0IuIOwUl4V+YNRjKY7iwPfBi12dboI3IKj69ujcx4eCPmTlCxgXyvZbdKlZdPFXgoQ0bfdYYGXwNYVdCPKbGVzITJNtn6MjUuMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Ox6D3lGj; arc=none smtp.client-ip=74.125.227.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	 In-Reply-To:Content-Type; b=hFPOkEcXdWCwn1O7pm/iHo67B/9NJ/q1/WCJPPtudn3AJcKmV8Qmg88wfGFO4zQyNU2dm9Vc/4CyHrNvJ4igoPf0Vo3Buz/ug022txHG/x71U117C0X+OSnKAaMR1a51wntRm3xtMQjX1OU/RHAN95XQxiXpQaHRA83XxUAlhp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=VtBoOvXm; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Ox6D3lGj"
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-396ccd5cf03so3821976a91.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 02:52:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="VtBoOvXm"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912e4b11so21399685e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 02:58:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1790070725; x=1790675525; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=b8gnsOu8dUZ3aA1jMaDEM+zSBKGqHWilm/tfYcR3Kt8=;
-        b=Ox6D3lGjOYbouL6YmtZ2Bbed+sZAv+o7BqGuPt7M3avbUQOLV7UlsIoldA9Jlfx7ph
-         gER/m0w+6zdnASZ17EqWmXnlnp/RkfAhobSw3xPIyFKiDrmZTamnA/osWEDlHHdnmmsU
-         eStwOIW0JYWrPEegx3odIRd/zpsioQXSMmZWEUwYTlNwkFgasTfBqBnDakcKfTiSphJu
-         M97cvRxknPzyLn2ktMGXD80Xc4Z5h1N3HrTSLiHWbI+P0SNuzfsKy9zeMeNl+HCV4nG7
-         c6Kq3Evl9EWnAFGdU4bil0SmWlggUIZTFXxvUbUCvsr2wa1THzmwqoRk9sHMc4buPll5
-         56jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790070725; x=1790675525;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=suse.com; s=google; t=1790071102; x=1790675902; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=b8gnsOu8dUZ3aA1jMaDEM+zSBKGqHWilm/tfYcR3Kt8=;
-        b=jSljY882hbAbQPwxBLgZjhPruhlPlzudn9vZdgsp/K4mBlAfahp5D1zz4Bi7Lz/EYF
-         JHEcJcIfn9iYq1d37bmArB5AdpXRQNRTLRosCWJ4DXo+iK8ODq/UipwxwIhP0YG70dFv
-         SBdH0yRwaHDWrcaIIT9vJIo1129KvsEtWCZ/a/0/nkv4vmD7x943pcID0ukDFn5d83Cw
-         CRAyfXIf29/q+PdU6QQ4iq3kCg8skQT9da7M9Q24lFfI3+YyUVO1tT1A7lRCESv0Yby7
-         b9Ov2qZetcw7QM6kaLMQe1INSxI1SrQ4VKtCaS2ScESiWegZuvHXQdcrFllKMYccDHYZ
-         +7yA==
-X-Forwarded-Encrypted: i=1; AKwUvByV6kXCeKFGA2DXKd1Xwvtfuw5JI8ldMyfjLgMtD3DL/Efa1cPSaZRxNGENTcAda7ejhkzEokgWRrDZsY7W@vger.kernel.org
-X-Gm-Message-State: AFuF++ny5Zh20WBbXgv8tDDhm4t4HX7/BB5P2RvrlnNTbdA2Km+EbY68
-	ThcqxfYmhy5GB4sBcYo8FAMWHnA9YzSTQgTeiXbuGoViw5CI77+F8XK7JpvFQ41ZsIk=
-X-Gm-Gg: AYBFou3f1SoF+hW6h75cSQZUgIWbNo+pBRk2GbIjl5k0bVX2ejGKUuuLBy1KlueRpAx
-	12ijQJe8UsVTo1o+//EzssDVQ6Xkcoo9GvstrYURE7VMSZ0okBGyBRKoHUneuRxelYbvJJ55/q3
-	pbYazh90pDVFVx47QuOS6C0TylgbLLBjVPHUDeIMUIvBcSQ77URo240qrzsxQLsjO0LlhCgH+MP
-	owctsmrgiFKdIv8iD8BvFSmsQMJ0TzZHRewccHeR2abtHaxFVsII7VqHPkaTlGVb+AwU7leu6Oq
-	JV0VZR520gSJIquHD8mLEur8jl2lD1fJ03GiK4WkgazHFz/HqNJfKQdDUhi3Zv2+1UHrMnhXiT3
-	bbW8QhLamcKJNmSOF8GdE2Gr1kc/2CWmQcOMKtbThzYraY0PQhM5DFJ/auJgitNJV7rQL/mpbDV
-	+w+r8a19XxYAhnT5oujjoqUdlVqelRJyKOUIlRL8LlcI4+2VfA8Bil5HDq+BjCQ0jcJfO6tKfrp
-	NcqyWG20XaHugY08JfUM7w0cXXNtFfQ9lDi2bXcfi7MdFCHThec
-X-Received: by 2002:a17:90b:2fce:b0:39e:14db:4371 with SMTP id 98e67ed59e1d1-3a0730a1432mr716576a91.1.1790070724728;
-        Tue, 22 Sep 2026 02:52:04 -0700 (PDT)
-Received: from [100.81.13.24] ([61.213.176.55])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a067409854sm3905971a91.7.2026.09.22.02.52.01
+        bh=nZUNZdA2VreC5ZuzVVTaU77y9kWQRV4FmcQNBHWyLvk=;
+        b=VtBoOvXmAmen9A15P2XUuom5lD/1FL4lYGpdQVlTKAozAKOcuAjxP/fvx0Ao38Exoq
+         5+Z4Hz0ZBE6NheeiWCh5xeWyQPagqjfs4f79S40IPirUpX5MyYP/m4caovC3dzry78uG
+         qLVHF46WMJzE6APh5ToFTevmH6sDFNe8j6X21GWEoW4cLdhNm4hEB96kOS4aoPn79zyN
+         nZrL7X7l5ieVRSVE7emEimSWG9oKJUGSRvLQJGSqXqZQPPgzbooqStbK79ZVMeOIf3FZ
+         Rfg8io+iLrPWZmwv45RZ6QmcYxFygH8ndbcley/wqvpcy8l0XeKLrrX3CsuxOj3R0rI1
+         hMhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790071102; x=1790675902;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nZUNZdA2VreC5ZuzVVTaU77y9kWQRV4FmcQNBHWyLvk=;
+        b=njLdBt8SDlepW0+nSc4HelHftss8XRjF2I4NvP8nPfVCoyJqKAWqa7A0PWRc2NxPdc
+         N9ojpavewskpf6WmiiJCWNQSdaMUrzr4JzVptSLfinjM2DMqp13fkfnCvgU47R+3njAe
+         iDCyFH3Cv3l0yUoOVx5Il98++0xiLBsnf/XsufmakJQPM5wSD3R7ff/c85gL0RYrEfgE
+         NBPsUfiVDKtziWExXx/8dAuXXqNBw0NB2Am3z5vGlkNAjz6uZ2jCAjk/cCA6+XGNpvY7
+         YSyC9POkCY+OTtE0YM9MkrdiUWnNscR4MJpYsYfSGTLqNBcmwJHOa81eX8eUQQ+oHCZX
+         W1gg==
+X-Forwarded-Encrypted: i=1; AKwUvBy/QkjWqRo2AuOcLdIcT4cR8VMQSjEQnIFMKbnBWLvwW0vzC7i2LTPQVFoK2LxouAKlepMivClLaR4gzTZX@vger.kernel.org
+X-Gm-Message-State: AFuF++nBh60pS+WTpmMRwsHgTYzNU+Q7ivXuws6U/Ga9ahdJStCQqiDL
+	2XYHAMwE0YVQXe+gRsQHbxhtZt2HuxWWwdHSypPv+rNw8NTT+WhxnfdZ3sgAmJVp6FM=
+X-Gm-Gg: AYBFou1H+hUghuopE1mdPew+LudTFE9uD+zjFuqj3ZfHSzD70PVqg6Q9OKE7gMlaF4a
+	/Zmjug0T0Jpl05hR0NCVSgl7XqGuhPSRWai9w5PPx+rSuNy7DxuS1xcokToFnOiI9WAg1sj83nX
+	WFOlqz/qg5QMQKxhKK3BtA4MvTBEwUL+ej/f/uhti4L7RlT5TbkoVeaTyb9SGPV3GEQwCzREN3h
+	FpZWxzPRxzeoZ9qaAcL5CcCRrqO9nbKTIvRYObhrOBLs0NwOg8fyWpfsWzpHO3S1eOuTmuQBRy+
+	rD1JwANHIgWBsQ62E5T5nbkqheExfcu1aHTryPmMPmN8klZpzFsxIeCcPEwpKYd3t6t3gL8f7Jt
+	JI/5gQ7y7SJwuVMxD1GcDsxmO2NC2fBXO+1jUPyryCuaECqIwAGS34iKmk2FuEP9YoIQ4/KH/vt
+	EFUC260nBMiyz9Qnr6VcuJ1ZLhhZfoF8VVwXpWw3ISXb2THcDpHnjiUmoDlhBNbkN42zJjrajDL
+	is4YwlB3EV5VArOvHuIT5uB2mtU172Qg/qkZd81Jfm9PDzjdw/i+yOqdjVtpUt1ODIRPXhyJzNp
+	V3uFV3M3aSnIU/nK3IKlcysb7JibeJRX+mfWz7kn
+X-Received: by 2002:a05:600c:a0a:b0:49e:84bf:6110 with SMTP id 5b1f17b1804b1-49fc56dbb49mr199597855e9.6.1790071101618;
+        Tue, 22 Sep 2026 02:58:21 -0700 (PDT)
+Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fdab0c240sm27108755e9.4.2026.09.22.02.58.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 02:52:04 -0700 (PDT)
-Message-ID: <e9d4b9c8-1b0e-45fe-95b8-f999055357a9@bytedance.com>
-Date: Tue, 22 Sep 2026 17:52:00 +0800
+        Tue, 22 Sep 2026 02:58:21 -0700 (PDT)
+Message-ID: <2bf82e0b-a032-4ee7-8d93-c5604222723d@suse.com>
+Date: Tue, 22 Sep 2026 11:58:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -69,83 +71,83 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/3] memcg,writeback: flush foreign bdev mappings
- separately from owner wbs
-To: Tejun Heo <tj@kernel.org>
-Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, axboe@kernel.dk, hannes@cmpxchg.org,
- mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- muchun.song@linux.dev, willy@infradead.org, jack@suse.cz,
- akpm@linux-foundation.org
-References: <20260921120658.1627992-1-sunjunchao@bytedance.com>
- <20260921120658.1627992-3-sunjunchao@bytedance.com>
- <b15c63490f9164bf46d68ff3ec5dfc02@kernel.org>
-From: Julian Sun <sunjunchao@bytedance.com>
-In-Reply-To: <b15c63490f9164bf46d68ff3ec5dfc02@kernel.org>
+Subject: Re: [PATCH v3 0/3] Bring includes in linux/kmod.h up to date
+To: petr.pavlu@suse.com
+Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Jens Axboe <axboe@kernel.dk>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Michal Januszewski <spock@gentoo.org>, Helge Deller <deller@gmx.de>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+ Joseph Qi <joseph.qi@linux.alibaba.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Pavel Machek <pavel@kernel.org>,
+ Len Brown <lenb@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Nikolay Aleksandrov
+ <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ drbd-dev@lists.linux.dev, linux-block@vger.kernel.org,
+ greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org,
+ linux-acpi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ cgroups@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+ bridge@lists.linux.dev, netdev@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+References: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/22/26 1:55 AM, Tejun Heo wrote:
+On 9/11/26 4:46 PM, Petr Pavlu wrote:
+> The usermode helper declarations were previously provided by linux/kmod.h
+> but commit c1f3fa2a4fde ("kmod: split off umh headers into its own file")
+> moved them to linux/umh.h in 2017. Add explicit includes of linux/umh.h to
+> files that use usermode helpers and remove linux/kmod.h where it is no
+> longer needed.
+> 
+> Also add a missing include of linux/sysctl.h to kernel/time/jiffies.c.
+> 
+> Finally, clean up linux/kmod.h so that it includes only the headers that it
+> actually requires, importantly removing the compat linux/umh.h include.
+> 
+> This cleanup is motivated by trying to reduce the preprocessed size of
+> linux/module.h, which includes linux/kmod.h. linux/module.h appears in
+> roughly 15k #include directives across the kernel. This makes it a "hot"
+> header, so it should avoid pulling in unnecessary definitions. Note that
+> this series doesn't immediately improve the situation, since most of the
+> files included by linux/kmod.h are, for now, also included by
+> linux/module.h through other paths.
+> 
+> Apologies for the wide distribution. Acked-bys are appreciated.
 
-Hi, Tejun.
+I've queued the series on modules-next for 7.4-rc1.
 
-Thanks for your review.
-
-> 
->> +static void bdev_frn_flush_work(struct work_struct *work)
->> +{
->> +	struct bdev_frn_flush_ctx *ctx =
->> +		container_of(work, struct bdev_frn_flush_ctx, work);
->> +
->> +	bdev_flush_by_dev(ctx->dev);
->> +
->> +	atomic_set(&ctx->inflight, 0);
->> +}
-> 
-> The in-flight window is now just the submission of the bdev mapping, and
-> mem_cgroup_flush_foreign() runs on every throttle-loop iteration, so a
-> memcg that keeps dirtying and throttling requeues the flush back to back.
-> A folio the flush redirties, e.g. a buffer locked by a jbd2 checkpoint
-> write, re-stamps the slot on its own. The old record stayed in flight for
-> the whole owner-wb work. With a journal the write cadence of hot metadata
-> is still bounded by the commit interval, but for nojournal ext4 and other
-> buffer_head users it's bounded only by the throttle pause, for every
-> tenant of the filesystem while any tenant throttles. Not measured. The
-> description covers the target size but not the cadence.
-
-The description, comment and tracepoint suggestions make sense;
-I'll address those.
-
-Dirtying or redirtying the same device during a flush can refresh its
-recorded timestamp. This is expected. Another flush for the same
-slot cannot be queued until bdev_flush_by_dev() returns and inflight
-is cleared. A subsequent call to mem_cgroup_flush_foreign() can queue
-the work again if the record is still valid and inflight has been cleared.> 
-> Each pass also goes through wbc_attach_fdatawrite_inode() and
-> wbc_detach_inode(), so it votes in the bdev inode's wb-switch detection
-> like the owner-wb flush did, at the higher pass rate. Whether the bdev
-> inode ends up switching wbs more often is an open question.
-> 
->> +		if (memcg_bdev_frn_wq && time_after64(ctx->at, now - intv) &&
->> +		    atomic_cmpxchg(&ctx->inflight, 0, 1) == 0) {
-> 
-> Records are only created when the workqueue exists and @at stays 0
-> otherwise, so the wq test can't be false with a live record. Fine as
-> documentation, but the cover lists it as a fix.
-> 
->> +		INIT_WORK(&ctx->work, bdev_frn_flush_work);
->> +		atomic_set(&ctx->inflight, 0);
-> 
-> memcg is zero-allocated, so the atomic_set() isn't needed.
-> 
-> On patch 1, the kerneldoc's "does not wait for all I/O to complete"
-> understates it, the flush waits for nothing.
-> 
-> Thanks.
-> 
-> --
-> tejun
-
-Thanks,
 -- 
-Julian Sun <sunjunchao@bytedance.com>
+Thanks,
+Petr
