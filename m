@@ -1,159 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5130C49E145
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 20:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2434414408
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 21:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790110560; cv=none; b=d1VsffdlWc46TZeXeLpnam5tQHXiRwuvKVtzI4N315istyXrF2xpjd9jwTaM9h8XskQPqtTAQp28laFv5q1u+rgbVe4ilFxBVSNtXtEOV8XUHVaDMFI+LuHqqlTgxF1T61u9iHfadoZh+dCKK0F33p0ttnHy0zkIOdr6a200kzg=
+	t=1790111790; cv=none; b=bMshYI6cnhWWvUTnXsBKpb6T3RtNoMy/L52YU5NqbW6N5NMX9+ILeQoR8GQbBHb36ym3SPFc6i1A80seHwAF/fHaMU3dccEX85dlD9JUS1I1w17KrB5Mx0Im9cJ7rAalETq5veSJpRZaTPZwVfzS2rOGfxQyKoLTQcK8NPLgAXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790110560; c=relaxed/simple;
-	bh=p6x3aoighk00gg5seqMKSj2yW50gaB1L65MJicSOd8A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IFGq33fCbU3J5LGfb9UT0+KL2eC9FgwQVqYa5DP3yg/t1iphqYD4K83k5UHTTnwUymTD5cB4pTUQVZTMJqr6CVcndDlab/rmKLpWj++sdgnJRfVGA/7y7Ncvk2hQ0l6S/7CqBYmgPoz4hLyd6eQ2zb1ZA4VA+dYFE4qWvJQP66I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NLiwYckP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790111790; c=relaxed/simple;
+	bh=ixLGB47crLxI18ihdGIJWtIJwAae7M6fUXuOZAeqNE4=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=mN1jSf5wo8xxjbDuvUUc52zwDIPHOcE4hNowhGE6ltNFuGpci04GQRdVhyRfDuF7+9uF/8JWumbaxyDophy9e3YLdoh+g0WZP68ykfJTk2l8/swh0N89tgm1xKJsZ6iV2vBInb+D2e2nfeaBhVzjrVK4HRWWFeg+V6niedTGzys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sadrul.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VhB73VrW; arc=none smtp.client-ip=209.85.219.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sadrul.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NLiwYckP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB8671F0089A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 20:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790110551;
-	bh=p6x3aoighk00gg5seqMKSj2yW50gaB1L65MJicSOd8A=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=NLiwYckPmHCO/uy5zqf5lUKdmRoC0FecvuYfjX0XTmcncIecz8LFB7bxxq34up+6L
-	 Dg7SxVV+rrstPe6rGclYkMEmeo8FIM4EXnMsoiObCbvHLDZvFYf/ZW+CkEVJIG9ypY
-	 zXO0d93fFfR2pPuXAQZfR6MfekTRU8y9grvpoHv21evU/XPfYEXZnSWiCEcJ9OvjkW
-	 dExF0cQqb05KXJ1oCasvasjyNGS/1TLu7dHJTIwEseesrldMwQkB6fh8ZhnDZPkqTg
-	 /foHCR7mIbRN/2plKJrx2lBD6kyxOWpXAX8xPvyy7kqCPWy7q3S7GPp1AT+F+4DwvC
-	 i1HXbC88SjTaA==
-Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93910ca5aa7so29871785a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 13:55:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwnxi578xmEFry/rbRxXwS/aY1twcPU7COqTkT6E8ZNOFKedNxHtjjm40rMqze9YxijKm5/LP1yZ/lCnkEb@vger.kernel.org
-X-Gm-Message-State: AFuF++m9/5xYZNOFvHiOYZ3lox3404ubGtCO/90GbCd0GL/BFv3c2x+9
-	xTS7G3HPkY1k5c6dGoGfQgIV8eSp+0eQxL0fT20Zu/CVpTT2ckbA7QS5Suv6pULqNw//Ly1KznG
-	wEGETwIajraS3IVZDH2TZvRmdw6qU5Mo=
-X-Received: by 2002:a05:620a:3197:b0:93b:d79b:9a5c with SMTP id
- af79cd13be357-93c2523ced1mr99421785a.61.1790110550897; Tue, 22 Sep 2026
- 13:55:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VhB73VrW"
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-912348a0ffbso2751206d6.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 14:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790111768; x=1790716568; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eYbuPsDBzCXtcz1fsWIpvPOcQDX2jZraMqs3+0aPrKY=;
+        b=VhB73VrWXoNizpZpc0Uky+TwA25I41/kLmQdZjzPP+jof1A5s6fFtK2r1LZKCEBKxo
+         3qYN1QOJtufl89TW91qtp0HdTIoOpCcwHo9TXeC9595fGDv+2XYwr7Axt1St73M4Tva7
+         iCnk1HktVHnc2+pzmDam2ykh3VmSUVGo4h2PXaVp+Q/RJW0yzp9iitgPbkyM73rtsqxl
+         1UjCJ9lH+aUZCJRASd4u1Fq7/B130qG10s0O+NUlgo5/LTLRIMBUmfcbddMO7+kz1jaP
+         BoYLMWxCsPa2AVf/x0pdgkS8K1Hufqj9KijYIXziL7jsyQkAbXdh+dvE3+38ojqXSqIZ
+         PpwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790111768; x=1790716568;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eYbuPsDBzCXtcz1fsWIpvPOcQDX2jZraMqs3+0aPrKY=;
+        b=frIE3SWclMh6FG8ILPGdS2vgNZnTuhpMtvSY1utEqMzMvAr4cR2k6Vhc6ZPfH2SMpy
+         G4/SHDH4miKyUxVHOnaCTW8e1cdiQI0NsdcHZzcZVskpefssXXeX3GVOBo6pY8QhRSdW
+         ycUUxHL19SStlqXVPf+1q1OJl/iqAvKIIb/ju1yEe4hqOJ9TDAw1cTj2t+orjG2eKGhd
+         jh4Q+NaKvE2eE3do+NWn82mWFupzPzygQQDZwDPMo/i1aNA/IexO7sX8kFSBxEhsPVMS
+         NGecyZRsaMAU+iXW5w1z1V5q0aJXf2nXaU0FGhP28gM7upHnmz9jSiwnKiTi2D1lRfXD
+         +Dug==
+X-Gm-Message-State: AFuF++n0dUqunNp1R78gJiMeKVs0H5lvi08gz81Yyzhbal2qwCOoODcT
+	3iFh0kx25qi/L1SQs00yeWbB1SQQfXauD/JtFo04y7JhJKlPdX3mQQxnnV3yzyPlBNh4S5+1kfo
+	7Olatlg==
+X-Received: from qvbeb6.prod.google.com ([2002:ad4:4e46:0:b0:910:6ecb:e29])
+ (user=sadrul job=prod-delivery.src-stubby-dispatcher) by 2002:ad4:5c4b:0:b0:90e:8dcc:4e5
+ with SMTP id 6a1803df08f44-9140c3a94c6mr13744106d6.28.1790111767372; Tue, 22
+ Sep 2026 14:16:07 -0700 (PDT)
+Date: Tue, 22 Sep 2026 21:15:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260921152449.629486-1-alex@ghiti.fr> <70cae945-3a4a-40db-96ac-5ce66a3fa186@kernel.org>
- <CAGsJ_4y8-wD0yMV8GCtCz5MfNrOKqUaTd+UgH=8MoP_nuvPnGg@mail.gmail.com>
- <108487b7-0529-4282-b5f4-355804b4c0cf@kernel.org> <CAGsJ_4zGmGh70QtRBpnhueev3qt_bgB4ZiE9fkW-hgNjAVhv+w@mail.gmail.com>
- <2e695c8a-4212-42b5-bb51-fbe1aa162e1d@kernel.org>
-In-Reply-To: <2e695c8a-4212-42b5-bb51-fbe1aa162e1d@kernel.org>
-From: Barry Song <baohua@kernel.org>
-Date: Wed, 23 Sep 2026 04:55:38 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4z2nakqBCKd_uAn4bfub99r3NJt2spOUx-K0M7bHW3_-w@mail.gmail.com>
-X-Gm-Features: AcwNN1U2jjkVaezVAxwcNpi00SANdjvUN0D07XxKUusJlvcnrdo8G4HZCjz1Os0
-Message-ID: <CAGsJ_4z2nakqBCKd_uAn4bfub99r3NJt2spOUx-K0M7bHW3_-w@mail.gmail.com>
-Subject: Re: [PATCH] mm: madvise: drop MADV_PAGEOUT folios at swap writeback completion
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, akpm@linux-foundation.org, willy@infradead.org, 
-	jack@suse.cz, liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, 
-	jannh@google.com, chrisl@kernel.org, kasong@tencent.com, 
-	shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev, 
-	youngjun.park@lge.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
-	hannes@cmpxchg.org, mhocko@kernel.org, yosry@kernel.org, 
-	chengming.zhou@linux.dev, kunwu.chan@gmail.com, tz2294@columbia.edu, 
-	hch@lst.de, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
+Message-ID: <20260922211559.3633398-1-sadrul@google.com>
+Subject: [PATCH 1/2] fs/epoll: mark epoll_wait tasks TASK_FREEZABLE
+From: Sadrul Chowdhury <sadrul@google.com>
+To: linux-kernel@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, Pavel Machek <pavel@kernel.org>, 
+	linux-pm@vger.kernel.org, John Stultz <jstultz@google.com>, 
+	Sadrul Chowdhury <sadrul@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2026 at 7:26=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/22/26 12:37, Barry Song wrote:
-> > On Tue, Sep 22, 2026 at 6:20=E2=80=AFPM David Hildenbrand (Arm)
-> > <david@kernel.org> wrote:
-> >>
-> >> On 9/21/26 23:56, Barry Song wrote:
-> >>> On Mon, Sep 21, 2026 at 11:37=E2=80=AFPM David Hildenbrand (Arm)
-> >>> <david@kernel.org> wrote:
-> >>>
-> >>> For synchronous I/O, such as zswap and zram, the memory is released
-> >>> immediately after sync I/O is done.
-> >>>
-> >>> For asynchronous I/O, such as NVMe, the swapcache is currently
-> >>> expected to be rotated back to the tail of the LRU and wait for
-> >>> another scan. Alexandre once mentioned that when he tried handling
-> >>> async I/O the same way as sync I/O=E2=80=94releasing the memory once =
-the I/O
-> >>> completed=E2=80=94he saw some regression. So, delaying the release un=
-til a
-> >>> later scan may allow swapcache hits before the folios are eventually
-> >>> reclaimed.
-> >>
-> >> "may", do we have any evidence that this actually is relevant in pract=
-ice?
-> >>
-> >> We asked to reclaim memory. We wrote the memory out to disk. We unmapp=
-ed it from
-> >> the page tables. We made the workload the could, access the page immed=
-iately
-> >> again suffer already.
-> >>
-> >> We should just evict them as soon as possible to free up memory.
-> >
-> > I suggested this to Alexandre, and he found that it could regress some
-> > workloads [1]. That is why Alexandre is only making the folios
-> > immediately reclaimable for `MADV_PAGEOUT`.
->
-> I really hate to add special sauce for MADV_PAGEOUT. Also, I don't quite =
-like
-> that we do something fundamentally different for sync vs. async.
->
-> I assume, though, that async writeback that is very fast might just find =
-the
-> !folio_test_writeback() scenario just like the sync case. ... or if we
-> reschedule after pageout()?
->
-> I am wondering: if we can show that letting async swapped out pages stay =
-in
-> memory a bit longer improves performance, aren't we swapping out the wron=
-g pages
-> in the first place, and not swapping them out would help the sync case as=
- well?
+During system suspend (freeze_processes) and resume (thaw_processes),
+threads blocked in epoll_wait() sleep in TASK_INTERRUPTIBLE. When
+try_to_freeze_tasks() executes, it must wake up every sleeping thread
+with a synthetic signal so the thread can schedule, run try_to_freeze(),
+enter TASK_FROZEN, and sleep again. Upon resume, the freezer wakes them
+all up simultaneously, only for each thread to re-enter ep_poll(),
+observe no ready I/O events, and call schedule() to go back to sleep.
 
-I guess that's because the LRU is not always accurate. There are cases
-where our prediction of future access patterns may be wrong, resulting
-in refaults?
+On systems with numerous event-driven daemons (where hundreds of
+threads idle in event loops), this causes a large wakeup stampede and
+thousands of redundant context switches per suspend/resume cycle.
 
-Even on Android, which uses zram with very fast synchronous swap-out,
-I can still hit the swapcache from time to time. So perhaps with a
-slower device, such as an HDD, keeping the swapcache around for longer
-could allow applications to hit it more often?
+An earlier attempt to make epoll_wait() freezable in commit 1c441e921201
+("epoll: use freezable blocking call") was reverted in commit
+c511851de162 ("Revert "epoll: use freezable blocking call"") due to
+reports of userspace corruption (Bugzilla #61781). Under the legacy
+freezer design, freezable tasks could wake up prematurely while
+hardware and peripheral drivers were still suspended.
 
->
-> >
-> > See Alexandre's description:
-> >
-> > "Future work
-> > -----------
-> > Barry suggested extending this to MADV_PAGEOUT and general reclaim. I
-> > prototyped dropbehind for all reclaimed swap folios and it regressed
-> > sysbench OLTP throughput by ~15% on NVMe swap: dropping the swap cache
-> > immediately turns cheap in-cache refaults into disk reads and collapses
-> > swap readahead clustering.
->
-> Thanks, does this represent a workload pattern we care about?
+With the 2022 core freezer rewrite (commit f5d39b020809 ("freezer,sched:
+Rewrite core freezer logic")), the legacy fake-signal mechanism was
+replaced with the TASK_FROZEN state. Tasks sleeping in TASK_FREEZABLE
+are safely frozen in-place without waking them up, and the scheduler
+guarantees they cannot be woken until thaw_processes() explicitly clears
+the frozen state.
 
-I don't know. Maybe Alexandre can share more details about this
-benchmark. I'm also a little surprised by the 15% regression in
-Sysbench OLTP. My initial feeling was the same as yours: we should
-release the memory immediately after writeback completes, for both
-synchronous and asynchronous I/O.
+Mark sleeping tasks in ep_poll() as TASK_FREEZABLE. Benchmarks on an
+ARM64 test device demonstrate that combining this with freezable
+select/poll reduces thaw latency by 63% (from 20.64 ms down to 7.55 ms
+mean at fixed CPU frequency) and reduces context switches during
+freeze/thaw by 87%.
 
-Kairui also mentioned to me that he once tried releasing memory
-immediately after folios were written back to HDD, and saw some
-serious performance regressions as well. Maybe Kairui can also share
-some thoughts on this.
+Signed-off-by: Sadrul Chowdhury <sadrul@google.com>
+---
+ fs/eventpoll.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Best Regards
-Barry
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index 6cbef8b4c2e0..35992f6457bf 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -39,6 +39,7 @@
+ #include <linux/rculist.h>
+ #include <linux/capability.h>
+ #include <net/busy_poll.h>
++#include <linux/freezer.h>
+ 
+ #include <trace/hooks/fs.h>
+ 
+@@ -1987,7 +1988,7 @@ static int ep_poll(struct eventpoll *ep, struct epoll_event __user *events,
+ 		 * the same lock on wakeup ep_poll_callback() side, so it
+ 		 * is safe to avoid an explicit barrier.
+ 		 */
+-		__set_current_state(TASK_INTERRUPTIBLE);
++		__set_current_state(TASK_INTERRUPTIBLE | TASK_FREEZABLE);
+ 
+ 		/*
+ 		 * Do the final check under the lock. ep_start/done_scan()
+-- 
+2.55.0.1082.g2b9226bbc0-goog
+
