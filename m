@@ -1,153 +1,120 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C4F563FBF
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 15:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ECE556BB1
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 15:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790092533; cv=none; b=SsxGE2dv6gYqm291gqF0gG94r9wP24YIpcYSgFjQoP4DGjWQs24QTPpdCqJ2RClkKLBNyLgIuEdEJVrJWIIF3Z0owppgnO0VyT9HF7qGb5P+F6iPWYU/Wo4HD1japbq1vLgrBYS1lM4IO1RJoyxt64lo/HPw38BsGOqrUrOKb1Y=
+	t=1790092660; cv=none; b=WX5IKryyUSsBh3ii8koA+qLzG1lx0Cv0Zni1lYBOuCSHQ2vZbWfamhhBdS6Mv9xbWJyZpQ0mWobJCdz4G1QP2tjEVQeYWP1nmMShIlpF2gy4Ae1QGWyTNwzwWSERsshokvC/lipKYqlj4sAIXLYZV6+1psAf9Wx/ic5Lks/SufQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790092533; c=relaxed/simple;
-	bh=LbyRcjRHQw/+xkQGHr8tsvAw+bO9ob1kpAT7jwfl9bI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Sg4gWKXDANovGl3kuNYGm1npVeGLnDrltol9byLXs4sLK6kO9rzfoHi+EbRrEcDqcFgAKVHQ31im4OjSLcucG9WjMWUUJmIeZTU2MWtEuurX5XfFmZ9TNFs7TBBpOpLcf5LLOMhqCARcOeMdulRJZ+ccX28HRv4RuOsPkM4nmcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UvMiZVH5; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790092660; c=relaxed/simple;
+	bh=Oth2R5uA2OQWFqOlcPw7fCNt1VAfsHFYhLQIktYv3YI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iVcGyyz/fFPjEguyIoTvv2gJzKpXvUrsrBbSxn9q+jlai4S2nr9v7BsgVF0nIjCO3uM2+ktY/Wn5vKwUXB9qMcp3zyx8ncRlGeWntA4v6pAmWHDwcjEP6kTfmMl00gMDG8lCOnkVj01GXjtKIdRM1DIiyOUH8WXH8jL/woq3NjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=FAW0xhum; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UvMiZVH5"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccd5cf02so36928a91.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 08:55:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790092532; x=1790697332; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vpJfO8QkHNHZKvD9yNEk2TGRf9tD9f/5UmHSoPqjBK4=;
-        b=UvMiZVH5QgqoM0tGZGzK18VNddaap+02F4EcFWY49Bp2JARAgauWxeYbkM6xlhC6yb
-         HkGG60obDttqseFY2CUBA7UD86qVlXqE8LxxBY87AlI48+55aYbjkqsh0maURgA4VLRm
-         HtBVufx6tWFQod6Fe9XamLy9awE+qRbj8cDYt1Zy7c60OWCRQrTpJocMqVB7JaKQPfZl
-         Fhy+HtBJ2h2ljYWcgEAd9dTNEC1fqHQKc7GZ8iHIRiSwOJn/StVg5oDNVxes9j/aAt34
-         TNF3bRIreOiMLkJMohqeGm1wlPqzK6ZuoaoSzCp1cxiP6qxlFWI5L/upLpxm33PopHt3
-         BhyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790092532; x=1790697332;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vpJfO8QkHNHZKvD9yNEk2TGRf9tD9f/5UmHSoPqjBK4=;
-        b=DmRexTfmmTzKQIeZG0MA9VziCF7hQWUahwr8w2gPB4Ckwdqi0SZP6zrzENbGUOjQcm
-         nmu0/61Sm73HDiWA+AP5sC9rxqdK8Rg95ePreU3ZfuSI+cihPEgjziNV2sEIAIsDdDbg
-         xBdGRf1JiwHAcim99yXAUt0neqxG3SAc++0iioyBmsJfbObYNVhoeJZ6kVtk1f9Qi4cq
-         f4AVOLgXGV3xJRzbxjDuXM4oSZ4VdPEzb+oWLNThjAEhOLwdiBEQhxm87+YRW+a8WLN5
-         FyWWt4bmBKyKos8FjkRF8b/YvefXTyi/ZJgBPX0IB4QNZ/mOnMEBtkjJfosI11zvoZXC
-         qKzw==
-X-Forwarded-Encrypted: i=1; AKwUvBxZSB3JABHR5okHrv/Kl2xtSm7DgMT6q1J2IHnNc9Rimz0LmU1PoAbCsVkI7S0ANYFbFhExfUXiqnkdxI1M@vger.kernel.org
-X-Gm-Message-State: AFuF++k8eNVw2twyKrlyqi1B7VyzmdaXmITQdgMP0OM0gayWsOIGC9YY
-	nSocP9qvRe002QLkRd2jz6K/1BzEm0ldXX2+Pzf6Hsu61b4BcDLoGCK0
-X-Gm-Gg: AYBFou3ULU+MZkzt2bQIZKhM0rtQTv9a/GL0GhzpuP1yaSMuOgLEPqtPPJOdoEJfya7
-	L9lmMRWT9zqwSiwAL3KTBA7uOQWT/VNzD+tR3O2q25pqM9NisnlioFU9MEhR2c1N4fYdaT2qa/j
-	r9sUaKSmoUcyAhUIOSlN5onQcFvIKs+aGC+Or7HsELdpaueo6BXatI0k0/rG1qOUhsR4xc+gfTj
-	+CUCdHyizrWwBfC0orJLmy7B+xyq69XUX32Qr4Q/Idc68gbt4p6R7wh5wIAPoJ7k1ca7IYV+t7p
-	VAAFm7/PelhCnDf38Gi7Cm2u4ipZnsX99VpOPwf11ofmDm1+h3X+bi0h1aXvYABmQIOweffxfmZ
-	cRnSKJQuS6mvoxxEOAz3P2kPYMGz6+jkwoZ5CEjbM1s+dw8zZHGFXV8QVzzarZBP6HIqYoVdTX7
-	ukEJ7pXJSv2ehid5TvF2iwG8SGDxk1RBJGA3bWqpORpfU8Ufx23W4clH5nZ5fMm+Y0kSyhgLIRv
-	lMfy4xthEjaRcYGB9zAgw0Fc+b6g280mC82sEXUM1KzLlCcrKfCaaNKAHLy5tGQD2hYdoVubPDZ
-	0VWC5VNv1Cz54vwh+TdU8O2OAZDndBFlUnWghsotg578mnHE9w9YDI5cVit3RkiWp50f2oNtRQ=
-	=
-X-Received: by 2002:a17:90b:558d:b0:39d:8794:5564 with SMTP id 98e67ed59e1d1-3a07309f90dmr1897591a91.12.1790092531487;
-        Tue, 22 Sep 2026 08:55:31 -0700 (PDT)
-Received: from spider.bream-herring.ts.net ([103.252.203.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a07dbc5451sm83910a91.7.2026.09.22.08.55.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 08:55:31 -0700 (PDT)
-From: Matthias Goergens <matthias.goergens@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] isofs: bound the Joliet iocharset conversion by the output buffer
-Date: Tue, 22 Sep 2026 23:55:24 +0800
-Message-ID: <20260922155524.1993425-3-matthias.goergens@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260922155524.1993425-1-matthias.goergens@gmail.com>
-References: <20260922155524.1993425-1-matthias.goergens@gmail.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="FAW0xhum"
+Received: from macsyma.thunk.org (pool-108-26-156-67.bstnma.fios.verizon.net [108.26.156.67])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 68MFvIQJ030854
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 22 Sep 2026 11:57:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1790092641; bh=W17EuRjsRrgDf5dIH9mzKrl6ZdtS1hulCXAE8MXDe00=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=FAW0xhumfgkV3y6oBa8nWeIUaIMBmQLDWxhGNYVCk7tyin9/XoBrC+L+3TmGzp7a0
+	 3nI+jNoHMu7RVXvFLyqegqKP0K8RHy12+Ynizm4KoGJB4THkFlN1JnlgzZuzx1/wJe
+	 iqHej0aI/UV3tFiF8cg7wcOLUb47AwC+fCmJ5oLgyb51oNHY7NieYBxvRcAaDO+NsH
+	 jPSGHRBsteMwy69DrEild/8+7ydKoX+qxzQGwhDsPEKIaKCGJkUcgxUfN9x68svT4n
+	 k3SS6bGtIA2Ij+X+hSmUcbF4g2NQOQH4gI3s2z2gwj9qdmYQS3FHCOdBg0QxDBAP65
+	 ClBI17LU0ijZQ==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 16E2F1C992A4; Tue, 22 Sep 2026 11:56:18 -0400 (EDT)
+Date: Tue, 22 Sep 2026 11:56:17 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, fstests@vger.kernel.org,
+        zlang@kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, sandeen@redhat.com, dgc@kernel.org
+Subject: Re: [PATCH] generic/492: bypass the blkid cache when probing the
+ label
+Message-ID: <arKZu30pMe0ZavVA@mit.edu>
+References: <20260920094137.2749428-1-libaokun@linux.alibaba.com>
+ <20260921052719.GB6253@frogsfrogsfrogs>
+ <b4a10712-1658-4fba-a037-095fab466270@linux.alibaba.com>
+ <20260921234910.GC6253@frogsfrogsfrogs>
+ <arHaTLxSEk3yQxU4@mit.edu>
+ <74463cb5-14af-47bb-9380-ca75dc5d293a@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <74463cb5-14af-47bb-9380-ca75dc5d293a@linux.alibaba.com>
 
-uni16_to_x8() has no output-size parameter.  It passes
-NLS_MAX_CHARSET_SIZE to uni2char() on every iteration, which bounds what
-that one character may write but says nothing about how much of the
-buffer is left, and then writes a terminator wherever it stopped.
+On Tue, Sep 22, 2026 at 03:17:27PM -0500, Baokun Li wrote:
+> I checked my environment again though -- it turned out not to be
+> xfstests-bld at all.  xfstests-bld never touches e2fsprogs.
+> 
+> What happened is that I had manually run "make install" of a locally
+> patched e2fsprogs in the test VM, which overwrote util-linux's blkid
+> and fsck.
 
-Nothing bounds the total.  It fits today only because the caller's input
-is bounded: de->name_len is a single byte, so at most 255 >> 1 units,
-each expanding to at most NLS_MAX_CHARSET_SIZE bytes.  The previous
-patch asserts that relationship at build time, but the conversion itself
-should not depend on it.
+What e2fsprogs's configure script will do is that it checks to see if
+the blkid libraries are available for building against.  That is, if
+you are using Debian or Ubuntu, you need to have the libblkid-dev
+package install.  Among other things, this makes the following files
+available:
 
-Pass the buffer size in and hand uni2char() the space that actually
-remains, stopping on -ENAMETOOLONG, as fs/hfsplus/unicode.c does.
+/usr/include/blkid/blkid.h
+/usr/lib/x86_64-linux-gnu/libblkid.a
+/usr/lib/x86_64-linux-gnu/libblkid.so
 
-The result is unchanged for every name a valid image can carry; only a
-caller that passed a smaller buffer would now truncate rather than
-overrun.  Listings of plain, Rock Ridge, Joliet, Rock-Ridge-plus-Joliet
-and zisofs images are unchanged.
+... which are the files needed to build against libblkid and then link
+against it statically or dynamically.  If these files aren't
+available, then e2fsprogs will assume that it needs to build the local
+libblkid, which is what is needed when building on Android, MacOS,
+NetBSD, Open Solaris, etc.
 
-Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
----
- fs/isofs/joliet.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+> Rebuilding e2fsprogs with these options disabled made the test pass:
+> 
+>     ./configure --disable-libblkid --disable-fsck \
+>             --disable-libuuid --disable-uuidd
 
-diff --git a/fs/isofs/joliet.c b/fs/isofs/joliet.c
-index b1f4a105ee87..0832f40a9a2b 100644
---- a/fs/isofs/joliet.c
-+++ b/fs/isofs/joliet.c
-@@ -15,19 +15,26 @@
-  * Convert Unicode 16 to UTF-8 or ASCII.
-  */
- static int
--uni16_to_x8(unsigned char *ascii, __be16 *uni, int len, struct nls_table *nls)
-+uni16_to_x8(unsigned char *ascii, __be16 *uni, int len, struct nls_table *nls,
-+	    int outsize)
- {
- 	__be16 *ip, ch;
--	unsigned char *op;
-+	unsigned char *op, *end;
- 
- 	ip = uni;
- 	op = ascii;
-+	end = ascii + outsize - 1;	/* leave room for the terminator */
- 
- 	while ((ch = get_unaligned(ip)) && len) {
- 		int llen;
--		llen = nls->uni2char(be16_to_cpu(ch), op, NLS_MAX_CHARSET_SIZE);
-+
-+		if (op >= end)
-+			break;
-+		llen = nls->uni2char(be16_to_cpu(ch), op, end - op);
- 		if (llen > 0)
- 			op += llen;
-+		else if (llen == -ENAMETOOLONG)
-+			break;
- 		else
- 			*op++ = '?';
- 		ip++;
-@@ -59,7 +66,8 @@ get_joliet_filename(struct iso_directory_record * de, unsigned char *outname, st
- 				outname, ISOFS_NAME_BUF_SIZE);
- 	} else {
- 		len = uni16_to_x8(outname, (__be16 *) de->name,
--				de->name_len[0] >> 1, nls);
-+				de->name_len[0] >> 1, nls,
-+				ISOFS_NAME_BUF_SIZE);
- 	}
- 	if ((len > 2) && (outname[len-2] == ';') && (outname[len-1] == '1'))
- 		len -= 2;
--- 
-2.55.0
+This works, but this wll also disable those e2fsprogs features that
+require those libraries.  So mke2fs will not generate UUID's in the
+superblock, e2fsck won't handle LABEL=xyzzy specifiers, etc.
+Fortunately xfstests don't depend on these featuers, so this will work.
 
+The way I build with a locally patched e2fsprogs is that I'll build it
+using the Debian build tools, which will enforce building with the
+necessary prereqsuite packages, and then I'll put the built packages
+in the directory test-appliance/debs and then build a fresh test
+appliance image.  Or I'll just upload the packages to the VM and then
+install it before launching the tests.
+
+> That said, I think the patch is still needed, because
+> FS_IOC_SETFSLABEL does not update the block device's mtime:
+> 
+>     blkid -s LABEL ...    # get A
+>     FS_IOC_SETFSLABEL     # set B (device mtime unchanged)
+>     blkid -s LABEL ...    # still get A (within 2s)
+> 
+> The first read writes a cache entry with TIME=now, and the ioctl
+> leaves the device mtime untouched, so a second read within the 2s
+> window still trusts the cache.
+
+The patch to xfstests might still be appropriate, but it seems to me
+that tune2fs should get fixed to update the device mtime (if it can),
+and perhaps the kernel should try to update block device inode as well
+as part of the FS_IOC_SETFSLABEL ioctl to address potential corner
+cases with systemd/udev.
+
+						- Ted
