@@ -1,52 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097A8316905;
-	Tue, 22 Sep 2026 00:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A193931E824;
+	Tue, 22 Sep 2026 00:32:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790037134; cv=none; b=ThFGQ8kfjY6Q9g6v1/SNrei4hRwjM6kbwHe0Q26ZykmG/9fx3HLBiENVFZJizd7pK3g4POu+27AhkKM6efm/Vsq55Pf/JqsIpEuUinAiD6F9HmeigdNmyaKL0mGILEuj1FgrFoCe03R3sdraRAzlrVCMLLy29dl2u5qYJrFPl0M=
+	t=1790037135; cv=none; b=uD2x7PTda8UbC2DEc2iVTtz8mLF4pH0P6Tv7MdrgGsJe45VpTAF2MekTwxwWJM5F6YlbVVd8dskAV4Xlj33m2ti/++PTaM+7tdhK62BgU2/82MuoPNXkM5f/nX/0Smc4m2KUu8pSw4UOd6BH/tBxkT8L7lIahMzCS3P5PL5RPXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790037134; c=relaxed/simple;
-	bh=TLr+muP9IJPeDswlAwrJ9DVaMebbbJPEc9g+IiyTn3Q=;
+	s=arc-20240116; t=1790037135; c=relaxed/simple;
+	bh=3SNad8cSGX/yLWI8E3JE9cy9dkKCeA1Qu3xf/C4B2+Q=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oPv0i8F1rOCveWF3GvgDtx+7CWxkwFatd2YyIyaHAk8v46wDB0j7QiNoXipJNsPkWRYSW50dkZC4kZjtFXLmSG7AcDfD2B4XJYw2u5yPDRXUv59Sc5GwRLm6uBeBhtIe/7Fwma8VNTWp4bKFF2fZhfPg83zI6ChSajXSaVi1XIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7aVy/LA; arc=none smtp.client-ip=192.198.163.15
+	 MIME-Version; b=MvySleftWDs8uPNxhl+iAR3lukcKRVk2KuTe6vB7BM67/tTJPcpXgU2xiY1eK827oGuu3t06s2hcIpYYTNjnXeaw2u+TqgmxPfGZBg2wilYUcNykHBiMl1ZZxMtWvFdvheBXThd6tI57ll6EWkv0SK2IoYOIBj0qJZSzoOWM80E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mp8cMHpM; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7aVy/LA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mp8cMHpM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790037133; x=1821573133;
+  t=1790037134; x=1821573134;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=TLr+muP9IJPeDswlAwrJ9DVaMebbbJPEc9g+IiyTn3Q=;
-  b=K7aVy/LAJAY+dtrFY78rakivrFWttR/CDM02IsMCD/lZhT0p4G+LChp/
-   rU5/ISy4/LzJLPk6t0nWgveznpHAK/q88XY4P/4TzJI6gh+Kzjh+nNKwu
-   xmnfVtWYSUMiRoa9xyR+Dm/7CnR3F/W0hC0xiMTUtFtgh4tT0CxaQmG4M
-   qf+eVQBpbOpLo1gGjim7IdZ1ga1JYs9khznrkNTpUStEiTLrg6woT7sEq
-   DMSYZRLLHfycYhebm0pbDGdNuD9SCc0YXDmNJR2j78xyObJ34Ri5jYhp/
-   INhQHapuGH9v2/XbQvjYtQjha76A+Hf7acIUF+T49X4v+l/2kZoQSwa7w
-   A==;
-X-CSE-ConnectionGUID: PMPX99m5TEaalj0Y3EO+gQ==
-X-CSE-MsgGUID: RYUIYs9jQkGzBm2xVTjYpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90716634"
+  bh=3SNad8cSGX/yLWI8E3JE9cy9dkKCeA1Qu3xf/C4B2+Q=;
+  b=mp8cMHpMPkuFeW8D2S78kLhkxTVDMdV7YGOM0IUbizQmBh8yp17gsqxG
+   xQ4bCO7fCs7Cbhp8taQxTVM78s+vLgPP+lDrzID9sRvqQR2FXehZs49D6
+   vmtyxTduULowF4YMOrHBIrViKtW3PUW2SmpCvUpjMaMOhrW5jCPuvnYl/
+   8G6gzqWpJrWD2O2KJ3O06UugNx8DTX56ZaaDRhZPcz3jkgdBfH1s3K1Bh
+   KPJh5ep2lmWUwS9oQ7PNlhHA6m+WiIqp9819w1AVt6+H11Q/cw3FxQF00
+   ViYFlKFU2yWYYnvFLukk9Gp8uk13jXycE5Oi79AMbkkvtCsA09vXat0F5
+   w==;
+X-CSE-ConnectionGUID: QBPprYNYS8ichcCwp4eANA==
+X-CSE-MsgGUID: Vb/KKmTWSLOqJhsE6zmTdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90716655"
 X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
-   d="scan'208";a="90716634"
+   d="scan'208";a="90716655"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 17:32:12 -0700
-X-CSE-ConnectionGUID: twlC2qkvS7CeVw4fkj5Ksw==
-X-CSE-MsgGUID: bQa3l3LNTVy7qIDuPDoQrA==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 17:32:13 -0700
+X-CSE-ConnectionGUID: 4p7YC+7bQ++tsxep43jVwA==
+X-CSE-MsgGUID: xD69XWy0QB2tetf9x/f/Wg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
-   d="scan'208";a="277671820"
+   d="scan'208";a="277671840"
 Received: from b04f130c83f2.jf.intel.com ([10.165.154.98])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Sep 2026 17:32:10 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 21 Sep 2026 17:32:12 -0700
 From: Tim Chen <tim.c.chen@linux.intel.com>
 To: Peter Zijlstra <peterz@infradead.org>,
 	Ingo Molnar <mingo@redhat.com>
-Cc: Tim Chen <tim.c.chen@linux.intel.com>,
+Cc: Lu Wang <wanglu.priv@gmail.com>,
 	Juri Lelli <juri.lelli@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Dietmar Eggemann <dietmar.eggemann@arm.com>,
@@ -66,11 +66,11 @@ Cc: Tim Chen <tim.c.chen@linux.intel.com>,
 	Vineeth Remanan Pillai <vineethr@linux.ibm.com>,
 	Ricardo Neri-Calderon <ricardo.neri-calderon@linux.intel.com>,
 	Chen Yu <yu.c.chen@intel.com>,
-	Lu Wang <wanglu.priv@gmail.com>,
 	Hyunwoo Kim <imv4bel@gmail.com>,
 	Zhan Xusheng <zhanxusheng@xiaomi.com>,
 	Zhan Xusheng <zhanxusheng1024@gmail.com>,
 	Yi Lai <yi1.lai@intel.com>,
+	Tim Chen <tim.c.chen@linux.intel.com>,
 	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Danilo Krummrich <dakr@kernel.org>,
@@ -78,11 +78,10 @@ Cc: Tim Chen <tim.c.chen@linux.intel.com>,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org,
-	Kayra Cizmeci <kayracizmeci@gmail.com>,
 	stable@kernel.org
-Subject: [PATCH v2 1/6] sched/cache: Keep nr_pref_llc_running in the runnable domain
-Date: Mon, 21 Sep 2026 17:37:22 -0700
-Message-Id: <06af61afedac32e6477f57feb4d658f6c411c3af.1790035273.git.tim.c.chen@linux.intel.com>
+Subject: [PATCH v2 2/6] sched/cache: Honor migrate_llc_task semantics in active load balance
+Date: Mon, 21 Sep 2026 17:37:23 -0700
+Message-Id: <cb39f64a17fc2b76097264aaec74a2d6dfff4315.1790035273.git.tim.c.chen@linux.intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1790035273.git.tim.c.chen@linux.intel.com>
 References: <cover.1790035273.git.tim.c.chen@linux.intel.com>
@@ -94,178 +93,181 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-alb_break_llc() decides whether to break LLC preference during active
-load balance. It does so by testing that every runnable fair task on the
-source rq prefers its LLC:
+From: Lu Wang <wanglu.priv@gmail.com>
 
-	env->src_rq->nr_pref_llc_running == env->src_rq->cfs.h_nr_runnable
+CAS introduced the migrate_llc_task migration type to direct tasks
+toward their preferred LLC, but its semantics can be lost when passive
+load balance falls back to active load balance. This may allow ALB to
+select a candidate whose preferred LLC does not match the destination,
+moving it away from its preferred LLC.
 
-But the two counters cover different sets. nr_pref_llc_running is updated
-in account_llc_enqueue()/account_llc_dequeue(), next to cfs_rq->nr_queued,
-so it follows queued tasks. h_nr_runnable is updated in set_delayed()/
-clear_delayed() and drops delay-dequeued tasks.
+Example scenario:
 
-So under DELAY_DEQUEUE, a preferring task that goes to sleep stays counted
-in nr_pref_llc_running while h_nr_runnable falls. The equality then breaks,
-alb_break_llc() returns false, and active balance is free to pull a task
-off its preferred LLC. Active balance only moves runnable tasks, and this
-is the only LLC check it consults: once the stopper runs, LBF_ACTIVE_LB
-skips the per-task test in can_migrate_task(). The runnable set is the one
-we want.
+src_rq has two runnable tasks, p1 and p2. p1 prefers dst_rq (dst_llc),
+while p2 prefers src_rq (src_llc). In this case, migrate_llc_task is
+set because src_rq has at least one task, p1, that wants to migrate to
+dst_rq. In ALB, can_migrate_task() finds p2 and returns true for it,
+thus moving p2 out of its preferred LLC.
 
-Fix it on the counter side. A task should be counted in
-nr_pref_llc_running exactly while it is both queued on its preferred LLC
-(pref_llc_queued) and runnable (!sched_delayed). Define that membership
-once in task_pref_llc_runnable(), and adjust the counter only through
-pref_llc_running_inc()/pref_llc_running_dec() from the four sites that
-change either input: account_llc_enqueue(), account_llc_dequeue(),
-set_delayed() and clear_delayed(). Gating every update on the same
-predicate keeps the delay, wake and dequeue paths from double-counting
-or underflowing; see the comments at those sites for the ordering.
+Solution:
 
-nr_llc_running and sd->llc_counts are not touched and stay on queued
-semantics.
+The CPU stopper in ALB constructs a fresh lb_env that does not inherit
+migration_type from the passive load-balance pass. Two approaches are
+possible:
 
-Fixes: 714059f79ff0 ("sched/cache: Handle moving single tasks to/from their preferred LLC")
-Reported-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
-Closes: https://lore.kernel.org/lkml/20260827135000.735138-1-zhanxusheng@xiaomi.com/
+(a) Add a new member to struct rq so ALB can inherit migrate_llc_task
+    from the passive LB that triggered it.
+
+(b) Define a new flag LBF_ACTIVE_LB_LLC and select the stopper callback
+    at kick time to preserve the migration semantics across the
+    asynchronous boundary.
+
+We choose (b) because it avoids passing migration_type through the
+stopper, which would affect the meaning of migration_type for
+delayed-dequeue tasks.
+
+Fixes: e4c9a4cb244a ("sched/cache: Add migrate_llc_task migration type for cache-aware balancing")
 Suggested-by: Chen Yu <yu.c.chen@intel.com>
-Reviewed-by: Kayra Cizmeci <kayracizmeci@gmail.com>
+Signed-off-by: Lu Wang <wanglu.priv@gmail.com>
+Reviewed-by: Tim Chen <tim.c.chen@linux.intel.com>
+Reviewed-by: Chen Yu <yu.c.chen@intel.com>
 Cc: stable@kernel.org #7.2.x
 Signed-off-by: Tim Chen <tim.c.chen@linux.intel.com>
 ---
- kernel/sched/fair.c | 63 +++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 58 insertions(+), 5 deletions(-)
+ kernel/sched/fair.c | 57 ++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 51 insertions(+), 6 deletions(-)
 
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index d5989b53adef..19765ee1af83 100644
+index 19765ee1af83..6f1939d17e9e 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -1551,6 +1551,28 @@ static bool invalid_llc_nr(struct mm_struct *mm, struct task_struct *p,
- 			(scale * per_cpu(sd_llc_size, cpu)));
+@@ -10453,6 +10453,7 @@ enum migration_type {
+ #define LBF_SOME_PINNED	0x08
+ #define LBF_ACTIVE_LB	0x10
+ #define LBF_LLC_PINNED	0x20
++#define LBF_ACTIVE_LB_LLC	0x40
+ 
+ struct lb_env {
+ 	struct sched_domain	*sd;
+@@ -10871,6 +10872,21 @@ alb_break_llc(struct lb_env *env)
+ 	return false;
  }
  
 +/*
-+ * A task counts in nr_pref_llc_running while it is queued on its preferred
-+ * LLC (pref_llc_queued) and runnable (!sched_delayed), keeping the counter in
-+ * the runnable domain so alb_break_llc() can compare it with h_nr_runnable.
++ * Returns true if p's preferred LLC does not match the destination CPU
++ * under migrate_llc_task semantics. Passive LB passes migrate_llc_task
++ * in env->migration_type, while active LB carries LBF_ACTIVE_LB_LLC in
++ * env->flags to avoid overwriting env->migration_type.
 + */
-+static bool task_pref_llc_runnable(struct task_struct *p)
++static inline bool
++migrate_llc_task_wrong_dst(struct task_struct *p, struct lb_env *env)
 +{
-+	return p->pref_llc_queued && !p->se.sched_delayed;
++	return sched_cache_enabled() &&
++	       (env->migration_type == migrate_llc_task ||
++		env->flags & LBF_ACTIVE_LB_LLC) &&
++	       READ_ONCE(p->preferred_llc) != llc_id(env->dst_cpu);
 +}
 +
-+static void pref_llc_running_inc(struct rq *rq, struct task_struct *p)
-+{
-+	if (task_pref_llc_runnable(p))
-+		rq->nr_pref_llc_running++;
-+}
-+
-+static void pref_llc_running_dec(struct rq *rq, struct task_struct *p)
-+{
-+	if (task_pref_llc_runnable(p))
-+		rq->nr_pref_llc_running--;
-+}
-+
- static void account_llc_enqueue(struct rq *rq, struct task_struct *p)
- {
- 	int pref_llc, pref_llc_queued;
-@@ -1562,7 +1584,6 @@ static void account_llc_enqueue(struct rq *rq, struct task_struct *p)
- 
- 	pref_llc_queued = (pref_llc == task_llc(p));
- 	rq->nr_llc_running++;
--	rq->nr_pref_llc_running += pref_llc_queued;
- 
- 	/*
- 	 * Record whether p is enqueued on its preferred
-@@ -1580,6 +1601,9 @@ static void account_llc_enqueue(struct rq *rq, struct task_struct *p)
+ /*
+  * Check if migrating task p from env->src_cpu to
+  * env->dst_cpu breaks LLC localiy.
+@@ -10899,8 +10915,7 @@ static bool migrate_degrades_llc(struct task_struct *p, struct lb_env *env)
+ 	 * run on env->dst_cpu, skip the tasks do not prefer
+ 	 * env->dst_cpu, and find the one that prefers.
  	 */
- 	p->pref_llc_queued = pref_llc_queued;
+-	if (env->migration_type == migrate_llc_task &&
+-	    READ_ONCE(p->preferred_llc) != llc_id(env->dst_cpu))
++	if (migrate_llc_task_wrong_dst(p, env))
+ 		return true;
  
-+	/* Skipped while delayed; clear_delayed() adds it back on wake. */
-+	pref_llc_running_inc(rq, p);
-+
- 	sd = rcu_dereference_all(rq->sd);
- 	if (sd && (unsigned int)pref_llc < sd->llc_max)
- 		sd->llc_counts[pref_llc]++;
-@@ -1596,7 +1620,12 @@ static void account_llc_dequeue(struct rq *rq, struct task_struct *p)
- 
- 	rq->nr_llc_running--;
- 	if (p->pref_llc_queued) {
--		rq->nr_pref_llc_running--;
-+		/*
-+		 * Skipped if still delayed (set_delayed() already removed it);
-+		 * clearing pref_llc_queued below also stops clear_delayed()
-+		 * from re-adding it.
-+		 */
-+		pref_llc_running_dec(rq, p);
- 		/*
- 		 * Update the status in case
- 		 * other logic might query
-@@ -2000,6 +2029,7 @@ void init_sched_mm(struct task_struct *p)
- 	 * polluting account_llc_enqueue().
- 	 */
- 	p->preferred_llc = -1;
-+	p->pref_llc_queued = 0;
+ 	if (can_migrate_llc_task(env, p) != mig_forbid)
+@@ -10922,6 +10937,12 @@ alb_break_llc(struct lb_env *env)
+ 	return false;
  }
  
- #else /* CONFIG_SCHED_CACHE */
-@@ -2021,6 +2051,10 @@ static void account_llc_enqueue(struct rq *rq, struct task_struct *p) {}
- 
- static void account_llc_dequeue(struct rq *rq, struct task_struct *p) {}
- 
-+static void pref_llc_running_inc(struct rq *rq, struct task_struct *p) {}
++static inline bool
++migrate_llc_task_wrong_dst(struct task_struct *p, struct lb_env *env)
++{
++	return false;
++}
 +
-+static void pref_llc_running_dec(struct rq *rq, struct task_struct *p) {}
-+
- #endif /* CONFIG_SCHED_CACHE */
- 
- /*
-@@ -6395,15 +6429,27 @@ static __always_inline void return_cfs_rq_runtime(struct cfs_rq *cfs_rq);
- 
- static void set_delayed(struct sched_entity *se)
+ static inline bool
+ migrate_degrades_llc(struct task_struct *p, struct lb_env *env)
  {
--	se->sched_delayed = 1;
--
- 	/*
- 	 * Delayed se of cfs_rq have no tasks queued on them.
- 	 * Do not adjust h_nr_runnable since __dequeue_task()
- 	 * will account it for blocked tasks.
-+	 *
-+	 * This check can be removed because when flat pick
-+	 * patches get merged as only task can get delayed,
-+	 * same for clear_delayed().
+@@ -11021,7 +11042,7 @@ int can_migrate_task(struct task_struct *p, struct lb_env *env)
+ 	 * 4) too many balance attempts have failed.
  	 */
--	if (!entity_is_task(se))
-+	if (!entity_is_task(se)) {
-+		se->sched_delayed = 1;
- 		return;
-+	}
+ 	if (env->flags & LBF_ACTIVE_LB)
+-		return 1;
++		return !migrate_llc_task_wrong_dst(p, env);
+ 
+ 	degrades = migrate_degrades_locality(p, env);
+ 	if (!degrades) {
+@@ -13420,6 +13441,20 @@ static int need_active_balance(struct lb_env *env)
+ }
+ 
+ static int active_load_balance_cpu_stop(void *data);
++static int active_load_balance_llc_cpu_stop(void *data);
 +
-+	/*
-+	 * Drop a task leaving the runnable set.
-+	 * Needs to be called before sched_delayed is set.
-+	 * clear_delayed() mirrors this after clearing the flag.
-+	 */
-+	pref_llc_running_dec(rq_of(cfs_rq_of(se)), task_of(se));
-+	se->sched_delayed = 1;
- 
- 	for_each_sched_entity(se) {
- 		struct cfs_rq *cfs_rq = cfs_rq_of(se);
-@@ -6425,6 +6471,13 @@ static void clear_delayed(struct sched_entity *se)
- 	if (!entity_is_task(se))
- 		return;
- 
-+	/*
-+	 * Re-add on wake, after sched_delayed is cleared. On a final delayed
-+	 * dequeue account_llc_dequeue() already cleared pref_llc_queued, so
-+	 * this does nothing.
-+	 */
-+	pref_llc_running_inc(rq_of(cfs_rq_of(se)), task_of(se));
++/*
++ * migration_type is checked elsewhere to decide migration policy, so
++ * it shouldn't be repurposed just to flag an LLC-directed active
++ * balance across the stopper. Pick the callback here instead.
++ */
++static inline cpu_stop_fn_t alb_stop_fn(struct lb_env *env)
++{
++	if (env->migration_type == migrate_llc_task)
++		return active_load_balance_llc_cpu_stop;
 +
- 	for_each_sched_entity(se) {
- 		struct cfs_rq *cfs_rq = cfs_rq_of(se);
++	return active_load_balance_cpu_stop;
++}
  
+ static int should_we_balance(struct lb_env *env)
+ {
+@@ -13765,7 +13800,7 @@ static int sched_balance_rq(int this_cpu, struct rq *this_rq,
+ 	}
+ 	if (active_balance) {
+ 		stop_one_cpu_nowait(cpu_of(busiest),
+-				    active_load_balance_cpu_stop, busiest,
++				    alb_stop_fn(&env), busiest,
+ 				    &busiest->active_balance_work);
+ 	}
+ 	preempt_enable();
+@@ -13870,7 +13905,7 @@ update_next_balance(struct sched_domain *sd, unsigned long *next_balance)
+  * least 1 task to be running on each physical CPU where possible, and
+  * avoids physical / logical imbalances.
+  */
+-static int active_load_balance_cpu_stop(void *data)
++static int __active_load_balance_cpu_stop(void *data, unsigned int lb_flags)
+ {
+ 	struct rq *busiest_rq = data;
+ 	int busiest_cpu = cpu_of(busiest_rq);
+@@ -13920,7 +13955,7 @@ static int active_load_balance_cpu_stop(void *data)
+ 			.src_cpu	= busiest_rq->cpu,
+ 			.src_rq		= busiest_rq,
+ 			.idle		= CPU_IDLE,
+-			.flags		= LBF_ACTIVE_LB,
++			.flags		= LBF_ACTIVE_LB | lb_flags,
+ 		};
+ 
+ 		schedstat_inc(sd->alb_count);
+@@ -13948,6 +13983,16 @@ static int active_load_balance_cpu_stop(void *data)
+ 	return 0;
+ }
+ 
++static int active_load_balance_cpu_stop(void *data)
++{
++	return __active_load_balance_cpu_stop(data, 0);
++}
++
++static int active_load_balance_llc_cpu_stop(void *data)
++{
++	return __active_load_balance_cpu_stop(data, LBF_ACTIVE_LB_LLC);
++}
++
+ /*
+  * Scale the max sched_balance_rq interval with the number of CPUs in the system.
+  * This trades load-balance latency on larger machines for less cross talk.
 -- 
 2.32.0
 
