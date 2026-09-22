@@ -1,170 +1,143 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDD0382381;
-	Tue, 22 Sep 2026 14:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666892EDD53;
+	Tue, 22 Sep 2026 14:53:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790087621; cv=none; b=sVzgItSCN1vfxoBXmMKwBal2SCleeY++7CnMkGz5yqTzMDNXrV6Gxbe3Zvw6VznRK13VRRClkWqgC5uSAiHLf7d5BfoEvsUvtMT2PEELo689xjvEKTt38reUuyT/Fy/Q9JseG3lsEuDpjzf2pjQ2Vh8LBbpTBQtDUY8A4ou8m5A=
+	t=1790088817; cv=none; b=CaHBlxYmJuH7hwcHjnu3yfj5hvg8Pe0cwcn5TyVn7CVW5SNlGIk/aqy5+wVNoJg9kv/KO2HY3u+Jmak1t5NI6a7n4JClejXqisyw8mEv9eUVDNadlMjx90yNEpd/U69zieEGEHfAnLEnQSlyGJT8SGye5KUhfFZvVvAbVgMklA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790087621; c=relaxed/simple;
-	bh=CHqV++KS6RHB6kYz97qF6YGlEunOCipdBNB08iPcByQ=;
+	s=arc-20240116; t=1790088817; c=relaxed/simple;
+	bh=3zStg+Of3SIDA6p7npUPWy+g0iFtuiOXyrEBpcSnHLQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ibx8S6BVgZ4I7gXjhyTAy2mylTl3eLAmBXv+IntFgG/2xdXlGYY4WrfRU5O03vBjG7BBHOD1Gtgvin9bQla54KLfWS9QaPlnIeDYPD4DWdQMKcstG8AlgvQnAIM9n5+CRjXCNyXxyXGJIdYguUwRVYdUcAVFhF6jVaqWqMt1i70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BX9biEl1; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hb4c0K0pwbBQ9LV8Q5b4vhRV0H8ITdvb+BHGXjNV3z7GmHKzxaJ+NVbgMYd+AY42/gBZXCfZdbb4Klmydwcfzsek4As7soeXCcjRyNT/RVyjMB8zFhjl9Y2IMyopalSFjI5agMt9kwdulXo/ghjJdaCGkwjLtNkp75Uv6Jjlsa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MZaz7KBK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BX9biEl1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21801F000FF;
-	Tue, 22 Sep 2026 14:33:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MZaz7KBK"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id DBB4F1F00893;
+	Tue, 22 Sep 2026 14:53:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790087619;
-	bh=SX+z6NYoCWxNBGYU99ktnwwcCSe7GjbZgEJXo4djVCo=;
+	s=k20260515; t=1790088816;
+	bh=Dy2JhPeTjTCbkklm8rLHvN3UFSIZRPRM35gZ5rMoV+M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BX9biEl1MsiHmxiw5g0mwtlxHsMXdJJs7EENd2SKzhScStDGRDti4g9OlEPHw93Ix
-	 WrdBXYIVZUqDh6y4UhXrfQJaSXbUEpfMnPklbBRUI1kUaQ1OdGdIlQYaP2uiE+3K/Q
-	 nKulIl1srUyP7Zg6uugHpCEHgsh/dd2RDn7SpBdeuYDN1LcvJOUErXq/QdFuLo1U0u
-	 gl8yNWwEUhgFlk0Zulfl6iAqDpS/Fq7n2j0bDp/NkyUJlS51yQmFLsyFl9jefnguHS
-	 EmvE0IyhrPe6y8vqHqStNyadWtZ5Im7mY8iygqft8AHxZD+n/7cmuJT8b+lXXeuztX
-	 A6umjl156o2jA==
-Date: Tue, 22 Sep 2026 16:33:34 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Chris Mason <mason@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org, io-uring@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3 02/17] signal: only SIGKILL and the freezers interrupt
- a coredumping task
-Message-ID: <20260922-bibliothek-fakten-vielzahl-78613362e349@brauner>
-References: <20260921-work-coredump-fixes-v3-0-8e4adb1619e6@kernel.org>
- <20260921-work-coredump-fixes-v3-2-8e4adb1619e6@kernel.org>
- <arJ6zZuI59BJnXpl@redhat.com>
+	b=MZaz7KBKX6mpqgw8T+lwgsl4gL0IoBvFbgRMRYZqvSBmZPWiYJ6HESBSwGjUVWaKt
+	 LU8JjwiLdOg3u4n5BmWtDZG+F5eTM/4T6QEV6YoIIBMO4EXQaYzGqwbShyjxzwHwFa
+	 OVXalWXaoJlCWwsilexubk7a2XM7ln9MygpsS6j+c4ztVUklshuA/0XeJuZMmYes4m
+	 qREKi1tcMbH67D+jynd894r+ujWjJygb27XxnNhfvFUPLB2UFh5PK10oxbZYG9sEs0
+	 VP1aacopMEN/kEmSMvquYPrjaarrs6kyk3IdMWu6pTTtpCyL+AbhOlKBppdAJPxtQx
+	 0In30ndvgNd5Q==
+Date: Tue, 22 Sep 2026 07:53:35 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: Theodore Tso <tytso@mit.edu>, fstests@vger.kernel.org, zlang@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	sandeen@redhat.com, dgc@kernel.org
+Subject: Re: [PATCH] generic/492: bypass the blkid cache when probing the
+ label
+Message-ID: <20260922145335.GV6283@frogsfrogsfrogs>
+References: <20260920094137.2749428-1-libaokun@linux.alibaba.com>
+ <20260921052719.GB6253@frogsfrogsfrogs>
+ <b4a10712-1658-4fba-a037-095fab466270@linux.alibaba.com>
+ <20260921234910.GC6253@frogsfrogsfrogs>
+ <arHaTLxSEk3yQxU4@mit.edu>
+ <74463cb5-14af-47bb-9380-ca75dc5d293a@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <arJ6zZuI59BJnXpl@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <74463cb5-14af-47bb-9380-ca75dc5d293a@linux.alibaba.com>
 
-On Tue, Sep 22, 2026 at 02:55:41PM +0200, Oleg Nesterov wrote:
-> On 09/21, Christian Brauner wrote:
+On Tue, Sep 22, 2026 at 03:17:27PM +0800, Baokun Li wrote:
+> On 2026/9/22 11:43, Theodore Tso wrote:
+> > On Mon, Sep 21, 2026 at 04:49:10PM -0500, Darrick J. Wong wrote:
+> >>> The difference between the e2fsprogs and util-linux libblkid is the
+> >>> time granularity: the former stores seconds only (TIME="%ld",
+> >>> bid_time = time(0), compares st_mtime <= bid_time), while the latter
+> >>> stores usec (TIME="sec.usec") and has an nsec tie-break in the compare,
+> >>> so the same-second case is much easier to hit with the e2fsprogs blkid.
+> >> Perhaps xfstests-bld should use the system blkid then?  IIRC the one
+> >> in e2fsprogs is very old and out of date.
+> > Historically, xfstests-bld was built in environments where libblkid
+> > wasn't available.  This included Android's runtime (which uses the
+> > bionic libc), and grte (Google Runtime Environment)[1].
 > >
-> > For quite a while now coredump has allowed either SIGKILL or freezing to
-> > interrupt an ongoing coredump. Since we seem to like it complicated
-> > "freezing" can mean a lot of things:
+> > [1] https://github.com/bazelment/lrte/blob/master/grte/grte-build
 > >
-> > (1) Power Management induced freezing
-> > (2) cgroup v1 freezer controller induced freezing
-> > (3) cgroup v2 freezer controller induced freezing
+> > However, as more and more tests require utilities from util-linux,
+> > xfstests-bld was taught to build util-linux.  And if util-linux is
+> > being built, then we don't use e2fsprogs-libs any more, which is where
+> > libblkid is built.  From build-all:
+> >
+> > if test -z "$USE_LOCAL_E2FSLIBS" -o -d util-linux; then
+> >     SKIP_E2FSLIBS=yes
+> > fi
+> >
+> > I've always built xfstesets-bld with util-linux, even though it is
+> > listed as an optional repository.  This is because (a) util-linux is
+> > needed for Android and other non-standard Linux environments, and (b)
+> > the version of util-linux used by earlier Debian Stable was too old
+> > for some of the newer tests in fstests and blktests.
+> >
+> > If you aren't building xfstests-bld with util-linux, it falls back to
+> > building libblkid from e2fsprogs-libs.  HOWEVER, we don't actually
+> > blkid, and libblkid is always built statically.  So what seems to be
+> > going on is that one of the programs built by xfstests-bld is using
+> > the older libblkid, and that results in the blkid cache being writen
+> > with a second granularity.
+> >
+> > I've never noticed this issue because I've always built with
+> > util-linux.  The way to solve this is to require building with the
+> > system libblkid if util-linux is not being built, and to drop
+> > e2fsprogs-libs from xfstests-bld.  Or just build xfstests-bld with
+> > util-linux.  :-)
 > 
-> All of them do signal_wake_up() which sets TIF_SIGPENDING
-> However, zap_threads() clears this flag.
 > 
-> With the recent changes including your PF_NO_NOTIFY_SIGNAL and
-> 05/17 "signal: don't retarget shared signals in a dying thread group",
-> what else can make signal_pending() true? Apart from SIGKILL.
+> Thanks for the detailed explanation.
 > 
-> So perhaps we can simply do _something_ like
+> I checked my environment again though -- it turned out not to be
+> xfstests-bld at all.  xfstests-bld never touches e2fsprogs.
 > 
-> 	--- x/fs/coredump.c
-> 	+++ x/fs/coredump.c
-> 	@@ -508,7 +508,8 @@ static int zap_threads(struct task_struc
-> 		int nr = -EAGAIN;
-> 	 
-> 		spin_lock_irq(&tsk->sighand->siglock);
-> 	-	if (!(signal->flags & SIGNAL_GROUP_EXIT) && !signal->group_exec_task) {
-> 	+	if (!(signal->flags & SIGNAL_GROUP_EXIT) && !signal->group_exec_task
-> 	+	    && !freezing(tsk) && !(tsk->jobctl & JOBCTL_TRAP_FREEZE)) {
-> 			/* Allow SIGKILL, see prepare_signal() */
-> 			signal->core_state = core_state;
-> 			nr = zap_process(signal, exit_code);
-> 	@@ -583,7 +584,7 @@ static bool dump_interrupted(void)
-> 		 * but then we need to teach dump_write() to restart and clear
-> 		 * TIF_SIGPENDING.
-> 		 */
-> 	-	return fatal_signal_pending(current) || freezing(current);
-> 	+	return signal_pending(current);
-> 	 }
-> 	 
-> 	 static void wait_for_dump_helpers(struct file *file)
+> What happened is that I had manually run "make install" of a locally
+> patched e2fsprogs in the test VM, which overwrote util-linux's blkid
+> and fsck.
 > 
-> ?
+> Rebuilding e2fsprogs with these options disabled made the test pass:
 > 
-> At first glance the change in dump_interrupted() makes sense anyway.
-> For example, dumping to pipe can't tolerate signal_pendin() == true.
+>     ./configure --disable-libblkid --disable-fsck \
+>             --disable-libuuid --disable-uuidd
 > 
-> What do you think?
+> I ran unpatched generic/492 60 times on each side in a VM: 12/60
+> failures with the hand-installed strays, 0/60 with util-linux's
+> blkid/fsck.
+> 
+> That said, I think the patch is still needed, because
+> FS_IOC_SETFSLABEL does not update the block device's mtime:
 
-Yes. Here's what I have in the tree.
+Many filesystems /never/ update the bdev mtime, why would they?
 
-Subject: [PATCH v4 02/17] signal: only SIGKILL and the freezers interrupt a
- coredumping task
+>     blkid -s LABEL ...    # get A
+>     FS_IOC_SETFSLABEL     # set B (device mtime unchanged)
+>     blkid -s LABEL ...    # still get A (within 2s)
+> 
+> The first read writes a cache entry with TIME=now, and the ioctl
+> leaves the device mtime untouched, so a second read within the 2s
+> window still trusts the cache.
+> 
+> I reproduced this with util-linux 2.41.5 too, so
+> "blkid -c /dev/null" is what keeps the test deterministic
+> regardless of which blkid the image carries.
 
-For quite a while now coredump has allowed either SIGKILL or freezing to
-interrupt an ongoing coredump. Since we seem to like it complicated
-"freezing" can mean a lot of things:
+<nod> That was the problem I thought you were solving here ;)
 
-(1) Power Management induced freezing
-(2) cgroup v1 freezer controller induced freezing
-(3) cgroup v2 freezer controller induced freezing
+--D
 
-So (1) and (2) are handled by checking freezing() but (3) isn't.
-(3) uses cgroup_freeze_task() which sets JOBCTL_TRAP_FREEZE and calls
-signal_wake_up() on every task in the cgroup. The trap isn't handled by
-the coredump code.
-
-Fixes: 76f969e8948d ("cgroup: cgroup v2 freezer")
-Cc: stable@vger.kernel.org
-Suggested-by: Oleg Nesterov <oleg@redhat.com>
-Link: https://lore.kernel.org/r/arJ6zZuI59BJnXpl@redhat.com
-Link: https://patch.msgid.link/20260921-work-coredump-fixes-v3-2-8e4adb1619e6@kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
-Changes in v4:
-- Gate the dump in zap_threads() on freezing() and JOBCTL_TRAP_FREEZE and
-  let dump_interrupted() test the flag, as suggested by Oleg.
-- Drop the signal_pending() hook and coredump_signal_pending().
-- Blame the cgroup v2 freezer commit as well.
-- Link to v3: https://patch.msgid.link/20260921-work-coredump-fixes-v3-2-8e4adb1619e6@kernel.org
-
- fs/coredump.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
-
-diff --git a/fs/coredump.c b/fs/coredump.c
-index d88a65e37ee1..af09a4660341 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -508,7 +508,9 @@ static int zap_threads(struct task_struct *tsk,
- 	int nr = -EAGAIN;
- 
- 	spin_lock_irq(&tsk->sighand->siglock);
--	if (!(signal->flags & SIGNAL_GROUP_EXIT) && !signal->group_exec_task) {
-+	/* A freeze requested before the dump would be lost with TIF_SIGPENDING. */
-+	if (!(signal->flags & SIGNAL_GROUP_EXIT) && !signal->group_exec_task &&
-+	    !freezing(tsk) && !(tsk->jobctl & JOBCTL_TRAP_FREEZE)) {
- 		/* Allow SIGKILL, see prepare_signal() */
- 		signal->core_state = core_state;
- 		nr = zap_process(signal, exit_code);
-@@ -580,13 +582,8 @@ static void coredump_finish(bool core_dumped)
- 
- static bool dump_interrupted(void)
- {
--	/*
--	 * SIGKILL or freezing() interrupt the coredumping. Perhaps we
--	 * can do try_to_freeze() and check __fatal_signal_pending(),
--	 * but then we need to teach dump_write() to restart and clear
--	 * TIF_SIGPENDING.
--	 */
--	return fatal_signal_pending(current) || freezing(current);
-+	/* Only SIGKILL and the freezers set it after zap_threads(). */
-+	return task_sigpending(current);
- }
- 
- static void wait_for_dump_helpers(struct file *file)
--- 
-2.53.0
-
+> 
+> Cheers,
+> Baokun
+> 
+> 
