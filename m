@@ -1,47 +1,74 @@
-Received: from mta0.migadu.com (out-106.mta0.migadu.com [91.218.175.106])
+Received: from mail-pj2-f42.google.com (mail-pj2-f42.google.com [74.125.227.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176F139E6C9
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 02:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B1F37E5F1
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 03:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790044504; cv=none; b=nZ3L+wejyabVHTz5gkruw61OdcIaE6lA3UFQAwP9a9o4KvMCiremgS/fGGO96xmQhkVxqKS68ZOjyJXYifa0f00bV9+oABjFJPD0vNFAPE0qK7Rzs7UBLsWidFQthzMtbdOe8YO9wjE36tA7sgRRNIFkv0gtbndqRgar1uB2uuM=
+	t=1790046756; cv=none; b=uCe3tLW/sqrAHAwEh00XkIWN1LDKgU9LIa8eeuPjjoZ4LqAa4Y/c/hveBj/vVfJtBI0VKZstByqgt3aE0ys1Gf/gpS6iFd0FcMIV1bozKh5MVElFDf25biSVMxCsXZAUtVPpqrJVJL5J8Fqfcgk588urO4iejhuhQO1rP9296cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790044504; c=relaxed/simple;
-	bh=whZxFE06ngNi6m7iZYGv3lT4S6CYGGhwLE/SdTxm/LU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FiWZ6laq9Id1b94d8q1TheVN1ShHGI1ua8PQe48Ri6UdUdLMu4HDouijie7IoDP7k7XrllNQU9KJ9GotIhQpmlpRBSJuvlaQEjolx6VLYgCn+ATzC16KJlplWkUDds2TOJ8Tq/6IWmddexA0q453OF2HNve2caeq6oK17tcoXk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZR6V2xjL; arc=none smtp.client-ip=91.218.175.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790046756; c=relaxed/simple;
+	bh=9B5L81kvVSXlVKSqFNeGPUoI3a3c4odt73AUe65yXX0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l2OYP63v9ldZj6lFakGr1cDruiXBXDiq/yHowQN4kMwx44Lxh3rEWgqTYXYoyHD+8pILDhVW/maF0A4jjwEgJO59tYIK232jdviwH1TDmLGvPgKwb2B+NBqtqT4Ueqi6Kd15HiMflxCt1GFvGdrR2epjDpPIyvpeH44sxxMPZaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oI852utW; arc=none smtp.client-ip=74.125.227.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZR6V2xjL"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=whZxFE06ngNi6m7iZYGv3lT4S6CYGGhwLE/SdTxm/LU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790044498; v=1; x=1790649298;
- b=ZR6V2xjLePExbG3feuqR8sCqRepq2VRl8vgEN9NogtbpC8rgxupWgt3kt3YtKV7J6TgD5NHd
- jSDLO8C5uat0Ebl1gsv+IhWENaVS0hSAIGH33V85Tb5I+0+FeTQb/AFIhAFuxkQs2OKWeSsO7+H
- 4IJ5D5J1HuMTD3/qm5ktqurw=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d068ef4ae6c970bb;
-	Tue, 22 Sep 2026 02:34:58 +0000
-X-Mizu-Trace-ID: d068ef4ae6c970bb
-X-Migadu-Flow: FLOW_OUT
-From: Hao Ge <hao.ge@linux.dev>
-To: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Cc: netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oI852utW"
+Received: by mail-pj2-f42.google.com with SMTP id 98e67ed59e1d1-396ccb65437so2843637a91.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 20:12:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790046755; x=1790651555; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=M7jvHxTv14GtRHevnUIJSj/4ENOuym9r9hmNx9q8r8M=;
+        b=oI852utWqgN1AoQJn9zVJil6aaWCIi/MYzdESr7UhYzu4f4eqa0pl/Xnu6xB/gnaKN
+         /liNrUJCN69ebkEzo4UW3ms/ZUcfmW54VMrporansmc3M2kw+XSoCg4ZN2JffWB8AvQM
+         WQAkpiETikh+IGxG40W0EhZlQpF+cTcIskEJJlAp10w2pxKZMPtNAkg/la4u9j+3PsH+
+         x2V04HHzvpoTNqE7cpbLfWB1rgJgehb8kPzE0iAJF0CUQlvTQqoNgDfAiDFYWHJmhAGB
+         ChG7mQzua8mmr7MBCKAfHVuQHyYNS1lmuDocBI2JeUuu5b9z7lEv5MrE0m2pIjasp7Ot
+         EXsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790046755; x=1790651555;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=M7jvHxTv14GtRHevnUIJSj/4ENOuym9r9hmNx9q8r8M=;
+        b=xxv9UhYj9bldEPIYeMNLAXH4kXUS7JRKnRCvLLlITJOUn+LZy6dAMnmOq7gQJabnnt
+         7OMg7Cl0lVTjy/eHK3OceMhI3LGyxe4+vbWOqo07TLl9EiTfvbKtL+0+7OyCqsCHIPbr
+         hVsU/gSjELr3NgKtWtPqCG41ocNTadQdVoES7x1FVwxwq0iSnj3YSKenkO18O05sMDaU
+         ZW6D+2v1JQBmGFP4aJGdiYJZnG6Vwq5b36bbQctsqkPHWwgWkg3da58mYfooxhQ1BwkY
+         E3Icy/XJUpg/AJA6MHboW8BC0Z76b91A1xr7Jm61ASRyV+PuHK4t005qa9PKWozTcVc1
+         jvQg==
+X-Forwarded-Encrypted: i=1; AKwUvBzHLQoDiVMd5Xo1IeixgXfA6saludyIK4FvRadKW1bhUclnY3Im2Ahf4dXFuv2cumvEQNr4VbR67BFI4Uwl@vger.kernel.org
+X-Gm-Message-State: AFuF++lah26zXGxWNHkg9LiRuCTVPk9jjDgKW7kyg6TOgIGURYnqElCU
+	h8Lw0iDLSGzeg66PElBB9+ZtRlhLQcOX/11+PFOBUFFtIfyCCBlRK0pnCydbpg==
+X-Gm-Gg: AYBFou0jvizrE4CBMpiCmPNtLiiFRf9ZgtGXurMj2Ls0yG0NxjAxWi8CpAX9gHvDpOG
+	ZMnD1q/ndrkW317eciiIt9Qdh5c0GVtdjhpfCF0caTEAQIHV+TNyW2W1TQexqWUftXybcyWaHlt
+	kFWxqf0SH8zEIP0dcNz/tmA9yNmlUFiqM+GFMxZ0j0se1aIUyI9hB15K5PhKeFhcQqlqnYg7Qed
+	TsU2G1DKw1SZ6+NJOp3TVTli3/tHgWVb4rq6+1+yP7EQ3hR2VEo73MdpdYIAwHEICT2ShHwajU1
+	aOHc0Y2bLNEFha8YFk5Vdu2eddbnNV7ZD6mTa50JWSUThf8rqtwGJ5eIJsk/0p4Z1nuN6glDM0J
+	Qg0lV7sK7opEwtMs17eOAe4PCA+ljNrx/M35/nDOamKgOKOfrjkMkNJZj3ZAxsu7L452R7WMrL/
+	DJXKhxadO8ooVtclnzMyjmnGyY7AIQ5+4qyOG99q+8FNOaU0qoShSfbDzxbLGTBTubxnpCPwNkW
+	z0/GVRI/8U=
+X-Received: by 2002:a17:90b:3ccf:b0:39e:4c7f:7309 with SMTP id 98e67ed59e1d1-39e550784ecmr18060387a91.32.1790046754990;
+        Mon, 21 Sep 2026 20:12:34 -0700 (PDT)
+Received: from osman.mioffice.cn ([43.224.245.178])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a06cbe3714sm294627a91.0.2026.09.21.20.12.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 20:12:34 -0700 (PDT)
+From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+To: kees@kernel.org,
+	joel.granados@kernel.org
+Cc: kuniyu@google.com,
 	linux-kernel@vger.kernel.org,
-	Hao Ge <hao.ge@linux.dev>,
-	Erhard Furtner <erhard_f@mailbox.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] netfs: Fix missing alloc tagging of direct mempool allocations
-Date: Tue, 22 Sep 2026 10:35:41 +0800
-Message-Id: <20260922023541.51532-1-hao.ge@linux.dev>
-X-Mailer: git-send-email 2.25.1
+	linux-fsdevel@vger.kernel.org,
+	zhanxusheng@xiaomi.com
+Subject: [PATCH 0/2] sysctl: Two jiffies converter regressions from 2dc164a48e6f
+Date: Tue, 22 Sep 2026 11:12:26 +0800
+Message-ID: <20260922031229.2300283-1-zhanxusheng@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,96 +77,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 1d78d56c43ef ("netfs: Fix folio_queue ENOMEM in writeback by
-adding a mempool") added a mempool for the folio_queues and made the
-request, subrequest and folio_queue allocations distinguish between
-writeback and everything else.  Writeback is part of memory reclaim
-and must not fail due to ENOMEM, so it allocates under GFP_NOFS
-through mempool_alloc(), which may dip into the pool's reserve and,
-if that runs empty, wait for elements to be returned.  The
-GFP_KERNEL paths, which can return -ENOMEM to their callers, invoke
-the pool's ->alloc() callback directly instead.
+Following commit afdf35cfae0d ("sysctl: Fix type truncation in
+sysctl_msec_to_jiffies") I went through the rest of the converter family.
+Commit 2dc164a48e6f ("sysctl: Create converter functions with two new
+macros") dropped two guards when it folded the open-coded conversions into
+macros:
 
-The direct call, however, skips the alloc_hooks() wrapper that the
-mempool_alloc() macro provides.  The pool callbacks, mempool_alloc_slab()
-and mempool_kmalloc(), call kmem_cache_alloc_noprof() and kmalloc_noprof()
-and rely on current->alloc_tag having been set by the caller.  With
-CONFIG_MEM_ALLOC_PROFILING_DEBUG=y this leads to
+  - the read path hands a sign-extended int to the converter, so reading
+    back any negative value produces a wrapped number
 
-    current->alloc_tag not set
-    WARNING: ./include/linux/alloc_tag.h:161 at __alloc_tagging_slab_alloc_hook
-    alloc_tag was not set
-    WARNING: ./include/linux/alloc_tag.h:166 at __alloc_tagging_slab_free_hook
+  - mult_hz() multiplies unbounded, and the caller's INT_MAX check
+    inspects the product, so it cannot see a wrap
 
-at allocation and free time respectively, as reported when reading
-files on a CIFS mount.  The allocations are also missing from
-/proc/allocinfo.
+clock_t_to_jiffies(), used by the userhz variant, kept its own saturation
+and is not affected.
 
-Wrap the direct ->alloc() invocations in alloc_hooks() with the new
-netfs_mempool_alloc_noreserve() helper.  The GFP_KERNEL paths keep their
-failable allocation semantics, they just get tagged now.
+Tested on x86_64 at HZ=1000 under QEMU, writing and reading back
+tcp_fin_timeout, tcp_keepalive_time, ipfrag_time, icmp_ratelimit and
+neigh/default/retrans_time before and after.  I did not test 32-bit or
+other HZ values.
 
-Fixes: 1d78d56c43ef ("netfs: Fix folio_queue ENOMEM in writeback by adding a mempool")
-Reported-by: Erhard Furtner <erhard_f@mailbox.org>
-Closes: https://lore.kernel.org/all/0b004319-9ef7-437c-a4dd-174d6a9a83db@mailbox.org/
-Tested-by: Erhard Furtner <erhard_f@mailbox.org>
-Cc: stable@vger.kernel.org
-Signed-off-by: Hao Ge <hao.ge@linux.dev>
----
- fs/netfs/internal.h       | 3 +++
- fs/netfs/objects.c        | 4 ++--
- fs/netfs/rolling_buffer.c | 2 +-
- 3 files changed, 6 insertions(+), 3 deletions(-)
+One thing I am not sure about: afdf35cfae0d carries Fixes: b96b5c6708ea,
+but the "jif > INT_MAX" guard the ms variant used to have also went away
+in 2dc164a48e6f.
 
-diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index c79c8e69d60c..08ba7f0ebff0 100644
---- a/fs/netfs/internal.h
-+++ b/fs/netfs/internal.h
-@@ -45,6 +45,9 @@ extern mempool_t netfs_request_pool;
- extern mempool_t netfs_subrequest_pool;
- extern mempool_t netfs_folioq_pool;
- 
-+#define netfs_mempool_alloc_noreserve(_pool, _gfp)				\
-+	alloc_hooks((_pool)->alloc(_gfp, (_pool)->pool_data))
-+
- #ifdef CONFIG_PROC_FS
- static inline void netfs_proc_add_rreq(struct netfs_io_request *rreq)
- {
-diff --git a/fs/netfs/objects.c b/fs/netfs/objects.c
-index 7f6a3e912602..0b509c93d4af 100644
---- a/fs/netfs/objects.c
-+++ b/fs/netfs/objects.c
-@@ -34,7 +34,7 @@ struct netfs_io_request *netfs_alloc_request(struct address_space *mapping,
- 
- 		rreq = mempool_alloc(mempool, gfp);
- 	} else {
--		rreq = mempool->alloc(gfp, mempool->pool_data);
-+		rreq = netfs_mempool_alloc_noreserve(mempool, gfp);
- 		if (!rreq)
- 			return ERR_PTR(-ENOMEM);
- 	}
-@@ -214,7 +214,7 @@ struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq
- 	struct kmem_cache *cache = mempool->pool_data;
- 
- 	if (rreq->gfp == GFP_KERNEL)
--		subreq = mempool->alloc(rreq->gfp, mempool->pool_data);
-+		subreq = netfs_mempool_alloc_noreserve(mempool, rreq->gfp);
- 	else
- 		subreq = mempool_alloc(mempool, rreq->gfp);
- 	if (!subreq)
-diff --git a/fs/netfs/rolling_buffer.c b/fs/netfs/rolling_buffer.c
-index 424e77a9a109..54867ceaa205 100644
---- a/fs/netfs/rolling_buffer.c
-+++ b/fs/netfs/rolling_buffer.c
-@@ -29,7 +29,7 @@ struct folio_queue *netfs_folioq_alloc(unsigned int rreq_id, gfp_t gfp,
- 	struct folio_queue *fq;
- 
- 	if (gfp == GFP_KERNEL)
--		fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
-+		fq = netfs_mempool_alloc_noreserve(&netfs_folioq_pool, gfp);
- 	else
- 		fq = mempool_alloc(&netfs_folioq_pool, gfp);
- 	if (fq) {
+Zhan Xusheng (2):
+  sysctl: Negate before converting in the int read path
+  time/jiffies: Saturate in mult_hz() instead of wrapping
+
+ kernel/sysctl.c       | 2 +-
+ kernel/time/jiffies.c | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+
+base-commit: f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
 -- 
-2.25.1
+2.43.0
 
