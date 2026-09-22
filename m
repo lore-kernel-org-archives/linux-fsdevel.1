@@ -1,142 +1,133 @@
-Received: from mail-qk2-f42.google.com (mail-qk2-f42.google.com [74.125.230.234])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49660542EEA
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 14:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEC354EEAA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 14:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790085621; cv=none; b=CQUqLZy7wCYDTQPjyALZjAgG1jJgvnpiDyX3dgp3JtF3m1wYqL5/SWtFhrcp+sFV5UkJkTKn/dzoVMqO1BaTYcdpB9O3hJJjqU30YHIc4EeEpR3XN79ksVVb+p5bNjsoQWp0Z0nH7T9xlCgyHFpY3/8uFqiAimBJSOo2YhUlA3I=
+	t=1790085703; cv=none; b=MS7KQ63hyx09Z3EzHFEn6GfgY0RSQ83ZCEiuRdmxc1Su4w51Nj+hPYXUUxQRIE1n4GT6VqSgmL6h7PG0eCoep0njxfh3CItI1zy6yS3hzGRf20/3Y1OKp1R/jJXdM5Xt221HmZamQhsljigd4dPk6zcfBSTm0QfdFDAbXiZjadU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790085621; c=relaxed/simple;
-	bh=Ysf9kNQ+33PxVdJ0LMg2niyZFgqOnLKjhyylnUl8qTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aEcBbr9tH6Pr1sSBSRVqi8x2yOhSoc+p6XxZWI1OhvAsf3Quayz1O5F0sJZNSAKFvC+zE2gX0BpAeDDJmZvJJ6CkO3075zgEWqwUjTHgn/aNzlXYc4tSokU+uqcfjPgZ0Wm9wyzN0hu6l/wxjDQTsUe6PfFNgRuhSaTxja98PNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=cj7O5gEk; arc=none smtp.client-ip=74.125.230.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1790085703; c=relaxed/simple;
+	bh=gKwtDte9zvMgmyBzgqZlKVthclakDWqgbi85leO0IDY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ss789Rfo87xHXcYLSJuLI9o0I3KqwYtWNg8SbUC00VuSv4D3xbjhrhH105Jp1facKslxoArcCYmWEddhN9NaN33zkdCaQFBMjLKzjR5srcs4VWKSzzbZPo2CKPFh7zm4Pm+KqS/RYos4TAi+sm/pXmNdWLbVkwNU7dF+rdBXJso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bdR6ta6M; arc=none smtp.client-ip=74.125.228.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="cj7O5gEk"
-Received: by mail-qk2-f42.google.com with SMTP id af79cd13be357-93be29bb454so475272785a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 07:00:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bdR6ta6M"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469a34907so4516578b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 07:01:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1790085618; x=1790690418; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yVPAItgeW/MMs80EWUUxpddBeukv+Oab4KQ44WwQXwc=;
-        b=cj7O5gEkRJ4IMPNvVXC4spsO4XZqIreKj/4TIEka7a2Tg2X69W3ijpeXyd1yJJfa6Y
-         /EDSrpGD54UCGGnzQtNRkoGJADXwaJ9xhx0B9hkHKLwf91mL4RrjJQuvAnCr6GWQrgZy
-         jRj2Rc+yKC+DSwBJAdjR0lGH3+22cHex3hSjhFeje8vbtTp7nQyLYGVbqJ6TcMP1KDW5
-         LFSZS4sarD0yf6habVL5nm1pizHGRPz/i+fFLJT2HyKvhX6OP64PVbmjaZ4oCE8KPFwc
-         gv8uzwp2v9IamQ0RQQNSkAsvc20TKsvLH4zskQXRm6ZWKb/wx3PxhWLp6AUDYu7llg62
-         +MlA==
+        d=gmail.com; s=20251104; t=1790085701; x=1790690501; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v8T6DvjDBkSfK8G3hicyPZKHJqkMgbVY19qfQX+Rc8Y=;
+        b=bdR6ta6MFL2WmLi3RWkGtJG66mXrP1U7NbjknR0WrSkwfpxo9FD/uu9F5zY7uysRvG
+         zgsyM63sX8doDiNZ35GvwxJHhDhqkhtNGJpbrWiHu3RglWoRHdvjYibTmOZ3o+9Gp22b
+         e+kKajsGmAJQpYZGw6P5FkUBIj04ba4kNpRY3gsYRR5uuGf+hMQNn72WUSJj0ruXSqFf
+         U5g7yKDhHKegWNiAKI2afItBVtpG67J6ZGXde4pBRoodqwenLQasDzmVYV43TeoGJIUQ
+         rCHVvLIDix4iAPLSiTaTb8inIPzxhBYvVDuLvHFgCCY6FjlFTMTJ1OUBbNuwfUzIJTfJ
+         xcFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790085618; x=1790690418;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yVPAItgeW/MMs80EWUUxpddBeukv+Oab4KQ44WwQXwc=;
-        b=MzGbvEkYXMvZsrCF6Tzn4NMknjMsgseTrUTb8Wg/ZayB8y6YIpOmB+bkZFbTy6gZ2r
-         Hk58sCDad/Mi/UDFpG4T9MNVUKu+ERAAKBNKlMyGgP3xhFREtet5tsfnHturJw/AZ5DJ
-         On5fiVr7+/WUVs6iMUwWnmLkB4onwwq/Ec8Mmkax5CTlfFu9dBgKN8lrOakiKoIOSrAa
-         D8GddRR9RXzw8AWxH/bd3nmWrJdugAGDpjOqrM0MCVmicEVCC3lc3n2EJ/bfARG8oNe/
-         82cFlIr4NKhjxvNQqr0Toe55XW74R3oWJP9qVnZVocbpnhcXCR+nbMuFwZkZyzvbnL/0
-         Y42Q==
-X-Forwarded-Encrypted: i=1; AKwUvBy5yA8EBESVkcFZcYtbjzJ5Mcc/+VtYOocJh2BpYg1+futXlzftlKRjazTIRhuHeMn+3CYmj1UThdUeR+HW@vger.kernel.org
-X-Gm-Message-State: AFuF++mkMmXRSba84XcjlRM2IcllifcFZpUX3cwTuMkk9hLvbRkD+G9p
-	V8xc0i3Rai/mfIIerwF3FWc7quJB5aImqkv2YAUbUG9vkgv6QtPzcsutOrIOaKt8FczbrtYkvrx
-	cFoVa
-X-Gm-Gg: AYBFou3xBd1pjlqqMGpUGw/gL/vzYnCx4WAJXw9LHcsxObveZ8dh/XvGy7nMGZ67Pg3
-	bamY4g77vXOcVcDsXQn2kOY3TadnrodMagSzw7RrsI6h0/rqScYvdRFz4Tk4PpAtxvD4Djk+28G
-	LNBEYjV7+8aVfU4sbS9cHQtGmE6lxITMyQ1xfPo/+Vb3BIpWDatSihHeXjorRPZGcX7yymoMhXH
-	93e7CHeXgaj+WG6w3V0Ip1Txf1WSTo5hnL6BJ309Oy/Rtf0gaQS/QPsAqwIFqPdBx5cJmBgKATK
-	m7Vd7I0TBPZcy9PobRwsXBBRT1sWfATkN2sUAIhAADActhKYywWdPLMS5mRhgxpcxOFhKSRjG3j
-	5Nwytp0YV0n3l6ZSdUh223W9NZT1lTtLeKYP1qhRruRWS7ZiD5C8qznHGVEhxUsQZBSwAPyTqIo
-	PvWHoiqXf0lkU7B0CA1RELZqsmsJ1PEsidpwNkTIpoS1uewC1L8W8VlBljXPAbkJwC5w6m
-X-Received: by 2002:a05:620a:298a:b0:93b:d7a0:d9f0 with SMTP id af79cd13be357-93c19a9ab32mr348786585a.74.1790085617903;
-        Tue, 22 Sep 2026 07:00:17 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c1d23e22esm152156485a.40.2026.09.22.07.00.17
+        d=1e100.net; s=20260707; t=1790085701; x=1790690501;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v8T6DvjDBkSfK8G3hicyPZKHJqkMgbVY19qfQX+Rc8Y=;
+        b=h6lLH8zvfRlctf3PZaWnHj8xHQcVjXGcEr+BHoz+gA4+bvoxvid7PSc21OFWNjM4J5
+         29bEzqt/17g3zT0qk8bMWZLjuxGKUxsmiNVHvpGr4LgKmYfqLHcfBIt+2+1pxkCCJhhP
+         IP1fsCENl9efIJDqseO16BUI7RmjEHqHBba/PRk8m+iTa+CzhpEqqsMhZW8Yhy1qj/Dg
+         fY2Ka8XFWC7wRqsYlGfqp7Dr72iU7ohO6HMeopMuIOV0LA4nwROVgFGpmrebZeRb7vXF
+         Yrd7LWqm/NejxLrZLtMbtUPMRQVx5oXUAc1KOxxCYIc8lxc9tB+n9h1NNpPhEjs5AWbS
+         hJWA==
+X-Forwarded-Encrypted: i=1; AKwUvBx+2DLEVYQIvhcXVWPSw51X2frxqXO5d/+oTia2dVM56kGqbuB2Z1ORR3PgUntL2rsvSr84426MNcedAfqE@vger.kernel.org
+X-Gm-Message-State: AFuF++k/Q/Dz14VFtqXtiNHJhmxaIPJu8GRLiWhufTBp9iRrKmiqP2tX
+	VmJ1nnf3ADr75nV4JX5cxsxS5TJndbtAULbfh+kuo7n5ZCZmAuBfDJ+66nB+DEUn
+X-Gm-Gg: AYBFou0PsyyP09HA4XBSGEl42CH72T1OdMOF3PI7nz5neXjYlGJING1sGdAC/VWA24X
+	KnWr46kBnA9qLmpocGX4we9EKAHgOnew0PxJCxzylntGm9INT1ZThI+oocI3tNjH2Tib7FQgIMJ
+	a4lJahrUqvNjhDNc+QNSJx/VUozznMA2nwf5ZL3J1stlvvWsK/KpjkhlzqO6m0nk4rY+W8pj+a6
+	S//ifo4ellWqxSAVaBBA4IaylbqYhxcx8o5Im75AX6R9JdievPhmzRr/o2tjIqrRF8yfJ/A2otj
+	Pm+Cb3DnfmFXG2gwON21jfB1zje+AHlD7Pn9HUlwXMMDkDcBX+5/OEKMT+1KmnrUgyTiu2ADNhe
+	CvfsI747pFitS4zHQYCJUnynxnKblEnDA5U+bkgyhYUa2uCykN2L4+8qS0uPv/cn5J3CarZn/5e
+	rP/0WZ91QXkIkWoSlmHxt9/OwkwMPGyOX2nID6fF1cdW4PRJsNCmZODgqVo02CUiLs5GwwgXYya
+	XsrAb7z49TAS2ld72CScucLMiYMx/EYWuJlYqUZZmQGXFUxEkFTQU7b5RHkGGUrI3aUAyiOpTIN
+	EhKlJNbtdEYKdKdTyUZixNbngXF+PwcKXVaZYZj8VKrnBVP594kqGsJlQrMgCBMuWCvxE5WQTiM
+	Vj1ffJH5D
+X-Received: by 2002:a05:6a00:992:b0:857:7337:5db8 with SMTP id d2e1a72fcca58-87c824a7f8fmr1500101b3a.22.1790085700828;
+        Tue, 22 Sep 2026 07:01:40 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.252.203.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87c329c813fsm932803b3a.38.2026.09.22.07.01.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 07:00:17 -0700 (PDT)
-Date: Tue, 22 Sep 2026 10:00:16 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Matt Fleming <matt@readmodwrite.com>,
-	Salvatore Dipietro <dipiets@amazon.it>, akpm@linux-foundation.org,
-	abuehaze@amazon.com, alisaidi@amazon.com, blakgeof@amazon.com,
-	brauner@kernel.org, brendan.jackman@linux.dev, david@redhat.com,
-	dgc@kernel.org, dipietro.salvatore@gmail.com, djwong@kernel.org,
-	hch@infradead.org, hch@lst.de, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-xfs@vger.kernel.org, mhocko@suse.com, ritesh.list@gmail.com,
-	rvvandan@amazon.com, stable@vger.kernel.org, surenb@google.com,
-	willy@infradead.org, ziy@nvidia.com
-Subject: Re: [PATCH 2/2] mm: page_alloc: remove ALLOC_NON_BLOCK from
- ALLOC_RESERVES
-Message-ID: <arKJ8BXOXknpmiu4@cmpxchg.org>
-References: <20260905174239.99e31515fabe220aa7d8e6fa@linux-foundation.org>
- <20260910114602.926944-1-dipiets@amazon.it>
- <aqQlUr-1h07G8JWM@cmpxchg.org>
- <8d6a8a63-4adc-458a-b548-a47bf5ff8eb7@kernel.org>
- <aqq8pWI0u1IZNWHT@cmpxchg.org>
- <9f415dc7-adad-4161-b20d-7c3173f50ff3@kernel.org>
- <arFBJdYaRx_iJNDA@cmpxchg.org>
- <arFBr22V60BMmVpl@cmpxchg.org>
- <72674485-6ec2-4cb4-a854-b937333cbf97@kernel.org>
+        Tue, 22 Sep 2026 07:01:40 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Yichong Chen <chenyichong@uniontech.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] isofs: simplify the level 3 directory record walk
+Date: Tue, 22 Sep 2026 22:01:35 +0800
+Message-ID: <20260922140137.1768064-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <72674485-6ec2-4cb4-a854-b937333cbf97@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 22, 2026 at 02:06:34PM +0200, Vlastimil Babka (SUSE) wrote:
-> On 9/21/26 4:39 PM, Johannes Weiner wrote:
-> > 1ebbb21811b7 ("mm/page_alloc: explicitly define how __GFP_HIGH
-> > non-blocking allocations accesses reserves") stopped handing out
-> > reserve access for ALLOC_NON_BLOCK on its own: the extra 25% below the
-> > min watermark is now only granted on top of ALLOC_MIN_RESERVE. But the
-> > flag was left in ALLOC_RESERVES, which produces something odd:
-> > 
-> > With the ALLOC_RESERVES match, __zone_watermark_unusable_free() doesn't
-> > subtract the free highatomic pages for them. So in the slowpath, they
-> > get to consume regular blocks below the min watermark by the number of
-> > free highatomic pages. The highatomic reserve is capped at 1% of the
-> > zone, which on any decently sized machine is a multiple of the min
-> > watermark: GFP_NOWAIT can drain regular memory to zero.
-> > 
-> > The user-visible result is brutal hiccups during bursts of GFP_NOWAIT
-> > allocations under memory pressure. On a 32G box with an anonymous
-> > working set, swap, and a filled 290M highatomic reserve, a GFP_NOWAIT
-> > burst drove regular free memory in the 28G Normal zone (min=60M) to
-> > 28M, 0.8M and 0.6M in three runs. Swapout failed to allocate its swap
-> > table, reclaim scanned 13M pages to reclaim 200k, page faults stalled
-> > for tens to hundreds of milliseconds. The machine survives it, but not
-> > by design: direct reclaimers eventually fail and start unreserving
-> > highatomic blocks, until the allocation succeeds or the reserve is
-> > gone and the OOM killer runs. That reserve exists for high-order
-> > atomic allocations; here it is destroyed to bail out a GFP_NOWAIT
-> > consumer that was never entitled to the memory.
-> 
-> This suggests to me that a LLM review of 1/2 spotted this issue and also
-> (or you) constructed a test doing the GFP_NOWAIT bursts to confirm the
-> impact, but it has not been observed in production? But if it was, can
-> we make it clear?
+You mentioned isofs_read_level3_size() deserves the same treatment as
+commit b2eb2e288604, so here it is: validate every record with
+isofs_dir_record_valid() first, then drop the straddling-record
+reassembly and the scratch buffer it needed.
 
-Yes, and yes. The test is manufactured, I just pushed it to stick to a
-realistic sequence of events. But it wasn't observed in the wild.
+The one thing to watch is that the code being removed did two jobs.  It
+ran on "offset >= bufsize", so as well as reassembling a straddling
+record it advanced the block for a record ending exactly at the end of
+one.  Only the first job is dead now, so I folded the second into the
+zero-length check, the way you did in bda8d8d49ca1 ("isofs: Fix
+handling of directories with tight blocks").
 
-> The change itself is fine and we don't need ALLOC_NON_BLOCK in
-> ALLOC_RESERVES. But I wonder if we should also make the
-> __zone_watermark_unusable_free() check more precise, by using
-> may_access_highatomic_reserves() there instead of ALLOC_RESERVES?
-> Which would mean that the function should however also evaluate
-> ALLOC_HIGHATOMIC, and restrict the other checks to order=0, to be usable
-> from both callers.
+I left isofs_read_inode() alone.  Its condition is
+"offset + de_len > bufsize", so it only ever reassembled and never did
+the block advance.  Cleaning that one up is a separate patch.
 
-I responded to this in 1/2 because it had more context.
+Both patches touch only fs/isofs/inode.c, so they apply on top of
+bda8d8d49ca1, and they list the same entries on every image I tested.
+
+I ran bda8d8d49ca1 on its own against them too.  Entries listed,
+driving fs/isofs from a userspace harness:
+
+  image                                     before  bda8d8d49ca1
+  xorrisofs -iso-level 1, 65 files              46            65
+  same, one boundary record marked assoc        45            64
+  Debian 13.7.0 amd64 DVD-1 (directories)     9340          9460
+  Joliet, Rock Ridge + Joliet                    2             2
+
+Tested-by: Matthias Goergens <matthias.goergens@gmail.com>
+
+Unrelated, and only because you are a VFS maintainer.  Two regressions
+I have chased this month were introduced by patches sent to
+linux-fsdevel without a linux-kernel copy, and linux-fsdevel is not
+among the lists Sashiko monitors, so it never saw either of them.
+Enabling it for the list was proposed in July and seems to have
+stalled.
+
+For what it's worth, I'm in favour of adding Sashiko reviews.  Sashiko
+ain't perfect, but I find its signal-to-noise ratio good enough to be a
+net positive.  In fact I find it useful enough that I often run it
+locally before sending patches out, despite the high token costs.
+
+Matthias Goergens (2):
+  isofs: validate directory records in isofs_read_level3_size()
+  isofs: drop support for level 3 records straddling blocks
+
+ fs/isofs/inode.c | 44 +++++++++++++-------------------------------
+ 1 file changed, 13 insertions(+), 31 deletions(-)
+
+
+base-commit: 40288c9206c17eb66a603262e06a58d300d0f279
+-- 
+2.55.0
+
