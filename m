@@ -1,332 +1,409 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB65B5625E7
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 16:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790093502; cv=pass; b=PQnJEOuqnVv/xhArMBvBXxVc6b3cNv3Oo+QJ97YjeVwoKHzDiSy8rXixoH7de3heNOCa3yi/FwFUB7+06VItR3PFnnUUWTBI/zLW4bWrwB6acMSwCC6vZbqxZI0QpFg6uSR9PE5YcqmWYP0DnwVs7IB7ovaWgtBAikCCyWmqurc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790093502; c=relaxed/simple;
-	bh=f2zbqc3dDRzii2k3yujXvHM/HIiUUDPd57empLhzWkg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f3i/dNY+opKmDRSKtl1ZoBNFnz6h9j4/ggYJVnkWAMP7AjNrTXFnsTCHGrXoGN89WD9sIyOYujtRjUVS/HY6amxdGLHasVXKnP2HLRJHIQLNom0frz+/tu9Xy+HCheZkcO/9puFislBubiOjtQc0OoDmFHMSnNgFLUMwxFxyZ6A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omnibond.com; spf=pass smtp.mailfrom=omnibond.com; dkim=pass (1024-bit key) header.d=omnibond.com header.i=@omnibond.com header.b=bhopPWi6; arc=pass smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omnibond.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omnibond.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F245650E5
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 16:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790094126; cv=none; b=OsItg0r/MME4dCM6TPtVh16hItrlC3p4T1Yi8xUHEnXM3JkcUg/ljApkBb7rSePA2na6pEyy7H81Lj4ajyuUcn/POpmBmQKEpe0hO3gYvplUcPoeV9rGqYCG7M2uGleXka4BR56HVRFs4NTU99yAHEYIJIiDV8bGJq7CVCk/Dco=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790094126; c=relaxed/simple;
+	bh=QPY/m7J0NLKJtwiEhBrXif7X5tOPvx88yF0XqLBp0Is=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GSYV6GduxON1S2UcPlYtgcNKJWkXPkCOhcg8xoeMpAofquJRkfRQwCVEnaVwVDKlZ+4cAWADH0cvqZz9hMuSjz7XFv12rG8BUxaEdQwhj2KKxl89qSEeKAC6fEzJxbo6ksVpt+SWOTlBgEOLcAIfw+UUvbmX981sPytoWd2nUtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jl8fseOq; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=omnibond.com header.i=@omnibond.com header.b="bhopPWi6"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469f204f6so58887b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 09:11:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790093500; cv=none;
-        d=google.com; s=arc-20260327;
-        b=UulwNsQxHsaesomT4vShiNMyj1KANGDSBmv5DUd3FNsWqXKZRin9PH5d1ekRUkD4JS
-         Yq9aXtjdSuvdZBN2RV7VnnMX3o6Mwb8C6WlsnCUWwnclbPBdVSjQcTU1OfKDcFD7qZaU
-         +WGIUrpZ0N/OaqIZOlomA2Gg3jqPKCJiAhVDCjoPSMNAe1aviEQa8Zw8lqHQp0vzvyif
-         ne+i/DE9aqD8zM3Bv6kcGtFW4I0sDGA0rKxJCkfH/zOnjiNw4vN4Y4oqGM2hGljmyW/k
-         iN+6F+OwvXjiSl//jMbBd5yF2evUZpjqdOmGgFANQJ5vAcqb8tBGV9mIsmzVmyfPxoZj
-         OcuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1PNFlsAXHWsQXFb1l/WhUw3SMUiQ78wfgHgQ/IQM+oo=;
-        fh=tFAOQA8+4Ptlu9XrSgbJ+EJb41QoJI6rsXr5PPQgbBo=;
-        b=qHw53/bLG5jkOoUKQVHs3f5hg8vKzKnubj788AGkCKbPQ75odDJV6P5eaLPY6aLzx2
-         GqJX50DhUYuGWlU8LMf7CxRYTcbq5SrjcTJxDsSmhK7Di5h1R8kI3T/KZD+e6gRPF7aX
-         x2luYWBSketVIHF5mWxv7Op2BEIKjklZGI6PmpQasRdtbvbDxm6Dw04DPERObxEdLgfb
-         vDobmhpthkF9+qQMQeTkdOGB2LHGTqzrg9u/8qjYz8nxndz4gkMsEjxKN2ECXYomF0gf
-         21Np8TLb4IAb+RmOhSPE9I15G8eG2C1UiDYmVdNSG/d4beQgZ1O02m+Je9/nmR6fk/i5
-         w+Ww==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jl8fseOq"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccd4f99dso80301a91.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 09:22:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=omnibond.com; s=google; t=1790093500; x=1790698300; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1PNFlsAXHWsQXFb1l/WhUw3SMUiQ78wfgHgQ/IQM+oo=;
-        b=bhopPWi6vU1yWbjS6Zq4gW2OIK+ORL3+RG1gFKHbreDBEwkWwlOD1NJZmUMPUU8lqH
-         itVrk4XVi5re2OSqVyHaXTxn6hBYTcHWRKA1j0H3A0AuJkxijy9xcDCLP6BeFe/Ha/gU
-         LESfzlAeB3pY/4Y8AD9E4WVvqm7OpjSUYTHCw=
+        d=gmail.com; s=20251104; t=1790094123; x=1790698923; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Zntf4umr1eS7Ny1yGhjgKRrHwdgFRxoOc6Ks5T0x52k=;
+        b=Jl8fseOqKW/4NK9TTf5xbqHfR3/dAlP88GKQ/R90HsIyZk1P3mlDoqiamR9tASMXqR
+         +0SJOxMbIhr9h1ttIP6IOS1jZM2OLH84aG/or/uoet6C8bbKyzZoPWXhnq30P+G3Jzd6
+         G+xtEiQY6Jrbd6pniaFqrh7XrwUY+K1YAYsAmDhQhJUa555dZIwqmk6Mwqra4zGEtf3m
+         PwdthRZpZJK6VdkM1Trh7O6CPNj8N4N9m04NHqlYpkfdBZN9ByPGBeDMgXbIUN2FoP78
+         jAk5hqirknaGodGf4fCcI1rLzXmog5/MzonoMIYaC/AtmZAn6BUlCrMAdT0zLl4i5spL
+         5KKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790093500; x=1790698300;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1PNFlsAXHWsQXFb1l/WhUw3SMUiQ78wfgHgQ/IQM+oo=;
-        b=cYSvcj/3bpoyC5UDAHSF8XxpB70bqzObnN6p3WRnWOJRVd7JVXX+sJnqu8BupWz/ty
-         g9g+oy6r15+QGMfJ9EUgQnUrmsTf+etZDIwZOg0yFsKBAozQZ2pzaFnE59G08FikE6w6
-         Yopgtws1SSJ8Gn9HxTZFjCFv7vXI3R3d/LxWe4g8LKSyff/bVGuQyx6ZYJUjuDB+BHo0
-         FjYF+UuqfgNNmzr78SDvG01VIUqdivtiRAmDWm50fzAVhCHqnOfqg2HGsV2FqTxWS2xA
-         OxdQNriJVbVyUpk0xy/p0Lx3ZbRCrG5fkTup8nU1CD3nMKCD5SMvNR6UKYc4m7NzWLI0
-         gXyg==
-X-Gm-Message-State: AFuF++lmlmTdf1e1d5uYn9uuTy4R5l7HVSU1WoHCWr7NJnLnqxccPlC6
-	HilXzR028MTo3Lvb4VVKIGb5rN+I7husxZYU20SZxvslNaq/8lwaalC2H5orE6U2Apyxh1U2TwT
-	J65kNs5p6OIMu/fwVWXNPZH2z1mgosKJ+XSjTjKpj
-X-Gm-Gg: AYBFou2gOoQmdnIhlGpTz8+qGjV4x6qps+hjPptTQYBqrqgLYajgGzqSayytQYL/ajW
-	5xGBmoXaH+RzJfl33z5hKfSldgdTgjLmJc1RwYtm64l4qkOACWHhBhQKYzVNNnjajEaN7FnMDbG
-	Jm+YJkJR1h+HjP8SDWaKxTGAAaUjFtwzICKhWFNjPgYSYLFRtcMDGVumn5Dnn5R9gasYOC2PHMT
-	eC9tJ00AyHwDZywBmYLg8qMetoX/R+n9Oh6q4inbS4XjlsrQeXTRZU1Bgs0cjxGx25hI+xpA40v
-	Az9F/9m08Wrz1BsykDBQY9P4x6eqB3Ua2OWglJebDn5bZGaZHMEiFWlbh+vYc7coMzk=
-X-Received: by 2002:a05:6a20:734b:b0:3da:15a9:a18e with SMTP id
- adf61e73a8af0-3ddec679970mr2166994637.23.1790093499587; Tue, 22 Sep 2026
- 09:11:39 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790094123; x=1790698923;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Zntf4umr1eS7Ny1yGhjgKRrHwdgFRxoOc6Ks5T0x52k=;
+        b=Kk4pZfDjTkM04EYu5YdLsWMAqBd5jrUu7vdRQzQfCi9EuuZVMaRr7I27cgpN+jXZHb
+         8cv8ybp5zg3NVKlrJPZwwarfHdLs65Jpt11xCq18ao6nERy2rVqAlT1vASjn+KOsBA0y
+         +DRuIRSBl1psUK1n4BbAz18zZ3ni+HDx9InyH8Ny93jC6qZ1YOjE8AAmm7Ha6yqe6cig
+         tuGOKPIqW9PTjFMuX+1CjxPJ/wLxF8YD9QkypSoaIo3G/3QOUhWKqlDFrDHPev4ENVW4
+         ztmMLKCecgslvyfeQ3y8Tc/o0Qc5fI3vMM6PHGDxGil3zQKyKhs+9Y9kiwzaL8EXHOz5
+         TfKQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwH0H88bhdxKYoxm/1PyJcNjor2LxAlYFJpQ6bHC3CK0IPW93jalUqaEJEPkHf1vEEM5sjnul4BJBWMNsdb@vger.kernel.org
+X-Gm-Message-State: AFuF++kN0PbiCR7eSGKCoEzEsTFODO/JKnwGOxtjRNtHECgBwhqK9x0v
+	S9D4qrGJ4BMu3YhasgybgJ+qqstFzzvWaUVH74TfktuNWNXnRlzx/Ls6OVVV8Q==
+X-Gm-Gg: AYBFou1H3vZmin124X0c+nV8aqOfKhHhXldXTqXgP9x6pvovj6IDyYMOTqqjNwcoXm4
+	GZawDdu2JU0SCSau+QXsIihHV/YujULrLg34pk8Tx0aJuMbxdiqy+1WVW7s+LMYC+StJKeiIO+z
+	ddn4Zra8Tk5KvpIjKqXxWesOfyLAsh7w/2nwf1IzJQQKkmztLD+w1m7fz3FyWaXsB/xNSRkxfkb
+	IG4XqNoxrCe0dUxoGgS3F+ka2XfNYr+oqj2M9cfaEZAStRjzWLia3A6VIOrwe+aTeIju6kAqWxo
+	+cdAF3cjWyzXgeayoYL24gty1rvOorcgzE4fML44Ecr42bA4mnxX8njfoOGDbhKVpR532ql8QWQ
+	PDtWKwF+Sy+3Hl72mVf2aCvIe4qAC0hKVRCLmyh/Y0Nhd/LibFgLv0Q5n/WbQyjlcPFw439vW4/
+	MjxsZn1OGlFQOdiysbwBiZoJUNFQJ5/TJJaWmnFePHKyTCTRBE355RMYtP1bVcZNb8Ekhy0v3ls
+	uEmOf2LGN4b5E0J
+X-Received: by 2002:a17:90b:4b44:b0:39e:14db:437c with SMTP id 98e67ed59e1d1-3a07e4f35e3mr2213a91.4.1790094123309;
+        Tue, 22 Sep 2026 09:22:03 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2405:4802:1d4a:e90:b024:bd81:d1dd:b7df])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a07ddae723sm128296a91.5.2026.09.22.09.22.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 09:22:02 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
+	Claude Sonnet 5 <noreply@anthropic.com>
+Subject: [PATCH v7] hfsplus: fix recursive tree_lock and validate b-tree fork extents
+Date: Tue, 22 Sep 2026 23:21:57 +0700
+Message-ID: <20260922162157.31987-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260915081910.4142719-1-morbo@google.com> <20260915081910.4142719-16-morbo@google.com>
-In-Reply-To: <20260915081910.4142719-16-morbo@google.com>
-From: Mike Marshall <hubcap@omnibond.com>
-Date: Tue, 22 Sep 2026 12:11:28 -0400
-X-Gm-Features: AcwNN1Wih6NtppTV0vkjzAIjWyWZSSKgTzjtdFf7g3_FVHt3mrWns3cWwRfW2oA
-Message-ID: <CAOg9mSTFhVsyu-uHkh_L02nK63WBh4R7viAtrGx1gqkvnenUFw@mail.gmail.com>
-Subject: Re: [PATCH 15/28] orangefs: Use seq_buf for debug help string generation
-To: Bill Wendling <morbo@google.com>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, Mike Marshall <hubcap@omnibond.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-I compiled your patch onto 7.3-rc3 and ran my
-orangefs debugfs xfstest through it. The changes
-look good to me.
+Fix a self-deadlock in the extents-overflow B-tree and validate b-tree
+fork extents at mount time to catch on-disk corruption early.
 
--Mike
+hfs_bmap_reserve() can call hfsplus_file_extend() on tree->inode while
+tree->tree_lock is already held. When the tree is the extents overflow
+B-tree itself and its fork already claims more blocks than its eight
+direct extents describe, hfsplus_file_extend() calls
+hfsplus_ext_read_extent() -> hfs_find_init() on that same tree, taking
+tree_lock a second time. Per the HFS+ format the extents overflow file
+can never have overflow extents of its own, so this state only arises
+from a corrupted image; refuse to grow the file in that case instead
+of re-entering the lock.
 
-On Tue, Sep 15, 2026 at 4:20=E2=80=AFAM Bill Wendling <morbo@google.com> wr=
-ote:
->
-> orangefs_prepare_debugfs_help_string() constructs the debugfs help text i=
-n
-> a dynamically allocated buffer using repeated strlcat() calls across
-> keyword loops, rescanning the buffer on every append.
->
-> In preparation for removing the deprecated strlcat() API[1], use struct
-> seq_buf to build the help string. This tracks the write position across
-> the loops, allows formatting each keyword line with a single
-> seq_buf_printf() call, and checks for truncation via
-> seq_buf_has_overflowed().
->
-> Additionally, replace the final strlcat() call that copies the completed
-> string into debug_help_string with strscpy().
->
-> Link: https://github.com/KSPP/linux/issues/370 [1]
-> Cc: codemender-patching+linux@google.com
-> Assisted-by: Gemini:gemini-2.0-flash-exp [shell_command_run, editor_updat=
-e_file]
-> Signed-off-by: Bill Wendling <morbo@google.com>
-> ---
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Huacai Chen <chenhuacai@kernel.org>
-> Cc: WANG Xuerui <kernel@xen0n.name>
-> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Thomas Gleixner <tglx@kernel.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: x86@kernel.org
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: Ian Abbott <abbotti@mev.co.uk>
-> Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Matthias Schwarzott <zzam@gentoo.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
-> Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-> Cc: Andrew Lunn <andrew+netdev@lunn.ch>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Arend van Spriel <arend.vanspriel@broadcom.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Saravana Kannan <saravanak@kernel.org>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
-> Cc: Peter Griffin <peter.griffin@linaro.org>
-> Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> Cc: Linus Walleij <linusw@kernel.org>
-> Cc: Anil Gurumurthy <anil.gurumurthy@qlogic.com>
-> Cc: Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>
-> Cc: "Martin K. Petersen" <mkp@kernel.org>
-> Cc: Trond Myklebust <trondmy@kernel.org>
-> Cc: Anna Schumaker <anna@kernel.org>
-> Cc: Mike Marshall <hubcap@omnibond.com>
-> Cc: Martin Brandenburg <martin@omnibond.com>
-> Cc: Kees Cook <kees@kernel.org>
-> Cc: Jiri Pirko <jiri@resnulli.us>
-> Cc: Simon Horman <horms@kernel.org>
-> Cc: Chuck Lever <cel@kernel.org>
-> Cc: Jeff Layton <jlayton@kernel.org>
-> Cc: NeilBrown <neil@brown.name>
-> Cc: Olga Kornievskaia <okorniev@redhat.com>
-> Cc: Dai Ngo <Dai.Ngo@oracle.com>
-> Cc: Tom Talpey <tom@talpey.com>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: Bill Wendling <morbo@google.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> Cc: Kanglong Wang <wangkanglong@loongson.cn>
-> Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-> Cc: Qiang Ma <maqianga@uniontech.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Breno Leitao <leitao@debian.org>
-> Cc: Thorsten Blum <blum@kernel.org>
-> Cc: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Ashutosh Desai <ashutoshdesai993@gmail.com>
-> Cc: Imre Deak <imre.deak@intel.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Cc: Johan Hovold <johan@kernel.org>
-> Cc: Johannes Berg <johannes.berg@intel.com>
-> Cc: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Cc: Cryolitia PukNgae <cryolitia@uniontech.com>
-> Cc: Jiaming Zhang <r772577952@gmail.com>
-> Cc: Will Porter <mrwillporter@gmail.com>
-> Cc: Cen Zhang <zzzccc427@gmail.com>
-> Cc: "C=C3=A1ssio Gabriel" <cassiogabrielcontato@gmail.com>
-> Cc: Rong Zhang <i@rong.moe>
-> Cc: Arun Raghavan <arunr@valvesoftware.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: loongarch@lists.linux.dev
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-parisc@vger.kernel.org
-> Cc: linux-edac@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: intel-xe@lists.freedesktop.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: intel-wired-lan@lists.osuosl.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-wireless@vger.kernel.org
-> Cc: brcm80211@lists.linux.dev
-> Cc: brcm80211-dev-list.pdl@broadcom.com
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-scsi@vger.kernel.org
-> Cc: linux-nfs@vger.kernel.org
-> Cc: devel@lists.orangefs.org
-> Cc: linux-hardening@vger.kernel.org
-> Cc: linux-sound@vger.kernel.org
-> ---
->  fs/orangefs/orangefs-debugfs.c | 36 +++++++++++++---------------------
->  1 file changed, 14 insertions(+), 22 deletions(-)
->
-> diff --git a/fs/orangefs/orangefs-debugfs.c b/fs/orangefs/orangefs-debugf=
-s.c
-> index 9f94919a6bc6..6e2f9887eab4 100644
-> --- a/fs/orangefs/orangefs-debugfs.c
-> +++ b/fs/orangefs/orangefs-debugfs.c
-> @@ -37,6 +37,7 @@
->   */
->  #include <linux/debugfs.h>
->  #include <linux/slab.h>
-> +#include <linux/seq_buf.h>
->
->  #include <linux/uaccess.h>
->
-> @@ -623,10 +624,10 @@ int orangefs_prepare_debugfs_help_string(int at_boo=
-t)
->         char *client_title =3D "Client Debug Keywords:\n";
->         char *kernel_title =3D "Kernel Debug Keywords:\n";
->         size_t string_size =3D  DEBUG_HELP_STRING_SIZE;
-> -       size_t result_size;
->         size_t i;
->         char *new;
->         int rc =3D -EINVAL;
-> +       struct seq_buf s;
->
->         gossip_debug(GOSSIP_UTILS_DEBUG, "%s: start\n", __func__);
->
-> @@ -640,17 +641,14 @@ int orangefs_prepare_debugfs_help_string(int at_boo=
-t)
->                 goto out;
->         }
->
-> +       seq_buf_init(&s, new, string_size);
-> +
->         /*
-> -        * strlcat(dst, src, size) will append at most
-> -        * "size - strlen(dst) - 1" bytes of src onto dst,
-> -        * null terminating the result, and return the total
-> -        * length of the string it tried to create.
-> -        *
->          * We'll just plow through here building our new debug
-> -        * help string and let strlcat take care of assuring that
-> +        * help string and let seq_buf take care of assuring that
->          * dst doesn't overflow.
->          */
-> -       strlcat(new, client_title, string_size);
-> +       seq_buf_puts(&s, client_title);
->
->         if (!at_boot) {
->
-> @@ -665,24 +663,18 @@ int orangefs_prepare_debugfs_help_string(int at_boo=
-t)
->                         goto out;
->                 }
->
-> -               for (i =3D 0; i < cdm_element_count; i++) {
-> -                       strlcat(new, "\t", string_size);
-> -                       strlcat(new, cdm_array[i].keyword, string_size);
-> -                       strlcat(new, "\n", string_size);
-> -               }
-> +               for (i =3D 0; i < cdm_element_count; i++)
-> +                       seq_buf_printf(&s, "\t%s\n", cdm_array[i].keyword=
-);
->         }
->
-> -       strlcat(new, "\n", string_size);
-> -       strlcat(new, kernel_title, string_size);
-> +       seq_buf_puts(&s, "\n");
-> +       seq_buf_puts(&s, kernel_title);
->
-> -       for (i =3D 0; i < num_kmod_keyword_mask_map; i++) {
-> -               strlcat(new, "\t", string_size);
-> -               strlcat(new, s_kmod_keyword_mask_map[i].keyword, string_s=
-ize);
-> -               result_size =3D strlcat(new, "\n", string_size);
-> -       }
-> +       for (i =3D 0; i < num_kmod_keyword_mask_map; i++)
-> +               seq_buf_printf(&s, "\t%s\n", s_kmod_keyword_mask_map[i].k=
-eyword);
->
->         /* See if we tried to put too many bytes into "new"... */
-> -       if (result_size >=3D string_size) {
-> +       if (seq_buf_has_overflowed(&s)) {
->                 kfree(new);
->                 goto out;
->         }
-> @@ -692,7 +684,7 @@ int orangefs_prepare_debugfs_help_string(int at_boot)
->         } else {
->                 mutex_lock(&orangefs_help_file_lock);
->                 memset(debug_help_string, 0, DEBUG_HELP_STRING_SIZE);
-> -               strlcat(debug_help_string, new, string_size);
-> +               strscpy(debug_help_string, new, DEBUG_HELP_STRING_SIZE);
->                 mutex_unlock(&orangefs_help_file_lock);
->                 kfree(new);
->         }
-> --
-> 2.55.0.1032.g73a4cd73de-goog
->
+Separately, validate each system b-tree's fork (extents, total_blocks,
+total_size, clump_size) once at mount time in hfs_btree_open(), and
+mount read-only if a fork is corrupt but still usable, or fail the
+mount if the first extent itself is corrupt.
+
+Thanks to Viacheslav Dubeyko for the thorough v6 review that caught
+the missing lock fix and the other issues below.
+
+v7:
+ - Restore the tree_lock fix that was mistakenly dropped in v6 (I
+   rebased off the wrong base and lost it; sorry for the noise).
+ - Move HFSPLUS_EXTENT_LAST_IDX into hfsplus_fs.h.
+ - Move fork validation out of hfsplus_inode_read_fork() and into
+   hfs_btree_open(), where the error is actually checked and acted on.
+ - Only set SB_RDONLY from hfsplus_fill_super()/hfsplus_reconfigure(),
+   never from the fork checker itself.
+ - Also validate total_size against the fork's block count, and
+   reject a clump_size larger than the volume.
+
+Reported-by: syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ fs/hfsplus/btree.c      |  21 +++++++
+ fs/hfsplus/extents.c    | 122 ++++++++++++++++++++++++++++++++++++++--
+ fs/hfsplus/hfsplus_fs.h |  10 ++++
+ fs/hfsplus/super.c      |  13 +++++
+ 4 files changed, 160 insertions(+), 6 deletions(-)
+
+diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+index 2ea8cd5658e1..a07ca8a477f7 100644
+--- a/fs/hfsplus/btree.c
++++ b/fs/hfsplus/btree.c
+@@ -274,6 +274,7 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+ 	struct inode *inode;
+ 	struct page *page;
+ 	unsigned int size;
++	int res;
+ 
+ 	tree = kzalloc_obj(*tree);
+ 	if (!tree)
+@@ -293,6 +294,26 @@ struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
+ 		goto free_inode;
+ 	}
+ 
++	res = hfsplus_check_fork(sb, HFSPLUS_I(tree->inode)->first_extents,
++				 HFSPLUS_I(tree->inode)->alloc_blocks,
++				 tree->inode->i_size);
++	if (res == -EIO) {
++		pr_err("%s (cnid 0x%x) fork's first extent is corrupt\n",
++		       hfs_btree_name(id), id);
++		goto free_inode;
++	} else if (res) {
++		pr_warn("%s (cnid 0x%x) fork has corrupt extents, forcing read-only.\n",
++			hfs_btree_name(id), id);
++		set_bit(HFSPLUS_I_CORRUPT_TREE, &HFSPLUS_I(tree->inode)->flags);
++	} else if (HFSPLUS_I(tree->inode)->clump_blocks > HFSPLUS_SB(sb)->total_blocks) {
++		/* clump_size is only ever a growth hint, but a value this
++		 * large can only come from a corrupt fork
++		 */
++		pr_warn("%s (cnid 0x%x) fork has bogus clump size, forcing read-only.\n",
++			hfs_btree_name(id), id);
++		set_bit(HFSPLUS_I_CORRUPT_TREE, &HFSPLUS_I(tree->inode)->flags);
++	}
++
+ 	mapping = tree->inode->i_mapping;
+ 	page = read_mapping_page(mapping, 0, NULL);
+ 	if (IS_ERR(page))
+diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
+index eb7c11524d18..925bbc3b36dc 100644
+--- a/fs/hfsplus/extents.c
++++ b/fs/hfsplus/extents.c
+@@ -77,13 +77,68 @@ static u32 hfsplus_ext_lastblock(struct hfsplus_extent *ext)
+ {
+ 	int i;
+ 
+-	ext += 7;
+-	for (i = 0; i < 7; ext--, i++)
++	ext += HFSPLUS_EXTENT_LAST_IDX;
++	for (i = 0; i < HFSPLUS_EXTENT_LAST_IDX; ext--, i++)
+ 		if (ext->block_count)
+ 			break;
+ 	return be32_to_cpu(ext->start_block) + be32_to_cpu(ext->block_count);
+ }
+ 
++/* True for the extents overflow file's own inode */
++static inline bool is_extents_btree(struct inode *inode)
++{
++	return inode->i_ino == HFSPLUS_EXT_CNID;
++}
++
++static bool hfsplus_extent_valid(struct hfsplus_extent *ext, u32 volume_blocks)
++{
++	u32 start = be32_to_cpu(ext->start_block);
++	u32 count = be32_to_cpu(ext->block_count);
++
++	if (!count)
++		return start == 0;
++
++	return start + count > start && start + count <= volume_blocks;
++}
++
++/* 0 if the fork is consistent, -EUCLEAN if fixable, -EIO if unusable */
++int hfsplus_check_fork(struct super_block *sb, struct hfsplus_extent *ext,
++		       u32 fork_blocks, u64 fork_size)
++{
++	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
++	bool seen_hole = false;
++	u32 used_blocks = 0;
++	loff_t max_size, min_size;
++	int i;
++
++	for (i = 0; i < HFSPLUS_EXTENT_COUNT; i++, ext++) {
++		u32 count = be32_to_cpu(ext->block_count);
++
++		if (!hfsplus_extent_valid(ext, sbi->total_blocks) ||
++		    (seen_hole && count))
++			return i ? -EUCLEAN : -EIO;
++
++		if (count)
++			used_blocks += count;
++		else
++			seen_hole = true;
++	}
++
++	if (!used_blocks)
++		return -EIO;
++
++	if (used_blocks != fork_blocks)
++		return -EUCLEAN;
++
++	/* fork_size must need exactly fork_blocks allocation blocks */
++	max_size = (loff_t)fork_blocks << sbi->alloc_blksz_shift;
++	min_size = max_size - (1 << sbi->alloc_blksz_shift);
++	if (fork_size <= min_size || fork_size > max_size)
++		return -EUCLEAN;
++
++	return 0;
++}
++
+ static int __hfsplus_ext_write_extent(struct inode *inode,
+ 		struct hfs_find_data *fd)
+ {
+@@ -217,6 +272,10 @@ static int hfsplus_ext_read_extent(struct inode *inode, u32 block)
+ 	    block < hip->cached_start + hip->cached_blocks)
+ 		return 0;
+ 
++	/* The extents overflow file can't have overflow extents of its own */
++	if (is_extents_btree(inode))
++		return -ENOSPC;
++
+ 	res = hfs_find_init(HFSPLUS_SB(inode->i_sb)->ext_tree, &fd);
+ 	if (!res) {
+ 		res = __hfsplus_ext_cache_extent(&fd, inode, block);
+@@ -392,6 +451,35 @@ static int hfsplus_free_extents(struct super_block *sb,
+ 	}
+ }
+ 
++/* True when all extents of a fork are in use (no free slot left) */
++static bool hfsplus_ext_fork_full(struct hfsplus_extent *ext)
++{
++	int i;
++
++	for (i = 0; i < HFSPLUS_EXTENT_COUNT; ext++, i++)
++		if (!ext->block_count)
++			return false;
++	return true;
++}
++
++/* True when the extents overflow file's fork has no free slot left */
++static bool hfsplus_ext_file_needs_contig_grow(struct inode *inode,
++					       struct hfsplus_inode_info *hip)
++{
++	return is_extents_btree(inode) &&
++	       hip->alloc_blocks == hip->first_blocks &&
++	       hfsplus_ext_fork_full(hip->first_extents);
++}
++
++/*
++ * Fork is full: only a contiguous extension of the last extent works.
++ * Search for up to *len free blocks starting exactly at goal.
++ */
++static u32 hfsplus_ext_file_grow(struct super_block *sb, u32 goal, u32 *len)
++{
++	return hfsplus_block_allocate(sb, goal + *len, goal, len);
++}
++
+ int hfsplus_free_fork(struct super_block *sb, u32 cnid,
+ 		struct hfsplus_fork_raw *fork, int type)
+ {
+@@ -458,6 +546,11 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
+ 	if (hip->alloc_blocks == hip->first_blocks)
+ 		goal = hfsplus_ext_lastblock(hip->first_extents);
+ 	else {
++		/* Would re-enter ext_tree->tree_lock; corrupt fork */
++		if (is_extents_btree(inode)) {
++			res = -EIO;
++			goto out;
++		}
+ 		res = hfsplus_ext_read_extent(inode, hip->alloc_blocks);
+ 		if (res)
+ 			goto out;
+@@ -465,13 +558,21 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
+ 	}
+ 
+ 	len = hip->clump_blocks;
+-	start = hfsplus_block_allocate(sb, sbi->total_blocks, goal, &len);
+-	if (start >= sbi->total_blocks) {
+-		start = hfsplus_block_allocate(sb, goal, 0, &len);
+-		if (start >= goal) {
++	if (hfsplus_ext_file_needs_contig_grow(inode, hip)) {
++		start = hfsplus_ext_file_grow(sb, goal, &len);
++		if (start != goal) {
+ 			res = -ENOSPC;
+ 			goto out;
+ 		}
++	} else {
++		start = hfsplus_block_allocate(sb, sbi->total_blocks, goal, &len);
++		if (start >= sbi->total_blocks) {
++			start = hfsplus_block_allocate(sb, goal, 0, &len);
++			if (start >= goal) {
++				res = -ENOSPC;
++				goto out;
++			}
++		}
+ 	}
+ 
+ 	if (zeroout) {
+@@ -526,6 +627,15 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
+ 	return res;
+ 
+ insert_extent:
++	/* Can't happen: the fork-full branch above rules this out */
++	if (WARN_ON_ONCE(is_extents_btree(inode))) {
++		if (hfsplus_block_free(sb, start, len))
++			pr_err("can't free extent: start %u, count %u\n",
++			       start, len);
++		res = -ENOSPC;
++		goto out;
++	}
++
+ 	hfs_dbg("insert new extent\n");
+ 	res = hfsplus_ext_write_extent_locked(inode);
+ 	if (res)
+diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+index 1e5b58e6a13f..df636f2dbf1d 100644
+--- a/fs/hfsplus/hfsplus_fs.h
++++ b/fs/hfsplus/hfsplus_fs.h
+@@ -222,15 +222,23 @@ struct hfsplus_inode_info {
+ #define HFSPLUS_EXT_DIRTY	0x0001
+ #define HFSPLUS_EXT_NEW		0x0002
+ 
++/* Number of extent slots in a fork's hfsplus_extent_rec (hfs_common.h) */
++#define HFSPLUS_EXTENT_COUNT		8
++#define HFSPLUS_EXTENT_LAST_IDX	(HFSPLUS_EXTENT_COUNT - 1)
++
+ #define HFSPLUS_I_RSRC		0	/* represents a resource fork */
+ #define HFSPLUS_I_CAT_DIRTY	1	/* has changes in the catalog tree */
+ #define HFSPLUS_I_EXT_DIRTY	2	/* has changes in the extent tree */
+ #define HFSPLUS_I_ALLOC_DIRTY	3	/* has changes in the allocation file */
+ #define HFSPLUS_I_ATTR_DIRTY	4	/* has changes in the attributes tree */
++#define HFSPLUS_I_CORRUPT_TREE	5	/* tree's fork had corrupt extents at open time */
+ 
+ #define HFSPLUS_IS_RSRC(inode) \
+ 	test_bit(HFSPLUS_I_RSRC, &HFSPLUS_I(inode)->flags)
+ 
++#define HFSPLUS_TREE_IS_CORRUPT(tree) \
++	test_bit(HFSPLUS_I_CORRUPT_TREE, &HFSPLUS_I((tree)->inode)->flags)
++
+ static inline struct hfsplus_inode_info *HFSPLUS_I(struct inode *inode)
+ {
+ 	return container_of(inode, struct hfsplus_inode_info, vfs_inode);
+@@ -440,6 +448,8 @@ int hfsplus_free_fork(struct super_block *sb, u32 cnid,
+ 		      struct hfsplus_fork_raw *fork, int type);
+ int hfsplus_file_extend(struct inode *inode, bool zeroout);
+ void hfsplus_file_truncate(struct inode *inode);
++int hfsplus_check_fork(struct super_block *sb, struct hfsplus_extent *ext,
++		       u32 fork_blocks, u64 fork_size);
+ 
+ /* inode.c */
+ extern const struct address_space_operations hfsplus_aops;
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index ff7d6b3336a6..b6a85c153cf3 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -400,6 +400,14 @@ static int hfsplus_reconfigure(struct fs_context *fc)
+ 			pr_warn("filesystem is marked journaled, leaving read-only.\n");
+ 			sb->s_flags |= SB_RDONLY;
+ 			fc->sb_flags |= SB_RDONLY;
++		} else if (HFSPLUS_TREE_IS_CORRUPT(sbi->ext_tree) ||
++				HFSPLUS_TREE_IS_CORRUPT(sbi->cat_tree) ||
++				(sbi->attr_tree &&
++				 HFSPLUS_TREE_IS_CORRUPT(sbi->attr_tree))) {
++			/* Corruption is only ever detected at mount, in hfs_btree_open() */
++			pr_warn("a b-tree fork was corrupt at mount time, leaving read-only.\n");
++			sb->s_flags |= SB_RDONLY;
++			fc->sb_flags |= SB_RDONLY;
+ 		}
+ 	}
+ 	return 0;
+@@ -564,6 +572,11 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	}
+ 	sb->s_xattr = hfsplus_xattr_handlers;
+ 
++	if (HFSPLUS_TREE_IS_CORRUPT(sbi->ext_tree) ||
++	    HFSPLUS_TREE_IS_CORRUPT(sbi->cat_tree) ||
++	    (sbi->attr_tree && HFSPLUS_TREE_IS_CORRUPT(sbi->attr_tree)))
++		sb->s_flags |= SB_RDONLY;
++
+ 	inode = hfsplus_iget(sb, HFSPLUS_ALLOC_CNID);
+ 	if (IS_ERR(inode)) {
+ 		pr_err("failed to load allocation file\n");
+-- 
+2.43.0
+
