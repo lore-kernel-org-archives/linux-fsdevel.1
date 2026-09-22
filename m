@@ -1,165 +1,206 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013020.outbound.protection.outlook.com [40.93.196.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5083A49F129;
-	Tue, 22 Sep 2026 17:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790098103; cv=fail; b=H95xmz8hQWSK0bxHuTgMIpzqDXjrnn4yOLthy99kYP5Sr9fP8zICcvs7RaQOjS1QCkT0PUz1onQgC12C5neYoihy8izQdmzeFr91qijcvLb2eeDSIUehOlpe4vZYyAiIVZRI1MG2MzIOKq+ijOdMSEUoxIrM2JUmlyi5JSENz60=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790098103; c=relaxed/simple;
-	bh=FE2BTdbSh70Tw574vhMKqa0E49XiVW/+t6TgkG/tZ6I=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To:MIME-Version; b=CUmCPP8g2Ow9RQUB5yF6aEREIoQ7B8Ify9sv3qCtkDFkA37Tjc5O32LiIjhAjoJE6vJ8lO0aZBUTR3ZjkqiTcwYxrLX3cEJLjlrfa4g/arHhjMQy2YR7sgkhTaL4INpS9t2YLUckyHCP37lPTf67MFGurZDrop1GVaB5mgXTy9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=tMFN+kRW; arc=fail smtp.client-ip=40.93.196.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0AA42125D;
+	Tue, 22 Sep 2026 17:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790099158; cv=none; b=CN8KGjuMxNn+OHtSAETzFFQFVbxvjAcLIcxXr+UTcAsqO/wXZWKDt7fwxSzEKfDt33aymLPXo+6n1hhgKCScIiYp1+GNnbTRFwaNzLq1q8TbLg0/oy1izGn8BTq2lGupEORCabbM5hx2Bd6v168XCrUB+tgQkctGDDUil9I3xms=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790099158; c=relaxed/simple;
+	bh=numKCXBeqHeG+uwpRgzAc5A+25vCr6moZaFphK8rbZs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mRSqWSK0bkWIoGd33ZRyxBCd5n58VmSfxrJFeXm9oqsTUqjX1ljl6+bO5flBGm+He/W4S+ljYezFB1W1wEjme26x2nU+rMJCVwJs+spjxDBLmx63COHvyAj+VeftRJN8N6eKNCKJiwgSnMA3NMKXbpjK7sXxutJOPKbfLUyYD00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I+irRMrH; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="tMFN+kRW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZHsmH9uA2RyOw142fyjgDVi+YPqXgBCMAaKgV0nsAOKq5/PqC60qC+NsGmKrvFLOi70qEIEbI099UhRCrjFSBO0DsKXP/RgzvxOWxVWX8Mr+EEHc07yxeH6cEU4CxGLbwwRdBjoNvcfE7awHQjoQPqUoGN9Ug8MJEzcdJDGbbHfdMaJFGIZnuPFvGsuDiwHUTCv9SZd/WGsNqIIxAlN0xACX126DZG2x2WllTrUj2ATHe7596cWAYkohjuBUvSUs7GaNVg3+j8q/s3VypEvKxJaCx7ohq+z7AKePc1bx957X8dBj0H9OW+9PJ94R1+N0HpCSS0Zc4bw8RmwoRf0i+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cLIBESCgL+1P7ZJfew6WReIZ8MNe7AutBa8ZTYj/pMQ=;
- b=DfO/yPjIzrRsYdn1BXlR8brimV4plDPWf6Pkmxu+E8bckGd57x0r/CP8uwTfbcu1PxutiRLAK5Or5bMoFZe36g+WyoHhObL8trBnDtKNcGAtgTYe/+u2OzArNTp4c1TN9olE/H8iqt8mVTdHgU6i4Fj6KDbcd4aMQt3aZK08rjDNYOHp3ekyuVO9+Sxcm37W6mNeSWhAppCTLo2zeZZHJR6A3n2cim68knnEBbh+jg3wf4TwnduAIrTcSUV33c5V9W67+NogClN4pWLwQzQua/GdoUm0vR1EsJ2Z9kGKis1aBADH4YnysdnTwyLkIniZv5477mvLiRavIZbHj9xWiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cLIBESCgL+1P7ZJfew6WReIZ8MNe7AutBa8ZTYj/pMQ=;
- b=tMFN+kRWuZddgjRxStz/vDmHWH/jMLIYSRHZjkMurk43kxy1+tnbr1opomQi/yHbVkA3Ohf0LRJig5ie4m63mRTlMgprdD/t3PpCAT89ovB+x5lqB1VJnGN8HxejUx09hnPLOnCiGrryGd+3+X48v29WhzI9Q32jElsXbMxlwo2NEnQDORK5eBIOkRo0xxXZB+qilNdUcS1D9LrO6DME1MPAtwx6LW5co5ASxPcMjnsrCgz7WN8rlKCOQu25gm/zzFBKXLboQwaOpghffONkcu1IfcPpKdJe+XKGy81W5enI8Pjl2gGtZxZW19SGrR1hAGjca9d7DWtmyomC2RUKqA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by DS0PR12MB6415.namprd12.prod.outlook.com (2603:10b6:8:cc::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Tue, 22 Sep
- 2026 17:28:14 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Tue, 22 Sep 2026
- 17:28:14 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 22 Sep 2026 13:28:01 -0400
-Message-Id: <DLM0T60C8JRD.11L2TBS45DHBU@nvidia.com>
-Subject: Re: [PATCH v4 4/4] mm/truncate: clarify return value of
- truncate_inode_partial_folio()
-Cc: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-ext4@vger.kernel.org>, <akpm@linux-foundation.org>,
- <david@kernel.org>, <ljs@kernel.org>, <liam@infradead.org>,
- <vbabka@kernel.org>, <rppt@kernel.org>, <surenb@google.com>,
- <mhocko@suse.com>, <hughd@google.com>, <baolin.wang@linux.alibaba.com>,
- <willy@infradead.org>, <jack@suse.cz>, <bfoster@redhat.com>,
- <joannelkoong@gmail.com>, <djwong@kernel.org>, <yi.zhang@huawei.com>,
- <yizhang089@gmail.com>, <yangerkun@huawei.com>, <chengzhihao1@huawei.com>,
- <wangkefeng.wang@huawei.com>, <yukuai@fnnas.com>
-To: "Zhang Yi" <yi.zhang@huaweicloud.com>, <linux-mm@kvack.org>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20260922110703.468389-1-yi.zhang@huaweicloud.com>
- <20260922110703.468389-5-yi.zhang@huaweicloud.com>
-In-Reply-To: <20260922110703.468389-5-yi.zhang@huaweicloud.com>
-X-ClientProxiedBy: MN0PR04CA0002.namprd04.prod.outlook.com
- (2603:10b6:208:52d::13) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+irRMrH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790099156; x=1821635156;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=numKCXBeqHeG+uwpRgzAc5A+25vCr6moZaFphK8rbZs=;
+  b=I+irRMrHo6yl/XIC1NICKhOZYKH7j+E74DGNJXyLqmISwF/9rHerK+vF
+   pzLaejsmTkAXsuvA9EuHoy1X6QJNDDLeP64tybuVCB7NEYgpp5P1FSEUd
+   U0Qmg0K8Gh87zJ8rqxxVSun0brrx2P51bKyjgiGliVz5yHMDPzlG6QPrq
+   wHbv1a/cm8f0OJCwsVyvWI8MhoRudmxBm/ogerYCVrMpkT9iXRvxeFw9P
+   FGSU0k5LYRkCkFXxfV3d5c7myy6irPZCfPd1fIVcJHxX04wvNbUIFfhda
+   2YfWDWBWEqL4EaGY7JZyio0fbAZwrdvHEdZ57QsGEschChE4KcdDKBzJn
+   g==;
+X-CSE-ConnectionGUID: wtSHGwuhRry0bIm0rUYynw==
+X-CSE-MsgGUID: IvIQRLEQSTKoa4Y95SZbuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="89644761"
+X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
+   d="scan'208";a="89644761"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 10:45:41 -0700
+X-CSE-ConnectionGUID: Ej7Auh4YTcqXqdy+EW+XIw==
+X-CSE-MsgGUID: GI1CwLDCQAahT0U6/zoRPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
+   d="scan'208";a="301133553"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Sep 2026 10:45:39 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x94Yi-00000000Fpq-24vQ;
+	Tue, 22 Sep 2026 17:45:36 +0000
+Date: Wed, 23 Sep 2026 01:45:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+f8ce6c197125ab9d72ce@syzkaller.appspotmail.com,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Subject: Re: [PATCH v6] hfsplus: validate b-tree fork extents at mount and
+ inode read
+Message-ID: <202609230123.7x3OfA7z-lkp@intel.com>
+References: <20260918085156.920842-1-ngocthang2710.1999@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DS0PR12MB6415:EE_
-X-MS-Office365-Filtering-Correlation-Id: 267d8f26-4980-4912-a49a-08df18cee1be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|18002099003|22082099003|11063799006|56012099006|4143699003|10067099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	gPuIWsm5XIH1efTr5hTnXO2BD162hqkQx7PBjcu0obHvtUXha/eO1nymDOI2kTxGBloYTzIjU57ghME2dwausoNW/Y3DiiEhmp8Ke3x403Hn7dOF8Csbn1hQyiogEn8d2D+wWssj/cSKk8q+Vw33IXh9Njq9H/68UOV+ezB2M2AP/HWdzqAbh6JAPna06Q+1XuiCCtt8KlxqmIXCICCH0SK18SVD8XbljzPzRZBqowg/btUTmjeben8ZqCH/CiEU+Leb+JzGxwkrHfJiyzdk7mqrWpMEkNbDxE8zwcIMX7YFZ1Eoup5dcgHdltrQ/byWA3nvxCr+xVamTsqGuQy0HKUO0izvAl6tIauOO8opO0GI0/GY2NcMFoLUq5ODFa4hBaZAeioPkIeHhquXyWuAjWj0j0AnFuAXK2YRnSpVFIK4ShgYdD+SmX5nYV9mw6lJahifZb1HDOD/QADto5IcAOWC/ILbyTQ2x4xaVd07aFWHjasIKOKEBCANcyS5nOCuvU3iHE5GciC6d93QhiB0NUkw00j8SsCwtYdk3W+Q2CTZkKcbdIb5NSMHGlvejIVf5qmye4a14fR223z8/rNPa2TF7yhH2+5eYpbMAKPahEK87wuTAdwQFk567opYuAGZIKD0uP679d876FfRRvMNa8eJSInC39jd8TXEoEiJuaQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(18002099003)(22082099003)(11063799006)(56012099006)(4143699003)(10067099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aDZPd080NmRtWGxEVXZnSlJvcVlFeWRKdzB5VEQ4emxIbk1jbUprSmg4Y2Q4?=
- =?utf-8?B?U2tPaUFNT053dGJtQVkzQkE0T0NQUnlhTjJpWHBGZXZFNlZweVJLbTZnd2t4?=
- =?utf-8?B?TnZDOEN0dkQzb2djMlpuZm93K0E2OFVhNjRjTGxvN21kblAweEpudnlsZlEr?=
- =?utf-8?B?enY2WWtkTmZXaUhpenZPRS9DRVBGVEJLVUhQaE5wQXE5d2oxSnJELy9TOFI0?=
- =?utf-8?B?VW42b2YrU21OSUY5cVllOFBxVW14TnBBYWlKV3Jnd2hXZ0pNMzJiNWwxWWlB?=
- =?utf-8?B?MWN4TUgrU2JqWW9zUThpcGhNVE9rT2R6VEdiaDNSTGxzSWJMZmRVMnJIQ2d5?=
- =?utf-8?B?L280dDE0bkREbDUxQzNaa1RQMUVSelp3SUY4Umw2c0gybDJsVzlZUXcxQzRa?=
- =?utf-8?B?V1h5ZlVDekh2akdHVEVWRUFSeSsrSFlLWFIyMGdGd1ZYWnpqYzdsS01qUFM1?=
- =?utf-8?B?ZUhLbnl4ZGNPdm52SlZualRSNk5Icmt0eEQyVDF3ZWtBOFh2MnFlWXcxM2Ro?=
- =?utf-8?B?WXBXV0hPN2NXL3dsSUU1OXRCU0s2anMvdlNnZ2dWSTFDSStsTDlTWDBYVnU3?=
- =?utf-8?B?dHBDd1JicnQxc3RiYWNPSGh6WHJweXVvdWNkOWw1YUFKN2RaMUdOZHk3Q1pt?=
- =?utf-8?B?QUZWVjlJSGpvUHA3RTRDZXNWaTZWS1hlRnFxaUlmMnBES29oai8xUWNYM1J3?=
- =?utf-8?B?Ym9jcllCNHc1YnRXV0lrMzlwRUw3d0l5b2V0WE5aSnpLNUVFaWZ3UFZuYjJa?=
- =?utf-8?B?amNKYzgveVA4QlB1aHVaT1BZTmtFZmFteE1laHc3WmpxNXVtQ1puNTJubE5a?=
- =?utf-8?B?WWlVcWxVLzdrRkNHZjZxQ3czckZHVFUyZStuY1pKNGEwczlHS3ZuNG1wNzN0?=
- =?utf-8?B?NVMzd0VZdHoyNDE3MEpyNkdhekVTLzk0ZnlpSzBjaXBSa2Y3clhBNlJZVUZI?=
- =?utf-8?B?M1JyZjlqK05Kdk94cEc2YXZIQnNJV3JxV0RiSmVHMUQ1cnNxcEVwMnV3MElZ?=
- =?utf-8?B?WEhMWEhZR1pmZTZRZ2ovUmxxM1lyMkJldG1OZzlwUnZmVW91VjEzMHZmNmJK?=
- =?utf-8?B?eEpYREJwYzk1SGtxQXk5WGRIbkttMkZxQk5LdnczOStub0dQN2xvNDJTaVNS?=
- =?utf-8?B?WDNoRkFMUDZhU3ltaEhhTmZLQzZ5dmx5enlBUWMwdUFTQmNabElIcXhETnJF?=
- =?utf-8?B?TFo4WGJNSlI4VXl4WXg1T2JDakNyL3pCM2JLOWY3bUhBYW44RW16dk0zaGd1?=
- =?utf-8?B?UzV3cDRsc1JiNWNDNjVGNFRhaFZrKzZZK045OWlLYnp3MTlCSkljK3lKdEZ6?=
- =?utf-8?B?Qmg1c2F5aHIwUHVTdm1YZjBQcVAyMUpnZldIQVg3YlNsdTBscVRWV2dSRkVj?=
- =?utf-8?B?YzVKOWRXNlpLamJuQkVveGpGdmUyMjJzRnFIOVFsaVZxVDJUZFpwbWh0WGxQ?=
- =?utf-8?B?M0w2d050MUF4MDh5ZldQWEJjazNRSS9jZ09hSEZTeFZqcFhqZkN5RVVzN2Rv?=
- =?utf-8?B?aGg2RlUwMU5ER3MvRUhROXZPZzZWazAyRGEyaExSS3NpQ2tjc2pVTmJSL3pV?=
- =?utf-8?B?Q01BMEc3dFF6d2srdDhOOFRYOEkzeTd4YlNpNWJhOFJPNVpTdTRSck5jWk5Y?=
- =?utf-8?B?aWM3QW1xbjFuYURUSTdZczViNHo3dXpUdzF6b0t5eTRwVUdJeDFQV1p5cXBh?=
- =?utf-8?B?NkZ4K0cxMW1lUE05WWx4VHhjK0J0RkhjZVRpSTQ1ZG5vOTllSVFNaU56aWVr?=
- =?utf-8?B?cENPVFpIREdjLzdaZ0lFUXhYck56VHViM3BaemZGbmNGTWlOWkU2OWs0WUU0?=
- =?utf-8?B?NURWblVNcE1QbnFpdENaSUt0WUk0NDFJcmEvVWh2dkNWSG1HSDJrYWNIL05p?=
- =?utf-8?B?VzhPQ29uYjR3LzlUandVcFhyKytqR3VDbXg4UzhnM21NZWZYYlZhWlJhOUJh?=
- =?utf-8?B?RkkwYzMwS1FMUVVyZ3F3MEIzeTBTS0I0M0ZvT0VKdEo0UlJMUld0bXRXZ1g4?=
- =?utf-8?B?V0lOQ3pRUHN0WWFjUnlJM08xcGx3bUhIZXlWYUZNVTdRWHJZSTRYeGRscU1p?=
- =?utf-8?B?UjlROVJzcnREbHpnblhoajdiUjEwcTZOTk4wL3RnWk5BLzlFdTFobEFhY0Zz?=
- =?utf-8?B?bnl2dnpNQXZZVmdNcCtRMTg3WUk3Nm9oTFYycFZVdlltOENZKzY2b1lTVWM2?=
- =?utf-8?B?aHkvalV3WjdHNkxySHJPN0xzRUxRbVpHYkdwSHpSNGN6NHNzTENkMEdkNDhX?=
- =?utf-8?B?MXdwbGxZWXc1QUdyMmNkeW9OVkhtQ3NlMGlnd200UW40YXlkWnVlemlBK2xt?=
- =?utf-8?Q?cG+K9fCRN88poN25+F?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 267d8f26-4980-4912-a49a-08df18cee1be
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 17:28:14.0624
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jgUVXlT7U0ghXb+2FxKCFdZ6FpkxnI1UAJ/URKJfhIdfwe0WK6KAvMqL+bs6EaqJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6415
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260918085156.920842-1-ngocthang2710.1999@gmail.com>
 
-On Tue Sep 22, 2026 at 7:07 AM EDT, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
->
-> With the earlier rework the callers no longer rely on the return value
-> of truncate_inode_partial_folio() to decide whether to adjust the
-> truncation range. The pstart/pend out-parameters carry that information
-> instead. The callers now only use the return value as a flag indicating
-> whether the loop should be reset to pick up newly split sub-folios on
-> the shmem path.
->
-> Return true if at least one split succeeded, and false otherwise.
-> This clarifies the existing confusing return value semantics.
->
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> ---
->  mm/truncate.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
->
+Hi Nguyen,
 
-Thanks.
+kernel test robot noticed the following build errors:
 
-Acked-by: Zi Yan <ziy@nvidia.com>
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v7.3-rc4 next-20260921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---=20
-Best Regards,
-Yan, Zi
+url:    https://github.com/intel-lab-lkp/linux/commits/Nguyen-Ngoc-Thang/hfsplus-validate-b-tree-fork-extents-at-mount-and-inode-read/20260918-155156
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260918085156.920842-1-ngocthang2710.1999%40gmail.com
+patch subject: [PATCH v6] hfsplus: validate b-tree fork extents at mount and inode read
+config: sparc64-randconfig-1000-20260922 (https://download.01.org/0day-ci/archive/20260923/202609230123.7x3OfA7z-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230123.7x3OfA7z-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609230123.7x3OfA7z-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> fs/hfsplus/inode.c:562:5: error: conflicting types for 'hfsplus_inode_read_fork'; have 'int(struct inode *, struct hfsplus_fork_raw *)'
+     562 | int hfsplus_inode_read_fork(struct inode *inode, struct hfsplus_fork_raw *fork)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/hfsplus/inode.c:22:
+   fs/hfsplus/hfsplus_fs.h:456:6: note: previous declaration of 'hfsplus_inode_read_fork' with type 'void(struct inode *, struct hfsplus_fork_raw *)'
+     456 | void hfsplus_inode_read_fork(struct inode *inode,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/hfsplus/inode.c: In function 'hfsplus_inode_read_fork':
+   fs/hfsplus/inode.c:571:11: error: implicit declaration of function 'hfsplus_check_fork'; did you mean 'hfsplus_free_fork'? [-Wimplicit-function-declaration]
+     571 |     ret = hfsplus_check_fork(sb, fork->extents, sbi->total_blocks);
+         |           ^~~~~~~~~~~~~~~~~~
+         |           hfsplus_free_fork
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/sparc/include/asm/bug.h:25,
+                    from include/linux/bug.h:5,
+                    from include/linux/instrumented.h:10,
+                    from include/linux/atomic/atomic-instrumented.h:17,
+                    from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/sparc/include/asm/bitops_64.h:52,
+                    from arch/sparc/include/asm/bitops.h:5,
+                    from include/linux/bitops.h:67,
+                    from include/linux/bitmap.h:8,
+                    from include/linux/nodemask.h:91,
+                    from include/linux/list_lru.h:12,
+                    from include/linux/fs/super_types.h:7,
+                    from include/linux/fs/super.h:5,
+                    from include/linux/fs.h:5,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/blkdev.h:9,
+                    from fs/hfsplus/inode.c:12:
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
+     554 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:554:16: note: in expansion of macro 'KERN_ERR'
+     554 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   fs/hfsplus/inode.c:573:9: note: in expansion of macro 'pr_err'
+     573 |         pr_err("hfsplus: fork check failed for inode %lu (err=%d)\n", inode->i_ino, ret);
+         |         ^~~~~~
+   fs/hfsplus/inode.c:574:17: error: 'HFSPLUS_I_CORRUPT_TREE' undeclared (first use in this function)
+     574 |         set_bit(HFSPLUS_I_CORRUPT_TREE, &hip->flags);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+   fs/hfsplus/inode.c:574:17: note: each undeclared identifier is reported only once for each function it appears in
+   fs/hfsplus/inode.c:580:33: error: 'HFSPLUS_EXTENT_LAST_IDX' undeclared (first use in this function)
+     580 |     for (count = 0, i = 0; i <= HFSPLUS_EXTENT_LAST_IDX; i++)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +562 fs/hfsplus/inode.c
+
+   561	
+ > 562	int hfsplus_inode_read_fork(struct inode *inode, struct hfsplus_fork_raw *fork)
+   563	{
+   564	    struct super_block *sb = inode->i_sb;
+   565	    struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
+   566	    struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
+   567	    u32 count;
+   568	    int i, ret;
+   569	
+   570	    /* Validate fork extents to catch on-disk corruption early */
+   571	    ret = hfsplus_check_fork(sb, fork->extents, sbi->total_blocks);
+   572	    if (ret) {
+   573		pr_err("hfsplus: fork check failed for inode %lu (err=%d)\n", inode->i_ino, ret);
+   574		set_bit(HFSPLUS_I_CORRUPT_TREE, &hip->flags);
+   575		sb->s_flags |= SB_RDONLY;
+   576		return ret; /* Return error directly to the caller */
+   577	    }
+   578	
+   579	    memcpy(&hip->first_extents, &fork->extents, sizeof(hfsplus_extent_rec));
+   580	    for (count = 0, i = 0; i <= HFSPLUS_EXTENT_LAST_IDX; i++)
+   581		count += be32_to_cpu(fork->extents[i].block_count);
+   582	    hip->first_blocks = count;
+   583	    memset(hip->cached_extents, 0, sizeof(hfsplus_extent_rec));
+   584	    hip->cached_start = 0;
+   585	    hip->cached_blocks = 0;
+   586	
+   587	    hip->alloc_blocks = be32_to_cpu(fork->total_blocks);
+   588	    hip->phys_size = inode->i_size = be64_to_cpu(fork->total_size);
+   589	    hip->fs_blocks =
+   590		(inode->i_size + sb->s_blocksize - 1) >> sb->s_blocksize_bits;
+   591	    inode_set_bytes(inode, hip->fs_blocks << sb->s_blocksize_bits);
+   592	    hip->clump_blocks =
+   593		be32_to_cpu(fork->clump_size) >> sbi->alloc_blksz_shift;
+   594	    if (!hip->clump_blocks) {
+   595		hip->clump_blocks = HFSPLUS_IS_RSRC(inode) ?
+   596		    sbi->rsrc_clump_blocks :
+   597		    sbi->data_clump_blocks;
+   598	    }
+   599	
+   600	    return 0;
+   601	}
+   602	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
