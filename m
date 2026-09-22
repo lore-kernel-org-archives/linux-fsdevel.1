@@ -1,105 +1,190 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701B539A4CF
-	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 03:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBC4547048
+	for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 04:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790048870; cv=none; b=YL1Mr6vb1lhR/1xza/bVRdLeUO27SWiD07QR6oMNKjzXp+aiFMcW+xQ61GX8lhJlLiYiVN35F3k0vRL6lpp1gEGYJbzfCmwO9LIILu+SMXHk95+ezSYI3f9HK9J+YXod9qtU/vq4H0jPCeDd2I5pAssjV4MkAZEBR+GmB9/gzes=
+	t=1790050586; cv=none; b=Bwfxm03noQ7zVQMLc6dtNwWvHZrsM32A2xtUoncL8556URic6Ph/1aNyuJM0IT+2uXHciVHr9uNHEPgZP8TRrbWCRokdUibFgu/zkyXtQEUvmcgZeoMJvwQ+KHtAk6+UJWDOMwTS4Qy7yVwQ3bBKG3LfkYMear4R1b73gd9PtNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790048870; c=relaxed/simple;
-	bh=BvTbZzUJgxXAynlaurlQmfP5rEK52IWNgDP+DS9uOZ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ohDrLQVUGzVXMHOIFXqSW2d7hsMadWB+ahEyZbj7feTMIGvTJOJSyRcpz/ksYBZdI4A7eHTVlu9JJqJzqD4LbA016ici8V22XV6/BXKocHq5N1c8KQUejzh5DJStjF6mqreNj1vtehHzTy9zfEqer4D9YOvj7BlAGCU4j1Tix1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=C+6mZh+d; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1790050586; c=relaxed/simple;
+	bh=JDLbvCKUB+a+IDR0laoJE09QGbcCCmet6VJT4AONztI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AR2tqpvOsVb8Tob6ALPSZb4fTb7FJSgiwM55nXa5f1h/PFmNfxGPWElOZiCAgMcM5I5gXlro9pWaS5EQon4tLFe87eTzN3D4Ss3SVnlxoHgr0hrogwWFXWbGZqjkbEOXpNnCg5Y4BoR/vyA9yMrZx50HK8E8CbeAEyr+m9k0SPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qbWgsdWy; arc=none smtp.client-ip=74.125.227.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="C+6mZh+d"
-Received: from macsyma.thunk.org (pool-108-26-156-67.bstnma.fios.verizon.net [108.26.156.67])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 68M3iHHV013743
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 21 Sep 2026 23:44:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1790048660; bh=aaZjQCWBhAPpfjq9NOdT2vH7DRz/WSK6FD7H/vAgio8=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=C+6mZh+dphwxOhFVsiyqQAQUn58wMxjYZhrAb5ZSFSzzSuZD0pf5oTc1EuHhavnIQ
-	 YaWh0rfAUVYP20cm0ExY6re6mWLVFTjlaLYLH6jRd5GMxxmGreNHqwQ/VjWr+aeWGD
-	 bx9sT7F5v7aFX291ImkUhkcYq/N+0RpQl7VuNfKvMVUNPw8rjml3dOcMijcyNgsNtK
-	 UKUBtnYSMMcEhIlbpJWZ29FLZQ8M4QnWQ8OYuhh2RrzgiEweLyul8fAvMab/I8/AX8
-	 9LTHn4uXFTHNuThe9MDhQHCB5gPgzjvyP/Wku0XvD1GeHrIeHP/joaByqjRrwvMPH9
-	 +KALpNax6fhlQ==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 274911C81F3E; Mon, 21 Sep 2026 23:43:17 -0400 (EDT)
-Date: Mon, 21 Sep 2026 23:43:17 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Baokun Li <libaokun@linux.alibaba.com>, fstests@vger.kernel.org,
-        zlang@kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, sandeen@redhat.com, dgc@kernel.org
-Subject: Re: [PATCH] generic/492: bypass the blkid cache when probing the
- label
-Message-ID: <arHaTLxSEk3yQxU4@mit.edu>
-References: <20260920094137.2749428-1-libaokun@linux.alibaba.com>
- <20260921052719.GB6253@frogsfrogsfrogs>
- <b4a10712-1658-4fba-a037-095fab466270@linux.alibaba.com>
- <20260921234910.GC6253@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qbWgsdWy"
+Received: by mail-pj2-f1.google.com with SMTP id 98e67ed59e1d1-39e59dca659so2252831a91.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 21 Sep 2026 21:16:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790050583; x=1790655383; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JDLbvCKUB+a+IDR0laoJE09QGbcCCmet6VJT4AONztI=;
+        b=qbWgsdWy4wdLIEntA0/FpNsZf7horCJWmJzWBillIAs0GNxkhMLlgvtcqJOfsqP1ws
+         Ng/wonxycsF2AqEW3RyNeklKNgPvdiCOC0wbLjzW/qAa+hOvVPhprZcKvZDrpkQbIEd1
+         PaR8KMFKjE3Nruixg4Lz4i/TxjIz73YN01CYbAC4efeboklUI7kSWoH4mp8mOTqYT0FC
+         fXuHHp6NnkCA+wgOViuzh8WF8Dqk3OdsJeLQnlIeVZ10z/RmuWQ2REFZYvm6xCFxoRKY
+         RqxUhWWK8VvKp3nmjYU9Q/tkXcDNplAeKAbNIUbSyfn7bCc8LmQfDrEkLWQtEPOXNE5B
+         KuiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790050583; x=1790655383;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JDLbvCKUB+a+IDR0laoJE09QGbcCCmet6VJT4AONztI=;
+        b=DCszy35SqxdBcnOFGfQhchBGq35ip2WpAX6eQLl32CYEuzYV15UgtTrEzvxFXAIEmK
+         cOuH1UM4nW65B+2uRrS+NWiOCxlQn84E9xWc9NhFG5hShMSgNniWlDYUjnjEFXA78Xrq
+         KiVvDCpIoy7b0wzr8KxQkHyWcTtjBBHcP5SygKuPaFf2+qtFlhuSojjhmArYNMFJoM1P
+         ZUsvsWC3B/V5B32pf+VyLt7u7lXx2D3eVTiCOHJHVqzzzg9V6D0BoVa43Z8pxQ0RXVDA
+         oLDuXj9nVR5ZcViXoV59yk0nYuDoDbO/EwJdPxeaB5QRVLjRMNvz3c8KCaZQTX8B+/mI
+         tmPQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwjSzeO6QoHLRcZ+y2nLoemhOqx8wiiFctppv627/cJbKAa/JyH6I2QywWsECa+y2oj9LJVQXSZq4w6xtPm@vger.kernel.org
+X-Gm-Message-State: AFuF++mykqeIx6W/AM8eGYmerW15S73+K4JFEBygzhKCAtor2aPYo4lP
+	9Jk25dmvZ+7CVBH3OZWnVQg5xbj3ueUOFpmDjEtVIa6MQnaoqGUaSJAM
+X-Gm-Gg: AYBFou2ONK8+FiHUSCTLXlohXBjS+saXAEbQqdpDwwC4WFFa265UIuCf33VF2Zfpriq
+	FshnNewK+iMz+89z7TBhn1e4El3lfL4pd66jDc0y8ljmpXt27ryUvfb6Rumc690CIu6USM69hMh
+	TGikjsKW2kT+gu/WNF3VG13ZZe35Ieb82Pjn1wu0QfGT9oaE50VZd3wUSh1+i5BA5HD6iIjBLmc
+	x3ToW7uAEU8VYPsjJMnAZht7/3nLxXOrm/yY4mOlmw3JODqCA9JQ8hiu2WYeE+/iptHiOdJPdlT
+	gFpJP2EsEvSKM3pGWCoRhVhT1pWM1qAwWSnZjG9gk3GiODhkqjLFjyGy+Xi4cB5X2kkeZm6LXVu
+	om8cXbs6Tt/8h+ZtpRp6PvUPNZ7QznTSv5hHdSrmMBn6KtZmyKKJICFLcuDyI+ivgCaPrbssJoS
+	WlxIFlDh7kwN8Y1yExXKZL/CfEt1JRmXDoTotswb2/yWnO77CP8h9iDmVZInm4UNYAY4OarGyj1
+	gUU6fs1R4jGeRL1KzTEGcf7JWvUpLV2waE9
+X-Received: by 2002:a17:90b:56c5:b0:39d:f95d:bd08 with SMTP id 98e67ed59e1d1-39e55008a3amr25857593a91.14.1790050583196;
+        Mon, 21 Sep 2026 21:16:23 -0700 (PDT)
+Received: from nzzhao-ThinkCentre-M760t.mioffice.cn ([43.224.245.179])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0674d65d4sm2204031a91.15.2026.09.21.21.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 21:16:22 -0700 (PDT)
+From: Nanzhe Zhao <nzzhao.sigma@gmail.com>
+X-Google-Original-From: Nanzhe Zhao <zhaonanzhe@xiaomi.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: David Hildenbrand <david@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Kairui Song <kasong@tencent.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ian Rogers <irogers@google.com>,
+	Jan Kara <jack@suse.cz>,
+	linux-doc@vger.kernel.org,
+	Alex Markuze <amarkuze@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	kexec@lists.infradead.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	linux-mm@kvack.org,
+	Hongbo Li <hongbohbli@tencent.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Chunhai Guo <guochunhai@vivo.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Tal Zussman <tz2294@columbia.edu>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Yue Hu <zbestahu@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>,
+	Minchan Kim <minchan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	x86@kernel.org,
+	ceph-devel@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Wei Xu <weixugc@google.com>,
+	xen-devel@lists.xenproject.org,
+	Gao Xiang <xiang@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Byungchul Park <byungchul@sk.com>,
+	James Clark <james.clark@linaro.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	linux-fscrypt@vger.kernel.org,
+	Borislav Petkov <bp@alien8.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-mtd@lists.infradead.org,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Juergen Gross <jgross@suse.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	linux-nfs@vger.kernel.org,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	linux-kernel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-perf-users@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org,
+	Trond Myklebust <trondmy@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	Daeho Jeong <daeho43@gmail.com>
+Subject: Re: [PATCH v5 00/17] Remove PG_private by using page/folio->private checks instead
+Date: Tue, 22 Sep 2026 12:16:00 +0800
+Message-ID: <20260922041600.1240429-1-zhaonanzhe@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260920-remove-pg_private-v5-0-bb68b6a21869@nvidia.com>
+References: <20260920-remove-pg_private-v5-0-bb68b6a21869@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260921234910.GC6253@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 21, 2026 at 04:49:10PM -0500, Darrick J. Wong wrote:
-> > The difference between the e2fsprogs and util-linux libblkid is the
-> > time granularity: the former stores seconds only (TIME="%ld",
-> > bid_time = time(0), compares st_mtime <= bid_time), while the latter
-> > stores usec (TIME="sec.usec") and has an nsec tie-break in the compare,
-> > so the same-second case is much easier to hit with the e2fsprogs blkid.
-> 
-> Perhaps xfstests-bld should use the system blkid then?  IIRC the one
-> in e2fsprogs is very old and out of date.
+Hi Zi Yan,
 
-Historically, xfstests-bld was built in environments where libblkid
-wasn't available.  This included Android's runtime (which uses the
-bionic libc), and grte (Google Runtime Environment)[1].
+Thanks for the series. The cleanup is a nice help for the f2fs
+large-folio work -- it removes the page-based private-flag plumbing that
+my series would otherwise have to carry itself.
 
-[1] https://github.com/bazelment/lrte/blob/master/grte/grte-build
+My large-folio series v2 [1] can be rebased on top of this series. The
+only overlap is the PAGE_PRIVATE_* flag helpers, which I can re-express
+on top of the F2FS_FOLIO_PRIVATE_* names while keeping the
+f2fs_folio_state indirection.
 
-However, as more and more tests require utilities from util-linux,
-xfstests-bld was taught to build util-linux.  And if util-linux is
-being built, then we don't use e2fsprogs-libs any more, which is where
-libblkid is built.  From build-all:
+Jaegeuk, do you have a preference on the ordering here? My personal
+suggestion would be to review and merge this series first, and I'll
+rebase on top of it.
 
-if test -z "$USE_LOCAL_E2FSLIBS" -o -d util-linux; then
-    SKIP_E2FSLIBS=yes
-fi
+[1] https://lore.kernel.org/linux-f2fs-devel/20260915041909.2903887-1-zhaonanzhe@xiaomi.com/
 
-I've always built xfstesets-bld with util-linux, even though it is
-listed as an optional repository.  This is because (a) util-linux is
-needed for Android and other non-standard Linux environments, and (b)
-the version of util-linux used by earlier Debian Stable was too old
-for some of the newer tests in fstests and blktests.
-
-If you aren't building xfstests-bld with util-linux, it falls back to
-building libblkid from e2fsprogs-libs.  HOWEVER, we don't actually
-blkid, and libblkid is always built statically.  So what seems to be
-going on is that one of the programs built by xfstests-bld is using
-the older libblkid, and that results in the blkid cache being writen
-with a second granularity.
-
-I've never noticed this issue because I've always built with
-util-linux.  The way to solve this is to require building with the
-system libblkid if util-linux is not being built, and to drop
-e2fsprogs-libs from xfstests-bld.  Or just build xfstests-bld with
-util-linux.  :-)
-
-Cheers,
-
-					- Ted
+Thanks,
+Nanzhe
