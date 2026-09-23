@@ -1,52 +1,47 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04CD3546C0;
-	Wed, 23 Sep 2026 04:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A01394EA6;
+	Wed, 23 Sep 2026 04:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790138646; cv=none; b=iiLaDP0XHjF4nmMqJT77zRUfdcOxVbXSZo3rrHsjzljljBZ8rCUfyByz5r5R3DRdECPvCdUYcfeZPkorsoDACaIOJ5cOcmqLbpfhZRyWn2Db6FmBbb9y4p+PvEzPyaw2uPf8H/0RyLZZ/v20V2GYKLNFjOhJ7TmLIE9CPLoWuQw=
+	t=1790139112; cv=none; b=owjZCm1jxSFsOapW7gm9xQ0uag21JDAm4oRphMCg7HkVQKBLGlQCj5m9bdky29k3oFCKbRpaXlpJhjfUY2hS8/4YU+r2NNHEMR/IeWAf1ESn7YI+7CiB7XM1bVqAlYElFI9DQkJ7+Oy7UBI3WBxU0lKYPPJP8Fq9FjvHA9G2bvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790138646; c=relaxed/simple;
-	bh=3K1In4nT3i2HdiuMdKKzMjhK07IZEuKn6Ukoh+Vhlys=;
+	s=arc-20240116; t=1790139112; c=relaxed/simple;
+	bh=pu/mpkCqXSxgYN59HbS0UJuN1/RXNva8bBq3n7KmNpk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mRqzfC6h2lCUVHF1tmHdac/LLMvqHPInqAYsNCk88pz3Irf7hKDUUfe61gW4g4LjxEyyg3ZK+Av2MwFzdbPCR4SNtQTV5GBWAHnSjl7XSwdEv0jyiYG+G4sapk/R+iPAG4vmhUY4XVrhaWMGhSvLeCDGi2bMIPHObfaswb3vf50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JOydNZmk; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JOydNZmk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3rrTkfCLkv5vG8mm0BkucV5d5ipKmcNjzN+oEKrrF4Y=; b=JOydNZmkvLmfHed3Px4rMYO9fW
-	ovH3G1XC9S1RqxA9m4xOFtseOap20xWrt11xXV9ro3mhmrMkwLiQYjNx9DJ5OU/jVvreTwXo7wkz7
-	E1RmjRTmmDGMGPxsBWYQg7xSUEeom5MHDX9CHR1Q4ZreWi/JrfahFI/iCKtQ8HNGSMoQ2dhqsLcdd
-	2SfRB5K4vBZ5g/6EgsFwSXMO/pALL7eqXnGTTnUKUmY+YTY/dtuus6GWDlk6fsqjUDYTUemDMYNPE
-	1Tcaegw/NCnx2HYskpeIz3PqJkEAbcypYR6nU9GSgrKqBcV4Y/NKFmDUOpnxl/f+lLsiPYVaScByF
-	3j9NSTaw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9Epv-0000000780Q-3ycD;
-	Wed, 23 Sep 2026 04:44:03 +0000
-Date: Tue, 22 Sep 2026 21:44:03 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>, djwong@kernel.org,
-	ebiggers@kernel.org, hch@lst.de, Carlos Maiolino <cem@kernel.org>,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org, david@fromorbit.com
-Subject: Re: [PATCH v16 15/21] xfs: add fs-verity support
-Message-ID: <arNZE37P5khvkJYK@infradead.org>
-References: <20260918111539.1003439-1-aalbersh@kernel.org>
- <20260918111539.1003439-16-aalbersh@kernel.org>
- <arIszDCcy0VbRVFp@infradead.org>
- <arI-5Ejg0Xw7OVmH@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <arJ1dfejt4DyCsvG@infradead.org>
- <arKAqsuSoxvM1yKt@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	 Content-Type:Content-Disposition:In-Reply-To; b=eYpUjT/ADjUXOO/flICe8sIq7/ZPYA0r6ARmRJ+65JQiRquhb9dE8cQcwRE3iTvE+i7Xscco0KcavzHiJY+a1lKu6RYTSQj1cPuOKMJZKMrCZAoGRRhrp0npunvKxVMIZxnWofiUj/lfv0VgRpEeb6fidBfUTYIfv6XTLcebCVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2B01F68BFE; Wed, 23 Sep 2026 06:51:44 +0200 (CEST)
+Date: Wed, 23 Sep 2026 06:51:43 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
+Subject: Re: [PATCH v6 04/13] block: introduce dma map backed bio type
+Message-ID: <20260923045143.GA26231@lst.de>
+References: <cover.1789997898.git.asml.silence@gmail.com> <a3ee719abc440ca139f1a945fdaf43a45f0c6b57.1789997898.git.asml.silence@gmail.com> <20260922131610.GA30468@lst.de> <cce62c72-278a-44d1-9cf7-e0beb0b72688@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -55,28 +50,21 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <arKAqsuSoxvM1yKt@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <cce62c72-278a-44d1-9cf7-e0beb0b72688@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Sep 22, 2026 at 03:27:54PM +0200, Andrey Albershteyn wrote:
-> > 
-> > Yeah, but what is the ilock trying to protect against?  ilock is
-> > the innermost sleeping lock and protects modifications to the
-> > inode fields and the extent mapping.   Higher level synchronization
-> > is done using the iolock and the mmaplock (which is already taken
-> > here).
-> > 
-> 
-> hmm maybe I don't understand what you addressing here but don't I
-> need ilock for xfs_itruncate_extents() used with this transaction.
-> So, doing extent removal.
-> 
-> With this function I want to remove post EOF pages from pagecache
-> and then remove post EOF extents on that inode.
-> 
-> iolock is already hold, mmaplock is for pagecache truncation and
-> ilock for extents removal.
+On Tue, Sep 22, 2026 at 02:54:25PM +0100, Pavel Begunkov wrote:
+>>
+>> Can you please expland on the splitting considerations a bit?  Preferably
+>> both in a comment for the details, and in the commit log for how we
+>> arrived at them and why they are fine for now?
+>
+> I'll add something to the commit log, but not sure which specific
+> details in comments you mean. Do you want me to expand the comment
+> above limiting the number of segments? Maybe I should add there that
+> it's stricter than necessary and might cause more splitting than
+> necessary? This one:
 
-So there should be no reason to hold it over the call to
-truncate_inode_pages.  I.e., you should be able to move the locking
-and ijoin below that.
+Yes, explain why we apply a relatively arbitrary limit not fully
+exploiting the hardware capabilities, and why we thing that is okay.
+
