@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C827516160;
-	Wed, 23 Sep 2026 12:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80BB517BCA
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 12:28:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790166506; cv=none; b=oE7TEDzpF9hBKPK8hgb9j6w/v5m/bYmluN3P5B17Fbv9GwNkJmRT6y72D4n3HNMCGGdagYrYehu64seGmz4n4x6bDgK0VgfI/E/XAIpnyNC1WczRBgYP1SVKiaaFySBWymSSKoxZ+XKVcBXQuLgTDXqgQ/MiMWeVGumTCPfoqTg=
+	t=1790166508; cv=none; b=XOSvH5wshhWXGH1MoowFW6CnwpQn5YFu4cN9E4X+TAEQFdeKVZIT06mnLlgPSthaJGO2WYenKbaH0IRJrvcrOppNssApNZX9OtC4xLFi4ukcW/qkQDWO9qjNUrwHspmMiQK8dyMitVa3XIiHNxjZsXXjBB1w6Sy8GtDo4lPZfDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790166506; c=relaxed/simple;
-	bh=KRI8omNOMCiI6IgA1rLIMiWlRU5g0GVvzt4XXgMRDW4=;
+	s=arc-20240116; t=1790166508; c=relaxed/simple;
+	bh=Tllj0uKBjTmwCLOIn8ujqNdwypgrc+xehfrSBLZSX4M=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bytOxyVRaUHVCY8im3QBsJfQ3D5dhCfgpYA7ygxWn28QG267Sgv1BdCFNlP2p8EJon3eV3DqKCN9+xzM+lk4enyQsYjcUqf3ElubOKUCn2Be+xcOOGzGeeX4ruzbbM3rnCDVH0UZtWMHHBnkBho8XAS2A8kYKL8+fZwx4CbF1eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNpnU9Zd; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=rWGy+xOXQ18BY66J5/i+u+aHT+v9g96MNac4PN63BTSzZm59YFwixK9sHM23lqLNjicXU6KnOL95aKit78hS310uk5eSgNvcD9Yzbdg2Izyg9P2WJn7LQS3pVoDIJ3BGR7IOQY9688uIip1rdCtSp998sRmqu7J0lRzDOmWNXoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b9pUBM26; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNpnU9Zd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F4A41F00893;
-	Wed, 23 Sep 2026 12:28:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b9pUBM26"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8FA1F000FF;
+	Wed, 23 Sep 2026 12:28:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790166504;
-	bh=HmZI40rnH0E1cwCoxsUDuC4zgJUjo+2gHOoQq3EJ9QE=;
+	s=k20260515; t=1790166506;
+	bh=WsvwqARQ8p2iLbGwJOdi0rtMWRzz7cxcE+UZNbz84zo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=HNpnU9Zd8DAeSZfKxuFtGDo+jGSfd/6XQIg9f1Oi8Z/2SJVJSlv9rPzmNf5ddu5VW
-	 i/RPIIcXoxaW5wFWl5QkW8L381w0f7ttuX5k2j6QqEoyadTK74le59fowAsoLJLBT2
-	 bOZzFKTkziyL2cEa0f84Ynss5f0ZDyXAhB9ebYNoklPjQFQtr+aedpIedK/YGjec+q
-	 Ivv/jh+8iMWa56zS9yxzf866WRcjTXf6dVQCZ7ntDMrTaVbtmhvmyRB8oAKXJvwbZ4
-	 +YkQT/RAP1JGogqIS5+Ft4vukOJygTWrQUcv1U92qrPaXibBzx5bLVWHt/WoYpH5Ue
-	 p/lGSkaWDft9g==
+	b=b9pUBM26PmfbcN5ynAdlIZdrW9Xkb76wliPDJcYoT1bW8ZhqwsWeTjjK4Kt2YBS3m
+	 eAYDhfLTH5oQPe5zhEnzrZ6tZrgqqXjIDD5h+AqB1YfVXMmg8e0a+GTk/ehac4p5fm
+	 XemK52RNAzfHgcJcELEs7zQ3ycco1YNQ0z/KsWmUGIPxsLML3g7RObGPjStw9UmQxh
+	 b+LPwkJk9G0PDgqzNdr4WdmJegJdqKb/DJw0m27bBixdFsMhaHP8dX8CP2I3+a241/
+	 JYmBXJ+W8a51VCGCpiKm6PTlBDGfe+YoIL7MgQ/jUPgE5soKa3Kowqg1etTNm8s7B9
+	 l4mIaKDUfHX+A==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 23 Sep 2026 14:27:57 +0200
-Subject: [PATCH 5/8] fs: don't silently unmount busy mounts
+Date: Wed, 23 Sep 2026 14:27:58 +0200
+Subject: [PATCH 6/8] selftests/filesystems: check that a busy propagated
+ copy blocks a synchronous umount
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,253 +38,297 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260923-work-mount-fixes-v1-5-f424cf8d3242@kernel.org>
+Message-Id: <20260923-work-mount-fixes-v1-6-f424cf8d3242@kernel.org>
 References: <20260923-work-mount-fixes-v1-0-f424cf8d3242@kernel.org>
 In-Reply-To: <20260923-work-mount-fixes-v1-0-f424cf8d3242@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8497; i=brauner@kernel.org;
- h=from:subject:message-id; bh=KRI8omNOMCiI6IgA1rLIMiWlRU5g0GVvzt4XXgMRDW4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtPnpnyt616w8dr51wwb3Gc6pATEawhM4Wv47V01W84
- u/e7Plv3lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRzGxGhn/c3sntt/i3TFzf
- pez4+YvJM0OT1kMBtQ+mc4Q9KznkyMfIsHj+naMryjaFvLqctPBvAMvcx7HzJ8Y2RvY6PpqYwr0
- 8nQEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8062; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Tllj0uKBjTmwCLOIn8ujqNdwypgrc+xehfrSBLZSX4M=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtPnonvJ9BaEnZ8u2vjKZ6bnzVI9w+vfqjAFMTX1hrl
+ e6CuXK5HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNhWMnwV45Bu3WWxOrdDDMC
+ U7dfN4qKZNnsftKquKMzjNVwWf6ePYwMN1lSzSwsTavc5ieJKcqe27D836vtduWJ9ppT2mZ/iqn
+ jBQA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-The propagate_mount_busy() helper exists to decide whether a synchronous
-can suceed. It does that by looking at the copies of the victims in the
-mounts its parent propagates to. One of those functions from propagation
-hell.
+A slave namespace moves an open_tree() copy of the shared tree beneath
+the propagated copy of the victim and keeps the descriptor. Check that:
 
-It skips a copy that has child mounts except for the case of a single
-child mount covering the copy's root. That algorithm used to be exact.
-It isn't anymore.
+- umount(2) of the victim fails with EBUSY while the descriptor is open
 
-Originally only childless copies were unmounted during propagation.
-And 1064f874abc0 ("mnt: Tuck mounts under others instead of creating
-shadow/side mounts.") ended up adding covered mounts to both sides in
-one go.
+- the moved tree is still attached in the slave namespace afterwards
 
-Along came 99b19d16471e ("mnt: In propgate_umount handle visiting mounts
-in any order") and that started to unmount more than before:
+- the umount succeeds once the descriptor is closed
 
-[1]: A copy of a mount is unmounted when each of its children is either
-     its overmount or a copy of the victim itself. In the former case
-     the overmount gets reparented. In the latter case the copy of the
-     victim will end up being unmounted.
+The test needs CAP_SYS_ADMIN and skips otherwise.
 
-So propagate_umount() ended up being rewritten without adjusting
-propagate_mount_busy(). And currently propagate_mount_busy() doesn't
-look at copies of the victim that have two or more children nor a single
-child that is not the overmount.
-
-So any such copy in [1] is not checked for
-references. The result is that a synchronous unmount succeeds, pulling
-out a mount that is still in use.
-
-A container can run into this with its own mounts. The host shares a
-tree with the container and the host has a mount in that tree:
-
-  mount -t tmpfs none /mnt
-  mount --make-shared /mnt
-  mount -t tmpfs none /mnt/a
-
-The container's /mnt is a slave copy of the host mount. The container
-now takes a detached copy of the tree and mounts that copy beneath its
-propagated copy of /mnt/a and keeps the file descriptor to the tree
-open:
-
-  unshare -m --propagation unchanged
-  mount --make-rslave /
-  fd = open_tree(AT_FDCWD, "/mnt", OPEN_TREE_CLONE | AT_RECURSIVE)
-  move_mount(fd, "", AT_FDCWD, "/mnt/a", MOVE_MOUNT_BENEATH)
-
-  grep /mnt /proc/self/mountinfo
-  775 355 ... /mnt ...     master:646
-  777 775 ... /mnt/a ...   master:646
-  776 777 ... /mnt/a ...   master:647
-  778 777 ... /mnt/a/a ... master:647
-
-The now attached tree (777) is now mounted beneath the container's copy
-of /mnt/a. That's also where the host mount sits (as seen from the host
-mount namespace). So the propagated copy (776) of the host's mount is on
-top of its root and the copy of that (778) is inside it. Now the host
-runs:
-
-  umount /mnt/a
-
-and it succeeds. The moved tree tree and the copy inside of it are gone
-from the container. Now only the propagated copy is left and it got
-reparented to where it was before:
-
-  grep /mnt /proc/self/mountinfo
-  775 355 ... /mnt ... master:646
-  776 775 ... /mnt/a ...
-
-But the file descriptor still refers to the moved tree. So a synchronous
-umount detached a mount that is still in use.
-
-Teach propagate_mount_busy() the same checks that propagate_umount()
-does. It now checks for a single victim mount without children
-for which it can assume that MNT_LOCKED is cleared on every copy like
-propagate_umount() does. The copies form chains. IOW, when a copy itself
-receives propagation from the victim's parent then the mount at the same
-mountpoint inside that copy is a copy as well. Whether a mount receives
-propagation from the victim's can simply be checked by walking its
-masters. Walk each chain once from its top so we are sure that nested
-copies stay linear. Check every reference once of every copy that gets
-unmounted.
-
-Fixes: 99b19d16471e ("mnt: In propgate_umount handle visiting mounts in any order")
-Cc: stable@vger.kernel.org
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/pnode.c | 108 ++++++++++++++++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 90 insertions(+), 18 deletions(-)
+ tools/testing/selftests/Makefile                   |   1 +
+ .../filesystems/umount_propagation/Makefile        |   6 +
+ .../umount_propagation/umount_propagation_test.c   | 226 +++++++++++++++++++++
+ 3 files changed, 233 insertions(+)
 
-diff --git a/fs/pnode.c b/fs/pnode.c
-index 5d91c3e58d2a..2cd667958efe 100644
---- a/fs/pnode.c
-+++ b/fs/pnode.c
-@@ -410,19 +410,99 @@ bool propagation_would_overmount(const struct mount *from,
- 	return false;
- }
- 
-+/* Does @m receive propagation from @parent? */
-+static bool receives_from(struct mount *m, struct mount *parent)
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index a3df9a15ebb7..43d4a33afe71 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -51,6 +51,7 @@ TARGETS += filesystems/fsmount_ns
+ TARGETS += filesystems/fscontext_ns
+ TARGETS += filesystems/xattr
+ TARGETS += filesystems/mntns_unbindable
++TARGETS += filesystems/umount_propagation
+ TARGETS += firmware
+ TARGETS += fpu
+ TARGETS += ftrace
+diff --git a/tools/testing/selftests/filesystems/umount_propagation/Makefile b/tools/testing/selftests/filesystems/umount_propagation/Makefile
+new file mode 100644
+index 000000000000..fc0a0783018b
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/umount_propagation/Makefile
+@@ -0,0 +1,6 @@
++# SPDX-License-Identifier: GPL-2.0
++TEST_GEN_PROGS := umount_propagation_test
++
++CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
++
++include ../../lib.mk
+diff --git a/tools/testing/selftests/filesystems/umount_propagation/umount_propagation_test.c b/tools/testing/selftests/filesystems/umount_propagation/umount_propagation_test.c
+new file mode 100644
+index 000000000000..9e18d54dfb32
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/umount_propagation/umount_propagation_test.c
+@@ -0,0 +1,226 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * A synchronous umount fails with EBUSY when a mount it would pull out by
++ * propagation is still in use.
++ */
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <sched.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/mount.h>
++#include <sys/stat.h>
++#include <sys/syscall.h>
++#include <sys/wait.h>
++#include <unistd.h>
++#include <linux/mount.h>
++#include <linux/stat.h>
++
++#include "../../kselftest_harness.h"
++
++#ifndef OPEN_TREE_CLONE
++#define OPEN_TREE_CLONE		1
++#endif
++#ifndef OPEN_TREE_CLOEXEC
++#define OPEN_TREE_CLOEXEC	O_CLOEXEC
++#endif
++#ifndef AT_RECURSIVE
++#define AT_RECURSIVE		0x8000
++#endif
++#ifndef MOVE_MOUNT_F_EMPTY_PATH
++#define MOVE_MOUNT_F_EMPTY_PATH	0x00000004
++#endif
++#ifndef MOVE_MOUNT_BENEATH
++#define MOVE_MOUNT_BENEATH	0x00000200
++#endif
++#ifndef STATX_MNT_ID
++#define STATX_MNT_ID		0x00001000U
++#endif
++
++static int sys_open_tree(int dfd, const char *filename, unsigned int flags)
 +{
-+	if (m == parent)
++	return syscall(__NR_open_tree, dfd, filename, flags);
++}
++
++static int sys_move_mount(int from_dfd, const char *from_pathname,
++			  int to_dfd, const char *to_pathname,
++			  unsigned int flags)
++{
++	return syscall(__NR_move_mount, from_dfd, from_pathname, to_dfd,
++		       to_pathname, flags);
++}
++
++/* Child exit codes. */
++enum {
++	CHILD_OK,
++	CHILD_UNSHARE,		/* could not set up the slave namespace */
++	CHILD_OPEN_TREE,	/* open_tree() failed */
++	CHILD_MOVE_MOUNT,	/* move_mount() failed */
++	CHILD_STATX,		/* statx() failed */
++	CHILD_PIPE,		/* the parent went away */
++};
++
++/* Messages between parent and child. */
++enum {
++	MSG_READY = 'r',	/* child: the copy is mounted and referenced */
++	MSG_CHECK = 'c',	/* parent: check that the copy is still attached */
++	MSG_ATTACHED = 'a',	/* child: it is */
++	MSG_DETACHED = 'd',	/* child: it is not */
++	MSG_CLOSE = 'x',	/* parent: drop the reference */
++	MSG_CLOSED = 'y',	/* child: dropped */
++	MSG_EXIT = 'e',		/* parent: done */
++};
++
++FIXTURE(umount_propagation)
++{
++	char base[64];
++	char victim[80];
++	bool mounted;
++};
++
++FIXTURE_SETUP(umount_propagation)
++{
++	self->mounted = false;
++
++	if (geteuid() != 0)
++		SKIP(return, "test requires CAP_SYS_ADMIN");
++
++	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
++	ASSERT_EQ(mount("", "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
++
++	snprintf(self->base, sizeof(self->base), "/tmp/umount_propagation.XXXXXX");
++	ASSERT_NE(mkdtemp(self->base), NULL);
++	ASSERT_EQ(mount("tmpfs", self->base, "tmpfs", 0, NULL), 0);
++	self->mounted = true;
++	ASSERT_EQ(mount(NULL, self->base, NULL, MS_SHARED, NULL), 0);
++
++	snprintf(self->victim, sizeof(self->victim), "%s/victim", self->base);
++	ASSERT_EQ(mkdir(self->victim, 0755), 0);
++	ASSERT_EQ(mount("tmpfs", self->victim, "tmpfs", 0, NULL), 0);
++}
++
++FIXTURE_TEARDOWN(umount_propagation)
++{
++	if (self->mounted)
++		umount2(self->base, MNT_DETACH);
++	rmdir(self->base);
++}
++
++static int send_msg(int fd, char msg)
++{
++	return write(fd, &msg, 1) == 1 ? 0 : -1;
++}
++
++static char recv_msg(int fd)
++{
++	char msg;
++
++	if (read(fd, &msg, 1) != 1)
++		return 0;
++	return msg;
++}
++
++/* Is the mount with id @mnt_id attached in this mount namespace? */
++static bool mount_attached(__u64 mnt_id)
++{
++	char line[4096];
++	bool found = false;
++	FILE *f;
++
++	f = fopen("/proc/self/mountinfo", "re");
++	if (!f)
 +		return false;
-+	for (; m; m = m->mnt_master)
-+		if (m == parent || peers(m, parent))
-+			return true;
-+	return false;
++
++	while (fgets(line, sizeof(line), f)) {
++		if (strtoull(line, NULL, 10) == mnt_id) {
++			found = true;
++			break;
++		}
++	}
++	fclose(f);
++	return found;
 +}
 +
 +/*
-+ * Does @m receive propagation from the victim's parent as well? If so, then
-+ * the mount at the victim's mountpoint inside of @m is a umount candidate as
-+ * well. So it's the next candidate in the chain. Otherwise the chain ends at
-+ * @m.
++ * The slave namespace: take a detached copy of the shared tree and move it
++ * beneath the propagated copy of the victim, keeping the open_tree()
++ * descriptor as a reference on it.
 + */
-+static struct mount *next_candidate(struct mount *m, struct mount *victim)
++static int slave_child(const char *base, const char *victim, int to_parent,
++		       int from_parent)
 +{
-+	if (!receives_from(m, victim->mnt_parent))
-+		return NULL;
-+	return __lookup_mnt(&m->mnt, victim->mnt_mountpoint);
++	struct statx stx;
++	int fd;
++
++	if (unshare(CLONE_NEWNS))
++		return CHILD_UNSHARE;
++	if (mount("", "/", NULL, MS_REC | MS_SLAVE, NULL))
++		return CHILD_UNSHARE;
++
++	fd = sys_open_tree(AT_FDCWD, base,
++			   OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC | AT_RECURSIVE);
++	if (fd < 0)
++		return CHILD_OPEN_TREE;
++	if (sys_move_mount(fd, "", AT_FDCWD, victim,
++			   MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_BENEATH))
++		return CHILD_MOVE_MOUNT;
++	if (statx(fd, "", AT_EMPTY_PATH, STATX_MNT_ID, &stx))
++		return CHILD_STATX;
++
++	if (send_msg(to_parent, MSG_READY) || recv_msg(from_parent) != MSG_CHECK)
++		return CHILD_PIPE;
++	if (send_msg(to_parent, mount_attached(stx.stx_mnt_id) ?
++				MSG_ATTACHED : MSG_DETACHED))
++		return CHILD_PIPE;
++
++	if (recv_msg(from_parent) != MSG_CLOSE)
++		return CHILD_PIPE;
++	close(fd);
++	if (send_msg(to_parent, MSG_CLOSED) || recv_msg(from_parent) != MSG_EXIT)
++		return CHILD_PIPE;
++	return CHILD_OK;
 +}
 +
-+/*
-+ * Would propagate_umount() pull out a mount of the chain of candidates that
-+ * starts at @c, and does that mount have references beyond its own?
-+ *
-+ * This mirrors how trim_one(), trim_ancestors() and handle_locked() handle a
-+ * synchronous umount:
-+ *
-+ * - single victim
-+ * - without children
-+ * - with MNT_LOCKED already cleared on every candidate by propagate_mount_unlock()
-+ *
-+ * A copy of the victim gets unmounted when each of its children is
-+ * the next candidate in the chain or its overmount, unless the next
-+ * unmount candidate is not its overmount and some unmount candidate further
-+ * down has a child outside the chain.  Keep this in sync with
-+ * Documentation/filesystems/propagate_umount.txt.
-+ */
-+static bool chain_busy(struct mount *c, struct mount *victim)
++TEST_F(umount_propagation, busy_copy_pulled_out)
 +{
-+	struct mount *m, *n, *next, *deepest = NULL;
-+	bool above;
++	int to_child[2], to_parent[2];
++	int status;
++	pid_t pid;
 +
-+	/* the deepest candidate with a child outside the chain */
-+	for (m = c; m; m = next) {
-+		next = next_candidate(m, victim);
-+		list_for_each_entry(n, &m->mnt_mounts, mnt_child) {
-+			if (n != next && n != victim) {
-+				deepest = m;
-+				break;
-+			}
-+		}
++	ASSERT_EQ(pipe(to_child), 0);
++	ASSERT_EQ(pipe(to_parent), 0);
++
++	pid = fork();
++	ASSERT_GE(pid, 0);
++	if (pid == 0) {
++		close(to_child[1]);
++		close(to_parent[0]);
++		_exit(slave_child(self->base, self->victim, to_parent[1],
++				  to_child[0]));
 +	}
++	close(to_child[0]);
++	close(to_parent[1]);
 +
-+	above = deepest != NULL;	/* @deepest is at or below @m */
-+	for (m = c; m; m = next) {
-+		bool goes = true;
++	ASSERT_EQ(recv_msg(to_parent[0]), MSG_READY);
 +
-+		next = next_candidate(m, victim);
-+		list_for_each_entry(n, &m->mnt_mounts, mnt_child) {
-+			if (n != next && n != m->overmount && n != victim) {
-+				goes = false;
-+				break;
-+			}
-+		}
-+		if (goes && next && next != m->overmount && above && m != deepest)
-+			goes = false;
-+		if (m == deepest)
-+			above = false;
-+		if (goes && do_refcount_check(m, 1))
-+			return true;
-+	}
-+	return false;
++	/* the copy in the slave namespace is in use */
++	ASSERT_EQ(umount2(self->victim, 0), -1);
++	ASSERT_EQ(errno, EBUSY);
++
++	ASSERT_EQ(send_msg(to_child[1], MSG_CHECK), 0);
++	ASSERT_EQ(recv_msg(to_parent[0]), MSG_ATTACHED);
++
++	/* and once it is not, the umount goes through */
++	ASSERT_EQ(send_msg(to_child[1], MSG_CLOSE), 0);
++	ASSERT_EQ(recv_msg(to_parent[0]), MSG_CLOSED);
++	ASSERT_EQ(umount2(self->victim, 0), 0);
++
++	ASSERT_EQ(send_msg(to_child[1], MSG_EXIT), 0);
++	ASSERT_EQ(waitpid(pid, &status, 0), pid);
++	ASSERT_TRUE(WIFEXITED(status));
++	ASSERT_EQ(WEXITSTATUS(status), CHILD_OK);
 +}
 +
- /*
-  * check if the mount 'mnt' can be unmounted successfully.
-  * @mnt: the mount to be checked for unmount
-  * NOTE: unmounting 'mnt' would naturally propagate to all
-  * other mounts its parent propagates to.
-- * Check if any of these mounts that **do not have submounts**
-- * have more references than 'refcnt'. If so return busy.
-+ * Check if any of the mounts that propagate_umount() would pull out
-+ * along with it have more references than their own. If so return busy.
-  *
-  * vfsmount lock must be held for write
-  */
- int propagate_mount_busy(struct mount *mnt, int refcnt)
- {
- 	struct mount *parent = mnt->mnt_parent;
-+	struct dentry *mp = mnt->mnt_mountpoint;
-+	struct mount *m;
- 
- 	/*
- 	 * quickly check if the current mount can be unmounted.
-@@ -435,24 +515,16 @@ int propagate_mount_busy(struct mount *mnt, int refcnt)
- 	if (mnt == parent)
- 		return 0;
- 
--	for (struct mount *m = propagation_next(parent, parent); m;
--	     		m = propagation_next(m, parent)) {
--		struct list_head *head;
--		struct mount *child = __lookup_mnt(&m->mnt, mnt->mnt_mountpoint);
-+	/* the candidates are the mounts at @mp below the receivers */
-+	for (m = propagation_next(parent, parent); m;
-+	     m = propagation_next(m, parent)) {
-+		struct mount *c = __lookup_mnt(&m->mnt, mp);
- 
--		if (!child)
-+		/* each chain once, from its top: skip receivers that are candidates */
-+		if (!c || (mnt_has_parent(m) && m->mnt_mountpoint == mp &&
-+			   receives_from(m->mnt_parent, parent)))
- 			continue;
--
--		head = &child->mnt_mounts;
--		if (!list_empty(head)) {
--			/*
--			 * a mount that covers child completely wouldn't prevent
--			 * it being pulled out; any other would.
--			 */
--			if (!list_is_singular(head) || !child->overmount)
--				continue;
--		}
--		if (do_refcount_check(child, 1))
-+		if (chain_busy(c, mnt))
- 			return 1;
- 	}
- 	return 0;
++TEST_HARNESS_MAIN
 
 -- 
 2.53.0
