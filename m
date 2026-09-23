@@ -1,133 +1,177 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB95531624;
-	Wed, 23 Sep 2026 15:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A0053C3D2;
+	Wed, 23 Sep 2026 15:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790178844; cv=none; b=f36jTjM4pWiwm6PJiqaxknHI60RfL+Xv1sbiFG/S5GBWP8lJkD+oAFAlM5a7yhQFwQYH+2v7bDik8sSqCrdtm9nKJC6GHNj2Ih3Hbnr1L+TafvScmuyqIyLn0j8YaDBDMym3GEniYF7Tk/7gR8vYMu8orxTvFUXaPKjcj6ieDSk=
+	t=1790178847; cv=none; b=UK7KiHlHPMcx95JFhpXTcYBH7GDGmOUMFggzglJP2tMI5qCVhk3xox24s5DXWpVTV9RmZTc23ExJKqJxDrdeMqkh/UySaiMMJlk8RNatcHuL5khtffZYrL7sFD7LmaBFM8rSTxgRbkx6vDy+9Po94XKNxvVCqMFWKhsY2WWkzQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790178844; c=relaxed/simple;
-	bh=k7jzcVlXfL+ueAsxa1cZENIgayVIdQ5+9sdM2W3ajvw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=MdVoQz5x/YU7qLnuxJR6PHWiKHcyWeOKe6Ax4wpInGhKHmPkJCAyU2tx9+uTnn8kYSBQfQ6OCfGEVRWmmNSePLZHomA6Nd+fQ/uIV8oQAFzhptrLNKRyN/C6MfCCsutmt+IegisfXTSx8Ilb6s3hJFvnApaPv0wy412tWLuIrrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=htG+2zs3; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=eKvOEdIh; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790178847; c=relaxed/simple;
+	bh=J6iRxLrD4DDe9CKcU5VUOBrrbnObxkIIizlaLKxQ6Vs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WxYEXPgLYsZD9MjhXDPfCqF9E6MRnAWrJGvmqcfgA/DG0Rm2l1Lt2xvLtR/tZSfGX5IZR2Mi7cfnNGk9dx4ZStl3AWqpDpWQ8zqec6wLyNUcDvh5cA7nDlCCOnKVtlBw6f9JILzCHtJLRlz9bc5bmIPXvkWE+vCMsNMn62NVfcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kO69tl0G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="htG+2zs3";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="eKvOEdIh"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790178833; bh=BPF6cXxNRxHC5V0POq81PDg
-	zHKxD2bonBRc3REH9gSs=; b=htG+2zs3xh0IUx3Jq2cwkoMNIXsgKajpVZLujvuuTmGbg25Y3C
-	Ij2/YxzHthhKTJeaHKbY1UtWVJ5mRhWYGt1qiP5D3LAlnXKZYZKsMSHYtB/G0xhYGJYa6YDaBw/
-	k5+XuOMzOA46M3ijueNtryfslCfFBN9D8f/47mTELPviJqpy2P4EJcOUtkJbZuAe4TthsiFv7Iz
-	k29os3+vSNj6U4ll1XDqoNNBWUbDQfGo7SMez1bDldZuW5nA/9HXzvyrWdFT4fNDC0iqNtJHedJ
-	nNcYB9FYUslLTqFIVHH4pxQMZGLx8djARsXrZQSE1XmflKaoZY4obM5fKNC4/wUWbbg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790178833; bh=BPF6cXxNRxHC5V0POq81PDg
-	zHKxD2bonBRc3REH9gSs=; b=eKvOEdIhcFvIAiToLb3cgh4J+LAxi7K8MuNws3WyNid81LUc1/
-	N4RzmmwbPcsHcqNEabDqZo5Pe1qo9pmWJaBA==;
-Date: Wed, 23 Sep 2026 16:53:54 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Zhan Xusheng <zhanxusheng1024@gmail.com>,
- Joel Granados <joel.granados@kernel.org>
-CC: Zhan Xusheng <zhanxusheng@xiaomi.com>, Kees Cook <kees@kernel.org>,
- Shuah Khan <shuah@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_2/2=5D_selftests=3A_sysctl=3A_Che?=
- =?US-ASCII?Q?ck_the_sign_of_a_negative_jiffies_read?=
-In-Reply-To: <20260923144940.3712965-3-zhanxusheng@xiaomi.com>
-References: <20260923144940.3712965-1-zhanxusheng@xiaomi.com> <20260923144940.3712965-3-zhanxusheng@xiaomi.com>
-Message-ID: <6DBE514E-E307-4E8E-999B-1B5592CE9AC5@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kO69tl0G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EF3C1F000FF;
+	Wed, 23 Sep 2026 15:53:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790178845;
+	bh=wAV8stNGXVD0suD8B1a8qtsl7mm0RfyqHixhi/NZx3k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kO69tl0GVqEJBDtzXtj722GeS02r981KicvQg4cQHtdo8zYbHSuzX4xKugLSuxZ80
+	 hNKF+inpI1rG93f1F5QhrTtVFxLcKRCTL+snyRWCp/N/q3HEczsFeIqExmwrr7tt/Y
+	 BvYVVTOYIPgApkyrBXMn24Qh05xMwuFcGHVzqgJTNe/gle65zMUCXYN6+65S4HSHY7
+	 tGBuhIwWJ1Pazb14YseddKo0V64lXM6Wy4pe1LmUGi7p3l+GZYljbhlHPVyxqBuygF
+	 nqC8DLo3R+mPNhwr+2JNkPsIA6gODez9Nt0VUzmMq2DMdlQhA1/ymS6rMHMT1y9mfa
+	 Lr1sgEWelyeVQ==
+Date: Wed, 23 Sep 2026 16:53:33 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 02/40] mm/vma: predicate setting mmap_prepare VMA
+ fields on new vma alloc
+Message-ID: <arP0oJgrgZlgtrb6@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-2-4583d8a23bca@kernel.org>
+ <CAJuCfpEa8tUmYJBjx-cRdAE8y-jcKY0C81kAOa1QZS7F6tKdfQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpEa8tUmYJBjx-cRdAE8y-jcKY0C81kAOa1QZS7F6tKdfQ@mail.gmail.com>
 
-On 23 September 2026 15:49:37 BST, Zhan Xusheng <zhanxusheng1024@gmail.com>
-wrote:
->proc_int_k2u_conv_kop() returns the sign through *negp and the magnitude
->through *u_ptr.  For a negative value it used to convert the
->sign-extended int and negate afterwards, so the magnitude came back as a
->wrapped 64-bit number.  Nothing noticed, because no test wrote a
->negative value to a jiffies sysctl.
+On Wed, Sep 23, 2026 at 08:32:43AM -0700, Suren Baghdasaryan wrote:
+> On Thu, Sep 17, 2026 at 9:24 AM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> >
+> > It only makes sense to manipulate VMA fields if we allocated a new VMA,
+> > rather than merged it.
+> >
+> > VMA merging does not compare vm_ops or vm_private_data, so a merged VMA
+> > keeps its own, which is also what the legacy f_op->mmap path does since it
+> > never touches an existing VMA. Previously set_vma_user_defined_fields()
+> > overwrote the merged VMA's fields with those set for the new mapping. In
+> > practice these are the same values, with rare exceptions such as shmem
+> > selecting vm_ops based on whether the file has been unlinked, so no
+> > user-visible change is expected.
+> >
+> > Make this dependency explicit, and additionally constify have_mmap_prepare
+> > while we're here.
 >
->Write one to each of the three int converters and require the value to
->read back unchanged.  Each value is chosen to convert exactly at every
->CONFIG_HZ, so the test does not depend on it:
+> The fact that we might be overriding attributes of an existing VMA
+> that we merged with is technically a bug even if we never hit it,
+> right? If so, should we have:
 >
->	converter		write	jiffies stored	reads back
->	jiffies			-1	-HZ		-1
->	ms_jiffies		-1000	-HZ		-1000
->	userhz_jiffies		-100	-HZ		-100
->
->On a kernel without the fix, at CONFIG_HZ=250:
->
->  # int_jiffies: got '-18372957097414713411', want '-1'
->  # int_ms_jiffies: got '-18446744069414585320', want '-1000'
->  # int_userhz_jiffies: got '-18446742229035144346', want '-100'
->  not ok 1 test_int_jiffies_negative
->
->(paths shortened; the runner prints them under
->/proc/sys/debug/test_sysctl)
->
->Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
->---
-> tools/testing/selftests/sysctl/sysctl.sh | 23 +++++++++++++++++++++++
-> 1 file changed, 23 insertions(+)
->
->diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
->index ceb5cfa0cfd4..ad1ee0fccd7c 100755
->--- a/tools/testing/selftests/sysctl/sysctl.sh
->+++ b/tools/testing/selftests/sysctl/sysctl.sh
->@@ -328,6 +328,29 @@ test_int_plain()
-> 	assert_int_range "$t" "$baseline" || RET=$KSFT_FAIL
-> }
-> 
->+# The jiffies converters report the sign separately from the magnitude, so a
->+# negative value must survive the round trip through the converter.  Each
->+# value below is chosen to convert exactly at every CONFIG_HZ.
+> Fixes: c84bf6dd2b83 ("mm: introduce new .mmap_prepare() file callback")
 
-I have a feeling this could be decreased, but I don't care.
+It's not a bug, it is an in-built assumption that the state used to assess
+mergeability implies the same properties.
 
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
+And if it was, it'd need fixing a different way (check the field for instance)
+and would apply to the legacy mmap hook also.
 
+This change is needed for the series though.
 
-Tested on PowerPC: 
-
-Tested-by: Bradley Morgan <brads@mainlining.org> # POWER10
-
->+test_int_jiffies_negative()
->+{
->+	local t="${SYSCTL}/int_jiffies"
->+	local m="${SYSCTL}/int_ms_jiffies"
->+	local u="${SYSCTL}/int_userhz_jiffies"
->+
->+	[[ -f "$t" && -f "$m" && -f "$u" ]] || { RET=$KSFT_SKIP; return; }
->+
->+	printf '%s' "-1" > "$t"
->+	assert_content "$t" "-1" || RET=$KSFT_FAIL
->+	printf '%s' "-1000" > "$m"
->+	assert_content "$m" "-1000" || RET=$KSFT_FAIL
->+	printf '%s' "-100" > "$u"
->+	assert_content "$u" "-100" || RET=$KSFT_FAIL
->+
->+	# The positive path was never broken; keep it covered.
->+	printf '%s' "1" > "$t"
->+	assert_content "$t" "1" || RET=$KSFT_FAIL
->+}
->+
-> test_uint_plain()
-> {
-> 	local t="${SYSCTL}/uint_0001"
 >
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>
+> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+Thanks!
+
+>
+> > ---
+> >  mm/vma.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/mm/vma.c b/mm/vma.c
+> > index fa784f069da4..4b74b48c29b7 100644
+> > --- a/mm/vma.c
+> > +++ b/mm/vma.c
+> > @@ -2894,7 +2894,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+> >  {
+> >         struct mm_struct *mm = current->mm;
+> >         struct vm_area_struct *vma = NULL;
+> > -       bool have_mmap_prepare = file && file->f_op->mmap_prepare;
+> > +       const bool have_mmap_prepare = file && file->f_op->mmap_prepare;
+> >         VMA_ITERATOR(vmi, mm, addr);
+> >         const pgoff_t anon_pgoff = addr >> PAGE_SHIFT;
+> >         MMAP_STATE(map, mm, &vmi, addr, len, pgoff, anon_pgoff, vma_flags, file);
+> > @@ -2937,7 +2937,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+> >                 allocated_new = true;
+> >         }
+> >
+> > -       if (have_mmap_prepare && !map_is_anon(&map))
+> > +       if (have_mmap_prepare && allocated_new && !map_is_anon(&map))
+> >                 set_vma_user_defined_fields(vma, &map);
+> >
+> >         __mmap_complete(&map, vma);
+> >
+> > --
+> > 2.55.0
+> >
+
+--
+Cheers, Lorenzo
