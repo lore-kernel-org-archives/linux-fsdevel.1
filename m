@@ -1,117 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BAC41B8CA
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 12:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F9D328B4B;
+	Wed, 23 Sep 2026 13:07:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790166511; cv=none; b=u2XbYT4xosPF9SZ4ehaaCxsvqOINjJPo9ywS/NV3xIz3EG2wRLekzGTMx50kDhpHsVJItiqZT5Q5g9SFL24tqJpc+6tuoMIHPZ0ip5rupdOj5qZ+SqcKUgfrVdbeGUOEy0Rr2VO8G56hr2xlSfuaXtwNwVEYruCMYuKNmx0+spo=
+	t=1790168838; cv=none; b=s8a/LXL8FthNaXY84O1ivP1AII4JwifzhvIEzCR4j6ytFbsJ8QJy8LamFcLcw85ha411bN/zaD3OciRk2XVSpPTtqBdjP3U6nKOGtdukdRggEgktynUkXl62hnG8Vwxcu9T0VzCJUo8VFlotWlGvr5iVAiwSwrlDb5Ia1fbS/nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790166511; c=relaxed/simple;
-	bh=y0Mdtx3/Z3AZJqZdxLLTsqalzPbfJWqaGY0vfHwFB80=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BwE5y1rUvH4Ml/b8ul1LSB7lyJqHiSeapOXN9Gty79p3hqRgkqnFtqJBjzCxk/kiwrftVc8Pl0nfvmkK0+/vQ8Mrei6DZiy6yEku5+ry86k+BPAn8bn4C6czsbZL9DwK0/GnfgM3Fz8tBPV/idwfoOYBXHbDknFFZe5wHEPxW14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UW81KwUq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790168838; c=relaxed/simple;
+	bh=AUXX0lLET+vhI6Ykx8+X33/sdAZKJETzskzKzmf6SPk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iEE4UPQJryAvgGUTKzBbU6wVzX3uVQiVK1gfD+4MVULpUL+FPypGuw/P6tyfTFI9JSE2kMOiKxq6rdFGcXvf4ZCiXLnQzt0OFHoynQK2ywuLAxxijEFKIXJJ5kUndkqpJrmcQHbATyMfYX+SGoSof3Yuk1LL0/Lxyz5JVtP6JTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PoA6KOtM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UW81KwUq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC1711F000FF;
-	Wed, 23 Sep 2026 12:28:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PoA6KOtM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 210F31F00893;
+	Wed, 23 Sep 2026 13:07:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790166509;
-	bh=axtjfPesIWkMIxoP/WDWd7/vQd10iF8HFXWD1MQ/C/Q=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=UW81KwUq/QcFY1Ic7wZ68gB6LvaktcCkiIqIXruYuxOFI2iNRa/B/fGvJkWguRZOZ
-	 GGjsfGf+hj6G1fXSxyA+DGYYGN+Sorui0lPuYSVHqY8Lq4fEASwFihXNzgZZQTk8zZ
-	 t7EvQLbua/kyJ8COYwVacarBaYpYaWEjQJBuvFTn6nQIIalU+CuYGfSVHMrP5gCbR7
-	 GqsYVbUQFIQIIDZ8id79XXESHrqrvcAY7cPvxsNpxKkxWzJNaHM8hkgw8Zh4ECq2Ue
-	 OIoOH4Y3fO+E3pxbfoEDKtCS9k9dV2YL+YnNcfyvtGJhjwec0WatrtpVTBBWNF5Nwe
-	 s6SUl5qmxe4AA==
-From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 23 Sep 2026 14:28:00 +0200
-Subject: [PATCH 8/8] docs: update the unmount propagation rule
+	s=k20260515; t=1790168836;
+	bh=V8j3QTNFK1gOVjs7UmpTiFVyMmeLvCeDqRqufg2zvtU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PoA6KOtMm5ehTm1iX//8yFUmxRmpVHuInQ+U6/jlOBljmXgRxBa4Heiaxoc1FHwj7
+	 K8Pfno5NbSknUPxIFQQsWYvgeUS6EmqOsSk1+rBifl6M2cELWo8KxVhAtdIws0Q1Y2
+	 91IOWz5gk0/3BrMLhLideayf2y/+hNgAORdQ2TIrL80FQaIPVRcGdtZaQvWym0hrGZ
+	 7mDscITsdhrlBDzdOZxyVHzret0gz7jj8JDAeLaeJYK6vE25juu2uNpbH9n98t3AWc
+	 LKTk+Ny3EOhFKshDNooiYDB9IzzWoP5iP5C2CgBus4Zl7592bYPn1pFGpk7b6uvz6X
+	 ws7V57DdbcCeA==
+Date: Wed, 23 Sep 2026 15:07:11 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Bradley Morgan <brads@mainlining.org>
+Cc: zhanxusheng1024@gmail.com, kees@kernel.org, kuniyu@google.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	zhanxusheng@xiaomi.com
+Subject: Re: [PATCH 1/2] sysctl: Negate before converting in the int read path
+Message-ID: <j55ziuijejg3kefuhi2du37d7qechruzchgigp3c55stuhtkh2@fddifpg5kxzq>
+References: <20260922031229.2300283-2-zhanxusheng@xiaomi.com>
+ <867A30A7-5460-4988-A078-09D0B4BCD44C@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260923-work-mount-fixes-v1-8-f424cf8d3242@kernel.org>
-References: <20260923-work-mount-fixes-v1-0-f424cf8d3242@kernel.org>
-In-Reply-To: <20260923-work-mount-fixes-v1-0-f424cf8d3242@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2787; i=brauner@kernel.org;
- h=from:subject:message-id; bh=y0Mdtx3/Z3AZJqZdxLLTsqalzPbfJWqaGY0vfHwFB80=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtPnqHk1VjVUbkhbkb0x9FLWyXrUvqKPXM+JM4QemG5
- 3WB/VxBHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOZ28vwz/R5Ym/QSalo6zOJ
- 3OtYZ7Jd/MTs9tJymVFIxM7StYteb2Fk+GBbyBEmfn/9y+J5JafZzV1ZHNWN1dukWJdfmPDrfN1
- 8VgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eppq62ztiji2q7bc"
+Content-Disposition: inline
+In-Reply-To: <867A30A7-5460-4988-A078-09D0B4BCD44C@mainlining.org>
 
-Section 5f still describes the rule propagate_umount() used before
-commit f0d0ba19985d ("Rewrite of propagate_umount()"). It states that a
-mount that receives the unmount by propagation is left alone as soon as
-it has any submount. That's not true anymore.
 
-A propagated unmount unmounts a mount with sub-mounts as long as every
-sub-mount gets unmounted together with it. This is the case when the
-sub-mounts are unmounted by the same propagation. Only a sub-mount that
-cannot be unmounted keeps its parent mounted.
+--eppq62ztiji2q7bc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The section also only describes a single mount without sub-mounts. But
-lazy unmounts take a tree and every mount of the tree propagates its
-unmount from its parent mount.
+On Tue, Sep 22, 2026 at 07:37:57AM +0100, Bradley Morgan wrote:
+> On 22 September 2026 04:12:27 BST, Zhan Xusheng <zhanxusheng1024@gmail.co=
+m>
+> wrote:
+> >proc_int_k2u_conv_kop() reports the sign through *negp and the magnitude
+> >through *u_ptr, but for a negative value it hands the sign-extended int =
+to
+> >the converter and negates the result:
+> >
+> >	*u_ptr =3D k_ptr_op ? -k_ptr_op((ulong)val) : -(ulong)val;
+> >
+> >With div_hz() and HZ=3D1000 a stored -1000 becomes
+> >(ulong)-1000 / 1000 =3D=3D 18446744073709550, and negating that wraps:
+> >
+> >	# echo -1 > /proc/sys/net/ipv4/tcp_fin_timeout
+> >	# cat /proc/sys/net/ipv4/tcp_fin_timeout
+> >	-18428297329635842066
+> >
+> >Take the magnitude first and convert that, which is what the open-coded
+> >version did before commit 2dc164a48e6f ("sysctl: Create converter
+> >functions with two new macros") folded it into a macro.  The
+> >k_ptr_op =3D=3D NULL branch was already correct.
+> >
+> >proc_dointvec_jiffies() and proc_dointvec_ms_jiffies() are affected.
+> >
+> >Fixes: 2dc164a48e6f ("sysctl: Create converter functions with two new ma=
+cros")
+> >Cc: stable@vger.kernel.org
+> >Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+> >---
+> > kernel/sysctl.c | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> >diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> >index f7b75985d542..38597f26b34c 100644
+> >--- a/kernel/sysctl.c
+> >+++ b/kernel/sysctl.c
+> >@@ -483,7 +483,7 @@ int proc_int_k2u_conv_kop(ulong *u_ptr, const int *k=
+_ptr, bool *negp,
+> >=20
+> > 	if (val < 0) {
+> > 		*negp =3D true;
+> >-		*u_ptr =3D k_ptr_op ? -k_ptr_op((ulong)val) : -(ulong)val;
+> >+		*u_ptr =3D k_ptr_op ? k_ptr_op(-(ulong)val) : -(ulong)val;
+> > 	} else {
+> > 		*negp =3D false;
+> > 		*u_ptr =3D k_ptr_op ? k_ptr_op((ulong)val) : (ulong) val;
+> >
+> I didn't do much crazy review here, but I think this LGTM! :)
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- Documentation/filesystems/sharedsubtree.rst | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+If you didn't do much, please don't send the mail.
 
-diff --git a/Documentation/filesystems/sharedsubtree.rst b/Documentation/filesystems/sharedsubtree.rst
-index 8b7dc9159083..8bae6d9a7e04 100644
---- a/Documentation/filesystems/sharedsubtree.rst
-+++ b/Documentation/filesystems/sharedsubtree.rst
-@@ -564,8 +564,8 @@ f) Unmount semantics
-    where 'A' is a mount mounted on mount 'B' at dentry 'b'.
- 
-    If mount 'B' is shared, then all most-recently-mounted mounts at dentry
--   'b' on mounts that receive propagation from mount 'B' and does not have
--   sub-mounts within them are unmounted.
-+   'b' on mounts that receive propagation from mount 'B' are unmounted as
-+   well, if every mount below them is also unmounted.
- 
-    Example: Let's say 'B1', 'B2', 'B3' are shared mounts that propagate to
-    each other.
-@@ -584,10 +584,18 @@ f) Unmount semantics
- 
-    So all 'C1', 'C2' and 'C3' should be unmounted.
- 
--   If any of 'C2' or 'C3' has some child mounts, then that mount is not
--   unmounted, but all other mounts are unmounted. However if 'C1' is told
--   to be unmounted and 'C1' has some sub-mounts, the umount operation is
--   failed entirely.
-+   If any of 'C2' or 'C3' has a child mount that cannot be unmounted
-+   then that mount is not unmounted. But all other mounts are unmounted.
-+   A child mount that is itself unmounted by the same unmount
-+   propagation does not keep its parent mounted. However if 'C1' is
-+   supposed to be unmounted and 'C1' has some sub-mounts, the unmount
-+   fails.
-+
-+   A lazy umount (MNT_DETACH) takes a whole tree. Every mount of the
-+   tree then propagates its unmount from its own parent as described
-+   above, so the mounts that receive propagation lose the corresponding
-+   trees as well. Documentation/filesystems/propagate_umount.txt has the
-+   precise rules, including the ones for locked mounts.
- 
- g) Clone Namespace
- 
+>=20
+> Reviewed-by: Bradley Morgan <brads@mainlining.org>
+>=20
+> --- Thanks!
+> "I'm not a very positive person" - Linus torvalds
 
--- 
-2.53.0
+--eppq62ztiji2q7bc
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqzzv4ACgkQupfNUreW
+QU+69AwAmHrA2+jE3WrC5me63jtEy+bAn63/JvtpLn5pHMQnYIFmUXWCzvVCPnI9
+vjSghr4AmzTDe3sehrQnaZXoGDd40AC8TJAlr/AXruKnJRSsbpLFcT/CrORAM8bE
+BWAKtie3Mvw2iUj2y3Ykp0hmYtLPzjKZHHLy1kpLnkgpWNNOwkc7PX1Qc0VWwxTu
+pOIIZFZAsW0ilmfudoOe/YAmFWQmRvSGsrdm+3Cjs0tSGIxep+H/EjB1znJdQymG
+AiwdKgnB7qCC7IbzZxmiJDTKCR2imYBAkgyOJ8UDXtbAFKHAknMNU2a1B7xkU6K+
+4Xc2aMzp3zXXX3pkqV4gb6Z7d11DPzC2ZOJSnrFH6JEAiwOrxAcxeq/YbpdJFwkD
+bVn86vh5z8xUBcK3lmD2yzxa4S8/fP74iZ9NkcyS8r1HBLEFhjgazMj182GutX4t
+2KKogl1vdemXsOKWC+k3/Q4ZJnq4c+2Zd9L1mtMiRgXokMAzKn0S1TW4sQU07IX5
+IsE0eW1i
+=zFn0
+-----END PGP SIGNATURE-----
+
+--eppq62ztiji2q7bc--
