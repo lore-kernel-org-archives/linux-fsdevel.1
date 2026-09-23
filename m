@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D0449DBB3
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 12:28:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D887361DA7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 12:28:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790166503; cv=none; b=scKMKFetzifPI4aCk5KFEW/dh9pUJVggMxG/A8eeO7RYNmWpNuVoX6bDVcZD6Ml9b1xtSC2sGyEQI/8BtX99p0v+yS4YLNE5qt6hiJ9ORILNN3tV9XyWLOkqE42alXvxeaobPkmuuO97af0e3dX+/ZNzI7ozZqcqE/UaO1afS/o=
+	t=1790166504; cv=none; b=Sbc8gth9+39S8f2uW+b1CXy1KmM2QK7VmOzhQbo4XKXoUCV567Gst9zGz2GXH0Wf41rqKhuabpQ5SvFJxhSjKMmSlBgnPOIGeiTlq8xBeOvD3cA1+ec170lR3GlS0tkAVhJ00ldNfHEFeQvbqEbik1YjtJiyBIvE89XIN980qFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790166503; c=relaxed/simple;
-	bh=rs3jrC6jsI/FMNFFeDD80Y6bYmwbNGT1eC1NH7jb5YE=;
+	s=arc-20240116; t=1790166504; c=relaxed/simple;
+	bh=/i6zInYt7Y2no5+FlveuHQC9/HJuqRVk7y+STVJas8I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EJ+f92l+xuExT8mIFTXTkflzTaRvhPtsr55WIDmNGjlAOyc3fRux7CUzYdy1CJtB/9FeSa4/sU6VA2NQLMWVXJHt80G86Wpf1ayFNZKGlu/xTzMnw+hsrfqEPKNbItCUDKNsHnRLDY+K/dpk0YNCEnwYsAMkGGvEhp1csf048I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q0llBzRQ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=jypvd4Xq3GfrHGsbO20V0ExwOaL79G2LRpottXs+XOFKgxD6q4WpQwmCuo8p/D24gkCGcdl6WWs0VR6MpyVWVE3OL1zF0Pj94oAfU/Fgkta6J8DjP/7PTWnCGIT6k8tu0oClJmxx3xapKT/kVYG6zBaVahNWtTz2uKmbzBnxT9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f/JP0hl5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q0llBzRQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A42C1F00893;
-	Wed, 23 Sep 2026 12:28:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f/JP0hl5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B811F000FF;
+	Wed, 23 Sep 2026 12:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790166501;
-	bh=3DN/mIb4uELpSRNTLZxtqPJ55l785G3dF2E3KgbmVjw=;
+	s=k20260515; t=1790166503;
+	bh=+asGj7qYngroIAdZjGLOlrUbp6ebGrnpg5gmS2ymeGc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Q0llBzRQ9+s/lKBojOBi25a6zZZJMMLPEyR0L0HvYxOcQON55SmU07M8FZeGzDPpa
-	 jGUPeM2W7tWrG93afdMZsJ/hcUyztC9mQr0rSyeUXVoM1hCcqC4YxU1gzscGEJTRyN
-	 Y4lpDEMeBxFiEm3ORk4YUrCUkJcb1sCmSSKGpvVArEOL5NGnEKxTjGSylLlDXLovK3
-	 LayHxRF0Fcwv4sfuxn5lOBlslp0hZ+RzvNrjdzwlQwle5MDgc755cIJ43hyRgPAuwU
-	 Beb0OYbAKJ1sq5ElhX8zoX8uF5nA2EBixgzn8HOf6hhv65jFRvtaPV3PxmkkXbNoqy
-	 gWpGtXHiyFMrg==
+	b=f/JP0hl5tsdTkRtKGqKVKovO8Rez8WjbDg36Ca6ZcdhVnsDZ18JlXu3zet88Z4DE3
+	 sEHVvb1GglN3jo8CNM/2mxy5U2hcqLyXdYa+PdkMrPZwtfJDwOdiAgMZirDxYOBFYs
+	 1ujCasoJNUyLptnkWHMJXAr72xMw/XaEU45PXYwSPyCxRNjXZbv7v3Xrw+NF/AcSqZ
+	 TFlk8f6qBxKzfdzmTJhRd1EYIktHuDMDsUFknB9RqicxS0hr/DUBNl5U5NsJbmI5+z
+	 jfbNztDHz2vLxPqt/ZQj7Vsi2TSmN6MENBxS5arsEUiUV3a3TgrkHijwdNbPgt5abV
+	 U9Yo6zxa5g8jg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 23 Sep 2026 14:27:55 +0200
-Subject: [PATCH 3/8] mount: refuse MOVE_MOUNT_SET_GROUP on an unbindable
- mount
+Date: Wed, 23 Sep 2026 14:27:56 +0200
+Subject: [PATCH 4/8] selftests/move_mount_set_group: check that an
+ unbindable target is refused
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260923-work-mount-fixes-v1-3-f424cf8d3242@kernel.org>
+Message-Id: <20260923-work-mount-fixes-v1-4-f424cf8d3242@kernel.org>
 References: <20260923-work-mount-fixes-v1-0-f424cf8d3242@kernel.org>
 In-Reply-To: <20260923-work-mount-fixes-v1-0-f424cf8d3242@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -46,69 +46,140 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2215; i=brauner@kernel.org;
- h=from:subject:message-id; bh=rs3jrC6jsI/FMNFFeDD80Y6bYmwbNGT1eC1NH7jb5YE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtPnpnYsA1DuOVjBN9f7PZfp9xraMp5f6DLWtjDCdOk
- 3W2Nlf83FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRe3cZ/tm9bHzb/6H4xybb
- RZKbhe8ffKA893DAivUJh7fe31XtfoWdkeHDPEG9V7dOqFzkSdz66aWvbMSVuAub2cUbAmtdBd4
- mFfIDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4040; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=/i6zInYt7Y2no5+FlveuHQC9/HJuqRVk7y+STVJas8I=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtPnrHcmb5DPGzWWYhH9vCV7Dt3RKuelLSb/2ETfre3
+ 8M4FSR1OkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyYQIjw7YPL/bo7vCsn/Ys
+ uFY7QDMk6YPTtRim7CdTyrfoXHpeqs/IcEAv9Hbz302hD8vns3mVF/n/m2ZyPXhPT/fNlVtPaa/
+ jYwIA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-do_set_group() only accepts mounts as targets that are neither shared
-nor a slave. That encompasses undindable mounts.
+MOVE_MOUNT_SET_GROUP must not accept an unbindable mount as the target.
+Cover both sources:
 
-If the source mount is a slave mount the target mount will end up with
-source's master as its master. It keeps T_UNBINDABLE. That means we get
-a mount that is both unbindable and a slave:
+- a slave, which used to leave the target unbindable and a slave at once
 
-  mount --bind /tmp/src /tmp/src
-  mount --make-shared /tmp/src
-  mount --bind /tmp/src /tmp/b
-  mount --make-slave /tmp/b
-  mount --bind /tmp/src /tmp/c
-  mount --make-unbindable /tmp/c
-  move_mount(b, "", c, "", MOVE_MOUNT_SET_GROUP)
-  grep /tmp/c /proc/self/mountinfo
-  ... /tmp/c ... master:646 unbindable ...
+- a shared mount, which used to silently drop the unbindable flag
 
-This property cannot be produced any other way. change_mnt_propagation()
-drops the master when it makes a mount unbindable (iow, it becomes
-private) and doesn't touch an unbindable mount when it is supposed to
-turned into a slave mount.
+Check that the target is untouched after the refused call.
 
-End-result is that the unbindable-slave mount receives everything
-propagated from its master's peer group while it can't be bind mounted
-itself. Not sure what that's supposed to do.
-
-On the other side: if the source mount is shared, the target mount drops
-T_UNBINDABLE because because set_mnt_shared() clears T_SHARED_MASK.
-
-So teach do_set_group() to refuse an unbindable target mount the same
-way a shared or slave target mount is refused.
-
-The main user of MOVE_MOUNT_SET_GROUP is CRIU which restores sharing
-first and applies MS_UNBINDABLE afterwards. It never hits this.
-
-Fixes: 9ffb14ef61ba ("move_mount: allow to add a mount into an existing group")
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/namespace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../move_mount_set_group_test.c                    | 74 ++++++++++++++++++++--
+ 1 file changed, 68 insertions(+), 6 deletions(-)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index a052f847c5df..d842fc1f1f1a 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -3468,7 +3468,7 @@ static int do_set_group(const struct path *from_path, const struct path *to_path
- 		return -EINVAL;
+diff --git a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c b/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c
+index 12434415ec36..9c8fc8c7f62c 100644
+--- a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c
++++ b/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c
+@@ -146,17 +146,19 @@ static void null_endofword(char *word)
+ 	*word = '\0';
+ }
  
- 	/* Setting sharing groups is only allowed on private mounts */
--	if (IS_MNT_SHARED(to) || IS_MNT_SLAVE(to))
-+	if (IS_MNT_SHARED(to) || IS_MNT_SLAVE(to) || IS_MNT_UNBINDABLE(to))
- 		return -EINVAL;
+-static bool is_shared_mount(const char *path)
++/* Does the mount on @path carry the optional field @field in mountinfo? */
++static bool mount_has_field(const char *path, const char *field)
+ {
+ 	size_t len = 0;
+ 	char *line = NULL;
+ 	FILE *f = NULL;
++	bool found = false;
  
- 	/* From should not be private */
+ 	f = fopen("/proc/self/mountinfo", "re");
+ 	if (!f)
+ 		return false;
+ 
+-	while (getline(&line, &len, f) != -1) {
++	while (!found && getline(&line, &len, f) != -1) {
+ 		char *opts, *target;
+ 
+ 		target = get_field(line, 4);
+@@ -172,15 +174,29 @@ static bool is_shared_mount(const char *path)
+ 		if (strcmp(target, path) != 0)
+ 			continue;
+ 
+-		null_endofword(opts);
+-		if (strstr(opts, "shared:"))
+-			return true;
++		/* the optional fields end at the "-" separator */
++		while (opts && *opts != '-') {
++			char *next = strchr(opts, ' ');
++
++			if (next)
++				*next++ = '\0';
++			if (!strncmp(opts, field, strlen(field))) {
++				found = true;
++				break;
++			}
++			opts = next;
++		}
+ 	}
+ 
+ 	free(line);
+ 	fclose(f);
+ 
+-	return false;
++	return found;
++}
++
++static bool is_shared_mount(const char *path)
++{
++	return mount_has_field(path, "shared:");
+ }
+ 
+ /* Attempt to de-conflict with the selftests tree. */
+@@ -372,4 +388,50 @@ TEST_F(move_mount_set_group, complex_sharing_copying)
+ 	ASSERT_EQ(is_shared_mount(SET_GROUP_A), 1);
+ }
+ 
++#define SET_GROUP_B "/tmp/B"
++#define SET_GROUP_C "/tmp/C"
++
++/*
++ * An unbindable mount is neither shared nor a slave, so it must not be
++ * accepted as the target: with a slave source it would end up unbindable
++ * and a slave at the same time.
++ */
++TEST_F(move_mount_set_group, unbindable_target)
++{
++	bool ret;
++
++	ret = move_mount_set_group_supported();
++	ASSERT_GE(ret, 0);
++	if (!ret)
++		SKIP(return, "move_mount(MOVE_MOUNT_SET_GROUP) is not supported");
++
++	ASSERT_EQ(mount(NULL, SET_GROUP_A, NULL, MS_SHARED, 0), 0);
++
++	/* B: a slave of A's peer group */
++	ASSERT_EQ(mkdir(SET_GROUP_B, 0777), 0);
++	ASSERT_EQ(mount(SET_GROUP_A, SET_GROUP_B, NULL, MS_BIND, NULL), 0);
++	ASSERT_EQ(mount(NULL, SET_GROUP_B, NULL, MS_SLAVE, 0), 0);
++	ASSERT_TRUE(mount_has_field(SET_GROUP_B, "master:"));
++
++	/* C: unbindable */
++	ASSERT_EQ(mkdir(SET_GROUP_C, 0777), 0);
++	ASSERT_EQ(mount(SET_GROUP_A, SET_GROUP_C, NULL, MS_BIND, NULL), 0);
++	ASSERT_EQ(mount(NULL, SET_GROUP_C, NULL, MS_UNBINDABLE, 0), 0);
++	ASSERT_TRUE(mount_has_field(SET_GROUP_C, "unbindable"));
++
++	/* from a slave */
++	ASSERT_EQ(syscall(__NR_move_mount, AT_FDCWD, SET_GROUP_B,
++			  AT_FDCWD, SET_GROUP_C, MOVE_MOUNT_SET_GROUP), -1);
++	ASSERT_EQ(errno, EINVAL);
++	ASSERT_FALSE(mount_has_field(SET_GROUP_C, "master:"));
++	ASSERT_TRUE(mount_has_field(SET_GROUP_C, "unbindable"));
++
++	/* from a shared mount */
++	ASSERT_EQ(syscall(__NR_move_mount, AT_FDCWD, SET_GROUP_A,
++			  AT_FDCWD, SET_GROUP_C, MOVE_MOUNT_SET_GROUP), -1);
++	ASSERT_EQ(errno, EINVAL);
++	ASSERT_FALSE(mount_has_field(SET_GROUP_C, "shared:"));
++	ASSERT_TRUE(mount_has_field(SET_GROUP_C, "unbindable"));
++}
++
+ TEST_HARNESS_MAIN
 
 -- 
 2.53.0
