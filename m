@@ -1,168 +1,145 @@
-Received: from mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6958331ED7
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 06:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64EB446851;
+	Wed, 23 Sep 2026 06:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790145430; cv=none; b=UNwLoPlyITzxcDk60rsRPvgJhrIIT0dpt0qe5nlZ6Ls3GRWGdL4RMDbOvJBmYadwADCXZcasmPqUbbKVEccVvg+oYc+h7ivHY7Ac9e8FUcpsvGznJB8ETc/xKQFDBDDGCfJv8I3fi2EWm+MKPlnpxE3C7onqBzzVsrCdq4P7opY=
+	t=1790146269; cv=none; b=AaH/W68Cty+p6ZKlo2pjHY19AQO7UYYwHE79M4SPLHqh7Ac1KPxcApLratqcb/VkSWACH+82as8FdGFLK99dJefErgEq140gtHh/yW3KkCcGV1YE+ryAprCJ6M0UBNxkdOHGJd1hKpgW4d99/F2V1qscYv5mxYvj6tUfw5uo3t0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790145430; c=relaxed/simple;
-	bh=q6FUjfAvrde7ObIfU3V3bTgB9v/JDqJhh9doDVfzOdI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FnELcy6pqociHhofMdWmI0riGBc8CvQ7wsezBduvmoXuKRQfsj+OFSFRsfqYmMpFofIW4vR4+YPVMwh2aC/DO6AiXrbgWKJCEgdfUkxDh8FkKUPhwGTErmMauBjVH6hrblwWdyi/2LyK0G3WrXhl7NBENvDdbMagESaqXF3Wiws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eVFv/uIS; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790146269; c=relaxed/simple;
+	bh=VLwVzwpx5W42FrPWeGRizZdOMjOPvhw8rKz1u3Rw9og=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=LW0Rp0TdgBlX0jdWSzJUsy7GOAbBL2KnjVE2QXU/FfeZE5GJ8CA7XI/YoXZ7WPjbS9ClX8tufQYTJhPwO8cofnDL0Vr/0wpRHqO6eErJ5hHVzs/6BBs1kxlVYcTjXLGSSB0YlMcTJbAUpdz+oDvPx4ukj6zxCHy4mmOVCT1Fya0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ObjoTqtJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WhXfHjWW; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eVFv/uIS"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=q6FUjfAvrde7ObIfU3V3bTgB9v/JDqJhh9doDVfzOdI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790145423; v=1; x=1790750223;
- b=eVFv/uIS+I1VHWvWtO6OR22sC3Wuuezbinq6fogB4nWW7v6eQkWcSATeQY8bdJ/bU8mATOlw
- 567/twCJ84E0AErl7Ic1oz6B3YECEkoGeliM3lgzczHhxv4vCHLsVigRFA3csi5PAoeOQGLVrMf
- g65B3MkOV26laY79W7spbPIM=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 7a7d515496bbdaf5;
-	Wed, 23 Sep 2026 06:37:02 +0000
-X-Mizu-Trace-ID: 7a7d515496bbdaf5
-X-Migadu-Flow: FLOW_OUT
-From: Hao Ge <hao.ge@linux.dev>
-To: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Harry Yoo <harry@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>
-Cc: netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Hao Ge <hao.ge@linux.dev>,
-	Erhard Furtner <erhard_f@mailbox.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] netfs: Fix missing alloc tagging of direct mempool allocations
-Date: Wed, 23 Sep 2026 14:37:59 +0800
-Message-Id: <20260923063759.34667-1-hao.ge@linux.dev>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ObjoTqtJ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WhXfHjWW"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6FA3F1400102;
+	Wed, 23 Sep 2026 02:50:58 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Wed, 23 Sep 2026 02:50:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1790146258; x=1790232658; bh=SWZT1UO2bIi+bYZrTn/ccdVzadVGT0rvvLw
+	AXS4xoBE=; b=ObjoTqtJnTHvEjCqxatHSI7ADSLLgmmPS2o8RYbujzEFxvz67Rx
+	nNPn+NjTaIPoXlbLl3rCZK1MB9H8k0vRh/UyKs3eo9VT7KdynU/9l8PzzG4ruyRz
+	3fYVjGkajwLEmHTYlkyoxnjaigKJQ6kajOMUjxZksZpDhFANGUN4erNJioJz+HWM
+	2vBZimZUBIUQPiVwP/QXl+V0YtHr7ZvL5OKGJWyKYeZzRFanG9y3UYjGWOH1dfQC
+	HBFQFmzwvM5WaBlSVjoQagsRtOjvJgsa2826qUKnuq//gvKbcJ2FVDpQpOySbDnM
+	YjOtHCk0r50fLu/QQo0Hd7nktjkHmL8pH0w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790146258; x=
+	1790232658; bh=SWZT1UO2bIi+bYZrTn/ccdVzadVGT0rvvLwAXS4xoBE=; b=W
+	hXfHjWWdmI7MelHKwwiapzmkhuj68PD+zn1pJYHLbZHrFUWBoLDQtFi6SLPJCdQc
+	wFcJbsC2r4xSeaCh/aCWNEBF70oKXvi98ZI7GRfsYas3vgSruS/bIdZC9zW9KQxP
+	KC7QQhpr9C9mcf2HB/NN24GgKzWle44UaJZAMJafCWNtwWsfxiXOT16uvNjl/5zQ
+	a80P8cxMQ2ItKVmwhOeWCsmi6MQUpixu0PuWrduiNZVzeTgXY8i6Qf2u+cqJQ2c7
+	zRSXemxDxAFLU6Sm/Y7NKzyT5gF9q4VoRf6CY5URK3tE22DaHA33ReybxxPg7C3B
+	uKnabbMzSeA9dVTj24OyQ==
+X-ME-Sender: <xms:0Xazauu6HZgRmyLT8Y-INiF8EbhdHAFtKvqQC6EMe6yqhMZbodBFUQ>
+    <xme:0Xazaj1sSl9mHMg6zWXeWlaYHqpZBLurSjCDEvvNWFTe0ApFGzlVbafY-EqJ50gja
+    DHrqAdYbC1VsJIJwJehOywPgLLb8KmSFvatpE3X1_n0GbPa_HU>
+X-ME-Received: <xmr:0Xazaq7x5JwWNfEMO1wGhuDonw2Xp5569A3aLim3plFS80-AfQffYYbyXe_WTomz8uzIQDqpQnuij0tQGSDE-eR97p5zvt8>
+X-ME-Proxy-Cause: dmFkZTGPLK21tCRFjoeO4q0Sa94FhwKtIvMtcd+/OrDFWj7zVfeY3UAbtPR8o4TcVID45e
+    1GKFtxOzBV6L6E2zwDaIrJjLsesy37b/82+yppMX9QFR35VBA4D+0REbIvi3mv0Htpsw5U
+    RlrUHYd50N3J4eWZk9PVIaIgdhJM2iuB4jliEae6qG1VPKZ7WWc2+bJDzDF054mqZmZX0j
+    9DxELv6/Odk0dt3uHWDSu2TyCqWF1+cmK7vvNnIwXjI0S0kOP2ucgwWgQ7DoVJVP82kvGZ
+    nUqLM4NjizjReJnzSznmqzRC1vWFGLm3sYAN93KQ9NeH34wW5Okv2yIIXzyLBSqY6wObbE
+    6QYvTA1ru9qQTyVIBu1ISTAiPPqPeTj1e7WmKFxAWyjdg4U70LMnS/FX1Exj98187mi8KH
+    tvcuojtdGOeftAXV+coWBkG3w4knABLYqNAGqFLy0tfaRjuO+7peaeWgUXkQZx08iSvftM
+    utCazEZppyGVZnqLe//2sQDg0HqxQQSPTn13kV+rEhiVhntpHhvg3MgSeo7r1v3gDkHHrI
+    ff0VKm56go9yzxmdC93cQX9NxBbUAhJfk/QXmQJLfrb4c+Ow8OSHYe7V13WrDZxdPd47Pg
+    k6syhgPOFTB60Gy4Ci1bohFXsyucb2hlfAn+ADJF5Nrobt1nAcYGF5lipCuQ
+X-ME-Proxy: <xmx:0XazalPs1sz3MVQKHSXlm4TEQkzyjhZzScNWEq5SNHdDx9CdGOEt0A>
+    <xmx:0XazauE1iMEOqO1E13l62oF_DYGV2t6ghGib0_sRpQXmPoW2I7Ra-w>
+    <xmx:0Xazap2-jjsbFBWhLKaQCmkmnTpp6lGaNa93WD5zzrPxNJ14dpTMzA>
+    <xmx:0XazalHU6b_88_1jm6RQKmD7LLNKLPx9EwNFqe1Q0E7zOai1tsM6vA>
+    <xmx:0nazahjHYXBAgpcmszhBYJmYbWY0rV44yWk7F7pQrO4B0JD289ezJpL4>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Sep 2026 02:50:52 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Namjae Jeon" <linkinjeon@kernel.org>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Chuck Lever" <cel@kernel.org>,
+ "Jeff Layton" <jlayton@kernel.org>, "Jori Koolstra" <jkoolstra@xs4all.nl>,
+ "Mateusz Guzik" <mjguzik@gmail.com>,
+ "Dorjoy Chowdhury" <dorjoychy111@gmail.com>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Andreas Gruenbacher" <agruenba@redhat.com>, gfs2@lists.linux.dev,
+ "Ilya Dryomov" <idryomov@gmail.com>, "Alex Markuze" <amarkuze@redhat.com>,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>, ceph-devel@vger.kernel.org,
+ "Paulo Alcantara" <pc@manguebit.org>, linux-cifs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v2 05/14] cifs: allow -EISDIR precedence over -EFTYPE in
+ __cifs_do_create()
+In-reply-to:
+ <CAKYAXd9W3O=Dsavu4=XUp+3SyFWOL3Bs7fbzg0YBFpwk4-TCAA@mail.gmail.com>
+References: <20260919022441.3305170-1-neilb@ownmail.net>
+  <20260919022441.3305170-6-neilb@ownmail.net>
+  <CAKYAXd9W3O=Dsavu4=XUp+3SyFWOL3Bs7fbzg0YBFpwk4-TCAA@mail.gmail.com>
+Date: Wed, 23 Sep 2026 16:50:48 +1000
+Message-id: <179014624846.37859.16894598335961934458@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-Commit 1d78d56c43ef ("netfs: Fix folio_queue ENOMEM in writeback by
-adding a mempool") added a mempool for the folio_queues and made the
-request, subrequest and folio_queue allocations distinguish between
-writeback and everything else.  Writeback is part of memory reclaim
-and must not fail due to ENOMEM, so it allocates under GFP_NOFS
-through mempool_alloc(), which may dip into the pool's reserve and,
-if that runs empty, wait for elements to be returned.  The
-GFP_KERNEL paths, which can return -ENOMEM to their callers, invoke
-the pool's ->alloc() callback directly instead.
+On Wed, 23 Sep 2026, Namjae Jeon wrote:
+> On Sat, Sep 19, 2026 at 11:25 AM NeilBrown <neilb@ownmail.net> wrote:
+> >
+> > From: NeilBrown <neil@brown.name>
+> >
+> > If atomic_open is given __O_REGULAR, we now would prefer -EISDIR
+> > if a directory was found.  So move the S_ISDIR() tests earlier.
+> >
+> > Also don't return -EFTYPE for S_ISLNK() - that should get -ELOOP and only
+> > if O_NOFOLLOW.
+> Simply exempting symlinks from the __O_REGULAR check in cifs is not
+> sufficient. Once this check allows the symlink through,
+> cifs_atomic_open() still calls finish_open() on it, setting
+> FMODE_OPENED. open_last_lookups() then skips symlink traversal, so
+> do_open() returns -EFTYPE before may_open() can return -ELOOP. This
+> path also reaches cifs_new_fileinfo(), which pins the symlink dentry
+> with dget(). The symlink's file operations do not provide CIFS's
+> .release handler, so the failed open does not call cifs_close() to
+> release that reference.
+> 
+> 
 
-The direct call, however, skips the alloc_hooks() wrapper that the
-mempool_alloc() macro provides.  The pool callbacks, mempool_alloc_slab()
-and mempool_kmalloc(), call kmem_cache_alloc_noprof() and kmalloc_noprof()
-and rely on current->alloc_tag having been set by the caller.  With
-CONFIG_MEM_ALLOC_PROFILING_DEBUG=y this leads to
+Thanks for looking at this.  I think I can see what you mean.
 
-    current->alloc_tag not set
-    WARNING: ./include/linux/alloc_tag.h:161 at __alloc_tagging_slab_alloc_hook
-    alloc_tag was not set
-    WARNING: ./include/linux/alloc_tag.h:166 at __alloc_tagging_slab_free_hook
+If __cifs_do_open() chooses not to call cifs_posix_open(), if that call
+succeeds without providing an inode, then we could end up at
+cifs_get_inode_info_unix() or cifs_get_inode_info() and if that returns
+a symlink inode, this will be returned to cifs_atomic_open() which will
+try to open it (finish_open()).
+This is a pre-existing problem - is that right?  If an O_CREAT open
+which doesn't have __O_REGULAR happens to find a symlink, then it will
+already try to open it.
 
-at allocation and free time respectively, as reported when reading
-files on a CIFS mount.  The allocations are also missing from
-/proc/allocinfo.
+Presumably after calling cifs_do_create(), cifs_atomic_open() should
+check if the inode is something that it can open.  If not it should call
+finish_no_open().  Does it need to call server->ops->close() too?
+Can I leave you to clean that up?  My goal here wasn't to fix
+everything, but to improve the documentation and change some the details
+of what errors are created by __O_REGULAR.
 
-Wrap the direct ->alloc() invocations in alloc_hooks() with a new
-mempool_alloc_noreserve() helper in include/linux/mempool.h, next to
-the other alloc_hooks()-wrapped macros such as mempool_alloc().  The
-GFP_KERNEL paths keep their failable allocation semantics, they just
-get tagged now.
-
-Fixes: 1d78d56c43ef ("netfs: Fix folio_queue ENOMEM in writeback by adding a mempool")
-Reported-by: Erhard Furtner <erhard_f@mailbox.org>
-Closes: https://lore.kernel.org/all/0b004319-9ef7-437c-a4dd-174d6a9a83db@mailbox.org/
-Tested-by: Erhard Furtner <erhard_f@mailbox.org>
-Suggested-by: Suren Baghdasaryan <surenb@google.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Hao Ge <hao.ge@linux.dev>
----
-Changes in v2:
-- Move the alloc_hooks() wrapper from fs/netfs/internal.h into
-  include/linux/mempool.h as mempool_alloc_noreserve(), per Suren's
-  suggestion, so it is not netfs-specific.
-
-v1 Link: https://lore.kernel.org/all/20260922023541.51532-1-hao.ge@linux.dev/
----
- fs/netfs/objects.c        | 4 ++--
- fs/netfs/rolling_buffer.c | 2 +-
- include/linux/mempool.h   | 7 +++++++
- 3 files changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/fs/netfs/objects.c b/fs/netfs/objects.c
-index 7f6a3e912602..ad549daa9c79 100644
---- a/fs/netfs/objects.c
-+++ b/fs/netfs/objects.c
-@@ -34,7 +34,7 @@ struct netfs_io_request *netfs_alloc_request(struct address_space *mapping,
- 
- 		rreq = mempool_alloc(mempool, gfp);
- 	} else {
--		rreq = mempool->alloc(gfp, mempool->pool_data);
-+		rreq = mempool_alloc_noreserve(mempool, gfp);
- 		if (!rreq)
- 			return ERR_PTR(-ENOMEM);
- 	}
-@@ -214,7 +214,7 @@ struct netfs_io_subrequest *netfs_alloc_subrequest(struct netfs_io_request *rreq
- 	struct kmem_cache *cache = mempool->pool_data;
- 
- 	if (rreq->gfp == GFP_KERNEL)
--		subreq = mempool->alloc(rreq->gfp, mempool->pool_data);
-+		subreq = mempool_alloc_noreserve(mempool, rreq->gfp);
- 	else
- 		subreq = mempool_alloc(mempool, rreq->gfp);
- 	if (!subreq)
-diff --git a/fs/netfs/rolling_buffer.c b/fs/netfs/rolling_buffer.c
-index 424e77a9a109..d30d5ef6d86e 100644
---- a/fs/netfs/rolling_buffer.c
-+++ b/fs/netfs/rolling_buffer.c
-@@ -29,7 +29,7 @@ struct folio_queue *netfs_folioq_alloc(unsigned int rreq_id, gfp_t gfp,
- 	struct folio_queue *fq;
- 
- 	if (gfp == GFP_KERNEL)
--		fq = netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.pool_data);
-+		fq = mempool_alloc_noreserve(&netfs_folioq_pool, gfp);
- 	else
- 		fq = mempool_alloc(&netfs_folioq_pool, gfp);
- 	if (fq) {
-diff --git a/include/linux/mempool.h b/include/linux/mempool.h
-index a0fa6d43e0dc..6da502aef2f7 100644
---- a/include/linux/mempool.h
-+++ b/include/linux/mempool.h
-@@ -70,6 +70,13 @@ int mempool_alloc_bulk_noprof(struct mempool *pool, void **elem,
- #define mempool_alloc_bulk(...)						\
- 	alloc_hooks(mempool_alloc_bulk_noprof(__VA_ARGS__))
- 
-+/*
-+ * Allocate a new element without dipping into the pool's reserves or
-+ * waiting.  Returns NULL on failure.
-+ */
-+#define mempool_alloc_noreserve(_pool, _gfp)				\
-+	alloc_hooks((_pool)->alloc(_gfp, (_pool)->pool_data))
-+
- void *mempool_alloc_preallocated(struct mempool *pool) __malloc;
- void mempool_free(void *element, struct mempool *pool);
- unsigned int mempool_free_bulk(struct mempool *pool, void **elem,
--- 
-2.25.1
+Thanks,
+NeilBrown
 
