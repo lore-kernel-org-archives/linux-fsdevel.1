@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7803DA7DD;
-	Wed, 23 Sep 2026 08:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8499E443E5E;
+	Wed, 23 Sep 2026 08:44:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790152826; cv=none; b=HJZcqz87q1EA12kCGb+Fx+/I490P/nVfUZ9o36SMW/R5LFnlSWPk4RGbDTukPuEmqbc1Sz44OHAf4VibThbcKres63GzpkzetgjTaYkoMqDQzkpuOiVvge9r4lXcW93uBF6qvshegoFtLe629DbW+ucxJu3anE+zdQlD3yp/n4k=
+	t=1790153093; cv=none; b=J8bPy24FyrWWVFvCyHR1jdODYYaI+MoQKcsaPBAUcRr2xUuM3sbV2Q1gTSbnNiqJToJMVOYbnFYzxTTy12meDWUBK92bi0OuIXb2CEO8k5fSYgXpquNzvlatdgBJEq4/G+AeDD0N+/Mb0Ij4uMFXIJ4hTdgMu0mXAFv7HPsKR+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790152826; c=relaxed/simple;
-	bh=96Md5DrNgaVWw5OC1SXNKXffLQh1vTtZvJhVJt1cONs=;
+	s=arc-20240116; t=1790153093; c=relaxed/simple;
+	bh=y3vrqA1xDKha/jEwyRO8Fw4acibvEANNmb4JFyUa5F8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qFtZNgm9z9004Z1e81iQYtJhDp9NrLOVJYXCqjel3UKeygZrsN8IPouslhYLkPByvq3Iwffss+QvHlolRaeQp7DXs94wrlzEvKQZwLNkeMuYTV+m34MC3XvrYTQFL0Keh0ZzqiCjvABrCJV0S6HOJ89KzEg2a1aqQic+s/sJzzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwlzpLjm; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=kAJTI5BlVpAkr9Man8peUHIPrTITKY6HuNVO/HDDVY6fUQtJJNVbApQ/C05heIdmoP/YND9N3q2INQLYEhIJifExsH45SC9a2JsKO+mRArWLJLE1ARQrhdCU4m7WN4G08pTbzD9CC5ro6NhAVcYcDQRpyKKpkDV6IwQz7BdzC3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsDbq499; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwlzpLjm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F1AC1F000FF;
-	Wed, 23 Sep 2026 08:39:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsDbq499"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDA611F000FF;
+	Wed, 23 Sep 2026 08:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790152799;
-	bh=wyh/pOgTF7kL8hlZc2xBVOE3tXIRZyVNxNqqITwdaBM=;
+	s=k20260515; t=1790153092;
+	bh=dY70oSqWd3wnF9uaYoNddYkhSPpCt+PYpUwK3owu2yk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UwlzpLjmsWYQu2X1w7dPBuGy9erltg3vOL+NfJ/uSQJOrfQZlmrZRX6l6hUG4aJNu
-	 TIvi5TPQoCTfXAy0RAoguEf6mQORqWqbFPbBFb1Yvt0SH9n2/Qs2LaLGimCaz+fm2w
-	 T8dFUUnNLMdizGKkGqqr2O5bg0+pgzDyYyTE/cTuhGeYVBNIL4mitLsMDxcBI96C2e
-	 u//dZhCVEMH4DJvU7iBXv2WG12zQPZ/UyJlyaQK7I64hFTFC7IROS30zAFLt5WULss
-	 OSRcfn3e8dbaKrIfZo56huYPUUIc4z0kJ1Fi4Zi8c+ZQhg/H4nld0N6VuWFasb9d7U
-	 hnf2wJf5IlUxA==
-Message-ID: <b007cd0f-29ef-457a-8e44-63ab26f3bcd0@kernel.org>
-Date: Wed, 23 Sep 2026 10:39:15 +0200
+	b=PsDbq499xXwI7h+xbBrfr8RDigs6n45INpRpjLXHhwjVVCVAZc7kW1YcfYUx/PhE2
+	 fjri4U1aP9Y22xgAwgdg2fh3N2162ZyeGfV3J+x4l19s/SCcDU0W5SoRQot7F2NTyU
+	 ufj9byPIii6EmaACI4mzR1lZXMUI/b9iGqZWrDZQCwX3vOn+AH8uH2qNJm2uXvpXMB
+	 y7uVL4tgUslMzJOdrW4Svd2fTpX+L2preZqCCrLohyDKQJIhAQ5lkoQQZZcqH6JqGX
+	 VtPF+5v+O8pmekMtv+EHpHAAKRIddhjG5TluWAqMIEhOr+k/e4nrYBXk2Vj0pfiZYx
+	 GQsaYnTFyujnw==
+Message-ID: <4c7c6ea0-84a7-45f6-989c-d1502b90694c@kernel.org>
+Date: Wed, 23 Sep 2026 10:44:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,94 +35,26 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/40] mm: make VMA flag semantics explicit, eliminate
- VM_SPECIAL
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
- <20260914180811.057cba8fcc48d6e0b53a2683@linux-foundation.org>
- <0b064fe6-ddb3-4f26-a1f2-2e9dd88d590f@kernel.org>
- <CAJuCfpFBichJH4OcmSHTb1rOuQBT6k5pXeua9_KgpWjDBKvsYw@mail.gmail.com>
- <aq6kzpK7wPl3iFGe@gremlin> <aq6lW9FvL69QeA9H@gremlin>
- <arOCPN02xB7mykju@gremlin>
+Subject: Re: [PATCH] mm: madvise: drop MADV_PAGEOUT folios at swap writeback
+ completion
+To: Barry Song <baohua@kernel.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, akpm@linux-foundation.org,
+ willy@infradead.org, jack@suse.cz, liam@infradead.org, ljs@kernel.org,
+ vbabka@kernel.org, jannh@google.com, chrisl@kernel.org, kasong@tencent.com,
+ shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev,
+ youngjun.park@lge.com, qi.zheng@linux.dev, shakeel.butt@linux.dev,
+ axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+ hannes@cmpxchg.org, mhocko@kernel.org, yosry@kernel.org,
+ chengming.zhou@linux.dev, kunwu.chan@gmail.com, tz2294@columbia.edu,
+ hch@lst.de, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260921152449.629486-1-alex@ghiti.fr>
+ <70cae945-3a4a-40db-96ac-5ce66a3fa186@kernel.org>
+ <CAGsJ_4y8-wD0yMV8GCtCz5MfNrOKqUaTd+UgH=8MoP_nuvPnGg@mail.gmail.com>
+ <108487b7-0529-4282-b5f4-355804b4c0cf@kernel.org>
+ <CAGsJ_4zGmGh70QtRBpnhueev3qt_bgB4ZiE9fkW-hgNjAVhv+w@mail.gmail.com>
+ <2e695c8a-4212-42b5-bb51-fbe1aa162e1d@kernel.org>
+ <CAGsJ_4z2nakqBCKd_uAn4bfub99r3NJt2spOUx-K0M7bHW3_-w@mail.gmail.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -169,30 +101,85 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <arOCPN02xB7mykju@gremlin>
+In-Reply-To: <CAGsJ_4z2nakqBCKd_uAn4bfub99r3NJt2spOUx-K0M7bHW3_-w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/23/26 10:13, Lorenzo Stoakes (ARM) wrote:
-> On Sat, Sep 19, 2026 at 04:09:13PM +0100, Lorenzo Stoakes (ARM) wrote:
->> On Sat, Sep 19, 2026 at 04:05:57PM +0100, Lorenzo Stoakes (ARM) wrote:
+On 9/22/26 22:55, Barry Song wrote:
+> On Tue, Sep 22, 2026 at 7:26 PM David Hildenbrand (Arm)
+> <david@kernel.org> wrote:
+>>
+>> On 9/22/26 12:37, Barry Song wrote:
+>>> On Tue, Sep 22, 2026 at 6:20 PM David Hildenbrand (Arm)
+>>> <david@kernel.org> wrote:
 >>>
->>> Thanks guys!
+>>> I suggested this to Alexandre, and he found that it could regress some
+>>> workloads [1]. That is why Alexandre is only making the folios
+>>> immediately reclaimable for `MADV_PAGEOUT`.
 >>
->> Note v3 has been posted to fix a stupid bug in 1/40 + attack some very trivial
->> sashiko stuff
+>> I really hate to add special sauce for MADV_PAGEOUT. Also, I don't quite like
+>> that we do something fundamentally different for sync vs. async.
 >>
->> https://lore.kernel.org/linux-mm/20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org/
+>> I assume, though, that async writeback that is very fast might just find the
+>> !folio_test_writeback() scenario just like the sync case. ... or if we
+>> reschedule after pageout()?
+>>
+>> I am wondering: if we can show that letting async swapped out pages stay in
+>> memory a bit longer improves performance, aren't we swapping out the wrong pages
+>> in the first place, and not swapping them out would help the sync case as well?
 > 
-> Just a gentle nudge on this :)
-> 
-> If you guys or anybody else has some time it'd be appreciated! (obv. the v3 as
-> linked above not this v2!)
-> 
-> I know the series seems intimidating but most of the commits are very small and
-> it's been in -next for a while.
+> I guess that's because the LRU is not always accurate. There are cases
+> where our prediction of future access patterns may be wrong, resulting
+> in refaults?
 
-Busy with too many other things sorry. Its time will come.
+Right. But these would happen in both the SYNC and the ASYNC case. Which seems
+to indicate that making the SYNC case behave like the ASYNC case (keep in
+swapcache before evicting) could actually improve performance?
+
+Or is the SYNC case in general so fast that it is not a problem and the
+swapcache is just not a good use?
+
+> 
+> Even on Android, which uses zram with very fast synchronous swap-out,
+> I can still hit the swapcache from time to time. So perhaps with a
+> slower device, such as an HDD, keeping the swapcache around for longer
+> could allow applications to hit it more often?
+
+Why is that specific for HDD? It's the exact same app behavior independent of
+the underlying swap technology.
+
+> 
+>>
+>>>
+>>> See Alexandre's description:
+>>>
+>>> "Future work
+>>> -----------
+>>> Barry suggested extending this to MADV_PAGEOUT and general reclaim. I
+>>> prototyped dropbehind for all reclaimed swap folios and it regressed
+>>> sysbench OLTP throughput by ~15% on NVMe swap: dropping the swap cache
+>>> immediately turns cheap in-cache refaults into disk reads and collapses
+>>> swap readahead clustering.
+>>
+>> Thanks, does this represent a workload pattern we care about?
+> 
+> I don't know. Maybe Alexandre can share more details about this
+> benchmark. I'm also a little surprised by the 15% regression in
+> Sysbench OLTP. My initial feeling was the same as yours: we should
+> release the memory immediately after writeback completes, for both
+> synchronous and asynchronous I/O.
+
+Right. And see if we can identify why we are swapping out the wrong things :)
+
+> 
+> Kairui also mentioned to me that he once tried releasing memory
+> immediately after folios were written back to HDD, and saw some
+> serious performance regressions as well. Maybe Kairui can also share
+> some thoughts on this.
+
+Would be good to find the root cause for this: why are we swapping out these
+pages that are immediately needed again such that it affects performance that
+drastically.
 
 -- 
 Cheers,
