@@ -1,405 +1,203 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8C257D233
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 20:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790196637; cv=none; b=GgpM2pi2yPmPQOri5kS8GhZEN7Of84V4o4nkPinWCu1jkAPLhI8YSh763jPmqwLdqzkNjTAdjioS1KNafqr+fJTnbrg9yjpgXKeOeo0w5UeXqVPoY8DgWoplO9K+zDMwXJqsh2Fkzyq2lzJAfVmA4jCVzS8rfDK9NxtctB6Zqh4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790196637; c=relaxed/simple;
-	bh=IR+cFhBQfWRSdMGVpfuBcQw5kzuKhkM3dI8xg87PPUs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C/OkqvIExg4wqj6kZgZphnSU/r3RBSfhEloZMOPyg0hrf0+dypKR2KT3fHlxoNBJWGchTqvirfzBrGVyApP0s7+kzPgLT+2uOJ7rrAXnIGUxb4uNO6GyVLpoXGPQn6QQIfxru5zvQX/H2aVDivstMdevvzisecpd+k0JZ8Aiyt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oKYQz8kK; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285AA284B37
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 21:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790197330; cv=pass; b=HBCcsnlsrmopQmF7Hx6RCJ2Qr0TrUI2OehayPKgty27Xj67uW78Ji6e2SVA8aLRPTI4iKmyvQ8521UlJ8B+aQZE95lck/rOXl0inC61Kh4oN/Fj4NAI2ehjVHnSZkHybU7lo+xClJnJiw/oyu2c11jhwh+zGHHM++iaQK1tyDpU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790197330; c=relaxed/simple;
+	bh=/ivY9I/EG9+DSzOaxxM5obfKFkrp4hNLEWa7/4iEB2o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G7Tz6WF6Q2SVr3ypMRINF7t+sCjzL1a6z+7wzt2gKI1US+DWdaRsq4eIxi829o4aY4D1vq1KGe5vsB4XsCLmSyVnGafNnFXlITF/fSzZ45cGRiHb2H5dJkGIDCdVWiubO7CT1PNXJyJqqyLVqxwA6I3+25FYTQ9g6FgHLURJk6o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iVa9EvIM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=n/CmEFhY; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oKYQz8kK"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1ceb47d53so334466a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 13:50:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iVa9EvIM";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="n/CmEFhY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790197326;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=teMaf0NJPbuhvSvBaJzyDInJb+MTYgx/6C4I8crlQU8=;
+	b=iVa9EvIMSOmnDA9b474bHGTgWhK9mWBlyGQKdZQE95Fl4XI9BIsnvggctghhWj+sy7pem6
+	xGGy6iqdWcoKa7a0a2pYuF0GR1vTCxs9at+pTfTjxCJfE3MLhup9MRqLB8NNYBVVzD2C09
+	JFu3I0BtsFSnHHXt4+KQDU6TfjFWhyU=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-274-h5C7OVhkNUyQ4mAfacZx4g-1; Wed, 23 Sep 2026 17:02:05 -0400
+X-MC-Unique: h5C7OVhkNUyQ4mAfacZx4g-1
+X-Mimecast-MFC-AGG-ID: h5C7OVhkNUyQ4mAfacZx4g_1790197324
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-67109c1b071so2137904d50.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 14:02:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790197324; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Z9EwXv1dL4AkuaQU6NzlhrKm/ieckTSRbISR3XBZsHR2mf1I+SbwxC5esikiM5qPCs
+         aReRf7lATM09KghDhyA5auoPO9UzmmfJfucEKj3vHC9m9fLisN0UGHOXcy/JfqhypMrD
+         OX3hxiM7kwpSKg+mZ02OP5zuw+dQSaKRSHeWG19Dnj9ElYTrOPz0XzLxMV+pLCSHIuCZ
+         bRl6fq+9BAPZUewPeh2Z8LxmJErrMZ67O3hcJe9RPrP06YV7AZzDjO/XaWmf9XnViHxX
+         Ar617O/pzylQSPZZnksZS1qo0EapYBkkXoaFKIXEp5kLBSZ8/HVU+HexCvaJShII5yLO
+         j4gA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=teMaf0NJPbuhvSvBaJzyDInJb+MTYgx/6C4I8crlQU8=;
+        fh=QQ6UgaVulKmAo3SK6fny4F7Z8QrZT8UY8b/ckriq1u0=;
+        b=cVaTqHM9T6kG+tAjkM+BMoFlTS4OvpmmIwssKbXJio4k3cIYrRrLMtko9Y8jxBErrX
+         dpFp+N5lEwARKxD4VHNWzmjVNyBi6iLkpF5taiG6TICVZjhj00OmjniFWSPzeqsuu3XA
+         Fz9cf1Ru7FTkIF3v0hD23cnW9a1Trits7mcsCQ5po0hvoHvC46bfJEig5/oaIMUUUNTA
+         0n4JNsWFBs/Ah4vIVgjkWbHZ5RlpUY4sh2nvvECjlIN5np8QGAYrNlsTxzj1hQJupxOY
+         oroJF+lPmCDJJeR+qLUuP4rCBpfNAVegHKvyzODkWWimI3forQCsRrnqBxWUCxZnjbbo
+         wd6A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790196635; x=1790801435; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=snlXyVmosKNHZDEUpSvbDeW3MROgMKqCzOa9/2l2FR4=;
-        b=oKYQz8kKag1QgtYGyD6ZP3CuaOLu0JGt11zJ+jD7YhhoUqa575/j7yzioGf775veeJ
-         7wnmcfOae+N1tfGnNGDAEbL402F95za51JW2vSuqiGjmzcnoNSnaZslO4EhL1xWtNSmC
-         UKyMhdDProoLT4twgiLewq6FmgELJd8FzkW87o74XdYBZQQvt+zl3booWB116BUGuh5+
-         F6YpSHuUk62Et7Z/jaEV69/St96jzqX/dO3QFKHhM8SXjvtcg1ULBLP02guCs8yUzsOL
-         Q3ecHnw32s55Ey9P3N96ne0WDluIZgh+ObiO88Zz2yuxolNPL/Y83cPzX0uRgKse/PTA
-         5Gaw==
+        d=redhat.com; s=google; t=1790197324; x=1790802124; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=teMaf0NJPbuhvSvBaJzyDInJb+MTYgx/6C4I8crlQU8=;
+        b=n/CmEFhYAJ6MW3O+wjQ17UzxqlCJ10jJz3Ge87DPMfsz+JewaXJ8mpe/bCrYblQt08
+         AxEhkb5gsvAtL2gCZtzLKhAyvPkNDudpQh3h9nLMGOEldlf+KJYpfBQ0+CMP7/vyGGQH
+         wsACfNLDGYY8fZLifo93OyIoYkXJIOr+ehjCzjCweIAi3uLpauw0oka1mxr2sJYITdAl
+         02jWqtjWwa9MCGZFN39Wws+eKs8UhSzxeEBXPb5lN7HX6Mok71MujcLawfSktjCc97WP
+         /8ZX+zot8DTfhFEszQJ+YuFMSmVn9thpkumAwZS8uTlZc2uEmVHsRC9HW5HZHljDGlS7
+         bTeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790196635; x=1790801435;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=snlXyVmosKNHZDEUpSvbDeW3MROgMKqCzOa9/2l2FR4=;
-        b=GWsmq20sHXHsNH900Lf5BBgOGYE0I7KsodfCOA4sWwxTfOvTjDa+67ewmp0cEeST7B
-         fAsHeUirrvSiud/O9Ghep9dlEHmB2iy3MW3p5rlp9Y+tu2dZ5CI8FwUc+z8SqW7jXjTj
-         MUTML/q0SPFS4E6YZ7HNYdjdfgRbP+6XD5RvJxDBwAAAQj4yM7MXKaqEHmTx010np77W
-         RXZHH9X0jqTKBZ0cFEb/9YXWRUaupt6apPDCFfuQUWA+wbzWm8OjIBeVBYdzh3cBz0bv
-         xUFZYvQsx67weS24cAunMmO4CVBKUJsLrCL2l5DRZHWAloI2oBH4LwnwDrseP2snu8Bq
-         BV7Q==
-X-Forwarded-Encrypted: i=1; AKwUvBz0V87670Cs1Sx9XfgdZmDEWSQFxwbOiRXxuDT4ZmUGOEqZN0aYUyX/BStQNbQUKNiLfI7R5lyrUh1AzVeZ@vger.kernel.org
-X-Gm-Message-State: AFuF++nbR456xuCUGr1xNPS5uW8kihLdJvC3QVbEKwFQkdB9tFlTECGW
-	2IKpfX6xVw0veBuad00IJDa57lv9sTjN8Bqi9ZTjgzdd+krjToUxduqH
-X-Gm-Gg: AYBFou0FrwJdDS5BjKJ89PcedFSfmmZH8oUrciyN6bMqUkxIOHob1Kdk3UaGZbZ77Sr
-	sKxWHfN8RhHXAx14JKX2tYYOwaTQ4LdtAtnIZWP5pxSPGMD2xmnTToefaBffdXuYM3Idvjk/bn3
-	uo81+KWJcfyonSniRY9PjmHAo2pOtU9/O47bt805RDV7ekClLpl97sE4eyiwbEzUnAdVy/5jw1M
-	W0giKPa3RWXWc+jnRDMSXRBN6TUlPewDoXJ87DRl28du0rmJPZ49j0U9c4F7J73ByKTj92O3sX5
-	mTkkMO/QJCmwaoPzdnGCg2/eldS2ZsZBVVfO5CSEPa2QimHjYdMc0M6xhlx6mjnVmQYnb5zwKNL
-	XxTa+THOOoHEBX/Ib0Wdjxl2y9FeuaO1HankEFuf2XdopplTuWe3RCBvEips71ZfsLeJO5ZOPif
-	3LMfA7ZJxKqAiwCS1/Q45xBouJiWgTJB1m/MMIwyG8ORh+qZgeqz8TbQH6KDg26f12TAXM
-X-Received: by 2002:a17:90b:3f4d:b0:39e:1bfa:c5f0 with SMTP id 98e67ed59e1d1-3a09860b2b7mr189257a91.5.1790196634676;
-        Wed, 23 Sep 2026 13:50:34 -0700 (PDT)
-Received: from kir-tp1.lan ([67.185.120.12])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a096b8753csm896038a91.0.2026.09.23.13.50.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 13:50:34 -0700 (PDT)
-From: Kir Kolyshkin <kolyshkin@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Aleksa Sarai <cyphar@cyphar.com>
-Cc: Kir Kolyshkin <kolyshkin@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	David Howells <dhowells@redhat.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Andrei Vagin <avagin@google.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Giuseppe Scrivano <giuseppe@scrivano.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	containers@lists.linux.dev
-Subject: [RFC PATCH] mount: add OPEN_TREE_SKIP_MNTNS
-Date: Wed, 23 Sep 2026 13:50:25 -0700
-Message-ID: <20260923205028.711077-1-kolyshkin@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20260707; t=1790197324; x=1790802124;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=teMaf0NJPbuhvSvBaJzyDInJb+MTYgx/6C4I8crlQU8=;
+        b=MoUfARIrpMAkzmqja/6Q9nn+01RdfQ1LL7W0p6wk5bN6FGUclYlWAJRIOMBzhtHm36
+         YgQoME8yyX7qN0mx9tsIt+FzC2kIqFLrx+VvyQDJpKoIAvRQfxk1xKkWTfUkqE9VYH6I
+         Qmlj32Yt0R9Q8jPzWJk9T4Q7C6WZ9+f+4G7Fd6SCpHmYKTfqGCNHiwRfGp2PY8cjJpVv
+         2kjNjFhoCb9cwu51U1zHfX0S/68OADiKOmjBo+V5JWm7pJ52bEA/A+Kqvw4UMCGTxxq/
+         p8CSFdcHCud0OB5QSrn07rjPwmTz1p2zCP2BOA+ExrS1XaGICN6mK1iYCmgWI9AUU4Fb
+         OWdg==
+X-Forwarded-Encrypted: i=1; AKwUvByu/cmLWvqFI8Z0yN+Oy75gsdv2qsITqiq/B1dt0LE/sW0ubAN4jcPaXET6YdN8iDplRjQvIpm5Q6ngnjLz@vger.kernel.org
+X-Gm-Message-State: AFuF++nMnB7k1GCGpHrwQVwSmxWL09QRYKUUYO6p9ANRPY8J05napsw5
+	6dsNGK8xdurkNgkEimIDUPnCyh/r8NjhygvvNzs16yeZVEvv56Hy9swtFvkjqbAnK50d+1u0DsJ
+	NfcxKHppaYgmvSguMxu/68XNRjp/wpmZUhrNouPyyfeNmjaPVO6XyahO7cVxzgzG0MBq8zfDNIb
+	LzHdst6QFyukmbLyJBx9eTOOLssT2a5Ciium/HGbOKQg==
+X-Gm-Gg: AYBFou2KX4OY4Rx8SFv2JdMElDeFjQ/f/vqC8YfzdaQ/14El7wHlqUOy9Gxmyod8tQ1
+	SFxC3R20sKwbenMWInfOPsVka5rbBU2y4ErmSm1uPmsm9IxEYCUIRqdPTtnIACjLyAEct5tpw3g
+	cA30V9FnFaUOKpUNYE9Xyt5uD53EHZ6X2+Hy8rZ+kMogtglFBHzRjAIBsgiSx03m7FG5+nLIDbA
+	ebGQUHOz8NapF5GSoIQFX6V2enfl1v7he3SS7d7lEsqKw==
+X-Received: by 2002:a05:690e:408b:b0:671:70d1:d6d4 with SMTP id 956f58d0204a3-672ed8e80c4mr293368d50.70.1790197324224;
+        Wed, 23 Sep 2026 14:02:04 -0700 (PDT)
+X-Received: by 2002:a05:690e:408b:b0:671:70d1:d6d4 with SMTP id
+ 956f58d0204a3-672ed8e80c4mr293294d50.70.1790197323555; Wed, 23 Sep 2026
+ 14:02:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260921211712.1563575-1-agruenba@redhat.com> <rhj2uhowkjekxgi7tkxko5odxw3zikthtnlef5f5owrfjzrt3r@nul7b7ldcb2g>
+In-Reply-To: <rhj2uhowkjekxgi7tkxko5odxw3zikthtnlef5f5owrfjzrt3r@nul7b7ldcb2g>
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Wed, 23 Sep 2026 23:01:52 +0200
+X-Gm-Features: AcwNN1Wx3An96hJa8GxLoJV99l3BMwVJSGq56GeWtJeaT0vWl86MXKjtrRWGLfo
+Message-ID: <CAHc6FU4Rf9-r8m8SSb=e0k0zyoFhQAdjupHMWvT6rStBshntug@mail.gmail.com>
+Subject: Re: [PATCH] fs/gfs2: prevent premature evict in prune_icache_sb
+To: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Christoph Hellwig <hch@infradead.org>, Matthew Wilcox <willy@infradead.org>, gfs2@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-crun, a container runtime, recently started using OPEN_TREE_NAMESPACE to
-set up the container's mount namespace, and open_tree(OPEN_TREE_CLONE)
-for the sources of its bind mounts.  This turns out not to work on hosts
-that have a mount namespace pinned anywhere below such a source: the
-recursive clone picks the pinned namespace up, and move_mount(2) then
-refuses to attach the tree with ELOOP from check_for_nsfs_mounts().
-This was reported to crun in [1].
+Jan,
 
-The rule behind that goes back to commit 8823c079ba71 ("vfs: Add setns
-support for the mount namespace"), which requires "all bind mounts be of
-a younger mount namespace into an older mount namespace" so that mount
-namespace reference loops cannot form.  OPEN_TREE_NAMESPACE ends up on
-the wrong side of it by construction: the namespace it creates is younger
-than everything else on the system, so from inside it every pinned
-namespace is older.
+On Tue, Sep 22, 2026 at 1:22=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+> Hello Andreas!
+>
+> On Mon 21-09-26 23:17:11, Andreas Gruenbacher wrote:
+> > Introduce a new I_NOPRUNE i_state flag for preventing prune_icache_sb()
+> > from pruning specific inodes.
+> >
+> > prune_icache_sb() prunes clean inodes under memory pressure ("direct
+> > reclaim").  An inode is considered clean when none of the i_state flags
+> > are set; the assumption is that evicting inodes that don't have any
+> > i_state flags set will be fairly cheap.
+> >
+> > Unfortunately, on gfs2, inodes can be clean in the sense that they won'=
+t
+> > require writing back to disk, but they may still have outstanding
+> > revokes (as indicated by the GLF_LFLUSH inode glock flag).  To evict on=
+e
+> > of those inodes, those outstanding revokes need to be written out first=
+.
+> >
+> > This requires flushing the log, which is already an expensive operation=
+.
+> > When in data=3Dordered mode, all the ordered data needs to be written o=
+ut
+> > before the log can be flushed, which makes things even worse.
+> >
+> > As previously discussed [*], we are currently also running into the
+> > following warning in iomap_writepages() when flushing ordered data:
+> >
+> >     /*
+> >      * Writeback from reclaim context should never happen except in the=
+ case
+> >      * of a VM regression so warn about it and refuse to write the data=
+.
+> >      */
+> >     if (WARN_ON_ONCE((current->flags & (PF_MEMALLOC | PF_KSWAPD)) =3D=
+=3D
+> >                     PF_MEMALLOC))
+> >             return -EIO;
+> >
+> > So we need to prevent prune_icache_sb() from evicting inodes that have
+> > any outstanding revokes.  This patch achieves that by introducing a new
+> > I_NOPRUNE i_state flag.  When that new flag (or any other flag) is set,
+> > prune_icache_sb() will skip those inodes.
+> >
+> > In the filesystem code, we set and clear the I_NOPRUNE flag in sync wit=
+h
+> > the GLF_LFLUSH inode glock flag.
+> >
+> > An alternative approach might be to allow filesystems to refuse evictin=
+g
+> > inodes that prune_icache_sb() has already selected.  This could be
+> > achieved by changing the ->evict_inode super operation to return a
+> > lru_status code or similar.  prune_icache_sb() would then have to
+> > resurrect inodes that were already marked I_FREEING and put them back
+> > onto the lru list.  This approach doesn't seem obviously better than
+> > introducing I_NOPRUNE, so I haven't pursued this any further.
+>
+> So for situations like this I've written a patch set to allow filesystem
+> to mark inode for deferred reclaim (from a workqueue) [1]. Would that wor=
+k
+> for you? It will definitely solve your problems with warnings in memory
+> allocator.
+>
+> I don't want to have two different mechanisms for the same issue so if my
+> solution doesn't quite work for you, let's discuss how to make it better
+> :).
 
-By the time this fails there is nothing userspace can do.  setns() has
-already run, so the host tree is unreachable by path; it is unreachable
-through a fd saved beforehand as well, since mount(2) requires the source
-to live in the current mount namespace; and the offending mounts cannot
-be dropped from the detached copy first, because umount(2) requires
-check_mnt().  So a runtime cannot fall back to the pivot_root() path at
-that point -- it has to predict the situation before setns(), which is
-what crun now does, at the cost of the optimization on every such host.
+thanks, this would solve some of my problems. In the gfs2 case, inodes
+are only in "deferred reclaim" state for a while (while they have
+outstanding revokes) before becoming directly reclaimable again. So
+I'd also need a way to clear the I_DEFER_RECLAIM flag again.
 
-Every other path that crosses a mount namespace boundary already leaves
-these mounts behind: copy_mnt_ns() passes CL_COPY_UNBINDABLE | CL_EXPIRE,
-and create_new_namespace() passes no CL_COPY_MNT_NS_FILE either -- the
-latter deliberately, per the comment added in commit 9b8a0ba68246
-("mount: add OPEN_TREE_NAMESPACE"): "When creating a new mount namespace
-we don't want to copy over mounts of mount namespaces to avoid the risk
-of cycles".  Only get_detached_copy() asks for them, inherited from the
-unconditional CL_COPY_MNT_NS_FILE that predates that exception.
+The I_DEFER_RECLAIM flag setting and clearing code would be racy and
+ugly though, so I'm wondering if we can change the ->evict_inode()
+super operation to return a DIRECT / DEFERRED status code instead. The
+filesystem could then look at the filesystem-internal state and return
+how to proceed with the inode. For example, fs2_evict_inode() would
+probably request a DEFERED evict when GLF_LFLUSH is set, PF_MEMALLOC
+is set, and PF_KSWAPD is not set.
 
-Add a flag so a caller can ask for a clone without them, as suggested by
-Aleksa when the exception was introduced [2]:
-
-    I kind of think this is a somewhat theoretical issue but I don't
-    think we'll be bitten by it. My gut feeling is that I'd prefer this
-    to be an OPEN_TREE_* flag that you have to set (so we can support
-    this in the future) but that's kinda ugly too...
-
-Keep it opt-in rather than changing the default.  A clone attached in the
-caller's own namespace, or in an older one, keeps such mounts usable, and
-open_tree(OPEN_TREE_CLONE) plus move_mount(2) is what mount --rbind is
-through a file descriptor, so dropping them by default would make
-mount --rbind / /mnt silently lose /run/snapd/ns/*.mnt on a live system.
-Only a caller heading into a younger namespace, where the tree is refused
-anyway, has reason to ask for this.
-
-With OPEN_TREE_NAMESPACE, which never copies these mounts, the flag is
-accepted and has no effect, so a runtime can pass it unconditionally.
-Locked nsfs mounts are skipped the same way copy_mnt_ns() already skips
-them, so this exposes nothing new.
-
-Link: https://github.com/containers/crun/issues/2262 [1]
-Link: https://lore.kernel.org/all/2026-01-07-oldest-grim-captions-spills-ywC2O3@cyphar.com/ [2]
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
----
- fs/namespace.c                                |  14 +-
- include/uapi/linux/mount.h                    |   1 +
- .../open_tree_ns/open_tree_ns_test.c          | 183 ++++++++++++++++++
- 3 files changed, 196 insertions(+), 2 deletions(-)
-
-diff --git a/fs/namespace.c b/fs/namespace.c
-index ae5dc64f8b45..165750b3d666 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -3062,7 +3062,8 @@ static struct mnt_namespace *get_detached_copy(const struct path *path, unsigned
- 			ns->seq_origin = src_mnt_ns->ns.ns_id;
- 	}
- 
--	mnt = __do_loopback(path, (flags & AT_RECURSIVE), CL_COPY_MNT_NS_FILE);
-+	mnt = __do_loopback(path, (flags & AT_RECURSIVE),
-+			    (flags & OPEN_TREE_SKIP_MNTNS) ? 0 : CL_COPY_MNT_NS_FILE);
- 	if (IS_ERR(mnt)) {
- 		emptied_ns = ns;
- 		return ERR_CAST(mnt);
-@@ -3204,7 +3205,16 @@ static struct file *vfs_open_tree(int dfd, const char __user *filename, unsigned
- 
- 	if (flags & ~(AT_EMPTY_PATH | AT_NO_AUTOMOUNT | AT_RECURSIVE |
- 		      AT_SYMLINK_NOFOLLOW | OPEN_TREE_CLONE |
--		      OPEN_TREE_CLOEXEC | OPEN_TREE_NAMESPACE))
-+		      OPEN_TREE_CLOEXEC | OPEN_TREE_NAMESPACE |
-+		      OPEN_TREE_SKIP_MNTNS))
-+		return ERR_PTR(-EINVAL);
-+
-+	/*
-+	 * Only meaningful when a tree is copied.  OPEN_TREE_NAMESPACE never
-+	 * copies pinned mount namespaces, so there the flag is a no-op.
-+	 */
-+	if ((flags & OPEN_TREE_SKIP_MNTNS) &&
-+	    !(flags & (OPEN_TREE_CLONE | OPEN_TREE_NAMESPACE)))
- 		return ERR_PTR(-EINVAL);
- 
- 	if ((flags & (AT_RECURSIVE | OPEN_TREE_CLONE | OPEN_TREE_NAMESPACE)) ==
-diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
-index 2204708dbf7a..86082344fc0e 100644
---- a/include/uapi/linux/mount.h
-+++ b/include/uapi/linux/mount.h
-@@ -63,6 +63,7 @@
-  */
- #define OPEN_TREE_CLONE		(1 << 0)	/* Clone the target tree and attach the clone */
- #define OPEN_TREE_NAMESPACE	(1 << 1)	/* Clone the target tree into a new mount namespace */
-+#define OPEN_TREE_SKIP_MNTNS	(1 << 2)	/* Omit pinned mount namespaces from the clone */
- #define OPEN_TREE_CLOEXEC	O_CLOEXEC	/* Close the file on execve() */
- 
- /*
-diff --git a/tools/testing/selftests/filesystems/open_tree_ns/open_tree_ns_test.c b/tools/testing/selftests/filesystems/open_tree_ns/open_tree_ns_test.c
-index 82f3c8c02c9a..5b95180a4582 100644
---- a/tools/testing/selftests/filesystems/open_tree_ns/open_tree_ns_test.c
-+++ b/tools/testing/selftests/filesystems/open_tree_ns/open_tree_ns_test.c
-@@ -14,6 +14,7 @@
- #include <limits.h>
- #include <linux/nsfs.h>
- #include <sched.h>
-+#include <signal.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-@@ -28,6 +29,10 @@
- #include "../utils.h"
- #include "../../kselftest_harness.h"
- 
-+#ifndef OPEN_TREE_SKIP_MNTNS
-+#define OPEN_TREE_SKIP_MNTNS (1 << 2)
-+#endif
-+
- #ifndef OPEN_TREE_NAMESPACE
- #define OPEN_TREE_NAMESPACE	(1 << 1)
- #endif
-@@ -1004,4 +1009,182 @@ TEST_F(open_tree_ns_unbindable, recursive_skips_on_unbindable)
- 	close(fd);
- }
- 
-+/*
-+ * Pin a mount namespace at @where, the way snapd does under /run/snapd/ns.
-+ * The namespace has to be younger than ours, so a child unshares and the
-+ * parent binds the child's namespace file: binding one's own namespace is
-+ * refused by the very check this test is about.
-+ */
-+static int pin_mount_namespace(const char *where)
-+{
-+	int pipefd[2], status, ret = -1;
-+	char path[PATH_MAX];
-+	pid_t pid;
-+	char c;
-+
-+	if (pipe(pipefd))
-+		return -1;
-+
-+	pid = fork();
-+	if (pid < 0)
-+		goto out;
-+	if (pid == 0) {
-+		close(pipefd[0]);
-+		if (unshare(CLONE_NEWNS))
-+			_exit(1);
-+		/* Tell the parent the namespace exists, then hold it open. */
-+		if (write(pipefd[1], "x", 1) != 1)
-+			_exit(1);
-+		pause();
-+		_exit(0);
-+	}
-+
-+	close(pipefd[1]);
-+	pipefd[1] = -1;
-+	if (read(pipefd[0], &c, 1) != 1)
-+		goto out_kill;
-+
-+	snprintf(path, sizeof(path), "/proc/%d/ns/mnt", pid);
-+	if (mount(path, where, NULL, MS_BIND, NULL))
-+		goto out_kill;
-+
-+	ret = 0;
-+
-+out_kill:
-+	kill(pid, SIGKILL);
-+	waitpid(pid, &status, 0);
-+out:
-+	close(pipefd[0]);
-+	if (pipefd[1] >= 0)
-+		close(pipefd[1]);
-+	return ret;
-+}
-+
-+FIXTURE(open_tree_ns_skip_mntns)
-+{
-+	char dir[64];
-+	char pin[PATH_MAX];
-+	bool mounted;
-+};
-+
-+FIXTURE_SETUP(open_tree_ns_skip_mntns)
-+{
-+	int fd, ret;
-+
-+	self->mounted = false;
-+	snprintf(self->dir, sizeof(self->dir), "/tmp/open_tree_ns_skip_mntns.XXXXXX");
-+
-+	ret = sys_open_tree(-1, NULL, 0);
-+	if (ret == -1 && errno == ENOSYS)
-+		SKIP(return, "open_tree() syscall not supported");
-+
-+	/*
-+	 * Work in a private mount namespace, so whatever is mounted here,
-+	 * the pinned namespace included, goes away with the test process.
-+	 */
-+	if (unshare(CLONE_NEWNS))
-+		SKIP(return, "unshare(CLONE_NEWNS) failed: %s", strerror(errno));
-+	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-+
-+	ASSERT_NE(mkdtemp(self->dir), NULL);
-+	if (mount("tmpfs", self->dir, "tmpfs", 0, NULL))
-+		SKIP(return, "Failed to mount tmpfs");
-+	self->mounted = true;
-+
-+	fd = sys_open_tree(AT_FDCWD, self->dir,
-+			   OPEN_TREE_CLONE | OPEN_TREE_SKIP_MNTNS |
-+			   OPEN_TREE_CLOEXEC);
-+	if (fd < 0 && errno == EINVAL)
-+		SKIP(return, "OPEN_TREE_SKIP_MNTNS not supported");
-+	ASSERT_GE(fd, 0);
-+	close(fd);
-+
-+	snprintf(self->pin, sizeof(self->pin), "%s/ns", self->dir);
-+	fd = open(self->pin, O_CREAT | O_RDONLY | O_CLOEXEC, 0600);
-+	ASSERT_GE(fd, 0);
-+	close(fd);
-+	ASSERT_EQ(pin_mount_namespace(self->pin), 0);
-+}
-+
-+FIXTURE_TEARDOWN(open_tree_ns_skip_mntns)
-+{
-+	if (self->mounted)
-+		umount2(self->dir, MNT_DETACH);
-+	rmdir(self->dir);
-+}
-+
-+/* Attach @clone_fd at "/" inside the namespace @ns_fd; returns errno. */
-+static int move_into_namespace(int clone_fd, int ns_fd)
-+{
-+	pid_t pid;
-+	int status;
-+
-+	pid = fork();
-+	if (pid < 0)
-+		return -1;
-+	if (pid == 0) {
-+		int target;
-+
-+		if (setns(ns_fd, CLONE_NEWNS))
-+			_exit(255);
-+		target = open("/", O_PATH | O_DIRECTORY | O_CLOEXEC);
-+		if (target < 0)
-+			_exit(255);
-+		if (sys_move_mount(clone_fd, "", target, "",
-+				   MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_T_EMPTY_PATH))
-+			_exit(errno);
-+		_exit(0);
-+	}
-+	if (waitpid(pid, &status, 0) != pid || !WIFEXITED(status))
-+		return -1;
-+	return WEXITSTATUS(status);
-+}
-+
-+TEST_F(open_tree_ns_skip_mntns, move_into_younger_namespace)
-+{
-+	int clone_fd, ns_fd;
-+
-+	ns_fd = sys_open_tree(AT_FDCWD, self->dir,
-+			      OPEN_TREE_NAMESPACE | OPEN_TREE_CLOEXEC);
-+	ASSERT_GE(ns_fd, 0);
-+
-+	/*
-+	 * Without the flag the clone carries the pinned namespace along,
-+	 * and move_mount() refuses it from inside a younger namespace.
-+	 */
-+	clone_fd = sys_open_tree(AT_FDCWD, self->dir,
-+				 OPEN_TREE_CLONE | AT_RECURSIVE | OPEN_TREE_CLOEXEC);
-+	ASSERT_GE(clone_fd, 0);
-+	EXPECT_EQ(move_into_namespace(clone_fd, ns_fd), ELOOP);
-+	close(clone_fd);
-+
-+	/* With the flag the pinned namespace is left out. */
-+	clone_fd = sys_open_tree(AT_FDCWD, self->dir,
-+				 OPEN_TREE_CLONE | OPEN_TREE_SKIP_MNTNS |
-+				 AT_RECURSIVE | OPEN_TREE_CLOEXEC);
-+	ASSERT_GE(clone_fd, 0);
-+	EXPECT_EQ(move_into_namespace(clone_fd, ns_fd), 0);
-+	close(clone_fd);
-+
-+	close(ns_fd);
-+}
-+
-+TEST_F(open_tree_ns_skip_mntns, flag_combinations)
-+{
-+	int fd;
-+
-+	/* Nothing is copied, so there is nothing to skip. */
-+	EXPECT_LT(sys_open_tree(AT_FDCWD, self->dir,
-+				OPEN_TREE_SKIP_MNTNS | OPEN_TREE_CLOEXEC), 0);
-+	EXPECT_EQ(errno, EINVAL);
-+
-+	/* OPEN_TREE_NAMESPACE never copies them; the flag is a no-op there. */
-+	fd = sys_open_tree(AT_FDCWD, self->dir,
-+			   OPEN_TREE_NAMESPACE | OPEN_TREE_SKIP_MNTNS |
-+			   AT_RECURSIVE | OPEN_TREE_CLOEXEC);
-+	EXPECT_GE(fd, 0);
-+	if (fd >= 0)
-+		close(fd);
-+}
-+
- TEST_HARNESS_MAIN
--- 
-2.55.0
+Thanks,
+Andreas
 
