@@ -1,173 +1,189 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com [74.125.228.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D9B3B2D04;
-	Wed, 23 Sep 2026 09:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790154794; cv=none; b=SFbpcd/k2g3yzAhwCqC6vUXpw7sxOEXWfXswg15swsw7O8AqvFzuCZ9yvzcVL9bKj/AdbXBgzV+ta81w99mjc+6D4rEgjv1kjz+kIcvyKgrjH0xTVjvEktQECc39zhXQ5y5NdvEUGMM5UM9lzbYDb4jamxILWyWtgV9P7rgB3T8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790154794; c=relaxed/simple;
-	bh=MDDfBcmpZsiS84VkxriAREG5/EOIBDnwy5z09d5NXnE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lgDvHoa8nSQB+F7iASF4XTsjK4kUCHc3qECdDOEjZm2arew4GpRt9WjwKiTqhBu6S6r9uE2SZ6nXalhellR+LBpMhgeWMY6oEHut8739PJBTnr4mrtu4SAlGaP1RuwNYBYNAo4oQVNL1zi1JhgtlvB6HaZDpIy8tFfT7yn+WT90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=uSLZ22e5; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58978446058
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 09:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.99
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790155436; cv=pass; b=TpBO1/NCfv8+8eOvpJs5UTuIgvXYPK5QK3Isinl92iIe5Pfoh7q3ZIJns6owfAxEJmKT4lsg3KlTIDZ8F59aZR3PwNvrBXJlK1x+z9XJVDMBJWR/Z4BBrWgw25EknBhrMYkrqVCEmyyNSJ4nOIMl1Pad0zb57y6bJF7IVyOkN0Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790155436; c=relaxed/simple;
+	bh=3xEe9ZWG4AtCEMdKNW95DX462BuG6lSlRZEFAMmAnec=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=rQdg3tN+/9dKXK7V1DalRwWPdw5VzxsABYGjaIocxW+0tNE1Z2d6LwYXdKN8oQOrWMyzvNFHGXjAxjnShlN8N4VSWMZu2jbTKTZl7TAZedSHvbI1Nwe1mOa+b2vPAGjG5LEc9jvD4aWtp3QoFa6pfZB6aMjF+5nX2csIqvXfyrM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J0nAVcGU; arc=pass smtp.client-ip=74.125.228.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="uSLZ22e5"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1790154783; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=EkmkbW6uWSFKxZa5RPcpAVvadAQXx10Aq1DH3CdSOsk=;
-	b=uSLZ22e5dpCAlAqJP73rGbBI95CxtkQB16ImtjBLCkbo03do06rIAvKsuAx73l+8kBcEsFF6qduAGGSn+e1a1Bq+qEEWKa86IYslc+vT/cbxeJq63MSzVULjFHPhETd8poK6d8q/I8yviPB4fBuryjVD8ef9ldrDQz7n6jPbyDg=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XBWhjZd_1790154782;
-Received: from 30.221.148.48(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0XBWhjZd_1790154782 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 23 Sep 2026 17:13:02 +0800
-Message-ID: <eeeab8d8-dfd3-45ff-9f30-d83c527210f2@linux.alibaba.com>
-Date: Wed, 23 Sep 2026 17:13:02 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J0nAVcGU"
+Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6a67fa7a64eso1131618a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 02:23:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790155432; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fPxdLsAAMbOwm5IgCCpCYukbJwng4Mi31Y+Gn0F2vEk3SugwBbu8Pcpp2uq0aDD/tJ
+         fYBY+KnQphDe58K+smn6u7XIEF1tZS//EIn0ehoVJpf78VF7zZ+hpgetTwYV9wqc0y6n
+         nJf25vKAS6ervkq0wd6oddsSLISaIQaGHL/p1RpCdh3Exc5EUUi+W4vplQQE59ZwxK0T
+         0yxiV1+h9YRO1Txs4LlyVDsGn7FNhxaaGNkweWv1nf8uG/BljqLQg36qQsU4951HGzf/
+         toWBsmAfKwRVvgrBdv1Ruq5zBPfXFz+DcGeNaiUZJpG8x14uHzi4pAhqQ9TFGUNX6J11
+         4N5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=2hLXCXGrUFIrTUGKCgEPiNvPtQcPtRp2BpI6S34RUXI=;
+        fh=PvHWx0W3nfQGtiLl2C9AAZqNtJoAGG5hn7TSBl64fY0=;
+        b=p4HZblMiwyaz5sysXzhTBcK/cd3FqbiuDxTRPae2GIdQ4h6rHQgIAnTpI6bk2dxOgL
+         S+wsD7Y+ImQe1pjLcLBhpY9DyePlB4mTtzlYIwpvspmIfxceWdFyN6flBlLJYHeOuy6E
+         agCNR4u6VHtFAGrGvtnS/yqkJ5xQcvqPzOXbxIHep+H3TYjKiprqGMTeJchS+mJLiLY0
+         9N30n41CrVGR3+5mK0XqZsvw4kikclKDKTlgL5tonXBgL2J+Q5PLnwjv0LTLkr2QTS2/
+         30ohJpTccmx8dLZinHSe7n7RS9oVAsUbAgTQQujXvPOh1oYQjvfJvXUarCDGo7R3PFZg
+         iLow==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790155432; x=1790760232; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2hLXCXGrUFIrTUGKCgEPiNvPtQcPtRp2BpI6S34RUXI=;
+        b=J0nAVcGULjFq4qAdfxQ3m5RUmUTZSzdYydTu2KHnXFogGHVoJHg8NaK+6N6JrBSmuZ
+         aRbrI0QA05nN/Okp7cnETAYnLcLfGdWZqgwjtpCmKzX7ODCEb5/gTse4JJG8TcACBhcG
+         G6+XbSiid2uUj0CGTw5L7sReJdUd03wPEuPcTnZZcRxfXJwReYjQv0jtG98Y9ohIZ/uO
+         69D372QIedDhtpo3Gcdg4ULHBg2QVtQtvyH4zHzPnnqdX1bSgwALbp++ulL1ix2Rolop
+         8kgI0D78g11O9/Rfbxv6QluYQN3jUBFIrxOe5oVSU0IvhbLprY/BzFd6A8J3GSzVHQGu
+         5B8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790155432; x=1790760232;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=2hLXCXGrUFIrTUGKCgEPiNvPtQcPtRp2BpI6S34RUXI=;
+        b=EgRumIE9ZnLdPs6pt29AwhRq+Xbr8cP3BBTht2d1f87/9cSOYsY97WfcTCgZdAFjMg
+         B6mZiuCRcZTZXqktugB/Wf68eruXtlErv9ZvPQW8fRnUZ7d1XQQC1qgWAUgazfOSPupk
+         6vaZoefPLRRkQlkrjOmLyEg3dTlkjZQI68Ical1aVXIn3cAorxJakAhOO2O49QNewI4Y
+         nON37NegUj4QBkQFZhxZFTz6ViXndveq3jxGeD1PYSGV1p1f6Uv0pEFYlUAloy6RUR6a
+         bK2Xi9JGYsUZrVHKi6WnbUm54NX2pjR/QRbcmttBxa+Kc45foKGhnPZyVt8A7Q0ZnRrM
+         TlUw==
+X-Forwarded-Encrypted: i=1; AKwUvBwFjS3clEuCN7NQst2vTxZXAyxCVOv9gvLdYdk0DQAmB+A2kvnmjV6nBFrZF/d5ua9EyudDiVOMeMEi3kGM@vger.kernel.org
+X-Gm-Message-State: AFuF++l9H63N4ctcfMAkvik9+y+w24tr5Rq2+awnu+aww1des8e7Rsd/
+	KLbZf9QI0uPA+ig3MxBf0PzPcYJIyayfK9Wticw3VHy6mTAPUmXqhoxLe7naALFH8grzH8cv9l2
+	9RAQm001IBJVnAVcWTWgQEHXgudPGGxI=
+X-Gm-Gg: AYBFou0by65fqFr2xxHI6Zr6BXyWKGj3KS8uAKgi0tkyi4zVN6nZGbBb5Y9vlgMmogt
+	OqKqAccbRwXPHGW3VsU+GCdvWsUxZC54iD3ReSS1cCG8FA3toDUVoa/zKqCblgTWvX7JA4fhZK/
+	8O3ryiNS1S06tomYi1JHpGEkHlyuw+rpvAfbfOkV4aiXBW4DaidunvTZJxSFT3OCllUtVu5YqjW
+	cyenRvasmwjgSGPN5IN4fO/C43c75KARvfqc2s1LASTynkmFkdzG84TAcIHTjRX5X5SsDeuuHUs
+	YefmgciZa5841gy+gU84at9hp+69MM4k/wjxFxK6bnaReco6Z5tVJtcf
+X-Received: by 2002:a05:6402:2547:b0:6a7:fa18:3a47 with SMTP id
+ 4fb4d7f45d1cf-6aab3b05d24mr1797571a12.12.1790155432351; Wed, 23 Sep 2026
+ 02:23:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] generic/492: bypass the blkid cache when probing the
- label
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Theodore Tso <tytso@mit.edu>, fstests@vger.kernel.org, zlang@kernel.org,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- sandeen@redhat.com, dgc@kernel.org
-References: <20260920094137.2749428-1-libaokun@linux.alibaba.com>
- <20260921052719.GB6253@frogsfrogsfrogs>
- <b4a10712-1658-4fba-a037-095fab466270@linux.alibaba.com>
- <20260921234910.GC6253@frogsfrogsfrogs> <arHaTLxSEk3yQxU4@mit.edu>
- <74463cb5-14af-47bb-9380-ca75dc5d293a@linux.alibaba.com>
- <20260922145335.GV6283@frogsfrogsfrogs>
-Content-Language: en-US
-From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <20260922145335.GV6283@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Mitar <mmitar@gmail.com>
+Date: Wed, 23 Sep 2026 11:23:40 +0200
+X-Gm-Features: AclHuK_XsSSnSwpJLnw4jYOz28Ykgi_x6JWCChZzbweTHAhiQ07yDfXaHqqbXVI
+Message-ID: <CAKLmikMHpPdXmyPMPhad=wc_HerzCv3wEtp4s-E+NrjvuHj3pA@mail.gmail.com>
+Subject: [RFC] fuse: temporarily detaching a passthrough backing file
+To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026/9/22 22:53, Darrick J. Wong wrote:
-> On Tue, Sep 22, 2026 at 03:17:27PM +0800, Baokun Li wrote:
->> On 2026/9/22 11:43, Theodore Tso wrote:
->>> On Mon, Sep 21, 2026 at 04:49:10PM -0500, Darrick J. Wong wrote:
->>>>> The difference between the e2fsprogs and util-linux libblkid is the
->>>>> time granularity: the former stores seconds only (TIME="%ld",
->>>>> bid_time = time(0), compares st_mtime <= bid_time), while the latter
->>>>> stores usec (TIME="sec.usec") and has an nsec tie-break in the compare,
->>>>> so the same-second case is much easier to hit with the e2fsprogs blkid.
->>>> Perhaps xfstests-bld should use the system blkid then?  IIRC the one
->>>> in e2fsprogs is very old and out of date.
->>> Historically, xfstests-bld was built in environments where libblkid
->>> wasn't available.  This included Android's runtime (which uses the
->>> bionic libc), and grte (Google Runtime Environment)[1].
->>>
->>> [1] https://github.com/bazelment/lrte/blob/master/grte/grte-build
->>>
->>> However, as more and more tests require utilities from util-linux,
->>> xfstests-bld was taught to build util-linux.  And if util-linux is
->>> being built, then we don't use e2fsprogs-libs any more, which is where
->>> libblkid is built.  From build-all:
->>>
->>> if test -z "$USE_LOCAL_E2FSLIBS" -o -d util-linux; then
->>>     SKIP_E2FSLIBS=yes
->>> fi
->>>
->>> I've always built xfstesets-bld with util-linux, even though it is
->>> listed as an optional repository.  This is because (a) util-linux is
->>> needed for Android and other non-standard Linux environments, and (b)
->>> the version of util-linux used by earlier Debian Stable was too old
->>> for some of the newer tests in fstests and blktests.
->>>
->>> If you aren't building xfstests-bld with util-linux, it falls back to
->>> building libblkid from e2fsprogs-libs.  HOWEVER, we don't actually
->>> blkid, and libblkid is always built statically.  So what seems to be
->>> going on is that one of the programs built by xfstests-bld is using
->>> the older libblkid, and that results in the blkid cache being writen
->>> with a second granularity.
->>>
->>> I've never noticed this issue because I've always built with
->>> util-linux.  The way to solve this is to require building with the
->>> system libblkid if util-linux is not being built, and to drop
->>> e2fsprogs-libs from xfstests-bld.  Or just build xfstests-bld with
->>> util-linux.  :-)
->>
->> Thanks for the detailed explanation.
->>
->> I checked my environment again though -- it turned out not to be
->> xfstests-bld at all.  xfstests-bld never touches e2fsprogs.
->>
->> What happened is that I had manually run "make install" of a locally
->> patched e2fsprogs in the test VM, which overwrote util-linux's blkid
->> and fsck.
->>
->> Rebuilding e2fsprogs with these options disabled made the test pass:
->>
->>     ./configure --disable-libblkid --disable-fsck \
->>             --disable-libuuid --disable-uuidd
->>
->> I ran unpatched generic/492 60 times on each side in a VM: 12/60
->> failures with the hand-installed strays, 0/60 with util-linux's
->> blkid/fsck.
->>
->> That said, I think the patch is still needed, because
->> FS_IOC_SETFSLABEL does not update the block device's mtime:
-> Many filesystems /never/ update the bdev mtime, why would they?
+Hi!
 
+I am writing a FUSE filesystem which stages what a command writes in
+layers, so that the changes can be reviewed before they land on disk,
+and I have been looking at whether FUSE_PASSTHROUGH can serve its data
+path.  It cannot, and the reason seems general enough to ask about
+here rather than work around locally.
 
-Not from FS_IOC_SETFSLABEL, at least -- as far as I can see, none of
-the filesystems implementing it updates the mtime, and even btrfs does
-not do it from its label ioctl.  btrfs does have update_dev_time() for
-the add/remove case (5a1972bd9fd4, so that libblkid does not keep
-reading a stale cache), but that is not wired into its label ioctl.
+Once FOPEN_PASSTHROUGH has been granted for an open file, the server
+cannot take it back.  FUSE_DEV_IOC_BACKING_CLOSE removes the id from
+fc->backing_files_map and drops one reference (fuse_backing_close() in
+fs/fuse/backing.c), while each open file keeps the reference it took
+in fuse_passthrough_open(), released only when the file is closed.
+None of the FUSE_NOTIFY_* messages reach it.  Granting passthrough is
+therefore a promise that the backing file stays the correct target for
+the entire life of every descriptor which gets it.
 
-I can see why.  What blkid keys on is the mtime of the /dev/xxx node,
-and once the mount is set up we hold no reference to that path anymore
--- the node can be deleted or re-created, and s_id only keeps an
-informational name.
+There are two situations where a server cannot make that promise.
 
-Worse, one block device can have any number of /dev nodes pointing at
-it; an ioctl on a mountpoint fd cannot tell which one the caller means,
-nor find them all.  So the kernel has no well-defined node to update
-here.
+1) Quiescing, to make a consistent copy.  A server which snapshots,
+backs up, or tiers the files it serves needs, at an instant of its
+choosing, to stop writes reaching the backing file so that it can copy
+it, and then let them continue.  With passthrough the server is not in
+the write path, so its copy is torn; fsync does not help, since it
+flushes rather than stops writers, and the only remaining option is to
+freeze the whole workload from outside the filesystem, with the cgroup
+freezer or similar.
 
-And it gets easy in userspace: for tools that take the device as an
-argument (tune2fs, e2label, xfs_admin), one utime(device_name, NULL)
-is enough to guarantee that after set the label of a device with
-the tool, blkid -s <device> won't see the old label.
+2) Re-targeting.  The file which ought to receive writes changes while
+descriptors are open: a cache evicting or promoting a file, or a
+stacking filesystem redirecting writes to a new layer.
 
-The tricky counterpart is the standard way to invoke this ioctl: a
-mountpoint as the argument, xfs_io being the typical case.  It seems
-the only option there is what the kernel would have to do anyway --
-resolve the device behind the mount and update that node's mtime.
+Of the two, (1) seems the more general, and it is the one which does
+not depend on any particular stacking design.
 
-Do you have any thoughts?
+What both would need is a way for the server to detach the backing
+from the open files holding it, letting io fall back to ordinary
+requests, and later to attach a backing again, either the same id or
+another one.
+
+The io path looks mechanically simple, because it re-dispatches on
+every call: fuse_file_write_iter() reads ff->passthrough per write, so
+clearing it would send the next write through the connection.  What I
+cannot judge is the rest.  fuse_file_passthrough() is a plain read of
+ff->passthrough, so a detach would need something to serialise against
+io already in flight, and the io mode transitions in fs/fuse/iomode.c
+would have to be driven in both directions: out of uncached io mode on
+detach, and back into it on attach, with the page cache invalidated in
+between.  The kernel does already perform one such transition at
+runtime by itself, when the first mmap of a FOPEN_DIRECT_IO file
+enters caching io mode.
+
+mmap is the part I expect to be contentious.  A mapping is bound once:
+backing_file_mmap() sets the vma's file and then runs the backing
+filesystem's own ->mmap, so the vma ends up with that filesystem's
+vm_ops and page tables into its address space, and nothing in the
+fault
+or writeback path consults the fuse file again.  A detach which
+covered only the io path would therefore leave existing mappings
+writing to the backing file.
+
+For (1) that is a bounded loss: only a process which mapped that file
+MAP_SHARED for writing can still store into it during the copy, so the
+copy of that one file may be inconsistent while every other file gets
+a clean cut.  overlayfs documents a comparable deviation, in
+"Non-standard
+behavior" (b) of Documentation/filesystems/overlayfs.rst, where a
+lower-layer file mapped MAP_SHARED does not see later changes.  For
+(2) it is worse, since the mapping goes on writing to a file which
+nothing resolves to any more.
+
+So my questions are:
+
+ - Is an interface of this kind of interest at all, or is "a backing
+is forever" meant to be part of the contract, in which case it would
+be worth saying so in fuse-passthrough.rst?
+
+ - If it is of interest, would a detach which explicitly does not
+affect existing mappings be acceptable, documented the way overlayfs
+documents its deviation?  Or would mappings have to be handled, by
+walking the backing inode's i_mmap, zapping and re-pointing the vmas,
+for such an interface to be considered at all?
+
+ - What shape would be preferred: an ioctl beside
+FUSE_DEV_IOC_BACKING_OPEN and _CLOSE taking a backing_id, a
+FUSE_NOTIFY_* message on the connection, or something keyed by nodeid
+rather than by backing_id?
+
+ - Is there an existing way to get either of the two behaviours which
+I have missed?
+
+Code references checked against 7.3-rc5.
 
 
->>     blkid -s LABEL ...    # get A
->>     FS_IOC_SETFSLABEL     # set B (device mtime unchanged)
->>     blkid -s LABEL ...    # still get A (within 2s)
->>
->> The first read writes a cache entry with TIME=now, and the ioctl
->> leaves the device mtime untouched, so a second read within the 2s
->> window still trusts the cache.
->>
->> I reproduced this with util-linux 2.41.5 too, so
->> "blkid -c /dev/null" is what keeps the test deterministic
->> regardless of which blkid the image carries.
-> <nod> That was the problem I thought you were solving here ;)
+Mitar
 
-Yep, that's the idea.  The point was to stay away from blkid's
-cache complexity -- testing how a userspace tool caches things is
-not really what a kernel test should be doing.
-
-
-Cheers,
-Baokun
-
-
+-- 
+https://mitar.tnode.com/
+https://noc.social/@mitar
+https://bsky.app/profile/mitar.bsky.social
