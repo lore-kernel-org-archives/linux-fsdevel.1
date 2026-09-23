@@ -1,79 +1,92 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDD23C73CC;
-	Wed, 23 Sep 2026 04:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15CEA38A725;
+	Wed, 23 Sep 2026 05:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790139317; cv=none; b=ik0GAqjK/Jd68GcxXSnR4Jj/M9zLMMwLfERUMG1lFkqHEWLLL/OEMDl3r3717PU1XMubxXxcqS3fAw7u/gTKmnoh9pdWiPKrKsUtDDEDfXEDvi4PPK+D0QwvbByYuS/giQJiDGS4XpDZTLb1heRFzLeTGh2EZhjdmc7bL6Snmcw=
+	t=1790142582; cv=none; b=l0I0xk1CBohLejTuOAeia2mY0YN0pazdmxk1wpA9ErreJqZg9j8I+4+OvYm63FA2tzd8w2EC/EL3Wb6QFv5BmNVxcGUS5DVuLzFsLR80QL6B6eBbx+wq31/q0Az/AiISvURR2XwNvLnjqrrG6xGZgPa2yUYEKy3wpJxVG2p/NlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790139317; c=relaxed/simple;
-	bh=Qs19OWKtYjUAEmVURvXm80xgS1L3ZM2WRz5g0LPu/o0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kctbwbDCL8M+FQa6X9aZh4IF6GItBhmTojST5XdtUiCIVT5dahUVcLTDxmLZmMDe2raQyazm1KhqZ3F3JB1OwJnlPv2Wks8yAhunpC8LYpadkcepk20Q9OEwpmbmF1C4KhVMfxMjDekfghUKFaxXjG1DWIxbUA5QUeWOgryyLAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B955768BFE; Wed, 23 Sep 2026 06:55:05 +0200 (CEST)
-Date: Wed, 23 Sep 2026 06:55:05 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-Subject: Re: [PATCH v6 06/13] nvme-pci: implement dma-buf backed requests
-Message-ID: <20260923045505.GB26231@lst.de>
-References: <cover.1789997898.git.asml.silence@gmail.com> <e80c3b1e0de004eaca6c51a2a86115ac9ed36381.1789997898.git.asml.silence@gmail.com> <20260922132016.GA30684@lst.de> <d39a6dd7-cb5a-43d6-8dcb-16eb9fc95b4d@gmail.com>
+	s=arc-20240116; t=1790142582; c=relaxed/simple;
+	bh=vT8RJz34w3HJasV0jOxaSYHk/g/wYgfzEFBwgejv/c4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FoIvl5Du0dcSCnLVboDK8kUuZ4h/BxLw+LVyWQzE/Ie6aFSC9+06vWjfMYTjEYtj8pff1iSp7bey4OrOf+FWyh1JzdKaMtyN1iQuq5OfD33nDBQzZrus38flZthljj/dKRJzXP14JmS5EVrKtE4sAjFD3tIFSp95ik0gCGW5COY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hqQyQ74GSzTSdg;
+	Wed, 23 Sep 2026 13:49:18 +0800 (CST)
+Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hqQyP0TLrzTSdg;
+	Wed, 23 Sep 2026 13:49:17 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp1.hygon.cn (Postfix) with ESMTPS id 7B6DF1032;
+	Wed, 23 Sep 2026 13:49:10 +0800 (CST)
+Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Wed, 23 Sep
+ 2026 13:49:13 +0800
+Date: Wed, 23 Sep 2026 13:49:11 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: Christoph Hellwig <hch@infradead.org>
+CC: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <zhongyuan@hygon.cn>,
+	<fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>, <jack@suse.cz>,
+	<dev.jain@arm.com>, <ljs@kernel.org>, <adobriyan@gmail.com>,
+	<akpm@linux-foundation.org>, <hpa@zytor.com>, <ryan.roberts@arm.com>,
+	<mjguzik@gmail.com>, <joel.granados@kernel.org>, <jannh@google.com>,
+	<oleg@redhat.com>, <aleksa@amutable.com>, <legion@kernel.org>,
+	<kees@kernel.org>, <joannelkoong@gmail.com>, <tj@kernel.org>,
+	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <sandeen@redhat.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH v2 1/3] fs/drop_caches: skip filesystems without page
+ cache
+Message-ID: <arNoV2MdtTK-Ruw9@hsj-2U-Workstation>
+References: <20260920072811.2064247-1-huangsj@hygon.cn>
+ <20260920072811.2064247-2-huangsj@hygon.cn>
+ <arIVBpMZk5-O2AZc@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <d39a6dd7-cb5a-43d6-8dcb-16eb9fc95b4d@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <arIVBpMZk5-O2AZc@infradead.org>
+X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-On Tue, Sep 22, 2026 at 02:37:08PM +0100, Pavel Begunkov wrote:
->> Sashiko had a few comments, which I think are correct - if we use
->> dma_map_sg to map the data, we need to use the sync_sg APIs to
->> transfer ownership.  That only matters on non-coherent architectures
->> with MMU, but we need to get it right.
->
-> I've seen that and fixed everything locally that should be fixed,
-> apart from the sync. I wonder what we can do about that? I can
-> somehow replace it with the sg variant for now, but sync'ing the
-> entire possibly multi-GB mapping for, let's say, a 512B I/O, sounds
-> not wise.
+On Mon, Sep 21, 2026 at 10:41:26PM -0700, Christoph Hellwig wrote:
+> On Sun, Sep 20, 2026 at 03:28:09PM +0800, Huang Shijie wrote:
+> > Add a new flag SB_I_NO_PAGECACHE for superblock.
+> > 
+> > Skip scanning the inode lists of filesystems that have no page cache
+> > in drop_pagecache_sb(), as indicated by the SB_I_NO_PAGECACHE flag.
+> 
+> I don't think we need a new flag.  This can check for
+> 
+> 	sb->s_bdi == &noop_backing_dev_info
+> 
+Okay. I can use this method.
 
-If we'd want to fix this for real we'd need to add an offset to the
-sync by sg methods.  Or move away from scatterlists in dma-buf, given
-that they are a horrible API.  All of these are bigger projects,
-though.  So for now I think you'd want to do the sync all, and have
-the people who run high-performance io_uring code on non-coherent
-platforms suffer.
+> which is actually the more relevant concept - not if a file system
+> uses the page cache, but if it supports page cache writeback.
+> E.g. for ramfs there is page cache, but it is the only data store.
+> For shmemfs, there is writeback, but it is driven in a different
+> way (through the anonymous memory code and not fs writeback).
+> 
+> And most importantly it just work, no need to mark file systems,
+> as you're currently missing a lot of those that can have a fair
+> number of inodes, e.g., sysfs, kernfs, cgroupfs or configfs.
+> 
+I ever added support for these file systems, but I deleted the code before
+I sent out this patch.
 
-> And I can think of another place that does mix sync_single
-> with sgs.
+To Jan Kara,
+   thanks for the information about the issue.
+   I will check the inode iteration issue firstly.
 
-Which one?
+Thanks
+Huang Shijie
+
+
 
