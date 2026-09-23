@@ -1,202 +1,154 @@
-Received: from mail-ej2-f32.google.com (mail-ej2-f32.google.com [74.125.228.160])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EE347FAF1
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 10:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.160
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790158542; cv=pass; b=sm4lGP5TL6znnYk2eIT+6DuvMWpXsNL9kcusNZcWlbJ8R7A3I5xt3Po8N5nZsA5d+cneDq+Z1O6gDZzHYrASgaQIxMWMoDu7NgS/sPmkMUxvX+Rq44syYHbnXUXCbpSXZB71pyo7wMdTWt5HeNuV6PpzhC+MDTZNbpXbuwCYPhE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790158542; c=relaxed/simple;
-	bh=yvjRsKuG4XK8dy8/ip76T2dDftOg0LvGvvMlM7k4+Go=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aSUWNGmsFoHXXK2Slbe4E4JwF6582FEyXEAM+M2LFBYskf1ASV+YfSdcYO+x8YOzlOxDzX6p0yrxAfGDYLTJJZktJeIq59zXPK3v+h9AwCyXPVcnU/+jGpVl5DE31EbhlKNKXgt0mo7iE6Op8veNCp3spLZSGVp5o8DJScvjJPE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E+wkIn8u; arc=pass smtp.client-ip=74.125.228.160
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6183747535E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 10:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790158972; cv=none; b=uk4YHVGiz6gT5KpOCNZETvZMRS9AygxFD9drW/Vqy6WIX5Bv3eNVKBdjsTTLlnaIre9DCYCR2pijbtzfFY6OMBOsyQeefCzxgoJCLVgsVuzcLSUbNxGmWzAk0Bu99SkaofLRPSWUvSI27hWDURLBPr06eQT2hihgU6uZOyJVEOc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790158972; c=relaxed/simple;
+	bh=/ZseX+NbgEXKa/5/PnN2Dwai87fHfoR1HubULbkd3ts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hCaiU15TulZWNrCu3F2qEfbjQ7Ky0wiR5+UIGR3tS1eLW+gh5y5iGbV9ce4P+ApSNyca9GkBgMClOOlm2iEP8k7LjBmPt9+9Cu49Kl34ZPp2jrhYGgwVEat6KyI1bgdEKQ/I7aaE/9FlC7ldLX7OCTCyTVWffbkGx5erJ9Y6BbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=q90HXfgY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YB74jIdV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OftuwzgW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cgrLGruF; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E+wkIn8u"
-Received: by mail-ej2-f32.google.com with SMTP id a640c23a62f3a-c254f55efebso107870066b.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 03:15:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790158529; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ud0525j5dUWTBu9Gbz5Eb8KL52WtWqdwoXuJPW0bBrCKtfuLfhyvNPmQZz8LhbL1Uo
-         MWUx4tDiqOsLoRQcod9mjTL6k5Ie7Lt42igAo+y9AZsZXE5h6nhZQLsdOdI1cLUgTcrX
-         hpvb9Uv3Fw6fTeS8TSyyahedI4WsPekxipXvdYjO6QWJhRdeg4kwJk+A80k0zXyqVFua
-         w9N66huYXvdy2cM7hrhZyOD5+SkA/+QHN1P5g1+tqJmSAnwGePAeMpS7uFoZCHBUlpcp
-         e9V/8pGwrIoasQatYnMFVh0DZKWftKd3GJghD+ydn9TRbVO3f33KM9VxtmPHTm0FNP35
-         mzxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yvjRsKuG4XK8dy8/ip76T2dDftOg0LvGvvMlM7k4+Go=;
-        fh=pAPad4jHr4OGx6VCiaMsReEmqO2UVwFAb/DxUYBYcl0=;
-        b=rJ9J22C2UktuVEdLoJA5JPcTkEAQC3hW8kLZpW2WGW+ywJaRfxu8uHZUpmU2op+m9X
-         /MRJWje5z4RG97ai9Mf0H69g/loDVXh5jZQ0sCyL+KyS11dSDPWRgcKDbpigezS24mVw
-         u+otZxm1uFO1Vyl243e5U5INFK9RSwrRmhIhIHn2bHLhNMjNJnQGlB397M5BgGFsjimW
-         0cGYd6AZmZcn7SFuLD91fuovvWcqByIhOf7aNPbXF7NqsvPNwfdzzItrwgkKEGjesOCB
-         QMoQQUwkHuBYnR57GFku0daEB7pyA4QuhhGi7IJvLrjnkPxDeHSbVzp2NFjd6Y6SkANf
-         akUQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790158529; x=1790763329; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yvjRsKuG4XK8dy8/ip76T2dDftOg0LvGvvMlM7k4+Go=;
-        b=E+wkIn8ud+sbCW/hZDRB7OxDjiIBjlkPxyo8p4WLgr05JGZp7afS7jAXLgOEsxULAK
-         htK6cbjZigGp+IYhMUR+f8i6bSh4OYgBITO94ZGV+ZjGLF38IeUSPOovIkmrnMfZGaEP
-         +7htVPqAiWzT3MtbmSifZd8UInb0/0bNFNYYqpIvUiW+D4kXljRg8cMAFbWoCHxaiORN
-         sK5Qei0QC2uT+Dk5w419ptsi1mGfHiDWF5rHk4eqotbuTbsxKzjafnO/ag2EZtnDplfh
-         RjlD0fw5Y04Vu9VpCunWJhdGSyTP7rmB3bMFuCmlrmG91/jBsKWZk0s3132AsaANChwK
-         Iigw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790158529; x=1790763329;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yvjRsKuG4XK8dy8/ip76T2dDftOg0LvGvvMlM7k4+Go=;
-        b=b3+GAAFUOwjic/+OdHVCc6EznMVYbLJb85mM1Ctt4Caucu344HSHTgpyHjjpelp0o9
-         f9CbFFsgdIrfhRWOAC749s9+xRPRZRvUU8UqC4HqjBoIPUA4j1OkOR/ZGVwjCbSjs2xQ
-         d+QLQ6INIeCX3QMnHp60QVykHxnvmxLGBnyeVXDIKG5fV5FFcPjb8S4GVIIthXAYWdfu
-         e+rfyI6uiuwQPfC08ZAk+ozdL5XBk650tB1V67OzshIzh1XyQ2nR6KGVUlSvnFPlRBAw
-         Ra7mo+8VF6HCgS7rSC97TF1m52V/q4ge5rRKIW9f4BTtw/J0sowh+qNRlPOoAaQaEeQV
-         1/ug==
-X-Forwarded-Encrypted: i=1; AKwUvBxJwjkYS+7CLkyqAKcbc9QVkYQ4fGhl/9aK3WXPss8a1X6OAwkMyLmuj2ewiWcaBs6VJ3a9Lio5qRoclZ6s@vger.kernel.org
-X-Gm-Message-State: AFuF++nOpH67Q7bC+cExbn7s/mZCCPf+wJtNHJy7U22A9lTncqCXMdJ5
-	B345HllsmBRgDYhiuibwUmgfZAXJF0GgrC+RRFqEzwiPO8o5BZDf5oVHwQPNKUdqInpZpAilpmS
-	PwuwUmLAm6r/sfhrCz76CSrxM5toRHdE=
-X-Gm-Gg: AYBFou0pKvj5Xb3cJ9oedvhuIA4byCMrQbaFIpjYGULpvYDocCf8BnHe20mGUgsLIhR
-	ue8tJLotNnDmQY/FgdQZ3jQKuAQ933+r+nb1PQp1yqk6z6FrYIhcv9XS/iPANBl/2kAug2bStQ+
-	hbJcPJ2C68uVlTK1HU3jUdy/jy0IllcuRSLk0nU0D6SXzV9YxIBPvfyE/cFxLfFgKGYe+yXQBvb
-	3fmn1b80qOpdghtLN4fa2PoqxBahgA8cuByh/jf6sTwoWyLxvv+rxU4EJhF0L8S573PdW04wmF0
-	aue0tJUR//MKcZXgpNj4cwJWQBUUVB7Z5GNQpTgot+i3foFENAS4JY/w/KD6WFQJhxky1hB6+Aq
-	uYmNqO2AgJtCp3u+h8EvjuIOkhStxDMZoHQ==
-X-Received: by 2002:a17:907:94d1:b0:c21:8a0f:56dc with SMTP id
- a640c23a62f3a-c2aadcf59aemr168360266b.4.1790158529011; Wed, 23 Sep 2026
- 03:15:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="q90HXfgY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YB74jIdV";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OftuwzgW";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cgrLGruF"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 65BC021CAC;
+	Wed, 23 Sep 2026 10:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790158958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KP+pYgMgrj+DWhjzqs5pxXQoj7wUF401GN0IxHktIWo=;
+	b=q90HXfgYorPPBdvjQ0np+fz0By72YHb90tUa6OWZ4DvKp4IP5XhMO+KV/4Zqix98HL5LzU
+	0ciQjpiN60ENzIppfW0O+1KeNI9LReX3ZSMiUcn8F1NTsM5tQYfvvB1uF5mTsgxrPUYurf
+	WOyJIRaTRQ9dANFsIQ0fs1p7p7mpQjQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790158958;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KP+pYgMgrj+DWhjzqs5pxXQoj7wUF401GN0IxHktIWo=;
+	b=YB74jIdV1Q33Zi3LvKOuKVC/qUgZAeh8P4MUOI3kmK/KNJhq52EzHw6THt6bS54I7KkSsc
+	rxCk8tPbtIZLITCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=OftuwzgW;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=cgrLGruF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790158953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KP+pYgMgrj+DWhjzqs5pxXQoj7wUF401GN0IxHktIWo=;
+	b=OftuwzgWw4q4EhEsMkc3x8j4h7JHWWR0yrtQ4KIt2RtReo4IKAk2Nf00IlRM8OVCCW9OOd
+	zxuPAXFikwl093STcOOM6WOAaPxPQo0QGk2JRwUOS9Fcrmo2/HbEkDECPiZmMeMbc/z/mf
+	vF/YpYqM8YrJ0uIPF32AdHvKCnjGGnc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790158953;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KP+pYgMgrj+DWhjzqs5pxXQoj7wUF401GN0IxHktIWo=;
+	b=cgrLGruFpH+tvpr+F2Y9CMkIYhZd+u1pNZ650VXUfhku9+jN+PhAHkVAGXkAXNDMuZYFog
+	NBY1YYOS3eO03zDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC504134E8;
+	Wed, 23 Sep 2026 10:22:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zEaNKWWos2pbVAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 23 Sep 2026 10:22:29 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 550EDA13D4; Wed, 23 Sep 2026 12:22:29 +0200 (CEST)
+Date: Wed, 23 Sep 2026 12:22:29 +0200
+From: Jan Kara <jack@suse.cz>
+To: Thomas Schmitt <scdbackup@gmx.net>
+Cc: linux-fsdevel@vger.kernel.org, jack@suse.cz, 
+	matthias.goergens@gmail.com
+Subject: Re: [PATCH] isofs: Fix handling of directories with tight blocks
+Message-ID: <qgcsmycovncsffjqgvbywgagh44svitgvw5glgi7yfgtbhpez7@rfmjae6nrixq>
+References: <20260922121912.2258134-2-jack@suse.cz>
+ <13424504872184120250@scdbackup.webframe.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260921152449.629486-1-alex@ghiti.fr> <70cae945-3a4a-40db-96ac-5ce66a3fa186@kernel.org>
- <CAGsJ_4y8-wD0yMV8GCtCz5MfNrOKqUaTd+UgH=8MoP_nuvPnGg@mail.gmail.com>
- <108487b7-0529-4282-b5f4-355804b4c0cf@kernel.org> <CAGsJ_4zGmGh70QtRBpnhueev3qt_bgB4ZiE9fkW-hgNjAVhv+w@mail.gmail.com>
- <2e695c8a-4212-42b5-bb51-fbe1aa162e1d@kernel.org> <CAGsJ_4z2nakqBCKd_uAn4bfub99r3NJt2spOUx-K0M7bHW3_-w@mail.gmail.com>
- <4c7c6ea0-84a7-45f6-989c-d1502b90694c@kernel.org> <CAMgjq7DeYsJxG_VCf2KnViV5nd10m-PPYzXRD1fi8QcGWwD0qw@mail.gmail.com>
- <d9a77381-cf88-4726-9223-c16a5c6608c2@kernel.org>
-In-Reply-To: <d9a77381-cf88-4726-9223-c16a5c6608c2@kernel.org>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Wed, 23 Sep 2026 12:14:52 +0200
-X-Gm-Features: AclHuK9mlyEK5KGjeb15PtrjRxgURBtxvyOWmKCdZfKnXFM1uVa_RwiaKUn-CGI
-Message-ID: <CAMgjq7CLGyLHi7Lb8WF_m9bWUHpMRp_uDrqYNRQsH2GkuVQ=Ng@mail.gmail.com>
-Subject: Re: [PATCH] mm: madvise: drop MADV_PAGEOUT folios at swap writeback completion
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Barry Song <baohua@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>, akpm@linux-foundation.org, 
-	willy@infradead.org, jack@suse.cz, liam@infradead.org, ljs@kernel.org, 
-	vbabka@kernel.org, jannh@google.com, chrisl@kernel.org, 
-	shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev, 
-	youngjun.park@lge.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
-	hannes@cmpxchg.org, mhocko@kernel.org, yosry@kernel.org, 
-	chengming.zhou@linux.dev, kunwu.chan@gmail.com, tz2294@columbia.edu, 
-	hch@lst.de, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <13424504872184120250@scdbackup.webframe.org>
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 65BC021CAC
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmx.net];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.net];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,gmail.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
 
-On Wed, Sep 23, 2026 at 11:47=E2=80=AFAM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/23/26 11:35, Kairui Song wrote:
-> > On Wed, Sep 23, 2026 at 10:46=E2=80=AFAM David Hildenbrand (Arm)
-> > <david@kernel.org> wrote:
-> >>
-> >> On 9/22/26 22:55, Barry Song wrote:
-> >>> On Tue, Sep 22, 2026 at 7:26=E2=80=AFPM David Hildenbrand (Arm)
-> >>> <david@kernel.org> wrote:
-> >>>
-> >>> I guess that's because the LRU is not always accurate. There are case=
-s
-> >>> where our prediction of future access patterns may be wrong, resultin=
-g
-> >>> in refaults?
-> >
-> > Hi All,
-> >
-> >>
-> >> Right. But these would happen in both the SYNC and the ASYNC case. Whi=
-ch seems
-> >> to indicate that making the SYNC case behave like the ASYNC case (keep=
- in
-> >> swapcache before evicting) could actually improve performance?
-> >>
-> >> Or is the SYNC case in general so fast that it is not a problem and th=
-e
-> >> swapcache is just not a good use?
-> >
-> > I think the problem is not LRU being inaccurate, but ASYNC case could
-> > overshoot the anon reclaim very easily. File folios can be simply
-> > dropped, and increase nr_reclaimed, but anon writeback (swap) can't be
-> > done durig the reclaim iteration so nr_reclaimed never increase during
-> > the scan iteration. So the scan tries hard to scan and reclaim more
-> > anon folios, more than it really needed.
-> >
-> > I think the real fix is some kind of different watermark, throttling,
-> > or a different counter to limit the scan of async swap. I mentioned
-> > this at LSFMM this year but I guess I presented too much at the same
-> > time so few people remembered it :D.
->
-> :D
->
-> >
-> >>
-> >>>
-> >>> Even on Android, which uses zram with very fast synchronous swap-out,
-> >>> I can still hit the swapcache from time to time. So perhaps with a
-> >>> slower device, such as an HDD, keeping the swapcache around for longe=
-r
-> >>> could allow applications to hit it more often?
-> >>
-> >> Why is that specific for HDD? It's the exact same app behavior indepen=
-dent of
-> >> the underlying swap technology.
-> >
-> > If you have a shared folio, you must use swap cache, and even for
-> > single used folios swap cache is the way to do synchronization,
-> > regardless of the device.
-> >
-> >>>
-> >>> I don't know. Maybe Alexandre can share more details about this
-> >>> benchmark. I'm also a little surprised by the 15% regression in
-> >>> Sysbench OLTP. My initial feeling was the same as yours: we should
-> >>> release the memory immediately after writeback completes, for both
-> >>> synchronous and asynchronous I/O.
-> >>
-> >> Right. And see if we can identify why we are swapping out the wrong th=
-ings :)
-> >
-> > I think we are not? It's about over-reclaim. In the worst case we
-> > might put every anon folio under writeback, while no folio is
-> > reclaimed, if the device is super slow.
-> Ah, that hints at the real problem then? How confident are we that that's=
- what's
-> happening?
+On Tue 22-09-26 16:59:16, Thomas Schmitt wrote:
+> Hi,
+> 
+> nitpicking about a comment in isofs_find_entry():
+> 
+> > +                * If we are at the end of the block or at its zero-padded
+> > +                * length, move to the next block.
+> 
+> s/length/tail/
+> 
+> As unprepared reader i would wonder what "zero-padded length" is.
+> The comment in do_isofs_readdir() says "zero-padded tail", which i
+> deem more understandable.
 
-Given the fact that ZRAM/ZSWAP doesn't suffer from this, I think this
-is the cause: the main difference is that ZRAM/ZSWAP frees the folios
-after pageout() so nr_reclaimed is increased (reclaim loop just keeps
-comparing nr_reclaimed to nr_to_reclaim), other swap devices keep the
-folios under writeback, and continue reclaiming unless they hit enough
-clean folios to drop.
+Good point. Comment fixed.
 
-I can't say I'm 100% sure, and it's hard to verify but I think we need
-to try fixing this instead. It's not hard to construct a case where
-all anon folios are put under writeback due to very slight pressure,
-e.g. a dm-delay (e.g. 500ms?), 1G anon in one memcg, very slight
-memorey pressure could easily put nearly all anon folios under
-writeback.
+> As far as the program code is concerned:
+> Reviewed-by: Thomas Schmitt <scdbackup@gmx.net>
+
+Thanks!
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
