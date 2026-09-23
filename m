@@ -1,35 +1,35 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4DD423E9F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 18:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53013803D1
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 19:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790190002; cv=none; b=rOB+6uroKktdMag3CSrbPbJ0Ip6SJrOe6EYM991fmHyQotU2deA70dq7aU0g2gVGC+wwvzJZmoXPyUwqxgws0IoZHTA+qECWZFgq2pB0SZx6w+rT4LjHxZtwgjI48Lf87ygnFzvzjjCvyEtsT8oQ+BiOLTlDH7CUISAtbmgP4cE=
+	t=1790190667; cv=none; b=BJnL5c01BFv1DYD1gmdjaABN7c366O8zyvrYhcK+MK1KUO3pV1cwpjdXg5HgCoUDSD9ps34Zymi+NIpfLSZkwMOaJBaxF4q3C/EQd6S4uZms3CnZzoDvq8r7aNi0+SaGaMz/7laKwz0vyWCYZ0kskT5lzrgKpl0QV8tWsLbp994=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790190002; c=relaxed/simple;
-	bh=3KcD65CsMCJpMUlIcYtRP3z6CpHUHem2ZkUgrBxjaNA=;
+	s=arc-20240116; t=1790190667; c=relaxed/simple;
+	bh=01/JPyjt7qn0XS8DYib1LxBpCTAsUOhlHZmvPyyOm4k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r9kyG2R56zyDPV5HnWwV89xeEXIONvQJwdOuLiALISoC71HDK6oZKcCkkWaNjR9HpnHmfVLuLpEHNTgrVVp6aw98T/xDUSXnLcwHPOv30UZIfawKXdQOmJ4mwH3/5p+1ZQ6gQ+CzVuJoUZbsXdaUJeh/7rR1mX/zrbS1PlsVV5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FMo0I0mj; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=K2tSue+A8vZA6Nfm5LKhIzd+eYWDjHFw20ivBfs7D/eyKKyUUx7RuwNtHCPRGlOyUSwgY0scIkC5kM95hP3LDMcjZxb+8g6jc0Ns3QvSTBBUPQcZrgbt1mg9ujUrKn8phPKPO9CinppKCgZt8RvhXuzrK3r2OouV1+MtzJ0mbJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Hz+vBi8v; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FMo0I0mj"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Hz+vBi8v"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=AxAHc90wfm9SnYwgDzQ3lzFeh2jo+c35yDwusOijFh0=; b=FMo0I0mjZm80/tjeOHoyWLWDzl
-	+JuS0LUThspgxfePa2m6QvZFrVS2IkL+fMSRLNOGnm9aK2VsDTg7WzZFfIFia3px4gILuUpp2t8UQ
-	tR6TQDgjn1eveDqqZ5pPLymPIHQuWVryk1YIFw66DQ5XHmCNAgFfQB62LewPtiZ2y52cIfLOXK0zz
-	BsKjJl2nJ858Zb6VNfGOLDZwwvq/DYzSN1trSEYTOv4Gzmpq67PSxlxjLdCiEAwWsBrULYuhmlWem
-	Dduf0jWFkxom2bLboq32Mh3D2rdqxFOHzyxgfq8ak/0OCMAnfz7iwwWX/RpUFmovH/InQrYrhF6ra
-	BGNX3Tqw==;
+	bh=IdbvxD7XvosJv9AaBZwu35ekz1HVTVwCDc31aTv9+jk=; b=Hz+vBi8vLWbTXjXGcIU8xWLl2K
+	TSfQU8Xcj1UQuDAB35cjiUwhEN10TXGaylwmqGeVjRSM/fQfyYZfLBtIDnXYVw4qh16APiCezp/RC
+	BBZNVGgjX4MHaf/+oyDfJU5E+Y9cAZB+SFme7xvFHvoAgX4ij+Z2WmzNH8pDgI5nxCBbvH0NoMP0t
+	/i+8K93VymoNJ7EVsVqL0MoDGIpGxK91ej5S63t1N3VmRo2Qntg0LVsY2F/wUddRmUAvrNEnE31+J
+	Xf8FLVUCgYr6xerl1fGjRqPY780p5dRNiMxWmYpFsitQdNUHzUeEKtMMbp6Id5+29nHV2ZT95Uu71
+	goELFdyg==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9SC6-0000000EAf9-0aJx;
-	Wed, 23 Sep 2026 18:59:50 +0000
-Date: Wed, 23 Sep 2026 19:59:49 +0100
+	id 1x9SMp-0000000ECUY-2y5n;
+	Wed, 23 Sep 2026 19:10:56 +0000
+Date: Wed, 23 Sep 2026 20:10:55 +0100
 From: Matthew Wilcox <willy@infradead.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -42,13 +42,15 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Christian Brauner <christian@brauner.io>,
 	Jiaqi Yan <jiaqiyan@google.com>,
 	"Gregory Price (Meta)" <gourry@gourry.net>
-Subject: Re: [PATCH v9 06/15] kpageflags: Use is_page_hwpoison() to set
- KPF_HWPOISON
-Message-ID: <arQhpW5tKmu1Vqrh@casper.infradead.org>
+Subject: Re: [PATCH v9 08/15] hugetlb: Use the has_hwpoisoned flag
+Message-ID: <arQkP2uEzog8ChN0@casper.infradead.org>
 References: <20260805210557.1118966-1-willy@infradead.org>
- <20260805210557.1118966-7-willy@infradead.org>
- <3e609c64-a393-4667-be74-6cb2bbdcb717@kernel.org>
- <e68018a5-a8d0-4ca6-b3f7-7a151d17be31@kernel.org>
+ <20260805210557.1118966-9-willy@infradead.org>
+ <a51a6236-8881-4479-8f04-39676e0e1f14@kernel.org>
+ <an3uN4TAAZ2miXhe@casper.infradead.org>
+ <7608c80e-645b-4d07-bba3-ef45ee36fba4@kernel.org>
+ <arGidwZQrrWVPAoj@casper.infradead.org>
+ <7a23511f-365f-436f-b934-6a520510409c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -57,20 +59,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e68018a5-a8d0-4ca6-b3f7-7a151d17be31@kernel.org>
+In-Reply-To: <7a23511f-365f-436f-b934-6a520510409c@kernel.org>
 
-On Thu, Aug 13, 2026 at 11:01:02AM +0200, David Hildenbrand (Arm) wrote:
-> >> +	if (is_page_hwpoison(page))
-> >> +		u |= 1 << KPF_HWPOISON;
-> 
-> I also just realized, that other users in this function now use BIT_ULL.
-> 
+On Wed, Sep 23, 2026 at 01:40:24PM +0200, David Hildenbrand (Arm) wrote:
+> On 9/21/26 23:32, Matthew Wilcox wrote:
+> > On Fri, Sep 18, 2026 at 03:44:12PM +0200, David Hildenbrand (Arm) wrote:
+> >> I'm a terrible person and it took me way too long to get back to this :(
+> >>
+> >>>
+> >>> You make it sound so easy ;-)
+> >>
+> >> Heh, as long as you hold a folio reference it really is :)
+> >>
+> >>>
+> >>> If we don't hold a reference on the folio, then the folio (whether it's
+> >>> hugetlb or not) can be split.  And then folio_test_hwpoison() can hit
+> >>> the assertion that it's now a tail page.
+> >>
+> >> Right. I am/was missing the connection to "generic_file_read_iter() in hugetlbfs".
 > > 
-> > snapshot_page() takes a snapshot of the folio and the page. If you look at
-> > "page", you start going to the live version again.
+> > We might be able to split this into two series at this point.  
+> 
+> That would be good, because I suspect the "generic_file_read_iter() in
+> hugetlbfs" part is less controversial than the hugetlb cleanup and we can just
+> merge that easily without touching too much other code.
 
-This is now:
+Oh, no, it's awful and complicated.  We could strip out the two bugfixes
+which are at the start of the series, but why would we want to do that?
 
-+       if (is_page_hwpoison(&ps.page_snapshot))
-+               u |= BIT_ULL(KPF_HWPOISON);
+It has to do with hugetlb not using the has_hwpoisoned() flag today,
+and to do that we need to do all the other cleanup first.  You don't
+need to read + understand those earlier patches; they have enough 
+review from people familiar with this area.  And sashiko ...
 
