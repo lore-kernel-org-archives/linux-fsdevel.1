@@ -1,89 +1,115 @@
-Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDD812FE07D;
-	Wed, 23 Sep 2026 07:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F0343B6C9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 07:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790146932; cv=none; b=QZwYQE0UxSdAELU1iCSF6IeNTpNpM6qMATDR544Gx3Z3aSbZJSwP8CPKOIB+Vj22O6a+0xYelIUwV0mSSLWN9FPAQ6o/jMMqJSwHb1VK+Cw5VUnt8cU9AlQ7W2ztnm5Hn5GewbbKkTeQYhtcTg4SjuyJWkJiQGELH1UflIjyHjU=
+	t=1790149944; cv=none; b=HfiHswKgzHv4Gi0wC7jwShcHZw912nuKq5YP5vX6Rkc8XyhzpXDsXpLqU1Hh1MoL8DwvDeT+GRvv80w6ICYKrrlCZ265BdbCPdQyo7FZ7eoSRoAAGZbbkx4oi1HgoTqr7FzdFXUpmWXOyQPlQEzGF7Udke8nlNkr/Z9mrOaqX34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790146932; c=relaxed/simple;
-	bh=Pkz5iq28FdGajhySrhFAqn9gEq1x1w1GgnxF5EHD47s=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FZgSVrF5VYkNv872SzxPDesSknCVnRvtM4SdHvEKhHhI8eZQhOt6NN9j+5qnBYydWUx7PGPXYlZquJQeBVbf3UCyFZCurehv+aEmnj9/xALMj0sTwKzAEPDu+9MXi7ZsjhKvhJuZog9M85m5LAfpAJDgQlB+U7/+EW7oQqpI2FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hqSYw3jPxzTSdh;
-	Wed, 23 Sep 2026 15:01:40 +0800 (CST)
-Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hqSYv6Z8XzTSdh;
-	Wed, 23 Sep 2026 15:01:39 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp2.hygon.cn (Postfix) with ESMTPS id C34DF3027FFB;
-	Wed, 23 Sep 2026 14:57:08 +0800 (CST)
-Received: from hsj-2U-Workstation.hygon.cn (172.19.24.226) by
- cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Wed, 23 Sep 2026 15:01:38 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
-CC: <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>,
-	<jack@suse.cz>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <yefan@hygon.cn>, Huang Shijie
-	<huangsj@hygon.cn>, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH] fs/drop_caches: skip filesystems without fs writeback
-Date: Wed, 23 Sep 2026 15:01:16 +0800
-Message-ID: <20260923070116.3226846-1-huangsj@hygon.cn>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1790149944; c=relaxed/simple;
+	bh=Fnyr6rVRPoJFxW0Z4pPZSrWsGB1tzbeFsCl+jZOkZ2w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aNNGqL5lbfXXKFjKq2LGTLoPPiXqesH/yFibjB/oQGLqksLnddMFs2KgcVUSohCXXK4WtoFkXvLlEM11wPKz7d6YGWaVdTPi0F8f7/WYTmfkmo4jxTzb5G+ikaCDfnRM5R86pmKVqiWqxr4blDuF7t9ml6mbWvpyoFqlyfJEjZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cw3eLWqz; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cw3eLWqz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 235061F008A0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 07:52:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790149943;
+	bh=1X1/H46wtOUFhCSfHDgaDbvfS/kcoAzk1WxGfPpPlb0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=cw3eLWqzvQ6o9N8t0qWwBmIxlEDYNV8GtvSjMVPu6lEN0j9d8iq6s8AmwLKcQg7wd
+	 p7ayO5WKGZZ+rg4XxSLLwAJ2wo3fBPQluYeZUM2IlX+ZCJtrdDcUozDGj+n/ICHzHJ
+	 3eN3VC1YlZHZmMyokfXYKzqh7vpbaFdQnwTdFJH9k599dPjgrauHnrckBVQH0Km/f7
+	 aRxSj9RvNBh6bxyyJdqn8jIy9RcCV5kW8Mixj+iDWGTq+ZFAXHFFvlp0FXIJqQSvVf
+	 5ZE+EVKan1yDZefR92QtfK01/t6+t475ByaN8Z+SA7Q43WmlJ97o3c/8QtUhkrzyLg
+	 B48evJUkQiBtQ==
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f70553dso91127366b.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 00:52:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwy2a3WEfgR7kBFAZeZ+fpJeJxh82Aq9hBACiQ8aGKYe8T4fZO6BT94cKE6/EXVbN2TG5EQWXlqt6LYbT5k@vger.kernel.org
+X-Gm-Message-State: AFuF++nE3IiY2d/+pw1RJQcdPFZ9BB3yMT6s4jFENI9LrTk7HUHtGT70
+	N96IoaEVAGa8OhT4fLF0EuoMGXBElko28pNNUgaHH74ckkSLKCYesngpKU+LT/iJrCKdKJQHJPe
+	vDTF7Rc04BsVYowuHDoapEUqDC9fvu6I=
+X-Received: by 2002:a17:906:4fc5:b0:c25:1b4f:6d95 with SMTP id
+ a640c23a62f3a-c2aadc9904amr135862666b.6.1790149941479; Wed, 23 Sep 2026
+ 00:52:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
- (172.23.18.114)
+References: <20260919022441.3305170-1-neilb@ownmail.net> <20260919022441.3305170-6-neilb@ownmail.net>
+ <CAKYAXd9W3O=Dsavu4=XUp+3SyFWOL3Bs7fbzg0YBFpwk4-TCAA@mail.gmail.com> <179014624846.37859.16894598335961934458@noble.neil.brown.name>
+In-Reply-To: <179014624846.37859.16894598335961934458@noble.neil.brown.name>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 23 Sep 2026 16:52:08 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8_cmVMyD8y4U5+-y3PZta2Mi5KQJX-7XRA88fuEsrX_Q@mail.gmail.com>
+X-Gm-Features: AclHuK9GtQXgBccXjDjr02skxzNXUfjo8-6MgvjMV6m7PQmHZG-x4TCWIsJDAUI
+Message-ID: <CAKYAXd8_cmVMyD8y4U5+-y3PZta2Mi5KQJX-7XRA88fuEsrX_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 05/14] cifs: allow -EISDIR precedence over -EFTYPE in __cifs_do_create()
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Mateusz Guzik <mjguzik@gmail.com>, Dorjoy Chowdhury <dorjoychy111@gmail.com>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, gfs2@lists.linux.dev, 
+	Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, ceph-devel@vger.kernel.org, 
+	Paulo Alcantara <pc@manguebit.org>, linux-cifs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Filesystems backed by the noop backing device (procfs, sysfs, kernfs,
-tmpfs, ramfs, etc.) have no fs page-cache writeback.  Skip them in
-drop_pagecache_sb() instead of walking their inode lists.
+On Wed, Sep 23, 2026 at 3:51=E2=80=AFPM NeilBrown <neilb@ownmail.net> wrote=
+:
+>
+> On Wed, 23 Sep 2026, Namjae Jeon wrote:
+> > On Sat, Sep 19, 2026 at 11:25=E2=80=AFAM NeilBrown <neilb@ownmail.net> =
+wrote:
+> > >
+> > > From: NeilBrown <neil@brown.name>
+> > >
+> > > If atomic_open is given __O_REGULAR, we now would prefer -EISDIR
+> > > if a directory was found.  So move the S_ISDIR() tests earlier.
+> > >
+> > > Also don't return -EFTYPE for S_ISLNK() - that should get -ELOOP and =
+only
+> > > if O_NOFOLLOW.
+> > Simply exempting symlinks from the __O_REGULAR check in cifs is not
+> > sufficient. Once this check allows the symlink through,
+> > cifs_atomic_open() still calls finish_open() on it, setting
+> > FMODE_OPENED. open_last_lookups() then skips symlink traversal, so
+> > do_open() returns -EFTYPE before may_open() can return -ELOOP. This
+> > path also reaches cifs_new_fileinfo(), which pins the symlink dentry
+> > with dget(). The symlink's file operations do not provide CIFS's
+> > .release handler, so the failed open does not call cifs_close() to
+> > release that reference.
+> >
+> >
+>
+> Thanks for looking at this.  I think I can see what you mean.
+>
+> If __cifs_do_open() chooses not to call cifs_posix_open(), if that call
+> succeeds without providing an inode, then we could end up at
+> cifs_get_inode_info_unix() or cifs_get_inode_info() and if that returns
+> a symlink inode, this will be returned to cifs_atomic_open() which will
+> try to open it (finish_open()).
+> This is a pre-existing problem - is that right?  If an O_CREAT open
+> which doesn't have __O_REGULAR happens to find a symlink, then it will
+> already try to open it.
+Yes, I agree this is a pre-existing problem.
 
-This also skips tmpfs/ramfs. tmpfs has clean folios which are
-zero-filled pages from reading holes, which are trivially recreatable.
-
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Huang Shijie <huangsj@hygon.cn>
----
-The RFC mails:
-   https://lore.kernel.org/all/arIVBpMZk5-O2AZc@infradead.org/
----
- fs/drop_caches.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/fs/drop_caches.c b/fs/drop_caches.c
-index 49f56a598ecb..28c5fb9c7357 100644
---- a/fs/drop_caches.c
-+++ b/fs/drop_caches.c
-@@ -7,6 +7,7 @@
- #include <linux/kernel.h>
- #include <linux/mm.h>
- #include <linux/fs.h>
-+#include <linux/backing-dev.h>
- #include <linux/writeback.h>
- #include <linux/sysctl.h>
- #include <linux/gfp.h>
-@@ -20,6 +21,9 @@ static void drop_pagecache_sb(struct super_block *sb, void *unused)
- {
- 	struct inode *inode, *toput_inode = NULL;
- 
-+	if (sb->s_bdi == &noop_backing_dev_info)
-+		return;
-+
- 	spin_lock(&sb->s_inode_list_lock);
- 	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
- 		spin_lock(&inode->i_lock);
--- 
-2.53.0
-
-
+>
+> Presumably after calling cifs_do_create(), cifs_atomic_open() should
+> check if the inode is something that it can open.  If not it should call
+> finish_no_open().  Does it need to call server->ops->close() too?
+> Can I leave you to clean that up?  My goal here wasn't to fix
+> everything, but to improve the documentation and change some the details
+> of what errors are created by __O_REGULAR.
+If the server-side handle is still open, it needs to be closed before
+calling finish_no_open().
+I=E2=80=99ll take a look at it.
+Thanks!
