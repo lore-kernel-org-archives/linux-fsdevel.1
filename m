@@ -1,169 +1,216 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246BA3D88F0;
-	Wed, 23 Sep 2026 17:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D9804E73C5;
+	Wed, 23 Sep 2026 17:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790182884; cv=none; b=tMgUbVagyOYMZ8m6dy+s8M222g5c0OrA8wELoVhrE65xin4MTR/GYJdGKKmlPpw0SxwWuOMkkpWsTCeNwoWPlszkZp39DZut4iBncSWWIHM5fXcXjoceHutMb7ooaG1VaHrM1gM6laukedPiNbiB+RSNsrKWGl5PvkuzxOB2XXI=
+	t=1790183262; cv=none; b=SOwvH2oE3tovfm/f8JEsL/awomwhyiF+QQs3fYAVBrTQxq+zLubAJX99peLQ+NGTqniYri8lwzQOp6zwOpo+A20VisY2vJqn0EJqJVuzfHOchxXHNFE+CsUXql8uvRz2QS0z2BF3K73deKudOhHOYcNPnt5XU8POgAAEnWcwblY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790182884; c=relaxed/simple;
-	bh=xeMTr7FHWxTQKEmFXocacMxsw16R1A56jqYWQCev02A=;
+	s=arc-20240116; t=1790183262; c=relaxed/simple;
+	bh=dY5VEKC+MHSoJK6lwGGGvjwFMDTn23WTI6Yxn6zXOoA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LKfWJZ/itbZ/ZBL6x7pXj9YpWCaR/j/nhp6C08rmCGZnT0Xy0Wkbnfd99TuSD9FLWL4G7OCll/OpCoHnv+1LlvEGJef9Bqd+xgbdabYWI9S5jsflD0If0p9cnrnkCpBAu2Oex/7aF4Sh1DUxpvBedEKIQ7LpjLmHTlC4OW8ImtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2p67D5x3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rGv17kwz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=R72SSp6A; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9RDoCKlY; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ql7lUO1RySwXq0AAwVruFx/wOT5lkzo+sXn5RMPhFhxgTz5qNQm1hdZchA8XiLfjaRqQmQMgSRgGRIeKnoQzui/otgKHBbVAhyds0l3zum+SN+xxlwVPL+yNCqvJ0KXEcISstCqwKlxc65DgG6eNxlSFkp/49OuV465XzfAf+sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i12XGUT+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2p67D5x3";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rGv17kwz";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="R72SSp6A";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9RDoCKlY"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CC3F71FFA7;
-	Wed, 23 Sep 2026 17:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790182877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+8mVhvZAAHYS9wlUbQ2VrMKxLj7TWdtf0V2R4vD9mk8=;
-	b=2p67D5x3mbus1Fjm6P3f+jZSu0MmM3DiM/6h90IZWGHc58Qk8LAUpao6ayX4ivS6DqSPv/
-	31dyq7XRfB0Faw53JZkWOzNIoZYgK7RvA2YCqvy5nnkDJ+74rPVPuVQEn2XjN038Dzq3uf
-	jbjgIi3gGPjwXl0q39jFAkOx6A+sczY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790182877;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+8mVhvZAAHYS9wlUbQ2VrMKxLj7TWdtf0V2R4vD9mk8=;
-	b=rGv17kwzUeWDVw4mgAN1JJ13c4T34A16XevvGUWqDBMvBkkHbctFhzcOM8J30IBqBEo7xg
-	UeVH4DV4twq5dkDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=R72SSp6A;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=9RDoCKlY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790182872; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+8mVhvZAAHYS9wlUbQ2VrMKxLj7TWdtf0V2R4vD9mk8=;
-	b=R72SSp6Afa8Lr2KCmy0jPQYEMYuF5JJmpF4AYZmI+7e+l0uIQB9J0pmTDw2vOzl5XowEac
-	AXbnEOhN47m19hhMSBgQUFw7RCxu5JBt+PMSdiqXcMuGHdw9SPwX+t5CsFXyCwOJZkDFGe
-	s+e40b9iYwahmbeXg+G6Wf1rhuC6k7c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790182872;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+8mVhvZAAHYS9wlUbQ2VrMKxLj7TWdtf0V2R4vD9mk8=;
-	b=9RDoCKlYCtUHiixCIjf8TUNhoEcBLI4brkgm4736bUUrpscTG1d4LoSXE7FJdePzDqge/v
-	DcaRixTmnwvft4CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DA72134E8;
-	Wed, 23 Sep 2026 17:01:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VI1tHdgFtGp7EAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 23 Sep 2026 17:01:12 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 20451A13D4; Wed, 23 Sep 2026 19:01:12 +0200 (CEST)
-Date: Wed, 23 Sep 2026 19:01:12 +0200
-From: Jan Kara <jack@suse.cz>
-To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	chenyichong@uniontech.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] isofs: validate directory records in
- isofs_read_level3_size()
-Message-ID: <kzvkhz7toryyklrio34flkc3xa3kiqumpdt5z2pwtsry566lgf@vdccrwpgaolz>
-References: <20260922140137.1768064-1-matthias.goergens@gmail.com>
- <20260922140137.1768064-2-matthias.goergens@gmail.com>
- <cpadce3biub2f3lv5mnuegqpd5wwip3n67oe4xy3jujserdzfk@ynipz43pmoul>
- <20260923153217.777351-1-matthias.goergens@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i12XGUT+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 370A61F000FF;
+	Wed, 23 Sep 2026 17:07:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790183260;
+	bh=DPNB6bW0x8y7Uu11BgHcG7CSR1tZ//UGOmZllbw9Ljw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=i12XGUT+ELGTRJSrycRVzqTit3D2pyM9ZR0ZSTlIa0mojim7gB9yUZwmIu+wgWYZK
+	 Ybyv+CV/Yh7wSmglW9QNbCpnx18TWoVPczcRHqo0Q/mnJsqjZQ3eFn2cP25qIt7fM9
+	 +POE/rp3vRI+Oxpo8QK9N4EfOTJ5jI0dLtJ432mM7IKfaNA3MKzBEomsWln5bFOqPN
+	 PxFbALYbyklQCFhfUINibcEvNCNrhcGgRwqd9F7gXGPywV48eYeWHkrJqezKwBbst0
+	 GSXVIWXaPeEYe4X28qZjKKxCsy9Q0ESN1tzaw+iT6CqBpO8zm4Si1SUtWVa2wxKSZ8
+	 vegFjunsRBTBA==
+Date: Wed, 23 Sep 2026 18:07:07 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 02/40] mm/vma: predicate setting mmap_prepare VMA
+ fields on new vma alloc
+Message-ID: <arQCCzmMARX81-3y@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-2-4583d8a23bca@kernel.org>
+ <CAJuCfpEa8tUmYJBjx-cRdAE8y-jcKY0C81kAOa1QZS7F6tKdfQ@mail.gmail.com>
+ <arP0oJgrgZlgtrb6@gremlin>
+ <CAJuCfpFPPGaK-grNx9qiQOhzAXbxU+SO+95Fht1571TGREx2oQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260923153217.777351-1-matthias.goergens@gmail.com>
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: CC3F71FFA7
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim]
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpFPPGaK-grNx9qiQOhzAXbxU+SO+95Fht1571TGREx2oQ@mail.gmail.com>
 
-On Wed 23-09-26 23:32:17, Matthias Goergens wrote:
-> Thanks for looking at it.
-> 
-> I don't see how it can trigger there, but I'm probably missing
-> something, so here is my reasoning.  With 1/2 alone, offset is always
-> below bufsize at the top of the loop: a record that ends exactly at the
-> end of the block takes the existing "offset >= bufsize" branch further
-> down, which leaves offset & (bufsize - 1) == 0 and bumps block, so the
-> next iteration starts at offset 0 of the next block.  And
-> isofs_dir_record_valid() accepts a record that ends exactly at bufsize:
-> its test "len > bufsize - offset" is false when len equals the room
-> left.
+On Wed, Sep 23, 2026 at 09:09:38AM -0700, Suren Baghdasaryan wrote:
+> On Wed, Sep 23, 2026 at 8:54 AM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> >
+> > On Wed, Sep 23, 2026 at 08:32:43AM -0700, Suren Baghdasaryan wrote:
+> > > On Thu, Sep 17, 2026 at 9:24 AM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> > > >
+> > > > It only makes sense to manipulate VMA fields if we allocated a new VMA,
+> > > > rather than merged it.
+> > > >
+> > > > VMA merging does not compare vm_ops or vm_private_data, so a merged VMA
+> > > > keeps its own, which is also what the legacy f_op->mmap path does since it
+> > > > never touches an existing VMA. Previously set_vma_user_defined_fields()
+> > > > overwrote the merged VMA's fields with those set for the new mapping. In
+> > > > practice these are the same values, with rare exceptions such as shmem
+> > > > selecting vm_ops based on whether the file has been unlinked, so no
+> > > > user-visible change is expected.
+> > > >
+> > > > Make this dependency explicit, and additionally constify have_mmap_prepare
+> > > > while we're here.
+> > >
+> > > The fact that we might be overriding attributes of an existing VMA
+> > > that we merged with is technically a bug even if we never hit it,
+> > > right? If so, should we have:
+> > >
+> > > Fixes: c84bf6dd2b83 ("mm: introduce new .mmap_prepare() file callback")
+> >
+> > It's not a bug, it is an in-built assumption that the state used to assess
+> > mergeability implies the same properties.
+>
+> Hmm. What prevents two VMAs with different vm_private_data members to
+> be merged? IIUC is_mergeable_vma() does not check vm_private_data. In
+> such a case set_vma_user_defined_fields() would override
+> vm_private_data of an existing VMA, no?
 
-Doh, you're right. I got confused by the flow in the loop. Your patches are
-correct.
+I think you're right that it should be a fix patch, I'll put it out of the
+series and send it as one.
 
-> I also tried it, running fs/isofs in a userspace harness on level 3
-> images where a record of a multi-extent file ends exactly at the end of
-> a block, including xorrisofs -iso-level 3 output with a sparse 8 GiB
-> file.  Neither 1/2 alone nor 1/2+2/2 rejects the directory, and the file
-> sizes come out right; a record whose length runs past the block is
-> rejected.
-> 
-> If you have a reproducer, or just a hint at the case you have in mind,
-> I'd be really happy to look at it.
-> 
-> Even if the code might be technically correct, it's confusing.  1/2 only
-> works because of a branch further down that 2/2 then deletes, so I'll
-> send a v2 that squashes the two: move on to the next block first, then
-> check the record, as you suggest, with the straddle code gone.  The end
-> result is the same code as after 2/2.
+The issue here is more so vm_private_data than vm_ops. And really it's that
+vm_ops->mapped() wasn't called so you could have a refcount go to zero and
+stay at zero when it shouldn't have been, for instance.
 
-Yeah, I was also wondering if squashing the two commits won't be less
-confusing.
+But in general though if you remove mmap_prepare and ask the same question:
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+What prevents a merge of 2 existing VMAs that were mapped using the
+traditional mmap hook which somehow have entirely distinct vm_private_data
+and vm_ops but the same file?
+
+The answer is nothing prevents that, but there's an underlying assumption
+that this state is fungible for a VMA over a given range given the same
+file.
+
+In that case, for anything where an allocation or e.g. refcount change
+occurred, then vm_ops->close() will handle the decrement, and the original
+VMA's state should suffice.
+
+But here it's a problem because you overwrite it + don't call
+vm_ops->mapped()...
+
+>
+> >
+> > And if it was, it'd need fixing a different way (check the field for instance)
+> > and would apply to the legacy mmap hook also.
+> >
+> > This change is needed for the series though.
+> >
+> > >
+> > > >
+> > > > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > >
+> > > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> >
+> > Thanks!
+> >
+> > >
+> > > > ---
+> > > >  mm/vma.c | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/mm/vma.c b/mm/vma.c
+> > > > index fa784f069da4..4b74b48c29b7 100644
+> > > > --- a/mm/vma.c
+> > > > +++ b/mm/vma.c
+> > > > @@ -2894,7 +2894,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+> > > >  {
+> > > >         struct mm_struct *mm = current->mm;
+> > > >         struct vm_area_struct *vma = NULL;
+> > > > -       bool have_mmap_prepare = file && file->f_op->mmap_prepare;
+> > > > +       const bool have_mmap_prepare = file && file->f_op->mmap_prepare;
+> > > >         VMA_ITERATOR(vmi, mm, addr);
+> > > >         const pgoff_t anon_pgoff = addr >> PAGE_SHIFT;
+> > > >         MMAP_STATE(map, mm, &vmi, addr, len, pgoff, anon_pgoff, vma_flags, file);
+> > > > @@ -2937,7 +2937,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+> > > >                 allocated_new = true;
+> > > >         }
+> > > >
+> > > > -       if (have_mmap_prepare && !map_is_anon(&map))
+> > > > +       if (have_mmap_prepare && allocated_new && !map_is_anon(&map))
+> > > >                 set_vma_user_defined_fields(vma, &map);
+> > > >
+> > > >         __mmap_complete(&map, vma);
+> > > >
+> > > > --
+> > > > 2.55.0
+> > > >
+> >
+> > --
+> > Cheers, Lorenzo
+
+--
+Cheers, Lorenzo
