@@ -1,92 +1,83 @@
-Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15CEA38A725;
-	Wed, 23 Sep 2026 05:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283F7429037
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 05:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790142582; cv=none; b=l0I0xk1CBohLejTuOAeia2mY0YN0pazdmxk1wpA9ErreJqZg9j8I+4+OvYm63FA2tzd8w2EC/EL3Wb6QFv5BmNVxcGUS5DVuLzFsLR80QL6B6eBbx+wq31/q0Az/AiISvURR2XwNvLnjqrrG6xGZgPa2yUYEKy3wpJxVG2p/NlM=
+	t=1790142891; cv=none; b=EJ1GaNBw1sLCMm3WyovQ0peU+lmDCeM9vAv0RPSBzUq0xYq4GNFYKIxMlQdJD3MvzskNft0iw1tcYbHmXuPblXqFw6o216hMjfX/pVjzPVqYxihHHegAOptEcZf0tiiXyniroYEGhUfX5QeI4pcVKBPtEwlOF4y3PpFU7JGqOPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790142582; c=relaxed/simple;
-	bh=vT8RJz34w3HJasV0jOxaSYHk/g/wYgfzEFBwgejv/c4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FoIvl5Du0dcSCnLVboDK8kUuZ4h/BxLw+LVyWQzE/Ie6aFSC9+06vWjfMYTjEYtj8pff1iSp7bey4OrOf+FWyh1JzdKaMtyN1iQuq5OfD33nDBQzZrus38flZthljj/dKRJzXP14JmS5EVrKtE4sAjFD3tIFSp95ik0gCGW5COY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hqQyQ74GSzTSdg;
-	Wed, 23 Sep 2026 13:49:18 +0800 (CST)
-Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4hqQyP0TLrzTSdg;
-	Wed, 23 Sep 2026 13:49:17 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp1.hygon.cn (Postfix) with ESMTPS id 7B6DF1032;
-	Wed, 23 Sep 2026 13:49:10 +0800 (CST)
-Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
- (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Wed, 23 Sep
- 2026 13:49:13 +0800
-Date: Wed, 23 Sep 2026 13:49:11 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: Christoph Hellwig <hch@infradead.org>
-CC: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <zhongyuan@hygon.cn>,
-	<fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>, <jack@suse.cz>,
-	<dev.jain@arm.com>, <ljs@kernel.org>, <adobriyan@gmail.com>,
-	<akpm@linux-foundation.org>, <hpa@zytor.com>, <ryan.roberts@arm.com>,
-	<mjguzik@gmail.com>, <joel.granados@kernel.org>, <jannh@google.com>,
-	<oleg@redhat.com>, <aleksa@amutable.com>, <legion@kernel.org>,
-	<kees@kernel.org>, <joannelkoong@gmail.com>, <tj@kernel.org>,
-	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <sandeen@redhat.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH v2 1/3] fs/drop_caches: skip filesystems without page
- cache
-Message-ID: <arNoV2MdtTK-Ruw9@hsj-2U-Workstation>
-References: <20260920072811.2064247-1-huangsj@hygon.cn>
- <20260920072811.2064247-2-huangsj@hygon.cn>
- <arIVBpMZk5-O2AZc@infradead.org>
+	s=arc-20240116; t=1790142891; c=relaxed/simple;
+	bh=LgWVLK6gvdnHJpUDwHlN4pWuYgqNDy3TE0yb4Pj2fOs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ik5UUVYQULXVtA5mVlc94RGcxrwHwMnGVHViUAdXKkfmvxq92ZrUV+gjpKbQOISZa5tzKzjETTrbX7yv1OM9phSuzGkYx+sVQnBUNyMTL2Mq7kKDAob1fhGd86KPJXJGYxucxYkowU0Mbr6AQLPDaxsogvTtR4ymgz9yrxCnzvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DSoIibtM; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DSoIibtM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C45AB1F00898
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 05:54:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790142889;
+	bh=5PfmXhl6pDJmGcZOb1arBTuyqaLDSoD3cVhEOoKPAdQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=DSoIibtMXWwq7/HHqHROJh+DvTrgAhbDo+4G7g13PRQ0A/+/87G9oViX1MsZSUv0n
+	 Ipo1Fq+Sha/PccULMVkaVUaZ7XHl0uGysjEw2o8Xbr87plIMA54q+ZCElqYluSLWHs
+	 ljGpP8HV/CXtlSPLWRUMlr4FS7MBt4vtjKlnn/nkmSTrkJ/E5nNvUU+auhjYhJC4OD
+	 8KddNDN4XmWTXEK7Pi485sT7YZVx6lh3j0jNHvZsgUiqotLZv2GF41PDodeOaqE1P2
+	 zG4FcMGJDllnHmNbDtvSjxvvMOF+NAHSGguBDbiwO1QP3BnIexop4X1smJT1d4hbmN
+	 EKBECAMeWzaCQ==
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f9f0b20so70069966b.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 22:54:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxy8yTn6PvVFkpzR9jwLGPd4kMPaGSX19HyZqLQmhwdWeGCmpj3za4r6j1U6/+JbWgvChGPl1uiWHTQdPZM@vger.kernel.org
+X-Gm-Message-State: AFuF++mvGyywn8/bhvs+LvBjMdRDGOfG1ugm55Tj0rRiQZZJkvUElarH
+	t798eaPc+kKX+rFKYR/xrk4elJvS/xFHZZS9SBulJiayhCMLune813b7fq54Iajfm2rBonDhcBK
+	NqN7l6RghBfdRmMlqN74C+/uobRhNyD0=
+X-Received: by 2002:a17:907:ea93:b0:c29:4490:50c8 with SMTP id
+ a640c23a62f3a-c2aada6a9c9mr122986066b.8.1790142888439; Tue, 22 Sep 2026
+ 22:54:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <arIVBpMZk5-O2AZc@infradead.org>
-X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
- (172.23.18.114)
+References: <20260919022441.3305170-1-neilb@ownmail.net> <20260919022441.3305170-6-neilb@ownmail.net>
+In-Reply-To: <20260919022441.3305170-6-neilb@ownmail.net>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 23 Sep 2026 14:54:36 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9W3O=Dsavu4=XUp+3SyFWOL3Bs7fbzg0YBFpwk4-TCAA@mail.gmail.com>
+X-Gm-Features: AclHuK8GYgU6BX6NCq2-6QNZx7GNKhZ3196sjTH0JZehxyF3dSZODayjCY9JTRw
+Message-ID: <CAKYAXd9W3O=Dsavu4=XUp+3SyFWOL3Bs7fbzg0YBFpwk4-TCAA@mail.gmail.com>
+Subject: Re: [PATCH v2 05/14] cifs: allow -EISDIR precedence over -EFTYPE in __cifs_do_create()
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Mateusz Guzik <mjguzik@gmail.com>, Dorjoy Chowdhury <dorjoychy111@gmail.com>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, gfs2@lists.linux.dev, 
+	Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, ceph-devel@vger.kernel.org, 
+	Paulo Alcantara <pc@manguebit.org>, linux-cifs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 21, 2026 at 10:41:26PM -0700, Christoph Hellwig wrote:
-> On Sun, Sep 20, 2026 at 03:28:09PM +0800, Huang Shijie wrote:
-> > Add a new flag SB_I_NO_PAGECACHE for superblock.
-> > 
-> > Skip scanning the inode lists of filesystems that have no page cache
-> > in drop_pagecache_sb(), as indicated by the SB_I_NO_PAGECACHE flag.
-> 
-> I don't think we need a new flag.  This can check for
-> 
-> 	sb->s_bdi == &noop_backing_dev_info
-> 
-Okay. I can use this method.
-
-> which is actually the more relevant concept - not if a file system
-> uses the page cache, but if it supports page cache writeback.
-> E.g. for ramfs there is page cache, but it is the only data store.
-> For shmemfs, there is writeback, but it is driven in a different
-> way (through the anonymous memory code and not fs writeback).
-> 
-> And most importantly it just work, no need to mark file systems,
-> as you're currently missing a lot of those that can have a fair
-> number of inodes, e.g., sysfs, kernfs, cgroupfs or configfs.
-> 
-I ever added support for these file systems, but I deleted the code before
-I sent out this patch.
-
-To Jan Kara,
-   thanks for the information about the issue.
-   I will check the inode iteration issue firstly.
-
-Thanks
-Huang Shijie
-
-
-
+On Sat, Sep 19, 2026 at 11:25=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrot=
+e:
+>
+> From: NeilBrown <neil@brown.name>
+>
+> If atomic_open is given __O_REGULAR, we now would prefer -EISDIR
+> if a directory was found.  So move the S_ISDIR() tests earlier.
+>
+> Also don't return -EFTYPE for S_ISLNK() - that should get -ELOOP and only
+> if O_NOFOLLOW.
+Simply exempting symlinks from the __O_REGULAR check in cifs is not
+sufficient. Once this check allows the symlink through,
+cifs_atomic_open() still calls finish_open() on it, setting
+FMODE_OPENED. open_last_lookups() then skips symlink traversal, so
+do_open() returns -EFTYPE before may_open() can return -ELOOP. This
+path also reaches cifs_new_fileinfo(), which pins the symlink dentry
+with dget(). The symlink's file operations do not provide CIFS's
+.release handler, so the failed open does not call cifs_close() to
+release that reference.
