@@ -1,209 +1,131 @@
-Received: from mail-vs2-f41.google.com (mail-vs2-f41.google.com [74.125.227.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDF0377A89
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 13:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B220311C1B;
+	Wed, 23 Sep 2026 13:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790170342; cv=none; b=TU9iI4RbwUpFVoTEZvPkCpmc9SGVbkiuPkP2g+2WcRpS+ZAmiXheyRUF4AxpfJa6bPYC9qM0qUrAgHbrNoGmr9gf/9KZqPN3QtSP5V0OFVPwVCfJD3Knpxvz+zOoXij9cXluCqNnWfnlJnlvD0e5lLkHZumFUTtRITeJKei1CJg=
+	t=1790170509; cv=none; b=JgJKoZ8RDPEd08Zbbp1pLQRQwi7+XvCb+rBL4ryfjBi1thHy7ZH3MWEuY/z6hYDYHr0OCsyHfbTwxXqIhHNXLvWrk/bhfPF4tWmxI47HSyxnmtsav077tTSFK5WCiRvG0+H135cZjOdkIv9ez71FFIyYZ8i1TA1b9YZswczhbos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790170342; c=relaxed/simple;
-	bh=rxJ0+PdQtJDNjawn0M3k3EfnLQE1Ec58hUkxw9L+9eE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e7ONDlFNsBsrzRsJ6kR53DFUIzbdOmIrg4mti3bga9fMz9VX1oVkubM7qpYv8pTiniO+qTuaXfZXa5ro5dsbDuR83J0M5hwrvMqmmB6kqiWzKI54xbhC/4kCciXVEzJ2/9IPOrVLwqj787CoV4R9bM/onmunTZiHz8t6icGmjQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SupJnGT2; arc=none smtp.client-ip=74.125.227.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790170509; c=relaxed/simple;
+	bh=IE1CuXor81z1qGkDbGdu7bZdzLklzCqhn5JlmVLhexw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=avlk3S6aEXTY64qNcJXKd81htpz3syQFH5HKshsU+8Rug58rVHTdtItuaoP80aVgvsfcnOCn1V7oNy0PoJpqC26EMg68CeOlviq1ShAbcXNIS5lgLt774A2NJF4+oWaUjY3BRpvzVdv7WIx9l7OCWEAaD0bAHC9V0WlO3LdJxGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XY7MoQk4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SupJnGT2"
-Received: by mail-vs2-f41.google.com with SMTP id ada2fe7eead31-785686d2764so216678137.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 06:32:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790170337; x=1790775137; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NG4JXegZ//HjY70YRieR3wxtkpzy8rT/C0WH6S4BaKE=;
-        b=SupJnGT2g8GDL+NcHXE0GrL75UrTOlMvFZED8eENReUJYL2V3SeIJcn+YJcJc5OD21
-         Y9edC2s1rshDqAvjHudoNzJSI9heLVm5n/kK/tohIa6DlX31olOHKnR+fBXlXl4Jwh1b
-         OfvihyndBxeVba4NF+ErkzAU3o/0FAWea1QTw/nHM7cUCFGZYuu24gi+UzdRp4Apifci
-         jgk4pyIfR4FtaI5G7KFDQ1eFLMZtEfj2mDa9+2t8ON+zU6gvm6f669BGApuIsvlbIRdZ
-         ZGnrI9ihHy1a4QSn8bg9m9GBnFnYQIOdPNptSjIuEPqc5Dd3ulPdPVhLmEvvI+B5/P7f
-         zSmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790170337; x=1790775137;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NG4JXegZ//HjY70YRieR3wxtkpzy8rT/C0WH6S4BaKE=;
-        b=oqbHfh0zTePIjVJj3vkwQ0MszxbjArVYNwMPJ3xKyvWouNyNNkJmw9NP5YYKqiuWbV
-         K8hJjNV9hkyB7tNNQPrS7pfdp5o2JjEZiqWaGK9AmVWRXjSj1MFWiVeGUbDE8/yskm1G
-         UhaKV6Kppy4EmA01RE4xFUnfBbTenG7b/vA96ElkW0s9oUnJDYF/YrWObbMJ4dh/TFMs
-         7cM3kU/Ss8586ATOpadFfjC5zhOtELB9BvalYB8gfKE80uNJj5EpJ68XRcETOhU01ZVp
-         8CgaCGtpufWQstjaVKxqh3vt1Xj/u4DCY+rqAqoKNord/9wKqrdoGVafJGohy+cUuz0r
-         R4ow==
-X-Forwarded-Encrypted: i=1; AKwUvBybeeZxwpEcOOrBGgXg/8iqb1lkwsCngllUFYGdgsJGw5lK/A9IAFmLF53lQPITshYmuJOaG8xq2sWHYlc9@vger.kernel.org
-X-Gm-Message-State: AFuF++m7lRi2YxVzIbeEIC6WZaRHO5pQyZbYTsWiMrjYlS67F6CsN6jZ
-	oxunkVKksjni9SGywLrXgaBZkRgGiyXOkZrfp4zSW52mEBkE8twOjUAm
-X-Gm-Gg: AYBFou2/3bjvF1QnVZ8fvjBe7To5oxFnboZIadbVz3wBPZu1UJr35p0FMjUPm90Xm6D
-	v3b4bHVFbYZN7PskatXqWil5Eahrr3oyRLgF2EddENhrFcIlAUXKVHrhIVTqWL8eai2dBIMv57T
-	tD1B8DQ5Ta6FVJb/UY6fT0IEhjWKMBKwQIzY7slRY/eHBWFz83FuSo480ivkB+xKf7c3TZngA/O
-	7EiZ+yhRAern2VazF5OJycLPwlLCDjMqn4t0/FmABZIwy/4JsZaNyfnjm7JrVmAHPH3Pc0tB3qi
-	lh6sjXVm8sDSZQm/yXMX4/ODMEKr0prF8FXef2NexvoL49Gw86m7jJTcjc5Ba1Nyx2Q6yBwEfi3
-	VD254V0AKJfKo1mSmxoLkPocpw8qIv1xHf6mh2RYn5KESWIxUB7vR0g90pWxRYHZtrqMLw1W5sQ
-	0LqRSY+av2KMm0gzWcfk44ekIDjufzP7LISH/cO+nlcfogwyocpjV/dZCuU0hn0fV3MY2ds6+FR
-	ySQFX2LUV0xIOLzUNc=
-X-Received: by 2002:a05:6102:38c7:b0:7a8:1ff8:5741 with SMTP id ada2fe7eead31-7ac1b610a6fmr2117008137.10.1790170337260;
-        Wed, 23 Sep 2026 06:32:17 -0700 (PDT)
-Received: from [100.125.248.95] ([124.70.231.46])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9851e8c4f2csm922107241.10.2026.09.23.06.31.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 06:32:16 -0700 (PDT)
-Message-ID: <4277af28-222b-49de-9372-4087f1a7e942@gmail.com>
-Date: Wed, 23 Sep 2026 21:31:46 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XY7MoQk4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37B1B1F000FF;
+	Wed, 23 Sep 2026 13:35:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790170507;
+	bh=4xT/YzFyvnuyh1yzxeON1Odr6fQx0euTNrCwJ9fiFgo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XY7MoQk4zLMbNFWTtbSCki/adwKa98jx4phtw69C0/cLYhxZhvugDxq+uYlpdTdCd
+	 XCogBvdKFZZjVzXsKHYYRXn9t10TqAPGkuf6Hp65RgzrHX1OEQXJwQKWH1w8CGsUOo
+	 MY7iatiyfENPg3oExaa6JlxtGn3iLrmgClkPkGBMlw3P9wmncnTIGMFkqknItoVbZl
+	 EPl9ngXVzb1tTdwNfslHut15f9SS6KVC9jb9AI82WaRmfSiItnXTVzvUjN+8BNmPCo
+	 D6Mqgn3kA0D1oaTiUrn5h3LTiLslA2yYwQlPUj1jz4RwZynJMSMNxn7nAp/3hQ+ZF+
+	 ndU66ryW4OOww==
+Date: Wed, 23 Sep 2026 15:35:01 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Zhan Xusheng <zhanxusheng1024@gmail.com>
+Cc: kees@kernel.org, kuniyu@google.com, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, zhanxusheng@xiaomi.com, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] sysctl: Negate before converting in the int read path
+Message-ID: <n7aysvb5tfk6hwrprghurpkq37hfzvubfqh4vlucwwxbxjy64n@w7ow6rmljgiz>
+References: <20260922031229.2300283-1-zhanxusheng@xiaomi.com>
+ <20260922031229.2300283-2-zhanxusheng@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/4] mm/truncate: fix data loss when truncating
- straddling large folios
-To: Brian Foster <bfoster@redhat.com>, Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
- willy@infradead.org, jack@suse.cz, ziy@nvidia.com, joannelkoong@gmail.com,
- djwong@kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, yukuai@fnnas.com
-References: <20260922110703.468389-1-yi.zhang@huaweicloud.com>
- <arKHDqdDkQajvAk6@bfoster>
-Content-Language: en-US
-From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <arKHDqdDkQajvAk6@bfoster>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="m6zszdv7iwb3uois"
+Content-Disposition: inline
+In-Reply-To: <20260922031229.2300283-2-zhanxusheng@xiaomi.com>
 
-On 9/22/2026 9:47 PM, Brian Foster wrote:
-> On Tue, Sep 22, 2026 at 07:06:59PM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> Hello,
->>
->> This is the fourth version fixing data loss when truncating straddling
->> large folios caught on the upcomming ext4 + iomap buffered I/O
->> conversion.
->>
->> When truncate_inode_pages_range() punches a hole or truncates a file,
->> truncate_inode_partial_folio() splits a large folio so that the caller
->> can drop the in-range sub-folios while keeping the out-of-range tail
->> intact.  This series fixes three distinct problems in that path that
->> can each lose the valid out-of-range tail of a straddling folio, plus a
->> follow-up that clarifies the return value semantics.
->>
->> Patch 01 aligns the truncation boundaries inwards to the mapping minimum
->> folio order in truncate_inode_pages_range().  With a non-zero min_order,
->> folio_split() stops at min_order instead of order 0, so a boundary
->> computed at page granularity can land inside a min-order-aligned
->> sub-folio and the truncate loop drops that whole chunk, valid tail
->> included, causing data loss.
->>
->> Patch 02 looks the end-edge straddler up by its page index through
->> __filemap_get_folio() in truncate_inode_partial_folio().  After the
->> first split the straddler is unlocked and only transiently ref'd in the
->> page cache, so the page pointer derived from the original folio can be
->> freed and reallocated as a different folio in the same mapping, and the
->> mapping check cannot catch it, which may cause incorrect splitting and
->> potential data loss.
->>
->> Patch 03 reworks the contract between truncate_inode_partial_folio() and
->> its callers.  If the second split of the straddler fails, the function
->> reported success unconditionally, and the leftover incorrect end
->> position could cause the truncate loop to drop that valid tail.  After
->> rework, it tells the caller the exact page range safe to discard via new
->> pstart/pend out-parameters, so the truncate loop never touches a
->> straddling folio that still holds valid out-of-range data.
->>
->> Patch 04 clarifies the return value semantics to "at least one split
->> succeeded", which is all the shmem caller needs to decide whether to
->> reset its scan loop.
->>
->>
->> The second patch fixes a pre-existing race issue that is reachable
->> today, so it is Cc'd to stable.  Patches 01 and 03 require a dirty large
->> folio that carries no filesystem private data, so they are not reachable
->> on current filesystems.  They were found while developing the upcoming
->> ext4 iomap buffered I/O path[1].
->>
->> Thanks,
->> Yi.
->>
-> 
-> Hi Yi,
-> 
-> Modulo Jan's comment on patch 4, this series looks good to me. FWIW:
-> 
-> Reviewed-by: Brian Foster <bfoster@redhat.com>
-> 
-> Brian
 
-Thank you for the review!
+--m6zszdv7iwb3uois
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yi.
+On Tue, Sep 22, 2026 at 11:12:27AM +0800, Zhan Xusheng wrote:
+> proc_int_k2u_conv_kop() reports the sign through *negp and the magnitude
+> through *u_ptr, but for a negative value it hands the sign-extended int to
+> the converter and negates the result:
+>=20
+> 	*u_ptr =3D k_ptr_op ? -k_ptr_op((ulong)val) : -(ulong)val;
+>=20
+> With div_hz() and HZ=3D1000 a stored -1000 becomes
+> (ulong)-1000 / 1000 =3D=3D 18446744073709550, and negating that wraps:
+>=20
+> 	# echo -1 > /proc/sys/net/ipv4/tcp_fin_timeout
+> 	# cat /proc/sys/net/ipv4/tcp_fin_timeout
+> 	-18428297329635842066
+Good catch. I'm testing in sysctl-next.
 
-> 
->> [1] https://lore.kernel.org/linux-fsdevel/a638a8fb-c184-4069-ae33-379ec12cd514@huaweicloud.com/
->>
->>
->> v3->v4:
->>   - Move the patch that fixes data loss when min_order is non-zero to the
->>     first patch position, aligning start and end in
->>     truncate_inode_pages_range(). (Zi Yan)
->>   - Add patch 2, fixing the invalid folio2 issue under concurrency when
->>     truncate_inode_partial_folio() splits at the end position. Use
->>     __filemap_get_folio() to obtain a reliable folio2. (Jan Kara)
->>
->> v2->v3:
->>   - Rework the folio2 validity check logic to fix the invalid
->>     folio->index issue. (sashiko)
->>   - Clarify the pstart and pend setting logic and the corresponding
->>     comments to make it more readable. (Brian, Joanne)
->>   - Split the patch into 3 small patches. (Zi Yan)
->>
->> v1->v2:
->>   - Export pstart as a new parameter so that the generic and shmem
->>     truncate paths don't need to recompute the start value from the
->>     return value. (Brian)
->>   - When min_order is non-zero, align [pstart, pend] to the inner
->>     boundaries of the folio to ensure they do not point into the middle
->>     of a large folio, which could otherwise cause valid data within the
->>     folio to be incorrectly cleared. (Joanne)
->>
->> v3: https://lore.kernel.org/linux-mm/20260916092450.654408-1-yi.zhang@huaweicloud.com/
->> v2: https://lore.kernel.org/linux-mm/20260909062339.473816-1-yi.zhang@huaweicloud.com/
->> v1: https://lore.kernel.org/linux-mm/20260903115018.2034541-1-yi.zhang@huaweicloud.com/
->>
->>
->> Zhang Yi (4):
->>    mm/truncate: align truncation boundaries to mapping minimum folio
->>      order
->>    mm/truncate: look up the end-edge straddler by index
->>    mm/truncate: fix data loss when splitting straddling large folios
->>      fails
->>    mm/truncate: clarify return value of truncate_inode_partial_folio()
->>
->>   mm/internal.h |   4 +-
->>   mm/shmem.c    |  13 ++---
->>   mm/truncate.c | 128 +++++++++++++++++++++++++++++++++-----------------
->>   3 files changed, 91 insertions(+), 54 deletions(-)
->>
->> --
->> 2.54.0
->>
-> 
+Would you be up for creating a test for this? It would need to be on top
+of the new selftests [1] and it requires you to create a similar
+situation to the one you corrected lib/test_sysctl.c.
 
+Best
+
+[1] https://lore.kernel.org/20260914-lklm-sysctl-selftests-v1-1-160d90bf8f3=
+e@kernel.org
+
+>=20
+> Take the magnitude first and convert that, which is what the open-coded
+> version did before commit 2dc164a48e6f ("sysctl: Create converter
+> functions with two new macros") folded it into a macro.  The
+> k_ptr_op =3D=3D NULL branch was already correct.
+>=20
+> proc_dointvec_jiffies() and proc_dointvec_ms_jiffies() are affected.
+>=20
+> Fixes: 2dc164a48e6f ("sysctl: Create converter functions with two new mac=
+ros")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+> ---
+>  kernel/sysctl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index f7b75985d542..38597f26b34c 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -483,7 +483,7 @@ int proc_int_k2u_conv_kop(ulong *u_ptr, const int *k_=
+ptr, bool *negp,
+> =20
+>  	if (val < 0) {
+>  		*negp =3D true;
+> -		*u_ptr =3D k_ptr_op ? -k_ptr_op((ulong)val) : -(ulong)val;
+> +		*u_ptr =3D k_ptr_op ? k_ptr_op(-(ulong)val) : -(ulong)val;
+>  	} else {
+>  		*negp =3D false;
+>  		*u_ptr =3D k_ptr_op ? k_ptr_op((ulong)val) : (ulong) val;
+> --=20
+> 2.43.0
+>=20
+
+--m6zszdv7iwb3uois
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqz1YUACgkQupfNUreW
+QU85Ugv/dqQCe4h/HgieC1WW2Siay0nM68lk8qrek821AFJz6eD5KtAyUOiGfnt1
+7qmSRLsNiy4+KH7ybtCdw4t2UVR7PNg/iD2Ee95ln/EgCDQ4oUfbRgbQbSb5GIMx
+CwtvXm4DDBMxyuMpz1FTYagHhn4TDMfxfmd3Wo+8AofCv+GoOvgMbxW2B66G/t/L
+LZwIW1obJdBhHppXDSCma1nHDSqoUu3hITwJR79gbtHoHtwA58TFPZvQLRW2TBqi
+6sJrHJ2162NacgYMmd8kMHkffSGELqMjdnhTrsqVMEFDLNm+Zq0yM2iedeg9u8Nd
+VNEfBRI0vGqRVVgUuEhI52ot4zJi1xB6Eq0mx8G2ZqPYEhSQPjqbsbjrbLpGH6eE
+BMZXjNqmI+8qd4yMol23Fo76oJQm/Ed2jmnikPTfKiwgFOEds3VGe1te5uraf1rP
+e4tSdygVkHQDIT42lSB+6nVNndM+ufmBJL7H78w4cZvHZO/lBGHKeqWMws7sFPeM
+S669wszc
+=FKK+
+-----END PGP SIGNATURE-----
+
+--m6zszdv7iwb3uois--
