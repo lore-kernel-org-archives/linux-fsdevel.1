@@ -1,30 +1,33 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A6C38838B;
-	Wed, 23 Sep 2026 08:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7803DA7DD;
+	Wed, 23 Sep 2026 08:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790152193; cv=none; b=oluhexmVL6EJwM9C6TmWSZLlo3HIcXVRStY+6zlXLRRryv0cKYW2ZfEBMYjnrCBWBs/L2VZWv2nRVs7rMGuqq7bsmkbuWOahxwaD3ECBJuHMJ0cWkAebMOhMDna5antsioC1Y/i9k3ahzE5V8KwWbE6wm6NGj4JnU902nNPt6nc=
+	t=1790152826; cv=none; b=HJZcqz87q1EA12kCGb+Fx+/I490P/nVfUZ9o36SMW/R5LFnlSWPk4RGbDTukPuEmqbc1Sz44OHAf4VibThbcKres63GzpkzetgjTaYkoMqDQzkpuOiVvge9r4lXcW93uBF6qvshegoFtLe629DbW+ucxJu3anE+zdQlD3yp/n4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790152193; c=relaxed/simple;
-	bh=cHaw5H27Jso4WGjJebjaDnIPz549SpzzHfZr7B+dnOc=;
+	s=arc-20240116; t=1790152826; c=relaxed/simple;
+	bh=96Md5DrNgaVWw5OC1SXNKXffLQh1vTtZvJhVJt1cONs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=akLg0IQ3ETXxjxm74XtzqVb6c/j7yHRCM1ieZrgjuhzPgpzIqHZN11b3UAT7dL5F1ctKa/CUscMIR6STctC011WeUOVs21nUSOWyV3x2HZTwJbxKhdtSH45PDm2pY9VEq4RumrtO1yDg7YS9hIEViMAu7c67INrOO3YZIu140g0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hqVWF1Y99zYQv0M;
-	Wed, 23 Sep 2026 16:29:29 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id CC74840791;
-	Wed, 23 Sep 2026 16:29:45 +0800 (CST)
-Received: from [10.174.178.176] (unknown [10.174.178.176])
-	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgBHFyr4jbNqMJV0BQ--.62376S3;
-	Wed, 23 Sep 2026 16:29:45 +0800 (CST)
-Message-ID: <ea87901a-b1ec-4066-b81e-a1e5864b3872@huaweicloud.com>
-Date: Wed, 23 Sep 2026 16:29:43 +0800
+	 In-Reply-To:Content-Type; b=qFtZNgm9z9004Z1e81iQYtJhDp9NrLOVJYXCqjel3UKeygZrsN8IPouslhYLkPByvq3Iwffss+QvHlolRaeQp7DXs94wrlzEvKQZwLNkeMuYTV+m34MC3XvrYTQFL0Keh0ZzqiCjvABrCJV0S6HOJ89KzEg2a1aqQic+s/sJzzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwlzpLjm; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwlzpLjm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F1AC1F000FF;
+	Wed, 23 Sep 2026 08:39:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790152799;
+	bh=wyh/pOgTF7kL8hlZc2xBVOE3tXIRZyVNxNqqITwdaBM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=UwlzpLjmsWYQu2X1w7dPBuGy9erltg3vOL+NfJ/uSQJOrfQZlmrZRX6l6hUG4aJNu
+	 TIvi5TPQoCTfXAy0RAoguEf6mQORqWqbFPbBFb1Yvt0SH9n2/Qs2LaLGimCaz+fm2w
+	 T8dFUUnNLMdizGKkGqqr2O5bg0+pgzDyYyTE/cTuhGeYVBNIL4mitLsMDxcBI96C2e
+	 u//dZhCVEMH4DJvU7iBXv2WG12zQPZ/UyJlyaQK7I64hFTFC7IROS30zAFLt5WULss
+	 OSRcfn3e8dbaKrIfZo56huYPUUIc4z0kJ1Fi4Zi8c+ZQhg/H4nld0N6VuWFasb9d7U
+	 hnf2wJf5IlUxA==
+Message-ID: <b007cd0f-29ef-457a-8e44-63ab26f3bcd0@kernel.org>
+Date: Wed, 23 Sep 2026 10:39:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -32,162 +35,166 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] mm/truncate: fix data loss when splitting
- straddling large folios fails
-To: Zi Yan <ziy@nvidia.com>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
- willy@infradead.org, jack@suse.cz, bfoster@redhat.com,
- joannelkoong@gmail.com, djwong@kernel.org, yi.zhang@huawei.com,
- yizhang089@gmail.com, yangerkun@huawei.com, chengzhihao1@huawei.com,
- wangkefeng.wang@huawei.com, yukuai@fnnas.com
-References: <20260922110703.468389-1-yi.zhang@huaweicloud.com>
- <20260922110703.468389-4-yi.zhang@huaweicloud.com>
- <DLM0SRQ1LAMU.3Q4REHFJ7TETZ@nvidia.com>
+Subject: Re: [PATCH v2 00/40] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+ <20260914180811.057cba8fcc48d6e0b53a2683@linux-foundation.org>
+ <0b064fe6-ddb3-4f26-a1f2-2e9dd88d590f@kernel.org>
+ <CAJuCfpFBichJH4OcmSHTb1rOuQBT6k5pXeua9_KgpWjDBKvsYw@mail.gmail.com>
+ <aq6kzpK7wPl3iFGe@gremlin> <aq6lW9FvL69QeA9H@gremlin>
+ <arOCPN02xB7mykju@gremlin>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <DLM0SRQ1LAMU.3Q4REHFJ7TETZ@nvidia.com>
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <arOCPN02xB7mykju@gremlin>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgBHFyr4jbNqMJV0BQ--.62376S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3XrW3tFykWw17CrWrKrW8Crg_yoW7Xw18pr
-	Wjga9IyrWkGws2krnrZa1jqF1Yq34fXrWUJFyxG3WSkan0vr12kF1UK3W8uFWUK3s7Gw10
-	qF1UZ3ZrWF1DAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
-	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
-	jzE__UUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On 9/23/2026 1:27 AM, Zi Yan wrote:
-> On Tue Sep 22, 2026 at 7:07 AM EDT, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
+On 9/23/26 10:13, Lorenzo Stoakes (ARM) wrote:
+> On Sat, Sep 19, 2026 at 04:09:13PM +0100, Lorenzo Stoakes (ARM) wrote:
+>> On Sat, Sep 19, 2026 at 04:05:57PM +0100, Lorenzo Stoakes (ARM) wrote:
+>>>
+>>> Thanks guys!
 >>
->> truncate_inode_partial_folio() splits a large folio so that the caller's
->> truncate loop can drop the in-range sub-folios while keeping the
->> out-of-range tail. The first split at the punch start edge is
->> non-uniform, which leaves the sub-folio at the truncation end edge as
->> large as possible, this means it may still straddle the range, holding
->> both zeroed in-range and valid out-of-range data. The function then
->> attempts a second split at offset + length to isolate that tail.
+>> Note v3 has been posted to fix a stupid bug in 1/40 + attack some very trivial
+>> sashiko stuff
 >>
->> If the second split fails the straddling sub-folio stays merged. The
->> function returned true unconditionally on all exit paths of the success
->> block, telling the caller it was fully handled. The caller kept its
->> default end and the truncate loop truncated every sub-folio below it,
->> including the merged straddler, discarding the valid out-of-range tail.
->>
->> For example, a 4-page order-2 folio punched from offset 0 to the middle
->> of the last page:
->>
->>   truncate_inode_pages_range()
->>     truncate_inode_partial_folio()      # same_folio == true
->>       1st split at page0 -> [p0, p1, p2-3]   # non-uniform, success
->>       folio2 = p2-3 # straddles: p2 zeroed, p3 tail valid
->>       2nd split of folio2 fails / cannot lock
->>       return true                       # BUG: caller keeps default end
->>     end = 3
->>     loop truncates p0, p1, p2-3        # p3's valid tail is lost
->>
->> This became reachable after commit 7460b470a131 ("mm/truncate: use
->> folio_split() in truncate operation") replaced the atomic split_folio()
->> with folio_split(), whose non-uniform split can partially split a folio
->> and leave the end edge merged.
->>
->> It has gone unnoticed because a dirty large folio normally carries the
->> filesystem's private data, for example buffer_head, so
->> filemap_release_folio() fails on a dirty folio and folio_split() aborts
->> with -EBUSY before any split, leaving the straddler safely unsplit. The
->> bug is only reachable on paths that produce dirty large folios without
->> filesystem private data, and it was caught on the upcoming ext4 iomap
->> buffered I/O path when no ifs is attached.
->>
->> Rework the contract so the caller is told the folio range to discard:
->>
->>   - Add pgoff_t *pstart and *pend out-parameters that receive the folio
->>     range fully covered by [lstart, lend] after any split (or none),
->>     aligned inwards to min_order, i.e. the folios wholly within the
->>     range and safe to discard.
->>
->>   - Report a reliable end position to the caller. The straddler is
->>     looked up at an index aligned inwards to the mapping minimum folio
->>     order, and *pend is set to that boundary on success. If nothing
->>     covers the boundary, discarding up to it stays safe. If the
->>     straddler is locked by someone else, fall back to folio->index.
->>     This best-effort fallback may leave the in-range sub-folios to a
->>     later pass but never discards the out-of-range tail. If the
->>     straddler cannot be split, fall back to folio2->index so the caller
->>     keeps the out-of-range tail.
->>
->>   - Rename the byte-range parameters start/end to lstart/lend to better
->>     express their semantics.
->>
->> Callers in truncate_inode_pages_range() and shmem_undo_range() pass
->> &pstart for the folio at the start edge and &pend for the folio at the
->> end edge, so the truncate loop drops exactly the fully covered pages and
->> never touches a straddling folio that still holds valid out-of-range
->> data.
->>
->> Suggested-by: Brian Foster <bfoster@redhat.com>
->> Link: https://lore.kernel.org/linux-fsdevel/anH-WKA1coW6wtfG@bfoster/
->> Fixes: 7460b470a131 ("mm/truncate: use folio_split() in truncate operation")
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->>  mm/internal.h |  4 +--
->>  mm/shmem.c    | 13 +++-----
->>  mm/truncate.c | 88 +++++++++++++++++++++++++++++++++++----------------
->>  3 files changed, 68 insertions(+), 37 deletions(-)
+>> https://lore.kernel.org/linux-mm/20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org/
 > 
-> <snip>
->>
->> @@ -251,6 +264,7 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
+> Just a gentle nudge on this :)
 > 
-> Add more context:
+> If you guys or anybody else has some time it'd be appreciated! (obv. the v3 as
+> linked above not this v2!)
 > 
-> 	if (!folio_test_large(folio))
->>  		return true;
->>  
->>  	min_order = mapping_min_folio_order(folio->mapping);
->> +	min_nrbytes = mapping_min_folio_nrbytes(folio->mapping);
->>  	split_at = folio_page(folio, PAGE_ALIGN_DOWN(offset) / PAGE_SIZE);
->>  	if (!folio_split_or_unmap(folio, split_at, min_order)) {
->>  		/*
->> @@ -259,34 +273,57 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
->>  		 * for shmem truncate
->>  		 */
->>  		struct folio *folio2;
->> -		pgoff_t end_idx;
->> +		pgoff_t end, aligned_end = round_down(pos + offset + length,
->> +						min_nrbytes) >> PAGE_SHIFT;
-> 
-> <snip>
-> 
->> +		/* Already at the minimum order, nothing to split */
->> +		if (folio_order(folio2) == min_order)
->> +			goto out_put;
-> 
-> In the above, folio_test_large() is used to determine whether folio
-> needs to be split or not, but here folio_order() == min_order is used.
-> Should the above "if (!folio_test_large(folio))" be changed to use
-> min_order check to match the check here?
-> 
+> I know the series seems intimidating but most of the commits are very small and
+> it's been in -next for a while.
 
-Yeah, this makes sense to me.
+Busy with too many other things sorry. Its time will come.
 
-Thanks,
-Yi.
+-- 
+Cheers,
 
-
-
+David
