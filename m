@@ -1,60 +1,82 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08125579828
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 20:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8C257D233
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 20:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790194183; cv=none; b=tiCQwkry2RJXLMTjA0rw9Ksd6fClcPUTqilW7TTC0qoqf0cBD0MJm0mp5U/OCmt8cR3bKoX7Z11vlcH3w65jCNkSWQr1rM7u/QWEypNucSP5uZXnujFUMvBt1R7X2qz0kw/0g60rNNmZ1ptImIxcUBkNp3/4y+iFwFiFUhafP2Q=
+	t=1790196637; cv=none; b=GgpM2pi2yPmPQOri5kS8GhZEN7Of84V4o4nkPinWCu1jkAPLhI8YSh763jPmqwLdqzkNjTAdjioS1KNafqr+fJTnbrg9yjpgXKeOeo0w5UeXqVPoY8DgWoplO9K+zDMwXJqsh2Fkzyq2lzJAfVmA4jCVzS8rfDK9NxtctB6Zqh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790194183; c=relaxed/simple;
-	bh=7TGgLhFn6sXSEm/2G5qIL1iaxjjvxIquORtA234bFQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WvtYphhZIb/MixS9EQvDFoE8tWQNp90imNNTyvSSF4VUdULnJpP7a3OwA0KjJVnBzqAsMbfHhSdxYURx5BP86cGaG04brghQ71coZzmIC/eXTmzR2FG1zzN2MQ4LEIMttaAoVelXJCG2zZKux54nS8iVjttRkCj9Aw+EF4LdYiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GQmHLwSJ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790196637; c=relaxed/simple;
+	bh=IR+cFhBQfWRSdMGVpfuBcQw5kzuKhkM3dI8xg87PPUs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C/OkqvIExg4wqj6kZgZphnSU/r3RBSfhEloZMOPyg0hrf0+dypKR2KT3fHlxoNBJWGchTqvirfzBrGVyApP0s7+kzPgLT+2uOJ7rrAXnIGUxb4uNO6GyVLpoXGPQn6QQIfxru5zvQX/H2aVDivstMdevvzisecpd+k0JZ8Aiyt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oKYQz8kK; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GQmHLwSJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790194176;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4bP7fGq0D9N6et9vLtHh3ggTZ3WPfdjkQHIKkyIDF3Y=;
-	b=GQmHLwSJsQsiTy1n4jXA2uimQEPSb72BP9t+5vIJwPwhYjPwxJAWY4HjbLolEPvvONg5z1
-	M1KGbEwh2/1do5uDcqjdLM3X5K/qtmvQHBMvWTtLdSh50FNIT4ouQ+17LvEXNQdYr4j+Xp
-	gJQqfRthDa9Qy++qliXtMt+bx0ClNWQ=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-382-3bUbSWLjMwaswqP8KKIuJA-1; Wed,
- 23 Sep 2026 16:09:35 -0400
-X-MC-Unique: 3bUbSWLjMwaswqP8KKIuJA-1
-X-Mimecast-MFC-AGG-ID: 3bUbSWLjMwaswqP8KKIuJA_1790194174
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 37B9218011FC;
-	Wed, 23 Sep 2026 20:09:33 +0000 (UTC)
-Received: from pasta.redhat.com (unknown [10.44.48.10])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1A7591956087;
-	Wed, 23 Sep 2026 20:09:28 +0000 (UTC)
-From: Andreas Gruenbacher <agruenba@redhat.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Andreas Gruenbacher <agruenba@redhat.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oKYQz8kK"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1ceb47d53so334466a12.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 13:50:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790196635; x=1790801435; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=snlXyVmosKNHZDEUpSvbDeW3MROgMKqCzOa9/2l2FR4=;
+        b=oKYQz8kKag1QgtYGyD6ZP3CuaOLu0JGt11zJ+jD7YhhoUqa575/j7yzioGf775veeJ
+         7wnmcfOae+N1tfGnNGDAEbL402F95za51JW2vSuqiGjmzcnoNSnaZslO4EhL1xWtNSmC
+         UKyMhdDProoLT4twgiLewq6FmgELJd8FzkW87o74XdYBZQQvt+zl3booWB116BUGuh5+
+         F6YpSHuUk62Et7Z/jaEV69/St96jzqX/dO3QFKHhM8SXjvtcg1ULBLP02guCs8yUzsOL
+         Q3ecHnw32s55Ey9P3N96ne0WDluIZgh+ObiO88Zz2yuxolNPL/Y83cPzX0uRgKse/PTA
+         5Gaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790196635; x=1790801435;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=snlXyVmosKNHZDEUpSvbDeW3MROgMKqCzOa9/2l2FR4=;
+        b=GWsmq20sHXHsNH900Lf5BBgOGYE0I7KsodfCOA4sWwxTfOvTjDa+67ewmp0cEeST7B
+         fAsHeUirrvSiud/O9Ghep9dlEHmB2iy3MW3p5rlp9Y+tu2dZ5CI8FwUc+z8SqW7jXjTj
+         MUTML/q0SPFS4E6YZ7HNYdjdfgRbP+6XD5RvJxDBwAAAQj4yM7MXKaqEHmTx010np77W
+         RXZHH9X0jqTKBZ0cFEb/9YXWRUaupt6apPDCFfuQUWA+wbzWm8OjIBeVBYdzh3cBz0bv
+         xUFZYvQsx67weS24cAunMmO4CVBKUJsLrCL2l5DRZHWAloI2oBH4LwnwDrseP2snu8Bq
+         BV7Q==
+X-Forwarded-Encrypted: i=1; AKwUvBz0V87670Cs1Sx9XfgdZmDEWSQFxwbOiRXxuDT4ZmUGOEqZN0aYUyX/BStQNbQUKNiLfI7R5lyrUh1AzVeZ@vger.kernel.org
+X-Gm-Message-State: AFuF++nbR456xuCUGr1xNPS5uW8kihLdJvC3QVbEKwFQkdB9tFlTECGW
+	2IKpfX6xVw0veBuad00IJDa57lv9sTjN8Bqi9ZTjgzdd+krjToUxduqH
+X-Gm-Gg: AYBFou0FrwJdDS5BjKJ89PcedFSfmmZH8oUrciyN6bMqUkxIOHob1Kdk3UaGZbZ77Sr
+	sKxWHfN8RhHXAx14JKX2tYYOwaTQ4LdtAtnIZWP5pxSPGMD2xmnTToefaBffdXuYM3Idvjk/bn3
+	uo81+KWJcfyonSniRY9PjmHAo2pOtU9/O47bt805RDV7ekClLpl97sE4eyiwbEzUnAdVy/5jw1M
+	W0giKPa3RWXWc+jnRDMSXRBN6TUlPewDoXJ87DRl28du0rmJPZ49j0U9c4F7J73ByKTj92O3sX5
+	mTkkMO/QJCmwaoPzdnGCg2/eldS2ZsZBVVfO5CSEPa2QimHjYdMc0M6xhlx6mjnVmQYnb5zwKNL
+	XxTa+THOOoHEBX/Ib0Wdjxl2y9FeuaO1HankEFuf2XdopplTuWe3RCBvEips71ZfsLeJO5ZOPif
+	3LMfA7ZJxKqAiwCS1/Q45xBouJiWgTJB1m/MMIwyG8ORh+qZgeqz8TbQH6KDg26f12TAXM
+X-Received: by 2002:a17:90b:3f4d:b0:39e:1bfa:c5f0 with SMTP id 98e67ed59e1d1-3a09860b2b7mr189257a91.5.1790196634676;
+        Wed, 23 Sep 2026 13:50:34 -0700 (PDT)
+Received: from kir-tp1.lan ([67.185.120.12])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a096b8753csm896038a91.0.2026.09.23.13.50.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 13:50:34 -0700 (PDT)
+From: Kir Kolyshkin <kolyshkin@gmail.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Aleksa Sarai <cyphar@cyphar.com>
+Cc: Kir Kolyshkin <kolyshkin@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	David Howells <dhowells@redhat.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Andrei Vagin <avagin@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Giuseppe Scrivano <giuseppe@scrivano.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Mikhail Rudenko <xyzzy@yandex-team.ru>
-Subject: Re: [PATCH v2 3/5] fs: Basic infrastructure for offloading inode reclaim
-Date: Wed, 23 Sep 2026 22:09:26 +0200
-Message-ID: <20260923200927.1834507-1-agruenba@redhat.com>
-In-Reply-To: 20260911085142.1774803-8-jack@suse.cz
-References: 20260911085142.1774803-8-jack@suse.cz
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	containers@lists.linux.dev
+Subject: [RFC PATCH] mount: add OPEN_TREE_SKIP_MNTNS
+Date: Wed, 23 Sep 2026 13:50:25 -0700
+Message-ID: <20260923205028.711077-1-kolyshkin@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,103 +84,322 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Jan,
+crun, a container runtime, recently started using OPEN_TREE_NAMESPACE to
+set up the container's mount namespace, and open_tree(OPEN_TREE_CLONE)
+for the sources of its bind mounts.  This turns out not to work on hosts
+that have a mount namespace pinned anywhere below such a source: the
+recursive clone picks the pinned namespace up, and move_mount(2) then
+refuses to attach the tree with ELOOP from check_for_nsfs_mounts().
+This was reported to crun in [1].
 
-it seems that we don't really need struct inodes_to_prune; see below.
+The rule behind that goes back to commit 8823c079ba71 ("vfs: Add setns
+support for the mount namespace"), which requires "all bind mounts be of
+a younger mount namespace into an older mount namespace" so that mount
+namespace reference loops cannot form.  OPEN_TREE_NAMESPACE ends up on
+the wrong side of it by construction: the namespace it creates is younger
+than everything else on the system, so from inside it every pinned
+namespace is older.
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 7c69ef44619a..f8303af66fcd 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -938,12 +938,6 @@ void evict_inodes(struct super_block *sb)
- }
- EXPORT_SYMBOL_GPL(evict_inodes);
+By the time this fails there is nothing userspace can do.  setns() has
+already run, so the host tree is unreachable by path; it is unreachable
+through a fd saved beforehand as well, since mount(2) requires the source
+to live in the current mount namespace; and the offending mounts cannot
+be dropped from the detached copy first, because umount(2) requires
+check_mnt().  So a runtime cannot fall back to the pivot_root() path at
+that point -- it has to predict the situation before setns(), which is
+what crun now does, at the cost of the optimization on every such host.
+
+Every other path that crosses a mount namespace boundary already leaves
+these mounts behind: copy_mnt_ns() passes CL_COPY_UNBINDABLE | CL_EXPIRE,
+and create_new_namespace() passes no CL_COPY_MNT_NS_FILE either -- the
+latter deliberately, per the comment added in commit 9b8a0ba68246
+("mount: add OPEN_TREE_NAMESPACE"): "When creating a new mount namespace
+we don't want to copy over mounts of mount namespaces to avoid the risk
+of cycles".  Only get_detached_copy() asks for them, inherited from the
+unconditional CL_COPY_MNT_NS_FILE that predates that exception.
+
+Add a flag so a caller can ask for a clone without them, as suggested by
+Aleksa when the exception was introduced [2]:
+
+    I kind of think this is a somewhat theoretical issue but I don't
+    think we'll be bitten by it. My gut feeling is that I'd prefer this
+    to be an OPEN_TREE_* flag that you have to set (so we can support
+    this in the future) but that's kinda ugly too...
+
+Keep it opt-in rather than changing the default.  A clone attached in the
+caller's own namespace, or in an older one, keeps such mounts usable, and
+open_tree(OPEN_TREE_CLONE) plus move_mount(2) is what mount --rbind is
+through a file descriptor, so dropping them by default would make
+mount --rbind / /mnt silently lose /run/snapd/ns/*.mnt on a live system.
+Only a caller heading into a younger namespace, where the tree is refused
+anyway, has reason to ask for this.
+
+With OPEN_TREE_NAMESPACE, which never copies these mounts, the flag is
+accepted and has no effect, so a runtime can pass it unconditionally.
+Locked nsfs mounts are skipped the same way copy_mnt_ns() already skips
+them, so this exposes nothing new.
+
+Link: https://github.com/containers/crun/issues/2262 [1]
+Link: https://lore.kernel.org/all/2026-01-07-oldest-grim-captions-spills-ywC2O3@cyphar.com/ [2]
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
+---
+ fs/namespace.c                                |  14 +-
+ include/uapi/linux/mount.h                    |   1 +
+ .../open_tree_ns/open_tree_ns_test.c          | 183 ++++++++++++++++++
+ 3 files changed, 196 insertions(+), 2 deletions(-)
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index ae5dc64f8b45..165750b3d666 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -3062,7 +3062,8 @@ static struct mnt_namespace *get_detached_copy(const struct path *path, unsigned
+ 			ns->seq_origin = src_mnt_ns->ns.ns_id;
+ 	}
  
--struct inodes_to_prune {
--	struct list_head freeable;
--	struct list_head deferred;
--	unsigned int deferred_count;
--};
--
- /*
-  * Isolate the inode from the LRU in preparation for freeing it.
-  *
-@@ -958,7 +952,7 @@ struct inodes_to_prune {
- static enum lru_status inode_lru_isolate(struct list_head *item,
- 		struct list_lru_one *lru, void *arg)
- {
--	struct inodes_to_prune *lists = arg;
-+	struct list_head *freeable = arg;
- 	struct inode	*inode = container_of(item, struct inode, i_lru);
+-	mnt = __do_loopback(path, (flags & AT_RECURSIVE), CL_COPY_MNT_NS_FILE);
++	mnt = __do_loopback(path, (flags & AT_RECURSIVE),
++			    (flags & OPEN_TREE_SKIP_MNTNS) ? 0 : CL_COPY_MNT_NS_FILE);
+ 	if (IS_ERR(mnt)) {
+ 		emptied_ns = ns;
+ 		return ERR_CAST(mnt);
+@@ -3204,7 +3205,16 @@ static struct file *vfs_open_tree(int dfd, const char __user *filename, unsigned
  
- 	/*
-@@ -1013,13 +1007,7 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
- 
- 	WARN_ON(inode_state_read(inode) & I_NEW);
- 	inode_state_set(inode, I_FREEING);
--	/* Inode will take long time to cleanup. Offload that to worker. */
--	if (inode_state_read(inode) & I_DEFER_RECLAIM) {
--		list_lru_isolate_move(lru, &inode->i_lru, &lists->deferred);
--		lists->deferred_count++;
--	} else {
--		list_lru_isolate_move(lru, &inode->i_lru, &lists->freeable);
--	}
-+	list_lru_isolate_move(lru, &inode->i_lru, freeable);
- 	spin_unlock(&inode->i_lock);
- 
- 	this_cpu_dec(nr_unused);
-@@ -1042,27 +1030,34 @@ static int get_deferred_sb_id(struct super_block *sb)
-  */
- long prune_icache_sb(struct super_block *sb, struct shrink_control *sc)
- {
--	struct inodes_to_prune lists = {
--		.freeable = LIST_HEAD_INIT(lists.freeable),
--		.deferred = LIST_HEAD_INIT(lists.deferred),
--	};
--	long freed;
-+	struct inode *inode, *tmp;
-+	long freed, deferred = 0;
-+	LIST_HEAD(freeable);
- 
- 	freed = list_lru_shrink_walk(&sb->s_inode_lru, sc,
--				     inode_lru_isolate, &lists);
--	dispose_list(&lists.freeable);
--	if (!list_empty(&lists.deferred)) {
-+				     inode_lru_isolate, &freeable);
+ 	if (flags & ~(AT_EMPTY_PATH | AT_NO_AUTOMOUNT | AT_RECURSIVE |
+ 		      AT_SYMLINK_NOFOLLOW | OPEN_TREE_CLONE |
+-		      OPEN_TREE_CLOEXEC | OPEN_TREE_NAMESPACE))
++		      OPEN_TREE_CLOEXEC | OPEN_TREE_NAMESPACE |
++		      OPEN_TREE_SKIP_MNTNS))
++		return ERR_PTR(-EINVAL);
 +
-+	list_for_each_entry_safe(inode, tmp, &freeable, i_lru) {
-+		if (inode_state_read(inode) & I_DEFER_RECLAIM) {
-+			deferred++;
-+			continue;
-+		}
-+		list_del_init(&inode->i_lru);
-+		evict(inode);
-+		cond_resched();
++	/*
++	 * Only meaningful when a tree is copied.  OPEN_TREE_NAMESPACE never
++	 * copies pinned mount namespaces, so there the flag is a no-op.
++	 */
++	if ((flags & OPEN_TREE_SKIP_MNTNS) &&
++	    !(flags & (OPEN_TREE_CLONE | OPEN_TREE_NAMESPACE)))
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	if ((flags & (AT_RECURSIVE | OPEN_TREE_CLONE | OPEN_TREE_NAMESPACE)) ==
+diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+index 2204708dbf7a..86082344fc0e 100644
+--- a/include/uapi/linux/mount.h
++++ b/include/uapi/linux/mount.h
+@@ -63,6 +63,7 @@
+  */
+ #define OPEN_TREE_CLONE		(1 << 0)	/* Clone the target tree and attach the clone */
+ #define OPEN_TREE_NAMESPACE	(1 << 1)	/* Clone the target tree into a new mount namespace */
++#define OPEN_TREE_SKIP_MNTNS	(1 << 2)	/* Omit pinned mount namespaces from the clone */
+ #define OPEN_TREE_CLOEXEC	O_CLOEXEC	/* Close the file on execve() */
+ 
+ /*
+diff --git a/tools/testing/selftests/filesystems/open_tree_ns/open_tree_ns_test.c b/tools/testing/selftests/filesystems/open_tree_ns/open_tree_ns_test.c
+index 82f3c8c02c9a..5b95180a4582 100644
+--- a/tools/testing/selftests/filesystems/open_tree_ns/open_tree_ns_test.c
++++ b/tools/testing/selftests/filesystems/open_tree_ns/open_tree_ns_test.c
+@@ -14,6 +14,7 @@
+ #include <limits.h>
+ #include <linux/nsfs.h>
+ #include <sched.h>
++#include <signal.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+@@ -28,6 +29,10 @@
+ #include "../utils.h"
+ #include "../../kselftest_harness.h"
+ 
++#ifndef OPEN_TREE_SKIP_MNTNS
++#define OPEN_TREE_SKIP_MNTNS (1 << 2)
++#endif
++
+ #ifndef OPEN_TREE_NAMESPACE
+ #define OPEN_TREE_NAMESPACE	(1 << 1)
+ #endif
+@@ -1004,4 +1009,182 @@ TEST_F(open_tree_ns_unbindable, recursive_skips_on_unbindable)
+ 	close(fd);
+ }
+ 
++/*
++ * Pin a mount namespace at @where, the way snapd does under /run/snapd/ns.
++ * The namespace has to be younger than ours, so a child unshares and the
++ * parent binds the child's namespace file: binding one's own namespace is
++ * refused by the very check this test is about.
++ */
++static int pin_mount_namespace(const char *where)
++{
++	int pipefd[2], status, ret = -1;
++	char path[PATH_MAX];
++	pid_t pid;
++	char c;
++
++	if (pipe(pipefd))
++		return -1;
++
++	pid = fork();
++	if (pid < 0)
++		goto out;
++	if (pid == 0) {
++		close(pipefd[0]);
++		if (unshare(CLONE_NEWNS))
++			_exit(1);
++		/* Tell the parent the namespace exists, then hold it open. */
++		if (write(pipefd[1], "x", 1) != 1)
++			_exit(1);
++		pause();
++		_exit(0);
 +	}
 +
-+	if (!list_empty(&freeable)) {
- 		int id = get_deferred_sb_id(sb);
- 		int i, wake_count;
- 
- 		spin_lock(&deferred_reclaim.queues[id].lock);
--		list_splice_tail(&lists.deferred,
--				 &deferred_reclaim.queues[id].list);
--		atomic_add(lists.deferred_count, &sb->s_deferred_reclaim_count);
-+		list_splice_tail(&freeable, &deferred_reclaim.queues[id].list);
-+		atomic_add(deferred, &sb->s_deferred_reclaim_count);
- 		spin_unlock(&deferred_reclaim.queues[id].lock);
- 
- 		/* Queue works to process inodes we've added to the list */
--		wake_count = (lists.deferred_count + INODE_RECLAIM_BATCH_SIZE)
-+		wake_count = (deferred + INODE_RECLAIM_BATCH_SIZE)
- 						/ INODE_RECLAIM_BATCH_SIZE;
- 		if (wake_count > deferred_reclaim.workers)
- 			wake_count = deferred_reclaim.workers;
++	close(pipefd[1]);
++	pipefd[1] = -1;
++	if (read(pipefd[0], &c, 1) != 1)
++		goto out_kill;
++
++	snprintf(path, sizeof(path), "/proc/%d/ns/mnt", pid);
++	if (mount(path, where, NULL, MS_BIND, NULL))
++		goto out_kill;
++
++	ret = 0;
++
++out_kill:
++	kill(pid, SIGKILL);
++	waitpid(pid, &status, 0);
++out:
++	close(pipefd[0]);
++	if (pipefd[1] >= 0)
++		close(pipefd[1]);
++	return ret;
++}
++
++FIXTURE(open_tree_ns_skip_mntns)
++{
++	char dir[64];
++	char pin[PATH_MAX];
++	bool mounted;
++};
++
++FIXTURE_SETUP(open_tree_ns_skip_mntns)
++{
++	int fd, ret;
++
++	self->mounted = false;
++	snprintf(self->dir, sizeof(self->dir), "/tmp/open_tree_ns_skip_mntns.XXXXXX");
++
++	ret = sys_open_tree(-1, NULL, 0);
++	if (ret == -1 && errno == ENOSYS)
++		SKIP(return, "open_tree() syscall not supported");
++
++	/*
++	 * Work in a private mount namespace, so whatever is mounted here,
++	 * the pinned namespace included, goes away with the test process.
++	 */
++	if (unshare(CLONE_NEWNS))
++		SKIP(return, "unshare(CLONE_NEWNS) failed: %s", strerror(errno));
++	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
++
++	ASSERT_NE(mkdtemp(self->dir), NULL);
++	if (mount("tmpfs", self->dir, "tmpfs", 0, NULL))
++		SKIP(return, "Failed to mount tmpfs");
++	self->mounted = true;
++
++	fd = sys_open_tree(AT_FDCWD, self->dir,
++			   OPEN_TREE_CLONE | OPEN_TREE_SKIP_MNTNS |
++			   OPEN_TREE_CLOEXEC);
++	if (fd < 0 && errno == EINVAL)
++		SKIP(return, "OPEN_TREE_SKIP_MNTNS not supported");
++	ASSERT_GE(fd, 0);
++	close(fd);
++
++	snprintf(self->pin, sizeof(self->pin), "%s/ns", self->dir);
++	fd = open(self->pin, O_CREAT | O_RDONLY | O_CLOEXEC, 0600);
++	ASSERT_GE(fd, 0);
++	close(fd);
++	ASSERT_EQ(pin_mount_namespace(self->pin), 0);
++}
++
++FIXTURE_TEARDOWN(open_tree_ns_skip_mntns)
++{
++	if (self->mounted)
++		umount2(self->dir, MNT_DETACH);
++	rmdir(self->dir);
++}
++
++/* Attach @clone_fd at "/" inside the namespace @ns_fd; returns errno. */
++static int move_into_namespace(int clone_fd, int ns_fd)
++{
++	pid_t pid;
++	int status;
++
++	pid = fork();
++	if (pid < 0)
++		return -1;
++	if (pid == 0) {
++		int target;
++
++		if (setns(ns_fd, CLONE_NEWNS))
++			_exit(255);
++		target = open("/", O_PATH | O_DIRECTORY | O_CLOEXEC);
++		if (target < 0)
++			_exit(255);
++		if (sys_move_mount(clone_fd, "", target, "",
++				   MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_T_EMPTY_PATH))
++			_exit(errno);
++		_exit(0);
++	}
++	if (waitpid(pid, &status, 0) != pid || !WIFEXITED(status))
++		return -1;
++	return WEXITSTATUS(status);
++}
++
++TEST_F(open_tree_ns_skip_mntns, move_into_younger_namespace)
++{
++	int clone_fd, ns_fd;
++
++	ns_fd = sys_open_tree(AT_FDCWD, self->dir,
++			      OPEN_TREE_NAMESPACE | OPEN_TREE_CLOEXEC);
++	ASSERT_GE(ns_fd, 0);
++
++	/*
++	 * Without the flag the clone carries the pinned namespace along,
++	 * and move_mount() refuses it from inside a younger namespace.
++	 */
++	clone_fd = sys_open_tree(AT_FDCWD, self->dir,
++				 OPEN_TREE_CLONE | AT_RECURSIVE | OPEN_TREE_CLOEXEC);
++	ASSERT_GE(clone_fd, 0);
++	EXPECT_EQ(move_into_namespace(clone_fd, ns_fd), ELOOP);
++	close(clone_fd);
++
++	/* With the flag the pinned namespace is left out. */
++	clone_fd = sys_open_tree(AT_FDCWD, self->dir,
++				 OPEN_TREE_CLONE | OPEN_TREE_SKIP_MNTNS |
++				 AT_RECURSIVE | OPEN_TREE_CLOEXEC);
++	ASSERT_GE(clone_fd, 0);
++	EXPECT_EQ(move_into_namespace(clone_fd, ns_fd), 0);
++	close(clone_fd);
++
++	close(ns_fd);
++}
++
++TEST_F(open_tree_ns_skip_mntns, flag_combinations)
++{
++	int fd;
++
++	/* Nothing is copied, so there is nothing to skip. */
++	EXPECT_LT(sys_open_tree(AT_FDCWD, self->dir,
++				OPEN_TREE_SKIP_MNTNS | OPEN_TREE_CLOEXEC), 0);
++	EXPECT_EQ(errno, EINVAL);
++
++	/* OPEN_TREE_NAMESPACE never copies them; the flag is a no-op there. */
++	fd = sys_open_tree(AT_FDCWD, self->dir,
++			   OPEN_TREE_NAMESPACE | OPEN_TREE_SKIP_MNTNS |
++			   AT_RECURSIVE | OPEN_TREE_CLOEXEC);
++	EXPECT_GE(fd, 0);
++	if (fd >= 0)
++		close(fd);
++}
++
+ TEST_HARNESS_MAIN
 -- 
 2.55.0
-
-Thanks,
-Andreas
 
