@@ -1,64 +1,64 @@
-Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+Received: from mail-qk2-f42.google.com (mail-qk2-f42.google.com [74.125.230.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD103C456F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 21:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042223F99E5
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 21:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790197854; cv=none; b=MgDlRfLY+usnpRXuPW3WA7l1zxb5wC9YBfBlLYQB4aOeAtQYzjWToOb4LUZFYzk3JvXqKo4kAynwjg8Xu5mLn3ivkh8jPale5i+SXQAlOnyye+2zf/WHVxl828tBE+Koaen/qRPlAtHuz1J3ovMHJrNgKTUvKmHcGStZe0lbTXQ=
+	t=1790197854; cv=none; b=CJ0mAdM7n21LTnHyOCStvB3EnD9ZfDY+eLVLXmm1KVIyrRnir0zrv02YeEAIHIrkyVfmwNDu69BWFF2EteAqaSbSrinU/1f+bN/BlWLvGupTv2gMqQLO8/LFUDj5hCPu2PU/jpyOrTRE+W2Fa/uCFB488r+qRcdF+gGPQ0akvXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790197854; c=relaxed/simple;
-	bh=XRO48Bgw48FqtNFnwxoO2t8s1KdDx0HkbyEfUCKJjsU=;
+	bh=6+p9c16JaWvd1hm6n4rhzqJqBx/gTTw/01UKuroqhmA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ty9hMeo/3WzzrTPitF6zP6Pgg9N/ZrDWRCvfcyQ+YNSNs3n/UmgOybiX+FN0OP/OGsEmwBNY/NhKA05lrzQfcXyAgo+lNySnWEvv+3LIEOCIXBxg3SJigvFNpsCSbCnsKXCZZsdYMB6k//1fRm5DAdtppDX9SoddLRi2JfjEMqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=iMQewwTX; arc=none smtp.client-ip=74.125.230.205
+	 MIME-Version; b=J4keYklDxmF7iwTV3C3XymTBuF+y1UNgmM+jWs7hUDRjRK5mrxIeTtIEjVENmy/Yy88l9GOZYo4KB0tE3Mgs5snoX+w08r/HiopDj+xBnLGwm0fRqLK3BhxYd8HTeG07Gjbdc/DkNUNt8AXMSDW47P8SONsKm0nYAQdrt4HP51s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=uz8sfil1; arc=none smtp.client-ip=74.125.230.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="iMQewwTX"
-Received: by mail-qk2-f13.google.com with SMTP id af79cd13be357-93910cc46c7so138086385a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 14:10:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="uz8sfil1"
+Received: by mail-qk2-f42.google.com with SMTP id af79cd13be357-93be29bb454so195655785a.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 14:10:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1790197847; x=1790802647; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1790197849; x=1790802649; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vPVSrxtSx9kDTub89+jb9IguuxzhfykwRy7ihRNBm8Q=;
-        b=iMQewwTXR44v5uEfqfL3yUAYonKfI5suYEY3eSOPcf+9HZK0FtexNM1/DfrPs+mx7E
-         gtXnvWbJyAfS07L5x4Q+idvHPGXXwnurk1dt+CaxeoUMERbA9YD3VrSTD6AcVagzMolX
-         bn1g5OGd6QTOZJqk99MjF8hihbHD45gPffkjmLBhl1zTzu26ZjBoAjb4J4Ex3mSJKdnP
-         7UwMqWWGV4a/W9Cwd4Fd69HgdQjiuFLnu8tSrTKQC9rwIKEDDspvCLxx1HGZOLC+7bhP
-         0VU9+Dw8F5AzlBsYVFhTl/+vCyxOtniYUbyvpim/5qYYIU8KAk7IET4VwptUHSeaxbln
-         T+fw==
+        bh=xVr7KuSWyr8CUJERgbEEA0iI2fqWk3sHPjbcAbZFfj4=;
+        b=uz8sfil1N48qs4SpM6831TG710nH4VNPJXmYySjrhJ7Cy6EkA2UyinpfsnKx78dT3D
+         vJE+NdFypAXQw/W9ej1lKkKJo34nrU4y/Jk9sKIL6gAEpothK17WdBx9qk9fcHGwXAin
+         0eKaooFB6VYEq5Ar8IZ+pism6w7GZkEQwtR5Uzk/XjM3FycNSzqYlcNQdu0dFEtTVa9K
+         8z7v4NxGjnAHVx3Ul5l229ndO6zO4cCe41VmzXVRhfVDA4rpnx13W5A5txqwvjQsPvV2
+         CbMG5KqL8NOptIPnKp6pYuiHvmLZC5h7kCfr3F0dXgf2x7kZG3Ho/NjzCZm5NM8fDTIX
+         KDZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790197847; x=1790802647;
+        d=1e100.net; s=20260707; t=1790197849; x=1790802649;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vPVSrxtSx9kDTub89+jb9IguuxzhfykwRy7ihRNBm8Q=;
-        b=Jn3vToHpRXnLjhouFuYYLgfB2c5hvzVWfE/msLogmYERZ1IqFxk0s0SUTTDBvt8hje
-         FOFX9cJbiktBkZ7DmWcDb+S7iX70ZmJjIRxf7Tr7m0nJrrUzbXlzGVEjeTX0wP8vEyAQ
-         f3tVYkvaUWz2+8fzOwfriO794Z5fG0Rt95F+4vCd23vYWZ1RBaj/XuLCQ50cDRS8Gy8Z
-         Myis/T78qg9EVaWKkftVTHEZnEcF3sg/AfANA7U3WCMwWsXqJn12KVK7PaJVeqtXQaLP
-         RK+h+BMgH5c922+N7fhYKT1xKCcxZl3kWIMCN3pV5dDLpjL4XZ/uKUpQ2OaHV7GZQDSi
-         zG6A==
-X-Forwarded-Encrypted: i=1; AKwUvBxEKRAA6g081V50FGbtE8rlt+Qz6pAI4dBqm1Ba9D/BHIAgJOZUIF10ovr/4hW2Wp26g1IuaQiPCL+rjRDA@vger.kernel.org
-X-Gm-Message-State: AFuF++kPGJfaVTfx33ZHyjagIoDxbDNoOQllnZ9q06dl+NpFhBvzA2ZS
-	OLWNKEn24ivvbGytr6mH+QznrWCaXU5km2I6/FCsznmB/9ZcsZ4QKoUZznss/CQJZkE=
-X-Gm-Gg: AYBFou2juAcyNL/SpxyavnQ/pVRhW0y3Re2kotr6EKPAcnFmIut3gNtYgVFfT2Rg1sc
-	phD12c+ooEEauoo0eTcpfifHSGaQ0XXNnJr5Uhs3OSli/irO4C4oWAxh/LWUaXe6nD/R5bsZTDd
-	m1iMTI52bLBf+3UNcW4CIZrNz4POZAmpSJSAjkregMiw37ZvDvA2IKJR0bOSH/+qYs+vBrin1qN
-	c/tpZtGEIqroYok+ezge7MRQP/ZVuVo15ZA/Zc02T15WuYk5zL41UBBidD3bVy5kDsGocsXiN0T
-	wa4K9tJEX0b3PwiASqrFKy9SVS1KGY/J1ilBC6k9QaIy7sglbczG2Le9wlQJrl93J9gF/3YIZpw
-	TWkU0OCrWmpHZSLe79hriun5uoxHsSvpvyn6pjZ6lYIZxGnySdBtiwV+s/enE6y0U+xiTUdDdRG
-	p5zewJvsB/NMlYlKokclvfTKRkG3aMG2N//kcA7QTgbA1Z/z31EgUiPz/1jtvJPJEiDBaZRPUv/
-	2jm5aHXvKiMzK22kCRQgHdo3s4UwtGlKhSga3LVvreQ3Wxyc7g41uVoRhe0
-X-Received: by 2002:a05:620a:2586:b0:939:9bcf:8d35 with SMTP id af79cd13be357-93c348aee16mr64595285a.35.1790197847255;
-        Wed, 23 Sep 2026 14:10:47 -0700 (PDT)
+        bh=xVr7KuSWyr8CUJERgbEEA0iI2fqWk3sHPjbcAbZFfj4=;
+        b=gfwa9Ir3B6vExHMiVxQyoaMX7TWRdYoBFJHlm68y5ysKJVXIzqSPCRZ2rJx7/mDh/g
+         LDqP4/zJ9jzEVBpyk0HFSFiZbowxZVxx1X8h2t6UdmnrTSfuC73HTVweN2MC4rSxM0Bt
+         Tg4d5NJdZDItVarlticRKFE30yUvt1zAqk9iqIvoCGGKB4Qjg9BSE+f6l17aT9P3DYCa
+         d22sELI9XIdfoSMAgakn0kxyjn/N47phvOeOglb62nBlAoVJVphLtcv9TEI5N15EFC2e
+         Artfj6+yJ5yLsleCki3FNa/n1iLKHDZbwvKIPyttJCjyrwxpcVoX6U/jPvamf6BZkdId
+         HubQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz+XJb/iaLtagBwmlI/+B213/Bi4OwjhsL0TG9HWujCVEYYZmxxGX7Vij6bh2b30mgNqJu084P6sFngtgWM@vger.kernel.org
+X-Gm-Message-State: AFuF++nDlmxYbvT6RhUOQPq1UQyMb9e8EF/OCKudSuhbUIGyK+vLmdqH
+	BRqmTe4Yfin4pWyMUr95uLvOkEIbz2RJHHKTCbr4lZ8ZhXIcuMeN09/iEfayTuwiMLU=
+X-Gm-Gg: AYBFou1FnI4IOQXX0Z2JtTfShPIfz4teJWeDbNrOR8MuAaTXK/HyiC0tI2GbtE6hcpv
+	X8ogBD8qFdiVZf0up0Hc333tL+QRCO83NhJtX/oYLi4OIEaBMVuMxVAF0c2Q2Ra0WClBkQHan7l
+	y8WjtFZIYafaWLNljwUHxh+n2Npkks8YAX/xrepoNWJ4Lx9lD5Ci/5HvPrL180m2VUUHP7cot9R
+	TcyaQFioEO79oCihw9FBz6KxSJ9uPJvPQeKAMKNWU9+WRena6XiXTLvtC9KrhjRAHKAR1MMZwj+
+	tESYIu6/K8J5V7jqhrAVeRY27e90LgMbbIDCa6d9NPbeao2SJZ6WDbX21d6dsssStEAp/wDoUSl
+	OOYLJ7KV7AlY+mRV/mO88eTFiLrmV5CC1fcU2Tzbx5Gsw91ZYB9FqB5UF5zi3/nwoqmhXp5cchU
+	9rAtt6rpkklrulWLofk4BTpEGp8I4+rfQrlqv4+e/Bxc5AftTUiG6mS8Su1eHDMd8PlAw2ICxG3
+	3p6kE1hbJPeYaXF/CRkmLbDJ7Enq7xXVfDSdszElyt2D6yMT0Lf6GWFQsSl
+X-Received: by 2002:a05:620a:880a:b0:934:ab73:ac53 with SMTP id af79cd13be357-93c34573b4fmr67685585a.0.1790197848646;
+        Wed, 23 Sep 2026 14:10:48 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c2485926esm305893085a.19.2026.09.23.14.10.46
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c2485926esm305893085a.19.2026.09.23.14.10.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 14:10:46 -0700 (PDT)
+        Wed, 23 Sep 2026 14:10:48 -0700 (PDT)
 From: Gregory Price <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org,
@@ -77,10 +77,11 @@ Cc: linux-kernel@vger.kernel.org,
 	surenb@google.com,
 	mhocko@suse.com,
 	brendan.jackman@linux.dev,
-	hannes@cmpxchg.org
-Subject: [RFC PATCH 2/6] mm/page_alloc: refactor alloc_flags preparation
-Date: Wed, 23 Sep 2026 17:10:36 -0400
-Message-ID: <20260923211041.3127588-3-gourry@gourry.net>
+	hannes@cmpxchg.org,
+	Brendan Jackman <brendan.jackman@google.com>
+Subject: [RFC PATCH 3/6] mm/page_alloc: add an alloc_flags-aware folio allocator
+Date: Wed, 23 Sep 2026 17:10:37 -0400
+Message-ID: <20260923211041.3127588-4-gourry@gourry.net>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260923211041.3127588-1-gourry@gourry.net>
 References: <20260923211041.3127588-1-gourry@gourry.net>
@@ -92,222 +93,70 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__alloc_frozen_pages_noprof() validates allocation flags, checks the
-order, prepares ALLOC_NOLOCK, and selects its initial watermark.
+From: Brendan Jackman <brendan.jackman@google.com>
 
-alloc_pages_bulk_noprof() separately initializes its allocation context
-and low-watermark flags.
+The low-level page allocator accepts explicit allocator behavior flags,
+but the folio helper hard-codes ALLOC_DEFAULT.
 
-Move this setup into prepare_alloc_flags() and call it from both paths.
-The bulk allocator continues to pass ALLOC_DEFAULT.
+Add an MM-internal folio allocator that accepts alloc_flags. Keep the
+existing exported folio and node interfaces unchanged as ALLOC_DEFAULT
+wrappers.
 
-No change in functionality.
+No functional change intended.
 
+Signed-off-by: Brendan Jackman <brendan.jackman@google.com>
 Signed-off-by: Gregory Price <gourry@gourry.net>
 ---
- mm/page_alloc.c | 158 ++++++++++++++++++++++++++----------------------
- 1 file changed, 87 insertions(+), 71 deletions(-)
+ mm/page_alloc.c | 14 +++++++++++---
+ mm/page_alloc.h |  6 ++++++
+ 2 files changed, 17 insertions(+), 3 deletions(-)
 
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 728dd1a36f0f..b4a021fad183 100644
+index b4a021fad183..feb9c64efd84 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
-@@ -5138,6 +5138,84 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
- 	return true;
+@@ -5510,13 +5510,21 @@ struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order
  }
+ EXPORT_SYMBOL(alloc_pages_node_noprof);
  
-+static inline bool alloc_order_allowed(gfp_t gfp, unsigned int order,
-+				       unsigned int alloc_flags)
-+{
-+	if (alloc_flags & ALLOC_NOLOCK)
-+		return pcp_allowed_order(order);
-+
-+	/*
-+	 * There are several places where we assume that the order value is sane
-+	 * so bail out early if the request is out of bound.
-+	 */
-+	return !(WARN_ON_ONCE_GFP(order > MAX_PAGE_ORDER, gfp));
-+}
-+
-+static inline bool alloc_nolock_allowed(void)
-+{
-+	if (!can_spin_trylock())
-+		return false;
-+
-+	/* Bailout, since _deferred_grow_zone() needs to take a lock */
-+	if (deferred_pages_enabled())
-+		return false;
-+
-+	return true;
-+}
-+
-+/*
-+ * GFP flags to set for ALLOC_NOLOCK i.e. alloc_pages_nolock().
-+ *
-+ * Do not specify __GFP_DIRECT_RECLAIM, since direct claim is not allowed.
-+ * Do not specify __GFP_KSWAPD_RECLAIM either, since wake up of kswapd
-+ * is not safe in arbitrary context.
-+ *
-+ * These two are the conditions for gfpflags_allow_spinning() being true.
-+ *
-+ * Specify __GFP_NOWARN since failing alloc_pages_nolock() is not a reason
-+ * to warn. Also warn would trigger printk() which is unsafe from
-+ * various contexts. We cannot use printk_deferred_enter() to mitigate,
-+ * since the running context is unknown.
-+ *
-+ * Specify __GFP_ZERO to make sure that call to kmsan_alloc_page() below
-+ * is safe in any context. Also zeroing the page is mandatory for
-+ * BPF use cases.
-+ *
-+ * Though __GFP_NOMEMALLOC is not checked in the code path below,
-+ * specify it here to highlight that alloc_pages_nolock()
-+ * doesn't want to deplete reserves.
-+ */
-+static const gfp_t gfp_nolock = __GFP_NOWARN | __GFP_ZERO | __GFP_NOMEMALLOC |
-+				__GFP_COMP;
-+
-+static __always_inline bool prepare_alloc_flags(gfp_t *gfp, unsigned int order,
-+		unsigned int alloc_flags, unsigned int *prepared_alloc_flags,
-+		unsigned int *fastpath_alloc_flags)
-+{
-+	/* Other flags could be supported later if needed. */
-+	if (WARN_ON(alloc_flags & ~(ALLOC_NOLOCK | ALLOC_NO_CODETAG)))
-+		return false;
-+
-+	if (!alloc_order_allowed(*gfp, order, alloc_flags))
-+		return false;
-+
-+	*prepared_alloc_flags = alloc_flags;
-+	*fastpath_alloc_flags = alloc_flags;
-+
-+	if (alloc_flags & ALLOC_NOLOCK) {
-+		/* Certain other flags could be supported later if needed. */
-+		VM_WARN_ON_ONCE(*gfp & ~(__GFP_ACCOUNT | gfp_nolock));
-+		if (!alloc_nolock_allowed())
-+			return false;
-+		*gfp |= gfp_nolock;
-+		*fastpath_alloc_flags |= ALLOC_WMARK_MIN;
-+	} else {
-+		*fastpath_alloc_flags |= ALLOC_WMARK_LOW;
-+	}
-+
-+	return true;
-+}
-+
- /*
-  * __alloc_pages_bulk - Allocate a number of order-0 pages to an array
-  * @gfp: GFP flags for the allocation
-@@ -5169,7 +5247,7 @@ unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
- 	struct per_cpu_pages *pcp;
- 	struct list_head *pcp_list;
- 	struct alloc_context ac;
--	unsigned int fastpath_alloc_flags = ALLOC_WMARK_LOW;
-+	unsigned int fastpath_alloc_flags;
- 	int nr_populated = 0, nr_account = 0;
- 
- 	/*
-@@ -5207,6 +5285,10 @@ unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
- 		goto failed;
- #endif
- 
-+	if (!prepare_alloc_flags(&gfp, 0, ALLOC_DEFAULT, &ac.alloc_flags,
-+				 &fastpath_alloc_flags))
-+		goto out;
-+
- 	/* May set ALLOC_NOFRAGMENT, fragmentation will return 1 page. */
- 	gfp &= gfp_allowed_mask;
- 	gfp = current_gfp_context(gfp);
-@@ -5335,56 +5417,6 @@ void free_pages_bulk(struct page **page_array, unsigned long nr_pages)
- 	}
- }
- 
--static inline bool alloc_order_allowed(gfp_t gfp, unsigned int order,
--				       unsigned int alloc_flags)
--{
--	if (alloc_flags & ALLOC_NOLOCK)
--		return pcp_allowed_order(order);
--
--	/*
--	 * There are several places where we assume that the order value is sane
--	 * so bail out early if the request is out of bound.
--	 */
--	return !(WARN_ON_ONCE_GFP(order > MAX_PAGE_ORDER, gfp));
--}
--
--static inline bool alloc_nolock_allowed(void)
--{
--	if (!can_spin_trylock())
--		return false;
--
--	/* Bailout, since _deferred_grow_zone() needs to take a lock */
--	if (deferred_pages_enabled())
--		return false;
--
--	return true;
--}
--
--/*
-- * GFP flags to set for ALLOC_NOLOCK i.e. alloc_pages_nolock().
-- *
-- * Do not specify __GFP_DIRECT_RECLAIM, since direct claim is not allowed.
-- * Do not specify __GFP_KSWAPD_RECLAIM either, since wake up of kswapd
-- * is not safe in arbitrary context.
-- *
-- * These two are the conditions for gfpflags_allow_spinning() being true.
-- *
-- * Specify __GFP_NOWARN since failing alloc_pages_nolock() is not a reason
-- * to warn. Also warn would trigger printk() which is unsafe from
-- * various contexts. We cannot use printk_deferred_enter() to mitigate,
-- * since the running context is unknown.
-- *
-- * Specify __GFP_ZERO to make sure that call to kmsan_alloc_page() below
-- * is safe in any context. Also zeroing the page is mandatory for
-- * BPF use cases.
-- *
-- * Though __GFP_NOMEMALLOC is not checked in the code path below,
-- * specify it here to highlight that alloc_pages_nolock()
-- * doesn't want to deplete reserves.
-- */
--static const gfp_t gfp_nolock = __GFP_NOWARN | __GFP_ZERO | __GFP_NOMEMALLOC |
--				__GFP_COMP;
--
- /*
-  * This is the 'heart' of the zoned buddy allocator.
-  */
-@@ -5393,29 +5425,13 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+-struct folio *__folio_alloc_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
+-		nodemask_t *nodemask)
++struct folio *__folio_alloc_flags_noprof(gfp_t gfp, unsigned int order,
++		int preferred_nid, nodemask_t *nodemask,
++		unsigned int alloc_flags)
  {
- 	struct page *page;
- 	gfp_t alloc_gfp; /* The gfp_t that was actually used for allocation */
--	struct alloc_context ac = {
--		.alloc_flags = alloc_flags,
--	};
--	unsigned int fastpath_alloc_flags = alloc_flags;
--
--	/* Other flags could be supported later if needed. */
--	if (WARN_ON(alloc_flags & ~(ALLOC_NOLOCK | ALLOC_NO_CODETAG)))
--		return NULL;
-+	struct alloc_context ac;
-+	unsigned int fastpath_alloc_flags;
+ 	struct page *page = __alloc_pages_noprof(gfp | __GFP_COMP, order,
+-					preferred_nid, nodemask, ALLOC_DEFAULT);
++					preferred_nid, nodemask, alloc_flags);
+ 	return page_rmappable_folio(page);
+ }
++
++struct folio *__folio_alloc_noprof(gfp_t gfp, unsigned int order,
++		int preferred_nid, nodemask_t *nodemask)
++{
++	return __folio_alloc_flags_noprof(gfp, order, preferred_nid, nodemask,
++					 ALLOC_DEFAULT);
++}
+ EXPORT_SYMBOL(__folio_alloc_noprof);
  
--	if (!alloc_order_allowed(gfp, order, alloc_flags))
-+	if (!prepare_alloc_flags(&gfp, order, alloc_flags, &ac.alloc_flags,
-+				 &fastpath_alloc_flags))
- 		return NULL;
+ /*
+diff --git a/mm/page_alloc.h b/mm/page_alloc.h
+index b9259deddb59..986e733b586e 100644
+--- a/mm/page_alloc.h
++++ b/mm/page_alloc.h
+@@ -258,6 +258,12 @@ struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order, int preferred_n
+ 		nodemask_t *nodemask, unsigned int alloc_flags);
+ #define __alloc_pages(...)			alloc_hooks(__alloc_pages_noprof(__VA_ARGS__))
  
--	if (alloc_flags & ALLOC_NOLOCK) {
--		/* Certain other flags could be supported later if needed. */
--		VM_WARN_ON_ONCE(gfp & ~(__GFP_ACCOUNT | gfp_nolock));
--		if (!alloc_nolock_allowed())
--			return NULL;
--		gfp |= gfp_nolock;
--		fastpath_alloc_flags |= ALLOC_WMARK_MIN;
--	} else {
--		fastpath_alloc_flags |= ALLOC_WMARK_LOW;
--	}
--
- 	gfp &= gfp_allowed_mask;
- 	/*
- 	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
++struct folio *__folio_alloc_flags_noprof(gfp_t gfp, unsigned int order,
++		int preferred_nid, nodemask_t *nodemask,
++		unsigned int alloc_flags);
++#define __folio_alloc_flags(...) \
++	alloc_hooks(__folio_alloc_flags_noprof(__VA_ARGS__))
++
+ extern void zone_pcp_reset(struct zone *zone);
+ extern void zone_pcp_disable(struct zone *zone);
+ extern void zone_pcp_enable(struct zone *zone);
 -- 
 2.55.0
 
