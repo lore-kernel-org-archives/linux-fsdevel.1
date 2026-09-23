@@ -1,132 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F9D328B4B;
-	Wed, 23 Sep 2026 13:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9931C51FCB8
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 13:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790168838; cv=none; b=s8a/LXL8FthNaXY84O1ivP1AII4JwifzhvIEzCR4j6ytFbsJ8QJy8LamFcLcw85ha411bN/zaD3OciRk2XVSpPTtqBdjP3U6nKOGtdukdRggEgktynUkXl62hnG8Vwxcu9T0VzCJUo8VFlotWlGvr5iVAiwSwrlDb5Ia1fbS/nY=
+	t=1790170219; cv=none; b=aavAwYyo7wSJ8iDJKOBP5mjCuyZBSV0+DbEJJ5GvXx9wewi489yeaLODNJiCyuAyHxfBA/t46F+u+askWDrrRtimbK0I71MV9TH56hOShUd5YdMFXMzLVRrNb3bMufvKjCRD1vNfHgynnp3deL77K3CS8Tqx4FzHhX9Y7J6JbgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790168838; c=relaxed/simple;
-	bh=AUXX0lLET+vhI6Ykx8+X33/sdAZKJETzskzKzmf6SPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iEE4UPQJryAvgGUTKzBbU6wVzX3uVQiVK1gfD+4MVULpUL+FPypGuw/P6tyfTFI9JSE2kMOiKxq6rdFGcXvf4ZCiXLnQzt0OFHoynQK2ywuLAxxijEFKIXJJ5kUndkqpJrmcQHbATyMfYX+SGoSof3Yuk1LL0/Lxyz5JVtP6JTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PoA6KOtM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790170219; c=relaxed/simple;
+	bh=tFpSLJd4KzT2EQLI4Mnw+jxQCxhohjwg8m7rnfH6i3A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EaDPrEax6ZO9R9fncjvExicNVJj4mUsw+tKP3IPLMqxvg0DDIBHGKIC52kM/TN396sJEUPmAOSbQskPYfCexkXZjIhAFMmUCzOAHQloVEWDsKjc74oo0CsFsriqCdKyePrC0RzlL+CsHjnB4fOezi6GZWk35srXUh2wfB7qTxS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lWlC+3UG; arc=none smtp.client-ip=74.125.224.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PoA6KOtM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 210F31F00893;
-	Wed, 23 Sep 2026 13:07:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790168836;
-	bh=V8j3QTNFK1gOVjs7UmpTiFVyMmeLvCeDqRqufg2zvtU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PoA6KOtMm5ehTm1iX//8yFUmxRmpVHuInQ+U6/jlOBljmXgRxBa4Heiaxoc1FHwj7
-	 K8Pfno5NbSknUPxIFQQsWYvgeUS6EmqOsSk1+rBifl6M2cELWo8KxVhAtdIws0Q1Y2
-	 91IOWz5gk0/3BrMLhLideayf2y/+hNgAORdQ2TIrL80FQaIPVRcGdtZaQvWym0hrGZ
-	 7mDscITsdhrlBDzdOZxyVHzret0gz7jj8JDAeLaeJYK6vE25juu2uNpbH9n98t3AWc
-	 LKTk+Ny3EOhFKshDNooiYDB9IzzWoP5iP5C2CgBus4Zl7592bYPn1pFGpk7b6uvz6X
-	 ws7V57DdbcCeA==
-Date: Wed, 23 Sep 2026 15:07:11 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: zhanxusheng1024@gmail.com, kees@kernel.org, kuniyu@google.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	zhanxusheng@xiaomi.com
-Subject: Re: [PATCH 1/2] sysctl: Negate before converting in the int read path
-Message-ID: <j55ziuijejg3kefuhi2du37d7qechruzchgigp3c55stuhtkh2@fddifpg5kxzq>
-References: <20260922031229.2300283-2-zhanxusheng@xiaomi.com>
- <867A30A7-5460-4988-A078-09D0B4BCD44C@mainlining.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lWlC+3UG"
+Received: by mail-yx2-f13.google.com with SMTP id 00721157ae682-85d4ddd1d91so10504177b3.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 06:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790170217; x=1790775017; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zidhQFtMBqWpP4LRT4RaIsC3YDKSMIQiZYuG7TAn+KU=;
+        b=lWlC+3UGvBh/nsEnuwWYxBhHp0VhkD61/qc3vfpVbTBwZAMidL6XvvQ9q59jVnV4F1
+         hpL03Y03v0Vig1driAwF2h84iIA+6XXDOgrB/2+1jMSVxIZhMKvWGOKR1EouVVEjmwKd
+         2gl0cVFr/NK4wgjQnezfb3XCAfDf0yMfLCMHoZwYVwxkVi0hzhS0pUaRwZkCCDW/IIL/
+         sLSmC9MNm0qldzon56tMxks6nTc0AqifoQruEocX4WnDVLVF0kzSNlJbVJ9bAQL+yEFD
+         FsS+l+YPFJL3mYW16kLyDv8GSndcLdgBOF/JqRMp3aZCrWEQ9e72LQnWmmlb2s+NHSev
+         9+hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790170217; x=1790775017;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zidhQFtMBqWpP4LRT4RaIsC3YDKSMIQiZYuG7TAn+KU=;
+        b=zj2VaQeHVtTaLJjikCrbg5cr+2OxC+tNc2d80qD5Dijt3mpoTyV0N0zgEWeKuXmDjZ
+         KxBPc2X7oUIsV+49dpEHLBRuwnlXhgNwiZwnfiLQqy+yHxLKLvjkUCkqELXLDVtDAo1T
+         4wFSFHNuuzC2LDQQXZe0XZ/2LseFLcuk8UaQLV8+zsAsoDJVZgQFbxw//RwS4IQvWaFD
+         wkKlzwpqiKdFhbIC7s+2r513jl+zhyXn9N5m20bEI4x9giQHpSwipX9MwDsQ/CIlQZMZ
+         Q0bP27/NCHiME86kzgQO5h1Fy3SQgYkSatNlqM6iXUf1jdrts4EU4oEDmYWeqOsQyv0n
+         3+Lg==
+X-Forwarded-Encrypted: i=1; AKwUvBxpmYrI7ggl9Jta9k2ImkYnHYyVkyJSzhlRvA4B/+FtRiEgBjBmnDwNtz0sl9H1RSFiyKHx58VJvKwuuxdk@vger.kernel.org
+X-Gm-Message-State: AFuF++mwVbRxl4O5tMYf4BHe8OWHbh+53dJOnkawUljsjIgmq2XKri0x
+	ONpZOs1FFCGZh4/UKweaJArdgEkpkE+0abdUE+1nI+wUhpv0jDczHfAe
+X-Gm-Gg: AYBFou1GsaoY2678vULqhYMufWnqaJUU4EZGMXrZOHUapuuWRWC/tiXlLmGygrVYVLk
+	bjq9N9UcwyQ8mPShlZG5FLJyiEUgZcr8wd+N5szd6b/A/fktLkXvC+780kt3RWMwv1+IBwtJ9+d
+	UlCRp672PjhVmIlmAQ4KV7XGTK2iW63Slk2WA7YqVrsjMO2ZnmPahfK1e+d7po+UkDQo32Um73P
+	8DVgd2olO2B77mCXrrSZWrY4fDtDunhrMcSsVwOVr+XPqajwabgNQrzmq24m4qtlIph0NAA4q5d
+	Vm31gWyTw6UKg2mf7mRgzt5nZ0PALfWugrQGThG1LEuqlP+cT7B1x9SEddiecfXfeZc/T6cV0p7
+	D6tBF8Mc6bw+EAQaN+NQmj/sdSJ7IqfwSLfkEfsFqkiEUf2zq5JlD5ScBS1Zgr8y8MF8vvIFcKJ
+	vAtR9lO/H5eu3ixFO+YA1CP9IJUJ+jYni4hY+FGL3s6U85rtjihZ7cVJsm+Pzop0mYzECpJb0wq
+	p66soQroVv8XNLDXLri1NFXlTrj5w==
+X-Received: by 2002:a05:690c:4004:b0:89a:63da:cbec with SMTP id 00721157ae682-8a45c270a06mr12544017b3.50.1790170217243;
+        Wed, 23 Sep 2026 06:30:17 -0700 (PDT)
+Received: from [100.125.248.95] ([124.70.231.46])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a466ab7e7csm9385007b3.44.2026.09.23.06.29.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 06:30:16 -0700 (PDT)
+Message-ID: <5419d3e7-bd3e-40a5-a15d-397e9019b3d5@gmail.com>
+Date: Wed, 23 Sep 2026 21:29:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eppq62ztiji2q7bc"
-Content-Disposition: inline
-In-Reply-To: <867A30A7-5460-4988-A078-09D0B4BCD44C@mainlining.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/4] mm/truncate: clarify return value of
+ truncate_inode_partial_folio()
+To: Jan Kara <jack@suse.cz>, Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
+ liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
+ willy@infradead.org, ziy@nvidia.com, bfoster@redhat.com,
+ joannelkoong@gmail.com, djwong@kernel.org, yi.zhang@huawei.com,
+ yangerkun@huawei.com, chengzhihao1@huawei.com, wangkefeng.wang@huawei.com,
+ yukuai@fnnas.com
+References: <20260922110703.468389-1-yi.zhang@huaweicloud.com>
+ <20260922110703.468389-5-yi.zhang@huaweicloud.com>
+ <5pthbyxtn7q6xi4fmkofvksmcjzfnujcw2g4fxmxjzfin5pbgf@zui3vcimb4cv>
+Content-Language: en-US
+From: Zhang Yi <yizhang089@gmail.com>
+In-Reply-To: <5pthbyxtn7q6xi4fmkofvksmcjzfnujcw2g4fxmxjzfin5pbgf@zui3vcimb4cv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 9/22/2026 7:58 PM, Jan Kara wrote:
+> On Tue 22-09-26 19:07:03, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> With the earlier rework the callers no longer rely on the return value
+>> of truncate_inode_partial_folio() to decide whether to adjust the
+>> truncation range. The pstart/pend out-parameters carry that information
+>> instead. The callers now only use the return value as a flag indicating
+>> whether the loop should be reset to pick up newly split sub-folios on
+>> the shmem path.
+>>
+>> Return true if at least one split succeeded, and false otherwise.
+>> This clarifies the existing confusing return value semantics.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> 
+> Looks good to me. Feel free to add:
+> 
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> 
+> Just as I'm checking the only use of the return value of
+> truncate_inode_partial_folio() in shmem_undo_range(), the code there looks
+> fishy. It does:
+> 
+>          } else if (truncate_inode_partial_folio(folio, lstart, lend)) {
+>                  /*
+>                   * If we split a page, reset the loop so
+>                   * that we pick up the new sub pages.
+>                   * Otherwise the THP was entirely
+>                   * dropped or the target range was
+>                   * zeroed, so just continue the loop as
+>                   * is.
+>                   */
+>                  if (!folio_test_large(folio)) {
+>                          folio_unlock(folio);
+>                          index = start;
+>                          break;
+>                  }
+>          }
+> 
+> However if folio was say order-2 (4 pages), lstart is inside the 3rd page,
+> then the split done by truncate_inode_partial_folio() can result in order-1
+> folio, and two order-0 folios. Hence the !folio_test_large(folio) check
+> fails and we won't pickup the new smaller folios so that we can free the
+> 4th one... So I think we need to unconditionally reset the loop if
+> truncate_inode_partial_folio() returned true.
+> 
+> 								Honza
+
+Indeed, that's a good point. Since this is a pre-existing and
+independent issue, I'll send a separate patch to fix it.
+
+Thanks,
+Yi.
 
 
---eppq62ztiji2q7bc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2026 at 07:37:57AM +0100, Bradley Morgan wrote:
-> On 22 September 2026 04:12:27 BST, Zhan Xusheng <zhanxusheng1024@gmail.co=
-m>
-> wrote:
-> >proc_int_k2u_conv_kop() reports the sign through *negp and the magnitude
-> >through *u_ptr, but for a negative value it hands the sign-extended int =
-to
-> >the converter and negates the result:
-> >
-> >	*u_ptr =3D k_ptr_op ? -k_ptr_op((ulong)val) : -(ulong)val;
-> >
-> >With div_hz() and HZ=3D1000 a stored -1000 becomes
-> >(ulong)-1000 / 1000 =3D=3D 18446744073709550, and negating that wraps:
-> >
-> >	# echo -1 > /proc/sys/net/ipv4/tcp_fin_timeout
-> >	# cat /proc/sys/net/ipv4/tcp_fin_timeout
-> >	-18428297329635842066
-> >
-> >Take the magnitude first and convert that, which is what the open-coded
-> >version did before commit 2dc164a48e6f ("sysctl: Create converter
-> >functions with two new macros") folded it into a macro.  The
-> >k_ptr_op =3D=3D NULL branch was already correct.
-> >
-> >proc_dointvec_jiffies() and proc_dointvec_ms_jiffies() are affected.
-> >
-> >Fixes: 2dc164a48e6f ("sysctl: Create converter functions with two new ma=
-cros")
-> >Cc: stable@vger.kernel.org
-> >Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
-> >---
-> > kernel/sysctl.c | 2 +-
-> > 1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> >diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> >index f7b75985d542..38597f26b34c 100644
-> >--- a/kernel/sysctl.c
-> >+++ b/kernel/sysctl.c
-> >@@ -483,7 +483,7 @@ int proc_int_k2u_conv_kop(ulong *u_ptr, const int *k=
-_ptr, bool *negp,
-> >=20
-> > 	if (val < 0) {
-> > 		*negp =3D true;
-> >-		*u_ptr =3D k_ptr_op ? -k_ptr_op((ulong)val) : -(ulong)val;
-> >+		*u_ptr =3D k_ptr_op ? k_ptr_op(-(ulong)val) : -(ulong)val;
-> > 	} else {
-> > 		*negp =3D false;
-> > 		*u_ptr =3D k_ptr_op ? k_ptr_op((ulong)val) : (ulong) val;
-> >
-> I didn't do much crazy review here, but I think this LGTM! :)
-
-If you didn't do much, please don't send the mail.
-
->=20
-> Reviewed-by: Bradley Morgan <brads@mainlining.org>
->=20
-> --- Thanks!
-> "I'm not a very positive person" - Linus torvalds
-
---eppq62ztiji2q7bc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqzzv4ACgkQupfNUreW
-QU+69AwAmHrA2+jE3WrC5me63jtEy+bAn63/JvtpLn5pHMQnYIFmUXWCzvVCPnI9
-vjSghr4AmzTDe3sehrQnaZXoGDd40AC8TJAlr/AXruKnJRSsbpLFcT/CrORAM8bE
-BWAKtie3Mvw2iUj2y3Ykp0hmYtLPzjKZHHLy1kpLnkgpWNNOwkc7PX1Qc0VWwxTu
-pOIIZFZAsW0ilmfudoOe/YAmFWQmRvSGsrdm+3Cjs0tSGIxep+H/EjB1znJdQymG
-AiwdKgnB7qCC7IbzZxmiJDTKCR2imYBAkgyOJ8UDXtbAFKHAknMNU2a1B7xkU6K+
-4Xc2aMzp3zXXX3pkqV4gb6Z7d11DPzC2ZOJSnrFH6JEAiwOrxAcxeq/YbpdJFwkD
-bVn86vh5z8xUBcK3lmD2yzxa4S8/fP74iZ9NkcyS8r1HBLEFhjgazMj182GutX4t
-2KKogl1vdemXsOKWC+k3/Q4ZJnq4c+2Zd9L1mtMiRgXokMAzKn0S1TW4sQU07IX5
-IsE0eW1i
-=zFn0
------END PGP SIGNATURE-----
-
---eppq62ztiji2q7bc--
