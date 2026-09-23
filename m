@@ -1,227 +1,213 @@
-Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAF2369D56
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 02:25:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790130313; cv=none; b=dIvjFgyWLjcDfbDbdXTB9Lnxl3BwEc4QLlu55zWyfaSsEKvVXwAdzOBZ0Foz+zbWpd2JTSQFJ/tGCdR1EodledxiynRt4kU64fNla/d2j8iIqmfBpQJKEx9Mq6dp8G+hD3SAp+0tI18JHdV+q+ICOlb1uuHG3NA3wmeUcsTRVBA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790130313; c=relaxed/simple;
-	bh=jy8mgvmzpGKOFzyvPOZqGWMmRJiQ3s6hVheMypI3Uaw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kJ0IxK4iscV9A9kIc/iKKf4DjJsy0Jv1085306Dg1sE21lDZPCk9YOJb7RZISm+OD8fE0CHVDXX7XLDEeAtfJUZRHjshrPwBD8YNcUgLwjszwv7oYbyAj58//YiK7iaTtAXOHQ5GvW7PDi3L1prD1PPcNaHJaUPMbLucPoWzovU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0+ujz9p; arc=none smtp.client-ip=74.125.230.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E4C39D3EB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 03:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790132811; cv=pass; b=M6k/2l1EepNyvng9jlei0ebZCgWQINhbJJNtcB4ip4GffFIkBD32ZZ5FIsYd3QDQ8Z+NPRrrdM4RHCykMfGy4BkgqGIBiYUVui8gzSbNV3plHlvCCT9AQuCQZ8YCZpQE7hr6kn/T9XGlNG+23e7K1D8vxCxzmh30jucV6JVoJAA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790132811; c=relaxed/simple;
+	bh=vT5rt2ey3w3svwWjeKYR1sh8KkF6JvEusbX1aNDa9pk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jk5uZ9vFMtmSimxBfRFYVfKdaLekXRT7HzHfdMMEr9E3d+YETODWpjYY4/i0lsVh7prv7xkds+rmIYQyOhl303nhz15EWgbpetM/HPFPBUVix+rZen/B77sf/S3s/JoXdJlzFE/AIZxP9gENI36S2ibYSh8C0gQpJewxMBe90ds=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tkqdbz1W; arc=pass smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0+ujz9p"
-Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-91205165f71so3157086d6.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 19:25:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tkqdbz1W"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-530e8c6fb80so76581cf.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 22 Sep 2026 20:06:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790132808; cv=none;
+        d=google.com; s=arc-20260327;
+        b=I2DWJkhkfShSZsr1wdObVVSHB5fu9SRYRd42IRBmIuZUjF4O1U4E4qzjrhITyDJnTb
+         aXohdpblEYBGxOLxcgW4/DG9orhdRLMbA9vtb+dde25jgwNn8LRnJQEnwvHhU5xzcnaO
+         CauOUwlmbjXzW8wAOiWJcMGB8SAduriegeayhMxv4xbmzDZlo9xNzOov5Wob8yX8eP4g
+         RRTcDaQTEzG09zgwd9BSf0N1mKTF6W8eBy1HWOxHJJfKTFoNg4lHN/Ss/HHvttt1JZvr
+         DsaAMbfJR1McqaPeFjncZ7C9OtLM7bKjzbQdcW8uNI7ND86rsaIND/oquRUoQP5uYzf5
+         pQ8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=IRPbOIjea7YnALS382sxDJV2rr4g7+7CjsUb6DjUGDY=;
+        fh=dzF2K4TPbUGxYzyKXJMM/u/2cO/SbBQpuspA3mwIfYw=;
+        b=SCTmmogM9B+8NIDkq3YGTScAJ5UFouh3wz0Ek4ksA52b0jNWd1m1Zk1gG54pfPe6af
+         pVJLs86rW8MkgN5LoklfGUaRU+NxIBY0XJgGVBU6JcMbAq9og1tE4Kruk7aLLRzT2/B3
+         YOueeQ9qfKgUGWVpJ8o/SnWgel+/rCuZI9tOQjMny8kBTYZj3e5IfvYgqFo+AIqVcDEk
+         os+nnttuHFS9hYyx0juKyHE6mqiY+64z/GS4uQWp95sz7arwRQZg5JWwA3xTbjkcJG9f
+         ucoLSt7XRc2msMILqveZOybIIH83pcY8WA/zbYyYc+kdnV7QL/ro3LMc5e/ARNCaAKH3
+         ek0A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790130310; x=1790735110; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CLvQRDhNdQ+386SmPeBLxsAnS2o1lMXmcOlmjU9lVHU=;
-        b=M0+ujz9peXktUF5fY7twDXI6jge3I/CmgUx+tJPkhUR8BBlWiWCJvXKa2cS2f3DSPP
-         L+tW77/W8D774bvrcqXTpwevukctElp2h0dxA14wUOrLkfvVE0rlCfsZRg0muKjv5MCh
-         /JmQf2Hmdq1XuBrte5fWSy09gj13r0CWVFYbvkJQw4JPeGKOzEwczmQK50vAK+NhPIyf
-         DDFpS/2lHVQUD0nY3nJSPkOrxv+ZKU1Z4j25q8F6bP7vt9wK2WmdviJmRdNn6Nve56rf
-         iMXyh8inM6aHqy1n5zfk8DNa+NMW3PfbpPFRWGZOJNboyWbh9F2jogPday2lXADGFSvp
-         p7tg==
+        d=google.com; s=20251104; t=1790132808; x=1790737608; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=IRPbOIjea7YnALS382sxDJV2rr4g7+7CjsUb6DjUGDY=;
+        b=tkqdbz1WTh9MLZMRkwL/260pmn7Fk+2Ky3gh9XgMW/pQdnn8Qi8tZe1JrA0UAdd8if
+         AqWNe+jJqpg6YfGhr6gzYK9be11OZXLGBgO+qDqS9xvaXtiohnywhDqNrR9juqksshG6
+         DK/eHo1eu4aO4OK3kMIDXRrGT75jOcAU5IqZOsxHCgNiwJ+OoSrNC895Pj1THG2xtqfX
+         lOtAM+3N4GwohyfYVPhrWC93snePHqnvZW2OAuN6t24Rw2TvLXLwYHCB400pr0CBcsRq
+         0/2lTpP0X2FIwZhs7Zfbx1IlsiaXbT9L8YoLoEqdErjUYsq02SJg6+Sy9cu25JXweDUr
+         /Uow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790130310; x=1790735110;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CLvQRDhNdQ+386SmPeBLxsAnS2o1lMXmcOlmjU9lVHU=;
-        b=ToV9i84xB0x/Cam5NKuizxy96ygh7/W0YkYR8fefphRU8HNm/1Ds4/60xpY6mDFnwn
-         ebUci2Xk9fC1SHX2U8NOPj4isAAgugrtXJVx2hMjFTZRu7ICE1g5sX5kyC2h22op1dLt
-         A/90bHGhFUdiIKksoeEuIHEN37t8HpWAnjoVDu9RTpgtp8hYLgptB1UKGvE2mLmmJBa1
-         dY9w4skeePs/BIVv/QkQKJPRoioPv7PVdcbEHU7dKRR2FAunMpFUJ6lh0pcFGiNEQlFr
-         xVfKzrm1FzTC1zdrWnV2iQRiDfDJt3YJLP0Xf5sETMzc1mnH1q90q6y1gDRR8YR5A8e+
-         EH/A==
-X-Forwarded-Encrypted: i=1; AKwUvBwCwC6depQ7AW0NHcxNyIEGSDTjOqCkYYxlbJAT7zn0n/NGlsL6YEXISQ51dxqfBpHsYvEfCP2fAKruYncz@vger.kernel.org
-X-Gm-Message-State: AFuF++n7bUb+XlLkvjz0mVkQMn6Ww7BVPjaS0z95qx1Ttf6SIvLnLKZl
-	h6BYFaDgoAxbMm42TRi0ZvxwmMlSIo3mCs3hF0nJpQoVnfjQhDGtHooD
-X-Gm-Gg: AYBFou0j5uNgfQN2Bbm+0vW4kE3WDXWw4tFGjI5MTrphZ7GL75qMzrHi15LHOZpZ7It
-	PYmtiw8hp+mYUOL1R8D/W47pZRaQ+Lca6QNaHdhgsdfLFWhtxWD4lVISHgElb5nJJOzsNN++sKi
-	KKBPClmyC83TBNShLexg8dRosx+81Ur3HbmM9K8rdhlFU5zyXosDqCO/tm+JVS/FxXcaKHUsO9p
-	ASRutySaqdj5LaaLdctuSv+U9mWDWZeN1cvhOoNXnHbChn9QoYblv8dTyyq+0qcMItrNXDIvV31
-	s1+eGGlIr6/1S//u6vRmnKnkzXJ6LQkMF3LvznyK7D8DFkYwDWIxdS4ehVME8E1+k2zcM4phayR
-	2rQR8J4HNJcfQbTPmd5CXA/zJ/vuMELsZG7JTTpmOQErAXF+WQ5eV4Jh4IzKWVRtUwj1Q04S+ZU
-	4BK6gJFw2N0+XX3/TLFIsBJQVJMxRj1UC3fmJiVVMQDN1Zpko3GISphOK9k/3/+CDdKvlD3g==
-X-Received: by 2002:a05:620a:17a0:b0:93b:e9db:1bab with SMTP id af79cd13be357-93c251efb88mr212666485a.56.1790130310310;
-        Tue, 22 Sep 2026 19:25:10 -0700 (PDT)
-Received: from tofu.. ([128.210.0.165])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c24823976sm124500985a.13.2026.09.22.19.25.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 19:25:09 -0700 (PDT)
-From: Georgios Androutsopoulos <georgeandrout13@gmail.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	linux-fsdevel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Georgios Androutsopoulos <georgeandrout13@gmail.com>
-Subject: [PATCH v2] rust: file: handle fd table teardown in file descriptor APIs
-Date: Tue, 22 Sep 2026 22:23:39 -0400
-Message-ID: <20260923022339.3340694-1-georgeandrout13@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20260707; t=1790132808; x=1790737608;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IRPbOIjea7YnALS382sxDJV2rr4g7+7CjsUb6DjUGDY=;
+        b=z1LxRNHdugmGHZY8x1zxkDeB38gG8RwXNA1rngwK3qrSVlMvbpzD52+1VDu1PDSesk
+         +L7ya3jhHZ8rp1DmNs9YFWpmqS2GhSS0mSa57HR5M8JvSKzUQjRjxASKsJ/952V2M+lj
+         Bcp7VXZO0VYLZd7b9JTWQ6MJoWQk4Mk5s3j6YZTFNyAHK5lAifVw0Mh1ukgrpIomrvoA
+         6yburMzaz2x1AYcKqBAOnruFYvcMzLAxW+ZGH28Qc+7qbat7R3n13zeTYeYauO4mmoUr
+         i/nYxRxZgkvLmjDB69YSoTndvtmysulnR1cQKDRJd1VXdlfstEWOrLRvqFPhgAZ5G+7J
+         SAJA==
+X-Forwarded-Encrypted: i=1; AKwUvBwoo+3zYzYmv2znmGBxJj4WFB45e3CEnH+toFvFgyyZjxx3XQhqVYUgKec2zDyrP8qZUkxCdsvDRna/RvzA@vger.kernel.org
+X-Gm-Message-State: AFuF++nw7saJVr0chq2Tb9s3uuDigpqKo94z6c+fMQs3LaUHk4lUnw6r
+	XjyRnvYUkNi837p89h/3hHY5oApD9ArryXNj5z8jq7jhjvAYBxeMnRI27gML3aJ8831WiagSLgu
+	CiyGWBG0YgD/mQtSjPcoiZ3xx6T+3xKRl7fgDZtyR
+X-Gm-Gg: AYBFou1321CK5DT66e8vS5KZ3o8uXW22S2sbeTiF0RMTNchuSzKaX01Pl003RXPQEJW
+	Mybm7ZiEZ5Lb1dwiOxRF+MfSaegPR/Q97vkkynNoJtyp9QAoC20IS4TE+YZfd7513hLsrMUGxKx
+	TLf0bU3ZqJfuyNg+svcxls3t/w6MB5St5w/2O3Tt6nOXS5MO7t1SdSFXIlAauMI/LRXTu27dI28
+	1EC6NZ5CoFcv4AN6ScOFLUB3clGyvolpqx+d3coCf1+Y32FHQa8D+ET4XfwYgIcUAc8csyvXQtu
+	6YJXeGnq7tvucTPwVEgKWH8gpzPuO12uR1jLXJE26Zhec5CGJoMv2prYAIT3d+6I
+X-Received: by 2002:ac8:5d92:0:b0:532:8423:1e78 with SMTP id
+ d75a77b69052e-532ef021d33mr4455851cf.10.1790132807938; Tue, 22 Sep 2026
+ 20:06:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260922023541.51532-1-hao.ge@linux.dev>
+In-Reply-To: <20260922023541.51532-1-hao.ge@linux.dev>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 22 Sep 2026 20:06:35 -0700
+X-Gm-Features: AclHuK_Ckf9BkzjT2yz5Z9Ieaus86uHwwpQxqkJxhDMBAS12Kru5JUofGg3dI-k
+Message-ID: <CAJuCfpEFxn6peTwkE=orOuhSBchmuziYK1Xt75iwJo59rqYUQA@mail.gmail.com>
+Subject: Re: [PATCH] netfs: Fix missing alloc tagging of direct mempool allocations
+To: Hao Ge <hao.ge@linux.dev>
+Cc: David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>, netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Erhard Furtner <erhard_f@mailbox.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Several Rust file descriptor APIs rely on `current->files` being
-available. However, `exit_files()` clears it while execution may still
-continue on the same task.
+On Mon, Sep 21, 2026 at 7:37=E2=80=AFPM Hao Ge <hao.ge@linux.dev> wrote:
+>
+> Commit 1d78d56c43ef ("netfs: Fix folio_queue ENOMEM in writeback by
+> adding a mempool") added a mempool for the folio_queues and made the
+> request, subrequest and folio_queue allocations distinguish between
+> writeback and everything else.  Writeback is part of memory reclaim
+> and must not fail due to ENOMEM, so it allocates under GFP_NOFS
+> through mempool_alloc(), which may dip into the pool's reserve and,
+> if that runs empty, wait for elements to be returned.  The
+> GFP_KERNEL paths, which can return -ENOMEM to their callers, invoke
+> the pool's ->alloc() callback directly instead.
+>
+> The direct call, however, skips the alloc_hooks() wrapper that the
+> mempool_alloc() macro provides.  The pool callbacks, mempool_alloc_slab()
+> and mempool_kmalloc(), call kmem_cache_alloc_noprof() and kmalloc_noprof(=
+)
+> and rely on current->alloc_tag having been set by the caller.  With
+> CONFIG_MEM_ALLOC_PROFILING_DEBUG=3Dy this leads to
+>
+>     current->alloc_tag not set
+>     WARNING: ./include/linux/alloc_tag.h:161 at __alloc_tagging_slab_allo=
+c_hook
+>     alloc_tag was not set
+>     WARNING: ./include/linux/alloc_tag.h:166 at __alloc_tagging_slab_free=
+_hook
+>
+> at allocation and free time respectively, as reported when reading
+> files on a CIFS mount.  The allocations are also missing from
+> /proc/allocinfo.
+>
+> Wrap the direct ->alloc() invocations in alloc_hooks() with the new
+> netfs_mempool_alloc_noreserve() helper.  The GFP_KERNEL paths keep their
+> failable allocation semantics, they just get tagged now.
+>
+> Fixes: 1d78d56c43ef ("netfs: Fix folio_queue ENOMEM in writeback by addin=
+g a mempool")
+> Reported-by: Erhard Furtner <erhard_f@mailbox.org>
+> Closes: https://lore.kernel.org/all/0b004319-9ef7-437c-a4dd-174d6a9a83db@=
+mailbox.org/
+> Tested-by: Erhard Furtner <erhard_f@mailbox.org>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hao Ge <hao.ge@linux.dev>
+> ---
+>  fs/netfs/internal.h       | 3 +++
+>  fs/netfs/objects.c        | 4 ++--
+>  fs/netfs/rolling_buffer.c | 2 +-
+>  3 files changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
+> index c79c8e69d60c..08ba7f0ebff0 100644
+> --- a/fs/netfs/internal.h
+> +++ b/fs/netfs/internal.h
+> @@ -45,6 +45,9 @@ extern mempool_t netfs_request_pool;
+>  extern mempool_t netfs_subrequest_pool;
+>  extern mempool_t netfs_folioq_pool;
+>
+> +#define netfs_mempool_alloc_noreserve(_pool, _gfp)                      =
+       \
+> +       alloc_hooks((_pool)->alloc(_gfp, (_pool)->pool_data))
 
-This affects `LocalFile::fget()` and the
-`FileDescriptorReservation` operations that call
-`get_unused_fd_flags()`, `fd_install()`, and `put_unused_fd()`.
-`FileDescriptorReservation` cannot cross task boundaries, but remaining
-on the same task does not guarantee that `current->files` is still
-available when these operations are performed.
+I think this macro should reside in include/linux/mempool.h and not be
+netfs-specific. Something like:
 
-Guard the affected operations against a missing `current->files`.
-`LocalFile::fget()` returns `EBADF` and
-`FileDescriptorReservation::get_unused_fd_flags()` returns `EMFILE`.
-For `fd_install()`, warn and abandon the reservation when the fd table
-is already gone. In the drop path, skip `put_unused_fd()` after the fd
-table has been torn down.
+#define mempool_alloc_noreserve(_pool, _gfp)                             \
+       alloc_hooks((_pool)->alloc(_gfp, (_pool)->pool_data))
 
-This prevents NULL dereferences through these safe Rust APIs after
-`exit_files()`.
-
-Fixes: 851849824bb5 ("rust: file: add Rust abstraction for `struct file`")
-Fixes: 5da9857b127e ("rust: file: add `FileDescriptorReservation`")
-Closes: https://github.com/Rust-for-Linux/linux/issues/1256
-Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
----
-Changes in v2:
-- Use `warn_on!()` for `FileDescriptorReservation::fd_install()` and
-  remove the warning from the drop path, following feedback from Gary Guo.
-- Link to v1: https://lore.kernel.org/rust-for-linux/20260920200154.1194983-1-georgeandrout13@gmail.com/
----
- rust/kernel/fs/file.rs | 64 ++++++++++++++++++++++++++++++++++++------
- 1 file changed, 55 insertions(+), 9 deletions(-)
-
-diff --git a/rust/kernel/fs/file.rs b/rust/kernel/fs/file.rs
-index 23ee689bd240..8b5b5ec4cd04 100644
---- a/rust/kernel/fs/file.rs
-+++ b/rust/kernel/fs/file.rs
-@@ -260,7 +260,17 @@ impl LocalFile {
-     /// [`assume_no_fdget_pos`]: LocalFile::assume_no_fdget_pos
-     #[inline]
-     pub fn fget(fd: u32) -> Result<ARef<LocalFile>, BadFdError> {
--        // SAFETY: FFI call, there are no requirements on `fd`.
-+        let current = crate::current!();
-+
-+        // SAFETY: `current` points to the currently executing task, so it is
-+        // valid to read its `files` pointer. The pointer may be null during
-+        // task teardown.
-+        if unsafe { (*current.as_ptr()).files.is_null() } {
-+            return Err(BadFdError);
-+        }
-+
-+        // SAFETY: There are no requirements on `fd`. We checked above that the
-+        // current task still has a file descriptor table, which `fget` accesses.
-         let ptr = ptr::NonNull::new(unsafe { bindings::fget(fd) }).ok_or(BadFdError)?;
- 
-         // SAFETY: `bindings::fget` created a refcount, and we pass ownership of it to the `ARef`.
-@@ -403,7 +413,18 @@ impl FileDescriptorReservation {
-     /// Creates a new file descriptor reservation.
-     #[inline]
-     pub fn get_unused_fd_flags(flags: u32) -> Result<Self> {
--        // SAFETY: FFI call, there are no safety requirements on `flags`.
-+        let current = crate::current!();
-+
-+        // SAFETY: `current` points to the currently executing task, so it is
-+        // valid to read its `files` pointer. The pointer may be null during
-+        // task teardown.
-+        if unsafe { (*current.as_ptr()).files.is_null() } {
-+            return Err(EMFILE);
-+        }
-+
-+        // SAFETY: There are no safety requirements on `flags`. We checked above
-+        // that the current task still has a file descriptor table, which
-+        // `get_unused_fd_flags` accesses.
-         let fd: i32 = unsafe { bindings::get_unused_fd_flags(flags) };
-         to_result(fd)?;
- 
-@@ -421,13 +442,26 @@ pub fn reserved_fd(&self) -> u32 {
- 
-     /// Commits the reservation.
-     ///
--    /// The previously reserved file descriptor is bound to `file`. This method consumes the
--    /// [`FileDescriptorReservation`], so it will not be usable after this call.
-+    /// The previously reserved file descriptor is bound to `file`. If the current task no longer
-+    /// has a file descriptor table, the reservation is abandoned instead. This method consumes the
-+    /// [`FileDescriptorReservation`] in either case.
-     #[inline]
-     pub fn fd_install(self, file: ARef<File>) {
--        // SAFETY: `self.fd` was previously returned by `get_unused_fd_flags`. We have not yet used
--        // the fd, so it is still valid, and `current` still refers to the same task, as this type
--        // cannot be moved across task boundaries.
-+        let current = crate::current!();
-+
-+        // SAFETY: `current` points to the currently executing task, so it is
-+        // valid to read its `files` pointer. The pointer may be null during
-+        // task teardown.
-+        if crate::warn_on!(unsafe { (*current.as_ptr()).files.is_null() }) {
-+            // `put_unused_fd` also requires `current->files` to be valid, so do not run
-+            // the reservation's destructor after the current task has lost its fd table.
-+            core::mem::forget(self);
-+            return;
-+        }
-+
-+        // SAFETY: `self.fd` was previously returned by `get_unused_fd_flags` and has not yet been
-+        // used. This type cannot be moved across task boundaries, so `current` still refers to the
-+        // same task, and we checked above that it still has an fd table.
-         //
-         // Furthermore, the file pointer is guaranteed to own a refcount by its type invariants,
-         // and we take ownership of that refcount by not running the destructor below.
-@@ -446,9 +480,21 @@ pub fn fd_install(self, file: ARef<File>) {
- impl Drop for FileDescriptorReservation {
-     #[inline]
-     fn drop(&mut self) {
-+        let current = crate::current!();
-+
-+        // SAFETY: `current` points to the currently executing task, so it is
-+        // valid to read its `files` pointer. The pointer may be null during
-+        // task teardown.
-+        if unsafe { (*current.as_ptr()).files.is_null() } {
-+            // `put_unused_fd` uses `current->files`, so it cannot be called
-+            // after the current task has torn down its fd table.
-+            return;
-+        }
-+
-         // SAFETY: By the type invariants of this type, `self.fd` was previously returned by
--        // `get_unused_fd_flags`. We have not yet used the fd, so it is still valid, and `current`
--        // still refers to the same task, as this type cannot be moved across task boundaries.
-+        // `get_unused_fd_flags` and has not yet been used. This type cannot be moved across task
-+        // boundaries, so `current` still refers to the same task, and we checked above that it
-+        // still has an fd table.
-         unsafe { bindings::put_unused_fd(self.fd) };
-     }
- }
--- 
-2.47.3
-
+> +
+>  #ifdef CONFIG_PROC_FS
+>  static inline void netfs_proc_add_rreq(struct netfs_io_request *rreq)
+>  {
+> diff --git a/fs/netfs/objects.c b/fs/netfs/objects.c
+> index 7f6a3e912602..0b509c93d4af 100644
+> --- a/fs/netfs/objects.c
+> +++ b/fs/netfs/objects.c
+> @@ -34,7 +34,7 @@ struct netfs_io_request *netfs_alloc_request(struct add=
+ress_space *mapping,
+>
+>                 rreq =3D mempool_alloc(mempool, gfp);
+>         } else {
+> -               rreq =3D mempool->alloc(gfp, mempool->pool_data);
+> +               rreq =3D netfs_mempool_alloc_noreserve(mempool, gfp);
+>                 if (!rreq)
+>                         return ERR_PTR(-ENOMEM);
+>         }
+> @@ -214,7 +214,7 @@ struct netfs_io_subrequest *netfs_alloc_subrequest(st=
+ruct netfs_io_request *rreq
+>         struct kmem_cache *cache =3D mempool->pool_data;
+>
+>         if (rreq->gfp =3D=3D GFP_KERNEL)
+> -               subreq =3D mempool->alloc(rreq->gfp, mempool->pool_data);
+> +               subreq =3D netfs_mempool_alloc_noreserve(mempool, rreq->g=
+fp);
+>         else
+>                 subreq =3D mempool_alloc(mempool, rreq->gfp);
+>         if (!subreq)
+> diff --git a/fs/netfs/rolling_buffer.c b/fs/netfs/rolling_buffer.c
+> index 424e77a9a109..54867ceaa205 100644
+> --- a/fs/netfs/rolling_buffer.c
+> +++ b/fs/netfs/rolling_buffer.c
+> @@ -29,7 +29,7 @@ struct folio_queue *netfs_folioq_alloc(unsigned int rre=
+q_id, gfp_t gfp,
+>         struct folio_queue *fq;
+>
+>         if (gfp =3D=3D GFP_KERNEL)
+> -               fq =3D netfs_folioq_pool.alloc(gfp, netfs_folioq_pool.poo=
+l_data);
+> +               fq =3D netfs_mempool_alloc_noreserve(&netfs_folioq_pool, =
+gfp);
+>         else
+>                 fq =3D mempool_alloc(&netfs_folioq_pool, gfp);
+>         if (fq) {
+> --
+> 2.25.1
+>
+>
