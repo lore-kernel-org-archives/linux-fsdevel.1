@@ -1,480 +1,313 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012063.outbound.protection.outlook.com [52.101.53.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8E053CA8F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 20:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790193885; cv=none; b=k0pof8iRMsYxJXocsAV6ORdQ/KibPAZJdnxMsIdgiRmWfaNY+EvNrtO1CwJ2xIIvR6GyBx5a13NN7xHHVewDw5i87jgR2n0N6L/cSsPoT4DhVsFJAWuABQ8J/EDPVmgeJJ9qm2WYUFxV9aNtv0dQmSnIhnebI/4MMhR/OUTAej0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790193885; c=relaxed/simple;
-	bh=kb5d2JHHs2oieJYJ3YfI6Xqev2C0HO9Ax2fwbUkpZUM=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04594490BEC;
+	Wed, 23 Sep 2026 20:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790193988; cv=fail; b=f/FDKAxmnSDZb74efVi9+idnQgcfVLfaJ/GEAkutIPL4tf3iXsCn6Isb/lCiVX9v4m1/ouOgPV9KTu6h221xvaAAkd0Hlsh00wecdF3K4y67t5VNejQYpIz+qxDNTyFbaaY6ktD8b82wDdUsF47jDHDYp3guMDKVfxTVbrgeT6Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790193988; c=relaxed/simple;
+	bh=q5qZrTckJ4qgPIlXFtTq8lBMlTrtPrITY8paV2s1BwM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KIH5QTtJl+E6TUwyiftToMyuqQj0w8wVNJClsGrwcVcqO9P2A2aTT0aLnn9Fke99tSmew/kz5A/kJnkl8cXVf/lpsNlDvhB76UgG/V8IRjHbXGscHuLNp9gC9MQH98t46uBV+vt/lZBHJQjMMboue68eETKgqrdisP9TFmU3R4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AXTLiNpF; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:MIME-Version; b=SzePv3J+AIShcatFn+tnvtSkMBHmo3vb3ARFjTs2i8pa5GuyBCEcxG2uI+pKQFPYqERal8iqTeGoOjuhfO74w71l3Rhio78bvCdLl0CrKsi2oY8vIXNuYftLEEM2OtgAW6kfMB7TAtK9v+44jJ3UK8QhJm/takzVCL64BhAX0h0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Gr//TUr1; arc=fail smtp.client-ip=52.101.53.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AXTLiNpF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790193875;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zm1LNtEwK9T1sjNJECvmjOVLS/gi37Rtr0x+Gxr1MIY=;
-	b=AXTLiNpFXCupQy7PSMVobnBTvBS8U+vLXrQjsHkk9iZUsUA+9dVR0o5TV5APdzWa40BxLa
-	LXzGkOLcMnK6jOPLOk6pKPaCxf37yTKG0MXBmoFYIhJ5feoo96uXWx4TWSMNgytbOGy1FJ
-	6JcCyI6BuyHFl5Eh1f12GMFPJsKf7xY=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-338-mT6tXMz7OhykOpuHwXIijg-1; Wed,
- 23 Sep 2026 16:04:28 -0400
-X-MC-Unique: mT6tXMz7OhykOpuHwXIijg-1
-X-Mimecast-MFC-AGG-ID: mT6tXMz7OhykOpuHwXIijg_1790193866
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E1CC51955D98;
-	Wed, 23 Sep 2026 20:04:25 +0000 (UTC)
-Received: from pasta.redhat.com (unknown [10.44.48.10])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 36B2130001BB;
-	Wed, 23 Sep 2026 20:04:21 +0000 (UTC)
-From: Andreas Gruenbacher <agruenba@redhat.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Andreas Gruenbacher <agruenba@redhat.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Mikhail Rudenko <xyzzy@yandex-team.ru>
-Subject: Re: [PATCH v2 3/5] fs: Basic infrastructure for offloading inode reclaim
-Date: Wed, 23 Sep 2026 22:04:18 +0200
-Message-ID: <20260923200419.1834087-1-agruenba@redhat.com>
-In-Reply-To: 20260911085142.1774803-8-jack@suse.cz
-References: 20260911085142.1774803-8-jack@suse.cz
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Gr//TUr1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lqGbFeO9DU6UDkplCSRBwnlShfZfw/Oak5GXwSkwXFVTpDBHHPX6LoNHTW2JeSC9aeV8GpF8a8dZjYvTnTzVn3fIFf3/fOpKHDdOsZOM67VHUhZExgsi7pAZ1SZ7+8O8kgxUjtZPYvxsxLblfbazpVrQD7+u2WW+UaEZvixYDLHQ9xsKd7OM0W68N8dbXXcLE8axY7/mD8k51f/JTVnkMHYcG8w9AaReaFerizU16v4ifIbVSZuvmecZ9hcoA0IDPyP+H9H1OfVEN8WHxqBBBk3denEYSu6GQ8Y351uQ4c6qjhw+5aRIY0e+rqK2oD9qHwYkdrPe2ozPgIujzVQQyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BOyNVeKRu/9wsHn8QCFYQsX3PWzgjdbOwqmDFBWtgG8=;
+ b=nc0ORK+AwPAxjnpKvCN24EF8XNDZv5CX3sAqdP4JAcBak9fpdWBX1y0qzSVKc9FOXNtg36pOZmyMKZMNyYUXH3BfQPoXUG33DSi3pKHNV6ghRtx9V65JXNd/z3DYwYI6Y6L6id9jKjX0V4kbkrHZvsgWWF4A4IYXismO2E5mvSYnTvhBXHPjTgTUg4PX6oU6BLg1eUckzv53ECrJawLCRxuiz+vIIB8txA0T7lf2eQK8pkjsEdRo8wBYeLFHAH+au+U6ibp6I/8taakEwDtRrXf13yOJyd0c4/oQ2+0rt8PLp+qNlQ1fukvcQWUzcraXK3xvgDJoaJCErFguRDCggg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BOyNVeKRu/9wsHn8QCFYQsX3PWzgjdbOwqmDFBWtgG8=;
+ b=Gr//TUr1kHrdmE/sv4thV+efXiTji/kJB+eXcAooL0UNQ8FunYILxMxB7JbTPIR3Qt2CzAOzh0i404obLxy2Zhndjq6mhBBN/JMZE3ajaUNu6gPaj4C//d71NGThuOs4XgVux7NCp2Vg77Iu5vNOSLrzMVuJVX8M9/he6OZQ0Ke9RGxFB8MtVvQ8Bid1K5vPWFby9VopCftjDxu/W4svHrd60URXR/sKYUl1Cp/F3u34p2woc0yn1Vh+WsCrDikkrJ7NP8mLrDfBvAWgi3x+sPbY12kg2a1tmuwcQZhrxT4CfIJkUzVPPBPkCCE+CSSkYdbThGG7DDtNpC2y8pX57g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by LV0PR12MB549960.namprd12.prod.outlook.com (2603:10b6:408:3b6::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.17; Wed, 23 Sep
+ 2026 20:06:18 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
+ 20:06:18 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 24/40] mm/mlock: eliminate weird VMA_IO_BIT abuse and
+ simplify
+Date: Wed, 23 Sep 2026 16:06:14 -0400
+X-Mailer: MailMate (3.0r7032)
+Message-ID: <93672B94-BB0C-4713-8F8A-3619D81DB7BB@nvidia.com>
+In-Reply-To:
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-24-4583d8a23bca@kernel.org>
+References:
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-24-4583d8a23bca@kernel.org>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-MS-Reactions: disallow
+X-ClientProxiedBy: BL1PR13CA0323.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::28) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|LV0PR12MB549960:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d67e920-10df-40a6-5309-08df19ae2126
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|366016|376014|1800799024|10067099003|56012099006|11063799006|4143699003|3023799007|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	ruHTBwpA285QO7xfQ3JaJyhxtvOsbInycmqsGfj8SUC2vxcKwLdFe8UZQpVa53EokHzBENA8me1zwnYvYMzNNbrm9yXBbsHODj6OCukQAJi1fnnhgOIqkNw2LAeGQgdcoQRCesmbjAVNvSN+BTwEq9Ia6MICyNkH6CUDkwvzcSpoX2kZBo7hj9Om5S3B5ozNCDICRcf5NPdfjaHjUoycaZMEmr5alBBvvAewKIibYOjJys0PrYmU/KZh7rizCgnifRA5yJ1IssDsL72RZMwBzR/PjPOx8N5YkbnQ4ZjatuwYZXlKzd5cOM6xbckUZdnSinlUZjKl9DUtALCfp5htPHt6IGfkA9stQFi4QIh3TYEY7Eo+YZdNuYFfDzBNKcNZopwHYsbtuImX5R3g8t9pJABHQdLkr93UHHQJYOEQvy7aON2XtqmpkjArXmvWGr4OrxpSFCws8DUuus2Jo8uUEH4Z6ZG4z38Q8hphyZKEITbXmSHRF7O/r2G+5XGToWniTIntaBG7YpEbcRRjkTv6ki7Lf2yl1zfYLoISCEwk9EJAtZ5yFgrymUbqsKYl/WbhGXeJ8wyJa3Tm2/NhRIDZIUefnM8t7d6Bjw9ePbrBAdvHY2Vg/fI8xFXfYjxWcf6eOuwyp/IjM/Nz81gFV1gVYBQr/lV4gfUqm7bfesNk+og=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(366016)(376014)(1800799024)(10067099003)(56012099006)(11063799006)(4143699003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ino+Wd+e2ukwsf8MskuuANxez24WHYwUiJHMMezH7BweN1ys/JiP5ndMwOe5?=
+ =?us-ascii?Q?ZkRxIuH115P29KtErLdKHqL7uLDoydRvaikB0q3pVedXyrXrCKayLa0UHeOA?=
+ =?us-ascii?Q?XDzUegrb2SVHG/jbLntrgx9gXygeSOBqRoE7pSd3q0wLgq1RwhR9hI3WNnHJ?=
+ =?us-ascii?Q?aRzWrw2JOfyIaWl/zyMePvRqipdVYmLvoVuGm8AvgK/1LA12wa+pY2eugkBa?=
+ =?us-ascii?Q?aDO79PXjBeh0iCpbhdB9PRX/Ypv7H+LQn8ZVKXfXFTaBQCDyG9upRTSLLiby?=
+ =?us-ascii?Q?1FysjOcEh+cgFe5jwG9a6zyRvecV3v5y9ZuLHyBrSWeRk+bssna35Opvhhje?=
+ =?us-ascii?Q?WyAdGpfGkFJanWb/oEIZeumdQsktnv7LtaZGRMNxeiFcaXce5gnvC8KdYeZR?=
+ =?us-ascii?Q?t/clhKiJR8dJ3Wg7cElrGRmeOnwArnri6zj7Oa9mL2ib439ErDBasyeKeMwt?=
+ =?us-ascii?Q?1whkoz+ow2fu5iLV7Xfqq0Gt8rCsGDTgX/6QHHCRoq8jOz2b4E2B7APAnCp4?=
+ =?us-ascii?Q?fZuEtRUdCBiz8+/cxeDCLxW513WdL2mPa4a8RDZe0yCjg5OpEYpdH+r0RxPY?=
+ =?us-ascii?Q?Ffi8jBr05xagfFLoOCuDJZtytZXVczNZCywyjhAIPN3WGMfs0DAxquLPA4G6?=
+ =?us-ascii?Q?iLwMvIHOBzwjwSxxke/xQYkM9XPOpQXCYt07Cc0XhLwGvKPJEOe0+z3FE38C?=
+ =?us-ascii?Q?wY4r2HWvfmCYF72h1J4jb1cAiGGAfSgTD0jBC726sY2X2PjO49D/sQNeXbwQ?=
+ =?us-ascii?Q?yiCI6coM8FdtOZ1GsTM2loYd7C0qOfe+4pCcJQszruw6MQcPRrj9WWk2ZlJ+?=
+ =?us-ascii?Q?WbcJc6hTll8EO1v+czlw7XBhRvYj34RJi4trc+zkgZhejBbheRVUeqnRYw2a?=
+ =?us-ascii?Q?cFriYjHgQsCEw1l5fXlgzuV8pLZAK6qowhzEEukgBK5bvDN8WFqBGdpq4nOX?=
+ =?us-ascii?Q?yWFsgplndMX/GH5qptGga0WhXDyA5FEW6/DgTqi+oMkg+MqIaERAS6QmaItN?=
+ =?us-ascii?Q?g4vn0zBZsaZsFI0b05BiDlJ8gq2m/GfJVrrfHtDQI8+VapW+LrWhdu5QqblM?=
+ =?us-ascii?Q?l8gSIQKsMlwXroSzJPLSSC5I177O+wQbpcYqfJYPwara9mQW3Co+YAOY/+L9?=
+ =?us-ascii?Q?HTrKrlXR/9RBM2NBxaJPgZM+irr3eYPETFA1u/e2J0Yxw7sgcaNV5WJN4y1X?=
+ =?us-ascii?Q?jExnedFEPP5KsXEgluPJeVOc8JrxjkVZnbHTaXeWcX6dOAAEQSv/T+VgP7ul?=
+ =?us-ascii?Q?f4EyVmZ99G693hi0RLcoWcD+kE5Rj34G8NfQywsDLNYgbW+Zsgdn9mHgLqoZ?=
+ =?us-ascii?Q?FuQmvu30qEehcLOaPOQEMKEyg/njWUdf551hnRtZwrPJiWRF3wNL8Xo6y2tS?=
+ =?us-ascii?Q?cb7qeeI5gtMVJs0Gk6SMVVpyhLkZCJPNmPH24lD+tRiQYih01MnWK5pUUPWl?=
+ =?us-ascii?Q?+OsY1NyRcfEoDwnd22W7eMwhe5AP0hvjwYcskKIU272v3XP1WCuwfBGbURPA?=
+ =?us-ascii?Q?rHXhGMxio0BGKKYccbtiimHH3Pui4uy0lGUCdl27P/jVCAkx1QjyuH+TGenh?=
+ =?us-ascii?Q?+WD8DsFyDHNZCBug+QoXB3Z3SXyWOetD8OaS/YfPogXXMfpzIdSeSJUeJOYx?=
+ =?us-ascii?Q?zf7Ed6o1DKKneZeDSv7EainGlHp2Rnh15lz7F+Lfv3EsGyPwEB9h2uuRUQFT?=
+ =?us-ascii?Q?gZUqIoQBzR3jTQ6+5QFCO5dIpSpnW0eiBnvmlRgfmKuw9szz?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d67e920-10df-40a6-5309-08df19ae2126
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 20:06:18.3971
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Kh8g4LDR6xd/9h9xKMi2qXz2uqlRiQfuNDhZaM84x829j8oxvbA4SO7ahiv961E
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR12MB549960
 
-Hi Jan,
+On 17 Sep 2026, at 12:22, Lorenzo Stoakes (ARM) wrote:
 
-On Fri, Sep 11, 2026 at 10:51 AM Jan Kara <jack@suse.cz> wrote:
-> Reclaim of some inodes is rather complex requiring running transactions
-> or doing other IO. Consequently filesystems end up doing GFP_NOFAIL
-> allocations from kswapd or even direct reclaim which is problematic
-> because forward progress of these allocations isn't guaranteed. Add
-> infrastructure for marking inodes whose reclaim is difficult and offload
-> reclaim of such inodes into a workqueue to not block kswapd with
-> difficult inode reclaim. The processing of the queued inodes happens in
-> parallel from several work items so that the reclaim has higher chances
-> of keeping up with the inflow of inodes if reclaim of some inodes
-> progresses slowly.
+> When performing mlock() or munlock() otherwise normal VMAs have VMA_IO_=
+BIT
+> solely to fix a race with migration which might otherwise double-count
+> mlock VMAs.
 >
-> Signed-off-by: Jan Kara <jack@suse.cz>
+> This is unnecessary - at the point of applying folio mlock state, wheth=
+er
+> setting or clearing PG_mlocked, we know whether or not we are locking.
+>
+> Solve this in two ways - thread a boolean through the page table walk
+> indicating whether a lock or unlock is being performed, and run a locki=
+ng
+> walk with VMA_LOCKONFAULT_BIT set and VMA_LOCKED_BIT cleared.
+>
+> This state never occurs otherwise, as VMA_LOCKONFAULT_BIT always implie=
+s
+> VMA_LOCKED_BIT. These are also always cleared together.
+>
+> Then, update folio_add_lru_vma() and mlock_folio() to check only for
+> VMA_LOCKED_BIT, and update try_to_unmap_one() to check for VMA_LOCKED_M=
+ASK
+> instead.
+>
+> Also remove the useless invocation of allow_mlock_munlock() which simpl=
+y
+> returns true if unlocking and instead rename it to allow_mlock() and on=
+ly
+> call it when locking.
+>
+> Finally, with the other mlock abuse of VMA_IO_BIT addressed, update
+> mlock_vma_folio() and folio_add_lru_vma() to simply test for
+> VMA_LOCKED_BIT. munlock_vma_folio() tests VMA_LOCKED_MASK instead, as a=
+n
+> unmap racing with the locking walk must still munlock folios the walk h=
+as
+> already counted.
+>
+> While here, also replace some deprecated VMA flag predicates.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
->  fs/inode.c                       | 197 ++++++++++++++++++++++++++++++-
->  fs/super.c                       |   2 +
->  include/linux/fs.h               |   3 +
->  include/linux/fs/super_types.h   |   3 +
->  include/trace/events/writeback.h |   3 +-
->  5 files changed, 201 insertions(+), 7 deletions(-)
+>  mm/folio.c    |  2 +-
+>  mm/internal.h | 10 +++++++---
+>  mm/mlock.c    | 51 +++++++++++++++++++--------------------------------=
+
+>  mm/rmap.c     |  4 +++-
+>  4 files changed, 30 insertions(+), 37 deletions(-)
 >
-> diff --git a/fs/inode.c b/fs/inode.c
-> index 5555a513a0a3..e902095cf39b 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -74,6 +74,25 @@ static DEFINE_PER_CPU(unsigned long, nr_unused);
->
->  static struct kmem_cache *inode_cachep __ro_after_init;
->
-> +struct deferred_reclaim_queue {
-> +       struct list_head list;
-> +       spinlock_t lock;
-> +};
-> +
-> +/* Inodes for deferred reclaim */
-> +struct inode_deferred_reclaim {
-> +       int workers;                    /* Number of parallel workers */
-> +       struct workqueue_struct *wq;    /* Workqueue for workers */
-> +       struct work_struct *work;       /* Workers */
-> +       /*
-> +        * Queue of deferred inodes. The number of queues is the same number
-> +        * as the number of workers
-> +        */
-> +       struct deferred_reclaim_queue *queues;
-> +};
-> +
-> +static struct inode_deferred_reclaim deferred_reclaim;
-> +
->  static long get_nr_inodes(void)
+> diff --git a/mm/folio.c b/mm/folio.c
+> index 47a437e0f7fd..35e242b48870 100644
+> --- a/mm/folio.c
+> +++ b/mm/folio.c
+> @@ -505,7 +505,7 @@ void folio_add_lru_vma(struct folio *folio, struct =
+vm_area_struct *vma)
 >  {
->         int i;
-> @@ -919,6 +938,12 @@ void evict_inodes(struct super_block *sb)
->  }
->  EXPORT_SYMBOL_GPL(evict_inodes);
+>  	VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
 >
-> +struct inodes_to_prune {
-> +       struct list_head freeable;
-> +       struct list_head deferred;
-> +       unsigned int deferred_count;
-> +};
-> +
->  /*
->   * Isolate the inode from the LRU in preparation for freeing it.
->   *
-> @@ -933,7 +958,7 @@ EXPORT_SYMBOL_GPL(evict_inodes);
->  static enum lru_status inode_lru_isolate(struct list_head *item,
->                 struct list_lru_one *lru, void *arg)
+> -	if (unlikely((vma->vm_flags & (VM_LOCKED | VM_SPECIAL)) =3D=3D VM_LOC=
+KED))
+> +	if (vma_test(vma, VMA_LOCKED_BIT))
+
+I think it is worth documenting VMA_LOCKONFAULT_BIT alone means mlock in
+progress, like you did in munlock_vma_folio(). Just to keep the protocol
+explicit for all the readers.
+
+>  		mlock_new_folio(folio);
+>  	else
+>  		folio_add_lru(folio);
+> diff --git a/mm/internal.h b/mm/internal.h
+> index b2c6c9435021..84aa3e6c8bac 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -971,8 +971,7 @@ void mlock_folio(struct folio *folio);
+>  static inline void mlock_vma_folio(struct folio *folio,
+>  				struct vm_area_struct *vma)
 >  {
-> -       struct list_head *freeable = arg;
-> +       struct inodes_to_prune *lists = arg;
->         struct inode    *inode = container_of(item, struct inode, i_lru);
->
->         /*
-> @@ -950,7 +975,7 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
->          * sync, or the last page cache deletion will requeue them.
->          */
->         if (icount_read(inode) ||
-> -           (inode_state_read(inode) & ~I_REFERENCED) ||
-> +           inode_state_read(inode) & ~(I_REFERENCED | I_DEFER_RECLAIM) ||
->             !mapping_shrinkable(&inode->i_data)) {
->                 list_lru_isolate(lru, &inode->i_lru);
->                 spin_unlock(&inode->i_lock);
-> @@ -988,13 +1013,27 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
->
->         WARN_ON(inode_state_read(inode) & I_NEW);
->         inode_state_set(inode, I_FREEING);
-> -       list_lru_isolate_move(lru, &inode->i_lru, freeable);
-> +       /* Inode will take long time to cleanup. Offload that to worker. */
-> +       if (inode_state_read(inode) & I_DEFER_RECLAIM) {
-> +               list_lru_isolate_move(lru, &inode->i_lru, &lists->deferred);
-> +               lists->deferred_count++;
-> +       } else {
-> +               list_lru_isolate_move(lru, &inode->i_lru, &lists->freeable);
-> +       }
->         spin_unlock(&inode->i_lock);
->
->         this_cpu_dec(nr_unused);
->         return LRU_REMOVED;
+> -	/* The VM_IO check prevents migration from double-counting during mlo=
+ck. */
+> -	if (unlikely((vma->vm_flags & (VM_LOCKED|VM_SPECIAL)) =3D=3D VM_LOCKE=
+D))
+> +	if (vma_test(vma, VMA_LOCKED_BIT))
+
+Ditto.
+
+>  		mlock_folio(folio);
 >  }
 >
-> +/* Number of inodes to process in one reclaim batch */
-> +#define INODE_RECLAIM_BATCH_SIZE 16
-> +
-> +static int get_deferred_sb_id(struct super_block *sb)
-> +{
-> +       return hash_ptr(sb, 32) % deferred_reclaim.workers;
-> +}
-> +
->  /*
->   * Walk the superblock inode LRU for freeable inodes and attempt to free them.
->   * This is called from the superblock shrinker function with a number of inodes
-> @@ -1003,15 +1042,158 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
->   */
->  long prune_icache_sb(struct super_block *sb, struct shrink_control *sc)
->  {
-> -       LIST_HEAD(freeable);
-> +       struct inodes_to_prune lists = {
-> +               .freeable = LIST_HEAD_INIT(lists.freeable),
-> +               .deferred = LIST_HEAD_INIT(lists.deferred),
-> +       };
->         long freed;
->
->         freed = list_lru_shrink_walk(&sb->s_inode_lru, sc,
-> -                                    inode_lru_isolate, &freeable);
-> -       dispose_list(&freeable);
-> +                                    inode_lru_isolate, &lists);
-> +       dispose_list(&lists.freeable);
-> +       if (!list_empty(&lists.deferred)) {
-> +               int id = get_deferred_sb_id(sb);
-> +               int i, wake_count;
-> +
-> +               spin_lock(&deferred_reclaim.queues[id].lock);
-> +               list_splice_tail(&lists.deferred,
-> +                                &deferred_reclaim.queues[id].list);
-> +               atomic_add(lists.deferred_count, &sb->s_deferred_reclaim_count);
-> +               spin_unlock(&deferred_reclaim.queues[id].lock);
-> +
-> +               /* Queue works to process inodes we've added to the list */
-> +               wake_count = (lists.deferred_count + INODE_RECLAIM_BATCH_SIZE)
-> +                                               / INODE_RECLAIM_BATCH_SIZE;
-> +               if (wake_count > deferred_reclaim.workers)
-> +                       wake_count = deferred_reclaim.workers;
-> +               for (i = 0; i < wake_count; i++) {
-> +                       queue_work(deferred_reclaim.wq,
-> +                                  &deferred_reclaim.work[id]);
-> +                       id = (id + 1) % deferred_reclaim.workers;
-> +               }
-> +       }
->         return freed;
+> @@ -989,7 +988,12 @@ static inline void munlock_vma_folio(struct folio =
+*folio,
+>  	 * always munlock the folio and page reclaim will correct it
+>  	 * if it's wrong.
+>  	 */
+> -	if (unlikely(vma->vm_flags & VM_LOCKED))
+> +	/*
+> +	 * VMA_LOCKONFAULT_BIT alone marks an mlock walk in progress, see
+> +	 * mlock_vma_pages_range(). An unmap racing with the walk must still
+> +	 * munlock folios the walk has already counted.
+> +	 */
+> +	if (unlikely(vma_test_any_mask(vma, VMA_LOCKED_MASK)))
+>  		munlock_folio(folio);
 >  }
 >
-> +static void __get_inode_reclaim_batch(int *start, int end,
-> +                                     struct list_head *list, int *count)
-> +{
-> +       int i;
-> +
-> +       for (i = *start; i < end; i++) {
-> +               if (list_empty_careful(&deferred_reclaim.queues[i].list))
-> +                       continue;
-> +               spin_lock(&deferred_reclaim.queues[i].lock);
-> +               while (*count < INODE_RECLAIM_BATCH_SIZE &&
-> +                      !list_empty(&deferred_reclaim.queues[i].list)) {
-> +                       list_move(deferred_reclaim.queues[i].list.next, list);
-> +                       (*count)++;
-> +               }
-> +               spin_unlock(&deferred_reclaim.queues[i].lock);
-> +               if (*count >= INODE_RECLAIM_BATCH_SIZE)
-> +                       break;
-> +       }
-> +       *start = i;
 
-To clean up __get_inode_reclaim_batch():
+Why I am commenting in the middle of the series? Because I am taking
+a quiz given by LLM based on this series to get myself enough background
+knowledge to review this series. This mlock part came up at part E
+and I only have part F left before I can do the full review. :)
 
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -1081,15 +1081,18 @@ static void __get_inode_reclaim_batch(int *start, int end,
- 	int i;
- 
- 	for (i = *start; i < end; i++) {
--		if (list_empty_careful(&deferred_reclaim.queues[i].list))
-+		struct deferred_reclaim_queue *queue =
-+				&deferred_reclaim.queues[i];
-+
-+		if (list_empty_careful(&queue->list))
- 			continue;
--		spin_lock(&deferred_reclaim.queues[i].lock);
-+		spin_lock(&queue->lock);
- 		while (*count < INODE_RECLAIM_BATCH_SIZE &&
--		       !list_empty(&deferred_reclaim.queues[i].list)) {
--			list_move(deferred_reclaim.queues[i].list.next, list);
-+		       !list_empty(&queue->list)) {
-+			list_move(queue->list.next, list);
- 			(*count)++;
- 		}
--		spin_unlock(&deferred_reclaim.queues[i].lock);
-+		spin_unlock(&queue->lock);
- 		if (*count >= INODE_RECLAIM_BATCH_SIZE)
- 			break;
- 	}
-
-On top of that, consider this optimization, but see for yourself if this is too
-much:
-
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -1083,15 +1083,18 @@ static void __get_inode_reclaim_batch(int *start, int end,
- 	for (i = *start; i < end; i++) {
- 		struct deferred_reclaim_queue *queue =
- 				&deferred_reclaim.queues[i];
-+		struct list_head *entry, tmp;
- 
- 		if (list_empty_careful(&queue->list))
- 			continue;
- 		spin_lock(&queue->lock);
--		while (*count < INODE_RECLAIM_BATCH_SIZE &&
--		       !list_empty(&queue->list)) {
--			list_move(queue->list.next, list);
-+		list_for_each(entry, &queue->list) {
-+			if (*count >= INODE_RECLAIM_BATCH_SIZE)
-+				break;
- 			(*count)++;
- 		}
-+		list_cut_before(&tmp, &queue->list, entry);
-+		list_splice_tail(&tmp, list);
- 		spin_unlock(&queue->lock);
- 		if (*count >= INODE_RECLAIM_BATCH_SIZE)
- 			break;
-
-> +}
-> +
-> +/* Move a batch of inodes from queued lists to our private list */
-> +static int get_inode_reclaim_batch(int *id, struct list_head *list)
-> +{
-> +       int count = 0;
-> +       int orig_id = *id;
-> +
-> +       __get_inode_reclaim_batch(id, deferred_reclaim.workers, list, &count);
-> +       if (count >= INODE_RECLAIM_BATCH_SIZE)
-> +               return count;
-> +       /* Wrap around */
-> +       if (orig_id > 0) {
-> +               *id = 0;
-> +               __get_inode_reclaim_batch(id, orig_id, list, &count);
-> +       }
-> +       return count;
-> +}
-> +
-> +
-> +static void inode_reclaim_deferred(struct work_struct *work)
-> +{
-> +       struct inode *inode;
-> +       LIST_HEAD(inode_batch);
-> +       /*
-> +        * We start with the list corresponding to the work but rolling a dice
-> +        * would work as well
-> +        */
-> +       int id = work - deferred_reclaim.work;
-> +
-> +       while (1) {
-> +               if (!get_inode_reclaim_batch(&id, &inode_batch))
-> +                       break;
-> +               while (!list_empty(&inode_batch)) {
-> +                       struct super_block *sb;
-> +
-> +                       /*
-> +                        * inode_batch list is private and I_FREEING flags
-> +                        * protect us from anybody else trying to remove the
-> +                        * inode from the LRU list. No locking needed.
-> +                        */
-> +                       inode = list_first_entry(&inode_batch, struct inode,
-> +                                                i_lru);
-> +                       list_del_init(&inode->i_lru);
-> +                       sb = inode->i_sb;
-> +                       evict(inode);
-> +                       /*
-> +                        * The elevated s_deferred_reclaim_count keeps sb alive
-> +                        * until we drop it
-> +                        */
-> +                       if (atomic_dec_and_test(&sb->s_deferred_reclaim_count))
-> +                               wake_up_var(&sb->s_deferred_reclaim_count);
-> +                       cond_resched();
-> +               }
-> +       }
-> +}
-> +
-> +/* Maximum number of inode reclaim workers */
-> +#define MAX_RECLAIM_WORKERS 16
-> +
-> +static void __init deferred_reclaim_init(void)
-> +{
-> +       int workers = MAX_RECLAIM_WORKERS;
-> +       int i;
-> +
-> +       /* Scale down the number of workers for small systems */
-> +       if (workers > num_possible_cpus())
-> +               workers = num_possible_cpus();
-> +
-> +       deferred_reclaim.workers = workers;
-> +       deferred_reclaim.work = kmalloc_objs(struct work_struct, workers);
-> +       deferred_reclaim.queues =
-> +                       kmalloc_objs(struct deferred_reclaim_queue, workers);
-> +       if (!deferred_reclaim.work || !deferred_reclaim.queues)
-> +               panic("Failed to allocate deferred inode queues");
-> +
-> +       deferred_reclaim.wq = alloc_workqueue("deferred-inodegc",
-> +                       WQ_FREEZABLE | WQ_MEM_RECLAIM | WQ_UNBOUND,
-> +                       workers);
-> +       if (!deferred_reclaim.wq)
-> +               panic("Failed to allocate deferred inode reclaim workqueue");
-> +
-> +       for (i = 0; i < workers; i++) {
-> +               INIT_WORK(&deferred_reclaim.work[i], inode_reclaim_deferred);
-> +               spin_lock_init(&deferred_reclaim.queues[i].lock);
-> +               INIT_LIST_HEAD(&deferred_reclaim.queues[i].list);
-> +       }
-> +}
-> +
-> +void mark_inode_reclaim_deferred(struct inode *inode)
-> +{
-> +       if (inode_state_read_once(inode) & I_DEFER_RECLAIM)
-> +               return;
-> +
-> +       spin_lock(&inode->i_lock);
-> +       inode_state_set(inode, I_DEFER_RECLAIM);
-> +       spin_unlock(&inode->i_lock);
-> +}
-> +EXPORT_SYMBOL_GPL(mark_inode_reclaim_deferred);
-> +
->  static void __wait_on_freeing_inode(struct inode *inode, bool hash_locked, bool rcu_locked);
->  static bool igrab_from_hash(struct inode *inode);
->
-> @@ -2659,6 +2841,9 @@ void __init inode_init(void)
->                                          SLAB_ACCOUNT),
->                                          init_once);
->
-> +       /* Deferred inode reclaim infrastructure */
-> +       deferred_reclaim_init();
-> +
->         /* Hash may have been set up in inode_init_early */
->         if (!hashdist)
->                 return;
-> diff --git a/fs/super.c b/fs/super.c
-> index 05e443173038..0852a40b2635 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -600,6 +600,8 @@ void deactivate_locked_super(struct super_block *s)
->         struct file_system_type *fs = s->s_type;
->         if (atomic_dec_and_test(&s->s_active)) {
->                 shrinker_free(s->s_shrink);
-> +               wait_var_event(&s->s_deferred_reclaim_count,
-> +                              !atomic_read(&s->s_deferred_reclaim_count));
->                 fs->kill_sb(s);
->
->                 kill_super_notify(s);
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index f9d1e05e8ae6..a289402563f8 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -741,6 +741,7 @@ enum inode_state_flags_enum {
->         I_SYNC_QUEUED           = (1U << 17),
->         I_PINNING_NETFS_WB      = (1U << 18),
->         I_METADATA_WRITEBACK    = (1U << 19),
-> +       I_DEFER_RECLAIM         = (1U << 20),
->  };
->
->  #define I_DIRTY_INODE (I_DIRTY_SYNC | I_DIRTY_DATASYNC)
-> @@ -2218,6 +2219,8 @@ static inline void set_inode_metadata_writeback(struct inode *inode)
->         spin_unlock(&inode->i_lock);
->  }
->
-> +void mark_inode_reclaim_deferred(struct inode *inode);
-> +
->  /*
->   * returns the refcount on the inode. it can change arbitrarily.
->   */
-> diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-> index ecd96aeb1cee..a41bd57fc2e6 100644
-> --- a/include/linux/fs/super_types.h
-> +++ b/include/linux/fs/super_types.h
-> @@ -232,6 +232,9 @@ struct super_block {
->
->         struct shrinker                         *s_shrink;      /* per-sb shrinker handle */
->
-> +       /* Number of inodes queued for deferred reclaim */
-> +       atomic_t                                s_deferred_reclaim_count;
-> +
->         /* Number of inodes with nlink == 0 but still referenced */
->         atomic_long_t                           s_remove_count;
->
-> diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
-> index 13ee076ccd16..4a9cfe458820 100644
-> --- a/include/trace/events/writeback.h
-> +++ b/include/trace/events/writeback.h
-> @@ -28,7 +28,8 @@
->                 {I_DONTCACHE,           "I_DONTCACHE"},         \
->                 {I_SYNC_QUEUED,         "I_SYNC_QUEUED"},       \
->                 {I_PINNING_NETFS_WB,    "I_PINNING_NETFS_WB"},  \
-> -               {I_LRU_ISOLATING,       "I_LRU_ISOLATING"}      \
-> +               {I_LRU_ISOLATING,       "I_LRU_ISOLATING"},     \
-> +               {I_DEFER_RECLAIM,       "I_DEFER_RECLAIM"}      \
->         )
->
->  /* enums need to be exported to user space */
-> --
-> 2.51.0
->
->
-
-Thanks,
-Andreas
-
+Best Regards,
+Yan, Zi
