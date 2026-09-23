@@ -1,78 +1,78 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82536422535
-	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 17:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66B042046F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 17:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790185939; cv=none; b=b3PUD8C+7wrRDq2eZUe5hpzNskgb+i0rBJ2vSp+g0GYSUjaK1AvU/YlPMMRd1v85ojXu7u9ubehRF1XtnFsLyFUv2ZanPd0GXAwaVxwbP9f7vlQGps3s6f+3gsabvrG6J1Jtdd03StpfzbeZE8dfgQ+JqaLlYNKbSZbhnh7R8cA=
+	t=1790185941; cv=none; b=Ardw5Jg6hFwDhBNzOcsDezxwT17HK/F1Vyg0ci+KNp+Fjw9xMm4ffV/U/y5mEFmc2bTWDrZFU0MmISfczGR9ApOhgjLdq5FEMtz5oSOT7NVu4nSZDjGGwzxCo31adWMoFXGUwn+SFt3bEbX5Rj6HA0FuDrPMuP7UZCU/25A/tRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790185939; c=relaxed/simple;
-	bh=DRqmRpjUqDSGT29CT1Bz5Lx7GtaQYRiwcv3jI7PfffI=;
+	s=arc-20240116; t=1790185941; c=relaxed/simple;
+	bh=9BF7nwsiGUqrF3NEL0NmSiFpbxcBBQWY7qrXzUs5PRE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c26bZMDiETFIl2JeoK/GwOQJ/sOnRNe54b4e/9SgSZub2/NYKtYlmOC/qdd1sdeA6egN/arpsOeiwmFLky9URfio2Yri/+geeRjdqtmPUoVEghCds51f5gI5XagWe/jeLTd/ImSPm123JeQ/jFIIh5ISZNN8El8ubO6q2im1BHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=juvsEDej; arc=none smtp.client-ip=74.125.227.141
+	 MIME-Version; b=IC506h9wNFxEz9+9JmZqxpLSsH8Fg95Tn9xbDhzdfoQp54MS/SMUaJjqtvaFc6Yfipb8HNstU3PdLi27yGi55Y7REjg882ohJ9KWB2kO5NPW5tYrZV3uAaIHia558+PBFFEePmswc+xYtQlQjXrF+9nzrU/s2H6QkMsupuVdLmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gw8SCuFL; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="juvsEDej"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-398cb5615deso980928a91.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 10:52:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gw8SCuFL"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccda24a3so755373a91.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 23 Sep 2026 10:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790185935; x=1790790735; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790185939; x=1790790739; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=p+wYMt5RgGNAL4xbHbIdqrpDL5phee97AhbS4gBla/k=;
-        b=juvsEDejJBQJJon93p7IBtrDxqDkq6uGZ6eZeuxZiM4dp5BAJrt/FpRN2bIEIG8Dqa
-         udsl8fQKK9Hw02ALkhmR85/GrJ+5vhNv+N5gP5QbvGGJ0L+JYsFQYVXCviwYIQ6FKi/S
-         fqMEtjppRSfGmKcxGdRAoGnuABNAHYIt9g3iaV2iClk97/wIiMpize+SUVBBh1GfAxf2
-         ksbUYsXuu+Vxoq7Uy3BzuftjK4WypT++/URs0CDxeA+3aQ102DtZE9sCHrG8u9YAVHkn
-         f8m/AHe6p9YE/LG1HnTxrLD/EnTuElAJuuvEoztdEt3OD8B7iP6xiHeBIe4dQ5pwSfDv
-         SVtQ==
+        bh=ntejg00uo+ObrghLjhgDMWB/RSF/FEi7La0moj2PhdQ=;
+        b=gw8SCuFLIddmrWdZbSWI5+m/OviPU50b0c2TFZrl+Y7WFHb/ZUDsdAY1m+TBDuuhvY
+         8eDTrcRK1tx4d5btl9M5YqR3YVvoWjEgbB83j/GgnxdCyr15XsMlWk4I5G4jIZMJb+SX
+         7a5I0EX/2b7t4r8Lhgrskno3c0auQr2oN+1RA8mYllzjvrzrLLOGNIXbz3xYvQKvlfTr
+         hDW88Fp4YUnzs+aei+QMybx5FY7aPoSkNG5fcrrXncE02vlnbncIn/Q8PObD4XCGswct
+         nvtlspj8zhN7y4oa3brjAzhtfqwngY6IOkjedrC9joUIJ5yvO2I+pNYTUKp3dxwE2IV9
+         2cQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790185935; x=1790790735;
+        d=1e100.net; s=20260707; t=1790185939; x=1790790739;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=p+wYMt5RgGNAL4xbHbIdqrpDL5phee97AhbS4gBla/k=;
-        b=SyN3xzYBmP+6GiFtQuO1d2G83HnG0Cw8FsLVDLb+COKmA/CWSRW6YFeEQFccoyj8me
-         HzTRgqHAKKw3o4KCZ7rjATDsX+vY3ylzBb0fMFKb+RqZtRdAQcnYBMWUjzHk6juD/cUy
-         TGBLmzZwwWq7uyGIi5B3LhGpSdhRCsbCCppLWktjsIDeYdfnnx6woMSnvyn7WiJB2JCl
-         9P2P0CjLxJJbb4+WGrmPqIsQZxk0OcjB1nILKiXSq1hGOt18xQDrE+bSAWfc6tM6LCC/
-         Q+AWgL9uZVB8USadEJx585exWqikDd5q9ijctEnIsRTnIocFJ2xwLQ4P5XsfgH26XgD8
-         IaKw==
-X-Forwarded-Encrypted: i=1; AKwUvBz8foc1b/lWAUt3IQvA33YAR/FZ5UMEWFwsUXC/M8eKFIu+DBaMkKYKCmxk5zDocODG4REBu4l+9pnw0lld@vger.kernel.org
-X-Gm-Message-State: AFuF++l0o/PLMVT9+qVoDlIdo+t7PFm+ZjBHoRzTzYu+kP53oMZc2u0c
-	Z6uY1pM8lEMwY+nKe8cVEZ9IJf9fv80AbMt4JRHNO7mO4woe6vqlmJNs
-X-Gm-Gg: AYBFou0Fq2j1KddhczInQNwHVZlxwjGqKHstbTJOkzVDGQSEX4equwsejGsWFbaanPl
-	hBgYWlQeofBpxA7pMeUJfwpINPMH4hDg0GjI/7X4jmTTcYnyaXNGWva2Lqm9BhMljsFMJk1k5hw
-	bYhweQfPliqkjnZQR0BYvmTQn+ZyaXwQqNip3NchDxyEqCO2r3cUjAy8774kiMZWAoP5Kx3Bu62
-	67QFYXrFpugInxhVluvKcJQFbrKab2299DExKvL/eGVWepBTqBVD1ub35Zs4oAmYbQZI8CzUaIW
-	PukWMTIQuHeEmOcWfSsy29gG2Yrx3SWOFEb1CeavjuKWH5UKyUZYzQD8T60t8LA5Y5dXlHjVoTO
-	+1W7UUdKa9MVsmkn3sjSm+SdBb6WWSntAlySQ07x7O4q/MGocR+1+1FD56aQuvu97t5R6A6JsHv
-	zS+C8EwmIumk2Tz5beh3cWhCSrL3KCn3WL3a4tDxGoeUu+0N6iIg11NlJ7GCQX4E5RTULSCXbEy
-	vO55eA3fnEw9vUjdygsDhy3JTkGB+sMOqfHKWy6/CYAT3Fkl4M+7imIKONM/xBkYwo2VU/5mQnn
-	vEjn+Do84MjkY57bow0JLIqGfueWvp4A2Jla1+PSMfo86qK96j24ONVxlVGMNa1k46xDgFuBlAz
-	i1Bdv1Mk=
-X-Received: by 2002:a17:90b:1cc7:b0:39e:6c69:9b9a with SMTP id 98e67ed59e1d1-3a07e6ec797mr2946391a91.63.1790185935232;
-        Wed, 23 Sep 2026 10:52:15 -0700 (PDT)
+        bh=ntejg00uo+ObrghLjhgDMWB/RSF/FEi7La0moj2PhdQ=;
+        b=KIJgx5pEiuEqt2vtuB/OfxQvtIiC78zDZ9FcGGPtxqR2FqYhQfwg5jdEL2z2MGbNcN
+         23TDTBbcpfwfvLWcgxC6jexi9qXYeHV0AFmFeNud/bLkDuHy/rGb438i3zk2cTO6zhXr
+         Hz3UqZBOPGdO3mZZXYXsdNhYlaBVmU+TwE+R6KyHgbuqpfnt4o6XmOLyDzHa+UBSn3eV
+         uakFeyAFSicdfEidCA1P7KUDElKYB8uIKBnhyHQc4bWb9Y0f+l6Z6c2dbKmkrlsMrPhq
+         9HaPVq+Mkegx2ct6Cyx+p2GyJyGOfkUpYysr701y6pS7pZS19jxCOOAk6Kue4EGkjZMH
+         NSHg==
+X-Forwarded-Encrypted: i=1; AKwUvBww25DBfZLHBb6OnB841OLn+mQWTB8897zB7iJkxRCj7WSBOi896y0KeH/Lztdaej8HPJesS79YGww+wGLm@vger.kernel.org
+X-Gm-Message-State: AFuF++mMMkX/VsLMbHFbBiTAO9Gd0IYfZ+Hfx5tSsYm0oMhUxl0W28BA
+	ZlZFVzThEJe3NT3bU6GyDIAFkLyZDYV5CQGZqiKXCqS6ETRp4Tm0MtPb
+X-Gm-Gg: AYBFou00TXK8y0aodCBtCGzfz+lBiyoGw/d0wcilqbDn5w1Z2XNetj7CrEYRChs4sjV
+	tMBq8tnPvjXsFCrYS2f+0wIhEVvY3w/keyKsuisejKyNFAjcA7nL/q9bvlJSa+29c7OX7OpFYs/
+	MpTTpSJcEMq3c6YsQZODZwdVPT+6oh8R6iuyTIi+jhwwEfgxl7xY4ZD2YDFFn2jCMa6I12l5atS
+	MW7oRMbLgSKrippgjhAYRyuTsTFvqYCT8WOxHZJkJ4Tmnh3i07/D7SQGpvIAocT4b+7Vb1b7831
+	NMMy9GmjHg+gdhobqlOUpG2sSNy1rHjzfxnGyNsn7srZdqVChjNnwgm9khGFE7DuNP1qhJZd8xx
+	rAgKJ6LMfkdhHEVobCiXNFpsFf31p0+wPYB2NkfdszIl3msk52YE1WJ90rraFZcA9M+UEwO9CDU
+	4Sn7uTWqxTfH4KiPnafs17eoaIoM140/Pw8dFAHjE/Jl+/YKgYsz/uAKevp+FGfLBAHHah9kvQy
+	sv1OQE/U/IKvNCqnVxw/hzrvt47A/4OIHTFePsIGuZJvbdtDKrMq91QugiAAV4J67oCQc2h3+9Y
+	s168QtHIiaSEwhYZeG23gMU2Tj8gvqUCLMzv6cfbkLGqZCUkbZdF6DOrDNxXGtfHsqOeQA5L
+X-Received: by 2002:a17:90b:2fce:b0:3a0:3881:eabe with SMTP id 98e67ed59e1d1-3a07e4ee868mr2866614a91.5.1790185938673;
+        Wed, 23 Sep 2026 10:52:18 -0700 (PDT)
 Received: from spider.bream-herring.ts.net ([103.252.203.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df6a5de5c8sm15188055ad.60.2026.09.23.10.52.13
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a097663fdbsm216755a91.10.2026.09.23.10.52.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 10:52:14 -0700 (PDT)
+        Wed, 23 Sep 2026 10:52:18 -0700 (PDT)
 From: Matthias Goergens <matthias.goergens@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>,
-	chenyichong@uniontech.com,
+To: Hui Peng <benquike@gmail.com>
+Cc: Jan Kara <jack@suse.cz>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] isofs: validate directory records in isofs_read_level3_size()
-Date: Thu, 24 Sep 2026 01:52:11 +0800
-Message-ID: <20260923175211.1577344-1-matthias.goergens@gmail.com>
+Subject: Re: [PATCH] isofs: reject short directory records in isofs_read_level3_size()
+Date: Thu, 24 Sep 2026 01:52:15 +0800
+Message-ID: <20260923175215.1577791-1-matthias.goergens@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <volfx2r3ystjmi6d2qaeyu37pjodjrp3sef6y3vmte3ia6aqoy@acwbpwhk5heq>
-References: <20260923153220.777907-1-matthias.goergens@gmail.com> <volfx2r3ystjmi6d2qaeyu37pjodjrp3sef6y3vmte3ia6aqoy@acwbpwhk5heq>
+In-Reply-To: <20260919222553.3792320-1-benquike@gmail.com>
+References: <20260919222553.3792320-1-benquike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,15 +81,23 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Wed 23-09-26 19:13:03, Jan Kara wrote:
-> Thanks! I've added the patch to my tree.
+Hi Hui,
 
-Thanks!  One correction to my commit message, if you're still able to
-edit it: the out-of-bounds reads from all three fuzzer reproducers are
-on de->flags, not in isonum_733(de->size).  The last paragraph would
-then read:
+I'm sorry, I missed your patch when I sent mine for the same function a
+few days later ("[PATCH v2] isofs: validate directory records in
+isofs_read_level3_size()"), and Jan has since applied mine to his tree.
 
-  Found by fuzzing fs/isofs in a userspace harness with ASan
-  (heap-buffer-overflow reads of de->flags).
+I did test yours, on mainline and on Jan's for_next, running fs/isofs in
+a userspace harness with ASan and UBSan: it fixes the three fuzzer
+images that made isofs_read_level3_size() read past a record, and I
+found no change on valid multi-extent images.
 
+The part of yours that mine doesn't have is the limit on how many empty
+blocks the walk skips.  Without it, a run of zero blocks is walked until
+the end of the device.  On top of for_next that would be a small
+follow-up, and if you'd like to send it I'm happy to test and review it.
+If you'd rather I send it, I'll credit you with Suggested-by, or with
+Co-developed-by followed by your Signed-off-by if you prefer.
+
+Thanks,
 Matthias
