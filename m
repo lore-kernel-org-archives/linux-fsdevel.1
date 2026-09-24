@@ -1,86 +1,82 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AFF3E40F3
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 17:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3E7355055
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 18:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790270672; cv=none; b=KIwrnGZppYbkjk5D5Q8RRX0fanw3IHexILVLvbJCrlqNZgzzhNLGJTtpQ8MD87kC0LFCApQWD9bovCLMiKWEvcRzbAVOJduf+jFevOdYGmAPK2TqQo3BcsPzILFCx0gOuEP/qBrtB2TGtiNL7bLbW9NR4TdcN1NruqpevEIAuqI=
+	t=1790272827; cv=none; b=N7X5DVKML4ZnqrXcXXng2MiA/WqWMo+MdQran+hmOhql1qlDIpJbEdVa4kS0D4e+espkDaYMoAvuKh4W4LI/QeCgs0zYiXmveMswJguv8CbtmqJRdCLSzYgm9TT2o1bOliSfBdMWIbc3Q9tfCKiURsRUokqp+6O7uMAKTrSskL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790270672; c=relaxed/simple;
-	bh=Qj+S5hBmTNkZHtWdJHxtjVJDIgDsO2tIwunahkOhvbY=;
+	s=arc-20240116; t=1790272827; c=relaxed/simple;
+	bh=dIEo2BWot8KMA7bFyxIXMBMINiO703u3CNAgbTnUo2E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VwuRjm9rp1+E+y7I5l1dm9/3nQT25oyLdqmluuzQP82iwqGMJskfG3G5oqTFJk72osfLdmBXq4xU27ywxHqsVqqlVgp1Ix8zsZlcBk9salKT6siqZ2gPxHkCXq78EO2dQuBKd4f92fQ7XFFN1SZUI/2o7uADGVQMRH/iTOIcOBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dhEWgyGx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VC50vUiM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=LR6NReq+; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pzdn+HWp; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jm7e4sPpr8fg+S75g8VA03Sb/RcoDO+CYUcF3eRqfdKriX6XhUSEcalCxhuMDpVY1FWn2TrOgRG6LVmmzDGQJ4SC2LUHiEjKcRbx8qPh9XeERjwvrdywWeHZiTNeErJ1jRZNc0B2epQsm/J3+cpA91HjeeWVXHD5azm46j6P4Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=qNcW8nj0; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dhEWgyGx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VC50vUiM";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="LR6NReq+";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pzdn+HWp"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4757721E73;
-	Thu, 24 Sep 2026 17:24:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790270665; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nvmWxh/7sadN71Ry+teJ71fIRtn4jq4tR13Iaa3OJy4=;
-	b=dhEWgyGxS5Z5ctqdR0yICoWzdBB0/evYvqjpk5eOD1jcIcU4aOxCPylklMp5aBo/6Rmq5I
-	dUXZ62pEbl3eetWcqBF0MgLnil7RZTifdXtkp/gE+M3+zD8xTqFzsvM/pq/kkK6t0qV4N8
-	VPUIl6MH31xZUMUAowWjb1qWMhkknyw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790270665;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nvmWxh/7sadN71Ry+teJ71fIRtn4jq4tR13Iaa3OJy4=;
-	b=VC50vUiMtbYDIbX0z7mDu1x6GjouR4gRpsmavETWMf7FxDOkkNtaAVSvfw7hMqFmDfFvoc
-	xCrnojy1ZCfzhBAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790270661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nvmWxh/7sadN71Ry+teJ71fIRtn4jq4tR13Iaa3OJy4=;
-	b=LR6NReq+TnUe5fdXqufVbr4D3bjuLwcDrpW2pU5O3+qenfciV90e6EhHdfYQPbhFZWo4FV
-	ta1usx9+3SVdWMDBaYY4ThbqIs4HZ+B4HbHXslThf0OXSFXTeNHoIahAtWZuOZPozfxvJd
-	ovyj1jVSV3EpC7Nvd4rpdichfy5LO3s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790270661;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nvmWxh/7sadN71Ry+teJ71fIRtn4jq4tR13Iaa3OJy4=;
-	b=pzdn+HWptHAnoGOU288Z97sHw5tQ7d/athgrR1UmFoXDnphsjPqP6U+o/LPuaivqTfyN4z
-	0i9GFyYTvdSFZSBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EBA3C13354;
-	Thu, 24 Sep 2026 17:24:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YW4xMMRctWrdCwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 24 Sep 2026 17:24:20 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6C4EDA132E; Thu, 24 Sep 2026 19:24:16 +0200 (CEST)
-Date: Thu, 24 Sep 2026 19:24:16 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Christoph Hellwig <hch@infradead.org>, 
-	Mikhail Rudenko <xyzzy@yandex-team.ru>
-Subject: Re: [PATCH 0/5 v2] fs: Deferred inode reclaim
-Message-ID: <pu4x4cgddu7pcb6gm5bue3eksr5rarbcqu4h3un2z56txi7p6x@ydiql33kyvtb>
-References: <20260911081309.14137-1-jack@suse.cz>
- <20260917-entweder-limitieren-kiefer-f033614058bd@brauner>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="qNcW8nj0"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-52fa9c055b5so11364491cf.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 11:00:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1790272822; x=1790877622; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yIrEACM/1hk8RvSSdnwytl7iIy1+VcppA4PP9Tt2BDk=;
+        b=qNcW8nj0/pDdjrHX+ELCleXyhNSH46+yVTvIwKXf0KEsO2lrNq/+t7BLtAJv/5kwUi
+         2AQLV5DG6nqODb54KYJ2Hhy8HyGJBZMXduXpgQLzeebEeIcn11k5EsbWxNYcGPXBaT1+
+         /qweihLG7noAHfK+Zx5EEGn0ruWcXq/Gj/S2WSYYG/9cAsBnCCVbDo0GQ6tr6T6jIO6M
+         OeOdtj4ZPY+H89quivLjIZrF0JngYycSDR0/nPJVKUYp/eeTnJbocj21+VpbAezcSeJb
+         3sQPtmZy9+wwtqCXvsR5dE5N64+9dWM26DJ4nK/0tsdNaizI0KONqxKZScMTirDGCpdM
+         wpaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790272822; x=1790877622;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yIrEACM/1hk8RvSSdnwytl7iIy1+VcppA4PP9Tt2BDk=;
+        b=VywJzimhAgoe4OqhGRCwoD8OOj7x9cB8ZVh+QEc34ctkHbl+HdI0qt3Og+fsiSDAvk
+         u5+uycjjPwocabxlX2KxIbJHHb6SvqqiwQ7T46RwOOxndKjQa2hcFxM9WUWLv/hk0Arj
+         U5EGi+THTKhhT3F9BTnRXzoJRvD1NP5dUCXFQLK1UKZXvu92eUSluAUSyLGjqv8azCaF
+         RSw9aUyAutbwMVWlgrZV7gjx1GSEl28s9o6mha4t8rO01khamZClmCFPGBdHOQdPJhLC
+         mww6QwuhSZlGVeMVOM8aDKGn7++xDk1QDX9kZGZL1CBZK+C9cWuEslsWwTbwLQIubEts
+         n4jw==
+X-Forwarded-Encrypted: i=1; AKwUvBwTypGEyAzC+NwJUyncsjRGkyTo06keWoJJ76n35V7YI/NqFdUGLslNjGr6H1dGeRIUHTW8DsXPotndCCDb@vger.kernel.org
+X-Gm-Message-State: AFuF++lpA/ElMBbLksFhyRWyp+06j/mnfvOz6FGzj2LW2TPRskNFvDsY
+	6eOdj/mtAUPc3vLIbSA9Fy3joQeEgMeoeWiZsYJgFjTUmPOzCbZrwnQAuILfSylxLJU=
+X-Gm-Gg: AYBFou3KjmcyVThvWQkJ+jGJfPMLGIIqMybe+McsHESDv4fOv2kPjLlruaDXz2qr6Bp
+	qbZvfDEuEEcpYeIEh5FUKoFF1+CUzMQV5sQ5RVSJ30c1TLJMqL1CFQrjmvha6NZr9Ns8vXjgVTq
+	leuwR8bXbm2AiVzP/hhhyCEuvI54AZhPHl48ufcEts4TfouYas7QZHuGLEanYYOEdKxUgV64fCU
+	AKYnSjH6GdZehHIUlXZ4hUBoYUKoKnUFKBxO++fUl6ucbOtHtvshGAhFuhZdI2/omV51oei7jca
+	8u2EH3+CsgRxcJF0a7t2wvSSvGvQ0Tk6G2wmHNHrjwKhGyJCCuL/aMU8t9eBtTepGH1YZINuA1N
+	Fjk1ryoV39xnhL4QErcd8IStkAu3ACChDMUkAPEnZRYJC52bMAZOjPHOoWoyI56AtbQOCnoTNM3
+	1rS2OBfU4B63xHaMJmNljQCyQOm1+F5qyYIfQWSLtDsywLN/hH1yWSWoMxQJjVBsM+IMLkccT4L
+	r1tmXFRHj85bFRo2fCmJzw5+bmJgpzHChTX43+1NJhJWZ8MVpwWXec=
+X-Received: by 2002:ac8:5a46:0:b0:530:e682:87c with SMTP id d75a77b69052e-5330b6df434mr78501cf.33.1790272821894;
+        Thu, 24 Sep 2026 11:00:21 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532eb38d347sm47450101cf.25.2026.09.24.11.00.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 11:00:21 -0700 (PDT)
+Date: Thu, 24 Sep 2026 14:00:18 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 05/40] mm/vma: ensure mmap_prepare doesn't set actions
+ on a mergeable vma
+Message-ID: <arVkwC_wNoTLjRYf@gourry-fedora-PF4VCD3F>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-5-4583d8a23bca@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,74 +85,60 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260917-entweder-limitieren-kiefer-f033614058bd@brauner>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Flag: NO
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-5-4583d8a23bca@kernel.org>
 
-On Thu 17-09-26 11:56:17, Christian Brauner wrote:
-> > Hello,
-> > 
-> > after a long pause here is a second revision of my patches implementing
-> > deferred inode reclaim to deal with MM warnings due to GFP_NOFAIL allocations
-> > from reclaim paths. This happens because to reclaim some inodes, filesystems
-> > have to do IO including complex operations using journalling and forward
-> > progress of these depends on successful memory allocations (which is impossible
-> > to guarantee from reclaim context).
-> > 
-> > This time I have fully tested the patch set. In particular it survives full
-> > fstests run on ext4 both as is as well as when marking all loaded ext4 inodes
-> > for deferred reclaim to stress the deferred reclaim paths. I have also tested
-> > (when marking all inodes for deferred reclaim) the patches by creating a memcg
-> > with 128m memory limit and then scanning from 10 processes 600k inodes in total
-> > which heavily exercises deferred inode reclaim paths. This also verified
-> > efficiency of throttling of marking of inodes for deferred reclaim. Basically
-> > we cannot guarantee any particular limit on the number of inodes queued for
-> > deferred reclaim as that is bound only by their number in memory and memory
-> > pressure. But as the number of queued inodes grows, the tasks creating them
-> > get slowed down so eventually some equilibrium is hit. In my VM this was
-> > at ~10k inodes (only slightly above the 8k limit when throttling kicks in)
-> > but this all very much depends on the reclaim pressure, speed of deferred
-> > reclaim etc. so I don't think this is some representative number.
-> > 
-> > The first patch is a pure fix for a problem I've hit when running fstests.  The
-> > second patch deals with lazy timestamp updates which I've decided to handle
-> > better directly inside the writeback infrastructure instead of deferring
-> > reclaim. The remaining patches implement the inode reclaim deferal. Ext4 use of
-> > deferred inode reclaim is there mostly as a demonstration. Other filesystems
-> > need to determine which inodes need deferred reclaim and mark them as such
-> > which generally requires good internal knowledge of the filesystem. I'm hoping
-> > that once the infrastructure is there, fs developers prompted by MM warnings
-> > will start using it :). I know for a fact that besides ext4 e.g. btrfs is
-> > hitting MM warnings in inode reclaim as well.
+On Thu, Sep 17, 2026 at 05:22:14PM +0100, Lorenzo Stoakes (ARM) wrote:
+> When a user requests an mmap_action be performed in mmap_prepare, this
+> involves populating the VMA range with data.
 > 
-> This all looks worthwhile to me!
-> Note that Sashiko is complaining about long-term stalls introduced by
-> this patchset. If this is intended or bs then please let us know.
+> However, if the VMA is mergeable, it might then mistakenly be merged with
+> another VMA without having populated the range.
+> 
+> Every mmap action currently available sets VMA flags such that the VMA
+> cannot be merged.
+> 
+> However, to ensure that no future mmap action falls foul of this, assert
+> that this is the case upon mmap_prepare validation.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  mm/vma.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/mm/vma.c b/mm/vma.c
+> index d6ed10cefc8f..62f2ce1ad5a1 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -2809,6 +2809,15 @@ static int mmap_validate(unsigned long prev_start, unsigned long prev_end,
+>  int mmap_prepare_validate(const struct vm_area_desc *prev_desc,
+>  			  const struct vm_area_desc *desc)
+>  {
+> +	/*
+> +	 * It is not valid to execute mmap actions for VMAs which can be merged,
+> +	 * as any such merge would leave portions of the mapping incorrectly
+> +	 * unmapped.
+> +	 */
+> +	if (vma_flags_can_merge(&desc->vma_flags) &&
+> +	    WARN_ON_ONCE(desc->action.type != MMAP_NOTHING))
+> +		return -EINVAL;
+> +
 
-Yeah, there are some good suggestions from Sashiko. I'll address them and
-respin.
+If you wanted to make this unit-testable, you could pull it out into a
+separate function:
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+static bool mmap_action_is_valid(const struct vm_area_desc *desc)
+{
+	return desc->action.type == MMAP_NOTHING ||
+		!vma_flags_can_merge(&desc->vma_flags);
+}
+
+then write:
+
+if (WARN_ON_ONCE(!mmap_action_is_valid(desc)))
+	return -EINVAL;
+
+And you can write a unit test directly against mmap_action_is_valid
+
+otherwise
+
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
