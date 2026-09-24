@@ -1,187 +1,264 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECA14756CB
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 12:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790252474; cv=pass; b=J8F8YF6IUeOx9Gh+8pxtRN2UXUsupTHV/K0ROGE2oU9WvdeSorVLLUpgVHm27WLjZuT4QnsrS7Iar1Em5nTEJYjM1ueBAA/CQDy77+etDxSVn/aaT+JZffx3krobndNMBJ4RMkQhkQeXOswal24WVbjY7GEEaEF5UoFIx2xKxaw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790252474; c=relaxed/simple;
-	bh=K9ufhPEWTbcGbUWPnsFi5tG5G32ivdBgHbHB+/9JtVw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UeLlsUZR4DxG7m7IFT4OY7iQYupt2y1OdXI4bOr5W7mpbYA6V6BOxQwmPNYFoVbV2KJW2DWnDp1Q6usFCh4a8sxwJ8pJyMG0x+nO4UW4zcYz2y+6bLWTp7dR6TU94/fL/4zePcjgeOvJgzr7+T9/yc2IrI+w8ZKC+g5tuEf3g+M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RxOLFp8z; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37F047DD72;
+	Thu, 24 Sep 2026 12:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790252725; cv=none; b=fmwx+ZVCKkWgrM2yCTZAqtdPF2dKgTG430eUPrBU1L4DFlUmeBMgUUBX6XlxFVbE6+Mmc0TC0bB6L29lgjAhOmzXC7wy6689fGb4BmDlE1lb2dzCWWMF9CvdwtKqsqd6GwCR/GPdBN6gbnVVzNxYZ1f6+gwNZ+2n/H+BsrFXS3U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790252725; c=relaxed/simple;
+	bh=01i9WejsLdiMX6G/FL2digLaVsJEX/S7apwqrd48yoc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CLvWg3t5ZLMY5MTIQhQEyJQ831gCwbWHNyAFBfdR5m+TJcpZIBnFv7qwmVdtfDnWhRAq5sWzCMQi/pjgZyD0ix57ra6lg13nXjpZPewW/+MjfUpvVLFvs2DD4NwI32B9yjQXUUHXLB2eBGzunlwnpThVNCh0Z1DluFUxl22xw+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1OYfSDc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RxOLFp8z"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-530e8c6fb80so215901cf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 05:21:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790252472; cv=none;
-        d=google.com; s=arc-20260327;
-        b=aQi0XwzCJ9MwzmBfMsX2GX/20eUmfAg/LziBZ1c2jdE3aLdkanb5RfKuS8H85Y4ZRe
-         z7UbZ0WsAM36SXD2mXHtfEifcnhsj5UatANqjjdSk/UFa17WCtdY4Kwdd5JJkLm8Apam
-         do1vilzxnXFr6y/f4pqCaUNX932c7MDw0zAAeveBk6VO306uwziVOq4pHxqkEb7f1D4G
-         MDnd/5lcwwM7FPp0p0EEhKUxjg/phOfkCkiHtfH7gSlGTdTVPoXNa8BUJ0dCK8StHD6h
-         yXPG1/+joTFoQuOdZ9N/ItUYjqMDD92rDfMdW2NvWJsBd6fkHP+V2P0E7Zl81ybg+X7Q
-         7xTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NkGH7LeMJDJfHMf9D0brPKFR1SEB0UnnB2ab6h95oe4=;
-        fh=/rWFCT/ltQZSf/xBnjmCiYjwofHHeXv3SJV4S05gaDg=;
-        b=cfGIYebYp8LYa0x0ttW7bCxckoAa9IM772N2r/pdLdl1HmJSlHDwW5AM2BsyyZjupE
-         JSFksuI/TA4hkOQihG4Tr5WjMEelPfixS+EktaB8NYc0Zn7qo+5qxGfMpEdd/vxmO0wg
-         GjBojP1c+vPx/QPiH8XmwrynNlvFqIspOUkfBzYxw9ToaDsD6sRxxzeqv9dVDSw9fOgH
-         goP4efJ/F/8vZ8ru4qoECr4BUlWNQQhGnTRX/sVIfy2HOCRUBqnncPXF6JHrUz1EXMdR
-         dsROkzUbdDwkQJ5sP3MrSh6QMaUYJGeLzyu3Ef6a5cZC21sDyrjd1fGGAIJ5VvWpDsLG
-         ek2Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790252472; x=1790857272; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NkGH7LeMJDJfHMf9D0brPKFR1SEB0UnnB2ab6h95oe4=;
-        b=RxOLFp8zns9PebEfZOT5KCV4HOlHPO51bVjqJXi77VlNxbLzELm0H3mDLQ0YG5FSbP
-         iHnwm+NSqxJ6fMldJbBXqaoBzY68es+RwxdL1ReKIX/wWGPpQsaLPH71d6bmCOiCn6l9
-         UrbDCzYsyF0jPJE0prMOVEUbVQqjAy2TKax/yaCQVXqQra4x38ey9+i3CTpaD+pOizwV
-         CDMvzkDNQBIB2RnIZvX663wd8SAJ5W0bgdUnvLnzjPllJ3qiTF1IcO/N9B8KhX6PUMaU
-         lE8o10voXt4eKcpDKrx6JTPn2hnLMemEJ/Lya/Ay6apKDtceIncTxBlInsqPK9sf72dq
-         setg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790252472; x=1790857272;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NkGH7LeMJDJfHMf9D0brPKFR1SEB0UnnB2ab6h95oe4=;
-        b=RzhhxQbS7WGESnlplowOH4ADsjEZIZh/R9KqPjDZdfdw4MEDhLwvffr3cELUuL/RsG
-         t4rLXVrQYdddKKDC4/jdS9O6bQNl4y2g4soZsnlGS1NXZtqOp18aAUjhXUTzW3ivtSQu
-         mUkUffm+a0lytjfoKEsZNVLWvkzK8Mp3rEFOd/9uYUEvWPXJcivtWtmx8Dk1AlXJx5KJ
-         KeihI1Ad2IKLN7RZ5KpBDUbsvBAHXHP95WmJe7oC9yvjtVbcAHUZUJR+GEtLP8xyM35p
-         igJrn1BUMJmksYKbE47n0IBdMLCap4Vm+mfk67hz4t/DP/8vXagUh7dPnIqsglC2s2iK
-         xljQ==
-X-Forwarded-Encrypted: i=1; AKwUvBywIPT3afBi3kawTgOr7pXPmy/Q3x7yh1XnABL62KmuF8IlTrysVwOikP0EP6T+EkXVm8NfZdfRHvfQjcOp@vger.kernel.org
-X-Gm-Message-State: AFuF++l+/CkSafcaOF9+YrhTh8F4wJUI5/bmpdPeYsHfT41BScglRfX3
-	OHNePtBlUqsQETcRPlbxp22PVMTRqvcVWj5ZulZzlA2JeYJWw4d6byKtrl8KvAlU2F5LadaFv6B
-	1LUc6GQ5SvsIctgNRrofHDrowm5K6HxBYc3FYddhr
-X-Gm-Gg: AYBFou3NfUjBZ40JRGQhCT1zC118yPOxycABG0VwrTWb6hSHQY8QrwZPIasPTL+JzAD
-	WpKB+NX+NdH2NujQapFGU/UfzMfQ9QbeSKuIYFThXxgK73Q1bv1Du/mO1bT8Tflg1czD7I/MCDr
-	SRKkRzHAIgiq6DPPNT5j4speaq4G0sc+H7eUfMEFbsSoqWKB/pazkYsKlM17VPII9D9WwB0O5U0
-	Ic8RrssNfmdYauhozpzzxwnJRugRAv3tzmDBubnsaycUOmXH4nPtrxawGCcZkjBMyK3MQFCEO26
-	SMJg6MlVM42YQoO8dXYqDYfiZEO7ldguEFQUbJhfM0G4avT3rdP/XJJzoBk8AHzw+KekzgOeIuG
-	I5Y5IOT43
-X-Received: by 2002:a05:622a:5507:b0:50f:af60:3496 with SMTP id
- d75a77b69052e-532fe9f468dmr9310531cf.1.1790252471121; Thu, 24 Sep 2026
- 05:21:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1OYfSDc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C15C1F000FF;
+	Thu, 24 Sep 2026 12:25:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790252723;
+	bh=i1wc7mco9mhAsE81iNGHYJRTKDBGIOxL8y/hhOoeRqI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=d1OYfSDcHGlPiGc5qF/mIK/jytBkjw5fGcsDZ1VUx+sv/BotsB4Gbwoq1cu7hUHCd
+	 ebi8x0Hi/vuszK/DnAaLZk6mhEUDFEcHPC3yt3vtvrzVu9FctxDsOJaD31ODnZf5lb
+	 ChvfGllTDpJYWfZ6LAmSYV9RHkzL63m2ZXjB1UST6QlBfGLODN1Vn7mfuzvgD+Tqwb
+	 uOwti8ANNX6yqa7JVdZHU6t9bIe3VR5EFA0SlzU3i4sgG0iQcyr+Ov3Mp3e8sOtJVK
+	 x0uTMHrBXBWk97skEgLp6ymm0kjxfhmUVoGVe9ti8T4e6hOqZx1ErzkYIDvdNwn3j5
+	 d0I/Yf/N8Sa0A==
+Message-ID: <0880c8baea48edbca372bd54060000b27dd5fcbb.camel@kernel.org>
+Subject: Re: [PATCH v2 01/14] VFS: revise and expand documentation for
+ atomic_open.
+From: Jeff Layton <jlayton@kernel.org>
+To: NeilBrown <neil@brown.name>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner
+	 <brauner@kernel.org>, Chuck Lever <cel@kernel.org>, Jori Koolstra
+	 <jkoolstra@xs4all.nl>, Mateusz Guzik <mjguzik@gmail.com>, Dorjoy Chowdhury
+	 <dorjoychy111@gmail.com>
+Cc: Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ Andreas Gruenbacher	 <agruenba@redhat.com>, gfs2@lists.linux.dev, Ilya
+ Dryomov <idryomov@gmail.com>,  Alex Markuze <amarkuze@redhat.com>,
+ Viacheslav Dubeyko <slava@dubeyko.com>, ceph-devel@vger.kernel.org,  Paulo
+ Alcantara	 <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-nfs@vger.kernel.org
+Date: Thu, 24 Sep 2026 08:25:20 -0400
+In-Reply-To: <20260919022441.3305170-2-neilb@ownmail.net>
+References: <20260919022441.3305170-1-neilb@ownmail.net>
+	 <20260919022441.3305170-2-neilb@ownmail.net>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260922211559.3633398-1-sadrul@google.com> <sqmmgjre63ltp2m6y5ui35hijnnwfljnzjscceunvzmzd5rh6i@us2amzhvtkw7>
-In-Reply-To: <sqmmgjre63ltp2m6y5ui35hijnnwfljnzjscceunvzmzd5rh6i@us2amzhvtkw7>
-From: Sadrul Chowdhury <sadrul@google.com>
-Date: Thu, 24 Sep 2026 08:21:00 -0400
-X-Gm-Features: AclHuK89lBo3kLTsEvW7wqXIE_9vbscPCVVxotToLaOHDgnCk-gw32aXdN6iQ4M
-Message-ID: <CAKgcGXgfr-hbBj+tc--uD5t3J6Q7zhnSsm17JwU0ZdVhb1ai+Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] fs/epoll: mark epoll_wait tasks TASK_FREEZABLE
-To: Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Pavel Machek <pavel@kernel.org>, linux-pm@vger.kernel.org, 
-	John Stultz <jstultz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2026 at 7:24=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
->
-> On Tue 22-09-26 21:15:58, Sadrul Chowdhury wrote:
-> > During system suspend (freeze_processes) and resume (thaw_processes),
-> > threads blocked in epoll_wait() sleep in TASK_INTERRUPTIBLE. When
-> > try_to_freeze_tasks() executes, it must wake up every sleeping thread
-> > with a synthetic signal so the thread can schedule, run try_to_freeze()=
-,
-> > enter TASK_FROZEN, and sleep again. Upon resume, the freezer wakes them
-> > all up simultaneously, only for each thread to re-enter ep_poll(),
-> > observe no ready I/O events, and call schedule() to go back to sleep.
-> >
-> > On systems with numerous event-driven daemons (where hundreds of
-> > threads idle in event loops), this causes a large wakeup stampede and
-> > thousands of redundant context switches per suspend/resume cycle.
-> >
-> > An earlier attempt to make epoll_wait() freezable in commit 1c441e92120=
-1
-> > ("epoll: use freezable blocking call") was reverted in commit
-> > c511851de162 ("Revert "epoll: use freezable blocking call"") due to
-> > reports of userspace corruption (Bugzilla #61781). Under the legacy
-> > freezer design, freezable tasks could wake up prematurely while
-> > hardware and peripheral drivers were still suspended.
-> >
-> > With the 2022 core freezer rewrite (commit f5d39b020809 ("freezer,sched=
-:
-> > Rewrite core freezer logic")), the legacy fake-signal mechanism was
-> > replaced with the TASK_FROZEN state. Tasks sleeping in TASK_FREEZABLE
-> > are safely frozen in-place without waking them up, and the scheduler
-> > guarantees they cannot be woken until thaw_processes() explicitly clear=
-s
-> > the frozen state.
-> >
-> > Mark sleeping tasks in ep_poll() as TASK_FREEZABLE. Benchmarks on an
-> > ARM64 test device demonstrate that combining this with freezable
-> > select/poll reduces thaw latency by 63% (from 20.64 ms down to 7.55 ms
-> > mean at fixed CPU frequency) and reduces context switches during
-> > freeze/thaw by 87%.
-> >
-> > Signed-off-by: Sadrul Chowdhury <sadrul@google.com>
->
-> With similar caveat as on patch 2/2 feel free to add:
->
-> Reviewed-by: Jan Kara <jack@suse.cz>
->
+On Sat, 2026-09-19 at 12:06 +1000, NeilBrown wrote:
+> From: NeilBrown <neil@brown.name>
+>=20
+> atomic_open is a complex operation which different filesystems implement
+> quite differently.  The available documentation doesn't give clear
+> guidance on how it should be implemented.
+>=20
+> nfsd has a particular need to open only regular files, but to get
+> precise information about what was found if it wasn't a regular file.
+> This is slightly different to the syscall calling needs.  In particular
+> it suggests that __O_REGULAR shouldn't always result in -EFTYPE.
+>=20
+> In any case that does involve creating open state, using
+> finish_no_open() is simplest as it reduces the need to check
+> __O_REGULAR, O_DIRECTORY, O_NOFOLLOW.
+>=20
+> So refresh the documentation to give guidance on the choice between
+> finish_no_open, finish_open, and an error.  Efficiency always wins, but
+> when that isn't an issue, prefer finish_no_open().
+>=20
+> Also clarify the required behaviour when __O_REGULAR is given.  This
+> should return -EISDIR if a directory is found as nfsd needs this.  If a
+> symlink is found then __O_REGULAR does NOT apply: O_NOFOLLOW must be
+> used to decided if it is safe to not return the looked-up dentry.
+>=20
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  Documentation/filesystems/vfs.rst | 67 ++++++++++++++++++++++++++-----
+>  fs/namei.c                        |  3 ++
+>  2 files changed, 59 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystem=
+s/vfs.rst
+> index d3a93eec3945..00ada8cc85ae 100644
+> --- a/Documentation/filesystems/vfs.rst
+> +++ b/Documentation/filesystems/vfs.rst
+> @@ -599,17 +599,62 @@ otherwise noted.
+> =20
+>  ``atomic_open``
+>  	called on the last component of an open.  Using this optional
+> -	method the filesystem can look up, possibly create and open the
+> -	file in one atomic operation.  If it wants to leave actual
+> -	opening to the caller (e.g. if the file turned out to be a
+> -	symlink, device, or just something filesystem won't do atomic
+> -	open for), it may signal this by returning finish_no_open(file,
+> -	dentry).  This method is only called if the last component is
+> -	negative or needs lookup.  Cached positive dentries are still
+> -	handled by f_op->open().  If the file was created, FMODE_CREATED
+> -	flag should be set in file->f_mode.  In case of O_EXCL the
+> -	method must only succeed if the file didn't exist and hence
+> -	FMODE_CREATED shall always be set on success.
+> +	method the filesystem can look up, create, truncate, and open
+> +	the file in one atomic operation.  This is needed if the
+> +	filesystem content can be changed asynchronously and
+> +	specifically if a negative dentry is not a guarantee that the
+> +	object doesn't exist.  It is also useful if it is possible to
+> +	perform combinations of revalidate, lookup, create, open, and
+> +	truncate more efficiently what with a sequence of individual
+> +	operations.
+> +
+> +	If the object found is not a file or directory, or if
+> +	lookup/create succeeded without establishing any "open" state,
+> +	then finish_no_open() should be called to confirm that the
+> +	dentry is ready to be handled by normal VFS processing.
+> +	FMODE_CREATED should be set in the "file" if the object was
+> +	created, and this will prevent further access permission checks,
+> +	or handling of O_TRUNC and O_EXCL.
+> +
+> +	If the lookup/create operation established some open state for a
+> +	file or directory, the open should be completed by calling
+> +	finish_open().  Passing NULL as the "open" function to
+> +	finish_open() is unlikely to be useful as that assumes that no
+> +	open state has been established.
+> +
+> +	atomic_open() may generate errors related to O_DIRECTORY,
+> +	__O_REGULAR, O_EXCL, O_NOFOLLOW but is not required to as the
+> +	caller will check those against the resulting dentry and
+> +	generate any error needed, possibly closing the file if it was
+> +	opened by finish_open().  atomic_open() is encouraged to handle
+> +	these flags only when doing so is more efficient than not.
+> +
+> +	If __O_REGULAR is handled, it should generate -EISDIR if the
+> +	name is known to be a directory or -EFTYPE if it is some other
+> +	non-regular file other than a symbolic link.  Handling of a
+> +	symbolic link should be guided by O_NOFOLLOW, not __O_REGULAR:
+> +	-ELOOP can be return if O_NOFOLLOW is set, otherwise the symlink
+> +	should be returned through finish_no_open().
+> +
+> +	The focus for atomic_open() is to provide the correct dentry and
+> +	to set FMODE_CREATED as accurately as possible.  If O_EXCL was
+> +	set, FMODE_CREATED should only be set if this operation
+> +	certainly created the object.  If O_EXCL was not set,
+> +	FMODE_CREATE should be set if it is possible that this operation
+> +	created the object.
+> +
+> +	This method is only called if the last component is negative or
+> +	needs lookup.  Cached positive dentries are still handled by
+> +	f_op->open().
+> +
+> +	If the dentry provided is negative (not in-lookup) and O_CREAT
+> +	isn't set, then there is no guarantee of exclusive access to the
+> +	dentry - another thread might call ->atomic_open() on the same
+> +	dentry at the same time.  If needed a filesystem can ensure this
+> +	doesn't happen by returning 0 from ->d_revalidate when that is
+> +	called with LOOKUP_OPEN on a negative dentry.  This will ensure
+> +	that ->atomic_open() only receives an in-lookup dentry, which
+> +	always ensures exclusive access.
+> =20
+>  ``tmpfile``
+>  	called in the end of O_TMPFILE open().  Optional, equivalent to
+> diff --git a/fs/namei.c b/fs/namei.c
+> index d95249dd527c..0f69abb3743b 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -5007,6 +5007,9 @@ static struct file *path_openat(struct nameidata *n=
+d,
+>  		error =3D -EINVAL;
+>  	}
+>  	fput_close(file);
+> +	if (error =3D=3D -EISDIR &&
+> +	    (op->open_flag & __O_REGULAR))
+> +		error =3D -EFTYPE;
+>  	if (error =3D=3D -EOPENSTALE) {
+>  		if (flags & LOOKUP_RCU)
+>  			error =3D -ECHILD;
+>=20
+> base-commit: 9189e6a6f89e32d3a604b221ea64e67e1a35957c
 
-Thank you for the review!
+It just keeps growing! But on a more serious note, it's better to have
+more clear verbiage here.
 
-Regards,
-Sadrul
-
->                                                                 Honza
->
-> > ---
-> >  fs/eventpoll.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> > index 6cbef8b4c2e0..35992f6457bf 100644
-> > --- a/fs/eventpoll.c
-> > +++ b/fs/eventpoll.c
-> > @@ -39,6 +39,7 @@
-> >  #include <linux/rculist.h>
-> >  #include <linux/capability.h>
-> >  #include <net/busy_poll.h>
-> > +#include <linux/freezer.h>
-> >
-> >  #include <trace/hooks/fs.h>
-> >
-> > @@ -1987,7 +1988,7 @@ static int ep_poll(struct eventpoll *ep, struct e=
-poll_event __user *events,
-> >                * the same lock on wakeup ep_poll_callback() side, so it
-> >                * is safe to avoid an explicit barrier.
-> >                */
-> > -             __set_current_state(TASK_INTERRUPTIBLE);
-> > +             __set_current_state(TASK_INTERRUPTIBLE | TASK_FREEZABLE);
-> >
-> >               /*
-> >                * Do the final check under the lock. ep_start/done_scan(=
-)
-> > --
-> > 2.55.0.1082.g2b9226bbc0-goog
-> >
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
