@@ -1,229 +1,82 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D944C8C79
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 20:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5B148EC9D;
+	Thu, 24 Sep 2026 20:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790280594; cv=none; b=Swrd5hvPLT1Gp4K4KG2xws6f5Hh8FGbjOBJqY72nYsgiXBEcvQg1GJk4OEf78ZSPe7gPH6zCH5PxmMYsVGTyboihjiXMQxIc8uc0Ky0eEWGXT7oUINQriCeFX78E/jKmvmDScwN8X73RJ5JUiv8oaBPGboxhvUk/Ga7T76d6wCo=
+	t=1790281791; cv=none; b=Df5konhTo+KnShXwMGH+ctjRBB8MgnL5Q6lbRmET9VkWu5Mm8BEytPaND7UT1KwgiZ1h/+/sqc4kH93ZUgFjGSecPmCjw9pC2bdZGotZc0TMd4HydTBO1HBtp6j0Kb4NFNb0yLvh1BvtWjIurR55otB9q0zenCob/6S/hvks+Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790280594; c=relaxed/simple;
-	bh=CQTqQgmVstq3o9NzeleortOun0qhbXmPLnoN1FTQcmw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CPv4aXKte+EoOg5EnQcMJyX5rhEu1lf79aKx6e0nI63gs77Q7uaxjQ/0QF7DAvjAClvjLsQFOgdjpqReJU+PlKUVIgRhWusTOlEu2Al8IT/JF4lcEDrDql0pqggBo1WdUMkV3GeE633wGAwYJZrhnmfLx6U1/aX6OYRTnecUupE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=rPz019yV; arc=none smtp.client-ip=74.125.224.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1790281791; c=relaxed/simple;
+	bh=YVcQXet+amcUuSTnauf8aYPPaPtno5fCaktlsl8cZcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PfoKaRH4pSCJqMrdM8syRJ94u5vxkFczDIrLdZkhFPzQmJbL7MUvr99B794YSgpG2p/Evx5S7uYCXlibb5pc5/SE/vONZdWuUYEyYVMIXOI88SI2IBedxeCVUjSbnruVx/IAWSOdSTqlvOmUHN1qH1qDnJ06vysTRwfOpekCyHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NdPG0sMc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="rPz019yV"
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66fb93aee5eso438024d50.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 13:09:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790280587; x=1790885387; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rg7QM4KETiLUj6hqqqxzETMVSyrQCG8CKSaSlcksQCs=;
-        b=rPz019yVGrH8tG3ukLpoh+8TBaTueCxyo0Xm6fu/672t0iKcb7514UCmxfTKEjB/Kt
-         AorzWNwpQe/vb21e4cQP+/UNM//sB8SYbjMrHfxUHFKEEGe+/O92zrJMZFr+QBtS6sC/
-         H+2Li4OubuRrN2G8/QfiP6XJ+2MbsREcwn08uG6XlJL+GdUBXZnUeKxg8mDXZXInilVb
-         wTEdWDifUeCsfNDN2rw9z3cVHdlDNTXU99RyJrLvrFxUfYn5/ZC6kJRKH3SorL9UAcUi
-         kQjcs1rdOcZBh/Jp2ewRswOstp3kyUxWl5pcls9GNYel7nhPCuehtNSm8zBwe9ACQFO5
-         XIhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790280587; x=1790885387;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=rg7QM4KETiLUj6hqqqxzETMVSyrQCG8CKSaSlcksQCs=;
-        b=bQtKxmq0u9BOWPfWKNSVyxbmWrcl7aCg3wDv4rKsjfrLXOep/IfFo5U4iStlXVgkAj
-         p7bVuHuGvv2dykpbnob9k3idXvtMdwQK/X6mME2fXOXWzoNg60LwCzQiBSo0UhLu/n2B
-         CtVDNci0gDo70qONXAp6GUjQHlGeC0YzowH/vy6RrEI6neNhORd93Rd841xQPdm0Bd1z
-         KufYcNvxgq/gtxr7CgLtlJ3S0kFTbnV0tTG6El4PS/0/fasH3tHUUMMwDOu0db8gkvPM
-         IzGUf5+CdVwZ6pmW7K4RO3A++7Q9vkroigEjfJnNjdrRPijfHfWWZG0PTs4tGkL4wim4
-         JwFg==
-X-Gm-Message-State: AFuF++mo+ASDyZIDedM07Js6TPEwvb1mgWpixIbwYTucfDnbnO6PEsg+
-	3hUHSwDlu0+m0bbqHmZdM8dyXlkRWlr597hAqFRjAuo7MrSbuWlfuhptFMgp7CG8nmg=
-X-Gm-Gg: AYBFou2Afk1kl8gZfvFFsLEBi86G8CyTP2n6y7uYRGAVIWoN0UpcUqDjiZ8i/5KfH8u
-	r2rmHbra0eCsjdnEJVu7d0hPCBkc405cUTljzB6DWoVQ6yZZvlMH2I/IBJ51xmlLJIryf1AsHoa
-	PHbtD5+e4rXJEfHMD4eXbVOQGO0TccGKgpy0WJq4duT7qWIE+HtRnXiK7RJLWwnodpXL732VR60
-	qS6vjVyqGfwz/i9AhEkn03X8apgyB5rG5uIo+PdxQkgdd7HOjC1LU+uODAx8flpkyKapuyM9TvV
-	DJ/UoS3o5c0RxuzS91IDexHiMifkQHuEYrdJ0BB5qvwayhRCu7a22bJkfTuHO7CXy6ud/WxvgRi
-	CYZJIyVYrTeSz0RKMkg7GpBgWrm9G7Xt4hjBvIQLizvCxKymd+muhTLHvSWvQdz9VZ4lgIWkHuA
-	+fTxPv/oRzrx4zy5PnsK7Y9OByBlPkXPPDRgf1YES0Ksvkl+cwVN5clOg9ymYM/HWFKkpq6gohH
-	HNKa6cL6wkt3DvVOMZU2Bfc4Ft77dN4c/H7lTb6rhOohFXesn0cp4vzHzPiqFkJk4bWweNzuhvu
-	AYTCpFZYz4Gt+KXprT+VdnMLgLQs8V3NgVD7aNxo3kxwFyopRn/5wPpxb6XbiWBNOlTeCC+Tjy0
-	=
-X-Received: by 2002:a05:690c:ec5:b0:89a:63da:fa96 with SMTP id 00721157ae682-8a648ec58e4mr20513967b3.81.1790280587624;
-        Thu, 24 Sep 2026 13:09:47 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:4935:3bd4:e0b7:fd95? ([2600:1700:6476:1430:4935:3bd4:e0b7:fd95])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a860f85e57sm1357087b3.19.2026.09.24.13.09.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 13:09:47 -0700 (PDT)
-Message-ID: <2612157454a2e08c4478aeed9df236ab7f0f2090.camel@dubeyko.com>
-Subject: Re: [PATCH v2] hfs: validate allocation block parameters in
- hfs_mdb_get()
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Hui Peng <benquike@gmail.com>, glaubitz@physik.fu-berlin.de, 
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Date: Thu, 24 Sep 2026 13:09:45 -0700
-In-Reply-To: <20260924070410.2629558-1-benquike@gmail.com>
-References: <20260924070410.2629558-1-benquike@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NdPG0sMc"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 2F6771F00893;
+	Thu, 24 Sep 2026 20:29:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790281787;
+	bh=O4ao1Vy3Mhec4U7W72ai93OuuL3QZUyU4pVR57mkens=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NdPG0sMcYQ4rjFRFOmRrICDHSk8DiLBRE694iFRW3izUQ+LFnYEaDMDxSrx1Wn0JX
+	 Trgbtzamu8MPB/kJXAZl4UC2tNbfDEY7jkLEuOR38UemQTjWaTo3fENMcjRrttvpGo
+	 bCGNe/N4U7/PIHxEoicK6NJWl1jyQel4Ff/MFTNfDTtrNvOrNmL7pZ3cdvZgrn7NSq
+	 CG9sAIbpbTm5TsIUqqvbK1rIZ4M6y/Vb9mlWL6gDN9e+fKrlZixBpdKVJKRB7q5g5f
+	 fzyIKbJelN67/JmPYjfV+vY4p+Co0zOzTeHQo1C9IE1RdZMJzHswLssKercPXzG2g0
+	 gQI51Alq82n3g==
+Date: Thu, 24 Sep 2026 13:29:46 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Carlos Maiolino <cem@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH 01/21] block: export fs_bio_integrity_verify
+Message-ID: <20260924202946.GZ2705364@frogsfrogsfrogs>
+References: <20260924100032.2733101-1-hch@lst.de>
+ <20260924100032.2733101-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924100032.2733101-2-hch@lst.de>
 
-On Thu, 2026-09-24 at 07:04 +0000, Hui Peng wrote:
-> In hfs_mdb_get(), drNmAlBlks (fs_ablocks), drAlBlkSiz (alloc_blksz),
-> and
-> drFreeBks (free_ablocks) are read from the on-disk Master Directory
-> Block
-> without checking their mutual consistency against the partition size,
-> and
-> failure to allocate HFS_SB(sb)->bitmap returns -ENOMEM without
-> releasing
-> HFS_SB(sb)->mdb_bh, HFS_SB(sb)->mdb, HFS_SB(sb)->alt_mdb_bh, or
-> HFS_SB(sb)->alt_mdb.
->=20
-> Validate that fs_ablocks is non-zero, free_ablocks does not exceed
-> fs_ablocks, and drAlBlSt + fs_ablocks * (alloc_blksz >>
-> HFS_SECTOR_SIZE_BITS) fits within part_size, and clean up via
-> hfs_mdb_put(sb) on error.
->=20
-> Tested in QEMU against Linux 7.3.0-rc3 by mounting a crafted HFS
-> image
-> with drNmAlBlks =3D 10 and drFreeBks =3D 50: on the unfixed kernel
-> hfs_mdb_get() accepts the inconsistent MDB parameters, causing
-> filesystem
-> corruption ("hfs: (loop2): extents (cnid 0x3) bitmap corrupted");
-> whereas
-> with the fix applied mount fails immediately with "hfs: inconsistent
-> allocation block parameters in MDB" (-EINVAL).
->=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Hui Peng <benquike@gmail.com>
+On Thu, Sep 24, 2026 at 11:59:33AM +0200, Christoph Hellwig wrote:
+> From: Damien Le Moal <dlemoal@kernel.org>
+> 
+> XFS will need to call this in the iomap_write_ops.read_folio_range
+> implementation.
+> 
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+I'm not the arbiter of exports, but to me this looks ok,
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
 > ---
-> Changes in v2:
-> - Validate consistency between drNmAlBlks, drAlBlkSiz, drFreeBks, and
-> =C2=A0 part_size in hfs_mdb_get(), as requested by Viacheslav Dubeyko.
->=20
-> =C2=A0fs/hfs/mdb.c | 12 ++++++++++++
-> =C2=A01 file changed, 12 insertions(+)
->=20
-> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-> index 277de712f9d4..665753a2cba9 100644
-> --- a/fs/hfs/mdb.c
-> +++ b/fs/hfs/mdb.c
-> @@ -214,6 +214,14 @@ int hfs_mdb_get(struct super_block *sb)
-> =C2=A0
-> =C2=A0	/* These parameters are read from and written to the MDB */
-> =C2=A0	HFS_SB(sb)->free_ablocks =3D be16_to_cpu(mdb->drFreeBks);
-> +	if (!HFS_SB(sb)->fs_ablocks ||
-> +	=C2=A0=C2=A0=C2=A0 HFS_SB(sb)->free_ablocks > HFS_SB(sb)->fs_ablocks ||
-> +	=C2=A0=C2=A0=C2=A0 (sector_t)be16_to_cpu(mdb->drAlBlSt) +
-> +	=C2=A0=C2=A0=C2=A0 (sector_t)HFS_SB(sb)->fs_ablocks *
-> +	=C2=A0=C2=A0=C2=A0 (HFS_SB(sb)->alloc_blksz >> HFS_SECTOR_SIZE_BITS) >
-> part_size)
-
-I would like to see the dedicated function for this check. Currently,
-it looks like a mess.
-
-> {
-> +		pr_err("inconsistent allocation block parameters in
-> MDB\n");
-
-pr_warn("filesystem possibly corrupted, running fsck.hfs is
-recommended.\n");
-
-You can add more details about corruption in the message.
-
-> +		goto out_err;
-
-I don't see the point to introduce this way of managing the error case.
-Let's return  the error right here.
-
-> +	}
-> =C2=A0	atomic64_set(&HFS_SB(sb)->next_id, be32_to_cpu(mdb-
-> >drNxtCNID));
-> =C2=A0	HFS_SB(sb)->root_files =3D be16_to_cpu(mdb->drNmFls);
-> =C2=A0	HFS_SB(sb)->root_dirs =3D be16_to_cpu(mdb->drNmRtDirs);
-> @@ -305,6 +313,10 @@ int hfs_mdb_get(struct super_block *sb)
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	return 0;
-> +
-> +out_err:
-> +	hfs_mdb_put(sb);
-
-You don't need to do it here. The hfs_fill_super() will do it in the
-case of error.
-
-> +	return -EINVAL;
-
-It is not the case of -EINVAL. We have corruption here. Another code
-error should be used. -EIO sounds better, for example.
-
-But we have invalid free blocks value. It sounds to me that we still
-can mount the file system in READ-ONLY mode. Am I right?
-
-Thanks,
-Slava.
-
-> =C2=A0}
-> =C2=A0
-> =C2=A0/*
+>  block/bio-integrity-fs.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/block/bio-integrity-fs.c b/block/bio-integrity-fs.c
+> index c8e91ada8ca6..20d0a3d52932 100644
+> --- a/block/bio-integrity-fs.c
+> +++ b/block/bio-integrity-fs.c
+> @@ -74,6 +74,7 @@ int fs_bio_integrity_verify(struct bio *bio, struct bvec_iter *data_iter)
+>  		bio_integrity_bytes(bi, data_iter->bi_size >> SECTOR_SHIFT);
+>  	return blk_status_to_errno(bio_integrity_verify(bio, data_iter));
+>  }
+> +EXPORT_SYMBOL_GPL(fs_bio_integrity_verify);
+>  
+>  static int __init fs_bio_integrity_init(void)
+>  {
+> -- 
+> 2.53.0
+> 
+> 
