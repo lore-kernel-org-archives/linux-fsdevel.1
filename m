@@ -1,152 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D784B3CDBA5;
-	Thu, 24 Sep 2026 14:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3E64248C6;
+	Thu, 24 Sep 2026 14:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790260457; cv=none; b=P/DcQsJwntRSFkY1dbULxeLaUimWwtl2xq98mHAc7OgXoX/nh6Zwci8jMtM43lJGGvcJD3/wlxVkc8Tf1lWeak79E1zIwbUg5PWxRbu6tVoE5zsoWzWARN4EkQgZHA1KCKBCf+Yu+ZBviftfZrPfFqyIv13LNR8vihpyAhprW34=
+	t=1790260689; cv=none; b=XGmAG4/dabNOvxGWXpzqtSViI3f63UUHLXV4SM/cFMZorzACZm4gX+0onfTZYzvNwDmqcKf/EtLJo0s7o8NnJCAIVPoPtjwY4RqFDnIjTKUJAmDhaOWp8wzO8hl0G8HprSB3I48GzkSHxZIQfCpyFh3S0/yLVGOjUFJHld+mffs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790260457; c=relaxed/simple;
-	bh=I5CKmhNtTnWeuzjiQtc94qyADu0YXow+af+CzKqUVMc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ubYu5DXF2bJxRHkviZeqewV34Bw8Bmz04NS9iYeR6vgWdxYhvuq3TbTphXkmPh5Sd4eUasNrYgdo5rb8hy8uWAbETe01ITNv9iFzo3FzT+aTQYQqAq3ShU5HZPGY+P62mrgU4qhNvHr/DIYjOv6I+rcOOVWPI7JWvnzFSNWYkzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VIxTUZ7n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790260689; c=relaxed/simple;
+	bh=mGlcmnIGls6o1OfSJyflTFJfda4N7E1RBJ5hxnP4UFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G9tMvO+nPEppxZAtybtK87QYEJv5zBadufazQrbDERgndUWe4YCji2/beUryx4kG66h6JvGkr6FIKlwmqWKZGegscERcNzPpvR/bb+DuYtoVeiAqCRDU+6B50CbLRZAr4uJHUXHdk+ZOZqd+Wy7xhaJiPbKEMoqGu9LyVHTTB7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hpqQBHi9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VIxTUZ7n"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 82CACC2BCFB;
-	Thu, 24 Sep 2026 14:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790260457;
-	bh=I5CKmhNtTnWeuzjiQtc94qyADu0YXow+af+CzKqUVMc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VIxTUZ7n+tsQy9idj+xDRS/iIX7BhWS7ODavv9m8cfbQY6cKNsLXwly9Xrns11vwc
-	 oB7D/Ixn1uJIsM4/So4VOazmOYPlus9+w/lYIElX6VjrzUVjkzMMaPxF2mBwRf1Pkj
-	 heZT1BgNiKJC+nxFnV95XFWXH0lN7pcH7Ih+o2XMcb7WGpmAJrwuaLGJuK/jvtqkpf
-	 0qUIbBtxR2VtEQnDZtHu9i+eIeudTj3+HOx/GVKlxZxkXzgAA1xSwK92EEKCuh+rKW
-	 MIygV1Llhwv6+9ErppQ127L7zuCBQgDUJt3g5G5NnzNbfeadM6I5xV1b4bGXXednJ1
-	 TUzVK2j64z+dw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6126CC98321;
-	Thu, 24 Sep 2026 14:34:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hpqQBHi9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B0B81F000FF;
+	Thu, 24 Sep 2026 14:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790260687;
+	bh=Igd0sh31gTQ6adT62fN5ERcdHIbc9JcteqykQ44kqT0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hpqQBHi9n7NvSNV0+aVkt3GTG9056w7IS+hzvR6dkpW6Rv1Z5ma4oP/fie+m1rwMN
+	 RiLcU9Rjm9rMkujrbzW9XJSNkPH1RgXuAVzmmvsB78gJ2iHpV0/AVvDX98AqG6S683
+	 S5SUxqi5WwMjBcEFIN6f+ro68sUMuqfIWWTlrE/p6RV2L/ZISxs3IIeP298IKcP01g
+	 +PTvW68tubRjI/V9KaGYFfEUjqCgMEYrfqmel49ylkIUTn+xXGzeWGHW3VCQrVO2k3
+	 RwTKErmxHBWc8diKGE7VliyYuq6CcOOveVCXSgOJfM7VEkCTP5Aull3ZOz464tEKYr
+	 6sj28G14Dhb8Q==
+Date: Thu, 24 Sep 2026 16:38:01 +0200
 From: Joel Granados <joel.granados@kernel.org>
-Date: Thu, 24 Sep 2026 16:34:10 +0200
-Subject: [PATCH RFC 2/4] sysctl: Apply sysctl context when flag is active
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Kees Cook <kees@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Serge Hallyn <serge@hallyn.com>, "Eric W . Biederman" <ebiederm@xmission.com>, 
+	LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] sysctl: add typed field descriptors
+Message-ID: <lmqp6t3br4n5di2wtxxzxr7rrf4xyzjswdii4qvppunuau6aj3@7xri3ahkpqbl>
+References: <cover.1789987960.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260924-lklm-sysctl-headerctx-template-v1-2-b25e51c66ba7@kernel.org>
-References: <20260924-lklm-sysctl-headerctx-template-v1-0-b25e51c66ba7@kernel.org>
-In-Reply-To: <20260924-lklm-sysctl-headerctx-template-v1-0-b25e51c66ba7@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- =?utf-8?q?Ondrej_Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Ryan Roberts <ryan.roberts@arm.com>, Serge Hallyn <serge@hallyn.com>, 
- "Eric W . Biederman" <ebiederm@xmission.com>, 
- Alexey Gladkov <legion@kernel.org>, 
- Joel Granados <joel.granados@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2730;
- i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=I5CKmhNtTnWeuzjiQtc94qyADu0YXow+af+CzKqUVMc=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGq1NOXd5c0dJfW3SBiNoI1dPmuYeuj9U2c8S
- tTl/ZYcVMuHiokBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqtTTlAAoJELqXzVK3
- lkFPQSwL+gMJstW2nqQmHrOX+SDossmZOHPV5GBDoHYK1RjArd8v/8QuPILsP33zPYyzPAE0gLU
- n6L5Sf5b8KIdQpthCdlmtai56LrUWNZY5pkyE56qYUYyZ7OHKX7QzKOqcLbsSonPDmJn+sgJKvR
- pLUAycJiLWnMeogMNJ1flpD9OQ7b4VAWDLM+j8BLI0S/OnKWwnogX4cNr4bG8cdkyLfHlDbMiPV
- wfcJPKIqG0tIWhFjMg3i/Q7s2Y92OxYodwOAyOCjyxgYnJjV7RTi4GAbxuDfy6AE/tZmXfrGE1c
- WTONmfzMTKjikZjVK/VgZpA0vW3PwiBc6n8eeShbWVP8rm5q38Pir9wokG0zhCbpu6aqssKu33/
- 9GDnNFtcBAi6dtJTCcuqwUn/zpOBzHHEgYJEW0NVQ7aTlq6F5FWSzeNOw92oil1FESLqPQEVeTv
- 7JpxrD9GwJr9CWUsqg6We2T9vSQFRslJZlsoKlbQ+1YVdgItxDLyE8z4+K5RHjtdGhTh7nZe7C8
- Ak=
-X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
- fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
-X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
- auth_id=239
-
-Whenever CTL_TABLE_F_CTX_DATA is set on the entry, overlay the ->data
-entry contained in inst on the entry to be passed to proc_handlers. No
-table sets the flags yet, so there is no functional change.
-
-Signed-off-by: Joel Granados <joel.granados@kernel.org>
----
- fs/proc/proc_sysctl.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
-
-diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-index fe32337892f9badc897a29e9176e66790003fb05..1ed9f4e1a17e28c5db1d07356390cbee968cb91f 100644
---- a/fs/proc/proc_sysctl.c
-+++ b/fs/proc/proc_sysctl.c
-@@ -550,12 +550,31 @@ static struct dentry *proc_sys_lookup(struct inode *dir, struct dentry *dentry,
- 	return err;
- }
- 
-+/* Returns @entry itself when it is not flagged, else a resolved copy in @buf. */
-+static const struct ctl_table *sysctl_apply_ctx(struct ctl_table_header *head,
-+						const struct ctl_table *entry,
-+						struct ctl_table *buf)
-+{
-+	ptrdiff_t off;
-+
-+	if (!(entry->flags & CTL_TABLE_F_CTX_DATA))
-+		return entry;
-+
-+	off = (const char *)entry->data - (const char *)head->ctx.tmpl;
-+
-+	*buf = *entry;
-+	buf->data = (char *)head->ctx.inst + off;
-+
-+	return buf;
-+}
-+
- static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
- 		int write)
- {
- 	struct inode *inode = file_inode(iocb->ki_filp);
- 	struct ctl_table_header *head = grab_header(inode);
- 	const struct ctl_table *table = PROC_I(inode)->sysctl_entry;
-+	struct ctl_table ctx_entry;
- 	size_t count = iov_iter_count(iter);
- 	char *kbuf;
- 	ssize_t error;
-@@ -567,6 +586,8 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
- 	 * At this point we know that the sysctl was not unregistered
- 	 * and won't be until we finish.
- 	 */
-+	table = sysctl_apply_ctx(head, table, &ctx_entry);
-+
- 	error = -EPERM;
- 	if (sysctl_perm(head, table, write ? MAY_WRITE : MAY_READ))
- 		goto out;
-@@ -797,6 +818,7 @@ static int proc_sys_permission(struct mnt_idmap *idmap,
- 	 */
- 	struct ctl_table_header *head;
- 	const struct ctl_table *table;
-+	struct ctl_table ctx_entry;
- 	int error;
- 
- 	/* Executable files are not allowed under /proc/sys/ */
-@@ -810,8 +832,11 @@ static int proc_sys_permission(struct mnt_idmap *idmap,
- 	table = PROC_I(inode)->sysctl_entry;
- 	if (!table) /* global root - r-xr-xr-x */
- 		error = mask & MAY_WRITE ? -EACCES : 0;
--	else /* Use the permissions on the sysctl table entry */
-+	else {
-+		/* ->permissions may inspect the entry, so resolve it first. */
-+		table = sysctl_apply_ctx(head, table, &ctx_entry);
- 		error = sysctl_perm(head, table, mask & ~MAY_NOT_BLOCK);
-+	}
- 
- 	sysctl_head_finish(head);
- 	return error;
-
--- 
-2.50.1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zdag5vmjkefxwjm7"
+Content-Disposition: inline
+In-Reply-To: <cover.1789987960.git.legion@kernel.org>
 
 
+--zdag5vmjkefxwjm7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Sep 21, 2026 at 12:54:47PM +0200, Alexey Gladkov wrote:
+> Hi,
+>=20
+> Some sysctl users allocate a private copy of an otherwise static ctl_table
+> for every namespace or device, then rewrite data and limit pointers before
+> registration.  Besides the per-instance allocation, these fixups are often
+> addressed by table index, so changing the table can silently associate an
+> entry with the wrong data or limits.
+>=20
+> This series adds struct sysctl_field as an alternative descriptor for such
+> tables.  A field records the value type and an offset into an object
+> selected at registration time.  The type-specific offset helpers are small
+> wrappers around offsetof() and only add a compile-time check of the
+> referenced member type.  The sysctl core derives the handler, size, data
+> and limits, and builds a temporary ctl_table when invoking existing
+> handler, permission and BPF interfaces.
+>=20
+> A struct sysctl_context identifies the object shared by the whole
+> registration and is copied into the table header.  Subsystems which need
+> more than a namespace can embed it as the first member of a larger context
+> and select the object to which field offsets apply.
+>=20
+> Existing ctl_table users are unchanged, and subsystems can migrate one
+> table at a time.  Converted tables remain static and read-only instead of
+> being copied and patched for every instance.
+>=20
+> Compared with the previous RFC [1], this drops the per-field accessor
+> functions and the macros which generated them.  The first two patches
+> prepare the sysctl core without changing its external behaviour.  The thi=
+rd
+> patch adds the new descriptor, followed by conversions of the IPC, mqueue
+> and ucount tables as small users of the interface.
+>=20
+> This is only the first part of the conversion.  Network sysctls and the
+> other subsystem-specific users will be submitted as separate follow-up
+> series so they can be reviewed by their respective maintainers without
+> making this initial series excessively large.
+>=20
+> [1] https://lore.kernel.org/all/cover.1787770053.git.legion@kernel.org/
+>=20
+> Alexey Gladkov (6):
+>   proc: sysctl: address table entries by index
+>   sysctl: add unsigned int limit constants
+>   sysctl: add typed field descriptors
+>   sysctl: ipc: use typed fields for IPC namespace sysctls
+>   sysctl: mq: use typed fields for IPC namespace sysctls
+>   sysctl: use typed fields for ucount limits
+>=20
+>  fs/proc/inode.c        |   2 +-
+>  fs/proc/internal.h     |   2 +-
+>  fs/proc/proc_sysctl.c  | 601 ++++++++++++++++++++++++++++++-----------
+>  include/linux/sysctl.h | 150 +++++++++-
+>  ipc/ipc_sysctl.c       | 188 ++++++-------
+>  ipc/mq_sysctl.c        | 104 +++----
+>  kernel/sysctl.c        |   3 +
+>  kernel/ucount.c        |  64 ++---
+>  8 files changed, 750 insertions(+), 364 deletions(-)
+
+I was thinking more along the lines of [1]. I understand that you have
+had 2 or 3 versions of this series and it would be great to get your
+feedback to see if I missed anything obvious
+
+Best
+
+[1] https://lore.kernel.org/all/20260924-lklm-sysctl-headerctx-template-v1-=
+0-b25e51c66ba7@kernel.org/
+
+
+--zdag5vmjkefxwjm7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmq1NcgACgkQupfNUreW
+QU8L2wwAjXcj7rJyUqJrcYM9gU9aaUTlud5MxQOpbjQXO8kD9Ql2k4RNz4ggKDjC
+mA8qAETTSteH9+JUv+fzGjAUK2/CcJtedEu5aIbA8kZYp1EAE3nBMcT2cP5ea8uP
+0ohx8UdEMhF6AWPGFD6v9XwiwO+MI7r0uQVsXVO5qwy58ow5EKTx1n4057s0HoQW
+XS4iF3JX+jrqtOlCU4vw0iE9KZBszWd+NegMoTsl+vrUOqxXrUMka4cMM2vtFSrD
+C3iZY3X+oS4l2CnLUgMpRVHJRNO2Pub+vZfcosd9RNeKU/JXdO4AewQcN/1HwlBs
+FvZ5E+CM79MEQDT7FK94Mz9BcG5ZhNrYbNTo4cYBfSnbfn+wF7fZ7kI2Cq9SFpgy
+9JysUsa84z08uxNtKKoMMkqnoPEVMy1VCn/jHeR7iuV5cQa1C3V66PhfXJDM4DH+
+ZEMbdRni8D6XvKAA0Wiz7cnzNV6SwwexeT2Kg2I7JCfJo9IjWtQDL2d+wbpYdCk4
+uwzOtXDC
+=C5b1
+-----END PGP SIGNATURE-----
+
+--zdag5vmjkefxwjm7--
