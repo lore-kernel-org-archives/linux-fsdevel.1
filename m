@@ -1,199 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E330C3BD647;
-	Thu, 24 Sep 2026 14:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95291392C4C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 14:47:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790261208; cv=none; b=fBaWCZRnLWkDHumIaTDhoefRDtkrCiQtZtrPoEgejsTqbTmmPJRJmxLf/FQIaqoYNBJ+1CPbpc1jwwWNP9yeCTMAbgdZDSHuGrgWEk3tguKemLpzOo+SCxFCCRGG6gWMhK5R3cGMXtEApQshW+C5DyDqSnShIvn927mT5mjWKr4=
+	t=1790261280; cv=none; b=HsOEqfU0e03hdpzz+P5Y89jpqLhEfNdkZQsSg4JGXR4wUMvK/IiokxSHtEybLqUTED0qG3nYQ07Pjr2nLRth6ghqh0xMZ6mrmASsLnXEsJHajkycPHDm5vmQfe5I12BK2pZRLyuisAMHIfRWTe0SyMY9OgQGWVrgcj8C2DJ/2Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790261208; c=relaxed/simple;
-	bh=50OODfIs/vV7NpIEzx75LwoTtlqUVrAfZ753hubMnaE=;
+	s=arc-20240116; t=1790261280; c=relaxed/simple;
+	bh=w+5Y+gQIKmUWfkGa1lzCBH5WbGfCDMhxWHvyf7Zqkg0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GQNcM+Bo+hfM2ZdG1pfJFnkB722jLL8xMqjbO+DEFYCBcvQ+IDr6UWxUTyYrjDp54OVhwqc8iyl7frLuc6jkr6JAMqD5OLcf6Vu2gWoilggvL3uoEUT7KigAn8j/qVlgxXqpPKcig/ESBTYYEnBw/8jsKt2KRpIhvBwN/qaA1WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSAXSEZC; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=QTR2v/dCTeMlVmn4yn6g7SovrgbPBJBHFZfNIh9ECuQG8Oo1OM/4AbSM9ttlNWvUC/FwMBQQy7yRz8PjcYjeR3S8BYeJm9CUJxYfDhjPzCa8XKRlzb62yIL3HIrqNK24xmhUZRZcjIAEle/BfGgkk+tMnCcGZMxjxM/pUJ93jgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mam8G1Fm; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSAXSEZC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A4601F000FF;
-	Thu, 24 Sep 2026 14:46:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790261205;
-	bh=qe09bvKpBTm+LEK6lbFZn9BTAaGjo5YNbSJwlWnT6to=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SSAXSEZCC1rcrDBCnVFPzgf3F8f25xxLtaTI8PXYwJ6RJHJ51bmWSVRsoEnPzWpOP
-	 1Vg36FrzxMiI+toL7DJjCLjXGJPsWr4PtMkAy1hrn14RsIY+x1NTSBux+0Bflrj+49
-	 uyLraBTYC3bk4RYF6JF62THW/g2CItz458VfhkdT2NNV8nXXVqZvKr/7J1Xh8FVCqo
-	 TCe3YOqy2ZFpTVZzzYEk779nA1KyrE4+UpR/no2us+0M/AgI2y8tVSzxqAoXhCSTbd
-	 JJTpEIHPoFFpMYfom4hEMeLVffDAHEb1vLh6z46UUlkoopq6J/6d1bjvC+/hELwks/
-	 rT8wybR7NPROg==
-Date: Thu, 24 Sep 2026 16:46:39 +0200
-From: Alexey Gladkov <legion@kernel.org>
-To: Joel Granados <joel.granados@kernel.org>
-Cc: Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <kees@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
-	Serge Hallyn <serge@hallyn.com>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] sysctl: add typed field descriptors
-Message-ID: <arU3z_CUfNL0Xezt@example.org>
-References: <cover.1789987960.git.legion@kernel.org>
- <gbiwlkkqx5ezpn2drqj5apylk7ohbcz4kkrpba6tpqnkcph7z6@5ez5wwz3jhi5>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mam8G1Fm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790261277;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oXtD/VeImw+3QxNdTouXsPRojgAQeQrARPweEV2ZWxc=;
+	b=Mam8G1Fmdjs3f/YumDDcLI/HqhcZxkJymLxXZlNdVtHy17K+vuHopxJO7/SdR3hhpA+mOI
+	RPtxlHpwX/++wjnJ4GnfpHaFnvcDZydx7v5Urj41phM6wgBRNJeO2p64EdsTWPj9UCUM51
+	5HHg4wt9LDNlAl2aCj3+8mWUIlPVWW8=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-303-DTvszu7WOfOBRa4k6hpTlw-1; Thu,
+ 24 Sep 2026 10:47:51 -0400
+X-MC-Unique: DTvszu7WOfOBRa4k6hpTlw-1
+X-Mimecast-MFC-AGG-ID: DTvszu7WOfOBRa4k6hpTlw_1790261270
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B92F196F752;
+	Thu, 24 Sep 2026 14:47:49 +0000 (UTC)
+Received: from fedora (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id B477A18005B5;
+	Thu, 24 Sep 2026 14:47:46 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu, 24 Sep 2026 16:47:49 +0200 (CEST)
+Date: Thu, 24 Sep 2026 16:47:45 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: NeilBrown <neil@brown.name>, linux-fsdevel@vger.kernel.org,
+	Jann Horn <jannh@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Xin Zhao <jackzxcui1989@163.com>, Mateusz Guzik <mjguzik@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH RFC v4 15/18] coredump: add COREDUMP_CLOSE_FILES
+Message-ID: <arU4EfGVonMKgzrb@redhat.com>
+References: <20260910-work-coredump-unlock-self-v4-0-a5c1800dc930@kernel.org>
+ <20260910-work-coredump-unlock-self-v4-15-a5c1800dc930@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cxV2zgm/6AiVs18/"
-Content-Disposition: inline
-In-Reply-To: <gbiwlkkqx5ezpn2drqj5apylk7ohbcz4kkrpba6tpqnkcph7z6@5ez5wwz3jhi5>
-
---cxV2zgm/6AiVs18/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260910-work-coredump-unlock-self-v4-15-a5c1800dc930@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Thu, Sep 24, 2026 at 03:29:28PM +0200, Joel Granados wrote:
-> On Mon, Sep 21, 2026 at 12:54:47PM +0200, Alexey Gladkov wrote:
-> > Hi,
-> >=20
-> > Some sysctl users allocate a private copy of an otherwise static ctl_ta=
-ble
-> > for every namespace or device, then rewrite data and limit pointers bef=
-ore
-> > registration.  Besides the per-instance allocation, these fixups are of=
-ten
-> > addressed by table index, so changing the table can silently associate =
-an
-> > entry with the wrong data or limits.
->=20
-> In other words the motivation is to:
->=20
-> 1. Remove the per-instance allocation thereby reducing the memory
->    footprint
-> 2. Remove the possibility of mistakenly associating one variable with a
->    different sysctl name (because of un-synced changes)
->=20
-> Only those two. Right?
+On 09/10, Christian Brauner wrote:
+>
+> Add COREDUMP_CLOSE_FILES and allow a coredump server to request that the
+> thread-group closes all files before creating the coredump.
 
-Another reason is type checking during compile time. Currently, .data,
-=2Eextra1, and .extra2 are pointers to void. The sysctl_check_table()
-attempts to validate extra fields, but this is done at runtime and
-essentially involves checking .maxlen.
+Perhaps the changelog could explain the motivation for this feature...
 
-I thought that we could not only eliminate the need for memory allocation
-but also make the parameter checks more strict.
+The patch looks correct, but let me ask some question.
 
-> >=20
-> > This series adds struct sysctl_field as an alternative descriptor for s=
-uch
-> > tables.  A field records the value type and an offset into an object
-> > selected at registration time.  The type-specific offset helpers are sm=
-all
-> > wrappers around offsetof() and only add a compile-time check of the
-> > referenced member type.  The sysctl core derives the handler, size, data
-> > and limits, and builds a temporary ctl_table when invoking existing
-> > handler, permission and BPF interfaces.
->=20
-> Building a temporary ctl_table entry just before calling the
-> proc_handler is the way to go, IMO. But do you need to adjust all those
-> members (handler, size, data and limits) always? Sometimes everything
-> stays the same except for the one ".data" member.
+> +static bool coredump_close_files(struct core_state *core_state)
+> +{
+> +	struct files_struct *files;
+> +	struct core_thread *ct;
+> +
+> +	files = alloc_files_struct();
+> +	if (!files)
+> +		return false;
+> +
+> +	for (ct = core_state->tasks; ct; ct = ct->next) {
+> +		/* Tasks without a table such as vhost workers can be skipped. */
+> +		if (!ct->task->files)
+> +			continue;
+> +		atomic_inc(&core_state->threads_remaining);
+> +		/* ct->files holds a reference until the thread switches to it. */
+> +		atomic_inc(&files->count);
+> +		/* Pairs with the acquire in coredump_task_exit(). */
+> +		smp_store_release(&ct->files, files);
+> +		wake_up_process(ct->task);
 
-The `struct ctl_table/sysctl_field` array may contain entries with
-different types and other fields. I figured it would be easier to reassign
-the values to keep things simple.
+I don't understand this smp_store_release() and smp_load_acquire() in
+coredump_task_exit().
 
-> PS: Any meat in sashiko's comments?
->     https://sashiko.dev/#/patchset/cover.1789987960.git.legion%40kernel.o=
-rg
+Both wake_up_process() and set_current_state() have the necessary barriers,
+see the comment above set_current_state(). So it seems that we can use the
+plain store/load.
 
-Hm. For some reason, sashiko has stopped sending review emails. I used to
-receive them, but now I haven't received anything. I'll check his review
-and address his comments.
+But what I really can't understand is why coredump_close_files() can't just
+do switch_files_struct() itself. It could do override_creds(ct->task->cred)
+if this is one of the reasons.
 
-By the way, I heard from Oleg Nesterov that he isn't getting any messages
-=66rom sashiko either.
+Could you explain this please?
 
-> >=20
-> > A struct sysctl_context identifies the object shared by the whole
-> > registration and is copied into the table header.  Subsystems which need
-> > more than a namespace can embed it as the first member of a larger cont=
-ext
-> > and select the object to which field offsets apply.
-> >=20
-> > Existing ctl_table users are unchanged, and subsystems can migrate one
-> > table at a time.  Converted tables remain static and read-only instead =
-of
-> > being copied and patched for every instance.
-> >=20
-> > Compared with the previous RFC [1], this drops the per-field accessor
-> > functions and the macros which generated them.  The first two patches
-> > prepare the sysctl core without changing its external behaviour.  The t=
-hird
-> > patch adds the new descriptor, followed by conversions of the IPC, mque=
-ue
-> > and ucount tables as small users of the interface.
-> >=20
-> > This is only the first part of the conversion.  Network sysctls and the
-> > other subsystem-specific users will be submitted as separate follow-up
-> > series so they can be reviewed by their respective maintainers without
-> > making this initial series excessively large.
-> >=20
-> > [1] https://lore.kernel.org/all/cover.1787770053.git.legion@kernel.org/
-> >=20
-> > Alexey Gladkov (6):
-> >   proc: sysctl: address table entries by index
-> >   sysctl: add unsigned int limit constants
-> >   sysctl: add typed field descriptors
-> >   sysctl: ipc: use typed fields for IPC namespace sysctls
-> >   sysctl: mq: use typed fields for IPC namespace sysctls
-> >   sysctl: use typed fields for ucount limits
-> >=20
-> >  fs/proc/inode.c        |   2 +-
-> >  fs/proc/internal.h     |   2 +-
-> >  fs/proc/proc_sysctl.c  | 601 ++++++++++++++++++++++++++++++-----------
-> >  include/linux/sysctl.h | 150 +++++++++-
-> >  ipc/ipc_sysctl.c       | 188 ++++++-------
-> >  ipc/mq_sysctl.c        | 104 +++----
-> >  kernel/sysctl.c        |   3 +
-> >  kernel/ucount.c        |  64 ++---
-> >  8 files changed, 750 insertions(+), 364 deletions(-)
-> >=20
-> >=20
-> > base-commit: 587858367581b9c55c3690f4e63382ad622719d4
-> > --=20
-> > 2.55.0
-> >=20
->=20
->=20
+Oleg.
 
-
-
---=20
-Rgrds, legion
-
-
---cxV2zgm/6AiVs18/
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEfyo9BymBSaB5PJpOpFq6VEz/1DQFAmq1N88ACgkQpFq6VEz/
-1DSIbw/+LaOB2NR+jkRlI34gs6VxAZjbPaVgt2DRr8ckX64Y/L/QCDdPHhxC7jKj
-BNn1G99ph4GIlmTuzGVBdCO629U/46TvWs0sKpwFeI6iHm6p6tJ+uGUrqaAaKYo8
-0z6Z+3fN3+r9hwG5REZTb2P92Fk1LhHYK7ynNhhz7Ex6XOs4p99tkJj85LgBdLkD
-Jv9up8zcDPRiTG0o3F6ZLDHi8zWAkiQmE52EcpOpqWUlbqT5yaiSfEKwecZRh/tN
-I++xwbgky2xOrxKgClvxELCtNZNURj4sdmzpHiwjbeOG3tKMlpH4/gvYKU0fxnPK
-Iz2lSSEhuV56DLQUW46Vwddpiw+ck5mak23ygPVLljREqNkWH2J9T6cMmkf9lCHw
-K9u+EAv9uQVvSfnHji9Fc6OqWIXCfNIcSkCxJFDrNjdO2lul2LAlqb2mSrmj5mmI
-SNy4Erp0n7sEjBRyOqQ0RczK02iz9oY+xuG+iMN5473B24o00+AufQyHsaskZKbt
-kFOi7w/pAp1z6pGyvnD2UQHz0KA+9j/o/kpp08lrR9hi/O5KwsGtvf4/lYt2H14S
-AHGYCUjtmAKqHjTg6Qm/AnoDXLreSv3PDuR91IP+HMVPRFIhYtlZo/V5jGe5Zbwb
-/P3uci30RPKgrWathfHCD3J7RVb7TGGFlJD34FLwsuG0ImPeDrA=
-=1CAV
------END PGP SIGNATURE-----
-
---cxV2zgm/6AiVs18/--
