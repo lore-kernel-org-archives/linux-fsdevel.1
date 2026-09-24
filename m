@@ -1,179 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B990F49E5CD;
-	Thu, 24 Sep 2026 15:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78B03B71A7
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 15:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790262511; cv=none; b=eVOLkGl1qjz4STM44dpp7xOMIgNUlssoprFqrY3u6BuWog7VGztnhIxn4bzddaBrgghrb8Dk9It3SSG3s1OkHkL1pYCIgZGthHPWsvf1JDLk0ItbwK6Am9Lh4iq7QrEsFnghhEY4k1M7QFAaicoKIiuv7sp8AcjtJlUKUgl/x/w=
+	t=1790262843; cv=none; b=Xq6H3LKm5SK+Lk26rPxC72Rz6XVYGh/r7+4fhiLXfeV9Mn3GZ7RAYuVzjCVgFHfUy2WnLyfOmT/bE9neIKXmqWz7EQooRUixPLFXiA0eBk7KnhTGY8L5v11kK+qhNq/fhqq0BpVfTqPn3Bv4ww2saisoK4B9QmOWy9LIAHtn6AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790262511; c=relaxed/simple;
-	bh=13b2c0czPchSP1BbHgUKgSUynjX5KXsZu3QTKbD/MLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=arPP6lkhhym5hJYy1AzPgTOU7hjlGV2lvMGwKy/wuwvWHKJFlzCC4sVRNuo/VhhNMZT2E2OstNE4WHRuRq7IaaIJkUBdhgb94dgLcSmMIbe8mni9CwizvFSPSGwgNpu/xUPzf76BBulTF321VR+7eXJBSedAF0OlcR9VuQ/UDI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CDz0P8h6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790262843; c=relaxed/simple;
+	bh=x1O8/O2UXdG8bgbf8ctl/AqJuBGjqEjvoL86ZZroXeU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CYG2rK4DyOWiBddQ2fD0lK8fdCEPrBfDMNK2kCQ6XFbchKEv8/zQ6gbc9vntPmJFNkAKCkbJJWoI8vT9zZyjY8p/BoxIKzfY36UcGgu6lqdyy9hQh9TYgX+7dkBzE3v1psiz5OsXXLxb8djjON9oOk3Uwr8rLcHlIQTN6hg4t0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QfJZ0q/U; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CDz0P8h6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D29311F000FF;
-	Thu, 24 Sep 2026 15:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790262502;
-	bh=b6k+QgVrfAgeSbyU3DPd7xLInrXUU16GatbLwOPP0gI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CDz0P8h6zNdH+ABkgdDcOpfkD9rq8DYMTT+vHfTa/KG2rn/vCFx0uLGJuxynpaH0M
-	 DK/dFfq1byoE2cqFxs9/oMuSQ2+RJ3Iflc3TPIAnbxOnnWI9tD4JGidvUHpMFG8qBz
-	 ULN77lIQtmbYJPgoeCQMhdT7unTXPtDJIyX9VqDM2PlAIhIYB8pM/ehodLwKCQzPe5
-	 d1YYDzGCJevtXRCLZ5nkOiuggHuaSn6EJnkP7rxZ5M+i7+B5SrDQQXV/yo70MpfbdA
-	 tUaHb1HMc9wyreHh6kvpmBr+OO39bhKEupPfGXdd+6w3S93+2Zp1HHDrpf6pTKCvEE
-	 AxUHdRODELEpw==
-Date: Thu, 24 Sep 2026 17:08:16 +0200
-From: Alexey Gladkov <legion@kernel.org>
-To: Joel Granados <joel.granados@kernel.org>
-Cc: Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <kees@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
-	Serge Hallyn <serge@hallyn.com>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] sysctl: add unsigned int limit constants
-Message-ID: <arU84H_lA0V3lwgV@example.org>
-References: <cover.1789987960.git.legion@kernel.org>
- <92b31e85fbb91af953aee911a44787142cddee3f.1789987960.git.legion@kernel.org>
- <hc3jlqepedad5jbxz5rpskjktvbjcohorybc6kbtd7wtpajqi2@zftmndyhlw7a>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QfJZ0q/U"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea50dc3so1239408a12.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 08:14:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790262841; x=1790867641; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JBJqmeamutokU7TdhNuVh/m8OPs/5xYX4kjIXATZEUk=;
+        b=QfJZ0q/UymG93ySIV7S/xeOlnNyoe9oKiJrMnz/fJO2LsMAi+PEPNfMqvD3YTRxkeS
+         ZW7zqk3sryzhVxJAL7QAY3xmZkU6cIioWbMP6BwMD3psFuJTtz3TP6OazxDqQ9EkEgR+
+         hTMkOGDzks7amNtjt9IhFnhcBbIF1zFY82G8hAxU5wKEZA9LyJqJw8DU96C4fUnvArwV
+         /+8ew6uA9DUMBdMxxzvYERCfLeidmN3JiDjqP9eouilZ1S4UXjCwpusvdb0OozSkLm2m
+         zMANra8fJrY83RvzS2Yl78v8JiDil/KadZ4LlrReyDI3fMTGMLpUv6Uz7G/Fb87ilbnY
+         GvLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790262841; x=1790867641;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JBJqmeamutokU7TdhNuVh/m8OPs/5xYX4kjIXATZEUk=;
+        b=oB8TM8/nv/4MGlXvjlvJLqSx+8XyjkB95Zxx7fqpDbbrbmHvMyu39WIbHSzVVfS2Bb
+         0OgsgQ2QmB7d55T4aUxIxtRtWSqDRjIOdq0VrtYdw2CTnbVYWXeeA2W09zxV6DCO99pG
+         xLep83L4ma40rvH2OvaPmF0uKb5s5o2YfNvKYOG1KUHkCRPlTlhxUeFkDcIW2nLIPXhI
+         OmuRSEMW2e95/dZj6JYYklPjj276RNIY2fCaGfwv9XvuM5HAvJUnA/oZqX0dSiY0fHV8
+         a6nOWpu2GpqGk0ifjvPeI1K3/TaVeAc4RElfpawaAOcxyfq4vWtXTBp1l93ap/d4oy/u
+         39Fw==
+X-Forwarded-Encrypted: i=1; AKwUvBz9WB8sJeFWvAQzRmnE6ShS6PnCWkar9d/wHIWnovlRr/iWFevxiLEgCjFfSyw9Qs30FvzJaokgCKzyLEeB@vger.kernel.org
+X-Gm-Message-State: AFuF++mLQGdEh1uP33ss3a07b6ZaW51f7xj0OsCQeCGH9HWoyQFnoYne
+	OBRFdfRr4VdQN++0FZjireoII5y62lUcPwjgalQup0cXrhFoEZn868NF
+X-Gm-Gg: AYBFou0KKUc93jeiKaE9HcChkg9plQnS7TXmVeGnLOZF6kZQt/7g8RgUmCgX7cPlvvJ
+	HH/QSLXi9y6KpcLO61Tj2mexMT0C43SvMaas8YRR2uoaLzFnnCqY4eRdXdOwsDik2daa8f6/W1T
+	w1cU058ZVc+BUIu997FY0WziDyNrxTsIOJ0eq4SUXXvPUiWt2ch2Q2/i9nG6pv9HXDR4yrt+esQ
+	C2j0oUhoxI+JKTyxec3cGhyB9TEMhbqyj0eo6Wmmj9f0HtQ0fnS8gRkFPvV3VNe5qb8UATdl7Pv
+	VQybOaJOGV/IWhWYB1bn4BCpk45EHQrLc/FLNT6kPzZcwm3g2bRCyIkXmDmoaZwYuqhKECjbXql
+	zr1i5coWmdbZjiglKIH++aGouXpJV0POck5Tj3+4Fc6kdFYMgxk3Uj7JRkqBKZJpkmv5h2T4Cga
+	tcBwBatYyHE5/Q+7B60ykol/rm0TQniTwa0aG8E+7syk89kivI5HWCWtkzgkUz5uaK0F9+Hm/Im
+	irNDC56fXFEAqxPv9rcCLThs5g+5rk+mxm+dwgjHXgXdV3BgK5WDBzdsZoyWPCoRp+UeRLQWXQe
+	z3XainjfIMyFl8JAMpvSE/rtQQ9LygKBQUebqAaCfO4gBsgJMvQGKPgPuzU=
+X-Received: by 2002:a05:6a20:9144:b0:3c4:3321:4fe9 with SMTP id adf61e73a8af0-3de0e70bbddmr2888071637.7.1790262840675;
+        Thu, 24 Sep 2026 08:14:00 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87d1dbd1e2asm3234800b3a.44.2026.09.24.08.13.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 08:14:00 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: jack@suse.cz
+Cc: benquike@gmail.com,
+	brauner@kernel.org,
+	viro@zeniv.linux.org.uk,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] isofs: reject short directory records in isofs_read_level3_size()
+Date: Thu, 24 Sep 2026 23:13:55 +0800
+Message-ID: <20260924151356.3287733-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <w3rnunloyshklgq4ocr4jsullzhaey6u7odstfoyhd4usbfppo@m33jyem5jgrf>
+References: <20260919222553.3792320-1-benquike@gmail.com> <20260923175215.1577791-1-matthias.goergens@gmail.com> <w3rnunloyshklgq4ocr4jsullzhaey6u7odstfoyhd4usbfppo@m33jyem5jgrf>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="udzds+e0skOy/lsr"
-Content-Disposition: inline
-In-Reply-To: <hc3jlqepedad5jbxz5rpskjktvbjcohorybc6kbtd7wtpajqi2@zftmndyhlw7a>
+Content-Transfer-Encoding: 8bit
 
---udzds+e0skOy/lsr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Honza,
 
-On Thu, Sep 24, 2026 at 03:29:35PM +0200, Joel Granados wrote:
-> On Mon, Sep 21, 2026 at 12:54:49PM +0200, Alexey Gladkov wrote:
-> > Some sysctl handlers use unsigned int storage for their limit arguments.
-> > In particular, proc_dou8vec_minmax() expects extra1 and extra2 to point
-> > to unsigned int values even though the controlled data is an u8.
->=20
-> This one reads like a fix as opposed to part of your series. Is it
-> strictly needed for what you are proposing here?
+On Thu 24-09-26 17:03:50, Jan Kara wrote:
+> Based on the standard empty directory blocks are not allowed (there must be
+> at least one directory record in each directory block). So I'd perhaps just
+> add checks to refuse them. Then the limit on the number of sections of inode
+> description already present in isofs_read_level3_size() will naturally take
+> care of the rest.
 
-Yeah, it turned out a bit wonky. Sorry.
+That's simpler, thanks.
 
-What I was trying to say is that we don't have shared constants for
-`unsigned int`. It doesn't matter right now since the size is the same,
-but if we check the type at compile time, then it becomes important.
+Hui, would you like to do that?  If not, I'll send it in a few days.
+Either way, I'll first check a set of real images for empty directory
+blocks, so we know the check doesn't reject discs that mount today.
 
-> >=20
-> > Provide shared unsigned int constants so typed sysctl descriptors can
-> > pass correctly typed min and max pointers without casting the existing
-> > int constants.
-> >=20
-> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> > ---
-> >  include/linux/sysctl.h | 7 +++++++
-> >  kernel/sysctl.c        | 3 +++
-> >  2 files changed, 10 insertions(+)
-> >=20
-> > diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
-> > index e5d7226ab6f5..7139a4c72736 100644
-> > --- a/include/linux/sysctl.h
-> > +++ b/include/linux/sysctl.h
-> > @@ -59,6 +59,12 @@ extern const int sysctl_vals[];
-> >  #define SYSCTL_LONG_ONE		((void *)&sysctl_long_vals[1])
-> >  #define SYSCTL_LONG_MAX		((void *)&sysctl_long_vals[2])
-> > =20
-> > +#define SYSCTL_UINT_ZERO	((unsigned int *)&sysctl_uint_vals[0])
-> > +#define SYSCTL_UINT_ONE		((unsigned int *)&sysctl_uint_vals[1])
-> > +#define SYSCTL_UINT_TWO		((unsigned int *)&sysctl_uint_vals[2])
-> > +#define SYSCTL_UINT_THREE	((unsigned int *)&sysctl_uint_vals[3])
-> > +#define SYSCTL_UINT_FOUR	((unsigned int *)&sysctl_uint_vals[4])
->=20
-> I would really like to avoid that. Its one of the things that should
-> probably go away in the future [1], [2], [3], [4]
->=20
-> [1] https://lore.kernel.org/all/875xyczpzm.fsf@email.froward.int.ebiederm=
-=2Eorg/
-> [2] https://lore.kernel.org/all/tencent_C5E6023F97E7CC2A046AAEA09BC9ACF43=
-907@qq.com/
-> [3] https://lore.kernel.org/all/cover.1739115369.git.wen.yang@linux.dev/
-> [4] https://lore.kernel.org/all/qnrzl4tjlgw5rzlvxavr3pt7fhkslnm4dd62q7uqz=
-b3mfoa2jg@fuayx77rfcs6/
-
-I don't mind removing them and using constants in the relevant source
-files. I added these constants because they are used in the net subsystem.
-
-As example:
-
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/net/mptcp/ctrl.c#n294
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/ipc/ipc_sysctl.c#n110
-
->=20
-> > +
-> >  /*
-> >   *
-> >   * "dir" originates from read_iter (dir =3D 0) or write_iter (dir =3D =
-1)
-> > @@ -73,6 +79,7 @@ extern const int sysctl_vals[];
-> >  #define SYSCTL_KERN_TO_USER(dir) (!dir)
-> > =20
-> >  extern const unsigned long sysctl_long_vals[];
-> > +extern const unsigned int sysctl_uint_vals[];
-> > =20
-> >  typedef int proc_handler(const struct ctl_table *ctl, int dir, void *b=
-uf,
-> >  			 size_t *lenp, loff_t *ppos);
-> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> > index f7b75985d542..54edaa2fd5d5 100644
-> > --- a/kernel/sysctl.c
-> > +++ b/kernel/sysctl.c
-> > @@ -29,6 +29,9 @@ EXPORT_SYMBOL(sysctl_vals);
-> >  const unsigned long sysctl_long_vals[] =3D { 0, 1, LONG_MAX };
-> >  EXPORT_SYMBOL_GPL(sysctl_long_vals);
-> > =20
-> > +const unsigned int sysctl_uint_vals[] =3D { 0, 1, 2, 3, 4 };
-> > +EXPORT_SYMBOL_GPL(sysctl_uint_vals);
-> > +
-> >  #if defined(CONFIG_SYSCTL)
-> > =20
-> >  /* Constants used for minimum and maximum */
-> > --=20
-> > 2.55.0
-> >=20
-
-
-
---=20
-Rgrds, legion
-
-
---udzds+e0skOy/lsr
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEfyo9BymBSaB5PJpOpFq6VEz/1DQFAmq1POAACgkQpFq6VEz/
-1DShOA/+PWmFF3vI+9dk+i9PsGSlpiWHec37hYeC/GR3vF5OuyZ9bUpU0AWtmqUy
-LRvZ7kPLzwSIx8aEx8wo7L0oL595wvb1dLZRJNBcc3Xh83FMLUHTF1FcJQzSMAwp
-x72wSX8yxLrMRpFtlBeBLcf1E0PAsZx6NSHT6GIQz31JfBxeXQ0c68T7XpRPC3X6
-do69q8KkqF9s1XRICWXf3ouPwEC22F9xSjvqk3D4dveI3PnYCmT13D6DjGKya/3o
-Ajyp0L2ZXksrIX1zZcjjXMdxqLyHKt7i8Vh63xm2va9/C7g0oG1yaDr5MsR2F/uE
-JIPP1aBC/hZe5x3r1nW4/VXkltMvHqtFoSpzVVJkamhP6eiOecH9eKmmKQFZWXAq
-6q0aJUUYpyxfyKAZlR45vTd8x5ccl78Hkp2vZmdKuxBPLCECFdfI84yCaf52AakR
-wHmDyQIwqr79y47ZsNLc3WODUmU2g7SOLJBxWy+o9mn36qtTNVQeCXr8Nra7toSm
-uPOqXsO3wy1T75Avmy8V0p35Wd5xb3clVPh5njDsALU1m5VHs9cPLMjS1NJiFu6C
-49LQ+dDmNkpd3O8rDCpHu0dMNNb0rCAJ5X7Z+VjfN5KAj576yO6nDryxl1TYs0ay
-3A3mLOyU9LIa3EC7TelkTgs9TDnwVfa4dREddx1Iqf/X5ysGsgI=
-=Ql97
------END PGP SIGNATURE-----
-
---udzds+e0skOy/lsr--
+Thanks,
+Matthias
