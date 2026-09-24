@@ -1,233 +1,190 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B7835F161;
-	Thu, 24 Sep 2026 17:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2F43F788A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 17:09:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790269276; cv=none; b=QB0990op6VmrBPeFiaFh3dGbXK4KzjEFqq2rWtIU/te23do6/tr5Gp13uCtVPpEdmckcB3WkxpD0TNiA3XHfqNi6+/VFHeBYGBuLFLLl4EuNf9xcuN0GszTvT6XDSV9ZpSVPgk44Oc5Bohwy9LG0aADPCRD9UoercAdWN0Jsbxc=
+	t=1790269778; cv=none; b=jeqzcC4qR3SBJV72OlFX/QHSu2g6cHxyRmVTdUTJgk4mC7RSSOKLLntOX4Z6vS29EhTQsa67Mgp5fkb/9CjPKcMcYO7Dsv73sXWGLKl29qyxWQ+yp0Lrq46xMg+TU/Bt5hgjSlY30ZAHXbVkkiZGQJynClphCfpaptjkfWsgtdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790269276; c=relaxed/simple;
-	bh=ooJhgB38QPlK088fZ0OJWYlg3DEOC7xMjtX4/OovQ24=;
+	s=arc-20240116; t=1790269778; c=relaxed/simple;
+	bh=funxP4kwtoUaDymiI0BgVU2HZtztvhyPF2k38jdwjBg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YGHrzo9KhmpTVRXcfEUt02XIRS+5m82TaAj1pkWdd5NB7+q7CLl2lbMLofmOlN86lqtGpaRSxtJCcnnX9O8Q8RsRYOpPSzVBuC9jRYZEWjcmo2suNKTa+UG1Rw3QWJgOY7MEIXwY8ZWuaLV52AbniNGwQ9gH6/+TjhXQ4IPBPsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Dq8y8fpb; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Emnmt40d; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=q/HhEC8J; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=97b27Qav; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q1FFGG1R3u5Wb8yaCWsjc4SWRQvCNX2u+Da6mhqTvXdKDJjp5gy21Ei1NCLOZ2xbFjgOzJkghnW0ES9Hf9LSiehsy1UfmPh8nzk0dy3qvMuNL2FUhH38HK0HeJkflvEkj/DRrAqMGRwkQBgK5uK7eA1ldCAzDJAcRUUlA4hWN8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ggE9OLJD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Wkn6AaC1; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hD2O3EsD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xvr2MR4g; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Dq8y8fpb";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Emnmt40d";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="q/HhEC8J";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="97b27Qav"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ggE9OLJD";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Wkn6AaC1";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hD2O3EsD";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xvr2MR4g"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6E0EB219EA;
-	Thu, 24 Sep 2026 17:01:04 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6EF6A21D47;
+	Thu, 24 Sep 2026 17:09:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790269268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790269770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3HW0Sn2F1kXuJYxmIs4JnguZGO0MfEN0+vn7YSbBw8s=;
-	b=Dq8y8fpbrooPvDe+fz9TJxkWRhRjlf5pRPLGJS4WKxYhIlVJ2dN8/KcMt6R7JeGgFauhRP
-	XyS4YbDpvklOMpG8rj5jK+KUot27PnjG2DwZwklen4/97cYvijFmDIPvJOtZuK8F3g96OS
-	2ob2VevWbewhkc/IXnXX6RAF53xdkME=
+	bh=/tP4bFPUTEwnWsI4CSDU6qWh7SX+DL+G8nmMwGV9F3A=;
+	b=ggE9OLJDUJfuj/26sqpPat1KvuogdbzsgL3x/jin+yidxBp0HyZiktCVYcJwX2avqsy1xL
+	8ttOD5KEh/cDFtSSWUTGea4gbv3bjBtF2LbzrWfqLuYsSFmxcY6aSfOWLQwNFTbzHL0X1M
+	RDjXTuA0Bc/5p9Qgvv1GTlGk7gZicwU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790269268;
+	s=susede2_ed25519; t=1790269770;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3HW0Sn2F1kXuJYxmIs4JnguZGO0MfEN0+vn7YSbBw8s=;
-	b=Emnmt40dakyB2rhiu0JFR11bM/ncOnmEX/zGlxH3rqzHjo73rNnz+LMU2Keu5lf+EFaQHc
-	DoAA6b+rf/1IP6Ag==
+	bh=/tP4bFPUTEwnWsI4CSDU6qWh7SX+DL+G8nmMwGV9F3A=;
+	b=Wkn6AaC1odGABWmK4yEbE/yKpojIwLjfglNjgk7y1umAn55MMoRuB5x2pbn+CP+niFpfp7
+	SYiv79mwutKkESDA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=hD2O3EsD;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=xvr2MR4g
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790269264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790269766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3HW0Sn2F1kXuJYxmIs4JnguZGO0MfEN0+vn7YSbBw8s=;
-	b=q/HhEC8JNCIA11MYR3fn+365t8+fngPtf7Vgg749bUgVS/jO8xeBBzrLULpV8ZLW4a5em6
-	V6pISMWV5FiX2LDpMEueZy0pYpJ463G3oUeTfN4H/uterZw3T4AumwLJdqcfwhqefbyHfp
-	G11sXyUE4amK+3PtXO6MtgGri1hZEps=
+	bh=/tP4bFPUTEwnWsI4CSDU6qWh7SX+DL+G8nmMwGV9F3A=;
+	b=hD2O3EsDlzyUsmri+VVMGQETJBxcG7Vx/FMbkH9WqRd1ct4ce+2NoV+rGLMRe3eeMoOEYr
+	ERHuX0rbH1TPRJCj6HIAEb/t5HOHyBTt80cPpbXJPSwsq+EkIWlrSvEe087z6gWJQoaezo
+	+FHDTH50D9Z7OUsOubLpNC9K29sh9is=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790269264;
+	s=susede2_ed25519; t=1790269766;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3HW0Sn2F1kXuJYxmIs4JnguZGO0MfEN0+vn7YSbBw8s=;
-	b=97b27Qav8QQMnK27QqURwKgt/G6MCwhXkGNTFMMbf0VtcUhP6k+M+TVV659NKMtB/Bb5MR
-	oFpbveN0+0NqVrDw==
+	bh=/tP4bFPUTEwnWsI4CSDU6qWh7SX+DL+G8nmMwGV9F3A=;
+	b=xvr2MR4gXqOuiPmDAlcKP9+oSqCGskApxAlL2tKnBTCKaAaCTb05JspYprlqDc4sBTyCYl
+	SuHJvpf6VrLx/QBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 42C7D13354;
-	Thu, 24 Sep 2026 17:01:04 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 227F513354;
+	Thu, 24 Sep 2026 17:09:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6+AvCFBXtWrXSAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 24 Sep 2026 17:01:04 +0000
+	id 4lReOkVZtWp5XwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 24 Sep 2026 17:09:26 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C8B32A132E; Thu, 24 Sep 2026 19:00:59 +0200 (CEST)
-Date: Thu, 24 Sep 2026 19:00:59 +0200
+	id 9FA76A132E; Thu, 24 Sep 2026 19:09:25 +0200 (CEST)
+Date: Thu, 24 Sep 2026 19:09:25 +0200
 From: Jan Kara <jack@suse.cz>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, 
-	Mikko Rantalainen <mikko.rantalainen@peda.net>, Matthew Wilcox <willy@infradead.org>, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	brauner@kernel.org, viro@zeniv.linux.org.uk, alx@kernel.org, dalias@libc.org
-Subject: Re: [RFC PATCH 0/1] close(): stop exposing non-retryable EINTR
-Message-ID: <e7r623alr6ksfm76hpitkybqkkb2wx2v6jzq2buebhyq7pzxhe@fxqy6ljywt4x>
-References: <20260913193815.2862366-1-mikko.rantalainen@peda.net>
- <aqcmz5uI7PgN5CT7@casper.infradead.org>
- <bcdb8f85-d53a-4824-8e34-8d190ec7f4b2@peda.net>
- <cf83be66-e540-4abf-b377-7e344d62a1dd@peda.net>
- <wb5ulikmcromcpolaf7icazadijmadrspctqe3ffgnm3bffdwe@t4oz5ond537b>
- <20260921101907.162d3533@pumpkin>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, Christian Brauner <brauner@kernel.org>, 
+	Christoph Hellwig <hch@infradead.org>, Mikhail Rudenko <xyzzy@yandex-team.ru>
+Subject: Re: [PATCH v2 4/5] fs: Add throttling to deferred inode reclaim
+Message-ID: <kgxyhbgbewpch7pc3auxthhbcfelq7lgi7mxazdo5wvg2ael3b@hilsbf4622sh>
+References: <20260911081309.14137-1-jack@suse.cz>
+ <20260911085142.1774803-9-jack@suse.cz>
+ <CAHc6FU6YT4EzM8VDX8V0+dhfRJtSrtWxbuwht+b8HG5yzyq7Lw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260921101907.162d3533@pumpkin>
-X-Spam-Score: -2.30
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHc6FU6YT4EzM8VDX8V0+dhfRJtSrtWxbuwht+b8HG5yzyq7Lw@mail.gmail.com>
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: 6EF6A21D47
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+	DKIM_TRACE(0.00)[suse.cz:+]
 X-Spam-Flag: NO
 
-On Mon 21-09-26 10:19:07, David Laight wrote:
-> On Mon, 21 Sep 2026 10:49:23 +0200
-> Jan Kara <jack@suse.cz> wrote:
+On Wed 23-09-26 23:24:48, Andreas Gruenbacher wrote:
+> On Fri, Sep 11, 2026 at 10:51 AM Jan Kara <jack@suse.cz> wrote:
+> > Deferring difficult inode reclaim from prune_icache_sb() to a workqueue
+> > removes the natural feedback loop of blocking tasks in direct reclaim
+> > until they make space for new allocations. This can result in the list
+> > of deferred inodes to grow beyond any bounds and possibly push the
+> > machine to a reclaim storm or OOM.
+> >
+> > Add a throttling mechanism slowing down tasks in
+> > mark_inode_reclaim_deferred() if the number of deferred inodes to
+> > reclaim for a superblock grows over limit. We measure average time it
+> > takes to reclaim inode on deferred list for a superblock and block tasks
+> > proportionally to that.
+> >
+> > Signed-off-by: Jan Kara <jack@suse.cz>
+...
+> >  void mark_inode_reclaim_deferred(struct inode *inode)
+> >  {
+> > +       bool throttle = false;
+> > +
+> >         if (inode_state_read_once(inode) & I_DEFER_RECLAIM)
+> >                 return;
+> >
+> >         spin_lock(&inode->i_lock);
+> > -       inode_state_set(inode, I_DEFER_RECLAIM);
+> > +       if (!(inode_state_read(inode) & I_DEFER_RECLAIM)) {
+> > +               inode_state_set(inode, I_DEFER_RECLAIM);
+> > +               throttle = true;
+> > +       }
+> >         spin_unlock(&inode->i_lock);
+> > +
+> > +       if (throttle)
+> > +               throttle_inode_deferred_reclaim(inode);
 > 
-> > Hi!
-> > 
-> > On Mon 14-09-26 15:40:01, Mikko Rantalainen wrote:
-> > > Mikko Rantalainen (2026-09-14 12:07 Europe/Helsinki):  
-> > > > ---
-> > > > retval = filp_flush(file, current->files);
-> > > > 
-> > > > WARN_ONCE(retval == -EINTR ||
-> > > >           retval == -ERESTARTSYS ||
-> > > >           retval == -ERESTARTNOINTR ||
-> > > >           retval == -ERESTARTNOHAND ||
-> > > >           retval == -ERESTART_RESTARTBLOCK,
-> > > >           "close: ->flush %ps returned interrupt error %d\n",
-> > > >           file->f_op->flush, retval);
-> > > > ---
-> > > > 
-> > > > That would leave the existing userspace ABI unchanged while making
-> > > > remaining offending implementations easier to find and fix.
-> > > > 
-> > > > I also considered retrying filp_flush() inside close(), but I don't
-> > > > think that can be done generically. ->flush() is not documented as
-> > > > safe to restart from the beginning after partial execution, and
-> > > > an interruptible wait could immediately encounter the same
-> > > > still-pending signal again. So fixing the interruptibility at the
-> > > > offending wait seems safer if the above invariant is indeed
-> > > > the intended one.  
-> > > 
-> > > Another thing I noticed is that there are already several paths where
-> > > the kernel calls filp_close() and intentionally ignores its return value.
-> > > 
-> > > For example, close_files() does:
-> > > 
-> > >     filp_close(file, files);
-> > > 
-> > > without checking the result. The same is true for do_close_on_exec(),
-> > > and close_range() explicitly says:
-> > > 
-> > >     Currently, errors to close a given file descriptor are ignored.
-> > > 
-> > > So I don't think a ->flush() implementation can rely on returning EINTR
-> > > and having somebody retry the interrupted operation. There are valid
-> > > close paths where nobody will ever see that return value, even when the
-> > > process itself continues running.
-> > > 
-> > > This seems to strengthen Matthew's point: if some work performed by  
-> > > ->flush() is required for correctness, that work has to tolerate these  
-> > > close paths without depending on userspace retry. Returning an
-> > > interruption result cannot be the recovery mechanism.
-> > > 
-> > > I'm therefore leaning towards treating an observable -EINTR/-ERESTART*
-> > > from ->flush() as suspicious in general, rather than just special-casing
-> > > the close(2) syscall. The fatal-signal case is harmless because the task
-> > > will not observe the result, but close-on-exec and close_range() show
-> > > that unobserved filp_close() errors are already part of normal operation
-> > > as well.
-> > > 
-> > > That also makes me think documenting the intended ->flush() contract
-> > > would be useful: if required close-time work must not depend on the
-> > > caller retrying filp_close(), that seems like an important invariant for
-> > > implementations to know.
-> > > 
-> > > What guarantees must file_operations::flush provide when its caller may
-> > > have no way to act on its return value?
-> > > 
-> > > In any case, I'm now thinking that returning EINTR for close() is a bug
-> > > when file descriptor is already freed. I think the only question is how
-> > > it should be solved. I initially thought it should just be mapped to
-> > > success. Maybe it should be logged as subsystem bug *and* mapped to
-> > > success for userspace instead?  
-> > 
-> > I agree that nobody can sanely assume returning EINTR from open(2) helps
-> > anything (or that userspace is able to do anything based on that).
+> I would expect the throttling to happen when too many inodes marked
+> I_DEFER_RECLAIM are evicted, but not here. In my use case [*], inodes
+> would only require deferred reclaim intermittently, while they have
+> outstanding revokes. Once there are no more outstanding revokes, those
+> inodes can just be evicted directly.
 > 
-> What about opens of serial ports waiting for modem signals or opens
-> of tape drives waiting for rewind, finding tape marks etc?
+> [*] https://lore.kernel.org/linux-fsdevel/CAHc6FU4Rf9-r8m8SSb=e0k0zyoFhQAdjupHMWvT6rStBshntug@mail.gmail.com/T/#t
 
-Err. Not sure how I wrote open(2) there. It should have been close(2)...
+Throttling during eviction doesn't make sense - you are punishing the wrong
+task (the one trying to free memory, not the one actually making that
+memory hard to reclaim).
 
-> > Generally any error (perhaps outside EBADF) from close(2) is at best
-> > informative telling you that something is unhealthy but userspace cannot
-> > sensibly do anything about it.
-> 
-> The program can exit with error to indicate that the output file is
-> likely to be invalid.
+Also note that the throttling kicks in only when the queue of inodes that
+we want to reclaim but worker didn't get to them yet grows above threshold.
+This means there's significant memory pressure, significant amount of
+deferred inodes, *and* workers cannot keep up. Throttling marking of inodes
+for deferred reclaim is the best thing I was able to come up with to
+eventually reduce the pressure on the cleanup workers. But I'm open to
+better ideas.
 
-Yes. That was covered by my paragraph below about "something is unhealthy"
-message.
+I understand your objection about the need for deferal being only temporary
+but let's keep that discussion to the other thread.
 
 								Honza
-
-> > OTOH this "something is unhealthy" message
-> > does carry some value for possible debugging of the issues by sysadmin so
-> > I'm not sure just ignoring the errors is the right way to go.
-> > 
-> > This raises a question: Are you actually seeing some case where you can see
-> > EINTR returned? Because IMO the best fix is to just fix the .flush method
-> > that can return EINTR to do that only in case of fatal signal and then you
-> > don't have to be doing this special-casing in VFS.
-> > 
-> > 								Honza
-> > 
-> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
