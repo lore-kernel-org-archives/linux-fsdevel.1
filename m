@@ -1,150 +1,130 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D2A391517;
-	Thu, 24 Sep 2026 11:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790250213; cv=none; b=VLe+Ega615vhdsFKsfOt8Nx7bc+i3q5YbfQKJdA5ZL6tB/rz3TuW1xB9PKHrvE85SXPu9gigw+RwuiFjI85ejjY8YprwzYh6EK1JeUIYFVsxLOmEnkS3OF/INTFjpGcUWBj3El2Y4p/pMS9t9XnusrjBehkuSv1wzDqJoMcppCY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790250213; c=relaxed/simple;
-	bh=cAwZ+ZQMBB/nL3QgioPnI88TyuDdMW1BnM09HqAisL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BWIwry6YfNfDfr14lesnDORzjaOzVT+y/98eFzdCz8eV0othIGLbb5UuMnsD5zCcozxBFad0LRacHbMcmtCXF/hM6cSlnzFuv7sxex16bofb20JiWniS2yKePPTihHD86vTO1DMfZwQBa9rzSIc1dyAL6bImBHAXPSi9EVRKjh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=C8A3n+Rv; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7F447AF43
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 12:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790251294; cv=pass; b=HDtx8LyYwFSe4qLzn3Rn+hMRfqYSA81FrwhIFjm4pWDkrpuKGl6U4+q4SjIr3WlmjysqsQnZCpdH9GlKnNrvI/ZPI8cTU+WNmTWLqXBOv95jARc6VTC6eoCP8xy7d7ANWFyGwIUapBQ20/nm7pyiwkButfV+9/msqmfkxfEuL3I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790251294; c=relaxed/simple;
+	bh=ADUClccYk206h7hPKOGkSKqz/BqS2N7kbEdhZoaJr0s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DvWPWGojrsD9ny6ldYl6538iXWhSjBnoBFSFUcDApWGAoLM4C4s97PJ1hj0uaYDsITEkxjIToxP62k0Xk2x3lScZzmwqhnyoeI3igF7mzotyuGZ1JbqbY4D30uI+a+aR/9EUnRy//zzZQrn7XNSIKaefwltzmIsBOuXV7SEsy/k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W5OkRgap; arc=pass smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="C8A3n+Rv"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68O5bpeL1179971;
-	Thu, 24 Sep 2026 11:42:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=we0jkvkUU8b/DdDap1KvhZSR7n4MtY
-	LdoWpJ1NLsn64=; b=C8A3n+RvjbHH/lOBdbUmEZvfUCvzcM0gWVtXA2O2HZUHcW
-	U68+n1cfQVxo12f6Qf9Iph2ljk/RZlIygq2O3WErlKC+ZQkR9qtbqlP6dffpGk2a
-	FvyAtASORqi0u8vrWhg4LpXV0gwVlNh8Wlmdh8sefZdevto4uKSeqobnNpiy7RFF
-	WiKqY56YsbT3Tqi90IH48KhkIaD0YTr2qyYbWx4HXZuxwDSeHNASGz+J01Rnp0XQ
-	0827fI7r+AsK68hUAeVU8w6+WBbYPtpnSq+y/TMmToBnDc5hc/ntf9V6wXH/63oI
-	4IrtPdrqkHzfL83fZXuCt9zmfPSSfuixEN5n+2aQ==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gske1r3j4-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 24 Sep 2026 11:42:41 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68OAA5Ds1555028;
-	Thu, 24 Sep 2026 11:42:40 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4gvb8jwh5e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 24 Sep 2026 11:42:40 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68OBgcaI48234956
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 24 Sep 2026 11:42:38 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5A9D620040;
-	Thu, 24 Sep 2026 11:42:38 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 71E5B2005A;
-	Thu, 24 Sep 2026 11:42:34 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.210.215])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu, 24 Sep 2026 11:42:34 +0000 (GMT)
-Date: Thu, 24 Sep 2026 17:12:31 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
-        libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
-        djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
-        yizhang089@gmail.com, chengzhihao1@huawei.com, yangerkun@huawei.com,
-        wangkefeng.wang@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v6 04/31] ext4: set EXT4_MAP_NEW flag for delayed
- allocated blocks
-Message-ID: <arUMp4UYXgPnVckT@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <20260903123543.2302999-1-yi.zhang@huaweicloud.com>
- <20260903123543.2302999-5-yi.zhang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W5OkRgap"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49ccf12bed0so41635e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 05:01:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790251290; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nOPa77ww4R+1wKDkK61+gYJzZYJB7s0qaZ/JLUEmavRzoNRMygTmUgETrU/wXGRtZN
+         lDQnkj1DAj46HX+VeQbSn2uRylfJLBF1YqvcVHobXUeuJKEqm8paYlpmPNQw/HgTmyiC
+         VBxUi2OMLWBwpSLMN4HSnnSADQT22VYAT5pPf1QTbSvioZErlbxPeIjvTcoHeoHCZfdB
+         gkn781XyPK/5yEfgPzIeLl0Kcn2MCublW8jvm/ple8YOg9eDWAcvDlw/k4hcZPaQC46p
+         rA7ymhfPqIeTC4UG3VCGobz8eiAoeAoRabV/8uhZRcZoPpbX/Uv76PVa16Ld15MlP//4
+         kImA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ADUClccYk206h7hPKOGkSKqz/BqS2N7kbEdhZoaJr0s=;
+        fh=/5cPgs9XBNZDZ7iETBBG09UaJW3wpmmT+01LRbSXyYA=;
+        b=YSLFEJeGEQZfdJDzHmtKy4Z4B/dk0tszkqL26xJg8COcprJ2kfp8FoSeu5FiQWawjg
+         oy+jQo1UTUH7ESGEZtr2yFBi9HO7/MfMbcOyC6G4hso0Iubolxjgj4OyfrcrcKZfeVHl
+         rIULnNwR/B5whzQb2juw56Vsb8z8IycdMZuC5kp5OzNOF71nLbXYlHWOyuF8qX9LrrxV
+         0yRAhnByzfhPr3IWCwWwsrQDih84UTS4EiBIJD/HudljwS/gX4XYQaBXU9l68T2HFHj9
+         V/1zD61cdctmqA1kx5KLmyjaZHVvXSJSosQ92KzJtc1LOHhqKI5L/FO6gkiBTglKuE+J
+         12gg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790251290; x=1790856090; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ADUClccYk206h7hPKOGkSKqz/BqS2N7kbEdhZoaJr0s=;
+        b=W5OkRgap3yQQo+gVYE0JiSd4ki5m8eK0DLUOU75qePH3XxnmKCytHlN1rxQmPqx0xV
+         QEHlbp113QWtyQWka9CaUg2UNuICo6u95XEDMlTSJvGg+iZorTjZZf/1fto4kStOmIxw
+         2772l5DYKQTTb200R57cmJU19rphP8ZRvIF/ddRog06dvdUQTTv410LUgAg30HW4EiLs
+         jyy+4aEbbCm0p1GEywkhD0JmLjxTGMgIE5QvZWa4a1REJf+kocjVtjqqpFGduzhf/V1N
+         sWx3QBapmGRiC32GJoscvyOOqEdgeohS3slkuSrwTaKlpbH4eFnQjKjnm30Ym6BP8UB3
+         C4vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790251290; x=1790856090;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ADUClccYk206h7hPKOGkSKqz/BqS2N7kbEdhZoaJr0s=;
+        b=JQI2aa82AG5cN+hHIAuuMWZSNOH62uLB+MM5oUdGWLoUN/b/ye5oPRpOjK4Fn3cdUc
+         5sw+9bQw5+syw5GzofbqoaqflKnoyeI0W9wl3a2dW2Ury92212dQSKRbsa1AZ+yhDQDH
+         MiwbOD2/tRGaBPDKndpz+wDd9ZTSZg19hDHVnE+8JZI41u3pJbnDzlwfylN1JDIqVV+u
+         5X7dlJrrFgIbK0ZyF1eAAxAqVfenkqDmPE49C0B0unZylbjQ7nZTe2rEBaO8mAsN8G4P
+         /smyLzKRxXMnXHAVu4R9IoRT+RivBE7kpL8MWVOAImc5p5zbT0fJe8zdl67gXeBQBX2c
+         tmWw==
+X-Forwarded-Encrypted: i=1; AKwUvBxCXf53rLvpGSLFYVtC7OzJcknwlfdpBd7aT6TgrVRB7xwN7q3v33Nrl142R7fJp8pDB1P3aEqfzqeRk19s@vger.kernel.org
+X-Gm-Message-State: AFuF++nh6plg+vyTCRtTKKT5+qwuMdYSWz2p3yo/41w1M9HZ+zmB1H96
+	gjjwZlRRgQI3rGrj24HJ0mhrKu/1O5SFa6ySiexb+fnba5HIM+VjBJX3O6qh77ZYYZFh2JFnWzI
+	PgBgHc/jA/OvX0tPJoinceHw9BIS3wcezMlVtbqgQ
+X-Gm-Gg: AYBFou2lUt7fD10skRZNczgRyGXvVweo9B8W0Q06/MKcvBONDhW2HCVsPY4TLfcoJrg
+	AbbTGJKog3TSJlNlqmkdqX12senxBeAhh1XlEwYDFidcPZWeccbAjrg6RIuBO8jOspKNAxcfcPJ
+	eEC9DcUB5Glb8cqciIUD8ItRZsCY8ys8DDwNctLXl9kloanS/tdFBHumNHPnvGhZAT+xyddZaVK
+	uTcCuS0907SVwyP5auTwFsPt71KhRzoVWMtHjFoGqx11Nk/PTix4UaL6gUI3V3NewyA2LmYdQaX
+	Z8qDlOIjVgUVycQHQRpUkaaeZkUKNRB+z2xpBV5pLFbuMr6flTTj4Zx9rCahbTAEGdm7xbfyhc+
+	zY+X1p/8=
+X-Received: by 2002:a05:600c:570f:b0:49f:e1d3:fe03 with SMTP id
+ 5b1f17b1804b1-49fe5996f16mr573675e9.3.1790251290130; Thu, 24 Sep 2026
+ 05:01:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903123543.2302999-5-yi.zhang@huaweicloud.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: u6IeIG8v7wD-fpNEEgEeHlPQIqQ62hos
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI0MDA0OCBTYWx0ZWRfX6uIoi0m5mY+2
- oZX0/IkhVbaZM0imsaS90GFS5sFQxz9CiLJGu0vs4X1Mn2LP2zTSuUoJ8fbWx1NifdJGi16Kpwb
- YxdPaId/q7UIDAa/fPCChMAftY13SIVR4tsKSDIUmOwpztgPJsdQ3iAdJljZMJkqkhexK2/dvlC
- x8h4I89fWbbROvHnP2/cs9/f6j+n9RQP4c8RDfM6IJf3zR0Tlcdvg2M9kFgW0Ra5fVPIe9nxN/s
- LYYGM1y0Ab4m1art4WCzynkkSLk6tW0wzsJ2Y8lOGmrVbvCHGAlFgC5Qk8/CunNONM0X3k1DsZl
- leIlo+RLLFbriQ+eV38LhWQ//K/mFPHHs2b+8+yQpcSX6ssJVoEA736jFFuAZ7nVMN2V7tIkBYm
- FIiVjhikVi7WRziPaWHGYfsTv0GhwuuhtFHB3DbHmKHB9Oh5c8dtN9+eJeTE/cZfjlALUQ6316Y
- X+FuK4j16vPLORbYTJQ==
-X-Authority-Analysis: v=2.4 cv=O/KsLx9W c=1 sm=1 tr=0 ts=6ab50cb1 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
- a=AiHppB-aAAAA:8 a=i0EeH86SAAAA:8 a=VnNF1IyMAAAA:8 a=7t1WT2wCRtn_2FsIMTsA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI0MDA0OCBTYWx0ZWRfX7hSXUTkMfUut
- Zhi9PhAzVN4K1QfEcF5xJfgdxb4RKYXbfQFdPin7xeHMuaHcx36JTzgFn39s2hdYNOsysPoIhbX
- uznlV9S145+Ldhas5wbtE1fRyQ6bEm0=
-X-Proofpoint-GUID: EqZRLwrqbjO5jhUOpkVHRFM8yPfFmO0H
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-24_02,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 malwarescore=0 phishscore=0 impostorscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609240048
+References: <20260909232351.1533034-1-shayba@google.com> <20260910184424.156341-1-shayba@google.com>
+In-Reply-To: <20260910184424.156341-1-shayba@google.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 24 Sep 2026 05:01:15 -0700
+X-Gm-Features: AclHuK9Au5z8ENRx2IaBAjigCgDpk1SWcfpHMs-ScW16pQ0_dNBiZHTtShRfceQ
+Message-ID: <CABdmKX0B7zVfLY9Rov37U+gOTEXYSCMUe6=xFddOrKDVneiBGA@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: Forward vfs_fadvise to backing_file in
+ passthrough mode
+To: Shai Barack <shayba@google.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Akilesh Kailash <akailash@google.com>, Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 03, 2026 at 08:35:16PM +0800, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
-> 
-> Set EXT4_MAP_NEW in ext4_da_map_blocks() to properly indicate that a
-> new delayed allocation block has been inserted, allowing callers to
-> distinguish newly created delayed extents from existing ones.
-> 
-> Currently, the buffer_head caller, ext4_da_get_block_prep(), does not
-> consume this flag. It intercepts EXT4_MAP_DELAYED and returns early, and
-> unconditionally calls set_buffer_new(bh) so EXT4_MAP_NEW is not used.
-> The flag is prepared for the iomap buffered I/O path added later.
-> 
-> Reported-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-> Link: https://lore.kernel.org/linux-ext4/cc05c17d-163e-4251-b2c9-aa3a6f9555d7@huaweicloud.com/
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> ---
->  fs/ext4/inode.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index 4fc0d331c49d..84991fe99071 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -1990,7 +1990,7 @@ static int ext4_da_map_blocks(struct inode *inode, struct ext4_map_blocks *map)
->  		}
->  	}
->  
-> -	map->m_flags |= EXT4_MAP_DELAYED;
-> +	map->m_flags |= EXT4_MAP_DELAYED | EXT4_MAP_NEW;
+On Thu, Sep 10, 2026 at 11:45=E2=80=AFAM Shai Barack <shayba@google.com> wr=
+ote:
+>
+> When an application invokes posix_fadvise(..., POSIX_FADV_DONTNEED) or
+> other fadvise advice on a FUSE passthrough file descriptor, the VFS
+> currently only executes generic_fadvise() on the upper FUSE inode
+> mapping.
+>
+> Because FUSE passthrough does not forward fadvise operations to the
+> underlying backing file, pages residing in the lower filesystem's
+> pagecache remain resident in memory.
+>
+> During media-heavy workloads (such as image thumbnail generation or
+> streaming), single-access file data accumulates in the inactive pagecache
+> of the lower filesystem. Under memory pressure, the kernel retains these
+> stale media pages and instead evicts active executable pages from
+> running processes, leading to severe direct reclaim latency spikes.
+>
+> Architecturally, Linux VFS supports filesystem-specific fadvise
+> delegation via the .fadvise hook in struct file_operations. Implement
+> fuse_file_fadvise() in fs/fuse/file.c and register it in
+> fuse_file_operations. When passthrough is active on a fuse_file,
+> fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
+> backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
+> to cleanly invalidate the physical backing filesystem pagecache.
+>
+> Signed-off-by: Shai Barack <shayba@google.com>
 
-Looks good, feel free to add:
-
-Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-
-Regards,
-ojaswin
-
->  	retval = ext4_insert_delayed_blocks(inode, map->m_lblk, map->m_len);
->  	if (!retval)
->  		map->m_seq = READ_ONCE(EXT4_I(inode)->i_es_seq);
-> -- 
-> 2.52.0
-> 
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
