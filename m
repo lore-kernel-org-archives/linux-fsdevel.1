@@ -1,60 +1,87 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95291392C4C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 14:47:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A59130E0EE;
+	Thu, 24 Sep 2026 15:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790261280; cv=none; b=HsOEqfU0e03hdpzz+P5Y89jpqLhEfNdkZQsSg4JGXR4wUMvK/IiokxSHtEybLqUTED0qG3nYQ07Pjr2nLRth6ghqh0xMZ6mrmASsLnXEsJHajkycPHDm5vmQfe5I12BK2pZRLyuisAMHIfRWTe0SyMY9OgQGWVrgcj8C2DJ/2Ds=
+	t=1790262243; cv=none; b=GSFi+EEnGSjZQZZtoeycnT4NNEugbcuVXO8SJa6R+gmGYGLlfot2CQQTGf7GJt8U9m16G15+NfSe1r/m53vFoo4KV8+Apsb+kjFQXedn1QV1kspCFsotPySmtY5g6U+0iGTGBm72pzhiR5tNIeBS4bgbUJgUR1VnpwaTSNA/42I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790261280; c=relaxed/simple;
-	bh=w+5Y+gQIKmUWfkGa1lzCBH5WbGfCDMhxWHvyf7Zqkg0=;
+	s=arc-20240116; t=1790262243; c=relaxed/simple;
+	bh=WmyQ/b+AVFTPd1WqcNsheZvWvlvM6kFEgBDJJ1uO9/E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QTR2v/dCTeMlVmn4yn6g7SovrgbPBJBHFZfNIh9ECuQG8Oo1OM/4AbSM9ttlNWvUC/FwMBQQy7yRz8PjcYjeR3S8BYeJm9CUJxYfDhjPzCa8XKRlzb62yIL3HIrqNK24xmhUZRZcjIAEle/BfGgkk+tMnCcGZMxjxM/pUJ93jgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mam8G1Fm; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=llNR05xfNB/kLg7hmzSNqWeAaVmCqE4Is+q+n8o/36f5+vZ5rbV9da6zMAynh0HnrDTJioZUW5z45/pbM1CYJWDprSIped1TKX3sQOv0s1Y8C2dK8+Fpv8Zzfg+N6T3fiwmapZm+DzSok2qyJGmBnkeQcXW3IMKaZlAGp4jHhCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hdZ6p579; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bGGQrhdA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JY4hJr0w; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PN9EcLto; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mam8G1Fm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790261277;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oXtD/VeImw+3QxNdTouXsPRojgAQeQrARPweEV2ZWxc=;
-	b=Mam8G1Fmdjs3f/YumDDcLI/HqhcZxkJymLxXZlNdVtHy17K+vuHopxJO7/SdR3hhpA+mOI
-	RPtxlHpwX/++wjnJ4GnfpHaFnvcDZydx7v5Urj41phM6wgBRNJeO2p64EdsTWPj9UCUM51
-	5HHg4wt9LDNlAl2aCj3+8mWUIlPVWW8=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-303-DTvszu7WOfOBRa4k6hpTlw-1; Thu,
- 24 Sep 2026 10:47:51 -0400
-X-MC-Unique: DTvszu7WOfOBRa4k6hpTlw-1
-X-Mimecast-MFC-AGG-ID: DTvszu7WOfOBRa4k6hpTlw_1790261270
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hdZ6p579";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bGGQrhdA";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JY4hJr0w";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PN9EcLto"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B92F196F752;
-	Thu, 24 Sep 2026 14:47:49 +0000 (UTC)
-Received: from fedora (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id B477A18005B5;
-	Thu, 24 Sep 2026 14:47:46 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu, 24 Sep 2026 16:47:49 +0200 (CEST)
-Date: Thu, 24 Sep 2026 16:47:45 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: NeilBrown <neil@brown.name>, linux-fsdevel@vger.kernel.org,
-	Jann Horn <jannh@google.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Xin Zhao <jackzxcui1989@163.com>, Mateusz Guzik <mjguzik@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH RFC v4 15/18] coredump: add COREDUMP_CLOSE_FILES
-Message-ID: <arU4EfGVonMKgzrb@redhat.com>
-References: <20260910-work-coredump-unlock-self-v4-0-a5c1800dc930@kernel.org>
- <20260910-work-coredump-unlock-self-v4-15-a5c1800dc930@kernel.org>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BCEBB21EB3;
+	Thu, 24 Sep 2026 15:03:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790262234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R8ajNCRnEhCGpEQykd0NxDczeBMsq8IF8+aOw3IKpQs=;
+	b=hdZ6p579pzuRhvknZG3X/6kejEi6XPsuyYIfvGavXLZ7E0isvSA218uTbjChW/EXwasMf4
+	DB55tar9J9KklsaX8ZvuUCLcbsuLMTs4dwMbOTaUKT4J45/TE00NW3PTAw0dIlk1LsneQW
+	C8Voj4EV5cA6jQYIpcPMeWuz9Pm0SFc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790262234;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R8ajNCRnEhCGpEQykd0NxDczeBMsq8IF8+aOw3IKpQs=;
+	b=bGGQrhdAuh9syEvndaO1ekzNb/58Umc5I+EfyCnxKfPWm1Zm9dnESUz6T8/7949XeSgNW7
+	1y3OhF+nmEj+CfCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790262230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R8ajNCRnEhCGpEQykd0NxDczeBMsq8IF8+aOw3IKpQs=;
+	b=JY4hJr0wBCndSS0dw6IiOShyfoJM7dnvUDGhiNmXd4myZ8wkf33byzLOMwX3XTZMuu7k3D
+	/m540duq4oICECJ/PTQO+NKhYrC3PFf0OCZYLl+OfdT8mgqNY6WmY7PElNp/Y3Egw9rcOH
+	+7CITC2J+dQICq4fj+hfAxTZWsNEHUM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790262230;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R8ajNCRnEhCGpEQykd0NxDczeBMsq8IF8+aOw3IKpQs=;
+	b=PN9EcLtoCnh/yCAHs+7YA0oZzorLQfNbpjRwtvEh8smOryYF0lGRg6H0sepfsTTxL2trOt
+	vw5Db+5OUgpOX9DA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93DBA136E6;
+	Thu, 24 Sep 2026 15:03:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2avsG9Y7tWqRFwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 24 Sep 2026 15:03:50 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 2807CA132E; Thu, 24 Sep 2026 17:03:50 +0200 (CEST)
+Date: Thu, 24 Sep 2026 17:03:50 +0200
+From: Jan Kara <jack@suse.cz>
+To: Matthias Goergens <matthias.goergens@gmail.com>
+Cc: Hui Peng <benquike@gmail.com>, Jan Kara <jack@suse.cz>, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] isofs: reject short directory records in
+ isofs_read_level3_size()
+Message-ID: <w3rnunloyshklgq4ocr4jsullzhaey6u7odstfoyhd4usbfppo@m33jyem5jgrf>
+References: <20260919222553.3792320-1-benquike@gmail.com>
+ <20260923175215.1577791-1-matthias.goergens@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -63,50 +90,64 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260910-work-coredump-unlock-self-v4-15-a5c1800dc930@kernel.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+In-Reply-To: <20260923175215.1577791-1-matthias.goergens@gmail.com>
+X-Spam-Level: 
+X-Spam-Score: -2.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,suse.cz,kernel.org,zeniv.linux.org.uk,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
 
-On 09/10, Christian Brauner wrote:
->
-> Add COREDUMP_CLOSE_FILES and allow a coredump server to request that the
-> thread-group closes all files before creating the coredump.
+Hi!
 
-Perhaps the changelog could explain the motivation for this feature...
+On Thu 24-09-26 01:52:15, Matthias Goergens wrote:
+> I'm sorry, I missed your patch when I sent mine for the same function a
+> few days later ("[PATCH v2] isofs: validate directory records in
+> isofs_read_level3_size()"), and Jan has since applied mine to his tree.
+> 
+> I did test yours, on mainline and on Jan's for_next, running fs/isofs in
+> a userspace harness with ASan and UBSan: it fixes the three fuzzer
+> images that made isofs_read_level3_size() read past a record, and I
+> found no change on valid multi-extent images.
 
-The patch looks correct, but let me ask some question.
+For record I think your fix was better because it used proper entry
+validation helper which catches more problems.
 
-> +static bool coredump_close_files(struct core_state *core_state)
-> +{
-> +	struct files_struct *files;
-> +	struct core_thread *ct;
-> +
-> +	files = alloc_files_struct();
-> +	if (!files)
-> +		return false;
-> +
-> +	for (ct = core_state->tasks; ct; ct = ct->next) {
-> +		/* Tasks without a table such as vhost workers can be skipped. */
-> +		if (!ct->task->files)
-> +			continue;
-> +		atomic_inc(&core_state->threads_remaining);
-> +		/* ct->files holds a reference until the thread switches to it. */
-> +		atomic_inc(&files->count);
-> +		/* Pairs with the acquire in coredump_task_exit(). */
-> +		smp_store_release(&ct->files, files);
-> +		wake_up_process(ct->task);
+> The part of yours that mine doesn't have is the limit on how many empty
+> blocks the walk skips.  Without it, a run of zero blocks is walked until
+> the end of the device.  On top of for_next that would be a small
+> follow-up, and if you'd like to send it I'm happy to test and review it.
+> If you'd rather I send it, I'll credit you with Suggested-by, or with
+> Co-developed-by followed by your Signed-off-by if you prefer.
 
-I don't understand this smp_store_release() and smp_load_acquire() in
-coredump_task_exit().
+Based on the standard empty directory blocks are not allowed (there must be
+at least one directory record in each directory block). So I'd perhaps just
+add checks to refuse them. Then the limit on the number of sections of inode
+description already present in isofs_read_level3_size() will naturally take
+care of the rest.
 
-Both wake_up_process() and set_current_state() have the necessary barriers,
-see the comment above set_current_state(). So it seems that we can use the
-plain store/load.
-
-But what I really can't understand is why coredump_close_files() can't just
-do switch_files_struct() itself. It could do override_creds(ct->task->cred)
-if this is one of the reasons.
-
-Could you explain this please?
-
-Oleg.
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
