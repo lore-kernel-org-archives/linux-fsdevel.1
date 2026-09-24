@@ -1,179 +1,271 @@
-Received: from mail-vs2-f40.google.com (mail-vs2-f40.google.com [74.125.227.40])
+Received: from mta0.migadu.com (out-105.mta0.migadu.com [91.218.175.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771F545198E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 23:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262663E7BCC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 23:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790291517; cv=none; b=h1X9q1Mx5bZ3vmMEEFAr+tuF01mw81ojsE00l7+7eOT4dLUm+joyfQKitI4FmiaJrGHmFefPP+an6algyWBd4pOV5vV/PX3ljDEUWghWRzLLlAjRpMWUfg1zpieYikZKGOif3pK3HDNTuEV87/zp23XTpf9WrJpA44lgWNy24T0=
+	t=1790291906; cv=none; b=tRUCfxCsrMoiozhODlHkP1INBjew9dccJl0eeU9sZdnOM9zL2DSfG3zBF2Sykjv23yncZaWS0VC7uuhvar2S2GvCRgwOzZrDn9xuNX0WiBN2eXYrZdg8fVp8RyKFe+QdyFLWOGevZEJeDL83aSR3vYdKf2kZ9AqxdSj4rq+wCl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790291517; c=relaxed/simple;
-	bh=jDSKrZuCbAKoy79hwfCAy5MJfDj4eTDrw34UgUf4VAw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TBqC2tGDndVMhNWlWdv4KnNKqKD+kPeaNZnWOA3Gjow7eKJofUb9L4VeByuljbd8eh3EG0Movzj6tUpLXdTQmUMMqQMbSNo7awC1vY9AvV1v/fdTzBWNKm1FmjVhssHjAuZQQafgb+FLHHt7l8GO/GbJJ/mq5oKTtVme/RSLN1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cbG9XHsH; arc=none smtp.client-ip=74.125.227.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790291906; c=relaxed/simple;
+	bh=1M33bqcpVFqHA/4mDAfYuzXof9ZeZuHj5UucIeyHLLE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bZEbFnry7xRQH+likwZ7OVt5RZd2SnWw3jxQafWJ3FjSpE2KOSC77IB2Cvdh91uH3y8mcBzSgGE9yNUlZCCYWo9ClKrIRve/HOe8pJ499CBcmLSUy5zgp8q39MICyanLutBmcz5CmTwCTrBOdzKZG1614wO9Dh459MR7ZF4c8Xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qyNsE0Su; arc=none smtp.client-ip=91.218.175.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cbG9XHsH"
-Received: by mail-vs2-f40.google.com with SMTP id ada2fe7eead31-7aa0603e450so167439137.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 16:11:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790291511; x=1790896311; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=R0MMZG5XwLo1Keu2pftSxzHNiWbVpJUyFjkoJiOXdxo=;
-        b=cbG9XHsHmO4ZFHJUCPCMAdwstNMsYCfCIB9ZgBNlw2Cce0JqIL06xpJxA13MkFW4sM
-         /b3+XwMwrPlSf0YsbL0DUI3ew6Y7jB1O1TxW9Oi5GVpY96eMcbe1Xgos73dBWRUY+ORX
-         dsQaBchxoIiZg3PJnhfG+Jqd/yDegs4kMYNtJSy2SQGxsOWC8W8KkJFRGNKGLeeZ8JuP
-         IjvcbJsujgbrpuONypoEmn4ozIyztHS3qG97I5p/uQUd/NQE8bw+EGxpr6PoWcBUOm09
-         Q+KPxkSdw1/V6LWKeMgpVat9Xj0AWaY9/rNC0ZPO3o0c4wRygJpgn+GOoS4+J+X72IhK
-         ONmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790291511; x=1790896311;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=R0MMZG5XwLo1Keu2pftSxzHNiWbVpJUyFjkoJiOXdxo=;
-        b=wiV6OYxGakHd5YKkn5OLAFiBkA0hNzMytj1WXD8CMVesmUp8Dp9GvwJZY9DaW9WZJ3
-         +qPC9rEf1UYe8Mj053Oe3Jf4SLnbDiqvv/xhq5Y5r9AiGbtQ8F6Y66QV1yLoGuqQH77j
-         nUlEWp21xgadLW4IUo3TY1lvvuHDj1UnX3JbNcpwJWP+7VpBq/OWvQLb0tLbYuMPmF3u
-         1My2pqmTn8rjsLt3lz4+8LuxpOSIE89mX3M2wikfn8Jef9bbHNqzY5LyxytIbFroXFLd
-         H/MjbgtqM5WEhEjB71+DxC4oQaZKvW9laiB4T2tEfU5CMc+jEXoQnzvd33bdYgrIu4xe
-         kKhQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzUfrLuMrWdZAqRtc7TEzlNfRZl4ctqvFYhGq/6Ey1H6ihHfOuYS9UO4ZuH+e3QE9bLFi2MiV1D7KlE7Dbe@vger.kernel.org
-X-Gm-Message-State: AFuF++kY8obUUIF5AbWLdb0JozCL4GCZyTe3ocNpPw9zp/4gKMr7Ntdp
-	LUGhUCq5ha++6Z7pmlAkdriwb1+rlfm3KM729MoBk/YwzPkXaD7Zji7X
-X-Gm-Gg: AYBFou1zxJu2AV6mWMgRVW6io4jqHcE5HEQ+yf/pfIdz/8tK1f6SYcl6ZFp5fZ8b6cp
-	OfW67kE8j76T2aeOSSR4cSlXoYclD3AdIJNsxNrdjI+QnjFAy8fHNrlaA1M923nbsp6xkA5lnNv
-	hflqQ1GsiOm6wmA7n1VHtG5Vj4J6H5EO0XWAyNPj724LZHkGwsCwbzX2Fqw1bCcBRBEa1vW/TRa
-	z4sM9D8XkP3PVN6BIlGJsXy/bffWomSFuYebbBBwD7oxXRUeUe2pqaArYQw54OBDhh5H4bqcumJ
-	mTyyAhmWmRDIkB76IyLH5DwsMZwPTw5Br8HUXUcjte/7Tl+UQcmX9buNlTvt44EXZKbgVwP/8pm
-	LfZvSk3VZ83az3xM19eUUBiCFuFQy05YQGfY8smFMBNUn7X9i0f2NARzWLMU4ShPXDlAG7ECozu
-	KZv42X1yNTnyUt45K0fGehuRyd0YW2BAGB8EEDD6g98aQHCbwFnOmdK4f3mi8olSawJMAIdCHMN
-	MZKryUbCjlJ4bydPlNCC9e895TkGU1wcEkWnQevLNeXah2CBcXMMYRLYOZsIg+TMlBJ
-X-Received: by 2002:a05:6102:290b:b0:7a1:f7d2:e82b with SMTP id ada2fe7eead31-7af1f3f4285mr2112000137.36.1790291511565;
-        Thu, 24 Sep 2026 16:11:51 -0700 (PDT)
-Received: from bazzite ([138.122.221.5])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7b1b4d9517bsm541638137.1.2026.09.24.16.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 16:11:51 -0700 (PDT)
-From: Davy Felipe <davyfelipe34@gmail.com>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Davy Felipe <davyfelipe34@gmail.com>
-Subject: [PATCH v5] hfs: handle extent B-tree write errors
-Date: Thu, 24 Sep 2026 20:10:54 -0300
-Message-ID: <20260924231054.2175660-1-davyfelipe34@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <9c9fe0c7660ff1cf4fe81bb3b2c907555d8add4e.camel@dubeyko.com>
-References: <9c9fe0c7660ff1cf4fe81bb3b2c907555d8add4e.camel@dubeyko.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qyNsE0Su"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=1M33bqcpVFqHA/4mDAfYuzXof9ZeZuHj5UucIeyHLLE=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790291901; v=1; x=1790896701;
+ b=qyNsE0Suq6acSp01rTOSryknyg7I/9SZjk6uibbLunlhQpi1uHDNCSMBxs5JIk8Y8BQhDl3k
+ UJ7VqNA6gmxrBLt7/D77hwGfMKiLladWXUxRhqTu1JPBj0875T0zBDdDB36NOWTUz8zjfEuZB4Q
+ Gb0RTGmCLTvG61ElQs1SgFdc=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 1427ee8712c01b06;
+	Thu, 24 Sep 2026 23:18:21 +0000
+X-Mizu-Trace-ID: 1427ee8712c01b06
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <6af94251-fc79-4377-b781-f9b413af1223@linux.dev>
+Date: Thu, 24 Sep 2026 16:18:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH vfs v1] bpf: Allow bpf_d_path() from filp_close_sync()
+To: bot+bpf-ci@kernel.org, brauner@kernel.org, ast@kernel.org,
+ andrii@kernel.org, daniel@iogearbox.net, eddyz87@gmail.com, memxor@gmail.com
+Cc: viro@zeniv.linux.org.uk, jack@suse.cz, neil@brown.name, jolsa@kernel.org,
+ broonie@kernel.org, linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-team@meta.com, martin.lau@kernel.org,
+ yonghong.song@linux.dev, mason@kernel.org
+References: <20260924204226.190315-1-ihor.solodrai@linux.dev>
+ <b3b4cbefd5258ad320205bc708c7864c20a16f39ffd37673fe9cbd534a1ebbca@mail.kernel.org>
+Content-Language: en-US
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <b3b4cbefd5258ad320205bc708c7864c20a16f39ffd37673fe9cbd534a1ebbca@mail.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-hfs_brec_insert() may fail while inserting a new extent record, but
-__hfs_ext_write_extent() currently ignores its return value and clears
-HFS_FLG_EXT_DIRTY and HFS_FLG_EXT_NEW as if the insertion had
-succeeded.
+On 9/24/26 2:24 PM, bot+bpf-ci@kernel.org wrote:
+>> The d_path selftest closes its descriptors with close_range() so that
+>> its fentry program on filp_close() runs. The vfs commit
+>> 46ace7e4dc4b ("fs: make close_range() synchronous") switched
+>> close_range() to filp_close_sync(), so the program still attaches but
+>> is never called:
+>>
+>>   test_d_path_basic:FAIL:close trampoline for filp_close was not called
+>>
+>> With that series, close(), close_range() and the closes on exec and
+>> exit all go through filp_close_sync(). Few paths still reach
+>> filp_close(), dup2() being one of them, so a program on filp_close()
+>> no longer sees most file closes.
+> 
+> Can the commit message clarify which exec closes it refers to? At
+> 46ace7e4dc4b, begin_new_exec() calls do_close_on_exec(), which still
+> closes O_CLOEXEC descriptors with filp_close():
+> 
+> fs/file.c:do_close_on_exec() {
+>     ...
+>     spin_unlock(&files->file_lock);
+>     filp_close(file, files);
+>     cond_resched();
+> }
+> 
+> So close-on-exec stays on filp_close() rather than moving to
+> filp_close_sync(). Only close(2), __range_close() and close_files()
+> were converted in that series. After this patch, a program moved from
+> filp_close to filp_close_sync would silently stop seeing descriptors
+> closed by exec.
+> 
+>>
+>> Allow bpf_d_path() from filp_close_sync(). It takes the same arguments
+>> as filp_close() and the program runs before the file is flushed and
+>> its last reference is dropped, so file->f_path is still valid. Keep
+>> filp_close() in the allowlist for existing programs.
+> 
+> This explains why fentry is safe, but does the reasoning hold for fexit
+> as well? The commit message says "the program runs before the file is
+> flushed and its last reference is dropped," but that applies only to
+> entry, not exit. Looking at filp_close_sync() (a546b2ef2120):
+> 
+>     retval = filp_flush(filp, id);
+>     fput_close_sync(filp);
+> 
+> fput_close_sync() calls __fput() synchronously when this is the last
+> reference. __fput() does:
+> 
+>     dput(dentry);
+>     mntput(mnt);
+>     file_free(file);
+> 
+> So by the time a fexit trampoline runs, the dentry reference is gone
+> and the struct file has gone back to filp_cache (SLAB_TYPESAFE_BY_RCU,
+> reusable immediately). For pipes and sockets (alloc_file_pseudo uses
+> d_alloc_pseudo which sets DCACHE_NORCU), dentry_free() calls __d_free()
+> directly with no RCU delay.
+> 
+>>
+>> Attach the selftest program to filp_close_sync() and keep triggering
+>> it with close_range(), since filp_close_sync() may be inlined into
+>> close().
+>>
+>> Assisted-by: LLM
+>> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+>> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+>> index 195f78db9bda..49d5ec983e72 100644
+>> --- a/kernel/trace/bpf_trace.c
+>> +++ b/kernel/trace/bpf_trace.c
+>> @@ -972,6 +972,7 @@ BTF_ID(func, vfs_fallocate)
+>>  BTF_ID(func, dentry_open)
+>>  BTF_ID(func, vfs_getattr)
+>>  BTF_ID(func, filp_close)
+>> +BTF_ID(func, filp_close_sync)
+>>  BTF_SET_END(btf_allowlist_d_path)
+> 
+> Can a fexit program on filp_close_sync() safely call bpf_d_path() on
+> file->f_path that has already been freed? bpf_d_path_allowed() only
+> checks the attach target, not the attach type:
+> 
+>     return btf_id_set_contains(&btf_allowlist_d_path,
+>                                prog->aux->attach_btf_id);
+> 
+> and check_helper_call() uses only this callback to gate the helper.
+> check_attach_target() accepts BPF_TRACE_FEXIT on any function.
+> 
+> For example: SEC("fexit/filp_close_sync") prog calls
+> bpf_d_path(&file->f_path, buf, sz). close_range() on a pipe fd calls
+> __range_close() -> filp_close_sync() -> fput_close_sync() -> __fput()
+> -> dput() which frees the NORCU dentry, then file_free() frees the
+> file. Then the trampoline runs the fexit prog -> bpf_d_path() ->
+> copy_from_kernel_nofault(&copy, path) reads the freed file ->
+> d_path(&copy) -> path->dentry->d_op->d_dname(path->dentry, ...)
+> which reads freed dentry memory and calls through a function pointer
+> loaded from it.
+> 
+> The existing filp_close entry does not have this problem: fput_close()
+> -> __fput_deferred() queues ____fput with task_work_add(TWA_RESUME), so
+> __fput() runs only on return to user space, after fexit. filp_close_sync
+> is the first allowlist entry that drops the last reference to its own
+> argument.
+> 
+> Would it work to allow bpf_d_path from filp_close_sync only when
+> prog->expected_attach_type == BPF_TRACE_FENTRY?
 
-Propagate errors returned by hfs_brec_insert() and only clear the
-extent flags after a successful insertion.
+Both claude and codex refuse to build a reproducer for this because they
+"take extra care with some cybersecurity requests".
 
-When updating an existing extent record, hfs_bnode_write() returns
-void. Validate the extent write parameters before calling it so an
-invalid update is reported as -EIO instead of being treated as
-successful.
+But the issue appears to be real, and bot's suggestion should work
+(pasting a diff at the bottom).
 
-Use a reusable B-tree node range helper that takes the find data and
-the expected record size. The helper validates the bnode and tree
-pointers, entry offset and entry length, and ensures that the write
-range fits within the node.
+Christian, could you please confirm that allowing filp_close_sync on
+fentry, but not on fexit makes sense? Should I respin with that?
 
-Negative-path testing in QEMU confirmed that an insertion error is
-propagated to the caller. Testing the existing-record path also
-confirmed that invalid write parameters are rejected before
-HFS_FLG_EXT_DIRTY is cleared.
+If anyone has ideas for alternative solutions to this bug or original
+issue, I'd be happy to try that as well.
 
-Signed-off-by: Davy Felipe <davyfelipe34@gmail.com>
-Thanks for the feedback. I updated the helper to take struct
-hfs_find_data and the expected entry size so the bnode/tree,
-entry offset and entry length validation stay in one place.
+As it stands, many BPF programs attaching to filp_close will probably
+get broken with 46ace7e4dc4b ("fs: make close_range() synchronous")
+reaching the mainline.
 
-Changes in v5:
-- Pass struct hfs_find_data to hfs_bnode_is_valid_range().
-- Validate the bnode and tree pointers in the helper.
-- Pass the expected entry size and validate fd->entrylength there.
-- Simplify the extent write path to a single validation helper call.
+Thanks!
 
----
- fs/hfs/btree.h  | 19 +++++++++++++++++++
- fs/hfs/extent.c | 10 ++++++++--
- 2 files changed, 27 insertions(+), 2 deletions(-)
 
-diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
-index b4c3f2a31471..ab7a7c65a126 100644
---- a/fs/hfs/btree.h
-+++ b/fs/hfs/btree.h
-@@ -84,6 +84,25 @@ struct hfs_find_data {
- 	int entryoffset, entrylength;
- };
+diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+index 49d5ec983e72..42dc01756f8a 100644
+--- a/kernel/trace/bpf_trace.c
++++ b/kernel/trace/bpf_trace.c
+@@ -972,9 +972,12 @@ BTF_ID(func, vfs_fallocate)
+ BTF_ID(func, dentry_open)
+ BTF_ID(func, vfs_getattr)
+ BTF_ID(func, filp_close)
+-BTF_ID(func, filp_close_sync)
+ BTF_SET_END(btf_allowlist_d_path)
  
-+static inline bool hfs_bnode_is_valid_range(struct hfs_find_data *fd, int expected_len)
-+{
-+	struct hfs_bnode *node;
++BTF_SET_START(btf_allowlist_d_path_fentry)
++BTF_ID(func, filp_close_sync)
++BTF_SET_END(btf_allowlist_d_path_fentry)
 +
-+	if (!fd)
-+		return false;
-+
-+	node = fd->bnode;
-+	if (!node || !node->tree)
-+		return false;
-+
-+	if (expected_len <= 0 || fd->entryoffset < 0 ||
-+	    fd->entrylength != expected_len)
-+		return false;
-+
-+	return (u64)fd->entryoffset + fd->entrylength <=
-+	       node->tree->node_size;
-+}
-+
+ static bool bpf_d_path_allowed(const struct bpf_prog *prog)
+ {
+        if (prog->type == BPF_PROG_TYPE_TRACING &&
+@@ -984,8 +987,16 @@ static bool bpf_d_path_allowed(const struct bpf_prog *prog)
+        if (prog->type == BPF_PROG_TYPE_LSM)
+                return bpf_lsm_is_sleepable_hook(prog->aux->attach_btf_id);
  
- /* btree.c */
- extern struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id,
-diff --git a/fs/hfs/extent.c b/fs/hfs/extent.c
-index f066a99a863b..4d65943d1117 100644
---- a/fs/hfs/extent.c
-+++ b/fs/hfs/extent.c
-@@ -121,12 +121,18 @@ static int __hfs_ext_write_extent(struct inode *inode, struct hfs_find_data *fd)
- 		res = hfs_bmap_reserve(fd->tree, fd->tree->depth + 1);
- 		if (res)
- 			return res;
--		hfs_brec_insert(fd, HFS_I(inode)->cached_extents, sizeof(hfs_extent_rec));
-+		res = hfs_brec_insert(fd, HFS_I(inode)->cached_extents,
-+				      sizeof(hfs_extent_rec));
-+		if (res)
-+			return res;
- 		HFS_I(inode)->flags &= ~(HFS_FLG_EXT_DIRTY|HFS_FLG_EXT_NEW);
- 	} else {
- 		if (res)
- 			return res;
--		hfs_bnode_write(fd->bnode, HFS_I(inode)->cached_extents, fd->entryoffset, fd->entrylength);
-+		if (!hfs_bnode_is_valid_range(fd, sizeof(hfs_extent_rec)))
-+			return -EIO;
-+		hfs_bnode_write(fd->bnode, HFS_I(inode)->cached_extents,
-+				fd->entryoffset, fd->entrylength);
- 		HFS_I(inode)->flags &= ~HFS_FLG_EXT_DIRTY;
- 	}
- 	return 0;
--- 
-2.55.0
+-       return btf_id_set_contains(&btf_allowlist_d_path,
+-                                  prog->aux->attach_btf_id);
++       if (btf_id_set_contains(&btf_allowlist_d_path,
++                               prog->aux->attach_btf_id))
++               return true;
++
++       if (btf_id_set_contains(&btf_allowlist_d_path_fentry,
++                               prog->aux->attach_btf_id))
++               return prog->expected_attach_type == BPF_TRACE_FENTRY ||
++                      prog->expected_attach_type == BPF_TRACE_FENTRY_MULTI;
++
++       return false;
+ }
+ 
+ BTF_ID_LIST_SINGLE(bpf_d_path_btf_ids, struct, path)
+
+
+> 
+>>
+>>
+>>  static bool bpf_d_path_allowed(const struct bpf_prog *prog)
+> 
+> [ ... ]
+> 
+>> diff --git a/tools/testing/selftests/bpf/prog_tests/d_path.c b/tools/testing/selftests/bpf/prog_tests/d_path.c
+>> index 1a2a2f1abf03..7665e1d28a64 100644
+>> --- a/tools/testing/selftests/bpf/prog_tests/d_path.c
+>> +++ b/tools/testing/selftests/bpf/prog_tests/d_path.c
+>> @@ -109,8 +109,9 @@ static int trigger_fstat_events(pid_t pid)
+>>  	fstat(indicatorfd, &fileStat);
+>>
+>>  out_close:
+>> -	/* sys_close no longer triggers filp_close, but we can
+>> -	 * call sys_close_range instead which still does
+>> +	/*
+>> +	 * filp_close_sync() may be inlined into close(2), so use
+>> +	 * close_range(2), which calls it directly.
+>>  	 */
+>>  	syscall_close(pipefd[0]);
+>>  	syscall_close(pipefd[1]);
+>> @@ -165,7 +166,7 @@ static void test_d_path_basic(void)
+>>
+>>  	if (CHECK(!bss->called_close,
+>>  		  "close",
+>> -		  "trampoline for filp_close was not called\n"))
+>> +		  "trampoline for filp_close_sync was not called\n"))
+>>  		goto cleanup;
+>>
+>>  	for (int i = 0; i < MAX_FILES; i++) {
+>> diff --git a/tools/testing/selftests/bpf/progs/test_d_path.c b/tools/testing/selftests/bpf/progs/test_d_path.c
+>> index 561b2f861808..edb5494a47f7 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_d_path.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_d_path.c
+>> @@ -41,7 +41,7 @@ int BPF_PROG(prog_stat, struct path *path, struct kstat *stat,
+>>  	return 0;
+>>  }
+>>
+>> -SEC("fentry/filp_close")
+>> +SEC("fentry/filp_close_sync")
+>>  int BPF_PROG(prog_close, struct file *file, void *id)
+>>  {
+>>  	pid_t pid = bpf_get_current_pid_tgid() >> 32;
+> 
+> 
+> ---
+> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+> 
+> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/36058459433
 
