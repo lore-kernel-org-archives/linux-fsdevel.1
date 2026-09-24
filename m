@@ -1,305 +1,235 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E76C3DB651
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 11:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790248381; cv=pass; b=ufyHeWWrw1ilVoS0q32BjBkpmuzCbVTljh9ihm0jjvv5R9sPRT08hji+ODkECuvv0ARYwSthvycu8if1RfLtq8dIrQPozzdmhQKcgTopVHv74DdeIVRUImOYJ3qXfoKyFBukMsRfJ0Y+/jKAuXcLmfvRxWoO+Qu4Dk4Dj+PAe/s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790248381; c=relaxed/simple;
-	bh=eJYqN4wEoL/OX9Q03eUTbGvGTyg+Jo8gjHizQ3XF3AE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z3b4x5gNouxSRUAiVU9Vp3SHjWcHm8vxHQC9TyBSEa1hnJ+o7wWZK0EZ8YBRWbYj4f7YzxWgBGC9it2uUtaPzX/nWk/0gUFdizA1HXX5dzBs0ZoNRvobTX+DfjRA5zgvQE99MQwfhx2IirnmeYG4S9bqFy3MAgY8bet4CZjruDc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UO5XdKUV; arc=pass smtp.client-ip=74.125.228.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C34478841;
+	Thu, 24 Sep 2026 11:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790249379; cv=none; b=pnFK4LQBPXNOeMCg+OptLJP34BUIU93NbfIz0tYafPgUhi8jvfiKezjn659LPu0IhOl+PkZUl6qOrUd3YLGThhSnaijRPuu7YRNHYTHzg00czQy3G+qOvoXVCKRSf/Gb2l9lju8E+5NrPYGItGdW9lsfbjCOY8S2i8XQwzUWEpE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790249379; c=relaxed/simple;
+	bh=cTQ/2eZjIQwqjadvItCkwF2c8q3BkQ/WyvLBXCtwGeE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sx2E3TBalyQYsghFI1yTbDAAtwx3eFJUcdcQozMUddBd02nZKTYMMof+JLUOrkNxm4BN4fHAz3DByEBaCamQL4dyeP9NOUoiR/ry3+nkqNSVyFRbEDKpkpVxWvYRSruPRw6i4VyAQrXtBa/BTNTWBkbzTqeLJmrEOs2vgDFEpkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=gieXQlXC; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UO5XdKUV"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a67fa7a64eso3224807a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 04:12:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790248376; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LjTuV5VqbhfW72hJOgxbJScerCWpwWYB5uFLTD4UUC2bpks5/gbV5gMFqvO/Hbx4i/
-         NnVIXCMc8P62IkiLS54PYRIcUSgUKYq8yrzEOh/0ub3BO2BQSrYoduZ4tDW2Plue8zqF
-         D0pDfONjD8AENByZaaVJpQB8kr85tNqQIoaaJ60byZxG63cQFbUAcucs8zFtPM+6LMsj
-         tiZ8OLbux1BE73p9pBp5PuMMSjJZ7cHQG2t59zkqJHsDl2hN16DPPH2+PQCeWcdofcTm
-         63URItjP2KMkScSfGSNkTjpRLmNqvDuS4rNi7szyUAqUa81yVO4ZHE72zm7rmwIGYM6H
-         cC+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BIF+DNqqKyKNEhEgpncpLAUjcdtzT9Ko8rcMz3NbVVk=;
-        fh=orAMVYExHuUIm2G0kxpX/KZBIOVJVvYBxYcOPhxqFTs=;
-        b=ADCJTumzlo0umDuXxO+ahTNOmyV3tmxohlw7B8EO6eOYH3w0dwPYPPnCP0/5iBhkPU
-         IE4L1XkQIP5+we2YL0jneMeAawzFWc2FFt933sWI711ug2u661p1a27R8C0f1DuC4ry8
-         XheeSNmmEGUmCCs1t4QxX1zw/iLBr1KmqR/Ds1zXHV4e2a1h9i+Vi/7aNStN8dchUi7q
-         ezf8MR8WMu9X1Mp69ktTtjVMHGe7vxWujuos+eX+trHFpeX8zKWEMRi4QcjKjCCc15LF
-         esIah5FoTPNvFcxZp9LH7hYQWvGlTmUJod6uXtAcJSxYn6QsbpNKF6MD0LmsEjo43Un8
-         Zq6Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790248376; x=1790853176; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BIF+DNqqKyKNEhEgpncpLAUjcdtzT9Ko8rcMz3NbVVk=;
-        b=UO5XdKUVr0Tnk1hLWi6U3CPXLr93cZu/hKzPqXOfEb9XlRA0iR/adpDePOfLdoKpvd
-         5FjwlmLvQrvCHJHg4or9JvxUYzyPNL/Sb8ina3N19bebDtjEHcwJ9zjGwVAo7aKkRYeg
-         5LjvvdEApWh+gyHuf9RPlsIA0p9I4kErydeF8UZief7e6N/lRrhKU05VI8G/DZxVQLjO
-         7dMo/uOT+lVUArZxkGK+U+g2aqzCdtgO+FJravKU2rX05b5uYT6H0/8dxVEGWexA3sYf
-         giEgTf65NfSGtsvwzw3VsVMbuPP3Enl/KJAZea0xDbpy6OQbqaD+47wmAUhOpUZCqNZR
-         EP2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790248376; x=1790853176;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BIF+DNqqKyKNEhEgpncpLAUjcdtzT9Ko8rcMz3NbVVk=;
-        b=Yp6gYE8YWcQOFtb2whPqwOWNnvZKhHegV5jQ8cj2elCmSu/LBpevDigjh2BflaW/AW
-         sX3+gkSsXTn7Bei1glxOodi14N9RM3S20xZzaiTwaMlZYtNOYnPnKJNXHYj0rTWn5NOE
-         bNNaH7k19sfz4sIJytKGrSi7sqn6MRY3x7DM7nQKD54ovLpLYmkP8A+L5UYAIS5BcQH/
-         c7gEz9mLTqYTA02aKMQZ5hYzw3znyFL0HxJruC9z1XtqxyzNjApsR1+Is1iqfXVfLx5v
-         Fk13oCJzhCFDGc2hqSjI05+DPNi1ZgXzxQ8XD9dWavh+FgFpQsViICf1dC6Q9vQxUeZQ
-         DAiQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxRnAg6EpbCiViDxK0nAEAF/c67ZGJrWEmSUvC/dS5j3uVT9iBtjICXOSKkuFKRcs4cu2Bgo2ksNnU0qiyx@vger.kernel.org
-X-Gm-Message-State: AFuF++lqMwUv5C9t/eGbm5o93/baPmxjWxHtJzxvWh/u9Vjj5XarrjJv
-	0FiOju6oVqaxRl5KtaicwjW0d/4wgM/xTBb64urPMdt9ca3G3ZLmpQsS6w1izFWm2Ap5JpKTDur
-	5W3fRhl85N04YV/PbzUDmDEkNpkoOGck=
-X-Gm-Gg: AYBFou0xTgwR4bHwpMyvUQOJoIZLBKddI2p5VlKnFs5N6RGBKA596ud1CE9zSr9RTmJ
-	HVtZdFy7GOTKKVSPwZiVAp6ZzTo4btvhTP0lXJbj9No4BdqAlT/qPtrWQgSZ8fytHsIEc6SepHd
-	aSIe1amywqvfTgsHKNVQDTYcHtcSye1FMIWeVDyq4T9To9KE1m06IUNaXWYhKFU7N561kDxRlpy
-	NUuBaCRSvS+dI+Wcc3jveTNqQ8LmSFIftekRVF19SiWCrncS7nkMaUEwgnj5bXdd6OXqYLCizsC
-	i83Tfj4uL3FNVHF2zJMDvG43GK7th+PkPli6hJ3OM4gm7PWziPh3F/XJ
-X-Received: by 2002:a05:6402:278f:b0:6aa:665:830 with SMTP id
- 4fb4d7f45d1cf-6aac8f4be3bmr1951363a12.15.1790248376170; Thu, 24 Sep 2026
- 04:12:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="gieXQlXC"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68O5bSj41372161;
+	Thu, 24 Sep 2026 11:29:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=sct5go4yjxa4anaqa
+	XcfQq/nsAbN5Wkf2EPye1AsD4k=; b=gieXQlXCEtx59XvCNg+ET0MFxLpGogH+E
+	WwTWbF7/x04irvk3FPsYg7Mi/zRCV6yKYijpkpFtpvUbSWUQGhCxMx/N1obQLrwQ
+	Kq7NvNr3IlhDmAN+yFZnmjapouCNs5igKDIA3+8SYVPL38lQvZMh5nROW9S2A6SU
+	7mr/eLbt5hfFTE5tWQQnezyHRoMxAVn6ROUmzCpJoY6f/QTvuqacLdrjfObMOHNz
+	qLr8bm8htR/MZ/hscKbGXgML+wnOJhvyXZEENgfKOOcgyeDlssbdfQLxWuCm6J32
+	aSJRPLRyUEC0ifrB7Xqisvz5YLXikf/JeB5o+vypfWs5FaZgEjtbQ==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gskdvfxyw-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 24 Sep 2026 11:29:14 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68OAGC6V212340;
+	Thu, 24 Sep 2026 11:29:13 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4gvu7e9n1x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 24 Sep 2026 11:29:13 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68OBTB5v52297992
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 24 Sep 2026 11:29:11 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 713292004B;
+	Thu, 24 Sep 2026 11:29:11 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 47C0920040;
+	Thu, 24 Sep 2026 11:29:09 +0000 (GMT)
+Received: from macbookpro.bl1-in.ibm.com (unknown [9.123.4.160])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 24 Sep 2026 11:29:09 +0000 (GMT)
+From: Disha Goel <disgoel@linux.ibm.com>
+To: miklos@szeredi.hu, amir73il@gmail.com
+Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+        shuah@kernel.org, linux-unionfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Disha Goel <disgoel@linux.ibm.com>,
+        stable@vger.kernel.org
+Subject: [PATCH 2/2] ovl: fix wrong layer paths in mountinfo for detached mount FDs
+Date: Thu, 24 Sep 2026 16:58:58 +0530
+Message-ID: <20260924112858.51392-2-disgoel@linux.ibm.com>
+X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20260924112858.51392-1-disgoel@linux.ibm.com>
+References: <20260924112858.51392-1-disgoel@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260924104831.1081137-1-caixinchen1@huawei.com> <20260924104831.1081137-4-caixinchen1@huawei.com>
-In-Reply-To: <20260924104831.1081137-4-caixinchen1@huawei.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 24 Sep 2026 13:12:44 +0200
-X-Gm-Features: AclHuK814JZB8XXMibt7ISdY9GmULY6F59LGn_JEl7Ybs7QawxIOFdTv7Ii5ZE4
-Message-ID: <CAOQ4uxhMhcxq5+crz84f8xj+Wi1bHhNqa_TecP-RvipheBR+ug@mail.gmail.com>
-Subject: Re: [PATCH RFC -next 03/12] fs: pass struct path to xattr helpers
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, 
-	dakr@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org, 
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com, hirofumi@mail.parknet.co.jp, 
-	cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com, 
-	Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, 
-	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, zohar@linux.ibm.com, 
-	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
-	stephen.smalley.work@gmail.com, omosnacek@gmail.com, casey@schaufler-ca.com, 
-	nanx95726@gmail.com, djwong@kernel.org, daniel@iogearbox.net, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	xiujianfeng@huawei.com, lujialin4@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: 3Bxw0xrIA-h95owRbQHmxzh6xn5NO73Z
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI0MDA0NiBTYWx0ZWRfX225SVgVjIrxp
+ DFNjMGv2q8OaIHhCx/VdnShJ60qJrNhS38V+qDGKNViPz/zgXeVmQSqsQwLv5F7vA5KlR9B4Psw
+ Hr0JIg+/bK9IAbUA90aWCWhoU4oeTH8=
+X-Authority-Analysis: v=2.4 cv=FLiOVOos c=1 sm=1 tr=0 ts=6ab5098a cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=RzCfie-kr_QcCd8fBx8p:22 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=7llKXxQ-FI7bIpSzk20A:9
+X-Proofpoint-GUID: uxi6LhNeVDz08Jwy3Vxefi60aVlTfDN2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI0MDA0NiBTYWx0ZWRfXwn1Cz45L8PKv
+ +rrsv8xNBY7VejdiUkiQDWXV6KdnKeBfqBG7DpR27EVeDeDTUt4VMKFcFjpPdQUry0VFlEREd7C
+ S0g+tU+wwYWkznl+JD5/CEVG6FqXnfLaqG7PBywxXUkll5mx2CObl6UPS6HENm99aRF5dBJQVi9
+ l7mJDjKdj1NR3SxTP3bnz6RKVF59FXpRbVVI/WUycBuxXtR2f9xhUkDKMbYcapbg3GcdNMfPyMz
+ Gu5P02QVEXdHcEtLPTA+rHCWfnAk4hkXYsw0RNGj4qXnzy7ykG7FuMGz67Y9HNAzKsW4tIjL266
+ zkO2zPOjOWM/NmJbzggYHyL7UmS5FFls/iLHNe4ooJ/26cHXwrziZtO3E84Kwc3waGl2CsUieA4
+ VL1rgj4beIj/2vRTOP7eGJZC5CzOMtgoi11H7FDiNNxZJLWdk+OKDI1X699N6t67tmBOZLiWgL0
+ e31S9u67iFOZDA+crmA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-24_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 phishscore=0 spamscore=0 clxscore=1011
+ suspectscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609240046
 
-On Thu, Sep 24, 2026 at 12:22=E2=80=AFPM Cai Xinchen <caixinchen1@huawei.co=
-m> wrote:
->
-> vfs_setxattr(), vfs_getxattr(), vfs_listxattr() and vfs_removexattr()
-> along with their __vfs_setxattr_locked()/__vfs_removexattr_locked()
-> counterparts and the do_setxattr()/do_getxattr()/listxattr()/
-> removexattr() syscall helpers take a struct mnt_idmap and a struct
-> dentry even though callers either already hold a struct path (or a
-> struct file) or have to pass &nop_mnt_idmap because no idmapped
-> mount is involved.  Switch them all to take a struct path instead
-> and derive the idmap and dentry from it where needed.
->
-> __vfs_setxattr_noperm(), __vfs_getxattr(), __vfs_setxattr(),
-> __vfs_removexattr() and vfs_getxattr_alloc() keep taking the idmap
-> and dentry as they are only called from contexts that operate on
-> bare dentries such as LSM internals.  The SELinux and Smack
-> inode_setsecctx implementations now pass the path they got from the
-> previous patch straight through.
->
-> The security_inode_*xattr() hooks invoked from fs/xattr.c keep
-> taking the idmap and dentry for now; they will be converted together
-> with the LSM hooks themselves in separate patches.
->
-> evm_calc_hmac_or_hash() contains a redundant xattr size sanity check
-> which calls vfs_getxattr() only to emit a debug message when the
-> kernel-side and user-space-side xattr sizes differ, without ever
-> influencing the result.  Because that function only has a dentry, the
-> call cannot be migrated to the new path-based signature; drop the
-> check and the now unused user_space_size variable instead.
->
-> Assisted-by: opencode: glm-5.3
-> Signed-off-by: Cai Xinchen <caixinchen1@huawei.com>
-> ---
->  drivers/block/zloop.c               |   4 +-
->  fs/cachefiles/xattr.c               |  32 ++++----
->  fs/ecryptfs/inode.c                 |   8 +-
->  fs/nfsd/nfs4ctl.h                   |   4 +-
->  fs/nfsd/vfs.c                       |  57 +++++++-------
->  fs/overlayfs/copy_up.c              |   4 +-
->  fs/overlayfs/overlayfs.h            |  18 +++--
->  fs/overlayfs/xattrs.c               |  13 +++-
->  fs/smb/server/smb2pdu.c             |  75 +++++++------------
->  fs/smb/server/smb_common.c          |   2 -
->  fs/smb/server/smbacl.c              |  19 +++--
->  fs/smb/server/tests/smbacl_kunit.c  |   6 +-
->  fs/smb/server/vfs.c                 | 112 ++++++++++++----------------
->  fs/smb/server/vfs.h                 |  39 ++++------
->  fs/smb/server/vfs_cache.c           |   3 +-
->  fs/xattr.c                          |  92 ++++++++++++-----------
->  include/linux/xattr.h               |  22 +++---
->  security/integrity/evm/evm_crypto.c |   8 +-
->  security/selinux/hooks.c            |   4 +-
->  security/smack/smack_lsm.c          |   4 +-
->  20 files changed, 243 insertions(+), 283 deletions(-)
->
+When overlayfs layers are passed as detached mount file descriptors
+(opened with open_tree(OPEN_TREE_CLONE)), ovl_parse_layer() uses d_path()
+to record the layer's path for display in mountinfo.
 
-[...]
+d_path() walks up the mount tree to the process's filesystem root.  For
+detached mounts this walk stops at the anonymous namespace root instead
+of the real system root, producing a short incorrect path like "/l1"
+instead of the full absolute path.
 
-> diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-> index e963701b4c87..6dc241f195a6 100644
-> --- a/fs/overlayfs/copy_up.c
-> +++ b/fs/overlayfs/copy_up.c
-> @@ -83,7 +83,7 @@ int ovl_copy_xattr(struct super_block *sb, const struct=
- path *oldpath, struct de
->         if (!old->d_inode->i_op->listxattr || !new->d_inode->i_op->listxa=
-ttr)
->                 return 0;
->
-> -       list_size =3D vfs_listxattr(old, NULL, 0);
-> +       list_size =3D vfs_listxattr(oldpath, NULL, 0);
->         if (list_size <=3D 0) {
->                 if (list_size =3D=3D -EOPNOTSUPP)
->                         return 0;
-> @@ -94,7 +94,7 @@ int ovl_copy_xattr(struct super_block *sb, const struct=
- path *oldpath, struct de
->         if (!buf)
->                 return -ENOMEM;
->
-> -       list_size =3D vfs_listxattr(old, buf, list_size);
-> +       list_size =3D vfs_listxattr(oldpath, buf, list_size);
->         if (list_size <=3D 0) {
->                 error =3D list_size;
->                 goto out;
-> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-> index d915b87c0b06..c13f6b2c915c 100644
-> --- a/fs/overlayfs/overlayfs.h
-> +++ b/fs/overlayfs/overlayfs.h
-> @@ -291,8 +291,7 @@ static inline ssize_t ovl_do_getxattr(const struct pa=
-th *path, const char *name,
->
->         WARN_ON(path->dentry->d_sb !=3D path->mnt->mnt_sb);
->
-> -       err =3D vfs_getxattr(mnt_idmap(path->mnt), path->dentry,
-> -                              name, value, size);
-> +       err =3D vfs_getxattr(path, name, value, size);
->         len =3D (value && err > 0) ? err : 0;
->
->         pr_debug("getxattr(%pd2, \"%s\", \"%*pE\", %zu, 0) =3D %i\n",
-> @@ -325,9 +324,13 @@ static inline int ovl_do_setxattr(struct ovl_fs *ofs=
-, struct dentry *dentry,
->                                   const char *name, const void *value,
->                                   size_t size, int flags)
->  {
-> +       struct path path =3D {
-> +               .mnt =3D ovl_upper_mnt(ofs),
-> +               .dentry =3D dentry,
-> +       };
-> +
->         /* Use vfs_setxattr(), not __vfs_setxattr(): it idmaps the securi=
-ty.capability rootid. */
-> -       int err =3D vfs_setxattr(ovl_upper_mnt_idmap(ofs), dentry, name,
-> -                              value, size, flags);
-> +       int err =3D vfs_setxattr(&path, name, value, size, flags);
->
->         pr_debug("setxattr(%pd2, \"%s\", \"%*pE\", %zu, %d) =3D %i\n",
->                  dentry, name, min((int)size, 48), value, size, flags, er=
-r);
-> @@ -344,7 +347,12 @@ static inline int ovl_setxattr(struct ovl_fs *ofs, s=
-truct dentry *dentry,
->  static inline int ovl_do_removexattr(struct ovl_fs *ofs, struct dentry *=
-dentry,
->                                      const char *name)
->  {
-> -       int err =3D vfs_removexattr(ovl_upper_mnt_idmap(ofs), dentry, nam=
-e);
-> +       struct path path =3D {
-> +               .mnt =3D ovl_upper_mnt(ofs),
-> +               .dentry =3D dentry,
-> +       };
-> +
-> +       int err =3D vfs_removexattr(&path, name);
->         pr_debug("removexattr(%pd2, \"%s\") =3D %i\n", dentry, name, err)=
-;
->         return err;
->  }
-> diff --git a/fs/overlayfs/xattrs.c b/fs/overlayfs/xattrs.c
-> index 5ae44b9c8790..b4658324b9f3 100644
-> --- a/fs/overlayfs/xattrs.c
-> +++ b/fs/overlayfs/xattrs.c
-> @@ -45,7 +45,7 @@ static int ovl_xattr_set(struct dentry *dentry, struct =
-inode *inode, const char
->         if (!value && !upperdentry) {
->                 ovl_path_lower(dentry, &realpath);
->                 with_ovl_creds(dentry->d_sb)
-> -                       err =3D vfs_getxattr(mnt_idmap(realpath.mnt), rea=
-ldentry, name, NULL, 0);
-> +                       err =3D vfs_getxattr(&realpath, name, NULL, 0);
->                 if (err < 0)
->                         goto out;
->         }
-> @@ -86,7 +86,7 @@ static int ovl_xattr_get(struct dentry *dentry, struct =
-inode *inode, const char
->         ovl_i_path_real(inode, &realpath);
->         /* Use vfs_getxattr(), not __vfs_getxattr(): it idmaps the securi=
-ty.capability rootid. */
->         with_ovl_creds(dentry->d_sb)
-> -               return vfs_getxattr(mnt_idmap(realpath.mnt), realpath.den=
-try, name, value, size);
-> +               return vfs_getxattr(&realpath, name, value, size);
->  }
->
->  static bool ovl_can_list(struct super_block *sb, const char *s)
-> @@ -105,15 +105,20 @@ static bool ovl_can_list(struct super_block *sb, co=
-nst char *s)
->
->  ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size)
->  {
-> -       struct dentry *realdentry =3D ovl_dentry_real(dentry);
-> +       struct path realpath;
->         struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
->         ssize_t res;
->         size_t len;
->         char *s;
->         size_t prefix_len, name_len;
->
-> +       if (ovl_dentry_upper(dentry))
-> +               ovl_path_upper(dentry, &realpath);
-> +       else
-> +               ovl_path_lower(dentry, &realpath);
-> +
+Export mnt_is_anon() from fs/namespace.c to detect detached mounts.  In
+ovl_parse_layer(), use dentry_path_raw() for detached mounts instead of
+d_path().  dentry_path_raw() walks the dentry chain independent of mount
+namespace and returns the correct fs-relative path.  The path is
+display-only; the actual layer_path used for mounting is always correct.
 
-that's ovl_path_real()
+Also fix the set_layers_via_detached_mount_fds selftest: the mountinfo
+check strings were copy-pasted from the regular (non-detached) test and
+expected absolute /tmp/ paths, causing the test to always fail.
 
-I have no technical issue with the ovl patch bits in this series.
-Anyway, I guess landlock is not going to enforce anything on the
-private mnt with ovl_creds anyway?
+Fixes: a08557d19ef4 ("ovl: specify layers via file descriptors")
+Cc: stable@vger.kernel.org
+Signed-off-by: Disha Goel <disgoel@linux.ibm.com>
+---
+ fs/namespace.c                                |  9 ++++++++
+ fs/overlayfs/params.c                         | 14 ++++++++++-
+ include/linux/mount.h                         |  1 +
+ .../overlayfs/set_layers_via_fds.c            | 23 +++++++++++--------
+ 4 files changed, 37 insertions(+), 10 deletions(-)
 
-Thanks,
-Amir.
+diff --git a/fs/namespace.c b/fs/namespace.c
+index ae5dc64f8b45..9feefa0a517d 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -363,6 +363,15 @@ bool __mnt_is_readonly(const struct vfsmount *mnt)
+ }
+ EXPORT_SYMBOL_GPL(__mnt_is_readonly);
+ 
++bool mnt_is_anon(struct vfsmount *mnt)
++{
++	struct mount *m = real_mount(mnt);
++	struct mnt_namespace *ns = READ_ONCE(m->mnt_ns);
++
++	return !IS_ERR_OR_NULL(ns) && is_anon_ns(ns);
++}
++EXPORT_SYMBOL_GPL(mnt_is_anon);
++
+ static inline void mnt_inc_writers(struct mount *mnt)
+ {
+ #ifdef CONFIG_SMP
+diff --git a/fs/overlayfs/params.c b/fs/overlayfs/params.c
+index c93fcaa45d4a..2758ff8426b7 100644
+--- a/fs/overlayfs/params.c
++++ b/fs/overlayfs/params.c
+@@ -477,7 +477,19 @@ static int ovl_parse_layer(struct fs_context *fc, struct fs_parameter *param,
+ 		layer_path = param->file->f_path;
+ 		path_get(&layer_path);
+ 
+-		layer_name = d_path(&layer_path, buf, PATH_MAX);
++		/*
++		 * For detached mounts (open_tree(OPEN_TREE_CLONE)), d_path()
++		 * resolves against the anonymous namespace root and returns a
++		 * short fs-relative path rather than a full system path.  Use
++		 * dentry_path_raw() instead, which gives the path relative to
++		 * the filesystem root regardless of mount namespace.  The name
++		 * is display-only; layer_path itself is always correct.
++		 */
++		if (mnt_is_anon(layer_path.mnt))
++			layer_name = dentry_path_raw(layer_path.dentry,
++						     buf, PATH_MAX);
++		else
++			layer_name = d_path(&layer_path, buf, PATH_MAX);
+ 		if (IS_ERR(layer_name))
+ 			return PTR_ERR(layer_name);
+ 
+diff --git a/include/linux/mount.h b/include/linux/mount.h
+index acfe7ef86a1b..51e9f228c9d1 100644
+--- a/include/linux/mount.h
++++ b/include/linux/mount.h
+@@ -78,6 +78,7 @@ extern void mnt_make_shortterm(struct vfsmount *mnt);
+ extern struct vfsmount *mnt_clone_internal(const struct path *path);
+ extern bool __mnt_is_readonly(const struct vfsmount *mnt);
+ extern bool mnt_may_suid(struct vfsmount *mnt);
++extern bool mnt_is_anon(struct vfsmount *mnt);
+ 
+ extern struct vfsmount *clone_private_mount(const struct path *path);
+ int mnt_get_write_access(struct vfsmount *mnt);
+diff --git a/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c b/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c
+index 7a293544233d..12d930fe46be 100644
+--- a/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c
++++ b/tools/testing/selftests/filesystems/overlayfs/set_layers_via_fds.c
+@@ -686,23 +686,28 @@ TEST_F(set_layers_via_fds, set_layers_via_detached_mount_fds)
+ 	while (getline(&line, &len, f_mountinfo) != -1) {
+ 		char *haystack = line;
+ 
+-		if (strstr(haystack, "workdir=/tmp/w"))
++		/*
++		 * Detached mount FDs are resolved via dentry_path_raw(),
++		 * which gives a path relative to the underlying fs root
++		 * (e.g. "/u/upper", "/l1") rather than a full system path.
++		 */
++		if (strstr(haystack, "upperdir=/u/upper"))
+ 			layers_found[0] = true;
+-		if (strstr(haystack, "upperdir=/tmp/u"))
++		if (strstr(haystack, "workdir=/u/work"))
+ 			layers_found[1] = true;
+-		if (strstr(haystack, "lowerdir+=/tmp/l1"))
++		if (strstr(haystack, "lowerdir+=/l1"))
+ 			layers_found[2] = true;
+-		if (strstr(haystack, "lowerdir+=/tmp/l2"))
++		if (strstr(haystack, "lowerdir+=/l2"))
+ 			layers_found[3] = true;
+-		if (strstr(haystack, "lowerdir+=/tmp/l3"))
++		if (strstr(haystack, "lowerdir+=/l3"))
+ 			layers_found[4] = true;
+-		if (strstr(haystack, "lowerdir+=/tmp/l4"))
++		if (strstr(haystack, "lowerdir+=/l4"))
+ 			layers_found[5] = true;
+-		if (strstr(haystack, "datadir+=/tmp/d1"))
++		if (strstr(haystack, "datadir+=/d1"))
+ 			layers_found[6] = true;
+-		if (strstr(haystack, "datadir+=/tmp/d2"))
++		if (strstr(haystack, "datadir+=/d2"))
+ 			layers_found[7] = true;
+-		if (strstr(haystack, "datadir+=/tmp/d3"))
++		if (strstr(haystack, "datadir+=/d3"))
+ 			layers_found[8] = true;
+ 	}
+ 	free(line);
+-- 
+2.45.1
+
