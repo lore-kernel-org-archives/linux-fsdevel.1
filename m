@@ -1,64 +1,64 @@
 Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584B2436361
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 07:39:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31888434987
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 07:39:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790235569; cv=none; b=JnxrJpBOFpZwuSiQlohmt7goUFmSPsA8nOs3nR4qfwZvX/tP836XY+nXBuA0NllT6WNJ7sGUMLPOTrQEnz2G121Qi8hxDOkPckDHjFbNeWNaqdKE7uAHZtwrF3/QcSklMQ/zWy9dX5IklDHX9fz8oAeQP8d7cm2I54vT23heFMM=
+	t=1790235569; cv=none; b=jF+QZD0LPy50HEQ0i+MKy8D72sR+9jURjC+x8elRb4+bAQIKGUpG/Z7nVPkRtES1S0TRB8Cv+qXQwRDIf8xuopryAa6OQkGpkLMufGTkCuISPYiTtNHejBIVa/GOOr9tPOdvJh+NPmjBPnBWuUytWcRY19XyIxQd4Ni1PZhMnoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790235569; c=relaxed/simple;
-	bh=nAZX8R7H10g5spIAmS49lDc0sQxcL0bHv+WxBJnhyPw=;
+	bh=IXQA/g2/TtuU53NTwmNM9C9/HvhvdSxLCYNOlhYyQQo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CCy38QBSDSRTEeYbPw+1aemafngeFaJALsuCPs6kgChv3JegRMx4ZleNBX0tsjLz7oGqtLLvaagLO18gPnSt+AUNFfLNhrr5dr/XfBN3z/F9wPwSn758vqaP29oOtAaTRv+NXuGT3F9xwFMUuLmACiXEETIXk+8lRzxRUs+iafg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o4nrUmRF; arc=none smtp.client-ip=74.125.228.12
+	 MIME-Version; b=BLkwz9GiUmKxCTwhk37YLTAFV2M4Dy5ILwn+Uq1obiVNeR/RBtvpmsHb0Z3jxHf/wXSypBPPYYZQ2i8ICogVCuV+b1wBzUm7gd09RS5O2QgEzifn8i7mzmJMzULMDqT0IPsBCk56sxMozhVhiuYCvhDVh6ye9HLF0HZgdNq4uYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s48Ceb5W; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o4nrUmRF"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8631d0023daso965231b3a.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s48Ceb5W"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8692a856865so790022b3a.2
         for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 00:39:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790235565; x=1790840365; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790235564; x=1790840364; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=qjRGNfMF+BIQhac//kksViQah83udRYtRSHNmn5Ukpk=;
-        b=o4nrUmRFbsq0I5CPbtnWP/dzUMZTCaRM+2rosFc9HW3P0NooEKNwtDijhWI0X80xIX
-         pgIfn3XuwhgrwFqLr75AMaMFhpjo61mLXEHG8w+cbZz1wKf2TPZh1Eu54UuKgdX+OQk6
-         71pCyotBca170zvDjJ2AWj+/i41w2Q7eGQ6OH8bSjdBfeL/VrvB+KRw0QYuGRh02NWWF
-         y/6iVE7GFS7Lc4vwZkeRBSBfI7LiMR9+/TPVzND0bSr79hBJ4mgKTZF5b7wP8BawBYl+
-         WR0gplvnLyjvQV1W1U4l+KyBdH66whhperbrCOnxT/EbncY+xFGBHo1R9kvu+N2cgbTj
-         e4uQ==
+        bh=Xs8AxoWUxhLFlNeCv96y8zKxhfgG9jkD4bCJjaoeEwo=;
+        b=s48Ceb5WjJjdaSHK23h4CqYfxo3dVqtXQc12NJfukJducfTqJgnlGR+hSAtVIxwZ2g
+         1ljXhTxmObVEx/dv/kEEKvYoXSdfY1+O5ue3/vKahh/GzfT9xKKICGVnLsmR2DSshvFe
+         pKxhhN+pNui89pw+ypXgELjtvA5oSSP523MPuvszMCvWa8D9jC2edBS8a5O53W0H+6rP
+         id4EvZfy/GjxcWgNPiebN0l8bGnX3TxC1dSrYF/VFURcbnMR9JdCoopkIoSqJgf/En2h
+         1QIyyhbalTVuKuy4NYJSRib+iWxZUmNhiOWLG2YMJ7Prm4FXOWqd/gLmHykWzlLFu9do
+         B8VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790235565; x=1790840365;
+        d=1e100.net; s=20260707; t=1790235564; x=1790840364;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qjRGNfMF+BIQhac//kksViQah83udRYtRSHNmn5Ukpk=;
-        b=M9XXcRuCTGxxK0GuvBbpGGst9DcYSK5TdAksW6r/RH6LFq4mNeuKkiy1qlAUM3rbgr
-         EzH8qRLk+p7QMgrRh8r45a2lPYn07uCI3eVigpEyJrjah4cgFL8dNv1RVtkaJdDZPw7H
-         RpY8/W5syzssmYZIz4VMt91nA6LRm37nZ0G4K/Mlnag1e6peO2WTlR1Sv9/Cqgvm9NIh
-         utMi1NmG/wgG5kP8drG35doqaaa00ZXS3THRGhiTEzPwMYbKj4AvjoS63pn+BgavDFIM
-         EUCnLrLGBV4Ux4Q/IG00AxWgIXnPAMrHvxJCWKDiE1ocAhw048eQkCSM/+TPwBh1lOqu
-         /cgA==
-X-Gm-Message-State: AFuF++llGDXK98j6+ZS64RxLjNVraSIB8GwG3YzATjTJKGLcqsbWVLYk
-	WfzG2l0eh30Ltr3m3HiQ2+8uz9qcDaIkUs+PLik7fq9bACIWGdtJl3V/
-X-Gm-Gg: AYBFou282T5Lu/viluwn/qVbs/gFMlJGGLJDqzQ9wuaW5tm1kiYbXO3FzE3hOm9RRyB
-	DBjDPKz+IXouNudVMAcZJ7w8g6mXu1k9iCtaTWxkzCZ+fFAYVNvewHC3tF7/ZD48XLQsBmtWUzU
-	7V9LFNghOR9MwdfsYznKbKuVGb1NT/A+Td7HCJNklpDW+vRWVe8FZc7t3cZTpMx6u4sss6A4r7j
-	G+3ID+qgB6hQJx97Lt1VloU2A5yVVviImroe5o91SCRba20x5+COjrQ/O6U4DgqioHoV1lwZxop
-	Ny1SuYSwuCniyhDgXTwT8hIIXPcDBZhx1cDqc+AM7uUldkTbnxeX/uLSsjF/aVP6yM8yFcBJIJQ
-	cK13WbTAYdFFLMKls6DW4q33VyBHELIM2NPNKsBEXEohgZqPudTpjb5+ref3kSrLkeW1ZE6qOKZ
-	lVUlns34Er5p4PKFSHO5dZamRy0EhKnaFKkzA8Xz2EzI1Ccu+XgmDqeQtO1cFQy0XOe6YNxA0+r
-	VMR6oyHKprXqpEmbyKB2q3VAtjk5SgSigAaOQm1OQhqERNiErQds3BkeetXdkAQ+r82Z9BLCxX4
-	QuYD3EWhvA==
-X-Received: by 2002:a05:6a00:8c02:b0:874:706d:9629 with SMTP id d2e1a72fcca58-87e9956a116mr1273156b3a.27.1790235564551;
+        bh=Xs8AxoWUxhLFlNeCv96y8zKxhfgG9jkD4bCJjaoeEwo=;
+        b=kTcO0MORhho9m5/ngcihKStYt5iPCPz8mv5PTnHzI9dByiiq/IfJFYlRfmsSX5+iOz
+         IxwJfWwRXbEkMSrkn/dT8e4XdJX5w9HL3rezeGZ+njsQ2DKMqwetDiQVIfi1v0pUgjmJ
+         ZW1lf7tdSl7oeBebGfHn/0fx/wnkuxb8xoLcLzdGu5/o/nEeGliYkC86I+1Ik49CmjKJ
+         PkwRbYWqKqjaCaYhuEaZayctLK3/mZr0Hs/eppS9xlnluWbv3dZHp/7PkpOQofGdJegE
+         Fo2hemMFxQguTxEHUQnQ4RRGwOggL3jZ6tPXGfnaM10VrpNtWTh3Z1f1AUZAv6LtIg7P
+         D30g==
+X-Gm-Message-State: AFuF++nxLTOZ2XUIKgd3497wwPAkU+cHJpy4uCBCfFQtZPCDJNl7uczv
+	y4L786FuMvAeFbiXiqYE/FrXrj+6lcaO0HRW5YzGFAdaMvLrDj7toRVT
+X-Gm-Gg: AYBFou2K5Ljy4SDS1WMT2v6HE+946QXQu3seC/Ko/v47QrpdqFkYgokqqZXd7xTWLMB
+	6DO6pEWs3C2MwYlZj/Ohfkw7soddOyM4Qpll21SEz6GG3bBP0txejg9WNvLWBWB09/g0uKu0jhr
+	l95Dd/i9WHGTnWbNoUxArayXMl0r3DhnGNre6Le6Dj+qkoYBQ2uaQYLJfZslSf1mUtkOKqStqAk
+	fa8YkKzpv6JWOmwkTjrUJY3e/Ggb8OCJDIW3eqBT5UP5C8YtUDe+B+B2YWLtR8gFerCus4XTQwH
+	paopa0dimJYbzIKRQ9c20JoE7H6TEBvqhhpAPpWXVYYET9e5XVnaHFlj4liTek95Ei6vP2taAjV
+	pMq3qYz79TS8dxPs6HX8MtbI9UrcvlbpYgHz+QwUgXdu8p3xFO03QS2rIod5e0dTiz3oFGFUOei
+	tE+mLKhlJZgk5qfD20na8I+SriO6zYbhUwzsIomSSTv3vw83kow78j3Xge4evEi2xliU8cmUfYM
+	VcX/qVtq2W892Uql2/NsJSj1FWj+MRbGD586V9exi/yRHgzaEQL9ENIGoOp2th+JLzwlk+VrqK+
+	WThSQLt8CZyMJm/gPHMz
+X-Received: by 2002:a05:6a21:3d95:b0:3de:13b3:e964 with SMTP id adf61e73a8af0-3de13b3f96cmr775896637.79.1790235564107;
         Thu, 24 Sep 2026 00:39:24 -0700 (PDT)
 Received: from phui-2.c.googlers.com.com (67.51.127.34.bc.googleusercontent.com. [34.127.51.67])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87d1dad44c6sm2393739b3a.42.2026.09.24.00.39.24
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87d1dad44c6sm2393739b3a.42.2026.09.24.00.39.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 00:39:24 -0700 (PDT)
+        Thu, 24 Sep 2026 00:39:23 -0700 (PDT)
 From: Hui Peng <benquike@gmail.com>
 To: al@alarsen.net
 Cc: linux-fsdevel@vger.kernel.org,
@@ -66,12 +66,12 @@ Cc: linux-fsdevel@vger.kernel.org,
 	stable@vger.kernel.org,
 	matthias.goergens@gmail.com,
 	Hui Peng <benquike@gmail.com>
-Subject: [PATCH v3 6/6] qnx6: validate sb_blocksize before dividing in qnx6_mmi_fill_super()
-Date: Thu, 24 Sep 2026 07:39:19 +0000
-Message-ID: <20260924073920.2782917-7-benquike@gmail.com>
+Subject: [PATCH v3 5/6] qnx6: abort mount on superblock magic mismatch when silent is set
+Date: Thu, 24 Sep 2026 07:39:18 +0000
+Message-ID: <20260924073920.2782917-6-benquike@gmail.com>
 X-Mailer: git-send-email 2.56.0.rc1.310.g51773c2048-goog
-In-Reply-To: <20260921042511.1473629-7-benquike@gmail.com>
-References: <20260921042511.1473629-1-benquike@gmail.com> <20260921042511.1473629-7-benquike@gmail.com>
+In-Reply-To: <20260921042511.1473629-6-benquike@gmail.com>
+References: <20260921042511.1473629-1-benquike@gmail.com> <20260921042511.1473629-6-benquike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -80,13 +80,13 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In qnx6_mmi_fill_super(), sb_blocksize is read from MMI superblock header
-without verifying if it is zero or non-power-of-two. A corrupted MMI
-image with sb_blocksize == 0 causes a divide-by-zero exception (#DE) in
-qnx6_mmi_fill_super().
+In qnx6_fill_super() and qnx6_mmi_fill_super(), when the superblock magic
+number check fails and silent is non-zero, the function prints no message
+but continues executing into superblock parameter processing, resulting in
+invalid memory accesses on non-qnx6 filesystem images.
 
-Validate sb_blocksize via sb_set_blocksize() and verify it is non-zero
-before performing division.
+Jump to the error cleanup label when superblock magic mismatch occurs
+regardless of the silent flag setting.
 
 Fixes: 5d026c724220 ("fs: initial qnx6fs addition")
 Cc: stable@vger.kernel.org
@@ -100,26 +100,21 @@ Changes in v3:
 - Update Fixes: tag SHA to 5d026c724220 ("fs: initial qnx6fs addition").
 
 Changes in v2:
-- Split out as patch 6/6 as requested by maintainers.
+- Split out as patch 5/6 as requested by maintainers.
 
- fs/qnx6/inode.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ fs/qnx6/inode.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/fs/qnx6/inode.c b/fs/qnx6/inode.c
-index a32066d98188..b8f9e6022e11 100644
+index 49e29a918a2d..a32066d98188 100644
 --- a/fs/qnx6/inode.c
 +++ b/fs/qnx6/inode.c
-@@ -375,6 +375,11 @@ static int qnx6_mmi_fill_super(struct super_block *s, int silent)
- 		goto out;
+@@ -328,8 +328,10 @@ static int qnx6_fill_super(struct super_block *s, void *data, int silent)
+ 	if (dfs->s_magic != cpu_to_fs32(sbi, QNX6_SUPER_MAGIC)) {
+ 		if (!silent)
+ 			pr_err("wrong signature\n");
++		brelse(sb_buf);
++		sb_buf = NULL;
+ 	} else {
+ 		sbi->s_bytesex = BYTESEX_LE;
  	}
- 
-+	if (!sb_set_blocksize(s, fs32_to_cpu(sbi, mmi_fs->sb_blocksize))) {
-+		pr_err("bad blocksize\n");
-+		goto out;
-+	}
-+
- 	return 0;
-
- out:
--- 
-2.55.0.1082.g2b9226bbc0-goog
