@@ -1,211 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f42.google.com (mail-pj2-f42.google.com [74.125.227.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAEF389111;
-	Thu, 24 Sep 2026 10:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934C241DE19
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 10:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790244426; cv=none; b=WAK3f+UPmfhIe+iFYK+N0VyDAIFIMi/8gCuxFyvfjXiahNwaOTR3bW3Pz81Fdklyd7ihKmFDoKBGRIyQj3RlXzhPL204rfWx2jnnHyPuSlFa2FXffAdWbw8COVCOGjzY9tJsgxOqJG7htr2k6L0+h9EjHJaAJ2F9rEkKbMjBL3c=
+	t=1790244721; cv=none; b=tkOk0SPnBi8anKrnMl32O4tEusgkCCdVqI4efj+KKpZi+4tHhBGxra7sQmJqJcbWt9qNMIl6rAecJ+nRfCRlVopLKmM6ZgE0EpwsNTF1XRkDEaNsJIaxhwxFceTnxxJR/JD8LilXeerbW9wfqm1JamwvpMHQt883V0FvsJWWeh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790244426; c=relaxed/simple;
-	bh=3BdFtZaQx/hN1F8B7NWjXGwFzEqYe+EiIIZXC/z69vI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dy7kV6WcyzC+RPhPDp8Z+ppMFtXxCI9seff01cMnschqi0aoK+bc0pA+Q584fgFoyW6W+vCKH7SEyDAPukkjZRkGWVfVYKES6yRzHNPfv7DbRh5eyxaDFBLCI4gMvcC0FgBZxtsy7LmassO1EE8cK1vhQaREznCKooR2knDS/Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLQwBAOG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790244721; c=relaxed/simple;
+	bh=Nc++9B0b2Rw64hQH1uTtHtl01UfhcPbPRHWlll6r3Hc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FsJCsAVcrlfNMAp+yarR03hbY7WZSWD7bYRBLxjxlmXAgg98PQ+UUhCCf8HfxjHQ4vu4NXqrzYVxVex/Hz8+p/0RkRrDiBrSX6GkyrIqW/LF4WwspNzPKKFezr/1SxKfg7NNVAH3Ed0XckVLJQYN/nTD0BucBPoVGWtpEGi49eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EnyQwCIX; arc=none smtp.client-ip=74.125.227.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLQwBAOG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2C321F00893;
-	Thu, 24 Sep 2026 10:06:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790244413;
-	bh=Tmln/mtpzj8HRD3oGhB2G+T5+fAuKHxHe9EIDa4XupE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PLQwBAOGo9zDSHvR7HKzryQ/BMyFMtzGN+nCViQmJtAxtR/cVtie3h8+uTfYAAuqI
-	 031IL8YiCRbRgN3Lu0GdOWHF3up1c5eAkeUhEPdxuJ9q/SthtjUJM4e5DTQk3971Cv
-	 +R/NIvQEe5TAium5bmdEyB/qSUVvrKQ3N2k6WtmzwCU8Hw7KqZ3HuHqonUNceqtFUI
-	 gkBAcKeGMzG5vw33mskB8GCIprFrs11XV7eTU1DX4P4aEFuLfxG1bzkZcra4RB+dUr
-	 UBz/croW/YGWjUjo9iUnRJL3m1e4m9BS//Qzg5nKK/0JyOftW1GHHLTSp3iQSWnW2G
-	 YCgs9xZC0a5iw==
-Date: Thu, 24 Sep 2026 11:06:21 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 04/40] mm: consistently validate VMA state after
- mmap[_prepare] hooks
-Message-ID: <arT1xJpWlFlRHUFY@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-4-4583d8a23bca@kernel.org>
- <DLN7FLRJGS5Y.1T8T274W2NS6L@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EnyQwCIX"
+Received: by mail-pj2-f42.google.com with SMTP id 98e67ed59e1d1-3a02902dce2so1078135a91.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 03:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790244702; x=1790849502; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5bJLApz7a6Sj13/KQXZnv/qEoqKgMiQN8Xc7a1Ahq80=;
+        b=EnyQwCIXC4PGRgH5wI0rSgFqQ9tApQapPPuRAL72HEpAC8f9Cmh+Z2wXPBTS6gY5uL
+         ds+0cmEhGzzmXvqPJ+LPhPqPXZ4kUKyOKTP1ZAdpW1JPIeIVicQShAEFuicG9R1PdMGu
+         LQKEeTUodlfg6mcsnwE3qsehyYSKUqIf/7RLWcnPkQs69lIM9gCEdZWIw4dx6EjXjKpT
+         PjSvwsr76dEvegmFa5nHC7MrywZ6poVCsKMKM5wjffl35ZHJE9D03QM6FBGm6jvIq1OE
+         Qkct/4I3nRY+a16f1QOplaAkkVOHDq5YOyfbZ1KwayGeLF5BWUDcLszRu3/899xVkGiN
+         iZ6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790244702; x=1790849502;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5bJLApz7a6Sj13/KQXZnv/qEoqKgMiQN8Xc7a1Ahq80=;
+        b=x1cEo/S2JsS38eSgBTVMWSC30R+VKtg9x/vurGZsX2iwOz57yhOh9QIa9vulw6SXfK
+         MrjqxhH6ilKqdlLNw0cdxixX9mho3pWRkpCdf6JYvTc/chntlMYkuRjCR+uAKYAwrWjV
+         nbm5n4lCYsk09q+dnrQ2ozqazr5ZFyAUuUjrESPRG3D3vVJYkhLNjXUQU9l+ujfE93gq
+         yuzvX8rv+wVYUfyjxhg52gs0gYByqjJbKo0zBCN1ok0HmPnbHbwXbj6ECJosjvVv9VW3
+         y5sNoEdzssg9aY61VBDUHuSvOWKILV5Otz0a/fLJc/iwuTSUcxTLGFQG+M8M42sr1Ki5
+         yVLg==
+X-Forwarded-Encrypted: i=1; AKwUvBxX4nsbuYw256hBCtq7u0NPU77dyIitzNizzAh/NH4UPSvtVsSwcZeNWcf93aMso3bDxNOlWLaxsivXDyak@vger.kernel.org
+X-Gm-Message-State: AFuF++l97mJ+mPN2mvrtz0G5UgrDiu2aWqnMlbEMmW6kXei0BGKxmgSZ
+	KEMSqPmNOwwFbcr7loRu0y06WCUj4IAjOgL/zg416HoxB2yCCsD6HUsQ
+X-Gm-Gg: AYBFou0jG8hd78/TzJ/s/FbSBIYL3x/gvhnqfqMv2XVTS48duv3MVXLyBLa98v8sZQG
+	WkY/9esjbu5XOL4VAiNQGB5brClcr2fdS8RoLA8SC83zv5/pCFdKIA3ocIi3pY+iR8Qc+lfjSyY
+	WWQyfmoMznGPVLngojpT6MVjlZY1uGDR5vqaykb5qfn5ewQTGDi+gs1CH0At6+Mue5r9FAxtAx2
+	WrnD/s1oUyYxINCh4h8G1qr7nHlB2qManrVcu1zDdxlYGNeD7JfhDTSCjVTcTTRNLLFXd4uLQS4
+	FW4x6kxPo0Y8tjBPmRE7Rdc7E6YWurMtd1IFFoMvV1xeGDw5K2t007MzRaIIha0Dpu49TtkI2Ul
+	6wsSUUQjtsi6lsm4iYSgEiD+L2nELAfQhhbaBBUz/KbgXtu6YAadFFmULDxXDTHv9QPK2qCqXhg
+	jgqbASrwlezijEkKZx2l1UBeobfvT1f6h1Oo0fO7SqLMr8AqscghUwp64X4rHyjQBHAxJCD7nsB
+	gWko64Y5aDfJivCQeRFdhAWAiLrEYmZnRX1nnD7QuHwq6IAq/dzdmyn6MxHsMUErieRyL1klZED
+	UxMhLDUNWdryEEKgDx6dLmr8tnIQHPnkWibnUnNLU5HFcZ6MS4a/QEHtf5c=
+X-Received: by 2002:a17:90b:4b41:b0:39e:4c7f:7307 with SMTP id 98e67ed59e1d1-3a098b8ab32mr1639460a91.30.1790244700743;
+        Thu, 24 Sep 2026 03:11:40 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0974ec5dfsm4075446a91.3.2026.09.24.03.11.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 03:11:39 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Hui Peng <benquike@gmail.com>
+Cc: Anders Larsen <al@alarsen.net>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3 0/6] fs/qnx6: fix buffer head leaks, double free, and inode validation
+Date: Thu, 24 Sep 2026 18:11:36 +0800
+Message-ID: <20260924101136.2380154-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260924073920.2782917-1-benquike@gmail.com>
+References: <20260924073920.2782917-1-benquike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLN7FLRJGS5Y.1T8T274W2NS6L@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 23, 2026 at 10:52:06PM -0400, Zi Yan wrote:
-> On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
-> > When the f_op->mmap_prepare or deprecated f_op->mmap hooks are invoked, the
-> > driver might have done something crazy that is not permitted by the kernel.
-> >
-> > Currently we check for three such cases in __mmap_new_file_vma(), but only
-> > if the legacy f_op->mmap hook is used:
-> >
-> > * Did sparc ADI result in invalid flags?
-> >
-> > * Did the driver alter vma->vm_start?
-> >
-> > * Did the driver make a file-backed mapping on a read-only file writable?
-> >
-> > Generalise these checks for both mmap_prepare and mmap and apply to all
-> > invocations of mmap_file(), the f_op->mmap and f_op->mmap_prepare handling
-> > in the core VMA code and the mmap_prepare compatibility layer.
-> >
-> > Also extend the vm_start check to vm_end also - drivers must not change the
-> > VMA range at all.
-> >
-> > We also WARN_ON_ONCE() on these conditions as they are things that should
-> > simply not occur in the kernel and it's important to call it out when it
-> > does.
-> >
-> > We invoke mmap_prepare_validate() after mmap_action_prepare(), as mmap
-> > actions often manipulate state in the descriptor thus providing the final
-> > state the VMA will be derived from.
-> >
-> > Also call mmap_validate_vma_flags() in insert_vm_struct() to ensure that
-> > special regions which are inserted (such as a VDSO or VVAR) also satisfy
-> > the sanity checks.
-> >
-> > This way every VMA established through an mmap hook, whether via mmap() or
-> > the compatibility layer, or inserted via insert_vm_struct(), has been
-> > validated. brk() VMAs never pass through a driver hook and so need no such
-> > check.
-> >
-> > While we're here, also fixup a couple disjoint blocks of #ifdef CONFIG_MMU.
-> >
-> > Finally, update the VMA userland tests to reflect the change.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
-> >  mm/internal.h                   |  51 ++++++++++++--------
-> >  mm/util.c                       |  19 ++++++--
-> >  mm/vma.c                        | 100 ++++++++++++++++++++++++++++++++++------
-> >  mm/vma.h                        |  25 ++++++++--
-> >  tools/testing/vma/include/dup.h |  10 ++++
-> >  5 files changed, 163 insertions(+), 42 deletions(-)
-> >
-> <snip>
-> > +
-> > +/* Check to ensure a driver hasn't done something crazy. */
-> > +static int mmap_validate(unsigned long prev_start, unsigned long prev_end,
-> > +			 unsigned long curr_start, unsigned long curr_end,
-> > +			 const vma_flags_t *prev_flags,
-> > +			 const vma_flags_t *curr_flags)
-> > +{
-> > +	bool was_maywrite, is_maywrite;
-> > +
-> > +	/* Drivers cannot alter the range of the VMA. */
-> > +	if (WARN_ON_ONCE(prev_start != curr_start || prev_end != curr_end))
-> > +		return -EINVAL;
-> > +
-> > +	was_maywrite = vma_flags_test(prev_flags, VMA_MAYWRITE_BIT);
-> > +	is_maywrite = vma_flags_test(curr_flags, VMA_MAYWRITE_BIT);
-> > +
-> > +	/* A driver may not make a previously unwritable mapping writable. */
-> > +	if (WARN_ON_ONCE(!was_maywrite && is_maywrite))
->
-> Is it driver specific or generally applicable to all mmap(_preppare)
-> operations? Is the comment too specific?
->
-> During my LLM quiz, making memfd write seals writable via a
-> hypothetically wrong shmem_mmap_prepare() implementation is an example
-> for this WARN_ON_ONCE. It is not driver related. Let me know if I get it
-> wrong.
+Hi Hui,
 
-Driver is taken to mean anything with an mmap or mmap_prepare hook, like a
-general term for that.
+Thanks for picking up my tags so quickly.  I tried to test v3 as well,
+but it doesn't apply to mainline (40288c9206c1) or on top of v2, and
+its context has code that isn't in fs/qnx6 in mainline or linux-next,
+for example qnx6_inode->di_ptr in 1/6 and the out_sbl1/out_sbl2 labels
+in 3/6.  My Tested-by and Reviewed-by were for v2 as posted [1], so
+please drop them from v3 for now.
 
-If we start getting into calling it different if it's a file system or memfd or
-something then it becomes quite hard to talk about it.
+Which tree is v3 based on?  If you can point me at it, or rebase onto
+mainline, I'm happy to review and test it again and send the tags for
+the new version.
 
-And yeah I hate that it's not a good name because driver makes you think
-something in drivers/* or an OOT one or something but the kernel makes it vague
-:)
+One small thing for the respin: the 1/6 commit message says
+QNX6_PTR_MAX_LEVELS is 3, but include/linux/qnx6_fs.h defines it as 5.
 
-Naming is hard...
+Thanks,
+Matthias
 
->
-> Otherwise, LGTM.
->
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
-
-Thanks!
-
->
->
-> --
-> Best Regards,
-> Yan, Zi
->
-
---
-Cheers, Lorenzo
+[1] https://lore.kernel.org/all/20260921042511.1473629-1-benquike@gmail.com/
