@@ -1,130 +1,413 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7F447AF43
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 12:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790251294; cv=pass; b=HDtx8LyYwFSe4qLzn3Rn+hMRfqYSA81FrwhIFjm4pWDkrpuKGl6U4+q4SjIr3WlmjysqsQnZCpdH9GlKnNrvI/ZPI8cTU+WNmTWLqXBOv95jARc6VTC6eoCP8xy7d7ANWFyGwIUapBQ20/nm7pyiwkButfV+9/msqmfkxfEuL3I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790251294; c=relaxed/simple;
-	bh=ADUClccYk206h7hPKOGkSKqz/BqS2N7kbEdhZoaJr0s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DvWPWGojrsD9ny6ldYl6538iXWhSjBnoBFSFUcDApWGAoLM4C4s97PJ1hj0uaYDsITEkxjIToxP62k0Xk2x3lScZzmwqhnyoeI3igF7mzotyuGZ1JbqbY4D30uI+a+aR/9EUnRy//zzZQrn7XNSIKaefwltzmIsBOuXV7SEsy/k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W5OkRgap; arc=pass smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA80479880;
+	Thu, 24 Sep 2026 12:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790251366; cv=none; b=R4G7V6I5M/CgvxX6pRH4ol1+vp/RKTujqc4Oqj+3+/4FALrvJa9gqEN2D81Pssu+wmvSbfN4GSPLrq1UG7QrMq115jg058Ng7ZyQBazw/OkcUX0LE9bxbgkLGZJQB4zlAmTfrKD9XHY4aAFmiKCfT3uytA7TsEwqtZt+f87r3gE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790251366; c=relaxed/simple;
+	bh=dcj+to43FS8V59U6UNP5I1+gR2ybhBKKikk8Bqw3MFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KeOPNd16W+08b8O/VTTvKn2M2X8QyaeK0TEwCIAzzr5VLQT2MoUKtifT1ntFbGBbe3CeDp98sgZfUkqtVY82LVgVl1kpavCFn4Y0OV/mAewEfTKHeF2IJe0RwvGDpSCOYXCVAqevKl90+B2bPoWZQfa0/PONzjfj3d5NTm42E4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WGJcNpdW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GupBP3/s; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=RjDFKhAC; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gL4waggk; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W5OkRgap"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49ccf12bed0so41635e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 05:01:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790251290; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nOPa77ww4R+1wKDkK61+gYJzZYJB7s0qaZ/JLUEmavRzoNRMygTmUgETrU/wXGRtZN
-         lDQnkj1DAj46HX+VeQbSn2uRylfJLBF1YqvcVHobXUeuJKEqm8paYlpmPNQw/HgTmyiC
-         VBxUi2OMLWBwpSLMN4HSnnSADQT22VYAT5pPf1QTbSvioZErlbxPeIjvTcoHeoHCZfdB
-         gkn781XyPK/5yEfgPzIeLl0Kcn2MCublW8jvm/ple8YOg9eDWAcvDlw/k4hcZPaQC46p
-         rA7ymhfPqIeTC4UG3VCGobz8eiAoeAoRabV/8uhZRcZoPpbX/Uv76PVa16Ld15MlP//4
-         kImA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ADUClccYk206h7hPKOGkSKqz/BqS2N7kbEdhZoaJr0s=;
-        fh=/5cPgs9XBNZDZ7iETBBG09UaJW3wpmmT+01LRbSXyYA=;
-        b=YSLFEJeGEQZfdJDzHmtKy4Z4B/dk0tszkqL26xJg8COcprJ2kfp8FoSeu5FiQWawjg
-         oy+jQo1UTUH7ESGEZtr2yFBi9HO7/MfMbcOyC6G4hso0Iubolxjgj4OyfrcrcKZfeVHl
-         rIULnNwR/B5whzQb2juw56Vsb8z8IycdMZuC5kp5OzNOF71nLbXYlHWOyuF8qX9LrrxV
-         0yRAhnByzfhPr3IWCwWwsrQDih84UTS4EiBIJD/HudljwS/gX4XYQaBXU9l68T2HFHj9
-         V/1zD61cdctmqA1kx5KLmyjaZHVvXSJSosQ92KzJtc1LOHhqKI5L/FO6gkiBTglKuE+J
-         12gg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790251290; x=1790856090; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ADUClccYk206h7hPKOGkSKqz/BqS2N7kbEdhZoaJr0s=;
-        b=W5OkRgap3yQQo+gVYE0JiSd4ki5m8eK0DLUOU75qePH3XxnmKCytHlN1rxQmPqx0xV
-         QEHlbp113QWtyQWka9CaUg2UNuICo6u95XEDMlTSJvGg+iZorTjZZf/1fto4kStOmIxw
-         2772l5DYKQTTb200R57cmJU19rphP8ZRvIF/ddRog06dvdUQTTv410LUgAg30HW4EiLs
-         jyy+4aEbbCm0p1GEywkhD0JmLjxTGMgIE5QvZWa4a1REJf+kocjVtjqqpFGduzhf/V1N
-         sWx3QBapmGRiC32GJoscvyOOqEdgeohS3slkuSrwTaKlpbH4eFnQjKjnm30Ym6BP8UB3
-         C4vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790251290; x=1790856090;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ADUClccYk206h7hPKOGkSKqz/BqS2N7kbEdhZoaJr0s=;
-        b=JQI2aa82AG5cN+hHIAuuMWZSNOH62uLB+MM5oUdGWLoUN/b/ye5oPRpOjK4Fn3cdUc
-         5sw+9bQw5+syw5GzofbqoaqflKnoyeI0W9wl3a2dW2Ury92212dQSKRbsa1AZ+yhDQDH
-         MiwbOD2/tRGaBPDKndpz+wDd9ZTSZg19hDHVnE+8JZI41u3pJbnDzlwfylN1JDIqVV+u
-         5X7dlJrrFgIbK0ZyF1eAAxAqVfenkqDmPE49C0B0unZylbjQ7nZTe2rEBaO8mAsN8G4P
-         /smyLzKRxXMnXHAVu4R9IoRT+RivBE7kpL8MWVOAImc5p5zbT0fJe8zdl67gXeBQBX2c
-         tmWw==
-X-Forwarded-Encrypted: i=1; AKwUvBxCXf53rLvpGSLFYVtC7OzJcknwlfdpBd7aT6TgrVRB7xwN7q3v33Nrl142R7fJp8pDB1P3aEqfzqeRk19s@vger.kernel.org
-X-Gm-Message-State: AFuF++nh6plg+vyTCRtTKKT5+qwuMdYSWz2p3yo/41w1M9HZ+zmB1H96
-	gjjwZlRRgQI3rGrj24HJ0mhrKu/1O5SFa6ySiexb+fnba5HIM+VjBJX3O6qh77ZYYZFh2JFnWzI
-	PgBgHc/jA/OvX0tPJoinceHw9BIS3wcezMlVtbqgQ
-X-Gm-Gg: AYBFou2lUt7fD10skRZNczgRyGXvVweo9B8W0Q06/MKcvBONDhW2HCVsPY4TLfcoJrg
-	AbbTGJKog3TSJlNlqmkdqX12senxBeAhh1XlEwYDFidcPZWeccbAjrg6RIuBO8jOspKNAxcfcPJ
-	eEC9DcUB5Glb8cqciIUD8ItRZsCY8ys8DDwNctLXl9kloanS/tdFBHumNHPnvGhZAT+xyddZaVK
-	uTcCuS0907SVwyP5auTwFsPt71KhRzoVWMtHjFoGqx11Nk/PTix4UaL6gUI3V3NewyA2LmYdQaX
-	Z8qDlOIjVgUVycQHQRpUkaaeZkUKNRB+z2xpBV5pLFbuMr6flTTj4Zx9rCahbTAEGdm7xbfyhc+
-	zY+X1p/8=
-X-Received: by 2002:a05:600c:570f:b0:49f:e1d3:fe03 with SMTP id
- 5b1f17b1804b1-49fe5996f16mr573675e9.3.1790251290130; Thu, 24 Sep 2026
- 05:01:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WGJcNpdW";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GupBP3/s";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="RjDFKhAC";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gL4waggk"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 657C1200BF;
+	Thu, 24 Sep 2026 12:02:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790251357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DeK80BXu3fA+B4ZVp9RerKkLs0GpQ27/dDvgj9rvyjk=;
+	b=WGJcNpdWWOhvNf00dsDpnrm1g2CbDrpIJ0iOheBGHUbfBAtwHYwlavwj7X29DzJrLaoHv1
+	lJs2jJIUZ/pRIaYeNfRSQZKfK5RnIgAoE7xV63acLH5sxoVnSmFwyGBrmbNtpkgQiPUfwK
+	eLJ5u65e4LIE/JD0yioXMjUUnKYAcbI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790251357;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DeK80BXu3fA+B4ZVp9RerKkLs0GpQ27/dDvgj9rvyjk=;
+	b=GupBP3/sLQku5BfKU0MUOYpNWJOSpMMPkpE2tFvjd0EMaQVhFUYlB2RWDlAXYB73PqxQNl
+	av8cQaJzWR+nfcBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790251352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DeK80BXu3fA+B4ZVp9RerKkLs0GpQ27/dDvgj9rvyjk=;
+	b=RjDFKhACLFCcDjvnWKldaxtlQ4qOIjUndgq1fBnvRUDtwRt7+nroIj+pbZprwF/6Qxl7Ih
+	OQMEOREwOUrwQj2nZWagOBkP61PUjdrygJSRLrjhK11WnknM7KEvaB94lQdVnaYuq+Y9kN
+	wfhK7cKh562DnjFtdTpZANgP1xqRIXU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790251352;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DeK80BXu3fA+B4ZVp9RerKkLs0GpQ27/dDvgj9rvyjk=;
+	b=gL4waggkRY2AVpBPK0qYIGcHjy3n+9pSBoh5cXZfMUTcYCBgfqPyB4XeQOw5agPbT50QXZ
+	RSISW2EhVSGYDgDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3BDA813354;
+	Thu, 24 Sep 2026 12:02:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gTYjBlgRtWrsSQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 24 Sep 2026 12:02:32 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B3DDDA132E; Thu, 24 Sep 2026 14:02:31 +0200 (CEST)
+Date: Thu, 24 Sep 2026 14:02:31 +0200
+From: Jan Kara <jack@suse.cz>
+To: Julian Sun <sunjunchao@bytedance.com>
+Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, axboe@kernel.dk, 
+	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeel.butt@linux.dev, muchun.song@linux.dev, willy@infradead.org, jack@suse.cz, 
+	tj@kernel.org, akpm@linux-foundation.org
+Subject: Re: [PATCH v8 2/3] memcg,writeback: flush foreign bdev mappings
+ separately from owner wbs
+Message-ID: <ncq6yhwolbwkivpsohfsanfap7qwix752g53zvo6hx3ywxn5f2@hgay3kms7jsd>
+References: <20260922125015.3435215-1-sunjunchao@bytedance.com>
+ <20260922125015.3435215-3-sunjunchao@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260909232351.1533034-1-shayba@google.com> <20260910184424.156341-1-shayba@google.com>
-In-Reply-To: <20260910184424.156341-1-shayba@google.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 24 Sep 2026 05:01:15 -0700
-X-Gm-Features: AclHuK9Au5z8ENRx2IaBAjigCgDpk1SWcfpHMs-ScW16pQ0_dNBiZHTtShRfceQ
-Message-ID: <CABdmKX0B7zVfLY9Rov37U+gOTEXYSCMUe6=xFddOrKDVneiBGA@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: Forward vfs_fadvise to backing_file in
- passthrough mode
-To: Shai Barack <shayba@google.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Sandeep Dhavale <dhavale@google.com>, 
-	Akilesh Kailash <akailash@google.com>, Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260922125015.3435215-3-sunjunchao@bytedance.com>
+X-Spam-Level: 
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RSPAMD_EMAILBL_FAIL(0.00)[sunjunchao.bytedance.com:server fail];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,bytedance.com:email,suse.com:email,suse.cz:email]
 
-On Thu, Sep 10, 2026 at 11:45=E2=80=AFAM Shai Barack <shayba@google.com> wr=
-ote:
->
-> When an application invokes posix_fadvise(..., POSIX_FADV_DONTNEED) or
-> other fadvise advice on a FUSE passthrough file descriptor, the VFS
-> currently only executes generic_fadvise() on the upper FUSE inode
-> mapping.
->
-> Because FUSE passthrough does not forward fadvise operations to the
-> underlying backing file, pages residing in the lower filesystem's
-> pagecache remain resident in memory.
->
-> During media-heavy workloads (such as image thumbnail generation or
-> streaming), single-access file data accumulates in the inactive pagecache
-> of the lower filesystem. Under memory pressure, the kernel retains these
-> stale media pages and instead evicts active executable pages from
-> running processes, leading to severe direct reclaim latency spikes.
->
-> Architecturally, Linux VFS supports filesystem-specific fadvise
-> delegation via the .fadvise hook in struct file_operations. Implement
-> fuse_file_fadvise() in fs/fuse/file.c and register it in
-> fuse_file_operations. When passthrough is active on a fuse_file,
-> fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
-> backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
-> to cleanly invalidate the physical backing filesystem pagecache.
->
-> Signed-off-by: Shai Barack <shayba@google.com>
+On Tue 22-09-26 20:50:14, Julian Sun wrote:
+> Bdev inodes are routinely shared by multiple memcgs. Recording their
+> owner wb as foreign can flush unrelated file data when a source memcg
+> enters dirty throttling.
+> 
+> Record bdev device numbers separately and queue work on
+> memcg_bdev_frn_flusher to write only their mappings. Keep the existing
+> foreign-wb mechanism for non-bdev inodes.
+> 
+> Use fixed per-memcg slots. Tracking uses oldest-first replacement and
+> expiry after dirty_expire_interval. Further dirtying during an ongoing
+> flush can trigger another flush after it finishes.
+> 
+> Tracking is best effort: record only dev_t without holding device or
+> inode references. Records are updated under the mapping->i_pages lock
+> with IRQs disabled, but dropping a bdev reference can sleep. Also, since
+> foreign flushes are triggered by dirty throttling, a memcg that never
+> throttles could retain an unused record and pin the device object
+> indefinitely. Recording only dev_t avoids these lifetime constraints,
+> but device removal and device-number reuse may race with lookup. Such
+> races are expected under the best-effort semantics.
+> 
+> Bdev writeback submission can block for a long time on congested devices,
+> with up to four work items outstanding per memcg. Use a dedicated unbound
+> workqueue to give these flushes a separate max_active budget, so they do
+> not exhaust a shared workqueue's active slots and delay unrelated work.
+> If the workqueue cannot be allocated at boot, bdev inodes continue to use
+> the existing foreign-wb path.
+> 
+> This primarily affects filesystems that keep metadata in the bdev page
+> cache, such as ext4 and other buffer_head users, rather than the usual
+> metadata writeback paths of XFS and Btrfs. This also covers buffered writes
+> to raw block devices. The decision still does not account for how much of
+> the memcg's dirty memory belongs to the bdev. Even a single dirty bitmap
+> block can trigger writeback of the entire bdev mapping when the memcg
+> enters dirty throttling.
+> 
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Julian Sun <sunjunchao@bytedance.com>
 
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
+Mostly looks good. What I somewhat dislike about this particular
+implementation is that we are going to have new IO issuers (additional
+workers for bdev foreign flushes) - potentially as many as there are memcgs
+using the bdev - which could increase contention for the device. But OTOH
+we already have as many wb_writeback issuers as there are memcgs for each
+device so it isn't something fundamental. What is unique that all these
+issuers will all flush the same inode (normally inode belongs only to one
+issuer) but OTOH these are bdev inodes where IO submission path is trivial
+and the IO pattern is mostly random so maybe the contention isn't going
+to be too severe.
+
+So I'm somewhat wondering if the 'foreign flush work' shouldn't be a
+global 'per-bdev' thing but after some thought that would get a bit complex
+and it probably isn't warranted at this point. I guess the simplest way to
+reduce the unnecessary contention on bdev inode would be to use
+write_inode_now(bdev_inode, 0) which will just skip the inode if someone is
+already writing it (I_SYNC check) which is I think what we want.
+
+Also one more technical comment below.
+
+> +/*
+> + * No extra memcg reference is taken: this work is embedded in the memcg,
+> + * and mem_cgroup_css_free() waits for it to finish before freeing the memcg.
+> + */
+> +struct memcg_bdev_frn {
+> +	struct work_struct work;
+> +	dev_t dev;			/* dev_t of the foreign bdev inode */
+> +	u64 at;				/* last recorded dirtying time in jiffies */
+> +	atomic_t inflight;		/* flush work is queued or running */
+> +};
+> +
+>  /*
+>   * Bucket for arbitrarily byte-sized objects charged to a memory
+>   * cgroup. The bucket can be reparented in one piece when the cgroup
+> @@ -279,6 +290,7 @@ struct mem_cgroup {
+>  #ifdef CONFIG_CGROUP_WRITEBACK
+>  	struct wb_domain cgwb_domain;
+>  	struct memcg_cgwb_frn cgwb_frn[MEMCG_CGWB_FRN_CNT];
+> +	struct memcg_bdev_frn bdev_frn[MEMCG_CGWB_FRN_CNT];
+>  #endif
+>  
+>  #ifdef CONFIG_LRU_GEN_WALKS_MMU
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index 856a7d07586c..6042c694d56c 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -39,6 +39,7 @@
+>  #include <linux/smp.h>
+>  #include <linux/page-flags.h>
+>  #include <linux/backing-dev.h>
+> +#include <linux/blkdev.h>
+>  #include <linux/bit_spinlock.h>
+>  #include <linux/rcupdate.h>
+>  #include <linux/limits.h>
+> @@ -104,6 +105,7 @@ static struct kmem_cache *memcg_pn_cachep;
+>  
+>  #ifdef CONFIG_CGROUP_WRITEBACK
+>  static DECLARE_WAIT_QUEUE_HEAD(memcg_cgwb_frn_waitq);
+> +static struct workqueue_struct *memcg_bdev_frn_wq __ro_after_init;
+>  #endif
+>  
+>  static inline bool task_is_dying(void)
+> @@ -3875,20 +3877,72 @@ void mem_cgroup_wb_stats(struct bdi_writeback *wb, unsigned long *pfilepages,
+>   * most recent foreign dirtying events and initiating remote flushes on
+>   * them when local writeback isn't enough to keep the memory clean enough.
+>   *
+> - * The following two functions implement such mechanism.  When a foreign
+> - * page - a page whose memcg and writeback ownerships don't match - is
+> - * dirtied, mem_cgroup_track_foreign_dirty() records the inode owning
+> - * bdi_writeback on the page owning memcg.  When balance_dirty_pages()
+> + * When a foreign page - a page whose memcg and writeback ownerships don't
+> + * match - is dirtied, mem_cgroup_track_foreign_dirty() records the inode
+> + * owning bdi_writeback on the page owning memcg. When balance_dirty_pages()
+>   * decides that the memcg needs to sleep due to high dirty ratio, it calls
+>   * mem_cgroup_flush_foreign() which queues writeback on the recorded
+>   * foreign bdi_writebacks which haven't expired.  Both the numbers of
+>   * recorded bdi_writebacks and concurrent in-flight foreign writebacks are
+>   * limited to MEMCG_CGWB_FRN_CNT.
+>   *
+> - * The mechanism only remembers IDs and doesn't hold any object references.
+> - * As being wrong occasionally doesn't matter, updates and accesses to the
+> - * records are lockless and racy.
+> + * Bdev inodes are commonly shared by many memcgs. Flushing their owner wb
+> + * can write unrelated file data, so each memcg tracks foreign bdevs
+> + * separately in MEMCG_CGWB_FRN_CNT slots keyed by dev_t. These records
+> + * use the same expiry policy, but trigger writeback of only the bdev
+> + * mappings.
+> + *
+> + * Both kinds of records only remember IDs and don't hold any object
+> + * references. As being wrong occasionally doesn't matter, updates and
+> + * accesses to the records are lockless and racy.
+>   */
+> +
+> +static void mem_cgroup_track_foreign_bdev(struct mem_cgroup *memcg, dev_t dev)
+> +{
+> +	struct memcg_bdev_frn *frn;
+> +	int i;
+> +	int oldest = -1;
+> +	u64 now = get_jiffies_64();
+> +	u64 oldest_at = now;
+> +
+> +	/*
+> +	 * Pick the slot to use.  If there is already a slot for @dev, keep
+> +	 * using it.  If not replace the oldest one which isn't being
+> +	 * written out.
+> +	 */
+> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
+> +		frn = &memcg->bdev_frn[i];
+> +		if (frn->dev == dev)
+> +			break;
+> +		if (atomic_read(&frn->inflight))
+> +			continue;
+> +		if (time_before64(frn->at, oldest_at)) {
+> +			oldest = i;
+> +			oldest_at = frn->at;
+> +		}
+> +	}
+
+The handling of 'inflight' looks racy. After we check, the flush can be
+queued and we'll just rewrite the entry under the pending flush below
+leading to odd behavior (like missing flush later in case 'at' gets
+clobbered to 0 by the running flush)...
+
+> +
+> +	if (i < MEMCG_CGWB_FRN_CNT) {
+> +		/*
+> +		 * Re-using an existing one.  Update timestamp lazily to
+> +		 * avoid making the cacheline hot.  We want them to be
+> +		 * reasonably up-to-date and significantly shorter than
+> +		 * dirty_expire_interval as that's what expires the record.
+> +		 * Use the shorter of 1s and dirty_expire_interval / 8.
+> +		 */
+> +		unsigned long update_intv =
+> +			min_t(unsigned long, HZ,
+> +			      msecs_to_jiffies(dirty_expire_interval * 10) / 8);
+> +
+> +		if (time_before64(frn->at, now - update_intv))
+> +			frn->at = now;
+> +	} else if (oldest >= 0) {
+> +		/* replace the oldest free one */
+> +		memcg->bdev_frn[oldest].dev = dev;
+> +		memcg->bdev_frn[oldest].at = now;
+
+.. so I think here we need to block submission of work (retry search if
+busy) and only then update the entry.
+
+								Honza 
+
+> +	}
+> +}
+> +
+>  void mem_cgroup_track_foreign_dirty_slowpath(struct folio *folio,
+>  					     struct bdi_writeback *wb)
+>  {
+> @@ -3898,6 +3952,14 @@ void mem_cgroup_track_foreign_dirty_slowpath(struct folio *folio,
+>  	u64 oldest_at = now;
+>  	int oldest = -1;
+>  	int i;
+> +	struct address_space *mapping = folio_mapping(folio);
+> +	struct inode *inode = mapping->host;
+> +
+> +	if (memcg_bdev_frn_wq && sb_is_blkdev_sb(inode->i_sb)) {
+> +		trace_track_foreign_dirty(folio, wb);
+> +		mem_cgroup_track_foreign_bdev(memcg, inode->i_rdev);
+> +		return;
+> +	}
+>  
+>  	trace_track_foreign_dirty(folio, wb);
+>  
+> @@ -3941,6 +4003,16 @@ void mem_cgroup_track_foreign_dirty_slowpath(struct folio *folio,
+>  	}
+>  }
+>  
+> +static void bdev_frn_flush_work(struct work_struct *work)
+> +{
+> +	struct memcg_bdev_frn *frn =
+> +		container_of(work, struct memcg_bdev_frn, work);
+> +
+> +	bdev_flush_by_dev(frn->dev);
+> +
+> +	atomic_set(&frn->inflight, 0);
+> +}
+> +
+>  /* issue foreign writeback flushes for recorded foreign dirtying events */
+>  void mem_cgroup_flush_foreign(struct bdi_writeback *wb)
+>  {
+> @@ -3949,6 +4021,21 @@ void mem_cgroup_flush_foreign(struct bdi_writeback *wb)
+>  	u64 now = jiffies_64;
+>  	int i;
+>  
+> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
+> +		struct memcg_bdev_frn *frn = &memcg->bdev_frn[i];
+> +
+> +		/* Keep the workqueue availability check explicit. */
+> +		if (memcg_bdev_frn_wq && time_after64(frn->at, now - intv) &&
+> +		    atomic_cmpxchg(&frn->inflight, 0, 1) == 0) {
+> +			/*
+> +			 * Clear now so dirtying during writeback can refresh
+> +			 * the timestamp for a later flush.
+> +			 */
+> +			frn->at = 0;
+> +			queue_work(memcg_bdev_frn_wq, &frn->work);
+> +		}
+> +	}
+> +
+>  	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
+>  		struct memcg_cgwb_frn *frn = &memcg->cgwb_frn[i];
+>  
+> @@ -4202,9 +4289,13 @@ static struct mem_cgroup *mem_cgroup_alloc(struct mem_cgroup *parent)
+>  	memcg->kmemcg_id = -1;
+>  #ifdef CONFIG_CGROUP_WRITEBACK
+>  	INIT_LIST_HEAD(&memcg->cgwb_list);
+> -	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++)
+> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
+> +		struct memcg_bdev_frn *frn = &memcg->bdev_frn[i];
+> +
+>  		memcg->cgwb_frn[i].done =
+>  			__WB_COMPLETION_INIT(&memcg_cgwb_frn_waitq);
+> +		INIT_WORK(&frn->work, bdev_frn_flush_work);
+> +	}
+>  #endif
+>  	lru_gen_init_memcg(memcg);
+>  	return memcg;
+> @@ -4386,8 +4477,10 @@ static void mem_cgroup_css_free(struct cgroup_subsys_state *css)
+>  	int __maybe_unused i;
+>  
+>  #ifdef CONFIG_CGROUP_WRITEBACK
+> -	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++)
+> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
+>  		wb_wait_for_completion(&memcg->cgwb_frn[i].done);
+> +		flush_work(&memcg->bdev_frn[i].work);
+> +	}
+>  #endif
+>  	if (cgroup_subsys_on_dfl(memory_cgrp_subsys) && !cgroup_memory_nosocket)
+>  		static_branch_dec(&memcg_sockets_enabled_key);
+> @@ -5703,6 +5796,12 @@ int __init mem_cgroup_init(void)
+>  	memcg_wq = alloc_workqueue("memcg", WQ_PERCPU, 0);
+>  	WARN_ON(!memcg_wq);
+>  
+> +#ifdef CONFIG_CGROUP_WRITEBACK
+> +	memcg_bdev_frn_wq = alloc_workqueue("memcg_bdev_frn_flusher",
+> +					    WQ_UNBOUND, 0);
+> +	WARN_ON(!memcg_bdev_frn_wq);
+> +#endif
+> +
+>  	for_each_possible_cpu(cpu) {
+>  		INIT_WORK(&per_cpu_ptr(&memcg_stock, cpu)->work,
+>  			  drain_local_memcg_stock);
+> -- 
+> 2.39.5
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
