@@ -1,41 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2613047C105;
-	Thu, 24 Sep 2026 21:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904404DF4AD
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 21:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790286581; cv=none; b=dEcM6eBgRzxVbfouG4mAbtihCmUKBeAZUHyOGruf59owwmSO5GfnvZtYUY0FMOCY3Z/pMmnCBjqXbTWuM+EQ9cBgDJQFowCS0JLDyq61UFOzG7Qt3s3+ki+zlI9qdcdMYRHBKxWGrP7yp9JeDqhMZE6EknAMK/ccxCW2p6sLC9M=
+	t=1790287157; cv=none; b=S92+5w0HDuS+Q0uDf5Kt9wu2ke0EKSRsHKXw0VB+eNhzC0jfQbQeATZDLvD5GxU+zuHEiGVym0qR0Jf+zMJA+WCTvfadPpp7IhrtFXzURMi86ZER/KNsAtDMzoWHOCGKcMULK5EXTbjTUb89oqHPh5egimqTjdEM8j2Sf17+jPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790286581; c=relaxed/simple;
-	bh=bMLUTJJ9Z3Y5XUpuz2O8lNmV8HBHXY3WbA561zMz0nM=;
+	s=arc-20240116; t=1790287157; c=relaxed/simple;
+	bh=jdOnvM7WMqeUpU7l2mytGEp4oxIHLj8qtVUlj6NmVsE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qgy5Tc9sLP/RScsGUAYninkmaRTYhiCngjZy4+7CdRQfGkFyu+I8oIkM7dqS8hxqqri+iNnnseHpQbxQEcxeupQdrPmUIdXdf+Lk4COGzHg2bpbicQxKqHrCWGN5xMlUhsIIHWRrbiW/v0cTjHht532yWvc32gSwD3JnRB/ipVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AkdfJpmk; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0XQHieqlySGW3ewV1p7l4SLwhq4eSkXShm0airvAP70eJzRSf2JPHxnJYXtvYQ0UYHIVxbPOOV5eO+7KbK1Fi8erM1rN7yM6ikL7EeZxze0wzK1iklfjXytzwrbwdiERCeaQaVsZAMKxglppMLMA2yANNj35zp4JRnzJqJfKQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b=vPEiD9ry; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AkdfJpmk"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A27FE1F000FF;
-	Thu, 24 Sep 2026 21:49:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790286579;
-	bh=JVK6XBRugLPNgtxhYwLPulF9yZFmI1NNgSmCabGL0Z0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AkdfJpmk6g4WxeoreHVNp2hX3szPWsMITjt8JIdWHkKrH2UzNR4EEdRoTwIfi/MPU
-	 hsd75UvfmC+uvc3N0cEVivOQz9njhqCqaqwOn2vMZ6SB0EsZGZgAVhUUvDVBI+ywYr
-	 imGvGN+bTLvFY/75PZcY3mKBSDYap6ACSpclGCRlaURap/c2i06uReqDo/pjReSZHT
-	 zm82bWwZCvvb2dsuZ3UhvkZ986BV/B5eVDLPjBTcsszf6151mDfQ1xGOOD3dRSQ5+w
-	 1LczqkGo5CICM+EtwfjEf0CXmXwVICp4CgFbjk/EmwbudLQoGmwqpW4SpFfuS+NEsE
-	 qD1cV7tfJG25A==
-Date: Thu, 24 Sep 2026 14:49:39 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Carlos Maiolino <cem@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 05/21] xfs: introduce XFS_BLI_PREALLOC
-Message-ID: <20260924214939.GG2705364@frogsfrogsfrogs>
-References: <20260924100032.2733101-1-hch@lst.de>
- <20260924100032.2733101-6-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b="vPEiD9ry"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccd5cf02so204250a91.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 14:59:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dama-to.20251104.gappssmtp.com; s=20251104; t=1790287154; x=1790891954; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bbmWMvcZGPaQES2g8FHXYoBiPxQtaNORw16tr7nwuuw=;
+        b=vPEiD9ryapYVAbcs8kdk/aarwnWZDJyTINZAS9v17BANQiOuYq1oHVyJBCxjEAkD7W
+         OctHq3duc79f++pDhRki9fmBx8iaZqo7WTEO3/KRGGQo6+bxo/NBJz7x9mDaDx9yeSkm
+         H+ok/Eqr1G1IAHpAGCOJjW0tBbSC6GZQ4faR6VgM1LIofN1MXaQ2GrHLhpxb84L3erPF
+         MKZKqlLcvnbE9KVPFO5CWFiC3ortqSZHI1Hj3EY76mwz0EQDeYKZlJcdkfMa+9Tj7hHN
+         d8re22ksBgofM9DHjvonMZM1H/MckT642VKR5gjzZ82kbtpL4sunMCl1BfUBlHuqr/JA
+         83ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790287154; x=1790891954;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=bbmWMvcZGPaQES2g8FHXYoBiPxQtaNORw16tr7nwuuw=;
+        b=U8up/3jreqd3no7PjGBb6oFnhJHvzwdAo9BzFMSLtsybWZUSNvDAEmGpEbprQsinEs
+         CFu71zVIHi5tfV34qO2G+CE+SUevK5+jQ33kCxTjqvYKGyZYnMm7YHgFVDLUWi7IRL5H
+         nLq7w/9ueKvYaGkXNQgP0cVTUnBShI2vk3+DcnMQZZpT5+WsbQSNZBW26/ndC0T5Cn5j
+         NGmmaCCGViQlYGfgkRqdxIq+X0bNwOkDx9UOuP6zFrviy0U529Tg+q6WXK3E0slRaO1Z
+         Rxx8fsvh8MwGCM1rxolRbpQ5O8g97rzeeLo7dl7JXkcP1zHtTsTdD+nwZg0JnL41bvwt
+         FkXQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx+Wj8Z0UVpXX9rJYvzDLN1zUY60Q2tvGiCXMrrkeTYS4RRkw7r+Vpd2f302ZSyYmo1w+UTEzoASpsex8tc@vger.kernel.org
+X-Gm-Message-State: AFuF++kL0zaWVbnUI+O8jZcdKojooCKvJgFzLqI5L6VKx4CIpvs8jF21
+	cf73MX1mw1Gfsc83COJOcfNAdKlTWiuIdU8J3gYRC0XN6/Qr77I7gXQmxocKpn1ZKfU=
+X-Gm-Gg: AYBFou3nCKzo+RuU6jhOJo6Zqfkj407GK1FYm8omrdae4VI/qFuhgf1R6xGAgdQLPr7
+	0jaVajaKy5fD4hyJS5UShjP8OcsPWy1NjgX/OSMRnOu3gueismyj4OJGTDqWx8LHH2TsLLut2Ei
+	cPoZL+86mIUgOHqXKw+5WzaLxCqRtAAa358I2GpOXrfCM6yFfsM3Xju+u8zl+BrQxUzt6Ies0Dw
+	OONKyMc0zVtNUW09rgUvZVy1at9s3iqmxzvJlZUowLDJpU5H2hGTggcmdIaffc/YUKxL7D900Wg
+	9tVt0WcPWumcBglUbKQbnEwjW5M3Z74gYAmMxQhz3JLkDHKm8AZ0iIU+rmQCzAwsHGpRrlkYyGi
+	2a5X6fT0ytdhkddr9b4CzR7vsE5KYXgo8BsTMgKGP0IaA3TMLEqQdeGYXNYXCHoktx5T0i6lVj2
+	5lkUJNKw4OwmkGvP+Uc5Dm9E/Hgghj4JMIhthr1/El1Rlb/RTHTBpWf8Ekvnxol3rwrwI8/v3N6
+	nnG2ks2kfgGWUbghENVDrc=
+X-Received: by 2002:a17:90b:35c3:b0:3a0:bcc8:1546 with SMTP id 98e67ed59e1d1-3a0bcc815f2mr76894a91.64.1790287153608;
+        Thu, 24 Sep 2026 14:59:13 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:59::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b9481e17sm582065a91.8.2026.09.24.14.59.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 14:59:13 -0700 (PDT)
+Date: Thu, 24 Sep 2026 14:59:12 -0700
+From: Joe Damato <joe@dama.to>
+To: hengyul@cs.unc.edu
+Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+	jirislaby@kernel.org, sdf@fomichev.me, edumazet@google.com,
+	kuba@kernel.org, davem@davemloft.net, pabeni@redhat.com,
+	horms@kernel.org, shuah@kernel.org, linux-fsdevel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] eventpoll: return -ENOIOCTLCMD for unknown ioctl commands
+Message-ID: <arWdMDek0iv0obDy@devvm20253.cco0.facebook.com>
+Mail-Followup-To: Joe Damato <joe@dama.to>, hengyul@cs.unc.edu,
+	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+	jirislaby@kernel.org, sdf@fomichev.me, edumazet@google.com,
+	kuba@kernel.org, davem@davemloft.net, pabeni@redhat.com,
+	horms@kernel.org, shuah@kernel.org, linux-fsdevel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+References: <20260924185747.2166326-1-hengyul@cs.unc.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,108 +87,73 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260924100032.2733101-6-hch@lst.de>
+In-Reply-To: <20260924185747.2166326-1-hengyul@cs.unc.edu>
 
-On Thu, Sep 24, 2026 at 11:59:37AM +0200, Christoph Hellwig wrote:
-> Add a flag so that the shadow CIL buffer for a buffer log item is always
-> sizes to the maximum to prevent reallocations.  This will be used for the
-
-  sized
-
-> RT checksum item, where we know that we are going to fill it up very soon,
-> and (almost) sequentially, so there is no point in doing a constant
-> realloc cycle when more data is added to it.
+On Thu, Sep 24, 2026 at 02:57:47PM -0400, hengyul@cs.unc.edu wrote:
+> From: Hengyu Liang <hengyul@cs.unc.edu>
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Before commit 18e2bf0edf4d ("eventpoll: Add epoll ioctl for
+> epoll_params"), epoll files had no ioctl handler, so ioctl() on an epoll
+> file descriptor failed with ENOTTY. That commit introduced the
+> EPIOCSPARAMS and EPIOCGPARAMS commands, but ep_eventpoll_ioctl() returns
+> -EINVAL for any other command, so since v6.9 every other ioctl() on an
+> epoll file descriptor fails with EINVAL instead of ENOTTY.
+> 
+> Documentation/driver-api/ioctl.rst says that an ioctl handler must
+> return -ENOTTY or -ENOIOCTLCMD for an unknown command, and that
+> returning -EINVAL there is wrong. Returning -ENOIOCTLCMD was also the
+> intent of the original series, whose changelog since v3 [1] says "when
+> an unknown ioctl is received, -ENOIOCTLCMD is returned instead of
+> -EINVAL as the ioctl documentation requires", and ep_eventpoll_bp_ioctl()
+> does return -ENOIOCTLCMD for unknown commands. However,
+> ep_eventpoll_ioctl() only passes EPIOCSPARAMS and EPIOCGPARAMS to it and
+> handles all other commands in its own default case, which returns
+> -EINVAL, so that path is never reached.
+> 
+> This is visible to userspace. For example, isatty(), ttyname() and
+> tcgetattr() on an epoll file descriptor set errno to EINVAL, while they
+> set ENOTTY for any other file descriptor that does not refer to a
+> terminal, as they also did for epoll file descriptors before v6.9.
+> 
+> Return -ENOIOCTLCMD from the default case, which the VFS turns into
+> -ENOTTY, and update the epoll_busy_poll selftest, which expected EINVAL
+> for an unknown command.
+> 
+> [1] https://lore.kernel.org/r/20240125225704.12781-1-jdamato@fastly.com
+> 
+> Fixes: 18e2bf0edf4d ("eventpoll: Add epoll ioctl for epoll_params")
+> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
 > ---
->  fs/xfs/libxfs/xfs_trans_resv.c |  2 +-
->  fs/xfs/libxfs/xfs_trans_resv.h |  1 +
->  fs/xfs/xfs_buf_item.c          | 10 ++++++++++
->  fs/xfs/xfs_buf_item.h          |  4 +++-
->  4 files changed, 15 insertions(+), 2 deletions(-)
+>  fs/eventpoll.c                                | 2 +-
+>  tools/testing/selftests/net/epoll_busy_poll.c | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/fs/xfs/libxfs/xfs_trans_resv.c b/fs/xfs/libxfs/xfs_trans_resv.c
-> index 3151e97ca8ff..5382ece51812 100644
-> --- a/fs/xfs/libxfs/xfs_trans_resv.c
-> +++ b/fs/xfs/libxfs/xfs_trans_resv.c
-> @@ -53,7 +53,7 @@ xfs_buf_log_overhead(void)
->   * will be changed in a transaction.  size is used to tell how many
->   * bytes should be reserved per item.
->   */
-> -STATIC uint
-> +uint
->  xfs_calc_buf_res(
->  	uint		nbufs,
->  	uint		size)
-> diff --git a/fs/xfs/libxfs/xfs_trans_resv.h b/fs/xfs/libxfs/xfs_trans_resv.h
-> index 336279e0fc61..1804e821f382 100644
-> --- a/fs/xfs/libxfs/xfs_trans_resv.h
-> +++ b/fs/xfs/libxfs/xfs_trans_resv.h
-> @@ -96,6 +96,7 @@ struct xfs_trans_resv {
->  #define	XFS_ITRUNCATE_LOG_COUNT_REFLINK	8
->  #define	XFS_WRITE_LOG_COUNT_REFLINK	8
->  
-> +uint xfs_calc_buf_res(uint nbufs, uint size);
->  void xfs_trans_resv_calc(struct xfs_mount *mp, struct xfs_trans_resv *resp);
->  uint xfs_allocfree_block_count(struct xfs_mount *mp, uint num_ops);
->  
-> diff --git a/fs/xfs/xfs_buf_item.c b/fs/xfs/xfs_buf_item.c
-> index 1a4ef34af8d5..644c3fb18310 100644
-> --- a/fs/xfs/xfs_buf_item.c
-> +++ b/fs/xfs/xfs_buf_item.c
-> @@ -252,6 +252,16 @@ xfs_buf_item_size(
->  		offset += BBTOB(bp->b_maps[i].bm_len);
+> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> index e0c4bf88a838..adf30b720b13 100644
+> --- a/fs/eventpoll.c
+> +++ b/fs/eventpoll.c
+> @@ -1264,7 +1264,7 @@ static long ep_eventpoll_ioctl(struct file *file, unsigned int cmd,
+>  		ret = ep_eventpoll_bp_ioctl(file, cmd, arg);
+>  		break;
+>  	default:
+> -		ret = -EINVAL;
+> +		ret = -ENOIOCTLCMD;
+>  		break;
 >  	}
->  
-> +	/*
-> +	 * For buffers with the prealloc flag, always size the allocation size
-> +	 * to the maximum as per the log reservation.  This avoids constant
-> +	 * realloc cycles for buffers that are filled sequentially in rapid
-> +	 * pace.  Note that the nvecs calaculation is kept from the regular
 
-	                              calculation
+I think based on the documentation this is probably right, but I am now
+wondering why both ep_eventpoll_ioctl and ep_eventpoll_bp_ioctl need to
+exist.
 
-> +	 * look as the buffer item formatting expects it.
+Maybe when I first implemented this I thought it made sense to factor
+out the busy poll ioctls into their own function, but in retrospect maybe it's
+cleaner to just collapse the ioctl function into a single one instead of
+having two layers?
 
-"...is kept from the regular look as the buffer item formatting expects
-it" ?
+In other words, maybe:
+  - delete ep_eventpoll_ioctl
+  - add the is_file_epoll check to ep_eventpoll_bp_ioctl
+  - rename ep_eventpoll_bp_ioctl to ep_eventpoll_ioctl
+  - fix the test (as you did in this version of the patch)
 
-I don't understand that.  Is the nvecs calculation kept as the buffer
-item formatting code expects it, even though we're allocating more
-shadow buffer space?
-
---D
-
-> +	 */
-> +	if (bip->bli_flags & XFS_BLI_PREALLOC)
-> +		*nbytes = xfs_calc_buf_res(bip->bli_format_count, bp->b_length);
-> +
->  	/*
->  	 * Round up the buffer size required to minimise the number of memory
->  	 * allocations that need to be done as this item grows when relogged by
-> diff --git a/fs/xfs/xfs_buf_item.h b/fs/xfs/xfs_buf_item.h
-> index 3159325dd17b..ddc8ecc4683e 100644
-> --- a/fs/xfs/xfs_buf_item.h
-> +++ b/fs/xfs/xfs_buf_item.h
-> @@ -20,6 +20,7 @@ struct xfs_mount;
->  #define XFS_BLI_STALE_INODE	(1u << 5)
->  #define	XFS_BLI_INODE_BUF	(1u << 6)
->  #define	XFS_BLI_ORDERED		(1u << 7)
-> +#define	XFS_BLI_PREALLOC	(1u << 8)
->  
->  #define XFS_BLI_FLAGS \
->  	{ XFS_BLI_HOLD,		"HOLD" }, \
-> @@ -29,7 +30,8 @@ struct xfs_mount;
->  	{ XFS_BLI_INODE_ALLOC_BUF, "INODE_ALLOC" }, \
->  	{ XFS_BLI_STALE_INODE,	"STALE_INODE" }, \
->  	{ XFS_BLI_INODE_BUF,	"INODE_BUF" }, \
-> -	{ XFS_BLI_ORDERED,	"ORDERED" }
-> +	{ XFS_BLI_ORDERED,	"ORDERED" }, \
-> +	{ XFS_BLI_PREALLOC,	"PREALLOC" }
->  
->  /*
->   * This is the in core log item structure used to track information
-> -- 
-> 2.53.0
-> 
-> 
+Would result in a cleaner fewer helpers / cleaner code ?
