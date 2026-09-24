@@ -1,145 +1,229 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138EE3FB7E5;
-	Thu, 24 Sep 2026 19:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D944C8C79
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 20:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790279417; cv=none; b=uYE38Fh/d27BW43mR55FJPNmlAhAOClcHxNYnDfTev0KDqiiQ3g3tX+tLLsJsKXvGHL2hjlOzS+LzO9VtbWo0UVAzpVBFAqoRTmX7AGfs/OVx1AVLib1arBdA9vR39eOscXENVDN3HU41sX+IOtE3K3a0ec/LzJw66Io7oqOrHQ=
+	t=1790280594; cv=none; b=Swrd5hvPLT1Gp4K4KG2xws6f5Hh8FGbjOBJqY72nYsgiXBEcvQg1GJk4OEf78ZSPe7gPH6zCH5PxmMYsVGTyboihjiXMQxIc8uc0Ky0eEWGXT7oUINQriCeFX78E/jKmvmDScwN8X73RJ5JUiv8oaBPGboxhvUk/Ga7T76d6wCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790279417; c=relaxed/simple;
-	bh=MqIgevqO/07Z1ZJhZN4iDsoBNAEdKgZoQPcYm0vi9Ds=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lKWXczbMXXcwoHfMYOvvrNjP0wRqH9TpTngssBz8oCiQ2oTvpkHAc7yu5f+fm9d9SEefHTRGMpjpcbm1F3rDKU+LapWnqim/s5Wgz+gPjlv9xjOPmVsG7ow8I6yBdYJFxffrG1cy1vdremxVxVE2iUEO8yx2bubRFBYksEETqao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjHBmkcQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790280594; c=relaxed/simple;
+	bh=CQTqQgmVstq3o9NzeleortOun0qhbXmPLnoN1FTQcmw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CPv4aXKte+EoOg5EnQcMJyX5rhEu1lf79aKx6e0nI63gs77Q7uaxjQ/0QF7DAvjAClvjLsQFOgdjpqReJU+PlKUVIgRhWusTOlEu2Al8IT/JF4lcEDrDql0pqggBo1WdUMkV3GeE633wGAwYJZrhnmfLx6U1/aX6OYRTnecUupE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=rPz019yV; arc=none smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjHBmkcQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 453CB1F000FF;
-	Thu, 24 Sep 2026 19:50:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790279415;
-	bh=R7GRre8UKUgbIjQqpBFebYRVHyGQlunCInkDxKufszI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=MjHBmkcQ/qd9t49haNxYHlTYpGVQk37oxGdxBtQQZoCApRCZIkkpIH62vPL3/Hkz4
-	 +y3DiPqZ3dq0Cw37qn86Jgoisgo6S07xcFsmhtTC5ViMb7uRJ7PjwZho/fEDnfEO4j
-	 RgEJYQhP27rF5OGwAOMOp/i3S6x4y5NL6oAhY6AacCRC/++DowaWH4hOj0dDRE6cwJ
-	 4KMhXGS665+F63XbcZEv9Q6qa4Zq1Oka5xIOZmsDNu8ZB4EKwwd4xJXzl14TZ06BuI
-	 XTW7jfK5RqrUgQhUeuIe9IJGy+nE8bc6SNuOaQX9CyOUx0/++A+FJM/0rMpkIg+Geb
-	 7z3+Pr2a8Ut8Q==
-Message-ID: <b6069b5e-4e67-4ac5-ae20-51301d926e97@kernel.org>
-Date: Thu, 24 Sep 2026 21:50:06 +0200
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="rPz019yV"
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66fb93aee5eso438024d50.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 13:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1790280587; x=1790885387; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rg7QM4KETiLUj6hqqqxzETMVSyrQCG8CKSaSlcksQCs=;
+        b=rPz019yVGrH8tG3ukLpoh+8TBaTueCxyo0Xm6fu/672t0iKcb7514UCmxfTKEjB/Kt
+         AorzWNwpQe/vb21e4cQP+/UNM//sB8SYbjMrHfxUHFKEEGe+/O92zrJMZFr+QBtS6sC/
+         H+2Li4OubuRrN2G8/QfiP6XJ+2MbsREcwn08uG6XlJL+GdUBXZnUeKxg8mDXZXInilVb
+         wTEdWDifUeCsfNDN2rw9z3cVHdlDNTXU99RyJrLvrFxUfYn5/ZC6kJRKH3SorL9UAcUi
+         kQjcs1rdOcZBh/Jp2ewRswOstp3kyUxWl5pcls9GNYel7nhPCuehtNSm8zBwe9ACQFO5
+         XIhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790280587; x=1790885387;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=rg7QM4KETiLUj6hqqqxzETMVSyrQCG8CKSaSlcksQCs=;
+        b=bQtKxmq0u9BOWPfWKNSVyxbmWrcl7aCg3wDv4rKsjfrLXOep/IfFo5U4iStlXVgkAj
+         p7bVuHuGvv2dykpbnob9k3idXvtMdwQK/X6mME2fXOXWzoNg60LwCzQiBSo0UhLu/n2B
+         CtVDNci0gDo70qONXAp6GUjQHlGeC0YzowH/vy6RrEI6neNhORd93Rd841xQPdm0Bd1z
+         KufYcNvxgq/gtxr7CgLtlJ3S0kFTbnV0tTG6El4PS/0/fasH3tHUUMMwDOu0db8gkvPM
+         IzGUf5+CdVwZ6pmW7K4RO3A++7Q9vkroigEjfJnNjdrRPijfHfWWZG0PTs4tGkL4wim4
+         JwFg==
+X-Gm-Message-State: AFuF++mo+ASDyZIDedM07Js6TPEwvb1mgWpixIbwYTucfDnbnO6PEsg+
+	3hUHSwDlu0+m0bbqHmZdM8dyXlkRWlr597hAqFRjAuo7MrSbuWlfuhptFMgp7CG8nmg=
+X-Gm-Gg: AYBFou2Afk1kl8gZfvFFsLEBi86G8CyTP2n6y7uYRGAVIWoN0UpcUqDjiZ8i/5KfH8u
+	r2rmHbra0eCsjdnEJVu7d0hPCBkc405cUTljzB6DWoVQ6yZZvlMH2I/IBJ51xmlLJIryf1AsHoa
+	PHbtD5+e4rXJEfHMD4eXbVOQGO0TccGKgpy0WJq4duT7qWIE+HtRnXiK7RJLWwnodpXL732VR60
+	qS6vjVyqGfwz/i9AhEkn03X8apgyB5rG5uIo+PdxQkgdd7HOjC1LU+uODAx8flpkyKapuyM9TvV
+	DJ/UoS3o5c0RxuzS91IDexHiMifkQHuEYrdJ0BB5qvwayhRCu7a22bJkfTuHO7CXy6ud/WxvgRi
+	CYZJIyVYrTeSz0RKMkg7GpBgWrm9G7Xt4hjBvIQLizvCxKymd+muhTLHvSWvQdz9VZ4lgIWkHuA
+	+fTxPv/oRzrx4zy5PnsK7Y9OByBlPkXPPDRgf1YES0Ksvkl+cwVN5clOg9ymYM/HWFKkpq6gohH
+	HNKa6cL6wkt3DvVOMZU2Bfc4Ft77dN4c/H7lTb6rhOohFXesn0cp4vzHzPiqFkJk4bWweNzuhvu
+	AYTCpFZYz4Gt+KXprT+VdnMLgLQs8V3NgVD7aNxo3kxwFyopRn/5wPpxb6XbiWBNOlTeCC+Tjy0
+	=
+X-Received: by 2002:a05:690c:ec5:b0:89a:63da:fa96 with SMTP id 00721157ae682-8a648ec58e4mr20513967b3.81.1790280587624;
+        Thu, 24 Sep 2026 13:09:47 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:4935:3bd4:e0b7:fd95? ([2600:1700:6476:1430:4935:3bd4:e0b7:fd95])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a860f85e57sm1357087b3.19.2026.09.24.13.09.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 13:09:47 -0700 (PDT)
+Message-ID: <2612157454a2e08c4478aeed9df236ab7f0f2090.camel@dubeyko.com>
+Subject: Re: [PATCH v2] hfs: validate allocation block parameters in
+ hfs_mdb_get()
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Hui Peng <benquike@gmail.com>, glaubitz@physik.fu-berlin.de, 
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Thu, 24 Sep 2026 13:09:45 -0700
+In-Reply-To: <20260924070410.2629558-1-benquike@gmail.com>
+References: <20260924070410.2629558-1-benquike@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/5] mm: sub-folio dirty tracking for PTE-mapped mmap
- writes
-To: Kiryl Shutsemau <kirill@shutemov.name>, akpm@linux-foundation.org,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, "Darrick J. Wong"
- <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- Usama Arif <usama.arif@linux.dev>, Pedro Falcato <pfalcato@suse.de>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-team@meta.com, "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-References: <20260903182943.662461-1-kirill@shutemov.name>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260903182943.662461-1-kirill@shutemov.name>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 9/3/26 20:29, Kiryl Shutsemau wrote:
-> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-> 
-> A store through a shared file mapping dirties the whole folio. With large
-> page cache folios that turns a 4K store into 2M of writeback: one dirty
-> bit per folio, and writeback has no way to know which part changed.
-> 
-> XFS already knows better. iomap tracks dirty state per block and
-> iomap_writeback_folio() submits only the dirty ranges, and the buffered
-> write path sets just the range it copied. Only the mmap path throws that
-> away, because iomap_dirty_folio() covers the whole folio.
-> 
-> Narrowing the dirtying at page_mkwrite() time does not work on its own:
-> set_pte_range() batch-maps a whole folio writable on the first shared
-> write fault, so the stores that follow never fault and never reach the
-> filesystem.
-> 
-> So harvest the hardware instead. folio_clear_dirty_for_io() already calls
-> folio_mkclean(), whose rmap walk reads pte_dirty() for every entry of the
-> folio and throws it away. Those bits are the only record of which parts
-> of a large folio were written through a mapping. Collect them there and
-> hand the filesystem the runs that were dirty, through a new
-> a_ops->dirty_folio_range().
-> 
-> All of this is about PTE-mapped folios. A PMD-mapped folio has a single
-> dirty bit for the 2M it maps, so there is nothing finer to harvest, and
-> it keeps writing back whole. Keeping shared write faults off PMDs is a
-> separate patch and not part of this posting.
-> 
-> On a 512M file in 2M folios on XFS, storing one byte per folio and
-> calling msync() wrote 512M before and writes 1M after, with identical
-> minor fault counts.
+On Thu, 2026-09-24 at 07:04 +0000, Hui Peng wrote:
+> In hfs_mdb_get(), drNmAlBlks (fs_ablocks), drAlBlkSiz (alloc_blksz),
+> and
+> drFreeBks (free_ablocks) are read from the on-disk Master Directory
+> Block
+> without checking their mutual consistency against the partition size,
+> and
+> failure to allocate HFS_SB(sb)->bitmap returns -ENOMEM without
+> releasing
+> HFS_SB(sb)->mdb_bh, HFS_SB(sb)->mdb, HFS_SB(sb)->alt_mdb_bh, or
+> HFS_SB(sb)->alt_mdb.
+>=20
+> Validate that fs_ablocks is non-zero, free_ablocks does not exceed
+> fs_ablocks, and drAlBlSt + fs_ablocks * (alloc_blksz >>
+> HFS_SECTOR_SIZE_BITS) fits within part_size, and clean up via
+> hfs_mdb_put(sb) on error.
+>=20
+> Tested in QEMU against Linux 7.3.0-rc3 by mounting a crafted HFS
+> image
+> with drNmAlBlks =3D 10 and drFreeBks =3D 50: on the unfixed kernel
+> hfs_mdb_get() accepts the inconsistent MDB parameters, causing
+> filesystem
+> corruption ("hfs: (loop2): extents (cnid 0x3) bitmap corrupted");
+> whereas
+> with the fix applied mount fails immediately with "hfs: inconsistent
+> allocation block parameters in MDB" (-EINVAL).
+>=20
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Hui Peng <benquike@gmail.com>
+> ---
+> Changes in v2:
+> - Validate consistency between drNmAlBlks, drAlBlkSiz, drFreeBks, and
+> =C2=A0 part_size in hfs_mdb_get(), as requested by Viacheslav Dubeyko.
+>=20
+> =C2=A0fs/hfs/mdb.c | 12 ++++++++++++
+> =C2=A01 file changed, 12 insertions(+)
+>=20
+> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
+> index 277de712f9d4..665753a2cba9 100644
+> --- a/fs/hfs/mdb.c
+> +++ b/fs/hfs/mdb.c
+> @@ -214,6 +214,14 @@ int hfs_mdb_get(struct super_block *sb)
+> =C2=A0
+> =C2=A0	/* These parameters are read from and written to the MDB */
+> =C2=A0	HFS_SB(sb)->free_ablocks =3D be16_to_cpu(mdb->drFreeBks);
+> +	if (!HFS_SB(sb)->fs_ablocks ||
+> +	=C2=A0=C2=A0=C2=A0 HFS_SB(sb)->free_ablocks > HFS_SB(sb)->fs_ablocks ||
+> +	=C2=A0=C2=A0=C2=A0 (sector_t)be16_to_cpu(mdb->drAlBlSt) +
+> +	=C2=A0=C2=A0=C2=A0 (sector_t)HFS_SB(sb)->fs_ablocks *
+> +	=C2=A0=C2=A0=C2=A0 (HFS_SB(sb)->alloc_blksz >> HFS_SECTOR_SIZE_BITS) >
+> part_size)
 
-Just a note that with things like cont-pte we see the trend that we only have a
-single logical dirty bit for the entire coalesced PTE. Similar to having only a
-single dirty bit for a PMD-mapped THP.
+I would like to see the dedicated function for this check. Currently,
+it looks like a mess.
 
--- 
-Cheers,
+> {
+> +		pr_err("inconsistent allocation block parameters in
+> MDB\n");
 
-David
+pr_warn("filesystem possibly corrupted, running fsck.hfs is
+recommended.\n");
+
+You can add more details about corruption in the message.
+
+> +		goto out_err;
+
+I don't see the point to introduce this way of managing the error case.
+Let's return  the error right here.
+
+> +	}
+> =C2=A0	atomic64_set(&HFS_SB(sb)->next_id, be32_to_cpu(mdb-
+> >drNxtCNID));
+> =C2=A0	HFS_SB(sb)->root_files =3D be16_to_cpu(mdb->drNmFls);
+> =C2=A0	HFS_SB(sb)->root_dirs =3D be16_to_cpu(mdb->drNmRtDirs);
+> @@ -305,6 +313,10 @@ int hfs_mdb_get(struct super_block *sb)
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	return 0;
+> +
+> +out_err:
+> +	hfs_mdb_put(sb);
+
+You don't need to do it here. The hfs_fill_super() will do it in the
+case of error.
+
+> +	return -EINVAL;
+
+It is not the case of -EINVAL. We have corruption here. Another code
+error should be used. -EIO sounds better, for example.
+
+But we have invalid free blocks value. It sounds to me that we still
+can mount the file system in READ-ONLY mode. Am I right?
+
+Thanks,
+Slava.
+
+> =C2=A0}
+> =C2=A0
+> =C2=A0/*
