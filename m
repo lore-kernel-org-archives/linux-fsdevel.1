@@ -1,133 +1,116 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433084A5EA8
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 15:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790265232; cv=none; b=Cr6/WwzeL4qOlhOu1jqSNW05WCK6w3h5ypZcjrqt4smQ0jfJtWd57mr3oIuOSj9/BiMG9XU33cpXGdpoqWKnNkVtJwnaI6S4znJ9Y0aoRQGwZmePagTWZ0iUQLwAnuDSJvKgtVLdKPnUsD9ELyFAjxv0KhJ2S+LFuMs2nxaEMvY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790265232; c=relaxed/simple;
-	bh=wMUbxl5vt/9aakHALUb0wzH/L2TqRFPYLffnV8Cgl4g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kwndrKopoTJjAXi1a8yXiAbzzKBM1iH/S/ocoq9wplhCwRbiSawPXXzOMVF5ARvK8rtrWfBNa/tDrOsxjhi+9zla0urQAIDMjmJ89443mqlgbLns5lGSNcTKf+sj9SHzrfpR5nhficPvfe5f2EpWX3tS+CE5RoNMoR+nS2kO9tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCGQz2eS; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA21F4A8FE2
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 16:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790265992; cv=pass; b=fVrD4vmRwhnSO3keojEr+fikK5W/ozP/HfPceBLQj/WGCIRhBeE3P16Ew9Se2RkEn5rriG3SL+3sB4w37BSfFbRM1rc42TJe5zdHN8rqzclVQalIZu+BIu5yO/WPVuF6B1COovGDxDLvo2Eqnd9i01ORLniUJYyqzXaHL0R5DWk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790265992; c=relaxed/simple;
+	bh=s87PL5rrwrP1hfiGb5q93550+Hv8VMpEJj1mpIiTKCg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bG9evnW6F8Q4X+cFFJz7TIkSKH56zpkrwPBPpfUSjp27/8wNYXtXDfaf2TJhKXGtR9jU9/GImxK2dGknoe5icFuGl8xlGARFeJsFVZGD++4AZDNsHI+IzQkr60Gt4kWIF2YEWbv064zEBYZmz9aWLRPFrWKyKs74wR92om7qSE8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lO48X/LT; arc=pass smtp.client-ip=74.125.231.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCGQz2eS"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6aa13a28848so1600432a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 08:53:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lO48X/LT"
+Received: by mail-oi2-f12.google.com with SMTP id 46e09a7af769-801a8bf8112so1006947a34.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 09:06:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790265989; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TNwahGYFPkzsjUdBOdFvvY8POftk6YbhrAFWrUjTgol2vmgTUJtui10chV8Jc+puPb
+         nS3r22iH2nH2+pjfv0E8ISifhipEhPewFMH99G88wIkard6gl1dfo6m3gVXENKPhBwqu
+         c4RQ3QuMFuEa6JVjzFPNJ8ojOZ3r5G1fmhW3lES3a6tZDX7IvjULSrHFrFKXivUecifo
+         Ko1wGpj8g6FBqQlh3hVw4EYsari43khvk18JRu4lLDH/dpLrNLPxBe4JzLu8r0+yEdTz
+         wkT27QkLKvephvFy781jVU2wYfUINyaycuW952EQY8sW5vK0OZi+KLS8Ik1vdXzACQ1S
+         0ENA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=s87PL5rrwrP1hfiGb5q93550+Hv8VMpEJj1mpIiTKCg=;
+        fh=DAMvokA61aIFIEWOBMLYQDbfmER/M5jxxfx20IihoTg=;
+        b=f/S4y1dhNWpLW1Gb02+6BXGlM3UwwsQT5AYcg5zBqd06TNTZihWqxgBXOjKkrVly1j
+         2XKWOu7ErWVppj1KaWL9mUARY/29tDs1YQaBU2j1pMOMKQPn4INVVRUoDnZxFR6FWx3i
+         XD/WZGxNKDaEDloEMa7R7ko8ZBTiMHOYi+zqsBFvbWy/3g3Z+MR4mGE6wqeZ1DRoqyTp
+         sF6EjMh5fJdcwbcwi+7UgqYm8Keoa9kXWPLsp46Vr2ntZUnmwfZPSHUaAMURr+BoFhLS
+         /fvSP5EeaaxArx2S620sAuWA9P6B2crUH58XHyVKavysVXFYUAjfemDllbZ8Bu0tIJEF
+         /qlQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790265228; x=1790870028; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GNmm9vpoKogbEkGqMdf9XAhWMEnJbsDsb3NN6zmWdWA=;
-        b=bCGQz2eSkcQYMSbQNfLYFZiq45HlXMpEwZjtjh5ha94/5vOF0qLHpu9X/lZmf/vZXK
-         DeUHu394OYCJ6Lj32I9RPjdNdKveIfOpfEWorZhCfIEYywR+cRALMykbVEFtub5oDS2O
-         MpV7RU+rbkuShz+jA3asVlrDJ23iFlQ4iSPCrgC2ETXrn5yuRl21vE7rVYDSB5jygVhZ
-         dyoViXu0rSJrHzN+ecwAoQ1pkTwqCTYP8kzclXNL+9EdUyS7bNOcgcXqSJPkcGLBQzc8
-         HLItADMdjRIEMYD5rCPdt6ykQwa731k1tcla8CM/ahBbW8iD8Wx9Jtw/dlD8gEdJRYNb
-         Lqvg==
+        d=gmail.com; s=20251104; t=1790265989; x=1790870789; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=s87PL5rrwrP1hfiGb5q93550+Hv8VMpEJj1mpIiTKCg=;
+        b=lO48X/LT9dqCaMQDc1j6i+bWX1ERyN4cgsOxZb01EAFQT7lJvIgxoE6mvSlKj257Nf
+         qeM7PP5RtKA0hBoc7oqXzpIFoMlEanm+PGG+Ny1S4LqpvXWa6emxuvUBIr886XUW5IXa
+         Limf76gud0UEroF/+cpsKrbYnXF9j57Ugw22XU6OIspFZvrrtJVShEpqrImoumEfJxs7
+         UOmE3XoqQEEDeldjagGFPenIWf64el1QpbBRTkcozaFDkXx5RqW4OuQIUAf0TZSxSD57
+         RwSoY4jroYCQ7vooDkvz7qOeeqdRylE0lLvERLbTkGDvY5bjd8OEBsEPTbr/U+kpZxs5
+         n8iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790265228; x=1790870028;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GNmm9vpoKogbEkGqMdf9XAhWMEnJbsDsb3NN6zmWdWA=;
-        b=DV+fpRFEu/RR1fgKUwwNyVtJ6a0d1WHG724D/a/zQoc97Y5KZh0ROP9zmFeNgTyawW
-         oASIYcio3sEvp9CawE6HUlr7/FTCrbxBho/W+KtcooVlVrraVhfyUKaDpgkewZkW2aZm
-         Wq0uUwFeTR7c++G8/EdPKpdbxCV+/7X9/LRktvvGrhCeOjeFEksQNcAVuAsWX/uAIvNj
-         0YfF3tkwMbCIK+yqljrGsI/9DVMjxXPZdrWzLPtNB3j5ItHTjseBp3cYjEuBMk54SzjK
-         gpiUV/ifrFjvBc3liIUJD70YTXdlhqWYev3hP27971GCVrzozTRp6mMCWkM7GYVqVCwU
-         jcCw==
-X-Forwarded-Encrypted: i=1; AKwUvByCdjpRTHMw1I2Qnh4ZXtGL42WNfzdXx29jRBKnaJFP3eMuj42PvDv60N43oeaXkLSa/omrO/orbZdRTh+7@vger.kernel.org
-X-Gm-Message-State: AFuF++nUam+KnP4908DPdRRjTW84DY56CUHgElQZhT8DgPcRzi/yCE9b
-	D5uBkH+MGFW5GVahEWz7Rw+Pxu5Y1MRadc/biD20otOl+LHdKQoiZDdk
-X-Gm-Gg: AYBFou1r0ohV2d8QaZ1EvYRPGJIc3fSyhgQ6QONjL0QKvsXqUM45DJH5LDb3zIMZNTw
-	vnyY+h9INqlfvroldg4N8lHuzRsCtvRK38IpbnvGELc2D+XlLlfakIZANI5R7eGKSSiuKF3fost
-	EBfALykfcJb1pGpz+Ubv14nhdeh4muDf5iw4s5xoX1+uY3xgxQ1iYS+AREENFSXDaFA9Hpl8tcb
-	4k5Wvijs+4KLZ1FZYC3XhMj6ERYpKwZj1qnT2ub4v/p/beIGNzypcfiATr+doFVBpWofvjy88dM
-	BwLFf6hUSwf2nODWUgWSzas+b4jco1oRIDaYnz/uYFmYrYWMYkcsd48t0YGcRVHnKcLSb7gJi3+
-	QG5LTVDJR4fyt6dEhkQh03b0FJ0kqP8S9kqtRWC9UEEWPwhZ0FLPoomfEGLyXN4I/OAptU7slrH
-	Lq8/NSFhBC01S8rEOhMjf6DZ5eyF2HxvpAvBjsoWVXQIOjgIairrjWfiXXcd0Y7hnoaZ9M8LlaP
-	wkmF0o7pSrkkNDE9Jc5O9v0AHsqp7JechUxyyP9sdSSzsvzd8SL6tHL+8v8Nvq3COF+5djX8HLo
-	Tk+0xHGOMpTfp8cJnMZFeUvkhAUlq0PYbfDRaP4tP8nMV/Wr6A==
-X-Received: by 2002:aa7:d94b:0:b0:6a9:c9d8:b3b6 with SMTP id 4fb4d7f45d1cf-6aac8f0ae7emr1949690a12.6.1790265228473;
-        Thu, 24 Sep 2026 08:53:48 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aab38b2fc5sm3815784a12.27.2026.09.24.08.53.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2026 08:53:45 -0700 (PDT)
-Message-ID: <6d538f3d-dd83-4dfb-b091-9b84acf47c62@gmail.com>
-Date: Thu, 24 Sep 2026 16:53:40 +0100
+        d=1e100.net; s=20260707; t=1790265989; x=1790870789;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s87PL5rrwrP1hfiGb5q93550+Hv8VMpEJj1mpIiTKCg=;
+        b=LHt2YTdCewq6XquHbEHgVmk6brQZzzuCK+oQkHtBdCOu0ZxEBNzKn9bXH3T4VkzYuo
+         YF7qvPaat1R0LA1MX1vAtXyMM8dPn19pusc2dWNe5YrypVXmQO7FWlasTO6pvC1KHujk
+         AEvBO/LfLxuG80OM0WOXetG1rKJv4kzG3nvxtVA90rCXl6UixbV0FlQCnsVIsGNFDxGz
+         CHZ1FM2pU+IK2eg3mRSidSEvDFKPBk57bt0HGoos5oCk1HuLqEVrxxkeAJmA3UWdinAb
+         r+K/x2aqyGrdX0FL/k+iqol9hq0LDqD62XhevByLGkH/tBNMDWq+q9RjsHZfKIeKIiNH
+         cXdg==
+X-Forwarded-Encrypted: i=1; AKwUvBw6l9P91WvfbyIsUarXxJFPI9tAkogSJybQ6O8XdE8a5XwPZD96L+fsGeFzQ8BwkyRJ9WcwgTrgS95xIDwG@vger.kernel.org
+X-Gm-Message-State: AFuF++nhLT1iJbupNFDT2BGpbkfDOND8B/iTCX3xML/931FVOJX9AeQk
+	VOy1r9WC5A46ntJoEEjjJEVOWSScRgU5Rh/veeHsM/IsrRvZuROtVOCYfOqr+mw92CVulQngTbQ
+	H8NXtSAAh19SacKRy9sLPLeq7SepMeKo=
+X-Gm-Gg: AYBFou18qn/Fy4A/2AQA0pN2aZ7aoFO9z4A5chdgnQd/TFX8DrDTf5RAIBv1kjlsGDT
+	XS3IFEZGWY0cVNcsOaf+70tdOQEVjzkordkqKSYpBffA80x9zz57VXumo9PUWmC358YzAwMKREg
+	p1zkuqS2PkKW0c581GI2zqgR+BsefizBqrslKwDS0abHA3w2AtmvlX1P9FK496b2KQ59UgL3P5T
+	rpPNZ8Ib6jjI03g5JfzGwclJR9Ywtn5tSPTYTuHU/UXVepZL1YSgeGV7wR8FgOfTQtyhPY3RAiO
+	ZOv67U4OXUkpsH3YwGwaKchx7GLW4aBG8HfKnKAs16hmSfVg3sNad+4u3KUqtXwI++1Hxx+veII
+	5zo+FEul5FlZt
+X-Received: by 2002:a05:6808:5395:b0:4b9:e5fa:8a11 with SMTP id
+ 5614622812f47-4d728f2aabbmr2804188b6e.22.1790265989379; Thu, 24 Sep 2026
+ 09:06:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/13] nvme-pci: implement dma-buf backed requests
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Matthew Brost <matthew.brost@intel.com>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev
-References: <cover.1789997898.git.asml.silence@gmail.com>
- <e80c3b1e0de004eaca6c51a2a86115ac9ed36381.1789997898.git.asml.silence@gmail.com>
- <20260922132016.GA30684@lst.de>
- <d39a6dd7-cb5a-43d6-8dcb-16eb9fc95b4d@gmail.com>
- <20260923045505.GB26231@lst.de>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260923045505.GB26231@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260923022339.3340694-1-georgeandrout13@gmail.com> <arThye_219ruNbM2@google.com>
+In-Reply-To: <arThye_219ruNbM2@google.com>
+From: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+Date: Thu, 24 Sep 2026 12:06:18 -0400
+X-Gm-Features: AclHuK-lOEBKK9dYOS2UY00MWakjMDOvzU7dNK00ORx8tBpC4tNpOn47rwDC-Po
+Message-ID: <CAESH5ocJR9SLHcYfusixDmOR-CLce=HTpLxFU7zVQZFPtD9uuA@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
+ descriptor APIs
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Jan Kara <jack@suse.cz>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	linux-fsdevel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/23/26 05:55, Christoph Hellwig wrote:
-> On Tue, Sep 22, 2026 at 02:37:08PM +0100, Pavel Begunkov wrote:
->>> Sashiko had a few comments, which I think are correct - if we use
->>> dma_map_sg to map the data, we need to use the sync_sg APIs to
->>> transfer ownership.  That only matters on non-coherent architectures
->>> with MMU, but we need to get it right.
->>
->> I've seen that and fixed everything locally that should be fixed,
->> apart from the sync. I wonder what we can do about that? I can
->> somehow replace it with the sg variant for now, but sync'ing the
->> entire possibly multi-GB mapping for, let's say, a 512B I/O, sounds
->> not wise.
-> 
-> If we'd want to fix this for real we'd need to add an offset to the
-> sync by sg methods.  Or move away from scatterlists in dma-buf, given
-> that they are a horrible API.  All of these are bigger projects,
-> though.  So for now I think you'd want to do the sync all, and have
-> the people who run high-performance io_uring code on non-coherent
-> platforms suffer.
-> 
->> And I can think of another place that does mix sync_single
->> with sgs.
-> 
-> Which one?
+On Thu, Sep 24, 2026 at 4:39=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> w=
+rote:
+> This looks like it should ideally be on the C side instead.
 
-All the recent networking zero-copy / dma-buf apis.
+I could move the `NULL` checks into the C helpers in `fs/file.c` that
+currently dereference `current->files`. Since this would move the fix
+into the VFS code, would it be okay to send this as v3 of this patch?
 
--- 
-Pavel Begunkov
-
+Best,
+George
