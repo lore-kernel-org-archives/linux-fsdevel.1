@@ -1,84 +1,42 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904404DF4AD
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 21:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E67C3B2D0D;
+	Thu, 24 Sep 2026 22:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790287157; cv=none; b=S92+5w0HDuS+Q0uDf5Kt9wu2ke0EKSRsHKXw0VB+eNhzC0jfQbQeATZDLvD5GxU+zuHEiGVym0qR0Jf+zMJA+WCTvfadPpp7IhrtFXzURMi86ZER/KNsAtDMzoWHOCGKcMULK5EXTbjTUb89oqHPh5egimqTjdEM8j2Sf17+jPQ=
+	t=1790287393; cv=none; b=XL7QznA2hRtp9OXj5JPRxQAFqgKo6PwYt5KoeZPid/19gbTWD1vnDwGzI4u+UfvuXeDkTzpNZ+d25t7GfNh2srYeNT4HSeFgrrsEfVxbNMsyrBORGtsVQ0GDiBo6yUTZ7VghYh0xMDHxuUmkaUVNF6MuX7j3M0G5uzf1EE32rwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790287157; c=relaxed/simple;
-	bh=jdOnvM7WMqeUpU7l2mytGEp4oxIHLj8qtVUlj6NmVsE=;
+	s=arc-20240116; t=1790287393; c=relaxed/simple;
+	bh=tz+qpaM2JnUMEf43xkteuukCsiaU2NTQMd4INUfXVNM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g0XQHieqlySGW3ewV1p7l4SLwhq4eSkXShm0airvAP70eJzRSf2JPHxnJYXtvYQ0UYHIVxbPOOV5eO+7KbK1Fi8erM1rN7yM6ikL7EeZxze0wzK1iklfjXytzwrbwdiERCeaQaVsZAMKxglppMLMA2yANNj35zp4JRnzJqJfKQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b=vPEiD9ry; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
+	 Content-Type:Content-Disposition:In-Reply-To; b=LaHrDIHAd/vqrKk87FnRZ/zSAq59rEeW5I/67Mitpt6d4HF4JcBbdYl14F+CM/WuTORY/+NASIzi+5VaMsZkjw+A9ZKvH2J1N9LzoGU8/XlnhdZTmZaH50jcaTiSxkm441ahNmbJWwuz6Hzq7RAFCkUFMxdzL7UyKtHlGf7ILWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EWPHTDpF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b="vPEiD9ry"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccd5cf02so204250a91.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 14:59:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dama-to.20251104.gappssmtp.com; s=20251104; t=1790287154; x=1790891954; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bbmWMvcZGPaQES2g8FHXYoBiPxQtaNORw16tr7nwuuw=;
-        b=vPEiD9ryapYVAbcs8kdk/aarwnWZDJyTINZAS9v17BANQiOuYq1oHVyJBCxjEAkD7W
-         OctHq3duc79f++pDhRki9fmBx8iaZqo7WTEO3/KRGGQo6+bxo/NBJz7x9mDaDx9yeSkm
-         H+ok/Eqr1G1IAHpAGCOJjW0tBbSC6GZQ4faR6VgM1LIofN1MXaQ2GrHLhpxb84L3erPF
-         MKZKqlLcvnbE9KVPFO5CWFiC3ortqSZHI1Hj3EY76mwz0EQDeYKZlJcdkfMa+9Tj7hHN
-         d8re22ksBgofM9DHjvonMZM1H/MckT642VKR5gjzZ82kbtpL4sunMCl1BfUBlHuqr/JA
-         83ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790287154; x=1790891954;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=bbmWMvcZGPaQES2g8FHXYoBiPxQtaNORw16tr7nwuuw=;
-        b=U8up/3jreqd3no7PjGBb6oFnhJHvzwdAo9BzFMSLtsybWZUSNvDAEmGpEbprQsinEs
-         CFu71zVIHi5tfV34qO2G+CE+SUevK5+jQ33kCxTjqvYKGyZYnMm7YHgFVDLUWi7IRL5H
-         nLq7w/9ueKvYaGkXNQgP0cVTUnBShI2vk3+DcnMQZZpT5+WsbQSNZBW26/ndC0T5Cn5j
-         NGmmaCCGViQlYGfgkRqdxIq+X0bNwOkDx9UOuP6zFrviy0U529Tg+q6WXK3E0slRaO1Z
-         Rxx8fsvh8MwGCM1rxolRbpQ5O8g97rzeeLo7dl7JXkcP1zHtTsTdD+nwZg0JnL41bvwt
-         FkXQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx+Wj8Z0UVpXX9rJYvzDLN1zUY60Q2tvGiCXMrrkeTYS4RRkw7r+Vpd2f302ZSyYmo1w+UTEzoASpsex8tc@vger.kernel.org
-X-Gm-Message-State: AFuF++kL0zaWVbnUI+O8jZcdKojooCKvJgFzLqI5L6VKx4CIpvs8jF21
-	cf73MX1mw1Gfsc83COJOcfNAdKlTWiuIdU8J3gYRC0XN6/Qr77I7gXQmxocKpn1ZKfU=
-X-Gm-Gg: AYBFou3nCKzo+RuU6jhOJo6Zqfkj407GK1FYm8omrdae4VI/qFuhgf1R6xGAgdQLPr7
-	0jaVajaKy5fD4hyJS5UShjP8OcsPWy1NjgX/OSMRnOu3gueismyj4OJGTDqWx8LHH2TsLLut2Ei
-	cPoZL+86mIUgOHqXKw+5WzaLxCqRtAAa358I2GpOXrfCM6yFfsM3Xju+u8zl+BrQxUzt6Ies0Dw
-	OONKyMc0zVtNUW09rgUvZVy1at9s3iqmxzvJlZUowLDJpU5H2hGTggcmdIaffc/YUKxL7D900Wg
-	9tVt0WcPWumcBglUbKQbnEwjW5M3Z74gYAmMxQhz3JLkDHKm8AZ0iIU+rmQCzAwsHGpRrlkYyGi
-	2a5X6fT0ytdhkddr9b4CzR7vsE5KYXgo8BsTMgKGP0IaA3TMLEqQdeGYXNYXCHoktx5T0i6lVj2
-	5lkUJNKw4OwmkGvP+Uc5Dm9E/Hgghj4JMIhthr1/El1Rlb/RTHTBpWf8Ekvnxol3rwrwI8/v3N6
-	nnG2ks2kfgGWUbghENVDrc=
-X-Received: by 2002:a17:90b:35c3:b0:3a0:bcc8:1546 with SMTP id 98e67ed59e1d1-3a0bcc815f2mr76894a91.64.1790287153608;
-        Thu, 24 Sep 2026 14:59:13 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:59::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b9481e17sm582065a91.8.2026.09.24.14.59.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 14:59:13 -0700 (PDT)
-Date: Thu, 24 Sep 2026 14:59:12 -0700
-From: Joe Damato <joe@dama.to>
-To: hengyul@cs.unc.edu
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	jirislaby@kernel.org, sdf@fomichev.me, edumazet@google.com,
-	kuba@kernel.org, davem@davemloft.net, pabeni@redhat.com,
-	horms@kernel.org, shuah@kernel.org, linux-fsdevel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] eventpoll: return -ENOIOCTLCMD for unknown ioctl commands
-Message-ID: <arWdMDek0iv0obDy@devvm20253.cco0.facebook.com>
-Mail-Followup-To: Joe Damato <joe@dama.to>, hengyul@cs.unc.edu,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	jirislaby@kernel.org, sdf@fomichev.me, edumazet@google.com,
-	kuba@kernel.org, davem@davemloft.net, pabeni@redhat.com,
-	horms@kernel.org, shuah@kernel.org, linux-fsdevel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20260924185747.2166326-1-hengyul@cs.unc.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EWPHTDpF"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id DFB7A1F000FF;
+	Thu, 24 Sep 2026 22:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790287392;
+	bh=WXYRDdar3vFNmRMNuhMB8UoRV+HE29QIVdfqwrd6rYU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EWPHTDpFVpP3U6egHSAixmbjpHqW7SdrCeVYq7wyQhuYdcS/28ofQ7PT/qE2bKncp
+	 SsZsjLTahrgyvXN28EQlm+2bCzeZHGNxgX+kp6Fep0FaTpW80NPD44J/Z3s3Seco2w
+	 TxDUlVSSp+x4YXH8eBePjzpyvyHbxpgQJtt09KZpcd2xeG4d5xiBT1bPmiAQD1mrnU
+	 XO/YIMXjjP2IUSTxdBvk253cq9Z101j3T80UHvRhK7RGVoYuOoy9YbMp+u0rMtQK1G
+	 9osHGmHO0tWmsunwtC6/zTMaOMDiaM1/jAsOEfOlarqVynlImX4mXWx1NXw64EktKo
+	 zvi2IUxsLUjHg==
+Date: Thu, 24 Sep 2026 15:03:11 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Carlos Maiolino <cem@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 06/21] xfs: prepare xfs_rtfile_initialize_blocks for
+ larger than FSB blocks
+Message-ID: <20260924220311.GH2705364@frogsfrogsfrogs>
+References: <20260924100032.2733101-1-hch@lst.de>
+ <20260924100032.2733101-7-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -87,73 +45,184 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260924185747.2166326-1-hengyul@cs.unc.edu>
+In-Reply-To: <20260924100032.2733101-7-hch@lst.de>
 
-On Thu, Sep 24, 2026 at 02:57:47PM -0400, hengyul@cs.unc.edu wrote:
-> From: Hengyu Liang <hengyul@cs.unc.edu>
+On Thu, Sep 24, 2026 at 11:59:38AM +0200, Christoph Hellwig wrote:
+> The upcoming RT data checksum feature will use larger than FSB blocks.
+> Prepare xfs_rtfile_initialize_blocks to pass the number of FSBs per
+> RT blocks, and to pass bmapi_flags to ask for contiguous allocation.
 > 
-> Before commit 18e2bf0edf4d ("eventpoll: Add epoll ioctl for
-> epoll_params"), epoll files had no ioctl handler, so ioctl() on an epoll
-> file descriptor failed with ENOTTY. That commit introduced the
-> EPIOCSPARAMS and EPIOCGPARAMS commands, but ep_eventpoll_ioctl() returns
-> -EINVAL for any other command, so since v6.9 every other ioctl() on an
-> epoll file descriptor fails with EINVAL instead of ENOTTY.
-> 
-> Documentation/driver-api/ioctl.rst says that an ioctl handler must
-> return -ENOTTY or -ENOIOCTLCMD for an unknown command, and that
-> returning -EINVAL there is wrong. Returning -ENOIOCTLCMD was also the
-> intent of the original series, whose changelog since v3 [1] says "when
-> an unknown ioctl is received, -ENOIOCTLCMD is returned instead of
-> -EINVAL as the ioctl documentation requires", and ep_eventpoll_bp_ioctl()
-> does return -ENOIOCTLCMD for unknown commands. However,
-> ep_eventpoll_ioctl() only passes EPIOCSPARAMS and EPIOCGPARAMS to it and
-> handles all other commands in its own default case, which returns
-> -EINVAL, so that path is never reached.
-> 
-> This is visible to userspace. For example, isatty(), ttyname() and
-> tcgetattr() on an epoll file descriptor set errno to EINVAL, while they
-> set ENOTTY for any other file descriptor that does not refer to a
-> terminal, as they also did for epoll file descriptors before v6.9.
-> 
-> Return -ENOIOCTLCMD from the default case, which the VFS turns into
-> -ENOTTY, and update the epoll_busy_poll selftest, which expected EINVAL
-> for an unknown command.
-> 
-> [1] https://lore.kernel.org/r/20240125225704.12781-1-jdamato@fastly.com
-> 
-> Fixes: 18e2bf0edf4d ("eventpoll: Add epoll ioctl for epoll_params")
-> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  fs/eventpoll.c                                | 2 +-
->  tools/testing/selftests/net/epoll_busy_poll.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  fs/xfs/libxfs/xfs_rtbitmap.c | 44 +++++++++++++++++++++---------------
+>  fs/xfs/libxfs/xfs_rtbitmap.h |  3 ++-
+>  fs/xfs/xfs_rtalloc.c         |  4 ++--
+>  3 files changed, 30 insertions(+), 21 deletions(-)
 > 
-> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> index e0c4bf88a838..adf30b720b13 100644
-> --- a/fs/eventpoll.c
-> +++ b/fs/eventpoll.c
-> @@ -1264,7 +1264,7 @@ static long ep_eventpoll_ioctl(struct file *file, unsigned int cmd,
->  		ret = ep_eventpoll_bp_ioctl(file, cmd, arg);
->  		break;
->  	default:
-> -		ret = -EINVAL;
-> +		ret = -ENOIOCTLCMD;
->  		break;
+> diff --git a/fs/xfs/libxfs/xfs_rtbitmap.c b/fs/xfs/libxfs/xfs_rtbitmap.c
+> index 01536f4fb386..db6a22b4506a 100644
+> --- a/fs/xfs/libxfs/xfs_rtbitmap.c
+> +++ b/fs/xfs/libxfs/xfs_rtbitmap.c
+> @@ -1346,6 +1346,7 @@ xfs_rtfile_alloc_blocks(
+>  	struct xfs_inode	*ip,
+>  	xfs_fileoff_t		offset_fsb,
+>  	xfs_filblks_t		count_fsb,
+> +	uint32_t		bmapi_flags,
+>  	struct xfs_bmbt_irec	*map)
+>  {
+>  	struct xfs_mount	*mp = ip->i_mount;
+> @@ -1367,7 +1368,7 @@ xfs_rtfile_alloc_blocks(
+>  		goto out_trans_cancel;
+>  
+>  	error = xfs_bmapi_write(tp, ip, offset_fsb, count_fsb,
+> -			XFS_BMAPI_METADATA, 0, map, &nmap);
+> +			XFS_BMAPI_METADATA | bmapi_flags, 0, map, &nmap);
+>  	if (error)
+>  		goto out_trans_cancel;
+>  
+> @@ -1405,34 +1406,43 @@ xfs_rtfile_initialize_block(
+>  	struct xfs_rtgroup	*rtg,
+>  	enum xfs_rtg_inodes	type,
+>  	xfs_fsblock_t		fsbno,
+> -	void			*data)
+> +	xfs_filblks_t		nblks,
+> +	void			**data)
+>  {
+>  	struct xfs_mount	*mp = rtg_mount(rtg);
+>  	struct xfs_inode	*ip = rtg->rtg_inodes[type];
+> +	size_t			len = XFS_FSB_TO_B(mp, nblks);
+> +	size_t			copylen = len;
+> +	struct xfs_trans_res	tres = M_RES(mp)->tr_growrtzero;
+>  	struct xfs_trans	*tp;
+>  	struct xfs_buf		*bp;
+> -	const size_t		copylen = mp->m_blockwsize << XFS_WORDLOG;
+>  	int			error;
+>  
+> -	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_growrtzero, 0, 0, 0, &tp);
+> +	tres.tr_logres *= nblks;
+
+Hmm.  Is it safe to multiply the log reservation by an arbitrary
+block count?  I would think we'd want *some* guarantee that we can't
+create a transaction that's larger than the log can support.
+
+It might suffice to put in a safeguard like:
+
+	/* Log should always be able to handle 64k of logged buffers */
+	ASSERT(nblks <= XFS_B_TO_FSB(mp, SZ_64K));
+
+> +	error = xfs_trans_alloc(mp, &tres, 0, 0, 0, &tp);
+>  	if (error)
+>  		return error;
+>  	xfs_ilock(ip, XFS_ILOCK_EXCL);
+>  	xfs_trans_ijoin(tp, ip, XFS_ILOCK_EXCL);
+>  
+>  	error = xfs_trans_get_buf(tp, mp->m_ddev_targp,
+> -			XFS_FSB_TO_DADDR(mp, fsbno), mp->m_bsize, 0, &bp);
+> +			XFS_FSB_TO_DADDR(mp, fsbno), BTOBB(len), 0, &bp);
+>  	if (error) {
+>  		xfs_trans_cancel(tp);
+>  		return error;
 >  	}
+>  
+> +	if (xfs_has_rtgroups(mp))
+> +		copylen -= sizeof(struct xfs_rtbuf_blkinfo);
 
-I think based on the documentation this is probably right, but I am now
-wondering why both ep_eventpoll_ioctl and ep_eventpoll_bp_ioctl need to
-exist.
+This is how we maintain copylen as the amount of non-header data to copy
+out of *data, correct?  I suppose that means that the checksum file
+blocks also have a header?
 
-Maybe when I first implemented this I thought it made sense to factor
-out the busy poll ioctls into their own function, but in retrospect maybe it's
-cleaner to just collapse the ioctl function into a single one instead of
-having two layers?
+--D
 
-In other words, maybe:
-  - delete ep_eventpoll_ioctl
-  - add the is_file_epoll check to ep_eventpoll_bp_ioctl
-  - rename ep_eventpoll_bp_ioctl to ep_eventpoll_ioctl
-  - fix the test (as you did in this version of the patch)
-
-Would result in a cleaner fewer helpers / cleaner code ?
+> +
+>  	xfs_rtfile_initialize_buf(rtg, type, bp, tp);
+> -	if (data)
+> -		memcpy(xfs_rtblock_payload(bp), data, copylen);
+> -	else
+> +	if (*data) {
+> +		memcpy(xfs_rtblock_payload(bp), *data, copylen);
+> +		*data += copylen;
+> +	} else {
+>  		memset(xfs_rtblock_payload(bp), 0, copylen);
+> -	xfs_trans_log_buf(tp, bp, 0, mp->m_sb.sb_blocksize - 1);
+> +	}
+> +	xfs_trans_log_buf(tp, bp, 0, len - 1);
+>  	return xfs_trans_commit(tp);
+>  }
+>  
+> @@ -1447,33 +1457,31 @@ xfs_rtfile_initialize_blocks(
+>  	enum xfs_rtg_inodes	type,
+>  	xfs_fileoff_t		offset_fsb,	/* offset to start from */
+>  	xfs_fileoff_t		end_fsb,	/* offset to allocate to */
+> +	xfs_filblks_t		bsize,
+> +	uint32_t		bmapi_flags,
+>  	void			*data)		/* data to fill the blocks */
+>  {
+> -	struct xfs_mount	*mp = rtg_mount(rtg);
+> -	const size_t		copylen = mp->m_blockwsize << XFS_WORDLOG;
+> -
+>  	while (offset_fsb < end_fsb) {
+>  		struct xfs_bmbt_irec	map;
+>  		xfs_filblks_t		i;
+>  		int			error;
+>  
+>  		error = xfs_rtfile_alloc_blocks(rtg->rtg_inodes[type],
+> -				offset_fsb, end_fsb - offset_fsb, &map);
+> +				offset_fsb, end_fsb - offset_fsb, bmapi_flags,
+> +				&map);
+>  		if (error)
+>  			return error;
+>  
+>  		/*
+> -		 * Now we need to clear the allocated blocks.
+> +		 * Now we need to clear or initialize the allocated blocks.
+>  		 *
+>  		 * Do this one block per transaction, to keep it simple.
+>  		 */
+> -		for (i = 0; i < map.br_blockcount; i++) {
+> +		for (i = 0; i < map.br_blockcount; i += bsize) {
+>  			error = xfs_rtfile_initialize_block(rtg, type,
+> -					map.br_startblock + i, data);
+> +					map.br_startblock + i, bsize, &data);
+>  			if (error)
+>  				return error;
+> -			if (data)
+> -				data += copylen;
+>  		}
+>  
+>  		offset_fsb = map.br_startoff + map.br_blockcount;
+> diff --git a/fs/xfs/libxfs/xfs_rtbitmap.h b/fs/xfs/libxfs/xfs_rtbitmap.h
+> index 750d74fbf4ed..e9e3378d15aa 100644
+> --- a/fs/xfs/libxfs/xfs_rtbitmap.h
+> +++ b/fs/xfs/libxfs/xfs_rtbitmap.h
+> @@ -410,7 +410,8 @@ void xfs_rtfile_initialize_buf(struct xfs_rtgroup *rtg,
+>  		struct xfs_trans *tp);
+>  int xfs_rtfile_initialize_blocks(struct xfs_rtgroup *rtg,
+>  		enum xfs_rtg_inodes type, xfs_fileoff_t offset_fsb,
+> -		xfs_fileoff_t end_fsb, void *data);
+> +		xfs_fileoff_t end_fsb, xfs_filblks_t bsize,
+> +		uint32_t bmapi_flags, void *data);
+>  int xfs_rtbitmap_create(struct xfs_rtgroup *rtg, struct xfs_inode *ip,
+>  		struct xfs_trans *tp, bool init);
+>  int xfs_rtsummary_create(struct xfs_rtgroup *rtg, struct xfs_inode *ip,
+> diff --git a/fs/xfs/xfs_rtalloc.c b/fs/xfs/xfs_rtalloc.c
+> index 84efe5a8fb11..78a1c066c7eb 100644
+> --- a/fs/xfs/xfs_rtalloc.c
+> +++ b/fs/xfs/xfs_rtalloc.c
+> @@ -1191,11 +1191,11 @@ xfs_growfs_rt_alloc_blocks(
+>  	}
+>  
+>  	error = xfs_rtfile_initialize_blocks(rtg, XFS_RTGI_BITMAP, orbmblocks,
+> -			nmp->m_sb.sb_rbmblocks, NULL);
+> +			nmp->m_sb.sb_rbmblocks, 1, 0, NULL);
+>  	if (error)
+>  		goto out_free;
+>  	error = xfs_rtfile_initialize_blocks(rtg, XFS_RTGI_SUMMARY, orsumblocks,
+> -			nmp->m_rsumblocks, NULL);
+> +			nmp->m_rsumblocks, 1, 0, NULL);
+>  out_free:
+>  	kfree(nmp);
+>  	return error;
+> -- 
+> 2.53.0
+> 
+> 
