@@ -1,120 +1,128 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31888434987
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 07:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDE042CB0D;
+	Thu, 24 Sep 2026 08:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790235569; cv=none; b=jF+QZD0LPy50HEQ0i+MKy8D72sR+9jURjC+x8elRb4+bAQIKGUpG/Z7nVPkRtES1S0TRB8Cv+qXQwRDIf8xuopryAa6OQkGpkLMufGTkCuISPYiTtNHejBIVa/GOOr9tPOdvJh+NPmjBPnBWuUytWcRY19XyIxQd4Ni1PZhMnoE=
+	t=1790237367; cv=none; b=GP+CQucrM78b8v6as12QysrZoM4GXGjtQpn9ioFBx2+hoinpoXqJmtz1jITOndoFX1pnkf9cnQlRv5h+pL/AMBhf1dnWlZsrIl+wVzcp2uFpX87ndrXso+mwYDCVS5a1g4OT+Va+AcS00jouyJHOyd2/OHSZCG2DhSCunA9bswI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790235569; c=relaxed/simple;
-	bh=IXQA/g2/TtuU53NTwmNM9C9/HvhvdSxLCYNOlhYyQQo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BLkwz9GiUmKxCTwhk37YLTAFV2M4Dy5ILwn+Uq1obiVNeR/RBtvpmsHb0Z3jxHf/wXSypBPPYYZQ2i8ICogVCuV+b1wBzUm7gd09RS5O2QgEzifn8i7mzmJMzULMDqT0IPsBCk56sxMozhVhiuYCvhDVh6ye9HLF0HZgdNq4uYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s48Ceb5W; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790237367; c=relaxed/simple;
+	bh=YPu10d4gCbWLiq/SiXEDGdgQk3zAzOEMn+Dzlo5otdA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MoMDlvIGK5fv6jWK9/wPUrg9+zyhfFdp+GiiETOfsIMa2CKiecEl4fGJ1E5XnlBET8gQXwjD+P6JTdzVeGRr31kMIpSsm/3h63da4AFTRyPVZ+RuZnUP0BcZcubJS4IBmCwrYy2OzROowvw51KYVrDvKATH9FqShojSs1nXQ81U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ZzOEDoHf; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s48Ceb5W"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8692a856865so790022b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 00:39:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790235564; x=1790840364; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Xs8AxoWUxhLFlNeCv96y8zKxhfgG9jkD4bCJjaoeEwo=;
-        b=s48Ceb5WjJjdaSHK23h4CqYfxo3dVqtXQc12NJfukJducfTqJgnlGR+hSAtVIxwZ2g
-         1ljXhTxmObVEx/dv/kEEKvYoXSdfY1+O5ue3/vKahh/GzfT9xKKICGVnLsmR2DSshvFe
-         pKxhhN+pNui89pw+ypXgELjtvA5oSSP523MPuvszMCvWa8D9jC2edBS8a5O53W0H+6rP
-         id4EvZfy/GjxcWgNPiebN0l8bGnX3TxC1dSrYF/VFURcbnMR9JdCoopkIoSqJgf/En2h
-         1QIyyhbalTVuKuy4NYJSRib+iWxZUmNhiOWLG2YMJ7Prm4FXOWqd/gLmHykWzlLFu9do
-         B8VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790235564; x=1790840364;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Xs8AxoWUxhLFlNeCv96y8zKxhfgG9jkD4bCJjaoeEwo=;
-        b=kTcO0MORhho9m5/ngcihKStYt5iPCPz8mv5PTnHzI9dByiiq/IfJFYlRfmsSX5+iOz
-         IxwJfWwRXbEkMSrkn/dT8e4XdJX5w9HL3rezeGZ+njsQ2DKMqwetDiQVIfi1v0pUgjmJ
-         ZW1lf7tdSl7oeBebGfHn/0fx/wnkuxb8xoLcLzdGu5/o/nEeGliYkC86I+1Ik49CmjKJ
-         PkwRbYWqKqjaCaYhuEaZayctLK3/mZr0Hs/eppS9xlnluWbv3dZHp/7PkpOQofGdJegE
-         Fo2hemMFxQguTxEHUQnQ4RRGwOggL3jZ6tPXGfnaM10VrpNtWTh3Z1f1AUZAv6LtIg7P
-         D30g==
-X-Gm-Message-State: AFuF++nxLTOZ2XUIKgd3497wwPAkU+cHJpy4uCBCfFQtZPCDJNl7uczv
-	y4L786FuMvAeFbiXiqYE/FrXrj+6lcaO0HRW5YzGFAdaMvLrDj7toRVT
-X-Gm-Gg: AYBFou2K5Ljy4SDS1WMT2v6HE+946QXQu3seC/Ko/v47QrpdqFkYgokqqZXd7xTWLMB
-	6DO6pEWs3C2MwYlZj/Ohfkw7soddOyM4Qpll21SEz6GG3bBP0txejg9WNvLWBWB09/g0uKu0jhr
-	l95Dd/i9WHGTnWbNoUxArayXMl0r3DhnGNre6Le6Dj+qkoYBQ2uaQYLJfZslSf1mUtkOKqStqAk
-	fa8YkKzpv6JWOmwkTjrUJY3e/Ggb8OCJDIW3eqBT5UP5C8YtUDe+B+B2YWLtR8gFerCus4XTQwH
-	paopa0dimJYbzIKRQ9c20JoE7H6TEBvqhhpAPpWXVYYET9e5XVnaHFlj4liTek95Ei6vP2taAjV
-	pMq3qYz79TS8dxPs6HX8MtbI9UrcvlbpYgHz+QwUgXdu8p3xFO03QS2rIod5e0dTiz3oFGFUOei
-	tE+mLKhlJZgk5qfD20na8I+SriO6zYbhUwzsIomSSTv3vw83kow78j3Xge4evEi2xliU8cmUfYM
-	VcX/qVtq2W892Uql2/NsJSj1FWj+MRbGD586V9exi/yRHgzaEQL9ENIGoOp2th+JLzwlk+VrqK+
-	WThSQLt8CZyMJm/gPHMz
-X-Received: by 2002:a05:6a21:3d95:b0:3de:13b3:e964 with SMTP id adf61e73a8af0-3de13b3f96cmr775896637.79.1790235564107;
-        Thu, 24 Sep 2026 00:39:24 -0700 (PDT)
-Received: from phui-2.c.googlers.com.com (67.51.127.34.bc.googleusercontent.com. [34.127.51.67])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87d1dad44c6sm2393739b3a.42.2026.09.24.00.39.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 00:39:23 -0700 (PDT)
-From: Hui Peng <benquike@gmail.com>
-To: al@alarsen.net
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	matthias.goergens@gmail.com,
-	Hui Peng <benquike@gmail.com>
-Subject: [PATCH v3 5/6] qnx6: abort mount on superblock magic mismatch when silent is set
-Date: Thu, 24 Sep 2026 07:39:18 +0000
-Message-ID: <20260924073920.2782917-6-benquike@gmail.com>
-X-Mailer: git-send-email 2.56.0.rc1.310.g51773c2048-goog
-In-Reply-To: <20260921042511.1473629-6-benquike@gmail.com>
-References: <20260921042511.1473629-1-benquike@gmail.com> <20260921042511.1473629-6-benquike@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ZzOEDoHf"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1790237357; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=851eSIVYb4TgX8lgc+kKPtDZIkWTqS9p38FkXCV2hko=;
+	b=ZzOEDoHfdGUVoPogJY/oHH0FKpIpacG7y2E41HS3s6I3U5ORf7nomjYd/PFOtgSxSgZlMtH2tyM3czL+gH9CreUXUVMDIXwfgNPY3DeyjAYxqfEs3gI4jLU/MYOzEhLr3Mx85vd5TM9iCm9UR7SkAbkGDda6tA0GD9UNC+suMl4=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R931e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0XBZ2a3w_1790237356;
+Received: from 30.221.147.180(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0XBZ2a3w_1790237356 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 24 Sep 2026 16:09:16 +0800
+Message-ID: <b020985c-2784-4438-baae-07d16f3afc7b@linux.alibaba.com>
+Date: Thu, 24 Sep 2026 16:09:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] generic/492: bypass the blkid cache when probing the
+ label
+To: Theodore Tso <tytso@mit.edu>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, fstests@vger.kernel.org,
+ zlang@kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ sandeen@redhat.com, dgc@kernel.org
+References: <20260920094137.2749428-1-libaokun@linux.alibaba.com>
+ <20260921052719.GB6253@frogsfrogsfrogs>
+ <b4a10712-1658-4fba-a037-095fab466270@linux.alibaba.com>
+ <20260921234910.GC6253@frogsfrogsfrogs> <arHaTLxSEk3yQxU4@mit.edu>
+ <74463cb5-14af-47bb-9380-ca75dc5d293a@linux.alibaba.com>
+ <arKZu30pMe0ZavVA@mit.edu>
+ <8cc9f978-6365-4898-b3db-9f0b232aeb4c@linux.alibaba.com>
+ <arRIECW5MBX7fwfe@mit.edu>
+Content-Language: en-US
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <arRIECW5MBX7fwfe@mit.edu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In qnx6_fill_super() and qnx6_mmi_fill_super(), when the superblock magic
-number check fails and silent is non-zero, the function prints no message
-but continues executing into superblock parameter processing, resulting in
-invalid memory accesses on non-qnx6 filesystem images.
+On 2026/9/24 10:25, Theodore Tso wrote:
+> On Wed, Sep 23, 2026 at 06:02:38PM -0500, Baokun Li wrote:
+>>>>     ./configure --disable-libblkid --disable-fsck \
+>>>>             --disable-libuuid --disable-uuidd
+>>> This works, but this wll also disable those e2fsprogs features that
+>>> require those libraries.  So mke2fs will not generate UUID's in the
+>>> superblock, e2fsck won't handle LABEL=xyzzy specifiers, etc.
+>>> Fortunately xfstests don't depend on these featuers, so this will work.
+>> Hmm, what I disabled is exactly the set duplicated by util-linux:
+>> the blkid/uuid libs and UUID/LABEL= handling all live there, so
+>> the tools just link the system ones -- there is no functional loss.
+> The fact that you needed the --disable options implies that e2fsprogs
+> wasn't able to use the util-linux supplied libraries.  If the
+> configure script determines libblkid and libuuid are available for
+> linking against, (e.g., libblkid-dev and uuid-dev are installed), the
+> built-in libblkid and libuuid file systems are disabled.
+>
+> From the configure script output:
+>
+> checking for blkid_get_cache in -lblkid... yes
+> Using system blkid library by default
+>
+> checking for uuid_generate in -luuid... yes
+> Using system uuid by default
+> Disabling uuidd by default
+>
+> In contrast, if you run the configure script on MacOS, NetBSD, or a
+> Linux system missing the libuuid / libblkid development files, you
+> will see:
+>
+> checking for uuid_generate in -luuid... no
+> Enabling private uuid library by default
+> Building uuidd by default
 
-Jump to the error cleanup label when superblock magic mismatch occurs
-regardless of the silent flag setting.
+Right.  The flags went in only after the development packages were
+installed.  The original hand build had no libblkid-dev, so it built
+and installed the private copies, which is how the distro's
+blkid/fsck/findfs got shadowed.
 
-Fixes: 5d026c724220 ("fs: initial qnx6fs addition")
-Cc: stable@vger.kernel.org
-Tested-by: Matthias Goergens <matthias.goergens@gmail.com>
-Reviewed-by: Matthias Goergens <matthias.goergens@gmail.com>
-Assisted-by: LLM
-Signed-off-by: Hui Peng <benquike@gmail.com>
----
-Changes in v3:
-- Add Tested-by and Reviewed-by tags from Matthias Goergens.
-- Update Fixes: tag SHA to 5d026c724220 ("fs: initial qnx6fs addition").
+With libblkid-dev, uuid-dev and pkg-config installed, a plain
+./configure now prints exactly your first output.  Compared with my
+--disable build, the only extra program it produces is the fsck
+wrapper.
 
-Changes in v2:
-- Split out as patch 5/6 as requested by maintainers.
+>> Also, a thought that just came up: on the blkid side, would it be
+>> feasible to not trust the cache for mounted devices and always
+>> re-probe?  The mount / set label / umount / get label (within 2s)
+>> window would remain, but it would be much smaller.
+> Maybe.  It's not clear how often people might be trying to query the
+> blkid data.  Also, figuring out whether or not a device is mounted is
+> not free.  That would mean that for every blkid query, it would have
+> to read /proc/mounts to make that determination.  And note that on
+> some data center servers, there could potentially be hundreds if not
+> thousands of entries in /proc/mounts, either because you have a huge
+> number of bind mounts or overlayfs, and/or because you might have a
+> huge number of read-only iscsi mounts to deliver software packages to
+> your container based Borg or Kubernetes jobs.
+>
+> I suppose you could put in the blkid cache a hint as to whether the
+> file system is mounted, but that in itself could get stale and out of
+> date.
 
- fs/qnx6/inode.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Agreed -- checking whether a device is mounted on every probe might
+cost more than simply re-probing the device.  Updating the mtime on
+the write side (e.g., in tune2fs, xfs_io, or the kernel) looks like
+the better approach.
 
-diff --git a/fs/qnx6/inode.c b/fs/qnx6/inode.c
-index 49e29a918a2d..a32066d98188 100644
---- a/fs/qnx6/inode.c
-+++ b/fs/qnx6/inode.c
-@@ -328,8 +328,10 @@ static int qnx6_fill_super(struct super_block *s, void *data, int silent)
- 	if (dfs->s_magic != cpu_to_fs32(sbi, QNX6_SUPER_MAGIC)) {
- 		if (!silent)
- 			pr_err("wrong signature\n");
-+		brelse(sb_buf);
-+		sb_buf = NULL;
- 	} else {
- 		sbi->s_bytesex = BYTESEX_LE;
- 	}
+
+Cheers,
+Baokun
+
+
