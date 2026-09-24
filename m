@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB323CBE86;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74AE3CAA59;
 	Thu, 24 Sep 2026 14:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790260457; cv=none; b=Odw796KorHPh4T8yciRDdGH229Q5jg0p/jLPLl1bpCvQfRyzRDj/8BdFqUdi7/Dcw7/sMNAe0j0JXoMy1tHTkVhyUF/9Z/+QAf9h5ibZLTpN0qdsljVjZuofNSvld87ol/ruez/ayHZvfv7uQO839Akrj/sdyGv6CJIi5dpAZF0=
+	t=1790260457; cv=none; b=IijsWEcMIO7XDytTqYNKbFecTsPLsSzFtIxLUZsNuuMuxQ20CRaQxvg+U6CZoKzWkLC1uJqHI+Fk7CLFl6+rniO2o+kwHXipY/UfLncA82eqmTMheMZtY0xy5ciee3bQdj5ZkPQEPUpH+cl3E8ZPrQJpZ5TRj7huOq16ZAGPBs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790260457; c=relaxed/simple;
-	bh=h2zuKv01W2GBHhhSPUoJkC8Y2+NacqkljzX7RT/fQr0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LOLa6ayAfcIXf4HEfJoB37p1aovRa0MbPllPhPzlx5owoukBN+mcb1ICXK+6h0W0gZMcqCuHNaxuBOY9qbjoDSV6FWTpNyM8Z/EfI8kzUM1Upev6CrTvbux9jbZp78XjVj9N5bXYohdK9792J7K7sPqJ9PypiZQvJNAZAWhnYw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f7j/QY+4; arc=none smtp.client-ip=10.30.226.201
+	bh=o8Ivuo115RG3Gnyh0w0ci6a+LxxW9zv9H1SSi6sfwRs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=V1W+y/la/DX+lCVmlvsm/DptnXTkCpeP46J3H1guMk7NIXb4swHHCgm+lQuzmlJ+X8MSvOKN7i3yX1Z08jMA+EzVb7+YDqxe3XWFB7ZK7PiJaF7dJTWwYc+Atqq4YSivyVwU13W1WXlsCebNglh06ypfP4+mF6hr1AgEeJ+Y4J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVjV98j3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f7j/QY+4"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 685EBC2BCF6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVjV98j3"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 94548C2BCB3;
 	Thu, 24 Sep 2026 14:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790260457;
-	bh=h2zuKv01W2GBHhhSPUoJkC8Y2+NacqkljzX7RT/fQr0=;
-	h=From:Subject:Date:To:Cc:From;
-	b=f7j/QY+4GCrLpCkKhFRy6JCss0Eb5OvCwBqc/JB0ntLSe6OZOo9MlCwIUj3RslgJI
-	 x0PK6BnN3RGa84f/0ZBua8aXFJFuCDEnUyx0qnd2Wrv93wTxUpIjVRwX1n5nIRidkH
-	 1mzxkbft7HH/jIonH4yUz1OMw4NpH2+GdQ40nLfszwIJdEnpKAlZ3ky8sUTNYe7sBP
-	 SYXUolUlU0JFRKTnOnx6p7pNsDys76Exspa809PHixjvuj9+dyM+AoWgl3WffeT+oZ
-	 R7EjP31AefDcjJML7TMyW4EJMm3lCe8lzpUix+A0aQy11lJ8GW4GNTTf4Te40yohf0
-	 xw7z2CSWl562w==
+	bh=o8Ivuo115RG3Gnyh0w0ci6a+LxxW9zv9H1SSi6sfwRs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=IVjV98j3a+BRqjAA6T3poTQEauGi6zYNQX0LV5CPZuZdycyPal/de+TxCA8645vPv
+	 cfmU5pWUnfLc4Hk2GEhy+RhzDpo3u53ZMY57di/fln6DwNrxM/698Bh8BRurP+wxn4
+	 blJcC8PQp/3KtF6B1yGoAZpfQC8W3KKp5HSFytPulUAh2sdlEvfC7SstDXCSmipSnZ
+	 Qcd3LFyvduDlqzAKc/HiNsPUeXfMMBbpzB9YL3YwOVg8o327PwUrjqbmeDgSWNAbyX
+	 3y0A3ZOJsDacgWMmJSwnGYuPEnEoeYBvO6SyRg5g1V2Z8Mf05Nu4G8sVr+VB+0BYWx
+	 7zW6CK1VX/yKw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F19C98318;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 805B0C98326;
 	Thu, 24 Sep 2026 14:34:17 +0000 (UTC)
 From: Joel Granados <joel.granados@kernel.org>
-Subject: [PATCH RFC 0/4] sysctl: add a registration context to share
- ctl_table arrays
-Date: Thu, 24 Sep 2026 16:34:08 +0200
-Message-Id: <20260924-lklm-sysctl-headerctx-template-v1-0-b25e51c66ba7@kernel.org>
+Date: Thu, 24 Sep 2026 16:34:12 +0200
+Subject: [PATCH RFC 4/4] mqueue: Use sysctl context to register mq_sysctls
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -41,10 +40,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOA0tWoC/x3NQQrCMBBG4auUWTsQQyjoVvAAbsVFTP7YwbSWT
- JBK6d0bXH6b91ZSFIHSuVup4Csqn6nheOgoDH56gSU2kzW2NyfrOL/zyPrTUDMP8BEl1IUrxjn
- 7Ck7W4OlSSM5FapG5IMnyH9zpdr3QY9t2NvaAvXUAAAA=
-X-Change-ID: 20260924-lklm-sysctl-headerctx-template-f20eb4fcf44d
+Message-Id: <20260924-lklm-sysctl-headerctx-template-v1-4-b25e51c66ba7@kernel.org>
+References: <20260924-lklm-sysctl-headerctx-template-v1-0-b25e51c66ba7@kernel.org>
+In-Reply-To: <20260924-lklm-sysctl-headerctx-template-v1-0-b25e51c66ba7@kernel.org>
 To: Kees Cook <kees@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  =?utf-8?q?Ondrej_Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>, 
@@ -54,87 +52,143 @@ Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  Alexey Gladkov <legion@kernel.org>, 
  Joel Granados <joel.granados@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2648;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3874;
  i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=h2zuKv01W2GBHhhSPUoJkC8Y2+NacqkljzX7RT/fQr0=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGq1NOQcxJriZEBqHv6XbeWhxKf+F6iCAI5fI
- yQymRMUkli6BIkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqtTTkAAoJELqXzVK3
- lkFPjHoL/2JfFLokO82nj0ToZf68vDui9OHHxBd8b8icYvOFcNOrjJBroYcBLe1CRg+wcBI93cK
- RRq01tjdqCw8SBnZRgri/Zfhde6CNEA6lx/42tGex/o0IJIohASBotJx6Kpx//2mHa6mFABt0+r
- gnBokfmhdKI6s3ahk9U68WfsoTs67deaK9DBe8QMYXcKL48A/GN1uilkuH+zEiYnApnNegedbqR
- ETy7HbL5hyta6jAoat+Dp3dohap7xNtS+VUC5NZkInyJTBwNbF7b1y1Bgr5n9i65TgWzZLrGq90
- 0UwirAikj7PL4RaEZsYFot4Zv6SwZRZiqWkDo9VCvps0RKDHA+uK/O2qqtdzfyJgLhkcam0Kcbm
- qVDmtO02vaQnlZp4XARAvmXhlhF2aCVJxXoup/U1rQTYbQicgg8mOG57PmGUehEL2Sa6jKwoyX/
- 95H1cgsuHkf9EGQhEZTtSfJUW5hepR+ygHkheeHxtG5OBL/cKD8M7wvzjFZayuqSKUD/Fk7Rrk4
- qI=
+ bh=o8Ivuo115RG3Gnyh0w0ci6a+LxxW9zv9H1SSi6sfwRs=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGq1NOYuvejxMBuIEfO8RppDIlzPWSdUBOoAX
+ fGT3fbNSmfimokBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJqtTTmAAoJELqXzVK3
+ lkFP71IL/R4u69KikxhWkenT+/5rloXOFT2/sDz2C7nBh6Fw83As8+9QoLHCC80j5qW+/5Mjvcn
+ T67EMZAIrBBJWzOHEa2rzSGc8VV82wyz+nLKIH9Aao3499TR3NbF2Dti2YOlVYvszqhCQDrZ0fP
+ Jp6gw4e18Z4VH2uCZ9pIs2VjpLmIGR5d0+DKGQtuXYrjpTaOf1TLk16gN/f7hMIuC/cpcDZ4Bur
+ NUurxyBx/0LVVUCMax1hTnsS5lILPDCAPrVfhF7LxrIGrTNx1ezdid9npgV9PyaBrZoaotN6nM5
+ E5NIo1x1dRVxNANOhXvAbJnCEfgRt27ucB1GSL6hXGAxYCgmqy5q2b/qOGbMfvLF9ms65dLFPwv
+ H1QmsslaMZ7XB+KRvyljZSrRirRZBnUkfSYJ3NZuRumyja2lIqDlZjp1aJhWFz1v73SRPOmCPY1
+ kUGnb5xiBOyIwEdIvHgYRGG0R9vxaCcPORNGPEu8A7kN6I1RsjLHNgeR2jgfu48M2eiJ70AzCk7
+ Es=
 X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
  auth_id=239
 
-What
-====
-This series adds a context (containing a template and an instance
-struct) to the ctl_table_header. When ctl_table entries are flagged, the
-context is used to update .data against the instance given at
-registration time. This is done on a stack copy just before proc_handler
-and before ->permissions, so handlers keep using container_of() on .data
-as they do today. The table stays const and shared, and the only change
-to an entry is one .flags line.
-
-The first two patches add the context and the resolution to the sysctl
-core. The last two convert ipc and mqueue. They are an example of the
-interface and show the kmemdup() going away.
-
-Why
-===
-To avoid the duplication of ctl_table arrays for every namespace just to
-change the ".data" member in ctl_table.
-
-Comment on void* inside ctx
-===========================
-I use void pointers inside the context because I want to avoid having
-non-sysctl types within sysctl. However, I do a compiler time check with
-SYSCTL_CTX(_inst, _tmpl) to make sure that they are both the same time
-(we can add further checks in that macro as we need them)
-
-Comment on Alexey's series
-==========================
-Alexey posted a series for the same problem [1]. This RFC tries to do
-the same, but with a smaller change. Both keep a struct sysctl_context
-in the header. This RFC covers .data only, not the limits in
-extra1/extra2, and it needs a template with a constant address, so
-objects only reachable through a pointer would need an offset variant
-that is not here.
-
-Comments are greatly appreciated
-
-Best
-
-[1] https://lore.kernel.org/cover.1789987960.git.legion@kernel.org
-
-PS : its always difficult for me to know who wants to be CCed in these
-mails. please let me know if you want to be removed from the cc.
+Replace the mq_sysctls array copy with a sysctl context kept in the
+ctl_table_header. Flag each entry with CTL_TABLE_F_CTX_DATA to overlay
+the ctl_table entry before calling the proc_handler.
 
 Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
-Joel Granados (4):
-      sysctl: add a registration context to ctl_table_header
-      sysctl: Apply sysctl context when flag is active
-      ipc: Use sysctl context to register ipc namespaces
-      mqueue: Use sysctl context to register mq_sysctls
+ ipc/mq_sysctl.c | 44 ++++++++++----------------------------------
+ 1 file changed, 10 insertions(+), 34 deletions(-)
 
- fs/proc/proc_sysctl.c  | 56 +++++++++++++++++++++++++++++++++++++----
- include/linux/sysctl.h | 55 ++++++++++++++++++++++++++++++++++++++--
- ipc/ipc_sysctl.c       | 68 ++++++++++++--------------------------------------
- ipc/mq_sysctl.c        | 44 ++++++++------------------------
- 4 files changed, 130 insertions(+), 93 deletions(-)
----
-base-commit: 93f51579e7df248780214094418f205253383cc5
-change-id: 20260924-lklm-sysctl-headerctx-template-f20eb4fcf44d
+diff --git a/ipc/mq_sysctl.c b/ipc/mq_sysctl.c
+index 0dd12e1c9f53ef07092ca3b638335a438d273a8c..9919e2d3a11a48a3e84c6c42d564e71dd60711da 100644
+--- a/ipc/mq_sysctl.c
++++ b/ipc/mq_sysctl.c
+@@ -11,7 +11,6 @@
+ 
+ #include <linux/stat.h>
+ #include <linux/capability.h>
+-#include <linux/slab.h>
+ #include <linux/cred.h>
+ 
+ static int msg_max_limit_min = MIN_MSGMAX;
+@@ -26,6 +25,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_queues_max,
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
++		.flags		= CTL_TABLE_F_CTX_DATA,
+ 		.proc_handler	= proc_dointvec,
+ 	},
+ 	{
+@@ -33,6 +33,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_msg_max,
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
++		.flags		= CTL_TABLE_F_CTX_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= &msg_max_limit_min,
+ 		.extra2		= &msg_max_limit_max,
+@@ -42,6 +43,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_msgsize_max,
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
++		.flags		= CTL_TABLE_F_CTX_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= &msg_maxsize_limit_min,
+ 		.extra2		= &msg_maxsize_limit_max,
+@@ -51,6 +53,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_msg_default,
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
++		.flags		= CTL_TABLE_F_CTX_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= &msg_max_limit_min,
+ 		.extra2		= &msg_max_limit_max,
+@@ -60,6 +63,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_msgsize_default,
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
++		.flags		= CTL_TABLE_F_CTX_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= &msg_maxsize_limit_min,
+ 		.extra2		= &msg_maxsize_limit_max,
+@@ -116,39 +120,15 @@ static struct ctl_table_root set_root = {
+ 
+ bool setup_mq_sysctls(struct ipc_namespace *ns)
+ {
+-	struct ctl_table *tbl;
++	struct sysctl_context ctx = SYSCTL_CTX(ns, &init_ipc_ns);
+ 
+ 	setup_sysctl_set(&ns->mq_set, &set_root, set_is_seen);
+ 
+-	tbl = kmemdup(mq_sysctls, sizeof(mq_sysctls), GFP_KERNEL);
+-	if (tbl) {
+-		int i;
+-
+-		for (i = 0; i < ARRAY_SIZE(mq_sysctls); i++) {
+-			if (tbl[i].data == &init_ipc_ns.mq_queues_max)
+-				tbl[i].data = &ns->mq_queues_max;
+-
+-			else if (tbl[i].data == &init_ipc_ns.mq_msg_max)
+-				tbl[i].data = &ns->mq_msg_max;
+-
+-			else if (tbl[i].data == &init_ipc_ns.mq_msgsize_max)
+-				tbl[i].data = &ns->mq_msgsize_max;
+-
+-			else if (tbl[i].data == &init_ipc_ns.mq_msg_default)
+-				tbl[i].data = &ns->mq_msg_default;
+-
+-			else if (tbl[i].data == &init_ipc_ns.mq_msgsize_default)
+-				tbl[i].data = &ns->mq_msgsize_default;
+-			else
+-				tbl[i].data = NULL;
+-		}
+-
+-		ns->mq_sysctls = __register_sysctl_table(&ns->mq_set,
+-							 "fs/mqueue", tbl,
+-							 ARRAY_SIZE(mq_sysctls));
+-	}
++	ns->mq_sysctls = __register_sysctl_table_ctx(&ns->mq_set, "fs/mqueue",
++						     mq_sysctls,
++						     ARRAY_SIZE(mq_sysctls),
++						     &ctx);
+ 	if (!ns->mq_sysctls) {
+-		kfree(tbl);
+ 		retire_sysctl_set(&ns->mq_set);
+ 		return false;
+ 	}
+@@ -158,10 +138,6 @@ bool setup_mq_sysctls(struct ipc_namespace *ns)
+ 
+ void retire_mq_sysctls(struct ipc_namespace *ns)
+ {
+-	const struct ctl_table *tbl;
+-
+-	tbl = ns->mq_sysctls->ctl_table_arg;
+ 	unregister_sysctl_table(ns->mq_sysctls);
+ 	retire_sysctl_set(&ns->mq_set);
+-	kfree(tbl);
+ }
 
-Best regards,
 -- 
-Joel Granados <joel.granados@kernel.org>
+2.50.1
 
 
