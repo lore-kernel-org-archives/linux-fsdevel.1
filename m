@@ -1,86 +1,53 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mta0.migadu.com (out-154.mta0.migadu.com [91.218.175.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D10A23EA8B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 20:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B773A4CE679
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 20:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790281852; cv=none; b=JnTKxuoh0FWtER2DDZkR/TaCZHFiUbxN53AV1JkhTcmtv9g3uGRIxZHWMEPxF05/W9rGnDlKslvfChILWvTqM+bVrpRcim3GXkq1duynh69obNXFHarQnYO2MMHWKEini8olP3AnX5DbolRVzauqF2IBlJahpmZvgOGWhKhmZtE=
+	t=1790282567; cv=none; b=G3ufXByGZmKlSz5ozYT7IJJlHrlAAppzeSi1ngLIQ2h0QuncFgdakOeM5NnMIJdBpDjelC5aDngd28ZyVVohd9O8K2t5LODFBIC38nitmigGdZmgzOlcneKjSc00u2RJAR+Lw6rTAImx0nMlVpNvSfSaiDD9AgYKzqN10PnnwX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790281852; c=relaxed/simple;
-	bh=rTGplCyBJkh2bkDYBIKlMH3wsr0SrqCVCW+QaZVCErw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PIE+f6uq6Px82MvuvPxaEYeb43cHLibs1ZBqJTTo+CQXFMyQlmaJuzc+wCvoEKsxdk8v585DhMG76zYeevXvoNdgdvEWo83NkEnte2K7I/r3aibnNlCCueVSYSlS/6MbbxjM9PvVYRCIPOUtBoZC85miMIqbc5h1PWyoMOJFrjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ar0o9bA2; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790282567; c=relaxed/simple;
+	bh=Z82U3XRqT23tKBcS4svTG3IWK2zApncZW1pF4pyw0Fw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H/Qk72cI25k2Z3YklbGJQaclukgVPwAiPiQDumZPXuN39TjLkeMRVFObVPmKJibzz0lT9k8EBZNAfQUAjVRpzuz7T4Ii5Vy4/67o1WC+eaKX+9ky2WuXJAvo0iZ2fRkjR8FA3molJ1VYcC4E4csa4SR8njofZj0qEHycq+PuPzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=C4rDtznz; arc=none smtp.client-ip=91.218.175.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ar0o9bA2"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd4ba9f68so2421755e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 13:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790281845; x=1790886645; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=saylt10Fw/9Bgvahm51d7jrIP+G+sTRm7c4tdEvSznw=;
-        b=Ar0o9bA2Tq67VKmBBkFaq3Ej4GkY5WNjBE0qb2kKxlPkRJQmj/bwsAltrM8Wx96dcB
-         rLkUbYLKQrfMxO7F/N8y498FXssd1UrRoWtU42OqRGt1WNjSM3ng8XOlGscFVs89DTOO
-         UzwbTt6N6FDWAFPVR39b98ELI9XTpRhX984J/Myils8DLl3V89ZV6iBgk+IxaBaM+kcW
-         8sut7p7WWB6otxH8UcbAHJQrHUVvQIJqjMUKAOe5noURgvW9yvUZ6jL8AL3SPuTzA7IL
-         ryHjVI6jGxobexyCAgtirIzWHgp5cq0iIViybJJ9SHpKmJL8LN2JwmxaeHT6uUyoLneL
-         F1XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790281845; x=1790886645;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=saylt10Fw/9Bgvahm51d7jrIP+G+sTRm7c4tdEvSznw=;
-        b=cTsnnYSHf9/WbmWfHVlOHK5nuil+52t96HNNO61vhbLjNf3ojG/VrLLB/CKlTbijFU
-         8lK78ZNQHFPz6cBAMSER/JNTJV/PhjAG8nPX7oRQ6QGuX0WVydfu7AzDPVjRF9e3o/TJ
-         B7cKKMfnH+982ectCyE/M9ozhb1Bbwm251fpMOOXJ3UMXTRdJTcCQeRm4aHjtr//lAHp
-         l/n6uVRwc9WSoNTXEmdSwz+gBF1N7xrKLjzONwqzCID11bzOqNuNjNC4Deh+csHLLctY
-         A+/b+vQ/krZ85DeIRc+XCsSW3JQeyg3so2391+shpZmjSnVcCKNfz5uLIsntFCFZkAqg
-         qGTA==
-X-Forwarded-Encrypted: i=1; AKwUvBx/XwIc2BV4uLulJRkXl4k3ISfMsWpNFnxGSX+hW2AiBMZxVoVRXd2TFcouOPTU+zO5LIV5Wk/gEyraLj8d@vger.kernel.org
-X-Gm-Message-State: AFuF++kLaAj1jKrDPIAT+gy6NY938nkNNZK+bw+PhQ3RpjKvvssP4Art
-	pWftZlalEmRm3rTFxzr2N/QUjuiXtFZo2cq29gLR/6Cy2tFK2rf3Hv3Z
-X-Gm-Gg: AYBFou3yRPfz9F6C94QjCRXhMoau4YhDjYNHNo9Nqfi7jcBtIcVF84cJoBMyyFjxPz1
-	mQdeSlNDFW6Rrzcxi2pIhZRWSsfOvgz/XvX+Oo+uqbIdCeXpioxG4LhqjT9oijOP2u1TiMsKBXZ
-	qkQ8kGOm4bOhOQC6kJvFVgrposRVuEXEtK41RLqb2H/WCCBtCyMgyTxzEiLzHLmsiaOjcslwRUD
-	K8Sw86DS+dyF41blGNwvZsQZfdVM6MxBK9qyir17g941rZDuY5GU/6zF3OoJkw8HRowva6b+5cl
-	MmMgxjDyFtBSw2tX4/sy868zyBJdBDNbkb3VePHLppXlX6/LaeYeHzNXEzZoDYdFFZDKR8KlvML
-	l9TQ9BgtgZIVo50aZxI213vJ8Usu/XTzqbU+KQT7YXFAMkGgCg+DQAW01UKtsB9iRWngbzkWy2r
-	vMSHGHjpTSFCcPheop6HFUZ54GFsiIK64a5Gp4v0hMDNYA/pcnoegyJZEvRYDHeLTeBrQrWQWTm
-	3MaeGKafgF+n5HrTvYXz1qqLXzdNY6bT/9cxQzBzzRD7PPaEiOVxp0=
-X-Received: by 2002:a05:600c:1d28:b0:49c:fc6e:8cbd with SMTP id 5b1f17b1804b1-49fe66fc677mr69380595e9.33.1790281844999;
-        Thu, 24 Sep 2026 13:30:44 -0700 (PDT)
-Received: from andreayoga.wind3.hub ([31.189.116.68])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm1720776f8f.3.2026.09.24.13.30.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 13:30:44 -0700 (PDT)
-From: Andrea Parri <parri.andrea@gmail.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Dave Chinner <dchinner@redhat.com>,
-	linux-xfs@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="C4rDtznz"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=Z82U3XRqT23tKBcS4svTG3IWK2zApncZW1pF4pyw0Fw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790282557; v=1; x=1790887357;
+ b=C4rDtznzvhC4FzeARRXzWfxa+kcWq0N8oTbppJyImthDnAhfwxivbU/5aoB/14PodEwzmi9B
+ RPDJfCW2Il6gK7dj3/ScJgybSMPfIdVLads9qyHwFLFhlmzY9nL/Qko3uVKDfCaJAcByeaG84Bz
+ 2rQtnQYlT+BuqjiISiAaS5rc=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta11.migadu.com with ESMTPS id 2e7ab4009d700ec9;
+	Thu, 24 Sep 2026 20:42:37 +0000
+X-Mizu-Trace-ID: 2e7ab4009d700ec9
+X-Migadu-Flow: FLOW_OUT
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+To: Christian Brauner <brauner@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] iomap: don't resubmit an ioend after ->writeback_submit() failed
-Date: Thu, 24 Sep 2026 22:30:07 +0200
-Message-ID: <20260924203013.9967-1-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260924184910.GI2705364@frogsfrogsfrogs>
-References: <20260924091203.198225-1-parri.andrea@gmail.com> <20260924091203.198225-2-parri.andrea@gmail.com> <20260924184910.GI2705364@frogsfrogsfrogs>
+	kernel-team@meta.com
+Subject: [PATCH vfs v1] bpf: Allow bpf_d_path() from filp_close_sync()
+Date: Thu, 24 Sep 2026 13:42:26 -0700
+Message-ID: <20260924204226.190315-1-ihor.solodrai@linux.dev>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,25 +56,91 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 24, 2026 at 11:49:10AM -0700, Darrick J. Wong wrote:
-> I looked around the codebase and saw that iomap_writepages also calls
-> ->writeback_submit.  Does that need to null out wb_ctx?
-> 
-> My guess is that none of the callers do anything with wpc after
-> iomap_writepages returns so it's not harming anyone, but we should drop
-> the stale context too, right?
+The d_path selftest closes its descriptors with close_range() so that
+its fentry program on filp_close() runs. The vfs commit
+46ace7e4dc4b ("fs: make close_range() synchronous") switched
+close_range() to filp_close_sync(), so the program still attaches but
+is never called:
 
-Your guess is right: that ->writeback_submit() call is the last thing
-iomap_writepages() does, and all of its callers (xfs, gfs2, zonefs,
-exfat, fuse, ntfs, ntfs3) have the wpc on the stack for that single
-call, so wb_ctx is never looked at again.  Christoph made the same
-point on v1 [1], and the last paragraph of the commit message now
-spells it out.
+  test_d_path_basic:FAIL:close trampoline for filp_close was not called
 
-Clearing it there as well would be harmless but dead code, so I'd
-rather leave it out; happy to add it if you feel strongly about it.
+With that series, close(), close_range() and the closes on exec and
+exit all go through filp_close_sync(). Few paths still reach
+filp_close(), dup2() being one of them, so a program on filp_close()
+no longer sees most file closes.
 
-[1] https://lore.kernel.org/all/arITXTsUhrA0N-qr@infradead.org/
+Allow bpf_d_path() from filp_close_sync(). It takes the same arguments
+as filp_close() and the program runs before the file is flushed and
+its last reference is dropped, so file->f_path is still valid. Keep
+filp_close() in the allowlist for existing programs.
 
-Thanks!
-  Andrea
+Attach the selftest program to filp_close_sync() and keep triggering
+it with close_range(), since filp_close_sync() may be inlined into
+close().
+
+Assisted-by: LLM
+Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+
+---
+
+The issue was found by BPF CI when running on linux-next:
+https://github.com/kernel-patches/bpf/actions/runs/35923662147/job/107398237366
+---
+ kernel/trace/bpf_trace.c                        | 1 +
+ tools/testing/selftests/bpf/prog_tests/d_path.c | 7 ++++---
+ tools/testing/selftests/bpf/progs/test_d_path.c | 2 +-
+ 3 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+index 29260951aa87..09a27810ca27 100644
+--- a/kernel/trace/bpf_trace.c
++++ b/kernel/trace/bpf_trace.c
+@@ -972,6 +972,7 @@ BTF_ID(func, vfs_fallocate)
+ BTF_ID(func, dentry_open)
+ BTF_ID(func, vfs_getattr)
+ BTF_ID(func, filp_close)
++BTF_ID(func, filp_close_sync)
+ BTF_SET_END(btf_allowlist_d_path)
+ 
+ static bool bpf_d_path_allowed(const struct bpf_prog *prog)
+diff --git a/tools/testing/selftests/bpf/prog_tests/d_path.c b/tools/testing/selftests/bpf/prog_tests/d_path.c
+index 1a2a2f1abf03..7665e1d28a64 100644
+--- a/tools/testing/selftests/bpf/prog_tests/d_path.c
++++ b/tools/testing/selftests/bpf/prog_tests/d_path.c
+@@ -109,8 +109,9 @@ static int trigger_fstat_events(pid_t pid)
+ 	fstat(indicatorfd, &fileStat);
+ 
+ out_close:
+-	/* sys_close no longer triggers filp_close, but we can
+-	 * call sys_close_range instead which still does
++	/*
++	 * filp_close_sync() may be inlined into close(2), so use
++	 * close_range(2), which calls it directly.
+ 	 */
+ 	syscall_close(pipefd[0]);
+ 	syscall_close(pipefd[1]);
+@@ -165,7 +166,7 @@ static void test_d_path_basic(void)
+ 
+ 	if (CHECK(!bss->called_close,
+ 		  "close",
+-		  "trampoline for filp_close was not called\n"))
++		  "trampoline for filp_close_sync was not called\n"))
+ 		goto cleanup;
+ 
+ 	for (int i = 0; i < MAX_FILES; i++) {
+diff --git a/tools/testing/selftests/bpf/progs/test_d_path.c b/tools/testing/selftests/bpf/progs/test_d_path.c
+index 561b2f861808..edb5494a47f7 100644
+--- a/tools/testing/selftests/bpf/progs/test_d_path.c
++++ b/tools/testing/selftests/bpf/progs/test_d_path.c
+@@ -41,7 +41,7 @@ int BPF_PROG(prog_stat, struct path *path, struct kstat *stat,
+ 	return 0;
+ }
+ 
+-SEC("fentry/filp_close")
++SEC("fentry/filp_close_sync")
+ int BPF_PROG(prog_close, struct file *file, void *id)
+ {
+ 	pid_t pid = bpf_get_current_pid_tgid() >> 32;
+-- 
+2.55.0
+
