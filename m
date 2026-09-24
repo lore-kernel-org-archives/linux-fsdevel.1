@@ -1,32 +1,30 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933B231E845;
-	Thu, 24 Sep 2026 09:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1359232C8B;
+	Thu, 24 Sep 2026 09:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790242230; cv=none; b=er7OQXIpG9NCFN7ftCu6fduL/eQFNBYCClkj0r4oaPqrAstJ3mCwKyBCz4b9Mb2lML1empDRxKWdnxZCUBcy7YmnLMmBkk9Bgi4aXsATapRdaPG7KoKKgo5j5nTnmS/R+ThJx+Uwi93YjnUZIVGaKPG2YnjVUe5hyqvBwhaDVFw=
+	t=1790242309; cv=none; b=KqDQG0PKJaAmGGWePaWMgwUN+GmYe4N6/mHOMOx+s1cm4xsCZOUUPvzvR9r3YCBk/PaPikHrPUkbcaCYDqqJmIDK7q9jraAjXg2ZYLnlTueqp9cPrZmN1flE1mX/2RMkg83QfLTKuuMfG19wp4jOOMdBWSGOnGIfyfD3d2fQvVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790242230; c=relaxed/simple;
-	bh=AmMOufot/EQcpimbkb40vwUejbzA8+jbVq+UyHnkD3I=;
+	s=arc-20240116; t=1790242309; c=relaxed/simple;
+	bh=Eii8pIapq3+IVKHeZMnWF/ITHh8UnbjO9k7WQIJ1NC4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R75e5xWc8dRZatOQ854gtvWkYUr0FWxRhTVciUQMJCauGKC1Ipxsv5YOZxnwkW1CnOWfR24dwKQCnrdzh29tJ3FT9eQmcfazllc0bJde47JYBKLM9SlpLbahJdiwt+dqDEwXCJ3H3QJhh5cvU94MJ8ba5rQOlLKmfCVRxTMzew8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=SQp4t2Zu; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="SQp4t2Zu"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1790242215; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=hGFp7vyDRjGA66l3w0r/DNC8ixnBictg/opoX+xyIPw=;
-	b=SQp4t2Zudwwu+YdEaSUQ/qQ55o+ciB2EWhwu8ejYnakt2HO9oYUY7FP7LPUTiW5jiz5eeSI+NUOS5lFCjeYwc9n6mQ9rPubN64mNvS7lLq35ZmoMo+QP5WUCUeW6k9oIBj7tHtjx0fqhZvwiUPwso6dOKuMBJ/QfM4j8FwIJAOg=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0XBZH3vE_1790242212;
-Received: from 30.74.144.118(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0XBZH3vE_1790242212 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 24 Sep 2026 17:30:13 +0800
-Message-ID: <61f8a9af-7cdc-4979-bcc0-bcc932f7301f@linux.alibaba.com>
-Date: Thu, 24 Sep 2026 17:30:12 +0800
+	 In-Reply-To:Content-Type; b=tqbWunvGgsx/RY93jTdtPbSE2oKnU9ynI6XUNcGPzMwgiANzyd8UROIhjeCZTmJm2XDaV8Ov4vGkTO30gGZfnraMeESV1j/1uOdK5YEguhXQFj9Ww1miB9fRMxsUxa23VAk0nslHWi20s+7KnLXrjJiKhxl76TnBrtUR8o1vMY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hr7r35d2TzKHMdk;
+	Thu, 24 Sep 2026 17:31:15 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 10A5D40574;
+	Thu, 24 Sep 2026 17:31:43 +0800 (CST)
+Received: from [10.174.178.176] (unknown [10.174.178.176])
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgBXdCf87bRq9wz3BQ--.25718S3;
+	Thu, 24 Sep 2026 17:31:42 +0800 (CST)
+Message-ID: <5a454f2a-8ae2-491d-b903-750c945cfb9d@huaweicloud.com>
+Date: Thu, 24 Sep 2026 17:31:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,139 +32,199 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] shmem: FALLOC_FL_PUNCH_HOLE vs fault-around race corrupts
- page cache / rss counters
-To: Pedro Falcato <pfalcato@suse.de>, Ayush Ranjan <ayushr@modal.com>
-Cc: Hugh Dickins <hughd@google.com>, Matthew Wilcox <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>, Gregory Price <gourry@gourry.net>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260924061708.1645968-1-ayushr@modal.com>
- <arTdLsBENhrpOyk-@pedro-suse.tail5790ac.ts.net>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <arTdLsBENhrpOyk-@pedro-suse.tail5790ac.ts.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v4 1/4] mm/truncate: align truncation boundaries to
+ mapping minimum folio order
+To: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+ bfoster@redhat.com, ziy@nvidia.com
+Cc: linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
+ liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, hughd@google.com, baolin.wang@linux.alibaba.com,
+ willy@infradead.org, joannelkoong@gmail.com, djwong@kernel.org,
+ yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com,
+ chengzhihao1@huawei.com, wangkefeng.wang@huawei.com, yukuai@fnnas.com
+References: <20260922110703.468389-1-yi.zhang@huaweicloud.com>
+ <20260922110703.468389-2-yi.zhang@huaweicloud.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20260922110703.468389-2-yi.zhang@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgBXdCf87bRq9wz3BQ--.25718S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxKF13Kr15CrW8WF4kKr4UArb_yoWxWw1kpF
+	WUKrnayrW8Wr47Cr4kua1kZr1rW3ykXa1UAFyxGr9ayrnYga42kry2g3W09ay8Kwn7AF1F
+	qF4jvFWq9a1qyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	4xRDUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
 
 
-On 9/24/26 4:34 PM, Pedro Falcato wrote:
-> (please use the email I actually use for work, thanks; not sure how
-> you got to that one)
+On 9/22/2026 7:07 PM, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> Hi,
+> When the mapping has a non-zero minimum folio order (min_order),
+> folio_split() in truncate_inode_partial_folio() stops at min_order
+> instead of order 0, so the sub-folio containing a split point stays
+> aligned to 1 << min_order rather than to a single page. The original
+> boundaries in truncate_inode_pages_range() were based on page
+> granularity, so either boundary could land inside the min_order chunk at
+> its edge, and the truncation loop would drop that whole chunk, valid
+> out-of-range tail included.
 > 
-> On Thu, Sep 24, 2026 at 06:16:21AM +0000, Ayush Ranjan wrote:
->> Hi,
->>
->> We are seeing shmem/tmpfs page cache corruption on production hosts
->> running a workload that punches holes in a memfd (hole-punch based
->> memory reclaim) while other threads and forked children fault the
->> same MAP_SHARED mapping. The kernel taints but does not oops:
->>
->>    BUG: Bad page cache in process ...  pfn:...
->>    page dumped because: still mapped when deleted
->>    ...
->>    dentry name(?): "memfd:..."
->>
->> and, more frequently, a paired rss-counter imbalance when the mm is
->> torn down, always exactly one PMD-order folio (512 pages):
->>
->>    BUG: Bad rss-counter state mm:... type:MM_FILEPAGES  val:-512
->>    BUG: Bad rss-counter state mm:... type:MM_SHMEMPAGES val:512
->>
->> Seen on 6.12 and 6.18, x86_64, bare metal and VM, with
->> /sys/kernel/mm/transparent_hugepage/shmem_enabled = always.
->>
->> This looks like the same corruption Gregory reported in March, which
->> as far as I can tell stalled without a fix; that report needed ~100
->> ballooning VMs to reproduce:
+> For example, a 64K (order-4) folio with min_order = 2 (16K) punched from
+> offset 0 to 36K:
 > 
-> Well, I thought (from the lack of replies) that it was probably a bug on
-> their side. Perhaps that's not true :/
+>   split @p0 -> [p0-p3, p4-p7, p8-p15]         # non-uniform, min_order
+>   folio2 = p8-p15           # straddles: p8 in range, p9-p15 tail valid
+>   2nd split of folio2 -> [p8-p11, p12-p15]    # success
+>   end(old) = p9                               # BUG: p9 inside [p8-p11]
+>   loop truncates ... p8-p11               # p9-p11's valid tail is lost
 > 
->>
->>    https://patchew.org/linux/20260326162611.693539-1-gourry@gourry.net/
->>
->> The reproducer at the end of this mail trips it with a single memfd,
->> no VMs or ballooning, within a few minutes on a large machine, so
->> hopefully it makes the race easier to confirm (and to test a fix
->> against).
->>
->> Here is my best understanding of the race -- corrections welcome:
->>
->> shmem guards faults against an in-progress hole punch with
->> inode->i_private: shmem_fault() -> shmem_falloc_wait() waits while
->> shmem_fallocate(PUNCH_HOLE) holds i_private. But shmem's .map_pages
->> is the generic filemap_map_pages() (shmem_vm_ops /
->> shmem_anon_vm_ops), which does not consult i_private and does not
->> take invalidate_lock, and shmem does not use invalidate_lock to
->> serialize faults against truncation the way regular filesystems do --
->> the i_private + waitq scheme stands in for it, but only shmem_fault()
->> participates in that scheme.
->>
->> So while shmem_fallocate(PUNCH_HOLE) is between
->> unmap_mapping_range() and shmem_truncate_range(), a concurrent
->> fault-around can (re-)install PTEs for folios that are about to be
->> truncated:
->>
->>    - filemap_map_pages() samples mm_counter_file(folio) once per batch
->>      and applies it with add_mm_counter() after mapping; if the
->>      folio's swapbacked state changes while it is concurrently torn
+> It has gone unnoticed so far for two reasons. A non-zero min_order is
+> only used by filesystems with a block or sector size larger than the
+> page size, and those either always write back the affected range before
+> punching a hole or truncating, or they carry filesystem private data on
+> dirty folios (e.g. buffer_head), which makes filemap_release_folio()
+> fail and folio_split() abort with -EBUSY, so the folio is never split
+> and the old start/end boundaries remain valid. The bug only becomes
+> reachable on paths that truncate dirty large folios without prior
+> writeback and without filesystem private data, such as the upcoming ext4
+> iomap buffered I/O path.
 > 
-> But that cannot happen? We hold the folio lock in filemap_map_pages().
-> The folio (naturally) cannot be torn down while we have the folio lock.
+> Align both start (rounded up) and end (rounded down) to the mapping
+> minimum folio order so they always fall on a folio boundary.
 > 
->>      down, the map-time counter (MM_FILEPAGES) and the zap-time
->>      counter (MM_SHMEMPAGES) disagree by exactly one folio -- the
->>      +/-512 imbalance above.
->>
->>    - a folio re-mapped in this window (by fault-around directly, or
->>      via a child VMA whose PTEs copy_page_range() installs after
->>      unmap_mapping_range() has already walked the i_mmap tree -- the
->>      dup_mmap() variant discussed in the earlier thread) can be
->>      deleted from the page cache while still mapped -> "still mapped
->>      when deleted".
+> Reported-by: Joanne Koong <joannelkoong@gmail.com>
+> Link: https://lore.kernel.org/linux-mm/CAJnrk1bQYUe6+1ryyJur5EEnZYrC+_5AYsy=OWzVRgD4202y1g@mail.gmail.com/
+> Fixes: e220917fa5077 ("mm: split a folio in minimum folio order chunks")
+> Suggested-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> ---
+>  mm/truncate.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
 > 
-> No, I don't think this paragraph is true. Page cache truncation (via
-> truncate, or fallocate PUNCH_HOLE) takes the folio lock for each folio
-> that is about to be truncated out. Mapping folios takes the folio lock
-> as well, except in the fork() case where a myriad of weird interval tree
-> + PTE lock interactions make it safe (AIUI).
+> diff --git a/mm/truncate.c b/mm/truncate.c
+> index b58ba940be47..f9625bb4916f 100644
+> --- a/mm/truncate.c
+> +++ b/mm/truncate.c
+> @@ -345,9 +345,11 @@ long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
+>   * @lstart: offset from which to truncate
+>   * @lend: offset to which to truncate (inclusive)
+>   *
+> - * Truncate the page cache, removing the pages that are between
+> - * specified offsets (and zeroing out partial pages
+> - * if lstart or lend + 1 is not page aligned).
+> + * Truncate the page cache, removing the folios that are between specified
+> + * offsets (and zeroing out partial folios if lstart or lend + 1 is not
+> + * folio aligned).  For mappings with a non-zero minimum folio order, the
+> + * boundaries are aligned inwards to 1 << min_order so the edge sub-folio
+> + * straddling the range is kept.
+>   *
+>   * Truncate takes two passes - the first pass is nonblocking.  It will not
+>   * block on page locks and it will not block on writeback.  The second pass
+> @@ -374,14 +376,14 @@ void truncate_inode_pages_range(struct address_space *mapping,
+>  	int		i;
+>  	struct folio	*folio;
+>  	bool		same_folio;
+> +	pgoff_t		min_nrpages = mapping_min_folio_nrpages(mapping);
+>  
+>  	if (mapping_empty(mapping))
+>  		return;
+>  
+>  	/*
+> -	 * 'start' and 'end' always covers the range of pages to be fully
+> -	 * truncated. Partial pages are covered with 'partial_start' at the
+> -	 * start of the range and 'partial_end' at the end of the range.
+> +	 * 'start' and 'end' always covers the range of folios to be fully
+> +	 * truncated, with both boundaries aligned inwards to 1 << min_order.
+>  	 * Note that 'end' is exclusive while 'lend' is inclusive.
+>  	 */
+>  	start = (lstart + PAGE_SIZE - 1) >> PAGE_SHIFT;
+> @@ -395,6 +397,10 @@ void truncate_inode_pages_range(struct address_space *mapping,
+>  	else
+>  		end = (lend + 1) >> PAGE_SHIFT;
+>  
+> +	start = round_up(start, min_nrpages);
+> +	if (end != (pgoff_t)-1)
+> +		end = round_down(end, min_nrpages);
+> +
+Hi, all
 
-Agree.
+The sashiko pointed out an issue on this patch:
 
-However, I did previously fix a race between filemap_map_pages() and 
-truncation that caused incorrect folio mappings, and I believe this race 
-also exists in shmem. Ayush, could you check whether that fix is present 
-in your kernel?
+> [Severity: Critical]
+> Can this integer overflow on 32-bit architectures?
+>
+> In truncate_inode_pages_range(), pgoff_t is a 32-bit integer on 32-bit
+> systems. If a hole punch or truncate operation occurs at an offset near
+> MAX_LFS_FILESIZE, the start page index will be close to 0xFFFFFFFF.
+>
+> When min_nrpages > 1 (e.g., on filesystems supporting min_order > 0 like
+> Ext4 with bigalloc), rounding up this index wraps it to 0.
+>
+> Would this wrap-around cause the entire page cache for the file to be
+> truncated instead of just the intended tail, leading to data loss?
 
-f58df566524e ("mm: filemap: fix nr_pages calculation overflow in 
-filemap_map_pages()")
 
->> Reproducer
->> ----------
->>
->> The race is on PMD-order folios, so khugepaged needs to scan
->> aggressively (with the default 10s scan interval the punched ranges
->> are not re-collapsed fast enough to reproduce quickly):
->>
->>    echo always > /sys/kernel/mm/transparent_hugepage/shmem_enabled
->>    cd /sys/kernel/mm/transparent_hugepage/khugepaged
->>    echo 1    > scan_sleep_millisecs
->>    echo 4096 > pages_to_scan
->>    echo 511  > max_ptes_none
->>
->>    cc -O2 -pthread -o repro repro_shmem_punch_race.c
->>    for i in $(seq $(( $(nproc) / 3 ))); do ./repro 60 & done; wait
->>    # watch: dmesg -w
->>
->> On a 112-CPU host this trips within ~2-5 minutes; this capture is
->> from 6.12.0-204.92.4.4.3.el9uek.x86_64:
-> 
-> Awesome that you have a reproducer! Have you reproduced this on a mainline
-> kernel? Enterprise kernels are not supported upstream.
+This is a pre-existing issue, and it is not specific to the truncate
+path.
 
-I've been trying to reproduce the issue on v7.3.0-rc1 for half an hour 
-now with Ayush's reproducer, but haven't been able to trigger it.
+On 32-bit systems, for a mapping with a non-zero minimum folio order,
+the last min_order-aligned block of a file of MAX_LFS_FILESIZE is also
+the last block of the page index space, so the folio covering it ends at
+or past the last representable page index.  All places that do offset
+calculations on such end folios carry an overflow risk, e.g.,
+folio_next_index() wraps to 0 for that folio, and the values derived
+from it are wrong.
+
+For example, on a 32-bit environment I create an ext4 filesystem with a
+16KB blocksize, where the maximum file size is 0xFFFFFFFF000
+(MAX_LFS_FILESIZE). If we run:
+
+ xfs_io -f -c "pwrite -b 0x10000 0xFFFFFFFC000 0x3000" /mnt/foo
+
+The last folio starts at 0xFFFFFFFC000, but its length is 0x4000,
+so calling folio_next_index() on it will overflow, leading to
+unpredictable errors.
+
+
+I think the root cause is that sb->s_maxbytes is set to
+MAX_LFS_FILESIZE, which on 32-bit is (loff_t)ULONG_MAX << PAGE_SHIFT.  A
+folio is at least min_order pages and min_order aligned, so the file
+must have at most ULONG_MAX + 1 - (1 << min_order) pages for the last
+folio's next index to stay representable.
+
+I suppose filesystems that use a non-zero minimum folio order should cap
+sb->s_maxbytes instead of using MAX_LFS_FILESIZE directly, something
+like this:
+
+static inline loff_t max_lfs_filesize(unsigned int min_order)
+{
+#if BITS_PER_LONG == 32
+	return ((loff_t)ULONG_MAX + 1 - (1UL << min_order)) << PAGE_SHIFT;
+#else
+    return MAX_LFS_FILESIZE;
+#endif
+}
+
+Any thoughts?
+
+Besides, I understand that since this is a pre-existing issue, it
+shouldn't block the merging of this series?
+
+Thanks,
+Yi.
+
+
