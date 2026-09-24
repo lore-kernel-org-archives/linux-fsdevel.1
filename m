@@ -1,144 +1,125 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3E7355055
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 18:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790272827; cv=none; b=N7X5DVKML4ZnqrXcXXng2MiA/WqWMo+MdQran+hmOhql1qlDIpJbEdVa4kS0D4e+espkDaYMoAvuKh4W4LI/QeCgs0zYiXmveMswJguv8CbtmqJRdCLSzYgm9TT2o1bOliSfBdMWIbc3Q9tfCKiURsRUokqp+6O7uMAKTrSskL4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790272827; c=relaxed/simple;
-	bh=dIEo2BWot8KMA7bFyxIXMBMINiO703u3CNAgbTnUo2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jm7e4sPpr8fg+S75g8VA03Sb/RcoDO+CYUcF3eRqfdKriX6XhUSEcalCxhuMDpVY1FWn2TrOgRG6LVmmzDGQJ4SC2LUHiEjKcRbx8qPh9XeERjwvrdywWeHZiTNeErJ1jRZNc0B2epQsm/J3+cpA91HjeeWVXHD5azm46j6P4Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=qNcW8nj0; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2785E4B0CA7
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 18:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.205
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790274725; cv=pass; b=rWQ0MtCvDJzjF+ILChjUWJW9AFOoq9ZoKQqqx6MidmySTLBqU7F93NUYYOV+aZ5Dkzosg1LMuNbE/Vp7zbrm+yyuKlWSSn1Ey8bi8Bj66nSxLB10u14MlmhobDZVa51RW7MRdjWdstytBzA9/or9oLQsUmS8JtgDxPrsck+IyE4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790274725; c=relaxed/simple;
+	bh=uDFqkrBofJFmA98fFoYtS95TSJHuBD7aLkjCUtabUSA=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Ez9ewYiRBCdcNFK0r+C7/NUgYyACuMFkDGZ/irbY26gNZseYum7L2bGNtmGGWjzJMmnaSCw8otMOUj7mBHyC0wVGBsZ4C3R8uNo5doEE3Qoo9+DdDpVshBepnq3lxhfumb/1dAwKnESaEKgMJXWUNLY4Qa4w7rw79q8N6iAJMZ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ef9A01Oj; arc=pass smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="qNcW8nj0"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-52fa9c055b5so11364491cf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 11:00:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ef9A01Oj"
+Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-530d8a00bcdso1225721cf.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 11:32:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790274723; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AFxOGzFfu3IlxdMe9MejMHFS0Ui63zcUgpXNM136IYE5TNJ2VRlCX0nFWCAFbW56Pr
+         hoJzryMqhUfvg9O5JBaWF0MEaMp1+SgKBlJOgFt9hV2Sx14+EGUXwZmhzaRSaGr8EANz
+         BY9lzU4o8HzMx7eTpqWNGT/7nmsWfV1xVbXCzjk3U6JQTQH8zvUClUaU8b81qS56wdi/
+         FyzkdXajmFkH63ABiHZFpWN0+OLVAnHiCyJvsHhhPXUrUbs3fxGb4u8wk+fD2b/LlLqE
+         F9xQOpL7i7dACpLpsHYuLgHqgx6MDeIic/jWdabA4yzI4hl3WAX371p6/eahX8l4EGfo
+         9mmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=uDFqkrBofJFmA98fFoYtS95TSJHuBD7aLkjCUtabUSA=;
+        fh=VIHD4NUN2vnxidm66Lv9J0f2wlvRQbndTMSY+jGmUgo=;
+        b=sVVC5Tuc+GxSubZnM26qqvidhg+WM8B7CdZrnsbY2NjoCSVZfeC30yKkCebNUml/to
+         mFFZsGVekktzlib1zNcUNCApRuNyM4yf6w5+/nnSn1n54MoaeBDM+adKZxVtBoQs7RjY
+         PxLbCzBffvZPq21U1NfGJ616cxLMcBbNeEx8IBKi+13gYxLam2+yik71olYYhgPXVK5B
+         0NAU4fPz7oj3cpx7gScTDi5zEDio5vtJIGshGZlHTv5lPAIf0WGfPVLgxsouoLu6zuP+
+         0PpyNDP4wehzZ2MXaRrgbJ89dysv7zAkUWj+ERQ4/wajhofVbkA6/9UGN+yu8+iSmLwh
+         OSHA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1790272822; x=1790877622; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yIrEACM/1hk8RvSSdnwytl7iIy1+VcppA4PP9Tt2BDk=;
-        b=qNcW8nj0/pDdjrHX+ELCleXyhNSH46+yVTvIwKXf0KEsO2lrNq/+t7BLtAJv/5kwUi
-         2AQLV5DG6nqODb54KYJ2Hhy8HyGJBZMXduXpgQLzeebEeIcn11k5EsbWxNYcGPXBaT1+
-         /qweihLG7noAHfK+Zx5EEGn0ruWcXq/Gj/S2WSYYG/9cAsBnCCVbDo0GQ6tr6T6jIO6M
-         OeOdtj4ZPY+H89quivLjIZrF0JngYycSDR0/nPJVKUYp/eeTnJbocj21+VpbAezcSeJb
-         3sQPtmZy9+wwtqCXvsR5dE5N64+9dWM26DJ4nK/0tsdNaizI0KONqxKZScMTirDGCpdM
-         wpaQ==
+        d=gmail.com; s=20251104; t=1790274723; x=1790879523; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uDFqkrBofJFmA98fFoYtS95TSJHuBD7aLkjCUtabUSA=;
+        b=Ef9A01OjUbxgRJxq/vYPVn1SxkuYa1Sr34IYVH+zc3OHrROYConvoTwGKROe3DRu8n
+         TMxZyVFExpi2rsbxPZFBXepZdqrI/VgxmN8jIDegMwMC8IFOBP9b8EegVbMqtpwfMIsn
+         pfNL68m8oPBuhQNvKuSr+LReDKnNLnZ06gBhtZQNE2Fc1hcsgXtQYRgDO5mnP1LLzVLn
+         rZWeK4cJKU+C2D+BeMJw5HwS1tMvSYiuL6TLs9vcndPvQPRMuJwivBwujLit2R8IrjHi
+         M9pozIBfecpYJxbxPK9OGrrz7J7C54Nbw7OpEU3b2+AAdpdG0SSCW4AMkZ/YShMNUOVO
+         y2kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790272822; x=1790877622;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yIrEACM/1hk8RvSSdnwytl7iIy1+VcppA4PP9Tt2BDk=;
-        b=VywJzimhAgoe4OqhGRCwoD8OOj7x9cB8ZVh+QEc34ctkHbl+HdI0qt3Og+fsiSDAvk
-         u5+uycjjPwocabxlX2KxIbJHHb6SvqqiwQ7T46RwOOxndKjQa2hcFxM9WUWLv/hk0Arj
-         U5EGi+THTKhhT3F9BTnRXzoJRvD1NP5dUCXFQLK1UKZXvu92eUSluAUSyLGjqv8azCaF
-         RSw9aUyAutbwMVWlgrZV7gjx1GSEl28s9o6mha4t8rO01khamZClmCFPGBdHOQdPJhLC
-         mww6QwuhSZlGVeMVOM8aDKGn7++xDk1QDX9kZGZL1CBZK+C9cWuEslsWwTbwLQIubEts
-         n4jw==
-X-Forwarded-Encrypted: i=1; AKwUvBwTypGEyAzC+NwJUyncsjRGkyTo06keWoJJ76n35V7YI/NqFdUGLslNjGr6H1dGeRIUHTW8DsXPotndCCDb@vger.kernel.org
-X-Gm-Message-State: AFuF++lpA/ElMBbLksFhyRWyp+06j/mnfvOz6FGzj2LW2TPRskNFvDsY
-	6eOdj/mtAUPc3vLIbSA9Fy3joQeEgMeoeWiZsYJgFjTUmPOzCbZrwnQAuILfSylxLJU=
-X-Gm-Gg: AYBFou3KjmcyVThvWQkJ+jGJfPMLGIIqMybe+McsHESDv4fOv2kPjLlruaDXz2qr6Bp
-	qbZvfDEuEEcpYeIEh5FUKoFF1+CUzMQV5sQ5RVSJ30c1TLJMqL1CFQrjmvha6NZr9Ns8vXjgVTq
-	leuwR8bXbm2AiVzP/hhhyCEuvI54AZhPHl48ufcEts4TfouYas7QZHuGLEanYYOEdKxUgV64fCU
-	AKYnSjH6GdZehHIUlXZ4hUBoYUKoKnUFKBxO++fUl6ucbOtHtvshGAhFuhZdI2/omV51oei7jca
-	8u2EH3+CsgRxcJF0a7t2wvSSvGvQ0Tk6G2wmHNHrjwKhGyJCCuL/aMU8t9eBtTepGH1YZINuA1N
-	Fjk1ryoV39xnhL4QErcd8IStkAu3ACChDMUkAPEnZRYJC52bMAZOjPHOoWoyI56AtbQOCnoTNM3
-	1rS2OBfU4B63xHaMJmNljQCyQOm1+F5qyYIfQWSLtDsywLN/hH1yWSWoMxQJjVBsM+IMLkccT4L
-	r1tmXFRHj85bFRo2fCmJzw5+bmJgpzHChTX43+1NJhJWZ8MVpwWXec=
-X-Received: by 2002:ac8:5a46:0:b0:530:e682:87c with SMTP id d75a77b69052e-5330b6df434mr78501cf.33.1790272821894;
-        Thu, 24 Sep 2026 11:00:21 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532eb38d347sm47450101cf.25.2026.09.24.11.00.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 11:00:21 -0700 (PDT)
-Date: Thu, 24 Sep 2026 14:00:18 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 05/40] mm/vma: ensure mmap_prepare doesn't set actions
- on a mergeable vma
-Message-ID: <arVkwC_wNoTLjRYf@gourry-fedora-PF4VCD3F>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-5-4583d8a23bca@kernel.org>
+        d=1e100.net; s=20260707; t=1790274723; x=1790879523;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uDFqkrBofJFmA98fFoYtS95TSJHuBD7aLkjCUtabUSA=;
+        b=mo0sk9T5Q0F58loTq3llr1uWInL86HfeEG60TYmTxPnYrmr+d+uBG7OQYIBgcajXy4
+         j0uwe4I0dxkxrAMvBP5Zhcf4RsbqVe8ABhqiowWhNFKbKTBEPzsynddt2Hf4WX5Ad2DL
+         avaO3oYU9aMj94cvAGjiuX0b/hOH6zzgFHxOoVbiQDY+CMU6g3ZCybw/IJleTwcEbgUF
+         9U39sF/0dcKzpa9o/VuIwfksueD/5+NHqn3i8SXmlfRaiWmPFcAzzMoSBm4PkuuGh45q
+         b6wDE62hJsYNVgq1ZgPRYokcC66A0t6EnpyWBksU4xJkPqwH66/YYzb6MCPy0mgjymv+
+         BsaQ==
+X-Gm-Message-State: AFuF++kYces5LSGWbrVnadt38+774zFvLAVRb52DezIFHTBA6DZPlx2i
+	ZAIBI9Y5/HRgcddV4uWkI8orccraacxB+Rg3UtrFyrmHgstzZRuh3Jgl/C3OdYDzAoTleZ/yAR/
+	g+tPsxdzyW3b6TywV+3dvA+T1NRU1A/Y=
+X-Gm-Gg: AYBFou2TTh7lo60xTT4PpgAbgR/H8W3L6hzAGLp7MVODDmxKQTfWj4/T0UhIMCYH8Jn
+	L3mZLmSksjkfJesp8RGwjURzfEw2jmNQmMO7CNkk6cjYQT3LVmZLosO106E1rOHqpd6ko7wiSHW
+	zCnaSEZ2fS6Q/yGMrKC9JHtXEkCmBX85ezuSB3t1bc0T8sgwRAUJWTO84liPwWW1sCUm0IkLMOv
+	SqQY+f+boTSduB/vNElkEmntDCfYlI2IY6kixQYacsgyuZvaBz8hx53+thvYknj41xibMSFqw4p
+	cvK9OsyfVGRbiFiHTCBORdqSl/O0j95gBY0+RllC1y1yIxa7NlKSdg8T
+X-Received: by 2002:ac8:7d0f:0:b0:530:e84c:b78 with SMTP id
+ d75a77b69052e-5330b68e8bemr2036841cf.31.1790274722403; Thu, 24 Sep 2026
+ 11:32:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-5-4583d8a23bca@kernel.org>
+From: dave mad maxXx <davemadmaxxx@gmail.com>
+Date: Thu, 24 Sep 2026 15:32:34 -0300
+X-Gm-Features: AclHuK9k-zCUCCzldXTWIeyxKaAWif5I0sMbi5qh1YqkqnV0579Wy8lN53oMJks
+Message-ID: <CADy8qZg5agQXatUFynt7s0QGKqFAzg9qsV_zd8OVcsrhbvF-fA@mail.gmail.com>
+Subject: Re: BUG: unable to handle kernel paging request in __hfsplus_brec_find
+To: syzbot+f957cf00261d1c41fafd@syzkaller.appspotmail.com
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, Viacheslav Dubeyko <slava@dubeyko.com>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 17, 2026 at 05:22:14PM +0100, Lorenzo Stoakes (ARM) wrote:
-> When a user requests an mmap_action be performed in mmap_prepare, this
-> involves populating the VMA range with data.
-> 
-> However, if the VMA is mergeable, it might then mistakenly be merged with
-> another VMA without having populated the range.
-> 
-> Every mmap action currently available sets VMA flags such that the VMA
-> cannot be merged.
-> 
-> However, to ensure that no future mmap action falls foul of this, assert
-> that this is the case upon mmap_prepare validation.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  mm/vma.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/mm/vma.c b/mm/vma.c
-> index d6ed10cefc8f..62f2ce1ad5a1 100644
-> --- a/mm/vma.c
-> +++ b/mm/vma.c
-> @@ -2809,6 +2809,15 @@ static int mmap_validate(unsigned long prev_start, unsigned long prev_end,
->  int mmap_prepare_validate(const struct vm_area_desc *prev_desc,
->  			  const struct vm_area_desc *desc)
->  {
-> +	/*
-> +	 * It is not valid to execute mmap actions for VMAs which can be merged,
-> +	 * as any such merge would leave portions of the mapping incorrectly
-> +	 * unmapped.
-> +	 */
-> +	if (vma_flags_can_merge(&desc->vma_flags) &&
-> +	    WARN_ON_ONCE(desc->action.type != MMAP_NOTHING))
-> +		return -EINVAL;
-> +
+Hi,
 
-If you wanted to make this unit-testable, you could pull it out into a
-separate function:
+I am following up on this HFS+ crash with additional diagnostic-only results.
 
-static bool mmap_action_is_valid(const struct vm_area_desc *desc)
-{
-	return desc->action.type == MMAP_NOTHING ||
-		!vma_flags_can_merge(&desc->vma_flags);
-}
+I recovered the 25-call syzkaller program byte-for-byte from the
+published console log (6553 bytes; SHA-256
+c0638cfd888ce9e61abd5d82ab9afeba058d3b42940b2ab8469d12c4f17abe7e) and
+ran it against the matching investigation environment without fault
+injection.
 
-then write:
+The natural runs reach the relevant post-split hfs_bnode_find() path,
+but do not reproduce the historical failure. In the current passive
+trace, node 3 is created and inserted into the hash, and 45 observed
+lookups return it with error=0. No ERR_PTR(-EIO) or target crash is
+observed.
 
-if (WARN_ON_ONCE(!mmap_action_is_valid(desc)))
-	return -EINVAL;
+The published machine disk image does not appear to preserve the HFS+
+filesystem state at the instant of the crash, so I cannot yet
+determine the first divergence between the healthy run and the
+historical -EIO path.
 
-And you can write a unit test directly against mmap_action_is_valid
+If available, could you please provide either:
 
-otherwise
+1. the HFS+ filesystem image/state mounted when this crash occurred; or
+2. any pre-crash trace/log around hfs_bnode_find() that identifies the
+node and the condition that caused -EIO; or
+3. any additional execution artifact that preserves the HFS+ B-tree
+state immediately before the fault?
 
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+This is only a request for missing diagnostic evidence; I am not
+claiming that the original crash has been reproduced or that its
+natural root cause has been established.
+
+Thanks,
+David Maximiliano Hermitte
