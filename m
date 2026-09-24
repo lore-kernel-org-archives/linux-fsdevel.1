@@ -1,107 +1,204 @@
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F53A3DE44E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 08:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790239182; cv=none; b=hDdExeTtbFGE4WmgBN7VKwD9x0Q9dCbrMe4KHkcNT9IRteSx/kvoEnHwaMMx5dEJDMDeX8TMbwzRxymvdipS7w8sY2piYEKOTxejktCCycE3QCgzTuU4NpYPJFz/a2/ER3JZehcKqqkPhd2CNbRZaOiGu9tiVGJNId2OyWB55kg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790239182; c=relaxed/simple;
-	bh=HNLbeuAgbJcHp3Q2f0PgdwdpgSxtX1CaPvnT8Dj/M/0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=QuI/sGmeqGILt2TlWJ3IKcJbuZJPAAVR8tIjK3tJOW/d9GdDLENNegTmluvTbzfuEfiEaoAi9cr2ZaF9DSHi7tv2x6E8omVY6b+UtO8hovcBvCR75WlkgO07bQ1vvfnex9w5Fv2A8lLBdXFmXPACkAy/EHa6FbUyI90HQN9TSzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pveuWniF; arc=none smtp.client-ip=209.85.128.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81D63CF1EF
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 08:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790240254; cv=pass; b=epAw0KoOu8sVGKXxAICMpvmtLyoarJ++TeCURobGe7U6uUUWf17MBkMgogNkE7A7ClX7eWtxJwTfpTdBmrz+3JtNUWVZfUCRe2WNKhJHNTWiyS2APtcQjR/5jT+E7coxgKLWHd78LkUjzqlbcXqkjoSgA6Qcouax1FaLNqIOvSw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790240254; c=relaxed/simple;
+	bh=yCsfPmoWkWgx1jPi1tu8keGzxU7eQiy0nfPh46/1uBY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EaaBJwsITETkJFxz9B9TMmzqEZzSquAbJ5cMqBPPiuwyy4w63S4A3cwcawTzBArvFBCozfkZHHM/fY7N+ce+QdDIQzBF7fqUIkDwQPY4cq9BTNI/t8w1KPIT4LkAMOYh8LuSdYYzBHFl7yzKkVHKpRcLAX9okIMlB5lk351iRQk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=idI5Izx9; arc=pass smtp.client-ip=74.125.228.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pveuWniF"
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-49e65ecd557so11223975e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 01:39:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="idI5Izx9"
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a985e8fcddso2487446a12.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 01:57:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790240249; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EG3povoqCzRtr0XInUga7ZBoT0NTgJre5yL7RIZ9mDYdbRo1q6Csk74cdZk0RiAxFu
+         GV52sR3L4KkbRURyd8lDBOnZei0SdY3zRRral4+T+erz5nnr8imXIPlRiwGEEvCU2Mfx
+         OCs7E0ZjUJhCCbU7ocRczo1gqfjtV2Z39mBgFN9u86R0SJWujnfxR1gmIzy3+bCPbdz4
+         TYtbNyqFcyZBpg05Z0DIN4GTSyU1Zi/Wx8FxjW0XYaURto4esJh2KCFbQ1dr8rKkHpoq
+         F39IEzVhHaC3drftCok+hC6RDY1Xds+dMNSCrVlmVTvS9RimKtPfLMC9sPesOrSP/AJB
+         rfmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=EdKLcmVJIQ/lTCEPBtmtKcDPQ3kMD0oCquyEuFe4XUY=;
+        fh=/72b1E/KVpJk0UKw5aqcpHLgHqd7c6njbsyoqF+hWcM=;
+        b=IEKnbZXhOjO1dwngTlhTGrg5IeguwZetsd05VEuCQJKc9aP3gLDDNoP/9GalZozlRU
+         NtS1OvN4b7ziTTZyix0vXk6XOGwqeK5baSFg/fyiOQc2jWBKydq4geVlRRMxLdKuYgG7
+         uu26QJHf74g/nvUOyj0kncJs8Q8gU+QckXTTMkGkMttOJUnOhQTplfqsYEln2rx9y9aG
+         J2NRt9YKYR0fnqytrAf/+JZ6B9qD+wpz6agIfLcbgytD34Bpxv+B85bLkMLM2cQUCq5e
+         +Xs709KU5LLGqMvSZd3LdYTxoUFOs7cB1iHzGfiPZOotD81t8uVTKfLcA6Lh2tAnp0AI
+         fRsQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790239179; x=1790843979; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Dsz6uRel52dQEjbVAeMCIiPl3yIqAf1n7uTkjuAAjJI=;
-        b=pveuWniFKOhQqdW0PSjLVBPl8ZK6kYxfY7Hnj+MQYsIBJOk07/I5uPANTdy9v307rp
-         6ets14OK9UGo2UB+qmkLqGfwAhO8mVJRNXL7XBG85APLUgsQKXGDm6oOTgNQv9vjvfC4
-         0yC5RSWbQKcp4zch99+9dowNYyfiLUyGYUBmfW4h0Ns5w+01tLwn1W8MYfFGDtb24IuB
-         ZES1eLatGDTkFJX6tkpbXR7BeAObmFJXWMxn1kBxZ3B3Lc6gxt64ewEQxoijeATtozR1
-         5mIfaX09WNLXppfhRKSKJpEiEJzE64wiv6YqcchoExKCCpVOeJSurng5uIgxRvFZSeEP
-         rs+g==
+        d=gmail.com; s=20251104; t=1790240249; x=1790845049; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EdKLcmVJIQ/lTCEPBtmtKcDPQ3kMD0oCquyEuFe4XUY=;
+        b=idI5Izx9K7awyrIwBdjZVa/Si3CilBKPHvDAvDrOvvaxdGM3mkswAVHkbMSJsfk+w1
+         KJi5LODVjiZo+cTL46v9cPnGnp93VI9HU7uiIelfoZXqbYnvvrxfIKXB8rf8tcAbry8V
+         it84RqkjfRi8LSFKuMslDM7deytZ5x5XPdIpQ9b/kiafTWhj0eIK0MDmoRd7jJoJEbd9
+         +vhsDpF8sB2OM0Op6IsBDXYP9a/6FpO1cj7QYn/gEDVhSbYVElovskvRhGgj0r1KOCI9
+         HlofEQS6JkUXsZAp7/TUkgJANVqU7XCwDfJRL/+WV3rSspbl5NX/xsf0QD8WKdAeBBie
+         zDZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790239179; x=1790843979;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Dsz6uRel52dQEjbVAeMCIiPl3yIqAf1n7uTkjuAAjJI=;
-        b=1JpGLzWVg3FQVLPGuJEFkiGvjCDRg27sL2mhrablb/5xaTHhJzQ0i9JUx+Hr8ez4FN
-         dr5Q+RIOb9mPuWK8czIs5Gu3w0Uy31rNc/YMEk5NfetMTgBgUHfLN3T9niG+Tjka+H4Y
-         kSsnV+xWlMcYzQs24YCDoDlauvuL826zB4BkC6H9ItfV6asxs75MK3x8CQV8aOZIKHdy
-         rw3TiypJo+B64+sDoMk/PRFTtXUYVZSsJl5ff3zb/MoXNFJxLhwncGaV5vfMvba3g6ZV
-         UrjaFP48loku6Jrm5E4cotBkSOnR1+BXDNzmgSPQzqGRmhmxv2y7of+0KmzmAEhM8iBl
-         kphQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwBUveTvNByOKfnflMuLpiFt20yRYhstVWogoIOC6skCqVnpLhZMSaVfsTrZRakOi0e/1L/QHYrSAgf0OHG@vger.kernel.org
-X-Gm-Message-State: AFuF++kth+J5fwWWLjnzxMEJLniSw9koLYTp1RTIHmvy3y7xgD4fStbg
-	7WSSgLuelFIRJJZeweqFypFy29VKQkkoTbOwwxDwlQ+TKM97siolzDD8VMpuVbLrrfGOJAV3aLD
-	IwvOnaoCTpcVfyOqtLA==
-X-Received: from wmpc22.prod.google.com ([2002:a05:600c:4a16:b0:49f:e4ba:89d])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3e14:b0:49d:1de5:ce0a with SMTP id 5b1f17b1804b1-49fe66b43ffmr27830245e9.13.1790239179196;
- Thu, 24 Sep 2026 01:39:39 -0700 (PDT)
-Date: Thu, 24 Sep 2026 08:39:37 +0000
-In-Reply-To: <20260923022339.3340694-1-georgeandrout13@gmail.com>
+        d=1e100.net; s=20260707; t=1790240249; x=1790845049;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EdKLcmVJIQ/lTCEPBtmtKcDPQ3kMD0oCquyEuFe4XUY=;
+        b=dhN/hw68UqAgI5c2piyUffXJEjnEna1EQNJczDEzHgK80HyW1bW8n8TaMTtmncrcsT
+         Se4U34Zu4agjTed/+eHCK8D8wM3orpE2ahKRLoMddid8ept8LvnLu2rXi7KNFMStwx9h
+         l0b/3CdD1rg9Rkqc2NCUegscrSX2+RmsHmnxviZ0e+L9/UTUrLr2J+1R1wrfvsSX4mMP
+         T6ozgrUHfiCqtFVToZ+osiMerb9o/YKYwfA2qPMLSI4h7itii7wjeUG8Bq/kYJycELN+
+         VaD2TaoXKLfUmKbFoiicGrYNRoWAwWhu1rsRKc41Qse/hxZEYXB1H8XrKAE0cYO0P8xt
+         EZgA==
+X-Forwarded-Encrypted: i=1; AKwUvBz50cyyhpH8/pVFb0PQ88uv8XCL1F+6RJBYNxOWMjNYfTK7jeLdNJxAUeEurYmfD4zimX/Z/OQ6MpSNvgFc@vger.kernel.org
+X-Gm-Message-State: AFuF++kJXI0kvKglZZhkWdMVa+ulc9dfM86lQKJck7t7wC+CFXsAQa5b
+	qiyhhI6Y6GMbpfUdHl8fP4u3Hl4KxomhDMKVJ0qbdhEyYuNEUx1EF1lFK5zenKwf2aD+r2d6VtF
+	OyJs0PnZ7AVqyYYvwhApuOOouYZBkXlY=
+X-Gm-Gg: AYBFou2jeBBU3oj37KPA9XTB+vYV96kRNA/6Z6FeVhOGE5CpOlcsqwutj8XckKkvjXx
+	+xltBqHpmi6WL2GQiaalFw0PV3XrTJQp7hu07Ue++Wm679PcjFkYpI/Xtg1rbjIZFff1Hx2F6Rg
+	SJOP+Ey71mG9E0CF/7nHPqwgx2Gt3BG4hwpxEvquFxX0ATzk5j6VUVFlmCs9RQaULckoaIvVTYT
+	2GVgrRAfLT3plBaVU2lRATbHq4G2Afat4OmZQ/GcbS0AXejZgIOAdNEjJIC3AB/fZaPVrymf4l9
+	d5LYeoM8DNyAxqhlwMmDfkOoqG7Yf1n7zhrxqb/jKNu95fZYY45djW5H
+X-Received: by 2002:a05:6402:27d1:b0:6aa:4d8d:a0a8 with SMTP id
+ 4fb4d7f45d1cf-6aac90c277cmr1465204a12.27.1790240249248; Thu, 24 Sep 2026
+ 01:57:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260923022339.3340694-1-georgeandrout13@gmail.com>
-Message-ID: <arThye_219ruNbM2@google.com>
-Subject: Re: [PATCH v2] rust: file: handle fd table teardown in file
- descriptor APIs
-From: Alice Ryhl <aliceryhl@google.com>
-To: Georgios Androutsopoulos <georgeandrout13@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Jan Kara <jack@suse.cz>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	"Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, linux-fsdevel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <20260924-work-mount-knullfs-v1-0-ae89b29f7cb3@kernel.org> <20260924-work-mount-knullfs-v1-2-ae89b29f7cb3@kernel.org>
+In-Reply-To: <20260924-work-mount-knullfs-v1-2-ae89b29f7cb3@kernel.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 24 Sep 2026 10:57:17 +0200
+X-Gm-Features: AclHuK_uX-5w-AepVuavFqJofaz_yQXwvhOxhkUwTXmcXOO1DNzBU4E1PYIkqfw
+Message-ID: <CAOQ4uxgfDt7Ai4+r=Uct39F5hfx=vjZeH3jE9e32CeY-ybKYYQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/6] fsnotify: record the superblock a connector is
+ accounted on
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2026 at 10:23:39PM -0400, Georgios Androutsopoulos wrote:
-> Several Rust file descriptor APIs rely on `current->files` being
-> available. However, `exit_files()` clears it while execution may still
-> continue on the same task.
-> 
-> This affects `LocalFile::fget()` and the
-> `FileDescriptorReservation` operations that call
-> `get_unused_fd_flags()`, `fd_install()`, and `put_unused_fd()`.
-> `FileDescriptorReservation` cannot cross task boundaries, but remaining
-> on the same task does not guarantee that `current->files` is still
-> available when these operations are performed.
-> 
-> Guard the affected operations against a missing `current->files`.
-> `LocalFile::fget()` returns `EBADF` and
-> `FileDescriptorReservation::get_unused_fd_flags()` returns `EMFILE`.
-> For `fd_install()`, warn and abandon the reservation when the fd table
-> is already gone. In the drop path, skip `put_unused_fd()` after the fd
-> table has been torn down.
-> 
-> This prevents NULL dereferences through these safe Rust APIs after
-> `exit_files()`.
-> 
-> Fixes: 851849824bb5 ("rust: file: add Rust abstraction for `struct file`")
-> Fixes: 5da9857b127e ("rust: file: add `FileDescriptorReservation`")
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1256
-> Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+On Thu, Sep 24, 2026 at 12:19=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
+>
+> fsnotify keeps a count of watched objects per superblock so that the
+> event hooks can be skipped on a superblock nobody watches. It computes
+> the superblock from the object object it watches via
+> fsnotify_object_sb().
+>
+> This currently works because an object's superblock doesn't change while
+> a connector is attached to it. This changes form some of them. So record
+> the superblock in the connector when it is created and use
+> that for the accounting.
+>
+> No functional changes.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/notify/fsnotify.h             | 3 ++-
+>  fs/notify/mark.c                 | 7 +++++--
+>  include/linux/fsnotify_backend.h | 2 ++
+>  3 files changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/notify/fsnotify.h b/fs/notify/fsnotify.h
+> index 58c7bb25e571..0be351275dad 100644
+> --- a/fs/notify/fsnotify.h
+> +++ b/fs/notify/fsnotify.h
+> @@ -54,10 +54,11 @@ static inline struct super_block *fsnotify_object_sb(=
+void *obj,
+>         }
+>  }
+>
+> +/* The sb the connector is accounted on; NULL once it has been detached =
+*/
+>  static inline struct super_block *fsnotify_connector_sb(
+>                                 struct fsnotify_mark_connector *conn)
+>  {
+> -       return fsnotify_object_sb(conn->obj, conn->type);
+> +       return conn->sb;
+>  }
+>
+>  static inline fsnotify_connp_t *fsnotify_sb_marks(struct super_block *sb=
+)
+> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+> index b2640d836a71..1b6095fcf039 100644
+> --- a/fs/notify/mark.c
+> +++ b/fs/notify/mark.c
+> @@ -425,6 +425,7 @@ static void *fsnotify_detach_connector_from_object(
+>         conn->type =3D FSNOTIFY_OBJ_TYPE_DETACHED;
+>         if (sb)
+>                 fsnotify_update_sb_watchers(sb, conn);
+> +       conn->sb =3D NULL;
+>
+>         return inode;
+>  }
+> @@ -791,6 +792,8 @@ static void fsnotify_init_connector(struct fsnotify_m=
+ark_connector *conn,
+>         conn->prio =3D 0;
+>         conn->type =3D obj_type;
+>         conn->obj =3D obj;
+> +       /* the object may move to another sb, the accounting doesn't */
+> +       conn->sb =3D fsnotify_object_sb(obj, obj_type);
+>  }
+>
+>  static struct fsnotify_mark_connector *
+> @@ -953,8 +956,8 @@ static int fsnotify_add_mark_list(struct fsnotify_mar=
+k *mark, void *obj,
+>         /* mark should be the last entry.  last is the current last entry=
+ */
+>         hlist_add_behind_rcu(&mark->obj_list, &last->obj_list);
+>  added:
+> -       if (sb)
+> -               fsnotify_update_sb_watchers(sb, conn);
+> +       if (conn->sb)
+> +               fsnotify_update_sb_watchers(conn->sb, conn);
+>         /*
+>          * Since connector is attached to object using cmpxchg() we are
+>          * guaranteed that connector initialization is fully visible by a=
+nyone
+> diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_ba=
+ckend.h
+> index 618eed4d6d72..3a9ab9e0104b 100644
+> --- a/include/linux/fsnotify_backend.h
+> +++ b/include/linux/fsnotify_backend.h
+> @@ -573,6 +573,8 @@ struct fsnotify_mark_connector {
+>                 /* Used listing heads to free after srcu period expires *=
+/
+>                 struct fsnotify_mark_connector *destroy_next;
+>         };
+> +       /* sb whose watched_objects account for this connector [lock] */
+> +       struct super_block *sb;
+>         struct hlist_head list; /* List of marks */
+>  };
+>
 
-This looks like it should ideally be on the C side instead.
+A bit of a shame to waste this space for all the inode connectors who
+don't need it,
+but probably not worth the effort to save it.
 
-Alice
+Would have been nicer to detach the mount connector on vacate, but again
+probably too much work and not worth it.
+
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+
+Thanks,
+Amir.
