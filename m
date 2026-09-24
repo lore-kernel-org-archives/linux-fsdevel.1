@@ -1,52 +1,60 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54641477E58;
-	Thu, 24 Sep 2026 12:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3124825A5
+	for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 12:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790251610; cv=none; b=KA/RbkkQlIZqQkmc7//6GEtQwd4OdLeYeHdHJ/wDezO9xUcOz/JCZpRRp8ANzlvXCvKkCizd8bN/20FBE9pAlrxh0/rUqiNvmNgga9XNpREB2UYkj5QnpgYwqd9PveXzPuVTsWAJ8/UePtAccCX5GmdkturOApof6EBnSjM/J4g=
+	t=1790251664; cv=none; b=NNF00ZaDar6v/IPytAOJeaOM7wAq/UZKp7F2Z2b4PtGdjuIw+OCtmX9a/2W3KD+OL8KE2wvCGbLU5ZSiPU8uHbcdnbHY/UW1latASlEfcys1SMpuACJzmbbGm5XuNC48p74vBlsE+VmlNUwNEgl7ULX7A9JrWR/nvTG4Nwhyf6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790251610; c=relaxed/simple;
-	bh=POSpAKSU2r9fexg6/G9FzzNk/dOK2ZZta1d8+WqQEkg=;
+	s=arc-20240116; t=1790251664; c=relaxed/simple;
+	bh=KBIS1OCztfa/hDXcLqDP0qbVwmDRsBJeh+/3cN9SgYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IVHGYCn28vF3zqAaUXqL1wJZAJAHKrPwdP6so0lUryFhuNwcfL4XL66XNmU9yZ4aMgEVlg0LBf5E88PwKcgE/aBExZeGTkNcgXJRoKlJQB/3+dy7lryCsI9AWOSSqDLziJTpNyhtsoNi1efIwTq/qU9KYsaWe3aIvHh0sl5SP8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	 Content-Type:Content-Disposition:In-Reply-To; b=hHNDZjeXnup7kmI1Y17fjJRtcb60B9LNMjItmAZMcds6k3pNISmH84uSH0UK9kxlQ49SfEZj+kLMO78yu12XYiYRvwkbqhEbuiVo+JswEnxOknetcRWgJ9l1LhYzraaMj8+8m2hZm04+x1iDG6EbGtqurjHgHpMswnc43Lndg0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KBBUHKC2; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KBBUHKC2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790251659;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JrZPfOuXhdcQwT19h1nAOmLFrkkXWebr8THeR7DZl3c=;
+	b=KBBUHKC23c2G84hPAjqWzMBGvgeiZChxy5670sGWaUrPEKuUgYzYfpMR+WHs3EhbB/BkCV
+	XvjB2op5w5++waLmRNG4Sp+wjzb8ZB73q6n9rgsv+j74XUTdDfvcqHT4UimpWpvBzcjGTo
+	ZUb4IMSg9bPAa19jdqJo6h06J+fQCcs=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-610-ZzZ3Jf7NPlCQNNb2lo4xLA-1; Thu,
+ 24 Sep 2026 08:07:35 -0400
+X-MC-Unique: ZzZ3Jf7NPlCQNNb2lo4xLA-1
+X-Mimecast-MFC-AGG-ID: ZzZ3Jf7NPlCQNNb2lo4xLA_1790251653
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7855821E38;
-	Thu, 24 Sep 2026 12:06:47 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CBB913354;
-	Thu, 24 Sep 2026 12:06:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id unHNDFcStWo5TwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 24 Sep 2026 12:06:47 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id D698EA132E; Thu, 24 Sep 2026 14:06:46 +0200 (CEST)
-Date: Thu, 24 Sep 2026 14:06:46 +0200
-From: Jan Kara <jack@suse.cz>
-To: Julian Sun <sunjunchao@bytedance.com>
-Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, axboe@kernel.dk, 
-	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeel.butt@linux.dev, muchun.song@linux.dev, willy@infradead.org, jack@suse.cz, 
-	tj@kernel.org, akpm@linux-foundation.org
-Subject: Re: [PATCH v8 1/3] block: introduce bdev_flush_by_dev()
-Message-ID: <qjaulcom6f6ggwq5aktkq2glrdzfhdc27utpg36moywpijmbgc@pz3chxpmz6t3>
-References: <20260922125015.3435215-1-sunjunchao@bytedance.com>
- <20260922125015.3435215-2-sunjunchao@bytedance.com>
- <sb2ptqety3wgay5egv4otva2s7hdvztifhsealwqpdnw5nyprc@ceu2bsedj4wy>
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3A9A81840C52;
+	Thu, 24 Sep 2026 12:07:32 +0000 (UTC)
+Received: from fedora (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 1B37E18002A6;
+	Thu, 24 Sep 2026 12:07:28 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu, 24 Sep 2026 14:07:31 +0200 (CEST)
+Date: Thu, 24 Sep 2026 14:07:27 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: NeilBrown <neil@brown.name>, linux-fsdevel@vger.kernel.org,
+	Jann Horn <jannh@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Xin Zhao <jackzxcui1989@163.com>, Mateusz Guzik <mjguzik@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH RFC v4 09/18] fs: make close_cloexec_files() synchronous
+Message-ID: <arUSf7YBK62yUIZX@redhat.com>
+References: <20260910-work-coredump-unlock-self-v4-0-a5c1800dc930@kernel.org>
+ <20260910-work-coredump-unlock-self-v4-9-a5c1800dc930@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -55,43 +63,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <sb2ptqety3wgay5egv4otva2s7hdvztifhsealwqpdnw5nyprc@ceu2bsedj4wy>
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 7855821E38
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
+In-Reply-To: <20260910-work-coredump-unlock-self-v4-9-a5c1800dc930@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Thu 24-09-26 12:57:46, Jan Kara wrote:
-> On Tue 22-09-26 20:50:13, Julian Sun wrote:
-> > Add bdev_flush_by_dev() to submit page-cache writeback for a device
-> > identified by dev_t without requiring callers to hold a persistent
-> > device reference.
-> > 
-> > A subsequent patch will use this helper to flush foreign bdev mappings.
-> > 
-> > Signed-off-by: Julian Sun <sunjunchao@bytedance.com>
-> 
-> Looks good. Feel free to add:
-> 
-> Reviewed-by: Jan Kara <jack@suse.cz>
+On 09/10, Christian Brauner wrote:
+>
+> Punting file closing to task work during exec slows down exec
+> significantly when its done with a bunch of file descriptors. We can
+> do this in-band instead. Flush already runs synchronous. Jann moved
+> close-on-exec in e780259b54e6 ("exec: do_close_on_exec() before taking
+> exec_update_lock") outside of exec_update_lock.
+>
+> The only lock that's still held now is cred_guard_mutex. It's deprecated
+> and has five takers
+>
+> (1) exec
+> (2) ptrace_attach()
+> (3) seccomp() with SECCOMP_FILTER_FLAG_TSYNC
+> (4) writes to /proc/<pid>/attr/*
+> (5) lsm_set_self_attr()
+>
+> Four of them take the task's own cred_guard_mutex. When
+> close_cloexec_files() runs, de_thread() ensured that the calling task is
+> the only one alive in its thread-group. That leaves ptrace() waiting on
+> cred_guard_mutex of the tracee going through exec. exec already sleeps
+> under cred_guard_mutex in de_thread() when it reads binary and
+> interpreter. So while we add wait-time to an attaching ptracer no new
+> lock dependency is added.
 
-After some though I think it would be better to use
+Plus ptrace has other issues with cred_guard_mutex, ptrace_attach() may
+deadlock ;) So I agree this is not a problem.
 
-	write_inode_now(BD_INODE(bdev), 0);
+I like 1-9 and believe they are correct with the additional fix
 
-in bdev_flush_by_dev().
+	[PATCH v3 08/17] exit: hang up the tty before closing the files
+	https://lore.kernel.org/all/20260921-work-coredump-fixes-v3-8-8e4adb1619e6@kernel.org/
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+feel free to add
+
+Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+
