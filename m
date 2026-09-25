@@ -1,76 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F53E4D6C49;
-	Fri, 25 Sep 2026 15:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF0E36D500
+	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 15:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790349482; cv=none; b=rhN53/W8HiaXig6vfMH4UG0sswgvjqEnN3xRaMPz5vgx6O/s60tYgqQojPEFAoFlg//ij9AE0br3sYtUQaHQSg7ORsWmfJcA7MAjKAhlSsAkmIf3zkHBo7wDntvW+TreywKpwxmLus+cAtmEz8+Cl3X0PTllx85noB8Oo/YTg1U=
+	t=1790349702; cv=none; b=K9KNAXoaBnZVlpuoj6d9iHLs+wGXlSHvJmxGcLRYvCxq7SvYqK+mhP+t6tWDQQLI4+b091/M439Fa+xCJN4t49BlKfBIlcgBd6J1sn4p92QR60GtioP/+R2+EQy5+zffjslMgD36g6rm5EFiE+DOXOTwA3Fzs2PaaIgt6DV6TIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790349482; c=relaxed/simple;
-	bh=aN8NV6lldBqrzb6eo7xPzq64/8+WV9ILnBET8awqJWk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=B/NHbjdE6x3M+Rs9QVGrqdth0aPOZzBN7ToilHIK4jqEYU7SVy5PqtKl4tOun+c5cILZryZcVFFgKGizHaflidEQCzS6QOMhyvda8qhAfDQwtug7lyw9tHAn7F9Hh1ru9FlCxramdTmAXMwAmJBU+6Erl9v12HoSwwhaO8Jh0uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCV0HGGV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790349702; c=relaxed/simple;
+	bh=fg37MteT6qY7CtU29ZE8/EHbRk/gkamdt7ir4NJTd3I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=q8SH9eddoNwfpaXqKhlReMWo7PhVpyuEj2Uzo4I9aEtYnW9Y3QUNHH1ovEGAKwVC/WY8kG+rEkL+xd1IAggGf+TnytNlcgQM/+VsVAlJNUUXjHtbqpScdzLR4aa5pSMARwqMrOUGHBOgtWa6KQVL4fsef2O+gsuDq6+R5KsCKjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=IhKrpIUY; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCV0HGGV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72BC21F00893;
-	Fri, 25 Sep 2026 15:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790349469;
-	bh=z8Sgs7XmsWWKbgKjCtJ1QYogRINsElxJu+k8QSeRCLQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=SCV0HGGVdIPdCCYFtQ6bt/g47QLSJOlXHVw1vSTdQvTXSA7n96nj1mMKUqyLfNJFK
-	 Zyu5Y30B6B6cNeqZk/+n6JRMxemiEnFm3nFfdr2A3XoEtKjt7fBpEL92PN9EQXcbhS
-	 HmSyYR2BFu7Z+e3aKrxfo5cPR7qlcXrarAbgrXyYmsUEh16z+q49wX0OvKyGTVpfUP
-	 X6bzVdn51Clwcnl/EVL9tLOgsHGhqzxxH2tXiJEYysK0KANGJzadYMLG36Ysfo2Quy
-	 ODcYmP4vVWsFRJTfaTk4AdUq/TsaLUvcCwEvNBVQ5XEXN7FCB7objq7+bPVMtRJWvP
-	 0H+NnL50X4twA==
-From: Christian Brauner <brauner@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Thorsten Blum <blum@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260919213859.24667-3-blum@kernel.org>
-References: <20260919213859.24667-3-blum@kernel.org>
-Subject: Re: [PATCH] initramfs: Reduce hardlink hash allocation sizes
-Message-Id: <20260925-eidesstattlich-pumpen-dutzend-a7e1b4f9f331@brauner>
-Date: Fri, 25 Sep 2026 17:17:44 +0200
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="IhKrpIUY"
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260925151401epoutp012a6e5194e888cbedb0ae7174303cbaea~YmSZSeFAC1714917149epoutp01s
+	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 15:14:01 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260925151401epoutp012a6e5194e888cbedb0ae7174303cbaea~YmSZSeFAC1714917149epoutp01s
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1790349241;
+	bh=N8u7AhFgBlad5WR0/tVzgePRA0W94FbpCUUti3H2j+s=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=IhKrpIUYoYHMe/uVmwabXhD60q//eU55FhMLZCVPRDd9SrRWMCQLaE0kRbWcoc2rM
+	 fBu6HnkQ3g4F3waPqotJRs2yrWeZ+5BkVYJcRJAEU7fc3aUoiLGeswbuxC3aVur6QD
+	 dQsjM9k5GAj5dTf8YpmV10d635V/DYjbER+y5ghk=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20260925151401epcas5p440a8f2a08d5d9f1a1fb20ffd97dafc4f~YmSYsWkU40593105931epcas5p4V;
+	Fri, 25 Sep 2026 15:14:01 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.89]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4hrvP432WDz3hhT3; Fri, 25 Sep
+	2026 15:14:00 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260925151359epcas5p1c8ac740378cfccbb49b35809a6532025~YmSXOoaWq1249312493epcas5p1W;
+	Fri, 25 Sep 2026 15:13:59 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260925151357epsmtip2c124ee0bbf16fef5d59ebc0d79eeabbb~YmSVx3xtN0776207762epsmtip2S;
+	Fri, 25 Sep 2026 15:13:57 +0000 (GMT)
+Message-ID: <ef9844a0-3a9f-48e4-8092-2de2e03db1c8@samsung.com>
+Date: Fri, 25 Sep 2026 20:43:56 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/8] xfs write streams
+To: Dave Chinner <dgc@kernel.org>
+Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, cem@kernel.org,
+	jack@suse.cz, axboe@kernel.dk, kbusch@kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, gost.dev@samsung.com
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <arG8a7Vcy6_qZi0e@dread>
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=882; i=brauner@kernel.org;
- h=from:subject:message-id; bh=aN8NV6lldBqrzb6eo7xPzq64/8+WV9ILnBET8awqJWk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRtmzCrRJfBdqJU9JQfLC1V6hd2W4UdW6+Rod+Q2iC13
- KHOfjt3RykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQOTWX4Z6a0WvbXgS1h0TtL
- RaxSF3gHekQ2nZi+7E9Buhvr44cdNYwMr3lv1NRtPP3jPt8ky8nPWo78NxSxbjkv+m+eqfhnZ1Y
- BDgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+X-CMS-MailID: 20260925151359epcas5p1c8ac740378cfccbb49b35809a6532025
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260921093229epcas5p387ee10f88335ddc5fc930ca919769a60
+References: <CGME20260921093229epcas5p387ee10f88335ddc5fc930ca919769a60@epcas5p3.samsung.com>
+	<20260921093147.59935-1-joshi.k@samsung.com> <arG8a7Vcy6_qZi0e@dread>
 
-On Sat, 19 Sep 2026 23:39:00 +0200, Thorsten Blum wrote:
-> initramfs: Reduce hardlink hash allocation sizes
+On 9/22/2026 4:53 AM, Dave Chinner wrote:
+> On Mon, Sep 21, 2026 at 03:01:39PM +0530, Kanchan Joshi wrote:
+>> This series introduces a generic interface [2,3] for write stream management on
+>> files.
+>> It enables spatial isolation (at sw and hw level) and concurrency improvments [1]
+>> in xfs by
+>> (a) steering each write stream to its own set of allocation groups (patch #5)
+>>      and realtime groups (patch #6).
+>> (b) connecting xfs write streams to block write streams (FDP capable NVMe).
+>>
+>> Write streams allow the abstraction provider (fs, block, raid etc.) to
+>> leverage application's intent (file relationships/lifecycle).
+>> - application: reserves a stream and sets it on the files it wants
+>>    placed together.
+>> - xfs: maps streams to AGs/RGs; allocates without interleaving; gains
+>>    higher concurrency due to reduced lock contention.
+>> - hardware: maps streams to underlying allocation unit; reduces device
+>>    internal write amplification, improved life, predictable QoS.
+>>
+>> Also
+>> - A stream is handed out using an fd. The filesystem is free to map streams
+>>    onto its own geometry, and the reservation/fd machinery is generic
+>>   (fs/write_streams.c) so other filesystems can reuse it.
+>>
+>> - Since high-level write stream (in xfs) and logical placement can work
+>>    without the low-level write streams (in block device), series has a general
+>>    value beyond the hardware that provides spatial isolation. Patches 1-7 are
+>>    software only and work on any block device; patch 8 aligns the stream
+>>    count to the hardware streams when the device has them.
+> 
+> So, how would I set up a stream that directs all writes to AG 1, and
+> returns ENOSPC to write operations if that AG is full?
 
-Applied to the vfs-7.4.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.misc branch should appear in linux-next soon.
+You can't, and that's a deliberate and necessary design choice for the 
+usecase (and I mentioned soft boundary in patch #5). While AG/RG are 
+fixed-sized XFS buckets, stream is a high-level (vfs) bucket with its 
+opaque handle (fd) that does not come with fixed size constraint. 
+Applications may tag many files (more data) with one stream and tag few 
+(less data) with another stream.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+> What about having several streams, each pointing at a different,
+> known AG that the application directly controls (i.e. a known 1:1
+> mapping between stream_fd and agno)?
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+We can't use agno here.
+Stream lets the application state intent: these files belong together, 
+those stay apart. It does not dictate layout. AG/RG is xfs-only 
+vocabulary, and that's fine for xfs-only interface. But we are doing a 
+generic interface that needs to remain portable across filesystems.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.misc
 
-[1/1] initramfs: Reduce hardlink hash allocation sizes
-      https://git.kernel.org/vfs/vfs/c/b53f422491af
+> This is functionality that we could use in xfs_fsr to get rid of all
+> the historic tmpdir/tmpfile heuristics that allow it to "control"
+> locality of the data placement of files that it defragments. We also
+> need such control of data placement to empty AGs for shrink
+> operations. Yes, this only occurred to me a couple of days ago, but
+> now that I've made the connection between write streams and fs
+> allocation policy direction, it seems like a natural fit.
+> 
+> FWIW, that also means that, for XFS, write streams need to be
+> applicable to directories, so that directory block allocation also
+> gets placed according to the stream ID, and that new inodes in that
+> directory are created in the same AG as the stream ID points to.
+> This directly allows us to rebuild directories using FICLONE/UNSHARE
+> tricks and have all the indoes, data and metadata placed in the AG
+> we desire (i.e. necessary functionality for online shrink).
+
+
+With this, we are discussing xfs tools (and not fs-agnostic 
+applications) that speak nitty-gritty of xfs layout. This usecase does 
+not require stream and stream-fd based workflow of this series; it can 
+be served more cleanly with XFS only ioctl. Something like:
+
+  XFS_IOC_SET_GROUP(AG/RG no, flags) on the file
+
+To set the 'hard' allocation-directive so that all allocations happens 
+from that AG/RG no and ENOSPC if not.
+
+Also it seems shrink usecase will also require that target AG remains 
+exclusive (not available for allocations) while it is getting emptied. 
+That, exclusive capacity locking, also we don't do with write-stream. We 
+can't return ENOSPC to other allocators just because somebody decided to 
+use/abuse stream to create artificial lack of free space.
+
+> So:
+> 
+>> [2]
+>> ### Application interface
+>>
+>> Three new ioctls:
+>>        FS_IOC_WRITE_STREAM_GET_MAX  number of streams the filesystem offers
+>>        FS_IOC_WRITE_STREAM_ALLOC    reserve a stream, returns an fd
+>>        FS_IOC_WRITE_STREAM_SET      set or clear a stream on a file
+> 
+> How does this interface enable such usage of write streams to direct
+> purely filesystem level allocation policy requirements?
+
+As mentioned above, you might agree that interface should remain 
+portable across filesystems.
+
+> I don't see
+> how I can use this API to direct where in the filesystem to map the
+> stream to. I can see that there is a 'set' command, but all it has
+> is a flags field. There's nothing passed to the ALLOC command to
+> allow the application to indicate to the filesystem where it wants
+> the new stream to point to.
+
+FWIW, we had a 'stream-id' as part of ALLOC in the previous version.
+Christoph suggested to remove that from UAPI.
+https://lore.kernel.org/linux-xfs/20260825065533.GA24808@lst.de/
+
+The direction has been to be more opaque and less explicit.
+
+> IOWs, it appears taht there is no way to provide the FS with any
+> sort of direction as to how the stream should be set up. If we want
+> a FS specific stream (e.g. an AG) then we don't want it mapped to a
+> hardware stream, and we don't want it mapped to some random set of
+> AGs (like this patchset implements). The only real reason for
+> filesystem level write streams is to expose allocation locality
+> control to applications, so it seems kinda silly to have an API that
+> prevents any real application level control...
+> Indeed, how do we ask for a fs-level write stream instead of a
+> hardware-level write stream? They are different things, and have
+> different use cases (obviously!) so there definitely needs to be
+> some level of though put into this. And, FWIW, the write stream id
+> will probably need to be a u32 if we are going to support FS level
+> write streams, as we can have more than 65536 AGs in a
+> filesystem....
+
+All this gets handled cleanly with the above xfs-ioctl based approach.
+In that, one can put the actual AG/RG no into xfs-inode itself so that 
+future allocation can happen from that.
+
+
+> 
+>> - Usage model: application needs to get a handle (fd) for a write stream
+>>    before being able to use it. This avoids multi-application conflicts.
+> 
+> Why can't multiple applications use the same write stream locality
+> mapping independently? If the application wants an exclusive write
+> stream (i.e. exclusive access to a set of AGs in the filesystem),
+> then surely that's a flag for the ALLOC API, right?
+
+Fair; But I should clarity that exclusive access is only for stream 
+resource/handle (fd) so that another unrelated application does not pick 
+the same stream and start colliding. This matters more for hardware 
+stream. But exclusivity is not about AGs, we don't lock AGs on 
+per-stream basis.
+
+
+
 
