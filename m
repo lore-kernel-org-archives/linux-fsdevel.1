@@ -1,296 +1,124 @@
-Received: from mail-qk2-f42.google.com (mail-qk2-f42.google.com [74.125.230.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC98950AC02
-	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 23:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB69509F17
+	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 23:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790377388; cv=none; b=MxG8ErsNxoxIVNgaR4fZTgiHAq4Q57+jTJ8NvubATyPS5OjtaiilqrG+HUuEbZ+osnK245+61j3u9C9V/JDWsImKOaYw9EVnA7zZ+xeJsfTB6IF/0YNKBKUTQV0hFlc3O9gfs1UwHmRmWQVexIPmWY83l7IX4wsadGu55Yy1tMo=
+	t=1790378015; cv=none; b=nybDAmwzS/33Hr47Uo8GjkECMD+h/dVpPNcE3QnxIP/cnfF2AwhUx7ycW32Axd8kpaPR04yJlmknrVOisbbzWdauDeEu3RiT7MYxVDeRCYMNfTF1hJlbJ06/3zCSTMtChVe/VoDpxQ9qoNzkIRsiDCHXVauZe+F9S12nmnExWdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790377388; c=relaxed/simple;
-	bh=jandskfkITyjC7rvkXLAEoCYbYIdJkGLy5tzhgU6M4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DAKFaKRBImzcYhi6GmjUBGxEmTrJuQkj3NHMMIBSmGajeC4SOT5HBi43NSCi1aozTuc21lQ6GojbkT+6DYZS0+TpxjjE9AwCqb20sDXnvDkMp2kUfdhhXp3LlhbEuRrHuzBz1LXidAXBxVREwBST22QdCqc1N+R/gAaO9dD4E94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=A94lZouv; arc=none smtp.client-ip=74.125.230.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1790378015; c=relaxed/simple;
+	bh=IHzywUCHO0ob7Ukns7yJ4Z4Dhpta9lJ6UZN308yPmHg=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=CCrT/QANANaVqSH5QESzRTStrXtLToVaSlc2U/tsLCO2FbAleUXmo0k6O/7jl1LLapmN7phBOlCf23uxGToyzvEntvQtvHeBy7vFl8voPE/dmZlvpX+zHepOzuB5QjZFX4yURQwuvs8uFE0rz4LXrs50Pn4n/WdS9ax7SiZz/80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=UDj2z3dT; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="A94lZouv"
-Received: by mail-qk2-f42.google.com with SMTP id af79cd13be357-93bd580489dso134068085a.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 16:03:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="UDj2z3dT"
+X-KPN-MessageId: b6dc0517-b936-11f1-a5a2-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.188])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id b6dc0517-b936-11f1-a5a2-005056994fde;
+	Sat, 26 Sep 2026 01:13:27 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id b6dae0c2-b936-11f1-ac15-00505699693e;
+	Sat, 26 Sep 2026 01:13:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1790377383; x=1790982183; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PiEVC1BfM3JbJHmz6IrQSpeOS1QFhfgMFnl3j26Htjk=;
-        b=A94lZouvKAzEKsqSL/a6UzMxCA9GzIsQbusgbX18VD/4DwKuWyDb6CLr8AdemoenTW
-         617YC8IOvzTvhVbOpq/AGAEAVnxLR1trNp2nuOZ/gQBf0n9rM6+fp0sRgPpsvGPcpU14
-         Us49emjjkXz5t8Ymv5sPiXC+LvBbNpDFTRl0f6Qt5SJepfum1T4JRhrSTH28n/2XHWkL
-         vyz8ZZaHH/XKcZ9yTKCQOZrjW/5wXNTizOddw0dBQfLNqN+LKKjdHZ11eGj3uy6l4U6a
-         i8Ca67ZUXj09625YduPLfKVCsBCTuVPUvbAoNa63euPMbiJmP4dYz6vSluHidDJcvTQL
-         5XCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790377383; x=1790982183;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PiEVC1BfM3JbJHmz6IrQSpeOS1QFhfgMFnl3j26Htjk=;
-        b=cQPG2gCf3Unz9H3c7glfYcMnRR6VkVQC4+gcvdX9rjdnoGi4inZNK+gIdnKX3aLUMZ
-         DuUmnDc8iT+z1l2G9Me+G7AyHarR9xXJwEFhkuvQhSvUzJpUsUS6ELqnSqATwT6JpFH2
-         xMcvwr/KzV1KMyCnS6D0MrfbrzHoztsyanlI9FivHJyYqYUUe6NWGR6lHMVV27PjJdGE
-         RLUcLzubfH9bHmPToYOtjM/BEWBf3mCXcpWgSgOqAtthBJKvyeCeWyHip0JBT8K3cIjU
-         OI46lSUbmbz/xuY+3hl4vB049+pYSMSYysFWyORlUaiuapKKMvocndFXRQBkVG2Ofyb2
-         P0Jg==
-X-Forwarded-Encrypted: i=1; AKwUvByJizH+QdxlN4+c1qJgvvOoDrb76O/LXDpn2OVwuHIWssiAomAkcUbPcM/AlzAcIL43zs2XzkBpNcWQM6cl@vger.kernel.org
-X-Gm-Message-State: AFuF++l+jbYqJXg6yb7tVL1xS3wSZhjtiERLA1Vrm0G3kSD6BpFlTI8X
-	eH080XEgMca2aDil07V9WoKW1eEtg+mX4Av6wnVFLceNLKPGUJ+XQA2IDZaof6O+LiU=
-X-Gm-Gg: AYBFou2SFD2v/PG4rn8Y/INZ1RkwreHqih2m6gMpgxEXvHrCoPDMkjCIlzeKLi9xmz0
-	+7/aaTMMGl+KwykMjUd4a+OIN+TBqm26EOqyhFpw3aThPq4Sma1/LH5THBCyQ2oG/NLMfAzYpFY
-	peVPdNpafqDSYJaPZb6lzJBVJNW+eHzmadpvaDRBaYLpTih5t1lkRqosN8ec2gd7OXtV8o5qFQu
-	qTXG3aMt2wSaxd0fYVKKwnLe1woBjdlrVZR/ttMOvCIvHX0k9uuJABUGBXUprK9LcTXmRJ00d6U
-	hqysu/ALw0WWbmVjKyIjfP1C1RL4vDvtpDGY89GkHPp3ITU7/RCbHpJVtEr7P9zINE4PLY7V8hv
-	AKvE18HkcVjiW38iZ3YyTVt5LqUzAYQeVj7eBH7s5aBNALmdDe4M9Cj8z/NX1PG01qhrHgBW6oF
-	XYPledZwlgIB6bohFk1DH2r45b89dxmMiMHW9+kh5H6ymPBhxqcNKbQkvKQ8bdEP78hVXp/Ux0Z
-	YeMWN+S/akf5A660uw3/rUlErogukNvpvp52ug5eTZhp6U5VOV4DSo=
-X-Received: by 2002:a05:620a:2614:b0:93a:2bdc:cd57 with SMTP id af79cd13be357-93c43b7f72amr755724385a.2.1790377382584;
-        Fri, 25 Sep 2026 16:03:02 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c4493af29sm290317085a.28.2026.09.25.16.03.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 16:03:02 -0700 (PDT)
-Date: Fri, 25 Sep 2026 19:02:59 -0400
-From: Gregory Price <gourry@gourry.net>
-To: linux-mm@kvack.org
-Cc: Zhigang.Luo@amd.com, arun.george@samsung.com, balbirs@nvidia.com, 
-	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
-	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
-	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
-	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
-	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <arb0mV23QmRVDtB3@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=b4cs3pQWmtJ0lv6ft+kCFdHthnWoZIwih0aFunzSbp0=;
+	b=UDj2z3dT9YyLqqT965II8uA1WUpa00eNKfdgxg4RULFKHmF4wxFDYpRFP/0TxruULf9fKQjk1WlMo
+	 xjM8ioKATExzV7Qr+oBJ/OFrJbZeCegFoT0Po+x+OsS97t+6v/gZNuyvYMIXjHxAdUxqdpQ3iN76uE
+	 1z5BE+GKqXLjzRguCqGZgHv7dnKgtqqGi8SsQ/3mHOqwnDdtFZRYY8AFtoUQ2/jaDUwIloiPbEqM7s
+	 O+kdhxaxfj5uf7YpCdUDwXnF5t/j+6ECgxOLESWVb+phstU99rCWLdt8uOueKkWLFAjRJQf3D58j1W
+	 wHgQupPJkMQN+QWRulvhkMuMIi//PdQ==
+X-KPN-MID: 33|SnyEX77jiPo3jdzb0R8r1R4CQ8JqpRuWlRDUnh63a/HJWF00fWLcSK/zdAGd0MN
+ VFiGaGMS6ibYIOxFBjH3J6xn3VTkckWo05VaeAOHaRh8=
+X-CMASSUN: 33|brvZ+V5WyKLsR+PX1wwd5weRmkU1MJ71tO/8scHW4cUUZX7DkFfyj6ejpFsmIRP
+ C2Hsy8XO/II4/ptvnuuM47Q==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id b6d4addd-b936-11f1-8edd-00505699eff2;
+	Sat, 26 Sep 2026 01:13:27 +0200 (CEST)
+Date: Sat, 26 Sep 2026 01:13:27 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>, NeilBrown <neil@brown.name>
+Cc: Jeff Layton <jlayton@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+	Aleksa Sarai <aleksa@amutable.com>,
+	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <1131164231.213466.1790378007193@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260918-reklamieren-syndikat-gemildert-763b72008b46@brauner>
+References: <20260913185016.523376-1-jkoolstra@xs4all.nl>
+ <20260913185016.523376-8-jkoolstra@xs4all.nl>
+ <20260918-reklamieren-syndikat-gemildert-763b72008b46@brauner>
+Subject: Re: [PATCH v6 07/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Mon, Jul 20, 2026 at 03:33:54PM -0400, Gregory Price wrote:
-> This series introduces the concept of "Private Memory Nodes", which
-> are opted into two basic functionalities by default:
->   - page allocation (mm/page_alloc.c)
->   - OOM killing
+
+> Op 18-09-2026 04:17 EDT schreef Christian Brauner <brauner@kernel.org>:
+> 
+> 
+> > @@ -4582,12 +4646,25 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+> >  		goto out_dput;
+> >  	}
+> >  
+> > -	if (!dir_inode->i_op->create) {
+> > +	/* mimic operation missing errnos of vfs_mkdir/vfs_create */
+> > +	if (create_dir && !dir_inode->i_op->mkdir) {
+> > +		error = -EPERM;
+> > +		goto out_dput;
+> > +	}
+> > +	if (!create_dir && !dir_inode->i_op->create) {
+> >  		error = -EACCES;
+> >  		goto out_dput;
+> >  	}
+> >  
+> > -	error = vfs_create_no_perm(idmap, dentry, mode, &delegated_inode);
+> > +	if (create_dir) {
+> > +		struct dentry *res = vfs_mkdir_no_perm(idmap, dir_inode, dentry, mode,
+> > +						       &delegated_inode);
+> 
+> So, I think this is broken. Whatever vfs_mkdir_no_perm() returns is
+> passed to do_open(). Kernfs makes that buggy.
+> 
+> cgroup, cgroup2, and resctrl are all implemented on top of kernfs. And
+> kernfs ->mkdir:: iop never instantiates the dentry.
+> 
+> So that means e.g.,
+> 
+> openat(cgroup_dir, "subdir", O_CREAT|O_DIRECTORY) creates a cgroup
+> and then fails with ENOTDIR.
+> 
+> So the negative dentry gets handed out and now userspace holds an fd
+> with that negative dentry. So say userspace does fchown() to 1000 and
+> then fchmod() with the sticky bit and then you get a NULL deref. I have
+> reproduced this.
 > 
 
-All, I wanted to preface v6 with an update, I probably won't be sending
-it out on-list before LPC (i've been a bit noisey as it is, I'll give
-it a rest).
+Damn, nice catch. None of the LLMs caught this, only our flesh and blood
+maintainer ;) I must admit I didn't consider a ->mkdir that left the dentry
+negative.
 
+I haven't looked into kernfs yet, but does it make sense you can set the
+sticky bit there? Not that it is a viable solution to just mask that out,
+as anyone would expect positive dentry at the time of do_open(). Curiously,
+with a very quick glance, it does seem that only may_create_in_sticky() relies
+on the inode being available.
 
-But I would like to give you the highlights for those interested.
+Thanks for looking into this, Christian. See you at Plumbers, I guess?
 
-The latest working branch can be found here:
-https://github.com/gourryinverse/linux/tree/scratch/gourry/managed_nodes/rfc6-nonuma
-
-You will find the following:
-
-- There is no depedency on exported alloc_flags (willy, i found a way),
-  but there is a need for `folio_alloc_private()` to explicitly ask
-  for the ALLOC_ZONELIST_PRIVATE.
-
-- feature bits have been converted to node_state[] bits
-
-- N_MEMORY_COMMON was added to mean "common memory" - i.e. the existing
-  N_MEMORY set.  A private node is now defined as !N_MEMORY_COMMON.
-
-- opt-out sites no longer check for !N_MEMORY_PRIVATE, they instead
-  iterate over node_state[N_MEMORY_COMMON].  This is *much* cleaner.
-
-- opt-in sites get to define bits in terms of their own service, e.g.
-
-  /* for each reclaimable node */
-  for_each_node_mask_state(..., N_MEMORY_RECLAIM) {
-     ...
-  }
-
-  Or maybe even:
-
-  for_each_reclaimable_node()    :)
-
-
-- There are only 2 node features in the base set:
-
-  N_MEMORY_RECLAIM    -  generic reclaim runs on the node
-  N_MEMORY_COMPACTION -  compaction will run on the node
-
-  You'll notice there's no userland numa control support, more on this
-  in a moment.
-
-  This is all you need to have functional device-private coherent
-  memory that uses the page allocator.
-
-  Disabling N_MEMORY_RECLAIM does not necessarily mean you're prevented
-  from using vmscan.c and the LRU - it just means we'd need to expose an
-  interface for a !N_MEMORY_RECLAIM node to explicitly ask for reclaim
-  to operate on it.
-
-  Tiering (Demotion) *to* a node is not supported.  We can probably
-  debate whether this should mean tiering *from* a node should be
-  supported or not as well.  This is easy to change.
-
-
-- The working branch also includes a minimal compressed-ram service
-  that only supports anonymous memory.
-
-  Supporting file-backed memory (and shmem) is a whole different can
-  of worms that deserves its own discussion.
-
-  I will post this as a separate RFC from the base set, but it is
-  available to play with on my working branch.
-
-
-- I ship a basic dax driver for the base series, `anondax` which allows
-  existing devices to online a private node with both compaction and
-  reclaim support for testing.  This enables this use case:
-
-  fd = open(/dev/my_device, ..., O_DIRECT);
-  buf = mmap(fd, ..., MAP_SHARED)
-  my_file = open(myfile, ...);
-  read(buf, myfile); /* fault directly onto device memory */
-
-  With swap (and no tiering), this gives you a private over-commitable
-  node for which aspiring drivers can use to implement their own
-  mmu_notifier callback stream to manage device page tables and such.
-
-
-- The reason mempolicy (and user numa in general) is not supported is a
-  critical relationship between the OOM killer and page allocator.
-
-  In trivial scenarios, if a consumer of a private node overshoots and
-  causes an OOM - it will be the largest consumer and be chosen as the
-  victim.
-
-  If there are many consumers - what actually happens in practice is the
-  oom killer attempts to select a victim based on *task* policy... which
-  makes every task a candidate.  This leads to, among other things,
-  either an OOM storm and/or a full blown panic because a victim cannot
-  be located (depending on the constraints).
-
-  I've concluded that as-is, this is not tractable. But also, it is not
-  actually needed if the devices provide their own chardev to provide
-  a basic wrapper around folio_alloc_private().
-
-  This unfortunately means potential users like guest_memfd are unlikely
-  to be able to use the nodes without hard-coding the allocator
-  interface, as opposed to a mempolicy.
-
-  I think it's possible instead to *maybe* add N_MEMORY_USER_MIGRATION
-  and allow for explicit movement between nodes, but not full blown
-  mempolicies.
-
-  The relationship between page_alloc, cpuset, mempolicy, and the oom
-  killer is just too tight to allow allocations without the use of
-  __GFP_THISNODE - which the private allocation interface will enforce.
-
-
-As it stands, the series has been heavily minimized in both line count
-and patch number.
-
-The base series is ~22 commits with the scary diffstat below, but many
-of the core mm/ patches are similar to the patch below - with nearly
-all of the real complexity happening in reclaim and memory hotplug.
-
-despite the branch name, I intend to drop RFC from here-on, everything
-else required for the base series is in mm-new.
-
-
-See you at LPC
-~Gregory
-
--------
-
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 7bdcdb57652f8..cd61566b44fa1 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -2266,7 +2266,7 @@ static int __add_folio_for_migration(struct folio *folio, int node,
-        if (is_zero_folio(folio) || is_huge_zero_folio(folio))
-                return -EFAULT;
-
--       if (folio_is_zone_device(folio))
-+       if (!folio_is_common_memory(folio))
-                return -ENOENT;
-
-        if (folio_nid(folio) == node)
-@@ -2390,7 +2390,7 @@ static int do_pages_move(struct mm_struct *mm, nodemask_t task_nodes,
-                err = -ENODEV;
-                if (node < 0 || node >= MAX_NUMNODES)
-                        goto out_flush;
--               if (!node_state(node, N_MEMORY))
-+               if (!node_state(node, N_MEMORY_COMMON))
-                        goto out_flush;
-
-                err = -EACCES;
-@@ -2475,7 +2475,7 @@ static void do_pages_stat_array(struct mm_struct *mm, unsigned long nr_pages,
-                if (folio) {
-                        if (is_zero_folio(folio) || is_huge_zero_folio(folio))
-                                err = -EFAULT;
--                       else if (folio_is_zone_device(folio))
-+                       else if (!folio_is_common_memory(folio))
-                                err = -ENOENT;
-                        else
-                                err = folio_nid(folio);
-
-
- Documentation/ABI/stable/sysfs-devices-node |  21 +++++++++++++++++
- Documentation/admin-guide/cgroup-v2.rst     |   7 ++++++
- Documentation/mm/physical_memory.rst        |  15 ++++++++++++-
- drivers/base/node.c                         |  67 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
- drivers/dax/kmem.c                          |   2 +-
- include/linux/gfp.h                         |   6 +++++
- include/linux/memory_hotplug.h              |   2 +-
- include/linux/mmzone.h                      |  45 +++++++++++++++++++++++++++++++++++++
- include/linux/node.h                        |  12 ++++++++++
- include/linux/nodemask.h                    |  53 ++++++++++++++++++++++++++++++++++++++++++-
- kernel/cgroup/cpuset.c                      |  39 ++++++++++++++++++++++++++------
- kernel/sched/fair.c                         |   6 ++---
- mm/compaction.c                             |  21 +++++++++++------
- mm/damon/ops-common.c                       |  15 ++++++++-----
- mm/damon/vaddr.c                            |  20 +++++++++++++----
- mm/huge_memory.c                            |   2 +-
- mm/internal.h                               |  22 ++++++++++++++++++
- mm/khugepaged.c                             |   9 ++++++--
- mm/ksm.c                                    |   8 ++++---
- mm/madvise.c                                |   6 ++---
- mm/memory-tiers.c                           |  25 +++++++++++----------
- mm/memory_hotplug.c                         | 109 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------
- mm/mempolicy.c                              |  51 +++++++++++++++++++++++++-----------------
- mm/migrate.c                                |   6 ++---
- mm/mm_init.c                                |  22 +++++++++---------
- mm/page_alloc.c                             | 115 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------
- mm/page_alloc.h                             |   5 +++++
- mm/vmscan.c                                 |  31 +++++++++++++++-----------
- 28 files changed, 585 insertions(+), 157 deletions(-)
+Best wishes,
+Jori.
