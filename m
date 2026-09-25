@@ -1,59 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36E7423E9E;
-	Fri, 25 Sep 2026 09:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1DC3BB126;
+	Fri, 25 Sep 2026 09:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790328658; cv=none; b=mzN9/+zmgv32DYDgeJr8Mhlqg8kav642wlACxk7QbrMiP0k6SoxByFh3pSQjyxptGgol1vlDFzrfS2PbVA4ip9SUxvtljc8smk5+0oHooOFJUi3l8nGxO9ALx1Ew7IJ9VBcwBURQjsUaxbkgQvOh2ANoW9FYdMAXOgzu9XvG1T8=
+	t=1790328776; cv=none; b=reD9plZcmw2PNJiNrS4WXg0Lp8VHbeH7nbn3LrwqoQbm7IjJ6tnvkFLG0X/nTDvzqttlBWr6iZUwPXyZI0jnBpg3VwptDclIxrFWCmmRHM2RyETxf3hn7PB3Km034/l8sp8/TaLyKxm9es/YC7hgjQX11NSAmwlke8P0NKGSOUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790328658; c=relaxed/simple;
-	bh=LKh6dn1KjHYb5AhpB8AXcwmqtYM9xU387WK0TklJmjs=;
+	s=arc-20240116; t=1790328776; c=relaxed/simple;
+	bh=FZHOSQCbU0yz2LrTj5ZDV+Fs0nWY8u2ZMV0zLiKmZug=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KlS+DDuIOsDERDgry54FY+wmAkzdKhkoMXFftnorub4Esbn7c8a3SC61a5pXgKVovaN6tduzNIkHl39d5cooaLa5HmHHvh4Hp1GGWOUTTL/33UvhEb+HCEAWhGPTzWZHeYyLnPd1ZRzuEcFsNUeajEICJZe4EBLRCdEw+S7aAdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PrcRyvDk; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pf23S5kQqY8qVP4OaNn8oJxo/5f2OgwwEiG03H2ESxuWg/zT3HljxQS3yHJDZasAfD2RccDCaRYJR3WaXq7cnxRwIs+0+wtuCLPxC7jJj6KumM/bvIihnRSdy7BsFQFpXfssD4NuHXn0Q+Lxgy6GtzuKm/ZnzdhVnyLj+TxRg2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1rNEvZ2P; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6ORble1B; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jk8n2FUI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wRnNBuoq; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PrcRyvDk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 795571F000FF;
-	Fri, 25 Sep 2026 09:30:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790328657;
-	bh=2ZPvROUzm2CS6Mg3envH0hZ0KiQZJyc6fxn16uw0Jxg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PrcRyvDk4tQWcaU7YEM54W8UvoKbXWTsquEdmtoe+PYIWP1qcTzpTyNSl3z8mlgsQ
-	 LnSdpsSp5U1oLFwFTRGHgnsAaa/t4O0DZfc/HpojLpvBH4Ws06rN2p3zjR+lEyU74Y
-	 TKj+ZFQZ7G3M9v+D6ciK4niXnj9PpzhQvrBEJUrX4Unu4TU4tWJyC0sxWMrKPxeV7r
-	 qQeOts850usAoS0s56E3+ILHWvhC7dLh5y+1WfoyozqGrj9lplRCwt/iy0EIg13t8X
-	 Wnz9pnIIQ+MMfCweN9eQgW1+VBOj1ghs7MNXejm1bsj3qlRD1/i3uJVkBLidSwsNhf
-	 WJYtkR1Hqu7Hg==
-Date: Fri, 25 Sep 2026 10:30:45 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 01/40] mm/vma: fix mmap_prepare file handling, remove
- file_doesnt_need_get
-Message-ID: <arY7e_4p27Mic7bH@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-1-4583d8a23bca@kernel.org>
- <arVOW_frpIU_JbbP@gourry-fedora-PF4VCD3F>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1rNEvZ2P";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6ORble1B";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jk8n2FUI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wRnNBuoq"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 114601FE16;
+	Fri, 25 Sep 2026 09:32:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790328768; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mTvl1PDrKPezU5DYOL8yNnZhAwpezqrF/JSpQNHiXWk=;
+	b=1rNEvZ2PhBySqCF/wwU+V994+Xz+QTrUabmAHu0iCOdQJGqV1nSfik6xZpMcSVVe9X0WJ9
+	SSF85iAdsyMEeHBVE8swXaNtSfc9WoMDNYgfZCoWCY5RJDgz4QJ0sPYFGkp/BeItsk5t7g
+	K+S9BwO7k13sPMh0T7+hcVowBYlWQ/Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790328768;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mTvl1PDrKPezU5DYOL8yNnZhAwpezqrF/JSpQNHiXWk=;
+	b=6ORble1BuI8FEuas8u9mdz5NNzYJTogVLDLctbONkrCXjbh0PFDlsZcdGi1Dr613BvBN0p
+	Wm5TRimT971IC4DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790328764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mTvl1PDrKPezU5DYOL8yNnZhAwpezqrF/JSpQNHiXWk=;
+	b=jk8n2FUIh1bjnPfQjN9yHRNasI2gpOxqOgu0ZevrBunemkYMRnviEML8dv2Ii/sBEJUj/5
+	F2e70TkRETUjjuVvG9ynk7hevafhxeZB3Lpi0TlITL/jqcVqsBel46NT7sSRnWmTO1x/j6
+	ugjvZJFYXG/U6EjIPT5x+ydX/J8TsIM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790328764;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mTvl1PDrKPezU5DYOL8yNnZhAwpezqrF/JSpQNHiXWk=;
+	b=wRnNBuoqxB+7sJA/tTv/obyu6z5J1N+jzZytXcB66UVpA0dkyhF89Po0wpvlNURkf3CweV
+	kkArOg0Ok/d+Q8Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DBF4913432;
+	Fri, 25 Sep 2026 09:32:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qIiZLbs/tmoxLQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 25 Sep 2026 09:32:43 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 6DEF7A13DA; Fri, 25 Sep 2026 11:32:43 +0200 (CEST)
+Date: Fri, 25 Sep 2026 11:32:43 +0200
+From: Jan Kara <jack@suse.cz>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fs: porting.rst: use literal string to avoid warning
+Message-ID: <hyk4puvpheleitf4kt74aamqex2ytuxpda2iki5bgzoteldf23@pccvy6sdmerx>
+References: <20260924183915.400588-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,69 +89,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <arVOW_frpIU_JbbP@gourry-fedora-PF4VCD3F>
+In-Reply-To: <20260924183915.400588-1-rdunlap@infradead.org>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,lwn.net:email,intel.com:email,linuxfoundation.org:email,infradead.org:email,suse.cz:email]
+X-Spam-Flag: NO
 
-On Thu, Sep 24, 2026 at 12:28:39PM -0400, Gregory Price wrote:
-> On Thu, Sep 17, 2026 at 05:22:10PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > +static void put_map(struct mmap_state *map)
-> > +{
-> ...
-> > +	if (map->vm_file && !map_same_file(map))
-> > +		fput(map->vm_file);
-> ...
-> > diff --git a/mm/vma.h b/mm/vma.h
-> > index e97bd2dfa786..f15faa83f3d6 100644
-> > --- a/mm/vma.h
-> > +++ b/mm/vma.h
-> > @@ -394,8 +394,10 @@ static inline void compat_set_vma_from_desc(struct vm_area_struct *vma,
-> >
-> > +	if (desc->vm_file != vma->vm_file) {
-> > +		fput(vma->vm_file);
->
->
-> Sashiko pointed out that this could be null if the vma is "anonymized".
+On Thu 24-09-26 11:39:15, Randy Dunlap wrote:
+> Avoid the docutils warning:
+> 
+> Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis start-string without end-string. [docutils]
+> 
+> by quoting the const pointer in literal quotation marks.
+> (Adding a space between the '*' and the '.' also works but it looks odd.)
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202609231806.ILZP6Fy0-lkp@intel.com/
+> Fixes: 025756ee7b47 ("fs: port mnt_idmap() and file_mnt_idmap() to const mnt_idmap")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-Sashiko is wrong :) I wish I could mark responses like that so it didn't
-regenerate them on each respin.
+Thanks! Looks good. Feel free to add:
 
-(I always run sashiko output received for each series through a frontier
-LLM anyway + fix stuff that is real, see the changelog for series for those
-things that were valid)
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-You can't reach this code without a vma->vm_file.
+								Honza
 
->
-> Previously we'd discussed that anonymizing a file folio is more of a
-> wart than a feature, and IIRC you intended to remove that (i think?)
-> when you removed zero-file mapping "anonymization" so some of this VMA
-> stuff could be detangled.
-
-The anonymising as existed before clears vma->vm_ops not vma->vm_file.
-
-The new _actual_ anonymisation for MAP_PRIVATE-/dev/zero clears
-vma->vm_file but only on the raw mmap_prepare non-compat path, stacked
-MAP_PRIVATE-/dev/zero is not supported as a means of getting anonymous
-memory (and would be a really strange thing to do anyway).
-
-(In general stacked file systems only operate on regular files anyway).
-
->
-> If this is an intermediate state, do we still need to manage this NULL
-> scenario, and when we drop the anonymization mechanism we add a WARN()
-> that says someone is being naughty?
-
-Nope not at all.
-
-No code path can get here with NULL vm_file and it's already the case that
-a driver setting the wrong thing NULL could trigger a NULL pointer deref
-anyway.
-
-Nothing in-tree does anything like this and out of tree drivers can trigger
-stuff if they want but it's not for us to worry about (they already can do
-that locally :P) :)
-
->
-> ~Gregory
-
---
-Cheers, Lorenzo
+> ---
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> 
+>  Documentation/filesystems/porting.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- linux-next-20260923.orig/Documentation/filesystems/porting.rst
+> +++ linux-next-20260923/Documentation/filesystems/porting.rst
+> @@ -1418,7 +1418,7 @@ All struct mnt_idmap pointers handed to
+>  ->create(), ->mkdir(), ->mknod(), ->symlink(), ->rename(), ->setattr(),
+>  ->getattr(), ->permission(), ->tmpfile(), ->get_acl(), ->set_acl() and
+>  ->fileattr_set() as well as the xattr ->set() handler and the vfs_*()
+> -helpers take a const struct mnt_idmap *. mnt_idmap() and file_mnt_idmap()
+> +helpers take a ``const struct mnt_idmap *``. mnt_idmap() and file_mnt_idmap()
+>  return one. The idmapping is immutable so nothing should have modified it
+>  anyway. References are taken and dropped via mnt_idmap_get() and
+>  mnt_idmap_put() as before, both accept a const pointer.
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
