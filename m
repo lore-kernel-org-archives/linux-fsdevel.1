@@ -1,75 +1,45 @@
-Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781C9296BA9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 04:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228D139E16B;
+	Fri, 25 Sep 2026 04:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.54.11.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790310523; cv=none; b=hs9qTHevezhpyX8mVT5lKOfmBcZ98jO0RscHy22dIOFesiKzTMUnel230pbkVuz1ykv1ytRBmJEtOxGf4hbyoTLLIUmBi88pZyI6Ar3j+l2UiAAAPhjrgXnpCBsL0hRvz1d1d4aM1xGUjRULIAbzXG06Tqy4y8EF+dMN6QYwg34=
+	t=1790310847; cv=none; b=H1UbhYIggkF7Y6d5bIZGwBCNwrd8EUdWEKfudhgAgmDJbbtzdIi1j0A66k6gcxOY0lq2NHUTzRtcbyyOhOVFvMUSQF2MVy5m8nzck9zXbuKeB+FxtkiQTRZyQCWcSPjI9m4XM1k25595LIUsF1JaJ7GLaS/Ax6V3FQSqIWkJZl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790310523; c=relaxed/simple;
-	bh=xZjyaOWxOWcGWoOLJQaxRromtWcHBUc3cBhfH4gXhFU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cC7bFkQ3aFmQRco2AORGRHNA3hFJ44wXY+RrKMudiSbbouUs+gGZkou4FavqXcuoHMLpx0AAiKwtlxcUU+YzOU9f6cBnSkyBtM/HX6KQM8KFVIbGGf7hYxhuvwpOFdtFa6V4UpIhBUwfP+THqYxJwIz7fnsgtFl2SMZc221Jic0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GfwOnujP; arc=none smtp.client-ip=74.125.229.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790310847; c=relaxed/simple;
+	bh=hmoJ8ZwSFjMMJARSXLhDx182hMYcFXMtTuhtgRY51xU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O0/YUIlJNPljdem8SLS1n0f+N8KDYYXkwq2onoGPpkIxC5nL29NoiSeTNsFtENuGB+frXCi0rW9mNf9YgijY1Xfc/R4FBHySRtvZDiyHP6aP8DhBhqk4oeS6qgKFHJjNAeylMznGzF/vQMe02p7QdtKhOW4f3BhJ6Zp8zdTBs3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br; spf=pass smtp.mailfrom=inf.ufrgs.br; dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b=1RqtgHvY; arc=none smtp.client-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfwOnujP"
-Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-3381a6a05c9so225072eec.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 21:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790310521; x=1790915321; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6gZh7+8nC/Wfeh8KZZ/1HMZ53Xwij67r5K1kV9FvBo0=;
-        b=GfwOnujPuAwh/mlKhoBRfhF8wOYI7C1NRoUPjwi6ksvDz3oU1sYvRC34t7HhGrUFWB
-         VgSqoWqnZwwGF2WpvbTtWR/KrOGG3rdaMd9wgrzf8nvTpK7D2AJpZ5e5vVo1yP3e+LEK
-         AYrXZB0yLmfwXFDNn5HjmV3PsUmeoOUMufvsG9MjxkXwrQTYgcpvdBrUyrwJYuUFAjHr
-         DfSlGnXDdT7xpmjkQQLnUtjhIOSccWYlol6ACrqvHwYXXbls3R7sDKkmtM6nGHhN5qQg
-         NpjooTokXLK5RdqLg5BAbWkQdZA5GxF5pVZb1KZkapmkP9u+ANjkOT+qlv3jmrZ9dL5D
-         u7cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790310521; x=1790915321;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6gZh7+8nC/Wfeh8KZZ/1HMZ53Xwij67r5K1kV9FvBo0=;
-        b=bW9P/JphaQfQRnitP+o9zkA5TR1kkw6uO7I6m+XKYQ0SmxFD+aEBFxNDF3xK/2VV82
-         qFhawi9+W1XtSPZv79Ovmw95bLvPOZNZN4Og/bfEUwJy91CM3R0MD8H06WIakvbgVgG2
-         Ni7qtBVFb5msaR7wKkLww3ufmutOx9u87rRcempRXb+3rPqm0gtUCHWXAf4HBRKX2MY/
-         mqxKWENP7ZZMYTSdXpoznq5lxI1fG+lmh4fWkfvprxMndowCUyqOql6MocctDThI0EvP
-         1fd9/Be9Keq+iQHWxVYoZlOtvO/72XA4Zo8b0YEf7eaVyDtlF4oGxvjOytNZEpgWsuDQ
-         7bag==
-X-Forwarded-Encrypted: i=1; AKwUvBwUKy2OMNTjI7ROSbbygcHnBJi0DDwUzyKFs5wfSGftRQiJd4O9MERcpsxPDfkqCpkZF7roSwA4ooyirIv/@vger.kernel.org
-X-Gm-Message-State: AFuF++mqWcKFw89DjVGooGeCyWoflpxmgK2SYC0UjF7OqXddazXlSE+W
-	VLhGIjvIxX91K2es85CapJDA0YdQ3zqR8uezgxB3/DoODbZVbaLUCMMe
-X-Gm-Gg: AYBFou17eIlslCmU0HpzuYiA9Q/08wQsnO9JsyScEG72rkkJTGTUYlkcIWC8rfHvdfW
-	lDQByA2dawabAjmljaBbJMK6OoRKX7ayBnAFr9olXnNGmFwrk55U3e2C+FCP9QRGo+4Xkxk1lff
-	LOuPFkXB2IznMQztEQBuO7SpyJXdcK/Wb83s+dDqfdfvHdJFWkfyygtyKNz9a8LTPjeXNkmL1Rs
-	24/lzMBY3h63nF8jG4673CJGKb+QCMZ3ppXvD5BWzz4Y/Bd/3gKdnfqgHUOKg7uedOdOGtPJmUn
-	7oLFsMkAvIywG6AU4eGQImr17XIY1atnlUx1Wq9vE35hzweRw2cbI/AlmjdLoZ7hmNRbfpHHBTF
-	bomVp7bmGTlwI+WdFPvl+CFObGMNHzeWkPo3JUu5Aiu5eU/p0KaswRAI6Iu83rUbgf1rW5Y0hw9
-	u0deizpr8Kqxml7m//F6XMi+Ve5fb+KwsJP2VSEgco4sAFSjNnGtm3WOyFWMdh9ppfXnd/MMn2x
-	pj+kLwcm0E1VFPB3iMscvkDUtUWLiWCIURoclSwxIL3gZgtwB36sXIi5+/MuTCnbGTdI/U5SBjv
-	7tjFUvXgNLQyZz3VJuzaFAWo1gnQcczAmZcLz6hAsjeq5YraULJAlShGhp4=
-X-Received: by 2002:a05:7300:f80d:b0:33c:e82:70c7 with SMTP id 5a478bee46e88-34000c26cfdmr3331790eec.30.1790310521000;
-        Thu, 24 Sep 2026 21:28:41 -0700 (PDT)
-Received: from spider.bream-herring.ts.net ([103.6.151.236])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-341459234a1sm3087155eec.24.2026.09.24.21.28.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 21:28:40 -0700 (PDT)
-From: Matthias Goergens <matthias.goergens@gmail.com>
-To: jack@suse.cz
-Cc: scdbackup@gmx.net,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] isofs: Always advance to the next block in readdir and lookup
-Date: Fri, 25 Sep 2026 12:28:35 +0800
-Message-ID: <20260925042835.1974673-1-matthias.goergens@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <vjb4g4xyuare7b6w6lwtbuijboeqhrzdo4vboi7fgpyeu4prtx@gv2zvtsbae6u>
-References: <20260922121912.2258134-2-jack@suse.cz> <20260923153134.771632-1-matthias.goergens@gmail.com> <vjb4g4xyuare7b6w6lwtbuijboeqhrzdo4vboi7fgpyeu4prtx@gv2zvtsbae6u>
+	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b="1RqtgHvY"
+Received: from LAPTOP-R01LEAQM.localdomain (unknown [201.48.143.134])
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 7C1D41210F5;
+	Fri, 25 Sep 2026 01:33:39 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
+	s=dkim2026; t=1790310821;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZkEezres29Esv4sS76RHtMxXk3an/L2iFac2K+n+ZWQ=;
+	b=1RqtgHvYIk5bCLpbAbNtoWQQnnqpBhfdwRoMs8LP4Ebq7xt9Vnrak2S6iU8nevNyTgrCV4
+	98XCHlDODWtQD9cUMv9wlhNIidoEfIgHVQ0Uod1y0kmM+N3FK0TEnGuzHqsAm2us6A5yj8
+	3dtnG7Zo3XmT+PAOYOQIg2Ib1sBT0NnEYyTPp/pOVcN4CC6p6EifLYPCQo1DntGy5QIk1G
+	KhjF9e835Q6kc+6+XG5JyzB6pD+25wOB+2dPOdAVHv3QhoSZj/HNATNmnCKi3rFe4Ty8Qw
+	1L7mLfv68zvmrWvHhhFnBt0PEEMRDU571Seh/BALbjhGfcR8E6mXwrZZtHUemA==
+From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+5585f47221c0de04168d@syzkaller.appspotmail.com,
+	Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Subject: [PATCH] ufs: validate block and fragment shifts
+Date: Fri, 25 Sep 2026 01:33:37 -0300
+Message-ID: <20260925043337.87879-1-matheus.aalmeida@inf.ufrgs.br>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,27 +48,73 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Honza,
+Currently, ufs_fill_super() accepts images with an fs_bshift and an
+fs_fshift that do not match their respective size fields. This causes
+UBSAN shift-out-of-bounds issues in the bad fs_bshift case and an
+out-of-bounds read and kernel oops in the bad fs_fshift case.
 
-On Wed 23-09-26 18:55:11, Jan Kara wrote:
-> Just I'm not sure it is a realistic failure case - that
-> would mean a directory would contain full block of zeros which I don't
-> think can happen.
+Make the ufs_fill_super() function check that these fields agree with
+their size counterparts.
 
-It does happen on real discs.  About 1% of the disc images I checked
-on archive.org have directories that end in a block with no records in
-it, mostly from Easy CD Creator 4.0 to 4.2 and Nero.  On for_next
-(c8437ca3d438), readdir and lookup in such a directory spin, and stay
-stuck after SIGKILL.  This one hangs with default mount options, as the
-disc has Rock Ridge and Linux reads its primary tree:
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+5585f47221c0de04168d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=5585f47221c0de04168d
+Cc: stable@vger.kernel.org
+Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+---
+ fs/ufs/super.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-  https://archive.org/details/itsoftcd-39  ITSOFTCD 39.iso
-  /PROMOTIONS_SOFTWARE_39/AUTOFLIGHT/DISK13
+diff --git a/fs/ufs/super.c b/fs/ufs/super.c
+index 3569ac92b..7df3eedd9 100644
+--- a/fs/ufs/super.c
++++ b/fs/ufs/super.c
+@@ -1001,7 +1001,10 @@ static int ufs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	uspi->s_fsize = fs32_to_cpu(sb, usb1->fs_fsize);
+ 	uspi->s_sbsize = fs32_to_cpu(sb, usb1->fs_sbsize);
+ 	uspi->s_fmask = fs32_to_cpu(sb, usb1->fs_fmask);
++	uspi->s_bshift = fs32_to_cpu(sb, usb1->fs_bshift);
+ 	uspi->s_fshift = fs32_to_cpu(sb, usb1->fs_fshift);
++	UFSD("uspi->s_bshift = %d,uspi->s_fshift = %d", uspi->s_bshift,
++		uspi->s_fshift);
+ 
+ 	if (!is_power_of_2(uspi->s_fsize)) {
+ 		pr_err("%s(): fragment size %u is not a power of 2\n",
+@@ -1018,6 +1021,11 @@ static int ufs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		       __func__, uspi->s_fsize);
+ 		goto failed;
+ 	}
++	if (uspi->s_fshift != ilog2(uspi->s_fsize)) {
++		pr_err("%s(): fragment size shift %u does not match fragment size %u\n",
++		       __func__, uspi->s_fshift, uspi->s_fsize);
++		goto failed;
++	}
+ 	if (!is_power_of_2(uspi->s_bsize)) {
+ 		pr_err("%s(): block size %u is not a power of 2\n",
+ 		       __func__, uspi->s_bsize);
+@@ -1028,6 +1036,11 @@ static int ufs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		       __func__, uspi->s_bsize);
+ 		goto failed;
+ 	}
++	if (uspi->s_bshift != ilog2(uspi->s_bsize)) {
++		pr_err("%s(): block size shift %u does not match block size %u\n",
++		       __func__, uspi->s_bshift, uspi->s_bsize);
++		goto failed;
++	}
+ 	if (uspi->s_bsize / uspi->s_fsize > 8) {
+ 		pr_err("%s(): too many fragments per block (%u)\n",
+ 		       __func__, uspi->s_bsize / uspi->s_fsize);
+@@ -1117,10 +1130,6 @@ static int ufs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	uspi->s_minfree = fs32_to_cpu(sb, usb1->fs_minfree);
+ 	uspi->s_bmask = fs32_to_cpu(sb, usb1->fs_bmask);
+ 	uspi->s_fmask = fs32_to_cpu(sb, usb1->fs_fmask);
+-	uspi->s_bshift = fs32_to_cpu(sb, usb1->fs_bshift);
+-	uspi->s_fshift = fs32_to_cpu(sb, usb1->fs_fshift);
+-	UFSD("uspi->s_bshift = %d,uspi->s_fshift = %d", uspi->s_bshift,
+-		uspi->s_fshift);
+ 	uspi->s_fpbshift = fs32_to_cpu(sb, usb1->fs_fragshift);
+ 	uspi->s_fsbtodb = fs32_to_cpu(sb, usb1->fs_fsbtodb);
+ 	/* s_sbsize already set */
+-- 
+2.43.0
 
-With my patch on top it lists correctly.  syzbot ci hit the same loop
-on your patch, and neither of its reproducers hangs with my patch:
-
-  https://lore.kernel.org/all/6ab5dda9.80e1c6cc.1e8e5f.001f.GAE@google.com/
-
-Thanks,
-Matthias
