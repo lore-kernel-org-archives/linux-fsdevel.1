@@ -1,177 +1,102 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pj2-f41.google.com (mail-pj2-f41.google.com [74.125.227.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABF549553B;
-	Fri, 25 Sep 2026 10:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DC93148C9
+	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 11:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790332504; cv=none; b=J2vLTNX2vitSnf+RGRuYz43dvtgY0jwXsV4hQn46XlE6x7/La71f0htc95TriroiwfQrvJurQ0Yb6LUp1AbdEfSl29Zdz+MoZ/saqtktH0aorRWmUybqLo++zSQGO5JEK5Df3WuxbgoS7A7JcTV9Nqa7mNqbJAoZ7OWSe/lIaZI=
+	t=1790335340; cv=none; b=p4NlBCZb1EFmsafmRi+XBz++/AGcCUEMi+xH7iGExOO0sv/Y4AeWkWvIs7d70haa6exyolcDa1CBtrAakBztpnSZtSQQJLfYeGnocUGpXpHEIIliW2p/Pk7IPx81pSG21kka/tdIBxVcmBPrQXkufSG+sXMtuBe6gTuIcwrbN1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790332504; c=relaxed/simple;
-	bh=+GqLfHS3KhW1SZDMZZg1WMpdlSQIHXFb/kVBuu90ZOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R9QhRjtO5NRVwLt03PgZ87dyXGi7u/oCtcVVyt05nUzfrboD0+UMJ5+ooXd2qJXtmOokBDbdZwzWhXaGQ1VD43QHHZawZ35NqoEFfMagTf5Ipt4o+mV9DJgBe9nspKG5t2DFfDMJJNRpUIohaZ3bXeEDTUbCPxRIDm1cn922yok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sHDDZXOH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EWyleEm2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mbSFHP01; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=AGIdiRXb; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1790335340; c=relaxed/simple;
+	bh=S/O5SVTCTUiSZPQyBDxVAe8MBIe69BJq3vJYrBDoK5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TAt3P0ItAo+3hY0G18225wJDgma9avBSPbjtoMm3HwcDSJ/qFDzknbPoQSgbx9sS+roLeyd4DxmKZbj+q6oW65nj3b9EkAdEsz3Ys6aOGHSNYh7FXbDv+I2zgMlcya2xvsrWJIG4/WGNaDN9TUBcqXdsLeModvXy9Fb58IkXdWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FZHjV+WK; arc=none smtp.client-ip=74.125.227.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sHDDZXOH";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EWyleEm2";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mbSFHP01";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="AGIdiRXb"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0FB2020173;
-	Fri, 25 Sep 2026 10:34:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790332497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CmWBmGiYLCBQGGp6qkvxtGAccccpy3zMvAj3zCRN2IA=;
-	b=sHDDZXOHSyUK2kf6s0YAqGzmTi1vLCDLNNZgXmrEbKyCLWk3J7pAlehfU+wKV/sYOePY5o
-	ETEWt3g8dwmv9uvSNGzI4He+yjtRQ/5iPCQdf668Wuk8tfuF5w5ROa/ErRXmeA2J1LL4PE
-	lrNZsZS/6b9cpZWAx0vHk+yo9/tJFJ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790332497;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CmWBmGiYLCBQGGp6qkvxtGAccccpy3zMvAj3zCRN2IA=;
-	b=EWyleEm27YWVXBqG2SbnDiPzTHLoUvyQvU3QF4ME+bjunA7e3IHn3i/g9pTQTCxgQsSiK8
-	L6bm0pzL+BJ6NUDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=mbSFHP01;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=AGIdiRXb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790332493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CmWBmGiYLCBQGGp6qkvxtGAccccpy3zMvAj3zCRN2IA=;
-	b=mbSFHP01JNXU2AmaGwx4rwSzdR2m/ZlwshNNgiCJeWxKEtYfHICYb5ediWc41eQsBCcxtR
-	ZJJitcTfNXFcg3VB1IsTLFJow0UNrZxUkMmf8fFlJbpbjMY8psqZxrKzV0RFDTk85zyht0
-	saOm6R7j44wAcGono2I2vZPYhf33VJU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790332493;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CmWBmGiYLCBQGGp6qkvxtGAccccpy3zMvAj3zCRN2IA=;
-	b=AGIdiRXb2jxsg3XbV7X5oEoMi5jXS9fP7pcbs03Qq08ABTAbG8C1K6tBCcZlDVd5d09IBA
-	ARdF+jmpZ93xVxCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DC338136F7;
-	Fri, 25 Sep 2026 10:34:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nq/PLExOtmr+bwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 25 Sep 2026 10:34:52 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 67281A13DA; Fri, 25 Sep 2026 12:34:52 +0200 (CEST)
-Date: Fri, 25 Sep 2026 12:34:52 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Julian Sun <sunjunchao@bytedance.com>, linux-block@vger.kernel.org, 
-	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	axboe@kernel.dk, hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeel.butt@linux.dev, muchun.song@linux.dev, willy@infradead.org, jack@suse.cz, 
-	tj@kernel.org, akpm@linux-foundation.org
-Subject: Re: [PATCH v9 1/3] block: introduce bdev_flush_by_dev()
-Message-ID: <3w6vfwfkojmfqy2qs5j4q2s2366ajqiwmqf624lyn3odrv42v2@va2r7a6ngfz6>
-References: <20260925064444.3944820-1-sunjunchao@bytedance.com>
- <20260925064444.3944820-2-sunjunchao@bytedance.com>
- <arYaMbJUh6unvz_t@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FZHjV+WK"
+Received: by mail-pj2-f41.google.com with SMTP id d9443c01a7336-2df9754484aso2100575ad.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 04:22:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790335338; x=1790940138; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HU7aE2uFm4Gtxe7PSFefKmykiXC0/W/FmIxLo+XdYIE=;
+        b=FZHjV+WKA80wDM3QJpW8twoGwPkvRZP1bVpVUNhe1t+eej2eDdK6OgGOE7MiDgyWTV
+         /KSVD/Xcd1wqMrqr+gOESfoW+60mEmPwPBGNynbNBLgoaij/nqj4IzoorXcwx5gyToo0
+         RK5Jc+w0jw1F7/0nCgri3GghQ47lTS0kKxxLSsgYXAZF0oYTGs2UEkhYIjWN+BuxDxAD
+         uG5DkTyBvVveHC4S1Uiw4dKUsNHrt/gwLjmmM2dhLWqEh7lA45nfZzl2UNDA3F5RmLq6
+         1fNclA20ZCJzQIFK2jXXmaaZy/UCousj+/fOOHczYolJiJ1Z2JLU+7C4D7tmN4FoIr8r
+         mNVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790335338; x=1790940138;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HU7aE2uFm4Gtxe7PSFefKmykiXC0/W/FmIxLo+XdYIE=;
+        b=ikNf9W+3oLo7g5jOTDpC3MiGCMCe8EcRD57D24SrQqq6prEFdhMIn+MQzAiEpwpMlw
+         zlHpS6xnb1x4Olk23wE5GUEfTo17o8ZAgJFkjAl2xNcYHGJLLQ4xIJdmZ9FBTnAauz/o
+         fyWXofcXYBg7POzEMTKWd0jf8rscmmS7qn5JW68tjmMMkM7x7uDGh56TSjMTEGyAiAfg
+         rNlRMcVPSnHb7Zhgh5XnnmzljTyvHBoMSljGH/4wTvMr4NxZaG1TKjhwR0AxCl8RH71n
+         2cIb8RvYCJz+EALKD/Ab6UMC7Dhme8QA77kBkDTkFkCD/cmXxw1zrAeRQdnJThqWbaDv
+         CVVQ==
+X-Forwarded-Encrypted: i=1; AKwUvBztw2GXUlYup0d/G6uhL9yb0VpDYuKKuv5ELVR2PrDJW6CE2G5Ur8FRUL6tbi85GbFbHR1+AlQeCDeFZL3X@vger.kernel.org
+X-Gm-Message-State: AFuF++ny6PRFZ7K0qS0Sgm700onLQJ6MUHt7Nwio17R3B6agYfTsRv4M
+	Rvqc3VoOAGFYj2BJeSLPeBkLR3El8mdhRoDW0MnDHd4DqOhd6YxbTu+G
+X-Gm-Gg: AYBFou2psXzMLdnKittPsShoD59iwzAlaxDHw2Y8Hnx778SmDjsPioJBpkFl7FQUESP
+	VC/jxz3Ql7WsCRsr6KzxMhiKTLms39xlY/O8IdhTLkFDtXNxObsfVHIIz3eBS2D+KrfeRVgrlCr
+	HUE4UMbRPKbMo0Vz4roooGfmbqmAX9FMQ6v75P2N25Z8LVR8to+Um/wbvaO1VsGfd+ZVF54g/h4
+	+mo+2n4tZq6G9C4jyxrFTT+nJ2b0vd3uo6+CK7DOJAJvoqTSDVhaRw/sm/GkDl/OrgxBkMyCRGk
+	2zHEyI5f0o+oG2qu/7DLr71e8HNRnPrTxqovntAm+usui8/070yyXM1E1XuWZ2F5oAwwDjtiM68
+	dx8AAQiCwp9sI6AwN0FIH7uGLhjj1OAgek9VDn1/c+/y8jpmVS5+ARqH7QW66jOd7uMtAn7dahz
+	28+6+zN5vA3To1OAQ6vzz5KgROq8jl9t6x8NnwRFMlppJgXku26Haw4bvfFuYfHRrU2o4Gdn1fH
+	JSI599U0YxJ6am0SlUoimUZ1e6CvM33HRmLL920/MW1p2QnntmxVI06qrwy0RHyoI92fX5t2m48
+	tXkSDRrKRxSH8VXoChCQw5Jh0pKaY1qRfM4kSWZxx/u9h4xqvxoCzF67Ehc=
+X-Received: by 2002:a17:903:984:b0:2dd:ad73:c980 with SMTP id d9443c01a7336-2df7dc4086bmr46620395ad.24.1790335333493;
+        Fri, 25 Sep 2026 04:22:13 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df90fbc593sm8476075ad.6.2026.09.25.04.22.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 04:22:13 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: jack@suse.cz
+Cc: benquike@gmail.com,
+	brauner@kernel.org,
+	viro@zeniv.linux.org.uk,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] isofs: reject short directory records in isofs_read_level3_size()
+Date: Fri, 25 Sep 2026 19:22:09 +0800
+Message-ID: <20260925112209.911126-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n>
+References: <20260919222553.3792320-1-benquike@gmail.com> <20260923175215.1577791-1-matthias.goergens@gmail.com> <w3rnunloyshklgq4ocr4jsullzhaey6u7odstfoyhd4usbfppo@m33jyem5jgrf> <20260924151356.3287733-1-matthias.goergens@gmail.com> <20260925043804.2091174-1-matthias.goergens@gmail.com> <cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <arYaMbJUh6unvz_t@infradead.org>
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: 0FB2020173
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-On Thu 24-09-26 23:52:33, Christoph Hellwig wrote:
-> On Fri, Sep 25, 2026 at 02:44:42PM +0800, Julian Sun wrote:
-> > Add bdev_flush_by_dev() to submit page-cache writeback for a device
-> > identified by dev_t without requiring callers to hold a persistent
-> > device reference.
-> 
-> This isn't really a flush is it?  This is writeback.
+Hi Honza,
 
-So bdev_writeback_by_dev()? Fine by me.
+On Fri 25-09-26 11:28:18, Jan Kara wrote:
+> OK, thanks for checking! BTW how did you do the check. Have you've downloaded
+> all the images?
 
-> > + *
-> > + * May sleep while submitting writeback; does not wait for I/O completion.
-> > + */
-> > +void bdev_flush_by_dev(dev_t dev)
-> > +{
-> > +	struct block_device *bdev;
-> > +
-> > +	bdev = blkdev_get_no_open(dev, false);
-> > +	if (!bdev)
-> > +		return;
-> 
-> Please don't add more blkdev_get_no_open.  You can get from an
-> bdevfs inode to the struct block_device trivially using
-> I_BDEV instead of doing another lookup.  Or just grab a reference
-> to the the inode, which would seem even easier.
+Gotta use that 10 Gbps fibre-to-the-home broadband for something!  But
+no, I used a script: archive.org serves range requests, so it fetched
+only the volume descriptors, path tables and directory extents of each
+image, about half a megabyte per disc, and parsed those.  I'm happy to
+share the script and the list of images.
 
-Well, Julian is explaining that in the cover letter. We don't want memcgs
-to hold bdev references just for foreign flush tracking. There's no easy
-way to get rid of them so they could pin bdevs for a long time leading to
-strange artifacts.
+> So yes, just keep the code skipping empty blocks and I'd just limit
+> the number of sections + empty blocks to 100.
 
-As you write, we could just hold a reference to the bdev inode. Those get
-unhashed when the device dies (__del_gendisk()) so memcgs would be just
-wasting some memory by holding these inodes alive. But still, transitioning
-from inode to proper bdev reference verifying bdev is still alive will add
-a bit of hairy code (essentially what blkdev_get_no_open() does plus
-verification inode is still hashed). Plus when replacing foreign flush
-entries you're under irqsafe xa_lock so doing iput() from there is kind of
-a nogo.
+Will do, unless Hui would like to take it.
 
-So I think tracking devices by dev_t is a good way of dealing with these
-problems. But then when flushing you have to transition from dev_t to
-struct block_device and blkdev_get_no_open() is the canonical way of doing
-that (and note this use is just internal to block/bdev.c).
-
-So how would you prefer to deal with that?
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Matthias
