@@ -1,170 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0121E3DA7E4;
-	Fri, 25 Sep 2026 09:55:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8C6490BF8
+	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 10:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790330134; cv=none; b=E+5LTsWscHyD+Pq9GzS/Gi5cprSe8Ujqoy6Rj9E30vHdzk0MWfnhOpIJkRTuMvZP3GiS1tVSzh4jvRVI6bx0GIzazO+loQBxryLG6VQAtbKw9ssrNVBmp2K0px7PTNbrrZXsaYrtNkJK6GuaW0lSeu+SLVi7HRMlbD8a6opCPBQ=
+	t=1790331992; cv=none; b=bnEKrW/R3y2s86D0270TkNk7C9iHE40Wn+VpWGCUmJWLJfryV+73yZ4hSl0wnxCPLNL9qXhh/okLOdEawEJ5ulhHXHLntnH+8oLg8G/CRMBTTHN+Yq8hzGsjMJt61nqGrC3WRaFDzlpbzcu986O6hh2ZUOwZpmkzcQ/Kiy+64ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790330134; c=relaxed/simple;
-	bh=bbikqsSea9vW+pe3Cgq2a9QL95dQasb87hlFKxy08F8=;
+	s=arc-20240116; t=1790331992; c=relaxed/simple;
+	bh=RHu0TsHI8c3CcxCtKzOzi4bVIkKNUk5PwG3ZcDcVhZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dkV5/EYkCBQn5pyz+cwsaZfrThofldme4FpFbE6QHNrboKZdxAcFm6jzBRqRdGyd7+GP6QhT6/5EGl46uexq9HfCZRa6bzDCITrX9l9/qVru9cxvoYfj1Df6j8SHtB+oZBE0PE7Erij3fXOAXQezL4GvSfw0VAFA0Ph9kP6JW2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HxJQcEvn; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=calI1+FN5hNTKNrDsihUEx9rt+nfxElctGESRxyZNZYszg1pXKmynGa4YofIAAr4JnKhsUwOC92qnxh5tH6kvBkQw7sckYymOjT6GIdnyqVjmDxiDbMQnqrTAlKqKmkTRyc9R+g+UeTG9kVtBfrrHmFWPcblLcSvkbgLi8KqeXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Abd7cL7p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HxJQcEvn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C76A1F000FF;
-	Fri, 25 Sep 2026 09:55:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Abd7cL7p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A6851F00893;
+	Fri, 25 Sep 2026 10:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790330132;
-	bh=wHcL5jPNS47s6Ul8XnEo1uFsA8Y0TKv8vyd/Iuc4jW8=;
+	s=k20260515; t=1790331990;
+	bh=RHu0TsHI8c3CcxCtKzOzi4bVIkKNUk5PwG3ZcDcVhZY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HxJQcEvnuhUOHH3Z6mzmWye1CE1PjDtpVrPBVFbcNDGyG6yBkjOShg1wXTRxmQKyc
-	 TCJMHEkTxA8Sxw4HyLR7LdXQhRJb+9udY3QgV8ET7cug6AZBPLxgIFx/TdmYGQ8bVU
-	 ptEgwP56FVQ2pJrDbYSWaP8xyRORQKPPWrshPWAAjxwWnAwT2YIoJgfyo9wv4EO7c3
-	 7ozDd+omlnSWJmwSq3s1563JOKXMeNxa13jAxu5Ee20miDdmPGzcEIeZWGgnBBy5y6
-	 eWzAFHQy56s+qgvvgTG8xUGQUmf5tQzyaZcP9CgdenUpWl9R2UycwCgDON1sf75KvU
-	 KkanjhxFaUGcw==
-Date: Fri, 25 Sep 2026 10:55:01 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 05/40] mm/vma: ensure mmap_prepare doesn't set actions
- on a mergeable vma
-Message-ID: <arZE4aXD0yIbXVFU@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-5-4583d8a23bca@kernel.org>
- <DLNSM8R8JS9A.1850RMXAG9NSR@nvidia.com>
+	b=Abd7cL7pKc3PRiUoA1jU0PPZs9Fh5c1TLxr/MpOmXpNI7A+9M12Ct0p+/8W2FjGF8
+	 3HuxXUZILBUbcmpmsfJ5DvGa/D+9ZR4OttZkecrebYxpbTfpagfv6pBjdEn5HJzc4A
+	 AIy8cszRuDLRXy+MiFG+RvCbfjVIh6Xgo5QRBqcVc//Yo/4M/nY2x7hZGFD6a52xWj
+	 Wefh0K2WkcaegFaF7sIcXWjgG2UgsGK3z/KbyTh0DZxoiqs4Ty1tVY7g/Z2EIpE2tz
+	 59W7e1lxmOjVaJgrah2vd9p99+HBwHdJ2NOmXsMtfLFOao0zp2t6tKXCsaU7GHg/et
+	 tXCPDBptZtpGw==
+Date: Fri, 25 Sep 2026 12:26:24 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH] sysctl: quiet unused variable warning in
+ fs/proc/proc_sysctl.c:init_header()
+Message-ID: <lxanrovazjrvpykivwtqmq2cgj657zfafp5msnk32qa5adxbt4@gotthttxuza4>
+References: <20260918062338.1039303-1-enelsonmoore@gmail.com>
+ <iguoigeao5itgylh6kmzwiiuwk4pqra32vpqvyv2ingitchs4w@pctwdteu52mh>
+ <CADkSEUhL1bH7BRS-cTxA7UHfqdGB=y4RQnoH6aV+d1L2iDQ+qQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="a3bttmdf2bt6zo3u"
 Content-Disposition: inline
-In-Reply-To: <DLNSM8R8JS9A.1850RMXAG9NSR@nvidia.com>
+In-Reply-To: <CADkSEUhL1bH7BRS-cTxA7UHfqdGB=y4RQnoH6aV+d1L2iDQ+qQ@mail.gmail.com>
 
-On Thu, Sep 24, 2026 at 03:28:10PM -0400, Zi Yan wrote:
-> On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
-> > When a user requests an mmap_action be performed in mmap_prepare, this
-> > involves populating the VMA range with data.
-> >
-> > However, if the VMA is mergeable, it might then mistakenly be merged with
-> > another VMA without having populated the range.
-> >
-> > Every mmap action currently available sets VMA flags such that the VMA
-> > cannot be merged.
-> >
-> > However, to ensure that no future mmap action falls foul of this, assert
-> > that this is the case upon mmap_prepare validation.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
-> >  mm/vma.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index d6ed10cefc8f..62f2ce1ad5a1 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -2809,6 +2809,15 @@ static int mmap_validate(unsigned long prev_start, unsigned long prev_end,
-> >  int mmap_prepare_validate(const struct vm_area_desc *prev_desc,
-> >  			  const struct vm_area_desc *desc)
-> >  {
-> > +	/*
-> > +	 * It is not valid to execute mmap actions for VMAs which can be merged,
->
-> Is it better to say "for VMAs ... after mmap_action_prepare()"? When I
-> first read this, I wonder why the check is done after
-> mmap_action_prepare(), which does some work based on action.type. Then,
-> I realize mmap_action_prepare() changes desc->vma_flags and affect its
-> mergeablitiy.
 
-Ack, good point will update!
+--a3bttmdf2bt6zo3u
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> > +	 * as any such merge would leave portions of the mapping incorrectly
-> > +	 * unmapped.
-> > +	 */
-> > +	if (vma_flags_can_merge(&desc->vma_flags) &&
-> > +	    WARN_ON_ONCE(desc->action.type != MMAP_NOTHING))
-> > +		return -EINVAL;
-> > +
-> >  	return mmap_validate(prev_desc->start, prev_desc->end,
-> >  			     desc->start, desc->end,
-> >  			     &prev_desc->vma_flags, &desc->vma_flags);
->
->
-> Otherwise, LGTM.
->
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
+On Sat, Sep 19, 2026 at 03:58:43PM -0700, Ethan Nelson-Moore wrote:
+> Hi, Joel,
+>=20
+> On Fri, Sep 18, 2026 at 4:05=E2=80=AFAM Joel Granados <joel.granados@kern=
+el.org> wrote:
+> > I'm probably compiling in a different way but I don't see that warning.
+> > Can you please tell me how you compile, what are you are in. What
+> > version of compiler are you running?
+>=20
+> I'm using GCC 16.2, which probably explains it, since newer GCC
+> versions have gotten more clever at detecting unused variables.
 
-Thanks!
+I'll add it to sysctl-next
 
->
->
-> --
-> Best Regards,
-> Yan, Zi
->
+best
 
---
-Cheers, Lorenzo
+--a3bttmdf2bt6zo3u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmq2TFAACgkQupfNUreW
+QU91fQwAlyo1simDoNgk2DrYeRTy+vSnBOHM0e1KBDKDxuhOXwSN0EQGxqTvUH9n
+PIbEnRRqdwoVmcXQDKcBbHVZzlOnqZiQwXR9aLyIQKL7pohY7B40VAV/fIFTMzmG
+0GuNaMU0WQ9ArdrBsEkUzehwLI/DlSL6t/XdupprdNuvnxb+MggYwm6Q3zdxZG5X
+oxuXxPXElHx92E2Ol6qkz7cVJuCBGQggHt+RUKVUcjZp8g9vHFwvadkqrzg8/EUT
+VuQGj3O4qUOC7qvHpPy6Djwge6uAG0edMwggQV2QiZL4Q+q4sRGdsa6AnIszGDbf
+OXl08vNcdiPDJ6ZCWQ9UPkbV/wjBNhmqHbupZarY+7SKBWjZ2jASgfy8H6GcL7Ru
+zEKAthpMQAmZzk/duOagVIwXniPPwjycOKOEuG1f+gNt6YbbpLQ0KnWy9wiYMQ0V
+bt/EgpBtnDLKmbljcdxgZ9sF0JiU1ZqXd5L2hcWUOo2xIYuB+nWIUv4iDnsOalbh
+M1mJ9WKr
+=J7sg
+-----END PGP SIGNATURE-----
+
+--a3bttmdf2bt6zo3u--
