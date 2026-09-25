@@ -1,84 +1,84 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D0D3DD523
-	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 05:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FFC39D3C0
+	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 05:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790314341; cv=none; b=VrYdMXyRLfAjw3jsJwhTIOGpeYRrIyU0k/wvZjtkS28GTmNlyYNId/xPh2f+PrmU7gpS4jWZZ8YuQbF7fbBwtashuWEyh7EHpBas9k2CnAS/ZpgpxcFL/Ye2/GZiYBgtS9YrrWeHfFdP1GFY16FdnwXAnkyiwQVkMqk4nXSmeJw=
+	t=1790314435; cv=none; b=csvs4jK/IPsrY0cofI6wDo8JK7HZUKqNyiilvnVQi7/RS60DmHchHTGJpAH77RTVVvz2zQ0R5EVfdUAoKRZgKUtt957kjsS3JY0gLmH0fKsTbzVZdDv+GRY3cZbkk8JK0nGlp3jzldVkVBQilFvLw/4LYtGkk6LU5UgIBhH+Vg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790314341; c=relaxed/simple;
-	bh=OA6Puq8GEsEgmszu2sBjmctnxLzOG12itnYfXkTQdZA=;
+	s=arc-20240116; t=1790314435; c=relaxed/simple;
+	bh=Nq4i7Nmp/tdtJVsnvMBVbqxNXwHWcXIAAz3MkCdAHLk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EKvvDtxed3G8YT45uB9Gs+UdbsqTGb8+uOyEnnpvZ+EHAaNJAuIy+IRXHWoTaru6qacjmLiLj3Rl1vkdLtZiVFkZjHgR0avI8/9YVkSR/mYIDamDGjbk0gFYzjWGusCLMavNrpvW0ABtw7OB1eqsERYNH7K0UGo/KpzQNtpKlb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=modal.com; spf=pass smtp.mailfrom=modal.com; dkim=pass (2048-bit key) header.d=modal.com header.i=@modal.com header.b=JLHsXPRh; arc=none smtp.client-ip=74.125.227.140
+	 MIME-Version; b=eUjIkPOS5NvqzB/baV7GyfYsO+Jv5elIUxXzUlinAUUjGcTzaVMshmWKuMyTxgQdIscQl9fC0KR2I9s9EW/1BynaU7vmG0TxfB7QRJXoQTKTbTBRSM+PvCOe0Bout3wjbZ9vpvQkP2kOg0VhTTeQHqqQy0RvfEZhyjHc1P2kQho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=modal.com; spf=pass smtp.mailfrom=modal.com; dkim=pass (2048-bit key) header.d=modal.com header.i=@modal.com header.b=Q17yYidT; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=modal.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=modal.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=modal.com header.i=@modal.com header.b="JLHsXPRh"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39dacf053eeso323070a91.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 22:32:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=modal.com header.i=@modal.com header.b="Q17yYidT"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469a3490bso444300b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 22:33:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=modal.com; s=google; t=1790314339; x=1790919139; darn=vger.kernel.org;
+        d=modal.com; s=google; t=1790314434; x=1790919234; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Ehv35jM2xSxwjjV6xaS7dv57/W9hK0TedPz2NPct384=;
-        b=JLHsXPRhRUDzpWZQ33K+O85NAnnMuj4hj9xhQPmP20pFllbTQBsI4gRnfQrQfkx0C0
-         uCJyPpOkBQxCy2/h2sdrr7Zbkr/oJezByooYjSzid5ICG792Qm3vUcBTj62e5spaiD0D
-         0M5UtHRkzdoEzbw8i6pl06zlrryg8FLoJCkGyMNTO4VQp8WzVEUNbub56iju+90/5dH1
-         JFzSvejDjAd8BtbfVoHY7u/Oag0n5+wh6HIkFypeU5Sg3xRH28nKckc/cW5C+xTGsnRK
-         1v/Ry6UUbV20sVPo9nm0klvBxmu5vbsqY05boRfZrcpvRGBRnbXR/GWTMBlpi5ahShhc
-         aSlQ==
+        bh=2+ukOysD2I4kW758/buisnZ71NIZ/Yakkkc+BM/q/w0=;
+        b=Q17yYidTf5jJss4wA+kDIeQaS/JqkmN6PNcxbpbAwKPweGH8FzviLYptkcChlREhnm
+         EkSIHF+gQZlZbwhhEKn+80ABdCW/mbLH74dkS8VoXu8sCXg4a7Cy+HT+S+epLgk/C8AX
+         TgV2rxO0k+YU3ySLZWJjYU+TVPDX6dyQclHReFblzA1DnZwxLwbUDR5Xqn9sd/c/cf1c
+         a6DddnVPj/G4LGx4ydwW6DHu4shFpwKXdPIpPBQ8si6BoSII67+MgXXkUK+xnZBRofu4
+         /ZVxcPYlbU1K2hO9Prf7Wgm68FJmxjNtgUhoA6GU9yGa7QAFzQsxPxiA8nCMSV4raAVq
+         ndqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790314339; x=1790919139;
+        d=1e100.net; s=20260707; t=1790314434; x=1790919234;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ehv35jM2xSxwjjV6xaS7dv57/W9hK0TedPz2NPct384=;
-        b=0fv4H2tCDly3OFRIX22QqTgTI4oEojAPaDbEsGth6Sk2o/sRIJrxF3CZx41nDfN/jD
-         8ouJclUpWoQITDu34lTBkiVF2vEpHBbs1fqLylCZsE60fxbmjJLu5be0AMmGTJb90BWe
-         1nqlq7XhdoYrojY608ynIALVqZMKnL3ci6bnghDKEK1e1zJ2Pl1iaHbmPOwupBT/yS0U
-         3a6TcVqOQB+HSy7Rfeo738VeTdaHuk1oh3yJx29aZ4lKiStKGnqTW/ndBZZPQhZEoYQQ
-         t8Tu6MwwNaNV8rmXiErRzsNg4WdOYRpXsQvrGAbA4rII/qY8Dnd2fBs8JNVqrWZ2knRR
-         7CUA==
-X-Forwarded-Encrypted: i=1; AKwUvBwibd/Wv6Er9VX1f/2FuwIgMTe2geEV5DEXpyD8JpJIvblxLUS3aqJVNSfcHpiPQQhtlg8tZ7ZEhZzcNqrh@vger.kernel.org
-X-Gm-Message-State: AFuF++mUD8JJE56Ivr8qcukI/QOh9+a7l0ml85Y8GxE1W+pTNe7niq9I
-	0lFLpzfP7uRvTA1L5NpCQDZE0i+5EBfk4tcA769Amh4RB3uBSo6LWotC6zAUcQgcS88=
-X-Gm-Gg: AYBFou3XVoPdd2YHfYxycZ9mOPEqqLQzwtrYrTcRDd4nW+32OLFQucr6ZE2CWsws7Lp
-	ox5aZerIumdTfrruVSB6JYVOogc54UBC+6lPIBi+Z0ehkPcr/1RRpm1RdxDoSPBhYMKhMpX2JPA
-	iHPEBbykaVeAHrjaCx1+2TPOjqPBzkHk+9UjJz4pfC7MCpme9lUhkQisHUDqmNzcKEWxuf0MI5d
-	IbgspDx2i+1aD2b/OxFbfEziu5UqpQptmfqqP+UfllKGyesEFkeoD8niqkDCj8x3/dgE/da+Sq0
-	JQ/w2w+Edp38DO0YVdjNDm1Ijq67DI6INKA3r666mf6TGnhVP8hCWfznSKvLXgmtaqYV/8wbMbu
-	hApsJiqzGtfY4YvrUTItrnx/UOULRzbmIHu1oidsU32CSnqQIQ7caSQqYhqY+95AJiYQ/PZ7Wlf
-	BaeulLVea8EvEq5IoPBMoQLjRGMhl7TgcSB7HimFc5xbXLXamoEVKp/jE9d9zLq8j3S7gdringh
-	rtRSNK66AL4HobR0FtsuAUyJAvWdiodm4n2ALA9Uxl3jjQdKtH3xgKJO3UHbZ71P7VPSq2x5aqS
-	88GsYWX+txCos/udSHEHp8b7QFQqgalzk22Qd1tn66xfPn4C
-X-Received: by 2002:a17:90b:2fc4:b0:39e:6c6a:4b64 with SMTP id 98e67ed59e1d1-3a098dfb087mr4009593a91.46.1790314339197;
-        Thu, 24 Sep 2026 22:32:19 -0700 (PDT)
+        bh=2+ukOysD2I4kW758/buisnZ71NIZ/Yakkkc+BM/q/w0=;
+        b=egLlVIJ9DXMmkMZ+85rt/zckWuG65IU5YvauOTjUPFUq0hzE0Xc9sXF5QBjihU16AE
+         8AQTBTlZfB0p+yQDHSn4j4cPeDtgxIxNMYgu4KQhB0ejiuQ+I9BAXJx4HyqlKqyrVfo7
+         x5klC7nFA/dToNBADfzbvH/eN6EMOw8IIVQ+i6/wZSaB5GzCO5QQwpt2oxW7/CmY2hkz
+         AbCcAFu3HMNdblHdy8nsbPe8kWiF+Yru675krL9N87pPQfqiFTWY1noVqu5skcrtWNp0
+         8najaaZTtS6WGhiriNpDWYxLbIhdFa/igVzAKCWKveXEBv7PEbsc1Aw4KSHo2HPE2JSr
+         /FHw==
+X-Forwarded-Encrypted: i=1; AKwUvByd1tBkf7Tevkn9b0DdcZx1tbKoUqg8k4aZm35Owl4JDOkr+XmznLdZLa6d2XltKCosnz2BZLCFCM3Uwvhh@vger.kernel.org
+X-Gm-Message-State: AFuF++nll60GEMu7OwSBFaVLp0/LGQrEB6fa3jw0Y17k1VMZPBoZVeAz
+	UAfNQBRMEzHUkWQ1OeFJk8VexidKmboG+ufvqeN+M9enL4uMfTaUklWxt7b5oIx00Qg=
+X-Gm-Gg: AYBFou1jseBN4NweK/TJi+CRhAZ5MdojAMg7k9YYnQno/gG0M59VyKyAbLkb3TlZp8H
+	2UKSvjKOrwJHBpYg9RjvYyykD7jLVTI8X4vU5ViQDQyb2zTT2JxR3DIxPxEVB4Yo8TwiPlSlPD1
+	UbuBHRaGVPvPJj12SjQvhlqTH7GRzeHMI6Jx8CUyTI9N98+J9ZPZNGROXESWNQwcuoFXEAUPgu3
+	BsWMhMc2H2OdmXuKciumxMnZh7tmJ7lz8AcSzpZAvf6O0VuijJWdeyCLiKb4FpfPl+Emcg7/RzI
+	pOr6Y0bmo3g+8bwAaafuHBZnqXINgCnZ+wjD7JmIcSvQXbxdyZhO3B/lUt+EBRlr5R09nTe7eHC
+	jgKSmypRS2oi/MONKTI+puYuG8SXW7MqToJFnjvzZ4YMdkGxGMJTFY2aw/b5GKY5JjLnfgmJk6Z
+	GOIAJ991pSeIaw+IGtlEcqhNqBNEao18SWmzbpJEpZqsJHZ8JsH5FycWKw3VNngic5zi7t4RuoG
+	roH4ZCn1+ccKsiMwHgOe46bn0MWtKFIf30zoakJ+uGOQ+TtLMZzyfcQ44RPGU0QiCOG1H51KzUr
+	6xGthB/uJ5ymWXQApSggnVVR7pB5SGIyQpCGkw==
+X-Received: by 2002:a05:6a00:6c91:b0:878:34d7:6982 with SMTP id d2e1a72fcca58-8802d04f355mr829494b3a.48.1790314433582;
+        Thu, 24 Sep 2026 22:33:53 -0700 (PDT)
 Received: from devbox-ayushr-01ed.tail5292b.ts.net (ec2-44-242-192-44.us-west-2.compute.amazonaws.com. [44.242.192.44])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b4f5b1aasm936305a91.1.2026.09.24.22.32.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87fea88a1a2sm509721b3a.25.2026.09.24.22.33.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 22:32:18 -0700 (PDT)
+        Thu, 24 Sep 2026 22:33:50 -0700 (PDT)
 From: Ayush Ranjan <ayushr@modal.com>
-To: Jan Kara <jack@suse.cz>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
 Cc: Ayush Ranjan <ayushr@modal.com>,
 	Hugh Dickins <hughd@google.com>,
 	Matthew Wilcox <willy@infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
+	Jan Kara <jack@suse.cz>,
 	Pedro Falcato <pfalcato@suse.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	David Hildenbrand <david@kernel.org>,
 	Gregory Price <gourry@gourry.net>,
 	linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [BUG] shmem: FALLOC_FL_PUNCH_HOLE vs fault-around race corrupts page cache / rss counters
-Date: Fri, 25 Sep 2026 05:32:10 +0000
-Message-ID: <20260925053211.2036445-1-ayushr@modal.com>
+Date: Fri, 25 Sep 2026 05:33:39 +0000
+Message-ID: <20260925053340.2067567-1-ayushr@modal.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <uf7lys6izqrxjsp3tstqxmdok5yy3w52d3bnpkfzyjm7uiyqzr@ickbg3ocvcji>
-References: <20260924061708.1645968-1-ayushr@modal.com> <arTdLsBENhrpOyk-@pedro-suse.tail5790ac.ts.net> <uf7lys6izqrxjsp3tstqxmdok5yy3w52d3bnpkfzyjm7uiyqzr@ickbg3ocvcji>
+In-Reply-To: <61f8a9af-7cdc-4979-bcc0-bcc932f7301f@linux.alibaba.com>
+References: <20260924061708.1645968-1-ayushr@modal.com> <arTdLsBENhrpOyk-@pedro-suse.tail5790ac.ts.net> <61f8a9af-7cdc-4979-bcc0-bcc932f7301f@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -87,24 +87,44 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 24, 2026 at 09:15 +0000, Jan Kara wrote:
-> Can this be perhaps somehow related to the fixes in partial large folio
-> truncation Zhang Yi is working on, possibly even the tmpfs bug in handling
-> of folio split I've found [1]? It seems large folios are used here so that
-> matches, I just don't immediately see how those bugs would lead to the
-> errors reported here...
+On Thu, Sep 24, 2026 at 09:30 +0000, Baolin Wang wrote:
+> However, I did previously fix a race between filemap_map_pages() and
+> truncation that caused incorrect folio mappings, and I believe this race
+> also exists in shmem. Ayush, could you check whether that fix is present
+> in your kernel?
+>
+> f58df566524e ("mm: filemap: fix nr_pages calculation overflow in
+> filemap_map_pages()")
 
-That would fit what I see, for what it's worth:
+It is present on the UEK 6.12.0-204; its changelog lists f58df566524e
+(as the CVE-2026-31648 fix), and the rss-counter imbalance still
+reproduces on that kernel.
 
-  - the rss-counter imbalance from the reproducer is always exactly
-    one PMD-order folio (+/-512), which looks more like large-folio
-    split/accounting going wrong than lost or extra PTEs;
+One more data point that may help: the reproducer punches with
+FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE and never changes i_size
+(and all faults are below i_size), so the i_size-shrink window that
+commit closes should not be in play at all. That seems consistent with
+your suspicion that a shmem analogue of the race remains unfixed.
 
-  - the reproducer's punching thread deliberately mixes unaligned
-    sub-PMD ranges, so partial truncation of large folios is exercised
-    constantly, and the production "still mapped when deleted" splat
-    is reported from truncate_inode_partial_folio() (full stack in my
-    reply to Pedro).
+> I've been trying to reproduce the issue on v7.3.0-rc1 for half an hour
+> now with Ayush's reproducer, but haven't been able to trigger it.
+
+Thank you for trying. Two things that were essential on my side, in
+case either did not make it into your run:
+
+  - the khugepaged tunables from the report (scan_sleep_millisecs=1,
+    pages_to_scan=4096, max_ptes_none=511): with the default 10s scan
+    interval it never reproduced for me either;
+
+  - shmem_enabled=always, and many parallel instances on a large
+    machine (nproc/3 instances on a 112-CPU box; it takes ~2-5 minutes
+    to trip).
+
+That said, I should be upfront that the reproducer has so far only
+triggered the corruption on the UEK8 6.12 kernel -- not on our 6.18.46
+hosts, even though the production workload hits both splat forms there
+(kernel list in my reply to Pedro). So the reproducer is clearly
+missing some ingredient of the production workload...
 
 Thanks,
 Ayush
