@@ -1,140 +1,115 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61D247884D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 11:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070AA45517B;
+	Fri, 25 Sep 2026 11:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790336389; cv=none; b=GPvOY8u4RU1W9yWjMUBNJ/4oqw8uXQ0G32TUNiyZK1MX4UeeFxprNiTZYJPscj8mcE5QNyk+htE3BHhDyc1WXdLo+8NQK0Vl/Yte00S/L9bFM0fciObeIIsKSUeMLmly5AP9WadTBSSyrZoRcCZ9KOkhK87wy+O0yvlRkx7ELB0=
+	t=1790336487; cv=none; b=sdlw83bgqzPrD/BfhCAD6yck9mMCxAj9xU7ryzHUjm1uFU5s29JCw8fsljG84OsXha0L/wJR2MnEfp98KHC/BrOYGeTdo3JYQlDYKP937dcLMOOqQUxICYDbeTYOx1q0NDB2gmtvASsxRgKY8zfZp2IlyTpxa1/jpa6DUYd6dWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790336389; c=relaxed/simple;
-	bh=28Fi1b6nkTwNV9bJkT+IGnPDH7KbGBeWEWWDRwfhOg4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QLpjL7kUv73tIhAuxAcX2rKjNBGnalR0ZCwUS4FCXk7YhUAjF6D40rk8kNFxDg/QC1XAJ+EmWuFWmeMvAqS4U/fUenhw8KshdkWlQUz4Ywt1rlNJFt/Oo7aMDt3/WTnmDnxiB4QuQsPgMKLKmte1GWe68o7h1nc7OiSZFF2wtL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bvj4QwiJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Y3D7kFoM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xsEXHobh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ugADbYhS; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1790336487; c=relaxed/simple;
+	bh=XiiPB+FbCJdM6oIqRAgsmD78MaPpFeEiT0pGn495v+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GHsfEkNqc1Dnv6jKuQ5FQ0aIxBcpQAPK+VokLZKegqISlB/Gi1ltvrK7tSaNwn1XRa6D3XEWGxQMCL0IMqTjLqYVZbtpKTknnVNzFC0le0cinEtpS9LOK/Xb+moZRUqg6r9zS09kIExBlsh0MOpCK4SCQABnRBqm1KW1gPqg6hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZ4qUNL6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bvj4QwiJ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Y3D7kFoM";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xsEXHobh";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ugADbYhS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A955A21976;
-	Fri, 25 Sep 2026 11:39:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790336375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=3lrzIR/HAL8KmjcAEumopjCc2a2LMn/5F37lhi0qObc=;
-	b=Bvj4QwiJuBs//xowpIXBRLUdZbjFyu3P+5elR9g+WG2OLUai/ycbk5PZpm9//VEELzfI7t
-	3fz2S1TaSbHPdi7zdZHpnZZoTJS8evEgfWlRbnugI8VFQ5uNJ97m8SjMWY3GXfWTJ4sRvv
-	YpZfXw47KT12kgsxPWie7KsEBkutaMY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790336375;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=3lrzIR/HAL8KmjcAEumopjCc2a2LMn/5F37lhi0qObc=;
-	b=Y3D7kFoM/WFK894sbsvv+9STmP2jPd2vwNUgHG3jRTe4HQAmbxjX2ZYSxfORzjuEnV8+T9
-	eRP1OsU5vsK28MBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=xsEXHobh;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ugADbYhS
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790336371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=3lrzIR/HAL8KmjcAEumopjCc2a2LMn/5F37lhi0qObc=;
-	b=xsEXHobhng+Voc0wYDCaN0gvwSddLqnuBXolAYdnXbtLF4IfoNZo1bh9LsSs2kXrJXJt14
-	/FdC7+tOyv7Q5AbPYxvVAtfDmbUAFiR3PWjl8Mmq4LO2FKeK5DRdq1pcEXEUiknpfUh9NH
-	3ZNisbKcOkrUcbSzNxjcUt6XsQFr4S4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790336371;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=3lrzIR/HAL8KmjcAEumopjCc2a2LMn/5F37lhi0qObc=;
-	b=ugADbYhSvljDB1KiCtjJYBFX7TWiNVhd1jTD3i6ZwIZrMI91QUoSc6LYVqShZ7y9kDs/kh
-	OJQioi7vDq/KyKBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81A1F13432;
-	Fri, 25 Sep 2026 11:39:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X/tDF3NdtmoqOAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 25 Sep 2026 11:39:31 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 08096A13DA; Fri, 25 Sep 2026 13:39:27 +0200 (CEST)
-Date: Fri, 25 Sep 2026 13:39:27 +0200
-From: Jan Kara <jack@suse.cz>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: [GIT PULL] isofs fix for 7.3-rc5
-Message-ID: <kt5msp6vjbhfe74t5yj7cx6wfey2z3lnou2gdn64cltxhjqaq4@qp3h26tbvrqz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZ4qUNL6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 146CA1F000FF;
+	Fri, 25 Sep 2026 11:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790336485;
+	bh=MxxmDYqVmsOWYXTK0qlwwWMA86kcPpzqofwslHtxAzo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EZ4qUNL6FavEGgiD2xq0fX5KvMrG4f8RhjOsGojcxvXB1e817DV9eNyejN9ziTiMo
+	 AyAYUST23qRY6f8lU9YmTbpTCuG2gLO2kSc7Ukyc1YwuiyZjIJaeJztgazaHvLS9Fd
+	 houTACD4ysn3WSPPZnT+hW7v+5MTWqIlYO+6tM1kzqyoSjGSojSD7jNB7RsW9kaSSS
+	 XqUDQvfVqJrB0LEg2L1U0MFlDgrTl7lRslf1QIsWNVfYv14gXO38vU+j/sPQVIqzPU
+	 AYgnCs1M/OTgC02/UERYAF9AfvpIVClqUHflRZtwd/qUjK4rr40FLUNpXHvrLiPfci
+	 dx60ccYH8FENw==
+Date: Fri, 25 Sep 2026 13:41:03 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Zhan Xusheng <zhanxusheng1024@gmail.com>
+Cc: Zhan Xusheng <zhanxusheng@xiaomi.com>, Kees Cook <kees@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Bradley Morgan <brads@mainlining.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 0/2] sysctl: Cover the jiffies converters in the selftests
+Message-ID: <47yicm235r42m7dq2xms4mpbj3duvv45rfvgu7od3vc5juw7tr@gefmt77hty6u>
+References: <20260923144940.3712965-1-zhanxusheng@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rwkr3fnexotac6mi"
+Content-Disposition: inline
+In-Reply-To: <20260923144940.3712965-1-zhanxusheng@xiaomi.com>
+
+
+--rwkr3fnexotac6mi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: A955A21976
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+Content-Transfer-Encoding: quoted-printable
 
-  Hello Linus,
+On Wed, Sep 23, 2026 at 10:49:35PM +0800, Zhan Xusheng wrote:
+> Joel asked for a test for the negative read path fixed by
+>=20
+> 	https://lore.kernel.org/r/20260922031229.2300283-2-zhanxusheng@xiaomi.com
+>=20
+> These apply on sysctl-next and depend on that fix; without it 2/2 fails,
+> which is the point.
+>=20
+> While writing the test I noticed that fix's changelog is incomplete: it
+> names proc_dointvec_jiffies() and proc_dointvec_ms_jiffies(), but
+> proc_dointvec_userhz_jiffies() goes through the same
+> proc_int_k2u_conv_kop() and is affected too.  Measured on
+> net/ipv4/neigh/default/retrans_time at CONFIG_HZ=3D250, unpatched:
+>=20
+>   # echo -1 > /proc/sys/net/ipv4/neigh/default/retrans_time
+>   # cat /proc/sys/net/ipv4/neigh/default/retrans_time
+>   -18446742229035144246
+>=20
+> I will correct that in the respin.
+This means that you will send the V2 of the fix (not the test). Right?
 
-  could you please pull from
+>=20
+> Tested in qemu at CONFIG_HZ=3D250 with CONFIG_TEST_SYSCTL=3Dy, and built =
+as
+> =3Dm.  2/2 reports "not ok" without the fix and "ok" with it, and the
+> pass/fail counts of the other tests are unchanged either way.
+>=20
+> Zhan Xusheng (2):
+>   sysctl: Add jiffies converter entries to the test module
+>   selftests: sysctl: Check the sign of a negative jiffies read
 
-git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fs_for_v7.3-rc5
+I just tested this in my env. Works like a charm. I even rebased the fix
+on top of these tests and saw that everything was fixed.
 
-to get a fix for reading of tightly packed isofs directories.
+Thx!!!!
 
-Top of the tree is 883b776abe48. The full shortlog is:
+The testing code will get added to sysctl-next, but the fixes should go
+into the current release. Will wait for your V2 to forward them down.
 
-Jan Kara (1):
-      isofs: Fix handling of directories with tight blocks
+Best
 
-The diffstat is
+--rwkr3fnexotac6mi
+Content-Type: application/pgp-signature; name="signature.asc"
 
- fs/isofs/dir.c   | 20 ++++++++------------
- fs/isofs/namei.c | 16 +++++++++-------
- 2 files changed, 17 insertions(+), 19 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-							Thanks
-								Honza
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmq2XbkACgkQupfNUreW
+QU8fHwv/aNtuGJPW2fKgXw1uyQa+ZDSeoAyMXK0L7cKqmSdboBdvaVD31bzmD2ix
+l7p0CN2j1vFi9uSbaOU+NgNe5vTQmsBADhCtyO3FAM46SexyqznOHn7VN+Ixv0Lr
+rT3KsSn2ug/W2UjsNIn4yaGBTgSmPSjvlV3HeMP39lMzuTasEFwH/ngDvFnqjFUj
+5cwBBYyhBFeBRvA6xtmCNTamtuyBE/TBRQszGEY+sQAoKVNiCbX9g35HjmsFNMEh
+64DvzXMiRr/smEKjanOELXsRdzdIX5MhWc6RPpE9LThOw107+74y3eDTKVYWjO2Y
+cCZrrfK9RWly/WPpnXH6LtL+y8zXJMw1f5kWRxRcMw4feHxtHlrfbTkeSyvTVd4G
+lNf32YaqWiA+EYny/n7+vUUThW8j2IJkSNWqqCkotBCWSAHULh9iOkCw7aCf9yiK
+h+lENwH2DD2YiSAg2AsGmt3WybWDOjr8g8erZwYflnW+qDmYrjtUxsDbpeh+apa3
+HNzo6Yg+
+=VUV6
+-----END PGP SIGNATURE-----
 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+--rwkr3fnexotac6mi--
