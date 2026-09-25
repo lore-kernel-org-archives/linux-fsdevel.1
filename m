@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB28B3890EE;
-	Fri, 25 Sep 2026 14:52:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E21C4B7160;
+	Fri, 25 Sep 2026 14:54:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790347924; cv=none; b=eYURGSRp4hU0547+CwXC2KiWsiyc4Ubid3JZSEn8r6eFWkl6ZIyjBw8i3FiHDi+P5SRK+NTnoHj70aH0DxKk/gS+4r37vPafPcRV/yb2Z2RbmC49hvgw5v3+IQMEaRdPjgRR0/1Ube//z7aLipbXgha712J8jMyUA8JfXFFJ3Q8=
+	t=1790348102; cv=none; b=J357cqH35LfGSBXPZsu/x6E6wEJLUaiD5dmIMUCSNRSGGyrg231GGRcm8MQG+SHkwTvZVp70qMJAQb8imwlLgfm2q+Qes6czt94oFWTM23DoHD+U5vZX8G9fZnSvYIi+zVbl2FFsMvQlszQzS6nEdFxzJlvVMeS53tDOiAUh2rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790347924; c=relaxed/simple;
-	bh=amCIOTN/yBnnaMw+T35/WSBpUC/rEQtQmsZJ7uZLyPY=;
+	s=arc-20240116; t=1790348102; c=relaxed/simple;
+	bh=DSElJr8+eqnncUV1+QmO3mNU5DAG4Xkcag5Qg0INYEg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=E/cMdlkuMFHU5TFLaZJVxy1AhM23+v+lZYzH+Svg4vHHhD5ng0yy+lnOylN0sVIRGx0OT0WcYO5/BiNn0JOjJOdaDhMrOuDnzhS31RpyL1nVWr86TRmh3mGeEOVdkbheA1LkFCHI4GxBbQfPihxoByrXzA7HGLnzXXOCUKQlmxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DSWojX+6; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=bHGp5Sleg3Bii90/AP3ccMTePjjhBVFKeKgBJv/fa4nL20XBOaa8Vmk4ST47/1AUTw0PfY4eF5WS3sv7uH16Nz//C/1tAE+Qkw3eyrAmMPYtffW2De4Om7TjCvTX6I74MavB9lbid6mFZhPC8cbcGHHSLn6DgeVfYNpSzHCg6e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QOESLnPm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DSWojX+6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6BEA1F000FF;
-	Fri, 25 Sep 2026 14:51:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QOESLnPm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEB201F000FF;
+	Fri, 25 Sep 2026 14:54:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790347920;
-	bh=Vk//Q1XYaIBvLXGbpPu09O1iNPIBtC/5PNIzTNqaBF4=;
+	s=k20260515; t=1790348095;
+	bh=JGrB5YYFveIwZSzWD+7LH6wodZl8bTW0nco8xHfgyM4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DSWojX+6uiWMU6oUOCtU2LgyOTTSOwFChEail+5Wn3XFMnvTW7LlwZ0Ik1pDIFr5b
-	 TU5+FQFuapbOS+bmdprtyc4G8wtzCym06qEfesRk275A9Nse9m8J/YD20jr5AOaeTw
-	 vdW/sSTg3ynCc6lHRYKJrRbFLW8/cNlYlF6QsNnq2m1n+jg08fZkIaIuDM8Uk9RAsj
-	 nfJDm5gy1KutqXt4gRZAcMH/lHD6NAOARuI9dXWx2U8D9nmSg66rz4D0vX8rb4k+Ts
-	 /54i5YiL+WtNAgbjgOSRRggVClspN/8AHbj9ZVjutjEMo/PQ9Lya4q4WKdR6/2N1nf
-	 tyzpZ7nfGeLUQ==
+	b=QOESLnPmLuTQ7cdOc57AH46fsAY50EQ77MsLUxkgKnJyWYsA1CTQb9Ka6hBzSobn5
+	 +RaDOGcelCVIE/1lAOY5o5ufvWy34WDudrgeJ2vYlYXA2lQZy6bIlmo3QZc95wSLXH
+	 fX8sXQE7TKC2/uIfUVZVfjBUrEBjQ0Lz22Umc3gOxon2zWvqo32cXEQMHmboDdCMZV
+	 tuCoJGEmSXIB4VjGIqKZE2Gq2V48nGM5/ClqoTQXR/T7J8AYeWYi0tZaL4i/K9k4jE
+	 EEUwYF5Oq97Gux/BxaxFfDyeStYLsvSLwMSOuY7YfTQ+qHAskaWjd9UkWGi9b8sHMS
+	 qF74AV0fTDj3Q==
 From: Christian Brauner <brauner@kernel.org>
-To: Ian Kent <raven@themaw.net>, Hui Peng <benquike@gmail.com>
-Cc: autofs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260919204808.2812930-1-benquike@gmail.com>
-References: <20260919204808.2812930-1-benquike@gmail.com>
-Subject: Re: [PATCH] autofs: fix sbi->pipe file reference leak in
- autofs_kill_sb()
-Message-Id: <20260925-erdig-morgig-insasse-a8f31ccc49f7@brauner>
-Date: Fri, 25 Sep 2026 16:51:55 +0200
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>, 
+ Breno Leitao <leitao@debian.org>
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, kernel-team@meta.com
+In-Reply-To: <20260921-kdump_print-v1-1-e445fec3177c@debian.org>
+References: <20260921-kdump_print-v1-1-e445fec3177c@debian.org>
+Subject: Re: [PATCH] vmcore: report the release of the crashed kernel
+Message-Id: <20260925-wachen-handhaben-mixen-431c4a7a196d@brauner>
+Date: Fri, 25 Sep 2026 16:54:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=894; i=brauner@kernel.org;
- h=from:subject:message-id; bh=amCIOTN/yBnnaMw+T35/WSBpUC/rEQtQmsZJ7uZLyPY=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRt6+oJn3znv8f8o6Gv56iUrzogbn3g3yKfVrnnjZ3Ze
- nncT3x3dpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk2yZGhkabro9twiJhe3aH
- 6Zpb5tY+8rn0x4dfIaBM58zPROG5fowMGziKdRj9WS7wytiU2c97Otd9zYo+9Y9c4VdOzM7xLuT
- nAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=881; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=DSElJr8+eqnncUV1+QmO3mNU5DAG4Xkcag5Qg0INYEg=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRt67YSFX6fWhzrmPw15FtycOBPpVX/NJ+fmmj1Lfv8h
+ c21tf0/O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyW4Hhn0XeoosOFlcvc8wK
+ uDpt765TJxlSDqzZ4R4+932ETy/n8bOMDHui05dZOTSU9mq6OkxNma7G4y6hKPVh4/zbXmlHahS
+ OMQIA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Sat, 19 Sep 2026 20:48:08 +0000, Hui Peng wrote:
-> autofs: fix sbi->pipe file reference leak in autofs_kill_sb()
+On Mon, 21 Sep 2026 03:45:42 -0700, Breno Leitao wrote:
+> vmcore: report the release of the crashed kernel
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Applied to the vfs-7.4.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.4.misc branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -70,8 +73,8 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+branch: vfs-7.4.misc
 
-[1/1] autofs: fix sbi->pipe file reference leak in autofs_kill_sb()
-      https://git.kernel.org/vfs/vfs/c/aa5e44b29ffe
+[1/1] vmcore: report the release of the crashed kernel
+      https://git.kernel.org/vfs/vfs/c/9a82c64e133f
 
