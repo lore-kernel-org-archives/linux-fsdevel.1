@@ -1,77 +1,62 @@
-Received: from mta0.migadu.com (out-248.mta0.migadu.com [91.218.175.248])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E763470433
-	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 13:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57BB3C1094;
+	Fri, 25 Sep 2026 13:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790343432; cv=none; b=dwoVdc2QgZ/AJe7mUCjiIkV/m3LbxWAXj+FUr1h2kJe/2ieHUESRACeIQEfhN616Q8PtxVipq/VHNMXJL7+5pGRV3Ihd+TcPYcjaLtsRxFsBLOGPImVZaR4iyUGexcnbHnJsZ+Zmf9hWyZLZlipQnb87SbeZ967IqdQsKHXTB/E=
+	t=1790343958; cv=none; b=PsbNU2B7dM2tRWuHX95M6GpT7VZslIBCo/LspZs4R1L3eqnmPj/BJWy0WCw/NLTtXhAlKM8u/CqfsG/t9WOqmBlSG9eXlbaw5HIG5BFkOc3ssodwN5/d3hgJq5bb79h+zof34melBOkMCLhSX+MPSF9zck8zzRBSmOsmAELRgCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790343432; c=relaxed/simple;
-	bh=yUbhz4q8Bk6ad7ykhWaGlMSrczLK4cYYxIxLGl+Ap/U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LJ6gpp4SZJX7OB4rM3JWIUZz6WxfosWSGqe/yOK7E3caW+4W0wlcnhOXviVpb0YSXRzDEYUC9UORr8mk3dveL77hwfDfzvtkGfUzd3pvFfXA0bG9kAl2DsH61eiZeD6FklW4aEGXEBUIZmXM6Nc81V8hmAki1SsVnwePp3Qk3+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Vn+8m5D3; arc=none smtp.client-ip=91.218.175.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790343958; c=relaxed/simple;
+	bh=dRl1yVhiXESaw3QxbXdm8h50uudzdf7P9l3hydLvojw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oCJLZeN8heuq9rnVjEHTms8KZlqEowBGnxhZ9MgRLP3PYBT5a7k6k+xvHQMzqWHnM90tsFv33g4rAn2QaEw4dBlHSlRMEXbz0nnZuJrDG4Z+pFTE8oaOC6eP3vNNL4pEupTGFoo3A0DzFr/dzGJDhcxfznuXF+FRFMjoCw+pzAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7p2wa2x; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Vn+8m5D3"
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=yUbhz4q8Bk6ad7ykhWaGlMSrczLK4cYYxIxLGl+Ap/U=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790343427; v=1; x=1790948227;
- b=Vn+8m5D3XbZZbmpKW7i1GL+bvbo5sKSYuE2nPA2GuBqNylNoSfWFPYzhIe36e9OTc/1cu8wH
- ojAoxowslfc5l7IKiugjESin6K+vCIml6X0/DUSsE8DuIy6ZOEphUFKFcpb5RgIK3c9drm4l7Tu
- T1oBvIFQUn5SUs7kHN44bO1A=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id 5d53d689c26fed9d;
-	Fri, 25 Sep 2026 13:37:07 +0000
-X-Mizu-Trace-ID: 5d53d689c26fed9d
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <69579dae-285d-472c-ba69-4279e5170502@linux.dev>
-Date: Fri, 25 Sep 2026 14:37:06 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E7p2wa2x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 736931F000FF;
+	Fri, 25 Sep 2026 13:45:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790343957;
+	bh=59nxGZHJvZr5XQ75rR1WP8mIQYoF7VHfx/7++gmKwVs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=E7p2wa2x0o2/f0OxRCp/ys2zOdoPobNAspj4UQaYXeiqO9y1Ft4AXI5pjAYa6FLnD
+	 QLI2fz/jl875IcpiMY2QdsIJcG91Xx628FjOP6OeleSwqTzm3AzZmojY6OurOGv1fh
+	 1KUVCxFddAEmQThy+IljjjMVWBMsuImkSocJasvDTh5/BnM5LytuAzKs2yV0OQTmI7
+	 YpdJ4xv7Tu/q8mFMpP8aYnX6U9w759/UtRtQ9/LYwJ6Zh64os3XgUyoXFVaGfMSnc/
+	 zz4880ZdoLWegb9GrKdj0rU0IAzme7+CtIgVB3X6W/gInnRm9ib5CCHdB+GmQjxcxx
+	 kmQ7zmcnWHfrw==
+Date: Fri, 25 Sep 2026 15:45:51 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Kir Kolyshkin <kolyshkin@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
+	"Eric W . Biederman" <ebiederm@xmission.com>, David Howells <dhowells@redhat.com>, 
+	Amir Goldstein <amir73il@gmail.com>, Andrei Vagin <avagin@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Giuseppe Scrivano <giuseppe@scrivano.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, containers@lists.linux.dev
+Subject: Re: [RFC PATCH] mount: add OPEN_TREE_SKIP_MNTNS
+Message-ID: <20260925-zugnummer-intolerant-unwahr-2cddd52e435c@brauner>
+References: <20260923205028.711077-1-kolyshkin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/9] block: fail a short atomic pin in
- bio_iov_iter_get_pages()
-To: Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Hannes Reinecke <hare@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Christian Brauner <brauner@kernel.org>, "Darrick J. Wong"
- <djwong@kernel.org>, Keith Busch <kbusch@kernel.org>,
- "Martin K. Petersen" <mkp@kernel.org>
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Sashiko <sashiko-bot@kernel.org>
-References: <20260923-blkdev-fixes-v5-0-89e60d66eb38@columbia.edu>
- <20260923-blkdev-fixes-v5-5-89e60d66eb38@columbia.edu>
-Content-Language: en-US
-From: John Garry <john.garry@linux.dev>
-In-Reply-To: <20260923-blkdev-fixes-v5-5-89e60d66eb38@columbia.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260923205028.711077-1-kolyshkin@gmail.com>
 
-On 9/24/26 00:56, Tal Zussman wrote:
-> On a partial page pin, __blkdev_direct_IO_simple() and
-> __blkdev_direct_IO_async() submit what was pinned with REQ_ATOMIC set
-> and leave the rest to the buffered fallback, tearing an IOCB_ATOMIC
-> write.
-> 
-> This can be triggered deterministically. A 16K pwritev2(RWF_ATOMIC)
-> whose last page is PROT_NONE, on a scsi_debug device with atomic_wr=1,
-> completes short with only three of the four pages written, violating
-> RWF_ATOMIC semantics.
+On Wed, Sep 23, 2026 at 01:50:25PM -0700, Kir Kolyshkin wrote:
+> crun, a container runtime, recently started using OPEN_TREE_NAMESPACE to
+> set up the container's mount namespace, and open_tree(OPEN_TREE_CLONE)
+> for the sources of its bind mounts.  This turns out not to work on hosts
+> that have a mount namespace pinned anywhere below such a source: the
+> recursive clone picks the pinned namespace up, and move_mount(2) then
+> refuses to attach the tree with ELOOP from check_for_nsfs_mounts().
+> This was reported to crun in [1].
 
-I don't mean to load more work, but a blktests case for this would be 
-great. I am consider doing it if you are too busy.
-
-Thanks!
+Yeah, I think that makes sense. Please split this into two patches
+though: semantic changes separate from test changes. Maybe call it
+OPEN_TREE_DROP_MNTNS_MOUNTS instead?
