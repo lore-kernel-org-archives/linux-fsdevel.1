@@ -1,386 +1,124 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272703CCFBD
-	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 06:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2324D35C181;
+	Fri, 25 Sep 2026 06:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790316297; cv=none; b=d8SSZCg/svV/CCCbAtupjS+/jplaIM3lbfGDXUYeoNJtYOPQn0oOyO/im9BF7K7sTq4/qIKwINaPdFSW5S4Oa0WWVCgOv0hfLayAo0AlrlFkoqP3u0vYBOaF8TDecdaDDDL7npUhiTMPosUMXQaJNlbwWGX4XOmJChy3U7tTwmY=
+	t=1790316637; cv=none; b=a6FHXg+LDK+WXb21dZx/PcwlF5jVdmh0Tt5EEZVXoh1PDEC5c/JNK3ef3IAtc+PKc4b+Adx/xeNhs7x0FcYtLO/riMh4hxaDnL15nLONsu9hOr2K3ZSB+Tu6ubbBSrEJOlcxhF8GlpDFvKOP0kOYn1uq6RR6hm9hNmseqMVYJDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790316297; c=relaxed/simple;
-	bh=Jb7bJ/8dxKNgLiFNUwzYWxkWU3HloefUqPLlJBCSpEI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y7WglsYgYel+vTzFWpvkDcF2+Tux7ZW610Kvjim45eHF/pUz6f+iery/V4NTCu0mS7uo6gcnO+STL0wN6HFtYSHffh+ijMqbWKxVSImQB/Akchs+Ve9xVbpeSDYw5k0e4EsJIryVCwj3O+vDKlMEPgBgdwn9KwcpU0NHRugjLEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=NJjPDrNg; arc=none smtp.client-ip=74.125.227.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="NJjPDrNg"
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-398beb616f5so280057a91.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 24 Sep 2026 23:04:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1790316294; x=1790921094; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ErGbHipHg92SiVnmafTU9VPVGftyId1XraUSz8ZzpyI=;
-        b=NJjPDrNgGyHKdtgJG8AX96AAyHbcLt1B2tI8MdJHmnF4xRf5I8SKrjd5stnERNStEn
-         FEXZF05TRfQXYqRlNZ/RCcIDM2kXVZiAVYukZG3UTs08wzTHoDWGI5tIcXEWlaHukXXs
-         WzCkMejTydkjR+tJ3pO8Hvx872h13EBYoIhfS4YUnTw5tfm6c9TqaWRzd4AgpF/js4p3
-         dJJeGznb9Rb+lIuuIAn/ucQ0XDtWnon10CodM3h7XxCyv/Mx1xR2v22DyRzUEFdFbV+d
-         vffwB5W2bD5SxxX00bCx7vjpixwDUxzzZNgAh6CPIuGbY1ENMuwKn+g3H+y6xyg2YBnt
-         CWCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790316294; x=1790921094;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ErGbHipHg92SiVnmafTU9VPVGftyId1XraUSz8ZzpyI=;
-        b=trtqA0l9+zYQjP9iwLOSPky/+fHFDu1W/60FhhYn1CkjE6qdVpkarhf/Xr0kXgbSOK
-         kzLyb1F2zbS/bDUJJ5c2ujQot72dpDaCK3p/uHNAZeLRDKp/CGzm4f/6kh2M+tLjLuBg
-         BpOlTgdZxq0933k9KxHdhC+ZnW+oMzJmEqMAy8gW0+5fEFJyIprbU84zhwJDOvf7Pl0b
-         HTt33sUZDFgiaOR6YfgsNZ4iYGjRIx3uU4JbrAIur1VHgcCZSWmdzDUtDE+yeCm6HWSt
-         VXVEwah9evPLoA01IXGMjvpic98XY7NwynHGT5AOs5UZ+u+A90ht+j1t+eIXb37+cInk
-         tW4A==
-X-Forwarded-Encrypted: i=1; AKwUvByblVIm7OccvkzRZ9XsvGcpLuVF+A1q8nRQMySb4Y0S7vBfqWnqruLwYV4l5pjtuMBlYXX6CgpFm6a2dcht@vger.kernel.org
-X-Gm-Message-State: AFuF++kems0DXgdELmHVF3Z8bnBnZpZ2KHFxD8l2FMgi8etByw4BGcjK
-	cxfhTQUhF/yeqsrwbwP1CZfc2N31WsqAAXORXOyCrMVISE6822i+ELVSJKu5NB+hweY=
-X-Gm-Gg: AYBFou3LGE/o6EyHGNhSWUCKNWkS5Mw6/gQjjM4YPhRF747J4KGDw3Sw2KGwLhmmWy2
-	PmARCypzJ/nwxKJj4zk1Wca9RvUdDdTHTWlAwCR33bNqsjUDGB3imNl5BrVHrmNBrpIDLOfhQfG
-	XIWm/B91BAGqP0UMeQU3lo0XM5P9m4CDxL+FMxj/aCx34Ri0w2OD4F8Ay0iFKv5aADMqj9gndvX
-	e8fihurUWBh1DLpyfY2ZCLTE7OCF5tIuDvvJkbvCBMG5xlsdw3y6dGyGEC9SY8VNN5Dw9NSHBes
-	Hes5IAmnPzf+mSmIAyLJo46dYdwriW5rheqKu1GQH21r50GgwhNONDei1EZEX6OgEbafjb1WHxp
-	Jca2Nmes8M4KuGPW5iqxl5EQccFC8S/NJSWI4wVP2wqrSsXASp238hWKS3BGD9sdRP/lIHIwWMk
-	wKNihVyEf4zI9D9ssbI6nAg68ssimaRQia1IkoFrB/K0Gv+Xar2fg5ophdr7cfFdffmJySEOLLn
-	ZgHRq1FjQdMSV60ZX2ZBkpnjPeMvkk=
-X-Received: by 2002:a17:90b:224b:b0:3a0:78b6:588e with SMTP id 98e67ed59e1d1-3a098ac6431mr2758704a91.23.1790316294171;
-        Thu, 24 Sep 2026 23:04:54 -0700 (PDT)
-Received: from [10.254.237.61] ([139.177.225.234])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0ba31f408sm651548a91.3.2026.09.24.23.04.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2026 23:04:53 -0700 (PDT)
-Message-ID: <d031dea9-aeea-4f2d-8b42-6b7362b857b1@bytedance.com>
-Date: Fri, 25 Sep 2026 14:04:39 +0800
+	s=arc-20240116; t=1790316637; c=relaxed/simple;
+	bh=TXNRC9iE/GGy0yRkhs4xNjZpz/PGWDmSri9US6WW3As=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M3UBDbLCC0cYJbd+Frmmfc2pVxlD0v8GFoK4n/zWPAhGEP5GAG+80P2O4u0sym89VNpPG+ApzDMDdYy17KNwhjgjH1JH3IAMHQNpMSFVWdH3TKOIa2jGsF+qnkI7x87Z/bvMbGuoaUsKns3RQDThXfEPz9DGXvPi1QLsJdI6Hjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 189DA68BFE; Fri, 25 Sep 2026 08:10:32 +0200 (CEST)
+Date: Fri, 25 Sep 2026 08:10:31 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 09/21] xfs: add support for per-RTG csum files
+Message-ID: <20260925061031.GF3193@lst.de>
+References: <20260924100032.2733101-1-hch@lst.de> <20260924100032.2733101-10-hch@lst.de> <20260924222442.GJ2705364@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/3] memcg,writeback: flush foreign bdev mappings
- separately from owner wbs
-To: Jan Kara <jack@suse.cz>
-Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, axboe@kernel.dk, hannes@cmpxchg.org,
- mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- muchun.song@linux.dev, willy@infradead.org, tj@kernel.org,
- akpm@linux-foundation.org
-References: <20260922125015.3435215-1-sunjunchao@bytedance.com>
- <20260922125015.3435215-3-sunjunchao@bytedance.com>
- <ncq6yhwolbwkivpsohfsanfap7qwix752g53zvo6hx3ywxn5f2@hgay3kms7jsd>
-From: Julian Sun <sunjunchao@bytedance.com>
-In-Reply-To: <ncq6yhwolbwkivpsohfsanfap7qwix752g53zvo6hx3ywxn5f2@hgay3kms7jsd>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924222442.GJ2705364@frogsfrogsfrogs>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 9/24/26 8:02 PM, Jan Kara wrote:
-> On Tue 22-09-26 20:50:14, Julian Sun wrote:
->> Bdev inodes are routinely shared by multiple memcgs. Recording their
->> owner wb as foreign can flush unrelated file data when a source memcg
->> enters dirty throttling.
->>
->> Record bdev device numbers separately and queue work on
->> memcg_bdev_frn_flusher to write only their mappings. Keep the existing
->> foreign-wb mechanism for non-bdev inodes.
->>
->> Use fixed per-memcg slots. Tracking uses oldest-first replacement and
->> expiry after dirty_expire_interval. Further dirtying during an ongoing
->> flush can trigger another flush after it finishes.
->>
->> Tracking is best effort: record only dev_t without holding device or
->> inode references. Records are updated under the mapping->i_pages lock
->> with IRQs disabled, but dropping a bdev reference can sleep. Also, since
->> foreign flushes are triggered by dirty throttling, a memcg that never
->> throttles could retain an unused record and pin the device object
->> indefinitely. Recording only dev_t avoids these lifetime constraints,
->> but device removal and device-number reuse may race with lookup. Such
->> races are expected under the best-effort semantics.
->>
->> Bdev writeback submission can block for a long time on congested devices,
->> with up to four work items outstanding per memcg. Use a dedicated unbound
->> workqueue to give these flushes a separate max_active budget, so they do
->> not exhaust a shared workqueue's active slots and delay unrelated work.
->> If the workqueue cannot be allocated at boot, bdev inodes continue to use
->> the existing foreign-wb path.
->>
->> This primarily affects filesystems that keep metadata in the bdev page
->> cache, such as ext4 and other buffer_head users, rather than the usual
->> metadata writeback paths of XFS and Btrfs. This also covers buffered writes
->> to raw block devices. The decision still does not account for how much of
->> the memcg's dirty memory belongs to the bdev. Even a single dirty bitmap
->> block can trigger writeback of the entire bdev mapping when the memcg
->> enters dirty throttling.
->>
->> Suggested-by: Jan Kara <jack@suse.cz>
->> Signed-off-by: Julian Sun <sunjunchao@bytedance.com>
+On Thu, Sep 24, 2026 at 03:24:42PM -0700, Darrick J. Wong wrote:
+> > +	if (XFS_IS_CORRUPT(mp, ifp->if_nextents != 1))
+> > +		goto sick;
+> > +
+> > +	/*
+> > +	 * We can do an unlocked lookup here because the bmap btree for the
+> > +	 * csum files is immutable once created.
+> > +	 */
 > 
-> Mostly looks good. What I somewhat dislike about this particular
-> implementation is that we are going to have new IO issuers (additional
-> workers for bdev foreign flushes) - potentially as many as there are memcgs
-> using the bdev - which could increase contention for the device. But OTOH
-> we already have as many wb_writeback issuers as there are memcgs for each
-> device so it isn't something fundamental. What is unique that all these
-> issuers will all flush the same inode (normally inode belongs only to one
-> issuer) but OTOH these are bdev inodes where IO submission path is trivial
-> and the IO pattern is mostly random so maybe the contention isn't going
-> to be too severe.
-> 
-> So I'm somewhat wondering if the 'foreign flush work' shouldn't be a
-> global 'per-bdev' thing but after some thought that would get a bit complex
-> and it probably isn't warranted at this point. I guess the simplest way to
-> reduce the unnecessary contention on bdev inode would be to use
-> write_inode_now(bdev_inode, 0) which will just skip the inode if someone is
-> already writing it (I_SYNC check) which is I think what we want.
-> 
-> Also one more technical comment below.
-> 
->> +/*
->> + * No extra memcg reference is taken: this work is embedded in the memcg,
->> + * and mem_cgroup_css_free() waits for it to finish before freeing the memcg.
->> + */
->> +struct memcg_bdev_frn {
->> +	struct work_struct work;
->> +	dev_t dev;			/* dev_t of the foreign bdev inode */
->> +	u64 at;				/* last recorded dirtying time in jiffies */
->> +	atomic_t inflight;		/* flush work is queued or running */
->> +};
->> +
->>  /*
->>   * Bucket for arbitrarily byte-sized objects charged to a memory
->>   * cgroup. The bucket can be reparented in one piece when the cgroup
->> @@ -279,6 +290,7 @@ struct mem_cgroup {
->>  #ifdef CONFIG_CGROUP_WRITEBACK
->>  	struct wb_domain cgwb_domain;
->>  	struct memcg_cgwb_frn cgwb_frn[MEMCG_CGWB_FRN_CNT];
->> +	struct memcg_bdev_frn bdev_frn[MEMCG_CGWB_FRN_CNT];
->>  #endif
->>  
->>  #ifdef CONFIG_LRU_GEN_WALKS_MMU
->> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
->> index 856a7d07586c..6042c694d56c 100644
->> --- a/mm/memcontrol.c
->> +++ b/mm/memcontrol.c
->> @@ -39,6 +39,7 @@
->>  #include <linux/smp.h>
->>  #include <linux/page-flags.h>
->>  #include <linux/backing-dev.h>
->> +#include <linux/blkdev.h>
->>  #include <linux/bit_spinlock.h>
->>  #include <linux/rcupdate.h>
->>  #include <linux/limits.h>
->> @@ -104,6 +105,7 @@ static struct kmem_cache *memcg_pn_cachep;
->>  
->>  #ifdef CONFIG_CGROUP_WRITEBACK
->>  static DECLARE_WAIT_QUEUE_HEAD(memcg_cgwb_frn_waitq);
->> +static struct workqueue_struct *memcg_bdev_frn_wq __ro_after_init;
->>  #endif
->>  
->>  static inline bool task_is_dying(void)
->> @@ -3875,20 +3877,72 @@ void mem_cgroup_wb_stats(struct bdi_writeback *wb, unsigned long *pfilepages,
->>   * most recent foreign dirtying events and initiating remote flushes on
->>   * them when local writeback isn't enough to keep the memory clean enough.
->>   *
->> - * The following two functions implement such mechanism.  When a foreign
->> - * page - a page whose memcg and writeback ownerships don't match - is
->> - * dirtied, mem_cgroup_track_foreign_dirty() records the inode owning
->> - * bdi_writeback on the page owning memcg.  When balance_dirty_pages()
->> + * When a foreign page - a page whose memcg and writeback ownerships don't
->> + * match - is dirtied, mem_cgroup_track_foreign_dirty() records the inode
->> + * owning bdi_writeback on the page owning memcg. When balance_dirty_pages()
->>   * decides that the memcg needs to sleep due to high dirty ratio, it calls
->>   * mem_cgroup_flush_foreign() which queues writeback on the recorded
->>   * foreign bdi_writebacks which haven't expired.  Both the numbers of
->>   * recorded bdi_writebacks and concurrent in-flight foreign writebacks are
->>   * limited to MEMCG_CGWB_FRN_CNT.
->>   *
->> - * The mechanism only remembers IDs and doesn't hold any object references.
->> - * As being wrong occasionally doesn't matter, updates and accesses to the
->> - * records are lockless and racy.
->> + * Bdev inodes are commonly shared by many memcgs. Flushing their owner wb
->> + * can write unrelated file data, so each memcg tracks foreign bdevs
->> + * separately in MEMCG_CGWB_FRN_CNT slots keyed by dev_t. These records
->> + * use the same expiry policy, but trigger writeback of only the bdev
->> + * mappings.
->> + *
->> + * Both kinds of records only remember IDs and don't hold any object
->> + * references. As being wrong occasionally doesn't matter, updates and
->> + * accesses to the records are lockless and racy.
->>   */
->> +
->> +static void mem_cgroup_track_foreign_bdev(struct mem_cgroup *memcg, dev_t dev)
->> +{
->> +	struct memcg_bdev_frn *frn;
->> +	int i;
->> +	int oldest = -1;
->> +	u64 now = get_jiffies_64();
->> +	u64 oldest_at = now;
->> +
->> +	/*
->> +	 * Pick the slot to use.  If there is already a slot for @dev, keep
->> +	 * using it.  If not replace the oldest one which isn't being
->> +	 * written out.
->> +	 */
->> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
->> +		frn = &memcg->bdev_frn[i];
->> +		if (frn->dev == dev)
->> +			break;
->> +		if (atomic_read(&frn->inflight))
->> +			continue;
->> +		if (time_before64(frn->at, oldest_at)) {
->> +			oldest = i;
->> +			oldest_at = frn->at;
->> +		}
->> +	}
-> 
-> The handling of 'inflight' looks racy. After we check, the flush can be
-> queued and we'll just rewrite the entry under the pending flush below
-> leading to odd behavior (like missing flush later in case 'at' gets
-> clobbered to 0 by the running flush)...
-> 
->> +
->> +	if (i < MEMCG_CGWB_FRN_CNT) {
->> +		/*
->> +		 * Re-using an existing one.  Update timestamp lazily to
->> +		 * avoid making the cacheline hot.  We want them to be
->> +		 * reasonably up-to-date and significantly shorter than
->> +		 * dirty_expire_interval as that's what expires the record.
->> +		 * Use the shorter of 1s and dirty_expire_interval / 8.
->> +		 */
->> +		unsigned long update_intv =
->> +			min_t(unsigned long, HZ,
->> +			      msecs_to_jiffies(dirty_expire_interval * 10) / 8);
->> +
->> +		if (time_before64(frn->at, now - update_intv))
->> +			frn->at = now;
->> +	} else if (oldest >= 0) {
->> +		/* replace the oldest free one */
->> +		memcg->bdev_frn[oldest].dev = dev;
->> +		memcg->bdev_frn[oldest].at = now;
-> 
-> .. so I think here we need to block submission of work (retry search if
-> busy) and only then update the entry.
+> This might be problematic if we ever want online repair to be able to
+> rebuild the checksum file data fork at runtime.  That would probably
+> cause catastrophic loss of file data integrity guarantees, but that
+> might be better than the filesystem dying.
 
-Thanks for the review and suggestions, Jan. 
-Your suggestions make sense, and I'll address them in the next version.
-> 
-> 								Honza 
-> 
->> +	}
->> +}
->> +
->>  void mem_cgroup_track_foreign_dirty_slowpath(struct folio *folio,
->>  					     struct bdi_writeback *wb)
->>  {
->> @@ -3898,6 +3952,14 @@ void mem_cgroup_track_foreign_dirty_slowpath(struct folio *folio,
->>  	u64 oldest_at = now;
->>  	int oldest = -1;
->>  	int i;
->> +	struct address_space *mapping = folio_mapping(folio);
->> +	struct inode *inode = mapping->host;
->> +
->> +	if (memcg_bdev_frn_wq && sb_is_blkdev_sb(inode->i_sb)) {
->> +		trace_track_foreign_dirty(folio, wb);
->> +		mem_cgroup_track_foreign_bdev(memcg, inode->i_rdev);
->> +		return;
->> +	}
->>  
->>  	trace_track_foreign_dirty(folio, wb);
->>  
->> @@ -3941,6 +4003,16 @@ void mem_cgroup_track_foreign_dirty_slowpath(struct folio *folio,
->>  	}
->>  }
->>  
->> +static void bdev_frn_flush_work(struct work_struct *work)
->> +{
->> +	struct memcg_bdev_frn *frn =
->> +		container_of(work, struct memcg_bdev_frn, work);
->> +
->> +	bdev_flush_by_dev(frn->dev);
->> +
->> +	atomic_set(&frn->inflight, 0);
->> +}
->> +
->>  /* issue foreign writeback flushes for recorded foreign dirtying events */
->>  void mem_cgroup_flush_foreign(struct bdi_writeback *wb)
->>  {
->> @@ -3949,6 +4021,21 @@ void mem_cgroup_flush_foreign(struct bdi_writeback *wb)
->>  	u64 now = jiffies_64;
->>  	int i;
->>  
->> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
->> +		struct memcg_bdev_frn *frn = &memcg->bdev_frn[i];
->> +
->> +		/* Keep the workqueue availability check explicit. */
->> +		if (memcg_bdev_frn_wq && time_after64(frn->at, now - intv) &&
->> +		    atomic_cmpxchg(&frn->inflight, 0, 1) == 0) {
->> +			/*
->> +			 * Clear now so dirtying during writeback can refresh
->> +			 * the timestamp for a later flush.
->> +			 */
->> +			frn->at = 0;
->> +			queue_work(memcg_bdev_frn_wq, &frn->work);
->> +		}
->> +	}
->> +
->>  	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
->>  		struct memcg_cgwb_frn *frn = &memcg->cgwb_frn[i];
->>  
->> @@ -4202,9 +4289,13 @@ static struct mem_cgroup *mem_cgroup_alloc(struct mem_cgroup *parent)
->>  	memcg->kmemcg_id = -1;
->>  #ifdef CONFIG_CGROUP_WRITEBACK
->>  	INIT_LIST_HEAD(&memcg->cgwb_list);
->> -	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++)
->> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
->> +		struct memcg_bdev_frn *frn = &memcg->bdev_frn[i];
->> +
->>  		memcg->cgwb_frn[i].done =
->>  			__WB_COMPLETION_INIT(&memcg_cgwb_frn_waitq);
->> +		INIT_WORK(&frn->work, bdev_frn_flush_work);
->> +	}
->>  #endif
->>  	lru_gen_init_memcg(memcg);
->>  	return memcg;
->> @@ -4386,8 +4477,10 @@ static void mem_cgroup_css_free(struct cgroup_subsys_state *css)
->>  	int __maybe_unused i;
->>  
->>  #ifdef CONFIG_CGROUP_WRITEBACK
->> -	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++)
->> +	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++) {
->>  		wb_wait_for_completion(&memcg->cgwb_frn[i].done);
->> +		flush_work(&memcg->bdev_frn[i].work);
->> +	}
->>  #endif
->>  	if (cgroup_subsys_on_dfl(memory_cgrp_subsys) && !cgroup_memory_nosocket)
->>  		static_branch_dec(&memcg_sockets_enabled_key);
->> @@ -5703,6 +5796,12 @@ int __init mem_cgroup_init(void)
->>  	memcg_wq = alloc_workqueue("memcg", WQ_PERCPU, 0);
->>  	WARN_ON(!memcg_wq);
->>  
->> +#ifdef CONFIG_CGROUP_WRITEBACK
->> +	memcg_bdev_frn_wq = alloc_workqueue("memcg_bdev_frn_flusher",
->> +					    WQ_UNBOUND, 0);
->> +	WARN_ON(!memcg_bdev_frn_wq);
->> +#endif
->> +
->>  	for_each_possible_cpu(cpu) {
->>  		INIT_WORK(&per_cpu_ptr(&memcg_stock, cpu)->work,
->>  			  drain_local_memcg_stock);
->> -- 
->> 2.39.5
->>
+repair is still on my todo list, but the plan would be to use a static_call
+to introduce looking if/when we have to online repair to add locking.
 
-Thanks,
--- 
-Julian Sun <sunjunchao@bytedance.com>
+> > +/* Convert an rgbno to the csum byte position in the csum file. */
+> > +static inline xfs_off_t
+> > +xfs_rgb_to_rtcsumpos(
+> 
+> rgbno_to_ ?
+
+Yeah.
+
+> 
+> > +	struct xfs_mount	*mp,
+> > +	xfs_rtblock_t		rgbno)
+> 
+> Shouldn't ^^^^ this be an xfs_rgblock_t given the name and comment?
+
+Yes.
+
+> I don't think you support checksums on !rtgroups filesystems, so you'll
+> never have to deal with a rt block address larger than 2^32.
+
+Yes, this is zoned only and zoned requires rtgroups.  Even if for some
+reason we want to support non-zoned, requiring rtgroups is required for
+the per-group file infrastucture.
+
+> 
+> > +{
+> > +	return (xfs_off_t)rgbno << mp->m_rtcsum_shift;
+> 
+> Hrm.  What's the difference between this and +xfs_extlen_to_rtcsum_len?
+> I guess one describes a quantity of fsblocks, whereas another describes
+> an address?
+
+Yes, which implies 32 vs 64bit values.
+> > +static inline xfs_filblks_t
+> > +xfs_rtcsum_max_len(
+> > +	struct xfs_mount	*mp,
+> > +	xfs_fsblock_t		fsbno)
+> > +{
+> > +	return xfs_rtcsum_len_to_extlen(mp,
+> > +			mp->m_rtcsum_bsize - xfs_rtb_to_rtcsumoff(mp, fsbno));
+> > +}
+> 
+> What does this do?  Does it compute the number of checksums you can
+> write to the rest of a single csum file block given a fsblock address?
+
+Yes, although the limiting factor is reads where the code wants to deal
+with a single buffer per read.  For writes the data is logged where
+we can trivially loop over buffers.
+
+> > +union xfs_csum {
+> > +	uint32_t		crc32c;
+> > +	uint64_t		crc64;
+> > +};
+> > +
+> > +static __always_inline void
+> > +xfs_csum_seed(
+> > +	struct xfs_mount	*mp,
+> > +	union xfs_csum		*csum)
+> > +{
+> > +	if (mp->m_sb.sb_rtcsum_type == XFS_CSUM_TYPE_CRC32C)
+> > +		csum->crc32c = XFS_CRC_SEED;
+> > +	else
+> > +		csum->crc64 = XFS_CRC64_SEED;
+> 
+> I was expecting a switch() here. ;)
+
+That would require coming up with something for the impossible case,
+so I'd rather side-step it.
+
