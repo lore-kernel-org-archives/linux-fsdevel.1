@@ -1,49 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0B43D5C05;
-	Fri, 25 Sep 2026 14:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30A343DEC1;
+	Fri, 25 Sep 2026 14:21:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790345711; cv=none; b=rvRii15Ay70crZaPYXdKbpBxRqxurAgjwIB76fsHnybJ/ynTSW+kSlitbizTLlug+Asyuq2p/cNPShQXw3dm1dL+0lQSFJcc58VXUs3KgrGfmucGo4vZ8OVO/N2ihuWquKEAbUIK7Y5IMrpW0t2b/HsQ8CGKYjzzwWAQ/N8enOk=
+	t=1790346064; cv=none; b=jDlzimXob8OUgYD1xUB+YqUpPrUSrsT0v+9+61f1MiutxvIFwWlVONCj3ZQ0s/fQ1bI+ZFLq5YQYDSLxKki14J+H5UUsqh/BBoJDgUtPv6odc7Wlktn1pCTxyadwCkaZpgySKi+pbMugJJd2BN7puGrQ6oFiyKFeGSx6Mx72k80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790345711; c=relaxed/simple;
-	bh=Nhzcuaa19S/4QH0u1yNemZrARjjDFHHWAbX7Sg/uii0=;
+	s=arc-20240116; t=1790346064; c=relaxed/simple;
+	bh=ipYU8e78ByEhWH/1W0gJkLC172mJp5qZEgqiCFKsZYs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=D/2KrouqD0jD9bEsQZpTQgcewr/kb+sTk3bRkCntoFP/oi8pmJW7auCxBW02mv6x8lKAQb1UZI7DQbxtZz3IWLj0Yd8C4F4n3F17aumpKk6XkcAtCtsHbCwIqK+q0AbW7MFY9fEbFZEsz4ckRCEcQeuQZRuztVKn7PgRZXjdiFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VcaC0h6T; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Q3gN49eEQ7/GQj0II9pfS7yqIX3Q/FcZWvOWYMdzEvM8dJ9dzUYfTfMNABsO8H2YQThUMK0dklUEAzSVYpZcZuqVS27Yba63Ir/4eke//h3qR7aaAWeEAclWtfSdKgYsU8DqVSpRfPLWepjxI3Hau5uO0Zsi36uNUq21aWVMwbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZhfTnzgC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VcaC0h6T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C3141F000FF;
-	Fri, 25 Sep 2026 14:15:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZhfTnzgC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 093321F000FF;
+	Fri, 25 Sep 2026 14:20:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790345709;
-	bh=MIe23nsde5XC5yVj3zneg2fItu+VCNKw2E2wq5yQiZ8=;
+	s=k20260515; t=1790346062;
+	bh=Y8bbhgovMLJiV2/8MU9E7yMpXiD1DeJOffuWDMO7waQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=VcaC0h6ThfWLU0dY3RnDbS/2UX9Srn1tRcz0irJM91BitNgejZb5rkFkfp6LAr4hs
-	 JVNORK4Uq6TEQeFcmJBrtMVsP5Dnq+c3EE7hJG5bf7EdI1X4tJMGxa+Wf0SoqcQE4s
-	 tsJRuCEs8LpR0opajlU/v5Dhx5dnIEm2OqWeN5pZeOX0/gE7CPDuhq79HGUgKhRRoi
-	 IDuzzmBbJgwLU2AV4BhhsMG1Y0/tcG50oqt0+1G4b13TzeeMMnh5bh1ZdP6RRYlu2t
-	 xFuYpHSzMMjM8TXj5d1GJiYONvv3crgvc2HFcmlF1HQkvA03AU9W1GHh5YedZZkIGI
-	 /OVlmA/pHjshA==
+	b=ZhfTnzgCuikPATdpnPcvJA7soMR0WYKkzTl0ydiV3QCy4RjCJIXMnlFYPl1xSnLpt
+	 fN+/mBRdZI0neUlyQ6PD6eTRjNRgqH3xGz+9MvzcqejpS7zHUQ6VXOK95XjzZwaDU2
+	 qwz6vip15hKyRFBj1BBz5laA7BojNd/IhjPBBHzhHdv8IenXO6A7W6PuDrGHcINDiJ
+	 9kOaHB4fnQtULK5K+FboODTSrHuhVdvFxRK+CnVZjA9VwMLQA0/8NW2TNAmHJUZ8+a
+	 dUf2YRRogQh95q4eqPn+dKUF38/d4xlgrvFv5Jbw2y5996Nu4423RX2Wb1Wi0XcJjA
+	 pOIBwR39jNACA==
 From: Christian Brauner <brauner@kernel.org>
-To: Christian Brauner <brauner@kernel.org>, 
- David Howells <dhowells@redhat.com>
-Cc: Paulo Alcantara <pc@manguebit.org>, 
- Matthew Wilcox <willy@infradead.org>, Namjae Jeon <linkinjeon@kernel.org>, 
- Marc Dionne <marc.dionne@auristor.com>, Stefan Metzmacher <metze@samba.org>, 
- Eric Van Hensbergen <ericvh@kernel.org>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Ilya Dryomov <idryomov@gmail.com>, netfs@lists.linux.dev, 
- linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
- linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org, v9fs@lists.linux.dev, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260910220242.2165023-1-dhowells@redhat.com>
-References: <20260910220242.2165023-1-dhowells@redhat.com>
-Subject: Re: [PATCH v12 0/5] netfs, cachefiles: Changes for next, primarily
- occupancy tracking-related
-Message-Id: <20260925-entbehren-dasein-toben-4bb08888fa6a@brauner>
-Date: Fri, 25 Sep 2026 16:15:01 +0200
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+ Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260912073250.51074-1-kmehltretter@gmail.com>
+References: <20260912073250.51074-1-kmehltretter@gmail.com>
+Subject: Re: [PATCH] docs/vfs: Fix the struct file_system_type copy
+Message-Id: <20260925-sachlage-reinigen-auffressen-5bdd926d423f@brauner>
+Date: Fri, 25 Sep 2026 16:20:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,29 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1696; i=brauner@kernel.org;
- h=from:subject:message-id; bh=Nhzcuaa19S/4QH0u1yNemZrARjjDFHHWAbX7Sg/uii0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRta3zu9ejPksnvHCdsrAyaqDf31UaOw0H+30O8DY96/
- c24ZLnoX0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBE8kMZ/nBZ1n0LnC6Tz/DA
- fK/MoRtt33Q9ZDWLPptVOP9nN/1gY8rI8IPFWylD066JLyLn4Cq3vRP//WANW3Dc8U2Dm6ry2rB
- NvAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=881; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=ipYU8e78ByEhWH/1W0gJkLC172mJp5qZEgqiCFKsZYs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRta/ZsXHOgtqwiafmuG4dq4uOblJfNvfK24cgpncW8N
+ 5OMzsg96ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIxSGG/6GCrQcmrpxXLJMv
+ ItXJ8MeNXTSGU0lhgo7JUd5X77eEdTAyvLBbW/Dm+sZDnVo93x6s2u98fZLMvItN6zU3BeyViOi
+ IZAQA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, 10 Sep 2026 23:02:35 +0100, David Howells wrote:
-> netfs, cachefiles: Changes for next, primarily occupancy tracking-related
-> 
-> Hi Christian,
-> 
-> Could you pull these patches please into your vfs-7.4.netfs branch?  This
-> is the second of four batches, in this case dealing with cachefiles, and is
-> based upon the aforementioned branch.  This was split from v11 of a larger
-> netfslib series[1].
-> 
-> [...]
+On Sat, 12 Sep 2026 09:32:50 +0200, Karl Mehltretter wrote:
+> docs/vfs: Fix the struct file_system_type copy
 
-Applied to the vfs-7.4.netfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.netfs branch should appear in linux-next soon.
+Applied to the vfs-7.4.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.4.misc branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -87,16 +73,8 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.netfs
+branch: vfs-7.4.misc
 
-[1/5] cachefiles: Clean up cachefiles_do_prepare_read()
-      https://git.kernel.org/vfs/vfs/c/c9e86618da69
-[2/5] netfs, cachefiles: Add a couple of traces for write failure
-      https://git.kernel.org/vfs/vfs/c/4f973d314d59
-[3/5] cachefiles: Add a tracepoint to log insufficient space errors
-      https://git.kernel.org/vfs/vfs/c/dd79f8c90ea8
-[4/5] cachefiles: Don't rely on backing fs storage map for most use cases
-      https://git.kernel.org/vfs/vfs/c/c8d890e089a1
-[5/5] cachefiles: Preset the state xattr when creating a new file
-      https://git.kernel.org/vfs/vfs/c/f96cbb18159f
+[1/1] docs/vfs: Fix the struct file_system_type copy
+      https://git.kernel.org/vfs/vfs/c/392f5390d5d8
 
