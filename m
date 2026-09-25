@@ -1,131 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-248.mta0.migadu.com [91.218.175.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4692F3C0E;
-	Fri, 25 Sep 2026 13:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E763470433
+	for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 13:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790342223; cv=none; b=JhwXusmQ8XxIRc+cUiIntzoH8tLfHo2mCyV9WzlPLqeugSUCHHTEsXWzEchCsxshphF/AQJBLVp1VA9tHLe9XrhNb08eLK9limdQEMnLbodmIch3QgZfsI/pgzZHJ4C44lGKR4dDqAk0ujFJlwGFM2aMw1mAQM1gdE5BA7fYx20=
+	t=1790343432; cv=none; b=dwoVdc2QgZ/AJe7mUCjiIkV/m3LbxWAXj+FUr1h2kJe/2ieHUESRACeIQEfhN616Q8PtxVipq/VHNMXJL7+5pGRV3Ihd+TcPYcjaLtsRxFsBLOGPImVZaR4iyUGexcnbHnJsZ+Zmf9hWyZLZlipQnb87SbeZ967IqdQsKHXTB/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790342223; c=relaxed/simple;
-	bh=TYkMkmVIpU2J6lpj/XgmAtr/c8Mw8Mn0fdmAzNuAo1Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RlhfyDR3XzijXBq6p/7fe5ugtFtKTde/k5dEU/9x4a2SZq6IoXznlYpC62iBsy52UO/AcIotK9fVopr5Uy1iKvSkEhMbYcUkS4cfN9aiGrWKWkY9DZ2PYcgpYFyC1NglSG7H9fvkg69zUiYLElUaBAv4ECipCl6YGFupHwsbD5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jd6Rd12S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790343432; c=relaxed/simple;
+	bh=yUbhz4q8Bk6ad7ykhWaGlMSrczLK4cYYxIxLGl+Ap/U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LJ6gpp4SZJX7OB4rM3JWIUZz6WxfosWSGqe/yOK7E3caW+4W0wlcnhOXviVpb0YSXRzDEYUC9UORr8mk3dveL77hwfDfzvtkGfUzd3pvFfXA0bG9kAl2DsH61eiZeD6FklW4aEGXEBUIZmXM6Nc81V8hmAki1SsVnwePp3Qk3+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Vn+8m5D3; arc=none smtp.client-ip=91.218.175.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jd6Rd12S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD91F1F000FF;
-	Fri, 25 Sep 2026 13:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790342211;
-	bh=6hx8tIQBqEZCA6RMs3GEzhHsfOp+B8oZbYhgqwXwkDU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jd6Rd12SODX0oYmsCoaRKLziziTTpNy3IlG1EtScRfBvOOh4uiZx/tV8TPNkKx/PU
-	 xjAPW4JQIPUpK52RBwytQfIfc/+ERRUlEQno4Yf+GKn3jQTjFtdkMqRYeq1c9iIzdp
-	 62jNjNuqpq4cwtVijV2Kr3ARU+BY9ae0Rb3zYxk4IcgqZrxf1sssD36R5bzMv8TyNR
-	 +LYVYdzXl49fxcE4JiVQupib8K742Gq3mQwVZkYyWAC3vg+GMiWXeyEiDhrd0z6KkR
-	 i+zxMapSeo7WlNRMdubA0c1mPbPnHF3ktyDv3UHhEALo40au8F9yqOE2wDwcUH+kX6
-	 o0XKE59ufoCrw==
-Date: Fri, 25 Sep 2026 15:16:45 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Bradley Morgan <include@grrlz.net>, Kees Cook <kees@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] sysctl: drop the pointer dance in proc_put_char()
-Message-ID: <id6ij3wpybrig6nqfydr522lhxoc7dsdvxnbn53pndnfq4vdjy@v3j37rvmluyo>
-References: <20260822184244.13569-1-include@grrlz.net>
- <adblkub2acrgjlgmjs2uu5644zm5fjghjzr5zkyga7uatrfeif@jsumbzlthyfb>
- <20260916134700.3e0d17cd@pumpkin>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Vn+8m5D3"
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=yUbhz4q8Bk6ad7ykhWaGlMSrczLK4cYYxIxLGl+Ap/U=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790343427; v=1; x=1790948227;
+ b=Vn+8m5D3XbZZbmpKW7i1GL+bvbo5sKSYuE2nPA2GuBqNylNoSfWFPYzhIe36e9OTc/1cu8wH
+ ojAoxowslfc5l7IKiugjESin6K+vCIml6X0/DUSsE8DuIy6ZOEphUFKFcpb5RgIK3c9drm4l7Tu
+ T1oBvIFQUn5SUs7kHN44bO1A=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 5d53d689c26fed9d;
+	Fri, 25 Sep 2026 13:37:07 +0000
+X-Mizu-Trace-ID: 5d53d689c26fed9d
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <69579dae-285d-472c-ba69-4279e5170502@linux.dev>
+Date: Fri, 25 Sep 2026 14:37:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iwdvrmlk3hoahznz"
-Content-Disposition: inline
-In-Reply-To: <20260916134700.3e0d17cd@pumpkin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 5/9] block: fail a short atomic pin in
+ bio_iov_iter_get_pages()
+To: Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Hannes Reinecke <hare@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Christian Brauner <brauner@kernel.org>, "Darrick J. Wong"
+ <djwong@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ "Martin K. Petersen" <mkp@kernel.org>
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Sashiko <sashiko-bot@kernel.org>
+References: <20260923-blkdev-fixes-v5-0-89e60d66eb38@columbia.edu>
+ <20260923-blkdev-fixes-v5-5-89e60d66eb38@columbia.edu>
+Content-Language: en-US
+From: John Garry <john.garry@linux.dev>
+In-Reply-To: <20260923-blkdev-fixes-v5-5-89e60d66eb38@columbia.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 9/24/26 00:56, Tal Zussman wrote:
+> On a partial page pin, __blkdev_direct_IO_simple() and
+> __blkdev_direct_IO_async() submit what was pinned with REQ_ATOMIC set
+> and leave the rest to the buffered fallback, tearing an IOCB_ATOMIC
+> write.
+> 
+> This can be triggered deterministically. A 16K pwritev2(RWF_ATOMIC)
+> whose last page is PROT_NONE, on a scsi_debug device with atomic_wr=1,
+> completes short with only three of the four pages written, violating
+> RWF_ATOMIC semantics.
 
---iwdvrmlk3hoahznz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I don't mean to load more work, but a blktests case for this would be 
+great. I am consider doing it if you are too busy.
 
-On Wed, Sep 16, 2026 at 01:47:00PM +0100, David Laight wrote:
-> On Wed, 16 Sep 2026 13:46:40 +0200
-> Joel Granados <joel.granados@kernel.org> wrote:
->=20
-> > On Sat, Aug 22, 2026 at 06:42:44PM +0000, Bradley Morgan wrote:
-> > > proc_put_char() still drags around a char **buffer alias, writing
-> > > the char through it, advancing it, then copying it back into the
-> > > slot it was loaded from. That only made sense when the buffer was
-> > > __user and the char went through put_user() (which could fail).
-> > >=20
-> > > Since commit 32927393dc1c ("sysctl: pass kernel pointers to =20
-> > > ->proc_handler") the buffer is just a kernel pointer, so the alias =
-=20
-> > > is dead weight. proc_put_long() and the skip helpers already advance
-> > > *buf directly, so do the same here. No functional change.
-> > >=20
-> > > Signed-off-by: Bradley Morgan <include@grrlz.net>
-> > > ---
-> > >  kernel/sysctl.c | 7 ++-----
-> > >  1 file changed, 2 insertions(+), 5 deletions(-)
-> > >=20
-> > > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> > > index f7b7598..2b92b30 100644
-> > > --- a/kernel/sysctl.c
-> > > +++ b/kernel/sysctl.c
-> > > @@ -350,12 +350,9 @@ static void proc_put_long(void **buf, size_t *si=
-ze, unsigned long val, bool neg)
-> > >  static void proc_put_char(void **buf, size_t *size, char c)
-> > >  {
-> > >  	if (*size) {
-> > > -		char **buffer =3D (char **)buf;
-> > > -		**buffer =3D c;
-> > > -
-> > > +		*(char *)*buf =3D c;
-> > >  		(*size)--;
-> > > -		(*buffer)++;
-> > > -		*buf =3D *buffer;
-> > > +		(*buf)++;
-> > >  	}
-> > >  }
-> > > =20
-> > > --=20
-> > > 2.47.3
-> > >  =20
-> >=20
-> > I was thinking more along these lines https://lore.kernel.org/all/20260=
-916-lklm-sysctl-void-vs-char-v1-1-c3f8b2eb8b1e@kernel.org/
->=20
-> I think I'd decrement *size before writing to buf.
-> Should ensure the compiler never reloads *size.
-> Could also be worth an __always_inline - likely to make the code smaller.
-
-This seems sensible. I'll update my the one in [1]
-
-[1] https://lore.kernel.org/all/20260916-lklm-sysctl-void-vs-char-v1-1-c3f8=
-b2eb8b1e@kernel.org/
-
---iwdvrmlk3hoahznz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmq2dDwACgkQupfNUreW
-QU/Tkgv/ZlLbCS3lZcer7UKldjjY4KxG10Z+T5Q+QBndR6UiKbps/K6F196kvAud
-LbjQoocc9goKr/jqlGygS6/F5+9Dk9tvyRuL8b03WKKJfi1A3M3PfN8U8PG+ykQ2
-VjzlmaOSUx7RVqR5fGgM7qyUdCsKJcmtnTS4tBS9jBDT2w1ljlohrAeq5gBwZeRf
-Dwu5MXmqmqdqoI4qLqvvQf1KbMFPxhFVYKe24vbRja+z1ZK3wEQDIZ0k25ADX8JH
-G8Qu9zhzvIRQPFc+SI1Hn4Y7GPrHRNi2R7AnCWaK7z0Oc+xyUZNEWOLLtPQe8Fen
-b58I7yiX8eEX2vYrifgBVQl5R8aspZSo7yYyGlxxxXDnASA5FOKNCecDSazTseQa
-DErp1EDaoWDd6k8sOAzXsB5HQHvwzNOdXPC4/AjOHHVCwpgaqOvHg3dOCsTx09+7
-Z4jn3yDHslgTxn7/+KKPdcqiUO0VZDUqtRssb1VMjAsy0krof9VylPEtHpUFzrK0
-RsbvTR29
-=qLEX
------END PGP SIGNATURE-----
-
---iwdvrmlk3hoahznz--
+Thanks!
