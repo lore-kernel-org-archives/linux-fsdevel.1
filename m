@@ -1,41 +1,31 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5C221A459;
-	Sat, 26 Sep 2026 06:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4CC329E5A;
+	Sat, 26 Sep 2026 06:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790402832; cv=none; b=TTVP5/dRjarSeKJpCnueWgb7F7eQlmRN2IEz6OLCcHHTVGe5HuXr0OyfhDctWuxCuu6zOVrZ9bZsrQEFceL4qF+FWCN4z9UDhId6LrB9gHaCQO2tUIiVFHtrObAJ/lmEWM28F1/kT89+RjSBkBXzmKn7YZamT9bZA1zLK2KqBpg=
+	t=1790403207; cv=none; b=PZx7Sk4/1qg30rX5cVJkUmXsxZke76DfV3+FPMTp2ZFVOd0oL0UjM8l7TpK10tadu1XPckW63LxZnpJYIzvhy8aB2ZTdft6aPKmkqNesBvRFPTcXfuF9hbkyyxrZ1XrhLfX2mdrKIzPvYEiw0lMwfDkWA3uiBircazA4FI0JkKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790402832; c=relaxed/simple;
-	bh=hEjaODduVcrYR0vvx9th7plRKPnx1VIiv4lKUID7QW0=;
+	s=arc-20240116; t=1790403207; c=relaxed/simple;
+	bh=09deJmOdiIhecIF4gCGg9CbomMPJGpR/OeqFf2lI1NQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r6bXOFPmxM8hGEqhG4Os082mgO7eYX8i+PCzTA9XqzqtiJO4sNOg8AAaQKoYxIwlf0UwI0v2swC36lxDFFgTjmmxTqEhqt4W+/iCFNnBuHDwHdY19Uds1bLhz/pdDpWbrn72vzw7Ih64oTh87XzjFHC7bAXgZF2Ks7jKaLZrL1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZfXxoQV0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZfXxoQV0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0fOD7pQjECabMbDxifPoG81v62o+BaP3qLyt/KM1OH8=; b=ZfXxoQV0TFkF9tHD3stGfCPJc2
-	0Vl7A1fHL9HPr7nvAbpTavuP5aCxWAWMzg7+I10wf8PfuDPYy2Vmdz/DOPRldbOWd5yQNqIcbYLVv
-	A7eiq7ty12xdvBB4r6ijcJJtVRUXeuoWYmF6PkFjrEaTu8c/CInJ//UNUCFoUbnikaGYTpCpthWPw
-	0OdtPxiZBdFpHWHuf32wmDBVMnYuE5yt7R15roNJwX7Zf4pamt7ENkYFZiIBd8VxvwBpcnuEn7ddj
-	YIMMxKRHPMc0yvvQIX/Tvel3lkp8EplAJQETGoFDSRiwbpTt2/3/AOBXpiTZcmNl5l/0cZqd0OJ90
-	oVY+pgUg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xALYy-0000000F3pE-1YFS;
-	Sat, 26 Sep 2026 06:07:08 +0000
-Date: Fri, 25 Sep 2026 23:07:08 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Steve Shoecraft <spshoecraft@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: [RFC] MXFS: a shared-disk clustered filesystem derived from XFS
-Message-ID: <ardhDI-Ko7b5RccH@infradead.org>
-References: <56847E8D-EA83-4984-82F3-9BC93E4C02FF@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rWptnBsh1WJV05uY2b/qnNXOxCrowQrjm0viH5XIw8XHY9O6Pxt18ZPUFMoE+THsqyt9HO+HAYolpzfNVg2fxLgkHvqNqvwXOf3lzEIVRIwi1FyLMDsA0Kq+UZvbjPESLhLqG+mNifOjC+93UbUiOZErMzwLvfZvwGsEtOxgKy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id EFCB968C4E; Sat, 26 Sep 2026 08:13:21 +0200 (CEST)
+Date: Sat, 26 Sep 2026 08:13:21 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 11/21] xfs: core RT data checksum support
+Message-ID: <20260926061321.GE20636@lst.de>
+References: <20260924100032.2733101-1-hch@lst.de> <20260924100032.2733101-12-hch@lst.de> <20260925232020.GF2705364@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,10 +34,25 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <56847E8D-EA83-4984-82F3-9BC93E4C02FF@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20260925232020.GF2705364@frogsfrogsfrogs>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-I don't think too many people are going to care about your LLM dump,
-or even review it.  But please make sure you use different magic numbers
-so that a mxfs image left in the wild is not mistaken for an xfs one.
+On Fri, Sep 25, 2026 at 04:20:20PM -0700, Darrick J. Wong wrote:
+> > +/*
+> > + * Read the checksum buffer for @rtg/@csum_off and return it unlocked.
+> 
+>       Read the checksum buffer for @fsbno?
+
+Yeah.  This went forth and back a few times during development, and it
+looks like the comment didn't keep up..
+
+> > +out_error:
+> > +	while (--i >= 0)
+> > +		xfs_buf_rele(oz->oz_csum_bufs[i]);
+> 
+> /me wonders if this should null out oz_csum_bufs to avoid the
+> possibility of dangling pointers?  Though I think the only caller will
+> free the oz if this function returns error so it might not matter much.
+
+Sure, that sounds like an easy enough safe guard.
 
