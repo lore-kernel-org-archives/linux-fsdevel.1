@@ -1,263 +1,207 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010001.outbound.protection.outlook.com [52.101.56.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f41.google.com (mail-pj2-f41.google.com [74.125.227.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87A2547040;
-	Sat, 26 Sep 2026 02:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790388477; cv=fail; b=urEOFNCF1r2Y25Ac2PS0AxkM2Js7au6Wb41VDgDpFoLhF59iUDFb2Zu4iKJEIuycvBW+nvMyAC7zKAHtdM+sPhTTAFh18SYkFQJoXPi99nLH/zdDY+DBwu7M5DjimU8cnOx8kfyKRteSsQrXR4piJzk9CoBzyOEwL13ZNNVfgb0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790388477; c=relaxed/simple;
-	bh=kEgIjuIpCafQPrSZXWlr6e/hdIxgrUN5rApBMeA0A1I=;
-	h=Content-Type:Date:Message-Id:To:From:Subject:Cc:References:
-	 In-Reply-To:MIME-Version; b=fRUx4wXu6qWxRW8b6v+LSyfbjD5Bnuzw8wx9Z5RNQEI1WrTVg66nYYV3ykr3jLeHa/gScY0vANSTaQ5bLgB488NNQlAaYfIYLZ9Ctwi0MDSNQ/h8Ty5ikOVU6j10biMXRih4h3kdHAnkU3Rv8Zfeu5Ei+C0S2v236OnCBfZXLV0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VfXVp6Qn; arc=fail smtp.client-ip=52.101.56.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F55547040
+	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 02:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790388537; cv=none; b=MHjd2ToVREIR7YBBtTMNyeI85U4c0JrN1943XC1EwsTyn/hsqqfmKnpjH3Y7ffIaIt3m7KNkehT9eQgtK2gFDNqU3M+fGrJO0jjwetBDekT+qli3eHQx9gd1OkEiFLHIijZmKzRdYXYhCU0jJMuc3u4TsTrN3qUrcnIk7kN+1LI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790388537; c=relaxed/simple;
+	bh=Sz3F0/9c/hspLc+ft2ASlOgGf9Cqx1+JIZa5oyLOSZQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MYfE5noVbptrr2qt1fsk6sALCMYMl7TDIeAhgB4R6WtFdxWH0UCW6L5J9edBIGjdN+IEQeu2lcBNsHkKyKsef9yX2+/fi5STn2PMeIPQ7fKOS6cOXmaRvb2e5ZCxDzYAgKfhmGsa4NKpS5R7oJrSkdk5hVe0OGDmUKWrZ5AAbm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bvH3Tgyf; arc=none smtp.client-ip=74.125.227.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VfXVp6Qn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Oi07CiyUN4WkiHfYYNkNaP5NnQNRd93uL1yMKrDHvV+wKVXOJfe2piqRQTqhF+kbDhGVUqahaR7TQDaFTPXdFhEFsUgLqqRJXkTBKhb2TwBJyXkb0xUyCHIhpR/KHHnjC88abM3XlrLeGthGEFz6n1/W/tEz2kE3XicVm29Ov4srGeBgtr0h2IsUo16+1aTfEzV0e1LhJjOWUfkvVGTAr7WpGVMWJJqBBHlVW3pNN0VYgKMx7wnnsYL7lZbUZZRgHS5uYOn1W6Qk/KaRZ/TSTCCUIuq3d5IpqIxfis4asqqshY06lx2eUUsPib7HCKu8vvYkRcnj9BLCP+9/Ov9VVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hTkq4eBHcqxwTjqso7JND2boV5E9CK+kC2Czy7GR0LM=;
- b=LbonY5lBTWV/20ve0XBP9lkUctnBnctg21mPPgkRJWKBxb8LFY2xauBBQe5TfocvyeBfcFCzXCI0xEu9psHS/3bpjuJjsykTEqlZwsgBMr1/UChWf9QPsq0/mHMiN1nfazdkOCJ9NI32mB4OMF63nRd6Obgr7TatfgpVsfleBVn9615+4YJ6WpvX9lXgku0B8MPpRnZCn/BCqz7rxTCmnZSGVOfAxsDAUyUd44YBuCYkkLXyE3K/hd+4Wn0IkUiayODN8q4brhgH0gzBoPZ6UwINnPtKZG9GPm/D6p4nZg0Co/TzyWOcTKYXKwFE2zQisVG7QOCRMZMeN6Vmn5VCSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hTkq4eBHcqxwTjqso7JND2boV5E9CK+kC2Czy7GR0LM=;
- b=VfXVp6QnUhJZAUxp130oeCfjOTXdtvgFnF1aofWM/bf0wDaKY2l3TqCuwrXk3sOZ1EwAJe2ucSV45yGt0ozyod/bKGfXZtbx/YyRBa2jwZEPbWJmJu3hQqoA8g18T6cIC8y0PO1z49X9F/GuOHJjrmLJO1MQQsox549p+VzeRE8Tq50cHQlnBCcIfhhzvcqFdosr2ThhM+VlAYNkcB30hzvjTCygRYLLbNTNX69z1i0RIXUV4Z/1pBiJXOX3XMPd5cI66zyYtsBtqkJfgaQmtvXTtU7bAxSR3pgWwgKWLzWude6Us5YBahmIFcvI0AhAtH1gi5uTgeX0/JDUz7602g==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by DS0PR12MB504719.namprd12.prod.outlook.com (2603:10b6:8:4ec::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.22; Sat, 26 Sep
- 2026 02:07:41 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Sat, 26 Sep 2026
- 02:07:41 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 25 Sep 2026 22:07:36 -0400
-Message-Id: <DLOVQMACWLZ5.1WFOTGRG8ZG92@nvidia.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>,
- "Vlastimil Babka" <vbabka@kernel.org>, "Jann Horn" <jannh@google.com>,
- "Pedro Falcato" <pfalcato@suse.de>, "David Hildenbrand" <david@kernel.org>,
- "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
- <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet"
- <corbet@lwn.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>, "Jason
- Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>, "Paul
- Moore" <paul@paul-moore.com>, "Stephen Smalley"
- <stephen.smalley.work@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
- <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
- Kartikeya Dwivedi" <memxor@gmail.com>, "Baolin Wang"
- <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
- Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
- Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
- Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau" <kas@kernel.org>, "Doug
- Gilbert" <dgilbert@interlog.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <mkp@kernel.org>, "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter"
- <simona@ffwll.ch>, "Helge Deller" <deller@gmx.de>, "Sebastian Reichel"
- <sre@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Peter Xu"
- <peterx@redhat.com>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Oleg
- Nesterov" <oleg@redhat.com>, "Peter Zijlstra" <peterz@infradead.org>,
- "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
- <dave.hansen@linux.intel.com>, <x86@kernel.org>, "Arnaldo Carvalho de Melo"
- <acme@kernel.org>, "Namhyung Kim" <namhyung@kernel.org>, "Mark Rutland"
- <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
- <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>, "Vincent Guittot"
- <vincent.guittot@linaro.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Will Deacon" <will@kernel.org>, "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, "Nick Piggin" <npiggin@gmail.com>, "Arnd
- Bergmann" <arnd@arndb.de>, "Muchun Song" <muchun.song@linux.dev>, "Oscar
- Salvador" <osalvador@suse.de>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Marc Zyngier"
- <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>, "Catalin Marinas"
- <catalin.marinas@arm.com>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
- "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Janosch Frank"
- <frankja@linux.ibm.com>, "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>, "Gerald Schaefer"
- <gerald.schaefer@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>,
- "Vasily Gorbik" <gor@linux.ibm.com>, "David S. Miller"
- <davem@davemloft.net>, "Andreas Larsson" <andreas@gaisler.com>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
- "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
- <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
- <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
- <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Kemeng
- Shi" <shikemeng@huaweicloud.com>, "Nhat Pham" <nphamcs@gmail.com>, "Baoquan
- He" <baoquan.he@linux.dev>, "Youngjun Park" <youngjun.park@lge.com>,
- "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
- "Shakeel Butt" <shakeel.butt@linux.dev>, "Axel Rasmussen"
- <axelrasmussen@google.com>, "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu"
- <weixugc@google.com>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Michal
- Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>, "Xu Xin"
- <xu.xin@linux.dev>
-From: "Zi Yan" <ziy@nvidia.com>
-Subject: Re: [PATCH v3 16/40] mm/vma: only allow mmap to clear
- VMA_MAYWRITE_BIT if kernel-owned
-Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <linux-rdma@vger.kernel.org>, <selinux@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-scsi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-trace-kernel@vger.kernel.org>,
- <linux-perf-users@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <kvmarm@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
- <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
- <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
- <sparclinux@vger.kernel.org>, <fuse-devel@lists.linux.dev>
-X-Mailer: aerc 0.22.0
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org> <20260917-b4-mmap-prepare-vma-flag-sanify-v3-16-4583d8a23bca@kernel.org>
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-16-4583d8a23bca@kernel.org>
-X-ClientProxiedBy: BN9PR03CA0053.namprd03.prod.outlook.com
- (2603:10b6:408:fb::28) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bvH3Tgyf"
+Received: by mail-pj2-f41.google.com with SMTP id 98e67ed59e1d1-3a0b89592d2so737213a91.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 19:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790388535; x=1790993335; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zk4olH3xptNmJQK41WU1h1Tdamzx/Da9rId2v3ZsrK4=;
+        b=bvH3TgyfvDOVGLufEeDGZ6TwxoDksEcmNO6H3z/+knVZ7Pl1KIifVeOrEcEjm1kBBX
+         Xg6Z3X145SK6O4YqbHLwsc9o/RmcdcOlChLHQOOk6q7JKVSEiJ11Z+e4fq4FBM/QEpgm
+         w1EH1vxPY7Jy5OJYe059Yh6W9SljnmIqf3tCrRKUBCYvXstSWXq4W44EFIfqhJQQVIqV
+         xOCjdOFw5JGa+bJqwe/xUMmCehrMoBnzP873Szl6EZf460yeczQrem8vNmju00X5MZj9
+         1TiBVwOjmci5jzhUUMkRoVnnjptf4jijCNu0N2e0A3L8Wyk957wbxo0ZMuHuD1JhM06X
+         Sgvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790388535; x=1790993335;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zk4olH3xptNmJQK41WU1h1Tdamzx/Da9rId2v3ZsrK4=;
+        b=vq1kKVXsIPbH1wUM3wnWe1gF8GbxHacSpGAcX2e+g4MOfTHyDYOPRIvEbBtROeYYFb
+         oYxYwcKi+dgZBz1+n0c/WcHM7/GeoAkAgbNTNTjSEtLDaekyBV5rbVcf6DAYhmX4OsHs
+         bjsV6jQ9jK4NSVwB+gANQshy8eaKa/LDLOtPUB5eQnT8uA1cv3B4DfByQEZUc5UDHDfo
+         Wbt1eW/ohy15POMLRMud869kBdJrdFEa26D5SBLr/d/kHEYHlARruYNgRuUFwAHyjlB1
+         4e/GO3+t074xyiNvuv8j3djhndj7mdNfuJB5lphb+ulenxjfMGBXMtL9TnzaJT9W44y+
+         9RzQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxbU5cAMv+nQMvglhZpLnGg+AOW/UuPu7uvJlK8+TA63g0425L06pjF4jXHKTbhfbaG9Y7EbwYKtc8ANr+R@vger.kernel.org
+X-Gm-Message-State: AFuF++nCTyEgXhnLk+EkHI2Zix5OTZ7jinVZjMqlV+kVitnerh6mc27g
+	+XV438X+hyI2iRMeMy6O3PTGeqDNBI91ViAOAJvppLpFm0sxGz0QbNqH
+X-Gm-Gg: AYBFou0ATraYuH7BiIWOAWsw5+Bvs+hxJHocpzqLV9BUTCvvYjUjlI3nVeXBgeNUXPf
+	hMNUmR7hnZpWxYw3D+95mHTVsJgn7rC79snOGpeQfTOfaet+vhxVevXCzdEaX2/YxmG9Q2HRBfn
+	jekZ9J7hldXj0XcYmuY1FUzaCH/tC3bXybI+YQTvZbvh1ZGZounQOI360yhg3fDZdiATQ99O8B2
+	3u53TvjfgDrGKHVVlsHrOVkb7zIqaI2ytXDhwRrOtENe3xgy0vfdwsWvchkOomlNfz7jOKJc1NL
+	mGVqfRX3a/qzhzCRR3HBy8cvJrje0ENupFlBBJK/l1aqgp5rBBBWBH/kNifp3fMI0o6BQaKdMKa
+	mIWnkq2xI/U2p9KnX74jRubm1ASvrQF0CoNX5kdyNRpbZZS5Tynd/1spKSncKJwEw1kFHPrNnha
+	NZYR4lBmHP1ZXm7cNWrn6OrVkr64rlJeh0+UxZi4jcCHVwQrdGrOCYH42wrtKmpvfmi0Zvnayrg
+	mpm+PYOLFyIIifRFkgL+Lair9hjLTcAr8T7SjHyDOGWrTsYzWEJAPFRdQVUuMq/47AHfE3ekznX
+	acwWVkzR7Bg3LXEJAIRICrnwwj7fZP3MeLtvZkI1Q4zAulPPMlaV+EWFrmZCNp1lwqYFNw==
+X-Received: by 2002:a17:90b:4403:b0:3a0:cb2a:b501 with SMTP id 98e67ed59e1d1-3a0cb2ab99cmr1819581a91.11.1790388535229;
+        Fri, 25 Sep 2026 19:08:55 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0976cacbesm13252595a91.13.2026.09.25.19.08.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 19:08:54 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: jack@suse.cz
+Cc: amir73il@gmail.com,
+	repnop@google.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] fanotify: report names longer than NAME_MAX
+Date: Sat, 26 Sep 2026 10:08:51 +0800
+Message-ID: <20260926020851.2938961-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DS0PR12MB504719:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b0d669e-e538-4760-ca84-08df1b72f1f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|23010399003|1800799024|10067099003|11063799006|56012099006|22082099003|18002099003|4143699003|921020;
-X-Microsoft-Antispam-Message-Info:
-	U20ke2FEct5lnirr8nHPV2xPdFFLDatHzv157KPXp0jJGykYpuWfr8HMqlIKmnh1EOvo7z2Lse8WWRYcTm4xN8+3XvLxbt3PoKrUkmgHE5CQMwh9J4j2EnKbIjnBorOJTgrNtxYw/4teFFeAWO8quyn0jdqqnbjdSgQHewruRq6pGEV8oj6/1RqP1XZfxvYI6PtYqoNweQHOgLHpBgRwdsNV2qDh8/Wp+i0Zct4rP/b0WlFJkdMMNOwNtFpv4aON9l1qcTheVetJ6mTjQHMV3KtryIJTpUvD611z3awLkVxMORZw+vrZKAXeRWhH74Lr70PuO8V9JYvGHBEh5d3X3JbhAkPPT9KlFkQI+5piUZIl+ZkXBdQt/lQ2qr0oO5d897zXH3ViIGpShAuE+Lwie4KCqzEwM53AR0Wkpc5UvqKA6mJ50zf5xgs4ydp84QLNdW8lcsxb6zASB5fyVce2HmQNDd+Pd0eGYjyIPWupv2yUB+E2YjHmo12kg9W9ZCg2gW9wQKUh4OKaZQYufdGstIPZU7lAbZz/U+7Hw25SjWU5zYps+hiOSYmfeyBqnRa0qyXfEC4cWOrXNrH1w8V3Xg88WjRrtGl6CtdSZLUVlAdCOQTJvIS/wwx356uz2m5lMsgO1/CKmpFd9MqzYDRrzDOxnr67lbmNtMlbrZfoNh8XWqh0rqIkkZkgowyDEbXsIJqOavU2paJsTH3RjI23vw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(23010399003)(1800799024)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003)(4143699003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RmtnajZyUFBLaTFwR1RlZVI1SnR0WkNwMmgwVkViWGZuZHlQQnR6SVZPYnp5?=
- =?utf-8?B?MERGOHNBbGpjdkYva3hrMFNhYXd4UU1manZubERkbHlwcFJhckhjbUlEK0x5?=
- =?utf-8?B?alpDWCtzdmsyd29qKzRHbWM1MTRPemZDOVpXV2E3VDBLWi9XaGRSb3BkZkVG?=
- =?utf-8?B?TWRBbGdHcWVWRytBUkE5QTl4cVRKVEVpUjdkbnd2VUNuOTNaUkp0QXVaY0Yr?=
- =?utf-8?B?WDgrK1VxNndqUExkSG9KMk1TTXN5dmRGaHlrL3dlMEVaQ2liRHRoY2MwdlVQ?=
- =?utf-8?B?NTZoV0FwcTBtSlFBZ0xpNDdpVFdVbFRZbmgzNkdTTGNoMUpoMnU0ZjJ5RVd3?=
- =?utf-8?B?L3BmbzdYM2Vnb2Iza1pQQWNqc3JwV0ZqVXl6cG12WlVQOGU0N0xMejJzK3l3?=
- =?utf-8?B?YWgzQzJmNXQ1c0ZsSG9KZ3RLZ25TY0lMVkpwZG9wUjMrSkY2d0owZ1ZDOTh6?=
- =?utf-8?B?cDBpK0o0M2QrSDMrbjFianhRM0tmb0JzRjdzODd3Vmx5MUh0Z2ZjbzVYOGUr?=
- =?utf-8?B?cS9VbE1MYVhybW9GU2VId1Zld3pBem9hZ0FCc2tXSVBZamczQ0dsR3FwMGNu?=
- =?utf-8?B?YWM2VHp4VFQ2UHFBK2hISStBZHExV2NIZVhKTy8wdVVPMGlmdGVROWk0SXhT?=
- =?utf-8?B?RUdvd0xRdEJjM096emVJZm5NUmcxNFdhU2RWQzl2K2w0dkZXYUxycTdPbHhR?=
- =?utf-8?B?UTEzbzlTQjNrM3o5YUZ3L05RRmRaRjN1MXd0aTRVQTJWeDRyZDIwUEczS1RD?=
- =?utf-8?B?cjJod3NjQjZJRXl2RXJQRnk3ZlNhZGlJcTVaWHZCUHR4eTZNQitCSk96U3N1?=
- =?utf-8?B?RXhQNnpRbHNBSWZ4NGI3RndxU2txQWRSc1VZT2o4ckcweit2UjNNeGhiNitZ?=
- =?utf-8?B?NmU4c1A2cFVVYXNpdy9sSk10c1RENGJzL2I2OWtIZEJmWlBYeWRvQ0ZPci9u?=
- =?utf-8?B?T0ZuWVZsUWZzZXBUTDVhR1RTNTNaa1YvUzJPMHh4RHNNQ1lDQUlIY0RTdzhs?=
- =?utf-8?B?NmVLbmJzdHlnN0l2L1lmVGxZSGlGSHoweUJzNlhHM3J3V1ovOGJnYzFhNXhv?=
- =?utf-8?B?NDFhMEY0QzNESUVpTzNBY1IySHdjNUNIVVIxa3RCMWgzOTY3TEl5QkNRMnhD?=
- =?utf-8?B?SkNGRVhjUEtvMStFUElucGphelRvM1oydHhudHg5ZHJWMWticXI0UEJOSTA3?=
- =?utf-8?B?YU9JOGxLYit3ZEdNc0V6dEcvOTR3OVR0akp6S2NtSnQxRU1QNmNISlZ4QlR1?=
- =?utf-8?B?UDd2eHVTbldnb1pjL1llWU82MWRYSURhRWJUSS91ekU5TUxZRk8ycm9KTnJs?=
- =?utf-8?B?SEc1T0U2YzIzWEdDNDZxTFR2MGh5NlZMS1Raa0dvb1hhQVFvaGhpUU9Oc0h0?=
- =?utf-8?B?bi9ONGswajBQSnlDV0EvUFFyUVg5YnlGVitrb1dyUnkweDk0ZGtWc3Y4b3dH?=
- =?utf-8?B?alE5dHBUU0c0Zlc2aFc3OUFGdVNrRk5ibUhBQ1NqYUpPL0wzMmcrVi9NUFdh?=
- =?utf-8?B?dVVUWjZnckQzcndidEFicy9HYnN4ekorR1RsdXc0VGlnMVZXc0szRFBXRnU3?=
- =?utf-8?B?cTZPcGhGeFJRVWlhemcxVm0xT2FUYi8xZERham5ZVldvd1E4UXVnTzVEbzRl?=
- =?utf-8?B?NG1lcWhNYzdhVUI1TDdRZWd3TW9pdkoyOGNERUE3Y210ajBMYkhlRnV2R2NJ?=
- =?utf-8?B?T1IvR3hpemRJRjQ2OGhHcTRyTFhFRHM3bmhReVpHQVJPWmJ4Qk8wTWhjTHAy?=
- =?utf-8?B?dTJHOGxTUE5SVFNQNFZkZDVXc3lHWEpxL2lhaTZrbTkrS0hCVXoybG5tL1JH?=
- =?utf-8?B?TFg5VG9acitxYlhoWGoxVUc4aDRBcC9hRFFWRVp0WHlpVzRIT2Q5YVJsQU44?=
- =?utf-8?B?Tk9LNkNHaDVHTmExUGwrdTlnNDI4YTQ4eDVkcmNBQTR1WUtrM25TZ2tKWUNv?=
- =?utf-8?B?TTFEdFRuY3UwRExOb0RTSDVuQ0Q4dit5ZnNHdFh5clh2a3U4cVFUZTdCeVIw?=
- =?utf-8?B?OEpNZmM2dkZISzVlaDFicEFUQ1FYTU5NUlFNdmJkUkVXdkJ4MXhDUGRETzYx?=
- =?utf-8?B?bDVEQysvTzBmQkNqMzV5WGNkM3lsS3ljK1Y0aUdDQ1pIVVdBYzQ1dUo2L1dQ?=
- =?utf-8?B?ZVo3NlA5SFRMOWtDYmJtckwrYWl4REM0OTFQRzVjenVLczdPOGRpNUFHRnh4?=
- =?utf-8?B?NnFnQmJJbXhyWFF6NERMQWFBRjQ5dk1zUm9ETXg2cit1ejRPVjgyUEp6bzRp?=
- =?utf-8?B?RGt6ZXV5eXRiZzhxbzB1KzFYcTR2Ry8vWUpzcUVZN1VGZDg1RnpMTDdzeFN4?=
- =?utf-8?Q?GmOh2k0mOxmUylDjHI?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b0d669e-e538-4760-ca84-08df1b72f1f3
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2026 02:07:41.0639
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IAuLETM+wQCdkvZhI2SYx1C4HUCUVY8sKefe/w1KE/b/I9MkSgKleu4Rk5NcCrBd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB504719
+Content-Transfer-Encoding: 8bit
 
-On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
-> For ordinary files the only way the VMA_MAYWRITE_BIT flag is cleared is i=
-f
-> the underlying file is itself read-only.
->
-> This means that mprotect() cannot mark a shared mapping of a read-only fi=
-le
-> as read/write, as doing so would violate the read only attribute, and
-> permit writes.
->
-> In general, we do not want file systems to be able to do this for
-> read/write files.
->
-> Doing so would violate fundamental user expectation of file attributes an=
-d
-> likely break userspace.
->
-> However, drivers pose a tricky problem here - the /dev/xxx file may be
-> read/write but provide access to a resource which is fundamentally
-> read-only.
->
-> Therefore we must allow drivers to be able to clear VMA_MAYWRITE_BIT.
->
-> To achieve both of these things, restrict this ability to kernel-owned
-> mappings as identified by vma_flags_is_kernel_owned().
->
-> This constrains this ability to drivers which own the mapping's contents,
-> whether memory-mapped I/O, kernel-allocated pages, or ordinary pages they
-> map themselves, and so define its semantics.
->
-> Every in-tree mmap hook which clears VMA_MAYWRITE_BIT, some twenty sites
-> across drivers, filesystems and bpf, establishes a kernel-owned mapping,
-> with usbmon and the ALSA PCM status page converted earlier in this series
-> to do so.
->
-> Note that drivers may, if they do not gate on VMA_SHARED_BIT, be able to
-> disable MAP_PRIVATE-file-backed mapping CoW semantics.
->
-> This is perhaps not always intended, but we retain this capacity to
-> maintain existing behaviour.
->
-> As all drivers which clear VMA_MAYWRITE_BIT establish kernel-owned
-> mappings, no functional change is intended.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  mm/vma.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
+fanotify keeps the length of a reported name in a u8, so it drops any
+name longer than NAME_MAX and warns:
 
-Makes sense.
+  WARNING: fs/notify/fanotify/fanotify.h:217 at fanotify_handle_event+0x2e82/0x39f0
 
-Acked-by: Zi Yan <ziy@nvidia.com>
+Such names are legitimate on some filesystems.  vfat mounted with utf8
+takes up to 255 UTF-16 characters, which are up to 765 bytes of UTF-8,
+and FUSE accepts names up to PATH_MAX - 1.  readdir() and inotify report
+them in full.  fanotify sends the event without the name, and for
+FAN_RENAME it trips a second warning in copy_fid_info_to_user(), after
+which read() fails with EFAULT and the event is lost.
 
+When syzbot hit this, Jan suggested accommodating names up to PATH_MAX
+[1], the limit readdir() already applies to a name
+(verify_dirent_name()).  Store the name lengths as u16, which keeps
+struct fanotify_info at 8 bytes, and drop without a warning only names
+of PATH_MAX bytes or more, which no path can refer to.  An event with
+such a name can exceed a page, so allocate name events with kvmalloc(),
+as Jan also suggested.  Names up to NAME_MAX are reported exactly as
+before, and the record format is unchanged: an event with a long name is
+just longer.
 
+Link: https://lore.kernel.org/all/20241112115059.ecvomkalee5m4i4i@quack3/ [1]
+Fixes: 2d9374f09513 ("fanotify: use macros to get the offset to fanotify_info buffer")
+Cc: stable@vger.kernel.org
+Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+---
 
---=20
-Best Regards,
-Yan, Zi
+Tested in a VM with KASAN, lockdep and kmemleak: on vfat (utf8), names
+of 258 to 765 bytes now arrive with their name, including FAN_RENAME,
+for root and for an unprivileged watcher; FUSE names up to 4095 bytes
+likewise, also a FAN_RENAME between two of them.  With kvmalloc()'s
+kmalloc() attempt forced to fail, the events arrive intact from vmalloc.
+No warnings.  The LTP fanotify and inotify tests give the same results
+as before (fanotify20 skipped in both).
+
+5.15.y fails the same way (the same warnings and EFAULT on 5.15.221),
+and the patch applies there and fixes it.
+
+Honza, on the msdos report [2] you pointed at the filesystem, and msdos
+now rejects such names (9d7ed813ee5f).  vfat cannot do the same without
+making files that other systems wrote unreachable, and FUSE allows them
+by design.
+
+[2] https://lore.kernel.org/all/3kzvlb3wpzbg6k6ttzp6rh2cfmz3hmmmlisgxjn5u4xmaaqibm@qkre7flkhejl/
+
+ fs/notify/fanotify/fanotify.c |  4 ++--
+ fs/notify/fanotify/fanotify.h | 20 +++++++++++++-------
+ 2 files changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+index a208a7ec1692..c8289aa8a70a 100644
+--- a/fs/notify/fanotify/fanotify.c
++++ b/fs/notify/fanotify/fanotify.c
+@@ -656,7 +656,7 @@ static struct fanotify_event *fanotify_alloc_name_event(struct inode *dir,
+ 		size += FANOTIFY_FH_HDR_LEN + dir2_fh_len;
+ 	if (child_fh_len)
+ 		size += FANOTIFY_FH_HDR_LEN + child_fh_len;
+-	fne = kmalloc(size, gfp);
++	fne = kvmalloc(size, gfp);
+ 	if (!fne)
+ 		return NULL;
+ 
+@@ -1050,7 +1050,7 @@ static void fanotify_free_fid_event(struct fanotify_event *event)
+ 
+ static void fanotify_free_name_event(struct fanotify_event *event)
+ {
+-	kfree(FANOTIFY_NE(event));
++	kvfree(FANOTIFY_NE(event));
+ }
+ 
+ static void fanotify_free_error_event(struct fsnotify_group *group,
+diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
+index 3710543dbf82..4aad60d2aaf5 100644
+--- a/fs/notify/fanotify/fanotify.h
++++ b/fs/notify/fanotify/fanotify.h
+@@ -43,9 +43,16 @@ struct fanotify_info {
+ 	u8 dir_fh_totlen;
+ 	u8 dir2_fh_totlen;
+ 	u8 file_fh_totlen;
+-	u8 name_len;
+-	u8 name2_len;
+-	u8 pad[3];
++	u8 pad;
++	/*
++	 * Deliberately not limited to NAME_MAX: some filesystems return longer
++	 * names (vfat up to 255 UTF-16 characters, as Windows allows, which is
++	 * up to 765 bytes of UTF-8; FUSE up to PATH_MAX - 1), and readdir() and
++	 * inotify report them in full. Only names of PATH_MAX bytes or more,
++	 * which no path can refer to, are dropped.
++	 */
++	u16 name_len;
++	u16 name2_len;
+ 	unsigned char buf[];
+ 	/*
+ 	 * (struct fanotify_fh) dir_fh starts at buf[0]
+@@ -168,7 +175,7 @@ static inline char *fanotify_info_name2(struct fanotify_info *info)
+ static inline void fanotify_info_init(struct fanotify_info *info)
+ {
+ 	BUILD_BUG_ON(FANOTIFY_FH_HDR_LEN + MAX_HANDLE_SZ > U8_MAX);
+-	BUILD_BUG_ON(NAME_MAX > U8_MAX);
++	BUILD_BUG_ON(PATH_MAX > U16_MAX);
+ 
+ 	info->dir_fh_totlen = 0;
+ 	info->dir2_fh_totlen = 0;
+@@ -214,8 +221,7 @@ static inline void fanotify_info_set_file_fh(struct fanotify_info *info,
+ static inline void fanotify_info_copy_name(struct fanotify_info *info,
+ 					   const struct qstr *name)
+ {
+-	if (WARN_ON_ONCE(name->len > NAME_MAX) ||
+-	    WARN_ON_ONCE(info->name2_len > 0))
++	if (name->len >= PATH_MAX || WARN_ON_ONCE(info->name2_len > 0))
+ 		return;
+ 
+ 	info->name_len = name->len;
+@@ -225,7 +231,7 @@ static inline void fanotify_info_copy_name(struct fanotify_info *info,
+ static inline void fanotify_info_copy_name2(struct fanotify_info *info,
+ 					    const struct qstr *name)
+ {
+-	if (WARN_ON_ONCE(name->len > NAME_MAX))
++	if (name->len >= PATH_MAX)
+ 		return;
+ 
+ 	info->name2_len = name->len;
+
+base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
+-- 
+2.55.0
 
