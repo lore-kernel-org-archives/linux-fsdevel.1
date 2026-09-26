@@ -1,89 +1,72 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f14.google.com (mail-dy2-f14.google.com [74.125.229.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C5954706B
-	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 03:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE218388E6B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 04:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790391697; cv=none; b=rbyyJTC5MZjXO2oJ7+2jqrpb779m+W44epJ3EKjF5KlJ02P+xB64YwyGrjsqlGYg3vsQMSuTu0whUAWRbrsEA01C/+Tj/Azn1Ii3g7fGz+lsZyqwKhsvD/X+PAHNyx7NGA26zFgfUSrzGccYVn5VJ0XOi9hriy934naMV4BAJjw=
+	t=1790396963; cv=none; b=HAPPfEjRWR8JaVqXHPjlGth2ypOfpt//jBGLOse9/xWL6PL4mbQin0K3ZX/S4d4FTb6Pwvy86dvL3tL/odOIt57yYzLonJBbtU9z1Y3+Tn93E268Ib9i94U9VON5LzYEW5wVyMpYG9GZjMFfU0NP6HScGJXvripGXMK6KfMYfQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790391697; c=relaxed/simple;
-	bh=WreOkf+pubCB2YPqHxKIYu9FitIBbawTqQnqjeNj3Ng=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DAIv9oz9RluwXPQhg2+BubJLi3tPK2C/pQw6DZs/E6aHrdyzCI1uBkq7MHJqPXXne7gtT1rNvPG5QtwdkKHMWT4vOZg8mCZAx/yZamN4YAa61A7IuwlcFnmMykcfzFMMKeJp+R2ZcgtJW2Ji/yFpImceJbE7cLl40pbQbUNxpU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=hsUiWEM/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TPwKzn74; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1790396963; c=relaxed/simple;
+	bh=AmjAixs8IBLCEzpahClBNbu2H+CLMuGIdnJO6gvSlkU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jj8E5d2xhb2CiuQcPcOVxtc3EHGKVu1WJBWa6b4Qf/fooXlylK1oE2xaJ+ohp+UaxNpJoZjV//Xwd/ZKmfZgcC1PZDD+QOi2Lsp314or+cGu6Nu6ezVJRtMQnlmCxuiZrbon5oPNR1Zc/AotmasytgE6yGbTfmTSz8S7TLen5tY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BsQISLs1; arc=none smtp.client-ip=74.125.229.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="hsUiWEM/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TPwKzn74"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 8AB927A00E5;
-	Fri, 25 Sep 2026 23:01:35 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Fri, 25 Sep 2026 23:01:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1790391695;
-	 x=1790478095; bh=kSu31aocUzcYzaV1YdEEerwyVEPUaUyVfqAFCDz4HSA=; b=
-	hsUiWEM/zKfr1aiLvfemk5iWYR5QKTIiDtl+ZjPZ3L7FqClq7ypEgjHHjtyYZ5d2
-	NMyR/rvTBuk4Jg1jig4C5WZe/AX6u6pZf/KeJcrg+jUU3slsqsqjZ2hSB84Afi/f
-	ZylUV8cHrBUpD/iTT2LJnGhQYUvdRwPrnu47S3aVS6S3rJKJgFzzPSYVjdV8K/z7
-	t7NjGQji5mqgqW4rvd0m/J93kwB0COLzL4qFDrlGoLBWL5qd6IpoLhApnPPPhQ+L
-	7UpuLf6fzI9dS7X7oNv894o9A7rCtIFx/5LAFC32tQvyKhf4LhYkwFZoI6bIlmow
-	1x6074xZIcsBJUJkPkhFcA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1790391695; x=1790478095; bh=k
-	Su31aocUzcYzaV1YdEEerwyVEPUaUyVfqAFCDz4HSA=; b=TPwKzn74ZFeYzpgGQ
-	NTsYi9m8RnBzmnA+sLhKjw3oYkoKnMfscxk+p1edJynycOlpUvPFY2fYoad3ggtH
-	9Bb0rMFw3gGyS0NwIprtwbPRG3J/7JF5QONJQbK73iDKJfh7+ClHzK/ylSrjYSiz
-	DEC+4BQI8I1CwAikNPn/i95X3uNbF/vOraciLB+MQAfOHSme+DPJ1aXQq5nWPN1Q
-	IuhP7g9hkkfeOa2DBt+FxSYz5mu2v97L5F6wqTv2AYA9Y0icaehcil25LkBMVzkg
-	OdVNjxK7PUDxP8WPgi+TgZ/37gSuB4YHuElyjEjv2SND6Ouf9CGvYMQWskMnITDD
-	DSFTQ==
-X-ME-Sender: <xms:jzW3as2dmr7XvlxlghzBhcRjgO68oNjfjd64vbNXZRY8c3fZSUm9vA>
-    <xme:jzW3apo-S4Omu9AoHi4W5VtCRS6ZMjJAcKz9aE7wyUGEZyD0YCUCMFosw3u99BzsF
-    N_rHUcxcaq7MBIB_j-wBCzJGFgZqOK41tItNq78oYn-OaiKM4vD>
-X-ME-Received: <xmr:jzW3aojYXUrtyaISpBJPbomKHrnRk-unBCbfLOuVwn_IgxixXjrr3SjfQwRyFqVjqvwZWmPqvc3rnMxC2nTMMtVultYBZfM>
-X-ME-Proxy-Cause: dmFkZTGF7YpWubyzu579fb3slujvEFieLqPzpCtc5hxEQ6L4lVNSnbIULlGqjts7qW58y+
-    fiT0LsxSLxPrEUq2phpCF3WfxXmMcNSrlRUtslDj9DY6InNnwyG5ElgIv0P1ksEjQOdF4f
-    dY7iP287oVHqnyKstxicoV/3t1bbil4uJDXOkyrpw/L3I98BXHu3TNEDIOa5p4FE0sizkq
-    a6AG2exOvowDXytBfSSY7xF/1KMITKSh3ACkC3VrNC1i2/q8qpt8TonMIY4NtHxPlpqVK6
-    U2Aym4WtB79iItXHKNcF2C4TdawhSdOFqwrf15bpfAvErmeqoRRzZIEbgC0Miv6VTckMsl
-    dUonoI3154Mz+SdTjdA0/n1Z20bIhHLC86wNAAC1ElCGscG7QDG37CsgmZQBIRuE8LUoKy
-    WGP5b3ygfdmpjfGf8D6rxDuXVL1n1oOvlrx7tFyjVBnDkiwt4mQ+S8ukrnWFrPmWGsyIgh
-    ykPtG0Rgxh4yfFl5hkbHkxZUKsv0UBcIabVshp7+QjSApuZmmpHFnO7fB1YpvvNTP3B8GG
-    tu7BrQTmgnsNb41yKdD0RPFtIt2FxzxpW31T4Bv6lIwVP3pzYWM/TV/MHHD434oHKwJySI
-    +3liCazQ3VTfsz9XCugiXw/3quExwcwdhsgOZaRozgsQ4xvBzzypLbLm8D/A
-X-ME-Proxy: <xmx:jzW3al8XbJW0ES4T_TMdrS0ot6SGEdDNqgmB90aiMPXnbWnxx_pkLQ>
-    <xmx:jzW3akV9GSuVFNVntk3dw5ezPC0hwkWLcNS-MKHkEdcUi2aF9xkUSg>
-    <xmx:jzW3apAKpKPaIKjKrcCp4v9-fqe3y5HOSmJyFF2VpJy3O9pMp0fDIw>
-    <xmx:jzW3apHbHHR951SF97wEnWBeuJY3XF8QCjLXngLEpQTFb5DuWt1U2g>
-    <xmx:jzW3aqXCioe11fvSWyrwdch-cMhIU6S6srQSScBvkkEflljltlESPmJx>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Sep 2026 23:01:32 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>,
-	Jan Kara <jack@suse.cz>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BsQISLs1"
+Received: by mail-dy2-f14.google.com with SMTP id 5a478bee46e88-328664b7528so1373342eec.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 21:29:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790396961; x=1791001761; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VHcmLp5DVfoHotMAHwEml13kkU5IiEY0fdjQX09eX9g=;
+        b=BsQISLs1NWvOJQ3t8kBVUQCsP2kLm4re+DRcusyZ//Bu3+lVQW10dSbleaGYw8ZbbD
+         R6BAUQBEZviiwIv/+f5QaJW1HMAg8B2q9LiQcXB8LIAwrZKRew/+HGV8Pu7Yo8CA6ns2
+         TCCn51TMW6CDA1KEly2Lwja6udA9v0ebzItm9dvMwDYzzD5MCMxWA1vI/4KcJUkB5wCG
+         yVJkblk4qOM2tGKPLvj1YIL7CYryCXswyaMtLFE54cFyqoidPEBtzJRZP1CohbVfSI1z
+         9y7/J3YNv0U+yD885hwotywITRAFrs9Cs46+Yk183KRub1wuB6WVnOBLJikLBXD753or
+         dPVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790396961; x=1791001761;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VHcmLp5DVfoHotMAHwEml13kkU5IiEY0fdjQX09eX9g=;
+        b=ZaTR17K5RdAorNhwaDZ1xzhcctwGUdjgQFD3qhmAqIGWxHKbjLu9BoB9Q+IuwGt5JF
+         jGipeWEo1MDfp3rvy5HPQERq41LNEKiAqLq936GafLK+JW6hpwWBJ1NOTicSMNpxyqjU
+         7iYjjnoZyvzti3Hlpd6byAOmHgOXCP4jVearPA9/CMR5zNmMCjmg6lmZTEZVW9AKkeUp
+         5fJlVvPs/W/GpqqjHljDVNKESG9imYzXf5U/9hx+e9Tbsxk0y62QL9RULlHMOjqv/2x5
+         iXWblq9B89tdzQXgyH/nY2cs0+TJyXBFSbupxmm2xCQDvFMOHx2jU62oBmOMyurrdRdu
+         utGw==
+X-Forwarded-Encrypted: i=1; AKwUvBz0XGNQKFKhBOHfBUege/yZu51bL/MQgPZ8kX+rVnbOedHckWGXLGrOLorrH9kokl5B1sDmlLE+C+nc6eDu@vger.kernel.org
+X-Gm-Message-State: AFuF++liOQR3sBNiRcbUxk0c0qgu3NQipgyN4hIbqfgkrRdAr8TnKrTA
+	wThyqIyJwP/3/mi1flgAim61sD7Eh7/xX5823jSmkGdS7NPvH+Bpc1L/
+X-Gm-Gg: AYBFou34/txTGbdYZrRocHYxf32VhC/nYJIuEDvLEdC9Onqv3cUEbpYSfMLZMsw83KX
+	qLGiM2BMQPTGQPm6K47H6Djkv1ThiUlfyyHHDoV38o+nDQR99sQffDF3uawfsnKRIpFVNRL6nSI
+	Hzy3wJfAdOZl8FUa2ttzncOKmSe2TR/ftYeyF1+0xF57AJ6RPVgfbR4vSzQ0ztohkwGc5ZgJyXj
+	IeYTQGab3k0ydCeCwnqZfrHTWGi9Avi6DYoVMSsBklHOjDxQsT+WXeLYWs+HPPcR9YPqJwx0odJ
+	f3aOpotZlTyIcsfLkKhvJd8jii2Mu0pihf3Qt7ZEE6p6sWTaPNFBYx7y5tc6CCByWIqBDzVgdyC
+	T2EgehmzBiDR6qXU6D6JJW1mVfCgxzOgpzwhMXc/qLA59mWyYS+WYCN3VSrQOkFT16xidVgvLZV
+	eHDRad1ifI2vvqsuPurW/c8PvlYmSdtmMXBLNrF0aVkqxmWofaubWBN4rwWCn418yIHoQvs9A8y
+	YbPCzBgn/zxaU45fnvnpoj9lFhSkz9EaNytW7KHJi8g2uTeuF5AZ7K7LOQ6zY2y6Dj7wqTOQwyL
+	kXrTCQ+us+LSsweMRMaptYxJIdrN+7wKxyYUXYfnrtzZ6sz2Ye+RuWb1xbc=
+X-Received: by 2002:a05:7300:26a0:b0:334:8fb7:1e55 with SMTP id 5a478bee46e88-342708b50dbmr1593391eec.17.1790396960614;
+        Fri, 25 Sep 2026 21:29:20 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3421dbb2971sm6342963eec.10.2026.09.25.21.29.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 21:29:20 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-afs@lists.infradead.org
-Subject: [PATCH 5/5] afs: use d_duplicate()
-Date: Sat, 26 Sep 2026 12:57:24 +1000
-Message-ID: <20260926030052.467448-6-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260926030052.467448-1-neilb@ownmail.net>
-References: <20260926030052.467448-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] isofs: bound the name conversion and return long Joliet names whole
+Date: Sat, 26 Sep 2026 12:29:12 +0800
+Message-ID: <20260926042916.3277409-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -92,48 +75,82 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: NeilBrown <neil@brown.name>
+Honza, this reworks v1 along the lines of your review, on top of your
+for_next: both converters take the buffer size, the callers pass it, and
+the buffer shrinks to what they need, without size asserts.  But on long
+Joliet names it deliberately goes the other way: 1/4 returns them whole
+instead of cutting them at NAME_MAX, and 2/4 reports the longer limit in
+statfs.  1/4 also corrects the v1 history of the PAGE_SIZE bound.
 
-To prepare for d_alloc_parallel() being permitted without a directory
-lock, use d_duplicate() when duplicating a dentry in order to perform a
-silly-rename.  This creates on in-lookup dentry which will contine to block
-concurrent lookups after the original dentry is silly-renamed, and until
-the final rename happens.
+1/4 is also a fix.  get_joliet_filename() keeps the converted length in
+an unsigned char, so a Joliet name longer than 255 bytes of UTF-8 wraps
+and is listed under a garbled short name that cannot be looked up.
+PowerISO and UltraISO write such names by default (up to 110 UTF-16
+units, 330 bytes for CJK).
 
-As the resulting dentry is in-lookup, we need to call d_lookup_done()
-before d_put().
+Such names are rare: in the Joliet trees of a few thousand archive.org
+images, mostly CJK, Thai or Indic, none is longer than 255 bytes.  The
+images I wrote with PowerISO and UltraISO (under wine), a crafted image
+with 111-unit names, and the survey scripts are at
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/afs/dir.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+  https://github.com/matthiasgoergens/linux/tree/isofs-joliet-long-names
 
-diff --git a/fs/afs/dir.c b/fs/afs/dir.c
-index b8773adc4e3e..dfd1930e2282 100644
---- a/fs/afs/dir.c
-+++ b/fs/afs/dir.c
-@@ -2075,7 +2075,10 @@ static void afs_rename_put(struct afs_operation *op)
- 	store_release_wake_up(&op->dentry->d_flags,
- 			      op->dentry->d_flags &~ DCACHE_BLOCKED);
- 	spin_unlock(&op->dentry->d_lock);
--	dput(op->rename.tmp);
-+	if (op->rename.tmp) {
-+		d_lookup_done(op->rename.tmp);
-+		dput(op->rename.tmp);
-+	}
- }
- 
- static const struct afs_operation_ops afs_rename_operation = {
-@@ -2213,8 +2216,7 @@ static int afs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
- 			if (d_count(new_dentry) > 2) {
- 				spin_unlock(&new_dentry->d_lock);
- 				/* copy the target dentry's name */
--				op->rename.tmp = d_alloc(new_dentry->d_parent,
--							 &new_dentry->d_name);
-+				op->rename.tmp = d_duplicate(new_dentry);
- 				if (!op->rename.tmp) {
- 					afs_op_nomem(op);
- 					goto error;
+(or I can post them here).
+
+Why whole: as with empty directory blocks [1], I'd follow Windows.
+Joliet is Microsoft's extension, discs with such names are made with
+Windows tools for people who read them on Windows, and Windows returns
+the names whole, including 111-unit names in records that leave out the
+padding byte.  Scripts and CI logs:
+
+  https://github.com/matthiasgoergens/isofs-windows-probe
+
+On Linux, vfat and exfat already return names of up to 765 bytes and
+report a limit of 1530 in statfs, vfat since f68e542f3478 ("fat: Fix
+statfs->f_namelen"), and the VFS itself only limits a name to PATH_MAX
+(verify_dirent_name()).  So what breaks is what breaks with vfat today:
+copying such a file to ext4 or tmpfs fails with ENAMETOOLONG, which cp,
+tar and rsync report before carrying on; readdir_r() and inotify readers
+sized by the man page fail; and fanotify reports the event without the
+name and hits the WARN_ON_ONCE() in fanotify_info_copy_name(), for which
+I have sent a fix [2].  1/4 has the full list.  Cutting at NAME_MAX
+avoids all of this, but lists names that Windows does not show and that
+can collide within a directory.
+
+If you still prefer NAME_MAX, I have that version ready and tested the
+same way: there 1/4 cuts long names at NAME_MAX on a character boundary,
+2/4 is dropped, and 4/4 shrinks the buffer to NAME_MAX + 1.
+
+Testing: a KASAN and UBSAN kernel under qemu, 19 images mounted with no
+iocharset, utf8, iso8859-1, cp932 and euc-jp, each with and without
+norock.  Only the four images with names over 255 bytes change, and only
+with no iocharset or utf8: their long names are now listed whole and
+open.  Everything else lists, looks up and reads as before.  Under a
+Debian userspace, ls, find, cp, tar, rsync, Python, readdir_r(), inotify
+and fanotify behave on the long-name images, including a crafted one
+with 111-unit names, as they do on a vfat with 765-byte names.  This
+replaces v1 2/2's claim, whose test never ran the Joliet or zisofs code.
+
+v1: https://lore.kernel.org/all/20260922155524.1993425-1-matthias.goergens@gmail.com/
+[1] https://lore.kernel.org/all/cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n/
+[2] https://lore.kernel.org/all/20260926020851.2938961-1-matthias.goergens@gmail.com/
+
+Matthias Goergens (4):
+  isofs: return long Joliet names whole
+  isofs: report the Joliet name length in statfs
+  isofs: pass the name buffer size to get_rock_ridge_filename()
+  isofs: shrink the name conversion buffer
+
+ fs/isofs/dir.c    |  9 ++++++---
+ fs/isofs/inode.c  |  3 ++-
+ fs/isofs/isofs.h  | 14 ++++++++++++--
+ fs/isofs/joliet.c | 27 ++++++++++++++++++++-------
+ fs/isofs/namei.c  |  8 +++++---
+ fs/isofs/rock.c   |  8 ++++++--
+ 6 files changed, 51 insertions(+), 18 deletions(-)
+
+
+base-commit: c8437ca3d4386af1ae1f2869643e82fdb9c1f0f5
 -- 
-2.50.0.107.gf914562f5916.dirty
+2.55.0
 
