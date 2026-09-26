@@ -1,139 +1,205 @@
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC311A2C04;
-	Sat, 26 Sep 2026 00:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F023530594E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 01:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790381502; cv=none; b=RmTMGEOaI7iofFYQU8P69f6AbWwPC1aaMdW4N8j+555vWM1S9ZeFd2H7QLmoZ8pJgmytJuPYdyRWxjKyczUQn+/QLiaPGILqei5tzbPRyTjqDQ1aa9XVZHFQR3AWO96NKdTQE4BbtyZ9h2G0VX6tMtBwUMXhOWALd7V5a3jRbjQ=
+	t=1790384975; cv=none; b=i/wr9+tCrauEzTs7UXYMj/hSUX1GCT8qb+nJHakqpTBq3pqe3s9l3g3GiaZNDzrAtLhecUyFpjo8plSLHK4yoC72x64yeYOnuNO26FPVqShqrZI8IS+1w/4+t02wfsgPHEvu08UVtJrekVe0pNzJT2kTSy7F1z5RT4qvoXLeWZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790381502; c=relaxed/simple;
-	bh=WdxqYmBzZ6kdwMtQ+NHPMJ/NM69S5iVaaJ+croqWJtw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=I4yxW2dcugx9piZUv4+BVEm9J9UWMJfuW5JHHfntefnoy3H28SUuG8C65lQT3OyL1oJnN0eUqnLvKHY4ofBZXscG3ynnxD3Rxja7ayPFZk0ZhAlnPZTfNVRltEGqmhMfebjlQUDPhTaupMg5jZBSvsXQ8N/lVInrztbc0np2TP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=jtDUL3r6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xWH6yLRQ; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1790384975; c=relaxed/simple;
+	bh=eiCd5uwNN6RH/GFD0Omq0r87XiJMZxbzVZDa48WNDps=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oeweWNyerkKGaAtva20kwNcLkkh4LcVXCSpZujN6pd+UIHzoqxVl9DyCAc3bo75JN96I+SyM/w//t4FdlP1q+pyi4hI5pZ0V6fn3RhvUfie351eKA1qYW+QYEOpWnd8IsPIOW1OAOYNDMUyVSOAgIeIrVgV2Skyb8a/7n1u6YqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IEHKVNXT; arc=none smtp.client-ip=74.125.229.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="jtDUL3r6";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xWH6yLRQ"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id CF3F27A00A7;
-	Fri, 25 Sep 2026 20:11:40 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Fri, 25 Sep 2026 20:11:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1790381500;
-	 x=1790467900; bh=zv6iRblgD9uTVKOWe5EPmZ9usJsI+AGb0INDth0Pgv4=; b=
-	jtDUL3r6IDnguR7MJBkaALE2rfzMwijNRMr8zw/ddfo/pfrpxHERTc18mFEUACiW
-	yebXPfvDhalnORDKOhYOVUpq0OARCiHlK8+mAfYAh/YBrKgrSkiI1qZcyhljN2Dx
-	u8gpTIPDRps5MGbuYx5Cc280PThF1X6QpZiJXxN0WOn7YY064crPT8B/bwpHA9nV
-	2RsJJZvrrIYaevwKxTRngmxXt0Ugr/Gb2685wLnzjM3cdxKjAnFqozclipniv97w
-	vh69z3ouTjGVJYQbKIm8sLeXpRhTJOZOuaTAgs+iJGrCnOUMV5Y8BoMVodV3o5nV
-	KhysJrnVnyAGQ2Jncg/Rlg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1790381500; x=1790467900; bh=z
-	v6iRblgD9uTVKOWe5EPmZ9usJsI+AGb0INDth0Pgv4=; b=xWH6yLRQ9m1DOCRCw
-	/iv5EZfZhduyuUlRuwIlj94NcUvyAKGcrRSRoHYgVJsC9Ei7SQW9P7cbbA+7SIHh
-	KtA9D0TxmMOKjF0lAzjPsF6bV1jkhLiPYi2W4X6WFHMSyAbBsoDsSXwD3VWvqRZS
-	Zze8+nCL2gkP1IlRMEhLHosGLRPIcz5AO5ETGsObvQsOWV3nn1Iu7790mGPoUkI2
-	hffLfnM0e5qZYbtXpjbwAPJu9jeLeEA7t5FucKU6JaH/f/4kWG/8R6Q79eMaKk33
-	PhqI9ujvwKDqxNOZAJF/0YDnttodKohvLvwRNU/EfKown9Dw/Vdy/ditQ+trte7V
-	vHzVA==
-X-ME-Sender: <xms:vA23aiHerCvYFB36fS6R9pktH_4xZnMtj4eGluJGe5NQETpUuaczaw>
-    <xme:vA23al4aTH9H2spPRtpsog9fPGcqMkKEdXxC129y_AAeChrUsxMDrA4wY00vjCDUB
-    nRxnhuB5N93nMrXo0zyYOtJYopRMgy5fSjEysKUkFTcMP2fmHI>
-X-ME-Received: <xmr:vA23avyC3ew6klv3OTg2ioBSn4s8GfnQl7RwebI-p48pfBZ9ikPPV8y1qtZ6Xo7JdCqrA5PMqZ80b3B5xY5YbxjuCdd-RDk>
-X-ME-Proxy-Cause: dmFkZTGM0ugnSXn6DL1OW0CeLj5v0nK6023RIIllNb7waCK/mhoAShU4kPP/cBOuN9EJEq
-    RbggTiaZ+cC3APa7hYSauWhh2cebO4bU/IMo/94JaXWh8pF2N01W8SDZPDEMv2NwdIl03r
-    nUnGoc2MRuB8ydZBp3/C1UE1NN69DPwMDtKYVTTux5an3jDeBSJ3tDMF3G6rMYzb/sNNAG
-    CVBaTN1jpH6ce+aq+2YYu18UlOBvRr22sXl5PrZhIkyJ9pgY4pP/+kOrWF0gnR4ivhDy56
-    WmnKB9eCjmMQDSSxeRW5PbgfhYVPR2UXtHnlwpkeoNRf+kYpnFKzkYxodKaRIN0SosiUax
-    YQRYNsqaprkblTUkB64lOjxK5KseUKLvU991hTNnj5F02wCYtzuWM24c82yLaPlFWtPdpt
-    OrQQ2j0A5MTdQOmmrXOtvx4EXDcDs7p22YBs/eWbrCWJP6rUxf2rSQ1EAatQzlevad+b3A
-    lNTT/muA/s8T2vrBPF9IAkfMCFE2edRAoteq2bcVDNdrJ1ofiysXVckHGYTjcCXbqRHsqd
-    6HstaX9HcGt30oU3Z1QGpEVc8wvVLYuhBRgfMMqZX9+Gf3O1aTQOKphvbv4CuxFZV0gl2i
-    Q6aT+IT/+/fWfGTy0OctsHcVXqYGRapF1sQORdtQDtm3u1tV47LJFYinpDBw
-X-ME-Proxy: <xmx:vA23asPi2zPADGrkkTzkDlzGe6zr1rPVJdEgp7GjifDui_K_rPoNJw>
-    <xmx:vA23atnunklmbz-Pk3c4lgMIdCqVQI3w4Q8PT0TYzWzEFu9gGvMmwg>
-    <xmx:vA23apRe8JIf56ms7VMoZoXEZ_7kTbd7Xmbym47Cb4l-vgS3JUfWyw>
-    <xmx:vA23akU5yNazh1y5Pps1skF0jrB01Ncx_GgXgditIkZjRq3_VGXqUg>
-    <xmx:vA23aj__IcBFXrSPUdbNNIDsfPkbfXQccxDeDWaIbkGioCqhjuB_XZcS>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Sep 2026 20:11:38 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org
-Subject: [PATCH 9/9] nfs: use d_duplicate()
-Date: Sat, 26 Sep 2026 10:01:26 +1000
-Message-ID: <20260926001011.401824-10-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260926001011.401824-1-neilb@ownmail.net>
-References: <20260926001011.401824-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IEHKVNXT"
+Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-341d5303884so761448eec.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 18:09:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790384973; x=1790989773; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3gFLrYFckZ5XIkN69t9A3jgRQQGtoPYpO5S0Nj1j4is=;
+        b=IEHKVNXTUlGeDIvB4OrUZkQLBveYNv3i/YnJkihmJGEgf5zti8UWtTr8IVfXulpoMD
+         aSUOGtZCFfh6Q7FWA6XSKxNRY++ER+Y+/eNriXr6Yaq77OANLVaK4gEF4VJgylvBiDsE
+         CPGlRK7f4fYFNQxFQLIlzD3mEu8/Kpcffm4C5uCvqgFI7o7SV/ZwJ88JNFGdk1pcTrEn
+         abpYLbX4p4jh791b2S4Mrl+UV7+Ih3bNBDsmJu3g20udo5vP40GY+jlu5j3I2Wb3szHQ
+         rYjzcSnliZe9L6sDu1NrI2c6HWj/AlcXW1ZADznZy0DFmLLzV+AwFP76LiJ5fWfij8iG
+         JcbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790384973; x=1790989773;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3gFLrYFckZ5XIkN69t9A3jgRQQGtoPYpO5S0Nj1j4is=;
+        b=UhssLjgK56wGatnadAkKWHQlImF90y7FCzbBsSkH+3qGveKf0p5WmTuiQzPHvwiNjs
+         Q8qnuh2PpsrKaZCVV6uiEJ4msFV0bElGhB8Bfagbb4A7SmeGpXLIwqNKSbUMBvtujZKY
+         6gVIbSvf1rEO7/7wPO5ET5MB4A5CNlsbFh4n2/NAmgZqAjqLLem7/Ozyzwu7s9uflvm8
+         EtyBV1/optiDSNH9ZRGDOrYfoisk1RZD9Q2SI3vklIv+OB69gDK8ZnzOBaXa+roVoQIV
+         3f18KR0msMObpZ+eaunMvAeCxuEG+OWuR1dWoD1c0luvamcndydXKUn4iW480fTS43wm
+         lCBA==
+X-Forwarded-Encrypted: i=1; AKwUvByrEHdzURO0+Z22FacSUx+d3gJWTn+zTxQK7wvOzrt0dp9eDQhlNjlYfVy1S6a2h+PhDfqyPb8aLb2FiPpc@vger.kernel.org
+X-Gm-Message-State: AFuF++kJqKHtmv+1i93fhzECh5ZZtoNF8jG+yAeGfR+bUfpFYQoqU0KZ
+	ywNd5RMa4So2mc9NwdjFa9BuZakTW5fxG0rjYlSxMjwC/vLY9ETNbqW1
+X-Gm-Gg: AYBFou0aeRqSNKvDRmj6mUoy21EdK+oDIj2kQsCfpgNfmjJtxcyS2sY/jJf9DQbHdIN
+	o6nVZ4moxMRqJbQUGBJcUM5yuRO11/OyWUxM9womwOQRYOwJphomOKLraU4PWNK4fMD2pcvhVPb
+	LEjhwMzXGh7lpD5+NJuefmTtMSG9B3DH6cr2XZSWBjkbIBvkZGtpqhTHdjLqzGDKNO10nDuJyhu
+	8UagsJVooUu1VC3foJEeEfwF+1lF2bVrfzSth4+rN4mMGFtyysJfyuLOTwpCXX89aveit9JzWKI
+	jlKkw2RBsuSTwf1n6TmRzPXfKGPIUA5FHNLssjDRGNpjqb9TkHWLAnf83za6LM6lOzGejxiQkJN
+	52PrnL+bqdgOD2nX+NJRlSAcXD9eFHJEyi8LJl5d51Ju9mfyHZHDmxi1XHml9uM2EYeKh3X9ltz
+	pbKUnhaIc8ORJOZ1uTL4aAP0kfi9Pc4d1rbbyb4tMvIusKSoRCKgTki9hFPZ25FZJ7JneMWCuRQ
+	w4BN5OB6DBBH4u91EdL3TkRy6wTDIMXr8Fwm8jzFXUdZ0UDsuXFIGe+xAvTJ7DAYyY=
+X-Received: by 2002:a05:7022:28a:b0:145:77f:293e with SMTP id a92af1059eb24-146d0497070mr1662276c88.39.1790384972895;
+        Fri, 25 Sep 2026 18:09:32 -0700 (PDT)
+Received: from [192.168.1.23] ([138.122.221.5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-147913a776fsm900c88.17.2026.09.25.18.09.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Sep 2026 18:09:32 -0700 (PDT)
+Message-ID: <2f83be7e-f37c-4e52-8974-0c37d94a42ea@gmail.com>
+Date: Fri, 25 Sep 2026 22:09:28 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] hfs: handle extent B-tree write errors
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Yangtao Li <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <c569d5f8ee542e5c86a7e4dee23df99f4ec0becd.camel@dubeyko.com>
+ <20260924001623.1765392-1-davyfelipe34@gmail.com>
+ <9c9fe0c7660ff1cf4fe81bb3b2c907555d8add4e.camel@dubeyko.com>
+Content-Language: en-US
+From: Davy Felipe <davyfelipe34@gmail.com>
+In-Reply-To: <9c9fe0c7660ff1cf4fe81bb3b2c907555d8add4e.camel@dubeyko.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: NeilBrown <neil@brown.name>
+Hi Slava,
+Thanks for the review.
+Your suggested changes look reasonable to me. Please feel free to make
+these adjustments to the patch if you prefer.
+I am fine with renaming the helper and using size_t for expected_len.
+Regarding the error code, I am also fine with using -ERANGE if you think
+it better represents this condition.
+Thanks,
+Davy Felipe
 
-As preparation for d_alloc_parallel() being allowed without the
-directory locked, use d_duplicate() to duplicate a dentry for silly
-rename.
-
-This results in an in-lookup name, so d_lookup_done() must be called.
-
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/nfs/dir.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-index b54ae3baed46..6a6ace0460bf 100644
---- a/fs/nfs/dir.c
-+++ b/fs/nfs/dir.c
-@@ -2801,11 +2801,9 @@ int nfs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
- 			spin_unlock(&new_dentry->d_lock);
- 
- 			/* copy the target dentry's name */
--			dentry = d_alloc(new_dentry->d_parent,
--					 &new_dentry->d_name);
-+			dentry = d_duplicate(new_dentry);
- 			if (!dentry)
- 				goto out;
--
- 			/* silly-rename the existing target ... */
- 			err = nfs_sillyrename(new_dir, new_dentry);
- 			if (err)
-@@ -2870,8 +2868,10 @@ int nfs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
- 		nfs_dentry_handle_enoent(old_dentry);
- 
- 	/* new dentry created? */
--	if (dentry)
-+	if (dentry) {
-+		d_lookup_done(dentry);
- 		dput(dentry);
-+	}
- 	return error;
- }
- EXPORT_SYMBOL_GPL(nfs_rename);
--- 
-2.50.0.107.gf914562f5916.dirty
+Em 24/09/2026 16:23, Viacheslav Dubeyko escreveu:
+> On Wed, 2026-09-23 at 21:16 -0300, Davy Felipe wrote:
+>> hfs_brec_insert() may fail while inserting a new extent record, but
+>> __hfs_ext_write_extent() currently ignores its return value and
+>> clears
+>> HFS_FLG_EXT_DIRTY and HFS_FLG_EXT_NEW as if the insertion had
+>> succeeded.
+>>
+>> Propagate errors returned by hfs_brec_insert() and only clear the
+>> extent flags after a successful insertion.
+>>
+>> When updating an existing extent record, hfs_bnode_write() returns
+>> void. Validate the extent record size and use a reusable B-tree node
+>> range helper to reject invalid write parameters before calling
+>> hfs_bnode_write(). This prevents an invalid update from being treated
+>> as successful and avoids clearing HFS_FLG_EXT_DIRTY in that case.
+>>
+>> Negative-path testing in QEMU confirmed that an insertion error is
+>> propagated to the caller. Testing the existing-record path also
+>> confirmed that invalid write parameters are rejected before
+>> HFS_FLG_EXT_DIRTY is cleared.
+>>
+>> Signed-off-by: Davy Felipe <davyfelipe34@gmail.com>
+>>
+>> Sorry, I missed your suggestion about factoring the validation into a
+>> reusable helper in v3. This revision addresses it.
+>>
+>> Changes in v4:
+>> - Factor B-tree node range validation into a reusable helper, as
+>>   suggested by Viacheslav Dubeyko.
+>> - Keep the extent-record size check local to the extent write path.
+>> - Preserve the error propagation and validation behavior from v3.
+>>
+>> ---
+>>  fs/hfs/btree.h  |  7 +++++++
+>>  fs/hfs/extent.c | 12 ++++++++++--
+>>  2 files changed, 17 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+>> index b4c3f2a31471..576412e6901e 100644
+>> --- a/fs/hfs/btree.h
+>> +++ b/fs/hfs/btree.h
+>> @@ -84,6 +84,13 @@ struct hfs_find_data {
+>>  	int entryoffset, entrylength;
+>>  };
+>>  
+>> +static inline bool hfs_bnode_is_valid_range(struct hfs_bnode *node,
+>> +					    int off, int len)
+> 
+> You can use struct hfs_find_data *fd. It can make argument list
+> shorter. We need to find the node before read/write. So, I think we
+> should have hfs_find_data available.
+> 
+>> +{
+>> +	return off >= 0 && len > 0 &&
+>> +	       (u64)off + len <= node->tree->node_size;
+> 
+> Maybe, it makes sense to check that node->tree pointers are valid?
+> 
+>> +}
+>> +
+>>  
+>>  /* btree.c */
+>>  extern struct hfs_btree *hfs_btree_open(struct super_block *sb, u32
+>> id,
+>> diff --git a/fs/hfs/extent.c b/fs/hfs/extent.c
+>> index f066a99a863b..ece782205b47 100644
+>> --- a/fs/hfs/extent.c
+>> +++ b/fs/hfs/extent.c
+>> @@ -121,12 +121,20 @@ static int __hfs_ext_write_extent(struct inode
+>> *inode, struct hfs_find_data *fd)
+>>  		res = hfs_bmap_reserve(fd->tree, fd->tree->depth +
+>> 1);
+>>  		if (res)
+>>  			return res;
+>> -		hfs_brec_insert(fd, HFS_I(inode)->cached_extents,
+>> sizeof(hfs_extent_rec));
+>> +		res = hfs_brec_insert(fd, HFS_I(inode)-
+>>> cached_extents,
+>> +				      sizeof(hfs_extent_rec));
+>> +		if (res)
+>> +			return res;
+>>  		HFS_I(inode)->flags &=
+>> ~(HFS_FLG_EXT_DIRTY|HFS_FLG_EXT_NEW);
+>>  	} else {
+>>  		if (res)
+>>  			return res;
+>> -		hfs_bnode_write(fd->bnode, HFS_I(inode)-
+>>> cached_extents, fd->entryoffset, fd->entrylength);
+>> +		if (fd->entrylength != sizeof(hfs_extent_rec) ||
+>> +		    !hfs_bnode_is_valid_range(fd->bnode, fd-
+>>> entryoffset,
+>> +					      fd->entrylength))
+> 
+> I think we can share with hfs_bnode_is_valid_range() expected size
+> sizeof(hfs_extent_rec) and hfs_bnode_is_valid_range() will be able to
+> check the fd->entrylength. What do you think?
+> 
+> Thanks,
+> Slava.
+> 
+>> +			return -EIO;
+>> +		hfs_bnode_write(fd->bnode, HFS_I(inode)-
+>>> cached_extents,
+>> +				fd->entryoffset, fd->entrylength);
+>>  		HFS_I(inode)->flags &= ~HFS_FLG_EXT_DIRTY;
+>>  	}
+>>  	return 0;
 
