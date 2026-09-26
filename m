@@ -1,149 +1,113 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0D33AB286
-	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 14:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20B434B697;
+	Sat, 26 Sep 2026 16:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790434476; cv=none; b=DM0adk1K48Du5iXpLqt54UpmpSQsDXwXQduk+HGqRoz8kHtPAe05imdWOLLYbxI24BTf6Gd7C7dKwCwjdBZKmCsCRCfgoChR3jfYGTlKyvANL/qG1nXGn0vUTcF5/KJlvrFfz6HyOzYTZctkpMY7QkkumSNTAfOG4xMYJXjCBoU=
+	t=1790439796; cv=none; b=njYNqbBNDKQTRPxo23YmDW2bDONDucCB2nHEc2dJr/xIoqBIYrkuwcWfgyYvooSEH4pv91Cbl1eVT35RK6ssk0f2OEWNTyFMp4iizUGDdp5ldfC1xpZ0tHcsBmtNkpd/b6svWaw8FRA01nPHR98xo+1JJBQ7QhHL5gdbpg2USI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790434476; c=relaxed/simple;
-	bh=wpoe2NbyDw8UDfaaqOWcUSlSP/xT09RLX4P5/7CZaJk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=NLJRla6QulOfalq7uhyxb/whiQ1YPKtL0SE8om4oTRq5EZQ+Xb5UgsuZlisXKK9YgPJJ+7f6wuN/9yGzuTQO7R3v8YGv31XpLY4ZlslDU0TWAPEEdjX83QilvhQPMpfsaHOvqlSb5R2Dg7N5jgRC/fo0EoAq57oTKD4VE8Wh3b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4c55ba309c2so3229482b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 07:54:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790434473; x=1791039273;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0ahls61jkZLVMkVh3QQjBqgRuSrPo5tBwRCH8iAs3so=;
-        b=fKjP/Oni3N855gwwgoaXeK4SOhueRN0U+uyiZeBKrNNVfQlTRSl8Dfk/4HdkPKrvcm
-         CPaDQTXsxbj95CaaKQ7Q9LOzCWcPHSXkum1MDHJuRhWe2c75JEelNrj0Df8ZuA4E6QlJ
-         iUtzSQ0/BYchcGGZn8vTfjg9uRO4yokD7hrXGrbm99SsePMKMW4SCZZ+IUmHPhDKh8J9
-         O3Ibr3uLvRI8XSGNBzhbcLFN2FvmYqp0tYSZwrne82vkgoSSUnJYW8fv8PZt6HulR29a
-         XYHU9m2jNLYkkc8dkjYqfG1sN2eeoZTP7rFNXL7rSRuj3vMh72LJjIu5WPrpDFhRhiz/
-         62Uw==
-X-Forwarded-Encrypted: i=1; AKwUvBwAxczNeyX8mm6ax7axKkcc3Q7JT3ocWjSlX87QR6klC9nQNaH2bIAUG21cj2Qv1HQAHcGYnAiyOkJ0GyBD@vger.kernel.org
-X-Gm-Message-State: AFuF++kreG5vI7yTI5na66NTNuV8f/y1W2YFqByPmUm/FeYH+0qB3Jgb
-	yYdmlKiLBTMZNV4XrXcM5QLxPp+wND7//DSpKrTuO+e/5HmaqPzkSGw7rpwq3V1fRyqMwc1cjXY
-	g7SzDg69m8E7iIkxz+/ebVia2MPG1l1CavSXu5kuwBmxVfGTw6L6MZVCnTcs=
+	s=arc-20240116; t=1790439796; c=relaxed/simple;
+	bh=lVuH7qFpWQH76wp5FacuT3Zzo8joo8v3gTOUy+KtMmw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GVqvAEWaxzMw2nrhxw5kxpXA5FS4AJdreIOK0Am3LlXk1Bp5ZR+OClxdfMrCXXP16LfJLCHCgq6olkoGJ+ASs2qvE6K+Y+obdnHQmTh4hoOSToC8b/H+cW6/4D0dNiWVafKb+lFYTNeBHjOfsLU4ldG6xm2gOfOKxyb1Ad9qOm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGeuNtS0; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HGeuNtS0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C491F000FF;
+	Sat, 26 Sep 2026 16:23:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790439794;
+	bh=fl5lmGyMF1RWdAgtrF9R0uo85iRNCTQENGpIYhpXamg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=HGeuNtS0QJpllq+JO2OxkZGnRkmpNGJFsit95JoS8a7pt6sb6pPRLCWx5bcsPo2Fd
+	 1HTjXzsJmxRXdjXAnyDFzbEHKE5jWoQhyJ4OxUNWPS9QTSCIIpI3YmSmFXXp//wiox
+	 36kvbk7c/WJVUWqnxFf34b7ZnFTpuv5qXsAp76/HJ8GC7UvhrNRrWTSIdL6qgQXLCz
+	 tzU41b/dDETyRqGgV6utNNNM2kjRvQc4/EZ3WjtvfFz8ytM9TodhMmsblxykCnfVoa
+	 tYE8W4VeOcqd7eQQ5mlJXWy5WcbFLO/kWbbCUDViC5eqaD+LtkEprMONbA5NSbKxry
+	 5SjeGnkjwPIwQ==
+From: Alexey Gladkov <legion@kernel.org>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: =?UTF-8?q?Ondrej=20Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <kees@kernel.org>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Serge Hallyn <serge@hallyn.com>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v3 0/5] sysctl: add typed field descriptors
+Date: Sat, 26 Sep 2026 18:22:07 +0200
+Message-ID: <cover.1790439358.git.legion@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1789987960.git.legion@kernel.org>
+References: <cover.1789987960.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1703:b0:4c2:d7e8:cf67 with SMTP id
- 5614622812f47-4d72c73d035mr8014457b6e.24.1790434473688; Sat, 26 Sep 2026
- 07:54:33 -0700 (PDT)
-Date: Sat, 26 Sep 2026 07:54:33 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ab7dca9.80e1c6cc.1e8e5f.0046.GAE@google.com>
-Subject: [syzbot] [fuse?] WARNING in fuse_iomap_writeback_range
-From: syzbot <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com>
-To: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Hi,
 
-syzbot found the following issue on:
+Some sysctl users copy an otherwise static ctl_table for each namespace or
+device, then replace data and limit pointers before registration. Besides
+the per-instance allocation, these fixups often depend on table indices:
+reordering an entry without updating the fixup can silently bind it to the
+wrong data or limits.
 
-HEAD commit:    f0100363d8c3 Merge tag 'xfs-fixes-7.3-rc5' of gitolite.ker..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1774b805580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9d4242cb1c54cdf7
-dashboard link: https://syzkaller.appspot.com/bug?extid=e8200299b0556976e13c
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+This series lets such users describe a table once with static, read-only
+sysctl_field entries. Each field names a data type and an offset into an
+object selected by a sysctl_context at registration time. The offset
+helpers check the member type at build time. Limits and custom handlers
+remain optional properties of a field; the field type does not encode a
+choice of handler or whether limits are present. A subsystem that needs
+more than a namespace can embed sysctl_context in its own registration
+context.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+The sysctl core keeps the context with the table header and materializes
+a ctl_table entry when an existing handler, permission check or BPF hook
+needs one. Legacy ctl_table registrations retain their own path, and
+subsystems can convert tables independently. The IPC, mqueue and ucount
+conversions here remove table copies without changing their backing data.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c3a75fc0731f/disk-f0100363.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0cc808123f1b/vmlinux-f0100363.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a0fc6abfffe3/bzImage-f0100363.xz
+Changes since v2:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
+- Drop sysctl_uint_vals, as requested by Joel. Existing limit constants
+  suffice for these conversions.
+- Drop the *_MINMAX field types. A field's type now describes its data,
+  while optional min/max pointers supply bounds to the selected handler.
+- Keep __register_sysctl_table() and __register_sysctl_fields() as separate
+  registration paths, sharing only allocation and tree insertion helpers.
+- Address the sashiko findings: avoid calling mode_fn under sysctl_lock,
+  validate the effective maxlen against the context object, and reject
+  NO_DATA fields paired with standard handlers that require data.
 
-------------[ cut here ]------------
-!ff
-WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043 [inline], CPU#0: syz.6.4727/24915
-WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227, CPU#0: syz.6.4727/24915
-Modules linked in:
-CPU: 0 UID: 0 PID: 24915 Comm: syz.6.4727 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:fuse_write_file_get fs/fuse/file.c:2043 [inline]
-RIP: 0010:fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
-Code: fe 48 83 3b 00 74 5b e8 16 00 6d fe 4c 8b 3c 24 e9 08 0b 00 00 e8 08 00 6d fe eb 5c e8 01 00 6d fe 4c 89 f7 e8 69 c2 8d 08 90 <0f> 0b 90 48 b8 00 00 00 00 00 fc ff df 48 8b 4c 24 58 80 3c 01 00
-RSP: 0018:ffffc9000738f2b8 EFLAGS: 00010286
-RAX: 8000000000000000 RBX: ffff888057eb0d80 RCX: ffffffff9a9e9501
-RDX: 0000000000000001 RSI: 0000000000000004 RDI: 00000000ffffffff
-RBP: 0000000000001000 R08: ffff888057eb1363 R09: 1ffff1100afd626c
-R10: dffffc0000000000 R11: ffffed100afd626d R12: ffff888057eb1208
-R13: 0000000000001000 R14: ffff888057eb1360 R15: ffff888057eb1208
-FS:  00007fc6e84ad6c0(0000) GS:ffff888124ccb000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f22f05eb840 CR3: 000000007d23c000 CR4: 00000000003526f0
-DR0: 0000000000000008 DR1: 0000000000000002 DR2: 0000000000000404
-DR3: ffffffffefffff14 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- iomap_writeback_range fs/iomap/buffered-io.c:1896 [inline]
- iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
- fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
- folio_launder mm/truncate.c:612 [inline]
- folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
- invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
- fuse_open+0x5a6/0x770 fs/fuse/file.c:297
- do_dentry_open+0x816/0x1380 fs/open.c:996
- vfs_open+0x3b/0x340 fs/open.c:1101
- do_open fs/namei.c:4837 [inline]
- path_openat+0x1443/0x1d60 fs/namei.c:5000
- do_file_open+0x23e/0x4a0 fs/namei.c:5029
- do_sys_openat2+0x115/0x200 fs/open.c:1417
- do_sys_open fs/open.c:1423 [inline]
- __do_sys_openat fs/open.c:1439 [inline]
- __se_sys_openat fs/open.c:1434 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1434
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fc6e759e159
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fc6e84ad028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007fc6e7826090 RCX: 00007fc6e759e159
-RDX: 0000000000000040 RSI: 000020000000c380 RDI: ffffffffffffff9c
-RBP: 00007fc6e763506b R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fc6e7826128 R14: 00007fc6e7826090 R15: 00007fc6e794fa48
- </TASK>
+This is the first part of the conversion. Network sysctls and other
+subsystem-specific users will follow in separate series for review by
+their maintainers.
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Alexey Gladkov (5):
+  proc: sysctl: address table entries by index
+  sysctl: add typed field descriptors
+  sysctl: ipc: use typed fields for IPC namespace sysctls
+  sysctl: mq: use typed fields for IPC namespace sysctls
+  sysctl: use typed fields for ucount limits
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+ fs/proc/inode.c        |   2 +-
+ fs/proc/internal.h     |   2 +-
+ fs/proc/proc_sysctl.c  | 681 +++++++++++++++++++++++++++++------------
+ include/linux/sysctl.h | 138 ++++++++-
+ ipc/ipc_sysctl.c       | 189 +++++-------
+ ipc/mq_sysctl.c        | 104 +++----
+ kernel/ucount.c        |  64 ++--
+ 7 files changed, 772 insertions(+), 408 deletions(-)
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+base-commit: 587858367581b9c55c3690f4e63382ad622719d4
+-- 
+2.55.0
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
