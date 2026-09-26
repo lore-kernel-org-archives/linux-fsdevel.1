@@ -1,192 +1,151 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241823A1A38;
-	Sat, 26 Sep 2026 10:07:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CAE3EC6B0;
+	Sat, 26 Sep 2026 10:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790417229; cv=none; b=DiItVDYPIdlQO2j7ILEl4ZExDAFUtCWCvv0GJlarLqkdTwPsf/QAPx9MtzhsUrPrNusgHZDx9rWw1hMmtz8c9zxMLpVlSgZUaDi019mupqm9dxscdMLWeVMzeA3k5BTUsJgRsg09e7nIwpIW3ySBZKWwWJIItBpNf+/sgN8qoh8=
+	t=1790419285; cv=none; b=f3DvGtLxaSumEM7q8GQZ8rGVlxCEdc3BS2swVauh+q9l9FF6sA6yHVaqtV+WpweZyA1Mzcc9WIdQ5CxAo7H1zkUJ78bjHDkkfWKUKUBbSEWwbWnNc2RNWufYZejCl3iYVo756B9gsCw/6LWR4yaY+i/LHob3C0gsQckP4CQNkFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790417229; c=relaxed/simple;
-	bh=nFzGKAUSkNx37tBECUQQrQceuqFYcg9Do4dTj3c9+7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dgeo6MvOV4Mk/jRpl4UC6rdrBDwefcv1I7BUcp1H6nzYUGimMLck4TmzUlS62BODLhaXXs6LBuWY52GgMRPYgI2mtIVWEyswzdaLgjp3LM8XwSqf/Z3/Re8Oc/G8fu+IrzyQvuj1Bk/LUR2awdzemxxMDCSoCqABxC/2a/fCMpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PP6PZ9bM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790419285; c=relaxed/simple;
+	bh=fTo54dQ27lNlohXIePrTiYH+6/z9AkWMENqu+dTZcY4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rVMlzrc41hn2/c+8fEiuroi3jLLi7LBW98VhpcDZCXkIMdKg5TIzd0PbtNIMs1pi0TiJNqDb6u83be927HnE0e1BeZEMWg8RtQWxd9D/pkddiUvKwvpt9H5hXqUbPNM5Yp84s68pu8mTnA+wnAXufI0vGFbn3w2ILSBk95UKTII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ir0K3VQu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PP6PZ9bM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F8511F000FF;
-	Sat, 26 Sep 2026 10:06:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ir0K3VQu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39F2D1F000FF;
+	Sat, 26 Sep 2026 10:41:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790417227;
-	bh=cx2CIfJJRJI8nlg/LkJLWm6mTZk+oyqA+tLDKMt8K64=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PP6PZ9bMZs7e/duxeo/+vo5CsbMP1Rz2+y31gRT9a+0I5x57hx+X0qV3VH6ZT4U4G
-	 yJbOFXBGKOb0K1/wzI/4ZVK66vC39At0uE2uwbtQ83oA2SlyEAWclRJagc3OIbbqHm
-	 aGWgANkkLmApMwDJ2U+Pphh/en/LxpO06qIoOaCTuD43Ohhox87eyXx7fdho5yNs5A
-	 YUbNxgBjyK8Pa4hT+QXLxoaUyk9M5Ul4my8apPo6NoSv0IFMgCIjYXvQDeUqZfUlWm
-	 gpsK8pBYkPTzDaunC56zp3EElzUI0dA/SJCNUEjE1vnEPzCd1n7uEW6cQm5qDqJMYE
-	 NMKaLYXBxLBUQ==
-Date: Sat, 26 Sep 2026 11:06:35 +0100
+	s=k20260515; t=1790419281;
+	bh=TZRBqF2yMAgyYQEkKpNQPhn7mCO9yemFSVQUeDjssXc=;
+	h=From:Subject:Date:To:Cc;
+	b=Ir0K3VQu+rpNG9WmGygjpObvd2itOXxLZnKt/4/ihMoDOen7cunLzb3YqU3wiAe7a
+	 NjsUIHV2kY+lTNuqhxRJJ9TPCoVSFJed1k2aZBn3ibN6EBmXvg/e/E9CrXMcR/JPIt
+	 /DfsXmhxFujrwBxSNQYcMBfeCZFW5wl3Bc9SyxST7wNcKhsj0DO3+wIH6tRos3U6xA
+	 zm+faOQMvGv508ToWVBvQORwaOcNrA8XHO7SFRu9LzMb3OKm9cALiuAMQ0H6Rvo2Cr
+	 ST8hIML7rskENwCmSHvLCXsbxtwB/pR9VPggLxRTUEAm3++F3il61l1+u1Pw+tfL+c
+	 PamhigTv4GNMw==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 16/40] mm/vma: only allow mmap to clear
- VMA_MAYWRITE_BIT if kernel-owned
-Message-ID: <areYqRfd7mss9KQG@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-16-4583d8a23bca@kernel.org>
- <DLOVQMACWLZ5.1WFOTGRG8ZG92@nvidia.com>
- <DLOVXY4VFCXE.1RI7ZSD30VHH5@nvidia.com>
+Subject: [PATCH v3 0/6] mm: make MAP_PRIVATE-/dev/zero mappings truly
+ anonymous
+Date: Sat, 26 Sep 2026 11:41:05 +0100
+Message-Id: <20260926-map-private-dev-zero-v3-0-d4781e84ccfc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLOVXY4VFCXE.1RI7ZSD30VHH5@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XNQQ6CMBCF4auQrh1T2rRFV97DuChlgEalZEoal
+ XB3CytdGJf/S+abmUUkj5Edi5kRJh99GHLIXcFcb4cOwTe5meBC8wMXcLcjjOSTnRAaTPBCClB
+ bqRujrWhdxfLpSNj6x8aeL7l7H6dAz+1LKtf1D5hK4GCVqZyR3KEzpyvSgLd9oI6tYhKfSvVDE
+ avinKmVFkpy9aUsy/IGAqNskv8AAAA=
+X-Change-ID: 20260902-map-private-dev-zero-ba36d76a2fc8
+To: Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+ David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3834; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=fTo54dQ27lNlohXIePrTiYH+6/z9AkWMENqu+dTZcY4=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLK2L/TUUN8nN/lnrX7ewTmPLvIYP9Cb4il+Y8aKqX+/8
+ u2fGr/vQEcpC4MYF4OsmCLL8y/i+4NEwuZ1XvB3g5nDygQyhIGLUwAmotnH8M+U+b1c+1O3038/
+ ilhoqYvNrdrbplbOKWPya9qtprlx5U8YGbrtdCJa50505TrzzVjlQe7v4PjpMv7C2nMPc2i0W+i
+ vZgcA
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-On Fri, Sep 25, 2026 at 10:17:10PM -0400, Zi Yan wrote:
-> On Fri Sep 25, 2026 at 10:07 PM EDT, Zi Yan wrote:
-> > On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
-> >> For ordinary files the only way the VMA_MAYWRITE_BIT flag is cleared is if
-> >> the underlying file is itself read-only.
-> >>
-> >> This means that mprotect() cannot mark a shared mapping of a read-only file
-> >> as read/write, as doing so would violate the read only attribute, and
-> >> permit writes.
-> >>
-> >> In general, we do not want file systems to be able to do this for
-> >> read/write files.
-> >>
-> >> Doing so would violate fundamental user expectation of file attributes and
-> >> likely break userspace.
-> >>
-> >> However, drivers pose a tricky problem here - the /dev/xxx file may be
-> >> read/write but provide access to a resource which is fundamentally
-> >> read-only.
-> >>
-> >> Therefore we must allow drivers to be able to clear VMA_MAYWRITE_BIT.
->
-> IIUC, a file's FMODE_* bear both fd and mmap permissions, e.g.,
-> FMODE_WRITE means fd is writable and mmap is writable. At least for
-> normal files. But a driver fd might not fit the same pattern. Would a
-> new FMODE_MAP_READ and a new FMODE_MAP_WRITE help? Not trying to propose
-> anything, but just thinking out load.
+Historically anonymous memory was obtained in linux by MAP_PRIVATE-mapping
+/dev/zero.
 
-Hmm I don't think that's necessarily at the right level of abstraction
-though, and these drivers need to do the same thing even if the file is R/W
-regardless.
+The canonical way of doing these now is mmap() specifying MAP_PRIVATE |
+MAP_ANON, but we must continue to support the legacy means of obtaining these
+mappings.
 
-So I'm not so sure that's the right path.
+As-is these mappings are an unusual edge-case - they satisfy
+vma_is_anonymous() but have non-NULL vma->vm_file, and their page offset is
+the offset into the /dev/zero file.
 
-Then again, if the driver could somehow specify these modes at inode
-creation or some means of doing that it could help avoid the driver ever
-doing this, I'd really prefer us to disallow such changes in the hook in
-general.
+Commit 93c0c8dc87f6 ("mm/rmap: use anon pgoff to track MAP_PRIVATE
+file-backed anon folios") causes all other anonymous folios to be tracked
+by their anon index (vma->vm_start >> PAGE_SHIFT at the point of first
+fault), leaving MAP_PRIVATE-/dev/zero as the outlier.
 
-But I think definitely one for a follow up :)
+This series remedies the situation by making MAP_PRIVATE-/dev/zero mappings
+truly anonymous with !vma->vm_file and correct anonymous page offset.
 
->
-> >>
-> >> To achieve both of these things, restrict this ability to kernel-owned
-> >> mappings as identified by vma_flags_is_kernel_owned().
-> >>
-> >> This constrains this ability to drivers which own the mapping's contents,
-> >> whether memory-mapped I/O, kernel-allocated pages, or ordinary pages they
-> >> map themselves, and so define its semantics.
-> >>
-> >> Every in-tree mmap hook which clears VMA_MAYWRITE_BIT, some twenty sites
-> >> across drivers, filesystems and bpf, establishes a kernel-owned mapping,
-> >> with usbmon and the ALSA PCM status page converted earlier in this series
-> >> to do so.
-> >>
-> >> Note that drivers may, if they do not gate on VMA_SHARED_BIT, be able to
-> >> disable MAP_PRIVATE-file-backed mapping CoW semantics.
-> >>
-> >> This is perhaps not always intended, but we retain this capacity to
-> >> maintain existing behaviour.
-> >>
-> >> As all drivers which clear VMA_MAYWRITE_BIT establish kernel-owned
-> >> mappings, no functional change is intended.
-> >>
-> >> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> >> ---
-> >>  mm/vma.c | 5 +++++
-> >>  1 file changed, 5 insertions(+)
-> >>
-> >
-> > Makes sense.
-> >
-> > Acked-by: Zi Yan <ziy@nvidia.com>
+It starts by bringing the memory character driver into mm/ - this file
+implements /dev/zero, /dev/mem among other things and is already (as
+clearly indicated by its name) within the remit of memory management.
 
-Thanks!
+By doing this, the file_is_dev_zero() function can be provided, internal to
+mm, which allows for positive identification of these mappings.
 
->
->
->
->
-> --
-> Best Regards,
-> Yan, Zi
->
+Using this, first prevent any other mappings from mapping memory
+anonymously, then make these mappings truly anonymous and eliminate all
+code in the kernel that previously had to account for these strange beasts.
 
---
-Cheers, Lorenzo
+Finally, it adds userland VMA tests to assert the behaviour and selftests
+to assert expected merge behaviour.
+
+v3:
+* Added tags (thanks David! :)
+* Moved the reworked mmap_prepare vm_ops comment to 3/6 where it is introduced
+  and fixed a typo in it, as per David.
+
+v2:
+* Added tags (thanks everybody!)
+* Reworked comment about mappings not setting themselves anon as per David.
+* Fixed up test typo as per David.
+* Fixed up test close() as per David.
+https://lore.kernel.org/r/20260908-map-private-dev-zero-v2-0-acc7b5625305@kernel.org
+
+v1:
+https://lore.kernel.org/r/20260902-map-private-dev-zero-v1-0-a578c730cec7@kernel.org
+
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+---
+Lorenzo Stoakes (ARM) (6):
+      mm: move drivers/char/mem.c to mm/char-mem.c
+      mm: implement file_is_dev_zero() to uniquely identify /dev/zero
+      mm/vma: only permit MAP_PRIVATE /dev/zero to be mapped anonymous
+      mm/vma: make MAP_PRIVATE-mapped /dev/zero mappings truly anonymous
+      tools/testing/vma: add test to assert MAP_PRIVATE-/dev/zero is anon
+      tools/testing/selftests/mm: add MAP_PRIVATE-/dev/zero merge tests
+
+ MAINTAINERS                                        |  4 +-
+ drivers/char/Makefile                              |  2 +-
+ include/linux/mm.h                                 | 10 +--
+ include/linux/pagemap.h                            |  3 +-
+ mm/Makefile                                        |  3 +-
+ drivers/char/mem.c => mm/char-mem.c                | 21 +++--
+ mm/internal.h                                      | 20 +++--
+ mm/shmem.c                                         |  2 +-
+ mm/vma.c                                           | 39 +++++++--
+ mm/vma.h                                           |  3 -
+ tools/testing/selftests/mm/merge.c                 | 95 ++++++++++++++++++++++
+ .../selftests/proc/proc-self-map-files-001.c       |  2 +-
+ .../selftests/proc/proc-self-map-files-002.c       |  2 +-
+ tools/testing/vma/include/dup.h                    | 10 ++-
+ tools/testing/vma/shared.c                         |  9 ++
+ tools/testing/vma/tests/mmap.c                     | 37 +++++++++
+ 16 files changed, 220 insertions(+), 42 deletions(-)
+---
+base-commit: e3b5239afe1b8f0194db7436b17c33e94c1988c4
+change-id: 20260902-map-private-dev-zero-ba36d76a2fc8
+
+Best regards,
+-- 
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
