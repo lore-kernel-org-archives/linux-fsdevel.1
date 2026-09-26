@@ -1,70 +1,80 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-dy2-f17.google.com (mail-dy2-f17.google.com [74.125.229.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FEA357CE1
-	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 02:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519A91632E7
+	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 02:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790390118; cv=none; b=rCWB3vCMUOf3w5iAabElbm1m76LHAhSLuuPwlTXMu139Q/+whN5RPyoJFfxXvfYPeoUygHuD0ha+1Eh0veXKao6Rk+U9NpKCErrZeQIiXeI6WgGpolF3rytbbF+lHr07bYlUum+KtOaCz7b9W1qL5KpA0Ghbo7MsrpCz1p76K5E=
+	t=1790390916; cv=none; b=r5CMNG7L0vcnP/wNFg604SfLbxtwAw9aT3KPBWDcVAEvecSCH/mGGGZXkI39E3fUZvdmt16amWigjThEP/n2UbkRHUE2YLLPNm+Z2dW+96Mf1Fcf1ybwmAOY3eN/1ajS7ZjENoLXXVK+cvxTr7DDj/78xAV1Zl29hQuZtEoqTPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790390118; c=relaxed/simple;
-	bh=vZJPbgJPdsXpKopo28Dsi+J0Feh0C3IQQRqQQTBqjPQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fpkRCRpl7lMkV+YsxuJYtXMSPFLQkdKyhJDz8czAs12CPyGlx76P1xSq5NRDBf0srVwoFPKWM6zL7a3/1GDsX50I1KxABlnSrKn89hwGtUnoY8eOPzpyi1LtdYWtLAwlBysv4egRktuSVo0tSoScR62TV6jZMJXGqZ2PCAE2DZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qvalIY2W; arc=none smtp.client-ip=74.125.227.141
+	s=arc-20240116; t=1790390916; c=relaxed/simple;
+	bh=B/C5vmAYwwzHwNyD/b6mRuObNGkjebSIeJM7Fx/NaD0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YuDTPlDDBs/aLevNLojk29umNwtUD43jRgJIpNNB6SVkQMoJK0ncSGP18N3aeWfdeS28lDefSy25aze+tG0UI0VQsh1kWxnO/N909I75OvJyCjRCi1wcz8eccguJ0wwODnP7WYXIO9U65HldcHDnMWfZikOYo7FTla4ZAGtWUX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qPQ4ZvL6; arc=none smtp.client-ip=74.125.229.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qvalIY2W"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d90ba1d807so11570085ad.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 19:35:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qPQ4ZvL6"
+Received: by mail-dy2-f17.google.com with SMTP id 5a478bee46e88-3427493501eso447353eec.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 25 Sep 2026 19:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790390116; x=1790994916; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zTNC5edU10uB/RUSjLI3cwaqFAWGhgn7z7X8/RqAWVs=;
-        b=qvalIY2W3ZjhAQWwygxxlcpEjwKS3Qa3BhJtooenciJQxNCGGckqd8CkoTLMb/g42F
-         TFdN3mm9PneLXmvz36y1S30KDVw4xD5X8F1KJnRyvpN8af4hYRCiS6eGKy6D5m310OMg
-         521Ys0rrBp2Pf9X12mZtLCKf+8jmkRPmEd/nu+UlPIkNlUjiGy4J/n65gO6MbMG2VtRn
-         o2ZDtgYbq2C4ypr1hnXEEVcSEj5PqVO+WXpikAMtHMFS/SqqBFa4kBg3ke8i0R3kNZao
-         LFBMNA5woJDCSfz/uhrFAPuDmNAQrwj+c47ow8Ms0/mKKfm1SncUOIk5g8aFIlKmKlvy
-         5Ewg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790390116; x=1790994916;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790390914; x=1790995714; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zTNC5edU10uB/RUSjLI3cwaqFAWGhgn7z7X8/RqAWVs=;
-        b=MOlFCv4nT+qhu+Fh9ipOjJpr/k+8trPCiiT1y6lF3t28MLTRC9B6kMlU7qWw3qLXqT
-         Q4XLiq8AFuG82r2Umsm0DumtQbGoXbxmYvB4qQAPv99cai8+Y+aUoL8PSruyuYfBjUtO
-         q2HFzJUkEBNtctcyHcYwR9j/ZgCAm4OYYTRD+3LedniUAaYBwUmAaD17+CJWLlljwRHl
-         2kTpnn1jpXAuBRo+vhAV4yy25tEKSJhjUFI7qISEkjInoQeUVdNmLgzzAJckB4nUraKe
-         JuAdpmm8Ma7FK0vxGEZrcqtxiPcvhx3TsSej4krEGSOnx27dpnRFBq+SRn3p1wZC3NKb
-         Mxyg==
-X-Gm-Message-State: AFuF++nerHvixziRH/cOklLkXfTHLlRsO3dMGfRwiMOEObrBnMLLXRPI
-	f+tjg1zKuPAqXvSX5KbzkD7h9MOjFg/67QeDdMcMMxr1p0AwgS+lC6GU
-X-Gm-Gg: AYBFou2HII0Wyt6+TmcXQWCR3T32YnIRu/SjcrzYwvgzs0l39ZhobbzJ3Pby2A+bgEK
-	ykhii7fJzlX13Ik1996DyIDzC7vgsMlifnKMlPnB0YgiMTLrAOiXU58WiDNGtNioSvgt5WCbrX9
-	Xvq1YqasKwL0Z2ZiW0vcWIZtYa1O5kCb5KGANpZ94+hi/r7JKEVN4pg/W+J5mxlPXZWgEkyYmUG
-	/ouLeGVISO/hOKt51j3cpuqPydSfT2r4IpEFyXCfs5LioAHBJrufjYfb9ryj6pDSSxkW2bHxN0A
-	mljYtgx+2/LrmqfafKbik0uwUN00xUF/prHXlG0rP4zuqhYPQkpMIzZTZonkMgfkEIGyPdwgfXl
-	038HXsjWZtHacUWoAldR1im5NbYwvFenSpLXaKArdaN8NPRkbRy2L0wOrh19O/Rgbq5WaXlvic1
-	2qnpDJ3VKhZf/gALQA+Sr2kA+UlE5WnHJDTVZ4kegs444qxqplMTLNCtcriVRT8sbcjmZYQip0L
-	/Kqj8NoTvDop80WTQOfsIzMBQ4j+KZ44B3BduX5pAVzSTd4UVjQDERH72M0iGXzK/n8IAwkqHpY
-	mldeFkooIno/lq3W11xviO+0bqoMJPL0/ZuX1qzj8z9eK/WiefIkZq87lsQ=
-X-Received: by 2002:a17:90b:384c:b0:3a0:c8e6:ab23 with SMTP id 98e67ed59e1d1-3a0c8e6b96bmr2206750a91.54.1790390116029;
-        Fri, 25 Sep 2026 19:35:16 -0700 (PDT)
+        bh=4AfLUjZGBh+NyiRXQ29ny/IyjFejnXIP1LQYn6XeZ2o=;
+        b=qPQ4ZvL6NSF8TdVbkRGDi7j5JSQjzO1VHT+jJV9SCyfhnkkoROUDguKAINMGA4qmGr
+         EPRSumd3JKkngU0NuhI4JFBRG1c70N83rbXoKUvSz1Jk/TvMc+DACsJKSM7y5VLrXZk1
+         SQFo15aMi1a2nt2Dci6Hw7rOpISwKgl66+hNTf28kSEUEwYMro/yRaqdtRSlaM5goLym
+         s0dKBQsJjm3nXozcp8HIeYjdHQ4m14lyR8oHZFGtowLDK1reHZKPZEP8qFs4o0Ot/Yql
+         hV5P9oBV8L/Nmn2S46fc3ieBafr8Lnt7hwD4/A7n8jiwn3sMNtwv6CpVfKGXs1onSERs
+         aLSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790390914; x=1790995714;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4AfLUjZGBh+NyiRXQ29ny/IyjFejnXIP1LQYn6XeZ2o=;
+        b=xQ5WDn1QMkEScLdC4GLTvv04xzLZMYqaJLoedl15ljYHnYiWk9oMdRvXhxWA9eR8wT
+         aKV3wL3rxIkZaHOhPr/ek9+dIC6UvyzZ90FNVDIaiK/mwOl3SoSpSkAdUSa+KSrNroWf
+         M9Y5exq83jmTPEdW7IQPzDLjDEAy18F4PxDNi9zVFDovekJAVwkjd0EQdcmzOJ2VqViD
+         0N2y9fc8x1qugV9R+igL5kQBm28ILlW+4T9pij22GqUtBusr7Gfeqafm44nGjuMs2EQo
+         tVP6BlcjDVrAUcwdkOmQ86w3pXGz1liAu4NQ5rF9ZhxkqpnjiyJJYznfRMnMFcG4rxmI
+         AYUw==
+X-Gm-Message-State: AFuF++mlFT/4NRH73bs3OjnInbsqI65qroIE0AXwstRxY2g73uC2xEot
+	DEdew3cTjyIAunHzU0Hsu1+Xw/WwSRoLbvw/b8qiEgdFj+Jf63NTY+yH
+X-Gm-Gg: AYBFou1YpRsdWbmtXyc0dnBzS3/d2oYXAsm9ZISbmMN/Q8IzXBGL4CbuLKSb2TMCOKP
+	Y8foRqhLsb7IC1uotvrkfZEbpA1UNVNG48tLuQQAS5XVeZrGB2Fu4TQ805isragtMcjZvznxt0I
+	AqJqZHiJiY3APuDGA1SJ9g9HL++oJ11604CiukB+JF+FuslxneBGtNkjgzvsphi9yi5BUlPKcb5
+	jXPJx2kz1PLZ4+ykHYGmG+gUEu2EvdnwQEK3OFlgIFcoQSQHQpqURKpLEtztECGH3jL5Djo6YVI
+	Dvh4BVksbW8IDPn64wZ+be/rtyscUdUVRVVYIaCe4b3cClBuJ7aQZWeF2tPLkfM7BO1/JN/NCUI
+	iHCUgVMLyAarRF+ReVMd1kvlINQvbiukR9AntJn8X85PWNBsRn7yY6pK2ueWbsGsN2aEqxGdgj8
+	cjDRZTE8Swbxh5m7A9pigsbwr7BK4aQcPHnQGfkZxqn6ANEQixYddiiS4q6X8JsIshhU2IAOI16
+	kYdYhdRodSlISaeGicifIPLwRIvLCsagwoXjtK28ojjKd/Y7FNMRUdsFPZrsSKE6PJxWeZurtPc
+	VgH1OlgZc7o7kKIP8DKBb4zT0X5vVhID15EfoXExxAHoUb/p+nsatTDqLbA=
+X-Received: by 2002:a05:7300:4fa5:b0:33b:d8b2:8fba with SMTP id 5a478bee46e88-342700bdd29mr1509975eec.7.1790390914091;
+        Fri, 25 Sep 2026 19:48:34 -0700 (PDT)
 Received: from spider.bream-herring.ts.net ([103.6.151.236])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b99917besm7163204a91.14.2026.09.25.19.35.14
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-341f2b18cbfsm7115584eec.30.2026.09.25.19.48.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 19:35:15 -0700 (PDT)
+        Fri, 25 Sep 2026 19:48:33 -0700 (PDT)
 From: Matthias Goergens <matthias.goergens@gmail.com>
-To: jack@suse.com
+To: jack@suse.cz
 Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] udf: don't let a stale metadata buffer overwrite expanded file data
-Date: Sat, 26 Sep 2026 10:35:12 +0800
-Message-ID: <20260926023512.3035718-1-matthias.goergens@gmail.com>
+	linux-mm@kvack.org,
+	brauner@kernel.org,
+	hch@infradead.org,
+	xyzzy@yandex-team.ru,
+	tytso@mit.edu,
+	djwong@kernel.org,
+	agruenba@redhat.com
+Subject: Re: [PATCH v2 0/5] fs: Deferred inode reclaim
+Date: Sat, 26 Sep 2026 10:48:29 +0800
+Message-ID: <20260926024829.3051410-1-matthias.goergens@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260911081309.14137-1-jack@suse.cz>
+References: <20260911081309.14137-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,94 +83,92 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since commit 62333e480d12 ("udf: Fix data loss when converting inline
-inodes to out of line"), udf_expand_file_adinicb() allocates the data
-block itself with udf_map_block() and then writes the folio with
-filemap_fdatawrite().  Writeback maps the block through
-udf_get_block_wb(), which does not allocate, so the buffer is never new
-and nothing calls clean_bdev_aliases() for the block, as the generic
-code does for every block get_block() reports as new.
+Hi Honza,
 
-A recently freed block can still have a dirty buffer in the block device
-page cache.  The common case is the file entry of a deleted file:
-udf_evict_inode() updates it with sync_inode_metadata(), which for an
-inode that is not IS_SYNC only marks the buffer dirty, and then frees
-the block.  If that block becomes the data block of an expanded file,
-the next writeback of the block device writes the old file entry over
-the file's data.
+I ran v2 against its base in QEMU, on syzbot's disk image with a config
+close to syzbot's (KASAN, lockdep):
 
-On a fresh mkudffs image, creating 20 small files, deleting them and
-then creating five files with "printf hello >f; truncate -s 3000 f"
-leaves all five with a deleted file's extended file entry as their first
-block after sync and remount.  This happened in 400 of 400 runs, on
-bitmap and table images alike.  When the file is extended by writing
-instead of truncating, the write dirties the data again and the outcome
-depends on writeback order: the data was corrupted in about 7% of runs.
+- Lazytime churn on ext4 under memory pressure: the PF_MEMALLOC warning
+  fired with the sync_lazytime() stack in all 5 base runs, four times
+  from kswapd, and in none of 5 runs with the series, which evicted as
+  many inodes in reclaim context without reading ext4 metadata there.
+  The workload also runs drop_caches=2 under memalloc_noreclaim_save()
+  from a debug patch.
 
-Clean the aliases of the new block, as block_write_begin() and
-mpage_writepages() would have done.
+- Hibernation cycles with /sys/power/pm_test set to devices under that
+  load, with inodes that 5/5 defers queued in each cycle, and with
+  freeze_filesystems 0 and 1: no freezer timeouts and no hang involving
+  the queue.  The stalls in throttle_direct_reclaim() from
+  hibernate_preallocate_memory(), and lockdep's warning in
+  __set_task_frozen() with freeze_filesystems=1, happen on the base
+  kernel too.
 
-Fixes: 62333e480d12 ("udf: Fix data loss when converting inline inodes to out of line")
-Cc: stable@vger.kernel.org
-Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
----
-This is a regression in v7.3-rc1, and 62333e480d12 is also in 7.2.6 and
-6.18.52.  On 7.2.7 and 6.18.54 the truncate case corrupts the data in
-400 of 400 runs, as on mainline, and the write case in 10 and 7 of 400
-runs; with this patch, which applies cleanly to both, there was no
-corruption in 400 runs of either case.  Before 62333e480d12, extending
-the file by writing was safe (no corruption in 400 runs with it
-reverted): the write allocated the block through udf_get_block(), which
-marks it new, so block_write_begin() cleaned the alias.  Truncating up
-lost the data before 62333e480d12 as well, which is what that commit
-fixed.
+- One path the series does not cover, see below: with the series
+  applied, unlinked ext4 inodes under an overlay are still deleted in
+  reclaim context, and the warning fired in 2 of 3 runs, as without it.
 
-To reproduce, run this as root in a VM; cmp reports every corrupted
-file:
+The reproducers and the debug patch are at
+https://github.com/matthiasgoergens/linux/tree/deferred-reclaim-repro
+and I can post them here if you prefer.  The Tested-by below covers the
+lazytime and hibernation runs.
 
-#!/bin/sh
-img=/tmp/udf.img mnt=/tmp/udf.mnt
-truncate -s 1M $img
-mkudffs $img >/dev/null
-mkdir -p $mnt
-mount -t udf -o loop $img $mnt
-for i in $(seq 20); do echo small >$mnt/s$i; done
-rm $mnt/s*
-for i in $(seq 5); do
-	printf hello >$mnt/f$i
-	truncate -s 3000 $mnt/f$i
-done
-sync
-umount $mnt
-mount -t udf -o loop $img $mnt
-printf hello >/tmp/expect
-truncate -s 3000 /tmp/expect
-for i in $(seq 5); do cmp $mnt/f$i /tmp/expect && echo "f$i ok"; done
-umount $mnt
+In 3/5:
 
- fs/udf/inode.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> @@ -988,13 +1013,27 @@ static enum lru_status inode_lru_isolate(struct list_head *item,
+>  	inode_state_set(inode, I_FREEING);
+> -	list_lru_isolate_move(lru, &inode->i_lru, freeable);
+> +	/* Inode will take long time to cleanup. Offload that to worker. */
+> +	if (inode_state_read(inode) & I_DEFER_RECLAIM) {
+> +		list_lru_isolate_move(lru, &inode->i_lru, &lists->deferred);
 
-diff --git a/fs/udf/inode.c b/fs/udf/inode.c
-index e45e546a739a..804554d26595 100644
---- a/fs/udf/inode.c
-+++ b/fs/udf/inode.c
-@@ -442,6 +442,13 @@ int udf_expand_file_adinicb(struct inode *inode)
- 	err = udf_map_block(inode, &map);
- 	if (err < 0)
- 		goto restore;
-+	/*
-+	 * The block may have held metadata that is still dirty in the block
-+	 * device page cache (e.g. the file entry of a deleted inode). Make
-+	 * sure writeback of that buffer cannot overwrite our data.
-+	 */
-+	if (map.oflags & UDF_BLK_NEW)
-+		clean_bdev_aliases(inode->i_sb->s_bdev, map.pblk, 1);
- 
- 	folio_mark_dirty(folio);
- 	folio_unlock(folio);
+This is the only place I_DEFER_RECLAIM queues an inode, also with
+Andreas's simplification folded in.  An inode that ->drop_inode() drops
+on its last iput(), which for ext4 means every unlinked inode, never
+gets here: iput_final() calls evict() directly, in whatever context the
+iput() came from.
 
-base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
--- 
-2.55.0
+syzbot hits that under reclaim with overlayfs on top of ext4, in the
+same bug as the lazytime trace in your 2/5:
 
+  https://syzkaller.appspot.com/bug?extid=7f94fe3ce0f6613e12b8
+  https://syzkaller.appspot.com/text?tag=CrashReport&x=12764a15580000
+  https://syzkaller.appspot.com/text?tag=CrashReport&x=13530905580000
+
+Direct reclaim prunes overlayfs dentries, and dropping the overlay inode
+puts the last reference to an unlinked lower ext4 inode, so
+ext4_evict_inode() runs its deletion path under PF_MEMALLOC.  My
+reproducer above does the same: stat files through an overlay on ext4,
+unlink them in the lower or upper directory, then apply memory pressure.
+
+Is that path meant to be covered?  Handing such inodes to the queue from
+iput_final() under PF_MEMALLOC, as gfs2_drop_inode() does for gfs2,
+mostly just delays things: blocks and quota come back later, lookups by
+inode number wait in __wait_on_freeing_inode(), and umount would need
+the inode counted in s_deferred_reclaim_count, as 3/5 does for its own.
+But it does not work as is with freezing: ext4_evict_inode() takes
+sb_start_intwrite() on the deletion path, so a worker evicting an
+unlinked inode of a frozen filesystem sleeps until the thaw, holding a
+batch of up to 16 inodes taken from any queue, and enough of those stop
+the queue.  XFS keeps inodegc per mount and stops it in xfs_fs_sync_fs()
+before SB_FREEZE_FS; this queue would need something like that before it
+could take unlinked inodes.
+
+On Ted's question (https://lore.kernel.org/r/aqQV6Uwma_KjUH0O@mit.edu):
+with this WQ_FREEZABLE queue I would not wait either.  A non-freezable
+queue would need draining before anything is frozen, because an eviction
+after the hibernation snapshot writes to disk behind the image, and
+draining later can wait on kjournald2 or on sb_start_intwrite().
+Freezing the workers with the kernel threads avoids both.
+
+One catch: a work item already blocked on something frozen earlier keeps
+freeze_workqueues_busy() true until the freezer times out, and the
+suspend or hibernation is aborted.  With /sys/power/freeze_filesystems=1
+the filesystems are frozen before the freezer runs, so an eviction
+waiting in sb_start_intwrite() is enough.  ext4 only takes that on the
+deletion path, so 5/5 is not affected, but unlinked inodes routed
+through the queue would be.
+
+Tested-by: Matthias Goergens <matthias.goergens@gmail.com>
+
+Thanks,
+Matthias
