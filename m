@@ -1,215 +1,184 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D1E3A5438
-	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 08:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B4225B091
+	for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 08:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790411287; cv=none; b=e/iCTXGFCpq7AzFxOM5SRsOAUxqnZzwS3ZIO+0tjBhdzyVojBpEYkfdJl5qyEMNpUXGxbRwYnzyZuH1nRIeUek8mUkqWWV7BvSe267eP1WpOWXK0MQKniJWT5QPcnympCIZz+P68LKEL09e7tgL0wk8QUmwQnlhPIvWSFNofHIQ=
+	t=1790411722; cv=none; b=glKz9t3vnJE2/AYc1ExWWRXdhBvlbCAqWofOkC0nX5TAgdxdyn2q8X1MqZIkmTGbJ4o7xpH0NiEtsfKLKdlaoW8+Am6ZqNS8UOBqezlOzHi/Ox78STnCqTu0teI4fxfPojKsg3lpsyUhnY+7O8th33g8Vl1k5AG34wuyRRmSr+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790411287; c=relaxed/simple;
-	bh=95Vs9hoaKg76Ufz/33WhtAeKWKx39eNDm61SF5fsyOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hi2ZxZw3qaXo2x0UNkjda71cw6MYi+7fRpMCh/KL89w0L+reV0qWfTCp9aLNVbX+zRyRfWIVEu/NhU0P1iDT7Au1BmFri9juTnuQaF8a/ijY3crNxsjsD+nKrIq6ppw6+bm4G2X2K6wHtJHDKIVoK2AZvNNc25KUP1NLfEJK1Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DniRPhJQ; arc=none smtp.client-ip=74.125.225.141
+	s=arc-20240116; t=1790411722; c=relaxed/simple;
+	bh=gD2nzsQEzocl8bIn/g7qzCa0+g5MyaOadrenMGGgIGc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cxePtrV3uS+uyvtSxHM+pxvKNsAUiV4AnVeK7+zn0iw4T3knPk45tY5L6SNmhzDvaQ6y1wHRhNThCp9GYNajCVbay+i0rx13ZuSza0Pk1TOa4ZMM3NmhjZ44Upm687KapJ8KIwrBUBHUPWiBh9BSybUBP+SWiSpn3aMte0cnhQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hr8bm1Cu; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DniRPhJQ"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d822dso11568255e9.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 01:28:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hr8bm1Cu"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccda24a3so947142a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 01:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790411284; x=1791016084; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tPXUTB33yRiVb0ap+iiavNUW+iiPbvO+JMKJab+k0Zc=;
-        b=DniRPhJQplQ0wdwrhhLjitPE2tYLACalop1qkLYyutbqNFz1sWU0WfS0+AgbxsRGXr
-         AaX+j+rg2fV+8HV6eBhOVznOXhihs9BBOdBag9lJun+diTZys5pZ5wiK0UmedKjZvJM/
-         F4O13fvxOOIrZueKch3Extd1H049ZpHB/qdrah6b8Cj7effVItu+eEMCZh6icVrI0g2c
-         pS0DT8l6Za1wksdL2d3nmWgcTIxJX3q4I9bfcqSpz7A/CIKt/7Le7okC8mgVmhxU+Ix0
-         AJ+oAxsJJqPoDCY4Y7cDopY3hlREeHMYHQDyVEWlb3Wl7yMf6y/JE/7eVm42/W8RAe+u
-         eq7w==
+        d=gmail.com; s=20251104; t=1790411721; x=1791016521; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QeKCQ/Vusfa8g3872G9mv1JHH4KuNXooSO8a1iwRbXc=;
+        b=hr8bm1CuueqeNYBTXg4iKRjQIt/4y44NvbjGK5gG2AUmtxt9WZdTbWFaT4D+/gIMXo
+         /+jQjvrUruNk5MsRMOt9xGGIcfV4DNnUUayrm0ZZW4H0BMVT2M18jSOn0uHBtBCY7MHp
+         ve/4dHRLnS6xHhIl8wOmIDi3z/WHCBYBUMRDKeeL+nUaioktdOZP7Q7NkNE6Nc8C6DbU
+         Hwenr56pfasEdEUQv7ijaftW5FZhuEWC6/kosYRzhKp0I2og3K+qPvLyxarnuX5eTSfj
+         R8LuFWL+6yMIoSriJbCKVL9IYazCXP//jxg7i+U/0sjxLcDblpKGt/jw2F0LmSqSXtzc
+         b4qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790411284; x=1791016084;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=tPXUTB33yRiVb0ap+iiavNUW+iiPbvO+JMKJab+k0Zc=;
-        b=OsDFYpMkZIz/J+l9C/QyVqUUktxTeItXBADRbdtdlGxDCFnIxdFXXEzMsiN0tHunqu
-         zhKoOjGP4DfAw6uGVksFfGRdgJ9VuQDcY+GTzhLQfqf7SI8i39GKQDirXnKbtzJC/HhK
-         Dtg6XDlW3aaccw9LYSAqn1c4v/6Rl+hrNR8Rx/crmrtqlkmzxRo3IBVpkTCkVkxRBXuJ
-         e7Jk09s2CXhVY5y1Xxd2IAE9JD+reqqIaIY9tHhg5E5rqGZWK05DRjqaKL7CqN+Fkh2l
-         nGTK5wp52+7IV9W3nafSL+C8jk3BTxq+mM14ZfVTmHC0CaNG5U34fH/AYaKGJYr4imvW
-         T+sg==
-X-Forwarded-Encrypted: i=1; AKwUvBwW0W+h2sUDI1Lm2s3F9Sb8laL42CAErcdtegGK9hmcJsjNouZpePW2UYINOOf3r3sZ55YzLSZsvPqB1Gye@vger.kernel.org
-X-Gm-Message-State: AFuF++k8KEmxmiZtkk1eQwm+KFiREnRT4vb6TLfhZIaQtCVGGmmJJ250
-	PPQPTTRVXR27Kf7y0sNGg+0isM8e5NAEWXutBHWPDR+M8fmDFYqY6SMx
-X-Gm-Gg: AYBFou24jx1vf4LsP05e9UAbkUTQedn7atCNDPBEIA8YZ/JT0iBR71VzioRzerV/Zb+
-	vMe9ORUWICX1qw94PR60zk38TMRxLWDKYwsZ+p0icy1/gOwHBrCpmeZmzdeHiKWXqvKiWyQBJDA
-	UTVaVVKe+HsqQbBTHJG/B0Ml5pAEwal2mMuR+jO4XOcaToIV6Iofi9fFsx9unbg4jGyPJh/S43I
-	jxgSnnhQR/CC0AXxrgQFNBxt7KfmnUM071kefNE0p+YDc18S+DY00e8Qqg2OMchQywI2lVPNFoo
-	/RM5re4nBGBHiZMplxL7vMmdFYkZ2gLUZl00t6Cv9mSWPAO+4oWk3L3rFK/Vq/Ryw1yyvGGcUOX
-	fuWbPWRoDGE2JgSVbFpVekHl4nFwhbQNf34dJRik6w3XRwHWvoOLIOhO3LNgkrYhyHnXUxLiJAW
-	PGWyRKyB9vDIBL/ojzDqjJCgm3IbI6HHK58JRGKQcI+zl9nvV9JIV+53xSw+Iy9X3KaTCSx1wOI
-	CflXQPblYh9oVp5eYdiEQo=
-X-Received: by 2002:a05:600c:621a:b0:496:c1f3:e8f8 with SMTP id 5b1f17b1804b1-49fe7b52ed6mr138634065e9.7.1790411283366;
-        Sat, 26 Sep 2026 01:28:03 -0700 (PDT)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a64f9bcsm12711265f8f.32.2026.09.26.01.28.02
+        d=1e100.net; s=20260707; t=1790411721; x=1791016521;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QeKCQ/Vusfa8g3872G9mv1JHH4KuNXooSO8a1iwRbXc=;
+        b=f0s5g/bKXwSS9sVolI2hA4BQptK6b2cUaAT3In4LdCyYY5lkW+FGRNnZ90u7VycxlK
+         hktTafteyPUFPYS8XanUrM90BGiJwzAyhoxVBkkjyDiKCHtlmlXJ3qadbYET0d8bfjkM
+         pBmtXqPQJiPl5XOvlQVn6U8jb7rerbQpy714QUCYq4d/wDoLXzVFBGU0tMZJqHlp2mga
+         Vlo5yXK58HQlviA8Of1XZYEa+WbcxzZpfsryKqXEdqjQw/qnacG9pdOe77jJaGjvOGfh
+         GZrsrz42awfQtqjux/sFt0K0GAs5qRCjdXUt6if5eDV7QdKr+6ev0IttbpiIKnF566WY
+         cLCQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxgQzP5OwG8jNaHfY90GKrGZLVOlsLVZWZ/vmya9ePSnthHnfZdp3WaQ+VSolGH0sIdALxS5/mtl752KjGl@vger.kernel.org
+X-Gm-Message-State: AFq9FYLePVeeK9FLvCELXct57ixQlIJdZ4s9LxRGn+HPwsPzRceRLLdI
+	Z/q1KYPf/uBN5T7Wz/NDdibTzPqJLHgAHZJS4J5iq6qHkSt/wLc0lb7N9BOuhuqt7p9SBH93
+X-Gm-Gg: AYBFou14iDjFMwMrY9KY3/6omuSubqDdaXxMKuQxfqElzKYuuwBjbrqiZEg7RzQUOBN
+	6hYSTzL8zXwj7+ecg5oIihP28dmFYWjGR7nAYtv+pipiaUoX3A1t+dsbbU+ppGzs9Gga75KnEro
+	pgVyvQmSwFJ+jM7LXMuFq/AKrKKHeNvKYZfqWEXk1uhXR8uZpCecrBiTfXmF3Gwe+k7HhTF9PL+
+	6nxT43NvyAqUbr2hOJcGF4+7GGxQdr99IkrFFv1+vaD9dueJZTg0FJby/iE8xsqcf60Bu3ak6sk
+	PhoSMMKZirImeU6GaH5GXUumOnRW2KbaqHqeThHS7DXdCQcDhp5JAA2PbjdmzOfxtNqpuYWXiUn
+	EYum6pIgPaX6RkPfAFTepexAh8IzmREHA28djfCCrKjxD040S4iU4m1X6abh3MApL3BJ0pQct2B
+	uRbH62ynisPlz0pOiE3bY/aXBnTzAGTqpzcjGfRAY2g6J7R7AVtQLFIGEagHdS2Qa2eECnPMKts
+	2hKopj1v9Ykz+RvbuHxMOpecnCSQTQpisOiD32niyIvejs1DcO8KFvkWWwi73AYE2ASz0YS4O+y
+	7TG6aPvfUGf5UBA4b9cKH+oMgKC05HA1YDD1ZJ8VwSxoBrQoEGkKv7zZibKhv6Blqbq3gw==
+X-Received: by 2002:a17:90b:518c:b0:3a0:dbfd:1a1f with SMTP id 98e67ed59e1d1-3a0dbfd269bmr980053a91.25.1790411720661;
+        Sat, 26 Sep 2026 01:35:20 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a09766210bsm14697952a91.8.2026.09.26.01.35.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 01:28:02 -0700 (PDT)
-Date: Sat, 26 Sep 2026 10:27:57 +0200
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
-	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
-	tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com,
-	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com,
-	zohar@linux.ibm.com, roberto.sassu@huawei.com,
-	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
-	stephen.smalley.work@gmail.com, omosnacek@gmail.com,
-	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org,
-	daniel@iogearbox.net, linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
-	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org,
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	xiujianfeng@huawei.com, lujialin4@huawei.com, bpf@vger.kernel.org,
-	kpsingh@kernel.org, matt@bobrowski.net,
-	alexei.starovoitov@gmail.com
-Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <20260926.e0135fe7712f@gnoack.org>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+        Sat, 26 Sep 2026 01:35:20 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Hui Peng <benquike@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] isofs: bound empty directory blocks in isofs_read_level3_size()
+Date: Sat, 26 Sep 2026 16:35:17 +0800
+Message-ID: <20260926083517.556576-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n>
+References: <20260919222553.3792320-1-benquike@gmail.com> <20260923175215.1577791-1-matthias.goergens@gmail.com> <w3rnunloyshklgq4ocr4jsullzhaey6u7odstfoyhd4usbfppo@m33jyem5jgrf> <20260924151356.3287733-1-matthias.goergens@gmail.com> <20260925043804.2091174-1-matthias.goergens@gmail.com> <cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260924104831.1081137-1-caixinchen1@huawei.com>
 
-On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
-> This series adds two new Landlock filesystem access rights,
-> LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
-> which control access to file and directory metadata such as inode
-> attributes (mode, ownership, timestamps), extended attributes and POSIX
-> ACLs.  It picks up the work from the "landlock: add chmod and chown
-> support" series [1] and follows the coarse-grained grouping discussed in
-> that thread [2]: instead of separate chmod/chown rights, metadata
-> operations are grouped into one read and one write right.
-> 
-> Landlock evaluates access rights on a per-path basis, but the metadata
-> related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
-> inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
-> inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
-> object.  Patches 1-7 therefore first pass struct path instead of dentry
-> through the metadata-related VFS helpers and LSM hooks.  This is a pure
-> refactoring with no behavior change, split so that every patch builds
-> and works on its own:
-> 
->   1: notify_change() and its callers
->   2: inode_setsecctx hook (must come before 3: the SELinux and Smack
->      implementations call __vfs_setxattr_locked internally)
->   3: xattr helpers, which also drops a redundant EVM xattr size sanity
->      check whose vfs_getxattr() call only has a dentry and therefore
->      cannot be migrated to the new path-based signature
->   4: POSIX ACL helpers
->   5: inode_setattr hook
->   6: inode xattr hooks
->   7: inode POSIX ACL hooks
-> 
-> Two deliberate scoping decisions for this refactor:
-> 
-> - The hooks consistently take struct path rather than struct file.  The
->   VFS call sites involved (chmod(2), chown(2), utimensat(2), xattr(2)
->   and ACL syscalls) operate on paths, and several of them (lstat(2),
->   lchown(2), llistxattr(2), ...) have no struct file to begin with.
-> 
-> - struct inode_operations->setattr still receives (idmap, dentry, attr).
->   Only the VFS boundary (notify_change()) and the LSM hook layer see the
->   path, which keeps the refactor contained to fs/attr.c and the LSM
->   infrastructure instead of touching every filesystem.
-> 
-> Patches 8-12 then implement the new rights, their tests, the sandboxer
-> sample and the documentation.  Semantics:
-> 
-> - READ_METADATA covers stat(2) and friends, getxattr(2) and friends,
->   listxattr(2) and friends, and POSIX ACL reads.
-> - WRITE_METADATA covers chmod(2), chown(2), utimensat(2), setxattr(2),
->   removexattr(2) and friends, and POSIX ACL set and remove.
-> - Only explicit metadata changes requested by user space are restricted.
->   Implicit changes performed by the kernel (e.g. timestamp updates on
->   write(2), size changes on truncate(2)) are not, and neither are
->   chmod(2)/chown(2) calls that change nothing (e.g. chown(2) with
->   (-1, -1), which never reaches the hook), matching the SELinux
->   inode_setattr behavior.
-> - Kernel-internal accesses performed with override_creds() (e.g.
->   overlayfs, cachefiles) and kernel threads without a Landlock domain
->   (e.g. nfsd, ksmbd) are not restricted.
-> 
-> The Landlock ABI version is incremented from 11 to 12.
-> 
-> The series is based on linux-next commit 5c4d4169604b ("Add linux-next
-> specific files for 20260921").
-> 
-> Testing: each patch has been built for aarch64 (gcc, -Werror) and the
-> landlock selftests (445 tests, including the new ones) pass in QEMU on
-> aarch64; base_test reports ABI v12.
-> 
-> [1] https://lore.kernel.org/all/20220827111215.131442-1-xiujianfeng@huawei.com/
-> [2] https://lore.kernel.org/all/abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net/
+isofs_read_level3_size() walks the sections of a level-3 (multi-extent)
+directory record and, on a zero length byte, moves on to the next
+block with no limit.  A crafted image can put a long run of empty
+blocks between two sections of a multi-extent file, and the walk reads
+every one of them before it gives up, all the way to the end of the
+device if it has to.
 
-Thank you for sending this patch set!
+Real discs do have trailing empty directory blocks, written by tools
+such as Easy CD Creator and Nero, but always at the end of the
+directory, never between two sections of a multi-extent record, so
+they do not exercise this path [1].
 
-Some meta-remarks at the beginning:
+Jan Kara suggested treating an empty block like a section: count it
+towards the existing 100-section limit rather than adding a separate
+one [2].  Do that: both the section count and the empty-block count
+are checked against their combined total, so neither one alone can
+reach 100 while the other keeps growing.  Only a zero length byte at
+the start of a block counts as an empty block; the same byte later in
+a block still just ends that block's records, as it does today, and
+is not counted.
 
-* You might want to link the bugtracker feature request:
-  https://github.com/landlock-lsm/linux/issues/11
-* In the final version, I think it's preferred to merge patches 8
-  (adding the access right enums) and 9 (adding the LSM hooks that use
-  them).  Having the feature as an atomic commit makes it harder to
-  accidentally mess it up during a backport, because you can't patch 8
-  without 9.
-* As Paul alluded to, the changes to the LSM hook interface and to the
-  existing callers in VFS are likely the hardest part of this patch
-  set.  Alexei from the BPF subsystem has also reiterated recently
-  that he wants BPF to be looped into such changes.  BPF hooks do not
-  give the same backwards compatibility guarantees as the syscall
-  layer, but there are existing users of LSM hooks specifically
-  through the BPF LSM.
+Hui Peng's earlier patch for this function added its own, separate
+limit on the number of empty blocks [3]; this uses the combined limit
+Jan suggested instead.
 
-* In https://github.com/landlock-lsm/linux/issues/18, we came across
-  statfs(), which returns file system meta-information based for the
-  file system that a given file belongs to.  I have weak confidence
-  that READ_METADATA would be the right access right to protect this
-  with, but it's a somewhat related operation.  Maybe you have some
-  thoughts on this?
+Suggested-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
 
-More concrete questions:
+[1] https://lore.kernel.org/all/20260925043804.2091174-1-matthias.goergens@gmail.com/
+[2] https://lore.kernel.org/all/cmlro2xzle2aa7ebflvxhbcv74mea7p6qvxhin6egpdvyzyuxh@s45tpgxdal3n/
+[3] https://lore.kernel.org/all/20260919222553.3792320-1-benquike@gmail.com/
+---
+Tested with fs/isofs built as a userspace program under ASan and UBSan,
+and in a KASAN VM on Jan's for_next:
 
-* If a "inode" LSM hook gets a "path" argument now, should it be
-  renamed from "inode_..." to "path_..."?
+- The real discs from [1] (DM_BXL2, Comdex_05, ITSOFTCD_39, each with
+  trailing empty directory blocks) and the level-3 images from the
+  earlier patches list and read the same with and without this patch.
+- A crafted multi-extent file with 150 empty blocks between two sections
+  now stops with "More than 100 file sections/empty blocks ?!?" instead
+  of reading all of them.
+- A crafted file with 60 sections and 50 empty blocks interleaved (110
+  in all) is rejected; without this patch it is accepted.
 
-  (Maybe the BPF people can chime in about to what extent that would
-  cause additional churn for BPF users, in a situation where they
-  anyway already need to make a change due to the changing function
-  signature?)
+The image generators are at
+https://github.com/matthiasgoergens/linux/tree/reproducer/2026-09-26-isofs-empty-blocks
 
-–Günther
+ fs/isofs/inode.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/fs/isofs/inode.c b/fs/isofs/inode.c
+index 184350d2e6ad..e884618c0c53 100644
+--- a/fs/isofs/inode.c
++++ b/fs/isofs/inode.c
+@@ -1175,6 +1175,7 @@ static int isofs_read_level3_size(struct inode *inode)
+ 	struct buffer_head *bh = NULL;
+ 	unsigned long block, offset, block_saved, offset_saved;
+ 	int i = 0;
++	int empty_blocks = 0;
+ 	int more_entries = 0;
+ 	struct iso_inode_info *ei = ISOFS_I(inode);
+ 
+@@ -1202,9 +1203,14 @@ static int isofs_read_level3_size(struct inode *inode)
+ 
+ 		/*
+ 		 * If we are at the end of a block (or at its zero-padded
+-		 * tail), move on to the next block.
++		 * tail), move on to the next block.  A zero length byte at
++		 * the start of a block means the whole block is empty;
++		 * count that towards the same limit as sections below, or a
++		 * chain of empty blocks could be walked without bound.
+ 		 */
+ 		if (offset >= bufsize || de->length[0] == 0) {
++			if (offset == 0 && ++empty_blocks + i > 100)
++				goto out_toomany;
+ 			brelse(bh);
+ 			bh = NULL;
+ 			++block;
+@@ -1233,7 +1239,7 @@ static int isofs_read_level3_size(struct inode *inode)
+ 		more_entries = de->flags[-high_sierra] & 0x80;
+ 
+ 		i++;
+-		if (i > 100)
++		if (i + empty_blocks > 100)
+ 			goto out_toomany;
+ 	} while (more_entries);
+ out:
+@@ -1245,7 +1251,7 @@ static int isofs_read_level3_size(struct inode *inode)
+ 	return -EIO;
+ 
+ out_toomany:
+-	printk(KERN_INFO "%s: More than 100 file sections ?!?, aborting...\n"
++	printk(KERN_INFO "%s: More than 100 file sections/empty blocks ?!?, aborting...\n"
+ 		"isofs_read_level3_size: inode=%llu\n",
+ 		__func__, inode->i_ino);
+ 	goto out;
+
+base-commit: f622f21cddacf8a0ef3b0344382924dc52c72a72
+-- 
+2.55.0
+
