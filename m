@@ -1,232 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D253CB557;
-	Sun, 27 Sep 2026 09:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106B42FD7D3;
+	Sun, 27 Sep 2026 11:03:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790502538; cv=none; b=A7TkHPlN3LsTfQAUx4yJ2K7cKPwmlwcIcIdqNfMtSw8mtDymfsKQR9VYh06BpGOESc5USpB6kAcWcHKy3lq/Xxfrh39kqDAgbvs84Zw8cljLpbnjbRRvTtEoUkm3l1ZUHHC86i0b1pofVT3Sn2MJXrMelx5RgS8a7xNVEgdOJNs=
+	t=1790506987; cv=none; b=DjjRfbpPN/U4py31CnpK6dojnw3fodw7E6hE8YCfTpkxB4hT8LcYy02jElTuJghv6od2iOWsKg4/IpJ6/3weWlsILrg17R7YBoK7d5GB6h2ylBmtGWASXVXcao7D2zXOaM4Uiz5ymkoTRN0pgd8A0d82zssk8nR5E4Im+0KX82Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790502538; c=relaxed/simple;
-	bh=8NQPWTpsoboogazA3iIT5DTYPsoxERUUIK9g6OIvrew=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kwInTBLbfpYk3UMEKx8CN+9HU+8V1eDf4Xov1Xwx3OVMeVEKo3AvVb6I1QGctjl+NgQ29GXj1smpem3ryxveQ1969kjw2WBWH6kxOh5U1/FPdCgKHSbfCzdxjid1sGeFerHndDCQcCF0lna0YPuRepzj79iOS/fJtLomrRUBeFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H0YDBrN3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790506987; c=relaxed/simple;
+	bh=yR6n1rtmCVsNSEYovvqX/gTKIPaDXMTzJlWwWAhQ48E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LFoPabI+PUH1wAw82oJV3rns6GPsaV0j1zHjPuzHW+a54S/7WfSBsODrAnKdWDT4XZyR59zme7y2gZMZnO08JwngbhFt4M9s7cSicetccptDOgzHHb37jbxkcMEjxGNRzeap1jTCBTqr+Om2tqc1hkmR0lnRfuNUpCcMCfJHlug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h9o64bRl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H0YDBrN3"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A952FC4AF13;
-	Sun, 27 Sep 2026 09:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790502537;
-	bh=8NQPWTpsoboogazA3iIT5DTYPsoxERUUIK9g6OIvrew=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=H0YDBrN3eA8VVVPXtAHV3/hpUnZMvdnqrHFyFMY6eKccMZgu8mIkBHRRs0u/PGbGL
-	 n+iBoWiY4d919HsZq+FUpHuf8SWyHaZ7b6+c5EloO+iBTgznD/26nEl+tCuAKAFULB
-	 uSuvfshW3VxXB8mqsN5vaQ1qFXIBAS6Y9mDQR2tu48md+y2wcMq6Y+vy7G9u6gBF4z
-	 RH1eZt2QvSPkoj1/O34K2c7qijVqsVeL2kuzFiazL4xZ0hJaZS2bl/3WMQFlWcxC9x
-	 Hn/5NYLAWF+cQRWxeY2Th8VaS6nQEdRbiOj9ntWC/VxfzsV6YK8d2k+XdcwdTUXQku
-	 TXATsXaD+8nTg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 900E0C98324;
-	Sun, 27 Sep 2026 09:48:57 +0000 (UTC)
-From: Henrik Ma Johansson via B4 Relay <devnull+dahankzter.gmail.com@kernel.org>
-Date: Sun, 27 Sep 2026 11:48:57 +0200
-Subject: [PATCH RFC] io_uring: add support for copy_file_range
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h9o64bRl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 428E81F000FF;
+	Sun, 27 Sep 2026 11:03:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790506985;
+	bh=amqyLQk1B1QGBvWptDjINWsc/NXTL74WFOVLzATlfCc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=h9o64bRlO5nmiS0e5xu1xEpV2hVy7usOHWe2OT12Fdn6o9VNvfajlqxW78k1u4lkZ
+	 w/R17cs2+DW7wOLxIlotLlR3TrlIclLT0kEFT9oCmVpoEPafYLle2vSjrkG3DRm0cK
+	 D8/6ibWPILdVNI18UrB//lmaPYN7ygYZpT/MHODXVtovWcqrDpHqBCH8ewlWhyWRyq
+	 ROBQ0YQX9fFQ8M0HGGN/BckTaRbqPZIpLNcGOZ8s47/nTbhlCAbpG2k34w1910Gj3o
+	 y/F767uLt9UPhqXERJsbDKy1SsgxYf0V8NGuw5z1yTDnD2jik+7oUL7xf5ijhtscnp
+	 WM81G0XHIpHIw==
+Date: Sun, 27 Sep 2026 13:03:00 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Steve Shoecraft <spshoecraft@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org
+Subject: Re: [RFC] MXFS: a shared-disk clustered filesystem derived from XFS
+Message-ID: <arj3Mp6Cq2_qwaIb@cronus.toxiclabs.cc>
+References: <56847E8D-EA83-4984-82F3-9BC93E4C02FF@gmail.com>
+ <ardhDI-Ko7b5RccH@infradead.org>
+ <BC228018-42A4-4715-B186-057AFDE8A4D0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260927-cfr-rfc-v1-1-5b9ddbe0490f@gmail.com>
-References: <20260927-cfr-rfc-v1-0-5b9ddbe0490f@gmail.com>
-In-Reply-To: <20260927-cfr-rfc-v1-0-5b9ddbe0490f@gmail.com>
-To: Jens Axboe <axboe@kernel.dk>, io-uring@vger.kernel.org
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Henrik Ma Johansson <dahankzter@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5989;
- i=dahankzter@gmail.com; h=from:subject:message-id;
- bh=Y6Qn2ejRW03ZlzzYwHZEwXGGECb9VUTiKUeZHr12C64=;
- b=kA0DAAoWDPOq2hz2HxMByyZiAGq45ojIJ1Ago3XO71ITlZp47priYq3soRwBsopgd/bXNrMrF
- Yh1BAAWCgAdFiEE0nxFoc4A2G1BZPBgDPOq2hz2HxMFAmq45ogACgkQDPOq2hz2HxMA+AD9HKtC
- EBKpaw9I1OxRog5R5yRt05ZCll14okDK9ncq7xwBALEnPkPzjEKz0e+NFjkLOnBqGgXOGmZBuNT
- LMcCmU90J
-X-Developer-Key: i=dahankzter@gmail.com; a=openpgp;
- fpr=D27C45A1CE00D86D4164F0600CF3AADA1CF61F13
-X-Endpoint-Received: by B4 Relay for dahankzter@gmail.com/default with
- auth_id=1067
-X-Original-From: Henrik Ma Johansson <dahankzter@gmail.com>
-Reply-To: dahankzter@gmail.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BC228018-42A4-4715-B186-057AFDE8A4D0@gmail.com>
 
-From: Henrik Ma Johansson <dahankzter@gmail.com>
+On Sat, Sep 26, 2026 at 07:32:27AM -0500, Steve Shoecraft wrote:
+> 
+> Good catch on the magic - I had it changed in previous attempts and forgot on this one - release 0.90.0 has MXFS unique magic.
+> 
+> I’ve been writing device drivers since the 90s on FreeBSD.  This was a research project to see if an LLM could do it with the right harness.
+> 
+> Release conditions of course included 100% data integrity and 100% stability.   XFS was the right choice for the base.
+> 
+> Intent is a good clustered FS for Proxmox to compete with vSphere and VMFS.  Yes, I’m aware of the differences in implementations.
 
-copy_file_range(2) lets the filesystem decide how to copy: XFS, Btrfs and
-OCFS2 share extents instead of copying data (reflink), and NFS, CIFS and
-Ceph can have the server copy without data crossing the network. Neither
-is reachable through io_uring today. IORING_OP_SPLICE requires one end to
-be a pipe, so the only io_uring alternative is two linked splices through
-a pipe, which always copies bytes.
-
-Add IORING_OP_COPY_FILE_RANGE, eliminating the need for applications to
-keep a thread pool or offload mechanism just to issue copy_file_range
-without blocking. The SQE is packed like splice: fd_out in fd, off_out in
-off, off_in in splice_off_in and fd_in in splice_fd_in, where
-SPLICE_F_FD_IN_FIXED selects a registered file. An offset of -1 uses and
-advances the file position, like a NULL offset to the syscall. No
-copy_file_range flags exist, so splice_flags accepts only
-SPLICE_F_FD_IN_FIXED.
-
-There is no nonblocking path for copy_file_range, so the request is
-always punted to io-wq, like splice, fallocate and ftruncate. Writes to
-the same output file are serialized through hash_reg_file, as for those
-ops. As with other data transfer opcodes, auditing is skipped; the
-copy_file_range syscall is in no audit class either.
-
-The length is clamped to MAX_RW_COUNT, as the CQE result is 32 bits and
-->copy_file_range() and ->remap_file_range() may otherwise return more
-than INT_MAX. A short copy is allowed by copy_file_range semantics;
-callers loop, as they do for the syscall. As for other transfer
-opcodes, a result that doesn't match the (clamped) requested length
-fails the request for the purpose of links. A zero length is passed
-through, as vfs_copy_file_range() does its checks before returning 0,
-so errors match the syscall.
-
-As in the networking opcodes, -ERESTARTSYS is turned into -EINTR, as the
-request cannot be restarted like a syscall. NFS returns it when an
-in-flight server-side copy is interrupted by cancellation.
-
-Assisted-by: LLM sparse
-Signed-off-by: Henrik Ma Johansson <dahankzter@gmail.com>
----
- include/uapi/linux/io_uring.h |  1 +
- io_uring/opdef.c              | 11 ++++++++
- io_uring/splice.c             | 58 +++++++++++++++++++++++++++++++++++++++++++
- io_uring/splice.h             |  3 +++
- 4 files changed, 73 insertions(+)
-
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index 909fb7aea638..a6bda05ed1e0 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -318,6 +318,7 @@ enum io_uring_op {
- 	IORING_OP_PIPE,
- 	IORING_OP_NOP128,
- 	IORING_OP_URING_CMD128,
-+	IORING_OP_COPY_FILE_RANGE,
- 
- 	/* this goes last, obviously */
- 	IORING_OP_LAST,
-diff --git a/io_uring/opdef.c b/io_uring/opdef.c
-index cf3aa2242cd7..2f4c869993b1 100644
---- a/io_uring/opdef.c
-+++ b/io_uring/opdef.c
-@@ -591,6 +591,13 @@ const struct io_issue_def io_issue_defs[] = {
- 		.prep			= io_uring_cmd_prep,
- 		.issue			= io_uring_cmd,
- 	},
-+	[IORING_OP_COPY_FILE_RANGE] = {
-+		.needs_file		= 1,
-+		.hash_reg_file		= 1,
-+		.audit_skip		= 1,
-+		.prep			= io_copy_file_range_prep,
-+		.issue			= io_copy_file_range,
-+	},
- };
- 
- const struct io_cold_def io_cold_defs[] = {
-@@ -849,6 +856,10 @@ const struct io_cold_def io_cold_defs[] = {
- 		.sqe_copy		= io_uring_cmd_sqe_copy,
- 		.cleanup		= io_uring_cmd_cleanup,
- 	},
-+	[IORING_OP_COPY_FILE_RANGE] = {
-+		.name			= "COPY_FILE_RANGE",
-+		.cleanup		= io_splice_cleanup,
-+	},
- };
- 
- const char *io_uring_get_opcode(u8 opcode)
-diff --git a/io_uring/splice.c b/io_uring/splice.c
-index e81ebbb91925..740f759a683b 100644
---- a/io_uring/splice.c
-+++ b/io_uring/splice.c
-@@ -147,3 +147,61 @@ int io_splice(struct io_kiocb *req, unsigned int issue_flags)
- 	io_req_set_res(req, ret, 0);
- 	return IOU_COMPLETE;
- }
-+
-+int io_copy_file_range_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-+{
-+	struct io_splice *sp = io_kiocb_to_cmd(req, struct io_splice);
-+
-+	if (READ_ONCE(sqe->addr3) || READ_ONCE(sqe->buf_index))
-+		return -EINVAL;
-+
-+	sp->off_in = READ_ONCE(sqe->splice_off_in);
-+	sp->off_out = READ_ONCE(sqe->off);
-+	sp->len = min_t(u32, READ_ONCE(sqe->len), MAX_RW_COUNT);
-+	sp->flags = READ_ONCE(sqe->splice_flags);
-+	if (unlikely(sp->flags & ~SPLICE_F_FD_IN_FIXED))
-+		return -EINVAL;
-+	sp->splice_fd_in = READ_ONCE(sqe->splice_fd_in);
-+	sp->rsrc_node = NULL;
-+	req->flags |= REQ_F_FORCE_ASYNC;
-+	return 0;
-+}
-+
-+int io_copy_file_range(struct io_kiocb *req, unsigned int issue_flags)
-+{
-+	struct io_splice *sp = io_kiocb_to_cmd(req, struct io_splice);
-+	struct file *out = sp->file_out;
-+	loff_t pos_in, pos_out;
-+	struct file *in;
-+	ssize_t ret;
-+
-+	WARN_ON_ONCE(issue_flags & IO_URING_F_NONBLOCK);
-+
-+	in = io_splice_get_file(req, issue_flags);
-+	if (!in) {
-+		ret = -EBADF;
-+		goto done;
-+	}
-+
-+	pos_in = (sp->off_in == -1) ? in->f_pos : sp->off_in;
-+	pos_out = (sp->off_out == -1) ? out->f_pos : sp->off_out;
-+
-+	ret = vfs_copy_file_range(in, pos_in, out, pos_out, sp->len, 0);
-+	if (ret == -ERESTARTSYS)
-+		ret = -EINTR;
-+
-+	if (ret > 0) {
-+		if (sp->off_in == -1)
-+			in->f_pos = pos_in + ret;
-+		if (sp->off_out == -1)
-+			out->f_pos = pos_out + ret;
-+	}
-+
-+	if (!(sp->flags & SPLICE_F_FD_IN_FIXED))
-+		fput(in);
-+done:
-+	if (ret != sp->len)
-+		req_set_fail(req);
-+	io_req_set_res(req, ret, 0);
-+	return IOU_COMPLETE;
-+}
-diff --git a/io_uring/splice.h b/io_uring/splice.h
-index b9b2848327fb..83138fab8fe8 100644
---- a/io_uring/splice.h
-+++ b/io_uring/splice.h
-@@ -6,3 +6,6 @@ int io_tee(struct io_kiocb *req, unsigned int issue_flags);
- void io_splice_cleanup(struct io_kiocb *req);
- int io_splice_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
- int io_splice(struct io_kiocb *req, unsigned int issue_flags);
-+
-+int io_copy_file_range_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
-+int io_copy_file_range(struct io_kiocb *req, unsigned int issue_flags);
-
--- 
-2.55.0
+If you are not even bothering reviewing your own project source code as
+you stated, don't expect anybody else to spend their time or have
+interest on it.
 
 
+> 
+> 
+> > On Sep 26, 2026, at 1:07 AM, Christoph Hellwig <hch@infradead.org> wrote:
+> > 
+> > I don't think too many people are going to care about your LLM dump,
+> > or even review it.  But please make sure you use different magic numbers
+> > so that a mxfs image left in the wild is not mistaken for an xfs one.
