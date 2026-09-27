@@ -1,122 +1,200 @@
-Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98D93DE429
-	for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 22:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD539344031;
+	Sun, 27 Sep 2026 22:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790549409; cv=none; b=dMt3WSr+NQF4QM0FxAHT+adhQAY7nYZfTAwl2V6xETDoyqEyBCwnyejBxVYF5RvVmEVrJcu5OAqT3v+fDxc26UmrdlKbW27gKoYnzhV1+qY9lLGo67CQ/Q6c9QhnIIUcTw/2rXESp2ji+JZWSFSy7lCQ8gR0S036R+dmUUrpMdc=
+	t=1790549982; cv=none; b=VKukMAGsnwd0AaQDj4dp9ED6b34PENzigMyRfp/CUXsiyhnKN0ByIl1z+YeLi3a6nEslAjkNqImJpDh3d5yPOl2c4aYsWq2zIxJfyK7lC/bjnrudp3H3x5cIqYD7Ebdej55dS63jDSW8sFOJtmexq8Cw3ENziz1SOE1doSLMbgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790549409; c=relaxed/simple;
-	bh=xnMkM0G13d/99Xs7RMKUARa0W6RoJ0+onrZaWW1xL1M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fnGaU4NdMTCo502QcOhER1sta2BCUoFDazK5lHXonut30D6unvpWbEeodQ/piRnxsuVhCJVmXcklGdgZCMIfae4wuTPgg1CEVVI8FOkB4Pw/Q1l+H24rk1//CDng66AV9F48PqvwL+1dMvfu3CxMdxgco8T33CurxqVMyB7UQ/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fqA2Pw3D; arc=none smtp.client-ip=74.125.227.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790549982; c=relaxed/simple;
+	bh=DSPKCCvXWwkhuO2V9MElUWg4NwtFtUeJ3ScX9mLmsfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UEAHDCm0S0/ZFESBzcdvMFt9SpvJSra23Nt3Znb90OBxQM9ZA4N2PmA3uKA8DegBmKYAaMxx9iHzx/OK4lWpkmQPR9qmb9gibPhZ5xHNSaK2myRxl4K0v0cbEt40fe5hvjjOXFYCBtT6y3/gxWsCmduBhHsayW4cT57wQjipCqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AzJnptY2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fqA2Pw3D"
-Received: by mail-pj2-f40.google.com with SMTP id d9443c01a7336-2e22e123350so1580255ad.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 15:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790549407; x=1791154207; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=d0ix5EZDXiF2tF+99ranIn+ggS6Fcte418NHD6GLqsA=;
-        b=fqA2Pw3DGnsrV85gr+5OFaTlZrj8pSAkAsxkchX6Baa+qbSdfZ7tRnjOfDeGCekdmn
-         N6xQtBwJh4c7eTTRBtRezfQj4HQjHVZom1ALX0pSK7iUq1D2TPm95SrTo2jzQz2SWDe7
-         R1i0tFDV/z6W8cT0L9DZlefo9novQGUCyP910oDBnkjWnqviQx/JjXeLalMmLivpQr8J
-         woUft95zXEJIiw5mPMGIF5/owyLQNPL7OGZEov83m4ScKusHcWjBKWqVxMuxv69OaG9b
-         +UMZxeOBT0LKui0zOkTxRYB8dypuUIlruoBEq80iU01WvA7ocfWa7VoP24x6gO3zwK9W
-         ePRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790549407; x=1791154207;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=d0ix5EZDXiF2tF+99ranIn+ggS6Fcte418NHD6GLqsA=;
-        b=GTuF34UcQb3l67UoXLW+A4A0ZqDW1JsBdKuUa5U+F0jz1bPxkY8ggrJ2bWMbe4Vt4i
-         4YvHh3rgHbd8hpQIlY3zulEoRb9+m9HcyYIPHqm1Qehm+Sq0Q3pStJ00NMhUX/oGZ3g2
-         NgEkWr67hBYlHGLVwXF76ozYkLiE5mgJjLmmspPYXlOV3yxfUgyUvbyCUMio96MyqBHU
-         24vjKB6LLztj8WzmJAxyr+hIftdIb26E0428ucQqPxGVQIjft1/AfgbFIDQGOy0aIe5Y
-         ITVJjJJRTYffnW3rSzPOfkXth+6/WbNNULWUy3rbtEf7pIPFODp2dY1guHoGQmcRPNdC
-         NMtQ==
-X-Forwarded-Encrypted: i=1; AKwUvByFaXM64IZH84q3mPihiRJ7VyPOLyOcaLEtipAzcAihkA+qYdiOKraB5Kl0leiYzJSW60LX6mbvVe16YZWx@vger.kernel.org
-X-Gm-Message-State: AFq9FYLC7v2tIrAJyDJpUNYAP4xIml3f1svawS1r10Jdy9BMQDY7BnnM
-	yzv4Ft9YPpp/hj5L9uLPoUknWGT9es/iI59lhcdSTQk13xQy9rtxMvuI
-X-Gm-Gg: AYBFou1vEj7iecbXXqYM4r2dEj4Bqyk14Iy0/LyxHBGAxTlwgYbf168o18FP/JWZcrF
-	dsueT5bkG2PljnFWsAKb3c7egsBpO2gXhgU44xHdnjtiZI6euVLg79MJpPMJtR+q9g0gi+o/PP2
-	v+ohvXMqQkqABEBlTwafdXgaj766ac5+9Uk/fnp3WU/tvtu+4s0328bCxI7Uh+spWWoSh23mOVh
-	JODdYSjQozz6imBBFnjS4A8gYS9nDOPqJJfAaw1OiuFjSGn2Aq3uByEGZGw5E+a5lOC/8DmUNAz
-	THhl811UtA6vvJL8ffk75GaQjgAzwBMtMnACJJ6O3tQnyVBsCAPNJR/oK4NKEk8rZN4WGVT7V5h
-	tTUd/uEzvIPnHJ8M/dpRcK9kCwY0VLxNwHzGHcFh691zV4fx8fiK5n1ziR/ab0gbQWzTMxUsHTw
-	TXS5q2LJZIrmS18b7ITzM0Z2nSBc5Q2cKtA6Rw8c5feiyMkF1XOlkPAdT05ZiAsW7Owz7A8Nf9G
-	VHZ/xk1yPsjGISoupsaIsYo2Ch5cWp9iWitdlNJqg1f9xC0V17/iaE3KIyfPUaWc69pTw9JzJyn
-	GRigNh9KCYI+UrsaMUoHMJVDgZK5rMhl+5m5Ky9Bqpw4LHAD3Dclp06kJG4=
-X-Received: by 2002:a17:903:2ac5:b0:2df:b45a:b673 with SMTP id d9443c01a7336-2dfb45ab781mr27172175ad.41.1790549406960;
-        Sun, 27 Sep 2026 15:50:06 -0700 (PDT)
-Received: from spider.bream-herring.ts.net ([103.6.151.236])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df913e13c8sm31971165ad.25.2026.09.27.15.50.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 15:50:06 -0700 (PDT)
-From: Matthias Goergens <matthias.goergens@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Hui Peng <benquike@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] qnx6: keep the top-level pointer index unsigned in qnx6_block_map()
-Date: Mon, 28 Sep 2026 06:50:02 +0800
-Message-ID: <20260927225002.509062-1-matthias.goergens@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AzJnptY2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B02651F000FF;
+	Sun, 27 Sep 2026 22:59:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790549980;
+	bh=Hq1LKObVOhK5OwpylNLhHyrxziCSH7fNn6E55vubs6M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AzJnptY2Q8e+TSLDWCylLGqQvJ2P4JtQ00HbHk2vsDRsxuLlXueL1/rIVvTUQzMDa
+	 ALDuPnTXFcBI54byv58HaHVid0yZRJh7t8J5EhS5+wGbIy7OhzRd746lbibXokyKBg
+	 472DTOjWgNGYPehCXF1nAR7bEbNwP5xDTM+n11Obi4H84gOreafXn9tImkTzPsgJkZ
+	 iN+t4T+74RS15ZPaMv1HsFA3BEFyfSCm9FfA46k37ryi4QjQF0tv0yjBLTUk/McF4G
+	 ZvzDkFz1bB9gM0ZAelk8IUgUx337u/i5M48k4mb8wHV9EBDvNCTc10Z11TsJr6Huvm
+	 YuLVLI/51swSg==
+Date: Mon, 28 Sep 2026 08:59:31 +1000
+From: Dave Chinner <dgc@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Carlos Maiolino <cem@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: support for RT data checksums
+Message-ID: <armf05yfzhSBUsUh@dread>
+References: <20260924100032.2733101-1-hch@lst.de>
+ <arWpyhFyV3ouYAEx@dread>
+ <20260925062710.GA3798@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260925062710.GA3798@lst.de>
 
-qnx6_block_map()'s top-level index is levelptr = no >> bitdelta,
-computed from the 32-bit block number no.  With bitdelta == 0 (a
-depth-0 tree) that is just no, and assigning a value above INT_MAX
-to the int levelptr narrows it negative; the levelptr >
-QNX6_NO_DIRECT_POINTERS - 1 check then passes and di_block_ptr[levelptr]
-is indexed out of bounds (UBSan array-index reports index -16777216
-and -8 on crafted images).
+On Fri, Sep 25, 2026 at 08:27:10AM +0200, Christoph Hellwig wrote:
+> On Fri, Sep 25, 2026 at 08:52:58AM +1000, Dave Chinner wrote:
+> > There's new buffer and inode locking in transactions,
+> 
+> Not sure what is new about that.  Tere is a single new transaction,
+> which logs a single buffer per transaction.  Not exactly new and
+> dancy.
 
-Reachable with a crafted inode whose i_size is large enough that mpage
-asks for block numbers beyond 2^31.
+You haven't answered any of my concerns - you're just handwaving
+them away and....
 
-The only other assignment to levelptr, in the loop, is masked to
-ptrbits and so is never negative; making levelptr unsigned leaves that
-path unchanged and makes the bounds check reject the large values.
+> > and there's a
+> > whole new buffer cache interface to "read a buffer", and that is
+> > used to open code reading checksum buffers and joining them to a
+> > transaction rather than using the existing xfs_trans_read_buf...()
+> > interfaces.  That in itself needs careful consideration, and clear
+> > justification for why it must be duplicated to stand outside all the
+> > existing BLI/transaction APIs, especially given all the "use the new
+> > async buf read interface to do sync buffer reads" behaviour across
+> > the patchset that could just use the existing interfaces.
+> 
+> I'm not sure what to make of this.  The paragraph almost reads like
+> AI slop to me.
 
-This is independent of bitdelta itself being too large to shift by
-(depth * ptrbits >= 32), a separate bug in the same function that a
-still-pending patch of mine guards against; that guard leaves the
-result of a valid shift assigned to the same int levelptr, so it does
-not fix the narrowing this patch does.
+... calling the concerns of an experienced engineer "AI slop".
 
-Fixes: 5d026c724220 ("fs: initial qnx6fs addition")
-Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
----
- fs/qnx6/inode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm so disappointed right now.
 
-diff --git a/fs/qnx6/inode.c b/fs/qnx6/inode.c
-index 6de49333acad..7df3eed5142d 100644
---- a/fs/qnx6/inode.c
-+++ b/fs/qnx6/inode.c
-@@ -117,7 +117,7 @@ static unsigned qnx6_block_map(struct inode *inode, unsigned no)
- 	unsigned block = 0;
- 	struct buffer_head *bh;
- 	__fs32 ptr;
--	int levelptr;
-+	unsigned int levelptr;
- 	int ptrbits = sbi->s_ptrbits;
- 	int bitdelta;
- 	u32 mask = (1 << ptrbits) - 1;
+You're better than this, Christoph. You know better than to attack
+the person instead of addressing the technical concerns they've
+raised. Calling the concerns of an experienced engineer "AI Slop" is
+also pretty insulting.
+
+You also know this has a chilling effect - how many people are going
+to be willing to say anything negative about your code, if all they
+get from it is a bunch of insults in return?
+
+I don't tolerate people who behave like this towards me or other
+team members anymore. "But I write lots of code" is just not good
+enough anymore, Christoph. You need to do better.
+
+FWIW, let's address the "AI Slop" aspect. I don't need to us an LLM
+to review code - I know the XFS code base as well as you do,
+Christoph.
+
+I hadn't even considered passing your code to a LLM yet to see how
+many holes I can poke in it. Everything I wrote document concerns my
+own brain raised  when doing an initial high level scan of the
+patchset. I always do that first so I don't waste time (or tokens!)
+doing detailed review on something that needs deeper rework before
+it is anywhere near ready for merge.
+
+That scan raised lots of questions in my head about the change, and
+so I documented some of my concerns and asked for more detail about
+how all this new functionality is supposed to work to be documented.
+Not just for me right now, but so there is a permanent record of the
+design for future reference.
+
+Performing critical analysis and asking for more detail to be
+documented is not "AI Slop". A LLM would just plow on through with
+whatever misunderstanding it started with and produce slop. It is
+very much a human behaviour to stop and ask for more context,
+detail, documentation, etc to address missing knoweldge before going
+any further.
+
+If you don't want meaningful review of this code, then just say so -
+don't insult the people who spend their own time tryng to understand
+the new functionality well enough to review it...
+
+> The rationale is pretty clear and documented: it
+> turns two dependent reads into two reads that work in parallel.
+
+Maybe that is clear to you, but it certainly isn't from my initial
+reading of the patches.
+
+I don't have all the unwritten knowledge that is in your head that
+you didn't document. I've never discussed this code with you, I have
+no background on how it is supposed to work, etc. I am coming in
+-cold-.
+
+I have not been able to find clear, logical descriptions of
+the algorithms for reading and writing checksums, the data
+intregrity protocols, the crash recovery protocols, etc. At this
+point, the only way for me to to understand details like this is to
+-reverse engineer the design from implementation-.
+
+That's the problem - you've presented an implementation without an
+overall design being documented, and then asking people to review
+the implementation without any other context. I need to understand
+the design before I review the implementation, as that is the only
+way I can perform a decent -implementation- review.
+
+Indeed, people often complain that it is too hard to adequately
+review complex changes, and this is one of the reasons: we are
+presented with an implementation, and -zero- design/architecture
+context from which to understand the implementation that has been
+presented. We need to fix that.
+
+> > I'd also like to have the format of the new on disk log item format
+> > structures clearly documented (because we're going to have to
+> 
+> There is no new log item format, it uses the standard buffer log format.
+> The buffer payload is somewhat new.  It is is the standard rt format,
+> a xfs_rtbuf_blkinfo followed by the real payload, which is an array
+> of checksums.
+
+Yes, the buffer payload is new, and it uses a new BLF flag that
+indicates it contains regions with some new on-disk format. And
+there are interactions with fsync and data integrity requirements.
+Document them!
+
+> > validate them) at recovery time, and also have a clear explaination
+> > of the data vs metadata ordering algorithms that ensures that
+> > checksums are always valid in crash+recovery situations, especially
+> > w.r.t. data integrity operations like fsync.
+> 
+> I think I explained it pretty well,
+
+You didn't, and that's the problem I am asking you to address.
+
+> but happy to repeat it again:
+> The zoned write path writes data first, and then records bmap, rmap
+> and used space tacking in the zone from the I/O completion handler.
+> The rtcsum code builds on that and only logs that csum from that
+> same I/O completion handler.  I.e. that data must have reached the
+> device for the code to log it to be even called, and for devices
+> with volatile write caches the generic cache flushing must work
+> (it did not until recently, but the verification of this code found
+> that bug and it is now fixed upstream).
+
+So document the design in the first patch in the series! In detail,
+in the tree alongside the code. That gives all reviewers the
+necessary context to understand what comes next in the patchset.
+
+Indeed, I ask this not just for reviewiers, but for anyone coming
+along in the future that needs to understand how data checksums work
+because they need to triage a bug, add new functionality, need to
+optimise for performance, etc. Just because you understand how it
+works and what you wrote in the commit messages, it doesn't mean how
+it is supposed to work, why it works, or why it was implemented in
+the way it was is obvious to anyone else.
+
+Documenting the design helps -everyone-, not just now, but well into
+the future as well.
+
+-Dave.
 -- 
-2.55.0
-
+Dave Chinner
+dgc@kernel.org
