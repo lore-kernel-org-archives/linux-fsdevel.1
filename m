@@ -1,66 +1,66 @@
-Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
+Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C61F3B6BF3
-	for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 05:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412B63B6BFE
+	for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 05:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790486258; cv=none; b=GfbDfx0UjdQKJ86G1jzIizuEmmdIwyuUuoAHF1iWIOhgni3JJvvgrCZvyvioLhQUsUYY2r/QcW72wTO9vCLVVA9oWX0ciYbA1J/tapaad+YBLyii95H9OU6thx37l84dI9wx7IGMyLG/i1Ffy+QWrE1Iwq1RwlId1aDDhkXdHEQ=
+	t=1790486264; cv=none; b=Jw/s7is12pTvdf12jDYM79Q6vwT2txAocvQ4VYU7yY6YNFZOZiNVv9sW7TTxrcZfjF0yYZfmjOImlYr5avefXMRrJZ5i8ZIfnj9L4ec/G9eI+sJx8QeXxOM/l94SJaMqYSep29AovV2kDzewB1LYurCgvxBx5dCjhxe59fMyEuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790486258; c=relaxed/simple;
-	bh=Ig7aROGKEsEQt6RxfPoVY1cGotH8x3H0xb/4OWtmlSk=;
+	s=arc-20240116; t=1790486264; c=relaxed/simple;
+	bh=SSmkElPyDxEYHWYFgGJzuCmYXCKp4WT/mcSA7J4Ux+Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AjlGr8oDEzrjr+8y+gnAk7BzuZxtHaKi6yWmDh3r9ChOXmauOw6aJVMFDEYEdHddXTzPj8gb/bpELI4pa3eUjPaG+3oqDQK1osubJ/ZYFu3sChX0F3B3WkvVCTm89mavLx20ToGw06rleflGKga80E0PrGpaBP6+1FaR5omd7oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rMMK7UHQ; arc=none smtp.client-ip=74.125.229.12
+	 MIME-Version; b=eLAwwbbcQaULX1SNdRZ9CNTQqQutm8DxHBMF1XvZB8x8mxjMCJ11J/FUXZIrhFDn1B5VJyhZ927gZ28tdhEmlQlVjGLCjHiaRj/U1BnQV/UemBCBTDaka2C07H2r4UomI9T/4Vb6lmWnoXGBtt1rIptWyhBxMddjxU+F8deQZPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qdE0+JAf; arc=none smtp.client-ip=74.125.229.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rMMK7UHQ"
-Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-328664c2da6so1565515eec.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 22:17:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qdE0+JAf"
+Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-3468ec3097dso88362eec.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 26 Sep 2026 22:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790486256; x=1791091056; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790486260; x=1791091060; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=atd05RcHl6jGL9KjOrx+DSWTOCcKDrBfeFwCMtdLU0U=;
-        b=rMMK7UHQ5tV1eSZLwoWlG9m8KwVU23sO18vh6OjzTzRj2PBjiwshFb2nTqemVONu/A
-         b9wYFdCMPS4ziNcEO0+7xC71XUP8xWe63yDK5XvFIqoNHEOdvqOKMz7YXpCfr+7k12Go
-         lIeyYCBHajQXIS33YvMVsP2cFpfElTuDmJMqb2iJlnxkNaG2lja9C06OnK8S2SRu4q9B
-         XspJK/iaWm60kQVWOWFqOXPSs1jf2a067EBgqdyoK+cc+flHHJnx0d49e0VZVRa0YcMd
-         HA+rGrDVLTgFihhzgcnsH3Y6AhlORWXx/fBnYjV18q5o/FnszzlPy+ojvv3j1i8t5ZDU
-         IEeA==
+        bh=BNvx6oU/daKEDtlWKz04FKMKbboc2AJpGlGKhS7HYzQ=;
+        b=qdE0+JAfgT/bSh+xOvLZHqmAxLd4YBKPwoMwegGk4SQwhvjFeepURus6DKeQyU59lm
+         0AJwl0a9hfVi3iayCQXbkCfGAJtA7M4bel7mOhpuj0NhmprsjlmpikZLQef6tblS3lBW
+         nbaZWY8CzG5bHmOw/40Iq10eQ5YjY+JbRtiFlUvYpbLkLqRFWgnOeQ622jKsgZ8He6Ml
+         BmRoRIzt/cjKhEpZyIbILE6yjXCyL0hMQ6fk1t1bbB1IKww6LJQ+fUkBYdtNnqpJKqKA
+         4SbFyQVeoGIuj/gnViH7k6YCJFSu1INSpmmY1139fYqGlQ4CNgQS+oLb3Qrdjv+wMygE
+         x05A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790486256; x=1791091056;
+        d=1e100.net; s=20260707; t=1790486260; x=1791091060;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=atd05RcHl6jGL9KjOrx+DSWTOCcKDrBfeFwCMtdLU0U=;
-        b=xX0mINFDWdO3Uc5jiyJA75FuIer5zkiNkI7QXEFeDQ3zd9De0b4qpSx0AVYT5Kje5Z
-         jqQGgcbA0YGLugtYTC02N+aKV/nsjJaO1lFXcUUKiJd9HNyaws2uN2yFLqNoyRC/gvL/
-         e+yV+smSeFtFzWiuiwsrmxtUVTTgpHTo7Qau93PSKQekcZlYfSQKWGv99b7WII9rYSG4
-         L1lNa2SrMc4Ypi2HfQvuu7wf/37AcvjtJ6gr0eh610KsuESYxqJgnpAw90DsEAn2T02K
-         9O8ao2FEV59OsU01aufGH82ForCGboFqtocoq77tlviD4vK4nhs8aobFUDzIULyxXbB4
-         J/jA==
-X-Forwarded-Encrypted: i=1; AKwUvBylfjBUrgHzfHIy/ermr2KbCwElCGUKDzqvjQ954DJkpDNikEuNB9Hj0L5LS+ReBV3VFxn1wBw6fKwiI/tM@vger.kernel.org
-X-Gm-Message-State: AFq9FYKm5hvA4m2gG5E+QkmVlpn3qqBHz6jW4rKb9ucDApyIG3GSarIs
-	aweqtKMIvDrZzy6zNxK4Cu+Ld8MRXxLht2YI02UdpYcXrIn9z2wB+q1X
-X-Gm-Gg: AYBFou0sCYldXX/cDTKh3xi18O0Fnyv85gA32jLggHKOEbTajFv08FgS5yaE74wpnyq
-	geURi8f3T2FsSEcK779ONn6XavF9b+rY3t6BJ/oLFQA/utsi0KBEROXsze1V5RhLV3gmdFme2s0
-	zcQbqQ9MMpJ5LDfcgcpQTx74dzFKKj2RR4ex4rTrQVFoW5FFcTiS2Ok4QoXTIy5aH6CwZ0GGuUp
-	UVFzrwBKfGtsgm5VpW/I1owgSUrr7Q6joBMvAsB0iF5lLV9dMeGKlZKWenBd5e9365JaMZSuOGD
-	30WWKDGgEAIw/c/UwVXNc6Lsvhp5+Z1Jh6aVqDdE+bj28JfK6pJ2/fv8H6S/wEBlUHthidOknik
-	TnMdOCg5sOAGt8dtA8hc8H7/DKv05Wlf9EwgdP2Y5iUzgVLEzT+2ydnZZslDSuwJtMB5qvJYqF8
-	Am4N8HcEeOjtGJ2ZkKGj7BQ8qjZWm3V7ge5H3qbYNLwAnZQifRNpG+dQG0aVN2nApdOEkBK41WX
-	e/catbq+SR75F0AahLLKhQGslG6VkMxqCMCi5aYm82ct7LvvabZf3zAlZn493h/y+EBs/BiCtKd
-	vxOnyo6BSeAj/VQXX0TFywQ/kaGV8Q8T0bZ/K8zVqmliPNsSRAdmWoBhFdq9v3TUz4riS/BjMQ=
+        bh=BNvx6oU/daKEDtlWKz04FKMKbboc2AJpGlGKhS7HYzQ=;
+        b=mlehoinqh2YWI2fnnXSks3vx/WIFjHXcSbqgCVWmoDJ+ZwKWuwzfMlbEqaoD0UsJTu
+         zjx5RpwDcMtSAs7TktnEBC0DOOMsLZD3CjvK3SaVJ898lEtfAw12VjtDmTwllomeRPk0
+         CDwbKvVkqfEyax6/u0RwVjtbcfE5RH/IHw2/OhQeHrGLn6/5Y8Z9iHqthNQJ5K72+Ak8
+         EyClm94DL3rZClJeLiq8PsjFzB/HXlAFkZU9y0ngiCuQj1IlwJLHf0eZvBfD55mqhKuU
+         pvgQ33mpqvI7o6QuOIGqs517OqIFqSPuDGDh8eBDwFRsOj8GJn20kiABLqdGrPOrs188
+         P6xQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw7iW4WiuGACnnkTY7uxajUMW9dp09H5Lhn1sHSXufnhzTiHqgAWNYHDV0DCk927aTph1yrHclNzZzJZay6@vger.kernel.org
+X-Gm-Message-State: AFq9FYIpqn8/HGw5bznInz6pDoLPZrO8zFBJB8bA9jlt36bLAGVoWuBT
+	zqvLDGeFMYlWF800UxuvaBt5NR7iCmoYLJvss6qZngcbqLK2Ag0mJ7qO
+X-Gm-Gg: AYBFou1/08tno7wJaKE82OzOmgmZZJYx//7SL9CMfOvBbByBIeX/iG+ZIQOZRtNIi2p
+	FDrXmJ7wv1NMHRU9i09nLgY62CYJJ0240wLVM6Ez/ilh4K02KOk65bDkZqB/vQpKnEZc4PfGGEJ
+	TKxEldbKQSuh/AP4RSvwOFhqcSarlHLMu+BC/HNI1fWGTyg9umJp04TXfLgRuz9rs/ODVD1C4OX
+	r8mjmU7ci4uWnSgiBG/0S6ol7KDXLkcerkSnZNMr4XB8dk7fnA3KhIDWlz7xLv9OieZqcH124i6
+	OG9w2nQYrupLHvIjOUq78zifViDVN7QLqYST9oyY0PvdC/BxpcyhSzS7AekukGe7oLowI72d1sM
+	caBH9JK+g7Sjv5ZT/eHwrBPXnX39zmoqkPk8PTkANal4g5TNEpp853+xec+ykYYGfERqM9TwmlZ
+	JjxRlsySsh0wg+fhalOHHGwTJRqGTiB8ewQpDuZf3oEvzLVn7XOJf/5CiobMhdjm7k9worZhA8H
+	2ExPSxJGsJSdbSY7wRuIOB1GaNzC6+smTxeEXyR8YiZp1LyRWjGfLZXFmdzcd/KPvzXjBODfD/p
+	m5Qn3Y0s/nXvD3iAuJCh1qDSRGZ/n+e0el2Se+oihqELNXIqQc5fBoMxakvTdf3a3WAzdwKufA=
 	=
-X-Received: by 2002:a05:7301:1f15:b0:341:5da1:7851 with SMTP id 5a478bee46e88-342703b8346mr7214509eec.12.1790486256414;
-        Sat, 26 Sep 2026 22:17:36 -0700 (PDT)
+X-Received: by 2002:a05:7301:5804:b0:33b:e3c8:a757 with SMTP id 5a478bee46e88-342705b865cmr7963326eec.1.1790486259829;
+        Sat, 26 Sep 2026 22:17:39 -0700 (PDT)
 Received: from FT6N242TWK ([223.181.116.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34144173a2asm20713863eec.6.2026.09.26.22.17.33
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34144173a2asm20713863eec.6.2026.09.26.22.17.36
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 26 Sep 2026 22:17:35 -0700 (PDT)
+        Sat, 26 Sep 2026 22:17:39 -0700 (PDT)
 From: Shashank Mohan Jain <jain.sm@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Jeff Layton <jlayton@kernel.org>,
@@ -69,9 +69,9 @@ Cc: Jeff Layton <jlayton@kernel.org>,
 	Thomas Maarseveen <maarseveent@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] errseq: don't let errseq_check_and_advance() hide later errors
-Date: Sun, 27 Sep 2026 10:47:25 +0530
-Message-ID: <20260927051726.71337-2-jain.sm@gmail.com>
+Subject: [PATCH 2/2] lib/tests: errseq: add a concurrent check_and_advance test
+Date: Sun, 27 Sep 2026 10:47:26 +0530
+Message-ID: <20260927051726.71337-3-jain.sm@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260927051726.71337-1-jain.sm@gmail.com>
 References: <20260927051726.71337-1-jain.sm@gmail.com>
@@ -83,145 +83,173 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-errseq_check_and_advance() reads the errseq_t, sets ERRSEQ_SEEN with a
-cmpxchg() and then advances *since to the value it computed, ignoring
-whether the cmpxchg() succeeded. When it fails because errseq_set()
-recorded a different error in the meantime, *since ends up holding a
-value that was never stored in the errseq_t.
+Add a test case that races errseq_check_and_advance() on one CPU
+against errseq_set() of a different error on another CPU, then records
+the first error again and lets a second cursor consume it. The second
+-EIO is recorded after the first cursor's check returned, so that
+cursor's next check must report an error, whichever way the race with
+-ENOSPC went.
 
-errseq_set() only bumps the counter when ERRSEQ_SEEN is set. So as long
-as nobody has seen the new error, recording the original errno again
-recreates exactly the old value, and once another subscriber marks it
-seen, it is equal to the stale *since. The next check through that
-cursor then reports nothing, although -ENOSPC was recorded after the
-value that check reported, and -EIO was recorded again after it
-returned:
+Without the previous commit 1-6% of 2 million rounds lose the error
+on UML with 4 CPUs (seccomp=on ncpus=4); with it none do. The case is
+skipped on a single CPU and stops after 5 seconds.
 
-  cursor f                writeback              cursor g
-  --------                ---------              --------
-                          set(-EIO)
-  check_and_advance(&f)
-    old = [c, EIO]
-                          set(-ENOSPC)
-                          -> [c, ENOSPC]
-    cmpxchg() fails
-    f = [c, EIO, SEEN]
-    returns -EIO
-                          set(-EIO)
-                          -> [c, EIO]
-                          (no bump: unseen)
-                                                 check_and_advance(&g)
-                                                 -> [c, EIO, SEEN]
-                                                 returns -EIO
-  check_and_advance(&f)
-    [c, EIO, SEEN] == f
-    returns 0             <- -ENOSPC and the second -EIO are lost
-
-For file->f_wb_err this means that fsync() on one descriptor can return
-0 although writeback failed after the previous fsync() on that
-descriptor returned, when writeback errors race with fsync() on another
-descriptor of the same file. The same applies to syncfs() through
-sb->s_wb_err, which every file on the filesystem shares, and to the
-ext4 and jbd2 cursors on the block device mapping. The kernel-doc
-promises "Negative errno if one has been stored, or 0 if no new error
-has occurred".
-
-Retry with the value found when the cmpxchg() fails, so that *since is
-only ever advanced to a value that was actually stored with ERRSEQ_SEEN
-set. Every later errseq_set() then has to bump the counter, and the
-error is reported. The retry loop terminates because each iteration
-needs a concurrent update, like the loop in errseq_set().
-
-A TLA+ model of errseq_set() and errseq_check_and_advance(), checked
-with the TLC model checker, finds the lost error with the current code;
-with this change TLC checks that an error recorded after a check
-returned is always reported by the next check (exhaustively for two
-subscribers with three checks each, and one writer recording four
-errors or two writers recording two each). The KUnit race test added
-in the next patch misses the error in 1-6% of 2 million rounds on
-4-CPU UML before this change (depending on host load), and in none
-after it.
-
-Fixes: 84cbadadc6ea ("lib: add errseq_t type and infrastructure for handling it")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM TLC
+Assisted-by: LLM
 Signed-off-by: Shashank Mohan Jain <jain.sm@gmail.com>
 ---
-Found with a TLA+ model of lib/errseq.c checked with TLC; the fix, the
-test and the changelogs were drafted with an LLM assistant (Claude
-Code, Claude Opus 5.5).
+Needs the errseq KUnit suite from commit b52f5c1605f2 ("lib/tests: add
+KUnit tests for errseq"), which is in mm-nonmm-unstable. The case is
+skipped unless the kernel has at least two CPUs (on UML:
+--kernel_args seccomp=on --kernel_args ncpus=4).
 
-Tested: the KUnit case in patch 2 on UML x86_64 with 4 CPUs (8 runs)
-and 2 CPUs, and on UML i386 with 4 CPUs (--kernel_args seccomp=on
---kernel_args ncpus=4): 22k-116k of 2M rounds lose the error before,
-0 after; a userspace replay of the unmodified lib/errseq.c with a hook
-before the cmpxchg(); TLC (exhaustive for 2 files x 3 checks, 1 writer
-x 4 errors or 2 writers x 2 errors); W=1 builds for UML x86_64 and
-i386.
-Not tested: fsync()/syncfs() on a real failing device, and weakly
-ordered hardware (the model is sequentially consistent; the fix adds
-no ordering requirements beyond cmpxchg()).
+ lib/tests/errseq_kunit.c | 110 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 105 insertions(+), 5 deletions(-)
 
-Applies to mainline on its own; see the cover letter for patch 2.
-
- lib/errseq.c | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
-
-diff --git a/lib/errseq.c b/lib/errseq.c
-index 13a2581c5a87..ea4ff9cc2166 100644
---- a/lib/errseq.c
-+++ b/lib/errseq.c
-@@ -162,7 +162,8 @@ EXPORT_SYMBOL(errseq_check);
-  * points to. If it does, then just return 0.
+diff --git a/lib/tests/errseq_kunit.c b/lib/tests/errseq_kunit.c
+index 8f39ebc4a248..5ebc411ea749 100644
+--- a/lib/tests/errseq_kunit.c
++++ b/lib/tests/errseq_kunit.c
+@@ -2,21 +2,26 @@
+ /*
+  * KUnit tests for the errseq_t error-tracking infrastructure.
   *
-  * If it doesn't, then the value has changed. Set the "seen" flag, and try to
-- * swap it into place as the new eseq value. Then, set that value as the new
-+ * swap it into place as the new eseq value. If the swap fails because the
-+ * value changed, retry with the new value. Then, set that value as the new
-  * "since" value, and return whatever the error portion is set to.
+- * These exercise the documented single-threaded semantics of the errseq
+- * API (see Documentation/core-api/errseq.rst and lib/errseq.c): error
++ * Most cases exercise the documented single-threaded semantics of the
++ * errseq API (see Documentation/core-api/errseq.rst and lib/errseq.c): error
+  * recording and overwriting, the "seen" handoff between errseq_sample()
+  * and errseq_check_and_advance(), and the re-reporting of an error that
+  * is recorded again after it has been seen.
   *
-  * Note that no locking is provided here for concurrent updates to the "since"
-@@ -184,24 +185,30 @@ int errseq_check_and_advance(errseq_t *eseq, errseq_t *since)
- 	 * to take the lock that protects the "since" value.
- 	 */
- 	old = READ_ONCE(*eseq);
--	if (old != *since) {
-+	while (old != *since) {
- 		/*
- 		 * Set the flag and try to swap it into place if it has
- 		 * changed.
- 		 *
--		 * We don't care about the outcome of the swap here. If the
--		 * swap doesn't occur, then it has either been updated by a
--		 * writer who is altering the value in some way (updating
--		 * counter or resetting the error), or another reader who is
--		 * just setting the "seen" flag. Either outcome is OK, and we
--		 * can advance "since" and return an error based on what we
--		 * have.
-+		 * If the swap fails, a writer or another reader changed the
-+		 * value under us, so retry with the new value.  "since" must
-+		 * only ever be set to a value that was stored with the SEEN
-+		 * flag: errseq_set() does not bump the counter while the
-+		 * flag is clear, so an unstored value could come back later
-+		 * and hide the errors that were recorded in the meantime.
- 		 */
- 		new = old | ERRSEQ_SEEN;
--		if (new != old)
--			cmpxchg(eseq, old, new);
-+		if (new != old) {
-+			errseq_t cur = cmpxchg(eseq, old, new);
-+
-+			if (cur != old) {
-+				old = cur;
-+				continue;
-+			}
-+		}
- 		*since = new;
- 		err = -(new & ERRNO_MASK);
-+		break;
- 	}
- 	return err;
+- * The lockless properties of errseq_t under concurrent updates are
+- * outside the scope of these deterministic tests, as is the WARN path
+- * for invalid error values.
++ * The WARN path for invalid error values is not tested.  The last case
++ * races errseq_set() against errseq_check_and_advance() on another CPU.
+  */
+ #include <kunit/test.h>
+ 
++#include <linux/atomic.h>
++#include <linux/cpumask.h>
+ #include <linux/err.h>
+ #include <linux/errno.h>
+ #include <linux/errseq.h>
++#include <linux/jiffies.h>
++#include <linux/kthread.h>
++#include <linux/random.h>
++#include <linux/sched.h>
+ 
+ /*
+  * A zeroed errseq_t is the "no error has ever occurred" epoch: it
+@@ -209,6 +214,100 @@ static void errseq_test_two_subscribers_independent(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, errseq_check_and_advance(&eseq, &cursor_b), 0);
  }
+ 
++/*
++ * errseq_check_and_advance() racing with errseq_set() on another CPU.
++ *
++ * Each round, cursor @f checks an unseen -EIO while another CPU records
++ * -ENOSPC.  Afterwards -EIO is recorded again and cursor @g checks.  The
++ * second -EIO is recorded after @f's check returned, so @f's next check
++ * must report an error, whichever way the race with -ENOSPC went.
++ */
++struct errseq_race {
++	errseq_t eseq;
++	atomic_t go;		/* round the writer should run */
++	atomic_t done;		/* last round the writer completed */
++	unsigned int wdelay;
++};
++
++static void errseq_race_spin(unsigned int n)
++{
++	while (n--)
++		cpu_relax();
++}
++
++static int errseq_race_writer(void *data)
++{
++	struct errseq_race *r = data;
++	int seen = 0;
++
++	while (!kthread_should_stop()) {
++		int round = atomic_read_acquire(&r->go);
++
++		if (round == seen) {
++			cond_resched();
++			continue;
++		}
++		seen = round;
++		errseq_race_spin(READ_ONCE(r->wdelay));
++		errseq_set(&r->eseq, -ENOSPC);
++		atomic_set_release(&r->done, round);
++	}
++	return 0;
++}
++
++#define ERRSEQ_RACE_ROUNDS	2000000
++#define ERRSEQ_RACE_SECONDS	5
++
++static void errseq_test_check_and_advance_race(struct kunit *test)
++{
++	struct errseq_race *r;
++	struct task_struct *writer;
++	unsigned long deadline;
++	int round, unreported = 0, missed = 0;
++
++	if (num_online_cpus() < 2)
++		kunit_skip(test, "needs at least two CPUs");
++
++	r = kunit_kzalloc(test, sizeof(*r), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, r);
++
++	writer = kthread_run(errseq_race_writer, r, "errseq_race");
++	KUNIT_ASSERT_FALSE(test, IS_ERR(writer));
++
++	deadline = jiffies + ERRSEQ_RACE_SECONDS * HZ;
++	for (round = 1; round <= ERRSEQ_RACE_ROUNDS; round++) {
++		errseq_t f = 0, g = 0;
++
++		WRITE_ONCE(r->eseq, 0);
++		errseq_set(&r->eseq, -EIO);
++		WRITE_ONCE(r->wdelay, get_random_u32_below(64));
++		atomic_set_release(&r->go, round);
++
++		errseq_race_spin(get_random_u32_below(64));
++		if (!errseq_check_and_advance(&r->eseq, &f))
++			unreported++;
++
++		while (atomic_read_acquire(&r->done) != round)
++			cond_resched();
++
++		/* Recorded after f's check returned: f must hear about it. */
++		errseq_set(&r->eseq, -EIO);
++		errseq_check_and_advance(&r->eseq, &g);
++		if (!errseq_check_and_advance(&r->eseq, &f))
++			missed++;
++
++		if (time_after(jiffies, deadline))
++			break;
++		if (!(round & 1023))
++			cond_resched();
++	}
++	kthread_stop(writer);
++
++	kunit_info(test, "%d rounds, %d missed errors\n", round - 1, missed);
++	KUNIT_EXPECT_EQ(test, unreported, 0);
++	KUNIT_EXPECT_EQ(test, missed, 0);
++}
++
+ static struct kunit_case errseq_test_cases[] = {
+ 	KUNIT_CASE(errseq_test_zero_epoch_reports_no_error),
+ 	KUNIT_CASE(errseq_test_set_records_error),
+@@ -223,6 +322,7 @@ static struct kunit_case errseq_test_cases[] = {
+ 	KUNIT_CASE(errseq_test_repeat_error_visible_to_all_cursors),
+ 	KUNIT_CASE(errseq_test_advance_stable_when_unchanged),
+ 	KUNIT_CASE(errseq_test_two_subscribers_independent),
++	KUNIT_CASE_SLOW(errseq_test_check_and_advance_race),
+ 	{}
+ };
+ 
 -- 
 2.43.0
 
