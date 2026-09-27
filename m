@@ -1,201 +1,130 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779A93BB114
-	for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 07:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790494050; cv=pass; b=phT4wtIYNa6do/R8rT63MwGN5fRg0sL3hKZAClAooXKK1U5nBROFtjil2e95oPoEnM68NS31bKMtghnMHAnyddHtoACWk9OSN/gOCRBiFBAKCRHIa49od1Ig1XhRgfVR0UY2XGu1UXGvL/QmsvnTJcSSs1eRbm7gktwFeLLZuC0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790494050; c=relaxed/simple;
-	bh=08YlvvKTuuhXI9bTdUpQ2WLGjZPd4IBv+KACV3DWHbg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lKtVMZarlwQPnkkRBQPD+s1W5BTHumRUh3HRls75nR7Nuoqdzd/OSs6+Zm77kvmgfsUsiV/v8Mg/6MvKtO2J8MQtLAPwhsDhQAqyxqg/D6lRM8dW1CKdRkjji2gWVpKKpOjCXtXAR+DTo6LmBEbdphZXixAMqIl60T1vJZGpxWc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z1/echsb; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z1/echsb"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6aaf28a86b9so2701198a12.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 00:27:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790494044; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZRaswhmX9qV3tp6xcDWHBVD/ZA20SMSFVIwKKHSPnSCCVtXQ7ZBybUdncR8K6DBONO
-         R8DN6tjRBDuod5ZFlOe5gkUPa+rqrKBtRIw6WCZSvbMLip2ExZJ3OH7CNP/IzoiZiUwp
-         TLKyPniiUQFSQzORW0jgxSnMx5SBMOJedAMvXv1/t3WigWlnUsRz9AEDflfRXz31+7N4
-         k8uGK4BSnnIgBAEA6iGdXSAWKPOMfihJiublbV1fNe4cn3+JetLbxBVKuPOiFmbKakC6
-         6xrI+3Uznk7Il0T7Q4P+1QAc4jGqmjwJuuS/bwZ19KIMwSk+Q28WQhStq4M35onnqQt/
-         +YGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=r2dA4rveDo/qwHzdV4fULmqnRkPVTOlAOyvtUxne+BI=;
-        fh=IOjgDbgN+gwW0yD5C2PS3JDwwxK4qxqwCCp+4IcXbBA=;
-        b=jsn/SG4yDS3l30JFtsqO+1Ia5ER4CGQu8hC6A6WivY8CW2nxM4iVFkytkwRWmDRZr/
-         K2fASQh7ej0LcHPT5HVDSywH24s5EeAJdlPTTm2XpGh4ni43vxHRvhGr5TxWr/BZX/t8
-         qZIdNTLKaA4IQj/Dap/3jEPamgI5O3IEWLYG5swHP/PyNHPhVywAuFYHRabGH0RC2EWw
-         9a6x1+tGLLebPYbQGLEzxuY04jepp2xoDp4b0iKJz/WyDnFNIAGoYKGB+qMS2Dyg5EQG
-         y7x1/Y0JI/zxYDdDKmlrVy8WddhLyVntUQiuJPqn9V11hgXuINMTSz0ArDn6S3rIjXK4
-         SxVQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790494044; x=1791098844; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=r2dA4rveDo/qwHzdV4fULmqnRkPVTOlAOyvtUxne+BI=;
-        b=Z1/echsbyMPd0CB9aI55LHMADPFBj9dl6MzKL0ccG5XLsCtaMMucvL0H9f0//GcHa0
-         TyDZ/vLX0VW4xf3WZP5wMdJy6PkDUG1y2jOAfqpBzj155U+1EqclLFcjXxNYct0WZwDz
-         zKXYfoialvMjWX/lUyoFhVjxX+mNvORtGLmzOOXMEE+L55VYVF2iDmqGnnpfd4q+TlVC
-         jY37dKFGcWf8JGIdGrvqNFc9/hvE0i9RKfC0RqdkX1wvsxCqOVZGQV8vbv+g4T3CHgqB
-         kJBW+xEpI5WDCQ11Xu8VPKQSF8TZl49OsEE7h0lzs+h6JSOKZL3Tj6UrYKsKKFMhFC91
-         xYBg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7202D3CBE66
+	for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 08:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790496747; cv=none; b=W2V2sRVBg94U9Uq80dCnU5ceq2fvlfEtMwc+9PqnnG5eiX7XqporDwIH28op1ZgX1aXLLcX554jr8Lo0C1d8QKvWV107Lb9b114J8ztVa/dMkeKiqBXSqGygkOeHI/lng+qeO0Epqk0/XfkDJNsCeIHtEk+6xrZkR5EqZzG47c8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790496747; c=relaxed/simple;
+	bh=lLMJealxkAdXTURrDg7UpeKv4UMlYxrVStomrTmBkek=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=fjJBGIPgVnbuDWP8ZclIPWBxvltKTVfSNJj8dCZ7y2BVwSxfPu/ORJtjHN8P7qO5Kt3cszS9oZtJMti5nd23XNjzmmk+lN+RM5eN2AP7wZKi3TP+QMK99Tx7U43B5b9HuUg4XtQyWyvnd4UwC+0aaalUbZNJeU96xFVeQoUmgRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4e937c5bd4fso147991b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 27 Sep 2026 01:12:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790494044; x=1791098844;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=r2dA4rveDo/qwHzdV4fULmqnRkPVTOlAOyvtUxne+BI=;
-        b=k03rcPgPhaKOeb6egnZLhmtpr49Zqc3niIwIIb4Tm9rGAn/WN6TI62fW+QAbHltF5q
-         32lNm40CSAjrXdroBL3M3NtBcKCFf70XcwbnZQcq3XjApoXqMWRkn14URRIFkIfQNuNN
-         n/5hF3wz/XIpyjb9C6G9vXOGcSvHgMeF6OWB5DhLYQhBAptsBKO0NYDQFXVmDEKh5Yb/
-         WqEfb5EOtD47u8EvxU+CVgpmDtwoo44e8Qa+O/jRzJkR27KWcdBFT2guikP/mXF/OCKe
-         yYjXTccfn4pyMX7kNHVHd7GCvFcIcpzi7ljPYsxbxGeAQ37jMTB6fbJsE6mWQN68CNRw
-         7rpg==
-X-Gm-Message-State: AFq9FYL5UBH9IGqegG7N4vuZsunXVnNLGPdi4EfEF0OvOmsBrW04ocHt
-	5HRriq1RevrT2hytqEzFjgH9vM4UVgN4CXIum18Je8EW8TUea2wflRpfuYphcMkoEej77iw5nV8
-	b1Dhgy/e6XGR2rth4R4EVQm/jJbKmo3s=
-X-Gm-Gg: AYBFou2Oh1OwqR6daK35bZtobp3Akv20MjadVwA5cSOEvx9/OXFvbN9opqkXKpFPXKY
-	b/YNPccNZiDuCZLlnZfBeGfETR40ktepq3U+jPwqYym2B7ZECZxi4MY0V9/hah2w9SUBnmoJlVd
-	4FtroEHli+spUVdxWZYx/DSifuadeS9V4PXpl2TGUUMdcOpLdo/V/8ZxRiLq3zSsYXyUg/mIF8c
-	YvbPgXDp9jYVwB1znqqVgGUCZCY+oHDb6sVNtJJprvyRJNFiWcGI14SuzrrTF18ZmoQIShvGHAh
-	r7Qb4huf1t9v3Wfh07xUF3aGmx040+J5T6FO9Q8vToTyrquMC2Duil12
-X-Received: by 2002:aa7:d9cd:0:b0:6aa:ff32:55ad with SMTP id
- 4fb4d7f45d1cf-6aaff325ad6mr2463712a12.19.1790494043761; Sun, 27 Sep 2026
- 00:27:23 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790496744; x=1791101544;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=K9X8BY6U+YIcepRPV0MZIBm8qRqdDSo7Q6FIIDDCDBA=;
+        b=pes49NR5y4fjJ0UJ9Hzs9Hv2LrUU6OYyruOBfKwnK/6SeI90ADm3jXO0Uk56GFRSt1
+         wD88xYW7xZFMeJ5nWh3/tJQdZvpXDo1Hh0tw2EYdYNPN73SYb7qMUnbli9RAn72/BgBu
+         +vhcQN35vLRYi8aGcIUiEeL02HQfXBq4WzOkrdQOHoUoLh0ERcgt35P66Km+Elb9rW2V
+         K6LWkgIw9/7I+AGtXwG+4Ktulkc+7YFatt90CibhjI6zuMiCwup5gDUmpGFu2xMYr+iS
+         vq2LKCv2mSsp49JNKu0V7pOTXcJA10LxQ5C57EgZ2rajgfF1MIGoRjmd1m/wnpsr69hr
+         Xnuw==
+X-Forwarded-Encrypted: i=1; AKwUvBwRG//KHUd+bE3aAuhUFOn/XCuB7IJTDQa9O98X83QONAWDy7+JQ4YrtT+5VqR3K0lP7iYHWIl7rH39jwpA@vger.kernel.org
+X-Gm-Message-State: AFuF++mst+sOZx73dMH6tXDxnL1J6Fz+3jW/IMRSfUAbEk9etsu7Afb3
+	vwBRAuXvpER5/Mj1lOMXLisdKPaLbXZdaQhnVnVzkYGCnFWlky6ANGQkUc2xhd4FR8fmtX5VBeQ
+	iTGYeHRb4QoEc8zbnCun4AdAnD3nk6oPl9lS/JR2ecq6J8rgMisOrsFCREUU=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260926043836.3301898-1-matthias.goergens@gmail.com> <20260926043836.3301898-3-matthias.goergens@gmail.com>
-In-Reply-To: <20260926043836.3301898-3-matthias.goergens@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sun, 27 Sep 2026 09:27:12 +0200
-X-Gm-Features: AclHuK9WcN0QE-CMoABg-3S0S9ooiM3h6-ZB760atxT6Z4stK_0t8ClGGX6L1CA
-Message-ID: <CAOQ4uxhCZGqu4C_wonPZq_AC7qr=qS3_Y9kA+W1feahYBBOYPA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] vfs: add FILE_DEDUPE_RANGE_REPORT_PROGRESS flag to FIDEDUPERANGE
-To: Matthias Goergens <matthias.goergens@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	jack@suse.cz, linux-kernel@vger.kernel.org, hch@infradead.org, 
-	djwong@kernel.org, david@fromorbit.com, ansgar.loesser@kom.tu-darmstadt.de
+X-Received: by 2002:a05:6808:10c6:b0:4d3:6be7:c64a with SMTP id
+ 5614622812f47-4dc478167f9mr6530733b6e.0.1790496744441; Sun, 27 Sep 2026
+ 01:12:24 -0700 (PDT)
+Date: Sun, 27 Sep 2026 01:12:24 -0700
+In-Reply-To: <6ab7dca9.80e1c6cc.1e8e5f.0046.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ab8cfe8.dc2998a4.2261f5.0062.GAE@google.com>
+Subject: Re: [syzbot] [fuse?] WARNING in fuse_iomap_writeback_range
+From: syzbot <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com>
+To: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 26, 2026 at 6:38=E2=80=AFAM Matthias Goergens
-<matthias.goergens@gmail.com> wrote:
->
-> Deduplication tools such as duperemove, bees and rmlint advance their
-> file offsets by the bytes_deduped the kernel returns for each
-> FIDEDUPERANGE call.
->
-> vfs_dedupe_file_range() passes REMAP_FILE_CAN_SHORTEN, so
-> generic_remap_checks() may round the length down to a block multiple,
-> but the ioctl still reports the requested length in bytes_deduped. The
-> caller cannot tell that the tail of its request was left alone: rmlint
-> 2.10.3 on btrfs (4 KiB blocks) deduping a 100000-byte file against a
-> 250000-byte file with the same prefix is told bytes_deduped=3D100000
-> with status SAME while only 98304 bytes were actually shared; its loop
-> ends and it reports the pair fully deduplicated. duperemove and bees
-> advance the same way, and jdupes advances by its own requested length
-> without reading the field; all of them skip such a tail.
->
-> Add FILE_DEDUPE_RANGE_REPORT_PROGRESS for file_dedupe_range.flags:
-> with it, bytes_deduped is the length the filesystem actually
-> deduplicated when status is FILE_DEDUPE_RANGE_SAME, and 0 on
-> FILE_DEDUPE_RANGE_DIFFERS or error. Callers advance by it as today,
-> but must treat 0 as "stop or subdivide", not retry unchanged. One
-> cause of SAME with 0 is a sub-block request that does not end at both
-> files' EOF, which the generic range preparation shortens to nothing.
-> On DIFFERS there is no sound progress or mismatch offset to report, so
-> 0 leaves subdividing to the caller, as rmlint already does.
->
-> The default cannot change: commit 4a57a8400075 ("vf/remap: return the
-> amount of bytes actually deduplicated") did exactly that and was
-> reverted the next day; among deployed callers, duperemove re-queues a
-> request while its status is 0 and would re-issue the same sub-block
-> request forever.
->
-> Without the flag nothing changes.
->
-> Suggested-by: Darrick J. Wong <djwong@kernel.org>
-> Link: https://lore.kernel.org/linux-fsdevel/20260805071414.3414870-1-matt=
-hias.goergens@gmail.com/
-> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+syzbot has found a reproducer for the following issue on:
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> ---
->  fs/remap_range.c        |  4 +++-
->  include/uapi/linux/fs.h | 11 ++++++++++-
->  2 files changed, 13 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/remap_range.c b/fs/remap_range.c
-> index 26afbbbfb10c..63f1b6f90c16 100644
-> --- a/fs/remap_range.c
-> +++ b/fs/remap_range.c
-> @@ -503,7 +503,7 @@ int vfs_dedupe_file_range(struct file *file, struct f=
-ile_dedupe_range *same)
->         if (!(file->f_mode & FMODE_READ))
->                 return -EINVAL;
->
-> -       if (same->reserved1 || same->reserved2)
-> +       if (same->reserved1 || (same->flags & ~FILE_DEDUPE_RANGE_REPORT_P=
-ROGRESS))
->                 return -EINVAL;
->
->         off =3D same->src_offset;
-> @@ -555,6 +555,8 @@ int vfs_dedupe_file_range(struct file *file, struct f=
-ile_dedupe_range *same)
->                         info->status =3D FILE_DEDUPE_RANGE_DIFFERS;
->                 else if (deduped < 0)
->                         info->status =3D deduped;
-> +               else if (same->flags & FILE_DEDUPE_RANGE_REPORT_PROGRESS)
-> +                       info->bytes_deduped =3D deduped;
->                 else
->                         info->bytes_deduped =3D len;
->
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index 34c6f219462a..c61bc98909cc 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -178,13 +178,22 @@ struct file_dedupe_range_info {
->         __u32 reserved;         /* must be zero */
->  };
->
-> +/* flags for struct file_dedupe_range */
-> +/*
-> + * Without this flag, bytes_deduped is the requested length on success,
-> + * even if the filesystem deduplicated fewer bytes (e.g. after shortenin=
-g
-> + * the request to a block boundary).  With this flag, bytes_deduped is
-> + * the number of bytes actually deduplicated.
-> + */
-> +#define FILE_DEDUPE_RANGE_REPORT_PROGRESS (1U << 0)
-> +
->  /* from struct btrfs_ioctl_file_extent_same_args */
->  struct file_dedupe_range {
->         __u64 src_offset;       /* in - start of extent in source */
->         __u64 src_length;       /* in - length of extent */
->         __u16 dest_count;       /* in - total elements in info array */
->         __u16 reserved1;        /* must be zero */
-> -       __u32 reserved2;        /* must be zero */
-> +       __u32 flags;            /* in - FILE_DEDUPE_RANGE_* flags */
->         struct file_dedupe_range_info info[];
->  };
->
-> --
-> 2.55.0
->
+HEAD commit:    fd179f8a05be Merge tag 'ata-7.3-rc5' of git://git.kernel.o..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=13490605580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9d4242cb1c54cdf7
+dashboard link: https://syzkaller.appspot.com/bug?extid=e8200299b0556976e13c
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1523f2c9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14385315580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c4cebd01ff3c/disk-fd179f8a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9fd8641fa35c/vmlinux-fd179f8a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c6e8e6332600/bzImage-fd179f8a.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+!ff
+WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043 [inline], CPU#0: syz-executor122/5774
+WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227, CPU#0: syz-executor122/5774
+Modules linked in:
+CPU: 0 UID: 0 PID: 5774 Comm: syz-executor122 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:fuse_write_file_get fs/fuse/file.c:2043 [inline]
+RIP: 0010:fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
+Code: fe 48 83 3b 00 74 5b e8 e6 f0 6c fe 4c 8b 3c 24 e9 08 0b 00 00 e8 d8 f0 6c fe eb 5c e8 d1 f0 6c fe 4c 89 f7 e8 39 63 8e 08 90 <0f> 0b 90 48 b8 00 00 00 00 00 fc ff df 48 8b 4c 24 58 80 3c 01 00
+RSP: 0018:ffffc90003e172b8 EFLAGS: 00010286
+RAX: 8000000000000000 RBX: ffff88806e4ea880 RCX: ffffffff9a9ec501
+RDX: 0000000000000001 RSI: 0000000000000004 RDI: 00000000ffffffff
+RBP: 0000000000001000 R08: ffff88806e4eae63 R09: 1ffff1100dc9d5cc
+R10: dffffc0000000000 R11: ffffed100dc9d5cd R12: ffff88806e4ead08
+R13: 0000000000001000 R14: ffff88806e4eae60 R15: ffff88806e4ead08
+FS:  00007f6a3f53e6c0(0000) GS:ffff888124cc8000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000020000000b000 CR3: 0000000078090000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ iomap_writeback_range fs/iomap/buffered-io.c:1896 [inline]
+ iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
+ fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
+ folio_launder mm/truncate.c:612 [inline]
+ folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
+ invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
+ fuse_open+0x5a6/0x770 fs/fuse/file.c:297
+ do_dentry_open+0x816/0x1380 fs/open.c:996
+ vfs_open+0x3b/0x340 fs/open.c:1101
+ do_open fs/namei.c:4837 [inline]
+ path_openat+0x1443/0x1d60 fs/namei.c:5000
+ do_file_open+0x23e/0x4a0 fs/namei.c:5029
+ do_sys_openat2+0x115/0x200 fs/open.c:1417
+ do_sys_open fs/open.c:1423 [inline]
+ __do_sys_openat fs/open.c:1439 [inline]
+ __se_sys_openat fs/open.c:1434 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1434
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6a3f58fae9
+Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6a3f53e1d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f6a3f644b98 RCX: 00007f6a3f58fae9
+RDX: 0000000000000040 RSI: 000020000000c380 RDI: 00000000ffffff9c
+RBP: 00007f6a3f644b90 R08: 31203a6b63617473 R09: 31203a6b63617473
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6a3f6117f4
+R13: 000020000000e3c0 R14: 00002000000062c0 R15: 00007ffe0b2d2af8
+ </TASK>
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
